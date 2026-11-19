@@ -25,7 +25,7 @@ private theorem natCard_toAddSubgroup (S : Subgroup H) :
   Nat.card_congr
     { toFun := fun x => ⟨Additive.toMul x.1, (Additive.mem_toAddSubgroup S x.1).1 x.2⟩
       invFun := fun x => ⟨Additive.ofMul x.1,
-        (Additive.mem_toAddSubgroup S (Additive.ofMul x.1)).2 (by simpa using x.2)⟩
+        (Additive.mem_toAddSubgroup S (Additive.ofMul x.1)).2 (by simp)⟩
       left_inv := by intro x; ext; simp
       right_inv := by intro x; ext; simp }
 
@@ -56,9 +56,9 @@ private theorem two_mul_finrank_le_of_totally_isotropic
 private theorem card_le_pow_succ_of_isPlusExtraspecial {C : Type} [Group C] {Q : Subgroup C}
     {m : ℕ} (hQ : IsPlusExtraspecial m Q) {E : Subgroup C} (hEQ : E ≤ Q)
     (hEab : CFSG.Open.IsElemAbelian 2 E) : Nat.card E ≤ 2 ^ (m + 1) := by
-  haveI : Finite Q := hQ.finite
+  have : Finite Q := hQ.finite
   have hQe : IsExtraspecialPGroup 2 Q := hQ.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hQe
   let E' : Subgroup Q := E.comap Q.subtype
   let S : AddSubgroup (Additive Q) := Subgroup.toAddSubgroup E'
@@ -132,7 +132,7 @@ private theorem card_le_pow_succ_of_isPlusExtraspecial {C : Type} [Group C] {Q :
     intro y
     have h := hv (Additive.ofMul (Abelianization.of y))
     exact ((polar_extraspecialQuadForm_eq_zero_iff hQe x y).1 h).symm
-  haveI : Module.Finite (ZMod 2) (Additive (Abelianization Q)) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Additive (Abelianization Q)) := Module.Finite.of_finite
   have hVfin : finrank (ZMod 2) (Additive (Abelianization Q)) = 2 * m := hQ.finrank_quotient
   have hdim : 2 * finrank (ZMod 2) W ≤ finrank (ZMod 2) (Additive (Abelianization Q)) :=
     two_mul_finrank_le_of_totally_isotropic hnd W hW_iso

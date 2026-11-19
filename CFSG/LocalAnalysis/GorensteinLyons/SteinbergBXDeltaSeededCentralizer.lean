@@ -210,7 +210,7 @@ theorem delta_seeded_maximal_local_rank_two_centralizer [Finite G] [IsSimpleGrou
   obtain ⟨K₀, -, -, ⟨Q₀, hQ₀⟩, hS₀ne, hBS₀, -, hD₀S₀⟩ := hW
   have hS₀2 : IsPGroup 2 S₀ := by
     rw [← hQ₀]
-    exact Q₀.isPGroup'.map K₀.subtype
+    exact Q₀.isPGroup.map K₀.subtype
   have hS₀fam : S₀ ∈ deltaSeededFamily p B S₀ :=
     ⟨hS₀2, le_rfl, hBS₀, two_le_pRank_of_plane hpp.one_lt hD₀S₀ hD₀ hD₀card⟩
   refine ⟨(Set.toFinite _).exists_maximal ⟨S₀, hS₀fam⟩, fun S hS => ?_⟩

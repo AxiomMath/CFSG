@@ -70,7 +70,7 @@ theorem e6Three_exists_perfect_fixed_of_toral
   have hpK : ¬ 3 ∣ Nat.card K := by
     intro h3
     have : Fintype K := Fintype.ofFinite K
-    haveI := ringChar.charP K
+    have := ringChar.charP K
     obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
     rw [Nat.card_eq_fintype_card, hcard] at h3
     exact hK3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp
@@ -97,13 +97,13 @@ theorem e6Three_exists_perfect_fixed_of_toral
   have hRcent : R ≤ Subgroup.centralizer ({rootDiagUnit Tag.E6 a} : Set (ModGL Tag.E6 L)) :=
     hRC.trans inf_le_right
   have hRperf : ⁅R, R⁆ = R := by
-    haveI : Group.IsPerfect ↥R := hq.1
+    have : Group.IsPerfect ↥R := hq.1
     exact Subgroup.commutator_eq_self
   let ψ : adjointGroup Tag.E6 K →* ModGL Tag.E6 L :=
     (MulAut.conj g0⁻¹).toMonoidHom.comp
       ((baseChangeGL (algebraMap K L)).comp (adjointGroup Tag.E6 K).subtype)
   have hψ : ∀ y, ψ y = g0⁻¹ * baseChangeGL (algebraMap K L) (y : ModGL Tag.E6 K) * g0 :=
-    fun y => by simp [ψ, MulAut.conj_apply]
+    fun y => by simp [ψ]
   have hψinj : Function.Injective ψ :=
     (MulAut.conj g0⁻¹).injective.comp
       ((baseChangeGL_injective _).comp (Subgroup.subtype_injective _))

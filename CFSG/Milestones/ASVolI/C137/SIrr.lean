@@ -58,18 +58,22 @@ include hs hU
 @[expose] noncomputable def burnsideC137_κ₂ : IntMod U hU →* Multiplicative Vec :=
   (MonoidHom.snd _ _).comp (burnsideC137_κ hs hU).toMonoidHom
 
+omit [Finite G] in
 theorem burnsideC137_κ₁_apply (m : IntMod U hU) :
     burnsideC137_κ₁ hs hU m = (burnsideC137_κ hs hU m).1 := rfl
 
+omit [Finite G] in
 theorem burnsideC137_κ₂_apply (m : IntMod U hU) :
     burnsideC137_κ₂ hs hU m = (burnsideC137_κ hs hU m).2 := rfl
 
+omit [Finite G] in
 theorem burnsideC137_val_eq (m : IntMod U hU) :
     m.val = ((burnsideC137_natE hs.nat₁).symm (burnsideC137_κ₁ hs hU m) : G) *
       ((burnsideC137_natE hs.nat₂).symm (burnsideC137_κ₂ hs hU m) : G) := by
   conv_lhs => rw [← burnsideC137_Φ_κ hs hU m]
   rfl
 
+omit [Finite G] in
 theorem burnsideC137_κ₁_eq_one_iff (m : IntMod U hU) :
     burnsideC137_κ₁ hs hU m = 1 ↔ m.val ∈ U₂ := by
   constructor
@@ -85,6 +89,7 @@ theorem burnsideC137_κ₁_eq_one_iff (m : IntMod U hU) :
       rw [this]
     rw [burnsideC137_κ₁_apply, ← hΦ, burnsideC137_κ_Φ]
 
+omit [Finite G] in
 theorem burnsideC137_κ₂_eq_one_iff (m : IntMod U hU) :
     burnsideC137_κ₂ hs hU m = 1 ↔ m.val ∈ U₁ := by
   constructor
@@ -100,18 +105,21 @@ theorem burnsideC137_κ₂_eq_one_iff (m : IntMod U hU) :
       rw [this]
     rw [burnsideC137_κ₂_apply, ← hΦ, burnsideC137_κ_Φ]
 
+omit [Finite G] in
 theorem burnsideC137_κ₁_conv (l : ↥L) (hl : (l : G) ∈ normalizer (U : Set G)) (m : IntMod U hU) :
     Multiplicative.toAdd (burnsideC137_κ₁ hs hU (convI hU ⟨l, hl⟩ m)) =
       act (α l) (Multiplicative.toAdd (burnsideC137_κ₁ hs hU m)) := by
   rw [burnsideC137_κ₁_apply, burnsideC137_κ_conv hs hU l hl]
   rfl
 
+omit [Finite G] in
 theorem burnsideC137_κ₂_conv (l : ↥L) (hl : (l : G) ∈ normalizer (U : Set G)) (m : IntMod U hU) :
     Multiplicative.toAdd (burnsideC137_κ₂ hs hU (convI hU ⟨l, hl⟩ m)) =
       act (α l) (Multiplicative.toAdd (burnsideC137_κ₂ hs hU m)) := by
   rw [burnsideC137_κ₂_apply, burnsideC137_κ_conv hs hU l hl]
   rfl
 
+omit [Finite G] in
 theorem burnsideC137_fixL (m : IntMod U hU)
     (hm : ∀ (l : ↥L) (hl : (l : G) ∈ normalizer (U : Set G)), convI hU ⟨l, hl⟩ m = m) : m = 1 := by
   have key : ∀ x : Vec, (∀ g : Γ, act g x = x) → x = 0 := by
@@ -135,6 +143,7 @@ theorem burnsideC137_fixL (m : IntMod U hU)
   rw [← map_one (burnsideC137_κ hs hU)] at h3
   exact (burnsideC137_κ hs hU).injective h3
 
+omit [Finite G] in
 theorem burnsideC137_inf_centralizer {I : Subgroup G} (hIU : I ≤ U) :
     I ⊓ centralizer (L : Set G) = ⊥ := by
   rw [eq_bot_iff]
@@ -153,6 +162,7 @@ open Classical in
   if I ⊓ U₂ = ⊥ then (burnsideC137_κ₁ hs hU).comp (burnsideC137_ι hU hIU)
   else (burnsideC137_κ₂ hs hU).comp (burnsideC137_ι hU hIU)
 
+omit [Finite G] in
 theorem burnsideC137_crd_nat {I : Subgroup G} (hI : I ∈ internalIrrPlus L U) :
     IsNatVia L I ⊥ α (burnsideC137_crd hs hU I hI.1) := by
   obtain ⟨hIU, -, hlt, -, hLI, hirr⟩ := hI
@@ -200,6 +210,7 @@ theorem burnsideC137_crd_nat {I : Subgroup G} (hI : I ∈ internalIrrPlus L U) :
     rw [hs.meet, Subgroup.mem_bot] at this
     exact (Subgroup.mem_bot).2 (Subtype.ext this)
 
+omit [Finite G] in
 theorem burnsideC137_nat_mem_irr {W : Subgroup G} (hWU : W ≤ U)
     (hLW : L ≤ normalizer (W : Set G)) {β : ↥W →* Multiplicative Vec}
     (hβ : IsNatVia L W ⊥ α β) : W ∈ internalIrrPlus L U := by

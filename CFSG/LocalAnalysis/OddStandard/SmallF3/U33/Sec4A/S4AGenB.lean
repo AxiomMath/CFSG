@@ -22,8 +22,8 @@ private lemma pair_mul {a b : G} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b 
   have h5 : (a * b) * (a * b) = 1 := by rw [← mul_assoc, h2, hb]
   intro x hx y hy
   rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;>
-    simp only [Set.mem_setOf_eq, one_mul, mul_one, ha, hb, h1, h2, h3, h4, h5, hba,
-      eq_self_iff_true, or_true, true_or, or_false, false_or]
+    simp only [Set.mem_ofPred_eq, one_mul, mul_one, ha, hb, h1, h2, h3, h4, h5, hba,
+      or_true, true_or]
 
 private lemma pair_inv {a b : G} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * a) :
     ∀ x ∈ ({g : G | g = 1 ∨ g = a ∨ g = b ∨ g = a * b} : Set G),
@@ -33,9 +33,9 @@ private lemma pair_inv {a b : G} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b 
   have h5 : (a * b) * (a * b) = 1 := by rw [← mul_assoc, h2, hb]
   intro x hx
   rcases hx with rfl | rfl | rfl | rfl <;>
-    simp only [Set.mem_setOf_eq, inv_one, inv_eq_of_mul_eq_one_right ha,
+    simp only [Set.mem_ofPred_eq, inv_one, inv_eq_of_mul_eq_one_right ha,
       inv_eq_of_mul_eq_one_right hb, inv_eq_of_mul_eq_one_right h5,
-      eq_self_iff_true, or_true, true_or, or_false, false_or]
+      or_true, true_or]
 
 theorem mem_closure_pair_cases {a b : G} (hab : a * b = b * a) (ha : a * a = 1) (hb : b * b = 1)
     {x : G} (hx : x ∈ closure {a, b}) : x = 1 ∨ x = a ∨ x = b ∨ x = a * b := by
@@ -58,7 +58,7 @@ theorem mem_closure_pair_cases {a b : G} (hab : a * b = b * a) (ha : a * a = 1) 
 
 theorem isPGroup_closure_pair {a b : G} (hab : a * b = b * a) (ha : a * a = 1) (hb : b * b = 1) :
     IsPGroup 2 (closure {a, b} : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_orderOf]
   intro x
   have hx : (x : G) = 1 ∨ (x : G) = a ∨ (x : G) = b ∨ (x : G) = a * b :=

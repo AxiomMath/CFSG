@@ -79,7 +79,7 @@ theorem transvSL_not_mem_statedScalars (H : GL (Fin 3) K) :
       GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K) 0 1 = 1 := by
     change Matrix.transvection (0 : Fin 3) 1 (1 : K) 0 1 = 1
-    simp [Matrix.transvection, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.transvection]
   have e3 : ((GeneralLinearGroup.scalar (Fin 3) c : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K) 0 1 = 0 := by
     rw [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_ne _ (by decide)]

@@ -125,7 +125,7 @@ theorem ambient_sup_eq_top {K : Subgroup Y} [K.Normal]
   rcases (Nat.dvd_prime Nat.prime_five).mp hdvd with h1 | h5
   · exfalso
     have hK : K = ⊤ := Subgroup.index_eq_one.mp h1
-    have := hrk (T : Subgroup Y) (hK ▸ le_top) T.isPGroup'
+    have := hrk (T : Subgroup Y) (hK ▸ le_top) T.isPGroup
     omega
   · have hT : ¬ (T : Subgroup Y) ≤ K := by
       intro hle

@@ -175,9 +175,9 @@ theorem ggResII_wstar_sound {n : ℕ} {T : Fin (n + 1) → Vector (ZMod p) (n + 
       rw [Finset.sum_comm]
       simp only [← Finset.sum_smul]
       rw [Finset.sum_eq_single o]
-      · rw [hlam o o, if_pos rfl, one_smul]
+      · rw [hlam o o, ite_eq_left rfl, one_smul]
       · intro o' _ ho'
-        rw [hlam o o', if_neg (Ne.symm ho'), zero_smul]
+        rw [hlam o o', ite_eq_right (Ne.symm ho'), zero_smul]
       · intro ho; exact absurd (Finset.mem_univ o) ho
     rw [hcomb, LinearMap.sum_apply]
     exact Finset.sum_eq_zero fun i _ => by rw [LinearMap.smul_apply, hz' i, smul_zero]

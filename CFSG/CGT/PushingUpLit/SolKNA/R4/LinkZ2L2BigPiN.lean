@@ -8,7 +8,7 @@ namespace CFSG.CGT.PushingUpLit.SolKNA.R4.Z2Big
 
 theorem padicValNat_add_two_le {r p f : ℕ} (hr : 2 ≤ r) (hp : Odd p) (hf : Even f)
     (h : p ^ f % 2 ^ (r + 1) = 2 ^ r + 1) : padicValNat 2 f + 2 ≤ r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpow_lt : 1 < 2 ^ (r + 1) := Nat.one_lt_pow (by omega) (by norm_num)
   have hp_ne_one : p ≠ 1 := by
     rintro rfl

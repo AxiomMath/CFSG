@@ -32,6 +32,7 @@ theorem inf_conjSub_le_center {K : Subgroup (MulAut W)} {Y : Subgroup (MulAut W)
         inf_le_inf_left _ hcent
     _ = (Subgroup.center ↥K).map K.subtype := CFSG.GroupTheory.inf_centralizer_eq_map_center K
 
+omit [Finite W] in
 theorem actOnSub_mul_conj {A X : Subgroup (MulAut W)} {U : Subgroup W}
     (hAU : ∀ a ∈ A, ∀ u ∈ U, a u ∈ U)
     (hXU : ∀ x ∈ X, ∀ u ∈ U, x u ∈ U)
@@ -44,8 +45,7 @@ theorem actOnSub_mul_conj {A X : Subgroup (MulAut W)} {U : Subgroup W}
         ⟨a * (x : MulAut W) * a⁻¹,
           (Subgroup.mem_normalizer_iff.mp (hAX a.2) (x : MulAut W)).mp x.2⟩ := by
   ext u
-  simp only [MulAut.mul_apply, MulEquiv.coe_toMonoidHom,
-    CFSG.HardMathSupport.Meierfrankenfeld.FFToolkit.actOnSub_apply]
+  simp only [MulAut.mul_apply, CFSG.HardMathSupport.Meierfrankenfeld.FFToolkit.actOnSub_apply]
   rfl
 
 theorem w4Lem7_7_of_normalizer_le_centralizer_aux (hW : ∀ w : W, w ^ 2 = 1)
@@ -135,7 +135,7 @@ theorem w4Lem7_7_of_normalizer_le_centralizer_aux (hW : ∀ w : W, w ^ 2 = 1)
     rw [hPbar_eq, Subgroup.card_bot] at hpPbar
     exact hp.ne_one (Nat.dvd_one.mp hpPbar)
   let Pamb : Subgroup (MulAut W) := (P : Subgroup ↥K).map K.subtype
-  have hPamb_p : IsPGroup p Pamb := P.isPGroup'.map K.subtype
+  have hPamb_p : IsPGroup p Pamb := P.isPGroup.map K.subtype
   have hPambZ : ¬ Pamb ≤ (Subgroup.center ↥K).map K.subtype := by
     intro hle
     apply hPnotZ
@@ -144,8 +144,8 @@ theorem w4Lem7_7_of_normalizer_le_centralizer_aux (hW : ∀ w : W, w ^ 2 = 1)
     have hxcenter : x ∈ ((Subgroup.center ↥K).map K.subtype).subgroupOf K := hle hxP
     simpa [CFSG.subgroupOf_map_subtype_eq] using hxcenter
   let X : Subgroup (MulAut W) := orbitJoin77 Pamb D
-  haveI : Fintype ↥D := Fintype.ofFinite _
-  haveI : DecidableEq ↥D := Classical.decEq _
+  have : Fintype ↥D := Fintype.ofFinite _
+  have : DecidableEq ↥D := Classical.decEq _
   have hXp : IsPGroup p X := by
     have hPc : ∀ d : ↥D, IsPGroup p (conjSub77 Pamb (d : MulAut W)) := fun d =>
       hPamb_p.map (MulAut.conj (d : MulAut W)).toMonoidHom
@@ -252,7 +252,7 @@ theorem w4Lem7_7_of_normalizer_le_centralizer_aux (hW : ∀ w : W, w ^ 2 = 1)
             change p ∈ orbitJoin77 Pamb D
             rw [orbitJoin77]
             exact Subgroup.mem_iSup_of_mem (1 : ↥D)
-              (Subgroup.mem_map.mpr ⟨p, hp, by simp [conjSub77]⟩))
+              (Subgroup.mem_map.mpr ⟨p, hp, by simp⟩))
       exact hle1.trans (inf_conjSub_le_center hK hdY hne)
   let U : Subgroup W := fixV B
   have hAU : ∀ a ∈ A, ∀ u ∈ U, a u ∈ U := by
@@ -325,7 +325,7 @@ theorem w4Lem7_7_of_normalizer_le_centralizer_aux (hW : ∀ w : W, w ^ 2 = 1)
           change p ∈ orbitJoin77 Pamb D
           rw [orbitJoin77]
           exact Subgroup.mem_iSup_of_mem (1 : ↥D)
-            (Subgroup.mem_map.mpr ⟨p, hp, by simp [conjSub77]⟩)
+            (Subgroup.mem_map.mpr ⟨p, hp, by simp⟩)
         have hap := hacentX p hpX
         have hconj : (MulAut.conj (a : MulAut W)) p =
             (a : MulAut W) * p * (a : MulAut W)⁻¹ := by

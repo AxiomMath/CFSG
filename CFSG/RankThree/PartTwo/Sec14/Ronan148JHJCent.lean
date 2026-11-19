@@ -33,7 +33,7 @@ theorem exists_sylow_three_le_centralizer_of_card {X : Type} [Group X] [Finite X
         (Subgroup.centralizer ({z} : Set X)).subtype := ⟨_, rfl⟩
   have hTP : IsPGroup 3 T := by
     rw [hT]
-    exact S.isPGroup'.map (Subgroup.centralizer ({z} : Set X)).subtype
+    exact S.isPGroup.map (Subgroup.centralizer ({z} : Set X)).subtype
   have hTle : T ≤ Subgroup.centralizer ({z} : Set X) := by
     rw [hT]
     rintro _ ⟨x, -, rfl⟩
@@ -111,7 +111,7 @@ theorem inf_centralizer_facts_of_j2
   have hperf := CFSG.RankThree.PartTwo.KFacts.KS14.Native.j2_centralizer_isPerfect hX hz'1 hz
   have hcen := CFSG.RankThree.PartTwo.KFacts.KS14.Native.j2_center_centralizer hX hz'1 hz
   refine ⟨CFSG.RankThree.PartTwo.KFacts.KS14.isTripleCover_congr e hC3, ?_, ?_, ?_⟩
-  · haveI : Group.IsPerfect ↥(Subgroup.centralizer ({z'} : Set ↥J)) := hperf
+  · have : Group.IsPerfect ↥(Subgroup.centralizer ({z'} : Set ↥J)) := hperf
     exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   · rw [← hCJc]
     exact CFSG.RankThree.PartTwo.Sec19.Item19Res4Proof.card_eq_of_isTripleA6

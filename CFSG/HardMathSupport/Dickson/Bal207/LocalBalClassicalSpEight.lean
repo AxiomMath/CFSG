@@ -64,7 +64,7 @@ theorem fieldCoreAt_fieldAut_sp_eight (hr : 3 ≤ r) (hK : Nat.card K = 8) {σ :
     exact hβmem
   ·
     have hk2 : Nat.card (descentField σ) = 2 := by rw [hkcard]; norm_num
-    haveI : CharP (descentField σ) 2 := W2.charP_two_of_card_two hk2
+    have : CharP (descentField σ) 2 := W2.charP_two_of_card_two hk2
     have h3 : 3 ∣ Nat.card (StatedSp r (descentField σ)) :=
       W2.three_dvd_card_statedSp hk2 (by omega)
     have e1 : StatedProj (StatedSp r (descentField σ)) ≃* subfieldFixedGroup K r σ :=

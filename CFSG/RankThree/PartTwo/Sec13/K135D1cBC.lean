@@ -17,7 +17,7 @@ open scoped commutatorElement
 theorem conj_aut_apply_eq {S : Type*} [Group S] (φ : MulAut S) (s : S) :
     (MulAut.conj : S →* MulAut S) (φ s) = φ * (MulAut.conj : S →* MulAut S) s * φ⁻¹ := by
   ext x
-  simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv, MulAut.apply_inv_self]
+  simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv]
 
 theorem mem_normalizer_sup_of_mem {N : Type} [Group N] {A B : Subgroup N} {g : N}
     (hA : g ∈ Subgroup.normalizer (A : Set N)) (hB : g ∈ Subgroup.normalizer (B : Set N)) :
@@ -58,10 +58,10 @@ theorem r3_swap_false {N : Type} [Group N] [Finite N] {p : ℕ} (hp : p.Prime)
     (hŪnc : ¬ Ū ≤ Subgroup.centralizer (J₀ : Set N))
     (ha : ∀ f ∈ F, ∃ x ∈ J₀, x ^ p = 1 ∧ ∀ j ∈ J₀, f * j * f⁻¹ = x * j * x⁻¹) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.IsQuasisimple ↥J₀ := hJ₀.1
   have hperf : Group.IsPerfect ↥J₀ := hq.1
-  haveI hInnN : ((MulAut.conj : (↥J₀ ⧸ Subgroup.center ↥J₀) →*
+  have hInnN : ((MulAut.conj : (↥J₀ ⧸ Subgroup.center ↥J₀) →*
       MulAut (↥J₀ ⧸ Subgroup.center ↥J₀)).range).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   have hcen : Subgroup.center (↥J₀ ⧸ Subgroup.center ↥J₀) = ⊥ := center_quot_eq_bot hq
@@ -106,7 +106,7 @@ theorem r3_swap_false {N : Type} [Group N] [Finite N] {p : ℕ} (hp : p.Prime)
     have ha'' : (a : N) ∈ Ū := ha'
     exact (Subgroup.mem_normalizer_iff.mp (hŪF hm') (a : N)).mp ha''
   have hV1 : V ≠ ⊥ := by
-    obtain ⟨a, haU, hanc⟩ := (SetLike.not_le_iff_exists.mp hŪnc)
+    obtain ⟨a, haU, hanc⟩ := (IsConcreteLE.not_le_iff_exists.mp hŪnc)
     intro hV
     have hmem : ρ ⟨a, hŪJ haU⟩ ∈ V := ⟨⟨a, hŪJ haU⟩, haU, rfl⟩
     rw [hV, Subgroup.mem_bot] at hmem

@@ -192,7 +192,7 @@ theorem centralizer_pCoreOf_le_of_holds (hBT : Holds X p)
     refine ⟨(Nat.card K).primeFactorsList.length, ?_⟩
     refine Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {q} hq hqd => ?_
     by_contra hne
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := K) q hqd
     have hcop : (orderOf (x : X)).Coprime p := by
       rw [Subgroup.orderOf_coe, hx]
@@ -231,7 +231,7 @@ theorem isCharTwoType_of_holds (hBT : Holds X 2)
       (∃ Sy : Sylow 2 X, Subgroup.normalizer ((Sy : Subgroup X) : Set X) ≤
         Subgroup.normalizer (R : Set X)) → Subgroup.centralizer (R : Set X) ≤ R) :
     IsCharTwoType X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rintro H ⟨U, hU, hUp, rfl⟩
   exact centralizer_pCoreOf_le_of_holds hBT hRC hU hUp
 

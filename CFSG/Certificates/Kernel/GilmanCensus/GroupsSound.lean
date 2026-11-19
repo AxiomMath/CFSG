@@ -168,7 +168,7 @@ theorem fhOk_eq (F H : Array (Array Nat)) (G : Array (Array Int)) (g : Nat → N
   rw [forIn_yield (fun ok i => (List.range' 0 N).foldl (fun ok j =>
     if ((dot3K ((LL F).getD i []) ((LL H).getD j []) : Int) != 2 * g i j / g j j % 3) = true
     then false else ok) ok) _ (fun i ok => by
-      simp only [Id.run, bind, pure]
+      simp only [bind, pure]
       rw [forIn_yield (fun ok j =>
         if ((dot3K ((LL F).getD i []) ((LL H).getD j []) : Int) != 2 * g i j / g j j % 3) = true
         then false else ok) _ (fun j ok => by

@@ -173,7 +173,7 @@ abbrev XD : Type := ↥D.Gt ⧸ D.Zt
 
 noncomputable abbrev πD : ↥D.Gt →* D.XD := QuotientGroup.mk' _
 
-theorem Zt_le_center : D.Zt ≤ Subgroup.center ↥D.Gt := fun z hz =>
+theorem Zt_le_center : D.Zt ≤ Subgroup.center ↥D.Gt := fun _z hz =>
   Subgroup.mem_center_iff.2 fun g =>
     Subtype.ext (Subgroup.mem_center_iff.1 (Subgroup.mem_subgroupOf.1 hz) (g : _))
 
@@ -270,7 +270,7 @@ theorem card_A12dom (h3 : (3 : F) ≠ 0) : Nat.card D.A12dom = 3 ^ 2 := by
   norm_num
 
 theorem card_A1dom (h3 : (3 : F) ≠ 0) : Nat.card D.A1dom = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [A1dom, Nat.card_zpowers]
   refine orderOf_eq_prime ?_ ?_
   · simp [D.cG_pow_three]
@@ -456,7 +456,7 @@ theorem Asub_le_normalizer (h3 : (3 : F) ≠ 0) :
     exact congrArg D.ΦG (congrArg Subtype.val
       (D.isElemAbelian_Adom.1.is_comm.comm ⟨x, hx⟩
         ⟨_, ⟨Subgroup.mem_zpowers _, Subgroup.one_mem _, Subgroup.one_mem _⟩⟩))
-  haveI := D.Jt_normal h3
+  have := D.Jt_normal h3
   exact Subgroup.le_normalizer_map D.πD
     ⟨_, Subgroup.le_normalizer_of_normal_subgroupOf D.Jt_le_centralizer hc, rfl⟩
 
@@ -519,7 +519,7 @@ theorem J2sub_le_centralizer :
   congr 1
   apply Subtype.ext
   rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hy, coe_ΦG]
-  simp only [MonoidHom.comp_apply, MonoidHom.inr_apply]
+  simp only
   change blk (Kap ν) (P, blk (Lam ν) (Q, blk ν (1, 1))) * blk (Kap ν) (1, blk (Lam ν) (1, R)) =
     blk (Kap ν) (1, blk (Lam ν) (1, R)) * blk (Kap ν) (P, blk (Lam ν) (Q, blk ν (1, 1)))
   rw [blk_one_one, ← map_mul, ← map_mul]

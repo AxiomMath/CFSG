@@ -55,7 +55,7 @@ theorem alt7_aut_eq_one_of_odd (σ : MulAut Alt7) (hodd : Odd (orderOf σ)) (D :
     rw [← hc] at this
     simpa [MulAut.conj_apply] using this
   have hcD : c ∈ (D : Subgroup Alt7) := normalizer_sylow_alt7 D hcN
-  obtain ⟨k, hk⟩ := D.isPGroup' ⟨c, hcD⟩
+  obtain ⟨k, hk⟩ := D.isPGroup ⟨c, hcD⟩
   have hck : c ^ (2 ^ k) = 1 := by
     have := congrArg Subtype.val hk
     simpa using this

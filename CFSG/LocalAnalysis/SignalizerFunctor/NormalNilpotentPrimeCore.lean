@@ -21,7 +21,7 @@ theorem normal_nilpotent_prime_subgroup_le_core (prime : ℕ) (prime_prime : pri
   have embedded_normal := normal_of_characteristic_subgroup normal (sylow : Subgroup normal)
   have embedded_le := prime_set_core_contains {prime} ((sylow : Subgroup normal).map normal.subtype)
     embedded_normal ((prime_supported_singleton_iff_pgroup prime prime_prime _).mpr
-      (sylow.isPGroup'.map normal.subtype))
+      (sylow.isPGroup.map normal.subtype))
   have mapped_le := Subgroup.map_mono (f := normal.subtype) internal_le
   rw [Subgroup.map_subgroupOf_eq_of_le contained] at mapped_le
   exact mapped_le.trans embedded_le

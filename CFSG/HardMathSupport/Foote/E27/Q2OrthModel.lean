@@ -11,6 +11,7 @@ open CFSG.Assembly.LowTwoRank Matrix
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {F L : Type} [Field F] [Field L]
   (σ : F ≃+* L) (QF : (ι → F) → F) (QL : (ι → L) → L)
 
+omit [DecidableEq ι] in
 theorem mulVec_map_comp (A : Matrix ι ι F) (v : ι → F) :
     (A.map σ) *ᵥ (fun i => σ (v i)) = fun i => σ ((A *ᵥ v) i) := by
   funext i

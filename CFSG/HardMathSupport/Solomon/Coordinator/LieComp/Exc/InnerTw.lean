@@ -14,13 +14,13 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 set_option linter.unusedSectionVars false
 
-theorem ringChar_eq_of_card_eq_pow {ℓ n : ℕ} (hℓ : ℓ.Prime) (hn : 1 ≤ n) {K : Type} [Field K]
+theorem ringChar_eq_of_card_eq_pow {ℓ n : ℕ} (hℓ : ℓ.Prime) (_hn : 1 ≤ n) {K : Type} [Field K]
     (hK : Nat.card K = ℓ ^ n) : ringChar K = ℓ := by
   have hK0 : Nat.card K ≠ 0 := by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   exact ringChar.eq K ℓ
 
 
@@ -31,10 +31,10 @@ theorem lieCompExport_inner_twE6 (hres : ExcRationalLieTypes) {ℓ f : ℕ} (h�
     (hlayer : PerfectInLayer (twistedE6InndiagConj K σ h)) :
     LieCompExport ℓ (twistedE6InndiagConj K σ h) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   have hAC : ringChar (AlgebraicClosure K) = ℓ := by
     rw [ringChar_algebraicClosure]
     exact ringChar_eq_of_card_eq_pow (n := f * 2) hℓ (by omega) (by rw [hK, ← pow_mul])
@@ -55,10 +55,10 @@ theorem lieCompExport_inner_triD4 (hres : ExcRationalLieTypes) {ℓ f : ℕ} (h�
     (x : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) (hxp : x ^ 3 = 1) (hx1 : x ≠ 1)
     (hlayer : PerfectInLayer (MulAut.conj x)) : LieCompExport ℓ (MulAut.conj x) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hAC : ringChar (AlgebraicClosure K) = ℓ := by
     rw [ringChar_algebraicClosure]
     exact ringChar_eq_of_card_eq_pow (n := f * 3) hℓ (by omega) (by rw [hK, ← pow_mul])

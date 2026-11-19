@@ -104,7 +104,7 @@ theorem Norm2.of_inner {X : Type} [Group X] [Finite X] (hZ : Subgroup.center X =
     rcases (show I.index = 1 ∨ I.index = 2 by omega) with h1 | h1
     · exact Subgroup.normal_of_index_eq_one h1
     · exact Subgroup.normal_of_index_eq_two h1
-  haveI := hInormal
+  have := hInormal
   have hPI : ∀ σ ∈ P, σ ∈ I := by
     intro σ hσ
     obtain ⟨k, hk⟩ := hP ⟨σ, hσ⟩
@@ -148,7 +148,7 @@ theorem Norm2.of_inner {X : Type} [Group X] [Finite X] (hZ : Subgroup.center X =
     rw [← Subgroup.card_map_of_injective hconj_inj, hPmap]
     exact hcard
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow hP₀3
-  haveI : Finite (Sylow 3 X) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow 3 X) := Sylow.finite_of_finiteIndex Q
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X Q S
   have hgS : MulAut.conj g • (Q : Subgroup X) = (S : Subgroup X) := by
     rw [← Sylow.coe_subgroup_smul, hg]

@@ -14,7 +14,7 @@ open CFSG.Open Subgroup
 
 theorem uc22p2214_bor_sylow {X : Type} [Group X] [Finite X] {S : Subgroup X}
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤) : ∃ Q : Sylow 2 X, (Q : Subgroup X) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hp, hidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hS
   rw [Subgroup.relIndex_top_right] at hidx
   exact ⟨hp.toSylow hidx, rfl⟩
@@ -34,7 +34,7 @@ theorem uc22p2214_bor_bender_U3 {X : Type} [Group X] {n : ℕ} (hX : IsU3 X n) :
 theorem uc22p2214_bor_not_isSolvable {X : Type} [Group X] [Finite X] (hB : fusionIsBenderGroup X) :
     ¬ Group.IsSolvable X := by
   intro hsolv
-  haveI : IsSimpleGroup X := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
+  have : IsSimpleGroup X := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
   obtain ⟨f, k, hf, hBor⟩ := CFSG.Holt.General.exists_fusionBenderBorel_two_pow_of_fusionIsBenderGroup hB
   have h4f : 4 ∣ 2 ^ f := by
     have h := Nat.pow_dvd_pow 2 hf
@@ -49,12 +49,12 @@ theorem uc22p2214_bor_ne_top_of_bender {X : Type} [Group X] [Finite X] (hB : fus
     {Y : Subgroup X} (hY : Group.IsSolvable ↥Y) : Y ≠ ⊤ := by
   rintro rfl
   exact uc22p2214_bor_not_isSolvable hB
-    (solvable_of_surjective (f := (⊤ : Subgroup X).subtype) (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩))
+    (Group.isSolvable_of_surjective (f := (⊤ : Subgroup X).subtype) (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩))
 
 theorem uc22p2214_bor_solvBorel_of_bender {X : Type} [Group X] [Finite X] (hB : fusionIsBenderGroup X)
     {S : Subgroup X} (hS : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤) {Y : Subgroup X} (hSY : S ≤ Y)
     (hY : Group.IsSolvable ↥Y) : Y ≤ normalizer (S : Set X) := by
-  haveI : IsSimpleGroup X := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
+  have : IsSimpleGroup X := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
   obtain ⟨Q, rfl⟩ := uc22p2214_bor_sylow hS
   exact CFSG.QuasithinUnique.Bridge.Over.le_normalizer_of_bender hB Q hSY (uc22p2214_bor_ne_top_of_bender hB hY)
 

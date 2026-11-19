@@ -30,7 +30,7 @@ private lemma wp_card_inv8_two : (wp_inv8 2).card = 210 := by
     Multiset.toFinset_replicate, Nat.factorial]
 private lemma wp_mem_inv8_of_card {σ : Perm (Fin 8)} (hσ : σ * σ = 1) {j : ℕ} :
     σ ∈ wp_inv8 j ↔ Multiset.card σ.cycleType = j := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : σ ^ 2 = 1 := by rwa [pow_two]
   have hcyc := Equiv.Perm.cycleType_of_pow_prime_eq_one (p := 2) h2
   simp only [wp_inv8, Finset.mem_filter, Finset.mem_univ, true_and]
@@ -115,7 +115,7 @@ private theorem wp_sign_eq_of_card_half (I : Subgroup (Perm (Fin 8) × Perm (Fin
       have hmem : (u⁻¹ * a, v⁻¹ * b) ∈ I := mem_of_sign_eq_of_prod_le I hA hg hg1 hg2 h1
       have hmul := I.mul_mem huv hmem
       have heq : (u, v) * (u⁻¹ * a, v⁻¹ * b) = (a, b) := by
-        ext <;> simp [Equiv.Perm.mul_apply]
+        ext <;> simp
       rwa [heq] at hmul
   have hcardperm : Nat.card (Perm (Fin 8)) = 40320 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
@@ -155,7 +155,7 @@ private def wp_fiveUnion : Finset (Perm (Fin 8) × Perm (Fin 8)) :=
 
 theorem eq_one_of_two_mul_le_N10 {k : ℕ} (hk1 : 1 ≤ k) (hk5 : k ≤ 5)
     (h : 2 * 40320 ≤ N10 k) : k = 1 := by
-  interval_cases k <;> norm_num [N10, Nat.factorial] at h <;> rfl
+  interval_cases k <;> norm_num [N10, Nat.factorial] at h; rfl
 
 theorem false_of_allowedPair_four {p : Perm (Fin 8) × Perm (Fin 8)}
     (h : AllowedPair (N10 4) p) : False := by

@@ -37,18 +37,18 @@ public theorem corollary_H_involution_mem_S
     (hxH : x ∈ H) (hxI : IsInvolution x) :
     x ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxQ : x ∈ Q :=
     involution_mem_Q_of_mem_H H D Q t hsec.hA.A1 x hxH hxI
   obtain ⟨P, hS_eq⟩ := hsec.S_sylow_in_Q
   have hnil : Group.IsNilpotent Q :=
     proposition_1_b H D Q K V W Q0 S Q1 t hsec
-  haveI : Group.IsNilpotent Q := by
+  have : Group.IsNilpotent Q := by
     simpa using hnil
   have hPnorm : (P : Subgroup Q).Normal :=
     Group.IsNilpotent.sylow_normal
       (show Group.IsNilpotent Q from inferInstance) 2 P
-  haveI : Unique (Sylow 2 Q) := Sylow.unique_of_normal P hPnorm
+  have : Unique (Sylow 2 Q) := Sylow.unique_of_normal P hPnorm
   let xQ : Q := ⟨x, hxQ⟩
   have hxQ_order : orderOf xQ = 2 := by
     refine orderOf_eq_prime ?_ ?_
@@ -224,7 +224,7 @@ private theorem corollary_S_hasPrimePowerOrder
   classical
   obtain ⟨P, hS_eq⟩ := hsec.S_sylow_in_Q
   have hP_two : ∃ n : ℕ, Nat.card (P : Subgroup Q) = 2 ^ n := by
-    exact P.isPGroup'.exists_card_eq
+    exact P.isPGroup.exists_card_eq
   rcases hP_two with ⟨n, hn⟩
   refine ⟨n, ?_⟩
   have hcard_map :
@@ -240,7 +240,7 @@ private theorem corollary_exists_rank_two_subgroup_le_Q
     (h2rank : TwoRankAtLeastTwo G) :
     ∃ A : Subgroup G, A ≤ Q ∧ Nat.card A = 4 ∧ ∀ x : A, x ^ 2 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E₀, hE₀card, hE₀sq⟩ := TwoRankAtLeastTwo.exists_subgroup h2rank
   have hE₀p : IsPGroup 2 E₀ := by
     refine IsPGroup.of_card (p := 2) (G := E₀) (n := 2) ?_
@@ -276,7 +276,7 @@ private theorem corollary_exists_two_distinct_nontrivial_of_card_four
     {A : Type*} [Group A] [Finite A] (hcard : Nat.card A = 4) :
     ∃ a b : A, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   classical
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   have hcardF : Fintype.card A = 4 := by
     simpa [Nat.card_eq_fintype_card] using hcard
   have htwo_lt : 2 < Fintype.card A := by
@@ -343,13 +343,13 @@ private theorem corollary_K_normalizes_S
   obtain ⟨P, hS_eq⟩ := hsec.S_sylow_in_Q
   have hnil : Group.IsNilpotent Q :=
     proposition_1_b H D Q K V W Q0 S Q1 t hsec
-  haveI : Group.IsNilpotent Q := by
+  have : Group.IsNilpotent Q := by
     simpa using hnil
   have hPnorm : (P : Subgroup Q).Normal :=
     Group.IsNilpotent.sylow_normal
       (show Group.IsNilpotent Q from inferInstance) 2 P
-  haveI : Unique (Sylow 2 Q) := Sylow.unique_of_normal P hPnorm
-  haveI : (P : Subgroup Q).Characteristic := Sylow.characteristic_of_subsingleton P
+  have : Unique (Sylow 2 Q) := Sylow.unique_of_normal P hPnorm
+  have : (P : Subgroup Q).Characteristic := Sylow.characteristic_of_subsingleton P
   intro k hkK
   have hkH : k ∈ H := hsec.hA.A1.D_le_H (hsec.K_le_D hkK)
   have hkQ : k ∈ Subgroup.normalizer (Q : Set G) :=
@@ -508,7 +508,7 @@ public theorem corollary
         involution_subtype ⟨x, hxS⟩ hxI,
         involution_subtype ⟨y, hyS⟩ hyI,
         fun h => hxy (congrArg Subtype.val h)⟩
-    · letI : Subgroup.Normalizes K S := ⟨hK_norm_S⟩
+    · let : Subgroup.Normalizes K S := ⟨hK_norm_S⟩
       refine ⟨K, inferInstance, inferInstance, hK_cyclic, ?_, ?_⟩
       · rw [faithfulSMul_iff]
         intro k hkfix

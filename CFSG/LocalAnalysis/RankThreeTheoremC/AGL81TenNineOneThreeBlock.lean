@@ -20,6 +20,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_of_mem_two_three {P₂ P₃ : Subgroup G} (h₂ : IsPGroup 2 P₂) (h₃ : IsPGroup 3 P₃)
     {x : G} (hx₂ : x ∈ P₂) (hx₃ : x ∈ P₃) : x = 1 := by
   obtain ⟨i, hi⟩ := h₂ ⟨x, hx₂⟩
@@ -222,8 +223,8 @@ theorem directProd_of_nineThreeFive (h86 : Asc81bEightSix) {M S L : Subgroup G}
     rw [this]
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left a.2) (Subgroup.mem_sup_right hc)
   have hAel : IsElemAbelian 3 A := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    have hAc := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := ↥A) (by rw [hA9]; norm_num)
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have hAc := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := ↥A) (by rw [hA9]; norm_num)).is_comm.comm
     refine ⟨⟨⟨hAc⟩⟩, fun a ha => ?_⟩
     have h9a : (⟨a, ha⟩ : ↥A) ^ 9 = 1 := by
       rw [← hA9]; exact pow_card_eq_one'

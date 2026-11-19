@@ -60,7 +60,7 @@ theorem ObstructionSetting.normalizerExponent (hS : ObstructionSetting G) (hD1 :
   obtain ⟨n, hnP, hnD, hnC⟩ := hS.exists_mem_normalizer_not_mem_centralizer hD1 hp
     hd.ext hd.not_le_normalizer hDab hCD
   have hn : ∃ k : ℕ, n ^ (p ^ k) = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hnz : n * z = z * n := mem_centralizer_iff.mp hzc n hnP
   obtain ⟨g₁, hg₁N, hg₁M⟩ := IsConcreteLE.not_le_iff_exists.mp hd.ext.obstruction.2.2.2

@@ -20,7 +20,7 @@ theorem nonempty_quot_mulEquiv_of_sup_eq_top {Λ : Type*} [Group Λ] [Finite Λ]
     Nonempty (↥K ⧸ CFSG.pCore 2 ↥K ≃* Λ ⧸ CFSG.pCore 2 Λ) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := CFSG.pCore 2 Λ with hN
-  haveI hNn : N.Normal := CFSG.pCore_normal
+  have hNn : N.Normal := CFSG.pCore_normal
   set f : ↥K →* Λ ⧸ N := (QuotientGroup.mk' N).comp K.subtype with hf
   have hsurj : Function.Surjective f := by
     intro y
@@ -77,7 +77,7 @@ theorem exists_cover_of_commutator_le {L : Subgroup G} {p : ℕ} (hp : p.Prime) 
   set Nn : Subgroup Y := N.subgroupOf Y with hNn
   have hzp : IsPGroup p (zpowers a) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hao, pow_one])
-  haveI : Fact (IsPGroup p T) := ⟨IsPGroup.comap_of_injective hzp _ Y.subtype_injective⟩
+  have : Fact (IsPGroup p T) := ⟨IsPGroup.comap_of_injective hzp _ Y.subtype_injective⟩
   have hNnN : Nn.Normal := normal_in_normalizer
   have hNn2 : IsPGroup 2 Nn := IsPGroup.comap_of_injective hN2 _ Y.subtype_injective
   have hcop : Nat.Coprime p (Nat.card Nn) := by
@@ -113,7 +113,7 @@ theorem exists_cover_of_commutator_le {L : Subgroup G} {p : ℕ} (hp : p.Prime) 
   exact congrArg Subtype.val this
 
 theorem exists_isTwoPrimeComponent_centralizer_iso {M L : Subgroup G}
-    (hL : IsTwoPrimeComponent M L) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a : G} (ha : a ∈ M)
+    (hL : IsTwoPrimeComponent M L) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a : G} (_ha : a ∈ M)
     (hao : orderOf a = p) (hc : ⁅zpowers a, L⁆ ≤ pCoreOf 2 L) :
     ∃ I : Subgroup G, IsTwoPrimeComponent (centralizer ({a} : Set G) ⊓ M) I ∧ I ≤ L ∧
       Nonempty (↥I ⧸ CFSG.pCore 2 ↥I ≃* ↥L ⧸ CFSG.pCore 2 ↥L) ∧
@@ -122,7 +122,7 @@ theorem exists_isTwoPrimeComponent_centralizer_iso {M L : Subgroup G}
   set C := centralizer ({a} : Set G) ⊓ M with hCdef
   set C₀ := L ⊓ C with hC₀
   set P := CFSG.pCore 2 ↥L with hP
-  haveI : P.Normal := CFSG.pCore_normal
+  have : P.Normal := CFSG.pCore_normal
   set q := QuotientGroup.mk' P with hq
   set C₀' := C₀.subgroupOf L with hC₀'
   have hcov := exists_cover_of_commutator_le hp hp2 hao hc

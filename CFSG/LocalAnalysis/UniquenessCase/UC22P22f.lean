@@ -55,9 +55,9 @@ theorem uc22p22f_cyclic_fitting_of_injective {Q Qb : Type} [Group Q] [Finite Q] 
     IsCyclic ↥(_root_.commutator Q ⊓ CFSG.fittingSubgroup Q) := by
   classical
   set F : Subgroup Q := _root_.commutator Q ⊓ CFSG.fittingSubgroup Q with hF
-  haveI hFn : F.Normal := inferInstance
-  haveI hFnil : Group.IsNilpotent ↥F := by
-    haveI : Group.IsNilpotent ↥(CFSG.fittingSubgroup Q) := inferInstance
+  have hFn : F.Normal := inferInstance
+  have hFnil : Group.IsNilpotent ↥F := by
+    have : Group.IsNilpotent ↥(CFSG.fittingSubgroup Q) := inferInstance
     exact Group.nilpotent_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe (inf_le_right : F ≤ CFSG.fittingSubgroup Q))
   have hFmap : F.map f ≤ _root_.commutator Qb ⊓ CFSG.fittingSubgroup Qb := by
@@ -68,18 +68,18 @@ theorem uc22p22f_cyclic_fitting_of_injective {Q Qb : Type} [Group Q] [Finite Q] 
             Subgroup.map_top_of_surjective f hf]
     · have hn : ((CFSG.fittingSubgroup Q).map f).Normal :=
         (inferInstance : (CFSG.fittingSubgroup Q).Normal).map f hf
-      haveI : Group.IsNilpotent ↥((CFSG.fittingSubgroup Q).map f) := by
-        haveI : Group.IsNilpotent ↥(CFSG.fittingSubgroup Q) := inferInstance
+      have : Group.IsNilpotent ↥((CFSG.fittingSubgroup Q).map f) := by
+        have : Group.IsNilpotent ↥(CFSG.fittingSubgroup Q) := inferInstance
         exact Group.nilpotent_of_surjective
           (MonoidHom.subgroupMap f (CFSG.fittingSubgroup Q))
           (MonoidHom.subgroupMap_surjective f (CFSG.fittingSubgroup Q))
       have hle : (CFSG.fittingSubgroup Q).map f ≤ CFSG.fittingSubgroup Qb :=
         le_sSup ⟨hn, inferInstance⟩
       exact (Subgroup.map_mono inf_le_right).trans hle
-  haveI hcycF : IsCyclic ↥(F.map f) := Subgroup.isCyclic_of_le hFmap
-  haveI : IsZGroup ↥F := by
+  have hcycF : IsCyclic ↥(F.map f) := Subgroup.isCyclic_of_le hFmap
+  have : IsZGroup ↥F := by
     refine ⟨fun q hq S => ?_⟩
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hle : (S : Subgroup ↥F).map F.subtype ≤ CFSG.pCore q Q :=
       Sylow.map_le_pCore hFn hFnil q S
     by_cases hq2 : q = 2
@@ -95,7 +95,7 @@ theorem uc22p22f_cyclic_fitting_of_injective {Q Qb : Type} [Group Q] [Finite Q] 
       rw [hS]
       infer_instance
     · by_contra hnc
-      haveI : Fact (IsPGroup q ↥(S : Subgroup ↥F)) := ⟨S.isPGroup'⟩
+      have : Fact (IsPGroup q ↥(S : Subgroup ↥F)) := ⟨S.isPGroup⟩
       obtain ⟨E₀, -, hE₀card, hE₀el⟩ := CFSG.lemma_4_5_a hq2 hnc
       let E₁ : Subgroup ↥F := E₀.map (S : Subgroup ↥F).subtype
       let E : Subgroup Q := E₁.map F.subtype
@@ -124,7 +124,7 @@ theorem uc22p22f_cyclic_fitting_of_injective {Q Qb : Type} [Group Q] [Finite Q] 
         have hyE : (((y : ↥F) : Q)) ∈ E := ⟨(y : ↥F), y.2, rfl⟩
         have := h1 _ hyE hy'
         exact Subtype.ext (Subtype.ext this)
-      haveI : IsCyclic ↥E₁ := isCyclic_of_injective g hg
+      have : IsCyclic ↥E₁ := isCyclic_of_injective g hg
       have hexp : ∀ x : ↥E₁, x ^ q = 1 := by
         intro x
         exact Subtype.ext (by simpa using hE₁el.2 (x : ↥F) x.2)
@@ -162,16 +162,19 @@ theorem uc22p22f_pCore_le_ker {M V : Subgroup G} (hV : M ≤ normalizer (V : Set
   QuotientGroup.lift (CFSG.pCore 2 ↥M) (QuotientGroup.mk' (kerAct M V).normalCore)
     (by rw [QuotientGroup.ker_mk']; exact h)
 
+omit [Finite G] in
 theorem uc22p22fRho_mk {M V : Subgroup G} (h : CFSG.pCore 2 ↥M ≤ (kerAct M V).normalCore)
     (x : ↥M) : uc22p22fRho M V h (QuotientGroup.mk x) = QuotientGroup.mk x :=
   QuotientGroup.lift_mk _ _ _
 
+omit [Finite G] in
 theorem uc22p22fRho_surjective {M V : Subgroup G} (h : CFSG.pCore 2 ↥M ≤ (kerAct M V).normalCore) :
     Function.Surjective (uc22p22fRho M V h) := by
   intro y
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
   exact ⟨QuotientGroup.mk x, uc22p22fRho_mk h x⟩
 
+omit [Finite G] in
 theorem uc22p22fRho_eq_one_iff {M V : Subgroup G} (hV : M ≤ normalizer (V : Set G))
     (h : CFSG.pCore 2 ↥M ≤ (kerAct M V).normalCore) (x : ↥M) :
     uc22p22fRho M V h (QuotientGroup.mk x) = 1 ↔ (x : G) ∈ centralizer (V : Set G) := by
@@ -195,7 +198,7 @@ theorem uc22p22f_pCore_quotient {L : Type*} [Group L] :
     simp only [Subgroup.coe_pow, Subgroup.coe_one] at this ⊢
     rw [pow_add, pow_mul]
     exact this
-  haveI : K.Normal := Subgroup.Normal.comap inferInstance _
+  have : K.Normal := Subgroup.Normal.comap inferInstance _
   have hKN : K ≤ N := le_sSup ⟨inferInstance, hKp⟩
   rw [eq_bot_iff]
   intro x hx
@@ -216,7 +219,7 @@ theorem uc22p22f_exists_lift {p : ℕ} [hp : Fact p.Prime] {X S : Type*} [Group 
     exact ⟨⟨x, by change π x ∈ Q; rw [hx]; exact y.2⟩, Subtype.ext hx⟩
   obtain ⟨T, hT⟩ := CFSG.SignalizerFunctor.Helpers.surjective_pgroup_sylow_lift p hp.out πP hπP hQ
   set R := (T : Subgroup P).map P.subtype
-  have hRp : IsPGroup p R := T.isPGroup'.map P.subtype
+  have hRp : IsPGroup p R := T.isPGroup.map P.subtype
   refine ⟨R, ?_, CFSG.RankThreeCoreUniqueness.Helpers.coprime_kernel_injective_on_pGroup p hp.out
     π hker R hRp⟩
   apply le_antisymm
@@ -237,7 +240,7 @@ theorem uc22p22f_rho_inj (M : Subgroup G) {V : Subgroup G} (hV : M ≤ normalize
     (hEcard : Nat.card E = q ^ 2) :
     ∀ e ∈ E, uc22p22fRho M V hker e = 1 → e = 1 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hkercop : q.Coprime (Nat.card π.ker) := by
@@ -261,7 +264,7 @@ theorem uc22p22f_rho_inj (M : Subgroup G) {V : Subgroup G} (hV : M ≤ normalize
     rw [Nat.card_congr (Equiv.ofBijective φ ⟨hφinj, hφsurj⟩)]
     exact hEcard
   have hcomm : ∀ a b : ↥R, a * b = b * a := by
-    haveI := hEel.1
+    have := hEel.1
     intro a b
     exact hφinj (by rw [map_mul, map_mul]; exact mul_comm' _ _)
   have hpow : ∀ a : ↥R, a ^ q = 1 := by
@@ -360,7 +363,7 @@ theorem uc22p22f_sylow_in_Y {M P : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p
     (hPM : P ≤ M) (hPp : IsPGroup p ↥P) :
     CFSG.ABGLocalTools.IsSylowOf p P (barPreimage M (barImage M P)) ∧
       ∃ n : ℕ, Nat.card (barPreimage M (barImage M P)) = 2 ^ n * Nat.card P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπ
   set O : Subgroup ↥M := CFSG.pCore 2 ↥M with hO
   set P' : Subgroup ↥M := P.subgroupOf M with hP'
@@ -402,12 +405,13 @@ section Permutes
 variable {G : Type} [Group G] [Finite G]
 
 theorem uc22p22f_pCoreOf_le_T (D : Data G) : pCoreOf 2 D.M ≤ D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := D.sylowM.exists_sylow_eq_subgroupOf
   have h := CFSG.fitting_pCore_le_sylow S
   rw [hS] at h
   exact Subgroup.map_le_iff_le_comap.2 h
 
+omit [Finite G] in
 theorem uc22p22f_conj_decomp {M R : Subgroup G} (hRM : R ≤ M) (hR : (barImage M R).Normal)
     {m r : G} (hm : m ∈ M) (hr : r ∈ R) :
     ∃ r' ∈ R, (∃ o ∈ pCoreOf 2 M, m * r * m⁻¹ = r' * o) ∧
@@ -466,7 +470,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22p22f_odd_card_B {D : Data G} {Ch : Choice2011 G} (c : Ctx21 D Ch) :
     Odd (Nat.card c.B) := by
   by_contra h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ Nat.card c.B := even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 h)
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B) 2 h2
   have hodd := uc22p21d_odd_orderOf_of_mem_calB1 c.hB b.2
@@ -479,7 +483,7 @@ theorem uc22p22f_not_dvd_card_B (D : Data G) (Ch : Choice2011 G) (h8 : S22_8 D C
   intro hdvd
   have hps : p ∈ D.sig1 := (h8 h1930 c) ▸ hp
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hsp' := hsp p hps
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B) p hdvd
   set A : Subgroup G := Subgroup.zpowers (b : G) with hA
@@ -513,13 +517,13 @@ theorem uc22p22f_P2_cent (D : Data G) (Ch : Choice2011 G) (h11 : S22_11 D Ch) (h
     (hcomm : barImage D.M P₂ ≤ _root_.commutator (Bar2 D.M)) (hPB : ⁅P₂, c.B⁆ = P₂) :
     P₂ ≤ centralizer (c.V : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hred : TwoReduced D.M c.V := (hV h1930 c).1.2.2
   have hker := uc22p22f_pCore_le_ker c.hVM hred
   have hρsurj := uc22p22fRho_surjective hker
   have hBM : c.B ≤ D.M := c.hle.trans c.hBM
   set R : Subgroup (Bar2 D.M) := barImage D.M P₂ with hR
-  haveI hRn : R.Normal := hnorm
+  have hRn : R.Normal := hnorm
   have hRp : IsPGroup p ↥R := by
     have : IsPGroup p ↥(P₂.subgroupOf D.M) := hP₂p.comap_subtype
     exact this.map _
@@ -533,7 +537,7 @@ theorem uc22p22f_P2_cent (D : Data G) (Ch : Choice2011 G) (h11 : S22_11 D Ch) (h
           rw [_root_.commutator_def, _root_.commutator_def, Subgroup.map_commutator,
             Subgroup.map_top_of_surjective _ hρsurj]
     · have hn : (R.map (uc22p22fRho D.M c.V hker)).Normal := hRn.map _ hρsurj
-      haveI : Group.IsNilpotent ↥(R.map (uc22p22fRho D.M c.V hker)) :=
+      have : Group.IsNilpotent ↥(R.map (uc22p22fRho D.M c.V hker)) :=
         (hRp.map (uc22p22fRho D.M c.V hker)).isNilpotent
       exact le_sSup ⟨hn, inferInstance⟩
   have hcent := (h11 h1930 c).2
@@ -564,8 +568,8 @@ theorem uc22p22f_cent_U (D : Data G) (Ch : Choice2011 G) (h11 : S22_11 D Ch) (hV
     (hcomm : barImage D.M P₂ ≤ _root_.commutator (Bar2 D.M)) (hPB : ⁅P₂, c.B⁆ = P₂) :
     P₂ ≤ centralizer (D.U : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : D.U ≤ pCoreOf 2 D.M ⊓ centralizer (pCoreOf 2 D.M : Set G) ∧ IsElemAbelian 2 D.U :=
     uCore_le_and_isElemAbelian D.standing.charTwo D.maxLocal.1 D.sylowM
   have hMU : D.M ≤ normalizer (D.U : Set G) := le_normalizer_uCore D.M D.T
@@ -600,7 +604,7 @@ theorem uc22p22f_cent_U (D : Data G) (Ch : Choice2011 G) (h11 : S22_11 D Ch) (hV
     apply hne
     have : ⁅P₂, D.U⁆ = ⊥ := by rw [Subgroup.commutator_comm]; exact hX0
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.1 this
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   obtain ⟨W, ⟨hWne, hWX, hMW⟩, hWmin⟩ := (wellFounded_lt (α := Subgroup G)).has_min
     {W : Subgroup G | W ≠ ⊥ ∧ W ≤ X ∧ D.M ≤ normalizer (W : Set G)} ⟨X, hX1, le_rfl, by
       intro m hm
@@ -622,7 +626,7 @@ theorem uc22p22f_cent_U (D : Data G) (Ch : Choice2011 G) (h11 : S22_11 D Ch) (hV
   have hWc : P₂ ≤ centralizer (W : Set G) :=
     uc22p22f_P2_cent D Ch h11 hV h1930 c' hp hP₂M hP₂p hnorm hcomm hPB
   have hab : ∀ x y : ↥D.U, x * y = y * x := by
-    haveI := hU.2.1
+    have := hU.2.1
     intro x y
     exact mul_comm' x y
   have hcop : Nat.Coprime (Nat.card P₂) (Nat.card D.U) := by
@@ -726,15 +730,15 @@ theorem s22_12_of_last (D : Data G) (Ch : Choice2011 G) (h10 : S22_10 D Ch) (h11
   classical
   intro h1930 c p hpσ P hP
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hcyc := uc22p22f_fitting_cyclic D Ch h10 h11 hV h1930 c
   obtain ⟨h1, h2, h3a, h3b, h3c⟩ := h2123 h1930 c.toCtx22.toCtx21 p hpσ P hP hcyc
   refine ⟨⟨h1, h2, h3a, h3b, h3c⟩, ?_⟩
   have hPM : P ≤ D.M := hP.le.trans (uc22p21c_barPreimage_le _ _)
   have hPp : IsPGroup p ↥P := hP.isPGroup
-  haveI hbn : (barImage D.M P).Normal := h3b
-  haveI hbc : IsCyclic ↥(barImage D.M P) := by
-    haveI : IsCyclic ↥(P.subgroupOf D.M) :=
+  have hbn : (barImage D.M P).Normal := h3b
+  have hbc : IsCyclic ↥(barImage D.M P) := by
+    have : IsCyclic ↥(P.subgroupOf D.M) :=
       isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hPM).symm.toMonoidHom
         (MulEquiv.surjective _)
     exact isCyclic_of_surjective
@@ -756,8 +760,8 @@ theorem s22_12_of_last (D : Data G) (Ch : Choice2011 G) (h10 : S22_10 D Ch) (h11
     rw [hYcard]
     exact Nat.Coprime.mul_right
       (Nat.Coprime.pow_right n (Nat.coprime_two_right.mpr hBodd)) hcopP
-  haveI : Group.IsSolvable ↥c.B := by
-    haveI := c.hB.2.1
+  have : Group.IsSolvable ↥c.B := by
+    have := c.hB.2.1
     infer_instance
   obtain ⟨P₁, hP₁Y, hBP₁⟩ := CFSG.GH74.Uniqueness.exists_sylow_normalized_of_coprime hBY hcopY p
   obtain ⟨g, hgY, hP₁eq⟩ := uc22p22f_exists_conj_sylow hPY hP₁Y
@@ -770,7 +774,7 @@ theorem s22_12_of_last (D : Data G) (Ch : Choice2011 G) (h10 : S22_10 D Ch) (h11
     exact isCyclic_of_surjective
       (P.equivMapOfInjective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective).toMonoidHom
       (MulEquiv.surjective _)
-  haveI := hP₁cyc
+  have := hP₁cyc
   have hP₁comm : ∀ x y : ↥P₁, x * y = y * x := fun x y => mul_comm' x y
   have hcopP₁ : Nat.Coprime (Nat.card c.B) (Nat.card P₁) := by
     rw [hP₁eq, Subgroup.card_map_of_injective (MulAut.conj g).injective]
@@ -788,7 +792,7 @@ theorem s22_12_of_last (D : Data G) (Ch : Choice2011 G) (h10 : S22_10 D Ch) (h11
     intro q hq
     obtain ⟨m, hmR, rfl⟩ := uc22p21c_mem_barImage.1 hq
     exact (uc22p21c_mem_barPreimage.1 (hP₂Y hmR)).2
-  haveI hP₂norm : (barImage D.M P₂).Normal := uc22p21c_normal_of_le_cyclic_normal hP₂bar
+  have hP₂norm : (barImage D.M P₂).Normal := uc22p21c_normal_of_le_cyclic_normal hP₂bar
   have hP₂comm : barImage D.M P₂ ≤ _root_.commutator (Bar2 D.M) :=
     hP₂bar.trans (h3a.trans inf_le_right)
   have hP₂U : P₂ ≤ centralizer (D.U : Set G) :=
@@ -826,10 +830,10 @@ theorem uc22p22f_exists_maxTwoLocal_ge {H : Subgroup G} (hH : IsTwoLocal H) :
 theorem uc22p22f_exists_fixed {V T : Subgroup G} (hV : IsPGroup 2 V) (hVne : V ≠ ⊥)
     (hT : IsPGroup 2 T) (hTV : T ≤ normalizer (V : Set G)) :
     ∃ v ∈ V, v ≠ 1 ∧ ∀ t ∈ T, t * v * t⁻¹ = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).2 hVne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).2 hVne
   let φ : ↥T →* MulAut ↥V := V.normalizerMonoidHom.comp (Subgroup.inclusion hTV)
-  letI : MulAction ↥T ↥V := MulAction.compHom ↥V φ
+  let : MulAction ↥T ↥V := MulAction.compHom ↥V φ
   have hdvd : 2 ∣ Nat.card V := by
     obtain ⟨n, hn0, hn⟩ := hV.nontrivial_iff_card.1 inferInstance
     rw [hn]
@@ -860,6 +864,7 @@ theorem uc22p22f_exists_z {D : Data G} {Ch : Choice2011 G} (c : Ctx22b D Ch) :
   calc k * v = (k * v * k⁻¹) * k := by group
     _ = v * k := by rw [this]
 
+omit [Finite G] in
 theorem uc22p22f_isTwoLocal_centralizer {z : G} (hz1 : z ≠ 1) (hz2 : z ^ 2 = 1) :
     IsTwoLocal (centralizer ({z} : Set G)) := by
   have hord : orderOf z = 2 := orderOf_eq_prime hz2 hz1
@@ -902,7 +907,7 @@ theorem uc22p22f_card_cent_le (D : Data G) (Ch : Choice2011 G) (h63 : UC6.R6_3 D
     (hPexp : ∀ x ∈ P, x ^ q = 1) (hΓ : rankThreeGamma 1 q P ≤ D.M) :
     Nat.card ↥(P ⊓ centralizer (c.V : Set G)) ≤ q := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_contra hlt
   push Not at hlt
   set A : Subgroup G := P ⊓ centralizer (c.V : Set G) with hA
@@ -916,7 +921,7 @@ theorem uc22p22f_card_cent_le (D : Data G) (Ch : Choice2011 G) (h63 : UC6.R6_3 D
     have h6 : Monoid.exponent ↥A ∣ q := Monoid.exponent_dvd_of_forall_pow_eq_one hexp
     rw [h5] at h6
     exact absurd (Nat.le_of_dvd hq.pos h6) (not_le.2 hlt)
-  haveI : Fact (IsPGroup q ↥A) := ⟨hApg⟩
+  have : Fact (IsPGroup q ↥A) := ⟨hApg⟩
   obtain ⟨E₀, -, hE₀card, hE₀el⟩ := CFSG.lemma_4_5_a hq2 hAnc
   set E : Subgroup G := E₀.map A.subtype with hE
   have hEA : E ≤ A := Subgroup.map_subtype_le _
@@ -958,7 +963,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uc22p22f_card_le_of_lt_sq {q : ℕ} (hq : q.Prime) {X : Subgroup G} (hX : IsPGroup q ↥X)
     (h : Nat.card ↥X < q ^ 2) : Nat.card ↥X ≤ q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := hX.exists_card_eq
   rw [hk] at h ⊢
   by_contra hlt
@@ -967,14 +972,14 @@ theorem uc22p22f_card_le_of_lt_sq {q : ℕ} (hq : q.Prime) {X : Subgroup G} (hX 
     by_contra h2
     push Not at h2
     have h2' := hq.two_le
-    interval_cases k <;> simp at hlt <;> omega
+    interval_cases k <;> simp at hlt; omega
   exact absurd h (not_lt.2 (Nat.pow_le_pow_right hq.pos hk2))
 
 theorem uc22p22f_exists_E {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {X : Subgroup G}
     (hXp : IsPGroup q ↥X) (hXexp : ∀ x ∈ X, x ^ q = 1) (hcard : q ^ 2 ≤ Nat.card ↥X) :
     ∃ E : Subgroup G, E ≤ X ∧ IsElemAbelian q E ∧ Nat.card ↥E = q ^ 2 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hlt : q < Nat.card ↥X :=
     lt_of_lt_of_le (by nlinarith [hq.one_lt]) hcard
   have hXnc : ¬ IsCyclic ↥X := by
@@ -984,7 +989,7 @@ theorem uc22p22f_exists_E {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {X : Subgroup
     have h6 : Monoid.exponent ↥X ∣ q := Monoid.exponent_dvd_of_forall_pow_eq_one hexp
     rw [h5] at h6
     exact absurd (Nat.le_of_dvd hq.pos h6) (not_le.2 hlt)
-  haveI : Fact (IsPGroup q ↥X) := ⟨hXp⟩
+  have : Fact (IsPGroup q ↥X) := ⟨hXp⟩
   obtain ⟨E₀, -, hE₀card, hE₀el⟩ := CFSG.lemma_4_5_a hq2 hXnc
   refine ⟨E₀.map X.subtype, Subgroup.map_subtype_le _, ?_, ?_⟩
   · exact ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian q E₀).1 hE₀el).map _
@@ -1020,14 +1025,14 @@ theorem uc22p22f_card_ge_sq {q : ℕ} (hq : q.Prime) {R B : Subgroup G} (hR : Is
 theorem uc22p22f_normalizer_grows {q : ℕ} [Fact q.Prime] {W E : Subgroup G}
     (hW : IsPGroup q ↥W) (hEW : E ≤ W) (hne : ¬ W ≤ E) :
     ∃ x ∈ W, x ∈ normalizer (E : Set G) ∧ x ∉ E := by
-  haveI : Group.IsNilpotent ↥W := hW.isNilpotent
+  have : Group.IsNilpotent ↥W := hW.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥W)
   have hlt : E.subgroupOf W < ⊤ := by
     rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
     exact hne
   have h := hnc _ hlt
   rw [← Subgroup.subgroupOf_normalizer_eq hEW] at h
-  obtain ⟨x, hx1, hx2⟩ := SetLike.exists_of_lt h
+  obtain ⟨x, hx1, hx2⟩ := _root_.IsConcreteLE.exists_of_lt h
   exact ⟨x.1, x.2, Subgroup.mem_subgroupOf.1 hx1, fun hx => hx2 (Subgroup.mem_subgroupOf.2 hx)⟩
 
 theorem uc22p22f_exists_normalizer_inf {q : ℕ} [Fact q.Prime] {P X E : Subgroup G}
@@ -1052,9 +1057,11 @@ theorem uc22p22f_exists_normalizer_inf {q : ℕ} [Fact q.Prime] {P X E : Subgrou
   · intro hpE
     exact hxE (E.mul_mem (hXE hy) hpE)
 
+omit [Finite G] in
 theorem uc22p22f_isPGroup_pCoreOf (K : Subgroup G) : IsPGroup 2 ↥(pCoreOf 2 K) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).map K.subtype
 
+omit [Finite G] in
 theorem uc22p22f_le_pCoreOf {K P : Subgroup G} (hPK : P ≤ K) (hP : IsPGroup 2 ↥P)
     (hn : ∀ k ∈ K, ∀ x ∈ P, k * x * k⁻¹ ∈ P) : P ≤ pCoreOf 2 K := by
   have hN : (P.subgroupOf K).Normal := ⟨fun x hx k => hn (k : G) k.2 x hx⟩
@@ -1063,12 +1070,14 @@ theorem uc22p22f_le_pCoreOf {K P : Subgroup G} (hPK : P ≤ K) (hP : IsPGroup 2 
   intro x hx
   exact ⟨⟨x, hPK hx⟩, hle hx, rfl⟩
 
+omit [Finite G] in
 theorem uc22p22f_conj_mem_pCoreOf_self {K : Subgroup G} {k x : G} (hk : k ∈ K)
     (hx : x ∈ pCoreOf 2 K) : k * x * k⁻¹ ∈ pCoreOf 2 K := by
   obtain ⟨y, hy, rfl⟩ := hx
   exact ⟨⟨k, hk⟩ * y * ⟨k, hk⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥K)).conj_mem y hy ⟨k, hk⟩, rfl⟩
 
+omit [Finite G] in
 theorem uc22p22f_mem_normalizer_pCoreOf {K : Subgroup G} {n : G}
     (hn : ∀ k ∈ K, n * k * n⁻¹ ∈ K) (hn' : ∀ k ∈ K, n⁻¹ * k * n ∈ K) :
     n ∈ normalizer ((pCoreOf 2 K : Subgroup G) : Set G) := by
@@ -1086,7 +1095,7 @@ theorem uc22p22f_mem_normalizer_pCoreOf {K : Subgroup G} {n : G}
       have hk' : m⁻¹ * k * m ∈ K := hm' k hk
       refine ⟨(m⁻¹ * k * m) * y * (m⁻¹ * k * m)⁻¹,
         uc22p22f_conj_mem_pCoreOf_self hk' hy, ?_⟩
-      simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+      simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
       group
     exact uc22p22f_le_pCoreOf hPK hP2 hPn ⟨x, hx, rfl⟩
   rw [Subgroup.mem_normalizer_iff]
@@ -1098,6 +1107,7 @@ theorem uc22p22f_mem_normalizer_pCoreOf {K : Subgroup G} {n : G}
     have e : n⁻¹ * (n * x * n⁻¹) * n⁻¹⁻¹ = x := by group
     rwa [e] at this
 
+omit [Finite G] in
 theorem uc22p22f_mem_conj (H : Subgroup G) (g x : G) :
     x ∈ uniqueFourConj g H ↔ g * x * g⁻¹ ∈ H := by
   unfold uniqueFourConj
@@ -1117,7 +1127,7 @@ theorem uc22p22f_final_aux (D : Data G) (h63 : UC6.R6_3 D) {q : ℕ} (hq : q.Pri
     (hD'card : Nat.card ↥D' = q) (hD : D' ≤ normalizer (P : Set G))
     (hA : A ≤ normalizer (P₁ : Set G)) : False := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2le := hq.two_le
   have hMmax : rankThreeIsMaxTwoLocal D.M := D.maxLocal
   have hMself : normalizer (D.M : Set G) = D.M :=
@@ -1127,7 +1137,7 @@ theorem uc22p22f_final_aux (D : Data G) (h63 : UC6.R6_3 D) {q : ℕ} (hq : q.Pri
     exact hgM
   have hAq : IsPGroup q ↥A := hPq.to_le hAP
   have hrankA : 1 ≤ CFSG.Open.pRank q A := by
-    haveI : IsCyclic ↥A := isCyclic_of_prime_card hAcard
+    have : IsCyclic ↥A := isCyclic_of_prime_card hAcard
     refine CFSG.SectionRank.le_pRank hq.one_lt le_rfl
       ⟨inferInstance, fun x hx => hPexp x (hAP hx)⟩ ?_
     rw [hAcard, pow_one]
@@ -1418,7 +1428,7 @@ theorem uc22p22f_permutes_cent (D : Data G) (Ch : Choice2011 G) (hV : S22_V D Ch
     Permutes (P ⊓ centralizer (c.V : Set G)) D.T := by
   have hAM : P ⊓ centralizer (c.V : Set G) ≤ D.M := inf_le_left.trans hPM
   refine uc22p22f_permutes D hAM ?_
-  haveI := hPn
+  have := hPn
   obtain ⟨K, hKdef⟩ : ∃ K : Subgroup G,
       K = barPreimage D.M (barImage D.M P) ⊓ centralizer (c.V : Set G) := ⟨_, rfl⟩
   have hYM : barPreimage D.M (barImage D.M P) ≤ D.M := uc22p21c_barPreimage_le _ _
@@ -1454,7 +1464,7 @@ theorem uc22p22f_permutes_cent (D : Data G) (Ch : Choice2011 G) (hV : S22_V D Ch
         _ = m⁻¹ * ((m * x * m⁻¹) * (m * v * m⁻¹)) * m := by rw [h1]
         _ = x * v := by group
   have hKn : ((K.subgroupOf D.M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M))).Normal := by
-    haveI : (K.subgroupOf D.M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).2 hMK
+    have : (K.subgroupOf D.M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).2 hMK
     exact Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hEq : barImage D.M (P ⊓ centralizer (c.V : Set G)) =
       (K.subgroupOf D.M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M)) := by
@@ -1524,15 +1534,15 @@ theorem uc22p22f_gamma_of_conj {q : ℕ} (hq : q.Prime) {M P : Subgroup G} {y : 
 theorem gam2210_of (D : Data G) (Ch : Choice2011 G) (h77 : F07.R77Eq D)
     (hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M) (h8 : S22_8 D Ch)
     (hne : D.sig.Nonempty) (hrk : ∀ p ∈ D.sig, 3 ≤ CFSG.Open.pRank p D.M) :
-    H1930 D → ∀ c : Ctx22b D Ch, ∀ q : ℕ, q.Prime → q ≠ 2 → ∀ P : Subgroup G,
+    H1930 D → ∀ _c : Ctx22b D Ch, ∀ q : ℕ, q.Prime → q ≠ 2 → ∀ P : Subgroup G,
       P ≤ D.M → IsPGroup q ↥P → (∀ x ∈ P, x ^ q = 1) → ⁅⁅P, P⁆, P⁆ = ⊥ → ¬ IsCyclic ↥P →
       (barImage D.M P).Normal → rankThreeGamma 1 q P ≤ D.M := by
   classical
-  intro h1930 c q hq hq2 P hPM hPq hPexp hPcl hPnc hPY
-  haveI : Fact q.Prime := ⟨hq⟩
+  intro h1930 _c q hq hq2 P hPM hPq hPexp hPcl hPnc hPY
+  have : Fact q.Prime := ⟨hq⟩
   by_cases hqσ : q ∈ D.sig
   ·
-    have hsp' := hsp q ((h8 h1930 c) ▸ hqσ)
+    have hsp' := hsp q ((h8 h1930 _c) ▸ hqσ)
     rw [CFSG.RankThreeCoreUniqueness.Helpers.gamma_le_iff]
     intro X hXP hX g hg
     by_contra hgM
@@ -1551,14 +1561,14 @@ theorem gam2210_of (D : Data G) (Ch : Choice2011 G) (h77 : F07.R77Eq D)
       (Subgroup.card_dvd_of_le hXle)))
   · obtain ⟨p, hpσ⟩ := hne
     obtain ⟨hpp, hp2⟩ := D.sig_prime p hpσ
-    haveI : Fact p.Prime := ⟨hpp⟩
+    have : Fact p.Prime := ⟨hpp⟩
     have hpq : p ≠ q := fun h => hqσ (h ▸ hpσ)
-    have hspp := hsp p ((h8 h1930 c) ▸ hpσ)
+    have hspp := hsp p ((h8 h1930 _c) ▸ hpσ)
     have hrkM : 3 ≤ CFSG.Open.pRank p D.M := hrk p hpσ
     obtain ⟨E, hEM, hEel, hEcard⟩ :=
       CFSG.RankThreeCoreUniqueness.Helpers.pRank_attained p D.M (by omega)
     obtain ⟨hPSyl, n, hYcard⟩ := uc22p22f_sylow_in_Y hq hq2 hPM hPq
-    haveI hbn : (barImage D.M P).Normal := hPY
+    have hbn : (barImage D.M P).Normal := hPY
     set Y := barPreimage D.M (barImage D.M P) with hY
     have hYM : Y ≤ D.M := uc22p21c_barPreimage_le _ _
     have hMY : D.M ≤ normalizer (Y : Set G) := uc22p22f_normalizer_barPreimage D.M _
@@ -1569,8 +1579,8 @@ theorem gam2210_of (D : Data G) (Ch : Choice2011 G) (h77 : F07.R77Eq D)
       exact Nat.Coprime.mul_right
         (Nat.Coprime.pow _ _ ((Nat.coprime_primes hpp Nat.prime_two).2 hp2))
         (Nat.Coprime.pow _ _ ((Nat.coprime_primes hpp hq).2 hpq))
-    haveI : IsMulCommutative ↥E := hEel.1
-    haveI : Group.IsSolvable ↥E := inferInstance
+    have : IsMulCommutative ↥E := hEel.1
+    have : Group.IsSolvable ↥E := inferInstance
     obtain ⟨P', hP'Syl, hEP'⟩ :=
       CFSG.GH74.Uniqueness.exists_sylow_normalized_of_coprime hEY hcop q
     obtain ⟨y, hyY, hP'eq⟩ := uc22p22f_exists_conj_sylow hPSyl hP'Syl
@@ -1587,7 +1597,7 @@ theorem gam2210_of (D : Data G) (Ch : Choice2011 G) (h77 : F07.R77Eq D)
       intro x hx
       rw [hP'eq] at hx
       obtain ⟨a, ha, rfl⟩ := hx
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       rw [conj_pow, hPexp a ha]
       simp
     have hP'cl : ⁅⁅P', P'⁆, P'⁆ = ⊥ := by
@@ -1596,7 +1606,7 @@ theorem gam2210_of (D : Data G) (Ch : Choice2011 G) (h77 : F07.R77Eq D)
     have hrk3 : CFSG.Open.pRank p D.M ≤ CFSG.Open.pRank p (D.M ⊓ normalizer (P' : Set G)) :=
       CFSG.SectionRank.le_pRank hpp.one_lt hEle hEel hEcard
     have hΓ' : rankThreeGamma 1 q P' ≤ D.M :=
-      h77 (h8 h1930 c).subset p hpσ hp2 hspp q hq hq2 hqσ P' hP'M hP'q hP'nc hP'exp hP'cl
+      h77 (h8 h1930 _c).subset p hpσ hp2 hspp q hq hq2 hqσ P' hP'M hP'q hP'nc hP'exp hP'cl
         (by omega) (le_antisymm hrk3
           (CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono p hpp.one_lt inf_le_left))
     exact uc22p22f_gamma_of_conj hq (hYM hyY) (hP'eq ▸ hΓ')

@@ -461,7 +461,7 @@ theorem isSylowTwoOf_unipotent :
     CFSG.QuasithinUnique.IsSylowTwoOf (unipotent 2 K) (⊤ : Subgroup (StatedSp 2 K)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := exists_sylow_unipotent (K := K) 2 2
-  refine ⟨le_top, hS ▸ S.isPGroup', ?_⟩
+  refine ⟨le_top, hS ▸ S.isPGroup, ?_⟩
   rw [← Subgroup.relIndex, Subgroup.relIndex_top_right, ← hS]
   exact S.not_dvd_index
 

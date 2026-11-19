@@ -76,7 +76,7 @@ theorem ggTorusModelAt_recipeR_twE6Split_three
       ExcFrames.twE6SplitFrameHom (frobQ 2 n) ζ hζ hζσ := by
     refine MonoidHom.ext fun s => Subtype.ext ?_
     rfl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmodel' : GGTorusModelAt 3 E' := by
     rw [hc, hframe]
     exact (ggTorusModelAt_range_twE6SplitFrameHom (K := GaloisField 2 (2 * n))

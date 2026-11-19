@@ -31,7 +31,7 @@ theorem excres_innAutDerived_le_inner_F4 {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ 
   refine sup_le le_rfl ?_
   by_cases h2 : p = 2
   · subst h2
-    haveI : CharP K ReeTag.F4.prime :=
+    have : CharP K ReeTag.F4.prime :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
     obtain ⟨-, -, ⟨Θ, -, -, hker⟩, -⟩ := even_F4_exact_automorphism_normal_form hf K hK
     exact (excres_commutator_le_ker Θ fun a b => mul_comm a b).trans hker.le

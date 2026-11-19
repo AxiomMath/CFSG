@@ -15,7 +15,7 @@ open CFSG.RankThree.PartTwo.Late Matrix
 theorem mem_maximalParabolics_subgroupOf {Q : Type} [Group Q] [Finite Q] {L R : Subgroup Q}
     (hR : IsMaxParabolicMod ⊥ L R) : R.subgroupOf L ∈ maximalParabolics (↥L) 2 := by
   obtain ⟨-, hRL, hmax, S, -, hSL, hpow, hidx, hN⟩ := hR
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS2 : IsPGroup 2 S := by
     intro s
     obtain ⟨k, hk⟩ := hpow s s.2

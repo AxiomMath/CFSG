@@ -33,7 +33,7 @@ theorem subsingleton_of_fixed_eq_one_outside_zpowers {p : ℕ} [Fact p.Prime] {P
       intro htop
       rw [htop, Subgroup.card_top] at hzlt
       exact lt_irrefl _ hzlt
-    obtain ⟨e, -, he⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hne_top)
+    obtain ⟨e, -, he⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hne_top)
     set E : Subgroup P := Subgroup.closure ({e, z} : Set P) with hE
     have heE : e ∈ E := Subgroup.subset_closure (by simp)
     have hzE : z ∈ E := Subgroup.subset_closure (by simp)
@@ -55,7 +55,7 @@ theorem subsingleton_of_fixed_eq_one_outside_zpowers {p : ℕ} [Fact p.Prime] {P
       intro x
       apply Subtype.ext
       exact hexp (x : P)
-    haveI : CFSG.IsElementaryAbelian p ↥E :=
+    have : CFSG.IsElementaryAbelian p ↥E :=
       { toIsMulCommutative := Subgroup.isMulCommutative_closure hcomm
         exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hEexp }
     have hEp : IsPGroup p ↥E := CFSG.IsElementaryAbelian.isPGroup p ↥E
@@ -72,7 +72,7 @@ theorem subsingleton_of_fixed_eq_one_outside_zpowers {p : ℕ} [Fact p.Prime] {P
     have hEcard : p ^ 2 ≤ Nat.card ↥E := by
       rw [hn]
       exact Nat.pow_le_pow_right (Fact.out : p.Prime).pos hn2
-    letI : MulDistribMulAction ↥E V := MulDistribMulAction.compHom (A := V) E.subtype
+    let : MulDistribMulAction ↥E V := MulDistribMulAction.compHom (A := V) E.subtype
     have hgen := CFSG.SolvableHall.coprime_centralizer_generation (p := p) (A := ↥E) (H := V)
       hEcard hV
     have hle : (⨆ (a : ↥E) (_ : a ≠ 1),
@@ -179,10 +179,10 @@ theorem subsingleton_of_fixed_eq_one_outside_zpowers {p : ℕ} [Fact p.Prime] {P
     intro x
     apply Subtype.ext
     exact hrange_exp (x : ↥φ.range)
-  haveI : CFSG.IsElementaryAbelian p ↥E' :=
+  have : CFSG.IsElementaryAbelian p ↥E' :=
     { toIsMulCommutative := IsPGroup.isMulCommutative_of_card_eq_prime_sq hE'card
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hE'exp }
-  letI : MulDistribMulAction ↥E' V :=
+  let : MulDistribMulAction ↥E' V :=
     MulDistribMulAction.compHom (A := V) (φ.range.subtype.comp E'.subtype)
   have hgen' := CFSG.SolvableHall.coprime_centralizer_generation (p := p) (A := ↥E') (H := V)
     (by rw [hE'card]) hV
@@ -225,9 +225,9 @@ theorem eq_top_of_fixed_le_outside_zpowers {p : ℕ} [Fact p.Prime] {P V : Type*
   classical
   have hNinv : CFSG.IsInvariant P V N :=
     CFSG.SolvableHall.isInvariant_of_forall_smul_mem hN
-  letI : MulDistribMulAction P (V ⧸ N) :=
+  let : MulDistribMulAction P (V ⧸ N) :=
     CFSG.quotientMulDistribMulAction (A := P) (G := V) N hNinv
-  letI : MulAction.QuotientAction P N := CFSG.quotientAction_of_isInvariant (A := P) N hNinv
+  let : MulAction.QuotientAction P N := CFSG.quotientAction_of_isInvariant (A := P) N hNinv
   have hVq : ¬ p ∣ Nat.card (V ⧸ N) :=
     fun h => hV (h.trans (Subgroup.card_quotient_dvd_card N))
   have hNp : ¬ p ∣ Nat.card ↥N :=
@@ -244,10 +244,10 @@ theorem eq_top_of_fixed_le_outside_zpowers {p : ℕ} [Fact p.Prime] {P V : Type*
         rw [← hk]
         exact MulAction.mem_fixedBy.mp
           (MulAction.mem_fixedBy_zpow (MulAction.mem_fixedBy.mpr hq) k)
-      rw [hS, Set.mem_setOf_eq]
+      rw [hS, Set.mem_ofPred_eq]
       rw [← MulAction.Quotient.smul_coe N (a : P) x, hxq]
       exact hqfix
-    letI : MulAction ↥(Subgroup.zpowers g) S :=
+    let : MulAction ↥(Subgroup.zpowers g) S :=
       { smul := fun a x => ⟨(a : P) • (x : V), hSinv a x x.2⟩
         one_smul := fun x => Subtype.ext (by
           change ((1 : ↥(Subgroup.zpowers g)) : P) • (x : V) = (x : V)
@@ -285,7 +285,7 @@ theorem eq_top_of_fixed_le_outside_zpowers {p : ℕ} [Fact p.Prime] {P V : Type*
     have hcN : c ∈ N := hfix g hg c hgc
     have hcq : (c : V ⧸ N) = 1 := (QuotientGroup.eq_one_iff c).mpr hcN
     exact hcS.symm.trans hcq
-  haveI : Subsingleton (V ⧸ N) :=
+  have : Subsingleton (V ⧸ N) :=
     subsingleton_of_fixed_eq_one_outside_zpowers (p := p) (P := P) (V := V ⧸ N) hexp hcard hVq hz
       hfix'
   rw [Subgroup.eq_top_iff']
@@ -301,7 +301,7 @@ theorem le_of_centralizer_le_outside_zpowers {p : ℕ} [Fact p.Prime] {G : Type*
     (hfix : ∀ g ∈ P, g ∉ Subgroup.zpowers z → Y ⊓ Subgroup.centralizer {g} ≤ X) :
     Y ≤ X := by
   classical
-  haveI hPYnorm : Subgroup.Normalizes P Y := ⟨hPY⟩
+  have hPYnorm : Subgroup.Normalizes P Y := ⟨hPY⟩
   have hexp' : ∀ g : ↥P, g ^ p = 1 := by
     intro g
     apply Subtype.ext
@@ -334,7 +334,7 @@ theorem le_of_centralizer_le_outside_zpowers {p : ℕ} [Fact p.Prime] {G : Type*
     have hmemX : (v : G) ∈ X :=
       hfix (g : G) g.2 hg' (Subgroup.mem_inf.mpr ⟨v.2, hcent⟩)
     rwa [Subgroup.mem_subgroupOf]
-  haveI hNY : (X.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hYX
+  have hNY : (X.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hYX
   have htop := eq_top_of_fixed_le_outside_zpowers (p := p) (P := ↥P) (V := ↥Y)
     hexp' hcard hY hz' (X.subgroupOf Y) hN hfix'
   rw [Subgroup.subgroupOf_eq_top] at htop

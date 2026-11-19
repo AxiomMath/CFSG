@@ -13,6 +13,7 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {b : Fin 3 → Fin 6 → F}
   {K : Type} [Field K]
 
+omit [Finite F] [CharP F 2] in
 private theorem co2_map_one (W : Submodule F (Fin 6 → F)) : W.map (gLin (1 : SUid σ 6)) = W := by
   have e : gLin (1 : SUid σ 6) = LinearMap.id := LinearMap.ext gLin_one
   rw [e, Submodule.map_id]
@@ -43,7 +44,7 @@ variable (hσ : IsUnitaryInvolution σ) (hf : Frame σ e3uT0Vec b) (e₀ : K ≃
 
 include hσ hf
 
-theorem hline_U (x y z : PtU σ) (hcol : ColU x y z) (hxy : x ≠ y) :
+theorem hline_U (x y z : PtU σ) (hcol : ColU x y z) (_hxy : x ≠ y) :
     ∃ (g : SUid σ 6) (t : K), ptU g = x ∧ ptU (g * sU hσ.invol hf) = y ∧
       (z = x ∨ z = ptU (g * uK hσ.invol hf (ψ t • n1K σ e₀) * sU hσ.invol hf)) := by
   obtain ⟨g₁, hg₁⟩ := ptU_surjective hσ x

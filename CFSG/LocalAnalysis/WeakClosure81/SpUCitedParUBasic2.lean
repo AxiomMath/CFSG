@@ -46,7 +46,7 @@ theorem uCited_mem_normalizer_root_iff (h : UnitaryFieldData p f K) (i : Fin r)
   have h0 : v ≠ 0 := by
     intro hzero
     have := congrFun hzero (Sum.inl i)
-    simpa [hvdef] using this
+    simp [hvdef] at this
   have hinj : Function.Injective (Matrix.mulVec
       ((g : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K)) :=
     Matrix.mulVec_injective_of_isUnit (Units.isUnit (g : GL (HypIndex r ε) K))
@@ -111,7 +111,7 @@ theorem uCited_normalizer_root_zero (h : UnitaryFieldData p f K) (hr : 2 ≤ r) 
         HypIndex r ε → K) ≠ 0 := by
       intro hzero'
       have := congrFun hzero' (Sum.inl (⟨0, by omega⟩ : Fin r))
-      simpa using this
+      simp at this
     rw [he0def] at he0zero
     exact hone he0zero
 
@@ -128,7 +128,7 @@ theorem uCited_conj_root_zero (h : UnitaryFieldData p f K) (hr : 2 ≤ r) {c : K
       (Sum.inl (⟨0, by omega⟩ : Fin r)) = Sum.inl (⟨1, by omega⟩ : Fin r) := by
     rw [weylPerm_inl, simpleRefl_inl]
     unfold simpleSnd
-    rw [dif_pos (by omega : (0 : ℕ) + 1 < r)]
+    rw [dite_eq_left (by omega : (0 : ℕ) + 1 < r)]
     simp [lineCoord]
   have hmul := monomial_mulVec_single hLP (Sum.inl (⟨0, by omega⟩ : Fin r))
   rw [hσ] at hmul

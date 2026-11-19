@@ -68,14 +68,14 @@ theorem ggNbrLSideNoPSL3_g2der
     obtain ⟨T⟩ := InnerDiagE6.exists_largeEvenChevEquiv .G2 (K := K)
     exact (Nat.card_congr T.toEquiv).symm.trans
       (CFSG.ComponentClassification.ExcSelector.card_adjointGroup_G2_two (k := K) hK)
-  haveI : Finite ↥(LargeEvenChevGroup LargeEvenCartanG2 K) :=
+  have : Finite ↥(LargeEvenChevGroup LargeEvenCartanG2 K) :=
     Nat.finite_of_card_ne_zero (by rw [hcardC]; norm_num)
   have hHC : LargeEvenChevH LargeEvenCartanG2 K true ≤
       LargeEvenChevGroup LargeEvenCartanG2 K := by
     show ⁅LargeEvenChevGroup LargeEvenCartanG2 K, LargeEvenChevGroup LargeEvenCartanG2 K⁆ ≤
       LargeEvenChevGroup LargeEvenCartanG2 K
     exact Subgroup.commutator_le_self _
-  haveI : Finite ↥(LargeEvenChevH LargeEvenCartanG2 K true) :=
+  have : Finite ↥(LargeEvenChevH LargeEvenCartanG2 K true) :=
     Finite.of_injective (Subgroup.inclusion hHC) (Subgroup.inclusion_injective hHC)
   have hcardH : Nat.card ↥(LargeEvenChevH LargeEvenCartanG2 K true) ≤
       Nat.card ↥(LargeEvenChevGroup LargeEvenCartanG2 K) :=
@@ -83,7 +83,7 @@ theorem ggNbrLSideNoPSL3_g2der
   have hcardR : Nat.card (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanG2 K true)) ≤
       Nat.card ↥(LargeEvenChevH LargeEvenCartanG2 K true) :=
     Nat.card_le_card_of_surjective (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanG2 K true)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanG2 K true)) :=
     Finite.of_surjective (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
   have hcardJ : Nat.card ↥J ≤
       Nat.card (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanG2 K true)) :=

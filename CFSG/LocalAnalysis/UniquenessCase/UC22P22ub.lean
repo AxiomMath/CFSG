@@ -26,22 +26,22 @@ theorem uc22p22u_fitting_isCyclic {Q : Type*} [Group Q] [Finite Q] (N : Subgroup
     (h : ∀ r : ℕ, r.Prime → r ≠ 2 → ∀ D : Subgroup Q, D.Normal → D ≤ N → IsPGroup r D →
       ¬ IsCyclic ↥D → (∀ x ∈ D, x ^ r = 1) → ⁅⁅D, D⁆, D⁆ = ⊥ → False) :
     IsCyclic ↥(CFSG.fittingSubgroup ↥N) := by
-  haveI : IsZGroup ↥(CFSG.fittingSubgroup ↥N) := by
+  have : IsZGroup ↥(CFSG.fittingSubgroup ↥N) := by
     refine ⟨fun ℓ hℓ P => ?_⟩
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
-    haveI hPchar : (P : Subgroup ↥(CFSG.fittingSubgroup ↥N)).Characteristic :=
+    have : Fact ℓ.Prime := ⟨hℓ⟩
+    have hPchar : (P : Subgroup ↥(CFSG.fittingSubgroup ↥N)).Characteristic :=
       Sylow.characteristic_of_normal P inferInstance
     set P' : Subgroup ↥N := (P : Subgroup ↥(CFSG.fittingSubgroup ↥N)).map
       (CFSG.fittingSubgroup ↥N).subtype with hP'
-    haveI hP'char : P'.Characteristic := inferInstance
+    have hP'char : P'.Characteristic := inferInstance
     set R : Subgroup Q := P'.map N.subtype with hR
-    haveI hRn : R.Normal := inferInstance
+    have hRn : R.Normal := inferInstance
     have hRcyc : IsCyclic ↥R ↔ IsCyclic ↥(P : Subgroup ↥(CFSG.fittingSubgroup ↥N)) := by
       rw [hR, uc22p22u_isCyclic_map_iff _ N.subtype_injective, hP', uc22p22u_isCyclic_map_iff _
         (CFSG.fittingSubgroup ↥N).subtype_injective]
     have hRp : IsPGroup ℓ ↥R := by
       have h1 : IsPGroup ℓ ↥((P : Subgroup ↥(CFSG.fittingSubgroup ↥N)).map
-          (CFSG.fittingSubgroup ↥N).subtype) := (P.isPGroup').map _
+          (CFSG.fittingSubgroup ↥N).subtype) := (P.isPGroup).map _
       exact h1.map _
     by_cases hℓ2 : ℓ = 2
     · subst hℓ2
@@ -54,7 +54,7 @@ theorem uc22p22u_fitting_isCyclic {Q : Type*} [Group Q] [Finite Q] (N : Subgroup
       rw [← hRcyc] at hnc
       obtain ⟨D₀, hD₀c, hD₀nc, hD₀e, hD₀z⟩ :=
         uc22p22u_exists_noncyclic_critical hℓ hℓ2 hRp hnc
-      haveI : D₀.Characteristic := hD₀c
+      have : D₀.Characteristic := hD₀c
       refine h ℓ hℓ hℓ2 (D₀.map R.subtype) inferInstance ?_ ?_ ?_ ?_ ?_
       · exact (Subgroup.map_subtype_le D₀).trans (Subgroup.map_subtype_le _)
       · exact (hRp.to_subgroup D₀).map _
@@ -79,7 +79,7 @@ theorem uc22p22u_no_critical (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : UC6
     (hV : F11.Hyp11 D ⊥ V) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {D₁ : Subgroup (Bar2 D.M)} [D₁.Normal]
     (hD₁N : D₁ ≤ barImage D.M (F11.CTilde D.M ⊥ V)) (hD₁p : IsPGroup r ↥D₁) (hnc : ¬ IsCyclic ↥D₁)
     (hexp : ∀ x ∈ D₁, x ^ r = 1) (hcl : ⁅⁅D₁, D₁⁆, D₁⁆ = ⊥) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨hW, hTI⟩ := uc22p22u_hyp11_W D hV
   have hVc := uc22p22u_cTilde_bot D.M V
   have h112V := h112 ⊥ V hV
@@ -165,16 +165,16 @@ theorem uc22p22u_c116W (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : UC6.R6_1 
   have hn : D.M ≤ normalizer ((F11.CTilde D.M ⊥ V : Subgroup G) : Set G) := by
     rw [hVc]
     exact uc22p22u_normalizes_cent hW.1.1.2.2.1
-  haveI hNn : (barImage D.M (F11.CTilde D.M ⊥ V)).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M (F11.CTilde D.M ⊥ V)).Normal := uc22p22u_barImage_normal hn
   have hQ2 : CFSG.pCore 2 (Bar2 D.M) = ⊥ := CFSG.RankThree.PartTwo.Sec11.pCore_quotient_pCore ↥D.M 2
   have hcyc : IsCyclic ↥(CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M ⊥ V))) :=
     uc22p22u_fitting_isCyclic _ hQ2 fun r hr hr2 D₁ hD₁n hD₁N hD₁p hnc hexp hcl =>
       haveI := hD₁n
       uc22p22u_no_critical D hSig h61 h63 h77 h111 h112 hV hr hr2 hD₁N hD₁p hnc hexp hcl
   refine ⟨hcyc, ?_⟩
-  haveI : ((CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M ⊥ V))).map
+  have : ((CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M ⊥ V))).map
       (barImage D.M (F11.CTilde D.M ⊥ V)).subtype).Normal := inferInstance
-  haveI : IsCyclic ↥((CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M ⊥ V))).map
+  have : IsCyclic ↥((CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M ⊥ V))).map
       (barImage D.M (F11.CTilde D.M ⊥ V)).subtype) :=
     (uc22p22u_isCyclic_map_iff _ (Subgroup.subtype_injective _) _).2 hcyc
   exact uc22p21c_commutator_le_centralizer_of_cyclic _

@@ -114,7 +114,7 @@ theorem exists_conj_of_seven_local' {X : Type*} [Group X] [Finite X] {h0 s u g h
     (hs : orderOf s = 3) (hu : orderOf u = 7) (hsu : s * u = u * s)
     (hg : orderOf g = 3) (hh : orderOf h = 7) (hgh : g * h = h * g) :
     ∃ z : X, ∃ k : ℕ, g = z * s ^ k * z⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨m1, hm1⟩ := hall u hu
   obtain ⟨m2, hm2⟩ := hall h hh
   have hcomm : ∀ (m x y : X), m * x * m⁻¹ = y → ∀ w : X, w * x = x * w →
@@ -137,7 +137,7 @@ theorem exists_conj_of_seven_local' {X : Type*} [Group X] [Finite X] {h0 s u g h
   refine ⟨m2⁻¹ * c * m1, k, ?_⟩
   have hpow : (m1 * s * m1⁻¹) ^ k = m1 * s ^ k * m1⁻¹ := by
     have := map_pow (MulAut.conj m1) s k
-    simpa [MulAut.conj_apply] using this.symm
+    simp
   calc g = m2⁻¹ * (m2 * g * m2⁻¹) * m2 := by group
     _ = m2⁻¹ * (c * (m1 * s * m1⁻¹) ^ k * c⁻¹) * m2 := by rw [hck]
     _ = m2⁻¹ * (c * (m1 * s ^ k * m1⁻¹) * c⁻¹) * m2 := by rw [hpow]
@@ -249,7 +249,7 @@ theorem le_card_centralizer_of_coreListOK {regs : Array (Array V4)} {R : ℕ →
     (hR : ∀ r < regs.size, rowsMatrix regs[r]! = matJ (R r)) {Z : Array V4} {z : J}
     (hZ : rowsMatrix Z = matJ z) {D : CoreList} (h : coreListOK regs Z D = true)
     (hrow : D.row < 248) : D.n ≤ Nat.card (Subgroup.centralizer ({z} : Set J)) := by
-  haveI := finite_J
+  have := finite_J
   unfold coreListOK at h
   simp only [Bool.and_eq_true, decide_eq_true_eq, Array.all_eq_true, List.all_eq_true,
     List.mem_range, Bool.or_eq_true, Bool.not_eq_true'] at h
@@ -353,7 +353,7 @@ local notation "R3" => slpJ a b prog3
 
 theorem th_noL3Comp (x : J) (hx : orderOf x = 3) :
     NoL3Comp (Subgroup.centralizer ({x} : Set J)) := by
-  haveI : Finite J := finite_J
+  have : Finite J := finite_J
   have hcard : Nat.card J = 90745943887872000 := CFSG.Sporadic.Th.Max3.natCard_J
   have hN : L3Excl (Nat.card ↥(⊤ : Subgroup J)) 7 6 := by
     rw [Subgroup.card_top, hcard]
@@ -405,7 +405,7 @@ theorem th_noL3Comp (x : J) (hx : orderOf x = 3) :
 
 open CFSG.Blueprint CFSG.HardMathSupport.Timmesfeld.Tables.Census in
 theorem th_sporL3DownInner (hbr : SporadicBridges) : SporL3DownInner .Th := by
-  haveI : Finite J := finite_J
+  have : Finite J := finite_J
   have hM : Nonempty (J ≃* (TauCeti.CFSGIndex.sporadic .Th).Group) :=
     ⟨CFSG.Sporadic.Th.thEquivJ.symm.trans (hbr .Th).some⟩
   have h1 := @sporL3DownInner_of_comp .Th J inferInstance inferInstance hM

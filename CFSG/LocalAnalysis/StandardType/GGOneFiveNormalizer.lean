@@ -361,7 +361,7 @@ theorem normalizer_le_of_frattini {p : ℕ} (hp : p.Prime) {B Bs H : Subgroup G}
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq ↥C (φ • Q) Q
   set P : Subgroup G := (Q : Subgroup ↥C).map C.subtype with hPdef
   have hPC : P ≤ C := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := Q.isPGroup'.map C.subtype
+  have hPp : IsPGroup p P := Q.isPGroup.map C.subtype
   have hBsP : Bs ≤ P := fun b hb => ⟨⟨b, hBsC hb⟩, hQ hb, rfl⟩
   have hmemP : ∀ b ∈ Bs, (c : G) * g * b * ((c : G) * g)⁻¹ ∈ P := by
     intro b hb

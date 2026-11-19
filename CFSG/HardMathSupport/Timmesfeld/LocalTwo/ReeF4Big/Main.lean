@@ -18,7 +18,7 @@ section Conj
 
 variable {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime] {a p : ℕ}
 
-theorem pow_range_plane (hp : p.Prime) (P : ReePlane K a p) : ∀ x ∈ P.Ψ.range, x ^ p = 1 := by
+theorem pow_range_plane (_hp : p.Prime) (P : ReePlane K a p) : ∀ x ∈ P.Ψ.range, x ^ p = 1 := by
   rintro _ ⟨z, rfl⟩
   rw [← map_pow]
   have : z ^ p = 1 := by
@@ -50,7 +50,7 @@ theorem exists_conj_plane (hp : p.Prime) (hp2 : p ≠ 2)
   have hE'c : Nat.card P.Ψ.range = p ^ 2 := card_range_plane hp hp2 P
   have hE'pg : IsPGroup p ↥P.Ψ.range := IsPGroup.of_card hE'c
   obtain ⟨S, hS⟩ := hE'pg.exists_le_sylow
-  have h1 : IsPGroup p ↥(S : Subgroup (ReeTag.F4.reeGamma K a)) := S.isPGroup'
+  have h1 : IsPGroup p ↥(S : Subgroup (ReeTag.F4.reeGamma K a)) := S.isPGroup
   have h2 : ¬ p ∣ (S : Subgroup (ReeTag.F4.reeGamma K a)).index := S.not_dvd_index
   obtain ⟨φ⟩ := hsh (S : Subgroup (ReeTag.F4.reeGamma K a)) h1 h2
   have hFpg : IsPGroup p ↥F := IsPGroup.of_card hFc
@@ -84,7 +84,7 @@ theorem innerPlaneBalance_of_plane (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a 
     (hp3 : 3 < p) (hsh : ∃ e, SylowShape p 2 e (ReeTag.F4.reeGamma K a)) (P : ReePlane K a p) :
     InnerPlaneBalance p (ReeTag.F4.reeGamma K a) := by
   intro E hEin hE hEc H hH
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite

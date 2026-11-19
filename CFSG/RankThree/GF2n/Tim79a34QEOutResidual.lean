@@ -31,8 +31,9 @@ theorem H_le_pResidual_of_twoEnd {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q 
     sec34IW_holds hN spRadFactsStatement_holds commPairingStatement_holds
   exact le_pResidual_of_twoEnd hIW hH hZ hn
 
+omit [Finite G] in
 theorem centralizer_subgroupOf_residual_eq {M V Q P H : Subgroup G}
-    (hH : TwoEndHyp M V Q P H) (hV : V ≤ pResidual 2 G) :
+    (hH : TwoEndHyp M V Q P H) (_hV : V ≤ pResidual 2 G) :
     P.subgroupOf (pResidual 2 G) =
       P.subgroupOf (pResidual 2 G) ⊓
         Subgroup.centralizer ((V.subgroupOf (pResidual 2 G) : Subgroup ↥(pResidual 2 G)) :
@@ -58,7 +59,7 @@ theorem weaklyClosedIn_subgroupOf_residual {M V Q P H : Subgroup G}
   set G₀ : Subgroup G := pResidual 2 G with hG₀
   set V₀ : Subgroup ↥G₀ := V.subgroupOf G₀ with hV₀
   set P₀ : Subgroup ↥G₀ := P.subgroupOf G₀ with hP₀
-  haveI : G₀.Normal := G6.pResidual_normal_aux 2
+  have : G₀.Normal := G6.pResidual_normal_aux 2
   have hc : MinCexWCQ M V Q P H := hH.setup.mc
   refine ⟨Subgroup.subgroupOf_mono G₀ hc.toMinCex.V_le_P, fun g hg => ?_⟩
   have hconj : conjSubgroup g V₀ = (conjSubgroup (g : G) V).subgroupOf G₀ :=
@@ -75,15 +76,18 @@ theorem weaklyClosedIn_subgroupOf_residual {M V Q P H : Subgroup G}
   have heqG : conjSubgroup (g : G) V = V := hc.wcQ.2 (g : G) (hleP.trans hc.toMinCex.P_le_Q)
   rw [hconj, heqG]
 
+omit [Finite G] in
 theorem PleH_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q P H) :
     P.subgroupOf (pResidual 2 G) ≤ H.subgroupOf (pResidual 2 G) :=
   Subgroup.subgroupOf_mono (pResidual 2 G) hH.setup.mc.toMinCex.PleH
 
+omit [Finite G] in
 theorem four_le_card_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q P H)
     (hV : V ≤ pResidual 2 G) : 4 ≤ Nat.card ↥(V.subgroupOf (pResidual 2 G)) := by
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hV).toEquiv]
   exact hH.setup.mc.toMinCex.four
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf_residual {M V Q P H : Subgroup G}
     (hH : TwoEndHyp M V Q P H) (hV : V ≤ pResidual 2 G) :
     Assembly.IsElemAbelian 2 (V.subgroupOf (pResidual 2 G)) := by
@@ -97,11 +101,12 @@ theorem isElemAbelian_subgroupOf_residual {M V Q P H : Subgroup G}
   · apply Subtype.ext
     exact hH.setup.mc.toMinCex.elemAb.2 (x : G) (Subgroup.mem_subgroupOf.mp hx)
 
+omit [Finite G] in
 theorem isTI_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q P H)
     (hV : V ≤ pResidual 2 G) : IsTI (V.subgroupOf (pResidual 2 G)) := by
   set G₀ : Subgroup G := pResidual 2 G with hG₀
   set V₀ : Subgroup ↥G₀ := V.subgroupOf G₀ with hV₀
-  haveI : G₀.Normal := G6.pResidual_normal_aux 2
+  have : G₀.Normal := G6.pResidual_normal_aux 2
   have hmapconj : ∀ g : ↥G₀,
       (conjSubgroup g V₀).map G₀.subtype = conjSubgroup (g : G) V := by
     intro g
@@ -121,6 +126,7 @@ theorem isTI_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q 
     apply Subgroup.map_injective G₀.subtype_injective
     rw [hmap, htop, hV₀, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hV]
 
+omit [Finite G] in
 theorem map_inSubgroup_pCore_subgroupOf {H : Subgroup G} (hH : H ≤ pResidual 2 G) :
     (inSubgroup (pCore 2) (H.subgroupOf (pResidual 2 G))).map (pResidual 2 G).subtype =
       inSubgroup (pCore 2) H := by
@@ -135,6 +141,7 @@ theorem map_inSubgroup_pCore_subgroupOf {H : Subgroup G} (hH : H ≤ pResidual 2
   rw [hcomp, ← Subgroup.map_map, pCore_map_iso]
   rfl
 
+omit [Finite G] in
 theorem o2H_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q P H)
     (hHle : H ≤ pResidual 2 G) :
     inSubgroup (pCore 2) (H.subgroupOf (pResidual 2 G)) ≠ ⊥ := by
@@ -144,6 +151,7 @@ theorem o2H_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q P
   rw [map_inSubgroup_pCore_subgroupOf hHle, Subgroup.map_bot] at this
   exact this
 
+omit [Finite G] in
 theorem notLe_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q P H)
     (hV : V ≤ pResidual 2 G) (hHle : H ≤ pResidual 2 G) :
     ¬ V.subgroupOf (pResidual 2 G) ≤
@@ -155,6 +163,7 @@ theorem notLe_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q
     map_inSubgroup_pCore_subgroupOf hHle] at hmap
   exact hmap
 
+omit [Finite G] in
 theorem map_inSubgroup_pCore_subgroupOf' (H : Subgroup G) :
     (inSubgroup (pCore 2) (H.subgroupOf (pResidual 2 G))).map (pResidual 2 G).subtype =
       pCoreOf 2 (H ⊓ pResidual 2 G) := by
@@ -183,7 +192,7 @@ theorem pCore_subgroupOf_residual_eq {M V Q P H : Subgroup G} (hH : TwoEndHyp M 
     P.subgroupOf (pResidual 2 G) =
       inSubgroup (pCore 2) (M.subgroupOf (pResidual 2 G)) := by
   let G₀ : Subgroup G := pResidual 2 G
-  haveI : G₀.Normal := G6.pResidual_normal_aux 2
+  have : G₀.Normal := G6.pResidual_normal_aux 2
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
   have hQM : Q ≤ M := by
     rw [hc.hQ]
@@ -220,6 +229,7 @@ theorem pCore_subgroupOf_residual_eq {M V Q P H : Subgroup G} (hH : TwoEndHyp M 
   rw [inf_assoc, inf_comm G₀ Q, inf_pResidual_eq_P hH hZ hn hrel hOut,
     inf_eq_right.mpr hPM]
 
+omit [Finite G] in
 theorem min_subgroupOf_residual {M V Q P H : Subgroup G} (hH : TwoEndHyp M V Q P H)
     (hV : V ≤ pResidual 2 G) (hHle : H ≤ pResidual 2 G) (hPG : P ≤ pResidual 2 G) :
     ∀ K : Subgroup ↥(pResidual 2 G),
@@ -347,7 +357,7 @@ theorem ntQEOutResidualStatement_of_max
   have hnKeep := hn
   obtain ⟨n, hn3, ⟨eSp⟩⟩ := hn
   let eZ : XbarZ (V.subgroupOf (pResidual 2 G)) (H.subgroupOf (pResidual 2 G)) ≃*
-      XbarZ V H := QuotientGroup.congr _ _ eX (by simpa using Subgroup.map_center_eq (f := eX))
+      XbarZ V H := QuotientGroup.congr _ _ eX (by simp)
   have hRank : ∃ n : ℕ, 3 ≤ n ∧
       Nonempty (↥(StatedSp n (GaloisField 2 1)) ≃*
         XbarZ (V.subgroupOf (pResidual 2 G)) (H.subgroupOf (pResidual 2 G))) :=

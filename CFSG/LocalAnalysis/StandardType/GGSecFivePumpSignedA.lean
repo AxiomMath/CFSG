@@ -102,14 +102,14 @@ theorem ggDk_signedA_of_weyl {k ℓ : ℕ} {Φ : Set (Fin k → ℤ)}
     have hlab : ∀ i j : Fin n, i ≠ j → N.M (e i) (e j) =
         if j.val + 1 = i.val ∨ i.val + 1 = j.val then 3 else 2 := fun i j hij => by
       rw [hl hA]
-      exact if_neg hij
+      exact ite_eq_right hij
     let θ : ℕ → Fin k → ℤ := fun j => if h : j < n then η (e ⟨j, h⟩) else 0
-    have hθ : ∀ j (h : j < n), θ j = η (e ⟨j, h⟩) := fun j h => dif_pos h
+    have hθ : ∀ j (h : j < n), θ j = η (e ⟨j, h⟩) := fun j h => dite_eq_left h
     obtain ⟨T, ε, hT, hε, hd, hP⟩ := ggDk_signedA_of_path hΦ (θ := θ)
       (fun j hj => by rw [hθ j hj]; exact hηΦ _)
       (fun j hj => by
         have hij : (⟨j, by omega⟩ : Fin n) ≠ ⟨j + 1, hj⟩ := by simp
-        have h0 := hdot3 _ _ ((hlab _ _ hij).trans (if_pos (Or.inr rfl)))
+        have h0 := hdot3 _ _ ((hlab _ _ hij).trans (ite_eq_left (Or.inr rfl)))
         rw [hθ j (by omega), hθ (j + 1) hj]
         obtain ⟨y, hy1, hy2⟩ := share h0
         obtain ⟨z, hzy, hz⟩ := ggDRootSet_exists_ne (hΦ.1 (hηΦ _)) hy2
@@ -123,7 +123,7 @@ theorem ggDk_signedA_of_weyl {k ℓ : ℕ} {Φ : Set (Fin k → ℤ)}
           omega
         rw [hθ i (by omega), hθ j hj]
         exact orth_disj hΦ hss (hηΦ _) (hηΦ _) (hdot2 _ _ (e.injective.ne hij')
-          ((hlab _ _ hij').trans (if_neg (by dsimp only; omega)))) c)
+          ((hlab _ _ hij').trans (ite_eq_right (by dsimp only; omega)))) c)
       (by omega)
     have hTk := T.card_le_univ
     rw [hT, Fintype.card_fin] at hTk
@@ -148,7 +148,6 @@ theorem ggDk_signedA_of_weyl {k ℓ : ℕ} {Φ : Set (Fin k → ℤ)}
     | exact (no_branch hΦ hss (hl hE) η hηΦ hdot2 hdot3 (u := 3) (v₁ := 1) (v₂ := 2) (v₃ := 4)
         ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩).elim
     | exact absurd (h3 (e 1) (e 2) (e.injective.ne (by decide))) (by rw [hl hE]; decide)
-    | exact absurd (h3 (e 0) (e 1) (e.injective.ne (by decide))) (by rw [hl hE]; decide)
 
 end CFSG.StandardType
 

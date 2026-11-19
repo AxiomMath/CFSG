@@ -12,7 +12,7 @@ open CFSG.AGLEmbedding.KlingenSpFour CFSG.LocalAnalysis.RankThreeTheoremC.KFactP
 
 theorem signalizerThreeSpFour_holds : SignalizerThreeSpFour := by
   intro p hp hp5 q d hqp hq1 hd K _ _ ⟨eK⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨ψ⟩ := nonempty_mulEquiv_psp4 hp2
     (statedClassicalModel_of_spFourIndex d ⟨q, Or.inl ⟨hqp, hq1, hd⟩⟩ eK)

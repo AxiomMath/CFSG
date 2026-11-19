@@ -22,10 +22,8 @@ theorem langMat_mulVec (τ : Equiv.Perm ι) (e : ℤ) (i₀ : ι) (v : ι → �
     ((langMat τ e i₀).map (Int.castRingHom ℚ) *ᵥ v) i =
       v i + e * v (τ i) + (if i = i₀ then -(e : ℚ) * ∑ j, v j else 0) := by
   simp only [Matrix.mulVec, dotProduct, Matrix.map_apply, langMat, Matrix.of_apply]
-  simp only [map_add, map_mul, map_intCast, Int.cast_ite, Int.cast_one, Int.cast_zero,
-    Int.cast_neg, add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul,
-    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
-  split_ifs with h <;> simp [Finset.mul_sum, Finset.sum_ite_eq, Finset.sum_ite_eq']
+  simp only [map_add, add_mul, Finset.sum_add_distrib, mul_ite, mul_one, mul_zero]
+  split_ifs with h <;> simp [Finset.mul_sum, Finset.sum_ite_eq']
 
 theorem langMat_injective (τ : Equiv.Perm ι) {e : ℤ} (he : 2 ≤ e.natAbs) (i₀ : ι) (v : ι → ℚ)
     (hv : (langMat τ e i₀).map (Int.castRingHom ℚ) *ᵥ v = 0) : v = 0 := by
@@ -34,7 +32,7 @@ theorem langMat_injective (τ : Equiv.Perm ι) {e : ℤ} (he : 2 ≤ e.natAbs) (
   have hsum : ∑ j, v j = 0 := by
     have h2 := Finset.sum_congr rfl (fun i (_ : i ∈ Finset.univ) => h1 i)
     simp only [Finset.sum_add_distrib, Finset.sum_const_zero, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true, ← Finset.mul_sum] at h2
+      ite_true, ← Finset.mul_sum] at h2
     rw [Equiv.sum_comp τ v] at h2
     linarith
   have h3 : ∀ i, v i = -(e : ℚ) * v (τ i) := fun i => by
@@ -95,7 +93,7 @@ theorem monoHom_langMat_apply {G : Type*} [CommGroup G] (τ : Equiv.Perm ι) (e 
     have : ∀ j, x j ^ (e * (if j = τ i then (1 : ℤ) else 0)) =
         if j = τ i then x j ^ e else 1 := fun j => by
       split_ifs <;> simp
-    simp [this, Finset.prod_ite_eq']
+    simp [Finset.prod_ite_eq']
   have h3 : ∏ j, x j ^ (if i = i₀ then -e else 0) =
       if i = i₀ then (∏ j, x j) ^ (-e) else 1 := by
     split_ifs with h
@@ -108,7 +106,7 @@ theorem prod_monoHom_langMat {G : Type*} [CommGroup G] (τ : Equiv.Perm ι) (e :
   simp only [monoHom_langMat_apply]
   rw [Finset.prod_mul_distrib, Finset.prod_mul_distrib, Finset.prod_zpow,
     Equiv.prod_comp τ x, Finset.prod_ite_eq']
-  simp only [Finset.mem_univ, if_true]
+  simp only [Finset.mem_univ, ite_true]
   have : ∀ P : G, P * P ^ e * P ^ (-e) = P := fun P => by
     rw [mul_assoc, ← zpow_add, add_neg_cancel, zpow_zero, mul_one]
   exact this _

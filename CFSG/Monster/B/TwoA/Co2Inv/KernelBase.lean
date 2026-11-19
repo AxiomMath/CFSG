@@ -35,6 +35,6 @@ theorem bvec_dotProduct_par4 : ∀ l < 16, ∀ t < 16,
     bvec 4 l ⬝ᵥ bvec 4 t = ((par4 (l &&& t) : ℕ) : ZMod 2) := by
   decide +kernel
 
-@[expose] def AQ : Subgroup Qgrp := Agrp.subgroupOf Qgrp
+def AQ : Subgroup Qgrp := Agrp.subgroupOf Qgrp
 
 end CFSG.Monster.B.TwoA.Co2Inv

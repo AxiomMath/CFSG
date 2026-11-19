@@ -23,7 +23,7 @@ theorem Theta_one (K : Type) [Field K] [Fact (Irreducible (KA7.quad K))] :
     · simp [ThetaP, h1, Matrix.one_apply, Prod.ext_iff]
   simp only [Theta, Matrix.reindex_apply, Matrix.submatrix_apply]
   rw [h]
-  simp [Matrix.one_apply, eps.apply_eq_iff_eq]
+  simp [Matrix.one_apply]
 
 @[expose] noncomputable def ThetaMon (K : Type) [Field K] [Fact (Irreducible (KA7.quad K))] :
     Matrix (Fin 2) (Fin 2) (AdjoinRoot (KA7.quad K)) →* Matrix (Fin 4) (Fin 4) K where
@@ -132,7 +132,7 @@ theorem det_Theta_SL (K : Type) [Field K] [Fact (Irreducible (KA7.quad K))]
       Matrix.SpecialLinearGroup (Fin 6) K where
   toFun X := ⟨blk6 (Theta (X : Matrix (Fin 2) (Fin 2) (AdjoinRoot (KA7.quad K)))) 1, by
     unfold blk6
-    rw [Matrix.reindexAlgEquiv_apply, Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁,
+    rw [Matrix.coe_reindexAlgEquiv, Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁,
       Matrix.det_one, mul_one, det_Theta_SL K hnr X]⟩
   map_one' := by
     apply Subtype.ext

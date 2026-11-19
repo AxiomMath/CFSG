@@ -52,7 +52,7 @@ private theorem hmbGood_disj (hext : SteinbergExtras D n H)
     (i j : Fin D.rank) (hij : i ≠ j) :
     ((stdFamily L hρ hρr κ hκ hext).ι i).range ⊓
       ((stdFamily L hρ hρr κ hκ hext).ι j).range = ⊥ := by
-  haveI : CharP L.Fld 2 :=
+  have : CharP L.Fld 2 :=
     charP_of_injective_ringHom (f := (κ : Kf →+* L.Fld)) κ.injective 2
   rw [eq_bot_iff]
   rintro x ⟨⟨a, rfl⟩, ⟨b, hb⟩⟩
@@ -113,7 +113,7 @@ private theorem hmbGood_disj (hext : SteinbergExtras D n H)
       rw [ha1, map_one]
 
 private theorem hmbGood_indep
-    (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
+    (_hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
       (weylAction D.isFiniteType) D.roots D.rootGroup n H) (hext : SteinbergExtras D n H) :
     iSupIndep fun i => ((stdFamily L hρ hρr κ hκ hext).nodeTor i).range := by
   rw [iSupIndep_def]
@@ -426,12 +426,12 @@ private theorem hmbGood_torus_inf
 
 theorem stdFamily_good (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
       (weylAction D.isFiniteType) D.roots D.rootGroup n H) (hext : SteinbergExtras D n H)
-    (hsl : ∀ i j : Fin D.rank, i ≠ j →
-      coxeterMatrix D.isFiniteType i j = 2 ∨ coxeterMatrix D.isFiniteType i j = 3) :
+    (hsl : ∀ _i _j : Fin D.rank, _i ≠ _j →
+      coxeterMatrix D.isFiniteType _i _j = 2 ∨ coxeterMatrix D.isFiniteType _i _j = 3) :
     (stdFamily L hρ hρr κ hκ hext).Good :=
-  ⟨hsl, fun i => hmbGood_iota_inj L hρ hρr κ hκ hext i,
-    fun i j hij => hmbGood_disj L hρ hρr κ hκ hext hsl i j hij,
-    fun i j hij h3 => hmbGood_theta_inj L hρ hρr κ hκ hext hij h3,
+  ⟨hsl, fun _i => hmbGood_iota_inj L hρ hρr κ hκ hext _i,
+    fun _i _j hij => hmbGood_disj L hρ hρr κ hκ hext hsl _i _j hij,
+    fun _i _j hij h3 => hmbGood_theta_inj L hρ hρr κ hκ hext hij h3,
     hmbGood_indep L hρ hρr κ hκ hct hext,
     fun J hJ => hmbGood_torus_inf L hρ hρr κ hκ hct hext hsl J hJ⟩
 

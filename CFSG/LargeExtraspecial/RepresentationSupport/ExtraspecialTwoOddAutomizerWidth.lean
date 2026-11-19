@@ -15,10 +15,10 @@ theorem order_le_twice_width {E : Type*} [Group E] [Finite E]
     (hcard : Nat.card E = 2 ^ (1 + 2 * w)) {q : ℕ} (hq : Nat.Prime q) (hq2 : q ≠ 2)
     (C : Subgroup (MulAut E)) (hC : Nat.card C = q) :
     orderOf (2 : ZMod q) ≤ 2 * w := by
-  haveI : Fact (CFSG.IsExtraspecialPGroup 2 E) := ⟨hE⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; exact hq.ne_zero)
-  haveI : Nontrivial C := Finite.one_lt_card_iff_nontrivial.mp (by
+  have : Fact (CFSG.IsExtraspecialPGroup 2 E) := ⟨hE⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; exact hq.ne_zero)
+  have : Nontrivial C := Finite.one_lt_card_iff_nontrivial.mp (by
     have : 1 < Nat.card C := by rw [hC]; exact hq.one_lt
     simpa [Nat.card_eq_fintype_card] using this)
   obtain ⟨g, hg⟩ := exists_ne (1 : C)
@@ -27,8 +27,8 @@ theorem order_le_twice_width {E : Type*} [Group E] [Finite E]
   have hgq : g ^ q = 1 := by
     rw [← hC]; exact pow_card_eq_one'
   have hdim := finrank_eq (E := E) hcard
-  haveI : FiniteDimensional (ZMod 2) (QSpace E) := by
-    haveI : Finite (QSpace E) := inferInstanceAs (Finite (Additive (E ⧸ Subgroup.center E)))
+  have : FiniteDimensional (ZMod 2) (QSpace E) := by
+    have : Finite (QSpace E) := inferInstanceAs (Finite (Additive (E ⧸ Subgroup.center E)))
     exact Module.Finite.of_finite
   have := CFSG.LinearAlgebra.CoprimeActions.PrimeOrderBinaryLinearDimensionBound.order_le_finrank q hq2
     (linearAction E (g : MulAut E))

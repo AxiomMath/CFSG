@@ -29,8 +29,8 @@ theorem exists_twoGroup_decomp_of_le_perpLevi (hF : Nat.card F = 2)
     ∃ T : Subgroup ↥(adjointGroup .E7 F), T ≠ ⊥ ∧ IsPGroup 2 T ∧ T ≤ stdLayer d ∧
       A = (A ⊓ stdLayer d) ⊔
         (A ⊓ Subgroup.normalizer (T : Set ↥(adjointGroup .E7 F))) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   let e := omegaEquivPerpLeviE7 F
   have hdM : d ∈ perpLevi .E7 F := hAM hd.1

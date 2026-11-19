@@ -191,7 +191,7 @@ theorem isSwap_of_isLinRefl (hp2 : p ≠ 2) (T : Equiv.Perm α →* (V ≃ₗ[ZM
       _ = -(s⁻¹ • v₂) := by rw [smul_neg]
       _ = -v₁ := by rw [← hs']
   have hnodup : [a, b, c, d].Nodup := by
-    simp [List.nodup_cons, hab, hca, hcb, hda, hdb, hcd,
+    simp [List.nodup_cons, hab, hcd,
       hca.symm, hda.symm, hcb.symm, hdb.symm]
   have hdisj : Equiv.Perm.Disjoint (Equiv.swap a b) (Equiv.swap c d) :=
     Equiv.Perm.disjoint_swap_swap hnodup

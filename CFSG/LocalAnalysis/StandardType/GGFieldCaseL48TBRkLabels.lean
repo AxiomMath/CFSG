@@ -32,9 +32,9 @@ theorem ggL48_irred_labels_exhaustive {p : ℕ} {lab : LargeEvenLabel} (hp : p.P
     rcases hs with hq1 | ⟨hn1, hp3⟩
     · by_cases hdiv : p ∣ l + 1
       · have h : GGL48IrredOpenLabel p ⟨.A, l, n⟩ := Or.inr (Or.inl ⟨rfl, hdiv, hq1⟩)
-        simp only [h, or_true, true_or]
+        simp only [h, or_true]
       · have h : GGTypeALabel p ⟨.A, l, n⟩ := Or.inl ⟨rfl, hq1, hdiv⟩
-        simp only [h, or_true, true_or]
+        simp only [h, true_or]
     · have h4 : 4 ≤ l := by have := hA1 hp3 hn1; omega
       have hnot1 : ¬ p ∣ 2 ^ n - 1 := by rw [hn1, hp3]; norm_num
       have hp2 : p ≠ 2 := by omega
@@ -76,7 +76,7 @@ theorem ggL48_irred_labels_exhaustive {p : ℕ} {lab : LargeEvenLabel} (hp : p.P
     rcases hs with hq1 | ⟨hn1, hp3⟩
     · by_cases hl : l = 3
       · have h : GGTypeALabel p ⟨.D, l, n⟩ := Or.inr (Or.inl ⟨rfl, hl, hq1⟩)
-        simp only [h, or_true, true_or]
+        simp only [h, true_or]
       · have h4 : 4 ≤ l := by omega
         have h : GGCorFourTwoOrthSplitLabel p ⟨.D, l, n⟩ := ⟨Or.inl rfl, h4, hq1⟩
         simp only [h, or_true, true_or]
@@ -117,7 +117,7 @@ theorem ggL48_irred_labels_exhaustive {p : ℕ} {lab : LargeEvenLabel} (hp : p.P
     · by_cases hp3' : p = 3
       · have h3 : 3 ∣ 2 ^ n - 1 := by rw [← hp3']; exact hq1
         have h : GGL48IrredOpenLabel p ⟨.E6, l, n⟩ := Or.inr (Or.inr ⟨rfl, hp3', h3⟩)
-        simp only [h, or_true, true_or]
+        simp only [h, or_true]
       · have h : GGTableBNbrInnerExcSplitLabel p ⟨.E6, l, n⟩ := ⟨Or.inl ⟨rfl, hp3'⟩, hq1⟩
         simp only [h, or_true, true_or]
     · have h : GGE6TwoThreeLabel p ⟨.E6, l, n⟩ := ⟨rfl, hn1, hp3⟩
@@ -158,19 +158,19 @@ theorem ggL48_irred_labels_exhaustive {p : ℕ} {lab : LargeEvenLabel} (hp : p.P
     · have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one hn hq2
       have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
       have h : GGL48IrredOpenLabel p ⟨.twE6, l, n⟩ := Or.inl ⟨rfl, hp5⟩
-      simp only [h, or_true, true_or]
+      simp only [h, or_true]
   case triD4 =>
     exfalso
-    simpa using hv
+    simp at hv
   case G2 =>
     exfalso
-    simpa using hv
+    simp at hv
   case twB2 =>
     exfalso
-    simpa using hv
+    simp at hv
   case twF4 =>
     exfalso
-    simpa using hv
+    simp at hv
   case B2der =>
     simp only [LargeEvenInLambda2, LargeEvenUntwisted, LargeEvenSplit] at hlab hs
     simp at hs hv
@@ -181,9 +181,9 @@ theorem ggL48_irred_labels_exhaustive {p : ℕ} {lab : LargeEvenLabel} (hp : p.P
     · exact (hv hp3).elim
   case G2der =>
     exfalso
-    simpa using hv
+    simp at hv
   case twF4der =>
     exfalso
-    simpa using hv
+    simp at hv
 
 end CFSG.StandardType

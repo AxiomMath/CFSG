@@ -23,14 +23,14 @@ private theorem ncard_planeSet_le_succ (γ : K) : (planeSet γ).ncard ≤ Nat.ca
   let φ : K × K → Option K := fun p => if p.2 = 0 then none else some (p.1 / p.2)
   have hφ : Set.InjOn φ (planeSet γ) := by
     rintro ⟨α, δ⟩ hp ⟨α', δ'⟩ hp' h
-    simp only [planeSet, Set.mem_setOf_eq] at hp hp'
+    simp only [planeSet, Set.mem_ofPred_eq] at hp hp'
     by_cases hδ : δ = 0 <;> by_cases hδ' : δ' = 0
     · subst hδ hδ'
       have h1 : α ^ 2 = α' ^ 2 := by linear_combination hp - hp'
       rw [CharTwo.sq_inj.mp h1]
     · simp [φ, hδ, hδ'] at h
     · simp [φ, hδ, hδ'] at h
-    · simp only [φ, hδ, hδ', if_false, Option.some.injEq] at h
+    · simp only [φ, hδ, hδ', ite_false, Option.some.injEq] at h
       obtain ⟨ρ, rfl, rfl⟩ : ∃ ρ : K, α = ρ * δ ∧ α' = ρ * δ' :=
         ⟨α / δ, (div_mul_cancel₀ α hδ).symm, by rw [h]; exact (div_mul_cancel₀ α' hδ').symm⟩
       have h1 : (δ * δ) * (ρ * ρ + 1 + ρ * γ) = 1 := by linear_combination hp
@@ -53,7 +53,7 @@ private theorem ncard_planeSet_le_pred {γ t : K} (hγ : γ ≠ 0) (ht : t * t +
   let φ : K × K → K := fun p => p.1 + t * p.2
   have hprod : ∀ p ∈ planeSet γ, (p.1 + t * p.2) * (p.1 + (γ + t) * p.2) = 1 := by
     rintro ⟨α, δ⟩ hp
-    simp only [planeSet, Set.mem_setOf_eq] at hp
+    simp only [planeSet, Set.mem_ofPred_eq] at hp
     linear_combination hp + δ ^ 2 * ht + (t * α * δ - δ ^ 2) * h22
   have hne : ∀ p ∈ planeSet γ, φ p ≠ 0 := by
     intro p hp h0
@@ -81,7 +81,7 @@ private theorem ncard_planeSet_le_pred {γ t : K} (hγ : γ ≠ 0) (ht : t * t +
           (fun p hp => ⟨Set.mem_univ _, fun h0 => hne p hp (Set.mem_singleton_iff.mp h0)⟩)
           hinj (Set.toFinite _)
     _ = Nat.card K - 1 := by
-        rw [Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
+        rw [Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
 
 end Plane
 

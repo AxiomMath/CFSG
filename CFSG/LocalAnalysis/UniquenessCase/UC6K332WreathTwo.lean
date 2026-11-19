@@ -101,7 +101,7 @@ theorem listRow_of_torus_two [Finite C] [Finite S] {a : ℕ} (hC : Nat.card C = 
 theorem listRow_of_twistFrame_two [Finite S] {a : ℕ} {μ : ℤ} (hμ : ¬ (3 : ℤ) ∣ μ - 1)
     (F : TwistFrame (Multiplicative (ZMod (3 ^ a))) 2 S μ)
     (hS : ¬ 3 ^ (2 * a + 1) ∣ Nat.card S) : ListRow S := by
-  haveI : NeZero (3 ^ a) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (3 ^ a) := ⟨pow_ne_zero _ (by norm_num)⟩
   have hC : Nat.card (Multiplicative (ZMod (3 ^ a))) = 3 ^ a := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   exact listRow_of_torus_two hC F.T_injective hμ (F.exists_twist 0) (F.exists_swap 0 1) hS

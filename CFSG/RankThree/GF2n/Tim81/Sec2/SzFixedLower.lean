@@ -14,6 +14,7 @@ open CFSG.Blueprint CFSG.LieType.Ree CFSG.Quasithin CFSG.Quasithin.B45Sz CFSG.Qu
 variable {a : ℕ} {K : Type} [Field K] [CharP K 2] [Fintype K]
 variable (k : Type) [Field k] [Algebra K k] [CharP k 2]
 
+omit [CharP k 2] in
 theorem natRepS_szIncl_suzukiSElt_zero_col
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (c : ℕ) (v : K) (j : Fin 4)
     (hj : j = 2 ∨ j = 3) (l : Fin 4) :
@@ -23,7 +24,7 @@ theorem natRepS_szIncl_suzukiSElt_zero_col
     rw [szIncl_suzukiSElt, glMat_lowUSp, zero_pow (pow_ne_zero (a + 1) two_ne_zero)]
   have h0 : natRepS (F := K) k 0 (szIncl hK (suzukiSElt a K 0 v)) l j = if l = j then 1 else 0 := by
     rw [natRepS_apply, pow_zero, MulAut.one_apply, Matrix.map_apply, hmat, lowU]
-    fin_cases l <;> fin_cases j <;> simp_all [hj]
+    fin_cases l <;> fin_cases j <;> simp_all
   have h := natRepS_add_two_mul_pow (F := K) k 0 c (szIncl hK (suzukiSElt a K 0 v))
   rw [zero_add] at h
   rw [h, Matrix.map_apply, h0]
@@ -31,6 +32,7 @@ theorem natRepS_szIncl_suzukiSElt_zero_col
   · rw [one_pow]
   · rw [zero_pow (pow_ne_zero c two_ne_zero)]
 
+omit [CharP k 2] in
 theorem fixed_Pi_single_suzukiSElt_zero
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {B : Finset ℕ} (hB : B ⊆ szOmega a)
     (f : B → Fin 4) (hf : ∀ i, f i = 2 ∨ f i = 3) (v : K) :
@@ -57,6 +59,7 @@ theorem fixed_Pi_single_suzukiSElt_zero
       exact hxf (funext hc)
     exact Finset.prod_eq_zero (Finset.mem_univ i) (by simp [hi])
 
+omit [CharP k 2] in
 theorem fixed_Pi_single_suzukiZ0
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {B : Finset ℕ} (hB : B ⊆ szOmega a)
     (f : B → Fin 4) (hf : ∀ i, f i = 2 ∨ f i = 3) :
@@ -72,6 +75,7 @@ private theorem injective_two_three_ite {B : Finset ℕ} :
   have hi := congrFun hgh i
   by_cases hg : g i <;> by_cases hh : h i <;> simp [hg, hh] at hi ⊢
 
+omit [CharP k 2] in
 theorem two_pow_card_le_finrank_fixed_suzukiZ0
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {B : Finset ℕ} (hB : B ⊆ szOmega a) :
     2 ^ B.card ≤ Module.finrank k (fixedSub (matRep (szT k hK B)) (suzukiZ0 a K)) := by
@@ -81,7 +85,7 @@ theorem two_pow_card_le_finrank_fixed_suzukiZ0
     (Pi.linearIndependent_single_one (B → Fin 4) k).comp F injective_two_three_ite
   have hmem : ∀ g : B → Bool, u g ∈ fixedSub (matRep (szT k hK B)) (suzukiZ0 a K) := by
     intro g
-    simp only [mem_fixedSub, SetLike.mem_coe]
+    simp only [mem_fixedSub]
     intro z hz
     refine fixed_Pi_single_suzukiZ0 k hK hB (F g) (fun i => ?_) z hz
     by_cases h : g i <;> simp [F, h]
@@ -91,6 +95,7 @@ theorem two_pow_card_le_finrank_fixed_suzukiZ0
     _ ≤ Module.finrank k (fixedSub (matRep (szT k hK B)) (suzukiZ0 a K)) :=
         Submodule.finrank_mono (Submodule.span_le.mpr (Set.range_subset_iff.mpr hmem))
 
+omit [CharP k 2] in
 theorem two_pow_card_le_finrank_fixed_szZ
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {B : Finset ℕ} (hB : B ⊆ szOmega a) :
     2 ^ B.card ≤ Module.finrank k (fixedSub (matRep (szT k hK B)) (szZ a K)) := by

@@ -78,11 +78,13 @@ section Spin
 variable {A B : Mat} (hA : ∀ v ∈ W, v ᵥ* toMatrix A ∈ W) (hB : ∀ v ∈ W, v ᵥ* toMatrix B ∈ W)
 include hA hB
 
+omit hA hB in
 theorem axpy_mem (c : F3) {x y : Vec} (hx : vfun x ∈ W) (hy : vfun y ∈ W) :
     vfun (axpy c x y) ∈ W := by
   rw [vfun_axpy]
   exact W.add_mem hx (W.smul_mem _ hy)
 
+omit hA hB in
 theorem reduce_mem : ∀ (bas : List (Fin 12 × Vec)) {x : Vec}, (∀ pb ∈ bas, vfun pb.2 ∈ W) →
     vfun x ∈ W → vfun (reduce bas x) ∈ W
   | [], x, _, hx => hx
@@ -90,7 +92,7 @@ theorem reduce_mem : ∀ (bas : List (Fin 12 × Vec)) {x : Vec}, (∀ pb ∈ bas
     unfold reduce
     rw [List.foldl_cons]
     exact reduce_mem bas (fun pb' h => hbas pb' (List.mem_cons_of_mem _ h))
-      (axpy_mem hA hB _ hx (hbas pb List.mem_cons_self))
+      (axpy_mem _ hx (hbas pb List.mem_cons_self))
 
 theorem spinLoop_mem : ∀ (n : ℕ) (bas : List (Fin 12 × Vec)) (q : List Vec),
     (∀ pb ∈ bas, vfun pb.2 ∈ W) → (∀ x ∈ q, vfun x ∈ W) →
@@ -100,17 +102,17 @@ theorem spinLoop_mem : ∀ (n : ℕ) (bas : List (Fin 12 × Vec)) (q : List Vec)
   | n + 1, bas, x :: q, hbas, hq => by
     have hx := hq x List.mem_cons_self
     have hq' : ∀ y ∈ q, vfun y ∈ W := fun y hy => hq y (List.mem_cons_of_mem _ hy)
-    have hr := reduce_mem hA hB bas hbas hx
+    have hr := reduce_mem bas hbas hx
     rw [spinLoop]
     split_ifs
     · exact spinLoop_mem n bas q hbas hq'
-    · have hr' := axpy_mem hA hB (vget (reduce bas x) (pivot (reduce bas x)))
+    · have hr' := axpy_mem (vget (reduce bas x) (pivot (reduce bas x)))
         (by rw [vfun_zeroV]; exact W.zero_mem) hr
       refine spinLoop_mem n _ _ ?_ ?_
       · intro pb hpb
         rcases List.mem_append.1 hpb with h | h
         · obtain ⟨qb, hqb, rfl⟩ := List.mem_map.1 h
-          exact axpy_mem hA hB _ (hbas qb hqb) hr'
+          exact axpy_mem _ (hbas qb hqb) hr'
         · rw [List.mem_singleton] at h
           rw [h]
           exact hr'
@@ -281,8 +283,8 @@ theorem tbL_dichotomy (hirr : irrCheck () = true) (N : Subgroup Gmat) (hN : N �
     (hnorm : ∀ g ∈ tbL, g ^ (10 : ℕ).factorial ∈ Subgroup.normalizer (N : Set Gmat)) :
     N ≤ Subgroup.zpowers tbw ∨ N = QQ := by
   classical
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hirr' := hirr
   unfold irrCheck at hirr'
   simp only [Bool.and_eq_true] at hirr'

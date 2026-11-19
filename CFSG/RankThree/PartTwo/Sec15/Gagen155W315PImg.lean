@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Proof155P
 
+omit [Finite G] in
 private theorem le_pPrimeCoreOf_of_img148_eq_bot {A M X : Subgroup G} [(ker148 A M).Normal]
     (hXM : X ≤ M) (h : img148 A M X = ⊥) : X ≤ pPrimeCoreOf 3 M := by
   have hle : X.subgroupOf (M ⊔ A) ≤ (QuotientGroup.mk' (ker148 A M)).ker := by
@@ -28,6 +29,7 @@ private theorem le_pPrimeCoreOf_of_img148_eq_bot {A M X : Subgroup G} [(ker148 A
   rw [QuotientGroup.ker_mk', ker148, Subgroup.mem_subgroupOf] at hxker
   exact hxker
 
+omit [Finite G] in
 private theorem nonempty_quot_equiv_img148 {A M W : Subgroup G} [(ker148 A M).Normal]
     (hWM : W ≤ M) [((pPrimeCoreOf 3 M).subgroupOf W).Normal] :
     Nonempty (↥W ⧸ (pPrimeCoreOf 3 M).subgroupOf W ≃* ↥(img148 A M W)) := by
@@ -46,23 +48,26 @@ private theorem nonempty_quot_equiv_img148 {A M W : Subgroup G} [(ker148 A M).No
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     ((QuotientGroup.quotientKerEquivRange ψ).trans (MulEquiv.subgroupCongr hrange))⟩
 
+omit [Finite G] in
 theorem img148_ne_bot_of_not_le {A M W : Subgroup G} [(ker148 A M).Normal] (hWM : W ≤ M)
     (hW : ¬ W ≤ pPrimeCoreOf 3 M) : img148 A M W ≠ ⊥ := by
   intro hbot
   exact hW (le_pPrimeCoreOf_of_img148_eq_bot hWM hbot)
 
+omit [Finite G] in
 theorem card_img148_eq_index {A M W : Subgroup G} [(ker148 A M).Normal] (hWM : W ≤ M) :
     Nat.card (img148 A M W) = ((pPrimeCoreOf 3 M).subgroupOf W).index := by
-  haveI : ((pPrimeCoreOf 3 M).subgroupOf W).Normal :=
+  have : ((pPrimeCoreOf 3 M).subgroupOf W).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hWM.trans (le_normalizer_pPrimeCoreOf 3 M))
   obtain ⟨e⟩ := nonempty_quot_equiv_img148 (A := A) (M := M) (W := W) hWM
   rw [← Nat.card_congr e.toEquiv]
   exact (Subgroup.index_eq_card _).symm
 
+omit [Finite G] in
 theorem nonempty_theta_quot_equiv_img148 {A M W : Subgroup G} [(ker148 A M).Normal]
     (hWM : W ≤ M) (hθ : inSubgroup (aschbacherSolvableCore 3) W = W ⊓ pPrimeCoreOf 3 M) :
     Nonempty (↥W ⧸ aschbacherSolvableCore 3 ↥W ≃* ↥(img148 A M W)) := by
-  haveI : ((pPrimeCoreOf 3 M).subgroupOf W).Normal :=
+  have : ((pPrimeCoreOf 3 M).subgroupOf W).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hWM.trans (le_normalizer_pPrimeCoreOf 3 M))
   obtain ⟨e⟩ := nonempty_quot_equiv_img148 (A := A) (M := M) (W := W) hWM
   have hker : (pPrimeCoreOf 3 M).subgroupOf W = aschbacherSolvableCore 3 ↥W := by
@@ -110,6 +115,7 @@ theorem pPrimeCoreOf_deltaZero_le {A M : Subgroup G} {LB : Subgroup G → Subgro
     exact disjoint_self.mp (hdisj.mono_right hmono)
   exact le_pPrimeCoreOf_of_img148_eq_bot hODM himg
 
+omit [Finite G] in
 theorem commutator_mem_of_dec {A M : Subgroup G} {LB : Subgroup G → Subgroup G} {d : G}
     (hdec : deltaZero A LB M = pPrimeCoreOf 3 (deltaZero A LB M) ⊔
       deltaZero A LB (M ⊓ Subgroup.centralizer ({d} : Set G)))

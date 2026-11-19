@@ -48,7 +48,7 @@ private theorem card_stabilizer_le_of_le {S T Z : Subgroup G}
     (he : ∀ s : S, ((e s : normalizer (Z : Set G)) : G) = (s : G)) :
     letI : MulAction S Z := conjAction S Z e
     Nat.card (MulAction.stabilizer S (⟨z, hz⟩ : Z)) ≤ Nat.card T := by
-  letI : MulAction S Z := conjAction S Z e
+  let : MulAction S Z := conjAction S Z e
   have hsmul : ∀ s : S, ((s • (⟨z, hz⟩ : Z) : Z) : G) = (s : G) * z * (s : G)⁻¹ := by
     intro s
     change ((e s : normalizer (Z : Set G)) : G) * z *
@@ -77,7 +77,7 @@ private theorem card_orbit_le_sub_one {S Z : Subgroup G} (e : S →* normalizer 
     {z : G} (hz : z ∈ Z) (hz1 : z ≠ 1) :
     letI : MulAction S Z := conjAction S Z e
     Nat.card (MulAction.orbit S (⟨z, hz⟩ : Z)) ≤ Nat.card Z - 1 := by
-  letI : MulAction S Z := conjAction S Z e
+  let : MulAction S Z := conjAction S Z e
   have hsub : (MulAction.orbit S (⟨z, hz⟩ : Z) : Set Z) ⊆ {w : Z | w ≠ 1} := by
     rintro w ⟨s, rfl⟩
     intro hw
@@ -100,7 +100,7 @@ theorem card_le_mul_card_sub_one {S T Z : Subgroup G} (hSZ : S ≤ normalizer (Z
     Nat.card S ≤ Nat.card T * (Nat.card Z - 1) := by
   classical
   let e : S →* normalizer (Z : Set G) := S.subtype.codRestrict _ (fun s => hSZ s.2)
-  letI : MulAction S Z := conjAction S Z e
+  let : MulAction S Z := conjAction S Z e
   let zZ : Z := ⟨z, hz⟩
   have hOS : Nat.card (MulAction.orbit S zZ) * Nat.card (MulAction.stabilizer S zZ) =
       Nat.card S := by

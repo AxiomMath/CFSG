@@ -158,7 +158,7 @@ theorem s1715six_wSub_le_centralizer {D : Data G} {V L : Subgroup G} (h : Hyp125
     _ = w * l := by rw [h1]
 
 theorem s1715six_hyp151 {D : Data G} {V L : Subgroup G} (h : Hyp125 D ⊥ V)
-    (hL : L ∈ calC D.M) (hLb : barSub ⊥ V h.isElemAbelian L ≠ ⊥)
+    (hL : L ∈ calC D.M) (_hLb : barSub ⊥ V h.isElemAbelian L ≠ ⊥)
     (h2 : ∀ g ∈ Mbar D.M ⊥ V h.isElemAbelian, g ∉ normIn (Mbar D.M ⊥ V h.isElemAbelian)
       (barSub ⊥ V h.isElemAbelian L) →
       commSub (commSub ⊤ (barSub ⊥ V h.isElemAbelian L))

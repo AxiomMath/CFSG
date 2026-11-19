@@ -35,13 +35,13 @@ private noncomputable def qcf (x : G) : Fin 3 → ZMod 5 := by
 private theorem qcf_spec (x : G) (hx : x ∈ D.Q) :
     x = D.q1 (.ofAdd (qcf D x 0)) * D.q2 (.ofAdd (qcf D x 1)) *
       D.q3 (.ofAdd (qcf D x 2)) := by
-  rw [qcf, dif_pos hx]
+  rw [qcf, dite_eq_left hx]
   exact Classical.choose_spec (Q_coords_unique D x hx).exists
 
 private theorem qcf_eq (x : G) (hx : x ∈ D.Q) {a : Fin 3 → ZMod 5}
     (h : x = D.q1 (.ofAdd (a 0)) * D.q2 (.ofAdd (a 1)) * D.q3 (.ofAdd (a 2))) :
     qcf D x = a := by
-  rw [qcf, dif_pos hx]
+  rw [qcf, dite_eq_left hx]
   exact ExistsUnique.unique (Q_coords_unique D x hx)
     (Classical.choose_spec (Q_coords_unique D x hx).exists) h
 
@@ -198,7 +198,7 @@ private noncomputable def vp (x : G) : ZMod 5 × ZMod 5 :=
 private theorem vFull_spec {x : G} (hx : x ∈ D.V) :
     x = D.q1 (.ofAdd (vFull D x).1) * D.q3 (.ofAdd (vFull D x).2.1) *
       D.q4 (.ofAdd (vFull D x).2.2) := by
-  have h : vFull D x = (vEquiv D).symm ⟨x, hx⟩ := by rw [vFull, dif_pos hx]
+  have h : vFull D x = (vEquiv D).symm ⟨x, hx⟩ := by rw [vFull, dite_eq_left hx]
   rw [h]
   have h2 := congrArg Subtype.val ((vEquiv D).apply_symm_apply ⟨x, hx⟩)
   rw [vEquiv_apply] at h2
@@ -208,7 +208,7 @@ private theorem vFull_eq {x : G} (hx : x ∈ D.V) {a b c : ZMod 5}
     (h : x = D.q1 (.ofAdd a) * D.q3 (.ofAdd b) * D.q4 (.ofAdd c)) :
     vFull D x = (a, b, c) := by
   have h1 : vEquiv D (vFull D x) = vEquiv D (a, b, c) := by
-    rw [show vFull D x = (vEquiv D).symm ⟨x, hx⟩ from by rw [vFull, dif_pos hx],
+    rw [show vFull D x = (vEquiv D).symm ⟨x, hx⟩ from by rw [vFull, dite_eq_left hx],
       (vEquiv D).apply_symm_apply, vEquiv_apply]
     apply Subtype.ext
     exact h

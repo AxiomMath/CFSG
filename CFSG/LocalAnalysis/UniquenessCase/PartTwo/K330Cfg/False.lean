@@ -20,7 +20,7 @@ variable {K : Type} [Group K] [Finite K] {J M X P : Subgroup K}
 theorem false_of_excl (h : OneComp J M X P) (hE : Excl ↥J) : False := by
   obtain ⟨hX1, hX2, hX3⟩ := h.sylow_subgroupOf
   rcases hE with h27 | hArith | hAut | ⟨hRank, hStep⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hc := hX1.card_eq
     rw [hX3, Subgroup.card_top] at hc
     have h3 : 3 ^ 3 ∣ Nat.card ↥J := by simpa [Big27] using h27

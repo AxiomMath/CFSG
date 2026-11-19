@@ -40,7 +40,7 @@ theorem listCentralizerInvolutions_of_mathieu
   · rcases (show m = 2 ∨ 3 ≤ m by omega) with rfl | hm3
     · exact mem_of_mul_self_eq_one_psl2 hmod hWC hT1 hx hx2
     · obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hmod
-      haveI : CharP K 2 := charP_two_of_card hK
+      have : CharP K 2 := charP_two_of_card hK
       exact centralizer_le_of_psl hm3 e hWC hT1 hx
   · exact mem_of_mul_self_eq_one_psu3 hs hmod hWC hT1 hx hx2
   · exact mem_of_mul_self_eq_one_sz hmod hWC hT1 hx hx2

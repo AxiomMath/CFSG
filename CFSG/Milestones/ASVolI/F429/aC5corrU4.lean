@@ -136,8 +136,7 @@ theorem burnsideF429a_sl2_eq_one_of_two {F : Type} [Field F] (h2 : (2 : F) = 0)
   have t2 := burnsideF429a_sl2_trace_eq_zero h2 _ hA₂
   simp only [Matrix.SpecialLinearGroup.coe_mul, hN₁, hN₂, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.head_fin_const,
-    one_mul, mul_one, zero_mul, mul_zero, add_zero, zero_add] at t1 t2
+    Matrix.empty_val', Matrix.cons_val_fin_one, mul_one, mul_zero, add_zero, zero_add] at t1 t2
   have hdet := A.2
   rw [Matrix.det_fin_two] at hdet
   set a := (A : Matrix (Fin 2) (Fin 2) F) 0 0
@@ -353,7 +352,7 @@ theorem burnsideF429a_U4_refl_or_bar {g : hypSU h 2 0} (hg : g ∈ parP h) {τ :
   have e := hkey (Nc ⟨c, hc⟩) (hNc ⟨c, hc⟩)
   rw [eNc] at e
   have e01 := congrFun (congrFun e 0) 1
-  simp [Matrix.mul_apply, Fin.sum_univ_two, hr10, hr01, hr11] at e01
+  simp [Matrix.mul_apply, Fin.sum_univ_two, hr01, hr11] at e01
   have := mul_left_cancel₀ hr00 (e01.trans (mul_comm _ _))
   exact this
 
@@ -398,7 +397,7 @@ theorem burnsideF429a_U4_T_frob (sigma : mk.field →+* mk.field)
         (1 : Matrix (Fin 4) (Fin 4) mk.field).submatrix id burnsideF4gU4_equiv := by
     ext i a
     simp only [burnsideF4gU4_R, Matrix.submatrix_apply, Matrix.mul_apply, Matrix.one_apply, id,
-      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have hPQ : (1 : Matrix (Fin 4) (Fin 4) mk.field).submatrix id burnsideF4gU4_equiv *
       (1 : Matrix (Fin 4) (Fin 4) mk.field).submatrix burnsideF4gU4_equiv id = 1 := by
     rw [Matrix.submatrix_mul_equiv, Matrix.mul_one]
@@ -703,7 +702,7 @@ theorem burnsideF429a_U4_corr_O2 {E : Type} [Group E] [Finite E] {Gp M₁ M₂ :
       pCoreOf 2 (oPPrime 2 (Gp ⊓ M₁) ⊔ T) =
         pCoreOf 2 (oPPrime 2 (Gp ⊓ M₁)) ⊔ Subgroup.zpowers t := by
   have := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set φ : hypSU h 2 0 →* E := Gp.subtype.comp Φ.toMonoidHom with hφdef
   have hφ : Function.Injective φ := Gp.subtype_injective.comp Φ.injective
   have hφx : ∀ x, φ x = ((Φ x : ↥Gp) : E) := fun x => rfl
@@ -913,8 +912,8 @@ open CFSG.Open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.H13.U4Par
 theorem burnsideF429a_c5corr_U4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) (hev : ¬ Odd Gp.index) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C5corr .U4 Gp M₁ M₂ hyp T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨mk, hP₁, hP₂, hG⟩ := burnsideF429a_U4_payload hyp.toHypF_4_4g
   obtain ⟨t, htT, htG, ht2, a, haP, hta⟩ := burnsideF429a_U4_graph_elt hyp.centralizer_trivial
     hyp.split _ (burnsideF4gU4_Phi mk) hP₁ hP₂ hev hT

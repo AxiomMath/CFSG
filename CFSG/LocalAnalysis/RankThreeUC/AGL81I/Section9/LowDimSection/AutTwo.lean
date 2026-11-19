@@ -59,7 +59,7 @@ private lemma bit_mul [Finite C] (hZ : IsCyclic (Subgroup.center C)) {c d : C}
     (fun h => hd1 (congrArg Subtype.val h)))
   subst hcd
   rw [← sq, hc2, bit_one]
-  simp only [bit, hc1, if_false]
+  simp only [bit, hc1, ite_false]
   decide
 
 private lemma commutatorElement_eq_of_mk_eq {x x' y y' : C}
@@ -164,7 +164,7 @@ private lemma ker_le_ker (hZ : IsCyclic (Subgroup.center C)) {G : Subgroup (MulA
       (fun _ hz => apply_eq_of_mem_center_of_isPerfect hZ hG b.1.2 hz)
       (inv_mul_mem_center_of_quotient_eq_one (MonoidHom.mem_ker.1 (hθ a.2)))
       (inv_mul_mem_center_of_quotient_eq_one (MonoidHom.mem_ker.1 (hθ b.2)))
-  have := map_eq_bot_of_isSolvable hS hψ θ.normal_ker (isSolvable_of_comm hcomm)
+  have := map_eq_bot_of_isSolvable hS hψ θ.normal_ker (_root_.Group.isSolvable_of_comm hcomm)
   rwa [Subgroup.map_eq_bot_iff] at this
 
 private lemma exists_surjective_of_ker_le {G X S : Type*} [Group G] [Group X] [Group S]
@@ -197,7 +197,7 @@ private lemma nonempty_of_perm_six {S : Type} [Group S] [IsSimpleGroup S]
     exact Or.inr ⟨(MulEquiv.ofBijective χ ⟨injective_of_isSimpleGroup hχ, hχ⟩).symm.trans
       (MulEquiv.subgroupCongr h)⟩
   · obtain ⟨e⟩ := h
-    have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     have : IsSimpleGroup H := e.isSimpleGroup
     exact Or.inl ⟨(MulEquiv.ofBijective χ ⟨injective_of_isSimpleGroup hχ, hχ⟩).symm.trans e⟩
 

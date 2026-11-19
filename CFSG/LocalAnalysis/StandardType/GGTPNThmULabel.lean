@@ -129,8 +129,8 @@ private theorem nonempty_mulEquiv_of_recipeChevalley {r : ℕ} {A : Matrix (Fin 
   have hmap : (LargeEvenChevH A K der).map (MI.chevCongr A φ).toMonoidHom =
       LargeEvenChevH A L der := by
     cases der
-    · simpa only [LargeEvenChevH, Bool.false_eq_true, if_false] using MI.chevGroup_map_eq A φ
-    · simpa only [LargeEvenChevH, if_true] using MI.chevH_true_map_eq A φ
+    · simpa only [LargeEvenChevH, Bool.false_eq_true, ite_false] using MI.chevGroup_map_eq A φ
+    · simpa only [LargeEvenChevH, ite_true] using MI.chevH_true_map_eq A φ
   exact ⟨e₁.trans ((MI.centerQuotCongr (MI.chevCongr A φ) hmap).trans e₂.symm)⟩
 
 private theorem nonempty_mulEquiv_of_recipeTwisted {r : ℕ} {A : Matrix (Fin r) (Fin r) ℤ}

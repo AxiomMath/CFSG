@@ -93,7 +93,7 @@ private theorem normOf_mul_r2_mem {P E U : Subgroup G} {r : G} (h : NormSetting 
       (x * (r * x * r⁻¹) * (r ^ 2 * x * (r ^ 2)⁻¹))⁻¹ ∈ U := by
     have h1 : x * ((r ^ 2 * x * (r ^ 2)⁻¹) * (r * x * r⁻¹) * (r ^ 2 * x * (r ^ 2)⁻¹)⁻¹ *
         (r * x * r⁻¹)⁻¹) * x⁻¹ ∈ U := conj_mem_U h hx (h.PP _ hb _ ha)
-    convert h1 using 1 <;> (rw [pow_two]; group)
+    convert h1 using 1; (rw [pow_two]; group)
   have hxba : x * (r ^ 2 * x * (r ^ 2)⁻¹) * (r * x * r⁻¹) ∈ U := by
     have hsplit : x * (r ^ 2 * x * (r ^ 2)⁻¹) * (r * x * r⁻¹) =
         (x * (r ^ 2 * x * (r ^ 2)⁻¹) * (r * x * r⁻¹) *

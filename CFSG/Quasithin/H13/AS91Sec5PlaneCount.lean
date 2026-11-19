@@ -52,7 +52,7 @@ namespace Loc49
 variable {G : Type} [Group G] [Finite G] {z : G} (c : Loc49 G z)
 
 theorem card_Q : Nat.card c.S.Q = 2 ^ 13 := by
-  haveI : Finite c.S.Qt := Finite.of_equiv _ c.ψ.symm.toEquiv
+  have : Finite c.S.Qt := Finite.of_equiv _ c.ψ.symm.toEquiv
   have h1 : Nat.card c.S.Qt = 2 ^ 12 := by
     rw [Nat.card_congr c.ψ.toEquiv, Nat.card_fun,
       CFSG.CharacterTheory.SteinbergBY.FieldFour.natCard_eq]
@@ -139,7 +139,7 @@ theorem ncard_disjoint_triosOf (hU : IsSextet U) {t : Finset (Finset (Fin 24))}
     simpa using this
   have hset : {k | k ∈ triosOf U ∧ Disjoint k t} = ↑((D₁.erase t) ∪ (D₂.erase t)) := by
     ext k
-    simp only [Set.mem_setOf_eq, Finset.coe_union, Set.mem_union, Finset.mem_coe,
+    simp only [Set.mem_ofPred_eq, Finset.coe_union, Set.mem_union, Finset.mem_coe,
       Finset.mem_erase]
     constructor
     · rintro ⟨hk, hkd⟩
@@ -189,7 +189,7 @@ theorem ncard_meet_triosOf (hU : IsSextet U) {t : Finset (Finset (Fin 24))}
       insert t ({k | k ∈ triosOf U ∧ Disjoint k t} ∪
         {k | k ∈ triosOf U ∧ k ≠ t ∧ ¬ Disjoint k t}) := by
     ext k
-    simp only [Finset.mem_coe, Set.mem_insert_iff, Set.mem_union, Set.mem_setOf_eq]
+    simp only [Finset.mem_coe, Set.mem_insert_iff, Set.mem_union, Set.mem_ofPred_eq]
     constructor
     · intro hk
       by_cases hkt : k = t
@@ -244,7 +244,7 @@ theorem ncard_lnP_onL {a : G ⧸ c.G1} {σ : G ⧸ c.G3} (ha : c.OnP a σ) :
   obtain ⟨g, hg, -⟩ := c.exists_frameP ha
   have h := ρ.ncard_lnP_onL_trio hg ha (fun _ => True)
   simp only [and_true] at h
-  rw [h, Finset.setOf_mem, Set.ncard_coe_finset]
+  rw [h, Finset.setOfPred_mem, Set.ncard_coe_finset]
   exact M24G.card_triosOf (ρ.isSextet_sext_at hg ha)
 
 include ρ in
@@ -259,7 +259,7 @@ theorem ncard_adj_onP (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (hJ : HypJ4 G z)
   · rintro m ⟨ham, hm⟩
     have hset : {b | (c.OnP b σ ∧ c.Delta.Adj a b) ∧ c.OnL b m} = {b | c.OnL b m} \ {a} := by
       ext b
-      simp only [Set.mem_setOf_eq, Set.mem_diff, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_singleton_iff]
       constructor
       · rintro ⟨⟨-, hab⟩, hbm⟩
         exact ⟨hbm, fun h => hab.ne h.symm⟩
@@ -271,7 +271,7 @@ theorem ncard_adj_onP (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (hJ : HypJ4 G z)
     obtain ⟨hne, l, hal, hbl⟩ := id hab
     refine ⟨l, ?_⟩
     ext n
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨⟨han, -⟩, hbn⟩
       exact (c.eq_of_onL hLU hJ hne hal hbl han hbn).symm
@@ -319,7 +319,7 @@ theorem ncard_far_onP (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (hJ : HypJ4 G z)
   have hsplit : {b | c.OnP b σ} = insert a ({b | c.OnP b σ ∧ c.Delta.Adj a b} ∪
       {b | c.OnP b σ ∧ b ≠ a ∧ ¬ c.Delta.Adj a b}) := by
     ext b
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_union]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_union]
     constructor
     · intro hb
       by_cases hba : b = a
@@ -348,7 +348,7 @@ theorem ncard_lnP (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (hJ : HypJ4 G z)
   · intro m hm
     have hset : {a | c.OnP a σ ∧ c.OnL a m} = {a | c.OnL a m} := by
       ext a
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       exact ⟨fun h => h.2, fun h => ⟨c.inc_pt_plane h hm, h⟩⟩
     rw [hset]
     exact c.ncard_onL m
@@ -374,7 +374,7 @@ theorem lnP_three_eq_deltaAt_one (hLU : Stmt5_LineU) (h54 : Stmt5_4) (hJ : HypJ4
     {m | (c.LnP m σ ∧ ¬ c.OnL a m ∧ {b | c.OnL b m ∧ c.Delta.Adj a b}.ncard = 3) ∧
         c.OnL w m} = {n | n ∈ c.deltaAt 1 w l ∧ c.LnP n σ} := by
   ext m
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨⟨hm, hna, h3⟩, hwm⟩
     have hml : m ≠ l := fun h => hna (h ▸ hal)
@@ -384,7 +384,7 @@ theorem lnP_three_eq_deltaAt_one (hLU : Stmt5_LineU) (h54 : Stmt5_4) (hJ : HypJ4
     · exfalso
       have hall : {b | c.OnL b m ∧ c.Delta.Adj a b} = {b | c.OnL b m} := by
         ext b
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact ⟨fun h => h.1, fun h => ⟨h, c.stmt7_1_two h54 hJ hwl hal haw h2 h⟩⟩
       rw [hall, c.ncard_onL m] at h3
       omega
@@ -402,7 +402,7 @@ theorem lnP_all_eq_deltaAt_two (hLU : Stmt5_LineU) (h54 : Stmt5_4) (hJ : HypJ4 G
     {m | (c.LnP m σ ∧ ¬ c.OnL a m ∧ ∀ b, c.OnL b m → c.Delta.Adj a b) ∧ c.OnL w m} =
       {n | n ∈ c.deltaAt 2 w l ∧ c.LnP n σ} := by
   ext m
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨⟨hm, hna, hall⟩, hwm⟩
     have hml : m ≠ l := fun h => hna (h ▸ hal)
@@ -412,7 +412,7 @@ theorem lnP_all_eq_deltaAt_two (hLU : Stmt5_LineU) (h54 : Stmt5_4) (hJ : HypJ4 G
       have h3 := c.stmt7_1_one h54 hJ hwl hal haw h1
       have hall' : {b | c.OnL b m ∧ c.Delta.Adj a b} = {b | c.OnL b m} := by
         ext b
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact ⟨fun h => h.1, fun h => ⟨h, hall b h⟩⟩
       rw [hall', c.ncard_onL m] at h3
       omega
@@ -441,7 +441,7 @@ theorem ncard_deltaAt_one_lnP {a : G ⧸ c.G1} {m : G ⧸ c.G2} {σ : G ⧸ c.G3
       (ρ.trio (g⁻¹ • n) ≠ ρ.trio (g⁻¹ • m) ∧
         ¬ Disjoint (ρ.trio (g⁻¹ • n)) (ρ.trio (g⁻¹ • m)))} := by
     ext n
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hn, hnσ⟩
       have han := c.onL_of_mem_deltaAt hn
@@ -461,7 +461,7 @@ theorem ncard_deltaAt_two_lnP {a : G ⧸ c.G1} {m : G ⧸ c.G2} {σ : G ⧸ c.G3
   have hset : {n | n ∈ c.deltaAt 2 a m ∧ c.LnP n σ} = {n | c.OnL a n ∧ c.LnP n σ ∧
       Disjoint (ρ.trio (g⁻¹ • n)) (ρ.trio (g⁻¹ • m))} := by
     ext n
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hn, hnσ⟩
       have han := c.onL_of_mem_deltaAt hn
@@ -492,7 +492,7 @@ theorem all_or_three_of_lnP (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (h54 : Stmt
     have hset : {w | (c.OnP w σ ∧ c.Delta.Adj a w) ∧ c.OnL w n} =
         {b | c.OnL b n ∧ c.Delta.Adj a b} := by
       ext w
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       exact ⟨fun h => ⟨h.2, h.1.2⟩, fun h => ⟨⟨c.inc_pt_plane h.1 hn, h.2⟩, h.1⟩⟩
     rw [hset]
     exact h3
@@ -510,7 +510,7 @@ theorem all_or_three_of_lnP (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (h54 : Stmt
   · rintro n ⟨hn, -, hall⟩
     have hset : {w | (c.OnP w σ ∧ c.Delta.Adj a w) ∧ c.OnL w n} = {b | c.OnL b n} := by
       ext w
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       exact ⟨fun h => h.2, fun h => ⟨⟨c.inc_pt_plane h hn, hall w h⟩, h⟩⟩
     rw [hset]
     exact c.ncard_onL n
@@ -522,7 +522,7 @@ theorem all_or_three_of_lnP (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (h54 : Stmt
     have hset : {n | c.LnP n σ} \ {n | c.OnL a n ∧ c.LnP n σ} =
         {n | c.LnP n σ ∧ ¬ c.OnL a n} := by
       ext n
-      simp only [Set.mem_diff, Set.mem_setOf_eq]
+      simp only [Set.mem_sdiff, Set.mem_ofPred_eq]
       tauto
     rw [← hset, h]
   have hdisj : Disjoint {n | c.LnP n σ ∧ ¬ c.OnL a n ∧ {b | c.OnL b n ∧ c.Delta.Adj a b}.ncard = 3}
@@ -531,7 +531,7 @@ theorem all_or_three_of_lnP (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (h54 : Stmt
     rintro n ⟨-, -, h3⟩ ⟨-, -, hall⟩
     have hset : {b | c.OnL b n ∧ c.Delta.Adj a b} = {b | c.OnL b n} := by
       ext b
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       exact ⟨fun h => h.1, fun h => ⟨h, hall b h⟩⟩
     rw [hset, c.ncard_onL n] at h3
     omega

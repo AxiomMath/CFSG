@@ -19,7 +19,7 @@ theorem sec79_Y_sylow [Finite G] (h36 : Asc82Lemma36) (h76 : Asc82Lemma76) (hP :
     (hc : Sec7Choice G t L S z g B) :
     IsSylow2Of (S ⊓ centralizer (B : Set G)) (centralizer (ASub S B : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := centralizer ({t} : Set G)
   let A : Subgroup G := ASub S B
   let Y : Subgroup G := S ⊓ centralizer (B : Set G)

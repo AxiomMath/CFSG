@@ -66,7 +66,7 @@ variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K] [CharP 
 theorem comp_of_aligned_eq (hp2 : p ≠ 2) (hpK : ¬ p ∣ Nat.card K - 1)
     (hker : ψ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin n) K))
     (hgd : g ∣ cyclotomic p K) {hζ : AdjoinRoot.root g ^ p = 1} {β : Fin s → ZMod p}
-    (hal : Aligned hζ β) {L₁ : Subgroup G} (hb1 : frameHom ψ A₀ ε hC hCp (ofAdd β) ≠ 1)
+    (hal : Aligned hζ β) {L₁ : Subgroup G} (_hb1 : frameHom ψ A₀ ε hC hCp (ofAdd β) ≠ 1)
     (hcomp : CFSG.Assembly.IsComponentOf L₁
       (ψ.range ⊓ Subgroup.centralizer {frameHom ψ A₀ ε hC hCp (ofAdd β)})) :
     L₁ = (coordBlockSL K (zeroCoords ε β)).map (SLRep.ggFrame ψ A₀) ∨

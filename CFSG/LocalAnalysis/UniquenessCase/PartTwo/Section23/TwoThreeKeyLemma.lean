@@ -67,7 +67,7 @@ noncomputable abbrev sylowStarImage (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
 
 theorem isSylowIn_sylowStarImage (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
     IsSylowIn 2 (c.sylowStarImage hV) (c.H hV) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine isSylowIn_of_card_eq (Subgroup.map_subtype_le _) ?_
   rw [Ctx23L.sylowStarImage, Subgroup.card_map_of_injective (c.H hV).subtype_injective]
   exact Sylow.card_eq_multiplicity (c.sylowStar hV)
@@ -88,7 +88,7 @@ theorem barSub_normalizer_eq (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
     barSub (⊥ : Subgroup G) c.V hV
         (c.L ⊓ Subgroup.normalizer (((D.T ⊓ c.L : Subgroup G) : Set G))) =
       c.H hV ⊓ Subgroup.normalizer (c.sylowStarImage hV : Set (MulAut (c.W hV))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let SL : Sylow 2 ↥c.L := (c.isSylowIn_T_inf_L).toSylow
   have hSL : (SL : Subgroup ↥c.L) = D.T.subgroupOf c.L := by
     rw [show SL = (c.isSylowIn_T_inf_L).toSylow from rfl,
@@ -168,7 +168,7 @@ theorem mem_normalizer_of_actTil_mem_stabSub (c : Ctx23L D Ch) (hV : IsElemAbeli
     simpa [mul_assoc] using h1
 
 theorem stableUnder_imgTil (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) {B U : Subgroup G}
-    (hB : B ≤ stabTil (⊥ : Subgroup G) c.V) (hBU : B ≤ Subgroup.normalizer (U : Set G)) :
+    (_hB : B ≤ stabTil (⊥ : Subgroup G) c.V) (hBU : B ≤ Subgroup.normalizer (U : Set G)) :
     StableUnder (barSub (⊥ : Subgroup G) c.V hV B) (imgTil (⊥ : Subgroup G) c.V hV U) := by
   intro φ hφ q hq
   obtain ⟨g, hgB, rfl⟩ := (mem_barSub (⊥ : Subgroup G) c.V hV B φ).1 hφ
@@ -368,9 +368,9 @@ theorem sylowStarImage_ne_bot (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
   have hodd : Odd (Nat.card ↥(c.H hV)) := by
     rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
     simpa [hbot] using (c.isSylowIn_sylowStarImage hV).not_dvd_relIndex
-  haveI : Nontrivial ↥(c.H hV) :=
+  have : Nontrivial ↥(c.H hV) :=
     (Subgroup.nontrivial_iff_ne_bot (c.H hV)).mpr (c.H_ne_bot hV)
-  haveI : Group.IsPerfect ↥(c.H hV) := Subgroup.isPerfect_iff.mpr (c.commutator_H_eq hV)
+  have : Group.IsPerfect ↥(c.H hV) := Subgroup.isPerfect_iff.mpr (c.commutator_H_eq hV)
   exact Group.IsPerfect.not_isSolvable ↥(c.H hV) (CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd)
 
 theorem not_le_stabSub_fixV_sylowStar {k : ℕ} (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)

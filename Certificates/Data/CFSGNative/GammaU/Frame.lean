@@ -191,7 +191,7 @@ abbrev DSt : Type := List Nat × Array Nat × Array Nat
       (Native.compOf i) (Native.compGens i) (Native.idR :: hyp10 i) true
 
 @[expose, noinline] def pointCheck (T : List DSt) (CS : List (List (Array Nat × Array Nat) × List (Array Nat)))
-    (i : Nat) (N : List (Array Nat)) (A : List (Array Nat)) (NW : List (Array Nat × Array Nat))
+    (i : Nat) (_N : List (Array Nat)) (A : List (Array Nat)) (NW : List (Array Nat × Array Nat))
     (xg : Nat × Array Nat) (BW : List (List Nat) × List (Nat × List Nat)) : Bool :=
   let g := xg.2
   let gi := invR g

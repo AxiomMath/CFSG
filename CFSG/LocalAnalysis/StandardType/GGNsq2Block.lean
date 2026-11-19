@@ -23,7 +23,7 @@ theorem card_ggSuPairBlock_map_zero_one {K : Type} [Field K] [Finite K] [CharP K
     (hK : Nat.card K = (2 ^ 1) ^ 2) {G : Type} [Group G] {ψ : Su K 2 1 n →* G}
     (hker : ψ.ker ≤ Subgroup.center (Su K 2 1 n)) :
     Nat.card ↥((ggSuPairBlock K 2 1 n (⟨0, by omega⟩ : Fin n) ⟨1, by omega⟩).map ψ) = 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hblockrange : (blockEmb K 2 1 n 2 0 (by omega)).range =
       ggSuPairBlock K 2 1 n (⟨0, by omega⟩ : Fin n) ⟨1, by omega⟩ :=
     ggPhanNSARk1Aux_blockEmb_range K 2 1 (by omega)
@@ -36,7 +36,7 @@ theorem card_ggSuPairBlock_map_zero_one {K : Type} [Field K] [Finite K] [CharP K
   have hblockMap_inj : Function.Injective blockMap := blockEmb_injective (by omega)
   have hφ : Function.Injective (blockMap.comp eSL.toMonoidHom) :=
     hblockMap_inj.comp eSL.injective
-  haveI : CharP (fixedSubfield K 2 1) 2 := inferInstance
+  have : CharP (fixedSubfield K 2 1) 2 := inferInstance
   have hθ₀inj : Function.Injective θ₀ :=
     PsiDiag.injective_comp_of_ker_le_center (blockMap.comp eSL.toMonoidHom) hφ ψ hker
   have hrangeθ₀ : θ₀.range = (ggSuPairBlock K 2 1 n (⟨0, by omega⟩ : Fin n) ⟨1, by omega⟩).map ψ := by

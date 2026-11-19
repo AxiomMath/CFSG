@@ -176,7 +176,7 @@ theorem s16sp_realizes_congr {K K' : Type} [Field K] [Field K'] (σ : K ≃+* K'
   · intro γ m _
     exact Subgroup.mem_top _
   · intro γ m hm
-    simp only [FFModel.nat, Subgroup.mem_bot] at hm
+    simp only [FFModel.nat] at hm
     subst hm
     change natAct (StatedSp n K') (γ : ↥(StatedSp n K'))
       (1 : Multiplicative (Fin n ⊕ Fin n → K')) ∈
@@ -189,7 +189,7 @@ theorem s16sp_realizes_zmod2 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
     {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {U Z : Subgroup W}
     (h : (FFModel.nat (StatedSp n K)).Realizes H U Z) :
     (FFModel.nat (StatedSp n (ZMod 2))).Realizes H U Z := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   exact s16sp_realizes_congr (ZMod.ringEquivOfPrime K Nat.prime_two hK').symm h
 

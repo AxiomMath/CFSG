@@ -21,7 +21,7 @@ private theorem kgLangS1EIndexBridgeAux_h90_pow {p j : ℕ} (hp : p.Prime) (hj :
       ∃ s ∈ N, c = s⁻¹ * β s) :
     ∀ c ∈ N, ((List.range p).map fun i => ((β ^ j) ^ i) c).prod = 1 →
       ∃ s ∈ N, c = s⁻¹ * (β ^ j) s := by
-  letI : CommGroup N := CommGroup.mk fun a b => Subtype.ext (hab a a.2 b b.2)
+  let : CommGroup N := CommGroup.mk fun a b => Subtype.ext (hab a a.2 b b.2)
   let βM : MulAut N :=
     { toFun t := ⟨β (t : G), (hβN (t : G)).mpr t.2⟩
       invFun t := ⟨β⁻¹ (t : G), (hβN (β⁻¹ (t : G))).mp (by
@@ -219,7 +219,7 @@ theorem kgLangS1E_langPair_at_of_bridge_index {p : ℕ} (hp : p.Prime) (hp2 : p 
     have hJα : kgInducedAut θ α ∈ J := (hmemJ _).2 hαI
     have hJβ : kgInducedAut θ β ∈ J := (hmemJ _).2 hβI
     have hαβ : α * β = β * α := by
-      letI : IsMulCommutative A := hA.1
+      let : IsMulCommutative A := hA.1
       exact congrArg (fun x : A => (x : MulAut K)) (mul_comm' ⟨α, hαA⟩ ⟨β, hβA⟩)
     have h1 : h (α * β) = h α * h β := hmul α hαA β hβA hJα hJβ
     have h2 : h (β * α) = h β * h α := hmul β hβA α hαA hJβ hJα
@@ -330,7 +330,7 @@ theorem kgLangS1E_langPair_at_of_bridge_index {p : ℕ} (hp : p.Prime) (hp2 : p 
     rw [hβ x, ← hy]
     change (MulAut.conj (g' : Γ)) (F₀ y) = F₁ ((MulAut.conj (g' : Γ)) y)
     rw [← hF₁ ((MulAut.conj (g' : Γ)) y)]
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [MulAut.conj_apply]
     group
   have hβN : ∀ x : G, β x ∈ N ↔ x ∈ N := kgLang_mulAut_mem_iff β hβNf
   have hH90 : ∀ c ∈ N, ((List.range p).map fun i => (β ^ i) c).prod = 1 →
@@ -374,7 +374,6 @@ theorem kgLangS1E_langPair_at_of_bridge_index {p : ℕ} (hp : p.Prime) (hp2 : p 
       (Subgroup.mem_subgroupOf).mpr (Subgroup.mem_map.mpr ⟨s₀, hs₀N₀, rfl⟩)
     refine ⟨s, hsN, ?_⟩
     apply Subtype.ext
-    change (c : Γ) = (s⁻¹ * β s : G)
     rw [Subgroup.coe_mul, Subgroup.coe_inv, hβ s]
     rw [show (s : Γ) = MulAut.conj (g' : Γ) s₀ from rfl]
     rw [← hx, hs₀]
@@ -495,7 +494,7 @@ theorem kgLangS1E_langPair_at_of_bridge_index {p : ℕ} (hp : p.Prime) (hp2 : p 
       rw [hxh]
       refine Subgroup.mem_map.mpr ⟨(g' : Γ)⁻¹ * (h α : Γ) * (g' : Γ),
         hEN₀ (Subgroup.subset_closure ⟨α, hαA, hαI, rfl⟩), ?_⟩
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       group
     intro α hαA hαJ r hr k hk
     exact hlift N' hQN' hcontain α hαA ((hmemJ _).1 hαJ) r

@@ -48,7 +48,7 @@ theorem mat_u0 : mat 2 F (u0 F) = gram F 2 := by
   rw [u0, mat_blk]
   ext a b
   rcases a with k | k <;> rcases b with l | l <;> fin_cases k <;> fin_cases l <;>
-    simp [gram, coe_r0, Matrix.fromBlocks, Matrix.one_apply, Matrix.diagonal_apply]
+    simp [gram, coe_r0, Matrix.fromBlocks]
 
 
 theorem mat_x0 : mat 2 F (x0 F) =
@@ -133,7 +133,7 @@ theorem zneg_eq_blk : zneg F = blk F (-1) (-1) := by
   rw [mat_zneg, mat_blk]
   ext a b
   rcases a with k | k <;> rcases b with l | l <;> fin_cases k <;> fin_cases l <;>
-    simp [Matrix.fromBlocks, Matrix.one_apply, Matrix.diagonal_apply]
+    simp [Matrix.fromBlocks]
 
 theorem x0_eq_blk : x0 F = blk F (-1) 1 := by
   unfold x0 longInv blk
@@ -310,7 +310,7 @@ theorem classify_w [Finite F] (h2 : (2 : F) ≠ 0) {w : StatedSp 2 F} (hw : w �
   have g01 := congrFun (congrFun hμ (Sum.inl 1)) (Sum.inr 1)
   have g10 := congrFun (congrFun hμ (Sum.inr 1)) (Sum.inl 1)
   have g11 := congrFun (congrFun hμ (Sum.inr 1)) (Sum.inr 1)
-  simp [Matrix.fromBlocks, Matrix.one_apply] at f00 f01 f10 f11 g00 g01 g10 g11
+  simp [Matrix.fromBlocks] at f00 f01 f10 f11 g00 g01 g10 g11
   have hrr : (r : Matrix (Fin 2) (Fin 2) F) * r = μ • 1 := by
     ext i j
     fin_cases i <;> fin_cases j
@@ -402,14 +402,14 @@ theorem u0_not_central : u0 F ∉ Subgroup.center (StatedSp 2 F) := by
   obtain ⟨r, hr⟩ := exists_scalar_of_mem_center h
   have e := congrFun (congrFun hr (Sum.inl 0)) (Sum.inr 0)
   rw [mat_u0] at e
-  simp [gram, Matrix.fromBlocks, Matrix.one_apply] at e
+  simp [gram, Matrix.fromBlocks] at e
 
 theorem t0_not_central : t0 F ∉ Subgroup.center (StatedSp 2 F) := by
   intro h
   obtain ⟨r, hr⟩ := exists_scalar_of_mem_center h
   have e := congrFun (congrFun hr (Sum.inl 0)) (Sum.inr 0)
   rw [t0_eq_blk, mat_blk] at e
-  simp [coe_r0, Matrix.fromBlocks, Matrix.one_apply] at e
+  simp [coe_r0, Matrix.fromBlocks] at e
 
 theorem x0_not_central (h2 : (2 : F) ≠ 0) : x0 F ∉ Subgroup.center (StatedSp 2 F) := by
   intro h
@@ -417,7 +417,7 @@ theorem x0_not_central (h2 : (2 : F) ≠ 0) : x0 F ∉ Subgroup.center (StatedSp
   have e0 := congrFun (congrFun hr (Sum.inl 0)) (Sum.inl 0)
   have e1 := congrFun (congrFun hr (Sum.inl 1)) (Sum.inl 1)
   rw [mat_x0] at e0 e1
-  simp [coords, Matrix.diagonal_apply] at e0 e1
+  simp [coords] at e0 e1
   apply h2
   linear_combination e1 - e0
 

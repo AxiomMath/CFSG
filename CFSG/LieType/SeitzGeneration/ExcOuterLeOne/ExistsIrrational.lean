@@ -18,7 +18,7 @@ namespace CFSG.LieType.SeitzGeneration.ExcOuterLeOne
 
 theorem exists_irrational_rootElt_of_not_mem {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {K : Type}
     [Field K] [Finite K] (σ : K ≃+* K) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hσ : orderOf σ = p)
-    (hpK : p ≠ ringChar K)
+    (_hpK : p ≠ ringChar K)
     (hD : ringChar K ≠ 2 ∨ 4 ∣ Nat.card (fixSubfield σ)) (g : ↥(adjointGroup τ K)) (hg : g ∉ subfieldGroup τ σ) :
     ∃ r ∈ subfieldGroup τ σ, ∃ r' ∈ subfieldGroup τ σ, ∃ (γ : Fin τ.rank → ℤ) (_ : IsRoot τ γ)
       (t : K), t ∉ fixSubfield σ ∧ xPar (rootOperatorFamily τ) γ t ∈

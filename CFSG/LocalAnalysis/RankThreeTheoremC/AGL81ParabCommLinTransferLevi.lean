@@ -19,11 +19,11 @@ variable {K : Type} [Field K]
 
 theorem eq_one_of_mem_center_of_pow_two_pow [CharP K 2] {m k : ℕ} {t : GL (Fin m) K}
     (ht : t ∈ Subgroup.center (GL (Fin m) K)) (hk : t ^ 2 ^ k = 1) : t = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := GeneralLinearGroup.mem_center_iff_val_mem_range_scalar.mp ht
   rcases Nat.eq_zero_or_pos m with rfl | hm
   · exact Units.ext (Matrix.ext fun i => i.elim0)
-  · haveI : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+  · have : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
     have h1 : Matrix.scalar (Fin m) (c ^ 2 ^ k) = Matrix.scalar (Fin m) (1 : K) := by
       rw [map_pow, hc, ← Units.val_pow_eq_pow_val, hk, Units.val_one, map_one]
     have h2 : c ^ 2 ^ k = 1 := Matrix.scalar_inj.mp h1
@@ -34,13 +34,13 @@ theorem eq_one_of_mem_center_of_pow_two_pow [CharP K 2] {m k : ℕ} {t : GL (Fin
 
 theorem pCore_two_specialLinearGroup_eq_bot_of_charTwo [Finite K] [CharP K 2] (m : ℕ) :
     CFSG.pCore 2 (SpecialLinearGroup (Fin m) K) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge m 2 with hm | hm
-  · haveI := subsingleton_specialLinear_of_lt_two (K := K) hm
+  · have := subsingleton_specialLinear_of_lt_two (K := K) hm
     exact Subsingleton.elim _ _
   rcases hm.eq_or_lt with rfl | hm3
   · classical
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact CFSG.Quasithin.SteinbergBK.pCore_two_specialLinearGroup_eq_bot n.pos
       (by rw [Nat.card_eq_fintype_card]; exact hn)
@@ -54,7 +54,7 @@ theorem pCore_two_specialLinearGroup_eq_bot_of_charTwo [Finite K] [CharP K 2] (m
         have h := CFSG.pCore_isPGroup (p := 2) (G := SpecialLinearGroup (Fin m) K)
         rw [htop] at h
         exact h.of_equiv Subgroup.topEquiv
-      haveI := hP.isNilpotent
+      have := hP.isNilpotent
       exact not_isSolvable_of_isQuasisimple hSL inferInstance
     · rw [eq_bot_iff]
       intro s hs
@@ -75,7 +75,7 @@ theorem eq_bot_of_isPGroup_of_normalized_range_toGL [Finite K] [CharP K 2] {m : 
     {T : Subgroup (GL (Fin m) K)} (hT : IsPGroup 2 T)
     (hSN : ∀ s ∈ (SpecialLinearGroup.toGL : SpecialLinearGroup (Fin m) K →* GL (Fin m) K).range,
       ∀ t ∈ T, s * t * s⁻¹ ∈ T) : T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ : SpecialLinearGroup (Fin m) K →* GL (Fin m) K := SpecialLinearGroup.toGL
   have hnorm : (T.comap ρ).Normal := by
     refine ⟨fun x hx g => ?_⟩

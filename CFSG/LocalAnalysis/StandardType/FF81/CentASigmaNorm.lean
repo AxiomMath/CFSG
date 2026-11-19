@@ -18,6 +18,7 @@ open RootFusionLin CFSG.Open
 variable {G : Type} [Group G] [Finite G] {m : ℕ} {Y L R : Subgroup G} {b t : G}
   {φ : ↥Y ≃* GL (BlkIdx 1 m) (ZMod 2)}
 
+omit [Finite G] in
 private theorem caSigN_mem_liftSub_iff (K : Subgroup (GL (BlkIdx 1 m) (ZMod 2)))
     (g : GL (BlkIdx 1 m) (ZMod 2)) :
     g ∈ K ↔ ((φ.symm g : ↥Y) : G) ∈ liftSub φ K := by
@@ -27,6 +28,7 @@ private theorem caSigN_mem_liftSub_iff (K : Subgroup (GL (BlkIdx 1 m) (ZMod 2)))
   · intro hg
     simpa using (mem_liftSub.mp hg).2
 
+omit [Finite G] in
 private theorem caSigN_liftSub_eq_iff {K K' : Subgroup (GL (BlkIdx 1 m) (ZMod 2))} :
     liftSub φ K = liftSub φ K' ↔ K = K' := by
   constructor
@@ -36,6 +38,7 @@ private theorem caSigN_liftSub_eq_iff {K K' : Subgroup (GL (BlkIdx 1 m) (ZMod 2)
   · rintro rfl
     rfl
 
+omit [Finite G] in
 private theorem caSigN_liftSub_map_conj_of_mem {K : Subgroup (GL (BlkIdx 1 m) (ZMod 2))}
     {a : G} (ha : a ∈ Y) :
     (liftSub φ K).map (MulAut.conj a) =
@@ -44,6 +47,7 @@ private theorem caSigN_liftSub_map_conj_of_mem {K : Subgroup (GL (BlkIdx 1 m) (Z
   rw [MulEquiv.symm_apply_apply] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem caSigN_liftSub_normalizer_eq (K : Subgroup (GL (BlkIdx 1 m) (ZMod 2)))
     (hNle : Subgroup.normalizer (liftSub φ K : Set G) ≤ Y) :
     liftSub φ (Subgroup.normalizer (K : Set (GL (BlkIdx 1 m) (ZMod 2)))) =
@@ -249,7 +253,7 @@ theorem exists_sigma_of_swap (hchar : IsCharTwoType G) (hS : CentASetting m Y L 
         sigmaStd m (φ a) := by
       intro a
       have hyGφ : φ ⟨yG, hyGY⟩ = y := by
-        simpa [yG] using φ.apply_symm_apply y
+        simp [yG]
       have hconj : φ ⟨h * (a : G) * h⁻¹, hYmem a a.2⟩ = α (φ a) := by
         rw [hα_apply, φ.symm_apply_apply]
       have hsub : (⟨σ * (a : G) * σ⁻¹, hσYmem a a.2⟩ : ↥Y) =

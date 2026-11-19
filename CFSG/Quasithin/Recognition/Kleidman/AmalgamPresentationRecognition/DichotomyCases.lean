@@ -25,7 +25,7 @@ theorem dichotomy_cases {X : Type*} [Group X] (ρ : Fin 7 → X)
   · left
     have := e6_mem_closure_of_collapse hc ρ hrel h
     have hset : {i : Fin 7 | i.val ≠ 6} = {i : Fin 7 | i.val < 6} := by
-      ext i; simp only [Set.mem_setOf_eq]; have := i.2; omega
+      ext i; simp only [Set.mem_ofPred_eq]; have := i.2; omega
     rwa [hset] at this
   · exact Or.inr (Or.inl h0)
   · exact Or.inr (Or.inr h1)

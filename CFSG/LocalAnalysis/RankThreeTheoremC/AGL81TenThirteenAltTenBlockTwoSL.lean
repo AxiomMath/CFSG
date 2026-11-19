@@ -38,8 +38,8 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem sq_centralizes_of_card_three {Y : Type*} [Group Y] {Z : Subgroup Y} (hZ : Nat.card Z = 3)
     {s : Y} (hs : ∀ z ∈ Z, s * z * s⁻¹ ∈ Z) : ∀ z ∈ Z, s ^ 2 * z * (s ^ 2)⁻¹ = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   have hcyc : IsCyclic Z := isCyclic_of_prime_card hZ
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   have hog : orderOf (g : Y) = 3 := by
@@ -85,6 +85,7 @@ theorem sq_centralizes_of_card_three {Y : Type*} [Group Y] {Z : Subgroup Y} (hZ 
   obtain ⟨m, rfl⟩ := hmem z hz
   rw [← MulAut.conj_apply, map_zpow, MulAut.conj_apply, hfix]
 
+omit [Finite G] in
 theorem mem_normalizer_of_map_conj_eq {H : Subgroup G} {g : G}
     (h : H.map (MulAut.conj g).toMonoidHom = H) : g ∈ normalizer (H : Set G) := by
   rw [mem_normalizer_iff]
@@ -101,6 +102,7 @@ theorem mem_normalizer_of_map_conj_eq {H : Subgroup G} {g : G}
       simpa using h1
     exact this ▸ hy
 
+omit [Finite G] in
 theorem map_subgroupOf_eq_range {N I : Subgroup G} (hIN : I ≤ N) {Q : Type*} [Group Q]
     (ψ : ↥N →* Q) : (I.subgroupOf N).map ψ = (ψ.comp (Subgroup.inclusion hIN)).range := by
   ext q
@@ -119,7 +121,7 @@ theorem mem_normalizer_and_inner_of_map {N I₀ : Subgroup G} {Q : Type*} [Group
     (hcu : ∀ u ∈ (ψ.comp (Subgroup.inclusion hIN)).range, ψ n₀ * u * (ψ n₀)⁻¹ = c * u * c⁻¹) :
     s ∈ normalizer (I₀ : Set G) ∧
       ∃ j ∈ I₀, ∀ x ∈ I₀, s * x * s⁻¹ * (j * x * j⁻¹)⁻¹ ∈ pCoreOf 2 I₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsN' : ∀ x ∈ N, s * x * s⁻¹ ∈ N := fun x hx => (mem_normalizer_iff.mp hsN x).mp hx
   have hNs : N.map (MulAut.conj s).toMonoidHom = N := by
     ext x
@@ -264,7 +266,7 @@ theorem exists_elemAbelian_nine_of_slThree [Finite K] (hK : Nat.card K = 4) {Y :
     simp only [coe_linTorus, Matrix.diagonal_apply_eq, linTorusVec_one, Pi.one_apply,
       Units.val_one] at h1
     have h2 : linTorusVec a (Fin.castSucc j) = a j := by
-      rw [linTorusVec, dif_pos (show ((Fin.castSucc j : Fin 3) : ℕ) < 2 from j.isLt)]
+      rw [linTorusVec, dite_eq_left (show ((Fin.castSucc j : Fin 3) : ℕ) < 2 from j.isLt)]
       rfl
     rw [h2] at h1
     exact Units.ext (by rw [h1]; rfl)
@@ -288,9 +290,9 @@ end SLThree
 
 theorem pRank_three_top_quotient (X : Subgroup G) :
     Open.pRank 3 (⊤ : Subgroup (↥X ⧸ CFSG.pCore 2 ↥X)) = Open.pRank 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥X) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (G := ↥X) (p := 2)).exists_card_eq
     rw [hk]
     intro h
@@ -309,7 +311,7 @@ theorem sq_facts_of_slThree {X L : Subgroup G} (hL : IsTwoPrimeComponent X L) {t
         (QuotientGroup.mk (⟨t, htX⟩ : ↥X) : ↥X ⧸ CFSG.pCore 2 ↥X) ^ 2 * z *
           ((QuotientGroup.mk (⟨t, htX⟩ : ↥X) : ↥X ⧸ CFSG.pCore 2 ↥X) ^ 2)⁻¹ = z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK4 : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]; norm_num
   set tb : ↥X ⧸ CFSG.pCore 2 ↥X := QuotientGroup.mk (⟨t, htX⟩ : ↥X) with htb
@@ -586,7 +588,7 @@ theorem kFactBlockAFive_two_nineThreeTwo (hOF : KFactCompParabOneFive)
     t ^ 2 ∈ normalizer (I₀ : Set G) ∧
       ∃ j ∈ I₀, ∀ x ∈ I₀, t ^ 2 * x * (t ^ 2)⁻¹ * (j * x * j⁻¹)⁻¹ ∈ pCoreOf 2 I₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLX : L ≤ X := hL.le
   have hNX : normalizer (S : Set G) ⊓ L ≤ X := inf_le_right.trans hLX
   have hI₀N : I₀ ≤ normalizer (S : Set G) ⊓ L := hI₀.le

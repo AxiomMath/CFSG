@@ -16,7 +16,7 @@ private noncomputable def ggQ2s08t1a_X {G : Type} [Group G] (p : ℕ) (u : G)
 
 theorem ggQ2s08_triv_setup (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
-    (hS : GGQTwoSetting p B Bs x L D J) (hp : p = 3) {u : ↥Bs} (hu : (u : G) ∈ D)
+    (hS : GGQTwoSetting p B Bs x L D J) (_hp : p = 3) {u : ↥Bs} (hu : (u : G) ∈ D)
     (hu1 : u ≠ 1) (htr : GGTrivialLine p B x D J u) :
     ∃ X : Subgroup G, LargeEvenPComponent p (Subgroup.centralizer ({(u : G)} : Set G)) X ∧
       J ≤ X ∧ Bs ≤ Subgroup.normalizer (X : Set G) ∧
@@ -28,7 +28,7 @@ theorem ggQ2s08_triv_setup (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
   have hDJ : LargeEvenStdSub p B x L D J := hS.1.1.2.2
   have hHyp : GGCorFiveTwentyHyp p B Bs x L D J := hS.1
   have hprime : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hpJ : p ∣ Nat.card J := hP G p B x L D J hI hDJ
   have hPU : GGPumpupInput := ggPumpupInput_of_lBalance hLB
   have hSstar : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1

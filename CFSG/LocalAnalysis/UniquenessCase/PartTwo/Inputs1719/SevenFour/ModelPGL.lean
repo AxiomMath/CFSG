@@ -126,10 +126,10 @@ private theorem mem_stabilizer_iff_mem_bot (H : AddSubgroup K) (hH : H.index = p
       rw [← Algebra.smul_def, φ.map_smul, smul_eq_mul]
     have haeq : (a : K) = algebraMap (ZMod p) K c :=
       comp_mulLeft_injective hφ (hc.trans hceq)
-    rw [Subfield.bot_eq_of_zMod_algebra p]
+    rw [Subfield.bot_eq_of_zmod_algebra p]
     exact ⟨c, haeq.symm⟩
   · intro ha
-    rw [Subfield.bot_eq_of_zMod_algebra p] at ha
+    rw [Subfield.bot_eq_of_zmod_algebra p] at ha
     obtain ⟨c, hc⟩ := ha
     have hc0 : c ≠ 0 := by
       intro hc0

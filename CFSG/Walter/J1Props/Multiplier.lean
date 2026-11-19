@@ -242,7 +242,7 @@ theorem exists_sylow_two_isMulCommutative {E : Type*} [Group E] [Finite E] (π :
     rw [this]
     exact K.mul_mem hkK hker
   obtain ⟨Q⟩ : Nonempty (Sylow 2 E) := inferInstance
-  obtain ⟨S', hS'⟩ := (Q.isPGroup'.map π).exists_le_sylow
+  obtain ⟨S', hS'⟩ := (Q.isPGroup.map π).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq walterJ1 S' sylowS₀
   obtain ⟨ĝ, hĝ⟩ := hπ g
   refine ⟨ĝ • Q, ⟨⟨fun a b => Subtype.ext ?_⟩⟩⟩
@@ -297,6 +297,6 @@ theorem J3_multiplier {E : Type*} [Group E] [Finite E] (π : E →* walterJ1)
     exact exists_sylow_two_isMulCommutative π hπ hZ
   · obtain ⟨P⟩ : Nonempty (Sylow p E) := inferInstance
     exact ⟨P, isMulCommutative_of_map_cyclic π hZ P
-      (isCyclic_of_isPGroup hp2 (P.isPGroup'.map π))⟩
+      (isCyclic_of_isPGroup hp2 (P.isPGroup.map π))⟩
 
 end CFSG.Walter.J1Props

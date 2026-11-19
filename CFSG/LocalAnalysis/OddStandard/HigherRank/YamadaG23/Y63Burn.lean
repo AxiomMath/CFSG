@@ -53,7 +53,7 @@ private lemma mem_map_mk'_iff {X : Type} [Group X] {K U Z : Subgroup G}
 
 private lemma isPGroup_map_index_of_sylow {X : Type} [Group X] {K S Z : Subgroup G}
     (π : ↥K →* X) (hsurj : Function.Surjective π) (hker : π.ker = Z.subgroupOf K)
-    (hSK : S ≤ K) (hp : IsPGroup 2 S) (hndvd : ¬ 2 ∣ S.relIndex K) (hZS : Z ≤ S) :
+    (_hSK : S ≤ K) (hp : IsPGroup 2 S) (hndvd : ¬ 2 ∣ S.relIndex K) (hZS : Z ≤ S) :
     IsPGroup 2 ((S.subgroupOf K).map π) ∧ ¬ 2 ∣ ((S.subgroupOf K).map π).index := by
   have hS'2 : IsPGroup 2 (S.subgroupOf K) := hp.comap_subtype (K := K)
   refine ⟨hS'2.map π, ?_⟩
@@ -91,7 +91,7 @@ private lemma commutator_map_comm {X : Type} [Group X] {K U Z : Subgroup G}
 
 private lemma conjugate_map_weaklyClosed {X : Type} [Group X]
     {K S U Z : Subgroup G} (π : ↥K →* X) (hker : π.ker = Z.subgroupOf K)
-    (hsurj : Function.Surjective π) (hSK : S ≤ K) (hUK : U ≤ K) (hUS : U ≤ S)
+    (hsurj : Function.Surjective π) (_hSK : S ≤ K) (hUK : U ≤ K) (_hUS : U ≤ S)
     (hZS : Z ≤ S)
     (hweak : ∀ k ∈ K, CFSG.conjugate U k ≤ S → CFSG.conjugate U k = U) :
     ∀ x : X, CFSG.conjugate ((U.subgroupOf K).map π) x ≤ (S.subgroupOf K).map π →
@@ -121,7 +121,7 @@ private lemma conjugate_map_weaklyClosed {X : Type} [Group X]
   have hcomp : (MulAut.conj (π h)⁻¹).toMonoidHom.comp π
       = π.comp (MulAut.conj h⁻¹).toMonoidHom := by
     ext v
-    simp [MulAut.conj_apply]
+    simp
   have hconj : CFSG.conjugate (U'.map π) (π h) = (CFSG.conjugate U' h).map π := by
     rw [CFSG.conjugate, CFSG.conjugate]
     change (U'.map π).map (MulAut.conj (π h)⁻¹).toMonoidHom
@@ -130,7 +130,7 @@ private lemma conjugate_map_weaklyClosed {X : Type} [Group X]
   have hcompK : K.subtype.comp (MulAut.conj h⁻¹).toMonoidHom
       = (MulAut.conj (h : G)⁻¹).toMonoidHom.comp K.subtype := by
     ext v
-    simp [MulAut.conj_apply]
+    simp
   have hconjK : (CFSG.conjugate U' h).map K.subtype = CFSG.conjugate U (h : G) := by
     rw [CFSG.conjugate, CFSG.conjugate, ← Subgroup.map_subgroupOf_eq_of_le hUK]
     rw [Subgroup.map_map, Subgroup.map_map, hcompK]
@@ -150,7 +150,7 @@ theorem y63_burn_modZ {K Q U Z : Subgroup G} (hQ : IsSylowIn 2 K Q) (hUQ : U ≤
   have hZK_le_K : Z ≤ K := hZU.trans (hUQ.trans hQ.1)
   have hU_le_K : U ≤ K := hUQ.trans hQ.1
   let ZK : Subgroup ↥K := Z.subgroupOf K
-  haveI : ZK.Normal :=
+  have : ZK.Normal :=
     (Subgroup.normal_subgroupOf_iff hZK_le_K).mpr fun z k hz hk => by
       rw [hZK k hk z hz]
       exact hz
@@ -158,7 +158,7 @@ theorem y63_burn_modZ {K Q U Z : Subgroup G} (hQ : IsSylowIn 2 K Q) (hUQ : U ≤
   let π : ↥K →* Γ := QuotientGroup.mk' ZK
   have hker : π.ker = Z.subgroupOf K := QuotientGroup.ker_mk' ZK
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective ZK
-  haveI : Finite Γ := Finite.of_surjective π hsurj
+  have : Finite Γ := Finite.of_surjective π hsurj
   obtain ⟨hQb_pgroup, hQb_ndvd⟩ :=
     isPGroup_map_index_of_sylow π hsurj hker hQ.1 hQ.2.1 hQ.2.2 (hZU.trans hUQ)
   let P : Sylow 2 Γ := hQb_pgroup.toSylow hQb_ndvd

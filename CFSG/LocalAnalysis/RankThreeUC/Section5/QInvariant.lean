@@ -41,9 +41,9 @@ theorem invariant {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCommGr
     haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
     haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
     ∀ k ∈ K P T B, ∀ v ∈ Q p P T B H, sigma p P k v ∈ Q p P T B H := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   intro k hk v hv
   rw [mem_Q] at hv ⊢
   refine ⟨commSpace_invariant (sigma p P) (Z P T B) (K_centralizes_Z hc k hk) hv.1, ?_⟩
@@ -65,9 +65,9 @@ theorem fixedSpace_eq_bot {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [A
     haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
     BinaryRepresentations.fixedSpace (betaRep p P T B H (invariant hc hH))
       ((Bstar P A).subgroupOf (K P T B)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   have hfree := PrimeActionFixedFree.fixedSpace_eq_bot hc hq hAB hA
   have hAK : Bstar P A ≤ K P T B :=
     (RstarCoprime.Bstar_mono hAB).trans le_sup_right

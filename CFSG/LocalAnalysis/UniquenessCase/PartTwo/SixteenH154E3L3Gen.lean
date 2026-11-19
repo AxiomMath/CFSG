@@ -14,12 +14,14 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_e3_l3_isPSL_of_coord {L : Subgroup (MulAut W)} {I Z : Subgroup W}
     (h : L3Coord L I Z) : IsPSL 3 2 1 ↥L := by
   obtain ⟨D⟩ := h
   exact isPSL_three_two_iff.mpr
     ⟨(MulEquiv.ofBijective D.π ⟨D.π_injective, D.π_surj⟩).symm⟩
 
+omit [Finite W] in
 private theorem s16h_e3_l3_conj_gen {L : Subgroup (MulAut W)} (e : ↥L ≃* L3.Γ) {γ : MulAut W}
     (hγL : γ ∈ L) (hginvol : L3.IsInvol (e ⟨γ, hγL⟩)) (t : L3.Γ) (ht : L3.IsInvol t) :
     ∃ g : MulAut W, g ∈ L ∧ ((e.symm t : ↥L) : MulAut W) = g * γ * g⁻¹ := by
@@ -67,21 +69,21 @@ theorem s16h_e3_l3_rk_le_three_mul_commSub {L : Subgroup (MulAut W)} (hL : IsPSL
     refine Subgroup.mem_map.mpr ⟨g₁⁻¹ m, ?_, ?_⟩
     · rw [hBeq]
       exact Subgroup.mem_sup_right (hMinv g₁⁻¹ (L.inv_mem hg₁L) m hm)
-    · simpa using mulAut_apply_inv_apply g₁ m
+    · simp
   have hMA₂ : M ≤ A₂ := by
     intro m hm
     dsimp only [A₂]
     refine Subgroup.mem_map.mpr ⟨g₂⁻¹ m, ?_, ?_⟩
     · rw [hBeq]
       exact Subgroup.mem_sup_right (hMinv g₂⁻¹ (L.inv_mem hg₂L) m hm)
-    · simpa using mulAut_apply_inv_apply g₂ m
+    · simp
   have hMA₃ : M ≤ A₃ := by
     intro m hm
     dsimp only [A₃]
     refine Subgroup.mem_map.mpr ⟨g₃⁻¹ m, ?_, ?_⟩
     · rw [hBeq]
       exact Subgroup.mem_sup_right (hMinv g₃⁻¹ (L.inv_mem hg₃L) m hm)
-    · simpa using mulAut_apply_inv_apply g₃ m
+    · simp
   have hA₁X : A₁ ≤ X := by
     intro z hz
     dsimp only [A₁] at hz
@@ -118,7 +120,7 @@ theorem s16h_e3_l3_rk_le_three_mul_commSub {L : Subgroup (MulAut W)} (hL : IsPSL
       inv_mem' := by
         intro a ha x hx
         have hy : (↑a⁻¹ : MulAut W) x ∈ X :=
-          hXinv (↑a⁻¹ : MulAut W) (by simpa using L.inv_mem a.2) x hx
+          hXinv (↑a⁻¹ : MulAut W) (by simp) x hx
         have h1 := ha ((↑a⁻¹ : MulAut W) x) hy
         have hkey : (↑a⁻¹ : MulAut W) x * x⁻¹ =
             ((a : MulAut W) ((↑a⁻¹ : MulAut W) x) * ((↑a⁻¹ : MulAut W) x)⁻¹)⁻¹ := by
@@ -256,7 +258,7 @@ theorem s16h_e3_l3_rk_add_three_le (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mu
     rk ↥Y + 3 ≤ rk ↥X := by
   by_contra hcon
   rw [not_le] at hcon
-  haveI : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hL).2
+  have : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hL).2
   have hL24 : 24 < Nat.card ↥L := by
     rw [card_eq_168_of_isPSL_three_two hL]
     norm_num

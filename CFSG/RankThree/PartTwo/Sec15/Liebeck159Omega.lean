@@ -55,7 +55,7 @@ private theorem exists_noncomm_of_sylow_lift {M C : Type*} [Group M] [Finite M] 
     have h1 : f (u ^ 3) = 1 := by
       have hg3 : g (u ^ 3) = 1 := by rw [map_pow, hgu]; exact hcube _ hz3'
       exact congrArg Subtype.val hg3
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨u, hu⟩
     refine hker (u ^ 3) h1 k ?_
     rw [← pow_mul, mul_comm, pow_mul]
     have hk' : u ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
@@ -109,6 +109,7 @@ private theorem exists_pair_inf_centralizer {X : Subgroup G}
     Subgroup.coe_subtype]
   exact ⟨w.2, Subgroup.mem_centralizer_singleton_iff.mpr (mul_inv_eq_iff_eq_mul.mp hy'').symm⟩
 
+omit [Finite G] in
 private theorem normalizer_inf_le_normalizer_inf_centralizer (J : Subgroup G) (c : G) :
     Subgroup.normalizer (Subgroup.zpowers c : Set G) ⊓ Subgroup.normalizer (J : Set G) ≤
       Subgroup.normalizer ((J ⊓ Subgroup.centralizer {c} : Subgroup G) : Set G) := by
@@ -139,6 +140,7 @@ private theorem normalizer_inf_le_normalizer_inf_centralizer (J : Subgroup G) (c
   have e : g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x := by group
   rwa [e] at h
 
+omit [Finite G] in
 private theorem centralizer_le_normalizer_zpowers (c : G) :
     Subgroup.centralizer {c} ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G) := by
   intro x hx
@@ -156,14 +158,14 @@ variable {A L J K P : Subgroup G} {c : G} [(ker148 A J).Normal]
 theorem leaf2_omega_ne (hR : Sec15R G A c L) (hcA : c ∈ A)
     (hAJ : A ≤ Subgroup.normalizer (J : Set G)) (hJΔ : J = deltaZero A (lB A) J) {n : ℕ}
     (hn : 1 ≤ n) (hX : Sec4.IsoLThreePi ↥(img148 A J (deltaZero A (lB A) J)) 2 (3 * n))
-    (hsplit : img148 A J (deltaZero A (lB A) J ⊔ A) =
+    (_hsplit : img148 A J (deltaZero A (lB A) J ⊔ A) =
       img148 A J (deltaZero A (lB A) J) ⊔ Subgroup.zpowers (alpha148 A J c hcA))
     (hfield : KFacts.InducesStdKind (img148 A J (deltaZero A (lB A) J)) (alpha148 A J c hcA)
       .field)
-    (hK : K ≤ L ⊓ J) (hKn : Sec4.IsoLThreePi ↥(img148 A J K) 2 n)
+    (_hK : K ≤ L ⊓ J) (_hKn : Sec4.IsoLThreePi ↥(img148 A J K) 2 n)
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P
       (Subgroup.normalizer (Subgroup.zpowers c : Set G) ⊓ Subgroup.normalizer (J : Set G)))
-    (hAP : A ≤ P) : A ≠ omegaOneThree P := by
+    (_hAP : A ≤ P) : A ≠ omegaOneThree P := by
   have h13 := hR.toSec14Std.toSec13Data
   have hc3 : c ^ 3 = 1 := by
     have := pow_orderOf_eq_one c

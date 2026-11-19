@@ -39,7 +39,7 @@ theorem omqnf_vanish_of_involution {n : ℕ} {K : Type*} [Field K] [CharP K 2] {
         funext a
         rcases a with i | i | s <;> simp [planeVec, Pi.single_apply, Sum.inr.injEq]
       have := h.2 (Pi.single t 1)
-      simp only [Pi.one_apply, Finset.prod_const_one, if_true] at this
+      simp only [Pi.one_apply, Finset.prod_const_one, ite_true] at this
       rw [hpl, this]
   have hTv : ∀ (v : Vm n K) j, T v j = v (τ j) := by
     intro v j
@@ -50,7 +50,7 @@ theorem omqnf_vanish_of_involution {n : ℕ} {K : Type*} [Field K] [CharP K 2] {
         simp
       rw [hx]
       simp only [LinearMap.comp_apply, LinearMap.coe_proj, Function.eval, LinearEquiv.coe_coe,
-        map_smul, hTsingle, Pi.smul_apply, Pi.single_apply, smul_eq_mul]
+        map_smul, hTsingle, Pi.single_apply, smul_eq_mul]
       by_cases hji : j = τ i
       · have : τ j = i := by rw [hji, hτ]
         subst hji
@@ -62,11 +62,9 @@ theorem omqnf_vanish_of_involution {n : ℕ} {K : Type*} [Field K] [CharP K 2] {
   obtain ⟨v, rfl⟩ := mem_commSpace.mp hx
   have hx' : ∀ j, (T v - v) j = v (τ j) - v j := fun j => by
     rw [Pi.sub_apply]
-    change T v j - v j = _
     rw [hTv]
   rw [quadMinus_apply]
   have hpl : ∀ t : Fin 2, (T v - v) (.inr (.inr t)) = 0 := fun t => by
-    change (T v - v) (.inr (.inr t)) = 0
     rw [hx']
     simp [τ]
   have hpl0 := hpl 0
@@ -105,7 +103,7 @@ theorem omqnf_nonvanish_of_flip {n : ℕ} {K : Type*} [Field K] {b c : K}
   refine ⟨T (eVec n a) - eVec n a, sub_mem_commSpace T _, ?_⟩
   have h1 : T (eVec n a) = fVec n a := by
     have := h.1 (Sum.inl a)
-    rw [spMonoPerm_inl, if_neg (by rw [ha]; norm_num)] at this
+    rw [spMonoPerm_inl, ite_eq_right (by rw [ha]; norm_num)] at this
     exact this
   rw [h1, sub_eq_add_neg, ← neg_one_smul K (eVec n a : Vm n K),
     QuadraticMap.map_add (quadMinus n K b c), QuadraticMap.map_smul (quadMinus n K b c),

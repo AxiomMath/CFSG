@@ -90,18 +90,18 @@ theorem stab_of_complete {Lab : Type} {A : LabAct Lab} {valid : Lab → Prop}
   have hgZ : g ∈ stab hlaw hΔ := (mem_stab hlaw hΔ).2 hg
   rcases Nat.lt_or_ge j mw.length with hjl | hjl
   · rcases Nat.eq_zero_or_pos j with rfl | hjp
-    · rw [hZ, memberOrTop, if_pos hjl, h0, List.map_nil, List.append_nil] at hgZ
+    · rw [hZ, memberOrTop, ite_eq_left hjl, h0, List.map_nil, List.append_nil] at hgZ
       exact hgZ
     · exfalso
       obtain ⟨w, hw, hne⟩ := hmove j hjp hjl
       have hm : wordElt a b w ∈ stab hlaw hΔ := by
-        rw [hZ, memberOrTop, if_pos hjl]
+        rw [hZ, memberOrTop, ite_eq_left hjl]
         exact Subgroup.subset_closure (List.mem_append_right _ (List.mem_map_of_mem hw))
       exact hne ((mem_stab hlaw hΔ).1 hm)
   · exfalso
     have hm : ∀ x : Γ, x ∈ stab hlaw hΔ := by
       intro x
-      rw [hZ, memberOrTop, if_neg (by omega)]
+      rw [hZ, memberOrTop, ite_eq_right (by omega)]
       exact Subgroup.mem_top x
     rcases htop with h | h
     · exact h ((mem_stab hlaw hΔ).1 (hm a))

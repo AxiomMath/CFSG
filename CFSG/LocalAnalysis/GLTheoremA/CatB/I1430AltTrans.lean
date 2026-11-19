@@ -12,7 +12,8 @@ section Transport
 
 variable {G G' : Type} [Group G] [Finite G] [Group G'] [Finite G']
 
-theorem normalizer_map_of_injective {f : G →* G'} (hf : Function.Injective f) {U : Subgroup G} {x : G}
+omit [Finite G] [Finite G'] in
+theorem normalizer_map_of_injective {f : G →* G'} (_hf : Function.Injective f) {U : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (U : Set G)) :
     f x ∈ Subgroup.normalizer ((U.map f : Subgroup G') : Set G') := by
   have hx' : ∀ h : G, h ∈ U ↔ x * h * x⁻¹ ∈ U := fun h => Subgroup.mem_normalizer_iff.1 hx h
@@ -60,7 +61,7 @@ theorem pRank_bot_eq_zero {G : Type} [Group G] [Finite G] (p : ℕ) (hp : 2 ≤ 
     CFSG.Open.pRank p (⊥ : Subgroup G) = 0 := by
   have hset : {k : ℕ | ∃ E : Subgroup G, E ≤ ⊥ ∧ IsElemAbelian p E ∧ Nat.card E = p ^ k} = {0} := by
     ext k
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨E, hE, -, hcard⟩
       have hE' : E = ⊥ := le_bot_iff.1 hE

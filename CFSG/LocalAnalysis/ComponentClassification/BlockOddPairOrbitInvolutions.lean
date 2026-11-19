@@ -98,7 +98,7 @@ theorem normalizer {G : Type*} [Group G] [Finite G]
       exact lift.property
     obtain ⟨hab, homomorphism, hinjective⟩ := BlockOddPairOrbitEmbedding.embedding component heven huniversal hquasisimple
       hcard first second third hfirst hsecond hthird hdistinct actor hactor image
-        (sylow.isPGroup'.map normalizer.subtype) (himage.trans inf_le_left) (himage.trans inf_le_right)
+        (sylow.isPGroup.map normalizer.subtype) (himage.trans inf_le_left) (himage.trans inf_le_right)
           hoddOrbit hstrict prescribed
     have hprescribedImage : (prescribed : Subgroup intersection).map intersection.subtype ≤ intersection := by
       rintro member ⟨lift, hlift, rfl⟩

@@ -23,6 +23,7 @@ section Row26FourB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem row1526_four_pair_aux_uOf_le_map {M T : Subgroup G} (L : Subgroup ↥M) :
     uOf M T L ≤ (gnV (T.subgroupOf M)).map M.subtype := by
   refine Subgroup.map_mono ?_
@@ -42,6 +43,7 @@ theorem row1526_four_pair_aux_isElemAbelian {M T : Subgroup G}
   (((CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542.isElemAbelian_gnV (T.subgroupOf M) hX).map
     M.subtype).mono (row1526_four_pair_aux_uOf_le_map L))
 
+omit [Finite G] in
 theorem row1526_four_pair_aux_card_uOf {M T : Subgroup G} (L : Subgroup ↥M) :
     Nat.card (uOf M T L) = Nat.card ↥⁅L, gnV (T.subgroupOf M)⁆ :=
   Subgroup.card_map_of_injective M.subtype_injective
@@ -74,7 +76,7 @@ theorem row1526_four_pair_aux_inter {M T : Subgroup G} {T₁ T₂ : Subgroup ↥
   have haA : (a : G) ∈ A := haA'
   have ha1' : (a : G) ≠ 1 := fun h => ha1 (Subtype.ext (Subtype.ext h))
   have hx : I.map (MulAut.conj a).toMonoidHom = I := mem_normalizer_iff_map_conj_eq.1 haN
-  haveI : (gnV (T.subgroupOf M)).Normal := Subgroup.normalClosure_normal
+  have : (gnV (T.subgroupOf M)).Normal := Subgroup.normalClosure_normal
   have hxU := mem_normalizer_commutator (V := gnV (T.subgroupOf M)) hx
   have hxU' : conjSub a ⁅I, gnV (T.subgroupOf M)⁆ = ⁅I, gnV (T.subgroupOf M)⁆ :=
     mem_normalizer_iff_map_conj_eq.1 hxU
@@ -116,7 +118,7 @@ theorem row1526_four_pair_gen {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M} (hK
     change 3 ∉ sigmaM G M
     rw [h25.1]
     intro h
-    have h37 : (3 : ℕ) = 7 := by simpa using h
+    have h37 : (3 : ℕ) = 7 := by simp at h
     omega
   have hcard3 : Set.ncard (CY (T.subgroupOf M) T₁ T₂) ≤ 3 :=
     ncard_CY_le_three hKSML3 hX (ctx.rank_odd_off 3 Nat.prime_three (by norm_num) h3σ)
@@ -150,7 +152,7 @@ theorem row1526_four_contra_gen {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M} (
     change 3 ∉ sigmaM G M
     rw [h25.1]
     intro h
-    have h37 : (3 : ℕ) = 7 := by simpa using h
+    have h37 : (3 : ℕ) = 7 := by simp at h
     omega
   have h33 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥M) ≤ 3 :=
     ctx.rank_odd_off 3 Nat.prime_three (by norm_num) h3σ

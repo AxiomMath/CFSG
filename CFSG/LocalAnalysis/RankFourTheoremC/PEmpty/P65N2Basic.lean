@@ -20,13 +20,15 @@ theorem eq_one_of_pow_eq_one {f p n : ℕ} [Fact f.Prime] (hp : p.Prime) (hpf : 
   have h2 : f ^ k = 1 := Nat.Coprime.eq_one_of_dvd hcop h1
   exact orderOf_eq_one_iff.mp (by rw [hk, h2])
 
+omit [Finite K] in
 theorem isPGroup_zpowers_of_pow_eq_one {p n : ℕ} (hp : p.Prime) {t : K} (htn : t ^ (p ^ n) = 1) :
     IsPGroup p (zpowers t) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : orderOf t ∣ p ^ n := orderOf_dvd_of_pow_eq_one htn
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hp).mp hdvd
   exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
 
+omit [Finite K] in
 theorem pow_eq_one_of_commute {t x : K} {m : ℕ} (htm : t ^ m = 1)
     (hty : t * (x⁻¹ * (t * x * t⁻¹)) = (x⁻¹ * (t * x * t⁻¹)) * t) :
     (x⁻¹ * (t * x * t⁻¹)) ^ m = 1 := by
@@ -48,6 +50,7 @@ theorem pow_eq_one_of_commute {t x : K} {m : ℕ} (htm : t ^ m = 1)
   have h2 : x * y ^ m = x := by simpa using h1.symm
   simpa using h2
 
+omit [Finite K] in
 theorem centralizes_of_critical_pElt {f p n : ℕ} [Fact f.Prime] (hp : p.Prime) (hpf : p ≠ f)
     {X : Subgroup K} (hX : IsPGroup f X) (C₀ : Subgroup ↥X)
     (hC₀ : CFSG.SectionRank.Ccomm.IsThompsonCritical C₀)
@@ -76,6 +79,7 @@ theorem centralizes_of_critical_pElt {f p n : ℕ} [Fact f.Prime] (hp : p.Prime)
   calc t * x = t * x * t⁻¹ * t := by group
     _ = x * t := by rw [← hx']
 
+omit [Finite K] in
 theorem fixed_of_pow_fixed {f p n : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.Prime) (hpf : p ≠ f)
     {C : Subgroup K} (hC : IsPGroup f C)
     (hP' : ∀ x ∈ C, ∀ y ∈ C, ∀ w ∈ C, w * ⁅x, y⁆ = ⁅x, y⁆ * w)
@@ -128,7 +132,7 @@ def trivOnQuot (C M₀ : Subgroup K) : Subgroup K where
           ((s₂ * x * s₂⁻¹)⁻¹ * (s₁ * (s₂ * x * s₂⁻¹) * s₁⁻¹)) := by group
     rw [e]
     exact M₀.mul_mem (h₂ x hx) (h₁ _ hx')
-  one_mem' := ⟨one_mem _, fun x _ => by simpa using M₀.one_mem⟩
+  one_mem' := ⟨one_mem _, fun x _ => by simp⟩
   inv_mem' := by
     rintro s ⟨hs, h⟩
     refine ⟨inv_mem hs, fun x hx => ?_⟩
@@ -142,11 +146,11 @@ def trivOnQuot (C M₀ : Subgroup K) : Subgroup K where
 
 theorem eq_of_trivial_on_quotient_pElt {f p n : ℕ} [Fact f.Prime] (hp : p.Prime) (hpf : p ≠ f)
     {C M₀ : Subgroup K} (hC : IsPGroup f C) (hM : M₀ ≤ C)
-    (hMn : ∀ x ∈ C, ∀ m ∈ M₀, x * m * x⁻¹ ∈ M₀) (hfr : M₀.subgroupOf C ≤ frattini ↥C)
+    (_hMn : ∀ x ∈ C, ∀ m ∈ M₀, x * m * x⁻¹ ∈ M₀) (hfr : M₀.subgroupOf C ≤ frattini ↥C)
     {t : K} (htn : t ^ (p ^ n) = 1) (htC : t ∈ normalizer (C : Set K))
     (htM : t ∈ normalizer (M₀ : Set K))
     (htriv : ∀ x ∈ C, x⁻¹ * (t * x * t⁻¹) ∈ M₀) : ∀ x ∈ C, t * x = x * t := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hM0 : IsPGroup f M₀ := hC.to_le hM
   have hq : ¬ p ∣ Nat.card M₀ := by
     obtain ⟨k, hk⟩ := hM0.exists_card_eq

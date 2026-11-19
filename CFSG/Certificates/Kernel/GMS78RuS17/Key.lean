@@ -31,7 +31,7 @@ theorem sKey_aux (m : Nat → Nat → Nat) (u : Nat) : ∀ n,
       (Nat.beq (m n u) (m u n))) := rfl
     rw [e, P117.strictN_eq, sKey_aux m u n]
     simp only [brec_eq, P117.beq_eq, List.range_succ, List.countP_append, List.countP_cons,
-      List.countP_nil, Nat.shiftLeft_eq, Nat.add_eq, decide_eq_true_eq]
+      List.countP_nil, Nat.add_eq]
     by_cases h1 : m n u = m u n <;> by_cases h2 : m n n = u <;> by_cases h3 : m n n = 256 <;>
       simp [h1, h2, h3] <;> omega
 

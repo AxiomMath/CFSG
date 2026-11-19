@@ -99,8 +99,7 @@ theorem s16c1_G47_L3_inner {F : Type} [Field F] [Finite F] (hF : Nat.card F = 5)
     have hblkcomm : blk A0 * blk A = blk A * blk A0 := by rw [hA0]; exact hYx
     have hul := congrArg (fun z : GL (Fin 3) F => ulBlock (z : Matrix (Fin 3) (Fin 3) F))
       hblkcomm
-    simp only [Units.val_mul, coe_blk, Matrix.SpecialLinearGroup.det_coe, inv_one,
-      blkMat_mul, ulBlock_blkMat] at hul
+    simp only [Units.val_mul, coe_blk, blkMat_mul, ulBlock_blkMat] at hul
     exact hul
   obtain ⟨c, hc⟩ := s16c1_G47_sl2_cent_scalar (A0 : Matrix (Fin 2) (Fin 2) F) hA0comm
   have hY2 : Y * Y = 1 := by

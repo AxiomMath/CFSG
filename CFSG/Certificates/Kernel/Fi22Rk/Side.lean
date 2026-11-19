@@ -232,7 +232,7 @@ theorem permsOK_of {G mus : Array (Array Nat)} {GK MUK : Nat → Nat} (hAs : A.s
   · rw [(hM l hl).1]
     exact isInvA_PP (hM l hl).2
 
-theorem conjOK_of (hsz : szOK n w = true) {I G mus : Array (Array Nat)} {GK MUK : Nat → Nat}
+theorem conjOK_of (_hsz : szOK n w = true) {I G mus : Array (Array Nat)} {GK MUK : Nat → Nat}
     (hI : ∀ i < 243, I[i]! = unpack n w (IK i) ∧ canonK n w (mask w) (n * w) (IK i) = true)
     (hG : ∀ l < 2, G[l]! = unpack n w (GK l) ∧ PP n w (GK l))
     (hM : ∀ l < 2, mus[l]! = unpack 243 8 (MUK l))
@@ -247,7 +247,7 @@ theorem conjOK_of (hsz : szOK n w = true) {I G mus : Array (Array Nat)} {GK MUK 
   have ei : Nat.add (Nat.mul 16 (i / 16)) (i % 16) = i := by
     simp only [Nat.add_eq, Nat.mul_eq]
     omega
-  rw [ei, bIf_eq, if_pos (Nat.blt_eq.mpr hi)] at h1
+  rw [ei, bIf_eq, ite_eq_left (Nat.blt_eq.mpr hi)] at h1
   unfold conjAt at h1
   rw [strictB_eq, strictB_eq, strictB_eq] at h1
   obtain ⟨hj, he⟩ := (bAnd_iff _ _).1 h1

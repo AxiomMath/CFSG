@@ -14,6 +14,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_le_normalizer {A C : Subgroup G}
     (hC : C ≤ normalizer (A : Set G)) :
     Nat.card (C ⊔ A : Subgroup G) * Nat.card (A ⊓ C : Subgroup G) =
@@ -34,12 +35,12 @@ theorem card_sup_mul_card_inf_of_le_normalizer {A C : Subgroup G}
 theorem commutator_mem_pCoreOf_of_ne {M L K : Subgroup G} (hL : L ∈ calC M)
     (hK : K ∈ calC M) (hne : L ≠ K) {l k : G} (hl : l ∈ L) (hk : k ∈ K) :
     ⁅l, k⁆ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ M := hL.1.le
   have hKM : K ≤ M := hK.1.le
   let Q : Subgroup ↥M := CFSG.pCore 2 ↥M
   let π : ↥M →* Bar2 M := QuotientGroup.mk' Q
-  haveI hQn : Q.Normal := CFSG.pCore_normal
+  have hQn : Q.Normal := CFSG.pCore_normal
   let l' : ↥M := ⟨l, hLM hl⟩
   let k' : ↥M := ⟨k, hKM hk⟩
   have hlbar : π l' ∈ barImage M L := by
@@ -67,12 +68,12 @@ theorem commutator_mem_pCoreOf_of_ne {M L K : Subgroup G} (hL : L ∈ calC M)
 theorem calC_le_normalizer_of_ne {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K ∈ calC M)
     (hne : L ≠ K) : K ≤ normalizer (L : Set G) := by
   intro k hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ M := hL.1.le
   have hKM : K ≤ M := hK.1.le
   let Q : Subgroup ↥M := CFSG.pCore 2 ↥M
   let π : ↥M →* Bar2 M := QuotientGroup.mk' Q
-  haveI hQn : Q.Normal := CFSG.pCore_normal
+  have hQn : Q.Normal := CFSG.pCore_normal
   let k' : ↥M := ⟨k, hKM hk⟩
   have hcomm : ∀ a ∈ barImage M L, a * π k' = π k' * a := by
     intro a ha
@@ -156,7 +157,7 @@ theorem calC_le_normalizer_of_ne {M L K : Subgroup G} (hL : L ∈ calC M) (hK : 
 
 theorem calC_commutator_le_of_ne {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K ∈ calC M)
     (hne : L ≠ K) : ⁅L, K⁆ ≤ pCoreOf 2 L ⊓ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLK := calC_le_normalizer_of_ne hL hK hne
   have hKL := calC_le_normalizer_of_ne hK hL hne.symm
   have hLM : L ≤ M := hL.1.le
@@ -199,14 +200,14 @@ theorem calC_commutator_le_of_ne {M L K : Subgroup G} (hL : L ∈ calC M) (hK : 
 theorem calC_inf_le_pCore_of_ne {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K ∈ calC M)
     (hne : L ≠ K) (hLc : Subgroup.center (Bar2 L) = ⊥) (hKc : Subgroup.center (Bar2 K) = ⊥) :
     L ⊓ K ≤ pCoreOf 2 L ⊓ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKLcomm := calC_commutator_le_of_ne hK hL hne.symm
   have hLKcomm := calC_commutator_le_of_ne hL hK hne
   intro z hz
   obtain ⟨hzL, hzK⟩ := hz
   have hzLmem : z ∈ pCoreOf 2 L := by
     let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
-    haveI hQn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+    have hQn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
     have hcenter : π ⟨z, hzL⟩ ∈ Subgroup.center (Bar2 L) := by
       rw [Subgroup.mem_center_iff]
       intro y
@@ -233,7 +234,7 @@ theorem calC_inf_le_pCore_of_ne {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K
     exact Subgroup.mem_map.mpr ⟨⟨z, hzL⟩, hz', rfl⟩
   have hzKmem : z ∈ pCoreOf 2 K := by
     let π : ↥K →* Bar2 K := QuotientGroup.mk' (CFSG.pCore 2 ↥K)
-    haveI hQn : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+    have hQn : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
     have hcenter : π ⟨z, hzK⟩ ∈ Subgroup.center (Bar2 K) := by
       rw [Subgroup.mem_center_iff]
       intro y
@@ -266,6 +267,7 @@ theorem calC_card_sup_mul_card_inf {M L K : Subgroup G} (hL : L ∈ calC M) (hK 
   rw [sup_comm]
   exact card_sup_mul_card_inf_of_le_normalizer (calC_le_normalizer_of_ne hL hK hne)
 
+omit [Finite G] in
 theorem isL3_bar2_map_conj {L : Subgroup G} (f : MulAut G) (h : IsL3 (Bar2 L) 1) :
     IsL3 (Bar2 (L.map f.toMonoidHom)) 1 := by
   unfold IsL3 at h ⊢

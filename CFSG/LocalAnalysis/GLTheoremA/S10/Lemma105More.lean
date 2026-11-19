@@ -15,6 +15,7 @@ namespace S10
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem le_normalizer_comm {K H₁ H₂ : Subgroup G} (h₁ : K ≤ Subgroup.normalizer (H₁ : Set G))
     (h₂ : K ≤ Subgroup.normalizer (H₂ : Set G)) :
     K ≤ Subgroup.normalizer ((⁅H₁, H₂⁆ : Subgroup G) : Set G) := by
@@ -72,7 +73,7 @@ theorem exists_TData (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgroup 
     (fun S' hSS' hS'I hS'2 hS'B hS'O => le_antisymm (hmax ⟨hS'I, hS'2, hS'B, hS'O⟩ hSS') hSS')
   refine ⟨S, hSI, hS2, hSB, hSO, ?_, fun c hcB hcS => (h.cent_I c hcB).1 (hcent c hcB hcS)⟩
   by_contra hle
-  push_neg at hle
+  push Not at hle
   obtain ⟨B₀, hB₀B, hcardB, hB₀⟩ := hsmall hle
   have hB₀D : B₀ ≤ Dgrp b x := fun c hc0 =>
     (h.cent_I c (hB₀B hc0)).1 (hcent c (hB₀B hc0) (hB₀ c hc0))
@@ -94,7 +95,7 @@ theorem essential_105 (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G
   refine ⟨haB, ha1, S, hT.le_I.trans (Ipart_le_cx h ha), hT.two, hT.norm, ?_, ?_⟩
   · obtain ⟨c, hcB, hcD⟩ : ∃ c ∈ B, c ∉ Dgrp b x := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       exact not_B_le_D hc h hno
     intro hbot
     have h1 : (⁅S, Subgroup.zpowers c⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p (Ipart p L b) := by
@@ -114,7 +115,7 @@ theorem T_of_TData (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {
     ∃ T : Subgroup G, T ≤ Ipart p L b ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set G) ∧
       ¬ T ≤ GLAPPrimeCoreOf p (Ipart p L b) ∧ (⁅B, T⁆ : Subgroup G) = T ∧ T ≠ ⊥ := by
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTS : (⁅S, B⁆ : Subgroup G) ≤ S := comm_le_left_of_normalizes hT.norm
   have hnle : ¬ (⁅S, B⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p (Ipart p L b) := by
     intro hle
@@ -154,7 +155,7 @@ theorem not_sp4_u3 (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgroup G}
 private theorem lemma105more_coprime_pPrimeCore (p : ℕ) (H : Type*) [Group H] [Finite H] :
     Nat.Coprime p (Nat.card (CFSG.pPrimeCore p H)) := by
   refine Nat.coprime_of_dvd fun k hk hkp hkn => ?_
-  haveI : Fact k.Prime := ⟨hk⟩
+  have : Fact k.Prime := ⟨hk⟩
   have hle : CFSG.pPrimeCore p H ≤ CFSG.pPrimeCore k H :=
     sSup_le_sSup fun N hN => ⟨hN.1, Nat.Coprime.coprime_dvd_left hkp hN.2⟩
   have hd : Nat.card (CFSG.pPrimeCore p H) ∣ Nat.card (CFSG.pPrimeCore k H) :=
@@ -162,6 +163,7 @@ private theorem lemma105more_coprime_pPrimeCore (p : ℕ) (H : Type*) [Group H] 
   have hk2 : k ∣ Nat.card (CFSG.pPrimeCore k H) := hkn.trans hd
   exact hk.ne_one (CFSG.pPrimeCore_coprime_card.eq_one_of_dvd hk2)
 
+omit [Finite G] in
 private theorem lemma105more_normalizer_zpowers {g x : G} (hg : g * x = x * g) :
     g ∈ Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G) := by
   have hc : Commute g x := hg
@@ -187,6 +189,7 @@ private theorem lemma105more_normalizer_zpowers {g x : G} (hg : g * x = x * g) :
         _ = x ^ k := by group
     rw [hk2]
 
+omit [Finite G] in
 private theorem lemma105more_normalizer_centralizer {g a : G} (hg : g * a = a * g) :
     g ∈ Subgroup.normalizer ((Subgroup.centralizer ({a} : Set G) : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -216,9 +219,10 @@ private theorem lemma105more_normalizer_centralizer {g a : G} (hg : g * a = a * 
       _ = (g⁻¹ * a * g) * y := by group
       _ = a * y := by rw [hgag]
 
+omit [Finite G] in
 private theorem lemma105more_card_zpowers {p : ℕ} (hp : p.Prime) {x : G} (hx : x ^ p = 1) (hx1 : x ≠ 1) :
     Nat.card (Subgroup.zpowers x) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Nat.card_zpowers, orderOf_eq_prime hx hx1]
 
 private theorem lemma105more_card_sup {p : ℕ} (hp : p.Prime) {A B : Subgroup G} (hA : Nat.card A = p)
@@ -235,11 +239,13 @@ private theorem lemma105more_card_sup {p : ℕ} (hp : p.Prime) {A B : Subgroup G
   rw [hcop, hA, hB, mul_one, ← sq] at hmul
   exact hmul
 
+omit [Finite G] in
 private theorem lemma105more_gLBConj_iSup₂ (g : G) {H : Subgroup G} (F : G → Subgroup G) :
     GLBConj g (⨆ x ∈ H, F x) = ⨆ x ∈ H, GLBConj g (F x) := by
   unfold GLBConj
   simp only [Subgroup.map_iSup]
 
+omit [Finite G] in
 private theorem lemma105more_gLBConj_closureIn_le {I H : Subgroup G} {g : G}
     (hI : g ∈ Subgroup.normalizer (I : Set G)) (hH : g ∈ Subgroup.normalizer (H : Set G)) :
     GLBConj g (closureIn I H) ≤ closureIn I H := by
@@ -257,6 +263,7 @@ private theorem lemma105more_gLBConj_closureIn_le {I H : Subgroup G} {g : G}
     _ = GLBConj (g⁻¹ * h * g) I := by rw [hI']
     _ ≤ ⨆ k ∈ H, GLBConj k I := le_biSup (fun k => GLBConj k I) hh'
 
+omit [Finite G] in
 private theorem lemma105more_normalizer_closureIn {I H : Subgroup G} {g : G}
     (hI : g ∈ Subgroup.normalizer (I : Set G)) (hH : g ∈ Subgroup.normalizer (H : Set G)) :
     g ∈ Subgroup.normalizer ((closureIn I H : Subgroup G) : Set G) := by
@@ -270,6 +277,7 @@ private theorem lemma105more_normalizer_closureIn {I H : Subgroup G} {g : G}
         (gLBConj_gLBConj_inv g _).symm
     _ ≤ GLBConj g (closureIn I H) := CFSG.LocalAnalysis.GLTheoremB.gLBConj_mono g h2
 
+omit [Finite G] in
 private theorem lemma105more_pQuot_gLBConj (p : ℕ) (K : Subgroup G) (g : G) :
     Nonempty (PQuot p (GLBConj g K) ≃* PQuot p K) := by
   let c : G →* G := (MulAut.conj g⁻¹).toMonoidHom
@@ -278,6 +286,7 @@ private theorem lemma105more_pQuot_gLBConj (p : ℕ) (K : Subgroup G) (g : G) :
     CFSG.pPrimeCore_map_iso p e
   exact ⟨(QuotientGroup.congr (GLAPPrimeCore p ↥K) (GLAPPrimeCore p ↥(K.map c)) e hmap).symm⟩
 
+omit [Finite G] in
 private theorem lemma105more_mem_normalizer_of_conj_eq {u v : G} {K : Subgroup G}
     (h : GLBConj u K = GLBConj v K) : u * v⁻¹ ∈ Subgroup.normalizer (K : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq]
@@ -289,7 +298,7 @@ private theorem lemma105more_three_conj {B : Subgroup G} {p : ℕ} (hp : p.Prime
     ∃ g₀ ∈ B, ∃ g₁ ∈ B, ∃ g₂ ∈ B, GLBConj g₀ K ≠ GLBConj g₁ K ∧
       GLBConj g₀ K ≠ GLBConj g₂ K ∧ GLBConj g₁ K ≠ GLBConj g₂ K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set S : Subgroup ↥B := (Subgroup.normalizer (K : Set G)).subgroupOf B with hS
   have hStop : S ≠ ⊤ := by
     rw [hS, Ne, Subgroup.subgroupOf_eq_top]
@@ -309,7 +318,7 @@ private theorem lemma105more_three_conj {B : Subgroup G} {p : ℕ} (hp : p.Prime
   have hcard : 2 < Nat.card (↥B ⧸ S) := by
     rw [← Subgroup.index_eq_card]
     omega
-  haveI : Fintype (↥B ⧸ S) := Fintype.ofFinite _
+  have : Fintype (↥B ⧸ S) := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card] at hcard
   obtain ⟨q₀, q₁, q₂, h01, h02, h12⟩ := Fintype.two_lt_card_iff.1 hcard
   obtain ⟨u₀, hu₀⟩ := QuotientGroup.mk_surjective q₀
@@ -365,7 +374,7 @@ private theorem lemma105more_complement {B : Subgroup G} {b x a : G} (hB : IsEle
   have hA : Nat.card (Subgroup.zpowers a) = p := lemma105more_card_zpowers hp hap ha1
   obtain ⟨d, hdD, hdA⟩ : ∃ d ∈ Dgrp b x, d ∉ Subgroup.zpowers a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Dgrp b x ≤ Subgroup.zpowers a := fun d hd => hcon d hd
     have h1 : Nat.card (Dgrp b x) ≤ Nat.card (Subgroup.zpowers a) := Subgroup.card_le_of_le hle
     rw [hD, hA] at h1
@@ -386,6 +395,7 @@ private theorem lemma105more_complement {B : Subgroup G} {b x a : G} (hB : IsEle
     Subgroup.eq_of_le_of_card_ge hle (le_of_eq (by rw [hsup, hD]))
   exact ⟨d, hdD, hdA, heq.symm⟩
 
+omit [Finite G] in
 private theorem lemma105more_normalizer_inf_cent {L : Subgroup G} {g b : G}
     (hgL : g ∈ Subgroup.normalizer (L : Set G)) (hgb : g * b = b * g) :
     g ∈ Subgroup.normalizer ((L ⊓ Subgroup.centralizer ({b} : Set G) : Subgroup G) : Set G) := by
@@ -566,7 +576,7 @@ theorem exists_K_not_norm (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subg
       rw [← hee, closureIn_eq_iSup_gLBConj]
       exact le_iSup₂ (f := fun g (_ : g ∈ B) => GLBConj g L₁) e heB
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsing : ∀ L₁ ∈ 𝒞, ∀ L₂ ∈ 𝒞, L₁ = L₂ := by
     intro L₁ h₁ L₂ h₂
     obtain ⟨e, he, hee⟩ := htrans L₁ h₁ L₂ h₂
@@ -595,12 +605,12 @@ theorem exists_K_not_norm (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subg
 private theorem lemma105more_quot_center_equiv {Q S : Type} [Group Q] [Group S] [IsSimpleGroup S]
     (hQ : Nontrivial (Q ⧸ Subgroup.center Q)) (e : Q ≃* S) :
     Nonempty ((Q ⧸ Subgroup.center Q) ≃* S) := by
-  haveI : IsSimpleGroup Q := e.isSimpleGroup
+  have : IsSimpleGroup Q := e.isSimpleGroup
   have hZ : Subgroup.center Q = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Q) with h1 | h1
     · exact h1
     · exfalso
-      haveI : Subsingleton (Q ⧸ Subgroup.center Q) := by
+      have : Subsingleton (Q ⧸ Subgroup.center Q) := by
         rw [h1]
         exact QuotientGroup.subsingleton_quotient_top
       exact not_subsingleton (Q ⧸ Subgroup.center Q) ‹_›
@@ -645,12 +655,12 @@ theorem Ibar_pSimple_iso (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgr
   have hp := hc.ctx.prime
   obtain ⟨X, hKX⟩ := hK
   obtain ⟨e⟩ := e
-  haveI : IsSimpleGroup (PSimple p K) := (isQuasisimple_pQuot_of_glaPComponent hp hKX).2
+  have : IsSimpleGroup (PSimple p K) := (isQuasisimple_pQuot_of_glaPComponent hp hKX).2
   have hLcomp : GLAPComponent p (cx x) L := (sstar_triple h.star).2.2
   have hchev : IsChevSimple 2 (PSimple p L) := sstar_chev2 hc h.star
   have hbp : b ^ p = 1 := (B_el h).2 b h.mem
   obtain ⟨hIcomp, -⟩ := hin.i91comp (cx x) L b hLcomp hchev hbp h.prop h.I_ne
-  haveI : IsSimpleGroup (PSimple p (Ipart p L b)) :=
+  have : IsSimpleGroup (PSimple p (Ipart p L b)) :=
     (isQuasisimple_pQuot_of_glaPComponent hp hIcomp).2
   exact lemma105more_quot_center_equiv (inferInstance) e
 
@@ -794,8 +804,8 @@ theorem J3_of_not_norm_same (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Su
   have hI3 := hin.l103.more.i91type.l3 (cx x) L b hLcomp hbp h.prop hIcomp h.I_ne hL3
   exact ⟨(catalogIs_congr f).1 hI3, hexcJ.2.1⟩
 
-theorem four_components (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgroup G} {x : G}
-    {L : Subgroup G} {b : G} (h : Cfg p B x L b) {a : G} (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
+theorem four_components (hc : S10Ctx G p) (_hin : Lemma105Inputs G p) {B : Subgroup G} {x : G}
+    {L : Subgroup G} {b : G} (h : Cfg p B x L b) {a : G} (ha : a ∈ Dgrp b x) (_ha1 : a ≠ 1)
     (hsingle : GLAPComponent p (cx a) (Jpart p (Ipart p L b) a)) {K : Subgroup G}
     (hK : GLAPComponent p (cx a) K) (hiso : Nonempty (PQuot p K ≃* PQuot p (Jpart p (Ipart p L b) a)))
     (hnB : ¬ B ≤ Subgroup.normalizer (K : Set G)) :
@@ -896,7 +906,7 @@ private theorem lemma105more_r4_cent_of {Q : Type} [Group Q] {X Y X' Y' : Subgro
 private theorem lemma105more_r4_symm {Q : Type} [Group Q] {A B : Subgroup Q}
     (h : A ≤ Subgroup.centralizer (B : Set Q)) : B ≤ Subgroup.centralizer (A : Set Q) :=
   fun b hb => Subgroup.mem_centralizer_iff.2
-    (fun a ha => ((Subgroup.mem_centralizer_iff.1 (h ha)) b hb).symm)
+    (fun _a ha => ((Subgroup.mem_centralizer_iff.1 (h ha)) b hb).symm)
 
 private theorem lemma105more_r4_comm_of_isElemAbelian {Q : Type} [Group Q] {p : ℕ} {A : Subgroup Q}
     (hA : IsElemAbelian p A) : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
@@ -978,11 +988,13 @@ private theorem lemma105more_r4_barX_ne_bot {C K T : Subgroup G} (hp : p.Prime) 
   rw [← glaPPrimeCoreOf_inf_eq_of_isSubnormal hp hsn]
   exact le_inf hTK hTO
 
+omit [Finite G] in
 private theorem lemma105more_r4_barX_mono {C S S' : Subgroup G} (h : S ≤ S') :
     barX p C S ≤ barX p C S' := by
   rintro _ ⟨c, hc, rfl⟩
   exact Subgroup.mem_map.2 ⟨c, Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hc)), rfl⟩
 
+omit [Finite G] in
 private theorem lemma105more_r4_isPGroup_map {q : ℕ} {C T : Subgroup G} (hT : IsPGroup q T)
     (hTC : T ≤ C) : IsPGroup q ↥(barX p C T) :=
   IsPGroup.map (hT.of_equiv (Subgroup.subgroupOfEquivOfLe hTC).symm) _
@@ -992,7 +1004,7 @@ private theorem lemma105more_r4_isPGroup_of {Q : Type} [Group Q] {p : ℕ} {E : 
   fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 g.1 g.2)⟩
 
 theorem rank_of_four (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b a : G} (h : Cfg p B x L b) (ha : a ∈ Dgrp b x) (hp3 : p = 3)
+    {b a : G} (h : Cfg p B x L b) (_ha : a ∈ Dgrp b x) (hp3 : p = 3)
     (hJ3 : catalogIs (PSimple p (Jpart p (Ipart p L b) a)) S9.isL3char2)
     (hJZ : Nat.card (Subgroup.center (PQuot p (Jpart p (Ipart p L b) a))) = 3)
     {K₁ K₂ K₃ K₄ : Subgroup G} (h12 : K₁ ≠ K₂) (h13 : K₁ ≠ K₃) (h14 : K₁ ≠ K₄) (h23 : K₂ ≠ K₃)
@@ -1006,7 +1018,7 @@ theorem rank_of_four (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgroup 
   subst hp3
   set C : Subgroup G := cx a with hCdef
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hcen : ∀ {K : Subgroup G}, Nonempty (PQuot 3 K ≃* PQuot 3 (Jpart 3 (Ipart 3 L b) a)) →
       Nat.card (Subgroup.center (PQuot 3 K)) = 3 := by
     rintro K ⟨e⟩
@@ -1166,13 +1178,13 @@ theorem rank_le_four_L3 (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgro
     (hL3 : catalogIs (PSimple p L) S9.isL3char2) : GLATwoLocalRank p G ≤ 4 := by
   subst hp3
   have hS := sstar_triple h.star
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx1 : x ≠ 1 := hS.2.1.2.1
   have hxp : x ^ 3 = 1 := hS.1.1.2 x hS.2.1.1
   have h1 := hin.l103.more.autl3 (cx x) L B hS.2.2 hL3 (sstar_norm h.star) (B_el h)
   rw [cent_B_eq hc h.star, Nat.card_zpowers, orderOf_eq_prime hxp hx1, hS.1.2.1] at h1
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h5 : 3 ^ 5 ≤ 3 ^ GLATwoLocalRank 3 G := Nat.pow_le_pow_right (by norm_num) hlt
   have h6 := h5.trans h1
   norm_num at h6

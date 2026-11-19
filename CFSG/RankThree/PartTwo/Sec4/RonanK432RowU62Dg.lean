@@ -67,11 +67,11 @@ noncomputable abbrev mk6 : S6 →* P6 := QuotientGroup.mk' (normOneScalars uData
 @[expose] def diagSU : Subgroup (Fin 6 → F4ˣ) where
   carrier := {d | ∏ i, d i = 1}
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Pi.mul_apply, Finset.prod_mul_distrib] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.mul_apply, Finset.prod_mul_distrib] at ha hb ⊢
     simp [ha, hb]
   one_mem' := by simp
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq, Pi.inv_apply, Finset.prod_inv_distrib] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Pi.inv_apply, Finset.prod_inv_distrib] at ha ⊢
     simp [ha]
 
 theorem mem_diagSU {d : Fin 6 → F4ˣ} : d ∈ diagSU ↔ ∏ i, d i = 1 :=
@@ -215,8 +215,8 @@ theorem u62_omega_sq {ω : F4ˣ} (hω : ω ≠ 1) : (ω : F4) ^ 2 + ω + 1 = 0 :
 theorem testD_mem (ω : F4ˣ) (i k : Fin 6) : testD ω i k ∈ diagSU := by
   rw [mem_diagSU]
   unfold testD
-  rw [Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.prod_ite_eq', if_pos (Finset.mem_univ _),
-    if_pos (Finset.mem_univ _), ← pow_succ']
+  rw [Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.prod_ite_eq', ite_eq_left (Finset.mem_univ _),
+    ite_eq_left (Finset.mem_univ _), ← pow_succ']
   exact u62_units_pow_three ω
 
 theorem trace_testD {ω : F4ˣ} (hω : ω ≠ 1) {i k : Fin 6} (hik : i ≠ k) :
@@ -233,7 +233,7 @@ theorem trace_testD {ω : F4ˣ} (hω : ω ≠ 1) {i k : Fin 6} (hik : i ≠ k) :
         simp [testD, h1]
       · simp [testD, h1, h2]
   simp only [h, Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true, nsmul_eq_mul]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true, nsmul_eq_mul]
   push_cast
   linear_combination hq + two_eq_zero_F4
 

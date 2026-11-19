@@ -46,16 +46,16 @@ private lemma hdRo7SULinAux_basisFun_eq {G : Type} [Group G] {p : ℕ} {Bs : Sub
   rw [hdRo7SULinAux_iota_ofMul, Pi.basisFun_apply]
   funext j
   by_cases h : j = i
-  · simp [Pi.single_apply, Pi.mulSingle_apply, h]
-  · simp [Pi.single_apply, Pi.mulSingle_apply, h]
+  · simp [h]
+  · simp [h]
 
 private lemma hdRo7SULinAux_SUOnes_eq {p : ℕ} {m : ℕ} :
     SUOnes p (Pi.basisFun (ZMod p) (Fin m)) = fun _ => (1 : ZMod p) := by
   funext k
   rw [SUOnes, Finset.sum_apply, Finset.sum_eq_single k]
-  · rw [Pi.basisFun_apply, Pi.single_apply, if_pos rfl]
+  · rw [Pi.basisFun_apply, Pi.single_apply, ite_eq_left rfl]
   · intro j _ hjk
-    rw [Pi.basisFun_apply, Pi.single_apply, if_neg (Ne.symm hjk)]
+    rw [Pi.basisFun_apply, Pi.single_apply, ite_eq_right (Ne.symm hjk)]
   · intro hk
     exact absurd (Finset.mem_univ k) hk
 
@@ -68,7 +68,7 @@ private lemma hdRo7SULinAux_coord_formula {p : ℕ} {m : ℕ}
     rw [Finset.sum_apply, Finset.sum_eq_single j]
     · simp [Pi.basisFun_apply]
     · intro i _ hij
-      simp [Pi.basisFun_apply, Pi.single_apply, Ne.symm hij]
+      simp [Pi.basisFun_apply, Ne.symm hij]
     · intro hj
       exact absurd (Finset.mem_univ j) hj
   have hgv : g v = ∑ i, v i • g ((Pi.basisFun (ZMod p) (Fin m)) i) := by
@@ -118,11 +118,11 @@ theorem su_linearModel_of_coord {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
           refine hj.trans ?_
           by_cases h : j = σ i
           · have h' : σ.symm j = i := by rw [h, Equiv.symm_apply_apply]
-            simp [Pi.mulSingle_apply, h, h']
+            simp [h]
           · have h' : σ.symm j ≠ i := by
               intro H
               exact h (by rw [← H, Equiv.apply_symm_apply])
-            simp [Pi.mulSingle_apply, h, h']
+            simp [h, h']
         simpa using congrArg τ hcoe
       rw [hdRo7SULinAux_basisFun_eq τ i, ggLin_apply_ofMul, hX,
         ← hdRo7SULinAux_basisFun_eq τ (σ i)]

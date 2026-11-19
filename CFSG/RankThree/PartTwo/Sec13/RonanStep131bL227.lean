@@ -169,7 +169,7 @@ end L227
 
 theorem pieceL227_holds (h131a : Item131a) : PieceL227 := by
   intro G _ _ A c L E F a b R Y hY hL
-  haveI : (solvableRadical Y).Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
+  have : (solvableRadical Y).Normal := Subgroup.normal_sSup _ fun _ hN => hN.1
   obtain ⟨e₂⟩ := hL
   have hD : Sec13Data G F b Y := hY.hD
   have hq : CFSG.IsQuasisimple (Y ⧸ aschbacherSolvableCore 3 Y) :=

@@ -16,7 +16,7 @@ theorem exists_sylow_le_H {z : G} {T : Sylow 2 G} (hTH : (T : Subgroup G) ≤ Hz
     {P : Subgroup G} (hP : IsPGroup 2 ↥P) (hPH : P ≤ Hz z) :
     ∃ T' : Sylow 2 G, P ≤ (T' : Subgroup G) ∧ (T' : Subgroup G) ≤ Hz z ∧
       ∃ g : G, ∀ x : G, x ∈ (T' : Subgroup G) ↔ g⁻¹ * x * g ∈ (T : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T₀ : Subgroup ↥(Hz z) := (T : Subgroup G).subgroupOf (Hz z)
   have hT₀ : IsPGroup 2 ↥T₀ := T.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hTH).symm
   have hmax : ∀ {X : Subgroup ↥(Hz z)}, IsPGroup 2 ↥X → T₀ ≤ X → X ≤ T₀ := by

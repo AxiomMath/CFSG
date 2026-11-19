@@ -15,9 +15,9 @@ theorem qTwoLMSkel_x_mem_Bs {G : Type} [Group G] [Finite G] {B Bs L : Subgroup G
   hBs.1 (CFSG.GGQ2Prime.ggThmIHyp_unpack hG).2.1
 
 theorem qTwoLMSkel_prime_hord {G : Type} [Group G] [Finite G] {B Bs L : Subgroup G} {x : G}
-    (hG : GGThmIHyp 3 B x L) (hBs : GGBstar 3 B Bs) : orderOf x = 3 := by
+    (hG : GGThmIHyp 3 B x L) (_hBs : GGBstar 3 B Bs) : orderOf x = 3 := by
   obtain ⟨hab, hxB, hx1, -⟩ := CFSG.GGQ2Prime.ggThmIHyp_unpack hG
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (hab.2 x hxB) hx1
 
 theorem qTwoLMSkel_route_noTransvection {G : Type} [Group G] [Finite G] {B Bs L : Subgroup G}

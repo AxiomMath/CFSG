@@ -13,13 +13,14 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G} {K : Type} [Field K]
 
+omit [Finite G] in
 private theorem ml2_pCoreOf_le (p : ℕ) {H : Subgroup G} : pCoreOf p H ≤ H := by
   intro x hx
   obtain ⟨y, _, rfl⟩ := Subgroup.mem_map.mp hx
   exact y.2
 
 theorem conjugate_le_fsuML (h37 : Vol2Native.A37ForSQTKCat)
-    (h38 : Vol2Native.A38ForSQTKCat) (hfsu : FSU G T L I) (hlt : L < fsuL0 T L) {t : G}
+    (_h38 : Vol2Native.A38ForSQTKCat) (hfsu : FSU G T L I) (_hlt : L < fsuL0 T L) {t : G}
     (ht : t ∈ T) (htn : t ∉ Subgroup.normalizer (L : Set G)) :
     CFSG.conjugate L t ≤ fsuML T L := by
   have hN : CFSG.conjugate L t ≤ Subgroup.normalizer (L : Set G) :=
@@ -143,6 +144,7 @@ theorem mul_mem_conjugate_of_mem (h37 : Vol2Native.A37ForSQTKCat)
   rw [e]
   exact (Subgroup.mem_normalizer_iff.mp htt a).mp ha
 
+omit [Finite G] in
 theorem mul_mem_L_of_mem_conjugate {t b : G} (hb : b ∈ CFSG.conjugate L t) : t * b * t⁻¹ ∈ L := by
   exact mem_conjugate_iff.mp hb
 

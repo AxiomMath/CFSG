@@ -51,7 +51,7 @@ theorem isConj_z_mul_of_isConj_a (hI : TwoHSInterface) {G : Type} [Group G] {a z
   · exact absurd h3.1 hnot
 
 theorem isConj_a_mul_of_isConj_z (hI : TwoHSInterface) {G : Type} [Group G] {a z : G}
-    (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hF2 : Vert Fusion2Facts a z) {v t : G}
+    (h : IsF5Type a z) (_hF1 : Vert Fusion1Facts a z) (hF2 : Vert Fusion2Facts a z) {v t : G}
     (hv : IsConj a v) (ht : t ∈ derivedOf (Gx v)) (htz : IsConj z t) : IsConj a (v * t) := by
   have hF2v : Fusion2Facts v z := hF2 v z hv (IsConj.refl z)
   have htGx : t ∈ Gx v := derivedOf_le (Gx v) ht

@@ -18,7 +18,7 @@ open CFSG.Assembly.LowTwoRank (StatedProj StatedSU)
 
 theorem smallF3_of_card_dvd_six {S : Type} [Group S] (h : Nat.card (Outer S) ∣ 6) :
     SmallF3 S := by
-  haveI : Finite (Outer S) := Nat.finite_of_card_ne_zero (fun h0 => by
+  have : Finite (Outer S) := Nat.finite_of_card_ne_zero (fun h0 => by
     rw [h0] at h; norm_num at h)
   intro P hP
   obtain ⟨m, hm⟩ := hP.exists_card_eq
@@ -26,19 +26,19 @@ theorem smallF3_of_card_dvd_six {S : Type} [Group S] (h : Nat.card (Outer S) ∣
   rw [hm] at hd
   have hm1 : m ≤ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h4 : 2 ^ 2 ∣ 6 := (pow_dvd_pow 2 hc).trans hd
     norm_num at h4
   interval_cases m
   · have h1 : Nat.card P = 1 := by simpa using hm
-    haveI : Subsingleton P := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton P := (Nat.card_eq_one_iff_unique.1 h1).1
     infer_instance
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card (by simpa using hm)
 
 theorem smallF3_of_isCyclic {S : Type} [Group S] (h : IsCyclic (Outer S)) : SmallF3 S := by
   intro P _
-  haveI := h
+  have := h
   exact inferInstance
 
 theorem isCyclic_outer_of_equiv {S T : Type} [Group S] [Group T] (e : S ≃* T)
@@ -54,7 +54,7 @@ theorem card_outer_A2 {S : Type} [Group S] (q : PrimePower) (hv : (LieTypeIndex.
   have hf3 : q.exponent = 3 := by
     rw [hp3] at hpow
     exact Nat.pow_right_injective (by norm_num : 2 ≤ 3) hpow
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e2 : S ≃* projectiveSL 3 (GaloisField q.p q.exponent) :=
     (e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv)).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL
@@ -92,7 +92,7 @@ theorem card_outer_twistedA2 {S : Type} [Group S] (q : PrimePower)
   have hf3 : q.exponent = 3 := by
     rw [hp3] at hpow
     exact Nat.pow_right_injective (by norm_num : 2 ≤ 3) hpow
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hc : ValidLieTypeIndex.characteristic ⟨LieTypeIndex.twistedA 2 q, hv⟩ = 3 := by
     simp [ValidLieTypeIndex.characteristic, hp3]
   have hfe : ValidLieTypeIndex.fieldExponent ⟨LieTypeIndex.twistedA 2 q, hv⟩ = 3 := by

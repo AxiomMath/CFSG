@@ -45,7 +45,7 @@ theorem u38Two_congr (e : M ≃* N) (φ : MulAut M) :
   congr 1
   ext y
   obtain ⟨x, rfl⟩ := e.surjective y
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨hx, k, hk⟩
     refine ⟨x, ⟨(mem_u38Fix_congr e φ x).mp hx, k, ?_⟩, rfl⟩
@@ -110,7 +110,7 @@ theorem syl_conclusion_congr (e : M ≃* N) {α β : MulAut M}
       rintro y ⟨w, hw, rfl⟩
       obtain ⟨w₀, rfl⟩ := e.surjective w
       refine ⟨w₀ * (β w₀)⁻¹, Subgroup.subset_closure ⟨w₀, hw, rfl⟩, ?_⟩
-      simp [congr_apply_e]
+      simp
     obtain ⟨y, hy, hyx⟩ := h2 h1
     have : y = x := e.injective hyx
     rw [← this]

@@ -18,9 +18,9 @@ private def s16t3_subgroupMulEquivOfEq {G : Type} [Group G] {H K : Subgroup G} (
     ↥H ≃* ↥K where
   toFun x := ⟨x.1, h ▸ x.2⟩
   invFun x := ⟨x.1, h.symm ▸ x.2⟩
-  left_inv x := Subtype.ext rfl
-  right_inv x := Subtype.ext rfl
-  map_mul' x y := Subtype.ext rfl
+  left_inv _x := Subtype.ext rfl
+  right_inv _x := Subtype.ext rfl
+  map_mul' _x _y := Subtype.ext rfl
 
 private theorem s16t3_exists_proj {G : Type} [Group G] {A B : Subgroup G}
     (hAB : B ≤ Subgroup.centralizer (A : Set G)) (hdisj : A ⊓ B = ⊥) :
@@ -136,7 +136,7 @@ private theorem s16t3_center_eq_bot_of_isAlt {X : Type} [Group X] {n : ℕ} (h :
   obtain ⟨e⟩ := h
   have hmap : (Subgroup.center X).map e.toMonoidHom =
       Subgroup.center (alternatingGroup (Fin n)) := by
-    simpa using Subgroup.map_center_eq e
+    simp
   rw [alternatingGroup.center_eq_bot (α := Fin n) (by simpa using hn)] at hmap
   rwa [Subgroup.map_eq_bot_iff_of_injective (H := Subgroup.center X) (f := e.toMonoidHom)
     e.injective] at hmap
@@ -309,7 +309,7 @@ theorem Setting16.false_of_kBar_order_21_of_opRes
     φ₀.comp eA.symm.toMonoidHom
   have hφ : Function.Surjective φ := hφ₀.comp eA.symm.surjective
   obtain ⟨P, hPnorm, hPcard⟩ := s16t3_exists_normal_card_seven hK
-  haveI : P.Normal := hPnorm
+  have : P.Normal := hPnorm
   have hPidx : P.index = 3 := by
     have hc := P.card_mul_index
     rw [hPcard, hK] at hc
@@ -317,7 +317,7 @@ theorem Setting16.false_of_kBar_order_21_of_opRes
   let N₂ : Subgroup ↥(Mbar D.M V₀ V hV) := P.comap φ
   have hN₂idx : N₂.index = 3 := by
     rw [Subgroup.index_comap_of_surjective P hφ, hPidx]
-  haveI : N₂.Normal := Subgroup.normal_comap φ
+  have : N₂.Normal := Subgroup.normal_comap φ
   exact s16e_mbar_index_ne_three_of_opRes D hop hset.hyp16 hV N₂ hN₂idx
 
 theorem Setting16.false_of_kBar_order_21

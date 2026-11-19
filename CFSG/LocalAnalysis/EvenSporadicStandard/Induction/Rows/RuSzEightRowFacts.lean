@@ -129,7 +129,7 @@ theorem ru_hsec' (hf : RuLocalFacts) (hS : RuSuzukiModel) (hSz : SzEightModel) {
       exact ⟨Subgroup.le_normalizer hk, k.2⟩
     have h2 : IsPGroup 2 ↥((Sb : Subgroup (↥K₁ ⧸ center ↥K₁)).subgroupOf
         ((N₀.subgroupOf K₁).map (QuotientGroup.mk' (center ↥K₁)))) :=
-      Sb.isPGroup'.of_surjective (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom
+      Sb.isPGroup.of_surjective (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom
         (MulEquiv.surjective _)
     have := hab _ h2 ⟨x, hle hx⟩ (Subgroup.mem_subgroupOf.2 hx) ⟨y, hle hy⟩
       (Subgroup.mem_subgroupOf.2 hy)

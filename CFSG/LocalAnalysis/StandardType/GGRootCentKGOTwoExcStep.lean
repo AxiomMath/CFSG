@@ -91,7 +91,7 @@ private theorem conj_mem_posUnipotent_of_key {σ : K ≃+* K} {g : ModGL τ K}
 
 private theorem rootPerp_neg (γ : Fin τ.rank → ℤ) : rootPerp τ (-γ) = rootPerp τ γ := by
   ext δ
-  simp only [rootPerp, Set.mem_setOf_eq]
+  simp only [rootPerp, Set.mem_ofPred_eq]
   rw [iform_neg_right, neg_eq_zero]
 
 private theorem conj_mem_negUnipotent_of_key (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
@@ -239,7 +239,7 @@ theorem centralizer_decomp_highRoot [Finite K] [CharP K 2]
       pCoreOf 2 (Subgroup.centralizer {EPilot.pinnedElt τ (highRoot τ) (1 : K)}) =
         EPilot.highRadical τ K := by
   obtain ⟨hQ2, hsup, hinf, hnorm⟩ := isTwoRadicalDecomp_highRoot hτ (c := (1 : K)) one_ne_zero
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   refine ⟨hsup.symm, hnorm, disjoint_iff.2 hinf, ?_⟩
   refine ggRCST_pCoreOf_eq hsup.symm hQ2 hnorm ?_
   intro N hNM hN2 hNN

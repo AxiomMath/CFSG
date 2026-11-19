@@ -77,6 +77,7 @@ private theorem exists_conj_le_sylow {P Q : Subgroup X} (hP : ∃ R : Sylow 2 X,
   rw [h3]
   exact hr
 
+omit [Finite X] in
 private theorem conj_mem_of_unique {P S : Subgroup X}
     (hunique : ∀ E : Subgroup X, E ≤ P → CFSG.Open.IsElemAbelian 2 E → Nat.card E = Nat.card S →
       E = S)
@@ -101,7 +102,7 @@ private theorem conj_mem_of_unique {P S : Subgroup X}
     rw [this]
     exact hs'
   · have h' : γ⁻¹ * s * γ ∈ S.map (MulAut.conj γ⁻¹).toMonoidHom :=
-      ⟨s, hs, by simp [MulAut.conj_apply]⟩
+      ⟨s, hs, by simp⟩
     rw [hEeq] at h'
     exact h'
 
@@ -109,7 +110,7 @@ theorem exists_conj_normalizer_of_central_sylow {x y : X} {P S Q : Subgroup X}
     (hP : ∃ R : Sylow 2 X, (R : Subgroup X) = P) (hxP : x ∈ P) (hxc : ∀ p ∈ P, p * x = x * p)
     (hSP : S ≤ P) (hunique : ∀ E : Subgroup X, E ≤ P → CFSG.Open.IsElemAbelian 2 E →
       Nat.card E = Nat.card S → E = S)
-    (hS : CFSG.Open.IsElemAbelian 2 S) (hyS : y ∈ S) (hQ : IsPGroup 2 Q) (hSQ : S ≤ Q)
+    (hS : CFSG.Open.IsElemAbelian 2 S) (_hyS : y ∈ S) (hQ : IsPGroup 2 Q) (hSQ : S ≤ Q)
     (hQy : ∀ q ∈ Q, q * y = y * q) (hxy : IsConj x y) :
     ∃ γ : X, γ * x * γ⁻¹ = y ∧ (∀ s ∈ S, γ * s * γ⁻¹ ∈ S ∧ γ⁻¹ * s * γ ∈ S) ∧
       ∀ q ∈ Q, γ⁻¹ * q * γ ∈ P := by
@@ -170,6 +171,7 @@ private theorem vecOf_inj : ∀ m < 16, ∀ n < 16, vecOf m = vecOf n → m = n 
 private theorem vecOf_surj : ∀ v : Fin 4 → ZMod 2, ∃ n < 16, vecOf n = v := by
   decide +kernel
 
+omit [Finite X] in
 private theorem exists_coords :
     ∃ ev : ℕ → X, (∀ m n, ev (m ^^^ n) = ev m * ev n) ∧ ev 1 = cfg.u 0 ∧ ev 2 = cfg.u 1 ∧
       ev 4 = cfg.u 2 ∧ ev 8 = cfg.u 3 ∧ (∀ m < 16, ∀ n < 16, ev m = ev n → m = n) ∧
@@ -203,30 +205,40 @@ private theorem exists_coords :
 
 noncomputable def ev : ℕ → X := Classical.choose cfg.exists_coords
 
+omit [Finite X] in
 theorem ev_xor (m n : ℕ) : cfg.ev (m ^^^ n) = cfg.ev m * cfg.ev n :=
   (Classical.choose_spec cfg.exists_coords).1 m n
 
+omit [Finite X] in
 theorem ev_one : cfg.ev 1 = cfg.u 0 := (Classical.choose_spec cfg.exists_coords).2.1
 
+omit [Finite X] in
 theorem ev_two : cfg.ev 2 = cfg.u 1 := (Classical.choose_spec cfg.exists_coords).2.2.1
 
+omit [Finite X] in
 theorem ev_four : cfg.ev 4 = cfg.u 2 := (Classical.choose_spec cfg.exists_coords).2.2.2.1
 
+omit [Finite X] in
 theorem ev_eight : cfg.ev 8 = cfg.u 3 := (Classical.choose_spec cfg.exists_coords).2.2.2.2.1
 
+omit [Finite X] in
 theorem ev_inj : ∀ m < 16, ∀ n < 16, cfg.ev m = cfg.ev n → m = n :=
   (Classical.choose_spec cfg.exists_coords).2.2.2.2.2.1
 
+omit [Finite X] in
 theorem exists_ev_eq : ∀ s ∈ Subgroup.closure (Set.range cfg.u), ∃ n < 16, cfg.ev n = s :=
   (Classical.choose_spec cfg.exists_coords).2.2.2.2.2.2.1
 
+omit [Finite X] in
 theorem ev_mem (n : ℕ) : cfg.ev n ∈ Subgroup.closure (Set.range cfg.u) :=
   (Classical.choose_spec cfg.exists_coords).2.2.2.2.2.2.2 n
 
+omit [Finite X] in
 theorem ev_zero : cfg.ev 0 = 1 := by
   have h := cfg.ev_xor 0 0
   simpa using h
 
+omit [Finite X] in
 theorem isElemAbelian_S : CFSG.Open.IsElemAbelian 2 (Subgroup.closure (Set.range cfg.u)) ∧
     Nat.card (Subgroup.closure (Set.range cfg.u)) = 16 := by
   obtain ⟨η, -, -, -, -, hcard⟩ := CFSG.Sporadic.GLQ.exists_elemAbelian_two cfg.u cfg.hsq
@@ -240,6 +252,7 @@ theorem isElemAbelian_S : CFSG.Open.IsElemAbelian 2 (Subgroup.closure (Set.range
   · obtain ⟨n, -, rfl⟩ := cfg.exists_ev_eq _ hs
     rw [sq, ← cfg.ev_xor, Nat.xor_self, cfg.ev_zero]
 
+omit [Finite X] in
 private theorem comm_u0_of_mem_P {p : X} (hp : p ∈ cfg.P) : p * cfg.u 0 = cfg.u 0 * p := by
   obtain ⟨s, hs, i, j, rfl⟩ := cfg.hPcos p hp
   have hSel := (cfg.isElemAbelian_S).1
@@ -266,7 +279,7 @@ private theorem exists_gamma (h : IsConj (cfg.u 0) (cfg.u 1)) :
   have hSP : Subgroup.closure (Set.range cfg.u) ≤ cfg.P :=
     (Subgroup.closure_le cfg.P).mpr (by rintro _ ⟨i, rfl⟩; exact cfg.hSP i)
   obtain ⟨R, hR⟩ := cfg.hPsyl
-  have hP2 : IsPGroup 2 cfg.P := hR ▸ R.isPGroup'
+  have hP2 : IsPGroup 2 cfg.P := hR ▸ R.isPGroup
   obtain ⟨γ, hγx, hγS, -⟩ := exists_conj_normalizer_of_central_sylow ⟨R, hR⟩ (cfg.hSP 0)
     (fun p hp => cfg.comm_u0_of_mem_P hp) hSP
     (fun E hE hEel hEc => cfg.hunique E hE hEel (hEc.trans hScard)) hSel
@@ -275,15 +288,18 @@ private theorem exists_gamma (h : IsConj (cfg.u 0) (cfg.u 1)) :
   exact ⟨γ, hγx, hγS⟩
 
 
+omit [Finite X] in
 private theorem ev_comm (m n : ℕ) : cfg.ev m * cfg.ev n = cfg.ev n * cfg.ev m := by
   rw [← cfg.ev_xor, ← cfg.ev_xor, Nat.xor_comm]
 
+omit [Finite X] in
 private theorem conj_ev_of_mem {g : X} (hg : g ∈ Subgroup.closure (Set.range cfg.u)) (v : ℕ) :
     g * cfg.ev v * g⁻¹ = cfg.ev v := by
   have := (cfg.isElemAbelian_S).1.comm hg (cfg.ev_mem v)
   rw [this]
   group
 
+omit [Finite X] in
 private theorem acts_of_basis {g : X} {r0 r1 r2 r3 : ℕ}
     (h0 : g * cfg.ev 1 * g⁻¹ = cfg.ev r0) (h1 : g * cfg.ev 2 * g⁻¹ = cfg.ev r1)
     (h2 : g * cfg.ev 4 * g⁻¹ = cfg.ev r2) (h3 : g * cfg.ev 8 * g⁻¹ = cfg.ev r3) :
@@ -307,6 +323,7 @@ private theorem acts_of_basis {g : X} {r0 r1 r2 r3 : ℕ}
   rw [← e0, ← e1, ← e2, ← e3]
   group
 
+omit [Finite X] in
 private theorem exists_rows {g : X} (hg : ∀ s ∈ Subgroup.closure (Set.range cfg.u),
       g * s * g⁻¹ ∈ Subgroup.closure (Set.range cfg.u)) :
     ∃ r0 < 16, ∃ r1 < 16, ∃ r2 < 16, ∃ r3 < 16,
@@ -320,6 +337,7 @@ private theorem exists_rows {g : X} (hg : ∀ s ∈ Subgroup.closure (Set.range 
   obtain ⟨r3, hr3, h3⟩ := hn 8
   exact ⟨r0, hr0, r1, hr1, r2, hr2, r3, hr3, cfg.acts_of_basis h0 h1 h2 h3⟩
 
+omit [Finite X] in
 private theorem acts_comp {g h : X} {T U : List ℕ}
     (hg : ∀ v < 16, g * cfg.ev v * g⁻¹ = cfg.ev (T.getD v 0))
     (hh : ∀ v < 16, h * cfg.ev v * h⁻¹ = cfg.ev (U.getD v 0)) (hU : ∀ x ∈ U, x < 16) :
@@ -330,10 +348,12 @@ private theorem acts_comp {g h : X} {T U : List ℕ}
     _ = g * cfg.ev (U.getD v 0) * g⁻¹ := by rw [hh v hv]
     _ = cfg.ev (T.getD (U.getD v 0) 0) := hg _ (getD_lt hU v)
 
+omit [Finite X] in
 private theorem acts_of_eq {g : X} {T T' : List ℕ} (h : T = T')
     (hg : ∀ v < 16, g * cfg.ev v * g⁻¹ = cfg.ev (T.getD v 0)) :
     ∀ v < 16, g * cfg.ev v * g⁻¹ = cfg.ev (T'.getD v 0) := h ▸ hg
 
+omit [Finite X] in
 private theorem acts_a :
     ∀ v < 16, cfg.a * cfg.ev v * cfg.a⁻¹ = cfg.ev ((tab 1 2 5 11).getD v 0) := by
   intro v hv
@@ -348,6 +368,7 @@ private theorem acts_a :
       cfg.ev_one, cfg.ev_two, cfg.ev_eight]
     exact h3
 
+omit [Finite X] in
 private theorem acts_b :
     ∀ v < 16, cfg.b₁ * cfg.ev v * cfg.b₁⁻¹ = cfg.ev ((tab 1 3 4 13).getD v 0) := by
   intro v hv
@@ -362,6 +383,7 @@ private theorem acts_b :
       cfg.ev_one, cfg.ev_four, cfg.ev_eight]
     exact h3
 
+omit [Finite X] in
 private theorem acts_ρ :
     ∀ v < 16, cfg.ρ * cfg.ev v * cfg.ρ⁻¹ = cfg.ev ((tab 1 4 6 8).getD v 0) := by
   intro v hv
@@ -374,6 +396,7 @@ private theorem acts_ρ :
     exact h2
   · rw [cfg.ev_eight]; exact h3
 
+omit [Finite X] in
 private theorem exists_A4_elems : ∀ T ∈ A4tabs, ∃ g : X,
     ∀ v < 16, g * cfg.ev v * g⁻¹ = cfg.ev (T.getD v 0) := by
   have hZ := cfg.acts_ρ
@@ -409,6 +432,7 @@ private theorem exists_A4_elems : ∀ T ∈ A4tabs, ∃ g : X,
   · exact ⟨cfg.b₁ * (cfg.ρ * cfg.ρ), cfg.acts_of_eq (by decide +kernel)
       (cfg.acts_comp hB (cfg.acts_comp hZ hZ bZ) (forall_lt_comp bZ _))⟩
 
+omit [Finite X] in
 theorem mem_zpowers_of_central {z : X} (hzP : z ∈ cfg.P) (hz : ∀ p ∈ cfg.P, z * p = p * z) :
     z ∈ Subgroup.zpowers (cfg.u 0) := by
   have hSP : Subgroup.closure (Set.range cfg.u) ≤ cfg.P :=
@@ -436,6 +460,7 @@ theorem mem_zpowers_of_central {z : X} (hzP : z ∈ cfg.P) (hz : ∀ p ∈ cfg.P
   · rw [cfg.ev_zero]; exact Subgroup.one_mem _
   · rw [cfg.ev_one]; exact Subgroup.mem_zpowers _
 
+omit [Finite X] in
 private theorem mul_self_mem_of_acts {g : X} {T : List ℕ} (hTb : ∀ x ∈ T, x < 16)
     (hg : ∀ v < 16, g * cfg.ev v * g⁻¹ = cfg.ev (T.getD v 0)) (hTT : comp T T = idTab) :
     g * g ∈ Subgroup.closure (Set.range cfg.u) := by
@@ -447,6 +472,7 @@ private theorem mul_self_mem_of_acts {g : X} {T : List ℕ} (hTb : ∀ x ∈ T, 
   calc g * g * cfg.ev n = (g * g * cfg.ev n * (g * g)⁻¹) * (g * g) := by group
     _ = cfg.ev n * (g * g) := by rw [this]
 
+omit [Finite X] in
 private theorem sq_mem_of_mem_P {p : X} (hp : p ∈ cfg.P) :
     p * p ∈ Subgroup.closure (Set.range cfg.u) := by
   obtain ⟨s, hs, i, j, rfl⟩ := cfg.hPcos p hp
@@ -463,13 +489,13 @@ private theorem sq_mem_of_mem_P {p : X} (hp : p ∈ cfg.P) :
     exact cfg.conj_ev_of_mem hs v
   fin_cases i <;> fin_cases j
   · simpa using Subgroup.mul_mem _ hs hs
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one]
+  · simp only [pow_zero, pow_one, mul_one]
     exact cfg.mul_self_mem_of_acts (forall_lt_comp bI _) (cfg.acts_comp hs0 hB bB)
       (by decide +kernel)
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one]
+  · simp only [pow_zero, pow_one, mul_one]
     exact cfg.mul_self_mem_of_acts (forall_lt_comp bI _) (cfg.acts_comp hs0 hA bA)
       (by decide +kernel)
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one]
+  · simp only [pow_one]
     exact cfg.mul_self_mem_of_acts (forall_lt_comp (forall_lt_comp bI _) _)
       (cfg.acts_comp (cfg.acts_comp hs0 hA bA) hB bB) (by decide +kernel)
 

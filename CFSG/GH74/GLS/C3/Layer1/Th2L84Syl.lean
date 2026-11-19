@@ -89,7 +89,7 @@ theorem mem_CxK_of_bar_cover {u : G} {K M J Λ : Subgroup G}
       simpa [mul_assoc] using h
   have hÑeq : Ñ = (pPrimeCoreOf 2 M).comap (centralizer ({u} : Set G)).subtype := by
     ext z
-    simp [hÑ, Subgroup.mem_subgroupOf, Subgroup.mem_comap, z.2]
+    simp [hÑ, Subgroup.mem_subgroupOf]
   have hrÑ : (⟨r, hrY⟩ : ↥(centralizer ({u} : Set G))) ∈ normalizer (Ñ : Set _) := by
     rw [hÑeq]
     exact Subgroup.le_normalizer_comap _
@@ -239,7 +239,7 @@ theorem sylow_cmbar_of_le {x y : G}
       (mem_centralizer_singleton_iff.2 (huc r hr).symm) (hRsyl.le hr)
   exact (hQu.eq_of_le hQR hRle hRp).le
 
-theorem b_thm2_l84_syl_of (hL34 : B_gen4_noL34_elem) (h102 : B_ivk_10_2) (h82 : B_thm2_l82)
+theorem b_thm2_l84_syl_of (hL34 : B_gen4_noL34_elem) (_h102 : B_ivk_10_2) (h82 : B_thm2_l82)
     (hle : B_thm2_l84_le) : B_thm2_l84_syl := by
   intro G _ _ hG x y K T S M hchoice hKM
   have h := hchoice.std

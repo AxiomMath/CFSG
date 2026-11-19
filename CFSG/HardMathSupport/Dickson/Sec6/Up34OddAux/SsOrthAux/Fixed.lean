@@ -66,6 +66,7 @@ section Orthogonal
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {ℓ f : ℕ}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem conj_mem_orthDerived_of_mem_orthogonalGroup {G y : V ≃ₗ[K] V}
     (hG : G ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hy : y ∈ orthDerived Q) :
     G * y * G⁻¹ ∈ orthDerived Q := by

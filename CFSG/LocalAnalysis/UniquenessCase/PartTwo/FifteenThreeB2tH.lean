@@ -16,6 +16,7 @@ section Homogeneous
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private lemma s15_Three_isIrr_iff (A : Subgroup (MulAut W)) (J : Subgroup W) :
     IsIrrOn A J ⊥ ↔ XMod.IsIrr ↥A J := by
   unfold IsIrrOn XMod.IsIrr XMod.IsIrrSec XMod.IsInv StableUnder
@@ -28,16 +29,19 @@ private lemma s15_Three_isIrr_iff (A : Subgroup (MulAut W)) (J : Subgroup W) :
       (fun a _ u hu => by rw [Subgroup.mem_bot] at hu ⊢; rw [hu, map_one]),
       fun J' hJ' _ hJ'J => hmin J' (fun a u hu => hJ' (a : MulAut W) a.2 u hu) bot_le hJ'J⟩
 
+omit [Finite W] in
 private lemma s15_Three_secIso_of_secIsoL {A : Subgroup (MulAut W)} {J J' : Subgroup W}
     (h : SecIsoL A J ⊥ J' ⊥) : s15SecIso A J ⊥ J' ⊥ := by
   obtain ⟨-, -, -, -, -, -, β, hs, hk, he⟩ := (CFSG.Quasithin.B5.secIsoL_iff).1 h
   exact ⟨β, hs, hk, fun x hx u u' hu hu' hβ => he ⟨x, hx⟩ u u' hu hu' hβ⟩
 
+omit [Finite W] in
 private lemma s15_Three_secIso_of_iso {A : Subgroup (MulAut W)} {J J' : Subgroup W}
     (hJ : XMod.IsInv ↥A J) (hJ' : XMod.IsInv ↥A J') (h : XMod.Iso ↥A J J') :
     s15SecIso A J ⊥ J' ⊥ :=
   s15_Three_secIso_of_secIsoL (CFSG.Quasithin.B5.secIsoL_of_iso hJ hJ' h)
 
+omit [Finite W] in
 private lemma s15_Three_iso_of_secIso {A : Subgroup (MulAut W)} {J J' : Subgroup W}
     (hJ : XMod.IsInv ↥A J) (hJ' : XMod.IsInv ↥A J') (h : s15SecIso A J ⊥ J' ⊥) :
     XMod.Iso ↥A J J' := by
@@ -62,11 +66,13 @@ private lemma s15_Three_iso_of_secIso {A : Subgroup (MulAut W)} {J J' : Subgroup
   show (a : MulAut W) ((e l : ↥J') : W) = ((e l' : ↥J') : W)
   exact (congrArg (fun x : ↥J' => (x : W)) h1).symm
 
+omit [Finite W] in
 private lemma s15_Three_secIso_refl {A : Subgroup (MulAut W)} {J : Subgroup W}
     (hJ : IsIrrOn A J ⊥) : s15SecIso A J ⊥ J ⊥ :=
   s15_Three_secIso_of_iso ((s15_Three_isIrr_iff A J).1 hJ).1
     ((s15_Three_isIrr_iff A J).1 hJ).1 (XMod.Iso.refl J)
 
+omit [Finite W] in
 private lemma s15_Three_secIso_symm {A : Subgroup (MulAut W)} {J J' : Subgroup W}
     (hJ : IsIrrOn A J ⊥) (hJ' : IsIrrOn A J' ⊥) (h : s15SecIso A J ⊥ J' ⊥) :
     s15SecIso A J' ⊥ J ⊥ :=
@@ -76,6 +82,7 @@ private lemma s15_Three_secIso_symm {A : Subgroup (MulAut W)} {J J' : Subgroup W
       (s15_Three_iso_of_secIso ((s15_Three_isIrr_iff A J).1 hJ).1
         ((s15_Three_isIrr_iff A J').1 hJ').1 h))
 
+omit [Finite W] in
 private lemma s15_Three_secIso_trans {A : Subgroup (MulAut W)} {J J' J'' : Subgroup W}
     (hJ : IsIrrOn A J ⊥) (hJ' : IsIrrOn A J' ⊥) (hJ'' : IsIrrOn A J'' ⊥)
     (h : s15SecIso A J ⊥ J' ⊥) (h' : s15SecIso A J' ⊥ J'' ⊥) :
@@ -88,6 +95,7 @@ private lemma s15_Three_secIso_trans {A : Subgroup (MulAut W)} {J J' J'' : Subgr
       (s15_Three_iso_of_secIso ((s15_Three_isIrr_iff A J').1 hJ').1
         ((s15_Three_isIrr_iff A J'').1 hJ'').1 h'))
 
+omit [Finite W] in
 private lemma s15_Three_irr_map_of_normalizes {A : Subgroup (MulAut W)} {n : MulAut W}
     (hn : s15Normalizes n A) {J : Subgroup W} (hJ : IsIrrOn A J ⊥) :
     IsIrrOn A (J.map n.toMonoidHom) ⊥ := by
@@ -134,6 +142,7 @@ private lemma s15_Three_irr_map_of_normalizes {A : Subgroup (MulAut W)} {n : Mul
       rw [hK', Subgroup.map_map, hcomp', Subgroup.map_id] at h1
       exact h1
 
+omit [Finite W] in
 private lemma s15_Three_normalizes_action {A N : Subgroup (MulAut W)}
     (hN : ∀ n ∈ N, s15Normalizes n A) : XMod.Normalizes ↥A ↥N W := by
   intro n a
@@ -143,12 +152,14 @@ private lemma s15_Three_normalizes_action {A N : Subgroup (MulAut W)}
     ((n : MulAut W) * (a : MulAut W) * (n : MulAut W)⁻¹) ((n : MulAut W) q)
   simp [MulAut.mul_apply]
 
+omit [Finite W] in
 private lemma s15_Three_toMonoidEnd_coe {N : Subgroup (MulAut W)} (n : ↥N) :
     ((MulDistribMulAction.toMonoidEnd ↥N W) n : W →* W) = (n : MulAut W).toMonoidHom := by
   ext q
   change n • q = (n : MulAut W) q
   rw [Submonoid.smul_def, MulAut.smul_def]
 
+omit [Finite W] in
 private lemma s15_Three_iso_map_conj {A N : Subgroup (MulAut W)}
     (hN : ∀ n ∈ N, s15Normalizes n A) {n : MulAut W} (hn : n ∈ N)
     {J J' : Subgroup W} (h : XMod.Iso ↥A J J') :
@@ -158,6 +169,7 @@ private lemma s15_Three_iso_map_conj {A N : Subgroup (MulAut W)}
   rwa [Subgroup.pointwise_smul_def, Subgroup.pointwise_smul_def,
     s15_Three_toMonoidEnd_coe (N := N) ⟨n, hn⟩] at h'
 
+omit [Finite W] in
 private lemma s15_Three_secIso_map_conj {A N : Subgroup (MulAut W)}
     (hN : ∀ n ∈ N, s15Normalizes n A) {n : MulAut W} (hn : n ∈ N) {J J' : Subgroup W}
     (hJ : IsIrrOn A J ⊥) (hJ' : IsIrrOn A J' ⊥) (h : s15SecIso A J ⊥ J' ⊥) :
@@ -170,6 +182,7 @@ private lemma s15_Three_secIso_map_conj {A N : Subgroup (MulAut W)}
       (s15_Three_iso_of_secIso ((s15_Three_isIrr_iff A J).1 hJ).1
         ((s15_Three_isIrr_iff A J').1 hJ').1 h))
 
+omit [Finite W] in
 private lemma s15_Three_secIso_exists_of_le_sSup {A : Subgroup (MulAut W)}
     {S : Set (Subgroup W)} (hS : ∀ J ∈ S, IsIrrOn A J ⊥) {K : Subgroup W}
     (hK : IsIrrOn A K ⊥) (hle : K ≤ sSup S) : ∃ J ∈ S, s15SecIso A K ⊥ J ⊥ := by
@@ -241,7 +254,7 @@ theorem s15_Three_homog_split {A N : Subgroup (MulAut W)}
     have hset : {J : Subgroup W | IsIrrOn A J ⊥} = S_P ∪ S_Q := by
       ext J
       rw [hS_P, hS_Q]
-      simp only [Set.mem_setOf_eq, Set.mem_union]
+      simp only [Set.mem_ofPred_eq, Set.mem_union]
       constructor
       · intro hJirr
         by_cases h : ∃ n ∈ N, s15SecIso A (J.map n.toMonoidHom) ⊥ I ⊥

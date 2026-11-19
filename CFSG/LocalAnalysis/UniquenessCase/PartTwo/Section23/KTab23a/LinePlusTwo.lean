@@ -34,7 +34,7 @@ open scoped Matrix commutatorElement
 private theorem exists_ne_zero_one {K : Type*} [Field K] [Finite K] (hK : 2 < Nat.card K) :
     ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   by_contra h
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1} := by
     intro x _
@@ -149,7 +149,7 @@ theorem exists_fixedLine_statedOmega_plus_two_single {K : Type} [Field K] [Finit
   obtain ⟨c, hc0, hc1⟩ := exists_ne_zero_one (K := K) hK
   let u : Fin 2 ⊕ Fin 2 → K := Pi.single (Sum.inl 0) 1
   have hu : quadPlus 2 K u = 0 := by
-    simp [u, quadPlus_apply, Fin.sum_univ_two]
+    simp [u, quadPlus_apply]
   have hu0 : u ≠ 0 := by
     intro h
     have := congrFun h (Sum.inl 0)

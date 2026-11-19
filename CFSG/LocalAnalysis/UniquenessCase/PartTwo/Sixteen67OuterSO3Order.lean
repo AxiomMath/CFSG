@@ -44,7 +44,7 @@ theorem orderOf_le_card_add_one_of_isometry_three {F : Type} [Field F] [Finite F
     (hdet : (X : Matrix (Fin 3) (Fin 3) F).det = 1) :
     orderOf X ≤ Nat.card F + 1 := by
   classical
-  haveI : Finite (ProjGenLinGroup (Fin 2) F) :=
+  have : Finite (ProjGenLinGroup (Fin 2) F) :=
     Finite.of_surjective ProjGenLinGroup.mk ProjGenLinGroup.mk_surjective
   have hodd : Odd (Nat.card F) :=
     CatalogueBLinearHigherB.odd_card_of_ringChar_ne_two F hF

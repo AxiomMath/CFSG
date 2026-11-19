@@ -12,6 +12,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 variable {G : Type} [Group G] [Finite G] {c : Bool} {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau : G} {T₂ P : Subgroup G} {q s : G} {β : ℕ → G}
 
+omit [Finite G] in
 theorem fzb_sq_of_M (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (hF : FzbFactsGen c)
     {M : Subgroup G} (hMT : M ≤ T₂) (hM : ∀ x < 1024, β x ∈ M ↔ fzbIsM x) {a : G}
     (ha : a⁻¹ * q * a ∈ M) :
@@ -108,7 +109,7 @@ theorem fzb_branchA (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCor
       calc t = a * (a⁻¹ * t * a) * a⁻¹ := by group
         _ = 1 := by rw [h2]; group
     exact fzb_Z_not_conj h hK hS hβ hF.toFzbFactsGen hz hz1 hconj
-  · push_neg at hy4
+  · push Not at hy4
     cases c with
     | false =>
       have hlt := hV rfl x₀ hx₀ hxM (by rw [hy₀eq]; exact hy₀sq)

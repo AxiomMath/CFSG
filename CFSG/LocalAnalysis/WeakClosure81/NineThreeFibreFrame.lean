@@ -25,7 +25,7 @@ theorem nine3_dbar_sq (hc : Nine3Choice V T A K S X p g x) {d : Nine3Hbar V K}
   have hsqH : (u * u : ↥(nineH V K)) = 1 := Subtype.ext (by simpa using hsq)
   rw [← QuotientGroup.mk_mul, hsqH, QuotientGroup.mk_one]
 
-theorem nine3_dbar_conj (hc : Nine3Choice V T A K S X p g x) {d : Nine3Hbar V K}
+theorem nine3_dbar_conj (_hc : Nine3Choice V T A K S X p g x) {d : Nine3Hbar V K}
     (hd : d ∈ Nine3Dbar V K) (γ : Nine3Hbar V K) : γ * d * γ⁻¹ ∈ Nine3Dbar V K := by
   obtain ⟨U, hU, u, hu, huR, hd_eq⟩ := hd
   obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective γ
@@ -44,7 +44,7 @@ theorem nine3_dbar_conj (hc : Nine3Choice V T A K S X p g x) {d : Nine3Hbar V K}
   · rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
     rfl
 
-theorem nine3_dbar_gen (hc : Nine3Choice V T A K S X p g x) :
+theorem nine3_dbar_gen (_hc : Nine3Choice V T A K S X p g x) :
     Subgroup.closure (Nine3Dbar V K) = ⊤ := by
   let N := (nineI V K).subgroupOf (nineH V K)
   let C : Subgroup (Nine3Hbar V K) := Subgroup.closure (Nine3Dbar V K)
@@ -114,13 +114,14 @@ private theorem nine3_exists_notMem_pCoreOf_of_mem_omegaIn (hc : Nine3Choice V T
   obtain ⟨u, hu, huR⟩ := hex
   exact ⟨⟨u, hleH hu⟩, hu, huR⟩
 
+omit [Finite G] in
 private theorem nine3_list_prod_mem_frame {W : Subgroup G} (Ls : List (Subgroup G))
     (bs : List G) (hle : ∀ B ∈ Ls, B ≤ W)
     (hb : List.Forall₂ (fun B b => b ∈ B) Ls bs) : bs.prod ∈ W := by
   induction Ls generalizing bs with
   | nil =>
     rw [List.forall₂_nil_left_iff.mp hb]
-    simpa using W.one_mem
+    simp
   | cons B Ls' ih =>
     obtain ⟨b, bs', hbhead, hbtail, rfl⟩ := List.forall₂_cons_left_iff.mp hb
     exact W.mul_mem (hle B (by simp) hbhead)
@@ -293,7 +294,7 @@ theorem nine3_fibreIndep (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts 
     (h3 : 3 ≤ Nat.card ↥(nineDelta V S)) (hρ : Nine3FibreAct K S p x ρ) :
     Nine3FibreIndep p (nine3Pi V K ρ hρ.le_ker) (Nine3Dbar V K) := by
   classical
-  haveI : Fact p.Prime := ⟨hc.core.hyp.base.prime⟩
+  have : Fact p.Prime := ⟨hc.core.hyp.base.prime⟩
   have hzero : ∀ (l : List (Nine3Hbar V K)), l.Nodup → l ≠ [] →
       (∀ d ∈ l, d ∈ Nine3Dbar V K ∧ nine3Pi V K ρ hρ.le_ker d = zmodRefl p 0) →
       l.prod ≠ 1 := by

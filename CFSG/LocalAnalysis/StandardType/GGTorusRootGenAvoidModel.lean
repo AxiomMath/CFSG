@@ -73,7 +73,6 @@ private theorem exists_mulCoords_of_ggTorusModelAt {p : ℕ} {G : Type} [Group G
         rwa [MulEquiv.apply_symm_apply] at h2
       · intro h
         change s i (ε f) = ε f at h
-        change ε.symm (s i (ε f)) = f
         rw [h, MulEquiv.symm_apply_apply]
     have h2 : Nat.card (Fin k → Multiplicative (ZMod p)) = p ^ k := by
       rw [← Nat.card_congr ε.toEquiv,
@@ -251,7 +250,7 @@ theorem ggTorusRootGenAvoidKG_of_scTorusModel {p r : ℕ} (hp : p.Prime) {G : Ty
     intro i hi
     have hex : ∃ j : ι, ggConjAut A ((hkey j).choose) = ρ := ⟨i, hi⟩
     have hspec := Classical.choose_spec hex
-    rw [hρ₀def, dif_pos hex]
+    rw [hρ₀def, dite_eq_left hex]
     exact huniq i (Classical.choose hex) (hi.trans hspec.symm)
   have hhyp : ∀ i, ggHypCent A (nOf i) = (Subgroup.centralizer
       {x : G | x ∈ τ.range ∧ w i * x = x * w i}).map Φ.toMonoidHom := by

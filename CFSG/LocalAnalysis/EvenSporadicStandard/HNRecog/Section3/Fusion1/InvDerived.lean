@@ -16,7 +16,7 @@ theorem mem_derivedOf_self {G : Type} [Group G] {a z : G} (hF1 : Fusion1Facts a 
   refine mem_derivedOf_iff.mpr ⟨self_mem_Gx a, ?_⟩
   simpa [GxSelf] using hF.mem_commutator.1
 
-theorem inv_mem_derivedOf_cases (hI : TwoHSInterface) {G : Type} [Group G] {a z : G}
+theorem inv_mem_derivedOf_cases (_hI : TwoHSInterface) {G : Type} [Group G] {a z : G}
     (h : IsF5Type a z) (hF1 : Fusion1Facts a z) {t : G} (ht : t ∈ derivedOf (Gx a))
     (ht2 : orderOf t = 2) :
     t = a ∨ (IsConj z t ∧ IsConj a (a * t) ∧ a ∈ Qz t) ∨ (IsConj a t ∧ IsConj z (a * t)) := by

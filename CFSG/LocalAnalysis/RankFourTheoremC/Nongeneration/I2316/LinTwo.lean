@@ -13,6 +13,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.Nongeneration.I2316
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem psl2FieldAut_sUpper (σ : F ≃+* F) : psl2FieldAut F σ (sUpper F) = sUpper F := by
   change psl2RingEquiv σ (QuotientGroup.mk' (Subgroup.center _) (tUpper F)) = _
   rw [psl2RingEquiv_mk]
@@ -22,6 +23,7 @@ theorem psl2FieldAut_sUpper (σ : F ≃+* F) : psl2FieldAut F σ (sUpper F) = sU
   ext a b
   simp [tUpper, Matrix.SpecialLinearGroup.transvection_coe]
 
+omit [Finite F] in
 theorem psl2FieldAut_sLower (σ : F ≃+* F) : psl2FieldAut F σ (sLower F) = sLower F := by
   change psl2RingEquiv σ (QuotientGroup.mk' (Subgroup.center _) (tLower F)) = _
   rw [psl2RingEquiv_mk]
@@ -36,7 +38,7 @@ theorem exists_toPGL_of_pow_eq_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     ∃ y : PSL2 F, Matrix.ProjectiveSpecialLinearGroup.toPGL y = g := by
   set H := (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := F)).range
   have hidx : H.index = 2 := pgl2_psl2Range_index_eq_two F hK
-  haveI : H.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : H.Normal := Subgroup.normal_of_index_eq_two hidx
   have hcard : Nat.card (PGL2 F ⧸ H) = 2 := by rw [← Subgroup.index_eq_card, hidx]
   have h2 : ∀ x : PGL2 F ⧸ H, x ^ 2 = 1 := fun x => by
     have := pow_card_eq_one' (G := PGL2 F ⧸ H) (x := x)
@@ -51,9 +53,9 @@ theorem exists_toPGL_of_pow_eq_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   exact (QuotientGroup.eq_one_iff g).1 h1
 
 theorem finite_pGammaL2 : Finite (PGammaL2 F) := by
-  haveI : Finite (PGL2 F) :=
+  have : Finite (PGL2 F) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
-  haveI : Finite (F ≃+* F) :=
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun e : F ≃+* F => (e : F → F)) DFunLike.coe_injective
   exact Finite.of_equiv _ SemidirectProduct.equivProd.symm
 
@@ -62,7 +64,7 @@ theorem planesGenerate_psl2 {p : ℕ} [Fact p.Prime] [CharP F p] (hp2 : p ≠ 2)
   intro E hE hEc hnot
   have hpp : p.Prime := Fact.out
   obtain ⟨f, hf⟩ : ∃ f : ℕ, Nat.card F = p ^ f := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨n, -, hn⟩ := FiniteField.card F p
     exact ⟨n, by rw [Nat.card_eq_fintype_card]; exact hn⟩
   set Φ := pGammaL2ToMulAutPSL2 F hK hcard with hΦ
@@ -81,10 +83,10 @@ theorem planesGenerate_psl2 {p : ℕ} [Fact p.Prime] [CharP F p] (hp2 : p ≠ 2)
     rw [← h2, hEc]
   obtain ⟨x, hxÊ, hx1, hxN⟩ : ∃ x ∈ Ê, x ≠ 1 ∧
       x ∈ (SemidirectProduct.inl : PGL2 F →* PGammaL2 F).range := by
-    haveI : IsCyclic (PGammaL2 F ⧸ (SemidirectProduct.inl : PGL2 F →* PGammaL2 F).range) :=
+    have : IsCyclic (PGammaL2 F ⧸ (SemidirectProduct.inl : PGL2 F →* PGammaL2 F).range) :=
       pGammaL2_quotient_pgl_isCyclic F hK
-    haveI : Finite (PGammaL2 F) := finite_pGammaL2
-    haveI : Finite (PGammaL2 F ⧸ (SemidirectProduct.inl : PGL2 F →* PGammaL2 F).range) :=
+    have : Finite (PGammaL2 F) := finite_pGammaL2
+    have : Finite (PGammaL2 F ⧸ (SemidirectProduct.inl : PGL2 F →* PGammaL2 F).range) :=
       inferInstance
     obtain ⟨x, hxÊ, hx1, hxk⟩ := exists_ne_one_mem_ker_of_cyclic
       (QuotientGroup.mk' (SemidirectProduct.inl : PGL2 F →* PGammaL2 F).range) hpp hÊe hÊc

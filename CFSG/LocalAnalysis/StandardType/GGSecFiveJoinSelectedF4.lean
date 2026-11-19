@@ -99,11 +99,12 @@ section NativePosition
 variable {n f : ℕ}
 variable [CharP (AlgebraicClosure (GaloisField 2 f)) 2] [Algebra (ZMod 2) (AlgebraicClosure (GaloisField 2 f))] [Algebra.IsAlgebraic (ZMod 2) (AlgebraicClosure (GaloisField 2 f))]
 
+omit [Algebra (ZMod 2) (AlgebraicClosure (GaloisField 2 f))] [Algebra.IsAlgebraic (ZMod 2) (AlgebraicClosure (GaloisField 2 f))] in
 theorem f4_guarded_component_root_rank (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (Δ : LangDatum .F4 (AlgebraicClosure (GaloisField 2 f)))
-    (hΦ : Δ.Φ = Units.map (entrywiseHom (iterateFrobenius (AlgebraicClosure (GaloisField 2 f)) 2 f))) (hq : Δ.q = 2 ^ f)
+    (_hΦ : Δ.Φ = Units.map (entrywiseHom (iterateFrobenius (AlgebraicClosure (GaloisField 2 f)) 2 f))) (hq : Δ.q = 2 ^ f)
     (η : (ggU .F4 n f).K →* ModGL .F4 (AlgebraicClosure (GaloisField 2 f)))
-    (hηpoint : ∀ u, η u = Δ.g0⁻¹ *
+    (_hηpoint : ∀ u, η u = Δ.g0⁻¹ *
       ((F4ExplicitPos.AmbientAction.jF4 (K := (GaloisField 2 f)) (L := (AlgebraicClosure (GaloisField 2 f))) u : adjointGroup .F4 (AlgebraicClosure (GaloisField 2 f))) :
         ModGL .F4 (AlgebraicClosure (GaloisField 2 f))) * Δ.g0)
     (hη : Function.Injective η) (hrange : η.range = Δ.model)
@@ -115,7 +116,7 @@ theorem f4_guarded_component_root_rank (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (
     (hQ : IsComponentOf (Q.map η) (Δ.Γ ⊓ Subgroup.centralizer {rootDiagUnit .F4 a}))
     (hle : Q.map η ≤ rootSpan .F4 (AlgebraicClosure (GaloisField 2 f)) (rationalRoots (MulAction.toPerm w) (rootCharHom a) i)) :
     3 ≤ compRank (componentRoots (rootCharHom a) i) := by
-  haveI : Finite ((ggU .F4 n f).K) := by
+  have : Finite ((ggU .F4 n f).K) := by
     change Finite (adjointGroup .F4 (GaloisField 2 f))
     infer_instance
   have hfinRange : Finite η.range :=
@@ -169,7 +170,7 @@ theorem f4_selected_models_of_rankThree_source (hf : 1 ≤ f)
     (σ : (AlgebraicClosure (GaloisField 2 f)) ≃+* (AlgebraicClosure (GaloisField 2 f))) (z : ModGL .F4 (AlgebraicClosure (GaloisField 2 f))) (v : WeylGroup .F4)
     (Φ : CFSG.Open.StatedSp 3 (GaloisField 2 f) →* ModGL .F4 (AlgebraicClosure (GaloisField 2 f))) (lam : CFSG.Open.StatedSp 3 (GaloisField 2 f) →* (ggU .F4 n f).K)
     (hσ : ∀ c, σ c = c ^ Δ.q) (hz : z ∈ F4ExplicitPos.NativePinFinal.Zsub (rootCharHom a))
-    (hn : F4ExplicitPos.NativePinFinal.normalizesAll (rootCharHom a) z)
+    (_hn : F4ExplicitPos.NativePinFinal.normalizesAll (rootCharHom a) z)
     (hstep : ∀ g ∈ rootSpan .F4 (AlgebraicClosure (GaloisField 2 f)) (componentRoots (rootCharHom a) i),
       Δ.step (z * g * z⁻¹) = z * frobGL σ g * z⁻¹)
     (hlam : Function.Injective lam) (hcomp : η.comp lam = Φ)
@@ -189,7 +190,7 @@ theorem f4_selected_models_of_rankThree_source (hf : 1 ≤ f)
   classical
   let K := GaloisField 2 f
   let Ω := AlgebraicClosure K
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   change (adjointGroup .F4 K →* ModGL .F4 Ω) at η
   change (CFSG.Open.StatedSp 3 K →* adjointGroup .F4 K) at lam
   change η.comp lam = Φ at hcomp
@@ -300,10 +301,10 @@ theorem f4_native_component_selected {n f p : ℕ} (hf : 1 ≤ f)
   classical
   let K := GaloisField 2 f
   let Ω := AlgebraicClosure K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  letI : Algebra (ZMod 2) Ω := ZMod.algebra Ω 2
-  letI : Algebra.IsAlgebraic (ZMod 2) Ω :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  let : Algebra (ZMod 2) Ω := ZMod.algebra Ω 2
+  let : Algebra.IsAlgebraic (ZMod 2) Ω :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.isAlgebraic_zmod_algebraicClosure_of_finite K 2
   let Fr := iterateFrobenius Ω 2 f
   have hcard : Nat.card K = 2 ^ f := GaloisField.card 2 f (by omega)

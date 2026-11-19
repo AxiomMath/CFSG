@@ -255,6 +255,7 @@ theorem exists_index_two_inf_eq_commutator_of_lift_of_not_isConj (h : Tim79a.Par
       exact le_antisymm (Subgroup.relIndex_eq_one.mp hW1) hle
   exact ⟨N, hNnorm, hNidx, hzN, by simpa [hW] using hHN⟩
 
+omit [Finite G] in
 theorem not_mem_commutator_of_qH_not_mem_QP45
     (D : QuotientData (z := z) (J_subgroupOf_normal z)) {x : G} (hxH : x ∈ H z)
     (hq : qH D ⟨x, hxH⟩ ∉ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup) :

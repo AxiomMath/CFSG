@@ -48,7 +48,7 @@ theorem conjQbar_zpow_eq_one_or_eq (S : Setting z E F) {x : G} (hxH : x ∈ H z)
     have hsplit : (⟨x ^ (2 * m + 1), Subgroup.zpow_mem (H z) hxH _⟩ : ↥(H z)) =
         ⟨x ^ (2 * m), Subgroup.zpow_mem (H z) hxH _⟩ * ⟨x, hxH⟩ := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_zpow]
+      simp only [Subgroup.coe_mul]
       rw [zpow_add, zpow_one]
     rw [hsplit, conjQbar_mul, conjQbar_eq_one_of_mem_Q S (Subgroup.zpow_mem (H z) hxH _) hQ,
       one_mul]
@@ -146,7 +146,7 @@ theorem isElemAbelian_commutator_zpowers_of_q_eq_zero (S : Setting z E F) {x : G
     (hxH : x ∈ H z) (hx2 : x ^ 2 ∈ Q z)
     (hq0 : ∀ v ∈ commSpace (conjQbar S ⟨x, hxH⟩), qS S v = 0) :
     IsElemAbelian 2 ⁅Q z, Subgroup.zpowers x⁆ := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   rw [Subgroup.commutator_def]
   refine IsElemAbelian.closure_of_commute ?_ ?_
   · rintro _ ⟨q₁, hq₁, y₁, hy₁, rfl⟩ _ ⟨q₂, hq₂, y₂, hy₂, rfl⟩
@@ -196,7 +196,7 @@ theorem sq_mem_Q_of_conjQbar_mul_self_eq_one (S : Setting z E F) {x : G} (hxH : 
 theorem finrank_commSpace_eq_two_of_natCard_eq_four (S : Setting z E F) {x : G} (hxH : x ∈ H z)
     (h : Nat.card (commSpace (conjQbar S ⟨x, hxH⟩)) = 4) :
     finrank (ZMod 2) (commSpace (conjQbar S ⟨x, hxH⟩)) = 2 := by
-  haveI : Module.Finite (ZMod 2) (commSpace (conjQbar S ⟨x, hxH⟩)) :=
+  have : Module.Finite (ZMod 2) (commSpace (conjQbar S ⟨x, hxH⟩)) :=
     Module.Finite.of_finite
   have h1 : Nat.card (commSpace (conjQbar S ⟨x, hxH⟩)) =
       2 ^ finrank (ZMod 2) (commSpace (conjQbar S ⟨x, hxH⟩)) := by
@@ -211,7 +211,7 @@ theorem finrank_commSpace_eq_two_of_natCard_eq_four (S : Setting z E F) {x : G} 
 theorem natCard_commSpace_eq_four_of_finrank_eq_two (S : Setting z E F) {x : G}
     (hxH : x ∈ H z) (h : finrank (ZMod 2) (commSpace (conjQbar S ⟨x, hxH⟩)) = 2) :
     Nat.card (commSpace (conjQbar S ⟨x, hxH⟩)) = 4 := by
-  haveI : Module.Finite (ZMod 2) (commSpace (conjQbar S ⟨x, hxH⟩)) :=
+  have : Module.Finite (ZMod 2) (commSpace (conjQbar S ⟨x, hxH⟩)) :=
     Module.Finite.of_finite
   have h1 : Nat.card (commSpace (conjQbar S ⟨x, hxH⟩)) =
       2 ^ finrank (ZMod 2) (commSpace (conjQbar S ⟨x, hxH⟩)) := by
@@ -225,7 +225,7 @@ theorem isTypeA_rhoBar_of_isA2Hbar (S : Setting z E F) {α : Hbar z} (hα : IsA2
       (rhoBar S α : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S)) 2 := by
   obtain ⟨x, hxα, hxH, hxQ, hx2Q, hxcard, hxab⟩ := hα
   subst hxα
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   have hρ : (rhoBar S (QuotientGroup.mk x) :
       Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S)) = conjQbar S ⟨x, hxH⟩ :=
     rhoBar_coe_eq_conjQbar S ⟨x, hxH⟩
@@ -273,7 +273,7 @@ theorem isA2Hbar_of_isTypeA_rhoBar (S : Setting z E F) {α : Hbar z}
       (rhoBar S α : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S)) 2) :
     IsA2Hbar S α := by
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective α
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   have hρ : (rhoBar S (QuotientGroup.mk x) :
       Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S)) = conjQbar S ⟨x, x.2⟩ :=
     rhoBar_coe_eq_conjQbar S x
@@ -324,8 +324,8 @@ theorem orderOf_mul_of_isA2Hbar (S : Setting z E F) {α β : Hbar z}
     (hα : IsA2Hbar S α) (hβ : IsA2Hbar S β) :
     orderOf (α * β) ∈ ({1, 2, 3, 4} : Finset ℕ) ∧
       (orderOf (α * β) = 4 → IsA2Hbar S ((α * β) ^ 2)) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : Finite (Additive (QbarOf S)) := inferInstance
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : Finite (Additive (QbarOf S)) := inferInstance
   have hα' := isTypeA_rhoBar_of_isA2Hbar S hα
   have hβ' := isTypeA_rhoBar_of_isA2Hbar S hβ
   have h := CFSG.LargeExtraspecial.aschbacher_3_7 (q_nondegenerate S) hα' hβ'

@@ -115,7 +115,7 @@ theorem simple_normalizes_of_commuting_conj {G : Type} [Group G] [Finite G] {H J
     (hk : ∀ k : ℕ, m ^ k ≤ Nat.card G → k.factorial < Nat.card ↥H) :
     ∀ h ∈ H, ∀ j ∈ J, h * j * h⁻¹ ∈ J := by
   classical
-  haveI : Fintype ↥H := Fintype.ofFinite _
+  have : Fintype ↥H := Fintype.ofFinite _
   obtain ⟨S, hS⟩ : ∃ S : Finset (Subgroup G),
       ∀ A, A ∈ S ↔ ∃ g : ↥H, J.map (MulAut.conj (g : G)).toMonoidHom = A :=
     ⟨Finset.univ.image fun g : ↥H => J.map (MulAut.conj (g : G)).toMonoidHom, fun A => by simp⟩
@@ -130,7 +130,7 @@ theorem simple_normalizes_of_commuting_conj {G : Type} [Group G] [Finite G] {H J
       obtain ⟨g, rfl⟩ := (hS A).1 hA
       rw [card_map_conj, card_center_map_conj]
       exact hJ
-  letI : MulAction ↥H ↥S :=
+  let : MulAction ↥H ↥S :=
     { smul := fun h A => ⟨A.1.map (MulAut.conj (h : G)).toMonoidHom, by
         obtain ⟨g, hg⟩ := (hS A.1).1 A.2
         exact (hS _).2 ⟨h * g, by rw [← hg]; exact map_conj_mul J h g⟩⟩

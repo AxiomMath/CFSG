@@ -88,7 +88,7 @@ private lemma rho_sq_conj_rho {ρ : X} (hρ3 : ρ ^ 3 = 1) (x : X) :
 
 theorem z4i_norm3_mem {N M : Subgroup X} {ρ : X} (hρ3 : ρ ^ 3 = 1) (hNM : N ≤ M)
     (hcomm : ∀ x ∈ M, ∀ y ∈ M, x * y * x⁻¹ * y⁻¹ ∈ N)
-    (hρN : ∀ n ∈ N, ρ * n * ρ⁻¹ ∈ N) (hρM : ∀ m ∈ M, ρ * m * ρ⁻¹ ∈ M)
+    (_hρN : ∀ n ∈ N, ρ * n * ρ⁻¹ ∈ N) (hρM : ∀ m ∈ M, ρ * m * ρ⁻¹ ∈ M)
     (hfpf : ∀ x ∈ M, ρ * x * ρ⁻¹ * x⁻¹ ∈ N → x ∈ N) {x : X} (hx : x ∈ M) :
     x * (ρ * x * ρ⁻¹) * (ρ ^ 2 * x * (ρ ^ 2)⁻¹) ∈ N := by
   set b : X := ρ * x * ρ⁻¹
@@ -116,7 +116,7 @@ theorem z4i_s3_regular {N M : Subgroup X} {ρ lam : X} (hρ3 : ρ ^ 3 = 1)
     (hl2 : lam * lam = 1) (hlr : lam * ρ * lam⁻¹ = ρ⁻¹) (hNM : N ≤ M)
     (hcomm : ∀ x ∈ M, ∀ y ∈ M, x * y * x⁻¹ * y⁻¹ ∈ N) (hsq : ∀ x ∈ M, x ^ 2 ∈ N)
     (hρN : ∀ n ∈ N, ρ * n * ρ⁻¹ ∈ N) (hρM : ∀ m ∈ M, ρ * m * ρ⁻¹ ∈ M)
-    (hlN : ∀ n ∈ N, lam * n * lam⁻¹ ∈ N) (hlM : ∀ m ∈ M, lam * m * lam⁻¹ ∈ M)
+    (_hlN : ∀ n ∈ N, lam * n * lam⁻¹ ∈ N) (hlM : ∀ m ∈ M, lam * m * lam⁻¹ ∈ M)
     (hfpf : ∀ x ∈ M, ρ * x * ρ⁻¹ * x⁻¹ ∈ N → x ∈ N) :
     ActsRegularly lam N M := by
   intro x hx hcommx
@@ -185,7 +185,7 @@ theorem z4i_s3_regular {N M : Subgroup X} {ρ lam : X} (hρ3 : ρ ^ 3 = 1)
   simpa only [Cong, commutatorElement_def] using hF
 
 theorem z4i_fpl {Y : Subgroup X} {t : X} (ht2 : t * t = 1) (hYsq : ∀ y ∈ Y, y * y = 1)
-    (htY : ∀ y ∈ Y, t * y * t⁻¹ ∈ Y) (hreg : ActsRegularly t ⊥ Y) {x : X}
+    (_htY : ∀ y ∈ Y, t * y * t⁻¹ ∈ Y) (hreg : ActsRegularly t ⊥ Y) {x : X}
     (hx : ⁅t, x⁆ ∈ Y) : ∃ w ∈ Y, t * (w⁻¹ * x) * t⁻¹ = w⁻¹ * x := by
   have htinvt : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
   set u : X := ⁅t, x⁆ with hu_def
@@ -234,10 +234,10 @@ theorem z4i_fpl {Y : Subgroup X} {t : X} (ht2 : t * t = 1) (hYsq : ∀ y ∈ Y, 
       rw [hYsq u huY, hwinv]
       group
 
-theorem z4i_between {Q K Z : Subgroup X} {ρ : X} (hρ3 : ρ ^ 3 = 1) (hQK : Q ≤ K) (hQZ : Q ≤ Z)
+theorem z4i_between {Q K Z : Subgroup X} {ρ : X} (hρ3 : ρ ^ 3 = 1) (_hQK : Q ≤ K) (hQZ : Q ≤ Z)
     (hZK : Z ≤ K) (hidx : Q.relIndex K = 4)
-    (hQn : ∀ k ∈ K, ∀ q ∈ Q, k * q * k⁻¹ ∈ Q)
-    (hρQ : ∀ q ∈ Q, ρ * q * ρ⁻¹ ∈ Q) (hρK : ∀ k ∈ K, ρ * k * ρ⁻¹ ∈ K)
+    (_hQn : ∀ k ∈ K, ∀ q ∈ Q, k * q * k⁻¹ ∈ Q)
+    (hρQ : ∀ q ∈ Q, ρ * q * ρ⁻¹ ∈ Q) (_hρK : ∀ k ∈ K, ρ * k * ρ⁻¹ ∈ K)
     (hρZ : ∀ z ∈ Z, ρ * z * ρ⁻¹ ∈ Z)
     (hfpf : ∀ k ∈ K, ρ * k * ρ⁻¹ * k⁻¹ ∈ Q → k ∈ Q) : Z = Q ∨ Z = K := by
   classical
@@ -271,7 +271,7 @@ theorem z4i_between {Q K Z : Subgroup X} {ρ : X} (hρ3 : ρ ^ 3 = 1) (hQK : Q �
         exact haQ (by simpa only [rho_sq_conj_rho hρ3 a] using h2')
     have hrel : Q.relIndex Z = 4 := by
       have hle : Q.relIndex Z ≤ 4 := Nat.le_of_dvd (by norm_num) ⟨Z.relIndex K, htower.symm⟩
-      interval_cases Q.relIndex Z <;> simp_all <;> omega
+      interval_cases Q.relIndex Z <;> simp_all; omega
     have hlast : Z.relIndex K = 1 := by
       have h := htower
       rw [hrel] at h

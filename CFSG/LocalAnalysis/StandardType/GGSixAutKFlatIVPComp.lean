@@ -59,9 +59,10 @@ theorem ggPComponent_subgroupOf_of_subnormal {A Y Z : Subgroup G} (hAY : A ≤ Y
   have hdata := (ggPComponent_iff_data p hAY).1 h
   exact ⟨hdata.1.trans hYZ, hdata.2⟩
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem ggPComponent_commutator_eq {A B : Subgroup G} (hAB : A ≤ B)
     (h : CFSG.IsPComponent p (A.subgroupOf B)) : ⁅A, A⁆ = A := by
-  haveI : Group.IsPerfect (A.subgroupOf B) := pComponent_perfect h
+  have : Group.IsPerfect (A.subgroupOf B) := pComponent_perfect h
   have hperfA : Group.IsPerfect (A : Subgroup G) :=
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hAB).toMonoidHom)

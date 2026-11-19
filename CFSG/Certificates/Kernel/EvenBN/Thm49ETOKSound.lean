@@ -38,7 +38,7 @@ theorem tg_tsetK {w T i v j : Nat} (hv : v < 2 ^ w) :
       Nat.testBit_shiftLeft, CFSG.KS.PF.mask_eq, Nat.testBit_two_pow_sub_one]
   by_cases hji : j = i
   · subst hji
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     apply Nat.eq_of_testBit_eq
     intro k
     rw [key]
@@ -48,7 +48,7 @@ theorem tg_tsetK {w T i v j : Nat} (hv : v < 2 ^ w) :
     · have hv' : v.testBit k = false :=
         Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hv (Nat.pow_le_pow_right (by norm_num) (by omega)))
       simp [hk, hv']
-  · rw [if_neg hji]
+  · rw [ite_eq_right hji]
     apply Nat.eq_of_testBit_eq
     intro k
     rw [key]
@@ -83,7 +83,7 @@ theorem tg_recSet {w : Nat} {f : Nat → Nat} :
       tg w (Nat.rec (motive := fun _ => Nat) (nat_lit 0) (fun m ih => tsetK w ih m (f m)) k) j =
       if j < k then f j else 0
   | 0, _, j => by
-    rw [if_neg (Nat.not_lt_zero j)]
+    rw [ite_eq_right (Nat.not_lt_zero j)]
     exact tg_zero w j
   | k + 1, hf, j => by
     change tg w (tsetK w (Nat.rec (motive := fun _ => Nat) (nat_lit 0)
@@ -92,15 +92,15 @@ theorem tg_recSet {w : Nat} {f : Nat → Nat} :
     by_cases h : j = k
     · subst h
       simp
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       by_cases h' : j < k
-      · rw [if_pos h', if_pos (by omega)]
-      · rw [if_neg h', if_neg (by omega)]
+      · rw [ite_eq_left h', ite_eq_left (by omega)]
+      · rw [ite_eq_right h', ite_eq_right (by omega)]
 
 theorem tg_rowK {f : Nat → Nat} (hf : ∀ m < 92, f m < 2 ^ 7) {m : Nat} (hm : m < 92) :
     tg 7 (rowK f) m = f m := by
   have := tg_recSet 92 hf m
-  rw [if_pos hm] at this
+  rw [ite_eq_left hm] at this
   exact this
 
 theorem testBit_tsetK_hi {w T i v b : Nat} (hv : v < 2 ^ w) (hT : T.testBit b = false)
@@ -139,7 +139,7 @@ theorem tg_qPart {p K : Nat} (hinj : ∀ x < 92, ∀ y < 92, tg 7 p x = tg 7 p y
     by_cases h : x = k
     · subst h
       simp
-    · rw [if_neg (fun e => h (hinj x (by omega) k (by omega) e))]
+    · rw [ite_eq_right (fun e => h (hinj x (by omega) k (by omega) e))]
       exact tg_qPart hinj k (by omega) x (by omega)
 
 theorem tg_qRowK {p K : Nat} (hinj : ∀ x < 92, ∀ y < 92, tg 7 p x = tg 7 p y → x = y) {x : Nat}
@@ -188,7 +188,7 @@ theorem memK_iff (x : Nat) : ∀ l : List Nat, memK x l = true ↔ x ∈ l
     by_cases h : x = y
     · subst h
       simp
-    · rw [if_neg (by rw [Nat.beq_eq]; exact h), memK_iff x l]
+    · rw [ite_eq_right (by rw [Nat.beq_eq]; exact h), memK_iff x l]
       simp [h]
 
 theorem maskL_iff (y : Nat) : ∀ l : List Nat, bitK (maskL l) y = true ↔ y ∈ l
@@ -230,7 +230,7 @@ theorem tg_fzIdxAux : ∀ (l : List Nat) (i : Nat), l.Nodup → i + l.length < 2
         apply hnd.1
         rw [← e, getD_eq_idx hj']
         exact List.getElem_mem hj'
-      rw [if_neg hne, tg_fzIdxAux l (Nat.succ i) hnd.2 (by
+      rw [ite_eq_right hne, tg_fzIdxAux l (Nat.succ i) hnd.2 (by
         simp only [List.length_cons] at hb
         omega) j hj']
       omega

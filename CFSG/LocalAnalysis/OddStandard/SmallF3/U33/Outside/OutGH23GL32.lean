@@ -36,7 +36,7 @@ private noncomputable def rho : Matrix.GeneralLinearGroup (Fin 3) (ZMod 2) →*
     (MulAction.toPermHom (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) (Fin 3 → ZMod 2))
 
 private theorem rho_injective : Function.Injective rho := by
-  haveI hM : FaithfulSMul (Matrix (Fin 3) (Fin 3) (ZMod 2)) (Fin 3 → ZMod 2) :=
+  have hM : FaithfulSMul (Matrix (Fin 3) (Fin 3) (ZMod 2)) (Fin 3 → ZMod 2) :=
     ⟨fun h => Matrix.ext_iff_mulVec.mpr (fun v => by simpa using h v)⟩
   exact (Equiv.permCongrHom ptEquiv.symm).injective.comp MulAction.toPerm_injective
 

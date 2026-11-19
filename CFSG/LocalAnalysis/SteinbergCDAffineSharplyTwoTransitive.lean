@@ -462,7 +462,7 @@ theorem affine_scalar_sharply_two_transitive_normal_translations (K : Type*) [Fi
   have hPF : P ≤ F := by
     rintro _ ⟨g, -, rfl⟩
     exact g.2
-  have hP2 : IsPGroup 2 P := P₀.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := P₀.isPGroup.map _
   have hPcard : Nat.card P = Nat.card K := by
     rw [hPdef, Subgroup.card_map_of_injective F.subtype_injective, P₀.card_eq_multiplicity,
       card_F htrans hF0, hq]

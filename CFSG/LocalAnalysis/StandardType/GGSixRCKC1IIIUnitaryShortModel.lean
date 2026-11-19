@@ -68,7 +68,7 @@ theorem exists_shortRoot_psu_two
     · have hU : ggU .PSU n f =
           ⟨SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) n,
             Unitary.rootDatum (card_galoisField_two_mul 2 f hf) n⟩ := by
-        simp only [ggU, lieUniversal, dif_pos hf]
+        simp only [ggU, lieUniversal, dite_eq_left hf]
       exact psu_admissible_of_shortRoot hf hU hβ hlong h2β
   have hLMtop := CFSG.StandardType.RCKRP.irg_lieModel_quot
     (ht := ht) (hadm := hAdm) φ hφrange hφker
@@ -121,8 +121,8 @@ theorem rckSURank_of_shortAt_model
   have hAdm : StatedLieAdmissible .PSU m 2 1 :=
     ⟨Nat.prime_two, le_rfl, by omega, by intro h; have := (Prod.mk.inj h).1; omega⟩
   have hQ := isQuasisimple_SU rckSU_suF_card (by omega : 3 ≤ m) hAdm.2.2.2
-  haveI : Group.IsPerfect (SUG m) := hQ.1
-  haveI : Group.IsPerfect Jb :=
+  have : Group.IsPerfect (SUG m) := hQ.1
+  have : Group.IsPerfect Jb :=
     Group.IsPerfect.ofSurjective (f := η.symm.toMonoidHom) η.symm.surjective
   let ηZ := QuotientGroup.congr (Subgroup.center Jb) (Subgroup.center (SUG m)) η
     (Subgroup.map_center_eq η)
@@ -131,7 +131,7 @@ theorem rckSURank_of_shortAt_model
       (Or.inl ⟨by decide, statedClassicalModel_center_quotient hAdm rckSU_suF_card⟩)
   have hPacket := exists_shortRoot_psu_two hm hLM hPos
   have hU : ggU .PSU m 1 = ⟨SU SUσ m, Unitary.rootDatum rckSU_suF_card m⟩ := by
-    simp only [ggU, lieUniversal, dif_pos (show 1 ≤ (1 : ℕ) from le_rfl)]
+    simp only [ggU, lieUniversal, dite_eq_left (show 1 ≤ (1 : ℕ) from le_rfl)]
   rw [hU] at hPacket
   obtain ⟨β, R, hβ, hlong, h2β, hVia, hrR⟩ := hPacket
   obtain ⟨φ, hφrange, hφker, u, hR⟩ := hVia

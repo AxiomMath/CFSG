@@ -348,7 +348,7 @@ theorem beta_es
 theorem beta_g0 :
     (βr (gs 0)) = G1m Qn Tmat cMat dMat := by
   have h : gs 0 = etaS gSeq iotaS cB := by
-    rw [gs, if_pos rfl]
+    rw [gs, ite_eq_left rfl]
   rw [h]
   exact betaRow_eta_cB Dyadic.betaS gSeq betaS_explicit.gen gSeq_zero_mem gSeq_mem_Jbar iotaS
     iotaS_beta
@@ -356,7 +356,7 @@ theorem beta_g0 :
 theorem beta_g1 :
     (βr (gs 1)) = G2m Qn Tmat cMat dMat := by
   have h : gs 1 = etaS gSeq iotaS dB := by
-    rw [gs, if_neg one_ne_zero, if_pos rfl]
+    rw [gs, ite_eq_right one_ne_zero, ite_eq_left rfl]
   rw [h]
   exact betaRow_eta_dB Dyadic.betaS gSeq betaS_explicit.gen gSeq_zero_mem gSeq_mem_Jbar iotaS
     iotaS_beta

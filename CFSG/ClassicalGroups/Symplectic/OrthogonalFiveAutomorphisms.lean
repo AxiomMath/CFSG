@@ -42,13 +42,13 @@ private theorem reindex_equation_iff (A : GL (Fin 2 ⊕ Fin 2) K) (μ : Kˣ) :
       Matrix (Fin 4) (Fin 4) K := Matrix.reindexLinearEquiv K K finSumFinEquiv finSumFinEquiv
   have hrA : r (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) =
       ((Equiv.reindexGL finSumFinEquiv K A : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) := by
-    rw [Matrix.reindexLinearEquiv_apply, Matrix.reindex_apply, Equiv.coe_reindexGL]
+    rw [Matrix.coe_reindexLinearEquiv, Matrix.reindex_apply, Equiv.coe_reindexGL]
   have hrJ : r (formJ 2 K) = symplecticGram K := by
-    rw [Matrix.reindexLinearEquiv_apply, Matrix.reindex_apply]
+    rw [Matrix.coe_reindexLinearEquiv, Matrix.reindex_apply]
     exact formJ_submatrix_eq_symplecticGram.symm
   have htrans : r ((A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)ᵀ) =
       (r (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K))ᵀ := by
-    rw [Matrix.reindexLinearEquiv_apply, Matrix.reindexLinearEquiv_apply,
+    rw [Matrix.coe_reindexLinearEquiv,
       Matrix.reindex_apply, Matrix.reindex_apply]
     exact (Matrix.transpose_reindex finSumFinEquiv finSumFinEquiv
       (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)).symm
@@ -117,10 +117,6 @@ theorem gspFourEquivSelfAdjointSimilitudes_statedSp (y : StatedSp 2 K) :
       (statedSpEquivSymplecticKernel y : symplecticSimilitudes K) := by
   apply Subtype.ext
   apply Units.ext
-  change (((gspFourEquivSelfAdjointSimilitudes ⟨y, statedSp_le_gsp y.property⟩ :
-      symplecticSimilitudes K) : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) =
-    (((statedSpEquivSymplecticKernel y :
-      (symplecticMultiplier (K := K)).ker) : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)
   rw [gspFourEquivSelfAdjointSimilitudes_val, statedSpEquivSymplecticKernel_val]
 
 noncomputable def gspSelfAdjointAction (h2 : (2 : K) ≠ 0) :
@@ -142,10 +138,6 @@ theorem gspSelfAdjointAction_ker [Finite K] (h2 : (2 : K) ≠ 0) :
     have hval : gspFourEquivSelfAdjointSimilitudes A = selfAdjointScalarSimilitude c := by
       apply Subtype.ext
       apply Units.ext
-      change (((gspFourEquivSelfAdjointSimilitudes A : symplecticSimilitudes K) :
-          GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) =
-        (((selfAdjointScalarSimilitude c : symplecticSimilitudes K) :
-          GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)
       rw [show (((gspFourEquivSelfAdjointSimilitudes A : symplecticSimilitudes K) :
           GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) =
           (Equiv.reindexGL (finSumFinEquiv (m := 2) (n := 2)) K

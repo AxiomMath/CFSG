@@ -30,7 +30,7 @@ theorem aor_conj_range_of_card_outer_dvd {X : Type} [Group X] (hX : Group.IsPerf
     ∀ (α : MulAut X) (k : ℕ), Odd k → α ^ k ∈ (MulAut.conj : X →* MulAut X).range →
       α ∈ (MulAut.conj : X →* MulAut X).range := by
   intro α k hk hα
-  haveI := hX
+  have := hX
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp h
   have hidx :
       (CFSG.ComponentClassification.OuterAutomorphisms.inner (X ⧸ center X)).index = 2 ^ j := hj

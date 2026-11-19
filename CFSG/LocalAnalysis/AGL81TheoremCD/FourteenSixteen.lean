@@ -38,7 +38,7 @@ theorem theoremCAt_of_theoremDAt (hC : CStarGen G) {M : Subgroup G}
   by_cases hqσ : q ∈ CFSG.Open.rankThreeSigmaA G
   · exact hC.embed q hqσ M hM Q hQM hQp hQrank H hH hQH
   · by_contra hHM
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨T, hT⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 M
     obtain ⟨S, hS⟩ := exists_sylow_eq_of_normalizer_le hT (hD T hT)
     exact h q hq hq2 hqσ Q hQM hQp hQrank hΓ H hH hQH hHM S (by rw [hS]; exact hT.le)

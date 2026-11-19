@@ -33,7 +33,7 @@ private lemma map_aeval_mapMatrix {m : ℕ}
     (aeval M p).map (ZMod.castHom (dvd_refl 2) K) =
       aeval (M.map (ZMod.castHom (dvd_refl 2) K))
         (p.map (ZMod.castHom (dvd_refl 2) K)) := by
-  letI : Algebra (ZMod 2) K := ZMod.algebra' K 2 (dvd_refl 2)
+  let : Algebra (ZMod 2) K := ZMod.algebra' K 2 (dvd_refl 2)
   let ι : ZMod 2 →+* K := ZMod.castHom (dvd_refl 2) K
   have hcomp : (algebraMap K (Matrix (Fin m) (Fin m) K)).comp ι =
       (RingHom.mapMatrix ι).comp
@@ -132,6 +132,7 @@ private lemma map_hMat_pow_eq_one {m : ℕ}
   rw [hMpow, map_one] at h
   simpa [ι] using h.symm
 
+omit [CharP K 2] in
 private lemma torusProj_eigenvector {m : ℕ} {A : Matrix (Fin m) (Fin m) K}
     {N : ℕ} (hNpos : 0 < N) (hA : A ^ N = 1) {μ : K} (hμ : μ ^ N = 1) :
     A * (∑ k ∈ Finset.range N, (μ⁻¹) ^ k • A ^ k) =
@@ -158,6 +159,7 @@ private lemma torusProj_eigenvector {m : ℕ} {A : Matrix (Fin m) (Fin m) K}
   nth_rw 1 [hAeq]
   rw [smul_mul_assoc, hTpi]
 
+omit [CharP K 2] in
 private lemma eval_torusPoly_ne_zero {n : ℕ} (t : Kˣ)
     (ht : orderOf t = 2 ^ n - 1) (p : K[X])
     (hp : p = ∏ i ∈ Finset.range n,
@@ -219,7 +221,7 @@ theorem torusProj_eq_zero {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     ∑ k ∈ Finset.range (2 ^ n - 1), (((t : K) ^ e)⁻¹) ^ k •
       ((Rm (hMat t)).map (ZMod.castHom (dvd_refl 2) K)) ^ k = 0 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let ι : ZMod 2 →+* K := ZMod.castHom (dvd_refl 2) K
   let N : ℕ := 2 ^ n - 1
   let M : Matrix (Fin m) (Fin m) (ZMod 2) := Rm (hMat t)

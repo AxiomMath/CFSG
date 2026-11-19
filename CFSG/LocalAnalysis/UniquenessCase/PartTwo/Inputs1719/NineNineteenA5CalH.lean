@@ -25,7 +25,7 @@ theorem mem_calH9 {D : Data G} (h71 : F07.R71 D) (hK : UCK.K332Cyc)
     (hH2 : pCoreOf 2 H ≠ ⊥) : H ∈ F09.calH9 D Y := by
   have hyp' := hyp
   obtain ⟨hL, hD₃L, hD₃, hD₃U, hYM, hLeq, hnorm, hidx, hHtop, hYH, hHM⟩ := hyp
-  simp only [F09.calH9, Set.mem_setOf_eq]
+  simp only [F09.calH9, Set.mem_ofPred_eq]
   refine ⟨hYH, hHM, ?_⟩
   have hLYinf : L ⊓ Y = L := inf_eq_left.2 hLY
   have hnorm' : (L.subgroupOf Y).Normal := by rwa [hLYinf] at hnorm

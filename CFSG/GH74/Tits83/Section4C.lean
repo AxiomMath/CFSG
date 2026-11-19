@@ -653,7 +653,7 @@ theorem sigmaFun_mul (x y : F.K) : F.sigmaFun (x * y) = F.sigmaFun x * F.sigmaFu
       (F.sigmaFun x * F.sigmaFun y).mem heq
   exact K.ext hval
 
-private theorem mu_eq_alpha_mul_a {x : F.K} (hx : x ≠ 0) :
+private theorem mu_eq_alpha_mul_a {x : F.K} (_hx : x ≠ 0) :
     T.mu 1 x.val = F.alpha x * F.a := by
   calc T.mu 1 x.val = T.mu 1 x.val * (F.a * F.a) := by rw [F.a_mul_self, mul_one]
     _ = (T.mu 1 x.val * F.a) * F.a := by group

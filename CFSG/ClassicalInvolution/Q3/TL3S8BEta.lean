@@ -330,7 +330,7 @@ theorem invol_eq_or {η : Set (Subgroup G)} {S' : Sylow 2 G}
   have hWL : W ≤ Subgroup.normalizer (L : Set G) :=
     (hd0.le_centralizer_of_mem htW).trans
       (hd.tight.centralizer_le_normalizer_member hd.memL hd.invL)
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hd.hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hd.hWS
   obtain ⟨R₁, hR₁, hR₁W⟩ := exists_sylow_normalized hW2 hWL
   have hR₁mem : R₁ ∈ RSet (CoreAssembly.conjClass K) := mem_RSet_of_isSylow2In hd.memL hR₁
   have hWR₁ : W ≤ Subgroup.normalizer (R₁ : Set G) := fun w hw =>
@@ -482,7 +482,7 @@ theorem inf_inf_eq_bot : K ⊓ W ⊓ V = ⊥ := by
   intro x hx
   have hxKL : x ∈ K ⊓ L := ⟨hx.1.1, hd.le_member hx.2⟩
   have hx2 : IsPGroup 2 (Subgroup.zpowers x) :=
-    (S.isPGroup'.to_le hd.hWS).to_le (Subgroup.zpowers_le.mpr hx.1.2)
+    (S.isPGroup.to_le hd.hWS).to_le (Subgroup.zpowers_le.mpr hx.1.2)
   exact Subgroup.mem_bot.mpr (eq_one_of_isPGroup_of_mem_odd hodd hxKL hx2)
 
 theorem inf_member_eq_bot : V ⊓ K = ⊥ := by

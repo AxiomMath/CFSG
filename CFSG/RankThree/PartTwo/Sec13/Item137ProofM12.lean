@@ -277,13 +277,13 @@ theorem exists_inverting_of_m12 (h131 : Item131) (hspor : SporadicModels131)
         (S₀ : Subgroup K).map (QuotientGroup.mk' (aschbacherSolvableCore 3 K)) :=
       Sylow.coe_mapSurjective _ _
     obtain ⟨hHeis₀, -⟩ := h414 _ hKM Qb₀
-    rw [← card_map_eq_of_injOn _ (injOn_mk_of_isPGroup Nat.prime_three S₀.isPGroup'), ← hQb₀]
+    rw [← card_map_eq_of_injOn _ (injOn_mk_of_isPGroup Nat.prime_three S₀.isPGroup), ← hQb₀]
     exact hHeis₀.2.1
   have hSylPK : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ K) K := by
     refine CFSG.ABGLocalTools.isSylowOf_of_card inf_le_right ?_
     rw [hPK27, ← hS₀, Sylow.card_eq_multiplicity]
   obtain ⟨SK, hSK⟩ := hSylPK
-  have hS3 : IsPGroup 3 (SK : Subgroup K) := SK.isPGroup'
+  have hS3 : IsPGroup 3 (SK : Subgroup K) := SK.isPGroup
   set Qb : Sylow 3 (K ⧸ aschbacherSolvableCore 3 K) :=
     SK.mapSurjective (QuotientGroup.mk'_surjective _) with hQbdef
   have hQb : (Qb : Subgroup _) =

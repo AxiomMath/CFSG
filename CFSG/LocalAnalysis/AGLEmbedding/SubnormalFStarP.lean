@@ -13,7 +13,7 @@ theorem eq_bot_of_isSubnormal_of_coprime_of_isCharacteristicP {B : Type*} [Group
     (hC : Subgroup.centralizer (CFSG.pCore p B : Set B) ≤ CFSG.pCore p B)
     {V : Subgroup B} (hV : V.IsSubnormal) (hcop : Nat.Coprime p (Nat.card V)) :
     V = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hchar : CFSG.IsCharacteristicP p B := hC
   exact CFSG.Quasithin.F6.eq_bot_of_isSubnormal_of_coprime (D := B) p
     (CFSG.pPrimeCore_eq_bot_of_isCharacteristicP B p hchar) hV hcop
@@ -23,7 +23,7 @@ private theorem pCore_two_map_eq_bot_of_surjective {H B : Type*} [Group H] [Grou
     (hC : Subgroup.centralizer (CFSG.pCore p B : Set B) ≤ CFSG.pCore p B)
     (φ : H →* B) (hφ : Function.Surjective φ) {V : Subgroup H} (hV : V.IsSubnormal) :
     ((CFSG.pCore 2 ↥V : Subgroup ↥V).map V.subtype).map φ = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO₂sub : ((CFSG.pCore 2 ↥V : Subgroup ↥V).map V.subtype).IsSubnormal :=
     (CFSG.pCore_normal (p := 2) (G := ↥V)).isSubnormal.trans' hV
   have hO₂map_sub : (((CFSG.pCore 2 ↥V : Subgroup ↥V).map V.subtype).map φ).IsSubnormal :=
@@ -44,7 +44,7 @@ private theorem map_eq_bot_of_isQuasisimple_quotient_pCore_two {H B : Type*} [Gr
     (hVq : CFSG.IsQuasisimple (↥V ⧸ CFSG.pCore 2 ↥V)) :
     V.map φ = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO₂map_bot : ((CFSG.pCore 2 ↥V : Subgroup ↥V).map V.subtype).map φ = ⊥ :=
     pCore_two_map_eq_bot_of_surjective hp hp2 hC φ hφ hV
   have hO₂ker : (CFSG.pCore 2 ↥V : Subgroup ↥V) ≤ (φ.comp V.subtype).ker := by

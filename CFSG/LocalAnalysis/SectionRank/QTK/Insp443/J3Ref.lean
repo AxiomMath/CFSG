@@ -58,8 +58,8 @@ theorem le_or_le_of_forall_mem_or {G : Type*} [Group G] {W A B : Subgroup G}
     (h : ∀ x ∈ W, x ∈ A ∨ x ∈ B) : W ≤ A ∨ W ≤ B := by
   by_contra hne
   rw [not_or] at hne
-  obtain ⟨a, haW, haA⟩ := SetLike.not_le_iff_exists.mp hne.1
-  obtain ⟨b, hbW, hbB⟩ := SetLike.not_le_iff_exists.mp hne.2
+  obtain ⟨a, haW, haA⟩ := IsConcreteLE.not_le_iff_exists.mp hne.1
+  obtain ⟨b, hbW, hbB⟩ := IsConcreteLE.not_le_iff_exists.mp hne.2
   have haB : a ∈ B := (h a haW).resolve_left haA
   have hbA : b ∈ A := (h b hbW).resolve_right hbB
   rcases h (a * b) (W.mul_mem haW hbW) with hab | hab
@@ -124,7 +124,7 @@ theorem sixteen_le_card {G : Type} [Group G] [Finite G] (h7 : ¬ 7 ∣ Nat.card 
   have hne : ⁅V, L⁆ ≠ ⊥ := fun hb => h.ne_bot (h.eq_commutator.trans hb)
   obtain ⟨p, hp, hp5, y, hyL, ⟨k, hyk⟩, t, htV, hyt⟩ :=
     exists_pElement_not_comm h.perfect h.le_normalizer hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hy1 : y ≠ 1 := by
     rintro rfl
     exact hyt (by simp)
@@ -132,7 +132,7 @@ theorem sixteen_le_card {G : Type} [Group G] [Finite G] (h7 : ¬ 7 ∣ Nat.card 
   have hyP : IsPGroup p (Subgroup.zpowers y) :=
     IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
   have hmod := CFSG.Quasithin.H13.card_modEq_card_centralizer_of_pElement hyP (h.le_normalizer hyL)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp h.elemAbelian.isPGroup
   have hCdvd : Nat.card ↥(V ⊓ Subgroup.centralizer ({y} : Set G)) ∣ 2 ^ a :=
     ha ▸ Subgroup.card_dvd_of_le inf_le_left
@@ -242,7 +242,7 @@ theorem eB_getD_mem (i : Fin 4) : eB.getD i (idT 6156) ∈ eB := by
 
 theorem coe_el {T : Table} (h : tp 6156 T ∈ j3P) : (el T : Equiv.Perm (Fin 6156)) = tp 6156 T := by
   unfold el
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 @[expose] noncomputable def vK (i : Fin 4) : ↥j3P := el (eB.getD i (idT 6156))
 
@@ -590,7 +590,7 @@ theorem card_eNorm_le : Nat.card (eNorm basisK) ≤ 2880 := by
     rw [← Nat.card_coe_set_eq]
     exact (card_eSub basisK).trans (by norm_num)
   have h15 : ((eSub basisK : Set ↥j3P) \ {1}).ncard = 15 := by
-    rw [Set.ncard_diff_singleton_of_mem (one_mem (eSub basisK)), hE16]
+    rw [Set.ncard_sdiff_singleton_of_mem (one_mem (eSub basisK)), hE16]
   rw [h15] at h1
   have h2 := card_normCent_le
   calc Nat.card (eNorm basisK) ≤ 15 * Nat.card ↥(eNorm basisK ⊓
@@ -651,7 +651,7 @@ theorem Nk_le_normalizer : Nk ≤ normalizer (Mk : Set ↥j3P) := by
     exact omT_mem_normalizer
 
 theorem commutator_Nk_le : ⁅Nk, Nk⁆ ≤ Mk := by
-  haveI hN : (Mk.subgroupOf Nk).Normal :=
+  have hN : (Mk.subgroupOf Nk).Normal :=
     (normal_subgroupOf_iff_le_normalizer Mk_le_Nk).mpr Nk_le_normalizer
   set H : Subgroup ↥Nk := zpowers ⟨el omT, omT_mem_Nk⟩
   have htop : Mk.subgroupOf Nk ⊔ H = ⊤ := by
@@ -771,10 +771,10 @@ theorem sixteen_le_count {W : Subgroup ↥j3P} (hW : IsElemAbelian 2 W) (hWS : W
 theorem exists_conj_eq {L V MK : Subgroup ↥j3P} (h : KConfig ↥j3P L V MK) :
     ∃ g : ↥j3P, V = (eSub basisK).map (MulAut.conj g).toMonoidHom := by
   have h16 : 16 ≤ Nat.card V := sixteen_le_card (by rw [card_j3P]; norm_num) h
-  have hS2 : IsPGroup 2 Sk := IsPGroup.of_card (n := 7) (by rw [card_Sk] <;> norm_num)
+  have hS2 : IsPGroup 2 Sk := IsPGroup.of_card (n := 7) (by rw [card_Sk]; norm_num)
   obtain ⟨c, -, hc⟩ := CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.Co2D5.exists_conj_le_of_odd_index
     (H := ⊤) (R := Sk) (E := V) le_top le_top hS2 h.elemAbelian.isPGroup (m := 392445)
-    ⟨196222, by norm_num⟩ (by rw [Subgroup.card_top, card_j3P, card_Sk] <;> norm_num)
+    ⟨196222, by norm_num⟩ (by rw [Subgroup.card_top, card_j3P, card_Sk])
   set W := V.map (MulAut.conj c).toMonoidHom with hWdef
   have hWS : W ≤ Sk := by
     rintro _ ⟨x, hx, rfl⟩

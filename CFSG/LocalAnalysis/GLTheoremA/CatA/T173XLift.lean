@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgroup Ω} {x : Ω} {G₀ : Type} [Group G₀]
 
+omit [Finite Ω] in
 private theorem type126_of_model_aux1 (M : S172X.S172Model S B G₀) : piImg M S = ⊤ := by
   rw [piImg, Subgroup.subgroupOf_self]
   exact Subgroup.map_top_of_surjective M.π M.surj
@@ -44,8 +45,8 @@ theorem type126_of_model [Finite G₀] (hp : p.Prime) (M : S172X.S172Model S B G
 theorem exists_two_subgroup_le_K (hcfg : Cfg173 p S B N D K x) :
     ∃ U : Subgroup Ω, U ≤ K ∧ U ≠ ⊥ ∧ IsPGroup 2 U := by
   have hqs : CFSG.Open.IsQuasisimple ↥K := hcfg.std.2.2.2.2.2.1.2.2
-  haveI : Nontrivial ↥K := isQuasisimple_nontrivial hqs
-  haveI : Group.IsPerfect ↥K := isPerfect_K hcfg
+  have : Nontrivial ↥K := isQuasisimple_nontrivial hqs
+  have : Group.IsPerfect ↥K := isPerfect_K hcfg
   have hnotsolv : ¬ Group.IsSolvable ↥K := Group.IsPerfect.not_isSolvable ↥K
   have hEven : Even (Nat.card ↥K) := by
     by_contra h
@@ -106,7 +107,8 @@ theorem piImg_inf_ker_eq_bot (M : S172X.S172Model S B G₀) {P : Subgroup Ω} (h
   have h2 : φ.ker = ⊥ := (Subgroup.eq_bot_iff_card φ.ker).2 h1
   rw [← hker, h2, Subgroup.map_bot]
 
-theorem mem_of_piImg_of_pow_eq_one (M : S172X.S172Model S B G₀) {K' : Subgroup Ω} (hK'S : K' ≤ S)
+omit [Finite Ω] in
+theorem mem_of_piImg_of_pow_eq_one (M : S172X.S172Model S B G₀) {K' : Subgroup Ω} (_hK'S : K' ≤ S)
     {p : ℕ} (hp : p.Prime) (hZ : ¬ p ∣ Nat.card (Subgroup.center ↥S))
     {u : ↥S} (hu : M.π u ∈ piImg M K') (hup : u ^ p = 1) :
     (u : Ω) ∈ K' := by
@@ -137,11 +139,12 @@ theorem mem_of_piImg_of_pow_eq_one (M : S172X.S172Model S B G₀) {K' : Subgroup
   rw [hcoe]
   exact K'.mul_mem hk' hzK
 
+omit [Finite Ω] in
 private lemma exists_alt_iv_of_model_aux3 (M : S172X.S172Model S B G₀) {K' : Subgroup Ω} (hK'S : K' ≤ S)
     (hK' : Group.IsPerfect ↥K') {u : ↥S}
     (hu : M.π u ∈ Subgroup.centralizer (piImg M K' : Set G₀)) :
     (u : Ω) ∈ Subgroup.centralizer (K' : Set Ω) := by
-  haveI : Group.IsPerfect ↥(K'.subgroupOf S) :=
+  have : Group.IsPerfect ↥(K'.subgroupOf S) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hK'S).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hK'S).symm.surjective
   have hcomm : ∀ d ∈ K'.subgroupOf S, ⁅u, d⁆ ∈ Subgroup.center ↥S := by
@@ -204,6 +207,7 @@ theorem pLift_eq_sup (M : S172X.S172Model S B G₀) (hZ : ¬ p ∣ Nat.card (Sub
     (Subgroup.mem_sup_left (Subgroup.mem_inf.2 ⟨hu₁, hu₁K⟩))
     (Subgroup.mem_sup_right (Subgroup.mem_inf.2 ⟨hu₂, hu₂C⟩))
 
+omit [Finite Ω] in
 theorem piImg_inf_S_le_range_β (M : S172X.S172Model S B G₀) :
     piImg M (B ⊓ S) ≤ M.β.range := by
   intro g hg
@@ -227,7 +231,7 @@ theorem piImg_inf_S_le_range_β (M : S172X.S172Model S B G₀) :
 
 private lemma exists_alt_iv_of_model_aux6 {A Kbar : Subgroup G₀} {y : G₀}
     (hA : A = (A ⊓ Kbar) ⊔ (A ⊓ Subgroup.centralizer (Kbar : Set G₀)))
-    (hyA : y ∈ Subgroup.centralizer (A : Set G₀))
+    (_hyA : y ∈ Subgroup.centralizer (A : Set G₀))
     (hyK : y ∈ Subgroup.centralizer (Kbar : Set G₀)) :
     A ⊔ Subgroup.zpowers y =
       ((A ⊔ Subgroup.zpowers y) ⊓ Kbar) ⊔
@@ -242,6 +246,7 @@ private lemma exists_alt_iv_of_model_aux6 {A Kbar : Subgroup G₀} {y : G₀}
     · exact (le_inf le_sup_right hyK').trans le_sup_right
   · exact sup_le inf_le_left inf_le_left
 
+omit [Finite Ω] in
 private lemma exists_alt_iv_of_model_aux7 {x : Ω} {P' K U : Subgroup Ω}
     (hxS : x ∈ Subgroup.centralizer (S : Set Ω)) (hUS : U ≤ S) (hUK : U ≤ K)
     (hsplit : P' = (P' ⊓ K) ⊔ (P' ⊓ Subgroup.centralizer (K : Set Ω))) :

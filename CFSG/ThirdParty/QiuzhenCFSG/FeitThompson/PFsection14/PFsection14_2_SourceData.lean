@@ -36,7 +36,7 @@ public theorem section14_coprime_card_of_isElementaryAbelian_of_ne
     (hp : Nat.Prime p) (hq : Nat.Prime q) (hpq : p ≠ q)
     [IsElementaryAbelian q Q] :
     Nat.Coprime p (Nat.card Q) := by
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact q.Prime := ⟨hq⟩
   have hQp : IsPGroup q Q := IsElementaryAbelian.isPGroup q Q
   rcases hQp.exists_card_eq with ⟨n, hcard⟩
   rw [hcard]
@@ -70,7 +70,7 @@ public theorem section14_isCyclic_of_case_9_7_b_sourceData_card_eq_one
     ⟨_h92, _hH0le, _hcent, _hp, _hq, _hred, _hcardMF, _hcentby,
       hcyclicQuot, _hirr, _hfield, _hcop, _hdiv, _hprimeField⟩
   rcases hcyclicQuot with ⟨_hCU, hnormal, hcyc, _hcardQuot⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  let : (C.subgroupOf U).Normal := hnormal
   have hCbot : C = ⊥ := (Subgroup.card_eq_one (H := C)).1 hCcard
   have hCsub : C.subgroupOf U = ⊥ := by
     subst C

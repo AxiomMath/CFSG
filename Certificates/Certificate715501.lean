@@ -19,7 +19,7 @@ theorem filter_eq_filterBy {α : Type} (p : α → Bool) :
     ∀ l : List α, l.filter p = filterBy (l.map p) l
   | [] => rfl
   | a :: l => by
-    cases h : p a <;> simp [List.filter_cons, filterBy, h, filter_eq_filterBy p l]
+    cases h : p a <;> simp [filterBy, h, filter_eq_filterBy p l]
 
 @[expose] def key (rs : List (Array Int)) (c₁ c₂ : Array Nat) : List Bool :=
   rs.map fun g => pair3 g c₁ == 0 && pair3 g c₂ == 0

@@ -40,10 +40,10 @@ theorem centralizer_decomp_frame {K V : Type} [Field K] [Finite K] [CharP K 2]
         ((leviFix (elementaryGroup Q) P₁ P₂).comap σ ⊔ (omFix Q P₁ P₂).comap σ) ∧
       pCoreOf 2 (Subgroup.centralizer {x}) = (rootRadical Q P₁ P₂).comap σ := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite U := Finite.of_injective σ hσ
+  have : Finite U := Finite.of_injective σ hσ
   have hEich : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
   have hRE : rootRadical Q P₁ P₂ ≤ σ.range := hσE ▸ rootRadical_le_elementaryGroup h₁₂
   have hL₁E : leviFix (elementaryGroup Q) P₁ P₂ ≤ σ.range :=

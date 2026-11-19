@@ -23,6 +23,7 @@ variable {A : Type} [Group A] [Finite A] {T : Subgroup A} [T.Normal] {R : Subgro
 
 include hp hp2 hf hK h2 hZ
 
+omit [Finite A] in
 theorem two_elt_conj {l ν : Kˣ} {k : ℕ} (hk : 2 ≤ k) (hlord : orderOf l = 2 ^ k)
     (hmax : ¬ 2 ^ (k + 1) ∣ Nat.card Kˣ) (hl : F.scal l ∈ sylowSet S) {b : A} (hb : b ∈ sylowSet S)
     (hbι : F.ι b = conjAut 3 K (sigMat ν) * dualAut 3 K) {ψ : MulAut ↥T}

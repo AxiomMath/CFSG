@@ -407,7 +407,7 @@ theorem central_of_dihedral {P : Subgroup G} {n : ℕ} (hn : 3 ≤ n)
         rw [← map_mul, DihedralGroup.sr_mul_self, map_one]
       exact congrArg Subtype.val this
     · intro h
-      have h1 : φ.symm (DihedralGroup.sr 0) = 1 := Subtype.ext (by simpa using h)
+      have h1 : φ.symm (DihedralGroup.sr 0) = 1 := Subtype.ext (by simp at h)
       have h2 : DihedralGroup.sr (0 : ZMod (2 ^ (n - 1))) = 1 := by
         rw [← map_one φ.symm] at h1
         exact φ.symm.injective h1

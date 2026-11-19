@@ -34,8 +34,8 @@ theorem isSimpleGroup_statedProj_statedSU_two {k : ℕ} {E : Type} [Field E] [Fi
     (hE : UnitaryFieldData 2 k E) (hk : 2 ≤ k) :
     IsSimpleGroup (LargeEvenProj (StatedSU 2 (2 ^ k) E)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := hE.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := hE.charP
   have hE2 : (2 : E) = 0 := CharP.cast_eq_zero E 2
   have hEcard : Nat.card E = (2 ^ k) ^ 2 := by
     calc Nat.card E = 2 ^ (2 * k) := hE.card
@@ -78,11 +78,11 @@ theorem isSimpleGroup_statedProj_statedSU_two {k : ℕ} {E : Type} [Field E] [Fi
       refine ⟨1, one_pow 2, ?_⟩
       ext v
       simp
-  haveI : IsSimpleGroup (sesqSpecialUnitaryGroup (idForm hE 2)) := by
+  have : IsSimpleGroup (sesqSpecialUnitaryGroup (idForm hE 2)) := by
     have h4 : 4 ≤ 2 ^ k := by
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         (sesqSpecialUnitaryGroup (idForm hE 2) ⧸
           Subgroup.center (sesqSpecialUnitaryGroup (idForm hE 2))) := (hsimp h4).2.1
     exact (MulEquiv.isSimpleGroup_congr

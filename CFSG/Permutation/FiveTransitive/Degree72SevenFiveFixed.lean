@@ -28,7 +28,7 @@ private theorem exists_normalizer_five_fixed_thirty_two
   obtain ⟨hF,hAlt⟩ := Degree72SevenFixed.fixed_card_and_alternating P hcard h5 hnotAlt s hs S hS
   change Nat.card F = 9 at hF
   let _ : Nontrivial F := Finite.one_lt_card_iff_nontrivial.mp (by omega)
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   let rho : N →* Equiv.Perm F := toPermHom N F
   have hd : 5 ∣ Nat.card rho.range := by

@@ -13,6 +13,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData (pElementSubgroup pEleme
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem mem_normalizer_pES {L : Subgroup G} {g : G} (hg : g ∈ normalizer (L : Set G)) :
     g ∈ normalizer ((pElementSubgroup p L : Subgroup G) : Set G) := by
   have hg' := mem_normalizer_iff.mp hg
@@ -35,6 +36,7 @@ theorem mem_normalizer_pES {L : Subgroup G} {g : G} (hg : g ∈ normalizer (L : 
     · show g * (g⁻¹ * y * g) * g⁻¹ = y
       group
 
+omit [Finite G] in
 theorem pES_pES (L : Subgroup G) : pElementSubgroup p (pElementSubgroup p L) =
     pElementSubgroup p L := by
   apply le_antisymm (pElementSubgroup_le _)
@@ -59,7 +61,7 @@ theorem img_pES_eq : img H D (pElementSubgroup p L) = img H D L := by
   · rintro _ hx
     obtain ⟨j, hj, rfl⟩ := mem_img.mp hx
     exact mem_img.mpr ⟨j, hJL hj, rfl⟩
-  · haveI := d.simple_img
+  · have := d.simple_img
     set V : Subgroup ↥(img H D L) := (img H D (pElementSubgroup p L)).subgroupOf (img H D L)
     have hVn : V.Normal := by
       refine ⟨fun n hn g => ?_⟩
@@ -89,16 +91,20 @@ theorem img_pES_eq : img H D (pElementSubgroup p L) = img H D L := by
       have : (⟨x, hx⟩ : ↥(img H D L)) ∈ V := by rw [htop]; exact Subgroup.mem_top _
       exact this
 
+omit hDn in
 theorem X_le_H : pElementSubgroup p L ⊔ S ≤ H :=
   sup_le ((pElementSubgroup_le L).trans d.L_le_H) d.S_le_H
 
+omit hDn in
 theorem S_le_normalizer_pES : S ≤ normalizer ((pElementSubgroup p L : Subgroup G) : Set G) :=
-  fun s hs => mem_normalizer_pES (d.M_le_L ⟨d.S_le_M hs, d.S_le_H hs⟩)
+  fun _s hs => mem_normalizer_pES (d.M_le_L ⟨d.S_le_M hs, d.S_le_H hs⟩)
 
+omit hDn in
 theorem X_le_normalizer_pES : pElementSubgroup p L ⊔ S ≤
     normalizer ((pElementSubgroup p L : Subgroup G) : Set G) :=
   sup_le Subgroup.le_normalizer d.S_le_normalizer_pES
 
+omit hDn in
 theorem D_le_X : D ≤ pElementSubgroup p L ⊔ S := d.D_lt_S.le.trans le_sup_right
 
 theorem img_X : img H D (pElementSubgroup p L ⊔ S) = img H D L ⊔ img H D S := by
@@ -114,7 +120,7 @@ theorem N_le_D {X : Subgroup G} (hX : X = pElementSubgroup p L ⊔ S) {N : Subgr
   have hXH : X ≤ H := hX ▸ d.X_le_H
   have himgX : img H D X = img H D L ⊔ img H D S := hX ▸ d.img_X
   have hKb := d.cfg
-  haveI := d.simple_img
+  have := d.simple_img
   set NG : Subgroup G := N.map X.subtype with hNG
   have hNGX : NG ≤ X := Subgroup.map_subtype_le N
   have hNGn : ∀ x ∈ X, ∀ n ∈ NG, x * n * x⁻¹ ∈ NG := by

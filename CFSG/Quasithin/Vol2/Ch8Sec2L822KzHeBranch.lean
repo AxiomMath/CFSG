@@ -55,14 +55,14 @@ theorem comm_le_pCoreOf_kz2 [Finite G] {X : Subgroup G} (hrel : (pCoreOf 2 X).re
   classical
   have hXN : X ≤ Subgroup.normalizer (pCoreOf 2 X : Set G) := le_normalizer_pCoreOf 2 X
   set H₁ : Subgroup ↥X := (pCoreOf 2 X).subgroupOf X with hH₁
-  haveI hH₁n : H₁.Normal := ⟨fun x hx g => by
+  have hH₁n : H₁.Normal := ⟨fun x hx g => by
     rw [hH₁, Subgroup.mem_subgroupOf] at hx ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hXN g.2) x).mp hx⟩
   have hcard : Nat.card (↥X ⧸ H₁) = 3 ^ 2 := by
     rw [← Subgroup.index_eq_card]
     exact hrel
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  have hcomm := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) hcard
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have hcomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hcard).is_comm.comm
   have key : ∀ x y : ↥X, x⁻¹ * y⁻¹ * x * y ∈ H₁ := by
     intro x y
     have h := hcomm (QuotientGroup.mk y) (QuotientGroup.mk x)
@@ -199,14 +199,14 @@ theorem inner_mem_stil_kz2 [Finite G] (hHeA : HeAutInner_kz2)
     {T K : Subgroup G} (hTK : T ≤ Subgroup.normalizer (K : Set G)) (hTp : IsPGroup 2 ↥T)
     (hQe : Nonempty (↥K ⧸ CFSG.pCore 2 ↥K ≃* CFSG.Blueprint.NativeSporadic.Carrier .He))
     (Bq : Subgroup (↥K ⧸ CFSG.pCore 2 ↥K)) (hBq : Nat.card Bq = 69120) (hBqp : ⁅Bq, Bq⁆ = Bq)
-    (hBqT : ∀ t ∈ T, ∀ ht : t ∈ Subgroup.normalizer (K : Set G), ∀ x ∈ Bq, kzQmap_kz2 K t ht x ∈ Bq)
+    (hBqT : ∀ t ∈ T, ∀ _ht : t ∈ Subgroup.normalizer (K : Set G), ∀ x ∈ Bq, kzQmap_kz2 K t _ht x ∈ Bq)
     (Stil : Subgroup (↥K ⧸ CFSG.pCore 2 ↥K))
     (hStilD : ∀ s ∈ Stil, ∃ x : ↥K, (x : G) ∈ T ∧ (QuotientGroup.mk x : ↥K ⧸ CFSG.pCore 2 ↥K) = s)
     (hStil2 : IsPGroup 2 Stil) (hStilc : Nat.card Stil = 2 ^ 10) (hStilS : IsSylowTwoOf Stil ⊤) :
-    ∀ t : G, ∀ ht : t ∈ T, ∀ htK : t ∈ Subgroup.normalizer (K : Set G),
+    ∀ t : G, ∀ _ht : t ∈ T, ∀ htK : t ∈ Subgroup.normalizer (K : Set G),
       ∃ k ∈ Stil, ∀ x : ↥K ⧸ CFSG.pCore 2 ↥K, kzQmap_kz2 K t htK x = k * x * k⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K) = ⊥ := center_bot_of_he_kz2 hQe
   have hStilN : Stil ≤ Subgroup.normalizer (Bq : Set (↥K ⧸ CFSG.pCore 2 ↥K)) := by
     intro s hs
@@ -261,10 +261,10 @@ theorem inner_mem_stil_kz2 [Finite G] (hHeA : HeAutInner_kz2)
       exact kzQmap_eq_conj_kz2 x (hTK hxT) y
     exact MonoidHom.mem_range.mpr ⟨⟨(x : G), hxT⟩, hkt⟩
   have hκeq : κ.range = Stil := eq_of_sylow_le_kz2 hStilS hκ2 hle le_top
-  intro t ht htK
-  refine ⟨kk ⟨t, ht⟩, ?_, hkk ⟨t, ht⟩⟩
+  intro t _ht htK
+  refine ⟨kk ⟨t, _ht⟩, ?_, hkk ⟨t, _ht⟩⟩
   rw [← hκeq]
-  exact MonoidHom.mem_range.mpr ⟨⟨t, ht⟩, rfl⟩
+  exact MonoidHom.mem_range.mpr ⟨⟨t, _ht⟩, rfl⟩
 
 
 theorem false_of_he_K_kz2 [Finite G] (hHeA : HeAutInner_kz2) (hHe : HeSubO2_kz)
@@ -278,7 +278,7 @@ theorem false_of_he_K_kz2 [Finite G] (hHeA : HeAutInner_kz2) (hHe : HeSubO2_kz)
     (hBqT : ∀ t ∈ T, ∀ ht : t ∈ Subgroup.normalizer (K : Set G), ∀ x ∈ Bq, kzQmap_kz2 K t ht x ∈ Bq) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQc : Nat.card (↥K ⧸ CFSG.pCore 2 ↥K) = 4030387200 := by
     rw [Nat.card_congr hQe.some.toEquiv]
     exact CFSG.Sporadic.He.card_He

@@ -153,7 +153,6 @@ theorem cell87_FL3 : Cell87 FL3 := by
   obtain ⟨n, hn, hL, hzK, hel, hcardX, P, hP, hXP, hPeq⟩ := fl3_main hctx hsig hyp hF
   refine Or.inr (Or.inr (Or.inl ?_))
   first
-    | exact ⟨n, hn, hL, P, hP, hXP⟩
     | exact ⟨n, hn, hL, hzK, hel, hcardX, P, hP, hXP, hPeq⟩
 
 end CFSG.GH74.GLS.Stage2.Signalizer.Odd87

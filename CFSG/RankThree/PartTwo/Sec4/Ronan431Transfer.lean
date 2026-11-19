@@ -30,6 +30,7 @@ section Rank
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isElemAbelian_of_le {p : ℕ} {A F : Subgroup X} (hA : CFSG.Open.IsElemAbelian p A)
     (hFA : F ≤ A) : CFSG.Open.IsElemAbelian p F :=
   ⟨⟨⟨fun x y => Subtype.ext (by
@@ -37,6 +38,7 @@ theorem isElemAbelian_of_le {p : ℕ} {A F : Subgroup X} (hA : CFSG.Open.IsElemA
     exact h)⟩⟩,
     fun x hx => hA.2 x (hFA hx)⟩
 
+omit [Finite X] in
 theorem elemAbelian_sup_of_commute {E F : Subgroup X} (hE : CFSG.Open.IsElemAbelian 3 E)
     (hF : CFSG.Open.IsElemAbelian 3 F) (hc : ∀ e ∈ E, ∀ f ∈ F, e * f = f * e)
     (hinf : E ⊓ F = ⊥) :
@@ -162,8 +164,8 @@ theorem eq_top_of_isComponent {Q : Type} [Group Q] [Finite Q] (hQ : IsQuasisimpl
   rcases CFSG.LocalCores.distinct_components_commute hK htop with h | h
   · exact h
   · exfalso
-    haveI : Group.IsPerfect K := hK.1.1
-    haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+    have : Group.IsPerfect K := hK.1.1
+    have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
     have hle : ⁅K, K⁆ ≤ ⁅K, (⊤ : Subgroup Q)⁆ := Subgroup.commutator_mono le_rfl le_top
     rw [h, le_bot_iff, Subgroup.commutator_eq_self] at hle
     exact (Subgroup.nontrivial_iff_ne_bot K).mp inferInstance hle
@@ -194,7 +196,7 @@ theorem zpowers_eq_inf_centralizer (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup G)
     rw [Subgroup.mem_bot]
     exact hEc x hx.2 fun k hk => Subgroup.mem_centralizer_iff.mp hx.1.2 k hk
   obtain ⟨hFE, hcard⟩ := elemAbelian_sup_of_commute hFe hE hcomm hinf
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF3 : IsPGroup 3 F := fun x => ⟨1, Subtype.ext (by simpa using hFe.2 x x.2)⟩
   obtain ⟨m, hm⟩ := hF3.exists_card_eq
   have hm1 : m ≤ 1 := by
@@ -242,7 +244,7 @@ theorem center_eq_bot_of_pRank (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤
     {A : Subgroup G} (hA : Late.IsE27 A) {L : Subgroup G} (hLn : L.Normal)
     (hAC : A ⊓ Subgroup.centralizer (L : Set G) = ⊥) (hZ3 : IsPGroup 3 (Subgroup.center L)) :
     Subgroup.center L = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hne
   set Z' : Subgroup G := (Subgroup.center L).map L.subtype with hZ'
   have hZ'n : Z'.Normal := ConjAct.normal_of_characteristic_of_normal
@@ -250,9 +252,9 @@ theorem center_eq_bot_of_pRank (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤
   have hA3 : IsPGroup 3 A := fun x => ⟨1, Subtype.ext (by simpa using hA.1.2 x x.2)⟩
   set P : Subgroup G := A ⊔ Z' with hP
   have hP3 : IsPGroup 3 P := IsPGroup.to_sup_of_normal_right hA3 hZ'3
-  haveI : Group.IsNilpotent P := hP3.isNilpotent
+  have : Group.IsNilpotent P := hP3.isNilpotent
   set H : Subgroup P := Z'.subgroupOf P with hH
-  haveI : H.Normal := Subgroup.normal_subgroupOf
+  have : H.Normal := Subgroup.normal_subgroupOf
   obtain ⟨⟨z₀, hz₀Z⟩, hz₀1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hne
   have hHne : H ≠ ⊥ := by
     intro hb
@@ -307,6 +309,7 @@ theorem center_eq_bot_of_pRank (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤
     have hE := Sec15.isElemAbelian_sup_zpowers hA.1 hzpow hzA
     exact false_of_pRank_le_of_card hrank hE (k := 4) le_rfl (by rw [hcard, hA.2]; norm_num)
 
+omit [Finite G] in
 theorem inf_center_eq_bot431 {L K' : Subgroup G} (hK'L : K' ≤ L) (hK'q : IsQuasisimple K')
     (hK'type : IsType431 (K' ⧸ CFSG.pCore 2 K')) (hZ : IsPGroup 3 (Subgroup.center L)) :
     K'.subgroupOf L ⊓ Subgroup.center L = ⊥ := by
@@ -354,8 +357,8 @@ theorem cfgS431_of (hθ : aschbacherSolvableCore 3 G = ⊥)
     intro l hl
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.mp h1 l hl)
-  · haveI : Group.IsPerfect K' := hK'q.1
-    haveI : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective
+  · have : Group.IsPerfect K' := hK'q.1
+    have : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hK'L).symm.toMonoidHom) (MulEquiv.surjective _)
     exact Group.IsPerfect.map _
   · exact isType431_of_mulEquiv (quotPCoreTwoCongr (equivBar hK'L hinf)).symm hK'type
@@ -403,6 +406,7 @@ theorem pCore_two_eq_bot_of_isComponent (hθ : aschbacherSolvableCore 3 G = ⊥)
   exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hcop (orderOf_dvd_of_pow_eq_one ha')
     (orderOf_dvd_of_pow_eq_one hb'))
 
+omit [Finite G] in
 theorem mem_normalizer_inf_centralizer {L : Subgroup G} (hLn : L.Normal) {a c : G}
     (hac : a * c = c * a) :
     a ∈ Subgroup.normalizer ((L ⊓ Subgroup.centralizer {c} : Subgroup G) : Set G) := by

@@ -101,7 +101,7 @@ theorem htwo_K (pre : PreHyp O L A) (hO : pPrimeCore 2 (X ⧸ O) = ⊥)
   obtain ⟨p₀, hp₀L, hp₀'⟩ := p.2
   have hp₀ : q p₀ = (p : X ⧸ O) := hp₀'
   refine ⟨p₀, hp₀L, ?_, ?_, a₁.1, a₁.2, ?_⟩
-  · obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+  · obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     have h1 : p ^ (2 ^ k) = 1 := by
       have := congrArg Subtype.val hk
       simpa using this

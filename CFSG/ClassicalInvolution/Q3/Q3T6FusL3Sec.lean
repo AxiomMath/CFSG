@@ -33,7 +33,7 @@ theorem exists_sylow_conj3 (hd : Sec19DataT3 K z S W L t V) {x : G}
   set H := Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.centralizer ({z} : Set G) with hH
   have hP₀H : (S : Subgroup G) ⊓ Subgroup.centralizer ({x} : Set G) ≤ H :=
     le_inf inf_le_right (inf_le_left.trans hd0.hSz)
-  obtain ⟨T, hT, hP₀T⟩ := IsSylow2In.exists_ge (S.isPGroup'.to_le inf_le_left) hP₀H
+  obtain ⟨T, hT, hP₀T⟩ := IsSylow2In.exists_ge (S.isPGroup.to_le inf_le_left) hP₀H
   obtain ⟨c, hcH, hsc⟩ := Sec7.exists_conj_le_of_isSylow2In hT hs2
     (Subgroup.zpowers_le.mpr ⟨hsx, hsz⟩)
   have hcs : c⁻¹ * s * c ∈ T := by
@@ -51,7 +51,7 @@ theorem exists_sylow_conj3 (hd : Sec19DataT3 K z S W L t V) {x : G}
     hxS' r hr.1 (Subgroup.mem_centralizer_iff.mp hxR r hr)
   have hR : (S' : Subgroup G) ⊓ K = (S : Subgroup G) ⊓ K := by
     have hRK := hd0.isSylow2In_inf
-    exact hRK.2.2 _ inf_le_right (S'.isPGroup'.to_le inf_le_left) (le_inf hRS' inf_le_right)
+    exact hRK.2.2 _ inf_le_right (S'.isPGroup.to_le inf_le_left) (le_inf hRS' inf_le_right)
   have hWS' : W ≤ (S' : Subgroup G) := fun w hw =>
     hxS' w (hd.hWS hw) (Subgroup.mem_centralizer_iff.mp hxW w hw)
   have hS'z : (S' : Subgroup G) ≤ Subgroup.centralizer ({z} : Set G) := by

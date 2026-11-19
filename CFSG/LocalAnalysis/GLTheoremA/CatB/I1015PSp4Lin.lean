@@ -48,12 +48,12 @@ theorem mulVec_pairMat_other {i : Fin 2} (X : Matrix (Fin 2) (Fin 2) K) (v : Fin
 theorem mulVec_pairMat_inl (i : Fin 2) (X : Matrix (Fin 2) (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     (pairMat (Sum.inl i) (Sum.inr i) X *ᵥ v) (Sum.inl i) =
       X 0 0 * v (Sum.inl i) + X 0 1 * v (Sum.inr i) := by
-  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two, pairMat]
+  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, pairMat]
 
 theorem mulVec_pairMat_inr (i : Fin 2) (X : Matrix (Fin 2) (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     (pairMat (Sum.inl i) (Sum.inr i) X *ᵥ v) (Sum.inr i) =
       X 1 0 * v (Sum.inl i) + X 1 1 * v (Sum.inr i) := by
-  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two, pairMat]
+  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, pairMat]
 
 theorem pairMat_mulVec_onPlane (i : Fin 2) (X : Matrix (Fin 2) (Fin 2) K) {v : Fin 2 ⊕ Fin 2 → K}
     (hv : OnPlane i v) : OnPlane i (pairMat (Sum.inl i) (Sum.inr i) X *ᵥ v) := by
@@ -69,7 +69,7 @@ theorem quadratic_of_cube [CharP K 2] {X : Matrix (Fin 2) (Fin 2) K} (hdet : X.d
   have hCH : X * X = t • X - 1 := by
     ext a b
     fin_cases a <;> fin_cases b <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, ht] <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, ht] <;>
       first | linear_combination (-1 : K) * hdet' | ring1
   have key : t • (t • X - 1) - X = 1 := by
     have h' : X * X * X = t • (t • X - 1) - X := by
@@ -80,7 +80,7 @@ theorem quadratic_of_cube [CharP K 2] {X : Matrix (Fin 2) (Fin 2) K} (hdet : X.d
   have e01 := congrFun (congrFun key 0) 1
   have e10 := congrFun (congrFun key 1) 0
   have e11 := congrFun (congrFun key 1) 1
-  simp [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply] at e00 e01 e10 e11
+  simp [Matrix.sub_apply, Matrix.smul_apply] at e00 e01 e10 e11
   by_cases hcase : t ^ 2 - 1 = 0
   · have ht1 : t = -1 := by
       linear_combination (-1 : K) * e00 + X 0 0 * hcase
@@ -109,17 +109,17 @@ theorem quadratic_of_cube [CharP K 2] {X : Matrix (Fin 2) (Fin 2) K} (hdet : X.d
       exact sub_eq_zero.1 (mul_self_eq_zero.1 h2)
     have hc11 : X 1 1 = 1 := hX00 ▸ hc
     ext a b
-    fin_cases a <;> fin_cases b <;> simp [hX01, hX10, hc, hc11, Matrix.one_apply]
+    fin_cases a <;> fin_cases b <;> simp [hX01, hX10, hc, hc11]
 
 theorem dot_spJ_single_inl (u : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
     u ⬝ᵥ (spJ 2 K *ᵥ Pi.single (Sum.inl i) 1) = -u (Sum.inr i) := by
   rw [dotProduct_spJ_mulVec]
-  simp [dotProduct, Function.comp_def, Pi.single_apply]
+  simp [dotProduct, Pi.single_apply]
 
 theorem dot_spJ_single_inr (u : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
     u ⬝ᵥ (spJ 2 K *ᵥ Pi.single (Sum.inr i) 1) = u (Sum.inl i) := by
   rw [dotProduct_spJ_mulVec]
-  simp [dotProduct, Function.comp_def, Pi.single_apply]
+  simp [dotProduct, Pi.single_apply]
 
 theorem beta_mat (g : StatedSp 2 K) (u w : Fin 2 ⊕ Fin 2 → K) :
     (mat g *ᵥ u) ⬝ᵥ (spJ 2 K *ᵥ (mat g *ᵥ w)) = u ⬝ᵥ (spJ 2 K *ᵥ w) := by
@@ -143,10 +143,10 @@ theorem onPlane_of_fixes {i j : Fin 2} (hij : i ≠ j) {g : StatedSp 2 K}
     OnPlane j (mat g *ᵥ v) := by
   have hei : OnPlane i (Pi.single (Sum.inl i) (1 : K)) := by
     intro k h1 _
-    simp [Pi.single_apply, h1]
+    simp [h1]
   have hfi : OnPlane i (Pi.single (Sum.inr i) (1 : K)) := by
     intro k _ h2
-    simp [Pi.single_apply, h2]
+    simp [h2]
   have he := hfix _ hei
   have hf := hfix _ hfi
   have hvi : v (Sum.inr i) = 0 := hv _ (by simp) (fun h => hij (Sum.inr_injective h))
@@ -248,7 +248,7 @@ theorem plane_mem_of_ne_zero (i : Fin 2) {X : Matrix (Fin 2) (Fin 2) K} (hX : X 
 theorem exists_fixed_ne {G : Type} [Group G] (hG : IsPGroup 2 G) {X : Type} [MulAction G X]
     [Finite X] (hX : Even (Nat.card X)) (x0 : X) (hx0 : ∀ g : G, g • x0 = x0) :
     ∃ x : X, x ≠ x0 ∧ ∀ g : G, g • x = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hG.card_modEq_card_fixedPoints X
   by_contra hcon
   push Not at hcon
@@ -271,6 +271,7 @@ theorem exists_fixed_ne {G : Type} [Group G] (hG : IsPGroup 2 G) {X : Type} [Mul
   unfold Nat.ModEq at hmod
   omega
 
+omit [Field K] in
 theorem natCard_vec [Finite K] : Nat.card (Fin 2 ⊕ Fin 2 → K) = Nat.card K ^ 4 := by
   rw [Nat.card_fun, Nat.card_sum]
   simp
@@ -296,7 +297,7 @@ theorem natCard_onPlane [Finite K] (j : Fin 2) :
         · subst h1; simp [hc0]
         · by_cases h2 : k = Sum.inr j
           · subst h2; simp [hc1]
-          · simp only [h1, h2, if_false]
+          · simp only [h1, h2, ite_false]
             exact (v.2 k h1 h2).symm
       right_inv := by
         intro w

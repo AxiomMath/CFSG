@@ -58,8 +58,8 @@ private theorem familyGroup_finiteIndex_familyCentralizer
       fun i => (conj_canonicalRep_eq_iff (a i) w).2 (hw i)⟩
   have hWfin : (familyStabilizer a).Finite :=
     Set.finite_univ.subset (Set.subset_univ _)
-  letI : Finite {w : WeylGroup τ // w ∈ familyStabilizer a} := hWfin.to_subtype
-  letI : Fintype {w : WeylGroup τ // w ∈ familyStabilizer a} := Fintype.ofFinite _
+  let : Finite {w : WeylGroup τ // w ∈ familyStabilizer a} := hWfin.to_subtype
+  let : Fintype {w : WeylGroup τ // w ∈ familyStabilizer a} := Fintype.ofFinite _
   refine Subgroup.finiteIndex_of_leftCoset_cover_const
     (s := (Finset.univ : Finset {w : WeylGroup τ // w ∈ familyStabilizer a}))
     (g := fun w => ⟨canonicalRep (coxeterSystem τ) K w.1, hC w.1 w.2⟩) ?_
@@ -158,7 +158,7 @@ theorem mem_familyGroup_of_conj_mem_torusGroup
       _ = MulAut.conj g⁻¹ (rootDiagUnit τ b) := by rw [hdcn]
       _ = g⁻¹ * rootDiagUnit τ b * g := by simp only [MulAut.conj_apply, inv_inv]
       _ = (s : ModGL τ L) := by rw [← hb]; group
-  haveI : (M.subgroupOf C).FiniteIndex :=
+  have : (M.subgroupOf C).FiniteIndex :=
     familyGroup_finiteIndex_familyCentralizer (K := L) (fun _ : Unit => a)
   have hdivC : ∀ s : S.subgroupOf C, ∀ n : ℕ, 0 < n →
       ∃ r : S.subgroupOf C, r ^ n = s := by

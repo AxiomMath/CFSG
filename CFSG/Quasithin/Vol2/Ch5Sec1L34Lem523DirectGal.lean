@@ -11,7 +11,7 @@ open Polynomial
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem exists_pow_two_pow (σ : K ≃+* K) : ∃ i : ℕ, ∀ x : K, σ x = x ^ (2 ^ i) := by
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   let σa : K ≃ₐ[ZMod 2] K :=
     { σ with
       commutes' := fun r => by
@@ -25,11 +25,13 @@ theorem exists_pow_two_pow (σ : K ≃+* K) : ∃ i : ℕ, ∀ x : K, σ x = x ^
   rw [h2] at this
   exact this
 
+omit [CharP K 2] in
 theorem pow_natCard (x : K) : x ^ Nat.card K = x := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card]
   exact FiniteField.pow_card x
 
+omit [CharP K 2] in
 theorem not_forall_pow {m : ℕ} (hm : 2 ≤ m) (hK : m < Nat.card K) :
     ¬ ∀ x : K, x ^ m = x := by
   intro h
@@ -45,9 +47,10 @@ theorem not_forall_pow {m : ℕ} (hm : 2 ≤ m) (hK : m < Nat.card K) :
       exact_mod_cast hK
   have hcoeff : (X ^ m - X : K[X]).coeff 1 = 0 := by rw [hzero]; simp
   have hm1 : m ≠ 1 := by omega
-  rw [coeff_sub, coeff_X_pow, coeff_X, if_neg (Ne.symm hm1)] at hcoeff
+  rw [coeff_sub, coeff_X_pow, coeff_X, ite_eq_right (Ne.symm hm1)] at hcoeff
   simp at hcoeff
 
+omit [CharP K 2] in
 theorem pow_pow_card_pow {a : ℕ} (hK : Nat.card K = 2 ^ a) (q : ℕ) (x : K) :
     x ^ ((2 ^ a) ^ q) = x := by
   induction q with
@@ -57,6 +60,7 @@ theorem pow_pow_card_pow {a : ℕ} (hK : Nat.card K = 2 ^ a) (q : ℕ) (x : K) :
     rw [← hK]
     exact pow_natCard x
 
+omit [CharP K 2] in
 theorem dvd_of_pow_two_pow_fixed {a : ℕ} (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ a) {k : ℕ}
     (h : ∀ x : K, x ^ (2 ^ k) = x) : a ∣ k := by
   by_contra hna
@@ -77,6 +81,7 @@ theorem dvd_of_pow_two_pow_fixed {a : ℕ} (ha : 1 ≤ a) (hK : Nat.card K = 2 ^
     rw [hK]; exact Nat.pow_lt_pow_right (by norm_num) hr_lt
   exact not_forall_pow hm2 hmK hfix
 
+omit [Finite K] [CharP K 2] in
 theorem pow_four_pow {μ : K} (h : μ ^ 4 = μ) (j : ℕ) : μ ^ (4 ^ j) = μ := by
   induction j with
   | zero => simp

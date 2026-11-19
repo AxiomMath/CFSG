@@ -121,7 +121,7 @@ theorem syU_getD_mem {j : Nat} (hj : j < 3) : harU.getD j (idT 11200) ∈ harU :
 theorem syG_eq_tp {j : Nat} (hj : j < harU.length) : syG j = tp 11200 harU[j] := by
   have h3 : j < 3 := by rwa [syU_len] at hj
   have e : harU.getD j (idT 11200) = harU[j] := List.getD_eq_getElem _ _ hj
-  simp only [syG, if_pos h3, e]
+  simp only [syG, ite_eq_left h3, e]
   rfl
 
 theorem syG_rep {l : Nat} (hl : l < 6) :
@@ -129,12 +129,12 @@ theorem syG_rep {l : Nat} (hl : l < 6) :
   by_cases h3 : l < 3
   · rw [bothK_lt h3, ← (syU_getD h3).1]
     unfold syG
-    rw [if_pos h3]
+    rw [ite_eq_left h3]
     exact rep_tp (sy_perm_harU _ (syU_getD_mem h3))
   · have hj : l - 3 < 3 := by omega
     rw [bothK_ge (by omega), ← invT_eq (TE_inv _ hj).1, ← (syU_getD hj).1]
     unfold syG
-    rw [if_neg h3]
+    rw [ite_eq_right h3]
     exact rep_invT_of_rep sy_hn (rep_tp (sy_perm_harU _ (syU_getD_mem hj)))
 
 theorem sy_hcl : ∀ x < 1024, ∀ l < 6,
@@ -248,7 +248,7 @@ theorem syU_rep {w : List Nat} (hw : ∀ l ∈ w, 1 ≤ l ∧ l ≤ 3) : Rep 112
     apply List.map_congr_left
     intro l hl
     have h3 : l - 1 < 3 := by have := hw l hl; omega
-    simp only [Function.comp, syG, if_pos h3]
+    simp only [Function.comp, syG, ite_eq_left h3]
   rw [e]
   exact h
 
@@ -261,7 +261,7 @@ theorem syInv_mul : ∀ w : List Nat, (∀ l ∈ w, 1 ≤ l ∧ l ≤ 3) →
       have h3 : ¬ a + 2 < 3 := by omega
       have h4 : a - 1 < 3 := by omega
       have e' : a + 2 - 3 = a - 1 := by omega
-      simp only [syG, if_neg h3, if_pos h4, e', inv_mul_cancel]
+      simp only [syG, ite_eq_right h3, ite_eq_left h4, e', inv_mul_cancel]
     have ih := syInv_mul w fun l hl => hw l (List.mem_cons_of_mem a hl)
     simp only [List.reverse_cons, List.map_append, List.map_cons, List.map_nil, List.prod_append,
       List.prod_cons, List.prod_nil, mul_one]
@@ -370,7 +370,7 @@ theorem syU_gen : genOf 11200 harU = Subgroup.closure (syG '' {l | l < 3}) := by
     have hr := rep_tp (sy_perm_harU _ (syU_getD_mem h3))
     rw [List.getD_eq_getElem _ _ hj] at hr
     unfold syG
-    rw [if_pos h3, List.getD_eq_getElem _ _ hj]
+    rw [ite_eq_left h3, List.getD_eq_getElem _ _ hj]
     exact hr), syU_len]
 
 theorem sy_list_set {P Par Lab PI : Nat → Nat} {ng m : Nat} (hm : 0 < m)
@@ -389,7 +389,6 @@ theorem sy_list_set {P Par Lab PI : Nat → Nat} {ng m : Nat} (hm : 0 < m)
     obtain ⟨h1, h2, h3⟩ := h
     refine ⟨Nat.le_of_ble_eq_true h1, Nat.eq_of_beq_eq_true h2, fun l hl => ?_⟩
     have h4 := allN_spec h3 l hl
-    try simp only [CFSG.KS.PEnum.strictB_app'] at h4
     exact Nat.le_of_ble_eq_true h4
   have hv : ∀ q < 1024, r32 PI q < m → r32 P (r32 PI q) = q := by
     intro q hq he
@@ -505,8 +504,8 @@ theorem sy_sq_iff {x z : Nat} (hx : x < 1024) (hz : z < 1024) :
 
 theorem sy_cnt_T0 {z : Nat} (hz : z < 1024) :
     Nat.card {y : genOf 11200 harU // (y : Equiv.Perm (Fin 11200)) ^ 2 = syE z} = sySqCntE z :=
-  sy_card sy_T0_set (fun i hi j hj => syE_inj hi hj) (fun y => y ^ 2 = syE z)
-    (fun x => Nat.beq (syMul x x) z) (fun x hx => sy_sq_iff hx hz)
+  sy_card sy_T0_set (fun _i hi _j hj => syE_inj hi hj) (fun y => y ^ 2 = syE z)
+    (fun _x => Nat.beq (syMul _x _x) z) (fun _x hx => sy_sq_iff hx hz)
 
 theorem sy_cnt_C {z : Nat} (hz : z < 1024) :
     Nat.card {y : genOf 11200 harCgens // (y : Equiv.Perm (Fin 11200)) ^ 2 = syE z} =

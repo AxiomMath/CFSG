@@ -30,8 +30,8 @@ theorem parabolicDegree_permLattice_of_stable {τ : Tag} {π : Equiv.Perm (Fin �
   refine Fintype.sum_equiv π.symm _ _ fun i => ?_
   have hi := symm_mem_iff_of_stableTri hA i
   by_cases h : i ∈ A
-  · rw [if_pos h, if_pos (hi.2 h)]
-  · rw [if_neg h, if_neg (mt hi.1 h)]
+  · rw [ite_eq_left h, ite_eq_left (hi.2 h)]
+  · rw [ite_eq_right h, ite_eq_right (mt hi.1 h)]
     rfl
 
 theorem perm_mem_orbitUnion_iff {t : TwistTag} (J : Set (Fin t.foldedTag.rank))
@@ -198,8 +198,8 @@ theorem rootPairing_diagramMap {A : Set (Fin t.tag.rank)} (n : ℕ) {x y : RootM
     · rw [← permLattice_add, h]
       rfl
   by_cases h : IsRoot t.tag α ∧ α + -β = 0
-  · rw [if_pos (hiff.2 h), if_pos h]
-  · rw [if_neg (mt hiff.1 h), if_neg h]
+  · rw [ite_eq_left (hiff.2 h), ite_eq_left h]
+  · rw [ite_eq_right (mt hiff.1 h), ite_eq_right h]
 
 end Diagram
 
@@ -483,7 +483,7 @@ theorem exists_fixed_mem_oppRadical_tri [Finite K] [CharP K 2]
   have hN2 : ∀ b ∈ S', ∀ z ∈ levelRadical TwistTag.D4.tag K A (n + 1 + 1),
       conjAct TwistTag.D4.tag K b z ∈ levelRadical TwistTag.D4.tag K A (n + 1 + 1) :=
     fun b hb z hz => conjAct_mem_levelRadical_good (hS'M b hb) (one_le_succ_succ n) hz
-  letI : MulDistribMulAction S' (levelRadical TwistTag.D4.tag K A (n + 1)) :=
+  let : MulDistribMulAction S' (levelRadical TwistTag.D4.tag K A (n + 1)) :=
     actSub S' _ hN1
   have hinv : CFSG.IsInvariant S' (levelRadical TwistTag.D4.tag K A (n + 1))
       ((levelRadical TwistTag.D4.tag K A (n + 1 + 1)).subgroupOf
@@ -991,7 +991,7 @@ theorem oppositeFixed_graphFixedRootGroup_D4 {f : ℕ} (hf : 1 ≤ f)
   intro p hp hp2 R hR Q hQ0 hQ2 hcore hne hRQ hC
   classical
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK3
+  have : CharP K 2 := charP_two_of_card_two_pow hK3
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ3 : σ ^ 3 = 1 := RingEquiv.ext fun c => by
     rw [pow_succ, pow_two]

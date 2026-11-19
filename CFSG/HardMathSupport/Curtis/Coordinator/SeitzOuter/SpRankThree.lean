@@ -206,7 +206,7 @@ theorem exists_three_block_elemAbelian (hr : 3 ≤ r) {p : ℕ} (hp : p.Prime) (
 end Model
 
 theorem not_rankLE2_three_projectiveSp {r : ℕ} (hr : 3 ≤ r) {k : Type} [Field k] [Finite k]
-    (hk : ¬ 3 ∣ Nat.card k) : ¬ RankLE2 3 (StatedProj (StatedSp r k)) := by
+    (_hk : ¬ 3 ∣ Nat.card k) : ¬ RankLE2 3 (StatedProj (StatedSp r k)) := by
   intro hrank
   obtain ⟨A, hA⟩ := exists_sl2_order_three k
   have hp : Nat.Prime 3 := Nat.prime_three

@@ -180,7 +180,7 @@ theorem kFact518Out_of_crit (hC : K518Crit) :
     intro R
     have h1 : IsCyclic ↥((R : Subgroup ↥N).map N.subtype) :=
       CFSG.all_pSubgroups_isCyclic_of_pRank_le_one hp hp2 hrk _ (Subgroup.map_subtype_le _)
-        (R.isPGroup'.map N.subtype)
+        (R.isPGroup.map N.subtype)
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective (R : Subgroup ↥N) N.subtype
         N.subtype_injective).symm.toMonoidHom (MulEquiv.surjective _)

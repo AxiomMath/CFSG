@@ -19,11 +19,11 @@ theorem s16h_sl28_seven_z_noncyclic
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 3)
-    (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar ⊥ V h.hyp151.isElemAbelian L) ≤ 1)
-    (h7 : 7 ∈ D.sig)
+    (_h7 : 7 ∈ D.sig)
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
     (hZ0 : wSub ⊥ V h.hyp151.isElemAbelian L ⊓
         conjSubgroup (wSub ⊥ V h.hyp151.isElemAbelian L) x =
@@ -58,7 +58,7 @@ theorem s16h_sl28_seven_z_noncyclic
   have hsupM : L ⊔ conjSubgroup L x ≤ D.M := sup_le h.hyp151.le hLxM
   have hrank : 2 ≤ CFSG.Open.pRank 7 (L ⊔ conjSubgroup L x) :=
     s16h_sl28_seven_sup_pRank_two D h hrow hxM hxn
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨E, hEjoin, hEab, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 7) (k := 2) hrank
   refine ⟨E, hEjoin.trans hsupM, hEab.isPGroup, ?_, hEjoin.trans hsupw⟩

@@ -25,7 +25,7 @@ theorem class_two_of_inf_centralizer_eq {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hTne : T ≠ ⊥ := by
     rintro rfl
     exact hTD (Subgroup.commutator_bot_left D)
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTne
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTne
   set z' : ↥T := ⟨z, hzT⟩ with hz'
   have hz'ord : orderOf z' = 2 := by rw [hz', Subgroup.orderOf_mk, hz]
   have hchar : ∀ A : Subgroup ↥T, A.Characteristic → IsMulCommutative ↥A →

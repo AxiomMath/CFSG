@@ -32,6 +32,7 @@ theorem mem_stabSub_of_forall_mem {U : Subgroup W} {g : MulAut W} (h : ∀ u ∈
     rwa [← this]
   · exact h u
 
+omit [Finite W] in
 theorem commSub_apply_mem {S : Subgroup W} {L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ Subgroup.normalizer (L : Set (MulAut W))) (hS : ∀ s ∈ S, g s ∈ S) {r : W}
     (hr : r ∈ commSub S L) : g r ∈ commSub S L := by
@@ -41,7 +42,7 @@ theorem commSub_apply_mem {S : Subgroup W} {L : Subgroup (MulAut W)} {g : MulAut
     have hx' : g * x * g⁻¹ ∈ L := (Subgroup.mem_normalizer_iff.mp hg x).mp hx
     refine Subgroup.subset_closure ⟨g * x * g⁻¹, hx', g s, hS s hs, ?_⟩
     simp [MulAut.mul_apply]
-  | one => simpa using (commSub S L).one_mem
+  | one => simp
   | mul a b ha hb iha ihb => simpa [map_mul] using (commSub S L).mul_mem iha ihb
   | inv a ha ih => simpa [map_inv] using (commSub S L).inv_mem ih
 
@@ -70,6 +71,7 @@ theorem multOpU_mem_multLineModuleU {line : Submodule F (Fin 2 → F)}
 variable {W : Type} [CommGroup W] [Finite W] {L Mp : Subgroup (MulAut W)}
   (D : CoordData L Mp F) (line : Submodule F (Fin 2 → F))
 
+omit [Finite W] in
 theorem Sline_apply_mem (g : ↥(NLM L Mp))
     (hg : ∀ Y ∈ multLineModuleU F line, psi D g Y ∈ multLineModuleU F line) {s : W}
     (hs : s ∈ Sline D line) : (g : MulAut W) s ∈ Sline D line := by
@@ -202,7 +204,7 @@ theorem subM_Jline_eq :
     (Spre_le_conjClosure h hIU hV₁I D line).trans hIHN
   have hcommN : ⁅Spre h hIU hV₁I D line, K⁆ ≤ Subgroup.normalizer (V₁ : Set G) :=
     (commutator_Spre_le h hIU hV₁I D line).trans hIHN
-  haveI : IsMulCommutative ↥(tildeOf V₁ (conjClosure I H)) :=
+  have : IsMulCommutative ↥(tildeOf V₁ (conjClosure I H)) :=
     (Fact.out : IsElemAbelian 2 (tildeOf V₁ (conjClosure I H))).1
   apply Subgroup.map_injective (tildeOf V₁ (conjClosure I H)).subtype_injective
   have e1 : (subM V₁ (conjClosure I H) (V₁ ⊔ ⁅Spre h hIU hV₁I D line, K⁆)).map
@@ -256,9 +258,9 @@ theorem tildeOf_commutator_Jline :
   have hIHN := h.conjClosure_le_normalizer_V₁ hIU
   have hJN : V₁ ⊔ ⁅Spre h hIU hV₁I D line, K⁆ ≤ Subgroup.normalizer (V₁ : Set G) :=
     (Jline_le_conjClosure h hIU hV₁I D line).trans hIHN
-  haveI : IsMulCommutative ↥(tildeOf V₁ (conjClosure I H)) :=
+  have : IsMulCommutative ↥(tildeOf V₁ (conjClosure I H)) :=
     (Fact.out : IsElemAbelian 2 (tildeOf V₁ (conjClosure I H))).1
-  haveI : Group.IsPerfect ↥(autIH V₁ I H K) := F918Fine4Pf.isPerfect_autIH h I
+  have : Group.IsPerfect ↥(autIH V₁ I H K) := F918Fine4Pf.isPerfect_autIH h I
   have hXV : tildeOf V₁ K ≤ Subgroup.normalizer
       ((tildeOf V₁ (conjClosure I H) : Subgroup (GtOf V₁)) : Set (GtOf V₁)) :=
     secImg_le_normalizer_secImg (hKH.trans (le_normalizer_conjClosure I H))

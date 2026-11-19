@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
     IsL2 (↥Y ⧸ Z) n ∨ IsSz (↥Y ⧸ Z) n
 
 @[expose] def Gap19_25_72 (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L A : Subgroup G)
-    (t : G) (B : Subgroup G) (r : ℕ) (h : Ctx19_10 D V₀ V p L A t B r) : Prop :=
+    (t : G) (B : Subgroup G) (r : ℕ) (_h : Ctx19_10 D V₀ V p L A t B r) : Prop :=
   ∀ A₁ : Subgroup G, A₁ ≤ A → Nat.card A₁ = r →
     1 < CFSG.Open.pRank p (D.M ⊓ centralizer (A₁ : Set G)) →
       HasL2SzSection (S17.nOf L) (centralizer (A₁ : Set G) ⊓ IOf D p L) →

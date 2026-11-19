@@ -53,6 +53,7 @@ theorem le_centralizer_of_perfect_of_card_le_four {X Z : Subgroup G} (hX : ⁅X,
   calc z * x = x * z * x⁻¹ * x := by rw [h2]
     _ = x * z := by group
 
+omit [Finite G] in
 theorem conjClosure_le_of_le {M K W : Subgroup G} (hW : M ≤ normalizer (W : Set G))
     (hKW : K ≤ W) : conjClosure M K ≤ W := by
   refine iSup₂_le fun A hA => ?_

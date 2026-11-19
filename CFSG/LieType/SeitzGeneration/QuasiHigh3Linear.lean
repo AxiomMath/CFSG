@@ -137,7 +137,7 @@ section Arith
 theorem exists_prime_dvd_pow_sub_one {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : 2 ≤ q)
     (hpq : p ∣ q - 1) :
     p * (q - 1) ∣ q ^ p - 1 ∧ ∃ r : ℕ, r.Prime ∧ r ∣ q ^ p - 1 ∧ ¬ r ∣ q - 1 ∧ r ≠ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set m := ∑ i ∈ Finset.range p, q ^ i with hm
   have hmul : m * (q - 1) = q ^ p - 1 := geom_sum_mul_of_one_le (by omega) p
   have hmod : ∀ r : ℕ, r ∣ q - 1 → (m : ZMod r) = p := by
@@ -313,7 +313,7 @@ theorem proj_diag_mem_closure_hyperLiftSet [Finite F] {p : ℕ} (hp : p.Prime) (
     (hg : (g : Matrix (Fin p) (Fin p) F) = diagonal s) (hs : ∀ i, σ (s i) = s i) :
     proj p F g ∈ Subgroup.closure (hyperLiftSet p E) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have : Finite (MulAut (projectiveSL p F)) := MulEquiv.finite_left
   set S := shiftSL F hodd with hSdef
   set D := diagSL hζ.pow_eq_one hodd with hDdef
@@ -458,7 +458,7 @@ theorem proj_fourier_mem_closure_hyperLiftSet [Finite F] {p : ℕ} (hp : p.Prime
     (hgσ : (g : Matrix (Fin p) (Fin p) F).map σ = g) :
     proj p F g ∈ Subgroup.closure (hyperLiftSet p E) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set Φ : Matrix (Fin p) (Fin p) F := heisFourierMat ζ with hΦdef
   have hΦdet : IsUnit Φ.det := isUnit_iff_ne_zero.2 (det_heisFourierMat_ne_zero hζ)
   set ΦG : GL (Fin p) F := Matrix.nonsingInvUnit Φ hΦdet with hΦG
@@ -538,7 +538,7 @@ theorem slSub_le_comap_closure_hyperLiftSet [Finite F] {p : ℕ} (hp : p.Prime) 
     slSub p (semilinearFixedSubfield σ) ≤
       (Subgroup.closure (hyperLiftSet p E)).comap (proj p F) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k : Subfield F := semilinearFixedSubfield σ with hkdef
   have hk : ∀ y, y ∈ k ↔ σ y = y := fun y => Iff.rfl
   set Q := (Subgroup.closure (hyperLiftSet p E)).comap (proj p F) with hQ
@@ -618,14 +618,14 @@ theorem closure_hyperLiftSet_std [Finite F] {p : ℕ} (hp : p.Prime)
     (hD : conjAut p F (Matrix.SpecialLinearGroup.toGL (diagSL hζ.pow_eq_one hodd)) ∈ E) :
     Subgroup.closure (hyperLiftSet p E) = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp3 : 3 ≤ p := three_le_of_odd_prime hp hodd
   have hp2 : p ≠ 2 := by omega
   have : Finite (MulAut (projectiveSL p F)) := MulEquiv.finite_left
   set k : Subfield F := semilinearFixedSubfield σ with hkdef
   have hk : ∀ y, y ∈ k ↔ σ y = y := fun y => Iff.rfl
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   set q₀ := Nat.card k with hq₀
   have hq₀2 : 2 ≤ q₀ := Finite.one_lt_card
   have hζk : IsPrimitiveRoot (⟨ζ, hζσ⟩ : k) p :=
@@ -656,7 +656,7 @@ theorem closure_hyperLiftSet_std [Finite F] {p : ℕ} (hp : p.Prime)
     intro x hx hx0 hxr
     have h2 : x ^ (Nat.gcd r (q₀ - 1)) = 1 := pow_gcd_eq_one.2 ⟨hxr, hkpow x hx hx0⟩
     rwa [hcop.gcd_eq_one, pow_one] at h2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) r (by rw [Nat.card_units]; exact hrF)
   have hu0 : (u : F) ≠ 0 := u.ne_zero
   have hur : (u : F) ^ r = 1 := by
@@ -728,7 +728,7 @@ theorem closure_hyperLiftSet_std [Finite F] {p : ℕ} (hp : p.Prime)
       ← diagonal_one]
     congr 1
     ext i
-    simp only [Pi.pow_apply, htv, ← map_pow, hur, map_one, Pi.one_apply]
+    simp only [Pi.pow_apply, htv, ← map_pow, hur, map_one]
   have hpr : ¬ p ∣ r := fun h => hrp ((Nat.prime_dvd_prime_iff_eq hp hr).1 h).symm
   have htmem : proj p F t ∈ hyperLiftSet p E :=
     mem_hyperLiftSet_of_pow (closure_pair_le hD hb) hrel hpr
@@ -910,11 +910,11 @@ theorem exists_single_mem_of_row [NeZero p] {a : F} (ha0 : a ≠ 0) (hap : a ^ p
     rw [← Finset.mul_prod_erase Finset.univ t (Finset.mem_univ b)]
     have h1 : ∏ j ∈ Finset.univ.erase b, t j = a ^ (p - 1) := by
       have h2 : ∏ j ∈ Finset.univ.erase b, t j = ∏ _j ∈ Finset.univ.erase b, a :=
-        Finset.prod_congr rfl (fun j hj => by simp only [ht, if_neg (Finset.ne_of_mem_erase hj)])
+        Finset.prod_congr rfl (fun j hj => by simp only [ht, ite_eq_right (Finset.ne_of_mem_erase hj)])
       rw [h2, Finset.prod_const, Finset.card_erase_of_mem (Finset.mem_univ b), Finset.card_univ,
         Fintype.card_fin]
     rw [h1]
-    simp only [ht, if_pos rfl]
+    simp only [ht, ite_eq_left rfl]
     exact inv_mul_cancel₀ (pow_ne_zero _ ha0)
   set d : Matrix.SpecialLinearGroup (Fin p) F := ⟨diagonal t, by rw [det_diagonal, hprod]⟩
     with hd
@@ -936,19 +936,19 @@ theorem exists_single_mem_of_row [NeZero p] {a : F} (ha0 : a ≠ 0) (hap : a ^ p
       Matrix.single_apply]
     by_cases hi : i = 0
     · subst hi
-      have hta : t 0 = a := by simp only [ht, if_neg (Ne.symm hb0)]
+      have hta : t 0 = a := by simp only [ht, ite_eq_right (Ne.symm hb0)]
       simp only [hta, Pi.single_eq_same, one_mul, true_and]
       by_cases hj : b = j
       · subst hj
-        simp only [ht, if_pos rfl, inv_inv, hc, if_true]
+        simp only [ht, ite_eq_left rfl, inv_inv, hc, ite_true]
         have hp1 : a ^ p = a * a ^ (p - 1) := by
           rw [← pow_succ', Nat.sub_add_cancel (NeZero.pos p)]
         rw [hp1]
         ring
-      · simp only [if_neg hj, add_zero, ht, if_neg (Ne.symm hj)]
+      · simp only [ite_eq_right hj, add_zero, ht, ite_eq_right (Ne.symm hj)]
         field_simp
     · simp only [Pi.single_eq_of_ne hi, zero_mul, mul_zero, zero_add]
-      rw [if_neg (fun h => hi h.1.symm)]
+      rw [ite_eq_right (fun h => hi h.1.symm)]
   have hSM : Matrix.single (0 : Fin p) b c * M = 0 := by
     ext i j
     simp only [hM, Matrix.mul_apply, Matrix.single_apply, vecMulVec_apply, Matrix.zero_apply]
@@ -956,7 +956,7 @@ theorem exists_single_mem_of_row [NeZero p] {a : F} (ha0 : a ≠ 0) (hap : a ^ p
     by_cases hl : l = b
     · subst hl
       rw [Pi.single_eq_of_ne hb0, zero_mul, mul_zero]
-    · rw [if_neg (fun h => hl h.2.symm), zero_mul]
+    · rw [ite_eq_right (fun h => hl h.2.symm), zero_mul]
   refine ⟨c, hc0, d * x * d⁻¹ * x⁻¹,
     K.mul_mem (K.mul_mem (K.mul_mem hdK hxK) (K.inv_mem hdK)) (K.inv_mem hxK), ?_⟩
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
@@ -973,7 +973,7 @@ theorem exists_single_mem_of_row [NeZero p] {a : F} (ha0 : a ≠ 0) (hap : a ^ p
 theorem torusFourierGen_of_exists [Fact p.Prime] (hp3 : 3 ≤ p) {ν a : F} (hν0 : ν ≠ 0)
     (hνp : ν ^ p ≠ 1) (hν2 : ν ^ 2 ≠ 1) (ha0 : a ≠ 0) (hap : a ^ p ≠ 1) : TorusFourierGen F p := by
   intro ζ hζ K hT hTw
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   obtain ⟨g, hgK, hg0, hg1⟩ := exists_fix_mem_caseA_of_three hp3 hζ hν0 hνp hν2 hT hTw
   have hxdet : IsUnit (g : Matrix (Fin p) (Fin p) F).det := by
     rw [g.2]
@@ -1024,7 +1024,7 @@ theorem torusFourierGen_of_exists [Fact p.Prime] (hp3 : 3 ≤ p) {ν a : F} (hν
   exact ⟨fun j => ζ ^ (j : ℕ), by rw [hg'']; exact heisShiftMat_mul_heisFourierMat hζ.pow_eq_one⟩
 
 theorem torusFourierGen_three [Finite F] (hF : 7 ≤ Nat.card F) : TorusFourierGen F 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hord : orderOf g = Nat.card F - 1 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, Nat.card_units]
@@ -1128,7 +1128,7 @@ theorem eigProj_mul_self {W : Matrix (Fin n) (Fin n) F} (hW : W ^ p = 1) (hp : (
   simp [hp]
 
 theorem sum_eigProj {W : Matrix (Fin n) (Fin n) F} (hp : (p : F) ≠ 0) {lam ε₀ : F}
-    (hlam : IsPrimitiveRoot lam p) (hε₀0 : ε₀ ≠ 0) :
+    (hlam : IsPrimitiveRoot lam p) (_hε₀0 : ε₀ ≠ 0) :
     ∑ i ∈ Finset.range p, eigProj p W (ε₀ * lam ^ i) = 1 := by
   classical
   have hp0 : 0 < p := Nat.pos_of_ne_zero (by rintro rfl; exact hp (by simp))
@@ -1149,7 +1149,7 @@ theorem sum_eigProj {W : Matrix (Fin n) (Fin n) F} (hp : (p : F) ≠ 0) {lam ε�
       · rw [Ne, inv_pow, inv_eq_one]
         exact hlam.pow_ne_one_of_pos_of_lt h (Finset.mem_range.1 hj)
   rw [Finset.sum_congr rfl h0]
-  simp only [ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_range, hp0, if_true, pow_zero]
+  simp only [ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_range, hp0, ite_true, pow_zero]
   rw [smul_smul, inv_mul_cancel₀ hp, one_smul]
 
 theorem mul_eigProj_of_qcomm {W V : Matrix (Fin n) (Fin n) F} {μ : F}
@@ -1226,6 +1226,7 @@ section Idem
 
 variable {n : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem mem_elationSubgroup_iff {W : Submodule F (Fin n → F)}
     {g : Matrix.SpecialLinearGroup (Fin n) F} :
     g ∈ elationSubgroup W ↔ (g : Matrix (Fin n) (Fin n) F) - 1 ∈ thetaSpace W := by
@@ -1233,7 +1234,7 @@ theorem mem_elationSubgroup_iff {W : Submodule F (Fin n → F)}
   · intro hg
     induction hg using Subgroup.closure_induction with
     | mem x hx => exact mem_thetaSpace.2 (mem_elationGenerators.1 hx)
-    | one => simpa using (thetaSpace W).zero_mem
+    | one => simp
     | mul x y _ _ hx hy =>
       have e : ((x * y : Matrix.SpecialLinearGroup (Fin n) F) : Matrix (Fin n) (Fin n) F) - 1 =
           ((x : Matrix (Fin n) (Fin n) F) - 1) + ((y : Matrix (Fin n) (Fin n) F) - 1) +
@@ -1263,6 +1264,7 @@ theorem mem_elationSubgroup_iff {W : Submodule F (Fin n → F)}
   · intro hg
     exact Subgroup.subset_closure (mem_elationGenerators.2 (mem_thetaSpace.1 hg))
 
+omit [Finite F] in
 theorem one_add_pow_of_sq {φ : Matrix (Fin n) (Fin n) F} (h : φ * φ = 0) (m : ℕ) :
     (1 + φ) ^ m = 1 + (m : F) • φ := by
   induction m with
@@ -1273,6 +1275,7 @@ theorem one_add_pow_of_sq {φ : Matrix (Fin n) (Fin n) F} (h : φ * φ = 0) (m :
       Matrix.one_mul, Matrix.smul_mul, h, smul_zero, add_zero]
     abel
 
+omit [Finite F] in
 theorem isPGroup_elationSubgroup (W : Submodule F (Fin n → F)) :
     IsPGroup (ringChar F) (elationSubgroup W) := by
   intro g
@@ -1289,7 +1292,7 @@ theorem isPGroup_elationSubgroup (W : Submodule F (Fin n → F)) :
 
 theorem not_dvd_card_of_isPGroup_ringChar {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
     {X : Type*} [Group X] [Finite X] (hX : IsPGroup (ringChar F) X) : ¬ p ∣ Nat.card X := by
-  haveI : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F (ringChar F)⟩
+  have : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F (ringChar F)⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hX
   rw [hk]
   intro h
@@ -1297,6 +1300,7 @@ theorem not_dvd_card_of_isPGroup_ringChar {p : ℕ} (hp : p.Prime) (hpF : (p : F
   have h2 : p = ringChar F := (Nat.prime_dvd_prime_iff_eq hp Fact.out).1 h1
   exact hpF (by rw [h2]; exact ringChar.Nat.cast_ringChar)
 
+omit [Finite F] in
 theorem mulVec_comp_of_map (σ : F ≃+* F) {M : Matrix (Fin n) (Fin n) F} (hM : M.map σ = M)
     (x : Fin n → F) : M *ᵥ (σ ∘ x) = σ ∘ (M *ᵥ x) := by
   ext i
@@ -1304,12 +1308,14 @@ theorem mulVec_comp_of_map (σ : F ≃+* F) {M : Matrix (Fin n) (Fin n) F} (hM :
   rw [show (⇑(σ : F →+* F) : F → F) = ⇑σ from rfl, hM] at h
   exact h.symm
 
+omit [Finite F] in
 theorem map_symm_of_map (σ : F ≃+* F) {M : Matrix (Fin n) (Fin n) F} (hM : M.map σ = M) :
     M.map σ.symm = M := by
   conv_lhs => rw [← hM]
   ext i j
   simp
 
+omit [Finite F] in
 theorem map_mem_thetaSpace (σ : F ≃+* F) {W : Submodule F (Fin n → F)}
     (hW : ∀ x ∈ W, σ ∘ x ∈ W) (hW' : ∀ x ∈ W, σ.symm ∘ x ∈ W)
     {φ : Matrix (Fin n) (Fin n) F} (hφ : φ ∈ thetaSpace W) : φ.map σ ∈ thetaSpace W := by
@@ -1330,7 +1336,7 @@ theorem map_mem_thetaSpace (σ : F ≃+* F) {W : Submodule F (Fin n → F)}
     ext i
     simp
 
-theorem invPairAt_of_idempotent (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
+theorem invPairAt_of_idempotent (_hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
     {E : Subgroup (MulAut (projectiveSL n F))} {σ : F ≃+* F} {w v : GL (Fin n) F}
     (hgen : E ≤ Subgroup.closure ({conjAut n F w, conjAut n F v, fieldAut n F σ} :
       Set (MulAut (projectiveSL n F))))
@@ -1586,7 +1592,7 @@ theorem heisIdem_mul_self (hD : HeisData p W v μ ε₀ e₀ φ) :
   refine Finset.sum_congr rfl fun i hi => ?_
   rw [Finset.sum_congr rfl fun j hj => hD.Qi_mul_Qj (Finset.mem_range.1 hi)
     (Finset.mem_range.1 hj)]
-  rw [Finset.sum_ite_eq, if_pos hi]
+  rw [Finset.sum_ite_eq, ite_eq_left hi]
 
 theorem W_mul_heisIdem (hD : HeisData p W v μ ε₀ e₀ φ) :
     W * heisIdem p v e₀ φ = heisIdem p v e₀ φ * W := by
@@ -1652,7 +1658,7 @@ theorem heisIdem_mul_P (hD : HeisData p W v μ ε₀ e₀ φ) :
       rw [← hD.Qi_mul_P i, Matrix.mul_assoc, h1, eigProj_mul_eigProj_of_ne hD.Wp (hD.eta_pow i)
         (hD.eta_pow 0) (hD.eta_ne_zero i) (hD.eta_ne_zero 0)
         (fun h' => h (hD.eta_inj (Finset.mem_range.1 hi) hp0 h')), Matrix.mul_zero]
-  rw [Finset.sum_congr rfl h0, Finset.sum_ite_eq', if_pos (Finset.mem_range.2 hp0)]
+  rw [Finset.sum_congr rfl h0, Finset.sum_ite_eq', ite_eq_left (Finset.mem_range.2 hp0)]
 
 theorem heisIdem_ne_zero (hD : HeisData p W v μ ε₀ e₀ φ) : heisIdem p v e₀ φ ≠ 0 := by
   intro h
@@ -1664,7 +1670,7 @@ theorem heisIdem_ne_zero (hD : HeisData p W v μ ε₀ e₀ φ) : heisIdem p v e
   rw [← h2, dotProduct_zero] at h3
   exact zero_ne_one h3
 
-theorem span_eq_top_of_heisIdem_eq_one (hD : HeisData p W v μ ε₀ e₀ φ)
+theorem span_eq_top_of_heisIdem_eq_one (_hD : HeisData p W v μ ε₀ e₀ φ)
     (h : heisIdem p v e₀ φ = 1) :
     Submodule.span F (Set.range fun i : Fin p =>
       ((v ^ (i : ℕ) : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ e₀) = ⊤ := by
@@ -1687,7 +1693,7 @@ section Irr
 variable {n p : ℕ} {F : Type} [Field F]
 
 theorem mul_inv_pow_of_qcomm {W : Matrix (Fin n) (Fin n) F} {v : GL (Fin n) F} {μ : F}
-    (hμ0 : μ ≠ 0) (hVW : (v : Matrix (Fin n) (Fin n) F) * W = μ • (W * v)) (i : ℕ) :
+    (_hμ0 : μ ≠ 0) (hVW : (v : Matrix (Fin n) (Fin n) F) * W = μ • (W * v)) (i : ℕ) :
     W * ((v⁻¹ ^ i : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) =
       μ ^ i • (((v⁻¹ ^ i : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) * W) := by
   have hvv : ((v⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) * v = 1 := by
@@ -1767,14 +1773,14 @@ theorem heisShiftMat_mulVec {p : ℕ} (u : Fin p → F) :
   classical
   ext i
   simp only [Matrix.mulVec, dotProduct, heisShiftMat_entry, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 theorem heisShiftMat_mulVec_single {p : ℕ} (j : Fin p) :
     heisShiftMat F p *ᵥ Pi.single j 1 = Pi.single ((finRotate p).symm j) 1 := by
   classical
   rw [heisShiftMat_mulVec]
   ext i
-  simp only [Pi.single_apply, Equiv.apply_eq_iff_eq_symm_apply]
+  simp only [Pi.single_apply, ← _root_.Equiv.eq_symm_apply]
 
 theorem mulVec_single_eq_smul {p : ℕ} (M : Matrix (Fin p) (Fin p) F) (j : Fin p) (t : F) :
     M *ᵥ Pi.single j t = t • (M *ᵥ Pi.single j 1) := by
@@ -1794,7 +1800,7 @@ theorem exists_std_basis [Finite F] (hp : p.Prime) {W : Matrix (Fin p) (Fin p) F
       (v : Matrix (Fin p) (Fin p) F) * A = A * (x • heisShiftMat F p) ∧
       A.map σ = A * heisDiagMat (σ x / x) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hμ0 : μ ≠ 0 := hμ.ne_zero hp.ne_zero
   have hx0 : x ≠ 0 := by
     rintro rfl
@@ -1832,7 +1838,7 @@ theorem exists_std_basis [Finite F] (hp : p.Prime) {W : Matrix (Fin p) (Fin p) F
     rw [Module.End.hasEigenvector_iff, Module.End.mem_eigenspace_iff, Matrix.toLin'_apply]
     exact ⟨hWa j, ha0 j⟩
   have hAunit : IsUnit A := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.linearIndependent_col_iff_isUnit]
     exact hli
   have hvc : (v : Matrix (Fin p) (Fin p) F) =
       (c : F) • ((v⁻¹ ^ (p - 1) : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) := by
@@ -1956,7 +1962,7 @@ theorem closure_hyperLiftSet_of_heis_irr [Finite F] {p : ℕ}
     (hWe₀ : (w : Matrix (Fin p) (Fin p) F) *ᵥ e₀ = ε₀ • e₀) (he₀σ : σ ∘ e₀ = e₀) :
     Subgroup.closure (hyperLiftSet p E) = ⊤ := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨x, hx⟩ := hroot c c.ne_zero hcσ
   have hx0 : x ≠ 0 := by
@@ -2094,7 +2100,7 @@ theorem exists_rational_root_element [Finite F] (hn : 3 ≤ n) {p : ℕ} (hp : p
 theorem dvd_card_fixed_sub_one [Finite F] {p : ℕ} (hp : p.Prime) {σ : F ≃+* F}
     (hKk : Nat.card F = Nat.card (semilinearFixedSubfield σ) ^ p) (hpq : p ∣ Nat.card F - 1) :
     p ∣ Nat.card (semilinearFixedSubfield σ) - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk1 : 1 < Nat.card (semilinearFixedSubfield σ) := Finite.one_lt_card
   have h1 : ((Nat.card F : ℕ) : ZMod p) = 1 := by
     have hK1 : 1 ≤ Nat.card F := Nat.one_le_iff_ne_zero.2 Nat.card_pos.ne'
@@ -2109,7 +2115,7 @@ theorem exists_pow_eq_of_fixed [Finite F] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     {b : F} (hb0 : b ≠ 0) (hbσ : σ b = b) : ∃ c : F, c ^ p = b := by
   classical
   set k : Subfield F := semilinearFixedSubfield σ with hkdef
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hpk := dvd_card_fixed_sub_one hp hKk hpq
   have hk2 : 2 ≤ Nat.card k := Finite.one_lt_card
   obtain ⟨hdiv, -⟩ := exists_prime_dvd_pow_sub_one hp hp2 hk2 hpk
@@ -2146,9 +2152,9 @@ theorem invPairAt_or_closure_of_field [Finite F] {ℓ f p : ℕ}
     (hxns : ∀ a : F, (x : Matrix (Fin n) (Fin n) F) ≠ a • 1) :
     InvPairAt p E ∨ Subgroup.closure (hyperLiftSet p E) = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by omega
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have : Finite (MulAut (projectiveSL n F)) := MulEquiv.finite_left
   set k : Subfield F := semilinearFixedSubfield σ with hkdef
   have hσD : fieldAut n F σ ∉ linearAutGroup n F := fieldAut_not_mem_linearAutGroup hσout
@@ -2210,7 +2216,7 @@ theorem invPairAt_or_closure_of_field [Finite F] {ℓ f p : ℕ}
     intro h
     apply hyx
     have heq : Subgroup.zpowers (conjAut n F x) = Subgroup.zpowers (conjAut n F y) := by
-      haveI : Finite (Subgroup.zpowers (conjAut n F y)) :=
+      have : Finite (Subgroup.zpowers (conjAut n F y)) :=
         Nat.finite_of_card_ne_zero (by rw [hord _ hyE hy1]; exact hp.ne_zero)
       exact Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 h)
         (by rw [hord _ hyE hy1, hord _ hxE hx1])
@@ -2220,7 +2226,7 @@ theorem invPairAt_or_closure_of_field [Finite F] {ℓ f p : ℕ}
     rw [hwc, hcomm _ (E.pow_mem hxE i) _ (E.pow_mem hyE j)]
     exact pow_mul_pow_ne_one_of_indep hp (hE.2 _ hyE) (hE.2 _ hxE) hx1 (fun h => hxy
       ((Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 h)
-        (by haveI : Finite (Subgroup.zpowers (conjAut n F x)) :=
+        (by have : Finite (Subgroup.zpowers (conjAut n F x)) :=
               Nat.finite_of_card_ne_zero (by rw [hord _ hxE hx1]; exact hp.ne_zero)
             rw [hord _ hxE hx1, hord _ hyE hy1])) ▸ Subgroup.mem_zpowers _))
       (fun h => hij ⟨h.2, h.1⟩)
@@ -2230,7 +2236,7 @@ theorem invPairAt_or_closure_of_field [Finite F] {ℓ f p : ℕ}
     by_cases hxw : conjAut n F x ∈ Subgroup.zpowers (conjAut n F w)
     · refine ⟨y, hyE, hyσ, fun hyw => hyx ?_⟩
       have heq : Subgroup.zpowers (conjAut n F x) = Subgroup.zpowers (conjAut n F w) := by
-        haveI : Finite (Subgroup.zpowers (conjAut n F w)) :=
+        have : Finite (Subgroup.zpowers (conjAut n F w)) :=
           Nat.finite_of_card_ne_zero (by rw [hord _ hwE hw1]; exact hp.ne_zero)
         exact Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hxw)
           (by rw [hord _ hwE hw1, hord _ hxE hx1])
@@ -2282,7 +2288,7 @@ theorem invPairAt_or_closure_of_field [Finite F] {ℓ f p : ℕ}
     (IsPrimitiveRoot.map_iff_of_injective (f := k.subtype) Subtype.val_injective).2 hζk
   have hrootσ : ∀ ε : F, ε ^ p = 1 → σ ε = ε := by
     intro ε hε
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     obtain ⟨m, -, rfl⟩ := hζ₀.eq_pow_of_pow_eq_one hε
     rw [map_pow]
     exact congrArg (· ^ m) ζk.2
@@ -2411,9 +2417,9 @@ theorem invPairAt_or_closure_hyperLiftSet [Finite F] {ℓ f p : ℕ}
     (hout : ¬ E ≤ linearAutGroup n F) :
     InvPairAt p E ∨ Subgroup.closure (hyperLiftSet p E) = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Finite (MulAut (projectiveSL n F)) := MulEquiv.finite_left
-  haveI : CharP F ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ hf hK
   have hpF : (p : F) ≠ 0 := by
     intro h

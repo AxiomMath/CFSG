@@ -40,7 +40,7 @@ theorem GGResHyp.linTwo_stable_torus
       s = (lab.rank + 1) / 2 ∧
       Nat.card ↥Bs = 3 ^ (s + 1) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨hperf, lab', hlab', hraw⟩ := hL
   let Q : LargeEvenRawCont := fun R _ I F =>
     IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
@@ -61,8 +61,8 @@ theorem GGResHyp.linTwo_stable_torus
   dsimp only [LargeEvenRawDatumLegacy, LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hfield, hfinite, hK, hrawP⟩ := hraw
   obtain ⟨θ, hP⟩ := hrawP.2.2
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hK2 : Nat.card K = 2 := by simpa using hK
   let d : ℕ := l + 1
   have hd : 6 ≤ d := by dsimp [d]; omega
@@ -91,7 +91,7 @@ theorem GGResHyp.linTwo_stable_torus
       (Subgroup.mem_normalizer_iff.mp (hBsN b.2) (l : G)).mp l.2
     let l' : ↥L := ⟨(b : G) * (l : G) * (b : G)⁻¹, hmemL⟩
     have hrel : (l' : G) = (b⁻¹ : ↥Bs)⁻¹ * (l : G) * (b⁻¹ : ↥Bs) := by
-      dsimp [l']; simp only [Subgroup.coe_inv, inv_inv]
+      dsimp [l']; simp only [inv_inv]
     have hind := hφind l l' hrel
     have hgl : ((ggGamma L hBsN) b) l = l' := Subtype.ext (ggGamma_coe L hBsN b l)
     change (MulAut.congr (TypeA.recipeEquiv d K) φ) (ψ l) =
@@ -132,10 +132,10 @@ theorem GGResHyp.linTwo_stable_torus
     rw [hk] at h1
     simpa [A] using h1
   have hCharP : CharP K 2 := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (R := K) (p := 2) (f := 1)
       (by simpa using hK)
-  letI : CharP K 2 := hCharP
+  let : CharP K 2 := hCharP
   have hBsI : ∀ (b : G) (hb : b ∈ Bs),
       ggLAut L θ ⟨b, hBsN hb⟩ ∈
         LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K)) Set.univ := by

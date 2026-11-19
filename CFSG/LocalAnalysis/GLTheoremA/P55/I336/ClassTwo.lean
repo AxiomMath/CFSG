@@ -23,7 +23,7 @@ theorem class_two_of_char_abelian_le [Nontrivial P] (hP : IsPGroup 2 P) {z : P}
     (hz : orderOf z = 2)
     (h : ∀ A : Subgroup P, A.Characteristic → IsMulCommutative A → A ≤ zpowers z) :
     z ∈ center P ∧ ∀ x y : P, ⁅x, y⁆ ∈ zpowers z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨C, hC⟩, hCne⟩ := thompson_critical_subgroup hP
   have hCne' : C ≠ ⊥ := hCne C hC inferInstance
   have hzc : z ∈ center P := by

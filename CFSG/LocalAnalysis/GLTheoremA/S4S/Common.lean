@@ -45,9 +45,9 @@ theorem delta_zero_contra {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hΔ : GLADel
     have h1 : b * s⁻¹ * b⁻¹ ∈ S := (Subgroup.mem_normalizer_iff.1 (hBS hb) s⁻¹).1 (S.inv_mem hs)
     simpa [mul_assoc] using S.mul_mem hs h1
   have h2 : 2 ∣ Nat.card (⁅S, B⁆ : Subgroup G) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hP : IsPGroup 2 (⁅S, B⁆ : Subgroup G) := hS.to_le hSB
-    haveI : Nontrivial (⁅S, B⁆ : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial (⁅S, B⁆ : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     obtain ⟨n, hn, hcard⟩ := hP.nontrivial_iff_card.1 inferInstance
     rw [hcard]
     exact dvd_pow_self 2 hn.ne'
@@ -67,13 +67,13 @@ theorem delta_zero_contra {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hΔ : GLADel
       Subgroup.card_dvd_of_le (hSB.trans hSΔ)
     exact (Nat.not_even_iff_odd.2 (h5 hp5)) (even_iff_two_dvd.2 (h2.trans hdvd))
 
-theorem exists_invariant_sylow_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B X : Subgroup G}
+theorem exists_invariant_sylow_two {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {B X : Subgroup G}
     (hB : IsPGroup p B) (hBX : B ≤ Subgroup.normalizer (X : Set G))
     (hX : Nat.Coprime p (Nat.card X)) :
     ∃ R : Subgroup G, R ≤ X ∧ IsPGroup 2 R ∧ ¬ 2 ∣ R.relIndex X ∧
       B ≤ Subgroup.normalizer (R : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnd : ¬ p ∣ Nat.card X := (Nat.Prime.coprime_iff_not_dvd hp).1 hX
   obtain ⟨Q, hQX, hQ2, hQn, hBQ⟩ :=
     exists_sylow_normalized_of_not_dvd (q := 2) X B hB hBX hnd
@@ -137,7 +137,7 @@ theorem fullCoverLevel_eq_dLevel {p : ℕ} {B L : Subgroup G} {x : G} (h : IsS0 
     (hnG : ¬ IsGStar p B L) : fullCoverLevel p (PQuot p L) = dLevel G p := by
   have h2 := h.2
   unfold tripleLevel at h2
-  rw [if_neg hnG] at h2
+  rw [ite_eq_right hnG] at h2
   have h4 := fullCoverLevel_le_four p (PQuot p L)
   omega
 
@@ -147,14 +147,14 @@ theorem k1Cover_or_k2Cover_of_fullCoverLevel_le_two {p : ℕ} {Q : Type} [Group 
   unfold fullCoverLevel at h
   by_cases h1 : K1Cover p Q
   · exact Or.inl h1
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     by_cases h2 : K2Cover p Q
     · exact Or.inr h2
-    · rw [if_neg h2] at h
+    · rw [ite_eq_right h2] at h
       by_cases h3 : K3Cover p Q
-      · rw [if_pos h3] at h
+      · rw [ite_eq_left h3] at h
         omega
-      · rw [if_neg h3] at h
+      · rw [ite_eq_right h3] at h
         omega
 
 theorem k3Cover_of_fullCoverLevel_eq_three {p : ℕ} {Q : Type} [Group Q]
@@ -162,16 +162,16 @@ theorem k3Cover_of_fullCoverLevel_eq_three {p : ℕ} {Q : Type} [Group Q]
   classical
   unfold fullCoverLevel at h
   by_cases h1 : K1Cover p Q
-  · rw [if_pos h1] at h
+  · rw [ite_eq_left h1] at h
     omega
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     by_cases h2 : K2Cover p Q
-    · rw [if_pos h2] at h
+    · rw [ite_eq_left h2] at h
       omega
-    · rw [if_neg h2] at h
+    · rw [ite_eq_right h2] at h
       by_cases h3 : K3Cover p Q
       · exact h3
-      · rw [if_neg h3] at h
+      · rw [ite_eq_right h3] at h
         omega
 
 theorem eq_three_of_k3Cover {p : ℕ} {Q : Type} [Group Q] (h : K3Cover p Q) : p = 3 := by
@@ -188,6 +188,7 @@ theorem commutator_self_le {M : Type*} [Group M] (S : Subgroup M) : (⁅S, S⁆ 
   rw [commutatorElement_def]
   exact S.mul_mem (S.mul_mem (S.mul_mem ha hb) (S.inv_mem ha)) (S.inv_mem hb)
 
+omit [Finite G] in
 theorem ne_bot_of_even {X R : Subgroup G} (hR : ¬ 2 ∣ R.relIndex X) (hX : Even (Nat.card X)) :
     R ≠ ⊥ := by
   rintro rfl
@@ -197,6 +198,7 @@ theorem ne_bot_of_even {X R : Subgroup G} (hR : ¬ 2 ∣ R.relIndex X) (hX : Eve
   rw [hmul]
   exact even_iff_two_dvd.1 hX
 
+omit [Finite G] in
 theorem le_normalizer_commutator {A H K : Subgroup G} (hH : A ≤ Subgroup.normalizer (H : Set G))
     (hK : A ≤ Subgroup.normalizer (K : Set G)) :
     A ≤ Subgroup.normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
@@ -207,6 +209,7 @@ theorem le_normalizer_commutator {A H K : Subgroup G} (hH : A ≤ Subgroup.norma
   unfold GLBConj at h1 h2 ⊢
   rw [Subgroup.map_commutator, h1, h2]
 
+omit [Finite G] in
 theorem le_normalizer_inf {A H K : Subgroup G} (hH : A ≤ Subgroup.normalizer (H : Set G))
     (hK : A ≤ Subgroup.normalizer (K : Set G)) : A ≤ Subgroup.normalizer ((H ⊓ K : Subgroup G) : Set G) := by
   intro g hg
@@ -215,6 +218,7 @@ theorem le_normalizer_inf {A H K : Subgroup G} (hH : A ≤ Subgroup.normalizer (
   have h2 := mem_normalizer_iff_gLBConj_eq.1 (hK hg)
   rw [gLBConj_inf, h1, h2]
 
+omit [Finite G] in
 theorem le_normalizer_sup {A H K : Subgroup G} (hH : A ≤ Subgroup.normalizer (H : Set G))
     (hK : A ≤ Subgroup.normalizer (K : Set G)) :
     A ≤ Subgroup.normalizer ((H ⊔ K : Subgroup G) : Set G) := by
@@ -225,6 +229,7 @@ theorem le_normalizer_sup {A H K : Subgroup G} (hH : A ≤ Subgroup.normalizer (
   unfold GLBConj at h1 h2 ⊢
   rw [Subgroup.map_sup, h1, h2]
 
+omit [Finite G] in
 theorem commutator_le_left_of_normalizes {A J : Subgroup G}
     (hJ : J ≤ Subgroup.normalizer (A : Set G)) : (⁅A, J⁆ : Subgroup G) ≤ A := by
   rw [Subgroup.commutator_le]
@@ -270,7 +275,7 @@ theorem i326UsedAt_holds (p : ℕ) :
 
 theorem i321UsedAt_holds (p : ℕ) : I321UsedAt G p := by
   intro hp A J hcop hJA hres
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup G := ⁅⁅A, J⁆, J⁆ with hCdef
   have hJN1 : J ≤ Subgroup.normalizer ((⁅A, J⁆ : Subgroup G) : Set G) :=
     le_normalizer_commutator hJA Subgroup.le_normalizer
@@ -304,7 +309,7 @@ theorem i321UsedAt_holds (p : ℕ) : I321UsedAt G p := by
     have hcard : Nat.card R = Nat.card P.toSubgroup := by
       rw [hRdef]
       exact Subgroup.card_map_of_injective Subtype.val_injective
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     rw [hcard, hk]
     exact Nat.Coprime.pow_left k hcop
   have hPidx : Nat.Coprime p P.toSubgroup.index :=
@@ -377,7 +382,7 @@ theorem i145UsedAt_of_oPrimeFree (p : ℕ)
           GLAPPrimeCoreOf p (Subgroup.centralizer (D : Set X))⁆ = ⊥) :
     I145UsedAt G p := by
   intro hp hp2 X D hK hDX hD
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hD' : IsPGroup p (D.subgroupOf X) := hD.comap_subtype
   set D' : Subgroup ↥X := D.subgroupOf X with hD'def
   set C' : Subgroup ↥X := Subgroup.centralizer (D' : Set ↥X) with hC'def
@@ -470,8 +475,8 @@ theorem layer_isOPrimeResidual {p : ℕ} (hp : p.Prime) (X : Subgroup G) :
 theorem dvd_card_pQuot_of_component {p : ℕ} (hp : p.Prime) {X H : Subgroup G}
     (hH : GLAPComponent p X H) : p ∣ Nat.card (PQuot p H) := by
   by_contra hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial (PQuot p H) := isQuasisimple_nontrivial
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial (PQuot p H) := isQuasisimple_nontrivial
     (isQuasisimple_pQuot_of_glaPComponent hp hH)
   have hKc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥H)) := CFSG.pPrimeCore_coprime_card
   have hcard : Nat.card ↥H = Nat.card (PQuot p H) * Nat.card (GLAPPrimeCore p ↥H) :=
@@ -484,6 +489,7 @@ theorem dvd_card_pQuot_of_component {p : ℕ} (hp : p.Prime) {X H : Subgroup G}
   obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective x
   exact hx ((QuotientGroup.eq_one_iff h).2 (htop (Subgroup.mem_top h)))
 
+omit [Finite G] in
 private theorem le_normalizer_closureIn_S4S (I H : Subgroup G) :
     H ≤ Subgroup.normalizer (closureIn I H : Set G) := by
   intro h hh
@@ -505,7 +511,7 @@ private theorem le_normalizer_closureIn_S4S (I H : Subgroup G) :
 theorem le_closureIn_of_isSC {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B J : Subgroup G}
     (hB : IsElemAbelian p B) (hSC : IsSC p B) (hBJ : B ≤ Subgroup.normalizer (J : Set G))
     (hJ : GLAPLayer p J = J) : J ≤ closureIn B J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set M : Subgroup G := closureIn B J with hMdef
   have hBM : B ≤ M := le_closureIn_self B J
   have hJN : J ≤ Subgroup.normalizer (M : Set G) := le_normalizer_closureIn_S4S B J
@@ -546,7 +552,7 @@ theorem le_closureIn_of_isSC {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B J : Sub
       exact (h1.trans h2).trans le_sup_left
     · obtain ⟨b, hb, hbT⟩ : ∃ b ∈ B, b ∉ Subgroup.normalizer (T : Set G) := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hBT (fun b hb => hcon b hb)
       have hbJ : b⁻¹ ∈ Subgroup.normalizer (J : Set G) := hBJ (B.inv_mem hb)
       have hT' : GLAPComponent p J (GLBConj b⁻¹ T) := by
@@ -606,7 +612,7 @@ theorem layer_commutator_eq_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hΔ : 
   have hJS : J ≤ Subgroup.normalizer (S : Set G) :=
     le_normalizer_commutator hJC Subgroup.le_normalizer
   have hcopC : Nat.Coprime p (Nat.card C) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := hC2.exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
@@ -657,6 +663,7 @@ private theorem glaPLayer_idem_S4S {p : ℕ} (hp : p.Prime) (X : Subgroup G) :
     glaPComponent_of_le hp (show GLAPComponent p X T from hT) (le_sSup hT) hLX
   exact le_sSup (show T ∈ {L | GLAPComponent p (GLAPLayer p X) L} from hc)
 
+omit [Finite G] in
 private theorem glaPLayer_le_self_S4S {p : ℕ} (X : Subgroup G) : GLAPLayer p X ≤ X :=
   sSup_le fun T hT => (show GLAPComponent p X T from hT).1
 
@@ -667,7 +674,7 @@ private theorem glaPLayer_sup_S4S {p : ℕ} (hp : p.Prime) {Y H N : Subgroup G}
   have hHNY : H ⊔ N = Y := le_antisymm (sup_le hHY hNY) hY
   set H' : Subgroup ↥Y := H.subgroupOf Y with hH'
   set N' : Subgroup ↥Y := N.subgroupOf Y with hN'
-  haveI : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNY).2 hYN
+  have : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNY).2 hYN
   have hNcop : p.Coprime (Nat.card N') := by
     rw [hN', Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNY).toEquiv]
     exact hN
@@ -736,14 +743,14 @@ private theorem glaPLayer_sup_S4S {p : ℕ} (hp : p.Prime) {Y H N : Subgroup G}
         ≤ (GLAPLayer p (⊤ : Subgroup ↥Y) ⊔ N').map Y.subtype := Subgroup.map_mono hkeyB
       _ = (GLAPLayer p (⊤ : Subgroup ↥Y)).map Y.subtype ⊔ N := by rw [Subgroup.map_sup, hNtop]
 
-theorem exists_Jstar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B R X : Subgroup G}
-    (hKL : GLAPLayer p K = K) (hBK : B ≤ Subgroup.normalizer (K : Set G)) (hB : IsElemAbelian p B)
+theorem exists_Jstar {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {K B R X : Subgroup G}
+    (hKL : GLAPLayer p K = K) (hBK : B ≤ Subgroup.normalizer (K : Set G)) (_hB : IsElemAbelian p B)
     (hXK : X ≤ K) (hKX : K ≤ Subgroup.normalizer (X : Set G)) (hXO : X ≤ GLAPPrimeCoreOf p K)
     (hR : IsPGroup 2 R) (hRX : R ≤ X) (hRidx : ¬ 2 ∣ R.relIndex X)
     (hBR : B ≤ Subgroup.normalizer (R : Set G)) :
     ∃ Js : Subgroup G, Js ≤ K ∧ Js ≤ Subgroup.normalizer (R : Set G) ∧
       B ≤ Subgroup.normalizer (Js : Set G) ∧ GLAPLayer p Js = Js ∧ K ≤ Js ⊔ GLAPPrimeCoreOf p K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := K ⊓ Subgroup.normalizer (R : Set G) with hHdef
   have hBH : B ≤ Subgroup.normalizer (H : Set G) :=
     le_normalizer_inf hBK (hBR.trans Subgroup.le_normalizer)
@@ -768,6 +775,7 @@ theorem exists_Jstar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B R X : Subgrou
     (glaPLayer_le_self_S4S H).trans inf_le_right,
     fun b hb => mem_normalizer_glaPLayer (hBH hb), glaPLayer_idem_S4S hp H, hKle⟩
 
+omit [Finite G] in
 private theorem mem_sup_S4S {W N : Subgroup G} (hWN : W ≤ Subgroup.normalizer (N : Set G))
     {x : G} (hx : x ∈ W ⊔ N) : ∃ w ∈ W, ∃ n ∈ N, w * n = x := by
   let P : Subgroup G :=
@@ -790,19 +798,19 @@ private theorem mem_sup_S4S {W N : Subgroup G} (hWN : W ≤ Subgroup.normalizer 
   obtain ⟨w, hw, n, hn, h⟩ := hle hx
   exact ⟨w, hw, n, hn, h⟩
 
-theorem exists_J_of_Jstar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B R E X Js : Subgroup G}
-    (hKL : GLAPLayer p K = K) (hBK : B ≤ Subgroup.normalizer (K : Set G)) (hB : IsElemAbelian p B)
-    (hEB : E ≤ B) (hXK : X ≤ K) (hKX : K ≤ Subgroup.normalizer (X : Set G))
-    (hXO : X ≤ GLAPPrimeCoreOf p K) (hR : IsPGroup 2 R) (hRX : R ≤ X) (hRidx : ¬ 2 ∣ R.relIndex X)
-    (hBR : B ≤ Subgroup.normalizer (R : Set G)) (hJsK : Js ≤ K)
+theorem exists_J_of_Jstar {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {K B R E X Js : Subgroup G}
+    (_hKL : GLAPLayer p K = K) (hBK : B ≤ Subgroup.normalizer (K : Set G)) (hB : IsElemAbelian p B)
+    (hEB : E ≤ B) (_hXK : X ≤ K) (_hKX : K ≤ Subgroup.normalizer (X : Set G))
+    (_hXO : X ≤ GLAPPrimeCoreOf p K) (_hR : IsPGroup 2 R) (_hRX : R ≤ X) (_hRidx : ¬ 2 ∣ R.relIndex X)
+    (_hBR : B ≤ Subgroup.normalizer (R : Set G)) (hJsK : Js ≤ K)
     (hJsR : Js ≤ Subgroup.normalizer (R : Set G)) (hBJs : B ≤ Subgroup.normalizer (Js : Set G))
-    (hJsL : GLAPLayer p Js = Js) (hcov : K ≤ Js ⊔ GLAPPrimeCoreOf p K)
+    (_hJsL : GLAPLayer p Js = Js) (hcov : K ≤ Js ⊔ GLAPPrimeCoreOf p K)
     (hZ : GLAPLayer p (K ⊓ Subgroup.centralizer (E : Set G)) ≠ ⊥) :
     ∃ J : Subgroup G, J ≤ K ∧ J ≤ Subgroup.normalizer (R : Set G) ∧
       J ≤ Subgroup.centralizer (E : Set G) ∧ B ≤ Subgroup.normalizer (J : Set G) ∧ J ≠ ⊥ ∧
       GLAPLayer p J = J ∧ J ≤ GLAPLayer p (K ⊓ Subgroup.centralizer (E : Set G)) ∧
       GLAPLayer p (K ⊓ Subgroup.centralizer (E : Set G)) ≤ J ⊔ GLAPPrimeCoreOf p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOK : GLAPPrimeCoreOf p K ≤ K := by
     unfold GLAPPrimeCoreOf; exact Subgroup.map_subtype_le _
   have hOcop : p.Coprime (Nat.card (GLAPPrimeCoreOf p K)) := i183_coprime_card_glaPPrimeCoreOf hp K
@@ -914,6 +922,7 @@ theorem exists_J_data {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B R E X : Subg
   exact exists_J_of_Jstar hp hp2 hKL hBK hB hEB hXK hKX hXO hR hRX hRidx hBR hJsK hJsR hBJs hJsL
     hcov hZ
 
+omit [Finite G] in
 theorem quaternion_commutator_centralized {B S : Subgroup G} (e : S ≃* QuaternionGroup 2)
     (hBS : B ≤ Subgroup.normalizer (S : Set G)) :
     (⁅B, (⁅S, S⁆ : Subgroup G)⁆ : Subgroup G) = ⊥ := by
@@ -974,7 +983,7 @@ theorem quaternion_commutator_centralized {B S : Subgroup G} (e : S ≃* Quatern
       have h2' : (z : G) ^ 2 = 1 := by
         have := congrArg Subtype.val hz2
         simpa using this
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime h2' hz1'
     rw [← zpow_mod_orderOf, hord] at hk
     push_cast at hk
@@ -999,6 +1008,7 @@ theorem quaternion_commutator_centralized {B S : Subgroup G} (e : S ≃* Quatern
       _ = (z : G) * b := by rw [this]
   exact (Subgroup.mem_centralizer_iff.1 hbC) g hgz
 
+omit [Finite G] in
 theorem isEssential_of_two_group {p : ℕ} {B S : Subgroup G} {x : G} (hx : x ∈ B) (hx1 : x ≠ 1)
     (hS : IsPGroup 2 S) (hSx : S ≤ Subgroup.centralizer ({x} : Set G))
     (hBS : B ≤ Subgroup.normalizer (S : Set G))

@@ -25,7 +25,7 @@ theorem perfect_comap_of_not_dvd_index {E S : Type*} [Group E] [Group S] [Finite
       _ = ⁅H.comap π, H.comap π⁆ ⊔ π.ker := Subgroup.comap_map_eq π _
   by_contra hle
   have hkD : ¬ π.ker ≤ ⁅H.comap π, H.comap π⁆ := fun h => hle (hsup.le.trans (sup_le le_rfl h))
-  obtain ⟨z, hz, hzD⟩ := SetLike.not_le_iff_exists.1 hkD
+  obtain ⟨z, hz, hzD⟩ := IsConcreteLE.not_le_iff_exists.1 hkD
   have hkey : ∀ (k : ℕ) (g₀ : E), g₀⁻¹ * z ^ k * g₀ ∈ H.comap π →
       g₀⁻¹ * z ^ k * g₀ = z ^ k := fun k g₀ _ => by
     rw [mul_assoc, ← Subgroup.mem_center_iff.1 (Subgroup.pow_mem _ (hker hz) k) g₀,

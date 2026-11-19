@@ -12,6 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -48,6 +49,7 @@ private lemma twoCore_commute_invCent (h : Ctx t L S x₁ x₂ lam rho tau)
   · rw [h1, one_mul, mul_one]
   · rw [h1]; exact (mem_invCent_iff.mp hg).symm
 
+omit [Finite G] in
 private lemma mul_sq_eq_of_commute {p a tau : G} (hp : p * p = 1) (hpa : p * a = a * p)
     (hpt : p * tau = tau * p) (hta : tau * a * tau⁻¹ = a⁻¹) :
     (p * a * tau) ^ 2 = tau ^ 2 := by
@@ -68,6 +70,7 @@ private lemma mul_sq_eq_of_commute {p a tau : G} (hp : p * p = 1) (hpa : p * a =
     _ = p * p * (a * a⁻¹) * (tau * tau) := by group
     _ = tau ^ 2 := by rw [hp, pow_two]; group
 
+omit [Finite G] in
 private lemma mul_tau_sq_eq {p tau : G} (hp : p * p = 1) (hpt : p * tau = tau * p) :
     (p * tau) ^ 2 = tau ^ 2 := by
   have htp : tau * p = p * tau := hpt.symm
@@ -92,7 +95,7 @@ theorem lemma4_4_of (h : Ctx t L S x₁ x₂ lam rho tau) (h42 : 2 ∣ S.index)
     fun p hp a ha => twoCore_commute h.hyp p hp a (hbase_le_L ha)
   have htau_inv : tau ∈ invCent t := h.toCtx0.le_invCent h.tau_mem
   have h_inv_on_A : ∀ a ∈ baseGrp x₁ x₂, tau * a * tau⁻¹ = a⁻¹ := by
-    haveI : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.wreath).1
+    have : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.wreath).1
     let K : Subgroup G :=
       { carrier := {a : G | a ∈ baseGrp x₁ x₂ ∧ tau * a * tau⁻¹ = a⁻¹}
         one_mem' := ⟨one_mem _, by simp⟩

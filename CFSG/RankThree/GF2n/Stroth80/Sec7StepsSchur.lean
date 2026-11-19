@@ -37,7 +37,7 @@ theorem sec7_Rt_eq_comm_mul_CN [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n :
   have hSperf : commutator S = ⊤ := by
     rcases hSs.eq_bot_or_eq_top_of_normal (commutator S) with h | h
     · exfalso
-      haveI : IsMulCommutative S := ⟨⟨fun a b => by
+      have : IsMulCommutative S := ⟨⟨fun a b => by
         have h1 : ⁅a, b⁆ ∈ commutator S := by
           rw [commutator_def]
           exact Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)
@@ -69,7 +69,7 @@ theorem sec7Schur_of_parts (h34 : Stroth34Statement) (h310chi : Stroth310ChiStat
     Sec7SchurStatement := by
   intro G _ _ M Q Z B hc n t hs Z0 hZ0 w hwH hwR hwW
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hZ0M : Z0 ≤ M := hc.centre_le_M t hZ0

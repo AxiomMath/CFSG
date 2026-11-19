@@ -35,8 +35,8 @@ theorem sp8_iso_of_schur (hS : SchurSp8) {H : Type} [Group H] (J : Subgroup H)
     (hJq : CFSG.Open.IsQuasisimple ↥J) (hcat : catalogIs (PSimple 3 J) S9.isSp8two) :
     Nonempty (↥J ≃* StatedSp 4 (ZMod 2)) ∧ Subgroup.center ↥J = ⊥ := by
   obtain ⟨e8⟩ := sp8_model hcat
-  haveI := nontrivial_statedSp_four
-  haveI : Nontrivial (PSimple 3 J) := e8.symm.injective.nontrivial
+  have := nontrivial_statedSp_four
+  have : Nontrivial (PSimple 3 J) := e8.symm.injective.nontrivial
   let π : ↥J →* PSimple 3 J :=
     (QuotientGroup.mk' (Subgroup.center (PQuot 3 J))).comp (QuotientGroup.mk' (GLAPPrimeCore 3 ↥J))
   have hπs : Function.Surjective π :=
@@ -139,8 +139,7 @@ theorem sp8_holds_of (hS : SchurSp8) (GU : GUBlockFacts) : KSubT.CompFactSp8 := 
     have hX : (J ⊓ Subgroup.centralizer ({(j : H)} : Set H)).subgroupOf J =
         Subgroup.centralizer ({j} : Set ↥J) := by
       ext y
-      simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff,
-        Set.mem_singleton_iff]
+      simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
       constructor
       · rintro ⟨_, h2⟩
         exact Subtype.ext h2

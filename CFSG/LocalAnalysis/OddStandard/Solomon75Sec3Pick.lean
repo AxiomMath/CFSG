@@ -59,7 +59,7 @@ theorem exists_isSec5Pair {t : X} {L : Subgroup X} {n : ℕ} (ht : orderOf t = 2
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
   refine ⟨(Q : Subgroup ↥A).map A.subtype, ⟨ht, ?_, ?_⟩⟩
   · exact ⟨tA, hQ (Subgroup.mem_zpowers tA), rfl⟩
-  · refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map A.subtype, ?_⟩
+  · refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map A.subtype, ?_⟩
     show ¬ 2 ∣ (((Q : Subgroup ↥A).map A.subtype).comap A.subtype).index
     rw [Subgroup.comap_map_eq_self_of_injective A.subtype_injective]
     exact Q.not_dvd_index

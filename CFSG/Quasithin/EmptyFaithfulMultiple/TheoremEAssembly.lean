@@ -22,14 +22,14 @@ theorem catalog_of_faithful_empty
     CFSG.Blueprint.Catalog G := by
   classical
   have hTne := sylow_ne_bot hnonab T
-  have hsyl : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup', T.not_dvd_index⟩
+  have hsyl : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup, T.not_dvd_index⟩
   have hLf' : ∀ L : Subgroup G, ¬ quasithinIsFaithfulLocal (T : Subgroup G) L := fun L h =>
     hLf L (quasithinIsFaithfulLocal_assembly_iff_open.mpr h)
   set Z := quasithinOmegaOneCenter (T : Subgroup G) with hZ
   have hCN : Subgroup.centralizer (Z : Set G) ≤ Subgroup.normalizer (Z : Set G) :=
     Subgroup.centralizer_le_normalizer _
   obtain ⟨Mc, hMc, hNMc⟩ := exists_maxTwoLocal_ge (isTwoLocal_normalizer_omegaOneCenter
-    T.isPGroup' hTne)
+    T.isPGroup hTne)
   have hCMc := hCN.trans hNMc
   have hTC : (T : Subgroup G) ≤ Subgroup.centralizer (Z : Set G) := by
     intro x hx

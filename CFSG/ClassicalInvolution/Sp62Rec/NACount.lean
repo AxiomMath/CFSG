@@ -10,6 +10,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 @[expose] def orbIn (X : Subgroup G) (a : G) : Set G := {b | ∃ x ∈ X, x * a * x⁻¹ = b}
 
+omit [Finite G] in
 private theorem mem_orbIn {X : Subgroup G} {a b : G} :
     b ∈ orbIn X a ↔ ∃ x ∈ X, x * a * x⁻¹ = b :=
   Iff.rfl
@@ -28,6 +29,7 @@ private theorem card_range_eq_index' {H X : Type*} [Group H] (f : H → X) (K : 
   · obtain ⟨_, a, rfl⟩ := y
     exact ⟨QuotientGroup.mk a, rfl⟩
 
+omit [Finite G] in
 private theorem conj_pair_iff (n c a : G) :
     n * a * n⁻¹ = n * c * a * (n * c)⁻¹ ↔ c * a = a * c := by
   have e1 : n * c * a * (n * c)⁻¹ = n * (c * a * c⁻¹) * n⁻¹ := by group
@@ -45,12 +47,14 @@ private theorem conj_pair_iff (n c a : G) :
       exact h
     rw [h2]
 
+omit [Finite G] in
 private theorem conj_of_eq {a a' u v b : G} (hu : u * a * u⁻¹ = b) (hv : v * a' * v⁻¹ = b) :
     (v⁻¹ * u) * a * (v⁻¹ * u)⁻¹ = a' := by
   calc (v⁻¹ * u) * a * (v⁻¹ * u)⁻¹ = v⁻¹ * (u * a * u⁻¹) * v := by group
     _ = v⁻¹ * b * v := by rw [hu]
     _ = a' := by rw [← hv]; group
 
+omit [Finite G] in
 theorem card_eq_ncard_orbIn_mul (N : Subgroup G) (a : G) :
     Nat.card N = (orbIn N a).ncard * Nat.card ↥(N ⊓ Subgroup.centralizer ({a} : Set G)) := by
   obtain ⟨K, hKdef⟩ : ∃ K : Subgroup ↥N,
@@ -81,6 +85,7 @@ theorem card_eq_ncard_orbIn_mul (N : Subgroup G) (a : G) :
     rw [← hidx, hrange, Nat.card_coe_set_eq]
   rw [← hmul, hKcard, hcount, mul_comm]
 
+omit [Finite G] in
 private theorem orbIn_eq_orbIn_of_mem {X : Subgroup G} {a b : G} (hb : b ∈ orbIn X a) :
     orbIn X a = orbIn X b := by
   obtain ⟨x, hx, rfl⟩ := mem_orbIn.mp hb
@@ -93,12 +98,14 @@ private theorem orbIn_eq_orbIn_of_mem {X : Subgroup G} {a b : G} (hb : b ∈ orb
     obtain ⟨x', hx', rfl⟩ := mem_orbIn.mp hc
     exact mem_orbIn.mpr ⟨x' * x, X.mul_mem hx' hx, by group⟩
 
+omit [Finite G] in
 private theorem orbIn_mono {X Y : Subgroup G} (hXY : X ≤ Y) (a : G) :
     orbIn X a ⊆ orbIn Y a := by
   intro b hb
   obtain ⟨x, hx, rfl⟩ := mem_orbIn.mp hb
   exact mem_orbIn.mpr ⟨x, hXY hx, rfl⟩
 
+omit [Finite G] in
 private theorem orbIn_subset_of_mem {X Y : Subgroup G} (hXY : X ≤ Y) {a b : G}
     (hb : b ∈ orbIn Y a) : orbIn X b ⊆ orbIn Y a := by
   obtain ⟨n, hn, rfl⟩ := mem_orbIn.mp hb
@@ -106,6 +113,7 @@ private theorem orbIn_subset_of_mem {X Y : Subgroup G} (hXY : X ≤ Y) {a b : G}
   obtain ⟨x, hx, rfl⟩ := mem_orbIn.mp hc
   exact mem_orbIn.mpr ⟨x * n, Y.mul_mem (hXY hx) hn, by group⟩
 
+omit [Finite G] in
 private theorem ne_one_of_mem_orbIn {X : Subgroup G} {a b : G} (ha : a ≠ 1)
     (hb : b ∈ orbIn X a) : b ≠ 1 := by
   rintro rfl
@@ -116,10 +124,10 @@ private theorem ne_one_of_mem_orbIn {X : Subgroup G} {a b : G} (ha : a ≠ 1)
     _ = 1 := by group
 
 theorem normalizer_eq_of_orbits {A X : Subgroup G} {e y r : G}
-    (hA : ∀ a ∈ A, a * a = 1) (hcardA : Nat.card A = 64)
+    (hA : ∀ a ∈ A, a * a = 1) (_hcardA : Nat.card A = 64)
     (hCA : ∀ g : G, (∀ a ∈ A, g * a = a * g) → g ∈ A)
     (hXN : X ≤ Subgroup.normalizer (A : Set G))
-    (he : e ∈ A) (hy : y ∈ A) (hr : r ∈ A)
+    (he : e ∈ A) (hy : y ∈ A) (_hr : r ∈ A)
     (hcover : ∀ a ∈ A, a ≠ 1 →
       a ∈ orbIn X e ∨ a ∈ orbIn X y ∨ a ∈ orbIn X (e * y) ∨ a ∈ orbIn X r)
     (horbe : (orbIn X e).ncard = 7) (horbr : (orbIn X r).ncard = 28)
@@ -216,7 +224,7 @@ theorem normalizer_eq_of_orbits {A X : Subgroup G} {e y r : G}
     have hNeq : Nat.card N = 5 * Nat.card X := by
       rw [card_eq_ncard_orbIn_mul N e, hNcard35, hcard]
       ring
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨g, hgo⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) 5 ⟨Nat.card X, hNeq⟩
     have hgo' : orderOf (g : G) = 5 := (Subgroup.orderOf_coe g).trans hgo
     have hg5 : (g : G) ^ 5 = 1 := by

@@ -186,14 +186,14 @@ theorem signalizerTrivialOn_of_local {K : Type} [Group K] [Finite K] {p k : ℕ}
       Subgroup.centralizer (R : Set (MulAut K)) ≤ (R : Subgroup (MulAut K))) :
     SignalizerTrivialOn p K := by
   intro P W hW hnorm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hPcard, hPexp⟩ := hP P
   have hinj := injective_conj_of_center_eq_bot hcen
   have hplane : ∀ E : Subgroup K, E ≤ (P : Subgroup K) → Nat.card E = p ^ 2 →
       (∀ y ∈ E, y ^ p = 1) → ∀ w ∈ W, ∀ g ∈ E, w g = g := by
     intro E hEP hEcard hEexp w hw g hg
     have hBcomm : IsMulCommutative (E.map (MulAut.conj : K →* MulAut K)) := by
-      haveI hE : IsMulCommutative E := IsPGroup.isMulCommutative_of_card_eq_prime_sq hEcard
+      have hE : IsMulCommutative E := IsPGroup.isMulCommutative_of_card_eq_prime_sq hEcard
       refine ⟨⟨fun a b => ?_⟩⟩
       obtain ⟨x, hx, hxa⟩ := Subgroup.mem_map.1 a.2
       obtain ⟨y, hy, hyb⟩ := Subgroup.mem_map.1 b.2
@@ -244,7 +244,7 @@ theorem signalizerTrivialOn_of_local {K : Type} [Group K] [Finite K] {p k : ℕ}
     show MulAut.conj g * w = w * MulAut.conj g
     rw [mul_inv_eq_iff_eq_mul] at h1
     exact h1.symm
-  exact eq_one_of_mem_of_mem_of_coprime R.isPGroup' hW ((hA R).2 hwC) hw
+  exact eq_one_of_mem_of_mem_of_coprime R.isPGroup hW ((hA R).2 hwC) hw
 
 end Criterion
 

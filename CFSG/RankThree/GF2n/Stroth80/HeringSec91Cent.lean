@@ -181,8 +181,8 @@ theorem centLam91 (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t : G}
     ∀ d ∈ Q ⊓ QB B, (∀ l ∈ (QB B ⊓ M) ⊓ hc.CN t, ⁅l, d⁆ ∈ Z) →
       d ∈ Vt M (LB M Q B) B Z t := by
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := exists_pts91 h34 hs
-  haveI := hn
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have := hn
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   have h3 : 3 ≤ Module.finrank K (Fin 2 ⊕ Fin 2 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     omega
@@ -194,7 +194,7 @@ theorem mem_V_of_mem_QB_QB91 (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : �
     (hplane : HypPlane Q Z B (conjSubgroup r B) t) {x : G} (hxB : x ∈ QB B)
     (hxC : x ∈ QB (conjSubgroup r B)) (hxQ : x ∈ Q) : x ∈ Vt M (LB M Q B) B Z t :=
   centLam91 h34 hs x ⟨hxQ, hxB⟩
-    (fun l hl => comm_mem_Z_of_mem_CN91 h34 hc hs.toSec5 (sec9_notQB h34 hs) hr hplane hl hxB hxC
+    (fun _l hl => comm_mem_Z_of_mem_CN91 h34 hc hs.toSec5 (sec9_notQB h34 hs) hr hplane hl hxB hxC
       hxQ)
 
 theorem card_inter_le_of_mem_V (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} {t : G}
@@ -268,7 +268,7 @@ theorem card_inter_le_of_mem_V (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n :
   have hBcard : Nat.card ↥B = Nat.card Z := by
     obtain ⟨g, hg⟩ := hc.conj
     rw [hg, card_conjSubgroup]
-  haveI : IsMulCommutative ↥A :=
+  have : IsMulCommutative ↥A :=
     ⟨⟨fun x y => Subtype.ext (hVcomm x.1 (hAV x.2) y.1 (hAV y.2))⟩⟩
   let f : ↥B → ↥A ⧸ (D.subgroupOf A) := fun b =>
     QuotientGroup.mk (s := D.subgroupOf A) (⟨(b : G), hBA b.2⟩ : ↥A)
@@ -373,7 +373,7 @@ theorem step91Inter_of (h34 : Stroth34Statement) : Step91InterStatement := by
   have hrR := hr.mem
   have hBinf := HS9.B_inf_QB_conj_eq_bot91 h34 hc hs5 (sec9_notQB h34 hs) hrR hr.plane
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   have h := HS9.card_inter_le_of_mem_V h34 hc hs5 hrR hBinf
     (fun x hxB hxC hxQ => HS9.mem_V_of_mem_QB_QB91 h34 hs hrR hr.plane hxB hxC hxQ)
     (m := 2) le_rfl hs.card_V (HS9.card_Vt_inf_QB_plus4 P)

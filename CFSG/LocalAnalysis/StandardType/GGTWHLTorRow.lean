@@ -99,7 +99,7 @@ private lemma l05nQT_split_A1 {p n : ℕ} (h : p ∣ 2 ^ n - 1) :
     LargeEvenSplit p ⟨.A, 1, n⟩ :=
   Or.inl ⟨by simp [LargeEvenUntwisted], h⟩
 
-private lemma l05nQT_split_of_iso {p : ℕ} (hp : p.Prime) {lab labs : LargeEvenLabel}
+private lemma l05nQT_split_of_iso {p : ℕ} (_hp : p.Prime) {lab labs : LargeEvenLabel}
     (hcov : GGTBTorCov p lab) (hiso : GGLabelIso lab labs)
     (hs : LargeEvenSplit p labs) : LargeEvenSplit p lab := by
   rcases hiso with h | ⟨h1, h2, h3, h4⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ |

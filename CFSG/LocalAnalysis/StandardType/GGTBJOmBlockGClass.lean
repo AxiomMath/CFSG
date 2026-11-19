@@ -19,13 +19,14 @@ open CFSG.RankThree.PartOne.KCOrthogonal (reciprocalPolynomial isometryUnit isom
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} [Fact p.Prime]
   {D : Type} [AddCommGroup D] [Module K D] [FiniteDimensional K D]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K D] in
 theorem exists_ker_pow_neg_of_reciprocal (c : D ≃ₗ[K] D) (hcp : c ^ p = 1) {h : K[X]}
     (h0 : h.coeff 0 ≠ 0) {e : ZMod p}
     (hker : ∃ d : D, d ≠ 0 ∧
       aeval ((c ^ e.val : D ≃ₗ[K] D) : D →ₗ[K] D) (reciprocalPolynomial h) d = 0) :
     ∃ d : D, d ≠ 0 ∧ aeval ((c ^ (-e).val : D ≃ₗ[K] D) : D →ₗ[K] D) h d = 0 := by
   obtain ⟨d, hd, hker⟩ := hker
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hinv : (c ^ e.val : D ≃ₗ[K] D)⁻¹ = c ^ (-e).val := by
     refine mul_eq_one_iff_inv_eq.mp ?_
     rw [← pow_add]
@@ -65,6 +66,7 @@ theorem exists_ker_pow_neg_of_reciprocal (c : D ≃ₗ[K] D) (hcp : c ^ p = 1) {
     rfl
   rwa [hs] at hzero
 
+omit [Finite K] in
 theorem eq_or_eq_neg_of_ker_or_reciprocal_ker (hp2 : p ≠ 2) (c : D ≃ₗ[K] D)
     (hdim : finrank K D = 2) (hcp : c ^ p = 1) (hfix : ∀ u, c u = u → u = 0)
     (hT : ∃ T : D ≃ₗ[K] D, T * c * T⁻¹ = c⁻¹)

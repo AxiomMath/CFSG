@@ -65,7 +65,7 @@ theorem subsystemGroup_singleton (i : Fin τ.rank) :
   rw [range_simpleRootSL2, subsystemGroup]
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff, Set.mem_union, Set.mem_range]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff, Set.mem_union, Set.mem_range]
   constructor
   · rintro ⟨j, rfl, c, rfl | rfl⟩
     · exact Or.inl ⟨c, rfl⟩
@@ -77,7 +77,7 @@ theorem subsystemGroup_singleton (i : Fin τ.rank) :
 theorem exists_sylow_posUnipotent [Finite K] [CharP K 2] :
     ∃ T₀ : Sylow 2 ↥(adjointGroup τ K),
       (T₀ : Subgroup ↥(adjointGroup τ K)) = (posUnipotent τ K).subgroupOf (adjointGroup τ K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (RootWeightDatum.ordinary (K := K) τ).exists_sylow_eq_unipotent 2
 
 theorem leviSubAt_adjointGroup_of_four_le [Finite K] [CharP K 2] (h4 : 4 ≤ Nat.card K)
@@ -115,7 +115,7 @@ theorem leviSubAt_adjointGroup_of_four_le [Finite K] [CharP K 2] (h4 : 4 ≤ Nat
       ring
     exact (hfK.trans (hKu ▸ hsq)).trans (dvd_mul_left _ _)
   have hK4 : ∃ s : Finset K, s.card = 4 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset K)) (n := 4)
       (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h4)
     exact ⟨s, hs⟩
@@ -130,8 +130,8 @@ theorem leviSubAt_adjointGroup_two [Finite K] [CharP K 2] (h2 : Nat.card K = 2)
     {i₀ j₀ : Fin τ.rank} (hij₀ : i₀ ≠ j₀) (h0 : τ.cartan i₀ j₀ = 0) :
     LeviSubAt ↥(adjointGroup τ K) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
   obtain ⟨T₀, hT₀⟩ := exists_sylow_posUnipotent (τ := τ) (K := K)
   have hSL : Nat.card (SL2 K) = 6 := by
     rw [show Nat.card (SL2 K) = Nat.card K * (Nat.card K ^ 2 - 1) from
@@ -211,7 +211,7 @@ theorem leviSubAt_of_untwistedChevalleyModel {S : Type} [Group S] [Finite S] {f 
       LeviSubAt ↥(adjointGroup τ K)) :
     LeviSubAt S := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI : CharP K 2 := CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hK
+  have : CharP K 2 := CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hK
   have hZ : Subgroup.center ↥(adjointGroup τ K) = ⊥ := center_adjointGroup_eq_bot
   exact LeviSubAt.of_mulEquiv
     (e.trans ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot)) (h K hK)

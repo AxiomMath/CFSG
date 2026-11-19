@@ -13,12 +13,14 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isSylowIn_restrict {p : ℕ} {P A B : Subgroup G} (hP : IsSylowIn p P B)
     (hPA : P ≤ A) (hAB : A ≤ B) : IsSylowIn p P A := by
   refine ⟨hPA, hP.isPGroup, fun hdvd => hP.not_dvd_relIndex ?_⟩
   rw [← Subgroup.relIndex_mul_relIndex P A B hPA hAB]
   exact hdvd.mul_right _
 
+omit [Finite G] in
 private theorem conj_inf_centralizer {V : Subgroup G} {m xr : G}
     (hm : m ∈ Subgroup.normalizer (V : Set G)) :
     V ⊓ centralizer ({m⁻¹ * xr * m} : Set G) =
@@ -60,6 +62,7 @@ theorem exists_minimal_fam16Q {M V₀ U R : Subgroup G} (hne : ∃ H, Fam16Q M V
   by_contra hne'
   exact hmin H' hF' (lt_of_le_of_ne hle hne')
 
+omit [Finite G] in
 theorem conjSubgroup_le_conjClosure_of_mem {Z H A : Subgroup G} {g : G} (hg : g ∈ H)
     (hA : A ≤ Z) : conjSubgroup A g ≤ conjClosure Z H := fun y hy => by
   rw [mem_conjSubgroup_iff] at hy
@@ -67,6 +70,7 @@ theorem conjSubgroup_le_conjClosure_of_mem {Z H A : Subgroup G} {g : G} (hg : g 
   have e : g⁻¹ * (g * y * g⁻¹) * g⁻¹⁻¹ = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 theorem le_normalizer_cTilde_of_hyp15 {M V₀ V : Subgroup G} (h : Hyp15 M V₀ V) :
     M ≤ normalizer (F11.CTilde M V₀ V : Set G) := by
   have hMleV : M ≤ normalizer (V : Set G) := by
@@ -80,6 +84,7 @@ namespace Fam16Q
 
 variable {M V₀ V U S R H : Subgroup G}
 
+omit [Finite G] in
 theorem isElemAbelian (h : Cex16 M V₀ V U S) (hQ : Fam16Q M V₀ U R H) :
     IsElemAbelian 2 (conjClosure (U ⊔ V₀) H) := by
   have hUV : U ⊔ V₀ ≤ V := sup_le h.le h.hyp.h6.le
@@ -92,6 +97,7 @@ theorem isElemAbelian (h : Cex16 M V₀ V U S) (hQ : Fam16Q M V₀ U R H) :
   rw [conj_pow, hsq z hz]
   group
 
+omit [Finite G] in
 theorem le_centralizer (h : Cex16 M V₀ V U S) (hQ : Fam16Q M V₀ U R H) :
     conjClosure (U ⊔ V₀) H ≤ centralizer (U : Set G) := fun i hi => by
   rw [Subgroup.mem_centralizer_iff]
@@ -107,7 +113,7 @@ variable {M V₀ V U S R H : Subgroup G}
 
 theorem conjClosure_le_S (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V U S)
     (hSR : S ≤ R) (hQ : Fam16Q M V₀ U R H) : conjClosure (U ⊔ V₀) H ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set I : Subgroup G := conjClosure (U ⊔ V₀) H with hI
   have hIe : IsElemAbelian 2 I := hQ.isElemAbelian h
   have hIp : IsPGroup 2 I := B2F.isPGroup_of_isElemAbelian hIe

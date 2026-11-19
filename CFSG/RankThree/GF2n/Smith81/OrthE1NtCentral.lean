@@ -97,7 +97,7 @@ theorem e1nt_elemAbelian (hNt : StrothNtStatement) (hS1 : Step1Statement)
 theorem e1nt_ppd_not_dvd_prod (p k : ℕ) (hp : CFSG.Timmesfeld.IsPrimitivePrimeDivisor p (4 * k))
     (hk : 0 < k) : ¬ p ∣ ∏ i : Fin k, (2 ^ k - 2 ^ (i : ℕ)) := by
   intro h
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff hp.1.prime _).mp h
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff hp.1.prime _).mp h
   have hik : (i : ℕ) < k := i.2
   have e : 2 ^ k - 2 ^ (i : ℕ) = 2 ^ (i : ℕ) * (2 ^ (k - (i : ℕ)) - 1) := by
     have h2 : 2 ^ k = 2 ^ (i : ℕ) * 2 ^ (k - (i : ℕ)) := by
@@ -115,7 +115,7 @@ theorem e1nt_ppd_not_dvd_prod (p k : ℕ) (hp : CFSG.Timmesfeld.IsPrimitivePrime
 theorem e1nt_card_addAut (Mv : Type) [AddCommGroup Mv] [Finite Mv] (hM2 : ∀ y : Mv, y + y = 0)
     (k : ℕ) (hMk : Nat.card Mv = 2 ^ k) :
     Nat.card (AddAut Mv) = ∏ i : Fin k, (2 ^ k - 2 ^ (i : ℕ)) := by
-  letI : Module (ZMod 2) Mv :=
+  let : Module (ZMod 2) Mv :=
     AddCommGroup.zmodModule (n := 2) fun x => (two_nsmul x).trans (hM2 x)
   have hfin : Module.finrank (ZMod 2) Mv = k := by
     have h : Nat.card Mv = Nat.card (ZMod 2) ^ Module.finrank (ZMod 2) Mv :=
@@ -173,7 +173,7 @@ theorem e1nt_minus_trivial (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ)
     (Mv : Type) [AddCommGroup Mv] [Finite Mv] (hM2 : ∀ y : Mv, y + y = 0)
     (hMq : Nat.card Mv = Nat.card K)
     (π : ↥(StatedOmega (StatedQuadMinus 2 K b c)) →* Multiplicative (AddAut Mv)) : π = 1 := by
-  haveI := ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le (K := K) (b := b) (c := c)
+  have := ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le (K := K) (b := b) (c := c)
     (le_refl 2) hirr
   have hΩ := card_statedOmega_minus_eq_of_two_le (K := K) (m := 2) (le_refl 2) hirr
   have hΩ' : (Nat.card ↥(StatedOmega (StatedQuadMinus 2 K b c)) : ℤ) =
@@ -203,7 +203,7 @@ theorem e1nt_minus_trivial (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ)
       rw [hΩ']
       exact Dvd.dvd.mul_left hpZ _
     exact Int.natCast_dvd_natCast.mp h
-  haveI : Fact p.Prime := ⟨hp.1⟩
+  have : Fact p.Prime := ⟨hp.1⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvdΩ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (π.ker) with hker | hker
   · exfalso
@@ -310,13 +310,13 @@ theorem ntCentral_of (hNt : StrothNtStatement) (hN : E1NaturalStatement) (hS1 : 
     have hQpos : 0 < Nat.card Q := Nat.card_pos
     exact (Nat.eq_of_mul_eq_mul_left hQpos (hNcard.symm.trans h1)).symm
   have hM2 : ∀ y : Mv, y + y = 0 := hκ.two
-  haveI : Finite Mv := hκ.finite
+  have : Finite Mv := hκ.finite
   rcases hsign with hP | hM
   ·
     obtain ⟨K, fK, finK, hKZ, φR, hrange, hker, -⟩ :=
       hN1 (by unfold CaseE1Plus; exact ⟨h9, hNcard, hP⟩)
     obtain ⟨k, -, hZk, -⟩ := hc.hyp.cp
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (k := k) (hKZ.trans hZk)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (k := k) (hKZ.trans hZk)
     have hq4 : 4 ≤ Nat.card K := by rw [hKZ]; exact hc.hyp.q4
     have hact : ∀ (x : ↥(Rt M (LB M Q B) t)) (a : Mv), x • a = a :=
       e1nt_act_of_hom hκ hPn hcomm φR _ hrange (by rw [hker, hCN])
@@ -326,7 +326,7 @@ theorem ntCentral_of (hNt : StrothNtStatement) (hN : E1NaturalStatement) (hS1 : 
     obtain ⟨K, fK, finK, hKZ, b, c, hirr, φR, hrange, hker, -⟩ :=
       hN2 (by unfold CaseE1Minus; exact ⟨h9, hNcard, hM⟩)
     obtain ⟨k, -, hZk, -⟩ := hc.hyp.cp
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (k := k) (hKZ.trans hZk)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (k := k) (hKZ.trans hZk)
     have hq4 : 4 ≤ Nat.card K := by rw [hKZ]; exact hc.hyp.q4
     have hact : ∀ (x : ↥(Rt M (LB M Q B) t)) (a : Mv), x • a = a :=
       e1nt_act_of_hom hκ hPn hcomm φR _ hrange (by rw [hker, hCN])

@@ -75,7 +75,7 @@ theorem a6l43_point_facts (hS : Setting G) (hU0 : FullCoreLocal G) (hA1 : A6Sylo
   have hOcop : Nat.Coprime 3 (Nat.card O) := primeComplementCore_coprime 3
   set π : C →* C ⧸ O := QuotientGroup.mk' O with hπ
   set Q' : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQ'
-  have hQ'p : IsPGroup 3 Q' := (P.isPGroup'.to_le inf_le_left).comap_subtype
+  have hQ'p : IsPGroup 3 Q' := (P.isPGroup.to_le inf_le_left).comap_subtype
   set L : Subgroup (C ⧸ O) := r1sBar x J with hL
   have hLn : L.Normal := r1sBar_normal_a6 hJ
   set D' : Subgroup C := ((P : Subgroup G) ⊓ J).subgroupOf C with hD'
@@ -165,7 +165,7 @@ theorem a6l43_point_facts (hS : Setting G) (hU0 : FullCoreLocal G) (hA1 : A6Sylo
       have : (⟨l, hl⟩ : ↥L) ∈ Γ.comap L.subtype := by rw [h]; exact Subgroup.mem_top _
       exact this
   have hSsyl : IsSylowOf 3 (S : Subgroup ↥L) ⊤ := by
-    refine isSylowOf_iff.mpr ⟨le_top, S.isPGroup', ?_⟩
+    refine isSylowOf_iff.mpr ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   have hΓS : ∀ g ∈ Γ, ∀ s ∈ Db, g * s * g⁻¹ ∈ Db := by

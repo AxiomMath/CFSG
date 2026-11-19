@@ -26,6 +26,7 @@ section
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem exists_proj_of_symm {n : ℕ} (hn : 3 ≤ n) (S : Matrix (Fin n) (Fin n) (ZMod 2))
     (hS : Sᵀ = S) (hS7 : S ^ 7 = 1) (hdet : S.det = 1)
     (h01 : S ⟨0, by omega⟩ ⟨1, by omega⟩ = 1) :

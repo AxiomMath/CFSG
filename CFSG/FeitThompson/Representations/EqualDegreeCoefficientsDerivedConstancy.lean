@@ -55,7 +55,7 @@ theorem HasEqualDegreeCoeffs.sum_nonprincipalIrrDeg_eq_zero [Fintype H] {f : H �
     ∑ χ ∈ nonprincipalIrrDegFinset H d, cfInner f χ * χ x = 0 := by
   rcases Finset.eq_empty_or_nonempty (nonprincipalIrrDegFinset H d) with he | ⟨χ₀, h₀⟩
   · rw [he, Finset.sum_empty]
-  · rw [hf.sum_nonprincipalIrrDeg h₀ hx, if_neg hd, mul_zero]
+  · rw [hf.sum_nonprincipalIrrDeg h₀ hx, ite_eq_right hd, mul_zero]
 
 theorem exists_mem_Irr_ne_one_apply_one_eq_one_of_notMem_commutator [Finite H] {x : H}
     (hx : x ∉ commutator H) : ∃ ν ∈ Irr H, ν ≠ 1 ∧ ν 1 = 1 ∧ ν x ≠ 1 := by
@@ -107,7 +107,7 @@ theorem HasEqualDegreeCoeffs.apply_eq_cfInner_one_sub_cfInner [Fintype H] {f : H
     rw [← hfib, Finset.sum_eq_single_of_mem (1 : ℂ) h1T hzero]
     have h1 : N.filter (fun χ => χ 1 = (1 : ℂ)) = nonprincipalIrrDegFinset H 1 := by
       simpa using hfilter 1
-    rw [h1, hf.sum_nonprincipalIrrDeg hνmem hx, if_pos rfl, mul_neg, mul_one]
+    rw [h1, hf.sum_nonprincipalIrrDeg hνmem hx, ite_eq_left rfl, mul_neg, mul_one]
   have hexp := apply_eq_sum_cfInner_mul hfc x
   rw [← Finset.add_sum_erase (irrFinset H) (fun χ => cfInner f χ * χ x)
     (mem_irrFinset.2 (one_mem_Irr (G := H)))] at hexp

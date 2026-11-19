@@ -169,7 +169,7 @@ theorem orbitX_orb0_mem (c : orbitField TwistTag.E6 K σ orb0) :
   have e4 : eTw ε (Fin.rev (0 : Fin 5)) * (-σ (-(c : K))) = σ c := by
     have : Fin.rev (0 : Fin 5) = 4 := by decide
     rw [this]
-    simp [eTw, hσσ]
+    simp [eTw]
   rw [e1, e2, e3, e4] at h
   exact h
 
@@ -186,7 +186,7 @@ theorem orbitX_orb1_mem (c : orbitField TwistTag.E6 K σ orb1) :
   have e4 : eTw ε (Fin.rev (1 : Fin 5)) * (-σ (-(c : K))) = σ c := by
     have : Fin.rev (1 : Fin 5) = 3 := by decide
     rw [this]
-    simp [eTw, hσσ]
+    simp [eTw]
   rw [e1, e2, e3, e4] at h
   exact h
 
@@ -203,7 +203,7 @@ theorem orbitY_orb0_mem (c : orbitField TwistTag.E6 K σ orb0) :
   have e4 : (eTw ε (Fin.rev (0 : Fin 5)))⁻¹ * (-σ (-(c : K))) = σ c := by
     have : Fin.rev (0 : Fin 5) = 4 := by decide
     rw [this]
-    simp [eTw, hσσ]
+    simp [eTw]
   rw [e1, e2, e3, e4] at h
   exact h
 
@@ -220,7 +220,7 @@ theorem orbitY_orb1_mem (c : orbitField TwistTag.E6 K σ orb1) :
   have e4 : (eTw ε (Fin.rev (1 : Fin 5)))⁻¹ * (-σ (-(c : K))) = σ c := by
     have : Fin.rev (1 : Fin 5) = 3 := by decide
     rw [this]
-    simp [eTw, hσσ]
+    simp [eTw]
   rw [e1, e2, e3, e4] at h
   exact h
 

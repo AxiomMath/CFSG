@@ -29,8 +29,8 @@ theorem qtwoDB25_orthY_of
     (hD : (Even d ∧ 5 ≤ d ∧ lab = ⟨.D, d, 1⟩) ∨ (Odd d ∧ 5 ≤ d ∧ lab = ⟨.twD, d, 1⟩)) :
     ∃ Φ : OrthTorus.OrthFrameCore 3 Bs N, Nat.card Φ.F = 2 ∧ Φ.r = d ∧
       Subgroup.center ↥N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect ↥N := Group.isPerfect_def.mpr hinner.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥N := Group.isPerfect_def.mpr hinner.1
   have hmark : GGInnerDiagOnLabel (fun _ lab' => lab' = lab) 3 Bs N :=
     ggInnerDiagOn_relabel hRig hinner hΛ hlab
   have hProw : ∀ lab' : LargeEvenLabel, (fun _ lab' => lab' = lab) 3 lab' →

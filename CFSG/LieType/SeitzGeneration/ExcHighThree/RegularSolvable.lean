@@ -22,7 +22,7 @@ theorem isSolvable_torusGroup (τ : Tag) (L : Type) [Field L] : Group.IsSolvable
     refine (Subgroup.closure_le _).2 ?_
     rintro _ ⟨⟨i, u⟩, rfl⟩
     exact ⟨fun j => u ^ τ.cartan i j, (torusElt_eq_rootDiagUnit i u).symm⟩
-  haveI : Group.IsSolvable ↥((rootDiagUnitHom τ L).range) :=
+  have : Group.IsSolvable ↥((rootDiagUnitHom τ L).range) :=
     Group.isSolvable_of_surjective (rootDiagUnitHom τ L).rangeRestrict_surjective
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
@@ -34,7 +34,7 @@ section Monomial
 theorem isSolvable_monomialSubgroup (τ : Tag) (L : Type) [Field L]
     (hW : Group.IsSolvable (WeylGroup τ)) : Group.IsSolvable ↥(monomialSubgroup τ L) := by
   obtain ⟨-, ⟨ρ, -, -, -, -, hker⟩, -⟩ := Weyl_normalizer_quotient τ L
-  haveI := isSolvable_torusGroup τ L
+  have := isSolvable_torusGroup τ L
   exact Group.isSolvable_of_ker_le_range
     (Subgroup.inclusion (le_sup_left : torusGroup τ L ≤ monomialSubgroup τ L)) ρ
     (fun g hg => by
@@ -55,7 +55,7 @@ theorem baseChangeGL_mem_adjointGroup' {τ : Tag} {K L : Type} [Field K] [Field 
       exact xUnit_mem_adjointGroup _ _
     · rw [show y = yUnit τ K i c from Units.ext h, baseChangeGL_yUnit]
       exact yUnit_mem_adjointGroup _ _
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy => simpa using mul_mem hx hy
   | inv x _ hx => simpa using inv_mem hx
 
@@ -92,7 +92,7 @@ theorem isSolvable_centralizer_of_regular {K : Type} [Field K] [Finite K]
     MonoidHom.codRestrict ((diagMap D).comp (Subgroup.subtype _)) _ hmono
   have hψ : Function.Injective ψ := fun g g' h =>
     Subtype.ext (diagMap_injective D (congrArg Subtype.val h))
-  haveI := isSolvable_monomialSubgroup .F4 (AlgebraicClosure K)
+  have := isSolvable_monomialSubgroup .F4 (AlgebraicClosure K)
     CFSG.StandardType.LayerExc.isSolvable_weylGroup_F4
   exact Group.isSolvable_of_isSolvable_injective hψ
 

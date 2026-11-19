@@ -23,8 +23,8 @@ variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X} {π : Bool} {p
 theorem three_le_of_mem_center (h : T29Setup X L x) (hZ3 : Nat.card (center ↥L) ∣ 3)
     (hxZ : x ∈ (center ↥L).map L.subtype) :
     3 ≤ CFSG.Open.pRank 3 (centralizer ({x} : Set X)) := by
-  haveI hLn : L.Normal := h.normal
-  haveI : ((center ↥L).map L.subtype).Normal := normal_map_center_subtype L
+  have hLn : L.Normal := h.normal
+  have : ((center ↥L).map L.subtype).Normal := normal_map_center_subtype L
   have hcard : Nat.card ↥((center ↥L).map L.subtype) = 3 := by
     rw [Subgroup.card_map_of_injective L.subtype_injective]
     rcases (Nat.dvd_prime Nat.prime_three).1 hZ3 with h1 | h3
@@ -53,7 +53,7 @@ theorem LModel.not_mem_centralizer (h : T29Setup X L x) (M : LModel L π p f K �
 theorem LModel.exists_isTypeThree (h : T29Setup X L x) (M : LModel L π p f K ν)
     (hZ3 : Nat.card (center ↥L) ∣ 3) :
     ∃ y : GL (Fin 3) K, IsLiftAt ν x y ∧ IsTypeThree π (p ^ f) K y := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   have hx3 := T29Setup.pow_three h
   have hc := h.cent
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau M.piField M.modThree
@@ -136,7 +136,7 @@ theorem LModel.t29_concl (h : T29Setup X L x) (M : LModel L π p f K ν)
     InducesInnDiagNonInner L x ∧ CFSG.HasNormalPComplement 3 ↥(centralizer ({x} : Set X)) ∧
       ((∃ y : X, IsPGroup 3 (zpowers y) ∧ InducesNontrivialFieldAut L y) ∨
         9 ≤ Nat.card (CFSG.pCore 3 X)) := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   have hx3 := T29Setup.pow_three h
   have hcore := h.gLAPPrimeCore_eq_bot
   obtain ⟨y, hy, hT⟩ := M.exists_isTypeThree h hZ3

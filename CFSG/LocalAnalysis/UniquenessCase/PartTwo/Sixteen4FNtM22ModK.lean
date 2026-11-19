@@ -63,12 +63,12 @@ theorem bitK_eq (m x : ℕ) : bitK m x = m.testBit x := by
     change (m &&& (1 <<< x)).testBit i = _
     rw [Nat.testBit_and, Nat.one_shiftLeft, Nat.testBit_two_pow]
     by_cases hb : m.testBit x
-    · rw [if_pos hb, Nat.testBit_two_pow]
+    · rw [ite_eq_left hb, Nat.testBit_two_pow]
       by_cases hi : x = i
       · subst hi
         simp [hb]
       · simp [hi]
-    · rw [if_neg hb, Nat.zero_testBit]
+    · rw [ite_eq_right hb, Nat.zero_testBit]
       by_cases hi : x = i
       · subst hi
         simp [hb]
@@ -76,10 +76,10 @@ theorem bitK_eq (m x : ℕ) : bitK m x = m.testBit x := by
   unfold bitK
   rw [h]
   by_cases hb : m.testBit x
-  · rw [if_pos hb, hb]
+  · rw [ite_eq_left hb, hb]
     exact Nat.blt_eq.mpr (Nat.two_pow_pos x)
   · have hf : m.testBit x = false := by simpa using hb
-    rw [if_neg hb, hf]
+    rw [ite_eq_right hb, hf]
     rfl
 
 @[expose] noncomputable def insC {α : Type} (y : ℕ) (l : List ℕ) (m c : ℕ)
@@ -93,8 +93,8 @@ theorem insC_eq {α : Type} (y : ℕ) (l : List ℕ) (k : List ℕ → ℕ → �
   unfold insC
   rw [forceN_apply, bitK_eq, testBit_maskL]
   by_cases h : y ∈ l
-  · simp only [h, decide_true, insL, if_true]
-  · simp only [h, decide_false, insL, if_false, forceN_apply, maskL_cons, List.length_cons]
+  · simp only [h, decide_true, insL, ite_true]
+  · simp only [h, decide_false, insL, ite_false, forceN_apply, maskL_cons, List.length_cons]
     rfl
 
 @[expose] noncomputable def foldC {α : Type} (A B : ℕ → ℕ) (xs : List ℕ) :
@@ -136,9 +136,9 @@ theorem goC_eq {α : Type} (A B : ℕ → ℕ) (k : List ℕ → ℕ → ℕ →
     change Bool.rec (motive := fun _ => α) (goC A B n k (stepL A B S) (maskL (stepL A B S))
       (stepL A B S).length) _ (Nat.beq (stepL A B S).length S.length) = _
     cases hb : Nat.beq (stepL A B S).length S.length
-    · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
+    · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
       exact ih _
-    · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+    · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
       rfl
 
 @[expose] noncomputable def mapC {α : Type} (x : ℕ) (acc : List ℕ) : (List ℕ → ℕ → α) → α :=
@@ -176,9 +176,9 @@ theorem spanC_eq' {α : Type} (k : List ℕ → ℕ → α) (xs acc : List ℕ) 
       (spanC xs k acc (maskL acc)) (bitK (maskL acc) x) = _
     rw [bitK_eq, testBit_maskL, List.foldl_cons]
     by_cases h : x ∈ acc
-    · simp only [h, decide_true, if_true]
+    · simp only [h, decide_true, ite_true]
       exact ih acc
-    · simp only [h, decide_false, if_false]
+    · simp only [h, decide_false, ite_false]
       rw [mapC_eq, forceN_apply, ← ih (acc ++ acc.map (fun y => y ^^^ x)), maskL_append]
       rfl
 
@@ -214,10 +214,10 @@ theorem xorK_eq (a c v j : ℕ) : (if v.testBit j then a ^^^ c else a) = xorK a 
   unfold xorK
   rw [hb]
   by_cases h : v.testBit j
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     change a ^^^ c = a ^^^ (c * 1)
     rw [Nat.mul_one]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     change a = a ^^^ (c * 0)
     rw [Nat.mul_zero, Nat.xor_zero]
 
@@ -246,8 +246,8 @@ theorem dec_fold {V : Type*} [AddCommMonoid V] (dec : ℕ → V) (h0 : dec 0 = 0
       intro a
       rw [List.foldl_cons, ih, List.map_cons, List.sum_cons, ← add_assoc]
       by_cases h : v.testBit j
-      · rw [if_pos h, if_pos h, hx]
-      · rw [if_neg h, if_neg h, add_zero]
+      · rw [ite_eq_left h, ite_eq_left h, hx]
+      · rw [ite_eq_right h, ite_eq_right h, add_zero]
   rw [key, h0, zero_add]
 
 theorem sum_range_fin {M : Type*} [AddCommMonoid M] (f : ℕ → M) (n : ℕ) :

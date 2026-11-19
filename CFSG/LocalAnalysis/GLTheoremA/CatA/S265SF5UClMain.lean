@@ -37,21 +37,21 @@ theorem qsF5UCls_holds : QSF5UCls := by
   · have hG' : LieModel G (if r = 3 then .PSL else .POmegaPlus) (if r = 3 then 4 else r) 2 k :=
       hG
     by_cases hr : r = 3
-    · rw [if_pos hr, if_pos hr] at hG'
+    · rw [ite_eq_left hr, ite_eq_left hr] at hG'
       exact false_of_classicalModel_psl (statedClassicalModel hG' (by decide)) hβ hβ5 hJ hZ he hJc
-    · rw [if_neg hr, if_neg hr] at hG'
+    · rw [ite_eq_right hr, ite_eq_right hr] at hG'
       exact false_of_classicalModel_pomega (Or.inl rfl) (statedClassicalModel hG' (by decide)) hβ
         hβ5 hJ hZ h5 hJc
   · have hG' : LieModel G (if r = 2 then .PSL else if r = 3 then .PSU else .POmegaMinus)
         (if r = 2 then 2 else if r = 3 then 4 else r) 2 (if r = 2 then 2 * k else k) := hG
     by_cases hr2 : r = 2
-    · rw [if_pos hr2, if_pos hr2, if_pos hr2] at hG'
+    · rw [ite_eq_left hr2, ite_eq_left hr2, ite_eq_left hr2] at hG'
       exact false_of_classicalModel_psl (statedClassicalModel hG' (by decide)) hβ hβ5 hJ hZ he hJc
     by_cases hr3 : r = 3
-    · rw [if_neg hr2, if_neg hr2, if_neg hr2, if_pos hr3, if_pos hr3] at hG'
+    · rw [ite_eq_right hr2, ite_eq_right hr2, ite_eq_right hr2, ite_eq_left hr3, ite_eq_left hr3] at hG'
       exact false_of_classicalModel_psu (statedClassicalModel hG' (by decide)) hβ hβ5 hβ1 hJ hZ h5
         h25' hJc
-    · rw [if_neg hr2, if_neg hr2, if_neg hr2, if_neg hr3, if_neg hr3] at hG'
+    · rw [ite_eq_right hr2, ite_eq_right hr2, ite_eq_right hr2, ite_eq_right hr3, ite_eq_right hr3] at hG'
       exact false_of_classicalModel_pomega (Or.inr rfl) (statedClassicalModel hG' (by decide)) hβ
         hβ5 hJ hZ h5 hJc
 

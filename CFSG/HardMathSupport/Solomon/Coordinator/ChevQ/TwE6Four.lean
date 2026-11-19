@@ -75,7 +75,7 @@ theorem twE64_center (hGA : GriessAllModelsStatement) {Y : Type} [Group Y] [Fini
 theorem exists_sub_card_pow {G : Type*} [Group G] [Finite G] {p m k : ℕ} (hp : p.Prime)
     {A : Subgroup G} (hA : Nat.card A = p ^ m) (hk : k ≤ m) :
     ∃ E : Subgroup G, E ≤ A ∧ Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, hD⟩ := Sylow.exists_subgroup_card_pow_prime p
     (show p ^ k ∣ Nat.card A by rw [hA]; exact pow_dvd_pow p hk)
   refine ⟨D.map A.subtype, Subgroup.map_subtype_le D, ?_⟩

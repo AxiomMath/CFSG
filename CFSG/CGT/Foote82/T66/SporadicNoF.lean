@@ -70,8 +70,8 @@ private theorem master {Q : Type} [Group Q] (hQ : CFSG.IsQuasisimple Q) (h : MC2
   · have h4 : 4 ≤ Nat.card (Fin n) := by
       rw [Nat.card_eq_fintype_card, Fintype.card_fin]
       omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
-    haveI : Nontrivial (alternatingGroup (Fin n)) :=
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (alternatingGroup (Fin n)) :=
       alternatingGroup.nontrivial_of_three_le_card (by omega)
     obtain ⟨e⟩ := nonempty_quot_equiv hQ (alternatingGroup.center_eq_bot h4) α hα
     have hc : Nat.card (Q ⧸ Subgroup.center Q) = n.factorial / 2 := by
@@ -85,7 +85,7 @@ private theorem master {Q : Type} [Group Q] (hQ : CFSG.IsQuasisimple Q) (h : MC2
     · rw [hc] at h20160
       obtain rfl := eq_eight_of_factorial_div_two h20160
       exact ⟨e⟩
-  · haveI : Nontrivial ↥(omegaMinusTwo 2) :=
+  · have : Nontrivial ↥(omegaMinusTwo 2) :=
       nontrivial_of_card_ne_one (by rw [MC2.card_omegaMinusTwo_two]; norm_num)
     obtain ⟨e⟩ := nonempty_quot_equiv hQ (MC2.center_omegaMinusTwo le_rfl) α hα
     have hc : Nat.card (Q ⧸ Subgroup.center Q) = 25920 := by
@@ -97,7 +97,7 @@ private theorem master {Q : Type} [Group Q] (hQ : CFSG.IsQuasisimple Q) (h : MC2
       norm_num
     · rw [hc] at h20160
       exact absurd h20160 (by norm_num)
-  · haveI : Nontrivial ↥(omegaMinusTwo 3) :=
+  · have : Nontrivial ↥(omegaMinusTwo 3) :=
       nontrivial_of_card_ne_one (by rw [MC2.card_omegaMinusTwo_three]; norm_num)
     obtain ⟨e⟩ := nonempty_quot_equiv hQ (MC2.center_omegaMinusTwo (by norm_num)) α hα
     have hc : Nat.card (Q ⧸ Subgroup.center Q) = 197406720 := by

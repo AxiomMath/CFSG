@@ -69,6 +69,7 @@ public theorem reach_lt {c : ℕ} (hc : Reach mul gens c) : c < N := by
   | step _ hg ih =>
     rw [← Φ.f_g ih, ← Φ.f_g (hgens _ hg), ← Φ.map_mul]; exact Φ.lt _
 
+omit hinv in
 theorem chi_mul {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ = true) {a c : ℕ}
     (ha : a < N) (hc : c < N) : χ[mul a c]! = (χ[a]! ^^ χ[c]!) := by
   unfold chiOK at hchi
@@ -107,22 +108,25 @@ theorem chi_mul {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ 
     simp only [Bool.and_eq_true, Bool.not_eq_true'] at h
     rw [Φ.f_one h0, h.1.2]; rfl
   map_mul' x y := by
-    rw [Φ.map_mul, chi_mul Φ h0 hinv hgens hG hchi (Φ.lt x) (Φ.lt y)]
+    rw [Φ.map_mul, chi_mul Φ h0 hgens hG hchi (Φ.lt x) (Φ.lt y)]
     cases χ[Φ.f x]! <;> cases χ[Φ.f y]! <;> rfl
 
+omit hinv in
 theorem chiHom_apply {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ = true) (x : H) :
-    chiHom Φ h0 hinv hgens hG hchi x = Multiplicative.ofAdd (if χ[Φ.f x]! then 1 else 0) := rfl
+    chiHom Φ h0 hgens hG hchi x = Multiplicative.ofAdd (if χ[Φ.f x]! then 1 else 0) := rfl
 
+omit hinv in
 theorem mem_ker_chiHom {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ = true)
-    (x : H) : x ∈ (chiHom Φ h0 hinv hgens hG hchi).ker ↔ χ[Φ.f x]! = false := by
+    (x : H) : x ∈ (chiHom Φ h0 hgens hG hchi).ker ↔ χ[Φ.f x]! = false := by
   rw [MonoidHom.mem_ker, chiHom_apply]
   cases χ[Φ.f x]! <;> decide
 
+omit hinv in
 theorem index_ker_chiHom {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ = true)
-    {t : H} (ht : χ[Φ.f t]! = true) : (chiHom Φ h0 hinv hgens hG hchi).ker.index = 2 := by
+    {t : H} (ht : χ[Φ.f t]! = true) : (chiHom Φ h0 hgens hG hchi).ker.index = 2 := by
   have := Φ.finite
   rw [Subgroup.index_ker]
-  have htop : (chiHom Φ h0 hinv hgens hG hchi).range = ⊤ := by
+  have htop : (chiHom Φ h0 hgens hG hchi).range = ⊤ := by
     rw [eq_top_iff]
     intro z _
     have hz : z = 1 ∨ z = Multiplicative.ofAdd 1 := by

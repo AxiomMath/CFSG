@@ -146,10 +146,10 @@ theorem omq_exists_seven_orbit_roots {n : ℕ} (hn : 5 ≤ n) {m : ℕ} (hm3 : 3
         c2slomqmv_pm_cast_ne_zero hm3 (c2slomqmv_sgn_eq i)
       have hcd : c i = c j := by
         by_contra hne
-        rw [if_neg hne] at h1
+        rw [ite_eq_right hne] at h1
         exact hσi h1
       have hsgn : (c2slomqmv_sgn i : ZMod m) = (c2slomqmv_sgn j : ZMod m) := by
-        rw [hcd, if_pos rfl] at h1
+        rw [hcd, ite_eq_left rfl] at h1
         exact h1
       have hdiv : i.val / 2 = j.val / 2 := by
         have hv := congrArg Fin.val hcd
@@ -207,10 +207,10 @@ theorem omq_exists_seven_orbit_roots {n : ℕ} (hn : 5 ≤ n) {m : ℕ} (hm3 : 3
         c2slomqmv_pm_cast_ne_zero hm3 (c2slomqmv_sgn2_eq i)
       have hcc : c i = c j := by
         by_contra hne
-        rw [if_neg hne] at h2
+        rw [ite_eq_right hne] at h2
         exact hσ2 h2
       have hsgn2 : (c2slomqmv_sgn2 i : ZMod m) = (c2slomqmv_sgn2 j : ZMod m) := by
-        rw [hcc, if_pos rfl] at h2
+        rw [hcc, ite_eq_left rfl] at h2
         exact h2
       have h1 : (c2slomqmv_sgn i : ZMod m) = (c2slomqmv_sgn j : ZMod m) := by
         have hcongr := congrFun h z0

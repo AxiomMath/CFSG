@@ -14,7 +14,7 @@ open CFSG.Assembly
 private theorem mkr_commutatorElement_central {L : Type} [Group L] {z : L}
     (hz : z ∈ Subgroup.center L) (x y : L) :
     (x * z) * y * (x * z)⁻¹ * y⁻¹ = x * y * x⁻¹ * y⁻¹ := by
-  letI : Bracket L L := commutatorElement
+  let : Bracket L L := commutatorElement
   show ⁅x * z, y⁆ = ⁅x, y⁆
   rw [commutatorElement_mul_left_eq_conj_mul]
   have hz1 : ⁅z, y⁆ = 1 := by
@@ -26,7 +26,7 @@ private theorem mkr_commutatorElement_central {L : Type} [Group L] {z : L}
 private theorem mkr_commutatorElement_central_right {L : Type} [Group L] {z : L}
     (hz : z ∈ Subgroup.center L) (x y : L) :
     x * (y * z) * x⁻¹ * (y * z)⁻¹ = x * y * x⁻¹ * y⁻¹ := by
-  letI : Bracket L L := commutatorElement
+  let : Bracket L L := commutatorElement
   show ⁅x, y * z⁆ = ⁅x, y⁆
   rw [commutatorElement_mul_right_eq_mul_conj]
   have hz1 : ⁅x, z⁆ = 1 := by
@@ -41,17 +41,17 @@ private theorem mkr_commutatorElement_out {L : Type} [Group L] (a b : L) :
         (Quotient.out (QuotientGroup.mk a : L ⧸ Subgroup.center L) : L)⁻¹ *
         (Quotient.out (QuotientGroup.mk b : L ⧸ Subgroup.center L) : L)⁻¹ =
       a * b * a⁻¹ * b⁻¹ := by
-  letI : Bracket L L := commutatorElement
+  let : Bracket L L := commutatorElement
   show ⁅(Quotient.out (QuotientGroup.mk a : L ⧸ Subgroup.center L) : L),
       (Quotient.out (QuotientGroup.mk b : L ⧸ Subgroup.center L) : L)⁆ = ⁅a, b⁆
   have ha : (Quotient.out (QuotientGroup.mk a : L ⧸ Subgroup.center L) : L)⁻¹ *
       a ∈ Subgroup.center L := by
     refine QuotientGroup.eq.mp ?_
-    simpa using Quotient.out_eq (QuotientGroup.mk a : L ⧸ Subgroup.center L)
+    simp
   have hb : (Quotient.out (QuotientGroup.mk b : L ⧸ Subgroup.center L) : L)⁻¹ *
       b ∈ Subgroup.center L := by
     refine QuotientGroup.eq.mp ?_
-    simpa using Quotient.out_eq (QuotientGroup.mk b : L ⧸ Subgroup.center L)
+    simp
   have ha' : a = (Quotient.out (QuotientGroup.mk a : L ⧸ Subgroup.center L) : L) *
       ((Quotient.out (QuotientGroup.mk a : L ⧸ Subgroup.center L) : L)⁻¹ * a) := by group
   have hb' : b = (Quotient.out (QuotientGroup.mk b : L ⧸ Subgroup.center L) : L) *
@@ -78,12 +78,12 @@ private theorem mkr_finite_commutatorSet {L : Type} [Group L]
     fun p => ⟨(Quotient.out p.1 : L) * (Quotient.out p.2 : L) *
         (Quotient.out p.1 : L)⁻¹ * (Quotient.out p.2 : L)⁻¹,
       by
-        letI : Bracket L L := commutatorElement
+        let : Bracket L L := commutatorElement
         rw [commutatorSet_def]
         exact ⟨_, _, rfl⟩⟩
   refine Finite.of_surjective f ?_
   rintro ⟨w, hw⟩
-  letI : Bracket L L := commutatorElement
+  let : Bracket L L := commutatorElement
   rw [commutatorSet_def] at hw
   obtain ⟨a, b, hab⟩ := hw
   refine ⟨((QuotientGroup.mk a : L ⧸ Subgroup.center L),
@@ -98,9 +98,9 @@ private theorem mkr_finite_commutatorSet {L : Type} [Group L]
 
 private theorem mkr_finite_of_quotient_center {L : Type} [Group L]
     (hperf : commutator L = ⊤) [Finite (L ⧸ Subgroup.center L)] : Finite L := by
-  haveI : Finite (commutatorSet L) := mkr_finite_commutatorSet
-  haveI : Finite (commutator L) := inferInstance
-  haveI : Finite ↥(⊤ : Subgroup L) := by
+  have : Finite (commutatorSet L) := mkr_finite_commutatorSet
+  have : Finite (commutator L) := inferInstance
+  have : Finite ↥(⊤ : Subgroup L) := by
     simpa [hperf] using (inferInstance : Finite (commutator L))
   exact Finite.of_injective (Subgroup.topEquiv.symm) Subgroup.topEquiv.symm.injective
 
@@ -179,8 +179,8 @@ private theorem mkr_F4_witness {n : ℕ} {Q : LargeEvenRawCont}
     ∃ (R : Type) (_ : Group R) (_ : Finite R) (I F : Set (MulAut R)), Q R I F := by
   dsimp only [CFSG.StandardType.LargeEvenRawDatum] at h
   obtain ⟨K, _, hfin, _, hq⟩ := h
-  letI := hfin
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) :=
+  let := hfin
+  have : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) :=
     CFSG.StandardType.TCJ.tcjDatum_finite_chevH_false
       CFSG.Blueprint.Chevalley.Tag.F4 K
   exact ⟨_, inferInstance, inferInstance, _, _, hq⟩
@@ -190,8 +190,8 @@ private theorem mkr_E6_witness {n : ℕ} {Q : LargeEvenRawCont}
     ∃ (R : Type) (_ : Group R) (_ : Finite R) (I F : Set (MulAut R)), Q R I F := by
   dsimp only [CFSG.StandardType.LargeEvenRawDatum] at h
   obtain ⟨K, _, hfin, _, hq⟩ := h
-  letI := hfin
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false)) :=
+  let := hfin
+  have : Finite (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false)) :=
     CFSG.StandardType.TCJ.tcjDatum_finite_chevH_false
       CFSG.Blueprint.Chevalley.Tag.E6 K
   exact ⟨_, inferInstance, inferInstance, _, _, hq⟩
@@ -201,10 +201,10 @@ private theorem mkr_twE6_witness {n : ℕ} {Q : LargeEvenRawCont}
     ∃ (R : Type) (_ : Group R) (_ : Finite R) (I F : Set (MulAut R)), Q R I F := by
   dsimp only [CFSG.StandardType.LargeEvenRawDatum] at h
   obtain ⟨K, _, hfin, hK, hq⟩ := h
-  letI := hfin
-  haveI : CharP K 2 :=
+  let := hfin
+  have : CharP K 2 :=
     CFSG.StandardType.TCJ.tcjDatum_charP_two_of_card (by rw [hK, pow_mul])
-  haveI : Finite (LargeEvenCenterQuot
+  have : Finite (LargeEvenCenterQuot
       (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n)) :=
     CFSG.StandardType.TCJ.tcjDatum_finite_twistedH
       CFSG.Blueprint.Chevalley.TwistTag.E6 n K
@@ -224,9 +224,9 @@ private theorem mkr_rest {G : Type} [Group G] {Bs L : Subgroup G} {R : Type} [Gr
     commutator ↥L = ⊤ ∧
       (∀ b ∈ Bs, ∃ k ∈ L, ∀ l ∈ L, b * l * b⁻¹ = k * l * k⁻¹) ∧
       (∀ g ∈ Subgroup.center ↥L, Nat.Coprime 3 (orderOf g)) := by
-  haveI : Finite (↥L ⧸ Subgroup.center ↥L) :=
+  have : Finite (↥L ⧸ Subgroup.center ↥L) :=
     Finite.of_injective (θ : _ → R) θ.injective
-  haveI : Finite ↥L := mkr_finite_of_quotient_center hperf
+  have : Finite ↥L := mkr_finite_of_quotient_center hperf
   refine ⟨hperf, ?_, ?_⟩
   · intro b hb
     obtain ⟨k, hk, hkl⟩ := mkr_inner_of_marking hperf θ hinn hBsN hI hb
@@ -268,8 +268,8 @@ theorem ggR4Meet_marking_of_row (hrow : GGR4SurvivorRow)
     have hl : l = 0 := hlab.2
     subst hl
     obtain ⟨R, hRgrp, hRfin, I, F, hq⟩ := mkr_F4_witness hcomb
-    letI := hRgrp
-    letI := hRfin
+    let := hRgrp
+    let := hRfin
     obtain ⟨⟨-, -, θ, hP⟩, hrowfact⟩ := hq
     obtain ⟨-, hBsN, hI⟩ := hP
     obtain ⟨hp, hi, hc⟩ := mkr_rest hperf θ hBsN hrowfact.1 hrowfact.2 hI
@@ -282,8 +282,8 @@ theorem ggR4Meet_marking_of_row (hrow : GGR4SurvivorRow)
     have hl : l = 0 := hlab.2
     subst hl
     obtain ⟨R, hRgrp, hRfin, I, F, hq⟩ := mkr_E6_witness hcomb
-    letI := hRgrp
-    letI := hRfin
+    let := hRgrp
+    let := hRfin
     obtain ⟨⟨-, -, θ, hP⟩, hrowfact⟩ := hq
     obtain ⟨-, hBsN, hI⟩ := hP
     obtain ⟨hp, hi, hc⟩ := mkr_rest hperf θ hBsN hrowfact.1 hrowfact.2 hI
@@ -296,8 +296,8 @@ theorem ggR4Meet_marking_of_row (hrow : GGR4SurvivorRow)
     have hl : l = 0 := hlab.2
     subst hl
     obtain ⟨R, hRgrp, hRfin, I, F, hq⟩ := mkr_twE6_witness hcomb
-    letI := hRgrp
-    letI := hRfin
+    let := hRgrp
+    let := hRfin
     obtain ⟨⟨-, -, θ, hP⟩, hrowfact⟩ := hq
     obtain ⟨-, hBsN, hI⟩ := hP
     obtain ⟨hp, hi, hc⟩ := mkr_rest hperf θ hBsN hrowfact.1 hrowfact.2 hI

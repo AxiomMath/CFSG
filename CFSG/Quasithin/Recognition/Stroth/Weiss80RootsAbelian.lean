@@ -18,8 +18,8 @@ theorem fgqRootsAbelian : FGQRootsAbelian := by
   obtain ⟨S, T, hS2, hT2, -, hdegc⟩ := hP.exists_order (by norm_num) hT c
   obtain ⟨⟨x, hx⟩⟩ := hP.exists_point (by norm_num) hT c
   obtain ⟨L, hL⟩ := exists_line hP hT c
-  have hxT : Γ.degree x = T + 1 := by rw [hdegc x, if_pos hx]
-  have hLS : Γ.degree L = S + 1 := by rw [hdegc L, if_neg (by rw [hL]; decide)]
+  have hxT : Γ.degree x = T + 1 := by rw [hdegc x, ite_eq_left hx]
+  have hLS : Γ.degree L = S + 1 := by rw [hdegc L, ite_eq_right (by rw [hL]; decide)]
   have hTs : T = s ∨ T = t := by
     have := hdeg x
     rw [hxT] at this

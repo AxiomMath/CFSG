@@ -17,7 +17,7 @@ theorem layerIn_eq_of_unique {H : Type} [Group H] {E : Subgroup H} (hE : IsCompI
   have h : {M : Subgroup H | IsCompIn M ⊤} = {E} :=
     Set.ext fun M => ⟨fun hM => hall M hM, fun hM => by
       rw [Set.mem_singleton_iff] at hM
-      rw [Set.mem_setOf_eq, hM]
+      rw [Set.mem_ofPred_eq, hM]
       exact hE⟩
   unfold layerIn
   rw [h, sSup_singleton]
@@ -103,7 +103,7 @@ theorem exists_comp (h15 : FS79Lemma15Sec G) (hS : NPSetting G X u x T₀ s₀) 
   by_contra h
   have hempty : {M : Subgroup (OddQuot (npD X x)) | IsCompIn M ⊤} = ∅ := by
     ext M
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     exact fun hM => h ⟨M, hM⟩
   have h1 := hS.Abar_le_layer h15
   rw [layerIn, hempty, sSup_empty, le_bot_iff] at h1
@@ -172,7 +172,7 @@ theorem Dbar_eq (hNP : KDNP) (h15 : FS79Lemma15Sec G) (hS : NPSetting G X u x T�
         centralizer ({hS.ubar} : Set (OddQuot (npD X x)))) = 4 ∧
       (∀ y ∈ centralizer ({hS.ubar} : Set (OddQuot (npD X x))), y * y = 1) ∧
       ∃! y : ↥(npY X u x), oddProj (npD X x) ⟨y, npY_le_npD X u x y.2⟩ = hbar := by
-  haveI := hS.normal_Abar hNP h15
+  have := hS.normal_Abar hNP h15
   obtain ⟨-, ⟨eA⟩, ebar, hmem, hsq, hne, hconj⟩ := hS.layer_eq hNP h15
   obtain ⟨hbar, h1, h2, h3, h4, h5, h6, h7, h8⟩ := exists_involution_of_normal_alt5
     (oddCore_oddQuot (npD X x)) eA hS.ubar_mul_self hmem hsq hne hconj hS.fixed_bar_comm

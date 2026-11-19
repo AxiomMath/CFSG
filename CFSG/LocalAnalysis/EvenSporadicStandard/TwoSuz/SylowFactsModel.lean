@@ -24,7 +24,7 @@ theorem Yu_eq_one_of_not_lt (i : Fin gcS) (hi : ¬ i.val < 7) : Yu i = 1 := by
 
 theorem vm_Yu (i : Fin gcS) : vm (Yu i) = ofMt (coverGS.mats.getD i.val oneM) := by
   have e : 2 * i.val / 2 = i.val := by omega
-  rw [Yu, GenSys.vm_letterU, GenSys.letter, if_pos (by omega), e]
+  rw [Yu, GenSys.vm_letterU, GenSys.letter, ite_eq_left (by omega), e]
 
 theorem Lhat_eq_closure_range :
     (Lhat : Subgroup GL12) = Subgroup.closure (Set.range Yu) := by

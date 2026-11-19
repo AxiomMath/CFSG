@@ -20,6 +20,7 @@ include hf
 theorem memB_map (l : List M) (x : M) : memB (l.map f) (f x) = memB l x := by
   simp only [memB, List.any_map, Function.comp_def, hf.eq_iff]
 
+omit [DecidableEq M] [DecidableEq N] hf in
 theorem q8B_map (t a b : M) : q8B (f t) (f a) (f b) = (q8B t a b).map f := by
   simp [q8B, map_mul]
 
@@ -43,7 +44,7 @@ theorem noOddB3_map (B : ℕ) (C : List M) : noOddB3 B (C.map f) = noOddB3 B C :
 
 theorem edgelessB_map (L : List M) (t a b : M) :
     edgelessB (L.map f) (f t) (f a) (f b) = edgelessB L t a b := by
-  simp only [edgelessB, q8B_map f hf, List.all_map, List.any_map, Function.comp_def, ← map_mul,
+  simp only [edgelessB, q8B_map f, List.all_map, List.any_map, Function.comp_def, ← map_mul,
     ← map_inv, hf.eq_iff]
 
 theorem noActs3B_map (B : ℕ) (C : List M) (a b : M) :
@@ -58,7 +59,7 @@ theorem filter_sq_map (C : List M) (t : M) :
 theorem pairsV_map (B : ℕ) (LN L : List M) (e3b : Bool) (t : M) (C : List M) :
     pairsV B (LN.map f) (L.map f) e3b (f t) (C.map f) = pairsV B LN L e3b t C := by
   simp only [pairsV, filter_sq_map f hf, List.all_map, List.any_map, Function.comp_def, ← map_mul,
-    ← map_inv, ← map_pow, q8B_map f hf, memB_map f hf, edgelessB_map f hf, noActs3B_map f hf,
+    ← map_inv, ← map_pow, q8B_map f, memB_map f hf, edgelessB_map f hf, noActs3B_map f hf,
     hf.eq_iff, map_eq_one_iff f hf]
 
 theorem isCovered_map (L reps : List M) (t : M) :
@@ -97,13 +98,13 @@ open CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerp.Small.SM in
 theorem nqCheck_map (inX : N → Bool) (L reps : List M) :
     nqCheck inX (L.map f) (reps.map f) = nqCheck (fun x => inX (f x)) L reps := by
   simp only [nqCheck, nqAt, coverB_map f hf, List.all_map, Function.comp_def, centB_map f hf,
-    filter_sq_map f hf, ← map_mul, ← map_inv, q8B_map f hf, memB_map f hf, hf.eq_iff]
+    filter_sq_map f hf, ← map_mul, ← map_inv, q8B_map f, memB_map f hf, hf.eq_iff]
 
 theorem noQ8Check_map (L reps : List M) :
     Certificates.PSp43NoQ8.noQ8Check (L.map f) (reps.map f) =
       Certificates.PSp43NoQ8.noQ8Check L reps := by
   simp only [Certificates.PSp43NoQ8.noQ8Check, Certificates.PSp43NoQ8.noQ8PairsB, List.all_map,
-    Function.comp_def, centB_map f hf, filter_sq_map f hf, ← map_mul, ← map_inv, q8B_map f hf,
+    Function.comp_def, centB_map f hf, filter_sq_map f hf, ← map_mul, ← map_inv, q8B_map f,
     memB_map f hf, hf.eq_iff]
 
 theorem centInvCheck_map (LN L reps : List M) :
@@ -111,7 +112,7 @@ theorem centInvCheck_map (LN L reps : List M) :
       Certificates.TL4MF163U3Inv.centInvCheck LN L reps := by
   simp only [Certificates.TL4MF163U3Inv.centInvCheck, Certificates.TL4MF163U3Inv.centInvAt,
     List.all_map, Function.comp_def, centB_map f hf, filter_sq_map f hf, ← map_mul, ← map_inv,
-    ← map_pow, q8B_map f hf, memB_map f hf, hf.eq_iff, map_eq_one_iff f hf]
+    ← map_pow, q8B_map f, memB_map f hf, hf.eq_iff, map_eq_one_iff f hf]
 
 theorem q8InvCheck_map (LP LA reps : List M) :
     Certificates.TL4LieZ2Inv.q8InvCheck (LP.map f) (LA.map f) (reps.map f) =
@@ -135,7 +136,7 @@ theorem p43_checkG_map (L0 LA : List M) (tA tB t36 t540 a1 b1 a2 b2 x1 x2 : M) :
   have h4 : [f tA, f tB, f t36, f t540] = [tA, tB, t36, t540].map f := rfl
   simp only [Certificates.P43Gen.checkG, Certificates.P43Gen.localChkG,
     Certificates.P43Gen.pairChkG, Certificates.P43Gen.pairOKG, Certificates.P43Gen.sigmaChkG,
-    q8B_map f hf, h2, h4, coverB_map f hf, List.all_map, Function.comp_def, centB_map f hf,
+    q8B_map f, h2, h4, coverB_map f hf, List.all_map, Function.comp_def, centB_map f hf,
     noOddB_map f hf, filter_sq_map f hf, ← map_mul, ← map_inv, ← map_pow, hs, hc,
     ← List.map_append, memB_map f hf, List.length_map, hf.eq_iff, map_eq_one_iff f hf,
     ordB_map f hf]

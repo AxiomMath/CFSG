@@ -296,7 +296,7 @@ theorem conj_mem_classGroup (hV : τ ∈ Subgroup.normalizer (V : Set G))
       refine le_classGroup_of_mem (conjSubgroup_mem_classOf hV hQ ha hγ hU) ?_
       exact mem_conjSubgroup.mpr
         (by rw [show τ⁻¹ * (τ * x * τ⁻¹) * τ = x by group]; exact hxU)
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have := Subgroup.mul_mem _ hx hy
     rwa [show τ * (x * y) * τ⁻¹ = τ * x * τ⁻¹ * (τ * y * τ⁻¹) by group]
@@ -309,8 +309,8 @@ end Conj
 private theorem exists_ringEquiv_of_natCard_eq {K K' : Type} [Field K] [Field K'] [Finite K]
     [Finite K'] (h : Nat.card K = Nat.card K') : Nonempty (K ≃+* K') := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype K' := Fintype.ofFinite K'
   refine ⟨FiniteField.ringEquivOfCardEq ?_⟩
   rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
   exact h
@@ -336,8 +336,8 @@ theorem Hyp79.commute_of_not_class [Finite G] {M V Q : Subgroup G}
 
 theorem Hyp79.eq_classGroup_sup_centralizer [Finite G]
     {M V Q : Subgroup G} (H : Hyp79 M V Q) {n : ℕ} {U₀ : Subgroup G}
-    (D₀ : MulData V U₀ Q (GaloisField 2 n)) (hU₀g : ∃ g : G, U₀ = conjSubgroup g V)
-    (hU₀Q : U₀ ≤ Q) (hU₀V : U₀ ≠ V) :
+    (D₀ : MulData V U₀ Q (GaloisField 2 n)) (_hU₀g : ∃ g : G, U₀ = conjSubgroup g V)
+    (_hU₀Q : U₀ ≤ Q) (_hU₀V : U₀ ≠ V) :
     Q = classGroup V Q D₀.γ ⊔ (Q ⊓ Subgroup.centralizer (classGroup V Q D₀.γ : Set G)) := by
   refine le_antisymm (H.gen.le.trans (iSup₂_le fun g hg => ?_))
     (sup_le (classGroup_le H.V_le_Q) inf_le_left)

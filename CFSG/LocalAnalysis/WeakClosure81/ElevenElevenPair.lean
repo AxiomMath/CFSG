@@ -15,12 +15,12 @@ open CFSG.QuasithinUnique.Lin2 (IsHallTwoPrimeOf ActsRegularlyOn nonIdentity)
 variable {G : Type} [Group G] [Finite G]
 
 theorem eleven11_exists_conj_point {M V A B : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hMV : M ≤ Subgroup.normalizer (V : Set G)) (h21 : Nat.card (autI hV M) = 21)
+    (_hMV : M ≤ Subgroup.normalizer (V : Set G)) (h21 : Nat.card (autI hV M) = 21)
     (h8 : Nat.card V = 8) (hA : A ≤ V) (hB : B ≤ V) (hA2 : Nat.card A = 2)
     (hB2 : Nat.card B = 2) : ∃ m ∈ M, conjSubgroup A m = B := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Finite (MulAut (IntMod V hV)) :=
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Finite (MulAut (IntMod V hV)) :=
     Finite.of_injective (fun φ : MulAut (IntMod V hV) => (φ : IntMod V hV → IntMod V hV))
       DFunLike.coe_injective
   obtain ⟨φ, hφ⟩ := exists_prime_orderOf_dvd_card' (G := autI hV M) 7 (by rw [h21]; norm_num)
@@ -71,12 +71,12 @@ theorem eleven11_exists_conj_point {M V A B : Subgroup G} (hV : IsElemAbelian 2 
     intro v hv
     have hcard1 : Nat.card (MulAction.fixedPoints H (IntMod V hV)) = 1 := by
       rw [← hfpdef]; exact hfp1
-    haveI : Subsingleton (MulAction.fixedPoints H (IntMod V hV)) :=
+    have : Subsingleton (MulAction.fixedPoints H (IntMod V hV)) :=
       (Nat.card_eq_one_iff_unique.1 hcard1).1
     have h1 : (1 : IntMod V hV) ∈ MulAction.fixedPoints H (IntMod V hV) := by
       rw [MulAction.mem_fixedPoints]
       intro h
-      simp [Subgroup.smul_def, MulAut.smul_def]
+      simp
     have := Subsingleton.elim (⟨v, hv⟩ : MulAction.fixedPoints H (IntMod V hV)) ⟨1, h1⟩
     exact congrArg Subtype.val this
   have horbit : ∀ a : IntMod V hV, a ≠ 1 →
@@ -89,7 +89,7 @@ theorem eleven11_exists_conj_point {M V A B : Subgroup G} (hV : IsElemAbelian 2 
       apply hnotfix
       rw [MulAction.mem_fixedPoints]
       intro h
-      haveI : Subsingleton (MulAction.orbit H a) := (Nat.card_eq_one_iff_unique.1 h1).1
+      have : Subsingleton (MulAction.orbit H a) := (Nat.card_eq_one_iff_unique.1 h1).1
       have h2 := Subsingleton.elim
         (⟨h • a, MulAction.mem_orbit a h⟩ : MulAction.orbit H a)
         (⟨a, MulAction.mem_orbit_self a⟩ : MulAction.orbit H a)
@@ -226,6 +226,7 @@ theorem eleven11_exists_data_point {M V Q U L X B : Subgroup G}
   rw [hXn', ← hnn, ← hXn]
   exact h3
 
+omit [Finite G] in
 private theorem eleven11_inf_centralizer_congr {M V X X' : Subgroup G}
     (hV : IsElemAbelian 2 V) (hMV : M ≤ Subgroup.normalizer (V : Set G))
     (hXM : X ≤ M) (hX'M : X' ≤ M) (heq : autI hV X = autI hV X') :

@@ -35,7 +35,7 @@ theorem s7_pair_of_hom {G : Type} [Group G] {a : G} (ρ : Sym 8 →* G)
   · simpa only [map_mul] using hP _ (hct 0 1 5 6 (by decide))
   · simpa only [map_mul] using hP _ (hct 1 2 3 4 (by decide))
   · simpa only [map_mul] using hP _ (hct 1 2 5 6 (by decide))
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     rw [← map_mul, orderOf_injective ρ hρ]
     exact orderOf_eq_prime (by decide) (by decide)
   · intro hh
@@ -52,14 +52,14 @@ theorem s7_pair_conj {G : Type} [Group G] {a a' x' d' t' : G} (h : IsConj a a')
   obtain ⟨c, hc⟩ := isConj_iff.mp h
   have ha : a = c⁻¹ * a' * c := by rw [← hc]; group
   have hdmem : c⁻¹ * d' * c ∈ orb2A a a ∩ orb2A a (c⁻¹ * x' * c) := by
-    simp only [Set.mem_inter_iff, orb2A, Set.mem_setOf_eq]
+    simp only [Set.mem_inter_iff, orb2A, Set.mem_ofPred_eq]
     refine ⟨⟨starHom_isConj_conj hd c, ?_⟩, starHom_isConj_conj hd c, ?_⟩
     · rw [show a * (c⁻¹ * d' * c) = c⁻¹ * (a' * d') * c by rw [ha]; group]
       exact starHom_isConj_conj had c
     · rw [show (c⁻¹ * x' * c) * (c⁻¹ * d' * c) = c⁻¹ * (x' * d') * c by group]
       exact starHom_isConj_conj hxd c
   have hxmem : c⁻¹ * x' * c ∈ orb3A a a := by
-    simp only [orb3A, Set.mem_setOf_eq]
+    simp only [orb3A, Set.mem_ofPred_eq]
     refine ⟨starHom_isConj_conj hx c, ?_, ?_⟩
     · rw [show a * (c⁻¹ * x' * c) = c⁻¹ * (a' * x') * c by rw [ha]; group]
       rw [show orderOf (c⁻¹ * (a' * x') * c) = orderOf (a' * x') by
@@ -67,7 +67,7 @@ theorem s7_pair_conj {G : Type} [Group G] {a a' x' d' t' : G} (h : IsConj a a')
       exact ho
     · exact ⟨c⁻¹ * d' * c, hdmem⟩
   have htmem : c⁻¹ * t' * c ∈ orb2A a a ∩ orb2A a (c⁻¹ * x' * c) := by
-    simp only [Set.mem_inter_iff, orb2A, Set.mem_setOf_eq]
+    simp only [Set.mem_inter_iff, orb2A, Set.mem_ofPred_eq]
     refine ⟨⟨starHom_isConj_conj ht c, ?_⟩, starHom_isConj_conj ht c, ?_⟩
     · rw [show a * (c⁻¹ * t' * c) = c⁻¹ * (a' * t') * c by rw [ha]; group]
       exact starHom_isConj_conj hat c

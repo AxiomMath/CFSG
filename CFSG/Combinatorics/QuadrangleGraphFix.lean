@@ -18,6 +18,7 @@ namespace IsQuadrangle
 
 variable [Fintype α] {adj : α → α → Prop} {f : α → α}
 
+omit [Fintype α] in
 theorem fixesLinesThrough_of_not_adj (h : IsQuadrangle adj)
     (hf : ∀ x y, adj (f x) (f y) ↔ adj x y) {a q : α} (haq : ¬ adj a q) (hfa : f a = a)
     (hfq : f q = q) (ha : FixesLinesThrough adj f a) : FixesLinesThrough adj f q := by
@@ -73,6 +74,7 @@ theorem apply_eq_of_mem_perp2 (h : IsQuadrangle adj)
   by_contra hne
   exact (h.not_adj_of_not_adj haq hfwa hfwq hwa hwq hne) hfww
 
+omit [Fintype α] in
 theorem fixesLinesThrough_of_not_adj_of_apply_eq (h : IsQuadrangle adj)
     (hf : ∀ x y, adj (f x) (f y) ↔ adj x y) {w x : α} (hfw : f w = w)
     (hw : FixesLinesThrough adj f w) (hwx : ¬ adj w x) (hfx : f x = x) :
@@ -154,6 +156,7 @@ private theorem maps_perp2_of_fixesLinesThrough (h : IsQuadrangle adj)
         (h.symm hadj) (h.symm (mem_perp2.1 hz).2)
     exact mem_perp2.2 ⟨h.symm hfa_z, hfz_b⟩
 
+omit [Fintype α] in
 private theorem apply_eq_of_proj_of_adj (h : IsQuadrangle adj)
     (hf : ∀ x y, adj (f x) (f y) ↔ adj x y) {x q w n : α} (hfx : f x = x)
     (hfw : f w = w) (hfq : f q = q) (hxq : ¬ adj x q) (hqw : q ≠ w)
@@ -188,13 +191,13 @@ private theorem card_fixed_filter_le_of_disjoint [DecidableEq α] (h : IsQuadran
   have hproj_mem : ∀ p ∈ L, proj p ∈ N := by
     intro p hp
     dsimp only [proj]
-    rw [dif_pos hp]
+    rw [dite_eq_left hp]
     simpa only [N] using
       (existsUnique_adj_of_disjoint_perp2 h huv hadj' hdisj hp).choose_spec.1.1
   have hproj_adj : ∀ p ∈ L, adj p (proj p) := by
     intro p hp
     dsimp only [proj]
-    rw [dif_pos hp]
+    rw [dite_eq_left hp]
     simpa only [N] using
       (existsUnique_adj_of_disjoint_perp2 h huv hadj' hdisj hp).choose_spec.1.2
   have hproj_fix : ∀ p ∈ L, f p = p → f (proj p) = proj p := by
@@ -259,6 +262,7 @@ private theorem not_adj_of_mem_perp2_of_ne (h : IsQuadrangle adj) {a q w₁ w₂
       hy₂q' (h.symm hadj)
   exact false_of_mem_two_perp2 h haq hw₁ hw₂ hwne hy₂w₁ hy₂ hy₂q
 
+omit [Fintype α] in
 private theorem apply_eq_of_collinear_noncollinear (h : IsQuadrangle adj)
     (hf : ∀ x y, adj (f x) (f y) ↔ adj x y) {y y₁ y₂ : α} (hy₁fix : f y₁ = y₁)
     (hy₁full : FixesLinesThrough adj f y₁) (hy₂fix : f y₂ = y₂)
@@ -1137,7 +1141,7 @@ private theorem exists_fixed_point_of_odd_iterate {β : Type*} [Fintype β] [Dec
           rw [Function.iterate_succ_apply]
       _ = y := congrFun hg y
   have hg_bij : Function.Bijective g := by
-    haveI : Finite β := Finite.of_fintype β
+    have : Finite β := Finite.of_fintype β
     exact Function.Injective.bijective_of_finite hg_inj
   let σ : Equiv.Perm β := Equiv.ofBijective g hg_bij
   have hσ : σ ^ (2 ^ e) = 1 := by
@@ -1148,11 +1152,12 @@ private theorem exists_fixed_point_of_odd_iterate {β : Type*} [Fintype β] [Dec
       exact Equiv.ofBijective_apply g hg_bij y'
     rw [hcoe]
     exact congrFun hg y
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   obtain ⟨b, hb⟩ := Equiv.Perm.exists_fixed_point_of_prime (p := 2) (n := e) hodd hσ
   refine ⟨b, ?_⟩
   rw [← Equiv.ofBijective_apply g hg_bij b, hb]
 
+omit [Fintype α] in
 private theorem exists_fixed_point_on_erased_line {B L : Finset α} {a w : α}
     (hBmem : ∀ y, y ∈ B ↔ y ∈ L ∧ y ≠ a ∧ y ≠ w) (hLmap : ∀ y ∈ L, f y ∈ L)
     (hfa : f a = a) (hwfix : f w = w) (hf_inj : Function.Injective f)

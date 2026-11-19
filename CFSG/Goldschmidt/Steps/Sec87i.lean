@@ -84,7 +84,7 @@ theorem card_eq_exponent_sq (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set D := ⁅(S : Subgroup G), (S : Subgroup G)⁆ with hD
   have hDS : D ≤ S := commutator_self_le _
-  have hDp : IsPGroup 2 D := S.isPGroup'.to_le hDS
+  have hDp : IsPGroup 2 D := S.isPGroup.to_le hDS
   have hDab : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hab.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   obtain ⟨a, ha, ha1⟩ := exists_mem_ne_one hset

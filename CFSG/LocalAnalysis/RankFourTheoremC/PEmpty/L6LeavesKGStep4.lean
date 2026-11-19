@@ -34,8 +34,8 @@ theorem false_of_alt_ge_seven (c : KQCfg A p Kb Sb Bb Mb z) (hs : KQStrong A p M
     (h2401 : KFact2401Three) {n : ℕ} (e : ↥Kb ≃* alternatingGroup (Fin n)) (hn7 : 7 ≤ n)
     (hpn : p ≤ n) (hn : n < 2 * p) : False := by
   have hp := c.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp5 := c.five_le
   set X : Subgroup A := Kb ⊔ Sb with hX
   have hKX : Kb ≤ X := le_sup_left

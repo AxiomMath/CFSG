@@ -138,7 +138,7 @@ theorem cpWord_eq {gens : Array (Array Nat)} {Gk : List Nat}
 theorem extract_mid (pre D rest : List Nat) :
     (pre ++ (D ++ rest)).toArray.extract pre.length (pre.length + D.length) = D.toArray := by
   apply Array.ext'
-  simp [List.take_append_of_le_length]
+  simp
 
 end CFSG.KC.Co1BPair
 

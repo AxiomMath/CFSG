@@ -76,7 +76,7 @@ theorem exists_fixModel_psp {S : Type} [Group S] [Finite S] {r f : ℕ}
       rfl
     rw [h1, hβeq]
     group
-  haveI hnormC := normal_subgroupOf_self (fixSubgroup a)
+  have hnormC := normal_subgroupOf_self (fixSubgroup a)
   obtain ⟨e⟩ := exists_equiv_of_conj ψ hψ (J := fixSubgroup a) le_rfl (isSolvable_quotient_self _)
     hsimpC hnabC hdvd hI
   exact ⟨f / 3, hfp, by omega, hmodel.1, ↥k, inferInstance, inferInstance, hk, ⟨e.trans eC⟩⟩

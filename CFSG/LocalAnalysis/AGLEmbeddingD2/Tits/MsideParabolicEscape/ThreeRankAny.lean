@@ -25,7 +25,7 @@ theorem coe_sl2Three :
   change (!![1, -1; 0, 1] * !![1, 0; 1, 1] * !![1, -2; 0, 1] : Matrix (Fin 2) (Fin 2) K) = _
   simp only [Matrix.mul_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp; ring
 
 theorem sl2Three_pow_three : (sl2Three : Matrix.SpecialLinearGroup (Fin 2) K) ^ 3 = 1 := by
   apply Subtype.ext

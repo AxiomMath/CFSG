@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {hQ : Q.Nondegenerate}
 
+omit [Finite G] in
 theorem t5_comp_cplx_comm {φ : ↥L →* omegaGroup hQ} {s : G} {x : simGroup Q}
     (hact : CoverAct L φ s x) {a : ↥L} (ha : s * (a : G) = (a : G) * s) (v : V) :
     (((φ a : omegaGroup hQ) : OGroup Q) : V ≃ₗ[ZMod 3] V) ((x : V ≃ₗ[ZMod 3] V) v) =

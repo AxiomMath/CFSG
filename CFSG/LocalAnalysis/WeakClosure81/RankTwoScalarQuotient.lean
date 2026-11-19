@@ -57,8 +57,7 @@ theorem gu2Stated_scalar_det_mem {p f : ℕ} {K : Type} [Field K]
   rw [Lemma41aU3.mem_GU2Stated_iff h]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mul_apply, Fin.sum_univ_two,
-      hd, Matrix.diagonal_apply, ← GeneralLinearGroup.val_det_apply]
+    simp [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mul_apply, hd, Matrix.diagonal_apply, -GeneralLinearGroup.val_det_apply]
 
 theorem gu2Stated_sq_mem_slPart_sup_center {p f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData p f K) (A : GU2Stated (p ^ f) K) :

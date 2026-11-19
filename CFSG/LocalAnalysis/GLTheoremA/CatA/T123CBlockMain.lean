@@ -87,8 +87,8 @@ theorem blockAt_of_omegaPlus_model {p m f : ℕ} {T : Type} [Group T]
   refine ⟨?_, fieldBlockAt_of_omegaPlus_model hM hm hp hp2 hdvd⟩
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := id hM
   obtain ⟨hchar, hnd, -⟩ := coordinate_model_witness_plus hM K hK e
-  haveI : CharP K 2 := ringChar.of_eq hchar
-  haveI : Nonempty (Fin (2 * m)) := ⟨⟨0, by omega⟩⟩
+  have : CharP K 2 := ringChar.of_eq hchar
+  have : Nonempty (Fin (2 * m)) := ⟨⟨0, by omega⟩⟩
   exact innerBlockAt_of_mulEquiv (((coordinatePlusWitnessEquiv K e).trans
     (CFSG.RankThree.PartOne.KCOrthogonalAut.coordBridge _ (by omega))).trans
       (CFSG.RankThree.PartOne.KFR4.orthDerivedEquivProj hnd).symm)
@@ -102,8 +102,8 @@ theorem blockAt_of_omegaMinus_model {p m f : ℕ} {T : Type} [Group T]
   have hm : 4 ≤ m := hM.1.2.2
   have hn1 : 1 ≤ m := by omega
   obtain ⟨hchar, hnd, -⟩ := coordinate_model_witness_minus hM K hK b c hirr e
-  haveI : CharP K 2 := ringChar.of_eq hchar
-  haveI : Nonempty (Fin (2 * m)) := ⟨⟨0, by omega⟩⟩
+  have : CharP K 2 := ringChar.of_eq hchar
+  have : Nonempty (Fin (2 * m)) := ⟨⟨0, by omega⟩⟩
   exact innerBlockAt_of_mulEquiv (((coordinateMinusWitnessEquiv K hn1 b c e).trans
     (CFSG.RankThree.PartOne.KCOrthogonalAut.coordBridge _ (by omega))).trans
       (CFSG.RankThree.PartOne.KFR4.orthDerivedEquivProj hnd).symm)

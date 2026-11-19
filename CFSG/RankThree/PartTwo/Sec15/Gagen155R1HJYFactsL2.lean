@@ -66,7 +66,7 @@ theorem five_dvd_card_normalizer_sylow_two {L : Type} [Group L] [Finite L] {n : 
 theorem res1HJYFacts_projSL {n : ℕ} (hn0 : 0 < n) (h4 : 4 ∣ n) :
     Res1HJYFacts ↥(CFSG.PGLModel.projSL 2 (GaloisField 2 n)) := by
   have hn : 2 ≤ n := by omega
-  haveI : Finite ↥(CFSG.PGLModel.projSL 2 (GaloisField 2 n)) :=
+  have : Finite ↥(CFSG.PGLModel.projSL 2 (GaloisField 2 n)) :=
     Finite.of_equiv (CFSG.Theory.Comparator.PSL2Model n)
       (CFSG.RankThree.PartTwo.Sec4.projSLEquivPSL (GaloisField 2 n)).toEquiv.symm
   refine res1HJYFacts_of_borel (Y := ↥(CFSG.PGLModel.projSL 2 (GaloisField 2 n))) ?_ ?_
@@ -76,7 +76,7 @@ theorem res1HJYFacts_projSL {n : ℕ} (hn0 : 0 < n) (h4 : 4 ∣ n) :
           (W : Subgroup ↥(CFSG.PGLModel.projSL 2 (GaloisField 2 n))) ⊤ := by
       intro W
       rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-      exact ⟨le_top, W.isPGroup', Sylow.not_dvd_index W⟩
+      exact ⟨le_top, W.isPGroup, Sylow.not_dvd_index W⟩
     intro U V hUV
     exact CFSG.CGT.PushingUpLit.C2L.StrongTI.bender_sylow_inf_eq_bot
       (CFSG.RankThree.PartTwo.Sec18.fusionIsBenderGroup_of_projSL_two hn (MulEquiv.refl _))

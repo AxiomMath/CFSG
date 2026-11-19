@@ -231,14 +231,14 @@ theorem commutator_le_centerOf_E {U : Subgroup G} (hU : X.IsSKMax U)
     (hV : ⁅X.E U 0, X.Yst U 0⁆ ≠ ⊥) :
     ⁅X.E U 0, X.Yst U 0⁆ ≤ centerOf (X.E U 0) ∧
       IsElemAbelian 2 ⁅X.E U 0, X.Yst U 0⁆ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' := X.not_skP_le_Q_zero_or_of_isSKMax hU hP
   have hn : 1 ≤ X.n 0 := (X.hyp.valency (X.vert 0)).1
   let L : Subgroup G := X.Lst U 0
   let P : Subgroup G := X.skP U
   let E : Subgroup G := X.E U 0
   let Y : Subgroup G := X.Yst U 0
-  haveI : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L)
+  have : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L)
     ((oTwoPrime_le (X.normGi U 0)).trans (X.normGi_le_Gi U 0))
   have hPL : P ≤ L := by
     rw [show L = X.Lst U 0 from rfl, X.Lst_eq_Yst_sup_skP hU.1]
@@ -299,7 +299,7 @@ private theorem cj_conjJoin_le_of_le {H Z : Subgroup G} {g : G}
     g * h * g⁻¹ * (g * z * g⁻¹) * (g * h * g⁻¹)⁻¹
   group
 
-private theorem cj_closure_t'_K_skP {U : Subgroup G} (hU : X.IsSK U) {t t' : G}
+private theorem cj_closure_t'_K_skP {U : Subgroup G} (_hU : X.IsSK U) {t t' : G}
     (ht : t ∈ X.normGi U 1 ⊓ Subgroup.normalizer (X.K : Set G))
     (ht02 : t • X.vert 0 = X.vert 2) (htt' : ⁅t, t'⁆ ∈ X.skP U) :
     CFSG.Quasithin.F53Push.cj t

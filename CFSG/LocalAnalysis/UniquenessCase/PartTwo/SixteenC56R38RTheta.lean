@@ -14,7 +14,7 @@ namespace OmegaModel
 variable {W : Type} [CommGroup W] (S : OmegaModel W)
 
 private theorem finite_mulAut_theta (S : OmegaModel W) : Finite (MulAut W) := by
-  haveI : Finite W := Finite.of_injective (S.e : W → Multiplicative (OmI → S.K)) S.e.injective
+  have : Finite W := Finite.of_injective (S.e : W → Multiplicative (OmI → S.K)) S.e.injective
   exact Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
 
 theorem card_ringEquiv_four (hK : Nat.card S.K = 4) : Nat.card (S.K ≃+* S.K) = 2 :=
@@ -61,9 +61,9 @@ theorem card_omegaNorm_dvd_of_card_four (hK : Nat.card S.K = 4) :
 
 theorem le_linSub_of_isPGroup_three (hK : Nat.card S.K = 4) {P : Subgroup (MulAut W)}
     (hP : IsPGroup 3 P) (hPN : P ≤ omegaNorm S) : P ≤ linSub S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥P := by
-    haveI := finite_mulAut_theta S
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥P := by
+    have := finite_mulAut_theta S
     exact Finite.of_injective (Subtype.val) Subtype.coe_injective
   have hrel2 : (P ⊓ linSub S).relIndex P ∣ 2 := relIndex_inf_linSub_dvd_two S hK hPN
   obtain ⟨k, hk⟩ := hP.exists_card_eq
@@ -103,7 +103,7 @@ private theorem le_of_isPGroup_of_relIndex_coprime {G : Type*} [Group G] {p : �
 private theorem card_dvd_pow_of_isPGroup {G : Type*} [Group G] [Finite G] {p j N₀ : ℕ}
     (hp : p.Prime) {P N : Subgroup G} (hP : IsPGroup p P) (hPN : P ≤ N)
     (hN : Nat.card N ∣ N₀) (hj : ¬ p ^ (j + 1) ∣ N₀) : Nat.card P ∣ p ^ j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hdvd : p ^ k ∣ N₀ := by
     rw [← hk]
@@ -117,13 +117,13 @@ private theorem card_dvd_pow_of_isPGroup {G : Type*} [Group G] [Finite G] {p j N
 
 theorem card_dvd_of_isPGroup_five (hK : Nat.card S.K = 4) {P : Subgroup (MulAut W)}
     (hP : IsPGroup 5 P) (hPN : P ≤ omegaNorm S) : Nat.card P ∣ 5 ^ 2 := by
-  haveI := finite_mulAut_theta S
+  have := finite_mulAut_theta S
   exact card_dvd_pow_of_isPGroup (by norm_num) hP hPN (card_omegaNorm_dvd_of_card_four S hK)
     (by norm_num)
 
 theorem relIndex_omega_omegaNorm_dvd_twelve (hK : Nat.card S.K = 4)
     (hΩ : Nat.card S.omega = 3600) : S.omega.relIndex (omegaNorm S) ∣ 12 := by
-  haveI := finite_mulAut_theta S
+  have := finite_mulAut_theta S
   have hΩN : S.omega ≤ omegaNorm S := Subgroup.le_normalizer
   have hmul := Subgroup.relIndex_mul_card (H := S.omega) (K := omegaNorm S)
   rw [inf_of_le_left hΩN, hΩ] at hmul
@@ -136,7 +136,7 @@ theorem relIndex_omega_omegaNorm_dvd_twelve (hK : Nat.card S.K = 4)
 
 theorem relIndex_inf_omega_dvd_twelve (hK : Nat.card S.K = 4) (hΩ : Nat.card S.omega = 3600)
     {X : Subgroup (MulAut W)} (hX : X ≤ omegaNorm S) : (X ⊓ S.omega).relIndex X ∣ 12 := by
-  haveI := finite_mulAut_theta S
+  have := finite_mulAut_theta S
   have hn : (S.omega.subgroupOf (omegaNorm S)).Normal := Subgroup.normal_in_normalizer
   let f : ↥X →* ↥(omegaNorm S) ⧸ S.omega.subgroupOf (omegaNorm S) :=
     (QuotientGroup.mk' (S.omega.subgroupOf (omegaNorm S))).comp (Subgroup.inclusion hX)
@@ -165,7 +165,7 @@ theorem le_omega_of_isPGroup_five (hK : Nat.card S.K = 4) (hΩ : Nat.card S.omeg
 theorem le_omega_of_isPGroup_three_of_le_isoSub (hK : Nat.card S.K = 4)
     (hΩ : Nat.card S.omega = 3600) {P : Subgroup (MulAut W)} (hP : IsPGroup 3 P)
     (hPO : P ≤ isoSub S) : P ≤ S.omega := by
-  haveI := finite_mulAut_theta S
+  have := finite_mulAut_theta S
   have hΩO : S.omega ≤ isoSub S := omega_le_isoSub S
   have hmul := Subgroup.relIndex_mul_card (H := S.omega) (K := isoSub S)
   rw [inf_of_le_left hΩO, hΩ, card_isoSub_of_card_four S hK] at hmul
@@ -173,9 +173,8 @@ theorem le_omega_of_isPGroup_three_of_le_isoSub (hK : Nat.card S.K = 4)
     have h : S.omega.relIndex (isoSub S) * 3600 = 2 * 3600 := by rw [hmul]
     exact Nat.eq_of_mul_eq_mul_right (by norm_num) h
   have hn : (S.omega.subgroupOf (isoSub S)).Normal := by
-    haveI : (S.omega.subgroupOf (isoSub S)).FiniteIndex := by
+    have : (S.omega.subgroupOf (isoSub S)).FiniteIndex := by
       refine ⟨?_⟩
-      change (S.omega.subgroupOf (isoSub S)).index ≠ 0
       change S.omega.relIndex (isoSub S) ≠ 0
       rw [hrel]
       norm_num

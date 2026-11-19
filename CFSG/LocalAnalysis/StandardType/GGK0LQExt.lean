@@ -27,7 +27,7 @@ private theorem lk0xlqroots_lqExtRoot_zero' (T : GGKacType) (j : Fin (absTag T).
     ((lqExtRoot (absTag T) T 0 j : ℤ) : ℚ) =
       -(((k0DiagOf T).marks.getD (j.val + 1) 0 : ℕ) : ℚ) := by
   unfold lqExtRoot
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   push_cast
   ring
 
@@ -35,7 +35,7 @@ private theorem lk0xlqroots_lqExtRoot_zero (T : GGKacType) (x : ℕ) (hx : x ≠
     (j : Fin (absTag T).rank) :
     ((lqExtRoot (absTag T) T x j : ℤ) : ℚ) = if j.val + 1 = x then 1 else 0 := by
   unfold lqExtRoot
-  rw [if_neg hx]
+  rw [ite_eq_right hx]
   split_ifs with h
   · push_cast; ring
   · push_cast; ring
@@ -67,12 +67,12 @@ private theorem lk0xlqroots_sum_isolate
       · rw [lk0xlqroots_lqExtRoot_zero T b.1 hb0]
         have hne : j.val + 1 ≠ b.1 := by
           rw [hj]; intro h; exact hb (Subtype.ext h.symm)
-        rw [if_neg hne, mul_zero]
+        rw [ite_eq_right hne, mul_zero]
     · intro hnot; exact absurd (Finset.mem_univ y) hnot
-  rw [h1, lk0xlqroots_lqExtRoot_zero T y.1 hy, if_pos hj, mul_one]
+  rw [h1, lk0xlqroots_lqExtRoot_zero T y.1 hy, ite_eq_left hj, mul_one]
 
 theorem lq_extRoot_independent (τ : Tag) (T : GGKacType) (hτ : absTag T = τ) (c : List ℕ)
-    (hnd : c.Nodup) (hc : ∀ x ∈ c, x < (k0DiagOf T).marks.length)
+    (_hnd : c.Nodup) (hc : ∀ x ∈ c, x < (k0DiagOf T).marks.length)
     (hproper : ∃ i < (k0DiagOf T).marks.length, i ∉ c) :
     LinearIndependent ℚ
       (fun x : {x // x ∈ c} => (fun j : Fin τ.rank => ((lqExtRoot τ T x.1 j : ℤ) : ℚ))) := by
@@ -101,7 +101,7 @@ theorem lq_extRoot_independent (τ : Tag) (T : GGKacType) (hτ : absTag T = τ) 
           rw [lk0xlqroots_lqExtRoot_zero T b.1 hb0]
           have hne : j.val + 1 ≠ b.1 := by
             rw [hj]; intro h; exact hi_notin (h ▸ b.2)
-          rw [if_neg hne, mul_zero]
+          rw [ite_eq_right hne, mul_zero]
         · intro hnot; exact absurd (Finset.mem_univ _) hnot
       rw [h1]
       have hv : ((lqExtRoot (absTag T) T (⟨0, h0c⟩ : {x // x ∈ c}).1 j : ℤ) : ℚ)

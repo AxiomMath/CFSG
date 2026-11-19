@@ -136,7 +136,7 @@ private theorem eq_top_of_sup_rootCenter_eq_top
         (t : T)⁻¹ = ⟨y⁻¹, hYQ (Y.inv_mem hy)⟩ := by
       apply Subtype.ext
       rw [Subgroup.coe_mul, Subgroup.coe_inv, htz]
-      simp only [Subgroup.coe_inclusion, Subgroup.coe_mk]
+      simp only [Subgroup.coe_inclusion]
       group
     have hmem : (Subgroup.inclusion (rootCenter_le (Q : Subgroup K)) ⟨z, hz⟩ : T) *
         (t : T)⁻¹ ∈ Y.subgroupOf T := by
@@ -146,7 +146,7 @@ private theorem eq_top_of_sup_rootCenter_eq_top
   have hZcomm : IsMulCommutative Z :=
     ⟨⟨fun a b => Subtype.ext
       ((mem_rootCenter_iff.mp a.2).2 b (rootCenter_le (Q : Subgroup K) b.2)).symm⟩⟩
-  haveI : IsMulCommutative (T ⧸ Y.subgroupOf T) :=
+  have : IsMulCommutative (T ⧸ Y.subgroupOf T) :=
     ⟨⟨fun a b => by
       obtain ⟨za, rfl⟩ := hφsurj a
       obtain ⟨zb, rfl⟩ := hφsurj b
@@ -205,7 +205,7 @@ private theorem map_normalizer_eq_of_central_odd_ker
   have hfwd : ∀ m ∈ Subgroup.normalizer (T1 : Set K1), ∀ y ∈ T1 ⊔ ψ.ker,
       m * y * m⁻¹ ∈ T1 ⊔ ψ.ker := by
     intro m hm y hy
-    haveI : (ψ.ker).Normal := hker_normal
+    have : (ψ.ker).Normal := hker_normal
     obtain ⟨s, hs, z, hz, rfl⟩ :=
       (Subgroup.mem_sup_of_normal_right (s := T1) (t := ψ.ker)).mp hy
     have h1 : m * s * m⁻¹ ∈ T1 ⊔ ψ.ker :=
@@ -228,7 +228,7 @@ private theorem map_normalizer_eq_of_central_odd_ker
         obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.mp hx
         have h1 : n * t * n⁻¹ ∈ T1 ⊔ ψ.ker :=
           (Subgroup.mem_normalizer_iff.mp hn t).mp (Subgroup.mem_sup_left ht)
-        haveI : (ψ.ker).Normal := hker_normal
+        have : (ψ.ker).Normal := hker_normal
         obtain ⟨s, hs, z, hz, hsz⟩ :=
           (Subgroup.mem_sup_of_normal_right (s := T1) (t := ψ.ker)).mp h1
         obtain ⟨a, ha⟩ := hT1 ⟨t, ht⟩
@@ -290,7 +290,7 @@ private theorem trichotomy_of_cover
     (hYnorm : ∀ d ∈ Subgroup.normalizer (T1 : Set K1), ∀ y ∈ Y, d * y * d⁻¹ ∈ Y) :
     Y = ⊥ ∨ Y = T1 ∨ ∀ t ∈ T1, t ∈ Y ↔ t ^ 2 = 1 := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj : ∀ a ∈ T1, ∀ b ∈ T1, ψ a = ψ b → a = b := by
     intro a ha b hb hab
     have hmem : a⁻¹ * b ∈ ψ.ker := by
@@ -377,6 +377,7 @@ private theorem trichotomy_of_cover
         have h3 : y = t := hinj y (hYT hy) t ht hyt
         rwa [h3] at hy
 
+omit [Finite G] in
 private theorem normalizer_subgroupOf_eq {L T : Subgroup G} (hTL : T ≤ L) :
     Subgroup.normalizer ((T.subgroupOf L : Subgroup ↥L) : Set ↥L) =
       (L ⊓ Subgroup.normalizer (T : Set G)).subgroupOf L := by
@@ -433,7 +434,7 @@ theorem vertex_trichotomy_sz {L T X : Subgroup G} {a : ℕ}
     rw [Subgroup.mem_subgroupOf]
     exact hXT (hQX (Subgroup.mem_map_of_mem L.subtype hq))
   have hT1' : IsSylowTwoOf (T1.map π) ⊤ := by
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let P1 : Sylow 2 K1 := hT1.2.1.toSylow (by
       simpa [show (T1.subgroupOf ⊤).index = T1.index from Subgroup.relIndex_top_right _]
         using hT1.2.2)
@@ -442,7 +443,7 @@ theorem vertex_trichotomy_sz {L T X : Subgroup G} {a : ℕ}
       Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective _) P1
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hcoe]
-      exact P2.isPGroup'
+      exact P2.isPGroup
     · rw [show ((T1.map π).subgroupOf ⊤).index = (T1.map π).index from
         Subgroup.relIndex_top_right _]
       rw [← hcoe]
@@ -600,7 +601,7 @@ theorem vertex_trichotomy_psu {L T X : Subgroup G} {n : ℕ}
     rw [Subgroup.mem_subgroupOf]
     exact hXT (hQX (Subgroup.mem_map_of_mem L.subtype hq))
   have hT1' : IsSylowTwoOf (T1.map π) ⊤ := by
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let P1 : Sylow 2 K1 := hT1.2.1.toSylow (by
       simpa [show (T1.subgroupOf ⊤).index = T1.index from Subgroup.relIndex_top_right _]
         using hT1.2.2)
@@ -609,7 +610,7 @@ theorem vertex_trichotomy_psu {L T X : Subgroup G} {n : ℕ}
       Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective _) P1
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hcoe]
-      exact P2.isPGroup'
+      exact P2.isPGroup
     · rw [show ((T1.map π).subgroupOf ⊤).index = (T1.map π).index from
         Subgroup.relIndex_top_right _]
       rw [← hcoe]
@@ -802,7 +803,7 @@ theorem vertex_trichotomy_su {L T X : Subgroup G} {n : ℕ}
     rw [Subgroup.mem_subgroupOf]
     exact hXT (hQX (Subgroup.mem_map_of_mem L.subtype hq))
   have hT1' : IsSylowTwoOf (T1.map π) ⊤ := by
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let P1 : Sylow 2 K1 := hT1.2.1.toSylow (by
       simpa [show (T1.subgroupOf ⊤).index = T1.index from Subgroup.relIndex_top_right _]
         using hT1.2.2)
@@ -811,7 +812,7 @@ theorem vertex_trichotomy_su {L T X : Subgroup G} {n : ℕ}
       Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective _) P1
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hcoe]
-      exact P2.isPGroup'
+      exact P2.isPGroup
     · rw [show ((T1.map π).subgroupOf ⊤).index = (T1.map π).index from
         Subgroup.relIndex_top_right _]
       rw [← hcoe]
@@ -954,8 +955,8 @@ theorem vertex_trichotomy
     X = pCoreOf 2 L ∨ X = T ∨ ∀ t ∈ T, t ∈ X ↔ t ^ 2 ∈ pCoreOf 2 L := by
   rcases hL with ⟨a, ha, ⟨e⟩⟩ | ⟨n, hn, F, hFld, hFin, hF, hSUorPSU⟩
   · exact vertex_trichotomy_sz ha e hT hQX hXT hXN
-  · letI : Field F := hFld
-    letI : Finite F := hFin
+  · let : Field F := hFld
+    let : Finite F := hFin
     rcases hSUorPSU with hSUe | hPSUe
     · obtain ⟨e⟩ := hSUe
       exact vertex_trichotomy_su hn hF e hT hQX hXT hXN
@@ -989,7 +990,7 @@ private theorem relIndex_pCoreOf_sylow
     {K : Type} [Group K] [Finite K]
     (ψ : oTwoQuot ↥L →* K) (hψ : Function.Surjective ψ)
     (hker3 : ∀ z ∈ ψ.ker, z ^ 3 = 1)
-    {n i e : ℕ} (hB : BenderType K n i e) (hi : 2 ≤ i)
+    {n i e : ℕ} (hB : BenderType K n i e) (_hi : 2 ≤ i)
     (hT : IsSylowTwoOf T L)
     (hT1' : IsSylowTwoOf
       ((T.subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L))) ⊤) :
@@ -1000,7 +1001,7 @@ private theorem relIndex_pCoreOf_sylow
   let T1 : Subgroup K1 := T.subgroupOf L
   let TK : Subgroup K := (T1.map π).map ψ
   have hTK : IsSylowTwoOf TK ⊤ := by
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let P1 : Sylow 2 (oTwoQuot K1) := hT1'.2.1.toSylow (by
       have hidx : ((T1.map π).subgroupOf ⊤).index = (T1.map π).index := by
         rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
@@ -1010,7 +1011,7 @@ private theorem relIndex_pCoreOf_sylow
     have hcoe : (P2 : Subgroup K) = TK := Sylow.coe_mapSurjective hψ P1
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hcoe]
-      exact P2.isPGroup'
+      exact P2.isPGroup
     · rw [show (TK.subgroupOf ⊤).index = TK.index from Subgroup.relIndex_top_right _]
       rw [← hcoe]
       exact P2.not_dvd_index
@@ -1055,7 +1056,7 @@ private theorem isSylowTwoOf_map_pCoreQuot {L T : Subgroup G} (hT : IsSylowTwoOf
       have e : ((T1.subgroupOf ⊤).index) = T1.index := by
         rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
       rwa [e] at h2
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P1 : Sylow 2 K1 := hT1.2.1.toSylow (by
     have hidx : ((T1.subgroupOf ⊤).index) = T1.index := by
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
@@ -1066,7 +1067,7 @@ private theorem isSylowTwoOf_map_pCoreQuot {L T : Subgroup G} (hT : IsSylowTwoOf
     Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective _) P1
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hcoe]
-    exact P2.isPGroup'
+    exact P2.isPGroup
   · rw [show ((T1.map π).subgroupOf ⊤).index = (T1.map π).index from
       Subgroup.relIndex_top_right _]
     rw [← hcoe]
@@ -1141,7 +1142,7 @@ private theorem exists_X0_id
   let π : K1 →* oTwoQuot K1 := QuotientGroup.mk' (pCore 2 K1)
   let T1 : Subgroup K1 := T.subgroupOf L
   let Tbar : Subgroup (oTwoQuot K1) := T1.map π
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let QK : Sylow 2 (oTwoQuot K1) := hT1'.2.1.toSylow (by
     have hidx : ((Tbar.subgroupOf ⊤).index) = Tbar.index := by
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
@@ -1353,7 +1354,7 @@ private theorem exists_X0_of_quotient
   let T1 : Subgroup K1 := T.subgroupOf L
   let TK : Subgroup K := (T1.map π).map ψ
   have hTK : IsSylowTwoOf TK ⊤ := by
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let P1 : Sylow 2 (oTwoQuot K1) := hT1'.2.1.toSylow (by
       have hidx : ((T1.map π).subgroupOf ⊤).index = (T1.map π).index := by
         rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
@@ -1363,11 +1364,11 @@ private theorem exists_X0_of_quotient
     have hcoe : (P2 : Subgroup K) = TK := Sylow.coe_mapSurjective hψ P1
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hcoe]
-      exact P2.isPGroup'
+      exact P2.isPGroup
     · rw [show (TK.subgroupOf ⊤).index = TK.index from Subgroup.relIndex_top_right _]
       rw [← hcoe]
       exact P2.not_dvd_index
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let QK : Sylow 2 K := hTK.2.1.toSylow (by
     have hidx : ((TK.subgroupOf ⊤).index) = TK.index := by
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]

@@ -43,7 +43,7 @@ theorem Ky_le_Xz (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) : t.Ky ≤ t.Xz := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKnormX : Subgroup.centralizer ({t.y} : Set G) ≤
       Subgroup.normalizer (t.Xz : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer t.Xz_le_centralizer).mp t.normal_Xz
@@ -73,8 +73,8 @@ theorem Ky_inf_Oz_le (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
     t.Ky ⊓ t.Oz ≤ t.d.N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hOnormal : (CFSG.pPrimeCore 3 ↥t.Xz).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hOnormal : (CFSG.pPrimeCore 3 ↥t.Xz).Normal := CFSG.pPrimeCore_normal
   have hKyX : t.Ky ≤ t.Xz := t.Ky_le_Xz hK32 hGA hSp
   have hKyNormOz : t.Ky ≤ Subgroup.normalizer (t.Oz : Set G) :=
     hKyX.trans
@@ -156,7 +156,7 @@ theorem isSylowOf_Dz_Xz (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 t.Dz t.Xz := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := Subgroup.centralizer ({t.y} : Set G)
   let T : Subgroup G := t.P ⊓ K
   have hKnormX : K ≤ Subgroup.normalizer (t.Xz : Set G) :=
@@ -220,7 +220,7 @@ theorem centralizer_y_le_iff (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
   · intro hH
     exact t.Xz_le_centralizer.trans hH
   · intro hX
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let K : Subgroup G := Subgroup.centralizer ({t.y} : Set G)
     have hD : CFSG.ABGLocalTools.IsSylowOf 3 t.Dz t.Xz :=
       t.isSylowOf_Dz_Xz hK32 hGA hSp hK332 hOut hp hN hZ

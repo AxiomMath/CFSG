@@ -450,15 +450,15 @@ theorem extendsToHom_cone_bc2 (hd : OddFrameCompatible hFn hr Ψ₀ θ)
             (bcLastIdx r (Nat.one_le_of_lt hr))) (oddFrameMap hFn hr Ψ₀ θ) :=
   extendsToHom_cone_pairRoots (D := Unitary.rootDatum hFn (2 * r + 1))
     (i := bcPrevIdx r hr) (j := bcLastIdx r (Nat.one_le_of_lt hr))
-    (n := fun k => levelWeyl (unitaryInvolution_involutive hFn) ⟨1, one_mem_traceZero⟩ k)
-    (hn := fun k _ _ _ _ hx => levelWeyl_conj_mem' (m := 2 * r + 1)
-      (unitaryInvolution_involutive hFn) k hx)
-    (ñ := fun k => Ψ₀ (levelWeyl (unitaryInvolution_involutive hFn) ⟨1, one_mem_traceZero⟩
-      ((finCastOdd r).symm k)))
+    (n := fun _k => levelWeyl (unitaryInvolution_involutive hFn) ⟨1, one_mem_traceZero⟩ _k)
+    (hn := fun _k _ _ _ _ hx => levelWeyl_conj_mem' (m := 2 * r + 1)
+      (unitaryInvolution_involutive hFn) _k hx)
+    (ñ := fun _k => Ψ₀ (levelWeyl (unitaryInvolution_involutive hFn) ⟨1, one_mem_traceZero⟩
+      ((finCastOdd r).symm _k)))
     (φ := oddFrameMap hFn hr Ψ₀ θ)
-    (hñ := fun k hk γ hγ x y hy => oddFrameMap_conj_levelWeyl hd hk hγ x y hy)
+    (hñ := fun _k hk _γ hγ x y hy => oddFrameMap_conj_levelWeyl hd hk hγ x y hy)
     (hpos := hpos)
-    (hrank := fun k _ => extendsToHom_rankOne_oddFrameMap hFn hr Ψ₀ θ k)
+    (hrank := fun _k _ => extendsToHom_rankOne_oddFrameMap hFn hr Ψ₀ θ _k)
 
 theorem extendsToHom_cone_of_pos (hd : OddFrameCompatible hFn hr Ψ₀ θ)
     (hpos : ExtendsToHom (Unitary.rootDatum hFn (2 * r + 1)).rootGroup

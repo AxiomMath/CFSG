@@ -39,7 +39,7 @@ theorem exists_noncentral_isConj_centre_B :
   set Q : Subgroup NativeSporadic.B :=
     Subgroup.closure (Set.range x ∪ Set.range y ∪ {z}) with hQ
   set H : Subgroup NativeSporadic.B := heisSub x y z with hH
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz3 : orderOf z = 3 := orderOf_eq_prime hcfg.zp hcfg.z1
   have hconjz : IsConj z (phiB (t3 1)) := by
     rcases m4_bThree_classification_B z hz3 with h | h
@@ -54,8 +54,8 @@ theorem exists_noncentral_isConj_centre_B :
   have hHQ : H ≤ Q := by
     rw [hH, hQ]
     exact heisSub_le_closure x y z
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [hHcard]; norm_num)
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [hHcard]; norm_num)
+  have : Fintype H := Fintype.ofFinite H
   have hHfcard : Fintype.card H = 3 ^ 6 := by
     rw [← Nat.card_eq_fintype_card]
     exact hHcard

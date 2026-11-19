@@ -36,11 +36,11 @@ theorem s16h_sl24_univ_universal (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulA
   classical
   have hperf : Group.IsPerfect ↥L := by
     obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hrow.2
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     obtain ⟨π, hπ⟩ := hreal
     have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-    haveI : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
+    have : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
       CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
     exact Group.IsPerfect.ofSurjective (f := π) hπ.1
   have hUc : commSub (commSub ⊤ L) L = commSub ⊤ L :=
@@ -57,8 +57,8 @@ theorem s16h_sl24_univ_universal (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulA
       ((αE γ m : ↥(commSub ⊤ L)) : W) = (s16h_sl24_univModel L hU).act γ (m : W) := by
     intro γ m
     show (((γ : MulAut ↥(commSub ⊤ L)) m : ↥(commSub ⊤ L)) : W) = _
-    simp only [s16h_sl24_univModel]
-    rw [dif_pos m.2]
+    simp only
+    rw [dite_eq_left m.2]
   have hkfix : ∀ (γ : ↥G) (m : ↥(commSub ⊤ L)), (m : W) ∈ commSub ⊤ L ⊓ fixV L →
       αE γ m = m := by
     intro γ m hm

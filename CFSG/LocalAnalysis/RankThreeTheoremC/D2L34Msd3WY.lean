@@ -14,7 +14,7 @@ theorem comm_of_pow_three_of_card_six {L : Type*} [Group L] [Finite L] (h6 : Nat
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S⟩ : Nonempty (Sylow 3 L) := inferInstance
   have hS3 : Nat.card S = 3 := by
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have h := Subgroup.card_mul_index (S : Subgroup L)
     have hidx := S.not_dvd_index
     rw [hk, h6] at h

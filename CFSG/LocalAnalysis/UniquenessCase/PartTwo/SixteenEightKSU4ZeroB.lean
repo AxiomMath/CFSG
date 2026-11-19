@@ -51,9 +51,9 @@ theorem s16k_mem_statedSU_of_det_normalizer (hK : Nat.card K = 4)
     {g : GL (Fin 4) K}
     (hg : g ∈ Subgroup.normalizer (StatedSU 4 2 K : Set (GL (Fin 4) K)))
     (hdet : (g : Matrix (Fin 4) (Fin 4) K).det = 1) : g ∈ StatedSU 4 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard2 : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hcard2
+  have : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hcard2
   let σ : K ≃+* K := unitaryInvolution K 2 1
   have hσ : IsUnitaryInvolution σ := isUnitaryInvolution_unitaryInvolution hcard2
   have hσapply : ∀ x : K, σ x = x ^ 2 := fun x => by
@@ -99,11 +99,11 @@ private theorem s16k_herm_single {K : Type} [Field K] {σ : K ≃+* K} (i j : Fi
       simp [Pi.single_eq_of_ne hk]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun k _ => ?_
     by_cases hki : k = i
     · subst hki
-      simp [Pi.single_apply, h]
+      simp [h]
     · simp [Pi.single_eq_of_ne hki]
 
 private theorem s16k_conj_fix {K : Type} [Field K] {A : GL (Fin 4) K}
@@ -147,9 +147,9 @@ theorem s16k_exists_torus_pair [Fact (Nat.Prime 2)] [CharP K 2] (hK : Nat.card K
       (∀ b ∈ B₁, (b : Matrix (Fin 4) (Fin 4) K) *ᵥ w₁ = w₁) ∧
       (∀ b ∈ B₂, (b : Matrix (Fin 4) (Fin 4) K) *ᵥ w₂ = w₂) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard2 : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hcard2
+  have : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hcard2
   let σ : K ≃+* K := unitaryInvolution K 2 1
   have hσ : IsUnitaryInvolution σ := isUnitaryInvolution_unitaryInvolution hcard2
   have hσapply : ∀ x : K, σ x = x ^ 2 := fun x => by
@@ -204,7 +204,7 @@ theorem s16k_exists_torus_pair [Fact (Nat.Prime 2)] [CharP K 2] (hK : Nat.card K
     have hd : (((MulAut.conj hconj) x : GL (Fin 4) K) :
         Matrix (Fin 4) (Fin 4) K).IsDiag := by
       convert hdiag xsub xsub.2 using 2
-      simp [xsub, hconj, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [xsub, hconj, Subgroup.coe_mul]
     refine mem_D₀_of_diag ζ hd ?_ ?_
     · change ((MulAut.conj hconj) x : GL (Fin 4) K) ^ 3 = 1
       rw [← map_pow, hF.2 x hx.1, map_one]

@@ -518,7 +518,7 @@ theorem listEq_eq : ∀ {l m : List ℕ}, listEq l m = true → l = m
     rw [h.1, listEq_eq h.2]
 
 theorem genEq_eq {g h : Native.Gen} (H : genEq g h = true) : g = h := by
-  cases g <;> cases h <;> first | rfl | exact absurd H Bool.false_ne_true | skip
+  cases g <;> cases h <;> try first | rfl | exact absurd H Bool.false_ne_true
   · rename_i q q'
     obtain ⟨s, a, d⟩ := q
     obtain ⟨s', a', d'⟩ := q'

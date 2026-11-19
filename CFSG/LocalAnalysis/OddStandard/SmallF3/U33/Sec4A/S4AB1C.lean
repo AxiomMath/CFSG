@@ -13,14 +13,16 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem pt_elem_of_le {E D : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E) (hDE : D ≤ E) :
     CFSG.Open.IsElemAbelian 2 D := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => hE.2 x (hDE hx)⟩
   have hab : (a : G) * b = b * a :=
     congrArg Subtype.val (mul_comm' (⟨(a : G), hDE a.2⟩ : E) ⟨(b : G), hDE b.2⟩)
   exact Subtype.ext hab
 
+omit [Finite G] in
 theorem pt_conj_x₁ (hw : WreathRel x₁ x₂ lam) (a b : ℕ) :
     (x₁ ^ a * x₂ ^ b * lam) * x₁ * (x₁ ^ a * x₂ ^ b * lam)⁻¹ = x₂ := by
   have hc : Commute x₁ x₂ := hw.comm
@@ -30,6 +32,7 @@ theorem pt_conj_x₁ (hw : WreathRel x₁ x₂ lam) (a b : ℕ) :
     _ = x₁ ^ a * x₂ * (x₁ ^ a)⁻¹ := by group
     _ = x₂ := by rw [(hc.pow_left a).eq, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem pt_sq_x₂_inv_x₁ (hw : WreathRel x₁ x₂ lam) : (x₂ * x₁⁻¹) ^ 2 = (x₁ * x₂) ^ 2 := by
   have hc12 : Commute x₁ x₂ := hw.comm
   have hc : Commute x₂ x₁⁻¹ := hc12.symm.inv_right
@@ -47,7 +50,7 @@ theorem pt_m2 (h : Ctx0 t L S x₁ x₂ lam rho) :
   by_cases hET : E ≤ wreathGrp x₁ x₂ lam
   · have := card_le_four_of_elemAbelian_wreathGrp h.wreath hET hEe
     omega
-  · obtain ⟨a, haE, haT⟩ := SetLike.not_le_iff_exists.mp hET
+  · obtain ⟨a, haE, haT⟩ := IsConcreteLE.not_le_iff_exists.mp hET
     have hD : CFSG.Open.IsElemAbelian 2 (E ⊓ wreathGrp x₁ x₂ lam) :=
       pt_elem_of_le hEe inf_le_left
     have hD4 : Nat.card ↥(E ⊓ wreathGrp x₁ x₂ lam) ≤ 4 :=
@@ -79,7 +82,7 @@ theorem pt_m2 (h : Ctx0 t L S x₁ x₂ lam rho) :
 
 theorem pt_rank (h : Ctx0 t L S x₁ x₂ lam rho) :
     RankLE (twoCore t ⊔ wreathGrp x₁ x₂ lam) 4 := by
-  haveI := h.hyp.isCyclic
+  have := h.hyp.isCyclic
   have hcomm12 : ∀ u ∈ zpowers x₁, ∀ v ∈ zpowers x₂, u * v = v * u := by
     intro u hu v hv
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hu

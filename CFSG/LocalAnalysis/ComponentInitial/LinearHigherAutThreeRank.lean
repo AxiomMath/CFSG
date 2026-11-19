@@ -64,7 +64,7 @@ theorem mem_of_commutator_mem_of_oResidual_eq_top {G : Type*} [Group G] {N : Sub
     have h := hN b⁻¹ a⁻¹
     convert h using 1
     group
-  haveI : Finite ↥(H.map π) := Finite.of_surjective _ (π.subgroupMap_surjective H)
+  have : Finite ↥(H.map π) := Finite.of_surjective _ (π.subgroupMap_surjective H)
   have hcommA : ∀ a b : ↥(H.map π), a * b = b * a := fun a b =>
     Subtype.ext (hcomm (a : G ⧸ N) (b : G ⧸ N))
   have hresA : CFSG.GH74.GLS.oResidual p ↥(H.map π) = ⊤ := by
@@ -88,9 +88,9 @@ theorem mem_linearAutGroup_of_pow_eq_one [Finite K] {n : ℕ} (hn : 3 ≤ n) {p 
     {H : Subgroup (MulAut (projectiveSL n K))} (hres : CFSG.GH74.GLS.oResidual p ↥H = ⊤)
     {x : MulAut (projectiveSL n K)} (hx : x ∈ H) {k : ℕ} (hxk : x ^ (p ^ k) = 1) :
     x ∈ linearAutGroup n K := by
-  haveI : Finite (MulAut (projectiveSL n K)) :=
+  have : Finite (MulAut (projectiveSL n K)) :=
     CFSG.LocalAnalysis.ComponentInitial.ProjectivePlane.finite_mulAut_projectiveSL n
-  haveI : (linearAutGroup n K).Normal := linearAutGroup_normal_of_three_le hn
+  have : (linearAutGroup n K).Normal := linearAutGroup_normal_of_three_le hn
   refine mem_of_commutator_mem_of_oResidual_eq_top (N := linearAutGroup n K) hp ?_ hres hx hxk
   intro a b
   exact CFSG.LocalAnalysis.ComponentInitial.OuterDerived.commutator_mem_linearAutGroup hn a b

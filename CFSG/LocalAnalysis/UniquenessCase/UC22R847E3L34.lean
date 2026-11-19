@@ -68,7 +68,7 @@ theorem R847E3.two_le_pRank_centE_of_l34 (hG3 : Gls3StronglyThreeEmbeddedPlus)
   obtain ⟨hnorm, hmul, hsol, -⟩ :=
     uc22ine229_l34_decomp hG3 hRee k hp3 hY hXY hq hq5 hXc hq1 hH hF
   have hYM : Y ≤ k.M := hY.1.le
-  haveI hYb : (barImage k.M Y).Normal := PartTwo.s13_barImage_normal
+  have hYb : (barImage k.M Y).Normal := PartTwo.s13_barImage_normal
     ((Subgroup.normal_subgroupOf_iff_le_normalizer hYM).2 hnorm)
   let f : ↥(normalizer (X : Set G) ⊓ k.M) →* Bar2 k.M ⧸ barImage k.M Y :=
     (QuotientGroup.mk' (barImage k.M Y)).comp
@@ -85,9 +85,9 @@ theorem R847E3.two_le_pRank_centE_of_l34 (hG3 : Gls3StronglyThreeEmbeddedPlus)
     change QuotientGroup.mk' (barImage k.M Y) (uc22p21cPi k.M ⟨h, hh.2⟩) =
       QuotientGroup.mk' (barImage k.M Y) (uc22p21cPi k.M m)
     rw [hm', map_mul, map_mul, hyb, mul_one]
-  haveI : Group.IsSolvable ↥(normalizer (X : Set G) ⊓ k.M) := hsol
+  have : Group.IsSolvable ↥(normalizer (X : Set G) ⊓ k.M) := hsol
   have hlayer : CFSG.layer (Bar2 k.M) ≤ barImage k.M Y :=
-    CFSG.OddStandard.SmallF3.Omega.sec128_layer_le _ (solvable_of_surjective hf)
+    CFSG.OddStandard.SmallF3.Omega.sec128_layer_le _ (Group.isSolvable_of_surjective hf)
   have hle : B₁ ≤ barPreimage k.M (centE k.M) := by
     intro b hb
     refine uc22p21c_mem_barPreimage.2 ⟨hB₁M hb, Subgroup.mem_centralizer_iff.2 fun l hl => ?_⟩

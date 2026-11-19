@@ -134,7 +134,7 @@ theorem ker_le_of_card_nine [Finite X] [Finite Y] (π : X →* Y) (hker : π.ker
       simpa using congrArg Subtype.val (mul_comm (⟨a, ha⟩ : (P : Subgroup B)) ⟨b, hb⟩)
     let P' : Subgroup X := (P : Subgroup B).map B.subtype
     have hP'3 : IsPGroup 3 P' :=
-      P.isPGroup'.of_equiv ((P : Subgroup B).equivMapOfInjective B.subtype B.subtype_injective)
+      P.isPGroup.of_equiv ((P : Subgroup B).equivMapOfInjective B.subtype B.subtype_injective)
     obtain ⟨R, hPR⟩ := hP'3.exists_le_sylow
     obtain ⟨z, hzK, hzc, hz3⟩ := exists_central_order_three π hker hk3
     have hzR : z ∈ R := mem_sylow_three_of_central R hzc hz3

@@ -30,6 +30,7 @@ private lemma fk_sign_pattern (w : Fin 3 → ZMod 3) (hw : ∀ i, w i = 1 ∨ w 
   revert w
   decide
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fk_associated_separatingLeft (hR : R.Nondegenerate) :
     (QuadraticMap.associated (R := ZMod 3) R).SeparatingLeft := by
   intro x hx
@@ -43,6 +44,7 @@ private lemma fk_associated_separatingLeft (hR : R.Nondegenerate) :
   rw [hR.radical_eq_bot] at hrad
   simpa using hrad
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fk_norm_ne_zero (b : Module.Basis (Fin 3) (ZMod 3) U)
     (horth : (QuadraticMap.associated (R := ZMod 3) R).IsOrthoᵢ b) (hR : R.Nondegenerate)
     (i : Fin 3) : R (b i) ≠ 0 := by
@@ -51,6 +53,7 @@ private lemma fk_norm_ne_zero (b : Module.Basis (Fin 3) (ZMod 3) U)
     QuadraticMap.associated_eq_self_apply (ZMod 3) R (b i)
   rwa [hself] at h
 
+omit [FiniteDimensional (ZMod 3) U] in
 private theorem fk_equal_norm_basis (b : Module.Basis (Fin 3) (ZMod 3) U)
     (hdim : Module.finrank (ZMod 3) U = 3)
     (horth : ∀ i j, i ≠ j → QuadraticMap.polar R (b i) (b j) = 0)
@@ -85,9 +88,9 @@ private theorem fk_equal_norm_basis (b : Module.Basis (Fin 3) (ZMod 3) U)
     have h01 : QuadraticMap.polar R (b' 0) (b' 1) = 0 := by
       rw [hb'0, hb'1, sub_eq_add_neg]
       simp only [QuadraticMap.polar_add_left, QuadraticMap.polar_add_right,
-        QuadraticMap.polar_neg_left, QuadraticMap.polar_neg_right,
+        QuadraticMap.polar_neg_right,
         QuadraticMap.polar_comm R (b q) (b p), hpq0, QuadraticMap.polar_self,
-        ← ha_def, hq, neg_zero, add_zero, zero_add, add_neg_cancel]
+        ← ha_def, hq, add_zero, zero_add, add_neg_cancel]
     have h02 : QuadraticMap.polar R (b' 0) (b' 2) = 0 := by
       rw [hb'0, hb'2]
       simp only [QuadraticMap.polar_add_left, hpr0, hqr0, add_zero]

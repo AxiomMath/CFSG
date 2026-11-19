@@ -29,7 +29,7 @@ private theorem card_lt_of_no_elemAbelian {G : Type} [Group G] {p k : ℕ} (hp :
 private theorem card_le_sq_of_no_cube {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hno : ∀ E : Subgroup G, (∀ x ∈ E, x ^ p = 1) → Nat.card E = p ^ 3 → False)
     (F : Subgroup G) (hF : CFSG.Open.IsElemAbelian p F) : Nat.card F ≤ p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hlt := card_lt_of_no_elemAbelian hp (k := 3) (fun E hE hc => hno E hE.2 hc) F hF
   obtain ⟨j, hj⟩ := hF.isPGroup.exists_card_eq
   rw [hj] at hlt ⊢
@@ -57,7 +57,7 @@ theorem sdLieCross_G2 : SDLieCrossAt .G2 := by
     ((QuotientGroup.quotientMulEquivOfEq
       (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .G2) (K := F))).trans
       QuotientGroup.quotientBot)
-  haveI : Finite (adjointGroup .G2 F) := Finite.of_equiv K e'.toEquiv
+  have : Finite (adjointGroup .G2 F) := Finite.of_equiv K e'.toEquiv
   refine SylowDichotomyAt.of_mulEquiv hp e' (SylowDichotomyAt.of_card_elemAbelian_le hp ?_)
   intro E hE
   exact card_le_sq_of_no_cube hp (fun E' hE' hc =>
@@ -70,8 +70,8 @@ theorem sdLieCross_twistedG2 : SDLieCrossAt .twistedG2 := by
   subst hℓ
   obtain ⟨-, a, hfa, X, _, _, hXcard, ⟨e2⟩⟩ := hrt
   have ha : 1 ≤ a := by omega
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype X := Fintype.ofFinite X
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hchar : CharP X CFSG.LieType.Ree.ReeTag.G2.prime :=
     charP_of_card_eq_prime_pow (p := 3) (f := f) (by rw [← Nat.card_eq_fintype_card, hXcard])
   obtain ⟨E⟩ := hiso a X hfa hXcard ⟨e2⟩
@@ -111,8 +111,8 @@ private theorem certificate43_of_decide :
 
 theorem sdLieCross_twistedB2 : SDLieCrossAt .twistedB2 := by
   intro K _ _ _ _ _ ℓ f _ hmodel p hp _ hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := certificate43_of_decide
+  have : Fact p.Prime := ⟨hp⟩
+  have := certificate43_of_decide
   have hS : SuzukiModel K ℓ f := by
     rcases hmodel with ⟨ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, -, hS⟩
     · exact absurd ht (by decide)
@@ -127,7 +127,7 @@ theorem sdLieCross_twistedB2 : SDLieCrossAt .twistedB2 := by
   have hsyl := CFSG.ProperTwoGeneratedCore.LocalCriterionDenominator.suzuki_model_oddSylow_cyclic
     a ha hF e' p hpℓ
   refine SylowDichotomyAt.of_sylow_comm fun S => ?_
-  haveI := hsyl S
+  have := hsyl S
   infer_instance
 
 end Suzuki

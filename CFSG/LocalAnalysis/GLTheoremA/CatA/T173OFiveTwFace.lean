@@ -28,7 +28,7 @@ private theorem false_of_le_levi_sup_diag_D4 {F : Type} [Field F] [Finite F] {n 
     (hcent : A ⊓ Subgroup.centralizer
       (stdLayerD (twistedE6RootGroup F σ) d : Set (Γ₂ F)) = Subgroup.zpowers d) :
     False := by
-  haveI : Finite (Γ₂ F) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (Γ₂ F) := CFSG.LieType.Chevalley.finite_modGL
   obtain ⟨z, hz1, hzC, hzE, X, hXG, hXz, hXp, hXL⟩ :=
     exists_central_witness_D4 hF σ hσ h3
   have hzA : z ∈ A :=
@@ -44,7 +44,7 @@ private theorem false_of_le_levi_sup_diag_D4 {F : Type} [Field F] [Finite F] {n 
     exact ⟨hzA, hzK⟩
   have hd3 : d ^ 3 = 1 := hAel.2 d hdA
   have hz3 : z ^ 3 = 1 := hAel.2 z hzA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hoz : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have heq : Subgroup.zpowers z = Subgroup.zpowers d := by
     refine Subgroup.eq_of_le_of_card_ge ((Subgroup.zpowers_le).2 hzd) ?_
@@ -89,7 +89,7 @@ theorem subset_twE6MaxA5_of_stdD_of_faces
     {d : Γ₂ F} (hdA : d ∈ A)
     (hKL : stdLayerD (twistedE6RootGroup F σ) d ≤
       graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom J)
-    (hcomp : IsComponentOf (stdLayerD (twistedE6RootGroup F σ) d)
+    (_hcomp : IsComponentOf (stdLayerD (twistedE6RootGroup F σ) d)
       (twistedE6RootGroup F σ ⊓ Subgroup.centralizer ({d} : Set (Γ₂ F))))
     (hcent : A ⊓ Subgroup.centralizer
       (stdLayerD (twistedE6RootGroup F σ) d : Set (Γ₂ F)) = Subgroup.zpowers d) :

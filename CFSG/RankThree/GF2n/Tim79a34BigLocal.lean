@@ -118,6 +118,7 @@ theorem MinCex.conjSubgroup_eq_of_barOf_eq (hc : MinCex M V Q P H) {x : G} (hx :
     simpa [mul_assoc] using h3
   exact mem_normalizer_iff_conjSubgroup_eq.mp hxN
 
+omit [Finite G] in
 theorem BigEndHyp.isSimpleGroup_xbar (h : BigEndHyp M V Q P H)
     (hZ : Subgroup.center (Xbar V H) = ⊥) : IsSimpleGroup (Xbar V H) := by
   obtain ⟨f, hf, hq, n, hn, Φ, hΦ, -⟩ := h.three
@@ -130,14 +131,14 @@ theorem BigEndHyp.isSimpleGroup_xbar (h : BigEndHyp M V Q P H)
     CFSG.LieType.Universal.Symplectic.isQuasisimple n (GaloisField 2 f) (by omega)
       (Or.inl (Or.inr h4))
   have hQ : CFSG.IsQuasisimple (Xbar V H) := CFSG.IsQuasisimple.of_mulEquiv e.symm hSp
-  haveI : IsSimpleGroup (XbarZ V H) := hQ.2.1
+  have : IsSimpleGroup (XbarZ V H) := hQ.2.1
   exact MulEquiv.isSimpleGroup Ψ
 
 theorem BigEndHyp.mem_wOf_of_commute (h : BigEndHyp M V Q P H)
     (hZ : Subgroup.center (Xbar V H) = ⊥) {x : G} (hx : x ∈ xOf V H)
     (hxW : ∀ w ∈ wOf V H, x * w = w * x) : x ∈ wOf V H := by
   have hc : MinCex M V Q P H := h.setup.mc.toMinCex
-  haveI hsimple : IsSimpleGroup (Xbar V H) := h.isSimpleGroup_xbar hZ
+  have hsimple : IsSimpleGroup (Xbar V H) := h.isSimpleGroup_xbar hZ
   set N : Subgroup G := xOf V H ⊓ Subgroup.centralizer (wOf V H : Set G) with hN
   have hxN : x ∈ N :=
     Subgroup.mem_inf.mpr ⟨hx,
@@ -154,7 +155,7 @@ theorem BigEndHyp.mem_wOf_of_commute (h : BigEndHyp M V Q P H)
     obtain ⟨y, hyX, hyg⟩ := mem_barOf_iff.mp hg
     rw [mem_normalizer_iff_conjSubgroup_eq, ← hyg, conjSubgroup_piBar_barOf,
       mem_normalizer_iff_conjSubgroup_eq.mp (hXN hyX)]
-  haveI : K.Normal := hKN
+  have : K.Normal := hKN
   rcases hsimple.eq_bot_or_eq_top_of_normal K with hbot | htop
   · have hxK : xToXbar hc.V_le_H ⟨x, hx⟩ ∈ K :=
       Subgroup.mem_subgroupOf.mpr

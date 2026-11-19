@@ -21,8 +21,8 @@ theorem nonempty_iso_hermGraph {c : Γ.Coloring (Fin 2)} {q : ℕ}
       Fintype.card K = q ^ 2 ∧ σ ≠ 1 ∧ σ * σ = 1 ∧ Nonempty (Γ ≃g HermGraph K σ) := by
   obtain ⟨K, hKfield, hKfintype, ι, hKcard, hι, hsec⟩ :=
     exists_isProjGQ (Γ := Γ) (c := c) (q := q) hΓ
-  letI : Field K := hKfield
-  letI : Fintype K := hKfintype
+  let : Field K := hKfield
+  let : Fintype K := hKfintype
   obtain ⟨π, hπ, habs, hlines⟩ :=
     buekenhout_lefevre (Γ := Γ) hΓ.gp hΓ.thick c hΓ.deg ι hι hsec hΓ.two_le
   obtain ⟨σ, hσne, hσsq, hiso⟩ :=
@@ -34,7 +34,7 @@ private theorem exists_isThasQuadrangle_of_moufang {V : Type} {Γ : SimpleGraph 
     [DecidableRel Γ.Adj] {H : Type} [Group H] [MulAction H V] [FaithfulSMul H V]
     [GraphAction H Γ] {q : ℕ} (hq : 2 ≤ q)
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (hM : MoufangCondition H Γ 4)
-    (hdegVal : ∀ v, Γ.degree v = q ^ 2 + 1 ∨ Γ.degree v = q ^ 3 + 1)
+    (_hdegVal : ∀ v, Γ.degree v = q ^ 2 + 1 ∨ Γ.degree v = q ^ 3 + 1)
     (h2 : ∃ v, Γ.degree v = q ^ 2 + 1) (h3 : ∃ v, Γ.degree v = q ^ 3 + 1) :
     ∃ c : Γ.Coloring (Fin 2), IsThasQuadrangle Γ c q := by
   classical
@@ -73,14 +73,14 @@ private theorem exists_isThasQuadrangle_of_moufang {V : Type} {Γ : SimpleGraph 
           rw [hc] at h1
           simp at h1
         · exact hc
-      rw [if_pos hv, hdeg₀ v, if_neg (by rw [hc]; decide), hs]
+      rw [ite_eq_left hv, hdeg₀ v, ite_eq_right (by rw [hc]; decide), hs]
     · have hc : c₀ v = 0 := by
         have hfin : ∀ a : Fin 2, a = 0 ∨ a = 1 := by decide
         have h1 : 1 - c₀ v ≠ 0 := by simpa [dualColoring_apply] using hv
         rcases hfin (c₀ v) with hc | hc
         · exact hc
         · exact absurd (by rw [hc]; decide) h1
-      rw [if_neg hv, hdeg₀ v, if_pos hc, ht]
+      rw [ite_eq_right hv, hdeg₀ v, ite_eq_left hc, ht]
 
 theorem fgqHermitianUnique : FGQHermitianUnique := by
   intro q V₁ V₂ _ _ Γ₁ Γ₂ _ _ H₁ H₂ _ _ _ _ _ _ _ _
@@ -92,15 +92,15 @@ theorem fgqHermitianUnique : FGQHermitianUnique := by
   obtain ⟨K₂, hK₂field, hK₂fin, σ₂, hcard₂, hσ₂ne, hσ₂sq, ⟨e₂⟩⟩ :=
     nonempty_iso_hermGraph (Γ := Γ₂) hΓ₂
   obtain ⟨e₁₂⟩ := hermGraph_iso (hcard₁.trans hcard₂.symm) hσ₁ne hσ₁sq hσ₂ne hσ₂sq
-  haveI hfin₁ : Finite (Submodule K₁ (Fin 5 → K₁)) :=
+  have hfin₁ : Finite (Submodule K₁ (Fin 5 → K₁)) :=
     Finite.of_injective (fun U : Submodule K₁ (Fin 5 → K₁) => (U : Set (Fin 5 → K₁)))
       SetLike.coe_injective
-  haveI hfin₂ : Finite (Submodule K₂ (Fin 5 → K₂)) :=
+  have hfin₂ : Finite (Submodule K₂ (Fin 5 → K₂)) :=
     Finite.of_injective (fun U : Submodule K₂ (Fin 5 → K₂) => (U : Set (Fin 5 → K₂)))
       SetLike.coe_injective
-  haveI : ∀ x, Fintype ((HermGraph K₁ σ₁).neighborSet x) :=
+  have : ∀ x, Fintype ((HermGraph K₁ σ₁).neighborSet x) :=
     fun x => Fintype.ofFinite ((HermGraph K₁ σ₁).neighborSet x)
-  haveI : ∀ x, Fintype ((HermGraph K₂ σ₂).neighborSet x) :=
+  have : ∀ x, Fintype ((HermGraph K₂ σ₂).neighborSet x) :=
     fun x => Fintype.ofFinite ((HermGraph K₂ σ₂).neighborSet x)
   refine ⟨e₂.symm.comp (e₁₂.comp e₁), ?_⟩
   intro v

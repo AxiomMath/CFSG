@@ -137,6 +137,6 @@ theorem piBar_surjective (V H : Subgroup G) : Function.Surjective (piBar V H) :=
 
 theorem mem_dbarOf_iff {V H : Subgroup G} {y : Hbar V H} :
     y ∈ dbarOf V H ↔ ∃ x : ↥H, (x : G) ∈ dOf V H ∧ (x : G) ∉ wOf V H ∧ piBar V H x = y := by
-  simp only [dbarOf, Set.mem_image, Set.mem_setOf_eq, and_assoc]
+  simp only [dbarOf, Set.mem_image, Set.mem_ofPred_eq, and_assoc]
 
 end CFSG.RankThree.GF2n.Tim79a

@@ -13,10 +13,12 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F} {a b : Fin 3 → Fin 
 @[expose] def swapM (F : Type) [Field F] : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F :=
   (Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3))).permMatrix F
 
+omit [CharP F 2] in
 private theorem swapM_apply (p q : Fin 3 ⊕ Fin 3) :
     swapM F p q = if q = Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) p then 1 else 0 := by
   simp only [swapM, Equiv.Perm.permMatrix, PEquiv.toMatrix_toPEquiv_apply, Pi.single_apply]
 
+omit [CharP F 2] in
 private theorem swapM_conj (M : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F) :
     swapM F * M * swapM F = M.submatrix (Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)))
       (Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3))) := by
@@ -24,24 +26,27 @@ private theorem swapM_conj (M : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F) :
   rw [PEquiv.toMatrix_toPEquiv_mul, PEquiv.mul_toMatrix_toPEquiv, Equiv.symm_swap]
   rfl
 
+omit [CharP F 2] in
 private theorem swapM_conj_apply (M : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F) (p q : Fin 3 ⊕ Fin 3) :
     (swapM F * M * swapM F) p q = M (Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) p)
       (Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) q) := by
   rw [swapM_conj, Matrix.submatrix_apply]
 
+omit [CharP F 2] in
 private theorem cT_swapM : cT σ (swapM F) = swapM F := by
   ext p q
   rw [cT_apply, swapM_apply, swapM_apply]
   by_cases h : q = Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) p
   · have h' : p = Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) q := by
       rw [h, Equiv.swap_apply_self]
-    rw [if_pos h', if_pos h, map_one]
+    rw [ite_eq_left h', ite_eq_left h, map_one]
   · have h' : ¬ p = Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) q := by
       intro h''
       apply h
       rw [h'', Equiv.swap_apply_self]
-    rw [if_neg h', if_neg h, map_zero]
+    rw [ite_eq_right h', ite_eq_right h, map_zero]
 
+omit [CharP F 2] in
 theorem swapM_unitary : cT σ (swapM F) * Jm F * swapM F = Jm F := by
   rw [cT_swapM, swapM_conj]
   ext p q
@@ -54,10 +59,12 @@ theorem swapM_det : (swapM F).det = 1 := by
   rw [Matrix.det_permutation, Equiv.Perm.sign_swap hne]
   simp [CharTwo.neg_eq]
 
+omit [CharP F 2] in
 theorem swapM_mul_self : swapM F * swapM F = 1 := by
   unfold swapM
   rw [← Matrix.permMatrix_mul, Equiv.swap_mul_self, Matrix.permMatrix_one]
 
+omit [CharP F 2] in
 private theorem swap_dmat_inv (c₀ : F) (hc : c₀ ≠ 0) (hσc : σ c₀ = c₀) :
     swapM F * Matrix.fromBlocks (dmat c₀) 0 0 (cT σ (dmat c₀))⁻¹ * swapM F *
       Matrix.fromBlocks (dmat c₀) 0 0 (cT σ (dmat c₀))⁻¹ = 1 := by
@@ -90,7 +97,7 @@ private theorem swap_braid_mat :
   rw [swapM_conj]
   ext p q
   rcases p with i | i <;> rcases q with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_three, Matrix.single_apply,
+    simp [Matrix.mul_apply, Fintype.sum_sum_type, Matrix.single_apply,
       swapM_apply, Equiv.swap_apply_def, Matrix.one_apply, h2]
 
 variable (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (e₀ : K ≃+* Fσ σ)
@@ -116,7 +123,7 @@ theorem sU_braid : sU hσ hf =
     uK hσ hf ((1 : K) • n1K σ e₀) *
       (sU hσ hf * uK hσ hf ((1 : K) • n1K σ e₀) * sU hσ hf) * uK hσ hf ((1 : K) • n1K σ e₀) := by
   have hn : ((1 : K) • n1K σ e₀).mat = Matrix.single 0 0 1 := by
-    simp [HermK.mat_smul, n1K_mat]
+    simp [n1K_mat]
   apply gm_injective hσ hf
   rw [gm_mul, gm_mul, gm_mul, gm_mul, gm_sU, gm_uK, hn]
   exact swap_braid_mat
@@ -132,7 +139,7 @@ theorem ker_stab_U (H : HermK σ e₀) (h : tauK σ e₀ H = 0) :
     intro i j
     rw [gm_mul, gm_mul, gm_sU, gm_uK, swapM_conj_apply]
     fin_cases i <;> fin_cases j <;>
-      simp [Equiv.swap_apply_def, Matrix.one_apply, h00]
+      simp [Equiv.swap_apply_def, h00]
   exact ⟨⟨_, hmem⟩, rfl⟩
 
 end CFSG.RankThree.GF2n.Smith81.S81V

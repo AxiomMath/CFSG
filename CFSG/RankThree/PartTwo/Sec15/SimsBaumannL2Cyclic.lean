@@ -52,7 +52,7 @@ private theorem sbl2cyc_exists_pow_mem {Y : Type*} [Group Y] [Finite Y] (y : Y) 
 private theorem sbl2cyc_eq_one_of_centralizes {Y : Type} [Group Y] [Finite Y]
     (hQ : CFSG.pCore 2 Y = ⊥) (hZ : Subgroup.center ↥(oResidual 2 Y) = ⊥) {c : Y}
     (hc : ∀ l ∈ oResidual 2 Y, l * c = c * l) : c = 1 := by
-  haveI : (oResidual 2 Y).Normal := Stage1.Thm6.Prod.oResidual_normal 2 Y
+  have : (oResidual 2 Y).Normal := Stage1.Thm6.Prod.oResidual_normal 2 Y
   have hCn : (Subgroup.centralizer (oResidual 2 Y : Set Y)).Normal := inferInstance
   have hCp : IsPGroup 2 ↥(Subgroup.centralizer (oResidual 2 Y : Set Y)) := by
     rintro ⟨g, hg⟩
@@ -95,7 +95,7 @@ private noncomputable def sbl2cycAct (Y : Type) [Group Y] : Y →* Outer ↥(oRe
 private theorem sbl2cycAct_ker {Y : Type} [Group Y] [Finite Y]
     (hQ : CFSG.pCore 2 Y = ⊥) (hZ : Subgroup.center ↥(oResidual 2 Y) = ⊥) {x : Y}
     (hx : sbl2cycAct Y x = 1) : x ∈ oResidual 2 Y := by
-  haveI : (oResidual 2 Y).Normal := Stage1.Thm6.Prod.oResidual_normal 2 Y
+  have : (oResidual 2 Y).Normal := Stage1.Thm6.Prod.oResidual_normal 2 Y
   have hx' : (QuotientGroup.mk (MulAut.conjNormal x : MulAut ↥(oResidual 2 Y)) :
       Outer ↥(oResidual 2 Y)) = 1 := hx
   obtain ⟨l, hl⟩ := (QuotientGroup.eq_one_iff _).1 hx'
@@ -153,7 +153,7 @@ theorem sup_normal_of_typeL2 {n : ℕ} (hn : 2 ≤ n)
       CFSG.Assembly.RankThreeEven.projSL 2 (GaloisField 2 n)) (S : Subgroup X) :
     (S ⊔ oResidual 2 X ⊔ CFSG.pCore 2 X).Normal := by
   obtain ⟨Ψ, hcyc, -, hker⟩ := sbl2cyc_exists_hom hn e
-  haveI := hcyc
+  have := hcyc
   refine ⟨fun m hm g => ?_⟩
   have hcomm : Ψ (g * m * g⁻¹ * m⁻¹) = 1 := by
     simp only [map_mul, map_inv]
@@ -173,7 +173,7 @@ theorem relIndex_le_two_of_typeL2 {n : ℕ} (hn : 2 ≤ n)
     (hEL : E ⊓ (oResidual 2 X ⊔ CFSG.pCore 2 X) ≤ CFSG.pCore 2 X) :
     (E ⊓ CFSG.pCore 2 X).relIndex E ≤ 2 := by
   obtain ⟨Ψ, hcyc, hQ, hker⟩ := sbl2cyc_exists_hom hn e
-  haveI := hcyc
+  have := hcyc
   have h1 : E ⊓ CFSG.pCore 2 X = E ⊓ Ψ.ker :=
     le_antisymm (inf_le_inf_left _ hQ) fun x hx => ⟨hx.1, hEL ⟨hx.1, hker hx.2⟩⟩
   rw [h1, Subgroup.inf_relIndex_left, Subgroup.relIndex_ker]

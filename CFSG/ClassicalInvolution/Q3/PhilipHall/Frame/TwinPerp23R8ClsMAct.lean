@@ -174,6 +174,7 @@ section Conj
 variable {Y : Type} [Group Y] [Finite Y] {Ω : Set (Subgroup Y)} {u : Y}
   (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers u))
 
+omit [Finite Y] in
 theorem conj_inv_mul_eq {e g₁ g₂ : Y} (h₁ : g₁ * u = u * g₁) (h₂ : g₂ * u = u * g₂) :
     (g₁ * (u * e) * g₁⁻¹)⁻¹ * (g₂ * (u * e) * g₂⁻¹) = (g₁ * e * g₁⁻¹)⁻¹ * (g₂ * e * g₂⁻¹) := by
   have key : ∀ g : Y, g * u = u * g → g * (u * e) * g⁻¹ = u * (g * e * g⁻¹) := fun g hg => by

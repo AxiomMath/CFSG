@@ -72,7 +72,7 @@ theorem triKernelCompAction {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p�
         rw [hπ x y hxy, hwσ x y]
     have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
       unfold twistKind
-      rw [if_pos hinner]
+      rw [ite_eq_left hinner]
     have hbig : ∃ α ∈ componentRoots (rootCharHom a) i,
         ∃ δ ∈ componentRoots (rootCharHom a) i, δ ≠ α ∧ δ ≠ -α := by
       refine ⟨σf ⟨0, by omega⟩ ⟨1, by omega⟩, ?_,
@@ -92,12 +92,12 @@ theorem triKernelCompAction {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p�
         have hv := congrArg Fin.val ha
         norm_num at hv
     obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
-    haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := ⟨hs0.ne'⟩
+    have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := ⟨hs0.ne'⟩
     have hinnerT := twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
     obtain ⟨σQ, z, hσQ, hzZ, hnormz, hz⟩ :=
       CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.exists_untwistT_Z S hT i hs0 hinnerT
     have hperf : Group.IsPerfect ↥(CQ σQ i) := by
-      haveI : Group.IsPerfect ↥(componentRootSpan (fixSubfield σQ) (rootCharHom a) i) :=
+      have : Group.IsPerfect ↥(componentRootSpan (fixSubfield σQ) (rootCharHom a) i) :=
         isPerfect_componentRootSpan_simplyLaced (K := fixSubfield σQ) (Or.inl rfl) i hbig
       rw [CQ_eq_map (χ := rootCharHom a) (i := i) σQ]
       exact Group.IsPerfect.ofSurjective

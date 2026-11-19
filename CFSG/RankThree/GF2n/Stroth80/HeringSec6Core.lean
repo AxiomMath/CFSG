@@ -31,12 +31,14 @@ theorem exp_succ_of_index {q c k e : ℕ} (hq : 2 ≤ q) (hc2 : 2 ≤ c) (hcq : 
   have h4 := (Nat.pow_le_pow_iff_right (by omega : 1 < q)).mp h2
   omega
 
+omit [Finite G] in
 theorem slMNat_of_alt {hc : Ctx M Q Z B} {t : G} {m : ℕ}
     (h : SLMNat hc t m ∨ (m = 2 ∧ SpMNat hc t 1)) : SLMNat hc t m := by
   rcases h with h | ⟨rfl, K, fK, finK, hK, hrep⟩
   · exact h
   · exact ⟨K, fK, finK, hK, NaturalRep.sp_one_to_sl_two hrep⟩
 
+omit [Finite G] in
 theorem two_le_card_Z (hc : Ctx M Q Z B) : 2 ≤ Nat.card Z := by
   have := hc.hyp.q4
   omega

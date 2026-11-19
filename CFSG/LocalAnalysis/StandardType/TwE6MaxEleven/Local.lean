@@ -40,7 +40,7 @@ theorem isSolvable_normalizer_zpowers_eleven (hX : LocalFacts X) {t : X} (ht : o
   have hCN : C ≤ N := by
     rw [hCeq]
     exact Subgroup.centralizer_le_normalizer (H : Set X)
-  haveI : (C.subgroupOf N).Normal := by
+  have : (C.subgroupOf N).Normal := by
     rw [hCeq]
     exact Subgroup.normal_subgroupOf_centralizer_normalizer (H : Set X)
   have h66 : Squarefree 66 := by
@@ -51,26 +51,26 @@ theorem isSolvable_normalizer_zpowers_eleven (hX : LocalFacts X) {t : X} (ht : o
       nlinarith [Nat.le_of_dvd (by norm_num) hdvd]
     interval_cases x <;> norm_num at hdvd
   have hCsolv : Group.IsSolvable C := by
-    haveI : IsZGroup C :=
+    have : IsZGroup C :=
       IsZGroup.of_squarefree (Squarefree.squarefree_of_dvd (hX.c11 t ht) h66)
     infer_instance
-  haveI : Group.IsSolvable C := hCsolv
+  have : Group.IsSolvable C := hCsolv
   let f : N →* MulAut H := Subgroup.normalizerMonoidHom (H := H)
   have hker : f.ker = C.subgroupOf N := by
     rw [show f = Subgroup.normalizerMonoidHom (H := H) from rfl,
       Subgroup.normalizerMonoidHom_ker, hCeq]
-  haveI : IsCyclic H := Subgroup.isCyclic_zpowers t
-  haveI : Group.IsSolvable (MulAut H) := by
+  have : IsCyclic H := Subgroup.isCyclic_zpowers t
+  have : Group.IsSolvable (MulAut H) := by
     have e := IsCyclic.mulAutMulEquiv H
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI hCsub : Group.IsSolvable (C.subgroupOf N) :=
+  have hCsub : Group.IsSolvable (C.subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hCN).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hCN).injective
-  haveI : Group.IsSolvable (N ⧸ f.ker) := by
+  have : Group.IsSolvable (N ⧸ f.ker) := by
     have e := QuotientGroup.quotientKerEquivRange f
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Group.IsSolvable f.ker := hker.symm ▸ hCsub
+  have : Group.IsSolvable f.ker := hker.symm ▸ hCsub
   exact Group.isSolvable_of_subgroup_quotient f.ker
 
 theorem card_normalizer_zpowers_seventeen_dvd (hX : LocalFacts X) {s : X} (hs : orderOf s = 17) :
@@ -88,7 +88,7 @@ theorem card_normalizer_zpowers_seventeen_dvd (hX : LocalFacts X) {s : X} (hs : 
 theorem mem_zpowers_of_commute_eleven (hX : LocalFacts X) {t y z : X} (ht : orderOf t = 11)
     (hy : orderOf y = 3) (hyt : Commute y t) (hz : orderOf z = 3) (hzt : Commute z t) :
     z ∈ zpowers y := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let C : Subgroup X := Subgroup.centralizer ({t} : Set X)
   have hyC : y ∈ C := by
     rw [show C = Subgroup.centralizer ({t} : Set X) from rfl, Subgroup.mem_centralizer_iff]
@@ -151,7 +151,7 @@ theorem mem_zpowers_of_commute_eleven (hX : LocalFacts X) {t y z : X} (ht : orde
   have h9 : ¬ 9 ∣ Nat.card C := by
     intro h
     exact absurd (h.trans hCcard) (by norm_num)
-  haveI : Nonempty C := ⟨⟨t, htC⟩⟩
+  have : Nonempty C := ⟨⟨t, htC⟩⟩
   have hfact : (Nat.card C).factorization 3 = 1 := by
     have hne : Nat.card C ≠ 0 := Nat.card_pos.ne'
     have hpos : 0 < (Nat.card C).factorization 3 :=
@@ -179,7 +179,7 @@ theorem mem_zpowers_of_commute_eleven (hX : LocalFacts X) {t y z : X} (ht : orde
         _ ≤ 66 := hCle
     omega
   have hn3 : Nat.card (Sylow 3 C) = 1 := by
-    haveI : Nonempty (Sylow 3 C) := Sylow.nonempty
+    have : Nonempty (Sylow 3 C) := Sylow.nonempty
     have hmod : Nat.card (Sylow 3 C) % 3 = 1 := by
       have h := card_sylow_modEq_one 3 C
       simpa [Nat.ModEq] using h
@@ -204,8 +204,8 @@ theorem mem_zpowers_of_commute_eleven (hX : LocalFacts X) {t y z : X} (ht : orde
 theorem eq_bot_of_isPGroup_of_mem_normalizer (hX : LocalFacts X) {t : X} (ht : orderOf t = 11)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hp11 : p ≠ 11) {R : Subgroup X}
     (hR : IsPGroup p R) (htR : t ∈ normalizer (R : Set X)) : R = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hFix : Nat.card ↥(R ⊓ Subgroup.centralizer ({t} : Set X)) = 1 := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (hR.to_le inf_le_left)
     have hdvd : Nat.card ↥(R ⊓ Subgroup.centralizer ({t} : Set X)) ∣ 2 * 3 * 11 :=
@@ -275,7 +275,7 @@ theorem eq_bot_of_isPGroup_of_mem_normalizer (hX : LocalFacts X) {t : X} (ht : o
 theorem eq_zpowers_of_isPGroup_eleven (hX : LocalFacts X) {t : X} (ht : orderOf t = 11)
     {R : Subgroup X} (hR : IsPGroup 11 R) (hR1 : R ≠ ⊥) (htR : t ∈ normalizer (R : Set X)) :
     R = zpowers t := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hR
   have hRcard_dvd : Nat.card R ∣ Nat.card X := Subgroup.card_subgroup_dvd_card R
   rw [hX.card] at hRcard_dvd
@@ -333,7 +333,7 @@ theorem card_dvd_card_mul_card_normalizer {M N R : Subgroup X} (hNM : N ≤ M)
   have hRM : R ≤ M := hRN.trans hNM
   let N' : Subgroup M := N.subgroupOf M
   let R' : Subgroup M := R.subgroupOf M
-  haveI : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mpr hMN
+  have : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mpr hMN
   have hN'card : Nat.card N' = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNM).toEquiv
   have hR'N' : R' ≤ N' := by

@@ -24,7 +24,7 @@ universe u
 public theorem firstCase_conjugate_invertedSubgroup
     {G : Type u} [Group G]
     {U I : Subgroup G} {s g s' : G}
-    (hs : IsInvolution s)
+    (_hs : IsInvolution s)
     (hgU : g ∈ Subgroup.normalizer (U : Set G))
     (hgs : g * s * g⁻¹ = s')
     (hI : IsInvertedSubgroup I U s) :

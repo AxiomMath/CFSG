@@ -31,7 +31,7 @@ theorem exists_sylow : ∃ T : Sylow 2 H, (T : Subgroup H) = S := by
 
 theorem isPGroup : IsPGroup 2 Q := by
   obtain ⟨T, hT⟩ := hQ.exists_sylow
-  exact T.isPGroup'.to_le (hT ▸ hQ.le)
+  exact T.isPGroup.to_le (hT ▸ hQ.le)
 
 theorem isPGroup_rightConjugate (a : H) : IsPGroup 2 (rightConjugate Q a) :=
   hQ.isPGroup.map _
@@ -80,7 +80,7 @@ theorem exists_le_normalizer {K P : Subgroup H} {a : H} (haK : rightConjugate Q 
 
 theorem le_normalizer_S : S ≤ normalizer (Q : Set H) := by
   obtain ⟨T, hT⟩ := hQ.exists_sylow
-  have h := hQ.le_normalizer_of_le (P := S) (hT ▸ T.isPGroup') (a := 1)
+  have h := hQ.le_normalizer_of_le (P := S) (hT ▸ T.isPGroup) (a := 1)
     (by rw [rightConjugate_one]; exact hQ.le)
   rwa [rightConjugate_one] at h
 

@@ -112,7 +112,7 @@ private theorem l10sf4a_fr_pow_f4x
 
 private theorem l10sf4a_frobenius_surj {K : Type} [Field K] [Finite K] [CharP K 2] (j : ℕ) :
     Function.Surjective (fun c : K => c ^ 2 ^ j) := by
-  haveI : PerfectRing K 2 := inferInstance
+  have : PerfectRing K 2 := inferInstance
   intro d
   exact ⟨(iterateFrobeniusEquiv K 2 j).symm d, by
     change (iterateFrobeniusEquiv K 2 j) ((iterateFrobeniusEquiv K 2 j).symm d) = d
@@ -147,7 +147,6 @@ private theorem l10sf4a_pinnedX_mem_rootGroup
         ((((rootOperatorFamily .F4).pinnedFamilySign γ : ℤ) : K)⁻¹ * d) := by
     apply Subtype.ext
     rw [CFSG.ClassicalInvolution.Balance.coe_xPar_eq_pinnedX hγ]
-    congr 1
     rw [← mul_assoc, mul_inv_cancel₀ hsign, one_mul]
   rw [hx]
   exact l10sf4a_xPar_mem_rootGroup hγ _
@@ -520,7 +519,7 @@ private theorem l10sf4_frob_trivial
             (CFSG.LieType.Chevalley.RootOps.orbitCertRoot .F4 47) ^ 2 ^ j * a)),
             pinnedX_mem_adjointGroup _ _⟩ : ↥(adjointGroup .F4 K)) := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, inv_inv]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [hl (torusRootChar (h : ModGL .F4 K)
           (CFSG.LieType.Chevalley.RootOps.orbitCertRoot .F4 47) ^ 2 ^ j * a)]
       have hLHS : y h * x * (y h)⁻¹ = (⟨f4x K 47 (l * (t ^ 2 ^ j * a)),
@@ -567,8 +566,8 @@ private theorem l10sf4_inner_maxHeight
     (hmax : ∀ δ ∈ (f4Datum (GaloisField 2 f)).roots, ∑ i, δ i ≤ ∑ i, γ₀ i) :
     GGRootNormInner ((f4Datum (GaloisField 2 f)).rootGroup γ₀) := by
   intro y hy2 hyR hytriv
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
-  haveI : CharP (GaloisField 2 f) ReeTag.F4.prime :=
+  have : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) ReeTag.F4.prime :=
     ‹CharP (GaloisField 2 f) 2›
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   obtain ⟨-, hnf, -⟩ := even_F4_exact_automorphism_normal_form hf (GaloisField 2 f) hcard
@@ -607,8 +606,8 @@ private theorem l10sf4_inner_root
     {f : ℕ} (hf : 1 ≤ f)
     {β : Fin (f4Datum (GaloisField 2 f)).rank → ℤ} (hβ : β ∈ (f4Datum (GaloisField 2 f)).roots) :
     GGRootNormInner ((f4Datum (GaloisField 2 f)).rootGroup β) := by
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
-  haveI : CharP (GaloisField 2 f) ReeTag.F4.prime := ‹CharP (GaloisField 2 f) 2›
+  have : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) ReeTag.F4.prime := ‹CharP (GaloisField 2 f) 2›
   by_cases hl : GGLongRoot (f4Datum (GaloisField 2 f)) β
   · exact l10sf4b_inner_root_long hf hl
   · obtain ⟨β', -, hmap, -, hlong⟩ :=
@@ -645,7 +644,7 @@ private theorem l10sf4b_inner_range
     {β : Fin (ggU .F4 n f).D.rank → ℤ} (hβ : β ∈ (ggU .F4 n f).D.roots)
     (u : (ggU .F4 n f).K) :
     GGRootNormInner ((ggRootSub (ggU .F4 n f).D φ β u).subgroupOf φ.range) := by
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hZ : Subgroup.center (ggU .F4 n f).K = ⊥ := by
     change Subgroup.center (adjointGroup .F4 (GaloisField 2 f)) = ⊥
     exact center_adjointGroup_eq_bot

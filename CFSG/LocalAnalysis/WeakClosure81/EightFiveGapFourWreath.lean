@@ -118,11 +118,11 @@ theorem not_centralInSylow_of_isL2WrSymGp {Y : Type} [Group Y] [Finite Y] {n m :
     (hcl : Subgroup.normalClosure ({d} : Set Y) = ⊤) :
     ¬ CentralInSylow Y (Subgroup.zpowers d) := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
-  haveI : Finite (WreathSym (Matrix.SpecialLinearGroup (Fin 2) F) m) := Finite.of_equiv Y e.toEquiv
+  have : Finite (WreathSym (Matrix.SpecialLinearGroup (Fin 2) F) m) := Finite.of_equiv Y e.toEquiv
   obtain ⟨x₀, hx₀, hx₀2⟩ := exists_involution_specialLinear F
   intro hc
   have hmap := centralInSylow_map e.toMonoidHom e.surjective _ hc

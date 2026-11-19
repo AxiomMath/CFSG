@@ -149,13 +149,13 @@ theorem str83_partTwo_card_centralizer_le
     Nat.card ↥(Z1 L1 L2 S ⊓ Subgroup.centralizer ({d} : Set G)) ≤ 2 ^ (2 * a + 1) := by
   classical
   let K : Type := GaloisField 2 (2 * a + 1)
-  haveI : Field K := inferInstance
-  haveI : Finite K := inferInstance
+  have : Field K := inferInstance
+  have : Finite K := inferInstance
   have hK : Nat.card K = 2 ^ (2 * a + 1) := by
     change Nat.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1)
     exact GaloisField.card 2 (2 * a + 1) (by omega)
-  haveI hcharK : CharP K 2 := (suzuki_frobenius_exponents a K hK).1
-  haveI hperfectK : PerfectRing K 2 := inferInstance
+  have hcharK : CharP K 2 := (suzuki_frobenius_exponents a K hK).1
+  have hperfectK : PerfectRing K 2 := inferInstance
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=
     eq_sup_pCoreOf_of_bender_left hF.1 hB (Or.inl ⟨a, ha, hSz⟩)
   have hS2 : S = (S ⊓ L2) ⊔ Q2 L1 L2 S :=
@@ -330,8 +330,7 @@ theorem str83_partTwo_card_centralizer_le
       simpa [Subgroup.orderOf_mk] using h
     have hdvd2 : orderOf gδ ∣
         orderOf (QuotientGroup.mk (⟨δ, hδL⟩ : ↥(L1 ⊔ S)) : oTwoQuot ↥(L1 ⊔ S)) := by
-      simpa [gδ] using orderOf_map_dvd e.toMonoidHom
-        (QuotientGroup.mk (⟨δ, hδL⟩ : ↥(L1 ⊔ S)))
+      simp [gδ]
     exact Odd.of_dvd_nat hδodd (hdvd2.trans hdvd1)
   let π : Set Nat.Primes := {p | p.val ≠ 2}
   have hBsolv : Group.IsSolvable ↥(suzukiB a K) := (suzuki_borel_solvable hK).1
@@ -432,7 +431,7 @@ theorem str83_partTwo_card_centralizer_le
     simpa [cv, AddEquiv.apply_symm_apply, ← hx] using this
   have hMmul : ∀ x y : ↥(suzukiGroup a K), M (x * y) = M x * M y := by
     intro x y
-    simp [M, Matrix.GeneralLinearGroup.coe_mul]
+    simp [M]
   have ht0vv : t0 * vv = vv * gδ := by
     rw [ht0_eq]
     group

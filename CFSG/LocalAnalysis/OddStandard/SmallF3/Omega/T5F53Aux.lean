@@ -144,10 +144,10 @@ theorem t5_f53_conj_center {G : Type} [Group G] [Finite G] {L : Subgroup G}
     rw [hcardPb, hGfact]
   have hcardsP₀ : Nat.card P₀' = 2 ^ (Nat.card (omgGroup hQ)).factorization 2 := by
     rw [hcardP₀', hGfact]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let PbS : Sylow 2 (omgGroup hQ) := Sylow.ofCard Pb hcardsPb
   let P₀S : Sylow 2 (omgGroup hQ) := Sylow.ofCard P₀' hcardsP₀
-  haveI : Finite (Sylow 2 (omgGroup hQ)) := Sylow.finite_of_finiteIndex PbS
+  have : Finite (Sylow 2 (omgGroup hQ)) := Sylow.finite_of_finiteIndex PbS
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := (omgGroup hQ)) P₀S PbS
   have hgsub : (MulAut.conj g) • P₀' = Pb := by
     have h1 : ((g • P₀S : Sylow 2 (omgGroup hQ)) : Subgroup (omgGroup hQ)) =

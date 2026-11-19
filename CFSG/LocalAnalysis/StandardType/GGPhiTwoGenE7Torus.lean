@@ -25,9 +25,9 @@ private theorem coprime_pred_of_dvd_succ {p c : ℕ} (hp : p.Prime) (hp2 : p ≠
 theorem e7_torus_of_mem_phiTwoA1D6Subgroup
     {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card K + 1)
-    {g0 : ModGL .E7 (AlgebraicClosure K)} (hg0C : g0 ∈ adjointGroup .E7 (AlgebraicClosure K))
+    {g0 : ModGL .E7 (AlgebraicClosure K)} (_hg0C : g0 ∈ adjointGroup .E7 (AlgebraicClosure K))
     (hg0D : g0 ∈ phiTwoA1D6Subgroup (AlgebraicClosure K)) {ζ : (AlgebraicClosure K)ˣ}
-    (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
+    (_hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
     {T : Multiplicative (Fin Tag.E7.rank → ZMod p) →* adjointGroup .E7 K}
     (hT : ∀ t : Fin Tag.E7.rank → ZMod p,
       baseChangeGL (algebraMap K (AlgebraicClosure K))

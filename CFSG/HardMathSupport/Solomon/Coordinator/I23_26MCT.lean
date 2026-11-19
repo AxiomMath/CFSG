@@ -21,6 +21,7 @@ variable {Y : Type*} [Group Y] [Finite Y] {K E : Subgroup Y}
 
 @[expose] def mcT (K E : Subgroup Y) : Subgroup Y := Subgroup.closure (mcGen K E)
 
+omit [Finite Y] in
 theorem mc_three_conj {K : Subgroup Y} (e : Y)
     (h3 : 3 ∣ Nat.card (↥K ⧸ Subgroup.center ↥K)) :
     3 ∣ Nat.card (↥(GLBConj e K) ⧸ Subgroup.center ↥(GLBConj e K)) := by
@@ -33,6 +34,7 @@ theorem mc_three_conj {K : Subgroup Y} (e : Y)
   rw [← this]
   exact h3
 
+omit [Finite Y] in
 theorem mc_gen_mem_pi {d : Y} (hd : d ∈ mcGen K E) : d ∈ mcPi K E := by
   obtain ⟨e, he, g, hg, hg3, hgK, k, hk, rfl⟩ := hd
   unfold mcD
@@ -47,6 +49,7 @@ theorem mc_gen_mem_pi {d : Y} (hd : d ∈ mcGen K E) : d ∈ mcPi K E := by
     exact mc_le_pi (E.mul_mem he (E.inv_mem hg)) this
   exact (mcPi K E).mul_mem ((mcPi K E).mul_mem h1 h2) h3
 
+omit [Finite Y] in
 theorem mc_T_le_pi : mcT K E ≤ mcPi K E :=
   (Subgroup.closure_le _).2 fun _ hd => mc_gen_mem_pi hd
 
@@ -101,6 +104,7 @@ theorem mc_exists_not_mem (hK : IsComponentOf K ⊤) (hE1 : (1 : Y) ∈ E) {g : 
     _ = (v * mcD g (u : Y)) * ((mcD g (u : Y))⁻¹ * u) := by rw [h1]
     _ = v * u := by group
 
+omit [Finite Y] in
 theorem mc_gen_conj (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) {a : Y} (ha : a ∈ E) {d : Y}
     (hd : d ∈ mcGen K E) : a * d * a⁻¹ ∈ mcGen K E := by
   obtain ⟨e, he, g, hg, hg3, hgK, k, hk, rfl⟩ := hd
@@ -111,6 +115,7 @@ theorem mc_gen_conj (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) {a : Y} (ha 
     exact mem_gLBConj.1 hk
   · exact mcD_conj (hEc a ha g hg)
 
+omit [Finite Y] in
 theorem mc_T_conj (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) {a : Y} (ha : a ∈ E) {y : Y}
     (hy : y ∈ mcT K E) : a * y * a⁻¹ ∈ mcT K E := by
   induction hy using Subgroup.closure_induction with
@@ -123,6 +128,7 @@ theorem mc_T_conj (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) {a : Y} (ha : 
     have e : a * x⁻¹ * a⁻¹ = (a * x * a⁻¹)⁻¹ := by group
     rw [e]; exact (mcT K E).inv_mem hx
 
+omit [Finite Y] in
 theorem mc_le_T_of_conj (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) {e : Y} (he : e ∈ E)
     (h : GLBConj e K ≤ mcT K E) : K ≤ mcT K E := by
   intro k hk

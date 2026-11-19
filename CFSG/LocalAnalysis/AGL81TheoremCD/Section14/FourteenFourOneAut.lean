@@ -16,6 +16,7 @@ open scoped MatrixGroups commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ker_normalizerMonoidHom_comp_inclusion {H K : Subgroup G}
     (hHK : H ≤ Subgroup.normalizer (K : Set G)) :
     (K.normalizerMonoidHom.comp (Subgroup.inclusion hHK)).ker =
@@ -29,7 +30,7 @@ private theorem ker_normalizerMonoidHom_comp_inclusion {H K : Subgroup G}
     intro y hy
     have hxy := congrArg (fun σ : MulAut ↥K => ((σ ⟨y, hy⟩ : ↥K) : G)) hx
     simp only [Subgroup.normalizerMonoidHom_apply_apply_coe, MulAut.one_apply,
-      Subgroup.coe_one, Subgroup.coe_inclusion] at hxy
+      Subgroup.coe_inclusion] at hxy
     have hcommute : (x : G) * y = y * (x : G) := by
       calc (x : G) * y = ((x : G) * y * (x : G)⁻¹) * (x : G) := by group
         _ = y * (x : G) := by rw [hxy]
@@ -38,31 +39,31 @@ private theorem ker_normalizerMonoidHom_comp_inclusion {H K : Subgroup G}
     apply MulEquiv.ext
     intro y
     apply Subtype.ext
-    simp only [Subgroup.normalizerMonoidHom_apply_apply_coe, MulAut.one_apply,
-      Subgroup.coe_one]
+    simp only [Subgroup.normalizerMonoidHom_apply_apply_coe, MulAut.one_apply]
     have hy : y * (x : G) = (x : G) * y := hx y y.2
     calc (x : G) * (y : G) * (x : G)⁻¹ = ((x : G) * y) * (x : G)⁻¹ := rfl
       _ = (y * (x : G)) * (x : G)⁻¹ := by rw [← hy]
       _ = (y : G) := by group
 
+omit [Finite G] in
 theorem card_le_three_mul_card_inf_centralizer_of_le_normalizer {p : ℕ} [Fact p.Prime]
     {H K : Subgroup G} (hK : Nat.card K = p)
     (hHK : H ≤ Subgroup.normalizer (K : Set G))
     (hexp : ∀ x : ↥H, x ^ 3 = 1) :
     Nat.card H ≤ 3 * Nat.card (H ⊓ Subgroup.centralizer (K : Set G) : Subgroup G) := by
   classical
-  haveI : IsCyclic ↥K := isCyclic_of_prime_card hK
+  have : IsCyclic ↥K := isCyclic_of_prime_card hK
   have hAutCyc : IsCyclic (MulAut ↥K) := by
     let e := IsCyclic.mulAutMulEquiv (G := ↥K)
     rw [hK] at e
-    haveI : IsCyclic (ZMod p)ˣ := ZMod.isCyclic_units_prime (Fact.out : Nat.Prime p)
+    have : IsCyclic (ZMod p)ˣ := ZMod.isCyclic_units_prime (Fact.out : Nat.Prime p)
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   let φ : ↥H →* MulAut ↥K :=
     K.normalizerMonoidHom.comp (Subgroup.inclusion hHK)
   have hker : φ.ker = (H ⊓ Subgroup.centralizer (K : Set G) : Subgroup G).subgroupOf H :=
     ker_normalizerMonoidHom_comp_inclusion hHK
   have hrange : Nat.card φ.range ≤ 3 := by
-    haveI : IsCyclic (MulAut ↥K) := hAutCyc
+    have : IsCyclic (MulAut ↥K) := hAutCyc
     have hcyc : IsCyclic φ.range := Subgroup.isCyclic _
     have hexp3 : Monoid.exponent φ.range ∣ 3 :=
       Monoid.exponent_dvd_of_forall_pow_eq_one (fun y => by
@@ -86,6 +87,7 @@ theorem card_le_three_mul_card_inf_centralizer_of_le_normalizer {p : ℕ} [Fact 
     _ ≤ 3 * Nat.card (H ⊓ Subgroup.centralizer (K : Set G) : Subgroup G) :=
         Nat.mul_le_mul_right _ hrange
 
+omit [Finite G] in
 private theorem le_normalizer_centralizer_and_layer {P₀ Q : Subgroup G}
     (hQP₀ : Q ≤ Subgroup.normalizer (P₀ : Set G)) :
     Q ≤ Subgroup.normalizer (Subgroup.centralizer (P₀ : Set G) : Set G) ∧
@@ -143,7 +145,7 @@ private theorem card_eq_three_inf_centralizer_of_ne_bot
     have hRcardle : Nat.card ↥R ≤ 3 := by
       simpa [R, C, L] using card_le_three_inf_centralizer (P₀ := P₀) (Q := Q) hF2 hexp
     have hR3 : IsPGroup 3 R := (IsPGroup.of_card hcard).to_le (inf_le_left.trans inf_le_left)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rcases IsPGroup.card_eq_or_dvd (G := ↥R) hR3 with h1 | h3
     · exact absurd (Subgroup.eq_bot_of_card_eq R (by simpa using h1)) hRne'
     · obtain ⟨k, hk⟩ := h3
@@ -155,7 +157,7 @@ private theorem isElemAbelian_range_of_commutator_le_ker {H M : Type*} [Group H]
     (φ : H →* M) (hcomm : commutator H ≤ φ.ker) (hexp : ∀ x : H, x ^ 3 = 1) :
     CFSG.Open.IsElemAbelian 3 φ.range := by
   classical
-  haveI : IsMulCommutative (H ⧸ φ.ker) :=
+  have : IsMulCommutative (H ⧸ φ.ker) :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le).mpr hcomm
   have hrangeComm : IsMulCommutative φ.range := by
     rw [isMulCommutative_iff]
@@ -167,7 +169,6 @@ private theorem isElemAbelian_range_of_commutator_le_ker {H M : Type*} [Group H]
     simpa using h'
   have hrangeExp : ∀ y ∈ φ.range, y ^ 3 = 1 := by
     rintro y ⟨x, rfl⟩
-    change (φ x) ^ 3 = 1
     rw [← map_pow, hexp x, map_one]
   exact ⟨hrangeComm, hrangeExp⟩
 
@@ -178,6 +179,7 @@ private theorem card_range_ge_27_of_ker_card {H M : Type*} [Group H] [Group M]
   rw [hker] at hmul
   omega
 
+omit [Finite G] in
 private theorem commutator_le_ker_of_eq_center {Q₁ Q R L : Subgroup G}
     (φ : ↥Q₁ →* MulAut ↥L) (hker : φ.ker = R.subgroupOf Q₁)
     (hQ₁Q : Q₁ ≤ Q) (hcenter : R.subgroupOf Q = Subgroup.center ↥Q)
@@ -230,10 +232,10 @@ private theorem subgroupOf_inf_centralizers_eq_center
     have hRnormal : (R.subgroupOf Q).Normal := by
       rw [Subgroup.normal_subgroupOf_iff_le_normalizer_inf]
       rwa [inf_eq_left.mpr hRQ]
-    haveI hRQnormal : (R.subgroupOf Q).Normal := hRnormal
+    have hRQnormal : (R.subgroupOf Q).Normal := hRnormal
     have hRsubcard : Nat.card (R.subgroupOf Q) = 3 :=
       (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRQ).toEquiv).trans hRcard
-    haveI : Fact (IsPGroup 3 ↥Q) := ⟨IsPGroup.of_card hcard⟩
+    have : Fact (IsPGroup 3 ↥Q) := ⟨IsPGroup.of_card hcard⟩
     have hlecent : R.subgroupOf Q ≤ Subgroup.center ↥Q :=
       CFSG.normal_subgroup_card_eq_prime_le_center (p := 3) (R.subgroupOf Q) hRsubcard
     exact Subgroup.eq_of_le_of_card_ge hlecent (by rw [hRsubcard, hZ])

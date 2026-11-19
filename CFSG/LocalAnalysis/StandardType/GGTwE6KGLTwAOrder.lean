@@ -20,7 +20,7 @@ private theorem ordTwistedA_le_of_le_twAOrder {m q q' : ℕ} (h : q ≤ q')
     CFSG.Open.ordTwistedA m q ≤ CFSG.Open.ordTwistedA m q' := by
   unfold CFSG.Open.ordTwistedA
   exact Nat.div_le_div (Nat.mul_le_mul (Nat.pow_le_pow_left h _)
-    (Finset.prod_le_prod' fun i _ => toNat_factor_le_twAOrder h i)) hg
+    (Finset.prod_le_prod fun i _ => toNat_factor_le_twAOrder h i)) hg
     (Nat.gcd_pos_of_pos_left _ m.succ_pos).ne'
 
 private theorem two_pow_mod_six_twAOrder (k : ℕ) :
@@ -75,7 +75,7 @@ private theorem pow_fifteen_le_ordTwistedA_five_twAOrder {q : ℕ} (hq : 2 ≤ q
       norm_num at this
       exact this
     exact (Int.le_toNat (by norm_num; linarith)).2 (by push_cast; norm_num; linarith)
-  exact h3.trans (Finset.single_le_prod' h1 (by decide))
+  exact h3.trans (Finset.single_le_prod h1 (by decide))
 
 private theorem ordTwistedA_two_le_twAOrder {q : ℕ} (hq : 2 ≤ q) :
     CFSG.Open.ordTwistedA 2 q ≤ q ^ 11 := by

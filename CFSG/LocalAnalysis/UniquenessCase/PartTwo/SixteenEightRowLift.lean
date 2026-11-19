@@ -16,10 +16,10 @@ theorem s16g_lift_order_p {Y : Type} [Group Y] [Finite Y] (hperf : Group.IsPerfe
     (hz : Odd (Nat.card (Subgroup.center X))) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hmult : ¬ p ∣ Nat.card (CFSG.Open.griessHopfMultiplier X)) {x : X} (hx : orderOf x = p) :
     ∃ y : Y, orderOf y = p ∧ e (QuotientGroup.mk y) = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect Y := hperf
-  haveI : Group.IsPerfect X := ⟨hX.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect Y := hperf
+  have : Group.IsPerfect X := ⟨hX.1⟩
   let R : Subgroup Y := CFSG.pCore 2 Y
   let π : Y →* Y ⧸ R := QuotientGroup.mk' R
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective R
@@ -111,10 +111,10 @@ theorem s16g_lift_order_p {Y : Type} [Group Y] [Finite Y] (hperf : Group.IsPerfe
     rw [hkerS]
     exact Group.isSolvable_of_surjective (f := π.subgroupMap N)
       (MonoidHom.subgroupMap_surjective π N)
-  haveI : q.ker.Normal := MonoidHom.normal_ker q
+  have : q.ker.Normal := MonoidHom.normal_ker q
   have hSc : q.ker ≤ Subgroup.center (Y ⧸ R) :=
     close16_le_center_of_isSolvable hlayer hSsolv
-  haveI : Group.IsPerfect (Y ⧸ R) := Group.IsPerfect.ofSurjective hπ
+  have : Group.IsPerfect (Y ⧸ R) := Group.IsPerfect.ofSurjective hπ
   have hdvd : Nat.card q.ker ∣ Nat.card (CFSG.Open.griessHopfMultiplier X) := by
     obtain ⟨-, ⟨h, -, -, -, -, ⟨e', -⟩⟩, -, -⟩ :=
       CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_schur_multiplier

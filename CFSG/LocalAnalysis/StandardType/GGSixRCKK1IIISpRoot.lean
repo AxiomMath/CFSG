@@ -58,7 +58,7 @@ theorem rckSp_shortRoot (m g : ℕ) (hm : 2 ≤ m) :
     have hev := rckSpRoot_allEven_of_ggLongRoot m (GaloisField 2 g) hm hl
     have hev' : ¬ (⟨0, hm0⟩ : Fin m).val + 1 < m :=
       (GGRootSp.allEven_toStd_single_iff (n := m) (⟨0, hm0⟩ : Fin m)).1 hev
-    simp only [Fin.val_mk, zero_add] at hev'
+    simp only [zero_add] at hev'
     exact absurd (by omega : (1 : ℕ) < m) hev'
   have h2β : 2 • (Pi.single (⟨0, hm0⟩ : Fin m) 1 : Fin m → ℤ) ∉
       (Symplectic.rootDatum m (GaloisField 2 g)).roots := by

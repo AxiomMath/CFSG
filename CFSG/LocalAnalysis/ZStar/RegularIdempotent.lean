@@ -25,6 +25,7 @@ variable {G : Type u} [Group G] [Fintype G]
 noncomputable local instance subgroupFintype (H : Subgroup G) : Fintype H :=
   Fintype.ofFinite H
 
+omit [Fintype G] in
 private theorem odd_orderOf_mul_of_mem_odd_normal
     (N : Subgroup G) [N.Normal] (hNodd : Odd (Nat.card N))
     (n : N) {x : G} (hx : Odd (orderOf x)) :
@@ -42,6 +43,7 @@ private theorem odd_orderOf_mul_of_mem_odd_normal
     ((show N ≤ N ⊔ K from le_sup_left) n.property)
     ((show K ≤ N ⊔ K from le_sup_right) (Subgroup.mem_zpowers x))
 
+omit [Fintype G] in
 private theorem odd_orderOf_mul_iff_of_mem_odd_normal
     (N : Subgroup G) [N.Normal] (hNodd : Odd (Nat.card N))
     (n : N) (x : G) :

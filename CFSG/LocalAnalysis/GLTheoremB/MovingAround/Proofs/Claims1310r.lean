@@ -28,7 +28,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem twoLocalRank_quot_le {m : ℕ} (hS : GLStanding G m 3) (C : Subgroup G) :
     GLATwoLocalRank 3 (↥C ⧸ GLAPPrimeCore 3 ↥C) ≤ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine csSup_le' fun k hk => ?_
   obtain ⟨H, ⟨T, hT, hT2, rfl⟩, rfl⟩ := hk
   refine CFSG.SectionRank.pRank_le (by norm_num) fun F hF hFel => ?_
@@ -153,7 +153,7 @@ theorem le_M_of_gen2318 (hG : Gen2318) {m p : ℕ} {B M E A D T R L0 : Subgroup 
     (hi : Gen2318Index i.1) : Kc ≤ M := by
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hS : GLStanding G m 3 := h.standing
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
@@ -189,7 +189,7 @@ theorem le_M_of_gen2318 (hG : Gen2318) {m p : ℕ} {B M E A D T R L0 : Subgroup 
 theorem le_M_of_plane {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     (h : Cex1310 G m p B M E A D T R L0 d) (h139b : Prop139b p M D) {U : Subgroup G}
     (hU : IsU1312 p B M D L0 d U) {u : G} (hu : u ∈ U) (hu1 : u ≠ 1) {Kc : Subgroup G}
-    (hKc : GLAPComponent 3 (Cg u) Kc) (hN : B ≤ Subgroup.normalizer (Kc : Set G))
+    (hKc : GLAPComponent 3 (Cg u) Kc) (_hN : B ≤ Subgroup.normalizer (Kc : Set G))
     (i : TauCeti.ValidLieTypeIndex)
     (e : barOf 3 Kc ⧸ Subgroup.center (barOf 3 Kc) ≃* (TauCeti.CFSGIndex.lie i).Group)
     (hs : CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.Seitz2313Cover.EvenScope i.1)
@@ -199,7 +199,7 @@ theorem le_M_of_plane {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     (hV : IsPGroup 2 ↥V) (hVF : ∀ φ ∈ F, ∀ x ∈ V, φ x ∈ V) (hV1 : V ≠ ⊥) : Kc ≤ M := by
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
   have huB : u ∈ B := hU.1.1 hu

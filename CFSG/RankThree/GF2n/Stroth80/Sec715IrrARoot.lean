@@ -32,12 +32,12 @@ theorem span_isotropic (b : LinearMap.BilinForm K X) {A : Set X}
 
 theorem card_le_pow_finrank_span [Finite K] [FiniteDimensional K X] (A : AddSubgroup X) :
     Nat.card A ≤ Nat.card K ^ finrank K (Submodule.span K (A : Set X)) := by
-  haveI : Finite X := Module.finite_of_finite K
+  have : Finite X := Module.finite_of_finite K
   rw [← Module.natCard_eq_pow_finrank]
   exact Nat.card_mono (Set.toFinite _) Submodule.subset_span
 
 theorem exists_smul_of_pureT_eq {L : Type*} [AddCommGroup L] [Module K L] {f f' : Fin 2 → K}
-    {y y' : L} (hf : f ≠ 0) (hy : y ≠ 0) (h : pureT f y = pureT f' y') : ∃ c : K, y = c • y' := by
+    {y y' : L} (hf : f ≠ 0) (_hy : y ≠ 0) (h : pureT f y = pureT f' y') : ∃ c : K, y = c • y' := by
   obtain ⟨i, hi⟩ : ∃ i, f i ≠ 0 := by
     by_contra hh
     push Not at hh
@@ -257,7 +257,7 @@ theorem ConfigAData.card_Lambda_le (h310chi : Stroth310ChiStatement)
     Nat.card ↥(bar M Q (hc.CN t) ⊓ bar M Q (conjSubgroup g (hc.CN t))) ≤
       Nat.card (bar M Q Z0) * Nat.card K ^ 8 := by
   classical
-  haveI : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by rw [D.finrank₄]; norm_num)
+  have : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by rw [D.finrank₄]; norm_num)
   obtain ⟨A, -, hcard, hiso⟩ :=
     D.exists_isotropic_Lambda h310chi h52a hCRW hMp hCommN hs hr hZ0 hTI hg
   rw [hcard]
@@ -358,7 +358,7 @@ theorem ConfigAData.isotropic_of_symNbr (h34 : Stroth34Statement)
       HasLine hS t eN Z0 g f y → f ⬝ᵥ (ψ *ᵥ f) = 0 := by
   classical
   intro g f y hg hf hy hl
-  haveI : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by rw [D.finrank₄]; norm_num)
+  have : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by rw [D.finrank₄]; norm_num)
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hQN : Q ≤ hc.CN t := hc.Q_le_CN' ht
   have hQM : ∀ y ∈ M, ∀ x ∈ Q, y * x * y⁻¹ ∈ Q := fun y hy x hx =>
@@ -446,15 +446,14 @@ theorem ConfigAData.isotropic_of_symNbr (h34 : Stroth34Statement)
     apply hd
     have h0' := congrFun h0 0
     have h1' := congrFun h0 1
-    simp only [hg₁, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Pi.zero_apply,
+    simp only [hg₁, Matrix.cons_val_zero, Matrix.cons_val_one, Pi.zero_apply,
       neg_eq_zero] at h0' h1'
     funext i
     fin_cases i
     · exact h1'
     · exact h0'
   have hdg : d ⬝ᵥ g₁ = 0 := by
-    simp only [hg₁, dotProduct, Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons]
+    simp only [hg₁, dotProduct, Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one]
     ring
   have hgg₁ : g₁ ⬝ᵥ (ψ *ᵥ g₁) ≠ 0 := by
     intro h0

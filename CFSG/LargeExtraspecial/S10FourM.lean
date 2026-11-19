@@ -30,8 +30,8 @@ theorem apply_sub_mem_of_Abar (hCE : CentralExtInput.{u}) (X : Hyp10 S g t) {x :
   exact X.C.comm_le y ⟨hyQ, mem_centralizer_singleton_iff.mpr hya⟩ x
     (Subgroup.mem_inf.mp hx).1
 
-theorem StronglyClosedL.fix_commSpace_conj_of_fix (hSC : StronglyClosedL S g t)
-    (hCE : CentralExtInput.{u}) (X : Hyp10 S g t) (F : Frame X) (hfixAll : FixVtConj S g t)
+theorem StronglyClosedL.fix_commSpace_conj_of_fix (_hSC : StronglyClosedL S g t)
+    (_hCE : CentralExtInput.{u}) (X : Hyp10 S g t) (_F : Frame X) (hfixAll : FixVtConj S g t)
     {m : S.M}
     (hne : S.ρ m * t * (S.ρ m)⁻¹ ≠ t)
     (hcomm : (S.ρ m * t * (S.ρ m)⁻¹) * t = t * (S.ρ m * t * (S.ρ m)⁻¹)) {w : S.Qt}

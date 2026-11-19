@@ -75,7 +75,7 @@ theorem ggAutomizer_card_of_lineJDatum_A2 {G : Type} [Group G] {p : ℕ} [Fact p
     {Bs J : Subgroup G} (hp : p = 3) (hD : GGResLineJDatum p Bs J .A2) :
     Nat.card (ggAutomizer J Bs) = 6 := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨V, instA, instM, ι, r, h, α, hform, hrefl, hpair, hind, hgen⟩ := hD
   let rV : Fin 2 → MulAut ↥Bs := r
   let hV : Fin 2 → V := h
@@ -319,7 +319,7 @@ theorem ggAutomizer_coxeterEquiv_of_lineJDatum
     (hcartan : GGResLineJType.cartan T = C) :
     Nonempty (ggAutomizer J Bs ≃* M.Group) := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
   have hpairC : ∀ i j : Fin T.rank, α i (h j) = (C i j : ZMod 3) := by
     intro i j
@@ -333,7 +333,7 @@ theorem ggAutomizer_card_of_lineJDatum_B2
     (hp : p = 3) (hD : GGResLineJDatum p Bs J .B2) :
     Nat.card (ggAutomizer J Bs) = 8 := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hM : coxeterMatrix (isFiniteType_cartanC 2) = CoxeterMatrix.B 2 :=
     coxeterMatrix_cartanC_eq_B 2
   have hC : GGIntCartan (coxeterMatrix (isFiniteType_cartanC 2)) (CartanMatrix.B 2) := by
@@ -357,7 +357,7 @@ theorem ggAutomizer_card_of_lineJDatum_A3
     (hp : p = 3) (hD : GGResLineJDatum p Bs J .A3) :
     Nat.card (ggAutomizer J Bs) = 24 := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hFT : TauCeti.IsFiniteType (CartanMatrix.A 3) :=
     TauCeti.isFiniteType_cartanMatrix_A 3
   have hAeq : coxeterMatrix hFT = CoxeterMatrix.A 3 :=
@@ -495,7 +495,7 @@ theorem not_exists_inversion_mem_ggTorusWeylAut_of_lineJDatum_A3
     ¬ ∃ φ ∈ ggTorusWeylAut p (ggGamma J hN).range,
       ∀ a : ↥(ggGamma J hN).range, φ a = a⁻¹ := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcenter : Subgroup.center (ggAutomizer J Bs) = ⊥ := by
     obtain ⟨eW⟩ := ggAutomizer_coxeterEquiv_of_lineJDatum
       (T := .A3) (M := CoxeterMatrix.A 3) (C := CartanMatrix.A 3)
@@ -530,7 +530,7 @@ theorem not_exists_inversion_mem_ggTorusWeylAut_of_lineJDatum_A2
     ¬ ∃ φ ∈ ggTorusWeylAut p (ggGamma J hN).range,
       ∀ a : ↥(ggGamma J hN).range, φ a = a⁻¹ := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcenter : Subgroup.center (ggAutomizer J Bs) = ⊥ := by
     obtain ⟨eW⟩ := ggAutomizer_coxeterEquiv_of_lineJDatum
       (T := .A2) (M := CoxeterMatrix.A 2) (C := CartanMatrix.A 2)
@@ -558,7 +558,7 @@ theorem ggAutomizer_card_of_lineJDatum_B3
     (hp : p = 3) (hD : GGResLineJDatum p Bs J .B3) :
     Nat.card (ggAutomizer J Bs) = 48 := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hM : coxeterMatrix (isFiniteType_cartanC 3) = CoxeterMatrix.B 3 :=
     coxeterMatrix_cartanC_eq_B 3
   have hC : GGIntCartan (coxeterMatrix (isFiniteType_cartanC 3)) (CartanMatrix.B 3) := by
@@ -582,7 +582,7 @@ theorem ggAutomizer_card_of_lineJDatum_C3
     (hp : p = 3) (hD : GGResLineJDatum p Bs J .C3) :
     Nat.card (ggAutomizer J Bs) = 48 := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hM : coxeterMatrix (isFiniteType_cartanC 3) = CoxeterMatrix.B 3 :=
     coxeterMatrix_cartanC_eq_B 3
   have hC : GGIntCartan (coxeterMatrix (isFiniteType_cartanC 3)) (CartanMatrix.C 3) := by
@@ -611,7 +611,7 @@ theorem linearIndependent_roots_of_lineJDatum_A2
     (hmem : ∀ j, r j ∈ ggAutomizer J Bs)
     (hNoTr : GGNoTransvection 3 Bs) :
     LinearIndependent (ZMod 3) α := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h2ne : (2 : ZMod 3) ≠ 0 := by
     intro h
     have hdvd : 3 ∣ 2 := (ZMod.natCast_eq_zero_iff 2 3).mp h
@@ -687,7 +687,7 @@ theorem exists_mem_inf_of_coroot
     (i : Fin T.rank) :
     ∃ e : ↥(Bs ⊓ J), ι (Additive.ofMul (Subgroup.inclusion inf_le_left e)) = h i := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hα2 : α i (h i) = 2 := by
     have h2 : T.cartan i i = 2 := by
       cases T <;> fin_cases i <;> decide
@@ -704,7 +704,7 @@ theorem exists_mem_inf_of_coroot
   have hcJ : (c : G) ∈ J := by
     simpa [c] using hmem
   refine ⟨⟨(c : G), Subgroup.mem_inf.mpr ⟨c.2, hcJ⟩⟩, ?_⟩
-  simpa [c, Subgroup.inclusion] using hcι
+  simp [c, Subgroup.inclusion]
 
 end GGResLineJDatum
 
@@ -715,16 +715,16 @@ theorem pow_rank_le_card_inf_of_lineJDatum_three
     (hD : GGResLineJDatum 3 Bs J T) :
     3 ^ T.rank ≤ Nat.card ↥(Bs ⊓ J) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, instA, instM, ι, r, h, α, hform, hrefl, hpair, hind, hgen⟩ := hD
-  letI := instA
-  letI := instM
-  haveI hCommBs : IsMulCommutative ↥Bs := hBs.2.1.1
-  letI : CommGroup ↥Bs := IsMulCommutative.instCommGroup
+  let := instA
+  let := instM
+  have hCommBs : IsMulCommutative ↥Bs := hBs.2.1.1
+  let : CommGroup ↥Bs := IsMulCommutative.instCommGroup
   let E : Subgroup G := Bs ⊓ J
   have hEle : E ≤ Bs := inf_le_left
   let incl : ↥E →* ↥Bs := Subgroup.inclusion hEle
-  haveI hEea : CFSG.IsElementaryAbelian 3 ↥E := by
+  have hEea : CFSG.IsElementaryAbelian 3 ↥E := by
     refine { toIsMulCommutative := ?_, exponent_dvd_p := ?_ }
     · refine ⟨⟨fun a b => ?_⟩⟩
       apply Subgroup.inclusion_injective hEle
@@ -735,8 +735,8 @@ theorem pow_rank_le_card_inf_of_lineJDatum_three
       apply Subtype.ext
       have hx : ((x : ↥E) : G) ^ 3 = 1 := hBs.2.1.2 ((x : ↥E) : G) (incl x).2
       simpa using hx
-  letI : CommGroup ↥E := IsMulCommutative.instCommGroup
-  letI : Module (ZMod 3) (Additive ↥E) := CFSG.IsElementaryAbelian.isVectorSpace 3
+  let : CommGroup ↥E := IsMulCommutative.instCommGroup
+  let : Module (ZMod 3) (Additive ↥E) := CFSG.IsElementaryAbelian.isVectorSpace 3
   let φadd : Additive ↥E →+ V := ι.toAddMonoidHom.comp (MonoidHom.toAdditive incl)
   let φ : Additive ↥E →ₗ[ZMod 3] V := φadd.toZModLinearMap 3
   let W : Submodule (ZMod 3) V := LinearMap.range φ
@@ -781,12 +781,12 @@ theorem card_inf_ge_twentyseven_of_lineJDatum_A2_of_split
     (hD : GGResLineJDatum 3 Bs J .A2) :
     27 ≤ Nat.card ↥(Bs ⊓ J) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
-  letI := instA
-  letI := instM
-  haveI hCommBs : IsMulCommutative ↥Bs := hBs.2.1.1
-  letI : CommGroup ↥Bs := IsMulCommutative.instCommGroup
+  let := instA
+  let := instM
+  have hCommBs : IsMulCommutative ↥Bs := hBs.2.1.1
+  let : CommGroup ↥Bs := IsMulCommutative.instCommGroup
   have hmem : ∀ j : Fin 2, r j ∈ ggAutomizer J Bs := by
     intro j
     rw [hgen]
@@ -796,7 +796,7 @@ theorem card_inf_ge_twentyseven_of_lineJDatum_A2_of_split
   let E : Subgroup G := Bs ⊓ J
   have hEle : E ≤ Bs := inf_le_left
   let incl : ↥E →* ↥Bs := Subgroup.inclusion hEle
-  haveI hEea : CFSG.IsElementaryAbelian 3 ↥E := by
+  have hEea : CFSG.IsElementaryAbelian 3 ↥E := by
     refine { toIsMulCommutative := ?_, exponent_dvd_p := ?_ }
     · refine ⟨⟨fun a b => ?_⟩⟩
       apply Subgroup.inclusion_injective hEle
@@ -807,8 +807,8 @@ theorem card_inf_ge_twentyseven_of_lineJDatum_A2_of_split
       apply Subtype.ext
       have hx : ((x : ↥E) : G) ^ 3 = 1 := hBs.2.1.2 ((x : ↥E) : G) (incl x).2
       simpa using hx
-  letI : CommGroup ↥E := IsMulCommutative.instCommGroup
-  letI : Module (ZMod 3) (Additive ↥E) := CFSG.IsElementaryAbelian.isVectorSpace 3
+  let : CommGroup ↥E := IsMulCommutative.instCommGroup
+  let : Module (ZMod 3) (Additive ↥E) := CFSG.IsElementaryAbelian.isVectorSpace 3
   let φadd : Additive ↥E →+ V := ι.toAddMonoidHom.comp (MonoidHom.toAdditive incl)
   let φ : Additive ↥E →ₗ[ZMod 3] V := φadd.toZModLinearMap 3
   let W : Submodule (ZMod 3) V := LinearMap.range φ

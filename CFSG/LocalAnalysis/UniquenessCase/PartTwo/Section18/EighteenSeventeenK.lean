@@ -120,6 +120,7 @@ theorem card_Vtil_lt_mul_card_fixV {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
         rw [mul_comm (Nat.card S) (2 ^ (d - 1))]
         exact Nat.mul_lt_mul_of_pos_right hlt hSpow
 
+omit [Finite G] in
 theorem tilOf_mem_commSub {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
     (ht : t ∈ stabTil V₀ V) {z : G} (hz : z ∈ commElt V t) (hzV : z ∈ V) :
     tilOf V₀ V hV z hzV ∈
@@ -212,7 +213,7 @@ theorem le_centralizer_of_mem_V₀ {M V₀ : Subgroup G} (_hV₀ : IsElemAbelian
     (hcard : Nat.card V₀ ≤ 2) (hM : M ≤ Subgroup.normalizer (V₀ : Set G))
     {z : G} (hz : z ∈ V₀) (hz1 : z ≠ 1) :
     M ≤ Subgroup.centralizer ({z} : Set G) := by
-  haveI : Nontrivial ↥V₀ := ⟨⟨z, hz⟩, 1, fun e => hz1 (congrArg Subtype.val e)⟩
+  have : Nontrivial ↥V₀ := ⟨⟨z, hz⟩, 1, fun e => hz1 (congrArg Subtype.val e)⟩
   have h2 : Nat.card V₀ = 2 := le_antisymm hcard Finite.one_lt_card
   exact hM.trans ((CFSG.Quasithin.normalizer_eq_centralizer_of_card_eq_two h2).le.trans
     (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hz)))

@@ -15,6 +15,7 @@ open CFSG.QuasithinUnique.Lin2 (IsHallTwoPrimeOf ActsRegularlyOn nonIdentity)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_mul_eq_of_mem_sup_of_commute_elementwise {A B : Subgroup G}
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {g : G}
     (hg : g ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, g = a * b := by

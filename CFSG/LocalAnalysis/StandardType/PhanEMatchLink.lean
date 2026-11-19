@@ -17,7 +17,7 @@ private lemma plh_form_single_single (m l : Fin n) :
   rw [form_single_left, Finset.sum_eq_single l]
   · simp
   · intro k _ hk
-    simp [Pi.single_apply, hk]
+    simp [hk]
   · intro h
     exact absurd (Finset.mem_univ l) h
 

@@ -289,7 +289,7 @@ theorem le_centralizer_of_zpowers_eq_of_inf_eq {p : ℕ} [Fact p.Prime] {P : Syl
   have hlt : S < (P : Subgroup G) :=
     lt_of_le_of_ne inf_le_left fun h => hne (h ▸ inf_le_right)
   obtain ⟨n, ⟨hnP, hnN⟩, hnS⟩ := IsConcreteLE.exists_of_lt
-    (pGroup_proper_subgroup_lt_internal_normalizer p hprime P S P.isPGroup' hlt)
+    (pGroup_proper_subgroup_lt_internal_normalizer p hprime P S P.isPGroup hlt)
   have hy := hx.conj_of_mem_normalizer hPM hnP hnN
   have hSmap : S.map (MulAut.conj n).toMonoidHom = S :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hnN
@@ -306,7 +306,7 @@ theorem le_centralizer_of_zpowers_eq_of_inf_eq {p : ℕ} [Fact p.Prime] {P : Syl
   have hmem : n * x * n⁻¹ ∈ zpowers x := by
     have := hU _ hy hSy ▸ mem_zpowers (MulAut.conj n x)
     simpa [MulAut.conj_apply] using this
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
   have hk' : n ^ (p ^ k) = 1 := congrArg Subtype.val hk
   have hcomm := conj_eq_self_of_conj_mem_zpowers hx1 hxp hk' hmem
   exact hnS ⟨hnP, mem_centralizer_singleton_iff.mpr (mul_inv_eq_iff_eq_mul.mp hcomm)⟩

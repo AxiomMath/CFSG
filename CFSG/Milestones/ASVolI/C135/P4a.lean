@@ -25,6 +25,7 @@ variable {Q L W₁ W₂ : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 
   {βU : ↥(centerOf Q) →* Multiplicative (Fin 3 → F)}
   {β₁ : ↥W₁ →* Multiplicative (Fin 3 → F)} {β₂ : ↥W₂ →* Multiplicative (Fin 3 → F)}
 
+omit [Finite G] [CharP F 2] in
 theorem burnsideC135_W₁_irred (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
     {K : Subgroup G} (hUK : centerOf (Q) ≤ K) (hKW : K ≤ W₁)
     (hLK : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K) : K = centerOf (Q) ∨ K = W₁ := by
@@ -77,6 +78,7 @@ theorem burnsideC135_W₁_irred (hD : burnsideC135_DSG Q L W₁ W₂ α βU β�
     rw [hD.dual₁_ker, Subgroup.mem_subgroupOf] at h2
     exact h2
 
+omit [Finite G] [CharP F 2] in
 theorem burnsideC135_W₁_invariant (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
     {S₀ : Subgroup G} (hS₀L : S₀ ≤ Subgroup.normalizer (L : Set G))
     (hS₀U : S₀ ≤ Subgroup.normalizer (centerOf (Q) : Set G)) {q₀ : G} (hq₀W : q₀ ∈ W₁)
@@ -246,16 +248,16 @@ theorem burnsideC135_exists_invariant_dualSplit (hα : IsModO2Surj L α) (hLX : 
   have hMdet : IsUnit M.det := by
     rw [isUnit_iff_ne_zero]
     by_cases h : c 0 ≠ 0
-    · simp only [M, if_pos h, Matrix.det_fin_two_of]
+    · simp only [M, ite_eq_left h, Matrix.det_fin_two_of]
       simpa using h
-    · simp only [M, if_neg h, Matrix.det_fin_two_of]
+    · simp only [M, ite_eq_right h, Matrix.det_fin_two_of]
       push Not at h
       have h1' : c 1 ≠ 0 := hc0.resolve_left (by simpa using h)
       simpa [h] using h1'
   have hM1 : M 1 0 = c 1 ∧ M 1 1 = c 0 := by
     by_cases h : c 0 ≠ 0
-    · simp only [M, if_pos h]; exact ⟨rfl, rfl⟩
-    · simp only [M, if_neg h]; exact ⟨rfl, rfl⟩
+    · simp only [M, ite_eq_left h]; exact ⟨rfl, rfl⟩
+    · simp only [M, ite_eq_right h]; exact ⟨rfl, rfl⟩
   obtain ⟨hβ's, hβ'k, hβ'eq⟩ := burnsideC135_twist (α := α) hβs hβk hβeq
     (Matrix.nonsing_inv_mul M hMdet) (Matrix.mul_nonsing_inv M hMdet)
   set β' := (burnsideC135_mix M).comp β with hβ'

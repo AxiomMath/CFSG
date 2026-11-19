@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor
 open CFSG.Open Subgroup
 
 theorem sz32_W1 {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {V Z : Subgroup G}
-    (hVP : V ≤ (P : Subgroup G)) (hVel : IsElemAbelian 5 V) (hVcard : Nat.card V = 5 ^ 3)
+    (hVP : V ≤ (P : Subgroup G)) (hVel : IsElemAbelian 5 V) (_hVcard : Nat.card V = 5 ^ 3)
     (hVall : ∀ v ∈ (P : Subgroup G), v ^ 5 = 1 → v ∈ V) (hZV : Z ≤ V)
     (hZcent : ∀ z ∈ (P : Subgroup G), (∀ q ∈ (P : Subgroup G), q * z = z * q) ↔ z ∈ Z)
     (hZwc : ∀ h : G, Z.map (MulAut.conj h).toMonoidHom ≤ (P : Subgroup G) →
@@ -38,7 +38,7 @@ theorem sz32_W1 {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {V Z : Subgroup 
     rw [Subgroup.mem_centralizer_singleton_iff]
     have := hVel.1
     exact congrArg Subtype.val (mul_comm' (⟨v, hv⟩ : V) ⟨b, hbV⟩)
-  have hVp : IsPGroup 5 V := P.isPGroup'.to_le hVP
+  have hVp : IsPGroup 5 V := P.isPGroup.to_le hVP
   obtain ⟨c, hc⟩ :=
     CFSG.RankThreeCoreUniqueness.Helpers.pGroup_conjugate_into_sylow_within_overgroup
       5 (by norm_num) (g⁻¹ • P) (Subgroup.centralizer {b}) hR₀C V hVp hVC

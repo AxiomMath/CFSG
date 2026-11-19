@@ -100,7 +100,7 @@ theorem form_ne_zero : ∀ a b c d : ZMod 3, ¬ (a = 0 ∧ b = 0 ∧ c = 0 ∧ d
 theorem pform_eq_lform (a b c d : ZMod 3) (i : Fin 29) : pform a b c d i = lform a b c d i := by
   ext x y
   rw [pform, Matrix.mul_apply]
-  simp [Matrix.mul_diagonal, Fin.sum_univ_four, lform, colM, Matrix.vecMulVec_apply] <;> ring
+  simp [Matrix.mul_diagonal, Fin.sum_univ_four, lform, colM, Matrix.vecMulVec_apply]; ring
 
 @[expose] def formCodes (a b c d : ZMod 3) : List ℕ :=
   (List.finRange 29).flatMap fun i =>

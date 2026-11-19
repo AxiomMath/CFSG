@@ -33,7 +33,7 @@ private theorem x_pow_five : x ^ 5 = 1 := Subtype.ext (by decide)
 private theorem x_ne_one : x ≠ 1 := by decide
 
 private theorem x_orderOf : orderOf x = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   exact orderOf_eq_prime x_pow_five x_ne_one
 
 private theorem a_comm_x : a * x = x * a := Subtype.ext (by decide)
@@ -109,9 +109,9 @@ private lemma exists_central_order_five {X : Type} [Group X] [Finite X]
   let Z : Subgroup (S : Subgroup X) := Subgroup.center (S : Subgroup X)
   have hSnt : Nontrivial (S : Subgroup X) :=
     (Subgroup.nontrivial_iff_ne_bot (S : Subgroup X)).mpr hSne
-  letI : Nontrivial (S : Subgroup X) := hSnt
-  have hZnt : Nontrivial Z := IsPGroup.center_nontrivial (Sylow.isPGroup' S)
-  have hZpg : IsPGroup 5 Z := (Sylow.isPGroup' S).to_subgroup Z
+  let : Nontrivial (S : Subgroup X) := hSnt
+  have hZnt : Nontrivial Z := IsPGroup.center_nontrivial (Sylow.isPGroup S)
+  have hZpg : IsPGroup 5 Z := (Sylow.isPGroup S).to_subgroup Z
   obtain ⟨k, hkpos, hkcard⟩ := hZpg.nontrivial_iff_card.mp hZnt
   have hdiv : 5 ∣ Nat.card Z := by
     rw [hkcard]
@@ -131,7 +131,7 @@ private lemma exists_central_order_five {X : Type} [Group X] [Finite X]
     have hzy : (⟨y, hy⟩ : (S : Subgroup X)) * (z : Z) = (z : Z) * ⟨y, hy⟩ :=
       Subgroup.mem_center_iff.mp z.2 ⟨y, hy⟩
     exact congrArg (fun w : (S : Subgroup X) => (w : X)) hzy.symm
-  haveI : IsCyclic (Subgroup.centralizer ({s} : Set X)) := hX s hsord
+  have : IsCyclic (Subgroup.centralizer ({s} : Set X)) := hX s hsord
   have hScyc : IsCyclic (S : Subgroup X) :=
     isCyclic_of_injective (Subgroup.inclusion hSC) (Subgroup.inclusion_injective hSC)
   exact ⟨s, hsord, hsS, hScyc⟩
@@ -170,7 +170,7 @@ private lemma image_not_two_involutions {X : Type} [Group X] [Finite X]
   let D : Subgroup A9 := C.map φ
   have hDcyc : IsCyclic D :=
     isCyclic_of_surjective (φ.subgroupMap C) (φ.subgroupMap_surjective C)
-  letI : IsCyclic D := hDcyc
+  let : IsCyclic D := hDcyc
   let uD : D := ⟨u, hu⟩
   let vD : D := ⟨v, hv⟩
   have huD_sq : uD ^ 2 = 1 := by
@@ -188,7 +188,7 @@ private lemma image_not_two_involutions {X : Type} [Group X] [Finite X]
   have huvD : uD ≠ vD := by
     intro h
     exact u_ne_v (congrArg (fun y : D => (y : A9)) h)
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   exact huvD (CFSG.EvenSporadicStandard.ThStd.eq_of_orderOf_eq_two_of_isCyclic
     (orderOf_eq_prime huD_sq huD_ne) (orderOf_eq_prime hvD_sq hvD_ne))
 
@@ -196,14 +196,14 @@ theorem not_surjective_of_isCyclic_centralizer {X : Type} [Group X] [Finite X]
     (hX : ∀ s : X, orderOf s = 5 → IsCyclic (Subgroup.centralizer ({s} : Set X)))
     (φ : X →* alternatingGroup (Fin 9)) : ¬ Function.Surjective φ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   intro hφ
   obtain ⟨S, hSne, hImage⟩ := exists_sylow_map_eq φ hφ
   obtain ⟨s, hsord, hsS, hScyc⟩ := exists_central_order_five hX S hSne
   let C : Subgroup X := Subgroup.centralizer ({s} : Set X)
   have hCcyc : IsCyclic C := hX s hsord
-  letI : IsCyclic C := hCcyc
-  letI : IsCyclic (S : Subgroup X) := hScyc
+  let : IsCyclic C := hCcyc
+  let : IsCyclic (S : Subgroup X) := hScyc
   obtain ⟨na, hnaN, hna⟩ := exists_lift_normalizer_of_commutes φ hφ S hImage a a_comm_x
   obtain ⟨nb, hnbN, hnb⟩ := exists_lift_normalizer_of_commutes φ hφ S hImage b b_comm_x
   obtain ⟨nc, hncN, hnc⟩ := exists_lift_normalizer_of_commutes φ hφ S hImage c c_comm_x

@@ -32,9 +32,9 @@ theorem sylow_of_sylow_normalizer_intersection
   have hstrict : W < V := lt_of_le_of_ne hWV (Ne.symm heq)
   let U := V ⊓ Subgroup.normalizer (W : Set G)
   have hgrowth : W < U :=
-    pSubgroup_lt_normalizer_intersection p hp W V (Q.isPGroup'.map D.subtype) hstrict
+    pSubgroup_lt_normalizer_intersection p hp W V (Q.isPGroup.map D.subtype) hstrict
   have hUB : U ≤ B := inf_le_inf (Subgroup.map_subtype_le _) le_rfl
-  have hUp : IsPGroup p U := (Q.isPGroup'.map D.subtype).of_injective
+  have hUp : IsPGroup p U := (Q.isPGroup.map D.subtype).of_injective
     (Subgroup.inclusion (show U ≤ V from inf_le_left))
     (Subgroup.inclusion_injective _)
   have hUi : IsPGroup p (U.subgroupOf B) :=

@@ -25,11 +25,12 @@ theorem Ctx.swapHyp (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn : 2 < n)
     congrArg Subtype.val (hc.isElemAbelian_bar_LB.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   sq a ha := hc.isElemAbelian_bar_LB.2 a ha
   sylow S hS hΛS := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact CFSG.LargeExtraspecial.le_normalizer_of_isWeaklyClosed
       (fun g hg => hc.weaklyClosed_bar_LB hw hn hno g hg) hS hΛS
 
 
+omit [(Q.subgroupOf M).Normal] in
 theorem Ctx.Lgen_le_H0_sec4x (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ H0 M Z := by
   refine iSup₂_le fun m hm => ?_
   intro x hx
@@ -49,7 +50,7 @@ theorem Ctx.Lgen_le_H0_sec4x (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ H0 M Z :
 
 theorem Ctx.bar_Lgen_le_bar_H0 (hc : Ctx M Q Z B) :
     bar M Q (Lgen M (LB M Q B)) ≤ bar M Q (H0 M Z) :=
-  Subgroup.map_mono fun x hx => hc.Lgen_le_H0_sec4x hx
+  Subgroup.map_mono fun _x hx => hc.Lgen_le_H0_sec4x hx
 
 theorem Ctx.noComm (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n)
     (hn : 2 < n) (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B) :
@@ -68,8 +69,8 @@ theorem Ctx.compSimple (h34 : Stroth34Statement) (h44 : Stroth44Statement) (hc :
     (fun A hAM hΛA hodd => h44 G M Q Z B hc n hw hn hno hgen A (hAM.trans hc.bar_Lgen_le_bar_H0)
       hΛA hodd)
 
-theorem bar_le_normalizer_of_le_normalizer {L S : Subgroup G} (hQL : Q ≤ L) (hLM : L ≤ M)
-    (hSM : S ≤ M) (hSN : S ≤ Subgroup.normalizer (L : Set G)) :
+theorem bar_le_normalizer_of_le_normalizer {L S : Subgroup G} (_hQL : Q ≤ L) (_hLM : L ≤ M)
+    (_hSM : S ≤ M) (hSN : S ≤ Subgroup.normalizer (L : Set G)) :
     bar M Q S ≤ Subgroup.normalizer (bar M Q L : Set (Mbar M Q)) := by
   rintro _ ⟨y, hy, rfl⟩
   refine Subgroup.mem_normalizer_fintype fun z hz => ?_
@@ -113,9 +114,10 @@ theorem Ctx.bar_CN_conj_mem (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {r 
   refine ⟨r' * n' * r'⁻¹, Subgroup.mem_subgroupOf.mpr ?_, by simp⟩
   exact hc.CN_conj_mem ht (Subgroup.mem_subgroupOf.mp hr') (Subgroup.mem_subgroupOf.mp hn')
 
-theorem Ctx.bar_LB_le_bar_Rt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
+omit [Finite G] in
+theorem Ctx.bar_LB_le_bar_Rt (_hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
     bar M Q (LB M Q B) ≤ bar M Q (Rt M (LB M Q B) t) :=
-  Subgroup.map_mono fun x hx => le_Rt (M := M) (LB M Q B) ht hx
+  Subgroup.map_mono fun _x hx => le_Rt (M := M) (LB M Q B) ht hx
 
 theorem Ctx.component_le_bar_Rt (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ}
     (hw : Width Q Z n) (hn : 2 < n) (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B)
@@ -279,7 +281,7 @@ theorem Ctx.classical_quotient (h310 : Stroth310Statement) (hc : Ctx M Q Z B) {n
   rcases h310 G M Q Z B hc n hw hn hno hgen t ht htQ with hRL | ⟨K, hF, hFin, hK, hnat⟩
   · exact absurd hRL hR
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
   have key : ∀ {ι : Type} [Fintype ι] [DecidableEq ι] {X : Subgroup (GL ι K)} {V : Subgroup G},
       NaturalRep K X (Rt M (LB M Q B) t) V Z (hc.CN t) → IsClassicalOver K ↥X →
       ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2) (Gc : Type) (_ : Group Gc)
@@ -362,7 +364,7 @@ theorem Ctx.component_inf_CN_eq_bot (h34 : Stroth34Statement) (hc : Ctx M Q Z B)
     (hcs : CompSimple (Mbar M Q)) {t : G} (ht : t ∈ LB M Q B) {C : Subgroup (Mbar M Q)}
     (hC : IsComponent C) (hCR : C ≤ bar M Q (Rt M (LB M Q B) t)) :
     C ⊓ bar M Q (hc.CN t) = ⊥ := by
-  haveI := isSimpleGroup_of_center_eq_bot hC (hcs C hC)
+  have := isSimpleGroup_of_center_eq_bot hC (hcs C hC)
   by_cases hN : bar M Q (LB M Q B) ≤ Subgroup.normalizer (C : Set (Mbar M Q))
   · exact hc.inf_CN_eq_bot_of_simple h34 hw hn hno hgen ht hCR (exists_noncomm_of_isComponent hC)
       (hc.inter_bar_LB_ne_bot h34 hw hn hno hgen hC.1 hN)
@@ -408,7 +410,8 @@ theorem Ctx.sSup_inf_CN_eq_bot (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n :
     exact (Subgroup.mem_centralizer_singleton_iff.mp (hle hx𝒮)).symm
 
 
-theorem Ctx.exists_lift_ne_one (hc : Ctx M Q Z B) {x : Mbar M Q}
+omit [Finite G] in
+theorem Ctx.exists_lift_ne_one (_hc : Ctx M Q Z B) {x : Mbar M Q}
     (hx : x ∈ bar M Q (LB M Q B)) (hx1 : x ≠ 1) :
     ∃ t : ↥M, (t : G) ∈ LB M Q B ∧ (t : G) ∉ Q ∧ (QuotientGroup.mk t : Mbar M Q) = x := by
   obtain ⟨t, ht, htx⟩ := Subgroup.mem_map.mp hx

@@ -18,7 +18,7 @@ section Generic
 
 theorem not_le_sup_of_quasisimple {G : Type*} [Group G] {A B N : Subgroup G}
     (hnorm : ∀ g ∈ A, ∀ h ∈ B, g * h * g⁻¹ ∈ B) (hBN : B ≤ N)
-    (hperf : commutator ↥B = ⊤) (hnonab : ∃ u ∈ B, ∃ v ∈ B, u * v ≠ v * u)
+    (_hperf : commutator ↥B = ⊤) (hnonab : ∃ u ∈ B, ∃ v ∈ B, u * v ≠ v * u)
     (hcentB : ∀ x ∈ B, (∀ g ∈ B, g * x = x * g) → x ^ 3 = 1 → x = 1)
     (hq : CFSG.IsQuasisimple ↥N) {x : G} (hxN : x ∈ N) (hxc : ∀ n ∈ N, x * n = n * x)
     (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1) : ¬ N ≤ A ⊔ B := by
@@ -27,7 +27,7 @@ theorem not_le_sup_of_quasisimple {G : Type*} [Group G] {A B N : Subgroup G}
   have hcommN : commutator ↥N = ⊤ := Group.isPerfect_def.mp hcomm'
   have hSimple : IsSimpleGroup (↥N ⧸ Subgroup.center ↥N) := hsimp.1
   have hBnorm : (B.subgroupOf N).Normal := core_subgroupOf_normal hnorm hNle
-  haveI hMnorm : ((B.subgroupOf N).map (QuotientGroup.mk' (Subgroup.center ↥N))).Normal :=
+  have hMnorm : ((B.subgroupOf N).map (QuotientGroup.mk' (Subgroup.center ↥N))).Normal :=
     Subgroup.Normal.map hBnorm (QuotientGroup.mk' (Subgroup.center ↥N))
       (QuotientGroup.mk'_surjective (Subgroup.center ↥N))
   rcases hSimple.eq_bot_or_eq_top_of_normal
@@ -68,15 +68,15 @@ theorem Bsub_facts
     (P : D4Par n X σ) (hn : 2 ≤ n) :
     commutator ↥(Bsub σ) = ⊤ ∧ (∃ u ∈ Bsub σ, ∃ v ∈ Bsub σ, u * v ≠ v * u) ∧
       ∀ x ∈ Bsub σ, (∀ g ∈ Bsub σ, g * x = x * g) → x ^ 3 = 1 → x = 1 := by
-  haveI := P.charP
-  haveI := P.charP_fix
-  haveI : Finite (fixSubfield σ) := Nat.finite_of_card_ne_zero (by rw [P.card_fix]; positivity)
+  have := P.charP
+  have := P.charP_fix
+  have : Finite (fixSubfield σ) := Nat.finite_of_card_ne_zero (by rw [P.card_fix]; positivity)
   have hk4 : 4 ≤ Nat.card (fixSubfield σ) := P.four_le_card_fix hn
   let e := bsubEquiv P
   refine ⟨?_, ?_, ?_⟩
-  · haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ)) :=
+  · have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ)) :=
       (KS11Lie4Proof.isQuasisimple_sl2 hk4).1
-    haveI : Group.IsPerfect ↥(Bsub σ) :=
+    have : Group.IsPerfect ↥(Bsub σ) :=
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
     exact Group.isPerfect_def.mp inferInstance
   · refine ⟨(e (CFSG.LieType.Steinberg.sl2Upper 1) : C0 σ), (e _).2,
@@ -104,7 +104,7 @@ theorem Bsub_le_layer
     Bsub σ ≤ ⁅Subgroup.centralizer ({a} : Set _), Subgroup.centralizer ({a} : Set _)⁆ := by
   have hBC : Bsub σ ≤ Subgroup.centralizer ({a} : Set _) := fun b hb =>
     Subgroup.mem_centralizer_singleton_iff.mpr (Asub_Bsub_commute ha hb).symm
-  haveI : Group.IsPerfect ↥(Bsub σ) := ⟨(Bsub_facts P hn).1⟩
+  have : Group.IsPerfect ↥(Bsub σ) := ⟨(Bsub_facts P hn).1⟩
   calc (Bsub σ : Subgroup (C0 σ)) = ⁅Bsub σ, Bsub σ⁆ := Subgroup.commutator_eq_self.symm
     _ ≤ _ := Subgroup.commutator_mono hBC hBC
 
@@ -113,12 +113,12 @@ theorem layer_not_le_AB
     (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) :
     ¬ ⁅Subgroup.centralizer ({a} : Set _), Subgroup.centralizer ({a} : Set _)⁆ ≤
       Asub σ ⊔ Bsub σ := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   obtain ⟨hperf, hnonab, hcentB⟩ := Bsub_facts P hn
   obtain ⟨hq, hc⟩ := threeA_layer_of_mem_short (K := X) (f := n) hn P.card P.frob ha ha3 ha1
   set R := ⁅Subgroup.centralizer ({a} : Set _), Subgroup.centralizer ({a} : Set _)⁆
     with hR
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥R)) 3 (by rw [hc])
   have hxR : ((w : ↥R) : C0 σ) ∈ R := (w : ↥R).2
   have hxc : ∀ m ∈ R, ((w : ↥R) : C0 σ) * m = m * ((w : ↥R) : C0 σ) := by
@@ -172,7 +172,7 @@ theorem alphaVanishes_C0_big
     (hn : 2 ≤ n) {D : Subgroup (C0 σ)} (hDc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a)
     (hDexp : ∀ x ∈ D, x ^ 3 = 1) (hD9 : Nat.card D = 9) : AlphaVanishes (C0 σ) D := by
   classical
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have hZ : Subgroup.center (C0 σ) = ⊥ := center_C0_eq_bot P
   have hDel : CFSG.IsElementaryAbelian 3 D := isElementaryAbelian_three_of hDc hDexp
   by_cases hY : ∃ y ∈ D, y ≠ 1 ∧ ∃ g : C0 σ, g * y * g⁻¹ ∈ Bsub σ

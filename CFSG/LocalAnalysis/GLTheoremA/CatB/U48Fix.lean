@@ -204,7 +204,7 @@ variable {S}
 
 theorem sigma4_subtype (hS : Nat.card S = 4) (c : S) :
     unitaryInvolution K 2 3 (c : K) = ((unitaryInvolution S 2 1 c : S) : K) := by
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have h4 : c ^ 4 = c := by
     have := FiniteField.pow_card c
     rwa [← Nat.card_eq_fintype_card, hS] at this

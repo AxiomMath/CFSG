@@ -78,8 +78,8 @@ private theorem ltromm_card_eq_504_of_label {Q : Type} [Group Q]
   dsimp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum,
     CFSG.Assembly.LargeEvenRecipeLinear] at hQ
   obtain ⟨K₀, hfK₀, hfinK₀, hcardK₀, hQ0⟩ := hQ
-  letI : Field K₀ := hfK₀
-  letI : Finite K₀ := hfinK₀
+  let : Field K₀ := hfK₀
+  let : Finite K₀ := hfinK₀
   obtain ⟨eQ⟩ := hQ0
   have hK8 : Nat.card K₀ = 8 := by rw [hcardK₀]; norm_num
   have h : Nat.card (LargeEvenProj (LargeEvenSLGroup (Fin 2) K₀)) =
@@ -94,7 +94,7 @@ private theorem ltromm_specialBlock_le_orthDerived {F : Type} [Field F] [Finite 
     {x : V ≃ₗ[F] V} {h : Polynomial F}
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     specialBlock Q x h ≤ orthDerived Q := by
-  haveI : Group.IsPerfect ↥(specialBlock Q x h) := ⟨hq.1.commutator_eq_top⟩
+  have : Group.IsPerfect ↥(specialBlock Q x h) := ⟨hq.1.commutator_eq_top⟩
   have hleQ : specialBlock Q x h ≤ TauCeti.QuadraticMap.orthogonalGroup Q :=
     fun g hg => (Subgroup.mem_inf.mp (specialBlock_le_isometryCentralizer h hg)).1
   calc specialBlock Q x h = ⁅specialBlock Q x h, specialBlock Q x h⁆ :=
@@ -112,7 +112,7 @@ private theorem ltromm_paired_false {F : Type} [Field F] [Finite F] [CharP F 2] 
         Subgroup.center ↥((specialBlock Q (x : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q))))
     (hnsd : h ≠ reciprocalPolynomial h) : False := by
   classical
-  haveI hperf : Group.IsPerfect ↥(specialBlock Q (x : V ≃ₗ[F] V) h) :=
+  have hperf : Group.IsPerfect ↥(specialBlock Q (x : V ≃ₗ[F] V) h) :=
     ⟨hq.1.commutator_eq_top⟩
   have hleOrth : specialBlock Q (x : V ≃ₗ[F] V) h ≤ orthDerived Q := by
     have hleQ : specialBlock Q (x : V ≃ₗ[F] V) h ≤ TauCeti.QuadraticMap.orthogonalGroup Q :=
@@ -125,7 +125,7 @@ private theorem ltromm_paired_false {F : Type} [Field F] [Finite F] [CharP F 2] 
     (specialBlock Q (x : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q)
   let E : Type := AdjoinRoot h
   obtain ⟨eSL⟩ := hx.nonempty_specialBlock_mulEquiv_SL_paired hh hnsd
-  haveI : CharP E 2 := by
+  have : CharP E 2 := by
     change CharP (AdjoinRoot h) 2
     exact charP_of_injective_algebraMap (algebraMap F (AdjoinRoot h)).injective 2
   let eL : ↥L ≃* ↥(specialBlock Q (x : V ≃ₗ[F] V) h) := Subgroup.subgroupOfEquivOfLe hleOrth
@@ -317,7 +317,7 @@ private theorem ltromm_not_one_three {F : Type} [Field F] [Finite F] [CharP F 2]
     exact_mod_cast hcard_phi
   have hZ1 : 1 ≤ Nat.card (Subgroup.center
       ↥((specialBlock Q (x : V ≃ₗ[F] V) (X ^ 2 + X + 1)).subgroupOf (orthDerived Q))) := by
-    haveI : Nonempty ↥(Subgroup.center
+    have : Nonempty ↥(Subgroup.center
         ↥((specialBlock Q (x : V ≃ₗ[F] V) (X ^ 2 + X + 1)).subgroupOf (orthDerived Q))) :=
       Nonempty.intro ⟨1, Subgroup.one_mem _⟩
     exact Nat.one_le_iff_ne_zero.mpr (Nat.card_ne_zero.mpr ⟨inferInstance, inferInstance⟩)
@@ -349,7 +349,7 @@ private theorem ltromm_selfDual_finrank {F : Type} [Field F] [Finite F] [CharP F
     hphi ▸ hlab
   obtain ⟨hcard, hodd⟩ := ltromm_card_block_eq hx hmem hq' hlab'
   obtain ⟨f, hf⟩ : ∃ f : ℕ, Nat.card F = 2 ^ f := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     obtain ⟨n, -, hn⟩ := FiniteField.card (K := F) 2
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩
   have hm2 : 2 ≤ primaryMultiplicity (x : V ≃ₗ[F] V).toLinearMap (X ^ 2 + X + 1) :=
@@ -360,7 +360,7 @@ private theorem ltromm_selfDual_finrank {F : Type} [Field F] [Finite F] [CharP F
       (Nat.card (specialBlock Q (x : V ≃ₗ[F] V) (X ^ 2 + X + 1))).factorization 2 = 3 := by
     have hZnz : Nat.card (Subgroup.center
         ↥((specialBlock Q (x : V ≃ₗ[F] V) (X ^ 2 + X + 1)).subgroupOf (orthDerived Q))) ≠ 0 := by
-      haveI : Nonempty ↥(Subgroup.center
+      have : Nonempty ↥(Subgroup.center
           ↥((specialBlock Q (x : V ≃ₗ[F] V) (X ^ 2 + X + 1)).subgroupOf (orthDerived Q))) :=
         Nonempty.intro ⟨1, Subgroup.one_mem _⟩
       exact Nat.card_ne_zero.mpr ⟨inferInstance, inferInstance⟩
@@ -415,8 +415,8 @@ private theorem ltromm_movingBlock_ggInnerOn {F : Type} [Field F] [Finite F] [Ch
       ∀ j ∈ (specialBlock Q (x : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q),
         MulAut.conj y j = z * j * z⁻¹ := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (Nat.lt_of_lt_of_le (by norm_num) hV)
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (Nat.lt_of_lt_of_le (by norm_num) hV)
   have hx' : OddOrderIsometry Q 3 (x : V ≃ₗ[F] V) :=
     oddOrderIsometry_of_orthDerived Nat.prime_three (by
       rw [ringChar.eq (R := F) 2]; norm_num) hQ x hx
@@ -455,7 +455,7 @@ private theorem ltromm_movingBlock_ggInnerOn {F : Type} [Field F] [Finite F] [Ch
     rw [hcomp, ← Subgroup.map_map, hLmap, hLJ]
   obtain ⟨ℓ, f, hU, B, hBs, hBl, hperf, g, π', hsurj, hker, hconj⟩ :=
     exists_sesqSUConjData hx' (by decide) hh hne hself hq' y hyc J rfl hJ
-  haveI : CharP (AdjoinRoot h) 2 :=
+  have : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AdjoinRoot h)).injective 2
   obtain rfl : ℓ = 2 := CharP.eq (AdjoinRoot h) hU.charP inferInstance
   obtain ⟨s, hsconj⟩ := exists_special_sesqSUConj_eq (ℓ := 2) (f := f) (E := AdjoinRoot h)

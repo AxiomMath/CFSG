@@ -42,7 +42,7 @@ theorem planeLetterElt_two_add {j : ℕ} (hj : j < 11) : planeLetterElt (2 + j) 
   have h1 : 2 + j ≠ 0 := by omega
   have h2 : 2 + j ≠ 1 := by omega
   have h3 : 2 + j < 13 := by omega
-  simp only [planeLetterElt, if_neg h1, if_neg h2, dif_pos h3]
+  simp only [planeLetterElt, ite_eq_right h1, ite_eq_right h2, dite_eq_left h3]
   congr 2
   omega
 
@@ -77,11 +77,11 @@ theorem planeGen_eps {j : ℕ} (hj : j < 11) : planeGen (2 + j) = epsElt ⟨j, h
   have e : planeGenWord (planeDWords ()) (planeUWord ()) (planeVWord ()) (2 + j) =
       [((2 + j : ℕ) : ℤ) + 1] := by
     unfold planeGenWord
-    rw [if_neg (by omega), if_pos (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega)]
   rw [planeGen, e, planeWordElt_single, ← planeLetterElt_two_add hj]
   have h1 : 0 < ((2 + j : ℕ) : ℤ) + 1 ∧ ((((2 + j : ℕ) : ℤ) + 1) - 1).toNat < 16 := by omega
   have h2 : ((((2 + j : ℕ) : ℤ) + 1) - 1).toNat = 2 + j := by omega
-  rw [letterPerm, if_pos h1, h2]
+  rw [letterPerm, ite_eq_left h1, h2]
 
 section Rep
 
@@ -106,7 +106,7 @@ theorem rep_planeLetter {l : ℕ} (hl : l < 16) :
     rw [e]
     exact rep_epsElt ⟨j, by omega⟩
   · have e : planeLetterElt l = objElt (planeLetterRegs.getD l 0) := by
-      simp only [planeLetterElt, if_neg h0, if_neg h1, dif_neg h13]
+      simp only [planeLetterElt, ite_eq_right h0, ite_eq_right h1, dite_eq_right h13]
     rw [e]
     exact rep_objElt (planeLetterRegs_getD_lt hl)
 
@@ -178,12 +178,12 @@ theorem planeWordElt_mem_Zq {w : List ℤ} (hw : ∀ l ∈ w, 1 ≤ l.natAbs ∧
       have hlt : (-l - 1).toNat < 13 := by omega
       have hcond : ¬ (0 < l ∧ (l - 1).toNat < 16) := by omega
       have hcond' : l < 0 ∧ (-l - 1).toNat < 16 := by omega
-      rw [letterPerm, if_neg hcond, if_pos hcond']
+      rw [letterPerm, ite_eq_right hcond, ite_eq_left hcond']
       exact Zq.inv_mem (hlet _ hlt)
     · omega
     · have hlt : (l - 1).toNat < 13 := by omega
       have hcond : 0 < l ∧ (l - 1).toNat < 16 := by omega
-      rw [letterPerm, if_pos hcond]
+      rw [letterPerm, ite_eq_left hcond]
       exact hlet _ hlt
 
 section Mem
@@ -194,7 +194,7 @@ theorem planeGen_mem_Zq {s : ℕ} (hs : s < 13) : planeGen s ∈ Zq := by
   · have e : planeGenWord (planeDWords ()) (planeUWord ()) (planeVWord ()) s =
         (planeDWords ())[s]! := by
       unfold planeGenWord
-      rw [if_pos h2]
+      rw [ite_eq_left h2]
     rw [planeGen, e]
     exact planeWordElt_mem_Zq fun l hl => planesFacts.dwsLetters s h2 l hl
   · obtain ⟨j, rfl⟩ : ∃ j, s = 2 + j := ⟨s - 2, by omega⟩

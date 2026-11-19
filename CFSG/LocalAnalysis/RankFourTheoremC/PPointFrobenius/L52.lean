@@ -78,7 +78,7 @@ theorem fr_L52_odd [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M x) {
   have hUL : frU P x ≤ layerOf x := inf_le_right
   have hXM : X ≤ M := fr_coprime_le hG hl hX (hUL.trans hLX)
   exact CFSG.AGLEmbedding.odd_card_of_twoLocals_le (Fact.out : p.Prime)
-    (P.isPGroup'.to_inf_left : IsPGroup p (frU P x)) (hUL.trans hLX)
+    (P.isPGroup.to_inf_left : IsPGroup p (frU P x)) (hUL.trans hLX)
     (fun h => hl.not_le (hLX.trans h)) le_normalizer
     ((normal_subgroupOf_iff_le_normalizer le_normalizer).mpr le_rfl) hX hXM
     fun T hT2 hT1 hUT => fr_normalizer_two_le hG hl hT2 hT1 hUT
@@ -161,7 +161,7 @@ theorem fr_L52_centralizes [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p 
         exact dvd_pow_self 2 (by omega)
       have h2O : 2 ∣ Nat.card O := h2E.trans (card_dvd_of_le (hED.trans hDO))
       exact (Nat.not_even_iff_odd.mpr hOodd) (even_iff_two_dvd.mpr h2O)
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hDJ : D ≤ J := hDO.trans hOJ
     have hDM : D ≤ M := hDO.trans (hOX.trans hXM)
     have hLD : layerOf x ≤ normalizer (D : Set G) :=

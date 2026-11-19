@@ -3,7 +3,7 @@ module
 public import CFSG.Walter.J1.A5
 public import CFSG.Walter.J1.Tools
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

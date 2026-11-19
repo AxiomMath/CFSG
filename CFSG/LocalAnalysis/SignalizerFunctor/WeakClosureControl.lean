@@ -96,7 +96,7 @@ theorem solvable_matsuyama_complement_core [Finite GroupType] [Group.IsSolvable 
   obtain ⟨targetSylow, target_le, normalized⟩ := matsuyama_weak_closure groupPrime groupPrime_prime
     (sylow : Subgroup GroupType) target orbit_pgroup
   have weak_pgroup : IsPGroup groupPrime (subgroupWeakClosure target targetSylow) :=
-    targetSylow.isPGroup'.to_le (subgroup_weak_closure_le target targetSylow)
+    targetSylow.isPGroup.to_le (subgroup_weak_closure_le target targetSylow)
   have weak_coprime : Nat.Coprime prime (Nat.card (subgroupWeakClosure target targetSylow)) :=
     prime_coprime_pgroup_card prime groupPrime prime_prime groupPrime_prime distinct.symm weak_pgroup
   exact (subgroup_le_weak_closure target targetSylow target_le).trans

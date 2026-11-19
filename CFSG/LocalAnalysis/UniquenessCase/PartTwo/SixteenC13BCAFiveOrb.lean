@@ -20,24 +20,20 @@ private theorem s16c13bcA_sl2_vec_e0 {K : Type} [Field K] {x : Fin 2 → K} (hx 
       fin_cases i <;> simp [h0, h1]
     refine ⟨⟨!![0, -(x 1)⁻¹; x 1, 0], ?_⟩, ?_⟩
     · rw [Matrix.det_fin_two]
-      simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_succ,
-        Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one]
+      simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [zero_mul, zero_sub, neg_mul, neg_neg, inv_mul_cancel₀ h1]
     · funext i
       fin_cases i <;>
         rw [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two] <;>
-        simp [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_succ,
-          Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one, h0]
+        simp [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one, h0]
   · refine ⟨⟨!![x 0, 0; x 1, (x 0)⁻¹], ?_⟩, ?_⟩
     · rw [Matrix.det_fin_two]
-      simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_succ,
-        Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one]
+      simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [zero_mul, sub_zero, mul_inv_cancel₀ h0]
     · funext i
       fin_cases i <;>
         rw [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two] <;>
-        simp [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_succ,
-          Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one]
+        simp [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one]
 
 private theorem s16c13bcA_sl2_vec_transitive {K : Type} [Field K]
     {x y : Fin 2 → K} (hx : x ≠ 0) (hy : y ≠ 0) :
@@ -53,15 +49,15 @@ private theorem s16c13bcA_sl2_vec_transitive {K : Type} [Field K]
   rw [Matrix.SpecialLinearGroup.coe_mul, ← Matrix.mulVec_mulVec, hinv, hAy]
 
 private theorem s16c13bcA_det_eq_zero_of_odd_orbit {K : Type} [Field K] [Finite K] [CharP K 2]
-    (hK : Nat.card K = 4) {v : Fin 2 ⊕ Fin 2 → K} (hv : v ≠ 0)
+    (hK : Nat.card K = 4) {v : Fin 2 ⊕ Fin 2 → K} (_hv : v ≠ 0)
     (o : Odd (Nat.card (MulAction.orbit ↥(StatedOmega (StatedQuadPlus 2 K)) v))) :
     (toMat K v).det = 0 := by
   classical
   let Ω := ↥(StatedOmega (StatedQuadPlus 2 K))
   obtain ⟨ε, hε⟩ := s16c13bcA_omega_equiv_apply (K := K) hK.ge
-  haveI : Fintype Ω := Fintype.ofFinite Ω
-  haveI : Fintype (MulAction.orbit Ω v) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer Ω v) := Fintype.ofFinite _
+  have : Fintype Ω := Fintype.ofFinite Ω
+  have : Fintype (MulAction.orbit Ω v) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer Ω v) := Fintype.ofFinite _
   by_contra hdet
   have hunit : IsUnit (toMat K v) :=
     (Matrix.isUnit_iff_isUnit_det (toMat K v)).mpr (isUnit_iff_ne_zero.mpr hdet)
@@ -154,7 +150,7 @@ theorem s16c13bcA_omega_orbit_unique {K : Type} [Field K] [Finite K] [CharP K 2]
   have htoMat : toMat K (γ • v₁) = toMat K v₂ := by
     have h := hε γ v₁
     rw [show ε γ = (A, B) from ε.apply_symm_apply (A, B)] at h
-    simp only [Prod.fst, Prod.snd] at h
+    simp only at h
     exact h.trans hmat
   have hγv : γ • v₁ = v₂ := (toMat K).injective htoMat
   exact MulAction.mem_orbit_iff.mpr ⟨γ, hγv⟩

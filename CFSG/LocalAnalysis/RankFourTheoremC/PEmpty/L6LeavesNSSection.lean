@@ -39,8 +39,8 @@ theorem s622IsSimpleSection_comap {Y Z : Type} [Group Y] [Group Z] (π : Y →* 
       refine Subgroup.mem_subgroupOf.mpr ⟨l * n₀ * l⁻¹, hc, ?_⟩
       show π (l * n₀ * l⁻¹) = (g : Z) * (k : Z) * (g : Z)⁻¹
       rw [map_mul, map_mul, map_inv, hl, hn₀k]
-    haveI := hK
-    haveI := hNbn
+    have := hK
+    have := hNbn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Nb with hbot | htop
     · left
       refine le_antisymm (fun n hn => ?_) hDN

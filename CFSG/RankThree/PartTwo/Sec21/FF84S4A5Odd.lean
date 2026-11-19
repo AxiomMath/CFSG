@@ -37,8 +37,8 @@ theorem five_ten_sign : ∀ u : P8, u ^ 10 = 1 → u ^ 5 ≠ 1 → u ^ 5 ≠ u �
 theorem pow_five_of_sq_one (x : P8) (hx : x ^ 2 = 1) : x ^ 5 = x := by
   rw [show (5 : ℕ) = 2 * 2 + 1 from rfl, pow_succ, pow_mul, hx, one_pow, one_mul]
 
-theorem A_cent_A5_odd (K' : Subgroup P8) (hK : K' ≤ A8s) (e5 : K' ≃* alternatingGroup (Fin 5))
-    (c : P8) (hc : c.IsThreeCycle) (hcK : c ∈ K') : Odd (Nat.card ↥(CenS K' ⊓ A8s)) := by
+theorem A_cent_A5_odd (K' : Subgroup P8) (_hK : K' ≤ A8s) (e5 : K' ≃* alternatingGroup (Fin 5))
+    (c : P8) (_hc : c.IsThreeCycle) (_hcK : c ∈ K') : Odd (Nat.card ↥(CenS K' ⊓ A8s)) := by
   obtain ⟨p, hpK, hp5, hp1⟩ : ∃ p : P8, p ∈ K' ∧ p ^ 5 = 1 ∧ p ≠ 1 := by
     let y : alternatingGroup (Fin 5) := ⟨finRotate 5, mem_alternatingGroup.2 (by decide)⟩
     have hy5 : y ^ 5 = 1 := Subtype.ext (by decide)

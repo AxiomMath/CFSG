@@ -66,7 +66,6 @@ theorem castSucc_rev (s : Fin m) :
     (Fin.rev s).castSucc = Fin.rev (Fin.succ s) := by
   ext
   simp [Fin.val_rev, Fin.val_castSucc, Fin.val_succ]
-  try omega
 
 theorem succ_rev (s : Fin m) :
     (Fin.rev s).succ = Fin.rev (Fin.castSucc s) := by
@@ -125,8 +124,8 @@ theorem transpose_permMatrix_swap (a b : Fin (m + 1)) :
   have hiff : i = (Equiv.swap a b) j ↔ j = (Equiv.swap a b) i := by
     rw [eq_comm, Equiv.swap_apply_eq_iff]
   by_cases h : i = (Equiv.swap a b) j
-  · rw [if_pos h, if_pos (hiff.mp h)]
-  · rw [if_neg h, if_neg (fun h' => h (hiff.mpr h'))]
+  · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.mpr h'))]
 
 theorem permMatrix_submatrix_rev (σ : Equiv.Perm (Fin (m + 1))) :
     (LinearFlag.permMatrix (m + 1) F σ).submatrix Fin.rev Fin.rev =

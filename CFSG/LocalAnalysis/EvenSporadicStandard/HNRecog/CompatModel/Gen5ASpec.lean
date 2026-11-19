@@ -61,7 +61,7 @@ theorem gen5a_model_of_words (σ : Fin 6 → Equiv.Perm (Fin 50))
     ∃ t t' : ↥i50, orderOf t = 2 ∧ orderOf t' = 2 ∧ t ≠ t' ∧ t * t' = t' * t ∧
       Subgroup.closure ((Subgroup.centralizer ({t} : Set ↥i50) : Set ↥i50) ∪
         (Subgroup.centralizer ({t'} : Set ↥i50) : Set ↥i50)) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : ∀ {S : Equiv.Perm (Fin 50)} (hS : S ∈ i50), S * S = 1 → S ≠ 1 →
       orderOf (⟨S, hS⟩ : ↥i50) = 2 := by
     intro S hS h2 h1
@@ -105,14 +105,14 @@ theorem gen5a_model :
   have hσ' : ∀ l < 6, ∀ x : Fin 50,
       ((σ' l x : Fin 50) : ℕ) = (HNUnitaryBridge.smallPermLists[l]!)[(x : ℕ)]! := by
     intro l hl x
-    simp only [σ', dif_pos hl]
+    simp only [σ', dite_eq_left hl]
     rw [hσ ⟨l, hl⟩ x, smallPerms_getElem]
   have hmem : ∀ l, σ' l ∈ i50 := by
     intro l
     by_cases hl : l < 6
-    · simp only [σ', dif_pos hl]
+    · simp only [σ', dite_eq_left hl]
       exact hcl ▸ Subgroup.subset_closure ⟨⟨l, hl⟩, rfl⟩
-    · simp only [σ', dif_neg hl]
+    · simp only [σ', dite_eq_right hl]
       exact one_mem _
   have hprod : ∀ w : List ℕ, (w.map σ').prod ∈ i50 := fun w =>
     list_prod_mem fun g hg => by

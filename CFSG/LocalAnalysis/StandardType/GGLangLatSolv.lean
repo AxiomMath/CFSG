@@ -29,7 +29,7 @@ theorem isSolvable_rationalComponent_of_latSolv
   have hΨ := isRootComponent_componentRoots (χ := rootCharHom a) i
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hCO : ∀ γ ∈ componentRoots (rootCharHom a) i,
       γ ∈ rationalRoots S.ρ (rootCharHom a) i := fun γ hγ => ⟨0, γ, hγ, rfl⟩
   have hs1 : (∀ γ ∈ componentRoots (rootCharHom a) i,
@@ -105,8 +105,8 @@ theorem isSolvable_rationalComponent_of_latSolv
           rw [hγ, S.frob.neg_eq, h, smul_neg, rootReflection_smul_self hαr]
     obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
     obtain ⟨r, e, hr, hchar, he, hqr⟩ := exists_char_pow S
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : CharP L r := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have : CharP L r := hchar
     have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hqr, ← pow_mul]
     obtain ⟨hfinset, hcardset⟩ := ncard_pow_eq_self (L := L) r (e * s) (Nat.mul_pos he hs0)
     have hset : (fixSubfield σ : Set L) = {c : L | c ^ (r ^ (e * s)) = c} := by
@@ -114,7 +114,7 @@ theorem isSolvable_rationalComponent_of_latSolv
       show c ∈ fixSubfield σ ↔ _
       rw [mem_fixSubfield, hσ']
       rfl
-    haveI hfinK : Finite (fixSubfield σ) := by
+    have hfinK : Finite (fixSubfield σ) := by
       have h1 : (fixSubfield σ : Set L).Finite := by rw [hset]; exact hfinset
       exact h1.to_subtype
     have hKcard : Nat.card (fixSubfield σ) = r ^ (e * s) := by
@@ -135,9 +135,9 @@ theorem isSolvable_rationalComponent_of_latSolv
       · simp [eq_neg_of_add_eq_zero_left h]
     obtain ⟨f₁, hf₁1, -, -⟩ :=
       rationalComponent_eq_range_componentRootSpanT S hT i hs hmin σ z hnorm hz hsL
-    haveI : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
+    have : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
       isSolvable_componentRootSpan_of_rank_one hKle i hrank
-    haveI : Group.IsSolvable ↥f₁.range :=
+    have : Group.IsSolvable ↥f₁.range :=
       Group.isSolvable_of_surjective f₁.rangeRestrict_surjective
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hf₁1)
       (Subgroup.inclusion_injective hf₁1)

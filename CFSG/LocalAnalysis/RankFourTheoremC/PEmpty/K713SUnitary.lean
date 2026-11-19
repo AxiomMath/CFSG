@@ -18,7 +18,7 @@ theorem outLift_primeFormP_one {ℓ p f n : ℕ} (hℓ : ℓ.Prime) {K : Type} [
     [Finite (primeFormP hU ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))] :
     OutLift ℓ (primeFormP hU ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) := by
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
-  haveI := hU.finite
+  have := hU.finite
   obtain ⟨-, -, -, -, -, h6, -, hker, -, hinn, -⟩ :=
     unitary_prime_form_full_semilinear_realization hU hC hn hq
   obtain ⟨-, -, hcard, -⟩ := unitary_full_diagonal_outer_order hU hn hq
@@ -51,7 +51,7 @@ theorem liftClause_classical_PSU {n p f : ℕ} :
       (isPrimeFormGram_one (n := n)) hn hq'
     let e : S ≃* primeFormP hU ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) :=
       (eT.trans (unitaryPSUEquiv hU (by omega)).symm).trans eR.symm
-    haveI : Finite (primeFormP hU ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+    have : Finite (primeFormP hU ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
       Finite.of_equiv S e.toEquiv
     exact OutLift.of_mulEquiv e (outLift_primeFormP_one hℓ hU hn hq' hdvd)
 

@@ -41,7 +41,7 @@ theorem exists_elemAbelian_nine_of_isLThreeFour {X : Type} [Group X] [Finite X]
     exact CFSG.RankThree.PartTwo.KFacts.L34.card_eZero hF4
 
 theorem isElemAbelian_map_up34 {G H : Type*} [Group G] [Group H] (f : G →* H)
-    (hf : Function.Injective f) {p : ℕ} {B : Subgroup G} (hB : CFSG.Assembly.IsElemAbelian p B) :
+    (_hf : Function.Injective f) {p : ℕ} {B : Subgroup G} (hB : CFSG.Assembly.IsElemAbelian p B) :
     CFSG.Assembly.IsElemAbelian p (B.map f) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
   · obtain ⟨x, hx, hxa⟩ := Subgroup.mem_map.1 a.2
@@ -57,7 +57,7 @@ theorem Up34Pumpup.exists_elemAbelian_gt_nine {S : Type} [Group S] [Finite S]
     (hZ : Subgroup.center S = ⊥) {x : S} (h : Up34Pumpup S (MulAut.conj x)) :
     ∃ E : Subgroup S, CFSG.Assembly.IsElemAbelian 3 E ∧ 9 < Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hx3', hx1', I, hI, hI34⟩ := h
   have hx3 : x ^ 3 = 1 := by
     have h1 : (MulAut.conj (x ^ 3) : MulAut S) = 1 := by rw [map_pow]; exact hx3'
@@ -108,7 +108,7 @@ theorem Up34Pumpup.exists_elemAbelian_gt_nine {S : Type} [Group S] [Finite S]
       | H j =>
         rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hic j]
     obtain ⟨hsimp, hnab⟩ := isSimpleGroup_of_isLThreeFour hI34
-    haveI := hsimp
+    have := hsimp
     rw [up34_center_eq_bot_of_simple hnab, Subgroup.mem_bot, QuotientGroup.eq_one_iff] at hcen
     have hi3 : i ^ 3 = 1 := Subtype.ext (by simpa [← hix] using hx3)
     have hi1 : i ≠ 1 := fun h1 => hxne (by rw [← hix, h1]; rfl)

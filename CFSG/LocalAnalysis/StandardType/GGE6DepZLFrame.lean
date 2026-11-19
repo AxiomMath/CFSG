@@ -92,7 +92,7 @@ theorem ggE6Dep_frameLIn (hRig : GGLabelRigidInput) (hZL : GGE6DepZLKnown)
   have hwN := ggE6Dep_zl_weyl_normalizes hcfg hBsN hmodel
   obtain ⟨hΦinj, hΦrange, -, -, -, -, -, hcl8, -, hcl10, -, -⟩ := hmodel
   refine ⟨hxBs, ?_⟩
-  haveI : IsMulCommutative ↥Bs := hBs.1
+  have : IsMulCommutative ↥Bs := hBs.1
   let σ : Fin 6 → Additive ↥Bs →+ Additive ↥Bs := fun i =>
     (MulEquiv.toAdditive (ggConjAut Bs (hwN i))).toAddMonoidHom
   have hσ : ∀ (i : Fin 6) (v : Additive ↥Bs),

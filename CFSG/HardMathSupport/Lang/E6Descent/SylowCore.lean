@@ -156,7 +156,7 @@ theorem card_centralizer_quotient_le {P : Type*} [Group P] [Finite P] (Z : Subgr
             = u * ((x : D) : P) * (((x : D) : P)⁻¹ * u⁻¹ * ((x : D) : P) * u) := by
               rw [hx', mul_one]
           _ = ((x : D) : P) * u := by group
-      first | exact h | exact h.symm
+      exact h.symm
     · intro a b hab
       have := congrArg (fun z : C => (z : P)) hab
       exact Subtype.ext (Subtype.ext this)

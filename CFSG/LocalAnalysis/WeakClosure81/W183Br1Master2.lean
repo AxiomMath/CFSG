@@ -22,6 +22,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {𝒢 : Set (Subgroup (LGL 2 V))}
   {Zs : Submodule (ZMod 2) V} {m i₀ : ℕ} {δ : Subgroup (LGL 2 V) → ℕ}
 
+omit [Finite V] in
 theorem w183_twoComp_symm {Y T L₁ L₂ : Subgroup (LGL 2 V)} (htwo : Br2TwoComp Y T L₁ L₂) :
     Br2TwoComp Y T L₂ L₁ := by
   refine
@@ -54,7 +55,7 @@ private theorem w183_master2_four_le_card_of_two_le_mRank {D : Subgroup (LGL 2 V
   have hpow : 2 ^ 2 ≤ Nat.card D := Nat.pow_le_of_le_log hne hlog
   simpa using hpow
 
-private theorem w183_master2_mOf_le_mRank {A B : Subgroup (LGL 2 V)} (hBA : B ≤ A) :
+private theorem w183_master2_mOf_le_mRank {A B : Subgroup (LGL 2 V)} (_hBA : B ≤ A) :
     mOf A B ≤ mRank A := by
   unfold mOf mRank
   apply Nat.log_mono_right
@@ -68,6 +69,7 @@ private noncomputable def w183_master2_swapEquiv (hL : Br2TwoComp Y T L₁ L₂)
       (show L₁.map (MulAut.conj (Classical.choose hL.swap)).toMonoidHom = L₂ from
         (Classical.choose_spec hL.swap).2))
 
+omit [Finite V] in
 private theorem w183_master2_shape_swap (hL : Br2TwoComp Y T L₁ L₂)
     (hshape : IsL2 ↥L₁ 2 ∨ IsL3 ↥L₁ 2 ∨ IsU3 ↥L₁ 2 ∨ IsSp4 ↥L₁ 2 ∨ IsL3 ↥L₁ 1 ∨
       IsAlt ↥L₁ 6) :
@@ -98,6 +100,7 @@ private theorem w183_master2_mem_normalizer (hc : Br2Common Y Γ VA T 𝒢 Zs m 
     · exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr h2
     · exact (w183l39_false_of_swap_common hc hL hD h4 hd h1).elim
 
+omit [Finite V] in
 private theorem w183_master2_shape_small_swap (hL : Br2TwoComp Y T L₁ L₂)
     (h : IsL2 ↥L₁ 2 ∨ IsL3 ↥L₁ 1) : IsL2 ↥L₂ 2 ∨ IsL3 ↥L₂ 1 := by
   let e := w183_master2_swapEquiv hL
@@ -133,8 +136,8 @@ private theorem w183_master2_rank3_small (rows : Br1Rows)
     rw [hbot, mOf_bot] at hm₂
     have := hrk D₀ hD₀
     omega
-  haveI := htwo.simple₁
-  haveI := htwo.simple₂
+  have := htwo.simple₁
+  have := htwo.simple₂
   refine Assumption131.false_of_two_kernels hB.h131 hD₀ htwo.le₁ htwo.le₂ htwo.nonab₁
     htwo.nonab₂ htwo.comm ?_ ?_ rfl rfl hDne hFne ?_ (hm₁.trans hi)
   · intro a ha l hl
@@ -147,12 +150,14 @@ private theorem w183_master2_rank3_small (rows : Br1Rows)
       (fun l hl => (Subgroup.mem_centralizer_iff.mp hy₁ l hl).symm)
       (fun l hl => (Subgroup.mem_centralizer_iff.mp hy₂ l hl).symm))
 
+omit [Finite V] in
 private theorem w183_master2_centralizer_cj (g : LGL 2 V) (S : Subgroup (LGL 2 V)) :
     (Subgroup.centralizer (S : Set (LGL 2 V))).map (MulAut.conj g).toMonoidHom =
       Subgroup.centralizer ((cj g S : Subgroup (LGL 2 V)) : Set (LGL 2 V)) := by
   rw [CFSG.Walter.map_centralizer_mulEquiv, cj, Subgroup.coe_map]
   simp only [MulEquiv.coe_toMonoidHom]
 
+omit [Finite V] in
 private theorem w183_master2_not_centralizes_cj' {g : LGL 2 V} {D S : Subgroup (LGL 2 V)}
     (h : ¬ D ≤ Subgroup.centralizer (S : Set (LGL 2 V))) :
     ¬ cj g D ≤ Subgroup.centralizer ((cj g S : Subgroup (LGL 2 V)) : Set (LGL 2 V)) := by
@@ -192,8 +197,8 @@ private theorem w183_master2_three_le_mOf_or (hB : Br2Common Y Γ VA T 𝒢 Zs m
     intro hbot
     rw [hbot, mOf_bot] at hm₂
     omega
-  haveI := htwo.simple₁
-  haveI := htwo.simple₂
+  have := htwo.simple₁
+  have := htwo.simple₂
   refine Assumption131.false_of_two_kernels hB.h131 hD htwo.le₁ htwo.le₂ htwo.nonab₁
     htwo.nonab₂ htwo.comm ?_ ?_ rfl rfl hDne hFne ?_ (hm₁.trans hi)
   · intro a ha l hl
@@ -252,7 +257,7 @@ private theorem w183_master2_rank3_big (rows : Br1Rows)
 
 private theorem w183_master2_card_eq_four_of_mRank_eq_two {D : Subgroup (LGL 2 V)}
     (hel : IsElemAbelian 2 D) (h : mRank D = 2) : Nat.card D = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (hel.isPGroup)
   have hlog : Nat.log 2 (2 ^ n) = 2 := by rw [← hn]; simpa only [mRank] using h
   have hn2 : n = 2 := by
@@ -373,6 +378,7 @@ private theorem w183_master2_member_le_of_config (rows : Br1Rows)
         cent₂ := hcent₁ }
     exact Or.inr (br1_alpha_sylow_L24 rows.a5 c hL2).le
 
+omit [Finite V] in
 private theorem w183_master2_normalizer_normal (htwo : Br2TwoComp Y T L₁ L₂) :
     ((Y ⊓ Subgroup.normalizer (L₁ : Set (LGL 2 V))).subgroupOf Y).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -411,8 +417,8 @@ private theorem w183_master2_normalizer_normal (htwo : Br2TwoComp Y T L₁ L₂)
       _ = L₁ := hgL₂
 
 private theorem w183_master2_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
 private theorem w183_master2_sylow_T_inf_L1 (hSY : IsSylowIn 2 T Y)
     (htwo : Br2TwoComp Y T L₁ L₂) : IsSylowIn 2 (T ⊓ L₁) L₁ := by
@@ -435,7 +441,7 @@ private theorem w183_master2_inf_L1_mem (hB : Br2Common Y Γ VA T 𝒢 Zs m i₀
     (htwo : Br2TwoComp Y T L₁ L₂) (hSyl : IsSylowIn 2 (T ⊓ L₁) L₁)
     {D₁ : Subgroup (LGL 2 V)} (hD₁ : D₁ ∈ Γ) (hD₁syl : IsSylowIn 2 D₁ L₁) :
     T ⊓ L₁ ∈ Γ := by
-  haveI : Finite (LGL 2 V) := w183_master2_finite_lgl
+  have : Finite (LGL 2 V) := w183_master2_finite_lgl
   obtain ⟨l, hl, hle⟩ :=
     exists_conj_le_of_isSylowTwoOf (A := D₁) hSyl hD₁syl.le hD₁syl.isPGroup
   have hcard : Nat.card ↥(cj l D₁) = Nat.card ↥D₁ :=
@@ -447,10 +453,12 @@ private theorem w183_master2_inf_L1_mem (hB : Br2Common Y Γ VA T 𝒢 Zs m i₀
   rw [← heq]
   exact hB.h131.invariant D₁ hD₁ l (htwo.le₁ hl)
 
+omit [Finite V] in
 private theorem w183_master2_isL2_swap (hL : Br2TwoComp Y T L₁ L₂) (h : IsL2 ↥L₁ 2) :
     IsL2 ↥L₂ 2 :=
   CFSG.Blueprint.LieModel.of_mulEquiv (w183_master2_swapEquiv hL) h
 
+omit [Finite V] in
 private theorem w183_master2_isSylowIn_cj {P H : Subgroup (LGL 2 V)} (g : LGL 2 V)
     (h : IsSylowIn 2 P H) : IsSylowIn 2 (cj g P) (cj g H) := by
   refine ⟨Subgroup.map_mono h.le, h.isPGroup.map _, ?_⟩
@@ -505,7 +513,7 @@ theorem br1_master_two (rows : Br1Rows) {Y T L₁ L₂ : Subgroup (LGL 2 V)}
     (hτ : (IsL3 ↥L₁ 1 ∨ IsAlt ↥L₁ 6 ∨ IsSp4 ↥L₁ 2 ∨ IsL3 ↥L₁ 2) → ∃ τ ∈ T, ActsOnDynkinMod ⊥ L₁ τ)
     (hne : Γ.Nonempty) (hall : ∀ D ∈ Γ, 2 ≤ mRank D)
     {ED : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} (hED : Br2ED Γ VA m δ ED)
-    (hPT : IsSp4 ↥L₁ 2 → PairTest Y Γ)
+    (_hPT : IsSp4 ↥L₁ 2 → PairTest Y Γ)
     (h5 : IsSp4 ↥L₁ 2 → ∀ D ∈ Γ, ∀ P : Subgroup (LGL 2 V),
       IsSylowIn 5 P (Y ⊓ Subgroup.normalizer (D : Set (LGL 2 V))) → IsCyclic ↥P) : False := by
   by_cases hrk : ∀ D ∈ Γ, 3 ≤ mRank D
@@ -591,7 +599,7 @@ theorem br1_master_two (rows : Br1Rows) {Y T L₁ L₂ : Subgroup (LGL 2 V)}
 
 private theorem w183_master2s_two_le_mRank_of_two_lt {D : Subgroup (LGL 2 V)}
     (hel : IsElemAbelian 2 D) (h : 2 < Nat.card D) : 2 ≤ mRank D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.Open.IsElemAbelian.isPGroup hel)
   have hn2 : 2 ≤ n := by
     by_contra hc
@@ -639,8 +647,8 @@ private theorem w183_master2s_three_le_mOf_or (hB : Br2Common Y Γ VA T 𝒢 Zs 
     intro hbot
     rw [hbot, mOf_bot] at hm₂
     omega
-  haveI := htwo.simple₁
-  haveI := htwo.simple₂
+  have := htwo.simple₁
+  have := htwo.simple₂
   refine Assumption131.false_of_two_kernels hB.h131 hD htwo.le₁ htwo.le₂ htwo.nonab₁
     htwo.nonab₂ htwo.comm ?_ ?_ rfl rfl hDne hFne ?_ (hm₁.trans hi)
   · intro a ha l hl

@@ -63,11 +63,11 @@ theorem hatOf_of_mem_cZero {A : Type} [Group A] [Finite A] {P T : Subgroup A}
   have hnot : ¬ IsTwoPrimeComponent T T := by
     rintro ⟨-, -, hperf, -⟩
     obtain ⟨e⟩ := hT3
-    haveI hperfT : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.mpr hperf
+    have hperfT : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.mpr hperf
     have hperfQ : Group.IsPerfect (↥T ⧸ CFSG.pCore 2 ↥T) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥T))
         (QuotientGroup.mk'_surjective _)
-    haveI : Group.IsPerfect (↥T ⧸ CFSG.pCore 2 ↥T) := hperfQ
+    have : Group.IsPerfect (↥T ⧸ CFSG.pCore 2 ↥T) := hperfQ
     have hperf3 : Group.IsPerfect (Equiv.Perm (Fin 3)) :=
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
     have hbot : (⊤ : Subgroup (Equiv.Perm (Fin 3))) = ⊥ :=

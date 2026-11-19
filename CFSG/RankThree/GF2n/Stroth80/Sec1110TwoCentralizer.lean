@@ -47,14 +47,16 @@ noncomputable def barLBConjAct (hc : Ctx M Q Z B) :
   (MulAut.conjNormal : Mbar M Q →* MulAut (Xbar M Q Z B)).comp
     (bar M Q (LB M Q B)).subtype
 
+omit [Finite G] in
 theorem barLBConjAct_apply (hc : Ctx M Q Z B) (x : bar M Q (LB M Q B))
     (y : Xbar M Q Z B) :
     (barLBConjAct hc x) y =
       ⟨(x : Mbar M Q) * (y : Mbar M Q) * (x : Mbar M Q)⁻¹,
         hc.Xbar_normal.conj_mem (y : Mbar M Q) y.2 (x : Mbar M Q)⟩ := by
-  haveI : (Xbar M Q Z B).Normal := hc.Xbar_normal
+  have : (Xbar M Q Z B).Normal := hc.Xbar_normal
   rfl
 
+omit [Finite G] in
 theorem barLBConjAct_ker (hc : Ctx M Q Z B) :
     (barLBConjAct hc).ker =
       (bar M Q (LB M Q B) ⊓
@@ -87,6 +89,7 @@ theorem barLBConjAct_ker (hc : Ctx M Q Z B) :
     ext y
     simpa using hval y
 
+omit [Finite G] in
 theorem barLBConjAct_ker_eq_bot_iff (hc : Ctx M Q Z B) :
     (barLBConjAct hc).ker = ⊥ ↔
       bar M Q (LB M Q B) ⊓
@@ -177,13 +180,13 @@ theorem bar_LB_inf_centralizer_Xbar_ne_bot_two_of_lieModel (hc : Ctx M Q Z B)
     have hStated := hLm2.statedClassicalModel (by simp [CFSG.Blueprint.classicalTags])
     simp only [CFSG.Open.StatedClassicalModel] at hStated
     obtain ⟨-, K, hKf, hKfin, hKcard, he⟩ := hStated
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     obtain ⟨eK⟩ := he
     have hx0 : x ≠ 0 := by omega
     classical
-    letI : Fintype K := Fintype.ofFinite K
-    letI : Fintype (GaloisField 2 x) := Fintype.ofFinite _
+    let : Fintype K := Fintype.ofFinite K
+    let : Fintype (GaloisField 2 x) := Fintype.ofFinite _
     have hcard : Nat.card K = Nat.card (GaloisField 2 x) := by
       rw [hKcard, GaloisField.card 2 x hx0]
     have hcardF : Fintype.card K = Fintype.card (GaloisField 2 x) := by

@@ -16,7 +16,7 @@ variable {K : Type*} [Group K] {Z : Type*} [AddCommGroup Z] [Module (ZMod 2) Z] 
 theorem InnerCtx.invariant_of_stab (h : InnerCtx L B) (κ : Representation (ZMod 2) K Z)
     {Y : Submodule (ZMod 2) Z} (hL : ∀ l ∈ L, ∀ y ∈ Y, κ l y ∈ Y)
     (hB : ∀ b ∈ B, ∀ y ∈ Y, κ b y ∈ Y) : ∀ k : K, ∀ y ∈ Y, κ k y ∈ Y := by
-  haveI := h.normal_L
+  have := h.normal_L
   intro k y hy
   have hk : k ∈ L ⊔ B := by rw [h.top]; exact Subgroup.mem_top k
   obtain ⟨l, hl, b, hb, rfl⟩ := Subgroup.mem_sup_of_normal_left.mp hk
@@ -33,7 +33,7 @@ theorem finrank_absorb [Finite Z] (h : InnerCtx L B) (κ : Representation (ZMod 
     (hna : a ∉ stabIn h κ Y) :
     finrank (ZMod 2) ↥(fixSub κ B) + 2 * finrank (ZMod 2) ↥Y ≤
       finrank (ZMod 2) Z + finrank (ZMod 2) ↥(fixSub κ (stabIn h κ Y) ⊓ Y) := by
-  haveI : Module.Finite (ZMod 2) Z := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) Z := Module.Finite.of_finite
   have hbot := inf_translate_eq_bot h κ hY ha hna
   have hinvol : ∀ z, κ a (κ a z) = z := fun z => by
     rw [← repMulApply, h.sq a ha, map_one]
@@ -100,7 +100,7 @@ theorem card_inner_sq_le [Finite Z] (h : InnerCtx L B) {κ : Representation (ZMo
     (hna : a ∉ stabIn h κ Y) :
     Nat.card ↥(B ⊓ MonoidHom.ker κ) * Nat.card ↥Y ^ 2 ≤
       Nat.card ↥B * Nat.card ↥(fixSub κ (stabIn h κ Y) ⊓ Y) := by
-  haveI := hd.nontrivial
+  have := hd.nontrivial
   have hbud := hd.budget
   have hfix : Nat.card {z : Z // ∀ b ∈ B, κ b z = z} = Nat.card ↥(fixSub κ B) :=
     Nat.card_congr (Equiv.subtypeEquivRight fun z => mem_fixSub.symm)

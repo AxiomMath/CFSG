@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G}
 
+omit [Finite G] in
 private theorem commutator_conjugatesOfSet_le_normalClosure (N : Subgroup G) [N.Normal] :
     ∀ a ∈ N, ∀ y ∈ Group.conjugatesOfSet (D : Set G),
       ⁅a, y⁆ ∈ normalClosure ((⁅N, D⁆ : Subgroup G) : Set G) := by
@@ -31,6 +32,7 @@ private theorem commutator_conjugatesOfSet_le_normalClosure (N : Subgroup G) [N.
     rw [conjugate_commutatorElement (c⁻¹ * a * c) d c, harg]
   rwa [hgoal] at hconjmem
 
+omit [Finite G] in
 theorem commutator_top_eq_normalClosure {N : Subgroup G} [N.Normal]
     (hgen : normalClosure (D : Set G) = ⊤) :
     ⁅N, (⊤ : Subgroup G)⁆ = normalClosure ((⁅N, D⁆ : Subgroup G) : Set G) := by
@@ -45,8 +47,8 @@ theorem commutator_top_eq_normalClosure {N : Subgroup G} [N.Normal]
 
 private theorem commutator_idem_pPrimeCore_three (hD : Nat.card D = 3) :
     ⁅⁅CFSG.pPrimeCore 3 G, D⁆, D⁆ = ⁅CFSG.pPrimeCore 3 G, D⁆ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 G).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 G).Normal := CFSG.pPrimeCore_normal
   have hD3 : IsPGroup 3 D := IsPGroup.of_card (n := 1) (by rw [hD]; norm_num)
   have hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 G) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp

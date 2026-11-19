@@ -12,7 +12,7 @@ namespace CertificateChecks.KernelMisc.Sp4Cen
 
 open Matrix CFSG.KD.Sp4Cen CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.Misc.GL4 CFSG.KC.Misc.Clos
   CFSG.KC.Misc.Sp4Cen
-open Certificates.GL4 (GL4 sg)
+open Certificates.GL4Sub (GL4 sg)
 open Certificates.A5GL42 (Mat4 ofCode)
 
 @[expose] noncomputable def SB : Subgroup GL4 := sg [S0, S1]
@@ -39,16 +39,16 @@ theorem sb_exact : Nat.card SB = 720 ∧ ExactList enc4 SB 720 SBE := by
 @[expose] noncomputable def stabW : Subgroup GL4 where
   carrier := {g | (g : Mat4)ᵀ * W0m * (g : Mat4) = W0m}
   one_mem' := by
-    simp only [Set.mem_setOf_eq, Units.val_one, Matrix.transpose_one, Matrix.one_mul, Matrix.mul_one]
+    simp only [Set.mem_ofPred_eq, Units.val_one, Matrix.transpose_one, Matrix.one_mul, Matrix.mul_one]
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Units.val_mul, Matrix.transpose_mul] at *
+    simp only [Set.mem_ofPred_eq, Units.val_mul, Matrix.transpose_mul] at *
     calc (b : Mat4)ᵀ * (a : Mat4)ᵀ * W0m * ((a : Mat4) * b)
         = (b : Mat4)ᵀ * ((a : Mat4)ᵀ * W0m * a) * b := by simp only [Matrix.mul_assoc]
       _ = W0m := by rw [ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have h1 : (a : Mat4) * ((a⁻¹ : GL4) : Mat4) = 1 := by
       rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
     calc ((a⁻¹ : GL4) : Mat4)ᵀ * W0m * ((a⁻¹ : GL4) : Mat4)

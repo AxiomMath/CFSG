@@ -22,7 +22,7 @@ private theorem swap_image_Iic (m : ℕ) :
         (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) '' {i : Fin (m + 1 + 1 + 1) | i.val ≤ m}
       = {i : Fin (m + 1 + 1 + 1) | i.val < m ∨ i.val = m + 1} := by
   ext i
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨x, hx, rfl⟩
     rw [Equiv.swap_apply_def]
@@ -58,7 +58,7 @@ private theorem swap_mul_swap_image_Iic (m : ℕ) :
         (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1))) '' {i : Fin (m + 1 + 1 + 1) | i.val ≤ m}
       = {i : Fin (m + 1 + 1 + 1) | i.val < m ∨ i.val = m + 2} := by
   ext i
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨x, hx, rfl⟩
     rw [Equiv.Perm.mul_apply]
@@ -174,22 +174,22 @@ theorem top_eq_sup_conj (m : ℕ) (hm : 1 ≤ m) :
   have h01 : (({i : Fin (m + 1 + 1 + 1) | i.val ≤ m} : Set (Fin (m + 1 + 1 + 1))) ∩
       {i : Fin (m + 1 + 1 + 1) | i.val < m ∨ i.val = m + 1}).Nonempty := by
     refine ⟨0, ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq, Fin.val_zero]; omega
-    · simp only [Set.mem_setOf_eq, Fin.val_zero]; omega
+    · simp only [Set.mem_ofPred_eq, Fin.val_zero]; omega
+    · simp only [Set.mem_ofPred_eq, Fin.val_zero]; omega
   rw [slOn_sup_of_inter h01]
   rw [show ({i : Fin (m + 1 + 1 + 1) | i.val ≤ m} : Set (Fin (m + 1 + 1 + 1))) ∪
         {i : Fin (m + 1 + 1 + 1) | i.val < m ∨ i.val = m + 1} =
       {i : Fin (m + 1 + 1 + 1) | i.val ≤ m + 1} from by
-    ext i; simp only [Set.mem_union, Set.mem_setOf_eq]; omega]
+    ext i; simp only [Set.mem_union, Set.mem_ofPred_eq]; omega]
   have h11 : (({i : Fin (m + 1 + 1 + 1) | i.val ≤ m + 1} : Set (Fin (m + 1 + 1 + 1))) ∩
       {i : Fin (m + 1 + 1 + 1) | i.val < m ∨ i.val = m + 2}).Nonempty := by
     refine ⟨0, ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq, Fin.val_zero]; omega
-    · simp only [Set.mem_setOf_eq, Fin.val_zero]; omega
+    · simp only [Set.mem_ofPred_eq, Fin.val_zero]; omega
+    · simp only [Set.mem_ofPred_eq, Fin.val_zero]; omega
   rw [slOn_sup_of_inter h11]
   rw [show ({i : Fin (m + 1 + 1 + 1) | i.val ≤ m + 1} : Set (Fin (m + 1 + 1 + 1))) ∪
         {i : Fin (m + 1 + 1 + 1) | i.val < m ∨ i.val = m + 2} = Set.univ from by
-    ext i; simp only [Set.mem_union, Set.mem_setOf_eq, Set.mem_univ, iff_true]; omega]
+    ext i; simp only [Set.mem_union, Set.mem_ofPred_eq, Set.mem_univ, iff_true]; omega]
 
 theorem slOn_lt_eq_sup (m : ℕ) (hm : 3 ≤ m) :
     slOn (m + 1 + 1 + 1) {i | i.val < m + 2} =
@@ -204,14 +204,14 @@ theorem slOn_lt_eq_sup (m : ℕ) (hm : 3 ≤ m) :
         Set (Fin (m + 1 + 1 + 1))) ∩
       ({0, 1, 4} : Set (Fin (m + 1 + 1 + 1)))).Nonempty := by
     refine ⟨4, ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq, h4v]; omega
+    · simp only [Set.mem_ofPred_eq, h4v]; omega
     · simp
   rw [slOn_sup_of_inter hmem]
   rw [show ({i : Fin (m + 1 + 1 + 1) | 2 ≤ i.val ∧ i.val < m + 2} :
         Set (Fin (m + 1 + 1 + 1))) ∪ ({0, 1, 4} : Set (Fin (m + 1 + 1 + 1))) =
       {i : Fin (m + 1 + 1 + 1) | i.val < m + 2} from by
     ext i
-    simp only [Set.mem_union, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_union, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro (⟨h2, hlt⟩ | h | h | h)
       · exact hlt

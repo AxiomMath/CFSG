@@ -31,7 +31,7 @@ theorem cent_fourGrp_of_ctx0 (h : Ctx0 t L S x₁ x₂ lam rho) :
   let A₀ : Subgroup L := baseGrp a₁ a₂
   let A' : Subgroup L := baseGrp x₁' x₂'
   let V' : Subgroup L := fourGrp x₁' x₂'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardL : Nat.card L = 6048 := card_K_of_psu33 h.hyp.lieModel
   have hfacL : (Nat.card L).factorization 2 = 5 := by
     rw [hcardL, show (6048 : ℕ) = 2 ^ 5 * 189 from by norm_num,
@@ -61,7 +61,7 @@ theorem cent_fourGrp_of_ctx0 (h : Ctx0 t L S x₁ x₂ lam rho) :
     exact Subgroup.closure_mono (by
       intro y hy
       rcases hy with rfl | rfl <;> simp)
-  haveI : IsMulCommutative A₀ := (hf.wreath.baseGrp_eq).1
+  have : IsMulCommutative A₀ := (hf.wreath.baseGrp_eq).1
   have hBle : A₀.map (MulAut.conj c).toMonoidHom ≤ T' := by
     rw [← hTmap]
     exact Subgroup.map_mono hA₀le

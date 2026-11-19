@@ -28,12 +28,12 @@ theorem kronGL_mulVec (k : ℕ) (B : GL (Fin k) K) (v : Fin k × ι → K) (p : 
     (((kronGL ι k B : GL (Fin k × ι) K) : Matrix (Fin k × ι) (Fin k × ι) K) *ᵥ v) p =
       ∑ j, (B : Matrix (Fin k) (Fin k) K) p.1 j * v (j, p.2) := by
   simp only [kronGL, kronRightHom, Units.coe_map, Matrix.mulVec, dotProduct,
-    Fintype.sum_prod_type, Matrix.kroneckerMap_apply, Matrix.one_apply]
+    Fintype.sum_prod_type]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Finset.sum_eq_single p.2]
   · simp
   · intro b _ hb
-    simp [Matrix.one_apply, Ne.symm hb]
+    simp [Ne.symm hb]
   · intro hp
     exact (hp (Finset.mem_univ p.2)).elim
 
@@ -147,6 +147,7 @@ theorem mem_centralizer_diag_iff [Finite K] {k : ℕ} {Γ : Subgroup (GL ι K)}
       matHom (kronGL ι k B) * matHom (diagGL k γ)
     rw [← map_mul, ← map_mul, kronGL_commute_diagGL]
 
+omit [Fintype ι] [DecidableEq ι] [Field K] in
 private theorem subsingleton_stdMod_of_isEmpty_left {k : ℕ} (h : IsEmpty ι) :
     Subsingleton (StdMod (Fin k × ι) K) := by
   refine ⟨fun x y => ?_⟩
@@ -154,6 +155,7 @@ private theorem subsingleton_stdMod_of_isEmpty_left {k : ℕ} (h : IsEmpty ι) :
   funext p
   exact (h.false p.2).elim
 
+omit [Fintype ι] [DecidableEq ι] [Field K] in
 private theorem subsingleton_stdMod_of_fin_zero {k : ℕ} (hk : k = 0) :
     Subsingleton (StdMod (Fin k × ι) K) := by
   subst hk
@@ -168,13 +170,15 @@ private theorem subgroup_subsingleton_of_subsingleton {W : Type} [Group W]
   rw [h.allEq x 1]
   exact ⟨fun _ => L'.one_mem, fun _ => L.one_mem⟩
 
+omit [Fintype ι] in
 private theorem exists_ne_zero_fun [Nonempty ι] : ∃ x : ι → K, x ≠ 0 := by
   obtain ⟨i₀⟩ := ‹Nonempty ι›
   refine ⟨fun i => if i = i₀ then 1 else 0, ?_⟩
   intro h
   have := congrFun h i₀
-  simpa using this
+  simp at this
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem lineSub_eq_of_smul {k : ℕ} {u v : Fin k → K} {c : K} (hc : c ≠ 0)
     (h : u = c • v) : lineSub (ι := ι) u = lineSub (ι := ι) v := by
   subst h
@@ -194,6 +198,7 @@ private theorem lineSub_eq_of_smul {k : ℕ} {u v : Fin k → K} {c : K} (hc : c
     simp only [Pi.smul_apply, smul_eq_mul]
     field_simp
 
+omit [Fintype ι] in
 private theorem lineSub_eq_lineSub_iff (hι : Nonempty ι) {k : ℕ} {u v : Fin k → K}
     (hu : u ≠ 0) (hv : v ≠ 0) :
     lineSub (ι := ι) u = lineSub (ι := ι) v ↔
@@ -249,11 +254,9 @@ private noncomputable def tensorLineSetEquiv (hι : Nonempty ι) (k : ℕ) :
       (lineSub_eq_lineSub_iff hι
         (tensorLineSetToProj (ι := ι) (K := K) k L).rep_nonzero
         (Classical.choose_spec L.2).1).mpr (by
-        simpa [tensorLineSetToProj] using hrep)
+        simp [tensorLineSetToProj])
     exact hline.trans (Classical.choose_spec L.2).2.symm
   right_inv p := by
-    change tensorLineSetToProj (ι := ι) (K := K) k
-      (projToLineSet (ι := ι) (K := K) k p) = p
     have hspec := Classical.choose_spec
       (projToLineSet (ι := ι) (K := K) k p).2
     rw [← Projectivization.mk_rep p]
@@ -266,6 +269,7 @@ private noncomputable def tensorLineSetEquiv (hι : Nonempty ι) (k : ℕ) :
       (lineSub_eq_lineSub_iff hι hspec.1 p.rep_nonzero).mp hline
     simpa [tensorLineSetToProj] using hmk
 
+omit [Fintype ι] in
 private theorem natCard_tensorLineSet (hι : Nonempty ι) [Finite K] :
     Nat.card ↥(tensorLineSet (ι := ι) (K := K) 2) = Nat.card K + 1 := by
   rw [Nat.card_congr (tensorLineSetEquiv (ι := ι) (K := K) hι 2),
@@ -279,9 +283,10 @@ private theorem odd_sum_pow_of_even {q d : ℕ} (hq : Even q) (hd : 1 ≤ d) :
     rw [Finset.sum_range_succ]
     rcases Nat.eq_zero_or_pos d with hd0 | hdpos
     · subst hd0
-      simpa using (show Odd (1 : ℕ) by norm_num)
+      simp
     · exact Odd.add_even (ih (by omega)) (hq.pow_of_ne_zero (by omega))
 
+omit [DecidableEq ι] in
 private theorem not_two_dvd_natCard_proj (hι : Nonempty ι) [Finite K] [CharP K 2] :
     ¬ 2 ∣ Nat.card (ℙ K (ι → K)) := by
   have hq : Even (Nat.card K) := by
@@ -295,6 +300,7 @@ private theorem not_two_dvd_natCard_proj (hι : Nonempty ι) [Finite K] [CharP K
     (Module.finrank_fintype_fun_eq_card K)]
   exact (odd_sum_pow_of_even hq hd).not_two_dvd_nat
 
+omit [Fintype ι] in
 private theorem not_two_dvd_natCard_tensorLineSet (hι : Nonempty ι) [Finite K] [CharP K 2] :
     ¬ 2 ∣ Nat.card ↥(tensorLineSet (ι := ι) (K := K) 2) := by
   have hq : Even (Nat.card K) := by
@@ -333,6 +339,7 @@ private theorem not_two_dvd_natCard_tensorLineSet (hι : Nonempty ι) [Finite K]
     rw [h]
     exact L.neg_mem (ha j)
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem natCard_colSub_span_singleton {k : ℕ} {x : ι → K} (hx : x ≠ 0) :
     Nat.card ↥(colSub (k := k) (K ∙ x)) = Nat.card K ^ k := by
   obtain ⟨i₀, hi₀⟩ : ∃ i, x i ≠ 0 := by
@@ -369,6 +376,7 @@ private theorem natCard_colSub_span_singleton {k : ℕ} {x : ι → K} (hx : x �
   rw [hcard, Module.natCard_eq_pow_finrank (K := K) (V := Fin k → K),
     Module.finrank_fin_fun]
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem colSub_span_singleton_injective {k : ℕ} (hk : 0 < k)
     {x y : ι → K}
     (h : colSub (k := k) (K ∙ x) = colSub (k := k) (K ∙ y)) :
@@ -410,7 +418,7 @@ private noncomputable def projToColLineSet (k : ℕ) :
     ℙ K (ι → K) → ↥(colLineSet (ι := ι) (K := K) k) :=
   fun p => ⟨colSub (k := k) (K ∙ p.rep), ⟨p.rep, p.rep_nonzero, rfl⟩⟩
 
-private noncomputable def colLineSetEquiv (hι : Nonempty ι) (k : ℕ) (hk : 0 < k) :
+private noncomputable def colLineSetEquiv (_hι : Nonempty ι) (k : ℕ) (hk : 0 < k) :
     ↥(colLineSet (ι := ι) (K := K) k) ≃ ℙ K (ι → K) where
   toFun := colLineSetToProj (ι := ι) (K := K) k
   invFun := projToColLineSet (ι := ι) (K := K) k
@@ -424,7 +432,7 @@ private noncomputable def colLineSetEquiv (hι : Nonempty ι) (k : ℕ) (hk : 0 
     have hproj : Projectivization.mk K (colLineSetToProj (ι := ι) (K := K) k L).rep
         (colLineSetToProj (ι := ι) (K := K) k L).rep_nonzero =
         Projectivization.mk K (Classical.choose L.2) (Classical.choose_spec L.2).1 := by
-      simpa [colLineSetToProj] using hrep
+      simp [colLineSetToProj]
     have hspan : K ∙ (colLineSetToProj (ι := ι) (K := K) k L).rep =
         K ∙ Classical.choose L.2 := by
       rw [Projectivization.mk_eq_mk_iff] at hproj
@@ -433,8 +441,6 @@ private noncomputable def colLineSetEquiv (hι : Nonempty ι) (k : ℕ) (hk : 0 
     rw [hspan]
     exact (Classical.choose_spec L.2).2.symm
   right_inv p := by
-    change colLineSetToProj (ι := ι) (K := K) k
-      (projToColLineSet (ι := ι) (K := K) k p) = p
     have hspec := Classical.choose_spec
       (projToColLineSet (ι := ι) (K := K) k p).2
     rw [← Projectivization.mk_rep p]
@@ -453,16 +459,19 @@ private noncomputable def colLineSetEquiv (hι : Nonempty ι) (k : ℕ) (hk : 0 
       exact ⟨c, hc⟩
     simpa [colLineSetToProj] using hmk
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem natCard_colLineSet (hι : Nonempty ι) (k : ℕ) (hk : 0 < k) :
     Nat.card ↥(colLineSet (ι := ι) (K := K) k) = Nat.card (ℙ K (ι → K)) :=
   Nat.card_congr (colLineSetEquiv hι k hk)
 
+omit [DecidableEq ι] in
 private theorem not_two_dvd_natCard_colLineSet (hι : Nonempty ι) (k : ℕ) (hk : 0 < k)
     [Finite K] [CharP K 2] :
     ¬ 2 ∣ Nat.card ↥(colLineSet (ι := ι) (K := K) k) := by
   rw [natCard_colLineSet hι k hk]
   exact not_two_dvd_natCard_proj hι
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem map_lineSub_of_normalForm {k : ℕ} {a : MulAut (StdMod (Fin k × ι) K)}
     {A' : MulAut (StdMod ι K)} {σ : K ≃+* K} {B : GL (Fin k) K}
     (hA' : IsSemilinear A' σ)
@@ -491,6 +500,7 @@ private theorem map_lineSub_of_normalForm {k : ℕ} {a : MulAut (StdMod (Fin k �
     obtain ⟨x, rfl⟩ := A'.surjective y
     exact MonoidHom.mem_range.mpr ⟨x, normalForm_lineEmb hA' h u x⟩
 
+omit [DecidableEq ι] in
 private theorem map_colSub_of_normalForm [Finite K] {k : ℕ}
     {a : MulAut (StdMod (Fin k × ι) K)}
     {A' : MulAut (StdMod ι K)} {σ : K ≃+* K} {B : GL (Fin k) K}
@@ -555,6 +565,7 @@ private def subgroupSetMulAction {W : Type} [Group W] {A : Subgroup (MulAut W)}
     rw [Subgroup.map_map, Subgroup.coe_mul]
     congr 1
 
+omit [Fintype ι] in
 theorem exists_fixed_lineSub [Finite K] [CharP K 2]
     {A : Subgroup (MulAut (StdMod (Fin 2 × ι) K))} (hA : IsPGroup 2 A)
     (hform : ∀ a ∈ A, ∃ (A' : MulAut (StdMod ι K)) (σ : K ≃+* K) (B : GL (Fin 2) K),
@@ -566,7 +577,7 @@ theorem exists_fixed_lineSub [Finite K] [CharP K 2]
   · refine ⟨fun i => if i = 0 then 1 else 0, ?_, fun a ha => ?_⟩
     · intro h
       have := congrFun h 0
-      simpa using this
+      simp at this
     · exact (subgroup_subsingleton_of_subsingleton
         (subsingleton_stdMod_of_isEmpty_left (K := K) (k := 2) hι)).allEq _ _
   · let S := tensorLineSet (ι := ι) (K := K) 2
@@ -657,7 +668,7 @@ theorem card_le_of_isElemAbelian_two_centralizer_diag [Finite K] [CharP K 2] [No
   have hkronOne : kronGL (ι := ι) (K := K) 2 (1 : GL (Fin 2) K) = 1 := by
     apply Units.ext
     ext p q
-    simp [kronGL, kronRightHom, Matrix.kroneckerMap_apply, Matrix.one_apply]
+    simp [kronGL, kronRightHom, Matrix.one_apply]
   have hkronMul : ∀ B C : GL (Fin 2) K,
       kronGL (ι := ι) (K := K) 2 (B * C) =
         kronGL (ι := ι) (K := K) 2 B * kronGL (ι := ι) (K := K) 2 C :=

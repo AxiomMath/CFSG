@@ -52,9 +52,9 @@ theorem comm_two_pairs {β γ δ ε : Fin Tag.F4.rank → ℤ} (hβ : IsRoot Tag
   have h := comm_char2 (L := L) hβ hγ hne hne' c d
   rw [hp] at h
   have n1 : (if True ∧ γ - β ∈ rootFinset Tag.F4 then (0 : L) else 1) = 1 :=
-    if_neg (fun h => h11 h.2)
+    ite_eq_right (fun h => h11 h.2)
   have n2 : (if ((2 : ℕ), (1 : ℕ)) = (1, 1) ∧ γ - β ∈ rootFinset Tag.F4 then (0 : L) else 1) = 1 :=
-    if_neg (fun h => absurd h.1 (by decide))
+    ite_eq_right (fun h => absurd h.1 (by decide))
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at h
   rw [n1, n2] at h
   simp only [one_smul, one_mul, pow_one, pow_one, e1, e2] at h
@@ -68,7 +68,7 @@ theorem comm_one_pair {β γ δ : Fin Tag.F4.rank → ℤ} (hβ : IsRoot Tag.F4 
   have h := comm_char2 (L := L) hβ hγ hne hne' c d
   rw [hp] at h
   have n1 : (if True ∧ γ - β ∈ rootFinset Tag.F4 then (0 : L) else 1) = 1 :=
-    if_neg (fun h => h11 h.2)
+    ite_eq_right (fun h => h11 h.2)
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at h
   rw [n1] at h
   simp only [one_smul, one_mul, pow_one, e1] at h

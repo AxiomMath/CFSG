@@ -25,14 +25,14 @@ theorem HasE9.map_injective {X Y : Type*} [Group X] [Group Y] (f : X →* Y)
 theorem HasE9.two_le_pRank {X : Type*} [Group X] [Finite X] (h : HasE9 X) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨x, y, hx, hy, hxy, hyx⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.GroupTheory.two_le_pRank_of_commute (p := 3) (H := ⊤) (x := x) (y := y)
     (Subgroup.mem_top x) (Subgroup.mem_top y) hx hy hxy hyx
 
 theorem orderOf_mul_eq_three_of_involutions {Q : Type*} [Group Q] {d e : Q}
-    (hd : d ^ 2 = 1) (he : e ^ 2 = 1) (h3 : (d * e) ^ 3 = 1) (hne : d * e ≠ e * d) :
+    (_hd : d ^ 2 = 1) (_he : e ^ 2 = 1) (h3 : (d * e) ^ 3 = 1) (hne : d * e ≠ e * d) :
     orderOf (d * e) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime h3 ?_
   intro h1
   apply hne

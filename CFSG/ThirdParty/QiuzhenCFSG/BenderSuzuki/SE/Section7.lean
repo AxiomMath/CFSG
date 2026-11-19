@@ -68,7 +68,7 @@ public theorem theorem4b_ambientPPrimeCore_conjBy
   have hcomp : (MulAut.conj g).toMonoidHom.comp H.subtype =
       (H.conjBy g).subtype.comp e.toMonoidHom := by
     ext x
-    simpa [e, theorem4bSection7ConjSubgroupEquiv_coe,
+    simp [e, theorem4bSection7ConjSubgroupEquiv_coe,
       MulAut.conj_apply]
   rw [hcomp]
   rw [← Subgroup.map_map]
@@ -199,7 +199,7 @@ public theorem theorem4b_mem_normalizer_section7ThetaF
   let F : Subgroup X := theorem4bSection7F z beta
   let O : Subgroup X := corollary64OddCore F
   let Theta : Subgroup X := corollary64Theta p F
-  haveI : (twoPrimeCore F).Characteristic := by
+  have : (twoPrimeCore F).Characteristic := by
     simpa [twoPrimeCore] using
       (pPrimeCore_characteristic (p := 2) (G := F))
   have hNormFNormO : Subgroup.normalizer (F : Set X) ≤
@@ -273,7 +273,7 @@ public theorem theorem4b_lemma75_theta_le_theta_of_le
     simpa [T, O, corollary64Theta] using
       (Subgroup.map_subtype_le (pPrimeCore p O))
   have hTF : T ≤ F := hTO.trans hOF
-  haveI : (twoPrimeCore F).Characteristic := by
+  have : (twoPrimeCore F).Characteristic := by
     simpa [twoPrimeCore] using
       (pPrimeCore_characteristic (p := 2) (G := F))
   have hNormFNormO : Subgroup.normalizer (F : Set X) ≤
@@ -327,7 +327,7 @@ public theorem IsStronglyEmbedded.theorem4b_lemma75
       (theorem4bSection7F d.z beta) d.W <= M) :
     corollary64Theta d.p (theorem4bSection7F d.z beta) <=
       corollary64Theta d.p (theorem4bSection7E M d.z beta) := by
-  letI : Fact d.p.Prime := ⟨d.hp⟩
+  let : Fact d.p.Prime := ⟨d.hp⟩
   let F : Subgroup X := theorem4bSection7F d.z beta
   let E : Subgroup X := theorem4bSection7E M d.z beta
   let O : Subgroup X := corollary64OddCore F
@@ -351,7 +351,7 @@ public theorem IsStronglyEmbedded.theorem4b_lemma75
     simpa [T, O, corollary64Theta] using
       (Subgroup.map_subtype_le (pPrimeCore d.p O))
   have hTF : T <= F := hTO.trans hOF
-  haveI : (twoPrimeCore F).Characteristic := by
+  have : (twoPrimeCore F).Characteristic := by
     simpa [twoPrimeCore] using
       (pPrimeCore_characteristic (p := 2) (G := F))
   have hNormFNormO : Subgroup.normalizer (F : Set X) <=
@@ -478,7 +478,7 @@ public theorem IsStronglyEmbedded.theorem4b_lemma76
     corollary64Theta d.p (theorem4bSection7E M d.z beta) ≤
       corollary64Theta d.p (theorem4bSection7D M beta) := by
   classical
-  letI : Fact d.p.Prime := ⟨d.hp⟩
+  let : Fact d.p.Prime := ⟨d.hp⟩
   let g : X := rightConjugateElem t d.z
   let K1 : Set X := rightConjugateSet d.invertedSet g
   let W1X : Subgroup X := rightConjugate d.W g
@@ -666,7 +666,7 @@ theorem theorem4bIsSylowSubgroupOf_of_le_section7
     (hPE : P ≤ E) (hED : E ≤ D) :
     theorem4bIsSylowSubgroupOf p P E := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PD, hP⟩
   let ED : Subgroup D := E.subgroupOf D
   have hPDle : (PD : Subgroup D) ≤ ED := by
@@ -713,7 +713,7 @@ theorem theorem4bIsSylowSubgroupOf_of_card_eq_section7
     (hPsyl : theorem4bIsSylowSubgroupOf p P F)
     (hPD : P ≤ D) (hcard : Nat.card D = Nat.card F) :
     theorem4bIsSylowSubgroupOf p P D := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PF, hP⟩
   have hPcard : Nat.card P = p ^ (Nat.card F).factorization p := by
     rw [hP, Subgroup.card_map_of_injective F.subtype_injective]
@@ -736,7 +736,7 @@ theorem theorem4bIsSylowSubgroupOf_of_subgroup_card_eq_section7
     (hPsyl : theorem4bIsSylowSubgroupOf p P E)
     (hQE : Q ≤ E) (hcard : Nat.card Q = Nat.card P) :
     theorem4bIsSylowSubgroupOf p Q E := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PE, hP⟩
   have hPcard : Nat.card P = p ^ (Nat.card E).factorization p := by
     rw [hP, Subgroup.card_map_of_injective E.subtype_injective]
@@ -820,7 +820,7 @@ private theorem lemma73_transport_swap_between_sylows
       u ∈ Subgroup.normalizer (P : Set X) ∧
       u • alpha = beta ∧ u • beta = alpha := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨P₀, hP⟩
   rcases hQsyl with ⟨Q₀, hQ⟩
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq E P₀ Q₀
@@ -969,7 +969,7 @@ private theorem lemma73_normalizer_not_le_of_not_sylow_F
       theorem4bSection7D]
     ac_rfl
   intro hnorm
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hPsylFM : theorem4bIsSylowSubgroupOf p P (F ⊓ M) := by
     rw [hFM]
     exact hPsylE
@@ -1318,7 +1318,7 @@ public theorem theorem4b_section7_sylow_contains_oddCore
       ((((P₀ : Subgroup (twoPrimeCore D)).map
         (twoPrimeCore D).subtype).map D.subtype) : Subgroup X) ≤ R := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hOtop : twoPrimeCore D = ⊤ := by
     apply top_unique
     change (⊤ : Subgroup D) ≤ pPrimeCore 2 D
@@ -1344,7 +1344,7 @@ public theorem theorem4b_section7_sylow_contains_oddCore
   refine ⟨?_, ?_⟩
   · simpa [O] using P₀
   · have hQOmap : QO.map O.subtype = QD := by
-      simpa [QO, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hQO]
+      simp [QO, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hQO]
     change (QO.map O.subtype).map D.subtype ≤ R
     rw [hQOmap]
     simpa [QD] using hQeq.ge
@@ -1380,12 +1380,12 @@ public theorem IsStronglyEmbedded.theorem4b_proposition79
     rw [hQeq]
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨q, _hq, rfl⟩
-    simpa [D, D0, theorem4bSection7D] using q.property
+    simp [D, theorem4bSection7D]
   have hRp : IsPGroup d.data.p R := by
     obtain ⟨Q, hQeq⟩ := hRsyl
     rw [hQeq]
     simpa [D, theorem4bSection7D] using
-      Q.isPGroup'.map (M ⊓ MulAction.stabilizer X beta).subtype
+      Q.isPGroup.map (M ⊓ MulAction.stabilizer X beta).subtype
   have hcontains := theorem4b_section7_sylow_contains_oddCore
     d.data.hp hDodd hRsyl
   have hzNormTheta : d.data.z ∈ Subgroup.normalizer

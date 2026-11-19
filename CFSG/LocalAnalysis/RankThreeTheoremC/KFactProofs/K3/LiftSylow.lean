@@ -84,7 +84,7 @@ theorem exists_sylow_three_lift {X Y : Type} [Group X] [Finite X] [Group Y] (π 
       obtain ⟨j, hjJ, hjt⟩ := Subgroup.mem_map.mp (hT ht)
       exact Subgroup.mem_map.mpr ⟨j, (hmemH j).mpr ⟨hjJ, by rw [hjt]; exact ht⟩, hjt⟩
   have hHJ : H ≤ J := fun x hx => ((hmemH x).mp hx).1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ :=
     Sylow.exists_subgroup_card_pow_prime 3 (s3_dvd_card_of_map_eq π H T hHT hT27)
   obtain ⟨B, hBdef⟩ : ∃ B : Subgroup X, B = P.map H.subtype := ⟨_, rfl⟩
@@ -105,11 +105,11 @@ theorem exists_sylow_three_lift {X Y : Type} [Group X] [Finite X] [Group Y] (π 
       Nat.Coprime.pow_left 3 ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hker)
     exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hcop h1 h2)
   have hBT : B.map π = T := by
-    haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT27]; norm_num)
+    have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT27]; norm_num)
     apply Subgroup.eq_of_le_of_card_ge
     · rw [← hHT]
       exact Subgroup.map_mono hBH
-    · rw [hT27, s3_card_map_of_inj π B hinj, hBcard] <;> norm_num
+    · rw [hT27, s3_card_map_of_inj π B hinj, hBcard]; norm_num
   obtain ⟨hcomm, hcube⟩ := s3_comm_of_inj π B T hBT hinj hTab hT3
   exact ⟨B, hBH.trans hHJ, hBcard.trans (by norm_num), hcomm, hcube, hBT, hinj⟩
 
@@ -157,8 +157,8 @@ theorem si_sylow_conj {X : Type} [Group X] [Finite X] (A R₁ R₂ : Subgroup X)
     (hq : q.Prime) (hR₁A : R₁ ≤ A) (hR₂A : R₂ ≤ A) (hR₁ : IsPGroup q R₁) (hR₂ : IsPGroup q R₂)
     (h₁ : ¬ q ∣ R₁.relIndex A) (h₂ : ¬ q ∣ R₂.relIndex A) :
     ∃ g ∈ A, ∀ y : X, y ∈ R₂ ↔ g * y * g⁻¹ ∈ R₁ := by
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
-  haveI : Finite (Sylow q A) := Sylow.finite_of_finiteIndex (Classical.arbitrary (Sylow q A))
+  have : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Finite (Sylow q A) := Sylow.finite_of_finiteIndex (Classical.arbitrary (Sylow q A))
   have hP₁ : IsPGroup q (R₁.subgroupOf A) :=
     hR₁.of_injective (Subgroup.subgroupOfEquivOfLe hR₁A).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hR₁A).injective
@@ -187,7 +187,7 @@ theorem si_sylow_conj {X : Type} [Group X] [Finite X] (A R₁ R₂ : Subgroup X)
     simp [MulAut.conj_apply]
   have hval' : ∀ (h w : A), (((MulAut.conj h)⁻¹ w : A) : X) = (h : X)⁻¹ * (w : X) * (h : X) := by
     intro h w
-    simp [MulAut.conj_inv_apply]
+    simp
   refine ⟨(g : X), g.2, fun y => ?_⟩
   constructor
   · intro hy
@@ -225,10 +225,10 @@ theorem exists_invariant_sylow_zpowers {X : Type} [Group X] [Finite X] (A : Subg
     Subgroup.zpowers_le.mpr (Subgroup.mem_normalizer_iff.mpr hsA)
   have hcong : ∀ h ∈ Subgroup.zpowers s, ∀ a ∈ A, h * a * h⁻¹ ∈ A := fun h hh a ha =>
     (Subgroup.mem_normalizer_iff.mp (hzN hh) a).mp ha
-  letI := si_conjMDMA A (Subgroup.zpowers s) hcong
+  let := si_conjMDMA A (Subgroup.zpowers s) hcong
   have hval : ∀ (h : Subgroup.zpowers s) (a : A),
       ((h • a : A) : X) = (h : X) * (a : X) * (h : X)⁻¹ := fun _ _ => rfl
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   have hpgroup : IsPGroup 3 (Subgroup.zpowers s) := by
     obtain ⟨n, hn⟩ := hs3
     obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 (orderOf_dvd_of_pow_eq_one hn)
@@ -237,7 +237,7 @@ theorem exists_invariant_sylow_zpowers {X : Type} [Group X] [Finite X] (A : Subg
     (G := ↥A) (A := ↥(Subgroup.zpowers s)) 3 q hpgroup h3A
   set R : Subgroup X := (P : Subgroup A).map A.subtype with hR
   have hRA : R ≤ A := Subgroup.map_subtype_le _
-  have hRq : IsPGroup q R := P.isPGroup'.map A.subtype
+  have hRq : IsPGroup q R := P.isPGroup.map A.subtype
   have hRsub : R.subgroupOf A = (P : Subgroup A) := by
     ext y
     rw [Subgroup.mem_subgroupOf, hR]
@@ -270,7 +270,7 @@ theorem exists_invariant_sylow_zpowers {X : Type} [Group X] [Finite X] (A : Subg
       exact Subgroup.mem_map.mpr ⟨⟨x, hxA⟩, hmem, rfl⟩
 
 theorem frattini_argument_subgroup {X : Type} [Group X] [Finite X] (J A R : Subgroup X) (q : ℕ)
-    (hq : q.Prime) (hAJ : A ≤ J) (hAn : ∀ j ∈ J, ∀ a ∈ A, j * a * j⁻¹ ∈ A) (hRA : R ≤ A)
+    (hq : q.Prime) (_hAJ : A ≤ J) (hAn : ∀ j ∈ J, ∀ a ∈ A, j * a * j⁻¹ ∈ A) (hRA : R ≤ A)
     (hRq : IsPGroup q R) (hRsyl : ¬ q ∣ R.relIndex A) :
     ∀ j ∈ J, ∃ a ∈ A, a * j ∈ Subgroup.normalizer (R : Set X) := by
   intro j hj

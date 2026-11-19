@@ -107,7 +107,7 @@ theorem exists_ctx (h64 : S_G64) (h31 : S_G31) (h37 : S_G37) {G : Type} [Group G
     rintro rfl
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hR : IsPGroup 2 (A ⊔ qCoreOf H 2 : Subgroup G) :=
-      IsPGroup.to_sup_of_normal_right' (S.isPGroup'.to_le hset.le) (qCoreOf_isPGroup H 2)
+      IsPGroup.to_sup_of_normal_right' (S.isPGroup.to_le hset.le) (qCoreOf_isPGroup H 2)
         (hAH.trans (le_normalizer_of_isNormalIn (qCoreOf_normal_in H 2)))
     have hOA : qCoreOf H 2 ≤ Subgroup.centralizer (A : Set G) := fun x hx =>
       Sec8.pGroup_le_centralizer hset h4 hR le_sup_left (Subgroup.mem_sup_right hx)

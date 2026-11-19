@@ -72,9 +72,9 @@ public theorem ii1Theorem26Conjugation_of_action
       ConjAct.toConjAct.toMonoidHom.comp H.subtype
     let conjAction : MulDistribMulAction H G :=
       MulDistribMulAction.compHom G f
-    letI : SMul H G := conjAction.toSMul
-    letI : MulAction H G := conjAction.toMulAction
-    letI : MulDistribMulAction H G := conjAction
+    let : SMul H G := conjAction.toSMul
+    let : MulAction H G := conjAction.toMulAction
+    let : MulDistribMulAction H G := conjAction
     have smul_eq (h : H) (z : G) :
         h • z = (h : G) * z * (h : G)⁻¹ := by
       change f h • z = _
@@ -87,7 +87,7 @@ public theorem ii1Theorem26Conjugation_of_action
           rw [smul_eq]
           simpa [rightConjugateElem]
             using hstable z hz (h : G)⁻¹ hhInv }
-    letI : Nonempty Zact := ⟨⟨hZ.choose, hZ.choose_spec⟩⟩
+    let : Nonempty Zact := ⟨⟨hZ.choose, hZ.choose_spec⟩⟩
     let Ksub : Subgroup H := K.subgroupOf H
     have hreg : IsRegularOn Ksub (Set.univ : Set Zact) := by
       intro a b _ _
@@ -501,7 +501,7 @@ private theorem frobenius_kernel_centralizer_le
     (hfrob : IsFrobeniusGroupWithKernelComplement K R)
     (z : K) (hzne : z ≠ 1) :
     Subgroup.centralizer ({(z : G)} : Set G) ≤ K := by
-  letI : K.Normal := hfrob.normal
+  let : K.Normal := hfrob.normal
   exact
     ((External.Isaacs.VII.isaacs_problem_7_1 K R
       hfrob.kernel_ne_bot hfrob.complement_ne_bot
@@ -643,7 +643,7 @@ public theorem lemma98_elementCentralizers_eq
   let Rsub : Subgroup E := R.subgroupOf E
   have hKcomm : IsMulCommutative K :=
     isMulCommutative_of_coe_eq_peterfalviKSet hKset
-  letI : IsMulCommutative K := hKcomm
+  let : IsMulCommutative K := hKcomm
   have hxI : x ∈ peterfalviKSet D t := by
     simpa [D] using (show x ∈ peterfalviKSet
       (M ⊓ rightConjugate M t) t by
@@ -1030,12 +1030,10 @@ public theorem lemma98_not_frobenius
     simpa [D] using hM.inf_rightConjugate_card_odd htM
   have hZeq : involutionsInSet M = involutionsInSet W :=
     involutionsInSet_eq_of_normalSupplement_odd
-      (by simpa [D] using (inf_le_left :
-        M ⊓ rightConjugate M t ≤ M)) hDodd hW.prop
+      (by simp [D]) hDodd hW.prop
   have hrankW : TwoRankAtLeastTwo W :=
     twoRankAtLeastTwo_normalSupplement_of_involutionCore
-      (by simpa [D] using (inf_le_left :
-        M ⊓ rightConjugate M t ≤ M)) hDodd hW.prop hrank
+      (by simp [D]) hDodd hW.prop hrank
   have hKne : K ≠ ⊥ := by
     obtain ⟨x, hxI, hxne⟩ := hIne
     intro hKbot

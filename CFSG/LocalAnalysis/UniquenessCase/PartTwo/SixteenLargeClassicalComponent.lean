@@ -25,7 +25,7 @@ private theorem s168e3_false_of_simple_component_four_rank
         ¬ 3 ∣ Nat.card (Subgroup.center Q)) : False := by
   obtain ⟨K, hK, -, ⟨eK⟩⟩ := exists_calC_cover_of_simple_component
     c.setting.hyp16.hyp125 c.std.h127 c.std.h119 hcomp hsimple
-  haveI : Group.IsPerfect (Bar2 K) := ⟨hK.2.2.1⟩
+  have : Group.IsPerfect (Bar2 K) := ⟨hK.2.2.1⟩
   have hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center (Bar2 K)) := hcover (Bar2 K) eK
   have h4K : 4 ≤ CFSG.Open.pRank 3 K := by
     rw [CFSG.Quasithin.R3c.pRank_three_eq_pCore_quotient K]
@@ -55,11 +55,11 @@ theorem s168e3_false_of_sl_component_ge_eight
   refine s168e3_false_of_simple_component_four_rank c hcomp hsimple hrank ?_
   intro Q _ _ _ eQ
   obtain ⟨K, hKf, hKfin, hKcard, ⟨eH⟩⟩ := hSL
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rwa [← Nat.card_eq_fintype_card])
   have hf : StatedProj (StatedSL n K) ≃* ↥(StatedSL n K) :=
     (s15k_jp_projEquiv hK2 (StatedSL n K)).some
@@ -90,11 +90,11 @@ theorem s168e3_false_of_sp_component_ge_eight
   refine s168e3_false_of_simple_component_four_rank c hcomp hsimple hrank ?_
   intro Q _ _ _ eQ
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eH⟩⟩ := hSp
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rwa [← Nat.card_eq_fintype_card])
   exact s16lc_sp_center_three_free (m := n / 2) (F := K) (by omega) (eQ.trans eH)
 
@@ -112,11 +112,11 @@ theorem s168e3_false_of_omegaPlus_component_ge_eight
   refine s168e3_false_of_simple_component_four_rank c hcomp hsimple hrank ?_
   intro Q _ _ _ eQ
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eH⟩⟩ := hOmega
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rwa [← Nat.card_eq_fintype_card])
   exact s16lc_omegaPlus_center_three_free (m := n / 2) (F := K) (by omega) (eQ.trans eH)
 
@@ -135,11 +135,11 @@ theorem s168e3_false_of_omegaMinus_component_ge_ten
   refine s168e3_false_of_simple_component_four_rank c hcomp hsimple hrank ?_
   intro Q _ _ _ eQ
   obtain ⟨-, K, hKf, hKfin, b, d, hKcard, hirr, ⟨eH⟩⟩ := hOmega
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rwa [← Nat.card_eq_fintype_card])
   exact s16lc_omegaMinus_center_three_free (m := n / 2) (F := K) (by omega) hirr (eQ.trans eH)
 

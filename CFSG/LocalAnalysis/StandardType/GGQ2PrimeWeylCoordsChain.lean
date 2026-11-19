@@ -29,7 +29,7 @@ theorem exists_chain_of_weylA5 {G : Type} [Group G] {Bs : Subgroup G} [Finite Bs
     ∃ w : ℕ → Fin (5 + 1 + 1), (∀ c d, c ≤ 5 → d ≤ 5 → w c = w d → c = d) ∧
       ∀ c, c < 5 → E (Equiv.swap (w c) (w (c + 1))) ∈ AL := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E', hE'⟩ := exists_permEquiv_of_ggWeylOfType_A hW5
   let R : Equiv.Perm (Fin (5 + 1 + 1)) ≃* E.range := MonoidHom.ofInjective hEinj
   let F : Equiv.Perm (Fin (5 + 1)) →* Equiv.Perm (Fin (5 + 1 + 1)) :=
@@ -46,7 +46,7 @@ theorem exists_chain_of_weylA5 {G : Type} [Group G] {Bs : Subgroup G} [Finite Bs
     rw [← hEF, ← hEF, h]
   let adj : Fin 5 → Equiv.Perm (Fin (5 + 1)) := fun c => Equiv.swap c.castSucc c.succ
   let s : ℕ → Equiv.Perm (Fin (5 + 1 + 1)) := fun c => if h : c < 5 then F (adj ⟨c, h⟩) else 1
-  have hs : ∀ c (h : c < 5), s c = F (adj ⟨c, h⟩) := fun c h => dif_pos h
+  have hs : ∀ c (h : c < 5), s c = F (adj ⟨c, h⟩) := fun c h => dite_eq_left h
   obtain ⟨w, hwinj, hweq⟩ := chain_labels s 5 (by norm_num)
     (fun c hc => by
       rw [hs c hc]

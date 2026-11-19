@@ -22,8 +22,9 @@ open scoped commutatorElement
 variable {K : Type} [Field K] [Finite K] {V : Type*} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 private theorem three_le_finrank_fixedSpace (hx : OddOrderIsometry Q p x)
-    (hQ : (polarBilin Q).Nondegenerate) {F : Subgroup (V ≃ₗ[K] V)}
+    (_hQ : (polarBilin Q).Nondegenerate) {F : Subgroup (V ≃ₗ[K] V)}
     (hFq : CFSG.IsQuasisimple ↥F) (hFle : F ≤ supportedFixedDerived Q x) :
     3 ≤ Module.finrank K ↥(fixedSpace x) := by
   classical
@@ -57,9 +58,9 @@ private theorem three_le_finrank_fixedSpace (hx : OddOrderIsometry Q p x)
     exact congrArg Subtype.val heq
   have hFcomm : ∀ a b : ↥F, a * b = b * a := fun a b =>
     Subtype.ext (hFcomm' a.1 a.2 b.1 b.2)
-  haveI : Group.IsPerfect ↥F := hFq.1
-  haveI : IsMulCommutative ↥F := IsMulCommutative.of_comm hFcomm
-  haveI : Subsingleton ↥F := inferInstance
+  have : Group.IsPerfect ↥F := hFq.1
+  have : IsMulCommutative ↥F := IsMulCommutative.of_comm hFcomm
+  have : Subsingleton ↥F := inferInstance
   obtain ⟨a, b, hab⟩ := hFq.2.2
   exact hab (Subsingleton.elim _ _)
 
@@ -90,15 +91,15 @@ private theorem eq_supportedFixedDerived_of_quasisimple_normal (hx : OddOrderIso
             restrictFixed Q x (Subgroup.inclusion (hFle.trans hFB) b) := congrArg Subtype.val hab
         exact Subtype.ext (congrArg (fun z : ↥(supportedBlock Q x (X - 1)) => (z : V ≃ₗ[K] V))
           (restrictFixed_injective hx h1))
-      haveI : Group.IsSolvable
+      have : Group.IsSolvable
           ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.comp (fixedSpace x).subtype)) := hsol
       have hFsol : Group.IsSolvable ↥F := Group.isSolvable_of_isSolvable_injective hinj
-      haveI : Group.IsPerfect ↥F := hFq.1
-      haveI : Nontrivial ↥F := by
+      have : Group.IsPerfect ↥F := hFq.1
+      have : Nontrivial ↥F := by
         rcases hFq with ⟨-, -, a, b, hab⟩
         by_contra hnt
-        haveI : Subsingleton ↥F := not_nontrivial_iff_subsingleton.mp hnt
-        haveI : Subsingleton (↥F ⧸ Subgroup.center ↥F) := inferInstance
+        have : Subsingleton ↥F := not_nontrivial_iff_subsingleton.mp hnt
+        have : Subsingleton (↥F ⧸ Subgroup.center ↥F) := inferInstance
         exact hab (Subsingleton.elim _ _)
       exact Group.IsPerfect.not_isSolvable ↥F hFsol
     · have hns : ¬ (Module.finrank K ↥(fixedSpace x) = 4 ∧
@@ -138,9 +139,9 @@ private theorem eq_supportedFixedDerived_of_quasisimple_normal (hx : OddOrderIso
       exact congrArg Subtype.val h3
     have hFcomm : ∀ a b : ↥F, a * b = b * a := fun a b =>
       Subtype.ext (hFcomm' a.1 a.2 b.1 b.2)
-    haveI : Group.IsPerfect ↥F := hFq.1
-    haveI : IsMulCommutative ↥F := IsMulCommutative.of_comm hFcomm
-    haveI : Subsingleton ↥F := inferInstance
+    have : Group.IsPerfect ↥F := hFq.1
+    have : IsMulCommutative ↥F := IsMulCommutative.of_comm hFcomm
+    have : Subsingleton ↥F := inferInstance
     obtain ⟨a, b, hab⟩ := hFq.2.2
     exact hab (Subsingleton.elim _ _)
 
@@ -154,11 +155,11 @@ theorem commute_of_fixedFactor (hx : OddOrderIsometry Q p x)
     {S : Subgroup (V ≃ₗ[K] V)} (hST : ∀ s ∈ S, ∀ t ∈ T, s * t = t * s) :
     ∀ g ∈ ⁅S, Subgroup.zpowers x⁆, ∀ f ∈ F, g * f = f * g := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V)) fun a b h => LinearEquiv.ext (congrFun h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Fintype.card K % 2 = 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact Nat.odd_iff.mp hK
@@ -284,7 +285,7 @@ theorem commute_of_fixedFactor (hx : OddOrderIsometry Q p x)
         exact hfix _ huT
       exact h2'
     exact congrArg Subtype.val h1
-  haveI : Fintype ↥T := Fintype.ofFinite ↥T
+  have : Fintype ↥T := Fintype.ofFinite ↥T
   have hcard : (Fintype.card T : K) ≠ 0 := by
     obtain ⟨n, hn⟩ := hT2.exists_card_eq
     rw [← Nat.card_eq_fintype_card, hn, Nat.cast_pow]

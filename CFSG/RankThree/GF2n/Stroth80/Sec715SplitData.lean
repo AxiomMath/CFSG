@@ -28,8 +28,8 @@ theorem sec715Spl_CN_conj (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
 
 theorem sec715Spl_Z0_conj (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
-    ∀ g ∈ Rt M (LB M Q B) t, ∀ y ∈ Z0, g * y * g⁻¹ ∈ Z0 := fun g hg y hy =>
-  (Subgroup.mem_normalizer_iff.mp (hZ0.mem_normalizer (fun ρ hρ y hy =>
+    ∀ _g ∈ Rt M (LB M Q B) t, ∀ y ∈ Z0, _g * y * _g⁻¹ ∈ Z0 := fun _g hg y hy =>
+  (Subgroup.mem_normalizer_iff.mp (hZ0.mem_normalizer (fun _ρ hρ y hy =>
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hc.Rt_le_M t hρ)) y).mp hy) hg) y).mp hy
 
 theorem sec715Spl_plus_data (h51 : Stroth51Statement) (hA : Sec7AExistsStatement)
@@ -157,7 +157,7 @@ theorem sec715Spl_data (h51 : Stroth51Statement) (hA : Sec7AExistsStatement)
   have hsec := SecHyp.of_isOppDecomp hdA hZnn hZ0n
   obtain ⟨Mm, iM, iA, κ, hκ, hkerκ⟩ := exists_sectionModule_ker hker hsec
     (fun k hk y hy => hNcomm k hk y (hZnN hy))
-  haveI : Finite Mm := hκ.finite
+  have : Finite Mm := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hZnn hκ hdA hLR hL2R
   have huu'' : polar (quadPlus 4 K) u' u ≠ 0 := by rwa [polar_comm]
   obtain ⟨y₂, hy₂, hny₂⟩ := exists_nonA2_of_map_Lom (ElemMatrixIso.plus hm3) hQ hι φ hu' huu'

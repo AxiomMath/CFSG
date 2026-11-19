@@ -24,7 +24,7 @@ theorem card_closure_GenSet_le {gens : List (List Nat)}
   have hhP : ∀ i, h i ∈ P := by
     intro i
     by_cases hx : ∃ σ : AutPerm, ImgL (σ : Equiv.Perm (Fin 24)) (gens.getD i [])
-    · have e : h i = hx.choose := dif_pos hx
+    · have e : h i = hx.choose := dite_eq_left hx
       rw [e]
       by_cases hi : i < n
       · have hg : gens.getD i [] ∈ gens := by
@@ -34,7 +34,7 @@ theorem card_closure_GenSet_le {gens : List (List Nat)}
       · have hl := hx.choose_spec.1
         rw [List.getD_eq_default _ _ (Nat.le_of_not_lt hi)] at hl
         exact absurd hl (by simp)
-    · have e : h i = 1 := dif_neg hx
+    · have e : h i = 1 := dite_eq_right hx
       rw [e]
       exact P.one_mem
   have hc : ∀ i j, Commute (h i) (h j) := fun i j =>
@@ -49,7 +49,7 @@ theorem card_closure_GenSet_le {gens : List (List Nat)}
       rwa [List.getD_eq_getElem _ _ hi]
     have hx : ∃ τ : AutPerm, ImgL (τ : Equiv.Perm (Fin 24)) (gens.getD i []) := ⟨σ, hσ'⟩
     refine ⟨i, hi, ?_⟩
-    have e : h i = hx.choose := dif_pos hx
+    have e : h i = hx.choose := dite_eq_left hx
     rw [e]
     exact Subtype.ext (imgL_unique hσ' hx.choose_spec)
   have h0 : prodL h (List.range n) 0 = 1 :=

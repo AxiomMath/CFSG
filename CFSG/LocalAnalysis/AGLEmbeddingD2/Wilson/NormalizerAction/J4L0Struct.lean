@@ -114,7 +114,7 @@ theorem piL0_eq_one_iff (hF : J4Facts) (x : ↥LL) :
 theorem Kgrp_inf_cE_eq : Kgrp ⊓ Subgroup.centralizer ({cE} : Set J) = zpowers (z0 * cE) :=
   centralizer_K_eq Qgrp cE z0 (cE_normalizes_Qgrp matFacts) (cE_pow_three matFacts)
     (z0_mul_self matFacts) (z0_mem_Qgrp matFacts) z0_comm_cE
-    (fun q hq hqc => centralizer_Qgrp_cE hq hqc)
+    (fun _q hq hqc => centralizer_Qgrp_cE hq hqc)
 
 theorem card_zpowers_z0_cE : Nat.card ↥(zpowers (z0 * cE)) = 6 := by
   rw [← Kgrp_inf_cE_eq]

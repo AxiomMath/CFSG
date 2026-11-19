@@ -23,6 +23,7 @@ theorem conjSub_le_of_mem {S X : Subgroup G} {s : G} (hs : s ∈ S) (hX : X ≤ 
   rw [this]
   exact S.mul_mem (S.mul_mem hs h1) (S.inv_mem hs)
 
+omit [Finite G] in
 theorem E187C.goodFour_of_noncommute_of (hc : ConjInvariant Ω)
     (hcmm : ∀ (M₁ M₂ R₁ R₂ : Subgroup G), M₁ ∈ Ω → M₂ ∈ Ω → M₁ ≠ M₂ → R₁ ∈ RSet Ω → R₁ ≤ M₁ →
       R₁ ≤ (S : Subgroup G) → R₂ ∈ RSet Ω → R₂ ≤ M₂ → R₂ ≤ (S : Subgroup G) →

@@ -231,7 +231,7 @@ theorem exists_decomp_of_fix (y : AltW (Fin 4) (Fin 4)) (hy : ∀ p : QΩ, ((y :
         rcases Int.units_eq_one_or (sign (g i)) with h' | h'
         · exact h'
         · exact absurd h' h
-      simp [hc, h, h1]
+      simp [hc, h1]
   have hcd : ∀ i, c i ∈ d8 := by
     intro i; by_cases h : sign (g i) = -1
     · simp [hc, h, hsd]
@@ -377,7 +377,7 @@ theorem V4_le_d8 : V4 ≤ d8 := fun x hx =>
   (wFix V4 (Fin 4)).subgroupOf (alternatingGroup QΩ)
 
 theorem wFix_mono {D D' : Subgroup (Perm (Fin 4))} (h : D ≤ D') :
-    wFix D (Fin 4) ≤ wFix D' (Fin 4) := Subgroup.map_mono (fun g hg i _ => h (hg i trivial))
+    wFix D (Fin 4) ≤ wFix D' (Fin 4) := Subgroup.map_mono (fun _g hg i _ => h (hg i trivial))
 
 theorem KQ2_le_WQ : KQ2 ≤ WQ := by
   intro x hx

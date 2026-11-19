@@ -21,6 +21,7 @@ structure C23NeO2 (M V₀ V N₁ N₂ Y : Subgroup G) (g : G) : Prop where
   mU : E3.mQuot V (conjSubgroup M g) ≤ 2
   mB : E3.mQuot (conjSubgroup V g) M ≤ 2
 
+omit [Finite G] in
 theorem C23NeO2.swap {M V₀ V N₁ N₂ Y : Subgroup G} {g : G} (h : C23NeO2 M V₀ V N₁ N₂ Y g) :
     C23NeO2 (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) (conjSubgroup N₁ g)
       (conjSubgroup N₂ g) (conjSubgroup Y g) g⁻¹ where

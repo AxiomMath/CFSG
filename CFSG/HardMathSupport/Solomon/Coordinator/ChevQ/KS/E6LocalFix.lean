@@ -27,7 +27,7 @@ theorem card_fixed_dvd_ordF4 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
   classical
   have hk : Nat.card (GaloisField 2 3) = 2 ^ 3 := GaloisField.card 2 3 (by norm_num)
   obtain ⟨ι⟩ := E6GraphFullCoset.nonempty_ringHom_of_card (f := 3) (by norm_num) hk hK
-  letI : Algebra (GaloisField 2 3) K := ι.toAlgebra
+  let : Algebra (GaloisField 2 3) K := ι.toAlgebra
   have hσ' : ∀ c, σ.toRingHom c = c ^ 2 ^ 3 := hσ
   obtain ⟨ht, η, hη, -, -, hclass, -, -⟩ :=
     E6GraphFullCoset.twisted_full (f := 3) (by norm_num) K hK σ.toRingHom hσ'
@@ -82,7 +82,7 @@ theorem noOuterFixes_of_threeCentral {Q : Type} [Group Q] [Finite Q]
   by_contra hcon
   push Not at hcon
   obtain ⟨-, P, hPz⟩ := hz
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, _, _, τ, hK, hτ, ⟨e⟩⟩ := exists_twE6_model hQ
   have hPfix : ∀ t ∈ (P : Subgroup Q), σ t = t := fun t ht =>
     hcon t (Subgroup.mem_centralizer_iff.1 (hPz ht) z (Set.mem_singleton z))

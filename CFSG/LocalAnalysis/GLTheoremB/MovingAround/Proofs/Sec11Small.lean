@@ -122,6 +122,7 @@ section PPrimeCoreFacts
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec11_glaPPrimeCoreOf_conj_mem {p : ℕ} [Fact p.Prime] {H : Subgroup G} {g x : G} (hg : g ∈ H)
     (hx : x ∈ GLAPPrimeCoreOf p H) : g * x * g⁻¹ ∈ GLAPPrimeCoreOf p H := by
   unfold GLAPPrimeCoreOf at hx ⊢
@@ -130,6 +131,7 @@ theorem sec11_glaPPrimeCoreOf_conj_mem {p : ℕ} [Fact p.Prime] {H : Subgroup G}
   refine Subgroup.mem_map.2 ⟨(⟨g, hg⟩ : H) * y * (⟨g, hg⟩ : H)⁻¹, hN.conj_mem y hy _, ?_⟩
   simp
 
+omit [Finite G] in
 theorem sec11_glaPPrimeCoreOf_le {p : ℕ} (H : Subgroup G) : GLAPPrimeCoreOf p H ≤ H := by
   unfold GLAPPrimeCoreOf
   exact Subgroup.map_subtype_le _
@@ -140,6 +142,7 @@ theorem sec11_glaPPrimeCoreOf_coprime {p : ℕ} [Fact p.Prime] (H : Subgroup G) 
   rw [Subgroup.card_map_of_injective H.subtype_injective]
   exact CFSG.pPrimeCore_coprime_card
 
+omit [Finite G] in
 theorem sec11_le_normalizer_glaPPrimeCoreOf {p : ℕ} [Fact p.Prime] (H : Subgroup G) :
     H ≤ Subgroup.normalizer (GLAPPrimeCoreOf p H : Set G) := by
   intro g hg
@@ -152,6 +155,7 @@ theorem sec11_le_normalizer_glaPPrimeCoreOf {p : ℕ} [Fact p.Prime] (H : Subgro
     have e : g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x := by group
     rwa [e] at h
 
+omit [Finite G] in
 theorem sec11_le_glaPPrimeCoreOf {p : ℕ} [Fact p.Prime] {H N : Subgroup G} (hNH : N ≤ H)
     (hN : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) (hcop : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p H := by
@@ -206,7 +210,7 @@ end PPrimeCoreFacts
 theorem prop111_of_prop112 (h112 : Prop112Statement) : Prop111Statement := by
   intro G _ _ m p B M E A h a ha ha1
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hD : ∃ A1 : Subgroup G, inD p M A1 ∧ a ∈ A1
   · obtain ⟨A1, hA1, haA1⟩ := hD
     exact le_sup_left.trans (hA1.2.clause_a a haA1 ha1)
@@ -297,7 +301,7 @@ end Lemma113
 theorem lemma113_i_of_104v (h104v : Lemma104_vStatement) : Lemma113_iStatement := by
   intro G _ _ m B M E A h a ha ha1 hna
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (3 : ℕ).Prime := ⟨hp⟩
+  have : Fact (3 : ℕ).Prime := ⟨hp⟩
   have hp1 : 1 < 3 := by norm_num
   obtain ⟨hEinD, hAinDp, h2EA⟩ := h.pair.1
   have hEsc : IsSCp 3 M E := hEinD.1.1

@@ -35,10 +35,10 @@ theorem exists_isSquare_map [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] (d :
         simp only [f, Polynomial.IsRoot, Polynomial.eval_sub, Polynomial.eval_pow,
           Polynomial.eval_X, Polynomial.eval_C, sub_eq_zero] at hx
         rw [← hx, pow_two]
-    haveI : Fact (Irreducible f) := ⟨hfirr⟩
-    haveI : Module.Finite K (AdjoinRoot f) := (AdjoinRoot.powerBasis hfmon.ne_zero).finite
-    haveI : Finite (AdjoinRoot f) := Module.finite_of_finite K
-    haveI : CharP (AdjoinRoot f) p :=
+    have : Fact (Irreducible f) := ⟨hfirr⟩
+    have : Module.Finite K (AdjoinRoot f) := (AdjoinRoot.powerBasis hfmon.ne_zero).finite
+    have : Finite (AdjoinRoot f) := Module.finite_of_finite K
+    have : CharP (AdjoinRoot f) p :=
       charP_of_injective_algebraMap (algebraMap K (AdjoinRoot f)).injective p
     refine ⟨AdjoinRoot f, inferInstance, inferInstance, inferInstance, AdjoinRoot.of f,
       AdjoinRoot.root f, ?_⟩
@@ -111,7 +111,7 @@ theorem cliffB_tStd_of_thm_eight' (p : ℕ) [Fact p.Prime] [CharP K p] (hp2 : p 
       have e : N * N = Z * Z - (2 * c) • Z + (c * c) • (1 : Matrix (Fin 2) (Fin 2) K) := by
         rw [hN]
         simp only [Matrix.sub_mul, Matrix.mul_sub, Matrix.smul_mul, Matrix.mul_smul,
-          Matrix.one_mul, Matrix.mul_one, smul_smul]
+          Matrix.one_mul, Matrix.mul_one]
         module
       rw [e, hCH, hτc, hcc]
       module
@@ -183,7 +183,7 @@ theorem cliffB_tStd_of_thm_eight' (p : ℕ) [Fact p.Prime] [CharP K p] (hp2 : p 
         rw [Matrix.trace_fin_two] at htr
         rw [Matrix.det_fin_two] at hdet'
         rw [Matrix.det_fin_two]
-        simp [Matrix.one_apply]
+        simp
         linear_combination hdet' - μ * htr + hμ
       obtain ⟨v, hv0, hv⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr hdet
       refine ⟨v, hv0, ?_⟩
@@ -265,7 +265,7 @@ theorem cliffB_tStd_of_thm_eight' (p : ℕ) [Fact p.Prime] [CharP K p] (hp2 : p 
         have hdg : (!![eps' ^ k, 0; 0, eps' ^ k] : Matrix (Fin 2) (Fin 2) K₁) =
             eps' ^ k • 1 := by
           ext i j
-          fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+          fin_cases i <;> fin_cases j <;> simp
         rw [hdg, Matrix.mul_smul, Matrix.mul_one] at h1
         calc Z' ^ k = Z' ^ k * W * W⁻¹ := by
               rw [Matrix.mul_assoc, Matrix.mul_nonsing_inv _ hWu, Matrix.mul_one]

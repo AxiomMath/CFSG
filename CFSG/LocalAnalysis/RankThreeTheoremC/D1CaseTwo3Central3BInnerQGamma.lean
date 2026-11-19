@@ -117,7 +117,7 @@ theorem normalizer_zpowers_le (hp : p.Prime) (hp2 : p ≠ 2) {P : Sylow p G}
     have heE₁ : (⟨⟨e, heN⟩, heC⟩ : C₁) ∈ E₁ :=
       Subgroup.mem_subgroupOf.mpr (Subgroup.mem_subgroupOf.mpr he)
     exact ⟨_, ⟨_, hS heE₁, rfl⟩, rfl⟩
-  have hBp : IsPGroup p B := (S.isPGroup'.map _).map _
+  have hBp : IsPGroup p B := (S.isPGroup.map _).map _
   have hBnc : ¬ IsCyclic B := fun hc => hEnc (Subgroup.isCyclic_of_le hEB)
   have hNB : Subgroup.normalizer (B : Set G) ≤ M :=
     normalizer_le_of_not_isCyclic hp hp2 hPM hΓ (hBC.trans hC) hBp hBnc

@@ -28,20 +28,20 @@ theorem levi2Left_one {K : Type} [Field K] :
     levi2Left (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [levi2Left, Matrix.one_apply]
+    simp [levi2Left]
 
 theorem levi2Right_one {K : Type} [Field K] :
     levi2Right (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [levi2Right, Matrix.one_apply]
+    simp [levi2Right]
 
 theorem levi2Left_mul {K : Type} [Field K] (M N : Matrix (Fin 2) (Fin 2) K) :
     levi2Left (M * N) = levi2Left M * levi2Left N := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [levi2Left, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_three,
-      Fin.sum_univ_two] <;> ring
+      Fin.sum_univ_two]
 
 theorem levi2Right_mul {K : Type} [Field K] (M N : Matrix (Fin 2) (Fin 2) K) :
     levi2Right (M * N) = levi2Right N * levi2Right M := by
@@ -54,13 +54,12 @@ theorem levi2Left_mul_levi2Right {K : Type} [Field K] (M N : Matrix (Fin 2) (Fin
     levi2Left M * levi2Right N = levi2Right N * levi2Left M := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [levi2Left, levi2Right, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_three,
-      Fin.sum_univ_two] <;> ring
+    simp [levi2Left, levi2Right, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_three] <;> ring
 
 theorem statedQuadPlus_three {K : Type} [Field K] (v : Fin 3 ⊕ Fin 3 → K) :
     StatedQuadPlus 3 K v =
       v (.inl 0) * v (.inr 0) + v (.inl 1) * v (.inr 1) + v (.inl 2) * v (.inr 2) := by
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_three]
+  simp [StatedQuadPlus, Fin.sum_univ_three]
 
 theorem levi2Left_quad {K : Type} [Field K] [CharP K 2] (M : Matrix (Fin 2) (Fin 2) K)
     (hM : M.det = 1) (v : Fin 3 ⊕ Fin 3 → K) :
@@ -88,15 +87,13 @@ theorem levi2Left_mulVec_fix {K : Type} [Field K] (M : Matrix (Fin 2) (Fin 2) K)
     levi2Left M *ᵥ Pi.single (Sum.inl 0) 1 = Pi.single (Sum.inl 0) 1 ∧
       levi2Left M *ᵥ Pi.single (Sum.inr 0) 1 = Pi.single (Sum.inr 0) 1 := by
   constructor <;> funext i <;> rcases i with i | i <;> fin_cases i <;>
-    simp [levi2Left, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_three,
-      Pi.single_apply]
+    simp [levi2Left, Matrix.mulVec, dotProduct, Pi.single_apply]
 
 theorem levi2Right_mulVec_fix {K : Type} [Field K] (N : Matrix (Fin 2) (Fin 2) K) :
     levi2Right N *ᵥ Pi.single (Sum.inl 0) 1 = Pi.single (Sum.inl 0) 1 ∧
       levi2Right N *ᵥ Pi.single (Sum.inr 0) 1 = Pi.single (Sum.inr 0) 1 := by
   constructor <;> funext i <;> rcases i with i | i <;> fin_cases i <;>
-    simp [levi2Right, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_three,
-      Pi.single_apply]
+    simp [levi2Right, Matrix.mulVec, dotProduct, Pi.single_apply]
 
 theorem levi2Right_transpose_mul {K : Type} [Field K] (M N : Matrix (Fin 2) (Fin 2) K) :
     levi2Right (M * N)ᵀ = levi2Right Mᵀ * levi2Right Nᵀ := by
@@ -162,16 +159,14 @@ theorem statedQuadPlus_levi2Left_witness {K : Type} [Field K] (α : K) :
         (Pi.single (Sum.inl 1) 1 + Pi.single (Sum.inr 1) 1) +
       (Pi.single (Sum.inl 1) 1 + Pi.single (Sum.inr 1) 1)) = (α + 1) * (α⁻¹ + 1) := by
   rw [statedQuadPlus_three]
-  simp [levi2Left, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_three,
-    Pi.single_apply] <;> ring
+  simp [levi2Left, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Pi.single_apply]
 
 theorem statedQuadPlus_levi2Right_witness {K : Type} [Field K] (α : K) :
     StatedQuadPlus 3 K (levi2Right (!![α, 0; 0, α⁻¹] : Matrix (Fin 2) (Fin 2) K)ᵀ *ᵥ
         (Pi.single (Sum.inl 1) 1 + Pi.single (Sum.inr 1) 1) +
       (Pi.single (Sum.inl 1) 1 + Pi.single (Sum.inr 1) 1)) = (α + 1) * (α⁻¹ + 1) := by
   rw [statedQuadPlus_three]
-  simp [levi2Right, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_three,
-    Pi.single_apply] <;> ring
+  simp [levi2Right, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Pi.single_apply]
 
 theorem polar_levi_witness {K : Type} [Field K] :
     polar (quadPlus 3 K) (Pi.single (Sum.inl 0) 1)
@@ -197,7 +192,7 @@ theorem exists_levi_pair {K : Type} [Field K] [Finite K] [CharP K 2] (hK : 4 ≤
       (∃ (h : SL(2, K)) (w : Fin 3 ⊕ Fin 3 → K),
         polar (quadPlus 3 K) (Pi.single (Sum.inl 0) 1) w = 0 ∧
           quadPlus 3 K ((τ h : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) *ᵥ w + w) ≠ 0) := by
-  haveI : Group.IsPerfect (SL(2, K)) :=
+  have : Group.IsPerfect (SL(2, K)) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   obtain ⟨α, hα0, hα2⟩ := CFSG.ClassicalModels.exists_ne_zero_sq_ne_one_of_four_le_card K hK

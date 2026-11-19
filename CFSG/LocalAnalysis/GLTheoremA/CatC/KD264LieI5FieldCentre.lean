@@ -60,7 +60,7 @@ theorem mem_center_iff_of_surjective_ker {L K : Type} [Group L] [Group K] [Group
 theorem card_three_torsion_le (G : Type) [Group G] [Finite G] [IsCyclic G] :
     Nat.card {x : G // x ^ 3 = 1} ≤ 3 := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have h := IsCyclic.card_pow_eq_one_le (α := G) (n := 3) (by norm_num)
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   exact h
@@ -204,7 +204,7 @@ theorem isElemAbelian_sup_zpowers {K : Type} [Group K] {E : Subgroup K}
     intro n hn g
     have hn' : n ∈ Subgroup.center K := (Subgroup.zpowers_le.mpr hz) hn
     exact Subgroup.mem_center_iff.mp hn' g
-  haveI : (Subgroup.zpowers z).Normal :=
+  have : (Subgroup.zpowers z).Normal :=
     ⟨fun n hn g => by
       have e : g * n * g⁻¹ = n := by rw [hzc n hn g]; group
       rw [e]
@@ -245,8 +245,8 @@ theorem isElemAbelian_zpowers_of_pow {K : Type} [Group K] {g : K} (hg : g ^ 3 = 
 
 theorem one_le_pRank_three_of_three_dvd {K : Type} [Group K] [Finite K] (H : Subgroup K)
     (h : 3 ∣ Nat.card H) : 1 ≤ CFSG.Open.pRank 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype H := Fintype.ofFinite H
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card (G := H) 3 (by
     rw [← Nat.card_eq_fintype_card]; exact h)
   have hw3 : (w : K) ^ 3 = 1 := by

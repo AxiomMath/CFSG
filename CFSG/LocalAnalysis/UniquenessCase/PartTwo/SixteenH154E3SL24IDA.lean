@@ -12,7 +12,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 theorem s16h_sl24_cover_model_aux (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
     (hrow : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2)
-    (hZ4 : 2 < Nat.card ↥(commSub ⊤ L ⊓ fixV L))
+    (_hZ4 : 2 < Nat.card ↥(commSub ⊤ L ⊓ fixV L))
     (hU : ∀ l ∈ L, ∀ u ∈ commSub ⊤ L, l u ∈ commSub ⊤ L)
     (huniv : CFSG.ASVolI.ChIJK.IsUniversalCovering
       (CFSG.Quasithin.H13.VolI.resHom L (commSub ⊤ L) hU).range

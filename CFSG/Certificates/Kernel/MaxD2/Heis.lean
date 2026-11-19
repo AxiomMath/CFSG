@@ -98,10 +98,10 @@ theorem cc_dcGenerate_of (H : HypsC D K) (hGl : D.genW.length = D.repW.length)
       (K.sgi i l)) = true := PK.allN_iff.2 fun l hl => by
     unfold Pk.sg Pk.sgi
     by_cases h : l < K.kN
-    · rw [PK.nIf_eq, PK.nIf_eq, if_pos (Nat.blt_eq.mpr h), if_pos (Nat.blt_eq.mpr h)]
+    · rw [PK.nIf_eq, PK.nIf_eq, ite_eq_left (Nat.blt_eq.mpr h), ite_eq_left (Nat.blt_eq.mpr h)]
       exact H.hNI l h
-    · rw [PK.nIf_eq, PK.nIf_eq, if_neg (by simp [Nat.blt_eq]; omega),
-        if_neg (by simp [Nat.blt_eq]; omega)]
+    · rw [PK.nIf_eq, PK.nIf_eq, ite_eq_right (by simp [Nat.blt_eq]; omega),
+        ite_eq_right (by simp [Nat.blt_eq]; omega)]
       exact H.hRi _ hi1
   exact c_word_eq H hj (c_gens1 H hi1) hperm (hw j hj)
 

@@ -26,8 +26,8 @@ private theorem false_of_isSimpleGroup_le {G : Type} [Group G] [Finite G] {α : 
   have hCO : C ≤ normalizer (oddCoreIn C : Set G) :=
     le_normalizer.trans
       (UnbalancedGS.normalizer_le_normalizer_map_of_characteristic C (pPrimeCore 2 C))
-  haveI := hM
-  haveI : IsSimpleGroup ↥(M.subgroupOf C) := (subgroupOfEquivOfLe hMC).isSimpleGroup
+  have := hM
+  have : IsSimpleGroup ↥(M.subgroupOf C) := (subgroupOfEquivOfLe hMC).isSimpleGroup
   have hN := hsub.subgroupOf (K := M.subgroupOf C)
   rcases hN.eq_bot_or_top_of_isSimpleGroup inferInstance with hbot | htop
   · apply ht1
@@ -140,7 +140,7 @@ theorem l43FixedA6Input_holds : L43FixedA6Input := by
       rw [← he', Ne, MulEquiv.map_eq_one_iff]
       exact hℓ1
     have hZ : center (projectiveSL 4 F) = ⊥ := by
-      haveI : IsSimpleGroup (projectiveSL 4 F) := e'.symm.isSimpleGroup
+      have : IsSimpleGroup (projectiveSL 4 F) := e'.symm.isSimpleGroup
       rcases (inferInstance : (center (projectiveSL 4 F)).Normal).eq_bot_or_eq_top with h | h
       · exact h
       · exfalso
@@ -180,7 +180,7 @@ theorem l43FixedA6Input_holds : L43FixedA6Input := by
       exact hα'fix y hy
     obtain ⟨M, hMs, hT'M, hMfix, x, hxM, hxT⟩ :=
       Q3G.exists_psp_not_le hF3 A hA hT'k hU hT'p hfixA
-    haveI := hMs
+    have := hMs
     refine false_of_isSimpleGroup_le (α := α) (T := T) (M := M.map e'.symm.toMonoidHom)
       ?_ ?_ (e'.symm.subgroupMap M).symm.isSimpleGroup v.2 hv1 ?_ (x := e'.symm x)
       ⟨x, hxM, rfl⟩ ?_ hsub

@@ -10,6 +10,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open CFSG.StandardType.UCoord
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qTwoLMPrimeC_elemAbelian_T {B Bs L : Subgroup G} (hBs : GGBstar 3 B Bs) :
     IsElemAbelian 3 (Bs ⊓ L) :=
   CFSG.Open.IsElemAbelian.mono hBs.2.1 inf_le_left
@@ -178,7 +179,7 @@ theorem qTwoLMPrimeC_card_T_ge {B Bs L : Subgroup G} {x : G} {m : ℕ} (hG : GGT
       rw [horder]
       exact (Nat.mod_modEq k 3).symm
     refine ⟨(⟨t, ht⟩, ⟨k % 3, Nat.mod_lt _ (by norm_num)⟩), ?_⟩
-    simp only [f, Fin.val_mk]
+    simp only [f]
     apply Subtype.ext
     rw [hkmod] at hk
     exact hk.symm

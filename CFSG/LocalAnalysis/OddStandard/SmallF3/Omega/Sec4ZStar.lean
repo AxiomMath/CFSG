@@ -35,9 +35,9 @@ theorem sec4_exists_conj_commuting [Finite G] (hG : IsSimpleGroup G)
     rw [Set.mem_singleton_iff] at hx
     rw [hx]
     exact hg.symm
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   obtain ⟨N, hNn, hNodd, hNc⟩ := CFSG.ZStar.glauberman_zStar G t ht1 ht2 hiso
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   rcases hG.eq_bot_or_eq_top_of_normal N with hNbot | hNtop
   · have htcenter : t ∈ Subgroup.center G := by
       rw [Subgroup.mem_center_iff]
@@ -50,7 +50,7 @@ theorem sec4_exists_conj_commuting [Finite G] (hG : IsSimpleGroup G)
         _ = t * g := one_mul _
     have hzp_norm : (Subgroup.zpowers t).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr htcenter)
-    haveI : (Subgroup.zpowers t).Normal := hzp_norm
+    have : (Subgroup.zpowers t).Normal := hzp_norm
     rcases hG.eq_bot_or_eq_top_of_normal (Subgroup.zpowers t) with hzp | hzp
     · exfalso
       have htbot : t ∈ (⊥ : Subgroup G) := by

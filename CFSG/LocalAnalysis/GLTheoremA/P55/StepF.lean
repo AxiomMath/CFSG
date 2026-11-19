@@ -20,7 +20,7 @@ private theorem eq_bot_of_le_centralizer_generalizedFitting {Q : Type} [Group Q]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hcore : CFSG.pPrimeCore p Q = ⊥)
     {T : Subgroup Q} (hT : IsPGroup 2 T)
     (hc : T ≤ Subgroup.centralizer (CFSG.generalizedFitting Q : Set Q)) : T = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : T ≤ CFSG.fittingSubgroup Q := by
     have h := CFSG.ComponentClassification.GeneralizedFitting.centralizer_le_fitting Q
     rw [← CFSG.generalizedFitting_eq_componentClassification] at h
@@ -29,6 +29,7 @@ private theorem eq_bot_of_le_centralizer_generalizedFitting {Q : Type} [Group Q]
     (CFSG.pCore_isPGroup (p := p) (G := Q)).to_le (h1.trans (CFSG.Fitting_eq_pcore Q p hcore).le)
   exact disjoint_self.1 (IsPGroup.disjoint_of_ne 2 p hp2.symm T T hT hpT)
 
+omit [Finite G] in
 private theorem barX_oPPrimeP (p : ℕ) (X : Subgroup G) :
     barX p X (oPPrimeP p X) = CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X) := by
   have hJg : (oPPrimeP p X).subgroupOf X =
@@ -38,6 +39,7 @@ private theorem barX_oPPrimeP (p : ℕ) (X : Subgroup G) :
   rw [hJg]
   exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) _
 
+omit [Finite G] in
 private theorem barX_le_centralizer_of_commutator {p : ℕ} {X S T : Subgroup G}
     (h : ∀ t ∈ T, ∀ s ∈ S, ⁅t, s⁆ ∈ GLAPPrimeCoreOf p X) :
     barX p X S ≤ Subgroup.centralizer (barX p X T : Set (↥X ⧸ GLAPPrimeCore p ↥X)) := by
@@ -50,7 +52,7 @@ theorem eq_bot_of_le_centModSubgroup_forall {p : ℕ} (hp : p.Prime) (hp2 : p �
     (hodd : Odd (Nat.card (GLAPPrimeCoreOf p X)))
     (hQ : (⁅oPPrimeP p X, S⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p X)
     (hJ : ∀ J : Subgroup G, GLAPComponent p X J → S ≤ centModSubgroup p J) : S = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcore : CFSG.pPrimeCore p (↥X ⧸ GLAPPrimeCore p ↥X) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot p
   have hS2' : IsPGroup 2 (barX p X S) :=

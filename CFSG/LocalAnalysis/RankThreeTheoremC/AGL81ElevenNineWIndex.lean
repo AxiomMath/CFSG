@@ -17,10 +17,12 @@ section Reindex
 
 variable {ι : Type} [Finite ι] [DecidableEq ι] {G : ι → Type} [∀ j, Group (G j)]
 
+omit [Finite ι] [DecidableEq ι] in
 theorem piReindex_apply (e : ι ≃ Fin (Nat.card ι)) (x : ∀ j, G j) (i : Fin (Nat.card ι)) :
     piReindex (G := G) e x i = x (e.symm i) :=
   Equiv.piCongrLeft'_apply G e x i
 
+omit [Finite ι] in
 theorem piReindex_mulSingle (e : ι ≃ Fin (Nat.card ι)) (i : Fin (Nat.card ι)) (x : G (e.symm i)) :
     piReindex (G := G) e (Pi.mulSingle (e.symm i) x) =
       Pi.mulSingle (M := fun i => G (e.symm i)) i x := by
@@ -31,6 +33,7 @@ theorem piReindex_mulSingle (e : ι ≃ Fin (Nat.card ι)) (i : Fin (Nat.card ι
     rw [Pi.mulSingle_eq_same, Pi.mulSingle_eq_same]
   · rw [Pi.mulSingle_eq_of_ne (e.symm.injective.ne hk), Pi.mulSingle_eq_of_ne hk]
 
+omit [Finite ι] in
 theorem mem_map_mulSingle_of_piReindex (e : ι ≃ Fin (Nat.card ι)) {i : Fin (Nat.card ι)}
     {E : Subgroup (G (e.symm i))} {y : ∀ j, G j}
     (h : piReindex (G := G) e y ∈ E.map (MonoidHom.mulSingle (fun i => G (e.symm i)) i)) :
@@ -42,22 +45,26 @@ theorem mem_map_mulSingle_of_piReindex (e : ι ≃ Fin (Nat.card ι)) {i : Fin (
 variable {Q : Type} [Group Q] (e : ι ≃ Fin (Nat.card ι)) (S : ∀ j, Subgroup (G j))
   (β : Q →* ∀ j, G j)
 
+omit [Finite ι] [DecidableEq ι] in
 theorem ker_piReindex_comp : ((piReindex (G := G) e).toMonoidHom.comp β).ker = β.ker := by
   ext x
   rw [MonoidHom.mem_ker, MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
     MulEquiv.map_eq_one_iff]
 
+omit [Finite ι] [DecidableEq ι] in
 theorem range_piReindex_comp :
     ((piReindex (G := G) e).toMonoidHom.comp β).range =
       β.range.map (piReindex (G := G) e).toMonoidHom :=
   MonoidHom.range_comp _ _
 
+omit [Finite ι] [DecidableEq ι] in
 theorem pi_le_range_piReindex (hS : Subgroup.pi Set.univ S ≤ β.range) :
     Subgroup.pi Set.univ (fun i => S (e.symm i)) ≤
       ((piReindex (G := G) e).toMonoidHom.comp β).range := by
   rw [range_piReindex_comp, ← map_pi_piReindex e S]
   exact Subgroup.map_mono hS
 
+omit [Finite ι] [DecidableEq ι] in
 theorem commutator_le_pi_piReindex (hc : ⁅β.range, β.range⁆ ≤ Subgroup.pi Set.univ S) :
     ⁅((piReindex (G := G) e).toMonoidHom.comp β).range,
       ((piReindex (G := G) e).toMonoidHom.comp β).range⁆ ≤
@@ -65,6 +72,7 @@ theorem commutator_le_pi_piReindex (hc : ⁅β.range, β.range⁆ ≤ Subgroup.p
   rw [range_piReindex_comp, ← Subgroup.map_commutator, ← map_pi_piReindex e S]
   exact Subgroup.map_mono hc
 
+omit [Finite ι] [DecidableEq ι] in
 theorem relIndex_pi_piReindex :
     (Subgroup.pi Set.univ (fun i => S (e.symm i))).relIndex
       ((piReindex (G := G) e).toMonoidHom.comp β).range =

@@ -16,8 +16,8 @@ theorem exists_sylow_central_of_surjective {B H : Type*} [Group B] [Group H] [Fi
     (φ : B →* H) (hφ : Function.Surjective φ) (hK : Odd (Nat.card φ.ker))
     {b : B} (hb : b * b = 1) (hC : Odd (Subgroup.centralizer {φ b}).index) :
     ∃ T : Sylow 2 B, b ∈ (T : Subgroup B) ∧ ∀ x ∈ (T : Subgroup B), b * x = x * b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite H := Finite.of_surjective φ hφ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite H := Finite.of_surjective φ hφ
   set C : Subgroup H := Subgroup.centralizer {φ b}
   have hC2 : ¬ 2 ∣ C.index := by
     rintro ⟨k, hk⟩
@@ -38,10 +38,10 @@ theorem exists_sylow_central_of_surjective {B H : Type*} [Group B] [Group H] [Fi
     exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp g.2)
   have hββ : β * β = 1 := Subtype.ext hφb
   have hβQ : β ∈ (Q : Subgroup ↥C) := by
-    haveI : (Subgroup.zpowers β).Normal :=
+    have : (Subgroup.zpowers β).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hβc)
     have hp : IsPGroup 2 ((Q : Subgroup ↥C) ⊔ Subgroup.zpowers β : Subgroup ↥C) :=
-      IsPGroup.to_sup_of_normal_right Q.isPGroup' (isPGroup_zpowers_of_mul_self hββ)
+      IsPGroup.to_sup_of_normal_right Q.isPGroup (isPGroup_zpowers_of_mul_self hββ)
     have hmax : (Q : Subgroup ↥C) ⊔ Subgroup.zpowers β = (Q : Subgroup ↥C) :=
       Q.maximal_isPGroup.eq_of_ge hp le_sup_left
     have : β ∈ (Q : Subgroup ↥C) ⊔ Subgroup.zpowers β :=
@@ -55,7 +55,7 @@ theorem exists_sylow_central_of_surjective {B H : Type*} [Group B] [Group H] [Fi
     (isPGroup_zpowers_of_mul_self hb).comap_subtype
   obtain ⟨T₁', hT₁'⟩ := IsPGroup.exists_le_sylow hzp
   set T₁ : Subgroup B := (T₁' : Subgroup ↥B₁).map B₁.subtype with hT₁
-  have hT₁p : IsPGroup 2 T₁ := T₁'.isPGroup'.map B₁.subtype
+  have hT₁p : IsPGroup 2 T₁ := T₁'.isPGroup.map B₁.subtype
   have hT₁idx : ¬ 2 ∣ T₁.index := by
     rw [hT₁, Subgroup.index_map_subtype, hB₁idx]
     exact Nat.Prime.not_dvd_mul Nat.prime_two T₁'.not_dvd_index hTbidx

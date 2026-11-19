@@ -21,11 +21,11 @@ theorem exists_rel3 (u : Fin 3 → Fin 2 → ZMod 5) : ∃ a b c : ZMod 5,
   let f : (Fin 3 → ZMod 5) → (Fin 2 → ZMod 5) :=
     fun t k => t 0 * u 0 k + t 1 * u 1 k + t 2 * u 2 k
   have hcard : Fintype.card (Fin 2 → ZMod 5) < Fintype.card (Fin 3 → ZMod 5) := by
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   obtain ⟨x, y, hxy, hf⟩ := Fintype.exists_ne_map_eq_of_card_lt f hcard
   refine ⟨x 0 - y 0, x 1 - y 1, x 2 - y 2, ?_, fun k => ?_⟩
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨h0, h1, h2⟩ := hcon
     apply hxy
     funext s
@@ -136,9 +136,9 @@ theorem triple_stab_eq_bot (z : Fin 3 → Fin Tag.E8.rank → ZMod 5)
     (hind : ∀ a b c : ZMod 5, a • z 0 + b • z 1 + c • z 2 = 0 → a = 0 ∧ b = 0 ∧ c = 0)
     (hreg : ∀ α, IsRoot Tag.E8 α → (∀ i, charVal (z i) α = 0) → False) :
     (⨅ i, dualWeylStabilizer (z i) : Subgroup (WeylGroup Tag.E8)) = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set U : Subgroup (WeylGroup Tag.E8) := ⨅ i, dualWeylStabilizer (z i) with hU
-  haveI : Fintype U := Fintype.ofFinite _
+  have : Fintype U := Fintype.ofFinite _
   by_cases h5 : 5 ∣ Nat.card U
   · exfalso
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card (G := U) 5

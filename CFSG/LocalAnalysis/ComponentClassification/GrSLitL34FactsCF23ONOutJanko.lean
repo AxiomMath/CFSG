@@ -109,7 +109,7 @@ theorem hasAbelianSylowTwo (hloc : LocalA5 C) : HasAbelianSylowTwo C := by
   intro S
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hS : Nontrivial (S : Subgroup C)
-  · have hp : IsPGroup 2 (S : Subgroup C) := S.isPGroup'
+  · have hp : IsPGroup 2 (S : Subgroup C) := S.isPGroup
     have hZ : Nontrivial (center (S : Subgroup C)) := hp.center_nontrivial
     have h2 : 2 ∣ Nat.card (center (S : Subgroup C)) := by
       obtain ⟨k, hk⟩ := (hp.to_subgroup (center (S : Subgroup C))).exists_card_eq
@@ -129,7 +129,7 @@ theorem hasAbelianSylowTwo (hloc : LocalA5 C) : HasAbelianSylowTwo C := by
       exact congrArg Subtype.val this
     have hsq : ∀ s ∈ (S : Subgroup C), s ^ 2 = 1 := by
       intro s hs
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
       have hk' : s ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       have hsC : s ∈ centralizer ({t} : Set C) := mem_centralizer_singleton_iff.mpr (hcomm s hs)
       rw [hCt] at hsC

@@ -121,7 +121,7 @@ theorem exists_quaternion_of_sl2 {F : Type} [Field F] [Finite F] (hodd : Odd (Na
     (e : K ⧸ classicalInvolutionOddCore K ≃* SL(2, F)) (T : Sylow 2 K) :
     ∃ r : ℕ, 3 ≤ r ∧ Nonempty ((T : Subgroup K) ≃* QuaternionGroup (2 ^ (r - 2))) := by
   have hNC := noCommutingDistinctInvolutions_of_sl2 hodd e (T : Subgroup K)
-  rcases rank_one_two_cyclic_or_quaternion T.isPGroup' hNC with hcyc | ⟨ex, hex, ⟨φ⟩⟩
+  rcases rank_one_two_cyclic_or_quaternion T.isPGroup hNC with hcyc | ⟨ex, hex, ⟨φ⟩⟩
   · exfalso
     have := Fintype.ofFinite F
     have h4 : ∃ s : Finset F, s.card = 4 := by

@@ -59,7 +59,7 @@ private theorem famSuN_quasisimple_or_small
     {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime) (hp2 : p ≠ 2) {ι : Type}
     {a : ι → Fin τ.rank → Lˣ} (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus)
-    (hap : ∀ u j, a u j ^ p = 1) (h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1)
+    (hap : ∀ u j, a u j ^ p = 1) (_h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1)
     (i : KernelComponent (famCharHom a))
     (hk : twistKindM S.ρ (famCharHom a) i = .suN) :
     CFSG.IsQuasisimple (rationalComponentM S.ρ S.Γ (famCharHom a) i) ∨
@@ -77,15 +77,15 @@ private theorem famSuN_quasisimple_or_small
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[s]) := by
     intro h
     unfold twistKindM at hk
-    rw [if_pos h] at hk
+    rw [ite_eq_left h] at hk
     exact absurd hk (by decide)
   have hmaps : ∀ x y, x ≠ y → (S.ρ : (Fin τ.rank → ℤ) → _)^[s] (σ x y) ∈ frameRoots σ := by
     intro x y hxy
-    have h1 : σ x y ∈ componentRoots (famCharHom a) i := by
+    have _h1 : σ x y ∈ componentRoots (famCharHom a) i := by
       rw [hΨ]
       exact ⟨x, y, hxy, rfl⟩
     have h2 : (S.ρ : (Fin τ.rank → ℤ) → _)^[s] (σ x y) ∈
-        (S.ρ : (Fin τ.rank → ℤ) → _)^[s] '' componentRoots (famCharHom a) i := ⟨_, h1, rfl⟩
+        (S.ρ : (Fin τ.rank → ℤ) → _)^[s] '' componentRoots (famCharHom a) i := ⟨_, _h1, rfl⟩
     rw [hs, hΨ] at h2
     exact h2
   have hneg : ∀ (n : ℕ) (γ : Fin τ.rank → ℤ),
@@ -108,8 +108,8 @@ private theorem famSuN_quasisimple_or_small
       obtain ⟨x, y, hxy, rfl⟩ := hγ
       rw [hπ x y hxy, hwσ]
   · obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : CharP L r := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have : CharP L r := hchar
     obtain ⟨σQ, hσQ, f, hf1, hfker, hf2⟩ :=
       fam_two_suN_exists_hom S hρ i hν hψ hΨ π hπ hr hchar he hq
     obtain ⟨-, hqsC, hcardC⟩ :=

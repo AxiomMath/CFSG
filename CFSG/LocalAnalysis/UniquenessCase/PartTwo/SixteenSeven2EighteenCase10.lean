@@ -26,7 +26,7 @@ theorem s16c167_insp18_case10 (D : Data G) (hk : D.k = 1) {V L : Subgroup G}
   have hW : ∀ w : Vtil ⊥ V hV, w ^ 2 = 1 := s15_Infra_vtil_sq_eq_one ⊥ V hV
   have hdParam : dParam 3 = 2 := by
     unfold dParam
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (by decide) (by decide)
   have hrk4 : rk ↥(commSub ⊤ (barSub ⊥ V hV L)) = 4 := by
     show rk ↥(wTil (⊥ : Subgroup G) V hV L) = 4

@@ -91,7 +91,7 @@ theorem lemma32ConditionTwoRankTwoInputFor_of_kernel {𝒜 : Thm13Ambient}
     obtain ⟨Sy, hSy⟩ := hbz.exists_le_sylow
     refine ⟨(Sy : Subgroup ↥(K ⊓ centralizer ({b} : Set G))).map
       (K ⊓ centralizer ({b} : Set G)).subtype, map_subtype_le _,
-      ⟨⟨b, hbKC⟩, hSy (mem_zpowers _), rfl⟩, Sy.isPGroup'.map _, ?_⟩
+      ⟨⟨b, hbKC⟩, hSy (mem_zpowers _), rfl⟩, Sy.isPGroup.map _, ?_⟩
     rw [card_map_of_injective (Subgroup.subtype_injective _), Sy.card_eq_multiplicity]
   have hSK : S ≤ K := hSKC.trans inf_le_left
   have hSN : S ≤ normalizer (kStarKernel N : Set G) := fun s hs =>
@@ -101,7 +101,7 @@ theorem lemma32ConditionTwoRankTwoInputFor_of_kernel {𝒜 : Thm13Ambient}
       S ≤ normalizer (P : Set G) := by
     obtain ⟨Py, hPy⟩ := exists_sylow_normalized hSN hS2
     refine ⟨(Py : Subgroup ↥(kStarKernel N)).map (kStarKernel N).subtype, map_subtype_le _,
-      Py.isPGroup'.map _, ?_, hPy⟩
+      Py.isPGroup.map _, ?_, hPy⟩
     rw [card_map_of_injective (Subgroup.subtype_injective _), Py.card_eq_multiplicity]
   have hPScomm : ∀ p ∈ P, ∀ s ∈ S, p * s = s * p := by
     intro p hp s hs

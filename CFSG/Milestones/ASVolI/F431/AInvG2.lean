@@ -67,11 +67,11 @@ theorem burnsideF4m_centInput_G2 (hyp : HypF_4_4 .G2 2 f Gp M₁ M₂) (hf : 2 �
     (hodd : Odd Gp.index) {x : E} (hx1 : x ≠ 1) (hx2 : x * x = 1) :
     ∃ w : E, IsConj x w ∧
       (Subgroup.centralizer ({w} : Set E) ≤ M₁ ∨ Subgroup.centralizer ({w} : Set E) ≤ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨K, fK, finK, hcard, marking, h1, h2⟩ := burnsideF4g_chart_G2 hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
-  haveI : CharP K 2 := burnsideF4f_charP_of_card (by omega) hcard
+  let := fK
+  have := finK
+  have : CharP K 2 := burnsideF4f_charP_of_card (by omega) hcard
   have hK3 : 3 ≤ Nat.card K := by
     rw [hcard]
     have : 2 ^ 2 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf

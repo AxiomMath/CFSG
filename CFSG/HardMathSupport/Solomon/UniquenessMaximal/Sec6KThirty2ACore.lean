@@ -375,7 +375,7 @@ theorem exists_diagonalizing {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {g : 
     rw [Module.End.hasEigenvector_iff, Module.End.mem_eigenspace_iff]
     exact ⟨by simpa [Matrix.toLin'_apply] using hv i, hv0 i⟩
   let P0 : Matrix (Fin 3) (Fin 3) K := Matrix.of fun r i => v i r
-  have hP0 : IsUnit P0 := Matrix.linearIndependent_cols_iff_isUnit.1 hli
+  have hP0 : IsUnit P0 := Matrix.linearIndependent_col_iff_isUnit.1 hli
   let P : GL (Fin 3) K := hP0.unit
   have hPval : (P : Matrix (Fin 3) (Fin 3) K) = P0 := rfl
   have hUP : (g : Matrix (Fin 3) (Fin 3) K) * P0 =

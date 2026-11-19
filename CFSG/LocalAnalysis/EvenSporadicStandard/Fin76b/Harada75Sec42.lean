@@ -21,13 +21,13 @@ theorem sec42_sq {S : Type} [Group S] {H : Subgroup S} (hH : IsElemAbelian 2 H)
 
 theorem sec42_dvd_eight {n : ℕ} (h : n ∣ 8) : n = 1 ∨ n = 2 ∨ n = 4 ∨ n = 8 := by
   have hle : n ≤ 8 := Nat.le_of_dvd (by norm_num) h
-  interval_cases n <;> first | omega | (norm_num at h)
+  interval_cases n <;> first | omega
 
 theorem sec42_exists_centralizer_ne_one {S : Type} [Group S] [Finite S] {A E : Subgroup S}
-    (hA8 : Nat.card A = 8) (hCA : Subgroup.centralizer (A : Set S) ≤ A) (hE8 : Nat.card E = 8)
+    (hA8 : Nat.card A = 8) (_hCA : Subgroup.centralizer (A : Set S) ≤ A) (hE8 : Nat.card E = 8)
     (hEn : E.Normal) : ∃ e ∈ E, e ≠ 1 ∧ ∀ a ∈ A, a * e = e * a := by
-  letI : MulAction S E := conjMulAction hEn
-  letI : MulAction A E := MulAction.compHom E A.subtype
+  let : MulAction S E := conjMulAction hEn
+  let : MulAction A E := MulAction.compHom E A.subtype
   have hG : IsPGroup 2 A := IsPGroup.of_card (p := 2) (n := 3) (by norm_num [hA8])
   have hα : Nat.card E % 2 = 0 := by rw [hE8]
   obtain ⟨x, hx1, hxfix⟩ := exists_fixed_ne_of_even hG hα (1 : E) (fun g => cj_one_elem hEn _)
@@ -55,10 +55,10 @@ theorem sec42_coset_rep {S : Type} [Group S] [Finite S] {A H : Subgroup S}
   rw [e1, e2] at hbc
   rcases hbc with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;> tauto
 
-theorem inter_card_two_or_four {S : Type} [Group S] [Finite S] (hS : IsPGroup 2 S)
-    {A E : Subgroup S} (hA : IsElemAbelian 2 A) (hA8 : Nat.card A = 8)
+theorem inter_card_two_or_four {S : Type} [Group S] [Finite S] (_hS : IsPGroup 2 S)
+    {A E : Subgroup S} (_hA : IsElemAbelian 2 A) (hA8 : Nat.card A = 8)
     (hCA : Subgroup.centralizer (A : Set S) ≤ A)
-    (hE : IsElemAbelian 2 E) (hE8 : Nat.card E = 8) (hEn : E.Normal) (hne : A ≠ E) :
+    (_hE : IsElemAbelian 2 E) (hE8 : Nat.card E = 8) (hEn : E.Normal) (hne : A ≠ E) :
     Nat.card (A ⊓ E : Subgroup S) = 2 ∨ Nat.card (A ⊓ E : Subgroup S) = 4 := by
   obtain ⟨e, heE, he1, hfix⟩ := sec42_exists_centralizer_ne_one hA8 hCA hE8 hEn
   have heA : e ∈ A := hCA (Subgroup.mem_centralizer_iff.mpr fun h hh => hfix h hh)
@@ -78,7 +78,7 @@ theorem inter_card_two_or_four {S : Type} [Group S] [Finite S] (hS : IsPGroup 2 
     exact Subgroup.card_dvd_of_le inf_le_left
   rcases sec42_dvd_eight hdvd with h | h | h | h <;> omega
 
-theorem mem_of_centralizes_of_card_two {S : Type} [Group S] [Finite S] (hS : IsPGroup 2 S)
+theorem mem_of_centralizes_of_card_two {S : Type} [Group S] [Finite S] (_hS : IsPGroup 2 S)
     {A E : Subgroup S} (hA : IsElemAbelian 2 A) (hA8 : Nat.card A = 8)
     (hCA : Subgroup.centralizer (A : Set S) ≤ A) (hE : IsElemAbelian 2 E) (hE8 : Nat.card E = 8)
     (hEn : E.Normal) (hAE2 : Nat.card (A ⊓ E : Subgroup S) = 2) :

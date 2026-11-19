@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 theorem Ctx.yCKN (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hF : generalizedFitting ↥(bar M Q (NormH0 M Z Z0)) =
       (bar M Q (hc.CN t)).subgroupOf (bar M Q (NormH0 M Z Z0)))
-    (hNK : bar M Q (hc.CN t) ≤ bar M Q (NormH0 M Z Z0))
+    (_hNK : bar M Q (hc.CN t) ≤ bar M Q (NormH0 M Z Z0))
     (hKH : bar M Q (NormH0 M Z Z0) ≤ bar M Q (H0 M Z)) :
     ∀ k ∈ (bar M Q (NormH0 M Z Z0)).subgroupOf (bar M Q (H0 M Z)),
       (∀ n ∈ (bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z)), k * n = n * k) →
@@ -154,9 +154,10 @@ theorem Ctx.yConj (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {Z0 : Subgrou
     (Subgroup.mem_map_of_mem (QuotientGroup.mk' (Q.subgroupOf M))
       (Subgroup.mem_subgroupOf.mpr (step2 hx₀)))
 
+omit [Finite G] in
 theorem Ctx.yComm (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hCN : ∀ x ∈ hc.CN t, ∀ y ∈ hc.CN t, ⁅x, y⁆ ∈ Z0)
-    (hNH : bar M Q (hc.CN t) ≤ bar M Q (H0 M Z)) :
+    (_hNH : bar M Q (hc.CN t) ≤ bar M Q (H0 M Z)) :
     ⁅(bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z)),
       (bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z))⁆ ≤
       (bar M Q Z0).subgroupOf (bar M Q (H0 M Z)) := by
@@ -166,7 +167,7 @@ theorem Ctx.yComm (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
   obtain ⟨r, hr, hry⟩ := Subgroup.mem_map.mp (Subgroup.mem_subgroupOf.mp hy)
   have hcomm : ((⁅x, y⁆ : ↥(bar M Q (H0 M Z))) : Mbar M Q) =
       QuotientGroup.mk' (Q.subgroupOf M) ⁅s, r⁆ := by
-    simp only [map_commutatorElement, commutatorElement_def, Subgroup.coe_mul,
+    simp only [commutatorElement_def, Subgroup.coe_mul,
       Subgroup.coe_inv, map_mul, map_inv, hsx, hry]
   have hsr : ((⁅s, r⁆ : ↥M) : G) = ⁅(s : G), (r : G)⁆ := by
     simp only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]

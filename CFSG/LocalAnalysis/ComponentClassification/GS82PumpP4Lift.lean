@@ -239,7 +239,7 @@ theorem exists_involution_lift
     obtain ⟨T⟩ : Nonempty (Sylow 2 ↥D) := inferInstance
     have hT2 : ∀ x ∈ (T : Subgroup ↥D), ((x : ↥P)) ∈ center ↥P := by
       intro x hx
-      obtain ⟨k, hk⟩ := T.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := T.isPGroup ⟨x, hx⟩
       have hk' : (x : ↥P) ^ 2 ^ k = 1 := by
         have := congrArg (fun y : ↥(T : Subgroup ↥D) => ((y : ↥D) : ↥P)) hk
         simpa using this

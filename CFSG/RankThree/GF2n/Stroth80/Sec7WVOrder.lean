@@ -86,7 +86,7 @@ theorem sec7WVOrder_of (hNO : Sec7NOrderStatement) (h52a : Stroth52aStatement)
     (conjSubgroup r B) (LB M Q B) (LB M Q (conjSubgroup r B)) (Vt M (LB M Q B) B Z t)
     (Wt Q (Vt M (LB M Q B) B Z t)) rfl rfl rfl rfl rfl
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
   have hWQ : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q := inf_le_left

@@ -82,10 +82,12 @@ namespace RootCore
 variable [Finite G] {M B Q : Subgroup G} (H : RootCore M B Q)
 include H
 
+omit H in
 theorem exists_isMaxRootWitness (hRT : ¬ RootTypeStep M B) :
     ∃ g : G, IsMaxRootWitness M B g :=
   exists_isMaxRootWitness_of_not_rootTypeStep hRT
 
+omit [Finite G] in
 theorem comm_conj_self_of_rootStep1 {g : G} (h1 : RootStep1 M B Q g) {a y : G}
     (ha : a ∈ conjSubgroup g B ⊓ M) (hy : y ∈ Q) :
     a * (y⁻¹ * a * y) = y⁻¹ * a * y * a := by
@@ -260,7 +262,7 @@ theorem rootTypeStep_of_rootStep1 (h1 : ∀ g : G, IsMaxRootWitness M B g → Ro
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hRT
-  obtain ⟨g, hW⟩ := H.exists_isMaxRootWitness hRT
+  obtain ⟨g, hW⟩ := RootCore.exists_isMaxRootWitness hRT
   have h1g := h1 g hW
   have hgM := hW.1
   have hA0 := hW.2.1

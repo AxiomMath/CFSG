@@ -51,7 +51,7 @@ theorem ggDepELNInJ_iff (c : Fin 6) : ggDepELNInJ c.val = true ↔ GGDepED4In c 
   fin_cases c <;> (unfold GGDepED4In ggDepELNInJ; decide)
 
 theorem ggDepELNInJ_lt {c : ℕ} (h : ggDepELNInJ c = true) : c < 6 := by
-  simp [ggDepELNInJ, Bool.and_eq_true, decide_eq_true_iff] at h
+  simp [ggDepELNInJ, Bool.and_eq_true] at h
   omega
 
 theorem ggDepELNLeaves_iff (c : Fin 6) : c.val ∈ ggDepELNLeaves ↔ GGDepED4Leaf c := by
@@ -85,7 +85,7 @@ theorem ggDepELSolH_complete (tgt : ℕ → ℕ) (v : GGDepAE 3 6)
       (ggTWNDecode 3 6 k)) (tgt c) 3).mp hz
     unfold ggDepANDot at h' ⊢
     rwa [Nat.mod_mod] at h'
-  rw [if_pos htest]
+  rw [ite_eq_left htest]
 
 theorem ggDepELSolH_sound {tgt : ℕ → ℕ} {l : List ℕ} (hl : l ∈ ggDepELSolH tgt) :
     l.length = 6 ∧ ∀ c : Fin 6, GGDepED4In c →
@@ -97,9 +97,9 @@ theorem ggDepELSolH_sound {tgt : ℕ → ℕ} {l : List ℕ} (hl : l ∈ ggDepEL
   have htest : ggDepELNJ.all (fun c =>
       ggDepANDot 3 (ggDepELNA c) (ggTWNDecode 3 6 k) == tgt c % 3) = true := by
     by_contra h
-    rw [if_neg h] at hfk
+    rw [ite_eq_right h] at hfk
     exact absurd hfk (by simp)
-  rw [if_pos htest] at hfk
+  rw [ite_eq_left htest] at hfk
   simp only [Option.some.injEq] at hfk
   rw [← hfk]
   refine ⟨ggTWNDecode_length 3 6 k, ?_⟩
@@ -107,7 +107,7 @@ theorem ggDepELSolH_sound {tgt : ℕ → ℕ} {l : List ℕ} (hl : l ∈ ggDepEL
   have hmem : c.val ∈ ggDepELNJ := by
     have h0 : c.val ≠ 0 := fun h => hIn.1 (Fin.ext h)
     have h5 : c.val ≠ 5 := fun h => hIn.2 (Fin.ext h)
-    simp only [ggDepELNJ, List.mem_cons, List.mem_singleton, List.mem_nil_iff, or_false]
+    simp only [ggDepELNJ, List.mem_cons, List.mem_nil_iff, or_false]
     omega
   have hcond := List.all_eq_true.mp htest c.val hmem
   have hmod := beq_iff_eq.mp hcond
@@ -147,7 +147,7 @@ theorem ggDepELSolA_complete (tgt : ℕ → ℕ) (v : GGDepAE 3 6)
       (ggDepELNH c)) (tgt c) 3).mp hz
     unfold ggDepANDot at h' ⊢
     rwa [Nat.mod_mod] at h'
-  rw [if_pos htest]
+  rw [ite_eq_left htest]
 
 theorem ggDepELSolA_sound {tgt : ℕ → ℕ} {l : List ℕ} (hl : l ∈ ggDepELSolA tgt) :
     l.length = 6 ∧ ∀ c : Fin 6, GGDepED4In c →
@@ -159,9 +159,9 @@ theorem ggDepELSolA_sound {tgt : ℕ → ℕ} {l : List ℕ} (hl : l ∈ ggDepEL
   have htest : ggDepELNJ.all (fun c =>
       ggDepANDot 3 (ggTWNDecode 3 6 k) (ggDepELNH c) == tgt c % 3) = true := by
     by_contra h
-    rw [if_neg h] at hfk
+    rw [ite_eq_right h] at hfk
     exact absurd hfk (by simp)
-  rw [if_pos htest] at hfk
+  rw [ite_eq_left htest] at hfk
   simp only [Option.some.injEq] at hfk
   rw [← hfk]
   refine ⟨ggTWNDecode_length 3 6 k, ?_⟩
@@ -169,7 +169,7 @@ theorem ggDepELSolA_sound {tgt : ℕ → ℕ} {l : List ℕ} (hl : l ∈ ggDepEL
   have hmem : c.val ∈ ggDepELNJ := by
     have h0 : c.val ≠ 0 := fun h => hIn.1 (Fin.ext h)
     have h5 : c.val ≠ 5 := fun h => hIn.2 (Fin.ext h)
-    simp only [ggDepELNJ, List.mem_cons, List.mem_singleton, List.mem_nil_iff, or_false]
+    simp only [ggDepELNJ, List.mem_cons, List.mem_nil_iff, or_false]
     omega
   have hcond := List.all_eq_true.mp htest c.val hmem
   have hmod := beq_iff_eq.mp hcond

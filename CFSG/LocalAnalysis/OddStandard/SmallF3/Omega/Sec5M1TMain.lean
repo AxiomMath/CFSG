@@ -27,11 +27,11 @@ theorem sec5m1t_main (hS : Asc82SchurU43) {G : Type} [Group G] [Finite G] {L : S
     (hcz : ∀ y ∈ L, (c * c) * y * (c * c)⁻¹ = z * y * z⁻¹) :
     LieModel ↥(layerCent L (q * c)) .PSU 3 3 1 ∧ K₂ ≤ layerCent L (q * c) := by
   obtain ⟨V, _, _, _, Q, hQ, φ, hφ⟩ := t5_exists_cover hS hL
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ he => LinearEquiv.ext (congrFun he))
-  haveI : Finite (OGroup Q) :=
+  have : Finite (OGroup Q) :=
     Finite.of_injective (fun g : OGroup Q => (g : V ≃ₗ[ZMod 3] V)) Subtype.val_injective
   have hdim := hφ.finrank_eq
   have hsgn := hφ.quadSign_eq

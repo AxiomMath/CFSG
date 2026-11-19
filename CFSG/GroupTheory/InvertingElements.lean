@@ -115,7 +115,7 @@ theorem exists_prime_pow_orderOf_not_mem {G : Type*} [Group G] {B H : Subgroup G
       intro h1
       apply hbH
       have hb1 : b = 1 := by rw [← orderOf_eq_one_iff, hbn, h1]
-      simpa [hb1] using (Subgroup.one_mem H)
+      simp [hb1]
     let p := n.minFac
     have hp : p.Prime := Nat.minFac_prime hn1
     obtain ⟨e, m, hm, he⟩ := Nat.exists_eq_pow_mul_and_not_dvd hn0 p hp.one_lt.ne'

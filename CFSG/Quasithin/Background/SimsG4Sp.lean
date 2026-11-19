@@ -27,7 +27,7 @@ theorem spGroup_eq_isometryGroup (B : LinearMap.BilinForm F V) :
 theorem exists_isSympBasis [CharP F 2] (B : LinearMap.BilinForm F V) (halt : ∀ x, B x x = 0)
     (hnd : ∀ x, (∀ y, B x y = 0) → x = 0) (hdim : Module.finrank F V = 4) :
     ∃ b : Module.Basis (Fin 4) F V, IsSympBasis B b := by
-  haveI : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   have halt' : LinearMap.IsAlt B := halt
   have hnd' : B.Nondegenerate := ⟨hnd, fun y hy => hnd y fun x => halt'.eq_iff.mp (hy x)⟩
   have hsymm : ∀ x y, B y x = B x y := fun x y => by rw [← halt'.neg x y, CharTwo.neg_eq]
@@ -119,7 +119,7 @@ theorem trv_mem_subfieldSp [CharP F 2] (F₀ : Subfield F) (v : Fin 4 → F₀) 
 
 theorem exists_card_subfield [Finite F] [CharP F 2] (n : ℕ) (hn : Nat.card F = 2 ^ n)
     (F₀ : Subfield F) : ∃ k : ℕ, 0 < k ∧ k ∣ n ∧ Nat.card F₀ = 2 ^ k := by
-  letI := Fintype.ofFinite F₀
+  let := Fintype.ofFinite F₀
   obtain ⟨k, -, hk⟩ := FiniteField.card F₀ 2
   have hk' : Nat.card F₀ = 2 ^ (k : ℕ) := by rw [Nat.card_eq_fintype_card, hk]
   have h := Module.natCard_eq_pow_finrank (K := F₀) (V := F)
@@ -179,8 +179,8 @@ theorem nonempty_mulEquiv_symplectic [Finite F] [CharP F 2] (hb : IsSympBasis B 
       change (((spCoord B b hb).symm A : spGroup B) : V ≃ₗ[F] V) ∈ subfieldSpOf b F₀
       rw [← spCoord_mem_subfieldSp_iff B b hb F₀, MulEquiv.apply_symm_apply]
       exact hA
-  letI := Fintype.ofFinite F₀
-  letI := Fintype.ofFinite (GaloisField 2 k)
+  let := Fintype.ofFinite F₀
+  let := Fintype.ofFinite (GaloisField 2 k)
   have hcardeq : Fintype.card F₀ = Fintype.card (GaloisField 2 k) := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hcard, GaloisField.card 2 k hk.ne']
   let ρ : F₀ ≃+* GaloisField 2 k := FiniteField.ringEquivOfCardEq hcardeq
@@ -204,7 +204,7 @@ theorem case1_of_subfield {F : Type} [Field F] [Finite F] [CharP F 2] (n : ℕ)
     (hn : Nat.card F = 2 ^ n)
     {V : Type} [AddCommGroup V] [Module F V] (B : LinearMap.BilinForm F V)
     (halt : ∀ x, B x x = 0) (hnd : ∀ x, (∀ y, B x y = 0) → x = 0)
-    (hdim : Module.finrank F V = 4)
+    (_hdim : Module.finrank F V = 4)
     (G₀ : Subgroup (V ≃ₗ[F] V)) (b : Module.Basis (Fin 4) F V) (F₀ : Subfield F)
     (hb : IsSympBasis B b)
     (hG : ∀ g : V ≃ₗ[F] V, g ∈ G₀ ↔ g ∈ spGroup B ∧ g ∈ subfieldSpOf b F₀) :

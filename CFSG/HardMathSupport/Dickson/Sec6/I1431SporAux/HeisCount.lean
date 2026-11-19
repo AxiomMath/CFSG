@@ -118,7 +118,7 @@ theorem exists_conj_of_lineOn (hg13 : g ^ 13 = 1) (hd13 : d ^ 13 = 1) (hc13 : c 
   obtain ⟨e, he, hμ⟩ := h
   simp only [Bool.and_eq_true, beq_iff_eq, List.any_eq_true, List.mem_range] at hμ
   obtain ⟨het, μ, hμ13, hμe⟩ := hμ
-  simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, beq_iff_eq] at hμe
+  simp only [bne_iff_ne, ne_eq] at hμe
   obtain ⟨⟨hμ0, hae⟩, hbe⟩ := hμe
   have hμ13' : μ % 13 ≠ 0 := by
     rw [Nat.mod_eq_of_lt hμ13]; exact hμ0
@@ -151,6 +151,7 @@ theorem sum_fin_triple (F : ℕ → ℕ → ℕ → ℕ) :
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem sum_over_sylow (hg13 : g ^ 13 = 1) (hd13 : d ^ 13 = 1) (hc13 : c ^ 13 = 1)
     (hc1 : c ≠ 1) (hcg : c * g = g * c) (hcd : c * d = d * c) (hdg : d * g = g * (d * c ^ 4))
     (hlines : ∀ e ∈ censusLines, ∃ W : G,
@@ -190,7 +191,7 @@ theorem sum_over_sylow (hg13 : g ^ 13 = 1) (hd13 : d ^ 13 = 1) (hc13 : c ^ 13 = 
     · exact absurd h2 hab
     · by_cases hx : lineOn false a b = true
       · obtain ⟨Y, j, hj, hY⟩ := exists_conj_of_lineOn hg13 hd13 hc13 hc1 hcg hcd hdg hlines hx k
-        rw [if_pos hx, ← hf Y, hY]
+        rw [ite_eq_left hx, ← hf Y, hY]
         simpa using hfx j hj
       · have hc : lineOn true a b = true := by
           by_contra hcon
@@ -198,14 +199,14 @@ theorem sum_over_sylow (hg13 : g ^ 13 = 1) (hd13 : d ^ 13 = 1) (hc13 : c ^ 13 = 
           simp only [Bool.not_eq_true] at hx hcon
           rw [hx, hcon]
         obtain ⟨Y, j, hj, hY⟩ := exists_conj_of_lineOn hg13 hd13 hc13 hc1 hcg hcd hdg hlines hc k
-        rw [if_neg hx, ← hf Y, hY]
+        rw [ite_eq_right hx, ← hf Y, hY]
         simpa using hfc j hj
   have hblock : ∀ a ∈ Finset.range 13, ∀ b ∈ Finset.range 13,
       ∑ k ∈ Finset.range 13, f (g ^ a * d ^ b * c ^ k) =
         if a = 0 ∧ b = 0 then f 1 + 12 * Fc else 13 * (if lineOn false a b then Fx else Fc) := by
     intro a ha b hb
     by_cases hab : a = 0 ∧ b = 0
-    · rw [if_pos hab, hab.1, hab.2]
+    · rw [ite_eq_left hab, hab.1, hab.2]
       simp only [pow_zero, one_mul]
       rw [Finset.sum_range_succ']
       have : ∀ k ∈ Finset.range 12, f (c ^ (k + 1)) = Fc := fun k hk => by
@@ -214,7 +215,7 @@ theorem sum_over_sylow (hg13 : g ^ 13 = 1) (hd13 : d ^ 13 = 1) (hc13 : c ^ 13 = 
         omega
       rw [Finset.sum_congr rfl this]
       simp [add_comm]
-    · rw [if_neg hab, Finset.sum_congr rfl fun k _ => hval a ha b hb hab k]
+    · rw [ite_eq_right hab, Finset.sum_congr rfl fun k _ => hval a ha b hb hab k]
       simp
   rw [Finset.sum_congr rfl fun a ha => Finset.sum_congr rfl fun b hb => hblock a ha b hb,
     sum_blocks]

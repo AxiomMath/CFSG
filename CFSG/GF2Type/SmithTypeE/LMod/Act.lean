@@ -261,7 +261,7 @@ theorem exists_form_ne_zero (x : Fin 6 → ZMod 2) (hx : x ≠ 0) :
     · exact ⟨0, fun h => h0 h.symm⟩
   refine ⟨Pi.single j 1 + x j • Pi.single i 1, fun h => ?_, ?_⟩
   · have := congrFun h j
-    simp [Pi.single_apply, hj] at this
+    simp [hj] at this
   · simp [add_dotProduct, smul_dotProduct, hxi, key3]
 
 section Certified2
@@ -285,9 +285,9 @@ theorem actPerm_injective : Function.Injective actPerm := by
   apply Subtype.ext
   ext i j
   have := congrFun (key (Pi.single j 1)) i
-  simp only [Matrix.mulVec_single, mul_one] at this
+  simp only [Matrix.mulVec_single] at this
   rw [Matrix.SpecialLinearGroup.coe_one, Matrix.one_apply]
-  by_cases hij : i = j <;> simp_all [Pi.single_apply]
+  by_cases hij : i = j <;> simp_all
 
 theorem tv_elementary {i j : Fin 6} (hij : i ≠ j) :
     ∃ k : Fin 1953, tvSL k = Matrix.SpecialLinearGroup.transvection hij (1 : ZMod 2) := by
@@ -296,7 +296,7 @@ theorem tv_elementary {i j : Fin 6} (hij : i ≠ j) :
     simp at this
   obtain ⟨k, hk⟩ := tvToSet_surjective
     (⟨(Pi.single i 1, Pi.single j 1), hne i, hne j, by
-      rw [dotProduct_single, mul_one]; simp [Pi.single_apply, Ne.symm hij]⟩ : TvSet)
+      rw [dotProduct_single, mul_one]; simp [Ne.symm hij]⟩ : TvSet)
   refine ⟨k, Subtype.ext ?_⟩
   have hv : tvVec k = Pi.single i 1 := congrArg (fun q => q.1.1) hk
   have hφ : tvForm k = Pi.single j 1 := congrArg (fun q => q.1.2) hk
@@ -314,12 +314,12 @@ theorem tv_elementary {i j : Fin 6} (hij : i ≠ j) :
     simp [ha, Ne.symm ha]
   · subst ha
     simp [hb, Ne.symm hb]
-  · simp [hb, ha, Ne.symm ha, Ne.symm hb]
+  · simp [hb, Ne.symm ha, Ne.symm hb]
 
 theorem closure_range_tvSL : Subgroup.closure (Set.range tvSL) = ⊤ :=
   eq_top_of_elementary _ fun _ _ hij => Subgroup.subset_closure (tv_elementary hij)
 
-theorem tvP_injective : Function.Injective tvP := fun k l h =>
+theorem tvP_injective : Function.Injective tvP := fun _k _l h =>
   tvSL_injective (actPerm_injective h)
 
 end Certified2

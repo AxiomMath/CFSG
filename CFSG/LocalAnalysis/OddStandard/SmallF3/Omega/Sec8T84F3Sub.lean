@@ -13,7 +13,7 @@ private theorem isElemAb2_map {H G : Type} [Group H] [Group G] (ι : H →* G)
     IsElemAb2 (U.map ι) k ↔ IsElemAb2 U k := by
   constructor
   · intro h
-    haveI : IsMulCommutative (U.map ι) := h.1.1
+    have : IsMulCommutative (U.map ι) := h.1.1
     refine ⟨⟨?_, ?_⟩, ?_⟩
     · refine IsMulCommutative.of_setLike_mul_comm fun a ha b hb => hι ?_
       rw [map_mul, map_mul]
@@ -23,7 +23,7 @@ private theorem isElemAb2_map {H G : Type} [Group H] [Group G] (ι : H →* G)
     · rw [← Subgroup.card_map_of_injective hι, h.2]
   · intro h
     refine ⟨⟨?_, ?_⟩, ?_⟩
-    · haveI : IsMulCommutative U := h.1.1
+    · have : IsMulCommutative U := h.1.1
       infer_instance
     · intro x hx
       obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx

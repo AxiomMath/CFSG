@@ -21,6 +21,7 @@ theorem mem_normalizer_zpowers_of_conj_mem {c s : G} (h : s * c * s⁻¹ ∈ Sub
   rw [MonoidHom.map_zpowers]
   exact Subgroup.zpowers_le.mpr h
 
+omit [Finite G] in
 theorem false_of_conj {c d u : G} (hinf : Subgroup.zpowers c ⊓ Subgroup.zpowers d = ⊥)
     (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) (huc : u ∈ Subgroup.normalizer (Subgroup.zpowers c : Set G))
     (hud : u * d * u⁻¹ = d⁻¹) {α β : ℕ} (hβ : ¬ 3 ∣ β)

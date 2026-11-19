@@ -33,7 +33,7 @@ theorem mem_c16F (x : Fin 24) : x ∈ c16F ↔ (x : ℕ) ∈ pt16 := by
 theorem o2F_card : o2F.card = 8 := by decide
 
 theorem c16F_card : c16F.card = 16 := by
-  rw [c16F, Finset.card_univ_diff, o2F_card]
+  rw [c16F, Finset.card_univ_sdiff, o2F_card]
   simp
 
 theorem o0L_pt16 : ∀ n ∈ o0L, n ∈ pt16 := by decide +kernel

@@ -325,7 +325,7 @@ theorem i266G2_of_facts (G : Type) [Group G] [Finite G] (n : ℕ)
       rw [← hKCD]; exact hlay
     have hD'9 : Nat.card ρF.range < 9 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hlay' (hLayer G K ρF.range hKcat hEven hρFEA hc hρFK)
     have hD'card : Nat.card ρF.range ≤ 3 := by
       obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp (isPGroup_of_isElemAbelian hρFEA)

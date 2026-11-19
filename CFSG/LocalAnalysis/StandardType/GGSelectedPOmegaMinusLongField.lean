@@ -25,7 +25,7 @@ theorem exists_selectedSL2Model_minusDatum_long_range
       model.phi.range = rankOne (minusDatum n hirr).rootGroup k ∧
         Set.range (fun t : K => model.phi (sl2Lower t)) =
           ((minusDatum n hirr).rootGroup (-Pi.single k 1) : Set _) := by
-  letI : Fintype K := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite _
   have hroot : (Pi.single k 1 : Fin (n - 1) → ℤ) ∈ (minusDatum n hirr).roots :=
     (isCTRootSystem (minusDatum n hirr).isFiniteType (minusDatum n hirr).divisible).single_mem k
   set phi := rLong n b c hk with hphi

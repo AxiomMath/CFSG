@@ -47,11 +47,11 @@ theorem sl3_quotient_of_range {A : Type} [Group A] (f : A →* Equiv.Perm (Fin 7
 
 theorem M4_det : ∀ i, (M4 i).det = 1 := by
   intro i
-  fin_cases i <;> simp [M4, Matrix.det_fin_three] <;> decide
+  fin_cases i <;> simp [M4, Matrix.det_fin_three]
 
 theorem M6_det : ∀ i, (M6 i).det = 1 := by
   intro i
-  fin_cases i <;> simp [M6, Matrix.det_fin_three] <;> decide
+  fin_cases i <;> simp [M6, Matrix.det_fin_three]
 
 @[expose] def M4sl (i : Fin 5) : SpecialLinearGroup (Fin 3) (ZMod 2) := ⟨M4 i, M4_det i⟩
 

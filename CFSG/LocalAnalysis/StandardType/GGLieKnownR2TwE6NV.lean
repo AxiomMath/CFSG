@@ -677,16 +677,16 @@ private lemma teNV_list_prod_single {M : Type*} [Group M] {α : Type} [Decidable
     obtain ⟨hbL, hL⟩ := hL
     rw [List.map_cons, List.prod_cons]
     by_cases hba : b = a
-    · rw [if_pos hba]
+    · rw [ite_eq_left hba]
       have hzero : ∀ c ∈ L, (if c = a then x else 1) = 1 := by
         intro c hc
-        rw [if_neg]
+        rw [ite_eq_right]
         intro h
         exact hbL (by rw [hba, ← h]; exact hc)
       rw [List.prod_eq_one (fun y hy => by
         obtain ⟨c, hc, rfl⟩ := List.mem_map.1 hy
         exact hzero c hc), mul_one]
-    · rw [if_neg hba]
+    · rw [ite_eq_right hba]
       have haL : a ∈ L := by
         rcases List.mem_cons.1 ha with h | h
         · exact absurd h.symm hba
@@ -759,12 +759,12 @@ private lemma teNV_V_decomp
     · intro β hβ
       by_cases h : β = teNV_ArootT t
       · dsimp only
-        rw [h, if_pos rfl]
+        rw [h, ite_eq_left rfl]
         exact show y ∈ twistedRootGroup k θ (teNV_ArootT t) from hy
       · dsimp only
-        rw [if_neg h]; exact one_mem _
+        rw [ite_eq_right h]; exact one_mem _
     · change (if twE6Alpha = teNV_ArootT t then y else 1) = 1
-      rw [if_neg hαγ]
+      rw [ite_eq_right hαγ]
     · exact (teNV_list_prod_single teNV_L_nodup hγL y).symm
   · exact ⟨fun _ => 1, fun β hβ => one_mem _, rfl, by simp⟩
   · rintro x y ⟨f, hf, hfα, hfx⟩ ⟨g, hg, hgα, hgy⟩
@@ -845,7 +845,7 @@ theorem twE6Alpha_inf_V
     by_cases h : β = twE6Alpha
     · subst h
       exact show z ∈ twistedRootGroup k θ twE6Alpha from hzα
-    · simp only [g, if_neg h]; exact one_mem _
+    · simp only [g, ite_eq_right h]; exact one_mem _
   have hgα : g twE6Alpha = z := by simp [g]
   have hgprod : (teNV_L.map g).prod = z := by
     have h := teNV_list_prod_single teNV_L_nodup (teNV_L_mem_iff.2 (Or.inl rfl)) z

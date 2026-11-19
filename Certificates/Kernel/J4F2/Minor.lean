@@ -50,9 +50,9 @@ theorem encN_testBit {X : Array Nat} (hX : WfN X) {i j : Nat} (hi : i < 112) (hj
     by_cases hk : k < X.size
     · have h := hX.2 k (by rw [← hX.1]; exact hk)
       rw [getElem!_pos X k hk] at h
-      rw [Array.getD, dif_pos hk]
+      rw [Array.getD, dite_eq_left hk]
       exact Nat.lt_trans h (Nat.pow_lt_pow_right (by omega) (by omega))
-    · rw [Array.getD, dif_neg hk]
+    · rw [Array.getD, dite_eq_right hk]
       exact Nat.two_pow_pos _
   unfold encN
   rw [foldr_testBit X hrow (by omega), Array.getD_eq_getD_getElem?]

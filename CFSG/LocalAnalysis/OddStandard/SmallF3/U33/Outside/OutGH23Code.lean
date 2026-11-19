@@ -15,8 +15,8 @@ private lemma gh23_img_sum (d : Fin 8 → ℕ) (hd : ∀ j, d j < 8) (k : Fin 8)
     (∑ j : Fin 8, d j * 8 ^ (j : ℕ)) / 2 ^ (3 * (k : ℕ)) % 8 = d k := by
   rw [Fin.sum_univ_eight]
   fin_cases k <;>
-    simp only [Fin.val_zero, Fin.val_one, Fin.val_two, Fin.val_ofNat, pow_zero, pow_one,
-      mul_one, zero_mul] <;>
+    simp only [Fin.val_zero, Fin.val_one, Fin.val_two, pow_zero, pow_one,
+      mul_one] <;>
     norm_num <;>
     (have h0 := hd 0; have h1 := hd 1; have h2 := hd 2; have h3 := hd 3;
      have h4 := hd 4; have h5 := hd 5; have h6 := hd 6; have h7 := hd 7) <;>
@@ -61,7 +61,7 @@ private lemma gh23_sum_img (c : ℕ) (hc : c < 16777216) :
     (∑ i : Fin 8, img c i * 8 ^ (i : ℕ)) = c := by
   simp only [img, Nat.shiftRight_eq_div_pow]
   rw [Fin.sum_univ_eight]
-  simp only [Fin.val_zero, Fin.val_one, Fin.val_two, Fin.val_ofNat]
+  simp only [Fin.val_zero, Fin.val_one, Fin.val_two]
   norm_num
   omega
 

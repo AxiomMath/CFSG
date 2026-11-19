@@ -16,6 +16,7 @@ variable {G : Type} [Group G]
 section Syl
 variable [Finite G] {t x₁ x₂ lam : G} {T₂ : Subgroup G} {a₁₂ a₂₂ a₃₂ : G}
 
+omit [Finite G] in
 theorem fzJt_mem_normalizer_pair {y x : G} (h : y * x * y⁻¹ = x ∨ y * x * y⁻¹ = x⁻¹) :
     y ∈ Subgroup.normalizer ({x, x⁻¹} : Set G) := by
   have hxy : y * x * y⁻¹ ∈ ({x, x⁻¹} : Set G) := by
@@ -61,6 +62,7 @@ theorem fzJt_mem_normalizer_pair {y x : G} (h : y * x * y⁻¹ = x ∨ y * x * y
     rw [show z = y⁻¹ * (y * z * y⁻¹) * y by group]
     exact hzt
 
+omit [Finite G] in
 theorem fzR3_conj (hq3 : IsQ8Pair ((x₁ * x₂)⁻¹ * t) a₃₂) {a : G} (ha : a ∈ fzR3 t x₁ x₂ a₃₂) :
     (∀ p ∈ ({(x₁ * x₂)⁻¹ * t, a₃₂} : Set G), p * a * p⁻¹ = a ∨ p * a * p⁻¹ = a⁻¹) ∧
     (a = 1 ∨ a = ((x₁ * x₂)⁻¹ * t) ^ 2 ∨ ∃ p ∈ ({(x₁ * x₂)⁻¹ * t, a₃₂} : Set G),

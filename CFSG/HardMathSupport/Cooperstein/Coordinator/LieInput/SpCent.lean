@@ -27,7 +27,7 @@ theorem mulE_diff (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a b : Fin 
   · by_cases h2 : y = Sum.inr a
     · subst h2
       simp
-    · simp [h1, h2, Matrix.mul_single_apply_of_ne, Ne.symm h1, Ne.symm h2]
+    · simp [h1, h2, Matrix.mul_single_apply_of_ne]
 
 theorem mulE_sum (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a b : Fin n) (hab : a < b)
     (x y : Fin n ⊕ Fin n) :
@@ -42,7 +42,7 @@ theorem mulE_sum (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a b : Fin n
   · by_cases h2 : y = Sum.inr a
     · subst h2
       simp [Matrix.mul_single_apply_of_ne, h1]
-    · simp [h1, h2, Matrix.mul_single_apply_of_ne, Ne.symm h1, Ne.symm h2]
+    · simp [h1, h2, Matrix.mul_single_apply_of_ne]
 
 theorem mulE_long (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a : Fin n)
     (x y : Fin n ⊕ Fin n) :
@@ -50,13 +50,13 @@ theorem mulE_long (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a : Fin n)
   simp only [E]
   by_cases h1 : y = Sum.inr a
   · subst h1; simp
-  · simp [h1, Matrix.mul_single_apply_of_ne, Ne.symm h1]
+  · simp [h1, Matrix.mul_single_apply_of_ne]
 
 end MulE
 
 section Sympl
 
-@[expose] abbrev Jmat (n : ℕ) (F : Type) [Field F] : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F :=
+abbrev Jmat (n : ℕ) (F : Type) [Field F] : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F :=
   CFSG.ClassicalInvolution.Models.SymplecticPairs.gram F n
 
 variable {n : ℕ} {F : Type} [Field F]
@@ -68,8 +68,7 @@ theorem gram_form (G : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (x y : Fin 
     CFSG.ClassicalInvolution.Models.SymplecticPairs.gram, Fintype.sum_sum_type]
   simp only [Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
     Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.one_apply, Matrix.neg_apply, mul_ite,
-    mul_zero, mul_one, mul_neg, ite_mul, zero_mul, one_mul, neg_mul, Finset.sum_ite_eq,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true, Finset.sum_neg_distrib, Finset.sum_const_zero,
+    mul_zero, mul_one, mul_neg, neg_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, Finset.sum_neg_distrib, Finset.sum_const_zero,
     zero_add, add_zero]
   rw [Finset.sum_sub_distrib]
   ring
@@ -213,9 +212,9 @@ theorem elt_mem_radical (r : RootSubgroupIndex n) (c : F) (j : Fin n)
   have hpos : 0 < γ j := by
     simp only [hγ, fundOf]
     by_cases hl : j.val + 1 = n
-    · rw [if_pos hl]
+    · rw [ite_eq_left hl]
       exact Int.ediv_pos_of_pos_of_dvd h (by norm_num) (even_cumE_last r j hl)
-    · rw [if_neg hl]; simpa using h
+    · rw [ite_eq_right hl]; simpa using h
   exact rootGroup_le_radical hroot hpos (elt_mem_rootGroup hr c)
 
 end RadElt
@@ -241,7 +240,7 @@ theorem col_A'_zero {g : StatedSp n F} (hsh : IsSh j (mat n F g))
     · have : x ≠ a := by
         rintro rfl
         exact hxA' ha
-      simp [Matrix.one_apply, Ne.symm this]
+      simp [Ne.symm this]
   rw [hJ] at key
   have hcol : ∀ i, mat n F g (Sum.inl a) (Sum.inl i) = if i = a then 1 else 0 := by
     intro i
@@ -296,7 +295,7 @@ theorem Emul_long (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a : Fin n)
   simp only [E]
   by_cases h1 : x = Sum.inl a
   · subst h1; simp [Matrix.single_mul_apply_same]
-  · simp [h1, Matrix.single_mul_apply_of_ne, Ne.symm h1]
+  · simp [h1, Matrix.single_mul_apply_of_ne]
 
 theorem Emul_diff (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a b : Fin n) (hab : a ≠ b)
     (x y : Fin n ⊕ Fin n) :
@@ -308,7 +307,7 @@ theorem Emul_diff (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a b : Fin 
   · subst h1; simp [Matrix.single_mul_apply_same]
   · by_cases h2 : x = Sum.inr b
     · subst h2; simp [Matrix.single_mul_apply_same]
-    · simp [h1, h2, Matrix.single_mul_apply_of_ne, Ne.symm h1, Ne.symm h2]
+    · simp [h1, h2, Matrix.single_mul_apply_of_ne]
 
 theorem Emul_sum (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a b : Fin n) (hab : a < b)
     (x y : Fin n ⊕ Fin n) :
@@ -322,7 +321,7 @@ theorem Emul_sum (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (a b : Fin n
     simp [Matrix.single_mul_apply_same, Matrix.single_mul_apply_of_ne, this]
   · by_cases h2 : x = Sum.inl b
     · subst h2; simp [Matrix.single_mul_apply_same, Matrix.single_mul_apply_of_ne, h1]
-    · simp [h1, h2, Matrix.single_mul_apply_of_ne, Ne.symm h1, Ne.symm h2]
+    · simp [h1, h2, Matrix.single_mul_apply_of_ne]
 
 end LeftMul
 
@@ -330,6 +329,7 @@ section Shape
 
 variable {n : ℕ} {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem comm_mat_of_comm {g : StatedSp n F} (r : RootSubgroupIndex n)
     (h : g * elt r (1 : F) = elt r 1 * g) : mat n F g * E F r = E F r * mat n F g := by
   have := congrArg (mat n F) h
@@ -380,8 +380,9 @@ theorem col_row_of_comm_long {g : StatedSp n F} (a : Fin n)
     · subst hya; simp [hc]
     · simp [hya, hy y hya]
 
+omit [CharP F 2] in
 theorem entries_of_comm_diff {g : StatedSp n F} {j b : Fin n} (hb : j < b)
-    (hA : ∀ x, mat n F g x (Sum.inl j) = if x = Sum.inl j then 1 else 0)
+    (_hA : ∀ x, mat n F g x (Sum.inl j) = if x = Sum.inl j then 1 else 0)
     (hA' : ∀ y, mat n F g (Sum.inr j) y = if y = Sum.inr j then 1 else 0)
     (h : mat n F g * E F (.difference j b hb.ne) = E F (.difference j b hb.ne) * mat n F g) :
     ∀ x, x ≠ Sum.inl j → mat n F g x (Sum.inr b) = if x = Sum.inr b then 1 else 0 := by
@@ -390,13 +391,14 @@ theorem entries_of_comm_diff {g : StatedSp n F} {j b : Fin n} (hb : j < b)
   rw [mulE_diff, Emul_diff] at key
   have h1 : (Sum.inr j : Fin n ⊕ Fin n) ≠ Sum.inl b := by simp
   have h2 : (Sum.inl j : Fin n ⊕ Fin n) ≠ Sum.inr j := by simp
-  simp only [if_neg h1, if_pos rfl, hx, if_false, zero_sub, hA'] at key
+  simp only [ite_eq_right h1, hx, ite_false, zero_sub, hA'] at key
   by_cases hxb : x = Sum.inr b
   · subst hxb; simpa using key
   · simpa [hxb] using key
 
+omit [CharP F 2] in
 theorem entries_of_comm_sum {g : StatedSp n F} {j b : Fin n} (hb : j < b)
-    (hA : ∀ x, mat n F g x (Sum.inl j) = if x = Sum.inl j then 1 else 0)
+    (_hA : ∀ x, mat n F g x (Sum.inl j) = if x = Sum.inl j then 1 else 0)
     (hA' : ∀ y, mat n F g (Sum.inr j) y = if y = Sum.inr j then 1 else 0)
     (h : mat n F g * E F (.positiveSum j b hb) = E F (.positiveSum j b hb) * mat n F g) :
     ∀ x, x ≠ Sum.inl j → mat n F g x (Sum.inl b) = if x = Sum.inl b then 1 else 0 := by
@@ -404,7 +406,7 @@ theorem entries_of_comm_sum {g : StatedSp n F} {j b : Fin n} (hb : j < b)
   have key := congrFun (congrFun h x) (Sum.inr j)
   rw [mulE_sum, Emul_sum] at key
   have h1 : (Sum.inr j : Fin n ⊕ Fin n) ≠ Sum.inr b := fun h => hb.ne (Sum.inr_injective h)
-  simp only [if_neg h1, if_pos rfl, hx, if_false, zero_add, hA'] at key
+  simp only [ite_eq_right h1, hx, ite_false, zero_add, hA'] at key
   by_cases hxb : x = Sum.inl b
   · subst hxb; simpa using key
   · simpa [hxb] using key
@@ -508,18 +510,18 @@ theorem IsSh0.symm_of_sp {g : StatedSp n F} (h : IsSh0 j (mat n F g)) (a c : Fin
 theorem elt_long_mem {a : Fin n} (ha : a ≤ j) (c : F) :
     elt (.positiveLong a) c ∈ CFSG.AGLEmbedding.LieOut.radical (rootDatum n F) j := by
   apply elt_mem_radical
-  rw [cumE_pl, if_pos ha]; norm_num
+  rw [cumE_pl, ite_eq_left ha]; norm_num
 
 theorem elt_sum_mem {a b : Fin n} (hab : a < b) (ha : a ≤ j) (c : F) :
     elt (.positiveSum a b hab) c ∈ CFSG.AGLEmbedding.LieOut.radical (rootDatum n F) j := by
   apply elt_mem_radical
-  rw [cumE_ps, if_pos ha]
+  rw [cumE_ps, ite_eq_left ha]
   split_ifs <;> norm_num
 
 theorem elt_diff_mem {a b : Fin n} (hab : a ≠ b) (ha : a ≤ j) (hb : j < b) (c : F) :
     elt (.difference a b hab) c ∈ CFSG.AGLEmbedding.LieOut.radical (rootDatum n F) j := by
   apply elt_mem_radical
-  rw [cumE_df, if_pos ha, if_neg (not_le.mpr hb)]; norm_num
+  rw [cumE_df, ite_eq_left ha, ite_eq_right (not_le.mpr hb)]; norm_num
 
 open Classical in
 noncomputable def cntY (j : Fin n) (g : StatedSp n F) : ℕ :=
@@ -674,13 +676,13 @@ theorem step2 (g : StatedSp n F) (hg : IsSh j (mat n F g))
       (fun x : Fin n × Fin n => mat n F (g * elt (.positiveSum a b hlt) (-mat n F g (Sum.inl a) (Sum.inr b))) (Sum.inl x.1) (Sum.inr x.2)) (a, b)
     · exact ⟨⟨haj, hjb⟩, hne⟩
     · have : (Sum.inr b : Fin n ⊕ Fin n) ≠ Sum.inr a := fun h => hlt.ne' (Sum.inr_injective h)
-      simp [mat_mul_elt, mulE_sum, hg.col_A haj, this, Matrix.one_apply]
+      simp [mat_mul_elt, mulE_sum, hg.col_A haj, this]
     · rintro ⟨a', b'⟩ ⟨h1, h2⟩ hne'
       simp only [mat_mul_elt, mulE_sum, hg.col_A haj]
       have e1 : (if Sum.inr b' = (Sum.inr b : Fin n ⊕ Fin n) then (1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (Sum.inl a') (Sum.inl a) else 0) = 0 := by
         by_cases hc : b' = b
         · have : a' ≠ a := fun e => hne' (by simp [e, hc])
-          simp [hc, this, Matrix.one_apply]
+          simp [hc, this]
         · simp [hc]
       have e2 : (if Sum.inr b' = (Sum.inr a : Fin n ⊕ Fin n) then mat n F g (Sum.inl a') (Sum.inl b) else 0) = 0 := by
         have : b' ≠ a := fun e => by rw [e] at h2; exact absurd haj (not_le.mpr h2)
@@ -718,13 +720,13 @@ theorem step1 (g : StatedSp n F) (hg : IsSh j (mat n F g)) (h : 0 < cntX1 j g) :
       (fun x : Fin n × Fin n => mat n F (g * elt (.difference a b hlt) (-mat n F g (Sum.inl a) (Sum.inl b))) (Sum.inl x.1) (Sum.inl x.2)) (a, b)
     · exact ⟨⟨haj, hjb⟩, hne⟩
     · have : (Sum.inl b : Fin n ⊕ Fin n) ≠ Sum.inr a := by simp
-      simp [mat_mul_elt, mulE_diff, hg.col_A haj, this, Matrix.one_apply]
+      simp [mat_mul_elt, mulE_diff, hg.col_A haj, this]
     · rintro ⟨a', b'⟩ ⟨h1, h2⟩ hne'
       simp only [mat_mul_elt, mulE_diff, hg.col_A haj]
       have e1 : (if Sum.inl b' = (Sum.inl b : Fin n ⊕ Fin n) then (1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (Sum.inl a') (Sum.inl a) else 0) = 0 := by
         by_cases hc : b' = b
         · have : a' ≠ a := fun e => hne' (by simp [e, hc])
-          simp [hc, this, Matrix.one_apply]
+          simp [hc, this]
         · simp [hc]
       have e2 : (if Sum.inl b' = (Sum.inr a : Fin n ⊕ Fin n) then mat n F g (Sum.inl a') (Sum.inr b) else 0) = 0 := by
         simp
@@ -764,7 +766,7 @@ theorem centOb_sp {I : Set (Fin n)} (hI : I ≠ Set.univ) : CentOb (rootDatum n 
       exact comm_mat_of_comm _ (hkr _ (elt_sum_mem hb le_rfl 1))
   exact Subgroup.mem_sup_left (radical_le_leviRad hj (sh_mem_radical k hsh))
 
-theorem spCentOb : SpCentOb := fun _ _ _ _ _ _ _ _ I hI => centOb_sp hI
+theorem spCentOb : SpCentOb := fun _ _ _ _ _ _ _ _ _I hI => centOb_sp hI
 
 end Final
 

@@ -105,6 +105,7 @@ theorem Sec414Sys.of_ctx (h49 : Tim77Sec49Statement) (h412 : Tim77Sec412Statemen
     intro c hc
     exact S.mem_L_of_commute hc hxC hx1 (Subgroup.mem_centralizer_iff.mp hcen c hc)
 
+omit [Finite G] in
 theorem sec414Comm_conj_iff (g : G) (C D : Subgroup G) :
     Sec414Comm (conjSubgroup g C) (conjSubgroup g D) ↔ Sec414Comm C D := by
   constructor
@@ -117,6 +118,7 @@ theorem sec414Comm_conj_iff (g : G) (C D : Subgroup G) :
     obtain ⟨b', hb', rfl⟩ := (mem_conjSubgroup_exists_t77 g D b).1 hb
     exact (conj_mul_comm_t77 g a' b').2 (hc a' ha' b' hb')
 
+omit [Finite G] in
 theorem Sec414Sys.conj {A A0 : Subgroup G} (S : Sec414Sys A A0) (g : G) :
     Sec414Sys (conjSubgroup g A) (conjSubgroup g A0) where
   elem := isElemAbelian_conj S.elem g
@@ -205,24 +207,30 @@ namespace Sec414Sys
 variable {A A0 : Subgroup G} (S : Sec414Sys A A0)
 include S
 
+omit [Finite G] in
 theorem comm_A {a b : G} (ha : a ∈ A) (hb : b ∈ A) : a * b = b * a :=
   congrArg Subtype.val (S.elem.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
+omit [Finite G] in
 theorem sq_A {a : G} (ha : a ∈ A) : a * a = 1 := by
   rw [← sq]
   exact S.elem.2 a ha
 
+omit [Finite G] in
 theorem a0_ne_A : A0 ≠ A := by
   intro h
   have h1 := S.a0_idx
   rw [h, Subgroup.relIndex_self] at h1
   exact absurd h1 (by norm_num)
 
+omit [Finite G] in
 theorem exists_not_mem : ∃ a ∈ A, a ∉ A0 :=
-  SetLike.exists_of_lt (lt_of_le_of_ne S.a0_le S.a0_ne_A)
+  _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.a0_le S.a0_ne_A)
 
+omit [Finite G] S in
 theorem ne_one_of_not_mem {a : G} (ha0 : a ∉ A0) : a ≠ 1 := fun h => ha0 (h ▸ A0.one_mem)
 
+omit [Finite G] in
 theorem closure_diff : Subgroup.closure {x | x ∈ A ∧ x ∉ A0} = A := by
   apply le_antisymm
   · rw [Subgroup.closure_le]
@@ -240,10 +248,12 @@ theorem closure_diff : Subgroup.closure {x | x ∈ A ∧ x ∉ A0} = A := by
       rwa [inv_mul_cancel_left] at this
     · exact Subgroup.subset_closure ⟨hy, hy0⟩
 
+omit [Finite G] S in
 theorem mem_D_conj {x : G} (g : G) (hx : x ∈ Sec414D A A0) : g * x * g⁻¹ ∈ Sec414D A A0 := by
   obtain ⟨h, a, ha, ha0, rfl⟩ := hx
   exact ⟨g * h, a, ha, ha0, by group⟩
 
+omit [Finite G] in
 theorem D_sq {x : G} (hx : x ∈ Sec414D A A0) : x * x = 1 := by
   obtain ⟨h, a, ha, ha0, rfl⟩ := hx
   calc h * a * h⁻¹ * (h * a * h⁻¹) = h * (a * a) * h⁻¹ := by group
@@ -297,8 +307,9 @@ theorem comm_of_commute {a e : G} (ha : a ∈ A) (ha0 : a ∉ A0) (g : G) (he : 
       unfold normalizerIn
       exact Subgroup.mem_inf.mpr ⟨ha, haN⟩
     rw [hfree, Subgroup.mem_bot] at this
-    exact S.ne_one_of_not_mem ha0 this
+    exact CFSG.RankThree.GF2n.Tim77.Sec414Sys.ne_one_of_not_mem ha0 this
 
+omit [Finite G] in
 theorem conj_a0 {m : G} (hm : m ∈ normalizer (A : Set G)) : conjSubgroup m A0 = A0 := by
   apply le_antisymm
   · intro x hx
@@ -372,7 +383,7 @@ theorem sec414_exists_partner (h47 : Tim77Sec47Statement)
     have hN : normalizerIn A (conjSubgroup x A) ≠ ⊥ := by
       rw [← hxeq]; exact h'.a0_ne_bot
     have h4 := hrt.2.2.2 x hxC hN
-    obtain ⟨a₁, ha₁, ha₁L⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hS'.L_le hS'.ne)
+    obtain ⟨a₁, ha₁, ha₁L⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hS'.L_le hS'.ne)
     obtain ⟨⟨b₁, hb₁⟩, hb₁1'⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hS'.Ab_ne_bot
     have hb₁1 : b₁ ≠ 1 := fun e => hb₁1' (Subtype.ext e)
     exact ha₁L (hS'.mem_L_of_commute ha₁ hb₁ hb₁1 (h4 a₁ ha₁ b₁ (hxeq ▸ hb₁)))

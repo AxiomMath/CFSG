@@ -104,7 +104,7 @@ theorem linTwo_false (hred : ReducedNongeneration p Y Rb Y₀)
   have hmono := pRank_mono p hp (inf_le_left : (Rb : Subgroup Y) ⊓ K ≤ Rb)
   have hn3 : n ≤ 3 := by omega
   have hRb : Nat.card (Rb : Subgroup Y) ∣ p ^ n * n :=
-    card_dvd_of_isPGroup_of_psl2GF kFactL2AutPCard hp2 hn1 hKn ⟨eK⟩ hC _ Rb.isPGroup'
+    card_dvd_of_isPGroup_of_psl2GF kFactL2AutPCard hp2 hn1 hKn ⟨eK⟩ hC _ Rb.isPGroup
   have hlt : Nat.card (Rb : Subgroup Y) <
       p ^ 2 * Nat.card ((Rb : Subgroup Y) ⊓ K : Subgroup Y) := by
     rw [hUcard]

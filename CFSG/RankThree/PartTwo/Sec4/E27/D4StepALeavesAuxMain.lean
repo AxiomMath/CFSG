@@ -105,7 +105,7 @@ theorem layer_le_closure_fixed_A0 (hgold : CFSG.Goldschmidt.TopStatement) (P : D
     {x : C0 σ} (hx : MulAut.conj x ∈ E) (hx1 : x ≠ 1) (hxA : x ∈ A0sub σ) :
     layerSub σ x ≤ Subgroup.closure {l | l ∈ layerSub σ x ∧ ∃ y ∈ E,
       y ∉ Subgroup.zpowers (MulAut.conj x : MulAut (C0 σ)) ∧ y l = l} := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have hxX : IsClassX σ x := classX_of_no_conj_tau hgold P hn hE hcard hno hx hx1
   have hinj := conj_injective_C0 σ n P.one_le P.card P.frob
   have hτx : tauAut σ x = x := (Subgroup.mem_inf.1 hxA).2
@@ -155,6 +155,7 @@ theorem congr_conj_conj {K : Type*} [Group K] (h y : K) :
     (MulAut.congr (MulAut.conj h)) (MulAut.conj y) = MulAut.conj (h * y * h⁻¹) := by
   rw [congr_apply_eq, map_mul, map_mul, map_inv, ← MulAut.conj_apply]
 
+omit [Finite X] in
 theorem layer_map_conj (σ : X ≃+* X) (h x : C0 σ) :
     (layerSub σ (h * x * h⁻¹)).map (MulAut.conj h⁻¹).toMonoidHom = layerSub σ x := by
   have hC : (cenX σ (h * x * h⁻¹)).map (MulAut.conj h⁻¹).toMonoidHom = cenX σ x := by
@@ -165,7 +166,7 @@ theorem layer_map_conj (σ : X ≃+* X) (h x : C0 σ) :
       simpa [MulAut.conj_apply, mul_assoc] using this
     · intro hk
       refine ⟨h * k * h⁻¹, (mem_centralizer_conj_iff h x _).2 (by simpa [mul_assoc] using hk), ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
   show (⁅cenX σ (h * x * h⁻¹), cenX σ (h * x * h⁻¹)⁆).map _ = ⁅cenX σ x, cenX σ x⁆
   rw [Subgroup.map_commutator, hC]
 
@@ -178,7 +179,7 @@ theorem layer_le_closure_fixed_aux (hgold : CFSG.Goldschmidt.TopStatement) (P : 
         {l | l ∈ ⁅Subgroup.centralizer ({x} : Set (C0 σ)),
               Subgroup.centralizer ({x} : Set (C0 σ))⁆ ∧
           ∃ y ∈ E, y ∉ Subgroup.zpowers (MulAut.conj x : MulAut (C0 σ)) ∧ y l = l} := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have hxX : IsClassX σ x := classX_of_no_conj_tau hgold P hn hE hcard hno hx hx1
   obtain ⟨hx3, -, g₀, hg₀⟩ := hxX
   have hx₁3 : (g₀ * x * g₀⁻¹) ^ 3 = 1 := by

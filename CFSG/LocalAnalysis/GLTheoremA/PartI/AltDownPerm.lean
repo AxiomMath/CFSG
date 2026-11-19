@@ -113,7 +113,7 @@ theorem cycleGroup_conj_mem {σ : Perm α} {g : alternatingGroup α} (hg : Commu
 
 theorem pow_eq_one_of_mem_cycleGroup {σ : Perm α} {p : ℕ} (hσ : σ ^ p = 1)
     {n : alternatingGroup α} (hn : n ∈ cycleGroup σ) : n ^ p = 1 := by
-  haveI : IsMulCommutative (Subgroup.closure (cycleSet σ)) :=
+  have : IsMulCommutative (Subgroup.closure (cycleSet σ)) :=
     Subgroup.isMulCommutative_closure (cycleSet_pairwise_commute σ)
   have hn' : n ∈ Subgroup.closure (cycleSet σ) := hn
   clear hn

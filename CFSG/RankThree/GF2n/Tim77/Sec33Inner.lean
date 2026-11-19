@@ -67,7 +67,7 @@ theorem sec33_cr_aux [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
     refine orderOf_eq_prime ?_ hπg
     rw [sq, ← map_mul]
     exact hgg1
-  obtain ⟨a₀, ha₀A, ha₀L⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hC.setup.L_le hC.a0_ne)
+  obtain ⟨a₀, ha₀A, ha₀L⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hC.setup.L_le hC.a0_ne)
   have hxx : (⟨a₀, hAY ha₀A⟩ : ↥(Section3.Y A Abar s)) * ⟨a₀, hAY ha₀A⟩ = 1 :=
     Subtype.ext (by simpa using hC.setup.sq_A ha₀A)
   have hπx1 : π ⟨a₀, hAY ha₀A⟩ ≠ 1 := fun h =>
@@ -164,7 +164,7 @@ theorem sec33_inner [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
     Section3.Y A Abar s ≤ Section3.X A Abar ⊔ Section3.N A Abar s := by
   classical
   obtain ⟨hNY, hYN, hNab⟩ := tim77Sec32a_holds G A Abar S₀ B s hC hs
-  haveI hNn : ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal :=
+  have hNn : ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNY).mpr (fun y hy => hYN y hy)
   have hsY := sec33_s_mem_normalizer_Y hC hs
   have hsN : s ∈ normalizer (Section3.N A Abar s : Set G) := by
@@ -176,10 +176,10 @@ theorem sec33_inner [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
   have hsA : ∀ a ∈ A, s * a = a * s := (sec32a_s_facts hC hs).2
   have hAY : A ≤ Section3.Y A Abar s := sec32d_A_le_Y
   obtain ⟨hperf, hB⟩ := sec33_quot_bender hC hs hq
-  haveI : Group.IsPerfect (↥(Section3.Y A Abar s) ⧸
+  have : Group.IsPerfect (↥(Section3.Y A Abar s) ⧸
       (Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)) := Group.isPerfect_def.mpr hperf
   have hτ2 := sec33_tau_sq hsY hsN hYN hsq
-  obtain ⟨a₀, ha₀A, ha₀L⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hC.setup.L_le hC.a0_ne)
+  obtain ⟨a₀, ha₀A, ha₀L⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hC.setup.L_le hC.a0_ne)
   have hsQ1 := sec33_not_central hC hs ha₀A ha₀L
   have hτa : ∀ a : G, ∀ ha : a ∈ A, sec33Tau hsY hsN (QuotientGroup.mk ⟨a, hAY ha⟩) =
       QuotientGroup.mk ⟨a, hAY ha⟩ := by

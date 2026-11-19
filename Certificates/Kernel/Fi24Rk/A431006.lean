@@ -130,10 +130,10 @@ theorem iota_lt {i x : Nat} (hi : i < 243) (hx : x < 504) : pg 9 (mask 9) (D.IK 
   simp only [bAnd_iff] at h
   exact Nat.blt_eq.mp (allN_spec h.2.2 x hx)
 
-theorem mus_facts : ∀ l < 2, (kRMu ())[l]! = unpack 243 8 (D.MUK l) := fun l hl =>
+theorem mus_facts : ∀ _l < 2, (kRMu ())[_l]! = unpack 243 8 (D.MUK _l) := fun _l hl =>
   (M_get hl).1
 
-theorem musc : ∀ l < 2, canonK 243 8 (mask 8) (243 * 8) (D.MUK l) = true := fun l hl =>
+theorem musc : ∀ _l < 2, canonK 243 8 (mask 8) (243 * 8) (D.MUK _l) = true := fun _l hl =>
   (M_get hl).2.1
 
 theorem side : sideOK 504 (kRA ()) (kRG ()) (kRMu ()) kRP0 9 = true := by

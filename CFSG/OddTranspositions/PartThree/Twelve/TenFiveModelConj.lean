@@ -10,9 +10,9 @@ open Matrix
 
 open FiveWalk
 
-theorem isConj_of_pairing_ne {k : ℕ} (hk : 4 ≤ k) (ε π : Bool) {x y : Fin (k + 1) → ZMod 5}
+theorem isConj_of_pairing_ne {k : ℕ} (_hk : 4 ≤ k) (ε π : Bool) {x y : Fin (k + 1) → ZMod 5}
     (hx : fiveForm k ε x x ≠ 0) (hxπ : IsSquare (fiveForm k ε x x) ↔ π = true)
-    (hy : fiveForm k ε y y ≠ 0) (hyπ : IsSquare (fiveForm k ε y y) ↔ π = true)
+    (_hy : fiveForm k ε y y ≠ 0) (_hyπ : IsSquare (fiveForm k ε y y) ↔ π = true)
     (hQ : fiveForm k ε y y = fiveForm k ε x x) (hb : fiveForm k ε x y ≠ 0) :
     ∃ g ∈ fiveReflectionGroup k ε π, g * fiveReflOf k ε x * g⁻¹ = fiveReflOf k ε y := by
   rcases five_sq_class_same (fiveForm k ε x x) (fiveForm k ε x y) hx hb with

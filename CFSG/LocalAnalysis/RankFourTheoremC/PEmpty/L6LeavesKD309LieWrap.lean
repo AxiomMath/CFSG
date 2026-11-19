@@ -23,10 +23,10 @@ theorem kd309_of_lieW (hO : KD309LieOrderW) (hM : KD309LieMono) : I291P65.KD309 
   intro Y _ _ P x z hpl L hL hLu h29 V _ _ _ ρ hker
   by_contra hlt
   push Not at hlt
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   set Pg : Subgroup Y := (P : Subgroup Y) with hPg
-  have hpP5 : IsPGroup 5 Pg := P.isPGroup'
+  have hpP5 : IsPGroup 5 Pg := P.isPGroup
   obtain ⟨hxP, hzP, hx5, hz5, hx1, hz1⟩ := I291P65.plane_facts hpl.prime hpl.plane
   have hzo : orderOf z = 5 := orderOf_eq_prime hz5 hz1
   have hzc : ∀ g ∈ Pg, g * z = z * g := fun g hg =>

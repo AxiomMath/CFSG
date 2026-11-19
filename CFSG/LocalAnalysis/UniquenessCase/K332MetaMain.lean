@@ -140,7 +140,7 @@ theorem descend332Meta {G : Type} [Group G] [Finite G] (hK : CFSG.Open.IsKGroup 
   intro N
   have hN : Nat.Coprime 3 (Nat.card N) := CFSG.pPrimeCore_coprime_card
   obtain ⟨P, hPS⟩ := N588A.exists_sylow_of_isSylowOf_top hS
-  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup'
+  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup
   have hZp : IsPGroup 3 Z := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hZ3)
   have hSN : S ⊓ N = ⊥ := N588A.inf_eq_bot_of_coprime hSp hN
   have hker : ∀ x ∈ S, QuotientGroup.mk' N x = 1 → x = 1 := fun x hx h1 => by
@@ -237,7 +237,7 @@ theorem k332Meta_of_row (hrow : Row332) (hexc : K332ExclusionMeta) : K332Meta :=
     descend332Meta hK hS hrk hZS hZ3 hwc φ hd
   set N := CFSG.pPrimeCore 3 G with hN
   have hcore : CFSG.pPrimeCore 3 (G ⧸ N) = ⊥ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact CFSG.Semidihedral.Local.pPrimeCore_quotient_self_eq_bot G 3
   have hrkT : CFSG.Open.pRank 3 (⊤ : Subgroup (G ⧸ N)) ≤ 3 :=
     (N588A.pRank_le_of_isSylowOf Nat.prime_three hS' ⊤).trans hrk'

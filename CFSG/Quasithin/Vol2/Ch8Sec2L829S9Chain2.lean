@@ -211,7 +211,7 @@ theorem s9c_false_of_pgroup {K₀ Ks : Type} [Group K₀] [Group Ks] [Finite Ks]
     (σ : K₀ →* Ks) (hσ : Function.Surjective σ) (hpg : ∀ x : K₀, ∃ k : ℕ, x ^ 2 ^ k = 1)
     (hcard : Nat.card Ks = 168) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 (by rw [hcard]; norm_num : 3 ∣ Nat.card Ks)
   obtain ⟨y, rfl⟩ := hσ x
   obtain ⟨k, hk⟩ := hpg y

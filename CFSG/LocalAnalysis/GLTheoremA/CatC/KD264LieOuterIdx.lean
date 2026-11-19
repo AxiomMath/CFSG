@@ -34,7 +34,7 @@ theorem outerIdxAt_of_mulEquiv {p : ℕ} (hp : p.Prime) {d : TauCeti.LieTypeInde
     rw [← hconj, ← map_innAutDerived_congr e]
     exact Subgroup.mem_map_of_mem _ hαmem
   obtain ⟨J, hJcomp, hJp, i, ⟨φ⟩, hsub⟩ := h α hαp hαout
-  haveI : Finite S' := Finite.of_injective (e.symm : S' → S) e.symm.injective
+  have : Finite S' := Finite.of_injective (e.symm : S' → S) e.symm.injective
   refine ⟨J.map (e : S →* S'), ?_, ?_, i, ⟨?_, hsub⟩⟩
   · have hαβ : ∀ k : S, (e : S →* S') (α k) = b ((e : S →* S') k) := by
       intro k

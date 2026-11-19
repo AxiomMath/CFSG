@@ -123,7 +123,7 @@ theorem ncard_le_two_mul {X Y : Type*} {A : Set X} {B : Set Y} (hA : A.Finite) (
 theorem five_dvd_ncard {X : Type*} [Group X] {A : Set X} (hA : A.Finite) {c : X}
     (hc5 : ∀ x ∈ A, c ^ 5 * x * (c ^ 5)⁻¹ = x) (hcA : ∀ x ∈ A, c * x * c⁻¹ ∈ A)
     (hfree : ∀ x ∈ A, c * x * c⁻¹ ≠ x) : 5 ∣ A.ncard := by
-  haveI : Fintype A := hA.fintype
+  have : Fintype A := hA.fintype
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let f : A → A := fun x => ⟨c * x * c⁻¹, hcA x x.2⟩
   have hinj : Function.Injective f := by
@@ -216,7 +216,7 @@ theorem eq_one_of_conj_fixed (hV : finrank (ZMod 2) W = 6) (hQ : Q.polarBilin.No
   have : Finite (W ≃ₗ[ZMod 2] W) := O62.finite_linearEquiv
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set N := pointRadical Q a with hN
-  haveI : Fintype N := Fintype.ofFinite N
+  have : Fintype N := Fintype.ofFinite N
   have hNcard : Nat.card N = 16 := by
     rw [card_pointRadical hQ ha0 ha, hV]
     norm_num
@@ -487,6 +487,7 @@ theorem exists_D {k : S.M} (hk : S.ρ k ∈ normalizer (S.Lbar g : Set S.O)) :
     rw [inv_apply_apply_O]
     exact hv
 
+omit hN in
 theorem exists_base_of_singular (hCE : CentralExtInput.{0})
     {Q : QuadraticForm (ZMod 2) (Vt S g t)}
     (hsing : ∀ v : Vt S g t, v ≠ 0 → (Q v = 0 ↔ v ∈ orbitOf (RmodN S g t) (aV ht)))
@@ -545,7 +546,7 @@ theorem claimA (hCE : CentralExtInput.{0}) (hcount : CountSixStmt) {k : S.M}
       resL H.conj_mem ht ⟨_, ht'⟩ = eichler Q (aV ht) α := by
     intro α hαD hQα hα0 hαa
     obtain ⟨h, hh, hth, hbα, hmem⟩ :=
-      exists_base_of_singular H hNo C ht ht1 hVQ hΩ hN h6 hCE hsing hα0 hQα (hDinv α hαD)
+      exists_base_of_singular H hNo C ht ht1 hVQ hΩ h6 hCE hsing hα0 hQα (hDinv α hαD)
     have := (resL_eq_one_or_eichler H ht hX hE hsing ht' hh hth hmem
       (by rw [hbα]; exact hαa)).resolve_left hres1
     rwa [hbα] at this

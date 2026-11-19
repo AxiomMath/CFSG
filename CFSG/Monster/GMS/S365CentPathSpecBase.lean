@@ -51,7 +51,7 @@ theorem refPattern :
   · have := mem_co1Orbit_two_of_lbl (w := 40 ^^^ 2 ^^^ 4) (by decide) h46
     rwa [toVecD_xor, toVecD_xor] at this
 
-@[expose] def Co1FourTV : Prop :=
+def Co1FourTV : Prop :=
   ∀ a b ω a' b' ω' : Fin 24 → ZMod 2, FourPattern a b ω → FourPattern a' b' ω' →
     ∃ g : Co1, co1Act g a = a' ∧ co1Act g b = b' ∧ co1Act g ω = ω'
 

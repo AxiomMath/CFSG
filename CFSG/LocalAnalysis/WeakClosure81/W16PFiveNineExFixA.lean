@@ -56,7 +56,7 @@ theorem centralizer_closure_of_map_mem_center (c : ExCfg M V₀ V U S H φ p)
     {q : ↥(conjClosure V H)}
     (hq : φ q ∈ (Subgroup.center ↥(fusionOddCore X)).map (fusionOddCore X).subtype) :
     (q : G) ∈ centralizer (conjClosure V₀ (conjClosure V H) : Set G) := by
-  haveI : Finite X := Finite.of_surjective φ c.bar.surjective
+  have : Finite X := Finite.of_surjective φ c.bar.surjective
   obtain ⟨q2, q2', hq_eq, _, hq2_two, hq2'_odd, hq2_zp, hq2'_zp⟩ :=
     CFSG.GH74.GLS.Stage4.Rest.T6.t6_two_part_decomp q
   have hq2ZN : φ q2 ∈ (Subgroup.center ↥(fusionOddCore X)).map (fusionOddCore X).subtype := by
@@ -135,7 +135,7 @@ theorem map_mem_center_of_mem_centralizer_closure (c : ExCfg M V₀ V U S H φ p
     {q : ↥(conjClosure V H)} (hqN : φ q ∈ fusionOddCore X)
     (hq : (q : G) ∈ centralizer (conjClosure V₀ (conjClosure V H) : Set G)) :
     φ q ∈ (Subgroup.center ↥(fusionOddCore X)).map (fusionOddCore X).subtype := by
-  haveI : Finite X := Finite.of_surjective φ c.bar.surjective
+  have : Finite X := Finite.of_surjective φ c.bar.surjective
   obtain ⟨q2, q2', hq_eq, _, hq2_two, hq2'_odd, hq2_zp, hq2'_zp⟩ :=
     CFSG.GH74.GLS.Stage4.Rest.T6.t6_two_part_decomp q
   have hq2N : φ q2 ∈ fusionOddCore X := by

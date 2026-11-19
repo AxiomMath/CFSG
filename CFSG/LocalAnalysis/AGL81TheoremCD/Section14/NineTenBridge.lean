@@ -108,11 +108,12 @@ theorem card_threeStar_dvd_card_kStar {M H : Subgroup G} :
 theorem coprime_card_kStar_div_card_threeStar {M H : Subgroup G} :
     Nat.Coprime 3
       (Nat.card (kStar 3 M H) / Nat.card (threeStar (kSub 3 M H))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   simpa [threeStar, kStar] using
     coprime_card_map_quotient_div_card_pPrimeCore_quotient (p := 3) (K := kSub 3 M H) (H := H)
       (kSub_le 3 M H)
 
+omit [Finite G] in
 theorem card_threeStar_of_caseThree {M H : Subgroup G} (hC3 : CaseThree M H) :
     Nat.card (threeStar (kSub 3 M H)) = 20160 := by
   obtain ⟨e⟩ := HypCGen.nonempty_mulEquiv_threeStar hC3

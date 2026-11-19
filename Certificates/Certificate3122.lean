@@ -46,7 +46,7 @@ private theorem fuse_act {k : ℕ} (hk : k < 37) (x : ℕ) :
       unfold Outer3122.act fuseK
       rw [hb]
       rfl
-    rw [e, fuseAct, if_pos h, qconj, lift6, arrOf_getD AH6 h, QK.mulQ_eq, QK.mulQ_eq]
+    rw [e, fuseAct, ite_eq_left h, qconj, lift6, arrOf_getD AH6 h, QK.mulQ_eq, QK.mulQ_eq]
   · obtain ⟨t, rfl⟩ : ∃ t, k = 22 + t := ⟨k - 22, by omega⟩
     have ht : t < 15 := by omega
     have hb : Nat.blt (22 + t) 22 = false := Bool.eq_false_iff.2 fun e => h (blt_iff.1 e)
@@ -55,7 +55,7 @@ private theorem fuse_act {k : ℕ} (hk : k < 37) (x : ℕ) :
       rw [hb]
       change mulQ LOq (nthN Ds (22 + t - 22)) (autQ LOq (nthN Gs (22 + t - 22)) x) = _
       rw [Nat.add_sub_cancel_left]
-    rw [e, fuseAct, if_neg h, Nat.add_sub_cancel_left, getD_range_map _ _ ht,
+    rw [e, fuseAct, ite_eq_right h, Nat.add_sub_cancel_left, getD_range_map _ _ ht,
       getD_range_map _ _ ht, gA6_eq ht, fuse, QK.autQ_eq, QK.mulQ_eq, deltaN, rankOff6,
       ds_eq t (by omega)]
 

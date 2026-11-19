@@ -84,7 +84,7 @@ end Nine
 
 theorem data_of_nine (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (hc : c ≠ 1)
     (hA : (A : GL (Fin 6) F4) ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin 6) c) :
-    ∃ H : UnitaryPrimaryData hF4.bar (idForm hF4 6) (xOf (A : GL (Fin 6) F4)),
+    ∃ _H : UnitaryPrimaryData hF4.bar (idForm hF4 6) (xOf (A : GL (Fin 6) F4)),
     ∃ a : primaryFactors ((xOf (A : GL (Fin 6) F4) : LinearMap.GeneralLinearGroup F4 (Fin 6 → F4)) :
       Module.End F4 (Fin 6 → F4)),
       (∀ b : primaryFactors ((xOf (A : GL (Fin 6) F4) : LinearMap.GeneralLinearGroup F4 (Fin 6 → F4)) :
@@ -93,16 +93,16 @@ theorem data_of_nine (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (hc : c
       primaryMultiplicity ((xOf (A : GL (Fin 6) F4) : LinearMap.GeneralLinearGroup F4 (Fin 6 → F4)) :
         Module.End F4 (Fin 6 → F4)) (a : F4[X]) = 2 ∧
       (a : F4[X]).natDegree = 3 := by
-  have H := primaryData_toLin' hF4 A.2 Nat.prime_three (by norm_num) hA
+  have _H := primaryData_toLin' hF4 A.2 Nat.prime_three (by norm_num) hA
   have hprim := primaryFactors_xOf hc hA
   have hmem : (X ^ 3 - C (c : F4) : F4[X]) ∈ primaryFactors ((xOf (A : GL (Fin 6) F4) :
       LinearMap.GeneralLinearGroup F4 (Fin 6 → F4)) : Module.End F4 (Fin 6 → F4)) := by
     rw [hprim]; exact Finset.mem_singleton_self _
   have huniq := (Finset.eq_singleton_iff_unique_mem.1 hprim).2
-  refine ⟨H, ⟨_, hmem⟩, fun b => Subtype.ext (huniq b.1 b.2), ?_, ?_, natDegree_X_pow_sub_C⟩
-  · exact huniq _ (dualPoly_mem_primaryFactors H hmem)
+  refine ⟨_H, ⟨_, hmem⟩, fun b => Subtype.ext (huniq b.1 b.2), ?_, ?_, natDegree_X_pow_sub_C⟩
+  · exact huniq _ (dualPoly_mem_primaryFactors _H hmem)
   · show primaryMultiplicity _ (X ^ 3 - C (c : F4)) = 2
-    have hdim := finrank_eq_sum_degree_mul_multiplicity H.squarefree
+    have hdim := finrank_eq_sum_degree_mul_multiplicity _H.squarefree
     rw [Module.finrank_fin_fun,
       Finset.sum_coe_sort (primaryFactors ((xOf (A : GL (Fin 6) F4) :
         LinearMap.GeneralLinearGroup F4 (Fin 6 → F4)) : Module.End F4 (Fin 6 → F4)))
@@ -115,7 +115,7 @@ theorem data_of_nine (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (hc : c
 
 theorem isChevSimple_three_L2 (F : Type) [Field F] [Finite F] (hF8 : Nat.card F = 8) :
     IsChevSimple 3 (StatedProj (StatedSL 2 F)) := by
-  haveI : Fact ppEight.p.Prime := ⟨ppEight.prime_p⟩
+  have : Fact ppEight.p.Prime := ⟨ppEight.prime_p⟩
   have hv : (TauCeti.LieTypeIndex.A 1 ppEight).Valid := by
     simp [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
       TauCeti.LieTypeIndex.isDuplicateRepresentative_iff, ppEight, TauCeti.PrimePower.card_def]
@@ -123,7 +123,7 @@ theorem isChevSimple_three_L2 (F : Type) [Field F] [Finite F] (hF8 : Nat.card F 
     Or.inr ⟨by norm_num [ppEight, TauCeti.PrimePower.card_def], rfl⟩
   have e : StatedProj (StatedSL 2 F) ≃* (TauCeti.CFSGIndex.lie ⟨.A 1 ppEight, hv⟩).Group :=
     (CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL F 2 2 3 (by norm_num)
-      (by rw [hF8] <;> norm_num)).trans
+      (by rw [hF8]; norm_num)).trans
       (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ppEight hv).symm
   exact Or.inr ⟨TauCeti.CFSGIndex.lie ⟨.A 1 ppEight, hv⟩, hamb, ⟨e⟩⟩
 
@@ -135,7 +135,7 @@ theorem level_of_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (
   obtain ⟨H, a, huniq, hself, hmult, hdeg⟩ := data_of_nine A hc hA
   have hq : 2 ≤ 2 ^ 1 := by norm_num
   have hgood : IsGoodBlock hF4 (xOf (A : GL (Fin 6) F4)) a :=
-    ⟨by omega, fun _ => by simp [hmult, hdeg]⟩
+    ⟨by omega, fun _ => by simp [hdeg]⟩
   let α := primeFormConjSU hF4 (idGram F4 6) A
   let K₀ : Subgroup ↥(gramSU hF4 (idGram F4 6)) :=
     (specialBlock (idForm hF4 6) (xOf (A : GL (Fin 6) F4)) a).comap (toLinSU hF4 6)
@@ -154,7 +154,7 @@ theorem level_of_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (
       ((specialBlockFacts_of_good H hq a hgood).quasisimple hgood.1)
   have hperf := glaPComponent_perfect hJ
   have hJC : J ≤ fixSubgroup α := hJ.1
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
   have hJK₀ : J ≤ K₀ := by
     intro g hg
     rw [Subgroup.mem_comap, mem_specialBlock]
@@ -183,24 +183,24 @@ theorem level_of_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (
           (h (show (⟨x.1, hJK₀ x.2⟩ : ↥K₀) ∈ J.subgroupOf K₀ from x.2)) ⟨y.1, hJK₀ y.2⟩
         have h2 := congrArg (fun z : ↥K₀ => (z : ↥(gramSU hF4 (idGram F4 6)))) this.symm
         exact Subtype.ext h2
-      haveI : IsMulCommutative ↥J := ⟨⟨hcomm⟩⟩
-      haveI : Subsingleton ↥J := Group.IsPerfect.subsingleton_of_isMulCommutative
+      have : IsMulCommutative ↥J := ⟨⟨hcomm⟩⟩
+      have : Subsingleton ↥J := Group.IsPerfect.subsingleton_of_isMulCommutative
       exact glaPComponent_ne_bot' hJ (Subgroup.eq_bot_iff_forall _ |>.2 fun x hx =>
         congrArg Subtype.val (Subsingleton.elim (⟨x, hx⟩ : ↥J) 1))
   obtain ⟨hE, Hf, hHf, hHfl, ⟨e2⟩⟩ :=
     nonempty_specialBlock_mulEquiv_sesqSU hself (selfDualPrimaryBlock H a hself)
   obtain ⟨e3⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl
     (by exact hmult)
-  haveI : Finite hE.fixedField := inferInstance
-  letI : Fintype hE.fixedField := Fintype.ofFinite _
+  have : Finite hE.fixedField := inferInstance
+  let : Fintype hE.fixedField := Fintype.ofFinite _
   have hcardF : Fintype.card hE.fixedField = 2 ^ (1 * (a : F4[X]).natDegree) := by
     rw [← Nat.card_eq_fintype_card]
     exact hE.card_fixedField
   have hF8 : Nat.card hE.fixedField = 8 := by
     rw [Nat.card_eq_fintype_card, hcardF, hdeg]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP hE.fixedField 2 := charP_of_card_eq_prime_pow hcardF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP hE.fixedField 2 := charP_of_card_eq_prime_pow hcardF
   let eS := CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 hE.fixedField
   let eP : StatedProj (StatedSL 2 hE.fixedField) ≃* StatedSL 2 hE.fixedField :=
     (QuotientGroup.quotientMulEquivOfEq
@@ -208,10 +208,10 @@ theorem level_of_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (
       QuotientGroup.quotientBot
   let eKP : ↥K₀ ≃* StatedProj (StatedSL 2 hE.fixedField) :=
     ((eK.trans e2).trans e3).trans (eS.trans eP.symm)
-  haveI hsimpP : IsSimpleGroup (StatedProj (StatedSL 2 hE.fixedField)) :=
+  have hsimpP : IsSimpleGroup (StatedProj (StatedSL 2 hE.fixedField)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 2) _ le_rfl
       (Or.inr (by omega)) (Or.inr (by omega))
-  haveI : IsSimpleGroup ↥K₀ := eKP.isSimpleGroup
+  have : IsSimpleGroup ↥K₀ := eKP.isSimpleGroup
   have hJ' : GLAPComponent 3 (fixSubgroup α) K₀ := hJeq ▸ hJ
   obtain ⟨ePS⟩ := nonempty_pSimple_equiv_of_simple hJ'
   rw [hJeq, kLevel_congr 3 ePS, kLevel_congr 3 eKP]

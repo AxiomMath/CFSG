@@ -15,7 +15,7 @@ open CFSG.ClassicalInvolution.Q3.TL4.E3C269G9 (m10_le_autA6)
 theorem commutator_mem_psl29 {x y : P10} (hx : x ∈ A6Models.autA6) (hy : y ∈ A6Models.autA6) :
     x * y * x⁻¹ * y⁻¹ ∈ A6Models.psl29 := by
   set N : Subgroup ↥A6Models.autA6 := A6Models.psl29.subgroupOf A6Models.autA6 with hN
-  haveI : N.Normal := ⟨fun n hn g =>
+  have : N.Normal := ⟨fun n hn g =>
     Subgroup.mem_subgroupOf.mpr (psl29_normal g g.2 n (Subgroup.mem_subgroupOf.mp hn))⟩
   have hNcard : Nat.card N = 360 := by
     rw [hN, Nat.card_congr (Subgroup.subgroupOfEquivOfLe psl29_le_autA6).toEquiv, card_psl29]
@@ -23,8 +23,8 @@ theorem commutator_mem_psl29 {x y : P10} (hx : x ∈ A6Models.autA6) (hy : y ∈
     have h := Subgroup.card_mul_index N
     rw [hNcard, card_autA6] at h
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsMulCommutative (↥A6Models.autA6 ⧸ N) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsMulCommutative (↥A6Models.autA6 ⧸ N) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hidx
   have hcomm : ((⟨x, hx⟩ * ⟨y, hy⟩ * ⟨x, hx⟩⁻¹ * ⟨y, hy⟩⁻¹ : ↥A6Models.autA6) :
       ↥A6Models.autA6 ⧸ N) = 1 := by
@@ -44,7 +44,7 @@ theorem eq_one_of_mem_m10_of_coprime {x b : P10} (hx : x ∈ A6Models.psl29) (hx
   by_contra hb1
   have hord1 : orderOf b ≠ 1 := fun h => hb1 (orderOf_eq_one_iff.mp h)
   obtain ⟨p, hp, hpd⟩ := Nat.exists_prime_and_dvd hord1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hordpos : orderOf b ≠ 0 := (orderOf_pos b).ne'
   set c : P10 := b ^ (orderOf b / p)
   have hc : orderOf c = p := orderOf_pow_orderOf_div hordpos hpd
@@ -226,7 +226,7 @@ theorem conj_not_mem_zpowers_of_five {a f : P10} (ha : a ∈ A6Models.psl29) (ha
   have hk' : c f ^ k = A6Models.tAdd * c f * A6Models.tAdd⁻¹ := by
     have := congrArg c hk
     simpa only [map_zpow, map_mul, map_inv, hca] using this
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hord : orderOf (c f) = 5 := orderOf_eq_prime hf'5 hf'1
   have hj5 : (k % 5).toNat < 5 := by omega
   have hfj : c f ^ k = c f ^ (k % 5).toNat := by
@@ -366,7 +366,7 @@ theorem conj_ne_of_not_mem_zpowers {a b v : P10} (ha : a ∈ A6Models.psl29) (ha
 
 theorem exists_normal_sylow_five {V : Subgroup P10} (hV : Nat.card V ∣ 40) (h5 : 5 ∣ Nat.card V) :
     ∃ F : Subgroup P10, F ≤ V ∧ Nat.card F = 5 ∧ ∀ x ∈ V, x ^ 5 = 1 → x ∈ F := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpos : 0 < Nat.card V := Nat.card_pos
   have hcases : Nat.card V = 5 ∨ Nat.card V = 10 ∨ Nat.card V = 20 ∨ Nat.card V = 40 := by
     have hle : Nat.card V ≤ 40 := Nat.le_of_dvd (by norm_num) hV
@@ -443,7 +443,7 @@ theorem eq_bot_or_klein {a : P10} (ha : a ∈ A6Models.psl29) (ha3 : a ^ 3 = 1) 
     exact Nat.Coprime.dvd_of_dvd_mul_right hcop9 (by simpa using h360)
   have h5 : ¬ 5 ∣ Nat.card V := by
     intro h5
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨F, hFV, hF5, hFx⟩ := exists_normal_sylow_five h40 h5
     obtain ⟨f, hfF, hf1⟩ : ∃ f ∈ F, f ≠ 1 := by
       by_contra hcon
@@ -464,8 +464,8 @@ theorem eq_bot_or_klein {a : P10} (ha : a ∈ A6Models.psl29) (ha3 : a ^ 3 = 1) 
     exact conj_not_mem_zpowers_of_five ha ha3 ha1 (hV (hFV hfF)) hf5 hf1 (hFz ▸ huF)
   have hmod : Nat.card V ≡ 1 [MOD 3] := by
     classical
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Fintype ↥V := Fintype.ofFinite _
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fintype ↥V := Fintype.ofFinite _
     let f : Function.End ↥V := fun v => ⟨a * v * a⁻¹, haV v v.2⟩
     have hf3 : ∀ v : ↥V, f (f (f v)) = v := by
       intro v
@@ -535,7 +535,7 @@ theorem eq_bot_or_klein {a : P10} (ha : a ∈ A6Models.psl29) (ha3 : a ^ 3 = 1) 
     by_contra hcon
     push Not at hcon
     obtain ⟨hy1, hyv, hyu, hyw⟩ := hcon
-    haveI : Fintype ↥V := Fintype.ofFinite _
+    have : Fintype ↥V := Fintype.ofFinite _
     have hnd : [(1 : ↥V), ⟨v, hv⟩, ⟨a * v * a⁻¹, huV⟩, ⟨a⁻¹ * v * a, hwV⟩, ⟨y, hy⟩].Nodup := by
       simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false, not_or,
         List.nodup_nil, and_true, not_false_eq_true, Subtype.ext_iff, Subgroup.coe_one]
@@ -553,7 +553,7 @@ theorem eq_bot_or_klein {a : P10} (ha : a ∈ A6Models.psl29) (ha3 : a ^ 3 = 1) 
     have := hnd.length_le_card
     rw [← Nat.card_eq_fintype_card, h4] at this
     simp at this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥V) 2 (by rw [h4]; norm_num)
   have ht2 : (t : P10) * t = 1 := by
     have h1 := pow_orderOf_eq_one t
@@ -618,7 +618,7 @@ theorem exists_swap {a : P10} (ha : a ∈ A6Models.psl29) (ha3 : a ^ 3 = 1) (ha1
   · refine ⟨1, Subgroup.one_mem _, by simp, fun y hy => ?_⟩
     rw [hVb, Subgroup.mem_bot] at hy
     rw [hy]
-    simpa using Subgroup.one_mem _
+    simp
   obtain ⟨n, hn, hna, hnv⟩ := exists_conj_klein ha ha3 ha1 (hR hr) hr2 hr1 hrc (hV hv) hv2 hv1 hvc
   have hnvR : n * v * n⁻¹ ∈ R := by
     rcases hnv with h | h | h
@@ -637,7 +637,7 @@ theorem exists_swap {a : P10} (ha : a ∈ A6Models.psl29) (ha3 : a ^ 3 = 1) (ha1
   refine ⟨n, hn, hna, fun y hy => Subgroup.le_normalizer ?_⟩
   rcases hVall y hy with h | h | h | h
   · rw [h]
-    simpa using R.one_mem
+    simp
   · rw [h]
     exact hnvR
   · rw [h]

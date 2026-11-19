@@ -97,7 +97,7 @@ theorem exists_fusion_of_m24 {L : Subgroup G} {d : G}
     exact h2
   have hSp : IsPGroup 3 S := by
     rw [← hQ₀S]
-    exact Q₀.isPGroup'.map L.subtype
+    exact Q₀.isPGroup.map L.subtype
   have hSC : S ≤ L ⊓ centralizer ({d} : Set G) := fun s hs =>
     ⟨hSL hs, mem_centralizer_singleton_iff.mpr (hdSc s hs)⟩
   have hIL : iOf218 L d ≤ L := (map_subtype_le _).trans inf_le_left
@@ -141,7 +141,7 @@ theorem exists_fusion_of_m24 {L : Subgroup G} {d : G}
   obtain ⟨s₀, hs₀Q, hs₀w⟩ := mem_map.mp hwQ
   have hs₀3 : s₀ ^ 3 = 1 := by
     have hmem : s₀ ^ 3 ∈ N := hfker _ (by rw [map_pow, hs₀w, hw3])
-    obtain ⟨m, hm⟩ := Q₀.isPGroup' ⟨s₀, hs₀Q⟩
+    obtain ⟨m, hm⟩ := Q₀.isPGroup ⟨s₀, hs₀Q⟩
     have hm' : s₀ ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
     refine Sec13.eq_one_of_pow_three_pow_of_not_dvd hN3 hmem (k := m) ?_
     rw [← pow_mul, mul_comm, pow_mul, hm', one_pow]

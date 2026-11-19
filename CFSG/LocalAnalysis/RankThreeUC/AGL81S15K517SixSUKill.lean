@@ -21,6 +21,7 @@ variable {W : Type} [Group W] [Finite W] {L : Subgroup W} {K : Type} [Group K] [
   {D : UniversalRootDatum K} {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {M : ℕ}
   {π : K →* ↥L ⧸ Subgroup.center ↥L}
 
+omit [Finite K] in
 theorem two_le_pRank_of_nodeE9 (hbq : BorelQuotient D n H π M) {A : Subgroup W} (hA : A ≤ L)
     {k : Fin D.rank} (hk : NodeIn (D := D) L A π k) {a b m : K} (ha : a ∈ rankOne D.rootGroup k)
     (hb : b ∈ rankOne D.rootGroup k) (hm : m ∈ rankOne D.rootGroup k) (ha3 : a ^ 3 = 1)
@@ -32,6 +33,7 @@ theorem two_le_pRank_of_nodeE9 (hbq : BorelQuotient D n H π M) {A : Subgroup W}
   exact two_le_pRank_of_subgroupOf hA (two_le_pRank_of_images hq hbq.ker_central
     (hk ⟨a, ha, rfl⟩) (hk ⟨b, hb, rfl⟩) (hk ⟨m, hm, rfl⟩) ha3 ha1 hb3 hb1 hma hab hmb)
 
+omit [Finite K] in
 theorem two_le_pRank_of_nodePairE9 (hbq : BorelQuotient D n H π M) {A : Subgroup W} (hA : A ≤ L)
     {k k' : Fin D.rank} (hk : NodeIn (D := D) L A π k) (hk' : NodeIn (D := D) L A π k') {a b m : K}
     (ha : a ∈ rankOne D.rootGroup k) (hm : m ∈ rankOne D.rootGroup k)
@@ -48,10 +50,11 @@ theorem two_le_pRank_of_nodePairE9 (hbq : BorelQuotient D n H π M) {A : Subgrou
   exact two_le_pRank_of_subgroupOf hA (two_le_pRank_of_images hq hbq.ker_central
     (hk ⟨a, ha, rfl⟩) (hjoin ⟨b, hb, rfl⟩) (hk ⟨m, hm, rfl⟩) ha3 ha1 hb3 hb1 hma hab hmb)
 
+omit [Finite W] in
 theorem center_quotient_eq_bot (hL : CFSG.Open.IsQuasisimple ↥L) :
     Subgroup.center (↥L ⧸ Subgroup.center ↥L) = ⊥ := by
   obtain ⟨hcomm, hsimple⟩ := hL
-  haveI : (Subgroup.center (↥L ⧸ Subgroup.center ↥L)).Normal := inferInstance
+  have : (Subgroup.center (↥L ⧸ Subgroup.center ↥L)).Normal := inferInstance
   rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center (↥L ⧸ Subgroup.center ↥L)) with h | h
   · exact h
   · exfalso
@@ -72,6 +75,7 @@ theorem center_quotient_eq_bot (hL : CFSG.Open.IsQuasisimple ↥L) :
     rw [(QuotientGroup.eq_one_iff x').2 (hZ ▸ Subgroup.mem_top x'),
       (QuotientGroup.eq_one_iff y').2 (hZ ▸ Subgroup.mem_top y')]
 
+omit [Finite K] in
 theorem two_le_pRank_of_nodePairHeis (hL : CFSG.Open.IsQuasisimple ↥L)
     (hbq : BorelQuotient D n H π M) {A : Subgroup W} (hA : A ≤ L) {k k' : Fin D.rank}
     (hk : NodeIn (D := D) L A π k) (hk' : NodeIn (D := D) L A π k') {a b : K}
@@ -188,7 +192,7 @@ theorem false_of_su_even (hS : IsSylowTwoOf S₀ L) (hcov : CoveredByTwo L S₀ 
   obtain ⟨π', hπ', hcl⟩ := cover_classes hS hcov hbq
   have hdiv : (Unitary.rootDatum hF n).divisible = ∅ := by
     show Unitary.divisible n = ∅
-    simp only [Unitary.divisible, if_pos heven]
+    simp only [Unitary.divisible, ite_eq_left heven]
   have hodd : ∀ i, OddNode (rankOne (Unitary.rootDatum hF n).rootGroup i) 3 := fun i =>
     K517ChevGenQ.oddNode_su_sq hF (by omega) i Nat.prime_three (by norm_num)
       (three_dvd_sq_sub_one h3)
@@ -198,7 +202,7 @@ theorem false_of_su_even (hS : IsSylowTwoOf S₀ L) (hcov : CoveredByTwo L S₀ 
   have hbad02 : BadPair (Unitary.rootDatum hF n) i0 i2 := by
     refine ⟨fun h => by have h' := congrArg Fin.val h; simp [i0, i2] at h', Or.inl ?_⟩
     show Unitary.cartan n i0 i2 = 0
-    simp only [Unitary.cartan, if_pos heven]
+    simp only [Unitary.cartan, ite_eq_left heven]
     exact cartanC_zero (by simp [i0, i2])
   have key : ∀ {A : Subgroup W}, A ≤ L → CFSG.Open.pRank 3 A ≤ 1 →
       ¬ (NodeIn (D := Unitary.rootDatum hF n) L A π' i0 ∧
@@ -231,7 +235,7 @@ theorem false_of_su_six (hL : CFSG.Open.IsQuasisimple ↥L) (hS : IsSylowTwoOf S
   obtain ⟨π', hπ', hcl⟩ := cover_classes hS hcov hbq
   have hdiv : (Unitary.rootDatum hF 6).divisible = ∅ := by
     show Unitary.divisible 6 = ∅
-    simp only [Unitary.divisible, if_pos (show Even 6 by decide)]
+    simp only [Unitary.divisible, ite_eq_left (show Even 6 by decide)]
   have hodd : ∀ i, OddNode (rankOne (Unitary.rootDatum hF 6).rootGroup i) 3 := fun i =>
     K517ChevGenQ.oddNode_su_sq hF (by norm_num) i Nat.prime_three (by norm_num)
       (three_dvd_sq_sub_one h3)
@@ -241,12 +245,12 @@ theorem false_of_su_six (hL : CFSG.Open.IsQuasisimple ↥L) (hS : IsSylowTwoOf S
   have hbad02 : BadPair (Unitary.rootDatum hF 6) i0 i2 := by
     show BadPairMat (Unitary.cartan 6) i0 i2
     unfold Unitary.cartan
-    rw [if_pos (show Even 6 by decide)]
+    rw [ite_eq_left (show Even 6 by decide)]
     decide +kernel
   have hbad12 : BadPair (Unitary.rootDatum hF 6) i1 i2 := by
     show BadPairMat (Unitary.cartan 6) i1 i2
     unfold Unitary.cartan
-    rw [if_pos (show Even 6 by decide)]
+    rw [ite_eq_left (show Even 6 by decide)]
     decide +kernel
   obtain ⟨a, b, ha, hb, ha3, hb3, hc, ha1, hind⟩ := su_six_heis hF h3
   have key : ∀ {A : Subgroup W}, A ≤ L → CFSG.Open.pRank 3 A ≤ 1 →

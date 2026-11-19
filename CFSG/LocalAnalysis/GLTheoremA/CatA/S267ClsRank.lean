@@ -19,7 +19,7 @@ theorem card_le_card_of_involution (hp : p.Prime)
     (hrank : p ^ GLATwoLocalRank p Ω ≤ Nat.card B) {E : Subgroup Ω} (hE : IsElemAbelian p E)
     {t : Ω} (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1) (hEt : ∀ e ∈ E, e * t = t * e) :
     Nat.card E ≤ Nat.card B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j, hj⟩ := (IsPGroup.iff_card).1 (hE.isPGroup)
   have hEN : E ≤ Subgroup.normalizer ((Subgroup.zpowers t : Subgroup Ω) : Set Ω) := fun e he =>
     mem_normalizer_of_forall_comm fun k hk => by
@@ -85,6 +85,7 @@ theorem card_transfer_le (hp : p.Prime) (hSn : S.Normal) (hcore : GLAPPrimeCore 
   refine card_le_card_of_involution hp hrank h2 hz1 (by rw [← map_pow, hz2, map_one]) fun e he => ?_
   exact Subgroup.mem_centralizer_singleton_iff.1 (hcz he)
 
+omit [Finite Ω] in
 theorem card_transfer_eq (hSn : S.Normal) (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hB : IsElemAbelian p B) (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p)
     {H : Type} [Group H] (φ : H →* Ω) (hφS : φ.range = S) {E : Subgroup H}

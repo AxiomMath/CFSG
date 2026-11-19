@@ -50,7 +50,7 @@ theorem exists_abelian_of_alt7_comp {Q : Type} [Group Q] [Finite Q] {k : Q} (hk 
     (hC : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 7560) {J : Subgroup Q}
     (hJ : GLAPComponent 3 (Subgroup.centralizer ({k} : Set Q)) J) (hA : IsAltPType 3 J 7) :
     ∃ H : Subgroup Q, Nat.card H = 27 ∧ ∀ a ∈ H, ∀ b ∈ H, a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hA
   have hJC : J ≤ Subgroup.centralizer ({k} : Set Q) := hJ.1
   have hPQ : Nat.card (PQuot 3 J) = 2520 := by
@@ -100,7 +100,7 @@ theorem exists_abelian_of_alt7_comp {Q : Type} [Group Q] [Finite Q] {k : Q} (hk 
   have hS : Nat.card ↥(S : Subgroup ↥J) = 3 ^ 2 := by
     rw [Sylow.card_eq_multiplicity, hJ2520, show (2520 : ℕ) = 3 ^ 2 * 280 by norm_num,
       CFSG.RankThree.PartOne.factorization_pow_mulG Nat.prime_three (by norm_num)]
-  have hScomm := IsPGroup.commutative_of_card_eq_prime_sq hS
+  have hScomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hS).is_comm.comm
   set S' : Subgroup Q := (S : Subgroup ↥J).map J.subtype with hS'def
   have hS'card : Nat.card ↥S' = 9 := by
     rw [hS'def, Subgroup.card_map_of_injective J.subtype_injective, hS]
@@ -166,7 +166,7 @@ theorem false_of_alt7_comp {Q : Type} [Group Q] [Finite Q] {m : ℕ} (hQ : Nat.c
     (hC : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 7560) {J : Subgroup Q}
     (hJ : GLAPComponent 3 (Subgroup.centralizer ({k} : Set Q)) J) (hA : IsAltPType 3 J 7) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨H, hH, hHc⟩ := exists_abelian_of_alt7_comp hk hC hJ hA
   have hfac : (Nat.card Q).factorization 3 = 3 := by
     rw [hQ]; exact CFSG.RankThree.PartOne.factorization_pow_mulG Nat.prime_three hm
@@ -235,7 +235,7 @@ theorem altRow_seven_of_facts {s : TauCeti.SporadicName} {Q : Type} [Group Q] [F
     AltRow 7 s := by
   intro S _ _ ⟨e⟩ β hβ hβ1 K hK hA
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩
@@ -247,7 +247,7 @@ theorem altRow_seven_of_facts {s : TauCeti.SporadicName} {Q : Type} [Group Q] [F
     · obtain ⟨a, c, hac⟩ := hncS
       exact absurd ((Subgroup.mem_center_iff.1 (h' ▸ Subgroup.mem_top c)) a) hac
   have hout := hOut S inferInstance hncS s ⟨e⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, rfl, hxp⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.exists_conj_of_pow Nat.prime_three (by norm_num) hcen
       hout β hβ
@@ -311,7 +311,7 @@ theorem altRow_He_seven
     have hk3 : orderOf (k : Equiv.Perm (Fin 8330)) = 3 := by rw [Subgroup.orderOf_coe]; exact hk
     rw [← Subgroup.card_map_of_injective CFSG.Sporadic.HeldB.heP.subtype_injective,
       map_centralizer_subtype CFSG.Sporadic.HeldB.heP k]
-    rcases he3_card k.2 hk3 with h | h <;> rw [h] <;> norm_num
+    rcases he3_card k.2 hk3 with h | h <;> rw [h]; norm_num
   have hs : IsSimpleGroup ↥CFSG.Sporadic.HeldB.heP :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.He.isSimpleGroup_He e.symm
   have hfin : Finite ↥CFSG.Sporadic.HeldB.heP :=

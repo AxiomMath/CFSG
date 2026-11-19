@@ -22,7 +22,6 @@ theorem gf2E6_cases {e : TauCeti.LieTypeIndex} (h : gf2E6 e) :
     ∃ q : TauCeti.PrimePower, e = .E6 q ∧ q.card = 2 := by
   cases e <;> simp only [gf2E6] at h
   · exact ⟨_, rfl, h⟩
-  all_goals exact h.elim
 
 theorem exists_perfect_fixSubgroup_of_congr {T X : Type*} [Group T] [Group X]
     (e : T ≃* X) {a : MulAut T} {x : X} (hβ : MulAut.congr e a = MulAut.conj x)
@@ -59,20 +58,20 @@ open scoped MatrixGroups commutatorElement
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
-theorem phi0_zSL_e3 (hK : Nat.card K = 2) :
+theorem phi0_zSL_e3 (_hK : Nat.card K = 2) :
     phi0 K (zSL ![0, 0, 1]) = uE6Two (K := K) 3 := by
   change phi0 K (tvSLWord ([(4, 1), (1, 4)] : List (Fin 6 × Fin 6))) =
     uE6Two (K := K) 3
   exact phi0_of_conj conj_uE6Two_three
 
-theorem phi0_zSL_e2e3 (hK : Nat.card K = 2) :
+theorem phi0_zSL_e2e3 (_hK : Nat.card K = 2) :
     phi0 K (zSL ![0, 1, 1]) = uE6Two (K := K) 2 * uE6Two (K := K) 3 := by
   change phi0 K (tvSLWord ([(0, 2), (2, 0)] ++ [(4, 1), (1, 4)] :
     List (Fin 6 × Fin 6))) = uE6Two (K := K) 2 * uE6Two (K := K) 3
   rw [tvSLWord_append, map_mul, phi0_of_conj conj_uE6Two_two,
     phi0_of_conj conj_uE6Two_three]
 
-theorem perfect_leviB0 (hK : Nat.card K = 2) :
+theorem perfect_leviB0 (_hK : Nat.card K = 2) :
     ⁅leviB0 K,
       leviB0 K⁆ =
       leviB0 K ∧
@@ -173,8 +172,8 @@ theorem fixed_perfect_gf2E6 :
   have hK2 : Nat.card K = 2 := hKcard.trans hq
   obtain ⟨hp2, -⟩ :=
     CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.primePower_card_two' hq
-  letI := hKfin
-  haveI : CharP K 2 := by rw [← hp2]; exact hCharP
+  let := hKfin
+  have : CharP K 2 := by rw [← hp2]; exact hCharP
   let β : MulAut (adjointGroup .E6 K) := MulAut.congr eK a
   have hβ3 : β ^ 3 = 1 := by
     change (MulAut.congr eK a) ^ 3 = 1

@@ -129,7 +129,6 @@ theorem pairwise_comm_gens {x a a₁ a₂ : D} (e1 : x * a * x⁻¹ = a₁) (e2 
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hp hq
   rcases hp with hp | hp | hp | hp <;> rcases hq with hq | hq | hq | hq <;> rw [hp, hq] <;>
     first
-    | rfl
     | exact h01
     | exact h01.symm
     | exact h12

@@ -368,7 +368,7 @@ theorem pCore_isPGroup (p : ℕ) : IsPGroup p (pCore p G) := by
     apply iSup_le
     intro hgroup
     exact hgroup.le_sylow_of_normal P
-  exact P.isPGroup'.of_injective (Subgroup.inclusion hcoreP)
+  exact P.isPGroup.of_injective (Subgroup.inclusion hcoreP)
     (Subgroup.inclusion_injective hcoreP)
 
 omit [Finite G] in

@@ -103,7 +103,7 @@ theorem ggQTwoXInLU_frame
           (by rintro ⟨h, -⟩; omega) Nat.prime_three (by norm_num)
       have hpow := pow_le_card_bstar_of_torusLift hS.1.1 hperfX M.theta hlift
       have hrank : ggUnitaryTorusRank 3 N = N - 3 := by
-        simp only [ggUnitaryTorusRank, if_pos h3]
+        simp only [ggUnitaryTorusRank, ite_eq_left h3]
       rw [hrank] at hpow
       have hcard : 3 ^ (N / 3 + 2) ≤ Nat.card ↥(ggGamma X hBN).range := by
         rw [hcardA]
@@ -136,7 +136,7 @@ theorem ggQTwoXInLU_frame
     obtain ⟨c, hc⟩ := hφker g hg
     exact ggQTUf_scalar_mem_center hc
   · intro b hb
-    rw [dif_pos hb]
+    rw [dite_eq_left hb]
     refine SUTorus.mem_suPairs.mpr ⟨hσD ⟨b, hb⟩, ?_⟩
     intro u v huv
     have hvu : v = LineU.conjN (diagHom N (σ ⟨b, hb⟩)) (hσD ⟨b, hb⟩) u :=

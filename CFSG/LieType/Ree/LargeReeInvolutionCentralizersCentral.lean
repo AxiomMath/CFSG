@@ -711,7 +711,7 @@ theorem isPGroup_reeFixedPosUnipotent
     IsPGroup 2 (F4.reeFixedPosUnipotent K a) := by
   obtain ⟨S, hS⟩ := (CFSG.ComponentClassification.UnbalancedCatalog.large_Ree_Sylow_center a ha
     K hK).1
-  have h := S.isPGroup'
+  have h := S.isPGroup
   rw [hS] at h
   exact h.of_equiv (Subgroup.subgroupOfEquivOfLe (reeFixedPosUnipotent_le_reeGamma
     (t := F4) (K := K) (a := a)))

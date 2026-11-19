@@ -33,12 +33,12 @@ theorem ggQ2s08rN_pow_mul_self {K : Type} [Field K] [Finite K] (hK : Nat.card K 
 
 theorem ggQ2s08rNNormAt_self {K : Type} [Field K] {n : ℕ} (w : Fin (n + 1))
     (σ : Fin (n + 1) → Kˣ) : ggQ2s08rNNormAt w σ w = 1 :=
-  if_pos rfl
+  ite_eq_left rfl
 
 theorem ggQ2s08rNNormAt_of_ne {K : Type} [Field K] {n : ℕ} {w k : Fin (n + 1)}
     (σ : Fin (n + 1) → Kˣ) (hk : k ≠ w) :
     ggQ2s08rNNormAt w σ k = (σ w * (∏ i, σ i)⁻¹) ^ n * σ k :=
-  if_neg hk
+  ite_eq_right hk
 
 theorem ggQ2s08rNNormAt_prod {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) {n : ℕ}
     (h3n : ¬ 3 ∣ n) (w : Fin (n + 1)) (σ : Fin (n + 1) → Kˣ) :
@@ -219,8 +219,8 @@ theorem diagSU_mem_stab (c : GGQ2S08RoN n Bs L x) {w : Fin (n + 1)} {s : Fin (n 
   intro i
   rw [coe_diagSU, coe_diagHom, Matrix.diagonal_apply]
   by_cases hi : i = w
-  · rw [if_pos hi, if_pos hi, hi, hw, Units.val_one]
-  · rw [if_neg hi, if_neg hi]
+  · rw [ite_eq_left hi, ite_eq_left hi, hi, hw, Units.val_one]
+  · rw [ite_eq_right hi, ite_eq_right hi]
 
 theorem diagSU_commute (c : GGQ2S08RoN n Bs L x) (s s' : Fin (n + 1) → c.Kˣ) (hs : ∏ k, s k = 1)
     (hs' : ∏ k, s' k = 1) : c.diagSU s hs * c.diagSU s' hs' = c.diagSU s' hs' * c.diagSU s hs := by

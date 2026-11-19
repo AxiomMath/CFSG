@@ -13,6 +13,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_le_of_one {T L R K : Subgroup G}
     (hTL : T ≤ normalizer (L : Set G)) (hTR : T ≤ normalizer (R : Set G))
     {t₀ : T} (hle : K.map (MulAut.conj (t₀ : G)).toMonoidHom ≤

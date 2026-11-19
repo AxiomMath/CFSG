@@ -31,6 +31,7 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
   [AddCommGroup V₀] [Module k V₀] [Finite k] [Finite E] [CharP k 2]
   [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private lemma trace_comp_restrictSL_inv (B : SpecialLinearGroup E VJ) (l₀ l : VJ →ₗ[E] E)
     (h : ∀ v, l (B v) = l₀ v) :
     (Algebra.trace k E).comp (l₀.restrictScalars k) ∘ₗ
@@ -54,6 +55,7 @@ private lemma trace_comp_restrictSL_inv (B : SpecialLinearGroup E VJ) (l₀ l : 
   dsimp only
   rw [← h']
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private lemma transvec_mem_of_incident (hm : 3 ≤ Module.finrank E VJ)
     (H : Subgroup (SpecialLinearGroup k (VJ × V₀))) (hJ : modelJ k E VJ V₀ ≤ H) {w₀ : VJ}
     {l₀ : VJ →ₗ[E] E} (hw₀ : w₀ ≠ 0) (hl₀ : l₀ ≠ 0) (h0 : l₀ w₀ = 0)
@@ -136,7 +138,7 @@ private lemma transvec_mem_all (hm : 3 ≤ Module.finrank E VJ)
         rw [hrange] at hsum
         omega
       omega
-    obtain ⟨v, hvker, hvnotmem⟩ := SetLike.not_le_iff_exists.mp hnotle
+    obtain ⟨v, hvker, hvnotmem⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
     have hlv : l v = 0 := LinearMap.mem_ker.mp hvker
     obtain ⟨f₀, hf₀v, hf₀w⟩ :=
       (Submodule.span E ({w} : Set VJ)).exists_dual_map_eq_bot_of_notMem hvnotmem
@@ -179,6 +181,7 @@ private lemma transvec_mem_all (hm : 3 ≤ Module.finrank E VJ)
     rw [hcomm] at hmem
     exact hmem
 
+omit [Finite k] [CharP k 2] in
 private lemma modelA1Elt_zero : modelA1Elt (0 : V₀ →ₗ[k] VJ) = 1 := by
   apply SpecialLinearGroup.ext
   intro p
@@ -186,6 +189,7 @@ private lemma modelA1Elt_zero : modelA1Elt (0 : V₀ →ₗ[k] VJ) = 1 := by
   rw [modelA1Elt_apply]
   simp
 
+omit [Finite k] [CharP k 2] in
 private lemma modelA2Elt_zero : modelA2Elt (0 : VJ →ₗ[k] V₀) = 1 := by
   apply SpecialLinearGroup.ext
   intro p
@@ -193,6 +197,7 @@ private lemma modelA2Elt_zero : modelA2Elt (0 : VJ →ₗ[k] V₀) = 1 := by
   rw [modelA2Elt_apply]
   simp
 
+omit [Finite k] [CharP k 2] in
 private lemma modelA1Elt_finset_sum_mem (H : Subgroup (SpecialLinearGroup k (VJ × V₀)))
     {ι : Type} (s : Finset ι) (g : ι → V₀ →ₗ[k] VJ)
     (h : ∀ i, modelA1Elt (g i) ∈ H) :
@@ -205,6 +210,7 @@ private lemma modelA1Elt_finset_sum_mem (H : Subgroup (SpecialLinearGroup k (VJ 
     rw [Finset.sum_insert hi, modelA1Elt_add]
     exact H.mul_mem (h i) ih
 
+omit [Finite k] [CharP k 2] in
 private lemma modelA2Elt_finset_sum_mem (H : Subgroup (SpecialLinearGroup k (VJ × V₀)))
     {ι : Type} (s : Finset ι) (g : ι → VJ →ₗ[k] V₀)
     (h : ∀ i, modelA2Elt (g i) ∈ H) :
@@ -217,6 +223,7 @@ private lemma modelA2Elt_finset_sum_mem (H : Subgroup (SpecialLinearGroup k (VJ 
     rw [Finset.sum_insert hi, modelA2Elt_add]
     exact H.mul_mem (h i) ih
 
+omit [Finite E] [Finite k] [CharP k 2] in
 private lemma modelA1_smulRight_mem (hm : 2 ≤ Module.finrank E VJ)
     (H : Subgroup (SpecialLinearGroup k (VJ × V₀))) (hJ : modelJ k E VJ V₀ ≤ H) {e₀ : VJ}
     (he : e₀ ≠ 0) (hbase : ∀ f : V₀ →ₗ[k] k, modelA1Elt (f.smulRight e₀) ∈ H)
@@ -241,6 +248,7 @@ private lemma modelA1_smulRight_mem (hm : 2 ≤ Module.finrank E VJ)
     rw [blockSLk_mul_modelA1Elt_mul_inv, hform] at hconj
     exact hconj
 
+omit [CharP k 2] in
 private lemma modelA2_smulRight_mem (hm : 2 ≤ Module.finrank E VJ)
     (H : Subgroup (SpecialLinearGroup k (VJ × V₀))) (hJ : modelJ k E VJ V₀ ≤ H)
     {l₀ : VJ →ₗ[E] E} (hl : l₀ ≠ 0)
@@ -299,6 +307,7 @@ theorem modelK1_le_of_transvec (hm : 3 ≤ Module.finrank E VJ)
   rw [modelK1_eq_range]
   exact hrange
 
+omit [Finite E] [Finite k] [CharP k 2] in
 theorem modelA1_le_of_mem (hm : 2 ≤ Module.finrank E VJ)
     (H : Subgroup (SpecialLinearGroup k (VJ × V₀))) (hJ : modelJ k E VJ V₀ ≤ H) {e₀ : VJ}
     (he : e₀ ≠ 0) (hbase : ∀ f : V₀ →ₗ[k] k, modelA1Elt (f.smulRight e₀) ∈ H) :
@@ -319,6 +328,7 @@ theorem modelA1_le_of_mem (hm : 2 ≤ Module.finrank E VJ)
   intro i
   exact modelA1_smulRight_mem hm H hJ he hbase (φ (b i)) (b.coord i)
 
+omit [CharP k 2] in
 theorem modelA2_le_of_mem (hm : 2 ≤ Module.finrank E VJ)
     (H : Subgroup (SpecialLinearGroup k (VJ × V₀))) (hJ : modelJ k E VJ V₀ ≤ H)
     {l₀ : VJ →ₗ[E] E} (hl : l₀ ≠ 0)

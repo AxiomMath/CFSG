@@ -12,6 +12,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem cen_sq_eq_cen {x : G} (hx : x ^ 3 = 1) : Cen (x ^ 2) = Cen x := by
   ext y
   simp only [Subgroup.mem_centralizer_singleton_iff]
@@ -36,7 +37,7 @@ theorem ff81_5_9Act_holds : KF_McLaughlin6 → KF_HoltThm1 → KF_FF81aProp1 →
   refine ⟨?_, ?_⟩
   · rw [hCZ, inf_comm]
     exact hTL
-  · haveI : IsSimpleGroup ↥L :=
+  · have : IsSimpleGroup ↥L :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp L 3 2 1
         hB.hyp.model
     have hTcard : Nat.card ↥(Op 2 (Cen t₀)) = 2 ^ 15 := by

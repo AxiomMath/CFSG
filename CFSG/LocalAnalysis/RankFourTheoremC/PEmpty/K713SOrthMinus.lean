@@ -64,8 +64,8 @@ theorem rootFree_of_odd_finrank {K : Type} [Field K] [Finite K] (k : Subfield K)
 theorem exists_fixed_rootFree_quadratic {K : Type} [Field K] [Finite K]
     (H : Subgroup (K ≃+* K)) (hodd : Odd (Nat.card H)) :
     ∃ b c : K, (∀ σ ∈ H, σ b = b ∧ σ c = c) ∧ ∀ s : K, s ^ 2 + b * s + c ≠ 0 := by
-  haveI := finite_ringAut K
-  haveI : Fintype H := Fintype.ofFinite H
+  have := finite_ringAut K
+  have : Fintype H := Fintype.ofFinite H
   have hdeg : Module.finrank (FixedPoints.subfield H K) K = Nat.card H := by
     rw [Nat.card_eq_fintype_card]
     exact FixedPoints.finrank_eq_card H K
@@ -82,8 +82,8 @@ theorem liftClause_classical_POmegaMinus {n p f : ℕ} :
   have h0 := h
   obtain ⟨⟨hp, hf, hn4⟩, K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := h0
   have hn1 : 1 ≤ n := by omega
-  haveI := finite_ringAut K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have := finite_ringAut K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨P⟩ : Nonempty (Sylow ℓ (K ≃+* K)) := inferInstance
   have hcard : Nat.card (P : Subgroup (K ≃+* K)) = ℓ ^ (Nat.card (K ≃+* K)).factorization ℓ :=
     P.card_eq_multiplicity
@@ -96,7 +96,7 @@ theorem liftClause_classical_POmegaMinus {n p f : ℕ} :
     (Or.inr (Or.inr rfl)) n p f h hn1 K hK b' c' hirr' (e.trans e')
   have htop := CFSG.RankThree.PartOne.KCOrthogonalAut.matrixProjectiveImage_eq_top_minus K n hn4
     b' c' hirr'
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b' c')) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b' c')) :=
     Finite.of_equiv S (coordinateMinusWitnessEquiv K hn1 b' c' (e.trans e')).toEquiv
   refine OutLift.of_mulEquiv (coordinateMinusWitnessEquiv K hn1 b' c' (e.trans e')) ?_
   refine outLift_of_orthogonalGates (coordinateQuadMinus n K hn1 b' c') hℓ hℓ2 hg

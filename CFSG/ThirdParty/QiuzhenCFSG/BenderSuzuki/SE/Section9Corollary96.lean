@@ -105,7 +105,7 @@ private theorem normalClosure_mul_normalizer_eq_top_of_sylow
   let PD : Subgroup D := ((P : Subgroup E).map E.subtype).subgroupOf D
   let K : Subgroup D := Subgroup.normalClosure (PD : Set D)
   obtain ⟨Q, hQ⟩ := sylow_normalClosure_of_sylow_of_le hED hEN P
-  letI : K.Normal := Subgroup.normalClosure_normal
+  let : K.Normal := Subgroup.normalClosure_normal
   have hfrattini : Subgroup.normalizer (PD : Set D) ⊔ K = ⊤ := by
     simpa [K, PD, hQ] using (Sylow.normalizer_sup_eq_top Q)
   change (K : Set D) * (Subgroup.normalizer (PD : Set D) : Set D) = Set.univ
@@ -190,7 +190,6 @@ private theorem normalizer_sylow_centralizes_involution
       _ = qD := by simp [mul_assoc]
   have hccomm : c * gX = gX * c := by
     apply (commutatorElement_eq_one_iff_mul_comm.mp ?_)
-    change ⁅c, gX⁆ = 1
     rw [commutatorElement_def]
     have hcfix : c * gX * c⁻¹ = gX := by
       calc
@@ -430,17 +429,17 @@ public theorem closure_peterfalviKSet_le_derived_of_alternativeB
       External.hkt_normalizer_le_normalizer_map_subtype_of_characteristic
         E (derivedSubgroup E) htE
   let q : E →* E ⧸ Eder := QuotientGroup.mk' Eder
-  letI : IsMulCommutative (E ⧸ Eder) := by
+  let : IsMulCommutative (E ⧸ Eder) := by
     exact (Subgroup.Normal.quotient_commutative_iff_commutator_le).2 (by rfl)
   let Pbar : Sylow p (E ⧸ Eder) :=
     P.mapSurjective (f := q) (QuotientGroup.mk'_surjective Eder)
   have hPbarNormal : (Pbar : Subgroup (E ⧸ Eder)).Normal := by
     infer_instance
-  letI : (Pbar : Subgroup (E ⧸ Eder)).Characteristic :=
+  let : (Pbar : Subgroup (E ⧸ Eder)).Characteristic :=
     Sylow.characteristic_of_normal Pbar hPbarNormal
   let Hsub : Subgroup E := (Pbar : Subgroup (E ⧸ Eder)).comap q
   have hHchar : Hsub.Characteristic := by
-    letI : Eder.Characteristic := by
+    let : Eder.Characteristic := by
       simpa [Eder] using
         (inferInstance : (derivedSubgroup E).Characteristic)
     exact Subgroup.Characteristic.comap_quotient_mk
@@ -451,7 +450,7 @@ public theorem closure_peterfalviKSet_le_derived_of_alternativeB
   have hHambD : (Hamb.subgroupOf D).Normal := by
     exact normal_subgroupOf_map_of_characteristic_of_normal
       E Hamb D hED hEN Hsub hHchar rfl hHambLeD
-  letI : (Hamb.subgroupOf D).Normal := hHambD
+  let : (Hamb.subgroupOf D).Normal := hHambD
   have hPambH : Pamb ≤ Hamb := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨pE, hpE, rfl⟩
@@ -593,8 +592,8 @@ public theorem commutator_eq_of_le_of_solvable_coprime
   have hA_norm_E : A ≤ Subgroup.normalizer (E : Set X) := by
     rw [Subgroup.zpowers_le]
     exact hEt
-  letI : Subgroup.Normalizes A D := ⟨hA_norm_D⟩
-  letI : Subgroup.Normalizes A E := ⟨hA_norm_E⟩
+  let : Subgroup.Normalizes A D := ⟨hA_norm_D⟩
+  let : Subgroup.Normalizes A E := ⟨hA_norm_E⟩
   have horder : orderOf t = 2 :=
     (orderOf_eq_prime_iff).2 ⟨ht.sq_eq_one, ht.ne_one⟩
   have hAcard : Nat.card A = 2 := by
@@ -602,7 +601,7 @@ public theorem commutator_eq_of_le_of_solvable_coprime
   have hDcop : Nat.Coprime (Nat.card A) (Nat.card D) := by
     rw [hAcard]
     exact hDodd.coprime_two_left
-  have hDsolv : IsSolvable D := odd_order_theorem D hDodd
+  have hDsolv : Group.IsSolvable D := odd_order_theorem D hDodd
   have hCE_le_CD : ⁅E, A⁆ ≤ ⁅D, A⁆ :=
     Subgroup.commutator_mono hED le_rfl
   let Csub : Subgroup D := commutatorAction (A := A) (G := D)
@@ -828,7 +827,7 @@ public theorem corollary96_fixedPointFree_of_corollary95
   have hpAb : p ∣ Nat.card (E ⧸ derivedSubgroup E) :=
     hpQ.trans (orderOf_dvd_natCard (q xE))
   have hpX : p ∣ orderOf xE := hpQ.trans (orderOf_map_dvd q xE)
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hpoword : orderOf (xE ^ (orderOf xE / p)) = p :=
     orderOf_pow_orderOf_div (orderOf_pos xE).ne' hpX
   obtain ⟨P, hPcyc, hPV, hPcentral⟩ := h95 p hp hpAb
@@ -921,7 +920,7 @@ public theorem corollary96_fixedPointFree_of_source
       k * x = x * k → k = 1 := by
   apply corollary96_fixedPointFree_of_corollary95 ?_ hxEV hxDer
   intro p hp hpAb
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   exact corollary_9_5_ambient_abelianization hM ht htM d83 h84 hW hpAb
     hIne h43
 
@@ -976,15 +975,15 @@ public theorem corollary_9_6
       p ∣ Nat.card (E ⧸ derivedSubgroup E) →
       Lemma94AlternativeB D E t p := by
     intro p hp hpAb
-    letI : Fact p.Prime := ⟨hp⟩
+    let : Fact p.Prime := ⟨hp⟩
     simpa [D, E] using
       (corollary_9_5_ambient_abelianization hM ht htM d83 h84 hW
         (by simpa [D, E] using hpAb) hIne h43)
   have hEodd : Odd (Nat.card E) :=
     hDodd.of_dvd_nat (Subgroup.card_dvd_of_le hED)
   have hEsolv : Group.IsSolvable E := odd_order_theorem E hEodd
-  letI : Group.IsSolvable E := hEsolv
-  haveI : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hEne'
+  let : Group.IsSolvable E := hEsolv
+  have : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hEne'
   have hcommLt : derivedSubgroup E < ⊤ :=
     Group.IsSolvable.commutator_lt_top_of_nontrivial (G := E)
   have hAbOneLt : 1 < Nat.card (E ⧸ derivedSubgroup E) := by
@@ -992,7 +991,7 @@ public theorem corollary_9_6
       Subgroup.one_lt_index_of_ne_top hcommLt.ne
     simpa [Subgroup.index_eq_card] using hindex
   obtain ⟨p, hp, hpAb⟩ := Nat.exists_prime_and_dvd hAbOneLt.ne'
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hB : Lemma94AlternativeB D E t p := h95 p hp hpAb
   have hKder : Subgroup.closure (peterfalviKSet D t) ≤
       (derivedSubgroup E).map E.subtype :=

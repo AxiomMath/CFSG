@@ -26,7 +26,7 @@ theorem sl2_sub_mem_span {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) (g :
     {w₀ : Fin 2 → F} (hw₀ : w₀ ≠ 0)
     (hg : (((g : GL (Fin 2) F)) : Matrix (Fin 2) (Fin 2) F) *ᵥ w₀ = w₀) (v : Fin 2 → F) :
     (((g : GL (Fin 2) F)) : Matrix (Fin 2) (Fin 2) F) *ᵥ v - v ∈ Submodule.span F {w₀} := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   set A : Matrix (Fin 2) (Fin 2) F := (((g : GL (Fin 2) F)) : Matrix (Fin 2) (Fin 2) F) with hA
   have hAA : A * A = 1 := sl2_stab_mul_self hF hn g hw₀ hg
   have h2 : (2 : F) = 0 := two_eq_zero_of_card hF hn
@@ -203,7 +203,7 @@ theorem uc22p22sb_proofEiHat_le_omegaOneCenterIn (D : Data G) (Ch : Choice2011 G
     Subgroup.mem_center_iff.2 fun s => Subtype.ext ((Subgroup.mem_centralizer_iff.1 (hcen s.2)) z hz).symm
   exact Subgroup.subset_closure ⟨⟨⟨z, hzS⟩, hzc, rfl⟩, (uc22p22xf_hel D).2 z hzU⟩
 
-theorem uc22p22sb_not_preN_le_centralizer (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch)
+theorem uc22p22sb_not_preN_le_centralizer (D : Data G) (Ch : Choice2011 G) (_h2 : S22_3_2 D Ch)
     (h3 : S22_3_3 D Ch) (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) (m : ℕ)
     (Nb : Fin m → Subgroup (MBar D.M D.U)) (hNb : NbarSplit D Nb) (i : Fin m) :
     ¬ preN D (Nb i) ≤ centralizer (proofEiHat D (preN D (Nb i)) : Set G) := by

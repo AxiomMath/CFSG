@@ -109,7 +109,7 @@ theorem rank_card_le_of_le_Q0 (I : In81) (hJo : CFSec8JOrder) (hL0 : CF81L0)
   have hP'R : P' ≤ R := fun x hx => by
     rw [hR]
     exact (mem_inf.mp (hP hx)).1
-  have hP'2 : IsPGroup 2 P' := R.isPGroup'.to_le hP'R
+  have hP'2 : IsPGroup 2 P' := R.isPGroup.to_le hP'R
   have hinj : Function.Injective (H₁.kloc.rho.subgroupMap P') := fun x y hxy =>
     Subtype.ext (Eight.injOn_of_isPGroup hker hP'2 x.2 y.2 (congrArg Subtype.val hxy))
   let e : ↥P ≃* ↥(P'.map H₁.kloc.rho) := (subgroupOfEquivOfLe hPM).symm.trans
@@ -146,7 +146,7 @@ theorem exists_T_fstar (hT₀ : ∃ T : Sylow 2 H, (T : Subgroup H) ≤ centrali
   have hbM : d.b ∉ h.M3 := fun hb => d.e6_not_conj_b_M3 hv I hJo hL0 hCls F 1 (by
     rw [show (1 : H)⁻¹ * d.b * 1 = d.b by group]
     exact hb)
-  exact E6.mem_of_transfer T.isPGroup' T.not_dvd_index
+  exact E6.mem_of_transfer T.isPGroup T.not_dvd_index
     (fun t ht q hq => Q0_normal hv I F hJo hL0 hCls hOut T hTW hBT haT R hR ht hq)
     (T_mod_Q0_cyclic hv I F hJo hL0 hCls hOut hFld T hTW hBT haT R hR)
     (fun N _ hN => inf_le_right.trans (d.M3_le_of_cyclic I F N hN)) hbT

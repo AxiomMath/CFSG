@@ -19,7 +19,7 @@ theorem mem_uniqueFourConj_iff {H : Subgroup G} {g x : G} :
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 theorem uniqueFourConj_eq_self_iff {H : Subgroup G} {g : G} :
     uniqueFourConj g H = H ↔ g ∈ normalizer (H : Set G) := by

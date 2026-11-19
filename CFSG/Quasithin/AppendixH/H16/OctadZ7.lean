@@ -27,29 +27,29 @@ theorem exists_mask (P : ℕ → Prop) (k : ℕ) :
     have hpow : 2 ^ k < 2 ^ (k + 1) := Nat.pow_lt_pow_succ (by norm_num : 1 < 2)
     refine ⟨if P k then n ||| 2 ^ k else n, ?_, ?_⟩
     · by_cases hP : P k
-      · rw [if_pos hP]
+      · rw [ite_eq_left hP]
         exact Nat.or_lt_two_pow (lt_trans hn hpow) hpow
-      · rw [if_neg hP]
+      · rw [ite_eq_right hP]
         exact lt_trans hn hpow
     · intro p hp
       have hp' : p < k ∨ p = k := by omega
       rcases hp' with hp | hpk
       · by_cases hP : P k
-        · rw [if_pos hP, hnP p hp, Nat.testBit_lor, Nat.testBit_two_pow]
+        · rw [ite_eq_left hP, hnP p hp, Nat.testBit_lor, Nat.testBit_two_pow]
           have hne : k ≠ p := by omega
           rw [decide_eq_false_iff_not.mpr hne]
           simp
-        · rw [if_neg hP]
+        · rw [ite_eq_right hP]
           exact hnP p hp
       · subst p
         by_cases hP : P k
-        · rw [if_pos hP]
+        · rw [ite_eq_left hP]
           constructor
           · intro _
             rw [Nat.testBit_lor, Nat.testBit_two_pow, Nat.testBit_lt_two_pow hn]
             simp
           · intro _; exact hP
-        · rw [if_neg hP]
+        · rw [ite_eq_right hP]
           constructor
           · intro h; exact absurd h hP
           · intro h
@@ -72,7 +72,7 @@ private theorem dPerm_odd_eq (p : ℕ) (hp : p < 8) (h2p : 2 * p < 16) (hodd : 2
   simp only [xorF, Fin.val_mk]
   interval_cases p <;> decide
 
-theorem exists_dSub_key {B : Subgroup S24} (hz : koPerm 1 ∈ B) (hB : B ≤ dGrp) :
+theorem exists_dSub_key {B : Subgroup S24} (hz : koPerm 1 ∈ B) (_hB : B ≤ dGrp) :
     ∃ n ∈ dSubList, ∀ u : Fin 16, (dPerm u ∈ B ↔ dSubMem n u = true) := by
   classical
   obtain ⟨n, hn, hnP⟩ :=
@@ -82,7 +82,7 @@ theorem exists_dSub_key {B : Subgroup S24} (hz : koPerm 1 ∈ B) (hB : B ≤ dGr
     exact hn
   have hP0 : (∃ h : 2 * 0 < 16, dPerm (⟨2 * 0, h⟩ : Fin 16) ∈ B) := by
     refine ⟨by norm_num, ?_⟩
-    simpa [dPerm_zero] using B.one_mem
+    simp [dPerm_zero]
   have hnodd : n % 2 = 1 :=
     Nat.mod_two_eq_one_iff_testBit_zero.mpr ((hnP 0 (by norm_num)).1 hP0)
   have hclosed : dSubClosed n = true := by
@@ -138,7 +138,7 @@ theorem exists_dSub_key {B : Subgroup S24} (hz : koPerm 1 ∈ B) (hB : B ≤ dGr
   by_cases hu : (u : ℕ) % 2 = 0
   · have hueq : u = (⟨2 * ((u : ℕ) / 2), H2p⟩ : Fin 16) := by
       apply Fin.ext
-      simp only [Fin.val_mk]
+      simp only
       have := Nat.div_add_mod (u : ℕ) 2
       omega
     have hdperm : dPerm u = dPerm ⟨2 * ((u : ℕ) / 2), H2p⟩ := congrArg dPerm hueq
@@ -150,7 +150,7 @@ theorem exists_dSub_key {B : Subgroup S24} (hz : koPerm 1 ∈ B) (hB : B ≤ dGr
     have Hodd : 2 * ((u : ℕ) / 2) + 1 < 16 := by omega
     have hodd : u = (⟨2 * ((u : ℕ) / 2) + 1, Hodd⟩ : Fin 16) := by
       apply Fin.ext
-      simp only [Fin.val_mk]
+      simp only
       have := Nat.div_add_mod (u : ℕ) 2
       omega
     have hdperm : dPerm u = dPerm ⟨2 * ((u : ℕ) / 2), H2p⟩ * dPerm 1 :=
@@ -201,7 +201,7 @@ theorem card_eq_of_dSub_key {B : Subgroup S24} (hB : B ≤ dGrp) {n : ℕ}
     Nat.card_congr (Equiv.subtypeEquivRight h)
   rw [hcard1, hcard2]
   show Nat.card ↥({u : Fin 16 | dSubMem n u = true} : Set (Fin 16)) = 2 * dSubCard n
-  rw [Nat.card_coe_set_eq, Set.ncard_eq_toFinset_card', Set.toFinset_setOf]
+  rw [Nat.card_coe_set_eq, Set.ncard_eq_toFinset_card', Set.toFinset_ofPred]
   have hmod : (Finset.univ.filter fun u : Fin 16 => dSubMem n u = true) =
       (Finset.univ.filter fun u : Fin 16 => dSubMem (n % 256) u = true) := by
     apply Finset.filter_congr
@@ -247,7 +247,7 @@ theorem clause7_std :
   have hcard : Nat.card ↥B = 2 * dSubCard n := card_eq_of_dSub_key hB h
   have hBcard : Nat.card ↥B = 2 ^ k := by rw [hcard, hk2]
   have hrk : rk ↥B = k := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [rk, hBcard, padicValNat.prime_pow]
   rw [hrk]
   omega

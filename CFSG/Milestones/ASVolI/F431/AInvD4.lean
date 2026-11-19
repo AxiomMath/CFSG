@@ -23,7 +23,7 @@ theorem burnsideF4m_invCent_D4 {f : ℕ} {D : Type} [Group D] [Finite D] {G : Ty
   obtain ⟨-, hX⟩ := CFSG.LieType.Steinberg.CentralExt.GriessNative.chevalley_of_lieModel hD
     (by decide)
   obtain ⟨K, hF, hFin, σ, hf, hK, hσ, ε, hU, hP⟩ := D4q.Struct.exists_std_iso hX X
-  haveI : CharP K 2 := D4q.Struct.charP_two_of_card hK
+  have : CharP K 2 := D4q.Struct.charP_two_of_card hK
   have hσ3 := D4q.Struct.sigma_cube σ hK hσ
   have S1 := D4q.Loc.stdTwo_d4 σ hσ3 hf hK hσ
   rcases hP with ⟨h1, h2⟩ | ⟨h1, h2⟩
@@ -39,10 +39,10 @@ theorem burnsideF4m_centInput_D4 (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) (hodd :
     {x : E} (hx1 : x ≠ 1) (hx2 : x * x = 1) :
     ∃ w : E, IsConj x w ∧
       (Subgroup.centralizer ({w} : Set E) ≤ M₁ ∨ Subgroup.centralizer ({w} : Set E) ≤ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨K, fK, finK, sigma, hscope, marking, h1, h2⟩ := burnsideF4g_chart_D4tw hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   obtain ⟨TD, hTD⟩ := burnsideF4g_yamD4 sigma hscope marking
   rw [← h1, ← h2] at hTD
   have hmodel := burnsideF4g_lieModel_D4tw hyp.model

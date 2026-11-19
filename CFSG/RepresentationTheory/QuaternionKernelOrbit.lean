@@ -428,7 +428,7 @@ theorem conj_acts_trivially_of_quaternion_quotients [Finite Γ]
   · have hxK0 : x ∈ Subgroup.normalizer (kernelIn ρ T U : Set Γ) := by
       by_contra hxK
       let K : Subgroup Γ := kernelIn ρ T U
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       obtain ⟨u, huU, hune⟩ : ∃ u ∈ U, u ≠ 0 := by
         obtain ⟨s, hs, u, hu, hsu⟩ := hTU
         exact ⟨u, hu, fun h0 => hsu (by simp [h0])⟩

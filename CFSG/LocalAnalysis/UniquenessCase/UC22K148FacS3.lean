@@ -31,7 +31,7 @@ theorem natL2_one_of_faithful [Finite G] [Finite V] {H : Subgroup G}
   have hGL : Nat.card (↥N ≃ₗ[ZMod 2] ↥N) = 6 := by
     rw [CFSG.HardMathSupport.U4FF.card_linearEquiv_eq_prod hrank, Fin.prod_univ_two]
     norm_num
-  haveI : Finite (↥N ≃ₗ[ZMod 2] ↥N) := Nat.finite_of_card_ne_zero (by rw [hGL]; norm_num)
+  have : Finite (↥N ≃ₗ[ZMod 2] ↥N) := Nat.finite_of_card_ne_zero (by rw [hGL]; norm_num)
   have hinj : Function.Injective (resGL ρ H N hN) := fun x y hxy => by
     have h1 : (x : G)⁻¹ * y = 1 := hfaith _ (mul_mem (inv_mem x.2) y.2) fun n hn => by
       have h2 : ρ (x : G) n = ρ (y : G) n := congrArg (fun f => ((f ⟨n, hn⟩ : ↥N) : V)) hxy
@@ -137,7 +137,7 @@ theorem factorData_of_mulEquiv_perm_three [Finite G] [Finite V] (hρ : Function.
       IsCompl (commOn ρ ⁅H, H⁆ ⊤) (fixSub ρ ⁅H, H⁆) ∧
       (∀ X : Subgroup G, CFSG.Open.IsElemAbelian 2 X → NoExcess ρ X (commOn ρ ⁅H, H⁆ ⊤)) ∧
       Shape148 ρ H (commOn ρ ⁅H, H⁆ ⊤) (fixSub ρ H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmem : ∀ x (hx : x ∈ H), x ∈ ⁅H, H⁆ ↔ Equiv.Perm.sign (e ⟨x, hx⟩) = 1 := fun x hx => by
     rw [mem_commutator_iff_of_mulEquiv e hx,
       TauCeti.commutator_perm_fin_three_eq_alternatingGroup, Equiv.Perm.mem_alternatingGroup]
@@ -145,7 +145,7 @@ theorem factorData_of_mulEquiv_perm_three [Finite G] [Finite V] (hρ : Function.
     rw [card_commutator_of_mulEquiv e, TauCeti.commutator_perm_fin_three_eq_alternatingGroup,
       TauCeti.card_alternatingGroup_fin_three]
   have hQN : (⁅H, H⁆ : Subgroup G).Normal := by
-    haveI := hHN
+    have := hHN
     infer_instance
   have hQH : ⁅H, H⁆ ≤ H := Subgroup.commutator_le_self H
   obtain ⟨Q, hQ⟩ : ∃ Q : Subgroup G, ⁅H, H⁆ = Q := ⟨_, rfl⟩
@@ -167,7 +167,7 @@ theorem factorData_of_mulEquiv_perm_three [Finite G] [Finite V] (hρ : Function.
     refine CFSG.perm_eq_one_of_forall_commute (by simp) fun τ => ?_
     obtain ⟨w, rfl⟩ := e.surjective τ
     rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.1 hz w]
-  obtain ⟨b, hbH, hbQ⟩ : ∃ b ∈ H, b ∉ Q := SetLike.exists_of_lt (lt_of_le_of_ne hQH fun h => by
+  obtain ⟨b, hbH, hbQ⟩ : ∃ b ∈ H, b ∉ Q := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hQH fun h => by
     rw [h] at hQ3
     omega)
   obtain ⟨x, hxQ, hx1⟩ := (Subgroup.bot_or_exists_ne_one Q).resolve_left fun h => by

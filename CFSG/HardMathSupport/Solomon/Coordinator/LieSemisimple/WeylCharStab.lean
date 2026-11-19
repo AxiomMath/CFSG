@@ -68,7 +68,7 @@ open CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley in
 private theorem exists_zpow_form {p : ℕ} (hp : p.Prime) {a : Fin τ.rank → Kˣ}
     (ha : ∀ i, a i ^ p = 1) :
     ∃ (g : Kˣ) (f₀ : (Fin τ.rank → ℤ) →+ ℤ), g ^ p = 1 ∧ ∀ v, rootChar a v = g ^ f₀ v := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := rootsOfUnity p K)
   have hc : ∀ i, ∃ c : ℤ, (g : Kˣ) ^ c = a i := fun i => by
     obtain ⟨c, hc⟩ := Subgroup.mem_zpowers_iff.1 (hg ⟨a i, (mem_rootsOfUnity p (a i)).2 (ha i)⟩)
@@ -151,8 +151,8 @@ theorem isSolvable_quotient {p : ℕ} (hp : p.Prime) {a : Fin τ.rank → Kˣ}
     (ha : ∀ i, a i ^ p = 1) :
     Group.IsSolvable (↥(rootCharStabilizerSubgroup a) ⧸
       (kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := (isPGroup_quotient hp ha).isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have := (isPGroup_quotient hp ha).isNilpotent
   infer_instance
 
 end CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple

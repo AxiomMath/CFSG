@@ -24,13 +24,13 @@ theorem exists_sylow_le_normalizer {T : Subgroup Y} (hT : IsPGroup 2 T)
     (hwc : WeaklyClosedIn T (Subgroup.normalizer (T : Set Y))) :
     ∃ S : Sylow 2 Y, (S : Subgroup Y) ≤ Subgroup.normalizer (T : Set Y) ∧ T ≤ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup Y := Subgroup.normalizer (T : Set Y)
   have hTN : T ≤ N := Subgroup.le_normalizer
   have hTpN : IsPGroup 2 (T.subgroupOf N) := hT.comap_subtype
   obtain ⟨S₀, hS₀⟩ := hTpN.exists_le_sylow
   let U : Subgroup Y := (S₀ : Subgroup ↥N).map N.subtype
-  have hUp : IsPGroup 2 U := S₀.isPGroup'.map N.subtype
+  have hUp : IsPGroup 2 U := S₀.isPGroup.map N.subtype
   have hTU : T ≤ U := by
     intro t ht
     exact Subgroup.mem_map.mpr ⟨⟨t, hTN ht⟩, hS₀ (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
@@ -46,10 +46,10 @@ theorem exists_sylow_le_normalizer {T : Subgroup Y} (hT : IsPGroup 2 T)
     rw [← htop] at hsin
     exact hUN (Subgroup.mem_subgroupOf.mp hsin)
   have hlt : (U.subgroupOf (S : Subgroup Y)) < ⊤ := lt_of_le_of_ne le_top hne
-  haveI : Group.IsNilpotent ↥S := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥S := S.isPGroup.isNilpotent
   have hnc : NormalizerCondition ↥S := Group.normalizerCondition_of_isNilpotent (G := ↥S)
   obtain ⟨y, hyNorm, hyU⟩ :=
-    SetLike.exists_of_lt (hnc (U.subgroupOf (S : Subgroup Y)) hlt)
+    _root_.IsConcreteLE.exists_of_lt (hnc (U.subgroupOf (S : Subgroup Y)) hlt)
   have hyconj : conjSubgroup y (U.subgroupOf (S : Subgroup Y)) = U.subgroupOf (S : Subgroup Y) :=
     mem_normalizer_iff_conjSubgroup_eq.mp hyNorm
   have hyUY : conjSubgroup (y : Y) U = U := by
@@ -64,7 +64,7 @@ theorem exists_sylow_le_normalizer {T : Subgroup Y} (hT : IsPGroup 2 T)
   let Q : Subgroup Y := U ⊔ Subgroup.zpowers (y : Y)
   have hQS : Q ≤ (S : Subgroup Y) :=
     sup_le hUS (Subgroup.zpowers_le.mpr y.2)
-  have hQp : IsPGroup 2 Q := S.isPGroup'.to_le hQS
+  have hQp : IsPGroup 2 Q := S.isPGroup.to_le hQS
   have hQN : Q ≤ N := sup_le hUN (Subgroup.zpowers_le.mpr hyN)
   have hQ0p : IsPGroup 2 (Q.subgroupOf N) := hQp.comap_subtype
   have hS₀Q : (S₀ : Subgroup ↥N) ≤ Q.subgroupOf N := by
@@ -82,6 +82,7 @@ theorem exists_sylow_le_normalizer {T : Subgroup Y} (hT : IsPGroup 2 T)
     simpa using hmem
   exact hyU (Subgroup.mem_subgroupOf.mpr hyU')
 
+omit [Finite Y] in
 theorem normalizer_sylow_le_normalizer {T : Subgroup Y} (hwc : WeaklyClosedIn T
     (Subgroup.normalizer (T : Set Y))) {S : Sylow 2 Y} (hTS : T ≤ S)
     (hSN : (S : Subgroup Y) ≤ Subgroup.normalizer (T : Set Y)) :
@@ -99,7 +100,7 @@ theorem inf_eq_bot_of_not_normal {T Z : Subgroup Y} [Z.Normal] (hTI : IsTI T)
   rw [eq_bot_iff]
   intro z hz
   by_contra hz1
-  have hz1' : z ≠ 1 := fun h => hz1 (by simpa [h])
+  have hz1' : z ≠ 1 := fun h => hz1 (by simp [h])
   have hzT : z ∈ T := (Subgroup.mem_inf.mp hz).1
   have hzZ : z ∈ Z := (Subgroup.mem_inf.mp hz).2
   have hzconj : ∀ y : Y, z ∈ conjSubgroup y T := by
@@ -123,6 +124,7 @@ theorem inf_eq_bot_of_not_normal {T Z : Subgroup Y} [Z.Normal] (hTI : IsTI T)
   rw [mem_conjSubgroup] at hxg
   simpa using hxg
 
+omit [Finite Y] in
 theorem map_sup_conj_eq_top {T Z : Subgroup Y} [Z.Normal] {g : Y}
     (h : T ⊔ conjSubgroup g T = ⊤) :
     T.map (QuotientGroup.mk' Z) ⊔
@@ -214,6 +216,7 @@ theorem isWC_of_isTI {T : Subgroup Y} (hT : Assembly.IsElemAbelian 2 T) (hTI : I
     subst z
     exact Subgroup.mem_centralizer_iff.mp (hg hx) t (Set.mem_singleton t)
 
+omit [Finite Y] in
 private theorem weaklyClosedIn_subgroupOf_centralizer {T : Subgroup Y} {t : Y}
     (hwc : WeaklyClosedIn T (Subgroup.normalizer (T : Set Y)))
     (hTC : T ≤ Subgroup.centralizer ({t} : Set Y)) :
@@ -247,7 +250,7 @@ theorem isWC_of_weakTI {T : Subgroup Y} (hT : Assembly.IsElemAbelian 2 T)
     (hwc : WeaklyClosedIn T (Subgroup.normalizer (T : Set Y))) (hwti : WeakTI T) :
     IsWC T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTp : IsPGroup 2 T := CFSG.Open.IsElemAbelian.isPGroup hT
   refine ⟨hT, ?_⟩
   intro t ht ht1
@@ -273,7 +276,7 @@ theorem isWC_of_weakTI {T : Subgroup Y} (hT : Assembly.IsElemAbelian 2 T)
   obtain ⟨S, hSN, _⟩ :=
     CFSG.RankThree.GF2n.Tim81.CentralTI.exists_sylow_le_normalizer hTsub hwcC
   let Q : Subgroup Y := (S : Subgroup ↥C).map C.subtype
-  have hQ2 : IsPGroup 2 Q := S.isPGroup'.map C.subtype
+  have hQ2 : IsPGroup 2 Q := S.isPGroup.map C.subtype
   have hQC : Q ≤ C := Subgroup.map_subtype_le _
   have hQN : Q ≤ Subgroup.normalizer (T : Set Y) := by
     calc Q = (S : Subgroup ↥C).map C.subtype := rfl
@@ -309,9 +312,9 @@ theorem le_centralizer_of_odd_card {T O : Subgroup Y} (hT : Assembly.IsElemAbeli
     (h4 : 4 ≤ Nat.card T) (hTI : IsTI T) (hTO : T ≤ Subgroup.normalizer (O : Set Y))
     (hO : Odd (Nat.card O)) : O ≤ Subgroup.centralizer (T : Set Y) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Subgroup.Normalizes T O := ⟨hTO⟩
-  letI : CFSG.IsElementaryAbelian 2 ↥T :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Subgroup.Normalizes T O := ⟨hTO⟩
+  let : CFSG.IsElementaryAbelian 2 ↥T :=
     { toIsMulCommutative := hT.1
       exponent_dvd_p := by
         rw [Monoid.exponent_dvd_iff_forall_pow_eq_one]
@@ -396,6 +399,7 @@ private theorem zstar_O_odd_quot {N O : Subgroup Y} [N.Normal]
   rw [Nat.card_congr e.toEquiv]
   exact odd_card_fusionOddCore (Y ⧸ N)
 
+omit [Finite Y] in
 private theorem zstar_Q_exact {N O : Subgroup Y} [N.Normal]
     (hN : N ≤ Subgroup.center Y) (hNp : IsPGroup 2 N)
     (Q : Subgroup ↥O) (hQcomp : (N.subgroupOf O).IsComplement' Q)
@@ -409,7 +413,7 @@ private theorem zstar_Q_exact {N O : Subgroup Y} [N.Normal]
   have hncomm : Commute n q := by
     apply Subtype.ext
     exact (Subgroup.mem_center_iff.mp (hN (Subgroup.mem_subgroupOf.mp hn)) (q : Y)).symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNsub_p : IsPGroup 2 (N.subgroupOf O) := hNp.comap_subtype (K := O)
   obtain ⟨k, hk⟩ := hNsub_p.exists_orderOf_eq_pow ⟨n, hn⟩
   rw [Subgroup.orderOf_mk] at hk
@@ -478,13 +482,14 @@ private theorem zstar_exists_QY {N O : Subgroup Y} [N.Normal] [O.Normal]
     exact Subgroup.mem_map.mpr ⟨_, hqQ, rfl⟩
   exact ⟨QY, hQY_normal, hQYodd, hONQ⟩
 
+omit [Finite Y] in
 private theorem zstar_sup_top_normal {T N : Subgroup Y} [N.Normal]
     (hgen : Subgroup.normalClosure (T : Set Y) = ⊤) (hZ : ZStarCase (Y ⧸ N)) :
     let O : Subgroup Y := (fusionOddCore (Y ⧸ N)).comap (QuotientGroup.mk' N)
     T ⊔ O = ⊤ ∧ (T ⊔ O).Normal := by
   classical
   let O : Subgroup Y := (fusionOddCore (Y ⧸ N)).comap (QuotientGroup.mk' N)
-  haveI hO_normal : O.Normal := by
+  have hO_normal : O.Normal := by
     dsimp [O]
     infer_instance
   have hcomm_le : commutator Y ≤ O := by
@@ -495,7 +500,7 @@ private theorem zstar_sup_top_normal {T N : Subgroup Y} [N.Normal]
     rw [commutatorElement_def]
     have h := (zStarCase_iff.mp hZ) (QuotientGroup.mk' N a⁻¹) (QuotientGroup.mk' N b⁻¹)
     simpa [O, map_mul, map_inv, mul_assoc] using h
-  haveI hTO_normal : (T ⊔ O).Normal := by
+  have hTO_normal : (T ⊔ O).Normal := by
     refine ⟨fun x hx g => ?_⟩
     obtain ⟨t, ht, o, ho, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hx
     have hgo : g * o * g⁻¹ ∈ O := hO_normal.conj_mem o ho g
@@ -527,7 +532,7 @@ theorem zstar_normal {T N : Subgroup Y} [N.Normal] (hT : Assembly.IsElemAbelian 
   classical
   let π : Y →* Y ⧸ N := QuotientGroup.mk' N
   let O : Subgroup Y := (fusionOddCore (Y ⧸ N)).comap π
-  haveI hO_normal : O.Normal := by
+  have hO_normal : O.Normal := by
     dsimp [O]
     infer_instance
   have hN_le_O : N ≤ O := by
@@ -548,7 +553,7 @@ theorem zstar_normal {T N : Subgroup Y} [N.Normal] (hT : Assembly.IsElemAbelian 
     zstar_exists_QY (N := N) (O := O) hN hNp hN_le_O hindex_odd
   have hTO_top : T ⊔ O = ⊤ :=
     (zstar_sup_top_normal (T := T) (N := N) hgen hZ).1
-  haveI : QY.Normal := hQY_normal
+  have : QY.Normal := hQY_normal
   have hT_le_NQY : T ≤ Subgroup.normalizer (QY : Set Y) :=
     Subgroup.le_normalizer_of_normal (H := QY)
   have hQle : QY ≤ Subgroup.normalizer (T : Set Y) :=

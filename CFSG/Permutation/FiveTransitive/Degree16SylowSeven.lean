@@ -24,8 +24,8 @@ private theorem sylow_seven_thirteen_fixed_pair_bound
     N7.index * 6 * 2 + N13.index * 12 * 6 ≤ Nat.card P := by
   classical
   dsimp
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   let A7 := Degree15.NonidentitySylowElements 7 P
   let A13 := Degree15.NonidentitySylowElements 13 P
   let val7 : A7 → P :=
@@ -276,7 +276,7 @@ theorem sylow_seven_reduction
   have hPcard : Nat.card P = 524160 * k := by
     rw [hKindex] at hKindexCard
     exact hKindexCard.symm
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let S7 : Sylow 7 P := Sylow.nonempty.some
   have hS7card : Nat.card S7 = 7 := by
     rw [S7.card_eq_multiplicity, hPcard]
@@ -290,8 +290,8 @@ theorem sylow_seven_reduction
       Nat.factorization_eq_zero_of_not_dvd (by norm_num),
       Nat.factorization_eq_zero_of_not_dvd hkNot7]
     norm_num
-  letI : IsCyclic S7 := isCyclic_of_prime_card hS7card
-  letI : IsMulCommutative S7 := IsCyclic.isMulCommutative
+  let : IsCyclic S7 := isCyclic_of_prime_card hS7card
+  let : IsMulCommutative S7 := IsCyclic.isMulCommutative
   obtain ⟨u, hu⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S7)
   have huorder : orderOf u = 7 := hu.trans hS7card
@@ -401,7 +401,7 @@ theorem sylow_seven_reduction
   have hrDvd : r ∣ 6 := by
     rw [hrEq]
     exact hrangeDvd
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrpos : 0 < r :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero
@@ -443,7 +443,7 @@ theorem sylow_seven_reduction
     exact Nat.mul_div_cancel_left _
       (Nat.mul_pos (by
         exact Nat.card_pos) hrpos)
-  letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   let S13 : Sylow 13 P := Sylow.nonempty.some
   have hS13card : Nat.card S13 = 13 := by
     rw [S13.card_eq_multiplicity, hPcard]

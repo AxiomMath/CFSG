@@ -21,16 +21,19 @@ variable {B : LinearMap.BilinForm (ZMod 2) W}
     (g : ↥(alternatingGroup (Fin 5))) : Submodule (ZMod 2) W :=
   LinearMap.range ((ρ g : W →ₗ[ZMod 2] W) - LinearMap.id)
 
+omit [Finite W] in
 theorem mem_fixedSpace {ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W)}
     {g : ↥(alternatingGroup (Fin 5))} {w : W} :
     w ∈ fixedSpace ρ g ↔ ρ g w = w := by
   simp [fixedSpace, sub_eq_zero]
 
+omit [Finite W] in
 theorem mem_commSpace {ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W)}
     {g : ↥(alternatingGroup (Fin 5))} {w : W} :
     w ∈ commSpace ρ g ↔ ∃ v, ρ g v - v = w := by
   simp [commSpace]
 
+omit [Finite W] in
 theorem fixedSpace_eq_orthogonal_commSpace {ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W)}
     (hB : B.Nondegenerate) (hiso : ∀ g x y, B (ρ g x) (ρ g y) = B x y)
     (g : ↥(alternatingGroup (Fin 5))) :
@@ -57,6 +60,7 @@ theorem fixedSpace_eq_orthogonal_commSpace {ρ : ↥(alternatingGroup (Fin 5)) �
       simpa using h
     rw [map_sub, hisov, hwv, sub_self]
 
+omit [Finite W] in
 theorem fixedSpace_inf_eq_bot_of_closure_eq_top
     {ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W)}
     (h0 : ∀ w : W, (∀ g, ρ g w = w) → w = 0)
@@ -153,7 +157,7 @@ theorem finrank_eq_four {ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide
   have h5 : 5 ∣ Nat.card ↥(alternatingGroup (Fin 5)) := by rw [hA]; norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 h5
   have hx5 : orderOf (ρ x) = 5 := (orderOf_injective ρ hρ x).trans hx
   have h5dvd : 5 ∣ Nat.card (W ≃ₗ[ZMod 2] W) := by
@@ -198,13 +202,13 @@ theorem card_fixedSpace {ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 
   have heq : {w : W // ρ g w = w} ≃ ↥(fixedSpace ρ g) :=
     Equiv.subtypeEquivRight (fun w => (mem_fixedSpace (ρ := ρ) (g := g) (w := w)).symm)
   rw [Nat.card_congr heq]
-  haveI : Module.Finite (ZMod 2) ↥(fixedSpace ρ g) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) ↥(fixedSpace ρ g) := Module.Finite.of_finite
   let b := Module.finBasisOfFinrankEq (ZMod 2) ↥(fixedSpace ρ g) hfr
   rw [Nat.card_congr b.equivFun.toEquiv, Nat.card_fun, Nat.card_fin, Nat.card_zmod]
   norm_num
 
 theorem a5_module_card_sixteen (W : Type) [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
-    (B : LinearMap.BilinForm (ZMod 2) W) (hB : B.Nondegenerate) (hAlt : B.IsAlt)
+    (B : LinearMap.BilinForm (ZMod 2) W) (hB : B.Nondegenerate) (_hAlt : B.IsAlt)
     (ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W)) (hρ : Function.Injective ρ)
     (hiso : ∀ g x y, B (ρ g x) (ρ g y) = B x y)
     (h0 : ∀ w : W, (∀ g, ρ g w = w) → w = 0)
@@ -215,7 +219,7 @@ theorem a5_module_card_sixteen (W : Type) [AddCommGroup W] [Module (ZMod 2) W] [
   have hfin : Module.finrank (ZMod 2) W = 4 :=
     finrank_eq_four (ρ := ρ) hB hiso hρ h0 hdim
   have hcardW : Nat.card W = 16 := by
-    haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
     let b := Module.finBasisOfFinrankEq (ZMod 2) W hfin
     rw [Nat.card_congr b.equivFun.toEquiv, Nat.card_fun, Nat.card_fin, Nat.card_zmod]
     norm_num

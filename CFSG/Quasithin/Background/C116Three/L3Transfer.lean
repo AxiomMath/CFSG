@@ -18,6 +18,7 @@ theorem l3t_relIndex_ne_zero (M W : Subgroup V) : M.relIndex W ≠ 0 := by
   have hpos : 0 < Nat.card ↥W := Nat.card_pos
   omega
 
+omit [Finite V] in
 theorem l3t_relIndex_mul_card {M W : Subgroup V} (hMW : M ≤ W) :
     M.relIndex W * Nat.card ↥M = Nat.card ↥W := by
   have h := Subgroup.relIndex_mul_card (H := M) (K := W)
@@ -34,6 +35,7 @@ theorem l3t_card_le_mul {X M W Y : Subgroup V} (hXW : X ≤ W) (hY : X ⊓ M = Y
   calc Nat.card ↥X = M.relIndex X * Nat.card ↥(X ⊓ M) := h1.symm
     _ ≤ M.relIndex W * Nat.card ↥(X ⊓ M) := Nat.mul_le_mul h2 le_rfl
 
+omit [Finite V] in
 theorem l3t_fixMod_inf {M W : Subgroup V} (hMW : M ≤ W) (B : Subgroup (MulAut V))
     (C : Subgroup V) : R3c23.fixMod B W C ⊓ M = R3c23.fixMod B M C := by
   ext w
@@ -82,6 +84,7 @@ theorem tight_of_tight {G : Subgroup (MulAut V)} {M W C : Subgroup V} (hMW : M �
       _ = M.relIndex W * (Nat.card B * Nat.card ↥(fixV B ⊓ M)) := by ring
   exact le_antisymm h1 (le_of_mul_le_mul_left key hpos)
 
+omit [Finite V] in
 theorem l3t_fixMod_conj (τ : MulAut V) (A : Subgroup (MulAut V)) (M C : Subgroup V) :
     R3c23.fixMod (B1.conjAut τ A) (M.map τ.toMonoidHom) (C.map τ.toMonoidHom) =
       (R3c23.fixMod A M C).map τ.toMonoidHom := by
@@ -97,7 +100,7 @@ theorem l3t_fixMod_conj (τ : MulAut V) (A : Subgroup (MulAut V)) (M C : Subgrou
     obtain ⟨c, hc, hc'⟩ := Subgroup.mem_map.1 (hwC _ hb)
     have key : τ.toMonoidHom (a m * m⁻¹) =
         (τ * a * τ⁻¹) (τ.toMonoidHom m) * (τ.toMonoidHom m)⁻¹ := by
-      simp [MulAut.mul_apply, MulAut.inv_apply_self]
+      simp [MulAut.mul_apply]
     have hc2 : c = a m * m⁻¹ := hτ (hc'.trans key.symm)
     rw [← hc2]
     exact hc
@@ -109,10 +112,11 @@ theorem l3t_fixMod_conj (τ : MulAut V) (A : Subgroup (MulAut V)) (M C : Subgrou
     have hm' : (τ⁻¹ * b * τ) m * m⁻¹ ∈ C := (R3c23.mem_fixMod.1 hm).2 _ ha
     have key : b (τ.toMonoidHom m) * (τ.toMonoidHom m)⁻¹ =
         τ.toMonoidHom ((τ⁻¹ * b * τ) m * m⁻¹) := by
-      simp [MulAut.mul_apply, MulAut.apply_inv_self]
+      simp [MulAut.mul_apply]
     rw [key]
     exact Subgroup.mem_map.2 ⟨_, hm', rfl⟩
 
+omit [Finite V] in
 theorem bounds_map (τ : MulAut V) {G : Subgroup (MulAut V)} {M C : Subgroup V}
     (h : Bounds G M C) :
     Bounds (G.map (MulAut.conj τ).toMonoidHom) (M.map τ.toMonoidHom) (C.map τ.toMonoidHom) := by

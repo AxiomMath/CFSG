@@ -127,8 +127,8 @@ theorem twFixedNC_singer (h : UnitaryFieldData ℓ f K) (hq3 : 3 ∣ ℓ ^ f + 1
   rw [card_centralizer_glPi_false hK hmod hyH hc hγ3] at hcard
   change Nat.card _ * (ℓ ^ f + 1) = _ at hcard
   by_contra hall
-  haveI := h.finite
-  haveI : Finite (GL (Fin 3) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 3) K) :=
     Finite.of_injective (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K)) Units.val_injective
   let φ : ↥(slPi false 3 (ℓ ^ f) K ⊓ Subgroup.centralizer {(γ : GL (Fin 3) K)}) →
       Subgroup.center (unitarySU ℓ f K 3) := fun g =>

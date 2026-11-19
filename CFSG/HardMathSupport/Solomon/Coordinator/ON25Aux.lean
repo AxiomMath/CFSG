@@ -14,7 +14,7 @@ section
 
 
 theorem on25_hKbar {Y : Type} [Group Y] [Finite Y] (q : GM →* Y) (hker : q.ker ≤ zpowers zG)
-    (hq : Function.Surjective q) (n : GM) :
+    (_hq : Function.Surjective q) (n : GM) :
     CFSG.Open.IsQuasisimple ↥((K0G.map (MulAut.conj n).toMonoidHom).map q) ∧
       IsPGroup 3 (Subgroup.center ↥((K0G.map (MulAut.conj n).toMonoidHom).map q)) ∧
       3 ∣ Nat.card ((K0G.map (MulAut.conj n).toMonoidHom).map q) := by

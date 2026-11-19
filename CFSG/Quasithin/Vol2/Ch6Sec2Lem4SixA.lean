@@ -37,7 +37,7 @@ theorem exists_noncentral_order_three624 {P : Type*} [Group P] [Finite P]
     exact hZ _ hbc hb' z (hcon z hzo) hzo
   have hcyc : IsCyclic ↥(S : Subgroup P) :=
     CFSG.RankThree.PartOne.K1214.isCyclic_subgroup_of_pow_eq_one_subset Nat.prime_three
-      (by norm_num) S.isPGroup' b.2 hb' hsub
+      (by norm_num) S.isPGroup b.2 hb' hsub
   have : IsMulCommutative ↥(S : Subgroup P) := ⟨⟨fun x y => IsCyclic.commGroup.mul_comm x y⟩⟩
   have hcop : Nat.Coprime (orderOf (b : P)) (S : Subgroup P).index := by
     rw [hb']

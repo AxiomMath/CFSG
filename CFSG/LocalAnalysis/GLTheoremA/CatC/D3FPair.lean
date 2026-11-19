@@ -84,18 +84,18 @@ theorem rootCoord_inv_d4 [Finite K] {γ : D4Vec} (hγ : IsRoot Tag.D4 γ ∧ 0 <
   exact eq_neg_of_add_eq_zero_right h.symm
 
 theorem cc_antisymm [Finite K] {γ δ : D4Vec} (hγ : IsRoot Tag.D4 γ ∧ 0 < height γ)
-    (hδ : IsRoot Tag.D4 δ ∧ 0 < height δ) (hne : γ ≠ δ) (hr : IsRoot Tag.D4 (γ + δ)) :
+    (hδ : IsRoot Tag.D4 δ ∧ 0 < height δ) (_hne : γ ≠ δ) (hr : IsRoot Tag.D4 (γ + δ)) :
     cc (K := K) δ γ = - cc γ δ := by
   have hβ : IsRoot Tag.D4 (γ + δ) ∧ 0 < height (γ + δ) :=
     ⟨hr, by rw [d4_height_add]; omega⟩
   have hβ' : IsRoot Tag.D4 (δ + γ) ∧ 0 < height (δ + γ) := by
     rw [add_comm]; exact hβ
   have h1 : rootCoord hβ ⁅pinnedX Tag.D4 K γ 1, pinnedX Tag.D4 K δ 1⁆ = cc γ δ := by
-    rw [rootCoord_commutator_pinnedX_d4 hγ hδ hβ (by rw [d4_height_add]) 1 1, if_pos rfl]
+    rw [rootCoord_commutator_pinnedX_d4 hγ hδ hβ (by rw [d4_height_add]) 1 1, ite_eq_left rfl]
     simp [cc]
   have h2 : rootCoord hβ ⁅pinnedX Tag.D4 K δ 1, pinnedX Tag.D4 K γ 1⁆ = cc δ γ := by
     have := rootCoord_commutator_pinnedX_d4 (K := K) hδ hγ hβ (by rw [d4_height_add]; omega) 1 1
-    rw [if_pos (add_comm δ γ)] at this
+    rw [ite_eq_left (add_comm δ γ)] at this
     rw [this]
     simp [cc]
   have hmem : ⁅pinnedX Tag.D4 K γ 1, pinnedX Tag.D4 K δ 1⁆ ∈
@@ -219,7 +219,7 @@ theorem cc_jacobi [Finite K] {i j : D4Idx} (hi2 : i ≠ 2) (hj2 : j ≠ 2) (hij 
     rw [pc_of_pos hBj', hW₂, hzi, hxi,
       rootCoord_pairs_two (by norm_num) (by norm_num) (h1 2 _) (h1 i _) hBj'
         (by rw [hBj.2]; norm_num) hP11j hne2]
-    simp [pc_rA_pinnedX, hi2, Ne.symm hi2, hj2, Ne.symm hj2, hij, Ne.symm hij]
+    simp [pc_rA_pinnedX, hi2, Ne.symm hj2, hij]
   set W₃ : ModGL Tag.D4 K := ⁅y⁻¹, z⁆ with hW₃
   have hW₃U : W₃ ∈ heightSeries Tag.D4 K 2 := by
     rw [hW₃, hyi, hz]; exact hcomm2 _ _ _ _
@@ -227,12 +227,12 @@ theorem cc_jacobi [Finite K] {i j : D4Idx} (hi2 : i ≠ 2) (hj2 : j ≠ 2) (hij 
     rw [pc_of_pos hBj', hW₃, hyi, hz,
       rootCoord_pairs_two (by norm_num) (by norm_num) (h1 j _) (h1 2 _) hBj'
         (by rw [hBj.2]; norm_num) hP11j hne2]
-    simp [pc_rA_pinnedX, hi2, Ne.symm hi2, hj2, Ne.symm hj2, hij, Ne.symm hij]
+    simp [pc_rA_pinnedX, hj2, Ne.symm hj2]
   have hW₃i : pc (rB i) W₃ = 0 := by
     rw [pc_of_pos hBi', hW₃, hyi, hz,
       rootCoord_pairs_two (by norm_num) (by norm_num) (h1 j _) (h1 2 _) hBi'
         (by rw [hBi.2]; norm_num) hP11i hne1]
-    simp [pc_rA_pinnedX, hi2, Ne.symm hi2, hj2, Ne.symm hj2, hij, Ne.symm hij]
+    simp [pc_rA_pinnedX, Ne.symm hi2, hj2, Ne.symm hij]
   have hne3 : ((rB j, rA i) : D4Vec × D4Vec) ≠ (rB i, rA j) := by
     intro h
     exact hij ((rA_inj _ _).1 (congrArg Prod.snd h))
@@ -250,13 +250,13 @@ theorem cc_jacobi [Finite K] {i j : D4Idx} (hi2 : i ≠ 2) (hj2 : j ≠ 2) (hij 
   have hT₂c : rootCoord hC' T₂ = cc (K := K) (rB i) (rA j) * cc (rA 2) (rA i) := by
     rw [hT₂, rootCoord_pairs_two (by norm_num) (by norm_num) hW₂U (h1 j 1) hC'
       (by rw [hC.2]; norm_num) hP21 hne3]
-    simp only [pc_rA_pinnedX, hW₂i, hW₂j, hy]
-    simp [hi2, Ne.symm hij, hij]
+    simp only [pc_rA_pinnedX, hW₂i, hW₂j]
+    simp [Ne.symm hij]
   have hT₃c : rootCoord hC' T₃ = cc (K := K) (rB j) (rA i) * cc (rA j) (rA 2) := by
     rw [hT₃, hxi, rootCoord_pairs_two (by norm_num) (by norm_num) hW₃U (h1 i (-1)) hC'
       (by rw [hC.2]; norm_num) hP21 hne3]
     simp only [pc_rA_pinnedX, hW₃i, hW₃j]
-    simp [hij, Ne.symm hij]
+    simp [hij]
   have hxy : ⁅x, y⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.2 hcomm.eq
   have hHW := conj_commutatorElement_left_commutatorElement_mul x⁻¹ y z
   rw [inv_inv] at hHW

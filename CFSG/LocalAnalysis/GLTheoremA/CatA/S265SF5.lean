@@ -87,7 +87,7 @@ theorem glaPLayer_ne_bot_of_unitary_diag_eq (hF : UnitaryFieldData 2 m F) (hn : 
     {i j : Fin n} (hij : i ≠ j) (htij : t i = t j) :
     GLAPLayer p (fixSubgroup (primeFormConjHom hF
       ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) A)) ≠ ⊥ := by
-  haveI := hF.finite
+  have := hF.finite
   have hp2 := TableBUD.ne_two_of_dvd hF hpq
   have hne : ¬(n = 3 ∧ 2 ^ m = 2) := fun h' => by have := h'.2; omega
   have hbar : hF.bar (t i) * t i = 1 := by
@@ -156,8 +156,8 @@ theorem card_le_of_unitary_diag_nl (hF : UnitaryFieldData 2 m F) (hn : 3 ≤ n) 
     (hPd : ∀ A ∈ X.comap (primeFormConjHom hF ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)),
       ((P⁻¹ * (A : GL (Fin n) F) * P : GL (Fin n) F) : Matrix (Fin n) (Fin n) F).IsDiag) :
     Nat.card X ≤ p := by
-  haveI := hF.finite
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have := hF.finite
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hne : ¬(n = 3 ∧ 2 ^ m = 2) := fun h' => by have := h'.2; omega
   set G := X.comap (primeFormConjHom hF (idGram F n)) with hGdef
   obtain ⟨i, j, hij⟩ : ∃ i j : Fin n, i ≠ j := ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩

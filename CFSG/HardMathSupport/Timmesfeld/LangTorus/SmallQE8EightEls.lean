@@ -42,7 +42,7 @@ theorem pairZ17_mulVec_single (y : Fin 8 → ZMod 17) (i : Fin Tag.E8.rank) :
 theorem exists_zeta17 {L : Type} [Field L] [CharP L 2] [IsAlgClosed L] :
     ∃ ζ : Lˣ, orderOf ζ = 17 := by
   have : NeZero ((17 : ℕ) : L) := NeZero.of_not_dvd L (p := 2) (by norm_num)
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 17
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 17
   have hu : IsUnit ζ := hζ.isUnit (by norm_num)
   have hζu : IsPrimitiveRoot hu.unit 17 := IsPrimitiveRoot.coe_units_iff.1 (by simpa using hζ)
   exact ⟨hu.unit, hζu.eq_orderOf.symm⟩

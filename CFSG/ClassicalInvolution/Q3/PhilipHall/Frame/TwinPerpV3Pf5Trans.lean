@@ -77,7 +77,7 @@ section Layer
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {c : G}
 
-theorem exists_conj_sylow_of_secImg_conj (hΩ : HypOmegaGen Ω)
+theorem exists_conj_sylow_of_secImg_conj (_hΩ : HypOmegaGen Ω)
     (hc2 : IsPGroup 2 (Subgroup.zpowers c)) {J M : Subgroup G} (hJ : J ∈ tqMembers3 Ω c)
     (hM : M ∈ tqMembers3 Ω c) {P Q : Subgroup G} (hP : IsSylow2In P J) (hQ : IsSylow2In Q M)
     (hPc : P ≤ Subgroup.centralizer ({c} : Set G)) (hQc : Q ≤ Subgroup.centralizer ({c} : Set G))

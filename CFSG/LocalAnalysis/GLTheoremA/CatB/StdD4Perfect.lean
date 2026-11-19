@@ -48,7 +48,7 @@ theorem inducesInnerMod_of_perfect {G : Type} [Group G] (L : Subgroup G) (hL : c
     have hfl : f l = ⟨b⁻¹ * (l : G) * b, hbN l l.2⟩ := rfl
     have hgl : (QuotientGroup.mk (g l) : ↥L ⧸ Subgroup.center ↥L) =
         QuotientGroup.mk x * QuotientGroup.mk l * (QuotientGroup.mk x)⁻¹ := by
-      simp only [g, MonoidHom.coe_comp, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+      simp only [g, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       rw [QuotientGroup.mk_mul, QuotientGroup.mk_mul, QuotientGroup.mk_inv]
     rw [hfl, hind l, hgl, map_mul, map_mul, map_inv, hxr]
   have hcen : ∀ l : ↥L, (f l)⁻¹ * g l ∈ Subgroup.center ↥L := fun l =>

@@ -35,7 +35,7 @@ theorem chev2SmallModules_psl_l42
     apply Additive.toMul.injective
     show (Additive.toMul a) ^ 2 = 1
     exact hW _
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
   obtain ⟨_, K, _, _, _, hKcard, φ, hφs, hker, -⟩ := w135c2_psl_cover hW hQ hirr hlie
   have hK : Fintype.card K = 2 := by simpa using hKcard
   have hirrρ := w135c2_psl_rep_irreducible hirr φ hφs
@@ -78,10 +78,10 @@ theorem chev2SmallModules_psl_l42
         simp only [CFSG.LargeExtraspecial.SL4Mod.Native.noneDims, List.mem_cons,
           List.not_mem_nil, or_false]
         omega
-      haveI : Finite (Additive W) := ‹Finite W›
-      haveI : FiniteDimensional (ZMod 2) (Additive W) := Module.Finite.of_finite
+      have : Finite (Additive W) := ‹Finite W›
+      have : FiniteDimensional (ZMod 2) (Additive W) := Module.Finite.of_finite
       have hV : Module.finrank (ZMod 2) (Additive W) = d := by
-        haveI : Fintype (Additive W) := Fintype.ofFinite _
+        have : Fintype (Additive W) := Fintype.ofFinite _
         have h1 : Fintype.card (Additive W) = 2 ^ Module.finrank (ZMod 2) (Additive W) := by
           rw [Module.card_eq_pow_finrank (K := ZMod 2), ZMod.card 2]
         have hcardAd : Nat.card (Additive W) = 2 ^ d := by

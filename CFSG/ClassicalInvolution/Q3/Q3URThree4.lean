@@ -146,7 +146,7 @@ theorem chainRow3U_three (h3 : OddThreeFreeInput) : ChainRow3U 3 := by
     · exact hNz.1
     · exact (nd.mem 2 (by omega)).1
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact nd.commK 0 (by omega)
     · exact commutes_K_of_neU3 c.hm c.hΩ c.hex c.hK c.hz c.hP1 c.hO3 c.d hNz hNK
     · exact nd.commK 2 (by omega)
@@ -154,15 +154,14 @@ theorem chainRow3U_three (h3 : OddThreeFreeInput) : ChainRow3U 3 := by
     · exact hlast
     · exact nd.far 0 (by omega) 2 (by omega) (by omega)
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact ⟨W1, hW1'⟩
     · exact ⟨W2, hW2'⟩
     · exact ⟨W3, hW3'⟩
     · exact ⟨W4, hW4'⟩
   · intro i j k hij hjk
     fin_cases i <;> fin_cases j <;> fin_cases k <;>
-      first | (exfalso; exact absurd hij (by decide)) | (exfalso; exact absurd hjk (by decide)) |
-        skip
+      try first | (exfalso; exact absurd hij (by decide)) | (exfalso; exact absurd hjk (by decide))
     · exact hT0
     · exact hT1
     · exact hT2

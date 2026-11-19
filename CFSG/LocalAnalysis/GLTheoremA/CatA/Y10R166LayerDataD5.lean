@@ -36,10 +36,12 @@ private noncomputable def planeParamHom (m : ℕ) [NeZero m] (q : ℕ) :
     simp only [planeParamFun, Pi.mul_apply, Prod.fst_mul, Prod.snd_mul]
     split_ifs <;> simp
 
+omit [Finite F] [CharP F 2] in
 private theorem planeParamHom_apply {m : ℕ} [NeZero m] (q : ℕ)
     (x : rootsOfUnity q F × rootsOfUnity q F) (i : Fin m) :
     planeParamHom (F := F) m q x i = planeParamFun (F := F) m q x i := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem planeParamHom_injective {m : ℕ} [NeZero m] {q : ℕ} (hm : 4 ≤ m) :
     Function.Injective (planeParamHom (F := F) m q) := by
   rintro ⟨a₁, a₂⟩ ⟨b₁, b₂⟩ h
@@ -50,12 +52,14 @@ private theorem planeParamHom_injective {m : ℕ} [NeZero m] {q : ℕ} (hm : 4 �
     simpa [planeParamHom_apply, planeParamFun, two_ne_zero_fin hm, two_ne_one_fin hm] using h2
   exact Prod.ext h0' h2'
 
+omit [Finite F] [CharP F 2] in
 private theorem planeParamHom_apply_zero_eq_one {m : ℕ} [NeZero m] {q : ℕ} (hm : 4 ≤ m)
     (x : rootsOfUnity q F × rootsOfUnity q F) :
     ((planeParamHom (F := F) m q x (0 : Fin m) : rootsOfUnity q F) : Fˣ) =
       ((planeParamHom (F := F) m q x (1 : Fin m) : rootsOfUnity q F) : Fˣ) := by
   simp [planeParamHom_apply, planeParamFun, one_ne_zero_fin hm]
 
+omit [Finite F] [CharP F 2] in
 private theorem planeParamHom_pair_one {m : ℕ} [NeZero m] {q : ℕ} (hm : 4 ≤ m) {ζ : Fˣ}
     (hζq : ζ ^ q = 1) :
     (fun i => (((planeParamHom (F := F) m q
@@ -64,13 +68,13 @@ private theorem planeParamHom_pair_one {m : ℕ} [NeZero m] {q : ℕ} (hm : 4 �
   funext i
   rw [torusParam_apply hm, planeParamHom_apply, planeParamFun]
   by_cases h0 : i = 0
-  · rw [if_pos h0, if_pos (Or.inl h0)]
+  · rw [ite_eq_left h0, ite_eq_left (Or.inl h0)]
   by_cases h1 : i = 1
-  · rw [if_neg h0, if_pos h1, if_pos (Or.inr h1)]
-  rw [if_neg h0, if_neg h1]
+  · rw [ite_eq_right h0, ite_eq_left h1, ite_eq_left (Or.inr h1)]
+  rw [ite_eq_right h0, ite_eq_right h1]
   by_cases h2 : i = 2
-  · rw [if_pos h2, if_neg (by tauto : ¬ (i = 0 ∨ i = 1))]; simp
-  · rw [if_neg h2, if_neg (by tauto : ¬ (i = 0 ∨ i = 1))]; simp
+  · rw [ite_eq_left h2, ite_eq_right (by tauto : ¬ (i = 0 ∨ i = 1))]; simp
+  · rw [ite_eq_right h2, ite_eq_right (by tauto : ¬ (i = 0 ∨ i = 1))]; simp
 
 private noncomputable def twoPlaneTorus (m q : ℕ) [NeZero m] :
     Subgroup (matrixProjectiveDerived (coordinateQuadPlus m F)) :=
@@ -84,9 +88,9 @@ private theorem twoPlaneTorus_le_qTorus {m q : ℕ} [NeZero m] :
   exact MonoidHom.mem_range.2 ⟨planeParamHom (F := F) m q y, rfl⟩
 
 private theorem card_twoPlaneTorus {m n q : ℕ} [NeZero m] (hm : 4 ≤ m)
-    (hF : Nat.card F = 2 ^ n) (hq : q.Prime) (hqF : q ∣ Nat.card F - 1) :
+    (_hF : Nat.card F = 2 ^ n) (hq : q.Prime) (hqF : q ∣ Nat.card F - 1) :
     Nat.card (twoPlaneTorus (F := F) m q) = q ^ 2 := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   have hinj : Function.Injective
       ((qTorusHom (K := F) m q).comp (planeParamHom (F := F) m q)) :=
     (qTorusHom_injective (K := F) m q).comp (planeParamHom_injective (F := F) hm)
@@ -170,9 +174,9 @@ private theorem leviFixBar_isQuasisimple {m : ℕ} [NeZero m] (hm : 4 ≤ m)
   exact (isHypCoord_coordinateQuadPlus (K := F) (zeroIdx m hm)).exists_ne_zero
 
 private theorem q_dvd_card_leviFixBar {m n q : ℕ} [NeZero m] (hm : 4 ≤ m)
-    (hF : Nat.card F = 2 ^ n) (hq : q.Prime) (hqF : q ∣ Nat.card F - 1) :
+    (_hF : Nat.card F = 2 ^ n) (_hq : q.Prime) (hqF : q ∣ Nat.card F - 1) :
     q ∣ Nat.card ↥(leviFixBar (framePair (F := F) (m := m) 0) (framePair (F := F) (m := m) 1)) := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨_hq.ne_zero⟩
   have horth : (framePair (F := F) 0).Orth (framePair (F := F) 1) := framePair_orth (F := F) hm
   obtain ⟨hQ, hT⟩ := regular_coordinateQuadPlus (K := F) (n := m) (by omega)
   have hQne : ∃ v, (coordinateQuadPlus m F) v ≠ 0 :=
@@ -209,7 +213,7 @@ private theorem conj_mem_leviFixBar {m q : ℕ} [NeZero m] (hm : 4 ≤ m) {ζ : 
       frameLin (plusFrameLeft m) (plusFrameRight m) (torusParam m ζ) =
       frameLin (plusFrameLeft m) (plusFrameRight m) (torusParam m ζ) * (g' : _) := by
     have h := congrArg Subtype.val hconj
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at h
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv] at h
     have h2 : (g' : (Fin (2 * m) → F) ≃ₗ[F] (Fin (2 * m) → F)) *
         (torusElt (F := F) m ζ : _) * (g' : _)⁻¹ = (torusElt (F := F) m ζ : _) := by
       simpa using h
@@ -244,9 +248,9 @@ theorem exists_qLayer_le_qTorus {m n q : ℕ} (hm : 4 ≤ m) (hn : 2 ≤ n)
         GLAPLayer q (Subgroup.centralizer
           (E : Set (matrixProjectiveDerived (coordinateQuadPlus m F)))) ≠ ⊥ := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero m := ⟨by omega⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   have hF4 : 4 ≤ Nat.card F := by
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num

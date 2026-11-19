@@ -72,6 +72,7 @@ theorem mem_fixedSub_zpowers_uMat_iff_K0 (t : F) (ht : t ≠ 0)
 
 
 
+omit [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] in
 private theorem uMat_eq_utriElt (t : F) : uMat t = utriElt t := by
   apply Subtype.ext
   ext i j
@@ -79,11 +80,13 @@ private theorem uMat_eq_utriElt (t : F) : uMat t = utriElt t := by
     simp [uMat_coe, utriElt_apply_00, utriElt_apply_01, utriElt_apply_10,
       utriElt_apply_11]
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 theorem upperSylow_eq_utri : upperSylow (F := F) = utri F := by
   ext g
   rw [mem_upperSylow_iff, mem_utri_iff]
   exact exists_congr fun t => by rw [uMat_eq_utriElt]
 
+omit [Fintype F] [Algebra (ZMod 2) F] in
 private theorem wMat_eq_wElt : (wMat (F := F) : SL(2, F)) = wElt := by
   apply Subtype.ext
   ext i j
@@ -91,6 +94,7 @@ private theorem wMat_eq_wElt : (wMat (F := F) : SL(2, F)) = wElt := by
     simp [wMat, wElt_apply_00, wElt_apply_01, wElt_apply_10, wElt_apply_11,
       CharTwo.neg_eq]
 
+omit [Fintype F] [Algebra (ZMod 2) F] in
 private theorem wMat_mul_self : (wMat (F := F)) * wMat = 1 := by
   apply Subtype.ext
   change (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) F) * !![0, 1; 1, 0] = 1
@@ -98,6 +102,7 @@ private theorem wMat_mul_self : (wMat (F := F)) * wMat = 1 := by
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Algebra (ZMod 2) F] in
 private theorem conj_wMat_upperSylow :
     upperSylow.map (MulAut.conj (wMat (F := F))).toMonoidHom = ltri F := by
   rw [upperSylow_eq_utri, wMat_eq_wElt]
@@ -130,6 +135,7 @@ private theorem mem_fixedSub_ltri_iff (X : ↥(hermA l F)) :
     · rw [← Module.End.mul_apply, ← map_mul, wMat_mul_self, map_one,
         Module.End.one_apply]
 
+omit [Algebra (ZMod 2) F] in
 private theorem hermAct_uMat_sub_hermDiag11 (t a : F) (ha : a ^ 2 ^ l = a) :
     ((hermAct l (sig_sig hF) (uMat t) (hermDiag11 l hF a ha) -
         hermDiag11 l hF a ha : ↥(hermA l F)) : Matrix (Fin 2) (Fin 2) F) =
@@ -137,11 +143,9 @@ private theorem hermAct_uMat_sub_hermDiag11 (t a : F) (ha : a ^ 2 ^ l = a) :
   rw [hermAct_uMat_sub l hF t (hermDiag11 l hF a ha), hermDiag11_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp only [Matrix.sub_apply, hermAct_uMat_00, hermAct_uMat_01,
-      hermAct_uMat_11, hermDiag11_coe, Matrix.of_apply, Matrix.cons_val',
+    simp only [Matrix.of_apply, Matrix.cons_val',
       Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
-      Matrix.cons_val_fin_one, Matrix.zero_apply, Matrix.add_apply, Matrix.sub_apply,
-      Matrix.mul_apply, Matrix.smul_apply, smul_eq_mul] <;>
+      Matrix.cons_val_fin_one] <;>
     ring
 
 private theorem hermDiag11_mem_fixedSub_ltri (a : F) (ha : a ^ 2 ^ l = a) :
@@ -302,6 +306,7 @@ private theorem fixedSub_zpowers_uMat_inf_commSub_upperSylow (t : F) (ht : t ≠
 
 
 include hF in
+omit [Algebra (ZMod 2) F] in
 private theorem card_compl_lt_two_pow (t : F)
     (H : AddSubgroup F) (hS0 : {s : F | ¬ ∃ c : F, c ^ 2 ^ l = c ∧ s = t * c} ⊆ H) :
     Nat.card {x : F // x ∉ H} < 2 ^ l := by
@@ -335,6 +340,7 @@ private theorem card_compl_lt_two_pow (t : F)
   simpa [Nat.card_eq_fintype_card, hK0card] using hlt
 
 include hF in
+omit [Algebra (ZMod 2) F] in
 private theorem closure_compl_mul_frobFixField_eq_top (t : F) :
     AddSubgroup.closure {s : F | ¬ ∃ c : F, c ^ 2 ^ l = c ∧ s = t * c} = ⊤ := by
   classical
@@ -434,6 +440,7 @@ private theorem fixedSub_zpowers_uMat_inf_fixedSub_zpowers_uMat_eq (t s : F) (ht
 
 
 include hF in
+omit [Algebra (ZMod 2) F] in
 private theorem closure_uMat_compl_eq_upperSylow (t : F) :
     Subgroup.closure {z : SL(2, F) | ∃ s : F,
       (¬ ∃ c : F, c ^ 2 ^ l = c ∧ s = t * c) ∧ z = uMat s} = upperSylow := by
@@ -453,7 +460,7 @@ private theorem closure_uMat_compl_eq_upperSylow (t : F) :
     clear hg
     induction hs using AddSubgroup.closure_induction with
     | mem x hx => exact Subgroup.subset_closure ⟨x, hx, rfl⟩
-    | zero => simpa [uMat_zero] using K.one_mem
+    | zero => simp [uMat_zero]
     | add x y hx hy ihx ihy =>
         rw [← uMat_mul]
         exact K.mul_mem ihx ihy
@@ -498,6 +505,7 @@ private theorem upperSylow_eq_closure_fixedSub_zpowers (t : F) (ht : t ≠ 0) :
 
 
 include hF in
+omit [Algebra (ZMod 2) F] in
 private theorem exists_conj_map_eq_upperSylow_ltri
     (B B' : Subgroup (SL(2, F))) (hB2 : ∀ a ∈ B, a * a = 1)
     (hB : Nat.card B = 2 ^ (2 * l)) (hB'2 : ∀ a ∈ B', a * a = 1)
@@ -629,7 +637,7 @@ private theorem card_fixedSub_zpowers_model (B : Subgroup (SL(2, F)))
     rw [ht_eq, h0, uMat_zero]
   have hzp : (Subgroup.zpowers x).map (MulAut.conj a⁻¹).toMonoidHom =
       Subgroup.zpowers xa := by
-    simpa [xa] using MonoidHom.map_zpowers (MulAut.conj a⁻¹).toMonoidHom x
+    simp [xa]
   have hfixmap : (fixedSub (hermRep l hF) (Subgroup.zpowers x)).map
         (hermRep l hF a⁻¹) = fixedSub (hermRep l hF) (Subgroup.zpowers xa) := by
     rw [← fixedSub_map_conj (ρ := hermRep l hF) a⁻¹ (Subgroup.zpowers x), hzp]
@@ -646,6 +654,7 @@ private theorem card_fixedSub_zpowers_model (B : Subgroup (SL(2, F)))
     _ = Nat.card ↥(fixedSub (hermRep l hF) (Subgroup.zpowers (uMat t))) := by rw [← ht_eq]
     _ = 2 ^ (2 * l) := card_fixedSub_zpowers_uMat (hF := hF) t ht
 
+omit [Finite W] in
 private theorem map_sub_image_fieldAut {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
     (A' : Subgroup SL(2, F)) (x : SL(2, F)) :
@@ -673,6 +682,7 @@ private theorem map_sub_image_fieldAut {j : ℕ} {β : W ≃+ ↥(hermA l F)}
       rfl
     exact hfwd
 
+omit [Finite W] in
 private theorem map_fixedSub_eq_fieldAut {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
     (U : Subgroup SL(2, F)) :
@@ -686,6 +696,7 @@ private theorem map_fixedSub_eq_fieldAut {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     exact ⟨β.symm u, (fixedSub_fieldAut_mem (hF := hF) hβ U (β.symm u)).mpr
       (by simpa using hu), by simp⟩
 
+omit [Finite W] in
 private theorem map_commSub_eq_fieldAut {j : ℕ}
     {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
@@ -702,6 +713,7 @@ private theorem map_commSub_eq_fieldAut {j : ℕ}
         (by simpa using hu), by simp⟩
 
 include hF in
+omit [Finite W] in
 theorem IsOrthModule.fixedSub_zpowers_inf_commSub_eq_sup_map (horth : IsOrthModule hF ρ)
     (A A' : Subgroup SL(2, F)) (hA2 : ∀ a ∈ A, a * a = 1)
     (hA : Nat.card A = 2 ^ (2 * l)) (hA'2 : ∀ a ∈ A', a * a = 1)
@@ -739,7 +751,7 @@ theorem IsOrthModule.fixedSub_zpowers_inf_commSub_eq_sup_map (horth : IsOrthModu
   have hmodel := fixedSub_zpowers_inf_commSub_eq_sup_map_model (hF := hF)
     B B' hB2 hB hB'2 hB' hBne hxB hxB1
   have hzp : (Subgroup.zpowers x).map (fieldAut F j) = Subgroup.zpowers xB := by
-    simpa [xB] using MonoidHom.map_zpowers (fieldAut F j) x
+    simp [xB]
   have hfix : (fixedSub ρ (Subgroup.zpowers x)).map f =
       fixedSub (hermRep l hF) (Subgroup.zpowers xB) := by
     rw [map_fixedSub_eq_fieldAut (hF := hF) hβ (Subgroup.zpowers x), hzp]
@@ -761,6 +773,7 @@ theorem IsOrthModule.fixedSub_zpowers_inf_commSub_eq_sup_map (horth : IsOrthModu
   exact Submodule.map_injective_of_injective hf_inj hmap
 
 include hF in
+omit [Finite W] in
 theorem IsOrthModule.card_fixedSub_zpowers (horth : IsOrthModule hF ρ)
     (A : Subgroup SL(2, F)) (hA2 : ∀ a ∈ A, a * a = 1)
     (hA : Nat.card A = 2 ^ (2 * l)) {x : SL(2, F)} (hx : x ∈ A) (hx1 : x ≠ 1) :
@@ -780,7 +793,7 @@ theorem IsOrthModule.card_fixedSub_zpowers (horth : IsOrthModule hF ρ)
       simpa [fieldAutEquiv_apply] using h
     exact (fieldAutEquiv (F := F) j).injective h'
   have hzp : (Subgroup.zpowers x).map (fieldAut F j) = Subgroup.zpowers xB := by
-    simpa [xB] using MonoidHom.map_zpowers (fieldAut F j) x
+    simp [xB]
   have hcard : Nat.card ↥(fixedSub ρ (Subgroup.zpowers x)) =
       Nat.card ↥(fixedSub (hermRep l hF) (Subgroup.zpowers xB)) := by
     refine Nat.card_congr (Equiv.subtypeEquiv β.toEquiv ?_)
@@ -806,7 +819,7 @@ private theorem map_closure_good_eq_upperSylow (B : Subgroup (SL(2, F))) {c : SL
   have hxc' : xc = uMat t := by simpa [xc] using hxc
   have hzp_x : (Subgroup.zpowers x).map (MulAut.conj c).toMonoidHom =
       Subgroup.zpowers xc := by
-    simpa [xc] using MonoidHom.map_zpowers (MulAut.conj c).toMonoidHom x
+    simp [xc]
   let goodB : Set (SL(2, F)) := {z : SL(2, F) | z ∈ B ∧
     fixedSub (hermRep l hF) (Subgroup.zpowers x) ⊓
         fixedSub (hermRep l hF) (Subgroup.zpowers z) =
@@ -828,8 +841,7 @@ private theorem map_closure_good_eq_upperSylow (B : Subgroup (SL(2, F))) {c : SL
       have hzp_w : (Subgroup.zpowers w).map (MulAut.conj c).toMonoidHom =
           Subgroup.zpowers z := by
         rw [hwx]
-        simpa [MulAut.conj_apply, mul_assoc] using
-          (MonoidHom.map_zpowers (MulAut.conj c).toMonoidHom (c⁻¹ * z * c))
+        simp [MulAut.conj_apply, mul_assoc]
       have hcond := fixedSub_inf_eq_map_conj_iff (ρ := hermRep l hF) c
         (Subgroup.zpowers x) (Subgroup.zpowers w) B
       rw [hzp_x, hzp_w, hBc, hxc'] at hcond
@@ -842,8 +854,7 @@ private theorem map_closure_good_eq_upperSylow (B : Subgroup (SL(2, F))) {c : SL
         rwa [hBc] at hm
       have hzp_w : (Subgroup.zpowers w).map (MulAut.conj c).toMonoidHom =
           Subgroup.zpowers (c * w * c⁻¹) := by
-        simpa [MulAut.conj_apply] using
-          MonoidHom.map_zpowers (MulAut.conj c).toMonoidHom w
+        simp [MulAut.conj_apply]
       have hcond := fixedSub_inf_eq_map_conj_iff (ρ := hermRep l hF) c
         (Subgroup.zpowers x) (Subgroup.zpowers w) B
       rw [hzp_x, hzp_w, hBc, hxc'] at hcond
@@ -887,6 +898,7 @@ private theorem eq_closure_fixedSub_zpowers_model
 
 
 
+omit [Finite W] in
 private theorem fixedSub_inf_eq_fieldAut_iff {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
     (U V' W : Subgroup SL(2, F)) :
@@ -942,6 +954,7 @@ private theorem fixedSub_inf_eq_fieldAut_iff {j : ℕ} {β : W ≃+ ↥(hermA l 
       exact ⟨(fixedSub_fieldAut_mem (hF := hF) hβ U w).mpr hwU,
         (fixedSub_fieldAut_mem (hF := hF) hβ V' w).mpr hwV⟩
 
+omit [Finite W] in
 private theorem image_goodB_eq_goodA {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
     (A : Subgroup SL(2, F)) {x : SL(2, F)} :
@@ -992,6 +1005,7 @@ private theorem image_goodB_eq_goodA {j : ℕ} {β : W ≃+ ↥(hermA l F)}
       exact hcond.mp hz.2
 
 include hF in
+omit [Finite W] in
 theorem IsOrthModule.eq_closure_fixedSub_zpowers (horth : IsOrthModule hF ρ)
     (A A' : Subgroup SL(2, F)) (hA2 : ∀ a ∈ A, a * a = 1)
     (hA : Nat.card A = 2 ^ (2 * l)) (hA'2 : ∀ a ∈ A', a * a = 1)

@@ -352,7 +352,7 @@ public theorem CFSG.theorem_6_2
   have hqinj : Function.Injective (q.comp (S : Subgroup G).subtype) := by
     simpa [M, q] using
       quotient_pPrimeCore_subgroupMap_injective_local
-        (G := G) (p := p) (H := (S : Subgroup G)) S.isPGroup'
+        (G := G) (p := p) (H := (S : Subgroup G)) S.isPGroup
   have hZ_map :
       Z.map q = thompsonCenter (G := G ⧸ M) (Pbar : Subgroup (G ⧸ M)) := by
     let f : S →* ((S : Subgroup G).map q) :=

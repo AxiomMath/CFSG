@@ -83,10 +83,10 @@ theorem omS_testBit_bsum {s : ℕ} (hs : 0 < s) (b : ℕ → Bool) : ∀ n p,
     have hdm := Nat.div_add_mod p s
     have hms := Nat.mod_lt p hs
     by_cases hp : p < s * n
-    · rw [if_pos hp, ih p]
+    · rw [ite_eq_left hp, ih p]
       have : p < s * (n + 1) := lt_of_lt_of_le hp (Nat.mul_le_mul_left _ (by omega))
       simp only [hp, this, true_and]
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       have hn : n ≤ p / s := (Nat.le_div_iff_mul_le hs).2 (by rw [Nat.mul_comm]; omega)
       by_cases he : p = s * n
       · subst he
@@ -103,7 +103,7 @@ theorem omS_testBit_bsum {s : ℕ} (hs : 0 < s) (b : ℕ → Bool) : ∀ n p,
         rw [decide_eq_false h2, Bool.false_and]
         cases b n
         · simp
-        · simp only [if_true]
+        · simp only [ite_true]
           rw [Nat.testBit_lt_two_pow (x := 1) (i := p - s * n)
             (Nat.one_lt_two_pow (by omega))]
 
@@ -150,10 +150,10 @@ theorem omS_bsum_mul_magic (b : ℕ → Bool) : ∀ n ≤ 20, ∃ lo hi, lo ≤ 
         lo + 2 ^ 1216 * ((omS_bsum 1 b n + if b n then 2 ^ (1 * n) else 0) + 2 ^ 64 * hi)
     cases b n
     · refine ⟨lo, hi, by omega, ?_⟩
-      simp only [Bool.false_eq_true, if_false, Nat.add_zero]
+      simp only [Bool.false_eq_true, ite_false, Nat.add_zero]
       exact e
     · refine ⟨lo + omS_mlo n, hi + omS_mhi n, by omega, ?_⟩
-      simp only [if_true, Nat.one_mul]
+      simp only [ite_true, Nat.one_mul]
       rw [Nat.add_mul, e, hs]
       generalize (2 : ℕ) ^ 1216 = K
       ring

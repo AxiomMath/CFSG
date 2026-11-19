@@ -19,7 +19,7 @@ theorem ys03_I05_zpow_of_card_three {G : Type} [Group G] (K : Subgroup G) (hK : 
     · exact absurd (orderOf_eq_one_iff.mp h) hc1
     · exact h
   have hle : Subgroup.zpowers c ≤ K := Subgroup.zpowers_le.mpr hcK
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   have heq : Subgroup.zpowers c = K :=
     Subgroup.eq_of_le_of_card_ge hle (le_of_eq (by rw [Nat.card_zpowers, hord, hK]))
   intro w hw
@@ -38,7 +38,7 @@ theorem ys03_I05_le_of_card_three {Y : Type} [Group Y] {S J' : Subgroup Y} {K : 
 
 theorem ys03_I05core {Y : Type} [Group Y] {A' L' J' S : Subgroup Y} {z : Y}
     (hLJ : ∀ x ∈ L', ∀ y ∈ J', Commute x y) (hAJ : A' ≤ Subgroup.normalizer (J' : Set Y))
-    (hA'S : A' ≤ S) (hL'S : L' ≤ S) (hS : S ≤ A' ⊔ L')
+    (hA'S : A' ≤ S) (_hL'S : L' ≤ S) (hS : S ≤ A' ⊔ L')
     {U V : Subgroup ↥S} (hUV : U ⊔ V = ⊤) (hcomm : ∀ u ∈ U, ∀ v ∈ V, u * v = v * u)
     (hU : IsHeisThree U)
     (hVe : Nonempty (↥V ≃* Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 2)))

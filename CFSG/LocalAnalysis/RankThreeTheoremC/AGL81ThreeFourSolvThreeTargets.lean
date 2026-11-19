@@ -21,10 +21,11 @@ section Generic
 
 variable {Y I₀ : Type} [Group Y] [Finite Y] [Group I₀] [Finite I₀]
 
+omit [Finite Y] in
 theorem pow_three_eq_one_of_mem_range_of_odd (σ : I₀ →* Y)
     (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀)) {y : Y} (hy : y ∈ σ.range)
     (hodd : Odd (orderOf y)) : y ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hJ : CFSG.ComponentClassification.AS76b.oUpperTwo σ.range =
       (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ := by
     rw [SUPair.map_oUpperTwo, ← MonoidHom.range_eq_map]
@@ -48,6 +49,7 @@ theorem pow_three_eq_one_of_mem_range_of_odd (σ : I₀ →* Y)
   rw [Nat.dvd_one, orderOf_eq_one_iff] at hdvd
   exact hdvd
 
+omit [Finite Y] in
 theorem oUpperTwo_map_le_of_odd (σ : I₀ →* Y) {K : Subgroup Y}
     (hK : ∀ y ∈ σ.range, Odd (orderOf y) → y ∈ K) :
     (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ ≤ K := by
@@ -94,6 +96,7 @@ theorem exists_conj_of_pow_three_of_mulEquiv {K X : Type*} [Group K] [Group X] (
     simp [MulAut.congr_apply]
   rw [← h1, ← hg, CFSG.ComponentClassification.OuterAutomorphisms.congr_conj]
 
+omit [Finite Y] in
 theorem exists_mul_of_pow_three {K : Subgroup Y} [K.Normal]
     (hX : ∀ α : MulAut K, α ^ 3 = 1 → ∃ g : K, α = MulAut.conj g) {y : Y} (hy : y ^ 3 = 1) :
     ∃ k ∈ K, ∃ c ∈ centralizer (K : Set Y), y = k * c := by
@@ -115,7 +118,7 @@ theorem ThreeFourSolvThreeLeAt.of_inner_of_elemAbelian {X : Type*} [Group X]
     (hE : ∃ E : Subgroup X, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3) :
     ThreeFourSolvThreeLeAt X := by
   intro Y _ _ K Y₀ E' R I₀ _ _ σ hK hKX hZ hrk _ _ _ _ _ _ _ _ _ _ _ hb _ _ _
-  haveI := hK
+  have := hK
   obtain ⟨e⟩ := hKX
   have hKC := CFSG.QuasithinUnique.RankOneRecog.inf_centralizer_eq_bot_of_center_eq_bot hZ
   obtain ⟨E, hEel, hEc⟩ := hE

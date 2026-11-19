@@ -96,7 +96,7 @@ theorem card_le_of_isPGroup_le_centralizer_b_two
     exact ⟨k, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hk))⟩
   obtain ⟨S, hES⟩ := hEp.exists_le_sylow
   set S₂ : Subgroup G := (S : Subgroup C₂).map C₂.subtype with hS₂
-  have hS₂p : IsPGroup 3 S₂ := S.isPGroup'.map _
+  have hS₂p : IsPGroup 3 S₂ := S.isPGroup.map _
   have hS₂C : S₂ ≤ C₂ := Subgroup.map_subtype_le _
   have hES₂ : E ≤ S₂ := fun x hx =>
     ⟨⟨x, hEC₂ hx⟩, hES (Subgroup.mem_subgroupOf.mpr hx), rfl⟩

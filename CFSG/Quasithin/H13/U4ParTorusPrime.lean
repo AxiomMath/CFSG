@@ -16,9 +16,9 @@ variable {m : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 m K)
 
 theorem exists_bar_mul_eq_one_orderOf_eq {p : ℕ} (hp : p.Prime) (hpq : p ∣ 2 ^ m + 1) :
     ∃ a : K, h.bar a * a = 1 ∧ orderOf a = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
   have hfac : 2 ^ (2 * m) - 1 = (2 ^ m - 1) * (2 ^ m + 1) := by
     have h := Nat.sq_sub_sq (2 ^ m) 1
     rw [one_pow] at h
@@ -76,8 +76,8 @@ private theorem prime_ne_two_of_dvd_pow_two_add_one (h : UnitaryFieldData 2 m K)
 private theorem mem_zpowers_of_pow_eq_one (h : UnitaryFieldData 2 m K) {p : ℕ} (hp : p.Prime)
     {a x : Kˣ} (ha : orderOf a = p) (hx : x ^ p = 1) : x ∈ Subgroup.zpowers a := by
   classical
-  haveI : Finite K := h.finite
-  haveI : IsCyclic Kˣ := inferInstance
+  have : Finite K := h.finite
+  have : IsCyclic Kˣ := inferInstance
   rcases eq_or_ne x 1 with rfl | hx1
   · exact Subgroup.one_mem _
   · have hxord : orderOf x = p := by
@@ -109,15 +109,15 @@ private theorem coe_hypDiagHom_torElt_pow {a : K} (ha : h.bar a * a = 1) (k : �
       if i = 0 then a ^ k else (a ^ k)⁻¹ := by
   rw [coe_hypDiagHom, coe_torElt_pow]
   rw [torMat, Matrix.diagonal_apply_eq, torDiag]
-  fin_cases i <;> simp [ie1, ie2, if1]
+  fin_cases i <;> simp [ie1, if1]
 
 private theorem hypDiagHom_prod_eq_one {p : ℕ} (hp : p.Prime) (hpq : p ∣ 2 ^ m + 1)
     {b : hypSU h 2 0} (hb : b ∈ hypBorel h 2 0) (hbpow : b ^ p = 1) :
     (hypDiagHom h 2 0 (by norm_num) ⟨b, hb⟩) 0 *
       (hypDiagHom h 2 0 (by norm_num) ⟨b, hb⟩) 1 = 1 := by
   classical
-  haveI : Finite K := h.finite
-  haveI : IsCyclic Kˣ := inferInstance
+  have : Finite K := h.finite
+  have : IsCyclic Kˣ := inferInstance
   let c : Fin 2 → Kˣ := hypDiagHom h 2 0 (by norm_num) ⟨b, hb⟩
   have hbp : (⟨b, hb⟩ : hypBorel h 2 0) ^ p = 1 := by
     apply Subtype.ext
@@ -164,8 +164,8 @@ private theorem exists_hypDiagHom_eq_torElt_pow {p : ℕ} (hp : p.Prime)
       hypDiagHom h 2 0 (by norm_num)
         ⟨torElt h ha ^ k, (hypBorel h 2 0).pow_mem (torElt_mem_hypBorel h ha) k⟩ := by
   classical
-  haveI : Finite K := h.finite
-  haveI : IsCyclic Kˣ := inferInstance
+  have : Finite K := h.finite
+  have : IsCyclic Kˣ := inferInstance
   let c : Fin 2 → Kˣ := hypDiagHom h 2 0 (by norm_num) ⟨b, hb⟩
   have hbp : (⟨b, hb⟩ : hypBorel h 2 0) ^ p = 1 := by
     apply Subtype.ext
@@ -194,11 +194,11 @@ private theorem exists_hypDiagHom_eq_torElt_pow {p : ℕ} (hp : p.Prime)
   constructor
   · apply Units.ext
     rw [show ((hypDiagHom h 2 0 (by norm_num) ⟨b, hb⟩) 0 : K) = (c 0 : K) from rfl,
-      coe_hypDiagHom_torElt_pow h ha k 0, if_pos rfl]
+      coe_hypDiagHom_torElt_pow h ha k 0, ite_eq_left rfl]
     exact hc0k
   · apply Units.ext
     rw [show ((hypDiagHom h 2 0 (by norm_num) ⟨b, hb⟩) 1 : K) = (c 1 : K) from rfl,
-      coe_hypDiagHom_torElt_pow h ha k 1, if_neg (by decide)]
+      coe_hypDiagHom_torElt_pow h ha k 1, ite_eq_right (by decide)]
     rw [hc1, Units.val_inv_eq_inv_val, hc0k]
 
 private theorem mul_inv_mem_hypUnitriangular_of_hypDiagHom_eq {b u : hypSU h 2 0}
@@ -240,7 +240,7 @@ theorem map_sup_zpowers_torElt {p : ℕ} (hp : p.Prime) (hpq : p ∣ 2 ^ m + 1) 
     (hθ : (hypUnitriangular h 2 0).map θ.toMonoidHom = hypUnitriangular h 2 0) :
     (hypUnitriangular h 2 0 ⊔ Subgroup.zpowers (torElt h ha)).map θ.toMonoidHom =
       hypUnitriangular h 2 0 ⊔ Subgroup.zpowers (torElt h ha) := by
-  haveI : Finite (hypSU h 2 0) := finite_hypSU h
+  have : Finite (hypSU h 2 0) := finite_hypSU h
   have hN : Subgroup.normalizer (hypUnitriangular h 2 0 : Set (hypSU h 2 0)) =
       hypBorel h 2 0 :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.normalizer_hypUnitriangular h
@@ -304,7 +304,7 @@ private theorem torElt_not_mem_zpowers_levHom {p : ℕ} (hp : p.Prime) {a : K}
     (A : Matrix.SpecialLinearGroup (Fin 2) h.fixedField) :
     torElt h ha ∉ Subgroup.zpowers (levHom h A) := by
   classical
-  haveI : Finite (hypSU h 2 0) := finite_hypSU h
+  have : Finite (hypSU h 2 0) := finite_hypSU h
   intro hmem
   rw [mem_zpowers_iff_mem_range_orderOf] at hmem
   obtain ⟨n, -, hn⟩ := Finset.mem_image.mp hmem
@@ -321,8 +321,8 @@ theorem exists_isElemAbelian_le_perfectCore_parP_sup (hm : 2 ≤ m) {p : ℕ} (h
     ∃ E : Subgroup (hypSU h 2 0),
       E ≤ perfectCore (parP h) ⊔ Subgroup.zpowers (torElt h ha) ∧
         IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := h.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
   have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 2) h.fixedField) =
       Nat.card h.fixedField * (Nat.card h.fixedField ^ 2 - 1) := by
     rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_SL_eq (K := h.fixedField)

@@ -32,13 +32,13 @@ theorem mem_ker_centerQuotientPerm_iff (J : Subgroup G)
   rw [hsub]
   change e (QuotientGroup.mk' (Subgroup.center ↥J) j) = 1 ↔ j ∈ Subgroup.center ↥J
   rw [e.map_eq_one_iff]
-  simpa using QuotientGroup.eq_one_iff (N := Subgroup.center ↥J) j
+  simp
 
 theorem mem_centralizer_of_inv_mul_conj_mem_center {J : Subgroup G} (hJ : commutator ↥J = ⊤)
     {b : G} (hb : b ∈ Subgroup.normalizer (J : Set G))
     (h : ∀ j j' : ↥J, (j' : G) = b * j * b⁻¹ → j⁻¹ * j' ∈ Subgroup.center ↥J) :
     b ∈ Subgroup.centralizer (J : Set G) := by
-  haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJ
+  have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJ
   let φ : MulAut ↥J := Subgroup.normalizerMonoidHom J ⟨b, hb⟩
   have hcentral : ∀ j : ↥J, j⁻¹ * φ j ∈ Subgroup.center ↥J := by
     intro j

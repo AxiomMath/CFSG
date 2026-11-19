@@ -33,7 +33,7 @@ theorem eq_one_of_injective_map_mul_eq_inv_sq {K : Type} [Field K] [Finite K] [C
     {n : ℕ} (hn : Odd n) (hK : Nat.card K = 2 ^ n) (f : K →+ K)
     (hf : Function.Injective f) {μ : K} (hμ : μ ≠ 0)
     (h : ∀ u, f (μ * u) = (μ ^ 2)⁻¹ * f u) : μ = 1 := by
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   have hint : IsIntegral (ZMod 2) μ := (Algebra.IsAlgebraic.isAlgebraic (R := ZMod 2) μ).isIntegral
   have hf1 : f 1 ≠ 0 := fun h0 => one_ne_zero (hf (h0.trans f.map_zero.symm))
   have hroot : aeval (μ ^ 2)⁻¹ (minpoly (ZMod 2) μ) = 0 := by
@@ -43,7 +43,7 @@ theorem eq_one_of_injective_map_mul_eq_inv_sq {K : Type} [Field K] [Finite K] [C
   have hmin : minpoly (ZMod 2) (μ ^ 2)⁻¹ = minpoly (ZMod 2) μ :=
     (minpoly.eq_of_irreducible_of_monic (minpoly.irreducible hint) hroot
       (minpoly.monic hint)).symm
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨j, hj⟩ := (TauCeti.FiniteField.mem_orbit_iff_exists_pow_card_pow (ZMod 2)).1
     ((TauCeti.FiniteField.mem_orbit_iff_minpoly_eq (ZMod 2)).2 hmin)
   rw [ZMod.card] at hj

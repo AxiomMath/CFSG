@@ -41,7 +41,7 @@ theorem isSubnormal_of_cent_class {Y : Type} [Group Y] [Finite Y] {M : Subgroup 
       | mem x hx =>
         obtain ⟨c, hc', rfl⟩ := hx
         exact Subgroup.subset_closure ⟨d * c, C.mul_mem hd hc', by group⟩
-      | one => simpa using X.one_mem
+      | one => simp
       | mul x y _ _ hx hy =>
         have : d * (x * y) * d⁻¹ = (d * x * d⁻¹) * (d * y * d⁻¹) := by group
         rw [this]; exact X.mul_mem hx hy

@@ -48,7 +48,7 @@ theorem ggR4JMeet_of_inputs
     ggR4Meet_data hCfg hCard hZL hInnL
   have hBsN : Bs ≤ Subgroup.normalizer (L : Set G) :=
     GGDichotomy.le_normalizer_of_innerDiagOn hInnAll.1
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
   rcases hrow with hF4L | ⟨hE6L, h3⟩ | ⟨hT6L, h3⟩
   · exact ggR4Meet_of_rank hJL hE4
       ((hM7a ↥L f hf hF4L z hz1 hz3 _ hJlayer hJcomp).2 _ hEz hEab)

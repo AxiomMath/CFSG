@@ -98,7 +98,7 @@ public theorem CFSG.section10_prime_dvd_card_of_pSubgroup_two_le_generatorRank_p
     omega
   have hBnontrivial : Nontrivial B := by
     by_contra hnt
-    letI : Subsingleton B := not_nontrivial_iff_subsingleton.mp hnt
+    let : Subsingleton B := not_nontrivial_iff_subsingleton.mp hnt
     exact hBnoncyc (isCyclic_of_subsingleton (α := B))
   obtain ⟨n, hn_pos, hBcard⟩ :=
     (IsPGroup.nontrivial_iff_card (p := p) (G := B) (hG := hBp)).mp hBnontrivial
@@ -114,7 +114,7 @@ private theorem CFSG.section10_prime_mem_alpha_of_rank_two_centralizer_witness
     {A : Subgroup (subgroupCentralizerIn (section10Malpha M) X)}
     (hAp : IsPGroup p.val A) (hAgen : 2 ≤ generatorRank A) :
     p ∈ section10AlphaPrimes M := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hpC :
       p.val ∣ Nat.card (subgroupCentralizerIn (section10Malpha M) X) :=
     section10_prime_dvd_card_of_pSubgroup_two_le_generatorRank_pre hAp hAgen
@@ -207,7 +207,7 @@ private theorem CFSG.section10_exists_invariant_sylow_malpha_containing_witness
   let ι : C →* section10Malpha M :=
     Subgroup.inclusion (show C ≤ section10Malpha M by exact inf_le_left)
   let Aα : Subgroup (section10Malpha M) := A.map ι
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hAαp : IsPGroup p.val Aα := by
     simpa [Aα] using IsPGroup.map (p := p.val) (H := A) hAp ι
   have hAαπ : IsPiSubgroup (G := section10Malpha M) ({p} : Set Nat.Primes) Aα :=
@@ -221,7 +221,7 @@ private theorem CFSG.section10_exists_invariant_sylow_malpha_containing_witness
     have htop_le_M : (⊤ : Subgroup G) ≤ M := by
       simpa [htop] using (section10_malpha_le_maximal (G := G) (M := M))
     exact hM.1 (eq_top_iff.2 htop_le_M)
-  have hMαsolv : IsSolvable (section10Malpha M) :=
+  have hMαsolv : Group.IsSolvable (section10Malpha M) :=
     IsMinCE.proper_subgroups_solvable (section10Malpha M) (lt_top_iff_ne_top.2 hMαproper)
   have hcop_X_malpha :
       Nat.Coprime (Nat.card X) (Nat.card (section10Malpha M)) :=
@@ -274,7 +274,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_in_centralizer_witness
     ∃ E : Subgroup (subgroupCentralizerIn (section10Malpha M) X),
       E ≤ A ∧ Nat.card E = p.val ^ 2 ∧ IsElementaryAbelian p.val E := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hA_noncyc : ¬ IsCyclic A := by
     intro hcyc
     have hle : generatorRank A ≤ 1 := generatorRank_le_one_of_isCyclic (G := A) hcyc
@@ -282,7 +282,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_in_centralizer_witness
   have hp_dvd_G : p.val ∣ Nat.card G := by
     exact hpα.1.trans (Subgroup.card_subgroup_dvd_card M)
   have hpodd : p.val ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hp_dvd_G
-  haveI : Fact (IsPGroup p.val A) := ⟨hAp⟩
+  have : Fact (IsPGroup p.val A) := ⟨hAp⟩
   obtain ⟨E0, _hE0norm, hE0card, hE0elem⟩ :=
     lemma_4_5_a (R := A) (p := p.val) hpodd hA_noncyc
   let E : Subgroup (subgroupCentralizerIn (section10Malpha M) X) := E0.map A.subtype
@@ -297,7 +297,7 @@ private theorem CFSG.section10_exists_rank_two_elementary_in_centralizer_witness
           (K := E0) (f := A.subtype) A.subtype_injective
       _ = p.val ^ 2 := hE0card
   have hEelem : IsElementaryAbelian p.val E := by
-    letI : IsElementaryAbelian p.val E0 := hE0elem
+    let : IsElementaryAbelian p.val E0 := hE0elem
     simpa [E] using
       section10_isElementaryAbelian_map_early
         (G := A) (p := p.val) (A := E0)
@@ -326,9 +326,9 @@ public theorem CFSG.section10_groupRank_at_least_two_of_elementaryAbelian_subgro
     {A K : Subgroup R} (hAK : A ≤ K)
     (hAcard : Nat.card A = p ^ 2) (hAelem : IsElementaryAbelian p A) :
     2 ≤ groupRank K := by
-  haveI : IsElementaryAbelian p A := hAelem
+  have : IsElementaryAbelian p A := hAelem
   have hAgen : 2 ≤ generatorRank A := by
-    letI : CommGroup A := IsMulCommutative.instCommGroup
+    let : CommGroup A := IsMulCommutative.instCommGroup
     have hcard_dvd : Nat.card A ∣ p ^ Group.rank A := by
       simpa using card_dvd_exponent_pow_rank' (G := A) (n := p) (fun a =>
         Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -349,7 +349,7 @@ private theorem CFSG.section10_generatorRank_at_least_three_of_elementaryAbelian
     {p : ℕ} [Fact p.Prime] {A : Type*} [Group A] [Finite A]
     [IsElementaryAbelian p A] (hgt : p ^ 2 < Nat.card A) :
     3 ≤ generatorRank A := by
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : CommGroup A := IsMulCommutative.instCommGroup
   have hcard_dvd : Nat.card A ∣ p ^ Group.rank A := by
     simpa using card_dvd_exponent_pow_rank' (G := A) (n := p) (fun a =>
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -370,7 +370,7 @@ private theorem CFSG.section10_groupRank_at_least_three_of_elementaryAbelian_sub
     {A K : Subgroup R} (hAK : A ≤ K)
     (hAcard : p ^ 2 < Nat.card A) (hAelem : IsElementaryAbelian p A) :
     3 ≤ groupRank K := by
-  haveI : IsElementaryAbelian p A := hAelem
+  have : IsElementaryAbelian p A := hAelem
   have hAgen : 3 ≤ generatorRank A :=
     section10_generatorRank_at_least_three_of_elementaryAbelian_card_gt_p_sq_early
       (p := p) (A := A) hAcard
@@ -386,7 +386,7 @@ private theorem CFSG.section10_isElementaryAbelian_of_prime_card_isCyclic_early
     {H : Type*} [Group H] [Finite H] [IsCyclic H]
     (hcard : Nat.card H = p) :
     IsElementaryAbelian p H := by
-  letI : CommGroup H := IsCyclic.commGroup
+  let : CommGroup H := IsCyclic.commGroup
   refine
     { toIsMulCommutative := { is_comm := ⟨mul_comm⟩ }
       exponent_dvd_p := ?_ }
@@ -499,14 +499,14 @@ private theorem CFSG.section10_orderOf_mem_of_centralizer_rank_le_two_early
     simp [Z, hgord]
   have hZelem : IsElementaryAbelian p Z := by
     have hZcyc : IsCyclic Z := Subgroup.isCyclic_zpowers g
-    letI : IsCyclic Z := hZcyc
+    let : IsCyclic Z := hZcyc
     exact section10_isElementaryAbelian_of_prime_card_isCyclic_early (p := p) hZcard
   have hZ_le_cent : Z ≤ Subgroup.centralizer (B : Set R) := by
     exact (Subgroup.zpowers_le).2 hgcent
   let S : Subgroup R := B ⊔ Z
   have hSelem : IsElementaryAbelian p S := by
-    letI : IsElementaryAbelian p B := hBelem
-    letI : IsElementaryAbelian p Z := hZelem
+    let : IsElementaryAbelian p B := hBelem
+    let : IsElementaryAbelian p Z := hZelem
     simpa [S] using
       section10_isElementaryAbelian_sup_of_le_centralizer_early
         (p := p) (E := B) (C := Z) hZ_le_cent
@@ -520,7 +520,7 @@ private theorem CFSG.section10_orderOf_mem_of_centralizer_rank_le_two_early
     simpa [hBcard] using natCard_lt_of_subgroup_lt hB_lt_S
   have hS_le_C : S ≤ Subgroup.centralizer (B : Set R) := by
     have hB_le_cent : B ≤ Subgroup.centralizer (B : Set R) := by
-      letI : IsElementaryAbelian p B := hBelem
+      let : IsElementaryAbelian p B := hBelem
       exact Subgroup.le_centralizer (H := B)
     exact sup_le hB_le_cent hZ_le_cent
   have hC_large : 3 ≤ groupRank (Subgroup.centralizer (B : Set R)) :=
@@ -560,13 +560,13 @@ public theorem CFSG.section10_malpha_sylow_groupRank_ge_three_of_mem_alpha_early
     (P : Sylow p.val (section10Malpha M)) :
     3 ≤ groupRank (P : Subgroup (section10Malpha M)) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hprankM : 3 ≤ primeRank p.val M := Nat.succ_le_of_lt hpα.2
   obtain ⟨A, hAp, hAcomm, hAgen⟩ :=
     section10_exists_pSubgroup_three_le_generatorRank_of_three_le_primeRank_pre
       (p := p.val) (R := M) hprankM
   have hA_le_K : A ≤ section10MalphaSubgroup M := by
-    letI : (section10MalphaSubgroup M).Normal := inferInstance
+    let : (section10MalphaSubgroup M).Normal := inferInstance
     exact section10_pSubgroup_le_normal_hall_of_mem_early
       (R := M) (π := section10AlphaPrimes M) (H := section10MalphaSubgroup M)
       (P := A) hAp (section10_malphaSubgroup_isHall hM) hpα
@@ -582,10 +582,10 @@ public theorem CFSG.section10_malpha_sylow_groupRank_ge_three_of_mem_alpha_early
     exact hAGp.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := AG) (K := section10Malpha M) hAG_le_malpha).symm
   have hAGcomm : IsMulCommutative AG := by
-    letI : IsMulCommutative A := hAcomm
+    let : IsMulCommutative A := hAcomm
     simpa [AG] using Subgroup.map_isMulCommutative (f := M.subtype) (H := A)
   have hAαcomm : IsMulCommutative Aα := by
-    letI : IsMulCommutative AG := hAGcomm
+    let : IsMulCommutative AG := hAGcomm
     exact Subgroup.subgroupOf_isMulCommutative (H := AG) (K := section10Malpha M)
   have hAG_gen_eq : generatorRank AG = generatorRank A := by
     rw [generatorRank_eq_group_rank, generatorRank_eq_group_rank]
@@ -624,7 +624,7 @@ private theorem CFSG.section10_lemma_10_3_rank_two_core
   have hpα : p ∈ section10AlphaPrimes M :=
     section10_prime_mem_alpha_of_rank_two_centralizer_witness
       (G := G) (M := M) (X := X) (p := p) hM hAp hAgen
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   obtain ⟨E, hE_le_A, hEcard, hEelem⟩ :=
     section10_exists_rank_two_elementary_in_centralizer_witness
       (G := G) (M := M) (X := X) (p := p) hpα hAp hAgen
@@ -633,7 +633,7 @@ private theorem CFSG.section10_lemma_10_3_rank_two_core
       (p := p.val) (R := subgroupCentralizerIn (section10Malpha M) X) hEelem
   have hBelem : IsElementaryAbelian p.val B := hBmax.1
   have hBp : IsPGroup p.val B := by
-    letI : IsElementaryAbelian p.val B := hBelem
+    let : IsElementaryAbelian p.val B := hBelem
     exact IsElementaryAbelian.isPGroup p.val B
   have hX_norm_malpha :
       X ≤ Subgroup.normalizer (section10Malpha M : Set G) :=
@@ -642,8 +642,8 @@ private theorem CFSG.section10_lemma_10_3_rank_two_core
       Nat.Coprime (Nat.card X) (Nat.card (section10Malpha M)) :=
     section10_coprime_card_of_isPiSubgroup_compl_malpha
       (G := G) (M := M) (X := X) hM hXpi
-  letI : Fact (X ≤ Subgroup.normalizer (section10Malpha M : Set G)) := ⟨hX_norm_malpha⟩
-  haveI : Subgroup.Normalizes X (section10Malpha M) := inferInstance
+  let : Fact (X ≤ Subgroup.normalizer (section10Malpha M : Set G)) := ⟨hX_norm_malpha⟩
+  have : Subgroup.Normalizes X (section10Malpha M) := inferInstance
   obtain ⟨P, hPinv, hA_le_P⟩ :=
     section10_exists_invariant_sylow_malpha_containing_witness
       (G := G) (M := M) (X := X) hM hXpi B hBp
@@ -679,7 +679,7 @@ private theorem CFSG.section10_lemma_10_3_rank_two_core
             (K := E) (f := C.subtype) C.subtype_injective
         _ = p.val ^ 2 := hEcard
     have hEGelem : IsElementaryAbelian p.val EG := by
-      letI : IsElementaryAbelian p.val E := hEelem
+      let : IsElementaryAbelian p.val E := hEelem
       simpa [EG] using
         section10_isElementaryAbelian_map_early
           (G := C) (p := p.val) (A := E) (G' := G) C.subtype
@@ -691,7 +691,7 @@ private theorem CFSG.section10_lemma_10_3_rank_two_core
       have hlarge : 3 ≤ groupRank BG := by omega
       exact hBGunique (theorem_9_6 (K := BG) hBGproper hBGrank (Or.inl hlarge))
     have hBGelem : IsElementaryAbelian p.val BG := by
-      letI : IsElementaryAbelian p.val B := hBelem
+      let : IsElementaryAbelian p.val B := hBelem
       simpa [BG] using
         section10_isElementaryAbelian_map_early
           (G := C) (p := p.val) (A := B) (G' := G) C.subtype
@@ -729,12 +729,12 @@ private theorem CFSG.section10_lemma_10_3_rank_two_core
             natCard_subgroupOf_eq Bα (P : Subgroup (section10Malpha M)) hBα_le_P
         _ = p.val ^ 2 := hBαcard
     have hBαelem : IsElementaryAbelian p.val Bα := by
-      letI : IsElementaryAbelian p.val B := hBelem
+      let : IsElementaryAbelian p.val B := hBelem
       simpa [Bα, ι] using
         section10_isElementaryAbelian_map_early
           (G := C) (p := p.val) (A := B) (G' := section10Malpha M) ι
     have hBPelement : IsElementaryAbelian p.val BP := by
-      letI : IsElementaryAbelian p.val Bα := hBαelem
+      let : IsElementaryAbelian p.val Bα := hBαelem
       simpa [BP] using
         IsElementaryAbelian.subgroupOf
           (G := section10Malpha M) (p := p.val) (H := Bα)
@@ -785,12 +785,12 @@ private theorem CFSG.section10_lemma_10_3_rank_two_core
       hcop_X_malpha.of_dvd_right
         (Subgroup.card_subgroup_dvd_card (P : Subgroup (section10Malpha M)))
     have hBPp : IsPGroup p.val BP := by
-      letI : IsElementaryAbelian p.val BP := hBPelement
+      let : IsElementaryAbelian p.val BP := hBPelement
       exact IsElementaryAbelian.isPGroup p.val BP
-    letI : IsInvariant X (section10Malpha M) (P : Subgroup (section10Malpha M)) := hPinv
+    let : IsInvariant X (section10Malpha M) (P : Subgroup (section10Malpha M)) := hPinv
     have htrivP :
         ActsTrivially (A := X) (G := (P : Subgroup (section10Malpha M))) := by
-      letI : Fact (IsPGroup p.val (P : Subgroup (section10Malpha M))) := ⟨P.isPGroup'⟩
+      let : Fact (IsPGroup p.val (P : Subgroup (section10Malpha M))) := ⟨P.isPGroup⟩
       refine corollary_1_12
         (G := (P : Subgroup (section10Malpha M))) (A := X) (p := p.val)
         hpodd BP ?_ hcop_X_P ?_

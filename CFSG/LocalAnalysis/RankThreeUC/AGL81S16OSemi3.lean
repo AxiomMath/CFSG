@@ -12,8 +12,8 @@ open CFSG.LieType.Universal.Spin (quadMinus coe_quadMinus nondegenerate_polarBil
 theorem semi_involution_fixed_point {S : Type} [Finite S] (f : S → S) (hf : ∀ s, f (f s) = s)
     (hodd : ¬ 2 ∣ Nat.card S) : ∃ s, f s = s := by
   classical
-  haveI := Fintype.ofFinite S
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite S
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hno
   push Not at hno
   let f' : Function.End S := f
@@ -42,23 +42,27 @@ structure SemiInvol (b c : F) (θ : F →+* F) (σ : OW F → OW F) : Prop where
 
 variable {θ : F →+* F} {σ : OW F → OW F}
 
+omit [Finite F] [CharP F 2] in
 theorem SemiInvol.map_zero' (h : SemiInvol b c θ σ) : σ 0 = 0 := by
   have h1 := h.add 0 0
   rw [add_zero] at h1
   have h' : σ 0 + 0 = σ 0 + σ 0 := by rw [add_zero]; exact h1
   exact (add_left_cancel h').symm
 
+omit [Finite F] [CharP F 2] in
 theorem SemiInvol.ne_zero (h : SemiInvol b c θ σ) {x : OW F} (hx : x ≠ 0) : σ x ≠ 0 := by
   intro h0
   apply hx
   rw [← h.invol x, h0, h.map_zero']
 
+omit [Finite F] [CharP F 2] in
 theorem SemiInvol.polar_eq (h : SemiInvol b c θ σ) (x y : OW F) :
     polar (quadMinus 3 F b c) (σ x) (σ y) = θ (polar (quadMinus 3 F b c) x y) := by
   show quadMinus 3 F b c (σ x + σ y) - quadMinus 3 F b c (σ x) - quadMinus 3 F b c (σ y) =
     θ (quadMinus 3 F b c (x + y) - quadMinus 3 F b c x - quadMinus 3 F b c y)
   rw [← h.add, h.quad, h.quad, h.quad, map_sub, map_sub]
 
+omit [Finite F] [CharP F 2] in
 theorem SemiInvol.conj (h : SemiInvol b c θ σ) (G : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F)
     (hG : ∀ v : OW F, quadMinus 3 F b c (gv G v) = quadMinus 3 F b c v) :
     SemiInvol b c θ (fun x => gv G⁻¹ (σ (gv G x))) := by
@@ -78,12 +82,14 @@ section Plane
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F} {θ : F →+* F} {σ : OW F → OW F}
 
+omit [Finite F] [CharP F 2] in
 theorem SemiInvol.y0_apply (h : SemiInvol b c θ σ) (he : σ (eV F idx0) = eV F idx0) (v : OW F) :
     σ v (Sum.inr (Sum.inl idx0)) = θ (v (Sum.inr (Sum.inl idx0))) := by
   have := h.polar_eq v (eV F idx0)
   rw [he, polar_e_right, polar_e_right] at this
   exact this
 
+omit [Finite F] in
 theorem SemiInvol.actSP_mem (h : SemiInvol b c θ σ) (he : σ (eV F idx0) = eV F idx0) {v : OW F}
     (hv : v (Sum.inl idx0) = 0 ∧ v (Sum.inr (Sum.inl idx0)) = 0 ∧ v ≠ 0 ∧
       quadMinus 3 F b c v = 0) :
@@ -107,6 +113,7 @@ theorem SemiInvol.actSP_mem (h : SemiInvol b c θ σ) (he : σ (eV F idx0) = eV 
     rw [h2, ← h3, zero_smul]
   · rw [quad_proj0 hy, h.quad, hv4, map_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem SemiInvol.proj0_invol (h : SemiInvol b c θ σ) (he : σ (eV F idx0) = eV F idx0) {v : OW F}
     (hv : v (Sum.inl idx0) = 0) : proj0 (σ (proj0 (σ v))) = v := by
   set P := σ (proj0 (σ v)) with hP

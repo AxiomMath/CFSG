@@ -95,7 +95,7 @@ theorem sec4_inf_centralizer_K [Finite G] {t : G} {L S : Subgroup G} {z : G} {A 
     {u : G} {K : Subgroup G} (hKL : K ≤ L) (huB : u ∈ B)
     (hcent : centralizer (K : Set G) ⊓ B = zpowers u) :
     A ⊓ centralizer (K : Set G) = zpowers u ⊔ zpowers t := by
-  haveI : IsMulCommutative ↥A := hD.isMax.2.1.1
+  have : IsMulCommutative ↥A := hD.isMax.2.1.1
   have hcomm : ∀ b ∈ B, ∀ p ∈ zpowers t, b * p = p * b := by
     intro b hb p hp
     have hbA : b ∈ A := by rw [hD.A_eq]; exact Subgroup.mem_sup_left hb
@@ -167,7 +167,7 @@ theorem sec4_dichotomy {t u : G} (ht2 : orderOf t = 2) (hu2 : orderOf u = 2)
   by_cases hall : ∀ m, P m → m * t = t * m
   · exact Or.inl hall
   · right
-    push_neg at hall
+    push Not at hall
     obtain ⟨m₀, hm₀P, hm₀ne⟩ := hall
     have htD : t ∈ (Subgroup.zpowers u ⊔ Subgroup.zpowers t : Subgroup G) :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers t)

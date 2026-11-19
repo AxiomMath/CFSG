@@ -6,6 +6,7 @@ namespace CFSG.ClassicalInvolution.Phan.PhanE
 open CFSG.Monster.B.Geometry Module
 open scoped Classical
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
+omit [Finite K] [CharP K 2] in
 private lemma plh_inf_eq_bot_iff_not_le {a Y : Submodule K (Fin 4 → K)}
     (ha : finrank K a = 1) : a ⊓ Y = ⊥ ↔ ¬ a ≤ Y := by
   constructor
@@ -21,6 +22,7 @@ private lemma plh_inf_eq_bot_iff_not_le {a Y : Submodule K (Fin 4 → K)}
     have heq : a ⊓ Y = a :=
       Submodule.eq_of_le_of_finrank_eq inf_le_left (by rw [h1, ha])
     exact h (heq ▸ inf_le_right)
+omit [Finite K] [CharP K 2] in
 private lemma plh_finrank_sup_point {L a : Submodule K (Fin 4 → K)}
     (hL : finrank K L = 2) (ha : finrank K a = 1) (h : ¬ a ≤ L) :
     finrank K ↥(L ⊔ a) = 3 := by
@@ -48,6 +50,7 @@ private lemma plh_sup_conj_eq_of_le (hK : Nat.card K = (2 ^ f) ^ 2)
   have hσc1 : finrank K (sgS K f 4 c) = 1 := by rw [finrank_sgS hK]; exact hc
   have hS3 : finrank K ↥(L ⊔ sgS K f 4 c) = 3 := plh_finrank_sup_point hL hσc1 hncL
   exact Submodule.eq_of_le_of_finrank_eq (sup_le hLH hcH) (by rw [hS3, hH])
+omit [Finite K] [CharP K 2] in
 private lemma plh_inf_of_le_skew {L t R : Submodule K (Fin 4 → K)} (htR : t ≤ R)
     (hLR : L ⊓ R = ⊥) : L ⊓ t = ⊥ := by
   rw [Submodule.eq_bot_iff]
@@ -76,7 +79,8 @@ private lemma plh_adj_data (hK : Nat.card K = (2 ^ f) ^ 2)
   exact ⟨hp1, hq1, hpn, hqn, hpq, hskew,
     finrank_realLine (f := f) hK hp1 hpn, finrank_realLine (f := f) hK hq1 hqn,
     (skew_iff (f := f) hK hp1 hq1 hpn hqn hpq).mp hskew⟩
-private lemma plh_bad_card_le_one [Fintype K] (hK : Nat.card K = (2 ^ f) ^ 2)
+omit [Finite K] [CharP K 2] in
+private lemma plh_bad_card_le_one [Fintype K] (_hK : Nat.card K = (2 ^ f) ^ 2)
     {u v : Fin 4 → K}
     {Rc S : Submodule K (Fin 4 → K)}
     (hR2 : finrank K ↥(Submodule.span K {u, v}) = 2) (hRc2 : finrank K Rc = 2)
@@ -163,7 +167,7 @@ private lemma plh_side (hK : Nat.card K = (2 ^ f) ^ 2)
     {a b t R : Submodule K (Fin 4 → K)}
     (ha1 : finrank K a = 1) (hb1 : finrank K b = 1) (ht1 : finrank K t = 1)
     (hna : sgS K f 4 a ≠ a) (hnb : sgS K f 4 b ≠ b) (hnt : sgS K f 4 t ≠ t)
-    (hab : a ≠ b) (hat : a ≠ t) (hbt : b ≠ t)
+    (_hab : a ≠ b) (hat : a ≠ t) (hbt : b ≠ t)
     (hLab2 : finrank K ↥(a ⊔ b) = 2)
     (hsab : (a ⊔ b) ⊓ sgS K f 4 (a ⊔ b) = ⊥)
     (hRa : (a ⊔ sgS K f 4 a) ⊓ R = ⊥) (hRb : (b ⊔ sgS K f 4 b) ⊓ R = ⊥)
@@ -222,7 +226,7 @@ private lemma plh_side (hK : Nat.card K = (2 ^ f) ^ 2)
 theorem adm4c_coneTri (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
     AdmConeTri (Adm4c (K := K) f) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   intro x y z hxy hyz hzx
   obtain ⟨hx1, hy1, hxn, hyn, hxyne, hskewxy, hRx2, hRy2, hRxRy⟩ :=
     plh_adj_data (f := f) hK hxy

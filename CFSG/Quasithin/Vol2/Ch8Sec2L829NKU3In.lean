@@ -16,7 +16,7 @@ theorem nk_u3_uin (n : ℕ) (hn : 4 ≤ n) (hn4 : n % 4 = 0) (X : Type) [Group X
     (hX : IsPSU 3 2 n X) : UIn X := by
   have hB : fusionIsBenderGroup X := CFSG.Quasithin.U31521.bender_of_isPSU (by omega) hX
   obtain ⟨-, K, _, hKf, hKc, ⟨e⟩⟩ := hX
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   have hchar : CharP K 2 := U3In.charP_two_of_natCard_eq hKc
   have h16 : 16 ≤ 2 ^ n := by
     calc (16 : ℕ) = 2 ^ 4 := by norm_num

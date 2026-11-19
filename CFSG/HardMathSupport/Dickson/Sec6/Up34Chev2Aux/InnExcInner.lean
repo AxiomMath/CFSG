@@ -63,7 +63,7 @@ variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} [CharP L 2
 theorem finite_rationalComponent (S : LangSetup τ L p₀) (a : Fin τ.rank → Lˣ)
     (i : KernelComponent (rootCharHom a)) :
     Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
-  haveI := S.finite
+  have := S.finite
   have h1 : rationalComponent S.ρ S.Γ (rootCharHom a) i ≤ S.D.model :=
     (Subgroup.commutator_le_self _).trans ((inf_le_right : _ ≤ S.Γ).trans
       (Subgroup.commutator_le_self _))
@@ -93,9 +93,9 @@ theorem inner_a1_false (D : InnerData S a i)
     (hL34 : IsLThreeFour (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))) : False := by
   classical
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_rationalComponent S a i
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_rationalComponent S a i
   by_cases hQ : 4 ≤ Nat.card (fixSubfield D.σ)
   · have hQ' : 4 ≤ 2 ^ (D.e * D.s) := D.hKcard ▸ hQ
     obtain ⟨t, ht⟩ := exists_unit_sq_ne_one (L := L) D.σ D.hσ (Nat.mul_pos D.he D.hs0) hQ'
@@ -118,8 +118,8 @@ theorem inner_a1_false (D : InnerData S a i)
       norm_num
     have hC6 := card_componentRootSpan_rankOne_le_six (rootCharHom a) i hrank
       (fixSubfield D.σ) hK2
-    haveI : Finite ↥(componentRootSpan (fixSubfield D.σ) (rootCharHom a) i) := inferInstance
-    haveI : Finite ↥D.f.range := Finite.of_surjective D.f.rangeRestrict D.f.rangeRestrict_surjective
+    have : Finite ↥(componentRootSpan (fixSubfield D.σ) (rootCharHom a) i) := inferInstance
+    have : Finite ↥D.f.range := Finite.of_surjective D.f.rangeRestrict D.f.rangeRestrict_surjective
     have h1 : Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ≤ Nat.card ↥D.f.range :=
       Subgroup.card_le_of_le D.hf1
     have h2 : Nat.card ↥D.f.range ≤
@@ -137,7 +137,7 @@ theorem eq_zero_or_one_of_card_two' {F : Type} [Field F] [Finite F] (hF : Nat.ca
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h3 : ({0, 1, c} : Finset F).card = 3 := by
     rw [Finset.card_insert_of_notMem, Finset.card_insert_of_notMem, Finset.card_singleton]
     · simpa using hcon.2.symm
@@ -166,8 +166,8 @@ theorem isPerfect_componentRootSpan_of_big (hτ : τ = .F4 ∨ τ = .E6 ∨ τ =
     (D : InnerData S a i) (hbig : 14 ≤ (componentRoots (rootCharHom a) i).ncard) :
     Group.IsPerfect ↥(componentRootSpan (fixSubfield D.σ) (rootCharHom a) i) := by
   classical
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : (componentRoots (rootCharHom a) i).Nonempty := by
     obtain ⟨b, hb⟩ := Quotient.exists_rep i
     exact ⟨b.1, b.2, hb⟩
@@ -216,9 +216,9 @@ theorem inner_big_false (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) 
     (hL34 : IsLThreeFour (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))) : False := by
   classical
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_rationalComponent S a i
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_rationalComponent S a i
   have hperf := isPerfect_componentRootSpan_of_big hτ D hbig
   obtain ⟨g, hg, hgk⟩ := exists_surjective_central_of_perfect D hperf
   have hΨ := isRootComponent_componentRoots (χ := rootCharHom a) i

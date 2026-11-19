@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem Aalpha.conj_normalizer {D α β : Set G} (hN : IsNormalSet D) {g : G}
     (hg : g ∈ Subgroup.normalizer α) (hβ : β ∈ Aalpha D α) :
     (fun x => g * x * g⁻¹) '' β ∈ Aalpha D α := by

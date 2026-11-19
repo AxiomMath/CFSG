@@ -157,7 +157,7 @@ theorem w183finAbsIrrOverF4_of_trace {X : Type} [Group X] [Finite X]
     (h : ∀ (n : ℕ) (ρ : X →* Matrix.GeneralLinearGroup (Fin n) Kc), IsIrredRep ρ →
       ∀ g, Matrix.trace (ρ g : Matrix (Fin n) (Fin n) Kc) ^ 4 =
         Matrix.trace (ρ g : Matrix (Fin n) (Fin n) Kc)) : AbsIrrOverF4 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ : ∀ x : Kc, frobAut 2 Kc x = x ^ 2 := fun x => frobAut_apply x
   have hfin : Finite (fixF (frobAut 2 Kc) 2) := finite_fixF hσ (by norm_num)
   have hcard : Nat.card (fixF (frobAut 2 Kc) 2) = 4 := by
@@ -216,7 +216,7 @@ private theorem w183finTrace_tensorRepS_mem {F : Type} [Field F] [CharP F 2] [Fi
 theorem w183finAbsIrrOverF4_sp44 {M : Type} [Group M] (hM : IsSp4 M 2) : AbsIrrOverF4 M := by
   obtain ⟨φ⟩ := CFSG.EvenSporadicStandard.M22Std.P21H.nonempty_mulEquiv_statedSp44 hM
   let e : antiSp (GaloisField 2 2) ≃* M := (antiSpEquiv (GaloisField 2 2)).trans φ.symm
-  haveI : Finite M := Finite.of_equiv (antiSp (GaloisField 2 2)) e.toEquiv
+  have : Finite M := Finite.of_equiv (antiSp (GaloisField 2 2)) e.toEquiv
   refine w183finAbsIrrOverF4_of_trace ?_
   intro n ρ hirr g
   rcases Nat.eq_zero_or_pos n with rfl | hn
@@ -253,29 +253,35 @@ section L3
 
 variable {F : Type} [Field F] [CharP F 2] (k : Type) [Field k] [Algebra F k] [CharP k 2]
 
+omit [CharP F 2] in
 private theorem w183finFrK_mem (i : ℕ) (x : F) : frK k i x ∈ (algebraMap F k).range :=
   ⟨x ^ 2 ^ i, by rw [frK_apply, map_pow]⟩
 
+omit [CharP F 2] in
 private theorem w183finTwistMat_mem (i : ℕ) (g : SL(3, F)) (a b : Fin 3) :
     twistMat k i g a b ∈ (algebraMap F k).range := by
   rw [twistMat_apply]; exact w183finFrK_mem k i _
 
+omit [CharP k 2] in
 private theorem w183finMat_mul_mem (S : Subring k) {A B : Matrix (Fin 3) (Fin 3) k}
     (hA : ∀ i j, A i j ∈ S) (hB : ∀ i j, B i j ∈ S) : ∀ i j, (A * B) i j ∈ S := by
   intro i j
   rw [Matrix.mul_apply]
   exact Subring.sum_mem _ (fun l _ => Subring.mul_mem _ (hA i l) (hB l j))
 
+omit [CharP k 2] in
 private theorem w183finXm_mem (S : Subring k) {c : Fin 8 → k} (hc : ∀ j, c j ∈ S) :
     ∀ i j, Xm c i j ∈ S := by
   intro i j
   fin_cases i <;> fin_cases j <;> simp [Xm] <;>
     first | exact hc _ | exact S.add_mem (hc _) (hc _)
 
+omit [CharP k 2] in
 private theorem w183finCo_mem (S : Subring k) {X : Matrix (Fin 3) (Fin 3) k}
     (hX : ∀ i j, X i j ∈ S) (r : Fin 8) : co X r ∈ S := by
   fin_cases r <;> simp [co] <;> exact hX _ _
 
+omit [CharP F 2] in
 private theorem w183finAdjRep_mem (i : ℕ) (g : SL(3, F)) (r s : Fin 8) :
     adjRep k i g r s ∈ (algebraMap F k).range := by
   rw [adjRep_apply]
@@ -285,9 +291,10 @@ private theorem w183finAdjRep_mem (i : ℕ) (g : SL(3, F)) (r s : Fin 8) :
     (w183finTwistMat_mem k i g⁻¹)
   refine w183finXm_mem k _ (fun j => ?_)
   by_cases h : j = s
-  · subst h; simp [Pi.single_apply]
-  · simp [Pi.single_apply, h]
+  · subst h; simp
+  · simp [h]
 
+omit [CharP F 2] in
 private theorem w183finLocRep_mem (a b : Bool) (i : ℕ) (g : SL(3, F))
     (x y : Fin (locDim a b)) : locRep k a b i g x y ∈ (algebraMap F k).range := by
   cases a <;> cases b
@@ -303,6 +310,7 @@ private theorem w183finLocRep_mem (a b : Bool) (i : ℕ) (g : SL(3, F))
   · simp only [locRep]
     exact w183finAdjRep_mem k i g x y
 
+omit [CharP F 2] in
 private theorem w183finTrace_tensorRep_mem {f : ℕ} (a b : Fin f → Bool) (g : SL(3, F)) :
     Matrix.trace (tensorRep (F := F) k a b g) ∈ (algebraMap F k).range := by
   unfold Matrix.trace
@@ -314,8 +322,8 @@ end L3
 
 private theorem w183finExists_alg_kc (K : Type) [Field K] [Finite K] [CharP K 2] :
     Nonempty (Algebra K Kc) := by
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
-  haveI : Module.Finite (ZMod 2) K := Module.Finite.of_finite
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Module.Finite (ZMod 2) K := Module.Finite.of_finite
   exact ⟨(IsAlgClosed.lift (R := ZMod 2) (S := K) (M := Kc)).toRingHom.toAlgebra⟩
 
 private theorem w183finFinite_pow_four (K : Type) [Field K] [Fintype K]
@@ -362,12 +370,12 @@ theorem w183finAbsIrrOverF4_L3 {X : Type} [Group X]
   have hc : StatedClassicalModel X .PSL 3 2 2 :=
     CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := id hc
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKcard : Fintype.card K = 2 ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hKcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hKcard
   obtain ⟨hAlg⟩ := w183finExists_alg_kc K
-  letI : Algebra K Kc := hAlg
+  let : Algebra K Kc := hAlg
   let π : SL(3, K) →* X :=
     e.symm.toMonoidHom.comp
       ((QuotientGroup.mk' ((StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K))).comp
@@ -375,7 +383,7 @@ theorem w183finAbsIrrOverF4_L3 {X : Type} [Group X]
   have hπ : Function.Surjective π :=
     e.symm.surjective.comp ((QuotientGroup.mk'_surjective _).comp
       (specialLinearGroupEquivStatedSL 3 K).surjective)
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   exact w183finAbsIrrOverF4_of_sl3 K hKcard π hπ
 
 theorem w183finAbsIrrOverF4_cover_L3
@@ -386,17 +394,17 @@ theorem w183finAbsIrrOverF4_cover_L3
   have hc : StatedClassicalModel (X ⧸ Subgroup.center X) .PSL 3 2 2 :=
     CFSG.Blueprint.LieModel.statedClassicalModel hL (by decide)
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := id hc
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKcard : Fintype.card K = 2 ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hKcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hKcard
   obtain ⟨hAlg⟩ := w183finExists_alg_kc K
-  letI : Algebra K Kc := hAlg
-  haveI : Finite (X ⧸ Subgroup.center X) := Finite.of_equiv _ e.symm.toEquiv
-  haveI : Finite (Subgroup.center X) := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Finite X :=
+  let : Algebra K Kc := hAlg
+  have : Finite (X ⧸ Subgroup.center X) := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite (Subgroup.center X) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite X :=
     Finite.of_equiv _ (Subgroup.groupEquivQuotientProdSubgroup (s := Subgroup.center X)).symm
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   have hodd : Odd (Nat.card (Subgroup.center X)) := by rw [hZ]; decide
   have hZne : Subgroup.center X ≠ ⊥ := by
     intro h

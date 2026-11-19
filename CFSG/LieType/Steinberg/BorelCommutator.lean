@@ -31,7 +31,7 @@ theorem commutator_mem_posUnipotent_of_mem_borel
       ⊤ := by
     rw [sup_comm, ← Subgroup.subgroupOf_sup hTB hUB]
     exact Subgroup.subgroupOf_self (borel D H)
-  haveI hcomm : IsMulCommutative ↥((⨆ i, H i).subgroupOf (borel D H)) :=
+  have hcomm : IsMulCommutative ↥((⨆ i, H i).subgroupOf (borel D H)) :=
     isMulCommutative_iff.2 fun x y => Subtype.ext (Subtype.ext
       (Subgroup.mem_centralizer_iff.1
         (iSup_torus_le_centralizer hext (Subgroup.mem_subgroupOf.1 x.2)) _

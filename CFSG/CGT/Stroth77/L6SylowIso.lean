@@ -20,7 +20,7 @@ theorem torus_eq_zsmul_gens201 {k : Fin 3 → ℕ} (y : Torus k) :
   choose i hi using fun r : Fin 3 => ZMod.intCast_surjective (y r)
   refine ⟨i 0, i 1, i 2, ?_⟩
   funext r
-  fin_cases r <;> simp [gen, Pi.single_apply, hi, zsmul_eq_mul]
+  fin_cases r <;> simp [gen, hi, zsmul_eq_mul]
 
 theorem e_mul201 (x y : D) : e (.ofMul (x * y)) = e (.ofMul x) + e (.ofMul y) := by
   rw [ofMul_mul, map_add]
@@ -54,6 +54,7 @@ theorem mem_closure_cab201 (x : D) :
     (K.zpow_mem (Subgroup.subset_closure (by simp)) _)) (K.zpow_mem (Subgroup.subset_closure
       (by simp)) _)
 
+omit hc in
 theorem ab_pow_ne_one201 : ((a : S) * b) ^ 2 ^ (m + 1) ≠ 1 := by
   intro h
   have h' : (a * b) ^ 2 ^ (m + 1) = 1 := Subtype.ext (by simpa using h)
@@ -215,8 +216,8 @@ theorem nonempty_mulEquiv_sModel_of_type201 {S : Type} [Group S] [Finite S] {D :
   have hφinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     by_contra hK
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent (SModel (m + 2)) := (IsPGroup.of_card hcardM).isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent (SModel (m + 2)) := (IsPGroup.of_card hcardM).isNilpotent
     have hK' : φ.ker.map ψ ≠ ⊥ := by
       intro h
       apply hK
@@ -226,7 +227,7 @@ theorem nonempty_mulEquiv_sModel_of_type201 {S : Type} [Group S] [Finite S] {D :
       rw [h, Subgroup.mem_bot] at this
       rw [Subgroup.mem_bot]
       exact hψbij.1 (this.trans (map_one ψ).symm)
-    haveI : (φ.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hψ
+    have : (φ.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hψ
     have hne := Group.IsNilpotent.inf_center_ne_bot_of_normal hK'
     obtain ⟨⟨x, hx⟩, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hne
     obtain ⟨hxK, hxZ⟩ := Subgroup.mem_inf.1 hx
@@ -247,7 +248,7 @@ theorem nonempty_mulEquiv_sModel_of_type201 {S : Type} [Group S] [Finite S] {D :
     rw [hg', map_pow, map_mul] at hg1
     obtain ⟨-, h2, h3, -⟩ := G201.lift_of hrel
     rw [h2, h3] at hg1
-    exact ab_pow_ne_one201 e hc ha hb hg1
+    exact ab_pow_ne_one201 e ha hb hg1
   exact ⟨(MulEquiv.ofBijective φ ⟨hφinj, hφ⟩).symm.trans (MulEquiv.ofBijective ψ hψbij)⟩
 
 end CFSG.CGT.Stroth77

@@ -25,10 +25,11 @@ structure Hyp111NineThree (p : ℕ) (M H : Subgroup G)
   plusCore_le : d1PlusCore p H J ≤ M
   factor : ∀ x ∈ H, ∃ m ∈ H ⊓ M, ∃ k : H, QuotientGroup.mk' _ k ∈ J ∧ x = m * k
 
+omit [Finite G] in
 theorem le_normalizer_d1PlusCore {p : ℕ} {H : Subgroup G}
     {J : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hJ : J.Normal) :
     H ≤ Subgroup.normalizer (d1PlusCore p H J : Set G) := by
-  haveI := hJ
+  have := hJ
   have hC : (Subgroup.centralizer (J : Set (H ⧸ primeComplementCore (G := H) p))).Normal :=
     inferInstance
   have hN : ((Subgroup.centralizer (J : Set (H ⧸ primeComplementCore (G := H) p))).comap
@@ -42,6 +43,7 @@ theorem le_normalizer_d1PlusCore {p : ℕ} {H : Subgroup G}
   rw [e]
   exact hN
 
+omit [Finite G] in
 theorem twoCore_inf_eq {p : ℕ} {M H Q : Subgroup G}
     {J : Subgroup (H ⧸ primeComplementCore (G := H) p)} (h93 : Hyp111NineThree p M H J)
     (hb3 : Hyp111B3 p H Q J) (hQH : Q ≤ H) (hQM : Q ≤ M) (hHM : pCoreOf 2 H ≤ M) :

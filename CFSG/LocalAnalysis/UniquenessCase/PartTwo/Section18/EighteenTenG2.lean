@@ -15,9 +15,9 @@ theorem k_18_10_G2_holds : K_18_10_G2 := by
   intro W _ _ hW2 H f p hf2 hp hmod hG2 hnat v hv
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, π, hreal⟩ := hnat
-  letI := hKfield
-  letI := hKfin
-  haveI : CharP K 2 :=
+  let := hKfield
+  let := hKfin
+  have : CharP K 2 :=
     CFSG.Quasithin.Vol2.KGNat.charP_two_of_card (by omega) hKcard
   let q : ℕ := 2 ^ f
   have hqcard : Nat.card K = q := hKcard
@@ -85,7 +85,7 @@ theorem k_18_10_G2_holds : K_18_10_G2 := by
     obtain ⟨γ, hγ⟩ :=
       CFSG.Quasithin.Vol2.KGNat.exists_g2_lin_eq hc0 hc1 x y hx hy
     exact ⟨⟨γ.1, (le_of_eq hcomm) γ.2⟩, hγ⟩
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
   have hInv : CFSG.IsInvariant ↥H W Z := by
     refine ⟨fun h w => ?_⟩
     have hsmul : h • w = (h : MulAut W) w := rfl
@@ -105,8 +105,8 @@ theorem k_18_10_G2_holds : K_18_10_G2 := by
         exact hz
       have h1 : h⁻¹ • (h • w) ∈ Z := hfwd h⁻¹ hw
       rwa [← mul_smul, inv_mul_cancel, one_smul] at h1
-  haveI : Z.Normal := inferInstance
-  letI : MulDistribMulAction ↥H (W ⧸ Z) :=
+  have : Z.Normal := inferInstance
+  let : MulDistribMulAction ↥H (W ⧸ Z) :=
     CFSG.quotientMulDistribMulAction (A := ↥H) (G := W) Z hInv
   let x0 : W ⧸ Z := QuotientGroup.mk v
   have hx0 : x0 ≠ 1 := by
@@ -141,8 +141,8 @@ theorem k_18_10_G2_holds : K_18_10_G2 := by
       rw [div_eq_mul_inv, ← hψker']
       rw [hψadd', hψeq' γ v, hγ, hψinv w, add_neg_cancel]
   have horbit_card : Nat.card (MulAction.orbit ↥H x0) = q ^ 6 - 1 := by
-    haveI : Fintype (W ⧸ Z) := Fintype.ofFinite _
-    haveI : Fintype {x : W ⧸ Z // x ≠ 1} := Fintype.ofFinite _
+    have : Fintype (W ⧸ Z) := Fintype.ofFinite _
+    have : Fintype {x : W ⧸ Z // x ≠ 1} := Fintype.ofFinite _
     rw [Nat.card_congr (Set.equivOfEq horbit_eq), Nat.card_eq_fintype_card,
       Set.card_ne_eq, ← Nat.card_eq_fintype_card, hcardquot]
   have hcardH : Nat.card ↥H = q ^ 6 * (q ^ 6 - 1) * (q ^ 2 - 1) := by
@@ -157,9 +157,9 @@ theorem k_18_10_G2_holds : K_18_10_G2 := by
   have hq6gt : 1 < q ^ 6 := Nat.one_lt_pow (by norm_num : (6 : ℕ) ≠ 0) hq1
   have hApos : 0 < q ^ 6 - 1 := by omega
   let S : Subgroup ↥H := MulAction.stabilizer ↥H x0
-  haveI : Fintype ↥H := Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbit ↥H x0) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer ↥H x0) := Fintype.ofFinite _
+  have : Fintype ↥H := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit ↥H x0) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥H x0) := Fintype.ofFinite _
   have horb : Nat.card (MulAction.orbit ↥H x0) * Nat.card S = Nat.card ↥H := by
     have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥H) x0
     rwa [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
@@ -202,7 +202,7 @@ theorem k_18_10_G2_holds : K_18_10_G2 := by
   have hpS : p ∣ Nat.card S := by
     rw [hS_card]
     exact dvd_mul_of_dvd_right hpq2 (q ^ 6)
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨s, hsord⟩ := exists_prime_orderOf_dvd_card' p hpS
   let hH : ↥H := s.1
   have hhordH : orderOf hH = p := (Subgroup.orderOf_coe s).trans hsord

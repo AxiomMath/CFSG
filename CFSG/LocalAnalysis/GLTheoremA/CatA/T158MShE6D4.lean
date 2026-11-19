@@ -71,7 +71,7 @@ theorem d4InnAutDerivedNotFG_holds : D4InnAutDerivedNotFG := by
       obtain ⟨hcardG, h2S⟩ := T158G.t158g_card_projImage hPi hc
       have hS0 :
           Nat.card ↥(CFSG.PGLModel.projImage (CFSG.RankThree.PartTwo.Sec4.slPi π 3 (2 ^ n) F')) ≠ 0 := by
-        haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) F') :=
+        have : Finite (Matrix.ProjGenLinGroup (Fin 3) F') :=
           Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) F' →* _) (QuotientGroup.mk'_surjective _)
         exact Nat.card_pos.ne'
       have h2G : twoPart (Nat.card ↥(CFSG.PGLModel.projImage (CFSG.RankThree.PartTwo.Sec4.glPi π 3 (2 ^ n) F'))) =

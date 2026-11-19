@@ -31,7 +31,7 @@ theorem kIdx_lt (i j : ZMod 4) : kIdx i j < 16 := by
 
 theorem testBit_foldr_bit : ∀ (l : List Bool) (n : ℕ), (l.foldr Nat.bit 0).testBit n = l.getD n false
   | [], n => by simp
-  | b :: l, 0 => by simp [Nat.testBit_bit_zero]
+  | b :: l, 0 => by simp
   | b :: l, n + 1 => by simp [Nat.testBit_bit_succ, testBit_foldr_bit l n]
 
 theorem foldr_bit_lt : ∀ l : List Bool, l.foldr Nat.bit 0 < 2 ^ l.length

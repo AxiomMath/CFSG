@@ -215,7 +215,7 @@ theorem commutator_pCore_le_blockV {G : Type} [Group G] [Finite G]
       _ = v := by group
   have hscomm2 : ∀ v ∈ V, ⁅v, s⁆ ≠ 1 → s * v * s⁻¹ = v * z := by
     intro v hv hc
-    have heq : ⁅v, s⁆ = z := hset.Z_eq_of_ne_one (hset.mem_Z hv) hzZ hc hz1
+    have heq : ⁅v, s⁆ = z := hset.Z_eq_of_ne_one (CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.mem_Z hv) hzZ hc hz1
     have hw : s * v * s⁻¹ = ⁅v, s⁆⁻¹ * v := by simp only [commutatorElement_def]; group
     rw [hw, heq, hzinv]
     exact hset.comm z hzV v hv

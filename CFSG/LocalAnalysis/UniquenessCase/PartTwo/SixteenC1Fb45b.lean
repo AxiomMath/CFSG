@@ -17,6 +17,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_vTil_mul_self {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (w : Vtil V₀ V hV) :
     w * w = 1 := by
   rw [← pow_two]
@@ -44,9 +45,9 @@ theorem s16c1_sylow_centralizer (D : Data G) {V : Subgroup G} {hV : IsElemAbelia
       rw [lt_top_iff_ne_top]
       intro hU
       exact (not_le_of_gt hlt) (Subgroup.subgroupOf_eq_top.mp hU)
-    haveI : Finite ↥S' := inferInstance
-    haveI : Group.IsNilpotent ↥S' := hS'syl.isPGroup.isNilpotent
-    obtain ⟨y, hyNorm, hyNotU⟩ := SetLike.exists_of_lt
+    have : Finite ↥S' := inferInstance
+    have : Group.IsNilpotent ↥S' := hS'syl.isPGroup.isNilpotent
+    obtain ⟨y, hyNorm, hyNotU⟩ := _root_.IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (G := ↥S') (S.subgroupOf S') hU)
     have hyC : (y : G) ∈ C := hS'syl.le y.2
     have hyNormS : (y : G) ∈ Subgroup.normalizer (S : Set G) := by
@@ -77,7 +78,7 @@ theorem s16c1_pRank_three_pos {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemA
     (hS : Sect16 D V₀ V L hV) {x : IntMod V hV}
     (hE : IsE16A5 ↥(barSub V₀ V hV (xInf L x.val))) :
     1 ≤ CFSG.Open.pRank 3 (D.M ⊓ centralizer ({x.val} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXle : xInf L x.val ≤ stabTil V₀ V :=
     ((perfectCore_le _).trans inf_le_right).trans (s16c1_le_stabTil D hS)
   have hXJ : xInf L x.val ≤ D.M ⊓ centralizer ({x.val} : Set G) :=

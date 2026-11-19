@@ -39,14 +39,14 @@ theorem pCoreOf_le_of_sylow_shape {H L A T : Subgroup G} (hLH : L ≤ H) (hAH : 
   set R : Subgroup G := (Q : Subgroup ↥H).map H.subtype with hRdef
   have hRH : IsSylowTwoOf R H := by
     refine ⟨Subgroup.map_subtype_le _, ?_, ?_⟩
-    · exact Q.isPGroup'.map H.subtype
+    · exact Q.isPGroup.map H.subtype
     · have : R.subgroupOf H = Q :=
         Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
       rw [this]
       exact Q.not_dvd_index
   have hSR : S ≤ R := fun s hs =>
     ⟨⟨s, hSH hs⟩, hSQ (show (⟨s, hSH hs⟩ : ↥H) ∈ S.subgroupOf H from hs), rfl⟩
-  have hR2 : IsPGroup 2 R := Q.isPGroup'.map H.subtype
+  have hR2 : IsPGroup 2 R := Q.isPGroup.map H.subtype
   have hRS : R ≤ S := by
     intro r hr
     have hrH : r ∈ H := Subgroup.map_subtype_le _ hr

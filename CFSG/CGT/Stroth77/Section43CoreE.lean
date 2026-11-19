@@ -48,7 +48,7 @@ theorem torusDiag_ofInt {k : Fin 3 → ℕ} (d x : Fin 3 → ℤ) :
 theorem torusDiag_gen {k : Fin 3 → ℕ} (d : Fin 3 → ℤ) (j : Fin 3) :
     torusDiag k d (gen k j) = d j • gen k j := by
   rw [torusDiag, matAct_gen_eq]
-  fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases j <;> simp
 
 namespace StrothWeakTypeData
 
@@ -57,7 +57,7 @@ variable {G : Type*} [Group G] {D : Subgroup G} {τ : StrothTypeIndex}
 
 theorem ofTorus_zsmul (z : ℤ) (v : Torus τ.k) : dD.ofTorus (z • v) = dD.ofTorus v ^ z := by
   rcases z with z | z
-  · rw [Int.ofNat_eq_coe, natCast_zsmul, ofTorus_nsmul, zpow_natCast]
+  · rw [Int.ofNat_eq_natCast, natCast_zsmul, ofTorus_nsmul, zpow_natCast]
   · rw [Int.negSucc_eq, neg_zsmul, ofTorus_neg, zpow_neg]
     congr 1
     rw [← Int.natCast_succ, natCast_zsmul, ofTorus_nsmul, zpow_natCast]
@@ -106,10 +106,10 @@ theorem conj_d8 (i j l : Bool) :
     e⁻¹ * dD.d8 i j l * e = dD.ofTorus (hE.twist i j) * dD.d8 i j l := by
   have h1 : e⁻¹ * (1 : G) * e = 1 := by group
   cases i <;> cases j <;> cases l <;>
-    simp only [d8, twist, Bool.false_eq_true, ↓reduceIte, conj_mul, h1, hE.conj_uv, hE.conj_t,
+    simp only [d8, twist, Bool.false_eq_true, ↓reduceIte, conj_mul, hE.conj_uv, hE.conj_t,
       hE.conj_u, one_mul, mul_one, inv_mul_cancel, add_zero, zero_add, map_zero, ofTorus_zero,
       SigmaFourAction.d8Act, AddMonoidHom.comp_apply, AddMonoidHom.id_apply] <;>
-    (try simp only [mul_assoc, dD.uv_mul_ofTorus_mul, dD.uv_mul_ofTorus, ofTorus_mul_ofTorus_mul])
+    (try simp only [mul_assoc, dD.uv_mul_ofTorus_mul, ofTorus_mul_ofTorus_mul])
 
 theorem conj_nf (v : Torus τ.k) (i j l : Bool) :
     e⁻¹ * (dD.ofTorus v * dD.d8 i j l) * e =
@@ -334,7 +334,7 @@ theorem mem_S₁e_iff (hk0 : 1 ≤ τ.k 0)
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
       rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl
       · rw [hc2, ← dD.ofTorus_neg, ofTorus_mul_nfe]
-        exact ⟨_, i, j, l, k, (hev _ (by simpa using hc2e.neg) v).mpr hv, rfl⟩
+        exact ⟨_, i, j, l, k, (hev _ (by simp) v).mpr hv, rfl⟩
       · rw [a_eq, ← dD.ofTorus_neg, ofTorus_mul_nfe]
         exact ⟨_, i, j, l, k, (hev _ (by simpa using hae.neg) v).mpr hv, rfl⟩
       · rw [b_eq, ← dD.ofTorus_neg, ofTorus_mul_nfe]
@@ -766,12 +766,15 @@ variable {dD} (hE : dD.EAction e) (hwuv : hE.wuv = Torus.ofInt _ ![2, 1, 1])
 
 include hwuv hwt
 
+omit hwuv hwt in
 theorem twist_ff : hE.twist false false = 0 := by
   simp [EAction.twist, SigmaFourAction.d8Act]
 
+omit hwuv in
 theorem twist_ft : hE.twist false true = Torus.ofInt _ ![0, -1, 0] := by
   simp [EAction.twist, SigmaFourAction.d8Act, hwt]
 
+omit hwt in
 theorem twist_tf : hE.twist true false = Torus.ofInt _ ![2, 1, 1] := by
   simp [EAction.twist, SigmaFourAction.d8Act, hwuv]
 
@@ -882,7 +885,7 @@ theorem torusDiag_om100 (hm : 1 ≤ m) (d : Fin 3 → ℤ) (hd : ∀ i, d i % 2 
     fun i => (d i * ε i) * 2 ^ ((StrothTypeIndex.t100 m).k i - 1) by funext i; ring]
   exact (Stroth42Core.om100_eq_iff hm _ _).mpr fun i => by
     have := hd i
-    simp only [Int.ModEq, Int.mul_emod, this, one_mul, Int.emod_emod_of_dvd, Int.emod_emod]
+    simp only [Int.ModEq, Int.mul_emod, this, one_mul, Int.emod_emod]
 
 theorem even_torusDiag_iff (hm : 1 ≤ m) (d : Fin 3 → ℤ) (hd : d 0 % 2 = 1)
     (v : Torus (StrothTypeIndex.t100 m).k) :
@@ -956,8 +959,7 @@ theorem t100_pow_ne_c₁_of_two_mul (hm : 1 ≤ m) {y : G} {w : Fin 3 → ℤ}
   rw [dD.pow_two_pow_of_mul_self hsq hn, dD.t100_c_pow, om100_c, ← natCast_zsmul,
     ← Torus.ofInt_zsmul] at h
   obtain ⟨h0, h1, -⟩ := (Stroth42Core.t100_ofInt_eq_iff _ _).mp (dD.ofTorus_inj h)
-  simp only [Pi.smul_apply, smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons] at h0 h1
+  simp only [Pi.smul_apply, smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
   rw [hw] at h0
   refine Stroth42Core.not_dvd_pow_pred_sub hm h0 ?_
   have h2 : (2 : ℤ) ^ (m + 1) ∣ 2 * (0 - ((2 ^ (n - 1) : ℕ) : ℤ) * w 1) :=
@@ -985,8 +987,8 @@ theorem t100_cover_CSz (hm : 1 ≤ m) {X : Subgroup G}
   obtain ⟨v₀, hv₀⟩ := dD.t100_mem_CSz_of_not_mem hm (hX x₁ hx₁ hx₁S) hx₁D
   have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
   have hfix : ∀ d ∈ X, d ∈ D → ∃ (p : ZMod (2 ^ m)) (q : ZMod (2 ^ (m + 1))),
       d = dD.ofTorus (Torus.ofInt _ ![(p.val : ℤ), (q.val : ℤ), (q.val : ℤ)]) := by
     intro d hd hdD
@@ -1022,7 +1024,7 @@ theorem t100_cover_CSz (hm : 1 ≤ m) {X : Subgroup G}
       exact dD.nf_u_mul_inv_mem v₀ v
     obtain ⟨p, q, hd⟩ := hfix (y * x₁⁻¹) (mul_mem hy (inv_mem hx₁)) hmem
     refine ⟨(true, p, q), ?_⟩
-    simp only [if_true]
+    simp only [ite_true]
     rw [← hd, inv_mul_cancel_right]
 
 theorem EAction.t100_h9_of (hE : dD.EAction e) (hm : 2 ≤ m)
@@ -1070,8 +1072,8 @@ theorem EAction.t100_h9_of (hE : dD.EAction e) (hm : 2 ≤ m)
     ·
       obtain ⟨x₁, hx₁, hx₁S, hx₁D⟩ := hA
       have hcov₁ := dD.t100_cover_CSz hm1 hXS hab hx₁ hx₁S hx₁D
-      haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-      haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+      have : NeZero (2 ^ m) := ⟨by positivity⟩
+      have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
       by_cases hB : ∃ x₀ ∈ X, x₀ ∉ D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u}
       · obtain ⟨x₀, hx₀, hx₀S⟩ := hB
         let f : Bool × (Bool × ZMod (2 ^ m) × ZMod (2 ^ (m + 1))) → G := fun w =>
@@ -1100,7 +1102,7 @@ theorem EAction.t100_h9_of (hE : dD.EAction e) (hm : 2 ≤ m)
               exact mul_mem (dD.nf_mem v false false l) (inv_mem (dD.nf_mem v' false false l'))
             obtain ⟨w, hw⟩ := hcov₁ (y * x₀⁻¹) (mul_mem hy (inv_mem hx₀)) hyx
             refine ⟨(true, w), ?_⟩
-            simp only [f, if_true]
+            simp only [f, ite_true]
             rw [hw, inv_mul_cancel_right]
         have hle := Stroth42Core.natCard_le_of_subset_range f hcov
         rw [hcard, hDcard, Nat.card_prod, Nat.card_prod, Nat.card_prod, Nat.card_zmod,
@@ -1179,7 +1181,7 @@ theorem EAction.t100_h9_of (hE : dD.EAction e) (hm : 2 ≤ m)
               AddMonoidHom.comp_apply, AddMonoidHom.id_apply] at hw
             obtain ⟨p, hp⟩ := hg₀ w hw
             refine ⟨(true, p), ?_⟩
-            simp only [f, if_true, hp]
+            simp only [f, ite_true, hp]
             rw [← hw', inv_mul_cancel_right]
         have hle := Stroth42Core.natCard_le_of_subset_range f hcov
         rw [hcard, hDcard, Nat.card_prod] at hle
@@ -1201,7 +1203,7 @@ theorem EAction.t100_h9_of (hE : dD.EAction e) (hm : 2 ≤ m)
               AddMonoidHom.comp_apply, AddMonoidHom.id_apply] at hw
             obtain ⟨p, hp⟩ := hg₁ w hw
             refine ⟨(true, p), ?_⟩
-            simp only [f, if_true, hp]
+            simp only [f, ite_true, hp]
             rw [← hw', inv_mul_cancel_right]
         have hle := Stroth42Core.natCard_le_of_subset_range f hcov
         rw [hcard, hDcard, Nat.card_prod] at hle
@@ -1209,7 +1211,7 @@ theorem EAction.t100_h9_of (hE : dD.EAction e) (hm : 2 ≤ m)
         rw [h2] at hle
         omega
   · simp only [not_exists, not_and, not_not] at hD
-    haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+    have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge (fun x hx => hD x hx) hcard.ge
 
 section III
@@ -1351,6 +1353,7 @@ theorem iii_h2' :
   rw [show ((Torus.c + Torus.a : Torus (StrothTypeIndex.t100 m).k) 0) = 1 by simp [gen]]
   exact Stroth42Core.zmod_not_even_one (by show 1 ≤ m; omega)
 
+omit hm in
 theorem iii_sqE (v : Torus (StrothTypeIndex.t100 m).k) (i j l : Bool) :
     (dD.iiiAction heuv het hue hce hae hbe he).sqE v i j l =
       v + (StrothTypeIndex.t100 m).action.d8Act i j l
@@ -1377,8 +1380,8 @@ theorem iii_h4 :
   ·
     simp only [Stroth42Core.bpow, ↓reduceIte] at hpow
     have hsq := hE.nfe_e_mul_self v false false l
-    rw [Bool.and_false, d8_fff, mul_one, dD.iii_sqE hm heuv het hue hce hae hbe he,
-      twist_ff hE rfl rfl, add_zero] at hsq
+    rw [Bool.and_false, d8_fff, mul_one, dD.iii_sqE heuv het hue hce hae hbe he,
+      twist_ff hE, add_zero] at hsq
     rw [dD.pow_two_pow_of_mul_self hsq (by omega : 1 ≤ m - 1), dD.t100_c_pow] at hpow
     have h0 := congrFun (dD.ofTorus_inj hpow) 0
     have hc0 : ((v + (StrothTypeIndex.t100 m).action.d8Act false false l (-v)) 0) = 0 := by
@@ -1426,13 +1429,13 @@ theorem iii_h8 :
         Int.not_even_iff] at hodd
       exact hodd
     have hsq := hE.nfe_e_mul_self (Torus.ofInt _ x) i j l
-    rw [dD.iii_sqE hm heuv het hue hce hae hbe he] at hsq
+    rw [dD.iii_sqE heuv het hue hce hae hbe he] at hsq
     have h1 : (dD.d8 (false && false) false false : G) = 1 := dD.d8_fff
     have h2 : (dD.d8 (false && true) false false : G) = 1 := dD.d8_fff
     have h3 : (dD.d8 (true && false) false false : G) = 1 := dD.d8_fff
     cases i <;> cases j <;> cases l
     ·
-      rw [twist_ff hE rfl rfl, add_zero, h1, mul_one] at hsq
+      rw [twist_ff hE, add_zero, h1, mul_one] at hsq
       simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
         AddMonoidHom.id_apply, add_neg_cancel, ofTorus_zero] at hsq
       rw [Stroth42Core.pow_two_pow_eq_mul_self _ hn, hsq, one_pow, dD.t100_c_pow] at hz
@@ -1440,9 +1443,9 @@ theorem iii_h8 :
       rw [← om100_zero, om100_eq_iff hm1] at hz'
       exact absurd hz' (by decide)
     ·
-      rw [twist_ff hE rfl rfl, add_zero, h3, mul_one] at hsq
+      rw [twist_ff hE, add_zero, h3, mul_one] at hsq
       simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
-        AddMonoidHom.id_apply, map_neg, Stroth42Core.t100_φu, ← Torus.ofInt_neg,
+        AddMonoidHom.id_apply, Stroth42Core.t100_φu, ← Torus.ofInt_neg,
         ← Torus.ofInt_add] at hsq
       rw [dD.pow_two_pow_of_mul_self hsq hn, dD.t100_c_pow, om100_c, ← natCast_zsmul,
         ← Torus.ofInt_zsmul] at hz
@@ -1453,7 +1456,7 @@ theorem iii_h8 :
       have hpos : (0 : ℤ) < 2 ^ (m - 1) := by positivity
       exact absurd (Int.le_of_dvd hpos h0) (not_le.mpr hlt)
     ·
-      rw [twist_ft hE rfl rfl, h2, mul_one] at hsq
+      rw [twist_ft hE rfl, h2, mul_one] at hsq
       simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
         AddMonoidHom.id_apply, ← Torus.ofInt_neg, ← Torus.ofInt_add, Stroth42Core.t100_φt] at hsq
       refine dD.t100_pow_ne_c₁_of_odd hm1 hsq ?_ hn hz
@@ -1463,7 +1466,7 @@ theorem iii_h8 :
     ·
       exact dD.t100_pow_ne_c₁_of_sq_uv hm1 hsq hn hz
     ·
-      rw [twist_tf hE rfl rfl, h1, mul_one] at hsq
+      rw [twist_tf hE rfl, h1, mul_one] at hsq
       simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
         AddMonoidHom.id_apply, ← Torus.ofInt_neg, ← Torus.ofInt_add,
         Stroth42Core.t100_φuv] at hsq
@@ -1472,7 +1475,7 @@ theorem iii_h8 :
         Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
       omega
     ·
-      rw [twist_tf hE rfl rfl, h3, mul_one] at hsq
+      rw [twist_tf hE rfl, h3, mul_one] at hsq
       simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
         AddMonoidHom.id_apply, ← Torus.ofInt_neg, ← Torus.ofInt_add, Stroth42Core.t100_φuv,
         Stroth42Core.t100_φu] at hsq
@@ -1502,8 +1505,8 @@ theorem iii_h9 :
       Subgroup.zpowers e) ⊓ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)} →
         IsMulCommutative X → Nat.card X = Nat.card D → X = D := by
   have hm1 : 1 ≤ m := by omega
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
   set hE := dD.iiiAction heuv het hue hce hae hbe he with hEdef
   refine EAction.t100_h9_of dD hE hm
     (torusDiag_om100_of_odd hm1 (by decide) (by decide) (by decide) _)
@@ -1532,7 +1535,7 @@ theorem iii_h9 :
     obtain ⟨x, rfl⟩ := Torus.exists_ofInt w
     rw [Stroth42Core.t100_φu, ← Torus.ofInt_neg, Stroth42Core.t100_ofInt_eq_iff] at hw
     obtain ⟨-, h1, -⟩ := hw
-    simp only [Pi.neg_apply, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero] at h1
+    simp only [Pi.neg_apply, Matrix.cons_val_one, Matrix.cons_val_zero] at h1
     refine ⟨(((x 0 : ℤ) : ZMod (2 ^ m)), ((x 2 : ℤ) : ZMod (2 ^ (m + 1)))), ?_⟩
     rw [Stroth42Core.t100_ofInt_eq_iff]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
@@ -1616,6 +1619,7 @@ theorem ii_h1 :
 theorem ii_h2 : e ∉ D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} :=
   (dD.iiAction heuv het hue hce hae hbe he).e_not_mem (ii_not_word hm)
 
+omit heuv het hue hce hae hbe he in
 theorem ii_h4 :
     ∀ y ∈ D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u},
       y * (dD.c : G) ^ 2 ^ (m - 1) = (dD.c : G) ^ 2 ^ (m - 1) * y →
@@ -1737,8 +1741,8 @@ theorem ii_h9 :
       Subgroup.zpowers e) ⊓ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)} →
         IsMulCommutative X → Nat.card X = Nat.card D → X = D := by
   have hm1 : 1 ≤ m := by omega
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
   set hE := dD.iiAction heuv het hue hce hae hbe he with hEdef
   have hm' : ((2 ^ m : ℕ) : ℤ) = 2 ^ m := by push_cast; rfl
   have hm'' : ((2 ^ (m + 1) : ℕ) : ℤ) = 2 ^ (m + 1) := by push_cast; rfl

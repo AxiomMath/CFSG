@@ -21,11 +21,11 @@ theorem AschbacherHyp.crossedHomVanishing_commutator [Finite C] (hC : Aschbacher
     letI := hC.plus.finite
     CrossedHomVanishing hC.plus.isExtraspecialPGroup (commutator C) := by
   classical
-  letI := hC.plus.finite
+  let := hC.plus.finite
   show CrossedHomVanishing hC.plus.isExtraspecialPGroup (commutator C)
   unfold CrossedHomVanishing
   intro d hd hd0
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   obtain ⟨θ, σ, hθsurj, hθker, hσθ, hσinj, hσirr⟩ := hC.exists_hom

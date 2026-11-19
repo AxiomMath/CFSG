@@ -202,7 +202,7 @@ theorem kgLangTorA_lin_cont {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Larg
       rw [show LinearFlag.conjAut d F g₀ * LinearFlag.conjAut d F C *
           (LinearFlag.conjAut d F g₀)⁻¹ * LinearFlag.conjAut d F g₀ =
           LinearFlag.conjAut d F g₀ * LinearFlag.conjAut d F C by group]
-  haveI hSLperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) F) :=
+  have hSLperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) F) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hd
   have hSL : commutator (Matrix.SpecialLinearGroup (Fin d) F) = ⊤ :=
     Group.IsPerfect.commutator_eq_top

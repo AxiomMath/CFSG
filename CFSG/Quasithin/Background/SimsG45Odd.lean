@@ -143,9 +143,9 @@ theorem odd_orderOf_transv_mul [Finite F] [CharP F 2] (B : LinearMap.BilinForm F
     {u w : V} {c d : F} (hc : c ≠ 0) (hd : d ≠ 0) {a b : V ≃ₗ[F] V}
     (ha : ∀ v, a v = v + (c * B v u) • u) (hb : ∀ v, b v = v + (d * B v w) • w)
     (huw : B u w ≠ 0) : Odd (orderOf (a * b)) := by
-  haveI : Module.Finite F V := Module.finite_of_finrank_pos (by omega)
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Module.Finite F V := Module.finite_of_finrank_pos (by omega)
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun f : V ≃ₗ[F] V => (f : V → V)) DFunLike.coe_injective
   refine OddAux.odd_orderOf_of_isSemisimple (a * b) ?_
   exact OddAux.isSemisimple_transv_mul B halt hc hd (a := (a : Module.End F V))

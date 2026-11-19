@@ -52,7 +52,7 @@ theorem gmbQc_mul_gmbQa {x y : F} (h : x ^ 2 + y ^ 2 = -1) (h2 : (2 : F) ≠ 0) 
     coe_gmbQc, Matrix.mul_fin_two, Matrix.mul_fin_two]
   ext i j
   fin_cases i <;> fin_cases j <;> simp <;> field_simp <;>
-    first | ring1 | linear_combination h | linear_combination (-1 : F) * h
+    first | linear_combination h | linear_combination (-1 : F) * h
 
 theorem gmbQc_mul_gmbQb {x y : F} (h : x ^ 2 + y ^ 2 = -1) (h2 : (2 : F) ≠ 0) :
     gmbQc h h2 * gmbQb h = (gmbQa F * gmbQb h) * gmbQc h h2 := by

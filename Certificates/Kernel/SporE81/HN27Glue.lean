@@ -248,7 +248,7 @@ theorem card_RJ :
     Nat.card RJ = 243 := by
   have hset : ((RJ : Subgroup JH) : Set JH) = (fun i : ℕ => eJ i) '' (rL.toFinset : Set ℕ) := by
     ext x
-    simp only [SetLike.mem_coe, mem_RJ, Set.mem_image, List.coe_toFinset, Set.mem_setOf_eq,
+    simp only [SetLike.mem_coe, mem_RJ, Set.mem_image, List.coe_toFinset, Set.mem_ofPred_eq,
       mem_rL]
     constructor
     · rintro ⟨i, hi, hl, rfl⟩
@@ -397,13 +397,13 @@ noncomputable abbrev zJ : JH := pGenJ 5
 
 theorem zJ_eq : zJ = sJ 2 := by
   have hk : FAData.pKernel = FAData.sWords[2]! := by decide +kernel
-  rw [zJ, pGenJ, if_neg (by norm_num), sJ, hk]
+  rw [zJ, pGenJ, ite_eq_right (by norm_num), sJ, hk]
 
 theorem gen_comm_z
     {j : ℕ} (hj : j < 6) :
     pGenJ j * zJ = zJ * pGenJ j := by
   rcases Nat.lt_or_ge j 5 with h | h
-  · rw [zJ_eq, pGenJ, if_pos h]
+  · rw [zJ_eq, pGenJ, ite_eq_left h]
     exact liftJ_comm (pLift_letters h)
   · obtain rfl : j = 5 := by omega
     rfl

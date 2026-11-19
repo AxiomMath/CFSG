@@ -59,13 +59,13 @@ lemma quadMapOfCoeffs_single_inl {n d : ℕ} (i : Fin n) (s : Fin d)
       cmOf (Pi.single (Sum.inl i, s) (1 : ZMod 2)) x c = 0 := by
     intro x c h
     funext u
-    simp [cmOf, h, Pi.single_apply]
+    simp [cmOf, h]
   have hlin : (∑ x, w x • sqOf (Pi.single (Sum.inl i, s) (1 : ZMod 2)) x) t =
       if t = s then w i else 0 := by
     rw [Finset.sum_apply, Finset.sum_eq_single i]
     · simp [sqOf, Pi.single_apply]
     · intro b _ hb
-      simp [sqOf, Pi.single_apply, hb]
+      simp [sqOf, hb]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   have hquad : (∑ x, ∑ c,
@@ -78,9 +78,9 @@ lemma quadMapOfCoeffs_single_inl {n d : ℕ} (i : Fin n) (s : Fin d)
     apply Finset.sum_eq_zero
     intro c _
     by_cases h : x < c
-    · rw [if_pos h, hcm x c h]
+    · rw [ite_eq_left h, hcm x c h]
       simp
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       simp
   rw [Pi.add_apply, hlin, hquad, add_zero]
 
@@ -95,14 +95,14 @@ lemma quadMapOfCoeffs_single_inr {n d : ℕ} (i j : Fin n) (hij : i < j) (s : Fi
       fun _ => 0 := by
     intro x
     funext u
-    simp [sqOf, Pi.single_apply]
+    simp [sqOf]
   have hcm : ∀ x c, cmOf (Pi.single (Sum.inr ⟨(i, j), hij⟩, s) (1 : ZMod 2)) x c =
       fun t => if x = i ∧ c = j ∧ t = s then (1 : ZMod 2) else 0 := by
     intro x c
     funext u
     by_cases h : x < c
     · simp [cmOf, h, Pi.single_apply, and_assoc]
-    · rw [cmOf, dif_neg h]
+    · rw [cmOf, dite_eq_right h]
       by_cases hx : x = i
       · subst hx
         by_cases hc : c = j
@@ -119,17 +119,17 @@ lemma quadMapOfCoeffs_single_inr {n d : ℕ} (i j : Fin n) (hij : i < j) (s : Fi
         else 0)) t = if t = s then w i * w j else 0 := by
     rw [Finset.sum_apply, Finset.sum_eq_single i]
     · rw [Finset.sum_apply, Finset.sum_eq_single j]
-      · rw [if_pos hij, hcm i j]
+      · rw [ite_eq_left hij, hcm i j]
         by_cases hts : t = s
         · subst hts
           simp
         · simp [hts]
       · intro c _ hc
         by_cases h : i < c
-        · rw [if_pos h]
+        · rw [ite_eq_left h]
           rw [hcm i c]
           simp [hc]
-        · rw [if_neg h]
+        · rw [ite_eq_right h]
           rfl
       · intro hj
         exact absurd (Finset.mem_univ j) hj
@@ -138,10 +138,10 @@ lemma quadMapOfCoeffs_single_inr {n d : ℕ} (i j : Fin n) (hij : i < j) (s : Fi
       apply Finset.sum_eq_zero
       intro c _
       by_cases h : x < c
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         rw [hcm x c]
         simp [hx]
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         rfl
     · intro hi
       exact absurd (Finset.mem_univ i) hi

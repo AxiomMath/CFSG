@@ -72,7 +72,7 @@ theorem false_of_perfect_of_centralizer_eight_of_alt5 {E : Type*} [Group E] [Fin
     exact h2dvd (by rw [h0]; exact dvd_zero 2)
   have hprime37 : ∀ r : ℕ, r.Prime → r ∣ m → r = 3 ∨ r = 7 := by
     intro r hr hrdvd
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hrdvd' : r ∣ (P : Subgroup E).relIndex
         (normalizer ((P : Subgroup E) : Set E)) := by
       rwa [← hm]

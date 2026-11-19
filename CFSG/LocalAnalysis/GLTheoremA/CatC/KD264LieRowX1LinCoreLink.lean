@@ -10,6 +10,7 @@ open CFSG.LocalAnalysis.GLTheoremA.KD264Lie.X1LinCore.Model
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem neg_eq_self_V (y : V) : -y = y :=
   neg_eq_of_add_eq_zero_left (by
     rw [← two_smul (ZMod 2) y, show (2 : ZMod 2) = 0 from rfl, zero_smul])
@@ -17,22 +18,26 @@ theorem neg_eq_self_V (y : V) : -y = y :=
 @[expose] noncomputable def psiOf (w : V) (ρ : V ≃ₗ[ZMod 2] V) : Model.F4 →ₗ[ZMod 2] V :=
   Model.basisF4.constr (ZMod 2) ![w, ρ w]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem psiOf_apply (w : V) (ρ : V ≃ₗ[ZMod 2] V) (a : Model.F4) :
     psiOf w ρ a = Model.basisF4.repr a 0 • w + Model.basisF4.repr a 1 • ρ w := by
   rw [psiOf, Module.Basis.constr_apply_fintype, Fin.sum_univ_two]
   simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem psiOf_one (w : V) (ρ : V ≃ₗ[ZMod 2] V) : psiOf w ρ 1 = w := by
   rw [← Model.basisF4_zero, psiOf, Module.Basis.constr_basis]
   simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem psiOf_omega (w : V) (ρ : V ≃ₗ[ZMod 2] V) : psiOf w ρ Model.omega = ρ w := by
   rw [← Model.basisF4_one, psiOf, Module.Basis.constr_basis]
   simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem li_plane {X : Submodule (ZMod 2) V} {ρ : V ≃ₗ[ZMod 2] V} {w : V} (hw : w ∈ X)
     (hw0 : w ≠ 0) (hρ3 : ∀ x, ρ (ρ (ρ x)) = x) (hfix : ∀ x ∈ X, ρ x = x → x = 0)
-    (hquad : ∀ x ∈ X, ρ (ρ x) + ρ x + x = 0) (hinv : ∀ x ∈ X, ρ x ∈ X) :
+    (_hquad : ∀ x ∈ X, ρ (ρ x) + ρ x + x = 0) (_hinv : ∀ x ∈ X, ρ x ∈ X) :
     LinearIndependent (ZMod 2) ![w, ρ w] := by
   rw [LinearIndependent.pair_iff]
   intro s t hst
@@ -56,6 +61,7 @@ theorem li_plane {X : Submodule (ZMod 2) V} {ρ : V ≃ₗ[ZMod 2] V} {w : V} (h
         _ = w := by rw [hst, zero_add]
     exact hw0 (hfix w hw hρw)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem psiOf_injective {w : V} {ρ : V ≃ₗ[ZMod 2] V}
     (hli : LinearIndependent (ZMod 2) ![w, ρ w]) : Function.Injective (psiOf w ρ) := by
   rw [← LinearMap.ker_eq_bot, eq_bot_iff]
@@ -76,6 +82,7 @@ theorem psiOf_range {X : Submodule (ZMod 2) V} {ρ : V ≃ₗ[ZMod 2] V} {w : V}
     exact X.add_mem (X.smul_mem _ hw) (X.smul_mem _ (hinv w hw))
   · rw [LinearMap.finrank_range_of_inj (psiOf_injective hli), Model.finrank_F4, hfr]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem psiOf_compat {X : Submodule (ZMod 2) V} {ρ : V ≃ₗ[ZMod 2] V} {w : V} (hw : w ∈ X)
     (hinv : ∀ x ∈ X, ρ x ∈ X)
     (hquad : ∀ x ∈ X, ρ (ρ x) + ρ x + x = 0)
@@ -86,11 +93,9 @@ theorem psiOf_compat {X : Submodule (ZMod 2) V} {ρ : V ≃ₗ[ZMod 2] V} {w : V
     apply Module.Basis.ext Model.basisF4
     intro i
     fin_cases i
-    · simp only [Fin.zero_eta, Fin.isValue, LinearMap.comp_apply, LinearMap.coe_coe,
-        LinearMap.mulLeft_apply, LinearEquiv.coe_coe]
+    · simp only [Fin.zero_eta, Fin.isValue, LinearMap.comp_apply, LinearMap.mulLeft_apply, LinearEquiv.coe_coe]
       rw [Model.basisF4_zero, mul_one, psiOf_one, hf w hw, psiOf_omega]
-    · simp only [Fin.mk_one, Fin.isValue, LinearMap.comp_apply, LinearMap.coe_coe,
-        LinearMap.mulLeft_apply, LinearEquiv.coe_coe]
+    · simp only [Fin.mk_one, Fin.isValue, LinearMap.comp_apply, LinearMap.mulLeft_apply, LinearEquiv.coe_coe]
       rw [Model.basisF4_one, psiOf_omega, hf _ (hinv w hw)]
       have hmul : Model.omega * Model.omega = Model.omega + 1 := by rw [← sq]; exact Model.omega_sq
       rw [hmul, map_add, psiOf_omega, psiOf_one]
@@ -103,9 +108,11 @@ theorem psiOf_compat {X : Submodule (ZMod 2) V} {ρ : V ≃ₗ[ZMod 2] V} {w : V
     (Fin 2 → Model.F4) →ₗ[ZMod 2] V :=
   ψ₁ ∘ₗ (LinearMap.proj 0) + ψ₂ ∘ₗ (LinearMap.proj 1)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem phiOf_apply (ψ₁ ψ₂ : Model.F4 →ₗ[ZMod 2] V) (c : Fin 2 → Model.F4) :
     phiOf ψ₁ ψ₂ c = ψ₁ (c 0) + ψ₂ (c 1) := rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem phiOf_injective {ψ₁ ψ₂ : Model.F4 →ₗ[ZMod 2] V} (h₁ : Function.Injective ψ₁)
     (h₂ : Function.Injective ψ₂)
     (hdisj : Disjoint (LinearMap.range ψ₁) (LinearMap.range ψ₂)) :
@@ -133,6 +140,7 @@ theorem phiOf_injective {ψ₁ ψ₂ : Model.F4 →ₗ[ZMod 2] V} (h₁ : Functi
   · exact hc0
   · exact hc1
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem phiOf_range (ψ₁ ψ₂ : Model.F4 →ₗ[ZMod 2] V) :
     LinearMap.range (phiOf ψ₁ ψ₂) = LinearMap.range ψ₁ ⊔ LinearMap.range ψ₂ := by
   apply le_antisymm
@@ -149,6 +157,7 @@ theorem phiOf_range (ψ₁ ψ₂ : Model.F4 →ₗ[ZMod 2] V) :
       rw [phiOf_apply]
       simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem phiOf_compat {ψ₁ ψ₂ : Model.F4 →ₗ[ZMod 2] V} {f₁ : V ≃ₗ[ZMod 2] V}
     (h₁ : ∀ a, f₁ (ψ₁ a) = ψ₁ (Model.omega * a)) (h₂ : ∀ a, f₁ (ψ₂ a) = ψ₂ (Model.omega * a))
     (c : Fin 2 → Model.F4) :

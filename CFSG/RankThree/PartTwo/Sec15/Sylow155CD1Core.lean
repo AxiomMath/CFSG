@@ -261,6 +261,7 @@ private theorem mem_normalizer_of_forall_mem {J : Subgroup Q} {g : Q}
   Subgroup.mem_normalizer_iff.2 fun x =>
     (Sylow155KA6.apply_mem_iff_of_finite (MulAut.conj g) hg x).symm
 
+omit [Finite Q] in
 private theorem mem_normalizer_map_subtype {J : Subgroup Q} {V : Subgroup ↥J} {y : ↥J}
     (hy : y ∈ Subgroup.normalizer (V : Set ↥J)) :
     (y : Q) ∈ Subgroup.normalizer ((V.map J.subtype : Subgroup Q) : Set Q) := by
@@ -281,12 +282,14 @@ private theorem mem_normalizer_map_subtype {J : Subgroup Q} {V : Subgroup ↥J} 
     rw [this]
     exact hw
 
+omit [Finite Q] in
 private theorem card_centerIn {J : Subgroup Q}
     (hT : Sec4.IsTripleCover ↥J (alternatingGroup (Fin 6))) :
     Nat.card (Sec14.Item148PtRes.centerIn J) = 3 := by
   rw [Sec14.Item148PtRes.centerIn, Subgroup.card_map_of_injective J.subtype_injective]
   exact hT.1
 
+omit [Finite Q] in
 private theorem isElemAbelian_centerIn {J : Subgroup Q}
     (hT : Sec4.IsTripleCover ↥J (alternatingGroup (Fin 6)))
     (hZ : Sec14.Item148PtRes.centerIn J ≤ Subgroup.center Q) :
@@ -404,7 +407,7 @@ theorem mem_centerIn_sup_zpowers {J : Subgroup Q}
 theorem isPSolvable_of_pow_three_mem {X Z : Subgroup Q}
     (hZX : Z ≤ Subgroup.centralizer (X : Set Q)) (h3 : ∀ x ∈ X, x ^ 3 = 1 → x ∈ Z) :
     CFSG.HallHigman.IsPSolvable 3 ↥X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨N, hN, hcop, k, hk⟩ := CFSG.Quasithin.Vol2.Ch11.SecS.KF.ito_normalPComplement
     (p := 3) (G := ↥X) (by norm_num) fun x hx3 => by
       rw [Subgroup.mem_center_iff]
@@ -412,7 +415,7 @@ theorem isPSolvable_of_pow_three_mem {X Z : Subgroup Q}
       apply Subtype.ext
       have hx : (x : Q) ∈ Z := h3 x x.2 (by simpa using congrArg Subtype.val hx3)
       exact Subgroup.mem_centralizer_iff.mp (hZX hx) w w.2
-  haveI := hN
+  have := hN
   refine isPSolvable_of_normal N (isPSolvable_of_coprime_three hcop.symm)
     (isPSolvable_of_isPGroup_three (IsPGroup.of_card (n := k) ?_))
   rw [← Subgroup.index_eq_card]
@@ -426,7 +429,7 @@ theorem isPSolvable_centralizer_inf_normalizer {J : Subgroup Q} (hperf : commuta
       ↥(Subgroup.centralizer (J : Set Q) ⊓ Subgroup.centralizer ({y} : Set Q))) :
     CFSG.HallHigman.IsPSolvable 3
       ↥(Subgroup.centralizer ({y} : Set Q) ⊓ Subgroup.normalizer (J : Set Q)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H₁ : Subgroup Q := Subgroup.centralizer ({y} : Set Q) ⊓ Subgroup.normalizer (J : Set Q)
   let φ : ↥H₁ →* MulAut ↥J := J.normalizerMonoidHom.comp (Subgroup.inclusion inf_le_right)
   refine isPSolvable_of_hom φ ?_ ?_
@@ -443,7 +446,7 @@ theorem isPSolvable_centralizer_inf_normalizer {J : Subgroup Q} (hperf : commuta
       have h2 : (g : Q) * a * (g : Q)⁻¹ = a := h1
       exact (mul_inv_eq_iff_eq_mul.mp h2).symm
   ·
-    haveI : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+    have : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
     refine isPSolvable_of_isPGroup_three ?_
     rintro ⟨_, g, rfl⟩
     obtain ⟨a, m, hm, hn⟩ :=
@@ -574,7 +577,7 @@ theorem isPSolvable_centralizer {J : Subgroup Q} (hperf : commutator ↥J = ⊤)
     {y : Q} (hyJ : ∀ x ∈ J, y * x * y⁻¹ ∈ J) (hy3 : y ^ 3 = 1)
     (hy1 : ∃ x ∈ J, y * x * y⁻¹ ≠ x) (hyJ' : y ∉ J) :
     CFSG.HallHigman.IsPSolvable 3 ↥(Subgroup.centralizer ({y} : Set Q)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hkJ, hk3, hk1, hkconj⟩ := exists_conj_eq_of_pow_three hperf hT hyJ hy3 hy1
   have hyk : y * k = k * y := by
     have h1 := hkconj k hkJ
@@ -634,7 +637,7 @@ theorem isPSolvable_centralizer {J : Subgroup Q} (hperf : commutator ↥J = ⊤)
       group
     rw [e]
     exact H₁.mul_mem (H₁.mul_mem hsq1 (H₁.inv_mem hg)) hsq2
-  haveI := hnorm
+  have := hnorm
   have hQ2 : IsPGroup 2 (↥C ⧸ H₁.subgroupOf C) := by
     intro x
     refine ⟨1, ?_⟩
@@ -654,7 +657,7 @@ theorem isPSolvable_centralizer {J : Subgroup Q} (hperf : commutator ↥J = ⊤)
 theorem isPConstrained_of_isPSolvable {M : Type} [Group M] [Finite M]
     (h : CFSG.HallHigman.IsPSolvable 3 M) : CFSG.ABGLocalTools.IsPConstrained 3 M := by
   by_contra hM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Y, hY⟩ := Sylow155T51.exists_isComponent_of_not_isPConstrained hM
   have h3 : 3 ∣ Nat.card Y :=
     Sylow155T51.three_dvd_card_of_isComponent
@@ -674,7 +677,7 @@ theorem isPSolvable_of_le_centralizer_map {M : Type} [Group M] [Finite M] {N : S
       ↥(Subgroup.centralizer ({QuotientGroup.mk' N y} : Set (M ⧸ N))))
     {H : Subgroup M} (hH : H ≤ Subgroup.centralizer ({y} : Set M)) :
     CFSG.HallHigman.IsPSolvable 3 ↥H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : ↥H →* M ⧸ N := (QuotientGroup.mk' N).comp H.subtype
   have hker : CFSG.HallHigman.IsPSolvable 3 ↥f.ker := by
     refine isPSolvable_of_coprime_three ?_

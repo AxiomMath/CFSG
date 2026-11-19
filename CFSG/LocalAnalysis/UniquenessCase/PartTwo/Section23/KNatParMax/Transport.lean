@@ -77,10 +77,10 @@ theorem le_normalizer_of_subgroupOf_le {G : Type} [Group G] {H S X : Subgroup G}
 private lemma mem_pointStab_iff_M01 {H S : Subgroup (MulAut W)} (hS : IsSylowIn 2 S H)
     (h : ↥H) :
     h ∈ KTabD.pointStab H hS.toSylow ↔ (h : MulAut W) ∈ stabSub (fixV S) := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(hS.toSylow) W :=
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥(hS.toSylow) W :=
     MulDistribMulAction.compHom W (H.subtype.comp (hS.toSylow : Subgroup ↥H).subtype)
   have hsmul : ∀ b : W, h • b = (h : MulAut W) b := fun _ => rfl
   have hfixV : ∀ x : W,

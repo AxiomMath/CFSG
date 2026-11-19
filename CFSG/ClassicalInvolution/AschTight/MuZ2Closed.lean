@@ -73,7 +73,7 @@ theorem mem_sup_of_conj_mem_of_mem_centralizer (ht : S19R.TightStd p f K z)
   have hNC := normalizer_eq_centralizer_of_tight htb
   have hcl : ∀ h : G, h * z * h⁻¹ ∈ (S : Subgroup G) →
       h * z * h⁻¹ ∈ R ⊔ Subgroup.zpowers (g * z * g⁻¹) := fun h hh =>
-    mem_sup_of_allTypeTwo ht hA hR hRK S.isPGroup' hRS hSN hSz htS htz hh
+    mem_sup_of_allTypeTwo ht hA hR hRK S.isPGroup hRS hSN hSz htS htz hh
   set t := g * z * g⁻¹ with htdef
   have ht2 : t * t = 1 := by
     calc t * t = g * (z * z) * g⁻¹ := by rw [htdef]; group
@@ -307,7 +307,7 @@ theorem mem_sup_of_conj_mem (ht : S19R.TightStd p f K z) (hA : AllTypeTwo K z)
   have hI := isUniqueInvolution_of_tight htb
   have hcl : ∀ h : G, h * z * h⁻¹ ∈ (S : Subgroup G) →
       h * z * h⁻¹ ∈ R ⊔ Subgroup.zpowers (g * z * g⁻¹) := fun h hh =>
-    mem_sup_of_allTypeTwo ht hA hR hRK S.isPGroup' hRS hSN hSz htS htz hh
+    mem_sup_of_allTypeTwo ht hA hR hRK S.isPGroup hRS hSN hSz htS htz hh
   have hzR : IsUniqueInvolution R z := isUniqueInvolution_of_mem_rSet_of_le htb hR hRK
   have hR2 : IsPGroup 2 R := isPGroup_of_mem_rSet hR
   have hRnc := (exists_ne_comm_of_mem_rSet ht.branch.odd ht.branch.five ht.branch.member hR).1
@@ -324,7 +324,7 @@ theorem mem_sup_of_conj_mem (ht : S19R.TightStd p f K z) (hA : AllTypeTwo K z)
   have hsd := isSemidihedral_sup_of_allTypeTwo ht hA hR hRK (hSN htS) htzc htz
   have hPS : R ⊔ Subgroup.zpowers t ≤ (S : Subgroup G) :=
     sup_le hRS (Subgroup.zpowers_le.mpr htS)
-  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (S.isPGroup'.to_le hPS) hsd
+  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (S.isPGroup.to_le hPS) hsd
   have hM := hsdd.M_pos
   have ha2 : a * a ∈ R := mul_self_mem_of_mem_sup_zpowers ht2 (hSN htS) hsdd.a_mem
   have hza : z = a ^ (4 * (M : ℤ)) := by
@@ -353,7 +353,7 @@ theorem mem_sup_of_conj_mem (ht : S19R.TightStd p f K z) (hA : AllTypeTwo K z)
       rw [e]
       exact hcl _ (by rw [← e]; exact hyx)
   ·
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp (S.isPGroup'.to_le hPS)) ⟨x, hxP⟩
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp (S.isPGroup.to_le hPS)) ⟨x, hxP⟩
     rw [Subgroup.orderOf_mk] at hj
     have hj2 : 2 ≤ j := by
       by_contra hj2

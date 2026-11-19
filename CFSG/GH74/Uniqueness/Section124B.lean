@@ -151,7 +151,7 @@ theorem A2.map_sylow_eq_of_linear
     ⟨⟨x, hAH hx⟩, hAP (mem_subgroupOf.mpr hx), rfl⟩
   have hP'L : (P : Subgroup ↥H).map H.subtype ≤ c.L := (map_subtype_le _).trans hHL
   have hP2 : IsPGroup 2 ↥(((P : Subgroup ↥H).map H.subtype).subgroupOf c.L) :=
-    (P.isPGroup'.map H.subtype).comap_of_injective c.L.subtype c.L.subtype_injective
+    (P.isPGroup.map H.subtype).comap_of_injective c.L.subtype c.L.subtype_injective
   obtain ⟨Q₁, hQ₁⟩ := hP2.exists_le_sylow
   have hV : A.subgroupOf c.L ≠ ⊥ := by
     intro hbot

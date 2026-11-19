@@ -24,11 +24,13 @@ section Ident
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs Y : Subgroup G}
   (Φ : OrthFrameCore p Bs Y)
 
+omit [Finite G] in
 private theorem pmoi_hp3 (hF : Nat.card Φ.F = 2) : p = 3 := by
   have h := Φ.hpq
   rw [hF] at h
   exact (Nat.prime_dvd_prime_iff_eq (Fact.out : p.Prime) Nat.prime_three).mp h
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem pmoi_exists_inner_w {ρ : MulAut ↥Bs} (hρ : ρ ∈ ggAutomizer Y Bs) :
     ∃ w : ↥(orthDerived Φ.Q),
       ∀ b : ↥Bs, ((ρ b : ↥Bs) : G) = Φ.ψ w * b * (Φ.ψ w)⁻¹ := by
@@ -39,6 +41,7 @@ private theorem pmoi_exists_inner_w {ρ : MulAut ↥Bs} (hρ : ρ ∈ ggAutomize
   rw [hw]
   exact hg b
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem pmoi_acts_iff_conj (hZ : Subgroup.center ↥(orthDerived Φ.Q) = ⊥)
     {ρ : MulAut ↥Bs} (w : ↥(orthDerived Φ.Q))
     (hwr : ∀ b : ↥Bs, ((ρ b : ↥Bs) : G) = Φ.ψ w * b * (Φ.ψ w)⁻¹) (x : OmPlusIdx Φ.r) :
@@ -85,7 +88,7 @@ private theorem pmoi_eqLocus_omPlusRefl_true (p r : ℕ) {i j : Fin r} (hij : i 
     change omPlusRefl p (⟨(i, j), hij⟩, true) f = f at hf
     rw [funext_iff] at hf
     have hi := hf i
-    rw [omPlusRefl_apply_coord, if_pos rfl] at hi
+    rw [omPlusRefl_apply_coord, ite_eq_left rfl] at hi
     simp only [Bool.cond_true] at hi
     rw [← hi, inv_mul_cancel]
   · intro hf
@@ -96,26 +99,28 @@ private theorem pmoi_eqLocus_omPlusRefl_true (p r : ℕ) {i j : Fin r} (hij : i 
     have hpos := (ggOFM_mem_reflFixedCoordPos_iff f).mp hf
     by_cases hk : k = i
     · subst hk
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [Bool.cond_true]
       exact (mul_eq_one_iff_eq_inv.mp hpos).symm
     · by_cases hk' : k = j
       · subst hk'
-        rw [if_neg hk, if_pos rfl]
+        rw [ite_eq_right hk, ite_eq_left rfl]
         simp only [Bool.cond_true]
         exact mul_eq_one_iff_inv_eq.mp hpos
-      · rw [if_neg hk, if_neg hk']
+      · rw [ite_eq_right hk, ite_eq_right hk']
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem pmoi_fixTorus_eq (x : OmPlusIdx Φ.r) :
     Φ.fixTorus x = if x.2 then Φ.Δ.reflFixedPos x.1.1.1 x.1.1.2
       else Φ.Δ.reflFixed x.1.1.1 x.1.1.2 := by
   rcases x with ⟨⟨⟨i, j⟩, hij⟩, s⟩
   cases s
   · unfold OrthFrameCore.fixTorus TBJOmData.reflFixed
-    rw [pmoi_eqLocus_omPlusRefl_false p Φ.r hij, if_neg (by simp)]
+    rw [pmoi_eqLocus_omPlusRefl_false p Φ.r hij, ite_eq_right (by simp)]
   · unfold OrthFrameCore.fixTorus TBJOmData.reflFixedPos
-    rw [pmoi_eqLocus_omPlusRefl_true p Φ.r hij, if_pos (by simp)]
+    rw [pmoi_eqLocus_omPlusRefl_true p Φ.r hij, ite_eq_left (by simp)]
 
+omit [Finite G] [Fact p.Prime] in
 private theorem pmoi_rank1_eq (x : OmPlusIdx Φ.r) :
     Φ.rank1 x = if x.2 then Φ.Δ.rankOnePos x.1.1.1 x.1.1.2
       else Φ.Δ.rankOne x.1.1.1 x.1.1.2 := by
@@ -123,17 +128,18 @@ private theorem pmoi_rank1_eq (x : OmPlusIdx Φ.r) :
   cases s
   · have hfix : Φ.fixTorus (⟨⟨⟨i, j⟩, hij⟩, false⟩) = Φ.Δ.reflFixed i j := by
       have h := pmoi_fixTorus_eq Φ (⟨⟨⟨i, j⟩, hij⟩, false⟩)
-      rw [if_neg (by simp)] at h
+      rw [ite_eq_right (by simp)] at h
       exact h
     unfold OrthFrameCore.rank1 TBJOmData.rankOne
-    rw [hfix, inf_comm, if_neg (by simp)]
+    rw [hfix, inf_comm, ite_eq_right (by simp)]
   · have hfix : Φ.fixTorus (⟨⟨⟨i, j⟩, hij⟩, true⟩) = Φ.Δ.reflFixedPos i j := by
       have h := pmoi_fixTorus_eq Φ (⟨⟨⟨i, j⟩, hij⟩, true⟩)
-      rw [if_pos (by simp)] at h
+      rw [ite_eq_left (by simp)] at h
       exact h
     unfold OrthFrameCore.rank1 TBJOmData.rankOnePos
-    rw [hfix, inf_comm, if_pos (by simp)]
+    rw [hfix, inf_comm, ite_eq_left (by simp)]
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem pmoi_comm_of_mem_fixTorus {w : ↥(orthDerived Φ.Q)} {x : OmPlusIdx Φ.r}
     (hw : ∀ f, (w : Φ.V ≃ₗ[Φ.F] Φ.V) * Φ.Δ.τ f * (w : Φ.V ≃ₗ[Φ.F] Φ.V)⁻¹ =
       Φ.Δ.τ (omPlusRefl p x f)) :
@@ -160,7 +166,8 @@ theorem qtwoOrth_exists_acts_core (hF : Nat.card Φ.F = 2) {ρ : MulAut ↥Bs}
   obtain ⟨x, hx⟩ := Φ.exists_signed_action_of_inner hp2 hQ hZ' w ρ hwr hr
   exact ⟨x, (pmoi_acts_iff_conj Φ hZ' w hwr x).mpr hx⟩
 
-theorem qtwoOrth_acts_injective_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
+omit [Finite G] [Fact p.Prime] in
+theorem qtwoOrth_acts_injective_core (_hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
     (hρ : ρ ∈ ggAutomizer Y Bs) (hρ' : ρ' ∈ ggAutomizer Y Bs) {x : OmPlusIdx Φ.r}
     (hx : Φ.Acts ρ x) (hx' : Φ.Acts ρ' x) : ρ = ρ' := by
   have hQ := Φ.Δ.polarBilin_nondegenerate_of_noFixed Φ.hfix
@@ -175,7 +182,8 @@ theorem qtwoOrth_acts_injective_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut �
   exact (Φ.aut_eq_iff_torus_action w v ρ ρ' (omPlusRefl p x) (omPlusRefl p x)
     hwr hvr hw hv).mpr rfl
 
-theorem qtwoOrth_comm_iff_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
+omit [Finite G] [Fact p.Prime] in
+theorem qtwoOrth_comm_iff_core (_hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
     (hρ : ρ ∈ ggAutomizer Y Bs) (hρ' : ρ' ∈ ggAutomizer Y Bs) {x y : OmPlusIdx Φ.r}
     (hx : Φ.Acts ρ x) (hy : Φ.Acts ρ' y) :
     ρ * ρ' = ρ' * ρ ↔ omPlusRefl p x * omPlusRefl p y = omPlusRefl p y * omPlusRefl p x := by
@@ -191,8 +199,9 @@ theorem qtwoOrth_comm_iff_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
   exact Φ.aut_commute_iff_torus_action w v ρ ρ' (omPlusRefl p x) (omPlusRefl p y)
     hwr hvr hw hv
 
-theorem qtwoOrth_rankOneIn_core (hF : Nat.card Φ.F = 2) {ρ : MulAut ↥Bs}
-    (hρ : ρ ∈ ggAutomizer Y Bs) (hr : GGIsReflection p ρ) {x : OmPlusIdx Φ.r}
+omit [Fact p.Prime] in
+theorem qtwoOrth_rankOneIn_core (_hF : Nat.card Φ.F = 2) {ρ : MulAut ↥Bs}
+    (hρ : ρ ∈ ggAutomizer Y Bs) (_hr : GGIsReflection p ρ) {x : OmPlusIdx Φ.r}
     (hx : Φ.Acts ρ x) : ggRankOneIn Y Bs ρ = Φ.img (Φ.rank1 x) := by
   have hQ := Φ.Δ.polarBilin_nondegenerate_of_noFixed Φ.hfix
   have hdim := Φ.Δ.finrank_eq_two_mul_of_noFixed Φ.hfix
@@ -204,10 +213,11 @@ theorem qtwoOrth_rankOneIn_core (hF : Nat.card Φ.F = 2) {ρ : MulAut ↥Bs}
   rw [Φ.rankOne_eq_map_of_signed_action w ρ x hwr hw, pmoi_rank1_eq Φ x]
   rfl
 
-theorem qtwoOrth_rankTwoIn_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
-    (hρ : ρ ∈ ggAutomizer Y Bs) (hρ' : ρ' ∈ ggAutomizer Y Bs) (hr : GGIsReflection p ρ)
-    (hr' : GGIsReflection p ρ') {x y : OmPlusIdx Φ.r} (hx : Φ.Acts ρ x) (hy : Φ.Acts ρ' y)
-    (hnc : ρ * ρ' ≠ ρ' * ρ) : ggRankTwoIn Y Bs ρ ρ' = Φ.img (Φ.rank2 x y) := by
+omit [Finite G] [Fact p.Prime] in
+theorem qtwoOrth_rankTwoIn_core (_hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
+    (hρ : ρ ∈ ggAutomizer Y Bs) (hρ' : ρ' ∈ ggAutomizer Y Bs) (_hr : GGIsReflection p ρ)
+    (_hr' : GGIsReflection p ρ') {x y : OmPlusIdx Φ.r} (hx : Φ.Acts ρ x) (hy : Φ.Acts ρ' y)
+    (_hnc : ρ * ρ' ≠ ρ' * ρ) : ggRankTwoIn Y Bs ρ ρ' = Φ.img (Φ.rank2 x y) := by
   have hQ := Φ.Δ.polarBilin_nondegenerate_of_noFixed Φ.hfix
   have hdim := Φ.Δ.finrank_eq_two_mul_of_noFixed Φ.hfix
   have hT := CFSG.RankThree.PartOne.exists_threeSingular_of_dim Φ.Q hQ Φ.hr hdim
@@ -289,25 +299,28 @@ theorem qtwoOrth_rankTwoIn_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
   rfl
 
 theorem qtwoOrth_exists_acts (hF : Nat.card Φ.F = 2)
-    (hZ : Subgroup.center ↥Y = ⊥) (hBs : IsElemAbelian p Bs) {ρ : MulAut ↥Bs}
+    (_hZ : Subgroup.center ↥Y = ⊥) (_hBs : IsElemAbelian p Bs) {ρ : MulAut ↥Bs}
     (hρ : ρ ∈ ggAutomizer Y Bs) (hr : GGIsReflection p ρ) : ∃ x : OmPlusIdx Φ.r, Φ.Acts ρ x :=
   qtwoOrth_exists_acts_core Φ hF hρ hr
 
+omit [Finite G] [Fact p.Prime] in
 theorem qtwoOrth_acts_injective (hF : Nat.card Φ.F = 2)
-    (hZ : Subgroup.center ↥Y = ⊥) (hBs : IsElemAbelian p Bs) {ρ ρ' : MulAut ↥Bs}
+    (_hZ : Subgroup.center ↥Y = ⊥) (_hBs : IsElemAbelian p Bs) {ρ ρ' : MulAut ↥Bs}
     (hρ : ρ ∈ ggAutomizer Y Bs) (hρ' : ρ' ∈ ggAutomizer Y Bs) {x : OmPlusIdx Φ.r}
     (hx : Φ.Acts ρ x) (hx' : Φ.Acts ρ' x) : ρ = ρ' :=
   qtwoOrth_acts_injective_core Φ hF hρ hρ' hx hx'
 
+omit [Finite G] [Fact p.Prime] in
 theorem qtwoOrth_comm_iff (hF : Nat.card Φ.F = 2)
-    (hZ : Subgroup.center ↥Y = ⊥) (hBs : IsElemAbelian p Bs) {ρ ρ' : MulAut ↥Bs}
+    (_hZ : Subgroup.center ↥Y = ⊥) (_hBs : IsElemAbelian p Bs) {ρ ρ' : MulAut ↥Bs}
     (hρ : ρ ∈ ggAutomizer Y Bs) (hρ' : ρ' ∈ ggAutomizer Y Bs) {x y : OmPlusIdx Φ.r}
     (hx : Φ.Acts ρ x) (hy : Φ.Acts ρ' y) :
     ρ * ρ' = ρ' * ρ ↔ omPlusRefl p x * omPlusRefl p y = omPlusRefl p y * omPlusRefl p x :=
   qtwoOrth_comm_iff_core Φ hF hρ hρ' hx hy
 
+omit [Finite G] [Fact p.Prime] in
 theorem qtwoOrth_rankTwoIn (hF : Nat.card Φ.F = 2)
-    (hZ : Subgroup.center ↥Y = ⊥) (hBs : IsElemAbelian p Bs) {ρ ρ' : MulAut ↥Bs}
+    (_hZ : Subgroup.center ↥Y = ⊥) (_hBs : IsElemAbelian p Bs) {ρ ρ' : MulAut ↥Bs}
     (hρ : ρ ∈ ggAutomizer Y Bs) (hρ' : ρ' ∈ ggAutomizer Y Bs) (hr : GGIsReflection p ρ)
     (hr' : GGIsReflection p ρ') {x y : OmPlusIdx Φ.r} (hx : Φ.Acts ρ x) (hy : Φ.Acts ρ' y)
     (hnc : ρ * ρ' ≠ ρ' * ρ) : ggRankTwoIn Y Bs ρ ρ' = Φ.img (Φ.rank2 x y) :=

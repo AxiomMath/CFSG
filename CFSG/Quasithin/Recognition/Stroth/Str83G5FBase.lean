@@ -12,12 +12,12 @@ open CFSG.Blueprint CFSG.LieType.Ree CFSG.Quasithin.Stroth CFSG.Quasithin.Stroth
 private theorem pow_neg_one_val_eq_inv {n : ℕ} {ζ : GaloisField 2 n}
     (hζ : orderOf ζ = 2 ^ n - 1) (hn : 1 < 2 ^ n - 1) :
     ζ ^ ((-1 : ZMod (2 ^ n - 1)).val) = ζ⁻¹ := by
-  haveI : NeZero (2 ^ n - 1) := ⟨by omega⟩
-  haveI : Fact (1 < 2 ^ n - 1) := ⟨hn⟩
+  have : NeZero (2 ^ n - 1) := ⟨by omega⟩
+  have : Fact (1 < 2 ^ n - 1) := ⟨hn⟩
   have hN : ζ ^ (2 ^ n - 1) = 1 := by
     rw [← hζ]
     exact pow_orderOf_eq_one ζ
-  rw [ZMod.neg_val, if_neg (one_ne_zero), ZMod.val_one]
+  rw [ZMod.neg_val, ite_eq_right (one_ne_zero), ZMod.val_one]
   have hmul : ζ ^ (2 ^ n - 1 - 1) * ζ = 1 := by
     rw [← pow_succ, Nat.sub_add_cancel (by omega : 1 ≤ 2 ^ n - 1), hN]
   exact eq_inv_of_mul_eq_one_left hmul
@@ -38,8 +38,8 @@ private theorem pow_cen_val_eq {a : ℕ} (ha : 1 ≤ a) {ζ : GaloisField 2 (2 *
   have hNgt : 1 < N := by
     show 1 < 2 ^ (2 * a + 1) - 1
     omega
-  haveI : NeZero N := ⟨hNpos.ne'⟩
-  haveI : Fact (1 < N) := ⟨hNgt⟩
+  have : NeZero N := ⟨hNpos.ne'⟩
+  have : Fact (1 < N) := ⟨hNgt⟩
   have hζN : ζ ^ N = 1 := by
     show ζ ^ (2 ^ (2 * a + 1) - 1) = 1
     rw [← hζ]
@@ -108,8 +108,8 @@ theorem CFSG.Quasithin.Stroth.G5.exists_szEmb {G : Type}
   have hNgt : 1 < N := by
     show 1 < 2 ^ (2 * a + 1) - 1
     omega
-  haveI : NeZero N := ⟨hNpos.ne'⟩
-  haveI : Fact (1 < N) := ⟨hNgt⟩
+  have : NeZero N := ⟨hNpos.ne'⟩
+  have : Fact (1 < N) := ⟨hNgt⟩
   have hζN : ζ ^ N = 1 := by
     show ζ ^ (2 ^ (2 * a + 1) - 1) = 1
     rw [← hζ]
@@ -261,10 +261,10 @@ theorem CFSG.Quasithin.Stroth.G5.exists_szEmb {G : Type}
   let β' : G → K := fun t => if h : t ∈ L1 ⊔ S then (szCoord (ψ ⟨t, h⟩)).2 else 0
   have hβ_apply : ∀ (t : G) (h : t ∈ L1 ⊔ S), β t = (szCoord (ψ ⟨t, h⟩)).1 := by
     intro t h
-    simp only [β, dif_pos h]
+    simp only [β, dite_eq_left h]
   have hβ'_apply : ∀ (t : G) (h : t ∈ L1 ⊔ S), β' t = (szCoord (ψ ⟨t, h⟩)).2 := by
     intro t h
-    simp only [β', dif_pos h]
+    simp only [β', dite_eq_left h]
   have hchiS : IsChiEmb₁ ζ d₁ X₀ S (-1) β := by
     refine ⟨?_, ?_, ?_⟩
     · intro s hs t ht

@@ -55,7 +55,7 @@ private theorem s168e3_star_wSub_eq {D : Data G} {V L : Subgroup G} {hV : IsElem
   rw [hcomm, preTil_top]
 
 private theorem s168e3_star_inf_le_preTil_fixV {D : Data G} {V L : Subgroup G}
-    {hV : IsElemAbelian 2 V} (c : S168e3Ctx D ⊥ V L hV) (hs : s15 D.M ⊥ V hV L = 1) :
+    {hV : IsElemAbelian 2 V} (_c : S168e3Ctx D ⊥ V L hV) (_hs : s15 D.M ⊥ V hV L = 1) :
     V ⊓ centralizer (L : Set G) ≤ preTil ⊥ V hV (fixV (lBar ⊥ V hV L)) := by
   rintro g ⟨hgV, hgC⟩
   rw [mem_preTil_iff_of_mem ⊥ V hV _ hgV, mem_fixV]
@@ -67,7 +67,7 @@ private theorem s168e3_star_inf_le_preTil_fixV {D : Data G} {V L : Subgroup G}
   rw [hc, mul_assoc, mul_inv_cancel, mul_one]
 
 private theorem s168e3_star_preTil_fixV_le_inf {D : Data G} {V L : Subgroup G}
-    {hV : IsElemAbelian 2 V} (c : S168e3Ctx D ⊥ V L hV) (hs : s15 D.M ⊥ V hV L = 1) :
+    {hV : IsElemAbelian 2 V} (c : S168e3Ctx D ⊥ V L hV) (_hs : s15 D.M ⊥ V hV L = 1) :
     preTil ⊥ V hV (fixV (lBar ⊥ V hV L)) ≤ V ⊓ centralizer (L : Set G) := by
   refine le_inf (preTil_le ⊥ V hV _) fun g hg => ?_
   rw [Subgroup.mem_centralizer_iff]
@@ -84,7 +84,7 @@ private theorem s168e3_star_preTil_fixV_le_inf {D : Data G} {V L : Subgroup G}
   exact (mul_inv_eq_iff_eq_mul).1 hfix
 
 private theorem s168e3_star_stableUnder_fixV {D : Data G} {V L : Subgroup G}
-    {hV : IsElemAbelian 2 V} (c : S168e3Ctx D ⊥ V L hV) (hs : s15 D.M ⊥ V hV L = 1) :
+    {hV : IsElemAbelian 2 V} (_c : S168e3Ctx D ⊥ V L hV) (hs : s15 D.M ⊥ V hV L = 1) :
     StableUnder (Mbar D.M ⊥ V hV) (fixV (lBar ⊥ V hV L)) := by
   intro φ hφ v hv
   have hmap : (fixV (lBar ⊥ V hV L)).map φ.toMonoidHom = fixV (lBar ⊥ V hV L) := by
@@ -150,7 +150,7 @@ private theorem s168e3_star_natMap_ker_of_eq_bot {D : Data G} {V₀ V L : Subgro
   exact hiff
 
 private theorem s168e3_star_mBar_le_normalizer {D : Data G} {V₀ V L : Subgroup G}
-    {hV : IsElemAbelian 2 V} (c : S168e3Ctx D V₀ V L hV) (hs : s15 D.M V₀ V hV L = 1) :
+    {hV : IsElemAbelian 2 V} (_c : S168e3Ctx D V₀ V L hV) (hs : s15 D.M V₀ V hV L = 1) :
     Mbar D.M V₀ V hV ≤ Subgroup.normalizer
       (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))) :=
   fun _ hg => Subgroup.mem_normalizer_iff_map_conj_eq.2 (lBar_conj_eq_of_s15_eq_one hs hg)

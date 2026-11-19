@@ -26,16 +26,16 @@ private noncomputable def i167CLin_smallA {F : Type} [Field F] {V : Type} [AddCo
     (hstab : ∀ h ∈ H, ∀ v ∈ N₁, h v ∈ N₁) : Subalgebra F (Module.End F N₁) :=
   Algebra.adjoin F (Set.range (i167CLin_smallG H hstab))
 
-private lemma i167CLin_stable_small_aux1 {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2)
+private lemma i167CLin_stable_small_aux1 {F : Type} [Field F] [Finite F] (_hF : Nat.card F = 2)
     {V : Type} [AddCommGroup V] [Module F V] [FiniteDimensional F V]
     (H : Subgroup (V ≃ₗ[F] V)) {N : Submodule F V} (hN0 : N ≠ ⊥)
     (hN : ∀ h ∈ H, ∀ v ∈ N, h v ∈ N) :
     ∃ N₁ : Submodule F V, N₁ ≤ N ∧ N₁ ≠ ⊥ ∧ (∀ h ∈ H, ∀ v ∈ N₁, h v ∈ N₁) ∧
       (∀ M : Submodule F V, M ≤ N₁ → (∀ h ∈ H, ∀ v ∈ M, h v ∈ M) → M = ⊥ ∨ M = N₁) := by
   classical
-  haveI : Module.Finite F V := inferInstance
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (Submodule F V) :=
+  have : Module.Finite F V := inferInstance
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (Submodule F V) :=
     Finite.of_injective (fun S : Submodule F V => (S : Set V)) SetLike.coe_injective
   let P : Set (Submodule F V) := {M | M ≤ N ∧ M ≠ ⊥ ∧ (∀ h ∈ H, ∀ v ∈ M, h v ∈ M)}
   have hP : (Set.toFinite P).toFinset.Nonempty :=
@@ -97,7 +97,7 @@ private lemma i167CLin_stable_small_aux4 {F : Type} [Field F] {B : Type} [Ring B
     {A : Subalgebra F B} (hA : IsField A) {ζ η : A}
     (hζ : ζ ^ 2 + ζ + 1 = 0) (hη3 : η ^ 3 = 1) (hη1 : η ≠ 1) :
     η = ζ ∨ η = ζ ^ 2 := by
-  letI : Field A := hA.toField
+  let : Field A := hA.toField
   have hη : η ^ 2 + η + 1 = 0 := by
     have hfac : (η - 1) * (η ^ 2 + η + 1) = 0 := by
       have : (η - 1) * (η ^ 2 + η + 1) = η ^ 3 - 1 := by ring
@@ -118,7 +118,7 @@ private lemma i167CLin_stable_small_aux4 {F : Type} [Field F] {B : Type} [Ring B
 private lemma i167CLin_stable_small_aux5 {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V]
     {N₁ : Submodule F V} {A : Subalgebra F (Module.End F N₁)} (hA : IsField A)
     {x : A} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) : x ^ 2 + x + 1 = 0 := by
-  letI : Field A := hA.toField
+  let : Field A := hA.toField
   have hfac : (x - 1) * (x ^ 2 + x + 1) = 0 := by
     have : (x - 1) * (x ^ 2 + x + 1) = x ^ 3 - 1 := by ring
     rw [this, hx3, sub_self]
@@ -194,11 +194,11 @@ private lemma i167CLin_stable_small_aux7 {F : Type} [Field F] [Finite F]
       (∀ h : H, ∀ v ∈ M, i167CLin_smallG H hstab h v ∈ M) → M = ⊥ ∨ M = ⊤) :
     IsField (i167CLin_smallA H hstab) := by
   classical
-  haveI : Module.Finite F V := inferInstance
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Nontrivial N₁ := Submodule.nontrivial_iff_ne_bot.mpr hne
-  haveI : Finite N₁ := inferInstance
-  haveI : Finite (Module.End F N₁) :=
+  have : Module.Finite F V := inferInstance
+  have : Finite V := Module.finite_of_finite F
+  have : Nontrivial N₁ := Submodule.nontrivial_iff_ne_bot.mpr hne
+  have : Finite N₁ := inferInstance
+  have : Finite (Module.End F N₁) :=
     Finite.of_injective (fun f : Module.End F N₁ => (f : N₁ → N₁))
       (fun a b h => LinearMap.ext (congrFun h))
   let g := i167CLin_smallG H hstab
@@ -208,7 +208,7 @@ private lemma i167CLin_stable_small_aux7 {F : Type} [Field F] [Finite F]
     show g a * g b = g b * g a
     rw [← map_mul, ← map_mul, hH.1.1.comm a b]
   have hcommA : ∀ a b : A, a * b = b * a := by
-    haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hgencomm
+    have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hgencomm
     intro a b
     exact IsMulCommutative.is_comm.comm a b
   have hinj := i167CLin_stable_small_aux7b H hstab hsimpleN hcommA
@@ -218,7 +218,7 @@ private lemma i167CLin_stable_small_aux7 {F : Type} [Field F] [Finite F]
   have hunit : IsUnit (a : Module.End F N₁) :=
     (LinearMap.isUnit_iff_ker_eq_bot _).mpr (LinearMap.ker_eq_bot.mpr hai)
   obtain ⟨u, hu⟩ := hunit
-  haveI : Finite (Module.End F N₁)ˣ := Finite.of_injective _ Units.val_injective
+  have : Finite (Module.End F N₁)ˣ := Finite.of_injective _ Units.val_injective
   have hpos := orderOf_pos u
   have hpow : (a : Module.End F N₁) ^ orderOf u = 1 := by
     rw [← hu, ← Units.val_pow_eq_pow_val, pow_orderOf_eq_one, Units.val_one]
@@ -234,7 +234,7 @@ private lemma i167CLin_stable_small_aux9 {F : Type} [Field F] [Finite F]
     (hζrel : (⟨i167CLin_smallG H hstab h₀, Algebra.subset_adjoin (Set.mem_range_self h₀)⟩ :
         i167CLin_smallA H hstab) ^ 2 +
       ⟨i167CLin_smallG H hstab h₀, Algebra.subset_adjoin (Set.mem_range_self h₀)⟩ + 1 = 0)
-    (hh₀ : i167CLin_smallG H hstab h₀ ≠ 1) :
+    (_hh₀ : i167CLin_smallG H hstab h₀ ≠ 1) :
     ∀ h : H, i167CLin_smallG H hstab h ∈
       Algebra.adjoin F ({i167CLin_smallG H hstab h₀} : Set (Module.End F N₁)) := by
   intro h
@@ -264,10 +264,10 @@ private lemma i167CLin_stable_small_aux10 {F : Type} [Field F] [Finite F]
       Algebra.adjoin F ({i167CLin_smallG H hstab h₀} : Set (Module.End F N₁))) :
     Module.finrank F (i167CLin_smallA H hstab) ≤ 2 := by
   classical
-  haveI : Module.Finite F V := inferInstance
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite N₁ := inferInstance
-  haveI : Finite (Module.End F N₁) :=
+  have : Module.Finite F V := inferInstance
+  have : Finite V := Module.finite_of_finite F
+  have : Finite N₁ := inferInstance
+  have : Finite (Module.End F N₁) :=
     Finite.of_injective (fun f : Module.End F N₁ => (f : N₁ → N₁))
       (fun a b h => LinearMap.ext (congrFun h))
   let g := i167CLin_smallG H hstab
@@ -282,7 +282,7 @@ private lemma i167CLin_stable_small_aux10 {F : Type} [Field F] [Finite F]
       Module.finrank F (i167CLin_stable_small_aux2 (F := F) hζsq) :=
     Submodule.finrank_mono (show A.toSubmodule ≤
       (i167CLin_stable_small_aux2 (F := F) hζsq).toSubmodule from hAle2)
-  haveI : Fintype ({1, g h₀} : Set (Module.End F N₁)) := (Set.toFinite _).fintype
+  have : Fintype ({1, g h₀} : Set (Module.End F N₁)) := (Set.toFinite _).fintype
   have hcard : Module.finrank F (i167CLin_stable_small_aux2 (F := F) hζsq) ≤ 2 := by
     have h := finrank_span_le_card (R := F) ({1, g h₀} : Set (Module.End F N₁))
     have h2 : ({1, g h₀} : Set (Module.End F N₁)).toFinset.card ≤ 2 := by
@@ -298,18 +298,18 @@ private lemma i167CLin_stable_small_aux8 {F : Type} [Field F] [Finite F]
     (hAfield : IsField (i167CLin_smallA H hstab)) :
     Module.finrank F (i167CLin_smallA H hstab) ≤ 2 := by
   classical
-  haveI : Module.Finite F V := inferInstance
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Nontrivial N₁ := Submodule.nontrivial_iff_ne_bot.mpr hne
-  haveI : Finite N₁ := inferInstance
-  haveI : Nontrivial (Module.End F N₁) :=
+  have : Module.Finite F V := inferInstance
+  have : Finite V := Module.finite_of_finite F
+  have : Nontrivial N₁ := Submodule.nontrivial_iff_ne_bot.mpr hne
+  have : Finite N₁ := inferInstance
+  have : Nontrivial (Module.End F N₁) :=
     ⟨⟨0, 1, fun h => by
       obtain ⟨w, hw⟩ := exists_ne (0 : N₁)
       exact hw (by simpa using (congrFun (congrArg DFunLike.coe h) w).symm)⟩⟩
   let g := i167CLin_smallG H hstab
   let A := i167CLin_smallA H hstab
   have hAfield' : IsField A := hAfield
-  letI : Field A := hAfield'.toField
+  let : Field A := hAfield'.toField
   by_cases htriv : ∀ h : H, g h = 1
   · have hAeq : i167CLin_smallA H hstab = ⊥ := by
       apply le_antisymm _ bot_le
@@ -339,12 +339,12 @@ theorem i167CLin_stable_small {F : Type} [Field F] [Finite F] (hF : Nat.card F =
     (hN : ∀ h ∈ H, ∀ v ∈ N, h v ∈ N) :
     ∃ N₁ : Submodule F V, N₁ ≤ N ∧ N₁ ≠ ⊥ ∧ (∀ h ∈ H, ∀ v ∈ N₁, h v ∈ N₁) ∧ Module.finrank F N₁ ≤ 2 := by
   classical
-  haveI : Module.Finite F V := inferInstance
-  haveI : Finite V := Module.finite_of_finite F
+  have : Module.Finite F V := inferInstance
+  have : Finite V := Module.finite_of_finite F
   obtain ⟨N₁, hle, hne, hstab, hsimple⟩ := i167CLin_stable_small_aux1 hF H hN0 hN
-  haveI : Nontrivial N₁ := Submodule.nontrivial_iff_ne_bot.mpr hne
-  haveI : Finite N₁ := inferInstance
-  haveI : Finite (Module.End F N₁) :=
+  have : Nontrivial N₁ := Submodule.nontrivial_iff_ne_bot.mpr hne
+  have : Finite N₁ := inferInstance
+  have : Finite (Module.End F N₁) :=
     Finite.of_injective (fun f : Module.End F N₁ => (f : N₁ → N₁))
       (fun a b h => LinearMap.ext (congrFun h))
   have hsimpleN := i167CLin_stable_small_aux6 H hstab hsimple
@@ -384,13 +384,13 @@ theorem i167CLin_stable_small {F : Type} [Field F] [Finite F] (hF : Nat.card F =
 private lemma i167CLin_stable_complement_aux1 {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2)
     {V : Type} [AddCommGroup V] [Module F V] [FiniteDimensional F V]
     (H : Subgroup (V ≃ₗ[F] V)) (hH : IsElemAbelian 3 H) : (Nat.card H : F) = 1 := by
-  haveI : Module.Finite F V := inferInstance
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Module.Finite F V := inferInstance
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun f : V ≃ₗ[F] V => (f : V → V)) (fun a b h => by
       ext v; exact congrFun h v)
-  haveI : CharP F 2 := by
-    haveI : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := by
+    have : Fintype F := Fintype.ofFinite F
     refine charP_of_card_eq_prime (p := 2) ?_
     rw [Fintype.card_eq_nat_card]; exact hF
   obtain ⟨k, hk⟩ := CFSG.LocalAnalysis.GLTheoremA.exists_card_eq_pow_of_isElemAbelian
@@ -425,12 +425,12 @@ private lemma i167CLin_stable_complement_aux2 {F : Type} [Field F] [Finite F]
     (hN : ∀ h ∈ H, ∀ v ∈ N, h v ∈ N) (hcard : (Nat.card H : F) = 1) :
     ∃ N' : Submodule F V, IsCompl N N' ∧ ∀ h ∈ H, ∀ v ∈ N', h v ∈ N' := by
   classical
-  haveI : Module.Finite F V := inferInstance
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Module.Finite F V := inferInstance
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun f : V ≃ₗ[F] V => (f : V → V)) (fun a b h => by
       ext v; exact congrFun h v)
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   let ρ : H →* Module.End F V :=
     (LinearEquiv.automorphismGroup.toLinearMapMonoidHom (R := F)).comp H.subtype
   obtain ⟨π₀, hπ₀⟩ := LinearMap.exists_leftInverse_of_injective N.subtype (by simp)
@@ -459,7 +459,7 @@ private lemma i167CLin_stable_complement_aux2 {F : Type} [Field F] [Finite F]
     simp only [P, Finset.mul_sum, Finset.sum_mul]
     refine Fintype.sum_equiv (Equiv.mulLeft g) _ _ ?_
     intro h
-    simp only [Equiv.coe_mulLeft, Subgroup.coe_mul, map_mul, mul_assoc, map_inv, mul_inv_rev]
+    simp only [Equiv.coe_mulLeft, map_mul, mul_assoc, mul_inv_rev]
     have h1 : ρ g⁻¹ * ρ g = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
     rw [h1, mul_one]
   exact i167CLin_stable_complement_aux3 H hP1 hP2 hP3
@@ -474,18 +474,19 @@ theorem i167CLin_stable_complement {F : Type} [Field F] [Finite F] (hF : Nat.car
 variable {F : Type} [Field F] [Finite F]
 variable {V : Type} [AddCommGroup V] [Module F V] [FiniteDimensional F V]
 
+omit [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux2 (hF : Nat.card F = 2) (v : V) : v + v = 0 := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 := by rw [← Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F 2 := charP_of_card_eq_prime hcard
+  have : CharP F 2 := charP_of_card_eq_prime hcard
   rw [← two_smul F v, CharTwo.two_eq_zero, zero_smul]
 
 private theorem i167CLin_r_one_module_aux3 (hF : Nat.card F = 2) :
     IsCoprime (Polynomial.X - Polynomial.C 1 : Polynomial F)
       (Polynomial.X ^ 2 + Polynomial.X + 1) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 := by rw [← Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F 2 := charP_of_card_eq_prime hcard
+  have : CharP F 2 := charP_of_card_eq_prime hcard
   refine ⟨Polynomial.X, 1, ?_⟩
   have h2 : (2 : Polynomial F) = 0 := CharTwo.two_eq_zero
   have key : Polynomial.X * (Polynomial.X - Polynomial.C 1) +
@@ -494,12 +495,13 @@ private theorem i167CLin_r_one_module_aux3 (hF : Nat.card F = 2) :
     rw [Polynomial.C_1]; ring
   rw [key, h2, zero_mul, zero_add]
 
+omit [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux4 (hF : Nat.card F = 2) {g : V ≃ₗ[F] V} (hg3 : g ^ 3 = 1) :
     IsCompl (LinearMap.ker ((g : V →ₗ[F] V) - (1 : V →ₗ[F] V)))
       (LinearMap.ker ((g : V →ₗ[F] V) ^ 2 + (g : V →ₗ[F] V) + (1 : V →ₗ[F] V))) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 := by rw [← Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F 2 := charP_of_card_eq_prime hcard
+  have : CharP F 2 := charP_of_card_eq_prime hcard
   set f : V →ₗ[F] V := (g : V →ₗ[F] V)
   have hf3 : f ^ 3 = 1 := by
     have h : (↑(g ^ 3) : V →ₗ[F] V) = (↑(1 : V ≃ₗ[F] V) : V →ₗ[F] V) := by rw [hg3]
@@ -532,11 +534,13 @@ private theorem i167CLin_r_one_module_aux4 (hF : Nat.card F = 2) {g : V ≃ₗ[F
     simp
   exact isCompl_iff.mpr ⟨hdisj, codisjoint_iff.mpr hsup⟩
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux5 {H : Subgroup (V ≃ₗ[F] V)} (hH : IsElemAbelian 3 H)
     {g a : V ≃ₗ[F] V} (hgH : g ∈ H) (ha : a ∈ H) : a * g = g * a := by
   have h := hH.1.is_comm.comm ⟨a, ha⟩ ⟨g, hgH⟩
   simpa using congrArg Subtype.val h
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux6 {H : Subgroup (V ≃ₗ[F] V)} (hH : IsElemAbelian 3 H)
     {g : V ≃ₗ[F] V} (hgH : g ∈ H) {a : V ≃ₗ[F] V} (ha : a ∈ H) {v : V}
     (hv : v ∈ LinearMap.ker ((g : V →ₗ[F] V) - (1 : V →ₗ[F] V))) :
@@ -554,6 +558,7 @@ private theorem i167CLin_r_one_module_aux6 {H : Subgroup (V ≃ₗ[F] V)} (hH : 
     _ = a (g v) := rfl
     _ = a v := by rw [hv']
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux7 {H : Subgroup (V ≃ₗ[F] V)} (hH : IsElemAbelian 3 H)
     {g : V ≃ₗ[F] V} (hgH : g ∈ H) {a : V ≃ₗ[F] V} (ha : a ∈ H) {v : V}
     (hv : v ∈ LinearMap.ker ((g : V →ₗ[F] V) ^ 2 + (g : V →ₗ[F] V) + (1 : V →ₗ[F] V))) :
@@ -578,6 +583,7 @@ private theorem i167CLin_r_one_module_aux7 {H : Subgroup (V ≃ₗ[F] V)} (hH : 
     _ = a (((g : V →ₗ[F] V) ^ 2 + (g : V →ₗ[F] V) + (1 : V →ₗ[F] V)) v) := rfl
     _ = 0 := by rw [hv', map_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux8 {g : V ≃ₗ[F] V} {v : V}
     (hv : v ∈ LinearMap.ker ((g : V →ₗ[F] V) ^ 2 + (g : V →ₗ[F] V) + (1 : V →ₗ[F] V))) :
     (g : V →ₗ[F] V) v ∈ LinearMap.ker ((g : V →ₗ[F] V) ^ 2 + (g : V →ₗ[F] V) +
@@ -593,6 +599,7 @@ private theorem i167CLin_r_one_module_aux8 {g : V ≃ₗ[F] V} {v : V}
   rw [LinearMap.mem_ker]
   exact h
 
+omit [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux9 (hF : Nat.card F = 2) {g : V ≃ₗ[F] V} {v : V}
     (hv : v ∈ LinearMap.ker ((g : V →ₗ[F] V) ^ 2 + (g : V →ₗ[F] V) + (1 : V →ₗ[F] V)))
     (hgv : g v = v) : v = 0 := by
@@ -606,6 +613,7 @@ private theorem i167CLin_r_one_module_aux9 (hF : Nat.card F = 2) {g : V ≃ₗ[F
   rw [h1] at hv'
   exact hv'
 
+omit [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux10 (hF : Nat.card F = 2) {g : V ≃ₗ[F] V}
     (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) :
     LinearMap.ker ((g : V →ₗ[F] V) ^ 2 + (g : V →ₗ[F] V) + (1 : V →ₗ[F] V)) ≠ ⊥ := by
@@ -641,7 +649,7 @@ private theorem i167CLin_r_one_module_aux11 (hF : Nat.card F = 2) {g : V ≃ₗ[
     intro a
     have h01 : a = 0 ∨ a = 1 := by
       classical
-      letI : Fintype F := Fintype.ofFinite F
+      let : Fintype F := Fintype.ofFinite F
       have hcard : Fintype.card F ≤ 2 := by
         rw [← Nat.card_eq_fintype_card]; omega
       have huniv := Finset.univ_of_card_le_two (R := F) hcard
@@ -663,6 +671,7 @@ private theorem i167CLin_r_one_module_aux11 (hF : Nat.card F = 2) {g : V ≃ₗ[
   have := hli.fintype_card_le_finrank
   simpa using this
 
+omit [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux12 (hF : Nat.card F = 2) {g : V ≃ₗ[F] V}
     (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) {t : V ≃ₗ[F] V} (ht : t ∈ Subgroup.zpowers g) {v : V}
     (hvU : v ∈ LinearMap.ker ((g : V →ₗ[F] V) ^ 2 + (g : V →ₗ[F] V) + (1 : V →ₗ[F] V)))
@@ -701,6 +710,7 @@ private theorem i167CLin_r_one_module_aux12 (hF : Nat.card F = 2) {g : V ≃ₗ[
       exact h1.symm
     exact absurd (i167CLin_r_one_module_aux9 hF hvU hgvv) hv0
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux13 {W U N₁ N'' : Submodule F V} (hWU : IsCompl W U)
     (hN₁U : N₁ ≤ U) (hN''compl : IsCompl N₁ N'')
     (hN₁dim : Module.finrank F N₁ ≤ 2) (h3 : 3 ≤ Module.finrank F U) :
@@ -743,6 +753,7 @@ private theorem i167CLin_r_one_module_aux13 {W U N₁ N'' : Submodule F V} (hWU 
       rw [show N₁ ⊔ (W ⊔ (U ⊓ N'')) = W ⊔ (N₁ ⊔ (U ⊓ N'')) by ac_rfl, hN₁sup]
     rw [hsup, hWU.sup_eq_top]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux14 {H : Subgroup (V ≃ₗ[F] V)}
     {g : V ≃ₗ[F] V} (hgH : g ∈ H) (hg3 : g ^ 3 = 1)
     {N₁ N' : Submodule F V} (hN'compl : IsCompl N₁ N')
@@ -790,6 +801,7 @@ private theorem i167CLin_r_one_module_aux14 {H : Subgroup (V ≃ₗ[F] V)}
     rfl
   exact ⟨t₀, ht₀3, ht₀_left, ht₀_right⟩
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux14a {H : Subgroup (V ≃ₗ[F] V)}
     (hH : IsElemAbelian 3 H) {g : V ≃ₗ[F] V} (hgH : g ∈ H)
     {N₁ N' : Submodule F V} (hN'compl : IsCompl N₁ N')
@@ -824,6 +836,7 @@ private theorem i167CLin_r_one_module_aux14a {H : Subgroup (V ≃ₗ[F] V)}
         rw [LinearMap.map_add (a : V →ₗ[F] V) x y]
     _ = t₀ ((a : V →ₗ[F] V) v) := by rw [hxy]
 
+omit [Finite F] in
 private theorem i167CLin_r_one_module_aux15 {H : Subgroup (V ≃ₗ[F] V)} {g : V ≃ₗ[F] V}
     {N₁ N' : Submodule F V} {t₀ : V →ₗ[F] V} (ht₀3 : t₀ ^ 3 = 1)
     (ht₀left : ∀ v ∈ N₁, t₀ v = (g : V →ₗ[F] V) v) (ht₀right : ∀ v ∈ N', t₀ v = v)
@@ -862,6 +875,7 @@ private theorem i167CLin_r_one_module_aux15 {H : Subgroup (V ≃ₗ[F] V)} {g : 
   · intro v hv
     rw [ht_apply v, ht₀right v hv]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem i167CLin_r_one_module_aux16a {H : Subgroup (V ≃ₗ[F] V)}
     {W U N'' : Submodule F V}
     (hWstab : ∀ h ∈ H, ∀ v ∈ W, h v ∈ W) (hUstab : ∀ h ∈ H, ∀ v ∈ U, h v ∈ U)

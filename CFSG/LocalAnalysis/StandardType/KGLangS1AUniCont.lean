@@ -39,7 +39,7 @@ private theorem kgLangS1AUniContAux_scalar_descend {d : ℕ} {F : Type} [Field F
     (h : Matrix.GeneralLinearGroup.map (kgLangS1AUniContAux_F0 σ).subtype M ∈
       LargeEvenScalars (Fin d) F) :
     M ∈ LargeEvenScalars (Fin d) (kgLangS1AUniContAux_F0 σ) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨c, hc⟩ := h
   have hentry : ∀ i j : Fin d,
       (kgLangS1AUniContAux_F0 σ).subtype
@@ -62,11 +62,11 @@ private theorem kgLangS1AUniContAux_scalar_descend {d : ℕ} {F : Type} [Field F
   · subst hij
     rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_eq,
       Units.val_mk0]
-    exact (kgLangS1AUniContAux_F0 σ).subtype_injective (by rw [hentry i i, if_pos rfl, hdiag])
+    exact (kgLangS1AUniContAux_F0 σ).subtype_injective (by rw [hentry i i, ite_eq_left rfl, hdiag])
   · rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.diagonal_apply_ne _ hij]
     exact (kgLangS1AUniContAux_F0 σ).subtype_injective (by
-      rw [hentry i j, if_neg hij, map_zero])
+      rw [hentry i j, ite_eq_right hij, map_zero])
 private theorem kgLangS1AUniContAux_scalar_mul_comm {d : ℕ} {K : Type} [Field K]
     {c c' : Kˣ} {X Y : GL (Fin d) K} (h : X * Y = Y * X) :
     (Matrix.GeneralLinearGroup.scalar (Fin d) c * X) *
@@ -187,7 +187,7 @@ theorem kgLangS1A_uni_cont
     kgLangS1A_uni_cover hdata hd hn2 θ hK hu₀
   let ψ₀ : SU →* SU :=
     { toFun := fun g => ⟨Matrix.GeneralLinearGroup.map (σ : F →+* F) (g : GL (Fin d) F),
-        GGL45TG.SU.map_mem_su hdata σ g.2⟩
+        GGL45TG.SU.map_mem_su σ g.2⟩
       map_one' := by
         apply Subtype.ext
         exact map_one (Matrix.GeneralLinearGroup.map (σ : F →+* F))
@@ -304,7 +304,7 @@ theorem kgLangS1A_uni_cont
       rfl
     have hEcard : Nat.card E = (2 ^ (lab.n / p)) ^ 2 := by
       rw [hE.card, mul_comm, ← pow_mul]
-    haveI : Finite E := hE.finite
+    have : Finite E := hE.finite
     have hMof_comm : ∀ β hβ β' hβ',
         Mof β hβ * Mof β' hβ' = Mof β' hβ' * Mof β hβ := by
       intro β hβ β' hβ'
@@ -421,7 +421,7 @@ theorem kgLangS1A_uni_cont
           exact hproj
         exact Subgroup.mem_subgroupOf.mp h4
       exact he_notscalar hscal
-    haveI hSUperf : Group.IsPerfect SU :=
+    have hSUperf : Group.IsPerfect SU :=
       Subgroup.isPerfect_iff.mpr (GGL45TG.SU.commutator_su hdata hd hn2)
     have hSU : commutator SU = ⊤ := Group.IsPerfect.commutator_eq_top
     have hψ₀ : ∀ h : SU, kgInducedAut θ ξ (θ (QuotientGroup.mk (κ' h))) =

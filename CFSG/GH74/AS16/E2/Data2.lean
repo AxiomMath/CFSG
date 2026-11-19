@@ -28,7 +28,7 @@ theorem Cfg.decomp_of_inner (h : Cfg G T z L) (hZ : center ↥L = ⊥)
     (hinn : InnerAction (T : Subgroup G) L) :
     ∀ t ∈ (T : Subgroup G), ∃ s ∈ (T : Subgroup G) ⊓ L,
       ∃ c ∈ (T : Subgroup G) ⊓ centralizer (L : Set G), t = s * c :=
-  exists_decomp_of_inner T.isPGroup' (center_trivial' hZ)
+  exists_decomp_of_inner T.isPGroup (center_trivial' hZ)
     (fun _ hP hPL hle => h.isSylowOf_inf.eq_of_le hle hPL hP) hinn
 
 theorem Cfg.innerAction_of_out (h : Cfg G T z L)

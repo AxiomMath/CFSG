@@ -29,7 +29,7 @@ theorem sec8t84_rank_up4 {G : Type} [Group G] [Finite G] {t : G} {S P B1 B2 : Su
     {A : Subgroup G} (hA : A ≤ centralizer ({t} : Set G)) (hAe : CFSG.Open.IsElemAbelian 2 A) :
     Nat.card A < 2 ^ 8 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := centralizer ({t} : Set G)
   have hAC : A ≤ C := hA
   have hA2 : IsPGroup 2 A := fun x => ⟨1, Subtype.ext (by simpa using hAe.2 x x.2)⟩

@@ -20,6 +20,7 @@ namespace Lemma113Claims.B
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_of_isElemAbelian' {p : ℕ} [Fact p.Prime] {F : Subgroup G}
     (hF : IsElemAbelian p F) : IsPGroup p F := by
   rw [IsPGroup.iff_orderOf]
@@ -32,9 +33,11 @@ theorem isPGroup_of_isElemAbelian' {p : ℕ} [Fact p.Prime] {F : Subgroup G}
 
 variable {E A : Subgroup G} {e : G} {K Q : Subgroup G}
 
+omit [Finite G] in
 theorem P_le (c : Ctx E A e K Q) : (Q ⊓ K : Subgroup G) ⊔ centBar 3 Q K ≤ Q :=
   sup_le inf_le_left c.centBar_le
 
+omit [Finite G] in
 theorem P_conj (c : Ctx E A e K Q) {q : G} (hq : q ∈ Q) {n : G}
     (hn : n ∈ (Q ⊓ K : Subgroup G) ⊔ centBar 3 Q K) :
     q * n * q⁻¹ ∈ (Q ⊓ K : Subgroup G) ⊔ centBar 3 Q K :=
@@ -67,6 +70,7 @@ theorem exists_decomp (c : Ctx E A e K Q) {s : G} (hsQ : s ∈ Q) (hs3 : s ^ 3 =
   Lemma113d.exists_eq_mul_zpow_of_sup_eq (P_le c) (fun _ hq _ hn => P_conj c hq hn) hsQ
     (sup_eq c hsQ hs3 hsP) hy
 
+omit [Finite G] in
 theorem conj_mem_Ubar (c : Ctx E A e K Q) {q : G} (hq : q ∈ Q) {u : MulAut (barOf 3 K)}
     (hu : u ∈ Lemma113d.Ubar c.hQK) :
     Lemma113d.rhoQ c.hQK ⟨q, hq⟩ * u * (Lemma113d.rhoQ c.hQK ⟨q, hq⟩)⁻¹ ∈
@@ -270,6 +274,7 @@ theorem exists_phiH_eq (c : Ctx E A e K Q) {s : G} (hsQ : s ∈ Q) (hs3 : s ^ 3 
   rw [phiH_apply] at this
   exact this.symm
 
+omit [Finite G] in
 theorem zpow_pow_three {x : G} (hx : x ^ 3 = 1) (k : ℤ) : (x ^ k) ^ 3 = 1 := by
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx, one_zpow]
 
@@ -404,7 +409,7 @@ theorem le_A_of_mem (c : Ctx E A e K Q) (hZ9 : 9 ≤ Nat.card ↥(E ⊓ A : Subg
 theorem fusA (c : Ctx E A e K Q) (hZ9 : 9 ≤ Nat.card ↥(E ⊓ A : Subgroup G)) {x : G}
     (hx : x⁻¹ * e * x ∈ A) :
     ∃ n ∈ Subgroup.normalizer (A : Set G), n⁻¹ * e * n = x⁻¹ * e * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSC : A.map (MulAut.conj x).toMonoidHom ≤ Cg e := by
     rintro _ ⟨a, ha, rfl⟩
     rw [Subgroup.mem_centralizer_iff]
@@ -478,8 +483,8 @@ theorem fusA (c : Ctx E A e K Q) (hZ9 : 9 ≤ Nat.card ↥(E ⊓ A : Subgroup G)
 
 theorem comm_of_card_three {T : Type*} [Group T] (hT : Nat.card T = 3) (u v : T) :
     u * v = v * u := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic T := isCyclic_of_prime_card hT
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic T := isCyclic_of_prime_card hT
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := T)
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 (hg u)
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 (hg v)
@@ -512,6 +517,7 @@ theorem comm_mem_Z (c : Ctx E A e K Q)
     ((Lemma113d.galHom e0) ((barAut 3 K) ⟨a, haK⟩))]
   group
 
+omit [Finite G] in
 theorem sylow_normalizer_Z (c : Ctx E A e K Q)
     (hQZ : Q ≤ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G))
     (hN : Subgroup.normalizer ((E ⊓ A : Subgroup G) : Set G) ≤
@@ -527,7 +533,7 @@ theorem commute_of_mem_normalizer_Z (c : Ctx E A e K Q)
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G))
     {m : G} (hm : m ∈ Subgroup.normalizer ((E ⊓ A : Subgroup G) : Set G)) (hm3 : m ^ 3 = 1)
     {z : G} (hz : z ∈ E ⊓ A) : m * z * m⁻¹ = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSyl := sylow_normalizer_Z c hQZ hN
   have hS : Subgroup.zpowers m ≤ Subgroup.normalizer ((E ⊓ A : Subgroup G) : Set G) :=
     Subgroup.zpowers_le.2 hm
@@ -606,6 +612,7 @@ theorem exists_r (c : Ctx E A e K Q) (hZ9 : 9 ≤ Nat.card ↥(E ⊓ A : Subgrou
     rw [htk, mul_one]
     exact hnZ
 
+omit [Finite G] in
 theorem normalize_sign {ρ u v : G} (hρA : ρ ∈ Subgroup.normalizer (A : Set G))
     (hu3 : u ^ 3 = 1) (hρu : ρ * u * ρ⁻¹ = u)
     (hρa : ∀ a ∈ A, ρ * a * ρ⁻¹ * a⁻¹ ∈ Subgroup.zpowers u)
@@ -647,6 +654,7 @@ theorem normalize_sign {ρ u v : G} (hρA : ρ ∈ Subgroup.normalizer (A : Set 
       calc ρ⁻¹ * z * ρ = ρ⁻¹ * (ρ * z * ρ⁻¹) * ρ := by rw [hz]
         _ = z := by group
 
+omit [Finite G] in
 theorem key_z0z1 {z0 z1 : G} (hc : z1 * z0 = z0 * z1) (hz03 : z0 ^ 3 = 1) (hz13 : z1 ^ 3 = 1) :
     z0 * z1 * z0 * (z0 * z1) = z1⁻¹ := by
   have hz03' : z0 * z0 * z0 = 1 := by rw [← pow_three']; exact hz03
@@ -658,6 +666,7 @@ theorem key_z0z1 {z0 z1 : G} (hc : z1 * z0 = z0 * z1) (hz03 : z0 ^ 3 = 1) (hz13 
     _ = (z0 * z0 * z0) * (z1 * z1) := by group
     _ = z1⁻¹ := by rw [hz03', one_mul, hz1inv]
 
+omit [Finite G] in
 theorem sl23_inv {r1 r2 z0 z1 : G} (hc : z1 * z0 = z0 * z1) (hz03 : z0 ^ 3 = 1)
     (hz13 : z1 ^ 3 = 1) (e1 : r1 * z0 * r1⁻¹ = z0) (e2 : r1 * z1 * r1⁻¹ = z0 * z1)
     (e3 : r2 * z0 * r2⁻¹ = z1 * z0) (e4 : r2 * z1 * r2⁻¹ = z1) :
@@ -669,6 +678,7 @@ theorem sl23_inv {r1 r2 z0 z1 : G} (hc : z1 * z0 = z0 * z1) (hz03 : z0 ^ 3 = 1)
   rw [hy, e4, e2, hcm r2 z0 z1, e3, e4, hcm r1 (z1 * z0) z1, hcm r1 z1 z0, e2, e1]
   exact key_z0z1 hc hz03 hz13
 
+omit [Finite G] in
 theorem sl23_norm {r1 r2 z0 z1 z : G} (hc : z1 * z0 = z0 * z1) (hz03 : z0 ^ 3 = 1)
     (hz13 : z1 ^ 3 = 1) (e1 : r1 * z0 * r1⁻¹ = z0) (e2 : r1 * z1 * r1⁻¹ = z0 * z1)
     (e3 : r2 * z0 * r2⁻¹ = z1 * z0) (e4 : r2 * z1 * r2⁻¹ = z1) {j : ℤ}
@@ -813,7 +823,7 @@ theorem core (c : Ctx E A e K Q)
 
 theorem card_inf_ge_nine {m : ℕ} {B₀ M : Subgroup G} {a : G} (h : Cfg113 G m B₀ M E A a e K Q)
     (hAel : IsElemAbelian 3 A) : 9 ≤ Nat.card ↥(E ⊓ A : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hel : IsElemAbelian 3 (E ⊓ A : Subgroup G) := isElemAbelian_mono hAel inf_le_right
   rw [l113_card_eq_pow_pRank hel]
   calc 9 = 3 ^ 2 := by norm_num

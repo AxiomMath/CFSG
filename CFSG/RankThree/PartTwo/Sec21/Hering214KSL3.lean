@@ -66,7 +66,7 @@ theorem diag_mul_tv {D : Matrix.SpecialLinearGroup (Fin 3) K}
   set d : Fin 3 → K := fun c => (D : Matrix _ _ K) c c with hd
   rw [hdiag]
   ext a b
-  simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul, Matrix.add_apply,
+  simp only [Matrix.add_apply,
     Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.single_apply, Matrix.diagonal_apply]
   by_cases hab : a = b
   · subst hab
@@ -108,6 +108,7 @@ theorem rootFour_normalized {i j : Fin 3} (h : i ≠ j) {ω : K} (hω : ω ^ 2 +
   exact rootFourOf_normalized (g := fun t : K => tv h t) (fun s t => (tv_mul h s t).symm) hω
     hlam3 (fun t => by rw [diag_mul_tv hD h t, mul_inv_cancel_right])
 
+omit [CharP K 2] in
 theorem diag_entry_cube {D : Matrix.SpecialLinearGroup (Fin 3) K}
     (hD : ∀ a b : Fin 3, a ≠ b → (D : Matrix (Fin 3) (Fin 3) K) a b = 0) (h3 : D ^ 3 = 1)
     (a : Fin 3) : ((D : Matrix (Fin 3) (Fin 3) K) a a) ^ 3 = 1 := by
@@ -145,7 +146,7 @@ theorem exists_four_sl3 {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1)
       ((y * x * y⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) i i ≠
         ((y * x * y⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) j j := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hscal : ∀ x ∈ E, ((y * x * y⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) :
         Matrix (Fin 3) (Fin 3) K) = ((y * x * y⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) :
         Matrix (Fin 3) (Fin 3) K) 0 0 • (1 : Matrix (Fin 3) (Fin 3) K) := by
@@ -203,7 +204,7 @@ theorem exists_four_sl3 {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1)
     group
   · refine ⟨x₀, hx₀, y⁻¹ * tv hij (1 : K) * y,
       ⟨tv hij 1, Subgroup.subset_closure (Set.mem_insert _ _), ?_⟩, ?_⟩
-    · simp [MulAut.conj_apply]
+    · simp
     · intro h
       have hD := diag_mul_tv (D := y * x₀ * y⁻¹) (hy x₀ hx₀) hij (1 : K)
       have h2 : y * x₀ * y⁻¹ * tv hij (1 : K) * (y * x₀ * y⁻¹)⁻¹ = tv hij 1 := by

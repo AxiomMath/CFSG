@@ -71,7 +71,7 @@ theorem omegaTail_overgroup_eq_iInf (b c : K) (hirr : ∀ s : K, s ^ 2 + b * s +
   have hJeq : {i : Fin (4 - 1) | tailWeylElt (4 - 1) (minusTailForm K b c) a₀ i ∉
       M.map (omegaTailE K b c).subtype} = J := by
     ext i
-    simp only [hJ, Set.mem_setOf_eq, omegaTailN]
+    simp only [hJ, Set.mem_ofPred_eq, omegaTailN]
     exact (Subgroup.mem_map_iff_mem (f := (omegaTailE K b c).subtype)
       (omegaTailE K b c).subtype_injective (x := omegaTailN (K := K) b c a₀ i)).not
   rw [hJeq] at hkey

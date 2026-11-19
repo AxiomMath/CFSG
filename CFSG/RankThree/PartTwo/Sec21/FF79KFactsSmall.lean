@@ -85,7 +85,7 @@ theorem ff79KCentA5_holds : FF79KCentA5 := by
 
 theorem ff79KCentL3_holds : FF79KCentL3 := by
   intro s y hs hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hs2 : s ^ 2 = 1 := by
     have := pow_orderOf_eq_one s
     rwa [hs] at this
@@ -147,7 +147,7 @@ theorem ff79KCentL3_holds : FF79KCentL3 := by
     have : Y * Y = 1 := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] <;> assumption
+        simp [Matrix.mul_apply, Fin.sum_univ_three] <;> assumption
     simpa [hY, pow_two] using this
   · right
     apply Units.ext

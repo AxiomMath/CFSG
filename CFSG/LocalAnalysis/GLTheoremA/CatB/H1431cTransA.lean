@@ -39,7 +39,7 @@ theorem isTypeWithCenter_of_pQuot_equiv {H : Type} [Group H] [Finite H] {X : Sub
 
 theorem pQuot_equiv_imgK {K A : Subgroup G} (hAK : A ≤ K) :
     Nonempty (PQuot 3 A ≃* PQuot 3 (imgK K A)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : ¬ 3 ∣ Nat.card (pQuotHom 3 K).ker := by
     rw [ker_pQuotHom]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 CFSG.pPrimeCore_coprime_card
@@ -47,6 +47,7 @@ theorem pQuot_equiv_imgK {K A : Subgroup G} (hAK : A ≤ K) :
   obtain ⟨e₀⟩ := nonempty_pQuot_equiv_subgroupOf 3 hAK
   exact ⟨e₀.symm.trans e₁⟩
 
+omit [Finite G] in
 theorem barAut_symm_pQuotHom {K : Subgroup G} {e : G} (he : e ∈ Subgroup.normalizer (K : Set G))
     (w : ↥K) :
     (barAut 3 K ⟨e, he⟩).symm (pQuotHom 3 K w) =
@@ -64,7 +65,7 @@ theorem barAut_symm_pQuotHom {K : Subgroup G} {e : G} (he : e ∈ Subgroup.norma
 theorem mem_of_pQuot_mem_core {K J : Subgroup G} (hJK : J ≤ K) {z : G} (hz : z ∈ J)
     (hπ : (QuotientGroup.mk (⟨z, hJK hz⟩ : ↥K) : PQuot 3 K) ∈ GLAPPrimeCoreOf 3 (imgK K J)) :
     z ∈ GLAPPrimeCoreOf 3 J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A : Subgroup ↥K := J.subgroupOf K with hA
   set ψ : ↥K →* PQuot 3 K := pQuotHom 3 K with hψ
   have hcop : Nat.Coprime 3 (Nat.card ↥(A ⊓ ψ.ker)) := coprime_card_inf_ker_pQuotHom Nat.prime_three K A

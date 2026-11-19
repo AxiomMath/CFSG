@@ -69,7 +69,7 @@ theorem exists_conj_normalizes [Finite Y] {p : ℕ} (hp : p.Prime) {K T Q : Subg
     (hK : ¬ p ∣ Nat.card K) (hT : fusionIsSylowIn 2 T K) (hQp : IsPGroup p Q)
     (hQK : Q ≤ normalizer (K : Set Y)) :
     ∃ c ∈ K, ∀ q ∈ Q, c⁻¹ * q * c ∈ normalizer (T : Set Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbotp : IsPGroup p (⊥ : Subgroup Y) := IsPGroup.of_bot
   obtain ⟨S, hS, -, hQS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing hp
     Nat.prime_two hQp hK hQK (bot_le : (⊥ : Subgroup Y) ≤ K) IsPGroup.of_bot
@@ -127,9 +127,9 @@ theorem kd292LinUni_of_kdata (h0 : KD291LinUniZero) (hM : KD291LinUniModel)
   have hshape : LinUniShape p x L := ⟨h0 p Y P x z L hcfg, hM p Y P x z L hcfg⟩
   have hY := hYD.cfg
   have hp : p.Prime := hY.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by have := hY.five_le; omega
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
   set B : Subgroup Y := zpowers x ⊔ zpowers z with hBdef
   have hSC : IsSCp p ⊤ B := I292.isSCp_plane hYD
   have hBp : IsPGroup p B := IsPGroup.of_card (n := 2) hYD.plane_card
@@ -180,7 +180,7 @@ theorem kd292LinUni_of_kdata (h0 : KD291LinUniZero) (hM : KD291LinUniModel)
       exact le_iSup_of_le _ (le_iSup_of_le hT'cop (le_iSup_of_le hT'norm le_rfl))
     rw [GL83.glaPPrimeCoreOf_top_eq] at hT'O
     set O : Subgroup ↥N := primeComplementCore (G := ↥N) p with hO
-    haveI hOn : O.Normal := inferInstance
+    have hOn : O.Normal := inferInstance
     set K : Subgroup Y := O.map N.subtype with hK
     have hTK : T ≤ K := fun t ht => ⟨⟨t, hTN ht⟩, hT'O (Subgroup.mem_subgroupOf.2 ht), rfl⟩
     have hKcop : ¬ p ∣ Nat.card K := by
@@ -189,7 +189,7 @@ theorem kd292LinUni_of_kdata (h0 : KD291LinUniZero) (hM : KD291LinUniModel)
     have hNK : N ≤ normalizer (K : Set Y) := I292.le_normalizer_map_subtype O
     have hKfus : fusionIsSylowIn 2 T K :=
       K62.fusionIsSylowIn_of_isMax hp hBp hT hTK hKcop (hBN.trans hNK)
-    obtain ⟨c, -, hc⟩ := I292.exists_conj_normalizes hp hKcop hKfus Q.isPGroup' (hQN.trans hNK)
+    obtain ⟨c, -, hc⟩ := I292.exists_conj_normalizes hp hKcop hKfus Q.isPGroup (hQN.trans hNK)
     exact I292.exists_sylow_le_of_conj Q c hc
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty

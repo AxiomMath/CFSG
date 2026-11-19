@@ -20,15 +20,15 @@ public theorem CFSG.lemma_5_2_a
   intro hET
   rcases hE with ⟨hEcard, hEelem⟩
   rcases hEmax with ⟨_hEelem', hEmax'⟩
-  letI : IsElementaryAbelian p E := hEelem
+  let : IsElementaryAbelian p E := hEelem
   let Z : Subgroup R := Ω₁Z p R
   let W : Subgroup R := Ω₁Z₂ p R
   have hZelem : IsElementaryAbelian p Z := by
     let Ωc : Subgroup (Subgroup.center R) := omega₁ (G := Subgroup.center R) (p := p)
     have hΩcelem : IsElementaryAbelian p Ωc := by
-      letI : IsMulCommutative (Subgroup.center R) := inferInstance
+      let : IsMulCommutative (Subgroup.center R) := inferInstance
       simpa [Ωc] using omega1_isElementaryAbelian_of_commutative (p := p) (Subgroup.center R)
-    letI : IsElementaryAbelian p Ωc := hΩcelem
+    let : IsElementaryAbelian p Ωc := hΩcelem
     refine
       { toIsMulCommutative := by
           refine IsMulCommutative.of_comm ?_
@@ -60,7 +60,7 @@ public theorem CFSG.lemma_5_2_a
   have hEcentZ : E ≤ Subgroup.centralizer (Z : Set R) := by
     exact (Subgroup.le_centralizer_iff).mp hZcentE
   have hZEelem : IsElementaryAbelian p ↥(Z ⊔ E : Subgroup R) := by
-    letI : IsElementaryAbelian p Z := hZelem
+    let : IsElementaryAbelian p Z := hZelem
     exact isElementaryAbelian_sup_of_le_centralizer' (p := p) (E := Z) (C := E) hEcentZ
   have hEZ_eq : E = Z ⊔ E := by
     exact hEmax' (Z ⊔ E : Subgroup R) le_sup_right hZEelem
@@ -82,7 +82,7 @@ public theorem CFSG.lemma_5_2_a
       exact (Subgroup.zpowers_le).2 (hWcentE hw)
     have hwzpowElem : IsElementaryAbelian p (Subgroup.zpowers (w : R)) :=
       isElementaryAbelian_zpowers_of_pow_eq_one (p := p) (x := (w : R)) (hWpow ⟨w, hw⟩)
-    letI : IsElementaryAbelian p (Subgroup.zpowers (w : R)) := hwzpowElem
+    let : IsElementaryAbelian p (Subgroup.zpowers (w : R)) := hwzpowElem
     have hsupElem : IsElementaryAbelian p ↥(E ⊔ Subgroup.zpowers (w : R) : Subgroup R) := by
       exact isElementaryAbelian_sup_of_le_centralizer' (p := p) (E := E)
         (C := Subgroup.zpowers (w : R)) hwcentE
@@ -95,7 +95,7 @@ public theorem CFSG.lemma_5_2_a
     exact hw_in_E
   have hR_not_cyclic : ¬ IsCyclic R := by
     intro hcyc
-    letI : IsCyclic R := hcyc
+    let : IsCyclic R := hcyc
     have hgen_le_one : generatorRank R ≤ 1 := generatorRank_le_one_of_isCyclic (G := R) (by infer_instance)
     have hprimeRank_le_one :
         ∀ q : ℕ, Nat.Prime q → primeRank q R ≤ 1 := by
@@ -105,9 +105,9 @@ public theorem CFSG.lemma_5_2_a
       · exact ⟨0, ⊥, IsPGroup.of_bot (p := q) (G := R), inferInstance, zero_le⟩
       intro n hn
       rcases hn with ⟨A, _hApA, hAcomm, hnA⟩
-      letI : IsMulCommutative A := hAcomm
+      let : IsMulCommutative A := hAcomm
       have hAle : generatorRank A ≤ 1 := by
-        haveI : IsCyclic A := isCyclic_of_injective A.subtype A.subtype_injective
+        have : IsCyclic A := isCyclic_of_injective A.subtype A.subtype_injective
         exact generatorRank_le_one_of_isCyclic (G := A) (by infer_instance)
       exact hnA.trans hAle
     have hgroupRank_le_one : groupRank R ≤ 1 := by
@@ -120,7 +120,7 @@ public theorem CFSG.lemma_5_2_a
     exact (by decide : ¬ 3 ≤ (1 : ℕ)) (le_trans hR hgroupRank_le_one)
   have hW_noncyclic_raw :
       ¬ IsCyclic (omega₁ (G := ↥(Subgroup.upperCentralSeries R 2)) (p := p)) := by
-    haveI : Fact (IsPGroup p R) := ⟨hpR⟩
+    have : Fact (IsPGroup p R) := ⟨hpR⟩
     exact (lemma_4_5_c (R := R) (p := p) hpodd hR_not_cyclic).1
   have hW_noncyclic : ¬ IsCyclic W := by
     intro hWcyc
@@ -131,7 +131,7 @@ public theorem CFSG.lemma_5_2_a
       apply (Subgroup.isCyclic_iff_exists_zpowers_eq_top
         (Ωsub.map (Subgroup.upperCentralSeries R 2).subtype)).mpr
       exact ⟨g, by simpa [W, Ω₁Z₂, z2OmegaCandidate, Ωsub] using hg⟩
-    letI : IsCyclic (Ωsub.map (Subgroup.upperCentralSeries R 2).subtype) := hmapcyc
+    let : IsCyclic (Ωsub.map (Subgroup.upperCentralSeries R 2).subtype) := hmapcyc
     let e : Ωsub ≃* Ωsub.map (Subgroup.upperCentralSeries R 2).subtype :=
       Subgroup.equivMapOfInjective Ωsub (Subgroup.upperCentralSeries R 2).subtype
         (Subgroup.upperCentralSeries R 2).subtype_injective
@@ -147,7 +147,7 @@ public theorem CFSG.lemma_5_2_a
     have hk_ne_zero : k ≠ 0 := by
       intro hk0
       have hcard_one : Nat.card W = 1 := by simpa [hk0] using hk
-      haveI : Subsingleton W := (Nat.card_eq_one_iff_unique.mp hcard_one).1
+      have : Subsingleton W := (Nat.card_eq_one_iff_unique.mp hcard_one).1
       exact hW_noncyclic (inferInstance : IsCyclic W)
     have hk_ne_one : k ≠ 1 := by
       intro hk1
@@ -163,10 +163,10 @@ public theorem CFSG.lemma_5_2_a
     have hEchar : E.Characteristic := by
       rw [← hW_eq_E]
       exact hWchar
-    letI : E.Characteristic := hEchar
+    let : E.Characteristic := hEchar
     infer_instance
   have hE_rank : E ∈ elementaryAbelianSubgroupsOfRank p 2 R := ⟨hEcard, hEelem⟩
-  letI : E.Normal := hEnorm
+  let : E.Normal := hEnorm
   obtain ⟨B, _hBnorm, hBelem, hBcard, hEB⟩ :=
     exists_normal_elementaryAbelian_card_p3_containing_rank_two_normal
       (p := p) hpodd hpR hR hE_rank

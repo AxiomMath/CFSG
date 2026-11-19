@@ -17,7 +17,7 @@ theorem false_of_inSA (hAlt : CFSG.OddStandard.AltStdCyclicBalancedFalse)
     {Y : Subgroup G} (hY : EndData G x Y) (hA : InSA (↥Y ⧸ center ↥Y))
     (S : Sylow 2 ↥(Subgroup.centralizer (Y : Set G)))
     (hS : IsCyclic ↥(S : Subgroup ↥(Subgroup.centralizer (Y : Set G)))) : False := by
-  haveI := hY.setting.simple
+  have := hY.setting.simple
   by_cases halt : ∃ n : ℕ, 5 ≤ n ∧ Nonempty (↥Y ⧸ center ↥Y ≃* alternatingGroup (Fin n))
   · rcases halt with ⟨n, hn5, ⟨e⟩⟩
     have hn8 : 8 ≤ n := by
@@ -37,7 +37,7 @@ theorem false_of_inSB (hL2 : CFSG.Yardstones.M0362f3a873a3.OddLieThm187bResidual
     {x : G} {Y : Subgroup G} (hY : EndData G x Y) (hB : InSB (↥Y ⧸ center ↥Y))
     (S : Sylow 2 ↥(Subgroup.centralizer (Y : Set G)))
     (hS : IsCyclic ↥(S : Subgroup ↥(Subgroup.centralizer (Y : Set G)))) : False := by
-  haveI := hY.setting.simple
+  have := hY.setting.simple
   by_cases hpsl : ∃ e : ℕ, LieModel (↥Y ⧸ center ↥Y) .PSL 2 3 e
   · rcases hpsl with ⟨e, he⟩
     have hpow : ∃ j : ℕ, e = 2 ^ j := hB.2.2.2.1 e he

@@ -57,7 +57,7 @@ theorem sec44w_not_solvable_quot {W : Type} [Group W] {K : Subgroup W} [K.Normal
     ¬ Group.IsSolvable (W ⧸ K) := by
   intro hq
   apply hW
-  haveI : IsMulCommutative ↥K := ⟨⟨fun a b => Subtype.ext (hK _ a.2 _ b.2)⟩⟩
+  have : IsMulCommutative ↥K := ⟨⟨fun a b => Subtype.ext (hK _ a.2 _ b.2)⟩⟩
   exact Group.isSolvable_of_ker_le_range K.subtype (QuotientGroup.mk' K)
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
@@ -195,7 +195,7 @@ theorem sec44w_nonsolv
   obtain ⟨hcls, hRI, hne4, hcent⟩ := sec41_of tim77Sec32a_holds G A Abar S₀ B s h hs
   have hNc : ∀ x ∈ Section3.N A Abar s, ∀ w ∈ Section3.N A Abar s, x * w = w * x :=
     fun x hx w hw => congrArg Subtype.val (hNab.1.is_comm.comm ⟨x, hx⟩ ⟨w, hw⟩)
-  haveI hNn : ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal :=
+  have hNn : ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNY).mpr fun y hy => hYN y hy
   have hdat := sa_sec42Data h hs hcomm2 hRI hne4 hcls hcent
   have hns : ¬ Group.IsSolvable (↥(Section3.Y A Abar s) ⧸
@@ -204,7 +204,7 @@ theorem sec44w_nonsolv
       (Subgroup.mem_subgroupOf.mp hy))) hsolv
   obtain ⟨-, hB⟩ := qp_main hdat hns
   obtain ⟨φ, hφφ, hφ⟩ := sa_phi h hs
-  obtain ⟨a, haA, haN⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
+  obtain ⟨a, haA, haN⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
   have haY : a ∈ Section3.Y A Abar s := sa_A_le_Y haA
   have haD : a ∈ Section4.D A Abar s :=
     sec41_mem_D.mpr ⟨1, Subgroup.one_mem _, a, haA, haN, by simp⟩

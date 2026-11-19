@@ -259,7 +259,7 @@ theorem sylow_torsion_fixed_statedOmegaMinus_four
   intro x hx hxr
   apply eX.injective
   simpa using CFSG.apply_eq_self_of_pow_eq_one hS₀ hS₀i hS₀c hφ hφS hφi hφfix
-    R'.isPGroup' R'.not_dvd_index hα' hαR'
+    R'.isPGroup R'.not_dvd_index hα' hαR'
     (eX x) (by rw [hR']; exact mem_map_of_mem _ hx) (by rw [← map_pow, hxr, map_one])
 
 theorem sylow_torsion_fixed_of_isOmega8m

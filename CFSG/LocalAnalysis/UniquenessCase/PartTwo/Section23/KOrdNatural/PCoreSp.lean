@@ -39,7 +39,7 @@ private noncomputable def spNatRep (m : ℕ) (K : Type) [Field K] :
     simp
   map_mul' g h := by
     ext v
-    simp [Matrix.mulVec_mulVec]
+    simp
 
 private theorem spNatRep_injective (m : ℕ) (K : Type) [Field K] :
     Function.Injective (spNatRep m K) := by
@@ -53,12 +53,12 @@ private theorem spNatRep_injective (m : ℕ) (K : Type) [Field K] :
 
 private theorem spNatRep_isIrreducible (m : ℕ) (K : Type) [Field K] (hm : 0 < m) :
     (spNatRep m K).IsIrreducible := by
-  haveI : Nontrivial (Fin m ⊕ Fin m → K) :=
+  have : Nontrivial (Fin m ⊕ Fin m → K) :=
     ⟨0, Pi.single (Sum.inl ⟨0, hm⟩) 1, fun hconv => by
       have h := congrFun hconv (Sum.inl ⟨0, hm⟩)
       simp only [Pi.zero_apply, Pi.single_eq_same] at h
       exact zero_ne_one h⟩
-  haveI : Nontrivial (Subrepresentation (spNatRep m K)) :=
+  have : Nontrivial (Subrepresentation (spNatRep m K)) :=
     ⟨⊥, ⊤, fun h => bot_ne_top (α := Submodule K (Fin m ⊕ Fin m → K))
       (congrArg Subrepresentation.toSubmodule h)⟩
   refine IsSimpleOrder.of_forall_eq_top ?_
@@ -76,7 +76,7 @@ theorem pCore_statedSp_eq_bot {K : Type} [Field K] [Finite K] (p : ℕ) [Fact p.
     [CharP K p] (m : ℕ) : CFSG.pCore p ↥(StatedSp m K) = ⊥ := by
   rcases Nat.eq_zero_or_pos m with hm | hm
   · subst hm
-    haveI : Subsingleton ↥(StatedSp 0 K) := inferInstance
+    have : Subsingleton ↥(StatedSp 0 K) := inferInstance
     rw [eq_bot_iff]
     intro x _
     exact Subsingleton.elim x 1

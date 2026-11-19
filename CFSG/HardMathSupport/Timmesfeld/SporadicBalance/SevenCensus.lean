@@ -18,15 +18,18 @@ section Exponents
 variable {p₁ p₂ : G} (h₁ : p₁ ^ 7 = 1) (h₂ : p₂ ^ 7 = 1) (hc : Commute p₁ p₂)
 include h₁ h₂ hc
 
+omit hc in
 theorem pw_mod (a b : ℕ) : p₁ ^ a * p₂ ^ b = p₁ ^ (a % 7) * p₂ ^ (b % 7) := by
   conv_lhs => rw [← Nat.mod_add_div a 7, ← Nat.mod_add_div b 7]
   rw [pow_add, pow_add, pow_mul, pow_mul, h₁, h₂, one_pow, one_pow, mul_one, mul_one]
 
+omit h₁ h₂ in
 theorem pw_mul (a b c d : ℕ) :
     p₁ ^ a * p₂ ^ b * (p₁ ^ c * p₂ ^ d) = p₁ ^ (a + c) * p₂ ^ (b + d) := by
   rw [pow_add, pow_add, mul_assoc, ← mul_assoc (p₂ ^ b), ((hc.pow_pow c b).eq).symm]
   group
 
+omit h₁ h₂ in
 theorem pw_pow (a b k : ℕ) : (p₁ ^ a * p₂ ^ b) ^ k = p₁ ^ (a * k) * p₂ ^ (b * k) := by
   rw [(hc.pow_pow a b).mul_pow, ← pow_mul, ← pow_mul]
 

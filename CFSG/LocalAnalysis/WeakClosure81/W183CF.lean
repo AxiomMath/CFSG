@@ -78,7 +78,7 @@ private theorem w183_card_PSL_3_2_1 {T : Type} [Group T] (hO : LieOrderFormulasI
   have hd : lieOrderDivisor .PSL 3 (2 ^ 1) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
 
 private theorem w183_card_PSL_3_2_2 {T : Type} [Group T] (hO : LieOrderFormulasInput)
     (h : LieModel T .PSL 3 2 2) : Nat.card T = 20160 := by
@@ -86,7 +86,7 @@ private theorem w183_card_PSL_3_2_2 {T : Type} [Group T] (hO : LieOrderFormulasI
   have hd : lieOrderDivisor .PSL 3 (2 ^ 2) = 3 := by decide
   rw [hd] at hM
   have hnum : lieOrderNumerator .PSL 3 (2 ^ 2) = 60480 := by
-    simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+    simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
   rw [hnum] at hM
   omega
 
@@ -98,7 +98,7 @@ private theorem w183_card_PSU_3_2_2 {T : Type} [Group T] (hO : LieOrderFormulasI
   rw [hM]
   have h2 : Even (2 : ℕ) := by decide
   have h3 : ¬ Even (3 : ℕ) := by decide
-  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair, h2, h3]
+  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, h2, h3]
 
 private theorem w183_card_PSp_2_2_2 {T : Type} [Group T] (hO : LieOrderFormulasInput)
     (h : LieModel T .PSp 2 2 2) : Nat.card T = 979200 := by
@@ -106,7 +106,7 @@ private theorem w183_card_PSp_2_2_2 {T : Type} [Group T] (hO : LieOrderFormulasI
   have hd : lieOrderDivisor .PSp 2 (2 ^ 2) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide]
 
 private theorem w183_card_PSL_2_2_2 {T : Type} [Group T] (hO : LieOrderFormulasInput)
     (h : LieModel T .PSL 2 2 2) : Nat.card T = 60 := by
@@ -114,7 +114,7 @@ private theorem w183_card_PSL_2_2_2 {T : Type} [Group T] (hO : LieOrderFormulasI
   have hd : lieOrderDivisor .PSL 2 (2 ^ 2) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 2 2 = {2} by decide]
+  simp [lieOrderNumerator]
 
 theorem w183_not_isSporadic_fischer
     (hO : LieOrderFormulasInput) {T : Type} [Group T]
@@ -227,7 +227,7 @@ theorem w183_not_oddTranspFactor_PSL_3_2_1
     simp [lieSylowExponent]
   rcases hF with ⟨n, hn, ⟨e⟩⟩ | ⟨n, f, h2⟩ | ⟨q, n, f, hq, hf, h3⟩ | h4
   · have hnf : n.factorial = 336 := by
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       have h1 : Nat.card T = n.factorial / 2 := by
         rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
       have hc : Nat.card T = 168 := w183_card_PSL_3_2_1 hO h
@@ -406,7 +406,7 @@ theorem w183_not_oddTranspFactor_PSL_3_2_2
   rcases hF with ⟨n, hn, ⟨e⟩⟩ | ⟨n, f, h2⟩ | ⟨q, n, f, hq, hf, h3⟩ | h4
   · have hn8 : n = 8 := by
       refine w183_factorial_eq_40320 hn ?_
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       have h1 : Nat.card T = n.factorial / 2 := by
         rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
       have hdvd : 2 ∣ n.factorial := Nat.dvd_factorial (by norm_num) (by omega)
@@ -541,7 +541,7 @@ theorem w183_not_oddTranspFactor_IsL2
   have hmodel : LieModel T .PSL 2 p e := Or.inl ⟨by decide, h⟩
   have hadm_l := hmodel.admissible
   have hfin : Finite T := (hO T .PSL 2 p e hadm_l hmodel).1
-  haveI : Finite T := hfin
+  have : Finite T := hfin
   have hsimp : IsSimpleGroup T := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel h
   have hMl := (hO T .PSL 2 p e hadm_l hmodel).2.1
   have hfl : (Nat.card T).factorization p = e := by
@@ -551,7 +551,7 @@ theorem w183_not_oddTranspFactor_IsL2
     Or.inl ⟨e, hq, h⟩
   intro hF
   rcases hF with ⟨n, hn, ⟨e'⟩⟩ | ⟨n, f, h2⟩ | ⟨q, n, f, hq35, hf, h3⟩ | h4
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rcases (by omega : n = 5 ∨ n = 6 ∨ n = 7 ∨ n = 8 ∨ 9 ≤ n) with h5 | h6 | h7 | h8 | h9
     · have hodd : Odd (p ^ e) := (hp.odd_of_ne_two hp2).pow
       have h2M := CFSG.SeitzReduction.CrossChar.two_mul_card_eq_of_PSL_two_odd
@@ -686,7 +686,7 @@ theorem w183_not_oddTranspFactor_PSL_3_p_1
     (hA : ArtinDistinctOddOrders) {T : Type} [Group T] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : LieModel T .PSL 3 p 1) : ¬ OddTranspFactor T := by
   have hfin : Finite T := (hO T .PSL 3 p 1 h.admissible h).1
-  haveI : Finite T := hfin
+  have : Finite T := hfin
   have hsimp : IsSimpleGroup T :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   have hMl := (hO T .PSL 3 p 1 h.admissible h).2.1
@@ -697,7 +697,7 @@ theorem w183_not_oddTranspFactor_PSL_3_p_1
     Or.inr (Or.inl h)
   intro hF
   rcases hF with ⟨n, hn, ⟨e'⟩⟩ | ⟨n, f, h2⟩ | ⟨q, n, f, hq35, hf, h3⟩ | h4
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rcases (by omega : n = 5 ∨ n = 6 ∨ n = 7 ∨ n = 8 ∨ 9 ≤ n) with h5 | h6 | h7 | h8 | h9
     · have hcard : Nat.card T = n.factorial / 2 := by
         rw [Nat.card_congr e'.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
@@ -785,7 +785,7 @@ theorem w183_not_oddTranspFactor_PSU_3_p_1
     (hA : ArtinDistinctOddOrders) {T : Type} [Group T] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : LieModel T .PSU 3 p 1) : ¬ OddTranspFactor T := by
   have hfin : Finite T := (hO T .PSU 3 p 1 h.admissible h).1
-  haveI : Finite T := hfin
+  have : Finite T := hfin
   have hsimp : IsSimpleGroup T :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   have hMl := (hO T .PSU 3 p 1 h.admissible h).2.1
@@ -796,7 +796,7 @@ theorem w183_not_oddTranspFactor_PSU_3_p_1
     Or.inr (Or.inr (Or.inl h))
   intro hF
   rcases hF with ⟨n, hn, ⟨e'⟩⟩ | ⟨n, f, h2⟩ | ⟨q, n, f, hq35, hf, h3⟩ | h4
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rcases (by omega : n = 5 ∨ n = 6 ∨ n = 7 ∨ n = 8 ∨ 9 ≤ n) with h5 | h6 | h7 | h8 | h9
     · have hcard : Nat.card T = n.factorial / 2 := by
         rw [Nat.card_congr e'.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
@@ -884,7 +884,7 @@ theorem w183_not_oddTranspFactor_PSp_2_p_1
     (hA : ArtinDistinctOddOrders) {T : Type} [Group T] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hp7 : 7 ≤ p) (h : LieModel T .PSp 2 p 1) : ¬ OddTranspFactor T := by
   have hfin : Finite T := (hO T .PSp 2 p 1 h.admissible h).1
-  haveI : Finite T := hfin
+  have : Finite T := hfin
   have hsimp : IsSimpleGroup T :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   have hMl := (hO T .PSp 2 p 1 h.admissible h).2.1
@@ -895,7 +895,7 @@ theorem w183_not_oddTranspFactor_PSp_2_p_1
     Or.inr (Or.inr (Or.inr h))
   intro hF
   rcases hF with ⟨n, hn, ⟨e'⟩⟩ | ⟨n, f, h2⟩ | ⟨q, n, f, hq35, hf, h3⟩ | h4
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rcases (by omega : n = 5 ∨ n = 6 ∨ n = 7 ∨ n = 8 ∨ 9 ≤ n) with h5 | h6 | h7 | h8 | h9
     · have hcard : Nat.card T = n.factorial / 2 := by
         rw [Nat.card_congr e'.toEquiv, nat_card_alternatingGroup, Nat.card_fin]

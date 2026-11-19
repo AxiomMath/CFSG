@@ -20,14 +20,14 @@ theorem polar_quadPlus_three (x y : Fin 3 ⊕ Fin 3 → K) :
       (x (Sum.inl 1) * y (Sum.inr 1) + x (Sum.inr 1) * y (Sum.inl 1)) +
       (x (Sum.inl 2) * y (Sum.inr 2) + x (Sum.inr 2) * y (Sum.inl 2)) := by
   rw [show ⇑(quadPlus 3 K) = StatedQuadPlus 3 K from coe_quadPlus 3 K]
-  simp [QuadraticMap.polar, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_three]
+  simp [QuadraticMap.polar, StatedQuadPlus, Fin.sum_univ_three]
   ring
 
 theorem quadPlus_three (x : Fin 3 ⊕ Fin 3 → K) :
     quadPlus 3 K x = x (Sum.inl 0) * x (Sum.inr 0) + x (Sum.inl 1) * x (Sum.inr 1) +
       x (Sum.inl 2) * x (Sum.inr 2) := by
   rw [show ⇑(quadPlus 3 K) = StatedQuadPlus 3 K from coe_quadPlus 3 K]
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_three]
+  simp [StatedQuadPlus, Fin.sum_univ_three]
 
 theorem exists_orth_hypPairs :
     ∃ P P' : HypPair (quadPlus 3 K), P.Orth P' ∧
@@ -35,7 +35,7 @@ theorem exists_orth_hypPairs :
       P.f = (Pi.single (Sum.inr 0) 1 : Fin 3 ⊕ Fin 3 → K) := by
   refine ⟨⟨Pi.single (Sum.inl 0) 1, Pi.single (Sum.inr 0) 1, ?_, ?_, ?_⟩,
     ⟨Pi.single (Sum.inl 1) 1, Pi.single (Sum.inr 1) 1, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_⟩, rfl, rfl⟩ <;>
-  simp [polar_quadPlus_three, quadPlus_three, Pi.single_apply]
+  simp [polar_quadPlus_three, quadPlus_three]
 
 
 theorem exists_gom_frame [Finite K] [CharP K 2] {u u' : Fin 3 ⊕ Fin 3 → K}

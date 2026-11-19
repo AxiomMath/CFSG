@@ -385,12 +385,12 @@ private theorem Tilde_coe_eq_wreathLine_sigma (hij : i ≠ j) {b : L} (hb2 : b *
     rw [X_mul_tau_left, diag_apply]
     by_cases hpi : p = i
     · subst hpi
-      rw [if_pos rfl, wreathLine_sigma_left_self hij b]
+      rw [ite_eq_left rfl, wreathLine_sigma_left_self hij b]
     · by_cases hpj : p = j
       · subst hpj
-        rw [if_neg hpi, if_pos rfl, wreathLine_sigma_left_right hij b]
+        rw [ite_eq_right hpi, ite_eq_left rfl, wreathLine_sigma_left_right hij b]
         exact (inv_eq_of_mul_eq_one_right hb2).symm
-      · rw [if_neg hpi, if_neg hpj, wreathLine_sigma_left_ne hij b hpi hpj]
+      · rw [ite_eq_right hpi, ite_eq_right hpj, wreathLine_sigma_left_ne hij b hpi hpj]
   · change (X i j b * Tau i j).right = _
     rw [SemidirectProduct.mul_right, right_X, right_tau, wreathLine_sigma_right]
     simp

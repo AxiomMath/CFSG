@@ -24,11 +24,11 @@ theorem ggFieldFixKnown_spNs :
   intro Q hQ
   obtain ⟨t, l, n⟩ := lab
   dsimp only at hBC h3 hn
-  haveI : NeZero l := ⟨by omega⟩
+  have : NeZero l := ⟨by omega⟩
   rcases hBC with ht | ht <;> subst ht <;>
   · dsimp only [LargeEvenRawDatum] at hQ ⊢
     refine NbrGraphSymplectic.recipeSymplectic_all (fun K _ _ hK => ?_) hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     intro hS hna f hf hord
     exact exists_fixGeom h3 hn hp hp2 hK hS hna hf hord
 

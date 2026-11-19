@@ -284,8 +284,8 @@ theorem typeOne_stdPlane (hq2 : 2 < p ^ f) {st : rootsOfUnity 3 K × rootsOfUnit
       | rfl
       | (simp at hij
          first
-          | exact absurd hij.symm h1 | exact absurd hij h1 | exact absurd hij.symm h2
-          | exact absurd hij h2 | exact absurd hij h12 | exact absurd hij.symm h12
+          | exact absurd hij.symm h1 | exact absurd hij.symm h2
+          | exact absurd hij h12 | exact absurd hij.symm h12
           | exact absurd hij hs | exact absurd hij ht)
   have hcomm := commute_diagonal_of_commute hinj hg3'
   intro x hx

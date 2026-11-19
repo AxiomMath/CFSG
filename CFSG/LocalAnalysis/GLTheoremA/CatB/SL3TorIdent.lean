@@ -42,7 +42,7 @@ theorem exists_pow_of_card_sq {F : Type} [Field F] [Finite F] {q : ℕ} (hq : 2 
     (h : Nat.card F = q ^ 2) :
     ∃ p j : ℕ, p.Prime ∧ 1 ≤ j ∧ q = p ^ j ∧ CharP F p ∧ Nat.card F = (p ^ j) ^ 2 := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' F
   rw [Nat.card_eq_fintype_card] at h
   have hqdvd : q ∣ p ^ (n : ℕ) := by
@@ -65,7 +65,7 @@ theorem two_le_of_card_sq {F : Type} [Field F] [Finite F] {q : ℕ} (h : Nat.car
     2 ≤ q := by
   have h2 : 1 < Nat.card F := Finite.one_lt_card
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have : q ^ 2 ≤ 1 := by interval_cases q <;> norm_num
   rw [h] at h2
   linarith
@@ -147,7 +147,7 @@ theorem pquot_sl3_iso {G : Type} [Group G] [Finite G] {X K : Subgroup G}
       · have hsim : IsSimpleGroup (StatedProj (StatedSL 3 F')) :=
           CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL F' (by norm_num) (Or.inl (by norm_num))
             (Or.inl (by norm_num))
-        haveI := hsim
+        have := hsim
         have hYs : IsSimpleGroup (PQuot 3 K) := eY.isSimpleGroup
         have := card_center_eq_one_of_simple hQ hYs
         omega
@@ -164,7 +164,7 @@ theorem pquot_sl3_iso {G : Type} [Group G] [Finite G] {X K : Subgroup G}
           have := S_ge_four hN4
           omega
         · obtain ⟨p, j, hp', hj, hqj, hchar', hcardj⟩ := exists_pow_of_card_sq hq'2 hq'card
-          haveI : Fact p.Prime := ⟨hp'⟩
+          have : Fact p.Prime := ⟨hp'⟩
           have hnq : ((3 : ℕ), p ^ j) ≠ (3, 2) := by
             intro h
             apply hq2'
@@ -173,7 +173,7 @@ theorem pquot_sl3_iso {G : Type} [Group G] [Finite G] {X K : Subgroup G}
           have hsim : IsSimpleGroup (StatedProj (StatedSU 3 q' F')) := by
             rw [hqj]
             exact CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F' p j hcardj 3 (by norm_num) hnq
-          haveI := hsim
+          have := hsim
           have hYs : IsSimpleGroup (PQuot 3 K) := eY.isSimpleGroup
           have := card_center_eq_one_of_simple hQ hYs
           omega
@@ -191,7 +191,7 @@ theorem pquot_sl3_iso {G : Type} [Group G] [Finite G] {X K : Subgroup G}
       · exfalso
         have hq'2 : 2 ≤ q' := two_le_of_card_sq hq'card
         obtain ⟨p, j, hp', hj, hqj, hchar', hcardj⟩ := exists_pow_of_card_sq hq'2 hq'card
-        haveI : Fact p.Prime := ⟨hp'⟩
+        have : Fact p.Prime := ⟨hp'⟩
         have hYSU : Nat.card (PQuot 3 K) = q' ^ 3 * ((q' ^ 2 - 1) * (q' ^ 3 + 1)) := by
           rw [Nat.card_congr eY.toEquiv]
           have hc := CFSG.SectionRank.OddCover.card_statedSU_three (K := F') hcardj

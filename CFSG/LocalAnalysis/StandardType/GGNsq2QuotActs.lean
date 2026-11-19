@@ -42,7 +42,7 @@ theorem ggNSq2_acts_quot {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.c
     (hind : ∀ y y' : ↥Y, (y' : Q) = b⁻¹ * y * b → φ (η y) = η y') :
     ∃ g : GL (Fin n) K, GGInducesUnitary (p := 2) (f := 1) (Y.subtype.comp ψ₀) b g := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hAgu, hgraph⟩ := hφ
   obtain ⟨g, hgu, hconj⟩ := ggNSLieN3A_gu_rescale hK hAgu
   have hperfSU : Group.IsPerfect (Su K 2 1 n) :=

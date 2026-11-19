@@ -21,7 +21,7 @@ theorem kLevel_congr (p : ℕ) {S S' : Type} [Group S] [Group S'] (e : S ≃* S'
 theorem center_pSimple_eq_bot {p : ℕ} (hp : p.Prime) {X L : Subgroup G}
     (hL : GLAPComponent p X L) : Subgroup.center (PSimple p L) = ⊥ := by
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hL
-  haveI := hq.2
+  have := hq.2
   have hperf : commutator (PSimple p L) = ⊤ := by
     have h1 := hq.1
     rw [commutator_def] at h1 ⊢
@@ -48,7 +48,7 @@ theorem kLevel_le_of_pumpRel {p : ℕ} (hp : p.Prime) (h183 : Input18_3_4)
     (h1412 : I1412UsedAt G p) (h1122 : I1122IsoAt G p) {t t' : Triple G}
     (hrel : PumpRel p t t') : kLevel p (PSimple p t.2.2) ≤ kLevel p (PSimple p t'.2.2) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨-, hx, hL⟩, ⟨hB', hx', hL'c⟩, hxB', -, hx'B', hx'L, hL'⟩ := hrel
   set L := t.2.2
   set L' := t'.2.2

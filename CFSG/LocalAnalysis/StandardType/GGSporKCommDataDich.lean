@@ -30,7 +30,7 @@ theorem commData_dich_of_irred {p n : ℕ} [Fact p.Prime] [Finite G] {q : Fin n 
     (N : Subgroup G) (hNQ : N ≤ Subgroup.closure (Set.range q))
     (hN : ∀ i, a i ∈ Subgroup.normalizer (N : Set G)) :
     N ≤ Subgroup.zpowers z ∨ N = Subgroup.closure (Set.range q) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hinv : ∀ i, ∀ g ∈ N, (a i)⁻¹ * g * a i ∈ N := by
     intro i g hg
     have h1 : (a i)⁻¹ ∈ Subgroup.normalizer (N : Set G) := inv_mem (hN i)

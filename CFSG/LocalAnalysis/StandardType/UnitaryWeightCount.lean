@@ -28,7 +28,7 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι] {K : Type*} [Field K]
 
 lemma sum_extendByZero_mul {I : Finset ι} (z : I → K) (g : ι → K) :
     (∑ α : ι, (if h : α ∈ I then z ⟨α, h⟩ else 0) * g α) = ∑ α : I, z α * g α := by
-  rw [← Finset.sum_subset (Finset.subset_univ I) (fun α _ hα => by simp [dif_neg hα])]
+  rw [← Finset.sum_subset (Finset.subset_univ I) (fun α _ hα => by simp [dite_eq_right hα])]
   rw [Finset.sum_subtype I (fun x => Iff.rfl)
     (fun α => (if h : α ∈ I then z ⟨α, h⟩ else 0) * g α)]
   apply Finset.sum_congr rfl
@@ -60,13 +60,13 @@ theorem card_le_card_of_isUnit_support {H : Matrix ι ι K} (hH : IsUnit H) {I I
         intro α _
         by_cases hα : α ∈ I
         · have hH0 : H α β = 0 := hsupp α hα β hβ
-          simp [zhat, dif_pos hα, hH0]
-        · simp [zhat, dif_neg hα]
+          simp [zhat, dite_eq_left hα, hH0]
+        · simp [zhat, dite_eq_right hα]
     have hzero : zhat = 0 := (Matrix.vecMul_injective_of_isUnit hH) (by simpa using hzh)
     have hz : x - y = 0 := by
       funext α
       have hcf := congrFun hzero (α : ι)
-      simpa [zhat, dif_pos α.2] using hcf
+      simpa [zhat, dite_eq_left α.2] using hcf
     exact sub_eq_zero.mp hz
   have hle := LinearMap.finrank_le_finrank_of_injective hφinj
   rw [Module.finrank_fintype_fun_eq_card, Module.finrank_fintype_fun_eq_card] at hle
@@ -89,6 +89,7 @@ lemma sum_univ_zmod_three (f : ZMod 3 → ℕ) : (∑ a : ZMod 3, f a) = f 0 + f
   rw [Finset.sum_singleton]
   ring
 
+omit [DecidableEq ι] in
 theorem card_fiber_bounds_zmod3 (x y : ι → ZMod 3)
     (hspan : ∀ i j : ZMod 3, (i ≠ 0 ∨ j ≠ 0) → ∃ α β, i * x α + j * y α ≠ i * x β + j * y β)
     (hsym : ∀ u v : ZMod 3,
@@ -287,7 +288,7 @@ lemma cube_root_trichotomy {Ω : Type*} [Field Ω] {ζ : Ω} (hζ2 : ζ ^ 2 + ζ
   · exact Or.inr (Or.inr (sub_eq_zero.mp h'))
 
 lemma zeta_pow_val_injective {Ω : Type*} [Field Ω] {ζ : Ω} (hζ1 : ζ ≠ 1)
-    (hζ2 : ζ ^ 2 + ζ + 1 = 0) (hζ3 : ζ ^ 3 = 1) :
+    (_hζ2 : ζ ^ 2 + ζ + 1 = 0) (hζ3 : ζ ^ 3 = 1) :
     Function.Injective (fun k : ZMod 3 => ζ ^ k.val) := by
   have hζ0 : ζ ≠ 0 := by intro h; rw [h] at hζ3; norm_num at hζ3
   have h1ζ : (1 : Ω) ≠ ζ := fun h => hζ1 h.symm
@@ -313,18 +314,17 @@ lemma zeta_pow_val_injective {Ω : Type*} [Field Ω] {ζ : Ω} (hζ1 : ζ ≠ 1)
   rcases zmod_three_cases i with hi | hi | hi <;> rcases zmod_three_cases j with hj | hj | hj <;>
     rw [hi, hj] at hij ⊢ <;> simp only [e0, e1, e2] at hij
   all_goals (first
-    | rfl
     | exact absurd hij h1ζ
     | exact absurd hij h1ζ.symm
     | exact absurd hij h1ζ2
     | exact absurd hij h1ζ2.symm
     | exact absurd hij hζζ2
     | exact absurd hij hζζ2.symm
-    | exact absurd hij hζ1
-    | exact absurd hij hζ1.symm)
+)
 
 variable {Ω : Type*} [Field Ω] [DecidableEq Ω]
 
+omit [DecidableEq ι] in
 theorem card_fiber_bounds (a b : ι → Ω) (ha : ∀ α, a α ^ 3 = 1) (hb : ∀ α, b α ^ 3 = 1)
     (hspan : ∀ i j : ℕ, ¬ (3 ∣ i ∧ 3 ∣ j) → ∃ α β, a α ^ i * b α ^ j ≠ a β ^ i * b β ^ j)
     (hsym : ∀ u v : Ω,

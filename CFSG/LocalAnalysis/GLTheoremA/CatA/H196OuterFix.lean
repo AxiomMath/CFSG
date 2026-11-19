@@ -92,8 +92,8 @@ private theorem h196_prime_of_chevSimple {p : ℕ} {S : Type} [Group S]
 private theorem h196_normal_meets_center {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {P A : Subgroup G} [hA : A.Normal] (hP : IsPGroup p P) (hAP : A ⊓ P ≠ ⊥) :
     ∃ r : G, r ∈ A ∧ r ≠ 1 ∧ r ∈ P ∧ ∀ g ∈ P, g * r = r * g := by
-  haveI : Group.IsNilpotent P := IsPGroup.isNilpotent hP
-  haveI : (A.subgroupOf P).Normal := hA.subgroupOf P
+  have : Group.IsNilpotent P := IsPGroup.isNilpotent hP
+  have : (A.subgroupOf P).Normal := hA.subgroupOf P
   have hN : A.subgroupOf P ≠ ⊥ := by
     intro h
     exact hAP (disjoint_iff.mp (Subgroup.subgroupOf_eq_bot.mp h))
@@ -125,7 +125,7 @@ private theorem h196_central_order {G : Type} [Group G] [Finite G] {p : ℕ} [hp
     exact ⟨1, by rw [Nat.card_zpowers, hyord, pow_one]⟩
   obtain ⟨Q, hQ⟩ := hZ.exists_le_sylow
   obtain ⟨P, hP⟩ := hD.exists_le_sylow
-  haveI : Finite (Sylow p G) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow p G) := Sylow.finite_of_finiteIndex P
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Q P
   have hyQ : (y : G) ∈ (Q : Subgroup G) := hQ (Subgroup.mem_zpowers _)
   have hgyP : g * (y : G) * g⁻¹ ∈ (P : Subgroup G) := by
@@ -139,8 +139,8 @@ private theorem h196_central_order {G : Type} [Group G] [Finite G] {p : ℕ} [hp
     rw [h, Subgroup.mem_bot] at hmem
     apply hy1
     simpa using hmem
-  obtain ⟨r, hrA, hr1, hrP, hrc⟩ := h196_normal_meets_center P.isPGroup' hAP
-  obtain ⟨m, hm⟩ := P.isPGroup' ⟨r, hrP⟩
+  obtain ⟨r, hrA, hr1, hrP, hrc⟩ := h196_normal_meets_center P.isPGroup hAP
+  obtain ⟨m, hm⟩ := P.isPGroup ⟨r, hrP⟩
   have hm' : r ^ p ^ m = 1 := by
     simpa using congrArg Subtype.val hm
   have hex : ∃ n : ℕ, r ^ p ^ n = 1 := ⟨m, hm'⟩
@@ -168,9 +168,9 @@ theorem i196OuterFix_holds
   unfold I196OuterFix
   intro K _ _ hK hchev D hD _ _
   have hp : p.Prime := h196_prime_of_chevSimple hchev
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut K) := inferInstance
-  haveI : (innerAut K).Normal := h196_innerAut_normal K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut K) := inferInstance
+  have : (innerAut K).Normal := h196_innerAut_normal K
   have hcard : p ∣ Nat.card (K ⧸ Subgroup.center K) :=
     I196ChevCard_holds p hp (K ⧸ Subgroup.center K) hK.2 hchev
   have hpA : p ∣ Nat.card (innerAut K) := by

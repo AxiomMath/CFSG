@@ -18,7 +18,7 @@ open CFSG Subgroup
 theorem card_sylow_two_le_two_of_card {G : Type*} [Group G] [Finite G]
     (hc : Nat.card G = 3 ∨ Nat.card G = 6) (S : Sylow 2 G) : Nat.card S ≤ 2 := by
   have hS : Nat.card S ∣ Nat.card G := Subgroup.card_subgroup_dvd_card (S : Subgroup G)
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (S.isPGroup' : IsPGroup 2 S)
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (S.isPGroup : IsPGroup 2 S)
   rw [hk] at hS ⊢
   rcases hc with h | h <;> rw [h] at hS
   · have : k = 0 := by

@@ -187,7 +187,7 @@ theorem noIrrFFOffender_E8_of_typeBound
     ⟨⟨xC .E8 K n8 1, 1, xC_ne_one n8 1⟩⟩
   obtain ⟨δ, m, k, _, _, _, ιK, ρ, hδ, hm, hρirr, hρinj, hιKinj, hWcard, hent, hext⟩ :=
     offender_periodic_data hW hql.1 hirr hEN hE hel hquad hoff ι hn hK2
-  letI : Algebra K k := ιK.toAlgebra
+  let : Algebra K k := ιK.toAlgebra
   have hρ : IsSimpleRep ρ := (SL2Modules.isIrreducible_iff ρ).1 hρirr
   obtain ⟨y, χ, J, ht⟩ := exists_isChevType (hw := exists_weyl_neg_E8) (p := 2) hρ
   have hδper : ∀ (i : Fin Tag.E8.rank) (t : Kˣ), χ (dC .E8 K i t) ^ (2 ^ δ) = χ (dC .E8 K i t) :=

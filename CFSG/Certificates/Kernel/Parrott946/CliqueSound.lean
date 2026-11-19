@@ -299,13 +299,13 @@ theorem cliqueK_spec {W C : Nat} {Ms : List Nat} (h : cliqueK W C Ms = true) {a 
   have hb := allN_spec ha b (by omega)
   have g1 : Nat.blt a b = true := Nat.blt_eq.mpr hab
   have g2 : bitB (lane W C a) b = true := by rw [bitB_eq_cs]; exact h1
-  simp only [g1, g2, bAnd_eq, Bool.and_true, Bool.not_true, Bool.false_or, strictB_eq'] at hb
+  simp only [g1, g2, bAnd_eq, Bool.not_true, Bool.false_or] at hb
   have hc := allN_spec hb c hcW
   have g3 : Nat.blt b c = true := Nat.blt_eq.mpr hbc
   have g4 : bitB (Nat.land (lane W C a) (lane W C b)) c = true := by
     rw [bitB_eq_cs, testBit_land_cs, h2, h3]
     rfl
-  simp only [g3, g4, bAnd_eq, Bool.and_true, Bool.not_true, Bool.false_or, strictB_eq'] at hc
+  simp only [g3, g4, Bool.and_true, Bool.not_true, Bool.false_or] at hc
   have hD := Nat.eq_of_beq_eq_true hc
   have hd : (aboveK (Nat.land (Nat.land (lane W C a) (lane W C b)) (lane W C c)) c).testBit d =
       true := by
@@ -622,7 +622,6 @@ theorem findK_eq_cs {n w : Nat} {ps : List Nat} {T S : Nat → Nat} {N p : Nat}
     have hp2 : 2 ^ (f + 1) = 2 ^ f * 2 := by rw [Nat.pow_succ]
     rw [hp2] at h5
     rw [e, PF.strictN_eqP]
-    beta_reduce
     rw [hmid]
     cases hlt : Nat.blt lo hi
     · have hl : ¬ lo < hi := fun h => by
@@ -687,7 +686,6 @@ theorem memK_complete {n w : Nat} {ps : List Nat} {N : Nat} {T S : Nat → Nat}
     exact this
   unfold memK
   rw [strictB_eq', hf]
-  beta_reduce
   rw [bAnd_eq, Bool.and_eq_true]
   exact ⟨Nat.blt_eq.mpr hj, Nat.beq_refl _⟩
 

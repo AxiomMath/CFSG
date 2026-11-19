@@ -266,7 +266,7 @@ theorem mem_of_mem_normalizer {H : Subgroup G} (hHs : IsSimpleGroup ↥H)
       have h1 : (k : G) * y * (k : G)⁻¹ ∈ L := (mem_normalizer_iff.mp hkN y).mp hyL
       rwa [hy, show (k : G) * ((k : G)⁻¹ * x * k) * (k : G)⁻¹ = x by group] at h1
     obtain ⟨N₂, hN₂, hN₂idx⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson
-      Q.isPGroup' Q.not_dvd_index inf_le_left hUidx hxQ hxU hmin hconj
+      Q.isPGroup Q.not_dvd_index inf_le_left hUidx hxQ hxU hmin hconj
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N₂ with h | h
     · rw [h, index_bot] at hN₂idx
       have : IsCyclic ↥H := isCyclic_of_prime_card hN₂idx

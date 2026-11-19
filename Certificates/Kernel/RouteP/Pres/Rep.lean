@@ -97,7 +97,7 @@ theorem rep_shift : Rep 920808 (Array.ofFn (n := degree) fun N =>
   rw [idx_of_lt _ hN, Perm.smul_def, gT_apply hl, ap_ofFn _ hN,
     toNat_ofNat_of_lt (by change 3 * (N / 3) + (N % 3 + 2) % 3 < 2 ^ 32; omega)]
   unfold eL
-  rw [if_pos hN]
+  rw [ite_eq_left hN]
   change _ = 3 * pR (NWP 41) (N / 3) + (N % 3 + (2 * kv (KAP 41) (KBP 41) (pR (NWP 41) (N / 3))) % 3) % 3
   rw [hR _ (by omega)]
   unfold kv
@@ -117,7 +117,7 @@ theorem genTabs_rep_of (hm : Rep 920808 (mTabs ())[0]! (gP 0) ∧ Rep 920808 (mT
     simp only
     rw [getElem!_map_range _ h11]
     unfold gq
-    rw [if_pos h11]
+    rw [ite_eq_left h11]
     exact presRun_rep hm (28 + i) (by omega)
   · rw [getElem!_pos _ i (by simp [hx, hz]; omega), Array.getElem_append_right (by rw [hx]; omega),
       ← getElem!_pos (zTabs ()) (i - (xTabs ()).size) (by rw [hx, hz]; omega), hx]
@@ -125,12 +125,12 @@ theorem genTabs_rep_of (hm : Rep 920808 (mTabs ())[0]! (gP 0) ∧ Rep 920808 (mT
     simp only
     rw [getElem!_map_range _ (by omega)]
     unfold gq
-    rw [if_neg h11]
+    rw [ite_eq_right h11]
     by_cases h21 : i = 21
     · subst h21
-      rw [if_pos rfl, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_left rfl]
       exact rep_shift
-    · rw [if_neg (by omega), if_neg h21]
+    · rw [ite_eq_right (by omega), ite_eq_right h21]
       exact Rep.idT hn32
 
 end CertificateChecks.KernelRouteP

@@ -95,8 +95,8 @@ theorem regOK_step {arr : Array (Array (Array Nat))} {reg : Nat → Nat} {a b c 
     getElem!_pos _ r (by simp [h1]; omega)]
   by_cases e : r = c
   · subst e
-    simp only [Array.getElem_setIfInBounds_self, if_pos]
-  · simp only [if_neg e]
+    simp only [Array.getElem_setIfInBounds_self, ite_eq_left]
+  · simp only [ite_eq_right e]
     rw [Array.getElem_setIfInBounds_ne (by omega) (Ne.symm e),
       ← getElem!_pos arr r (by omega), h2 r hr]
 
@@ -119,11 +119,11 @@ theorem regOK_init : RegOK (initRegsM rowsA rowsB) reg0 := by
   refine ⟨by simp [initRegsM], fun r hr => ?_⟩
   rw [initRegs_get _ _ r hr, reg0]
   by_cases h1 : r = 1
-  · rw [if_pos h1, if_pos h1, rowsA_eq]
-  · rw [if_neg h1, if_neg h1]
+  · rw [ite_eq_left h1, ite_eq_left h1, rowsA_eq]
+  · rw [ite_eq_right h1, ite_eq_right h1]
     by_cases h2 : r = 2
-    · rw [if_pos h2, if_pos h2, rowsB_eq]
-    · rw [if_neg h2, if_neg h2, idM_eq]
+    · rw [ite_eq_left h2, ite_eq_left h2, rowsB_eq]
+    · rw [ite_eq_right h2, ite_eq_right h2, idM_eq]
 
 theorem prog_ok : progB Data.subgroupProgram 3 reg0 = true := by quickRfl
 
@@ -149,10 +149,10 @@ theorem mletter_eq {l : Int} (h0 : l ≠ 0) (h17 : l.natAbs ≤ 17) :
     mletter SA SIA l = rows5 (ss (letK l)) := by
   rw [mletter, letK]
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_pos hp, SA, ofFn_getElem! (by omega), F]
+  · rw [ite_eq_left hp, ite_eq_left hp, SA, ofFn_getElem! (by omega), F]
     congr 2
     omega
-  · rw [if_neg hp, if_neg hp, SIA, ofFn_getElem! (by omega), FI]
+  · rw [ite_eq_right hp, ite_eq_right hp, SIA, ofFn_getElem! (by omega), FI]
     congr 2
     omega
 

@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem card_map_eq_of_inj {Z : Type} [Group Z] (π : Y →* Z) (A : Subgroup Y)
     (hinj : ∀ a ∈ A, ∀ b ∈ A, π a = π b → a = b) : Nat.card (A.map π) = Nat.card A := by
   symm
@@ -24,6 +25,7 @@ theorem card_map_eq_of_inj {Z : Type} [Group Z] (π : Y →* Z) (A : Subgroup Y)
   · rintro ⟨_, a, ha, rfl⟩
     exact ⟨⟨a, ha⟩, rfl⟩
 
+omit [Finite Y] in
 theorem relIndex_map_dvd {Z : Type} [Group Z] (π : Y →* Z) (S N : Subgroup Y) (hSN : S ≤ N) :
     (S.map π).relIndex (N.map π) ∣ S.relIndex N := by
   set f : ↥N →* Z := π.comp N.subtype with hf
@@ -63,7 +65,7 @@ theorem exists_cfg_of_quotient (O : Subgroup Y) [O.Normal] (hO : ¬ 5 ∣ Nat.ca
     (c : KD309Cfg (P.map (QuotientGroup.mk' O)) (QuotientGroup.mk' O z) J' n' g' h') :
     ∃ (J : Subgroup Y) (n g h : Y), KD309Cfg P z J n g h := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set π : Y →* Y ⧸ O := QuotientGroup.mk' O with hπ
   have inj : ∀ a ∈ P, ∀ b ∈ P, π a = π b → a = b := inj_of_pgroup O hO hP
   have lift : ∀ t ∈ P.map π, ∃ p ∈ P, π p = t := fun t ht => by

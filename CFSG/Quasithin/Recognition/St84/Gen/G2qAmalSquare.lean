@@ -186,7 +186,7 @@ private theorem G2q.squareMap_formula [CharP F 2] {c : F → F}
     · subst hb₁
       have h := G2q.squareMap_weyl hM 0 0 (b₀ ^ 2)
       rw [G2q.squareMap_low hM b₀] at h
-      ext i; fin_cases i <;> simp [hc0] at h ⊢ <;> simp [h] <;> ring
+      ext i; fin_cases i <;> simp [hc0] at h ⊢ <;> simp [h]; ring
     · exact G2q.squareMap_formula_ne hpol hM hcP hb₁ b₀
   have e : (![x, b₀ ^ 2, b₁ ^ 2] : Fin 3 → F) = ![x, 0, 0] + ![0, b₀ ^ 2, b₁ ^ 2] := by
     ext i; fin_cases i <;> simp

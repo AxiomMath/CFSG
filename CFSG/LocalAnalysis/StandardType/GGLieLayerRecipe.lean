@@ -42,9 +42,9 @@ theorem ggLayerLieTwo_recipe_tw (hres : ExcRationalLieTypes) (hout : TrialityOut
     [Finite K] (hK : Nat.card K = (2 ^ n) ^ t.order)
     (φ : MulAut (LargeEvenCenterQuot (LargeEvenTwistedH t.tag.cartan K t.perm n))) :
     LayerCycM.GGLayerLieTwo p φ := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := n * t.order) (by rw [hK, pow_mul])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let σ : K →+* K := iterateFrobenius K 2 n
   have hσ : ∀ x : K, σ x = x ^ 2 ^ n := fun _ => rfl
   obtain ⟨e₁⟩ := centerQuot_twistedH_equiv K t n σ hσ
@@ -56,7 +56,7 @@ theorem ggLayerLieTwo_recipe_twF4 (hres : ExcRationalLieTypes) (hout : TrialityO
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a : ℕ} (ha : 1 ≤ a) (K : Type) [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (φ : MulAut (LargeEvenCenterQuot (LargeEvenTwF4H a K))) :
     LayerCycM.GGLayerLieTwo p φ := by
-  haveI : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow hK
+  have : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow hK
   have hv : (LieTypeIndex.reeF4 a).Valid := reeF4_valid ha
   obtain ⟨e₁⟩ := centerQuot_twF4H_equiv K a
   have hhalf : (ReeF4LieIndex.of a hv).toSuzukiReeIndex.halfExponent = a :=

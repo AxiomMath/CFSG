@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private theorem y7b_isPGroup_zpowers_of_sq_mem {P : Subgroup G} (hP : IsPGroup 2 P) {a : G}
     (ha : a ^ 2 ∈ P) : IsPGroup 2 (Subgroup.zpowers a) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hP
   have hdvd1 : orderOf a ∣ 2 * orderOf (a ^ 2) :=
     orderOf_dvd_iff_pow_eq_one.mpr (by rw [pow_mul, pow_orderOf_eq_one])
@@ -63,8 +63,7 @@ theorem y7b_f3X0_eq_P {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
     exists_conj_le_isSylowIn s.sylow_T hQ (Subgroup.zpowers_le.mpr ha.1)
   have hmem : h * a * h⁻¹ ∈ conjSub h (Subgroup.zpowers a) := by
     rw [conjSub]
-    simpa [MulAut.conj_apply] using
-      (Subgroup.mem_map_of_mem (MulAut.conj h).toMonoidHom (Subgroup.mem_zpowers a))
+    simp [MulAut.conj_apply]
   have hxaT : h * a * h⁻¹ ∈ s.T := hconj hmem
   have hxaR : h * a * h⁻¹ ∈ s.R := hRT.symm ▸ hxaT
   rw [s3_R_eq s hH.hS] at hxaR
@@ -87,7 +86,7 @@ theorem y7b_g_mem_f3X0 (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s
   calc v * c.g = (c.g * v * c.g⁻¹) * c.g := by rw [hgv]
     _ = c.g * v := by group
 
-theorem y7b_g_not_mem_f3P (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
+theorem y7b_g_not_mem_f3P (c : Ctx5 G L) (_hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
     c.g ∉ f3P c.s :=
   fun hgP => (c.g_spec hRT).2.1 (y7b_f3P_le_R c.s hgP)
 

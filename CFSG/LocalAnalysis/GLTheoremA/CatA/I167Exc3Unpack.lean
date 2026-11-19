@@ -62,7 +62,7 @@ theorem exc3_isQuasisimple_pQuot {p : ℕ} {B X D J : Subgroup Ω} {x : Ω} (H :
 
 theorem exc3_nontrivial {p : ℕ} {B X D J : Subgroup Ω} {x : Ω} (H : ExcHyp p B X D J x) :
     Nontrivial (PSimple p X) := by
-  haveI : IsSimpleGroup (PSimple p X) := (exc3_isQuasisimple_pQuot H).2
+  have : IsSimpleGroup (PSimple p X) := (exc3_isQuasisimple_pQuot H).2
   infer_instance
 
 theorem exc3_not_centMod {p : ℕ} {B X D J : Subgroup Ω} {x : Ω} (H : ExcHyp p B X D J x) :

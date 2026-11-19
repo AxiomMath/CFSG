@@ -42,9 +42,9 @@ theorem mem_zpowers_zc (x : U0) : x ∈ Subgroup.zpowers zc ↔ x = 1 ∨ x = zc
 
 theorem isSpecialPow_U0 : CFSG.Quasithin.IsSpecialPow 2 2 2 ↥U0 := by
   have hcard : Nat.card U0 = 32 := card_U0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 U0 := IsPGroup.of_card (n := 5) (by rw [hcard]; norm_num)
-  haveI : Fact (IsPGroup 2 U0) := ⟨hp⟩
+  have : Fact (IsPGroup 2 U0) := ⟨hp⟩
   have hZ := center_U0
   have hcomm : commutator U0 = Subgroup.zpowers zc := by
     apply le_antisymm
@@ -122,7 +122,7 @@ theorem eq_one_of_central_Mof {x : Mc} (h : ∀ y ∈ Mof (alternatingGroup (Fin
     have hc := congrArg SemidirectProduct.left
       (h (SemidirectProduct.inr c5) (mem_Mof.2 (by simpa using c5_mem)))
     simp only [SemidirectProduct.mul_left, SemidirectProduct.left_inr, SemidirectProduct.right_inr,
-      map_one, hr, MulAut.one_apply, mul_one, one_mul] at hc
+      map_one, hr, mul_one, one_mul] at hc
     exact hc.symm
   exact SemidirectProduct.ext hl hr
 

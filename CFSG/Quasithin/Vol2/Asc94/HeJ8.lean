@@ -30,7 +30,7 @@ theorem gl2_exists_inverting : ∀ g : GL2, g ^ 3 = 1 → ∃ h : GL2, h * g * h
 
 theorem exists_conj_mem_of_relIndex_five {H K : Subgroup G} (hHK : H ≤ K) (hidx : H.relIndex K = 5)
     {x : G} (hx : x ∈ H) (hx3 : orderOf x = 3) : ∃ l ∈ K, l ∉ H ∧ l⁻¹ * x * l ∈ H := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set x' : K := ⟨x, hHK hx⟩ with hx'
   have hox : orderOf x' = 3 := by
     rw [← hx3, ← Subgroup.orderOf_coe]
@@ -49,7 +49,7 @@ theorem exists_conj_mem_of_relIndex_five {H K : Subgroup G} (hHK : H ≤ K) (hid
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hm
     show ((x' ^ k : K) • ((1 : K) : K ⧸ H.subgroupOf K)) = ((1 : K) : K ⧸ H.subgroupOf K)
     rw [MulAction.Quotient.smul_mk, QuotientGroup.eq, smul_eq_mul]
-    simp only [inv_one, one_mul, mul_one]
+    simp only [mul_one]
     rw [Subgroup.mem_subgroupOf]
     have : (((x' ^ k)⁻¹ : K) : G) = (x ^ k)⁻¹ := by simp [hx']
     rw [this]
@@ -61,7 +61,7 @@ theorem exists_conj_mem_of_relIndex_five {H K : Subgroup G} (hHK : H ≤ K) (hid
     rw [h1] at hmod
     exact absurd hmod (by decide)
   obtain ⟨⟨c, hc⟩, hcne⟩ : ∃ c : Fx, c ≠ ⟨_, h1mem⟩ := by
-    haveI : Finite Fx := inferInstance
+    have : Finite Fx := inferInstance
     obtain ⟨c, d, hcd⟩ := (Finite.one_lt_card_iff_nontrivial.1 hge).exists_pair_ne
     by_cases hc1 : c = ⟨_, h1mem⟩
     · exact ⟨d, fun hd => hcd (hc1.trans hd.symm)⟩
@@ -97,6 +97,7 @@ variable {x : G} (hxN : x ∈ N) (hxa : x ∈ centralizer ({a} : Set G)) (hx3 : 
 
 include hD hxN hxa hx3
 
+omit hx3 [Finite G] in
 theorem Data40.mem_B_iff {y : G} :
     y ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G) ↔
       y ∈ A ⊓ A' ∧ ((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2).val * m y =
@@ -129,23 +130,24 @@ theorem Data40.mem_B_iff {y : G} :
       rw [mul_inv_eq_iff_eq_mul] at h4; exact h4
     exact this.symm
 
+omit [Finite G] hxN hx3 in
 theorem Data40.a_mem_B : a ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G) :=
   ⟨hD.ha, mem_centralizer_singleton_iff.2 (mem_centralizer_singleton_iff.1 hxa).symm⟩
 
 theorem Data40.card_B : Nat.card ↥((A ⊓ A') ⊓ centralizer ({x} : Set G)) = 4 := by
   set g := (hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 with hg
-  have hgc := gl2_cent_card g (hD.g_pow_three hxN hxa hx3) (hD.g_ne_one hxN hxa hx3)
+  have hgc := gl2_cent_card g (hD.g_pow_three hxN hx3) (hD.g_ne_one hxN hxa hx3)
   have hbij : Nat.card ↥((A ⊓ A') ⊓ centralizer ({x} : Set G)) =
       Nat.card {M : M2 // (g : M2) * M = M * (g : M2)} := by
     refine Nat.card_congr (Equiv.ofBijective
-      (fun y => ⟨m y.1, ((hD.mem_B_iff hxN hxa hx3).1 y.2).2⟩) ⟨?_, ?_⟩)
+      (fun y => ⟨m y.1, ((hD.mem_B_iff hxN hxa).1 y.2).2⟩) ⟨?_, ?_⟩)
     · intro y y' h
       have h' : m y.1 = m y'.1 := congrArg Subtype.val h
-      exact Subtype.ext (hD.hT.minj _ ((hD.mem_B_iff hxN hxa hx3).1 y.2).1 _
-        ((hD.mem_B_iff hxN hxa hx3).1 y'.2).1 h')
+      exact Subtype.ext (hD.hT.minj _ ((hD.mem_B_iff hxN hxa).1 y.2).1 _
+        ((hD.mem_B_iff hxN hxa).1 y'.2).1 h')
     · rintro ⟨M, hM⟩
       obtain ⟨y, hy, hym⟩ := hD.hT.msurj M
-      exact ⟨⟨y, (hD.mem_B_iff hxN hxa hx3).2 ⟨hy, by rw [hym]; exact hM⟩⟩, Subtype.ext hym⟩
+      exact ⟨⟨y, (hD.mem_B_iff hxN hxa).2 ⟨hy, by rw [hym]; exact hM⟩⟩, Subtype.ext hym⟩
   rw [hbij, Nat.card_eq_fintype_card, Fintype.card_subtype]
   convert hgc
 
@@ -160,7 +162,7 @@ theorem Data40.cent_A_eq :
     have hc : x * y * x⁻¹ = y := by rw [mul_inv_eq_iff_eq_mul]; exact hxy
     have h1 : u (x * y * x⁻¹) = (g : M2) *ᵥ u y := hD.hT.u_conj N hD.hK.norm ⟨x, hxN⟩ hyA
     rw [hc] at h1
-    have h3 := gl2_order_three_fpf g (hD.g_pow_three hxN hxa hx3) (hD.g_ne_one hxN hxa hx3)
+    have h3 := gl2_order_three_fpf g (hD.g_pow_three hxN hx3) (hD.g_ne_one hxN hxa hx3)
       (u y) h1.symm
     exact (hD.hT.cu.zero y hyA).1 h3
   · rintro ⟨⟨hyA, -⟩, hyc⟩
@@ -172,16 +174,16 @@ theorem Data40.D_le_normalizer_B :
   rintro d ⟨hdN, hda⟩
   apply Subgroup.mem_normalizer_fintype
   intro y hy
-  have hy' := (hD.mem_B_iff hxN hxa hx3).1 hy
+  have hy' := (hD.mem_B_iff hxN hxa).1 hy
   have hdZ : d * y * d⁻¹ ∈ A ⊓ A' := hD.mem_Z_conj hdN hy'.1
   show d * y * d⁻¹ ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G)
-  rw [hD.mem_B_iff hxN hxa hx3]
+  rw [hD.mem_B_iff hxN hxa]
   refine ⟨hdZ, ?_⟩
   have hm := hD.m_conj_D (n := ⟨d, hdN⟩) hda hy'.1
   have hm' : m (d * y * d⁻¹) = (((hD.hT.rho N hD.hK.norm ⟨d, hdN⟩).1 : GL2) : M2) * m y *
       (((hD.hT.rho N hD.hK.norm ⟨d, hdN⟩).1⁻¹ : GL2) : M2) := hm
   rw [hm']
-  exact (gl2_comm_conj _ _ (hD.g_pow_three hxN hxa hx3) (m y)).2 hy'.2
+  exact (gl2_comm_conj _ _ (hD.g_pow_three hxN hx3) (m y)).2 hy'.2
 
 end X
 
@@ -195,10 +197,10 @@ include hD hxN hxa hx3 hx'N hx'a hx'3
 theorem Data40.B_eq :
     (A ⊓ A') ⊓ centralizer ({x'} : Set G) = (A ⊓ A') ⊓ centralizer ({x} : Set G) := by
   ext y
-  rw [hD.mem_B_iff hxN hxa hx3, hD.mem_B_iff hx'N hx'a hx'3]
+  rw [hD.mem_B_iff hxN hxa, hD.mem_B_iff hx'N hx'a]
   refine and_congr_right fun _ => ?_
-  rcases gl2_order_three_eq _ _ (hD.g_pow_three hxN hxa hx3) (hD.g_ne_one hxN hxa hx3)
-      (hD.g_pow_three hx'N hx'a hx'3) (hD.g_ne_one hx'N hx'a hx'3) with h | h
+  rcases gl2_order_three_eq _ _ (hD.g_pow_three hxN hx3) (hD.g_ne_one hxN hxa hx3)
+      (hD.g_pow_three hx'N hx'3) (hD.g_ne_one hx'N hx'a hx'3) with h | h
   · rw [h]
   · rw [h]
     exact gl2_comm_inv _ _
@@ -230,7 +232,7 @@ theorem Data40.I_le_normalizer_B :
     have hinv : l⁻¹ ∈ normalizer (B : Set G) := by
       apply Subgroup.mem_normalizer_fintype
       intro y hy
-      have hyB := (hD.mem_B_iff hxN hxa hx3).1 hy
+      have hyB := (hD.mem_B_iff hxN hxa).1 hy
       have hyA : y ∈ A := hyB.1.1
       have hyc : y ∈ centralizer ({x} : Set G) := hy.2
       have h1 : l⁻¹ * y * l ∈ A := by

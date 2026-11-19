@@ -13,7 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 private theorem s16h_zpowers_eq_of_mem_of_ne_one {W : Type} [Group W]
     {L : Subgroup (MulAut W)} (hL : Nat.card ↥L = 3) {l : MulAut W} (hl : l ∈ L) (hlne : l ≠ 1) :
     Subgroup.zpowers l = L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hgen0 : Subgroup.zpowers (⟨l, hl⟩ : ↥L) = ⊤ :=
     zpowers_eq_top_of_prime_card hL (by simpa using hlne)
   have hmap := MonoidHom.map_zpowers L.subtype (⟨l, hl⟩ : ↥L)
@@ -49,7 +49,7 @@ private theorem s16h_even_of_two_pow_modEq_one {r : ℕ} (h : 2 ^ r ≡ 1 [MOD 3
     norm_num at h21
 
 theorem s16h_three_le_rk_of_inverts_Z3 {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)} (hL : Nat.card ↥L = 3)
+    (_hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)} (hL : Nat.card ↥L = 3)
     (hrk : rk ↥(commSub (⊤ : Subgroup W) L) = 6)
     (hfix : commSub (⊤ : Subgroup W) L ⊓ fixV L = ⊥) {τ : MulAut W}
     (hinv : ∀ l ∈ L, τ * l * τ⁻¹ = l⁻¹) :
@@ -107,7 +107,7 @@ theorem s16h_three_le_rk_of_inverts_Z3 {W : Type} [CommGroup W] [Finite W]
     have hvU : v ∈ U := (Subgroup.mem_inf.mp hvF).1
     have hτlv : τ (l v) = l⁻¹ v := by
       calc τ (l v) = (τ * l * τ⁻¹) (τ v) := by
-            simp [MulAut.mul_apply, MulAut.inv_apply_self]
+            simp [MulAut.mul_apply]
         _ = l⁻¹ v := by rw [hinv l hlL, hτv]
     rw [← hvu] at hτu
     simp only [MulEquiv.coe_toMonoidHom] at hτu

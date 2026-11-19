@@ -25,8 +25,8 @@ theorem not_dvd_card_L9_inf_I9_of_center (S : Slice D L D₃ Y H q) (hI : F09.I9
     (hZ : ¬ p ∣ Nat.card (center ↥(barImage H (F09.L9 Y H)))) :
     ¬ p ∣ Nat.card ↥(F09.L9 Y H ⊓ F09.I9 H) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' p hdvd
   obtain ⟨t₀, ht₀⟩ : ∃ t₀ : ↥H, (t₀ : G) = t := ⟨⟨t, L9_le_of_le S.Y_le_H t.2.1⟩, rfl⟩
   have ht₀L : t₀ ∈ (F09.L9 Y H).subgroupOf H := by
@@ -81,14 +81,14 @@ theorem not_dvd_card_center_barImage_L9 (S : Slice D L D₃ Y H q) {E : Subgroup
     ¬ p ∣ Nat.card (center ↥(barImage H (F09.L9 Y H))) := by
   obtain ⟨e⟩ := S.nonempty_lbar9_mulEquiv hyp hI
   obtain ⟨hcomm, hsimp⟩ := S.isQuasisimple_barImage_L9 hyp hI
-  haveI : IsSimpleGroup (F09.Lbar9 Y H) := S.isSimpleGroup_Lbar9 hyp
-  haveI : Group.IsPerfect (F09.Lbar9 Y H) := Subgroup.isPerfect_iff.mpr (by
+  have : IsSimpleGroup (F09.Lbar9 Y H) := S.isSimpleGroup_Lbar9 hyp
+  have : Group.IsPerfect (F09.Lbar9 Y H) := Subgroup.isPerfect_iff.mpr (by
     rw [F09.img9, ← Subgroup.map_commutator, S.commutator_subgroupOf_L9 hyp])
   have hnab : ∃ a b : ↥(barImage H (F09.L9 Y H)) ⧸ center ↥(barImage H (F09.L9 Y H)),
       a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative (F09.Lbar9 Y H) := ⟨⟨fun a b => e.injective (by
+    have : IsMulCommutative (F09.Lbar9 Y H) := ⟨⟨fun a b => e.injective (by
       rw [map_mul, map_mul, h])⟩⟩
     exact Group.IsPerfect.not_isMulCommutative (G := F09.Lbar9 Y H) inferInstance
   obtain ⟨j⟩ : Nonempty (F09.Lbar9 Y H ≃* CFSG.Blueprint.NativeSporadic.Carrier .J1) := hJ
@@ -101,7 +101,7 @@ theorem normalizer_le_wbar9_of_not_dvd (S : Slice D L D₃ Y H q)
     ∀ Aq : Subgroup (F09.Lbar9 Y H), Aq ≤ xbar9 Y H → Nat.card Aq = p →
       normalizer (Aq : Set (F09.Lbar9 Y H)) ≤ wbar9 D Y H := by
   intro Aq hAq hAp xb hxb
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Lb := F09.img9 H (F09.L9 Y H)
   have hAb : Nat.card (Aq.map Lb.subtype) = p := by
     rw [Subgroup.card_map_of_injective Lb.subtype_injective, hAp]
@@ -124,7 +124,7 @@ theorem normalizer_le_wbar9_of_not_dvd (S : Slice D L D₃ Y H q)
   obtain ⟨x, hxL, hxx⟩ := Subgroup.mem_map.1 xb.2
   have hxL' : (x : G) ∈ F09.L9 Y H := Subgroup.mem_subgroupOf.1 hxL
   set O : Subgroup ↥H := (F09.L9 Y H ⊓ F09.I9 H).subgroupOf H with hOdef
-  haveI hOn : O.Normal := ⟨fun o ho h => by
+  have hOn : O.Normal := ⟨fun o ho h => by
     rw [hOdef, Subgroup.mem_subgroupOf] at ho ⊢
     have e : ((h * o * h⁻¹ : ↥H) : G) = (h : G) * o * (h : G)⁻¹ := by simp
     rw [e]

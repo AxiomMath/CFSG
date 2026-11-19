@@ -34,7 +34,7 @@ theorem TwoSigTriv.of_mulEquiv {p : ℕ} [Fact p.Prime] {K K' : Type*} [Group K]
 
 namespace Hyp36
 
-open Odd
+open _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
@@ -42,10 +42,10 @@ theorem false_of_twoSigTriv (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL 
     (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) {K : Type} [Group K] (φ : ↥L ⧸ Subgroup.center ↥L ≃* K)
     (hT : TwoSigTriv p K) : False := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hLc : commutator ↥L = ⊤ := hL.1.1.commutator_eq_top
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow h.isPGroup
-  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup' hEP
+  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup hEP
   obtain ⟨R, hRP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal P hL.2
   let S : Sylow p K :=
     (R.mapSurjective (f := QuotientGroup.mk' (Subgroup.center ↥L)) (QuotientGroup.mk'_surjective _)).mapSurjective
@@ -89,7 +89,7 @@ theorem false_of_twoSigTriv (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL 
 
 theorem inf_centralizer_eq_bot (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hLM : L ⊔ M = ⊤) :
     pCoreOf 2 M ⊓ centralizer (L : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X : Subgroup G := pCoreOf 2 M ⊓ centralizer (L : Set G) with hX
   have hX2 : IsPGroup 2 X := by
     have hQ2 : IsPGroup 2 (pCoreOf 2 M) := by

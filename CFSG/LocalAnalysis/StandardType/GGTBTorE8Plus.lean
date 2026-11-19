@@ -19,7 +19,7 @@ theorem ggTorusTorData_E8_plus {K : Type} [Field K] [Finite K] [CharP K 2]
     (hq : p ∣ Nat.card K + 1) (E : Subgroup (adjointGroup .E8 K))
     (hE : IsElemAbelian p E) (hcard : p ^ 7 ≤ Nat.card E)
     (hSC : ∀ g : adjointGroup .E8 K, (∀ x ∈ E, g * x = x * g) → g ^ p = 1 → g ∈ E) :
-    GGTorusTorData (Nat.card K + 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    GGTorusTorData (Nat.card K + 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (adjointGroup .E8 K) (E.map (MulAut.conj : adjointGroup .E8 K →* MulAut (adjointGroup .E8 K))) := by
   have : Fact (Nat.Prime p) := ⟨hp⟩
   have : NeZero p := ⟨hp.ne_zero⟩
@@ -39,7 +39,7 @@ theorem ggTorusTorData_E8_plus {K : Type} [Field K] [Finite K] [CharP K 2]
     have hζ1 : ζ = 1 := congrArg Subtype.val h
     rw [hζ1, orderOf_one] at hζo
     exact hp.ne_one hζo.symm
-  have hC : Tag.E8.cartan = CartanMatrix.E₈ := cartanE_eq 8
+  have hC : Tag.E8.cartan = (CartanMatrix.E 8) := cartanE_eq 8
   have hM : coxeterMatrix (CFSG.LieType.Chevalley.isFiniteType_cartan .E8) = CoxeterMatrix.E₈ :=
     FrameRoute.coxeterE8_eq.symm
   suffices h : GGTorusTorData (Nat.card K + 1) Tag.E8.rank Tag.E8.cartan
@@ -74,7 +74,7 @@ theorem ggTorusTorData_E8_plus {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem ggTorusTorW_recipe_E8_plus {K : Type} [Field K] [Finite K] [CharP K 2]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hq : p ∣ Nat.card K + 1) :
-    GGTorusTorW p 7 (Nat.card K + 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    GGTorusTorW p 7 (Nat.card K + 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (TableBExc.RecipeGroup .E8 K) (TableBExc.RecipeID .E8 K) := by
   intro L _ _ ψ A hTB
   obtain ⟨e, -, E, hE, hcard, hSC, hA⟩ := exists_e8_model_of_tableB ψ A hTB
@@ -83,7 +83,7 @@ theorem ggTorusTorW_recipe_E8_plus {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem ggTorusTorW_recipe_E8_three_plus {K : Type} [Field K] [Finite K] [CharP K 2]
     (hq : 3 ∣ Nat.card K + 1) :
-    GGTorusTorW 3 7 (Nat.card K + 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    GGTorusTorW 3 7 (Nat.card K + 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (TableBExc.RecipeGroup .E8 K) (TableBExc.RecipeID .E8 K) := by
   exact ggTorusTorW_recipe_E8_plus Nat.prime_three (by norm_num) hq
 

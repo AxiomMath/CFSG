@@ -26,7 +26,7 @@ private theorem ggQ2hR_rootsOk_parts (h : Certificates.E6Heart.rootsOk () = true
     Bool.or_eq_true, List.any_eq_true, decide_eq_true_eq] at h
   exact ⟨h.1.1.1.1.1, fun a ha => (h.1.1.1.1.2 a ha).1, h.1.1.2,
     fun i hi => h.1.2 i hi,
-    fun a ha k hk => List.contains_iff.mp (h.2 a ha k hk)⟩
+    fun a ha k hk => _root_.List.contains_iff_mem.mp (h.2 a ha k hk)⟩
 
 private theorem ggQ2hR_getD_eq_getElem {α : Type*} (l : List α) (n : ℕ)
     (h : n < l.length) (d : α) : l.getD n d = l[n] := by
@@ -64,11 +64,11 @@ private theorem ggQ2hR_unitV_toVec (i : Fin 6) :
   rw [show Certificates.E6Heart.idx6[k.val]'(by simp [Certificates.E6Heart.idx6]) = k.val from
     ggQ2hR_idx6_getElem k]
   by_cases h : k = i
-  · subst h; simp [Pi.single_apply]
+  · subst h; simp
   · have hbeq : (k.val == i.val) = false := by
       simp only [beq_eq_false_iff_ne]
       exact fun hh => h (Fin.ext hh)
-    simp [hbeq, Pi.single_apply, h]
+    simp [hbeq, h]
 
 private theorem ggQ2hR_pairZ_unitV (a : List ℤ) (ha : a.length = 6) (i : Fin 6) :
     Certificates.E6Heart.pairZ a (Certificates.E6Heart.unitV i.val) =
@@ -81,7 +81,7 @@ private theorem ggQ2hR_pairZ_unitV (a : List ℤ) (ha : a.length = 6) (i : Fin 6
   · apply Finset.sum_congr rfl; intro x _
     rw [Finset.sum_eq_single i]
     · simp
-    · intro b _ hb; simp [Pi.single_apply, hb]
+    · intro b _ hb; simp [hb]
     · intro h; exact absurd (Finset.mem_univ i) h
   · apply Finset.sum_congr rfl; intro x _
     rw [C_symm x i]; ring
@@ -110,11 +110,11 @@ private theorem ggQ2hR_toVec_reflV (a : List ℤ) (ha : a.length = 6) (i : Fin 6
   simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, toVec]
   by_cases hki : k = i
   · subst hki
-    simp [Pi.single_apply]
+    simp
   · have hbeq : (k.val == i.val) = false := by
       simp only [beq_eq_false_iff_ne]
       exact fun h => hki (Fin.ext h)
-    simp [hbeq, Pi.single_apply, hki]
+    simp [hbeq, hki]
 
 private theorem ggQ2hR_rootAt_eq_getElem (k : ℕ) (hk : k < Certificates.E6Heart.roots.length) :
     Certificates.E6Heart.rootAt k = Certificates.E6Heart.roots[k] := by

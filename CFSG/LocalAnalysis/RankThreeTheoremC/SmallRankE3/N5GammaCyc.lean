@@ -44,7 +44,7 @@ theorem n5_false_of_cyclic (hT : KGTransvCent)
   obtain ⟨V, _, _, hV, ρ, hρK, a, ha, ha1, ha2, htv⟩ := KGSix.transvection_of_data d3
   have hp := c.prime
   have hp5 := c.five_le
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have haK : a ∉ KGC.img H D L := fun h => ha1 (by
     have : a ∈ KGC.img H D S ⊓ KGC.img H D L := ⟨ha, h⟩
     rw [hbot, Subgroup.mem_bot] at this

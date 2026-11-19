@@ -40,11 +40,9 @@ theorem deletionIsometry_minusVec (r : ℕ) (b c : F) (i : Fin r) (s : Bool) :
   · funext x
     rcases x with j | j | t
     · cases s <;>
-        simp [minusSplit, minusVec, eVec, fVec, Fin.succ, Pi.single_apply, Fin.succ_inj,
-          Fin.val_inj]
+        simp [minusSplit, minusVec, eVec, fVec, Fin.succ, Pi.single_apply, Fin.val_inj]
     · cases s <;>
-        simp [minusSplit, minusVec, eVec, fVec, Fin.succ, Pi.single_apply, Fin.succ_inj,
-          Fin.val_inj]
+        simp [minusSplit, minusVec, eVec, fVec, Fin.succ, Pi.single_apply, Fin.val_inj]
     · cases s <;> simp [minusSplit, minusVec, eVec, fVec, Fin.succ]
 
 theorem deletionIsometry_planeVec (r : ℕ) (b c : F) (w : Fin 2 → F) :

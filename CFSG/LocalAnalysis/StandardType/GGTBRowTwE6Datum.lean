@@ -29,7 +29,7 @@ theorem ggExcReflTBWeylDatumQFourOn_rowR6
   obtain ⟨V, _, _, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hBs
   have hno6 : ∀ i j, CoxeterMatrix.E₆ i j ≠ 6 := by
     intro i j; fin_cases i <;> fin_cases j <;> decide
-  have hpar : ∀ i j, i ≠ j → (CartanMatrix.E₆ i j ≠ 0 ↔
+  have hpar : ∀ i j, i ≠ j → ((CartanMatrix.E 6) i j ≠ 0 ↔
       ((i ≠ (0 : Fin 6) ∧ (![0, 3, 0, 2, 3, 4] : Fin 6 → Fin 6) i = j) ∨
         (j ≠ (0 : Fin 6) ∧ (![0, 3, 0, 2, 3, 4] : Fin 6 → Fin 6) j = i))) := by
     intro i j; fin_cases i <;> fin_cases j <;> decide
@@ -37,8 +37,8 @@ theorem ggExcReflTBWeylDatumQFourOn_rowR6
       (![0, 3, 1, 2, 3, 4] : Fin 6 → ℕ) ((![0, 3, 0, 2, 3, 4] : Fin 6 → Fin 6) i) <
         (![0, 3, 1, 2, 3, 4] : Fin 6 → ℕ) i := by
     intro i; fin_cases i <;> decide
-  have hdet : (((CartanMatrix.E₆).det : ℤ) : ZMod p) ≠ 0 := by
-    have h1 : (CartanMatrix.E₆).det = 3 := by decide +kernel
+  have hdet : ((((CartanMatrix.E 6)).det : ℤ) : ZMod p) ≠ 0 := by
+    have h1 : ((CartanMatrix.E 6)).det = 3 := by decide +kernel
     rw [h1]
     intro h
     have h3 : ((3 : ℕ) : ZMod p) = 0 := by exact_mod_cast h

@@ -14,19 +14,19 @@ open Matrix CFSG.CGT.M24S
 
 theorem NAm_up (f : Fin 6 → ZMod 2) : ∀ i j : Fin 5, j ≤ i → NAm f i j = 0 := by
   intro i j h
-  fin_cases i <;> fin_cases j <;> simp_all [NAm, Matrix.single_apply] <;> revert h <;> decide
+  fin_cases i <;> fin_cases j <;> simp_all [NAm]
 
 theorem NAm_c0 (f : Fin 6 → ZMod 2) : ∀ i : Fin 5, NAm f i 0 = 0 := by
   intro i
-  fin_cases i <;> simp [NAm, Matrix.single_apply]
+  fin_cases i <;> simp [NAm]
 
 theorem NAm_r4 (f : Fin 6 → ZMod 2) : ∀ j : Fin 5, NAm f 4 j = 0 := by
   intro j
-  fin_cases j <;> simp [NAm, Matrix.single_apply]
+  fin_cases j <;> simp [NAm]
 
 theorem NAm_supp (f : Fin 6 → ZMod 2) : SuppIn SA (NAm f) := by
   intro i j h
-  fin_cases i <;> fin_cases j <;> simp_all [NAm, Matrix.single_apply, SA]
+  fin_cases i <;> fin_cases j <;> simp_all [NAm, SA]
 
 @[expose] def eltA (f : Fin 6 → ZMod 2) : Hc :=
   unipH (NAm f) (NAm_up f) (NAm_c0 f) (NAm_r4 f)
@@ -41,7 +41,7 @@ theorem eltA_mem (f : Fin 6 → ZMod 2) : eltA f ∈ A1 := by
 
 theorem eA_NAm (f : Fin 6 → ZMod 2) : eA (NAm f) = f := by
   funext k
-  fin_cases k <;> simp [eA, NAm, Matrix.single_apply]
+  fin_cases k <;> simp [eA, NAm]
 
 theorem eA_eltA (f : Fin 6 → ZMod 2) : eA (cm (eltA f)) = f := by
   rw [cm_eltA, eA_one_add, eA_NAm]
@@ -67,7 +67,7 @@ theorem exists_eltA {a : Hc} (ha : a ∈ A1) : a = eltA (eA (cm a)) := by
       revert j
       decide
     rcases hi with rfl | rfl <;> rcases hj with rfl | rfl | rfl <;>
-      simp [eA, NAm, Matrix.single_apply, Matrix.one_apply]
+      simp [eA, NAm]
   · have h1 := ha i j h
     rw [Matrix.sub_apply] at h1
     have h2 := sub_eq_zero.1 h1
@@ -86,7 +86,7 @@ theorem eltA_zero : eltA 0 = 1 := by
 theorem eA_one : eA (cm (1 : Hc)) = 0 := by
   rw [cm_one]
   funext k
-  fin_cases k <;> simp [eA, Matrix.one_apply]
+  fin_cases k <;> simp [eA]
 
 theorem eq_one_iff_eA {a : Hc} (ha : a ∈ A1) : a = 1 ↔ eA (cm a) = 0 := by
   constructor
@@ -98,7 +98,7 @@ theorem eq_one_iff_eA {a : Hc} (ha : a ∈ A1) : a = 1 ↔ eA (cm a) = 0 := by
 theorem eA_zt : eA (cm zt) = ![0, 0, 1, 0, 0, 0] := by
   rw [cm_zt]
   funext k
-  fin_cases k <;> simp [eA, tt, Matrix.single_apply, Matrix.one_apply]
+  fin_cases k <;> simp [eA, tt]
 
 
 theorem suppIn_S1_NAm (f : Fin 6 → ZMod 2) :
@@ -108,10 +108,10 @@ theorem suppIn_S1_NAm (f : Fin 6 → ZMod 2) :
     have h3 := h 1 2 (by decide)
     have h4 := h 1 3 (by decide)
     have h5 := h 1 4 (by decide)
-    simp [NAm, Matrix.single_apply] at h3 h4 h5
+    simp [NAm] at h3 h4 h5
     exact ⟨h3, h4, h5⟩
   · rintro ⟨h3, h4, h5⟩ i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [NAm, Matrix.single_apply, S1]
+    fin_cases i <;> fin_cases j <;> simp_all [NAm, S1]
 
 theorem suppIn_S2_NAm (f : Fin 6 → ZMod 2) :
     SuppIn S2 (NAm f) ↔ f 0 = 0 ∧ f 1 = 0 ∧ f 3 = 0 ∧ f 4 = 0 := by
@@ -121,10 +121,10 @@ theorem suppIn_S2_NAm (f : Fin 6 → ZMod 2) :
     have h1 := h 0 3 (by decide)
     have h3 := h 1 2 (by decide)
     have h4 := h 1 3 (by decide)
-    simp [NAm, Matrix.single_apply] at h0 h1 h3 h4
+    simp [NAm] at h0 h1 h3 h4
     exact ⟨h0, h1, h3, h4⟩
   · rintro ⟨h0, h1, h3, h4⟩ i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [NAm, Matrix.single_apply, S2]
+    fin_cases i <;> fin_cases j <;> simp_all [NAm, S2]
 
 theorem suppIn_SQ_NAm (f : Fin 6 → ZMod 2) :
     SuppIn SQ (NAm f) ↔ f 3 = 0 ∧ f 4 = 0 := by
@@ -132,10 +132,10 @@ theorem suppIn_SQ_NAm (f : Fin 6 → ZMod 2) :
   · intro h
     have h3 := h 1 2 (by decide)
     have h4 := h 1 3 (by decide)
-    simp [NAm, Matrix.single_apply] at h3 h4
+    simp [NAm] at h3 h4
     exact ⟨h3, h4⟩
   · rintro ⟨h3, h4⟩ i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [NAm, Matrix.single_apply, SQ, inB]
+    fin_cases i <;> fin_cases j <;> simp_all [NAm, SQ, inB]
 
 theorem cm_sub_one_eltA (f : Fin 6 → ZMod 2) : cm (eltA f) - 1 = NAm f := by
   rw [cm_eltA]
@@ -259,7 +259,7 @@ theorem DeltaA_zero : DeltaA 0 = {zt} := by
 
 theorem DeltaA_one : DeltaA 1 = ((A1 ⊓ U1 : Subgroup Hc) : Set Hc) \ {1, zt} := by
   ext a
-  simp only [DeltaA, Set.mem_setOf_eq, Set.mem_diff, SetLike.mem_coe, Subgroup.mem_inf,
+  simp only [DeltaA, Set.mem_ofPred_eq, Set.mem_sdiff, SetLike.mem_coe, Subgroup.mem_inf,
     Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
   constructor
   · rintro ⟨haA, ha1, hal⟩
@@ -275,7 +275,7 @@ theorem DeltaA_one : DeltaA 1 = ((A1 ⊓ U1 : Subgroup Hc) : Set Hc) \ {1, zt} :
 
 theorem DeltaA_two : DeltaA 2 = ((A1 ⊓ U2 : Subgroup Hc) : Set Hc) \ {1, zt} := by
   ext a
-  simp only [DeltaA, Set.mem_setOf_eq, Set.mem_diff, SetLike.mem_coe, Subgroup.mem_inf,
+  simp only [DeltaA, Set.mem_ofPred_eq, Set.mem_sdiff, SetLike.mem_coe, Subgroup.mem_inf,
     Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
   constructor
   · rintro ⟨haA, ha1, hal⟩
@@ -292,7 +292,7 @@ theorem DeltaA_two : DeltaA 2 = ((A1 ⊓ U2 : Subgroup Hc) : Set Hc) \ {1, zt} :
 theorem DeltaA_three :
     DeltaA 3 = {a | a ∈ A1 ∧ a ∈ Qh ∧ a ≠ 1 ∧ a ∉ U1 ∧ a ∉ U2} := by
   ext a
-  simp only [DeltaA, Set.mem_setOf_eq]
+  simp only [DeltaA, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨haA, ha1, hal⟩
     have hf0 : eA (cm a) ≠ 0 := fun h => ha1 ((eq_one_iff_eA haA).2 h)
@@ -351,7 +351,7 @@ theorem A1_orbits : ∃ Δ : Fin 7 → Set Hc,
     intro a ha hb
     exact hij (Fin.ext (ha.2.2.symm.trans hb.2.2))
   · ext a
-    simp only [Set.mem_iUnion, Set.mem_diff, SetLike.mem_coe, Set.mem_singleton_iff]
+    simp only [Set.mem_iUnion, Set.mem_sdiff, SetLike.mem_coe, Set.mem_singleton_iff]
     constructor
     · rintro ⟨i, haA, ha1, -⟩
       exact ⟨haA, ha1⟩

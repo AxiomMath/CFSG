@@ -27,6 +27,7 @@ private def mulSubgroup (H K : Subgroup G)
     refine ⟨x⁻¹, H.inv_mem hx, y⁻¹, K.inv_mem hy, ?_⟩
     rw [hc x hx y hy, mul_inv_rev]
 
+omit [Finite G] in
 private theorem sup_eq_mulSubgroup (H K : Subgroup G)
     (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) : H ⊔ K = mulSubgroup H K hc := by
   refine le_antisymm (sup_le ?_ ?_) ?_
@@ -37,6 +38,7 @@ private theorem sup_eq_mulSubgroup (H K : Subgroup G)
   · rintro g ⟨x, hx, y, hy, rfl⟩
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hx) (Subgroup.mem_sup_right hy)
 
+omit [Finite G] in
 private theorem natCard_inf_mul_natCard_sup (H K : Subgroup G)
     (hcomm : ∀ c ∈ H, ∀ a ∈ K, c * a = a * c) :
     Nat.card ↥(H ⊓ K) * Nat.card ↥(H ⊔ K) = Nat.card ↥H * Nat.card ↥K := by
@@ -85,6 +87,7 @@ private theorem natCard_inf_mul_natCard_sup (H K : Subgroup G)
   rw [hker, hrange, Nat.card_prod] at key
   exact key
 
+omit [Finite G] in
 theorem mem_sup_of_commute {H K : Subgroup G} (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) {g : G}
     (hg : g ∈ H ⊔ K) : ∃ x ∈ H, ∃ y ∈ K, g = x * y := by
   rw [sup_eq_mulSubgroup H K hc] at hg
@@ -96,20 +99,24 @@ variable {A V C₀ C₁ : Subgroup G} {t u : G} (h : Gomi6Data A V C₀ C₁ t u
 
 include h
 
+omit [Finite G] in
 private theorem t_sq : t * t = 1 := by
   have hh := pow_orderOf_eq_one t
   rw [h.t_order, pow_two] at hh
   exact hh
 
+omit [Finite G] in
 private theorem t_inv_eq : t⁻¹ = t :=
   (eq_inv_of_mul_eq_one_right (t_sq h)).symm
 
+omit [Finite G] in
 private theorem t_conj_triple (x : G) : t * (t * x * t⁻¹) * t⁻¹ = x := by
   have ht2 : t * t = 1 := t_sq h
   have htinv : t⁻¹ = t := t_inv_eq h
   calc t * (t * x * t⁻¹) * t⁻¹ = (t * t) * x * (t⁻¹ * t⁻¹) := by group
     _ = x := by rw [ht2, htinv, ht2]; group
 
+omit [Finite G] in
 private theorem mem_cent_of_conj_u (x : G) (hx : x * u * x⁻¹ = u) :
     x ∈ centralizer (V : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -124,6 +131,7 @@ private theorem mem_cent_of_conj_u (x : G) (hx : x * u * x⁻¹ = u) :
       _ = u ^ j * x := by rw [hconj]
   exact hcomm.symm
 
+omit [Finite G] in
 private theorem mem_sup_zpowers_t_cases {P : Subgroup G} (htN : t ∈ normalizer (P : Set G))
     {c : G} (hc : c ∈ P ⊔ zpowers t) : c ∈ P ∨ c * t ∈ P := by
   have ht2 : t * t = 1 := t_sq h
@@ -167,6 +175,7 @@ private theorem mem_sup_zpowers_t_cases {P : Subgroup G} (htN : t ∈ normalizer
   have hle : P ⊔ zpowers t ≤ S := sup_le hPS (Subgroup.zpowers_le.mpr htS)
   exact hle hc
 
+omit [Finite G] in
 theorem V_comm : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v := by
   intro v hv w hw
   rw [h.V_eq] at hv hw
@@ -174,12 +183,14 @@ theorem V_comm : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v := by
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hw
   exact zpow_mul_comm u i j
 
+omit [Finite G] in
 theorem t_inv_mem : ∀ v ∈ V, t * v * t⁻¹ = v⁻¹ := by
   intro v hv
   rw [h.V_eq] at hv
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv
   rw [← conj_zpow (a := t) (b := u) (i := k), h.t_inv, inv_zpow]
 
+omit [Finite G] in
 theorem t_notMem_cent : t ∉ centralizer (V : Set G) := by
   intro ht
   have huV : u ∈ V := by rw [h.V_eq]; exact Subgroup.mem_zpowers u
@@ -194,6 +205,7 @@ theorem t_notMem_cent : t ∉ centralizer (V : Set G) := by
   rw [h.u_order] at hdvd
   norm_num at hdvd
 
+omit [Finite G] in
 theorem t_notMem_V : t ∉ V := by
   intro ht
   apply h.t_notMem_cent
@@ -201,12 +213,14 @@ theorem t_notMem_V : t ∉ V := by
   intro v hv
   exact h.V_comm v hv t ht
 
+omit [Finite G] in
 theorem V_le_cent : V ≤ centralizer (V : Set G) := by
   intro v hv
   rw [Subgroup.mem_centralizer_iff]
   intro w hw
   exact h.V_comm w hw v hv
 
+omit [Finite G] in
 theorem AV_le_cent : A ⊔ V ≤ centralizer (V : Set G) := by
   refine sup_le ?_ h.V_le_cent
   intro a ha
@@ -214,6 +228,7 @@ theorem AV_le_cent : A ⊔ V ≤ centralizer (V : Set G) := by
   intro v hv
   exact (h.V_cent_A a ha v hv).symm
 
+omit [Finite G] in
 theorem t_mem_normalizer_V : t ∈ normalizer (V : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
   intro x
@@ -227,6 +242,7 @@ theorem t_mem_normalizer_V : t ∈ normalizer (V : Set G) := by
     rw [h2]
     exact V.inv_mem hx
 
+omit [Finite G] in
 theorem t_mem_normalizer_AV : t ∈ normalizer ((A ⊔ V : Subgroup G) : Set G) := by
   have hfw : ∀ y, y ∈ A ⊔ V → t * y * t⁻¹ ∈ A ⊔ V := by
     intro y hy
@@ -244,11 +260,13 @@ theorem t_mem_normalizer_AV : t ∈ normalizer ((A ⊔ V : Subgroup G) : Set G) 
   rw [← t_conj_triple h y]
   exact hfw (t * y * t⁻¹) hy
 
+omit [Finite G] in
 theorem t_notMem_AV : t ∉ A ⊔ V := by
   intro ht
   apply h.t_notMem_cent
   exact h.AV_le_cent ht
 
+omit [Finite G] in
 theorem t_mem_K : t ∈ centralizerSection (A ⊔ V) V := by
   refine ⟨h.t_mem_normalizer_AV, h.t_mem_normalizer_V, fun k hk => ?_⟩
   obtain ⟨a, ha, v, hv, rfl⟩ := mem_sup_of_commute (H := A) (K := V) h.V_cent_A hk
@@ -270,32 +288,40 @@ theorem t_mem_K : t ∈ centralizerSection (A ⊔ V) V := by
   rw [commutatorElement_mul_left_eq_conj_mul, hvt, hat, mul_one, hva]
   exact V.pow_mem hv 2
 
+omit [Finite G] in
 theorem t_mem_C1 : t ∈ C₁ := by
   rw [h.C1_eq, h.C0_eq]
   exact Subgroup.mem_sup_right (Subgroup.mem_sup_right (Subgroup.mem_zpowers t))
 
+omit [Finite G] in
 theorem t_mem_C0 : t ∈ C₀ := by
   rw [h.C0_eq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
 
+omit [Finite G] in
 theorem V_le_C0 : V ≤ C₀ := by
   rw [h.C0_eq]
   exact le_sup_left
 
+omit [Finite G] in
 theorem A_le_C1 : A ≤ C₁ := by
   rw [h.C1_eq]
   exact le_sup_left
 
+omit [Finite G] in
 theorem t_mem_normalizer_C0 : t ∈ normalizer (C₀ : Set G) :=
   Subgroup.le_normalizer h.t_mem_C0
 
+omit [Finite G] in
 theorem t_mem_normalizer_C1 : t ∈ normalizer (C₁ : Set G) :=
   Subgroup.le_normalizer h.t_mem_C1
 
+omit [Finite G] h in
 theorem K_le_normalizer_V : centralizerSection (A ⊔ V) V ≤ normalizer (V : Set G) := by
   intro k hk
   exact hk.2.1
 
+omit [Finite G] in
 theorem K_conj_mem {y k : G} (hy : y ∈ normalizer ((A ⊔ V : Subgroup G) : Set G))
     (hk : k ∈ centralizerSection (A ⊔ V) V) : y * k * y⁻¹ ∈ centralizerSection (A ⊔ V) V := by
   refine ⟨?_, ?_, ?_⟩
@@ -315,6 +341,7 @@ theorem K_conj_mem {y k : G} (hy : y ∈ normalizer ((A ⊔ V : Subgroup G) : Se
     rw [heq]
     exact hconj
 
+omit [Finite G] in
 theorem mem_sup_K {X : Subgroup G} (hX : X ≤ normalizer ((A ⊔ V : Subgroup G) : Set G)) {n : G}
     (hn : n ∈ X ⊔ centralizerSection (A ⊔ V) V) :
     ∃ y ∈ X, ∃ k ∈ centralizerSection (A ⊔ V) V, n = y * k := by
@@ -334,6 +361,7 @@ theorem mem_sup_K {X : Subgroup G} (hX : X ≤ normalizer ((A ⊔ V : Subgroup G
     (fun k hk => ⟨1, X.one_mem, k, hk, (one_mul k).symm⟩)
   exact hle hn
 
+omit [Finite G] in
 theorem mem_cent_or_mul_t {n : G} (hn : n ∈ normalizer (V : Set G)) :
     n ∈ centralizer (V : Set G) ∨ n * t ∈ centralizer (V : Set G) := by
   have huV : u ∈ V := by rw [h.V_eq]; exact Subgroup.mem_zpowers u
@@ -379,6 +407,7 @@ theorem mem_cent_or_mul_t {n : G} (hn : n ∈ normalizer (V : Set G)) :
       _ = (u⁻¹)⁻¹ := by rw [hw3]
       _ = u := inv_inv u
 
+omit [Finite G] in
 theorem relIndex_cent {X : Subgroup G} (hX : X ≤ normalizer (V : Set G)) (ht : t ∈ X) :
     (centralizer (V : Set G) ⊓ X).relIndex X = 2 := by
   let C := centralizer (V : Set G)
@@ -396,9 +425,11 @@ theorem relIndex_cent {X : Subgroup G} (hX : X ≤ normalizer (V : Set G)) (ht :
     have h1 : b⁻¹ * (b * t) ∈ C := C.mul_mem (C.inv_mem hb'.1) hbtc
     rwa [show b⁻¹ * (b * t) = t by group] at h1
 
+omit [Finite G] in
 theorem card_V : Nat.card ↥V = 4 := by
   rw [h.V_eq, Nat.card_zpowers, h.u_order]
 
+omit [Finite G] in
 theorem inf_AV : A ⊓ V = zpowers (u ^ 2) := by
   refine le_antisymm ?_ ?_
   · intro x hx
@@ -408,9 +439,10 @@ theorem inf_AV : A ⊓ V = zpowers (u ^ 2) := by
     refine ⟨A.zpow_mem h.sq_mem k, ?_⟩
     have hu2V : u ^ 2 ∈ V := by
       rw [h.V_eq]
-      simpa using Subgroup.zpow_mem_zpowers u (2 : ℤ)
+      simp
     exact V.zpow_mem hu2V k
 
+omit [Finite G] in
 theorem card_AV : Nat.card ↥(A ⊔ V) = 64 := by
   have hform := natCard_inf_mul_natCard_sup A V h.V_cent_A
   have h2 : orderOf (u ^ 2) = 2 := by
@@ -421,17 +453,21 @@ theorem card_AV : Nat.card ↥(A ⊔ V) = 64 := by
   rw [h.inf_AV, h.A_card, h.card_V, hcard2] at hform
   omega
 
+omit [Finite G] in
 theorem C1_eq' : C₁ = (A ⊔ V) ⊔ zpowers t := by
   rw [h.C1_eq, h.C0_eq, sup_assoc]
 
+omit [Finite G] in
 private theorem mem_C1_cases {c : G} (hc : c ∈ C₁) : c ∈ A ⊔ V ∨ c * t ∈ A ⊔ V := by
   rw [h.C1_eq'] at hc
   exact mem_sup_zpowers_t_cases h h.t_mem_normalizer_AV hc
 
+omit [Finite G] in
 private theorem mem_C0_cases {c : G} (hc : c ∈ C₀) : c ∈ V ∨ c * t ∈ V := by
   rw [h.C0_eq] at hc
   exact mem_sup_zpowers_t_cases h h.t_mem_normalizer_V hc
 
+omit [Finite G] in
 theorem AV_relIndex_C1 : (A ⊔ V).relIndex C₁ = 2 := by
   rw [Subgroup.relIndex_eq_two_iff]
   refine ⟨t, h.t_mem_C1, fun b hb => ?_⟩
@@ -445,6 +481,7 @@ theorem AV_relIndex_C1 : (A ⊔ V).relIndex C₁ = 2 := by
     have h1 : b⁻¹ * (b * t) ∈ A ⊔ V := (A ⊔ V).mul_mem ((A ⊔ V).inv_mem hbP') hbtP
     rwa [show b⁻¹ * (b * t) = t by group] at h1
 
+omit [Finite G] in
 theorem comm_t_mem {m : G} (hm : m ∈ normalizer (C₁ : Set G)) : ⁅m, t⁆ ∈ A ⊔ V := by
   have hconj : m * t * m⁻¹ ∈ C₁ := (Subgroup.mem_normalizer_iff.mp hm t).mp h.t_mem_C1
   have hmP : m ∈ normalizer ((A ⊔ V : Subgroup G) : Set G) := h.N_C1_le hm
@@ -461,6 +498,7 @@ theorem comm_t_mem {m : G} (hm : m ∈ normalizer (C₁ : Set G)) : ⁅m, t⁆ �
     rw [heq]
     exact hPt
 
+omit [Finite G] in
 theorem cent_inf_cs_eq :
     centralizer (V : Set G) ⊓ centralizerSection (V ⊔ zpowers t) V =
       centralizer (V : Set G) ⊓ normalizer (C₀ : Set G) := by

@@ -14,7 +14,7 @@ open CFSG.Quasithin CFSG.Open
 theorem le_Lg_of_five_le_rk (A : Subgroup (MulAut (PairN 5))) (hA : A ≤ Mg 5)
     (hab : IsElemAbelian2 A) (h5 : 5 ≤ rk ↥A) : A ≤ Lg 5 := by
   by_contra hnle
-  obtain ⟨t, htA, htL⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨t, htA, htL⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   have ht2 : t ^ 2 = 1 := hab.2 t htA
   have ht1 : t ≠ 1 := fun h => htL (h ▸ (Lg 5).one_mem)
   have hord : orderOf t = 2 := orderOf_eq_prime ht2 ht1

@@ -13,7 +13,7 @@ open CFSG.RankThree.Native CFSG.HardMathSupport.Solomon.Coordinator CFSG.Monster
 
 theorem card_centralizer_five_fi22P (k : ↥fi22P) (hk : orderOf k = 5) :
     Nat.card (Subgroup.centralizer ({k} : Set ↥fi22P)) = 600 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, -, hQsyl⟩, ⟨hlinesSet, -⟩, -, hrec⟩ :=
     R3E_Fi22_full_five_centralizers_common_outer_involution
   have hQ := card_eq_of_sylow_subgroupOf hQP hQsyl

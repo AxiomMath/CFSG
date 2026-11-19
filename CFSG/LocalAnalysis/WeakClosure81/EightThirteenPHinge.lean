@@ -21,6 +21,7 @@ theorem MinCex88.eight_thirteen'' (hc : W3Lem813'' G) {V H T : Subgroup G} {i : 
     ∃ L K : Subgroup G, Concl813'' V H T A L K :=
   hc h hH0 hA hAM h812
 
+omit [Finite G] in
 theorem Concl813''.toConcl813 {V H T A L K : Subgroup G} (h : Concl813'' V H T A L K) :
     Concl813 V H T A L K :=
   ⟨h.comp, h.sub_L, h.ge_C, h.a_le, h.b_not_le, h.c_shape, h.d_index, h.e_shape, h.t_sylow⟩

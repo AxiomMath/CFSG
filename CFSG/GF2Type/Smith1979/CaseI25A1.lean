@@ -39,7 +39,7 @@ theorem conj_mem_Delta {t : S.O} {n x : S.O} (hn : n ∈ NLbar S g) (hx : x ∈ 
 theorem resLext_of_mem {t : S.O} (haQ : g * S.z * g⁻¹ ∈ S.QG) (ht : t ∈ S.Lbar g) {x : S.O}
     (hx : x ∈ S.Lbar g) : resLext haQ ht x = resL haQ ht ⟨x, hx⟩ := by
   unfold resLext
-  exact dif_pos hx
+  exact dite_eq_left hx
 
 end Basic
 

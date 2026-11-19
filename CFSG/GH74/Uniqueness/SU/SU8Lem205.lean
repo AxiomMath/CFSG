@@ -49,7 +49,7 @@ theorem lemma205_aux {H L A T : Subgroup G} (hLH : L ≤ H) (hLN : H ≤ normali
   have hSb : (Sb : Subgroup (Hbar H)) = (PT : Subgroup ↥H).map (bar H) :=
     Sylow.coe_mapSurjective _ PT
   have hSbSyl : IsSylowIn ⊤ (Sb : Subgroup (Hbar H)) := by
-    refine ⟨le_top, Sb.isPGroup', ?_⟩
+    refine ⟨le_top, Sb.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp Sb.not_dvd_index)
   have hTpg : IsPGroup 2 T := hTH.2.1
@@ -167,7 +167,7 @@ theorem lemma205_aux {H L A T : Subgroup G} (hLH : L ≤ H) (hLN : H ≤ normali
     · rintro ⟨w, hw⟩
       obtain ⟨x, hxT, rfl⟩ := (hmemSb w).mp hw
       exact ⟨⟨(x : G), hxT⟩, rfl⟩
-  have hSbcard := Prod.card_sylow_split (hbarImage H L) hKC hsup Sb.isPGroup' PK hPKS
+  have hSbcard := Prod.card_sylow_split (hbarImage H L) hKC hsup Sb.isPGroup PK hPKS
   have hTQ : Nat.card T = 4 * Nat.card ↥(T ⊓ centralizerBar H L) := by
     rw [hTSb, hSbcard, hPKcard, hWQ]
   have hQ2' := hQ2 hTQ

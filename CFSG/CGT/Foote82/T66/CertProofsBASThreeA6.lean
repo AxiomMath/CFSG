@@ -147,7 +147,7 @@ open BAS3A6
 theorem basThreeA6_of_cases (hA6 : InvolAutA6Cases) :
     BASThreeA6 := by
   intro Y _ _ α hα hperf hcen hodd hne δ hδ2 hδ1
-  haveI : Group.IsPerfect Y := ⟨hperf⟩
+  have : Group.IsPerfect Y := ⟨hperf⟩
   have hZ3 : Nat.card α.ker = 3 := by
     have h6 : Nat.card α.ker ∣ 6 :=
       CFSG.ComponentClassification.AS81.NXKernel.card_ker_dvd_six α hα hcen
@@ -190,7 +190,7 @@ theorem basThreeA6_of_cases (hA6 : InvolAutA6Cases) :
     rw [hθ, hθ, hδ2]
   have hθ1 : ∃ g, θ g ≠ g := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hZy : ∀ y : Y, y⁻¹ * δ y ∈ α.ker := fun y => by
       rw [MonoidHom.mem_ker, map_mul, map_inv, ← hθ, hall, inv_mul_cancel]
     let f : Y →* ↥(Subgroup.center Y) :=
@@ -255,7 +255,7 @@ theorem basThreeA6_of_cases (hA6 : InvolAutA6Cases) :
             ((hc'.symm.pow_pow j k).mul_right ((Commute.refl b').pow_pow j l))
         exact ((hAB.mul_right (hcentral hm _).symm).mul_left
           ((hcentral hn _).mul_right (hcentral hn m))).eq
-      letI : CommGroup ↥P :=
+      let : CommGroup ↥P :=
         { (inferInstance : Group ↥P) with mul_comm := fun p q => Subtype.ext (hPcomm p p.2 q q.2) }
       have hSc : Nat.card S = 9 := card_closure_pair ha3 hb3 ha1 hab hb
       have hA6c : Nat.card (alternatingGroup (Fin 6)) = 360 := by

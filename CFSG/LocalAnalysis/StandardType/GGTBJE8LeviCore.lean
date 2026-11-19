@@ -602,7 +602,7 @@ theorem e8_class_levi_or_a8
       rw [hCdef, KacData.rootsOf_eq_parabolicRoots kacE8 hnone]
       congr 1
       ext j
-      simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+      simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
       fin_cases j <;> decide +kernel
     have hall : ∀ j : Fin Tag.E8.rank, a j = 1 := by
       intro j
@@ -666,7 +666,7 @@ private theorem e8DeletedConnectedS {S : Finset (Fin 8)}
 private theorem e8Parabolic_weyl {S : Finset (Fin 8)} (hne : Nonempty {i : Fin 8 // i ∉ S})
     (hdel : GGDeletedConnectedS CoxeterMatrix.E₈ S) :
     GGIsWeylMatrix (parMatrix CoxeterMatrix.E₈ {i | i ∉ S}) :=
-  l05nBL_ggIsWeylMatrix_parMatrix_of_deletedConnected S CoxeterMatrix.E₈ CartanMatrix.E₈
+  l05nBL_ggIsWeylMatrix_parMatrix_of_deletedConnected S CoxeterMatrix.E₈ (CartanMatrix.E 8)
     (Or.inr (Or.inr (Or.inr (Or.inl ⟨Equiv.refl (Fin 8), by ext i j; rfl⟩))))
     ggIntCartan_E₈ hdel hne
 

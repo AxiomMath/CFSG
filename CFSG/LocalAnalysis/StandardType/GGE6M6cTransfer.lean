@@ -31,7 +31,7 @@ theorem isToral_of_card_eq_three_pow_four {K : Type} [Field K] [Finite K] [CharP
       (E.map ((baseChangeGL (algebraMap K (AlgebraicClosure K))).comp
         (adjointGroup .E6 K).subtype)) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hKf⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card, hKf]
@@ -45,10 +45,10 @@ theorem isToral_of_card_eq_three_pow_four {K : Type} [Field K] [Finite K] [CharP
         norm_num
       omega
     · exact hn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Algebra (ZMod 2) K := ZMod.algebra K 2
-  haveI : Module.Finite (ZMod 2) K := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic (ZMod 2) K := Algebra.IsAlgebraic.of_finite (ZMod 2) K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Module.Finite (ZMod 2) K := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic (ZMod 2) K := Algebra.IsAlgebraic.of_finite (ZMod 2) K
   let ι : K →+* GGL := (IsAlgClosed.lift (R := ZMod 2) (S := K) (M := GGL)).toRingHom
   let A : Subgroup (ModGL Tag.E6 GGL) :=
     E.map ((baseChangeGL ι).comp (adjointGroup Tag.E6 K).subtype)
@@ -72,8 +72,8 @@ theorem isToral_of_card_eq_three_pow_four {K : Type} [Field K] [Finite K] [CharP
         baseChangeGL ((ggFrobT (f : ℕ)).comp ι) (x : ModGL Tag.E6 K) from
       baseChangeGL_baseChangeGL (f := ι) (ggFrobT (f : ℕ)) (x : ModGL Tag.E6 K), hFr]
   have hAab : IsElemAbelian 3 A := by
-    haveI : IsMulCommutative E := hE.1
-    haveI : IsMulCommutative A :=
+    have : IsMulCommutative E := hE.1
+    have : IsMulCommutative A :=
       Subgroup.map_isMulCommutative (H := E)
         (f := (baseChangeGL ι).comp (adjointGroup Tag.E6 K).subtype)
     refine ⟨inferInstance, fun x hx => ?_⟩
@@ -97,12 +97,12 @@ theorem isToral_of_card_eq_three_pow_four {K : Type} [Field K] [Finite K] [CharP
   have htoral : ExcFramesHalf.IsToralSubgroup Tag.E6 GGL A :=
     CFSG.StandardType.LieCore.M6c.ggLieNonToralRankFour_holds (f : ℕ) hf StatedLieTag.E6
       (Or.inl ⟨rfl, hfodd⟩) A hA' hAab hAcard
-  letI : Algebra K GGL := ι.toAlgebra
-  haveI : IsScalarTower (ZMod 2) K GGL := by
+  let : Algebra K GGL := ι.toAlgebra
+  have : IsScalarTower (ZMod 2) K GGL := by
     refine IsScalarTower.of_algebraMap_eq' ?_
     exact Subsingleton.elim (algebraMap (ZMod 2) GGL)
       ((algebraMap K GGL).comp (algebraMap (ZMod 2) K))
-  haveI : Algebra.IsAlgebraic K GGL :=
+  have : Algebra.IsAlgebraic K GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) (A := GGL)
   let jalg : GGL →ₐ[K] AlgebraicClosure K :=
     IsAlgClosed.lift (R := K) (S := GGL) (M := AlgebraicClosure K)

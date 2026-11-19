@@ -253,7 +253,7 @@ section Generic
 theorem census_M_five_centShape {G : Type} [Group G] (hE : MonsterExistenceStatement G)
     (hBr : SporadicBridges) (hA : CentFiveA G) (hB : CentFiveBNoComp G) :
     CentShapeRk' 5 (fun T _ => catalogIs T (· = .sporadic .HN)) (fun _ _ => True) G := by
-  haveI : Finite G := (twoA_data_of_existence hE).1
+  have : Finite G := (twoA_data_of_existence hE).1
   intro k hk1 hk5
   have hk : orderOf k = 5 := orderOf_eq_prime hk5 hk1
   by_cases hinv : InvertedByTwoA k
@@ -274,7 +274,7 @@ theorem census_M_five_centShape {G : Type} [Group G] (hE : MonsterExistenceState
     have hnab : ∃ a b : ↥H, a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon
-      letI : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
+      let : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
       have hpr := IsSimpleGroup.prime_card (α := ↥H)
       rw [hcard] at hpr
       norm_num at hpr
@@ -296,8 +296,8 @@ theorem census_M_five_of_noComp
   let e : MGriess ≃* NativeSporadic.Carrier .M := e₀
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := (twoA_data_of_existence hE).1
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
+  have : Finite MGriess := (twoA_data_of_existence hE).1
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
   have hBr : SporadicBridges := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group
   have hA : CentFiveA MGriess := TabMFive.centFiveA_MGriess_res
     ⟨TabBFiveCent.tabBFiveACard_holds, TabMFive.not_seven_dvd_card_centralizer_zFive⟩

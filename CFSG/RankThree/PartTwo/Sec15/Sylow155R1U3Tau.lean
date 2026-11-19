@@ -261,7 +261,7 @@ end Res1Tau
 theorem res1JCyclic_su3 : Res1JCyclic Q Res1OpenSU3Type := by
   intro G _ _ A c L X K Y M T P' Yc z τ
   obtain ⟨n, hn, heven, ⟨e⟩⟩ := τ.p
-  haveI : Yc.Normal := res1_isComponent_normal τ.std τ.at_of.1 τ.at_of.2.2.2.1.1
+  have : Yc.Normal := res1_isComponent_normal τ.std τ.at_of.1 τ.at_of.2.2.2.1.1
   set C := Res1C A L with hCdef
   set ρ := Liebeck155R1L2.res1L2Rho A L Yc with hρdef
   obtain ⟨x, hx, hfix⟩ := τ.exists_rho_fixed_point
@@ -310,7 +310,7 @@ theorem res1JCyclic_su3 : Res1JCyclic Q Res1OpenSU3Type := by
     have hww' : w = w' := hconj (hjw.symm.trans hρw')
     rw [hww']
     exact ⟨hw'x, hzw'⟩
-  haveI : IsCyclic ↥H := res1U3_isCyclic_of_inv hn heven e hx hβ2 hzx H hH
+  have : IsCyclic ↥H := res1U3_isCyclic_of_inv hn heven e hx hβ2 hzx H hH
   have hJH : ∀ u ∈ J', ρ u ∈ H.map (MulAut.conj : ↥Yc →* MulAut ↥Yc) := by
     intro u hu
     obtain ⟨w, hρw, -, -⟩ := res1U3_exists_conj_of_mem_commutator hZ hI hCx ρ hz2' hOx hzx hu
@@ -329,7 +329,7 @@ theorem res1JCyclic_su3 : Res1JCyclic Q Res1OpenSU3Type := by
   have hψ : Function.Injective ψ := fun a b h =>
     hρJ ((Subgroup.equivMapOfInjective H (MulAut.conj : ↥Yc →* MulAut ↥Yc)
       hconj).symm.injective h)
-  haveI : IsCyclic ↥J' := isCyclic_of_injective ψ hψ
+  have : IsCyclic ↥J' := isCyclic_of_injective ψ hψ
   rw [← hmapJ]
   exact isCyclic_of_surjective (J'.equivMapOfInjective C.subtype C.subtype_injective)
     (MulEquiv.surjective _)
@@ -337,7 +337,7 @@ theorem res1JCyclic_su3 : Res1JCyclic Q Res1OpenSU3Type := by
 theorem res1Lem154_su3 : Res1Lem154 Q Res1OpenSU3Type := by
   intro G _ _ A c L X K Y M T P' Yc z τ
   obtain ⟨n, hn, heven, ⟨e⟩⟩ := τ.p
-  haveI : Yc.Normal := res1_isComponent_normal τ.std τ.at_of.1 τ.at_of.2.2.2.1.1
+  have : Yc.Normal := res1_isComponent_normal τ.std τ.at_of.1 τ.at_of.2.2.2.1.1
   obtain ⟨x, hx, hfix⟩ := τ.exists_rho_fixed_point
   have hOA : res1Ob A X Y M ≤ Subgroup.centralizer (A : Set G) := τ.e_eq ▸ τ.e_le
   have hOC : res1Ob A X Y M ≤ Res1C A L :=

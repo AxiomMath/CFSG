@@ -18,7 +18,7 @@ theorem perpSet_pred_eq_frameResidue (hr : 1 ≤ r) :
     perpSet Δ P Q (r - 1) =
       frameResidue Δ P Q ⟨r - 1, Nat.sub_one_lt_of_lt hr⟩ := by
   ext X
-  simp only [perpSet, frameResidue, Set.mem_setOf_eq]
+  simp only [perpSet, frameResidue, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hX, hc⟩
     refine ⟨hX, fun i hi => hc i ?_⟩

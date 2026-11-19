@@ -96,7 +96,7 @@ theorem L02_eq_map : L02 = L01.map (MulAut.conj sig).toMonoidHom := by
   rw [L01, L02, MonoidHom.map_closure]
   congr 1
   ext σ
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq, Set.mem_image,
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq, Set.mem_image,
     MulEquiv.coe_toMonoidHom, MulAut.conj_apply, sig_inv]
   constructor
   · rintro (rfl | rfl)

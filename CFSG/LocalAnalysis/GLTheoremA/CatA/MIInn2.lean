@@ -211,7 +211,7 @@ theorem canonRawInnAny {p : ℕ} (hp1 : p ≠ 1) {lab : LargeEvenLabel}
       obtain ⟨K, hF, hfin, hK, hQ⟩ := h
       have hK2 : Nat.card K = 2 := by simpa using hK
       refine ⟨K, hF, hfin, hK, hQ, ?_⟩
-      simp only [show (1 - 1) / 2 = 0 from rfl, if_true]
+      simp only [show (1 - 1) / 2 = 0 from rfl, ite_true]
       exact chevParentID_rawInnField _ hK2 _ _ hp1
   · exact (canonAll_iff_legacyAll hlab hd _).2 (legacyRawInnAny hp1 hlab hd)
 

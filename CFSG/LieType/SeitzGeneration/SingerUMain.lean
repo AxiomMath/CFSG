@@ -32,7 +32,7 @@ theorem exists_outer_fixer (h : UnitaryFieldData ℓ f K) {p : ℕ} [Fact p.Prim
 theorem singerTorusGenU_of_prime (h : UnitaryFieldData ℓ f K)
     {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hpq : p ∣ ℓ ^ f + 1) : SingerTorusGenU h p := by
   intro c hcu hc H hHU hT hL
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two (by omega)
   have hc0 : c ≠ 0 := by
     rintro rfl
@@ -40,23 +40,23 @@ theorem singerTorusGenU_of_prime (h : UnitaryFieldData ℓ f K)
   set H₀ := Subgroup.closure (thmU_gens ℓ f K p c) with hH₀
   have hgens : thmU_gens ℓ f K p c ⊆ H := by
     intro g hg
-    simp only [thmU_gens, Set.mem_setOf_eq] at hg
+    simp only [thmU_gens, Set.mem_ofPred_eq] at hg
     obtain ⟨hgU, hg | hg⟩ := hg
     · exact hT g hgU hg
     · exact hL g hgU hg
   have hH₀H : H₀ ≤ H := (Subgroup.closure_le H).2 hgens
   have hH₀U : H₀ ≤ unitarySU ℓ f K p := by
     refine (Subgroup.closure_le _).2 fun g hg => ?_
-    simp only [thmU_gens, Set.mem_setOf_eq] at hg
+    simp only [thmU_gens, Set.mem_ofPred_eq] at hg
     exact hg.1
   have hT₀ : ∀ g ∈ unitarySU ℓ f K p,
       (∃ t, (g : Matrix (Fin p) (Fin p) K) = diagonal t) → g ∈ H₀ :=
     fun g hgU hg => Subgroup.subset_closure <| by
-      simp only [thmU_gens, Set.mem_setOf_eq]; exact ⟨hgU, Or.inl hg⟩
+      simp only [thmU_gens, Set.mem_ofPred_eq]; exact ⟨hgU, Or.inl hg⟩
   have hL₀ : ∀ g ∈ unitarySU ℓ f K p,
       (g : Matrix (Fin p) (Fin p) K) * companionMat p c = companionMat p c * g → g ∈ H₀ :=
     fun g hgU hg => Subgroup.subset_closure <| by
-      simp only [thmU_gens, Set.mem_setOf_eq]; exact ⟨hgU, Or.inr hg⟩
+      simp only [thmU_gens, Set.mem_ofPred_eq]; exact ⟨hgU, Or.inr hg⟩
   let cG : GL (Fin p) K :=
     Matrix.nonsingInvUnit (companionMat p c) (thmU_companionMat_isUnit_det hodd hc0)
   have hcG : (cG : Matrix (Fin p) (Fin p) K) = companionMat p c := rfl

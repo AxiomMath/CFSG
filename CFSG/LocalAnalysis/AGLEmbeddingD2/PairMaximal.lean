@@ -111,7 +111,7 @@ theorem d2PairAt_of_maximal {i : TauCeti.CFSGIndex} {p : ℕ}
   have : Fact q.Prime := ⟨hK.prime⟩
   obtain ⟨hX₀, hC, -⟩ := hK.eq_normalizer_of_card_outer_eq_one h e
   subst hX₀
-  exact primeComplementCore_normalizer_eq_bot R.isPGroup' hC
+  exact primeComplementCore_normalizer_eq_bot R.isPGroup hC
 
 theorem d2SolvableAt_of_maximal {i : TauCeti.CFSGIndex}
     (h : ∀ (L : Type) [Group L] [Finite L], Nonempty (L ≃* i.Group) →

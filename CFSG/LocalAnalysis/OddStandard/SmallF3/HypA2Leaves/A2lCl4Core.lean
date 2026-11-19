@@ -18,7 +18,7 @@ theorem cl24_core [Finite K] [FiniteDimensional K V] (hK : ∀ c : K, c = 0 ∨ 
     [MulAction.IsPretransitive (elementaryGroup Q) X] [Finite X] (hX : 2 ≤ Nat.card X) (m : ℕ)
     (hshell : ∀ a : K, m ≤ ({v : V | v ∈ P₁.perp ∧ v ≠ 0 ∧ Q v = a} : Set V).ncard) :
     m + 1 ≤ Nat.card X := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   obtain ⟨x₀, w₀, hmove⟩ := cl24_exists_move hQ h₁₂ hX
   have hDtop : cl24_D hK P₁ x₀ ≠ ⊤ := fun h =>
     hmove ((cl24_mem_D hK P₁ x₀ w₀).1 (h ▸ Submodule.mem_top))

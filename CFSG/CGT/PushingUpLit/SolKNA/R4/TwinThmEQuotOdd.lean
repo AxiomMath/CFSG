@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {N : Subgroup G
 
 theorem quotOdd_exists_W (hΩ : HypOmegaGen Ω) {S : Sylow 2 G} {W H : Subgroup G}
     (hW : W ∈ WSet Ω ∧ W ≤ (S : Subgroup G) ∧ ∀ s ∈ (S : Subgroup G), conjSub s W = W)
-    (hC : CentPairs Ω (S : Subgroup G) W H) (hN : Odd (Nat.card N)) (hNH : N ≤ H) :
+    (hC : CentPairs Ω (S : Subgroup G) W H) (hN : Odd (Nat.card N)) (_hNH : N ≤ H) :
     ∃ Wb ∈ WSet (quotFamily Ω N), Wb ≤ (S : Subgroup G).map (QuotientGroup.mk' N) ∧
       (∀ s ∈ (S : Subgroup G).map (QuotientGroup.mk' N), conjSub s Wb = Wb) ∧
       CentPairs (quotFamily Ω N) ((S : Subgroup G).map (QuotientGroup.mk' N)) Wb
@@ -32,7 +32,7 @@ theorem quotOdd_exists_W (hΩ : HypOmegaGen Ω) {S : Sylow 2 G} {W H : Subgroup 
   set π := QuotientGroup.mk' N with hπ
   have hΩ' : HypOmegaGen (quotFamily Ω N) := TwinEdge.hypOmegaGen_quotFamily_odd hΩ hN
   obtain ⟨hWΩ, hWS, hWn⟩ := hW
-  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   refine ⟨W.map π, map_mem_WSet hΩ hΩ' hN hWΩ, Subgroup.map_mono hWS, ?_, ?_⟩
   · rintro _ ⟨s, hs, rfl⟩
     rw [← AscQuot.map_conjSub, hWn s hs]

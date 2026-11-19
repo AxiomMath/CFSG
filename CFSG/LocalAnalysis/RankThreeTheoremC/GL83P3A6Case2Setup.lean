@@ -21,10 +21,10 @@ theorem exists_isMaxElemAbelian (Y : Subgroup G) : ∃ A : Subgroup G, IsMaxElem
 
 theorem thompsonJ_ne_bot {Y : Subgroup G} (hY2 : IsPGroup 2 Y) (hYne : Y ≠ ⊥) :
     thompsonJ Y ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hA⟩ := exists_isMaxElemAbelian Y
   have hcard : 2 ≤ Nat.card A := by
-    haveI : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
+    have : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
     have hdvd : 2 ∣ Nat.card Y := by
       rcases hY2.card_eq_or_dvd with h | h
       · exact absurd (Subgroup.eq_bot_of_card_eq Y h) hYne
@@ -57,6 +57,7 @@ theorem thompsonJ_ne_bot {Y : Subgroup G} (hY2 : IsPGroup 2 Y) (hYne : Y ≠ ⊥
   rw [hAle] at hcard
   simp at hcard
 
+omit [Finite G] in
 theorem isMaxElemAbelian_conj {Y A : Subgroup G} (hA : IsMaxElemAbelian Y A) (g : G) :
     IsMaxElemAbelian (Y.map (MulAut.conj g).toMonoidHom) (A.map (MulAut.conj g).toMonoidHom) := by
   refine ⟨Subgroup.map_mono hA.1, isElemAbelian_conj hA.2.1 g, fun B hB hBel => ?_⟩
@@ -136,8 +137,8 @@ theorem exists_coreData {M O : Subgroup G} [hn : (O.subgroupOf M).Normal] {x e�
     (hodd : ∀ ℓ, (ℓ = x ∨ ℓ = e₂ ∨ ℓ = e₃) → ∀ w ∈ O, w ^ 2 = 1 → w * ℓ = ℓ * w → w = 1) :
     ∃ (t' ρ' : G) (Y' U' : Subgroup G) (x' : G), CoreData M O x e₂ e₃ t' ρ' s Y' U' x' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ3 : IsPGroup 3 (Qf x e₂ e₃) :=
     IsPGroup.of_card (n := 3) (by rw [hf.Q_card]; norm_num)
   have hQO : Qf x e₂ e₃ ≤ normalizer (O : Set G) := hf.Q_le_N

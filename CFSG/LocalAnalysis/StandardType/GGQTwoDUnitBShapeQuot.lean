@@ -25,7 +25,7 @@ open CFSG.Assembly
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q] [Finite Q]
   {p : ℕ} {N : Subgroup G} {f : ↥N →* Q} {L Bs Z : Subgroup G}
 
-omit [Finite Q] in
+omit [Finite Q] [Finite G] in
 theorem Datum.mem_img_L_iff (hD : Datum p N f L Bs Z) (s : ↥N) :
     f s ∈ img N f L ↔ (s : G) ∈ L := by
   constructor
@@ -40,7 +40,7 @@ theorem Datum.mem_img_L_iff (hD : Datum p N f L Bs Z) (s : ↥N) :
   · intro hs
     exact mem_img.mpr ⟨s, hs, rfl⟩
 
-omit [Finite Q] in
+omit [Finite Q] [Finite G] in
 theorem Datum.mem_centralizer_img_iff (hD : Datum p N f L Bs Z)
     (hL : Group.IsPerfect ↥L) (s : ↥N) :
     f s ∈ Subgroup.centralizer (img N f L : Set Q) ↔

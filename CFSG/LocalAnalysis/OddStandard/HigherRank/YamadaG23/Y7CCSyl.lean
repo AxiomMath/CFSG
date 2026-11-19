@@ -73,7 +73,7 @@ private lemma exists_conjSub_eq_of_isSylowIn {p : ℕ} [Fact p.Prime] [Finite G]
   have hP'idx : ¬ p ∣ (P'.subgroupOf V).index := hP'.2.2
   let S : Sylow p ↥V := (hP.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hP.1).symm).toSylow hPidx
   let S' : Sylow p ↥V := (hP'.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hP'.1).symm).toSylow hP'idx
-  haveI : Finite (Sylow p ↥V) :=
+  have : Finite (Sylow p ↥V) :=
     Finite.of_injective (fun S : Sylow p ↥V => (S : Set ↥V))
       (fun S T h => Sylow.ext (by ext x; exact Set.ext_iff.mp h x))
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥V S S'
@@ -120,7 +120,7 @@ private lemma sylow_decomp_of_surjective {H : Type*} [Group H] [Finite G] {r : �
   have hm : (((q * ⟨x, hx⟩⁻¹ : ↥K0)) : G) ∈ M := Subgroup.mem_subgroupOf.mp hker_mem
   refine ⟨(((q * ⟨x, hx⟩⁻¹ : ↥K0)) : G)⁻¹, inv_mem hm, (q : G), hqQ, ?_⟩
   have hcoe : (((q * ⟨x, hx⟩⁻¹ : ↥K0)) : G) = (q : G) * x⁻¹ := by
-    simp [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [Subgroup.coe_mul]
   rw [hcoe]; group
 
 end Helpers
@@ -193,7 +193,7 @@ theorem y7c_odd_Q {G : Type} [Group G] [Finite G] (M K : Subgroup G) (t g₀ : G
   have hK0nM : K0 ≤ Subgroup.normalizer (M : Set G) := by
     rw [Subgroup.le_normalizer_iff]; exact fun x hx m hm => hMK x (hK0K hx) m hm
   let N : Subgroup ↥K0 := M.subgroupOf K0
-  haveI hNnormal : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hMleK0).mpr hK0nM
+  have hNnormal : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hMleK0).mpr hK0nM
   let π : ↥K0 →* ↥K0 ⧸ N := QuotientGroup.mk' N
   let a : ↥K0 ⧸ N := π ⟨g₀, hg₀K0⟩
   let b : ↥K0 ⧸ N := π ⟨g₁, hg₁K0⟩
@@ -317,7 +317,7 @@ theorem y7c_odd_Q {G : Type} [Group G] [Finite G] (M K : Subgroup G) (t g₀ : G
     change conjSub (m⁻¹ * t) Q₀ = Q₀
     rw [conjSub_mul, htQ₀_eq]
     rw [← conjSub_mul, inv_mul_cancel]
-    have hconj1 : MulAut.conj (1 : G) = 1 := by ext x; simp [MulAut.conj_apply]
+    have hconj1 : MulAut.conj (1 : G) = 1 := by ext x; simp
     change Q₀.map (MulAut.conj (1 : G)).toMonoidHom = Q₀
     rw [hconj1]
     exact Subgroup.map_id Q₀
@@ -380,7 +380,7 @@ theorem y7c_odd_Q {G : Type} [Group G] [Finite G] (M K : Subgroup G) (t g₀ : G
     apply hCMQ₀ m hm
     intro q₀ hq₀
     have hq : u⁻¹ * q₀ * u ∈ Q :=
-      Subgroup.mem_map.mpr ⟨q₀, hq₀, by simp [conjSub, MulAut.conj_apply]⟩
+      Subgroup.mem_map.mpr ⟨q₀, hq₀, by simp⟩
     have h1 : (u⁻¹ * q₀ * u) * m * (u⁻¹ * q₀ * u)⁻¹ = m := hfix _ hq
     have hum : u * m * u⁻¹ = m := by rw [hMab u hu m hm]; group
     have h1u : u * ((u⁻¹ * q₀ * u) * m * (u⁻¹ * q₀ * u)⁻¹) * u⁻¹ = u * m * u⁻¹ := by

@@ -14,6 +14,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem l5_centralizer_pair (v w : G) :
     Subgroup.centralizer ({v, w} : Set G) =
       Subgroup.centralizer ({v} : Set G) ⊓ Subgroup.centralizer ({w} : Set G) := by
@@ -33,7 +34,7 @@ theorem ggNbr_of_blocks (hL : GGLBalanceInput) (hP : GGStdSubPrimeInput) {p : �
   have hKP : KProper InCatalog G := hI.2.2.1
   have hp : p.Prime := hI.2.2.2.2.2.1.1
   have hS : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsabel : IsElemAbelian p Bs := hBsB.2.1
   have hcomm : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hBsabel.1.is_comm.comm (⟨a, ha⟩ : ↥Bs) ⟨b, hb⟩)

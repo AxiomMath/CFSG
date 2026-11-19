@@ -221,7 +221,7 @@ theorem fix_rootSub : fix n (rootSub n) = flag n 1 := by
     have e0 := congrFun h1 0
     have e1 := congrFun h1 1
     have e2 := congrFun h1 2
-    simp [zero_pow_theta] at e0 e1 e2
+    simp at e0 e1 e2
     have h3 : x 3 = 0 := e2
     rw [h3, add_zero] at e1 e0
     exact ⟨by linear_combination e0, by linear_combination e1, h3⟩
@@ -260,7 +260,7 @@ theorem fix_rootCenter : fix n (rootCenter n) = flag n 2 := by
     rw [act_rootElt] at h1
     have e0 := congrFun h1 0
     have e1 := congrFun h1 1
-    simp [zero_pow_theta] at e0 e1
+    simp at e0 e1
     have h3 : x 3 = 0 := e1
     rw [h3, add_zero] at e0
     exact ⟨by linear_combination e0, h3⟩
@@ -306,7 +306,7 @@ theorem fixElt_rootElt_zero {w : F n} (hw : w ≠ 0) : fixElt n (rootElt n 0 w) 
     rw [act_rootElt] at h1
     have e0 := congrFun h1 0
     have e1 := congrFun h1 1
-    simp [zero_pow_theta] at e0 e1
+    simp at e0 e1
     have h3 : x 3 = 0 := by
       rcases e1 with h | h
       · exact absurd h hw
@@ -352,7 +352,7 @@ theorem comm_rootSub_top : comm n (rootSub n) ⊤ = flag n 3 := by
       intro a b c
       rw [act_rootElt, act_rootElt]
       ext j
-      fin_cases j <;> simp [zero_pow_theta]
+      fin_cases j <;> simp
     set a := y 2 with ha
     set b := y 1 - a ^ (1 + 2 ^ (n + 1)) with hb
     set c := y 0 - (a ^ (2 + 2 ^ (n + 1)) + a * b + b ^ 2 ^ (n + 1)) with hc
@@ -437,7 +437,7 @@ theorem commElt_rootElt_zero {w : F n} (hw : w ≠ 0) :
     refine ⟨![0, 0, (y 0 - w ^ 2 ^ (n + 1) * (y 1 / w)) / w, y 1 / w], trivial, ?_⟩
     rw [act_rootElt]
     ext j
-    fin_cases j <;> simp [h2', h3, zero_pow_theta, mul_div_cancel₀ _ hw]
+    fin_cases j <;> simp [h2', h3, mul_div_cancel₀ _ hw]
 
 theorem card_rootCenter : Nat.card (rootCenter n) = 2 ^ (2 * n + 1) := by
   rw [← SetLike.coe_sort_coe, show ((rootCenter n : Subgroup (Sz n)) : Set (Sz n)) =
@@ -667,7 +667,7 @@ theorem not_two_dvd_index_rootSub : ¬ 2 ∣ (rootSub n).index := by
   (isPGroup_rootSub n).toSylow (not_two_dvd_index_rootSub n)
 
 theorem coe_rootSylow : (rootSylow n : Subgroup (Sz n)) = rootSub n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.toSylow_coe _ _
 
 theorem rootSub_inf_centralizer (hn : 1 ≤ n) :
@@ -682,7 +682,7 @@ theorem rootSub_inf_centralizer (hn : 1 ≤ n) :
 
 theorem exists_conj_rootSub (S : Sylow 2 (Sz n)) :
     ∃ g : Sz n, ∀ h, h ∈ (S : Subgroup (Sz n)) ↔ g⁻¹ * h * g ∈ rootSub n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq (Sz n) (rootSylow n) S
   refine ⟨g, fun h => ?_⟩
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem, MulAut.smul_def,

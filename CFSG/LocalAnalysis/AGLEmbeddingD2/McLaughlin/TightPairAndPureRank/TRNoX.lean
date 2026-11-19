@@ -17,14 +17,17 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.QuasithinUnique CFSG.RankThreeCoreUniquene
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSubnormal_inf' {A B : Subgroup G} (h : IsSubnormal A B) (K : Subgroup G) :
     IsSubnormal (A ⊓ K) (B ⊓ K) :=
   h.inf K
 
+omit [Finite G] in
 theorem isSubnormal_subgroupOf' {A B : Subgroup G} (h : IsSubnormal A B) :
     (A.subgroupOf B).IsSubnormal :=
   h.subgroupOf
 
+omit [Finite G] in
 theorem isSubnormal_trans'' {A B C : Subgroup G} (h1 : IsSubnormal A B) (h2 : IsSubnormal B C) :
     IsSubnormal A C :=
   h1.trans h2

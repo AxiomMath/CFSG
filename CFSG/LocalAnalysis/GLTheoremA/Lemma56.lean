@@ -27,7 +27,7 @@ theorem lemma56 {p : ℕ} (hc : Sec5Ctx G p) (hno : ¬ Prop55At G p) (h51 : Prop
         (⁅T, B⁆ : Subgroup G) ≠ ⊥ := by
   have hp := hc.prime
   have hp2 := hc.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS := hBxL.1.1
   have hB : GLAIsBmax p B := hS.1
   have hBp : IsPGroup p B := isPGroup_of_isElemAbelian hB.1

@@ -89,7 +89,7 @@ private theorem rckFlagSUL_conjTr_mul_antidiag_of_preserves {n g : ℕ}
     funext a
     by_cases ha : a = j
     · subst ha; simp
-    · simp [Pi.single_apply, ha]
+    · simp [ha]
   rw [hfun] at h
   have hL : (Pi.single j 1 : Fin n → GaloisField 2 (2 * g)) ⬝ᵥ
       ((Unitary.conjTr (rckFlagSUL_sigma g) A * Unitary.antidiag n * A).mulVec
@@ -329,7 +329,7 @@ theorem rckFlagSU_lift (n g : ℕ) (hg : 1 ≤ g)
       have h := congrArg (fun L : (Fin n → GaloisField 2 (2 * g)) →ₗ[GaloisField 2 (2 * g)]
           (Fin n → GaloisField 2 (2 * g)) => L x)
         (Matrix.toLin'_toMatrix' (R := GaloisField 2 (2 * g)) (m := Fin n) (n := Fin n) G)
-      simpa [Gm, Matrix.toLin'_apply] using h
+      simp [Gm]
     have hmat_comm : Gm * Ar = Ar * Gm := by
       apply hinj
       show Matrix.toLin' (Gm * Ar) = Matrix.toLin' (Ar * Gm)

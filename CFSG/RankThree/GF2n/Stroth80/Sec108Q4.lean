@@ -29,10 +29,12 @@ private noncomputable def conjAction (hC : Levi108 K L R N Y ρ μ T) : GG L →
     exact (Subgroup.le_centralizer_iff_isMulCommutative.mpr hC.elemAb_L.1)
       (Subgroup.mem_subgroupOf.mp hx))
 
+omit [Finite 𝓜] in
 private lemma conjAction_mkG (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NL L)) :
     conjAction hC (mkG L g) = Subgroup.normalizerMonoidHom L g := by
   rw [conjAction, mkG, QuotientGroup.mk'_apply, QuotientGroup.lift_mk']
 
+omit [Finite 𝓜] in
 private lemma conjAction_apply (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NL L)) (l : L) :
     (conjAction hC (mkG L g) l : 𝓜) = (g : 𝓜) * (l : 𝓜) * (g : 𝓜)⁻¹ := by
   rw [conjAction_mkG]
@@ -42,14 +44,15 @@ private noncomputable def commMap (hC : Levi108 K L R N Y ρ μ T) (τ : ↥(NL 
   toFun l := l * (Subgroup.normalizerMonoidHom L τ l)⁻¹
   map_one' := by simp
   map_mul' l₁ l₂ := by
-    haveI : IsMulCommutative L := hC.elemAb_L.1
-    letI : CommGroup L := { (inferInstance : Group L) with mul_comm := fun a b => mul_comm' a b }
+    have : IsMulCommutative L := hC.elemAb_L.1
+    let : CommGroup L := { (inferInstance : Group L) with mul_comm := fun a b => mul_comm' a b }
     simp only [map_mul, _root_.mul_inv_rev]
     ac_rfl
 
 private noncomputable def commSub (hC : Levi108 K L R N Y ρ μ T) (τ : ↥(NL L)) : Subgroup L :=
   (commMap hC τ).range
 
+omit [Finite 𝓜] in
 private lemma commMap_apply (hC : Levi108 K L R N Y ρ μ T) (τ : ↥(NL L)) (l : L) :
     commMap hC τ l = l * (Subgroup.normalizerMonoidHom L τ l)⁻¹ := rfl
 
@@ -75,12 +78,14 @@ private lemma commMap_fixed_aux {G : Type} [CommGroup G] (f : MulAut G)
     exact h5.symm
   rw [h3, mul_inv_cancel]
 
+omit [Finite 𝓜] in
 private lemma commMap_coe_eq (hC : Levi108 K L R N Y ρ μ T) (τ : ↥(NL L)) (l : L) :
     (commMap hC τ l : 𝓜) = ⁅(l : 𝓜), (τ : 𝓜)⁆ := by
   rw [commMap_apply, Subgroup.coe_mul, Subgroup.coe_inv,
     Subgroup.normalizerMonoidHom_apply_apply_coe, commutatorElement_def]
   group
 
+omit [Finite 𝓜] in
 private lemma commMap_mem_N (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
@@ -108,6 +113,7 @@ private lemma commMap_mem_N (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
   rw [commMap_coe_eq]
   exact Subgroup.mem_subgroupOf.1 hmem
 
+omit [Finite 𝓜] in
 private lemma commSub_mem_N (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
@@ -116,6 +122,7 @@ private lemma commSub_mem_N (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
   rw [← hl]
   exact commMap_mem_N hC hτR hτρ l
 
+omit [Finite 𝓜] in
 private lemma conj_mem_N_of_mem_R (hC : Levi108 K L R N Y ρ μ T) {r n : 𝓜}
     (hr : r ∈ R) (hn : n ∈ N) : r * n * r⁻¹ ∈ N := by
   have hnR : n ∈ R := hC.N_le_R hn
@@ -131,8 +138,9 @@ private lemma conj_mem_N_of_mem_R (hC : Levi108 K L R N Y ρ μ T) {r n : 𝓜}
   rw [hC.ker_rho] at hmem
   exact Subgroup.mem_subgroupOf.1 hmem
 
+omit [Finite 𝓜] in
 private lemma exists_mem_L_inf_N_mu_ne_zero (hC : Levi108 K L R N Y ρ μ T) :
-    ∃ (n : 𝓜) (hnN : n ∈ N) (hnL : n ∈ L),
+    ∃ (n : 𝓜) (hnN : n ∈ N) (_hnL : n ∈ L),
       Multiplicative.toAdd (μ ⟨n, hnN⟩) ≠ 0 := by
   let v : Fin 3 → K := Pi.single 1 1
   have hv0 : v 0 = 0 := by simp [v]
@@ -151,6 +159,7 @@ private lemma exists_mem_L_inf_N_mu_ne_zero (hC : Levi108 K L R N Y ρ μ T) :
     rw [hv1] at this
     exact one_ne_zero this
 
+omit [Finite 𝓜] in
 private lemma conj_mu_eq_smul (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
@@ -174,6 +183,7 @@ private lemma conj_mu_eq_smul (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
   funext i
   simp [Matrix.mulVec_diagonal]
 
+omit [Finite 𝓜] in
 private lemma commSub_ne_bot (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
@@ -212,11 +222,12 @@ private lemma commSub_ne_bot (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     · exact h
   exact hnmu hv
 
+omit [Finite 𝓜] in
 private lemma commSub_fixed_eq_one (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτ3 : (τ : 𝓜) ^ 3 = 1) {c : commSub hC τ}
     (hfix : Subgroup.normalizerMonoidHom L τ (c : L) = (c : L)) : c = 1 := by
-  haveI : IsMulCommutative L := hC.elemAb_L.1
-  letI : CommGroup L := { (inferInstance : Group L) with mul_comm := fun a b => mul_comm' a b }
+  have : IsMulCommutative L := hC.elemAb_L.1
+  let : CommGroup L := { (inferInstance : Group L) with mul_comm := fun a b => mul_comm' a b }
   have hτ3' : τ ^ 3 = 1 := Subtype.ext (by simpa using hτ3)
   have hf3 : Subgroup.normalizerMonoidHom L τ ^ 3 = 1 := by
     rw [← map_pow, hτ3', map_one]
@@ -234,6 +245,7 @@ private noncomputable def commSubMu (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(N
     commSub hC τ → (Fin 2 → K) := fun c i =>
   Multiplicative.toAdd (μ ⟨((c : L) : 𝓜), commSub_mem_N hC hτR hτρ c⟩) i.succ
 
+omit [Finite 𝓜] in
 private lemma commSub_mu_zero (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
@@ -241,6 +253,7 @@ private lemma commSub_mu_zero (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     Multiplicative.toAdd (μ ⟨((c : L) : 𝓜), commSub_mem_N hC hτR hτρ c⟩) 0 = 0 :=
   (hC.mem_L_iff_mu _ (commSub_mem_N hC hτR hτρ c)).mp (c : L).2
 
+omit [Finite 𝓜] in
 private lemma commSub_eq_of_mu_eq (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) (hτ3 : (τ : 𝓜) ^ 3 = 1) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
@@ -276,6 +289,7 @@ private lemma commSub_eq_of_mu_eq (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL 
     simpa [g] using congrArg (fun x : commSub hC τ => x * d) hg1
   simpa [mul_assoc] using hcd
 
+omit [Finite 𝓜] in
 private lemma commSubMu_injective (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) (hτ3 : (τ : 𝓜) ^ 3 = 1) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω) :
@@ -294,6 +308,7 @@ private lemma commSubMu_injective (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL 
     · exact congrFun h 1
   exact commSub_eq_of_mu_eq hC hτR hτ3 hτρ hmu
 
+omit [Finite 𝓜] in
 private lemma commSub_card_le (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτR : (τ : 𝓜) ∈ R) (hτ3 : (τ : 𝓜) ^ 3 = 1) {ω : K}
     (hτρ : (ρ ⟨(τ : 𝓜), hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
@@ -304,6 +319,7 @@ private lemma commSub_card_le (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
   norm_num at hle
   exact hle
 
+omit [Finite 𝓜] in
 private lemma conjAction_commMap (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (w : GG L) (hw : w * mkG L τ = mkG L τ * w) (l : L) :
     conjAction hC w (commMap hC τ l) = commMap hC τ (conjAction hC w l) := by
@@ -317,6 +333,7 @@ private lemma conjAction_commMap (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L
   simp only [commMap_apply, map_mul, map_inv]
   rw [← conjAction_mkG hC τ, h1]
 
+omit [Finite 𝓜] in
 private lemma commSub_map_conjAction_le (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     {w : GG L} (hw : w * mkG L τ = mkG L τ * w) :
     (commSub hC τ).map (conjAction hC w).toMonoidHom ≤ commSub hC τ := by
@@ -328,6 +345,7 @@ private lemma commSub_map_conjAction_le (hC : Levi108 K L R N Y ρ μ T) {τ : �
   rw [conjAction_commMap hC w hw l]
   exact MonoidHom.mem_range.mpr ⟨conjAction hC w l, rfl⟩
 
+omit [Finite 𝓜] in
 private lemma commSub_map_conjAction (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     {w : GG L} (hw : w * mkG L τ = mkG L τ * w) :
     (commSub hC τ).map (conjAction hC w).toMonoidHom = commSub hC τ := by
@@ -346,7 +364,8 @@ private lemma commSub_map_conjAction (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(
   rw [hc_eq]
   exact Subgroup.mem_map_of_mem (conjAction hC w).toMonoidHom hcinv
 
-private lemma mem_centralizer_mkG_tau (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
+omit [Finite 𝓜] in
+private lemma mem_centralizer_mkG_tau (_hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     {W₁ : Subgroup (GG L)}
     (hW₁τ : W₁ ≤ Subgroup.centralizer ({mkG L τ} : Set (GG L))) (w : W₁) :
     (w : GG L) * mkG L τ = mkG L τ * (w : GG L) :=
@@ -359,6 +378,7 @@ private noncomputable def restrictConjAction (hC : Levi108 K L R N Y ρ μ T) {�
   ((conjAction hC (w : GG L)).subgroupMap (commSub hC τ)).trans
     (MulEquiv.subgroupCongr (commSub_map_conjAction hC (mem_centralizer_mkG_tau hC hW₁τ w)))
 
+omit [Finite 𝓜] in
 private lemma restrictConjAction_coe (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     {W₁ : Subgroup (GG L)}
     (hW₁τ : W₁ ≤ Subgroup.centralizer ({mkG L τ} : Set (GG L)))
@@ -385,6 +405,7 @@ private noncomputable def actionOnC (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(N
     rw [restrictConjAction_coe, restrictConjAction_coe, restrictConjAction_coe]
     simp
 
+omit [Finite 𝓜] in
 private lemma actionOnC_coe (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     {W₁ : Subgroup (GG L)}
     (hW₁τ : W₁ ≤ Subgroup.centralizer ({mkG L τ} : Set (GG L)))
@@ -397,11 +418,13 @@ private noncomputable def tauOnC (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L
   actionOnC hC (W₁ := Subgroup.centralizer ({mkG L τ} : Set (GG L))) le_rfl
     ⟨mkG L τ, by rw [Subgroup.mem_centralizer_singleton_iff]⟩
 
+omit [Finite 𝓜] in
 private lemma tauOnC_coe (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (c : commSub hC τ) :
     ((tauOnC hC c : commSub hC τ) : L) = conjAction hC (mkG L τ) (c : L) := by
   rw [tauOnC, actionOnC_coe]
 
+omit [Finite 𝓜] in
 private lemma tauOnC_pow_three (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτ3 : (τ : 𝓜) ^ 3 = 1) : tauOnC hC (τ := τ) ^ 3 = 1 := by
   have hτ3' : τ ^ 3 = 1 := Subtype.ext (by simpa using hτ3)
@@ -415,6 +438,7 @@ private lemma tauOnC_pow_three (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     rw [Subgroup.coe_pow, Subgroup.coe_one, hτhat3]
   rw [tauOnC, ← map_pow, hx3, map_one]
 
+omit [Finite 𝓜] in
 private lemma tauOnC_fixed_eq_one (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτ3 : (τ : 𝓜) ^ 3 = 1) {c : commSub hC τ} (hfix : tauOnC hC c = c) : c = 1 := by
   apply commSub_fixed_eq_one hC hτ3
@@ -422,6 +446,7 @@ private lemma tauOnC_fixed_eq_one (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL 
   rw [tauOnC_coe, conjAction_mkG] at h
   exact h
 
+omit [Finite 𝓜] in
 private lemma actionOnC_comm_tau (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     {W₁ : Subgroup (GG L)}
     (hW₁τ : W₁ ≤ Subgroup.centralizer ({mkG L τ} : Set (GG L))) (w : W₁) :
@@ -452,7 +477,8 @@ private lemma commSub_le_Y (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
   have := congrArg (fun x : L => (x : 𝓜)) hcoe
   rwa [conjAction_apply] at this
 
-private lemma omega_cube_of_tau (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
+omit [Finite 𝓜] in
+private lemma omega_cube_of_tau (_hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
     (hτ : (τ : 𝓜) ∈ R) (hτ3 : (τ : 𝓜) ^ 3 = 1) {ω : K}
     (hρτ : (ρ ⟨(τ : 𝓜), hτ⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω) :
     ω ^ 3 = 1 := by
@@ -481,9 +507,9 @@ private lemma card_Xlevi_eq_sixty (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.car
 private lemma isSimpleGroup_Xlevi (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4) :
     IsSimpleGroup (Xlevi L R) := by
   have h4 : ∃ s : Finset K, s.card = 4 := by
-    letI := Fintype.ofFinite K
+    let := Fintype.ofFinite K
     exact ⟨Finset.univ, by rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hq]⟩
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) :=
     CFSG.ComponentClassification.GMS78.u3_isSimpleGroup_SL2 K h4
   obtain ⟨eX⟩ := hC.nonempty_mulEquiv_SL2
   exact MulEquiv.isSimpleGroup eX
@@ -501,8 +527,8 @@ theorem Levi108.false_of_simple_le_centralizer (hC : Levi108 K L R N Y ρ μ T)
     norm_num at hω3
   have hne : commSub hC τ ≠ ⊥ := commSub_ne_bot hC hτ hρτ hω hω0
   obtain ⟨c0, hc0⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
-  haveI : IsMulCommutative L := hC.elemAb_L.1
-  letI : CommGroup L := { (inferInstance : Group L) with mul_comm := fun a b => mul_comm' a b }
+  have : IsMulCommutative L := hC.elemAb_L.1
+  let : CommGroup L := { (inferInstance : Group L) with mul_comm := fun a b => mul_comm' a b }
   have h2 : ∀ c : commSub hC τ, c * c = 1 := fun c => by
     apply Subtype.ext
     rw [Subgroup.coe_mul, Subgroup.coe_one]
@@ -524,6 +550,7 @@ theorem Levi108.false_of_simple_le_centralizer (hC : Levi108 K L R N Y ρ μ T)
       _ = ((c0 : L) : 𝓜) := by rw [mul_assoc, mul_inv_cancel, mul_one]
   exact hc0 (commSub_fixed_eq_one hC hτ3 hfix)
 
+omit [Finite 𝓜] in
 private lemma j2_exists_L_not_Y (hC : Levi108 K L R N Y ρ μ T) :
     ∃ l : 𝓜, l ∈ L ∧ l ∉ Y := by
   let u : Fin 3 → K := Pi.single 1 1
@@ -540,7 +567,7 @@ private lemma j2_exists_L_not_Y (hC : Levi108 K L R N Y ρ μ T) :
     exact congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K)) this
   rw [hlρ] at hρl1
   have h01 : (1 + Matrix.vecMulVec (e₀ K) u : Matrix (Fin 3) (Fin 3) K) 0 1 = 1 := by
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.vecMulVec, e₀, u]
+    simp [Matrix.add_apply, Matrix.vecMulVec, e₀, u]
   rw [hρl1] at h01
   simp at h01
 
@@ -573,7 +600,7 @@ private lemma j2_false_of_injective (hC : Levi108 K L R N Y ρ μ T)
     {W : Subgroup (GG L)} (eJ : W ≃* NativeSporadic.J2)
     {φ : W →* MulAut L} (hφinj : Function.Injective φ) : False := by
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hC.elemAb_L.isPGroup
-  haveI : IsMulCommutative L := hC.elemAb_L.1
+  have : IsMulCommutative L := hC.elemAb_L.1
   obtain ⟨eL⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2)
     (fun a b => mul_comm' a b)
     (fun a => Subtype.ext (by simpa [pow_two] using hC.elemAb_L.2 (a : 𝓜) a.2)) hn
@@ -598,9 +625,9 @@ theorem Levi108.not_J2 (hC : Levi108 K L R N Y ρ μ T)
   have hJ2simple : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.J2) := by
     change IsSimpleGroup NativeSporadic.J2
     exact CFSG.Sporadic.J2.isSimpleGroup_J2
-  letI : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.J2) := hJ2simple
-  haveI hWsimple : IsSimpleGroup W := MulEquiv.isSimpleGroup eJ
-  haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+  let : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.J2) := hJ2simple
+  have hWsimple : IsSimpleGroup W := MulEquiv.isSimpleGroup eJ
+  have : φ.ker.Normal := MonoidHom.normal_ker φ
   have hker_bot : φ.ker = ⊥ := by
     rcases hWsimple.eq_bot_or_eq_top_of_normal φ.ker with h | h
     · exact h
@@ -621,7 +648,7 @@ private lemma exists_tau_conj_data (hC : Levi108 K L R N Y ρ μ T)
           (MulAut.conjNormal (mkG L τ)) x = x) := by
   obtain ⟨τ, hτR, hτord, ω, hω, hω3, hρτ, hτK⟩ := hC.exists_tau hq
   let W : Subgroup (GG L) := Subgroup.normalClosure (Xlevi L R : Set (GG L))
-  haveI hWnormal : W.Normal := Subgroup.normalClosure_normal
+  have hWnormal : W.Normal := Subgroup.normalClosure_normal
   let τhat : GG L := mkG L τ
   have hτ3 : (τ : 𝓜) ^ 3 = 1 := by
     rw [← hτord]
@@ -632,7 +659,6 @@ private lemma exists_tau_conj_data (hC : Levi108 K L R N Y ρ μ T)
       _ = mkG L 1 := by rw [hτ3']
       _ = 1 := map_one _
   have hαW3 : (MulAut.conjNormal τhat : MulAut W) ^ 3 = 1 := by
-    change (MulAut.conjNormal τhat) ^ 3 = 1
     rw [← map_pow, hτhat3, map_one]
   have hfixX : ∀ x : W, (x : GG L) ∈ Xlevi L R →
       (MulAut.conjNormal τhat : MulAut W) x = x := by
@@ -647,9 +673,9 @@ private lemma exists_tau_conj_data (hC : Levi108 K L R N Y ρ μ T)
 
 private lemma m12_alpha_eq_one (hC : Levi108 K L R N Y ρ μ T)
     (hM12 : ComponentClassification.RankTwoClassical.M12AutThreeFive) (hq : Nat.card K = 4)
-    {τ : ↥(NL L)} (hτR : (τ : 𝓜) ∈ R) (hτK : mkG L τ ∈ Kfrak L R)
-    {ω : K} (hτ3 : (τ : 𝓜) ^ 3 = 1) (hω : ω ≠ 1)
-    (hρτ : (ρ ⟨τ, hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
+    {τ : ↥(NL L)} (hτR : (τ : 𝓜) ∈ R) (_hτK : mkG L τ ∈ Kfrak L R)
+    {ω : K} (_hτ3 : (τ : 𝓜) ^ 3 = 1) (_hω : ω ≠ 1)
+    (_hρτ : (ρ ⟨τ, hτR⟩ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) ω)
     (hαW3 : (MulAut.conjNormal (mkG L τ) :
       MulAut (Subgroup.normalClosure (Xlevi L R : Set (GG L)))) ^ 3 = 1)
     (hfixX : ∀ x : Subgroup.normalClosure (Xlevi L R : Set (GG L)),
@@ -665,15 +691,15 @@ private lemma m12_alpha_eq_one (hC : Levi108 K L R N Y ρ μ T)
   have hM12simple : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.M12) := by
     change IsSimpleGroup NativeSporadic.M12
     exact (CFSG.Sporadic.Mathieu.fam_m12_simplicity).2.2
-  letI : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.M12) := hM12simple
-  haveI hWsimple : IsSimpleGroup W := MulEquiv.isSimpleGroup eW
+  let : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.M12) := hM12simple
+  have hWsimple : IsSimpleGroup W := MulEquiv.isSimpleGroup eW
   have hWcard : Nat.card W = 95040 := by
     rw [Nat.card_congr eW.toEquiv]
     exact CFSG.Sporadic.Mathieu.card_M12
   have h5dvd : 5 ∣ Nat.card (Xlevi L R) := by
     rw [card_Xlevi_eq_sixty hC hq]
     norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' 5 h5dvd
   have hxW : x.val ∈ W := Subgroup.subset_normalClosure x.2
   let h : W := ⟨x.val, hxW⟩
@@ -682,7 +708,7 @@ private lemma m12_alpha_eq_one (hC : Levi108 K L R N Y ρ μ T)
     change orderOf x.val = 5
     rw [Subgroup.orderOf_coe x]
     exact hxord
-  have hfixh : αW h = h := hfixX h (by simpa [h] using x.2)
+  have hfixh : αW h = h := hfixX h (by simp [h])
   exact hM12 W hSporadic αW ⟨1, by simpa [αW] using hαW3⟩ h hh5 hfixh
 
 theorem Levi108.not_M12 (hC : Levi108 K L R N Y ρ μ T)
@@ -691,7 +717,7 @@ theorem Levi108.not_M12 (hC : Levi108 K L R N Y ρ μ T)
   intro hSporadic
   obtain ⟨τ, hτR, ω, hτ3, hω, hρτ, hτK, hαW3, hfixX⟩ := exists_tau_conj_data hC hq
   let W : Subgroup (GG L) := Subgroup.normalClosure (Xlevi L R : Set (GG L))
-  haveI hWnormal : W.Normal := Subgroup.normalClosure_normal
+  have hWnormal : W.Normal := Subgroup.normalClosure_normal
   let τhat : GG L := mkG L τ
   let αW : MulAut W := MulAut.conjNormal τhat
   have hαW1 : αW = 1 := m12_alpha_eq_one hC hM12 hq hτR hτK hτ3 hω hρτ hαW3 hfixX hSporadic
@@ -699,8 +725,8 @@ theorem Levi108.not_M12 (hC : Levi108 K L R N Y ρ μ T)
   have hM12simple : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.M12) := by
     change IsSimpleGroup NativeSporadic.M12
     exact (CFSG.Sporadic.Mathieu.fam_m12_simplicity).2.2
-  letI : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.M12) := hM12simple
-  haveI hWsimple : IsSimpleGroup W := MulEquiv.isSimpleGroup eW
+  let : IsSimpleGroup (NativeSporadic.Carrier TauCeti.SporadicName.M12) := hM12simple
+  have hWsimple : IsSimpleGroup W := MulEquiv.isSimpleGroup eW
   have hWcard : Nat.card W = 95040 := by
     rw [Nat.card_congr eW.toEquiv]
     exact CFSG.Sporadic.Mathieu.card_M12
@@ -715,7 +741,8 @@ theorem Levi108.not_M12 (hC : Levi108 K L R N Y ρ μ T)
   exact Levi108.false_of_simple_le_centralizer hC hq hτR hτ3 hω hρτ hWsimple
     (by rw [hWcard]; norm_num) Subgroup.subset_normalClosure hWτ
 
-private lemma a9_fixXA (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4)
+omit [Finite 𝓜] in
+private lemma a9_fixXA (_hC : Levi108 K L R N Y ρ μ T) (_hq : Nat.card K = 4)
     {e : Subgroup.normalClosure (Xlevi L R : Set (GG L)) ≃* alternatingGroup (Fin 9)}
     {αW : MulAut (Subgroup.normalClosure (Xlevi L R : Set (GG L)))}
     (hfixX : ∀ x : Subgroup.normalClosure (Xlevi L R : Set (GG L)),
@@ -753,9 +780,9 @@ private lemma a9_transport (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4
   let hXW : Xlevi L R ≤ W := Subgroup.subset_normalClosure
   let XW : Subgroup W := (Xlevi L R).subgroupOf W
   let XA : Subgroup (alternatingGroup (Fin 9)) := XW.map e.toMonoidHom
-  haveI hXsimple : IsSimpleGroup (Xlevi L R) := isSimpleGroup_Xlevi hC hq
-  haveI hXWsimple : IsSimpleGroup XW := (Subgroup.subgroupOfEquivOfLe hXW).isSimpleGroup
-  haveI hXAsimple : IsSimpleGroup (XW.map e.toMonoidHom) :=
+  have hXsimple : IsSimpleGroup (Xlevi L R) := isSimpleGroup_Xlevi hC hq
+  have hXWsimple : IsSimpleGroup XW := (Subgroup.subgroupOfEquivOfLe hXW).isSimpleGroup
+  have hXAsimple : IsSimpleGroup (XW.map e.toMonoidHom) :=
     (e.subgroupMap XW).symm.isSimpleGroup
   have hXAcard : Nat.card XA = 60 := by
     rw [show Nat.card XA = Nat.card XW from
@@ -764,14 +791,15 @@ private lemma a9_transport (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXW).toEquiv]
     exact card_Xlevi_eq_sixty hC hq
   have hfixXA : ∀ x ∈ XA, αA x = x := by
-    have h := a9_fixXA (hC := hC) (hq := hq) (e := e) (αW := αW) hfixX
+    have h := a9_fixXA (_hC := hC) (_hq := hq) (e := e) (αW := αW) hfixX
     simpa [XA, αA] using h
   obtain ⟨WA, hXWA, hfixWA, hWAsimple, hWAcard⟩ :=
     CFSG.Permutation.exists_simple_fixed_of_alternatingNine_aut_cube αA hαA3 XA hXAsimple
       hXAcard hfixXA
   exact ⟨WA, hXWA, hfixWA, hWAsimple, hWAcard⟩
 
-private lemma a9_pullback (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4)
+omit [Finite 𝓜] in
+private lemma a9_pullback (_hC : Levi108 K L R N Y ρ μ T) (_hq : Nat.card K = 4)
     {e : Subgroup.normalClosure (Xlevi L R : Set (GG L)) ≃* alternatingGroup (Fin 9)}
     {WA : Subgroup (alternatingGroup (Fin 9))}
     (hXWA : ((Xlevi L R).subgroupOf
@@ -783,8 +811,8 @@ private lemma a9_pullback (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4)
   let W : Subgroup (GG L) := Subgroup.normalClosure (Xlevi L R : Set (GG L))
   let W₁W : Subgroup W := WA.map e.symm.toMonoidHom
   let W₁ : Subgroup (GG L) := W₁W.map W.subtype
-  haveI hW₁Wsimple : IsSimpleGroup W₁W := (e.symm.subgroupMap WA).symm.isSimpleGroup
-  haveI hW₁simple : IsSimpleGroup W₁ :=
+  have hW₁Wsimple : IsSimpleGroup W₁W := (e.symm.subgroupMap WA).symm.isSimpleGroup
+  have hW₁simple : IsSimpleGroup W₁ :=
     (Subgroup.equivMapOfInjective W₁W W.subtype W.subtype_injective).symm.isSimpleGroup
   have hW₁card : 180 < Nat.card W₁ := by
     rw [show Nat.card W₁ = Nat.card W₁W from
@@ -801,13 +829,13 @@ private lemma a9_pullback (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4)
     have hxmap : x ∈ W₁W.map W.subtype := by
       refine Subgroup.mem_map.mpr ⟨e.symm (e xw), ?_, ?_⟩
       · exact Subgroup.mem_map_of_mem e.symm.toMonoidHom hxWA
-      · simpa [xw] using congrArg (fun y : (Xlevi L R).subgroupOf W => ((y : W) : GG L))
-          (e.symm_apply_apply xw)
+      · simp [xw]
     exact hxmap
   exact ⟨W₁, rfl, hW₁simple, hW₁card, hXW₁⟩
 
-private lemma a9_pullback_centralizer (hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
-    (hτR : (τ : 𝓜) ∈ R)
+omit [Finite 𝓜] in
+private lemma a9_pullback_centralizer (_hC : Levi108 K L R N Y ρ μ T) {τ : ↥(NL L)}
+    (_hτR : (τ : 𝓜) ∈ R)
     {e : Subgroup.normalClosure (Xlevi L R : Set (GG L)) ≃* alternatingGroup (Fin 9)}
     {WA : Subgroup (alternatingGroup (Fin 9))}
     (hfixWA : ∀ w ∈ WA,
@@ -849,17 +877,17 @@ theorem Levi108.not_A9 (hC : Levi108 K L R N Y ρ μ T) (hq : Nat.card K = 4) :
   intro hA9
   obtain ⟨τ, hτR, ω, hτ3, hω, hρτ, hτK, hαW3, hfixX⟩ := exists_tau_conj_data hC hq
   let W : Subgroup (GG L) := Subgroup.normalClosure (Xlevi L R : Set (GG L))
-  haveI hWnormal : W.Normal := Subgroup.normalClosure_normal
+  have hWnormal : W.Normal := Subgroup.normalClosure_normal
   let τhat : GG L := mkG L τ
   let αW : MulAut W := MulAut.conjNormal τhat
   let e : W ≃* alternatingGroup (Fin 9) := hA9.some
   obtain ⟨WA, hXWA, hfixWA, hWAsimple, hWAcard⟩ :=
     a9_transport (hC := hC) (hq := hq) (e := e) (αW := αW) hαW3 hfixX
   obtain ⟨W₁, hW₁eq, hW₁simple, hW₁card, hXW₁⟩ :=
-    a9_pullback (hC := hC) (hq := hq) (e := e) hXWA hWAsimple hWAcard
+    a9_pullback (_hC := hC) (_hq := hq) (e := e) hXWA hWAsimple hWAcard
   have hW₁τ : W₁ ≤ Subgroup.centralizer ({τhat} : Set (GG L)) := by
     rw [hW₁eq]
-    exact a9_pullback_centralizer (hC := hC) (τ := τ) hτR (e := e) hfixWA
+    exact a9_pullback_centralizer (_hC := hC) (τ := τ) hτR (e := e) hfixWA
   exact Levi108.false_of_simple_le_centralizer hC hq hτR hτ3 hω hρτ hW₁simple hW₁card hXW₁ hW₁τ
 
 theorem Levi108.not_exception

@@ -16,6 +16,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private theorem le_sup_pCoreOf_of_barSub_eq {K A B : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hφ : SevenK.IsBarMap K (pCoreOf 2 K) φ) (hAK : A ≤ K)
     (hbar : SevenK.barSub K φ A = SevenK.barSub K φ B) :
@@ -47,7 +48,7 @@ theorem IsMinFam16.conj_eq_of_mem_of_le_S
   classical
   let K : Subgroup G := conjClosure V H
   let Y : Subgroup X := SevenK.barSub K φ V
-  haveI : Finite X := Finite.of_surjective (φ : ↥K → X) hφ.surjective
+  have : Finite X := Finite.of_surjective (φ : ↥K → X) hφ.surjective
   have hsup : S ⊔ K = H := by
     change S ⊔ conjClosure V H = H
     exact IsMinFam16.sup_conjClosure_eq h1 hS h hH hV

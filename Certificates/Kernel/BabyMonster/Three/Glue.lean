@@ -533,7 +533,7 @@ theorem wTh5 : ev mq (TH 5) = sm Th5 := by
 
 theorem wTh6 : ev mq (TH 6) = sm Th6 := by
   rw [← th6, ← e3]
-  simp only [TH, ev, mq, mul_one, mul_assoc]
+  simp only [TH, ev, mq, mul_one]
 
 theorem wTh7 : ev mq (TH 7) = sm Th7 := by
   rw [← th7, ← th7_0, ← e2, ← e5, ← e6]
@@ -792,16 +792,16 @@ theorem ys_pow (i : Fin 4) : ys hT hH i ^ 3 = 1 := by
 
 theorem nfProd_eq (e : List ℕ) :
     nfProd (xs hT hH) (ys hT hH) (qq hT hH 8) e = ev (qq hT hH) (nfw e) := by
-  simp only [nfProd, nfw, ev_append, ev_rep, ev8, xs, ys] <;> rfl
+  simp only [nfProd, nfw, ev_append, ev_rep, ev8, xs, ys]; rfl
 
 theorem conjG (k : Fin 2) (w : List ℕ) :
     (gs hT hH k)⁻¹ * ev (qq hT hH) w * gs hT hH k = ev (qq hT hH) (subst (TT k.val) w) := by
   rw [conj_ev, ev_subst]
   refine congrArg (ev · w) (funext fun l => ?_)
   by_cases hk : k.val = 0
-  · rw [gs, TT, if_pos hk, if_pos hk]
+  · rw [gs, TT, ite_eq_left hk, ite_eq_left hk]
     exact conjT hT hH l
-  · rw [gs, TT, if_neg hk, if_neg hk]
+  · rw [gs, TT, ite_eq_right hk, ite_eq_right hk]
     exact conjH hT hH l
 
 theorem actX (k : Fin 2) (j : Fin 4) : gs hT hH k * xs hT hH j * (gs hT hH k)⁻¹ =

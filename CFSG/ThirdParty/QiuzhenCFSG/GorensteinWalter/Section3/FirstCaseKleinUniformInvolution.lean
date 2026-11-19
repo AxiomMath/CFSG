@@ -131,7 +131,6 @@ public theorem firstCase_klein_uniform_involution_inverted
   have hyQ : yH ∈ Q := hQ0Q hyQ0
   have hyP : h * yH * h⁻¹ ∈ (P : Subgroup c.Hhat) := by
     have hySmul : (MulAut.conj h) yH ∈ ((h • Q : Sylow 2 c.Hhat) : Subgroup c.Hhat) := by
-      change (MulAut.conj h) yH ∈ ((h • Q : Sylow 2 c.Hhat) : Subgroup c.Hhat)
       exact Subgroup.mem_map.mpr ⟨yH, hyQ, rfl⟩
     rw [hh] at hySmul
     simpa [MulAut.conj_apply] using hySmul
@@ -160,7 +159,7 @@ public theorem firstCase_klein_uniform_involution_inverted
     have : s ∈ twoCoreOf c.Hhat := by
       have hsV'' := hVnormal.2 (h : G)⁻¹ ((c.Hhat).inv_mem h.property) r' hrV'
       rw [show s = (h : G)⁻¹ * r' * (h : G) by
-        simp [r', mul_assoc, inv_inv]]
+        simp [r', mul_assoc]]
       rw [inv_inv] at hsV''
       exact hsV''
     exact hsV this
@@ -186,8 +185,7 @@ public theorem firstCase_klein_uniform_involution_inverted
   have hKmapInv : IsInvertedSubgroup
       (K.map (MulAut.conj ((h : G)⁻¹)).toMonoidHom) c.U s := by
     apply firstCase_conjugate_invertedSubgroup hr'Inv hhUinv
-    · change (h : G)⁻¹ * r' * ((h : G)⁻¹)⁻¹ = s
-      rw [inv_inv]
+    · rw [inv_inv]
       simp [r', mul_assoc]
     · exact hKr'
   have hmapEq : K.map (MulAut.conj ((h : G)⁻¹)).toMonoidHom = K := by

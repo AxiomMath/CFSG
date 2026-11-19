@@ -77,7 +77,7 @@ theorem fixCnt_conj (c π : Equiv.Perm (Fin 128)) : fixCnt (c * π * c⁻¹) = f
   refine Finset.card_equiv c⁻¹ fun i => ?_
   rw [Finset.mem_filter, Finset.mem_filter]
   simp only [Finset.mem_univ, true_and, Equiv.Perm.mul_apply, Equiv.Perm.inv_def]
-  exact Equiv.apply_eq_iff_eq_symm_apply c
+  exact (Iff.symm (_root_.Equiv.eq_symm_apply c))
 
 theorem fixSq_conj {c : Equiv.Perm (Fin 128)} (hc : c ∈ AutC) (htc : c tF = tF)
     (π : Equiv.Perm (Fin 128)) : fixSq (c * π * c⁻¹) = fixSq π := by

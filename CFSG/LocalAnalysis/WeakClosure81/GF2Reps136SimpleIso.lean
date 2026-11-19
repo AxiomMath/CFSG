@@ -11,7 +11,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open scoped commutatorElement Pointwise Matrix
 
 theorem w1369_ta_iso_case {Q : Type} [CommGroup Q] [Finite Q] (hQ : ∀ x : Q, x ^ 2 = 1)
-    {Λ N : Subgroup (MulAut Q)} (hΛN : Λ ≤ N)
+    {Λ N : Subgroup (MulAut Q)} (_hΛN : Λ ≤ N)
     (hnorm : ∀ n ∈ N, ∀ l ∈ Λ, n * l * n⁻¹ ∈ Λ)
     {k : ℕ} (hk : k ≤ 3) {I : Fin k → Subgroup Q} (hstab : ∀ i, StableUnder Λ (I i))
     (hsimple : ∀ i, I i ≠ ⊥ ∧ ∀ J : Subgroup Q, StableUnder Λ J → J ≤ I i → J = ⊥ ∨ J = I i)
@@ -26,7 +26,7 @@ theorem w1369_ta_iso_case {Q : Type} [CommGroup Q] [Finite Q] (hQ : ∀ x : Q, x
       (S₂ ≠ ⊥ ∧ StableUnder Λ S₂ ∧ ∀ J : Subgroup Q, StableUnder Λ J → J ≤ S₂ → J = ⊥ ∨ J = S₂) →
       ∃ n ∈ N, S₂ = S₁.map n.toMonoidHom := by
   classical
-  haveI : Finite (Subgroup Q) :=
+  have : Finite (Subgroup Q) :=
     Finite.of_injective (fun H : Subgroup Q => (H : Set Q)) SetLike.coe_injective
   have hIsimple : ∀ i, w1369_ta_IsSimple Λ (I i) :=
     fun i => ⟨(hsimple i).1, hstab i, (hsimple i).2⟩

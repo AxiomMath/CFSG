@@ -20,6 +20,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem GT_map_tau_pow_le (k : ℤ) :
     (t.GT).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom ≤ t.GT := by
   rintro y ⟨x, hx, rfl⟩
@@ -73,7 +74,7 @@ private theorem exists_sym_window :
 private theorem Gw_zero_one_ne_GT {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : t.Gw 0 1 ≠ t.GT := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : S = t.QT :=
     (t.pCoreOf_Gw_zero_one hfr).symm.trans (by rw [h])
   have hB : bigB L1 L2 S = t.Gv 0 ⊓ t.Gv 1 := by
@@ -134,6 +135,7 @@ private theorem exists_window {a f : ℕ}
     have hP' : P (Nat.find hPex - 1) := ⟨by omega, by rwa [hcast]⟩
     exact Nat.find_min hPex (by omega) hP'
 
+omit [Finite G] in
 private theorem map_Gv_tau_pow (i k : ℤ) :
     (t.Gv i).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = t.Gv (i + 2 * k) := by
   have h := map_win_tau_pow (Q₁ := P1 L1 L2 S) (Q₂ := P2 L1 L2 S)
@@ -159,7 +161,7 @@ private theorem window_GT_eq_inf_sup_K {a f : ℕ}
 private theorem window_core_inf_GT {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {v : ℤ} (hv : 0 < v) :
     pCoreOf 2 (t.Gw 0 v) ⊓ t.GT = t.QT := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD := t.window_GT_eq_inf_sup_K hfr hv
   have hle : pCoreOf 2 (t.Gw 0 v) ⊓ t.GT ≤ t.QT := by
     refine le_pCoreOf_of_le_normalizer 2 inf_le_right ?_ ?_
@@ -196,7 +198,7 @@ private theorem window_core_inf_Qv {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {v : ℤ} (hv : 1 ≤ v)
     (hGT : t.Gw 0 (v + 1) = t.GT) :
     pCoreOf 2 (t.Gw 0 v) ⊓ t.Qv v = t.QT := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 (pCoreOf 2 (t.Gw 0 v)) := pCoreOf_isPGroup 2 _
   have hPGw : pCoreOf 2 (t.Gw 0 v) ≤ t.Gw (v - 1) v := by
     refine (pCoreOf_le 2 (t.Gw 0 v)).trans (win_mono ?_ le_rfl)
@@ -238,6 +240,7 @@ private theorem window_core_ne {a f : ℕ}
   apply hWne
   rw [t.Gw_eq_sup hfr hv, h, ← t.GT_eq_pCoreOf_sup_K hfr]
 
+omit [Finite G] in
 private theorem K_le_normalizer_map_conj {P : Subgroup G} {y : G}
     (hKP : t.K ≤ normalizer (P : Set G)) (hyK : y ∈ normalizer (t.K : Set G)) :
     t.K ≤ normalizer ((P.map (MulAut.conj y).toMonoidHom : Subgroup G) : Set G) := by
@@ -273,6 +276,7 @@ private theorem K_le_normalizer_map_conj {P : Subgroup G} {y : G}
     · show k * (k⁻¹ * (y * q * y⁻¹) * k) * k⁻¹ = y * q * y⁻¹
       group
 
+omit [Finite G] in
 private theorem mem_normalizer_GT_of_reflection {v : ℤ} {y : G}
     (hyGv : ∀ i : ℤ, (t.Gv i).map (MulAut.conj y).toMonoidHom = t.Gv (2 * v - i)) :
     y ∈ normalizer (t.GT : Set G) := by
@@ -289,6 +293,7 @@ private theorem mem_normalizer_GT_of_reflection {v : ℤ} {y : G}
       (iInf_le (fun i : ℤ => t.Gv (2 * v - i)) (2 * v - j))
   · refine le_iInf fun i => t.GT_le_Gv (2 * v - i)
 
+omit [Finite G] in
 private theorem map_Gv_of_win_reflection {v : ℤ} {y : G}
     (hwin : ∀ u w : ℤ,
       (t.Gw u w).map (MulAut.conj y).toMonoidHom = t.Gw (2 * v - w) (2 * v - u)) :
@@ -297,22 +302,26 @@ private theorem map_Gv_of_win_reflection {v : ℤ} {y : G}
   have h := hwin i i
   simpa [win_self] using h
 
+omit [Finite G] in
 private theorem reflection_mem_normalizer_QT {v : ℤ} {y : G}
     (hyGv : ∀ i : ℤ, (t.Gv i).map (MulAut.conj y).toMonoidHom = t.Gv (2 * v - i)) :
     y ∈ normalizer (t.QT : Set G) :=
   normalizer_le_normalizer_pCoreOf 2 t.GT (t.mem_normalizer_GT_of_reflection hyGv)
 
+omit [Finite G] in
 private theorem reflection_mem_normalizer_Qv {v : ℤ} {y : G}
     (hQv : (t.Qv v).map (MulAut.conj y).toMonoidHom = t.Qv v) :
     y ∈ normalizer (t.Qv v : Set G) :=
   (Subgroup.mem_normalizer_iff_map_conj_eq).mpr hQv
 
+omit [Finite G] in
 private theorem map_le_Gv_of_reflection {v : ℤ} {y : G} {P : Subgroup G}
     (hP : P ≤ t.Gv v) (hyGv : (t.Gv v).map (MulAut.conj y).toMonoidHom = t.Gv v) :
     P.map (MulAut.conj y).toMonoidHom ≤ t.Gv v := by
   have h := Subgroup.map_mono (f := (MulAut.conj y).toMonoidHom) hP
   rwa [hyGv] at h
 
+omit [Finite G] in
 private theorem map_le_Gw_of_reflection {v : ℤ} {y : G} {P : Subgroup G}
     (hP : P ≤ t.Gw 0 v)
     (hwin : (t.Gw 0 v).map (MulAut.conj y).toMonoidHom = t.Gw v (2 * v)) :
@@ -330,6 +339,7 @@ private theorem map_le_pCoreOf_of_reflection {a f : ℕ}
     exact hP2.map (MulAut.conj y).toMonoidHom
   · exact hPyW.trans (win_mono le_rfl (by omega))
 
+omit [Finite G] in
 private theorem not_le_Qv_of_reflection {v : ℤ} {y : G} {P Py : Subgroup G}
     (hPne : P ≠ t.QT) (hPQ : P ⊓ t.Qv v = t.QT)
     (hyQv : y ∈ normalizer (t.Qv v : Set G))
@@ -349,6 +359,7 @@ private theorem not_le_Qv_of_reflection {v : ℤ} {y : G} {P Py : Subgroup G}
     simpa [mul_assoc] using h2
   rw [← hPQ, inf_eq_left.mpr hPle]
 
+omit [Finite G] in
 private theorem map_le_MX_of_reflection {v : ℤ} {y : G} {P Py : Subgroup G}
     (hyQ : y ∈ normalizer (t.QT : Set G))
     (hPM : P ≤ normalizer (t.QT : Set G))
@@ -375,6 +386,7 @@ private theorem root_hyp_right {a f : ℕ}
     ((t.mem_rootOmega_iff hfr v).mpr ⟨hxR, hxQ⟩)
   exact (sup_le (hPyMX.trans le_sup_left) le_sup_right) hx
 
+omit [Finite G] in
 private theorem root_hyp_left {v : ℤ} {y : G}
     (hyv : y ∈ t.Gv v) (hyQ : y ∈ normalizer (t.QT : Set G))
     (hyQv : y ∈ normalizer (t.Qv v : Set G))
@@ -481,6 +493,7 @@ private theorem exists_transitive_edge
     CosetTrans.mono htransX (inf_le_left : t.MX t.QT v ≤ normalizer (t.QT : Set G))
   simpa [v] using htrans
 
+omit [Finite G] in
 private theorem cosetTrans_map_conj_normalizer {A B : Subgroup G} {g : G}
     (hg : g ∈ normalizer (t.QT : Set G))
     (h : CosetTrans (normalizer (t.QT : Set G)) A B) :
@@ -492,6 +505,7 @@ private theorem cosetTrans_map_conj_normalizer {A B : Subgroup G} {g : G}
   have h' := h.map_conj g
   rwa [hM] at h'
 
+omit [Finite G] in
 private theorem cosetTrans_shift_tau {v k : ℤ}
     (h : CosetTrans (normalizer (t.QT : Set G)) (t.Gv v) (t.Gv (v + 1))) :
     CosetTrans (normalizer (t.QT : Set G)) (t.Gv (v + 2 * k)) (t.Gv (v + 1 + 2 * k)) := by
@@ -502,6 +516,7 @@ private theorem cosetTrans_shift_tau {v k : ℤ}
   rw [map_Gv_tau_pow t v k, map_Gv_tau_pow t (v + 1) k] at h'
   exact h'
 
+omit [Finite G] in
 private theorem arcL_of_trans (hQ : t.QT ≠ ⊥)
     (htr₀ : CosetTrans (normalizer (t.QT : Set G)) (t.Gv 1) (t.Gv 0))
     (htr₂ : CosetTrans (normalizer (t.QT : Set G)) (t.Gv (-1)) (t.Gv 0))
@@ -518,6 +533,7 @@ private theorem arcL_of_trans (hQ : t.QT ≠ ⊥)
         rw [inv_mul_cancel]
         exact Subgroup.one_mem _⟩
 
+omit [Finite G] in
 private theorem arcSz_of_trans (hQ : t.QT ≠ ⊥)
     (htr₀ : CosetTrans (normalizer (t.QT : Set G)) (t.Gv 0) (t.Gv 1))
     (htr₂ : CosetTrans (normalizer (t.QT : Set G)) (t.Gv 2) (t.Gv 1))

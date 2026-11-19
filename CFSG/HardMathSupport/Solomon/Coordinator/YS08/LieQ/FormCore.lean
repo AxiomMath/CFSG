@@ -18,7 +18,7 @@ variable {F : Type} [Field F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F 
 theorem scalar_of_nilpotent_sub (R : Module.End F V) (l : F) (e : ℕ)
     (hN : (R - algebraMap F (Module.End F V) l) ^ (2 ^ e) = 0) (m : ℕ) (hm : Odd m)
     (hRm : R ^ m = 1) : ∃ c : F, R = algebraMap F (Module.End F V) c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases subsingleton_or_nontrivial V with hV | hV
   · exact ⟨0, Subsingleton.elim _ _⟩
   have hinj : Function.Injective (algebraMap F (Module.End F V)) := by
@@ -27,7 +27,7 @@ theorem scalar_of_nilpotent_sub (R : Module.End F V) (l : F) (e : ℕ)
     have := congrArg (fun f : Module.End F V => f v) hab
     simp only [Module.algebraMap_end_apply] at this
     exact smul_left_injective F hv this
-  haveI : CharP (Module.End F V) 2 := charP_of_injective_algebraMap hinj 2
+  have : CharP (Module.End F V) 2 := charP_of_injective_algebraMap hinj 2
   have hcomm : Commute (algebraMap F (Module.End F V) l)
       (R - algebraMap F (Module.End F V) l) := Algebra.commutes l _
   have hpow : R ^ 2 ^ e = algebraMap F (Module.End F V) (l ^ 2 ^ e) := by
@@ -168,7 +168,7 @@ theorem Ctx.a_eq_l [FiniteDimensional F V] (h : Ctx Φ r σ) (hσ : ∀ s, σ s 
       rw [Φ.perp_perp] at hti
       have := Submodule.finrank_mono hti
       omega
-    obtain ⟨y, hyP, hyN⟩ := SetLike.not_le_iff_exists.1 hnti
+    obtain ⟨y, hyP, hyN⟩ := IsConcreteLE.not_le_iff_exists.1 hnti
     have : ∃ y' ∈ Φ.perp W, Φ.β y' y ≠ 0 := by
       by_contra hcon
       push Not at hcon
@@ -230,7 +230,7 @@ theorem rigid_form_core (Φ : ReflForm F V) (hσΦ : ∀ c, Φ.σ (Φ.σ c) = c)
     have := Submodule.finrank_mono hle
     rw [finrank_span_singleton hx₀0] at this
     omega
-  obtain ⟨y₁, hy₁P, hy₁⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨y₁, hy₁P, hy₁⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   have hstar : ∀ y ∈ Φ.perp W, ∃ b : F, r y = Φ.β x₀ (r v₀) • y + b • x₀ := by
     intro y hy
     obtain ⟨c, hc⟩ := hE x₀ hx₀ hx₀0 y hy

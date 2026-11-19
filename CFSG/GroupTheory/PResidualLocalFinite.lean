@@ -33,9 +33,9 @@ theorem pResidualOf_mono {p : ℕ} {A B : Subgroup G} (hAB : A ≤ B) :
 
 theorem pResidual_map_of_surjective {X Y : Type*} [Group X] [Group Y] [Finite X] (p : ℕ)
     (f : X →* Y) (hf : Function.Surjective f) : (pResidual p X).map f = pResidual p Y := by
-  haveI : Finite Y := Finite.of_surjective f hf
-  haveI : (pResidual p Y).Normal := CFSG.Quasithin.G6.pResidual_normal_aux p
-  haveI : ((pResidual p X).map f).Normal :=
+  have : Finite Y := Finite.of_surjective f hf
+  have : (pResidual p Y).Normal := CFSG.Quasithin.G6.pResidual_normal_aux p
+  have : ((pResidual p X).map f).Normal :=
     (CFSG.Quasithin.G6.pResidual_normal_aux p).map f hf
   refine le_antisymm ?_ ?_
   · rw [Subgroup.map_le_iff_le_comap]
@@ -48,10 +48,10 @@ theorem pResidual_map_of_surjective {X Y : Type*} [Group X] [Group Y] [Finite X]
     exact ⟨k, Subgroup.mem_map.mpr ⟨x ^ p ^ k, hk, map_pow f x (p ^ k)⟩⟩
 
 theorem pResidualOf_map_of_surjective {X Y : Type*} [Group X] [Group Y] [Finite X] (p : ℕ)
-    (f : X →* Y) (hf : Function.Surjective f) (A : Subgroup X) :
+    (f : X →* Y) (_hf : Function.Surjective f) (A : Subgroup X) :
     (pResidualOf p A).map f = pResidualOf p (A.map f) := by
-  haveI : Finite ↥A := .of_injective A.subtype A.subtype_injective
-  haveI : Finite Y := .of_surjective f hf
+  have : Finite ↥A := .of_injective A.subtype A.subtype_injective
+  have : Finite Y := .of_surjective f _hf
   let g : ↥A →* ↥(A.map f) := f.subgroupMap A
   have hg : Function.Surjective g := by
     rintro ⟨y, hy⟩
@@ -67,13 +67,13 @@ theorem pResidualOf_map_of_surjective {X Y : Type*} [Group X] [Group Y] [Finite 
 
 theorem pResidualOf_normal {p : ℕ} {A : Subgroup G} (hA : A.Normal) :
     (pResidualOf p A).Normal := by
-  haveI : A.Normal := hA
-  haveI : (pResidual p ↥A).Characteristic := CFSG.Quasithin.pResidual_characteristic p ↥A
+  have : A.Normal := hA
+  have : (pResidual p ↥A).Characteristic := CFSG.Quasithin.pResidual_characteristic p ↥A
   exact ConjAct.normal_of_characteristic_of_normal (H := A) (K := pResidual p ↥A)
 
 theorem le_pResidualOf_of_perfect [Finite G] {p : ℕ} [Fact p.Prime] {A N : Subgroup G}
     (hN : ⁅N, N⁆ = N) (hNA : N ≤ A) : N ≤ CFSG.Quasithin.pResidualOf p A := by
-  haveI : Finite ↥A := .of_injective A.subtype A.subtype_injective
+  have : Finite ↥A := .of_injective A.subtype A.subtype_injective
   refine CFSG.Holt.General.le_of_isPerfect_of_forall_pow_mem (p := p) hN ?_ ?_
   · exact hNA.trans ((Subgroup.le_normalizer (H := A)).trans
       (CFSG.Quasithin.normalizer_le_normalizer_pResidualOf p A))

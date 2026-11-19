@@ -45,8 +45,8 @@ private lemma exists_rotData (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n
     (hn : 7 ≤ n) {Bb : Subgroup ↥(orthDerived Q)} {l : List (V × V)}
     (hF : FrameOf Q Bb (n - 1) l) {p₁ : V × V} (hp₁ : p₁ ∈ l) :
     ∃ y : ↥(orthDerived Q), RotFacts Q Bb l p₁ n y := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl := hF.isFrame
   have hpp₁ := hl.pair p₁ hp₁
   obtain ⟨y, hyBb, hyrot⟩ := hF.exists_mem_rot hp₁
@@ -80,6 +80,7 @@ private lemma exists_rotData (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n
     hx.supportedFixedDerived_le_orthDerived
   exact ⟨y, ⟨hyBb, hyrot, hyt, hy3', hyO, hy3, hyfix, hyfin, hlayer, hAΩ, hLy⟩⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma rotData_notMem_zpowers {Bb : Subgroup ↥(orthDerived Q)} {l : List (V × V)}
     {p₁ : V × V} {n : ℕ} {y : ↥(orthDerived Q)} (hF : FrameOf Q Bb (n - 1) l)
     (RF : RotFacts Q Bb l p₁ n y) {d : ↥(orthDerived Q)} (hd : d ∈ Bb)
@@ -182,8 +183,8 @@ theorem modelExist_orthDerived {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     ModelExist 3 ↥(orthDerived Q) (n - 1) (isUnA (n - 1) 2) (isOmMA (n - 1) 2)
       (isUnA (n - 2) 2) := by
   intro Bb hBb hcard d hd hLd hcd
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨l, hF⟩ := exists_frame_of_card hQ hbound hBb hcard
   have hl := hF.isFrame
   have hfull := fullSupport_of_layerIs hQ hdim hplus (by omega) hb hF hd hLd hcd

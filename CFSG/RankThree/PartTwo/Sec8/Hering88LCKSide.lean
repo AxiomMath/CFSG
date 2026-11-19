@@ -84,6 +84,7 @@ theorem P_mul_Y_ne {ω : F} (hω3 : ω ^ 3 = 1) (hω0 : ω ≠ 0) (hω1 : ω ≠
 
 variable [CharP F 2]
 
+omit [CharP F 2] in
 theorem Y_mem {ω : F} (hω3 : ω ^ 3 = 1) :
     Y hω3 ∈ CFSG.Assembly.LowTwoRank.StatedSU 3 2 F := by
   refine Subgroup.subset_closure ⟨?_, ?_⟩
@@ -168,7 +169,7 @@ theorem exists_noncomm_three {K : Subgroup G} {a : G} (ha3 : a ^ 3 = 1)
       have e1 : (2 : ℕ) ^ 1 = 2 := pow_one 2
       rw [e1] at hF φ
       have hF4 : Nat.card F = 4 := by rw [hF]; norm_num
-      haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+      have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two (k := 2) (by norm_num) (by rw [hF4]; norm_num)
       obtain ⟨ω, hω3, hω0, hω1⟩ := exists_cube_root_of_card_four hF4
       set y : CFSG.Assembly.LowTwoRank.StatedSU 3 2 F := ⟨SU3Two.Y hω3, SU3Two.Y_mem hω3⟩

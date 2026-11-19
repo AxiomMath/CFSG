@@ -36,7 +36,7 @@ public theorem exists_mem_normalizer_not_mem_of_lt_fitting
   have hD'lt_top : D.subgroupOf F < ⊤ := lt_of_le_of_ne le_top hD'ne_top
   have hlt : D.subgroupOf F < Subgroup.normalizer (D.subgroupOf F) :=
     hnc (D.subgroupOf F) hD'lt_top
-  obtain ⟨x, hxN, hxnot⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxN, hxnot⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   refine ⟨x.1, ?_, ?_, ?_⟩
   · exact x.2
   · have hsub : x ∈ (Subgroup.normalizer (D : Set G)).subgroupOf F := by

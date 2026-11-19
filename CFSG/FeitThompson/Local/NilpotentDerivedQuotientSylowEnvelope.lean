@@ -79,7 +79,7 @@ theorem prime_dvd_natCard_sup_sylow (D : Subgroup X) [D.Normal] (S : Sylow p X)
     q ∣ Nat.card D ∨ q = p := by
   rcases (Nat.Prime.dvd_mul hq).mp (hdvd.trans (natCard_sup_dvd D (S : Subgroup X))) with h | h
   · exact Or.inl h
-  · obtain ⟨n, hn⟩ := S.isPGroup'.exists_card_eq
+  · obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
     rw [hn] at h
     exact Or.inr ((Nat.prime_dvd_prime_iff_eq hq Fact.out).mp (hq.dvd_of_dvd_pow h))
 

@@ -30,6 +30,7 @@ private def omegaOne (W : Subgroup G) (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b 
     calc a⁻¹ * a⁻¹ = (a * a)⁻¹ := by group
       _ = 1 := by rw [ha, inv_one]
 
+omit [Finite G] in
 private theorem mem_omegaOne {W : Subgroup G} {hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a} {w : G} :
     w ∈ omegaOne W hW ↔ w ∈ W ∧ w * w = 1 := Iff.rfl
 
@@ -46,12 +47,13 @@ private def sqGrp (W : Subgroup G) (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a
     rintro a ⟨w, hw, rfl⟩
     exact ⟨w⁻¹, W.inv_mem hw, by group⟩
 
+omit [Finite G] in
 private theorem mem_sqGrp {W : Subgroup G} {hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a} {a : G} :
     a ∈ sqGrp W hW ↔ ∃ w ∈ W, a = w * w := Iff.rfl
 
 private theorem p2_commW (h : Ctx0 t L S x₁ x₂ lam rho) :
     ∀ a ∈ ctxW t x₁ x₂, ∀ b ∈ ctxW t x₁ x₂, a * b = b * a := by
-  haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+  have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
   intro a ha b hb
   simpa using congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ctxW t x₁ x₂) ⟨b, hb⟩)
 
@@ -117,14 +119,14 @@ theorem l41_p2_exists_u (h : L41GPh4 t L S x₁ x₂ lam rho) :
       u ∉ l41N t x₁ x₂ := by
   obtain ⟨𝒮, h𝒮⟩ := exists_sylow_gt h.normalizerFacts.V_pGroup h.normalizerFacts.V_not_sylow
   obtain ⟨u, hu𝒮, hun, hunV⟩ :=
-    exists_mem_normalizer_not_mem (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup') h𝒮
+    exists_mem_normalizer_not_mem (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup) h𝒮
   refine ⟨u, hun, fun huN => hunV ?_⟩
   have hK_le : l41V S t x₁ x₂ ⊔ zpowers u ≤ l41N t x₁ x₂ :=
     sup_le h.normalizerFacts.V_le (Subgroup.zpowers_le.mpr huN)
   have hK𝒮 : l41V S t x₁ x₂ ⊔ zpowers u ≤ (𝒮 : Subgroup G) :=
     sup_le h𝒮.le (Subgroup.zpowers_le.mpr hu𝒮)
   have hKp : IsPGroup 2 (l41V S t x₁ x₂ ⊔ zpowers u : Subgroup G) :=
-    (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup').to_le hK𝒮
+    (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup).to_le hK𝒮
   have hEq := eq_of_isPGroup_of_odd_relIndex le_sup_left hK_le hKp h.normalizerFacts.V_sylow
   have hmem : u ∈ l41V S t x₁ x₂ ⊔ zpowers u := Subgroup.mem_sup_right (Subgroup.mem_zpowers u)
   rwa [hEq] at hmem

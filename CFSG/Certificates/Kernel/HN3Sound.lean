@@ -57,7 +57,7 @@ theorem getD_set {l : List Nat} {i : Nat} (hi : i < l.length) (x d j : Nat) :
   by_cases h : j = i
   · subst h
     simp [hi]
-  · rw [if_neg (Ne.symm h), if_neg h]
+  · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
 
 theorem regM_setR {R : List Nat} {k x y : Nat} (hk : 2 * k + 1 < R.length) (r : Nat) :
     regM (setR R k x y) r = if r = k then x else regM R r := by
@@ -170,11 +170,11 @@ theorem step_ok {R : List Nat} {Rg : ℕ → Γ} (hR : RegOK ρ R Rg) (ins : Ins
       _ = ρ (Function.update Rg k (Rg i * Rg j) r)⁻¹
     rw [Function.update_apply]
     by_cases h : r = k
-    · rw [if_pos h, if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h, ite_eq_left h]
       refine ⟨c1, c2, ?_, ?_⟩
       · rw [e1, ei, ej, map_mul]
       · rw [e2, ei', ej', _root_.mul_inv_rev, map_mul]
-    · rw [if_neg h, if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h, ite_eq_right h]
       exact hr r hr'
   | iv i k =>
     simp only [Instr.lt, Bool.and_eq_true, decide_eq_true_eq] at hlt
@@ -188,9 +188,9 @@ theorem step_ok {R : List Nat} {Rg : ℕ → Γ} (hR : RegOK ρ R Rg) (ins : Ins
       _ = ρ (Function.update Rg k (Rg i)⁻¹ r)⁻¹
     rw [Function.update_apply]
     by_cases h : r = k
-    · rw [if_pos h, if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h, ite_eq_left h]
       exact ⟨ci', ci, ei', by rw [inv_inv, ei]⟩
-    · rw [if_neg h, if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h, ite_eq_right h]
       exact hr r hr'
   | pwr e i k => exact absurd hp (by simp [isPwr])
 

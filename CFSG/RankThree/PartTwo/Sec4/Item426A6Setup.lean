@@ -262,7 +262,7 @@ omit [Finite G] in
 theorem card_sylow_three_of_card_eq {T : Type*} [Group T] [Finite T] (hT : Nat.card T = 1080)
     (S : Sylow 3 T) : Nat.card (S : Subgroup T) = 27 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hmul := Subgroup.card_mul_index (S : Subgroup T)
   have hidx := S.not_dvd_index
   rw [hk, hT] at hmul
@@ -400,7 +400,7 @@ theorem exists_commutator_mem {K : Subgroup G}
       _ = t * s := by rw [h, one_mul]
   have hZKP : ZK ≤ (P : Subgroup K) := hZ3.le_sylow_of_normal P
   have hinjP : Set.InjOn ρ ((P : Subgroup K) : Set K) :=
-    injOn_mk_of_isPGroup Nat.prime_three P.isPGroup'
+    injOn_mk_of_isPGroup Nat.prime_three P.isPGroup
   rw [← hZTeq] at hρwZ
   obtain ⟨u, huZ, hu⟩ := hρwZ
   have hwu : u = w := hinjP (hZKP huZ) hwP hu

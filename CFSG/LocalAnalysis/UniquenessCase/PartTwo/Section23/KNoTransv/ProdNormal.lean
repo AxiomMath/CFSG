@@ -50,7 +50,7 @@ private theorem ker_snd_le_of_fst_ne_one [IsSimpleGroup S₀] (hS : ∃ a b : S�
     rw [hEq]
     exact hstep
   have hKtop : N.comap (MonoidHom.inl S₀ S₀) = ⊤ := by
-    haveI : (N.comap (MonoidHom.inl S₀ S₀)).Normal :=
+    have : (N.comap (MonoidHom.inl S₀ S₀)).Normal :=
       Subgroup.Normal.comap hN (MonoidHom.inl S₀ S₀)
     have hcK : z * x * z⁻¹ * x⁻¹ ∈ N.comap (MonoidHom.inl S₀ S₀) := by
       simpa using hmem
@@ -87,7 +87,7 @@ private theorem ker_fst_le_of_snd_ne_one [IsSimpleGroup S₀] (hS : ∃ a b : S�
     rw [hEq]
     exact hstep
   have hKtop : N.comap (MonoidHom.inr S₀ S₀) = ⊤ := by
-    haveI : (N.comap (MonoidHom.inr S₀ S₀)).Normal :=
+    have : (N.comap (MonoidHom.inr S₀ S₀)).Normal :=
       Subgroup.Normal.comap hN (MonoidHom.inr S₀ S₀)
     have hcK : z * y * z⁻¹ * y⁻¹ ∈ N.comap (MonoidHom.inr S₀ S₀) := by
       simpa using hmem
@@ -186,7 +186,7 @@ theorem eq_bot_of_pow_four_prod [Finite S₀] [IsSimpleGroup S₀] (hS : ∃ a b
 theorem not_isSimpleGroup_prod [Nontrivial S₀] : ¬ IsSimpleGroup (S₀ × S₀) := by
   intro hs
   obtain ⟨x, hx⟩ := exists_ne (1 : S₀)
-  haveI : IsSimpleGroup (S₀ × S₀) := hs
+  have : IsSimpleGroup (S₀ × S₀) := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (MonoidHom.fst S₀ S₀).ker with h | h
   · have h1 : ((1, x) : S₀ × S₀) ∈ (MonoidHom.fst S₀ S₀).ker := by
       simp [Subgroup.mem_prod]

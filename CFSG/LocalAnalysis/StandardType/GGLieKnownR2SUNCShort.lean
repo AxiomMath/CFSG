@@ -20,7 +20,7 @@ private lemma l10su5_exists_fixed_ne_zero_ne_one {F : Type} [Field F] [Finite F]
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hord : orderOf g = Nat.card Fˣ := orderOf_eq_card_of_forall_mem_zpowers hg
   have hcard : Nat.card Fˣ = (2 ^ f) ^ 2 - 1 := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hc]
   set q := 2 ^ f with hq
   have hq4 : 4 ≤ q := by
@@ -118,7 +118,7 @@ private lemma l10su5_frame_proj_mem_K {F : Type} [Field F] [Finite F] [CharP F 2
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
     simp only [(suH hc n).β_sub_right, (suH hc n).add_right, (suH hc n).smul_right,
       hvv, hvw, hvv', hvw', hwv, hww, hwv', hww', hv'v, hv'w, hv'v', hv'w',
-      hw'v, hw'w, hw'v', hw'w', mul_zero, mul_one, sub_zero, zero_add, add_zero] <;>
+      hw'v, hw'w, hw'v', hw'w', mul_zero, mul_one, zero_add, add_zero] <;>
     ring_nf
 
 private lemma l10su5_span_pair_inf_perp_frame {F : Type} [Field F] [Finite F] [CharP F 2]
@@ -516,7 +516,7 @@ private theorem l10su5_fpf {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
       suPair (unitaryInvolution F 2 f) n v w := by
     rw [← hA]
     ext x
-    simp [MulAut.conj_apply]
+    simp
   obtain ⟨lam, hsiglam, hlam0, hlam1, hlampow⟩ :=
     l10su5_exists_fixed_ne_zero_ne_one hF hf
   have hlam2 : lam * lam ≠ 1 := by

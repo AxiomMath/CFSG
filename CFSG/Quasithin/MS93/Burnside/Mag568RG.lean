@@ -164,7 +164,7 @@ theorem burnsideMag568_rg_of_bad (h : PUHyp M T L) (hb : 4 < critDist (puAmalgam
     have hPK : P ≤ K := Subgroup.map_subtype_le _
     have hTPle : Qv (puAmalgam h.le) (baseB _) ≤ P := fun t ht =>
       ⟨⟨t, hβs ht⟩, hP' (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
-    have hP2 : IsPGroup 2 ↥P := P'.isPGroup'.map K.subtype
+    have hP2 : IsPGroup 2 ↥P := P'.isPGroup.map K.subtype
     have hPsub : P.subgroupOf K = (P' : Subgroup ↥K) := by
       rw [Subgroup.subgroupOf, hPdef]
       exact Subgroup.comap_map_eq_self_of_injective Subtype.coe_injective _

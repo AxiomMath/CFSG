@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_zpowers_eq_of_card_three {H : Type*} [Group H] [Finite H] (O : Subgroup H)
     (hO : Nat.card O = 3) : ∃ θ : H, θ ^ 3 = 1 ∧ θ ≠ 1 ∧ O = zpowers θ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO1 : O ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hO

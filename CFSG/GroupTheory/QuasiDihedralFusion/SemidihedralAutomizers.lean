@@ -156,7 +156,7 @@ theorem exists_mem_normalizer_qdFour (hn : 4 ≤ n) (S : Sylow 2 H)
       _ = g * (ι (s n) * t) * g⁻¹ := by rw [hts]
       _ = g * ι (s n) * g⁻¹ * (g * t * g⁻¹) := by group
   have hW2 : IsPGroup 2 (T.map (MulAut.conj g).toMonoidHom) :=
-    (S.isPGroup'.to_le (qdFour_le _ f)).map _
+    (S.isPGroup.to_le (qdFour_le _ f)).map _
   obtain ⟨c, hcC, hcW⟩ := exists_conj_le_sylow C S hSC _ hWC hW2
   rw [map_conj_mul] at hcW
   have : IsKleinFour (T.map (MulAut.conj (c * g)).toMonoidHom) :=
@@ -306,7 +306,7 @@ theorem exists_mem_normalizer_qdQuaternion (hn : 4 ≤ n) (S : Sylow 2 H)
       _ = g * (q * ι (r n * s n) * q⁻¹) * g⁻¹ := by rw [hk]
       _ = g * q * g⁻¹ * (g * ι (r n * s n) * g⁻¹) * (g * q * g⁻¹)⁻¹ := by group
   have hW2 : IsPGroup 2 (Q.map (MulAut.conj g).toMonoidHom) :=
-    (S.isPGroup'.to_le (qdQuaternion_le _ f)).map _
+    (S.isPGroup.to_le (qdQuaternion_le _ f)).map _
   obtain ⟨c, hcN, hcW⟩ := exists_conj_le_sylow NV S hSN _ hWN hW2
   rw [map_conj_mul] at hcW
   obtain ⟨eQ⟩ := hQ8

@@ -31,7 +31,7 @@ theorem Std20G.late_stepA (d : Std20G K K' J S R R' W V z t)
   have hWc := d.late_hWc
   have hyW : y ∈ W := by
     have hy2 : IsPGroup 2 ↥(Subgroup.zpowers y) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyS)
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr hyS)
     have hyt : y * t = t * y := by
       calc y * t = (y * t * y⁻¹) * y := by group
         _ = t * y := by rw [hy]
@@ -90,7 +90,7 @@ theorem Std20G.late_stepA (d : Std20G K K' J S R R' W V z t)
   have hb₁1 : b₁ = 1 := by
     by_contra hne
     have h2g : IsPGroup 2 ↥(Subgroup.zpowers b₁) :=
-      S.isPGroup'.to_le ((Subgroup.zpowers_le.mpr hb₁.1).trans d.hWS)
+      S.isPGroup.to_le ((Subgroup.zpowers_le.mpr hb₁.1).trans d.hWS)
     obtain ⟨n, hn2, hn1⟩ := late_exists_pow_involE h2g hne
     have hJu : IsUniqueInvolution (conjSub u₀ J) (u₀ * t * u₀⁻¹) := d.viol.hzJ.conj u₀
     have hbn : b₁ ^ n = u₀ * t * u₀⁻¹ :=

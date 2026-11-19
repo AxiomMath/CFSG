@@ -69,7 +69,7 @@ theorem det_Mu5 (v : Fin 10 → ZMod 2) : (Mu5 v).det = 1 := by
   simp [Mu5]
 
 @[expose] def mu5 (v : Fin 10 → ZMod 2) : upperSub5 :=
-  ⟨⟨Mu5 v, det_Mu5 v⟩, fun i j h => Mu5_upper v h⟩
+  ⟨⟨Mu5 v, det_Mu5 v⟩, fun _i _j h => Mu5_upper v h⟩
 
 theorem mu5_injective : Function.Injective mu5 := by
   intro v w h
@@ -112,7 +112,7 @@ open K21dA8Proof
 
 theorem exists_conj_upperSub5 {U : Subgroup SL5} (hU : CFSG.ABGLocalTools.IsSylowOf 2 U ⊤) :
     ∃ c : SL5, U = upperSub5.map (MulAut.conj c).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcU : Nat.card U = 2 ^ (Nat.card SL5).factorization 2 := by
     have := hU.card_eq
     rwa [Subgroup.card_top] at this
@@ -148,7 +148,7 @@ theorem factorization_three_of_card_nine {G F : Subgroup SL5} (hF : F ≤ G) (h9
 theorem exists_conj_of_card_nine {G F F' : Subgroup SL5} (hF : F ≤ G) (hF' : F' ≤ G)
     (h9 : Nat.card F = 9) (h9' : Nat.card F' = 9) :
     ∃ d ∈ G, F = F'.map (MulAut.conj d).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : ∀ {K : Subgroup SL5}, K ≤ G → Nat.card K = 9 →
       Nat.card (K.subgroupOf G) = 3 ^ (Nat.card G).factorization 3 := by
     intro K hK h

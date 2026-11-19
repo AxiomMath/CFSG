@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private def modO2Centralizer (M L : Subgroup G) : Subgroup G where
   carrier := {g | g ∈ M ∧ ∀ x ∈ L, ⁅x, g⁆ ∈ pCoreOf 2 M}
-  one_mem' := ⟨M.one_mem, fun x _ => by simpa using (pCoreOf 2 M).one_mem⟩
+  one_mem' := ⟨M.one_mem, fun x _ => by simp⟩
   mul_mem' := by
     rintro g h ⟨hgM, hg⟩ ⟨hhM, hh⟩
     refine ⟨M.mul_mem hgM hhM, fun x hx => ?_⟩
@@ -35,6 +35,7 @@ private def modO2Centralizer (M L : Subgroup G) : Subgroup G where
     simpa using CFSG.ClassicalGroups.PCoreSection.conj_mem_pCoreOf (M.inv_mem hgM)
       ((pCoreOf 2 M).inv_mem (hg x hx))
 
+omit [Finite G] in
 private theorem mem_modO2Centralizer {M L : Subgroup G} {g : G} :
     g ∈ modO2Centralizer M L ↔ g ∈ M ∧ ∀ x ∈ L, ⁅x, g⁆ ∈ pCoreOf 2 M := Iff.rfl
 
@@ -64,7 +65,7 @@ theorem exists_isMaxElemAbelian_not_mem {M T L : Subgroup G}
 theorem isFFStarOffender_autI {M V A : Subgroup G} (hVe : IsElemAbelian 2 V) (hVM : V ≤ M)
     (hMN : M ≤ normalizer (V : Set G)) (hA : IsMaxElemAbelian M A) (hne : autI hVe A ≠ ⊥) :
     IsFFStarOffender (autI hVe M) (autI hVe A) :=
-  ⟨autI_mono hVe hA.1, hne, isElemAbelian2_autI hVe hA.2.1 (hA.1.trans hMN), fun B hB =>
+  ⟨autI_mono hVe hA.1, hne, isElemAbelian2_autI hVe hA.2.1 (hA.1.trans hMN), fun _B hB =>
     (offender_core hVe hVM hMN hA hB).1⟩
 
 theorem commutator_autI_ne_bot {M V L A : Subgroup G} (hVe : IsElemAbelian 2 V)

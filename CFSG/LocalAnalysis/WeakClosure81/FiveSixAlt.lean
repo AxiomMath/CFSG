@@ -17,7 +17,7 @@ theorem exists_injective_conj_of_fstar_alt {H : Subgroup G} {n : ℕ} (hn : 5 �
     ∃ φ : ↥H →* MulAut (alternatingGroup (Fin n)), Function.Injective φ ∧
       ∀ (l : ↥H) (hl : (l : G) ∈ Fstar H), φ l = MulAut.conj (e ⟨(l : G), hl⟩) := by
   set F : Subgroup ↥H := CFSG.generalizedFitting ↥H with hF
-  haveI hFn : F.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥H)).2
+  have hFn : F.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥H)).2
   have hFstar : Fstar H = F.map H.subtype := by
     unfold Fstar
     rw [CFSG.Adapters.genFittingFStar_eq_foundations]
@@ -26,7 +26,7 @@ theorem exists_injective_conj_of_fstar_alt {H : Subgroup G} {n : ℕ} (hn : 5 �
       (MulEquiv.subgroupCongr hFstar.symm)
   let e' : ↥F ≃* alternatingGroup (Fin n) := e₀.trans e
   have hsimple : IsSimpleGroup ↥F := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by simpa using hn)
     exact e'.isSimpleGroup
   have hnab : ∃ a b : ↥F, a * b ≠ b * a := by

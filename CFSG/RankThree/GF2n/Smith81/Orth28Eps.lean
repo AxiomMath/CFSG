@@ -16,6 +16,7 @@ section Sqrt
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
 
+omit [Finite K] in
 theorem sq_injective {a b : K} (h : a ^ 2 = b ^ 2) : a = b := by
   rcases sq_eq_sq_iff_eq_or_eq_neg.mp h with h | h
   · exact h
@@ -34,6 +35,7 @@ theorem exists_linear_sq (β : V → K) (hadd : ∀ x y, β (x + y) = β x + β 
     simp only [RingHom.id_apply, smul_eq_mul]
     rw [mul_pow, hs, hs, hsmul]
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_le_finrank_ker_add_one [FiniteDimensional K V] (ℓ : V →ₗ[K] K) :
     Module.finrank K V ≤ Module.finrank K (LinearMap.ker ℓ) + 1 := by
   have h := LinearMap.finrank_range_add_finrank_ker ℓ
@@ -74,6 +76,7 @@ section Key
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {q : QuadraticForm K V}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem plane_singular {s t : V} (hs : q s = 0) (ht : q t = 0) (hst : polar q s t = 0)
     {z : V} (hz : z ∈ Submodule.span K {s, t}) : q z = 0 := by
   obtain ⟨c, d, rfl⟩ := Submodule.mem_span_pair.mp hz
@@ -81,6 +84,7 @@ theorem plane_singular {s t : V} (hs : q s = 0) (ht : q t = 0) (hst : polar q s 
     QuadraticMap.polar_smul_left, QuadraticMap.polar_smul_right, hst]
   simp
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem plane_orth {s t : V} (hs : q s = 0) (ht : q t = 0) (hst : polar q s t = 0)
     {z w : V} (hz : z ∈ Submodule.span K {s, t}) (hw : w ∈ Submodule.span K {s, t}) :
     polar q z w = 0 := by
@@ -93,6 +97,7 @@ theorem plane_orth {s t : V} (hs : q s = 0) (ht : q t = 0) (hst : polar q s t = 
     QuadraticMap.polar_smul_left, QuadraticMap.polar_smul_right, hss, htt, hst, hts]
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem exists_singular_not_orth (hq : q.polarBilin.Nondegenerate) (H : Submodule K V)
     (hH : Module.finrank K V ≤ Module.finrank K H + 1)
     {s t : V} (hs : q s = 0) (ht : q t = 0) (hst : polar q s t = 0)
@@ -108,7 +113,7 @@ theorem exists_singular_not_orth (hq : q.polarBilin.Nondegenerate) (H : Submodul
     have h1 := finrank_span_eq_card hli
     have hr : Set.range ![s, t] = ({s, t} : Set V) := by
       ext x
-      simp [Fin.exists_fin_two, eq_comm, or_comm]
+      simp [eq_comm, or_comm]
     rw [hr] at h1
     simpa using h1
   have hdim := Submodule.finrank_sup_add_finrank_inf_eq H T
@@ -163,6 +168,7 @@ section S2
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {q : QuadraticForm K V} {o : V ≃ₗ[K] V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem map_sub_add_apply (ho : o ∈ TauCeti.QuadraticMap.orthogonalGroup q) (hoo : o * o = 1)
     (x y : V) : q (o (x + y) - (x + y)) = q (o x - x) + q (o y - y) := by
   have e : o (x + y) - (x + y) = (o x - x) + (o y - y) := by rw [map_add]; abel
@@ -171,6 +177,7 @@ theorem map_sub_add_apply (ho : o ∈ TauCeti.QuadraticMap.orthogonalGroup q) (h
       (OrthogonalInvolutions.sub_mem_commSpace o x) (OrthogonalInvolutions.sub_mem_commSpace o y),
     add_zero]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem map_sub_smul_apply (c : K) (x : V) :
     q (o (c • x) - c • x) = c ^ 2 * q (o x - x) := by
   have e : o (c • x) - c • x = c • (o x - x) := by rw [map_smul, smul_sub]
@@ -228,7 +235,7 @@ theorem exists_singular_not_fixed (hq : q.polarBilin.Nondegenerate)
     · exact (hmem _).mp (Submodule.add_mem _ hy₁H (Submodule.smul_mem _ _ hzH))
   · exact ⟨z, hqz, hzC, (hmem z).mp hzH⟩
 
-theorem exists_singular_fixed (hq : q.polarBilin.Nondegenerate)
+theorem exists_singular_fixed (_hq : q.polarBilin.Nondegenerate)
     (ho : o ∈ TauCeti.QuadraticMap.orthogonalGroup q) (hoo : o * o = 1)
     (heven : Even (Module.finrank K (OrthogonalInvolutions.commSpace o)))
     (hsing : ∃ u : V, u ≠ 0 ∧ q u = 0) : ∃ v : V, v ≠ 0 ∧ q v = 0 ∧ o v = v := by
@@ -252,6 +259,7 @@ section Witness
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem OrthEps.phi_pi_commutator (C : OrthCtx M Q Z B) {x q' : G} (hxQ : ∀ y ∈ Q, x * y * x⁻¹ ∈ Q)
     (hq' : q' ∈ Q) {g : Matrix (Fin 2) (Fin 2) C.K} {o : (C.ι → C.K) → (C.ι → C.K)}
     (hact : ActsAsTensor Q Z C.M₀ C.φ x g o) :
@@ -390,7 +398,7 @@ theorem exists_orthValid_of_one (h52 : Smith52ActStatement) (hc : SmithOrthCfg M
   refine exists_orthValid_of_tensors h52 hc C hs hact (p := (v, 0))
     ⟨1, 0, v, Or.inl one_ne_zero, hv0, hqv, by simp⟩ (c₁ := 1) (c₂ := 0) (u := v - o v)
     (Or.inl one_ne_zero) hu0 hqu ?_ ?_
-  · refine Prod.ext ?_ ?_ <;> simp [orthTensor, Matrix.one_apply]
+  · refine Prod.ext ?_ ?_ <;> simp [orthTensor]
   · refine ⟨v, 0, 0, ?_, ?_⟩
     · rw [QuadraticMap.polar_sub_right, QuadraticMap.polar_self, hqv, hpol]
       simp
@@ -431,7 +439,7 @@ theorem orthEps_of (h24 : Smith24ActStatement)
         refine hs.notQ (mem_Q_of_pi_conj_eq (M₀ := C.M₀) hc.ctx.hyp hs.memM fun y hy => ?_)
         apply C.φ.injective
         rw [hact y hy, h1]
-        simp [orthTensor, Matrix.one_apply]
+        simp [orthTensor]
       have hrk : 2 ≤ Module.finrank C.K (OrthogonalInvolutions.commSpace o) := by
         have h1 := OrthogonalInvolutions.one_le_finrank_commSpace ho1
         obtain ⟨r, hr⟩ := heven

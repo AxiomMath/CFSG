@@ -28,7 +28,7 @@ private theorem E_fix_line_of_mem {e : G} (he : e ∈ c.E) {m : G ⧸ c.G2} (hm 
 private theorem ncard_onL_diff_line {n : G ⧸ c.G2} (hn : c.OnL c.x0 n) :
     ({a | c.OnL a n} \ {c.x0}).ncard = 4 := by
   have hx : c.x0 ∈ {a | c.OnL a n} := hn
-  rw [Set.ncard_diff_singleton_of_mem hx, c.ncard_onL n]
+  rw [Set.ncard_sdiff_singleton_of_mem hx, c.ncard_onL n]
 
 private theorem orbit_subset_line {m n : G ⧸ c.G2} (hn : c.OnL c.x0 n) {p : G ⧸ c.G1}
     (hp : c.OnL p n) (hpx : p ≠ c.x0) :

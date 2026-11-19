@@ -47,6 +47,7 @@ section Abstract
 variable {K : Type} [Field K] [Finite K] {V : Type*} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [Finite K] in
 theorem exists_primary_ne_id {x : Module.End K V} (hsq : Squarefree (minpoly K x))
     {y : LinearMap.GeneralLinearGroup K V} (hy : y ≠ 1) :
     ∃ h ∈ primaryFactors x, ∃ v ∈ primaryComponent x h, (y : Module.End K V) v ≠ v := by
@@ -57,6 +58,7 @@ theorem exists_primary_ne_id {x : Module.End K V} (hsq : Squarefree (minpoly K x
     ext_primaryComponent hsq (fun a ha v hv => hcon a ha v hv)
   exact Units.ext (by rw [h1]; rfl)
 
+omit [Finite K] in
 theorem eq_of_smul_of_two_pow (h2 : (2 : K) = 0) {x : Module.End K V} {h : K[X]}
     (hh : h ∈ primaryFactors x) {y : LinearMap.GeneralLinearGroup K V} {a : ℕ}
     (hy : y ^ (2 ^ a) = 1) {c : AdjoinRoot h}
@@ -64,8 +66,8 @@ theorem eq_of_smul_of_two_pow (h2 : (2 : K) = 0) {x : Module.End K V} {h : K[X]}
       ((y : Module.End K V) (v : V)) = ((c • v : primaryComponent x h) : V))
     (v : primaryComponent x h) : (y : Module.End K V) (v : V) = (v : V) := by
   have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
-  haveI hchar : CharP (AdjoinRoot h) 2 :=
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have hchar : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 2
   have hpow : ∀ k : ℕ, ∀ w : primaryComponent x h,
       ((((y ^ k : LinearMap.GeneralLinearGroup K V) : Module.End K V)) (w : V)) =
@@ -114,6 +116,7 @@ variable {K : Type} [Field K] [Finite K] {n : ℕ}
 
 local notation "𝒱" => (Fin n → K)
 
+omit [Finite K] in
 theorem exists_good_block (h2 : (2 : K) = 0) {A : GL (Fin n) K}
     (hsq : Squarefree (minpoly K (glA A : Module.End K 𝒱)))
     {y : LinearMap.GeneralLinearGroup K 𝒱} (hyc : y ∈ gl_centralizer (glA A)) {a : ℕ}
@@ -141,6 +144,7 @@ theorem exists_good_block (h2 : (2 : K) = 0) {A : GL (Fin n) K}
       omega
     exact hne (hbad h hh hm2' hq v hv)
 
+omit [Finite K] in
 theorem exists_noncommuting_in_block (h2 : (2 : K) = 0) {A : GL (Fin n) K}
     (hsq : Squarefree (minpoly K (glA A : Module.End K 𝒱)))
     {y : LinearMap.GeneralLinearGroup K 𝒱} (hyc : y ∈ gl_centralizer (glA A)) {a : ℕ}
@@ -148,13 +152,14 @@ theorem exists_noncommuting_in_block (h2 : (2 : K) = 0) {A : GL (Fin n) K}
     {v : 𝒱} (hv : v ∈ primaryComponent (glA A : Module.End K 𝒱) h)
     (hne : (y : Module.End K 𝒱) v ≠ v) :
     ∃ g ∈ linearSpecialBlock (glA A) h, g ^ 2 = 1 ∧ y * g ≠ g * y := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   by_contra hcon
   push Not at hcon
   obtain ⟨c, hc⟩ := exists_smul_of_commute_pow_char hsq hh (ℓ := 2) hyc
     (fun g hg hg2 => hcon g hg hg2)
   exact hne (eq_of_smul_of_two_pow h2 hh hy (c := c) hc ⟨v, hv⟩)
 
+omit [Finite K] in
 theorem exists_decomp_gl (h2 : (2 : K) = 0) {A : GL (Fin n) K}
     (hsq : Squarefree (minpoly K (glA A : Module.End K 𝒱)))
     {y : LinearMap.GeneralLinearGroup K 𝒱} (hyc : y ∈ gl_centralizer (glA A)) {a : ℕ}
@@ -162,9 +167,9 @@ theorem exists_decomp_gl (h2 : (2 : K) = 0) {A : GL (Fin n) K}
     ∃ w₁ ∈ linearSpecialBlock (glA A) h, ∃ w₂ ∈ gl_centralizer (glA A), y = w₂ * w₁ ∧
       ∀ g ∈ linearSpecialBlock (glA A) h, w₂ * g = g * w₂ := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
-  haveI hchar : CharP (AdjoinRoot h) 2 :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have hchar : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 2
   set γ : blockGL (glA A : Module.End K 𝒱) h := glCentralizerEquivPi hsq ⟨y, hyc⟩ ⟨h, hh⟩ with hγ
   have hγp : γ ^ (2 ^ a) = 1 := by
@@ -236,6 +241,7 @@ theorem exists_decomp_gl (h2 : (2 : K) = 0) {A : GL (Fin n) K}
       apply_mem_primaryComponent (mem_gl_centralizer.mp hw2c) hv
     rw [hgoff j hj hjh v hv, hgoff j hj hjh _ hwv]
 
+omit [Finite K] in
 theorem exists_decomp_sl (h2 : (2 : K) = 0) {A : GL (Fin n) K}
     (hsq : Squarefree (minpoly K (glA A : Module.End K 𝒱)))
     {g : Matrix.SpecialLinearGroup (Fin n) K} (hgc : slGL n K g ∈ gl_centralizer (glA A)) {a : ℕ}

@@ -61,7 +61,7 @@ private theorem famKernel_step_mem_torusGroup_aux
     {Q : ModGL τ L} (hstep : D.step = frobTwistGL τ L 2 f Q)
     (hQ : Q ∈ Subgroup.normalizer (torusGroup τ L : Set (ModGL τ L))) :
     (torusGroup τ L).map D.step ≤ torusGroup τ L := by
-  haveI : PerfectRing L 2 := IsAlgClosed.perfectRing L 2
+  have : PerfectRing L 2 := IsAlgClosed.perfectRing L 2
   rw [hstep, map_frobTwistGL_torusGroup 2 f hQ]
 
 private theorem famKernel_step_mem_rootSpan_aux
@@ -162,13 +162,13 @@ theorem toral_conj_in_model
     ∃ h ∈ S.D.model, A.map (MulAut.conj h).toMonoidHom ≤ S.D.torus := by
   classical
   let L := AlgebraicClosure K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAadj : A ≤ adjointGroup .E6 L := hA.trans inf_le_left
   have hAcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x :=
     fun x hx y hy => CFSG.Open.IsElemAbelian.comm hAel hx hy
   have hAexp : ∀ x ∈ A, x ^ 3 = 1 := fun x hx => hAel.2 x hx
   have hKnot3 : ¬ 3 ∣ Nat.card K := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     rw [Nat.card_eq_fintype_card, hn]
     intro h

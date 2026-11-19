@@ -76,6 +76,7 @@ theorem conj_zT_of_piT_tP (hn : 3 ≤ n) {ι : L4Model n →* G} (hι : Function
   · obtain ⟨g', hg'⟩ := exists_conj_trans hlq hg
     exact hw g' hg'
 
+omit [Finite G] in
 theorem commutator_eq_top [IsSimpleGroup G] (hn : 2 ≤ n) {ι : L4Model n →* G}
     (hι : Function.Injective ι) : commutator G = ⊤ := by
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator G) with h | h

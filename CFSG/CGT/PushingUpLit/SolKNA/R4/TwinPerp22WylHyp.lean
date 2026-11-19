@@ -184,7 +184,7 @@ theorem z_mem_cent_z_mul {u : Y} (hu : u ∈ W) : t ∈ Subgroup.centralizer ({t
 theorem hyp51At_z : Hyp51At F.B t :=
   Perp24.hyp51At_of_commute (F.B_elemAbelian c hc).1 (F.z_mem_B h c hc) F.z_ne_one
     (F.t'_mem_B h c hc) F.t'_ne_one F.t'_ne_z (t'_mem_centralizer F c hc)
-    (fun L hL y hy => Perp24.commute_of_tightInO2 (tightInO2_t' h F c hc) hL y hy)
+    (fun _L hL y hy => Perp24.commute_of_tightInO2 (tightInO2_t' h F c hc) hL y hy)
 
 theorem hyp51At_t' : Hyp51At F.B F.t' := by
   obtain ⟨h1, h2, -, -⟩ := F.swap_k c hc 0

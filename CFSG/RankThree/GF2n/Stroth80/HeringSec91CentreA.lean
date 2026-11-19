@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
+omit [Finite G] in
 theorem conj_mem_Q91 (hc : Ctx M Q Z B) {a : G} (ha : a ∈ M) {y : G} (hy : y ∈ Q) :
     a * y * a⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 ha) y).mp hy
@@ -44,7 +45,7 @@ theorem isCentrePre_le_CN91 {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec9Hyp h
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hQN : Q ≤ hc.CN t := sec9_Q_le_CN hc ht
   obtain ⟨K, fK, finK, hch, hK, ψ, hψs, hψk⟩ := exists_psi91 hs
-  haveI := hch
+  have := hch
   intro x hx
   have hxR : x ∈ Rt M (LB M Q B) t := hZ0.le hx
   have hxz : ψ ⟨x, hxR⟩ ∈ Subgroup.center (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) := by

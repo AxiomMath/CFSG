@@ -29,7 +29,7 @@ private theorem fixed_ne_twenty_four
   let N := sylowNormalizer X P s S
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite F
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   have hfixed : Nat.card (fixedPoints Q X) = 24 := by rwa [← hfixeq]
   have hbound := Degree54FiveGroupBound.card_le_five_of_fixed_twenty_four

@@ -69,7 +69,7 @@ theorem rationalLieType_of_dClass_D4 {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         (componentRoots (rootCharHom a) i)])) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_dClass (Or.inl rfl) kacD4 facts_D4 d4_tree d4_adj d4_check d4_lt
-    d4_card d4_dcount d4_dtrees (fun {F} _ x y h => d4_frames x y h) S hp hpL hTor hTp i h4 hn
+    d4_card d4_dcount d4_dtrees (fun {_F} _ x y h => d4_frames x y h) S hp hpL hTor hTp i h4 hn
     hinner
 
 end D4Rat
@@ -124,7 +124,7 @@ theorem rationalLieType_of_dClass_E6 {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         (componentRoots (rootCharHom a) i)])) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_dClass (Or.inr (Or.inl rfl)) kacE6 facts_E6 e6_tree e6_adj e6_check e6_lt
-    e6_card e6_dcount e6_dtrees (fun {F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h4 hn
+    e6_card e6_dcount e6_dtrees (fun {_F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h4 hn
     hinner
 
 end E6Rat
@@ -180,7 +180,7 @@ theorem rationalLieType_of_dClass_E7 {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         (componentRoots (rootCharHom a) i)])) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_dClass (Or.inr (Or.inr (Or.inl rfl))) kacE7 facts_E7 e7_tree e7_adj e7_check e7_lt
-    e7_card e7_dcount e7_dtrees (fun {F} _ x y h => e7_frames x y h) S hp hpL hTor hTp i h4 hn
+    e7_card e7_dcount e7_dtrees (fun {_F} _ x y h => e7_frames x y h) S hp hpL hTor hTp i h4 hn
     hinner
 
 end E7Rat
@@ -237,7 +237,7 @@ theorem rationalLieType_of_dClass_E8 {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         (componentRoots (rootCharHom a) i)])) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_dClass (Or.inr (Or.inr (Or.inr rfl))) kacE8 facts_E8 e8_tree e8_adj e8_check e8_lt
-    e8_card e8_dcount e8_dtrees (fun {F} _ x y h => e8_frames x y h) S hp hpL hTor hTp i h4 hn
+    e8_card e8_dcount e8_dtrees (fun {_F} _ x y h => e8_frames x y h) S hp hpL hTor hTp i h4 hn
     hinner
 
 end E8Rat

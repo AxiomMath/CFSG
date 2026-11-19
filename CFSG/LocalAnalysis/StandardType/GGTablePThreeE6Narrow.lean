@@ -35,7 +35,7 @@ private theorem datumOn_mono {F F' : LargeEvenLieTag → Prop}
     (h : DatumOn F X A δ J) : DatumOn F' X A δ J :=
   ⟨h.1, h.2.1, h.2.2.1,
     largeEvenMarking_mono
-      (fun lab R _ I F'' θ ⟨hF, hs3, hin⟩ => ⟨hFF lab.tag hF, hs3, hin⟩) h.2.2.2⟩
+      (fun lab _R _ _I _F'' _θ ⟨hF, hs3, hin⟩ => ⟨hFF lab.tag hF, hs3, hin⟩) h.2.2.2⟩
 
 private theorem twE6_marking_tag
     {X : Type} [Group X] (hX : commutator X = ⊤)

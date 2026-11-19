@@ -34,7 +34,7 @@ private theorem toMatrix_leftRegular_diag [Fintype G] [DecidableEq G] (g x : G) 
   rw [hgx, ← MonoidAlgebra.basis_apply (R := G) ℂ (g * x), ← hb, b.repr_self_apply]
   by_cases hg : g = 1
   · simp [hg]
-  · rw [if_neg hg, if_neg]
+  · rw [ite_eq_right hg, ite_eq_right]
     intro h
     exact hg (mul_right_cancel (b := x) (by rw [h, one_mul]))
 
@@ -49,13 +49,13 @@ theorem leftRegular_character_of_ne_one [Finite G] {g : G} (hg : g ≠ 1) :
   have : Fintype G := Fintype.ofFinite G
   rw [Representation.character,
     LinearMap.trace_eq_matrix_trace ℂ (MonoidAlgebra.basis G ℂ), Matrix.trace]
-  simp only [Matrix.diag_apply, toMatrix_leftRegular_diag, if_neg hg, Finset.sum_const_zero]
+  simp only [Matrix.diag_apply, toMatrix_leftRegular_diag, ite_eq_right hg, Finset.sum_const_zero]
 
 theorem leftRegular_character_apply [Finite G] [DecidableEq G] (g : G) :
     (Representation.leftRegular ℂ G).character g = if g = 1 then (Nat.card G : ℂ) else 0 := by
   by_cases hg : g = 1
-  · subst hg; rw [if_pos rfl, leftRegular_character_one]
-  · rw [if_neg hg, leftRegular_character_of_ne_one hg]
+  · subst hg; rw [ite_eq_left rfl, leftRegular_character_one]
+  · rw [ite_eq_right hg, leftRegular_character_of_ne_one hg]
 
 theorem Irr.conj_character_one [Finite G] {χ : G → ℂ} (hχ : χ ∈ Irr G) : conj (χ 1) = χ 1 := by
   obtain ⟨n, -, hn, -⟩ := Irr.exists_degree hχ

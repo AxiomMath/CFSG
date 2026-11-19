@@ -64,7 +64,7 @@ theorem c25_11_of_9_fourP (h9 : C25_9P) (h4 : C25_11FourP) : C25_11 := by
       Nat.card ↥((S : Subgroup G) ⊓
       Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G)) = 4 := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp
-      (S.isPGroup'.to_le (inf_le_left : (S : Subgroup G) ⊓
+      (S.isPGroup.to_le (inf_le_left : (S : Subgroup G) ⊓
         Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) ≤ (S : Subgroup G)))
     have hk' : Nat.card ↥((S : Subgroup G) ⊓
         Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G)) = 2 ^ k := hk

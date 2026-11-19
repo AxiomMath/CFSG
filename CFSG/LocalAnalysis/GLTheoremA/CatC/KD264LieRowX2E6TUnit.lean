@@ -34,8 +34,8 @@ theorem three_dvd_quot_center {J : Type*} [Group J] [Finite J]
   have key : ∀ z : J, z ^ 3 = 1 → z ≠ 1 → z ∉ Subgroup.center J →
       3 ∣ Nat.card (J ⧸ Subgroup.center J) := fun z hz _ hzc =>
     three_dvd_quot_center_of_noncentral hz hzc
-  haveI : Fintype (Subgroup.center J) := Fintype.ofFinite _
-  haveI : Fintype (Subgroup.center J : Set J) := Fintype.ofFinite _
+  have : Fintype (Subgroup.center J) := Fintype.ofFinite _
+  have : Fintype (Subgroup.center J : Set J) := Fintype.ofFinite _
   by_cases hxc : x ∈ Subgroup.center J
   · by_cases hyc : y ∈ Subgroup.center J
     · exfalso
@@ -55,7 +55,7 @@ theorem three_dvd_quot_center {J : Type*} [Group J] [Finite J]
         intro a ha
         simp only [Finset.mem_insert, Finset.mem_singleton] at ha
         rcases ha with rfl | rfl | rfl | rfl
-        · simp [Subgroup.one_mem]
+        · simp
         · simpa using hxc
         · simpa using inv_mem hxc
         · simpa using hyc
@@ -105,7 +105,7 @@ theorem block_injective (h : IsSLFrame ρ σ) (hν : 3 ≤ ν) (e : Fin m → Fi
     obtain ⟨a, ha⟩ := (hX l).1 hh
     exact hl a ha
   simp only [Matrix.sub_apply, Matrix.one_apply_eq, projDiag, Matrix.mul_diagonal,
-    Matrix.diagonal_mul, if_neg hl', mul_zero, zero_mul] at h1
+    Matrix.diagonal_mul, ite_eq_right hl', mul_zero, zero_mul] at h1
   have hs1 : s = 1 := by
     have h2 := congrArg (fun A : Matrix (Fin ν) (Fin ν) L => A l l) hs
     simp only [Matrix.scalar_apply, Matrix.diagonal_apply_eq] at h2
@@ -213,7 +213,7 @@ variable
 open CFSG.HardMathSupport.Timmesfeld.CrossChar CFSG.GF2Type.SmithTypeE
 open CFSG.Blueprint.Chevalley CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley
 
-theorem block_unitary_facts (h : IsSLFrame ρ σ) (hν : 3 ≤ ν) (e : Fin m → Fin ν)
+theorem block_unitary_facts (h : IsSLFrame ρ σ) (_hν : 3 ≤ ν) (e : Fin m → Fin ν)
     (he : Function.Injective e) (hinj : Function.Injective (ρ.comp (slEmbed e he)))
     (hm : 4 ≤ m)
     {k : Type} [Field k] [Algebra k L] [IsAlgClosure k L] (hk : Nat.card k = 2 ^ 1)
@@ -236,7 +236,7 @@ theorem block_unitary_facts (h : IsSLFrame ρ σ) (hν : 3 ≤ ν) (e : Fin m �
     simp at this
     omega
   obtain ⟨hqs, hcard⟩ := hq hne
-  haveI := hfin
+  have := hfin
   set J := blockFix ρ e he Ψ with hJdef
   have hω0 : ω ≠ 0 := by
     intro h0; rw [h0] at hω3; norm_num at hω3

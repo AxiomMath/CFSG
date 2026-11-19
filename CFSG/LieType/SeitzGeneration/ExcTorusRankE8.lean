@@ -41,7 +41,7 @@ theorem rankLE1_E8 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     rw [elemAbelian_card_eq_one_of_degCount_zero (by simp) K hp hp3 hpq he h0 hF]
     exact hp.one_lt.le
   · have h30 := le_thirty_of_degCount_pos (τ := Tag.E8) (by simp) (Nat.pos_of_ne_zero h0)
-    interval_cases e <;> first | exact absurd hcnt (by decide) | exact absurd h0 (by decide) | skip
+    interval_cases e <;> try first | exact absurd hcnt (by decide) | exact absurd h0 (by decide)
     · exact (sylowTorus_E8_seven K hp he).rankLE1 hp
     · exact (sylowTorus_E8_nine K hp he).rankLE1 hp
     · exact (sylowTorus_E8_fourteen K hp he).rankLE1 hp
@@ -59,7 +59,7 @@ theorem not_rankLE2_E8 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) 
   have h30 := le_thirty_of_degCount_pos (τ := Tag.E8) (e := e) (by simp) (by omega)
   have he0 : e ≠ 0 := he ▸ orderOf_natCast_ne_zero hp hpq
   have h1 : 1 ≤ e := Nat.pos_of_ne_zero he0
-  interval_cases e <;> first | exact absurd hcnt (by decide) | skip
+  interval_cases e <;> try exact absurd hcnt (by decide)
   · obtain ⟨E, hE, hc⟩ := exists_elemAbelian_E8_one K hp hp3 he
     exact not_rankLE2_of_elemAbelian hp (by norm_num) hE hc
   · obtain ⟨E, hE, hc⟩ := exists_elemAbelian_E8_two K hp hp3 he

@@ -201,7 +201,7 @@ private theorem l10scsua_coreFour_one_setup {F : Type} [Field F] [Finite F] [Cha
           Subgroup ↥(Unitary.SU (unitaryInvolution F 2 f) n)) :
           Set ↥(Unitary.SU (unitaryInvolution F 2 f) n))) ≤
         uRad (unitaryInvolution F 2 f) v := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hσ : ∀ c, unitaryInvolution F 2 f (unitaryInvolution F 2 f c) = c :=
     CFSG.LieType.BorelTits.unitaryInvolution_involutive hF
   have htr : ∀ c, unitaryInvolution F 2 f c = c →
@@ -353,7 +353,7 @@ private theorem l10scsua_rootSub_ne_bot_PSU_of_eq {F : Type} [Field F] [Finite F
     (hL : L = ⟨↥(Unitary.SU (unitaryInvolution F 2 f) n), Unitary.rootDatum hc n⟩)
     {β : Fin L.D.rank → ℤ} (hβ : β ∈ L.D.roots) (u : L.K) {Rr : Subgroup L.K}
     (hRr : Rr = ggRootSub L.D (MonoidHom.id L.K) β u) : Rr ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hL
   obtain ⟨ζ, hζ⟩ := CFSG.LieType.Universal.Unitary.exists_traceZero_ne_zero
     (p := 2) (f := f) hc
@@ -379,7 +379,7 @@ theorem coreFour_PSU_long
     (hRr : Rr = ggRootSub (ggU .PSU n f).D (MonoidHom.id (ggU .PSU n f).K) β u)
     (hQ : Q = pCoreOf 2 (Subgroup.normalizer (Rr : Set (ggU .PSU n f).K))) :
     ⁅Q, Q⁆ ≤ Rr ∧ Q ≤ Subgroup.centralizer (Rr : Set (ggU .PSU n f).K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hf1 : 1 ≤ f
   · have e : ggU .PSU n f = ⟨Unitary.SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) n,
         Unitary.rootDatum (card_galoisField_two_mul 2 f hf1) n⟩ := by
@@ -395,7 +395,7 @@ theorem ggSixLieKnown_of_pos_PSU
   intro X _ _ n f ψ p G₀ B₁ D J L x hψ hker hmodel hoddG0 hp hp2 hB₁G₀ hinner hab hcardB hDB
     hcardD hB₁J hB₁centJ hJcomp hoddJ hxD hxne hLG₀ hLcomp hJL hDnotCL hLEM1 hB₁L hLEM2 hA3
     hE6c hA6 hField hN hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .PSU n 2 f := hmodel.admissible
   have hf1 : 1 ≤ f := hadm.2.1
   have hn : 3 ≤ n := hadm.2.2.1

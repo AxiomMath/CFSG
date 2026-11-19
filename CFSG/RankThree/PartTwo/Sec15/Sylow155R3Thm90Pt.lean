@@ -23,8 +23,8 @@ theorem point_component {J : Type} [Group J] (hJ : J2Facts J) {p : ℕ} (hp : p.
       M ∈ thetaComponentsAt 3 (⟨c, hcY⟩ : ↥(Subgroup.centralizer ({x} : Set G))) ∧
       ∃ hdM : (⟨d, hdY⟩ : ↥(Subgroup.centralizer ({x} : Set G))) ∈ M,
         ∃ φ : ↥M →* J, Function.Surjective φ ∧ φ ⟨_, hdM⟩ ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hJ.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have := hJ.finite
   obtain ⟨hLc, hLsub, -⟩ := thetaComponentsAt_facts hL
   set θL := aschbacherSolvableCore 3 ↥L with hθL
   have hθsol : Group.IsSolvable θL :=
@@ -45,7 +45,7 @@ theorem point_component {J : Type} [Group J] (hJ : J2Facts J) {p : ℕ} (hp : p.
     exact h'
   have hlτ : ∀ l : ↥L, l⁻¹ * τ l ∈ θL := fun l => by
     have h := congrArg (fun σ : MulAut (↥L ⧸ θL) => σ (l : ↥L ⧸ θL)) hσ1
-    simp only [Sec4.thetaQuotMulAut_mk, MulAut.one_apply] at h
+    simp only [MulAut.one_apply] at h
     exact QuotientGroup.eq.mp h.symm
   have hcos : ∀ l : ↥L, ∃ n ∈ θL, τ (l * n) = l * n := fun l =>
     exists_mul_fixed (p := p) τ hτp θL hτθ hθ l (hlτ l)
@@ -80,7 +80,7 @@ theorem point_component {J : Type} [Group J] (hJ : J2Facts J) {p : ℕ} (hp : p.
         exact (QuotientGroup.eq_one_iff _).mp (e.map_eq_one_iff.mp h1))
     have hf : Function.Injective f := fun a b hab =>
       Subtype.ext (Subtype.ext (congrArg (fun z : θL => ((z : ↥L) : G)) hab))
-    haveI := hθsol
+    have := hθsol
     exact ⟨Group.isSolvable_of_isSolvable_injective hf, fun h =>
       three_not_dvd_card_aschbacherSolvableCore (G := ↥L)
         (h.trans (Subgroup.card_dvd_of_injective f hf))⟩
@@ -105,7 +105,7 @@ theorem point_component {J : Type} [Group J] (hJ : J2Facts J) {p : ℕ} (hp : p.
     change (M.subgroupOf X).IsSubnormal
     have h : M.subgroupOf X = R := Subgroup.comap_map_eq_self_of_injective X.subtype_injective R
     rw [h]
-    haveI := hRchar
+    have := hRchar
     exact Subgroup.Normal.isSubnormal inferInstance
   have hsubXC : SubnormalIn X (Subgroup.centralizer ({c} : Set G) ⊓ Y) :=
     SubnormalIn.inf Y (hLsub : SubnormalIn L (Subgroup.centralizer ({c} : Set G)))
@@ -133,7 +133,7 @@ theorem point_component {J : Type} [Group J] (hJ : J2Facts J) {p : ℕ} (hp : p.
       ((Subgroup.subgroupOfEquivOfLe hMY).symm.trans (Subgroup.subgroupOfEquivOfLe hMYD).symm)
   have hN : N ∈ thetaComponents 3 ↥D := by
     refine ⟨?_, hsubMY, isQuasisimple_thetaQuot_of_mulEquiv eR hRq⟩
-    haveI := hRperf
+    have := hRperf
     exact Group.IsPerfect.ofSurjective (f := eR.toMonoidHom) eR.surjective
   have hdMY : (⟨d, hdY⟩ : ↥Y) ∈ MY := hdM
   refine ⟨MY, ⟨N, hN, ?_⟩, hdMY, ?_⟩

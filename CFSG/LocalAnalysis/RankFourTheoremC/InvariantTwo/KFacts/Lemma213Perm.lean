@@ -17,7 +17,7 @@ variable {p : ℕ} {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 theorem eq_bot_of_pCycle_mem_normalizer (hp : p.Prime) (hcard : Fintype.card Ω = p)
     {c : Equiv.Perm Ω} (hc1 : c ≠ 1) (hcp : c ^ p = 1) {N : Subgroup (Equiv.Perm Ω)}
     (hN : p.Coprime (Nat.card N)) (hcN : c ∈ normalizer (N : Set (Equiv.Perm Ω))) : N = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf c = Fintype.card Ω := by
     rw [hcard]
     exact orderOf_eq_prime hcp hc1
@@ -36,11 +36,11 @@ theorem eq_bot_of_pCycle_mem_normalizer (hp : p.Prime) (hcard : Fintype.card Ω 
     sup_le le_normalizer ((zpowers_le).2 hcN)
   have hNnormal : (N.subgroupOf G).Normal :=
     (normal_subgroupOf_iff_le_normalizer hNG).2 hGN
-  haveI : MulAction.IsPretransitive G Ω := by
+  have : MulAction.IsPretransitive G Ω := by
     refine ⟨fun a b => ?_⟩
     obtain ⟨i, hi⟩ := hcyc.exists_zpow_eq (hmoved a) (hmoved b)
     exact ⟨⟨c ^ i, zpow_mem hcG i⟩, hi⟩
-  haveI : MulAction.IsPreprimitive G Ω :=
+  have : MulAction.IsPreprimitive G Ω :=
     MulAction.IsPreprimitive.of_prime_card (by rw [Nat.card_eq_fintype_card, hcard]; exact hp)
   by_cases hfix : MulAction.fixedPoints (N.subgroupOf G) Ω = Set.univ
   ·
@@ -53,7 +53,7 @@ theorem eq_bot_of_pCycle_mem_normalizer (hp : p.Prime) (hcard : Fintype.card Ω 
     exact this
   ·
     exfalso
-    haveI : MulAction.IsPretransitive (N.subgroupOf G) Ω :=
+    have : MulAction.IsPretransitive (N.subgroupOf G) Ω :=
       MulAction.IsQuasiPreprimitive.isPretransitive_of_normal hfix
     obtain ⟨a⟩ : Nonempty Ω := Fintype.card_pos_iff.1 (by rw [hcard]; exact hp.pos)
     have horb : MulAction.orbit (N.subgroupOf G) a = Set.univ :=
@@ -111,10 +111,10 @@ theorem false_of_central_pElements {p : ℕ} (hp : p.Prime) {M : Type*} [Group M
     (hcent : ∀ x : M, (∃ k : ℕ, x ^ (p ^ k) = 1) → x ∈ center M) (f : M →* S)
     (hf : Function.Surjective f) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p M) := inferInstance
   have hPc : ∀ x ∈ (P : Subgroup M), x ∈ center M := fun x hx => by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     exact hcent x ⟨k, congrArg Subtype.val hk⟩
   have hP : normalizer (P : Set M) ≤ centralizer (P : Set M) := fun n _ x hx =>
     (mem_center_iff.1 (hPc x hx) n).symm
@@ -125,7 +125,7 @@ theorem false_of_central_pElements {p : ℕ} (hp : p.Prime) {M : Type*} [Group M
   ·
     have hpg : IsPGroup p S := fun s => by
       obtain ⟨m, rfl⟩ := hf s
-      obtain ⟨k, hk⟩ := P.isPGroup' (τ m)
+      obtain ⟨k, hk⟩ := P.isPGroup (τ m)
       refine ⟨k, ?_⟩
       have hm : m ^ (p ^ k) ∈ τ.ker := by
         rw [MonoidHom.mem_ker, map_pow]
@@ -133,8 +133,8 @@ theorem false_of_central_pElements {p : ℕ} (hp : p.Prime) {M : Type*} [Group M
       have : f (m ^ (p ^ k)) ∈ τ.ker.map f := Subgroup.mem_map_of_mem f hm
       rw [hbot, Subgroup.mem_bot] at this
       simpa using this
-    haveI : Finite S := Finite.of_surjective f hf
-    haveI : Group.IsNilpotent S := hpg.isNilpotent
+    have : Finite S := Finite.of_surjective f hf
+    have : Group.IsNilpotent S := hpg.isNilpotent
     obtain ⟨a, b, hab⟩ := hnab
     exact hab ((IsSimpleGroup.comm_iff_isSolvable (G := S)).2 inferInstance a b)
   · apply hndvd

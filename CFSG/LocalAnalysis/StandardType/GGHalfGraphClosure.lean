@@ -184,7 +184,7 @@ private theorem ggHalfGraphClosure_conj_refl (g r : GGE6Root) (hg : IsRoot .E6 g
 
 private theorem ggHalfGraphClosure_slE_eq (c d : Fin 6) (hcd : c ≠ d) :
     slE c d = SpecialLinearGroup.transvection hcd (1 : F2) := by
-  rw [slE, dif_neg hcd]
+  rw [slE, dite_eq_right hcd]
 
 private theorem ggHalfGraphClosure_slE_swap_mul (a b : Fin 6) (hab : a ≠ b) :
     slE a b * slE b a * slE a b = slPerm gf2_two (Equiv.swap a b) := by
@@ -314,11 +314,11 @@ private theorem ggHalfGraphClosure_ip_L_02_13 (m : GGHalfE6Model) (hm : m.FrameO
 
 private theorem ggHalfGraphClosure_ip_L_02_self (m : GGHalfE6Model) (hm : m.FrameOK .L) :
     ggE6ip (m.frame .L 0 2) (m.frame .L 0 2) = 2 :=
-  ggHalfGraphClosure_ip_self_root _ ((mem_rootFinset (τ := .E6)).1 (hm.1 0 2 (by simp [GGHalfBlk.Lab]) (by simp [GGHalfBlk.Lab]) (by simp [GGHalfBlk.Lab])))
+  ggHalfGraphClosure_ip_self_root _ ((mem_rootFinset (τ := .E6)).1 (hm.1 0 2 (by simp [GGHalfBlk.Lab]) (by simp [GGHalfBlk.Lab]) (by simp)))
 
 private theorem ggHalfGraphClosure_ip_L_13_self (m : GGHalfE6Model) (hm : m.FrameOK .L) :
     ggE6ip (m.frame .L 1 3) (m.frame .L 1 3) = 2 :=
-  ggHalfGraphClosure_ip_self_root _ ((mem_rootFinset (τ := .E6)).1 (hm.1 1 3 (by simp [GGHalfBlk.Lab]) (by simp [GGHalfBlk.Lab]) (by simp [GGHalfBlk.Lab])))
+  ggHalfGraphClosure_ip_self_root _ ((mem_rootFinset (τ := .E6)).1 (hm.1 1 3 (by simp [GGHalfBlk.Lab]) (by simp [GGHalfBlk.Lab]) (by simp)))
 
 private theorem ggHalfGraphClosure_ggE6Refl_comm (a b r : GGE6Root) (h : ggE6ip a b = 0) :
     ggE6Refl a (ggE6Refl b r) = ggE6Refl b (ggE6Refl a r) := by
@@ -431,7 +431,7 @@ private theorem ggHalfGraphClosure_key_transfer
     {L D J K : Subgroup G} {y : G} {φ₁ φ₂ : SpecialLinearGroup (Fin 6) F2 →* G}
     (h : GGHalfCtx p B Bs x L D J 3 y K φ₁ φ₂) (hg : ¬ GGHalfAlphaInner φ₁ φ₂)
     (m : GGHalfE6Model) (hm : m.Good) (φ : GGE6Two →* G)
-    {b c : GGHalfBlk} {r : GGE6Root} (hb : m.Der b r)
+    {b c : GGHalfBlk} {r : GGE6Root} (_hb : m.Der b r)
     (ih : ggHalfGraphClosure_Key φ₁ φ₂ φ m b r) (hc : r ∈ m.Y c) :
     ggHalfGraphClosure_Key φ₁ φ₂ φ m c r := by
   obtain ⟨c₀, d₀, hc₀d₀, hfr₀, hval₀⟩ := ih
@@ -482,9 +482,9 @@ private theorem ggHalfGraphClosure_key_refl
     (hθprop : ∀ b c d, c ≠ d → θ b (slE c d) = ggE6x (m.frame b (b.lab c) (b.lab d)))
     {b : GGHalfBlk} {g h' : GGE6Root}
     (hg' : m.Der b g) (ihg : ggHalfGraphClosure_Key φ₁ φ₂ φ m b g)
-    (hng : m.Der b (-g)) (ihng : ggHalfGraphClosure_Key φ₁ φ₂ φ m b (-g))
+    (_hng : m.Der b (-g)) (ihng : ggHalfGraphClosure_Key φ₁ φ₂ φ m b (-g))
     (hh' : m.Der b h') (ihh : ggHalfGraphClosure_Key φ₁ φ₂ φ m b h')
-    (hhg : h' ≠ g) (hhn : h' ≠ -g) (hr : ggE6Refl g h' ∈ m.Y b) :
+    (_hhg : h' ≠ g) (_hhn : h' ≠ -g) (hr : ggE6Refl g h' ∈ m.Y b) :
     ggHalfGraphClosure_Key φ₁ φ₂ φ m b (ggE6Refl g h') := by
   obtain ⟨c₀, d₀, hc₀d₀, hgfr, hgval⟩ := ihg
   obtain ⟨c₁, d₁, hc₁d₁, hngfr, hngval⟩ := ihng
@@ -610,8 +610,8 @@ private theorem ggHalfGraphClosure_key_transportG
       show -(m.frame .L 1 3) = m.frame .L 3 1 by
         simpa [GGHalfBlk.lab, GGHalfBlk.off] using
           (ggHalfGraphClosure_frame_neg m .L (hmFrameOK .L) 1 3 (by decide)).symm]
-    simp only [map_mul, map_inv, e02, e20, e13, e31]
-    simp only [← map_mul, ← map_inv]
+    simp only [map_mul, e02, e20, e13, e31]
+    simp only [← map_mul]
     rw [ggHalfGraphClosure_slE_swap_mul 0 2 (by decide),
       ggHalfGraphClosure_slE_swap_mul 1 3 (by decide)]
     rw [show slPerm gf2_two (Equiv.swap 0 2) * slPerm gf2_two (Equiv.swap 1 3)
@@ -695,8 +695,8 @@ private theorem ggHalfGraphClosure_key_transportH
       show -(m.frame .K 7 3) = m.frame .K 3 7 by
         simpa [GGHalfBlk.lab, GGHalfBlk.off] using
           (ggHalfGraphClosure_frame_neg m .K (hmFrameOK .K) 5 1 (by decide)).symm]
-    simp only [map_mul, map_inv, e62, e26, e73, e37]
-    simp only [← map_mul, ← map_inv]
+    simp only [map_mul, e62, e26, e73, e37]
+    simp only [← map_mul]
     rw [ggHalfGraphClosure_slE_swap_mul 4 0 (by decide),
       ggHalfGraphClosure_slE_swap_mul 5 1 (by decide)]
     rw [show slPerm gf2_two (Equiv.swap 4 0) * slPerm gf2_two (Equiv.swap 5 1)

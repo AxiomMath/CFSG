@@ -13,6 +13,7 @@ open scoped Classical
 section
 
 variable {X : Type} [Group X] [Finite X] [Fintype (Subgroup.center X)]
+omit [Finite X] [Fintype ↥(center X)] in
 private theorem comm_mem_center (hcl : commutator X ≤ Subgroup.center X) (a b : X) :
     ⁅a, b⁆ ∈ Subgroup.center X :=
   hcl (by
@@ -22,9 +23,11 @@ private noncomputable def cent (hcl : commutator X ≤ Subgroup.center X) (a b :
     Subgroup.center X :=
   ⟨⁅a, b⁆, comm_mem_center hcl a b⟩
 
+omit [Finite X] [Fintype (Subgroup.center X)] in
 @[simp] private theorem coe_cent (hcl : commutator X ≤ Subgroup.center X) (a b : X) :
     ((cent hcl a b : Subgroup.center X) : X) = ⁅a, b⁆ := rfl
-private theorem cent_eq_one (hcl : commutator X ≤ Subgroup.center X) (a b : X) :
+omit [Finite X] [Fintype (Subgroup.center X)] in
+private theorem cent_eq_one [Finite X] [Fintype (Subgroup.center X)] (hcl : commutator X ≤ Subgroup.center X) (a b : X) :
     cent hcl a b = 1 ↔ ⁅a, b⁆ = 1 := by
   constructor
   · intro h
@@ -34,13 +37,16 @@ private theorem cent_eq_one (hcl : commutator X ≤ Subgroup.center X) (a b : X)
     exact Subtype.ext (by simpa using h)
 private noncomputable def eps (z : Subgroup.center X) : ZMod 2 :=
   if z = 1 then 0 else 1
+omit [Finite X] [Fintype ↥(center X)] in
 private theorem eps_eq_zero_iff (z : Subgroup.center X) : eps z = 0 ↔ z = 1 := by
   unfold eps
   by_cases h : z = 1 <;> simp [h]
+omit [Finite X] in
 private theorem card_center_sq_eq_one_le_two (hcyc : IsCyclic (Subgroup.center X)) :
     (Finset.univ.filter (fun z : Subgroup.center X => z ^ 2 = 1)).card ≤ 2 := by
-  haveI := hcyc
+  have := hcyc
   exact IsCyclic.card_pow_eq_one_le (α := Subgroup.center X) (n := 2) (by norm_num)
+omit [Finite X] in
 private theorem mul_eq_one_of_sq_eq_one_of_ne_one (hcyc : IsCyclic (Subgroup.center X))
     {u v : Subgroup.center X} (hu : u ^ 2 = 1) (hv : v ^ 2 = 1) (hu1 : u ≠ 1)
     (hv1 : v ≠ 1) : u * v = 1 := by
@@ -61,6 +67,7 @@ private theorem mul_eq_one_of_sq_eq_one_of_ne_one (hcyc : IsCyclic (Subgroup.cen
         Finset.card_insert_of_notMem (by simp [huv']), Finset.card_singleton]
   have := Finset.card_le_card hsub
   omega
+omit [Finite X] in
 private theorem eps_mul_of_sq_eq_one (hcyc : IsCyclic (Subgroup.center X))
     (u v : Subgroup.center X) (hu : u ^ 2 = 1) (hv : v ^ 2 = 1) :
     eps (u * v) = eps u + eps v := by
@@ -74,7 +81,8 @@ private theorem eps_mul_of_sq_eq_one (hcyc : IsCyclic (Subgroup.center X))
   have hv' : eps v = 1 := by simp [eps, hv1]
   rw [h1, hu', hv']
   decide
-private theorem cent_sq_eq_one (hcl : commutator X ≤ Subgroup.center X)
+omit [Finite X] [Fintype (Subgroup.center X)] in
+private theorem cent_sq_eq_one [Finite X] [Fintype (Subgroup.center X)] (hcl : commutator X ≤ Subgroup.center X)
     (hsq : ∀ x : X, x ^ 2 ∈ Subgroup.center X) (a b : X) : cent hcl a b ^ 2 = 1 := by
   apply Subtype.ext
   have hcomm : Commute a ⁅a, b⁆ := Subgroup.mem_center_iff.1 (comm_mem_center hcl a b) a
@@ -122,13 +130,13 @@ private theorem commVal_mul_right (hcl : commutator X ≤ Subgroup.center X)
             (cent_sq_eq_one hcl hsq a b) (cent_sq_eq_one hcl hsq a c)
     _ = commVal hcl a b + commVal hcl a c := by simp only [commVal]
 private theorem commVal_center_left (hcl : commutator X ≤ Subgroup.center X)
-    (hsq : ∀ x : X, x ^ 2 ∈ Subgroup.center X) (hcyc : IsCyclic (Subgroup.center X))
+    (_hsq : ∀ x : X, x ^ 2 ∈ Subgroup.center X) (_hcyc : IsCyclic (Subgroup.center X))
     {z : X} (hz : z ∈ Subgroup.center X) (b : X) : commVal hcl z b = 0 := by
   simp only [commVal]
   rw [eps_eq_zero_iff, cent_eq_one]
   exact commutatorElement_eq_one_iff_commute.2 (Subgroup.mem_center_iff.1 hz b).symm
 private theorem commVal_center_right (hcl : commutator X ≤ Subgroup.center X)
-    (hsq : ∀ x : X, x ^ 2 ∈ Subgroup.center X) (hcyc : IsCyclic (Subgroup.center X))
+    (_hsq : ∀ x : X, x ^ 2 ∈ Subgroup.center X) (_hcyc : IsCyclic (Subgroup.center X))
     (a : X) {z : X} (hz : z ∈ Subgroup.center X) : commVal hcl a z = 0 := by
   simp only [commVal]
   rw [eps_eq_zero_iff, cent_eq_one, commutatorElement_eq_one_iff_mul_comm]
@@ -149,6 +157,7 @@ private theorem commVal_congr_right (hcl : commutator X ≤ Subgroup.center X)
   simpa using h.symm
 private abbrev QSpace (X : Type*) [Group X] : Type _ :=
   Additive (X ⧸ Subgroup.center X)
+omit [Finite X] [Fintype ↥(center X)] in
 private theorem qspace_two_nsmul_eq_zero (hsq : ∀ x : X, x ^ 2 ∈ Subgroup.center X)
     (x : QSpace X) : (2 : ℕ) • x = 0 := by
   induction x using Additive.rec with | _ a => ?_
@@ -195,6 +204,7 @@ section
 
 variable [Fact (commutator X ≤ Subgroup.center X)]
 variable [Fact (∀ x : X, x ^ 2 ∈ Subgroup.center X)]
+omit [Fact (_root_.commutator X ≤ center X)] [Fact (∀ (x : X), x ^ 2 ∈ center X)] in
 private theorem pair_add_left (hcl : commutator X ≤ Subgroup.center X)
     (hsq : ∀ x : X, x ^ 2 ∈ Subgroup.center X) (hcyc : IsCyclic (Subgroup.center X))
     (x x' y : QSpace X) :
@@ -206,6 +216,7 @@ private theorem pair_add_left (hcl : commutator X ≤ Subgroup.center X)
   induction a' using QuotientGroup.induction_on with | _ a' => ?_
   induction b using QuotientGroup.induction_on with | _ b => ?_
   exact commVal_mul_left hcl hsq hcyc a a' b
+omit [Fact (_root_.commutator X ≤ center X)] [Fact (∀ (x : X), x ^ 2 ∈ center X)] in
 private theorem pair_add_right (hcl : commutator X ≤ Subgroup.center X)
     (hsq : ∀ x : X, x ^ 2 ∈ Subgroup.center X) (hcyc : IsCyclic (Subgroup.center X))
     (x y y' : QSpace X) :
@@ -282,17 +293,21 @@ private noncomputable def pi : X →* Multiplicative (QSpace X) where
     intro x y
     simp only [QuotientGroup.mk_mul, ofMul_mul, ofAdd_add]
 
+omit [Finite X] [Fintype ↥(center X)] [Fact (_root_.commutator X ≤ center X)] [Fact (∀ (x : X), x ^ 2 ∈ center X)] in
 @[simp] private theorem pi_apply (x : X) :
     pi x = Multiplicative.ofAdd (Additive.ofMul (x : X ⧸ Subgroup.center X)) := rfl
 
+omit [Finite X] [Fintype ↥(center X)] [Fact (_root_.commutator X ≤ center X)] [Fact (∀ (x : X), x ^ 2 ∈ center X)] in
 @[simp] private theorem toAdd_pi (x : X) :
     Multiplicative.toAdd (pi x) = Additive.ofMul (x : X ⧸ Subgroup.center X) := rfl
+omit [Finite X] [Fintype (Subgroup.center X)] [Fact (_root_.commutator X ≤ center X)] [Fact (∀ (x : X), x ^ 2 ∈ center X)] in
 private theorem pi_surjective : Function.Surjective (pi : X →* Multiplicative (QSpace X)) := by
   intro m
   obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective (Additive.toMul m.toAdd)
   refine ⟨x, ?_⟩
   rw [pi_apply, hx]
   rfl
+omit [Finite X] [Fintype (Subgroup.center X)] [Fact (_root_.commutator X ≤ center X)] [Fact (∀ (x : X), x ^ 2 ∈ center X)] in
 private theorem pi_ker : (pi : X →* Multiplicative (QSpace X)).ker = Subgroup.center X := by
   ext x
   rw [MonoidHom.mem_ker, pi_apply]
@@ -317,8 +332,8 @@ private theorem exists_sympForm (hcl : commutator X ≤ Subgroup.center X)
       B.Nondegenerate ∧ B.IsAlt ∧ Function.Surjective π ∧ π.ker = Subgroup.center X ∧
       ∀ x y : X, B (Multiplicative.toAdd (π x)) (Multiplicative.toAdd (π y)) = 0 ↔
         ⁅x, y⁆ = 1 := by
-  haveI : Fact (commutator X ≤ Subgroup.center X) := ⟨hcl⟩
-  haveI : Fact (∀ x : X, x ^ 2 ∈ Subgroup.center X) := ⟨hsq⟩
+  have : Fact (commutator X ≤ Subgroup.center X) := ⟨hcl⟩
+  have : Fact (∀ x : X, x ^ 2 ∈ Subgroup.center X) := ⟨hsq⟩
   refine ⟨QSpace X, inferInstance, inferInstance, inferInstance,
     form hcl hsq hcyc, pi, ?_, ?_, ?_, ?_, ?_⟩
   · exact form_nondegenerate hcl hsq hcyc
@@ -333,7 +348,7 @@ private theorem exists_sympForm (hcl : commutator X ≤ Subgroup.center X)
 end
 theorem sympForm_holds : SympForm := by
   intro X _ _ _ hcl hsq hcyc
-  haveI : Fintype (Subgroup.center X) := Fintype.ofFinite (Subgroup.center X)
+  have : Fintype (Subgroup.center X) := Fintype.ofFinite (Subgroup.center X)
   exact exists_sympForm hcl hsq hcyc
 
 end CFSG.LocalAnalysis.UniquenessCase.UCK.UC46

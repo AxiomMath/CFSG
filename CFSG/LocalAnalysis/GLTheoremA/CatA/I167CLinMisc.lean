@@ -23,19 +23,19 @@ theorem i167CLin_split_model {K : Type} [Field K] [Finite K] {a : ℕ} (hKa : Na
   obtain ⟨b, E, hEfld, hEalg, hEfin, hb, ⟨φ⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.held_linear_components_gl
       CFSG.LieType.SemisimpleCentralizers.Held.SLComponentsTrivial_holds A hord M hM
-  letI : Field E := hEfld
-  letI : Algebra K E := hEalg
-  letI : Finite E := hEfin
-  letI : Fintype E := Fintype.ofFinite E
+  let : Field E := hEfld
+  let : Algebra K E := hEalg
+  let : Finite E := hEfin
+  let : Fintype E := Fintype.ofFinite E
   have h2E : (2 : E) = 0 := by
     have h := congrArg (algebraMap K E) h2
     rwa [map_ofNat (algebraMap K E) 2, map_zero] at h
   obtain ⟨q, hqchar, n, hqprime, hqcard⟩ := FiniteField.card' E
-  haveI : CharP E q := hqchar
+  have : CharP E q := hqchar
   have hdvd : q ∣ 2 := (CharP.cast_eq_zero_iff E q 2).mp h2E
   have hq2 : q = 2 := (Nat.prime_dvd_prime_iff_eq hqprime Nat.prime_two).mp hdvd
   subst hq2
-  haveI : IsSimpleGroup (M ⧸ Subgroup.center M) := hM.2.2.2
+  have : IsSimpleGroup (M ⧸ Subgroup.center M) := hM.2.2.2
   have hEcard : Nat.card E = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hqcard]
   refine ⟨b, (n : ℕ),

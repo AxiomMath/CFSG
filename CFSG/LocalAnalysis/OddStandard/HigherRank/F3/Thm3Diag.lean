@@ -26,7 +26,7 @@ open CFSG.GH74.GLS.TwoThin CFSG.LocalAnalysis.ComponentInitial
 
 variable {H : Type} [Group H] [Finite H]
 
-theorem nonempty_bar_equiv_map_barMk {K₀ : Subgroup H} (hK₀ : IsTwoComponent K₀) :
+theorem nonempty_bar_equiv_map_barMk {K₀ : Subgroup H} (_hK₀ : IsTwoComponent K₀) :
     Nonempty (↥K₀ ⧸ pPrimeCore 2 ↥K₀ ≃*
       ↥(K₀.map (barMk H)) ⧸ pPrimeCore 2 ↥(K₀.map (barMk H))) := by
   set f := (barMk H).subgroupMap K₀

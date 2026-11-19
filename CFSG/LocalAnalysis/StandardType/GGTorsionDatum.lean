@@ -21,7 +21,7 @@ private theorem td1_exists_closure_pair {G : Type} [Group G] [Finite G] {p : ℕ
     {x : G} {L D J : Subgroup G} (hp : p.Prime) (hS : LargeEvenSStar p B x L)
     (hpre : LargeEvenStdSubPre p B x L D J) :
     ∃ y ∈ B, D = Subgroup.closure {x, y} := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxB : x ∈ B := hS.2.1
   have hxD : x ∈ D := hpre.2.2.2.1
   have hzxcard : Nat.card (Subgroup.zpowers x) = p := by
@@ -157,7 +157,7 @@ private theorem td1_exists_unique_of_marking
       · rw [hzy]; exact hyzx
     have hDle : D ≤ Subgroup.zpowers x := by rw [hD]; exact hcl_le
     have hzxcard : Nat.card (Subgroup.zpowers x) = p := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       rw [Nat.card_zpowers, orderOf_eq_prime (hS.1.1.2 x hxB) hS.2.2.1]
     have hdvd : p ^ 2 ∣ p := by
       have h := Subgroup.card_dvd_of_le hDle

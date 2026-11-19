@@ -74,6 +74,7 @@ section Main
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [Finite V] {H : Type} [Group H] [Finite H]
 
+omit [Finite F] [Finite V] in
 theorem radRigid_of_rigid (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.center H)
     (hZo : Nat.Coprime (Nat.card Z) 2) (P : Equiv.Perm V → Prop) (ρ : H →* Module.End F V)
     (hρ : Function.Injective ρ) (𝔉 : Subgroup H → ℕ → Submodule F V)
@@ -83,7 +84,7 @@ theorem radRigid_of_rigid (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.cent
     (hker : ∀ Q : Subgroup H, IsPGroup 2 Q → Q ≤ flagKernel ρ (𝔉 Q))
     (hlift : AutLift P (QuotientGroup.mk' Z) ρ)
     (hrigid : ∀ p : ℕ, p.Prime → p ≠ 2 → RigidProp P ρ 𝔉 p) : RadRigid 2 (H ⧸ Z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro R hR α hfix hord
   by_contra hα1
   have hord1 : orderOf α ≠ 1 := fun h => hα1 (orderOf_eq_one_iff.mp h)
@@ -96,7 +97,7 @@ theorem radRigid_of_rigid (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.cent
     intro h2
     rw [h2] at hpd
     exact absurd ((Nat.Coprime.symm hord).eq_one_of_dvd hpd) (by norm_num)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set β : MulAut (H ⧸ Z) := α ^ (orderOf α / p) with hβdef
   have hβord : orderOf β = p := orderOf_pow_orderOf_div hord0 hpd
   have hβfix : ∀ r ∈ (R : Set (H ⧸ Z)), β r = r :=

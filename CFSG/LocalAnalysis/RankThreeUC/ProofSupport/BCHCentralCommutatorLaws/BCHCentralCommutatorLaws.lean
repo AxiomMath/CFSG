@@ -46,6 +46,7 @@ theorem commutator_mul_right (x y z : E) : ⁅x, y * z⁆ = ⁅x, y⁆ * ⁅x, z
   simp only [mul_assoc]
   rw [← mul_assoc y ⁅x, z⁆ y⁻¹, this]
 
+omit hc in
 theorem commutator_swap (x y : E) : ⁅y, x⁆ = ⁅x, y⁆⁻¹ := (commutatorElement_inv x y).symm
 
 theorem commutator_pow_left (x y : E) (n : ℕ) : ⁅x ^ n, y⁆ = ⁅x, y⁆ ^ n := by
@@ -122,7 +123,7 @@ theorem add_comm (hp : Odd p) (hexp : ∀ x : E, x ^ p = 1) (x y : BCH p E) :
   have hcp : c ^ p = 1 := commutator_pow_eq_one_left hc (hexp x) y
   have hxy : x * y = c * (y * x) := by
     rw [hcdef, commutatorElement_def]; group
-  have hyx : ⁅y, x⁆ = c⁻¹ := commutator_swap hc x y
+  have hyx : ⁅y, x⁆ = c⁻¹ := commutator_swap x y
   have hh := pow_half_pred hp hcp
   set h := (p + 1) / 2
   have hcen : ∀ w : E, c * w = w * c := fun w =>

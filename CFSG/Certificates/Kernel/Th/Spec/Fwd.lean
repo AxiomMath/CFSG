@@ -247,10 +247,10 @@ theorem fwd_facts (p : TauCeti.GroupPresentation) (hp1 : p.generatorCount = 8)
     decide +kernel
   have hxJ : 𝕄 (wordG (pairLetters a b) Native.xWord) = pkMat (D.ThS_RBf 15) := by
     rw [L58, pkMat_wordAB_digits hk (D.ThS_RBf 1) (D.ThS_RBf 2) D.ThS_Bi D.ThO_xw 33 hdx]
-    exact pkMat_wordG hk a b hAm.symm hBm.symm hA2 hBBi xWord_ok
+    exact pkMat_wordG a b hAm.symm hBm.symm hA2 hBBi xWord_ok
   have hyJ : 𝕄 (wordG (pairLetters a b) Native.yWord) = pkMat (D.ThS_RBf 11) := by
     rw [L61, pkMat_wordAB_digits hk (D.ThS_RBf 1) (D.ThS_RBf 2) D.ThS_Bi D.ThO_yw 115 hdy]
-    exact pkMat_wordG hk a b hAm.symm hBm.symm hA2 hBBi yWord_ok
+    exact pkMat_wordG a b hAm.symm hBm.symm hA2 hBBi yWord_ok
   have hm0 : ∀ k, marked 34816 k = true → RegIn (Subgroup.closure
       {wordG (pairLetters a b) Native.xWord, wordG (pairLetters a b) Native.yWord}) D.ThS_RBf k := by
     intro k hk'

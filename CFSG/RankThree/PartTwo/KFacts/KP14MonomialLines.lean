@@ -29,7 +29,7 @@ theorem exists_conj_monomial (L : Fin 3 → Submodule (ZMod 3) (Fin 3 → ZMod 3
   have hind : LinearIndependent (ZMod 3) b :=
     hL.submodule_iSupIndep.linearIndependent L hbL hb0
   set P₀ : Matrix (Fin 3) (Fin 3) (ZMod 3) := Matrix.of fun i j => b j i
-  have hP₀ : IsUnit P₀ := Matrix.linearIndependent_cols_iff_isUnit.mp hind
+  have hP₀ : IsUnit P₀ := Matrix.linearIndependent_col_iff_isUnit.mp hind
   refine ⟨hP₀.unit, fun g hg => ?_⟩
   choose π hπ using hg
   have hgb : ∀ i, ∃ c : ZMod 3, (g : Matrix (Fin 3) (Fin 3) (ZMod 3)) *ᵥ b i = c • b (π i) := by

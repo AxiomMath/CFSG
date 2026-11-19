@@ -34,6 +34,7 @@ theorem exists_isMinimalNotLE {B A L₀ : Subgroup G} (hA : A ≤ L₀) (hL₀ :
   have hge : Nat.find hex ≤ Nat.card L' := Nat.find_min' hex ⟨L', hpL', rfl⟩
   exact Subgroup.eq_of_le_of_card_ge hL'L (by omega)
 
+omit [Finite V] in
 theorem Setting12One.exists_minimal {ρ : G →* LGL 2 V}
     {B A : Subgroup G} {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m) :
     ∃ L : Subgroup G, IsMinimalNotLE B A L := by
@@ -71,6 +72,7 @@ theorem rankOne_minimal_type {n : ℕ}
       exact hL.2.1 (by rw [hBS, ← hS'eq]; exact hLS')
     · exact hsub
 
+omit [Finite V] in
 theorem Setting12One.restrict {ρ : G →* LGL 2 V}
     {B A : Subgroup G} {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m)
     {L : Subgroup G} (hAL : A ≤ L) {k : ℕ}
@@ -113,6 +115,7 @@ theorem Setting12One.restrict {ρ : G →* LGL 2 V}
       one_lt_m := h.one_lt_m
       quad := hquad }
 
+omit [Finite G] in
 theorem IsMinimalNotLE.minimal_subgroupOf {B A L : Subgroup G} (hL : IsMinimalNotLE B A L) :
     ∀ L' : Subgroup ↥L, A.subgroupOf L ≤ L' → ¬ L' ≤ B.subgroupOf L → L' = ⊤ := by
   intro L' hAL' hL'B
@@ -130,6 +133,7 @@ theorem IsMinimalNotLE.minimal_subgroupOf {B A L : Subgroup G} (hL : IsMinimalNo
   obtain ⟨y, hyL', hyx⟩ := hxL
   exact Subtype.ext hyx ▸ hyL'
 
+omit [Finite V] in
 theorem Setting12One.exists_restrict_of_minimal
     {ρ : G →* LGL 2 V}
     {B A : Subgroup G} {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m)

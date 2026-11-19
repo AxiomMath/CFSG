@@ -60,7 +60,7 @@ theorem odd_cover_one_square_order_bound [Group.IsPerfect E] {ℓ : ℕ} (hℓ :
   simp only [Nat.factorization_pow, Finsupp.smul_apply, Nat.Prime.factorization_self hℓ,
     smul_eq_mul, mul_one] at hCℓ
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow ℓ S))
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 Q.isPGroup
   have hm2 : m ≤ 2 := by
     by_contra hm2
     push Not at hm2
@@ -150,7 +150,7 @@ theorem odd_cover_one_square_order_bound [Group.IsPerfect E] {ℓ : ℕ} (hℓ :
         push Not at hj2
         have hj3' : j = 3 := by omega
         subst hj3'
-        obtain ⟨i, hi⟩ := IsPGroup.iff_card.1 P.isPGroup'
+        obtain ⟨i, hi⟩ := IsPGroup.iff_card.1 P.isPGroup
         have hi3 : i ≤ 3 := hle3 i (hi ▸ Subgroup.card_subgroup_dvd_card _)
         have hFeq : F = P := Subgroup.eq_of_le_of_card_ge hFP (by
           rw [hi, hj]; exact Nat.pow_le_pow_right hr.pos hi3)

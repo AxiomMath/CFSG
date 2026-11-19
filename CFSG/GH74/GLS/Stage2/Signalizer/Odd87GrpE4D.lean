@@ -23,6 +23,7 @@ section
 variable {G : Type} [Group G] {z : G} {k : Kind}
 variable {A : Type} [Group A] [Finite A] {a : A} {p : ℕ} {X J : Subgroup A}
 
+omit [Finite A] in
 theorem C43d1_of_eq {K : Subgroup A} (hK : ncl X = K) (hk : k = Kind.mcl ∨ k = Kind.ly)
     (h3 : Nat.card ↥X = 3) (h4 : IsPGL3Four ↥K)
     (h5 : K ⊓ centralizer ({a} : Set A) = ⁅K, K⁆ ⊓ centralizer (X : Set A))
@@ -32,23 +33,26 @@ theorem C43d1_of_eq {K : Subgroup A} (hK : ncl X = K) (hk : k = Kind.mcl ∨ k =
   subst hK
   exact ⟨hk, h3, h4, h5, h6, h7⟩
 
+omit [Finite A] in
 theorem secMk_comm_iff (hN : pPrimeCore 2 ↥(secY a X J) = ⊥) {y y' : A} (hy : y ∈ secY a X J)
     (hy' : y' ∈ secY a X J) :
     secMk a X J y hy * secMk a X J y' hy' = secMk a X J y' hy' * secMk a X J y hy ↔ y * y' = y' * y := by
   rw [← secMk_mul hy hy', ← secMk_mul hy' hy, secMk_inj hN]
 
+omit [Finite A] in
 theorem comm_of_card_three {X : Subgroup A} (h3 : Nat.card ↥X = 3) :
     ∀ x ∈ X, ∀ y ∈ X, x * y = y * x := by
-  haveI : Fact (Nat.Prime (Nat.card ↥X)) := ⟨by rw [h3]; exact Nat.prime_three⟩
-  haveI : IsCyclic ↥X := isCyclic_of_prime_card rfl
-  letI : CommGroup ↥X := IsCyclic.commGroup
+  have : Fact (Nat.Prime (Nat.card ↥X)) := ⟨by rw [h3]; exact Nat.prime_three⟩
+  have : IsCyclic ↥X := isCyclic_of_prime_card rfl
+  let : CommGroup ↥X := IsCyclic.commGroup
   intro x hx y hy
   exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥X) ⟨y, hy⟩)
 
+omit [Finite A] in
 theorem inf_centralizer_eq_bot_of_card_three {X : Subgroup A} {a : A} (h3 : Nat.card ↥X = 3)
     (hcomm : ⁅X, zpowers a⁆ = X) (hne : X ≠ ⊥) (ha2 : a * a = 1) :
     X ⊓ centralizer ({a} : Set A) = ⊥ := by
-  haveI : Fact (Nat.Prime (Nat.card ↥X)) := ⟨by rw [h3]; exact Nat.prime_three⟩
+  have : Fact (Nat.Prime (Nat.card ↥X)) := ⟨by rw [h3]; exact Nat.prime_three⟩
   rcases Subgroup.eq_bot_or_eq_top_of_prime_card ((X ⊓ centralizer ({a} : Set A)).subgroupOf X)
     with h | h
   · exact (Subgroup.subgroupOf_eq_bot.mp h).eq_bot_of_le inf_le_left
@@ -114,7 +118,7 @@ theorem case_d (F : E4Hyp G z k) (hOut : L34DiagClosure) {c : E4Ctx G z A a p X}
     exact hb
   have hX3A : Nat.card ↥X = 3 := (card_X_eq_secX_of_chi d.hyp hXC).trans hX3
   have hKX : secX a X J ⊓ secJ a X J = ⊥ := by
-    haveI : Fact (Nat.Prime (Nat.card ↥(secX a X J))) := ⟨by rw [hX3]; exact Nat.prime_three⟩
+    have : Fact (Nat.Prime (Nat.card ↥(secX a X J))) := ⟨by rw [hX3]; exact Nat.prime_three⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card
       ((secX a X J ⊓ secJ a X J).subgroupOf (secX a X J)) with h | h
     · exact (Subgroup.subgroupOf_eq_bot.mp h).eq_bot_of_le inf_le_left
@@ -129,7 +133,7 @@ theorem case_d (F : E4Hyp G z k) (hOut : L34DiagClosure) {c : E4Ctx G z A a p X}
   have hLieJ : LieModel ↥J .PSL 3 2 2 :=
     Transport.lieModel_of_mulEquiv (secPsiEquiv d.hyp hN1).symm hLie
   have hP : (J ⊔ centralizer (J : Set A) ⊔ X).Normal := by
-    haveI := hJn
+    have := hJn
     exact hOut A J hLieJ X hX3A
   have hncl : ncl X = J ⊔ X :=
     ncl_eq_sup_of_normal c.A4.prime c.A4.pgroup c.op d.comp hJn hJK hcomp hF hP

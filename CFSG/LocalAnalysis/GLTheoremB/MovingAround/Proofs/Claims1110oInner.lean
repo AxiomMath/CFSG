@@ -33,7 +33,7 @@ theorem card_centerQuotient_ne_of_uniEmbed (hU : UniEmbed) {τ : Tag} {M : Type}
     Nat.card (R ⧸ Subgroup.center R) ≠ 174182400 := by
   classical
   intro hcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, hVp, hVcard, hVZ⟩ := hU τ χ i K 2
   obtain ⟨e⟩ := CFSG.Goldschmidt.G37.nonempty_centerQuotientEquiv hperf f hf hker
   let g : ↥V →* ↥(componentRootSpan K χ i) ⧸
@@ -53,7 +53,7 @@ theorem card_centerQuotient_ne_of_uniEmbed (hU : UniEmbed) {τ : Tag} {M : Type}
     rw [← Nat.card_congr e.toEquiv]
     exact Subgroup.card_dvd_of_injective g hginj
   rw [hcard] at hdvd
-  haveI : Finite ↥V := inferInstance
+  have : Finite ↥V := inferInstance
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥V)).1 hVp
   rw [hn] at hdvd
   have hn12 : n ≤ 12 := two_pow_dvd_d4Two hdvd
@@ -77,8 +77,8 @@ theorem inner_big_card_ne (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8
     Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) ≠ 174182400 := by
   classical
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf := isPerfect_componentRootSpan_of_big hτ D (by omega)
   obtain ⟨g, hg, hgk⟩ := exists_surjective_central_of_perfect D hperf
   refine card_centerQuotient_ne_of_uniEmbed uniEmbed_holds (rootCharHom a) i

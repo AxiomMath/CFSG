@@ -61,7 +61,7 @@ theorem mem_of_mul_pow_eq_one {G : Type*} [Group G] {N : Subgroup G} {t r₀ : G
 theorem mem_of_relIndex_dvd_three {G : Type*} [Group G] {J H : Subgroup G}
     (hnorm : ∀ c ∈ H, ∀ x ∈ J, c * x * c⁻¹ ∈ J) (hidx : J.relIndex H ∣ 3) {c : G}
     (hc : c ∈ H) {r m : ℕ} (hr : r.Coprime 3) (hcm : c ^ (r ^ m) = 1) : c ∈ J := by
-  haveI : (J.subgroupOf H).Normal := ⟨fun x hx g => by
+  have : (J.subgroupOf H).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using hnorm g g.2 x hx⟩
   have hpow : c ^ (J.relIndex H) ∈ J := by
@@ -123,7 +123,7 @@ theorem mem_layer_of_connFixed {N : Set ℕ} (hN : ∀ n ∈ N, TwE6ConnFixed n)
     apply hinj
     rw [map_mul, map_mul, hh, hh']
     exact congrArg Subtype.val (hcube.elemAbelian.1.is_comm.comm ⟨f, hfE⟩ ⟨e, heE⟩)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, ff, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hcube.card_field hq2
   have hK' : Nat.card K = (ringChar K ^ ff) ^ 2 := by rw [← hqf]; exact hcube.card_field
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ ff) := by intro c; rw [← hqf]; exact hcube.frob c
@@ -227,8 +227,8 @@ theorem mem_layer_of_connFixed {N : Set ℕ} (hN : ∀ n ∈ N, TwE6ConnFixed n)
   have hord : orderOf (c * r₁⁻¹) = orderOf t := by
     rw [← hc₁]
     exact (orderOf_injective ι hinjι _).symm
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have hcop : (ringChar K ^ m).Coprime (orderOf (c * r₁⁻¹)) := by
     rw [hord]
     refine coprime_orderOf_of_mem_torusGroup htT ?_ m

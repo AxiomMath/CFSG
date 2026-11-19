@@ -76,7 +76,7 @@ theorem isInternalDirect_cons {M K : Subgroup G} (hM : M.Normal) (hMK : M ⊓ K 
       have hRK : (⨆ j ∈ {j | j ≠ i}, Ks j) ≤ K := iSup₂_le fun j _ => hKs j
       intro x hx
       obtain ⟨hxi, hxR⟩ := Subgroup.mem_inf.1 hx
-      haveI := hM
+      have := hM
       obtain ⟨m, hm, r, hr, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 (hle hxR)
       have hmK : m ∈ M ⊓ K := ⟨hm, by
         have h := K.mul_mem (hKs i hxi) (K.inv_mem (hRK hr))
@@ -136,8 +136,8 @@ theorem inf_cenOn_commOn_eq_bot_of_pCore_eq_bot (hρ : Function.Injective ρ)
     (hO : CFSG.pCore 2 G = ⊥) {N : Subgroup G} (hN : N.Normal) :
     N ⊓ cenOn ρ ⊤ (commOn ρ N ⊤) = ⊥ := by
   have hnorm : (N ⊓ cenOn ρ ⊤ (commOn ρ N ⊤)).Normal := by
-    haveI := hN
-    haveI := cenOn_commOn_normal (ρ := ρ) hN
+    have := hN
+    have := cenOn_commOn_normal (ρ := ρ) hN
     infer_instance
   have hp : IsPGroup 2 ↥(N ⊓ cenOn ρ ⊤ (commOn ρ N ⊤)) := fun k => by
     refine ⟨1, Subtype.ext (hρ (LinearMap.ext fun v => ?_))⟩
@@ -170,8 +170,8 @@ theorem hasFactors148_of_inner [Finite G] [Finite V] (hO : CFSG.pCore 2 G = ⊥)
     rw [e]
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hl) (Subgroup.mem_sup_right hk)
   have hL1 : L ≠ ⊥ := by
-    haveI := hL.2.2.2
-    haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+    have := hL.2.2.2
+    have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance
   exact hasFactors148_of_prod hO hρ hshape hH IH hLn hK hLK hsup
     (fun m hm k hk => Subgroup.commute_of_normal_of_disjoint L _ hLn hK (disjoint_iff.2 hLK) m k

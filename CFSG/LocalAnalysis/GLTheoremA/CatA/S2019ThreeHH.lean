@@ -17,19 +17,19 @@ theorem commute_of_quadratic_three_of_abelian {x : LinearMap.GeneralLinearGroup 
     (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hnorm : ∀ a ∈ A, x * a * x⁻¹ ∈ A) :
     ∀ a ∈ A, x * a * x⁻¹ = a := by
   classical
-  haveI hq : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hq : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hx1 : x = 1
   · intro a _
     rw [hx1, one_mul, inv_one, mul_one]
-  haveI := finite_generalLinearGroup (F := F) (V := V)
+  have := finite_generalLinearGroup (F := F) (V := V)
   have hxo : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hle : Subgroup.zpowers x ≤ Subgroup.normalizer (A : Set (LinearMap.GeneralLinearGroup F V)) := by
     rw [Subgroup.zpowers_le]
     exact mem_normalizer_of_pow_eq_one (by norm_num) hx3 hnorm
   set G : Subgroup (LinearMap.GeneralLinearGroup F V) := Subgroup.zpowers x ⊔ A with hG
   set NG : Subgroup ↥G := A.subgroupOf G with hNG
-  haveI : NG.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
+  have : NG.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
   have hxG : x ∈ G := Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
   have hAG : A ≤ G := le_sup_right
   have hidx : NG.index ∣ 3 := by
@@ -79,7 +79,7 @@ theorem commute_of_quadratic_three_of_abelian {x : LinearMap.GeneralLinearGroup 
       obtain ⟨a, haS, b, hbS, hab⟩ := hsyl S
       have hSA : ∀ s ∈ (S : Subgroup ↥G), s ∈ NG := by
         intro s hs
-        obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+        obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
         have hk' : s ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
         have h1 : orderOf (QuotientGroup.mk' NG s) ∣ 2 ^ k :=
           orderOf_dvd_of_pow_eq_one (by rw [← map_pow, hk', map_one])

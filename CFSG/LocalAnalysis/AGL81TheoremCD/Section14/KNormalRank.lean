@@ -20,7 +20,7 @@ theorem le_normalizer_kSub_of_fiveTypes (h : HypCGen G M 3 E H) (hfive : FiveTyp
     (hU : CFSG.LocalAnalysis.RankThreeUC.AGL81C.NineNineOne M 3)
     (hL : ¬ pLayerIn 3 H ≤ M) : H ≤ normalizer (kSub 3 M H : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨J₀, hJ₀, h2⟩ := hfive.exists_pComponentIn_two_le_pRank
   have hσ : 3 ∉ CFSG.LocalAnalysis.RankThreeUC.S15.sigmaM G M := by
     simpa [CFSG.LocalAnalysis.AGL81TheoremCD.sigmaSet,

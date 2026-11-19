@@ -23,7 +23,7 @@ theorem sum_star_K {T L H K : Subgroup G}
     {t : G} (ht : t ∈ T) (hKc : K ∈ cComp H) (hTH : T ≤ H)
     (htK : t ∉ Subgroup.normalizer (K : Set G))
     (hK0 : H ≤ Subgroup.normalizer (conjClosure K T : Set G))
-    (hK0H : conjClosure K T ≤ H) (hSQ : SQTKGroup ↥H)
+    (_hK0H : conjClosure K T ≤ H) (hSQ : SQTKGroup ↥H)
     {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 = 1)
     (ρ : ↥H →* MulAut V) (hρ : CFSG.pCore 2 ↥H ≤ ρ.ker)
     (hnt : ∃ k ∈ conjClosure K T, ∃ hk : k ∈ H, ρ ⟨k, hk⟩ ≠ 1)
@@ -92,7 +92,7 @@ theorem sum_star_K {T L H K : Subgroup G}
   have hFF' : IsFFModule ρs.range := by rw [hrange]; exact hFF
   have hinj : Function.Injective (ρs.comp (S126.star H K).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI := isSimpleGroup_star_K h2
+    have := isSimpleGroup_star_K h2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((ρs.comp (S126.star H K).subtype).ker) with hbot | htop
     · exact hbot
@@ -126,13 +126,14 @@ theorem sum_star_K {T L H K : Subgroup G}
     exact hfix
   · rwa [hrange] at hns
 
+omit [Finite G] in
 theorem star_K_comp_injective {T L H K : Subgroup G} {t : G} (ht : t ∈ T) (hTH : T ≤ H)
     (h2 : Case2 T L H K) {V : Type} [CommGroup V] (ρs : S126.HStar H →* MulAut V)
     (hnt : ¬ S126.star H K ⊔ (S126.star H K).map (MulAut.conj
       (QuotientGroup.mk ⟨t⁻¹, H.inv_mem (hTH ht)⟩ : S126.HStar H)).toMonoidHom ≤ ρs.ker) :
     Function.Injective (ρs.comp (S126.star H K).subtype) := by
   rw [← MonoidHom.ker_eq_bot_iff]
-  haveI := isSimpleGroup_star_K h2
+  have := isSimpleGroup_star_K h2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((ρs.comp (S126.star H K).subtype).ker) with hbot | htop
   · exact hbot

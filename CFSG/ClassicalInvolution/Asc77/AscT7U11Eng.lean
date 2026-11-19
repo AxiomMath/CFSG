@@ -207,10 +207,10 @@ theorem exists_normal_four_badE (hyp : Hyp25F K S R R' z)
     intro s hs x hx
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     exact (Commute.zpow_right (show Commute s z from hzc s hs) k).eq
-  obtain ⟨x, hxA, hxT, hxc⟩ := exists_central_mod S.isPGroup' hAS
+  obtain ⟨x, hxA, hxT, hxc⟩ := exists_central_mod S.isPGroup hAS
     (fun s hs => hyp.cA hs) (Subgroup.zpowers_le.mpr hzA) hTc
     (Ne.symm hne)
-  obtain ⟨m, hm⟩ := AscL62.orderOf_eq_two_pow_of_isPGroup S.isPGroup' (hAS hxA)
+  obtain ⟨m, hm⟩ := AscL62.orderOf_eq_two_pow_of_isPGroup S.isPGroup (hAS hxA)
   obtain ⟨y, hyA, hyy, hy1, hyz, hyc⟩ :=
     exists_involution_of_central_modE hyp ht'S ht'2 hg hzt hnf hAS m x hm hxA hxT hxc
   have hyS : y ∈ (S : Subgroup G) := hAS hyA

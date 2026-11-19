@@ -12,6 +12,7 @@ open CFSG.LargeExtraspecial.Timmesfeld (Qa fStar)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qpCfg_psi_mul_self {V H : Subgroup G} {n : ℕ}
     {ψ : (Fin n ⊕ Fin n → GaloisField 2 1) ≃+ Additive ↥(wOf V H)}
     (w : Fin n ⊕ Fin n → GaloisField 2 1) :

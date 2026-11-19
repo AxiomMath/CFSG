@@ -60,7 +60,7 @@ theorem e6One_class_aux (hF : FrobeniusOnRoots) {ℓ f : ℕ} (hℓ : ℓ.Prime)
 
 theorem e6Two_class_aux (hF : FrobeniusOnRoots) {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (F : Type)
     [Field F] (hF2 : Nat.card F = (ℓ ^ f) ^ 2) (σ : F ≃+* F) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
-    {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p)
+    {p : ℕ} [hp : Fact p.Prime] (_hp5 : 5 ≤ p)
     (h7 : 7 ≤ p) (hpq : ¬ p ∣ ℓ ^ f)
     (he : orderOf (((ℓ ^ f : ℕ)) : ZMod p) = 2) :
     ∃ (L : Type) (_ : Field L) (_ : IsAlgClosed L) (Fr : L →+* L) (_ : ∀ c, Fr c = c ^ (ℓ ^ f))
@@ -152,27 +152,27 @@ theorem wcOn_twistedE6_class {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (F 
   rcases hE with rfl | rfl | rfl | rfl | ⟨rfl, h7⟩
   · obtain ⟨L, _, _, Fr, hFr, D, hΦ, hn, ⟨S₀, hS₀⟩, ⟨eΓ⟩⟩ :=
       e6One_class_aux hF hℓ hf F hF2 σ hσ hp5 hpq he
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       e6One_moves D hq2 hFr hΦ hn hp2 he S₀ hS₀)
   · obtain ⟨L, _, _, Fr, hFr, D, hΦ, hn, ⟨S₀, hS₀⟩, ⟨eΓ⟩⟩ :=
       e6Three_class_aux hF hℓ hf F hF2 σ hσ hp5 hpq he
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       e6Three_moves D hq2 hFr hΦ hn hp2 he S₀ hS₀)
   · obtain ⟨L, _, _, Fr, hFr, D, hΦ, hn, ⟨S₀, hS₀⟩, ⟨eΓ⟩⟩ :=
       e6Four_class_aux hF hℓ hf F hF2 σ hσ hp5 hpq he
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       e6Four_moves D hq2 hFr hΦ hn hp2 he S₀ hS₀)
   · obtain ⟨L, _, _, Fr, hFr, D, hΦ, hn, ⟨S₀, hS₀⟩, ⟨eΓ⟩⟩ :=
       e6Six_class_aux hF hℓ hf F hF2 σ hσ hp5 hpq he
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       e6Six_moves D hq2 hFr hΦ hn hp2 he S₀ hS₀)
   · obtain ⟨L, _, _, Fr, hFr, D, hΦ, hn, ⟨S₀, hS₀⟩, ⟨eΓ⟩⟩ :=
       e6Two_class_aux hF hℓ hf F hF2 σ hσ hp5 h7 hpq he
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
     exact WCOn.of_mulEquiv (eK.trans eΓ) (WCOn.of_normalizerMovesLines S₀ fun _ _ =>
       e6Two_moves D hq2 hFr hΦ hn hp2 hp5 he S₀ hS₀)
 
@@ -187,7 +187,7 @@ theorem wcOn_twistedE6_cyclic {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (F
     · exact sylowTorus_twistedE6_ten hℓ hf F hF2 σ hσ hp.out he
     · exact sylowTorus_twistedE6_twelve hℓ hf F hF2 σ hσ hp.out he
     · exact sylowTorus_twistedE6_eighteen hℓ hf F hF2 σ hσ hp.out he
-  haveI : Finite (twistedE6RootGroup F σ) := Finite.of_equiv K eK.toEquiv
+  have : Finite (twistedE6RootGroup F σ) := Finite.of_equiv K eK.toEquiv
   exact WCOn.of_mulEquiv eK (WCOn.of_pRank_top_le_one
     (tw_pRank_top_le_one_of_rankLE1 hp.out (hst.rankLE1 hp.out)))
 
@@ -201,13 +201,13 @@ theorem wcOn_twistedE6_witness {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (
   · obtain ⟨L, _, _, hLchar, Fr, hFr, D, hΦ, hn, hfin, ⟨eΓ⟩⟩ :=
       exists_lang_twE6_model hℓ hf F hF2 σ hσ
         ((coxeterSystem TwistTag.E6.tag).wordProd twE6OneWord)
-    haveI := hfin
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
-    haveI : NeZero ((3 : ℕ) : L) := ⟨by
+    have := hfin
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : NeZero ((3 : ℕ) : L) := ⟨by
       intro h
       have := (CharP.cast_eq_zero_iff L ℓ 3).1 h
       exact hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).1 this).symm⟩
-    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
     have hζu := hζ0.isUnit_unit (by norm_num)
     obtain ⟨Q, x, y, hQ, hxQ, hyQ, hxΓ, hyΓ, hxy⟩ :=
       e6OneThree_witness D hq2 hFr hΦ hn (ζ := (hζ0.isUnit (by norm_num)).unit) hζu.pow_eq_one
@@ -216,29 +216,29 @@ theorem wcOn_twistedE6_witness {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (
   · obtain ⟨L, _, _, hLchar, Fr, hFr, D, hΦ, hn, hfin, ⟨eΓ⟩⟩ :=
       exists_lang_twE6_model hℓ hf F hF2 σ hσ
         ((coxeterSystem TwistTag.E6.tag).wordProd twE6TwoWord)
-    haveI := hfin
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
-    haveI : NeZero ((3 : ℕ) : L) := ⟨by
+    have := hfin
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : NeZero ((3 : ℕ) : L) := ⟨by
       intro h
       have := (CharP.cast_eq_zero_iff L ℓ 3).1 h
       exact hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).1 this).symm⟩
-    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
     have hζu := hζ0.isUnit_unit (by norm_num)
     obtain ⟨Q, x, y, hQ, hxQ, hyQ, hxΓ, hyΓ, hxy⟩ :=
       e6TwoThree_witness D hq2 hFr hΦ hn (ζ := (hζ0.isUnit (by norm_num)).unit) hζu.pow_eq_one
         hζu.eq_orderOf.symm (tw_dvd_add_of_orderOf_two Nat.prime_three (by norm_num) he)
     exact WCOn.of_mulEquiv (eK.trans eΓ) (tw_wcOn_of_noncomm hQ hxQ hyQ hxΓ hyΓ hxy)
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨L, _, _, hLchar, Fr, hFr, D, hΦ, hn, hfin, ⟨eΓ⟩⟩ :=
       exists_lang_twE6_model hℓ hf F hF2 σ hσ
         ((coxeterSystem TwistTag.E6.tag).wordProd twE6TwoWord)
-    haveI := hfin
-    haveI : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
-    haveI : NeZero ((5 : ℕ) : L) := ⟨by
+    have := hfin
+    have : Finite D.Γ := Finite.of_equiv K (eK.trans eΓ).toEquiv
+    have : NeZero ((5 : ℕ) : L) := ⟨by
       intro h
       have := (CharP.cast_eq_zero_iff L ℓ 5).1 h
       exact hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ (by norm_num)).1 this).symm⟩
-    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+    obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
     have hζu := hζ0.isUnit_unit (by norm_num)
     obtain ⟨Q, x, y, hQ, hxQ, hyQ, hxΓ, hyΓ, hxy⟩ :=
       e6TwoFive_witness D hq2 hFr hΦ hn (ζ := (hζ0.isUnit (by norm_num)).unit) hζu.pow_eq_one

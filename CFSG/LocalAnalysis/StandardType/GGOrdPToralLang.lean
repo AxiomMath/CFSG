@@ -100,7 +100,7 @@ theorem card_torsionTorus {τ : Tag}
       (congrFun (CFSG.HardMathSupport.Timmesfeld.CrossChar.rootDiagUnit_injective (τ := τ) h) i)
   have : NeZero (p : L) := ⟨hpL⟩
   have : NeZero p := ⟨hp.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   have hcard : Nat.card (rootsOfUnity p L) = p := hζ.card_rootsOfUnity
   rw [torsionTorus, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv, Nat.card_fun, hcard,
     Nat.card_eq_fintype_card, Fintype.card_fin]
@@ -166,7 +166,7 @@ theorem exists_conj_mem_torsionTorus
       ∃ z ∈ toralCentralizer τ L a, z⁻¹ * frobTwistGL τ L 2 e n z = c)
     {s : ModGL τ L} (hs : s ∈ twModel n (iterateFrobenius L 2 e)) (hsp : s ^ p = 1) :
     ∃ u ∈ twModel n (iterateFrobenius L 2 e), u * s * u⁻¹ ∈ torsionTorus τ L p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := frobTwistGL τ L 2 e n with hF
   have hFG : ∀ g ∈ adjointGroup τ L, F g ∈ adjointGroup τ L := fun g hg =>
     mul_mem (mul_mem hn (entrywiseFrobGL_mem 2 e hg)) (inv_mem hn)
@@ -265,8 +265,8 @@ theorem ggOrdPToralMax_adjointGroup_of_lang
     GGOrdPToralMax (adjointGroup τ K) p := by
   classical
   set L := AlgebraicClosure K with hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hfK⟩ := FiniteField.card K 2
   have hKf : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hfK]

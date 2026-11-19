@@ -178,7 +178,7 @@ public theorem theorem_9_nb_redM_W2_map_mk_H0_MF_card_eq_of_source_sec9
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMF_le_M92).1 hMF_normal_M
   have hW1_norm_MF : W1 ≤ Subgroup.normalizer (MF : Set G) :=
     hW1_le_M.trans hM_norm_MF
-  letI : Subgroup.Normalizes W1 MF := ⟨hW1_norm_MF⟩
+  let : Subgroup.Normalizes W1 MF := ⟨hW1_norm_MF⟩
   have hH0_inv_W1 : IsInvariant W1 MF (H0.subgroupOf MF) :=
     subgroupOf_MF_isInvariant_of_subgroupOf_M_normal_sec9 M MF W1 H0
       hMF_le_M hW1_le_M hH0_normal_M hW1_norm_MF
@@ -223,13 +223,13 @@ public theorem theorem_9_nb_redM_W2_map_mk_K_card_eq_source_core_sec9
                   letI : (K.subgroupOf M).Normal := hKnormal
                   Nat.card ((W2.subgroupOf M).map (QuotientGroup.mk' (K.subgroupOf M))) = p := by
   intro h92 _hH0MF _hpprime hpData hKnormal _hKD hKinf
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   have hpDataFull := hpData
   rcases hpData with ⟨_hp, _hp_eq, hho, _h96⟩
   rcases hho with
     ⟨_hH0_le_MF, hMF_le_M, _hH0_normal_M, hH0normalMF, _hH0lt,
       _helem, _htypeIIIIV⟩
-  letI : (H0.subgroupOf MF).Normal := hH0normalMF
+  let : (H0.subgroupOf MF).Normal := hH0normalMF
   have hW2MF : W2 ≤ MF := by
     rcases h92.typePDefinitionData with
       ⟨_hMFsource, _hW1cyc, _hW1ne, _hW1hall, _hcompMW1, _hUleD,
@@ -265,7 +265,7 @@ public theorem theorem_9_nb_redM_W2_map_mk_K_isCyclic_source_core_sec9
           QuotientGroup.mk' (K.subgroupOf M)
         IsCyclic ((W2.subgroupOf M).map qM) := by
   intro h92 hKnormal
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   change IsCyclic ((W2.subgroupOf M).map qM)
   have hW2cyc : IsCyclic W2 := by
@@ -278,7 +278,7 @@ public theorem theorem_9_nb_redM_W2_map_mk_K_isCyclic_source_core_sec9
     W2_le_M_of_hypothesis_9_2_sec9 M MF U W1 W2 q h92
   have hW2sub_cyclic : IsCyclic (W2.subgroupOf M) :=
     (Subgroup.subgroupOfEquivOfLe (H := W2) (K := M) hW2M).isCyclic.mpr hW2cyc
-  letI : IsCyclic (W2.subgroupOf M) := hW2sub_cyclic
+  let : IsCyclic (W2.subgroupOf M) := hW2sub_cyclic
   exact isCyclic_of_surjective
     (f := qM.subgroupMap (W2.subgroupOf M))
     (MonoidHom.subgroupMap_surjective qM (W2.subgroupOf M))
@@ -399,7 +399,7 @@ public theorem theorem_9_nb_redM_W_internalDirectProduct_sec9
   let W : Subgroup G := W1 ⊔ W2
   let W1W : Subgroup W := W1.subgroupOf W
   let W2W : Subgroup W := W2.subgroupOf W
-  haveI : W2W.Normal := by
+  have : W2W.Normal := by
     simpa [W, W2W] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W1) (N := W2) hW1_norm_W2)
@@ -482,7 +482,7 @@ public theorem theorem_9_nb_redM_M_mod_K_quotient_semidirect_sec9
             (((ambientDerivedSubgroup M).subgroupOf M).map qM)
             ((W1.subgroupOf M).map qM) := by
   intro h92 hKnormal hKD
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   change Section2.IsInternalSemidirectProduct
     (⊤ : Subgroup (M ⧸ K.subgroupOf M))
@@ -505,11 +505,11 @@ public theorem theorem_9_nb_redM_M_mod_K_quotient_semidirect_sec9
       (K.subgroupOf M) hNleD hcomp
   have hDnormal : ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   have hDmapNormal :
       (((ambientDerivedSubgroup M).subgroupOf M).map qM).Normal :=
     hDnormal.map qM (QuotientGroup.mk'_surjective (K.subgroupOf M))
-  letI : (((ambientDerivedSubgroup M).subgroupOf M).map qM).Normal := hDmapNormal
+  let : (((ambientDerivedSubgroup M).subgroupOf M).map qM).Normal := hDmapNormal
   exact internalSemidirectProduct_top_of_normal_isComplement'_sec9 hcompQuot
 
 public theorem theorem_9_nb_redM_W1_map_mk_K_card_eq_sec9
@@ -523,7 +523,7 @@ public theorem theorem_9_nb_redM_W1_map_mk_K_card_eq_sec9
           Nat.card ((W1.subgroupOf M).map (QuotientGroup.mk' (K.subgroupOf M))) =
             Nat.card W1 := by
   intro h92 hKnormal hKD
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   have hNleD : K.subgroupOf M ≤ (ambientDerivedSubgroup M).subgroupOf M := by
     intro x hx
     have hxK : (x : G) ∈ K := by
@@ -553,7 +553,7 @@ public theorem theorem_9_nb_redM_W1_map_mk_K_card_ne_one_sec9
           letI : (K.subgroupOf M).Normal := hKnormal
           Nat.card ((W1.subgroupOf M).map (QuotientGroup.mk' (K.subgroupOf M))) ≠ 1 := by
   intro h92 hKnormal hKD
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   have hcard :
       Nat.card ((W1.subgroupOf M).map (QuotientGroup.mk' (K.subgroupOf M))) =
         Nat.card W1 :=
@@ -579,7 +579,7 @@ public theorem theorem_9_nb_redM_W1_map_mk_K_isCyclic_sec9
           QuotientGroup.mk' (K.subgroupOf M)
         IsCyclic ((W1.subgroupOf M).map qM) := by
   intro h92 hKnormal
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   change IsCyclic ((W1.subgroupOf M).map qM)
   have hW1cyc : IsCyclic W1 := by
@@ -590,7 +590,7 @@ public theorem theorem_9_nb_redM_W1_map_mk_K_isCyclic_sec9
     W1_le_M_of_hypothesis_9_2_sec9 M MF U W1 W2 q h92
   have hW1sub_cyclic : IsCyclic (W1.subgroupOf M) :=
     (Subgroup.subgroupOfEquivOfLe (H := W1) (K := M) hW1M).isCyclic.mpr hW1cyc
-  letI : IsCyclic (W1.subgroupOf M) := hW1sub_cyclic
+  let : IsCyclic (W1.subgroupOf M) := hW1sub_cyclic
   exact isCyclic_of_surjective
     (f := qM.subgroupMap (W1.subgroupOf M))
     (MonoidHom.subgroupMap_surjective qM (W1.subgroupOf M))
@@ -607,7 +607,7 @@ public theorem theorem_9_nb_redM_W1_map_mk_K_isHall_sec9
         ∃ π : Set Nat.Primes,
           IsHallSubgroup π ((W1.subgroupOf M).map qM) := by
   intro h92 hKnormal
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   change ∃ π : Set Nat.Primes, IsHallSubgroup π ((W1.subgroupOf M).map qM)
   rcases h92.typePDefinitionData with
@@ -633,7 +633,7 @@ public theorem theorem_9_nb_redM_M_mod_K_quotient_internalDirectProduct_sec9
             ((W2.subgroupOf M).map qM) := by
   classical
   intro h92 hKnormal hKD
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   change Section2.IsInternalDirectProduct
     (((W1 ⊔ W2).subgroupOf M).map qM)
@@ -805,7 +805,7 @@ public theorem theorem_9_nb_redM_M_mod_K_quotient_centralizer_sec9
               (W2.subgroupOf M).map qM := by
   classical
   intro h92 hKnormal hKD
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   change ∀ x : (W1.subgroupOf M).map qM, x ≠ 1 →
     Section2.centralizerIn
@@ -816,13 +816,13 @@ public theorem theorem_9_nb_redM_M_mod_K_quotient_centralizer_sec9
   have hDleM : ambientDerivedSubgroup M ≤ M := section12_ambientDerivedSubgroup_le
   have hDnormal : ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   have hsolvD : Group.IsSolvable (ambientDerivedSubgroup M) :=
     typePDefinitionData_ambientDerived_solvable_sec9 hP
   have hsolvDsub : Group.IsSolvable ((ambientDerivedSubgroup M).subgroupOf M) := by
     let e := Subgroup.subgroupOfEquivOfLe (H := ambientDerivedSubgroup M)
       (K := M) hDleM
-    letI : Group.IsSolvable (ambientDerivedSubgroup M) := hsolvD
+    let : Group.IsSolvable (ambientDerivedSubgroup M) := hsolvD
     exact Group.isSolvable_of_isSolvable_injective
       (f := e.toMonoidHom) e.injective
   have hDcard :
@@ -996,7 +996,7 @@ public theorem theorem_9_nb_redM_M_mod_K_hypothesis_4_2_sec9
                     ((W2.subgroupOf M).map qM)
                     (((W1 ⊔ W2).subgroupOf M).map qM) := by
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   change Section4.hypothesis_4_2_statement
     (((ambientDerivedSubgroup M).subgroupOf M).map qM)

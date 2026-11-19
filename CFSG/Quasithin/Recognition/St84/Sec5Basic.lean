@@ -59,7 +59,7 @@ theorem K_fixes_nbr_odd (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {j : ℤ} (hj : 
     rw [show ({Y.vert (j - 1), Y.vert (j + 1), w} : Set V) =
         insert w ({Y.vert (j - 1), Y.vert (j + 1)} : Set V) by
       ext x
-      simp [or_comm, or_left_comm, or_assoc]]
+      simp [or_comm, or_assoc]]
     rw [Set.ncard_insert_of_notMem (by simp [hw1, hw2]) (Set.toFinite _),
       Set.ncard_pair hne]
   have hset : Γ.neighborSet (Y.vert j) = ({Y.vert (j - 1), Y.vert (j + 1), w} : Set V) := by
@@ -212,8 +212,8 @@ theorem card_K_eq (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 
 theorem exists_orderOf_three_K (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hn₀ : n₀ = 2) :
     ∃ k ∈ Y.K, orderOf k = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
   have hcard : Nat.card ↥Y.K = 3 := by rw [Y.card_K_eq H, hn₀]; norm_num
   have h3dvd : 3 ∣ Nat.card ↥Y.K := by simp [hcard]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y.K) 3 h3dvd
@@ -289,8 +289,8 @@ private theorem le_Q_of_le_torus_sup (Y : Setup Γ G) {j : ℤ} (hKLeL : Y.K ≤
     (hKS : K' ⊓ (S : Subgroup ↥(Y.L j)) = ⊥) {U : Subgroup G} (h2 : IsPGroup 2 U)
     (hUL : U ≤ Y.L j)
     (hUKQ : U.subgroupOf (Y.L j) ≤ K' ⊔ (Y.Q j).subgroupOf (Y.L j)) : U ≤ Y.Q j := by
-  haveI : Finite ↥(Y.Gi j) := Y.hyp.finite_stab (Y.vert j)
-  haveI : Finite ↥(Y.L j) :=
+  have : Finite ↥(Y.Gi j) := Y.hyp.finite_stab (Y.vert j)
+  have : Finite ↥(Y.L j) :=
     Finite.of_injective (Subgroup.inclusion (Y.L_le_Gi j))
       (Subgroup.inclusion_injective (Y.L_le_Gi j))
   set F : Subgroup ↥(Y.L j) := K' ⊔ (Y.Q j).subgroupOf (Y.L j) with hF
@@ -341,7 +341,7 @@ private theorem le_Q_of_le_torus_sup (Y : Setup Γ G) {j : ℤ} (hKLeL : Y.K ≤
     rw [CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
       ((Y.Q j).subgroupOf (Y.L j)) K' hK'normQ
       (by rw [disjoint_iff, inf_comm]; exact hK'infQ), mul_comm]
-  haveI : Finite ↥((Y.Q j).subgroupOf (Y.L j)) :=
+  have : Finite ↥((Y.Q j).subgroupOf (Y.L j)) :=
     Finite.of_injective (Subgroup.inclusion hQleF) (Subgroup.inclusion_injective hQleF)
   have hQrel : ((Y.Q j).subgroupOf (Y.L j)).relIndex F = Nat.card ↥K' := by
     have h := Subgroup.relIndex_mul_card (H := (Y.Q j).subgroupOf (Y.L j)) (K := F)
@@ -370,7 +370,7 @@ private theorem le_Q_of_le_torus_sup (Y : Setup Γ G) {j : ℤ} (hKLeL : Y.K ≤
 theorem le_Q_of_comm_K_eq_bot (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {j : ℤ} (hj : Even j)
     {U : Subgroup G} (hU : U ≤ Y.Gi j) (h2 : IsPGroup 2 U) (hK : ⁅U, Y.K⁆ = ⊥) :
     U ≤ Y.Q j := by
-  haveI : Finite ↥(Y.Gi j) := Y.hyp.finite_stab (Y.vert j)
+  have : Finite ↥(Y.Gi j) := Y.hyp.finite_stab (Y.vert j)
   have hKLeL : Y.K ≤ Y.L j := Y.K_le_L_of_even H hj
   have hKiEq : Y.Ki j = Y.K := inf_eq_left.mpr hKLeL
   have hKne : Y.K ≠ ⊥ := Y.K_ne_bot H
@@ -441,9 +441,9 @@ theorem gen_of_K_invariant (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {j : ℤ} (hj
       ∀ W : Subgroup G, Y.Q j ≤ W →
         (∀ y ∈ Subgroup.normalizer (Y.K : Set G) ⊓ Y.L j,
           U.map (MulAut.conj y).toMonoidHom ≤ W) → Y.L j ≤ W := by
-  haveI : Finite ↥(Y.Gi j) := Y.hyp.finite_stab (Y.vert j)
+  have : Finite ↥(Y.Gi j) := Y.hyp.finite_stab (Y.vert j)
   have hKLeL : Y.K ≤ Y.L j := Y.K_le_L_of_even H hj
-  haveI : Finite ↥(Y.Gi j ⊓ Y.Gi (j + 1)) :=
+  have : Finite ↥(Y.Gi j ⊓ Y.Gi (j + 1)) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective inf_le_left)
   have hUedge : U ≤ Y.edgeSylow j :=
     le_of_normal_isSylowTwoOf (Y.isSylowTwoOf_edgeSylow j) (Y.edgeSylow_subgroupOf_normal j)
@@ -540,8 +540,8 @@ private theorem Z_image_ne_bot (Y : Setup Γ G) {a i : ℤ}
     ((Y.Z i).subgroupOf (Y.L a)).map (Y.hyp.isLocL2_oTwoPrime (Y.vert a)).phi ≠ ⊥ := by
   let hN := Y.hyp.isLocL2_oTwoPrime (Y.vert a)
   let L : Subgroup G := Y.L a
-  haveI hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
-  haveI hLfin : Finite ↥L :=
+  have hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
+  have hLfin : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion (Y.L_le_Gi a))
       (Subgroup.inclusion_injective (Y.L_le_Gi a))
   have hker : MonoidHom.ker hN.phi = (Y.Q a).subgroupOf L := by
@@ -570,8 +570,8 @@ private theorem Z_image_card (Y : Setup Γ G) {a i : ℤ}
       (Y.hyp.isLocL2_oTwoPrime (Y.vert a)).phi) = 2 := by
   let hN := Y.hyp.isLocL2_oTwoPrime (Y.vert a)
   let L : Subgroup G := Y.L a
-  haveI hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZi2 := Y.isPGroup_Z i
   have hS2 : IsPGroup 2 (((Y.Z i).subgroupOf L).map hN.phi) :=
     (hZi2.of_equiv (Subgroup.subgroupOfEquivOfLe hZiL).symm).map hN.phi
@@ -643,11 +643,11 @@ private theorem sylow_le_image (Y : Setup Γ G) {a i : ℤ}
   let hN := Y.hyp.isLocL2_oTwoPrime (Y.vert a)
   let L : Subgroup G := Y.L a
   let Z' : Subgroup ↥L := (Y.Z i).subgroupOf L
-  haveI hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
-  haveI hLfin : Finite ↥L :=
+  have hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
+  have hLfin : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion (Y.L_le_Gi a))
       (Subgroup.inclusion_injective (Y.L_le_Gi a))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZi2 := Y.isPGroup_Z i
   have hS2 : IsPGroup 2 (Z'.map hN.phi) :=
     (hZi2.of_equiv (Subgroup.subgroupOfEquivOfLe hZiL).symm).map hN.phi
@@ -695,9 +695,9 @@ private theorem Q_sup_conj_map_top (Y : Setup Γ G) {a i : ℤ}
   let hN := Y.hyp.isLocL2_oTwoPrime (Y.vert a)
   let L : Subgroup G := Y.L a
   let Z' : Subgroup ↥L := (Y.Z i).subgroupOf L
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
-  haveI hLfin : Finite ↥L :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
+  have hLfin : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion (Y.L_le_Gi a))
       (Subgroup.inclusion_injective (Y.L_le_Gi a))
   have hZi2 := Y.isPGroup_Z i
@@ -729,8 +729,8 @@ private theorem L_eq_sup_conj_Z (Y : Setup Γ G) {a i : ℤ}
     Y.L a = Y.Q a ⊔ Y.ZconjSup a i := by
   let hN := Y.hyp.isLocL2_oTwoPrime (Y.vert a)
   let L : Subgroup G := Y.L a
-  haveI hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
-  haveI hLfin : Finite ↥L :=
+  have hGifin : Finite ↥(Y.Gi a) := Y.hyp.finite_stab (Y.vert a)
+  have hLfin : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion (Y.L_le_Gi a))
       (Subgroup.inclusion_injective (Y.L_le_Gi a))
   have hHle : Y.Q a ⊔ Y.ZconjSup a i ≤ Y.L a := by
@@ -939,7 +939,7 @@ theorem Z_eq_center_of_le (Y : Setup Γ G) (i : ℤ) (h : Y.Z i ≤ centerOf (Y.
   obtain ⟨hzL, hzC⟩ := Subgroup.mem_inf.mp hz
   have hzGi : z ∈ Y.Gi i := Y.L_le_Gi i hzL
   have hzQ : z ∈ Y.Q i := Y.centerOf_L_le_Q i hz
-  haveI : Finite ↥(Y.Gi i) := Y.hyp.finite_stab (Y.vert i)
+  have : Finite ↥(Y.Gi i) := Y.hyp.finite_stab (Y.vert i)
   obtain ⟨P, hP, hQP⟩ := exists_isSylowTwoOf_ge_of_finite (J := Y.Gi i)
     (pCoreOf_isPGroup' (Y.Gi i)) (Y.Q_le_Gi i)
   have hPL : P ≤ Y.L i := le_oTwoPrime_of_isPGroup hP.2.1 hP.1
@@ -956,7 +956,7 @@ theorem Z_eq_center_of_le (Y : Setup Γ G) (i : ℤ) (h : Y.Z i ≤ centerOf (Y.
 private theorem L_eq_iSup_conjSub_of_isSylowTwoOf (Y : Setup Γ G) (i : ℤ)
     {P : Subgroup G} (hP : IsSylowTwoOf P (Y.Gi i)) :
     Y.L i = ⨆ (g : G) (_ : g ∈ Y.Gi i), conjSub g P := by
-  haveI : Finite ↥(Y.Gi i) := Y.hyp.finite_stab (Y.vert i)
+  have : Finite ↥(Y.Gi i) := Y.hyp.finite_stab (Y.vert i)
   have hPL : P ≤ Y.L i := le_oTwoPrime_of_isPGroup hP.2.1 hP.1
   refine le_antisymm ?_ ?_
   · rw [Setup.L, oTwoPrime]
@@ -1008,8 +1008,7 @@ private theorem Z_le_centerOf_of_le_centralizer_sylow (Y : Setup Γ G) (i : ℤ)
     apply iSup_le
     intro g
     apply iSup_le
-    intro hg
-    intro s hs
+    intro hg s hs
     rw [Subgroup.mem_centralizer_iff]
     intro w hw
     rw [Set.mem_singleton_iff] at hw
@@ -1049,8 +1048,8 @@ theorem Z_eq_center_of_sup (Y : Setup Γ G) (i j : ℤ) (hij : (i - j).natAbs = 
     · simpa using (Y.Z_le_Q (i + 1)).trans ((Y.Q_le_Gi_adj (i + 1)).trans inf_le_left)
   have hScard : Nat.card Y.S = Nat.card (Y.edgeSylow i) := by
     rw [hSedge, ← Y.card_edgeSylow_eq i]
-  haveI : Finite ↥(Y.Gi i) := Y.hyp.finite_stab (Y.vert i)
-  haveI : Finite ↥Y.S :=
+  have : Finite ↥(Y.Gi i) := Y.hyp.finite_stab (Y.vert i)
+  have : Finite ↥Y.S :=
     Finite.of_injective (Subgroup.inclusion hSGi) (Subgroup.inclusion_injective hSGi)
   have hSylowS : IsSylowTwoOf Y.S (Y.Gi i) := by
     have hE : IsSylowTwoOf (Y.edgeSylow i) (Y.Gi i) :=
@@ -1240,8 +1239,7 @@ private theorem Z_a_le_centralizer_odd (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (
     apply CFSG.subgroup_le_centralizer_iSup_of_le_centralizer
     intro y
     apply CFSG.subgroup_le_centralizer_iSup_of_le_centralizer
-    intro hy
-    intro z hz
+    intro hy z hz
     rw [Subgroup.mem_centralizer_iff]
     intro w hw
     exact (Y.commute_Z_a_conj hcomm_a hy z hz w hw).symm
@@ -1562,8 +1560,8 @@ private theorem Z_fix_icc_final (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (i : ℤ
     have h := Subgroup.relIndex_mul_card (H := Y.Z u) (K := Y.K)
     rw [inf_eq_left.mpr hZleK] at h
     exact ⟨(Y.Z u).relIndex Y.K, by rw [← h, mul_comm]⟩
-  haveI hGifin : Finite ↥(Y.Gi u) := Y.hyp.finite_stab (Y.vert u)
-  haveI hZfin : Finite ↥(Y.Z u) := by
+  have hGifin : Finite ↥(Y.Gi u) := Y.hyp.finite_stab (Y.vert u)
+  have hZfin : Finite ↥(Y.Z u) := by
     have hle : Y.Z u ≤ Y.Gi u := Y.Z_le_Gi u
     exact Finite.of_injective (Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
@@ -1640,15 +1638,15 @@ theorem Q_zero_sup_Q_one_eq_S (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 
 theorem card_S_eq_two_pow_mul_card_Q_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     Nat.card Y.S = 2 ^ n₀ * Nat.card (Y.Q 0) := by
-  haveI : Finite ↥(Y.Q 0) :=
+  have : Finite ↥(Y.Q 0) :=
     finite_of_le_stabilizer Y.hyp (H := Y.Q 0) (Y.Q_le_Gi 0)
-  haveI : Finite ↥(Y.S) :=
+  have : Finite ↥(Y.S) :=
     finite_of_le_stabilizer Y.hyp (H := Y.S) ((Y.isSylowTwoOf_edgeSylow 0).1.trans inf_le_left)
   have hsup : Y.Q 0 ⊔ Y.Q 1 = Y.S := Y.Q_zero_sup_Q_one_eq_S H
   have hQ0S : Y.Q 0 ≤ Y.S := by rw [← hsup]; exact le_sup_left
   have hrel : (Y.Q 0).relIndex Y.S = 2 ^ n₀ := by
     have h := Y.relIndex_Q_edgeSylow 0
-    rw [show Y.edgeSylow 0 = Y.S from by simpa [Setup.edgeSylow, Setup.S]] at h
+    rw [show Y.edgeSylow 0 = Y.S from by simp [Setup.edgeSylow, Setup.S]] at h
     simpa [show Y.n 0 = n₀ from H.n_zero] using h
   have h := Subgroup.relIndex_mul_card (H := Y.Q 0) (K := Y.S)
   rw [inf_eq_left.mpr hQ0S, hrel] at h
@@ -1656,15 +1654,15 @@ theorem card_S_eq_two_pow_mul_card_Q_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀
 
 theorem card_S_eq_two_mul_card_Q_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     Nat.card Y.S = 2 * Nat.card (Y.Q 1) := by
-  haveI : Finite ↥(Y.Q 1) :=
+  have : Finite ↥(Y.Q 1) :=
     finite_of_le_stabilizer Y.hyp (H := Y.Q 1) (Y.Q_le_Gi 1)
-  haveI : Finite ↥(Y.S) :=
+  have : Finite ↥(Y.S) :=
     finite_of_le_stabilizer Y.hyp (H := Y.S) ((Y.isSylowTwoOf_edgeSylow 0).1.trans inf_le_left)
   have hsup : Y.Q 0 ⊔ Y.Q 1 = Y.S := Y.Q_zero_sup_Q_one_eq_S H
   have hQ1S : Y.Q 1 ≤ Y.S := by rw [← hsup]; exact le_sup_right
   have hrel : (Y.Q 1).relIndex Y.S = 2 := by
     have h := Y.relIndex_Q_succ_edgeSylow 0
-    rw [show Y.edgeSylow 0 = Y.S from by simpa [Setup.edgeSylow, Setup.S]] at h
+    rw [show Y.edgeSylow 0 = Y.S from by simp [Setup.edgeSylow, Setup.S]] at h
     simpa [H.n_one] using h
   have h := Subgroup.relIndex_mul_card (H := Y.Q 1) (K := Y.S)
   rw [inf_eq_left.mpr hQ1S, hrel] at h
@@ -1679,7 +1677,7 @@ theorem isL2Quot_L_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 theorem L_one_inf_Gi_zero_le_S (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     Y.L 1 ⊓ Y.Gi 0 ≤ Y.S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let hN : IsLocL2 Γ G (Y.vert 1) (Y.n 1) (Y.L 1) := Y.hyp.isLocL2_oTwoPrime (Y.vert 1)
   set M : Subgroup G := Y.L 1 ⊓ Y.Gi 0 with hM
   have hML : M ≤ Y.L 1 := inf_le_left

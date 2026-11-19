@@ -40,7 +40,7 @@ theorem exists_twin_of_mem_conjClass (s : SettingR r n R S t₀ K K' z u J t W) 
 theorem twin_mem_omegaOfSet (s : SettingR r n R S t₀ K K' z u J t W) {M M' : Subgroup Y}
     (hM : M ∈ omegaOfSet (CoreAssembly.conjClass (tightCore R))
       (twinSet (CoreAssembly.conjClass (tightCore R)) K))
-    (hM' : M' ∈ twinSet (CoreAssembly.conjClass (tightCore R)) M) (hne : M' ≠ M) :
+    (hM' : M' ∈ twinSet (CoreAssembly.conjClass (tightCore R)) M) (_hne : M' ≠ M) :
     M' ∈ omegaOfSet (CoreAssembly.conjClass (tightCore R))
       (twinSet (CoreAssembly.conjClass (tightCore R)) K) := by
   set Ω := CoreAssembly.conjClass (tightCore R) with hΩdef

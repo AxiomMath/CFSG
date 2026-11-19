@@ -85,7 +85,7 @@ theorem xParity_el (hn : 2 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} {π : Fin81.R0} (
 theorem xParity_xT (hn : 2 ≤ n) : xParity hn (xT n) = Multiplicative.ofAdd 1 := by
   rw [xT, xParity_el]
   congr 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, add_zero, map_one]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, add_zero, map_one]
 
 theorem xParity_xT_zpow (hn : 2 ≤ n) (m : ℤ) :
     xParity hn (xT n ^ m) = Multiplicative.ofAdd (m : ZMod 2) := by
@@ -110,7 +110,7 @@ theorem xParity_uvT (hn : 2 ≤ n) : xParity hn (uvT (n := n) (by omega)) = 1 :=
 
 theorem xParity_txT (hn : 2 ≤ n) : xParity hn (txT n) = Multiplicative.ofAdd 1 := by
   rw [txT, xParity_el]
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, add_zero, map_neg,
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, add_zero, map_neg,
     map_one]
   rfl
 
@@ -127,9 +127,9 @@ theorem uvT_mem_commutator (hn : 2 ≤ n) : uvT (n := n) (by omega) ∈ commutat
   rw [← h, _root_.commutator_def]
   exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
 
-theorem detSum_sub_pv {e : Fin 4 → ZMod (2 ^ n)} (he : detSum e 1) (τ : Perm (Fin 4)) :
+theorem detSum_sub_pv {e : Fin 4 → ZMod (2 ^ n)} (_he : detSum e 1) (τ : Perm (Fin 4)) :
     detSum (e - pv τ e) 1 := by
-  rw [detSum_one_iff] at he ⊢
+  rw [detSum_one_iff] at _he ⊢
   simp only [Pi.sub_apply]
   rw [Finset.sum_sub_distrib, sum_pv, sub_self]
 
@@ -270,7 +270,7 @@ theorem zL4_mul_natCast_eq_iff (hn : 2 ≤ n) (x y : ℕ) :
 
 theorem zL4_mul_eq_iff (hn : 2 ≤ n) (a b : ZMod (2 ^ n)) :
     zL4 n * a = zL4 n * b ↔ red4 hn a = red4 hn b := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   rw [← ZMod.natCast_zmod_val a, ← ZMod.natCast_zmod_val b, zL4_mul_natCast_eq_iff hn,
     map_natCast, map_natCast]
 
@@ -288,7 +288,7 @@ theorem red4_sgnH (hn : 3 ≤ n) (π : Fin81.R0) : red4 (by omega) (sgnH (n := n
 
 theorem red2_eq_red4 (hn : 2 ≤ n) (a : ZMod (2 ^ n)) :
     red2 (by omega) a = ZMod.castHom (show 2 ∣ 4 by norm_num) (ZMod 2) (red4 hn a) := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   rw [← ZMod.natCast_zmod_val a, map_natCast, map_natCast, map_natCast]
 
 theorem parity_check : ∀ π ∈ ({1, s01, s23, zP} : Finset Fin81.R0),

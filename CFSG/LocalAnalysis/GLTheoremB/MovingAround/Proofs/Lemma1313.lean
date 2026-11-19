@@ -29,7 +29,7 @@ theorem le_glaPPrimeCore_of_normal {p : ℕ} (H : Type) [Group H] [Finite H] {K 
 theorem eq_top_of_isComponentOf_quasisimple {X : Type} [Group X] {K : Subgroup X}
     (hX : CFSG.Open.IsQuasisimple X) (hK : CFSG.Open.IsComponentOf K ⊤) : K = ⊤ := by
   obtain ⟨-, hsn, hq⟩ := hK
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   rcases CFSG.ComponentClassification.Quasisimple.perfect_subnormal_eq_bot_or_eq_top hX K hsn with
     h | h
   · exfalso
@@ -45,10 +45,12 @@ section Core
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem glaPPrimeCoreOf_gLBConj_eq {p : ℕ} {L0 : Subgroup G} {b : G} (hnorm : GLBConj b L0 = L0) :
     GLBConj b (GLAPPrimeCoreOf p L0) = GLAPPrimeCoreOf p L0 := by
   rw [← glaPPrimeCoreOf_gLBConj, hnorm]
 
+omit [Finite G] in
 theorem mem_normalizer_glaPPrimeCoreOf {p : ℕ} {L0 : Subgroup G} {x : G} (hx : x ∈ L0) :
     x ∈ Subgroup.normalizer ((GLAPPrimeCoreOf p L0 : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -58,6 +60,7 @@ theorem mem_normalizer_glaPPrimeCoreOf {p : ℕ} {L0 : Subgroup G} {x : G} (hx :
     rw [← glaPPrimeCoreOf_gLBConj, hN]
   rw [← mem_gLBConj, h2]
 
+omit [Finite G] in
 theorem glaPPrimeCoreOf_le_self {p : ℕ} (H : Subgroup G) : GLAPPrimeCoreOf p H ≤ H := by
   unfold GLAPPrimeCoreOf
   rintro _ ⟨k, -, rfl⟩
@@ -106,7 +109,7 @@ theorem barOf_glaPLayer_inf_cent_iso {p : ℕ} [Fact p.Prime] {L0 : Subgroup G} 
     obtain ⟨n', hn'mem, hn'eq⟩ := Subgroup.mem_map.1 hn'
     have key : (Subgroup.inclusion hYL0 ⟨y, hyY⟩ : ↥L0)⁻¹ * x = n' := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_inclusion, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_inclusion]
       have hn'val : (n' : G) = n := hn'eq
       rw [hxyn, hn'val]
       group
@@ -182,6 +185,7 @@ section Setting
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inv_mul_mem_glaPPrimeCoreOf_of_centBar {p : ℕ} [Fact p.Prime] {X L : Subgroup G} {c : G}
     (hc : c ∈ centBar p X L) {x : G} (hx : x ∈ L) :
     (c * x * c⁻¹)⁻¹ * x ∈ GLAPPrimeCoreOf p L := by
@@ -225,6 +229,7 @@ theorem mem_glaPPrimeCoreOf_of_mem_of_normalized {p : ℕ} [Fact p.Prime] {I P N
     Subgroup.mem_subgroupOf.2 (Subgroup.mem_inf.2 ⟨hzN, hzP⟩)
   exact ⟨⟨z, hzP⟩, hK hmemK, rfl⟩
 
+omit [Finite G] in
 theorem gLBConj_gLBConj_mul' (q g : G) (H : Subgroup G) :
     GLBConj q (GLBConj g H) = GLBConj (g * q) H := by
   ext y
@@ -232,6 +237,7 @@ theorem gLBConj_gLBConj_mul' (q g : G) (H : Subgroup G) :
   have e : g * q * y * (g * q)⁻¹ = g * (q * y * q⁻¹) * g⁻¹ := by group
   rw [e]
 
+omit [Finite G] in
 theorem L1of_gLBConj_eq_of_mem_istar {p : ℕ} {M D L0 : Subgroup G} {q : G}
     (hq : q ∈ Istar p M D) :
     GLBConj q (L1of p M D L0) = L1of p M D L0 := by
@@ -336,7 +342,7 @@ theorem covering_data {p : ℕ} [Fact p.Prime] {L0 : Subgroup G} {b : G}
     obtain ⟨n', hn'mem, hn'eq⟩ := Subgroup.mem_map.1 hn'
     have key : (Subgroup.inclusion hYL0 ⟨y, hyY⟩ : ↥L0)⁻¹ * x = n' := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_inclusion, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_inclusion]
       have hn'val : (n' : G) = n := hn'eq
       rw [hxyn, hn'val]
       group
@@ -416,6 +422,7 @@ theorem isQuasisimple_barOf_of_pComp {p : ℕ} [Fact p.Prime] {P L0 : Subgroup G
   have hc : CFSG.Open.IsComponentOf (barX p P L0) ⊤ := hL0P.2.2.1
   exact CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv e.symm hc.2.2
 
+omit [Finite G] in
 theorem mem_normalizer_of_centBar {p : ℕ} {X L : Subgroup G} {c : G} (hc : c ∈ centBar p X L) :
     c ∈ Subgroup.normalizer (L : Set G) := by
   obtain ⟨hmem, -⟩ := Subgroup.mem_inf.1 hc
@@ -423,6 +430,7 @@ theorem mem_normalizer_of_centBar {p : ℕ} {X L : Subgroup G} {c : G} (hc : c �
   rw [← hγc]
   exact γ.2
 
+omit [Finite G] in
 theorem gLBConj_centralizer_singleton_of_comm {d b : G} (hbd : d * b = b * d) :
     GLBConj b (Subgroup.centralizer ({d} : Set G)) = Subgroup.centralizer ({d} : Set G) := by
   ext y
@@ -452,10 +460,12 @@ theorem gLBConj_centralizer_singleton_of_comm {d b : G} (hbd : d * b = b * d) :
       _ = b * y * (b⁻¹ * d) := by rw [hdb']
       _ = b * y * b⁻¹ * d := by group
 
+omit [Finite G] in
 theorem le_L1of' {p : ℕ} {M D L0 : Subgroup G} : L0 ≤ L1of p M D L0 := by
   refine le_iSup₂_of_le (1 : G) (Istar p M D).one_mem ?_
   exact le_of_eq (gLBConj_eq_of_mem_normalizer (one_mem _)).symm
 
+omit [Finite G] in
 theorem piLayer_le_self' (p : ℕ) (H : Subgroup G) : piLayer p H ≤ H := by
   unfold piLayer
   exact iSup₂_le fun L hL => hL.1.1
@@ -466,7 +476,7 @@ theorem setting_facts {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     orderOf b = p ∧ b ∈ M ∧ b ∈ Subgroup.centralizer ({d} : Set G) ∧ GLBConj b L0 = L0 ∧
       (∀ x ∈ L0, b * x * b⁻¹ * x⁻¹ ∈ GLAPPrimeCoreOf p L0) ∧
       L0 ≤ M ∧ CFSG.Open.IsQuasisimple (barOf p L0) := by
-  haveI : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
+  have : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
   have hbU : b ∈ U := (Subgroup.mem_inf.1 hb).2
   have hbB : b ∈ B := hU.1.1 hbU
   have hBM : B ≤ M := (le_sup_right : B ≤ A ⊔ B).trans (h.hR.2.trans h.hR.1.1)
@@ -519,7 +529,7 @@ theorem barOf_L0b_iso {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     (h : Cex1310 G m p B M E A D T R L0 d) {U : Subgroup G} (hU : IsU1312 p B M D L0 d U)
     {b : G} (hb : b ∈ centBar p U (L1of p M D L0)) (hb1 : b ≠ 1) :
     Nonempty (barOf p (GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G))) ≃* barOf p L0) := by
-  haveI : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
+  have : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
   obtain ⟨hbord, -, -, hnorm, hcomm, -, hquasi⟩ := setting_facts h hU hb hb1
   exact barOf_glaPLayer_inf_cent_iso hbord hnorm hcomm hquasi
 
@@ -558,7 +568,7 @@ theorem not_le_piOf_of_setting {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : 
     (hL0core : GLAPPrimeCoreOf p L0 ≤ GLAPPrimeCoreOf p M) :
     ¬ (⨆ g ∈ GLAPLayer p (Subgroup.centralizer ({d} : Set G)),
         GLBConj g (GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G)))) ≤ piOf p d := by
-  haveI : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
+  have : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
   intro hL
   obtain ⟨hbord, hbM, -, hnorm, hcomm, hL0M, hquasi⟩ := setting_facts h hU hb hb1
   have h1 : GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G)) ≤ piOf p d := by
@@ -577,6 +587,7 @@ section Pi
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_piOf_of_comp' {p : ℕ} {d : G} {L : Subgroup G}
     (hL : GLAPComponent p (Subgroup.centralizer ({d} : Set G)) L)
     (hPi : IsPiGroup p (↥L ⧸ GLAPPrimeCore p ↥L)) : L ≤ piOf p d :=
@@ -608,12 +619,13 @@ variable {G : Type} [Group G] [Finite G]
 theorem isPiGroup_barOf_L0 {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     (h : Cex1310 G m p B M E A D T R L0 d) :
     IsPiGroup p (↥L0 ⧸ GLAPPrimeCore p ↥L0) := by
-  haveI : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
+  have : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
   obtain ⟨S, hS, hPi, hEq⟩ := Lemma1311.pComp_piLayer_summand (GLStanding.prime h.standing) h.hL0
   have hSL0 : S = L0 := hEq.symm
   subst hSL0
   exact hPi
 
+omit [Finite G] in
 theorem gLBConj_istar_inf_centralizer {p : ℕ} {M D : Subgroup G} {d t : G} (htM : t ∈ M)
     (hdt : d * t = t * d) :
     GLBConj t (Istar p M D ⊓ Subgroup.centralizer ({d} : Set G)) =
@@ -638,7 +650,7 @@ theorem not_le_M_of_setting {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     ¬ (⨆ g ∈ GLAPLayer p (Subgroup.centralizer ({d} : Set G)),
         GLBConj g (GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G)))) ≤ M := by
   classical
-  haveI : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
+  have : Fact p.Prime := ⟨GLStanding.prime h.standing⟩
   intro hLM
   obtain ⟨hbord, hbM, hbC, hnorm, hcomm, hL0M, hquasi⟩ := setting_facts h hU hb hb1
   set L := ⨆ g ∈ GLAPLayer p (Subgroup.centralizer ({d} : Set G)),

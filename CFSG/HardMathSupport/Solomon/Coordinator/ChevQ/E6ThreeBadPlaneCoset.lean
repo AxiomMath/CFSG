@@ -21,16 +21,16 @@ private def e6CosetFix (G : Subgroup (ModGL Tag.E6 K)) : Submodule K (RootModule
   carrier := {v | ∀ g ∈ G, (g : Module.End K (RootModule Tag.E6 K)) v = v}
   add_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     intro g hg
     rw [map_add, ha g hg, hb g hg]
   zero_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     intro g _
     exact map_zero _
   smul_mem' := by
     intro c v hv
-    simp only [Set.mem_setOf_eq] at hv ⊢
+    simp only [Set.mem_ofPred_eq] at hv ⊢
     intro g hg
     rw [map_smul, hv g hg]
 
@@ -113,7 +113,7 @@ private theorem e6Coset_hVec_fix (i : Fin Tag.E6.rank) {u : ModGL Tag.E6 K}
   have h := congrArg (fun g : ModGL Tag.E6 K =>
     (g : Module.End K (RootModule Tag.E6 K)) (rootVec Tag.E6 K (-Pi.single i 1))) hc
   simp only [Units.val_mul, Module.End.mul_apply, coe_xUnit, hn,
-    CFSG.Blueprint.Chevalley.xOp_apply_rootVec_neg_single, map_add, map_smul, hp, one_smul,
+    CFSG.Blueprint.Chevalley.xOp_apply_rootVec_neg_single, map_add, hp, one_smul,
     one_pow] at h
   exact add_left_cancel (add_right_cancel h)
 
@@ -369,7 +369,7 @@ private theorem e6Coset_eq_zero {ω : Kˣ} (hw3 : ω ^ 3 = 1) (hw1 : ω ≠ 1)
     ext b
     rcases b with j | β
     · simp [hVec, Finsupp.single_apply]
-    · simp [hVec, Finsupp.single_apply, hroot β]
+    · simp [hVec, hroot β]
   have hE : ∀ (i : Fin 3) (k : Fin Tag.E6.rank),
       (Pi.single k 1 : Fin Tag.E6.rank → ℤ) ∈ e6LineRoots i →
       (∑ j, c j • hVec Tag.E6 K j) ∈ e6CosetFix (e6LineFactor K i) →

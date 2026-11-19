@@ -23,7 +23,7 @@ theorem ggFix_recipeConj {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {R : T
       (Subgroup.centralizer ({t} : Set (graphFixedRootGroup TwistTag.E6 K σ.toRingHom))).map
         ε.toMonoidHom := by
   ext r
-  rw [mem_ggFix, TwE6Transport.recipeConj_apply, MulEquiv.apply_eq_iff_symm_apply,
+  rw [mem_ggFix, TwE6Transport.recipeConj_apply, ← _root_.MulEquiv.eq_symm_apply,
     Subgroup.mem_map_equiv, Subgroup.mem_centralizer_singleton_iff, Subtype.ext_iff,
     Subtype.ext_iff, RecipeExcLang.coe_twConj, mul_inv_eq_iff_eq_mul, eq_comm]
   rfl
@@ -42,7 +42,7 @@ theorem ggEndNodeRootAsSelf_of_datum (hRK : RootKill) (hCore : TwE6CorootCore) {
   intro A As hA hAAs hAs _ hAsI hr _ hV _
   obtain ⟨V, hV1, hV2, hAV⟩ := hV
   have h2 : ringChar K = 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     refine FiniteField.even_card_iff_char_two.2 ?_
     rw [← Nat.card_eq_fintype_card, hK]
     exact Nat.even_iff.1 (Nat.even_pow.2 ⟨Nat.even_pow.2 ⟨even_two, by omega⟩, two_ne_zero⟩)

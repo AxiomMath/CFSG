@@ -43,6 +43,7 @@ theorem sec8t84g4_mem_normalizer_of_conj_mem {A : Subgroup G} {g : G}
   refine Subgroup.eq_of_le_of_card_ge hmap_le ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj g).injective]
 
+omit [Finite G] in
 theorem sec8t84g4_conj_surj_of_swap (ht : t * t = 1) {A A2 : Subgroup G}
     (hs2 : ∀ b ∈ A2, t * b * t⁻¹ ∈ A) {x : G} (hx : x ∈ A2) : ∃ x' ∈ A, x = t * x' * t⁻¹ := by
   have hti : t⁻¹ * t⁻¹ = 1 := by rw [← mul_inv_rev, ht, inv_one]
@@ -50,6 +51,7 @@ theorem sec8t84g4_conj_surj_of_swap (ht : t * t = 1) {A A2 : Subgroup G}
   calc x = (t * t) * x * (t⁻¹ * t⁻¹) := by rw [ht, hti]; group
     _ = t * (t * x * t⁻¹) * t⁻¹ := by group
 
+omit [Finite G] in
 theorem sec8t84g4_zpow_invol (ht : t * t = 1) (n : ℤ) : t ^ n = 1 ∨ t ^ n = t := by
   have hz2 : t ^ (2 : ℤ) = 1 := by rw [zpow_two]; exact ht
   have key : t ^ n = t ^ (n % 2) := by
@@ -63,7 +65,7 @@ theorem sec8t84g4_norm_prod (W : Sec8T84Wr G t T1 T2) {A A2 : Subgroup G} (hA : 
     (hA2 : A2 ≤ T2) (hAn : (A.subgroupOf T1).Normal) (hs1 : ∀ a ∈ A, t * a * t⁻¹ ∈ A2)
     (hs2 : ∀ b ∈ A2, t * b * t⁻¹ ∈ A) :
     ∀ d ∈ T1 ⊔ T2, d ∈ normalizer (A : Set G) ∧ d ∈ normalizer (A2 : Set G) := by
-  haveI := hAn
+  have := hAn
   have hT1 : T1 ≤ normalizer (A : Set G) := Subgroup.le_normalizer_of_normal_subgroupOf hA
   have hT2A : ∀ b ∈ T2, b ∈ normalizer (A : Set G) := fun b hb =>
     sec8t84g4_mem_normalizer_of_conj_mem fun x hx => by
@@ -88,6 +90,7 @@ theorem sec8t84g4_norm_prod (W : Sec8T84Wr G t T1 T2) {A A2 : Subgroup G} (hA : 
   obtain ⟨a, ha, b, hb, rfl⟩ := sec8t84_wr_decomp W hd
   exact ⟨Subgroup.mul_mem _ (hT1 ha) (hT2A b hb), Subgroup.mul_mem _ (hT1A2 a ha) (hT2A2 b hb)⟩
 
+omit [Finite G] in
 theorem sec8t84g4_T_decomp (W : Sec8T84Wr G t T1 T2) {T : Subgroup G}
     (hT : T = zpowers t ⊔ (T1 ⊔ T2)) {x : G} (hx : x ∈ T) :
     x ∈ T1 ⊔ T2 ∨ ∃ d ∈ T1 ⊔ T2, x = t * d := by

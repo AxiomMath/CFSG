@@ -89,7 +89,7 @@ private theorem eq_sup_pCoreOf_perfectResidual {C V L₀ : Subgroup G}
     (hV2 : IsPGroup 2 V) (hLp : Group.IsPerfect ↥L₀) :
     inSubgroup perfectResidual (L₀ ⊔ V) =
       L₀ ⊔ CFSG.Open.pCoreOf 2 (inSubgroup perfectResidual (L₀ ⊔ V)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := L₀ ⊔ V with hN
   set X : Subgroup G := inSubgroup perfectResidual N with hX
   have hXN : X ≤ N := Subgroup.map_subtype_le _
@@ -122,7 +122,7 @@ private theorem inf_pCoreOf_perfectResidual_eq {C V L₀ : Subgroup G}
     (hV2 : IsPGroup 2 V) (hLp : Group.IsPerfect ↥L₀) :
     L₀ ⊓ CFSG.Open.pCoreOf 2 (inSubgroup perfectResidual (L₀ ⊔ V)) =
       CFSG.Open.pCoreOf 2 L₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X : Subgroup G := inSubgroup perfectResidual (L₀ ⊔ V) with hX
   have hLX : L₀ ≤ X := KFacts.le_inSubgroup_perfectResidual hLp le_sup_left
   have hXsup : X = L₀ ⊔ CFSG.Open.pCoreOf 2 X :=
@@ -138,7 +138,7 @@ private theorem nonempty_quotient_pCore_equiv_perfectResidual {C V L₀ : Subgro
         CFSG.pCore 2 ↥(inSubgroup perfectResidual (L₀ ⊔ V))) ≃*
       (↥L₀ ⧸ CFSG.pCore 2 ↥L₀)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X : Subgroup G := inSubgroup perfectResidual (L₀ ⊔ V) with hX
   set OX : Subgroup G := CFSG.Open.pCoreOf 2 X with hOX
   have hLX : L₀ ≤ X := KFacts.le_inSubgroup_perfectResidual hLp le_sup_left
@@ -173,8 +173,8 @@ private theorem nonempty_quotient_pCore_equiv_perfectResidual {C V L₀ : Subgro
   have hPle : OX ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X
   have hPXn : X ≤ Subgroup.normalizer (OX : Set G) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X
-  letI : (OX.subgroupOf L₀).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
-  letI : (OX.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPXn
+  let : (OX.subgroupOf L₀).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
+  let : (OX.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPXn
   let ψ : ↥L₀ →* (↥X ⧸ OX.subgroupOf X) :=
     (QuotientGroup.mk' (OX.subgroupOf X)).comp (Subgroup.inclusion hLX)
   have hker : ψ.ker = OX.subgroupOf L₀ := by
@@ -217,6 +217,7 @@ private theorem nonempty_quotient_pCore_equiv_perfectResidual {C V L₀ : Subgro
     QuotientGroup.quotientMulEquivOfEq hsubX
   exact ⟨((e₁.trans e₂).trans e₃).symm⟩
 
+omit [Finite G] in
 private theorem map_conj_le_normalizer_of_le {H X : Subgroup G} {k : G}
     (hk : k ∈ Subgroup.normalizer (X : Set G))
     (hH : H ≤ Subgroup.normalizer (X : Set G)) :
@@ -245,6 +246,7 @@ private theorem map_conj_le_normalizer_of_le {H X : Subgroup G} {k : G}
     rw [show (MulAut.conj k)⁻¹ = MulAut.conj k⁻¹ from (map_inv MulAut.conj k).symm]
   rw [hconj, hcomp, ← Subgroup.map_map, ← Subgroup.map_map, hC, hk'X, hhX, hkX]
 
+omit [Finite G] in
 private theorem commutator_iSup_conj_le {K Z L V : Subgroup G}
     (hZL : Z ≤ Subgroup.centralizer (L : Set G))
     (hZV : Z ≤ Subgroup.normalizer (V : Set G))
@@ -315,6 +317,7 @@ private theorem commutator_iSup_conj_le {K Z L V : Subgroup G}
       exact V.mul_mem ((Subgroup.mem_normalizer_iff.mp hx.1 (⁅y, l⁆)).mp (hy.2 l hl)) (hx.2 l hl)
   exact ((key q hq).2 l hl)
 
+omit [Finite G] in
 private theorem le_normalizer_iSup_conj {A K Z : Subgroup G}
     (hAZ : A ≤ Subgroup.normalizer (Z : Set G))
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) :
@@ -335,7 +338,7 @@ private theorem le_normalizer_iSup_conj {A K Z : Subgroup G}
       · exact (Subgroup.mem_normalizer_iff.mp (hAZ ha) z).mp hz
       · show (a * (k : G) * a⁻¹) * (a * z * a⁻¹) * (a * (k : G) * a⁻¹)⁻¹ =
           a * (k * z * k⁻¹) * a⁻¹
-        simp only [zpow_neg_one, Subgroup.coe_inv]
+        simp only [Subgroup.coe_inv]
         group
     · simp
     · intro y z hy hz
@@ -357,7 +360,7 @@ private theorem le_normalizer_iSup_conj {A K Z : Subgroup G}
         · exact (Subgroup.mem_normalizer_iff.mp (hAZ (A.inv_mem ha)) z).mp hz
         · show (a⁻¹ * (k : G) * a⁻¹⁻¹) * (a⁻¹ * z * a⁻¹⁻¹) * (a⁻¹ * (k : G) * a⁻¹⁻¹)⁻¹ =
             a⁻¹ * (k * z * k⁻¹) * a⁻¹⁻¹
-          simp only [zpow_neg_one, Subgroup.coe_inv, inv_inv]
+          simp only [Subgroup.coe_inv, inv_inv]
           group
       · simp
       · intro y z hy hz
@@ -367,8 +370,9 @@ private theorem le_normalizer_iSup_conj {A K Z : Subgroup G}
     have h2 : a⁻¹ * (a * x * a⁻¹) * a⁻¹⁻¹ = x := by group
     rwa [h2] at hx'
 
-private theorem oPrimeResidualOf_le_of_isPGroup_quotient {X Y : Subgroup G} (hXY : X ≤ Y)
-    (hYX : Y ≤ Subgroup.normalizer (X : Set G)) [(X.subgroupOf Y).Normal]
+omit [Finite G] in
+private theorem oPrimeResidualOf_le_of_isPGroup_quotient {X Y : Subgroup G} (_hXY : X ≤ Y)
+    (_hYX : Y ≤ Subgroup.normalizer (X : Set G)) [(X.subgroupOf Y).Normal]
     (h2 : IsPGroup 2 (↥Y ⧸ X.subgroupOf Y)) :
     oPrimeResidualOf 3 Y ≤ X := by
   intro y hy
@@ -402,6 +406,7 @@ private theorem oPrimeResidualOf_le_of_isPGroup_quotient {X Y : Subgroup G} (hXY
   rw [hkey, Subgroup.mem_bot] at hmem
   exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff y').mp hmem)
 
+omit [Finite G] in
 private theorem le_sup_inf_of_eq_perfectResidual {L V X : Subgroup G}
     (hX : X = inSubgroup perfectResidual (L ⊔ V)) (hLX : L ≤ X)
     (hLV : L ≤ Subgroup.normalizer (V : Set G)) : X ≤ L ⊔ (X ⊓ V) := by
@@ -434,9 +439,9 @@ private theorem mem_scriptY4_and_omg_of_tripleCover (h : Sec17Std G A c L Y₀)
         Subgroup.normalizer (X : Set G) ∧
       Subgroup.centralizer ({d} : Set G) ≠ ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hGsimple : IsSimpleGroup G := h.isSimpleGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hGsimple : IsSimpleGroup G := h.isSimpleGroup
   let C : Subgroup G := Subgroup.centralizer ({d} : Set G)
   let V : Subgroup G := CFSG.Open.pCoreOf 2 C
   let N : Subgroup G := L₀ ⊔ V
@@ -478,7 +483,7 @@ private theorem mem_scriptY4_and_omg_of_tripleCover (h : Sec17Std G A c L Y₀)
   have hXNF : Subgroup.normalizer (N : Set G) ≤ Subgroup.normalizer (X : Set G) :=
     CFSG.RankThree.GroupTheory.SteinbergBY.normalizer_le_normalizer_inSubgroup_perfectResidual N
   have hXperf : Group.IsPerfect ↥X := by
-    haveI : Group.IsPerfect ↥(perfectResidual ↥N) :=
+    have : Group.IsPerfect ↥(perfectResidual ↥N) :=
       (CFSG.perfect_residual_characterization (G := ↥N)).2.2.1
     exact Group.IsPerfect.map N.subtype
   have hXsup : X = L₀ ⊔ CFSG.Open.pCoreOf 2 X :=
@@ -488,13 +493,13 @@ private theorem mem_scriptY4_and_omg_of_tripleCover (h : Sec17Std G A c L Y₀)
   have hAN : A ≤ Subgroup.normalizer (N : Set G) :=
     (le_inf hAL₀ (hAc.trans hCV)).trans (Subgroup.inf_normalizer_le_normalizer_sup L₀ V)
   have hAX : A ≤ Subgroup.normalizer (X : Set G) := hAN.trans hXNF
-  haveI hS6 : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+  have hS6 : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (α := Fin 6) (by
       rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
   have hnc6 : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a := by
     by_contra hcontra
     push Not at hcontra
-    haveI hcomm : IsMulCommutative ↥(alternatingGroup (Fin 6)) := ⟨⟨hcontra⟩⟩
+    have hcomm : IsMulCommutative ↥(alternatingGroup (Fin 6)) := ⟨⟨hcontra⟩⟩
     have hpr := (Group.is_simple_iff_prime_card (α := ↥(alternatingGroup (Fin 6)))).mp hS6
     rw [card_alternatingGroup_six] at hpr
     norm_num at hpr
@@ -525,7 +530,7 @@ private theorem mem_scriptY4_and_omg_of_tripleCover (h : Sec17Std G A c L Y₀)
   have hXres : X = oPrimeResidualOf 3 X := by
     have hker : Group.IsSolvable ↥(QuotientGroup.mk' (CFSG.pCore 2 ↥X)).ker := by
       rw [QuotientGroup.ker_mk']
-      haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥X) :=
+      have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥X) :=
         (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).isNilpotent
       exact IsNilpotent.to_isSolvable
     have h := Proof171Steps.eq_oPrimeResidualOf_of_hom hXperf
@@ -582,7 +587,7 @@ private theorem q_facts {d : G} {L₀ X Q K R Z : Subgroup G}
       Q ≤ Subgroup.normalizer (X : Set G) ∧
       ⁅Q, X⁆ ≤ CFSG.Open.pCoreOf 2 X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := Subgroup.centralizer ({d} : Set G)
   let V : Subgroup G := CFSG.Open.pCoreOf 2 C
   let N : Subgroup G := L₀ ⊔ V
@@ -686,7 +691,7 @@ private theorem y_facts {X Q Y : Subgroup G} (hY : Y = X ⊔ Q)
     Y ∈ scriptY3 A (lB A) ∧ oPrimeResidualOf 3 Y = X ∧
       Y = X ⊔ CFSG.Open.pCoreOf 2 Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hY
   have hQO2X : Q ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 X : Set G) :=
     hQX.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 X)
@@ -745,10 +750,10 @@ private theorem y_facts {X Q Y : Subgroup G} (hY : Y = X ⊔ Q)
   have hXY : X ≤ X ⊔ Q := le_sup_left
   have hYnormX : X ⊔ Q ≤ Subgroup.normalizer (X : Set G) :=
     sup_le Subgroup.le_normalizer hQX
-  haveI hXsub : (X.subgroupOf (X ⊔ Q)).Normal :=
+  have hXsub : (X.subgroupOf (X ⊔ Q)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXY).mpr hYnormX
   have hquot2 : IsPGroup 2 (↥(X ⊔ Q) ⧸ X.subgroupOf (X ⊔ Q)) := by
-    haveI : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 (X ⊔ Q)) :=
+    have : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 (X ⊔ Q)) :=
       CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (X ⊔ Q)
     let φ : ↥(CFSG.Open.pCoreOf 2 (X ⊔ Q)) →* (↥(X ⊔ Q) ⧸ X.subgroupOf (X ⊔ Q)) :=
       (QuotientGroup.mk' (X.subgroupOf (X ⊔ Q))).comp
@@ -797,7 +802,7 @@ private theorem w_facts {Y K W : Subgroup G} (hW : W = Y ⊔ K)
     (hne : W ≠ ⊤) :
     W ∈ scriptY3 A (lB A) ∧ Y ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 W : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hW
   have hYW : Y ≤ Y ⊔ K := le_sup_left
   have hWYnorm : Y ⊔ K ≤ Subgroup.normalizer (Y : Set G) := sup_le Subgroup.le_normalizer hKY
@@ -829,8 +834,8 @@ theorem le_M_of_commutator_le_pCoreOf (h : Sec17Std G A c L Y₀) (h155 : Item15
     (hZd : Z ≤ Subgroup.centralizer ({d} : Set G)) :
     K ≤ Subgroup.normalizer (Y₀ : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Subgroup.centralizer ({d} : Set G)
   let V : Subgroup G := CFSG.Open.pCoreOf 2 C
   let X : Subgroup G := inSubgroup perfectResidual (L₀ ⊔ V)

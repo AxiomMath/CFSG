@@ -30,13 +30,13 @@ theorem exists_extTwist_of_finrank_le {e : ℕ} (he : 3 ≤ e) {K : Type} [Field
     ∃ j r : ℕ, 1 ≤ j ∧ j < 4 ∧ ∃ β : W ≃+ (Set.powersetCard (Fin 4) j → K),
       ∀ g w, β (ρ g w) = extTwist 4 j r K g *ᵥ β w := by
   classical
-  haveI : ρ.IsIrreducible := hirr
+  have : ρ.IsIrreducible := hirr
   let E := Module.End (MonoidAlgebra (ZMod 2) (SpecialLinearGroup (Fin 4) K)) ρ.asModule
   let k := AlgebraicClosure E
-  letI : Algebra K k :=
+  let : Algebra K k :=
     (CFSG.HardMathSupport.GuralnickMalle.nonempty_ringHom_algebraicClosure
       (K := E) (F₀ := K) (p := 2)).some.toAlgebra
-  letI : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
+  let : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
   obtain ⟨s, hs_pos, hE⟩ := exists_card_endField_eq_two_pow (ρ := ρ)
   obtain ⟨y₀, χ, J, ht, s₀, hs₀⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.GN15.FFO.PSL.top_exists_type (n := 3) ρ hne
@@ -83,7 +83,7 @@ theorem exists_extTwist_of_finrank_le {e : ℕ} (he : 3 ≤ e) {K : Type} [Field
     (β'.toLinearMap.toAddMonoidHom.comp β.toLinearMap.toAddMonoidHom).comp
       ((TensorProduct.mk E k X 1).toAddMonoidHom.comp ρ.asModuleEquiv.symm.toAddMonoidHom)
   have hΦ : ∀ w, Φ w = β' (β ((1 : k) ⊗ₜ[E] ρ.asModuleEquiv.symm w)) := fun w => rfl
-  letI : DistribMulAction (SpecialLinearGroup (Fin 4) K) W := DistribMulAction.compHom W ρ
+  let : DistribMulAction (SpecialLinearGroup (Fin 4) K) W := DistribMulAction.compHom W ρ
   have hsmul : ∀ (g : SpecialLinearGroup (Fin 4) K) (w : W), g • w = ρ g w := fun _ _ => rfl
   have hmat : ∀ g : SpecialLinearGroup (Fin 4) K,
       ((minorMatrix (j : ℕ) (g : Matrix (Fin 4) (Fin 4) K)).map

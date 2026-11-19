@@ -39,11 +39,11 @@ theorem le_centralizer_I9 {M L X H : Subgroup G} (hLN : M ≤ normalizer (L : Se
     (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) (hX : Opp 3 X = X)
     (hXH : X ≤ H) (hO2 : pCoreOf 2 H = ⊥) (hO : CFSG.Open.relPPrimeCore 2 (I9 H) ≤ M)
     (hE : rankThreeLayer (I9 H) ≤ M) : X ≤ centralizer (I9 H : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hIH : I9 H ≤ H := map_subtype_le _
   have hHI : H ≤ normalizer (I9 H : Set G) := le_normalizer_I9 H
   have hHE : H ≤ normalizer (rankThreeLayer (I9 H) : Set G) := by
-    haveI : (genFittingLayer ↥(I9 H)).Characteristic :=
+    have : (genFittingLayer ↥(I9 H)).Characteristic :=
       CFSG.ComponentClassification.Layer.characteristic _
     rw [← map_genFittingLayer_eq_rankThreeLayer]
     exact hHI.trans (CFSG.section9_normalizer_le_normalizer_map_subtype_of_characteristic _ _)
@@ -71,7 +71,7 @@ theorem le_centralizer_I9 {M L X H : Subgroup G} (hLN : M ≤ normalizer (L : Se
     rw [hO2I, bot_sup_eq] at h
     exact h
   have hIF : I9 H ≤ normalizer ((genFittingFStar ↥(I9 H)).map (I9 H).subtype : Set G) := by
-    haveI : (genFittingFStar ↥(I9 H)).Characteristic :=
+    have : (genFittingFStar ↥(I9 H)).Characteristic :=
       CFSG.ComponentClassification.GeneralizedFitting.characteristic _
     exact le_normalizer.trans
       (CFSG.section9_normalizer_le_normalizer_map_subtype_of_characteristic _ _)

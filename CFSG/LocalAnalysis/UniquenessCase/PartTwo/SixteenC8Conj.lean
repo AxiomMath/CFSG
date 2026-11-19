@@ -41,6 +41,7 @@ theorem c8_exists_conj_of_isSylowOf {M T T' : Subgroup G}
     rw [this]
     exact hz
 
+omit [Finite G] in
 private theorem actTil_conj {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {g t : G}
     (hgs : g ∈ stabTil V₀ V) (ht : t ∈ stabTil V₀ V)
     (hgtil : g⁻¹ * t * g ∈ stabTil V₀ V) :

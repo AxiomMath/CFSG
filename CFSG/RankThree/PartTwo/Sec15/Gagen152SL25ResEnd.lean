@@ -22,13 +22,13 @@ theorem mem_oTwoOddIn_of_mem_pCore {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X P
     (hHX : X ≤ Subgroup.normalizer ((P ⊔ CFSG.Open.pCoreOf 2 X : Subgroup G) : Set G))
     (hN2 : IsPGroup 2 N) (hPN : P ≤ Subgroup.normalizer (N : Set G)) {z : G} (hzX : z ∈ X)
     (hzN : z ∈ N) : z ∈ oTwoOddIn X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine mem_oTwoOddIn_of_commutator_mem hp2 hPX hP hC hzX fun u hu => ?_
   set Q := CFSG.Open.pCoreOf 2 X with hQ
   set H := P ⊔ Q with hH
   have hPQ : P ≤ Subgroup.normalizer (Q : Set G) :=
     hPX.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X)
-  haveI hQH : (Q.subgroupOf H).Normal :=
+  have hQH : (Q.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_right : Q ≤ H)).mpr
       (sup_le hPQ (Subgroup.le_normalizer (H := Q)))
   have huz : u * z * u⁻¹ ∈ N :=
@@ -57,7 +57,7 @@ theorem mem_oTwoOddIn_of_mem_pCore {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X P
       have hmem : (x : G) ∈ P ⊓ Q := ⟨x.2, hxQ⟩
       rw [hPQbot] at hmem
       exact Subtype.ext (Subgroup.mem_bot.mp hmem)
-    haveI hQPN : (Q.subgroupOf P).Normal := by rw [hQPbot]; infer_instance
+    have hQPN : (Q.subgroupOf P).Normal := by rw [hQPbot]; infer_instance
     have hcard : Nat.card (↥P ⧸ Q.subgroupOf P) = Nat.card P := by
       rw [hQPbot]
       exact Nat.card_congr QuotientGroup.quotientBot.toEquiv
@@ -78,7 +78,7 @@ theorem mem_oTwoOddIn_of_mem_pCore {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X P
 
 theorem pCoreOf_le_of_le_sup {Y L : Subgroup G} (hLY : L ≤ Y)
     (hY : Y ≤ L ⊔ CFSG.Open.pCoreOf 2 Y) : CFSG.Open.pCoreOf 2 L ≤ CFSG.Open.pCoreOf 2 Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := CFSG.Open.pCoreOf 2 Y with hQ
   set K := CFSG.Open.pCoreOf 2 L ⊔ Q with hK
   have hPL : CFSG.Open.pCoreOf 2 L ≤ L := CFSG.LieType.BorelTits.pCoreOf_le 2 L
@@ -101,7 +101,7 @@ theorem pCoreOf_le_of_le_sup {Y L : Subgroup G} (hLY : L ≤ Y)
 theorem pCoreOf_le_pCoreOf_n155 {A Y : Subgroup G} (hY : Y ∈ scriptY0Star A (lB A)) :
     CFSG.Open.pCoreOf 2 Y ≤ CFSG.Open.pCoreOf 2
       (oPrimeResidualOf 3 (delta A (lB A) (Subgroup.normalizer (Y : Set G)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYX : Y ≤ oPrimeResidualOf 3 (delta A (lB A) (Subgroup.normalizer (Y : Set G))) :=
     le_oPrimeResidualOf_delta hY.prop.1 (Subgroup.le_normalizer (H := Y))
   have hXN : oPrimeResidualOf 3 (delta A (lB A) (Subgroup.normalizer (Y : Set G))) ≤

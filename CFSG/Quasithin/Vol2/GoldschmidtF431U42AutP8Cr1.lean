@@ -78,7 +78,7 @@ theorem prime_dvd_index_closure_odd [Finite X] {p : ℕ} (hp : p.Prime) (hodd : 
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S⟩ : Nonempty (Sylow p X) := inferInstance
   have hS : (S : Subgroup X) ≤ Subgroup.closure {x : X | Odd (orderOf x)} :=
-    le_closure_odd_of_card hp hodd S.isPGroup'
+    le_closure_odd_of_card hp hodd S.isPGroup
   exact S.not_dvd_index ((hdvd.trans (Subgroup.index_dvd_of_le hS)))
 
 end CFSG.Quasithin.H13.F431.U42Aut

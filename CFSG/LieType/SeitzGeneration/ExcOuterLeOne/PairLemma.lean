@@ -81,13 +81,13 @@ theorem sl2_hom_mem_of_pair {G : Type*} [Group G] [Finite K] (σ : K ≃+* K) {p
     rw [this]
     exact hl c hc
   have htop : M = ⊤ := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, hℓ, -⟩ := FiniteField.card K (ringChar K)
     by_cases h2 : ringChar K = 2
-    · haveI : CharP K 2 := by rw [← h2]; exact ringChar.charP K
+    · have : CharP K 2 := by rw [← h2]; exact ringChar.charP K
       have h4 : 4 ∣ Nat.card k := hD.resolve_left (not_not.2 h2)
       exact CFSG.RankThree.PartOne.SEITZ2.sl2_eq_top_of_root_lines hp hp2 hK h4 hlam hMu hMl
-    · haveI : CharP K (ringChar K) := ringChar.charP K
+    · have : CharP K (ringChar K) := ringChar.charP K
       have hr3 : 3 ≤ ringChar K := by
         have := hℓ.two_le
         omega

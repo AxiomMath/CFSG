@@ -72,7 +72,7 @@ theorem altNat_layer_step1 (hodd : Odd n) (h5 : 5 ≤ n) (D : AltNatModule L M n
     ⟨lt_of_le_of_ne hF0Z fun h => hnot (le_of_eq h.symm), le_rfl, hZL⟩
   obtain ⟨Y, ⟨hF0Y, hYZ, hYL⟩, hYmin⟩ :=
     Set.exists_min_image 𝒮 (fun Y => Nat.card Y) (Set.toFinite 𝒮) ⟨Z, hZ𝒮⟩
-  obtain ⟨y₁, hy₁Y, hy₁F⟩ := SetLike.exists_of_lt hF0Y
+  obtain ⟨y₁, hy₁Y, hy₁F⟩ := _root_.IsConcreteLE.exists_of_lt hF0Y
   obtain ⟨a₁, ha₁, ha₁y⟩ : ∃ a₁ ∈ A₀, a₁ y₁ ≠ y₁ := by
     by_contra hcon
     push Not at hcon

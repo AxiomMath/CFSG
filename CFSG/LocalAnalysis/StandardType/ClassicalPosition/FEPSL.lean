@@ -91,15 +91,15 @@ private lemma fePSL_centralizer_semisimple
       _ = 1 := by rw [Units.val_one, map_one]
   have hredT : IsReduced (Algebra.adjoin F T) :=
     isReduced_adjoin_of_commute_of_odd T hcommT hTodd
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := T) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
-  haveI : Module.Finite F A := inferInstance
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite F A
-  haveI hAsemi : IsSemisimpleRing A := IsArtinianRing.isSemisimpleRing_of_isReduced A
-  haveI : IsSemisimpleModule A V := IsSemisimpleRing.isSemisimpleModule
-  haveI : Finite V := inferInstance
-  haveI : Module.Finite A V := Module.Finite.of_finite
-  haveI hEsemi : IsSemisimpleRing (Module.End A V) := IsSemisimpleRing.moduleEnd A V
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := T) hpair
+  let : CommRing A := IsMulCommutative.instCommRing
+  have : Module.Finite F A := inferInstance
+  have : IsArtinianRing A := IsArtinianRing.of_finite F A
+  have hAsemi : IsSemisimpleRing A := IsArtinianRing.isSemisimpleRing_of_isReduced A
+  have : IsSemisimpleModule A V := IsSemisimpleRing.isSemisimpleModule
+  have : Finite V := inferInstance
+  have : Module.Finite A V := Module.Finite.of_finite
+  have hEsemi : IsSemisimpleRing (Module.End A V) := IsSemisimpleRing.moduleEnd A V
   let Ψ₁ : Subalgebra.centralizer F (Units.val '' S) ≃+* Subalgebra.centralizer F T :=
   { toFun := fun g => ⟨e (g : Matrix _ _ F), by
       rw [Subalgebra.mem_centralizer_iff]
@@ -163,8 +163,8 @@ private lemma fePSL_centralizer_wedderburn
   classical
   let F := GaloisField 2 f
   let C := Subalgebra.centralizer F (Units.val '' S)
-  haveI : IsSemisimpleRing C := fePSL_centralizer_semisimple m f S hS hodd
-  haveI : Module.Finite F C := inferInstance
+  have : IsSemisimpleRing C := fePSL_centralizer_semisimple m f S hS hodd
+  have : Module.Finite F C := inferInstance
   obtain ⟨n, D, d, hDdiv, hDalg, hRest⟩ :=
     IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing_finite F C
   obtain ⟨hDfinF, hd, ⟨Φ⟩⟩ := hRest
@@ -175,7 +175,7 @@ private lemma fePSL_wedderburn_factors_finite
     [∀ i, Algebra (GaloisField 2 f) (D i)] [∀ i, Module.Finite (GaloisField 2 f) (D i)] :
     ∀ i, Finite (D i) := by
   intro i
-  haveI : Finite (GaloisField 2 f) := inferInstance
+  have : Finite (GaloisField 2 f) := inferInstance
   obtain ⟨k, g, hg⟩ := Module.Finite.exists_fin' (GaloisField 2 f) (D i)
   exact Finite.of_surjective (g : (Fin k → GaloisField 2 f) → D i) hg
 
@@ -297,8 +297,8 @@ private lemma fePSL_blockAction
   have hpair : (Units.val '' S : Set (Matrix (Fin (m + 1)) (Fin (m + 1)) F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin (m + 1)) (Fin (m + 1)) F))
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  let : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A, (a : Matrix (Fin (m + 1)) (Fin (m + 1)) F) * e =
       e * (a : Matrix (Fin (m + 1)) (Fin (m + 1)) F) := by
     intro a
@@ -480,7 +480,7 @@ lemma fePSL_blockKAction
         ((π : Algebra.adjoin (GaloisField 2 f) (Units.val '' S) →+* K) a)) = actA a
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply, Ideal.Quotient.lift_mk]
     rfl
-  letI : Module K (LinearMap.range (Matrix.mulVecLin e)) :=
+  let : Module K (LinearMap.range (Matrix.mulVecLin e)) :=
     Module.compHom (LinearMap.range (Matrix.mulVecLin e)) ψ
   have htower : IsScalarTower (GaloisField 2 f) K (LinearMap.range (Matrix.mulVecLin e)) :=
     ⟨fun c k w => by
@@ -669,12 +669,12 @@ lemma fePSL_blockKAction_extension
   · intro w
     have hφ : (ψ.symm : (Fin (m + 1) → GaloisField 2 f) →ₗ[GaloisField 2 f] W × W')
         (w : Fin (m + 1) → GaloisField 2 f) = (w, 0) := by
-      simpa [ψ] using Submodule.prodEquivOfIsCompl_symm_apply_left W W' hcompl w
+      simp [ψ]
     have hf : fmap (w, 0) = (g w, 0) := by
       simp [fmap, LinearMap.prodMap_apply]
     have hφs : (ψ : W × W' →ₗ[GaloisField 2 f] (Fin (m + 1) → GaloisField 2 f)) (g w, 0) =
         (g w : Fin (m + 1) → GaloisField 2 f) := by
-      simp [ψ, Submodule.coe_prodEquivOfIsCompl']
+      simp [ψ]
     simp only [u, LinearMap.comp_apply, hφ, hf, hφs]
   · intro x hx
     have hφ : (ψ.symm : (Fin (m + 1) → GaloisField 2 f) →ₗ[GaloisField 2 f] W × W') x =
@@ -685,7 +685,7 @@ lemma fePSL_blockKAction_extension
       simp [fmap, LinearMap.prodMap_apply]
     have hφs : (ψ : W × W' →ₗ[GaloisField 2 f] (Fin (m + 1) → GaloisField 2 f))
         (0, ⟨x, hx⟩) = x := by
-      simp [ψ, Submodule.coe_prodEquivOfIsCompl']
+      simp [ψ]
     simp only [u, LinearMap.comp_apply, hφ, hf, hφs]
   · change LinearMap.det ((ψ : W × W' →ₗ[GaloisField 2 f]
         (Fin (m + 1) → GaloisField 2 f)) ∘ₗ fmap ∘ₗ
@@ -723,8 +723,8 @@ lemma fePSL_blockKAction_extension_commute
   have hpair : (Units.val '' S : Set (Matrix (Fin (m + 1)) (Fin (m + 1)) F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin (m + 1)) (Fin (m + 1)) F))
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  let : CommRing A := IsMulCommutative.instCommRing
   have hcomm (a : A) : (a : Matrix (Fin (m + 1)) (Fin (m + 1)) F) * e =
       e * (a : Matrix (Fin (m + 1)) (Fin (m + 1)) F) :=
     congrArg Subtype.val (mul_comm a (⟨e, he.1⟩ : A))
@@ -978,10 +978,10 @@ private lemma fePSL_blockKAction_blockK_pos
           (Fin (m + 1) → GaloisField 2 f) => g (Pi.single j (1 : GaloisField 2 f))) hf) i
       simpa [Matrix.mulVecLin_apply, Matrix.mulVec_single_one, Matrix.col_apply] using h
     exact he.2.2.1 h2
-  haveI : Module.Finite K (LinearMap.range (Matrix.mulVecLin e)) :=
+  have : Module.Finite K (LinearMap.range (Matrix.mulVecLin e)) :=
     Module.Finite.of_restrictScalars_finite (GaloisField 2 f) K
       (LinearMap.range (Matrix.mulVecLin e))
-  haveI : Nontrivial (LinearMap.range (Matrix.mulVecLin e)) :=
+  have : Nontrivial (LinearMap.range (Matrix.mulVecLin e)) :=
     Submodule.nontrivial_iff_ne_bot.mpr hne
   exact (Module.finrank_pos_iff_of_free (R := K)
     (M := LinearMap.range (Matrix.mulVecLin e))).mpr inferInstance
@@ -1044,9 +1044,9 @@ private lemma fePSL_blockKAction_commutator_iso_group
         (Fin (Module.finrank K (LinearMap.range (Matrix.mulVecLin e)))) K) := by
   classical
   let W := LinearMap.range (Matrix.mulVecLin e)
-  haveI hWfinite : Module.Finite K W :=
+  have hWfinite : Module.Finite K W :=
     Module.Finite.of_restrictScalars_finite (GaloisField 2 f) K W
-  haveI hWfree : Module.Free K W := Module.Free.of_divisionRing K W
+  have hWfree : Module.Free K W := Module.Free.of_divisionRing K W
   let d := Module.finrank K W
   let b : Module.Basis (Fin d) K W := Module.finBasis K W
   let SLsub : Subgroup (Module.End K W)ˣ :=
@@ -1055,7 +1055,7 @@ private lemma fePSL_blockKAction_commutator_iso_group
     fePSL_blockKAction_blockK_pos m f S he K actK hact hinj
   have hK2 : Nat.card K ≠ 2 := by omega
   have hK3 : Nat.card K ≠ 3 := by omega
-  haveI hperfSL : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) K) := by
+  have hperfSL : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) K) := by
     by_cases hd : 2 ≤ d
     · exact CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_perfect d K hd
         (Or.inr hK2) (Or.inr hK3)
@@ -1081,7 +1081,7 @@ private lemma fePSL_blockKAction_commutator_iso_group
       (MulEquiv.subgroupCongr hmapSL)
   let eFinal : SLsub ≃* Matrix.SpecialLinearGroup (Fin d) K :=
     eSLsub.trans Matrix.SpecialLinearGroup.toGLKerEquiv.symm
-  haveI hPerfSub : Group.IsPerfect SLsub :=
+  have hPerfSub : Group.IsPerfect SLsub :=
     Group.IsPerfect.ofSurjective (f := eFinal.symm.toMonoidHom) eFinal.symm.surjective
   let H := glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e
   let φ : H →* (Module.End K W)ˣ := actK.toHomUnits
@@ -1226,8 +1226,8 @@ private lemma fePSL_blockGroup_commutator_slK
       Matrix.SpecialLinearGroup (Fin m') K) := by
   obtain ⟨hmod, htower, actK, hcomp, hact⟩ :=
     fePSL_blockKAction m f S hS he K π hπsurj hπker
-  letI : Module K (LinearMap.range (Matrix.mulVecLin e)) := hmod
-  letI : IsScalarTower (GaloisField 2 f) K (LinearMap.range (Matrix.mulVecLin e)) := htower
+  let : Module K (LinearMap.range (Matrix.mulVecLin e)) := hmod
+  let : IsScalarTower (GaloisField 2 f) K (LinearMap.range (Matrix.mulVecLin e)) := htower
   have hKcard : Nat.card K = 2 ^ (f * blockDegree
       (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e) :=
     fePSL_blockCard f _ hf hπdeg
@@ -1285,8 +1285,8 @@ private lemma fePSL_blockFactorField
       Matrix.SpecialLinearGroup (Fin m') D) := by
   obtain ⟨n, D, hDfield, hDfin, d, θ, hd, hθinj, hθrange⟩ :=
     fePSL_blockFactor_centralizer m f S hS hodd
-  letI : ∀ i, Field (D i) := hDfield
-  letI : ∀ i, Finite (D i) := hDfin
+  let : ∀ i, Field (D i) := hDfield
+  let : ∀ i, Finite (D i) := hDfin
   exact fePSL_blockFactor_coordinate m f hf S hS hodd he hdeg K π hπsurj hπker hπdeg
     n D d θ hd hθinj hθrange
 
@@ -1322,8 +1322,8 @@ private lemma fePSL_blockGroup_commutator_sl
       Matrix.SpecialLinearGroup (Fin m') K) := by
   obtain ⟨m', D, hDfield, hDfin, hm'1, hDcard, hiso⟩ :=
     fePSL_blockFactorField m f hf S hS hodd he hdeg K π hπsurj hπker hπdeg
-  letI : Field D := hDfield
-  letI : Finite D := hDfin
+  let : Field D := hDfield
+  let : Finite D := hDfin
   obtain ⟨σ⟩ := fePSL_blockFactor_fieldIso hDcard
   exact ⟨m', hm'1, fePSL_blockFactor_transport σ hiso⟩
 
@@ -1341,15 +1341,15 @@ private lemma fePSL_blockGroup_rank_two
     2 ≤ m' := by
   by_contra h
   have hm' : m' ≤ 1 := by omega
-  haveI : Subsingleton (Fin m') :=
+  have : Subsingleton (Fin m') :=
     ⟨fun i j => Fin.ext (by have := i.isLt; have := j.isLt; omega)⟩
-  haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin m') K) := inferInstance
+  have : Subsingleton (Matrix.SpecialLinearGroup (Fin m') K) := inferInstance
   let H := ⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
     glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆
   obtain ⟨φ⟩ := hiso
-  haveI : Subsingleton H := ⟨fun a b => φ.injective (Subsingleton.elim (φ a) (φ b))⟩
-  haveI : Nontrivial (J' ⧸ Subgroup.center J') := hJe.2.2.2.toNontrivial
-  haveI : Nontrivial J' := (QuotientGroup.mk'_surjective (Subgroup.center J')).nontrivial
+  have : Subsingleton H := ⟨fun a b => φ.injective (Subsingleton.elim (φ a) (φ b))⟩
+  have : Nontrivial (J' ⧸ Subgroup.center J') := hJe.2.2.2.toNontrivial
+  have : Nontrivial J' := (QuotientGroup.mk'_surjective (Subgroup.center J')).nontrivial
   obtain ⟨x, y, hxy⟩ := (inferInstance : Nontrivial J')
   exact hxy (Subtype.ext (congrArg (fun z : H => (z :
       Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 f)))
@@ -1402,8 +1402,8 @@ private lemma fePSL_blockGroup_commutator_iso
   classical
   obtain ⟨K₀, hK₀field, hK₀alg, hK₀fin, π, hπsurj, hπker, hπdeg⟩ :=
     exists_blockField hS hodd he
-  letI : Field K₀ := hK₀field
-  letI : Finite K₀ := hK₀fin
+  let : Field K₀ := hK₀field
+  let : Finite K₀ := hK₀fin
   have hK₀card : Nat.card K₀ = 2 ^ (f * blockDegree
       (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e) :=
     fePSL_blockCard f _ hf hπdeg
@@ -1452,7 +1452,7 @@ lemma fePSL_component_eq
   have h22 : m' ≠ 2 ∨ Nat.card K ≠ 2 := Or.inr (by omega)
   have h23 : m' ≠ 2 ∨ Nat.card K ≠ 3 := Or.inr (by omega)
   obtain ⟨φ⟩ := hiso
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
   have hSLq : CFSG.Open.IsQuasisimple (Matrix.SpecialLinearGroup (Fin m') K) :=
     ⟨(CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_quasisimple
         m' K hm' h22 h23).1.commutator_eq_top,
@@ -1461,8 +1461,8 @@ lemma fePSL_component_eq
   have hHq : CFSG.Open.IsQuasisimple H := CFSG.Open.IsQuasisimple.of_mulEquiv φ hSLq
   have hsub : CFSG.Open.IsSubnormal (J'.subgroupOf H) ⊤ :=
     CFSG.Open.IsSubnormal.of_mathlib (CFSG.Assembly.IsSubnormal.subgroupOf hJe.2.1)
-  haveI : Group.IsPerfect J' := ⟨hJe.2.2.1⟩
-  haveI : Group.IsPerfect (J'.subgroupOf H) :=
+  have : Group.IsPerfect J' := ⟨hJe.2.2.1⟩
+  have : Group.IsPerfect (J'.subgroupOf H) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hJe.1).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJe.1).symm.surjective
   rcases CFSG.ComponentClassification.Quasisimple.perfect_subnormal_eq_bot_or_eq_top
@@ -1531,7 +1531,7 @@ private lemma fePSL_quotientCenter
     apply Subtype.ext
     simpa using (Subgroup.mem_center_iff.mp hxc
       (y : Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 f)))
-  haveI : Group.IsPerfect ↥J' := ⟨hperf⟩
+  have : Group.IsPerfect ↥J' := ⟨hperf⟩
   have hcen : Subgroup.center (↥J' ⧸ fmap.ker) =
       (Subgroup.center ↥J').map (QuotientGroup.mk' fmap.ker) :=
     (CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel
@@ -1589,8 +1589,8 @@ theorem ggSixLSevenFieldExtModel_PSL (m f : ℕ) (hf : 1 ≤ f) {X : Type} [Grou
   classical
   obtain ⟨K, hKfield, hKalg, hKfinite, π, hπsurj, hπker, hπdeg⟩ :=
     fePSL_blockField m f S hS hodd he
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hKcard : Nat.card K = 2 ^ (f * blockDegree
       (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e) :=
     fePSL_blockCard f _ hf hπdeg

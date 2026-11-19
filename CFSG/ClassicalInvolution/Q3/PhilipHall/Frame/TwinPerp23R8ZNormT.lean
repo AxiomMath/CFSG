@@ -240,8 +240,8 @@ variable {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2
 theorem p23E8Z_e_quiet_at_t (hT : Thm4RTwinBelow 3 n) (hcit : CIT3Below n)
     (hP : TL4.TightBelowRPlus 3 n) (hc : P23Cfg n Y R S t K' W u e g)
     (hZ : u * e ∈ zStarOf (rLayer (Om R) u)) (heC : e ∈ Subgroup.centralizer ({t} : Set Y)) :
-    ∀ L : Subgroup (OddQuot t), CFSG.IsComponent L →
-      ∀ y ∈ L, oddQuotMk t ⟨e, heC⟩ * y = y * oddQuotMk t ⟨e, heC⟩ := fun L hL =>
+    ∀ _L : Subgroup (OddQuot t), CFSG.IsComponent _L →
+      ∀ y ∈ _L, oddQuotMk t ⟨e, heC⟩ * y = y * oddQuotMk t ⟨e, heC⟩ := fun _L hL =>
   TL4.commute_of_mem_normal_isPGroup hL CFSG.pCore_normal CFSG.pCore_isPGroup
     (p23E8Z_e_mem_pCore_bar hT hcit hP hc hZ heC)
 

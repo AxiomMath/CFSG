@@ -28,7 +28,7 @@ theorem prime_order_aut_inner {k : Type} [Field k] (hk : Nat.card k = 4)
     Nat.finite_of_card_ne_zero (by rw [card_mulAut hk]; norm_num)
   set Inn : Subgroup (MulAut (projectiveSL 3 k)) :=
     (MulAut.conj : projectiveSL 3 k →* MulAut (projectiveSL 3 k)).range with hInn
-  haveI : Inn.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
+  have : Inn.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   have hInnCard : Nat.card Inn = 20160 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective (conj_injective hk)).toEquiv, card_projectiveSL hk]
   have hq : Nat.card (MulAut (projectiveSL 3 k) ⧸ Inn) = 12 := by
@@ -68,9 +68,9 @@ theorem normalizer_sup_zpowers_eq_top
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel h
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
   have hfin := LinearFieldFour.finite_of_card_eq_four hK4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card (GaloisField 2 2) := by
     rw [← Nat.card_eq_fintype_card, hK4, ← Nat.card_eq_fintype_card, card_galoisField_two_two]
   let τ : K ≃+* GaloisField 2 2 := FiniteField.ringEquivOfCardEq hcard
@@ -122,7 +122,7 @@ theorem c626gen_of_l34
   classical
   intro p hp P hP hPne
   have hpp : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := hp.1.2.1
   have hp3 : p ≠ 3 := by
     rintro rfl

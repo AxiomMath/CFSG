@@ -21,7 +21,7 @@ theorem fzc_core42_of {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
     (hfpf : ∀ x ∈ X, rho * x * rho⁻¹ = x → x = 1) (g : G) :
     g * t * g⁻¹ ∉ X ⊔ zpowers lam := by
   intro hmem
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hctx := h.ctx
   have hlam_ord : orderOf lam = 2 := hctx.wreath.ord_lam
   have hlam2 : lam * lam = 1 := by

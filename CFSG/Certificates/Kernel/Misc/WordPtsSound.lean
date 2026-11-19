@@ -78,15 +78,15 @@ theorem letP_rep (hG : LetRep n w G GI gs) {z : ℤ} (hz : z ≠ 0 ∧ z.natAbs 
       rintro rfl
       exact hz.1 rfl
     have hpos : (0 : ℤ) < Int.ofNat k := by
-      rw [Int.ofNat_eq_coe]
+      rw [Int.ofNat_eq_natCast]
       exact_mod_cast Nat.pos_of_ne_zero hk
-    rw [if_pos hpos]
+    rw [ite_eq_left hpos]
     have e : (Int.ofNat k).natAbs - 1 = k - 1 := rfl
     rw [e]
     have hk2 : k ≤ gs.length := hz.2
     exact hG (k - 1) (by omega)
   · have hneg : ¬ (0 : ℤ) < Int.negSucc k := by simp
-    rw [if_neg hneg, inv_inv]
+    rw [ite_eq_right hneg, inv_inv]
     have e : (Int.negSucc k).natAbs - 1 = k := rfl
     rw [e]
     have hk2 : k + 1 ≤ gs.length := hz.2
@@ -347,11 +347,11 @@ private theorem digP_eq {w : ℕ} {H HI : ℕ → ℕ} {hs : List (Equiv.Perm (F
     (hH : LetRep n w H HI hs) {d : ℕ} (hd : d ≤ 3) (x : Fin n) :
     digP n w H d x = (digE hs d x : ℕ) ∧ digP n w HI d x = ((digE hs d)⁻¹ x : ℕ) := by
   rcases Nat.eq_zero_or_pos d with rfl | hpos
-  · have e : digE hs 0 = 1 := if_pos rfl
+  · have e : digE hs 0 = 1 := ite_eq_left rfl
     rw [e, inv_one]
     exact ⟨rfl, rfl⟩
   · obtain ⟨d', rfl⟩ : ∃ d', d = d' + 1 := ⟨d - 1, by omega⟩
-    have e : digE hs (d' + 1) = hs.getD d' 1 := if_neg (Nat.succ_ne_zero d')
+    have e : digE hs (d' + 1) = hs.getD d' 1 := ite_eq_right (Nat.succ_ne_zero d')
     rw [e]
     exact ⟨imgP_rep (hH d' (by omega)).1 x, imgP_rep (hH d' (by omega)).2 x⟩
 
@@ -420,7 +420,7 @@ private theorem keyFrom_congr {w : ℕ} {G GI H HI : ℕ → ℕ} {gs hs : List 
         (keyFrom n w G GI H f P' ((pathE hs f P')⁻¹ ⟨b, hb⟩ : Fin n) T (Nat.succ i))
     rw [key, keyFrom_congr hG hH3 hH hb hT' he' (Nat.succ i)]
 
-theorem orbRecK_sound {w : ℕ} (hn : n ≤ 2 ^ w) {G GI H HI : ℕ → ℕ}
+theorem orbRecK_sound {w : ℕ} (_hn : n ≤ 2 ^ w) {G GI H HI : ℕ → ℕ}
     {gs hs : List (Equiv.Perm (Fin n))} (hG : LetRep n w G GI gs) (hH3 : hs.length = 3)
     (hH : LetRep n w H HI hs) {f b : ℕ} (hb : b < n) {T : List (List ℤ)}
     (hT : ∀ t ∈ T, lettersOK gs.length t = true) {rw lb N : ℕ} {CF : ℕ → ℕ}
@@ -616,14 +616,14 @@ theorem recK_sound {d w lb ng N : ℕ} {CF G : ℕ → ℕ} (hN : 0 < N) (hNw : 
       induction k with
       | zero =>
         intro _ t ht
-        rw [if_pos hN, hh'.2] at ht
+        rw [ite_eq_left hN, hh'.2] at ht
         obtain rfl : t = 0 := by omega
         rw [hh'.1]
         exact hP1
       | succ k ih =>
         intro hk
         have ihk := ih (by omega)
-        rw [if_pos (by omega : k < N)] at ihk
+        rw [ite_eq_left (by omega : k < N)] at ihk
         obtain ⟨e1, e2, e3, _⟩ := recK_parts (h k (by omega))
         have hPk : P (elemAt d w lb ng CF k) := ihk k e2
         have hQ : ∀ j < ng, P (elemAt d w lb ng CF (fldOf d w (recAt d w lb ng CF k) j)) := by
@@ -634,15 +634,15 @@ theorem recK_sound {d w lb ng N : ℕ} {CF G : ℕ → ℕ} (hN : 0 < N) (hNw : 
         · exact absurd (e3.symm.trans h0) (Nat.ne_of_lt (nextM_lt hNw))
         · rw [e3] at h0
           by_cases hk1 : k + 1 < N
-          · rw [if_pos hk1]
+          · rw [ite_eq_left hk1]
             rw [nextM_of_lt hk1] at h0
             exact h0
-          · rw [if_neg hk1]
+          · rw [ite_eq_right hk1]
             rw [nextM_last hk1] at h0
             exact h0
     intro k hk
     have hN' := hC N le_rfl
-    rw [if_neg (lt_irrefl N)] at hN'
+    rw [ite_eq_right (lt_irrefl N)] at hN'
     exact hN' k hk
 
 end CFSG.KC.F2BfsRec

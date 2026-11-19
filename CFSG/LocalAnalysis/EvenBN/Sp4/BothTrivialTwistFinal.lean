@@ -15,6 +15,7 @@ namespace Data
 variable {G : Type*} [Group G] [Finite G] {k : Type} [Field k] [Finite k] [CharP k 2] {m : ℕ}
   (d : Data G k m)
 
+omit [Finite G] in
 theorem odd_orderOf_of_cube {ω : G} (hω3 : ω * ω * ω = 1) : Odd (orderOf ω) := by
   have h : ω ^ 3 = 1 := by rw [pow_three']; exact hω3
   exact (by decide : Odd 3).of_dvd_nat (orderOf_dvd_of_pow_eq_one h)
@@ -44,11 +45,11 @@ theorem impossible : False := by
   have hodd : Odd (orderOf ω) := odd_orderOf_of_cube hω3
   obtain ⟨x₀, hx₀, hx₀F⟩ := d.exists_mem_X₂_not_mem_F
   have hω1 : ω ≠ 1 := fun h => hωX (h ▸ one_mem _)
-  haveI n₂ : (d.F.subgroupOf d.X₂).Normal :=
+  have n₂ : (d.F.subgroupOf d.X₂).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer d.X₂_le_normalizer_F
-  haveI n₁ : (d.F.subgroupOf d.X₁).Normal :=
+  have n₁ : (d.F.subgroupOf d.X₁).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer d.X₁_le_normalizer_F
-  haveI nF : (d.Z.subgroupOf d.F).Normal :=
+  have nF : (d.Z.subgroupOf d.F).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer d.F_le_normalizer_Z
   have hmem : ∀ x ∈ d.X₂, ∀ y ∈ d.X₁, x * y * x⁻¹ * y⁻¹ ∈ d.F := fun x hx y hy =>
     d.comm_mem_F x (d.X₂_le hx) y (d.X₁_le hy)

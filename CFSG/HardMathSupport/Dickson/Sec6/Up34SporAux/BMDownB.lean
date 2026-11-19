@@ -20,7 +20,7 @@ section Down
 
 theorem sporL3DownInner_B_of_leaf (hbr : SporadicBridges) (hB : B3BLeaf) :
     SporL3DownInner .B := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hcard : Nat.card NativeSporadic.B = 4154781481226426191177580544000000 := by
     rw [card_nativeB, monsterBabyOrder_eq_numeral]
   have hM : Nonempty (NativeSporadic.B ≃* (TauCeti.CFSGIndex.sporadic .B).Group) := hbr .B

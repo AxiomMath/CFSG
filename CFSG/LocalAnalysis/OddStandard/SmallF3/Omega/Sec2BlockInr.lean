@@ -18,14 +18,17 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
     OGroup (Q.restrict (commSp s)) →* OGroup Q :=
   (blockHom hs).comp (MonoidHom.inr _ _)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockInr_apply {s : OGroup Q} (hs : s * s = 1) (b : OGroup (Q.restrict (commSp s))) :
     blockInr hs b = blockHom hs (1, b) := rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockInr_injective {s : OGroup Q} (hs : s * s = 1) : Function.Injective (blockInr hs) := by
   intro a b h
   have h' : blockHom hs (1, a) = blockHom hs (1, b) := h
   exact congrArg Prod.snd (blockHom_injective hs h')
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockInr_piOrth {s : OGroup Q} (hs : s * s = 1) :
     blockInr hs (piOrth (Q.restrict (commSp s))) = s :=
   blockHom_one_piOrth hs

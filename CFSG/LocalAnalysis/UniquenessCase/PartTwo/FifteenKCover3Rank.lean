@@ -112,7 +112,7 @@ private theorem s15k_cov_model_pomm {Y Z : Type} [Group Y] [Group Z] (e : Z ≃*
 private theorem s15k_cov_model_psu {Y Z : Type} [Group Y] [Group Z] (e : Z ≃* Y)
     (h : IsOmegaMinus Y 6 1) : CFSG.Models.LieModel Z .PSU 4 2 1 := by
   obtain ⟨F, hF, hU, ⟨eU⟩⟩ := s15k_om6_model h
-  haveI : Finite F := hU.finite
+  have : Finite F := hU.finite
   have hK : Nat.card F = (2 ^ 1) ^ 2 := by rw [hU.card]; norm_num
   have hbot := CFSG.RankThree.PartOne.KFU.scalars_subgroupOf_eq_bot (K := F) (f := 1) (n := 4)
     hK (by norm_num) (by norm_num)

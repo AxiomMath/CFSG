@@ -73,8 +73,7 @@ private theorem Bk_eq {k : Type} [Field k] [CharP k 2] :
 private theorem vv_eq_zpow {k : Type} [Field k] (w : k) (hw0 : w ≠ 0) (x : AmbI) :
     vv w x = w ^ (xExp x) := by
   fin_cases x <;>
-    simp [vv, dvec, xExp, dExp, fst16_eq, snd16_eq, zpow_neg_one, zpow_add₀ hw0,
-      pow_two, mul_inv_cancel₀ hw0, inv_mul_cancel₀ hw0, ← mul_inv_rev]
+    simp [vv, dvec, xExp, dExp, fst16_eq, snd16_eq, pow_two, mul_inv_cancel₀ hw0, inv_mul_cancel₀ hw0, ← mul_inv_rev]
 
 private theorem amb_diag {k : Type} [Field k] [CharP k 2] (D : SL(4, k)) (w : k)
     (hD : (D : Matrix (Fin 4) (Fin 4) k) = Matrix.diagonal (dvec w)) :
@@ -86,7 +85,7 @@ private theorem amb_diag {k : Type} [Field k] [CharP k 2] (D : SL(4, k)) (w : k)
   change (∏ f : Fin 2, diagFac (dvec w) ([FK.N, FK.S].get f)
     ((ambEq [FK.N, FK.S]).symm x f)) = vv w x
   rw [Fin.prod_univ_two]
-  simp only [diagFac, vv, fst16, snd16, List.get_cons_zero, List.get_cons_succ, Fin.isValue]
+  simp only [diagFac, vv, fst16, snd16, List.get_cons_zero, Fin.isValue]
   rfl
 
 private theorem eigen {k : Type} [Field k] [CharP k 2] (D : SL(4, k)) (w : k)
@@ -99,13 +98,13 @@ private theorem eigen {k : Type} [Field k] [CharP k 2] (D : SL(4, k)) (w : k)
   rw [Matrix.diagonal_mul, Matrix.mul_diagonal]
   simp only [BkMat, Matrix.of_apply]
   by_cases h : (maskArr.getD (c : ℕ) 0).testBit (x : ℕ) = true
-  · simp only [if_pos h, mul_one, one_mul]
+  · simp only [ite_eq_left h, mul_one, one_mul]
     rw [vv_eq_zpow w hw0 x]
     congr 1
     fin_cases x <;> fin_cases c <;>
       simp [xExp, cExp, dExp, fst16_eq, snd16_eq, maskArr] at h ⊢ <;>
-      first | decide +kernel | contradiction
-  · simp only [if_neg h, mul_zero, zero_mul]
+      contradiction
+  · simp only [ite_eq_right h, mul_zero, zero_mul]
 
 theorem eight_le_rank_locR101_diag {k : Type} [Field k] [CharP k 2] (D : SL(4, k)) (w : k)
     (hw : w ^ 2 ≠ 1)
@@ -151,11 +150,9 @@ theorem eight_le_rank_locR101_diag {k : Type} [Field k] [CharP k 2] (D : SL(4, k
   have hsubgood : good ⊆ Finset.univ.filter (fun c : LocI => lam (k := k) w c - 1 ≠ 0) := by
     intro c hc
     simp only [good, Finset.mem_filter, Finset.mem_univ, true_and] at hc ⊢
-    fin_cases c <;> simp [lam, cExp, zpow_neg, zpow_natCast] at hc ⊢ <;>
+    fin_cases c <;> simp [lam, cExp, zpow_neg] at hc ⊢ <;>
       first
       | (simpa [sub_ne_zero, zpow_neg, zpow_natCast] using hwneg)
-      | (simpa [sub_ne_zero, pow_two] using hw2)
-      | contradiction
   have hle := Finset.card_le_card hsubgood
   rw [hgoodcard] at hle
   exact hle
@@ -179,11 +176,10 @@ private lemma compound2_diag0 {k : Type} [Field k] [CharP k 2] {w : k} (hw5 : w 
   fin_cases I <;> simp [dvecK, e6, pair6, hw4]
   all_goals
     first
-    | rfl
     | (rw [pow_two])
     | (rw [← pow_succ]; norm_num; rw [hw5])
     | (rw [← pow_succ']; norm_num; rw [hw5])
-    | (rw [← pow_add]; norm_num; rw [pow_eq_pow_mod _ hw5]; try norm_num)
+    | (rw [← pow_add]; norm_num; rw [pow_eq_pow_mod _ hw5])
 
 private lemma compound2_diag_sq {k : Type} [Field k] [CharP k 2] {w : k} (hw5 : w ^ 5 = 1) :
     compound2 (Matrix.diagonal (fun j => (dvecK w j) ^ 2)) =
@@ -270,7 +266,7 @@ private theorem tmod_rank_diag {K : Type} [Field K] [Finite K] [CharP K 2] {k : 
       rw [twist1_eq (k := k) hg, compound2_diag_sq hw5k]
       congr 1
       funext I
-      simp [δ, pow_two, pow_mul, mul_comm, mul_pow]
+      simp [δ, pow_two, pow_mul, mul_pow]
   have hBz : ∀ i, (B : Matrix (Fin 6) (Fin 6) k) * z i =
       Matrix.diagonal (δ i) * (B : Matrix (Fin 6) (Fin 6) k) := by
     intro i
@@ -360,7 +356,7 @@ theorem seventeen_le_rank_Tmod_omega2_pair {K : Type} [Field K] [Finite K] [Char
       rw [Nat.dvd_iff_mod_eq_zero]
       exact hx
     have hne : wk ^ (e6 (x 0) + 2 * e6 (x 1)) ≠ 1 := by
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       have hord : orderOf wk = 5 := orderOf_eq_prime hw5k hw1k
       intro h1
       have hdvd : orderOf wk ∣ e6 (x 0) + 2 * e6 (x 1) :=

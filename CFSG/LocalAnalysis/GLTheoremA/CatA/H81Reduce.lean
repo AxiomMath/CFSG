@@ -15,18 +15,19 @@ variable {G : Type} [Group G] [Finite G]
 theorem quot_p_trivial {p : ℕ} (hp : p.Prime) {L : Subgroup G} {a : ↥L} (ha : a ^ p = 1)
     (h1 : QuotientGroup.mk' (GLAPPrimeCore p ↥L) a = 1) : a = 1 := by
   by_contra hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf a = p := orderOf_eq_prime ha hne
   have hmem : a ∈ GLAPPrimeCore p ↥L := (QuotientGroup.eq_one_iff a).1 h1
   have hle : Subgroup.zpowers a ≤ GLAPPrimeCore p ↥L := Subgroup.zpowers_le.2 hmem
   have hdvd : Nat.card (Subgroup.zpowers a) ∣ Nat.card (GLAPPrimeCore p ↥L) :=
     Subgroup.card_dvd_of_le hle
   rw [Nat.card_zpowers, hord] at hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥L)) := CFSG.pPrimeCore_coprime_card
   exact ((Nat.Prime.coprime_iff_not_dvd hp).1 hcop) hdvd
 
-theorem isElemAbelian_quot_image {p : ℕ} (hp : p.Prime) {L B : Subgroup G}
+omit [Finite G] in
+theorem isElemAbelian_quot_image {p : ℕ} (_hp : p.Prime) {L B : Subgroup G}
     (hBel : IsElemAbelian p B) :
     IsElemAbelian p (((B ⊓ L).subgroupOf L).map (QuotientGroup.mk' (GLAPPrimeCore p ↥L))) := by
   have hcomm : ∀ u ∈ ((B ⊓ L).subgroupOf L).map (QuotientGroup.mk' (GLAPPrimeCore p ↥L)),
@@ -65,10 +66,11 @@ theorem card_quot_image {p : ℕ} (hp : p.Prime) {L B : Subgroup G} (hBel : IsEl
     (Subgroup.subgroupOfEquivOfLe (inf_le_right : B ⊓ L ≤ L)).toEquiv
   exact (Nat.card_congr e1).symm.trans (Nat.card_congr e2)
 
+omit [Finite G] in
 theorem card_inf_of_direct {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {x : G}
     (hBel : IsElemAbelian p B) (hxB : x ∈ B) (hx1 : x ≠ 1) (hdir : IsDirectZpowersInf B x L)
     (hB : Nat.card B = p ^ 4) : Nat.card (B ⊓ L : Subgroup G) = p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxord : Nat.card (Subgroup.zpowers x) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime (hBel.2 x hxB) hx1]
   have hnorm : (B ⊓ L : Subgroup G) ≤ Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G) := by
@@ -87,6 +89,7 @@ noncomputable def pSimpleEquivQuot {p : ℕ} {L : Subgroup G} (hZ : Subgroup.cen
     PSimple p L ≃* PQuot p L :=
   (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
 
+omit [Finite G] in
 theorem catalog_of_pSimpleIsLie {p : ℕ} {L : Subgroup G} {d : TauCeti.LieTypeIndex}
     (hZ : Subgroup.center (PQuot p L) = ⊥) (h : pSimpleIsLie p L d) :
     catalogIs (PQuot p L) (onLie fun d' => d' = d) := by

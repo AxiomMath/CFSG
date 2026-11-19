@@ -23,6 +23,7 @@ theorem isSylowOf_toABG {p : ℕ} [Fact p.Prime] {P H : Subgroup G} (h : IsSylow
     CFSG.ABGLocalTools.IsSylowOf p P H :=
   CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨h.1, h.2.1, (Nat.Prime.coprime_iff_not_dvd Fact.out).1 h.2.2⟩
 
+omit [Finite G] in
 theorem not_isPGroup_two_of_orderOf_three {A : Subgroup G} {x : G} (hx : x ∈ A)
     (hx3 : orderOf x = 3) : ¬ IsPGroup 2 A := by
   intro hA
@@ -38,10 +39,11 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ : G}
 
+omit [Finite G] in
 theorem Opp_le (p : ℕ) (H : Subgroup G) : Opp p H ≤ H := Subgroup.map_subtype_le _
 
 theorem orderOf_b₁ (h : FF84Sec3 b L B b₁ b₂) : orderOf b₁ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h13, -, -, hne1, -, -, -⟩ := mono_facts h.hyp.ord (mem_B_b₁ h) (mem_B_b₂ h) h.mono
   exact orderOf_eq_prime h13 hne1
 
@@ -140,16 +142,19 @@ theorem no_normal_two (h : FF84Sec3 b L B b₁ b₂) {A : Subgroup G} (hA : IsPG
   have := perfect_centralizes_of_comm_central L hL a hxL hz
   exact Subgroup.mem_centralizer_iff.2 (fun l hl => (this l hl).symm)
 
+omit [Finite G] in
 theorem pgroup_elt {p : ℕ} {A : Subgroup G} (hA : IsPGroup p A) {a : G} (ha : a ∈ A) :
     ∃ k : ℕ, a ^ (p ^ k) = 1 := by
   obtain ⟨k, hk⟩ := hA ⟨a, ha⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
+omit [Finite G] in
 theorem pgroup_orderOf {A : Subgroup G} (hA : IsPGroup 2 A) {a : G} (ha : a ∈ A) :
     ∃ k : ℕ, orderOf a = 2 ^ k := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hA) ⟨a, ha⟩
   exact ⟨k, by simpa [Subgroup.orderOf_mk] using hk⟩
 
+omit [Finite G] in
 theorem mem_Nor_of_comm {V : Subgroup G} {l : G} (hc : ∀ w ∈ V, l * w = w * l) : l ∈ Nor V := by
   rw [Subgroup.mem_normalizer_iff]
   intro w
@@ -165,6 +170,7 @@ theorem mem_Nor_of_comm {V : Subgroup G} {l : G} (hc : ∀ w ∈ V, l * w = w * 
     rw [← e]
     exact hw
 
+omit [Finite G] in
 theorem conj_mem_CenS {B : Subgroup G} {g x : G} (hg : g ∈ Nor B) (hx : x ∈ CenS B) :
     g * x * g⁻¹ ∈ CenS B := by
   have hg' : g⁻¹ ∈ Nor B := Subgroup.inv_mem _ hg
@@ -201,7 +207,7 @@ theorem L_le_Nor_of_le_X (h : FF84Sec3 b L B b₁ b₂) {V : Subgroup G} (hV : V
 theorem Z_Vstar_basic (h : FF84Sec3 b L B b₁ b₂) (V : Subgroup G)
     (hV : IsSylowOf 2 V (Opp 3 (Cen b))) :
     Op 2 (Nor V) ⊓ Cen b = V ∧ Op 2 (Nor V) ⊓ CenS B = V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVX : V ≤ Opp 3 (Cen b) := hV.1
   have hV2 : IsPGroup 2 V := hV.2.1
   have hLV := L_le_Nor_of_le_X h hVX
@@ -235,6 +241,7 @@ theorem Z_Vstar_basic (h : FF84Sec3 b L B b₁ b₂) (V : Subgroup G)
   · intro x hx
     exact Subgroup.mem_inf.2 ⟨hVstar hx, X_le_CenS_B h (hVX hx)⟩
 
+omit [Finite G] in
 theorem HasTheta.ker_cen {θ : G → P8} (H : HasTheta L b₁ b₂ θ) {g : G} (hg : g ∈ Nor L)
     (h1 : θ g = 1) : g ∈ CenS L := (H.ker g hg).1 h1
 
@@ -279,7 +286,7 @@ theorem key_le_CenS_B (h : FF84Sec3 b L B b₁ b₂) {θ : G → P8} (H : HasThe
     intro a ha
     obtain ⟨k, hk⟩ := pgroup_elt hY2 ha
     exact hX a (Subgroup.mem_inf.2 ⟨hAcen ha, (Subgroup.mem_inf.1 ha).2⟩) ⟨k, hk⟩
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨v₀, hv₀, hθv₀⟩ := hall
     have hτ : θ v₀ = τ₀ := (hwθ v₀ hv₀).resolve_left hθv₀
     have hv₀N := hV'N v₀ hv₀
@@ -322,7 +329,7 @@ theorem key_le_CenS_B (h : FF84Sec3 b L B b₁ b₂) {θ : G → P8} (H : HasThe
       obtain ⟨j, hj, hj'⟩ := (Nat.dvd_prime_pow Nat.prime_two).1
         (hk ▸ P.orderOf_dvd hyN : orderOf (θ y) ∣ 2 ^ k)
       by_contra hne
-      push_neg at hne
+      push Not at hne
       have hnot : θ y ∉ Subgroup.zpowers τ₀ := by
         intro hmem
         obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 hmem

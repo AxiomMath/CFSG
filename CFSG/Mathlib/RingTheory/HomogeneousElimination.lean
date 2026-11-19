@@ -99,7 +99,7 @@ theorem exists_mem_eliminationIdeal_apply_ne_zero [IsAlgClosed k] [Finite σ]
       exact Nat.not_succ_le_self _ hle
     have hsingle : Finsupp.single i E ≤ d := Finsupp.single_le_iff.mpr hi
     rw [show monomial d (1 : k) = X i ^ E * monomial (d - Finsupp.single i E) 1 by
-      rw [X_pow_eq_monomial, monomial_mul, one_mul, add_tsub_cancel_of_le hsingle]]
+      rw [X_pow_eq_monomial, monomial_mul_monomial, one_mul, add_tsub_cancel_of_le hsingle]]
     exact Ideal.mul_mem_right _ _ (hE i)
   set P : Submodule A (MvPolynomial σ A) :=
     Submodule.span A ((fun d => monomial d (1 : A)) '' {d | d.degree = N}) with hP

@@ -55,10 +55,10 @@ private theorem dv_cast {a : ℕ} (ha : a < 72) (j k : Fin Tag.E6.rank) :
   rw [dv, ZMod.natCast_mod, Nat.cast_add, r3_cast ha, bif_beq, Pi.sub_apply, Pi.single_apply]
   by_cases h : k = j
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     push_cast
     linear_combination h3
-  · simp only [if_neg (show (k : ℕ) ≠ j from fun e => h (Fin.ext e)), if_neg h]
+  · simp only [ite_eq_right (show (k : ℕ) ≠ j from fun e => h (Fin.ext e)), ite_eq_right h]
     push_cast
     ring
 

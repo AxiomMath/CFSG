@@ -87,7 +87,7 @@ theorem l34omega_mem_zpowers (hS : Setting G) (hU0 : FullCoreLocal G)
     rw [map_zpow]
     exact congrArg Subtype.val hk
   have hPC : IsPGroup 3 ((P : Subgroup G).subgroupOf (centralizer ({x} : Set G))) :=
-    P.isPGroup'.comap_subtype
+    P.isPGroup.comap_subtype
   have hxkP : xc ^ k ∈ (P : Subgroup G).subgroupOf (centralizer ({x} : Set G)) :=
     Subgroup.zpow_mem _ (mem_subgroupOf.mpr hgen.1) k
   have heq := p34_mk_inj (primeComplementCore_coprime 3) hPC hxkP (mem_subgroupOf.mpr hnP) hk'

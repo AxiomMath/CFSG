@@ -15,6 +15,7 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {b : Fin 3 → Fin 6 → F}
   {K : Type} [Field K] {V : Type} [AddCommGroup V] [Module K V]
 
+omit [Finite F] [CharP F 2] in
 private theorem conj_mem_PtStab_co3 {g u : SUid σ 6} (hg : g ∈ Pstab σ (W₀ F))
     (hu : u ∈ PtStab σ (W₀ F)) : g⁻¹ * u * g ∈ PtStab σ (W₀ F) := by
   have hg' : (W₀ F).map (gLin g) = W₀ F := hg
@@ -26,6 +27,7 @@ private theorem conj_mem_PtStab_co3 {g u : SUid σ 6} (hg : g ∈ Pstab σ (W₀
     exact h1
   rw [mul_smul, mul_smul, hu (g • w) hgw, inv_smul_smul]
 
+omit [Finite F] [CharP F 2] in
 private theorem fixU_map_le_co3 {A : SUid σ 6 →* (V ≃ₗ[K] V)} {g : SUid σ 6} (hg : g ∈ Pstab σ (W₀ F)) :
     (fixU σ A).map (A g : V →ₗ[K] V) ≤ fixU σ A := by
   rintro _ ⟨v, hv, rfl⟩
@@ -41,6 +43,7 @@ private theorem fixU_map_le_co3 {A : SUid σ 6 →* (V ≃ₗ[K] V)} {g : SUid �
   show A u (A g v) = A g v
   rw [h2, hfix]
 
+omit [Finite F] [CharP F 2] in
 theorem exists_chiV (A : SUid σ 6 →* (V ≃ₗ[K] V)) (hline : finrank K (fixU σ A) = 1) {v₀ : V}
     (hv₀ : v₀ ∈ fixU σ A) (hne : v₀ ≠ 0) :
     ∃ χ : ↥(Pstab σ (W₀ F)) →* Kˣ, ∀ g : ↥(Pstab σ (W₀ F)), A (g : SUid σ 6) v₀ = ((χ g : Kˣ) : K) • v₀ := by
@@ -83,6 +86,7 @@ variable (hσ : IsUnitaryInvolution σ) (hf : Frame σ e3uT0Vec b) (e₀ e' : K 
 
 include hσ hf
 
+omit [Finite F] [CharP F 2] in
 private theorem blkA_det_mul_P0 (g h : ↥(Pstab σ (W₀ F))) :
     (blkA hσ.invol hf ((g * h : ↥(Pstab σ (W₀ F))) : SUid σ 6)).det =
       (blkA hσ.invol hf (g : SUid σ 6)).det * (blkA hσ.invol hf (h : SUid σ 6)).det := by
@@ -110,10 +114,12 @@ private theorem blkA_det_mul_P0 (g h : ↥(Pstab σ (W₀ F))) :
     apply Subtype.ext
     exact blkA_det_mul_P0 hσ hf g h
 
+omit [Finite F] [CharP F 2] in
 private theorem chiM_val (g : ↥(Pstab σ (W₀ F))) :
     ((chiM hσ hf e' g : Kˣ) : K) = e'.symm ⟨(blkA hσ.invol hf (g : SUid σ 6)).det, blkA_det_fixed hσ.invol hf g.2⟩ :=
   rfl
 
+omit [Finite F] in
 theorem chiM_eigen (g : ↥(Pstab σ (W₀ F))) :
     e3uWact σ e' (g : SUid σ 6) (e3uP0 σ e') = ((chiM hσ hf e' g : Kˣ) : K) • e3uP0 σ e' := by
   have hdet : ((e' ((chiM hσ hf e' g : Kˣ) : K) : Fσ σ) : F) = (blkA hσ.invol hf (g : SUid σ 6)).det := by
@@ -123,6 +129,7 @@ theorem chiM_eigen (g : ↥(Pstab σ (W₀ F))) :
     ((e' ((chiM hσ hf e' g : Kˣ) : K) : Fσ σ) : F) • pt0 F
   rw [rho_pt0_of_mem_Pstab hσ.invol hf g.2, hdet]
 
+omit [Finite F] in
 theorem chiM_triv {g : ↥(Pstab σ (W₀ F))} (hg : (g : SUid σ 6) ∈ PtStab σ (W₀ F)) :
     chiM hσ hf e' g = 1 := by
   obtain ⟨H, hH⟩ := exists_uK_of_mem_PtStab hσ.invol hf (e₀ := e') hg
@@ -135,6 +142,7 @@ theorem chiM_triv {g : ↥(Pstab σ (W₀ F))} (hg : (g : SUid σ 6) ∈ PtStab 
   apply Subtype.ext
   simp [hblk]
 
+omit [Finite F] [CharP F 2] in
 theorem chiM_dKhom (c : Kˣ) :
     ((chiM hσ hf e' (dKhom hσ.invol hf e₀ c) : Kˣ) : K) = e'.symm (e₀ (c : K)) := by
   refine (chiM_val hσ hf e' (dKhom hσ.invol hf e₀ c)).trans (congrArg e'.symm ?_)
@@ -142,6 +150,7 @@ theorem chiM_dKhom (c : Kˣ) :
   show (blkA hσ.invol hf (dK hσ.invol hf e₀ c)).det = ((e₀ (c : K) : Fσ σ) : F)
   rw [blkA_dK, dmat_det]
 
+omit [Finite F] in
 theorem chi_eq_of_torus [Fintype K] [CharP K 2] (χ χ' : ↥(Pstab σ (W₀ F)) →* Kˣ)
     (h0 : ∀ g : ↥(Pstab σ (W₀ F)), (g : SUid σ 6) ∈ PtStab σ (W₀ F) → χ g = 1)
     (h0' : ∀ g : ↥(Pstab σ (W₀ F)), (g : SUid σ 6) ∈ PtStab σ (W₀ F) → χ' g = 1)
@@ -150,6 +159,7 @@ theorem chi_eq_of_torus [Fintype K] [CharP K 2] (χ χ' : ↥(Pstab σ (W₀ F))
   exact (levi_char hσ.invol hf e₀ χ h0 g).trans
     ((ht _).trans (levi_char hσ.invol hf e₀ χ' h0' g).symm)
 
+omit [Finite F] in
 theorem hhom_U (A : SUid σ 6 →* (V ≃ₗ[K] V)) {v₀ : V} (χV : ↥(Pstab σ (W₀ F)) →* Kˣ)
     (hχV : ∀ g : ↥(Pstab σ (W₀ F)), A (g : SUid σ 6) v₀ = ((χV g : Kˣ) : K) • v₀)
     (heq : χV = chiM hσ hf e') (g g' : SUid σ 6) (hgg : ptU g = ptU g') :

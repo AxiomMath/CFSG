@@ -27,7 +27,7 @@ theorem pairShapeHom_closure_pair (h : PairHyp B a b) :
   obtain ⟨q₀, hq₀mem, hq₀0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hQ0
   obtain ⟨hp₀, hp₀o⟩ := Submodule.mem_inf.mp hp₀mem
   obtain ⟨hq₀, hq₀o⟩ := Submodule.mem_inf.mp hq₀mem
-  push_neg at hperp
+  push Not at hperp
   obtain ⟨p₁, hp₁, q₁, hq₁, hne⟩ := hperp
   have d : A5Data B a b p₀ q₀ :=
     ⟨hp₀, hp₀0,

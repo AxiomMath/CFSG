@@ -16,6 +16,7 @@ section L829CS2
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_starQuot_dvd_of_le {M H I : Subgroup G} (hIH : I ≤ H) :
     Nat.card (E2.StarQuot (M ⊓ I) I) ∣ Nat.card (E2.StarQuot (H ⊓ M) H) := by
   let f : ↥I →* E2.StarQuot (H ⊓ M) H :=
@@ -35,6 +36,7 @@ theorem card_starQuot_dvd_of_le {M H I : Subgroup G} (hIH : I ≤ H) :
   rw [Subgroup.index_ker] at h1
   exact h1.trans (Subgroup.card_subgroup_dvd_card f.range)
 
+omit [Finite G] in
 theorem sixty_dvd_starQuot_H_cocode_829 {M H I : Subgroup G} (hIH : I ≤ H)
     (hI : IsPSL 2 2 2 (E2.StarQuot (M ⊓ I) I)) :
     60 ∣ Nat.card (E2.StarQuot (H ⊓ M) H) := by
@@ -59,7 +61,7 @@ theorem dvd_card_star_of_case2 {M H T K : Subgroup G} {p : ℕ} [hp : Fact p.Pri
     exact (Subgroup.mem_normalizer_iff.mp (hHN g.2) _).mp hn
   have hKstar : (E2.star (H ⊓ M) H K).Normal :=
     Subgroup.Normal.map hKnorm _ (QuotientGroup.mk'_surjective _)
-  haveI := hKstar
+  have := hKstar
   have hKT : ∀ h ∈ H, ∃ k ∈ K, ∃ t ∈ T, h = k * t := by
     intro h hh
     let S : Subgroup G :=
@@ -215,7 +217,7 @@ theorem surv2a_cocode_829 {H T M K : Subgroup G} (hH : H = K ⊔ T) (hT : IsPGro
   obtain ⟨hn2, hcase⟩ := hB
   rcases hcase with hL | hS | hU
   · exact ⟨n, hn2, Or.inl hL⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hodd : Odd n := by
       obtain ⟨-, a, -, -, -, -, hf, -, -⟩ := hS
       exact ⟨a, by omega⟩
@@ -223,7 +225,7 @@ theorem surv2a_cocode_829 {H T M K : Subgroup G} (hH : H = K ⊔ T) (hT : IsPGro
     exact absurd hd (not_three_dvd_sz_odd hS hodd)
   · rcases Nat.even_or_odd n with he | ho
     · exact ⟨n, hn2, Or.inr ⟨hU, he⟩⟩
-    · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       have hd := dvd_card_star_of_case2 (p := 5) (by norm_num) hT hH hTK h5
       exact absurd hd (not_five_dvd_psu3_odd hU ho)
 
@@ -235,7 +237,7 @@ theorem surv2b_cocode_829 {H T M K : Subgroup G} (hH : H = K ⊔ T) (hT : IsPGro
   rcases hX with hL | hSp
   · rcases Nat.even_or_odd n with he | ho
     · exact ⟨n, hn1, Or.inl ⟨hL, he⟩⟩
-    · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       have hd := dvd_card_star_of_case2 (p := 5) (by norm_num) hT hH hTK h5
       exact absurd hd (not_five_dvd_psl3_odd hL ho)
   · exact ⟨n, hn1, Or.inr hSp⟩

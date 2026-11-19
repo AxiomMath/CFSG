@@ -40,14 +40,17 @@ theorem catalogIs_congr {S S' : Type} [Group S] [Group S'] (e : S ≃* S')
     {Q : TauCeti.CFSGIndex → Prop} : catalogIs S Q ↔ catalogIs S' Q :=
   ⟨fun ⟨i, hi, ⟨f⟩⟩ => ⟨i, hi, ⟨e.symm.trans f⟩⟩, fun ⟨i, hi, ⟨f⟩⟩ => ⟨i, hi, ⟨e.trans f⟩⟩⟩
 
+omit [Finite G] in
 theorem nonempty_pSimple_congr {p : ℕ} {K K' : Subgroup G} (e : PQuot p K ≃* PQuot p K') :
     Nonempty (PSimple p K ≃* PSimple p K') :=
   ⟨QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)⟩
 
+omit [Finite G] in
 theorem card_center_pQuot_congr {p : ℕ} {K K' : Subgroup G} (e : PQuot p K ≃* PQuot p K') :
     Nat.card (Subgroup.center (PQuot p K)) = Nat.card (Subgroup.center (PQuot p K')) :=
   Nat.card_congr (Subgroup.centerCongr e).toEquiv
 
+omit [Finite G] in
 theorem isExcType_congr {p : ℕ} {K K' : Subgroup G} (h : Nonempty (PQuot p K ≃* PQuot p K')) :
     IsExcType p K ↔ IsExcType p K' := by
   obtain ⟨e⟩ := h
@@ -55,6 +58,7 @@ theorem isExcType_congr {p : ℕ} {K K' : Subgroup G} (h : Nonempty (PQuot p K �
   unfold IsExcType
   rw [card_center_pQuot_congr e, catalogIs_congr f]
 
+omit [Finite G] in
 theorem isClubType_congr {p : ℕ} {K K' : Subgroup G} (h : Nonempty (PQuot p K ≃* PQuot p K')) :
     IsClubType p K ↔ IsClubType p K' := by
   obtain ⟨e⟩ := h
@@ -62,11 +66,13 @@ theorem isClubType_congr {p : ℕ} {K K' : Subgroup G} (h : Nonempty (PQuot p K 
   unfold IsClubType
   rw [card_center_pQuot_congr e, catalogIs_congr f]
 
+omit [Finite G] in
 theorem not_isClubType_of_isExcType {p : ℕ} {K : Subgroup G} (h : IsExcType p K) :
     ¬ IsClubType p K := fun h' => by
   have := h.2.1.symm.trans h'.2.1
   omega
 
+omit [Finite G] in
 theorem card_center_of_isExcType {p : ℕ} {K : Subgroup G} (h : IsExcType p K) :
     Nat.card (Subgroup.center (PQuot p K)) = p := h.1 ▸ h.2.1
 

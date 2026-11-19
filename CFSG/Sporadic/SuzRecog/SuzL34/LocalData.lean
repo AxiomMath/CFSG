@@ -58,7 +58,7 @@ theorem coe_σ_elt (x) (hx) : ((D.σ ⟨D.elt x hx, D.elt_mem_centralizer x hx�
 
 theorem elt_coe_σ (g : ↥(centralizer ({z} : Set G))) :
     D.elt (D.σ g) (D.σ g).2 = g := by
-  simpa [elt] using congrArg Subtype.val (D.σ.symm_apply_apply g)
+  simp [elt]
 
 theorem elt_mul (x y) (hx) (hy) :
     D.elt (x * y) (mul_mem hx hy) = D.elt x hx * D.elt y hy := by
@@ -159,7 +159,7 @@ theorem pull_inf (H K) : D.pull (H ⊓ K) = D.pull H ⊓ D.pull K := by
     have h : (⟨g, hgK⟩ : ↥(centralizer ({z} : Set G))) = ⟨g, hgH⟩ := Subtype.ext rfl
     rwa [h] at hK
 
-theorem pull_conj {x} (hx : x ∈ invE 1) {H} (hH : H ≤ invE 1) :
+theorem pull_conj {x} (hx : x ∈ invE 1) {H} (_hH : H ≤ invE 1) :
     D.pull (MulAut.conj x • H) = MulAut.conj (D.elt x hx) • D.pull H := by
   ext g
   rw [mem_pull]
@@ -499,7 +499,7 @@ theorem isElemAbelian_pull_iff {H} (hH : H ≤ invE 1) :
     IsElemAbelian 2 (D.pull H) ↔ IsElemAbelian 2 H := by
   constructor
   · intro h
-    haveI : IsMulCommutative ↥(D.pull H) := h.1
+    have : IsMulCommutative ↥(D.pull H) := h.1
     refine ⟨(D.pullEquiv hH).surjective.isMulCommutative, ?_⟩
     intro x hx
     obtain ⟨y, hy⟩ := (D.pullEquiv hH).surjective ⟨x, hx⟩
@@ -509,11 +509,11 @@ theorem isElemAbelian_pull_iff {H} (hH : H ≤ invE 1) :
     have hy2 : y ^ 2 = 1 := Subtype.ext (h.2 (y : G) y.2)
     have hpow : (((D.pullEquiv hH (y ^ 2) : ↥H) : Equiv.Perm (Fin 1782))) =
         (((D.pullEquiv hH y : ↥H) : Equiv.Perm (Fin 1782))) ^ 2 := by
-      simpa using congrArg Subtype.val (map_pow (D.pullEquiv hH) y 2)
+      simp
     rw [← hpow, hy2, map_one]
     rfl
   · intro h
-    haveI : IsMulCommutative ↥H := h.1
+    have : IsMulCommutative ↥H := h.1
     refine ⟨(D.pullEquiv hH).symm.surjective.isMulCommutative, ?_⟩
     intro x hx
     obtain ⟨y, hy⟩ := (D.pullEquiv hH).symm.surjective ⟨x, hx⟩
@@ -523,7 +523,7 @@ theorem isElemAbelian_pull_iff {H} (hH : H ≤ invE 1) :
     have hy2 : y ^ 2 = 1 := Subtype.ext (h.2 (y : Equiv.Perm (Fin 1782)) y.2)
     have hpow : (((D.pullEquiv hH).symm (y ^ 2) : ↥(D.pull H)) : G) =
         (((D.pullEquiv hH).symm y : ↥(D.pull H)) : G) ^ 2 := by
-      simpa using congrArg Subtype.val (map_pow (D.pullEquiv hH).symm y 2)
+      simp
     rw [← hpow, hy2, map_one]
     rfl
 

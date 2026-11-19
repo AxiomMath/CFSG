@@ -36,7 +36,7 @@ public theorem normal_subgroup_index_not_dvd_four_of_dihedral_sylow
   let Q : Sylow 2 H := Classical.choice Sylow.nonempty
   let Qmap : Subgroup G := (Q : Subgroup H).map H.subtype
   have hQmap : IsPGroup 2 Qmap := by
-    exact Q.isPGroup'.map H.subtype
+    exact Q.isPGroup.map H.subtype
   obtain ⟨P, hQmapP⟩ := IsPGroup.exists_le_sylow hQmap
   obtain ⟨m, hm, eP⟩ := hGd P
   rcases eP with ⟨eP⟩
@@ -44,7 +44,7 @@ public theorem normal_subgroup_index_not_dvd_four_of_dihedral_sylow
     let Dg : Subgroup G := H ⊓ (P : Subgroup G)
     have hDgH : Dg ≤ H := inf_le_left
     have hDgp : IsPGroup 2 Dg := by
-      have htmp := P.isPGroup'.to_inf_left (K := H)
+      have htmp := P.isPGroup.to_inf_left (K := H)
       rw [inf_comm] at htmp
       simpa [Dg] using htmp
     let Q' : Subgroup H := Dg.subgroupOf H

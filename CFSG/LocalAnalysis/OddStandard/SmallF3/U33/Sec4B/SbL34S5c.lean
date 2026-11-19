@@ -43,7 +43,7 @@ theorem false_of_conj_in_coset (P V S : Subgroup G) (t : G) (hP : Nat.card P = 2
       (r x : G) * t * (r x : G)⁻¹ = (x : G) := by
     intro x hx
     dsimp only [r]
-    rw [dif_pos hx]
+    rw [dite_eq_left hx]
     exact hx.choose_spec
   let xm : P → ↥(t • (V : Set G)) := fun p => ⟨(p : G) * t * (p : G)⁻¹, h (p : G) p.2⟩
   have hxm : ∀ p : P, (r (xm p) : G) * t * (r (xm p) : G)⁻¹ =

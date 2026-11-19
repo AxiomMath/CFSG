@@ -15,12 +15,12 @@ variable {G : Type} [Group G] [Finite G]
 theorem not_le_centralizerBar_of_center_bar_eq_bot
     {L Z P : Subgroup G}
     (hZbar : Subgroup.center (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) = ⊥)
-    (hZL : Z ≤ L) (hZ3 : Nat.card Z = 3) (hZP : Z ≤ P) :
+    (hZL : Z ≤ L) (hZ3 : Nat.card Z = 3) (_hZP : Z ≤ P) :
     ¬ Z ≤ centralizerBar P L := by
   classical
   intro hle
-  haveI : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZ3]; norm_num)
-  haveI : Fintype ↥Z := Fintype.ofFinite _
+  have : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZ3]; norm_num)
+  have : Fintype ↥Z := Fintype.ofFinite _
   obtain ⟨z, hz1⟩ :=
     Fintype.exists_ne_of_one_lt_card (by rw [← Nat.card_eq_fintype_card, hZ3]; norm_num)
       (1 : ↥Z)

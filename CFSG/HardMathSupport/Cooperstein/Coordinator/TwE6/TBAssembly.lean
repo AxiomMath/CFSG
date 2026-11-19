@@ -324,7 +324,7 @@ theorem twCopies_core (hCop : TwCopiesNormalize hf K hK σ hσ)
         (ρ ((twistedE6CoverData hf hK σ hσ).nhatW (u i))) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (orbitField TwistTag.E6 K σ s) k :=
+  let : Algebra (orbitField TwistTag.E6 K σ s) k :=
     ((algebraMap K k).comp (orbitField TwistTag.E6 K σ s).subtype).toAlgebra
   set C := twistedE6CoverData hf hK σ hσ with hC
   obtain ⟨μ, hμ⟩ := ht.exists_mu hρ (twistedCover_split hf hK σ hσ k)
@@ -698,7 +698,7 @@ theorem twNoJUniv {k : Type} [Field k] [Finite k] [CharP k 2] [Algebra K k] {m :
     refine ⟨fun u _ => by simp [hρ0def], fun h => by simpa using congrArg (fun f => f ()) h,
       fun h hh => by simp [hρ0def, hχ'1 h hh], fun a => ?_⟩
     refine ⟨fun _ => ⟨hχ'i a, ?_⟩, fun _ => hJ ▸ Finset.mem_univ a⟩
-    haveI : ∀ s, Fintype (orbitField TwistTag.E6 K σ s) := fun s => Fintype.ofFinite _
+    have : ∀ s, Fintype (orbitField TwistTag.E6 K σ s) := fun s => Fintype.ofFinite _
     refine ((twistedE6CoverRankOne hf hK σ hσ).heckeT_datum ρ0 a _).trans ?_
     simp only [hρ0def, Representation.trivial_apply, Finset.sum_const, Finset.card_univ]
     rw [← Nat.card_eq_fintype_card, ← Nat.cast_smul_eq_nsmul k, hev a, zero_smul]
@@ -732,7 +732,7 @@ theorem twString_nonempty {k : Type} [Field k] [CharP k 2] [Algebra K k] {V : Ty
     refine (ht.2.2.2 s).2 ⟨fun z => ?_, ?_⟩
     · show χ (hatH hf hK σ hσ s z) = 1
       rw [hχ z, h0]; simp
-    · haveI : ∀ s, Fintype (orbitField TwistTag.E6 K σ s) := fun s => Fintype.ofFinite _
+    · have : ∀ s, Fintype (orbitField TwistTag.E6 K σ s) := fun s => Fintype.ofFinite _
       refine ((twistedE6CoverRankOne hf hK σ hσ).heckeT_datum ρ s y).trans ?_
       have hn' : ∀ c : orbitField TwistTag.E6 K σ s,
           ρ ((twistedE6CoverRankOne hf hK σ hσ).x s c *
@@ -766,7 +766,7 @@ theorem twPeriodic_dvd {k : Type} [Field k] [CharP k 2] [Algebra K k]
       χ (hatH hf hK σ hσ a z) ^ (2 ^ g) = χ (hatH hf hK σ hσ a z)) :
     (2 ^ twNdig f a - 1) ∣ (2 ^ g - 1) * ∑ i ∈ J', 2 ^ i := by
   classical
-  letI : Algebra (orbitField TwistTag.E6 K σ a) k :=
+  let : Algebra (orbitField TwistTag.E6 K σ a) k :=
     ((algebraMap K k).comp (orbitField TwistTag.E6 K σ a).subtype).toAlgebra
   set b := ∑ i ∈ J', 2 ^ i with hb
   have h1 : ∀ z : (orbitField TwistTag.E6 K σ a)ˣ,
@@ -916,9 +916,9 @@ theorem TwEndData.weight (ht : IsCoverType (twistedE6CoverRankOne hf hK σ hσ) 
   rw [h1]
   by_cases ha : a = twNode s
   · subst ha
-    simp only [if_true]
+    simp only [ite_true]
     rw [D.chi_s w, zpow_natCast]
-  · simp only [ha, if_false, zpow_zero, one_smul]
+  · simp only [ha, ite_false, zpow_zero, one_smul]
     rw [D.chi_other a ha w, one_smul]
 
 include hf hK hσ in

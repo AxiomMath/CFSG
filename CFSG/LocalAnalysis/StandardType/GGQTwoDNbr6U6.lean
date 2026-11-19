@@ -42,11 +42,11 @@ theorem qtwoDNbr6_u6 (hC : GGSecFiveNSCornerInput) {B Bs : Subgroup G} {x : G}
       ggRowP_ESU p lab ∧ lab.n = 1 ∧ lab.rank = 5) 3 Bs X) :
     QTwoDL1Chart 3 B Bs X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hconf : GGConfig 3 B Bs x L D J := hcfg.1.1
   obtain ⟨K, hKf, hKfin, lab, m', θ, hK, -, hmrank, hSide, -, hperf, -, hBsN, hbs⟩ :=
     ggNSLieN3A_esuCore hmark (fun p lab hl => hl.1)
-  haveI : CharP K 2 := charP_of_card_sq (p := 2) (f := lab.n) hK
+  have : CharP K 2 := charP_of_card_sq (p := 2) (f := lab.n) hK
   obtain ⟨tag, rank, n⟩ := lab
   obtain ⟨-, hn, hr5⟩ := hSide
   change n = 1 at hn

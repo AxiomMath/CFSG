@@ -57,11 +57,12 @@ theorem caseB_false (h9 : Stmt3_3_9) (hGA : GriessAllModelsStatement)
   have h1 : mIdx (a2N0 K T) (a2N0 K T ⊓ Subgroup.centralizer ({v} : Set G)) ≤
       mIdx (a2N0 K T) (a2N0 K T ⊓ a2Q L T) := mIdx_anti_of_le hQC
   have h2 : mIdx (a2N0 K T) (a2Q L T ⊓ a2N0 K T) ≤ mIdx (a2R H) (a2Q L T) :=
-    mIdx_inf_le_mIdx hR2 (c.N0_le_TC.trans c.TC_le_R)
+    mIdx_inf_le_mIdx hR2 (CFSG.Quasithin.H13.NFa2.A2Cfg.N0_le_TC.trans c.TC_le_R)
   rw [inf_comm] at h2
   have h3 := leaf_LSRQ_of h9 hGA G T M L D H K q c
   omega
 
+omit [Finite G] in
 theorem centralizerMod_sup_eq {Z U S S' : Subgroup G}
     (hN : S ⊔ S' ≤ Subgroup.normalizer (Z : Set G))
     (hS' : ∀ u ∈ U, ∀ s ∈ S', u * s * u⁻¹ * s⁻¹ ∈ Z) :
@@ -76,7 +77,7 @@ theorem centralizerMod_sup_eq {Z U S S' : Subgroup G}
     · rintro x (hxS | hxS')
       · exact ⟨hN (Subgroup.mem_sup_left hxS), hu x hxS⟩
       · exact ⟨hN (Subgroup.mem_sup_right hxS'), hS' u huU x hxS'⟩
-    · exact ⟨Subgroup.one_mem _, by simpa using Z.one_mem⟩
+    · exact ⟨Subgroup.one_mem _, by simp⟩
     · rintro x y _ _ ⟨hxN, hx⟩ ⟨hyN, hy⟩
       refine ⟨Subgroup.mul_mem _ hxN hyN, ?_⟩
       have h1 : x * (u * y * u⁻¹ * y⁻¹) * x⁻¹ ∈ Z := (Subgroup.mem_normalizer_iff.mp hxN _).mp hy

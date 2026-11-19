@@ -49,7 +49,7 @@ theorem exists_isComponent_of_normal {M H : Subgroup G} (hHM : H ≤ M) (hn : (H
     ∃ L : Subgroup G, L ≤ M ∧ CFSG.IsComponent (L.subgroupOf M) ∧
       Nonempty (↥M₁ ⧸ Subgroup.center ↥M₁ ≃* ↥L ⧸ Subgroup.center ↥L) := by
   set N : Subgroup ↥M := H.subgroupOf M
-  haveI : N.Normal := hn
+  have : N.Normal := hn
   let e : ↥H ≃* ↥N := (Subgroup.subgroupOfEquivOfLe hHM).symm
   have h2 : CFSG.IsComponent (M₁.map e.toMonoidHom) := CFSG.LocalCores.isComponent_map_mulEquiv e hM₁
   have h3 : CFSG.IsComponent ((M₁.map e.toMonoidHom).map N.subtype) :=

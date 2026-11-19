@@ -96,8 +96,8 @@ theorem pair_lemma (hQ3 : Nat.card K % 3 = 2)
     {n₀ d : ℕ} (hF : finrank K ↥(fixSp X ⊓ fixSp Y) = n₀) (hC : finrank K ↥(fixSp X) = d)
     (harith : (n₀ = 0 ∧ d = 2) ∨ (n₀ = 2 ∧ (d = 2 ∨ d = 4))) : False := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hvv : ∀ v : V, v + v = 0 := fun v => by rw [← two_smul K v, h2, zero_smul]
   have hcc : ∀ c : K, c + c = 0 := fun c => by rw [← two_mul, h2, zero_mul]
@@ -247,7 +247,7 @@ theorem pair_lemma (hQ3 : Nat.card K % 3 = 2)
       (P ∩ {v | X v = v}) hSinv
     have hset : P ∩ {v | X v = v} ∩ {v | Y v = v} = P ∩ ((fixSp X ⊓ fixSp Y : Submodule K V) : Set V) := by
       ext v
-      simp only [Set.mem_inter_iff, Set.mem_setOf_eq, SetLike.mem_coe, Submodule.mem_inf, mem_fixSp]
+      simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, SetLike.mem_coe, Submodule.mem_inf, mem_fixSp]
       tauto
     rw [hset] at hm2
     have hmod : (P ∩ ((fixSp X ⊓ fixSp Y : Submodule K V) : Set V)).ncard % 3 = 1 := by
@@ -263,9 +263,11 @@ theorem pair_lemma (hQ3 : Nat.card K % 3 = 2)
       hcnt
     omega
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem fp_apply (X : V ≃ₗ[K] V) (v : V) : fp (X : Module.End K V) v = pjv X v := by
   simp [fp, pjv, pow_two, Module.End.mul_apply, add_assoc]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem range_fp_mul (h2 : (2 : K) = 0) {X Y : V ≃ₗ[K] V} (hX3 : X ^ 3 = 1) (hY3 : Y ^ 3 = 1)
     (hXY : X * Y = Y * X) :
     LinearMap.range (fp (X : Module.End K V) * fp (Y : Module.End K V)) = fixSp X ⊓ fixSp Y := by

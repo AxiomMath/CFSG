@@ -58,7 +58,7 @@ theorem minimalLocalFailure_theta_core_Hall_subgroup
   have hVeq : V = J ⊓ E := hV
   have hVJ : V ≤ J := by rw [hVeq]; exact inf_le_left
   have hXJ : X ≤ J := (Subgroup.map_subtype_le _).trans hVJ
-  have hXp : IsPGroup p X := P.isPGroup'.map V.subtype
+  have hXp : IsPGroup p X := P.isPGroup.map V.subtype
   have hintersection : C ⊓ E = D :=
     properHull_theta_inf_subgroup_eq p hp B E inf_le_left hcontain
   have hcoprime : Nat.Coprime (Nat.card D) (D.relIndex C) := by

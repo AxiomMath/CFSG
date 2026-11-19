@@ -36,7 +36,7 @@ theorem tightTopRestrictSR (r : ℕ) :
   have hSK : (S : Subgroup R).map R.subtype ≤ tightCore R := by
     rintro _ ⟨s, hs, rfl⟩
     refine Subgroup.subset_closure ⟨s.2, ?_⟩
-    have h1 : IsPGroup 2 ↥(Subgroup.zpowers s) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hs)
+    have h1 : IsPGroup 2 ↥(Subgroup.zpowers s) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hs)
     have h2 : IsPGroup 2 ↥((Subgroup.zpowers s).map R.subtype) := h1.map _
     rw [MonoidHom.map_zpowers] at h2
     exact h2

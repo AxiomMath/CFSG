@@ -100,7 +100,7 @@ theorem commutator_comap_specialBlock_eq (h : UnitaryFieldData ℓ f K)
     mem_range_toLinSU (specialBlock_le_sesqSpecialUnitaryGroup_of_good H hq2 a hgood hg)
   have hperfSB : ⁅specialBlock (idForm h n) x (a : K[X]), specialBlock (idForm h n) x (a : K[X])⁆ =
       specialBlock (idForm h n) x (a : K[X]) := by
-    haveI := ((specialBlockFacts_of_good H hq2 a hgood).quasisimple hgood.1).1
+    have := ((specialBlockFacts_of_good H hq2 a hgood).quasisimple hgood.1).1
     exact CFSG.GroupTheory.commutator_eq_self_of_isPerfect_subgroup
   apply Subgroup.map_injective (toLinSU_injective (h := h) (n := n))
   rw [Subgroup.map_commutator, Subgroup.map_comap_eq_self hSBle, hperfSB]
@@ -155,14 +155,14 @@ theorem exists_smul_of_fix_specialBlock_uni (h : UnitaryFieldData ℓ f K) (hℓ
         ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ (w : Fin n → K) =
           ((e • w : primaryComponent (x : Module.End K (Fin n → K)) (a : K[X])) : Fin n → K) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have H : UnitaryPrimaryData h.bar (idForm h n) x :=
     hx ▸ CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.UnitaryBlocks.primaryData_toLin'
       h A.2 hp hpℓ hA
   have hq2 : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   set W := primaryComponent (x : Module.End K (Fin n → K)) (a : K[X]) with hWdef
   set SB := specialBlock (idForm h n) x (a : K[X]) with hSBdef
   have hSBle : SB ≤ (toLinSU h n).range := fun g hg =>

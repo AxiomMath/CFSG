@@ -26,9 +26,11 @@ private noncomputable def w183_binForm (B : LinearMap.BilinForm K (ι → K))
     (l : K →ₗ[ZMod 2] ZMod 2) : LinearMap.BilinForm (ZMod 2) (ι → K) :=
   LinearMap.compr₂ (B.restrictScalars₁₂ (ZMod 2) (ZMod 2)) l
 
+omit [Finite K] [Fintype ι] [DecidableEq ι] in
 private theorem w183_binForm_apply (B : LinearMap.BilinForm K (ι → K))
     (l : K →ₗ[ZMod 2] ZMod 2) (x y : ι → K) : w183_binForm B l x y = l (B x y) := rfl
 
+omit [Finite K] [Fintype ι] [DecidableEq ι] in
 private theorem w183_binForm_nondegenerate (B : LinearMap.BilinForm K (ι → K))
     (hB : B.Nondegenerate) (l : K →ₗ[ZMod 2] ZMod 2) (hl : l ≠ 0) :
     (w183_binForm B l).Nondegenerate := by
@@ -62,6 +64,7 @@ private theorem w183_binForm_nondegenerate (B : LinearMap.BilinForm K (ι → K)
     rw [show l c = l (B ((c / B x0 y) • x0) y) by rw [h2]]
     exact hy _
 
+omit [Finite K] in
 private theorem w183_binForm_invariant (B : LinearMap.BilinForm K (ι → K))
     (g : Matrix.GeneralLinearGroup ι K) (x y : ι → K)
     (hB : B (Matrix.mulVec (g : Matrix ι ι K) x) (Matrix.mulVec (g : Matrix ι ι K) y) = B x y)
@@ -71,11 +74,12 @@ private theorem w183_binForm_invariant (B : LinearMap.BilinForm K (ι → K))
   rw [w183_binForm_apply, w183_binForm_apply, hB]
 
 private theorem w183_exists_dual_ne_zero : ∃ l : K →ₗ[ZMod 2] ZMod 2, l ≠ 0 := by
-  haveI : Nontrivial K := inferInstance
-  haveI : Module.Projective (ZMod 2) K := Module.Projective.of_free
-  haveI : Nontrivial (Module.Dual (ZMod 2) K) := inferInstance
+  have : Nontrivial K := inferInstance
+  have : Module.Projective (ZMod 2) K := Module.Projective.of_free
+  have : Nontrivial (Module.Dual (ZMod 2) K) := inferInstance
   exact exists_ne 0
 
+omit [Finite K] [Algebra (ZMod 2) K] in
 private theorem w183_polar_invariant {r : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin r ⊕ Fin r) K) (hg : g ∈ orthGroup (StatedQuadPlus r K))
     (x y : Fin r ⊕ Fin r → K) :
@@ -101,6 +105,7 @@ private theorem w183_polar_invariant {r : ℕ}
   simpa [Q, Φ, CFSG.RankThree.OrthogonalInvolutions.toQuadForm_polar_β,
     QuadraticMap.polarBilin_apply_apply] using hpol
 
+omit [Algebra (ZMod 2) K] in
 private theorem w183_polar_invariant_minus {r : ℕ} {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (g : Matrix.GeneralLinearGroup (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2) K)
@@ -131,6 +136,7 @@ private theorem w183_polar_invariant_minus {r : ℕ} {b c : K}
   simpa [Q, Φ, CFSG.RankThree.OrthogonalInvolutions.toQuadForm_polar_β,
     QuadraticMap.polarBilin_apply_apply] using hpol
 
+omit [Finite K] [Algebra (ZMod 2) K] in
 private theorem w183_normal_subgroupOf_omega (Q : (ι → K) → K) :
     (StatedOmega Q).subgroupOf (orthGroup Q) |>.Normal :=
   Subgroup.normal_subgroupOf_of_le_normalizer (N := StatedOmega Q)
@@ -140,10 +146,10 @@ theorem s16nt_cover_omPlus {K : Type} [Field K] [Finite K] {r a : ℕ} (hr : 3 �
     (hK : Nat.card K = 2 ^ a) :
     S16BoundCover (FFModel.nat (StatedOmega (StatedQuadPlus r K))) (2 * a) := by
   have ha1 : 1 ≤ a := s16nt_one_le_of_card hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 ^ a := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hF
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : CharP K 2 := charP_of_card_eq_prime_pow hF
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   obtain ⟨l, hl⟩ := w183_exists_dual_ne_zero (K := K)
   let B : LinearMap.BilinForm K (Fin r ⊕ Fin r → K) :=
     QuadraticMap.polarBilin (CFSG.LieType.Universal.Spin.quadPlus r K)
@@ -178,7 +184,7 @@ theorem s16nt_cover_omPlus {K : Type} [Field K] [Finite K] {r a : ℕ} (hr : 3 �
       have hΩO : StatedOmega (StatedQuadPlus r K) ≤ orthGroup (StatedQuadPlus r K) :=
         statedOmega_le_orthGroup _
       let H := (StatedOmega (StatedQuadPlus r K)).subgroupOf (orthGroup (StatedQuadPlus r K))
-      haveI hHn : H.Normal := w183_normal_subgroupOf_omega (StatedQuadPlus r K)
+      have hHn : H.Normal := w183_normal_subgroupOf_omega (StatedQuadPlus r K)
       obtain ⟨s, hsO, hs2, hgen⟩ := s16nt_orth_index_two_plus_two (K := K) hr hK2
       have hs' : (⟨s, hsO⟩ : ↥(orthGroup (StatedQuadPlus r K))) ^ 2 = 1 := by
         apply Subtype.ext
@@ -220,10 +226,10 @@ theorem s16nt_cover_omMinus {K : Type} [Field K] [Finite K] {r a : ℕ} (hr : 3 
     (hK : Nat.card K = 2 ^ a) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     S16BoundCover (FFModel.nat (StatedOmega (StatedQuadMinus r K b c))) (2 * a) := by
   have ha1 : 1 ≤ a := s16nt_one_le_of_card hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 ^ a := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hF
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : CharP K 2 := charP_of_card_eq_prime_pow hF
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   obtain ⟨l, hl⟩ := w183_exists_dual_ne_zero (K := K)
   let B : LinearMap.BilinForm K (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2 → K) :=
     QuadraticMap.polarBilin (CFSG.LieType.Universal.Spin.quadMinus r K b c)
@@ -266,7 +272,7 @@ theorem s16nt_cover_omMinus {K : Type} [Field K] [Finite K] {r a : ℕ} (hr : 3 
         statedOmega_le_orthGroup _
       let H := (StatedOmega (StatedQuadMinus r K b c)).subgroupOf
         (orthGroup (StatedQuadMinus r K b c))
-      haveI hHn : H.Normal := w183_normal_subgroupOf_omega (StatedQuadMinus r K b c)
+      have hHn : H.Normal := w183_normal_subgroupOf_omega (StatedQuadMinus r K b c)
       obtain ⟨s, hsO, hs2, hgen⟩ := s16nt_orth_index_two_minus_two (K := K) hr hK2 hirr
       have hs' : (⟨s, hsO⟩ : ↥(orthGroup (StatedQuadMinus r K b c))) ^ 2 = 1 := by
         apply Subtype.ext

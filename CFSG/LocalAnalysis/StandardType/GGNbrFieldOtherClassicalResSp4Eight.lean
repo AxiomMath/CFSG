@@ -93,7 +93,7 @@ theorem fixDataKX_Sp4Eight (hK : Nat.card K = 2 ^ 3)
     (hord : orderOf f = 3) :
     GGFixDataKX 3 (fun k => ¬ 3 ∣ k)
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K 2)) (LargeEvenGSpSet K 2)) f := by
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨σ, rfl⟩ := RecipeFieldSp.exists_fieldAut_of_mem hf
   have hσ : orderOf σ = 3 := by
     rw [← orderOf_injective (fieldAut 2 K) FieldFixSp.fieldAut_injective σ]
@@ -103,7 +103,7 @@ theorem fixDataKX_Sp4Eight (hK : Nat.card K = 2 ^ 3)
   have hk : Nat.card (descentField σ) = 2 := by
     rw [hcard]
     norm_num
-  haveI := hS
+  have := hS
   have hι : Function.Injective (subfieldInj (r := 2) σ) := subfieldInj_injective σ
   have hrange : (subfieldInj (r := 2) σ).range = ggFixSub (fieldAut 2 K σ) := by
     rw [range_subfieldInj, ← spFixedGroup_fieldAut_eq_range (by decide : Odd 3) hσp]
@@ -200,7 +200,7 @@ theorem largeEvenLabelAll_rowKX_sp4Eight
     rcases hBC with rfl | rfl <;>
     · dsimp only [LargeEvenRawDatum] at hQ ⊢
       refine NbrGraphSymplectic.recipeSymplectic_all (fun K _ _ hK => ?_) hQ
-      haveI : CharP K 2 := charP_two_of_card hK
+      have : CharP K 2 := charP_two_of_card hK
       exact ggCenterKp_of_centerPrime_Sp4Eight (ggCenterPrime_sp Nat.prime_three (by norm_num))
   exact (largeEvenLabelAll_and hrow hcen).mono fun _ _ _ _ ⟨⟨hi, hl, hn⟩, hc⟩ =>
     ⟨hi, hl, fun hs hna => ⟨ggTorusNoLineComp_of_ggTorusNoLine

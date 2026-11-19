@@ -17,12 +17,14 @@ private def IsPartner (Θ : ↥Q ≃* ↥Q') (r : G) (r' : G') : Prop :=
   ∀ (x : ↥Q) (hx : r * (x : G) * r⁻¹ ∈ Q),
     (Θ ⟨r * (x : G) * r⁻¹, hx⟩ : G') = r' * (Θ x : G') * r'⁻¹
 
+omit [Finite G] [Finite G'] in
 private theorem isPartner_one (Θ : ↥Q ≃* ↥Q') : IsPartner Θ 1 1 := by
   intro x hx
   have hx' : (⟨1 * (x : G) * 1⁻¹, hx⟩ : ↥Q) = x := Subtype.ext (by simp)
   rw [hx']
   simp
 
+omit [Finite G] [Finite G'] in
 private theorem isPartner_mul {R : Subgroup G}
     (hR : R ≤ Subgroup.normalizer (Q : Set G)) {Θ : ↥Q ≃* ↥Q'}
     {r₁ r₂ : G} {r₁' r₂' : G'} (hr₁ : r₁ ∈ R) (hr₂ : r₂ ∈ R)
@@ -43,9 +45,10 @@ private theorem isPartner_mul {R : Subgroup G}
     _ = r₁' * (r₂' * (Θ x : G') * r₂'⁻¹) * r₁'⁻¹ := by rw [h2]
     _ = (r₁' * r₂') * (Θ x : G') * (r₁' * r₂')⁻¹ := by group
 
+omit [Finite G] [Finite G'] in
 private theorem isPartner_inv {R : Subgroup G}
-    (hR : R ≤ Subgroup.normalizer (Q : Set G)) {Θ : ↥Q ≃* ↥Q'}
-    {r : G} {r' : G'} (hr : r ∈ R) (h : IsPartner Θ r r') :
+    (_hR : R ≤ Subgroup.normalizer (Q : Set G)) {Θ : ↥Q ≃* ↥Q'}
+    {r : G} {r' : G'} (_hr : r ∈ R) (h : IsPartner Θ r r') :
     IsPartner Θ r⁻¹ r'⁻¹ := by
   intro x hx
   have hconj : r * (r⁻¹ * (x : G) * (r⁻¹)⁻¹) * r⁻¹ = (x : G) := by group
@@ -62,6 +65,7 @@ private theorem isPartner_inv {R : Subgroup G}
     group
   simpa using h1'
 
+omit [Finite G] [Finite G'] in
 private theorem isPartner_unique {R : Subgroup G} {R' : Subgroup G'}
     (hR : R ≤ Subgroup.normalizer (Q : Set G))
     (hfaith' : ∀ r ∈ R', (∀ x ∈ Q', r * x = x * r) → r = 1)
@@ -102,11 +106,13 @@ private def partnerSubgroup {R : Subgroup G} {R' : Subgroup G'}
     rintro r ⟨hr, r', hr', hp⟩
     exact ⟨R.inv_mem hr, r'⁻¹, R'.inv_mem hr', isPartner_inv hR hr hp⟩
 
+omit [Finite G] [Finite G'] in
 private theorem mem_partnerSubgroup {R : Subgroup G} {R' : Subgroup G'}
     {hR : R ≤ Subgroup.normalizer (Q : Set G)} {Θ : ↥Q ≃* ↥Q'} {r : G} :
     r ∈ partnerSubgroup (R := R) (R' := R') hR Θ ↔
       r ∈ R ∧ ∃ r' : G', r' ∈ R' ∧ IsPartner Θ r r' := Iff.rfl
 
+omit [Finite G] [Finite G'] in
 private theorem le_partnerSubgroup_of_closure {R : Subgroup G} {R' : Subgroup G'}
     (hR : R ≤ Subgroup.normalizer (Q : Set G)) (Θ : ↥Q ≃* ↥Q') {T : Set G}
     (hT : Subgroup.closure T = R)
@@ -127,6 +133,7 @@ private theorem le_partnerSubgroup_of_closure {R : Subgroup G} {R' : Subgroup G'
     (Subgroup.closure_le (partnerSubgroup (R := R) (R' := R') hR Θ)).mpr hTS
   rwa [hT] at hcl
 
+omit [Finite G] [Finite G'] in
 private theorem eq_one_of_isPartner_one {R : Subgroup G}
     (hR : R ≤ Subgroup.normalizer (Q : Set G))
     (hfaith : ∀ r ∈ R, (∀ x ∈ Q, r * x = x * r) → r = 1)
@@ -146,6 +153,7 @@ private theorem eq_one_of_isPartner_one {R : Subgroup G}
       _ = (x : G) * r := by rw [hG]
   exact hfaith r hr (fun x hx => hcent ⟨x, hx⟩)
 
+omit [Finite G] in
 private theorem exists_partnerMulEquiv {R : Subgroup G} {R' : Subgroup G'}
     (hR : R ≤ Subgroup.normalizer (Q : Set G))
     (hfaith : ∀ r ∈ R, (∀ x ∈ Q, r * x = x * r) → r = 1)
@@ -194,6 +202,7 @@ private theorem exists_partnerMulEquiv {R : Subgroup G} {R' : Subgroup G'}
     (Nat.bijective_iff_injective_and_card Λ).mpr ⟨hinj, hcard⟩
   exact ⟨MulEquiv.ofBijective Λ hbij, hΛpartner'⟩
 
+omit [Finite G] in
 theorem exists_mulEquiv_sup_of_conj {Q R : Subgroup G} {Q' R' : Subgroup G'}
     (hR : R ≤ Subgroup.normalizer (Q : Set G)) (hd : Disjoint Q R)
     (hR' : R' ≤ Subgroup.normalizer (Q' : Set G')) (hd' : Disjoint Q' R')

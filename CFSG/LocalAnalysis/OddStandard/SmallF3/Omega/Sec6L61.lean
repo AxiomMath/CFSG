@@ -125,7 +125,7 @@ theorem asc82Lemma61_of (hsh : Asc82Shapes) (h36 : Asc82Lemma36) (h37 : Asc82Lem
       rw [(CFSG.ClassicalInvolution.card_statedClassicalModel_of_ne_two
         (show (3 : ℕ) ≠ 2 by norm_num) hmodel).1 rfl]
       decide +kernel
-    haveI : Subsingleton ↥(⊥ : Subgroup G) :=
+    have : Subsingleton ↥(⊥ : Subgroup G) :=
       ⟨fun a b => Subtype.ext (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
     have h1 : Nat.card (↥(⊥ : Subgroup G) ⧸ oddCore ↥(⊥ : Subgroup G)) ≤ 1 :=
       Finite.card_le_one_iff_subsingleton.mpr inferInstance

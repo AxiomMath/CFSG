@@ -23,7 +23,7 @@ theorem sylow_of_isAltTwoP {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {X : Type} [
     SEFive.card_quotient_dvd_two_of_equiv_alternating hKC (by omega) e
   have hRK : (R : Subgroup X) ≤ K := by
     intro r hr
-    obtain ⟨k, hk⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨k, hk⟩ := R.isPGroup ⟨r, hr⟩
     have hrk : r ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     have h1 : orderOf (QuotientGroup.mk' K r) ∣ 2 := (orderOf_dvd_natCard _).trans hq
     have h2 : orderOf (QuotientGroup.mk' K r) ∣ p ^ k :=
@@ -89,8 +89,8 @@ end Tits
 theorem goodZ_of_sz32 {X : Type} [Group X] [Finite X] {K : Subgroup X}
     (hK : CFSG.AGLEmbeddingD2.Sz32Normal K) (N : Subgroup X) :
     InvolutionCentralizerHasPElementOutside 5 N ∧ AbelianPSubgroupLeFStar 5 N := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI := hK.normal
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := hK.normal
   have hq : Nat.card (X ⧸ K) ∣ 5 := by
     rw [← Subgroup.index_eq_card]
     exact hK.index_dvd_five
@@ -132,7 +132,7 @@ theorem goodZ_of_sz32 {X : Type} [Group X] [Finite X] {K : Subgroup X}
     have hX : Nat.card X ∣ 32537600 * 5 := by
       rw [← Subgroup.card_mul_index K, hK.card]
       exact Nat.mul_dvd_mul_left _ hK.index_dvd_five
-    obtain ⟨k, hk⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := R.isPGroup.exists_card_eq
     have hk3 : k ≤ 3 := by
       by_contra h
       have h5 : Nat.card (R : Subgroup X) ∣ 32537600 * 5 :=

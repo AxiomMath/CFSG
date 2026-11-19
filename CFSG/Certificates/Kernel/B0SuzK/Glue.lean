@@ -41,7 +41,7 @@ theorem compA_assoc {n : Nat} (a b e : Array Nat) (hc : ∀ i < n, e[i]! < n) :
 
 theorem PP_get_lt {n w p : Nat} (hp : PP n w p) {i : Nat} (hi : i < n) :
     (unpack n w p)[i]! < n := by
-  rw [unpack_getElem!, if_pos hi]
+  rw [unpack_getElem!, ite_eq_left hi]
   exact hp.2.1 i hi
 
 theorem idTab_unpack : idTab 1782 = unpack 1782 11 (pidn 1782 11) :=
@@ -157,7 +157,7 @@ theorem baseK_facts {T : Nat} {Q QP QE : Nat → Nat} (h : baseK T Q QP QE = tru
       exact absurd this (by decide)
   · intro i hi
     have := allN_spec h4 i hi
-    simp only [andB_eq, Bool.and_eq_true] at this
+    simp only [Bool.and_eq_true] at this
     refine ⟨PP_of_permOK szOK_1782 this.1, ?_⟩
     exact ((bAnd_iff _ _).1 ((bAnd_iff _ _).1 this.2).2).2
   · exact fun v hv => Nat.eq_of_beq_eq_true (allN_spec h5 v hv)

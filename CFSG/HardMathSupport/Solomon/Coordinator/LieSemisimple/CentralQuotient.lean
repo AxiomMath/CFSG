@@ -28,7 +28,7 @@ private theorem isSolvable_quotient_of_commutatorElement_mem {G : Type*} [Group 
 private theorem isSolvable_of_surjective_of_ker_le {A G Q : Type*} [Group A] [Group G] [Group Q]
     [Group.IsSolvable Q] (ψ : A →* Q) (φ : A →* G) (hφ : Function.Surjective φ)
     (hker : ψ.ker ≤ φ.ker) : Group.IsSolvable G := by
-  haveI : Group.IsSolvable (A ⧸ ψ.ker) :=
+  have : Group.IsSolvable (A ⧸ ψ.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective ψ)
   exact Group.isSolvable_of_surjective
     (QuotientGroup.lift_surjective_of_surjective ψ.ker φ hφ hker)
@@ -73,11 +73,11 @@ theorem perfectInLayer_of_centralQuotient (π : X →* T) (hπ : Function.Surjec
     (ψ : ↥(fixSubgroup α) →* Q) (hψ : ∀ x : ↥(fixSubgroup α), ψ x = 1 → (x : X) ∈ ⨆ i, F i) :
     PerfectInLayer β := by
   have hNC : (fixSubgroup α).map π ≤ fixSubgroup β := map_fixSubgroup_le π hker α β hαβ
-  haveI hNn : (((fixSubgroup α).map π).subgroupOf (fixSubgroup β)).Normal :=
+  have hNn : (((fixSubgroup α).map π).subgroupOf (fixSubgroup β)).Normal :=
     normal_map_fixSubgroup π hker α β hαβ hπ
   have hDα : (⨆ i, F i) ≤ fixSubgroup α := iSup_le hFα
   have hMN : (⨆ i, F i).map π ≤ (fixSubgroup α).map π := Subgroup.map_mono hDα
-  haveI : (((⨆ i, F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
+  have : (((⨆ i, F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
     normal_map_subgroupOf_map π (conj_mem_iSup F hFn)
   have hCN : Group.IsSolvable (↥(fixSubgroup β) ⧸
       ((fixSubgroup α).map π).subgroupOf (fixSubgroup β)) := by
@@ -105,7 +105,7 @@ theorem perfectInLayer_of_centralQuotient (π : X →* T) (hπ : Function.Surjec
     have hq : CFSG.IsQuasisimple ((F i).map π) :=
       CFSG.LocalCores.isQuasisimple_map (hFq i) π
         (not_le_ker_of_isQuasisimple π hker (hFq i))
-    haveI : (((F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
+    have : (((F i).map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
       normal_map_subgroupOf_map π (hFn i)
     exact le_sSup (isComponentOf_of_normal_normal (Subgroup.map_mono (hFα i)) hNC inferInstance
       hNn hq)

@@ -56,11 +56,11 @@ theorem false_of_szU3 (hInd : SzU3SylowIndecomposable) {G : Type} [Group G] [Fin
     by_contra hBM
     have hlt : M < Subgroup.normalizer ((S₁ : Subgroup G) : Set G) :=
       lt_of_le_of_ne hMB (fun h' => hBM (h' ▸ le_rfl))
-    exact h.maxLocal.2 _ hlt ⟨S₁, hS₁ne, S₁.isPGroup', rfl⟩
+    exact h.maxLocal.2 _ hlt ⟨S₁, hS₁ne, S₁.isPGroup, rfl⟩
   have hS₁M : (S₁ : Subgroup G) ≤ M := fun x hx => hBM (Subgroup.le_normalizer hx)
   have hS₁Q : (S₁ : Subgroup G) ≤ pCoreOf 2 M :=
     le_pCoreOf_of_normalized hS₁M
-      (fun m hm x hx => (Subgroup.mem_normalizer_iff.1 (hMB hm) x).1 hx) S₁.isPGroup'
+      (fun m hm x hx => (Subgroup.mem_normalizer_iff.1 (hMB hm) x).1 hx) S₁.isPGroup
   have hQS : pCoreOf 2 M = (S₁ : Subgroup G) :=
     le_antisymm (S₁.maximal_isPGroup.2 (isPGroup_pCoreOf' M) hS₁Q) hS₁Q
   refine hInd G hSz S₁ (pCoreOf 2 X) (rOf M X) hb.W_ne_bot hWS ?_ ?_ ?_ ?_

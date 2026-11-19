@@ -214,44 +214,44 @@ section CenCountEq
 theorem cenCount_110 (ct : List ℕ) : cenCount (vecCode 1 1 0) ct =
     countP (fun y => commutes6 y ct) (closureT ((centGens 3).map Prod.fst)) := by
   unfold cenCount
-  rw [if_pos (by decide +kernel)]
+  rw [ite_eq_left (by decide +kernel)]
 
 theorem cenCount_220 (ct : List ℕ) : cenCount (vecCode 2 2 0) ct =
     countP (fun y => commutes6 y ct) (closureT ((centGens 3).map Prod.fst)) := by
   unfold cenCount
-  rw [if_pos (by decide +kernel)]
+  rw [ite_eq_left (by decide +kernel)]
 
 theorem cenCount_001 (ct : List ℕ) : cenCount (vecCode 0 0 1) ct =
     countP (fun y => commutes6 y ct) (closureT ((centGens 2).map Prod.fst)) := by
   unfold cenCount
-  rw [if_neg (by decide +kernel), if_pos (by decide +kernel)]
+  rw [ite_eq_right (by decide +kernel), ite_eq_left (by decide +kernel)]
 
 theorem cenCount_002 (ct : List ℕ) : cenCount (vecCode 0 0 2) ct =
     countP (fun y => commutes6 y ct) (closureT ((centGens 2).map Prod.fst)) := by
   unfold cenCount
-  rw [if_neg (by decide +kernel), if_pos (by decide +kernel)]
+  rw [ite_eq_right (by decide +kernel), ite_eq_left (by decide +kernel)]
 
 theorem cenCount_111 (ct : List ℕ) : cenCount (vecCode 1 1 1) ct =
     countP (fun y => commutes6 y ct) (closureT (c7P.map Prod.fst)) := by
   unfold cenCount
-  rw [if_neg (by decide +kernel), if_neg (by decide +kernel), if_pos (by decide +kernel)]
+  rw [ite_eq_right (by decide +kernel), ite_eq_right (by decide +kernel), ite_eq_left (by decide +kernel)]
 
 theorem cenCount_222 (ct : List ℕ) : cenCount (vecCode 2 2 2) ct =
     countP (fun y => commutes6 y ct) (closureT (c7P.map Prod.fst)) := by
   unfold cenCount
-  rw [if_neg (by decide +kernel), if_neg (by decide +kernel), if_pos (by decide +kernel)]
+  rw [ite_eq_right (by decide +kernel), ite_eq_right (by decide +kernel), ite_eq_left (by decide +kernel)]
 
 theorem cenCount_112 (ct : List ℕ) : cenCount (vecCode 1 1 2) ct =
     countP (fun y => commutes6 y (cj fl2C ct fl2C)) (closureT (c7P.map Prod.fst)) := by
   unfold cenCount
-  rw [if_neg (by decide +kernel), if_neg (by decide +kernel), if_neg (by decide +kernel),
-    if_pos (by decide +kernel)]
+  rw [ite_eq_right (by decide +kernel), ite_eq_right (by decide +kernel), ite_eq_right (by decide +kernel),
+    ite_eq_left (by decide +kernel)]
 
 theorem cenCount_221 (ct : List ℕ) : cenCount (vecCode 2 2 1) ct =
     countP (fun y => commutes6 y (cj fl2C ct fl2C)) (closureT (c7P.map Prod.fst)) := by
   unfold cenCount
-  rw [if_neg (by decide +kernel), if_neg (by decide +kernel), if_neg (by decide +kernel),
-    if_pos (by decide +kernel)]
+  rw [ite_eq_right (by decide +kernel), ite_eq_right (by decide +kernel), ite_eq_right (by decide +kernel),
+    ite_eq_left (by decide +kernel)]
 
 end CenCountEq
 

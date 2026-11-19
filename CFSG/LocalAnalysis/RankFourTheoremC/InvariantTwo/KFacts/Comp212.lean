@@ -37,6 +37,7 @@ theorem isPGroup_center_component [Fact p.Prime] (hcore : primeComplementCore (G
     simpa using congrArg (Subtype.val : ↥(CFSG.pCore p X) → X) hk
   exact ⟨k, Subtype.ext (Subtype.ext (by simpa using h1))⟩
 
+omit [Finite X] in
 theorem mem_of_pow_mem_of_pow_prime_eq_one [Fact p.Prime] {u : X} (hup : u ^ p = 1) {b : ℕ}
     (hb : ¬ p ∣ b) {W : Subgroup X} (hW : u ^ b ∈ W) : u ∈ W := by
   have hb0 : (b : ZMod p) ≠ 0 := by
@@ -72,9 +73,9 @@ theorem exists_ne_one_mem_centralizer_of_le_normalizer [Fact p.Prime] {U : Subgr
     ∃ y ∈ U, y ≠ 1 ∧ y ∈ centralizer (D : Set X) := by
   have hB : IsPGroup p (↥(U ⊔ D)) := hUp.to_sup_of_normal_left' hDp hDU
   have hBN : U ⊔ D ≤ normalizer (U : Set X) := sup_le le_normalizer hDU
-  haveI : (U.subgroupOf (U ⊔ D)).Normal :=
+  have : (U.subgroupOf (U ⊔ D)).Normal :=
     (normal_subgroupOf_iff_le_normalizer le_sup_left).2 hBN
-  haveI : Group.IsNilpotent ↥(U ⊔ D) := hB.isNilpotent
+  have : Group.IsNilpotent ↥(U ⊔ D) := hB.isNilpotent
   have hne : U.subgroupOf (U ⊔ D) ≠ ⊥ := by
     obtain ⟨u, hu1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hUne
     intro hbot
@@ -97,7 +98,7 @@ namespace Lemma212ConfigGe
 
 theorem eq_zpowers_of_ne (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) {T : Subgroup X}
     (hTD : T ≤ D) (hzT : z ∈ T) (hne : T ≠ D) : T = zpowers z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardz : Nat.card (zpowers z) = p := by rw [Nat.card_zpowers, h.ord]
   have hdvd : Nat.card T ∣ p ^ 2 := h.card ▸ card_dvd_of_le hTD
   obtain ⟨i, hi, hTi⟩ := (Nat.dvd_prime_pow hp).1 hdvd
@@ -114,7 +115,7 @@ theorem eq_zpowers_of_ne (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) {T : Su
 theorem inf_pCore_eq_zpowers (hp : p.Prime) (h : Lemma212ConfigGe n p P z D)
     (hcore : primeComplementCore (G := X) p = ⊥) (hz : z ∈ CFSG.pCore p X) {K : Subgroup X}
     (hK : IsComponentOf K ⊤) : D ⊓ CFSG.pCore p X = zpowers z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine h.eq_zpowers_of_ne hp inf_le_left ⟨h.mem, hz⟩ fun hDO => ?_
   have hDle : D ≤ CFSG.pCore p X := hDO ▸ inf_le_right
   obtain ⟨x, hxK, ⟨k, hxk⟩, g0, hg0, hg0x⟩ := (exists_pElement_not_central hp hcore hK).2
@@ -129,7 +130,7 @@ theorem inf_pCore_eq_zpowers (hp : p.Prime) (h : Lemma212ConfigGe n p P z D)
 theorem mem_normalizer_of_mem (hp : p.Prime) (h : Lemma212ConfigGe n p P z D)
     (hcore : primeComplementCore (G := X) p = ⊥) (hz : z ∈ CFSG.pCore p X) {K : Subgroup X}
     (hK : IsComponentOf K ⊤) {w : X} (hw : w ∈ D) : w ∈ normalizer (K : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hwK
   have hwp : w ^ p = 1 := h.elem.2 w hw
   obtain ⟨x, hxK, ⟨k, hxk⟩, g0, hg0, hg0x⟩ := (exists_pElement_not_central hp hcore hK).2
@@ -180,7 +181,7 @@ theorem omega_center_le_zpowers (hp : p.Prime) (hp2 : p ≠ 2) (h : Lemma212Conf
     (hK78 : GL83PElementCentralizesOmegaCenterAt p) (hcore : primeComplementCore (G := X) p = ⊥)
     (hz : z ∈ CFSG.pCore p X) {K : Subgroup X} (hK : IsComponentOf K ⊤) {c : X} (hcK : c ∈ K)
     (hcc : ∀ g ∈ K, g * c = c * g) (hcp : c ^ p = 1) : c ∈ zpowers z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcD : c ∈ centralizer (D : Set X) := by
     refine mem_centralizer_iff.2 fun w hw => ?_
     have hwp : ∃ k : ℕ, w ^ p ^ k = 1 := ⟨1, by simpa using h.elem.2 w hw⟩
@@ -197,10 +198,10 @@ theorem mem_center_of_isComponentOf (hp : p.Prime) (hp2 : p ≠ 2) (h : Lemma212
     (hK78 : GL83PElementCentralizesOmegaCenterAt p) (hcore : primeComplementCore (G := X) p = ⊥)
     (hz : z ∈ CFSG.pCore p X) {K : Subgroup X} (hK : IsComponentOf K ⊤) :
     z ∈ K ∧ ∀ g ∈ K, g * z = z * g := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZne := h.center_ne_bot_of_isComponentOf hp hcore hz hK
   have hZp : IsPGroup p (center K) := isPGroup_center_component hcore hK
-  haveI : Nontrivial (center K) := (Subgroup.nontrivial_iff_ne_bot _).2 hZne
+  have : Nontrivial (center K) := (Subgroup.nontrivial_iff_ne_bot _).2 hZne
   obtain ⟨m, hm, hmcard⟩ := hZp.nontrivial_iff_card.mp inferInstance
   have hdvd : p ∣ Nat.card (center K) := hmcard ▸ dvd_pow_self p hm.ne'
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := center K) p hdvd
@@ -243,7 +244,7 @@ theorem not_le_component (hp : p.Prime) (h : Lemma212ConfigGe n p P z D)
 theorem mem_zpowers_of_mem_centralizer (hp : p.Prime) (h : Lemma212ConfigGe n p P z D)
     {K : Subgroup X} (hzK : z ∈ K) (hDK : ¬ D ≤ K) {u : X} (huK : u ∈ K)
     (huc : u ∈ centralizer (D : Set X)) (hup : ∃ k : ℕ, u ^ p ^ k = 1) : u ∈ zpowers z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra huz
   have huD : u ∈ D := h.mem_of_pElement_mem_centralizer hp huc hup
   apply hDK
@@ -257,14 +258,14 @@ theorem exists_pElement_transvected (hp : p.Prime) (hp2 : p ≠ 2) (h : Lemma212
     (hK : IsComponentOf K ⊤) (hK' : IsComponentOf K' ⊤) (hne : K' ≠ K) (hzK : z ∈ K) {d : X}
     (hd : d ∈ D) (hdz : d ∉ zpowers z) :
     ∃ u ∈ K, u ∉ zpowers z ∧ u ^ p = 1 ∧ ∃ b : ℕ, ¬ p ∣ b ∧ d * u * d⁻¹ = u * z ^ b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDK : ¬ D ≤ K := h.not_le_component hp hcore hK hK' hne
   have hLz : ∀ g ∈ CFSG.ComponentClassification.Layer.subgroup X, g * z = z * g :=
     fun g hg => commute_of_mem_pCore_of_mem_layer hz hg
   have hKL : K ≤ CFSG.ComponentClassification.Layer.subgroup X :=
     CFSG.ComponentClassification.Layer.component_le hK
   set Q : Subgroup X := (P : Subgroup X) ⊓ K
-  have hQp : IsPGroup p Q := P.isPGroup'.to_inf_left
+  have hQp : IsPGroup p Q := P.isPGroup.to_inf_left
   have hDQ : D ≤ normalizer (Q : Set X) := by
     intro w hw
     have hwP : w ∈ (P : Subgroup X) := h.le hw
@@ -284,8 +285,8 @@ theorem exists_pElement_transvected (hp : p.Prime) (hp2 : p ≠ 2) (h : Lemma212
   have hQnc : ¬ IsCyclic Q := by
     have hPS : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup X) ⊤ :=
       (CFSG.ABGLocalTools.isSylowOf_iff).2
-        ⟨le_top, P.isPGroup', by simpa [Subgroup.relIndex_top_right] using P.not_dvd_index⟩
-    haveI : (CFSG.ComponentClassification.Layer.subgroup X).Normal :=
+        ⟨le_top, P.isPGroup, by simpa [Subgroup.relIndex_top_right] using P.not_dvd_index⟩
+    have : (CFSG.ComponentClassification.Layer.subgroup X).Normal :=
       CFSG.ComponentClassification.Layer.normal X
     have hS1 := hPS.inf_of_le_normalizer (N := CFSG.ComponentClassification.Layer.subgroup X)
       le_top le_normalizer_of_normal
@@ -356,7 +357,7 @@ theorem false_of_two_components (hp : p.Prime) (hp2 : p ≠ 2) (h : Lemma212Conf
       c ^ p = 1 → c ∈ zpowers z)
     (hzK : ∀ K : Subgroup X, IsComponentOf K ⊤ → z ∈ K) {K₁ K₂ : Subgroup X}
     (hK₁ : IsComponentOf K₁ ⊤) (hK₂ : IsComponentOf K₂ ⊤) (hne : K₁ ≠ K₂) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hd, hdz⟩ := h.exists_mem_notMem_zpowers hp
   obtain ⟨u₁, hu₁K, hu₁z, hu₁p, b₁, -, hdu₁⟩ :=
     h.exists_pElement_transvected hp hp2 hcore hz hK₁ hK₂ hne.symm (hzK K₁ hK₁) hd hdz
@@ -426,7 +427,7 @@ theorem exists_component (hp : p.Prime) (hp2 : p ≠ 2) (h : Lemma212ConfigGe n 
       D ≤ normalizer (L : Set X) ∧ center L ≠ ⊥ ∧ IsPGroup p (center L) ∧ IsCyclic (center L) ∧
       (∀ c ∈ L, (∀ g ∈ L, g * c = c * g) → c ^ p = 1 → c ∈ zpowers z) ∧
       ∀ x ∈ L ⊓ centralizer (D : Set X), (∃ k : ℕ, x ^ p ^ k = 1) → x ∈ D := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz : z ∈ CFSG.pCore p X := h.mem_pCore_of_pCore_ne_bot hp hpc
   obtain ⟨L, hL⟩ := exists_isComponentOf_of_layer_ne_bot
     (layer_ne_bot_of_not_exists_selfCentralizing hcore hnc)
@@ -448,7 +449,7 @@ theorem exists_component (hp : p.Prime) (hp2 : p ≠ 2) (h : Lemma212ConfigGe n 
   by_contra hnc'
   obtain ⟨B, hB, hBc⟩ := CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
     (hp.odd_of_ne_two hp2) (isPGroup_center_component hcore hL) hnc'
-  haveI := hB
+  have := hB
   have hf : ∀ b : B, (((b : center L) : L) : X) ∈ zpowers z := fun b => by
     refine hΩ L hL _ ((b : center L) : L).2
       (fun g hg => congrArg Subtype.val (mem_center_iff.1 (b : center L).2 ⟨g, hg⟩)) ?_

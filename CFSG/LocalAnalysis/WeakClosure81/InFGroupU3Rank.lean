@@ -36,6 +36,7 @@ theorem Setting.card_le_of_isElemAbelian (h : Setting C n)
       CFSG.LocalAnalysis.WeakClosure81.card_elemAbelian_two_aut_PSU3 h.isU3 _
         (hA.map h.act)
 
+omit [Finite Q] in
 theorem Setting.card_le_of_le (h : Setting C n) {A : Subgroup Q} (hAC : A ≤ C)
     (hA : CFSG.Open.IsElemAbelian 2 A) : Nat.card A ≤ 2 ^ n := by
   have hAZ : A ⊓ (center ↥C).map C.subtype = ⊥ := h.inf_center_map_eq_bot hA.isPGroup
@@ -104,9 +105,9 @@ theorem Setting.relIndex_le_two (h : Setting C n)
     CFSG.GH74.Uniqueness.Bender.BenderType.unitary n h.two_le
       (e.trans (MulEquiv.subgroupCongr (CFSG.Models.benderPSU3Model_eq_psu3 n)))
   have hcyc : IsCyclic ↥(T : Subgroup Outer) := hB.isCyclic_sylow_outer T
-  haveI : IsCyclic ↥(T : Subgroup Outer) := hcyc
+  have : IsCyclic ↥(T : Subgroup Outer) := hcyc
   have hcycψ : IsCyclic ψ.range := Subgroup.isCyclic_of_le hAT
-  haveI : IsCyclic ψ.range := hcycψ
+  have : IsCyclic ψ.range := hcycψ
   have hE : CFSG.Open.IsElemAbelian 2 ψ.range :=
     ⟨IsCyclic.isMulCommutative, fun x hx => by simpa [pow_two] using hsq x hx⟩
   have hle2 : Nat.card ψ.range ≤ 2 :=

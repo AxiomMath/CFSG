@@ -44,7 +44,7 @@ theorem ggE8LangWitness_L_of_resHyp
     (hreg : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1) :
     GGE8LangWitness n p J := by
   have hp : p.Prime := hH.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1
   have hnb : GGNbr p B x D J y K := hH.2.2.2.2.1
   have hBs : IsElemAbelian p Bs := hH.1.2.1.2.1

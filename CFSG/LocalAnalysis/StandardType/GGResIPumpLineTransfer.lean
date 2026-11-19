@@ -355,7 +355,7 @@ theorem GGResHyp.rank_ge_three_of_A3_label
     (hhas : GGHasLabel lab (J ⧸ Subgroup.center J))
     (htag : lab.tag = .A ∨ lab.tag = .twA) : 3 ≤ lab.rank := by
   have hJperf : commutator ↥J = ⊤ := hH.1.2.2.1.2.2.2.2.2.1.2.2.1
-  haveI : Group.IsPerfect ↥J := Group.IsPerfect.mk hJperf
+  have : Group.IsPerfect ↥J := Group.IsPerfect.mk hJperf
   obtain ⟨E, hEa, hEcard⟩ := GGResHyp.exists_coroot_quotient_of_A3 hH hD
   exact ggSmallThreeRank_linear_rank_three_of_elemAbelian (H := ↥J) hLambda hhas hEa
     hEcard.ge htag
@@ -375,12 +375,12 @@ theorem GGResHyp.not_twD_rank_two_of_A3
   have hhas' := hhas
   simp only [GGHasLabel, LargeEvenRawDatum, ↓reduceIte] at hhas'
   obtain ⟨Kf, hKfield, hKfin, hKcard, hQ⟩ := hhas'
-  letI : Field Kf := hKfield
-  letI : Finite Kf := hKfin
+  let : Field Kf := hKfield
+  let : Finite Kf := hKfin
   obtain ⟨e⟩ := hQ
   have hcardK : Nat.card Kf = 2 ^ (2 * n) := by
     rw [hKcard, ← pow_mul, Nat.mul_comm]
-  haveI : CharP Kf 2 := charP_two_of_card (m := 2 * n) hcardK
+  have : CharP Kf 2 := charP_two_of_card (m := 2 * n) hcardK
   have h3K : ((3 : ℕ) : Kf) ≠ 0 := by
     intro hzero
     have h2dvd : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff Kf 2 3).mp hzero
@@ -695,7 +695,7 @@ theorem GGResHyp.card_automizer_J_eq_symplectic_of_label
         have h := TorC.nonempty_spTorusData_split Nat.prime_three (by norm_num)
           (by rwa [hF])
         simpa [hF] using h
-      rw [ggTorMpm, if_pos hpq]
+      rw [ggTorMpm, ite_eq_left hpq]
       exact ggTorusTorData_symplectic_of_selfCentralizing hF hn hoddSub Nat.prime_three
         (by norm_num) hpq hD.some J (ggQuotHom θ) (ggQuotHom_surjective θ)
         (by rw [ker_ggQuotHom]) hJperf hAb hAI hSelf
@@ -704,7 +704,7 @@ theorem GGResHyp.card_automizer_J_eq_symplectic_of_label
         have h := TorC.nonempty_spTorusData_nonsplit Nat.prime_three (by norm_num)
           (by rwa [hF])
         simpa [hF] using h
-      rw [ggTorMpm, if_neg hpq]
+      rw [ggTorMpm, ite_eq_right hpq]
       exact ggTorusTorData_symplectic_of_selfCentralizing hF hn hoddAdd Nat.prime_three
         (by norm_num) hpq' hD.some J (ggQuotHom θ) (ggQuotHom_surjective θ)
         (by rw [ker_ggQuotHom]) hJperf hAb hAI hSelf
@@ -1024,7 +1024,7 @@ theorem GGResHyp.card_automizer_J_eq_E7_or_E8_of_label
     exact ⟨lab, hlabLambda, Or.inl ⟨hE7, hOrdE7⟩⟩
   · have hWl : LargeEvenLabelAll lab (fun R _ I _ =>
         GGTorusTorW 3 (8 - ggTorEnn 3 lab) (ggTorME8 lab) 8
-          CartanMatrix.E₈ CoxeterMatrix.E₈ R I) :=
+          (CartanMatrix.E 8) CoxeterMatrix.E₈ R I) :=
       ggTBTorE8_holds lab hlabLambda hE8
     have hLiftAll : LargeEvenLabelAll lab (fun R _ _ _ =>
         GGTorusLift 3 (8 - ggTorEnn 3 lab) R) := by
@@ -1257,17 +1257,17 @@ theorem GGResHyp.actual_J_not_D_high_or_twD_split_of_line
     ggThree_dvd_two_pow_sub_or_add lab.n
   have hodd : Odd (ggTorMpm 3 lab) := by
     unfold ggTorMpm
-    split_ifs <;> assumption
+    split_ifs; assumption
   have hdvd : 3 ∣ ggTorMpm 3 lab := by
     unfold ggTorMpm
     by_cases h : 3 ∣ 2 ^ lab.n - 1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact h
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact hdiv.resolve_left h
   have hEnn : ggTorEnn 3 lab = 0 := by
     unfold ggTorEnn
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     have h2 : 3 ∣ (2 ^ lab.n + 1) - (2 ^ lab.n - 1) := Nat.dvd_sub h hpq
     have hq1 : 1 ≤ 2 ^ lab.n := Nat.one_le_two_pow
@@ -1451,13 +1451,13 @@ theorem GGResHyp.actual_J_not_D_high_or_twD_nonsplit_of_line
   have hdvd : 3 ∣ ggTorMpm 3 lab := by
     unfold ggTorMpm
     by_cases h : 3 ∣ 2 ^ lab.n - 1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact h
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact hdiv.resolve_left h
   have hEnn : ggTorEnn 3 lab = 1 := by
     unfold ggTorEnn
-    rw [if_pos hpn]
+    rw [ite_eq_left hpn]
   rcases hcase with ⟨hDtag, hrank⟩ | ⟨htwDtag, hfloor⟩
   ·
     by_cases heven : Even lab.rank
@@ -1607,7 +1607,7 @@ theorem GGResHyp.card_automizer_J_eq_E6_split_of_label
   have hLiftAll : LargeEvenLabelAll lab fun R _ _ _ => GGTorusLift 3 5 R :=
     largeEvenLabelAll_torusLift_E6_three htag h3n
   have hTorAll : LargeEvenLabelAll lab fun R _ I _ =>
-      GGTorusTorW 3 5 (ggTorM lab) 6 CartanMatrix.E₆ CoxeterMatrix.E₆ R I := by
+      GGTorusTorW 3 5 (ggTorM lab) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆ R I := by
     have h3m : 3 ∣ ggTorM lab := by simpa [ggTorM, htag] using h3n
     exact ggTBTorE6_holds lab hlab htag h3m
   have hrawAll := (largeEvenLabelAll_and hLiftAll hTorAll) _ hraw0
@@ -1625,7 +1625,7 @@ theorem GGResHyp.card_automizer_J_eq_E6_split_of_label
     (show 3 ^ 3 ≤ 3 ^ 5 by norm_num).trans hr
   have hTB : GGTorusTBGroup 3 5 R I J (ggQuotHom θ) (ggGamma J hN).range :=
     ggTorusTBGroup_of_marking Nat.prime_three hBs hSC hJperf θ hN hBI hr h3
-  have hTor : GGTorusTorData (ggTorM lab) 6 CartanMatrix.E₆ CoxeterMatrix.E₆ J
+  have hTor : GGTorusTorData (ggTorM lab) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆ J
       (ggGamma J hN).range :=
     hTorW J (ggQuotHom θ) (ggGamma J hN).range hTB
   have hn1 : 1 ≤ lab.n := hlab.1
@@ -1928,20 +1928,20 @@ theorem GGResHyp.actual_J_automizer_card_ge_1152_of_E6_qplus
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hMark : GGInnerDiagOnLabel
-      (fun _ lab => lab.tag = .E6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs J) :
+      (fun _ _lab => _lab.tag = .E6 ∧ 3 ∣ 2 ^ _lab.n + 1) 3 Bs J) :
     1152 ≤ Nat.card (ggAutomizer J Bs) :=
   GGResHyp.card_automizer_J_ge_1152_of_marking hH hMark
-    (fun lab hlab hs => largeEvenLabelAll_facts_reflGenW_E6Plus hlab hs)
+    (fun _lab hlab hs => largeEvenLabelAll_facts_reflGenW_E6Plus hlab hs)
 
 theorem GGResHyp.actual_J_automizer_card_ge_1152_of_twE6_split
     {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hMark : GGInnerDiagOnLabel
-      (fun _ lab => lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n - 1) 3 Bs J) :
+      (fun _ _lab => _lab.tag = .twE6 ∧ 3 ∣ 2 ^ _lab.n - 1) 3 Bs J) :
     1152 ≤ Nat.card (ggAutomizer J Bs) :=
   GGResHyp.card_automizer_J_ge_1152_of_marking hH hMark
-    (fun lab hlab hs => largeEvenLabelAll_facts_reflGenW_twE6Dvd hlab hs)
+    (fun _lab hlab hs => largeEvenLabelAll_facts_reflGenW_twE6Dvd hlab hs)
 
 theorem GGResHyp.actual_J_not_E6_qplus_or_twE6_split_for_all_lines
     {G : Type} [Group G] [Finite G]
@@ -2031,11 +2031,11 @@ theorem GGResHyp.actual_J_not_E6_qplus_for_A3
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K) (hD : GGResLineJDatum 3 Bs J .A3)
     (hMark : GGInnerDiagOnLabel
-      (fun _ lab => lab.tag = .E6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs J) :
+      (fun _ _lab => _lab.tag = .E6 ∧ 3 ∣ 2 ^ _lab.n + 1) 3 Bs J) :
     False :=
   GGResHyp.actual_J_not_frame_of_marking hH hD
-    (fun _ lab => lab.tag = .E6 ∧ 3 ∣ 2 ^ lab.n + 1)
-    (fun lab _ hs => largeEvenLabelAll_frame_E6Plus hs) hMark
+    (fun _ _lab => _lab.tag = .E6 ∧ 3 ∣ 2 ^ _lab.n + 1)
+    (fun _lab _ hs => largeEvenLabelAll_frame_E6Plus hs) hMark
 
 end E6ThreeFrameCertificates
 
@@ -2050,7 +2050,7 @@ theorem GGResHyp.not_of_e6ThreeWeylModel_of_lineJDatum
     (hN : Bs ≤ Subgroup.normalizer (J : Set G))
     (hM : GGE6ThreeWeylModel Z (ggGamma J hN).range) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs :=
     hH.1.2.1.2.2.2
   obtain ⟨Φ, Tsub, w, h⟩ := hM.exists_data
@@ -2118,7 +2118,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_toral_of_lineJDatum
       (TypeA.inducedSub (ggQuotHom θ)
         (ggGamma J (GGResHyp.Bs_le_normalizer_J hH)).range))) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let hN := GGResHyp.Bs_le_normalizer_J hH
   let A : Subgroup (MulAut ↥J) := (ggGamma J hN).range
   have hJperf : commutator ↥J = ⊤ := hH.1.2.2.1.2.2.2.2.2.1.2.2.1
@@ -2152,7 +2152,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_toral_of_line
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K) {T : GGResLineJType}
     (hD : GGResLineJDatum 3 Bs J T)
-    (hT : T = .A3 ∨ T = .B3 ∨ T = .C3)
+    (_hT : T = .A3 ∨ T = .B3 ∨ T = .C3)
     {n : ℕ} {K' : Type} [Field K'] [Finite K'] (hn : 1 ≤ n)
     (hK : Nat.card K' = (2 ^ n) ^ 2) (h3 : 3 ∣ 2 ^ n + 1)
     {θ : ↥J ⧸ Subgroup.center ↥J ≃* TwE6Delta.RecipeR K' n}
@@ -2192,7 +2192,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_of_line
       (fun _ lab => lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs J) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJperf, lab, hlab, hraw⟩ := hMark
   obtain ⟨R₀, hR₀, I₀, F₀, hQ₀⟩ := largeEvenRawDatum_exists hraw
   obtain ⟨-, -, θ₀, hP₀⟩ := hQ₀
@@ -2203,15 +2203,15 @@ theorem GGResHyp.actual_J_not_twE6_qplus_of_line
   subst ht
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨Kf, hKfield, hKfin, hKcard, hQ⟩ := hraw
-  letI : Field Kf := hKfield
-  letI : Finite Kf := hKfin
+  let : Field Kf := hKfield
+  let : Finite Kf := hKfin
   obtain ⟨-, -, θ, hP⟩ := hQ
   obtain ⟨hS, hBsN', hBsI⟩ := hP
   have hdvd : 3 ∣ 2 ^ n + 1 := hS.2
   have hn : 1 ≤ n := hlab.1
   let hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP Kf 2 := CFSG.StandardType.charP_two_of_card (m := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP Kf 2 := CFSG.StandardType.charP_two_of_card (m := n * 2)
     (by rw [hKcard, pow_mul])
   have hinj : Function.Injective (iterateFrobenius Kf 2 n) :=
     (iterateFrobenius Kf 2 n).injective
@@ -2219,9 +2219,9 @@ theorem GGResHyp.actual_J_not_twE6_qplus_of_line
     ⟨hinj, Finite.surjective_of_injective hinj⟩
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
   obtain ⟨inst, hinst⟩ := exists_algebra_isAlgClosure_ggl Kf
-  letI : Algebra Kf GGL := inst
-  haveI : IsAlgClosure Kf GGL := hinst
-  haveI : CharP GGL 2 := charP_of_injective_algebraMap (algebraMap Kf GGL).injective 2
+  let : Algebra Kf GGL := inst
+  have : IsAlgClosure Kf GGL := hinst
+  have : CharP GGL 2 := charP_of_injective_algebraMap (algebraMap Kf GGL).injective 2
   let Fr : GGL →+* GGL := ggFrobT n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => ggFrobT_apply n c
   obtain ⟨ε, hε⟩ := TwE6DD2.exists_recipeEquiv hn hKcard σ hσ
@@ -2247,7 +2247,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_of_line
       σ hσ Fr hFr ε hε htor
   ·
     have hnt : ¬ E6AdToral E := htor
-    haveI : Finite A := Subtype.finite
+    have : Finite A := Subtype.finite
     have hle : Nat.card A ≤ 3 ^ 4 :=
       SCFourCover.card_le_four_of_not_e6AdToral_rgrpModel_of_cover
         (Ω := GGL) (n := n) (K := Kf) (hn := hn) (hK := hKcard) (σ := σ) (hσ := hσ)
@@ -2316,7 +2316,7 @@ theorem GGResHyp.b2_actual_reflections_transport
       orderOf (r0 * r1) = 4 ∧
       orderOf (ggAutomizerGammaHom (GGResHyp.Bs_le_normalizer_J hH) (r0 * r1)) = 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨V, instA, instM, ι, r, h, α, hform, hrefl, hpair, hind, hgen⟩ := hD
   let C : Matrix (Fin 2) (Fin 2) ℤ := CartanMatrix.B 2
   have hC : GGIntCartan (CoxeterMatrix.B 2) C := ggIntCartan_B 2
@@ -2410,9 +2410,9 @@ theorem GGResHyp.b2_non_toral_contradiction
   let φ0 : MulAut A := ((ggAutomizerGammaHom hN r0 : MulAut A))
   let φ1 : MulAut A := ((ggAutomizerGammaHom hN r1 : MulAut A))
   have hφ0A : φ0 ∈ G := by
-    simpa [G, φ0] using (ggAutomizerGammaHom hN r0).2
+    simp [G, φ0]
   have hφ1A : φ1 ∈ G := by
-    simpa [G, φ1] using (ggAutomizerGammaHom hN r1).2
+    simp [G, φ1]
   have hlift4 : GGTorusLift 3 4 (TwE6Delta.RecipeR Kf n) :=
     ggTorusLift_twE6Three hn hKcard hdvd
   have hr4 : 3 ^ 4 ≤ Nat.card (ggGamma J hN).range :=
@@ -2425,7 +2425,7 @@ theorem GGResHyp.b2_non_toral_contradiction
       (by simpa [φ0] using himage0) (by simpa [φ1] using himage1)
   have heq : orderOf (φ0 * φ1) = 4 := by
     have hmap : ((ggAutomizerGammaHom hN (r0 * r1) : G) : MulAut A) = φ0 * φ1 := by
-      simp [G, φ0, φ1, map_mul]
+      simp [φ0, φ1, map_mul]
     rw [← hmap]
     exact (orderOf_injective G.subtype G.subtype_injective
       (ggAutomizerGammaHom hN (r0 * r1))).trans himage_order
@@ -2440,7 +2440,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_B2
       (fun _ lab => lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs J) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJperf, lab, hlab, hraw⟩ := hMark
   obtain ⟨R₀, hR₀, I₀, F₀, hQ₀⟩ := largeEvenRawDatum_exists hraw
   obtain ⟨-, -, θ₀, hP₀⟩ := hQ₀
@@ -2451,15 +2451,15 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_B2
   subst ht
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨Kf, hKfield, hKfin, hKcard, hQ⟩ := hraw
-  letI : Field Kf := hKfield
-  letI : Finite Kf := hKfin
+  let : Field Kf := hKfield
+  let : Finite Kf := hKfin
   obtain ⟨-, -, θ, hP⟩ := hQ
   obtain ⟨hS, hBsN', hBsI⟩ := hP
   have hdvd : 3 ∣ 2 ^ n + 1 := hS.2
   have hn : 1 ≤ n := hlab.1
   let hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP Kf 2 := CFSG.StandardType.charP_two_of_card (m := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP Kf 2 := CFSG.StandardType.charP_two_of_card (m := n * 2)
     (by rw [hKcard, pow_mul])
   have hinj : Function.Injective (iterateFrobenius Kf 2 n) :=
     (iterateFrobenius Kf 2 n).injective
@@ -2467,9 +2467,9 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_B2
     ⟨hinj, Finite.surjective_of_injective hinj⟩
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
   obtain ⟨inst, hinst⟩ := exists_algebra_isAlgClosure_ggl Kf
-  letI : Algebra Kf GGL := inst
-  haveI : IsAlgClosure Kf GGL := hinst
-  haveI : CharP GGL 2 := charP_of_injective_algebraMap (algebraMap Kf GGL).injective 2
+  let : Algebra Kf GGL := inst
+  have : IsAlgClosure Kf GGL := hinst
+  have : CharP GGL 2 := charP_of_injective_algebraMap (algebraMap Kf GGL).injective 2
   let Fr : GGL →+* GGL := ggFrobT n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => ggFrobT_apply n c
   obtain ⟨ε, hε⟩ := TwE6DD2.exists_recipeEquiv hn hKcard σ hσ

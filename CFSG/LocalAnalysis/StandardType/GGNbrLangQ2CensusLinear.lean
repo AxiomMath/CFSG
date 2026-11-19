@@ -53,7 +53,7 @@ theorem q2c_rLevel_linear :
   obtain ⟨F, _, _, hFcard, hQ'⟩ := hQ
   refine ⟨F, inferInstance, inferInstance, hFcard, hQ', ?_⟩
   intro A hA hAI hbig h3 hlo hup u hu huo J hJ huniq hAJ K _ _ hKcard he
-  haveI : CharP F 2 := charP_two_of_card hFcard
+  have : CharP F 2 := charP_two_of_card hFcard
   have hN2 : 2 ≤ l + 1 := by omega
   have hF4 : 4 ≤ Nat.card F := by
     rw [hFcard]
@@ -142,8 +142,8 @@ theorem q2c_rLevel_linear :
       exact hJ
     obtain ⟨a, E, hEfld, hEfin, ha2, hNsum, hEcard, hiso⟩ :=
       q2c_lin_irred (N := l + 1) hp hp2 hpF hF4 hN2 hcne hgscalar hJg
-    letI : Field E := hEfld
-    letI : Finite E := hEfin
+    let : Field E := hEfld
+    let : Finite E := hEfin
     obtain ⟨eJ⟩ := he
     obtain ⟨eA⟩ := hiso
     have hψ : LinearFlag.projectiveSL d K ≃*

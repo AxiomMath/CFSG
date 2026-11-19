@@ -116,7 +116,7 @@ theorem map_D_eq (hCF1 : CFSec8Simple) (hCF2 : CFSec8InnerCentralizer) (hJo : CF
     have hker' : ¬ 2 ∣ Nat.card (QuotientGroup.mk' (pPrimeCore 2 ↥h.J)).ker := by
       rw [QuotientGroup.ker_mk']
       exact (Nat.prime_two.coprime_iff_not_dvd).mp (pPrimeCore_coprime_card (p := 2) (G := ↥h.J))
-    rw [Sylow.coe_mapSurjective, Eight.card_map_of_isPGroup hker' R.isPGroup', hR,
+    rw [Sylow.coe_mapSurjective, Eight.card_map_of_isPGroup hker' R.isPGroup, hR,
       Six.card_subgroupOf_eq, inf_eq_left.mpr inf_le_right]
   have hcL : Nat.card (Cat8.L0 (h.K ⧸ pPrimeCore 2 h.K) H.rhoA) =
       Nat.card (h.J ⧸ pPrimeCore 2 h.J) := by

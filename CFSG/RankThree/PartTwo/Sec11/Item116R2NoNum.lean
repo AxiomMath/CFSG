@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -89,7 +89,7 @@ theorem geom_sum_three_mul (ν a : ℕ) :
 theorem geom_sum_three_pow_modEq {ν : ℕ} (h : ν % 3 = 1) (m : ℕ) :
     ∑ k ∈ Finset.range (3 ^ m), ν ^ k ≡ 3 ^ m [MOD 3 ^ (m + 1)] := by
   induction m with
-  | zero => simpa [Nat.ModEq] using h
+  | zero => simp [Nat.ModEq]
   | succ m ih =>
     have hsplit : ∑ k ∈ Finset.range (3 ^ (m + 1)), ν ^ k =
         (∑ k ∈ Finset.range (3 ^ m), ν ^ k) * (1 + ν ^ 3 ^ m + ν ^ (2 * 3 ^ m)) := by

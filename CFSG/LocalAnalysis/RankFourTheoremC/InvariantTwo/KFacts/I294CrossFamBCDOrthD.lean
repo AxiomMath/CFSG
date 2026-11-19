@@ -27,7 +27,7 @@ section LeviD
 
 variable (r : ℕ) (K : Type) [Field K]
 
-theorem leviGL_injective : Function.Injective (leviGL r K) := fun a b h =>
+theorem leviGL_injective : Function.Injective (leviGL r K) := fun _a _b h =>
   leviSp_injective r K (Subtype.ext h)
 
 theorem quadPlus_leviGL (g : GL (Fin r) K) (v : Fin r ⊕ Fin r → K) :
@@ -37,19 +37,19 @@ theorem quadPlus_leviGL (g : GL (Fin r) K) (v : Fin r ⊕ Fin r → K) :
       fromBlocks (g : Matrix (Fin r) (Fin r) K) 0 0
         (((g⁻¹ : GL (Fin r) K) : Matrix (Fin r) (Fin r) K)ᵀ) := rfl
   rw [hM, fromBlocks_mulVec]
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Sum.elim_inl, Sum.elim_inr,
+  simp only [StatedQuadPlus, Sum.elim_inl, Sum.elim_inr,
     Matrix.zero_mulVec, add_zero, zero_add]
   exact dot_mulVec_transpose_mulVec _ _ (Units.inv_mul g) _ _
 
 theorem quadPlus_smul (c : K) (w : Fin r ⊕ Fin r → K) :
     StatedQuadPlus r K (c • w) = c ^ 2 * StatedQuadPlus r K w := by
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Pi.smul_apply, smul_eq_mul,
+  simp only [StatedQuadPlus, Pi.smul_apply, smul_eq_mul,
     Finset.mul_sum]
   exact Finset.sum_congr rfl fun i _ => by ring
 
 theorem quadPlus_exists_one (hr : 1 ≤ r) : ∃ w : Fin r ⊕ Fin r → K, StatedQuadPlus r K w = 1 :=
   ⟨Sum.elim (Pi.single ⟨0, hr⟩ 1) (Pi.single ⟨0, hr⟩ 1), by
-    simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Pi.single_apply]⟩
+    simp [StatedQuadPlus, Pi.single_apply]⟩
 
 end LeviD
 
@@ -99,7 +99,7 @@ theorem crossAtOn_D_odd {r : ℕ} {q : TauCeti.PrimePower}
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hr1 : 1 ≤ r := by omega
   refine crossAtOn_of_core fun L _ _ p hp hp5 hS hdp ⟨e⟩ => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp' : q.p ≠ p := by simpa [TauCeti.LieTypeIndex.characteristic_D] using hdp
   have hmod : StatedClassicalModel L .POmegaPlus r q.p q.exponent :=
     statedClassicalModel_of_lieModel_of_ne_zero (by omega) (CFSG.Models.lieModel_D r q hv e)

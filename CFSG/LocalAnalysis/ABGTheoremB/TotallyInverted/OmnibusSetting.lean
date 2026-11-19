@@ -124,7 +124,7 @@ theorem xs_ne_one (hσ : σ.IsValid) (i : Fin 3) : σ.xs i ≠ 1 := by
 theorem xs_injective (hσ : σ.IsValid) : Function.Injective σ.xs := by
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp only [xs_zero, xs_one, xs_two, Fin.mk_zero,
-    Fin.mk_one, Fin.reduceFinMk] at hij ⊢ <;> try rfl
+    Fin.mk_one, Fin.reduceFinMk] at hij ⊢
   · exact absurd hij hσ.x_ne_x₂
   · exact absurd (by simpa using hij) (x₂_ne_one hσ)
   · exact absurd hij.symm hσ.x_ne_x₂

@@ -259,6 +259,7 @@ theorem X_le_sup (d : ProductDiagData N X P t ρ) {q : ℕ} (hXcard : Nat.card X
     exact Nat.le_of_mul_le_mul_right h2 (by positivity)
   exact (Subgroup.eq_of_le_of_card_ge (sup_le inf_le_right inf_le_right) hge).ge
 
+omit [Finite G] in
 theorem sup_conj_eq_N_of_X_le (d : ProductDiagData N X P t ρ)
     (hXsup : X ≤ P ⊔ P.map (MulAut.conj t).toMonoidHom) :
     P ⊔ P.map (MulAut.conj t).toMonoidHom = N := by
@@ -269,6 +270,7 @@ theorem sup_conj_eq_N_of_X_le (d : ProductDiagData N X P t ρ)
   · rw [← hΛt, ← d.sup_X, Subgroup.map_sup, Common.map_conj_eq_of_mem_normalizer d.t_mem_X]
     exact sup_le (sup_le le_sup_left hXsup) (sup_le le_sup_right hXsup)
 
+omit [Finite G] in
 theorem not_two_dvd_relIndex_P (d : ProductDiagData N X P t ρ) [Finite G] {S : Subgroup G}
     (hSN : S ≤ N) (hodd : ¬ 2 ∣ S.relIndex N) : ¬ 2 ∣ S.relIndex P := by
   have hSnorm : S ≤ normalizer (P : Set G) := fun s hs =>
@@ -692,7 +694,7 @@ theorem exists_complement_of_inf_sq {R K : Subgroup G} (hKR : K ≤ R)
   let 𝒲 : Set (Subgroup G) := {W | W ≤ R ∧ Φ ≤ W ∧ K ⊓ W = ⊥}
   have hΦ𝒲 : Φ ∈ 𝒲 := ⟨hΦR, le_rfl, eq_bot_iff.2 fun k hk =>
     mem_bot.2 (hK k (mem_inf.1 hk).1 (mem_inf.1 hk).2)⟩
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (SetLike.coe : Subgroup G → Set G) SetLike.coe_injective
   obtain ⟨W, hW, hmax⟩ := Set.exists_max_image 𝒲 (fun W : Subgroup G => Nat.card W)
     (Set.toFinite 𝒲) ⟨Φ, hΦ𝒲⟩
@@ -992,6 +994,7 @@ theorem pair_step {H' : Type*} [Group H'] {N' X' P' : Subgroup G} {ρ' : N' →*
   · intro z hz hzt
     exact A'.X_inf_W z (d'.mem_X_of_mem_inf hz hzt) (d'.mem_centralizer_of_mem_inf hz hzt)
 
+omit [Finite G] in
 theorem map_inf_conj_eq {S P' : Subgroup G} (ht : t * t = 1) (htS : ∀ s ∈ S, t * s * t⁻¹ ∈ S) :
     (S ⊓ P').map (MulAut.conj t).toMonoidHom = S ⊓ P'.map (MulAut.conj t).toMonoidHom := by
   ext y
@@ -1140,9 +1143,9 @@ theorem AxisData.diagData (h : FCHyp L K n φ t)
     (hbt : ∀ i : Axis, ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ = ⊥) {i : Axis} (d : AxisData h i) :
     ProductDiagData 𝐍𝐂[i] 𝐗[i] d.P t d.ρ :=
   ProductDiagData.mk d.surj d.ker (le_sup_right.trans (sup_le_NC (φ := φ) (t := t) i))
-    (fun x hx => X_mul_self h hbt i hx)
-    (fun x hx y hy => comm_of_mul_self (fun _ hz => X_mul_self h hbt i hz) hx hy)
-    (mem_normalizer_of_conj_le fun z hz => conj_mem_NC i (t_mem_normalizer_X h i) hz)
+    (fun _x hx => X_mul_self h hbt i hx)
+    (fun _x hx _y hy => comm_of_mul_self (fun _ hz => X_mul_self h hbt i hz) hx hy)
+    (mem_normalizer_of_conj_le fun _z hz => conj_mem_NC i (t_mem_normalizer_X h i) hz)
     h.setup.t_mul_t d.swap d.le d.perfect d.sup_X d.comm d.max
 
 theorem card_S_eq (h : FCHyp L K n φ t)
@@ -1172,6 +1175,7 @@ theorem sharedHyp (h : FCHyp L K n φ t)
       (fun H₁ H₂ h1' h2' n1' n2' c' hU => ProductModel.antiUnipotent_eq_of_commute h.four_le_card
         h1' h2' n1' n2' c' hU) h1 h2 n1 n2 c hle
 
+omit [Finite G] [Finite K] in
 theorem P_le_CU (i : Axis) :
     pull φ (antiUnipotent K) ≤ L ⊓ centralizer (𝐔[i] : Set G) := by
   intro p hp

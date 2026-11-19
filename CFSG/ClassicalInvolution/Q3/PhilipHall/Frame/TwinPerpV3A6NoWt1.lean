@@ -191,7 +191,7 @@ theorem v3AE6NoWt1_proved : V3AE6NoWt1 n := by
       rw [hxdef, ← MulAut.conj_apply]
       exact orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective c
     rw [hord]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hc3
     rw [Nat.card_zpowers] at hk
     rw [hk]

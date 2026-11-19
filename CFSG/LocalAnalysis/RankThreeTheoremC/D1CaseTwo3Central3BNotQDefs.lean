@@ -18,10 +18,12 @@ variable {G : Type} [Group G] [Finite G]
     Subgroup (H ⧸ primeComplementCore (G := H) p) :=
   Subgroup.normalClosure (L : Set (H ⧸ primeComplementCore (G := H) p))
 
+omit [Finite G] in
 theorem le_innerNotQJ (p : ℕ) (H : Subgroup G)
     (L : Subgroup (H ⧸ primeComplementCore (G := H) p)) : L ≤ innerNotQJ p H L :=
   Subgroup.le_normalClosure
 
+omit [Finite G] in
 theorem innerNotQJ_eq_of_normal (p : ℕ) (H : Subgroup G)
     (L : Subgroup (H ⧸ primeComplementCore (G := H) p)) [L.Normal] : innerNotQJ p H L = L :=
   Subgroup.normalClosure_eq_self L
@@ -52,11 +54,13 @@ structure InnerNotQConfig (p : ℕ) (P : Sylow p G) (M H R : Subgroup G)
     (L : Subgroup (H ⧸ primeComplementCore (G := H) p)) (E : Subgroup G) : Subgroup G :=
   d1LiftX p H R (innerNotQJ p H L) ⊔ E
 
+omit [Finite G] in
 theorem le_innerNotQBaseA (p : ℕ) (H R : Subgroup G)
     (L : Subgroup (H ⧸ primeComplementCore (G := H) p)) (E : Subgroup G) :
     E ≤ innerNotQBaseA p H R L E :=
   le_sup_right
 
+omit [Finite G] in
 theorem innerNotQBaseA_le {p : ℕ} {H R : Subgroup G}
     {L : Subgroup (H ⧸ primeComplementCore (G := H) p)} {E : Subgroup G} (hER : E ≤ R) :
     innerNotQBaseA p H R L E ≤ R :=

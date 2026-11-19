@@ -22,7 +22,6 @@ theorem certificate17353_of_bridge
 theorem certificate17353 : 
     CFSG.HardMathSupport.Dickson.I271.TabFi24.ThreeAFacts :=
   certificate17353_of_bridge KernelFi24OrbL.bridge (by
-    intros
     rw [KernelFi24OrbL.levelLetters_eq 2 (by norm_num)]
     decide)
 

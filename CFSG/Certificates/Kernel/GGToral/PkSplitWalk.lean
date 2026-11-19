@@ -523,7 +523,7 @@ theorem three_le_finrank_of_tri {n : ℕ} {F : Type*} [Field F] {W : Submodule F
   refine card_le_finrank_of_tri ![a, b, c] ![i1, i2, i3] (fun j => ?_) (fun i j hij => ?_) W
     (fun j => ?_)
   · fin_cases j <;> assumption
-  · fin_cases i <;> fin_cases j <;> simp_all <;> contradiction
+  · fin_cases i <;> fin_cases j <;> simp_all
   · fin_cases j <;> assumption
 
 theorem kind0_finrank (hp : p.Prime) {mode : ℕ} (h : tagHdOK τ p mode H = true) {mem : List ℕ}
@@ -662,7 +662,7 @@ theorem lm_planeFree (h : tagHdOK τ p 0 H = true) {mask : ℕ} (hlm : LMFacts H
     have hl := hclose e he i (by rw [hng]; exact i.2)
     obtain ⟨hv, -⟩ := vecZ_letter_split h (hred e he) i
     refine ⟨letter H i e, (hin _ (red_letter hpos hp16' _ _)).mp hl, ?_⟩
-    rw [hv, tcLetterElt, dif_pos i.2]
+    rw [hv, tcLetterElt, dite_eq_left i.2]
   have hW := closed_W hsimp
   refine ⟨ents, hin, hW, vset τ p reps, ⊤, fun u _ => commutesPi_perm_one u, ?_,
     fun u _ e he => hW u e he, ?_, ?_⟩
@@ -811,7 +811,7 @@ theorem pkSplit_caseFacts {τ : Tag} {p : ℕ} (hp : p.Prime) {D : List ℕ}
       (latPhi {α | IsRoot τ α} p (vecZ p τ.rank a)) ((latPerm 1)^[k] α) β} = rootsOf τ H c.1 := by
     rw [← comp_eq_rootsOf h hroot hall hphi hsub hcl hlk hr0c hα]
     ext β
-    simp only [Set.mem_setOf_eq, latPerm_one_iterate]
+    simp only [Set.mem_ofPred_eq, latPerm_one_iterate]
     exact ⟨fun ⟨_, h⟩ => h, fun h => ⟨0, h⟩⟩
   rw [hO]
   have hmem : ∀ r ∈ c.1, r < H.np := fun r hr => (hsub r hr).2

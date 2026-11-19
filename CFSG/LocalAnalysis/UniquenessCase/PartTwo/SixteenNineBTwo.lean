@@ -25,7 +25,7 @@ theorem s16n9b_map_conj_map_conj (A : Subgroup (MulAut T)) (x y : MulAut T) :
 theorem s16n9b_map_conj_one (A : Subgroup (MulAut T)) :
     A.map (MulAut.conj (1 : MulAut T)).toMonoidHom = A := by
   ext z
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 theorem s16n9b_rk_map (e : MulAut T) (U : Subgroup T) : rk ↥(U.map e.toMonoidHom) = rk ↥U := by
   unfold rk
@@ -233,7 +233,7 @@ section Construction
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem s16n9b_exists_conj_eq {D : Data G} {V₀ V L : Subgroup G} (h : Hyp151 D V₀ V L)
+theorem s16n9b_exists_conj_eq {D : Data G} {V₀ V L : Subgroup G} (_h : Hyp151 D V₀ V L)
     (hV : IsElemAbelian 2 V) {φ : MulAut (Vtil V₀ V hV)} (hφ : φ ∈ Mbar D.M V₀ V hV) :
     ∃ m : G, m ∈ D.M ∧ barSub V₀ V hV (conjSubgroup L m) =
       (barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom := by

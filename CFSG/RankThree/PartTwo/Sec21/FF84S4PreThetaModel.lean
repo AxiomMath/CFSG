@@ -97,7 +97,7 @@ theorem theta_model {b b₁ b₂ : G} {L B K : Subgroup G}
     e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : ρ.ker = Subgroup.center ↥L := by
     ext y
-    simp [ρ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [ρ]
   obtain ⟨hb₁B, hb₁L⟩ := Subgroup.mem_inf.1 h.hb₁
   obtain ⟨hb₂B, hb₂L⟩ := Subgroup.mem_inf.1 h.hb₂
   obtain ⟨h13, h23, hcomm, hne1, hne2, hind, m, hmb, hmb₁⟩ :=
@@ -176,7 +176,7 @@ theorem theta_model {b b₁ b₂ : G} {L B K : Subgroup G}
     rw [MonoidHom.comp_apply, hθx x, mem_alternatingGroup]
     have h1 : sign ((e (QuotientGroup.mk x) : alternatingGroup (Fin 8)) :
         Equiv.Perm (Fin 8)) = 1 := mem_alternatingGroup.1 (e (QuotientGroup.mk x)).2
-    simp [h1, ← mul_assoc, Int.units_mul_self]
+    simp [h1, Int.units_mul_self]
   · intro a ha
     have ha' : τ⁻¹ * a * τ ∈ alternatingGroup (Fin 8) := by
       rw [mem_alternatingGroup] at ha ⊢

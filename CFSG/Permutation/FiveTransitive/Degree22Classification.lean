@@ -64,7 +64,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentyTwo
     ext i
     exact hq i
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -108,7 +108,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentyTwo
   have hJcard : Nat.card J = 342 * h := by
     rw [hJindex, hPcard] at hJindexCard
     omega
-  letI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   let T : Sylow 19 J := Sylow.nonempty.some
   have hJfactorization :
       (342 * h).factorization 19 = 1 :=
@@ -118,9 +118,9 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentyTwo
     rw [T.card_eq_multiplicity, hJcard,
       hJfactorization]
     norm_num
-  letI : IsCyclic T :=
+  let : IsCyclic T :=
     isCyclic_of_prime_card hTcard
-  letI : IsMulCommutative T :=
+  let : IsMulCommutative T :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := T)
@@ -201,7 +201,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentyTwo
   have hrJDvd : CJ.relIndex NJ ∣ 18 := by
     rw [hrJEq]
     exact hrangeTDvd
-  letI : CJ.IsFiniteRelIndex NJ :=
+  let : CJ.IsFiniteRelIndex NJ :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hNJmod : NJ.index % 19 = 1 := by
     change
@@ -260,9 +260,9 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentyTwo
     rw [S.card_eq_multiplicity, hPcard,
       hPfactorization]
     norm_num
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let R : Subgroup P :=
     (T : Subgroup J).map J.subtype
@@ -564,10 +564,10 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentyTwo
     obtain ⟨j, hj⟩ := hSleRange hnCG
     rw [← hj]
     exact j.prop
-  letI : IsCyclic (ZMod (Nat.card S))ˣ := by
+  let : IsCyclic (ZMod (Nat.card S))ˣ := by
     rw [hScard]
     exact ZMod.isCyclic_units_prime (by norm_num)
-  letI : IsCyclic (MulAut S) :=
+  let : IsCyclic (MulAut S) :=
     isCyclic_of_surjective
       (IsCyclic.mulAutMulEquiv S).symm.toMonoidHom
       (IsCyclic.mulAutMulEquiv S).symm.surjective

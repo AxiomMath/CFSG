@@ -20,7 +20,7 @@ theorem sec123_image_alt {H X : Subgroup G} (hXH : X ≤ H) (Θ : ↥H →* Equi
     rw [injective_iff_map_eq_one]
     intro x hx
     have hxH : Subgroup.inclusion hXH x = 1 :=
-      hker (Subgroup.inclusion hXH x) (by simpa using x.2) hx
+      hker (Subgroup.inclusion hXH x) (by simp) hx
     refine Subtype.ext ?_
     have h1 : ((Subgroup.inclusion hXH x : ↥H) : G) = 1 := by rw [hxH]; rfl
     rwa [Subgroup.coe_inclusion] at h1

@@ -77,7 +77,6 @@ theorem closure_rG : Subgroup.closure (gens 100 7 rG 6) = hs100R := by
 theorem words_mem {G : Nat → Nat} {W : List (List Nat)} {m : Nat} (h : wordsK G W m = true) :
     ∀ k < m, PP 100 7 (G k) ∧ toPerm 100 7 (G k) ∈ hs100R := fun k hk => by
   have e := Orb.allN_iff.1 h k hk
-  unfold wordsK at e
   obtain ⟨e1, e2⟩ := band e
   have hw := wordK_sound gl_sz pp_rG (W.getD k []) fun c hc => by
     have := allL_iff.1 e2 c hc
@@ -240,7 +239,7 @@ theorem invol_eq_toPerm {x : Equiv.Perm (Fin 100)} (hxR : x ∈ hs100R) (hx2 : x
   have hc2 : t * x * c2 = c2 * (t * x) := by rw [mul_assoc, h2, ← mul_assoc, htc2, mul_assoc]
   have hS : ∀ i : Fin 100, i ∈ ptsM 100 SM ↔ c1 i = i := fun i => by
     have e := Orb.allN_iff.1 hsm i i.2
-    simp only [ptsM, Set.mem_setOf_eq]
+    simp only [ptsM, Set.mem_ofPred_eq]
     have e' : Nat.testBit SM i = Nat.beq (pg 7 (mask 7) (TH.F 0) i) i := by
       generalize Nat.testBit SM i = a at e
       generalize Nat.beq (pg 7 (mask 7) (TH.F 0) i) i = b at e

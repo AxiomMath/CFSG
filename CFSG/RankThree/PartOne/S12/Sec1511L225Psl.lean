@@ -94,7 +94,7 @@ theorem psl2_fix5 {K : Type} [Field K] [Finite K] {f : ℕ} (hKcard : Nat.card K
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨Q, hQ⟩ := psl2UpperUnipotent_isSylow K hKcard
   have hUs : IsSylowOf 5 (psl2UpperUnipotentSubgroup K) ⊤ := by
-    refine ⟨le_top, by rw [← hQ]; exact Q.isPGroup', ?_⟩
+    refine ⟨le_top, by rw [← hQ]; exact Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right, ← hQ]
     exact Q.not_dvd_index
   have hap : a ^ 5 = 1 := by

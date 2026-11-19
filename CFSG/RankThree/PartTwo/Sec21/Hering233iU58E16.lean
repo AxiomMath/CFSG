@@ -58,7 +58,7 @@ theorem nU_mul {i j k l : Fin 5} (h : uvec i j ⬝ᵥ uvec k l = 0) : nU i j * n
   simp [Matrix.vecMulVec_apply]
 
 theorem uvec_eq_zero {i j x : Fin 5} (hxi : x ≠ i) (hxj : x ≠ j) : uvec i j x = 0 := by
-  simp [uvec, Pi.single_apply, hxi, hxj]
+  simp [uvec, hxi, hxj]
 
 theorem nU_block {v : Fin 4 → ZMod 3} {i j : Fin 5} (hij : ext3 v i = ext3 v j) {x y : Fin 5}
     (hxy : ext3 v x ≠ ext3 v y) : nU i j x y = 0 := by
@@ -111,21 +111,21 @@ theorem hindU0 : ∀ s t : K, s • nU 2 3 + t • nU 0 1 = 0 → s = 0 ∧ t = 
   intro s t h
   have h1 := congrFun₂ h 2 3
   have h2 := congrFun₂ h 0 1
-  simp [nU, uvec, Matrix.vecMulVec_apply, Pi.single_apply] at h1 h2
+  simp [nU, uvec, Matrix.vecMulVec_apply] at h1 h2
   exact ⟨h1, h2⟩
 
 theorem hindU1 : ∀ s t : K, s • nU 0 1 + t • nU 3 4 = 0 → s = 0 ∧ t = 0 := by
   intro s t h
   have h1 := congrFun₂ h 0 1
   have h2 := congrFun₂ h 3 4
-  simp [nU, uvec, Matrix.vecMulVec_apply, Pi.single_apply] at h1 h2
+  simp [nU, uvec, Matrix.vecMulVec_apply] at h1 h2
   exact ⟨h1, h2⟩
 
 theorem hindU2 : ∀ s t : K, s • nU 0 1 + t • nU 2 3 = 0 → s = 0 ∧ t = 0 := by
   intro s t h
   have h1 := congrFun₂ h 0 1
   have h2 := congrFun₂ h 2 3
-  simp [nU, uvec, Matrix.vecMulVec_apply, Pi.single_apply] at h1 h2
+  simp [nU, uvec, Matrix.vecMulVec_apply] at h1 h2
   exact ⟨h1, h2⟩
 
 theorem gUnit_mem_SU {N₁ N₂ : Matrix (Fin 5) (Fin 5) K} (h : NilPair N₁ N₂) (hs₁ : N₁ᵀ = N₁)
@@ -238,7 +238,7 @@ theorem permMatU_swap01 : permMatU (Equiv.swap 0 1) = 1 + nU 0 1 := by
   ext x y
   rw [permMatU_apply, Matrix.add_apply, nU, Matrix.vecMulVec_apply]
   fin_cases x <;> fin_cases y <;>
-    simp [uvec, Pi.single_apply, Equiv.swap_apply_def, Matrix.one_apply, one_add_one_eq_two,
+    simp [uvec, Equiv.swap_apply_def, one_add_one_eq_two,
       two_eq_zero]
 
 @[expose] noncomputable def Wsw : SUI := permSU (Equiv.swap 0 1)
@@ -414,7 +414,7 @@ theorem su_model (i : Fin 4) {c : SUI} (hc : c = δ (Multiplicative.ofAdd (std i
       refine Subgroup.centralizer_le_normalizer _ ?_
       rw [h1]
       exact hE₀ hg
-    · haveI := isComponent_normal_U (std i) hY
+    · have := isComponent_normal_U (std i) hY
       exact hE₀.trans (Sec6.le_normalizer_map_subtype Y)
   rcases fin4_cases i with rfl | rfl | rfl | rfl
   · obtain ⟨E₀, h1, h2, h3, h4⟩ := su_zero_model

@@ -178,7 +178,7 @@ theorem i2023FactD2LocalOdd_holds : I2023FactD2LocalOdd := by
   set n := q.exponent with hn
   set Θ : MulAut S →* (K ≃+* K) := Θ₀.comp (MulAut.congr eS).toMonoidHom with hΘ
   have hker : Θ.ker = (MulAut.conj : S →* MulAut S).range := ker_comp_congr_eq eS Θ₀ hΘ₀
-  haveI : IsCyclic (K ≃+* K) := CFSG.RankThree.PartTwo.KFacts.isCyclic_ringEquiv_of_finite K
+  have : IsCyclic (K ≃+* K) := CFSG.RankThree.PartTwo.KFacts.isCyclic_ringEquiv_of_finite K
   have hZC : Subgroup.center (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
     CFSG.LieType.Chevalley.center_graphFixedRootGroup_eq_bot σ.surjective
   have hZ : Subgroup.center S = ⊥ := by
@@ -210,7 +210,7 @@ theorem i2023FactD2LocalOdd_holds : I2023FactD2LocalOdd := by
     rwa [hcop, pow_one] at h3
   by_contra h9
   push Not at h9
-  haveI : Finite (MulAut S) :=
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun φ : MulAut S => (φ : S → S)) (fun a b h => MulEquiv.ext (congrFun h))
   have hEp : IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 _ g.2)⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 hEp
@@ -254,10 +254,10 @@ private theorem i2tHold_borel_model {n : ℕ} (hev : Even n) (hn : 1 ≤ n) {K :
         (∀ u ∈ U₀, (fieldActor σ σ)⁻¹ u ∈ U₀) ∧
         (∀ e ∈ E₀, ∀ u ∈ U₀, e * u * e⁻¹ ∈ U₀) ∧ ∃ u ∈ U₀, fieldActor σ σ u ≠ u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK3 : Nat.card K = 2 ^ (3 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := 3 * n) (by rw [Fintype.card_eq_nat_card, hK3])
   have hσ3 : σ ^ 3 = 1 := CFSG.LocalAnalysis.GLTheoremA.td4g2_sigma_cube hK hσ

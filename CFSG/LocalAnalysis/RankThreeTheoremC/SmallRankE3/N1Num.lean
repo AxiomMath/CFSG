@@ -44,7 +44,7 @@ theorem card_le_of_det_eq_one_of_finrank_eq_two [FiniteDimensional K V] {r : ℕ
     have hk2 : 2 ≤ k := by
       by_contra h
       rw [not_le] at h
-      interval_cases k <;> simp at hlt <;> omega
+      interval_cases k <;> simp at hlt; omega
     exact Nat.pow_le_pow_right hr.pos hk2
   obtain ⟨x, hxE, hx1, v, hv0, hxv⟩ := exists_fixed_of_sq_le_card hr hrK E hcomm hexp hsq
   have hc := isCompl_fixedSpace_commSpace hrK (hexp x hxE)
@@ -117,8 +117,8 @@ section GL3
 theorem card_le_five_of_exponent_five_gl {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
     [FiniteDimensional (ZMod 3) V] (hV : Module.finrank (ZMod 3) V ≤ 4)
     (E : Subgroup (V ≃ₗ[ZMod 3] V)) (hexp : ∀ g ∈ E, g ^ 5 = 1) : Nat.card E ≤ 5 := by
-  haveI : Finite V := Module.finite_of_finite (R := ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (R := ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 3] V => (f : V → V)) LinearEquiv.coe_injective
   set d := Module.finrank (ZMod 3) V
   let e : V ≃ₗ[ZMod 3] (Fin d → ZMod 3) := (Module.finBasis (ZMod 3) V).equivFun
@@ -139,7 +139,7 @@ theorem card_le_five_of_exponent_five_gl {V : Type*} [AddCommGroup V] [Module (Z
   have key : ∀ m : ℕ, m ≤ 4 → ¬ (25 : ℕ) ∣ ∏ i : Fin m, ((3 : ℕ) ^ m - 3 ^ (i : ℕ)) := by
     intro m hm
     interval_cases m <;> norm_num [Fin.prod_univ_succ]
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hP : IsPGroup 5 E := by
     intro g
     refine ⟨1, ?_⟩
@@ -171,7 +171,7 @@ theorem card_le_pow_three {f : ℕ} (hf : f.Prime) {Ω : Subgroup K}
     (hexp : ∀ x ∈ Ω, x ^ f = 1)
     (hrank : ∀ E : Subgroup K, E ≤ Ω → (∀ a ∈ E, ∀ b ∈ E, a * b = b * a) →
       Nat.card E ≤ f ^ 2) : Nat.card Ω ≤ f ^ 3 := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hexp' : ∀ x : ↥Ω, x ^ f = 1 := fun x => Subtype.ext (by simpa using hexp x x.2)
   have hP : IsPGroup f ↥Ω := fun x => ⟨1, by rw [pow_one]; exact hexp' x⟩
   rcases le_or_gt (Nat.card Ω) f with hsmall | hgt
@@ -205,7 +205,7 @@ theorem pRank_le_two_of_five_mem (hrank : evenRank G = 3) (h5 : 5 ∈ rankThreeS
   classical
   by_contra h3
   push Not at h3
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hle : Open.pRank q H ≤ 3 :=
     (local_pRank_le_evenRank q hq (by omega) H hH).trans hrank.le
   have hbdd : BddAbove {k | ∃ K : Subgroup G, IsTwoLocal K ∧ CFSG.Open.pRank q K = k} := by
@@ -261,7 +261,7 @@ theorem exists_rank_bound_e3 {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.
     (fun x hx y hy => Subgroup.commutator_mem_commutator hx hy)
     (fun x hx => by rw [hΩ.exp x hx]; exact one_mem _)
     hΩ.norm (fun g hg => normalizer_le_normalizer_commutator Ω (hΩ.norm hg))
-  haveI : Finite W := Module.finite_of_finite (ZMod f)
+  have : Finite W := Module.finite_of_finite (ZMod f)
   set d := Module.finrank (ZMod f) W with hd
   have hrK : ((p : ℕ) : ZMod f) ≠ 0 := by
     intro h
@@ -342,7 +342,7 @@ theorem exists_rank_bound_e3 {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.
       rcases hdcase with h | ⟨h, -⟩ <;> omega
     refine ⟨1, fun E hEN hEc hEp _ => ?_⟩
     obtain ⟨hfin, hcomm, hexp⟩ := himg E hEN hEc hEp
-    haveI := hfin
+    have := hfin
     refine card_le_of_range (actEquiv ρ) hEN (hker E hEN hEp) ?_
     subst hp5
     subst hf3
@@ -369,7 +369,7 @@ theorem exists_rank_bound_e3 {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.
         omega
     refine ⟨LinearEquiv.det.comp (actEquiv ρ), fun E hEN hEc hEp hχ => ?_⟩
     obtain ⟨hfin, hcomm, hexp⟩ := himg E hEN hEc hEp
-    haveI := hfin
+    have := hfin
     refine card_le_of_range (actEquiv ρ) hEN (hker E hEN hEp) ?_
     by_cases hd1 : d ≤ 1
     · have h1 := CFSG.RankThree.PartOne.LIT.card_le_pow_finrank_sub hp hrK
@@ -392,7 +392,7 @@ theorem card_le_pow_of_pRank_le {A : Type} [Group A] [Finite A] {f r : ℕ} (hf 
     ∀ E : Subgroup A, E ≤ Fs → (∀ a ∈ E, ∀ b ∈ E, a * b = b * a) → (∀ a ∈ E, a ^ f = 1) →
       Nat.card E ≤ f ^ r := by
   intro E hEF hEc hEp
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hEf : IsPGroup f E := fun g => ⟨1, Subtype.ext (by simpa using hEp g g.2)⟩
   obtain ⟨k, hk⟩ := hEf.exists_card_eq
   have hEab : IsElemAbelian f E := ⟨⟨⟨fun a b => Subtype.ext (hEc a a.2 b b.2)⟩⟩, hEp⟩
@@ -409,10 +409,10 @@ theorem lemma69_e3 {A : Type} [Group A] [Finite A] {p f : ℕ} (hp5 : p = 5) (hf
     (hRN : R ≤ X ⊓ normalizer (Fs : Set A)) (hR3 : 3 ≤ Open.pRank p R)
     (hcyc : IsCyclic (R ⊓ centralizer (Fs : Set A) : Subgroup A))
     (hX3 : Open.pRank f X ≤ 3) (hX7 : 7 ≤ f → Open.pRank f X ≤ 2) : False := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hprime : p.Prime := hp5 ▸ Nat.prime_five
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : NeZero f := ⟨hf.ne_zero⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : NeZero f := ⟨hf.ne_zero⟩
   obtain ⟨χ, hχ⟩ := exists_rank_bound_e3 hf2 hprime hp5 hfp.symm hFsp
     (N := X ⊓ normalizer (Fs : Set A)) inf_le_right (card_le_pow_of_pRank_le hf hFsX hX3)
     (fun h7 => card_le_pow_of_pRank_le hf hFsX (hX7 h7))

@@ -91,7 +91,7 @@ theorem normalizer_sup_fixedBy_eq_top {J : Type} [Group J] [Finite J]
   have hcard' : Nat.card F < Nat.card N := by simpa [hF, hN] using hcard
   have hle : ¬ N ≤ F := fun h =>
     absurd (Subgroup.card_le_of_le h) (not_le.mpr hcard')
-  obtain ⟨n, hnN, hnF⟩ := SetLike.not_le_iff_exists.mp hle
+  obtain ⟨n, hnN, hnF⟩ := IsConcreteLE.not_le_iff_exists.mp hle
   have hmapne : F.map (MulAut.conj n).toMonoidHom ≠ F := by
     intro heq
     have heq' : (fixedBy W).map (MulAut.conj n).toMonoidHom = fixedBy W := by

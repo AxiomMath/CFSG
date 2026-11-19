@@ -18,7 +18,7 @@ theorem card_le_of_inner {X L A : Subgroup G} (hL : GLAPComponent 3 X L) (hA : I
     (hAN : A ≤ Subgroup.normalizer (L : Set G)) (hinn : ∀ a ∈ A, InducesInnerMod 3 L a)
     {B : ℕ} (hB : ∀ F : Subgroup (PSimple 3 L), IsElemAbelian 3 F → Nat.card F ≤ B) :
     Nat.card A ≤ B * Nat.card ↥(A ⊓ centModSubgroup 3 L) := by
-  haveI : Group.IsPerfect (PQuot 3 L) := ⟨(isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL).1⟩
+  have : Group.IsPerfect (PQuot 3 L) := ⟨(isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL).1⟩
   have hZ : Subgroup.center (PSimple 3 L) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot (PQuot 3 L)
   have hκ : Function.Injective (MulAut.conj : PSimple 3 L →* MulAut (PSimple 3 L)) := by
@@ -71,7 +71,7 @@ theorem card_le_of_inner {X L A : Subgroup G} (hL : GLAPComponent 3 X L) (hA : I
     rw [he]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
   have hR : IsElemAbelian 3 ρ.range := by
-    haveI := hA.1
+    have := hA.1
     refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
     · obtain ⟨a, ha⟩ := ρ.mem_range.1 x.2
       obtain ⟨b, hb⟩ := ρ.mem_range.1 y.2
@@ -92,7 +92,7 @@ end Transport
 
 theorem card_le_81_gl8 {ι : Type} [Fintype ι] [DecidableEq ι] (hι : Fintype.card ι = 8)
     (H : Subgroup (GL ι (ZMod 2))) (hH : IsElemAbelian 3 H) : Nat.card H ≤ 81 := by
-  haveI := hH.1
+  have := hH.1
   have h := Rank3.card_le_three_pow_of_injective' (E := ↥H) (fun a b => mul_comm' a b)
     (fun e => Subtype.ext (by simpa using hH.2 (e : GL ι (ZMod 2)) e.2))
     H.subtype Subtype.val_injective
@@ -113,8 +113,8 @@ theorem card_le_81_d4 {S : Type} [Group S] (h : catalogIs S S9.isD4two) {F : Sub
 
 theorem card_le_81_sl5 (E : Subgroup (GL (Fin 5) K4)) (hE : IsElemAbelian 3 E)
     (hdet : ∀ g ∈ E, (g : Matrix (Fin 5) (Fin 5) K4).det = 1) : Nat.card E ≤ 81 := by
-  haveI := hE.1
-  letI : CommGroup E := { (inferInstance : Group E) with mul_comm := fun a b => mul_comm' a b }
+  have := hE.1
+  let : CommGroup E := { (inferInstance : Group E) with mul_comm := fun a b => mul_comm' a b }
   have hE3 : ∀ e : E, e ^ 3 = 1 := fun e => Subtype.ext (by simpa using hE.2 (e : GL (Fin 5) K4) e.2)
   let ρE : E →* Module.End (ZMod 2) (Fin 5 → K4) := (glRepZ 5).comp E.subtype
   have hcomm : ∀ (e : E) (a : K4ˣ), Commute (ρE e) (scalRep 5 a) := by

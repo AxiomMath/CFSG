@@ -71,7 +71,7 @@ structure QPCfg (M V Q P H : Subgroup G) {n : ℕ}
     (cfg : QPCfg M V Q P H Φ ψ a T) (w : ℕ), w = 2 * n - 2 → ¬ StrothCaseVIII cfg.aG w
 
 @[expose] def QPCfgExistsStatement : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (M V Q P H : Subgroup G) (hH : TwoEndHyp M V Q P H),
+  ∀ (G : Type) [Group G] [Finite G] (M V Q P H : Subgroup G) (_hH : TwoEndHyp M V Q P H),
     Subgroup.center (Xbar V H) = ⊥ →
     (∃ n : ℕ, 3 ≤ n ∧ Nonempty (↥(StatedSp n (GaloisField 2 1)) ≃* XbarZ V H)) → Q ≤ P →
     ∃ (n : ℕ) (Φ : ↥(StatedSp n (GaloisField 2 1)) ≃* Xbar V H)

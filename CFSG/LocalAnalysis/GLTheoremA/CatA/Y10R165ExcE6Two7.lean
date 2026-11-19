@@ -52,6 +52,7 @@ private theorem blockSpecialLinear_inf_eq_bot_of_disjoint {F : Type*} [Field F]
   · rw [mem_blockSpecialLinear.1 h1 i j (Or.inl hi)]
     rfl
 
+omit [Finite K] in
 private theorem blockSL_inf_eq_bot_of_disjoint_of_card_two
     {I J : Finset (Fin 6)} (h : Disjoint I J) (hJ : J.card = 2) :
     blockSL (K := K) I ⊓ blockSL (K := K) J = ⊥ := by
@@ -124,7 +125,7 @@ private theorem exists_mem_blockSL_orderOf_eq_prime {a b : Fin 6} (hab : a ≠ b
     (hp : p.Prime) (hpq : p ∣ Nat.card K + 1) :
     ∃ x : LinearFlag.projectiveSL 6 K, x ∈ blockSL (K := K) ({a, b} : Finset (Fin 6)) ∧
       orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨X, hXle, -, hXcard⟩ := exists_torusQ1 (K := K) (n := 6) hab
   have hpX : p ∣ Nat.card X := by rw [hXcard]; exact hpq
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := X) p hpX
@@ -270,7 +271,7 @@ private theorem normal_blockSL_compl_of_centralizer_pow {a b : Fin 6} (hab : a �
     (hy : y ∈ blockSpecialLinear (K := K) ({a, b} : Finset (Fin 6)))
     (hyy : y * y ≠ 1)
     (hym : (LinearFlag.proj 6 K y) ^ (Nat.card K + 1) = 1)
-    (hQle : blockSL (K := K) ({a, b} : Finset (Fin 6))ᶜ ≤ Subgroup.centralizer
+    (_hQle : blockSL (K := K) ({a, b} : Finset (Fin 6))ᶜ ≤ Subgroup.centralizer
       ({LinearFlag.proj 6 K y} : Set (LinearFlag.projectiveSL 6 K))) :
     ((blockSL (K := K) ({a, b} : Finset (Fin 6))ᶜ).subgroupOf
       (Subgroup.centralizer ({LinearFlag.proj 6 K y} :
@@ -287,6 +288,7 @@ private theorem normal_blockSL_compl_of_centralizer_pow {a b : Fin 6} (hab : a �
   rw [h1]
   exact (blockSL (K := K) ({a, b} : Finset (Fin 6))ᶜ).mul_mem hcomm hx
 
+omit [Finite K] [CharP K 2] in
 private theorem blockSL_I0123_le_centralizer {x : LinearFlag.projectiveSL 6 K}
     (hx : x ∈ blockSL (K := K) I45) :
     blockSL (K := K) I0123 ≤ Subgroup.centralizer ({x} : Set (LinearFlag.projectiveSL 6 K)) := by
@@ -294,6 +296,7 @@ private theorem blockSL_I0123_le_centralizer {x : LinearFlag.projectiveSL 6 K}
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact (commute_blockSL_of_disjoint (K := K) disjoint_I0123_I45 q hq x hx).eq
 
+omit [CharP K 2] in
 private theorem isQuasisimple_blockSL_I0123 :
     CFSG.Open.IsQuasisimple ↥(blockSL (K := K) I0123) := by
   have hq : CFSG.IsQuasisimple ↥(blockSL (K := K) I0123) :=
@@ -302,6 +305,7 @@ private theorem isQuasisimple_blockSL_I0123 :
       (Or.inl (by rw [I0123_card]; norm_num))
   exact ⟨Group.isPerfect_def.mp hq.1, hq.2.1⟩
 
+omit [CharP K 2] in
 private theorem dvd_card_blockSL_I0123 {p : ℕ} (hpq : p ∣ Nat.card K + 1) :
     p ∣ Nat.card (blockSL (K := K) I0123) := by
   obtain ⟨e⟩ := blockSL_mulEquiv (K := K) (I := I0123) (n := 6)
@@ -323,6 +327,7 @@ private theorem dvd_card_blockSL_I0123 {p : ℕ} (hpq : p ∣ Nat.card K + 1) :
     hpq'.trans (Finset.dvd_prod_of_mem (fun j => Nat.card K ^ j - 1) (by simp))
   exact Dvd.dvd.mul_left hprod (Nat.card K ^ (4 * (4 - 1) / 2))
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_lift_blockSL_I45 {p : ℕ} (hp3 : 3 ≤ p)
     (hpq : p ∣ Nat.card K + 1) {x : LinearFlag.projectiveSL 6 K}
     (hx : x ∈ blockSL (K := K) I45) (hxord : orderOf x = p) :
@@ -487,9 +492,9 @@ private theorem e6TwoLayerData_aux (p : ℕ) (hp : p.Prime) (hp3 : 3 ≤ p)
 theorem e6TwoLayerData_holds : E6TwoLayerData := by
   unfold E6TwoLayerData
   intro K hK hKf hKc p hp hp3 hpq
-  letI : Field K := hK
-  letI : Finite K := hKf
-  letI : CharP K 2 := hKc
+  let : Field K := hK
+  let : Finite K := hKf
+  let : CharP K 2 := hKc
   exact e6TwoLayerData_aux (K := K) p hp hp3 hpq
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10F.ExcE6Two

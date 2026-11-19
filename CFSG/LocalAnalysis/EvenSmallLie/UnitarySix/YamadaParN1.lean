@@ -114,10 +114,13 @@ variable {G : Type} [Group G] {t : G} {D₁ V₁ A₁ K₁ D₂ : Subgroup G} {�
 variable (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG)
 include h
 
+omit h in
 theorem Y13Hyp.D₁_le_nOne : D₁ ≤ nOne D₁ K₁ D₂ := le_sup_left.trans le_sup_left
 
+omit h in
 theorem Y13Hyp.K₁_le_nOne : K₁ ≤ nOne D₁ K₁ D₂ := le_sup_right.trans le_sup_left
 
+omit h in
 theorem Y13Hyp.D₂_le_nOne : D₂ ≤ nOne D₁ K₁ D₂ := le_sup_right
 
 theorem Y13Hyp.nOne_le_normalizer : nOne D₁ K₁ D₂ ≤ normalizer (D₁ : Set G) :=
@@ -162,6 +165,7 @@ theorem piG_mk (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) (n : nOne D₁ K�
     secW D₁ V₁ →ₗ[ZMod 2] secW D₁ V₁ :=
   secAct t h.t_D₁ h.t_V₁
 
+omit [Fact (ElemSec D₁ V₁)] [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal] in
 theorem Y13Hyp.ι_zero (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) : ιG 0 ∈ V₁ := by
   have h1 := h.ι_add 0 0
   rw [add_zero, show (ιG 0 * ιG 0)⁻¹ * ιG 0 = (ιG 0)⁻¹ by group] at h1
@@ -184,9 +188,11 @@ theorem Y13Hyp.ι_zero (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) : ιG 0 �
       simpa using V₁.inv_mem h.ι_zero
     · rw [one_smul, RingHom.id_apply, one_smul]
 
+omit [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal] in
 theorem iotaL_apply (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) (u : Fin 8 → ZMod 2) :
     iotaL h u = secMk ⟨ιG u, h.A₁_le (h.ι_mem u)⟩ := rfl
 
+omit [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal] in
 theorem iotaL_injective (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) : Function.Injective (iotaL h) := by
   intro u v huv
   have h0 : iotaL h (u + v) = 0 := by rw [map_add, huv, ← two_nsmul, secW_two_nsmul]
@@ -198,9 +204,9 @@ theorem iotaL_injective (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) : Functio
   ext i
   exact ZMod.neg_eq_self_mod_two (v i)
 
-@[expose] noncomputable def kmap (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
+@[expose] noncomputable def kmap (_h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
     K₁ →* (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂)) :=
-  (mkG D₁ K₁ D₂).comp (Subgroup.inclusion h.K₁_le_nOne)
+  (mkG D₁ K₁ D₂).comp (Subgroup.inclusion CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.K₁_le_nOne)
 
 theorem piG_kmap_iota (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) (k : K₁) (u : Fin 8 → ZMod 2) :
     piG h (kmap h k) (iotaL h u) =
@@ -247,17 +253,19 @@ theorem thetaG_apply (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) (k : K₁) :
     rw [thetaG_symm, MulEquiv.symm_apply_apply]
   rw [this, MulEquiv.apply_symm_apply]
 
-@[expose] noncomputable def dmap (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
+@[expose] noncomputable def dmap (_h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
     D₂ →* (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂)) :=
-  (mkG D₁ K₁ D₂).comp (Subgroup.inclusion h.D₂_le_nOne)
+  (mkG D₁ K₁ D₂).comp (Subgroup.inclusion CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₂_le_nOne)
 
 @[expose] noncomputable def DG (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
     Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂)) :=
   (dmap h).range
 
+omit [Fact (ElemSec D₁ V₁)] [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal] in
 theorem Y13Hyp.t_inv (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) : t⁻¹ = t :=
   inv_eq_of_mul_eq_one_right h.t_sq
 
+omit [Fact (ElemSec D₁ V₁)] [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal] in
 theorem conjD_t_le (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
     D₁.subgroupOf (nOne D₁ K₁ D₂) ≤
       (D₁.subgroupOf (nOne D₁ K₁ D₂)).comap (conjD (D := nOne D₁ K₁ D₂) t h.t_mem_normalizer) := by
@@ -270,6 +278,7 @@ theorem conjD_t_le (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
       (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂)) :=
   QuotientGroup.map _ _ (conjD (D := nOne D₁ K₁ D₂) t h.t_mem_normalizer) (conjD_t_le h)
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem tauG_mk (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) (n : nOne D₁ K₁ D₂) :
     tauG h (mkG D₁ K₁ D₂ n) = mkG D₁ K₁ D₂ (conjD t h.t_mem_normalizer n) := rfl
 
@@ -283,18 +292,21 @@ variable [Fact (ElemSec D₁ V₁)] [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Nor
 variable (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG)
 include h
 
+omit [Fact (ElemSec D₁ V₁)] h in
 theorem Y13Hyp.mkG_eq_iff (n n' : nOne D₁ K₁ D₂) :
     mkG D₁ K₁ D₂ n = mkG D₁ K₁ D₂ n' ↔ (n : G)⁻¹ * n' ∈ D₁ := by
   rw [mkG, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq,
     Subgroup.mem_subgroupOf]
   simp
 
+omit [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal] in
 theorem Y13Hyp.card_W : Nat.card (secW D₁ V₁) = 2 ^ 16 := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (V₁.subgroupOf D₁)
   rw [card_subgroupOf_of_le h.sec.le, h.card_D₁, h.card_V₁] at h1
   change Nat.card (↥D₁ ⧸ V₁.subgroupOf D₁) = 2 ^ 16
   omega
 
+omit [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal] in
 theorem Y13Hyp.r3_fix (u : Fin 8 → ZMod 2) : tauW h (iotaL h u) = iotaL h u := by
   rw [iotaL_apply, tauW, secAct_mk]
   congr 1
@@ -302,6 +314,7 @@ theorem Y13Hyp.r3_fix (u : Fin 8 → ZMod 2) : tauW h (iotaL h u) = iotaL h u :=
   simp only [conjD, MonoidHom.coe_mk, OneHom.coe_mk]
   rw [h.A₁_t _ (h.ι_mem u), mul_inv_cancel_right]
 
+omit [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal] in
 theorem Y13Hyp.r3_range (u : Fin 8 → ZMod 2) : ∃ x, tauW h x + x = iotaL h u := by
   obtain ⟨x, hx, hxu⟩ := h.ι_range u
   refine ⟨secMk ⟨x, hx⟩, ?_⟩
@@ -332,7 +345,7 @@ theorem Y13Hyp.thetaG_symm_mem_DG {g : SU42b} {d : G} (hd : d ∈ D₂)
     (((thetaG h).symm g : KG h) : (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂))) =
       dmap h ⟨d, hd⟩ := by
   rw [thetaG_symm, kmap, dmap, MonoidHom.comp_apply, MonoidHom.comp_apply, eq_comm,
-    h.mkG_eq_iff]
+    Y13Hyp.mkG_eq_iff]
   exact hdg
 
 theorem Y13Hyp.r3_E_le {m : ℕ} (hm : m < 4) :
@@ -368,6 +381,7 @@ theorem Y13Hyp.r3_πτ (g : ↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D
   simp only [conjD, MonoidHom.coe_mk, OneHom.coe_mk, _root_.mul_inv_rev, h.t_inv]
   group
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.r3_ττ (g : ↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂)) :
     tauG h (tauG h g) = g := by
   induction g using QuotientGroup.induction_on with | H n => ?_
@@ -379,6 +393,7 @@ theorem Y13Hyp.r3_ττ (g : ↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D
   calc t * (t * (n : G) * t⁻¹) * t⁻¹ = (t * t) * n * (t * t)⁻¹ := by group
     _ = n := by rw [ht]; group
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.r3_τK {γ} (hγ : γ ∈ KG h) : tauG h γ = γ := by
   obtain ⟨k, rfl⟩ := hγ
   rw [kmap, MonoidHom.comp_apply, tauG_mk]
@@ -387,6 +402,7 @@ theorem Y13Hyp.r3_τK {γ} (hγ : γ ∈ KG h) : tauG h γ = γ := by
   simp only [conjD, MonoidHom.coe_mk, OneHom.coe_mk, Subgroup.coe_inclusion]
   rw [h.K₁_t k k.2, mul_inv_cancel_right]
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.r3_τD {γ} (hγ : γ ∈ DG h) : tauG h γ ∈ DG h := by
   obtain ⟨d, rfl⟩ := hγ
   refine ⟨⟨t * d * t⁻¹, (mem_normalizer_iff.mp h.t_D₂ d).mp d.2⟩, ?_⟩
@@ -425,7 +441,7 @@ theorem Y13Hyp.r3_Dinj {γ} (hγ : γ ∈ DG h) (hπ : piG h γ = 1) : γ = 1 :=
     have := LinearMap.congr_fun hπ (secMk ⟨x, hx⟩)
     rw [h.piG_dmap, Module.End.one_apply, secMk_eq_iff] at this
     exact this
-  rw [dmap, MonoidHom.comp_apply, ← map_one (mkG D₁ K₁ D₂), h.mkG_eq_iff]
+  rw [dmap, MonoidHom.comp_apply, ← map_one (mkG D₁ K₁ D₂), Y13Hyp.mkG_eq_iff]
   simpa using hd
 
 theorem Y13Hyp.r3_Kr (g : ↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂))
@@ -438,15 +454,16 @@ theorem Y13Hyp.r3_Kr (g : ↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D�
         piG_mk, Module.End.one_apply, secMk_eq_iff] at this
       exact this
     · have h1 : mkG D₁ K₁ D₂ (conjD t h.t_mem_normalizer n) = mkG D₁ K₁ D₂ n := hτ
-      rw [h.mkG_eq_iff] at h1
+      rw [Y13Hyp.mkG_eq_iff] at h1
       have h2 := (mem_normalizer_iff.mp (h.nOne_le_normalizer n.2) _).mp (D₁.inv_mem h1)
       simp only [conjD, MonoidHom.coe_mk, OneHom.coe_mk] at h2
       convert h2 using 1
       group
   change mkG D₁ K₁ D₂ n = mkG D₁ K₁ D₂ 1
-  rw [h.mkG_eq_iff]
+  rw [Y13Hyp.mkG_eq_iff]
   simpa using hn
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.tauG_dmap (d : D₂) :
     tauG h (dmap h d) = dmap h ⟨t * d * t⁻¹, (mem_normalizer_iff.mp h.t_D₂ d).mp d.2⟩ := rfl
 
@@ -460,7 +477,7 @@ theorem Y13Hyp.r3_τfix {γ} (hγ : γ ∈ DG h) (hfix : tauW h ∘ₗ piG h γ 
     have h2 := h.r3_Dinj (mul_mem (h.r3_τD hγ) (inv_mem hγ)) h1
     exact mul_inv_eq_one.mp h2
   obtain ⟨d, rfl⟩ := hγ
-  rw [h.tauG_dmap, dmap, MonoidHom.comp_apply, MonoidHom.comp_apply, h.mkG_eq_iff] at hτ
+  rw [h.tauG_dmap, dmap, MonoidHom.comp_apply, MonoidHom.comp_apply, Y13Hyp.mkG_eq_iff] at hτ
   have hd : t * d * t⁻¹ * (d : G)⁻¹ ∈ D₁ := by
     have h2 := (mem_normalizer_iff.mp (h.D₂_norm d.2) _).mp (D₁.inv_mem hτ)
     convert h2 using 1
@@ -479,11 +496,12 @@ theorem Y13Hyp.r3_τsurj {m : ℕ} (hm : m < 4) :
       (mul_mem hd ((mem_normalizer_iff.mp h.t_D₂ d).mp hd)) hdm]
   rfl
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.r3_D_card [Finite G] : Nat.card (DG h) ≤ 2 ^ 8 := by
   have hker : (dmap h).ker = D₁.subgroupOf D₂ := by
     ext d
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, dmap, MonoidHom.comp_apply,
-      ← map_one (mkG D₁ K₁ D₂), h.mkG_eq_iff]
+      ← map_one (mkG D₁ K₁ D₂), Y13Hyp.mkG_eq_iff]
     simp
   have hcard := Subgroup.card_eq_card_quotient_mul_card_subgroup (dmap h).ker
   have hk : Nat.card (D₁.subgroupOf D₂) = Nat.card (D₁ ⊓ D₂ : Subgroup G) := by
@@ -500,13 +518,14 @@ theorem Y13Hyp.r3_D_card [Finite G] : Nat.card (DG h) ≤ 2 ^ 8 := by
     Nat.mul_lt_mul_of_lt_of_le hlt h10 (by positivity)
   omega
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.r3_gen : KG h ⊔ DG h = ⊤ := by
   set S : Subgroup (nOne D₁ K₁ D₂) := (KG h ⊔ DG h).comap (mkG D₁ K₁ D₂)
   have hD₁ : D₁.subgroupOf (nOne D₁ K₁ D₂) ≤ S := by
     intro x hx
     rw [Subgroup.mem_comap]
     have : mkG D₁ K₁ D₂ x = 1 := by
-      rw [← map_one (mkG D₁ K₁ D₂), h.mkG_eq_iff]
+      rw [← map_one (mkG D₁ K₁ D₂), Y13Hyp.mkG_eq_iff]
       simpa using Subgroup.mem_subgroupOf.mp hx
     rw [this]; exact one_mem _
   have hK₁ : K₁.subgroupOf (nOne D₁ K₁ D₂) ≤ S := by
@@ -545,11 +564,11 @@ theorem Y13Hyp.r3_gen : KG h ⊔ DG h = ⊤ := by
 
 theorem Y13Hyp.piG_kmap_eq (k : K₁) :
     piG h (kmap h k) = secAct (D := D₁) (V := V₁) k (h.K₁_norm k.2)
-      (h.nOne_le_normalizer_V₁ (h.K₁_le_nOne k.2)) := rfl
+      (h.nOne_le_normalizer_V₁ (CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.K₁_le_nOne k.2)) := rfl
 
 theorem Y13Hyp.piG_dmap_eq (d : D₂) :
     piG h (dmap h d) = secAct (D := D₁) (V := V₁) d (h.D₂_norm d.2)
-      (h.nOne_le_normalizer_V₁ (h.D₂_le_nOne d.2)) := rfl
+      (h.nOne_le_normalizer_V₁ (CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₂_le_nOne d.2)) := rfl
 
 theorem Y13Hyp.r3Hyp [Finite G] (fV : V₁ →* Multiplicative (ZMod 2))
     (hfV : ∃ x y : D₁, fV (secComm x y) ≠ 1) :
@@ -602,20 +621,22 @@ variable [Fact (ElemSec D₁ V₁)] [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Nor
 variable (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG)
 include h
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.tauG_mk_eq (n : nOne D₁ K₁ D₂) (hn : (n : G)⁻¹ * (t * n * t⁻¹) ∈ D₁) :
     tauG h (mkG D₁ K₁ D₂ n) = mkG D₁ K₁ D₂ n := by
-  rw [tauG_mk, h.mkG_eq_iff]
+  rw [tauG_mk, Y13Hyp.mkG_eq_iff]
   have := D₁.inv_mem hn
   simp only [conjD, MonoidHom.coe_mk, OneHom.coe_mk]
   convert this using 1
   group
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.centralizer₁
     (hfix : ∀ γ : ↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂), tauG h γ = γ → γ ∈ KG h)
     {x : G} (hx : x ∈ nOne D₁ K₁ D₂) (hxt : x⁻¹ * (t * x * t⁻¹) ∈ D₁) :
     ∃ k ∈ K₁, k⁻¹ * x ∈ D₁ := by
   obtain ⟨k, hk⟩ := hfix _ (h.tauG_mk_eq ⟨x, hx⟩ hxt)
-  rw [kmap, MonoidHom.comp_apply, h.mkG_eq_iff] at hk
+  rw [kmap, MonoidHom.comp_apply, Y13Hyp.mkG_eq_iff] at hk
   exact ⟨k, k.2, hk⟩
 
 @[expose] noncomputable def preG (D₁ K₁ D₂ : Subgroup G) [(D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal]
@@ -632,13 +653,14 @@ theorem mem_preG {X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nO
   · rintro ⟨hy, hX⟩
     exact ⟨⟨y, hy⟩, hX, rfl⟩
 
+omit [Fact (ElemSec D₁ V₁)] h in
 theorem Y13Hyp.D₁_le_preG (X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂))) :
     D₁ ≤ preG D₁ K₁ D₂ X := by
   intro x hx
   rw [mem_preG]
-  refine ⟨h.D₁_le_nOne hx, ?_⟩
-  have : mkG D₁ K₁ D₂ ⟨x, h.D₁_le_nOne hx⟩ = 1 := by
-    rw [← map_one (mkG D₁ K₁ D₂), h.mkG_eq_iff]
+  refine ⟨CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne hx, ?_⟩
+  have : mkG D₁ K₁ D₂ ⟨x, CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne hx⟩ = 1 := by
+    rw [← map_one (mkG D₁ K₁ D₂), Y13Hyp.mkG_eq_iff]
     simpa using hx
   rw [this]; exact one_mem _
 
@@ -649,6 +671,7 @@ theorem preG_le (X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOn
   rintro _ ⟨y, -, rfl⟩
   exact y.2
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.conjR_preG (X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂))) :
     CFSG.EvenSmallLie.UnitarySix.YamadaEnd.conjR (preG D₁ K₁ D₂ X) t =
       preG D₁ K₁ D₂ (X.map (tauG h)) := by
@@ -688,11 +711,13 @@ omit h in
 theorem preG_top : preG D₁ K₁ D₂ ⊤ = nOne D₁ K₁ D₂ := by
   rw [preG, Subgroup.comap_top, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Fact (ElemSec D₁ V₁)] h in
 theorem Y13Hyp.mem_D₁_of_mkG_eq_one {y : G} (hy : y ∈ nOne D₁ K₁ D₂)
     (h1 : mkG D₁ K₁ D₂ ⟨y, hy⟩ = 1) : y ∈ D₁ := by
-  rw [← map_one (mkG D₁ K₁ D₂), h.mkG_eq_iff] at h1
+  rw [← map_one (mkG D₁ K₁ D₂), Y13Hyp.mkG_eq_iff] at h1
   simpa using h1
 
+omit [Fact (ElemSec D₁ V₁)] in
 theorem Y13Hyp.unitary_back (X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂)))
     (h1 : X ⊔ X.map (tauG h) = ⊤) (h2 : ⁅X, X.map (tauG h)⁆ = ⊥) (h3 : X ⊓ X.map (tauG h) = ⊥)
     (h4 : CFSG.Blueprint.LieModel X .PSU 4 2 1) :
@@ -703,7 +728,7 @@ theorem Y13Hyp.unitary_back (X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.sub
       ∃ _ : (D₁.subgroupOf M).Normal, CFSG.Blueprint.LieModel (M ⧸ D₁.subgroupOf M) .PSU 4 2 1 := by
   set M := preG D₁ K₁ D₂ X
   have hMt := h.conjR_preG X
-  refine ⟨M, h.D₁_le_preG X, preG_le X, ?_, ?_, ?_, ?_⟩
+  refine ⟨M, CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_preG X, preG_le X, ?_, ?_, ?_, ?_⟩
   · rw [hMt, ← preG_sup, h1, preG_top]
   · rw [hMt, Subgroup.commutator_le]
     intro a ha b hb
@@ -713,7 +738,7 @@ theorem Y13Hyp.unitary_back (X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.sub
     have hc : ⁅a, b⁆ ∈ nOne D₁ K₁ D₂ := by
       rw [commutatorElement_def]
       exact mul_mem (mul_mem (mul_mem ha hb) (inv_mem ha)) (inv_mem hb)
-    refine h.mem_D₁_of_mkG_eq_one hc ?_
+    refine CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.mem_D₁_of_mkG_eq_one hc ?_
     have hmk : mkG D₁ K₁ D₂ ⟨⁅a, b⁆, hc⟩ =
         ⁅mkG D₁ K₁ D₂ ⟨a, ha⟩, mkG D₁ K₁ D₂ ⟨b, hb⟩⁆ := by
       rw [← map_commutatorElement]
@@ -727,12 +752,12 @@ theorem Y13Hyp.unitary_back (X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.sub
       rw [mem_preG] at hy₁ hy₂
       obtain ⟨hy, hyX⟩ := hy₁
       obtain ⟨hy', hyX'⟩ := hy₂
-      refine h.mem_D₁_of_mkG_eq_one hy ?_
+      refine CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.mem_D₁_of_mkG_eq_one hy ?_
       rw [← Subgroup.mem_bot, ← h3]
       exact ⟨hyX, hyX'⟩
-    · exact le_inf (h.D₁_le_preG X) (h.D₁_le_preG _)
+    · exact le_inf (CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_preG X) (CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_preG _)
   · have hN : (D₁.subgroupOf M).Normal :=
-      (Subgroup.normal_subgroupOf_iff_le_normalizer (h.D₁_le_preG X)).mpr
+      (Subgroup.normal_subgroupOf_iff_le_normalizer (CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_preG X)).mpr
         ((preG_le X).trans h.nOne_le_normalizer)
     refine ⟨hN, ?_⟩
     have hmemX : ∀ m : M, mkG D₁ K₁ D₂ ⟨m, preG_le X m.2⟩ ∈ X := fun m => by
@@ -751,11 +776,11 @@ theorem Y13Hyp.unitary_back (X : Subgroup (↥(nOne D₁ K₁ D₂) ⧸ D₁.sub
       rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
       constructor
       · intro hm
-        exact h.mem_D₁_of_mkG_eq_one _ (congrArg Subtype.val hm)
+        exact CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.mem_D₁_of_mkG_eq_one _ (congrArg Subtype.val hm)
       · intro hm
         apply Subtype.ext
         change mkG D₁ K₁ D₂ ⟨m, _⟩ = 1
-        rw [← map_one (mkG D₁ K₁ D₂), h.mkG_eq_iff]
+        rw [← map_one (mkG D₁ K₁ D₂), Y13Hyp.mkG_eq_iff]
         simpa using hm
     exact CFSG.LieType.CurtisTits.lieModel_of_mulEquiv
       ((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
@@ -798,13 +823,13 @@ theorem Y13Hyp.main [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) (F
             CFSG.Blueprint.LieModel (M ⧸ D₁.subgroupOf M) .PSU 4 2 1) := by
   have : Fact (ElemSec D₁ V₁) := ⟨h.sec⟩
   have hN : (D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal :=
-    (Subgroup.normal_subgroupOf_iff_le_normalizer h.D₁_le_nOne).mpr h.nOne_le_normalizer
+    (Subgroup.normal_subgroupOf_iff_le_normalizer CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne).mpr h.nOne_le_normalizer
   obtain ⟨fV, hfV⟩ := h.exists_fV
   have hR := h.r3Hyp fV hfV
   obtain ⟨hfix, hcase⟩ := hR.main_factor F hF
   have hcent : ∀ x ∈ nOne D₁ K₁ D₂, x⁻¹ * (t * x * t⁻¹) ∈ D₁ → ∃ k ∈ K₁, k⁻¹ * x ∈ D₁ :=
     fun x hx hxt => h.centralizer₁ hfix hx hxt
-  refine ⟨h.D₁_le_nOne, h.nOne_le_normalizer, h.t_mem_normalizer, fun x hx hxt => ?_, ?_, ?_⟩
+  refine ⟨CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne, h.nOne_le_normalizer, h.t_mem_normalizer, fun x hx hxt => ?_, ?_, ?_⟩
   · obtain ⟨k, hk, hkx⟩ := hcent x hx hxt
     have : x = k * (k⁻¹ * x) := by group
     rw [this]
@@ -825,9 +850,9 @@ theorem Y13Hyp.main [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) (F
       have : x = k * (k⁻¹ * x) := by group
       rw [this]
       exact mul_mem (Subgroup.mem_sup_left hk) (Subgroup.mem_sup_right hd)
-    · refine sup_le (fun k hk => Subgroup.mem_inf.mpr ⟨h.K₁_le_nOne hk,
+    · refine sup_le (fun k hk => Subgroup.mem_inf.mpr ⟨CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.K₁_le_nOne hk,
         Subgroup.mem_centralizer_singleton_iff.mpr (h.K₁_t k hk).symm⟩) (fun a ha =>
-        Subgroup.mem_inf.mpr ⟨h.D₁_le_nOne (h.A₁_le ha),
+        Subgroup.mem_inf.mpr ⟨CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne (h.A₁_le ha),
           Subgroup.mem_centralizer_singleton_iff.mpr (h.A₁_t a ha).symm⟩)
   · rcases hcase with hL | ⟨X, h1, h2, h3, h4⟩
     · exact Or.inl ⟨hN, hL⟩

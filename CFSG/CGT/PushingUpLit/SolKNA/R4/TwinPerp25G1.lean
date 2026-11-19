@@ -63,6 +63,7 @@ theorem OddEC.two_power_of_mem_normal {t : X} (hEC : OddEC t) (hO : classicalInv
   hEC.two_power (CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinExitPf12.oddCoreIn_centralizer_eq_bot_of_mem_normal
     hO hPn hP htP)
 
+omit [Finite X] in
 theorem isPGroup_centralizer_of_two_power {t : X}
     (h : ∀ g : X, g * t = t * g → ∃ k : ℕ, g ^ 2 ^ k = 1) :
     IsPGroup 2 (Subgroup.centralizer ({t} : Set X)) := by

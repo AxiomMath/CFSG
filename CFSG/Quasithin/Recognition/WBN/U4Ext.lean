@@ -28,7 +28,7 @@ private theorem map_fa_eq_self {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldD
 private theorem mem_Pt_of_map_cj_eq {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     [CharP K 2] (s : Xg h) (hmap : (Pt h).map (cj h s).toMonoidHom = Ln h) :
     s ∈ Pt h := by
-  haveI : Finite (Xg h) := finite_gramSU_miyamotoJ4 h
+  have : Finite (Xg h) := finite_gramSU_miyamotoJ4 h
   let Q : Subgroup (Xg h) := (Psy h).map (MulAut.conj s⁻¹).toMonoidHom
   have hQle : Q ≤ Pt h := by
     intro x hx
@@ -108,10 +108,10 @@ theorem invertsByWeyl_u4ExtTwo {f : ℕ} (hf : 2 ≤ f) {Y Ŷ : Type} [Group Y] 
     InvertsByWeyl M₁ M₂ (2 ^ f - 1) := by
   obtain ⟨K, hField, h, hChar, hsimple, ⟨e⟩, S⟩ :=
     CFSG.Quasithin.H13.F431.Un.OL.exists_model_yamStd hf hY
-  letI : Field K := hField
-  letI : CharP K 2 := hChar
-  letI : IsSimpleGroup (Xg h) := hsimple
-  haveI : Finite (Xg h) := CFSG.LocalAnalysis.EvenBN.U4.finite_gramSU_miyamotoJ4 h
+  let : Field K := hField
+  let : CharP K 2 := hChar
+  let : IsSimpleGroup (Xg h) := hsimple
+  have : Finite (Xg h) := CFSG.LocalAnalysis.EvenBN.U4.finite_gramSU_miyamotoJ4 h
   have hodd : Odd (2 ^ f - 1) :=
     Nat.Even.sub_odd Nat.one_le_two_pow
       (Nat.even_pow.2 ⟨by norm_num, by have := h.one_le; omega⟩) odd_one

@@ -17,9 +17,9 @@ theorem orderOf_two_zmod_nineteen : orderOf (2 : ZMod 19) = 18 := by
 private theorem facts_walterJ1 : Facts walterJ1 19 where
   simple := CFSG.Walter.J1Props.J1_simple
   exists_involution := by
-    haveI : Finite walterJ1 :=
+    have : Finite walterJ1 :=
       Nat.finite_of_card_ne_zero (by rw [CFSG.Walter.J1Props.J1_card]; norm_num)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact exists_prime_orderOf_dvd_card' 2 (by rw [CFSG.Walter.J1Props.J1_card]; norm_num)
   inverts s hs := by
     obtain ⟨hss, hs1⟩ := mul_self_and_ne_one hs

@@ -12,7 +12,7 @@ open scoped Pointwise
 
 private theorem a8nr_comm_of_mem {G : Type*} [Group G] {p : ℕ} {H : Subgroup G}
     (hH : IsElemAbelian p H) {a b : G} (ha : a ∈ H) (hb : b ∈ H) : a * b = b * a := by
-  letI : IsMulCommutative ↥H := hH.1
+  let : IsMulCommutative ↥H := hH.1
   exact setLike_mul_comm ha hb
 
 private theorem a8nr_isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : ℕ}
@@ -32,8 +32,8 @@ private theorem a8nr_sylow_eq_conj_torus
     ∃ g : GGSL9V ≃ₗ[ZMod 2] GGSL9V,
       (P : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)) =
         ggSL9Torus.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (GGSL9V ≃ₗ[ZMod 2] GGSL9V) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (GGSL9V ≃ₗ[ZMod 2] GGSL9V) :=
     Finite.of_equiv (GL (Fin 9) (ZMod 2)) ggSL9GLEquiv.toEquiv
   have hTp : IsPGroup 7 ↥ggSL9Torus := by
     rw [isPGroup_iff_orderOf_dvd_pow]
@@ -47,7 +47,7 @@ private theorem a8nr_sylow_eq_conj_torus
     exact orderOf_dvd_of_pow_eq_one hx
   obtain ⟨Q, hTQ⟩ := IsPGroup.exists_le_sylow hTp
   let Qsub : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V) := Q
-  have hQp : IsPGroup 7 ↥Qsub := Sylow.isPGroup' Q
+  have hQp : IsPGroup 7 ↥Qsub := Sylow.isPGroup Q
   obtain ⟨k, hQk⟩ := (IsPGroup.iff_card (p := 7) (G := ↥Qsub)).mp hQp
   have hk_le : k ≤ 3 := by
     by_contra h
@@ -60,7 +60,7 @@ private theorem a8nr_sylow_eq_conj_torus
     exact Nat.pow_le_pow_right (by norm_num) hk_le
   have hQeq : ggSL9Torus = ↑Q :=
     Subgroup.eq_of_le_of_card_ge hTQ (by rw [card_ggSL9Torus]; exact hQcard)
-  haveI : MulAction.IsPretransitive (GGSL9V ≃ₗ[ZMod 2] GGSL9V)
+  have : MulAction.IsPretransitive (GGSL9V ≃ₗ[ZMod 2] GGSL9V)
       (Sylow 7 (GGSL9V ≃ₗ[ZMod 2] GGSL9V)) := Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (GGSL9V ≃ₗ[ZMod 2] GGSL9V) Q P
   have hmap : (↑Q : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)).map (MulAut.conj g).toMonoidHom =

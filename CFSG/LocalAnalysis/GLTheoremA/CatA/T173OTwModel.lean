@@ -105,8 +105,8 @@ private theorem exists_twistedE6Model_of_markedModel
       (hpZ.trans (hdvd.trans (Nat.gcd_dvd_left 3 (2 ^ n + 1)))))
   obtain ⟨F, hF, hFin, σ, hcard, hσ, ⟨e⟩⟩ :=
     exists_twistedE6RootGroup_of_marked (lab := ⟨.twE6, r, n⟩) hM'
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   obtain ⟨M⟩ := S172Model.nonempty_of_mem_sup hcfg.normal hBin e
   exact ⟨F, hF, hFin, σ, hcard, hσ, hpq, hp5, hn2, hcenter, ⟨M⟩⟩
 

@@ -129,11 +129,11 @@ theorem etaFrom_spec (u : ℕ → J) (m : ℕ) :
     · simp only [hb]
       rw [strictN_eq]
       refine etaFrom_spec u m L (j + 1) _ hT' ?_
-      rw [eta_succ, if_pos hb]
+      rw [eta_succ, ite_eq_left hb]
       exact prc_mul hG h h0
     · simp only [hb]
       refine etaFrom_spec u m L (j + 1) _ hT' ?_
-      rw [eta_succ, if_neg hb, mul_one]
+      rw [eta_succ, ite_eq_right hb, mul_one]
       exact h
 
 theorem etaK_spec (c : ℕ) : PRc (eta uJ 11 c) (etaK G.c G.rm G.one G.us c) := by
@@ -173,7 +173,7 @@ theorem dbl_step {α : Type*} (R : J → α → Prop) (op : α → α → α)
   rw [eta_succ]
   by_cases hmk : m < 2 ^ k
   · have hbit : m.testBit k = false := Nat.testBit_lt_two_pow hmk
-    rw [if_neg (by rw [hbit]; exact Bool.false_ne_true), mul_one, List.getD_eq_getElem?_getD,
+    rw [ite_eq_right (by rw [hbit]; exact Bool.false_ne_true), mul_one, List.getD_eq_getElem?_getD,
       List.getElem?_append_left (by rw [hlen]; exact hmk), ← List.getD_eq_getElem?_getD]
     exact hC m hmk
   · have hm2 : m < 2 * 2 ^ k := by rw [← pow_succ']; exact hm
@@ -182,7 +182,7 @@ theorem dbl_step {α : Type*} (R : J → α → Prop) (op : α → α → α)
       have : m / 2 ^ k = 1 := by
         apply Nat.div_eq_of_lt_le <;> omega
       rw [this]
-    rw [if_pos hbit, List.getD_eq_getElem?_getD,
+    rw [ite_eq_left hbit, List.getD_eq_getElem?_getD,
       List.getElem?_append_right (by rw [hlen]; omega), List.getElem?_map, hlen]
     have hlt : m - 2 ^ k < Cs.length := by rw [hlen]; omega
     rw [List.getElem?_eq_getElem hlt, Option.map_some, Option.getD_some]
@@ -247,7 +247,7 @@ theorem matsOf_spec {G : Mats} (hG : MatsOK G) (wv : List (ℕ × ℕ)) :
   rw [e]
   exact h
 
-theorem encR_lt {X : Array V2} (hX : WfA X) : encR X < 1 <<< 14336 := by
+theorem encR_lt {X : Array V2} (_hX : WfA X) : encR X < 1 <<< 14336 := by
   rw [Nat.one_shiftLeft]
   apply Nat.lt_pow_two_of_testBit
   intro p hp

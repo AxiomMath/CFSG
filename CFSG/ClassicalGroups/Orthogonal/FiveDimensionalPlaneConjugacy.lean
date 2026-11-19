@@ -48,11 +48,11 @@ theorem exists_C0_conj_tO_eq_iota_of_unit_plane_actions
   let u0 : U F := ⟨F.e 0, by
     rw [U, Module.End.mem_eigenspace_iff]
     change F.z (F.e 0) = (-1 : K) • F.e 0
-    simpa using F.z_e (0 : Fin 5)⟩
+    simp⟩
   let v0 : U F := ⟨F.e 1, by
     rw [U, Module.End.mem_eigenspace_iff]
     change F.z (F.e 1) = (-1 : K) • F.e 1
-    simpa using F.z_e (1 : Fin 5)⟩
+    simp⟩
   have hcomp : ∀ (y z : U F),
       (Q.comp (U F).subtype).polarBilin y z = Q.polarBilin (y : V) (z : V) :=
     fun _ _ => rfl
@@ -83,13 +83,13 @@ theorem exists_C0_conj_tO_eq_iota_of_unit_plane_actions
     change (((s : U F ≃ₗ[K] U F) u0 : U F) : V) = -(((u0 : U F) : V))
     rw [hE_apply u0]
     change F.t (F.e 0) = -F.e 0
-    simpa using F.t_e (0 : Fin 5)
+    simp
   have hs_v0 : (s : U F ≃ₗ[K] U F) v0 = -v0 := by
     apply Subtype.ext
     change (((s : U F ≃ₗ[K] U F) v0 : U F) : V) = -(((v0 : U F) : V))
     rw [hE_apply v0]
     change F.t (F.e 1) = -F.e 1
-    simpa using F.t_e (1 : Fin 5)
+    simp
   have hsfix : ∀ x : U F,
       (Q.comp (U F).subtype).polarBilin u0 x = 0 →
       (Q.comp (U F).subtype).polarBilin v0 x = 0 →
@@ -102,7 +102,6 @@ theorem exists_C0_conj_tO_eq_iota_of_unit_plane_actions
       rw [hcomp] at hx'
       simpa only [QuadraticMap.polarBilin_apply_apply] using hx'
     apply Subtype.ext
-    change (((s : U F ≃ₗ[K] U F) x : U F) : V) = (x : V)
     rw [hE_apply x, F.t_eq_reflect_mul, LinearEquiv.mul_apply,
       reflect_apply_of_polar_eq_zero hx1, reflect_apply_of_polar_eq_zero hx0]
   obtain ⟨γ, _, _, hγconj⟩ :=

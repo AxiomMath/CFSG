@@ -72,16 +72,16 @@ theorem components_conj_of_sup_eq_top {Y : Type} [Group Y] [Finite Y] {L T : Sub
   have htop : IsPGroup 2 (⊤ : Subgroup (Y ⧸ N₀)) := by
     have h := hT.map π
     rwa [hTmap] at h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
   have hJN : J ≤ N₀ := by
     have hPimg : IsPGroup 2 (J.map π) := htop.to_le le_top
-    haveI : Group.IsPerfect ↥(J.map π) := Group.IsPerfect.map (f := π)
-    haveI : Group.IsNilpotent ↥(J.map π) := hPimg.isNilpotent
+    have : Group.IsPerfect ↥(J.map π) := Group.IsPerfect.map (f := π)
+    have : Group.IsNilpotent ↥(J.map π) := hPimg.isNilpotent
     have hsolv : Group.IsSolvable ↥(J.map π) := inferInstance
     have hsub : Subsingleton ↥(J.map π) := by
       by_contra hns
-      haveI : Nontrivial ↥(J.map π) := not_subsingleton_iff_nontrivial.mp hns
+      have : Nontrivial ↥(J.map π) := not_subsingleton_iff_nontrivial.mp hns
       exact Group.IsPerfect.not_isSolvable ↥(J.map π) hsolv
     intro x hx
     have hx' : π x ∈ J.map π := Subgroup.mem_map_of_mem π hx
@@ -108,7 +108,7 @@ theorem components_conj_of_sup_eq_top {Y : Type} [Group Y] [Finite Y] {L T : Sub
     have hxc : x ∈ Subgroup.centralizer ((conjSubgroup L (t : Y)) : Set Y) :=
       Subgroup.commutator_eq_bot_iff_le_centralizer.mp (hcomm t) hx
     exact Subgroup.mem_centralizer_iff.mp hxc y hyt
-  haveI : IsMulCommutative ↥J := isMulCommutative_iff.mpr fun a b =>
+  have : IsMulCommutative ↥J := isMulCommutative_iff.mpr fun a b =>
     Subtype.ext (Subgroup.mem_centralizer_iff.mp (hJcent a.2) (b : Y) (hJN b.2)).symm
   have hsub : Subsingleton ↥J := Group.IsPerfect.subsingleton_of_isMulCommutative
   exact (not_subsingleton_iff_nontrivial.mpr
@@ -119,9 +119,9 @@ variable {Q : Type} [Group Q] [Finite Q] {T A B R L₀ : Subgroup Q}
 private theorem wc813pcomp_not_le_of_component (h : Cfg813 T A B R L₀) {X : Subgroup Q}
     (hX : IsComponentOf X ⊤) : ¬ X ≤ R := by
   intro hXR
-  haveI : Group.IsPerfect ↥X := ⟨hX.2.2.1⟩
-  haveI : Nontrivial ↥X := CFSG.ComponentClassification.Quasisimple.nontrivial hX.2.2
-  haveI : Group.IsSolvable ↥R := h.R_solvable
+  have : Group.IsPerfect ↥X := ⟨hX.2.2.1⟩
+  have : Nontrivial ↥X := CFSG.ComponentClassification.Quasisimple.nontrivial hX.2.2
+  have : Group.IsSolvable ↥R := h.R_solvable
   have hsolv : Group.IsSolvable ↥X :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hXR)
       (Subgroup.inclusion_injective hXR)
@@ -137,12 +137,12 @@ private theorem wc813pcomp_map_conjSubgroup {G H : Type} [Group G] [Group H]
       Subgroup.map_map (K := A) (f := f) (g := (MulAut.conj (f g)⁻¹).toMonoidHom)]
   congr 1
   ext x
-  simp [MulAut.conj_apply, map_mul]
+  simp [map_mul]
 
 theorem Cfg813.component_cover (h : Cfg813 T A B R L₀) :
     ∀ J : Subgroup Q, IsComponentOf J ⊤ → ∃ t ∈ T, J ⊔ R = conjSubgroup L₀ t := by
   intro J hJ
-  haveI : R.Normal := h.R_normal
+  have : R.Normal := h.R_normal
   let π : Q →* Q ⧸ R := QuotientGroup.mk' R
   have hJR : ¬ J ≤ R := wc813pcomp_not_le_of_component h hJ
   have hJcomp : IsComponentOf (J.map π) ⊤ :=
@@ -157,7 +157,7 @@ theorem Cfg813.component_cover (h : Cfg813 T A B R L₀) :
           Subgroup.IsSubnormal.top))
   have hL0q : CFSG.Open.IsQuasisimple ↥(L₀.map π) := by
     obtain ⟨X, hXgrp, φ, hφsurj, hφker, hXq⟩ := h.L₀_comp.2.2.2.2
-    letI : Group X := hXgrp
+    let : Group X := hXgrp
     let r0 : ↥L₀ →* Q ⧸ R := π.domRestrict L₀
     let resπ : ↥L₀ →* r0.range := r0.rangeRestrict
     have hresπsurj : Function.Surjective resπ := MonoidHom.rangeRestrict_surjective r0
@@ -205,10 +205,10 @@ private theorem wc813pcomp_hasQuotShape_of_component (h : Cfg813 T A B R L₀)
     {J : Subgroup Q} (hJ : IsComponentOf J ⊤)
     (P : ∀ (X : Type) [Group X], Prop) (hP : HasQuotShape L₀ (R : Set Q) P) :
     HasQuotShape J (R : Set Q) P := by
-  haveI : R.Normal := h.R_normal
+  have : R.Normal := h.R_normal
   obtain ⟨t₀, _ht₀, hJt₀⟩ := Cfg813.component_cover h J hJ
   obtain ⟨X, hXgrp, φ₀, hφ₀surj, hφ₀ker, hPX⟩ := hP
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   have hmem : ∀ j : ↥J, t₀ * (j : Q) * t₀⁻¹ ∈ L₀ := fun j =>
     mem_conjSubgroup_iff.mp
       (hJt₀ ▸ (Subgroup.mem_sup_left j.2 : (j : Q) ∈ J ⊔ R))
@@ -222,7 +222,7 @@ private theorem wc813pcomp_hasQuotShape_of_component (h : Cfg813 T A B R L₀)
         rw [← map_mul]
         congr 1
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         group }
   have hkerφ : ∀ j : ↥J, φ j = 1 ↔ (j : Q) ∈ R := by
     intro j
@@ -250,7 +250,7 @@ private theorem wc813pcomp_hasQuotShape_of_component (h : Cfg813 T A B R L₀)
     have hjeq : (⟨t₀ * j * t₀⁻¹, hmem ⟨j, hj⟩⟩ : ↥L₀)
         = ℓ * ⟨t₀ * r⁻¹ * t₀⁻¹, h.L₀_comp.2.1 hr'⟩ := by
       apply Subtype.ext
-      simp only [Subtype.coe_mk, Subgroup.coe_mul]
+      simp only [Subgroup.coe_mul]
       have h2 : t₀ * j * t₀⁻¹ = (ℓ : Q) * (t₀ * r⁻¹ * t₀⁻¹) := by
         have h4 : (ℓ : Q) = t₀ * (j * r) * t₀⁻¹ := by
           rw [hjr]
@@ -270,7 +270,7 @@ theorem Cfg813.inf_R_eq_center (h : Cfg813 T A B R L₀) {J : Subgroup Q} (hJ : 
   · intro hx
     obtain ⟨hxJ, hxR⟩ := Subgroup.mem_inf.mp hx
     refine ⟨hxJ, ?_⟩
-    haveI : Group.IsSolvable ↥R := h.R_solvable
+    have : Group.IsSolvable ↥R := h.R_solvable
     have hRsub : IsSubnormal R ⊤ :=
       CFSG.Open.IsSubnormal.of_mathlib h.R_normal.isSubnormal
     have hcomm : ⁅J, R⁆ = ⊥ :=
@@ -282,17 +282,17 @@ theorem Cfg813.inf_R_eq_center (h : Cfg813 T A B R L₀) {J : Subgroup Q} (hJ : 
     rw [Subgroup.mem_center_iff]
     intro y
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul]
     exact Subgroup.mem_centralizer_iff.mp (hRcent hxR) (y : Q) y.2
   · rintro ⟨hxJ, hxcent⟩
     refine Subgroup.mem_inf.mpr ⟨hxJ, ?_⟩
     obtain ⟨X, hXgrp, φ, hφsurj, hφker, hXsimple⟩ :=
       wc813pcomp_hasQuotShape_of_component h hJ (fun X _ => IsSimpleGroup X) h.L₀_simple
-    letI : Group X := hXgrp
-    haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-    haveI : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
-    haveI : Group.IsPerfect X := Group.IsPerfect.ofSurjective (f := φ) hφsurj
-    haveI : IsSimpleGroup X := hXsimple
+    let : Group X := hXgrp
+    have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+    have : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
+    have : Group.IsPerfect X := Group.IsPerfect.ofSurjective (f := φ) hφsurj
+    have : IsSimpleGroup X := hXsimple
     have hcommX : ¬ IsMulCommutative X := Group.IsPerfect.not_isMulCommutative X
     have hcenterX : Subgroup.center X = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with hbot | htop
@@ -307,7 +307,7 @@ theorem Cfg813.inf_R_eq_center (h : Cfg813 T A B R L₀) {J : Subgroup Q} (hJ : 
 
 theorem Cfg813.center_odd (h : Cfg813 T A B R L₀) {J : Subgroup Q} (hJ : IsComponentOf J ⊤) :
     Odd (Nat.card (Subgroup.center ↥J)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Nat.not_even_iff_odd]
   intro heven
   have hdvd : 2 ∣ Nat.card (Subgroup.center ↥J) := even_iff_two_dvd.mp heven
@@ -316,7 +316,7 @@ theorem Cfg813.center_odd (h : Cfg813 T A B R L₀) {J : Subgroup Q} (hJ : IsCom
   have hwmem : w ∈ Subgroup.center ↥J := z.2
   have hworder : orderOf w = 2 := by
     rw [show w = (z : ↥J) from rfl, Subgroup.orderOf_coe, hzorder]
-  haveI : R.Normal := h.R_normal
+  have : R.Normal := h.R_normal
   let U : Subgroup ↥J := Subgroup.zpowers w
   have hUcard : Nat.card U = 2 := by
     rw [show U = Subgroup.zpowers w from rfl, Nat.card_zpowers, hworder]
@@ -331,7 +331,7 @@ theorem Cfg813.center_odd (h : Cfg813 T A B R L₀) {J : Subgroup Q} (hJ : IsCom
     have hg := Subgroup.mem_center_iff.mp hwmem g
     rw [hg]
     group
-  haveI : U.Normal := hUnormal
+  have : U.Normal := hUnormal
   have hJsub : J.IsSubnormal :=
     CFSG.ComponentClassification.Components.mathlib_subnormal_of_chain hJ.2.1
       Subgroup.IsSubnormal.top
@@ -350,7 +350,7 @@ theorem Cfg813.center_odd (h : Cfg813 T A B R L₀) {J : Subgroup Q} (hJ : IsCom
 private theorem wc813pcomp_eq_of_sup_R_eq (h : Cfg813 T A B R L₀) {X X' : Subgroup Q}
     (hX : IsComponentOf X ⊤) (hX' : IsComponentOf X' ⊤) (heq : X ⊔ R = X' ⊔ R) : X = X' := by
   by_contra hne
-  haveI : R.Normal := h.R_normal
+  have : R.Normal := h.R_normal
   let π : Q →* Q ⧸ R := QuotientGroup.mk' R
   have hRmap : R.map π = ⊥ := by
     rw [eq_bot_iff]
@@ -373,9 +373,9 @@ private theorem wc813pcomp_eq_of_sup_R_eq (h : Cfg813 T A B R L₀) {X X' : Subg
   have hcommmap : ⁅X.map π, X'.map π⁆ = ⊥ := by
     rw [← Subgroup.map_commutator, hcomm, Subgroup.map_bot]
   rw [← himg] at hcommmap
-  haveI : IsMulCommutative ↥(X.map π) := Subgroup.commutator_self_eq_bot_iff.mp hcommmap
-  haveI : Group.IsPerfect ↥(X.map π) := ⟨hcompX.2.2.1⟩
-  haveI : Nontrivial ↥(X.map π) :=
+  have : IsMulCommutative ↥(X.map π) := Subgroup.commutator_self_eq_bot_iff.mp hcommmap
+  have : Group.IsPerfect ↥(X.map π) := ⟨hcompX.2.2.1⟩
+  have : Nontrivial ↥(X.map π) :=
     CFSG.ComponentClassification.Quasisimple.nontrivial hcompX.2.2
   exact Group.IsPerfect.not_isMulCommutative ↥(X.map π) inferInstance
 
@@ -383,7 +383,7 @@ theorem Cfg813.component_conj (h : Cfg813 T A B R L₀) {J J' : Subgroup Q}
     (hJ : IsComponentOf J ⊤) (hJ' : IsComponentOf J' ⊤) : ∃ t ∈ T, J' = conjSubgroup J t := by
   obtain ⟨t₁, ht₁, h₁⟩ := Cfg813.component_cover h J hJ
   obtain ⟨t₂, ht₂, h₂⟩ := Cfg813.component_cover h J' hJ'
-  haveI : R.Normal := h.R_normal
+  have : R.Normal := h.R_normal
   refine ⟨t₁⁻¹ * t₂, T.mul_mem (T.inv_mem ht₁) ht₂, ?_⟩
   have hconjcomp : IsComponentOf (conjSubgroup J (t₁⁻¹ * t₂)) ⊤ := by
     have hh := (CFSG.ComponentClassification.LocalComponents.equiv_iff
@@ -414,7 +414,7 @@ private theorem wc813pcomp_centerQuotient_equiv (h : Cfg813 T A B R L₀) {J : S
   obtain ⟨X, hXgrp, φ, hφsurj, hφker, hPX⟩ :=
     wc813pcomp_hasQuotShape_of_component h hJ P hP
   refine ⟨X, hXgrp, hPX, ?_⟩
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   have hker : φ.ker = Subgroup.center ↥J := by
     ext k
     rw [MonoidHom.mem_ker, hφker k]
@@ -441,7 +441,7 @@ theorem Cfg813.oddShape5 (hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B R L₀
   rcases h.L₀_shape with (hL2 | hU3) | ⟨hL34, _hdyn⟩
   · obtain ⟨X, hXgrp, hPX, ⟨e⟩⟩ :=
       wc813pcomp_centerQuotient_equiv h hJ (fun X _ => IsL2 X 2) hL2
-    letI : Group X := hXgrp
+    let : Group X := hXgrp
     have hquot : IsL2 (↥J ⧸ Subgroup.center ↥J) 2 :=
       CFSG.Blueprint.LieModel.of_mulEquiv e.symm hPX
     have hZ : Nat.card (Subgroup.center ↥J) = 1 :=
@@ -450,7 +450,7 @@ theorem Cfg813.oddShape5 (hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B R L₀
       (wc813pcomp_centerBot_equiv (Subgroup.eq_bot_of_card_eq (Subgroup.center ↥J) hZ) e).symm hPX)
   · obtain ⟨X, hXgrp, hPX, ⟨e⟩⟩ :=
       wc813pcomp_centerQuotient_equiv h hJ (fun X _ => IsU3 X 2) hU3
-    letI : Group X := hXgrp
+    let : Group X := hXgrp
     have hquot : IsU3 (↥J ⧸ Subgroup.center ↥J) 2 :=
       CFSG.Blueprint.LieModel.of_mulEquiv e.symm hPX
     have hZ : Nat.card (Subgroup.center ↥J) = 1 :=
@@ -460,13 +460,13 @@ theorem Cfg813.oddShape5 (hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B R L₀
   · rcases hL34 with hL3 | hSp4
     · obtain ⟨X, hXgrp, hPX, ⟨e⟩⟩ :=
         wc813pcomp_centerQuotient_equiv h hJ (fun X _ => IsL3 X 2) hL3
-      letI : Group X := hXgrp
+      let : Group X := hXgrp
       have hquot : IsL3 (↥J ⧸ Subgroup.center ↥J) 2 :=
         CFSG.Blueprint.LieModel.of_mulEquiv e.symm hPX
       exact Or.inr (Or.inr (Or.inr (Or.inr ⟨hJ.2.2, hquot⟩)))
     · obtain ⟨X, hXgrp, hPX, ⟨e⟩⟩ :=
         wc813pcomp_centerQuotient_equiv h hJ (fun X _ => IsSp4 X 2) hSp4
-      letI : Group X := hXgrp
+      let : Group X := hXgrp
       have hquot : IsSp4 (↥J ⧸ Subgroup.center ↥J) 2 :=
         CFSG.Blueprint.LieModel.of_mulEquiv e.symm hPX
       have hZ : Nat.card (Subgroup.center ↥J) = 1 :=
@@ -489,6 +489,7 @@ private theorem wc813pcomp_card_isSp4 {X : Type} [Group X] (h : IsSp4 X 2) :
     Nat.card X = 979200 := by
   rw [CFSG.Blueprint.LieModel.card_eq_lieOrd (by norm_num) h]; decide
 
+omit [Finite Q] in
 private theorem wc813pcomp_isMaxParabolicMod_conj {N L P : Subgroup Q} {g : Q}
     (h : IsMaxParabolicMod N L P) :
     IsMaxParabolicMod (conjSubgroup N g) (conjSubgroup L g) (conjSubgroup P g) := by
@@ -546,6 +547,7 @@ private theorem wc813pcomp_isMaxParabolicMod_conj {N L P : Subgroup Q} {g : Q}
     rw [hinf]
     exact Subgroup.map_mono hSnorm
 
+omit [Finite Q] in
 private theorem wc813pcomp_actsOnDynkinMod_conj {N L : Subgroup Q} {t : Q} (g : Q)
     (h : ActsOnDynkinMod N L t) :
     ActsOnDynkinMod (conjSubgroup N g) (conjSubgroup L g) (g⁻¹ * t * g) := by
@@ -578,6 +580,7 @@ private theorem wc813pcomp_actsOnDynkinMod_conj {N L : Subgroup Q} {t : Q} (g : 
       _ = conjSubgroup (conjSubgroup P g) g⁻¹ := by rw [heq]
       _ = P := by simp [conjSubgroup_conjSubgroup, conjSubgroup_one]
 
+omit [Finite Q] in
 private theorem wc813pcomp_eq_inf_sup_of_le_sup {R J P : Subgroup Q} [R.Normal] (hRP : R ≤ P)
     (hPL : P ≤ J ⊔ R) : P = (P ⊓ J) ⊔ R := by
   apply le_antisymm
@@ -591,8 +594,9 @@ private theorem wc813pcomp_eq_inf_sup_of_le_sup {R J P : Subgroup Q} [R.Normal] 
     exact Subgroup.mul_mem_sup ⟨hjP, hj⟩ hr
   · exact sup_le inf_le_left hRP
 
+omit [Finite Q] in
 private theorem wc813pcomp_conj_inf_ne {R J P : Subgroup Q} [R.Normal] (hRP : R ≤ P)
-    (hPL : P ≤ J ⊔ R) {g : Q} (hg : conjSubgroup J g = J) (hne : conjSubgroup P g ≠ P) :
+    (hPL : P ≤ J ⊔ R) {g : Q} (_hg : conjSubgroup J g = J) (hne : conjSubgroup P g ≠ P) :
     conjSubgroup (P ⊓ J) g ≠ P ⊓ J := by
   intro heq
   apply hne
@@ -614,7 +618,7 @@ private theorem wc813pcomp_false_of_isL2 (h : Cfg813 T A B R L₀) {J : Subgroup
   have hodd := Cfg813.center_odd h hJ
   obtain ⟨X, hXgrp, hPX, ⟨e⟩⟩ :=
     wc813pcomp_centerQuotient_equiv h hJ (fun X _ => IsL2 X 2) hshape
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   have hXcard : Nat.card X = 60 := wc813pcomp_card_isL2 hPX
   have hquot : Nat.card (↥J ⧸ Subgroup.center ↥J) = 60 := by
     rw [← hXcard]; exact Nat.card_congr e.toEquiv
@@ -639,7 +643,7 @@ private theorem wc813pcomp_false_of_isU3 (h : Cfg813 T A B R L₀) {J : Subgroup
     (hshape : HasQuotShape L₀ (R : Set Q) (fun X _ => IsU3 X 2)) : False := by
   obtain ⟨X, hXgrp, hPX, ⟨e⟩⟩ :=
     wc813pcomp_centerQuotient_equiv h hJ (fun X _ => IsU3 X 2) hshape
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   have hXcard : Nat.card X = 62400 := wc813pcomp_card_isU3 hPX
   have hquot : Nat.card (↥J ⧸ Subgroup.center ↥J) = 62400 := by
     rw [← hXcard]; exact Nat.card_congr e.toEquiv
@@ -657,14 +661,14 @@ private theorem wc813pcomp_false_of_isU3 (h : Cfg813 T A B R L₀) {J : Subgroup
       wc813pcomp_card_isL3 hsl3.2
     rw [hquot] at hZq; norm_num at hZq
 
-theorem Cfg813.dynkin_component (hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B R L₀)
+theorem Cfg813.dynkin_component (_hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B R L₀)
     {J : Subgroup Q} (hJ : IsComponentOf J ⊤) (hr : RankTwoShape J) :
     ∃ t ∈ T ⊓ normalizer (J : Set Q), ActsOnDynkinMod (⊥ : Subgroup Q) J t := by
   rcases h.L₀_shape with (hL2 | hU3) | ⟨_hL34, t₁, ht₁, hacts₁⟩
   · exact (wc813pcomp_false_of_isL2 h hJ hr hL2).elim
   · exact (wc813pcomp_false_of_isU3 h hJ hr hU3).elim
   · obtain ⟨t₀, ht₀, hJt₀⟩ := Cfg813.component_cover h J hJ
-    haveI : R.Normal := h.R_normal
+    have : R.Normal := h.R_normal
     set t₂ : Q := t₀⁻¹ * t₁ * t₀ with ht₂def
     have ht₂T : t₂ ∈ T := by
       rw [ht₂def]
@@ -687,7 +691,6 @@ theorem Cfg813.dynkin_component (hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B
         rw [show conjSubgroup (J ⊔ R) t₂ = conjSubgroup J t₂ ⊔ R by
               simp only [conjSubgroup, Subgroup.map_sup]
               congr 1
-              change R.map (MulAut.conj t₂⁻¹).toMonoidHom = R
               exact Subgroup.Normal.map_conj_eq R t₂⁻¹] at hNR
         exact hNR
       exact wc813pcomp_eq_of_sup_R_eq h hcompJ hJ hsup
@@ -709,8 +712,7 @@ theorem Cfg813.dynkin_component (hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B
     have hP'max : IsMaxParabolicMod (⊥ : Subgroup Q) J (P ⊓ J) :=
       wc813pcomp_isMaxParabolicMod_inf hodd hPmax
     refine ⟨t₂, ⟨ht₂T, ht₂NJ⟩, ht₂NJ, P ⊓ J, hP'max, ?_⟩
-    intro l hl
-    intro heq
+    intro l hl heq
     have h1 : conjSubgroup J t₂⁻¹ = J := by
       have := congrArg (fun A => conjSubgroup A t₂⁻¹) hconjJ
       simpa [conjSubgroup_conjSubgroup, conjSubgroup_one] using this.symm

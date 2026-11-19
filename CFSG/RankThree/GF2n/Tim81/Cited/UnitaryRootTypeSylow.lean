@@ -152,7 +152,7 @@ private theorem exists_involution_lift_subgroup {F : Type} [Field F] [Finite F] 
     (hsqW : ∀ x ∈ W, x * x = 1) (hWX : W ≤ X₀) :
     ∃ Ŵ : Subgroup (SU σ N), Ŵ.map Φ = W ∧ IsPGroup 2 Ŵ ∧
       Function.Injective (Φ.comp Ŵ.subtype) ∧ ∀ x ∈ Ŵ, x * x = 1 := by
-  haveI : Finite (SU σ N) :=
+  have : Finite (SU σ N) :=
     Finite.of_injective (SUExtras.mat σ N) (SUExtras.mat_injective (σ := σ) (n := N))
   have hodd : Odd (Nat.card Φ.ker) :=
     CFSG.StandardType.odd_natCard_of_le_center_SU σ hker

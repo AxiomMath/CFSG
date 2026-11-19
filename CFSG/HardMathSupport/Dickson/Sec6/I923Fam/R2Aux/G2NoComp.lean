@@ -20,8 +20,8 @@ theorem noGLAP3_centralizer_g2Top [CharP K 3] (h3 : 3 ≤ Nat.card K) {y : K} (h
     ∀ A : Subgroup (adjointGroup .G2 K),
       ¬ GLAPComponent 3 (Subgroup.centralizer {g2Top K y}) A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (adjointGroup .G2 K) := generated_group_finite .G2 K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (adjointGroup .G2 K) := generated_group_finite .G2 K
   set D : Subgroup (adjointGroup .G2 K) := Subgroup.centralizer {g2Top K y} with hDdef
   set Q' : Subgroup (adjointGroup .G2 K) := (g2Q K).subgroupOf (adjointGroup .G2 K) with hQ'def
   have hmemQ' : ∀ g : adjointGroup .G2 K, g ∈ Q' ↔ (g : ModGL .G2 K) ∈ g2Q K := fun g => Iff.rfl
@@ -52,19 +52,19 @@ theorem noGLAP3_centralizer_g2Top [CharP K 3] (h3 : 3 ≤ Nat.card K) {y : K} (h
   ·
     have hLsol : Group.IsSolvable ↥(g2RankOne K g2ir) := isSolvable_g2RankOne_of_card_three hK3
     set N0 : Subgroup ↥D := Q'.subgroupOf D with hN0
-    haveI hN0n : N0.Normal := ⟨fun n hn g => by
+    have hN0n : N0.Normal := ⟨fun n hn g => by
       rw [hN0, Subgroup.mem_subgroupOf] at hn ⊢
       exact hQn g g.2 n hn⟩
-    haveI hN0p : IsPGroup 3 ↥N0 := hQp.comap_of_injective D.subtype D.subtype_injective
-    haveI : Group.IsNilpotent ↥N0 := IsPGroup.isNilpotent hN0p
-    haveI : Group.IsSolvable ↥N0 := inferInstance
+    have hN0p : IsPGroup 3 ↥N0 := hQp.comap_of_injective D.subtype D.subtype_injective
+    have : Group.IsNilpotent ↥N0 := IsPGroup.isNilpotent hN0p
+    have : Group.IsSolvable ↥N0 := inferInstance
     set L'' : Subgroup (adjointGroup .G2 K) := (g2RankOne K g2ir).subgroupOf (adjointGroup .G2 K)
       with hL''
     have hL''mem : ∀ g : adjointGroup .G2 K, g ∈ L'' ↔ (g : ModGL .G2 K) ∈ g2RankOne K g2ir :=
       fun g => Iff.rfl
     have hL''D : L'' ≤ D := fun g hg => (hmemD g).2
       ((commute_g2RankOne_pinnedX_c ((hL''mem g).1 hg) y).eq)
-    haveI : Group.IsSolvable ↥L'' := by
+    have : Group.IsSolvable ↥L'' := by
       refine Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe
         (g2RankOne_le_adjointGroup (K := K) g2ir)).toMonoidHom) ?_
       exact (Subgroup.subgroupOfEquivOfLe (g2RankOne_le_adjointGroup (K := K) g2ir)).injective
@@ -88,8 +88,8 @@ theorem noGLAP3_centralizer_g2Top [CharP K 3] (h3 : 3 ≤ Nat.card K) {y : K} (h
         group
       rw [e]
       exact hQn lP⁻¹ (inv_mem (hL''D hlP)) qP hqP
-    haveI : Group.IsSolvable (↥D ⧸ N0) := Group.isSolvable_of_surjective hψ
-    haveI : Group.IsSolvable ↥D := Group.isSolvable_of_subgroup_quotient N0
+    have : Group.IsSolvable (↥D ⧸ N0) := Group.isSolvable_of_surjective hψ
+    have : Group.IsSolvable ↥D := Group.isSolvable_of_subgroup_quotient N0
     exact Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (inf_le_left : D ⊓ Subgroup.centralizer (Q' : Set _) ≤ D))
   · have hK4 : 4 ≤ Nat.card K := by omega

@@ -51,7 +51,7 @@ theorem isCyclic_Ki (i : ℤ) : IsCyclic ↥(X.Ki i) := by
   have hN : IsLocL2 Γ G (X.vert i) (X.n i) (X.L i) := X.hyp.isLocL2_oTwoPrime (X.vert i)
   have hcyc := hN.torus_cyclic X.hyp.adj_smul (X.hyp.finite_stab (X.vert i))
     (X.hyp.valency (X.vert i)).2 (X.hyp.valency (X.vert i)).1 S K' hKS hsup
-  haveI : IsCyclic K' := hcyc.1
+  have : IsCyclic K' := hcyc.1
   rw [show X.Ki i = K'.map (X.L i).subtype from hKmap.symm]
   exact isCyclic_of_surjective
     (Subgroup.equivMapOfInjective K' (X.L i).subtype (X.L i).subtype_injective)
@@ -59,7 +59,7 @@ theorem isCyclic_Ki (i : ℤ) : IsCyclic ↥(X.Ki i) := by
 
 theorem Ki_mul_comm_gen (i : ℤ) {a b : G} (ha : a ∈ X.Ki i) (hb : b ∈ X.Ki i) :
     a * b = b * a := by
-  haveI : IsCyclic ↥(X.Ki i) := X.isCyclic_Ki i
+  have : IsCyclic ↥(X.Ki i) := X.isCyclic_Ki i
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(X.Ki i)) ⟨b, hb⟩)
 
 theorem exists_Ki_smul_eq_of_commute (i : ℤ) {k : G} (hk : k ∈ X.Gi i)

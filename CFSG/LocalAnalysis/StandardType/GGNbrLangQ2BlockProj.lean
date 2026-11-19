@@ -14,7 +14,7 @@ theorem q2_block_projection {H : Type} [Group H] {ι : Type} [Fintype ι] [Decid
       (∀ (x : H) (hx : x ∈ G k), π ⟨x, hle k hx⟩ = ⟨x, hx⟩) ∧
       ∀ i, i ≠ k → ∀ (x : H) (hx : x ∈ G i), π ⟨x, hle i hx⟩ = 1 := by
   classical
-  haveI : ∀ i, Finite ↥(G i) := fun i =>
+  have : ∀ i, Finite ↥(G i) := fun i =>
     Finite.of_injective (fun x : ↥(G i) => (⟨x.1, hle i x.2⟩ : ↥C))
       (fun a b h => Subtype.ext (congrArg (fun z : ↥C => z.1) h))
   have hcomm' : Pairwise fun i j => ∀ (x y : H), x ∈ G i → y ∈ G j → Commute x y :=
@@ -33,8 +33,8 @@ theorem q2_block_projection {H : Type} [Group H] {ι : Type} [Fintype ι] [Decid
     exact ⟨x, Subtype.ext hx⟩
   have hcard' : Nat.card ((i : ι) → ↥(G i)) = Nat.card ↥C := by
     rw [Nat.card_pi, ← hcard]
-  haveI : Fintype ↥C := Fintype.ofFinite _
-  haveI : ∀ i, Fintype ↥(G i) := fun i => Fintype.ofFinite _
+  have : Fintype ↥C := Fintype.ofFinite _
+  have : ∀ i, Fintype ↥(G i) := fun i => Fintype.ofFinite _
   have hcardF : Fintype.card ((i : ι) → ↥(G i)) = Fintype.card ↥C := by
     simpa only [Nat.card_eq_fintype_card] using hcard'
   have hbij : Function.Bijective φ := by
@@ -63,6 +63,6 @@ theorem q2_block_projection {H : Type} [Group H] {ι : Type} [Fintype ι] [Decid
   · intro i hik x hx
     change (Pi.evalMonoidHom (fun i => ↥(G i)) k) (e.symm ⟨x, hle i hx⟩) = 1
     rw [hsymm i x hx]
-    simp [Pi.mulSingle_eq_of_ne, hik]
+    simp [hik]
 
 end CFSG.StandardType

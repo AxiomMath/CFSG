@@ -20,7 +20,7 @@ theorem dtilde_full {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hcard : Nat.card D = p ^ 2) :
     ∀ s t : ℤ, ∃ u : D, ∀ γ : Fin Tag.E6.rank → ℤ,
       (p : ℤ) ∣ (∑ j, γ j * v u j) - (s * iform γ (m 4) + t * iform γ (m 5)) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hdec : ∀ u : D, ∃ s t : ℤ, ∀ γ : Fin Tag.E6.rank → ℤ,
       (p : ℤ) ∣ (∑ j, γ j * v u j) - (s * iform γ (m 4) + t * iform γ (m 5)) :=
     fun u => pair_decomp_of_frame hp hp5 m hnorm h01 h23 h45 horth (v u)

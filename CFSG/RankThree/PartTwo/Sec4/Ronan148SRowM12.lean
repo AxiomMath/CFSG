@@ -127,7 +127,7 @@ end A6Facts
 theorem theta_eq_bot_of_m12 {S : Type} [Group S] [Finite S] {K : Subgroup S}
     (hKq : IsQuasisimple K) (P : Sylow 3 S) (hPK : (P : Subgroup S) ≤ K)
     (hP : M12SylowData (P : Subgroup S)) : aschbacherSolvableCore 3 K = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, -, -, -, -, -, E, F, A, A', hset, -, -, -, -, -, -, -, hcE, -, -, -, -, -⟩ := hP
   have hEP : E ≤ (P : Subgroup S) := by
     have hmem : E ∈ {B : Subgroup S | B ≤ (P : Subgroup S) ∧ Nat.card B = 9} := by
@@ -149,7 +149,7 @@ theorem theta_eq_bot_of_m12 {S : Type} [Group S] [Finite S] {K : Subgroup S}
     exact hEP hcentE
   have hθ3 : IsPGroup 3 (Subgroup.center K) := by
     have hP3 : IsPGroup 3 ((P : Subgroup S).comap K.subtype) :=
-      P.isPGroup'.comap_of_injective K.subtype K.subtype_injective
+      P.isPGroup.comap_of_injective K.subtype K.subtype_injective
     refine hP3.to_le ?_
     intro z hz
     exact hZ z hz
@@ -157,7 +157,7 @@ theorem theta_eq_bot_of_m12 {S : Type} [Group S] [Finite S] {K : Subgroup S}
 
 theorem noCQ425_of_m12 {S : Type} [Group S] [Finite S] (hS : Nat.card S = 95040)
     (hloc : M12ThreeLocalData S) : NoCQ425 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro s K hs3 hsK hKs hKq hT
   have h81 : ¬ 81 ∣ Nat.card S := by rw [hS]; norm_num
   obtain ⟨P0, hP0K, -, -⟩ := exists_sylow_le h81 hs3 hsK hKs hKq hT

@@ -350,7 +350,7 @@ private lemma tildeNu_three_pairing_one_zero (c : Hyp11 G) (h12 : Hyp12 c)
         norm_num at h2
   have hpair : scalarProduct G (1 : ClassFunction G) ψ = 0 := by
     rw [scalarProduct_irr_ite (isIrreducibleCharacter_one G) hψ]
-    rw [if_neg (Ne.symm hψne)]
+    rw [ite_eq_right (Ne.symm hψne)]
   rcases hcase with h | h
   · simpa [ψ3, h] using hpair
   · simp [ψ3, h, scalarProduct_neg_right, hpair]
@@ -395,7 +395,7 @@ private lemma tildeNu_one_pairing_one (c : Hyp11 G) (h12 : Hyp12 c)
         apply hl
         rw [hl1]
         simp
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
     rw [hself, horth]
     norm_num
   have hfrob : scalarProduct G (1 : ClassFunction G)
@@ -707,7 +707,7 @@ private lemma sum_one_pairing {G : Type u} [Group G] [Fintype G]
       apply hχ
       apply Subtype.ext
       exact h
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   rw [sum_over_irr_single (1 : ClassFunction G) χ₁ f hδ]
   simp [χ₁, signed_irr_norm_one (Or.inl (isIrreducibleCharacter_one G))]
 
@@ -725,7 +725,7 @@ private lemma sum_phi_pairing_irr {G : Type u} [Group G] [Fintype G]
       apply hχ
       apply Subtype.ext
       exact h
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   rw [sum_over_irr_single φ χ₁ f hδ]
   simp [χ₁, signed_irr_norm_one (Or.inl hφ)]
 
@@ -746,7 +746,7 @@ private lemma sum_phi_pairing_neg_irr {G : Type u} [Group G] [Fintype G]
         apply hχ
         apply Subtype.ext
         exact h
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
     rw [hpair]
     simp
   rw [sum_over_irr_single φ χ₁ f hδ]
@@ -768,7 +768,7 @@ private lemma sum_psi_pairing_irr {G : Type u} [Group G] [Fintype G]
       apply hχ
       apply Subtype.ext
       exact h
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   rw [sum_over_irr_single ψ χ₁ f hδ]
   simp [χ₁, signed_irr_norm_one (Or.inl hψ)]
 
@@ -882,7 +882,7 @@ private lemma U_le_H (c : Hyp11 G) : c.U ≤ c.H := by
   intro x hx
   have huU : x ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hx
-  exact SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+  exact _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
 
 /-- `U ∩ S = 1`. -/
 private lemma U_inter_S_eq_bot (c : Hyp11 G) {x : G} (hxU : x ∈ c.U)
@@ -2120,7 +2120,7 @@ public lemma lemma_2_5_assembly (c : Hyp11 G) (h12 : Hyp12 c)
       have hpair1 : scalarProduct G φ (1 : ClassFunction G) = 0 := by
         rcases hφsign with hφirr | hφneg
         · rw [scalarProduct_irr_ite hφirr (isIrreducibleCharacter_one G)]
-          rw [if_neg hφne1]
+          rw [ite_eq_right hφne1]
         · have hpair : scalarProduct G (-φ) (1 : ClassFunction G) = 0 := by
             rw [scalarProduct_irr_ite hφneg (isIrreducibleCharacter_one G)]
             have hne : -φ ≠ (1 : ClassFunction G) := by
@@ -2133,7 +2133,7 @@ public lemma lemma_2_5_assembly (c : Hyp11 G) (h12 : Hyp12 c)
                 rfl
               rw [hφt] at hval
               norm_num at hval
-            rw [if_neg hne]
+            rw [ite_eq_right hne]
           calc
             scalarProduct G φ (1 : ClassFunction G) =
                 scalarProduct G (-(-φ)) (1 : ClassFunction G) := by rw [neg_neg]

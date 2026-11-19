@@ -56,10 +56,10 @@ private theorem inv_pinvS_fold {n w p : Nat} {g : Nat → Nat} (hw : n ≤ 2 ^ w
     rw [inv_fd_or, ih2 j hj, inv_fd_mul_pow haw j]
     by_cases hjj : j = fd w p a
     · have hga : g j = a := by rw [hjj]; exact hgp a haL
-      rw [if_pos hjj, hga]
+      rw [ite_eq_left hjj, hga]
       by_cases haL' : a ∈ L <;> simp [haL']
     · have hne : g j ≠ a := fun e => hjj (by rw [← e]; exact (hg j hj).2.symm)
-      rw [if_neg hjj, Nat.or_zero]
+      rw [ite_eq_right hjj, Nat.or_zero]
       simp [hne]
 
 theorem pinvS_eq {n w p : Nat} {g : Nat → Nat} (hw : n ≤ 2 ^ w) (hp : ∀ i < n, fd w p i < n)
@@ -78,7 +78,7 @@ theorem pinvS_eq {n w p : Nat} {g : Nat → Nat} (hw : n ≤ 2 ^ w) (hp : ∀ i 
   obtain ⟨h1, h2⟩ := inv_pinvS_fold hw hp hg hgp (List.range n) fun a ha => List.mem_range.1 ha
   rw [hfold]
   refine (enc_fd h1).symm.trans (enc_congr fun j hj => ?_)
-  rw [h2 j hj, if_pos (List.mem_range.2 (hg j hj).1)]
+  rw [h2 j hj, ite_eq_left (List.mem_range.2 (hg j hj).1)]
 
 theorem permOK_iff {n w p q : Nat} :
     permOK n w (mask w) (n * w) p q = true ↔

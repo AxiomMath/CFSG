@@ -139,7 +139,7 @@ theorem kac_facts {L : Type} [Field L] [IsAlgClosed L] (h3 : ((3 : ℕ) : L) ≠
       unfold cmpF
       rw [huv]
       ext z
-      simp [Fin.exists_fin_two, eq_comm, or_comm]
+      simp [or_comm]
     rw [hσ, hroots i, hcmp]
   · intro i h6
     have hs6 : szF (zlC m0 m1 m2 m3 m4 m5) (xs i) = 6 := by rw [← hncard i]; exact h6

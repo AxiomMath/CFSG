@@ -45,7 +45,7 @@ theorem exists_sylow_le (hM : fusionStronglyEmbedded M) :
   obtain ⟨Q⟩ : Nonempty (Sylow 2 M) := inferInstance
   set Q' : Subgroup X := (Q : Subgroup M).map M.subtype with hQ'
   have hQ'M : Q' ≤ M := Subgroup.map_subtype_le _
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map _
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map _
   have hcardQ' : Nat.card Q' = Nat.card (Q : Subgroup M) :=
     Subgroup.card_map_of_injective M.subtype_injective
   have hQeven : 2 ∣ Nat.card Q' := by
@@ -67,7 +67,7 @@ theorem exists_sylow_le (hM : fusionStronglyEmbedded M) :
     intro y hy
     have : (⟨y, hy⟩ : P) ∈ Q'.subgroupOf P := by rw [htop]; trivial
     exact Subgroup.mem_subgroupOf.1 this
-  have : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent P := P.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyQ⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hyconj : ∀ h ∈ Q', (y : X) * h * (y : X)⁻¹ ∈ Q' := by
@@ -86,7 +86,7 @@ theorem exists_sylow_le (hM : fusionStronglyEmbedded M) :
     intro hyM
     set R : Subgroup X := Q' ⊔ Subgroup.zpowers (y : X) with hR
     have hRP : R ≤ P := sup_le hP (by rw [Subgroup.zpowers_le]; exact y.2)
-    have hR2 : IsPGroup 2 R := P.isPGroup'.to_le hRP
+    have hR2 : IsPGroup 2 R := P.isPGroup.to_le hRP
     have hRM : R ≤ M := sup_le hQ'M (by rw [Subgroup.zpowers_le]; exact hyM)
     have hcomap2 : IsPGroup 2 (R.comap M.subtype) :=
       hR2.comap_of_injective M.subtype Subtype.val_injective

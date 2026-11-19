@@ -41,8 +41,8 @@ theorem Ctx.mem_sup_of_comm_index_two (hc : Ctx M Q Z A) {R : Subgroup G}
       refine ⟨y, Subgroup.mem_inf.mpr ⟨hyQ, (hcent y hyQ).mpr ?_⟩, hy⟩
       rw [hy, map_smul, LinearMap.smul_apply, hv, smul_zero]
     choose yk hyk using hex
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fintype (↥(Q ⊓ Subgroup.centralizer (A : Set G)) ⧸
+    have : Fintype K := Fintype.ofFinite K
+    have : Fintype (↥(Q ⊓ Subgroup.centralizer (A : Set G)) ⧸
         R.subgroupOf (Q ⊓ Subgroup.centralizer (A : Set G))) := Fintype.ofFinite _
     have hcard : Fintype.card (↥(Q ⊓ Subgroup.centralizer (A : Set G)) ⧸
         R.subgroupOf (Q ⊓ Subgroup.centralizer (A : Set G))) < Fintype.card K := by
@@ -66,7 +66,7 @@ theorem Ctx.mem_sup_of_comm_index_two (hc : Ctx M Q Z A) {R : Subgroup G}
   exact (M₀.mem_img_iff le_sup_right hx).mp hmem
 
 theorem Ctx.mem_sup_of_comm_QB_inf_M_index_two (hc : Ctx M Q Z A) {R : Subgroup G}
-    (hR : R ≤ QB A ⊓ M) (hRi : (R.subgroupOf (QB A ⊓ M)).index ≤ 2)
+    (_hR : R ≤ QB A ⊓ M) (hRi : (R.subgroupOf (QB A ⊓ M)).index ≤ 2)
     {y : G} (hy : y ∈ QB A) (hyc : ∀ l ∈ R, y * l = l * y) : y ∈ A ⊔ Z := by
   obtain ⟨n, h1, -, h3, h4⟩ := hc.exists_swap'
   have hyQ : n⁻¹ * y * n ∈ Q := by
@@ -119,7 +119,7 @@ theorem Ctx.inf_QB_inf_eq_of_sup_inf_sub (hc : Ctx M Q Z A) {V P : Subgroup G} (
     (hPi : ((QB A ⊓ M ⊓ P).subgroupOf (QB A ⊓ M)).index ≤ 2)
     (hAV : (A ⊔ Z) ⊓ V = Z) : Q ⊓ QB A ⊓ V = Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ : ∃ S : Subgroup G, S = Q ⊓ QB A ⊓ V := ⟨_, rfl⟩
   rw [← hS]
   have hmemS : ∀ g : G, g ∈ S ↔ g ∈ Q ∧ g ∈ QB A ∧ g ∈ V := by
@@ -172,8 +172,8 @@ theorem Ctx.inf_QB_inf_eq_of_sup_inf_sub (hc : Ctx M Q Z A) {V P : Subgroup G} (
     intro h
     have hT := Subgroup.mem_normalizer_iff.mp (hnP hl) h
     have hV := Subgroup.mem_normalizer_iff.mp (hPn hl) h
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at hT hV
-    simp only [SetLike.mem_coe, hmemS]
+    simp only [Subgroup.mem_inf] at hT hV
+    simp only [hmemS]
     tauto
   have hP2 : IsPGroup 2 P := by
     intro l
@@ -192,7 +192,7 @@ theorem Ctx.inf_QB_inf_eq_of_sup_inf_sub (hc : Ctx M Q Z A) {V P : Subgroup G} (
       group
     rw [e, hc.LB_centralizes_Z (hPL l.2) _ hab']
     exact hab'
-  letI act : MulAction ↥P (↥S ⧸ Z.subgroupOf S) :=
+  let act : MulAction ↥P (↥S ⧸ Z.subgroupOf S) :=
     { smul := fun l => Quotient.map' (f l) (fun a b hab => by
         rw [QuotientGroup.leftRel_apply] at hab ⊢
         exact hf l a b hab)

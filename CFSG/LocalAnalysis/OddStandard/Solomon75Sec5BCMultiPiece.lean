@@ -21,14 +21,17 @@ variable {X : Type} [Group X] [Finite X] {n : ℕ} {A : Subgroup X}
 private noncomputable def pieceProj (M : AhatModel X n A) : ↥A →* M.K :=
   M.e.toMonoidHom.comp (QuotientGroup.mk' (pPrimeCore 2 ↥A))
 
+omit [Finite X] in
 private theorem pieceProj_apply (M : AhatModel X n A) (a : ↥A) :
     pieceProj M a = M.e (QuotientGroup.mk a) := rfl
 
+omit [Finite X] in
 private theorem pieceProj_eq_iff (M : AhatModel X n A) (a b : ↥A) :
     pieceProj M a = pieceProj M b ↔ (a : X)⁻¹ * (b : X) ∈ oddCoreOf A := by
   rw [pieceProj_apply, pieceProj_apply, M.e.injective.eq_iff, QuotientGroup.eq, mem_oddCoreOf_iff]
   exact ⟨fun hh => ⟨mul_mem (inv_mem a.2) b.2, hh⟩, fun ⟨_, hh⟩ => hh⟩
 
+omit [Finite X] in
 private theorem pieceProj_eq_one_iff (M : AhatModel X n A) (a : ↥A) :
     pieceProj M a = 1 ↔ (a : X) ∈ oddCoreOf A := by
   have := pieceProj_eq_iff M 1 a
@@ -49,7 +52,7 @@ private theorem piece_eq_one_of_mem_odd_of_pow {G : Type*} [Group G] {O : Subgro
   exact congrArg (fun w : O => (w : G)) (orderOf_eq_one_iff.1 h4)
 
 private theorem piece_exists_sq_eq_of_card_eight {K : Type*} [Group K] {Qb : Subgroup K} {c : K}
-    (hc2 : c * c = 1) (hc1 : c ≠ 1) (hQ : Nat.card Qb = 8)
+    (_hc2 : c * c = 1) (hc1 : c ≠ 1) (hQ : Nat.card Qb = 8)
     (hpow : ∀ q ∈ Qb, q ≠ 1 → ∃ k : ℕ, q ^ k = c) : ∃ y ∈ Qb, y * y = c := by
   classical
   have hex : ∃ q ∈ Qb, q * q ≠ 1 := by
@@ -144,6 +147,7 @@ private theorem piece_exists_odd_pow_eq {z : X} (M : AhatModel X n A) (hzA : z �
         obtain ⟨m, hm⟩ := hoodd
         rw [hm, pow_succ, pow_mul, sq, hzz, one_pow, one_mul]
 
+omit [Finite X] in
 private theorem pieceProj_mem_fixSub (M : AhatModel X n A) {t : X}
     (htA : t ∈ normalizer (A : Set X)) {y : X} (hyA : y ∈ A)
     (hyt : y ∈ centralizer ({t} : Set X)) :
@@ -159,7 +163,7 @@ private theorem piece_sylow_bij {T K : Type*} [Group T] [Finite T] [Group K] [Fi
     ∃ P : Subgroup T, Nat.card P = 8 ∧
       (∀ p₁ ∈ P, ∀ p₂ ∈ P, φ p₁ = φ p₂ → p₁ = p₂) ∧ ∀ k ∈ φ.range, ∃ p ∈ P, φ p = k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card T = 8 * Nat.card φ.ker := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup φ.ker
     rw [Nat.card_congr (QuotientGroup.quotientKerEquivRange φ).toEquiv, hrange] at h1
@@ -182,7 +186,7 @@ private theorem piece_sylow_bij {T K : Type*} [Group T] [Finite T] [Group K] [Fi
     intro p₁ hp₁ p₂ hp₂ h12
     have hp : p₁⁻¹ * p₂ ∈ (P : Subgroup T) := mul_mem (inv_mem hp₁) hp₂
     have hφ1 : φ (p₁⁻¹ * p₂) = 1 := by rw [map_mul, map_inv, h12, inv_mul_cancel]
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p₁⁻¹ * p₂, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p₁⁻¹ * p₂, hp⟩
     have hk' : (p₁⁻¹ * p₂ : T) ^ (2 ^ k) = 1 := by
       have := congrArg (fun w : ↥(P : Subgroup T) => (w : T)) hk
       simpa using this
@@ -218,8 +222,8 @@ private theorem piece_le_LPlusIn {L : Subgroup X} (M : AhatModel X n L) {t : X}
     (hxP : pieceProj M ⟨x, hxL⟩ ∈ P) :
     x ∈ LPlusIn (L ⊓ centralizer ({t} : Set X)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite M.K := Finite.of_equiv _ M.e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite M.K := Finite.of_equiv _ M.e.toEquiv
   set Y : Subgroup X := L ⊓ centralizer ({t} : Set X)
   have hYL : Y ≤ L := inf_le_left
   let ρ : ↥Y →* M.K := (pieceProj M).comp (Subgroup.inclusion hYL)
@@ -323,8 +327,8 @@ private theorem piece_exists_quat {u t : X} (hu2 : u * u = 1) (hu1 : u ≠ 1)
       (∃ y ∈ Q, y * y = u) ∧ (∀ q ∈ Q, q ≠ 1 → u ∈ zpowers q) ∧
       ∃ a ∈ Q, ∃ b ∈ Q, ⁅a, b⁆ = u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite M.K := Finite.of_equiv _ M.e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite M.K := Finite.of_equiv _ M.e.toEquiv
   have huL : u ∈ L := hEL huE
   obtain ⟨c, hc⟩ : ∃ c : M.K, pieceProj M ⟨u, huL⟩ = c := ⟨_, rfl⟩
   have hzK : c ∈ center M.K := by
@@ -486,7 +490,7 @@ section Piece
 variable {X : Type} [Group X] [Finite X] {n : ℕ}
 
 theorem exists_sl23_piece (hn : 8 ≤ n) {u t : X} (hu2 : u * u = 1) (hu1 : u ≠ 1) (ht2 : t * t = 1)
-    (htu : t * u = u * t) {L E : Subgroup X}
+    (_htu : t * u = u * t) {L E : Subgroup X}
     (hL : IsPCompIn 2 (centralizer ({u} : Set X)) L) (hEL : E ≤ L) (huE : u ∈ E)
     (hEcov : ∀ c ∈ L, ∃ a ∈ E, ∃ o ∈ oddCoreOf L, c = a * o)
     (htL : t ∈ normalizer (L : Set X)) (htE : t ∈ normalizer (E : Set X)) (M : AhatModel X n L)
@@ -498,8 +502,8 @@ theorem exists_sl23_piece (hn : 8 ≤ n) {u t : X} (hu2 : u * u = 1) (hu1 : u �
       Q ≤ oTwoPrimeOf (LPlusIn (centralizer ({u} : Set X) ⊓ centralizer ({t} : Set X))) ∧
       Q ≤ oddTwoCoreOf (centralizer ({u} : Set X) ⊓ centralizer ({t} : Set X)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite M.K := Finite.of_equiv _ M.e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite M.K := Finite.of_equiv _ M.e.toEquiv
   have hα := M.induces_perm hn t htL
   have hσ2 := perm_sq_eq_one hn M htL ht2
   obtain ⟨P, Qb, hPfix, hPnorm, hPiso, hPodd, hQbP, hQbcard, hQbnorm, hQbpow, hQbcomm⟩ :=

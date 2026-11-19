@@ -46,12 +46,12 @@ theorem rkAut_j2P_five (hOut : SporadicOuterLeTwo) : RkAut 5 ↥j2P := by
   have hfin : Finite NativeSporadic.J2 :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.J2.card_J2]; norm_num)
   have g : ↥j2P ≃* NativeSporadic.J2 := j2PermEquiv.symm
-  haveI : Finite ↥j2P := Finite.of_equiv _ g.symm.toEquiv
+  have : Finite ↥j2P := Finite.of_equiv _ g.symm.toEquiv
   have hsimpleP : IsSimpleGroup ↥j2P := g.isSimpleGroup_congr.2 hsimple
   have hnabP : ∃ a c : ↥j2P, a * c ≠ c * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥j2P := { (inferInstance : Group ↥j2P) with mul_comm := hc }
+    let : CommGroup ↥j2P := { (inferInstance : Group ↥j2P) with mul_comm := hc }
     have hp := IsSimpleGroup.prime_card (α := ↥j2P)
     rw [Nat.card_congr g.toEquiv, CFSG.Sporadic.J2.card_J2] at hp
     norm_num at hp

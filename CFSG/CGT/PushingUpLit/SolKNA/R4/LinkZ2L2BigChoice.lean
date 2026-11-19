@@ -32,7 +32,7 @@ theorem mulAut_congr_mem_innGrp_iff {A B : Type} [Group A] [Group B] (φ : A ≃
 theorem exists_pow_two_pow_of_lt_orderOf {G : Type} [Group G] {H : Subgroup G}
     (hH : IsPGroup 2 ↥H) {β : G} (hβ : β ∈ H) {e : ℕ} (he : 2 ^ e < orderOf β) :
     ∃ K : ℕ, e < K ∧ β ^ 2 ^ K = 1 ∧ β ^ 2 ^ (K - 1) ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK⟩ := IsPGroup.iff_orderOf.mp hH ⟨β, hβ⟩
   have hK' : orderOf β = 2 ^ K := by simpa using hK
   have hlt : e < K := by

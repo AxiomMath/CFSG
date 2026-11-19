@@ -44,7 +44,7 @@ private theorem five_le_of_mem_sigmaM {M : Subgroup G} {p : ℕ}
 
 private theorem normalizer_ne_top (hC : CStarGen G) {A : Subgroup G}
     (hA : Nat.card A = 3) : Subgroup.normalizer (A : Set G) ≠ ⊤ := by
-  haveI : IsSimpleGroup G := hC.simple
+  have : IsSimpleGroup G := hC.simple
   intro htop
   have hAn : A.Normal := (Subgroup.normalizer_eq_top_iff).mp htop
   have hAne : A ≠ ⊥ := by
@@ -54,9 +54,9 @@ private theorem normalizer_ne_top (hC : CStarGen G) {A : Subgroup G}
   have hAtop : A = ⊤ := (Subgroup.Normal.eq_bot_or_eq_top A).resolve_left hAne
   have hcardG : Nat.card G = 3 := by
     rw [← Subgroup.card_top (G := G), ← hAtop, hA]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic G := isCyclic_of_prime_card (p := 3) hcardG
-  haveI : IsMulCommutative G := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic G := isCyclic_of_prime_card (p := 3) hcardG
+  have : IsMulCommutative G := inferInstance
   obtain ⟨a, b, hab⟩ := hC.nonab
   exact hab (mul_comm a b)
 
@@ -77,8 +77,8 @@ private theorem strong_starImg {M H : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hpM : p ∣ Nat.card ↥(H ⊓ M)) (hKM : CFSG.Open.relPPrimeCore 3 H ≤ M) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded p
       (CFSG.LocalAnalysis.RankThreeUC.AGL81C.starImg 3 H M) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥H := primeComplementCore (G := ↥H) 3
   let Y : Subgroup ↥H := (H ⊓ M).subgroupOf H
   have hNM : N.map H.subtype ≤ M := by
@@ -136,7 +136,7 @@ private theorem red_of_not_mem_sigma {M H P A R : Subgroup G} {p : ℕ} (hC : CS
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P (M ⊓ H))
     (hP3syl : CFSG.ABGLocalTools.IsSylowOf 3 P H)
     (hPrank : CFSG.Open.pRank 3 P = 3)
-    (hPs : ((CFSG.Open.IsElemAbelian 3 P ∧ Nat.card P = 27) ∨
+    (_hPs : ((CFSG.Open.IsElemAbelian 3 P ∧ Nat.card P = 27) ∨
       IsCyclic ↥(Subgroup.center ↥P)) ∧ 3 ≤ CFSG.Open.pRank 3 P)
     (hKM : CFSG.Open.relPPrimeCore 3 H ≤ M) (hpM : p ∣ Nat.card ↥(H ⊓ M))
     (hPA : A ≤ P)
@@ -146,7 +146,7 @@ private theorem red_of_not_mem_sigma {M H P A R : Subgroup G} {p : ℕ} (hC : CS
     (hcardA : Nat.card ↥(AGL81C.starImg 3 H A) = 3) :
     O1517bRed (AGL81C.StarGroup 3 H) p (AGL81C.starImg 3 H P) (AGL81C.starImg 3 H A)
       (AGL81C.starImg 3 H M) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpp : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
   have hPM : P ≤ M := hP.le.trans inf_le_left
   have hPH : P ≤ H := hP.le.trans inf_le_right
@@ -193,7 +193,7 @@ theorem o1517b_le_or_red {G : Type} [Group G] [Finite G] (hC : CStarGen G) {M : 
         (AGL81C.starImg 3 (Subgroup.normalizer (A : Set G)) A)
         (AGL81C.starImg 3 (Subgroup.normalizer (A : Set G)) M) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H : Subgroup G := Subgroup.normalizer (A : Set G)
   have hAH : A ≤ H := by simpa [H] using Subgroup.le_normalizer (H := A)
   have hA3 : IsPGroup 3 A := IsPGroup.of_card (n := 1) (by rw [hA]; norm_num)
@@ -227,7 +227,7 @@ theorem o1517b_le_or_red {G : Type} [Group G] [Finite G] (hC : CStarGen G) {M : 
           le_inf (inf_le_right.trans (Subgroup.centralizer_le_normalizer (A : Set G))) inf_le_left
         exact hpA.trans (Subgroup.card_dvd_of_le hle)
       have hPA : A ≤ P := by
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact CFSG.GH74.Uniqueness.le_of_isSylowOf_of_isPGroup_normal hP (le_inf hAM hAH)
           inf_le_right hA3
       have hshape := shape_starImg hPH hP.isPGroup hPs.1

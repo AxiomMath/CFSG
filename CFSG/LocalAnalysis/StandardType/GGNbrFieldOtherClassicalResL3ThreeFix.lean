@@ -15,7 +15,7 @@ open CFSG CFSG.Assembly Matrix CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 theorem false_of_isComponentOf_le_isSolvable {G : Type*} [Group G] {J H S : Subgroup G}
     (hJ : IsComponentOf J H) (hS : Group.IsSolvable S) (hJS : J ≤ S) : False := by
   have hperf : commutator J = ⊤ := hJ.2.2.1
-  haveI : Group.IsSolvable J :=
+  have : Group.IsSolvable J :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJS)
       (Subgroup.inclusion_injective hJS)
   obtain ⟨n, hn⟩ := (Group.isSolvable_def J).mp this
@@ -25,13 +25,13 @@ theorem false_of_isComponentOf_le_isSolvable {G : Type*} [Group G] {J H S : Subg
     | zero => exact derivedSeries_zero J
     | succ k ih => rw [derivedSeries_succ, ih, ← _root_.commutator_def]; exact hperf
   have hbot : (⊤ : Subgroup J) = ⊥ := (htop n).symm.trans hn
-  haveI : Subsingleton J := ⟨fun a b => by
+  have : Subsingleton J := ⟨fun a b => by
     have ha : a ∈ (⊥ : Subgroup J) := hbot ▸ Subgroup.mem_top a
     have hb : b ∈ (⊥ : Subgroup J) := hbot ▸ Subgroup.mem_top b
     rw [Subgroup.mem_bot] at ha hb
     rw [ha, hb]⟩
   have hs := hJ.2.2.2
-  haveI : Subsingleton (J ⧸ Subgroup.center J) := QuotientGroup.mk_surjective.subsingleton
+  have : Subsingleton (J ⧸ Subgroup.center J) := QuotientGroup.mk_surjective.subsingleton
   exact not_nontrivial_iff_subsingleton.mpr this hs.toNontrivial
 
 theorem isSolvable_ggFix_conjAut {K : Type*} [Field K] {B : GL (Fin 3) K}
@@ -88,10 +88,10 @@ theorem isSolvable_ggFix_conjAut {K : Type*} [Field K] {B : GL (Fin 3) K}
     apply Subtype.ext
     apply Subtype.ext
     exact (hB.commute (hcomm s) (hcomm t)).eq
-  haveI : Group.IsSolvable χ.ker := Group.isSolvable_of_comm hker
-  haveI : Group.IsSolvable (Subgroup.center (SpecialLinearGroup (Fin 3) K)) :=
+  have : Group.IsSolvable χ.ker := Group.isSolvable_of_comm hker
+  have : Group.IsSolvable (Subgroup.center (SpecialLinearGroup (Fin 3) K)) :=
     Group.isSolvable_of_comm fun a b => Subtype.ext ((Subgroup.mem_center_iff.mp a.2) b).symm
-  haveI : Group.IsSolvable S :=
+  have : Group.IsSolvable S :=
     Group.isSolvable_of_ker_le_range χ.ker.subtype χ (by rw [Subgroup.range_subtype])
   have hmap : S.map (proj 3 K) = ggFix (conjAut 3 K B) :=
     Subgroup.map_comap_eq_self_of_surjective (proj_surjective 3 K) _
@@ -193,8 +193,8 @@ theorem ggFixNoCompOn_linear [Finite K] {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card 
       map_mul' := fun r s => Subtype.ext (map_mul e (r : LargeEvenProj (LargeEvenSLGroup (Fin 3) K))
         (s : LargeEvenProj (LargeEvenSLGroup (Fin 3) K))) }
   have hreg' : IsReg (B' : Matrix (Fin 3) (Fin 3) K) := hBreg.map ι
-  haveI := isSolvable_ggFix_conjAut hreg'
-  haveI : Group.IsSolvable (ggFix ψB) :=
+  have := isSolvable_ggFix_conjAut hreg'
+  have : Group.IsSolvable (ggFix ψB) :=
     Group.isSolvable_of_isSolvable_injective (f := j) fun r s h =>
       Subtype.ext (e.injective (congrArg Subtype.val h))
   rw [hφψ] at hJ
@@ -225,12 +225,12 @@ theorem ggFixDataKX_linear_of_sub [Finite K] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.
     (orderOf_eq_of_mk_matAct (by norm_num) (slMapStable 3 K) hσ).trans hord
   obtain ⟨-, hcard⟩ := card_fixedPoints_field hn hK σ
   have hk : Nat.card (fixF σ) = 2 ^ (n / 3) := by rw [card_fixF, hcard, hσord]
-  haveI : CharP (fixF σ) 2 := NbrInnerMore.charP_two_of_card_pow h1 hk
+  have : CharP (fixF σ) 2 := NbrInnerMore.charP_two_of_card_pow h1 hk
   set e₀ := TypeA.recipeEquiv 3 (fixF σ) with he₀
   refine ⟨projectiveSL 3 (fixF σ), inferInstance, Set.range (conjAut 3 (fixF σ)),
     conjAut 3 (fixF σ) '' {B | IsReg (B : Matrix (Fin 3) (Fin 3) (fixF σ))},
     (subfieldEquiv le_rfl hn hK hσ).symm.trans e₀, ?_, ?_, ?_, ?_, hsub _ hk, ?_⟩
-  · haveI := isSimpleGroup_proj le_rfl (fixF σ)
+  · have := isSimpleGroup_proj le_rfl (fixF σ)
     exact e₀.symm.isSimpleGroup
   · obtain ⟨a, b, hab⟩ := exists_noncomm_proj le_rfl (fixF σ)
     exact ⟨e₀ a, e₀ b, fun h => hab (e₀.injective (by rw [map_mul, map_mul, h]))⟩

@@ -171,14 +171,13 @@ section Transvections
 theorem tUpper_smul (v : Fin 2 → F) : tUpper F • v = ![v 0 + v 1, v 1] := by
   ext i
   fin_cases i <;> simp [tUpper, Matrix.SpecialLinearGroup.smul_def, Matrix.smul_eq_mulVec,
-    SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Matrix.single_mulVec_eq,
-    Pi.single_apply]
+    SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Matrix.single_mulVec_eq]
 
 theorem tLower_smul (v : Fin 2 → F) : tLower F • v = ![v 0, v 0 + v 1] := by
   ext i
   fin_cases i <;> simp [tLower, Matrix.SpecialLinearGroup.smul_def, Matrix.smul_eq_mulVec,
     SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Matrix.single_mulVec_eq,
-    Pi.single_apply, add_comm]
+    add_comm]
 
 theorem not_fixed_sUpper_and_sLower (P : ℙ F (Fin 2 → F)) :
     ¬ (sUpper F • P = P ∧ sLower F • P = P) := by
@@ -230,7 +229,7 @@ theorem iwasawaT_smul_le {Y : Subgroup PSL(2, F)} {P : ℙ F (Fin 2 → F)} {s :
   rw [h, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hx
   have hx' := hT hx
   have : x = s * ((MulAut.conj s)⁻¹ • x) * s⁻¹ := by
-    simp [MulAut.smul_def, MulAut.conj_inv_apply, mul_assoc]
+    simp [MulAut.smul_def, mul_assoc]
   rw [this]
   exact Y.mul_mem (Y.mul_mem hs hx') (Y.inv_mem hs)
 

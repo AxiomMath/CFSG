@@ -86,7 +86,7 @@ theorem mem_normalizer_conjSubgroup_iff {A : Subgroup G} {g x : G} :
 
 theorem isSylow2Of_map_subtype {A : Subgroup G} (P : Sylow 2 A) :
     IsSylow2Of (P.map A.subtype) A := by
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map A.subtype, fun P' hP'A hP'2 hle => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map A.subtype, fun P' hP'A hP'2 hle => ?_⟩
   have hP'2' : IsPGroup 2 (P'.subgroupOf A) :=
     hP'2.of_equiv (Subgroup.subgroupOfEquivOfLe hP'A).symm
   have hle' : (P : Subgroup A) ≤ P'.subgroupOf A := fun x hx =>

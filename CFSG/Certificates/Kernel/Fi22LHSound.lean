@@ -67,7 +67,7 @@ theorem lhCompute_eq (D : LHData) (hO : OrbOK) (h : LHChecks D) :
     map_two _ _ lhData_size
   unfold lhCompute lhDec
   simp only [hOrb, hT, hC, commTree_eq0 hO h, commTree_eq1 hO h]
-  simp only [hB, pair_get0, pair_get1, map_pair, orbit_eq0 hO h, orbit_eq1 hO h, uIdx_eq hO h,
+  simp only [hB, pair_get0, pair_get1, map_pair, uIdx_eq hO h,
     rowR_eq hO h, rowInv_eq hO h, phi_eq hO h, v0_eq hO h, farTree_eq hO h,
     muW_eq hO h, muTree_eq hO h, edW_eq hO h, ed_eq hO h]
 

@@ -41,7 +41,7 @@ theorem u42_exists_antiIsometry_sl4 (hodd : ringChar K ≠ 2) (R : GL (Fin 4) K)
     show matrixForm R (h (bs i)) (h (bs j)) = (-1 : K) * matrixForm R (bs i) (bs j)
     rw [hbi i, hbi j]
     rcases i with i | i <;> rcases j with j | j
-    · simp [w, hll, Units.smul_def]
+    · simp [w, hll]
     · simp [w, Units.smul_def]
     · simp [w, Units.smul_def]
     · simp [w, Units.smul_def, hrr]
@@ -52,8 +52,8 @@ theorem u42_exists_antiIsometry_sl4 (hodd : ringChar K ≠ 2) (R : GL (Fin 4) K)
     rw [hbi j, Units.smul_def, map_smul, Module.Basis.repr_self]
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply]
-    · simp [Matrix.diagonal_apply, Finsupp.single_apply, hij, Ne.symm hij]
+      simp
+    · simp [hij]
   have hdet : LinearMap.det h.toLinearMap = 1 := by
     rw [← LinearMap.det_toMatrix bs, hmat, Matrix.det_diagonal, Fintype.prod_sum_type]
     simp [w, hm2]
@@ -119,6 +119,7 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 open CFSG.ComponentClassification.CatalogueBGeneralLinear (specialLinearRange)
 open CFSG.ComponentClassification.CatFC (pgFix_iff)
 
+omit [Finite K] in
 theorem u42_pgLift_inv (A : GL (Fin n) K) :
     (center (SpecialLinearGroup (Fin n) K)).map
       (slConjugation n K A * slGraphAut n K).toMonoidHom =
@@ -126,6 +127,7 @@ theorem u42_pgLift_inv (A : GL (Fin n) K) :
   Subgroup.map_center_eq
     (slConjugation n K A * slGraphAut n K : MulAut (SpecialLinearGroup (Fin n) K))
 
+omit [Finite K] in
 theorem u42_pureGraphAction_eq (A : GL (Fin n) K) :
     pureGraphAction n K A = CatalogueBFixedCentralQuotient.onQuotient
       (center (SpecialLinearGroup (Fin n) K)) (slConjugation n K A * slGraphAut n K)
@@ -139,6 +141,7 @@ theorem u42_pureGraphAction_eq (A : GL (Fin n) K) :
       CatalogueBFixedCentralQuotient.onQuotient_mk]
     exact CatalogueBGraphForm.pureGraphAction_mk n K A g
 
+omit [Finite K] in
 theorem u42_pgLift_fixed_map (A : GL (Fin n) K) :
     (fixedSubgroup (slConjugation n K A * slGraphAut n K)).map SpecialLinearGroup.toGL =
       CatalogueBGraphForm.isometryGroup n K A⁻¹ ⊓ specialLinearRange n K := by
@@ -159,6 +162,7 @@ theorem u42_pgLift_fixed_map (A : GL (Fin n) K) :
     rw [MulAut.mul_apply, toGL_slConjugation, toGL_slGraphAut]
     exact (pgFix_iff A _).mpr hyI
 
+omit [Finite K] in
 theorem u42_pgLift_card (A : GL (Fin n) K) :
     Nat.card ↥(fixedSubgroup (slConjugation n K A * slGraphAut n K)) =
       Nat.card ↥(CatalogueBGraphForm.isometryGroup n K A⁻¹ ⊓ specialLinearRange n K) := by

@@ -38,7 +38,7 @@ theorem mem_map_conj_inv_iff {g x : Γ} {K : Subgroup Γ} :
   · rintro ⟨k, hk, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hk
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 @[expose] def FanoP (A : Subgroup Γ) (K H : Nat → Subgroup Γ) (g : Γ) : Prop :=
   A.map (MulAut.conj g).toMonoidHom = A ∧ ∀ p, 0 < p → p < 8 → ∃ q, 0 < q ∧ q < 8 ∧

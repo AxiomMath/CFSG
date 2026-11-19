@@ -13,7 +13,7 @@ open CFSG.StandardType.TypeAReflOver
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem hdRo7SmAAux_smDual_apply {m : ℕ} (w v : SMV m) : smDual w v = smDot w v := by
-  simp [smDual, smDot, Finset.sum_apply, LinearMap.smul_apply, smul_eq_mul]
+  simp [smDual, smDot, Finset.sum_apply, smul_eq_mul]
 
 theorem hdRo7SmAAux_smDot_sub {m : ℕ} (w w' v : SMV m) :
     smDot (w - w') v = smDot w v - smDot w' v := by
@@ -139,7 +139,7 @@ theorem hdRo7SmAAux_case2 : ZS.LinWeyl 3 (smGroup 8 []) :=
 @[expose] noncomputable def hdRo7SmAAux_proj9 : (Fin 9 → ZMod 3) →ₗ[ZMod 3] SMV 8 where
   toFun V := fun i => V (Fin.castSucc i) - V (Fin.last 8)
   map_add' := by intro a b; ext i; simp only [Pi.add_apply]; ring
-  map_smul' := by intro c v; ext i; simp only [Pi.smul_apply, map_sub, RingHom.id_apply]; module
+  map_smul' := by intro c v; ext i; simp only [Pi.smul_apply, RingHom.id_apply]; module
 
 theorem hdRo7SmAAux_proj9_ext9 (v : SMV 8) : hdRo7SmAAux_proj9 (hdRo7SmAAux_ext9 v) = v := by
   ext i; simp [hdRo7SmAAux_proj9, hdRo7SmAAux_ext9]
@@ -186,7 +186,7 @@ theorem hdRo7SmAAux_proj9_T_ext9_proj9 (σ : Equiv.Perm (Fin 9)) (V : Fin 9 → 
             (coordPerm 3 8 σ (hdRo7SmAAux_ext9 v))) := by
           rw [hdRo7SmAAux_proj9_T_ext9_proj9]
       _ = hdRo7SmAAux_proj9 (coordPerm 3 8 (σ⁻¹ * σ) (hdRo7SmAAux_ext9 v)) := by
-          simp [map_mul]
+          simp
       _ = hdRo7SmAAux_proj9 (hdRo7SmAAux_ext9 v) := by simp
       _ = v := hdRo7SmAAux_proj9_ext9 v
   right_inv := by
@@ -197,7 +197,7 @@ theorem hdRo7SmAAux_proj9_T_ext9_proj9 (σ : Equiv.Perm (Fin 9)) (V : Fin 9 → 
             (coordPerm 3 8 σ⁻¹ (hdRo7SmAAux_ext9 v))) := by
           rw [hdRo7SmAAux_proj9_T_ext9_proj9]
       _ = hdRo7SmAAux_proj9 (coordPerm 3 8 (σ * σ⁻¹) (hdRo7SmAAux_ext9 v)) := by
-          simp [map_mul]
+          simp
       _ = hdRo7SmAAux_proj9 (hdRo7SmAAux_ext9 v) := by simp
       _ = v := hdRo7SmAAux_proj9_ext9 v
 
@@ -205,7 +205,7 @@ theorem hdRo7SmAAux_proj9_T_ext9_proj9 (σ : Equiv.Perm (Fin 9)) (V : Fin 9 → 
   toFun := hdRo7SmAAux_q9
   map_one' := by
     ext v i
-    simp [hdRo7SmAAux_q9, coordPerm_apply, hdRo7SmAAux_ext9, hdRo7SmAAux_proj9]
+    simp [hdRo7SmAAux_q9, hdRo7SmAAux_ext9, hdRo7SmAAux_proj9]
   map_mul' σ τ := by
     apply LinearEquiv.ext
     intro v
@@ -224,7 +224,7 @@ theorem hdRo7SmAAux_proj9_single_castSucc (m : Fin 8) (c : ZMod 3) :
 theorem hdRo7SmAAux_proj9_single_last (c : ZMod 3) :
     hdRo7SmAAux_proj9 (Pi.single (Fin.last 8) c) = - (c • (1 : SMV 8)) := by
   ext k
-  fin_cases k <;> simp [hdRo7SmAAux_proj9, smul_eq_mul] <;> ring
+  fin_cases k <;> simp [hdRo7SmAAux_proj9, smul_eq_mul]
 
 theorem hdRo7SmAAux_ext9_single (i : Fin 8) (c : ZMod 3) :
     hdRo7SmAAux_ext9 (Pi.single i c) = Pi.single (Fin.castSucc i) c := by
@@ -292,7 +292,7 @@ theorem hdRo7SmAAux_q9Hom_swap_last :
   ext i
   fin_cases i <;>
     simp [hdRo7SmAAux_q9Hom, hdRo7SmAAux_q9, hdRo7SmAAux_proj9, hdRo7SmAAux_ext9,
-      coordPerm_apply, kRefl_apply, kRoot, kCoroot, Equiv.swap_apply_def]
+      coordPerm_apply, kRefl_apply, kRoot, Equiv.swap_apply_def]
 
 theorem hdRo7SmAAux_kRefl_isRefl : GGLinRefl (kRefl 3 7) := by
   refine hdRo7SmAAux_isRefl_of_smRefl (u := kRoot 3 7) (φ := kCoroot 3 7)

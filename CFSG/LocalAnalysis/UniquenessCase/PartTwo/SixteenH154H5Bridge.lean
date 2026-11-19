@@ -73,7 +73,7 @@ private theorem s16h_le_stabSub_of_stableUnder {K : Subgroup (MulAut W)} {V : Su
     fun hv => h k hk v hv⟩
 
 private theorem s16h_centralizer_le_stabSub_fixV {X : Subgroup (MulAut W)}
-    (U : Subgroup W) (hXU : X ≤ stabSub U) :
+    (U : Subgroup W) (_hXU : X ≤ stabSub U) :
     Subgroup.centralizer (autSub X U : Set (MulAut ↥U)) ≤ stabSub (fixV (autSub X U)) := by
   intro φ hφ
   rw [mem_stabSub]
@@ -111,7 +111,7 @@ theorem s16h_H5_bridge_cent_cyclic_odd [Finite W] {A L : Subgroup (MulAut W)} {t
   classical
   set U : Subgroup W := commSub ⊤ L with hU
   set Z : Subgroup W := U ⊓ fixV L with hZ
-  rw [irrSet, Set.mem_setOf_eq] at hirr
+  rw [irrSet, Set.mem_ofPred_eq] at hirr
   obtain ⟨hcomm, hIrr⟩ := hirr
   rw [IsIrrOn] at hIrr
   obtain ⟨hZU, hstU, hstZ, hirrCond⟩ := hIrr
@@ -147,10 +147,10 @@ theorem s16h_H5_bridge_cent_cyclic_odd [Finite W] {A L : Subgroup (MulAut W)} {t
   obtain ⟨hfinE, hisfield, hcharE⟩ := hfield
   let α : Type := XMod.eqvEnd ↥Λ (Sec U Z)
   let Γ : Type := ↥(XMod.eqvAut ↥Λ (Sec U Z))
-  letI : Field α := hisfield.toField
-  haveI : CharP α 2 := hcharE
-  haveI : Fintype α := Fintype.ofFinite _
-  haveI : Finite (MulAut (Sec U Z)) := s16h_finite_mulAut
+  let : Field α := hisfield.toField
+  have : CharP α 2 := hcharE
+  have : Fintype α := Fintype.ofFinite _
+  have : Finite (MulAut (Sec U Z)) := s16h_finite_mulAut
   have hcycΓ : IsCyclic Γ :=
     XMod.isCyclic_of_injective_eqvEnd hsimple (XMod.toEqvEnd ↥Λ (Sec U Z))
       (XMod.toEqvEnd_injective (A := ↥Λ) (P := Sec U Z))
@@ -245,7 +245,7 @@ theorem s16h_H5_bridge_cent_cyclic_odd [Finite W] {A L : Subgroup (MulAut W)} {t
     ext u
     change (g : MulAut W) (u : W) = (u : W)
     exact htriv (u : W) u.2
-  haveI : IsCyclic ↥(XMod.eqvAut ↥Λ (Sec U Z)) := hcycΓ
+  have : IsCyclic ↥(XMod.eqvAut ↥Λ (Sec U Z)) := hcycΓ
   refine ⟨isCyclic_of_injective Φ hΦinj, ?_⟩
   have hdvdC : Nat.card ↥C ∣ Nat.card ↥(XMod.eqvAut ↥Λ (Sec U Z)) := by
     have heq : Nat.card ↥C = Nat.card ↥(Φ.range) :=

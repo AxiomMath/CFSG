@@ -123,9 +123,9 @@ theorem sympMinusZ_sectionFrameAut_le {K : Type} [Field K] [CharP K 2] {p m : �
   have hc' := congrArg toAdd hc
   rw [toAdd_mulSingle, toAdd_mulSingle] at hc'
   by_cases hπi : π i = i
-  · rw [if_pos hπi.symm, if_pos rfl] at hc'
+  · rw [ite_eq_left hπi.symm, ite_eq_left rfl] at hc'
     rw [h, hπi, hc']
-  · rw [if_neg (fun e => hπi e.symm), if_pos rfl] at hc'
+  · rw [ite_eq_right (fun e => hπi e.symm), ite_eq_left rfl] at hc'
     exact absurd hc' (coord_zero_ne_one hp)
 
 theorem sympMinusZ_commute_of_fix {K : Type} [Field K] {p m : ℕ}
@@ -158,7 +158,7 @@ theorem sympMinusZ_commute_of_fix {K : Type} [Field K] {p m : ℕ}
     refine sympMinusZ_vanish_of_fixes j (fun i => f₀ i ≠ 1) hjfix _ ?_
     intro i' hi' a'
     have hne : i' ≠ i := fun h => hi' (h ▸ hi)
-    fin_cases a <;> fin_cases a' <;> simp [Pi.single_apply, hne]
+    fin_cases a <;> fin_cases a' <;> simp [hne]
   · rw [hjfix i hi a, sympMinusZ_spEnd_coord ζ f i a, map_sum]
     refine Finset.sum_congr rfl fun b _ => ?_
     rw [map_smul, hjfix i hi b]

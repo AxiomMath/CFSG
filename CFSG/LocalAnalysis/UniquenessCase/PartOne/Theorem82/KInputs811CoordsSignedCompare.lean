@@ -30,7 +30,7 @@ variable {Y : Type} [Group Y] {A A₀ : Subgroup Y}
 
 private theorem mem_normalizer_of_realizes (h : IsSignedCoords A c) {n : Y}
     (hn : ∀ v, ∃ w, n * c v * n⁻¹ = c w) : n ∈ Subgroup.normalizer (A : Set Y) := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [h.card_eq]; norm_num)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [h.card_eq]; norm_num)
   refine Coords.mem_normalizer_of_conj_mem fun a ha => ?_
   rw [← h.2.1] at ha ⊢
   obtain ⟨v, rfl⟩ := ha
@@ -164,7 +164,7 @@ theorem exists_conj_eq_of_model {H Y : Type} [Group H] [Finite H] [Group Y] [Fin
     {A : Subgroup Y} {c : Multiplicative (Fin 3 → ZMod 3) →* Y} (h : IsSignedCoords A c) :
     ∃ g : H ⧸ N, ∀ v, e (QuotientGroup.mk' Z (c v)) =
       g * QuotientGroup.mk' N (c₀ v) * g⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc' := (h.map_quotient Z hZ).map_mulEquiv e
   have hc₀' := h₀.map_quotient N hN
   obtain ⟨g, hg⟩ := UniqueElemSylow.exists_conj_eq hU hc₀'.isElemAbelian

@@ -29,7 +29,7 @@ theorem bf_lt : ∀ (c : Bool × Bool × Bool × Bool) (i j : Fin (4 + 1)), bf c
       rw [← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel, Matrix.SpecialLinearGroup.coe_one]
     have h2 : (g : Mat5) * ((g⁻¹ : SL5) : Mat5) = 1 := by
       rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]
-    letI : Invertible (g : Mat5) := ⟨((g⁻¹ : SL5) : Mat5), h1, h2⟩
+    let : Invertible (g : Mat5) := ⟨((g⁻¹ : SL5) : Mat5), h1, h2⟩
     have hinv := Matrix.blockTriangular_inv_of_blockTriangular hg
     rw [Matrix.inv_eq_left_inv h1] at hinv
     exact hinv
@@ -184,14 +184,14 @@ theorem not_solvable_of_TS {p q r : Fin (4 + 1)} (hpq : p ≠ q) (hpr : p ≠ r)
     {D : Subgroup SL5} (hD : ∀ x ∈ TS p q r hpq hpr hqr, x ∈ D) : ¬ Group.IsSolvable ↥D := by
   intro hs
   have hle : Subgroup.closure (TS p q r hpq hpr hqr) ≤ D := (Subgroup.closure_le D).2 hD
-  haveI : Group.IsPerfect ↥(Subgroup.closure (TS p q r hpq hpr hqr)) :=
+  have : Group.IsPerfect ↥(Subgroup.closure (TS p q r hpq hpr hqr)) :=
     Subgroup.isPerfect_iff.2 (commutator_closure_TS p q r hpq hpr hqr)
   have hmem : tv p q hpq ∈ Subgroup.closure (TS p q r hpq hpr hqr) :=
     Subgroup.subset_closure (by simp [TS])
-  haveI : Nontrivial ↥(Subgroup.closure (TS p q r hpq hpr hqr)) :=
+  have : Nontrivial ↥(Subgroup.closure (TS p q r hpq hpr hqr)) :=
     ⟨⟨⟨tv p q hpq, hmem⟩, 1, fun e => tv_ne_one hpq (congrArg Subtype.val e)⟩⟩
-  haveI : Group.IsSolvable ↥(Subgroup.closure (TS p q r hpq hpr hqr)) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+  have : Group.IsSolvable ↥(Subgroup.closure (TS p q r hpq hpr hqr)) :=
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   exact Group.IsPerfect.not_isSolvable _ ‹_›
 
 theorem TS_le_Block {c : Bool × Bool × Bool × Bool} {p q r : Fin (4 + 1)} (hpq : p ≠ q)

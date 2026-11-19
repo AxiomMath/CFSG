@@ -68,7 +68,7 @@ theorem exists_element_ab [Finite G] {S T A : Subgroup G} (hTS : T ≤ S) (hAn :
       by_contra hc
       push Not at hc
       exact hnbad (gen_le hc)
-    obtain ⟨g, hgB, hgT⟩ := SetLike.not_le_iff_exists.mp hBT
+    obtain ⟨g, hgB, hgT⟩ := IsConcreteLE.not_le_iff_exists.mp hBT
     have hBcl := Kfam_subset_classTwo S _ hB
     have hgS : g ∈ S := hBcl.1 hgB
     by_cases hk : Even k

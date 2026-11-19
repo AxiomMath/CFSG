@@ -224,15 +224,15 @@ private theorem map_u3x127X₁ (σ : K →+* K) (hσ : σ z = -z) :
     ext i j
     fin_cases i <;> fin_cases j <;> rfl]
   exact mat3_congr
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_neg, map_ofNat])
 
 private theorem map_u3x127X₂ (σ : K →+* K) (hσ : σ z = -z) :
     (u3x127X₂ z).map σ = (u3x127X₂i z)ᵀ := by
@@ -243,15 +243,15 @@ private theorem map_u3x127X₂ (σ : K →+* K) (hσ : σ z = -z) :
     ext i j
     fin_cases i <;> fin_cases j <;> rfl]
   exact mat3_congr
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_ofNat])
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_one, map_ofNat, hσ]; ring)
 
 private theorem map_u3x127Yf (σ : K →+* K) (hσ : σ z = -z) :
     (u3x127Yf z).map σ = (u3x127Yfi z)ᵀ := by
@@ -263,21 +263,21 @@ private theorem map_u3x127Yf (σ : K →+* K) (hσ : σ z = -z) :
     ext i j
     fin_cases i <;> fin_cases j <;> rfl]
   exact mat3_congr
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_ofNat, hσ]; ring)
 
 private theorem transpose_u3x127Yf : (u3x127Yf z)ᵀ = u3x127Yf z := by
   ext i j
   fin_cases i <;> fin_cases j <;> rfl
 
-private theorem u3x127_w2 (hp : (127 : K) = 0) (hz : z ^ 2 = -1) :
+private theorem u3x127_w2 (_hp : (127 : K) = 0) (_hz : z ^ 2 = -1) :
     (!![-1, 0, 0; 0, -1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) K) *
       !![6 + 15 * z, -49 + -16 * z, 7 + 35 * z;
          43 + -10 * z, -7 + 48 * z, 4 + 1 * z;
@@ -297,7 +297,7 @@ private theorem u3x127_w2 (hp : (127 : K) = 0) (hz : z ^ 2 = -1) :
     (by linear_combination)
     (by linear_combination)
 
-private theorem u3x127_w3 (hp : (127 : K) = 0) (hz : z ^ 2 = -1) :
+private theorem u3x127_w3 (_hp : (127 : K) = 0) (_hz : z ^ 2 = -1) :
     (!![-6 + -15 * z, 49 + 16 * z, -7 + -35 * z;
         -43 + 10 * z, 7 + -48 * z, -4 + -1 * z;
         25 + -50 * z, 7 + 28 * z, -19] : Matrix (Fin 3) (Fin 3) K) *
@@ -361,7 +361,7 @@ private theorem u3x127_w5 (hp : (127 : K) = 0) (hz : z ^ 2 = -1) :
     (by linear_combination (-3808) * hz + (32 + -3 * z) * hp)
     (by linear_combination (-720) * hz + (12 + 28 * z) * hp)
 
-private theorem u3x127_w6 (hp : (127 : K) = 0) (hz : z ^ 2 = -1) :
+private theorem u3x127_w6 (_hp : (127 : K) = 0) (_hz : z ^ 2 = -1) :
     (!![-55 + -5 * z, 16 + -56 * z, 11 + -13 * z;
         50 + 38 * z, -62 + 49 * z, -8 + 17 * z;
         -20 + -10 * z, 11 + -28 * z, -35 + -61 * z] : Matrix (Fin 3) (Fin 3) K) *

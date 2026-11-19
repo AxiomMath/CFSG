@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16f_secAut_eq_one_iff_mem (U₂ U₁ : Subgroup W)
     (g : ↥(secStabAll U₂ U₁)) :
     secAut U₂ U₁ g = 1 ↔ ∀ u : ↥U₂, (g : MulAut W) u * (u : W)⁻¹ ∈ U₁ := by
@@ -47,6 +48,7 @@ private theorem w16f_secAut_eq_one_iff_mem (U₂ U₁ : Subgroup W)
     rw [show (⟨(a * b).1, hKs (a * b).2⟩ : ↥(secStabAll U U₀)) =
         (⟨a.1, hKs a.2⟩ * ⟨b.1, hKs b.2⟩ : ↥(secStabAll U U₀)) from rfl, map_mul])
 
+omit [Finite W] in
 theorem w16f_secImgHom_surjective (K : Subgroup (MulAut W)) (U U₀ : Subgroup W)
     (hKs : K ≤ secStabAll U U₀) : Function.Surjective (w16f_secImgHom K U U₀ hKs) := by
   rintro ⟨φ, hφ⟩
@@ -55,6 +57,7 @@ theorem w16f_secImgHom_surjective (K : Subgroup (MulAut W)) (U U₀ : Subgroup W
   show secAut U U₀ ⟨g.1, hKs hgK⟩ = φ
   rw [show (⟨g.1, hKs hgK⟩ : ↥(secStabAll U U₀)) = g from Subtype.ext rfl, hgφ]
 
+omit [Finite W] in
 theorem w16f_secImgHom_injective (K : Subgroup (MulAut W)) (U U₀ R : Subgroup W)
     (hKs : K ≤ secStabAll U U₀) (hRst : StableUnder K R) (hRU : R ≤ U)
     (hinf : R ⊓ U₀ = ⊥) (hKf : K ⊓ centSub R = ⊥) :
@@ -87,6 +90,7 @@ theorem w16f_secImgHom_injective (K : Subgroup (MulAut W)) (U U₀ R : Subgroup 
     ↥R →* SecT U U₀ :=
   (QuotientGroup.mk' (U₀.subgroupOf U)).comp (Subgroup.inclusion hRU)
 
+omit [Finite W] in
 theorem w16f_secTEquivHom_injective (R U U₀ : Subgroup W) (hRU : R ≤ U)
     (hinf : R ⊓ U₀ = ⊥) : Function.Injective (w16f_secTEquivHom R U U₀ hRU) := by
   intro r s hrs
@@ -99,6 +103,7 @@ theorem w16f_secTEquivHom_injective (R U U₀ : Subgroup W) (hRU : R ≤ U)
   rw [hinf] at h4
   exact Subtype.ext (mul_inv_eq_one.mp (by simpa using h4))
 
+omit [Finite W] in
 theorem w16f_secTEquivHom_surjective (R U U₀ : Subgroup W) (hRU : R ≤ U)
     (hsup : R ⊔ U₀ = U) : Function.Surjective (w16f_secTEquivHom R U U₀ hRU) := by
   intro x
@@ -120,11 +125,13 @@ theorem w16f_secTEquivHom_surjective (R U U₀ : Subgroup W) (hRU : R ≤ U)
     ⟨w16f_secTEquivHom_injective R U U₀ hRU hinf,
       w16f_secTEquivHom_surjective R U U₀ hRU hsup⟩
 
+omit [Finite W] in
 theorem w16f_secTEquiv_apply (R U U₀ : Subgroup W) (hRU : R ≤ U)
     (hinf : R ⊓ U₀ = ⊥) (hsup : R ⊔ U₀ = U) (r : ↥R) :
     w16f_secTEquiv R U U₀ hRU hinf hsup r =
       QuotientGroup.mk (⟨r.1, hRU r.2⟩ : ↥U) := rfl
 
+omit [Finite W] in
 theorem w16f_secTEquiv_secAut (R U U₀ : Subgroup W) (hRU : R ≤ U)
     (hinf : R ⊓ U₀ = ⊥) (hsup : R ⊔ U₀ = U) {a : MulAut W}
     (ha : a ∈ secStabAll U U₀) (haR : ∀ r ∈ R, a r ∈ R) (r : ↥R) :

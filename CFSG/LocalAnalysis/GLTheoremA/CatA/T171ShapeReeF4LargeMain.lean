@@ -32,7 +32,7 @@ theorem innerOnCompNonShapeLarge_of_RF (hRF : LargeReeCentralizerActsInner) :
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.odd
   have hp3 : 3 < p := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJleL : J ≤ L := hS.comp.1.1.trans inf_le_left
   have hpJ : p ∣ Nat.card ↥J :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1110d.prime_dvd_card_of_glaPComponent
@@ -77,10 +77,10 @@ theorem innerOnCompNonShapeLarge_of_RF (hRF : LargeReeCentralizerActsInner) :
     have hR := CFSG.LieType.SeitzGeneration.reeTitsModel_cat_reeF4 hv
     obtain ⟨K, hfield, hfinite, hchar, hKcard, ⟨eK⟩⟩ :=
       CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma hm1 hR
-    letI := hfield
-    letI := hfinite
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hchar
-    haveI : Finite ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K k) := Subtype.finite
+    let := hfield
+    let := hfinite
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hchar
+    have : Finite ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K k) := Subtype.finite
     obtain ⟨eP⟩ := pSimpleEquivCenterQuot_of_setup hS
     have ePS' : PSimple p L ≃*
         (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.reeF4 k, hv⟩).Group := hdd ▸ ePS
@@ -227,7 +227,7 @@ theorem innerOnCompNonShapeLarge_of_RF (hRF : LargeReeCentralizerActsInner) :
           _ = σb w * y⁻¹ := by group
       rw [MulAut.mul_apply, hyz]
       exact hzw
-    haveI : Group.IsPerfect ↥J := ⟨hS.comp.1.2.2.1⟩
+    have : Group.IsPerfect ↥J := ⟨hS.comp.1.2.2.1⟩
     have hid := hom_eq_id_of_central_displacement (G := ↥J) (σb * σj⁻¹) hdisp
     have hσinv : (σb * σj⁻¹ : MulAut ↥J) = 1 := by
       ext z

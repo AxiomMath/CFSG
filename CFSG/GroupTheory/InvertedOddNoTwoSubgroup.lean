@@ -17,7 +17,7 @@ theorem eq_bot_of_isStronglyEmbeddedOrder {Y : Type*} [Group Y] [Finite Y]
     {R : Subgroup Y} (hR : IsPGroup 2 R) (hBR : B ≤ normalizer (R : Set Y))
     (hsR : s ∈ normalizer (R : Set Y)) : R = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hRne
   obtain ⟨S, hRS⟩ := hR.exists_le_sylow
   set M : Subgroup Y := normalizer ((S : Subgroup Y) : Set Y) with hMdef
@@ -77,7 +77,7 @@ theorem eq_bot_of_isStronglyEmbeddedOrder {Y : Type*} [Group Y] [Finite Y]
         intro h
         exact hne (by simpa using congrArg Subtype.val h)
       have h2dvd : 2 ∣ orderOf (⟨b ^ 2, hb2S⟩ : ↥(S : Subgroup Y)) :=
-        S.isPGroup'.dvd_orderOf hne'
+        S.isPGroup.dvd_orderOf hne'
       rw [Subgroup.orderOf_mk] at h2dvd
       exact hodd2.not_two_dvd_nat h2dvd
     have hdvd2 : orderOf b ∣ 2 := orderOf_dvd_of_pow_eq_one hb2_one

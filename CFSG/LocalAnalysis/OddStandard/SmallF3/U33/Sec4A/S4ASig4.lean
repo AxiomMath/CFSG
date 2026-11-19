@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def oddOrderGrp (K : Subgroup G) : Subgroup G :=
   closure {k : G | k ∈ K ∧ ¬ 2 ∣ orderOf k}
 
+omit [Finite G] in
 theorem oddOrderGrp_le (K : Subgroup G) : oddOrderGrp K ≤ K :=
   (Subgroup.closure_le K).mpr fun _ hk => hk.1
 
@@ -112,7 +113,7 @@ private lemma closure_odd_eq_alternating_fin4 :
   · rw [← Equiv.Perm.closure_three_cycles_eq_alternating]
     apply Subgroup.closure_mono
     intro p hp
-    rw [Set.mem_setOf_eq, hp.orderOf]
+    rw [Set.mem_ofPred_eq, hp.orderOf]
     decide
 
 private lemma nat_card_alternatingGroup_fin4 : Nat.card (alternatingGroup (Fin 4)) = 12 := by
@@ -123,14 +124,17 @@ private def phiHom {Sig : Subgroup G} (φ : ↥Sig ≃* Equiv.Perm (Fin 4)) :
     Equiv.Perm (Fin 4) →* G :=
   Sig.subtype.comp φ.symm.toMonoidHom
 
+omit [Finite G] in
 private lemma phiHom_apply {Sig : Subgroup G} (φ : ↥Sig ≃* Equiv.Perm (Fin 4))
     (p : Equiv.Perm (Fin 4)) : phiHom φ p = ((φ.symm p : ↥Sig) : G) := rfl
 
+omit [Finite G] in
 private lemma phiHom_injective {Sig : Subgroup G} (φ : ↥Sig ≃* Equiv.Perm (Fin 4)) :
     Function.Injective (phiHom φ) := by
   intro a b h
   exact φ.symm.injective (Subtype.ext h)
 
+omit [Finite G] in
 private lemma oddOrderGrp_eq_map {Sig : Subgroup G} (φ : ↥Sig ≃* Equiv.Perm (Fin 4)) :
     oddOrderGrp Sig = (alternatingGroup (Fin 4)).map (phiHom φ) := by
   have hgen : {k : G | k ∈ Sig ∧ ¬ 2 ∣ orderOf k}
@@ -151,6 +155,7 @@ private lemma oddOrderGrp_eq_map {Sig : Subgroup G} (φ : ↥Sig ≃* Equiv.Perm
         rwa [this]
   rw [oddOrderGrp, hgen, ← MonoidHom.map_closure, closure_odd_eq_alternating_fin4]
 
+omit [Finite G] in
 theorem card_oddOrderGrp {Sig : Subgroup G} (φ : ↥Sig ≃* Equiv.Perm (Fin 4)) :
     Nat.card (oddOrderGrp Sig) = 12 := by
   rw [oddOrderGrp_eq_map, Subgroup.card_map_of_injective (phiHom_injective φ),
@@ -188,6 +193,7 @@ theorem eq_oddOrderGrp_of_card {Sig A : Subgroup G} (φ : ↥Sig ≃* Equiv.Perm
     exact Subgroup.mem_subgroupOf.mp hk'
   · rw [hA, card_oddOrderGrp φ]
 
+omit [Finite G] in
 theorem exists_mul_centralizes_oddOrderGrp {V Sig : Subgroup G}
     (hcomm : ∀ v ∈ V, ∀ s ∈ Sig, v * s = s * v) (hinf : V ⊓ Sig = ⊥)
     (hV : ∀ v ∈ V, v * v = 1) (φ : ↥Sig ≃* Equiv.Perm (Fin 4)) {g : G}

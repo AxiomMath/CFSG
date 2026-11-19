@@ -106,7 +106,7 @@ private theorem eq_one_of_commutator_mem {Q : Type} [Group Q] {Ks T : Subgroup Q
     (hTN : Ks ≤ Subgroup.normalizer (T : Set Q)) (hT2 : IsPGroup 2 T) {e : Q} (heK : e ∈ Ks)
     (h : ∀ s ∈ Ks, e * s * e⁻¹ * s⁻¹ ∈ T) : e = 1 := by
   classical
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hsimple : IsSimpleGroup Ks := eK.isSimpleGroup
   have hTn : (T.subgroupOf Ks).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTK).mpr hTN

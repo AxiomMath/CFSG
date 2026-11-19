@@ -127,7 +127,7 @@ theorem commute_cycle_of_mem_primeCore {σ : Perm Ω} (hσ : σ ^ 2 = 1) {o : Pe
     calc o * c = o * c * o⁻¹ * o := by group
       _ = c * o := by rw [hconj]
   ·
-    push_neg at h3
+    push Not at h3
     let o' : Subgroup.centralizer ({σ} : Set (Perm Ω)) :=
       ⟨o, Subgroup.mem_centralizer_singleton_iff.2 hoσ⟩
     have hdvd2 : orderOf (toPermHom σ o') ∣ 2 := by

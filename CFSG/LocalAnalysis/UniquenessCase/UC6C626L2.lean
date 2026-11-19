@@ -109,7 +109,7 @@ theorem exists_inverting {r n p : ℕ} [Fact r.Prime] [Finite F] (hF : Nat.card 
     (h2 : (2 : F) ≠ 0) (hq : 5 ≤ Nat.card F) (hp : p.Prime) (hpr : p ≠ r) {l : PSL(2, F)}
     (hl : orderOf l = p) : ∃ w : PSL(2, F), w * l * w⁻¹ = l⁻¹ := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hchar : ringChar F ≠ 2 := by
     intro h
     apply h2
@@ -194,7 +194,7 @@ theorem exists_mem_normalizer_zpowers_not_mem {r n p : ℕ} [Fact r.Prime] [Fini
   have hl2 : l ^ 2 ∈ (W : Subgroup (PSL(2, F))) := by
     have := Subgroup.inv_mem _ hcomm
     simpa [sq] using this
-  obtain ⟨k, hk⟩ := W.isPGroup' ⟨l ^ 2, hl2⟩
+  obtain ⟨k, hk⟩ := W.isPGroup ⟨l ^ 2, hl2⟩
   have hk' : (l ^ 2) ^ r ^ k = 1 := congrArg Subtype.val hk
   have hord2 : orderOf (l ^ 2) = p := by
     rw [Nat.Coprime.orderOf_pow, hl]
@@ -218,7 +218,7 @@ theorem sup_normalizer_zpowers_eq_top_of_lieModel {S : Type} [Group S] [Finite S
     (hr : r.Prime) (hr2 : r ≠ 2) (hL : LieModel S .PSL 2 r 2) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpr : p ≠ r) (E : Subgroup S) (hE : IsSylowOf r E ⊤) {l : S} (hl : orderOf l = p) :
     E ⊔ Subgroup.normalizer (Subgroup.zpowers l : Set S) = ⊤ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨F, _, _, e, hF, hFq⟩ := CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' hr hr2 hL
   let φ : S ≃* PSL(2, F) := CFSG.GH74.GLS.IVK.toPSL e
   obtain ⟨-, hSp, hSnd⟩ := isSylowOf_iff.1 hE

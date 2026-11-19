@@ -29,7 +29,7 @@ theorem rckLemmaFIIpAt_POmegaPlus :
   swap
   · exfalso
     have hU : ggU .POmegaPlus m g = trivialUniversal := by
-      simp only [ggU, lieUniversal, dif_neg hm]
+      simp only [ggU, lieUniversal, dite_eq_right hm]
     have hsubK : Subsingleton (ggU .POmegaPlus m g).K := by
       rw [hU]
       show Subsingleton (Matrix.SpecialLinearGroup (Fin 1) (ZMod 2))

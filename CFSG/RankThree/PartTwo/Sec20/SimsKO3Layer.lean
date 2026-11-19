@@ -19,10 +19,10 @@ theorem simple_three_dvd_small {K : Type} [Group K] [Finite K]
       Nonempty (K ⧸ CFSG.pCore 2 K ≃* projSL 2 (GaloisField 2 2))) :
     IsSimpleGroup (K ⧸ CFSG.pCore 2 K) ∧ 3 ∣ Nat.card (K ⧸ CFSG.pCore 2 K) := by
   rcases htype with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
-  · haveI := CFSG.RankThree.PartTwo.Sec21.Item222Proof.isSimpleGroup_projSL_three
+  · have := CFSG.RankThree.PartTwo.Sec21.Item222Proof.isSimpleGroup_projSL_three
       (GaloisField 2 1)
     exact ⟨e.isSimpleGroup, CFSG.RankThree.PartTwo.KFacts.three_dvd_card_of_mulEquiv_projSL e⟩
-  · haveI := CFSG.RankThree.PartTwo.Sec21.isSimpleGroup_projSL_two (m := 2) (by norm_num)
+  · have := CFSG.RankThree.PartTwo.Sec21.isSimpleGroup_projSL_two (m := 2) (by norm_num)
     exact ⟨e.isSimpleGroup, CFSG.RankThree.PartTwo.Sec21.three_dvd_card_of_mulEquiv_projSL e⟩
 
 theorem kO3CentLayer_small

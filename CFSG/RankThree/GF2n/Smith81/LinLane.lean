@@ -54,6 +54,7 @@ section Assembly
 variable [Finite G] {M Q Z B : Subgroup G} {n : ℕ}
   {V₁ V₂ : Subgroup G}
 
+omit [Finite G] in
 theorem exists_ne_one_mem_Z (H : StrothHyp M Q Z) : ∃ z ∈ Z, z ≠ 1 := by
   by_contra hcon
   push Not at hcon

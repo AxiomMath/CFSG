@@ -74,7 +74,7 @@ theorem qtwoDB32_proj_spec (m : ℕ) (g : dEven m) :
   Classical.choose_spec g.2
 
 theorem qtwoDB32_proj_eq_of (m : ℕ) (g : dEven m) (σ : Equiv.Perm (Fin m))
-    (c : Fin m → ZMod 3) (hc : ∀ i, c i ≠ 0)
+    (c : Fin m → ZMod 3) (_hc : ∀ i, c i ≠ 0)
     (h : ∀ i, (g : DVec m ≃ₗ[ZMod 3] DVec m) (dBasis m i) = c i • dBasis m (σ i)) :
     qtwoDB32_proj m g = σ := by
   obtain ⟨d, hd1, _, hd⟩ := qtwoDB32_proj_spec m g
@@ -111,9 +111,9 @@ theorem qtwoDB32_proj_dTau (m : ℕ) (sgn : Bool) {a b : Fin m} (hab : a ≠ b) 
     (fun i => if sgn then (if i = a ∨ i = b then (-1 : ZMod 3) else 1) else 1)
     (fun i => ?_) (fun i => ?_)
   · by_cases h : sgn
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       by_cases hi : i = a ∨ i = b <;> simp [hi]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact one_ne_zero
   · change dTau m sgn a b (dBasis m i) = _
     rw [qtwoDB32_dTau_action m sgn hab i]
@@ -177,7 +177,7 @@ theorem qtwoDB32_psi_injective {m : ℕ} (hm : 5 ≤ m)
   have hsq : (φ c) * (φ c) = 1 := by
     obtain ⟨d, hd1, _, hd⟩ := qtwoDB32_proj_spec m ⟨φ c, qtwoDB32_phi_mem φ hφ c⟩
     rw [hproj] at hd
-    simp only [Subgroup.coe_mk, Equiv.Perm.one_apply] at hd
+    simp only [Equiv.Perm.one_apply] at hd
     refine (dBasis m).ext' fun i => ?_
     rw [LinearEquiv.mul_apply, hd i, map_smul, hd i, smul_smul]
     have hdd : d i * d i = 1 := by rcases hd1 i with h' | h' <;> rw [h'] <;> decide
@@ -226,10 +226,10 @@ theorem qtwoDB32_dTauZ_dSgn (m : ℕ) (sgn : Bool) (a b : Fin m) :
   cases sgn
   · show (if (qtwoDB32_dSgn false) = -1 then dTau m true a b else dTau m false a b) =
       dTau m false a b
-    rw [if_neg (by decide)]
+    rw [ite_eq_right (by decide)]
   · show (if (qtwoDB32_dSgn true) = -1 then dTau m true a b else dTau m false a b) =
       dTau m true a b
-    rw [if_pos (by decide)]
+    rw [ite_eq_left (by decide)]
 
 theorem qtwoDB32_dTauZ_apply_left {m : ℕ} {s : ZMod 3} (hs : s = 1 ∨ s = -1)
     {a b : Fin m} (hab : a ≠ b) :
@@ -237,11 +237,11 @@ theorem qtwoDB32_dTauZ_apply_left {m : ℕ} {s : ZMod 3} (hs : s = 1 ∨ s = -1)
   rcases hs with rfl | rfl
   · show (if (1 : ZMod 3) = -1 then dTau m true a b else dTau m false a b) (dBasis m a) =
       1 • dBasis m b
-    rw [if_neg (by decide), dTau_apply_left m false hab]
+    rw [ite_eq_right (by decide), dTau_apply_left m false hab]
     simp
   · show (if (-1 : ZMod 3) = -1 then dTau m true a b else dTau m false a b) (dBasis m a) =
       -1 • dBasis m b
-    rw [if_pos rfl, dTau_apply_left m true hab]
+    rw [ite_eq_left rfl, dTau_apply_left m true hab]
     simp
 
 theorem qtwoDB32_dTauZ_apply_right {m : ℕ} {s : ZMod 3} (hs : s = 1 ∨ s = -1)
@@ -250,11 +250,11 @@ theorem qtwoDB32_dTauZ_apply_right {m : ℕ} {s : ZMod 3} (hs : s = 1 ∨ s = -1
   rcases hs with rfl | rfl
   · show (if (1 : ZMod 3) = -1 then dTau m true a b else dTau m false a b) (dBasis m b) =
       1 • dBasis m a
-    rw [if_neg (by decide), dTau_apply_right m false hab]
+    rw [ite_eq_right (by decide), dTau_apply_right m false hab]
     simp
   · show (if (-1 : ZMod 3) = -1 then dTau m true a b else dTau m false a b) (dBasis m b) =
       -1 • dBasis m a
-    rw [if_pos rfl, dTau_apply_right m true hab]
+    rw [ite_eq_left rfl, dTau_apply_right m true hab]
     simp
 
 theorem qtwoDB32_dTauZ_apply_of_ne {m : ℕ} {s : ZMod 3} (hs : s = 1 ∨ s = -1)
@@ -263,12 +263,12 @@ theorem qtwoDB32_dTauZ_apply_of_ne {m : ℕ} {s : ZMod 3} (hs : s = 1 ∨ s = -1
   rcases hs with rfl | rfl
   · show (if (1 : ZMod 3) = -1 then dTau m true a b else dTau m false a b) (dBasis m i) =
       dBasis m i
-    rw [if_neg (by decide), dTau_apply_of_ne m false hia hib]
+    rw [ite_eq_right (by decide), dTau_apply_of_ne m false hia hib]
   · show (if (-1 : ZMod 3) = -1 then dTau m true a b else dTau m false a b) (dBasis m i) =
       dBasis m i
-    rw [if_pos rfl, dTau_apply_of_ne m true hia hib]
+    rw [ite_eq_left rfl, dTau_apply_of_ne m true hia hib]
 
-theorem qtwoDB32_pair_eq_of_swap_eq {m : ℕ} {a b c d : Fin m} (hab : a ≠ b) (hcd : c ≠ d)
+theorem qtwoDB32_pair_eq_of_swap_eq {m : ℕ} {a b c d : Fin m} (hab : a ≠ b) (_hcd : c ≠ d)
     (h : Equiv.swap a b = Equiv.swap c d) : (a = c ∧ b = d) ∨ (a = d ∧ b = c) := by
   have ha : a = c ∨ a = d := by
     have h1 : Equiv.swap c d a ≠ a := by
@@ -293,9 +293,9 @@ theorem qtwoDB32_unitOfSign_val {s : ZMod 3} (hs : s = 1 ∨ s = -1) :
     (qtwoDB32_unitOfSign s : ZMod 3) = s := by
   rcases hs with rfl | rfl
   · show ((if (1 : ZMod 3) = -1 then (-1 : (ZMod 3)ˣ) else 1) : ZMod 3) = 1
-    rw [if_neg (by decide)]
+    rw [ite_eq_right (by decide)]
   · show ((if (-1 : ZMod 3) = -1 then (-1 : (ZMod 3)ˣ) else 1) : ZMod 3) = -1
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rfl
 
 end CFSG.StandardType.QTwo

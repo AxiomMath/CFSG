@@ -113,7 +113,7 @@ theorem eq_top_of_involution_classes [Finite G] (hG : IsSimpleGroup G) (M : Subg
       · exact absurd (hcomm w (hCz hwz) hw (mem_centralizer_iff.1 hwv v rfl)) hvM
       · exact h
     exact hnc (h1.trans h2.symm)
-  haveI := hG
+  have := hG
   have hnt : Subgroup.normalClosure ({t} : Set G) ≠ ⊥ := by
     intro h
     rw [Subgroup.normalClosure_eq_bot_iff] at h
@@ -159,7 +159,7 @@ theorem centralizer_le_of_conj_mem (M : Subgroup G) {t z : G}
 
 theorem conj_mem_of_le_normalizer {R M : Subgroup G} {t z : G} (hRM : R ≤ M) (htR : t ∈ R)
     (hn : Subgroup.centralizer ({z} : Set G) ≤ Subgroup.normalizer (R : Set G)) :
-    ∀ c ∈ Subgroup.centralizer ({z} : Set G), c * t * c⁻¹ ∈ M := fun c hc =>
+    ∀ _c ∈ Subgroup.centralizer ({z} : Set G), _c * t * _c⁻¹ ∈ M := fun _c hc =>
   hRM ((Subgroup.mem_normalizer_iff.1 (hn hc) t).1 htR)
 
 theorem exists_conj_of_conj_mem_of_involution_classes (M : Subgroup G) {t z : G}

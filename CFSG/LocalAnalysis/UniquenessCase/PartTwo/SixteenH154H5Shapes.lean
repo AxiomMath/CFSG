@@ -22,7 +22,7 @@ private theorem s16h_eq_of_subnormal_of_quasisimple {A L K : Subgroup (MulAut W)
   have hKsnL : CFSG.Open.IsSubnormal K L := by
     have h := hKsn.inf_of_le hLA
     rwa [inf_eq_left.2 hKL] at h
-  haveI : Group.IsPerfect ↥(K.subgroupOf L) :=
+  have : Group.IsPerfect ↥(K.subgroupOf L) :=
     ⟨(CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKL) hKq).1⟩
   have hsub : CFSG.Open.IsSubnormal (K.subgroupOf L) (⊤ : Subgroup ↥L) :=
     CFSG.Open.IsSubnormal.of_mathlib (CFSG.Open.IsSubnormal.subgroupOf hKsnL)
@@ -37,19 +37,19 @@ theorem s16h_H5_not_pgroup [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t) (h : Conc4_133 A t L) : False := by
   classical
   obtain ⟨p, hp, hLp, hcomm, -⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut W) := s16h_finite_mulAut
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut W) := s16h_finite_mulAut
   have hLne : L ≠ ⊥ := by
     intro hbot
     exact hcomm (by rw [hbot, Subgroup.commutator_bot_left])
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hLne
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hLne
   have hpg : IsPGroup p ↥L := by
     have hpA : IsPGroup p (pCoreOf p A) := by
       unfold CFSG.Open.pCoreOf
       exact (CFSG.pCore_isPGroup (p := p) (G := ↥A)).map A.subtype
     exact hpA.to_le hLp
   have hnil : Group.IsNilpotent ↥L := hpg.isNilpotent
-  haveI : Group.IsPerfect ↥L := ⟨hc.comp.2.2.1⟩
+  have : Group.IsPerfect ↥L := ⟨hc.comp.2.2.1⟩
   exact Group.IsPerfect.not_isNilpotent ↥L hnil
 
 theorem s16h_H5_not_tensor [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
@@ -71,7 +71,7 @@ theorem s16h_H5_not_tensor [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     s16h_eq_of_subnormal_of_quasisimple hc.comp.2.2 hKA.2.1 hc.comp.1 hKA.2.2 hKleL hKne
   have hKg_le_K : K.map (MulAut.conj g).toMonoidHom ≤ K := by
     simpa only [← hKL] using hKg_le_L
-  haveI : Finite (MulAut W) := s16h_finite_mulAut
+  have : Finite (MulAut W) := s16h_finite_mulAut
   have hcard : Nat.card ↥(K.map (MulAut.conj g).toMonoidHom) = Nat.card ↥K :=
     Subgroup.card_map_of_injective (MulAut.conj g).injective
   have hKgeq : K.map (MulAut.conj g).toMonoidHom = K :=

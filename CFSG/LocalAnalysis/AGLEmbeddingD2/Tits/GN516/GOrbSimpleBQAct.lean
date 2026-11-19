@@ -14,7 +14,7 @@ variable {Y : Type*} [Group Y]
     MulAut ↥L where
   toFun l := ⟨r * l * r⁻¹, (Subgroup.mem_normalizer_iff.1 hr l).1 l.2⟩
   invFun l := ⟨r⁻¹ * l * r,
-    (Subgroup.mem_normalizer_iff.1 hr (r⁻¹ * l * r)).2 (by simpa [mul_assoc] using l.2)⟩
+    (Subgroup.mem_normalizer_iff.1 hr (r⁻¹ * l * r)).2 (by simp [mul_assoc])⟩
   left_inv l := Subtype.ext (by simp [mul_assoc])
   right_inv l := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])

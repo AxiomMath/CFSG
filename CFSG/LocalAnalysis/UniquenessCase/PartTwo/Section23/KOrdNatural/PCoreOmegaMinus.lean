@@ -59,10 +59,10 @@ private theorem natIrred_statedOmegaMinus {K : Type} [Field K] [Finite K] {m : �
     simp [a] at h1
   have hae : polar (quadMinus m K b c) (minusPair K b c i0).e a = 0 := by
     rw [minusPair_e, polar_single_inl_quadMinus]
-    simp [a, Pi.single_apply]
+    simp [a]
   have haf : polar (quadMinus m K b c) (minusPair K b c i0).f a = 0 := by
     rw [minusPair_f, polar_single_inr_quadMinus]
-    simp [a, Pi.single_apply]
+    simp [a]
   have hW : ∀ u w : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K, ∀ x ∈ U,
       eichler (quadMinus m K b c) u w x ∈ U := by
     intro u w x hx

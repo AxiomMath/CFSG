@@ -32,7 +32,7 @@ theorem mem_commutator_of_mem_center (Q : Sylow p G) {z : G} (hzc : z ∈ center
     rw [← Subgroup.map_subtype_commutator]
     exact ⟨_, h3, rfl⟩
   have hcop : (Q : Subgroup G).index.Coprime (orderOf z) := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨z, hzQ⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨z, hzQ⟩
     rw [Subgroup.orderOf_mk] at hk
     rw [hk]
     exact Nat.Coprime.pow_right _ ((Nat.coprime_comm).mp

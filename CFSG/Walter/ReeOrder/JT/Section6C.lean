@@ -149,7 +149,7 @@ theorem exists_sylow_normal
   obtain ⟨P₀, hP₀T⟩ := exists_sylow_normalized_of_coprime hT2 hTY h2Y h.p
   set P := (P₀ : Subgroup Y).map Y.subtype with hPdef
   have hPY : P ≤ Y := Subgroup.map_subtype_le _
-  have hPp : IsPGroup h.p P := P₀.isPGroup'.map _
+  have hPp : IsPGroup h.p P := P₀.isPGroup.map _
   have hPcard : Nat.card P = h.q ^ k := by
     rw [hPdef, Subgroup.card_map_of_injective Y.subtype_injective, P₀.card_eq_multiplicity,
       hYcard, Nat.factorization_mul (pow_ne_zero _ (by

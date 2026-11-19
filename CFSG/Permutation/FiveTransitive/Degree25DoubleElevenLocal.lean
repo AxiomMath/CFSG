@@ -47,7 +47,7 @@ theorem five_point_stabilizer_mod_eleven_cases
     ext i
     exact hq i
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -87,7 +87,7 @@ theorem five_point_stabilizer_mod_eleven_cases
   have hJcard : Nat.card J = 462 * h := by
     rw [hJindex, hPcard] at hJindexCard
     omega
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hJfactorization :
       (462 * h).factorization 11 = 1 := by
     rw [show 462 = 11 * 42 by norm_num,

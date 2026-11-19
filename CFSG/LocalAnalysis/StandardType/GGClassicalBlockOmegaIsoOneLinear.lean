@@ -50,7 +50,7 @@ private lemma ggJSo2_matrixOrthogonal_eq {ι K : Type} [Fintype ι] [DecidableEq
       (TauCeti.QuadraticMap.orthogonalGroup Φ).comap
         (ggJSo2_ML (ι := ι) (K := K)).toMonoidHom := by
   ext A
-  simp only [CFSG.Blueprint.EvenSource.matrixOrthogonal, Set.mem_setOf_eq, Subgroup.mem_comap,
+  simp only [CFSG.Blueprint.EvenSource.matrixOrthogonal, Subgroup.mem_comap,
     TauCeti.QuadraticMap.mem_orthogonalGroup_iff]
   change (∀ v, Φ ((A : Matrix ι ι K) *ᵥ v) = Φ v) ↔ ∀ v, Φ (ggJSo2_ML A v) = Φ v
   simp only [ggJSo2_ML_apply]
@@ -532,10 +532,10 @@ private lemma ggJSo2_inf_orthDerived_eq_supportedFixedDerived {ι K : Type} [Fin
     · have hbot : CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (ggJSo2_ML b) = ⊥ :=
         CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace_eq_bot_of_not_mem
           (x := ggJSo2_ML b) hmem
-      haveI : Subsingleton (CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (ggJSo2_ML b)) := by
+      have : Subsingleton (CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (ggJSo2_ML b)) := by
         rw [hbot]
         exact Submodule.subsingleton_iff_eq_bot.mpr rfl
-      haveI : Subsingleton
+      have : Subsingleton
           (CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (ggJSo2_ML b) ≃ₗ[K]
             CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (ggJSo2_ML b)) :=
         ⟨fun _ _ => LinearEquiv.ext fun _ => Subsingleton.elim _ _⟩
@@ -907,8 +907,8 @@ private lemma ggJSo2_odd_orderOf_of_dicksonHom_eq_one {K W : Type} [Field K] [Fi
   have heven : Even (orderOf g) := Nat.not_odd_iff_even.mp h
   obtain ⟨k, hk⟩ := heven
   have hk2 : orderOf g = 2 * k := by omega
-  haveI : Finite (W ≃ₗ[K] W) := ggJSo2_finite_linearEquiv
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
+  have : Finite (W ≃ₗ[K] W) := ggJSo2_finite_linearEquiv
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
     Finite.of_injective (fun x => (x : W ≃ₗ[K] W)) fun _ _ h => Subtype.ext h
   have hpos : 0 < orderOf g := orderOf_pos_iff.mpr (isOfFinOrder_of_finite g)
   have hkne : k ≠ 0 := by omega
@@ -927,7 +927,7 @@ private lemma ggJSo2_dicksonDerived_dim_two {K W : Type} [Field K] [Finite K] [C
     (hR : (QuadraticMap.polarBilin R).Nondegenerate) (h2 : Module.finrank K W = 2) :
     CFSG.RankThree.PartOne.DicksonDerived R hR := by
   intro g hδ
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   obtain ⟨a, ha⟩ := exists_map_ne_zero (Q := R) hR
   obtain ⟨s, hsO, hconj⟩ := ggJSo2_dim_two_conj R hR h2 ha
   have hodd : Odd (orderOf g) :=
@@ -983,7 +983,7 @@ private lemma ggJSo2_dicksonDerived_of_finrank_le_two {K W : Type} [Field K] [Fi
   obtain ⟨n, hn⟩ := heven
   rcases (show Module.finrank K W = 0 ∨ Module.finrank K W = 2 by omega) with h0 | h2
   · intro g _
-    haveI : Subsingleton W := Module.finrank_zero_iff.mp h0
+    have : Subsingleton W := Module.finrank_zero_iff.mp h0
     have hg1 : (g : W ≃ₗ[K] W) = 1 := LinearEquiv.ext fun w => Subsingleton.elim _ _
     rw [hg1]
     exact (orthDerived R).one_mem
@@ -1079,7 +1079,7 @@ private lemma ggJSo2e_plus_four_case {ι K : Type} [Fintype ι] [DecidableEq ι]
     (h4 : Module.finrank K (LinearMap.range (Matrix.toLin' ε)) = 4)
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType
       (Φ.comp (CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (ggJSo2_ML b)).subtype)) :
-    IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ∧
+    Group.IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ∧
       padicValNat 2 (Nat.card ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε)) = 2 := by
   classical
   let x : (ι → K) ≃ₗ[K] (ι → K) := ggJSo2_ML b
@@ -1091,7 +1091,7 @@ private lemma ggJSo2e_plus_four_case {ι K : Type} [Fintype ι] [DecidableEq ι]
   have hrange : LinearMap.range (Matrix.toLin' ε) = W := by
     simpa only [x, W] using ggJSo2_range_eq_fixedSpace Φ b hodd hε h1
   have hW4 : Module.finrank K W = 4 := by rw [← hrange]; exact h4
-  haveI : Nontrivial ↥W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial ↥W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hX : (X - 1 : K[X]) ∈ primaryFactors x.toLinearMap := by
     by_contra hmem
     have hbot : W = ⊥ := by
@@ -1198,7 +1198,7 @@ theorem blockGroup_iso_Omega_one {ι K : Type} [Fintype ι] [DecidableEq ι] [Fi
           ¬ (Fintype.card K = 2 ∧ Fintype.card ι₁ = 4 ∧
               ∃ S : Submodule K (ι₁ → K), Module.finrank K S = 2 ∧ ∀ x ∈ S, Q₁ x = 0)) ∨
         (Fintype.card K = 2 ∧ Fintype.card ι₁ = 4 ∧
-          IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ∧
+          Group.IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ∧
           padicValNat 2 (Nat.card ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε)) = 2)) := by
   classical
   have hx : CFSG.RankThree.PartOne.KCOrthogonal.OddOrderIsometry Φ (orderOf b)
@@ -1650,7 +1650,7 @@ theorem map_glBlockCentralizer_eq_supportedBlock_linear
       ↥(supportedBlock Φ (toLinEquiv ι K b) a) :=
   (Subgroup.equivMapOfInjective _
     ((toLinEquiv ι K).toMonoidHom.comp (StatedOmega ⇑Φ).subtype)
-    (fun x y hxy => Subtype.ext ((toLinEquiv ι K).injective hxy))).trans
+    (fun _x _y hxy => Subtype.ext ((toLinEquiv ι K).injective hxy))).trans
     (MulEquiv.subgroupCongr
       (map_glBlockCentralizer_eq_supportedBlock_linear Φ hΦ h8 b hx hp2 ha hae ha'e hne hεe))
 
@@ -1682,7 +1682,7 @@ theorem blockDegree_eq_natDegree_of_primaryProjection
     (hae : Matrix.toLinAlgEquiv' e = primaryProjection (Matrix.toLin' (b : Matrix ι ι K)) a) :
     blockDegree (Algebra.adjoin K (Units.val '' ({b} : Set (GL ι K)))) e = a.natDegree := by
   classical
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   let bm : Matrix ι ι K := (b : Matrix ι ι K)
   let A : Subalgebra K (Matrix ι ι K) :=
     Algebra.adjoin K (Units.val '' ({b} : Set (GL ι K)))
@@ -1841,9 +1841,9 @@ theorem blockGroup_iso_Omega_linear {ι K : Type} [Fintype ι] [DecidableEq ι] 
     rw [hεe, map_add, hae, ha'e']
   let d : ℕ := a.natDegree
   let E : Type := AdjoinRoot a
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
-  haveI : Finite E := Module.finite_of_finite K
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Finite E := Module.finite_of_finite K
+  have : Fintype E := Fintype.ofFinite E
   let m : ℕ := primaryMultiplicity xE.toLinearMap a
   have hcard : Fintype.card E = Fintype.card K ^ d := by
     rw [Fintype.card_eq_nat_card, Module.natCard_eq_pow_finrank (K := K),
@@ -1924,7 +1924,7 @@ noncomputable def glBlockCentralizerAmbient
       ↥(fixedComponentImage Φ (ggJSo2_ML b)) := by
   haveI : Nonempty ι := by
     by_contra h
-    haveI : IsEmpty ι := not_nonempty_iff.mp h
+    have : IsEmpty ι := not_nonempty_iff.mp h
     exact hε.2.2.1 (Subsingleton.elim _ _)
   haveI : Inhabited ι := Classical.inhabited_of_nonempty ‹Nonempty ι›
   haveI : Nontrivial (ι → K) := Pi.nontrivial
@@ -1949,12 +1949,12 @@ noncomputable def glBlockCentralizerAmbient
         ↥(fixedComponentImage Φ (ggJSo2_ML b))) : ProjOrthDerived Φ) =
       CFSG.RankThree.PartOne.piOrth Φ
         (glBlockCentralizerAmbient Φ hΦ b hb hodd hε h1 hD u) := by
-  haveI : Nonempty ι := by
+  have : Nonempty ι := by
     by_contra h
-    haveI : IsEmpty ι := not_nonempty_iff.mp h
+    have : IsEmpty ι := not_nonempty_iff.mp h
     exact hε.2.2.1 (Subsingleton.elim _ _)
-  haveI : Inhabited ι := Classical.inhabited_of_nonempty ‹Nonempty ι›
-  haveI : Nontrivial (ι → K) := Pi.nontrivial
+  have : Inhabited ι := Classical.inhabited_of_nonempty ‹Nonempty ι›
+  have : Nontrivial (ι → K) := Pi.nontrivial
   change ((CFSG.HardMathSupport.Dickson.Bal207.OrthFix.fixRho (Q := Φ) (x := ggJSo2_ML b)
       (p := orderOf b) hΦ (ggJSo2_oddOrderIsometry Φ hΦ b hb hodd)
       (glBlockCentralizerEquivSupportedFixedDerived Φ hΦ b hb hodd hε h1 hD u) :

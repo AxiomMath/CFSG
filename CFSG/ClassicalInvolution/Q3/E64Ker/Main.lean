@@ -90,7 +90,7 @@ end Aux
 
 theorem e64_ker_le_threeClosure' {X : Type} [Group X]
     [Finite X] (φ : X →* AE.AEQ 7) (hφ : φ.range = AE.e64Sub)
-    (hker : φ.ker ≤ Subgroup.center X) (hker2 : IsPGroup 2 φ.ker)
+    (hker : φ.ker ≤ Subgroup.center X) (_hker2 : IsPGroup 2 φ.ker)
     (Q : Set (Subgroup X)) (hgen : pSpan Q = ⊤)
     (hconj : ∀ L ∈ Q, ∀ x : X, conjSub x L ∈ Q) (hord : ∀ L ∈ Q, Nat.card L = 8)
     (hlab : ∀ L ∈ Q, ∃ α ∈ AE.e64Sets, ∃ (h : α.card = 4) (b : Bool),

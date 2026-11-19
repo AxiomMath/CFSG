@@ -119,13 +119,13 @@ theorem chainVec_intv_self (δ : Fin 5 → (Fin Tag.E6.rank → ℤ)) (k : ℕ) 
 theorem chainVec_intv_succ (δ : Fin 5 → (Fin Tag.E6.rank → ℤ)) (a k : ℕ) (hk : k < 5)
     (hak : a ≤ k) :
     tcChainVec (intv a (k + 1)) δ = tcChainVec (intv a k) δ + δ ⟨k, hk⟩ := by
-  interval_cases k <;> interval_cases a <;> simp [intv, tcChainVec, Fin.sum_univ_five] <;> abel
+  interval_cases k <;> interval_cases a <;> simp [intv, tcChainVec, Fin.sum_univ_five]
 
 theorem iform_chainVec_intv_succ {δ : Fin 5 → (Fin Tag.E6.rank → ℤ)}
     (hδ : ∀ j k, iform (δ j) (δ k) = a5gram j k) (a k : ℕ) (hk : k < 5) (hak : a < k) :
     iform (tcChainVec (intv a k) δ) (δ ⟨k, hk⟩) = -1 := by
   interval_cases k <;> interval_cases a <;>
-    simp [intv, tcChainVec, Fin.sum_univ_five, iform_add_left_E6, iform_smul_left_E6, hδ, a5gram]
+    simp [intv, tcChainVec, Fin.sum_univ_five, iform_add_left_E6, hδ, a5gram]
 
 theorem isRoot_of_mem_chainSet
     {δ : Fin 5 → (Fin Tag.E6.rank → ℤ)} (hδ : A5Chain δ) {γ : Fin Tag.E6.rank → ℤ}
@@ -165,7 +165,7 @@ theorem isRoot_of_mem_chainSet
     rwa [show b - 1 + 1 = b by omega] at h
   have hpos : ∀ c ∈ stdPos, IsRoot .E6 (tcChainVec c δ) := by
     intro c hc
-    simp only [stdPos, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hc
+    simp only [stdPos, List.mem_cons, List.not_mem_nil, or_false] at hc
     rcases hc with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
       rfl | rfl <;> exact hint' _ _ (by norm_num) (by norm_num)
   obtain ⟨c, hc, rfl⟩ := hγ
@@ -384,7 +384,7 @@ theorem chainVec_sub_smul (δ : Fin 5 → (Fin Tag.E6.rank → ℤ)) (k : ℤ) {
       tcChainVec c δ - k • tcChainVec g δ := by
   obtain ⟨c0, c1, c2, c3, c4, rfl⟩ := exists_list5 hc
   obtain ⟨g0, g1, g2, g3, g4, rfl⟩ := exists_list5 hg
-  simp only [List.zipWith_cons_cons, List.zipWith_nil_left, List.zipWith_nil_right, chainVec_five']
+  simp only [List.zipWith_cons_cons, List.zipWith_nil_right, chainVec_five']
   module
 
 theorem rootReflection_chainVec

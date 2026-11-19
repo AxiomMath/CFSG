@@ -29,7 +29,7 @@ theorem isSolvable_of_isCoatom_normalizer {X : Type} [Group X] {K N : Subgroup X
     rcases hle.eq_or_lt with h | h
     · exact h.symm
     · exact absurd (hmax.2 _ h) hne
-  haveI : Group.IsSolvable ↥(N.subgroupOf K) := hNK ▸ hsol
+  have : Group.IsSolvable ↥(N.subgroupOf K) := hNK ▸ hsol
   let f : ↥(N.subgroupOf K) →* ↥N :=
     { toFun := fun x => ⟨(x : ↥K), x.2⟩
       map_one' := rfl
@@ -47,8 +47,8 @@ theorem isSolvable_of_isCoatom_normalizer {X : Type} [Group X] {K N : Subgroup X
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
       QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     rfl
-  haveI : Group.IsSolvable (X ⧸ K) := by
-    haveI := hout
+  have : Group.IsSolvable (X ⧸ K) := by
+    have := hout
     exact CFSG.RankThree.PartOne.CTP.solvable_quotient_of_outer K hKC
   exact Group.isSolvable_of_ker_le_range f g (by rw [hker, hfrange])
 

@@ -53,13 +53,13 @@ private theorem s16h_sl28_barSub_map_conj_mem (D : Data G) {V L : Subgroup G}
     rw [← hbar, hc]
 
 theorem s16h_sl28_wTil_sup_conj_eq_top
-    (D : Data G) (S : s16h_Std D)
+    (D : Data G) (_S : s16h_Std D)
     {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
-    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
+    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (_ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
     (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t
       (lBar ⊥ V h.hyp151.isElemAbelian L))
-    (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L) :
     commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊔
@@ -215,29 +215,29 @@ private theorem s16h_sl28_eq_one_of_mem_centSub_sup {Vt : Type} [CommGroup Vt]
   simpa using mem_fixV_zpowers_iff_apply.mp (htop (Subgroup.mem_top v))
 
 theorem s16h_sl28_kbar_two_abelian_exp_seven
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
     {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
-    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
+    (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1) (_htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
     (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t
       (lBar ⊥ V h.hyp151.isElemAbelian L))
     (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar ⊥ V h.hyp151.isElemAbelian L) ≤ 1)
-    (hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L) ≠ ⊥)
-    (hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
+    (_hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
       Nat.card ↥(E ⊓ preBarSub D.M ⊥ V h.hyp151.isElemAbelian
         (centSub (wTil ⊥ V h.hyp151.isElemAbelian L))) < q ^ 2)
     (hrow : s16h_H5RowSL2 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 3)
-    (hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
-    (h7 : 7 ∈ D.sig)
+    (_h7 : 7 ∈ D.sig)
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L) :
     (∀ a ∈ s16h_sl28_kbar_two D V L x h.hyp151.isElemAbelian, a ^ 7 = 1) ∧
       (∀ a ∈ s16h_sl28_kbar_two D V L x h.hyp151.isElemAbelian,
@@ -284,10 +284,10 @@ theorem s16h_sl28_kbar_two_abelian_exp_seven
       _ = b * a := one_mul _
 
 theorem s16h_sl28_tau_conj_kbar_two
-    (D : Data G) (S : s16h_Std D)
+    (D : Data G) (_S : s16h_Std D)
     {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
-    (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
     {τ : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
@@ -334,10 +334,10 @@ theorem s16h_sl28_tau_conj_kbar_two
     exact hle ⟨a, haL', by change MulAut.conj τ a = τ * a * τ⁻¹; rw [MulAut.conj_apply]⟩
 
 theorem s16h_sl28_tau_swaps_wTil
-    (D : Data G) (S : s16h_Std D)
+    (D : Data G) (_S : s16h_Std D)
     {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
-    (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
     {τ : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
@@ -404,9 +404,9 @@ theorem s16h_sl28_centralizer_stabilizes_commSub_fixV
       _ = κ z := by rw [hzfix a ha]
 
 theorem s16h_sl28_kappa_prime_agrees_on_ZT
-    (D : Data G) (S : s16h_Std D)
+    (D : Data G) (_S : s16h_Std D)
     {V L : Subgroup G} (h : Setting16 D ⊥ V L)
-    {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
+    {x : G} (_hxM : x ∈ D.M) (_hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
     {τ κ : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
     (hκL : κ ∈ Subgroup.centralizer
       ((lBar ⊥ V h.hyp151.isElemAbelian L : Subgroup _) : Set _))

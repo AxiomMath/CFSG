@@ -21,7 +21,7 @@ theorem exists_pGroup_le_of_not_dvd_index {G : Type*} [Group G] [Finite G] {r : 
   have : Fact r.Prime := ⟨hr⟩
   obtain ⟨Q⟩ : Nonempty (Sylow r ↥M) := inferInstance
   refine ⟨(Q : Subgroup ↥M).map M.subtype, Subgroup.map_subtype_le _,
-    Q.isPGroup'.map M.subtype, ?_⟩
+    Q.isPGroup.map M.subtype, ?_⟩
   rw [Subgroup.index_map_subtype]
   exact fun hd => (hr.dvd_mul.mp hd).elim Q.not_dvd_index h
 

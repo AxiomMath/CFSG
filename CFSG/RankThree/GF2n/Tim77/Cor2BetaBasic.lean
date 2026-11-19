@@ -41,6 +41,7 @@ structure Cor2BetaDecomp (H E Y : Subgroup G) : Prop where
     (∀ i j, i ≠ j → ∀ x ∈ K i, ∀ y ∈ K j, x * y = y * x) ∧ (⨆ i, K i) = E ∧
     ∀ i, IsCoveringOf Tim77Cor2BetaList ↥(K i)
 
+omit [Finite G] in
 theorem cor2Beta_eq_one_of_odd {N : Subgroup G} (hN : Odd (Nat.card N)) {c : G} (hc : c ∈ N)
     (h : c * c = 1) : c = 1 := by
   have h1 : orderOf c ∣ Nat.card N := Subgroup.orderOf_dvd_natCard N hc
@@ -54,13 +55,13 @@ theorem cor2Beta_exists_central_mem {A : Subgroup G} (hA : IsElemAbelian 2 A) (h
     (S : Sylow 2 G) (hS : (S : Subgroup G) ≤ normalizer (A : Set G)) :
     ∃ t ∈ A, t ≠ 1 ∧ t ∈ (S : Subgroup G) ∧ ∀ s ∈ (S : Subgroup G), s * t = t * s := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : IsPGroup 2 A := fun x => ⟨1, Subtype.ext (by simpa using hA.2 x x.2)⟩
   have hsup : IsPGroup 2 ↥((S : Subgroup G) ⊔ A) :=
-    S.isPGroup'.to_sup_of_normal_right' hp2 hS
+    S.isPGroup.to_sup_of_normal_right' hp2 hS
   have hAS : A ≤ (S : Subgroup G) := sup_eq_left.mp (S.maximal_isPGroup.eq_of_ge hsup le_sup_left)
-  haveI : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
-  haveI hN : (A.subgroupOf (S : Subgroup G)).Normal :=
+  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
+  have hN : (A.subgroupOf (S : Subgroup G)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAS).mpr hS
   have hne : A.subgroupOf (S : Subgroup G) ≠ ⊥ := by
     intro h
@@ -122,6 +123,7 @@ theorem cor2Beta_isMulCommutative_wcl {A : Subgroup G} (hroot : IsRootType 2 A)
   have hb : (b : G) ∈ WAC A := hle b.2
   exact (Subgroup.mem_centralizer_iff.mp (h1 hb) a ha)
 
+omit [Finite G] in
 theorem cor2Beta_wac_commute {A : Subgroup G} : ∀ w ∈ WAC A, ∀ a ∈ A, a * w = w * a := by
   intro w hw a ha
   exact Subgroup.mem_centralizer_iff.mp (WAC_le_centralizer A hw) a ha
@@ -301,6 +303,7 @@ theorem cor2Beta_commute_of_centralizes {A : Subgroup G} (hTI : IsTI A) (hroot :
     exact this
   · exact absurd (cor2Beta_isMulCommutative_of_centralizes hroot hcA hc1 ht ht1 hcH) hnab
 
+omit [Finite G] in
 theorem cor2Beta_mul_self_of_abelian {A : Subgroup G} (hA : IsElemAbelian 2 A)
     (hab : IsMulCommutative ↥(normalClosure (A : Set G))) :
     ∀ x ∈ normalClosure (A : Set G), x * x = 1 := by
@@ -330,6 +333,7 @@ theorem cor2Beta_mul_self_of_abelian {A : Subgroup G} (hA : IsElemAbelian 2 A)
     calc y⁻¹ * y⁻¹ = (y * y)⁻¹ := by group
       _ = 1 := by rw [this]; simp
 
+omit [Finite G] in
 theorem cor2Beta_shape_of_abelian {A : Subgroup G} (hA : IsElemAbelian 2 A)
     (hab : IsMulCommutative ↥(normalClosure (A : Set G))) :
     Cor2BetaShape (normalClosure (A : Set G)) := by

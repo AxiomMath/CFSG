@@ -45,7 +45,7 @@ theorem conj_mem_sylow_of_wCent {A : Type} [Group A] [Finite A] {Y P T : Subgrou
   have htk : t ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hmem : QuotientGroup.mk' (CFSG.pCore 2 ↥P) ⟨t, htP⟩ ∈
       wSup (↥P ⧸ CFSG.pCore 2 ↥P) := by
-    haveI := wSup_normal (↥P ⧸ CFSG.pCore 2 ↥P)
+    have := wSup_normal (↥P ⧸ CFSG.pCore 2 ↥P)
     refine ParabCensus.mem_of_pow_two_pow_eq_one hodd (k := k) ?_
     rw [← map_pow]
     have h1 : (⟨t, htP⟩ : ↥P) ^ 2 ^ k = 1 := Subtype.ext (by simpa using htk)

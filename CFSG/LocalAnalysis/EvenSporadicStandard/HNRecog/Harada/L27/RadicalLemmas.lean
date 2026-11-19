@@ -26,7 +26,7 @@ theorem not_mem_solvableRadical {X : Type*} [Group X] [Finite X] (P : Subgroup X
   classical
   intro hvS0
   set S : Subgroup X := CFSG.solvableRadical X with hS
-  haveI hSn : S.Normal := by rw [hS]; infer_instance
+  have hSn : S.Normal := by rw [hS]; infer_instance
   have hP' : P ⊓ S = ⊥ := by rw [hS]; exact hP
   have hvS : v ∈ S := by rw [hS]; exact hvS0
   have hsub : conjugatesOf v ⊆ (S : Set X) := by
@@ -143,7 +143,7 @@ theorem eq_one_of_commute_of_normal_solvable {X : Type*} [Group X] (F : Subgroup
     (S : Subgroup X) [S.Normal] (hS : Group.IsSolvable S) (hvS : v ∉ S) :
     ∀ s ∈ S, v * s = s * v → s = 1 := by
   classical
-  haveI hSn : S.Normal := inferInstance
+  have hSn : S.Normal := inferInstance
   intro s hsS hvs
   have hv1 : v ≠ 1 := fun h => hvS (h ▸ S.one_mem)
   have horder : orderOf v = 2 := orderOf_of_mul_self_eq_one hv2 hv1

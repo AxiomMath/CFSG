@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_involution_of_center {K : Subgroup G} (h2 : IsPGroup 2 ↥(Subgroup.center ↥K))
     (hne : Subgroup.center ↥K ≠ ⊥) :
     ∃ z ∈ K, z ^ 2 = 1 ∧ z ≠ 1 ∧ ∀ k ∈ K, k * z = z * k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card ↥(Subgroup.center ↥K) := by
     rcases h2.card_eq_or_dvd with h1 | h1
     · exact absurd (Subgroup.eq_bot_of_card_eq _ h1) hne
@@ -67,12 +67,12 @@ theorem stdSubSmallAt_of_cover_facts (hcov : StdSubCoverAt G) (hinn4 : StdSubInn
       isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hcomp
     have hne : GLAPPrimeCore 3 ↥L ≠ ⊤ := by
       intro htop
-      haveI : Subsingleton (PQuot 3 L) := by
+      have : Subsingleton (PQuot 3 L) := by
         show Subsingleton (↥L ⧸ GLAPPrimeCore 3 ↥L)
         rw [htop]
         exact QuotientGroup.subsingleton_quotient_top
-      haveI : Nontrivial (PQuot 3 L ⧸ Subgroup.center (PQuot 3 L)) := hbar.2.toNontrivial
-      haveI : Subsingleton (PQuot 3 L ⧸ Subgroup.center (PQuot 3 L)) :=
+      have : Nontrivial (PQuot 3 L ⧸ Subgroup.center (PQuot 3 L)) := hbar.2.toNontrivial
+      have : Subsingleton (PQuot 3 L ⧸ Subgroup.center (PQuot 3 L)) :=
         Function.Surjective.subsingleton (QuotientGroup.mk'_surjective (Subgroup.center (PQuot 3 L)))
       exact not_subsingleton _ ‹_›
     have hle : GLAPPrimeCore 3 ↥L ≤ Subgroup.center ↥L :=

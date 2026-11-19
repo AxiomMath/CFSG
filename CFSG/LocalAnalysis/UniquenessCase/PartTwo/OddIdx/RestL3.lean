@@ -18,7 +18,7 @@ set_option linter.unusedSectionVars false
 
 theorem oddIdxRest_sl3_isCyclic {F : Type} [Field F] [Finite F] (hq : Nat.card F % 3 = 2)
     (X : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)) (hX : IsPGroup 3 X) : IsCyclic X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : ¬ 3 ∣ Nat.card F := by omega
   have h31 : ¬ 3 ∣ Nat.card F - 1 := by omega
   have hcyc : IsCyclic ↥(X.map Matrix.SpecialLinearGroup.toGL) :=
@@ -31,7 +31,7 @@ theorem oddIdxNone_sl3_of_five_le {F : Type} [Field F] [Finite F]
     (hq : Nat.card F % 3 = 2) (h5 : 5 ≤ Nat.card F) (hne : Nat.card F ≠ 5) :
     OddIdxNone (Matrix.SpecialLinearGroup (Fin 3) F) := by
   intro N Y D hN hodd hD hDY hYN hnorm hY hNK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcyc : ∀ X : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F),
       IsPGroup 3 X → IsCyclic X := fun X hX => oddIdxRest_sl3_isCyclic hq X hX
   obtain ⟨g, hg⟩ :=
@@ -46,7 +46,7 @@ theorem oddIdxNone_sl3_of_five_le {F : Type} [Field F] [Finite F]
   have hWns : ¬ Group.IsSolvable ↥W := by
     intro hs
     apply hNns
-    haveI : Group.IsSolvable ↥W := hs
+    have : Group.IsSolvable ↥W := hs
     set e := N.equivMapOfInjective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   have hKW : CFSG.KCore.KGroupNonab (DvdOrThreeFree 51840) ↥W :=
@@ -66,7 +66,7 @@ theorem oddIdxNone_sl3_card_two {F : Type} [Field F] [Finite F] (h2 : Nat.card F
   have h5Y : 5 ∣ Nat.card Y := oddIdx_five_dvd_card hY
   have h5N : 5 ∣ Nat.card N := h5Y.trans (Subgroup.card_dvd_of_le hYN)
   have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 3) F) = 168 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     rw [Matrix.card_SL_field, Fin.prod_univ_three, ← Nat.card_eq_fintype_card, h2]
     norm_num
   have h5G : 5 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 3) F) :=
@@ -80,8 +80,8 @@ theorem oddIdxProp_psl3_rest {K : Type} [Group K] [Finite K]
   apply oddIdxProp_of_none
   obtain ⟨F, hFld, hFfin, hFcard, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
-  letI := hFld
-  haveI := hFfin
+  let := hFld
+  have := hFfin
   have hq' : Nat.card F % 3 = 2 := by rw [hFcard]; exact hq
   let eS : K ≃* Matrix.SpecialLinearGroup (Fin 3) F :=
     e.trans

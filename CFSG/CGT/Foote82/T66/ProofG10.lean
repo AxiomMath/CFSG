@@ -169,7 +169,7 @@ theorem mem_center_map_cases {H : Subgroup X} (e : ↥H ≃* DD) {y : X}
 
 theorem index_subgroupOf_eq_two {P Q : Subgroup X} (hP : P.index = 2) (hQ : Q.index = 2)
     (hne : P ≠ Q) : (Q.subgroupOf P).index = 2 := by
-  haveI := Subgroup.normal_of_index_eq_two hQ
+  have := Subgroup.normal_of_index_eq_two hQ
   have hdvd : Q.relIndex P ∣ 2 := hQ ▸ Subgroup.relIndex_dvd_index_of_normal Q P
   rcases (Nat.dvd_prime Nat.prime_two).1 hdvd with h | h
   · exfalso
@@ -188,8 +188,8 @@ theorem center_map_eq [Finite X] {P Q : Subgroup X} (hP : P.index = 2) (eP : ↥
   · subst hPQ
     rfl
   obtain ⟨x, c, hc, hxc⟩ := hx
-  haveI := Subgroup.normal_of_index_eq_two hP
-  haveI := Subgroup.normal_of_index_eq_two hQ
+  have := Subgroup.normal_of_index_eq_two hP
+  have := Subgroup.normal_of_index_eq_two hQ
   let σ : DD ≃* DD := (eP.symm.trans (MulAut.conjNormal x : MulAut ↥P)).trans eP
   have hσapp : ∀ w : DD, ((eP.symm (σ w) : ↥P) : X) = x * (eP.symm w : X) * x⁻¹ := by
     intro w

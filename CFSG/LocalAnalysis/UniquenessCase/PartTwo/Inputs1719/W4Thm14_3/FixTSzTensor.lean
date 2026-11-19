@@ -62,16 +62,16 @@ private theorem szSlot_e4 (k : Type*) [Field k] {A : Finset ℕ} (j : ↥A) :
   funext x
   rw [szSlot, eTopS, Pi.single_apply, hvec]
   by_cases h : ∀ i, i ≠ j → x i = 3
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     by_cases hj : x j = 3
-    · rw [if_pos hj, if_pos (by
+    · rw [ite_eq_left hj, ite_eq_left (by
         funext i
         by_cases hi : i = j
         · subst hi
           exact hj
         · exact h i hi)]
-    · rw [if_neg hj, if_neg (fun hx => hj (by rw [hx]))]
-  · rw [if_neg h, if_neg (fun hx => h (by rw [hx]; intro i _; rfl))]
+    · rw [ite_eq_right hj, ite_eq_right (fun hx => hj (by rw [hx]))]
+  · rw [ite_eq_right h, ite_eq_right (fun hx => h (by rw [hx]; intro i _; rfl))]
 
 private theorem szT_mulVec_szSlot
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (k : Type) [Field k] [Algebra K k] {A : Finset ℕ}
@@ -87,12 +87,12 @@ private theorem szT_mulVec_szSlot
     rw [szSlot]
     simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
     by_cases hx : ∀ i, i ≠ j → x i = 3
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       have hgoal : (∑ t : Fin 4, w t * (if x = u t then 1 else 0)) =
           w (x j) * (if x = u (x j) then 1 else 0) :=
         Finset.sum_eq_single (x j)
           (fun t _ ht => by
-            rw [if_neg, mul_zero]
+            rw [ite_eq_right, mul_zero]
             intro h
             exact ht (by have := congrFun h j; simpa [u] using this.symm))
           (fun hmem => absurd (Finset.mem_univ (x j)) hmem)
@@ -103,11 +103,11 @@ private theorem szT_mulVec_szSlot
         · subst hi
           simp [u]
         · simp [u, hi, hx i hi]
-      rw [if_pos hux.symm, mul_one]
-    · rw [if_neg hx]
+      rw [ite_eq_left hux.symm, mul_one]
+    · rw [ite_eq_right hx]
       have hzero : (∑ t : Fin 4, w t * (if x = u t then 1 else 0)) = 0 :=
         Finset.sum_eq_zero fun t _ => by
-          rw [if_neg, mul_zero]
+          rw [ite_eq_right, mul_zero]
           intro h
           exact hx (by rw [h]; intro i hi; simp [u, hi])
       rw [hzero]
@@ -141,10 +141,10 @@ private theorem szT_mulVec_szSlot
       fun h i hi => h i (Finset.mem_erase.mp hi).1⟩
   rw [hP]
   by_cases hx : ∀ i, i ≠ j → x i = 3
-  · rw [if_pos hx, if_pos hx]
+  · rw [ite_eq_left hx, ite_eq_left hx]
     simp only [one_mul, Matrix.mulVec, dotProduct]
     exact Finset.sum_congr rfl fun t _ => mul_comm _ _
-  · rw [if_neg hx, if_neg hx]
+  · rw [ite_eq_right hx, ite_eq_right hx]
     simp
 
 theorem szT_norm_eTopS (hK : Nat.card K = 2 ^ (2 * a + 1))
@@ -223,7 +223,7 @@ private theorem szT_suzukiWElt_hwS
     · subst hy
       simp
     · have hne : ¬ ((y : ℕ) = 3) := fun h => hy (Fin.ext h)
-      rw [if_neg hne, if_neg hy, map_zero]
+      rw [ite_eq_right hne, ite_eq_right hy, map_zero]
   funext x
   rw [szT_apply, tensorRepS_mulVec_hwS]
   simp_rw [hnat]
@@ -369,8 +369,8 @@ theorem szT_higman (hK : Nat.card K = 2 ^ (2 * a + 1))
       · intro h
         rw [h, inv_mul_cancel]
     by_cases h : g = u
-    · rw [if_pos (hiff.mpr h), if_pos h]
-    · rw [if_neg (fun h' => h (hiff.mp h')), if_neg h]
+    · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+    · rw [ite_eq_right (fun h' => h (hiff.mp h')), ite_eq_right h]
   have hreg : ∀ Y : ↥(suzukiU a K) → k,
       ∑ u : ↥(suzukiU a K), regRep k u (L (regRep k u⁻¹ Y)) = Y := by
     intro Y
@@ -390,9 +390,9 @@ theorem szT_higman (hK : Nat.card K = 2 ^ (2 * a + 1))
         Y g * (if g = g then 1 else 0) :=
       Finset.sum_eq_single g
         (f := fun u => Y u * (if g = u then 1 else 0))
-        (fun u _ hu => by rw [if_neg (fun h => hu h.symm), mul_zero])
+        (fun u _ hu => by rw [ite_eq_right (fun h => hu h.symm), mul_zero])
         (fun hg => absurd (Finset.mem_univ g) hg)
-    rw [hsum, if_pos rfl, mul_one]
+    rw [hsum, ite_eq_left rfl, mul_one]
   let ψ := b.equivFun
   let φ : ((↥(szOmega a) → Fin 4) → k) →ₗ[k] ((↥(szOmega a) → Fin 4) → k) :=
     ψ.symm.toLinearMap.comp (L.comp ψ.toLinearMap)

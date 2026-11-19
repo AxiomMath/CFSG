@@ -149,7 +149,7 @@ theorem str83G4_q1_commutator_mem_z1
     rw [hXwdef, CFSG.mem_conjugate_iff]
     exact z2_le_str83X L1 L2 S ((Subgroup.mem_normalizer_iff.mp (hHZ2 d.hwH2) z).mp (hZ1Z2 hz))
   have hZ1I : Z1 L1 L2 S ≤ X ⊓ Xw := le_inf hZ1X hZ1Xw
-  haveI : ((X ⊓ Xw).subgroupOf X).Normal :=
+  have : ((X ⊓ Xw).subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hIX).mpr fun x hx =>
       Subgroup.centralizer_le_normalizer _
         (Subgroup.mem_centralizer_iff.mpr fun y hy => hXc y (hIX hy) x hx)
@@ -182,7 +182,7 @@ theorem str83G4_q1_commutator_mem_z1
       Subgroup.mem_inf.mpr ⟨hcX u (hQ1L huQ1), (Subgroup.mem_inf.mp h2).2⟩
     rw [hXI] at h3
     exact h3
-  obtain ⟨t, ht, htQ⟩ := SetLike.not_le_iff_exists.mp hB
+  obtain ⟨t, ht, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hB
   have hXwc : ∀ x ∈ Xw, ∀ y ∈ Xw, x * y = y * x := by
     intro x hx y hy
     rw [hXwdef, CFSG.mem_conjugate_iff] at hx hy

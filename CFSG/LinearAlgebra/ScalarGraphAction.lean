@@ -206,7 +206,7 @@ theorem exists_affine_decomposition
     have hx2 : x.2 = 0 := by
       simpa [x] using hRinv (β₀ (p - q))
     have hx : e x = (β₀ (p - q), 0) := by
-      simpa [x] using e.apply_symm_apply (β₀ (p - q), 0)
+      simp [x]
     have hxeq : x = (x.1, 0) := Prod.ext rfl hx2
     rw [hxeq] at hx
     have heq : e (0, p - q) = e (x.1, 0) := by rw [hmemR, hx]
@@ -231,7 +231,7 @@ theorem exists_affine_decomposition
     let x : F × P := e.symm (y, 0)
     have hx2 : x.2 = 0 := by simpa [x] using hRinv y
     refine ⟨x.1, ?_⟩
-    have hx : e x = (y, 0) := by simpa [x] using e.apply_symm_apply (y, 0)
+    have hx : e x = (y, 0) := by simp [x]
     have hxeq : x = (x.1, 0) := Prod.ext rfl hx2
     rw [hxeq] at hx
     simpa [γ₀] using congrArg Prod.fst hx
@@ -573,7 +573,7 @@ theorem exists_affine_of_mulAut_preserving_root_family
     (eR : R ≃* Multiplicative (K))
     (eW : W ≃* (Multiplicative (K) × P))
     (heWr : ∀ r : R, eW (Subgroup.inclusion hRW r) = (eR r, 1))
-    (heWp : ∀ p : P, eW (Subgroup.inclusion hPW p) = (1, p))
+    (_heWp : ∀ p : P, eW (Subgroup.inclusion hPW p) = (1, p))
     (φ : P →* Multiplicative (K))
     (hφ : Function.Injective φ)
     (F : Set (Subgroup W))
@@ -891,7 +891,7 @@ theorem card_intermediateField_adjoin_eq_four_of_natDegree_eq_two
   let K : IntermediateField (ZMod 2) F :=
     IntermediateField.adjoin (ZMod 2) ({z} : Set F)
   have hzi : IsIntegral (ZMod 2) z := IsIntegral.of_finite (ZMod 2) z
-  haveI : FiniteDimensional (ZMod 2) K := by
+  have : FiniteDimensional (ZMod 2) K := by
     dsimp [K]
     exact IntermediateField.adjoin.finiteDimensional hzi
   have hfin : Module.finrank (ZMod 2) K = 2 := by
@@ -909,7 +909,7 @@ theorem algebra_adjoin_eq_top_of_natDegree_eq_four
   let K : IntermediateField (ZMod 2) F :=
     IntermediateField.adjoin (ZMod 2) ({z} : Set F)
   have hzi : IsIntegral (ZMod 2) z := IsIntegral.of_finite (ZMod 2) z
-  haveI : FiniteDimensional (ZMod 2) K := by
+  have : FiniteDimensional (ZMod 2) K := by
     dsimp [K]
     exact IntermediateField.adjoin.finiteDimensional hzi
   have hfinK : Module.finrank (ZMod 2) K = 4 := by
@@ -1004,7 +1004,7 @@ theorem eval₂_eq_zero_iff
   intro p
   have hc1 : c 1 ≠ 0 := by
     intro h1
-    exact one_ne_zero (c.injective (by simpa [c.map_zero] using h1))
+    exact one_ne_zero (c.injective (by simp at h1))
   have hk := eval₂_intertwiner z η c h p 1
   rw [one_mul] at hk
   constructor
@@ -1018,7 +1018,7 @@ theorem eval₂_eq_zero_iff
 theorem minpoly_eq_of_eval₂_eq_zero_iff
     (z η : F) (c : F ≃+ F)
     (h : ∀ a : F, c (a * z) = η * c a)
-    (hzi : IsIntegral (ZMod 2) z) (hηi : IsIntegral (ZMod 2) η) :
+    (hzi : IsIntegral (ZMod 2) z) (_hηi : IsIntegral (ZMod 2) η) :
     minpoly (ZMod 2) z = minpoly (ZMod 2) η := by
   have hzroot :
       Polynomial.eval₂ (algebraMap (ZMod 2) F) z (minpoly (ZMod 2) z) = 0 := by
@@ -1162,7 +1162,7 @@ theorem exists_shear_of_root_fixed_pow
         rcases hx : (e^[m]) (r, p) with ⟨r', p'⟩
         have hp' : p' = (α^[m]) p := by
           simpa [hx] using ih r p
-        simpa [hdecomp, hp', Function.iterate_succ_apply']
+        simp [hdecomp, hp', Function.iterate_succ_apply']
   have halpha_pow : ∀ p : P, (α^[2 ^ n]) p = p := by
     intro p
     have h := hiter (2 ^ n) 0 p
@@ -1277,7 +1277,7 @@ theorem cube_shear_of_graph_translation
       (e^[3]) (r, p) = (r + b * φ p, p) := by
   classical
   have hPone : 1 < Nat.card P := by rw [hPcard]; norm_num
-  haveI : Nontrivial P := Finite.one_lt_card_iff_nontrivial.mp hPone
+  have : Nontrivial P := Finite.one_lt_card_iff_nontrivial.mp hPone
   have hfam : ∀ a : F, ∃ c : F,
       (scalarGraph φ a).map e.toAddMonoidHom = scalarGraph φ c :=
     fun a => ⟨a + b, hshift a⟩
@@ -1333,8 +1333,8 @@ theorem cube_shear_of_graph_translation
     intro r p
     rw [hdecomp r p, hγ_lam r, hβ_b p]
   let Pne := {p : P // p ≠ 0}
-  haveI : Fintype P := Fintype.ofFinite P
-  haveI : Fintype Pne := Fintype.ofFinite Pne
+  have : Fintype P := Fintype.ofFinite P
+  have : Fintype Pne := Fintype.ofFinite Pne
   have hcard_ne : Fintype.card Pne = 3 := by
     have hcardP : Fintype.card P = 4 := by
       rw [← Nat.card_eq_fintype_card]
@@ -1415,8 +1415,7 @@ theorem cube_shear_of_graph_translation
   intro r p
   change e (e (e (r, p))) = (r + b * φ p, p)
   rw [he_formula, he_formula, he_formula]
-  simp [hγ_lam, hβ_b, hφα_lam, hα3n, hlam3, hlamlamlam, pow_succ, mul_add, add_mul,
-    add_assoc, add_comm, add_left_comm, CharTwo.add_self_eq_zero]
+  simp [hφα_lam, hα3n, mul_add, add_assoc]
   try ring_nf
   all_goals simp [hlam3, hthree]
 
@@ -1430,6 +1429,7 @@ namespace CFSG.ScalarGraphAction
 variable {V : Type*} [AddGroup V] [Finite V]
 variable {A : Subgroup (Equiv.Perm V)}
 
+omit [Finite V] in
 theorem ker_apply_eq_add_zero
     (ρ : A →* Equiv.Perm V)
     (haff : ∀ (a : A) (v : V),
@@ -1456,7 +1456,7 @@ theorem ker_translations_surjective_of_singer
     have h := haff t v
     rw [ht0, add_zero] at h
     rw [← h, hmu v]
-  haveI : Nontrivial ρ.ker := Finite.one_lt_card_iff_nontrivial.mp hker
+  have : Nontrivial ρ.ker := Finite.one_lt_card_iff_nontrivial.mp hker
   obtain ⟨a, ha1⟩ := exists_ne (1 : ρ.ker)
   have ha0_ne : ((a : A) : Equiv.Perm V) 0 ≠ 0 := by
     intro h0
@@ -1517,8 +1517,7 @@ theorem ker_translations_surjective_of_singer
     have hc0 : (c : Equiv.Perm V) 0 = b := by
       have hc_apply : (c : Equiv.Perm V) 0 =
           (((t : A) : Equiv.Perm V) ^ n) (((a : A) : Equiv.Perm V) 0) := by
-        simp [c, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_inv,
-          Equiv.Perm.mul_apply, htinv0]
+        simp [c, Subgroup.coe_mul, Equiv.Perm.mul_apply, htinv0]
       calc
         (c : Equiv.Perm V) 0
             = (((t : A) : Equiv.Perm V) ^ n) (((a : A) : Equiv.Perm V) 0) :=
@@ -1557,13 +1556,13 @@ theorem affine_image_translation_surjective
       (MonoidHom.rangeRestrict_surjective sigma)]
     rw [Subgroup.map_top]
   let Gamma : Subgroup (Equiv.Perm F4) := sigma.range
-  letI : Fintype F4 := Fintype.ofFinite F4
-  letI : Fintype Gamma := Fintype.ofFinite Gamma
-  letI : MulAction Gamma F4 := MulAction.compHom F4 (Subgroup.subtype Gamma)
+  let : Fintype F4 := Fintype.ofFinite F4
+  let : Fintype Gamma := Fintype.ofFinite Gamma
+  let : MulAction Gamma F4 := MulAction.compHom F4 (Subgroup.subtype Gamma)
   have h16dvdGamma : 16 ∣ Nat.card Gamma := by
     let v0 : F4 := 0
-    letI : Fintype (MulAction.orbit Gamma v0) := Fintype.ofFinite _
-    letI : Fintype (MulAction.stabilizer Gamma v0) := Fintype.ofFinite _
+    let : Fintype (MulAction.orbit Gamma v0) := Fintype.ofFinite _
+    let : Fintype (MulAction.stabilizer Gamma v0) := Fintype.ofFinite _
     have horbit_univ : MulAction.orbit Gamma v0 = Set.univ := by
       apply Set.eq_univ_of_forall
       intro a
@@ -1720,10 +1719,12 @@ def shearAdd (φ : P →+ F) (b : F) : AddAut (F × P) where
       abel
     · rfl
 
+omit [CharP F 2] [Finite F] [Finite P] in
 @[simp]
 theorem shearAdd_apply (φ : P →+ F) (b : F) (r : F) (p : P) :
     shearAdd φ b (r, p) = (r + b * φ p, p) := rfl
 
+omit [Finite F] [Finite P] in
 @[simp]
 theorem shearAdd_add_self (φ : P →+ F) (b : F) :
     shearAdd φ b + shearAdd φ b = 0 := by
@@ -1757,10 +1758,12 @@ def shearAddHom (φ : P →+ F) : F →+ AddAut (F × P) where
       abel
     · simp [AddAut.add_apply, shearAdd_apply]
 
+omit [CharP F 2] [Finite F] [Finite P] in
 @[simp]
 theorem shearAdd_zero (φ : P →+ F) : shearAdd φ 0 = 0 :=
   (shearAddHom φ).map_zero
 
+omit [CharP F 2] [Finite F] [Finite P] in
 theorem shearAddHom_injective [Nontrivial P] (φ : P →+ F)
     (hφ : Function.Injective φ) :
     Function.Injective (shearAddHom φ) := by
@@ -1780,6 +1783,7 @@ theorem shearAddHom_injective [Nontrivial P] (φ : P →+ F)
 def shearSubgroup (φ : P →+ F) : Subgroup (Multiplicative (AddAut (F × P))) :=
   (shearAddHom φ).range.toSubgroup
 
+omit [CharP F 2] [Finite F] [Finite P] in
 @[simp]
 theorem mem_shearSubgroup (φ : P →+ F) {x : Multiplicative (AddAut (F × P))} :
     x ∈ shearSubgroup φ ↔ ∃ b : F, x = Multiplicative.ofAdd (shearAdd φ b) := by
@@ -1793,6 +1797,7 @@ theorem mem_shearSubgroup (φ : P →+ F) {x : Multiplicative (AddAut (F × P))}
   · rintro ⟨b, rfl⟩
     exact ⟨b, rfl⟩
 
+omit [CharP F 2] [Finite F] [Finite P] in
 theorem scalarGraph_map_shear (φ : P →+ F) (a b : F) :
     (scalarGraph φ a).map (shearAdd φ b).toAddMonoidHom =
       scalarGraph φ (a + b) := by
@@ -1837,7 +1842,7 @@ private theorem conj_shear_is_shear
   have hPone : 1 < Nat.card P := by
     rw [hPcard]
     norm_num
-  haveI : Nontrivial P := Finite.one_lt_card_iff_nontrivial.mp hPone
+  have : Nontrivial P := Finite.one_lt_card_iff_nontrivial.mp hPone
   let act : H → AddAut (F × P) := fun h => Multiplicative.toAdd (ρ h)
   let a : AddAut (F × P) := act h
   let aInv : AddAut (F × P) := act h⁻¹
@@ -1954,12 +1959,13 @@ theorem shearSubgroup_normal_in_range
   dsimp [K]
   exact (mem_shearSubgroup φ).2 ⟨b', rfl⟩
 
+omit [Finite F] [Finite P] in
 theorem shearSubgroup_isPGroup_in_range
     {H : Type} [Group H]
     (φ : P →+ F)
     (ρ : H →* Multiplicative (AddAut (F × P))) :
     IsPGroup 2 ((shearSubgroup φ).subgroupOf ρ.range) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [isPGroup_iff_pow_pow_eq_one]
   intro x
   refine ⟨1, ?_⟩
@@ -1992,7 +1998,7 @@ theorem sylow_image_contains_shears
     ∀ b : F, ∃ u : H,
       u ∈ (U : Subgroup H) ∧
         Multiplicative.toAdd (ρ u) = shearAdd φ b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   classical
   have hKle : shearSubgroup φ ≤ ρ.range := by
     intro x hx
@@ -2007,7 +2013,7 @@ theorem sylow_image_contains_shears
       shearSubgroup_normal_in_range φ hPcard hφ ρ hroot hfam
   have hKis : IsPGroup 2 K' := by
     simpa [K'] using shearSubgroup_isPGroup_in_range φ ρ
-  haveI : K'.Normal := hKnormal
+  have : K'.Normal := hKnormal
   let Q : Sylow 2 ρ.range :=
     Sylow.mapSurjective (p := 2) (f := ρ.rangeRestrict)
       ρ.rangeRestrict_surjective U
@@ -2288,7 +2294,6 @@ theorem exists_commutator_hom_of_shear_coordinates
   have hf_mul : ∀ (v w : V), f (v * w) = f v * f w := by
     intro v w
     apply eR.injective
-    change eR (f (v * w)) = eR (f v * f w)
     calc
       eR (f (v * w)) = Multiplicative.ofAdd ((theta (v * w)).toAdd * b0) :=
         hf_apply (v * w)
@@ -2665,18 +2670,18 @@ theorem card_range_le_two_of_scalar_square
         rw [hx1, hy1]
       · have h1 : f x = 0 := by
           change (if x.1 = 1 then (0 : Fin 2) else 1) = 0
-          exact if_pos hx1
+          exact ite_eq_left hx1
         have h2 : f y = 1 := by
           change (if y.1 = 1 then (0 : Fin 2) else 1) = 1
-          exact if_neg (by rw [hy0]; exact ht0)
+          exact ite_eq_right (by rw [hy0]; exact ht0)
         rw [h1, h2] at hxy
         exact False.elim ((by decide : (0 : Fin 2) ≠ 1) hxy)
       · have h1 : f x = 1 := by
           change (if x.1 = 1 then (0 : Fin 2) else 1) = 1
-          exact if_neg (by rw [hx0]; exact ht0)
+          exact ite_eq_right (by rw [hx0]; exact ht0)
         have h2 : f y = 0 := by
           change (if y.1 = 1 then (0 : Fin 2) else 1) = 0
-          exact if_pos hy1
+          exact ite_eq_left hy1
         rw [h1, h2] at hxy
         exact False.elim ((by decide : (1 : Fin 2) ≠ 0) hxy)
       · apply Subtype.ext
@@ -2739,9 +2744,7 @@ theorem shear_parameter_conjugation
     simp [w]
   let e' : E := E.normalizerMonoidHom ⟨(x : G), hXE⟩ e
   have he' : (e' : G) = (x : G) * (e : G) * (x : G)⁻¹ := by
-    simpa [e'] using
-      (Subgroup.normalizerMonoidHom_apply_apply_coe (H := E)
-        ⟨(x : G), hXE⟩ e)
+    simp [e']
   have hconj :
       W.normalizerMonoidHom x
           (W.normalizerMonoidHom ⟨(e : G), hENW e.2⟩ w) =

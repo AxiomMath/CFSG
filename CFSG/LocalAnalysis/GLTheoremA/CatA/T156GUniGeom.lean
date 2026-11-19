@@ -33,8 +33,9 @@ theorem dq_ne_of_sub {r : ℕ} (hj : 1 ≤ j) (hr : j = j / r * r) (hdq : (d, 2 
   rw [h1, hr1]
   norm_num
 
+omit [CharP K 2] in
 theorem pow_pow_eq_self (hK : Nat.card K = (2 ^ j) ^ 2) (c : K) : (c ^ 2 ^ j) ^ 2 ^ j = c := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := FiniteField.pow_card c
   rw [← Nat.card_eq_fintype_card, hK] at h
   rw [← pow_mul, ← sq]
@@ -129,7 +130,7 @@ theorem exists_conj_of_commute (hd : 3 ≤ d) (hj : 1 ≤ j) (hK : Nat.card K = 
     ext a b
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
     ring
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   obtain ⟨μ, B, hdesc⟩ := LinearFieldFix.exists_descend_of_map_eq_smul σ A c hmat
   have hBGU : B ∈ LargeEvenGUSet (Fin d) (fixF σ) (2 ^ (j / orderOf σ)) := by
     refine mem_guSet_of_map (fixF σ).subtype (q := 2 ^ j) (fun b => ?_) (pow_pow_eq_self hK)
@@ -187,7 +188,7 @@ theorem eq_one_of_fixes_subfield (hd : 3 ≤ d) (hj : 1 ≤ j) (hK : Nat.card K 
     φ = 1 := by
   classical
   obtain ⟨-, hj', hk⟩ := fixF_data hj hK σ hσ
-  haveI : CharP (fixF σ) 2 := charP_fixF hj hK σ hσ
+  have : CharP (fixF σ) 2 := charP_fixF hj hK σ hσ
   obtain ⟨A, hAGU, hA⟩ := hφ
   have hscalarCenter : LargeEvenScalars (Fin d) K = Subgroup.center (GL (Fin d) K) :=
     largeEvenScalars_def.trans Matrix.GeneralLinearGroup.center_eq_range_scalar.symm
@@ -278,19 +279,19 @@ theorem simple_noncomm_proj {k : Type} [Field k] [Finite k] {g : ℕ} (hk : Nat.
     (hd : 3 ≤ d) (hdq : (d, 2 ^ g) ≠ (3, 2)) :
     IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g))) ∧
       ∃ a b : LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g)), a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g))) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU k 2 g hk d hd hdq
   refine ⟨hS, ?_⟩
-  haveI hP : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) k (2 ^ g)) :=
+  have hP : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) k (2 ^ g)) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := g) hk hd hdq
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g))) :=
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g))) :=
     Group.IsPerfect.ofSurjective (f := LargeEvenProjMk (LargeEvenSUGroup (Fin d) k (2 ^ g)))
       (QuotientGroup.mk'_surjective _)
-  haveI : Nontrivial (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g))) := hS.toNontrivial
+  have : Nontrivial (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g))) := hS.toNontrivial
   by_contra h
   push Not at h
-  haveI : IsMulCommutative (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g))) :=
+  have : IsMulCommutative (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g))) :=
     IsMulCommutative.of_comm h
   exact Group.IsPerfect.not_isMulCommutative (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ g)))
     inferInstance

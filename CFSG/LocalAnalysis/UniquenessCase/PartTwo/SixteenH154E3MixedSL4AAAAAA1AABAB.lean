@@ -71,7 +71,7 @@ theorem s16h_sl4_elemAbelian_lift
           F11.CTilde D.M ⊥ V := by
         rw [mem_cTilde_iff hV h.hyp151.hyp125.pairFacts.le_normalizer]
         refine ⟨hEM hzE, hzstab, ?_⟩
-        haveI : IsMulCommutative ↥Ebar := hEbarAb.1
+        have : IsMulCommutative ↥Ebar := hEbarAb.1
         have hzeq : (⟨(a : G) * (b : G) * (a : G)⁻¹ * (b : G)⁻¹, hzstab⟩ :
               ↥(stabTil ⊥ V)) =
             (⟨(a : G), hastab⟩ : ↥(stabTil ⊥ V)) * ⟨(b : G), hbstab⟩ *

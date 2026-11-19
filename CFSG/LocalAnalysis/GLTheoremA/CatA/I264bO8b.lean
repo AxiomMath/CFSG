@@ -23,7 +23,7 @@ theorem false_of_o8p2_ge5 (hp : p.Prime) (hp5 : 5 ≤ p) {K B : Subgroup Y} (h :
     (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < p ^ 3)
     (hcat : catalogIs (↥K ⧸ Subgroup.center ↥K) S9.isD4two) : False := by
   have hp2 : p ≠ 2 := by omega
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
   have hZ : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ :=
     center_eq_bot_of_simple_nonprime (card_o8p2 hcat) (by norm_num)
   have hmodel := D4XF.statedModel_of_d4two hcat
@@ -41,9 +41,9 @@ theorem false_of_o8p2_ge5 (hp : p.Prime) (hp5 : 5 ≤ p) {K B : Subgroup Y} (h :
     · exact absurd hp (by norm_num)
   obtain ⟨-, K₀, _, _, hK₀, ⟨e'⟩⟩ := hmodel
   have hK₀' : Nat.card K₀ = 2 := by rw [hK₀]; norm_num
-  haveI : Fintype K₀ := Fintype.ofFinite K₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fintype K₀ := Fintype.ofFinite K₀
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK₀']; norm_num)
   have hrank : CFSG.Assembly.RankThreeEven.localRank p (↥K ⧸ Subgroup.center ↥K) ≤ 1 := by
     rw [CFSG.RankThree.PartTwo.Census.localRank_eq_of_mulEquiv e' hp]

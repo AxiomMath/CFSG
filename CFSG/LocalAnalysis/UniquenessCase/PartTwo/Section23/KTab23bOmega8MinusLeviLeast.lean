@@ -17,6 +17,7 @@ theorem t3P0H_map_conj_isParabolicTwo (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0
         (by simpa using (t3e K b c).surjective)
   exact h1.map (MulAut.conj h).toMonoidHom (MulAut.conj h).surjective
 
+omit [Finite K] [CharP K 2] in
 theorem map_conj_t3UH_le_map_conj_t3P0H (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (h : ↥(T3H K b c)) :
     (t3UH K b c).map (MulAut.conj h).toMonoidHom ≤
@@ -26,6 +27,7 @@ theorem map_conj_t3UH_le_map_conj_t3P0H (hirr : ∀ s : K, s ^ 2 + b * s + c ≠
       Subgroup.map_mono (f := (t3e K b c).toMonoidHom) (t3U_le_t3P0 hirr)
   exact Subgroup.map_mono (f := (MulAut.conj h).toMonoidHom) h1
 
+omit [Finite K] [CharP K 2] in
 theorem t3P0H_map_conj_not_le_t3PℓH (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (h : ↥(T3H K b c)) :
     ¬ (t3P0H K b c).map (MulAut.conj h).toMonoidHom ≤ t3PℓH K b c h := by
@@ -33,6 +35,7 @@ theorem t3P0H_map_conj_not_le_t3PℓH (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0
   exact t3P0H_not_le_t3Pℓ0H hirr
     ((Subgroup.map_le_map_iff_of_injective (MulAut.conj h).injective).mp hle)
 
+omit [Finite K] [CharP K 2] in
 theorem t3P0H_map_conj_ne_top (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (h : ↥(T3H K b c)) :
     (t3P0H K b c).map (MulAut.conj h).toMonoidHom ≠ ⊤ := by
   intro htop
@@ -45,6 +48,7 @@ theorem t3P0H_map_conj_ne_top (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (h : �
   rw [← Subgroup.map_equiv_top (t3e K b c)] at hH
   exact Subgroup.map_injective (f := (t3e K b c).toMonoidHom) (t3e K b c).injective hH
 
+omit [CharP K 2] in
 theorem t3P0H_map_conj_le_of_parabolic (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (S : Sylow 2 ↥(T3H K b c)) (h : ↥(T3H K b c))
     (hS : (S : Subgroup ↥(T3H K b c)) = (t3UH K b c).map (MulAut.conj h).toMonoidHom)

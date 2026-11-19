@@ -61,7 +61,7 @@ private theorem not_dvd_centralizer_involution (hP : Nat.card ↥P1408 = 1774080
 
 theorem table_eleven_P (hP : Nat.card ↥P1408 = 177408000) (t : ↥P1408) (ht : orderOf t = 11) :
     IsShapeCentralizerEleven ↥(centralizer ({t} : Set ↥P1408)) := by
-  haveI : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   refine TwoHSData.centralizer_eleven_of_data pA (by rw [hP]; norm_num)
     (Subtype.ext elemA_mul_self)
     (fun h => ne_one_of_orderOf_eq_two twoHSBasic_spec.1 (congrArg Subtype.val h))

@@ -21,17 +21,17 @@ variable (h : UnitaryFieldData 2 1 K)
 include h
 
 theorem u62lb_card_units : Nat.card Kˣ = 3 := by
-  haveI := h.finite
+  have := h.finite
   rw [Nat.card_units, h.card]
   norm_num
 
 theorem u62lb_units_pow_three (a : Kˣ) : a ^ 3 = 1 := by
-  haveI := h.finite
+  have := h.finite
   rw [← u62lb_card_units h]
   exact pow_card_eq_one'
 
 theorem u62lb_two_eq_zero : (2 : K) = 0 := by
-  haveI := h.charP
+  have := h.charP
   exact CharP.cast_eq_zero K 2
 
 theorem u62lb_bar (c : K) : h.bar c = c ^ 2 := by

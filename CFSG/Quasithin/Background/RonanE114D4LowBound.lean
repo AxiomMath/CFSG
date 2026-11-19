@@ -50,6 +50,7 @@ theorem isElemAbelian_root_three : IsElemAbelian 2 (D.root 3) := by
     rw [pow_two]
     exact psi_two_mul_self hψ t
 
+omit [CharP K 2] in
 theorem card_root_three : Nat.card (D.root 3) = Nat.card K := by
   refine (Nat.card_congr (Equiv.ofBijective (fun t : K => (⟨ψ 2 t, hψ.mem 2 t⟩ : D.root 3))
     ⟨fun a b hab => hψ.inj 2 (congrArg Subtype.val hab), fun y => ?_⟩)).symm
@@ -87,15 +88,19 @@ variable {G : Type} [Group G] {L : Subgroup G} [L.Normal] {X : Type} [Group X] (
 
 @[expose] def emb : X →* G := L.subtype.comp φ.symm.toMonoidHom
 
+omit [L.Normal] in
 theorem emb_injective : Function.Injective (emb φ) :=
   L.subtype_injective.comp φ.symm.injective
 
+omit [L.Normal] in
 theorem emb_mem (x : X) : emb φ x ∈ L := (φ.symm x).2
 
+omit [L.Normal] in
 theorem map_emb_le (H : Subgroup X) : H.map (emb φ) ≤ L := by
   rintro _ ⟨x, -, rfl⟩
   exact emb_mem φ x
 
+omit [L.Normal] in
 theorem map_comap_emb {H : Subgroup G} (h : H ≤ L) : (H.comap (emb φ)).map (emb φ) = H := by
   refine le_antisymm (Subgroup.map_comap_le _ _) fun x hx => ?_
   refine ⟨φ ⟨x, h hx⟩, ?_, ?_⟩
@@ -134,7 +139,7 @@ end Transport
 
 theorem pCoreOf_le_of_isSylowIn {G : Type*} [Group G] [Finite G] {S H : Subgroup G}
     (hS : IsSylowIn 2 S H) : pCoreOf 2 H ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS' : IsPGroup 2 (S.subgroupOf H) :=
     hS.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hS.1).symm
   let P : Sylow 2 H := hS'.toSylow hS.2.2
@@ -169,7 +174,7 @@ theorem three_mul_le_nParam {G : Type} [Group G] [Finite G] {L T : Subgroup G} [
     (hT : IsSylowIn 2 T ⊤) {n : ℕ} (hn : 1 ≤ n) (hL : Is3D4 2 n ↥L) :
     ((3 * n : ℕ) : ℕ∞) ≤ E1.nParam (⊤ : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨X, _, _, K, _, _, σ, hσ, D, ψ, hψ, hU, hσ1, hBT, hK, φ, hφU⟩ := exists_model_data hT hL
   have hιinj := emb_injective φ
   have hLN : ∀ H : Subgroup G, H ≤ Subgroup.normalizer (L : Set G) := fun H => by
@@ -355,7 +360,7 @@ theorem e_1_14_two_printed_local :
         ∀ n : ℕ, 1 ≤ n → Is3D4 2 n ↥(CFSG.generalizedFitting G) →
           E1.nParam (⊤ : Subgroup G) = ((3 * n : ℕ) : ℕ∞) := by
   intro G _ _ T _ _ hT hFT n hn hL
-  haveI : (CFSG.generalizedFitting G).Normal :=
+  have : (CFSG.generalizedFitting G).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := G)).2
   exact le_antisymm (RonanE114.clause_two_le hT hFT hn hL) (three_mul_le_nParam hT hn hL)
 

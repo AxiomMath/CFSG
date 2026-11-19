@@ -91,9 +91,9 @@ theorem exists_equiv_reeGamma {S : Type} [Group S] (hv : (LieTypeIndex.reeF4 1).
   obtain ⟨-, a, hf, K, _, _, hK, ⟨e₂⟩⟩ :=
     CFSG.StandardType.ChevTwo.reeTitsModel_of_reeF4 1 hv e
   obtain rfl : a = 1 := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hc : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq hK
-  haveI : CharP K ReeTag.F4.prime := hc
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hc : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq hK
+  have : CharP K ReeTag.F4.prime := hc
   have hK' : Nat.card K = ReeTag.F4.prime ^ (2 * 1 + 1) := hK
   have hperf : ⁅ReeTag.F4.reeGamma K 1, ReeTag.F4.reeGamma K 1⁆ = ReeTag.F4.reeGamma K 1 := by
     rw [← Subgroup.map_subtype_commutator,
@@ -114,7 +114,7 @@ theorem exists_equiv_reeGamma {S : Type} [Group S] (hv : (LieTypeIndex.reeF4 1).
 
 theorem core3Group_reeGamma {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime]
     (hK : Nat.card K = 8) : Core3Group ↥(ReeTag.F4.reeGamma K 1) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   intro T A hT2 hT0 hA Q₀ _ ⟨f, hf⟩ hQ
   obtain ⟨P, hNP, hPcard⟩ := exists_parabolic_card hK hT2 hT0
   have : Finite Q₀ := Finite.of_surjective f hf

@@ -41,7 +41,7 @@ private theorem cyclic_cube_mem_zpowers {G : Type*} [Group G] {C : Subgroup G} [
     [Finite C] {x : G} (hxC : x ∈ C) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) {c : G} (hc : c ∈ C)
     (hc3 : c ^ 3 = 1) : c ∈ zpowers x := by
   classical
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Fintype C := Fintype.ofFinite C
   let x' : C := ⟨x, hxC⟩
   let c' : C := ⟨c, hc⟩
   have hx'3 : x' ^ 3 = 1 := Subtype.ext (by simpa using hx3)
@@ -94,7 +94,7 @@ theorem exists_cube_decomp_of_cyclic {G : Type*} [Group G] {C M : Subgroup G} [I
     ∃ j ∈ zpowers x, ∃ d ∈ M, g = j * d ∧ d ^ 3 = 1 := by
   classical
   have hm'0 : m' ≠ 0 := fun h => hm' (h ▸ dvd_zero 3)
-  haveI : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; positivity)
+  have : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; positivity)
   obtain ⟨c, hc, y, hy, rfl⟩ := mem_sup_of_commute' hcomm hg
   have hcy : Commute c y := hcomm c hc y hy
   have hs : m' ^ 2 % 3 = 1 := by
@@ -138,8 +138,8 @@ theorem exists_cube_decomp_of_commute_rho {f : ℕ} {k K : Type} [Field k] [Fiel
     ∃ j ∈ zpowers ((thetaSL2 K).comp (Matrix.SpecialLinearGroup.map (algebraMap k K)) (A ^ m)),
       ∃ d ∈ su6Levi σ, g = j * d ∧ d ^ 3 = 1 := by
   classical
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Finite K := finite_of_card hK
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite K := finite_of_card hK
   have hK2 : (2 : K) = 0 := two_eq_zero_of_card_sq hf hK
   set ρ := (thetaSL2 K).comp (Matrix.SpecialLinearGroup.map (algebraMap k K)) with hρ
   have hρinj : Function.Injective ρ := injective_thetaSL2_comp_map hK2 (algebraMap k K)

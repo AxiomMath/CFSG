@@ -112,43 +112,47 @@ private theorem szE2_commutator_commute {z x w : G} (hx2 : x ^ 2 = 1)
 
 variable [Finite G]
 
+omit [Finite G] in
 private theorem szEnd_Zv_le_Gw_shift {i a b : ℤ} (h : t.Zv i ≤ t.Gw a b) (k : ℤ) :
     t.Zv (i + 2 * k) ≤ t.Gw (a + 2 * k) (b + 2 * k) := by
   have hZ : (t.Zv i).map (MulAut.conj (t.edgeElt (2 * k))).toMonoidHom =
       t.Zv (i + 2 * k) := by
-    rw [t.map_Zv_edgeElt (2 * k) i, if_pos (even_two_mul k)]
+    rw [t.map_Zv_edgeElt (2 * k) i, ite_eq_left (even_two_mul k)]
     rw [show 2 * k + i = i + 2 * k by ring]
   have hG : (t.Gw a b).map (MulAut.conj (t.edgeElt (2 * k))).toMonoidHom =
       t.Gw (a + 2 * k) (b + 2 * k) := by
-    rw [t.map_Gw_edgeElt (2 * k) a b, if_pos (even_two_mul k)]
+    rw [t.map_Gw_edgeElt (2 * k) a b, ite_eq_left (even_two_mul k)]
     rw [show 2 * k + a = a + 2 * k by ring, show 2 * k + b = b + 2 * k by ring]
   rw [← hZ, ← hG]
   exact Subgroup.map_mono h
 
+omit [Finite G] in
 private theorem szEnd_not_Zv_le_Gv_shift {i j : ℤ} (h : ¬ t.Zv i ≤ t.Gv j) (k : ℤ) :
     ¬ t.Zv (i + 2 * k) ≤ t.Gv (j + 2 * k) := by
   intro hle
   apply h
   have hZ : (t.Zv (i + 2 * k)).map (MulAut.conj (t.edgeElt (2 * (-k)))).toMonoidHom =
       t.Zv i := by
-    rw [t.map_Zv_edgeElt (2 * (-k)) (i + 2 * k), if_pos (even_two_mul (-k))]
+    rw [t.map_Zv_edgeElt (2 * (-k)) (i + 2 * k), ite_eq_left (even_two_mul (-k))]
     rw [show 2 * (-k) + (i + 2 * k) = i by ring]
   have hG : (t.Gv (j + 2 * k)).map (MulAut.conj (t.edgeElt (2 * (-k)))).toMonoidHom =
       t.Gv j := by
-    rw [t.map_Gv_edgeElt (2 * (-k)) (j + 2 * k), if_pos (even_two_mul (-k))]
+    rw [t.map_Gv_edgeElt (2 * (-k)) (j + 2 * k), ite_eq_left (even_two_mul (-k))]
     rw [show 2 * (-k) + (j + 2 * k) = j by ring]
   have hmap := Subgroup.map_mono
     (f := (MulAut.conj (t.edgeElt (2 * (-k)))).toMonoidHom) hle
   rwa [hZ, hG] at hmap
 
+omit [Finite G] in
 private theorem szEnd_card_Zv_shift (i k : ℤ) :
     Nat.card (t.Zv (i + 2 * k)) = Nat.card (t.Zv i) := by
   have hZ : (t.Zv i).map (MulAut.conj (t.edgeElt (2 * k))).toMonoidHom =
       t.Zv (i + 2 * k) := by
-    rw [t.map_Zv_edgeElt (2 * k) i, if_pos (even_two_mul k)]
+    rw [t.map_Zv_edgeElt (2 * k) i, ite_eq_left (even_two_mul k)]
     rw [show 2 * k + i = i + 2 * k by ring]
   rw [← hZ, Subgroup.card_map_of_injective (MulAut.conj (t.edgeElt (2 * k))).injective]
 
+omit [Finite G] in
 private theorem szEnd_Lv_le_centralizer_Zv (hZL : L2 ≤ centralizer (t.Zv 1 : Set G)) {v : ℤ}
     (hv : Odd v) : t.Lv v ≤ centralizer (t.Zv v : Set G) := by
   obtain ⟨k, rfl | rfl⟩ := Int.even_or_odd' v
@@ -274,14 +278,14 @@ private theorem szE2_GL_tau {a f : ℕ}
     exact z1_inf_centralizer_le_z2 hfr.hF.1
   have hZ0 : (t.Zv 0).map (MulAut.conj g).toMonoidHom = t.Zv (2 * k) := by
     rw [show g = t.edgeElt (2 * k) from rfl, t.map_Zv_edgeElt (2 * k) 0,
-      if_pos (even_two_mul k)]
+      ite_eq_left (even_two_mul k)]
     rw [show 2 * k + 0 = 2 * k by ring]
   have hZ1 : (t.Zv 1).map (MulAut.conj g).toMonoidHom = t.Zv (2 * k + 1) := by
     rw [show g = t.edgeElt (2 * k) from rfl, t.map_Zv_edgeElt (2 * k) 1,
-      if_pos (even_two_mul k)]
+      ite_eq_left (even_two_mul k)]
   have hGw : (t.Gw 0 1).map (MulAut.conj g).toMonoidHom = t.Gw (2 * k) (2 * k + 1) := by
     rw [show g = t.edgeElt (2 * k) from rfl, t.map_Gw_edgeElt (2 * k) 0 1,
-      if_pos (even_two_mul k)]
+      ite_eq_left (even_two_mul k)]
     rw [show 2 * k + 0 = 2 * k by ring]
   have hmap : pCoreOf 2 (t.Gw (2 * k) (2 * k + 1)) =
       (pCoreOf 2 (t.Gw 0 1)).map (MulAut.conj g).toMonoidHom := by
@@ -360,7 +364,7 @@ private theorem szE1_counting {a f : ℕ}
         (X.map (MulAut.conj y).toMonoidHom) :=
     (CFSG.GroupTheory.relIndex_sup_eq_relIndex_inf_of_le_normalizer hX'N).2
   have hrootrel : (t.Qv h).relIndex (t.rootOmega h) = 2 ^ (2 * a + 1) := by
-    rw [t.relIndex_rootOmega hfr h, if_pos hev]
+    rw [t.relIndex_rootOmega hfr h, ite_eq_left hev]
   have hmono : (t.Qv h).relIndex (t.rootOmega h) ≤ (t.Qv h).relIndex
       ((X.map (MulAut.conj y).toMonoidHom : Subgroup G) ⊔ t.Qv h) :=
     Subgroup.relIndex_le_of_le_right hroot (by
@@ -686,6 +690,7 @@ private theorem szE2_Zv_one_le_Lv {a f : ℕ}
   refine t.le_Lv hfr (t.isPGroup_Zv 1) (fun x hx => ?_)
   exact mem_win_iff.mp (hZ1 hx) h (by omega) (by omega)
 
+omit [Finite G] in
 private theorem szE2_GL_reflect (v : ℤ)
     (hprev : t.Zv v ⊓ centralizer (pCoreOf 2 (t.Gw v (v + 1))) ≤ t.Zv (v + 1)) :
     t.Zv v ⊓ centralizer (pCoreOf 2 (t.Gw (v - 1) v)) ≤ t.Zv (v - 1) := by
@@ -731,6 +736,7 @@ private theorem szE2_GL_edge {a f : ℕ}
   rw [hk] at *
   exact szE2_GL_reflect t (2 * k) (szE2_GL_tau t hfr k)
 
+omit [Finite G] in
 private theorem szEnd_natural_contains {a f : ℕ} (hfr : Frame L1 L2 S a f) {h : ℤ}
     {U : Subgroup G}
     (hUY : U ⊓ centralizer (pCoreOf 2 (t.Gw (h - 1) h)) = t.Zv (h - 1))
@@ -805,6 +811,7 @@ private theorem szEnd_exists_natural
     exact hUforall g
       ((t.K_le_Gv h).trans (t.Gv_le_normalizer_Lv hfr h) hg)
       ((t.K_le_Gv h).trans (t.Gv_le_normalizer_Zv h) hg)
+omit [Finite G] in
 private theorem szE3_K_le_normalizer_Zv_inf_centralizer (j : ℤ) :
     t.K ≤ Subgroup.normalizer
       ((t.Zv j ⊓ Subgroup.centralizer (t.Zv 1 : Set G) : Subgroup G) : Set G) := by
@@ -908,6 +915,7 @@ private theorem szEnd_Zv_add_one_inf_centralizer_eq_bot
       show k + k + 1 + 2 * (k - 1) = 2 * (k + k) - 1 by ring] using
       t.szEnd_not_Zv_le_Gv_shift hZ1' (k - 1)
   exact hnot (hZh.symm ▸ hleGv)
+omit [Finite G] in
 private theorem szE4_mul_comm {h : ℤ} {U : Subgroup G} (hUZ : U ≤ t.Zv h) {x y : G}
     (hx : x ∈ U) (hy : y ∈ U) : x * y = y * x := by
   have hx' : x ∈ omegaOneCenterOf (t.Qv h) := by
@@ -918,6 +926,7 @@ private theorem szE4_mul_comm {h : ℤ} {U : Subgroup G} (hUZ : U ≤ t.Zv h) {x
     exact hUZ hy
   exact A4.mul_comm_of_mem_omegaOneCenterOf hx' hy'
 
+omit [Finite G] in
 private theorem szE4_exists_phi {h : ℤ} {U : Subgroup G} {a0 : G}
     (hUZ : U ≤ t.Zv h) (hUL : t.Lv h ≤ normalizer (U : Set G))
     (ha0L : a0 ∈ t.Lv h) :
@@ -961,6 +970,7 @@ private theorem szE4_exists_phi {h : ℤ} {U : Subgroup G} {a0 : G}
     rw [commutatorElement_eq_one_iff_mul_comm]
     exact Subgroup.mem_centralizer_singleton_iff.mp huC
 
+omit [Finite G] in
 private theorem szE4_sq_eq_one {h : ℤ} {U : Subgroup G} (hUZ : U ≤ t.Zv h) {x : G}
     (hx : x ∈ U) : x ^ 2 = 1 := by
   have hx' : x ∈ omegaOneCenterOf (t.Qv h) := by
@@ -968,12 +978,14 @@ private theorem szE4_sq_eq_one {h : ℤ} {U : Subgroup G} (hUZ : U ≤ t.Zv h) {
     exact hUZ hx
   exact A4.sq_eq_one_of_mem_omegaOneCenterOf hx'
 
+omit [Finite G] in
 private theorem szE4_card_U {a : ℕ} {h : ℤ} {U : Subgroup G}
     (hnat : IsSzNaturalSection (t.Lv h) U ⊥ a) :
     Nat.card U = (2 ^ (2 * a + 1)) ^ 4 := by
   have h := relIndex_eq_of_isSzNaturalSection hnat
   rwa [Subgroup.relIndex_bot_left] at h
 
+omit [Finite G] in
 private theorem szE4_Zv_le_Gv_two {h : ℤ} (hh : 4 ≤ h) (hev : Even h)
     (hZ1 : t.Zv 1 ≤ t.Gw (2 - h) h) : t.Zv (h + 1) ≤ t.Gv 2 := by
   have h2 : 2 * (h / 2) = h := Int.two_mul_ediv_two_of_even hev
@@ -984,6 +996,7 @@ private theorem szE4_Zv_le_Gv_two {h : ℤ} (hh : 4 ≤ h) (hev : Even h)
   rw [harg1, harg2, harg3] at hshift
   exact hshift.trans (win_le_qv (a := 2) (b := 2 * h) (i := 2) le_rfl (by omega))
 
+omit [Finite G] in
 private theorem szE4_card_Zv_succ {a : ℕ} {h : ℤ} (hev : Even h)
     (hZ1card : Nat.card (t.Zv 1) = 2 ^ (2 * a + 1)) :
     Nat.card (t.Zv (h + 1)) = 2 ^ (2 * a + 1) := by
@@ -1023,7 +1036,7 @@ private theorem szE4_upper {a f : ℕ} {h : ℤ} {U : Subgroup G}
     exact one_mem _
   have hrootrel : (t.Qv 2).relIndex (t.rootOmega 2) = 2 ^ (2 * a + 1) := by
     have h := t.relIndex_rootOmega hfr 2
-    rwa [if_pos (show Even (2 : ℤ) from ⟨1, by norm_num⟩)] at h
+    rwa [ite_eq_left (show Even (2 : ℤ) from ⟨1, by norm_num⟩)] at h
   have hrel1 : (t.Qv 2).relIndex W ≤ 2 ^ (2 * a + 1) :=
     (Subgroup.relIndex_le_of_le_right hWroot (by rw [hrootrel]; positivity)).trans_eq hrootrel
   have hinfle : t.Qv 2 ⊓ W ≤ U ⊓ Subgroup.centralizer ({a0} : Set G) := by
@@ -1114,7 +1127,7 @@ private theorem szE4_relIndex_U {a f : ℕ} {h : ℤ} {U : Subgroup G}
     omega
   have hrootrel : (t.Qv 3).relIndex (t.rootOmega 3) = 2 ^ f := by
     have h := t.relIndex_rootOmega hfr 3
-    rwa [if_neg h3] at h
+    rwa [ite_eq_right h3] at h
   rw [hroot_eq] at hrootrel
   rw [← (CFSG.GroupTheory.relIndex_sup_eq_relIndex_inf_of_le_normalizer
     (H := U) (K := t.Qv 3) hUnorm).2]

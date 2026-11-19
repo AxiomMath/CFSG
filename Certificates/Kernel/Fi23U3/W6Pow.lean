@@ -35,10 +35,10 @@ theorem x1x2_pow_six :
   have hg : ∀ n, g n * g n = 1 := by
     intro n
     by_cases h : n < 4
-    · simp only [g, dif_pos h]
+    · simp only [g, dite_eq_left h]
       exact hx2 _
-    · simp only [g, dif_neg h, mul_one]
-  have hgx : ∀ i : Fin 4, g i.val = x i := fun i => dif_pos i.isLt
+    · simp only [g, dite_eq_right h, mul_one]
+  have hgx : ∀ i : Fin 4, g i.val = x i := fun i => dite_eq_left i.isLt
   have hev : ∀ r : List (Fin 4 × Bool),
       (PresentedGroup.mk _ (FreeGroup.mk r) : PG 4 fi23U3Cover3.cover) =
         ev g (r.map fun p => p.1.val) := by
@@ -64,7 +64,7 @@ theorem x1x2_pow_six :
     obtain ⟨c, hc, rfl⟩ := List.mem_map.1 hr0
     have hcm : ofCodes 4 c ∈ fi23U3Cover3.rels := List.mem_map_of_mem hc
     have hmap : (ofCodes 4 c).map (fun p => p.1.val) = c.map fun x => x / 2 % 4 := by
-      simp [ofCodes, Fin.val_ofNat]
+      simp [ofCodes]
     rw [← hmap, ← hev]
     set Z := (PresentedGroup.mk _ (FreeGroup.mk (ofCodes 4 c)) : PG 4 fi23U3Cover3.cover)
     have hcomm : ∀ i : Fin 4, x i * Z = Z * x i := by

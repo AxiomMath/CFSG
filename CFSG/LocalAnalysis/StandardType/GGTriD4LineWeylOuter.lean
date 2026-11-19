@@ -89,12 +89,12 @@ theorem triD4Line_outer_form
     (hf3 : f ^ 3 = 1) :
     ∃ x : GGTriD4R n K, x ∈ Subgroup.centralizer {D.z₀} ∧
       (f = MulAut.conj x * D.α ∨ f = MulAut.conj x * D.α⁻¹) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hZ : Subgroup.center (GGTriD4R n K) = ⊥ := triD4Line_center_bot hn K hK
   obtain ⟨φ₀, hφ₀⟩ := ggOutCyclic_triD4 hn K hK
   set N : Subgroup (MulAut (GGTriD4R n K)) :=
     (MulAut.conj : GGTriD4R n K →* MulAut (GGTriD4R n K)).range with hN
-  haveI hNn : N.Normal := hN ▸ triD4Line_conj_range_normal K
+  have hNn : N.Normal := hN ▸ triD4Line_conj_range_normal K
   let q : MulAut (GGTriD4R n K) →* MulAut (GGTriD4R n K) ⧸ N := QuotientGroup.mk' N
   have hgen : ∀ x : MulAut (GGTriD4R n K) ⧸ N, x ∈ Subgroup.zpowers (q φ₀) := by
     intro x
@@ -112,7 +112,7 @@ theorem triD4Line_outer_form
       _ = q z := by rw [hk]
       _ = q (y * z) := by rw [map_mul, hy1, one_mul]
       _ = q α := by rw [hyz]
-  haveI hcyc : IsCyclic (MulAut (GGTriD4R n K) ⧸ N) :=
+  have hcyc : IsCyclic (MulAut (GGTriD4R n K) ⧸ N) :=
     isCyclic_iff_exists_zpowers_eq_top.mpr ⟨q φ₀, (Subgroup.eq_top_iff' _).mpr hgen⟩
   have hf3q : q f ^ 3 = 1 := by rw [← map_pow, hf3, map_one]
   have hα3 : D.α ^ 3 = 1 := by rw [← D.orderOf_α]; exact pow_orderOf_eq_one D.α
@@ -125,12 +125,12 @@ theorem triD4Line_outer_form
     intro h
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, hN] at h
     exact D.α_outer (MonoidHom.mem_range.mp h)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hof : orderOf (q f) = 3 := orderOf_eq_prime hf3q hfq_ne
   have hoa : orderOf (q D.α) = 3 := orderOf_eq_prime hα3q hαq_ne
-  haveI hfinf : Finite (Subgroup.zpowers (q f)) :=
+  have hfinf : Finite (Subgroup.zpowers (q f)) :=
     finite_zpowers.mpr (isOfFinOrder_iff_pow_eq_one.mpr ⟨3, by norm_num, hf3q⟩)
-  haveI hfina : Finite (Subgroup.zpowers (q D.α)) :=
+  have hfina : Finite (Subgroup.zpowers (q D.α)) :=
     finite_zpowers.mpr (isOfFinOrder_iff_pow_eq_one.mpr ⟨3, by norm_num, hα3q⟩)
   have hcardf : Nat.card (Subgroup.zpowers (q f)) = 3 := by rw [Nat.card_zpowers, hof]
   have hcarda : Nat.card (Subgroup.zpowers (q D.α)) = 3 := by rw [Nat.card_zpowers, hoa]

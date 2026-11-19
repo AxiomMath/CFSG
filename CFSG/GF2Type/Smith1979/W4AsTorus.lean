@@ -225,7 +225,7 @@ theorem exists_planes {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
       (∀ i j, i ≠ j → ∀ v ∈ P j, r (θ i) v = v) ∧ (∀ i, ∀ v ∈ P i, r (θ i) v ∈ P i) ∧
       (∀ i, ∀ v ∈ P i, r (θ i) v = v → v = 0) := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 3)
     (fun a b => hel.1.is_comm.comm a b) (fun a => Subtype.ext (hel.2 a a.2)) hE
   let ι : AddChar F3Vec Γ :=
@@ -295,7 +295,7 @@ variable {G : Type} [Group G] [Finite G] {S : Setting G}
 theorem exists_omega83Pre (hw : S.width = 4) {E : Subgroup S.O} (hEM : E ≤ S.Mbar)
     (hel : IsElemAbelian 3 E) (hE : Nat.card E = 3 ^ 4) :
     ∃ C : Omega83Pre S, ∀ i, C.theta i ∈ E := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   have hV : finrank (ZMod 2) S.Qt = 8 := by rw [S.finrank_Qt_eq_two_mul_width, hw]
   obtain ⟨P, θ, h1, h2, h3, h4, h5, h6, h7, h8, h9⟩ := exists_planes S.q S.q_nondegenerate hV
     S.O.subtype Subtype.val_injective hel hE fun γ _ v => q_apply_O γ v

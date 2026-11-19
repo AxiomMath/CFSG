@@ -9,19 +9,19 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 open CFSG.EvenSporadicStandard.HNRecog
 
 theorem gzClassInput_holds :
-    ∀ (hI : TwoHSInterface) (hC : CSideFacts) {G : Type} [Group G] [Finite G] {a z : G}
-      (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hF2 : Vert Fusion2Facts a z)
-      (hF3 : Vert Fusion3Facts a z) (hOrb : Vert GzOrbitFacts a z),
+    ∀ (_hI : TwoHSInterface) (_hC : CSideFacts) {G : Type} [Group G] [Finite G] {a z : G}
+      (_h : IsF5Type a z) (_hF1 : Vert Fusion1Facts a z) (_hF2 : Vert Fusion2Facts a z)
+      (_hF3 : Vert Fusion3Facts a z) (_hOrb : Vert GzOrbitFacts a z),
       GzClassFacts a z := by
-  intro hI hC G _ _ a z h hF1 hF2 hF3 hOrb
+  intro _hI _hC G _ _ a z _h _hF1 _hF2 _hF3 _hOrb
   refine ⟨?_, ?_, ?_⟩
   · intro x hx hshape
-    refine gzClass_centralizes_two_A hI hC h hF1 hF2 hF3 hOrb x hx ?_
+    refine gzClass_centralizes_two_A _hI _hC _h _hF1 _hF2 _hF3 _hOrb x hx ?_
     rcases hshape with hs | hs
     · exact Or.inl (card_of_isShapeZ2TimesA5 hs)
     · exact Or.inr (card_of_isShapeTwoTwoWrTwo hs)
   · intro x hx hshape
-    exact gzClass_centQ_card hI hC h hF1 hF2 hF3 hOrb x hx (card_of_isShapeTwoTwoTimesA5 hshape)
-  · exact fun t ht => gzClass_inv_two hI hC h hF1 hF2 hF3 hOrb t ht
+    exact gzClass_centQ_card _hI _hC _h _hF1 _hF2 _hF3 _hOrb x hx (card_of_isShapeTwoTwoTimesA5 hshape)
+  · exact fun t ht => gzClass_inv_two _hI _hC _h _hF1 _hF2 _hF3 _hOrb t ht
 
 end CFSG.EvenSporadicStandard.HNRecog.Section3

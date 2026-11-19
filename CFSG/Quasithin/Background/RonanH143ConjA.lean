@@ -100,7 +100,7 @@ theorem h143_isElemAbelian_conjSubg {p : ℕ} (c : P24) {A : Subgroup P24}
   obtain ⟨hc, hx⟩ := hA
   unfold IsElemAbelian conjSubg
   refine ⟨?_, ?_⟩
-  · haveI := hc
+  · have := hc
     exact Subgroup.map_isMulCommutative _ _
   · intro x hxmem
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hxmem

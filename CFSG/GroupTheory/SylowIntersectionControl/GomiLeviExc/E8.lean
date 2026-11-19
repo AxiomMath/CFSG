@@ -95,7 +95,7 @@ theorem isCharTwoSteinberg [CharP K 2] : IsCharTwoSteinberg (e8Datum K).roots (e
     rw [commutatorElement_eq_one_iff_commute.mpr
       (commute_xPar (F := rootOperatorFamily .E8) (K := K) e8Data_valid noG2_E8 hβ' hβ'
         hsum hnn c d),
-      if_neg (fun hmem => hnn (mem_adjDatum_roots.1 hmem))]
+      ite_eq_right (fun hmem => hnn (mem_adjDatum_roots.1 hmem))]
   · have hne' : α ≠ -β := fun h => hsum (by rw [h, neg_add_cancel])
     have h12 : ¬ IsRoot .E8 (α + 2 • β) :=
       not_isRoot_add_two_smul_E8 hα' hβ' hαβ hne'
@@ -106,8 +106,8 @@ theorem isCharTwoSteinberg [CharP K 2] : IsCharTwoSteinberg (e8Datum K).roots (e
     rw [xPar_of_not_isRoot h12, xPar_of_not_isRoot h21, mul_one, mul_one] at hcomm
     rw [hcomm]
     by_cases h : IsRoot .E8 (α + β)
-    · rw [if_pos (mem_adjDatum_roots.2 h),
+    · rw [ite_eq_left (mem_adjDatum_roots.2 h),
         coeff11_eq_one_E8 (K := K) hα' hβ' hne' h, one_mul]
-    · rw [if_neg (fun hmem => h (mem_adjDatum_roots.1 hmem)), xPar_of_not_isRoot h]
+    · rw [ite_eq_right (fun hmem => h (mem_adjDatum_roots.1 hmem)), xPar_of_not_isRoot h]
 
 end CFSG.GroupTheory.GomiLeviExc.E8

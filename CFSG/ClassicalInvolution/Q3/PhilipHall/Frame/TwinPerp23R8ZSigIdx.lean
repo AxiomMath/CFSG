@@ -38,7 +38,7 @@ theorem odd_index_of_isSylow2In {Y : Type} [Group Y] [Finite Y] {C S₂ : Subgro
   have hnd : ¬ 2 ∣ S₂.relIndex C := by
     obtain ⟨P, hP⟩ := (hS₂.2.1.comap_subtype : IsPGroup 2 (S₂.subgroupOf C)).exists_le_sylow
     have hPm : (P : Subgroup ↥C).map C.subtype = S₂ := by
-      refine hS₂.2.2 _ (Subgroup.map_subtype_le _) (P.isPGroup'.map _) fun x hx => ?_
+      refine hS₂.2.2 _ (Subgroup.map_subtype_le _) (P.isPGroup.map _) fun x hx => ?_
       exact ⟨⟨x, hS₂.1 hx⟩, hP (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
     have hPe : (P : Subgroup ↥C) = S₂.subgroupOf C := by
       ext x

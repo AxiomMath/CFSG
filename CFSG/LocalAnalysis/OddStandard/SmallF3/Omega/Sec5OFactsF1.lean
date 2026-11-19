@@ -134,7 +134,7 @@ theorem asc82FactQCent6_of_finite (hfin : U43OddAutTwoPlusCent) : Asc82FactQCent
     Subgroup.commutator_eq_bot_iff_le_centralizer.mpr (hYLcenter.trans hcenter_le_cent)
   have h1 : ⁅⁅L, Y⁆, L⁆ = ⊥ := by
     rwa [Subgroup.commutator_comm L Y]
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   have h3 : ⁅⁅L, L⁆, Y⁆ = ⊥ := Subgroup.commutator_commutator_eq_bot_of_rotate h1 h2
   rw [Subgroup.commutator_eq_self] at h3
   have hYLbot : ⁅Y, L⁆ = ⊥ := by

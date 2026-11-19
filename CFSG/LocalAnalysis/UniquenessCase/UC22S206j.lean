@@ -50,7 +50,7 @@ theorem uc22s206j_commutator_ne_bot {Q : Subgroup H} {R : Subgroup ↥Q} {p d : 
     have h1 := congrArg φ hhg
     rw [map_mul, map_mul, map_inv, hφh, one_mul, inv_one, mul_one, map_pow, sq] at h1
     exact mul_left_cancel (h1.symm.trans (mul_one (φ g)).symm)
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   rw [LinearMap.range_eq_bot.mpr ?_, finrank_bot] at h6
   · omega
   · rw [hφg, Units.val_one, Matrix.mulVecLin_one]
@@ -66,11 +66,11 @@ theorem uc22s206j_inf_centralizer_ne_bot {Mg : Type} [Group Mg] [Finite Mg]
     (hDx : ⁅zpowers (QuotientGroup.mk' (CFSG.pCore 2 Mg) x), D⁆ ≠ ⊥) :
     CFSG.pCore 2 Mg ⊓ centralizer (zpowers x : Set Mg) ≠ ⊥ := by
   intro hbot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ2 : IsPGroup 2 (CFSG.pCore 2 Mg) := CFSG.pCore_isPGroup
-  haveI : IsElementaryAbelian 2 (↥(CFSG.pCore 2 Mg) ⧸ frattini ↥(CFSG.pCore 2 Mg)) :=
+  have : IsElementaryAbelian 2 (↥(CFSG.pCore 2 Mg) ⧸ frattini ↥(CFSG.pCore 2 Mg)) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hQ2).2.2.2.1
   have hker : CFSG.pCore 2 Mg ≤ (UC6.frattiniRep (CFSG.pCore 2 Mg)).ker := fun q hq =>
     MonoidHom.mem_ker.mpr (UC6.frattiniRep_eq_one_of_mem_uc6 (CFSG.pCore 2 Mg) hq)
@@ -167,7 +167,7 @@ theorem uc22s206j_pCoreOf_inf_centralizer_ne_bot {G : Type} [Group G] [Finite G]
           GL (Fin d) (ZMod p)) : Matrix (Fin d) (Fin d) (ZMod p)) :
         Module.End (ZMod p) (Fin d → ZMod p)) - 1))) :
     CFSG.Open.pCoreOf 2 M ⊓ centralizer (zpowers (x : G) : Set G) ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcharM : centralizer (CFSG.pCore 2 ↥M : Set ↥M) ≤ CFSG.pCore 2 ↥M := by
     intro m hm
     have hmG : (m : G) ∈ M ⊓ centralizer (CFSG.Open.pCoreOf 2 M : Set G) := by

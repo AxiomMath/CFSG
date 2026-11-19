@@ -101,7 +101,7 @@ theorem exists_mem_of_fix (h45 : Sec4.Item4_5) (h66 : Sec6.Item6_6) {A E U' K : 
   have hB9 := card_zpowers_sup_zpowers (hcomm d hdA e heA) hd3 he3 hd1 hed
   have hx₀ : ∃ x₀ ∈ A, x₀ ∉ Subgroup.zpowers d ⊔ Subgroup.zpowers e := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h10 := Subgroup.card_le_of_le (fun x hx => h x hx)
     rw [h27, hB9] at h10
     norm_num at h10

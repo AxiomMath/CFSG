@@ -27,8 +27,8 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16h_e3_alt5_centreless {X : Type} [Group X] (h : UC22.IsAlt X 5) :
     ∀ a : X, (∀ b : X, a * b = b * a) → a = 1 := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup X := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup X := e.isSimpleGroup
   have hcardX : Nat.card X = 60 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     norm_num [Nat.factorial]
@@ -37,7 +37,7 @@ private theorem s16h_e3_alt5_centreless {X : Type} [Group X] (h : UC22.IsAlt X 5
   · have hz' : a ∈ Subgroup.center X := Subgroup.mem_center_iff.mpr fun g => (ha g).symm
     rwa [h0, Subgroup.mem_bot] at hz'
   · exfalso
-    haveI : IsMulCommutative X := ⟨⟨fun x y => by
+    have : IsMulCommutative X := ⟨⟨fun x y => by
       have hx : x ∈ Subgroup.center X := h0 ▸ Subgroup.mem_top x
       exact (Subgroup.mem_center_iff.mp hx y).symm⟩⟩
     have hprime : Nat.Prime (Nat.card X) :=
@@ -46,8 +46,8 @@ private theorem s16h_e3_alt5_centreless {X : Type} [Group X] (h : UC22.IsAlt X 5
     exact (by norm_num at hprime : False)
 
 theorem s16h_e3_A5_two_concl
-    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
- (h880 : F08.R880 D) (hJP : K_JonesParshallH1) (h1217 : R1217 D)
+    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (_hσ : D.sig = D.sig1)
+ (_h880 : F08.R880 D) (_hJP : K_JonesParshallH1) (h1217 : R1217 D)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs2 : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2)
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian)
@@ -134,16 +134,16 @@ theorem s16h_e3_A5_two_concl
   exact ⟨hs2, Or.inr (Or.inl ⟨Or.inl ⟨hAltL, hsum⟩, hσ3, hp3, hfs⟩)⟩
 
 theorem s16h_e3_A5_three_false
-    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
- (h880 : F08.R880 D) (hJP : K_JonesParshallH1) (h1217 : R1217 D)
+    (D : Data G) (S : s16h_Std D) (_hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
+ (_h880 : F08.R880 D) (_hJP : K_JonesParshallH1) (h1217 : R1217 D)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs2 : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2)
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian)
-    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
-    (hW : Conc4_136W (Mbar D.M V₀ V h.hyp151.isElemAbelian) t (lBar V₀ V h.hyp151.isElemAbelian L))
+    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (_htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
+    (_hW : Conc4_136W (Mbar D.M V₀ V h.hyp151.isElemAbelian) t (lBar V₀ V h.hyp151.isElemAbelian L))
     (hcomp : IsComponentOf (lBar V₀ V h.hyp151.isElemAbelian L)
       (Mbar D.M V₀ V h.hyp151.isElemAbelian))
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar V₀ V h.hyp151.isElemAbelian L) ≤ 1)
     (hZ : commSub ⊤ (lBar V₀ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar V₀ V h.hyp151.isElemAbelian L) = ⊥) (h3 : 3 ∈ D.sig)
@@ -178,8 +178,8 @@ theorem s16h_e3_A5_three_false
       (Or.inl hV₀)
 
 theorem s16h_e3_L3_three_concl
-    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
- (h880 : F08.R880 D) (hJP : K_JonesParshallH1) (h1217 : R1217 D)
+    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (_hσ : D.sig = D.sig1)
+ (_h880 : F08.R880 D) (_hJP : K_JonesParshallH1) (h1217 : R1217 D)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs2 : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2)
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian)
@@ -233,7 +233,7 @@ theorem s16h_e3_L3_three_concl
     · exact absurd hq' h3σ
     · rfl⟩
   have h168 : Nat.card ↥(lBar V₀ V hV L) = 168 := card_eq_of_isL3 hL3
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h7C : ¬ 7 ∣ Nat.card ↥(F11.CTilde D.M V₀ V) := fun h7dvd =>
     hbad (s16h_e3_unique₁_of_dvd_cTil D S h hs2 hcomp (by norm_num : Nat.Prime 7) (by norm_num)
       (Or.inl h7) (by rw [h168]; norm_num) h7dvd)

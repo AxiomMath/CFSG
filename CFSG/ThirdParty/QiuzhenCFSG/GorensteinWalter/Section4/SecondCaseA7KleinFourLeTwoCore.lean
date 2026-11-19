@@ -34,7 +34,7 @@ public theorem secondCase_a7_exists_kleinFour_le_twoCore_Hhat
       hmin c w d hA7 hmodel
   have hVp : IsPGroup 2 V := by
     apply IsPGroup.of_card (n := 2)
-    simpa [Nat.card_eq_fintype_card] using hVK.card_four
+    simp
   have hVcentU : V ≤ Subgroup.centralizer (c.U : Set G) :=
     secondCase_a7_twoSubgroup_centralizes_U_of_centralizes_fitting_inter
       hmin c w d hA7 hmodel V hVp hVleC hVcentY

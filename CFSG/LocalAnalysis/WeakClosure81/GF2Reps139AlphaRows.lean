@@ -26,8 +26,8 @@ theorem Std139.alpha_row_SL (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n
     {K : Subgroup (MulAut W)} (hK : Comp139 G X D K) (hirr : IsIrrOn K ⊤ ⊥) {k a : ℕ}
     (ha : a ≤ 2) (hSL : IsSLn ↥K k a) (hNat : BinaryNaturalSL K ⊤ ⊥ k a) : ShapeNat4 K X n := by
   obtain ⟨E, hEfield, hEfin, hEcard, π, hπ⟩ := hNat
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
+  let : Field E := hEfield
+  let : Finite E := hEfin
   obtain ⟨f, hfadd, hfker, hfsurj, hfe⟩ :=
     CFSG.Quasithin.Vol2.KGNat.exists_coord
       (CFSG.Quasithin.Vol2.KGNat.linModelNat (StatedSL k E)) hπ
@@ -79,7 +79,7 @@ theorem Std139.alpha_row_SL (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n
   have ha1 : 1 ≤ a := by
     by_contra h
     have h0 : a = 0 := by omega
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     have h2 : 1 < Nat.card E := by
       rw [Nat.card_eq_fintype_card]; exact Fintype.one_lt_card
     rw [h0, pow_zero] at hEcard
@@ -179,8 +179,8 @@ theorem Std139.alpha_row_SL (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n
     rw [ha2] at hak
     omega
   have hkE4 : Nat.card E = 4 := by rw [hEcard, ha2]; norm_num
-  letI : Fintype E := Fintype.ofFinite E
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite (GaloisField 2 2)
+  let : Fintype E := Fintype.ofFinite E
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite (GaloisField 2 2)
   have hGF4 : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]; norm_num
   have hρcard : Fintype.card E = Fintype.card (GaloisField 2 2) := by
@@ -337,11 +337,12 @@ theorem Std139.alpha_row_centralizer (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G 
   rw [← h, Subgroup.card_bot] at h3
   omega
 
-theorem natCard_of_g2NaturalDerived {K : Subgroup (MulAut W)} (hw2 : ∀ w : W, w ^ 2 = 1)
+omit [Finite W] in
+theorem natCard_of_g2NaturalDerived {K : Subgroup (MulAut W)} (_hw2 : ∀ w : W, w ^ 2 = 1)
     (h : G2NaturalDerived K ⊤ ⊥ 1) : Nat.card W = 2 ^ 6 := by
   obtain ⟨K', hField, hFin, hcard, π, hπ⟩ := h
   obtain ⟨-, -, -, -, -, -, -, β, hβsurj, hβker, -⟩ := hπ
-  letI : Fintype K' := Fintype.ofFinite K'
+  let : Fintype K' := Fintype.ofFinite K'
   have hchar : CharP K' 2 := by
     refine charP_of_card_eq_prime ?_
     rw [← Nat.card_eq_fintype_card, hcard]

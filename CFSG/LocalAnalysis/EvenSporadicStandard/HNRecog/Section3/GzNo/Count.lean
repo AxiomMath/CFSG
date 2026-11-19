@@ -11,8 +11,8 @@ theorem gzNo_card_modEq_five {K : Type*} [Group K] [Finite K] {ρ : K} (hρ : or
     (S : Set K) (hS : ∀ s ∈ S, ρ * s * ρ⁻¹ ∈ S) :
     Nat.card S ≡ Nat.card {s : K // s ∈ S ∧ s * ρ = ρ * s} [MOD 5] := by
   classical
-  haveI : Fintype ↥S := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fintype ↥S := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let f : Function.End ↥S := fun s => ⟨ρ * s * ρ⁻¹, hS s s.2⟩
   have hiter : ∀ (n : ℕ) (s : ↥S), ((f^[n] s : ↥S) : K) = ρ ^ n * s * (ρ ^ n)⁻¹ := by
     intro n

@@ -45,9 +45,9 @@ theorem wt_pi_single_one {k : ℕ} (i : Fin k) : wt (Pi.single i (1 : ZMod 3)) =
     ext x
     rw [mem_wtSupport, Pi.single_apply, Finset.mem_singleton]
     by_cases hx : x = i
-    · rw [if_pos hx, hx]
+    · rw [ite_eq_left hx, hx]
       exact ⟨fun _ => rfl, fun _ => one_ne_zero⟩
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       exact ⟨fun h => absurd rfl h, fun h => absurd h hx⟩
   rw [hsupp, Finset.card_singleton]
 
@@ -59,9 +59,9 @@ theorem prod_add_single_of_apply_eq_one {k : ℕ} {v : Coords k} {j : Fin k}
     rw [← Finset.mul_prod_erase Finset.univ
       (fun i => (v + (Pi.single j 1 : Coords k)) i) (Finset.mem_univ j)]
     congr 1
-    · rw [Pi.add_apply, Pi.single_apply, if_pos rfl]
+    · rw [Pi.add_apply, Pi.single_apply, ite_eq_left rfl]
     · refine Finset.prod_congr rfl fun i hi => ?_
-      rw [Pi.add_apply, Pi.single_apply, if_neg (Finset.ne_of_mem_erase hi), add_zero]
+      rw [Pi.add_apply, Pi.single_apply, ite_eq_right (Finset.ne_of_mem_erase hi), add_zero]
   have hsplit2 : ∏ i, v i = v j * ∏ i ∈ Finset.univ.erase j, v i :=
     (Finset.mul_prod_erase Finset.univ v (Finset.mem_univ j)).symm
   have hrest : ∏ i ∈ Finset.univ.erase j, v i = 1 := by
@@ -82,7 +82,7 @@ theorem not_twD5Good_add_single_of_wt_eq_six {v : Coords (5 + 1)} (hwt6 : wt v =
   rcases RootLineAux.eq_one_or_eq_neg_one_of_ne_zero (v 2) hc2 with hcase | hcase
   · have hwt : wt (v + (Pi.single (2 : Fin (5 + 1)) 1 : Coords (5 + 1))) = 6 := by
       have hif : ¬ ((1 : ZMod 3) + 1 * v 2 = 0) := by rw [hcase]; decide
-      rw [add_comm (v) (Pi.single (2 : Fin (5 + 1)) 1), h, if_neg hif, hwt6]
+      rw [add_comm (v) (Pi.single (2 : Fin (5 + 1)) 1), h, ite_eq_right hif, hwt6]
     have hprod' : ∏ i, (v + (Pi.single (2 : Fin (5 + 1)) 1 : Coords (5 + 1))) i = 2 :=
       prod_add_single_of_apply_eq_one hcase hprod
     rcases h2 with ⟨h2a, -⟩ | ⟨-, h2c⟩
@@ -91,7 +91,7 @@ theorem not_twD5Good_add_single_of_wt_eq_six {v : Coords (5 + 1)} (hwt6 : wt v =
       exact absurd h2c (by decide)
   · have hwt : wt (v + (Pi.single (2 : Fin (5 + 1)) 1 : Coords (5 + 1))) = 5 := by
       have hif : ((1 : ZMod 3) + 1 * v 2 = 0) := by rw [hcase]; decide
-      rw [add_comm (v) (Pi.single (2 : Fin (5 + 1)) 1), h, if_pos hif]
+      rw [add_comm (v) (Pi.single (2 : Fin (5 + 1)) 1), h, ite_eq_left hif]
       omega
     rcases h2 with ⟨h2a, -⟩ | ⟨h2b, -⟩ <;> omega
 
@@ -143,16 +143,16 @@ theorem eq_single_add_single_of_support_subset_pair {v : Coords (5 + 1)}
   rw [Pi.add_apply, Pi.single_apply, Pi.single_apply]
   by_cases hk0 : k = 0
   · subst hk0
-    rw [if_pos rfl, if_neg (show ¬((0 : Fin (5 + 1)) = 2) by decide), add_zero]
+    rw [ite_eq_left rfl, ite_eq_right (show ¬((0 : Fin (5 + 1)) = 2) by decide), add_zero]
   · by_cases hk2 : k = 2
     · subst hk2
-      rw [if_neg (show ¬((2 : Fin (5 + 1)) = 0) by decide), if_pos rfl, zero_add]
+      rw [ite_eq_right (show ¬((2 : Fin (5 + 1)) = 0) by decide), ite_eq_left rfl, zero_add]
     · have hk : v k = 0 := by
         by_contra hne
         rcases h k hne with h' | h'
         · exact hk0 h'
         · exact hk2 h'
-      rw [if_neg hk0, if_neg hk2, zero_add]
+      rw [ite_eq_right hk0, ite_eq_right hk2, zero_add]
       exact hk
 
 theorem disjoint_of_forall_pow_three_eq_one_of_coprime {G : Type} [Group G]
@@ -244,13 +244,13 @@ theorem isConjLine_zpowers_mul_of_recOutTwD5 {G : Type} [Group G] [Finite G] {b�
     simp at this
   have hwt0 : wt (Pi.single (0 : Fin (5 + 1)) 1 + Pi.single (2 : Fin (5 + 1)) 1) ≤ 2 := by
     have h0 : (Pi.single (0 : Fin (5 + 1)) (1 : ZMod 3) : Coords (5 + 1)) 2 = 0 := by
-      rw [Pi.single_apply, if_neg (show ¬((2 : Fin (5 + 1)) = 0) by decide)]
+      rw [Pi.single_apply, ite_eq_right (show ¬((2 : Fin (5 + 1)) = 0) by decide)]
     rw [wt_add_single_of_apply_eq_zero (v := Pi.single (0 : Fin (5 + 1)) 1) (j := 2) h0,
       wt_pi_single_one]
   have hcoord0 : (Pi.single (0 : Fin (5 + 1)) 1 + Pi.single (2 : Fin (5 + 1)) 1 :
       Coords (5 + 1)) 0 ≠ 0 := by
     rw [Pi.add_apply, Pi.single_apply, Pi.single_apply,
-      if_pos rfl, if_neg (show ¬((0 : Fin (5 + 1)) = 2) by decide), add_zero]
+      ite_eq_left rfl, ite_eq_right (show ¬((0 : Fin (5 + 1)) = 2) by decide), add_zero]
     exact one_ne_zero
   have hline0 : IsConjLine b₀
       (B.line (Pi.single (0 : Fin (5 + 1)) 1 + Pi.single (2 : Fin (5 + 1)) 1)) :=

@@ -153,14 +153,14 @@ theorem exists_signedPerm_of_mem_normalizer_torus {K : Type} [Field K] [Finite K
   · refine ⟨ε, δ, true, hε, hδ, fun t => ?_⟩
     obtain ⟨i, hi⟩ := mem_zpowers_iff.1 (hgen (t 0))
     obtain ⟨j, hj⟩ := mem_zpowers_iff.1 (hgen (t 1))
-    rw [hW t, if_pos rfl]
+    rw [hW t, ite_eq_left rfl]
     refine congrArg _ (funext (Fin.forall_fin_two.2 ⟨?_, ?_⟩))
     · simp [tawe_apply W hi hj, h10, h20, ← hi, ← hj, ← _root_.zpow_mul, mul_comm]
     · simp [tawe_apply W hi hj, h11, h21, ← hi, ← hj, ← _root_.zpow_mul, mul_comm]
   · refine ⟨ε, δ, false, hε, hδ, fun t => ?_⟩
     obtain ⟨i, hi⟩ := mem_zpowers_iff.1 (hgen (t 0))
     obtain ⟨j, hj⟩ := mem_zpowers_iff.1 (hgen (t 1))
-    rw [hW t, if_neg Bool.false_ne_true]
+    rw [hW t, ite_eq_right Bool.false_ne_true]
     refine congrArg _ (funext (Fin.forall_fin_two.2 ⟨?_, ?_⟩))
     · simp [tawe_apply W hi hj, h10, h20, ← hi, ← hj, ← _root_.zpow_mul, mul_comm]
     · simp [tawe_apply W hi hj, h11, h21, ← hi, ← hj, ← _root_.zpow_mul, mul_comm]

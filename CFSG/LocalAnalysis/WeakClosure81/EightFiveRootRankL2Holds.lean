@@ -37,30 +37,24 @@ private theorem utriElt_mul_mul_utriElt_eq_inv {F : Type} [Field F] [CharP F 2]
   have htwo : (2 : F) = 0 := CharTwo.two_eq_zero
   apply CFSG.CGT.Timmesfeld75.sl2_ext
   · simp only [CFSG.CGT.Timmesfeld75.mul_apply_00, CFSG.CGT.Timmesfeld75.mul_apply_01,
-      CFSG.CGT.Timmesfeld75.mul_apply_10, CFSG.CGT.Timmesfeld75.mul_apply_11,
       CFSG.CGT.Timmesfeld75.utriElt_apply_00, CFSG.CGT.Timmesfeld75.utriElt_apply_01,
-      CFSG.CGT.Timmesfeld75.utriElt_apply_10, CFSG.CGT.Timmesfeld75.utriElt_apply_11,
-      CFSG.CGT.Timmesfeld75.inv_apply_00, one_mul, mul_one, zero_mul, mul_zero, zero_add, add_zero]
+      CFSG.CGT.Timmesfeld75.utriElt_apply_10, CFSG.CGT.Timmesfeld75.inv_apply_00, one_mul, mul_one, mul_zero, add_zero]
     linear_combination hs + (x : Matrix (Fin 2) (Fin 2) F) 0 0 * htwo
   · simp only [CFSG.CGT.Timmesfeld75.mul_apply_00, CFSG.CGT.Timmesfeld75.mul_apply_01,
-      CFSG.CGT.Timmesfeld75.mul_apply_10, CFSG.CGT.Timmesfeld75.mul_apply_11,
       CFSG.CGT.Timmesfeld75.utriElt_apply_00, CFSG.CGT.Timmesfeld75.utriElt_apply_01,
-      CFSG.CGT.Timmesfeld75.utriElt_apply_10, CFSG.CGT.Timmesfeld75.utriElt_apply_11,
-      CFSG.CGT.Timmesfeld75.inv_apply_01, one_mul, mul_one, zero_mul, mul_zero, zero_add, add_zero]
+      CFSG.CGT.Timmesfeld75.utriElt_apply_11,
+      CFSG.CGT.Timmesfeld75.inv_apply_01, one_mul, mul_one]
     linear_combination s * hs +
       (s * ((x : Matrix (Fin 2) (Fin 2) F) 0 0 + (x : Matrix (Fin 2) (Fin 2) F) 1 1) +
         (x : Matrix (Fin 2) (Fin 2) F) 0 1) * htwo
-  · simp only [CFSG.CGT.Timmesfeld75.mul_apply_00, CFSG.CGT.Timmesfeld75.mul_apply_01,
-      CFSG.CGT.Timmesfeld75.mul_apply_10, CFSG.CGT.Timmesfeld75.mul_apply_11,
-      CFSG.CGT.Timmesfeld75.utriElt_apply_00, CFSG.CGT.Timmesfeld75.utriElt_apply_01,
-      CFSG.CGT.Timmesfeld75.utriElt_apply_10, CFSG.CGT.Timmesfeld75.utriElt_apply_11,
+  · simp only [CFSG.CGT.Timmesfeld75.mul_apply_10, CFSG.CGT.Timmesfeld75.mul_apply_11,
+      CFSG.CGT.Timmesfeld75.utriElt_apply_00, CFSG.CGT.Timmesfeld75.utriElt_apply_10, CFSG.CGT.Timmesfeld75.utriElt_apply_11,
       CFSG.CGT.Timmesfeld75.inv_apply_10, one_mul, mul_one, zero_mul, mul_zero, zero_add, add_zero]
     rw [CharTwo.neg_eq]
-  · simp only [CFSG.CGT.Timmesfeld75.mul_apply_00, CFSG.CGT.Timmesfeld75.mul_apply_01,
-      CFSG.CGT.Timmesfeld75.mul_apply_10, CFSG.CGT.Timmesfeld75.mul_apply_11,
-      CFSG.CGT.Timmesfeld75.utriElt_apply_00, CFSG.CGT.Timmesfeld75.utriElt_apply_01,
+  · simp only [CFSG.CGT.Timmesfeld75.mul_apply_10, CFSG.CGT.Timmesfeld75.mul_apply_11,
+      CFSG.CGT.Timmesfeld75.utriElt_apply_01,
       CFSG.CGT.Timmesfeld75.utriElt_apply_10, CFSG.CGT.Timmesfeld75.utriElt_apply_11,
-      CFSG.CGT.Timmesfeld75.inv_apply_11, one_mul, mul_one, zero_mul, mul_zero, zero_add, add_zero]
+      CFSG.CGT.Timmesfeld75.inv_apply_11, one_mul, mul_one, zero_mul, zero_add]
     linear_combination hs + (x : Matrix (Fin 2) (Fin 2) F) 1 1 * htwo
 
 private theorem exists_involution_mul_mul_eq_inv {F : Type} [Field F] [CharP F 2]
@@ -132,7 +126,7 @@ private theorem le_modCommRank_of_orderOf_eq_two_pow_add_one {Y : Type} [Group Y
     n ≤ modCommRank (σ t) := by
   obtain ⟨p, hpp⟩ :=
     CFSG.Timmesfeld.exists_isPrimitivePrimeDivisor (k := 2 * n) (by omega) (by omega)
-  haveI : Fact p.Prime := ⟨hpp.prime⟩
+  have : Fact p.Prime := ⟨hpp.prime⟩
   have hp2 : p ≠ 2 := hpp.ne_two (by omega)
   have hpdvd : p ∣ 2 ^ n + 1 := by
     rw [hpp.dvd_add_one_iff (by omega) n]
@@ -180,8 +174,8 @@ private theorem le_modCommRank_of_orderOf_eq_two_pow_add_one {Y : Type} [Group Y
 
 theorem l2IrreducibleRank_holds : L2IrreducibleRank := by
   intro Y _ n hn hY F _ _ _ σ _ t ht hσt
-  haveI : Finite Y := finite_of_isL2Gp hY
-  haveI : IsSimpleGroup Y := isSimpleGroup_of_isL2Gp hn hY
+  have : Finite Y := finite_of_isL2Gp hY
+  have : IsSimpleGroup Y := isSimpleGroup_of_isL2Gp hn hY
   have hker : σ.ker = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (σ.ker) with h | h
     · exact h
@@ -195,8 +189,8 @@ theorem l2IrreducibleRank_holds : L2IrreducibleRank := by
   have hσinj : Function.Injective σ := MonoidHom.ker_eq_bot_iff σ |>.mp hker
   have ht1 : t ≠ 1 := fun h1 => hσt (by rw [h1, map_one])
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hY
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by
       rw [← Nat.card_eq_fintype_card, hKcard])
   have het : e t * e t = 1 := by rw [← map_mul, ht, map_one]

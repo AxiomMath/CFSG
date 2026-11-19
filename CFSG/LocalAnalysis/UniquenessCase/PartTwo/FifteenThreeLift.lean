@@ -37,7 +37,7 @@ private theorem s15_Three_eq_of_card_eq_three_of_pRank_le_one {H : Type*} [Group
     {Q A B : Subgroup H} (hQ : IsPGroup 3 Q) (hr : CFSG.Open.pRank 3 Q ≤ 1)
     (hAQ : A ≤ Q) (hBQ : B ≤ Q) (hA : Nat.card A = 3) (hB : Nat.card B = 3) :
     A = B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨C, hCQ, hCp, hCc⟩ : ∃ C : Subgroup H, C ≤ Q ∧ Nat.card C = 3 ∧
       ∀ c ∈ C, ∀ q ∈ Q, c * q = q * c := by
     have hnt : Nontrivial Q := by
@@ -72,8 +72,8 @@ private theorem s15_Three_eq_of_card_eq_three_of_pRank_le_one {H : Type*} [Group
     have hf : Function.Injective (X.subtype.noncommCoprod C.subtype hcomm) :=
       (MonoidHom.noncommCoprod_injective _ _ _).mpr
         ⟨X.subtype_injective, C.subtype_injective, by simpa [disjoint_iff] using hdisj⟩
-    haveI hXcyc : IsCyclic X := isCyclic_of_prime_card hXp
-    haveI hCcyc : IsCyclic C := isCyclic_of_prime_card hCp
+    have hXcyc : IsCyclic X := isCyclic_of_prime_card hXp
+    have hCcyc : IsCyclic C := isCyclic_of_prime_card hCp
     have h2 := CFSG.SectionRank.le_pRank_of_injective (p := 3) (by norm_num)
       (A := ↥X × ↥C) (k := 2)
       (fun a b => Prod.ext (mul_comm' a.1 b.1) (mul_comm' a.2 b.2))
@@ -90,12 +90,12 @@ private theorem s15_Three_exists_conj_le {H : Type*} [Group H] [Finite H]
     (h1 : CFSG.Open.pRank 3 (⊤ : Subgroup H) ≤ 1)
     {A B : Subgroup H} (hA : Nat.card A = 3) (hB : Nat.card B = 3) :
     ∃ h : H, B.map (MulAut.conj h).toMonoidHom ≤ A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAp : IsPGroup 3 A := IsPGroup.of_card (n := 1) (by rw [hA, pow_one])
   have hBp : IsPGroup 3 B := IsPGroup.of_card (n := 1) (by rw [hB, pow_one])
   obtain ⟨P, hAP⟩ := hAp.exists_le_sylow
   obtain ⟨Q, hBQ⟩ := hBp.exists_le_sylow
-  haveI : Finite (Sylow 3 H) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 3 H) := Sylow.finite_of_finiteIndex P
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq H Q P
   have hPmap : (P : Subgroup H) = Q.map (MulAut.conj g).toMonoidHom := by
     rw [← s15_Three_sylow_conj g Q]
@@ -109,7 +109,7 @@ private theorem s15_Three_exists_conj_le {H : Type*} [Group H] [Finite H]
   have hcard : Nat.card (B.map (MulAut.conj g).toMonoidHom) = 3 := by
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, hB]
   have heq : B.map (MulAut.conj g).toMonoidHom = A :=
-    s15_Three_eq_of_card_eq_three_of_pRank_le_one P.isPGroup' hPrank hBconj hAP hcard hA
+    s15_Three_eq_of_card_eq_three_of_pRank_le_one P.isPGroup hPrank hBconj hAP hcard hA
   exact ⟨g, heq.le⟩
 
 theorem s15_Three_lift_nine {M H : Type} [Group M] [Finite M] [Group H] [Finite H]
@@ -182,7 +182,7 @@ theorem s15_Three_conj_order_three {H : Type} [Group H] [Finite H]
     (∀ B : Subgroup H, IsElemAbelian 3 B → Nat.card B ≤ 3) ∧
       ∀ A B : Subgroup H, IsElemAbelian 3 A → Nat.card A = 3 → IsElemAbelian 3 B →
         Nat.card B = 3 → ∃ h : H, B.map (MulAut.conj h).toMonoidHom ≤ A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨?_, ?_⟩
   · intro B hB
     have hBp : IsPGroup 3 B := hB.isPGroup

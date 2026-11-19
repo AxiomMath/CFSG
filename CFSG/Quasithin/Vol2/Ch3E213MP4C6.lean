@@ -45,7 +45,7 @@ theorem qrc_unitary_pair
   set S := (T : Subgroup H).map π with hSdef
   set B := M.map π with hBdef
   set E := V.map π with hEdef
-  have hS2 : IsPGroup 2 S := T.isPGroup'.map π
+  have hS2 : IsPGroup 2 S := T.isPGroup.map π
   have hSsyl : IsSylowOf 2 S ⊤ := isSylowOf_iff.2 ⟨le_top, hS2, by
     rw [relIndex_top_right, hSdef, ← Sylow.coe_mapSurjective hπs T]
     exact (T.mapSurjective hπs).not_dvd_index⟩
@@ -57,13 +57,13 @@ theorem qrc_unitary_pair
   have hCK' : ∀ a : H ⧸ D, (∀ x ∈ K, a * x = x * a) → a = 1 := hCK
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, ⟨SP, hSP⟩, -⟩ :=
     unitary_three_point_structure J n hn hcard hfixed hJ
-  obtain ⟨θ, hθU, hθN⟩ := exists_mulEquiv_map_sylow θ₀ U₁.isPGroup' U₁.not_dvd_index
-    (hSP ▸ SP.isPGroup') (hSP ▸ SP.not_dvd_index)
+  obtain ⟨θ, hθU, hθN⟩ := exists_mulEquiv_map_sylow θ₀ U₁.isPGroup U₁.not_dvd_index
+    (hSP ▸ SP.isPGroup) (hSP ▸ SP.not_dvd_index)
   rw [normalizer_root_eq J hn hcard hfixed hJ] at hθN
   have hco : IsCoatom (normalizer ((U₁ : Subgroup K) : Set K)) := by
     rw [← map_symm_eq_of_map_eq θ hθN]
     exact (OrderIso.isCoatom_iff θ.symm.mapSubgroup _).2 (isCoatom_stabilizer J hn hcard hfixed hJ)
-  obtain ⟨hBK, hBN⟩ := borel_eq_of_isCoatom hU₁ U₁.isPGroup' U₁.not_dvd_index hco hKS hSB hBtop
+  obtain ⟨hBK, hBN⟩ := borel_eq_of_isCoatom hU₁ U₁.isPGroup U₁.not_dvd_index hco hKS hSB hBtop
     hBmax
   have hRK := pCore_le_of_unitary hCK' hS2 hSB hU₁ U₁.not_dvd_index hBK hBN J hn hcard hfixed hJ
     θ hθU hθN

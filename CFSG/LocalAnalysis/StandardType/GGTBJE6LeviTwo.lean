@@ -24,7 +24,7 @@ theorem e6Two_referenceFrame
     {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 2) :
     ∃ D : ExcFrames.E6QPlusThree.E6QPlusThreeFrame K, GGF4LeviFrame 3 D.frame.range := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card K + 1 := by rw [hK]
   obtain ⟨Fr, g0, ζ, hζ, D, hFr, hg0C, hg0, hζo, hFrζ, hsurj, hcoord⟩ :=
     ExcFrames.E6QPlusThree.exists_e6QPlusThreeFrame_with_coordinates h3

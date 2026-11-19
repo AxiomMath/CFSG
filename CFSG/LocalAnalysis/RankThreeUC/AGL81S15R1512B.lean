@@ -21,7 +21,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem center_comap_eq_of_central_ext {K S : Type*} [Group K] [Group S]
     (hK : commutator K = ⊤) (f : K →* S) (hf : Function.Surjective f)
     (hker : f.ker ≤ Subgroup.center K) : (Subgroup.center S).comap f = Subgroup.center K := by
-  haveI : Group.IsPerfect K := ⟨hK⟩
+  have : Group.IsPerfect K := ⟨hK⟩
   exact CFSG.Wreathed.DegreeThreeModelFullCenter.center_comap_eq_of_perfect_image (MonoidHom.id K) f hf hker
     (Subgroup.center K) le_rfl (fun g hg => Subgroup.mem_center_iff.2 fun x => (hg x).symm.eq)
 
@@ -103,7 +103,7 @@ section Datum
 
 variable {X : Type} [Group X] [Finite X]
 
-@[expose] def AltRanks (T L : Subgroup X) (n : ℕ) : Prop :=
+@[expose] def AltRanks (_T L : Subgroup X) (n : ℕ) : Prop :=
   ∀ r : ℕ, r.Prime → r ≠ 2 → CFSG.Open.pRank r L = n / r
 
 @[expose] def RankDatum (T L : Subgroup X) (Ls : Subgroup (X ⧸ gnC T)) : Prop :=

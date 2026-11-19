@@ -34,7 +34,7 @@ theorem mem_sylow_of_forall_comm (P : Sylow 2 Y) {z : Y} (hz : z * z = 1)
     have hz' : z ∈ centralizer ((P : Subgroup Y) : Set Y) := mem_centralizer_iff.2 hc
     exact centralizer_le_normalizer (P : Subgroup Y) hz'
   have hsup := (isPGroup_zpowers_of_mul_self_eq_one hz).to_sup_of_normal_right'
-    (P.isPGroup' : IsPGroup 2 (P : Subgroup Y)) hnorm
+    (P.isPGroup : IsPGroup 2 (P : Subgroup Y)) hnorm
   obtain ⟨Q, hQ⟩ := hsup.exists_le_sylow
   have hPQ : (P : Subgroup Y) ≤ Q := le_trans le_sup_right hQ
   have hcard : Nat.card (Q : Subgroup Y) ≤ Nat.card (P : Subgroup Y) := by
@@ -73,7 +73,7 @@ theorem exists_conj_commute_of_le_centralizer (P : Sylow 2 Y) {a : Y}
 
 theorem exists_involution_mem_center_sylow (P : Sylow 2 Y) (hY : 2 ∣ Nat.card Y) :
     ∃ z : Y, z ∈ (P : Subgroup Y) ∧ (∀ p ∈ (P : Subgroup Y), p * z = z * p) ∧ orderOf z = 2 := by
-  have hP : IsPGroup 2 (P : Subgroup Y) := P.isPGroup'
+  have hP : IsPGroup 2 (P : Subgroup Y) := P.isPGroup
   have hntP : Nontrivial (P : Subgroup Y) := by
     refine (Subgroup.nontrivial_iff_ne_bot _).2 fun h => ?_
     have hc : Nat.card (P : Subgroup Y) = 2 ^ (Nat.card Y).factorization 2 :=

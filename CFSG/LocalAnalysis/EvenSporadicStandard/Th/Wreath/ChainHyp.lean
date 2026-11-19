@@ -20,16 +20,19 @@ structure ChainHyp (L A D : Subgroup G) (t : G) (F : Subgroup G) : Prop where
   conj_t_mem : ∀ x ∈ F, t * x * t⁻¹ ∈ F
   mem_of_sq_eq_one : ∀ x ∈ F, x ^ 2 = 1 → x ∈ D
 
+omit [Finite G] in
 theorem ChainHyp.conj_mem {F : Subgroup G} (hF : ChainHyp L A D t F) :
     ∀ n ∈ L ⊓ normalizer (A : Set G), ∀ x ∈ F, n * x * n⁻¹ ∈ F :=
   hF.typeA.conj_mem
 
+omit [Finite G] in
 theorem ChainHyp.pgroup (W : ThLocalIn L S A B z) {F : Subgroup G} (hF : ChainHyp L A D t F) :
     IsPGroup 2 F := by
   obtain ⟨r, hr⟩ := hF.typeA.exists_card_eq W
   rw [Subgroup.card_bot, mul_one] at hr
   exact IsPGroup.of_card (n := 4 * r) (by rw [hr, pow_mul]; norm_num)
 
+omit [Finite G] in
 theorem ChainHyp.qHyp (W : ThLocalIn L S A B z) {F : Subgroup G} (hF : ChainHyp L A D t F)
     (hmax : ∀ Y : Subgroup G, Y ≤ centralizer (D : Set G) → IsPGroup 2 Y → F ≤ Y → Y ≤ F) :
     QHyp L A D t F :=
@@ -40,10 +43,10 @@ theorem ThCyc.chainHyp_D (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (h4 : ∀ d ∈ D, d ^ 4 = 1) :
     ChainHyp L A D t D where
   D_le := le_rfl
-  le_centralizer := fun x hx => mem_centralizer_iff.2 fun y hy => hD.comm y hy x hx
+  le_centralizer := fun _x hx => mem_centralizer_iff.2 fun y hy => hD.comm y hy _x hx
   comm := hD.comm
   typeA := H.isTypeA_bot_D W W2 hD h4
-  conj_t_mem := fun x hx => hD.norm t (H.t_mem_normalizer W W2 hD) x hx
-  mem_of_sq_eq_one := fun x hx _ => hx
+  conj_t_mem := fun _x hx => hD.norm t (H.t_mem_normalizer W W2 hD) _x hx
+  mem_of_sq_eq_one := fun _x hx _ => hx
 
 end CFSG.EvenSporadicStandard.ThStd

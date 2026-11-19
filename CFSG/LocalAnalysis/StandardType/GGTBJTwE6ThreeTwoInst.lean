@@ -34,7 +34,7 @@ theorem ggTwE6Three_frameClass_of_tb_one
 theorem ggTwE6Three_comp_invariant_one
     {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ 1) ^ 2) {L' : Type} [Group L'] [Finite L']
-    {ψ₀ : L' →* TwE6Delta.RecipeR K 1} (hodd : Odd (Nat.card ψ₀.ker))
+    {ψ₀ : L' →* TwE6Delta.RecipeR K 1} (_hodd : Odd (Nat.card ψ₀.ker))
     {A : Subgroup (MulAut L')}
     (hTB : GGTorusTBGroup 3 5 (TwE6Delta.RecipeR K 1) (TwE6Delta.RecipeI K 1) L' ψ₀ A)
     (y : ↥A) (J : Subgroup L') (hy1 : y ≠ 1)

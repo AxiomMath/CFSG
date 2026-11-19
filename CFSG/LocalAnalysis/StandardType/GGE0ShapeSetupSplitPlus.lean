@@ -147,13 +147,13 @@ theorem split_setup_plus
       (∀ d ∈ S.D.model, (∀ x : S.Γ, d * (x : ModGL Tag.E6 (AlgebraicClosure (GaloisField 2 f))) *
         d⁻¹ = x) → d = 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 f
   let L := AlgebraicClosure K
   have hK : Nat.card K = 2 ^ f := GaloisField.card 2 f (by omega)
   have hfne : f ≠ 0 := by omega
-  haveI hcharK : CharP K 2 := inferInstance
-  haveI hcharL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have hcharK : CharP K 2 := inferInstance
+  have hcharL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective _
   let Fr : L →+* L := iterateFrobenius L 2 f
   have hFr : ∀ c : L, Fr c = c ^ 2 ^ f := fun c => iterateFrobenius_def 2 f c
   let D : LangDatum Tag.E6 L :=
@@ -280,7 +280,7 @@ theorem split_setup_plus
     rw [hc, map_mul, map_mul, map_inv]
   have hdmodel : ∀ b : Fin Tag.E6.rank → Kˣ,
       baseChangeGL (algebraMap K L) (rootDiagUnit Tag.E6 b) ∈ S.D.model := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     intro b
     change baseChangeGL (algebraMap K L) (rootDiagUnit Tag.E6 b) ∈ D.model
     rw [D.mem_model]
@@ -295,7 +295,7 @@ theorem split_setup_plus
       congr 1
       funext i
       apply Units.ext
-      simp only [Units.coe_map, MonoidHom.coe_comp, Function.comp_apply]
+      simp only [Units.coe_map]
       change Fr (algebraMap K L (b i)) = algebraMap K L (b i)
       rw [hFr, ← map_pow, ← hK, Nat.card_eq_fintype_card, FiniteField.pow_card]
   have hdict : ∀ φ ∈ (MulAut.conj : adjointGroup Tag.E6 K →*

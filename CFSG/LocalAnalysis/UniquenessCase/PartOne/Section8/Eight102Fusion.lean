@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 private lemma isSylowOf_top_of_sylow {r : ℕ} [Fact r.Prime] (P : Sylow r G) :
     IsSylowOf r (P : Subgroup G) ⊤ := by
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact P.not_dvd_index
 
@@ -34,7 +34,7 @@ private lemma exists_sylow_coe_eq_of_isSylowOf_top {r : ℕ} [Fact r.Prime] {S :
 private lemma isPGroup_le_of_mem_uniqueSet {r : ℕ} (hr : r.Prime) {M S X T : Subgroup G}
     (hS : IsSylowOf r S ⊤) (hSM : S ≤ M) (hX : X ∈ uniqueSet M) (hXT : X ≤ T)
     (hT : IsPGroup r T) : T ≤ M := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   obtain ⟨R, hTR⟩ := hT.exists_le_sylow
   obtain ⟨k, -, hk⟩ :=
     CFSG.RankThree.PartTwo.Sec12.isSylowOf_exists_conj hS (isSylowOf_top_of_sylow R)
@@ -46,6 +46,7 @@ private lemma isPGroup_le_of_mem_uniqueSet {r : ℕ} (hr : r.Prime) {M S X T : S
     _ ≤ M.map (MulAut.conj k).toMonoidHom := Subgroup.map_mono hSM
     _ = M := hMk
 
+omit [Finite G] in
 private lemma mem_of_map_conj_le_of_mem_uniqueSet {M X : Subgroup G} {m : G}
     (hM : rankThreeIsMaxTwoLocal M) (hX : X ∈ uniqueSet M)
     (h : X.map (MulAut.conj m).toMonoidHom ≤ M) : m ∈ M := by
@@ -67,6 +68,7 @@ private lemma mem_of_map_conj_le_of_mem_uniqueSet {M X : Subgroup G} {m : G}
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr hMm
   rwa [CFSG.RankThreeCoreUniqueness.Helpers.maxTwoLocal_self_normalizing M hM] at hnorm
 
+omit [Finite G] in
 private lemma le_centralizer_conj_of_le_centralizer {S X : Subgroup G} {x g : G} (hx : x ∈ S)
     (hgx : g * x * g⁻¹ ∈ S) (hXleC : X ≤ centralizer (S : Set G)) :
     X ≤ centralizer ({g * x * g⁻¹} : Set G) ∧
@@ -96,7 +98,7 @@ private lemma exists_mem_centralizer_map_conj_le {r : ℕ} (hr : r.Prime) {M S X
     (hXgcent : X.map (MulAut.conj g).toMonoidHom ≤ centralizer ({g * x * g⁻¹} : Set G)) :
     ∃ c ∈ centralizer ({g * x * g⁻¹} : Set G),
       X.map (MulAut.conj (c⁻¹ * g)).toMonoidHom ≤ M := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   set C : Subgroup G := centralizer ({g * x * g⁻¹} : Set G) with hC
   obtain ⟨Q₁, hXQ₁⟩ := (hXpg.comap_subtype (K := C)).exists_le_sylow
   let R₁ : Subgroup G := (Q₁ : Subgroup ↥C).map C.subtype
@@ -138,7 +140,7 @@ private lemma exists_mem_centralizer_map_conj_le {r : ℕ} (hr : r.Prime) {M S X
 theorem isSylowOf_top_of_mem_uniqueSet {M S X : Subgroup G} {r : ℕ} (hr : r.Prime)
     (hM : rankThreeIsMaxTwoLocal M) (hS : IsSylowOf r S M) (hX : X ∈ uniqueSet M)
     (hXS : X ≤ S) : IsSylowOf r S ⊤ := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   have hSX : S ∈ uniqueSet M :=
     CFSG.LocalAnalysis.RankThreeUC.mem_uniqueSet_of_le hX hXS hS.le
   have hN : normalizer (S : Set G) ≤ M :=
@@ -158,10 +160,10 @@ theorem isSylowOf_top_of_mem_uniqueSet {M S X : Subgroup G} {r : ℕ} (hr : r.Pr
     refine CFSG.GorensteinWalter.sylow_intersection_not_le_of_inner_normalizer_le P S M hPnotS ?_
     rw [inf_eq_right.mpr hSP]
     exact inf_le_right.trans hN
-  obtain ⟨z, hzPM, hzS⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨z, hzPM, hzS⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hQle : S ⊔ ((P : Subgroup G) ⊓ M) ≤ M := sup_le hS.le inf_le_right
   have hQpg : IsPGroup r ↥(S ⊔ ((P : Subgroup G) ⊓ M)) :=
-    (Sylow.isPGroup' P).to_le (sup_le hSP inf_le_left)
+    (Sylow.isPGroup P).to_le (sup_le hSP inf_le_left)
   have hQeq : S ⊔ ((P : Subgroup G) ⊓ M) = S :=
     IsSylowOf.eq_of_le hS le_sup_left hQle hQpg
   have hzQ : z ∈ S ⊔ ((P : Subgroup G) ⊓ M) := Subgroup.mem_sup_right hzPM
@@ -172,7 +174,7 @@ theorem exists_conj_eq_of_mem_uniqueSet {M S X : Subgroup G} {r : ℕ} (hr : r.P
     (hM : rankThreeIsMaxTwoLocal M) (hS : IsSylowOf r S ⊤) (hSM : S ≤ M)
     (hX : X ∈ uniqueSet M) (hXS : X ≤ S ⊓ centralizer (S : Set G)) {x g : G} (hx : x ∈ S)
     (hgx : g * x * g⁻¹ ∈ S) : ∃ m ∈ M, g * x * g⁻¹ = m * x * m⁻¹ := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   have hXleS : X ≤ S := hXS.trans inf_le_left
   have hXleC : X ≤ centralizer (S : Set G) := hXS.trans inf_le_right
   have hXpg : IsPGroup r X := hS.isPGroup.to_le hXleS
@@ -195,7 +197,7 @@ theorem le_commutator_of_control {M S : Subgroup G} {r : ℕ} (hr : r.Prime)
     (hG : commutator G = ⊤) (hS : IsSylowOf r S ⊤) (hSM : S ≤ M)
     (hctl : ∀ x ∈ S, ∀ g : G, g * x * g⁻¹ ∈ S → ∃ m ∈ M, g * x * g⁻¹ = m * x * m⁻¹) :
     S ≤ ⁅M, M⁆ := by
-  haveI := Fact.mk hr
+  have := Fact.mk hr
   obtain ⟨P, hP⟩ := exists_sylow_coe_eq_of_isSylowOf_top hS
   have hfocal := CFSG.sylow_inf_derivedSubgroup_eq_focalSubgroup (G := G) r P
   have hder : CFSG.derivedSubgroup G = ⊤ := by

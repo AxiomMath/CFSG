@@ -142,7 +142,7 @@ theorem exists_luSylow' [Finite F] {M : ModelData F} (hG : GoodModel M) (hF : LU
     obtain ⟨p, hp⟩ := blockScalar_of_cent_E hG hsC hcomm
     have hsB : s ∈ BSsub M := ⟨p, hp⟩
     have hs2 : ∃ i : ℕ, s ^ 2 ^ i = 1 := by
-      obtain ⟨i, hi⟩ := S.isPGroup' ⟨s, hs⟩
+      obtain ⟨i, hi⟩ := S.isPGroup ⟨s, hs⟩
       exact ⟨i, by have := congrArg Subtype.val hi; simpa using this⟩
     rcases hcs s hsB hs2 with rfl | rfl
     · exact Subgroup.one_mem _

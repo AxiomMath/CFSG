@@ -257,7 +257,7 @@ private theorem natCard_mat_two [Finite F] (hF : Nat.card F = 4) :
 
 theorem card_mul_pow_of_rkIdx {G : Type} [Group G] [Finite G] (H : Subgroup G)
     (hG : Nat.card G = 2 ^ 8) : Nat.card H * 2 ^ rkIdx H = 2 ^ 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : H.index ∣ 2 ^ 8 := hG ▸ H.index_dvd_card
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
   have hk : rkIdx H = j := by rw [rkIdx, hj, padicValNat.prime_pow]
@@ -430,6 +430,7 @@ private theorem isFTransvection_of_mat (g : Matrix (Fin 2) (Fin 2) F ≃ₗ[F] M
     rw [LinearMap.comp_apply, LinearMap.zero_apply, hEx, hEx, LinearEquiv.apply_symm_apply, hnn,
       map_zero]
 
+omit [Field F] in
 theorem natCard_fin4_fun [Finite F] (hF : Nat.card F = 4) :
     Nat.card (Fin 4 → F) = 2 ^ 8 := by
   rw [Nat.card_fun, Nat.card_fin, hF]

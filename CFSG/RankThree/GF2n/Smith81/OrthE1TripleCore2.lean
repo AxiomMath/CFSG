@@ -21,7 +21,7 @@ theorem triple_core_free [Finite K] [CharP K 2] (hKF11a : Sp4InvolutionStatement
   obtain ⟨hκ, hN'row⟩ := D.claimB hKF11a hK
   have hline := D.claimC hKF11a hK
   subst hκ
-  haveI := D.hAsimple
+  have := D.hAsimple
   have hcomm := ct2_free hK 𝔸 D.hAO D.hAc (fun 𝒦 h1 h2 => fu_eq_bot_or_eq h1 h2) D.hy hline
     D.hAcard hbound
   refine ⟨rfl, hN'row, hline, ?_⟩

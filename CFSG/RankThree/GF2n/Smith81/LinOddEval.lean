@@ -41,7 +41,7 @@ theorem exists_nonswap {T V₁ V₂ : Subgroup G} (hT4 : 4 ≤ Nat.card T)
     have h2 : orderOf t₁ ≤ 2 :=
       orderOf_le_of_pow_eq_one (by norm_num) (by rw [pow_two]; exact hT2 t₁ ht₁)
     omega
-  obtain ⟨t₂, ht₂T, ht₂⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨t₂, ht₂T, ht₂⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have ht₂1 : t₂ ≠ 1 := fun h => ht₂ (h ▸ Subgroup.one_mem _)
   have ht₃1 : t₁ * t₂ ≠ 1 := by
     intro h

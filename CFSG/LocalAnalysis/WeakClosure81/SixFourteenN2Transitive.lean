@@ -42,7 +42,7 @@ theorem hGL_mem_center_of_scalar {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     hGL hw2 x hx3 hfix h hcomm hW ∈
       Subgroup.center (Matrix.GeneralLinearGroup (Fin 2) (GaloisField 2 2)) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let e := galoisEquivFun hw2 x hx3 hfix hW
   have hM : ∀ u : Fin 2 → GaloisField 2 2,
       Matrix.mulVec (hGL hw2 x hx3 hfix h hcomm hW : Matrix (Fin 2) (Fin 2) (GaloisField 2 2)) u
@@ -62,7 +62,7 @@ theorem card_units_galoisField_two_two :
 
 theorem card_GL_two_galoisField_two :
     Nat.card (Matrix.GeneralLinearGroup (Fin 2) (GaloisField 2 2)) = 180 := by
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 2 2) = 4 := by
     rw [Fintype.card_eq_nat_card, GaloisField.card 2 2 (by norm_num)]
     norm_num
@@ -142,8 +142,8 @@ theorem isNatGL4_or_card_thirty_of_transitive {W : Type} [CommGroup W] [Finite W
     IsNatGL4 W H 2 ∨ Nat.card H = 30 := by
   subst hH
   classical
-  letI := galoisModule hw2 x hx3 hfix
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let := galoisModule hw2 x hx3 hfix
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   let H : Subgroup (MulAut W) :=
     G ⊓ Subgroup.centralizer (X : Set (MulAut W))
   let f : ↥H →* Matrix.GeneralLinearGroup (Fin 2) (GaloisField 2 2) :=
@@ -160,14 +160,14 @@ theorem isNatGL4_or_card_thirty_of_transitive {W : Type} [CommGroup W] [Finite W
       hGL hw2 x hx3 hfix d hcd hW = 1 → d = 1 := by
     intro d hcd h1
     by_contra hne
-    letI := galoisModule hw2 x hx3 hfix
+    let := galoisModule hw2 x hx3 hfix
     let b := galoisBasis hw2 x hx3 hfix hW
     have hfixb : ∀ j : Fin 2,
         hGaloisLinearEquiv hw2 x hx3 hfix d hcd (b j) = b j := by
       intro j
       rw [hGaloisLinearEquiv_apply]
       rw [hGL_expansion hw2 x hx3 hfix hW hcd j, h1]
-      simp [b, Matrix.GeneralLinearGroup.coe_one, Matrix.one_apply]
+      simp [b, Matrix.one_apply]
     have hL : hGaloisLinearEquiv hw2 x hx3 hfix d hcd = 1 := by
       apply b.ext'
       intro j
@@ -343,15 +343,15 @@ theorem isNatGL4_or_card_thirty_of_transitive {W : Type} [CommGroup W] [Finite W
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZle).toEquiv
     rw [← hZcard, ← hZsubcard]
     exact ((Subgroup.zpowers d).subgroupOf H).card_subgroup_dvd_card
-  haveI : Fintype ↥H := Fintype.ofFinite _
+  have : Fintype ↥H := Fintype.ofFinite _
   have hcard5 : Nat.card (LineOf (K := GaloisField 2 2) (V := Additive W)) = 5 :=
     card_f4Line hw2 x hx3 hfix hW
-  haveI : Fintype (LineOf (K := GaloisField 2 2) (V := Additive W)) := Fintype.ofFinite _
-  haveI : Nonempty (LineOf (K := GaloisField 2 2) (V := Additive W)) := by
+  have : Fintype (LineOf (K := GaloisField 2 2) (V := Additive W)) := Fintype.ofFinite _
+  have : Nonempty (LineOf (K := GaloisField 2 2) (V := Additive W)) := by
     rw [← Fintype.card_pos_iff, Fintype.card_eq_nat_card, hcard5]
     norm_num
   let L₀ : LineOf (K := GaloisField 2 2) (V := Additive W) := Classical.arbitrary _
-  letI : MulAction ↥H (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
+  let : MulAction ↥H (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
   { smul := fun h L => lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L
     one_smul := by
       intro L
@@ -381,8 +381,8 @@ theorem isNatGL4_or_card_thirty_of_transitive {W : Type} [CommGroup W] [Finite W
     intro M
     rw [MulAction.mem_orbit_iff]
     exact htrans L₀ M
-  haveI : Fintype (MulAction.orbit ↥H L₀) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer ↥H L₀) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit ↥H L₀) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥H L₀) := Fintype.ofFinite _
   have hcard_orbit : Nat.card (MulAction.orbit ↥H L₀) = 5 := by
     calc Nat.card (MulAction.orbit ↥H L₀)
         = Nat.card (Set.univ : Set (LineOf (K := GaloisField 2 2) (V := Additive W))) :=

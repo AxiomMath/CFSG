@@ -78,7 +78,7 @@ private theorem nk_rep_aux {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Fini
       exact inferInstance
     · simpa using htop
   have hiso : IsIsotypicOfType A W ↥X := IsIsotypicOfType.of_isotypicComponent_eq_top htop
-  haveI : Module.Finite A W := Module.Finite.of_finite
+  have : Module.Finite A W := Module.Finite.of_finite
   obtain ⟨d, ⟨ε⟩⟩ := hiso.linearEquiv_fun
   have hG' : ∀ g ∈ Gg, ∀ a ∈ A,
       (g : Module.End (ZMod 2) W) * a = a * (g : Module.End (ZMod 2) W) := by
@@ -146,7 +146,7 @@ theorem nk_rep_main {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
       have hmin : Nat.find hex ≤ Module.finrank (ZMod 2) Q :=
         Nat.find_min' hex ⟨Q, hQP.trans hPle, hQ0, hQinv, rfl⟩
       omega
-  haveI hsimp : IsSimpleModule (algOf Sg) ↥(toSubmoduleA Sg P hPinv) :=
+  have hsimp : IsSimpleModule (algOf Sg) ↥(toSubmoduleA Sg P hPinv) :=
     nk_isSimple hPne hPinv hPmin
   have hXc : Nat.card ↥(toSubmoduleA Sg P hPinv) = Nat.card ↥P :=
     Nat.card_congr (Equiv.subtypeEquivRight fun _ => Iff.rfl)
@@ -159,7 +159,7 @@ theorem nk_rep_main {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     · left
       rw [hXc, hPcard, h1, pow_one]
     · right
-      refine ⟨by rw [hXc, hPcard, h4] <;> norm_num, ?_⟩
+      refine ⟨by rw [hXc, hPcard, h4]; norm_num, ?_⟩
       exact ⟨(s : Module.End (ZMod 2) W), mem_algOf_of_mem Sg hs,
         (s' : Module.End (ZMod 2) W), mem_algOf_of_mem Sg hs', w, hwP, hsw⟩
   exact nk_rep_aux h (algOf Sg) rfl (toSubmoduleA Sg P hPinv) (fun x hx => hPle hx) hcard

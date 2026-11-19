@@ -59,14 +59,14 @@ private theorem le_normalizer_of_normal' (N : Subgroup L) [N.Normal] (H : Subgro
 private theorem isPerfect_inSubgroup_perfectResidual' [Finite L] (H : Subgroup L) :
     Group.IsPerfect ↥(inSubgroup perfectResidual H) := by
   have h := (perfect_residual_characterization (G := ↥H)).2.2.1
-  haveI := h
+  have := h
   exact Group.IsPerfect.ofSurjective
     (f := ((perfectResidual ↥H).equivMapOfInjective _ H.subtype_injective).toMonoidHom)
     (MulEquiv.surjective _)
 
 private theorem isPerfect_subgroupOf' {K X : Subgroup L} (hKX : K ≤ X)
     (hK : Group.IsPerfect ↥K) : Group.IsPerfect ↥(K.subgroupOf X) := by
-  haveI := hK
+  have := hK
   exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKX).symm.toMonoidHom)
     (MulEquiv.surjective _)
 
@@ -78,7 +78,7 @@ private theorem pCore_quot_inf_centralizer_eq (N : Subgroup L) [N.Normal]
       (CFSG.pCore 2 L ⊓ Subgroup.centralizer ({d} : Set L)).map (QuotientGroup.mk' N) := by
   classical
   set R := CFSG.pCore 2 L with hRdef
-  haveI hRn : R.Normal := CFSG.pCore_normal
+  have hRn : R.Normal := CFSG.pCore_normal
   have hR2 : IsPGroup 2 R := CFSG.pCore_isPGroup
   have hN2 : IsPGroup 2 N := hR2.to_le hN
   have hmap : R.map (QuotientGroup.mk' N) = CFSG.pCore 2 (L ⧸ N) :=
@@ -105,7 +105,7 @@ private theorem pCore_quot_inf_centralizer_eq (N : Subgroup L) [N.Normal]
       rw [hk]
       exact Nat.Coprime.pow_right k (by norm_num)
     have hRs : Group.IsSolvable ↥R := by
-      haveI := hR2.isNilpotent
+      have := hR2.isNilpotent
       infer_instance
     have hmem := (CFSG.GroupTheory.CoprimeSection.mem_centralizer_sup_iff hN
       (le_normalizer_of_normal' N R) (le_normalizer_of_normal' R _)
@@ -131,13 +131,14 @@ private theorem pCore_quot_inf_centralizer_eq (N : Subgroup L) [N.Normal]
         (QuotientGroup.mk' N d) * (QuotientGroup.mk' N x)
       rw [← map_mul, ← map_mul, hxc]
 
+omit [Finite L] in
 private theorem mem_of_odd_orderOf {L₁ R : Subgroup L} (hR2 : IsPGroup 2 R)
     (hdec : ∀ x ∈ L₁, ∃ y ∈ inSubgroup perfectResidual L₁, ∃ r ∈ R, x = y * r)
     {x : L} (hxL₁ : x ∈ L₁) (hodd : Odd (orderOf x)) :
     x ∈ inSubgroup perfectResidual L₁ := by
   classical
   set P := perfectResidual ↥L₁
-  haveI : P.Normal := inferInstance
+  have : P.Normal := inferInstance
   obtain ⟨y, hy, r, hr, hxyr⟩ := hdec x hxL₁
   have hyL₁ : y ∈ L₁ := (Subgroup.map_subtype_le _) hy
   have hrL₁ : r ∈ L₁ := by
@@ -194,13 +195,13 @@ private theorem four_le_aux (hfix : KJFix) (hsplit : KJSplit) (hcover : KJCover)
   | _ n ih =>
   intro L _ _ hn hperf hJ d hd hd3 hK
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect L := hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect L := hperf
   by_contra hlt
   push Not at hlt
   set R := CFSG.pCore 2 L with hRdef
-  haveI hRn : R.Normal := CFSG.pCore_normal
+  have hRn : R.Normal := CFSG.pCore_normal
   have hR2 : IsPGroup 2 ↥R := CFSG.pCore_isPGroup
   set W := R ⊓ Subgroup.centralizer ({d} : Set L) with hWdef
   set K := inSubgroup perfectResidual (Subgroup.centralizer ({d} : Set L)) with hKdef
@@ -274,7 +275,7 @@ private theorem four_le_aux (hfix : KJFix) (hsplit : KJSplit) (hcover : KJCover)
         rw [← map_mul, ← map_mul, this]
   by_cases h1 : ∃ N : Subgroup L, N.Normal ∧ N ≤ R ∧ N ≠ ⊥ ∧ z ∉ N
   · obtain ⟨N, hNn, hNR, hN1, hzN⟩ := h1
-    haveI := hNn
+    have := hNn
     obtain ⟨hperf', hJ', hd', hd3'⟩ := hquot N hNR
     have hπs : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
     have hker : IsPGroup 2 ↥(QuotientGroup.mk' N).ker := by
@@ -298,7 +299,7 @@ private theorem four_le_aux (hfix : KJFix) (hsplit : KJSplit) (hcover : KJCover)
         have := Subgroup.mem_centralizer_singleton_iff.mp (hKC hk)
         rw [← map_mul, ← map_mul, this]
       have hKπp : Group.IsPerfect ↥(K.map (QuotientGroup.mk' N)) := by
-        haveI := hKperf
+        have := hKperf
         exact Group.IsPerfect.map (QuotientGroup.mk' N)
       have hzmem : QuotientGroup.mk' N z ∈ CFSG.pCore 2 (L ⧸ N) ⊓ inSubgroup perfectResidual
           (Subgroup.centralizer ({QuotientGroup.mk' N d} : Set (L ⧸ N))) := by
@@ -322,7 +323,7 @@ private theorem four_le_aux (hfix : KJFix) (hsplit : KJSplit) (hcover : KJCover)
   push Not at h1
   have hR1 : R ≠ ⊥ := fun h => hz1 (Subgroup.mem_bot.mp (h ▸ hzR))
   obtain ⟨R₁, hR₁n, hR₁lt, hR₁max⟩ := CFSG.exists_maximal_normal_lt R hR1
-  haveI := hR₁n
+  have := hR₁n
   have hR₁R : R₁ ≤ R := hR₁lt.le
   by_cases hzR₁ : z ∉ R₁
   ·
@@ -347,7 +348,7 @@ private theorem four_le_aux (hfix : KJFix) (hsplit : KJSplit) (hcover : KJCover)
     rw [hπdef, QuotientGroup.ker_mk']
     exact hR₁2
   set M := R.map π with hMdef
-  haveI hMn : M.Normal := hRn.map π hπs
+  have hMn : M.Normal := hRn.map π hπs
   have hMeq : M = CFSG.pCore 2 (L ⧸ R₁) :=
     CFSG.map_pCore_eq_of_surjective_of_isPGroup_ker π hπs hker
   have hM2 : IsPGroup 2 ↥M := hR2.map π
@@ -527,7 +528,7 @@ private theorem four_le_aux (hfix : KJFix) (hsplit : KJSplit) (hcover : KJCover)
         mul_one]
     obtain ⟨m, hm, -⟩ := (perfect_residual_characterization (G := ↥L₁)).1
     have hmapP : (perfectResidual ↥L₁).map φ = ⊤ := by
-      haveI := hLRperf
+      have := hLRperf
       rw [hm, map_derivedSeries_eq hφs, Group.IsPerfect.derivedSeries_eq_top]
     intro x
     have hx : QuotientGroup.mk' R x ∈ (perfectResidual ↥L₁).map φ := by
@@ -546,7 +547,7 @@ private theorem four_le_aux (hfix : KJFix) (hsplit : KJSplit) (hcover : KJCover)
   have hSL₀ : (S : Subgroup L) ≤ L₀ := by
     intro s hs
     apply mem_of_odd_orderOf hR2 hL₀decL₁ (hCL₁ (hSC hs))
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have hdvd : orderOf s ∣ 3 ^ k := by
       apply orderOf_dvd_of_pow_eq_one
       have := congrArg Subtype.val hk

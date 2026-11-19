@@ -63,7 +63,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 @[expose] def PSU6OutSolvableStatement : Prop :=
   ∀ (q : ℕ) (Y : Type) [Group Y] [Finite Y] (F : Subgroup Y) [F.Normal],
-    IsPSUModel 6 q ↥F → Subgroup.centralizer (F : Set Y) ≤ F → IsSolvable (Y ⧸ F)
+    IsPSUModel 6 q ↥F → Subgroup.centralizer (F : Set Y) ≤ F → Group.IsSolvable (Y ⧸ F)
 
 @[expose] def PSU6TwoPartStatement : Prop :=
   ∀ (f : ℕ) (X : Type) [Group X] [Finite X], 1 ≤ f → IsPSUModel 6 (2 ^ f) X →

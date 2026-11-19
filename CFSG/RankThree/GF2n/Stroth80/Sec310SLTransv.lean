@@ -159,7 +159,7 @@ theorem Ctx.matrix_elation_data (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) 
     (hcardL : Nat.card ↥(Q ⊓ QB B) = Nat.card Z ^ (n + 1))
     {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (h : GlobalModelData M Q Z γ M₀) {V R : Subgroup G} (hBV : B ≤ V) (hVL : V ≤ Q ⊓ QB B)
-    (hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img V → c • e ∈ M₀.img V) (hRH : R ≤ H0 M Z)
+    (hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img V → c • e ∈ M₀.img V) (_hRH : R ≤ H0 M Z)
     (hRV : R ≤ Subgroup.normalizer (V : Set G)) (hLR : LB M Q B ≤ R) {m : ℕ}
     (φ : ↥R →* GL (Fin m) K) (c : ↥(imgSub M₀ V hS) ≃ₗ[K] (Fin m → K))
     (hSeq : ∀ (r : ↥R) (S : M₀.E ≃ₗ[K] M₀.E),

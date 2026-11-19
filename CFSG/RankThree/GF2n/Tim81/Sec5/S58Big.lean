@@ -24,12 +24,14 @@ namespace Sec45Shape
     (u : G) (hHu : ∀ z ∈ H, ⁅u, z⁆ ∈ kOf V H) : ↥H → SecMod hs :=
   fun z => SecMod.mk hs ⟨⁅u, (z : G)⁆, hHu (z : G) z.2⟩
 
+omit [Finite G] in
 @[simp] private theorem commCocycle_apply
     (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
     [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal]
     (u : G) (hHu : ∀ z ∈ H, ⁅u, z⁆ ∈ kOf V H) (z : ↥H) :
     commCocycle hs u hHu z = SecMod.mk hs ⟨⁅u, (z : G)⁆, hHu (z : G) z.2⟩ := rfl
 
+omit [Finite G] in
 private theorem commCocycle_mul_of_mem_kOf
     (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
     [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal]
@@ -47,7 +49,7 @@ private theorem commCocycle_mul_of_mem_kOf
       (⟨⁅u, (a : G)⁆, hHu (a : G) a.2⟩ : ↥(kOf V H)) *
         ⟨(a : G) * ⁅u, (k : G)⁆ * (a : G)⁻¹, hWK hconjW⟩ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     rw [commutatorElement_def, commutatorElement_def]
     group
   calc commCocycle hs u hHu (a * k)
@@ -77,6 +79,7 @@ private noncomputable def commCocycleBar
     rw [show b = a * (a⁻¹ * b) from (mul_inv_cancel_left a b).symm]
     exact (commCocycle_mul_of_mem_kOf hs u hHu hKu hWK hkK).symm)
 
+omit [Finite G] in
 @[simp] private theorem commCocycleBar_piK
     (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
     [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal]
@@ -85,6 +88,7 @@ private noncomputable def commCocycleBar
     (hWK : Tim79a.xOf V H ≤ kOf V H) (a : ↥H) :
     commCocycleBar hs u hHu hKu hWK (piK V H a) = commCocycle hs u hHu a := rfl
 
+omit [Finite G] in
 private theorem commCocycle_mul
     (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
     [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal]
@@ -108,7 +112,7 @@ private theorem commCocycle_mul
           (Subgroup.mem_normalizer_iff.mp (le_normalizer_kOf V H a.2) _).mp
             (hHu (b : G) b.2)⟩ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     rw [commutatorElement_def, commutatorElement_def]
     group
   rw [hact]
@@ -124,6 +128,7 @@ private theorem commCocycle_mul
         rw [show commCocycle hs u hHu a = SecMod.mk hs (⟨⁅u, (a : G)⁆, hHu (a : G) a.2⟩ :
           ↥(kOf V H)) from rfl]
 
+omit [Finite G] in
 private theorem commCocycleBar_mul
     (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
     [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal]
@@ -147,6 +152,7 @@ private theorem commCocycleBar_mul
       rw [← map_mul, commCocycleBar_piK, commCocycleBar_piK, commCocycleBar_piK]
       exact commCocycle_mul hs u hHu ψ a b
 
+omit [Finite G] in
 private theorem commCocycle_eq_zero_of_mem_imgK
     (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
     [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal]
@@ -178,14 +184,14 @@ theorem commutator_Pc_mem_xOf (h : RootHyp M V) (hS : Sec45Shape M V H h₀) {u 
     (hXu : ∀ c ∈ X, ⁅c, u⁆ ∈ Tim79a.xOf V H) : ∀ p ∈ Pc M V, ⁅p, u⁆ ∈ Tim79a.xOf V H := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hWK : Tim79a.xOf V H ≤ kOf V H := h.xOf_le_kOf hS.Pc_le hS.le_pCore
   have hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H) := hS.quotModHyp h
-  haveI hnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
+  have hnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
   have hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
-  letI := hmod
+  let := hmod
   let coc : HBar V H → SecMod hs := commCocycleBar hs u hHu hKu hWK
   have hcoc_piK : ∀ a : ↥H, coc (piK V H a) = commCocycle hs u hHu a :=
     commCocycleBar_piK hs u hHu hKu hWK
@@ -260,7 +266,7 @@ private theorem commutator_mem_inf_of_mem_centralizer (hS : Sec5Hyp M V) {U : Su
     subst y
     have hcomm : c * ⁅u, c⁆ = ⁅u, c⁆ * c := by
       have h2 := commutatorElement_eq_one_iff_mul_comm.mp hcuc
-      first | exact h2 | exact h2.symm
+      exact h2.symm
     have hcommute : Commute c ⁅u, c⁆ := hcomm
     have h1 : ⁅c, u⁆ = ⁅u, c⁆⁻¹ := (commutatorElement_inv u c).symm
     rw [h1]
@@ -525,6 +531,7 @@ theorem fSet_inf_eq_V_impossible (hS : Sec5Hyp M V) (h51d : Sec5.Stmt51d M V)
   omega
 
 
+omit [Finite G] in
 private theorem piK_conj_eq_of_commutator_mem {V H : Subgroup G} {u z : G}
     (huz : ⁅u, z⁆ ∈ kOf V H) (hzH : z ∈ H) (huzH : u * z * u⁻¹ ∈ H) :
     piK V H ⟨u * z * u⁻¹, huzH⟩ = piK V H ⟨z, hzH⟩ := by
@@ -532,7 +539,7 @@ private theorem piK_conj_eq_of_commutator_mem {V H : Subgroup G} {u z : G}
   have hdiv : (⟨u * z * u⁻¹, huzH⟩ / ⟨z, hzH⟩ : ↥H) =
       ⟨⁅u, z⁆, kOf_le V H huz⟩ := by
     apply Subtype.ext
-    simp only [div_eq_mul_inv, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [div_eq_mul_inv, Subgroup.coe_mul, Subgroup.coe_inv]
     rw [commutatorElement_def]
   rw [hdiv]
   exact Subgroup.mem_subgroupOf.mpr huz
@@ -548,6 +555,7 @@ variable (hs : QuotMod.Hyp (hOf M V h) (kOf V (hOf M V h)) (Tim79a.xOf V (hOf M 
 variable [((Tim79a.xOf V (hOf M V h)).subgroupOf (kOf V (hOf M V h))).Normal]
 variable [Module (ZMod 2) (SecMod hs)]
 
+omit [Fintype F] [CharP F 2] [Finite G] in
 private theorem repSec_comp_conj {u : G} (hHu : ∀ z ∈ (hOf M V h), ⁅u, z⁆ ∈ kOf V (hOf M V h))
     (huNK : ∀ n ∈ kOf V (hOf M V h), u * n * u⁻¹ ∈ kOf V (hOf M V h))
     {φ : SecMod hs →ₗ[ZMod 2] SecMod hs}
@@ -629,13 +637,13 @@ private theorem commutator_mem_xOf_of_fixedSub_le_ker
 private theorem subSec_sup_le_fixedSub_inf_ker (hS : Sec5Hyp M V)
     (hh : conjSubgroup h V ∈ sigmaSet M V)
     (hroot : RootHyp M V) (hSh : Sec45Shape M V (hOf M V h) h)
-    (hw : Sec45ShapeWith M V (hOf M V h) F l hl ψ) {u : G}
-    {u : G} (huU : u ∈ conjSubgroup g V)
-    (huW : u ∈ Subgroup.centralizer (Tim79a.xOf V (hOf M V h) : Set G))
-    (huNK : ∀ n ∈ kOf V (hOf M V h), u * n * u⁻¹ ∈ kOf V (hOf M V h))
+    (hw : Sec45ShapeWith M V (hOf M V h) F l hl ψ) {_u : G}
+    {_u : G} (huU : _u ∈ conjSubgroup g V)
+    (huW : _u ∈ Subgroup.centralizer (Tim79a.xOf V (hOf M V h) : Set G))
+    (huNK : ∀ n ∈ kOf V (hOf M V h), _u * n * _u⁻¹ ∈ kOf V (hOf M V h))
     {φ : SecMod hs →ₗ[ZMod 2] SecMod hs}
     (hφmk : ∀ n : ↥(kOf V (hOf M V h)), φ (SecMod.mk hs n) =
-      SecMod.mk hs ⟨u * (n : G) * u⁻¹, huNK n n.2⟩) :
+      SecMod.mk hs ⟨_u * (n : G) * _u⁻¹, huNK n n.2⟩) :
     subSec hs (((Pc M V ⊓ Subgroup.centralizer (conjSubgroup g V : Set G)) ⊓
         (Pc M V ⊓ Subgroup.centralizer (conjSubgroup h V : Set G))) ⊔ Tim79a.xOf V (hOf M V h)) ≤
       fixedSub (repSec hs hs.comm SL(2, F) ψ) ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom) ⊓
@@ -649,7 +657,6 @@ private theorem subSec_sup_le_fixedSub_inf_ker (hS : Sec5Hyp M V)
     rw [hPgh]
   have hCh_eq : Pc M V ⊓ Subgroup.centralizer (conjSubgroup h V : Set G) =
       Pc M V ⊓ kOf V (hOf M V h) := by
-    change Pc M V ⊓ Subgroup.centralizer (conjSubgroup h V : Set G) = Pc M V ⊓ kOf V (hOf M V h)
     rw [hChK, hhOf]
   have hEh' : ⁅Pc M V, conjSubgroup h V⁆ = Pc M V ⊓ Tim79a.xOf V (hOf M V h) := by
     rw [hEh, hhOf]
@@ -665,28 +672,28 @@ private theorem subSec_sup_le_fixedSub_inf_ker (hS : Sec5Hyp M V)
   have hX_le_K : X ≤ kOf V (hOf M V h) := sup_le hC_le_K (hroot.xOf_le_kOf hSh.Pc_le hSh.le_pCore)
   have hX_sup : X ≤ (Pc M V ⊓ kOf V (hOf M V h)) ⊔ Tim79a.xOf V (hOf M V h) :=
     sup_le (hC_le_PK.trans le_sup_left) le_sup_right
-  have hC_le_cent : C ≤ Subgroup.centralizer ({u} : Set G) := by
+  have hC_le_cent : C ≤ Subgroup.centralizer ({_u} : Set G) := by
     intro c hc
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     rw [Set.mem_singleton_iff] at hy
     subst y
-    exact Subgroup.mem_centralizer_iff.mp hc.1.2 u huU
-  have hW_cent : Tim79a.xOf V (hOf M V h) ≤ Subgroup.centralizer ({u} : Set G) := by
+    exact Subgroup.mem_centralizer_iff.mp hc.1.2 _u huU
+  have hW_cent : Tim79a.xOf V (hOf M V h) ≤ Subgroup.centralizer ({_u} : Set G) := by
     intro w hw
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     rw [Set.mem_singleton_iff] at hy
     subst y
     exact (Subgroup.mem_centralizer_iff.mp huW w hw).symm
-  have hX_cent : X ≤ Subgroup.centralizer ({u} : Set G) := sup_le hC_le_cent hW_cent
+  have hX_cent : X ≤ Subgroup.centralizer ({_u} : Set G) := sup_le hC_le_cent hW_cent
   intro v hv
   obtain ⟨n, hn⟩ := (mem_subSec_iff hs).1 hv
   have hnX : (n : G) ∈ X := n.2.1
   have hnK : (n : G) ∈ kOf V (hOf M V h) := n.2.2
-  have hcent : u * (n : G) * u⁻¹ = (n : G) := by
-    have h := Subgroup.mem_centralizer_iff.mp (hX_cent hnX) u
-      (by simp : u ∈ ({u} : Set G))
+  have hcent : _u * (n : G) * _u⁻¹ = (n : G) := by
+    have h := Subgroup.mem_centralizer_iff.mp (hX_cent hnX) _u
+      (by simp : _u ∈ ({_u} : Set G))
     rw [h]; group
   have hφn : φ (SecMod.mk hs ⟨(n : G), hnK⟩) = SecMod.mk hs ⟨(n : G), hnK⟩ := by
     rw [hφmk]
@@ -734,8 +741,6 @@ private theorem section_intersection_and_card (hS : Sec5Hyp M V)
     rw [hPgh]
   have hCh_eq : Pc M V ⊓ Subgroup.centralizer (conjSubgroup h V : Set G) =
       Pc M V ⊓ kOf V (hOf M V h) := by
-    change Pc M V ⊓ Subgroup.centralizer (conjSubgroup h V : Set G) =
-      Pc M V ⊓ kOf V (hOf M V h)
     rw [hChK, hhOf]
   have hEh' : ⁅Pc M V, conjSubgroup h V⁆ = Pc M V ⊓ Tim79a.xOf V (hOf M V h) := by
     rw [hEh, hhOf]
@@ -836,8 +841,6 @@ private theorem card_fixedSub_mul_eq (hS : Sec5Hyp M V)
     rw [hPgh]
   have hCh_eq : Pc M V ⊓ Subgroup.centralizer (conjSubgroup h V : Set G) =
       Pc M V ⊓ kOf V (hOf M V h) := by
-    change Pc M V ⊓ Subgroup.centralizer (conjSubgroup h V : Set G) =
-      Pc M V ⊓ kOf V (hOf M V h)
     rw [hChK, hhOf]
   have hfixcard : Nat.card ↥(fixedSub (repSec hs hs.comm SL(2, F) ψ)
         ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom)) *
@@ -871,7 +874,8 @@ private theorem card_fixedSub_mul_eq (hS : Sec5Hyp M V)
     _ = Nat.card ↥(Pc M V ⊓ Subgroup.centralizer (conjSubgroup h V : Set G)) *
           Nat.card (Tim79a.xOf V (hOf M V h)) := rfl
 
-private theorem card_mul_pow_le_of_subSec_le {g h : G} {r : ℕ}
+omit [Finite G] in
+private theorem card_mul_pow_le_of_subSec_le {_g h : G} {r : ℕ}
     {F : Type} [Field F] [Fintype F] [CharP F 2]
     {ψ : HBar V (hOf M V h) ≃* SL(2, F)}
     {hs : QuotMod.Hyp (hOf M V h) (kOf V (hOf M V h)) (Tim79a.xOf V (hOf M V h))}
@@ -962,7 +966,7 @@ private theorem card_inf_le_of_one_le (hS : Sec5Hyp M V)
         ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom) ⊓
       LinearMap.ker (φ - LinearMap.id) :=
     subSec_sup_le_fixedSub_inf_ker (hS := hS) (hh := hh)
-      (hroot := hroot) (hSh := hSh) (hw := hw) (hs := hs) (u := u) (huU := huU)
+      (hroot := hroot) (hSh := hSh) (hw := hw) (hs := hs) (_u := u) (huU := huU)
       (huW := huW) (huNK := huNK) (hφmk := hφmk)
   have hA : Nat.card ↥(subSec hs X) * Nat.card ↥(Pc M V ⊓ Tim79a.xOf V (hOf M V h)) =
       Nat.card ↥C := card_subSec_mul_eq (g := g) (h := h) hs hX_le_K ⟨hCinf, hX_CW⟩
@@ -980,7 +984,7 @@ private theorem card_inf_le_of_one_le (hS : Sec5Hyp M V)
       Nat.card ↥(fixedSub (repSec hs hs.comm SL(2, F) ψ)
         ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom) ⊓ LinearMap.ker (φ - LinearMap.id)) :=
     Nat.card_le_card_of_injective (Submodule.inclusion hsub) (Submodule.inclusion_injective _)
-  have hmain := card_mul_pow_le_of_subSec_le (g := g) (h := h) (r := r)
+  have hmain := card_mul_pow_le_of_subSec_le (_g := g) (h := h) (r := r)
     (C := C) (hs := hs) (φ := φ) hA hC hB hmono
   have hq2 : Nat.card V ^ 2 ≤ Nat.card V ^ (2 * r) :=
     Nat.pow_le_pow_right (Nat.card_pos (α := ↥V)) (by omega)
@@ -1006,15 +1010,16 @@ private theorem normalizer_kOf_xOf_of_commutator_mem
       (Subgroup.eq_of_le_of_card_ge hconjK_le (le_of_eq (by rw [card_conjSubgroup])))
   · exact Subgroup.centralizer_le_normalizer _ huW
 
-private noncomputable def zpowersQuotModHyp {H K W : Subgroup G} (hs : QuotMod.Hyp H K W)
+omit [Finite G] in
+private theorem zpowersQuotModHyp {H K W : Subgroup G} (hs : QuotMod.Hyp H K W)
     {u : G} (huN_K : u ∈ Subgroup.normalizer (K : Set G))
     (huN_W : u ∈ Subgroup.normalizer (W : Set G)) :
     QuotMod.Hyp (Subgroup.zpowers u) K W :=
   { le := hs.le
     comm := hs.comm
-    conj := fun x hx n hn =>
+    conj := fun _x hx n hn =>
       (Subgroup.mem_normalizer_iff.mp ((Subgroup.zpowers_le.mpr huN_K) hx) n).mp hn
-    conj₀ := fun x hx n hn =>
+    conj₀ := fun _x hx n hn =>
       (Subgroup.mem_normalizer_iff.mp ((Subgroup.zpowers_le.mpr huN_W) hx) n).mp hn }
 
 private noncomputable def conjQLinearMap {H K W : Subgroup G} (hs : QuotMod.Hyp H K W)
@@ -1022,6 +1027,7 @@ private noncomputable def conjQLinearMap {H K W : Subgroup G} (hs : QuotMod.Hyp 
     (hsu : QuotMod.Hyp (Subgroup.zpowers u) K W) : SecMod hs →ₗ[ZMod 2] SecMod hs :=
   (QuotMod.conjQ hsu u (Subgroup.mem_zpowers u)).toAdditive.toZModLinearMap 2
 
+omit [Finite G] in
 private theorem conjQLinearMap_mk {H K W : Subgroup G} (hs : QuotMod.Hyp H K W)
     [((W).subgroupOf K).Normal] [Module (ZMod 2) (SecMod hs)] {u : G}
     (hsu : QuotMod.Hyp (Subgroup.zpowers u) K W)
@@ -1071,7 +1077,7 @@ private theorem fixedSub_le_ker_of_card_eq {h : G}
         ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom)) =
       Fintype.card F ^ r * Nat.card ↥(fixedSub (repSec hs hs.comm SL(2, F) ψ)
         ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom) ⊓ LinearMap.ker (φ - LinearMap.id)))
-    (hFpow : Fintype.card F ^ r = Nat.card V ^ (2 * r)) (hr0 : r = 0) :
+    (_hFpow : Fintype.card F ^ r = Nat.card V ^ (2 * r)) (hr0 : r = 0) :
     fixedSub (repSec hs hs.comm SL(2, F) ψ) ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom) ≤
       LinearMap.ker (φ - LinearMap.id) := by
   have hcard : Nat.card ↥(fixedSub (repSec hs hs.comm SL(2, F) ψ)
@@ -1084,7 +1090,7 @@ private theorem fixedSub_le_ker_of_card_eq {h : G}
         Nat.card ↥(fixedSub (repSec hs hs.comm SL(2, F) ψ)
           ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom) ⊓
             LinearMap.ker (φ - LinearMap.id)) := by
-      simpa only [hr0, hFpow, Nat.mul_zero, pow_zero, one_mul] using hr
+      simpa only [hr0, _hFpow, Nat.mul_zero, pow_zero, one_mul] using hr
     exact h.symm
   have hker_eq : fixedSub (repSec hs hs.comm SL(2, F) ψ)
         ((imgK V (hOf M V h) (Pc M V)).map ψ.toMonoidHom) ⊓
@@ -1129,9 +1135,9 @@ private theorem exists_nontrivial_mem_trivial_or_card_inf_le (hS : Sec5Hyp M V)
   have hHu : ∀ z ∈ hOf M V h, ⁅u, z⁆ ∈ kOf V (hOf M V h) := (hKF u huU).1
   have huW : u ∈ Subgroup.centralizer (Tim79a.xOf V (hOf M V h) : Set G) := (hKF u huU).2
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hSh.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hW_le_K : Tim79a.xOf V (hOf M V h) ≤ kOf V (hOf M V h) :=
     hroot.xOf_le_kOf hSh.Pc_le hSh.le_pCore
   have hs : QuotMod.Hyp (hOf M V h) (kOf V (hOf M V h)) (Tim79a.xOf V (hOf M V h)) :=
@@ -1143,9 +1149,9 @@ private theorem exists_nontrivial_mem_trivial_or_card_inf_le (hS : Sec5Hyp M V)
     fun n hn => (Subgroup.mem_normalizer_iff.mp huN_W n).mp hn
   let hsu : QuotMod.Hyp (Subgroup.zpowers u) (kOf V (hOf M V h)) (Tim79a.xOf V (hOf M V h)) :=
     zpowersQuotModHyp hs huN_K huN_W
-  haveI hnorm : ((Tim79a.xOf V (hOf M V h)).subgroupOf (kOf V (hOf M V h))).Normal := hs.normal
+  have hnorm : ((Tim79a.xOf V (hOf M V h)).subgroupOf (kOf V (hOf M V h))).Normal := hs.normal
   have hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
-  letI := hmod
+  let := hmod
   let φ : SecMod hs →ₗ[ZMod 2] SecMod hs := conjQLinearMap hs hsu
   have hφmk : ∀ n : ↥(kOf V (hOf M V h)), φ (SecMod.mk hs n) =
       SecMod.mk hs ⟨u * (n : G) * u⁻¹, huNK n n.2⟩ :=

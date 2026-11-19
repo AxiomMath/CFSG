@@ -32,7 +32,7 @@ theorem nsOrth_refl_class {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {V :
     (hAO : ∀ g : V ≃ₗ[ZMod 3] V, (∃ a ∈ A, ggLin (p := 3) ι a = g) ↔ ∀ v, Q (g v) = Q v)
     {a : MulAut ↥Bs} (haA : a ∈ A) (ha : GGIsReflection 3 a) :
     ∃ c : ZMod 3, c ≠ 0 ∧ OrthReflOfNorm Q c (ggLin (p := 3) ι a) := by
-  haveI : FiniteDimensional (ZMod 3) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 3) V := Module.Finite.of_finite
   have hgO : ggLin (p := 3) ι a ∈ QuadraticMap.orthogonalGroup Q :=
     (QuadraticMap.mem_orthogonalGroup_iff).mpr ((hAO (ggLin (p := 3) ι a)).mp ⟨a, haA, rfl⟩)
   have hgr : GGLinRefl (ggLin (p := 3) ι a) :=

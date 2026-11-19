@@ -112,7 +112,6 @@ private theorem d4c_exists_omega_aux [Fintype K] {σ : K ≃+* K} (hσ : IsUnita
     intro i j h
     fin_cases i <;> fin_cases j <;> simp [g] at h ⊢ <;>
       first
-      | rfl
       | exact (d4c_omega_ne_zero hw h).elim
       | exact (d4c_omega_ne_zero hw h.symm).elim
       | exact (d4c_omega_ne_one hw h).elim
@@ -335,11 +334,8 @@ theorem enc_injOn {a b : ℕ} (ha : a < 4) (hb : b < 4) (h : enc ω a = enc ω b
   interval_cases a <;> interval_cases b <;>
     simp [enc] at h ⊢ <;>
     first
-    | rfl
     | exact (d4c_omega_ne_zero hω h).elim
     | exact (d4c_omega_ne_zero hω h.symm).elim
-    | exact (one_ne_zero h).elim
-    | exact (one_ne_zero h.symm).elim
     | exact (d4c_omega_ne_one hω h).elim
     | exact (d4c_omega_ne_one hω h.symm).elim
     | exact (d4c_omega_add_one_ne_zero hω h).elim
@@ -350,8 +346,6 @@ theorem enc_eq_zero_iff {a : ℕ} (ha : a < 4) : enc ω a = 0 ↔ a = 0 := by
   · intro h
     interval_cases a <;> simp [enc] at h ⊢ <;>
       first
-      | rfl
-      | exact (one_ne_zero h).elim
       | exact (d4c_omega_ne_zero hω h).elim
       | exact (d4c_omega_add_one_ne_zero hω h).elim
   · rintro rfl; rfl

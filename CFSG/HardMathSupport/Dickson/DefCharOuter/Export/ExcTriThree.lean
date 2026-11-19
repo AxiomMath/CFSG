@@ -48,6 +48,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit [CharP K 3] in
 theorem exc_form_of_order_three
     (α : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) (hα3 : α ^ 3 = 1)
     (hαin : α ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
@@ -152,7 +153,7 @@ theorem exc_reduction_unipotent_gen
       (MulAut.conj u * fieldActor (t := TwistTag.D4) σ σ) ^ 3 = 1 ∧
       (P (MulAut.conj u * fieldActor (t := TwistTag.D4) σ σ) → P β) := by
   classical
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hform, hg3⟩ := exc_form_of_order_three hf hK σ hσ β hβ3 hout
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem TwistTag.D4.tag).length
@@ -231,21 +232,21 @@ theorem three_of_classes_gen
     (hinv : ∀ β : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom), P β⁻¹ → P β)
     (hA : P (fieldActor (t := TwistTag.D4) σ σ))
     (hB : ∀ {c : K} (hc : σ c = c), c ≠ 0 →
-      P (MulAut.conj (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+      P (MulAut.conj (longElt σ (Or.inr (Or.inr rfl)) c hc) *
         fieldActor (t := TwistTag.D4) σ σ))
     (β : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) (hβ3 : β ^ 3 = 1)
     (hout : β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) : P β := by
   classical
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   obtain ⟨u, hu, hu3, hred⟩ := exc_reduction_unipotent_gen hf hK σ hσ P hconj hinv β hβ3 hout
   refine hred ?_
   obtain ⟨w, s, r, r', hs, hr, hr', hw⟩ := exists_twistedConj_longForm hf hK σ hσ hu hu3
   refine hconj (MulAut.conj w⁻¹) _ ?_
-  rw [conj_mul_twisted hf hK σ hσ (fieldActor (t := TwistTag.D4) σ σ) u w, hw]
+  rw [conj_mul_twisted σ (fieldActor (t := TwistTag.D4) σ σ) u w, hw]
   by_cases hne : s = 0 ∧ r = 0 ∧ r' = 0
   · obtain ⟨rfl, rfl, rfl⟩ := hne
-    rw [longElt_zero hf hK σ hσ, longElt_zero hf hK σ hσ, longElt_zero hf hK σ hσ]
+    rw [longElt_zero σ, longElt_zero σ, longElt_zero σ]
     simp only [mul_one, map_one, one_mul]
     exact hA
   · obtain ⟨ε, c, hc, hc0, hε⟩ := exists_conj_to_top_of_longForm hf hK σ hσ hs hr hr' hne
@@ -259,7 +260,7 @@ theorem outerCentData_three_of_classes
     (hout : β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) : OuterCentData 3 β := by
   classical
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   exact three_of_classes_gen hf hK σ hσ (fun γ => OuterCentData 3 γ)
     (fun ε γ h => OuterCentData.of_conj_aut Nat.prime_three ε h)
     (fun γ h => OuterCentData.of_inv h) hA
@@ -296,7 +297,7 @@ theorem exc_exists_graphFixed_of_tauCeti (q : TauCeti.PrimePower)
   have hp2 : q.p ≠ 2 := by
     rw [hq3]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK₀ : Nat.card (GaloisField 3 (3 * f)) = (3 ^ f) ^ 3 := by
     rw [GaloisField.card 3 (3 * f) (by omega), ← pow_mul, mul_comm]
   have hσ₀ : ∀ c : GaloisField 3 (3 * f),
@@ -330,8 +331,8 @@ theorem outerCentData_trialityD4_three_of
   | trialityD4 q =>
     have hq3 : q.p = 3 := by simpa using hpc.symm
     obtain ⟨f, hf, K, _, _, σ, hK, hσ, ⟨e₁⟩⟩ := exc_exists_graphFixed_of_tauCeti q hv e hq3
-    haveI : CharP K 3 := exc_charP_three_of_card K hK
-    haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+    have : CharP K 3 := exc_charP_three_of_card K hK
+    have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
       Finite.of_equiv S e₁.toEquiv
     refine OuterCentData.of_congr Nat.prime_three e₁ ?_
     have hαp : MulAut.congr e₁ β ^ 3 = 1 := by

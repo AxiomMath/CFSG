@@ -145,7 +145,7 @@ theorem ggG5_w
     obtain ⟨z', hz'eq, -⟩ := hconj z
     rw [← hz, hz'eq]
     exact MonoidHom.mem_range.mpr ⟨z', rfl⟩
-  haveI hfin : Finite hT.ggBfull :=
+  have hfin : Finite hT.ggBfull :=
     Finite.of_injective hT.ggCoord hT.ggCoord_injective
   have hm_normalizer : m ∈ Subgroup.normalizer (hT.ggBfull : Set (GGAutU t n f)) := by
     rw [Subgroup.mem_normalizer_iff]

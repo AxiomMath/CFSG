@@ -43,7 +43,7 @@ theorem letter_eq (hB0 : permB 1782 11 Suz2306.B0 = true) (hB1 : permB 1782 11 S
       cases e : Nat.beq l 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) h
-    rw [if_neg h, hb]
+    rw [ite_eq_right h, hb]
     exact ⟨Suz2306.b1Arr_eq, hB1⟩
 
 theorem word_eq (hB0 : permB 1782 11 Suz2306.B0 = true) (hB1 : permB 1782 11 Suz2306.B1 = true) :

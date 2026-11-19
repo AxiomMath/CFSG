@@ -86,11 +86,11 @@ theorem mem_of_forall_fixed [Fact p.Prime] [Module.Finite (ZMod p) V] (X : GGExt
     {B : Subgroup (V ≃ₗ[ZMod p] V)} (hidx : ¬ p ∣ B.relIndex A) {v : V}
     (hv : ∀ b ∈ B, b v = v) : v ∈ T := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Finite (V ≃ₗ[ZMod p] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Finite (V ≃ₗ[ZMod p] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V)) DFunLike.coe_injective
   let B' : Subgroup ↥A := B.subgroupOf A
-  letI : Fintype (↥A ⧸ B') := Fintype.ofFinite _
+  let : Fintype (↥A ⧸ B') := Fintype.ofFinite _
   let f : ↥A ⧸ B' → V := @Quotient.lift ↥A V (QuotientGroup.leftRel B')
     (fun a => (a : V ≃ₗ[ZMod p] V) v) (by
       intro a b hab

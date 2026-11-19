@@ -93,7 +93,7 @@ theorem no_J_univ4 {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
       fun h hh => ?_, fun i => ?_⟩
     · simp [hρ0def, hχ1 h hh]
     · refine ⟨fun _ => ⟨hχi i, ?_⟩, fun _ => hJ ▸ Finset.mem_univ i⟩
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       rw [heckeT_chevDatum]
       simp only [hρ0def, Representation.trivial_apply, Finset.sum_const, Finset.card_univ]
       rw [← Nat.card_eq_fintype_card, hK, ← Nat.cast_smul_eq_nsmul k]
@@ -221,8 +221,8 @@ theorem f4TypeBound {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) :
         refine ⟨rfl, b, s, hs03, hJeq, fun i t => ?_⟩
         by_cases hi : i = s
         · subst hi
-          rw [if_pos rfl, hχs t, hb, Finset.sum_singleton]
-        · rw [if_neg hi, hχother i hi t, pow_zero]
+          rw [ite_eq_left rfl, hχs t, hb, Finset.sum_singleton]
+        · rw [ite_eq_right hi, hχother i hi t, pow_zero]
       · left
         have key : ∀ b c : ℕ, b < c → J' = {b, c} → 52 * 1 + 1 ≤ m := by
           intro b c hbc hJ'bc
@@ -238,11 +238,11 @@ theorem f4TypeBound {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) :
             rw [ht.2.2.1 _ (dC_mem_H i t)]
             by_cases hi : i = s
             · subst hi
-              simp only [ha, if_pos rfl]
+              simp only [ha, ite_eq_left rfl]
               rw [hχs t, hsum]
               unfold kpow
               rw [zpow_natCast]
-            · simp only [ha, if_neg hi]
+            · simp only [ha, ite_eq_right hi]
               rw [hχother i hi t]
               simp [kpow]
           have hE : ∀ b' ∈ ({dg} : Finset ℕ), ∃ e ∈ orbitSpan (ρ.comp (rankOne .F4 K s)) y, e ≠ 0 ∧
@@ -257,7 +257,7 @@ theorem f4TypeBound {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) :
             obtain ⟨e, he, he0, hes⟩ := hwt b' hmem
             refine ⟨e, he, he0, fun z => ?_⟩
             rw [hes z]
-            simp only [ha, if_pos rfl]
+            simp only [ha, ite_eq_left rfl]
             rw [hsum]
           have hsep : ∀ (i i' : Fin 12) (j j' : Fin 8) (b' b'' : ℕ), b' ∈ ({dg} : Finset ℕ) →
               b'' ∈ ({dg} : Finset ℕ) →

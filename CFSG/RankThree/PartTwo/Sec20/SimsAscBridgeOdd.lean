@@ -177,7 +177,7 @@ theorem rAlpha_ne_bot (hset : Setting204 G A M L N c T i j P)
     refine normalizer_rAlpha_le_normalizer_kAlpha hset hX ?_
     rw [hR]
     exact Subgroup.mem_normalizer_iff.mpr fun x => by simp
-  haveI hKn' : ((kAlpha M X T c).subgroupOf (yAlpha M X T c)).Normal := by
+  have hKn' : ((kAlpha M X T c).subgroupOf (yAlpha M X T c)).Normal := by
     refine ⟨fun x hx y => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hKn (y : _)) _).mp hx

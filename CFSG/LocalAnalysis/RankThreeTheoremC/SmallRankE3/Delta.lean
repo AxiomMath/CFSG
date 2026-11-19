@@ -144,7 +144,7 @@ private theorem r10h9_z_comm_of_cube {z q : G} {R : Subgroup G} (hz3 : z ^ 3 = 1
   rw [hk] at hz'
   exact hz'
 
-theorem false_of_central_order_nine {z q : G} {S : Subgroup G} (hS2 : IsPGroup 2 S)
+theorem false_of_central_order_nine {z q : G} {S : Subgroup G} (_hS2 : IsPGroup 2 S)
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) (hqz : q * z = z * q) (hqS : q ∈ normalizer (S : Set G))
     (hq9 : orderOf q = 9) (hq3 : q ^ 3 ∈ zpowers z)
     (hR : Nonempty (↥(⁅zpowers z, S⁆) ≃* QuaternionGroup 2)) : False := by
@@ -156,7 +156,7 @@ theorem false_of_central_order_nine {z q : G} {S : Subgroup G} (hS2 : IsPGroup 2
   have hcube := r10h9_cube_centralizes hN e hq9'
   have hzR := r10h9_z_comm_of_cube hz3 hz1 hq9 hq3 hcube
   have hRcard : Nat.card ↥(⁅zpowers z, S⁆ : Subgroup G) = 8 := by
-    rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card] <;> norm_num
+    rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
   have hcomm : ∀ s ∈ S, z * s = s * z := by
     intro s hs
     have hcR : z * s * z⁻¹ * s⁻¹ ∈ ⁅zpowers z, S⁆ := by
@@ -281,7 +281,7 @@ private theorem r10h10_exists_K {G X : Type} [Group G] [Group X] {M D N : Subgro
 private theorem r10h10_eq_one {G : Type} [Group G] (P : Sylow 3 G) {D : Subgroup G}
     (hcop : Nat.Coprime 3 (Nat.card D)) {x : G} (hxP : x ∈ (P : Subgroup G)) (hxD : x ∈ D) :
     x = 1 := by
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
   have hpow : x ^ 3 ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using this
@@ -350,7 +350,7 @@ theorem exists_central_order_nine (hS : Setting G) (hU0 : FullCoreLocal G) {P : 
   obtain ⟨N, hNP, hNcyc, h9, hNDM, hNQ⟩ := hδ
   obtain ⟨hDM, hMD, hD3⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec 3 M
   have hNM : N ≤ M := le_sup_left.trans hNDM
-  haveI hDn : ((rankThreePrimeCore 3 M).subgroupOf M).Normal :=
+  have hDn : ((rankThreePrimeCore 3 M).subgroupOf M).Normal :=
     (normal_subgroupOf_iff_le_normalizer hDM).2 hMD
   have hNn : ∀ a : M, ∀ n : N, (a : G) * (n : G) * (a : G)⁻¹ ∈ N ⊔ rankThreePrimeCore 3 M := by
     intro a n

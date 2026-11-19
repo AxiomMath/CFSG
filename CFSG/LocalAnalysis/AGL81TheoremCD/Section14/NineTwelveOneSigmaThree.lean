@@ -24,7 +24,7 @@ section Cert
 theorem nineTwelveOneSigmaThree_holds
     : NineTwelveOneSigmaThree := by
   intro G _ _ M Q H F s L hL hLM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hΓ : ∀ P : Subgroup G,
       CFSG.ABGLocalTools.IsSylowOf 3 P (H ⊓ M) → CFSG.Open.rankThreeGamma 1 3 P ≤ M :=
     fun P hP => CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.rankThreeGamma_self_le

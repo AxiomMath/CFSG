@@ -116,6 +116,7 @@ section Three
 variable {K Y : Type} [Group K] [Finite K] [Group Y] [Finite Y] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* Y} {M : ℕ}
 
+omit [Finite K] in
 theorem exists_order_three_rankOne {i : Fin D.rank} (h3 : HasOrderThree D i) :
     ∃ c ∈ rankOne D.rootGroup i, c ≠ 1 ∧ c ^ 3 = 1 := by
   obtain ⟨x, hx, y, hy, h3', c, hc⟩ := h3

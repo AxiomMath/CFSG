@@ -178,13 +178,13 @@ private lemma bBlockExtFun_of_mem {n p : ℕ} {I : Finset (Fin n)}
     {u : MulAut (Fin I.card → Multiplicative (ZMod p))} {f : Fin n → Multiplicative (ZMod p)}
     {i : Fin n} (h : i ∈ I) :
     bBlockExtFun I u f i = u (bBlockRes I f) (I.equivFin ⟨i, h⟩) :=
-  dif_pos h
+  dite_eq_left h
 
 private lemma bBlockExtFun_of_not_mem {n p : ℕ} {I : Finset (Fin n)}
     {u : MulAut (Fin I.card → Multiplicative (ZMod p))} {f : Fin n → Multiplicative (ZMod p)}
     {i : Fin n} (h : i ∉ I) :
     bBlockExtFun I u f i = f i :=
-  dif_neg h
+  dite_eq_right h
 
 private lemma bBlockRes_bBlockExtFun {n p : ℕ} (I : Finset (Fin n))
     (u : MulAut (Fin I.card → Multiplicative (ZMod p))) (f : Fin n → Multiplicative (ZMod p)) :
@@ -248,7 +248,7 @@ private lemma bBlockExt_injective {n p : ℕ} (I : Finset (Fin n)) :
   have hf : bBlockRes I f = g := by
     funext l
     rw [bBlockRes_apply]
-    simp only [f, dif_pos (I.equivFin.symm l).2, Subtype.coe_eta, Equiv.apply_symm_apply]
+    simp only [f, dite_eq_left (I.equivFin.symm l).2, Subtype.coe_eta, Equiv.apply_symm_apply]
   have h2 : bBlockExtFun I u f = bBlockExtFun I v f := by
     rw [← bBlockExt_apply, ← bBlockExt_apply, h]
   have h3 := congrArg (bBlockRes I) h2

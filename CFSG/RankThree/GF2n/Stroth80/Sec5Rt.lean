@@ -32,7 +32,7 @@ theorem conjSubgroup_le_Rt {L : Subgroup G} {t m : G} (hm : m ∈ M) (htm : t �
   unfold Rt
   exact le_iSup₂_of_le m hm (le_iSup_of_le htm le_rfl)
 
-theorem Ctx.Tt_comm_le_inf_QB (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {m : G} (hm : m ∈ M)
+theorem Ctx.Tt_comm_le_inf_QB (hc : Ctx M Q Z B) {t : G} (_ht : t ∈ LB M Q B) {m : G} (hm : m ∈ M)
     (htm : t ∈ conjSubgroup m (LB M Q B)) :
     ⁅Wt Q (Vt M (LB M Q B) B Z t), Subgroup.zpowers t⁆ ≤ Q ⊓ QB (conjSubgroup m B) := by
   have hcC := hc.conj_of_mem hm
@@ -61,7 +61,7 @@ theorem Ctx.comm_Rt_Tt_le_Vt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
         refine V.mul_mem ?_ (ha x hx)
         simpa using (Subgroup.mem_normalizer_iff.mp haN _).mp (hb x hx)
       one_mem' := ⟨(Subgroup.normalizer (V : Set G)).one_mem, fun x _ => by
-        simpa [commutatorElement_def] using V.one_mem⟩
+        simp [commutatorElement_def]⟩
       inv_mem' := by
         rintro a ⟨haN, ha⟩
         refine ⟨(Subgroup.normalizer (V : Set G)).inv_mem haN, fun x hx => ?_⟩

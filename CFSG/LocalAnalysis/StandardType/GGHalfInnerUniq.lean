@@ -16,7 +16,7 @@ theorem pComponent_conj_eq_of_perfect_common {G : Type} [Group G] [Finite G] {y'
     (hr : r ∈ Subgroup.normalizer (Subgroup.zpowers y' : Set G))
     (hP : P ≤ J ⊓ J.map (MulAut.conj r).toMonoidHom) (hperf : ⁅P, P⁆ = P) (h3 : 3 ∣ Nat.card P) :
     K'.map (MulAut.conj r).toMonoidHom = K' := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   have hzw : Subgroup.zpowers (r * y' * r⁻¹) = Subgroup.zpowers y' :=
     (MonoidHom.map_zpowers (MulAut.conj r).toMonoidHom y').symm.trans
       (Subgroup.mem_normalizer_iff_map_conj_eq.mp hr)

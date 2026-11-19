@@ -252,7 +252,6 @@ theorem transvImageMat_mem [CharP K 2] (v : Fin 4 → K) (t : K) :
   fin_cases i <;> fin_cases j <;>
     simp [transvImageMat, mul_apply, Fin.sum_univ_four, minorJ_apply]
   all_goals first
-    | ring1
     | linear_combination ((v 0)^2*(v 2)^2*t^2) * h2
     | linear_combination ((v 2)^2*(v 3)^2*t^2) * h2
     | linear_combination ((v 0)^2*(v 1)^2*t^2) * h2

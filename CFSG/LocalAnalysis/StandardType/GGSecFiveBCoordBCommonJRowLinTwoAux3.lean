@@ -233,7 +233,7 @@ private lemma card_exponent_zero_on {s : ℕ} (k : Fin s → ℕ)
       show Multiplicative.toAdd (Multiplicative.ofAdd (fun i =>
         if h : k i = 1 then v (e.symm ⟨i, h⟩) else 0)) i = 0
       change (if h : k i = 1 then v (e.symm ⟨i, h⟩) else 0) = 0
-      rw [dif_neg (by omega : ¬ k i = 1)]
+      rw [dite_eq_right (by omega : ¬ k i = 1)]
     · intro u
       apply Subtype.ext
       apply Multiplicative.ext
@@ -241,16 +241,16 @@ private lemma card_exponent_zero_on {s : ℕ} (k : Fin s → ℕ)
       by_cases hi : k i = 1
       · show (if h : k i = 1 then Multiplicative.toAdd u.1 (e (e.symm ⟨i, h⟩)).1 else 0) =
           Multiplicative.toAdd u.1 i
-        rw [dif_pos hi, Equiv.apply_symm_apply]
+        rw [dite_eq_left hi, Equiv.apply_symm_apply]
       · show (if h : k i = 1 then Multiplicative.toAdd u.1 (e (e.symm ⟨i, h⟩)).1 else 0) =
           Multiplicative.toAdd u.1 i
-        rw [dif_neg hi]
+        rw [dite_eq_right hi]
         exact (u.2 i (hzero i hi)).symm
     · intro v
       funext j
       have h1 : k (e j).1 = 1 := (e j).2
       show (if h : k (e j).1 = 1 then v (e.symm ⟨(e j).1, h⟩) else 0) = v j
-      rw [dif_pos h1]
+      rw [dite_eq_left h1]
       have harg : (⟨(e j).1, h1⟩ : {i : Fin s // k i = 1}) = e j := Subtype.ext rfl
       rw [harg, Equiv.symm_apply_apply]
   rw [hbij, Nat.card_fun, Nat.card_zmod]
@@ -304,23 +304,23 @@ private lemma card_exponent_const_on {s : ℕ} (k : Fin s → ℕ)
     · intro i j hi hj
       show (if h : k i = 1 then p.1 else p.2 (e0.symm ⟨i, hzero i h⟩)) =
         (if h : k j = 1 then p.1 else p.2 (e0.symm ⟨j, hzero j h⟩))
-      rw [dif_pos hi, dif_pos hj]
+      rw [dite_eq_left hi, dite_eq_left hj]
     · intro u
       ext i
       by_cases hi : k i = 1
       · show (if h : k i = 1 then u.1 i₀ else u.1 (e0 (e0.symm ⟨i, hzero i h⟩)).1) = u.1 i
-        rw [dif_pos hi]
+        rw [dite_eq_left hi]
         exact (u.2 i i₀ hi hk₀).symm
       · show (if h : k i = 1 then u.1 i₀ else u.1 (e0 (e0.symm ⟨i, hzero i h⟩)).1) = u.1 i
-        rw [dif_neg hi, Equiv.apply_symm_apply]
+        rw [dite_eq_right hi, Equiv.apply_symm_apply]
     · intro p
       refine Prod.ext ?_ ?_
       · show (if h : k i₀ = 1 then p.1 else p.2 (e0.symm ⟨i₀, hzero i₀ h⟩)) = p.1
-        rw [dif_pos hk₀]
+        rw [dite_eq_left hk₀]
       · funext j
         show (if h : k (e0 j).1 = 1 then p.1 else
           p.2 (e0.symm ⟨(e0 j).1, hzero (e0 j).1 h⟩)) = p.2 j
-        rw [dif_neg (by have := (e0 j).2; omega : ¬ k (e0 j).1 = 1)]
+        rw [dite_eq_right (by have := (e0 j).2; omega : ¬ k (e0 j).1 = 1)]
         have harg : (⟨(e0 j).1, (e0 j).2⟩ : {i : Fin s // k i = 0}) = e0 j :=
           Subtype.ext rfl
         rw [harg, Equiv.symm_apply_apply]
@@ -356,7 +356,7 @@ private lemma torus_card {n s r : ℕ}
         (p := 3) ε det_rootMat_phi3 rootMat_phi3_pow_three).range) = 3 ^ s := by
   have hinj := torus_injective ε
   rw [← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
-  simp [Nat.card_fun, Nat.card_zmod]
+  simp
 
 private lemma isElemAbelian_torus {n s r : ℕ}
     (ε : Fin (n + 1) ≃ (Fin (rootPB phi3).dim × Fin s) ⊕ Fin r) :
@@ -407,7 +407,7 @@ private lemma fixS_eq_zeroCoords {n s r : ℕ}
     constructor
     · intro h
       rcases hk i with h0 | h1
-      · simpa [h0]
+      · simp [h0]
       · exact absurd h1 h
     · intro h h1
       rw [h1] at h
@@ -492,7 +492,7 @@ private theorem card_inter_centralizer_zeroBlk {n s r : ℕ}
     exact CFSG.LieType.SteinbergBR.center_SL_eq_bot_of_charTwo (by omega) (Or.inr natCard_f2)
   have hnsp : ∀ c : F2, c ^ 3 = 1 → c = 1 := by
     intro c hc
-    haveI : Fintype F2 := Fintype.ofFinite F2
+    have : Fintype F2 := Fintype.ofFinite F2
     have hcard : Fintype.card F2 = 2 := by
       rw [← Nat.card_eq_fintype_card, natCard_f2]
     have hsq : c ^ 2 = c := by
@@ -577,11 +577,11 @@ private lemma transvection_mem_classBlockCoord {s : ℕ} {k : Fin s → ℕ} {i 
     · exact h (CoordSL.mem_classSet.mpr (by simp [hi]))
     · exact h (CoordSL.mem_classSet.mpr (by simp [hj]))
   rw [Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply, Matrix.one_apply,
-    Matrix.single_apply, if_neg hia]
+    Matrix.single_apply, ite_eq_right hia]
   by_cases hab' : a = b
   · subst b
-    simp [hia]
-  · simp [hia, hab']
+    simp
+  · simp [hab']
 
 private lemma exponent_eq_of_comm_transvection {n s r : ℕ}
     (ε : Fin (n + 1) ≃ (Fin (rootPB phi3).dim × Fin s) ⊕ Fin r)
@@ -623,16 +623,16 @@ private lemma exponent_eq_of_comm_transvection {n s r : ℕ}
     by_cases hl : l = j
     · subst hl
       simp [CoordSL.torusAct]
-    · simp [CoordSL.torusAct, Pi.single_apply, hl, Ne.symm hl]
+    · simp [CoordSL.torusAct, Pi.single_apply, hl]
   have hL : (CoordSL.torusAct phi3 (fun l => (t l).val)
         (Pi.single j 1 + Pi.single i 1, (0 : Fin r → F2))).1 i =
       AdjoinRoot.root phi3 ^ (t i).val := by
-    simp [CoordSL.torusAct, Pi.single_apply, hij, Ne.symm hij]
+    simp [CoordSL.torusAct, Pi.single_apply, hij]
   have hR : (CoordSL.blockAct (r := r) phi3 T
         ((fun l => if l = j then AdjoinRoot.root phi3 ^ (t j).val else 0),
           (0 : Fin r → F2))).1 i = AdjoinRoot.root phi3 ^ (t j).val := by
     rw [CoordSL.blockAct_apply, hT, CoordSL.transvection_mulVec]
-    simp [Pi.single_apply, hij, Ne.symm hij]
+    simp [hij]
   rw [hTA, hTB] at hx
   have h2 := congrFun (congrArg Prod.fst hx) i
   rw [hL, hR] at h2

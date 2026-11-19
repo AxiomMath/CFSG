@@ -114,10 +114,10 @@ theorem l154_ree_lang_conj {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite
       MulAut.conj j⁻¹ * φ =
         MulAut.conj g * ReeTag.F4.reeGammaFieldAut K a σ * (MulAut.conj g)⁻¹ := by
   classical
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
   have hφ1 : φ ≠ 1 := fun h => hφout 1 (by rw [h, map_one])
   obtain ⟨g, σ, hσ, hg⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.SeitzOuterCube.Exc.reeF4_stdDescent_odd ha hK hp φ

@@ -13,7 +13,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
-theorem y7a_C1_le_C6 (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5) :
+theorem y7a_C1_le_C6 (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (_hF : c.toCtx5.Facts5) :
     C1 c.e ≤ C6 c.e := by
   have hC1N : C1 c.e ≤ normalizer (C1 c.e : Set G) := Subgroup.le_normalizer
   have hnorm : ((C1 c.e).subgroupOf (normalizer (C1 c.e : Set G))).Normal := by
@@ -121,9 +121,9 @@ theorem y7a_mem_C6_iff (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts
 theorem y7a_reg_free {P : Subgroup (Equiv.Perm (Fin 16))} (hcard : Nat.card P = 16)
     (htrans : ∀ i j : Fin 16, ∃ p ∈ P, p i = j) : ∀ p ∈ P, p 0 = 0 → p = 1 := by
   classical
-  haveI : Fintype ↥P := Fintype.ofFinite ↥P
-  haveI : Fintype (MulAction.orbit ↥P (0 : Fin 16)) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer ↥P (0 : Fin 16)) := Fintype.ofFinite _
+  have : Fintype ↥P := Fintype.ofFinite ↥P
+  have : Fintype (MulAction.orbit ↥P (0 : Fin 16)) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥P (0 : Fin 16)) := Fintype.ofFinite _
   intro p hp hp0
   have horbit : MulAction.orbit ↥P (0 : Fin 16) = Set.univ := by
     ext i
@@ -139,7 +139,7 @@ theorem y7a_reg_free {P : Subgroup (Equiv.Perm (Fin 16))} (hcard : Nat.card P = 
   have hos := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥P) (0 : Fin 16)
   rw [hcardOrbit, hcardP] at hos
   have hstab : Fintype.card (MulAction.stabilizer ↥P (0 : Fin 16)) = 1 := by omega
-  haveI : Subsingleton (MulAction.stabilizer ↥P (0 : Fin 16)) :=
+  have : Subsingleton (MulAction.stabilizer ↥P (0 : Fin 16)) :=
     Fintype.card_le_one_iff_subsingleton.mp (le_of_eq hstab)
   have hmem : (⟨p, hp⟩ : ↥P) ∈ MulAction.stabilizer ↥P (0 : Fin 16) := by
     rw [MulAction.mem_stabilizer_iff]

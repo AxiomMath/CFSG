@@ -24,7 +24,7 @@ theorem pElement_cMLStar_le_centralizer {T : Subgroup X} (hX : GNSetting X T)
     (hN : IsNatSum L ⁅L, gnV T⁆) :
     pElementSubgroup 7 (cMLStar T Ls) ≤
       Subgroup.centralizer ((⁅L, gnV T⁆ : Subgroup X) : Set X) := by
-  haveI : (gnV T).Normal := Subgroup.normalClosure_normal
+  have : (gnV T).Normal := Subgroup.normalClosure_normal
   refine (Subgroup.closure_le _).2 ?_
   rintro x ⟨hxc, k, hk⟩
   have hx' : toStar T x ∈ Subgroup.centralizer (Ls : Set (X ⧸ gnC T)) := hxc
@@ -34,7 +34,7 @@ theorem pElement_cMLStar_le_centralizer {T : Subgroup X} (hX : GNSetting X T)
   have hU : (⁅L, gnV T⁆ : Subgroup X) ≤ gnV T := by
     rw [Subgroup.commutator_comm]; exact commutator_gnV_le T L
   have key := sevenElement_centralizes_of_isNatSum_of_comm
-    (le_normalizer_commutator_s15 (Ls := Ls)) hN
+    (le_normalizer_commutator_s15 (_Ls := Ls)) hN
     (comm_of_le_gnV hX hU) hxU (commute_action_of_mem_cMLStar hL.2 hx' hU) ⟨k, hk⟩
   rw [SetLike.mem_coe, Subgroup.mem_centralizer_iff]
   intro u hu
@@ -87,7 +87,7 @@ theorem row1526_centralizer_gen {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M} (
   have hRle : R.map M.subtype ≤ M ⊓ Subgroup.centralizer ({(u' : G)} : Set G) :=
     le_inf (Subgroup.map_subtype_le R) hRc
   have h7R : 7 ∣ Nat.card ↥(R.map M.subtype) := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨E, hER, -, hEc⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 7)
       (H := R.map M.subtype) (k := 1) (by rw [pRank_map_subtype]; omega)
     rw [← Nat.pow_one 7]

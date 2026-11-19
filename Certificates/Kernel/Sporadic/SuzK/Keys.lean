@@ -103,7 +103,7 @@ theorem dep_pt {k : Nat} (hk : k < 22880) :
     cases e : k.beq 0
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true e) hk0
-  rw [hb, if_neg Bool.false_ne_true] at h3
+  rw [hb, ite_eq_right Bool.false_ne_true] at h3
   exact Nat.eq_of_beq_eq_true h3
 
 @[expose] noncomputable def img (g k : Nat) : Nat := if g = 0 then r32 AL k else r32 BE k
@@ -125,7 +125,7 @@ theorem edge_facts {g k : Nat} (hg : g < 2) (hk : k < 22880) :
   have e3 : Nat.add (k / 32 * 32) (k % 32) = k := by
     change k / 32 * 32 + k % 32 = k
     omega
-  rw [strictB_eq, e3, Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr hk)] at h'
+  rw [strictB_eq, e3, Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr hk)] at h'
   unfold edge at h'
   rw [strictB_eq, strictB_eq, strictB_eq, Raw.Orb.bAnd_eq,Bool.and_eq_true] at h'
   obtain ⟨h1, h2⟩ := h'
@@ -161,7 +161,7 @@ theorem ML_x3 {g : Nat} (hg : g < 2) : mat3 64 4096 (x3 g) = ML g := by
   · exact mat3_x3 canons.1
   · exact mat3_x3 canons.2.1
 
-theorem img_lt {g k : Nat} (hg : g < 2) (hk : k < 22880) : img g k < 22880 := by
+theorem img_lt {g k : Nat} (_hg : g < 2) (hk : k < 22880) : img g k < 22880 := by
   unfold img
   split_ifs
   · exact al_lt hk
@@ -201,7 +201,7 @@ theorem sort_facts {i : Nat} (hi : i < 22880) : r32 SO i < 22880 ∧ r32 SOI i <
     Bool.and_eq_true, Nat.blt_eq, Nat.blt_eq, Nat.beq_eq] at h'
   obtain ⟨h1, h2, h3, h4⟩ := h'
   refine ⟨h1, h2, h3, fun hi1 => ?_⟩
-  rw [Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr hi1), Nat.blt_eq] at h4
+  rw [Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr hi1), Nat.blt_eq] at h4
   exact h4
 
 theorem sort_mono {a b : Nat} (hab : a < b) (hb : b < 22880) : kx (r32 SO a) < kx (r32 SO b) := by

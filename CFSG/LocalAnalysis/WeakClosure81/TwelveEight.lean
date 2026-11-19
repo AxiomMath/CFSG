@@ -31,6 +31,7 @@ private def b12_TwelveEight_stab (ρ : G →* LGL 2 V) (v : V) : Subgroup G wher
     rw [LinearEquiv.symm_apply_apply] at h
     exact h.symm
 
+omit [Finite V] in
 theorem mem_fixSub_range_of_sup_eq_top (ρ : G →* LGL 2 V) {H₁ H₂ : Subgroup G}
     (h : H₁ ⊔ H₂ = ⊤) {v : V} (h₁ : ∀ x ∈ H₁, ρ x v = v) (h₂ : ∀ x ∈ H₂, ρ x v = v) :
     v ∈ fixSub ρ.range := by
@@ -45,7 +46,7 @@ theorem exists_odd_decomp (ρ : G →* LGL 2 V) {y a : G} (hy : Odd (orderOf y))
     (hinv : a * y * a⁻¹ = y⁻¹) {u : V} (hau : ρ a u = u) :
     ∃ u₁ u₂ : V, u = u₁ + u₂ ∧ ρ y u₁ = u₁ ∧ ρ a u₁ = u₁ ∧ u₂ ∈ commSub ρ.range ∧
       ρ a u₂ = u₂ := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let Q : Subgroup (LGL 2 V) := Subgroup.zpowers (ρ y)
   have hcard : Nat.card Q = orderOf (ρ y) := Nat.card_zpowers (ρ y)
   have hdvd : orderOf (ρ y) ∣ orderOf y := orderOf_map_dvd ρ y
@@ -103,6 +104,7 @@ section PartTwo
 
 variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 
+omit [Finite V] in
 theorem Setting12Two.cE_range_le_commSub (h : Setting12Two A M n) (ρ : G →* LGL 2 V)
     (hq : RepQuad ρ A) : cE ρ.range ≤ commSub (A.map ρ) := by
   obtain ⟨g, hg⟩ : ∃ g : G, g ∉ M := by
@@ -151,6 +153,7 @@ theorem Setting12Two.cE_range_le_commSub (h : Setting12Two A M n) (ρ : G →* L
   rw [← hxsum]
   exact Submodule.add_mem _ hx hx'cA
 
+omit [Finite V] in
 theorem Setting12Two.fixSub_inf_commSub (h : Setting12Two A M n) (ρ : G →* LGL 2 V)
     (hq : RepQuad ρ A) : fixSub (A.map ρ) ⊓ commSub ρ.range = commSub (A.map ρ) := by
   refine le_antisymm ?_ ?_

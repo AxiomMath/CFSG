@@ -35,6 +35,7 @@ private lemma z4j_conj_form {G : Type*} [Group G] {x m : G} (hx : x * x = 1) :
     _ = m * x⁻¹ := by rw [one_mul]
     _ = m * x := by rw [hxi]
 
+omit [Finite H] in
 private lemma z4j_E_le_centralizer_lt (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂) :
     closure ({t, τ, l} : Set H) ≤ centralizer ({l * t} : Set H) := by
   refine (Subgroup.closure_le (centralizer ({l * t} : Set H))).mpr ?_
@@ -74,7 +75,8 @@ private lemma z4j_conj_conj_self {G : Type*} [Group G] {g x : G} (hg : g * g = 1
   calc g * (g * x * g) * g = (g * g) * x * (g * g) := by group
     _ = x := by rw [hg]; group
 
-private lemma z4j_form_mem {Mc : Subgroup H} (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂)
+omit [Finite H] in
+private lemma z4j_form_mem {Mc : Subgroup H} (_h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂)
     {g m e : H}
     (hm : m ∈ Mc) (heE : e ∈ closure ({t, τ, l} : Set H))
     (heC : e ∈ centralizer ({l * t} : Set H))
@@ -89,6 +91,7 @@ private lemma z4j_form_mem {Mc : Subgroup H} (h : ZJData Q Y V V' B ρ t τ l y 
   rw [hge]
   exact Subgroup.mul_mem_sup hmK heE
 
+omit [Finite H] in
 private lemma z4j_gen_normalizes_K {Mc : Subgroup H} {g : H} (hg2 : g * g = 1)
     (hgMc : ∀ y ∈ Mc, g * y * g⁻¹ ∈ Mc) (hgσ : g * (l * t) = (l * t) * g) :
     g ∈ Subgroup.normalizer (Mc ⊓ centralizer ({l * t} : Set H) : Set H) := by

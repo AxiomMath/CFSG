@@ -34,15 +34,15 @@ abbrev M4 : Type := Matrix (Fin 4) (Fin 4) (ZMod 2)
 
 theorem U0_mul_U0 : U0 * U0 = U0sq := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [U0, U0sq, Matrix.mul_apply, Fin.sum_univ_six] <;> decide
+  fin_cases i <;> fin_cases j <;> simp [U0, U0sq, Matrix.mul_apply, Fin.sum_univ_six]; decide
 
 theorem U0_mul_U0sq : U0 * U0sq = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [U0, U0sq, Matrix.mul_apply, Fin.sum_univ_six] <;> decide
+  fin_cases i <;> fin_cases j <;> simp [U0, U0sq, Matrix.mul_apply, Fin.sum_univ_six]; decide
 
 theorem U0sq_mul_U0 : U0sq * U0 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [U0, U0sq, Matrix.mul_apply, Fin.sum_univ_six] <;> decide
+  fin_cases i <;> fin_cases j <;> simp [U0, U0sq, Matrix.mul_apply, Fin.sum_univ_six]; decide
 
 @[expose] def u0 : GL6 := ⟨U0, U0sq, U0_mul_U0sq, U0sq_mul_U0⟩
 

@@ -25,6 +25,7 @@ local notation "s2A" => (⟨sigma2, sigma2_mem_A⟩ : A45)
 variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
 
+omit hN in
 private theorem card_CJ_le_conj {g y : G} (hg : g ∈ H z) :
     Nat.card ↥(J z ⊓ centralizer ({y} : Set G)) ≤
       Nat.card ↥(J z ⊓ centralizer ({g * y * g⁻¹} : Set G)) := by
@@ -49,6 +50,7 @@ private theorem card_CJ_le_conj {g y : G} (hg : g ∈ H z) :
       _ = g⁻¹ * (g * (x' : G) * g⁻¹) * g := by rw [hval]
       _ = (x' : G) := by group
 
+omit [Finite G] hN in
 private theorem map_conj_le_H_C {g y : G} (hg : g ∈ H z) {B : Subgroup G}
     (hBC : B ≤ H z ⊓ centralizer ({y} : Set G)) :
     B.map (MulAut.conj g).toMonoidHom ≤ H z ⊓ centralizer ({g * y * g⁻¹} : Set G) := by
@@ -63,6 +65,7 @@ private theorem map_conj_le_H_C {g y : G} (hg : g ∈ H z) {B : Subgroup G}
     _ = g * (y * (b : G)) * g⁻¹ := by rw [hcomm]
     _ = (g * y * g⁻¹) * (g * (b : G) * g⁻¹) := by group
 
+omit [Finite G] hN in
 private theorem map_conj_normalized {g y : G} (hg : g ∈ H z) {B : Subgroup G}
     (hBn : ∀ c ∈ H z ⊓ centralizer ({y} : Set G), ∀ b ∈ B, c * b * c⁻¹ ∈ B) :
     ∀ c ∈ H z ⊓ centralizer ({g * y * g⁻¹} : Set G),
@@ -85,6 +88,7 @@ private theorem map_conj_normalized {g y : G} (hg : g ∈ H z) {B : Subgroup G}
     c * (g * b * g⁻¹) * c⁻¹
   group
 
+omit hN [Finite G] in
 private theorem exists_J_conj_mem_of_conj_case {g y : G} (hg : g ∈ H z) {B : Subgroup G}
     (hcase : ∃ c' ∈ J z, c' * (g * y * g⁻¹) * c'⁻¹ ∈ B.map (MulAut.conj g).toMonoidHom ∧
       c' * (g * y * g⁻¹) * c'⁻¹ ≠ g * y * g⁻¹) :
@@ -112,7 +116,7 @@ private theorem exists_J_conj_mem_of_conj_case {g y : G} (hg : g ∈ H z) {B : S
         g * ((g : G)⁻¹ * c' * g * y * ((g : G)⁻¹ * c' * g)⁻¹) * g⁻¹ := by group
       _ = g * y * g⁻¹ := by rw [heq]
 
-private theorem exists_conj_y_data {σ₂ : ↥(H z)} (hq₂ : qH (z := z) D σ₂ = s2A)
+private theorem exists_conj_y_data {σ₂ : ↥(H z)} (_hq₂ : qH (z := z) D σ₂ = s2A)
     {y : G} (hyH : y ∈ H z) (hy : orderOf y = 2)
     (hbad : ∀ c ∈ H z,
       c * y * c⁻¹ ∉ lemma54T₂ D ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G))
@@ -141,6 +145,7 @@ private theorem exists_conj_y_data {σ₂ : ↥(H z)} (hq₂ : qH (z := z) D σ�
     rwa [show c * ((g : G) * y * (g : G)⁻¹) * c⁻¹ =
       (c * (g : G)) * y * (c * (g : G))⁻¹ by group]
 
+omit hN in
 private theorem exists_conj_B_data {y : G} {g : ↥(H z)} {B : Subgroup G}
     (hBC : B ≤ H z ⊓ centralizer ({y} : Set G))
     (hBn : ∀ c ∈ H z ⊓ centralizer ({y} : Set G), ∀ b ∈ B, c * b * c⁻¹ ∈ B)

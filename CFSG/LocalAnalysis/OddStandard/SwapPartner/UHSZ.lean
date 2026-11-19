@@ -86,7 +86,7 @@ theorem HSCtx.center_eq_bot_of_g (C : HSCtx z ι ιd Kh) [Finite G]
   have hcg : gElt ιd * (c : G) = (c : G) * gElt ιd := hg (c : G) hcGmem
   have hcx2 : (c : G) = z * ι τ₀ := by
     fin_cases i <;> fin_cases j <;>
-      simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at hij
+      simp only [pow_zero, pow_one, one_mul, mul_one] at hij
     · exact absurd hij hcGne
     · exfalso
       have hgx : gElt ιd * (ι τ₀) = (ι τ₀) * gElt ιd := by rw [← hij]; exact hcg

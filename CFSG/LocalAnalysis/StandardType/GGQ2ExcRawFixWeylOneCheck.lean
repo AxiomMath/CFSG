@@ -239,10 +239,10 @@ theorem toV_subE (c : List ℕ) (k : Fin (dim 1)) : toV (subE c k) = toV c - Pi.
   simp only [Pi.sub_apply, toV_apply, subE, getD_mk4 _ _ t.isLt, Pi.single_apply]
   by_cases h : t = k
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     push_cast
     linear_combination three_eq_zero
-  · rw [if_neg fun e => h (Fin.ext e), if_neg h, add_zero]
+  · rw [ite_eq_right fun e => h (Fin.ext e), ite_eq_right h, add_zero]
     exact (sub_zero _).symm
 
 theorem gammaOK_lt {M : List (List ℕ)} {j γ : ℕ} (h : gammaOK M j γ = true) : j < 24 := by

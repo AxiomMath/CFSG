@@ -42,11 +42,11 @@ private theorem cb_exists_minor_ne (hnd : (polarBilin Q).Nondegenerate) {x y : F
     ∃ i j : Fin d, polar Q x (Pi.single i 1) * polar Q y (Pi.single j 1) -
       polar Q x (Pi.single j 1) * polar Q y (Pi.single i 1) ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hx0 : x ≠ 0 := hind.ne_zero 0
   obtain ⟨i, hi⟩ : ∃ i : Fin d, polar Q x (Pi.single i 1) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx0 (cb_eq_zero_of_polar_single hnd h)
   obtain ⟨c, hc⟩ : ∃ c : K, c * polar Q x (Pi.single i 1) = polar Q y (Pi.single i 1) :=
     ⟨polar Q y (Pi.single i 1) / polar Q x (Pi.single i 1), div_mul_cancel₀ _ hi⟩
@@ -182,8 +182,8 @@ theorem exists_adjust (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q) (htail
       rw [e, polar_neg_left, h2, neg_zero]
 
 theorem mem_span_of_perp_perp (hnd : (polarBilin Q).Nondegenerate) {x y c₁ c₂ : Fin d → K}
-    (hx : Q x = 0) (hy : Q y = 0) (hxy : polar Q x y = 0) (hc₁ : Q c₁ = 0) (hc₂ : Q c₂ = 0)
-    (hc₁₂ : polar Q c₁ c₂ = 0) (hΔ : pairDet Q c₁ c₂ x y ≠ 0) {v : Fin d → K}
+    (_hx : Q x = 0) (_hy : Q y = 0) (_hxy : polar Q x y = 0) (_hc₁ : Q c₁ = 0) (_hc₂ : Q c₂ = 0)
+    (_hc₁₂ : polar Q c₁ c₂ = 0) (_hΔ : pairDet Q c₁ c₂ x y ≠ 0) {v : Fin d → K}
     (hv : ∀ w : Fin d → K, polar Q w x = 0 → polar Q w y = 0 → polar Q w c₁ = 0 →
       polar Q w c₂ = 0 → polar Q v w = 0) :
     v ∈ Submodule.span K {x, y, c₁, c₂} := by
@@ -238,11 +238,9 @@ theorem perp_mem_span_R (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
       have hyy : polar Q y y = 0 := by rw [polar_self, hQy, smul_zero]
       have hyx : polar Q y x = 0 := by rw [polar_comm]; exact hxy
       have hrx : polar Q (u + a • x + b • y) x = 0 := by
-        simp only [polar_add_left, polar_smul_left_eq, hux, hxx, hyx, mul_zero, zero_add,
-          add_zero]
+        simp only [polar_add_left, polar_smul_left_eq, hux, hxx, hyx, mul_zero, add_zero]
       have hry : polar Q (u + a • x + b • y) y = 0 := by
-        simp only [polar_add_left, polar_smul_left_eq, huy, hxy, hyy, mul_zero, zero_add,
-          add_zero]
+        simp only [polar_add_left, polar_smul_left_eq, huy, hxy, hyy, mul_zero, add_zero]
       exact ⟨u + a • x + b • y, -a, -b, Submodule.subset_span ⟨hr, hrx, hry, ha1, ha2⟩,
         by module, ha1, ha2⟩
     | zero =>

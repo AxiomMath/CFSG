@@ -98,7 +98,7 @@ theorem ggQ2s08_big_W_equiv {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} 
   have hψinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     by_contra hne
-    haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+    have : ψ.ker.Normal := MonoidHom.normal_ker ψ
     have hnt : Nontrivial ψ.ker := (Subgroup.nontrivial_iff_ne_bot ψ.ker).mpr hne
     have hcard : 5 ≤ Nat.card (Fin (lab.rank + 1)) := by
       simp only [Nat.card_fin]

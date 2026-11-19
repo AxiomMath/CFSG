@@ -207,7 +207,7 @@ theorem exists_mem_normalizer_notMem_centralizer [Finite R] [Fact p.Prime] (hRp 
     lt_top_iff_ne_top.2 fun h =>
       hRnonabelian (isMulCommutative_of_isMulCommutative_top (h ▸ hCcomm))
   obtain ⟨g, hgN, hgC⟩ :=
-    SetLike.exists_of_lt (normalizerCondition_of_isPGroup (p := p) hRp _ hClt)
+    _root_.IsConcreteLE.exists_of_lt (normalizerCondition_of_isPGroup (p := p) hRp _ hClt)
   exact ⟨g, normalizer_centralizer_le_normalizer_of_maximal hE hgN, hgC⟩
 
 theorem map_subtype_map_normalizerMonoidHom (x : ↥(normalizer (E : Set R)))

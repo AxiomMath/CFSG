@@ -24,7 +24,7 @@ theorem lemma_3_11 (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S₁)
     ∀ x ∈ (𝔖.S : Subgroup G), ∀ y ∈ (𝔖.S : Subgroup G), x ∉ 𝔖.S₁ → x ∉ 𝔖.S₂ → y ∉ 𝔖.S₁ →
       y ∉ 𝔖.S₂ → orderOf x = 2 → orderOf y = 2 → IsConj x y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z₁, hz₁S₁, hz₁ord, hz₁cent⟩ :=
     exists_central_involution 𝔖.S₁ (isDih_of_isDihNonab h₁)
   obtain ⟨z₂, hz₂S₂, hz₂ord, hz₂cent⟩ :=

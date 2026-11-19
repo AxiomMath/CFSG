@@ -109,7 +109,7 @@ theorem hChk_sound {T : Nat → Nat} {sh lm rb rm m nw pm nH idn h1 h2 nR k : Na
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hb) hc
     have h0 := bIf_false hc' hB
-    simp only [Bool.and_eq_true, Nat.blt_eq, PK.strictB_eq] at h0
+    simp only [Bool.and_eq_true, Nat.blt_eq] at h0
     exact h0
 
 theorem hRange_iff {T : Nat → Nat} {sh lm rb rm m nw pm nH idn h1 h2 nR cnt : Nat}
@@ -153,7 +153,7 @@ theorem ncOK_sound {T : Nat → Nat} {sh lm rb rm nw pm nH hh i : Nat} {L : List
   rw [← lpt_prep hs x x.2, ← h.2 x x.2]
   exact hg x
 
-theorem hList_simple {T : Nat → Nat} {sh lm rb rm nw iw nH idn h1 h2 nR o1 o2 : Nat}
+theorem hList_simple {T : Nat → Nat} {sh lm rb rm nw _iw nH idn h1 h2 nR o1 o2 : Nat}
     {REP : Nat → Nat} {NC1 NC2 : Nat → List Nat} {g1 g2 : Equiv.Perm (Fin n)}
     (hH : ∀ k < nH, hChk T sh lm rb rm n w (mask w) nw (mask (n * w)) nH idn h1 h2 nR REP k = true)
     (hn : 0 < nH) (hid : PRep n w idn 1) (hg1 : PRep n w h1 g1) (hg2 : PRep n w h2 g2)

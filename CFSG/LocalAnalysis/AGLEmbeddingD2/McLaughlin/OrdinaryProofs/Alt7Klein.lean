@@ -51,7 +51,7 @@ theorem alt7_elemAbelian_card_le {R : Subgroup (alternatingGroup (Fin 7))}
     by_cases ha : a = 1
     · subst ha
       simp
-    · rw [if_neg ha]
+    · rw [ite_eq_right ha]
       have hx2 : (a : alternatingGroup (Fin 7)) ^ 2 = 1 := h2 a a.2
       have hx1 : (a : alternatingGroup (Fin 7)) ≠ 1 := fun h => ha (Subtype.ext h)
       have := alt7_involution_fix_card _ hx2 hx1
@@ -63,7 +63,7 @@ theorem alt7_elemAbelian_card_le {R : Subgroup (alternatingGroup (Fin 7))}
       intro a
       split_ifs <;> norm_num
     simp only [hrw, Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ,
-      smul_eq_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      smul_eq_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
   rw [hsum] at hdvd
   have h4 : Fintype.card R ∣ 4 := (Nat.dvd_add_right (dvd_mul_left _ _)).mp hdvd

@@ -20,7 +20,7 @@ theorem eq_bot_of_inf_centralizer_le {X : Subgroup G}
     ∀ N : Subgroup G, N ≤ X → X ≤ Subgroup.normalizer (N : Set G) → ¬ 2 ∣ Nat.card N →
       N = ⊥ := by
   intro N hNX hXN hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNQ : N ⊓ CFSG.Open.pCoreOf 2 X = ⊥ := by
     have hsub : IsPGroup 2 (N ⊓ CFSG.Open.pCoreOf 2 X : Subgroup G) :=
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X).to_le inf_le_right
@@ -83,7 +83,7 @@ private theorem le_normalizer_inf_core {K U V : Subgroup G}
   intro x
   have h1 := Subgroup.mem_normalizer_iff.mp (hU hg) x
   have h2 := Subgroup.mem_normalizer_iff.mp (hV hg) x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr h1 h2
 
 variable {A M H : Subgroup G} {c : G}

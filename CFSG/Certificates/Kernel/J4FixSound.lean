@@ -35,16 +35,16 @@ private theorem testBit_innerT (d i r : Nat) (hi : i < d) : ∀ (n acc q : Nat),
     by_cases h2 : q / d = n
     · have hd : (d * n + i = q) ↔ q % d = i := by rw [hq, h2]; simp
       by_cases hr : r.testBit n
-      · rw [if_pos hr, Nat.testBit_or, ih, Nat.one_shiftLeft, Nat.testBit_two_pow, h2, hr]
+      · rw [ite_eq_left hr, Nat.testBit_or, ih, Nat.one_shiftLeft, Nat.testBit_two_pow, h2, hr]
         simp [hd]
-      · rw [if_neg hr, ih, h2]
+      · rw [ite_eq_right hr, ih, h2]
         simp [hr]
     · have hd : ¬ (d * n + i = q) := fun e => h2 (hq.1 e).2
       have hlt : (q / d < n + 1) ↔ (q / d < n) := by omega
       by_cases hr : r.testBit n
-      · rw [if_pos hr, Nat.testBit_or, ih, Nat.one_shiftLeft, Nat.testBit_two_pow]
+      · rw [ite_eq_left hr, Nat.testBit_or, ih, Nat.one_shiftLeft, Nat.testBit_two_pow]
         simp [hd, hlt]
-      · rw [if_neg hr, ih]
+      · rw [ite_eq_right hr, ih]
         simp [hlt]
 
 private theorem testBit_transF_aux (d X : Nat) : ∀ (m q : Nat), m ≤ d →
@@ -178,11 +178,11 @@ private theorem stepRK_eq (d : Nat) (acc : List (Nat × Nat × Nat) × List Nat)
   cases hb : Nat.beq (redRK acc.1 ic).1 0
   · have h := Nat.ne_of_beq_eq_false hb
     have h' : ¬ (((redRK acc.1 ic).1 == 0) = true) := by simpa using h
-    rw [if_neg h', clrRK_eq, lowBitRK_eq d _ d le_rfl]
+    rw [ite_eq_right h', clrRK_eq, lowBitRK_eq d _ d le_rfl]
     rfl
   · have h := Nat.eq_of_beq_eq_true hb
     have h' : ((redRK acc.1 ic).1 == 0) = true := by simpa using h
-    rw [if_pos h']
+    rw [ite_eq_left h']
 
 theorem rrefImK_eq (d : Nat) (img : Nat → Nat) : rrefImK d img = rrefImages d img := by
   have key : ∀ n, (Nat.rec (motive := fun _ => List (Nat × Nat × Nat) × List Nat) ([], [])
@@ -209,12 +209,12 @@ private theorem land_pw (w p : Nat) : w &&& 1 <<< p = if w.testBit p then 1 <<< 
   intro i
   rw [Nat.testBit_land, testBit_pw]
   by_cases hb : w.testBit p = true
-  · rw [if_pos hb, testBit_pw]
+  · rw [ite_eq_left hb, testBit_pw]
     by_cases hi : p = i
     · subst hi
       simp [hb]
     · simp [hi]
-  · rw [if_neg hb, Nat.zero_testBit]
+  · rw [ite_eq_right hb, Nat.zero_testBit]
     by_cases hi : p = i
     · subst hi
       simp [hb]
@@ -223,17 +223,17 @@ private theorem land_pw (w p : Nat) : w &&& 1 <<< p = if w.testBit p then 1 <<< 
 private theorem pos_land_pw (w p : Nat) : 0 < w &&& 1 <<< p ↔ w.testBit p = true := by
   rw [land_pw]
   by_cases hb : w.testBit p = true
-  · rw [if_pos hb, Nat.one_shiftLeft]
+  · rw [ite_eq_left hb, Nat.one_shiftLeft]
     exact ⟨fun _ => hb, fun _ => Nat.two_pow_pos p⟩
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     exact ⟨fun h => absurd h (Nat.lt_irrefl 0), fun h => absurd h hb⟩
 
 private theorem land_pw_eq_zero (w p : Nat) : w &&& 1 <<< p = 0 ↔ w.testBit p = false := by
   rw [land_pw]
   by_cases hb : w.testBit p = true
-  · rw [if_pos hb, Nat.one_shiftLeft, hb]
+  · rw [ite_eq_left hb, Nat.one_shiftLeft, hb]
     simp
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     simpa using hb
 
 private theorem pivOKR_iff (d : Nat) : ∀ (A : List (Nat × Nat)) (acc : Nat),
@@ -309,13 +309,13 @@ private theorem rrefOKL_iff (d : Nat) (A : List (Nat × Nat)) :
     obtain ⟨hj', rfl⟩ := List.getElem?_eq_some_iff.1 hj
     by_cases hij : i = j
     · simp [hij]
-    · simp [hij, h i j hi' hj' hij]
+    · simp [h i j hi' hj' hij]
 
 theorem rrefOKK_eq (d : Nat) (A : List (Nat × Nat)) : rrefOKK d A = rrefOKL d A := by
   rw [Bool.eq_iff_iff]
   change CFSG.KLie.CT.andB (pivOKR d A 0) (clrOKR (pivMaskR A) A) = true ↔ _
   rw [andB_eq, Bool.and_eq_true, pivOKR_iff, clrOKR_iff, rrefOKL_iff]
-  simp only [Nat.zero_testBit, eq_self_iff_true, implies_true, and_true]
+  simp only [Nat.zero_testBit, implies_true, and_true]
   have hne : ∀ (hnd : (A.map Prod.fst).Nodup) (i j : Nat) (hi : i < A.length)
       (hj : j < A.length), i ≠ j → A[i].1 ≠ A[j].1 := by
     intro hnd i j hi hj hij h

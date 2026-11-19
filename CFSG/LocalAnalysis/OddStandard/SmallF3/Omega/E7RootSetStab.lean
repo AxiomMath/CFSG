@@ -51,7 +51,7 @@ theorem weylMat_mul (w w' : WeylGroup Tag.E7) : weylMat (w * w') = weylMat w * w
   rfl
 
 noncomputable def rhoEquiv (w : WeylGroup Tag.E7) : V ≃ₗ[ZMod 3] V :=
-  LinearEquiv.ofLinear (Matrix.toLin' (weylMat w)) (Matrix.toLin' (weylMat w⁻¹))
+  LinearEquiv.ofLinearMap (Matrix.toLin' (weylMat w)) (Matrix.toLin' (weylMat w⁻¹))
     (by rw [← Matrix.toLin'_mul, ← weylMat_mul, mul_inv_cancel, weylMat_one, Matrix.toLin'_one])
     (by rw [← Matrix.toLin'_mul, ← weylMat_mul, inv_mul_cancel, weylMat_one, Matrix.toLin'_one])
 
@@ -122,11 +122,11 @@ theorem qV_redV_single (i : Fin Tag.E7.rank) :
   rw [← qForm_apply, qForm_redV, iform_single_left]
   have h : ∑ j, Tag.cartan Tag.E7 i j * (Pi.single i 1 : Fin Tag.E7.rank → ℤ) j = 2 := by
     simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
+      ite_true]
     revert i
     decide
   rw [h]
-  all_goals first | decide | norm_num
+  all_goals first | decide
 
 theorem rho_simple (i : Fin Tag.E7.rank) :
     rho (simple Tag.E7 i) =
@@ -274,7 +274,7 @@ theorem index_evenWeyl : evenWeyl.index = 2 := by
 
 theorem natCard_evenWeyl : Nat.card evenWeyl = 1451520 := by
   have hW : Nat.card (WeylGroup Tag.E7) = 2903040 := by
-    haveI : Fintype (WeylGroup Tag.E7) := Fintype.ofFinite _
+    have : Fintype (WeylGroup Tag.E7) := Fintype.ofFinite _
     exact (CFSG.RankThree.Chevalley.E7_weyl_length_polynomial).2
   have h := Subgroup.card_mul_index evenWeyl
   rw [index_evenWeyl, hW] at h

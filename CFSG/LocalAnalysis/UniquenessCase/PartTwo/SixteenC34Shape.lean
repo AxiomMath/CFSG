@@ -18,7 +18,7 @@ theorem s16c34_conc4_136W_odd {W : Type} [CommGroup W] {A : Subgroup (MulAut W)}
     (hdvd : Nat.card ↥L ∣ 168) (hrk : rk ↥(commSub ⊤ L) ≤ 3) :
     (IsCyclicOrd ↥L 3 ∧ rk ↥(commSub ⊤ L) = 2) ∨
       (IsCyclicOrd ↥L 7 ∧ rk ↥(commSub ⊤ L) = 3) := by
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (fun h0 => by
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (fun h0 => by
     rw [h0] at hdvd
     exact absurd (zero_dvd_iff.1 hdvd) (by norm_num))
   obtain ⟨-, -, h3⟩ := h
@@ -35,7 +35,7 @@ theorem s16c34_conc4_136W_odd {W : Type} [CommGroup W] {A : Subgroup (MulAut W)}
     · omega
   · have hKle : K ≤ L := hKL ▸ le_sup_left
     have hdK : Nat.card ↥K ∣ Nat.card ↥L := Subgroup.card_dvd_of_le hKle
-    haveI : Finite ↥K :=
+    have : Finite ↥K :=
       Finite.of_injective (Subgroup.inclusion hKle) (Subgroup.inclusion_injective hKle)
     exact (s16c34_not_quasisimple_of_odd_card_dvd_168 hK.2.2 (hdK.trans hdvd)
       (Odd.of_dvd_nat hodd hdK)).elim

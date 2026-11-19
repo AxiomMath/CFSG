@@ -185,6 +185,7 @@ def ggPComponentRootTheta {N : Subgroup G} (hN : N ≤ Subgroup.normalizer (A : 
   (CFSG.FiveTransitive.CharacteristicAutomorphism.quotient (ggPComponentRootKernelInA p A)).comp
     ((Subgroup.normalizerMonoidHom A).comp (Subgroup.inclusion hN))
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 lemma ggPComponentRootTheta_apply_mk {N : Subgroup G}
     (hN : N ≤ Subgroup.normalizer (A : Set G)) (n : N) (a : ↥A) :
     ggPComponentRootTheta (p := p) (A := A) hN n
@@ -196,6 +197,7 @@ lemma ggPComponentRootTheta_apply_mk {N : Subgroup G}
     CFSG.FiveTransitive.CharacteristicAutomorphism.quotient_apply_mk]
   congr 1
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 lemma ggPComponentRootKernelInA_odd
     (hOdd : Odd (Nat.card (CFSG.Assembly.LargeEvenPPrimeCoreOf p A)))
     (hZ : Odd (Nat.card (Subgroup.center (↥A ⧸ CFSG.pPrimeCore p A)))) :
@@ -261,7 +263,7 @@ lemma ggPComponentRootQuotient_center_eq_bot (hA : LargeEvenPComponent p X A) :
   let eS : ggPComponentRootQuotient p A ≃* (↥A ⧸ Q) ⧸ Z :=
     (QuotientGroup.quotientQuotientEquivQuotient (N := Q) (M := K) hQK).symm.trans
       (QuotientGroup.quotientMulEquivOfEq hmap)
-  haveI : IsSimpleGroup ((↥A ⧸ Q) ⧸ Z) := hQqs.2.1
+  have : IsSimpleGroup ((↥A ⧸ Q) ⧸ Z) := hQqs.2.1
   have hsimple : IsSimpleGroup (ggPComponentRootQuotient p A) := eS.isSimpleGroup
   have hnc : ¬ IsMulCommutative (ggPComponentRootQuotient p A) := by
     intro h
@@ -276,6 +278,7 @@ lemma ggPComponentRootQuotient_center_eq_bot (hA : LargeEvenPComponent p X A) :
   exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative hnc
 
 
+omit [Finite G] [Fact p.Prime] in
 lemma ggPComponentRootTheta_eq_conj_mk {N : Subgroup G}
     (hN : N ≤ Subgroup.normalizer (A : Set G)) (n : N) (hnA : (n : G) ∈ A) :
     ggPComponentRootTheta (p := p) (A := A) hN n =
@@ -323,6 +326,7 @@ lemma ggPComponentRootTheta_eq_one_mem_kernel
     (QuotientGroup.eq_one_iff (⟨n, hnA⟩ : ↥A)).mp hx
   exact Subgroup.mem_map.mpr ⟨⟨n, hnA⟩, hmem, rfl⟩
 
+omit [Finite G] [Fact p.Prime] in
 lemma ggPComponentRootTheta_mem_N_fixes
     {r : G} {N : Subgroup G} (hN : N ≤ Subgroup.normalizer (A : Set G))
     (hNdef : N = X ⊓ Subgroup.centralizer ({r} : Set G)) (hrA : r ∈ A) (n : N) :
@@ -486,7 +490,7 @@ theorem commutator_eq_bot_of_largeEvenPComponent_rootAction
     rw [Subgroup.mem_inf] at hf
     obtain ⟨hfT, hffix⟩ := hf
     change f ∈ CFSG.Fischer.innerAut (ggPComponentRootQuotient p A) ⊔ V at hfT
-    letI : (CFSG.Fischer.innerAut (ggPComponentRootQuotient p A)).Normal :=
+    let : (CFSG.Fischer.innerAut (ggPComponentRootQuotient p A)).Normal :=
       CFSG.Fischer.innerAut_normal
     obtain ⟨i, hiInn, v, hvV, hiv⟩ :=
       (Subgroup.mem_sup_of_normal_left
@@ -628,7 +632,6 @@ private lemma fixAut_map_congr {S S' : Type} [Group S] [Group S']
     refine ⟨(MulAut.congr e).symm a, ?_, ?_⟩
     · change ((MulAut.congr e).symm a) r = r
       apply e.injective
-      change e (((MulAut.congr e).symm a) r) = e r
       rw [← mulAut_congr_apply_apply e ((MulAut.congr e).symm a) r]
       rw [MulEquiv.apply_symm_apply]
       exact har

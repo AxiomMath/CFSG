@@ -28,7 +28,7 @@ theorem xL_one : xL (L := L) (1 : Matrix.SpecialLinearGroup (Fin 7) K) = 1 := by
   by_cases h : i = j
   · subst h
     simp
-  · simp [Matrix.one_apply, h]
+  · simp [h]
 
 theorem xL_injective {x : Matrix.SpecialLinearGroup (Fin 7) K} (h : xL (L := L) x = 1) :
     x = 1 := by
@@ -43,7 +43,7 @@ theorem xL_injective {x : Matrix.SpecialLinearGroup (Fin 7) K} (h : xL (L := L) 
   by_cases hi : i = j
   · subst hi
     simp
-  · simp [Matrix.one_apply, hi]
+  · simp [hi]
 
 theorem xL_map_sigma (σ : L →ₐ[K] L) (x : Matrix.SpecialLinearGroup (Fin 7) K) :
     (xL (L := L) x).map σ = xL (L := L) x := by
@@ -53,7 +53,7 @@ theorem xL_map_sigma (σ : L →ₐ[K] L) (x : Matrix.SpecialLinearGroup (Fin 7)
   simp [Matrix.map_apply, AlgHom.commutes]
 
 theorem diag_mul_apply {M N : Matrix (Fin 7) (Fin 7) L}
-    (hM : ∀ i j, i ≠ j → M i j = 0) (hN : ∀ i j, i ≠ j → N i j = 0) (i : Fin 7) :
+    (hM : ∀ i j, i ≠ j → M i j = 0) (_hN : ∀ i j, i ≠ j → N i j = 0) (i : Fin 7) :
     (M * N) i i = M i i * N i i := by
   rw [Matrix.mul_apply, Finset.sum_eq_single i]
   · intro k _ hk
@@ -87,6 +87,7 @@ theorem diag_pow_apply {M : Matrix (Fin 7) (Fin 7) L}
       exact diag_mul_off ih1 hM i j hij
     · rw [pow_succ, diag_mul_apply ih1 hM, ih2, pow_succ]
 
+omit [Field L] in
 theorem card_filter_eq_count {ι : Type} [Fintype ι] (f : ι → L) (a : L) :
     (univ.filter fun i => f i = a).card = Multiset.count a (univ.val.map f) := by
   rw [Multiset.count_map, Finset.card, Finset.filter_val]

@@ -13,8 +13,8 @@ variable {G : Type*} [Group G] [Finite G]
 theorem no_fusion_contradiction {S U : Subgroup G} {z d u x₀ w₁ : G}
     (hSyl : Syl2In S (centralizer ({z} : Set G)))
     (hS4 : ∀ s ∈ S, s ^ 4 ∈ U) (hUe : ∀ c ∈ U, c = 1 ∨ c = z ∨ c = u ∨ c = u * z)
-    (hzU : z ∈ U) (huU : u ∈ U) (hU4 : Nat.card ↥U = 4)
-    (hz2 : z * z = 1) (hz1 : z ≠ 1) (hu2 : u * u = 1) (huz : u ≠ z) (hdz : d ≠ z)
+    (hzU : z ∈ U) (_huU : u ∈ U) (_hU4 : Nat.card ↥U = 4)
+    (_hz2 : z * z = 1) (hz1 : z ≠ 1) (hu2 : u * u = 1) (huz : u ≠ z) (hdz : d ≠ z)
     (hdc : IsConj z d) (huc : IsConj z u)
     (hx₀S : x₀ ∈ S) (hx₀d : x₀ * d = d * x₀) (hx₀4 : x₀ ^ 4 = z)
     (hw₁S : w₁ ∈ S) (hw₁u : w₁ * u = u * w₁) (hw₁4 : w₁ ^ 4 = z)

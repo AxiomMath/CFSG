@@ -102,7 +102,6 @@ theorem Zg_comm {α : G} (hα : AlphaSpec S z t α) {a b : G}
   rcases (h.mem_Zg hα).1 ha with h1 | h1 | h1 | h1 <;>
     rcases (h.mem_Zg hα).1 hb with h2 | h2 | h2 | h2 <;> rw [h1, h2] <;>
     first
-    | exact (Commute.refl _).eq
     | exact (Commute.one_left _).eq
     | exact (Commute.one_right _).eq
     | exact hcomm.eq
@@ -231,7 +230,7 @@ theorem normal_two_le_F {α : G} (hα : AlphaSpec S z t α) {K : Subgroup G}
           simp only [Subgroup.coe_mul]; group
         rw [e1] at this
         exact this
-      one_mem' := ⟨1, one_mem _, by simpa using K.one_mem⟩
+      one_mem' := ⟨1, one_mem _, by simp⟩
       inv_mem' := by
         rintro b ⟨f, hf, hkb⟩
         refine ⟨(b : G)⁻¹ * f⁻¹ * (b : G)⁻¹⁻¹, ?_, ?_⟩
@@ -242,7 +241,7 @@ theorem normal_two_le_F {α : G} (hα : AlphaSpec S z t α) {K : Subgroup G}
             simp only [Subgroup.coe_inv]; group
           rw [e1] at this
           exact this }
-  haveI hN : N'.Normal := by
+  have hN : N'.Normal := by
     refine ⟨fun b hb g => ?_⟩
     obtain ⟨f, hf, hkb⟩ := hb
     refine ⟨(g : G) * f * (g : G)⁻¹, h.Fsub_normal hα (hBM g g.2) hf, ?_⟩

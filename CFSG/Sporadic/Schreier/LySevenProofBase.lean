@@ -58,7 +58,7 @@ theorem lyH_le_stabU
   rintro _ ⟨j, ⟨h2, h6⟩, rfl⟩
   exact aStar_mem_stabU h2 (by omega)
 
-@[expose] def dagJ [LySeed] (k : ℕ) : J :=
+def dagJ [LySeed] (k : ℕ) : J :=
   if hDag[k]!.1 = 0 then aStar (hDag[k]!.2.1 + 2)
   else if hDag[k]!.1 = 1 then (if hDag[k]!.2.1 < k then (dagJ hDag[k]!.2.1)⁻¹ else 1)
   else if hDag[k]!.2.1 < k ∧ hDag[k]!.2.2 < k then dagJ hDag[k]!.2.1 * dagJ hDag[k]!.2.2
@@ -132,10 +132,10 @@ theorem mat7_valsArr
       · exact h0 h
       · exact hlt2 ⟨h.1, h.2.resolve_left h1⟩
 
-@[expose] def lyH'
+def lyH'
     [LySeed] : Subgroup stabU := lyH.subgroupOf stabU
 
-@[expose] def lyK
+def lyK
     [LySeed] : Subgroup (Equiv.Perm (Fin 7 → ZMod 5)) := lyH'.map rhoP
 
 theorem rhoP_mem_lyK

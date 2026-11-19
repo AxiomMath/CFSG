@@ -65,7 +65,7 @@ theorem isCyclic_of_isPGroup_quotient (h1 : CFSG.Open.pRank 3 L = 1)
   obtain ⟨Q, hTQ⟩ := hT.exists_le_sylow
   obtain ⟨P, hP⟩ := Sylow.mapSurjective_surjective
     (QuotientGroup.mk'_surjective (Subgroup.center ↥L)) 3 Q
-  have hPcyc : IsCyclic ↥(P : Subgroup ↥L) := isCyclic_of_isPGroup_of_pRank_eq_one h1 P.isPGroup'
+  have hPcyc : IsCyclic ↥(P : Subgroup ↥L) := isCyclic_of_isPGroup_of_pRank_eq_one h1 P.isPGroup
   have hQ : (Q : Subgroup (↥L ⧸ Subgroup.center ↥L)) =
       (P : Subgroup ↥L).map (QuotientGroup.mk' (Subgroup.center ↥L)) := by
     rw [← hP, Sylow.coe_mapSurjective]

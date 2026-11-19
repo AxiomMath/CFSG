@@ -37,7 +37,7 @@ theorem exists_component_ne_of_mulEquiv {G H : Type} [Group G] [Group H] (e : G 
     _ = L.map e.toMonoidHom := by rw [h]
 
 theorem NotOnlyA5.of_mulEquiv {G H : Type} [Group G] [Group H] (e : G ≃* H) (h : NotOnlyA5 H) :
-    NotOnlyA5 G := fun L hL hA =>
+    NotOnlyA5 G := fun _L hL hA =>
   exists_component_ne_of_mulEquiv e
     (h _ (LocalCores.isComponent_map_mulEquiv e hL) (nonempty_a5_map e hA))
 

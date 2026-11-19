@@ -290,7 +290,7 @@ theorem mem_cosets_of_comm_g₅ {s : Equiv.Perm (Fin 42)} (hs : s ∈ R) (hc : s
       (by norm_num) (by norm_num) (by norm_num)
     intro k l hkl
     fin_cases k <;> fin_cases l
-    all_goals first | exact absurd hkl (by decide) | skip
+    all_goals try exact absurd hkl (by decide)
     · show (1 : Equiv.Perm (Fin 42))⁻¹ * g₅ ∉ S
       rw [inv_one, one_mul]
       exact not_mem_S_r₂

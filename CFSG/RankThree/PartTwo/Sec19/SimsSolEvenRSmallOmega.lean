@@ -33,7 +33,7 @@ theorem barPt_not_mem_range (hn : Even n) (a : Fin n) :
   have hsum : ∑ i, (-(x : Fin n → ZMod 2) + (Pi.single a (1 : ZMod 2) : Fin n → ZMod 2)) i =
       1 := by
     simp only [Pi.add_apply, Pi.neg_apply, Finset.sum_add_distrib, Finset.sum_neg_distrib, hx,
-      neg_zero, zero_add, Finset.sum_pi_single', Finset.mem_univ, if_true]
+      neg_zero, zero_add, Finset.sum_pi_single', Finset.mem_univ, ite_true]
   rcases (mem_zmultiples_allOnes_iff _).1 hu with h0 | h1
   · rw [h0] at hsum
     simp at hsum
@@ -175,7 +175,7 @@ theorem false_of_caseII (C : Cfg G M X n) (D : C.PiData) (hn : 6 ≤ n)
     set y' := g⁻¹ * y * g with hy'
     have hoy' : Odd (orderOf y') := by
       have h1 : orderOf ((MulAut.conj g⁻¹) y) = orderOf y := MulEquiv.orderOf_eq _ y
-      have h2 : (MulAut.conj g⁻¹) y = y' := by simp [hy', MulAut.conj_apply]
+      have h2 : (MulAut.conj g⁻¹) y = y' := by simp [hy']
       rw [h2] at h1
       rw [h1]
       exact hoy
@@ -483,7 +483,7 @@ theorem false_of_caseII (C : Cfg G M X n) (D : C.PiData) (hn : 6 ≤ n)
         (by rw [hxc, hπt₁, map_add, barAct_barPt, barAct_barPt, hca, hcb])
     have hyM : g⁻¹ * x * g ∈ M := conj_mem_of_comm C.S ht₁T ht₁1 hxt
     have hy3 : (g⁻¹ * (x : G) * g) ^ 3 = 1 := by
-      have e : g⁻¹ * (x : G) * g = (MulAut.conj g⁻¹) x := by simp [MulAut.conj_apply]
+      have e : g⁻¹ * (x : G) * g = (MulAut.conj g⁻¹) x := by simp
       rw [e, ← map_pow, hx3, map_one]
     have hψ3 : C.θ ⟨g⁻¹ * x * g, hyM⟩ ^ 3 = 1 := by
       have e : (⟨g⁻¹ * x * g, hyM⟩ : ↥M) ^ 3 = 1 :=
@@ -502,7 +502,7 @@ theorem false_of_caseII (C : Cfg G M X n) (D : C.PiData) (hn : 6 ≤ n)
       apply hc3.ne_one
       rw [← hxc, show x = 1 from Subtype.ext hx1, map_one]
       rfl
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hψord : orderOf (C.θ ⟨g⁻¹ * x * g, hyM⟩) = 3 := orderOf_eq_prime hψ3 hψ1
     have hψfix : C.θ ⟨g⁻¹ * x * g, hyM⟩ a' = a' ∧ C.θ ⟨g⁻¹ * x * g, hyM⟩ b' = b' := by
       rcases presPair_of_mem_conj C hTM' hab' hall' hs'T hs'θ hyM

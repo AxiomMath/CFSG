@@ -23,7 +23,7 @@ private theorem normalizer_rootGroup_le_stabilizer_pinf {K : Type} [Field K] [Fi
       MulAction.stabilizer (ProjectiveSpecialUnitaryMatrixGroup J) (pinf J hJ) := by
   have hcardR : Nat.card (rootGroup J hJ) = q ^ 3 := card_rootGroup J hJ q hK hfix
   have hq3 : 1 < q ^ 3 := one_lt_pow₀ hq (by norm_num)
-  haveI : Nontrivial (rootGroup J hJ) :=
+  have : Nontrivial (rootGroup J hJ) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcardR]; exact hq3)
   intro x hx
   rw [MulAction.mem_stabilizer_iff]
@@ -52,10 +52,10 @@ theorem threeNineOut_psu_three {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
     (hp5 : 5 ≤ p) (hG : StatedClassicalModel G .PSU 3 p 1) :
     Subgroup.center G = ⊥ ∧ ¬ p ∣ Nat.card (Outer G) ∧
       (∀ q : ℕ, q.Prime → q ≠ 2 → q ∣ Nat.card (Outer G) → q = 3) ∧ 3 ∣ Nat.card G := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, hq, K, hField, hFinite, J, hJ, hK, hfix, ⟨e⟩⟩ := exists_equiv_psu hG
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   have hOut : Nat.card (Outer G) ∣ 2 * Nat.gcd 3 (p + 1) := by
     simpa using CFSG.Quasithin.A318P.outer_dvd_unitary (p₀ := p) (e₀ := 1) hG
   have hcenter : Subgroup.center G = ⊥ := by
@@ -82,14 +82,14 @@ theorem threeNineOut_psu_three {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
   · exact CFSG.Quasithin.three_dvd_card_psu_three_model hG
 
 theorem not_isBorelDLocal_psu_three {G : Type} [Group G] [Finite G] {p d f : ℕ}
-    {Y : Subgroup G} (hp : p.Prime) (hp2 : p ≠ 2) (hd : d.Prime) (hdp : d ≠ p)
+    {Y : Subgroup G} (hp : p.Prime) (_hp2 : p ≠ 2) (hd : d.Prime) (hdp : d ≠ p)
     (hdG : d ∣ Nat.card G) (hG : StatedClassicalModel G .PSU 3 p f) :
     ¬ IsBorelDLocal p d Y := by
   intro hY
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hf, hq, K, hField, hFinite, J, hJ, hK, hfix, ⟨e⟩⟩ := exists_equiv_psu hG
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   let M := ProjectiveSpecialUnitaryMatrixGroup J
   let Y' : Subgroup M := Y.map e.toMonoidHom
   have hY' : IsBorelDLocal p d Y' := hY.map_equiv e
@@ -108,9 +108,9 @@ theorem not_isBorelDLocal_psu_three {G : Type} [Group G] [Finite G] {p d f : ℕ
   have hYeq : Y'.map (MulAut.conj g).toMonoidHom =
       Subgroup.normalizer (rootGroup J hJ : Set M) :=
     (hco.le_iff_eq hYg.lt_top.ne).mp hNg
-  haveI : MulAction.IsMultiplyPretransitive M (IsoPoint J) 2 :=
+  have : MulAction.IsMultiplyPretransitive M (IsoPoint J) 2 :=
     isMultiplyPretransitive_two J hJ (p ^ f) hK hfix
-  haveI : MulAction.IsPretransitive M (IsoPoint J) :=
+  have : MulAction.IsPretransitive M (IsoPoint J) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hindex : (Y'.map (MulAut.conj g).toMonoidHom).index = (p ^ f) ^ 3 + 1 := by
     rw [hYeq, hN_eq, MulAction.index_stabilizer_of_transitive]

@@ -10,6 +10,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho q : G}
 
+omit [Finite G] in
 private lemma fzc_sy3_z_mem_fourGrp : (x₁ * x₂) ^ 2 ∈ fourGrp x₁ x₂ :=
   Subgroup.subset_closure (by simp)
 
@@ -27,7 +28,7 @@ private lemma fzc_sy3_lam_z (h : Ctx0 t L S x₁ x₂ lam rho) :
         (lam * (x₁ * x₂) * lam⁻¹) * (lam * (x₁ * x₂) * lam⁻¹) by group, h1]
   rw [pow_two, h2, ← h.wreath.comm]
 
-theorem fzc_sy3_exists_a (h : Ctx0 t L S x₁ x₂ lam rho) (hq : FzCQFacts t S x₁ x₂ lam rho)
+theorem fzc_sy3_exists_a (_h : Ctx0 t L S x₁ x₂ lam rho) (hq : FzCQFacts t S x₁ x₂ lam rho)
     (hK : twoCore t = zpowers q) (hqt : q ^ 2 = t) (ht : t ∈ fzP t x₁ x₂ rho) :
     ∃ a ∈ fzP t x₁ x₂ rho, a * t * a⁻¹ = t * (x₁ * x₂) ^ 2 := by
   obtain ⟨r, hr, hrt⟩ := hq.R_orbit_t _ fzc_sy3_z_mem_fourGrp

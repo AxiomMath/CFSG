@@ -44,8 +44,8 @@ theorem progS_sound {D : SData} (hs : structS D = true) (A B : Matrix (Fin d) (F
     refine progS_sound hs A B prog xs (V.set k x) _ (by simpa using hV) (fun r hr => ?_) hp h.2
     rw [slpStep, Function.update_apply, getD_set_of_lt (by omega)]
     by_cases hk : r = k
-    · rw [if_pos hk, if_pos hk.symm, hS i hi, hS j hj, ssa3S_mul hs h.1]
-    · rw [if_neg hk, if_neg (Ne.symm hk), hS r hr]
+    · rw [ite_eq_left hk, ite_eq_left hk.symm, hS i hi, hS j hj, ssa3S_mul hs h.1]
+    · rw [ite_eq_right hk, ite_eq_right (Ne.symm hk), hS r hr]
   | .pow e i k :: prog, x :: xs, V, S, hV, hS, hp, h => by
     simp only [progS, Bool.and_eq_true] at h
     simp only [List.all_cons, Op.lt, Bool.and_eq_true, decide_eq_true_eq] at hp
@@ -53,8 +53,8 @@ theorem progS_sound {D : SData} (hs : structS D = true) (A B : Matrix (Fin d) (F
     refine progS_sound hs A B prog xs (V.set k x) _ (by simpa using hV) (fun r hr => ?_) hp h.2
     rw [slpStep, Function.update_apply, getD_set_of_lt (by omega)]
     by_cases hk : r = k
-    · rw [if_pos hk, if_pos hk.symm, hS i hi, ssa3S_pid hs h.1]
-    · rw [if_neg hk, if_neg (Ne.symm hk), hS r hr]
+    · rw [ite_eq_left hk, ite_eq_left hk.symm, hS i hi, ssa3S_pid hs h.1]
+    · rw [ite_eq_right hk, ite_eq_right (Ne.symm hk), hS r hr]
 
 theorem slpRegs_of_ssaOK {D : SData} {prog : List Op} {n : ℕ} (hs : ssaOK D prog n = true)
     (A B : Matrix (Fin d) (Fin d) (ZMod 3)) {r : ℕ} (hr : r < n) :
@@ -75,7 +75,7 @@ theorem slpRegs_of_ssaOK {D : SData} {prog : List Op} {n : ℕ} (hs : ssaOK D pr
       rw [hm, val.eq_2]
       rfl
   · have hm : Nat.min r 2 = 2 := Nat.min_eq_right h
-    rw [if_neg (by omega), if_neg (by omega), hm, ssa3S_val_two]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), hm, ssa3S_val_two]
 
 theorem holds_of_factM {D : SData} {prog : List Op} {n : ℕ} (hs : ssaOK D prog n = true)
     {A B : Matrix (Fin d) (Fin d) (ZMod 3)} {f : MFact} (h : factM (val A B D) D n f) :

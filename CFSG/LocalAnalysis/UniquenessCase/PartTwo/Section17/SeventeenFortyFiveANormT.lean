@@ -93,7 +93,7 @@ theorem s17_45_le_zpowers_sup_normalizer {D : Data G} {X A : Subgroup G} {p r : 
   have hTinfK : D.T ⊓ K = Q :=
     le_antisymm (le_inf inf_le_left (inf_le_right.trans hKleX)) (le_inf hQleT hQK)
   have hAab : ∀ u v : ↥A, u * v = v * u := fun u v =>
-    @IsPGroup.commutative_of_card_eq_prime_sq r ↥A _ ⟨hr⟩ hAcard u v
+    (@IsPGroup.isMulCommutative_of_card_eq_prime_sq r ↥A _ ⟨hr⟩ hAcard).is_comm.comm u v
   have hO2_le_Q : CFSG.Open.pCoreOf 2 X ≤ Q := by
     have hO2leX : CFSG.Open.pCoreOf 2 X ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X
     have hO2leM : CFSG.Open.pCoreOf 2 X ≤ D.M := hO2leX.trans hXM
@@ -729,7 +729,7 @@ theorem s17_45_le_zpowers_sup_normalizer {D : Data G} {X A : Subgroup G} {p r : 
         intro z hz
         have h1 : (⟨z, hz⟩ : ↥A) = 1 := htriv ⟨z, hz⟩
         have h2 : z = 1 := congrArg Subtype.val h1
-        simpa [h2]
+        simp [h2]
       have hcard : Nat.card ↥A = 1 := by rw [hA_bot, Subgroup.card_bot]
       rw [hAcard] at hcard
       nlinarith [hr.two_le]
@@ -784,7 +784,7 @@ theorem s17_45_le_zpowers_sup_normalizer {D : Data G} {X A : Subgroup G} {p r : 
             simpa using this
           have h1 : (⟨z, hzA⟩ : ↥A) = 1 := hstep7 ⟨z, hzA⟩ hz hηz
           have h2 : z = 1 := congrArg Subtype.val h1
-          simpa [h2]
+          simp [h2]
         exact hA₀_ne (le_bot_iff.mp hle)
       have hA₀_inf : A₀ ⊓ A₀y = ⊥ := by
         by_contra hne

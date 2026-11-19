@@ -229,7 +229,7 @@ theorem conjMulCheck_sound {L Y : List M} {p : M → Bool} (h : conjMulCheck L Y
   simp only [conjMulCheck, List.all_eq_true] at h
   have h1 := h i hi j hj
   simp only [q8RelB_eq_true_iff.mpr hij, hpi, hpj, Bool.and_self, Bool.not_false,
-    Bool.and_true, Bool.not_true, Bool.false_or, List.any_eq_true, conjMulB, Bool.and_eq_true,
+    Bool.not_true, Bool.false_or, List.any_eq_true, conjMulB, Bool.and_eq_true,
     Bool.or_eq_true, decide_eq_true_eq] at h1
   exact h1
 
@@ -275,7 +275,7 @@ theorem S5Hyp.eq_of_map_rho_le (h : S5Hyp Φ K Q) (hker : ρ.ker = Q) {T T' : Su
   exact h.eq_of_le_sup_RSet hT hT' hle
 
 theorem S5Hyp.exists_lift_normalizer (h : S5Hyp Φ K Q) (hρ : Function.Surjective ρ)
-    (hker : ρ.ker = Q) {T : Subgroup G} (hT : T ∈ RSet Φ) {i j : G} (hi : i ∈ T) (hj : j ∈ T)
+    (hker : ρ.ker = Q) {T : Subgroup G} (hT : T ∈ RSet Φ) {i j : G} (_hi : i ∈ T) (_hj : j ∈ T)
     (hspan : ∀ t ∈ T, t ∈ q8Span i j) {y : X} (hyi : y⁻¹ * ρ i * y ∈ T.map ρ)
     (hyj : y⁻¹ * ρ j * y ∈ T.map ρ) :
     ∃ y₀ : G, ρ y₀ = y ∧ (∀ t ∈ T, y₀⁻¹ * t * y₀ ∈ T) ∧
@@ -283,14 +283,14 @@ theorem S5Hyp.exists_lift_normalizer (h : S5Hyp Φ K Q) (hρ : Function.Surjecti
   obtain ⟨y₀, rfl⟩ := hρ y
   set c : X →* X := (MulAut.conj (ρ y₀)⁻¹).toMonoidHom with hc
   have hcx : ∀ x : X, c x = (ρ y₀)⁻¹ * x * ρ y₀ := fun x => by
-    simp [hc, MulAut.conj_apply]
+    simp [hc]
   have hT' : conjSub y₀⁻¹ T ∈ RSet Φ := h.conjSub_mem_RSet hT y₀⁻¹
   have hmem : ∀ t ∈ T, y₀⁻¹ * t * y₀ ∈ conjSub y₀⁻¹ T := fun t ht =>
-    ⟨t, ht, by simp [MulAut.conj_apply]⟩
+    ⟨t, ht, by simp⟩
   have hle : (conjSub y₀⁻¹ T).map ρ ≤ T.map ρ := by
     rintro _ ⟨_, ⟨t, ht, rfl⟩, rfl⟩
     have h1 : ρ ((MulAut.conj y₀⁻¹).toMonoidHom t) = c (ρ t) := by
-      simp [hcx, MulAut.conj_apply]
+      simp [hcx]
     rw [h1]
     have h2 := mem_q8Span_map (c.comp ρ) (hspan t ht)
     simp only [MonoidHom.comp_apply] at h2
@@ -396,7 +396,7 @@ theorem S5Hyp.exists_model_pair (h : S5Hyp Φ K Q) (hker : ρ.ker = Q) (θ : X �
   refine ⟨g, fun t ht => hg _ (Subgroup.mem_map_of_mem _ ht), ?_⟩
   set φ : G →* M := (MulAut.conj g⁻¹).toMonoidHom.comp (θ.comp ρ) with hφ
   have hφx : ∀ x : G, φ x = g⁻¹ * θ (ρ x) * g := fun x => by
-    simp [hφ, MulAut.conj_apply]
+    simp [hφ]
   have hne : φ (i ^ 2) ≠ 1 := by
     intro h1
     rw [hφx] at h1
@@ -542,7 +542,7 @@ theorem not_noNormalTwo_dihedral : ¬ NoNormalTwo (DihedralGroup 6) := by
 theorem not_thm3RowW_top [Finite Y] (hO : classicalInvolutionOddCore Y = ⊥) (h : NoNormalTwo Y)
     (Ω : Set (Subgroup Y)) : ¬ Thm3RowW Ω (⊤ : Subgroup Y) := by
   rintro ⟨W, hW, hWset, ⟨e⟩⟩
-  haveI := hW
+  have := hW
   have hS : NoNormalTwo (FrameAEmptyPf.SecQuot (⊤ : Subgroup Y)) :=
     noNormalTwo_of_mulEquiv (secQuotTopEquiv' hO) h
   have hWmem : W ∈ WSet (oddQuotientFamily (restrictFamily Ω ⊤)) := by
@@ -552,7 +552,7 @@ theorem not_thm3RowW_top [Finite Y] (hO : classicalInvolutionOddCore Y = ⊥) (h
   have hle : (⨆ U ∈ η, U) ≤ (S : Subgroup (FrameAEmptyPf.SecQuot (⊤ : Subgroup Y))) :=
     iSup₂_le fun U hU => (hηS.1 hU).2
   have hW2 : IsPGroup 2 (⨆ U ∈ η, U : Subgroup (FrameAEmptyPf.SecQuot (⊤ : Subgroup Y))) :=
-    S.isPGroup'.to_le hle
+    S.isPGroup.to_le hle
   have hbot := hS _ hW hW2
   have e' : FrameAEmptyPf.SecQuot (⊤ : Subgroup Y) ≃* DihedralGroup 6 :=
     (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hbot).symm).trans e

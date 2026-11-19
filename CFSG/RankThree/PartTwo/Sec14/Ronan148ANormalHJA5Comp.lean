@@ -95,7 +95,7 @@ theorem exists_two_subgroup_of_a5 {X : Type} [Group X] {K : Subgroup X}
   have hψj : ∀ y, j * ψ y * j⁻¹ = ψ (g * y * g⁻¹) := by
     intro y
     simp only [hψ, MonoidHom.coe_comp, Function.comp_apply, MulEquiv.coe_toMonoidHom, map_mul,
-      map_inv, hφg, Subgroup.coe_subtype, Subgroup.coe_mul, Subgroup.coe_inv]
+      map_inv, hφg, Subgroup.coe_subtype]
   have hfwd : ∀ x ∈ T, j * x * j⁻¹ ∈ T := by
     rintro _ ⟨m, hm, rfl⟩
     refine ⟨a5t * m * a5t⁻¹, a5Kl_conj m hm, ?_⟩
@@ -532,6 +532,7 @@ section Frame
 
 variable {A Y : Subgroup G} [(ker148 A Y).Normal]
 
+omit [Finite G] in
 theorem img148_deltaZero_le_commutator {LB : Subgroup G → Subgroup G} {W : Subgroup G}
     (hWY : W ≤ Y) :
     img148 A Y (deltaZero A LB W) ≤ ⁅img148 A Y (deltaZero A LB W), img148 A Y A⁆ := by
@@ -625,8 +626,8 @@ theorem isComponent_of_le_normalizer_inf_centralizer {Γ : Type*} [Group Γ] [Fi
     have hZE : Z ≤ Subgroup.centralizer ((CFSG.layer Γ : Subgroup Γ) : Set Γ) := by
       rw [Subgroup.le_centralizer_iff]
       exact sSup_le fun K hK => Subgroup.le_centralizer_iff.mp (hall K hK)
-    haveI : (CFSG.layer Γ).Characteristic := CFSG.LocalCores.layer_characteristic
-    haveI := hH
+    have : (CFSG.layer Γ).Characteristic := CFSG.LocalCores.layer_characteristic
+    have := hH
     set N := H ⊓ Subgroup.centralizer ((CFSG.layer Γ : Subgroup Γ) : Set Γ) with hN
     have hNn : N.Normal := inferInstance
     have hZN : Z ≤ N := le_inf (hZC.trans inf_le_left) hZE
@@ -704,7 +705,7 @@ theorem exists_tripleCover_A6_le_of_j2
     {Γ : Type} [Group Γ] [Finite Γ] {Z : Subgroup Γ} (φZ : ↥Z ≃* CFSG.Blueprint.NativeSporadic.J2) :
     IsQuasisimple ↥Z ∧
       ∃ U : Subgroup Γ, U ≤ Z ∧ Sec4.IsTripleCover ↥U (alternatingGroup (Fin 6)) := by
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
   have hZs : IsSimpleGroup ↥Z := MulEquiv.isSimpleGroup φZ
   have hZcard : Nat.card ↥Z = 604800 := by
     rw [Nat.card_congr φZ.toEquiv, CFSG.Sporadic.J2.card_J2]
@@ -712,7 +713,7 @@ theorem exists_tripleCover_A6_le_of_j2
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥Z) := Sylow.nonempty
   have hPne : (P : Subgroup ↥Z) ≠ ⊥ := P.ne_bot_of_dvd_card (by rw [hZcard]; norm_num)
   have : Nontrivial ↥(P : Subgroup ↥Z) := (Subgroup.nontrivial_iff_ne_bot _).mpr hPne
-  have := P.isPGroup'.center_nontrivial
+  have := P.isPGroup.center_nontrivial
   obtain ⟨z₀, hz₀⟩ := exists_ne (1 : ↥(Subgroup.center ↥(P : Subgroup ↥Z)))
   set z : ↥Z := ((z₀ : ↥(P : Subgroup ↥Z)) : ↥Z) with hz
   have hz1 : z ≠ 1 := by

@@ -70,7 +70,7 @@ private theorem stopK_mono {a b : Nat} (h : SubB a b) (hs : stopK a = true) : st
 
 private theorem rec_stop {f g : Nat → Nat → Nat} {s : Nat → Bool} (init : Nat)
     (hg : ∀ x a, SubB a (g x a)) (hf1 : ∀ x a, s a = false → f x a = g x a)
-    (hf2 : ∀ x a, s a = true → f x a = a) (hs : ∀ a b, SubB a b → s a = true → s b = true)
+    (hf2 : ∀ x a, s a = true → f x a = a) (_hs : ∀ a b, SubB a b → s a = true → s b = true)
     (n : Nat) :
     Nat.rec (motive := fun _ => Nat) init f n = Nat.rec (motive := fun _ => Nat) init g n ∨
       (s (Nat.rec (motive := fun _ => Nat) init f n) = true ∧

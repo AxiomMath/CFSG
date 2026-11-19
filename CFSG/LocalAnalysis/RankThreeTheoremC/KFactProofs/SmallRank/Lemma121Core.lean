@@ -36,11 +36,11 @@ theorem map_conj_eq_of_normalizer_le {K : Type} [Group K] [Finite K] {p : ℕ} [
 theorem kFactSylowNormalizerIrreducible_of_weakClosureInner
     (hWC : Stroth.WeakClosure.KFactWeakClosureInner) : KFactSylowNormalizerIrreducible := by
   intro K _ _ hK hs hnab P hPe hP9 hPidx L hLP hL3 hle
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPpg : IsPGroup 3 P := IsPGroup.of_card (n := 2) (by rw [hP9]; norm_num)
   let S : Sylow 3 K := hPpg.toSylow hPidx
   have hS : (S : Subgroup K) = P := IsPGroup.toSylow_coe hPpg hPidx
-  haveI hcomm : IsMulCommutative (S : Subgroup K) := by rw [hS]; exact hPe.1
+  have hcomm : IsMulCommutative (S : Subgroup K) := by rw [hS]; exact hPe.1
   have hrank : 2 ≤ CFSG.Open.pRank 3 (S : Subgroup K) :=
     CFSG.SectionRank.le_pRank (k := 2) (by norm_num) hS.ge (hS ▸ hPe) (by rw [hP9]; norm_num)
   rw [← hS] at hLP hle
@@ -98,14 +98,14 @@ theorem mem_of_map_mem_of_pow_eq_one {K : Type} [Group K] [Finite K] {f : ℕ} (
 theorem lineMoving_of_weakClosureInner
     (hWC : Stroth.WeakClosure.KFactWeakClosureInner) : KFactAbelianSylowLineMoving := by
   intro K _ _ hK hq f hf hf2 P A hP hPi hPc hAP hA3 hA1 hA2 L hLA hL3 hle
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   let S : Sylow f K := hP.toSylow hPi
   have hS : (S : Subgroup K) = P := IsPGroup.toSylow_coe hP hPi
-  haveI hSc : IsMulCommutative (S : Subgroup K) := by rw [hS]; exact hPc
+  have hSc : IsMulCommutative (S : Subgroup K) := by rw [hS]; exact hPc
   have hZ : ¬ f ∣ Nat.card (Subgroup.center K) := fun hd =>
     GL83.not_isMulCommutative_sylow_of_perfect hq.1 hd S hSc
   let π : K →* K ⧸ Subgroup.center K := QuotientGroup.mk' (Subgroup.center K)
-  haveI hsimple : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have hsimple : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hKbar : CFSG.IsKGroup (K ⧸ Subgroup.center K) := hK.quotient _
   have hnab : ∃ a b : K ⧸ Subgroup.center K, a * b ≠ b * a := by
     by_contra hcon
@@ -140,9 +140,9 @@ theorem lineMoving_of_weakClosureInner
         rw [← SetLike.mem_coe, Subgroup.coe_map]))
     rw [e, h1]
     rfl
-  haveI hS'c : IsMulCommutative (S' : Subgroup (K ⧸ Subgroup.center K)) := by
+  have hS'c : IsMulCommutative (S' : Subgroup (K ⧸ Subgroup.center K)) := by
     rw [hS']
-    haveI : IsMulCommutative P := hPc
+    have : IsMulCommutative P := hPc
     infer_instance
   have hrank : 2 ≤ CFSG.Open.pRank f (S' : Subgroup (K ⧸ Subgroup.center K)) := by
     have hAc : IsMulCommutative A := ⟨⟨fun a b => Subtype.ext (by

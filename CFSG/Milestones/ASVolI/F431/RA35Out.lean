@@ -26,9 +26,9 @@ theorem burnsideF4r_nonfused_of_graph (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z
     ∃ v : ↥(M₁ ⊓ M₂), (v : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ∧ v ≠ 1 ∧ v * v = 1 ∧
       ¬ IsConj z (bM β ε v) := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra H
   push Not at H
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef

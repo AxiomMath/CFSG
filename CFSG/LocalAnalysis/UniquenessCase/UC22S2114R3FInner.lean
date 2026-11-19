@@ -25,6 +25,7 @@ private noncomputable def uc22s2114r3f_fixer (L : Subgroup G) (X : Set (BarInf L
   ((fixingSubgroup (MulAut (BarInf L)) X).comap (inducedBarInfAutHom L)).map
     (normalizer (L : Set G)).subtype
 
+omit [Finite G] in
 private theorem uc22s2114r3f_mem_fixer {L : Subgroup G} {X : Set (BarInf L)} {g : G}
     (hg : g ∈ normalizer (L : Set G)) :
     g ∈ uc22s2114r3f_fixer L X ↔ ∀ x ∈ X, inducedBarInfAutHom L ⟨g, hg⟩ x = x := by
@@ -34,6 +35,7 @@ private theorem uc22s2114r3f_mem_fixer {L : Subgroup G} {X : Set (BarInf L)} {g 
   · intro h
     exact ⟨⟨g, hg⟩, (mem_fixingSubgroup_iff (MulAut (BarInf L))).2 h, rfl⟩
 
+omit [Finite G] in
 theorem uc22s2114r3f_fix_zpowers {L : Subgroup G} {X : Set (BarInf L)} {b : G}
     (hbL : b ∈ normalizer (L : Set G)) (hfix : ∀ x ∈ X, inducedBarInfAutHom L ⟨b, hbL⟩ x = x) :
     ∀ g (hg : g ∈ zpowers b), ∀ x ∈ X, inducedBarInfAutHom L ⟨g, zpowers_le.2 hbL hg⟩ x = x :=

@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 variable {G : Type} [Group G] [Finite G]
 
 theorem FiveTenHyp.le_M {H M T : Subgroup G} {Ω : Set (Subgroup G)} (h : FiveTenHyp H M T Ω) :
-    T ≤ M := fun t ht =>
+    T ≤ M := fun _t ht =>
   h.normalizer_le ⟨h.sylow.le ht, le_normalizer_weakClosure_of_isInvColl h.invColl h.sylow.le ht⟩
 
 theorem FiveTenHyp.odd_relIndex {H M T : Subgroup G} {Ω : Set (Subgroup G)}
@@ -22,6 +22,7 @@ theorem FiveTenHyp.odd_relIndex {H M T : Subgroup G} {Ω : Set (Subgroup G)}
   by_contra hodd
   exact hnd ((even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)).trans hdvd)
 
+omit [Finite G] in
 theorem FiveTenHyp.exists_ne_bot {H M T : Subgroup G} {Ω : Set (Subgroup G)}
     (h : FiveTenHyp H M T Ω) : ∃ A ∈ Ω, A ≤ T ∧ A ≠ ⊥ := by
   by_contra hcon
@@ -39,6 +40,7 @@ theorem FiveTenHyp.exists_ne_bot {H M T : Subgroup G} {Ω : Set (Subgroup G)}
   rw [hW, hbot]
   trivial
 
+omit [Finite G] in
 theorem isSylowIn_inf_of_le {H T M : Subgroup G} (hT : IsSylowIn 2 T H) (hTM : T ≤ M) :
     IsSylowIn 2 T (M ⊓ H) :=
   E1.isSylowIn_two_iff.2 (B6.isSylowTwoOf_mono (E1.isSylowIn_two_iff.1 hT) (le_inf hTM hT.le)
@@ -54,6 +56,7 @@ theorem exists_conjSub_le_of_isSylowIn {H T M S : Subgroup G} (hT : IsSylowIn 2 
   have : A1b.conjSub g S ≤ A1b.conjSub g S' := A1b.conjSub_mono g hSS'
   exact hgS ▸ this
 
+omit [Finite G] in
 theorem conjSub_le_iff_of_mem {M X : Subgroup G} {m : G} (hm : m ∈ M) :
     A1b.conjSub m X ≤ M ↔ X ≤ M := by
   constructor
@@ -66,6 +69,7 @@ theorem conjSub_le_iff_of_mem {M X : Subgroup G} {m : G} (hm : m ∈ M) :
     have h1 : m * (m⁻¹ * x * m) * m⁻¹ ∈ M := M.mul_mem (M.mul_mem hm (h hx)) (M.inv_mem hm)
     simpa [mul_assoc] using h1
 
+omit [Finite G] in
 theorem inf_normalizer_conjSub {H U : Subgroup G} {m : G} (hm : m ∈ H) :
     H ⊓ normalizer (A1b.conjSub m U : Set G) = A1b.conjSub m (H ⊓ normalizer (U : Set G)) := by
   have h1 : A1b.conjSub m H = H := B6.conjSub_eq_self (Subgroup.le_normalizer hm)

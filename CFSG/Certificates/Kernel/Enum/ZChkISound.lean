@@ -26,13 +26,13 @@ theorem wperm_prep_word {a b ai bi W len : Nat} {ga gb : Equiv.Perm (Fin n)} (hn
     unfold CFSG.KC.Enum.lt
     simp only [PK.nIf_eq]
     by_cases h0 : Nat.beq c 0 = true
-    · rw [if_pos h0, if_pos h0]
+    · rw [ite_eq_left h0, ite_eq_left h0]
       exact ha ⟨q, hq⟩
     · have h1 : Nat.beq c 1 = true := by
         have : c ≠ 0 := fun e => h0 (by rw [e]; rfl)
         rw [show c = 1 by omega]
         rfl
-      rw [if_neg h0, if_pos h1, if_neg h0]
+      rw [ite_eq_right h0, ite_eq_left h1, ite_eq_right h0]
       exact hb ⟨q, hq⟩
   have hfold : ∀ k ≤ len, ∀ q (hq : q < n),
       foldN k (fun k q => CFSG.KC.Enum.lt w (mask w) a b ai bi (wl W k) q) q =

@@ -19,6 +19,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_abaa_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ M) {x : G}
     (hx : x ∈ M) : conjSubgroup A x ≤ M := by
   intro y hy
@@ -27,6 +28,7 @@ private theorem s16h_abaa_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ 
   have e : x⁻¹ * (x * y * x⁻¹) * x = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 private theorem s16h_abaa_barSub_sup {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {A B : Subgroup G} (hA : A ≤ stabTil V₀ V) (hB : B ≤ stabTil V₀ V) :
     barSub V₀ V hV (A ⊔ B) = barSub V₀ V hV A ⊔ barSub V₀ V hV B := by
@@ -34,22 +36,22 @@ private theorem s16h_abaa_barSub_sup {V₀ V : Subgroup G} (hV : IsElemAbelian 2
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
 theorem s16h_e3_l3_two_le_pRank_centralizer_of_ctilde_coprime
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
-    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
-    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
-    (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t (lBar ⊥ V h.hyp151.isElemAbelian L))
+    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (_ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
+    (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1) (_htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
+    (_hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t (lBar ⊥ V h.hyp151.isElemAbelian L))
     (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
     (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar ⊥ V h.hyp151.isElemAbelian L) ≤ 1)
-    (hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L) ≠ ⊥)
-    (hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
+    (_hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
       Nat.card ↥(E ⊓ preBarSub D.M ⊥ V h.hyp151.isElemAbelian
         (centSub (wTil ⊥ V h.hyp151.isElemAbelian L))) < q ^ 2)
-    (hrow : s16h_H5RowL3 (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hrow : s16h_H5RowL3 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
@@ -57,9 +59,9 @@ theorem s16h_e3_l3_two_le_pRank_centralizer_of_ctilde_coprime
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 3)
-    (hd2 : rk ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hd2 : rk ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) ≤ 2)
-    (hsig : D.sig = {3})
+    (_hsig : D.sig = {3})
     (h3C : ¬ 3 ∣ Nat.card ↥(F11.CTilde D.M ⊥ V)) :
     2 ≤ CFSG.Open.pRank 3 (D.M ⊓
       Subgroup.centralizer (v1Sub D.M ⊥ V h.hyp151.isElemAbelian L : Set G)) := by
@@ -91,7 +93,7 @@ theorem s16h_e3_l3_two_le_pRank_centralizer_of_ctilde_coprime
   have hcomm : ⁅barSub ⊥ V hV L, barSub ⊥ V hV Lx⁆ = ⊥ := by
     have h1 := (h.hyp151.commute x hxM hxn).1
     simpa only [Lx] using h1
-  haveI : Group.IsPerfect ↥(barSub ⊥ V hV L) := ⟨hcomp.2.2.1⟩
+  have : Group.IsPerfect ↥(barSub ⊥ V hV L) := ⟨hcomp.2.2.1⟩
   have hperfLx : ⁅barSub ⊥ V hV Lx, barSub ⊥ V hV Lx⁆ = barSub ⊥ V hV Lx := by
     have hperf : Group.IsPerfect ↥(barSub ⊥ V hV Lx) := by
       rw [show Lx = conjSubgroup L x from rfl,
@@ -111,7 +113,7 @@ theorem s16h_e3_l3_two_le_pRank_centralizer_of_ctilde_coprime
     exact CFSG.one_le_pRank_of_dvd_card Nat.prime_three h3dvdL
   have hbarRank : 2 ≤ CFSG.Open.pRank 3
       (barSub ⊥ V hV L ⊔ barSub ⊥ V hV Lx) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hstep := CFSG.GroupTheory.pRank_add_one_le_of_commutator_le_pCoreOf
       (q := 3) (by norm_num) (M := barSub ⊥ V hV L ⊔ barSub ⊥ V hV Lx)
       (L := barSub ⊥ V hV L) (X := barSub ⊥ V hV Lx) le_sup_left le_sup_right

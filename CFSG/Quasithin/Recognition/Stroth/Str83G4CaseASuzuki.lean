@@ -21,6 +21,7 @@ section Module
 variable {a : ℕ} {K : Type} [Field K] [CharP K 2] [Fintype K]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [CharP K 2] [Fintype K] in
 private theorem suzukia_suzukiS_map_mulVec (c : ℕ) (u v : K) (w : Fin 4 → K) :
     ((suzukiS a u v).map (· ^ 2 ^ c)).mulVec w =
       ![w 0, u ^ 2 ^ c * w 0 + w 1,
@@ -31,6 +32,7 @@ private theorem suzukia_suzukiS_map_mulVec (c : ℕ) (u v : K) (w : Fin 4 → K)
   fin_cases i <;>
     simp [suzukiS, suzukiN, Matrix.map_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_four]
 
+omit [Finite W] [CharP K 2] in
 theorem caseA_mem_suzukiZ0_of_fixes_fixed
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W)
     (hρ : IsSzNatural ρ) {u : ↥(suzukiGroup a K)} (hu : u ∈ suzukiU a K)
@@ -68,15 +70,17 @@ section Sylow
 variable {a : ℕ} {K : Type} [Field K] [CharP K 2] [Fintype K]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [CharP K 2] [Fintype K] in
 private theorem suzukib_exteriorSquareJ_map (c : ℕ) :
     (CFSG.LinearAlgebra.exteriorSquareJ K).map (· ^ 2 ^ c) =
       CFSG.LinearAlgebra.exteriorSquareJ K := by
   ext i j
   rw [Matrix.map_apply, CFSG.LinearAlgebra.exteriorSquareJ_apply]
   split_ifs with h
-  · simp [h]
-  · simp [h, zero_pow (pow_ne_zero c two_ne_zero)]
+  · simp
+  · simp [zero_pow (pow_ne_zero c two_ne_zero)]
 
+omit [CharP K 2] [Fintype K] [Finite W] in
 private theorem suzukib_isSzNatural_conj
     {ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W} (hρ : IsSzNatural ρ)
     (g : ↥(suzukiGroup a K)) :
@@ -114,7 +118,7 @@ private theorem suzukib_J_mul_szEquiv {a : ℕ} (c : ℕ) (y : ↥(suzukiGroup a
           Matrix (Fin 4) (Fin 4) (F a)).map (· ^ 2 ^ c) =
       (((y : GL (Fin 4) (F a)) : Matrix (Fin 4) (Fin 4) (F a)).map (· ^ 2 ^ c)) *
         CFSG.LinearAlgebra.exteriorSquareJ (F a) := by
-  haveI : Fintype (F a) := Fintype.ofFinite _
+  have : Fintype (F a) := Fintype.ofFinite _
   have hJ : CFSG.LinearAlgebra.exteriorSquareJ (F a) *
       CFSG.LinearAlgebra.exteriorSquareJ (F a) = 1 :=
     CFSG.CGT.PushingUpLit.SolKNA.exteriorSquareJ_mul_self (F a)
@@ -191,6 +195,7 @@ private theorem suzukib_isSzNatural_twistedRep (a : ℕ) (c : ℕ) :
     Matrix.mulVec_mulVec]
   rw [suzukib_J_mul_szEquiv c y, Matrix.mulVec_mulVec]
 
+omit [CharP K 2] in
 private theorem suzukib_omegaOne_conj_suzukiU
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (g : ↥(suzukiGroup a K)) :
     (CFSG.omega₁ (G := (suzukiU a K).map (MulAut.conj g).toMonoidHom) (p := 2)).map
@@ -200,6 +205,7 @@ private theorem suzukib_omegaOne_conj_suzukiU
   exact (CFSG.ProperTwoGeneratedCore.RootCenter.map_omega₁_map (MulAut.conj g)
     (suzukiU a K)).symm
 
+omit [Finite W] in
 private theorem suzukib_range_sub_one_eq_fixedSub_conj
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ)
@@ -231,6 +237,7 @@ private theorem suzukib_range_sub_one_eq_fixedSub_conj
   rw [hfix] at h
   exact h
 
+omit [Finite W] [CharP K 2] in
 private theorem suzukib_mem_omegaOne_conj_of_fixes_fixed
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ)
@@ -273,8 +280,8 @@ theorem caseA_le_sup_pCoreOf_of_natural_section
   classical
   have hK : Nat.card (F a) = 2 ^ (2 * a + 1) :=
     GaloisField.card 2 (2 * a + 1) (by omega)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (F a) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (F a) := Fintype.ofFinite _
   obtain ⟨e, c, φ, hφsurj, hφker, hφform⟩ := hnat
   let e' : oTwoQuot ↥H ≃* ↥(suzukiGroup a (F a)) :=
     e.trans (CFSG.CGT.PushingUpLit.SolKNA.szEquiv a).symm
@@ -285,7 +292,7 @@ theorem caseA_le_sup_pCoreOf_of_natural_section
   let ρ : Representation (ZMod 2) ↥(suzukiGroup a (F a)) (Fin 4 → F a) :=
     suzukib_twistedRep a c
   have hρ : IsSzNatural ρ := suzukib_isSzNatural_twistedRep a c
-  haveI : Finite ↥(suzukiGroup a (F a)) := CFSG.LieType.Ree.finite_suzukiGroup hK
+  have : Finite ↥(suzukiGroup a (F a)) := CFSG.LieType.Ree.finite_suzukiGroup hK
   have hQleT : pCoreOf 2 H ≤ T := CFSG.Quasithin.pCoreOf_le_of_isSylowTwoOf hT
   let S : Sylow 2 ↥H := CFSG.Quasithin.A4.toSylow hT
   have hScoe : (S : Subgroup ↥H) = T.subgroupOf H := CFSG.Quasithin.A4.toSylow_coe hT
@@ -372,7 +379,7 @@ theorem caseA_le_sup_pCoreOf_of_natural_section
     exact CFSG.ProperTwoGeneratedCore.RootCenter.map_omega₁_map e' Tq
   have hZ' : (suzukiZ0 a (F a)).map (MulAut.conj g).toMonoidHom = Aq.map e'.toMonoidHom :=
     hZ.symm.trans hA'.symm
-  obtain ⟨a₀, ha₀A, ha₀ne⟩ := SetLike.not_le_iff_exists.mp hAne
+  obtain ⟨a₀, ha₀A, ha₀ne⟩ := IsConcreteLE.not_le_iff_exists.mp hAne
   have ha₀H : a₀ ∈ H := hT.1 (hAT ha₀A)
   let aH : ↥H := ⟨a₀, ha₀H⟩
   have haH_sub : aH ∈ A.subgroupOf H := Subgroup.mem_subgroupOf.mpr ha₀A

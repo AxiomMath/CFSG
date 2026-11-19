@@ -20,13 +20,13 @@ theorem ggKSmall7_d6_weyl (hUse : ZS.UseInput) (hOrb : GGResCentBoundInput) (hFi
     (h7 : Nat.card ↥Bs = 3 ^ 7) (hD : GGKSmall7D6Data Bs L K) :
     GGWeylReflectionGroup 3 (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨V, hVadd, hVmod, ι, φD, φE, hDvec, hEvec, aD, aE, hformD, hformE, hreflD, hreflE,
     hpairD, hpairE, hAL, hAK, hcardAL⟩ := hD
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   let xV : V := ι (Additive.ofMul (⟨x, hx⟩ : ↥Bs))
   let rD : Fin 6 → (V ≃ₗ[ZMod 3] V) := fun i => ggLin (p := 3) ι (φD i)

@@ -106,7 +106,7 @@ theorem eq_of_mem_RSet_of_le {K : Subgroup G} {z : G} (C : Asc77.XCtx p f (𝒞 
   have hmQ : m ∈ Q := HTri.mem_sylow hp hq hΩ hM hm hQM
   have hz₂R : z₂ ∈ R₂ := HTri.mem_sylow hp hq hΩ hT.mem₂ hT.cls₂ hT.syl₂
   rcases eq_or_eq_mul_of_mem C hnoF hall hMtq ⟨hT.mem₂, hT.tq₂₁⟩ hm hT.cls₂ hmz (hT.ne₂₁ hz)
-      S.isPGroup' (hQS hmQ) (hT.le₂.trans hPS hz₂R) (hR₁S hzR) with e | e
+      S.isPGroup (hQS hmQ) (hT.le₂.trans hPS hz₂R) (hR₁S hzR) with e | e
   · rw [e] at hm
     rw [eq_of_isClassicalMember hp hq hz hnt hM hT.mem₂ hm hT.cls₂] at hQM
     exact hQ₂ (T8R.eq_of_isSylow2In_of_le_sylow hQM hT.syl₂ hQS (hT.le₂.trans hPS))
@@ -194,15 +194,15 @@ theorem conj_mem_triangle {K : Subgroup G} {z : G} (C : Asc77.XCtx p f (𝒞 K) 
       (ConnectedA2.isUniqueInvolution_of_isClassicalMember hp hq (hg₃ ▸ hz.conj g₃))
   rcases hx with rfl | rfl | rfl
   · rcases eq_or_eq_mul_of_conj C hnoF hall (g := 1) (by group) hLx ⟨hT.mem₂, hT.tq₂₁⟩ hbcl
-        hT.cls₂ hbx' (hT.ne₂₁ hz) S.isPGroup' hbS hz₂S hzS with e | e
+        hT.cls₂ hbx' (hT.ne₂₁ hz) S.isPGroup hbS hz₂S hzS with e | e
     · exact Or.inr (Or.inl e)
     · exact Or.inr (Or.inr (e.trans hT.prod))
   · rcases eq_or_eq_mul_of_conj C hnoF hall hz₂g hLx ⟨hK, hT.tq₁₂⟩ hbcl hz hbx'
-        (hT.ne₂₁ hz).symm S.isPGroup' hbS hzS hz₂S with e | e
+        (hT.ne₂₁ hz).symm S.isPGroup hbS hzS hz₂S with e | e
     · exact Or.inl e
     · exact Or.inr (Or.inr (e.trans (hT.mul₂₁ hz)))
   · rcases eq_or_eq_mul_of_conj C hnoF hall hz₃g hLx ⟨hK, hT.tq₁₃⟩ hbcl hz hbx'
-        (hT.ne₃₁ hz).symm S.isPGroup' hbS hzS hz₃S with e | e
+        (hT.ne₃₁ hz).symm S.isPGroup hbS hzS hz₃S with e | e
     · exact Or.inl e
     · exact Or.inr (Or.inl (e.trans (hT.mul₃₁ hz)))
 

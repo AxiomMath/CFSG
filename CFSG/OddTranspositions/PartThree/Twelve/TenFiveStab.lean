@@ -20,6 +20,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem isFiveReflectionModel_of_markingData (hC : HypothesisC D) {k : ℕ} {ε π : Bool}
     {φ : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃*
       fiveProjective k ε π}
@@ -50,6 +51,7 @@ theorem alpha_eq_singleton_of_markingData (hC : HypothesisC D)
   exact alpha_eq_singleton_of_rootBlock_eq_singleton hC hMZ hs hb1 hne
     (rootBlock_eq_singleton_of_isFiveReflectionModel hcls hk h5 hs)
 
+omit [Finite G] in
 theorem perpMem_inter_perpMem_eq_commSet_inter {x y : G} (h : ¬ Commute x y) :
     perpMem D x ∩ perpMem D y = commSet D x ∩ commSet D y := by
   ext z
@@ -63,12 +65,15 @@ theorem perpMem_inter_perpMem_eq_commSet_inter {x y : G} (h : ¬ Commute x y) :
   · rintro ⟨hzx, hzy⟩
     exact ⟨⟨hzx.1, hzx.2.1⟩, ⟨hzy.1, hzy.2.1⟩⟩
 
+omit [Finite G] in
 theorem self_mem_lineMem_left {d w : G} (hd : d ∈ D) : d ∈ lineMem D d w :=
   mem_lineMem.mpr ⟨hd, fun _ hz => hz.1⟩
 
+omit [Finite G] in
 theorem self_mem_lineMem_right {d w : G} (hw : w ∈ D) : w ∈ lineMem D d w :=
   mem_lineMem.mpr ⟨hw, fun _ hz => hz.2⟩
 
+omit [Finite G] in
 theorem fiveLines_apply (hfl : FiveLines D) {v d w : G}
     (hvD : v ∈ D) (hdD : d ∈ D) (hwD : w ∈ D)
     (hvd : v ∈ commSet D d) (hvw : v ∈ commSet D w) (hwd : ¬ Commute d w) :
@@ -79,8 +84,9 @@ theorem fiveLines_apply (hfl : FiveLines D) {v d w : G}
   have hwv : w ∈ commSet D v := ⟨hwD, hvw.2.1.symm, fun h => hvw.2.2 h.symm⟩
   exact hfl v hvD d hdv w hwv hwd
 
-theorem perpMem_inter_eq_of_lineMem {d w x : G} (hwD : w ∈ D) (hwd : ¬ Commute d w)
-    (hxE : x ∈ lineMem D d w) (hxnc : ¬ Commute x d)
+omit [Finite G] in
+theorem perpMem_inter_eq_of_lineMem {d w x : G} (hwD : w ∈ D) (_hwd : ¬ Commute d w)
+    (hxE : x ∈ lineMem D d w) (_hxnc : ¬ Commute x d)
     (hxline : lineMem D d x = lineMem D d w) :
     perpMem D d ∩ perpMem D x = perpMem D d ∩ perpMem D w := by
   have hxwSub : perpMem D d ∩ perpMem D w ⊆ perpMem D x := hxE.2
@@ -89,6 +95,7 @@ theorem perpMem_inter_eq_of_lineMem {d w x : G} (hwD : w ∈ D) (hwd : ¬ Commut
     exact hwmem.2
   exact Set.Subset.antisymm (fun z hz => ⟨hz.1, hxwMem hz⟩) (fun z hz => ⟨hz.1, hxwSub hz⟩)
 
+omit [Finite G] in
 theorem commSet_inter_eq_of_lineMem {d w x : G} (hwD : w ∈ D) (hwd : ¬ Commute d w)
     (hxE : x ∈ lineMem D d w) (hxnc : ¬ Commute x d)
     (hxline : lineMem D d x = lineMem D d w) :
@@ -97,6 +104,7 @@ theorem commSet_inter_eq_of_lineMem {d w x : G} (hwD : w ∈ D) (hwd : ¬ Commut
   rw [← perpMem_inter_perpMem_eq_commSet_inter (fun h => hxnc h.symm),
     ← perpMem_inter_perpMem_eq_commSet_inter hwd, hperp]
 
+omit [Finite G] in
 theorem mem_normalizer_hypLineGroup_of_mem_Halpha_of_commute (hC : HypothesisC D) {g w : G}
     (hgH : g ∈ Halpha D hC.alpha) (hgw : Commute g w) :
     g ∈ Subgroup.normalizer (hypLineGroup D hC.d w : Set G) := by
@@ -120,6 +128,7 @@ theorem mem_normalizer_hypLineGroup_of_mem_Halpha_of_commute (hC : HypothesisC D
   have h1 := hconj g⁻¹ hgd.inv_left hgw.inv_left _ hy
   rwa [inv_inv, show g⁻¹ * (g * y * g⁻¹) * g = y by group] at h1
 
+omit [Finite G] in
 theorem mem_inf_normalizer_of_mem_hypLineGroup_conj (hC : HypothesisC D)
     (hα : hC.alpha = {hC.d}) {v w x g : G} (hwD : w ∈ D) (hwd : ¬ Commute hC.d w)
     (hxE : x ∈ lineMem D hC.d w) (hxnc : ¬ Commute x hC.d)
@@ -177,6 +186,7 @@ theorem fiveReflectionsFixing_subset_fiveReflectionGroup {k : ℕ} (ε π : Bool
     fiveReflectionsFixing k ε π z ⊆ fiveReflectionGroup k ε π :=
   fun _ hg => Subgroup.subset_closure hg.1
 
+omit [Finite G] in
 theorem map_hypLineGroup_eq_fiveReflectionsFixing (hC : HypothesisC D)
     (hα : hC.alpha = {hC.d}) {k : ℕ} {ε π : Bool}
     (θ : Halpha D hC.alpha ≃* fiveReflectionGroup k ε π)
@@ -186,7 +196,7 @@ theorem map_hypLineGroup_eq_fiveReflectionsFixing (hC : HypothesisC D)
       ((θ ⟨y, mem_Halpha_of_mem_commSet hC hα hy⟩ : GL (Fin (k + 1)) (ZMod 5)) :
           Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ x =
         x - (2 * fiveBilin k ε π x (c.vec y)) • c.vec y)
-    {w : G} (hwD : w ∈ D) (hwd : ¬ Commute hC.d w)
+    {w : G} (_hwD : w ∈ D) (hwd : ¬ Commute hC.d w)
     {z : Fin (k + 1) → ZMod 5} (hz : IsFiveHyperplane c w z) :
     ((hypLineGroup D hC.d w).subgroupOf (Halpha D hC.alpha)).map θ.toMonoidHom =
       (Subgroup.closure (fiveReflectionsFixing k ε π z)).subgroupOf
@@ -233,7 +243,7 @@ theorem map_hypLineGroup_eq_fiveReflectionsFixing (hC : HypothesisC D)
           intro h0
           have hnorm := c.norm_vec (y : G) hd
           rw [h0] at hnorm
-          simpa using hnorm
+          simp at hnorm
         have hb0 : fiveBilin k ε π z (c.vec (y : G)) = 0 := by
           rcases smul_eq_zero.mp ht with h | h
           · exact (mul_eq_zero.mp h).resolve_left (by decide : (2 : ZMod 5) ≠ 0)
@@ -250,6 +260,7 @@ theorem map_hypLineGroup_eq_fiveReflectionsFixing (hC : HypothesisC D)
     Subgroup.closure_subgroupOf (fiveReflectionsFixing_subset_fiveReflectionGroup ε π z)]
   rfl
 
+omit [Finite G] in
 theorem map_inf_normalizer_eq (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
     {k : ℕ} {ε π : Bool}
     (θ : Halpha D hC.alpha ≃* fiveReflectionGroup k ε π)
@@ -281,6 +292,7 @@ theorem map_inf_normalizer_eq (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
       (Subgroup.normalizer (Subgroup.closure (fiveReflectionsFixing k ε π z) :
         Set (GL (Fin (k + 1)) (ZMod 5)))) (fiveReflectionGroup k ε π)]
 
+omit [Finite G] in
 theorem fiveForm_ite_eq_orderOf_sub_one (hC : HypothesisC D) {k : ℕ} {ε π : Bool}
     {c : FiveChart hC (k + 1)} {w : G} {z : Fin (k + 1) → ZMod 5}
     (hcb : c.b = fiveBilin k ε π) (hz : IsFiveHyperplane c w z)
@@ -302,10 +314,11 @@ theorem fiveForm_ite_eq_orderOf_sub_one (hC : HypothesisC D) {k : ℕ} {ε π : 
       have h0 : fiveBilin k ε π z z = 0 := hzero.mp h
       rw [h0] at hb'
       exact (by decide : (0 : ZMod 5) ≠ 2) hb'
-    rw [if_neg hf, h3]
+    rw [ite_eq_right hf, h3]
   · have hb' : fiveBilin k ε π z z = 0 := by rw [h5] at hb; simpa using hb
-    rw [if_pos (hzero.mpr hb'), h5]
+    rw [ite_eq_left (hzero.mpr hb'), h5]
 
+omit [Finite G] in
 theorem relIndex_subgroupOf_hypLineGroup (hC : HypothesisC D) {w : G} :
     (hypLineGroup D hC.d w).relIndex
         (Halpha D hC.alpha ⊓ Subgroup.normalizer (hypLineGroup D hC.d w : Set G)) =
@@ -316,6 +329,7 @@ theorem relIndex_subgroupOf_hypLineGroup (hC : HypothesisC D) {w : G} :
     (K := Halpha D hC.alpha ⊓ Subgroup.normalizer (hypLineGroup D hC.d w : Set G))
     (L := Halpha D hC.alpha) inf_le_left).symm
 
+omit [Finite G] in
 theorem relIndex_map_transport_hypLineGroup (hC : HypothesisC D) {k : ℕ} {ε π : Bool}
     (θ : Halpha D hC.alpha ≃* fiveReflectionGroup k ε π) {w : G} :
     ((hypLineGroup D hC.d w).subgroupOf (Halpha D hC.alpha)).relIndex
@@ -329,6 +343,7 @@ theorem relIndex_map_transport_hypLineGroup (hC : HypothesisC D) {k : ℕ} {ε �
     ((Halpha D hC.alpha ⊓ Subgroup.normalizer (hypLineGroup D hC.d w : Set G)).subgroupOf
       (Halpha D hC.alpha)) θ.injective).symm
 
+omit [Finite G] in
 theorem relIndex_mapped_hypLineGroup_eq_ite (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
     {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     (θ : Halpha D hC.alpha ≃* fiveReflectionGroup k ε π)
@@ -354,6 +369,7 @@ theorem relIndex_mapped_hypLineGroup_eq_ite (hC : HypothesisC D) (hα : hC.alpha
       (L := fiveReflectionGroup k ε π) inf_le_left]
   exact relIndex_normalizer_fiveReflectionsFixing hk ε π hz.1
 
+omit [Finite G] in
 theorem relIndex_hypLineGroup_eq_ncard_sub_one (hC : HypothesisC D)
     (hα : hC.alpha = {hC.d}) {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     (θ : Halpha D hC.alpha ≃* fiveReflectionGroup k ε π)
@@ -413,7 +429,7 @@ theorem relIndex_centralizer_bound (hC : HypothesisC D) {w : G}
   rwa [Set.ncard_sdiff_singleton_of_mem hEd] at hcard
 
 theorem centralizer_eq_hypLineGroup (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
-    {w : G} (hwd : ¬ Commute hC.d w)
+    {w : G} (_hwd : ¬ Commute hC.d w)
     (hrel : (hypLineGroup D hC.d w).relIndex
         (Halpha D hC.alpha ⊓ Subgroup.normalizer (hypLineGroup D hC.d w : Set G)) =
       (lineMem D hC.d w).ncard - 1)

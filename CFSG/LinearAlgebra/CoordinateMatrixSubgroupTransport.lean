@@ -120,7 +120,7 @@ theorem rawH_map_coordinateSemilinearGLAct_eq
     · refine Subgroup.mem_map.mpr ⟨τ k, hk, ?_⟩
       exact hτj.symm
     · rw [← hyg, ← hkraw]
-      simp [j, jA, raw, MulAut.conj_apply]
+      simp [j, jA, MulAut.conj_apply]
 
 theorem normal_subgroupOf_rawH
     (A : Subgroup (MulAut W))

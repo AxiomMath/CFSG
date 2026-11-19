@@ -78,7 +78,7 @@ theorem exists_conj_normalizer_of_le {b g : G}
       _ = g⁻¹ * (b * (g * x * g⁻¹)) * g := by rw [hxb]
       _ = c * x := by rw [hc]; group
   obtain ⟨d, hdK, y, hy1, hy2⟩ := Quasithin.exists_conj_le_sylow_of_isPGroup S hSc hS'K
-    S.isPGroup' (S.isPGroup'.map _)
+    S.isPGroup (S.isPGroup.map _)
   have hcard : ∀ {z : G}, Quasithin.conjSubgroup (S : Subgroup G) z ≤ S →
       z ∈ Subgroup.normalizer ((S : Subgroup G) : Set G) := fun {z} hz => by
     have heq : Quasithin.conjSubgroup (S : Subgroup G) z = S :=

@@ -224,7 +224,7 @@ theorem bc3Class_ggCQ_F4_two {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     (S : LangSetup Tag.F4 L p₀)
     (_hFr : ∃ Fr : L →+* L, (∀ c, Fr c = c ^ S.D.q) ∧ S.D.Φ = Units.map (entrywiseHom Fr))
     (hq2 : S.D.q = 2) {a : Fin Tag.F4.rank → Lˣ} (hT : rootDiagUnit Tag.F4 a ∈ S.D.torus)
-    (hap : ∀ j, a j ^ 3 = 1) (h1 : rootDiagUnit Tag.F4 a ≠ 1)
+    (_hap : ∀ j, a j ^ 3 = 1) (_h1 : rootDiagUnit Tag.F4 a ≠ 1)
     (i : KernelComponent (rootCharHom a))
     (hrank : compRank (componentRoots (rootCharHom a) i) = 3)
     (hcard : (componentRoots (rootCharHom a) i).ncard = 18)
@@ -240,13 +240,13 @@ theorem bc3Class_ggCQ_F4_two {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     · exact hin
     · have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
         unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega),
-          if_neg (fun h => by have := h.2; rw [hrank, hcard] at this; omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega),
+          ite_eq_right (fun h => by have := h.2; rw [hrank, hcard] at this; omega)]
       exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨σ, hfin, hcardσ, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
-  haveI := hfin
+  have := hfin
   rw [hq2] at hcardσ
   have hperf :=
     isPerfect_componentRootSpan_f4_card_eighteen i hcard (Nat.succ_le_of_lt hs0) hcardσ

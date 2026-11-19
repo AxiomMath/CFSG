@@ -195,7 +195,7 @@ theorem inndiagConj_mem_e6Inndiag
   refine (mem_e6Inndiag_iff _).2 ⟨rootDiagAut Tag.E6 K b ⟨j, hj⟩, b, ?_⟩
   refine MulEquiv.ext fun x => Subtype.ext ?_
   rw [coe_inndiagConj, coe_conj_mul_rootDiagAut, coe_rootDiagAut]
-  simp only [Subtype.coe_mk]
+  simp only
   group
 
 theorem eq_one_of_inndiagConj_fixes

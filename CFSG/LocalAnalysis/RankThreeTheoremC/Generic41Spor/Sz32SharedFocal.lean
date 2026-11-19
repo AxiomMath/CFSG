@@ -61,17 +61,17 @@ theorem sz32_shared_pindex_normal_eq_top {Γ : Type*} [Group Γ] [Finite Γ] {p 
 theorem sz32_shared_P_le_commutator (hS : Setting G) (hU0 : FullCoreLocal G) {p : ℕ}
     (hp : p ∈ rankThreeSigmaA G) {P : Sylow p G} {M : Subgroup G} (hM : IsCoreMaxLocal p P M) :
     (P : Subgroup G) ≤ ⁅M, M⁆ := by
-  haveI : Fact p.Prime := ⟨sigmaA_prime p hp⟩
+  have : Fact p.Prime := ⟨sigmaA_prime p hp⟩
   exact sylow_le_commutator_of_gamma_two hS hp hM (hU0 p hp P M hM)
 
 theorem sz32_shared_oP_eq_self (hS : Setting G) (hU0 : FullCoreLocal G) {p : ℕ}
     (hp : p ∈ rankThreeSigmaA G) {P : Sylow p G} {M : Subgroup G} (hM : IsCoreMaxLocal p P M) :
     ∀ N : Subgroup G, N ≤ M → (N.subgroupOf M).Normal → (∃ k : ℕ, N.relIndex M = p ^ k) → N = M := by
   intro N hNM hNn ⟨k, hk⟩
-  haveI hfact : Fact p.Prime := ⟨sigmaA_prime p hp⟩
+  have hfact : Fact p.Prime := ⟨sigmaA_prime p hp⟩
   obtain ⟨hPM, -⟩ := sylow_le_of_isCoreMaxLocal hS hp hM
   have hPcomm := sz32_shared_P_le_commutator hS hU0 hp hM
-  haveI : (N.subgroupOf M).Normal := hNn
+  have : (N.subgroupOf M).Normal := hNn
   have hP'comm : (P : Subgroup G).subgroupOf M ≤ ⁅(⊤ : Subgroup M), (⊤ : Subgroup M)⁆ := by
     intro x hx
     have hx' : (x : G) ∈ ⁅M, M⁆ := hPcomm hx

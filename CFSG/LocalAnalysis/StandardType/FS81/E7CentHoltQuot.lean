@@ -87,7 +87,7 @@ private theorem fs81HoltQuot_isSylow2In_subgroupOf {G : Type} [Group G] {S L H :
 
 private theorem fs81HoltQuot_mem_Lbar {G : Type*} [Group G] {H Q L : Subgroup G}
     [hN : (Q.subgroupOf H).Normal]
-    (hQH : Q ≤ H) (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (hLH : L ≤ H) (x : ↥H) :
+    (hQH : Q ≤ H) (_hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (hLH : L ≤ H) (x : ↥H) :
     (QuotientGroup.mk' (Q.subgroupOf H) x ∈
         (L.subgroupOf H).map (QuotientGroup.mk' (Q.subgroupOf H))) ↔
       (x : G) ∈ Q ⊔ L := by
@@ -206,7 +206,7 @@ private theorem fs81HoltQuot_lbar_top {G : Type} [Group G] [Finite G]
 theorem fs81HoltQuot_of_holtSimpleControl (h : HoltSimpleControl) : FS81HoltQuot := by
   classical
   intro X _ _ H Q L S z hQH hHQ hLH hLQ hLsimp hnc hcard hSyl hzS hz2 hzc hctrl
-  haveI hN : (Q.subgroupOf H).Normal :=
+  have hN : (Q.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQH).mpr hHQ
   have htop := fs81HoltQuot_lbar_top h hQH hHQ hLH hLQ hLsimp hnc hcard hSyl hzS hz2 hzc hctrl
   intro x hx

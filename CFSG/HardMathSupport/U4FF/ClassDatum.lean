@@ -88,20 +88,20 @@ open Classical in
 theorem phi4_mem (hK : Nat.card K = (2 ^ n) ^ 2) (s : Fin 2) {x : G4 K n} (hx : x ∈ Xs K n s)
     (hx1 : x ≠ 1) : phi4 hK s x ∈ Hd K n := by
   unfold phi4
-  rw [dif_pos ⟨hx, hx1⟩]
+  rw [dite_eq_left ⟨hx, hx1⟩]
   exact (phi_ex hK s hx hx1).choose_spec.1
 
 theorem psi4_mem (hK : Nat.card K = (2 ^ n) ^ 2) (s : Fin 2) {x : G4 K n} (hx : x ∈ Xs K n s)
     (hx1 : x ≠ 1) : psi4 hK s x ∈ Hd K n := by
   unfold psi4
-  rw [dif_pos ⟨hx, hx1⟩]
+  rw [dite_eq_left ⟨hx, hx1⟩]
   exact (psi_ex hK s hx hx1).choose_spec.1
 
 theorem phi4_spec (hK : Nat.card K = (2 ^ n) ^ 2) (s : Fin 2) {x : G4 K n} (hx : x ∈ Xs K n s)
     (hx1 : x ≠ 1) :
     ∃ l ∈ LowerU K n, ∃ u ∈ UpperU K n, x * nSimple K n s = l * phi4 hK s x * u := by
   unfold phi4
-  rw [dif_pos ⟨hx, hx1⟩]
+  rw [dite_eq_left ⟨hx, hx1⟩]
   obtain ⟨l, hl, u, hu, e⟩ := (phi_ex hK s hx hx1).choose_spec.2
   exact ⟨l, hl, u, hu, e⟩
 
@@ -110,7 +110,7 @@ theorem psi4_spec (hK : Nat.card K = (2 ^ n) ^ 2) (s : Fin 2) {x : G4 K n} (hx :
     ∃ a ∈ Xs K n s, ∃ u ∈ UpperU K n,
       nSimple K n s * x * nSimple K n s = a * nSimple K n s * psi4 hK s x * u := by
   unfold psi4
-  rw [dif_pos ⟨hx, hx1⟩]
+  rw [dite_eq_left ⟨hx, hx1⟩]
   obtain ⟨a, ha, u, hu, e⟩ := (psi_ex hK s hx hx1).choose_spec.2
   exact ⟨a, ha, u, hu, e⟩
 
@@ -217,11 +217,14 @@ theorem cover4_lL (hK : Nat.card K = (2 ^ n) ^ 2) : (cover4 hK).lL = LowerU K n 
   · intro hx
     exact ⟨hx, isPElt_of_mem_L hx⟩
 
+omit [Finite K] in
 theorem fq_neg (x : Fq K n) : -x = x :=
   Subtype.ext (by rw [NegMemClass.coe_neg, CharTwo.neg_eq])
 
+omit [Finite K] in
 theorem fq_unit_neg (u : (Fq K n)ˣ) : -u = u := Units.ext (fq_neg _)
 
+omit [Finite K] in
 theorem unit_neg (u : Kˣ) : -u = u := Units.ext (by rw [Units.val_neg, CharTwo.neg_eq])
 
 theorem phi_id0 (hK : Nat.card K = (2 ^ n) ^ 2) (u : Kˣ) :

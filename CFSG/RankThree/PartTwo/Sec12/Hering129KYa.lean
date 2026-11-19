@@ -43,7 +43,7 @@ theorem nonempty_quotTheta_equiv_projSL_of_four_le {X : Type} [Group X] [Finite 
     [Field K] [Finite K] (h4 : 4 ≤ Nat.card K) (φ : X →* SL(2, K))
     (hφ : Function.Surjective φ) (hker : φ.ker ≤ aschbacherSolvableCore 3 X) :
     Nonempty (X ⧸ aschbacherSolvableCore 3 X ≃* ↥(CFSG.PGLModel.projSL 2 K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθs, -, hθ3, hθmax, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
   have hQ : CFSG.IsQuasisimple SL(2, K) := CFSG.GH74.GLS.IVK.GHInv.isQuasisimple_sl2 h4
@@ -57,7 +57,7 @@ theorem nonempty_quotTheta_equiv_projSL_of_four_le {X : Type} [Group X] [Finite 
   have hprmem : ∀ g : SL(2, K), g ∈ Subgroup.center SL(2, K) ↔ pr g = 1 := fun g => by
     rw [← hprker]
     exact MonoidHom.mem_ker
-  haveI hφθn : ((aschbacherSolvableCore 3 X).map φ).Normal :=
+  have hφθn : ((aschbacherSolvableCore 3 X).map φ).Normal :=
     Subgroup.Normal.map inferInstance φ hφ
   have hφθs : Group.IsSolvable ↥((aschbacherSolvableCore 3 X).map φ) :=
     Group.isSolvable_of_surjective (φ.subgroupMap_surjective (aschbacherSolvableCore 3 X))
@@ -92,7 +92,7 @@ theorem nonempty_quotTheta_equiv_projSL_of_four_le {X : Type} [Group X] [Finite 
     have hPc : ∀ x ∈ ψ.ker, φ x ∈ Subgroup.center SL(2, K) := fun x hx =>
       (hψ1 x).mp (MonoidHom.mem_ker.mp hx)
     have hkerφψ : φ.ker ≤ ψ.ker := hker.trans hθker
-    haveI : Group.IsSolvable ↥φ.ker :=
+    have : Group.IsSolvable ↥φ.ker :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hker)
     have hPs : Group.IsSolvable ↥ψ.ker := by
       refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hkerφψ)
@@ -137,8 +137,8 @@ theorem nonempty_quotTheta_equiv_projSL {X : Type} [Group X] [Finite X] {F : Typ
     rw [pow_zero] at hF
     omega
   have hGF : Nat.card (GaloisField p n) = p ^ n := GaloisField.card p n hn
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite (GaloisField p n)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (GaloisField p n) := Fintype.ofFinite (GaloisField p n)
   have hcard : Fintype.card F = Fintype.card (GaloisField p n) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF, hGF]
   let e : F ≃+* GaloisField p n := FiniteField.ringEquivOfCardEq hcard

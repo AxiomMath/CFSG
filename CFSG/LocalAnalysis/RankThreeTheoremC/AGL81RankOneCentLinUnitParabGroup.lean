@@ -34,7 +34,7 @@ theorem not_isSolvable_of_isQuasisimple {G : Type*} [Group G] (hG : CFSG.Open.Is
     ¬ Group.IsSolvable G := by
   intro hsolv
   obtain ⟨hp, hs⟩ := hG
-  haveI : Nontrivial G := (QuotientGroup.mk'_surjective (Subgroup.center G)).nontrivial
+  have : Nontrivial G := (QuotientGroup.mk'_surjective (Subgroup.center G)).nontrivial
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial G).ne hp
 
 theorem solvNormalCentral_of_isQuasisimple {G : Type*} [Group G]
@@ -56,7 +56,7 @@ theorem solvNormalCentral_of_mulEquiv {G H : Type*} [Group G] [Group H] (e : G �
     (h : SolvNormalCentral G) : SolvNormalCentral H := by
   intro N hN hNs x hx
   have hN' : (N.comap e.toMonoidHom).Normal := hN.comap _
-  haveI : Group.IsSolvable ↥(N.comap e.toMonoidHom) := by
+  have : Group.IsSolvable ↥(N.comap e.toMonoidHom) := by
     refine Group.isSolvable_of_isSolvable_injective
       (f := (e.toMonoidHom.comp (N.comap e.toMonoidHom).subtype).codRestrict N fun y => y.2) ?_
     intro a b hab
@@ -143,13 +143,13 @@ theorem isSolvable_comap_of_surjective {A B : Type*} [Group A] [Group B] (f : A 
     · intro hy
       obtain ⟨a, rfl⟩ := hf y
       exact ⟨⟨a, hy⟩, rfl⟩
-  haveI hker : Group.IsSolvable ↥h.ker := by
+  have hker : Group.IsSolvable ↥h.ker := by
     refine Group.isSolvable_of_isSolvable_injective
       (f := ((M.comap f).subtype.comp h.ker.subtype).codRestrict f.ker fun x => x.2) ?_
     intro a b hab
     have := congrArg Subtype.val hab
     exact Subtype.ext (Subtype.ext this)
-  haveI hr : Group.IsSolvable ↥h.range := by
+  have hr : Group.IsSolvable ↥h.range := by
     rw [hrange]
     exact hM
   exact Group.isSolvable_of_ker_le_range h.ker.subtype h.rangeRestrict
@@ -159,7 +159,7 @@ theorem solvNormalCentral_quotPCore {Q P' Λ : Type*} [Group Q] [Group P'] [Grou
     (φ : Q →* P') (hφ : Function.Surjective φ) (hφk : Group.IsSolvable ↥φ.ker)
     (β : Q →* Λ) (hβ : Function.Surjective β) (hβk : IsPGroup 2 ↥β.ker)
     (hΛ : SolvNormalCentral Λ) : SolvNormalCentral (P' ⧸ CFSG.pCore 2 P') := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro N hN hNs
   set ψ : Q →* P' ⧸ CFSG.pCore 2 P' := (QuotientGroup.mk' (CFSG.pCore 2 P')).comp φ with hψ
   have hψs : Function.Surjective ψ := (QuotientGroup.mk'_surjective _).comp hφ
@@ -169,15 +169,15 @@ theorem solvNormalCentral_quotPCore {Q P' Λ : Type*} [Group Q] [Group P'] [Grou
       simp [hψ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
     rw [hker]
     exact isSolvable_comap_of_surjective φ hφ hφk _
-      (by haveI := CFSG.pCore_isNilpotent (p := 2) (G := P'); infer_instance)
-  haveI hOs : Group.IsSolvable ↥(N.comap ψ) :=
+      (by have := CFSG.pCore_isNilpotent (p := 2) (G := P'); infer_instance)
+  have hOs : Group.IsSolvable ↥(N.comap ψ) :=
     isSolvable_comap_of_surjective ψ hψs hψk N hNs
   have hkerβ : β.ker ≤ ψ.ker := by
     have hnorm : (β.ker.map φ).Normal := β.normal_ker.map φ hφ
     have hle : β.ker.map φ ≤ CFSG.pCore 2 P' := le_sSup ⟨hnorm, hβk.map φ⟩
     intro k hk
     exact (QuotientGroup.eq_one_iff _).mpr (hle ⟨k, hk, rfl⟩)
-  haveI : Group.IsSolvable ↥((N.comap ψ).map β) :=
+  have : Group.IsSolvable ↥((N.comap ψ).map β) :=
     Group.isSolvable_of_surjective (f := β.subgroupMap (N.comap ψ))
       (β.subgroupMap_surjective (N.comap ψ))
   have hcentral : (N.comap ψ).map β ≤ Subgroup.center Λ :=
@@ -205,8 +205,8 @@ theorem isEmpty_quotPCore_perm_three {X : Type*} [Group X] [Finite X] {P R : Sub
     (hRs : CFSG.Open.IsSubnormal R P) :
     IsEmpty (↥R ⧸ CFSG.pCore 2 ↥R ≃* Equiv.Perm (Fin 3)) := by
   refine ⟨fun e => ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : ↥P →* ↥P ⧸ CFSG.pCore 2 ↥P := QuotientGroup.mk' (CFSG.pCore 2 ↥P) with hπ
   set ι : ↥R →* ↥P := Subgroup.inclusion hRP with hι
   set φ : ↥R →* ↥P ⧸ CFSG.pCore 2 ↥P := π.comp ι with hφ
@@ -287,7 +287,7 @@ theorem isEmpty_quotPCore_perm_three {X : Type*} [Group X] [Finite X] {P R : Sub
     rwa [pCoreOf_top_eq] at h
   have hcenter := hP (CFSG.pCore 3 (↥P ⧸ CFSG.pCore 2 ↥P)) inferInstance
     (by
-      haveI := CFSG.pCore_isNilpotent (p := 3) (G := ↥P ⧸ CFSG.pCore 2 ↥P)
+      have := CFSG.pCore_isNilpotent (p := 3) (G := ↥P ⧸ CFSG.pCore 2 ↥P)
       infer_instance)
   have hx : ((x₀ : φ.range) : ↥P ⧸ CFSG.pCore 2 ↥P) ∈ CFSG.pCore 3 (↥P ⧸ CFSG.pCore 2 ↥P) :=
     hle ⟨x₀, Subgroup.mem_zpowers x₀, rfl⟩

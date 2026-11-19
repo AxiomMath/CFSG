@@ -104,7 +104,7 @@ theorem isSRGWith_commGraph (h87 : Theorem8_7) (hC : HypothesisC D) (hα : hC.al
       refine not_congr ⟨fun h => ?_, fun h => ?_⟩
       · rw [h]; group
       · rw [← h]; group
-    simp only [commSet, Set.mem_setOf_eq]
+    simp only [commSet, Set.mem_ofPred_eq]
     rw [hD, hc, hne]
   have htr : ∀ g a b : G, (commSet D (g * a * g⁻¹) ∩ commSet D (g * b * g⁻¹)).ncard =
       (commSet D a ∩ commSet D b).ncard := by
@@ -156,7 +156,7 @@ theorem isSRGWith_commGraph (h87 : Theorem8_7) (hC : HypothesisC D) (hα : hC.al
         ({e | e ∈ D ∧ Commute e hC.d} ∩ {e | e ∈ D ∧ Commute e (g * b * g⁻¹)}) \
           {hC.d, g * (b : G) * g⁻¹} := by
       ext e
-      simp only [commSet, Set.mem_inter_iff, Set.mem_setOf_eq, Set.mem_diff, Set.mem_insert_iff,
+      simp only [commSet, Set.mem_inter_iff, Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_insert_iff,
         Set.mem_singleton_iff]
       tauto
     have hsub : ({hC.d, g * (b : G) * g⁻¹} : Set G) ⊆
@@ -164,7 +164,7 @@ theorem isSRGWith_commGraph (h87 : Theorem8_7) (hC : HypothesisC D) (hα : hC.al
       rintro e (rfl | rfl)
       · exact ⟨⟨hC.hd, Commute.refl _⟩, hC.hd, hvu.symm⟩
       · exact ⟨⟨hv.1, hvu⟩, hv.1, Commute.refl _⟩
-    rw [heq, Set.ncard_diff hsub, Set.ncard_pair hvne.symm, hlam _ hv]
+    rw [heq, Set.ncard_sdiff hsub, Set.ncard_pair hvne.symm, hlam _ hv]
   · intro a b hne hnadj
     obtain ⟨g, hg⟩ := hconj a a.2
     have hab : ¬ Commute (a : G) b := fun h =>

@@ -64,7 +64,7 @@ theorem conj_v1Sub15_facts (hI : NamedInputs15 G) (hS : Std15 G)
 theorem rk_inf_conj_le_one (hI : NamedInputs15 G) (hS : Std15 G)
     (h : Cex15 M V₀ V U S) {g : G} (hg : g ∉ M) : rk ↥(conjSubgroup V₀ g ⊓ V) ≤ 1 := by
   have hH := h.hyp
-  obtain ⟨h', hh'C, hh'M⟩ := SetLike.not_le_iff_exists.1 h.not_le
+  obtain ⟨h', hh'C, hh'M⟩ := IsConcreteLE.not_le_iff_exists.1 h.not_le
   obtain ⟨⟨w₀, hw₀⟩, hw₀1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 (h.v1Sub15_ne_bot hS)
   have hw0' : w₀ ≠ 1 := fun e => hw₀1 (Subtype.ext e)
   have hx : h'⁻¹ * w₀ * h' ∈ conjSubgroup (v1Sub15 V₀ U) h' := by

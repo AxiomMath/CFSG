@@ -23,7 +23,7 @@ theorem sig_mul_self (hK : Nat.card K = (2 ^ n) ^ 2) : sig n K * sig n K = 1 := 
   unfold sig
   rw [← fldAut_mul, h, fldAut_one]
 
-theorem mem_fixV_sig (hK : Nat.card K = (2 ^ n) ^ 2) {X : HMod n K} :
+theorem mem_fixV_sig (_hK : Nat.card K = (2 ^ n) ^ 2) {X : HMod n K} :
     X ∈ fixV (Subgroup.zpowers (sig n K)) ↔ ∀ i j : Fin 3, bar n (mat X i j) = mat X i j := by
   have hfix : sig n K X = X ↔ (mat X).map (bar n) = mat X := by
     rw [← sig_apply]
@@ -104,9 +104,9 @@ theorem mem_commV_sig (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) {X : HMod n
       intro p q
       rw [hUpq, hUpq]
       rcases lt_trichotomy p q with h | rfl | h
-      · rw [if_pos h, if_neg (not_lt.2 h.le), add_zero]
-      · rw [if_neg (lt_irrefl _), hdiag p, add_zero]
-      · rw [if_neg (not_lt.2 h.le), if_pos h, zero_add, hsym p q]
+      · rw [ite_eq_left h, ite_eq_right (not_lt.2 h.le), add_zero]
+      · rw [ite_eq_right (lt_irrefl _), hdiag p, add_zero]
+      · rw [ite_eq_right (not_lt.2 h.le), ite_eq_left h, zero_add, hsym p q]
     obtain ⟨W, hWpq⟩ : ∃ W : Matrix (Fin 3) (Fin 3) K,
         ∀ p q, W p q = ω * U p q + bar n ω * U q p :=
       ⟨Matrix.of fun p q => ω * U p q + bar n ω * U q p, fun p q => rfl⟩

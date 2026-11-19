@@ -55,12 +55,12 @@ theorem cntId_eq (P : ℕ → ℕ) {m : ℕ} (hm : m ≤ 1024) :
   rw [sumBelow_eq _ _ _ (by omega), Finset.card_filter]
   refine Finset.sum_congr rfl fun i _ => ?_
   by_cases h : P i = i
-  · rw [if_pos h, show Nat.beq (P i) i = true from Nat.beq_eq_true_eq _ _ ▸ h]
+  · rw [ite_eq_left h, show Nat.beq (P i) i = true from Nat.beq_eq_true_eq _ _ ▸ h]
   · have hb : Nat.beq (P i) i = false := by
       rw [Bool.eq_false_iff]
       intro hb
       exact h (Nat.eq_of_beq_eq_true hb)
-    rw [if_neg h, hb]
+    rw [ite_eq_right h, hb]
 
 theorem clauseOK_spec {FL YL : ℕ → ℕ} {TG : ℕ → ℕ → ℕ} {QL : ℕ → List ℕ} {o u0 u1 u2 m : ℕ}
     (h : clauseOK FL TG QL YL o u0 u1 u2 m = true) (hm : m ≤ 1024) :

@@ -14,6 +14,7 @@ section Frame
 variable {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} {x : G} {m : ℕ}
   {V VT : Type} [Group V] [Group VT]
 
+omit [Finite G] in
 private lemma qTwoLMFrameC_split_pow_eq_one_of_mem {x : G} {L : Subgroup G}
     (hxL : x ∉ L) (hord : orderOf x = 3) {k : ℕ} (hk : x ^ k ∈ L) : x ^ k = 1 := by
   by_contra hne

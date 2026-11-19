@@ -18,7 +18,7 @@ section Rank
 theorem rankLE2_of_pRank_eq_two {P : Type*} [Group P] [Finite P] {p : ℕ} (hp : p.Prime)
     (h : CFSG.Open.pRank p (⊤ : Subgroup P) = 2) : RankLE2 p P := by
   intro F hF
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFp : IsPGroup p ↥F := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hF.2 g g.2)⟩
@@ -52,8 +52,8 @@ theorem chevTwoPClosureOddFamily_linearDiagThree :
     obtain ⟨e⟩ := he
     obtain ⟨hr2, hp3⟩ := hF
     have hdi' : q.p = 2 := hdi
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-    haveI : CharP (GaloisField q.p q.exponent) 2 := by
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : CharP (GaloisField q.p q.exponent) 2 := by
       rw [← hdi']
       infer_instance
     let e1 : L ≃* projectiveSL (r + 1) (GaloisField q.p q.exponent) :=

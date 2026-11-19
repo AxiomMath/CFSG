@@ -93,7 +93,7 @@ variable {α : Type*} [Fintype α] [DecidableEq α] {K : Type*} [Group K]
 theorem exists_isElemAbelian_card_eq (e : K ≃* alternatingGroup α) {σ : Perm α} (hσ : σ ^ 5 = 1) :
     ∃ E : Subgroup K, CFSG.Open.IsElemAbelian 5 E ∧
       Nat.card E = 5 ^ Nat.card σ.cycleFactorsFinset := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let ι₀ : ((c : σ.cycleFactorsFinset) → Subgroup.zpowers (c : Perm α)) →* Perm α :=
     (OnCycleFactors.kerParam σ).comp (MonoidHom.inr _ _)
   have hι₀ : Function.Injective ι₀ :=

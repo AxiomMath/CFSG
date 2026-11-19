@@ -11,6 +11,7 @@ open Subgroup CFSG.Quasithin.OperatorJH
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ}
 
+omit [Finite G] in
 private theorem le_normalizer_inf' {K A B : Subgroup G} (hA : K ≤ normalizer (A : Set G))
     (hB : K ≤ normalizer (B : Set G)) : K ≤ normalizer ((A ⊓ B : Subgroup G) : Set G) :=
   (le_inf hA hB).trans inf_normalizer_le_normalizer_inf
@@ -46,7 +47,7 @@ theorem baseS_of_emb (hn : Odd n) {ζ : GaloisField 2 n} (hζ : orderOf ζ = 2 ^
     have h := hβ'.restrict (inf_le_right : Y ⊓ X₀ ≤ X₀)
     rwa [inf_assoc, inf_eq_right.mpr hQX, inf_comm] at h
   have hu₁ : IsUnit ((-1 : ZMod (2 ^ n - 1)) • psi m₀).1 := by
-    simpa [psi] using isUnit_one.neg
+    simp [psi]
   have hu₂ : IsUnit (cen n • (-1 : ZMod (2 ^ n - 1)) • psi m₀).1 := by
     simpa [psi] using (isUnit_cen hn).neg
   by_cases hYX₀ : Y ≤ X₀
@@ -66,7 +67,7 @@ theorem baseS_of_emb (hn : Odd n) {ζ : GaloisField 2 n} (hζ : orderOf ζ = 2 ^
       · simp only [facMultiset]
         rw [eBot.chiLab_eq_cls hn0 hζ (hHY hd₁H) (hHY hd₂H) (not_le_of_gt hlt)]
         simp [clsSets, Pattern.contrib]
-  · obtain ⟨s, hsY, hsX⟩ := SetLike.not_le_iff_exists.mp hYX₀
+  · obtain ⟨s, hsY, hsX⟩ := IsConcreteLE.not_le_iff_exists.mp hYX₀
     obtain ⟨hs₁, hs₂⟩ := hsq s (hYS hsY) hsX
     have hlt₁ : Y ⊓ X₀ < Y := lt_of_le_of_ne inf_le_left fun h => hYX₀ (by
       rw [← h]

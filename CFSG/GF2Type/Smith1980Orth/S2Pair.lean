@@ -58,7 +58,7 @@ private theorem not_mem_orbitMbar_same {σ τ : Vt S D.g D.t} (hσ : D.QV σ = 0
     exact hβ
   refine ⟨?_, ?_, ?_⟩ <;> rw [D.coord_mem_orbitMbar_iff] <;>
     rintro (⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩) <;>
-    first | exact hQ h3 | exact h2 h1 | exact h2 rfl | exact h2 h1.symm
+    first | exact hQ h3 | exact h2 rfl
 
 private theorem not_mem_orbitMbar_diff {σ τ : Vt S D.g D.t} (hσ : σ ≠ 0) (hτ : τ ≠ 0)
     (hne : τ ≠ σ) :
@@ -101,7 +101,7 @@ theorem not_isConj_mul_of_not_mem_Qa {h b : G} (hcQ : h * S.z * h⁻¹ ∈ S.QG)
       rcases hy with hy | hy | hy
       ·
         rw [hx, hy] at hsum
-        simp only [D.coord_add_coord, add_zero, zero_add] at hsum
+        simp only [D.coord_add_coord, add_zero] at hsum
         have hβ : D.betaV σ τ ≠ 0 := fun h' => hyP (by
           rw [hy]
           exact D.mem_Pfst_iff.mpr ⟨τ, 0, h', by rw [zero_smul]⟩)
@@ -115,7 +115,7 @@ theorem not_isConj_mul_of_not_mem_Qa {h b : G} (hcQ : h * S.z * h⁻¹ ∈ S.QG)
         exact (D.not_mem_orbitMbar_diff hσ0 hτ0 hne).1 hsum
       ·
         rw [hx, hy] at hsum
-        simp only [D.coord_add_coord, add_zero, zero_add] at hsum
+        simp only [D.coord_add_coord, zero_add] at hsum
         have hne : τ ≠ σ := fun h' => hyP (by
           rw [hy]
           exact D.mem_Pfst_iff.mpr ⟨σ, 1, D.betaV_isAlt σ, by rw [h', one_smul]⟩)
@@ -132,14 +132,14 @@ theorem not_isConj_mul_of_not_mem_Qa {h b : G} (hcQ : h * S.z * h⁻¹ ∈ S.QG)
         exact (D.not_mem_orbitMbar_diff hσ0 hτ0 hne).2.1 hsum
       ·
         rw [hx, hy] at hsum
-        simp only [D.coord_add_coord, add_zero, zero_add] at hsum
+        simp only [D.coord_add_coord, add_zero] at hsum
         have hβ : D.betaV σ τ ≠ 0 := fun h' => hyP (by
           rw [hy]
           exact D.mem_Psnd_iff.mpr ⟨τ, 0, h', by rw [zero_smul, add_zero]⟩)
         exact (D.not_mem_orbitMbar_same hσQ hτQ hβ).2.1 hsum
       ·
         rw [hx, hy] at hsum
-        simp only [D.coord_add_coord, add_zero, zero_add] at hsum
+        simp only [D.coord_add_coord, zero_add] at hsum
         have hne : τ ≠ σ := fun h' => hyP (by
           rw [hy]
           exact D.mem_Psnd_iff.mpr ⟨0, 1, map_zero _, by rw [h', one_smul, zero_add]⟩)
@@ -148,14 +148,14 @@ theorem not_isConj_mul_of_not_mem_Qa {h b : G} (hcQ : h * S.z * h⁻¹ ∈ S.QG)
       rcases hy with hy | hy | hy
       ·
         rw [hx, hy] at hsum
-        simp only [D.coord_add_coord, add_zero, zero_add] at hsum
+        simp only [D.coord_add_coord, add_zero] at hsum
         have hne : τ ≠ σ := fun h' => hyP (by
           rw [hy]
           exact D.mem_Pdiag_iff.mpr ⟨0, 1, map_zero _, by rw [h', one_smul, zero_add]⟩)
         exact (D.not_mem_orbitMbar_diff hσ0 hτ0 hne).2.2.2.2.1 hsum
       ·
         rw [hx, hy] at hsum
-        simp only [D.coord_add_coord, add_zero, zero_add] at hsum
+        simp only [D.coord_add_coord, add_zero] at hsum
         have hne : τ ≠ σ := fun h' => hyP (by
           rw [hy]
           exact D.mem_Pdiag_iff.mpr ⟨σ, 1, D.betaV_isAlt σ, by
@@ -163,7 +163,7 @@ theorem not_isConj_mul_of_not_mem_Qa {h b : G} (hcQ : h * S.z * h⁻¹ ∈ S.QG)
         exact (D.not_mem_orbitMbar_diff hσ0 hτ0 hne).2.2.2.2.2 hsum
       ·
         rw [hx, hy] at hsum
-        simp only [D.coord_add_coord, add_zero, zero_add] at hsum
+        simp only [D.coord_add_coord] at hsum
         have hβ : D.betaV σ τ ≠ 0 := fun h' => hyP (by
           rw [hy]
           exact D.mem_Pdiag_iff.mpr ⟨τ, 0, h', by rw [zero_smul, add_zero]⟩)

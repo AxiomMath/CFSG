@@ -69,7 +69,7 @@ theorem exists_presentation {r : ℕ} (hr : 4 ≤ r) {Q U : Subgroup G}
     ∃ u r₀ : G, u ∈ Q ∧ r₀ ∈ Q ∧ Subgroup.zpowers u = U ∧ orderOf u = 2 ^ (r - 1) ∧
       u ^ 2 ^ (r - 2) = z ∧ r₀ ∉ U ∧ r₀ * u * r₀⁻¹ = u⁻¹ ∧ r₀ * r₀ = z ∧
       ∀ q ∈ Q, q ∈ U ∨ ∃ i : ℤ, q = u ^ i * r₀ := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   have hUeq : U = QSub.xc e := QSub.eq_xc_of_cyclic_index_two e hr hUQ hUc hUi
   have hzA : z = ((e.symm (QuaternionGroup.a (2 ^ (r - 2))) : ↥Q) : G) :=
     (QSub.eq_of_mul_self_eq_one e hzQ hz2).resolve_left hz1

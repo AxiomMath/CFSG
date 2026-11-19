@@ -50,14 +50,14 @@ theorem foldl_stepO : ∀ (L l : List ℕ) (h : Std.HashSet ℕ) (m : ℕ), MRel
     have hc : h.contains x = bitQ m x := by rw [bitQ_eq]; exact hr x
     cases hb : bitQ m x
     · have e1 : stepH (l, h) x = (x :: l, h.insert x) := by
-        simp only [stepH, id, hc, hb, Bool.false_eq_true, if_false]
+        simp only [stepH, id, hc, hb, Bool.false_eq_true, ite_false]
       have e2 : stepO (l, m) x = (x :: l, Nat.lor m (Nat.shiftLeft 1 x)) := by
-        simp only [stepO, hb, Bool.false_eq_true, if_false]
+        simp only [stepO, hb, Bool.false_eq_true, ite_false]
       rw [e1, e2]
       refine foldl_stepO L _ _ _ fun k => ?_
       rw [Std.HashSet.contains_insert, testBit_ins, hr k]
-    · have e1 : stepH (l, h) x = (l, h) := by simp only [stepH, id, hc, hb, if_true]
-      have e2 : stepO (l, m) x = (l, m) := by simp only [stepO, hb, if_true]
+    · have e1 : stepH (l, h) x = (l, h) := by simp only [stepH, id, hc, hb, ite_true]
+      have e2 : stepO (l, m) x = (l, m) := by simp only [stepO, hb, ite_true]
       rw [e1, e2]
       exact foldl_stepO L l h m hr
 
@@ -170,8 +170,8 @@ theorem e16M_eq {I : List ℕ} (hI : ∀ q ∈ I, q < 2 ^ 144) {t : ℕ} (ht : t
   rw [e16q]
   refine any_map_congr fun q hq => ?_
   have hq' := hCb q hq
-  simp only [List.contains_cons, List.contains_nil, beq_unpackA hq' oneQ_lt, beq_unpackA hq' ht,
-    beq_unpackA hq' hs', beq_unpackA hq' hr', beq_unpackA hq' (mulQ_lt _ _), commR_unpackA,
+  simp only [beq_unpackA hq' oneQ_lt, beq_unpackA hq' ht,
+    beq_unpackA hq' hs', beq_unpackA hq' (mulQ_lt _ _), commR_unpackA,
     nat_beq]
 
 theorem fixOK_eq (O : List ℕ) (t : ℕ) :
@@ -284,7 +284,7 @@ theorem lookup_eq (L : List ℕ) (hL : ∀ q ∈ L, q < 2 ^ 144) {r : ℕ} (hr :
 
 theorem lookup_mem {L : List ℕ} (hL : ∀ q ∈ L, q < 2 ^ 144) {r : ℕ} (hr : r ∈ L) :
     hjLookup (L.map fun x => (unpackA x, fixCnt x)) (unpackA r) = fixCnt r := by
-  rw [lookup_eq L hL (hL r hr), if_pos (List.contains_iff_mem.2 hr)]
+  rw [lookup_eq L hL (hL r hr), ite_eq_left (List.contains_iff_mem.2 hr)]
 
 theorem lookup_set {L : List ℕ} (hL : ∀ q ∈ L, q < 2 ^ 144) {r : ℕ} (hr : r < 2 ^ 144) {n : ℕ}
     (hn : n ≠ 0) :

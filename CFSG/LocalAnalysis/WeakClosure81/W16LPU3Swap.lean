@@ -14,27 +14,27 @@ open scoped MatrixGroups
 variable {s : ℕ} {F : Type} [Field F] (h : UnitaryFieldData 2 s F)
 
 theorem w16l_isPerfect_Sig01 (hs : 2 ≤ s) : Group.IsPerfect ↥(Sig01 h) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := h.charP
-  haveI : Finite F := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := h.charP
+  have : Finite F := h.finite
   have hq : 4 ≤ 2 ^ s := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ s := Nat.pow_le_pow_right (by norm_num) hs
-  haveI : Group.IsPerfect ↥(unitarySU 2 s F 2) :=
+  have : Group.IsPerfect ↥(unitarySU 2 s F 2) :=
     CFSG.RankThree.SubgroupLists.isPerfect_statedSU_two (K := F) (r := 2) (f := s)
       h.card_eq_sq hq
   have hperf' : Group.IsPerfect ↥(gramSU h (1 : Matrix (Fin 2) (Fin 2) F)) :=
     Group.IsPerfect.ofSurjective
       (f := (MulEquiv.subgroupCongr (unitarySU_eq_gramSU h 2)).toMonoidHom)
       (MulEquiv.subgroupCongr (unitarySU_eq_gramSU h 2)).surjective
-  haveI : Group.IsPerfect ↥(gramSU h (1 : Matrix (Fin 2) (Fin 2) F)) := hperf'
+  have : Group.IsPerfect ↥(gramSU h (1 : Matrix (Fin 2) (Fin 2) F)) := hperf'
   exact Group.IsPerfect.range (blkHom h)
 
 theorem w16l_commute_of_map_commute_Sig01 (hs : 2 ≤ s) {Q : Type} [Group Q]
     (π : ↥(unitarySU 2 s F 3) →* Q) (hker : π.ker ≤ Subgroup.center ↥(unitarySU 2 s F 3))
     {g : ↥(unitarySU 2 s F 3)} (hg : ∀ σ ∈ Sig01 h, π g * π σ = π σ * π g) :
     ∀ σ ∈ Sig01 h, g * σ = σ * g := by
-  haveI : Group.IsPerfect ↥(Sig01 h) := w16l_isPerfect_Sig01 h hs
+  have : Group.IsPerfect ↥(Sig01 h) := w16l_isPerfect_Sig01 h hs
   let Z := Subgroup.center ↥(unitarySU 2 s F 3)
   let φ : ↥(Sig01 h) →* Z :=
     MonoidHom.mk'
@@ -86,7 +86,7 @@ theorem w16l_swap_of_centralizes_Sig01 (hs : 2 ≤ s) {Q : Type} [Group Q]
     (hX : X' ≤ Subgroup.centralizer (((Sig01 h).map π : Subgroup Q) : Set Q))
     (hnc : ¬ X' ≤ Subgroup.center Q) :
     ∃ x ∈ X', ∃ k : Q, k⁻¹ * x * k ∈ (Sig01 h).map π ⊔ X' ∧ k⁻¹ * x * k ∉ X' := by
-  obtain ⟨x', hx'X, hx'c⟩ := SetLike.not_le_iff_exists.mp hnc
+  obtain ⟨x', hx'X, hx'c⟩ := IsConcreteLE.not_le_iff_exists.mp hnc
   obtain ⟨xt, hxt'⟩ := hsurj x'
   rw [← hxt'] at hx'X hx'c
   have hcomm : ∀ σ ∈ Sig01 h, xt * σ = σ * xt := by

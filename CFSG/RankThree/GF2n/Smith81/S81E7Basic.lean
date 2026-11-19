@@ -72,7 +72,7 @@ theorem pair_theta (γ : Fin (Tag.rank .E7) → ℤ) : MinData.toWeight γ ⬝�
   rw [form_comm posDef_cartan_E7, toWeight_theta, single_dotProduct, one_mul]
 
 theorem perp_iff {β : Fin (Tag.rank .E7) → ℤ} : β ∈ Perp ↔ IsRoot .E7 β ∧ β node1 = 0 := by
-  simp only [Perp, Set.mem_setOf_eq, pair_theta]
+  simp only [Perp, Set.mem_ofPred_eq, pair_theta]
 
 theorem wt_injective {a b : Fin e7Data.d} (h : e7Data.wt a = e7Data.wt b) : a = b :=
   e7Data_valid.wt_injective h
@@ -81,7 +81,7 @@ theorem shift_eq {γ : Fin (Tag.rank .E7) → ℤ} {a b : Fin e7Data.d}
     (hb : e7Data.wt b = e7Data.wt a + MinData.toWeight γ) : shift γ a = b := by
   classical
   have h : ∃ b : Fin e7Data.d, e7Data.wt b = e7Data.wt a + MinData.toWeight γ := ⟨b, hb⟩
-  rw [shift, dif_pos h]
+  rw [shift, dite_eq_left h]
   exact wt_injective (h.choose_spec.trans hb.symm)
 
 set_option maxRecDepth 20000 in
@@ -120,7 +120,7 @@ theorem rootOp_single {K : Type} [Field K] [CharP K 2] {γ : Fin (Tag.rank .E7) 
     e7Data.rootOp K γ (Finsupp.single a 1) =
       if pr a γ = -1 then Finsupp.single (shift γ a) 1 else 0 := by
   by_cases h : pr a γ = -1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hne : e7Data.rootOp K γ (Finsupp.single a 1) ≠ 0 :=
       (e7Data_valid.rootOp_single_ne_zero_iff cartan_symm_E7 hγ a).2 h
     rcases e7Data_valid.isSignedMap_rootOp (R := K) hγ a with h0 | ⟨b, hb, hs⟩
@@ -129,7 +129,7 @@ theorem rootOp_single {K : Type} [Field K] [CharP K 2] {γ : Fin (Tag.rank .E7) 
       rcases hs with hs | hs
       · exact hs
       · rw [hs, ← Finsupp.single_neg, CharTwo.neg_eq]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     by_contra hne
     exact h ((e7Data_valid.rootOp_single_ne_zero_iff cartan_symm_E7 hγ a).1 hne)
 
@@ -179,26 +179,26 @@ theorem rootOp_apply {K : Type} [Field K] [CharP K 2] {γ : Fin (Tag.rank .E7) �
     rw [e, map_smul, rootOp_single hγ]
     simp only [Finsupp.smul_apply, smul_eq_mul]
     by_cases ha : pr a γ = -1
-    · rw [if_pos ha]
+    · rw [ite_eq_left ha]
       by_cases hb : shift γ a = b
       · have hb1 : pr b γ = 1 := hb ▸ pr_shift_self hγ ha
         have hab : a = shift (-γ) b := by rw [← hb, shift_neg_shift hγ ha]
-        simp [hb, hb1, ← hab, Finsupp.single_apply]
+        simp [hb, hb1, ← hab]
       · by_cases hb1 : pr b γ = 1
         · have hab : a ≠ shift (-γ) b := by
             intro hab
             apply hb
             rw [hab, shift_shift_neg hγ hb1]
-          simp [hb, hb1, hab, Finsupp.single_apply]
-        · simp [hb, hb1, Finsupp.single_apply]
-    · rw [if_neg ha]
+          simp [hb, hb1, hab]
+        · simp [hb, hb1]
+    · rw [ite_eq_right ha]
       by_cases hb1 : pr b γ = 1
       · have hab : a ≠ shift (-γ) b := by
           intro hab
           apply ha
           rw [hab]
           exact pr_shift_neg hγ hb1
-        simp [hb1, hab, Finsupp.single_apply]
+        simp [hb1, hab]
       · simp [hb1]
 
 theorem xu_apply_coord {K : Type} [Field K] [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ}

@@ -19,6 +19,7 @@ section Fifteen
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem shape_conj {M L K : Subgroup G} (hK : K ∈ conjSetOf M L) {n : ℕ}
     (hshape : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) :
     IsL2 (Bar2 K) n ∨ IsSz (Bar2 K) n := by

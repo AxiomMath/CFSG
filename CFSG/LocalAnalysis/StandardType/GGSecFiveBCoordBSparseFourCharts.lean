@@ -213,7 +213,7 @@ theorem exists_orthFourChart_lifts_of_join
         simp [ggConjAut_apply, hw3]
       rw [hOne, map_one]
       simp [uniFourTau]
-    · simpa only [w, if_neg hi] using hact0 i
+    · simpa only [w, ite_eq_right hi] using hact0 i
 
 end ActualLifts
 

@@ -233,7 +233,7 @@ theorem card_sup_mul_card_inf [Finite G] (H K : Subgroup G)
   have hHM : H ≤ H ⊔ K := le_sup_left
   have hKM : K ≤ H ⊔ K := le_sup_right
   have hMN : H ⊔ K ≤ Subgroup.normalizer (K : Set G) := sup_le h Subgroup.le_normalizer
-  haveI : (K.subgroupOf (H ⊔ K)).Normal :=
+  have : (K.subgroupOf (H ⊔ K)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mpr hMN
   have htop : H.subgroupOf (H ⊔ K) ⊔ K.subgroupOf (H ⊔ K) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hHM hKM, Subgroup.subgroupOf_self]
@@ -272,7 +272,7 @@ theorem nine_le_card [Finite G] {B : Subgroup G} (hB : IsElemAb 3 4 B) {u v : G}
     exact hvu (this ▸ hvK)
   obtain ⟨m, hm, e⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hd
   rw [e] at hd3 hne ⊢
-  interval_cases m <;> simp_all <;> omega
+  interval_cases m <;> simp_all
 
 theorem card_inf_cen_le_nine [Finite G] {B : Subgroup G} {c₁ c₂ c₃ x : G}
     (hB : IsElemAb 3 4 B) (hE : IsElemAb 3 3 (Subgroup.closure ({c₁, c₂, c₃} : Set G)))

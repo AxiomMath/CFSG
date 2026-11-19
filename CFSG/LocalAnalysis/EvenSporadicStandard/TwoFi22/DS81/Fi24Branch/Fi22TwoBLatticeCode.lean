@@ -14,7 +14,7 @@ theorem codeVec_zero : codeVec 0 = 0 := by
 theorem codeVec_xor (a b : ℕ) : codeVec (a ^^^ b) = codeVec a + codeVec b := by
   funext i
   simp only [codeVec, Nat.testBit_xor, Pi.add_apply]
-  cases a.testBit i <;> cases b.testBit i <;> simp <;> decide
+  cases a.testBit i <;> cases b.testBit i <;> simp; decide
 
 theorem codeVec_mod (c : ℕ) : codeVec (c % 2 ^ 10) = codeVec c := by
   funext i
@@ -49,7 +49,7 @@ theorem dotN_eq (m y : ℕ) :
   | n + 1 => by
     rw [Finset.sum_range_succ, ← dotN_eq m y n, dotN]
     by_cases h1 : m.testBit n <;> by_cases h2 : y.testBit n <;> by_cases h3 : dotN m y n <;>
-      simp [h1, h2, h3] <;> decide
+      simp [h1, h2, h3]; decide
 
 @[expose] def dotForm (m : ℕ) : (Fin 10 → ZMod 2) →ₗ[ZMod 2] ZMod 2 where
   toFun v := ∑ i : Fin 10, codeVec m i * v i
@@ -88,7 +88,7 @@ theorem exists_codeVec (v : Fin 10 → ZMod 2) : ∃ c < 1024, codeVec c = v := 
     intro a ha b hb h
     exact codeVec_injOn (by simpa using ha) (by simpa using hb) h
   have hcard : (Finset.univ : Finset (Fin 10 → ZMod 2)).card ≤ (Finset.range 1024).card := by
-    simp [Fintype.card_fun]
+    simp
   obtain ⟨c, hc, hcv⟩ := Finset.surj_on_of_inj_on_of_card_le (fun c _ => codeVec c) hmaps
     (fun a b ha hb h => hinj ha hb h) hcard v (Finset.mem_univ _)
   exact ⟨c, by simpa using hc, hcv.symm⟩

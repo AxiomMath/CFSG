@@ -50,7 +50,7 @@ theorem admissible_label_of_heldSU_quot_exact
   · subst ha2
     obtain ⟨k, hfK, hfinK, hk, ⟨ψ⟩⟩ :=
       CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.exists_quot_heldSU_two_equiv_psl τ' hτ' hτ'm hE
-    letI : Field k := hfK
+    let : Field k := hfK
     let : Finite k := hfinK
     obtain ⟨hlam, hlab⟩ :=
       CFSG.StandardType.S2MathAs51600RALabels.admissible_typeA_of_psl

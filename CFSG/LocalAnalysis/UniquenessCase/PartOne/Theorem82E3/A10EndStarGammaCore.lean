@@ -113,7 +113,7 @@ theorem eq_bot_of_glbCore_eq_top
       (Subgroup.normalizer_eq_top_iff.mp hnormθ) hcopθ
     rw [hcore] at hle
     exact le_bot_iff.mp hle
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hcardA⟩ := (CFSG.Open.IsElemAbelian.isPGroup hA).exists_card_eq
   have hn3 : 3 ≤ n := by
     rw [hcardA] at hcard

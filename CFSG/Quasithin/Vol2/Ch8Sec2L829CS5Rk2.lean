@@ -62,7 +62,7 @@ theorem isSylowTwoOf_conjSub_cs5 [Finite Y] {X S : Subgroup Y} [X.Normal] (hS : 
 
 theorem exists_conj_le_of_isPGroup_cs5 [Finite Y] {X S P : Subgroup Y} (hS : IsSylowTwoOf S X)
     (hPX : P ≤ X) (hP : IsPGroup 2 P) : ∃ g ∈ X, P ≤ B6.conjSub g S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let SS : Sylow 2 ↥X := (hS.2.1.comap_subtype (K := X)).toSylow hS.2.2
   have hP' : IsPGroup 2 (P.subgroupOf X) := hP.comap_subtype
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
@@ -157,7 +157,7 @@ theorem rk1_main [Finite Y] [X.Normal] {E : Subgroup Y} {h : Y} {N : Subgroup Y}
         _ = b * e := by rw [h2]; simp
     have hbot : B6.conjSub h (⊥ : Subgroup Y) = ⊥ := by
       ext x
-      simp [B6.mem_conjSub]
+      simp
     have : E ⊔ B6.conjSub h E = ⊥ := by rw [hE1, hbot]; simp
     rw [this]
     infer_instance
@@ -182,7 +182,7 @@ theorem rk1_main [Finite Y] [X.Normal] {E : Subgroup Y} {h : Y} {N : Subgroup Y}
     exact le_sup_right.trans
       (le_of_isPGroup_of_sylow_le_cs5 hR.sylow hP2 le_sup_left (sup_le hSX inf_le_right))
   have hZE : centerSub S ≤ E := by
-    haveI : Group.IsNilpotent ↥S := hR.isPGroup.isNilpotent
+    have : Group.IsNilpotent ↥S := hR.isPGroup.isNilpotent
     have hnorm : ((E ⊓ X).subgroupOf S).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hD₀S).mpr hSnormD₀
     have hD₁ne : (E ⊓ X).subgroupOf S ≠ ⊥ := by

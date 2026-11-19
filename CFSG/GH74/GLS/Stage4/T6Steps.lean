@@ -48,7 +48,7 @@ theorem ch6T2Sec6'_of_leaves (h11b : IVK_11_1b_nat) (hB : T6RleProp)
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥N.F) := inferInstance
   let P₀ : Subgroup G := (Q : Subgroup ↥N.F).map N.F.subtype
   have hP₀F : P₀ ≤ N.F := Subgroup.map_subtype_le _
-  have hP₀p : IsPGroup p ↥P₀ := Q.isPGroup'.map _
+  have hP₀p : IsPGroup p ↥P₀ := Q.isPGroup.map _
   have hP₀c : Nat.card ↥P₀ = p ^ (Nat.card ↥N.F).factorization p := by
     rw [Subgroup.card_map_of_injective N.F.subtype_injective, Sylow.card_eq_multiplicity]
   have hSyl := hC G N u p hctx hΩ y R hTSd hRle P₀ hP₀F hP₀p hP₀c

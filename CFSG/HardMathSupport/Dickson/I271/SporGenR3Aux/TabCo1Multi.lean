@@ -23,7 +23,7 @@ theorem conj_mem_of_gen {S : Set G} {R : Subgroup G} {g : G} (h : ∀ s ∈ S, g
   intro x hx
   induction hx using Subgroup.closure_induction with
   | mem x hx => exact h x hx
-  | one => simpa using R.one_mem
+  | one => simp
   | mul x y _ _ hx hy =>
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [this]
@@ -90,7 +90,7 @@ theorem pConstrainedShape_of_data {p n : ℕ} (P : Subgroup G) [Finite P] (z t�
   set C : Subgroup G := Subgroup.centralizer ({z} : Set G) ⊓ P with hCdef
   set R : Subgroup G := Subgroup.closure ({t₁, t₂} : Set G) with hRdef
   have hCP : C ≤ P := inf_le_right
-  haveI : Finite ↥C :=
+  have : Finite ↥C :=
     Finite.of_injective (Subgroup.inclusion hCP) (Subgroup.inclusion_injective hCP)
   have hmemC : ∀ g, g ∈ P → g * z = z * g → g ∈ C := fun g hg hgz =>
     Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 hgz, hg⟩
@@ -121,7 +121,7 @@ theorem pConstrainedShape_of_data {p n : ℕ} (P : Subgroup G) [Finite P] (z t�
     intro g hg r hr
     rw [← hCeq] at hg
     exact (hnorm' g hg).1 r hr
-  haveI : Finite ↥R := Finite.of_injective (Subgroup.inclusion (hRC.trans hCP))
+  have : Finite ↥R := Finite.of_injective (Subgroup.inclusion (hRC.trans hCP))
     (Subgroup.inclusion_injective _)
   refine pConstrainedShape_of_normal_pgroup hRC (normalSubgroupOf_of_conj_aux hconj)
     (IsPGroup.of_card hR) ?_
@@ -137,6 +137,7 @@ section TwoComp
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem glaPComponent_of_subnormal_quasisimple {p : ℕ} {C L : Subgroup Q}
     (hsub : IsSubnormal L C) (hLq : CFSG.Open.IsQuasisimple ↥L)
     (hcore : GLAPPrimeCore p ↥C = ⊥) : GLAPComponent p C L := by
@@ -162,7 +163,7 @@ theorem glaPPrimeCore_eq_bot_of_two_subnormal {p : ℕ} (hp : p.Prime) {C L₁ L
     (hq₂ : CFSG.Open.IsQuasisimple ↥L₂) (hp₁ : p ∣ Nat.card ↥L₁) (hp₂ : p ∣ Nat.card ↥L₂)
     (hcent : IsPGroup p ↥(C ⊓ Subgroup.centralizer (L₁ : Set Q) ⊓
       Subgroup.centralizer (L₂ : Set Q))) : GLAPPrimeCore p ↥C = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup ↥C := GLAPPrimeCore p ↥C with hN
   have hcop : Nat.Coprime p (Nat.card N) := CFSG.pPrimeCore_coprime_card (p := p) (G := ↥C)
   have key : ∀ {L : Subgroup Q}, IsSubnormal L C → CFSG.Open.IsQuasisimple ↥L →
@@ -217,7 +218,7 @@ theorem eq_or_of_glaPComponent_two {p : ℕ} (hp : p.Prime) {C L₁ L₂ J : Sub
     (hcent : IsPGroup p ↥(C ⊓ Subgroup.centralizer (L₁ : Set Q) ⊓
       Subgroup.centralizer (L₂ : Set Q)))
     (hJ : GLAPComponent p C J) : J = L₁ ∨ J = L₂ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   rw [not_or] at hne
   have hinj : Function.Injective (QuotientGroup.mk' (GLAPPrimeCore p ↥C)) :=
@@ -256,13 +257,13 @@ theorem eq_or_of_glaPComponent_two {p : ℕ} (hp : p.Prime) {C L₁ L₂ J : Sub
       hJp.of_equiv (Subgroup.subgroupOfEquivOfLe hJC).symm
     exact h1.of_equiv ((J.subgroupOf C).equivMapOfInjective _ hinj)
   have hq := hJ.2.2.1.2.2
-  haveI : Nontrivial ↥(barX p C J) := by
+  have : Nontrivial ↥(barX p C J) := by
     have := hq.2.exists_pair_ne
     obtain ⟨a, b, hab⟩ := this
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
     exact ⟨a, b, fun h => hab (by rw [h])⟩
-  haveI : Group.IsNilpotent ↥(barX p C J) := hbp.isNilpotent
+  have : Group.IsNilpotent ↥(barX p C J) := hbp.isNilpotent
   have hsolv : Group.IsSolvable ↥(barX p C J) := inferInstance
   have hperf : Group.IsPerfect ↥(barX p C J) := ⟨hq.1⟩
   exact Group.IsPerfect.not_isSolvable _ hsolv

@@ -25,16 +25,16 @@ private theorem pRank_bot_eq {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.P
 
 private theorem sylow_top {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (P : Sylow p G) : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup G) ⊤ := by
-  have h1 : IsPGroup p ((P : Subgroup G).subgroupOf ⊤) := P.isPGroup'.comap_subtype
+  have h1 : IsPGroup p ((P : Subgroup G).subgroupOf ⊤) := P.isPGroup.comap_subtype
   have h2 : ¬ p ∣ ((P : Subgroup G).subgroupOf ⊤).index := by
     intro hd
     have h3 := (Subgroup.relIndex_dvd_index_of_le (le_top : (P : Subgroup G) ≤ ⊤))
     exact P.not_dvd_index (dvd_trans (show p ∣ (P : Subgroup G).relIndex ⊤ from hd) h3)
   refine ⟨h1.toSylow h2, ?_⟩
-  simpa using Subgroup.map_subgroupOf_eq_of_le (le_top : (P : Subgroup G) ≤ ⊤)
+  simp
 
 theorem layer_action {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {M : Subgroup G}
-    (hpA : p ∈ rankThreeSigmaA G) (P : Sylow p G) (hw : IsWitness p P M)
+    (_hpA : p ∈ rankThreeSigmaA G) (P : Sylow p G) (hw : IsWitness p P M)
     {P₀ : Subgroup G} (hle : P₀ ≤ (P : Subgroup G)) (hcard : Nat.card P₀ = p)
     (hweak : CFSG.Quasithin.IsWeaklyClosedIn P₀ (P : Subgroup G))
     (hp5 : 5 ≤ p) {n : ℕ} (hn : 1 < n)
@@ -57,7 +57,7 @@ theorem layer_action {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {M
   have hprime : p.Prime := Fact.out
   have hTop := sylow_top P
   have hPC := CFSG.LocalAnalysis.RankThreeUC.ProofSupport.WeakClosedPrimeCentralized.centralizes hprime
-    P.isPGroup' hle hcard hweak
+    P.isPGroup hle hcard hweak
   have hSyl := CFSG.LocalAnalysis.RankThreeUC.ProofSupport.LayerSylowAtLeastTwo.isSylow hprime hTop hPC
   have hrank := CFSG.LocalAnalysis.RankThreeUC.ProofSupport.LayerSylowAtLeastTwo.one_lt_rank (by omega) hTop hPC
     ⟨n, hn, hmodel⟩

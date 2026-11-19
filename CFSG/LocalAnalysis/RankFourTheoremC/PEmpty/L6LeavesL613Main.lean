@@ -21,8 +21,8 @@ variable {G : Type} [Group G] {H K : Subgroup G}
 theorem isSimpleGroup_quotient_of_section [(K.subgroupOf H).Normal]
     (h : S622IsSimpleSection H K) : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := by
   obtain ⟨hKH, -, hKne, hmin, -⟩ := h
-  haveI : Nontrivial (↥H ⧸ K.subgroupOf H) := by
-    obtain ⟨g, hgH, hgK⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hKH hKne)
+  have : Nontrivial (↥H ⧸ K.subgroupOf H) := by
+    obtain ⟨g, hgH, hgK⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hKH hKne)
     refine ⟨⟨(⟨g, hgH⟩ : ↥H), 1, fun h1 => hgK ?_⟩⟩
     have := (QuotientGroup.eq_one_iff (N := K.subgroupOf H) (⟨g, hgH⟩ : ↥H)).mp h1
     exact Subgroup.mem_subgroupOf.mp this
@@ -81,8 +81,8 @@ theorem isSecOf_of_section {M : Subgroup G} {x : G} (hxM : x ∈ M)
 theorem not_isSolvable_of_section {M : Subgroup G} {x : G} (hxM : x ∈ M)
     (hHM : H ≤ M ⊓ centralizer ({x} : Set G)) (hsec : S622IsSimpleSection H K) :
     ¬ Group.IsSolvable ↥M := by
-  haveI hKn : (K.subgroupOf H).Normal := hsec.2.1
-  haveI hsimp : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := isSimpleGroup_quotient_of_section hsec
+  have hKn : (K.subgroupOf H).Normal := hsec.2.1
+  have hsimp : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := isSimpleGroup_quotient_of_section hsec
   exact IsSecOf.not_isSolvable (not_comm_quotient_of_section hsec)
     ((isSecOf_of_section (K := K) hxM hHM).mono le_top)
 
@@ -101,11 +101,11 @@ theorem l613_front (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hβ : KFactB
       ∀ C : CFSG.LocalCores.ComponentIndex (↥M ⧸ primeComplementCore (G := ↥M) p),
         K.relIndex H ∣ Nat.card ↥C.1 := by
   have hp := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxM : x ∈ M := hx.mem_M hS
   have hpl := plane63_of_situation hS hx hz
-  haveI hKn : (K.subgroupOf H).Normal := hsec.2.1
-  haveI hsimp : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := isSimpleGroup_quotient_of_section hsec
+  have hKn : (K.subgroupOf H).Normal := hsec.2.1
+  have hsimp : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := isSimpleGroup_quotient_of_section hsec
   have hnab := not_comm_quotient_of_section hsec
   have hpS' : p ∣ Nat.card (↥H ⧸ K.subgroupOf H) := hpS
   have hS1 := isSecOf_of_section (K := K) hxM hHM
@@ -137,7 +137,7 @@ theorem l613f3_of_facts (hI : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Inp
     (h313 : CFSG.LocalAnalysis.RankFourTheoremC.GL83NormalElementaryRankFour) : L613f3 := by
   intro G _ _ p P M x z hS hx hz hpc H K hHM hsec hpS h3S
   have hp := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpl := plane63_of_situation hS hx hz
   obtain ⟨hβs, hdvd⟩ := l613_front hSch hβ h291 hS hx hz hpc hHM hsec hpS
   obtain ⟨C₀⟩ : Nonempty (CFSG.LocalCores.ComponentIndex (↥M ⧸ primeComplementCore (G := ↥M) p)) :=
@@ -148,7 +148,7 @@ theorem l613f3_of_facts (hI : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Inp
     have := pRank_top_subtype (by norm_num : 1 < 3) M
     have h5 := hS.p_ge
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Fh, hFh⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 M
   have hFhp : IsPGroup 3 Fh := hFh.isPGroup
   have h4' : 4 ≤ Open.pRank 3 Fh := by

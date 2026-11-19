@@ -43,7 +43,7 @@ theorem agl81ElevenElevenRankOneJZeroCfg_of (h9 : AGL81NineCompetitorQ G)
     (hC : AGL81ElevenElevenRankOneCent G) : AGL81ElevenElevenRankOneJZeroCfg G := by
   intro hS p P M H Q K hσ hd hnc hK1 hH3 _hA6 L hL hLn hno
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
-  haveI : Fact p.Prime := ⟨hesc.prime⟩
+  have : Fact p.Prime := ⟨hesc.prime⟩
   have hp : p.Prime := hesc.prime
   have hp2 : p ≠ 2 := hesc.ne_two
   have hXM : d1PlusCore p H K ≤ M := agl81NineThreeXCfg_of h9 hS p P M H Q K hd

@@ -12,8 +12,8 @@ open CFSG.Open CFSG.Assembly CFSG.LocalAnalysis.GLTheoremA
 open scoped commutatorElement
 
 theorem hb_quot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Group Ω] [Finite Ω]
-    {S B : Subgroup Ω} {x : Ω} (hZ : ¬ p ∣ Nat.card (Subgroup.center ↥S))
-    (hB : IsElemAbelian p B) (hBS : B ≤ Subgroup.normalizer (S : Set Ω))
+    {S B : Subgroup Ω} {x : Ω} (_hZ : ¬ p ∣ Nat.card (Subgroup.center ↥S))
+    (hB : IsElemAbelian p B) (_hBS : B ≤ Subgroup.normalizer (S : Set Ω))
     (hxC : x ∈ Subgroup.centralizer (S : Set Ω)) (hBx : B = Subgroup.zpowers x ⊔ B ⊓ S)
     (hb : ∃ T : Subgroup Ω, T ≤ S ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set Ω) ∧
       (⁅T, B⁆ : Subgroup Ω) ≠ ⊥) :

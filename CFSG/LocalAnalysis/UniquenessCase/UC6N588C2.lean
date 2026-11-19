@@ -105,8 +105,8 @@ theorem exists_index_prime_le {q : ℕ} [hq : Fact q.Prime] {P : Subgroup G} (hP
   have hKn : K.Normal := Subgroup.normal_of_index_eq_minFac_card (by
     rw [hidx, hn, Nat.pow_minFac hn0, hq.out.minFac_eq])
   have hQ : Nat.card (↥P ⧸ K) = q := by rw [← Subgroup.index_eq_card, hidx]
-  haveI : IsCyclic (↥P ⧸ K) := isCyclic_of_prime_card hQ
-  letI : CommGroup (↥P ⧸ K) := IsCyclic.commGroup
+  have : IsCyclic (↥P ⧸ K) := isCyclic_of_prime_card hQ
+  let : CommGroup (↥P ⧸ K) := IsCyclic.commGroup
   refine ⟨K.map P.subtype, map_subtype_le _, ?_, ?_, ?_⟩
   · intro h
     have h1 : Nat.card (K.map P.subtype) = Nat.card P := by rw [h]
@@ -130,19 +130,23 @@ theorem exists_index_prime_le {q : ℕ} [hq : Fact q.Prime] {P : Subgroup G} (hP
 @[expose] def fratOf (q : ℕ) (P : Subgroup G) : Subgroup G :=
   ⁅P, P⁆ ⊔ closure ((fun x => x ^ q) '' (P : Set G))
 
+omit [Finite G] in
 theorem commutator_mem_fratOf {q : ℕ} {P : Subgroup G} {x y : G} (hx : x ∈ P) (hy : y ∈ P) :
     ⁅x, y⁆ ∈ fratOf q P :=
   mem_sup_left (commutator_mem_commutator hx hy)
 
+omit [Finite G] in
 theorem pow_mem_fratOf {q : ℕ} {P : Subgroup G} {x : G} (hx : x ∈ P) : x ^ q ∈ fratOf q P :=
   mem_sup_right (subset_closure ⟨x, hx, rfl⟩)
 
+omit [Finite G] in
 theorem fratOf_le {q : ℕ} {P N : Subgroup G} (hc : ∀ x ∈ P, ∀ y ∈ P, ⁅x, y⁆ ∈ N)
     (hp : ∀ x ∈ P, x ^ q ∈ N) : fratOf q P ≤ N := by
   refine sup_le (Subgroup.commutator_le.2 hc) ((Subgroup.closure_le _).2 ?_)
   rintro _ ⟨x, hx, rfl⟩
   exact hp x hx
 
+omit [Finite G] in
 theorem fratOf_le_self (q : ℕ) (P : Subgroup G) : fratOf q P ≤ P :=
   fratOf_le (fun _ hx _ hy => P.mul_mem (P.mul_mem (P.mul_mem hx hy) (P.inv_mem hx))
     (P.inv_mem hy)) fun _ hx => P.pow_mem hx q
@@ -162,11 +166,13 @@ theorem mem_normalizer_fratOf {q : ℕ} {P : Subgroup G} {g : G}
   exact hle hy
 
 
+omit [Finite G] in
 theorem mem_normalizer_commutator {H K : Subgroup G} {g : G} (hH : g ∈ normalizer (H : Set G))
     (hK : g ∈ normalizer (K : Set G)) : g ∈ normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hH hK ⊢
   rw [Subgroup.map_commutator, hH, hK]
 
+omit [Finite G] in
 theorem commutator_le_of_le_normalizer {P L : Subgroup G} (hLP : L ≤ normalizer (P : Set G)) :
     ⁅P, L⁆ ≤ P := by
   rw [Subgroup.commutator_le]
@@ -175,6 +181,7 @@ theorem commutator_le_of_le_normalizer {P L : Subgroup G} (hLP : L ≤ normalize
   rw [commutatorElement_def, show p * ℓ * p⁻¹ * ℓ⁻¹ = p * (ℓ * p⁻¹ * ℓ⁻¹) by group]
   exact P.mul_mem hp h1
 
+omit [Finite G] in
 theorem commutator_eq_bot_of_perfect {P L : Subgroup G} (hL : ⁅L, L⁆ = L)
     (h : ⁅⁅P, L⁆, L⁆ = ⊥) : ⁅P, L⁆ = ⊥ := by
   have h2 : ⁅⁅L, P⁆, L⁆ = ⊥ := by rw [Subgroup.commutator_comm L P]; exact h
@@ -182,6 +189,7 @@ theorem commutator_eq_bot_of_perfect {P L : Subgroup G} (hL : ⁅L, L⁆ = L)
   rw [hL, Subgroup.commutator_comm] at h3
   exact h3
 
+omit [Finite G] in
 theorem mul_pow_of_fratOf_central {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {P : Subgroup G}
     (hΦc : ∀ a ∈ fratOf q P, ∀ x ∈ P, a * x = x * a) {x y : G} (hx : x ∈ P) (hy : y ∈ P) :
     (x * y) ^ q = x ^ q * y ^ q := by
@@ -202,9 +210,11 @@ theorem mul_pow_of_fratOf_central {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {P : 
 @[expose] def omegaOf (q : ℕ) (P : Subgroup G) : Subgroup G :=
   closure {x | x ∈ P ∧ x ^ q = 1}
 
+omit [Finite G] in
 theorem omegaOf_le (q : ℕ) (P : Subgroup G) : omegaOf q P ≤ P :=
   (Subgroup.closure_le _).2 fun _ hx => hx.1
 
+omit [Finite G] in
 theorem pow_eq_one_of_mem_omegaOf {q : ℕ} {P : Subgroup G}
     (hpow : ∀ x ∈ P, ∀ y ∈ P, (x * y) ^ q = x ^ q * y ^ q) {y : G} (hy : y ∈ omegaOf q P) :
     y ^ q = 1 := by
@@ -237,7 +247,7 @@ theorem card_le_pow_six {q : ℕ} [hq : Fact q.Prime] {P : Subgroup G} (hP : IsP
   have hZS : Z ∈ S :=
     ⟨le_rfl, inf_le_left, fun a ha b hb => (mem_centralizer_iff.1 hb.2 a ha.1)⟩
   have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
-  haveI : Nonempty S := ⟨⟨Z, hZS⟩⟩
+  have : Nonempty S := ⟨⟨Z, hZS⟩⟩
   obtain ⟨⟨A, hAS⟩, hAmax⟩ := Finite.exists_max (fun B : S => Nat.card (B : Subgroup G))
   obtain ⟨hZA, hAP, hAc⟩ := hAS
   have hself : ∀ x ∈ P, (∀ a ∈ A, a * x = x * a) → x ∈ A := by

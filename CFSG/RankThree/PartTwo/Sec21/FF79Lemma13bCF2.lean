@@ -37,17 +37,17 @@ theorem conjBy_eq_of_le (M : Mono B ω) {b : G} (hb : b ∈ B) (hB : IsSylowOf 3
 
 theorem sylow_top (M : Mono B ω) {b : G} (hb : b ∈ B) (hB : IsSylowOf 3 B (Cen b))
     {P : Subgroup G} (hP : IsSylowOf 3 P (Nor B)) (hBP : B ≤ P) : IsSylowOf 3 P ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := hP.2.1.exists_le_sylow
   have hPS : P = (S : Subgroup G) := by
     by_contra hne
     have hlt : P < (S : Subgroup G) := lt_of_le_of_ne hS hne
-    haveI : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
     have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥(S : Subgroup G))
     have hlt' : P.subgroupOf (S : Subgroup G) < ⊤ := by
       rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
       exact not_le_of_gt hlt
-    obtain ⟨s, hs, hsn⟩ := SetLike.exists_of_lt (hnc _ hlt')
+    obtain ⟨s, hs, hsn⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hlt')
     have hg : ∀ z ∈ B, (s : G) * z * (s : G)⁻¹ ∈ P := by
       intro z hz
       have hz' : (⟨z, hS (hBP hz)⟩ : ↥(S : Subgroup G)) ∈ P.subgroupOf (S : Subgroup G) :=
@@ -64,7 +64,7 @@ theorem sylow_top (M : Mono B ω) {b : G} (hb : b ∈ B) (hB : IsSylowOf 3 B (Ce
     have hP2S : P ⊔ Subgroup.zpowers (s : G) ≤ (S : Subgroup G) :=
       sup_le hS (Subgroup.zpowers_le.mpr s.2)
     have hP2p : IsPGroup 3 (P ⊔ Subgroup.zpowers (s : G) : Subgroup G) :=
-      S.isPGroup'.to_le hP2S
+      S.isPGroup.to_le hP2S
     have heq := eq_of_sylowOf hP le_sup_left hP2le hP2p
     have : (s : G) ∈ P := by
       rw [heq]
@@ -129,8 +129,8 @@ theorem nonempty_mono {b b₁ b₂ : G} (hB : IsElemAb 3 3 B)
     · exact ⟨2, Or.inl h⟩
     · exact ⟨2, Or.inr h⟩
   · intro x hx y hy
-    haveI := hB.1
-    letI : CommGroup ↥B := IsMulCommutative.instCommGroup
+    have := hB.1
+    let : CommGroup ↥B := IsMulCommutative.instCommGroup
     exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥B) ⟨y, hy⟩)
 
 end CFSG.RankThree.PartTwo.Sec21.FF79.L13bCF

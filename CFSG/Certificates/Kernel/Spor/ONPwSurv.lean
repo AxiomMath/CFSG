@@ -147,8 +147,6 @@ theorem mode0_sound (hR : Rp TT UU g 7) (hP : PwItems D) {pv k e v : Nat} (he : 
   intro hc
   apply nbeq hne
   simp only [sN]
-  change lA TT UU D pv k (iT (eH TT UU D e) (eHU TT UU D e) (D 61) p) =
-    cjA TT UU D 6 (lA TT UU D pv k p)
   rw [iT_eq (rp_e hR hP he) (pw_lm3 hP 61) p, lA_eq hR hP hv k (wv (bE g D e) (wd (D 61)) p),
     lA_eq hR hP hv k p, cjA_eq hR hP (j := 6) (by omega)]
   have hc' : lP g D pv k * bY g D e = yp g D * lP g D pv k := by
@@ -587,7 +585,7 @@ theorem recs_spec {i e cp r : Nat} (h : recsAt D i e cp r = true) : ∀ k < 4,
   omega
 
 theorem hdr {h i e k : Nat} (hh : Nat.land h 2097151 = i + e * 32768 + k * 524288)
-    (hi : i < 32768) (he : e < 16) (hk : k < 4) :
+    (hi : i < 32768) (he : e < 16) (_hk : k < 4) :
     fld(h, 0, 32767) = i ∧ fld(h, 15, 15) = e ∧ fld(h, 19, 3) = k := by
   have m : Nat.land h 2097151 = h % 2097152 := Nat.and_two_pow_sub_one_eq_mod h 21
   have f0 : fld(h, 0, 32767) = h / 1 % 32768 := fldE h 0 15

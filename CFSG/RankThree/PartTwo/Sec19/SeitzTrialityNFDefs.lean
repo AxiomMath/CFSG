@@ -18,13 +18,13 @@ variable {G : Type*} [Group G]
 
 theorem elemAb_comm {E : Subgroup G} (hE : CFSG.IsElementaryAbelian 3 E) :
     ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := fun x hx y hy => by
-  haveI := hE
+  have := hE
   have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩)
   simpa using this
 
 theorem elemAb_cube {E : Subgroup G} (hE : CFSG.IsElementaryAbelian 3 E) :
     ∀ x ∈ E, x ^ 3 = 1 := fun x hx => by
-  haveI := hE
+  have := hE
   exact CFSG.elemPow_eq_one_of_isElementaryAbelian (A := E) (p := 3) x hx
 
 theorem isElementaryAbelian_three_of {E : Subgroup G}
@@ -118,7 +118,7 @@ theorem sigma_pow_apply {X : Type} [Field X] (σ : X ≃+* X) (q : ℕ) (hq : �
 theorem sigma_pow_three {X : Type} [Field X] [Finite X] (σ : X ≃+* X) (n : ℕ)
     (hX : Nat.card X = (2 ^ n) ^ 3) (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) : σ ^ 3 = 1 := by
   classical
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   refine RingEquiv.ext fun c => ?_
   show (σ ^ 3) c = c
   rw [sigma_pow_apply σ (2 ^ n) hσ 3 c, ← hX, Nat.card_eq_fintype_card]
@@ -167,21 +167,24 @@ structure TrialityR1Facts : Prop where
       PlaneGen (Subgroup.closure
         ({MulAut.conj a, MulAut.conj b * tauAut σ} : Set (MulAut (C0 σ))))
 
+omit [Finite X] in
 theorem isSimple_and_noncomm_C0 (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) :
     IsSimpleGroup (C0 σ) ∧ ∃ x y : C0 σ, x * y ≠ y * x := by
   exact CFSG.RankThree.PartOne.KD4L.isSimple_graphFixedRootGroup_triality (ℓ := 2) (d := n)
     Nat.prime_two hn hX 1 (Or.inl rfl) σ.toRingHom (fun c => by simpa using hσ c)
 
+omit [Finite X] in
 theorem isSimpleGroup_C0 (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) : IsSimpleGroup (C0 σ) :=
   (isSimple_and_noncomm_C0 σ n hn hX hσ).1
 
+omit [Finite X] in
 theorem conj_injective_C0 (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) :
     Function.Injective (MulAut.conj : C0 σ →* MulAut (C0 σ)) := by
   obtain ⟨hs, x, y, hxy⟩ := isSimple_and_noncomm_C0 σ n hn hX hσ
-  haveI := hs
+  have := hs
   have hcenter : Subgroup.center (C0 σ) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (C0 σ)) with h | h
     · exact h

@@ -15,6 +15,7 @@ open CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F]
   {l : ℕ} (hF : Fintype.card F = 2 ^ (2 * l))
 
+omit [Algebra (ZMod 2) F] in
 private theorem exists_trace_mul_sig_ne (hF : Fintype.card F = 2 ^ (2 * l))
     (t : F) (ht : t ≠ 0) :
     ∃ b : F, t ^ 2 ^ l * b + t * b ^ 2 ^ l ≠ 0 := by
@@ -159,6 +160,7 @@ theorem IsOrthModule.eq_one_of_forall_commSub_fixed
       exact ⟨rfl, 0, by simp, by simp⟩
     · simpa using ⟨h11, k, hk, h01⟩
 
+omit [Fintype F] in
 theorem mem_hermPlane_iff {b0 : F} {X : ↥(hermA l F)} :
     X ∈ hermPlane l b0 ↔
       (X : Matrix (Fin 2) (Fin 2) F) 1 1 = 0 ∧
@@ -269,10 +271,12 @@ theorem card_hermPlane (hF : Fintype.card F = 2 ^ (2 * l)) {b0 : F} (hb0 : b0 �
     Subgroup (SL(2, F)) :=
   rootSub (hermPlaneTrace l hF b0)
 
+omit [Algebra (ZMod 2) F] in
 theorem hermPlaneFix_le_upperSylow (b0 : F) : hermPlaneFix l hF b0 ≤ upperSylow := by
   rintro g ⟨t, -, rfl⟩
   exact mem_upperSylow_iff.mpr ⟨t, rfl⟩
 
+omit [Algebra (ZMod 2) F] in
 theorem card_hermPlaneFix {b0 : F} (hb0 : b0 ≠ 0) :
     Nat.card ↥(hermPlaneFix l hF b0) = 2 ^ l := by
   let e2 : ↥(hermPlaneTrace l hF b0) ≃ ↥(frobFixField l F) :=
@@ -406,6 +410,7 @@ private theorem card_hermPlane_map_conj (x : SL(2, F)) :
   rw [← Nat.card_congr (Submodule.equivMapOfInjective (hermRep l hF x) hinj
       (hermPlane l 1)).toEquiv, card_hermPlane (hF := hF) one_ne_zero]
 
+omit [Algebra (ZMod 2) F] in
 private theorem card_hermPlaneFix_map_conj (x : SL(2, F)) :
     Nat.card ↥((hermPlaneFix l hF 1).map (MulAut.conj x).toMonoidHom) = 2 ^ l := by
   rw [Subgroup.card_map_of_injective (MulAut.conj x).injective,

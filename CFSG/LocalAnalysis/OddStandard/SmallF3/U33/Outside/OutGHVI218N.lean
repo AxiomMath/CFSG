@@ -39,7 +39,7 @@ theorem card_le_four_of_sq_eq_one_sylSU (Y : Subgroup SylSU3_4) (hY : ∀ y ∈ 
   have hcard3 : Nat.card {t : SylSU3_4 // t * t = 1 ∧ t ≠ 1} = 3 := by
     change Nat.card (L23.Invs SylSU3_4) = 3
     exact card_invs_sylSU3_4
-  haveI : Finite {t : SylSU3_4 // t * t = 1 ∧ t ≠ 1} :=
+  have : Finite {t : SylSU3_4 // t * t = 1 ∧ t ≠ 1} :=
     Nat.finite_of_card_ne_zero (by rw [hcard3]; norm_num)
   have hle : Nat.card Y ≤ Nat.card (Option {t : SylSU3_4 // t * t = 1 ∧ t ≠ 1}) := by
     apply Nat.card_le_card_of_injective
@@ -52,13 +52,13 @@ theorem card_le_four_of_sq_eq_one_sylSU (Y : Subgroup SylSU3_4) (hY : ∀ y ∈ 
     · by_cases hz : (z : SylSU3_4) = 1
       · exact Subtype.ext (by rw [hy, hz])
       · exfalso
-        rw [dif_pos hy, dif_neg hz] at h
+        rw [dite_eq_left hy, dite_eq_right hz] at h
         exact absurd h (by simp)
     · by_cases hz : (z : SylSU3_4) = 1
       · exfalso
-        rw [dif_neg hy, dif_pos hz] at h
+        rw [dite_eq_right hy, dite_eq_left hz] at h
         exact absurd h (by simp)
-      · rw [dif_neg hy, dif_neg hz] at h
+      · rw [dite_eq_right hy, dite_eq_right hz] at h
         have h' : (⟨(y : SylSU3_4), hY y y.2, hy⟩ :
               {t : SylSU3_4 // t * t = 1 ∧ t ≠ 1}) =
             ⟨(z : SylSU3_4), hY z z.2, hz⟩ := Option.some.inj h

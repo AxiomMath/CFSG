@@ -37,7 +37,7 @@ theorem closedPts_resSet (hσ : ∀ c, σ (σ c) = c) (X : Set (Submodule F (Fin
     simp [herm_add_right, herm_smul_right, hxR r hr, hyR r hr]
 
 theorem lemmaD [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
-    {X : Set (Submodule F (Fin 6 → F))} {ρ : Fin 6 → F} (hρ0 : ρ ≠ 0) (hρi : herm σ ρ ρ = 0)
+    {X : Set (Submodule F (Fin 6 → F))} {ρ : Fin 6 → F} (hρ0 : ρ ≠ 0) (_hρi : herm σ ρ ρ = 0)
     {U : Submodule F (Fin 6 → F)} (hU : NonDeg σ U) (h3 : finrank F U = 3)
     (hUρ : ∀ u ∈ U, herm σ ρ u = 0) {a b c : Fin 6 → F} (haU : a ∈ U) (hbU : b ∈ U) (hcU : c ∈ U)
     (hai : herm σ a a = 0) (hbi : herm σ b b = 0) (hci : herm σ c c = 0)

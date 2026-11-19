@@ -36,7 +36,7 @@ private theorem cfm_eq_zero_of_mem_range_transv [CharP K 2] (i j : Fin 6) (hij :
     cfm K η m = 0 := by
   obtain ⟨ξ, rfl⟩ := LinearMap.mem_range.mp hη
   rw [LinearMap.sub_apply, Module.End.one_apply, cfm_sub,
-    cfm_rho_transv i j hij c ξ m hm, if_neg hsupp]
+    cfm_rho_transv i j hij c ξ m hm, ite_eq_right hsupp]
   simp
 
 private theorem eq_zero_of_two_ranges [CharP K 2] {α β : K} {ζ : Cube K}

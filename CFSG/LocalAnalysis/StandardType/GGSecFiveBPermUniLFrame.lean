@@ -142,7 +142,7 @@ private theorem ulfExp_injective : Function.Injective (ulfExp hζ) := by
 private theorem ulfExp_ulfLog {z : Fˣ} (hz : z ^ p = 1) : ulfExp hζ (ulfLog hζ z) = z := by
   have hm := ulf_mem_zpowers hζ hz
   unfold ulfLog
-  rw [dif_pos hm]
+  rw [dite_eq_left hm]
   unfold ulfExp
   rw [AddEquiv.apply_symm_apply]
   rfl
@@ -177,8 +177,8 @@ theorem exists_uniLFrame_of_model {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
     ∃ (σ : ↥(unitarySU 2 f K n) →* G) (χ : Multiplicative (ZMod p) →* Kˣ),
       GGSecFiveBPermUniLFrame Bs X eta π σ χ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hK : UnitaryFieldData 2 f K := hM.field
   have h3n : 3 ≤ n := by omega
   let h0 : Fin n := ⟨0, by omega⟩
@@ -420,7 +420,7 @@ theorem exists_uniLFrame_of_model {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
           apply AddSubgroup.eq_of_le_of_card_ge hkerC
           rw [hker_card, hCcard]
         have hltC : 1 < Nat.card ↥C := by rw [hCcard]; exact hp.one_lt
-        haveI : Nontrivial ↥C := by
+        have : Nontrivial ↥C := by
           rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card]
           exact hltC
         obtain ⟨c, hcC, hc0⟩ := AddSubgroup.exists_ne_zero_of_nontrivial C
@@ -671,7 +671,7 @@ theorem exists_uniLFrame_of_model {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
     have hZdiagMat : (Z : Matrix (Fin n) (Fin n) K) = diagonal (fun _ => c) := by
       rw [Matrix.GeneralLinearGroup.coe_scalar]
       ext i j
-      by_cases hij : i = j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+      by_cases hij : i = j <;> simp [Matrix.scalar_apply, hij]
     have hcz : (((MulAut.conj P) z : ↥(unitarySU 2 f K n)) : GL (Fin n) K) =
         (P : GL (Fin n) K) * (z : GL (Fin n) K) * (P : GL (Fin n) K)⁻¹ := by
       simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv]

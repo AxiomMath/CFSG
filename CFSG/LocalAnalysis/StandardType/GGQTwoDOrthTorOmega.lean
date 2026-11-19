@@ -65,7 +65,7 @@ open Module QuadraticMap CFSG.ClassicalGroups.Orthogonal CFSG.GroupTheory.WeirSy
 
 variable {F K : Type} [Field F] [Field K] [Finite K] [Algebra F K] [CharP K 2]
 
-private theorem plh_charP_two (E : QuadExt F K (unitaryInvolution K 2 1)) : CharP F 2 :=
+private theorem plh_charP_two (_E : QuadExt F K (unitaryInvolution K 2 1)) : CharP F 2 :=
   RingHom.charP (algebraMap F K) (algebraMap F K).injective 2
 
 private theorem plh_finite_F {F : Type} [Field F] (hF : Nat.card F = 2) : Finite F :=
@@ -73,7 +73,7 @@ private theorem plh_finite_F {F : Type} [Field F] (hF : Nat.card F = 2) : Finite
 
 private theorem plh_hirr (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Nat.card F = 2) :
     ∀ s : F, s ^ 2 + 1 * s + 1 ≠ 0 := by
-  letI : CharP F 2 := plh_charP_two E
+  let : CharP F 2 := plh_charP_two E
   intro s hs
   have h01 : s = 0 ∨ s = 1 := by
     obtain ⟨y, _, hyu⟩ := (Nat.card_eq_two_iff' (0 : F)).mp hF
@@ -96,8 +96,8 @@ private theorem plh_finrank_eq (E : QuadExt F K (unitaryInvolution K 2 1)) (a : 
 
 private theorem plh_hts_three (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Nat.card F = 2) :
     ∀ U : Submodule F (Fin 3 → K), finrank F U = 3 → ∃ u ∈ U, Qn E 3 u ≠ 0 := by
-  letI : CharP F 2 := plh_charP_two E
-  haveI : Finite F := plh_finite_F hF
+  let : CharP F 2 := plh_charP_two E
+  have : Finite F := plh_finite_F hF
   intro U hU
   by_contra hcon
   rw [not_exists] at hcon
@@ -118,8 +118,8 @@ private theorem plh_hts_three (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : 
 private theorem plh_hts_ge_four (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Nat.card F = 2)
     {a : ℕ} (ha : 4 ≤ a) :
     ∃ T : Submodule F (Fin a → K), finrank F T = 3 ∧ ∀ x ∈ T, Qn E a x = 0 := by
-  letI : CharP F 2 := plh_charP_two E
-  haveI : Finite F := plh_finite_F hF
+  let : CharP F 2 := plh_charP_two E
+  have : Finite F := plh_finite_F hF
   rcases Nat.even_or_odd a with he | ho
   · obtain ⟨-, T, hT, hTs⟩ := regular_quadPlus (K := F) (n := a) (by omega)
     have e := Qn.isometryEquivQuadPlus E he
@@ -135,7 +135,7 @@ private theorem plh_hts_ge_four (E : QuadExt F K (unitaryInvolution K 2 1)) (hF 
     · rintro x ⟨t, ht, rfl⟩
       exact (e.symm.map_app t).trans (hTs t ht)
 
-private theorem plh_label_props {lab : LargeEvenLabel} {a : ℕ} (ha : 4 ≤ a)
+private theorem plh_label_props {lab : LargeEvenLabel} {a : ℕ} (_ha : 4 ≤ a)
     (htag : markTag lab = .POmegaPlus ∨ markTag lab = .POmegaMinus)
     (hrank : markRank lab = a) (hdeg : markDeg lab = 1) :
     lab.n = 1 ∧ lab.tag ≠ .A ∧ (lab.tag = .twD → lab.rank ≠ 2) := by
@@ -143,9 +143,9 @@ private theorem plh_label_props {lab : LargeEvenLabel} {a : ℕ} (ha : 4 ≤ a)
   cases tag <;>
     simp only [markTag, markRank, markDeg] at htag hrank hdeg ⊢ <;>
     (try split_ifs at htag hrank hdeg ⊢) <;>
-    simp_all <;> omega
+    simp_all
 
-private theorem plh_commSpace_smul (E : QuadExt F K (unitaryInvolution K 2 1)) {a : ℕ}
+private theorem plh_commSpace_smul (_E : QuadExt F K (unitaryInvolution K 2 1)) {a : ℕ}
     {g : (Fin a → K) ≃ₗ[F] (Fin a → K)}
     (hK : ∀ (c : K) (z : Fin a → K), g (c • z) = c • g z) (c : K) (x : Fin a → K) :
     ((g : (Fin a → K) →ₗ[F] (Fin a → K)) - 1) (c • x) =
@@ -168,12 +168,12 @@ private theorem plh_even_finrank_commSpace (E : QuadExt F K (unitaryInvolution K
         rw [LinearMap.mem_range] at hx ⊢
         obtain ⟨y, rfl⟩ := hx
         exact ⟨c • y, plh_commSpace_smul E hK c y⟩ }
-  letI : Module K ↥W := Submodule.module W
-  letI : Module F ↥W := Submodule.module (W.restrictScalars F)
-  letI : IsScalarTower F K ↥W :=
+  let : Module K ↥W := Submodule.module W
+  let : Module F ↥W := Submodule.module (W.restrictScalars F)
+  let : IsScalarTower F K ↥W :=
     ⟨fun p q w => Subtype.ext (smul_assoc p q (w : Fin a → K))⟩
-  letI : Module.Free K ↥W := Module.Free.of_divisionRing K ↥W
-  letI : Module.Free F K := Module.Free.of_divisionRing F K
+  let : Module.Free K ↥W := Module.Free.of_divisionRing K ↥W
+  let : Module.Free F K := Module.Free.of_divisionRing F K
   have hmul := @Module.finrank_mul_finrank F K ↥W
     (inferInstance : Semiring F) (inferInstance : Semiring K) (inferInstance : AddCommMonoid ↥W)
     (inferInstance : Module F K) (inferInstance : Module K ↥W) (inferInstance : Module F ↥W)
@@ -185,11 +185,11 @@ private theorem plh_even_finrank_commSpace (E : QuadExt F K (unitaryInvolution K
   exact ⟨finrank K W, by ring⟩
 
 private theorem plh_finite_orthogonal (E : QuadExt F K (unitaryInvolution K 2 1)) (a : ℕ)
-    (hF : Nat.card F = 2) :
+    (_hF : Nat.card F = 2) :
     Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E a)) := by
-  haveI : Finite F := plh_finite_F hF
-  haveI : Finite (Fin a → K) := inferInstance
-  haveI : Finite ((Fin a → K) ≃ₗ[F] (Fin a → K)) :=
+  have : Finite F := plh_finite_F _hF
+  have : Finite (Fin a → K) := inferInstance
+  have : Finite ((Fin a → K) ≃ₗ[F] (Fin a → K)) :=
     Finite.of_injective
       (fun e : (Fin a → K) ≃ₗ[F] (Fin a → K) => (e : (Fin a → K) → (Fin a → K)))
       (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
@@ -197,16 +197,16 @@ private theorem plh_finite_orthogonal (E : QuadExt F K (unitaryInvolution K 2 1)
 
 private theorem plh_solvable_zero (E : QuadExt F K (unitaryInvolution K 2 1)) :
     Group.IsSolvable ↥(orthDerived (Qn E 0)) := by
-  haveI : Subsingleton ((Fin 0 → K) ≃ₗ[F] (Fin 0 → K)) :=
+  have : Subsingleton ((Fin 0 → K) ≃ₗ[F] (Fin 0 → K)) :=
     ⟨fun f g => LinearEquiv.ext fun x => funext fun i => Fin.elim0 i⟩
-  haveI : Subsingleton ↥(orthDerived (Qn E 0)) :=
+  have : Subsingleton ↥(orthDerived (Qn E 0)) :=
     ⟨fun x y => Subtype.ext ((inferInstance : Subsingleton _).elim x.1 y.1)⟩
   infer_instance
 
 private theorem plh_solvable_one (E : QuadExt F K (unitaryInvolution K 2 1))
     (hF : Nat.card F = 2) : Group.IsSolvable ↥(orthDerived (Qn E 1)) := by
-  letI : CharP F 2 := plh_charP_two E
-  haveI : Finite F := plh_finite_F hF
+  let : CharP F 2 := plh_charP_two E
+  have : Finite F := plh_finite_F hF
   have hnot : ¬ IsPlusType (Qn E 1) := by
     have e := Qn.isometryEquivQuadMinus E (show Odd 1 by decide) (plh_hirr E hF)
     exact fun h => not_isPlusType_quadMinus (K := F) (n := 1) (by norm_num) (plh_hirr E hF)
@@ -224,8 +224,8 @@ private theorem plh_solvable_one (E : QuadExt F K (unitaryInvolution K 2 1))
     have h := hcardZ
     rw [h6] at h
     exact_mod_cast h
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 1)) := plh_finite_orthogonal E 1 hF
-  haveI : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 1)) := Fintype.ofFinite _
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 1)) := plh_finite_orthogonal E 1 hF
+  have : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 1)) := Fintype.ofFinite _
   have hcardF : Fintype.card ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 1)) = 6 := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
   have hsolvO : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 1)) :=
@@ -238,8 +238,8 @@ private theorem plh_solvable_one (E : QuadExt F K (unitaryInvolution K 2 1))
 
 private theorem plh_solvable_two (E : QuadExt F K (unitaryInvolution K 2 1))
     (hF : Nat.card F = 2) : Group.IsSolvable ↥(orthDerived (Qn E 2)) := by
-  letI : CharP F 2 := plh_charP_two E
-  haveI : Finite F := plh_finite_F hF
+  let : CharP F 2 := plh_charP_two E
+  have : Finite F := plh_finite_F hF
   have hplus : IsPlusType (Qn E 2) :=
     (isPlusType_congr (Qn.isometryEquivQuadPlus E (by norm_num : Even 2))).mpr
       (isPlusType_quadPlus (K := F) 2)
@@ -256,8 +256,8 @@ private theorem plh_solvable_two (E : QuadExt F K (unitaryInvolution K 2 1))
     have h := hcardZ
     rw [h72] at h
     exact_mod_cast h
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 2)) := plh_finite_orthogonal E 2 hF
-  haveI : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 2)) := Fintype.ofFinite _
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 2)) := plh_finite_orthogonal E 2 hF
+  have : Fintype ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 2)) := Fintype.ofFinite _
   have hcardF : Fintype.card ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 2)) = 72 := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
   have hsolvO : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup (Qn E 2)) :=
@@ -281,8 +281,8 @@ private theorem plh_factor_three (E : QuadExt F K (unitaryInvolution K 2 1))
       ∃ lab : LargeEvenLabel, LargeEvenInLambda2 lab ∧
         GGHasLabel lab (↥(orthDerived (Qn E 3)) ⧸ Subgroup.center ↥(orthDerived (Qn E 3))) ∧
           lab.n = 1 ∧ lab.tag ≠ .A ∧ (lab.tag = .twD → lab.rank ≠ 2) := by
-  letI : CharP F 2 := plh_charP_two E
-  haveI : Finite F := plh_finite_F hF
+  let : CharP F 2 := plh_charP_two E
+  have : Finite F := plh_finite_F hF
   have hQ : (polarBilin (Qn E 3)).Nondegenerate := Qn_polarBilin_nondegenerate E 3
   have hdim : finrank F (Fin 3 → K) = 6 := by
     have h := plh_finrank_eq E 3
@@ -291,8 +291,8 @@ private theorem plh_factor_three (E : QuadExt F K (unitaryInvolution K 2 1))
     CFSG.SeitzReduction.OmegaPilot.nonempty_orthDerived_mulEquiv_statedSU_of_six
       (K := F) (W := Fin 3 → K) (R := Qn E 3) (f := 1) (by rw [hF, pow_one]) hQ hdim
       (plh_hts_three E hF)
-  letI : Field E' := hFieldE'
-  letI : Finite E' := hFiniteE'
+  let : Field E' := hFieldE'
+  let : Finite E' := hFiniteE'
   have hE4 : Nat.card E' = 4 := by rw [hcardE']; norm_num
   exact torSU_isQuasisimple_label hE4 (by norm_num : 4 ≤ 4) eSU
 
@@ -302,11 +302,11 @@ private theorem plh_factor_ge_four (E : QuadExt F K (unitaryInvolution K 2 1))
       ∃ lab : LargeEvenLabel, LargeEvenInLambda2 lab ∧
         GGHasLabel lab (↥(orthDerived (Qn E a)) ⧸ Subgroup.center ↥(orthDerived (Qn E a))) ∧
           lab.n = 1 ∧ lab.tag ≠ .A ∧ (lab.tag = .twD → lab.rank ≠ 2) := by
-  letI : CharP F 2 := plh_charP_two E
-  haveI : Finite F := plh_finite_F hF
-  haveI : FiniteDimensional F K :=
+  let : CharP F 2 := plh_charP_two E
+  have : Finite F := plh_finite_F hF
+  have : FiniteDimensional F K :=
     FiniteDimensional.of_finrank_pos (by rw [E.finrank_eq]; norm_num)
-  haveI : Nontrivial (Fin a → K) :=
+  have : Nontrivial (Fin a → K) :=
     Module.nontrivial_of_finrank_pos (R := F) (by
       have h := plh_finrank_eq E a
       omega)
@@ -364,8 +364,8 @@ theorem torOmega_klinear_le_orthDerived (E : QuadExt F K (unitaryInvolution K 2 
     (hF : Nat.card F = 2) {a : ℕ} (ha : 3 ≤ a) {g : (Fin a → K) ≃ₗ[F] (Fin a → K)}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup (Qn E a))
     (hK : ∀ (c : K) (z : Fin a → K), g (c • z) = c • g z) : g ∈ orthDerived (Qn E a) := by
-  letI : CharP F 2 := plh_charP_two E
-  haveI : Finite F := plh_finite_F hF
+  let : CharP F 2 := plh_charP_two E
+  have : Finite F := plh_finite_F hF
   have hQ : (polarBilin (Qn E a)).Nondegenerate := Qn_polarBilin_nondegenerate E a
   have hgω : g ∈ omegaGroup (Qn E a) hQ :=
     mem_omegaGroup.mpr ⟨hg, plh_even_finrank_commSpace E hK⟩

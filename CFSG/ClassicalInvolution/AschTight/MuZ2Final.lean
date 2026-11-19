@@ -244,7 +244,7 @@ theorem false_of_allTypeTwo (hB3 : GoldschmidtB3Tmp) [IsSimpleGroup G]
     ⟨K, CoreAssembly.mem_conjClass_self K, Q₀, rfl⟩
   have hRK : R ≤ K := Subgroup.map_subtype_le _
   have hzR : IsUniqueInvolution R z := isUniqueInvolution_of_mem_rSet_of_le htb hR hRK
-  obtain ⟨S, hRS⟩ := (Q₀.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨S, hRS⟩ := (Q₀.isPGroup.map K.subtype).exists_le_sylow
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (R : Set G) := by
     intro s hs
     have hle : conjSubgroup s R ≤ (S : Subgroup G) := by
@@ -254,7 +254,7 @@ theorem false_of_allTypeTwo (hB3 : GoldschmidtB3Tmp) [IsSimpleGroup G]
       rw [e]
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hs (hRS hx')) (Subgroup.inv_mem _ hs)
     exact conjSubgroup_eq_self_iff.mp
-      (conjSubgroup_sylow_eq_of_tightD ht Q₀ S.isPGroup' hRS hle)
+      (conjSubgroup_sylow_eq_of_tightD ht Q₀ S.isPGroup hRS hle)
   have hSz : (S : Subgroup G) ≤ Subgroup.centralizer ({z} : Set G) := by
     intro s hs
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -263,7 +263,7 @@ theorem false_of_allTypeTwo (hB3 : GoldschmidtB3Tmp) [IsSimpleGroup G]
       _ = z * s := by rw [h1]
   have hSKR : (S : Subgroup G) ⊓ K ≤ R := by
     have h2 : IsPGroup 2 (((S : Subgroup G) ⊓ K).subgroupOf K) :=
-      (S.isPGroup'.to_le inf_le_left).comap_subtype
+      (S.isPGroup.to_le inf_le_left).comap_subtype
     have hle : (Q₀ : Subgroup K) ≤ ((S : Subgroup G) ⊓ K).subgroupOf K := by
       intro x hx
       exact Subgroup.mem_subgroupOf.mpr ⟨hRS ⟨x, hx, rfl⟩, x.2⟩
@@ -279,7 +279,7 @@ theorem false_of_allTypeTwo (hB3 : GoldschmidtB3Tmp) [IsSimpleGroup G]
   have hPS : P ≤ (S : Subgroup G) := sup_le hRS (Subgroup.zpowers_le.mpr htS)
   have htzc : t * z = z * t := Subgroup.mem_centralizer_singleton_iff.mp (hSz htS)
   have hsd := isSemidihedral_sup_of_allTypeTwo ht hA hR hRK (hSN htS) htzc htz
-  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (S.isPGroup'.to_le hPS) hsd
+  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (S.isPGroup.to_le hPS) hsd
   have hcl : fusionStronglyClosed (P : Set G) S := by
     intro x hx y hy
     have := mem_sup_of_conj_mem ht hA hR hRK hRS hSKR hSN hSz htS htz hx (y := y⁻¹)
@@ -303,7 +303,7 @@ theorem false_of_allTypeTwo (hB3 : GoldschmidtB3Tmp) [IsSimpleGroup G]
       rw [h0, Subgroup.mem_bot] at this
       exact hI.ne_one this
     · exact h0
-  have hPeq : (S : Subgroup G) = P := hB.2.2 _ (hncl ▸ le_top) S.isPGroup' hPS
+  have hPeq : (S : Subgroup G) = P := hB.2.2 _ (hncl ▸ le_top) S.isPGroup hPS
   have h3 := ht.branch.rank
   unfold CFSG.Open.twoRank CFSG.Open.pRank at h3
   have hbdd : BddAbove {k | ∃ E : Subgroup G, E ≤ ⊤ ∧ IsElemAbelian 2 E ∧ Nat.card E = 2 ^ k} :=

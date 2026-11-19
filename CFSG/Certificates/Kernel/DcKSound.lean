@@ -235,7 +235,7 @@ private theorem bfsEnumL_replayRow_spec (E : EnumK) (i : Nat) : ∀ (ts : List N
           · obtain ⟨b1, b2, b3, b4⟩ := Bb x a hx2
             exact ⟨b1, b2, List.mem_cons_of_mem _ b3, b4⟩
         · rcases List.mem_cons.1 ht' with rfl | ht'
-          · exact Or.inr ⟨by omega, by omega, by rw [e1, e4] <;> exact Nat.le_refl _⟩
+          · exact Or.inr ⟨by omega, by omega, by rw [e1, e4]⟩
           · rcases C t' ht' with a | a
             · rcases Nat.lt_or_ge (E.tgt i t') c with b | b
               · exact Or.inl b
@@ -280,7 +280,7 @@ private theorem bfsEnumL_cnt_mono (he : ∀ k < E.N, elemK n B L m E k = true) :
     have h2 := (bfsEnumL_head he (i := i + d) (by omega)).1
     have e : bfsEnumL_nxt E (i + d) = E.cnt (i + (d + 1)) := by
       unfold bfsEnumL_nxt
-      rw [if_pos (by omega)]
+      rw [ite_eq_left (by omega)]
       rfl
     omega
 
@@ -292,7 +292,7 @@ private theorem bfsEnumL_cnt_le (he : ∀ k < E.N, elemK n B L m E k = true) {i 
 private theorem bfsEnumL_nxt_le (he : ∀ k < E.N, elemK n B L m E k = true) {i j : Nat} (hij : i < j)
     (hj : j < E.N) : bfsEnumL_nxt E i ≤ E.cnt j := by
   unfold bfsEnumL_nxt
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   exact bfsEnumL_cnt_le he hij hj
 
 private theorem bfsEnumL_cover (he : ∀ k < E.N, elemK n B L m E k = true) {x : Nat} (hx0 : 0 < x)
@@ -306,14 +306,14 @@ private theorem bfsEnumL_cover (he : ∀ k < E.N, elemK n B L m E k = true) {x :
       intro j hj hc
       refine ⟨j, by omega, hc, ?_⟩
       unfold bfsEnumL_nxt
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
       exact hx
     | succ d ih =>
       intro j hj hc
       by_cases h : x < E.cnt (j + 1)
       · refine ⟨j, by omega, hc, ?_⟩
         unfold bfsEnumL_nxt
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
         exact h
       · exact ih (j + 1) (by omega) (by omega)
   have hc0 : E.cnt 0 = 1 := ((bfsEnumL_elemK_spec (he 0 (by omega))).1 rfl).2.2.2
@@ -643,7 +643,7 @@ private theorem orbitLabels_of_orbCK_queue {n : Nat} {G : Array (Array Nat)} {L 
         obtain ⟨h1, h2, h3, h4⟩ := orbitLabels_of_orbCK_gens hG hB hxn (List.range' 0 G.size)
           (fun t ht => by simp [List.mem_range'] at ht; omega) cnt cnt'' A q hA hq hn hg
         rw [List.forIn_cons]
-        simp only [orbitLabels_of_orbCK_queueB, hlt, ↓reduceIte, hx, pure_bind, Id.run] at h1 h2 ⊢
+        simp only [orbitLabels_of_orbCK_queueB, hlt, ↓reduceIte, hx, Id.run] at h1 h2 ⊢
         exact orbitLabels_of_orbCK_queue hG hB l _ _ (h + 1) cnt'' cnt' h1 h2
           (by have := h2.1; have := hq.1; omega) h4 ho
       · exact absurd ho (by simp)
@@ -697,7 +697,7 @@ private theorem orbitLabels_of_orbCK_scan {n : Nat} {G : Array (Array Nat)} {L :
             (cnt + 1) cnt'' (orbitLabels_of_orbCK_set hA hB hs hv) hq0 (by simp) hn'
             (by simpa using hq)
           simp only [orbitLabels_of_orbCK_scanB, orbitLabels_of_orbCK_test hA hB hs, hl,
-            decide_false, Bool.not_false, ↓reduceIte, pure_bind, Id.run] at h1 ⊢
+            decide_false, Bool.not_false, ↓reduceIte, Id.run] at h1 ⊢
           exact orbitLabels_of_orbCK_scan hG hB ss hss' _ _ cnt'' cnt' h1 h3 h
         · exact absurd h (by simp)
       · exact absurd h (by simp)
@@ -717,7 +717,7 @@ theorem orbitLabels_of_orbCK {n : Nat} {G : Array (Array Nat)} {L : Nat → Nat 
 
 end OrbitLabels
 
-structure Rel (D : DcData) (K : DcK) : Prop where
+structure Rel (D : DcData) (K : DcKData) : Prop where
   n_eq : D.n = K.n
   B_eq : D.B = K.B
   ab_size : D.AB.size = 4
@@ -786,7 +786,7 @@ private theorem chkAll_of_chkAllK_cntB (f : Nat → Bool) :
   | [], a => by simp [cntB]
   | k :: ks, a => by
     rw [cntB]
-    split <;> rename_i hk <;> rw [chkAll_of_chkAllK_cntB f ks] <;> simp [List.filter_cons, hk] <;>
+    split <;> rename_i hk <;> rw [chkAll_of_chkAllK_cntB f ks] <;> simp [hk];
       omega
 
 private theorem chkAll_of_chkAllK_cntK (f : Nat → Option Bool) (g : Nat → Bool) :
@@ -801,10 +801,10 @@ private theorem chkAll_of_chkAllK_cntK (f : Nat → Option Bool) (g : Nat → Bo
     split at h
     · rename_i hf
       rw [chkAll_of_chkAllK_cntK f g ks (a + 1) c hks h]
-      simp [List.filter_cons, hk.1 hf]; omega
+      simp [hk.1 hf]; omega
     · rename_i hf
       rw [chkAll_of_chkAllK_cntK f g ks a c hks h]
-      simp [List.filter_cons, hk.2 hf]
+      simp [hk.2 hf]
     · simp at h
 
 private theorem chkAll_of_chkAllK_forall₂_mem {α β : Type} {R : α → β → Prop} :
@@ -837,7 +837,7 @@ private theorem chkAll_of_chkAllK_ptsArr_getD_le (G : Array (Array Nat)) (par la
     rw [chkAll_of_chkAllK_ptsArr_succ, ← ih]
     have hs := chkAll_of_chkAllK_ptsArr_size G par lab q N
     simp only [ptsStep, Array.getD_eq_getD_getElem?, Array.getElem?_push, hs]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 private theorem chkAll_of_chkAllK_ptsArr_getD (G : Array (Array Nat)) (par lab : Array Nat) (q : Nat)
     {k N : Nat} (hk : k < N) : (ptsArr G par lab N q).getD k 0 =
@@ -858,12 +858,12 @@ private theorem chkAll_of_chkAllK_elemK {n : Nat} {B : List Nat} {G : Nat → Na
   unfold elemK at h
   by_cases hk : k = 0
   · subst hk
-    simp only [beq_self_eq_true, if_true, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
+    simp only [beq_self_eq_true, ite_true, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
       List.mem_range, decide_eq_true_eq, Bool.or_eq_true] at h
     obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, -⟩, -⟩, -⟩, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, -⟩, -⟩ := h
     exact ⟨fun _ => h1, fun h0 => absurd rfl h0, h2, h3, h4, h5, h6, h7⟩
   · have hk' : (k == 0) = false := by simp [hk]
-    simp only [hk', Bool.false_eq_true, if_false, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
+    simp only [hk', Bool.false_eq_true, ite_false, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
       List.mem_range, decide_eq_true_eq, Bool.or_eq_true] at h
     obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hp, hl⟩, hr⟩, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, -⟩, -⟩ := h
     exact ⟨fun h0 => absurd h0 hk, fun _ => ⟨hp, hl, hr⟩, h2, h3, h4, h5, h6, h7⟩
@@ -890,14 +890,14 @@ private theorem chkAll_of_chkAllK_pts (hG : ∀ t < m, Good n (G.getD t #[]) (Lm
       rw [hpar k hk, hlab k hk, ← chkAll_of_chkAllK_ptsArr_getD_le G par lab q hp E.N hk.le]
       have ih' := (ih (E.par k) hp (by omega)).1
       have := chkAll_of_chkAllK_img (hG _ hl) ih'
-      simp only [h0, if_false]
+      simp only [h0, ite_false]
       exact ⟨by rw [this.1]; exact this.2, this.1⟩
 
 private theorem chkAll_of_chkAllK_ePts (hG : ∀ t < m, Good n (G.getD t #[]) (Lm t))
     (hpl : ∀ k < E.N, k ≠ 0 → E.par k < k ∧ E.lab k < m)
     (hpar : ∀ k < E.N, par.getD k 0 = E.par k) (hlab : ∀ k < E.N, lab.getD k 0 = E.lab k)
     {qs : List Nat} (hqs : ∀ q ∈ qs, q < n) :
-    ∀ k < E.N, ∀ f, k < f → DcK.ePts E Lm f k qs = qs.map (fun q => (ptsArr G par lab E.N q).getD k 0) := by
+    ∀ k < E.N, ∀ f, k < f → DcKData.ePts E Lm f k qs = qs.map (fun q => (ptsArr G par lab E.N q).getD k 0) := by
   intro k
   induction k using Nat.strong_induction_on with
   | _ k ih =>
@@ -905,14 +905,14 @@ private theorem chkAll_of_chkAllK_ePts (hG : ∀ t < m, Good n (G.getD t #[]) (L
     obtain ⟨f, rfl⟩ : ∃ f', f = f' + 1 := ⟨f - 1, by omega⟩
     by_cases h0 : k = 0
     · subst h0
-      simp only [DcK.ePts, beq_self_eq_true, if_true]
+      simp only [DcKData.ePts, beq_self_eq_true, ite_true]
       symm
       refine (List.map_congr_left fun q hq => ?_).trans (List.map_id' qs)
       rw [(chkAll_of_chkAllK_pts hG hpl hpar hlab (hqs q hq) 0 hk).2]
       simp
     · have hk' : (k == 0) = false := by simp [h0]
       obtain ⟨hp, _⟩ := hpl k hk h0
-      simp only [DcK.ePts, hk', Bool.false_eq_true, if_false]
+      simp only [DcKData.ePts, hk', Bool.false_eq_true, ite_false]
       rw [ih (E.par k) hp (by omega) f (by omega), List.map_map]
       refine List.map_congr_left fun q hq => ?_
       rw [(chkAll_of_chkAllK_pts hG hpl hpar hlab (hqs q hq) k hk).2]
@@ -1123,7 +1123,7 @@ end Rec
 
 section Checks
 
-variable {D : DcData} {K : DcK}
+variable {D : DcData} {K : DcKData}
 
 private theorem chkAll_of_chkAllK_parts {I H : List Nat} (h : chkAllK K I H = true) :
     K.invOK = true ∧ K.basicOK = true ∧ K.labOK = true ∧ K.distOK I = true ∧
@@ -1136,7 +1136,7 @@ private theorem chkAll_of_chkAllK_basic_parts (h : K.basicOK = true) :
     (∀ b ∈ K.B, b < K.n) ∧ 0 < K.R.N ∧ (∀ w ∈ K.reps.toList, ∀ l ∈ w, l < 4) ∧
       K.c0 < K.reps.size ∧ (∀ j ∈ K.reach, j < K.reps.size) ∧ K.Vs.length ≤ 3 ∧
       (∀ V ∈ K.Vs, ∀ w ∈ V.1, ∀ l ∈ w, l < 4) := by
-  simp only [DcK.basicOK, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h
+  simp only [DcKData.basicOK, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩ := h
   exact ⟨h1, h2, h3, h4, h5, h6, h7⟩
 
@@ -1169,7 +1169,7 @@ private theorem chkAll_of_chkAllK_tab (hr : Rel D K) {w : List Nat} (hw : ∀ l 
 
 private theorem chkAll_of_chkAllK_chkInv (hr : Rel D K) (h : K.invOK = true) : D.chkInv = true := by
   unfold DcData.chkInv
-  unfold DcK.invOK at h
+  unfold DcKData.invOK at h
   rw [hr.ab_size, hr.rti_size, hr.rt_size, hr.n_eq]
   simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range, beq_iff_eq] at h ⊢
   refine ⟨⟨⟨trivial, trivial⟩, fun q hq => ⟨?_, ?_⟩⟩, fun t ht q hq => ?_⟩
@@ -1205,7 +1205,7 @@ private theorem chkAll_of_chkAllK_chkR (hr : Rel D K) (hb : K.basicOK = true)
 
 private theorem chkAll_of_chkAllK_chkLab (hr : Rel D K) (h : K.labOK = true) : D.chkLab = true := by
   unfold DcData.chkLab labOK
-  unfold DcK.labOK at h
+  unfold DcKData.labOK at h
   simp only [Array.all_eq_true, List.all_eq_true, List.mem_range, beq_iff_eq] at h ⊢
   intro t ht q hq
   rw [hr.rt_size] at ht
@@ -1234,7 +1234,7 @@ private theorem chkAll_of_chkAllK_list_getD {l : List Nat} {i : Nat} (h : i < l.
 
 private theorem chkAll_of_chkAllK_chkDist (hr : Rel D K) (hb : K.basicOK = true) {I : List Nat}
     (hd : K.distOK I = true) : D.chkDist = true := by
-  simp only [DcK.distOK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range] at hd
+  simp only [DcKData.distOK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range] at hd
   obtain ⟨⟨hlen, hinv⟩, hne⟩ := hd
   have hnd := chkAll_of_chkAllK_allNe hne
   have hI : ∀ i < K.reps.size,
@@ -1261,20 +1261,20 @@ private theorem chkAll_of_chkAllK_chkDist (hr : Rel D K) (hb : K.basicOK = true)
     omega
 
 private theorem chkAll_of_chkAllK_edgeL (hr : Rel D K) {w : List Nat} (hw : ∀ l ∈ w, l < 4) {l p : Nat}
-    (hl : l < K.nr + K.nr + 2) (hp : p < K.n) :
+    (_hl : l < K.nr + K.nr + 2) (hp : p < K.n) :
     edgeLetter D.RT D.RTi D.AB w l p = K.edgeL w l p ∧ K.edgeL w l p < K.n := by
-  unfold edgeLetter DcK.edgeL
+  unfold edgeLetter DcKData.edgeL
   rw [hr.rt_size, hr.rti_size]
   by_cases h1 : l < K.nr
-  · simp only [h1, if_true]
+  · simp only [h1, ite_true]
     exact chkAll_of_chkAllK_img (hr.rt l h1) hp
   · by_cases h2 : l < K.nr + K.nr
-    · rw [if_neg h1, if_neg h1, if_pos h2, if_pos h2]
+    · rw [ite_eq_right h1, ite_eq_right h1, ite_eq_left h2, ite_eq_left h2]
       exact chkAll_of_chkAllK_img (hr.rti (l - K.nr) (by omega)) hp
     · by_cases h3 : l = K.nr + K.nr
-      · rw [if_neg h1, if_neg h1, if_neg h2, if_neg h2, if_pos h3, if_pos h3]
+      · rw [ite_eq_right h1, ite_eq_right h1, ite_eq_right h2, ite_eq_right h2, ite_eq_left h3, ite_eq_left h3]
         exact chkAll_of_chkAllK_word hr hw p hp
-      · rw [if_neg h1, if_neg h1, if_neg h2, if_neg h2, if_neg h3, if_neg h3]
+      · rw [ite_eq_right h1, ite_eq_right h1, ite_eq_right h2, ite_eq_right h2, ite_eq_right h3, ite_eq_right h3]
         exact chkAll_of_chkAllK_word hr (chkAll_of_chkAllK_invW_lt hw) p hp
 
 private theorem chkAll_of_chkAllK_evalE (hr : Rel D K) {w : List Nat} (hw : ∀ l ∈ w, l < 4) :
@@ -1293,7 +1293,7 @@ private theorem chkAll_of_chkAllK_evalE (hr : Rel D K) {w : List Nat} (hw : ∀ 
 private theorem chkAll_of_chkAllK_chkEdges (hr : Rel D K) (hb : K.basicOK = true)
     (h : K.edgesOK = true) : D.chkEdges = true := by
   have hB := (chkAll_of_chkAllK_basic_parts hb).1
-  unfold DcK.edgesOK at h
+  unfold DcKData.edgesOK at h
   simp only [Bool.and_eq_true] at h
   obtain ⟨⟨⟨hed, hin⟩, hout⟩, hne⟩ := h
   unfold DcData.chkEdges
@@ -1312,7 +1312,7 @@ private theorem chkAll_of_chkAllK_chkEdges (hr : Rel D K) (hb : K.basicOK = true
     (chkAll_of_chkAllK_evalE hr (chkAll_of_chkAllK_reps_lt hb _) _ h3 b (hB b hbm)).1]
   exact h4 b hbm
 
-private abbrev chkAll_of_chkAllK_VRel (K : DcK) (V : List (List Nat) × Array Nat × Array Nat × Nat)
+private abbrev chkAll_of_chkAllK_VRel (K : DcKData) (V : List (List Nat) × Array Nat × Array Nat × Nat)
     (W : List (List Nat) × (Nat → Nat → Nat) × EnumK) : Prop :=
   V.1 = W.1 ∧ V.2.2.2 = W.2.2.N ∧
     (∀ i < V.1.length, ∀ p < K.n, wordF K.ab (V.1.getD i []) p = W.2.1 i p) ∧
@@ -1327,15 +1327,15 @@ private theorem chkAll_of_chkAllK_VG_good (hr : Rel D K) {V : List (List Nat) ×
     (hl : ∀ w ∈ V.1, ∀ l ∈ w, l < 4) :
     ∀ t < K.nr + V.1.length, Good K.n ((D.VG V.1).getD t #[]) (K.vg W.2.1 t) := by
   intro t ht
-  unfold DcData.VG DcK.vg
+  unfold DcData.VG DcKData.vg
   by_cases h1 : t < K.nr
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     have e : (D.RT ++ (V.1.map (tabW D.n D.AB)).toArray).getD t #[] = D.RT.getD t #[] := by
       rw [Array.getD_eq_getD_getElem?, Array.getElem?_append_left (by rw [hr.rt_size]; exact h1),
         ← Array.getD_eq_getD_getElem?]
     rw [e]
     exact hr.rt t h1
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     have hi : t - K.nr < V.1.length := by omega
     have e : (D.RT ++ (V.1.map (tabW D.n D.AB)).toArray).getD t #[] =
         tabW D.n D.AB (V.1.getD (t - K.nr) []) := by
@@ -1383,7 +1383,7 @@ private theorem chkAll_of_chkAllK_chkVs (hr : Rel D K) (hb : K.basicOK = true) (
   have hGs := chkAll_of_chkAllK_VG_size hr V.1
   have hpar : ∀ k < W.2.2.N, V.2.1.getD k 0 = W.2.2.par k := fun k hk => (hVW.2.2.2 k hk).1
   have hlab : ∀ k < W.2.2.N, V.2.2.1.getD k 0 = W.2.2.lab k := fun k hk => (hVW.2.2.2 k hk).2
-  simp only [DcK.vsOK, List.all_eq_true, Bool.and_eq_true, decide_eq_true_eq] at hvs
+  simp only [DcKData.vsOK, List.all_eq_true, Bool.and_eq_true, decide_eq_true_eq] at hvs
   rw [chkAll_of_chkAllK_V_keys hr hb hVW hl he, hVW.2.1, hr.n_eq, hr.B_eq, hr.order_eq]
   simp only [Bool.and_eq_true, decide_eq_true_eq]
   refine ⟨⟨⟨⟨?_, ?_⟩, ?_⟩, (hvs W hW).1⟩, (hvs W hW).2⟩
@@ -1412,7 +1412,7 @@ private theorem chkAll_of_chkAllK_conjKeys (hr : Rel D K) (hb : K.basicOK = true
   rw [hr.reps_eq, hr.NR_eq, hr.B_eq]
   refine List.map_congr_left fun k hk => ?_
   have hk := List.mem_range.mp hk
-  unfold DcK.conjKey
+  unfold DcKData.conjKey
   have hqs : ∀ q ∈ K.B.map (wordF K.ab (K.reps.getD j [])), q < K.n := by
     intro q hq
     obtain ⟨b, hb, rfl⟩ := List.mem_map.mp hq
@@ -1429,9 +1429,9 @@ private theorem chkAll_of_chkAllK_hitCount (hr : Rel D K) (hb : K.basicOK = true
     (hR : ∀ k < K.R.N, elemK K.n K.B K.rt K.nr K.R k = true) {H : List Nat}
     (hh : K.hitOK H = true) {j : Nat} (hj : j < K.reps.size) :
     hitCount D.rSet (conjKeys D.n D.B D.RT D.rpar D.rlab D.NR (D.Xi j) (D.X j)) = H.getD j 0 := by
-  simp only [DcK.hitOK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range] at hh
+  simp only [DcKData.hitOK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range] at hh
   have hc := hh.2 j hj
-  unfold DcK.hit at hc
+  unfold DcKData.hit at hc
   rw [chkAll_of_chkAllK_cntK _ (fun k => D.rSet.contains (K.conjKey j k)) _ 0 _ ?_ hc,
     Nat.zero_add]
   · unfold hitCount
@@ -1465,7 +1465,7 @@ private theorem chkAll_of_chkAllK_filter_le {p q : Nat → Bool} :
     have ih := chkAll_of_chkAllK_filter_le l fun y hy => h y (List.mem_cons_of_mem _ hy)
     have hx := h x List.mem_cons_self
     simp only [List.filter_cons]
-    cases hp : p x <;> cases hq : q x <;> simp_all <;> omega
+    cases hp : p x <;> cases hq : q x <;> simp_all; omega
 
 private theorem chkAll_of_chkAllK_unionLB_mono : ∀ (kss : List (List Nat)) (acc : Nat × Std.HashSet Nat),
     acc.1 ≤ (kss.foldl (fun (acc : Nat × Std.HashSet Nat) ks =>
@@ -1483,7 +1483,7 @@ private theorem chkAll_of_chkAllK_ulb (hr : Rel D K) (hb : K.basicOK = true)
     K.ulb ≤ unionLB (D.Vs.map D.vKeys) := by
   have hl := (chkAll_of_chkAllK_basic_parts hb).2.2.2.2.2.2
   have hF := hr.Vs
-  unfold DcK.ulb
+  unfold DcKData.ulb
   generalize D.Vs = DV at hF ⊢
   generalize K.Vs = KV at hF hV hl ⊢
   have hkeys : ∀ {V W}, chkAll_of_chkAllK_VRel K V W → W ∈ KV →
@@ -1524,7 +1524,7 @@ private theorem chkAll_of_chkAllK_chkMass (hr : Rel D K) (hb : K.basicOK = true)
       elemK K.n K.B (K.vg V.2.1) (K.nr + V.1.length) V.2.2 k = true) {H : List Nat}
     (hh : K.hitOK H = true) (hm : K.massOK H = true) : D.chkMass = true := by
   have hlen : H.length = K.reps.size := by
-    simp only [DcK.hitOK, Bool.and_eq_true, beq_iff_eq] at hh; exact hh.1
+    simp only [DcKData.hitOK, Bool.and_eq_true, beq_iff_eq] at hh; exact hh.1
   have hms : ∀ j < K.reps.size, D.massWith D.rSet j = K.R.N * (K.R.N / H.getD j 0) := by
     intro j hj
     unfold DcData.massWith
@@ -1545,7 +1545,7 @@ private theorem chkAll_of_chkAllK_chkMass (hr : Rel D K) (hb : K.basicOK = true)
       (H.map fun h => K.R.N * (K.R.N / h)).sum := by
     rw [List.toList_toArray, hr.reps_eq, ← chkAll_of_chkAllK_map_range _ H, hlen]
     exact congrArg List.sum (List.map_congr_left fun j hj => hms j (List.mem_range.mp hj))
-  simp only [DcK.massOK, Bool.and_eq_true, decide_eq_true_eq] at hm
+  simp only [DcKData.massOK, Bool.and_eq_true, decide_eq_true_eq] at hm
   unfold DcData.chkMass DcData.chkMassWith
   simp only [Bool.and_eq_true, decide_eq_true_eq]
   rw [hreach, htot, hr.order_eq]
@@ -1564,7 +1564,7 @@ private theorem chkAll_of_chkAllK_conjKeys2 (hr : Rel D K) (hb : K.basicOK = tru
   rw [hr.reps_eq, hr.NR_eq, hr.B_eq]
   refine List.map_congr_left fun k hk => ?_
   have hk := List.mem_range.mp hk
-  unfold DcK.conjKey2
+  unfold DcKData.conjKey2
   have hqs : ∀ q ∈ K.B.map (wordF K.ab (K.reps.getD j [])), q < K.n := by
     intro q hq
     obtain ⟨b, hb, rfl⟩ := List.mem_map.mp hq
@@ -1581,7 +1581,7 @@ private theorem chkAll_of_chkAllK_noHit (hr : Rel D K) (hb : K.basicOK = true)
     (hR : ∀ k < K.R.N, elemK K.n K.B K.rt K.nr K.R k = true) {i j : Nat} {P : Nat → Nat}
     (h : K.noHitK i j P = true) :
     noHit D.rSet (conjKeys D.n D.B D.RT D.rpar D.rlab D.NR (D.Xi i) (D.X j)) = true := by
-  simp only [DcK.noHitK, List.all_eq_true, List.mem_range, beq_iff_eq] at h
+  simp only [DcKData.noHitK, List.all_eq_true, List.mem_range, beq_iff_eq] at h
   unfold noHit
   rw [chkAll_of_chkAllK_conjKeys2 hr hb hR, List.all_map]
   refine List.all_eq_true.2 fun k hk => ?_
@@ -1598,7 +1598,7 @@ private theorem chkAll_of_chkAllK_noHit (hr : Rel D K) (hb : K.basicOK = true)
 private theorem chkAll_of_chkAllK_chkDistN (hr : Rel D K) (hb : K.basicOK = true)
     (hR : ∀ k < K.R.N, elemK K.n K.B K.rt K.nr K.R k = true) {I : List Nat}
     {P : Nat → Nat → Nat → Nat} (hd : K.distOKN I P = true) : D.chkDist = true := by
-  simp only [DcK.distOKN, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range,
+  simp only [DcKData.distOKN, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range,
     Bool.or_eq_true, decide_eq_true_eq, bne_iff_ne, ne_eq] at hd
   obtain ⟨⟨-, hinv⟩, hne⟩ := hd
   have hI : ∀ i < K.reps.size,
@@ -1625,7 +1625,7 @@ private theorem chkAll_of_chkAllK_chkDistN (hr : Rel D K) (hb : K.basicOK = true
 
 end Checks
 
-theorem chkAll_of_chkAllK {D : DcData} {K : DcK} {I H : List Nat} (hr : Rel D K)
+theorem chkAll_of_chkAllK {D : DcData} {K : DcKData} {I H : List Nat} (hr : Rel D K)
     (hR : ∀ k < K.R.N, elemK K.n K.B K.rt K.nr K.R k = true)
     (hV : ∀ V ∈ K.Vs, ∀ k < V.2.2.N, elemK K.n K.B (K.vg V.2.1) (K.nr + V.1.length) V.2.2 k = true)
     (h : chkAllK K I H = true) : D.chkAll = true := by
@@ -1637,7 +1637,7 @@ theorem chkAll_of_chkAllK {D : DcData} {K : DcK} {I H : List Nat} (hr : Rel D K)
     chkAll_of_chkAllK_chkVs hr hb hvs hV, chkAll_of_chkAllK_chkMass hr hb hR hV hh hm]
   rfl
 
-theorem chkAll_of_chkAllKN {D : DcData} {K : DcK} {I H : List Nat} {P : Nat → Nat → Nat → Nat}
+theorem chkAll_of_chkAllKN {D : DcData} {K : DcKData} {I H : List Nat} {P : Nat → Nat → Nat → Nat}
     (hr : Rel D K) (hR : ∀ k < K.R.N, elemK K.n K.B K.rt K.nr K.R k = true)
     (hV : ∀ V ∈ K.Vs, ∀ k < V.2.2.N, elemK K.n K.B (K.vg V.2.1) (K.nr + V.1.length) V.2.2 k = true)
     (h : chkAllKN K I H P = true) : D.chkAll = true := by

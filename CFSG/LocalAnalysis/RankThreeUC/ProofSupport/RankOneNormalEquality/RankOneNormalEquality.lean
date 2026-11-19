@@ -43,7 +43,7 @@ theorem normal_eq_of_card_eq {G : Type} [Group G] [Finite G] {K A B : Subgroup G
     (hr : CFSG.Open.pRank 3 K ≤ 1) (hA : SourceSetting.oPrimeResidual 3 A = A)
     (hB : SourceSetting.oPrimeResidual 3 B = B) (hcard : Nat.card A = Nat.card B) : A = B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcyc : ∀ Q : Sylow 3 K, IsCyclic ↥(Q : Subgroup K) := by
     intro Q
     have h1 : CFSG.pRank 3 K ≤ 1 := by
@@ -76,7 +76,7 @@ theorem normal_eq_of_card_eq {G : Type} [Group G] [Finite G] {K A B : Subgroup G
   have hsub : ∀ Q : Sylow 3 K, (A.subgroupOf K).subgroupOf (Q : Subgroup K) =
       (B.subgroupOf K).subgroupOf (Q : Subgroup K) := by
     intro Q
-    haveI := hcyc Q
+    have := hcyc Q
     apply (IsCyclic.subgroup_eq_iff_card_eq).2
     rw [hkey A hAK Q, hkey B hBK Q, hcard]
   have hres : ∀ (X Y : Subgroup G), X ≤ K → Y ≤ K →

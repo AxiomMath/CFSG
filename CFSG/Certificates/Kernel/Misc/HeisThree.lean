@@ -53,7 +53,7 @@ theorem cube_of_rel {u v w : G} (h : v * u = u * v * w) (hwu : Commute w u) (hwv
   have h4 : ∀ x, w * (u * x) = u * (w * x) := fun x => by rw [← mul_assoc, h3, mul_assoc]
   have h5 : w * v = v * w := hwv.eq
   have h6 : ∀ x, w * (v * x) = v * (w * x) := fun x => by rw [← mul_assoc, h5, mul_assoc]
-  simp only [pow_three, mul_assoc, h1, h2, h3, h4, h5, h6]
+  simp only [pow_three, mul_assoc, h2, h4, h5, h6]
 
 section Heis
 
@@ -62,10 +62,12 @@ variable {a b c : G} (hc3 : c ^ 3 = 1) (hab : a * b = b * a * c) (hca : Commute 
 
 include hc3 hab hca hcb
 
+omit hca hcb in
 theorem heis_ba : b * a = a * b * c ^ 2 := by
   have h : c * c ^ 2 = 1 := by rw [← pow_succ', hc3]
   rw [hab, mul_assoc, h, mul_one]
 
+omit hca in
 theorem heis_bpow_a (j : ℕ) : b ^ j * a = a * b ^ j * c ^ (2 * j) := by
   induction j with
   | zero => simp
@@ -74,7 +76,7 @@ theorem heis_bpow_a (j : ℕ) : b ^ j * a = a * b ^ j * c ^ (2 * j) := by
     calc b ^ (j + 1) * a = b * (b ^ j * a) := by rw [pow_succ', mul_assoc]
       _ = b * a * b ^ j * c ^ (2 * j) := by rw [ih]; simp only [mul_assoc]
       _ = a * b * (c ^ 2 * b ^ j) * c ^ (2 * j) := by
-        rw [heis_ba hc3 hab hca hcb]; simp only [mul_assoc]
+        rw [heis_ba hc3 hab]; simp only [mul_assoc]
       _ = a * b ^ (j + 1) * c ^ (2 * (j + 1)) := by
         rw [(hcb.pow_pow 2 j).eq, e, pow_add c 2 (2 * j), pow_succ' b j]; simp only [mul_assoc]
 
@@ -88,15 +90,16 @@ theorem heis_bpow_apow (i j : ℕ) : b ^ j * a ^ i = a ^ i * b ^ j * c ^ (2 * i 
       _ = a ^ i * (b ^ j * a) * c ^ (2 * i * j) := by
         rw [(hca.pow_left _).eq]; simp only [mul_assoc]
       _ = a ^ (i + 1) * b ^ j * c ^ (2 * (i + 1) * j) := by
-        rw [heis_bpow_a hc3 hab hca hcb, e, pow_add c (2 * j) (2 * i * j), pow_succ a i]
+        rw [heis_bpow_a hc3 hab hcb, e, pow_add c (2 * j) (2 * i * j), pow_succ a i]
         simp only [mul_assoc]
 
 theorem heis_mul_a (i j k : ℕ) :
     a ^ i * b ^ j * c ^ k * a = a ^ (i + 1) * b ^ j * c ^ (2 * j + k) := by
   rw [mul_assoc, ((hca.pow_left k)).eq, ← mul_assoc, mul_assoc (a ^ i),
-    heis_bpow_a hc3 hab hca hcb, pow_succ a i, pow_add c]
+    heis_bpow_a hc3 hab hcb, pow_succ a i, pow_add c]
   simp only [mul_assoc]
 
+omit hc3 hab hca in
 theorem heis_mul_b (i j k : ℕ) :
     a ^ i * b ^ j * c ^ k * b = a ^ i * b ^ (j + 1) * c ^ k := by
   rw [mul_assoc, ((hcb.pow_left k)).eq, ← mul_assoc, mul_assoc (a ^ i), ← pow_succ]
@@ -125,7 +128,7 @@ theorem heis_pow_three {a b : G} (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1)
     rintro x ⟨i, j, k, rfl⟩ y hy
     rcases hy with rfl | rfl
     · exact ⟨i + 1, j, 2 * j + k, heis_mul_a hc3 hab hca' hcb' i j k⟩
-    · exact ⟨i, j + 1, k, heis_mul_b hc3 hab hca' hcb' i j k⟩
+    · exact ⟨i, j + 1, k, heis_mul_b hcb' i j k⟩
   have hinv : ∀ y ∈ ({a, b} : Set G), y⁻¹ = y * y := by
     intro y hy
     apply inv_eq_of_mul_eq_one_right
@@ -193,7 +196,7 @@ theorem mem_of_nonabelian_sylow [Finite G] {p : ℕ} [hp : Fact p.Prime] {A P H 
     intro t ht
     rw [Subgroup.mem_centralizer_iff]
     intro u hu
-    exact congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq hTA ⟨u, hu⟩ ⟨t, ht⟩)
+    exact congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hTA).is_comm.comm ⟨u, hu⟩ ⟨t, ht⟩)
   have hZc : Z ≤ Subgroup.centralizer (Z : Set A) := by
     intro g hg
     rw [Subgroup.mem_centralizer_iff]

@@ -287,7 +287,7 @@ theorem eighteen_two_of_calO_one
   · rw [htop, top_add]
     exact le_top
   set n : ℕ := (fIndexMax Δ).toNat with hn
-  have hneq : fIndexMax Δ = (n : ℕ∞) := (ENat.coe_toNat htop).symm
+  have hneq : fIndexMax Δ = (n : ℕ∞) := (ENat.natCast_toNat htop).symm
   have hF : ∀ H ∈ Δ, InFSq n H := fIndexMax_le_iff.1 hneq.le
   rw [hneq]
   by_contra hle

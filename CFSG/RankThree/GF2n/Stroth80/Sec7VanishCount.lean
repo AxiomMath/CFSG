@@ -268,7 +268,7 @@ theorem step71VanishBound_core (h52b : Stroth52bStatement) (h310chi : Stroth310C
         Vt M (LB M Q B) B Z t) := card_conjSubgroup x _
   rw [hsw] at hA2
   have hUt : Nat.card Q * Nat.card Z = Nat.card ↥(Q1 hc t) * Nat.card ↥(Ut Q Z t) := by
-    haveI : (Z.subgroupOf (Ut Q Z t)).Normal :=
+    have : (Z.subgroupOf (Ut Q Z t)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
         hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Ut_le_Q (hc.LB_le_M ht) hv)))
     exact card_mul_card_of_isChiIso (hc.isChiIso_Q1_Ut ht) (fun x hx => hx.1)

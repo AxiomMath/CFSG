@@ -34,6 +34,7 @@ abbrev FourteenTwoConcl (Q J : Subgroup G) : Prop :=
     ∃ Q₀ : Subgroup G, Q₀ ≤ Q ∧ Nat.card Q₀ = 27 ∧ ⁅Q₀, J⁆ ≤ CFSG.Open.pCoreOf 2 J ∧
       (Subgroup.center ↥Q).map Q.subtype ≤ Q₀
 
+omit [Finite G] in
 private theorem inf_starCentralizer_eq_oTwoZStar (J : Subgroup G) :
     J ⊓ starCentralizer J = oTwoZStar J := by
   refine le_antisymm ?_ ?_
@@ -62,6 +63,7 @@ private theorem inf_starCentralizer_eq_oTwoZStar (J : Subgroup G) :
     rw [hsub, jStarAct_of_mem hyJ]
     exact (CFSG.QuasithinUnique.Setup.Layer.conj_eq_one_iff _).mpr hcenter
 
+omit [Finite G] in
 private theorem sup_inf_eq_of_le_sup {K E Q : Subgroup G} (hQ : Q ≤ K ⊔ E) (hEQ : E ≤ Q)
     (hEN : E ≤ Subgroup.normalizer (K : Set G)) : Q = (Q ⊓ K) ⊔ E := by
   have h := CFSG.GroupTheory.inf_sup_eq_sup_inf_of_le_normalizer (S := E) (T := K) (U := Q)
@@ -79,12 +81,13 @@ theorem commutator_eq_center_map_of_card_27 {P : Subgroup G}
   · simpa [MonoidHom.range_eq_map] using (P.range_subtype : P.subtype.range = P).symm
   · simpa [MonoidHom.range_eq_map] using (P.range_subtype : P.subtype.range = P).symm
 
+omit [Finite G] in
 theorem exists_mul_ne_of_card_center_lt {S : Subgroup G} (hS : Nat.card S = 27)
     (hZ : Nat.card ↥((Subgroup.center ↥S).map S.subtype) = 3) :
     ∃ a b : ↥S, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative ↥S := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative ↥S := ⟨⟨fun a b => hcon a b⟩⟩
   have htop : Subgroup.center ↥S = ⊤ := Subgroup.center_eq_top
   have h27 : Nat.card ↥(Subgroup.center ↥S) = 27 := by
     rw [htop, Subgroup.card_top]
@@ -99,7 +102,7 @@ private theorem card_sup_zpowers_center_eq_nine {S : Subgroup G} (hS : Nat.card 
     (hxnc : ∃ g ∈ S, g * x ≠ x * g) :
     Nat.card ↥(Subgroup.zpowers x ⊔ (Subgroup.center ↥S).map S.subtype) = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Z : Subgroup G := (Subgroup.center ↥S).map S.subtype
   have hnc : ∃ a b : ↥S, a * b ≠ b * a := by
     obtain ⟨g, hgS, hgx⟩ := hxnc
@@ -145,6 +148,7 @@ private theorem card_sup_zpowers_center_eq_nine {S : Subgroup G} (hS : Nat.card 
     (p := 3) (A := Z) (y := x) hZea hxZ hx3 hZx
   rw [sup_comm (Subgroup.zpowers x) Z, hcard, hZcard]
 
+omit [Finite G] in
 private theorem card_inf_centralizer_eq_nine {S : Subgroup G} (hS : Nat.card S = 27)
     {x : G} (hxS : x ∈ S) (hxnc : ∃ g ∈ S, g * x ≠ x * g) :
     Nat.card ↥(S ⊓ Subgroup.centralizer ({x} : Set G)) = 9 := by
@@ -204,6 +208,7 @@ private theorem inf_centralizer_eq_sup_zpowers_center {S : Subgroup G}
       exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hz0 ⟨x, hxS⟩)
   exact (Subgroup.eq_of_le_of_card_ge hsup_le (by rw [hinfcard, hsupcard])).symm
 
+omit [Finite G] in
 theorem commutator_sup_le_of_commute_le {S W Z : Subgroup G}
     (hSW : ∀ s ∈ S, ∀ w ∈ W, Commute s w) (hSS : ⁅S, S⁆ ≤ Z) (hWW : ⁅W, W⁆ ≤ Z)
     (hZ : ∀ z ∈ Z, ∀ q ∈ S ⊔ W, Commute z q) : ⁅S ⊔ W, S ⊔ W⁆ ≤ Z := by
@@ -213,7 +218,7 @@ theorem commutator_sup_le_of_commute_le {S W Z : Subgroup G}
   obtain ⟨s2, hs2, w2, hw2, rfl⟩ := (CFSG.mem_sup_of_commute hSW).mp hq2
   have hws : ⁅w1, s2⁆ = 1 := by
     have h := (hSW s2 hs2 w1 hw1).commutator_eq
-    rwa [show ⁅w1, s2⁆ = ⁅s2, w1⁆⁻¹ from by
+    rw [show ⁅w1, s2⁆ = ⁅s2, w1⁆⁻¹ from by
       rw [commutatorElement_def, commutatorElement_def]; group, h, inv_one]
   have hsw : ⁅s1, w2⁆ = 1 := (hSW s1 hs1 w2 hw2).commutator_eq
   have h1 : ⁅w1, s2 * w2⁆ = s2 * ⁅w1, w2⁆ * s2⁻¹ := by
@@ -233,6 +238,7 @@ theorem commutator_sup_le_of_commute_le {S W Z : Subgroup G}
   rw [h3, h2', h1']
   exact Z.mul_mem hwZ hsZ
 
+omit [Finite G] in
 theorem card_sup_eq_pow_of_inf_eq_bot {S E Q : Subgroup G} (hQ : Q = S ⊔ E)
     (hSE : S ⊓ E = ⊥) (hEN : E ≤ Subgroup.normalizer (S : Set G))
     (hScard : Nat.card S = 27) (hEcard : Nat.card E = 9) : Nat.card Q = 3 ^ 5 := by
@@ -243,6 +249,7 @@ theorem card_sup_eq_pow_of_inf_eq_bot {S E Q : Subgroup G} (hQ : Q = S ⊔ E)
   rw [hQ, sup_comm S E, h]
   norm_num
 
+omit [Finite G] in
 private theorem card_inf_starCentralizer_eq_27 {S W ZS Q : Subgroup G} (hQ : Q = S ⊔ W)
     (hWS : W ≤ Subgroup.normalizer (S : Set G)) (hSW : S ⊓ W = ZS)
     (hZScard : Nat.card ZS = 3) (hScard : Nat.card S = 27) (hQcard : Nat.card Q = 3 ^ 5) :
@@ -257,7 +264,7 @@ private theorem commutator_inf_starCentralizer_eq_bot {J Q : Subgroup G}
     (hS3 : IsPGroup 3 ↥(Q ⊓ J)) (hQN : Q ≤ Subgroup.normalizer (J : Set G)) :
     ⁅Q ⊓ J, Q ⊓ starCentralizer J⁆ = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   have hQnormS : Q ≤ Subgroup.normalizer (S : Set G) :=
@@ -302,7 +309,7 @@ private theorem commutator_inf_starCentralizer_eq_bot_of_choice
       (Q ⊓ J) ⊓ (Q ⊓ starCentralizer J) =
         (Subgroup.center ↥(Q ⊓ J)).map (Q ⊓ J).subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   have hSL : IsSL34Star J := h.isSL34Star_of_typeA hpre hU hA
@@ -327,7 +334,7 @@ private theorem E_le_sup_inf_starCentralizer_of_choice
     (hU : NineNineOneAt M) (hL : PLayerNotLeAt M) :
     E ≤ (Q ⊓ J) ⊔ (Q ⊓ starCentralizer J) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   have hLN : ¬ pLayerIn 3 H ≤ M := hL 3 E H h.hypCGen
@@ -367,7 +374,7 @@ private theorem inf_E_inf_starCentralizer_eq_bot (h : HypCGen G M 3 E H)
     intro e he
     obtain ⟨heE, heS⟩ := Subgroup.mem_inf.mp he
     have h1 := HypCGen.eq_one_of_mem_starCentralizer h hLN hJ heE heS
-    simpa [h1]
+    simp [h1]
   calc E ⊓ (Q ⊓ starCentralizer J) = (E ⊓ Q) ⊓ starCentralizer J := by rw [inf_assoc]
     _ = (Q ⊓ E) ⊓ starCentralizer J := by rw [inf_comm E Q]
     _ = Q ⊓ (E ⊓ starCentralizer J) := by rw [inf_assoc]
@@ -381,7 +388,7 @@ private theorem E_le_zpowers_of_mem_inf
     (hEW : E ⊓ (Q ⊓ starCentralizer J) = ⊥) :
     E ≤ Subgroup.zpowers e1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   have hLN : ¬ pLayerIn 3 H ≤ M := hL 3 E H h.hypCGen
@@ -503,7 +510,7 @@ private theorem inf_E_inf_J_eq_bot
     (hU : NineNineOneAt M) (hL : PLayerNotLeAt M) :
     E ⊓ (Q ⊓ J) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLN : ¬ pLayerIn 3 H ≤ M := hL 3 E H h.hypCGen
   have hEW := inf_E_inf_starCentralizer_eq_bot (Q := Q) h.hypCGen hLN h.isKComp
   have hc := commutator_inf_starCentralizer_eq_bot_of_choice h hA hpre hU
@@ -528,7 +535,7 @@ private theorem pow_three_of_mem_inf_starCentralizer_of_choice
     (hK : IsKComp M H (kSub 3 M H)) :
     ∀ x ∈ Q ⊓ starCentralizer J, x ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   have hLN : ¬ pLayerIn 3 H ≤ M := hL 3 E H h.hypCGen
@@ -595,7 +602,7 @@ private theorem not_isMulCommutative_inf_starCentralizer_of_choice
     (hK : IsKComp M H (kSub 3 M H)) :
     ¬ IsMulCommutative ↥(Q ⊓ starCentralizer J) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   let ZS : Subgroup G := (Subgroup.center ↥S).map S.subtype
@@ -759,7 +766,7 @@ private theorem center_map_eq_of_choice
     (Subgroup.center ↥Q).map Q.subtype =
       (Subgroup.center ↥(Q ⊓ J)).map (Q ⊓ J).subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   let ZS : Subgroup G := (Subgroup.center ↥S).map S.subtype
@@ -843,7 +850,7 @@ private theorem commutator_eq_center_map_of_choice
     (hK : IsKComp M H (kSub 3 M H)) :
     ⁅Q, Q⁆ = (Subgroup.center ↥(Q ⊓ J)).map (Q ⊓ J).subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   let ZS : Subgroup G := (Subgroup.center ↥S).map S.subtype
@@ -930,7 +937,7 @@ theorem S14Choice.fourteenTwo_of_kComp_self
     (hpre : PreambleTypes M) (hU : NineNineOneAt M) (hL : PLayerNotLeAt M)
     (hK : IsKComp M H (kSub 3 M H)) : FourteenTwoConcl Q J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   let W : Subgroup G := Q ⊓ starCentralizer J
   let ZS : Subgroup G := (Subgroup.center ↥S).map S.subtype

@@ -28,11 +28,11 @@ theorem levTwoS3u_clsOrbit_of {n : ℕ} {roots : List (List ℤ)} (hnodup : root
   split
   · rename_i hc
     rw [hidx] at hc
-    rw [if_pos hc] at h1
+    rw [ite_eq_left hc] at h1
     simpa only [hidx] using h1
   · rename_i hc
     rw [hidx] at hc
-    rw [if_neg hc] at h1
+    rw [ite_eq_right hc] at h1
     exact h1
 
 end CFSG.StandardType.LevTwo

@@ -31,7 +31,7 @@ theorem rPlus_injective_of_cover {K : Type} [Field K] [Finite K] {f m : ℕ}
     (hK : Nat.card K = 2 ^ f) (hf : 2 ≤ f) (hm : 3 ≤ m) (L' : Type) [Group L'] [Finite L']
     (ψ : L' →* OrthRest.RPlus K m) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤) : Function.Injective ψ := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK
   have h4 : 4 ≤ Nat.card K := by
@@ -48,7 +48,7 @@ theorem rPlus_injective_of_cover {K : Type} [Field K] [Finite K] {f m : ℕ}
     rw [MonoidHom.mem_ker] at hx ⊢
     exact e.symm.injective (hx.trans (map_one e.symm).symm)
   obtain ⟨σ, hσ⟩ := SpinPlusClosed.spinPlus_exists_section_of_central hm h4 hψ' hker'
-  haveI : Group.IsPerfect L' := ⟨hperf⟩
+  have : Group.IsPerfect L' := ⟨hperf⟩
   have hbot : ψ'.ker = ⊥ := SL2Closed.ker_eq_bot_of_section ψ' hker' σ hσ
   exact fun x y hxy => (MonoidHom.ker_eq_bot_iff ψ').mp hbot (by
     change e.symm (ψ x) = e.symm (ψ y)

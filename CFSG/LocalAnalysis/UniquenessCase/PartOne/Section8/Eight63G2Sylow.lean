@@ -101,7 +101,7 @@ theorem exists_sylow_abelian_adjointGroup_G2
         Nat.card S = r ^ (2 * (Nat.card K - 1).factorization r) ∧
         IsMulCommutative ↥S) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let G := adjointGroup .G2 K
   let q := Nat.card K
   have hqpos : 0 < q := Nat.card_pos

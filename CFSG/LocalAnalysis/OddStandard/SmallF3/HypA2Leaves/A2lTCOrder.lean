@@ -25,16 +25,16 @@ theorem a2l_lieModel_two_card (hO : LieOrderFormulasInput) {X : Type} [Group X]
       first | exact absurd hord (by decide) | exact ⟨rfl, rfl, rfl, rfl⟩
   · rcases ht with rfl | rfl
     · simp only [lieSylowExponent] at hb
-      interval_cases n <;> interval_cases f <;> norm_num at hb <;>
+      interval_cases n <;> interval_cases f <;> norm_num at hb;
         rcases hc with rfl | rfl | rfl <;>
-        first | exact absurd hord (by decide) | exact ⟨rfl, rfl, rfl, rfl⟩
+        first | exact absurd hord (by decide)
     · exact absurd rfl hadm.2.2.2
   · rcases ht with rfl | rfl <;> rcases hc with rfl | rfl | rfl <;>
-      first | exact absurd hord (by decide) | exact ⟨rfl, rfl, rfl, rfl⟩
+      first | exact absurd hord (by decide)
   · obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
     cases t <;> simp only [ne_eq, not_true_eq_false] at h1 h2 h3 h4 h5 h6 <;>
       simp only [lieSylowExponent] at hb <;> interval_cases f <;> norm_num at hb <;>
       rcases hc with rfl | rfl | rfl <;> simp only [lieOrderNumerator, lieOrderDivisor] at hord <;>
-      first | exact absurd hord (by decide) | exact ⟨rfl, rfl, rfl, rfl⟩
+      first | exact absurd hord (by decide)
 
 end CFSG.OddStandard.SmallF3.HypA2Leaves

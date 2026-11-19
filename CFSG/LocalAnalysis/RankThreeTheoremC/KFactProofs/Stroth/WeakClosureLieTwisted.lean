@@ -33,7 +33,7 @@ theorem wcT_wcOn_of_noncomm_pair (hσ : Function.Surjective σ)
     obtain ⟨y', hy', hyx⟩ := hU g hg g.2
     rwa [Subtype.ext hyx] at hy'
   refine WCOn.of_derivedCentralQuotient_noncomm (twistedFixedGroup t K σ)
-    (twistedFixedGroupEquiv t K σ) (holds_twistFixed t K σ p hσ) S hSle S.isPGroup' hSle
+    (twistedFixedGroupEquiv t K σ) (holds_twistFixed t K σ p hσ) S hSle S.isPGroup hSle
     (x := ⟨x, hxF⟩) (y := ⟨y, hyF⟩) ?_ ?_ ?_
   · rw [hS]
     exact hxU
@@ -200,7 +200,7 @@ theorem wcOn_trialityD4 {K : Type} [Group K] [Finite K] {p f : ℕ} [Fact p.Prim
   exact WCOn.of_mulEquiv e (wcT_wcOn_trialityD4 hσ hU)
 
 theorem wcOn_chevalley_twisted {K : Type} [Group K] [Finite K] {t : CFSG.Open.StatedLieTag}
-    {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (ht : t = .twistedE6 ∨ t = .trialityD4)
+    {p f : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) (ht : t = .twistedE6 ∨ t = .trialityD4)
     (h : CFSG.Blueprint.ChevalleyExceptionalModel K t p f) : WCOn p K := by
   obtain ⟨hadm, hmodel⟩ := h
   rcases ht with rfl | rfl

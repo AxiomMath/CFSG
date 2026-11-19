@@ -49,7 +49,7 @@ theorem D1OneSmallData.exists_component_mem_of_notIa (hd : D1OneSmallData p P M 
   have hzbC : zb ∈ C := hz.2.2.2
   set W := (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ C with hW
   have hWcyc : IsCyclic W := hd.cfg.red.isCyclic_of_le_centralizer hd.comp hKX₀
-    (Rbar.isPGroup'.to_le inf_le_left) inf_le_right
+    (Rbar.isPGroup.to_le inf_le_left) inf_le_right
   have hzbp : orderOf zb = p := by
     have h1 : orderOf zb ∣ p := by
       have h0 := orderOf_map_dvd (QuotientGroup.mk' (primeComplementCore (G := H) p))

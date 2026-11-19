@@ -78,6 +78,7 @@ theorem conj_mem_iff_of_conj_image_eq {h : G} {β : Set G}
     rw [← himg]
     exact ⟨z, hz, rfl⟩
 
+omit [Finite G] in
 theorem alpha_eq_singleton_of_mem_Dalpha (hC : HypothesisC D) {β : Set G}
     (hβ : β ∈ Dalpha D hC.alpha) {v : G} (hv : β = {v}) : hC.alpha = {hC.d} := by
   obtain ⟨g, hg⟩ := hβ.1

@@ -501,13 +501,13 @@ theorem original_perfect_plane_excludes_central_even_symplectic_four_image {L : 
       rw [CFSG.LinearAlgebra.SteinbergBQ.bcEnd_one]
       exact h)
     exact Subtype.ext h1
-  have hdisj := IsPGroup.disjoint_of_ne p 2 hp2 P₁ f.ker P₀.isPGroup' hf2
+  have hdisj := IsPGroup.disjoint_of_ne p 2 hp2 P₁ f.ker P₀.isPGroup hf2
   have hfaithP : ∀ x ∈ P₁, ρ x = 1 → x = 1 := by
     intro x hx h
     have h3 : x ∈ P₁ ⊓ f.ker := Subgroup.mem_inf.mpr ⟨hx, hρker x h⟩
     rwa [disjoint_iff.mp hdisj] at h3
   have hPab' : ∀ u v : P₁, u * v = v * u := by
-    refine mul_comm_of_forall_normal_comm_le_center P₀.isPGroup' fun M hMn hMab => ?_
+    refine mul_comm_of_forall_normal_comm_le_center P₀.isPGroup fun M hMn hMab => ?_
     set M' := M.map P₁.subtype with hM'
     have hM'ab : ∀ x ∈ M', ∀ y ∈ M', ρ x * ρ y = ρ y * ρ x := by
       rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
@@ -516,7 +516,7 @@ theorem original_perfect_plane_excludes_central_even_symplectic_four_image {L : 
       rw [← map_mul, ← map_mul, hxy]
     have hM'char : ((Nat.card M' : ℕ) : E) ≠ 0 := by
       rw [hM', Subgroup.card_map_of_injective P₁.subtype_injective]
-      obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp (P₀.isPGroup'.to_subgroup M)
+      obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp (P₀.isPGroup.to_subgroup M)
       rw [hj, Nat.cast_pow]
       refine pow_ne_zero j ?_
       rw [Ne, CharP.cast_eq_zero_iff E 2]
@@ -538,7 +538,7 @@ theorem original_perfect_plane_excludes_central_even_symplectic_four_image {L : 
           rw [hgn']
           group
     have key := CFSG.Walter.JT.map_conj_eq_of_isPGroup ρ M' hM'ab hM'char hp
-      (by rw [hU]; omega) P₀.isPGroup' hPN
+      (by rw [hU]; omega) P₀.isPGroup hPN
     intro n hn
     rw [Subgroup.mem_center_iff]
     intro g

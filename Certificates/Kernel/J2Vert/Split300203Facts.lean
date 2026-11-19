@@ -61,8 +61,8 @@ theorem allInvS {k : Nat} (hk : k ≤ 8) :
     allN k (fun i => invEqK 64 7 (mask 7) (64 * 7) (SG i) (SGI i)) = true :=
   CFSG.KS.Raw.Orb.allN_iff.2 fun i hi => (genS (by omega)).1
 
-theorem allInvT : allN 3 (fun i => invEqK 64 7 (mask 7) (64 * 7) (TG i) (TGI i)) = true :=
-  CFSG.KS.Raw.Orb.allN_iff.2 fun i hi => (genT hi).1
+theorem allInvT : allN 3 (fun _i => invEqK 64 7 (mask 7) (64 * 7) (TG _i) (TGI _i)) = true :=
+  CFSG.KS.Raw.Orb.allN_iff.2 fun _i hi => (genT hi).1
 
 theorem invT {i : Nat} (hi : i < 3) : invCand 64 (unpack 64 7 (TG i)) = unpack 64 7 (TGI i) :=
   (invEqK_sound (genT hi).1).1
@@ -81,13 +81,13 @@ theorem treeS : buildTab 64 sArrs tabS =
       (List.range (tabS.length + 1)).map (fun j => unpack 64 7 (ES j)) ∧
     ∀ j ≤ tabS.length, cK 64 7 (ES j) :=
   have h := (bAnd_iff (Nat.beq (ES 0) one) (treeK 64 7 8 SG ES tabS 0)).1 kTreeS
-  buildTab_eq hS (fun l hl => (genS hl).2.1) hid cid (Nat.eq_of_beq_eq_true h.1) h.2
+  buildTab_eq hS (fun _l hl => (genS hl).2.1) hid cid (Nat.eq_of_beq_eq_true h.1) h.2
 
 theorem treeT : buildTab 64 tsArrs tabTs =
       (List.range (tabTs.length + 1)).map (fun j => unpack 64 7 (ET j)) ∧
     ∀ j ≤ tabTs.length, cK 64 7 (ET j) :=
   have h := (bAnd_iff (Nat.beq (ET 0) one) (treeK 64 7 3 TG ET tabTs 0)).1 kTreeT
-  buildTab_eq hT (fun l hl => (genT hl).2.1) hid cid (Nat.eq_of_beq_eq_true h.1) h.2
+  buildTab_eq hT (fun _l hl => (genT hl).2.1) hid cid (Nat.eq_of_beq_eq_true h.1) h.2
 
 theorem treeQ : buildTab 64 (sArrs.extract 0 5) tabQs =
       (List.range (tabQs.length + 1)).map (fun j => unpack 64 7 (EQ j)) ∧

@@ -48,7 +48,7 @@ theorem asc82Sec9T0_of (h36 : Asc82Lemma36) (hT6 : Asc82Tab6M) : Asc82Sec9T0 := 
         change (x : G) * (y : G) = (y : G) * (x : G)
         rw [← hxv, ← hyv, ← map_mul, ← map_mul]
         have hkk : (⟨kx, hkx⟩ : ↥B'') * ⟨ky, hky⟩ = ⟨ky, hky⟩ * ⟨kx, hkx⟩ := by
-          haveI : IsMulCommutative ↥B'' := hB''E.1.1
+          have : IsMulCommutative ↥B'' := hB''E.1.1
           exact mul_comm' _ _
         have hkk' : kx * ky = ky * kx := by simpa using congrArg Subtype.val hkk
         rw [hkk']

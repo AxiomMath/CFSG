@@ -24,6 +24,7 @@ variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
   {p : ℕ} (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
   (hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem map_mem_componentRootSpan_of_pinned
     (F : ModGL τ L →* ModGL τ L)
     (hpin : ∀ γ ∈ componentRoots (rootCharHom a) i, ∀ c : L,
@@ -37,6 +38,7 @@ theorem map_mem_componentRootSpan_of_pinned
     exact hpin
   exact hmap ⟨g, hg, rfl⟩
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem le_map_componentRootSpan_of_pinned
     (F : ModGL τ L →* ModGL τ L)
     (hpin : ∀ γ ∈ componentRoots (rootCharHom a) i, ∀ c : L,
@@ -50,6 +52,7 @@ theorem le_map_componentRootSpan_of_pinned
   rintro _ ⟨c, rfl⟩
   exact Subgroup.mem_map.2 (hpin γ hγ c)
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem iterHom_step_fixed_of_center_eq_bot
     (hZ : Subgroup.center (componentRootSpan L (rootCharHom a) i) = ⊥)
     (F : ModGL τ L →* ModGL τ L)

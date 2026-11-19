@@ -22,7 +22,7 @@ set_option linter.unusedSectionVars false
 theorem d4BlockType_holds : D4BlockType := by
   intro F _ _ S _ _ hs hna ⟨e⟩ x hx J hJ hxJ q hq
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, hℓ, hcardF⟩ := FiniteField.card F (ringChar F)
   have hFcard : Nat.card F = ringChar F ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcardF]
   have hmodel : StatedClassicalModel S .POmegaPlus 4 (ringChar F) (n : ℕ) :=

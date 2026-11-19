@@ -50,11 +50,11 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup)
           CFSG.ComponentClassification.OuterAutomorphisms.inner (PSimple p J)
 
 theorem orthCompMatrixAnalysisMinus_of (hD : ComponentDescentIndAut)
-    (hU : UnitaryBlockInnAutDerived) (hM : OrthComponentBlockAnalysisMinus) :
+    (_hU : UnitaryBlockInnAutDerived) (hM : OrthComponentBlockAnalysisMinus) :
     OrthCompMatrixAnalysisMinus := by
   intro G _ _ p L J A d b m n K _ _ b₀ c₀ x y θ hS hKcard hm4 hbc hx hy hxp hyp hxy hbz hbJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
   have hdN : d ∈ Subgroup.normalizer (L : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag hS.d_mem
   have hbN : b ∈ Subgroup.normalizer (L : Set G) :=
@@ -139,9 +139,9 @@ theorem orthComponentBlockAnalysisMinus_of_generic
       OrthComponentBlockAnalysis (quadMinus m K b₀ c₀)) :
     OrthComponentBlockAnalysisMinus := by
   intro m n p K _ _ b₀ c₀ hKcard hm4 hbc hp hp2 x y hxp hyp hxy hx1 J hcomp hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
   have hm1' : 0 < m - 1 := by omega
   have hQ : (QuadraticMap.polarBilin (quadMinus m K b₀ c₀)).Nondegenerate :=
     CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadMinus_of_finite m K hbc
@@ -153,7 +153,7 @@ theorem orthComponentBlockAnalysisMinus_of_generic
         Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ≠ 0 := by
       intro h0
       have := congrFun h0 (Sum.inl ⟨0, hm1'⟩)
-      simpa using this
+      simp at this
     refine hv (hQ.1 _ fun w => ?_)
     simp [QuadraticMap.polar, h]
   set sigma := CFSG.LocalAnalysis.GLTheoremA.K155XOr.orthProjEquiv hQne with hsigma

@@ -19,8 +19,8 @@ theorem ggSecFiveBNativeRow_omMinusNonsplit {K : Type} [Field K] [Finite K] {f p
     (hmo : Odd m) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     GGSecFiveBNativeRow (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) p m
       (fun lab => lab = ⟨.twA, m - 1, f⟩) (fun lab => lab = ⟨.D, m, f⟩) := by
-  haveI : CharP K 2 := by
-    haveI := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hpq' : p ∣ Nat.card K + 1 := by rw [hK]; exact hpq
   have hf1 : 1 ≤ f := by
@@ -40,7 +40,7 @@ theorem ggSecFiveBNativeRow_omMinusNonsplit {K : Type} [Field K] [Finite K] {f p
   obtain ⟨k, τ, hτ, hrange, hsgn, hperm, hnorm⟩ :=
     (ggOrthSignedTorusInput_holds.2 K m p b c hm hirr hp (Or.inr ⟨hmo, hpq'⟩)) T hT h3 hsc
   have hkcard : Nat.card T = p ^ k := by
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     rw [← hrange, ← Nat.card_congr (MonoidHom.ofInjective hτ).toEquiv, Nat.card_fun,
       Nat.card_congr Multiplicative.toAdd, Nat.card_zmod, Nat.card_fin]
   have hkm : k = m := Nat.pow_right_injective hp.two_le (hkcard.symm.trans hcardT)

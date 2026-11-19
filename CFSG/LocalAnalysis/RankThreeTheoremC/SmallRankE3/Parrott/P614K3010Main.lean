@@ -71,7 +71,7 @@ theorem kFact3010_holds : KFact3010 := by
     have hkW := hKW hk
     rw [mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, mem_inf, mem_centralizer_singleton_iff]
+    simp only [mem_inf, mem_centralizer_singleton_iff]
     constructor
     · rintro ⟨hhW, hhb⟩
       refine ⟨(mem_normalizer_iff.1 hkW h).1 hhW, ?_⟩
@@ -116,7 +116,7 @@ theorem kFact3010_holds : KFact3010 := by
         f hfs hfk hy hy3 hw₀ hyw₀
     · exact exists_inverting_of_surjective (fun g hg => GL_three_two_exists_conj_eq_inv hg)
         f hfs hfk hy hy3 hw₀ hyw₀
-  haveI : IsMulCommutative ↥W := hW.1
+  have : IsMulCommutative ↥W := hW.1
   have hyN := hKW hy
   have hkN := hKW hk
   set Y := conjAdd W hyN with hY

@@ -74,7 +74,7 @@ theorem fl2_alt (hn : n ≤ 7) (hF : Fl2List n) (a₁ a₂ : alternatingGroup (F
   have hPp : IsPGroup 3 P := IsPGroup.of_card (n := 2) (by rw [hP]; norm_num)
   obtain ⟨S', hPS'⟩ := hPp.exists_le_sylow
   have hS'card : Nat.card (S' : Subgroup (alternatingGroup (Fin n))) = 9 := by
-    have hS'pg : IsPGroup 3 (S' : Subgroup (alternatingGroup (Fin n))) := S'.isPGroup'
+    have hS'pg : IsPGroup 3 (S' : Subgroup (alternatingGroup (Fin n))) := S'.isPGroup
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hS'pg
     have hdvd : Nat.card (S' : Subgroup (alternatingGroup (Fin n))) ∣
         Nat.card (alternatingGroup (Fin n)) := Subgroup.card_subgroup_dvd_card _

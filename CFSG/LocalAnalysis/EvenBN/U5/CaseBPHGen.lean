@@ -51,6 +51,7 @@ theorem hgen_card_Nc (hB : d.CaseBHyp) (c : d.CaseBData) (h52 : CaseBData.Sec52 
   Common.SwapUnique.card_eq_mul_card_center_of_diagonal hB.hyp.setting.center_eq_bot
     (hgen_hcomm hB c h52) (hgen_range_diag hB c h52)
 
+omit [Finite G] in
 theorem hgen_Qc_le_Nc (c : d.CaseBData) : c.Qc ≤ c.Nc :=
   (sec52_sylow_Qc_le_Kc c).trans le_sup_left
 
@@ -174,7 +175,7 @@ theorem hGen (hB : d.CaseBHyp) (c : d.CaseBData) (h11 : CaseBData.Sec52Sylow hB 
   have hd := hB.hyp
   have htinv : d.t⁻¹ = d.t := hd.t_inv'
   have hcomm := hgen_hcomm hB c h52
-  haveI : Group.IsPerfect c.Nc := ⟨h52.quasisimple.1⟩
+  have : Group.IsPerfect c.Nc := ⟨h52.quasisimple.1⟩
   have hrange := hgen_range_diag hB c h52
   have hcard := hgen_card_Nc hB c h52
   have heven : Even (Nat.card (c.Nc ⧸ center c.Nc)) := by

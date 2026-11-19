@@ -79,10 +79,10 @@ theorem fix_quatInvolution [Fact p.Prime] (E : PGamEmb X F)
       H.mul_mem (H.mul_mem hh hconj) (H.inv_mem hh)
     rwa [mulAut_mul_conj_mul_inv] at hmem
   have hzcent : ∀ s ∈ S, z * s = s * z := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Nontrivial ↥S :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial ↥S :=
       ⟨⟨⟨z, hzS⟩, ⟨1, S.one_mem⟩, fun h => hzne (Subtype.ext_iff.mp h)⟩⟩
-    haveI : Nontrivial ↥(Subgroup.center ↥S) := IsPGroup.center_nontrivial hS.2.1
+    have : Nontrivial ↥(Subgroup.center ↥S) := IsPGroup.center_nontrivial hS.2.1
     obtain ⟨w, hwne⟩ := exists_ne (1 : ↥(Subgroup.center ↥S))
     have hw2 : ∃ k : ℕ, ((w : ↥S) : X) ^ 2 ^ k = 1 := by
       obtain ⟨k, hk⟩ := hS.2.1 (w : ↥S)
@@ -116,6 +116,7 @@ theorem fix_quatInvolution [Fact p.Prime] (E : PGamEmb X F)
   · exact absurd (h.injective (by rw [h1, map_one])) hzne
   · exact h1
 
+omit [Finite X] in
 theorem isMon_rho_of_fix [Fact p.Prime] (E : PGamEmb X F)
     (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) (hF : Nat.card F = p ^ f) (hp2 : p ≠ 2)
     (h4 : 4 ≤ p ^ f)

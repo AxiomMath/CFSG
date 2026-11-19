@@ -260,7 +260,7 @@ theorem s16c11_big_rkIdx_ten {X L K L₀ : Subgroup (MulAut W)} {J₀ J₁ : Sub
     exact Nat.eq_of_mul_eq_mul_left (by norm_num) h5
   unfold rkIdx
   rw [h3]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact padicValNat.prime_pow 8
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

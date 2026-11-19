@@ -30,9 +30,9 @@ theorem fi22P_exists_smul
   obtain ⟨⟨g, hg⟩, h⟩ := MulAction.exists_smul_eq fi22P x y
   exact ⟨g, hg, h⟩
 
-@[expose] def fi22GraphBasePt (s : ℕ) : Fin 3510 := fi22Pt (fi22GraphBase.getD s 0)
+def fi22GraphBasePt (s : ℕ) : Fin 3510 := fi22Pt (fi22GraphBase.getD s 0)
 
-@[expose] def fi22GraphStab (s : ℕ) : Subgroup (fi22Graph ≃g fi22Graph) :=
+def fi22GraphStab (s : ℕ) : Subgroup (fi22Graph ≃g fi22Graph) :=
   stabChain fi22GraphBasePt s
 
 theorem mem_fi22GraphStab {s : ℕ} {σ : fi22Graph ≃g fi22Graph} :

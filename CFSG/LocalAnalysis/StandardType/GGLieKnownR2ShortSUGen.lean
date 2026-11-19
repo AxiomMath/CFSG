@@ -177,10 +177,10 @@ theorem suStabRad_sup_suPair_eq_top {F : Type} [Field F] [Finite F] [CharP F 2] 
       have hαperp : α ∈ (suH hc n).perp A := hA hαA
       have hvb : (suH hc n).β v b = (suH hc n).β v y := by
         simp only [b, β₁, β₂, (suH hc n).add_right, (suH hc n).smul_right, hvv', hvw',
-          mul_zero, mul_one, add_zero, zero_add]
+          mul_zero, mul_one, zero_add]
       have hwb : (suH hc n).β w b = (suH hc n).β w y := by
         simp only [b, β₁, β₂, (suH hc n).add_right, (suH hc n).smul_right, hwv', hww',
-          mul_one, mul_zero, add_zero, zero_add]
+          mul_one, mul_zero, add_zero]
       have hybperp : y - b ∈ (suH hc n).perp A := by
         rw [ReflForm.mem_perp]
         intro a ha
@@ -224,8 +224,7 @@ theorem suStabRad_sup_suPair_eq_top {F : Type} [Field F] [Finite F] [CharP F 2] 
         rw [hαb_fixed, CharTwo.add_self_eq_zero]
       have hbb : (suH hc n).β b b = 0 := by
         simp only [b, (suH hc n).add_left, (suH hc n).add_right, (suH hc n).smul_left,
-          (suH hc n).smul_right, hv'v', hv'w', hw'v', hw'w', mul_zero, mul_one, add_zero,
-          zero_add]
+          (suH hc n).smul_right, hv'v', hv'w', hw'v', hw'w', mul_zero, add_zero]
       have hαb_self : (suH hc n).β (α + b) (α + b) = 0 := by
         have e1 : (suH hc n).β (α + b) (α + b) =
             (suH hc n).β α (α + b) + (suH hc n).β b (α + b) :=
@@ -286,12 +285,12 @@ theorem suStabRad_sup_suPair_eq_top {F : Type} [Field F] [Finite F] [CharP F 2] 
       obtain ⟨T', hT'pair, hT'⟩ := exists_mem_suPair_mulVec hc hv'v' hw'w' hv'w' (1 : F)
       have hT'L : T' ∈ L := hpairw' hT'pair
       have hw'αb : (suH hc n).β w' (α + b) = β₁ := by
-        simp only [α, b, β₁, β₂, (suH hc n).add_left, (suH hc n).add_right,
-          (suH hc n).smul_left, (suH hc n).smul_right, hw'v, hw'w, hw'v', hw'w', mul_zero,
-          mul_one, add_zero, zero_add]
+        simp only [α, b, β₁, β₂, (suH hc n).add_right,
+          (suH hc n).smul_right, hw'v, hw'w, hw'v', hw'w', mul_zero,
+          mul_one, add_zero]
       have hv'αb : (suH hc n).β v' (α + b) = β₂ := by
-        simp only [α, b, β₁, β₂, (suH hc n).add_left, (suH hc n).add_right,
-          (suH hc n).smul_left, (suH hc n).smul_right, hv'v, hv'w, hv'v', hv'w', mul_zero,
+        simp only [α, b, β₁, β₂, (suH hc n).add_right,
+          (suH hc n).smul_right, hv'v, hv'w, hv'v', hv'w', mul_zero,
           mul_one, add_zero, zero_add]
       have hT'αb : natRep (SU (unitaryInvolution F 2 f) n) T' (α + b) = α := by
         rw [hT' (α + b), hw'αb, hv'αb, one_mul, map_one, one_mul]

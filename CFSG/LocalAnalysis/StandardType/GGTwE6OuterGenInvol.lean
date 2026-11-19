@@ -38,7 +38,7 @@ theorem exists_outer_involution_commute {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f
     (hUI : ∀ u ∈ U, u ∈ (twistedE6InndiagConj K σ).range → u = 1) :
     ∃ t ∈ U, t ^ 2 = 1 ∧ t ∉ (twistedE6InndiagConj K σ).range ∧
       ∀ s ∈ (twistedE6InndiagConj K σ).range, (∀ u ∈ U, s * u * s⁻¹ ∈ U) → s * t = t * s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq hU2
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -51,6 +51,7 @@ theorem exists_outer_involution_commute {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f
   rw [hUI x x.2 h, orderOf_one] at hx
   exact absurd hx (by norm_num)
 
+omit [Finite K] in
 theorem coe_mem_of_conj_mem_range {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     {a : twistedE6InndiagGL K σ}
@@ -93,12 +94,12 @@ theorem mem_range_conj_of_commute_outer {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card 
     (ht2 : t ^ 2 = 1) (htI : t ∉ (twistedE6InndiagConj K σ).range)
     (hx : x ∈ (twistedE6InndiagConj K σ).range) (hxt : t * x = x * t) :
     x ∈ (MulAut.conj : twistedE6RootGroup K σ →* MulAut (twistedE6RootGroup K σ)).range := by
-  haveI : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
+  have : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
   have hσ' : ∀ c, σ.toRingHom c = c ^ 2 ^ f := hσ
   have hσσ := apply_apply_eq hK hσ'
   set I := (MulAut.conj : twistedE6RootGroup K σ →* MulAut (twistedE6RootGroup K σ)).range
     with hI
-  haveI : I.Normal := RootCentExc.normal_range_mulAutConj
+  have : I.Normal := RootCentExc.normal_range_mulAutConj
   have hψ : ∀ y ∈ I, QuotientGroup.mk' I y = 1 := fun y hy => by
     rw [QuotientGroup.mk'_apply]
     exact (QuotientGroup.eq_one_iff y).2 hy

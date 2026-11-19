@@ -20,6 +20,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_elemAbelian_25_le_of_quotient {L : Subgroup G} {N : Subgroup ↥L} [N.Normal]
     {J : Type} [Group J] (hN : N = ⊥)
     (e : ↥L ⧸ N ≃* J)
@@ -40,6 +41,7 @@ theorem exists_elemAbelian_25_le_of_quotient {L : Subgroup G} {N : Subgroup ↥L
   rw [Subgroup.card_map_of_injective L.subtype_injective, hE₁card]
   norm_num
 
+omit [Finite G] in
 theorem res1_exists_elemAbelian_25_le {L : Subgroup G} (hθ0 : aschbacherSolvableCore 3 ↥L = ⊥)
     (hJ : Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃*
       CFSG.Blueprint.NativeSporadic.J2)) (hE25 : J2HasE25) :
@@ -131,6 +133,7 @@ theorem hj_orderOf_mk_eq_three {A L M : Subgroup G} {c : G} {Yc : Subgroup (Res1
     · exact h3
   exact ⟨hc'3, hyYc, hy3⟩
 
+omit [Finite G] in
 theorem hj_mem_normalizer_sylow {A L : Subgroup G} {Yc : Subgroup (Res1Q A L)}
     (U : Sylow 2 ↥Yc) (c' : ↥(Res1C A L))
     (hcU : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) c' ∈
@@ -180,7 +183,7 @@ theorem hj_exists_five_lift {A L : Subgroup G} {c : G} {Yc : Subgroup (Res1Q A L
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) f = (t' : Res1Q A L) ∧
       CFSG.pCore 2 ↥L = ⊥ ∧ aschbacherSolvableCore 3 ↥L = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let t : Res1Q A L := (t' : Res1Q A L)
   have ht5 : orderOf t = 5 := by
     change orderOf (t' : Res1Q A L) = 5
@@ -239,8 +242,8 @@ theorem hj_exists_commutator {A L M : Subgroup G} {c : G}
       (x : G) ∈ Subgroup.centralizer (L : Set G) ∧ (x : G) ≠ 1 ∧
       ∃ k : ℕ, orderOf (x : G) = 2 ^ k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hAM : A ≤ M := fun a ha => hC.mem_m.2 (Subgroup.mem_sup_left ha)
   obtain ⟨w, hwW, x, hxG, hxπ⟩ :=
     res1_exists_commutator_ne_one hS hhyp hAeq hC hLX hW
@@ -293,8 +296,8 @@ theorem hj_exists_sylow_sup_zpowers {A L M : Subgroup G} {c : G} {Yc : Subgroup 
           (((U : Subgroup ↥Yc).map Yc.subtype : Subgroup (Res1Q A L)) : Set (Res1Q A L)))
     (w : G) (hwW : w ∈ wE155 A M) (hwC : w ∈ Res1C A L)
     (x : ↥(Res1C A L)) (hxG : (x : G) = w * c * w⁻¹ * c⁻¹)
-    (hxCL : (x : G) ∈ Subgroup.centralizer (L : Set G))
-    (t' : ↥Yc) (ht'5 : orderOf t' = 5)
+    (_hxCL : (x : G) ∈ Subgroup.centralizer (L : Set G))
+    (t' : ↥Yc) (_ht'5 : orderOf t' = 5)
     (ht'N : t' ∈ Subgroup.normalizer (((U : Subgroup ↥Yc) : Set ↥Yc)))
     (htc : Commute (t' : Res1Q A L)
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) c')) :
@@ -304,8 +307,8 @@ theorem hj_exists_sylow_sup_zpowers {A L M : Subgroup G} {c : G} {Yc : Subgroup 
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) x ∈ V ∧
       (t' : Res1Q A L) ∈ Subgroup.normalizer (V : Set (Res1Q A L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let t : Res1Q A L := (t' : Res1Q A L)
   let w' : ↥(Res1C A L) := ⟨w, hwC⟩
   have hw' : (w' : G) = w := rfl
@@ -339,7 +342,6 @@ theorem hj_exists_sylow_sup_zpowers {A L M : Subgroup G} {c : G} {Yc : Subgroup 
     simpa [t] using h
   have hconj : (MulAut.conj t) y = y := by
     rw [MulAut.conj_apply]
-    change t * y * t⁻¹ = y
     rw [htc.eq, mul_assoc, mul_inv_cancel, mul_one]
   have htNormV : t ∈ Subgroup.normalizer (V : Set (Res1Q A L)) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -351,6 +353,7 @@ theorem hj_exists_sylow_sup_zpowers {A L M : Subgroup G} {c : G} {Yc : Subgroup 
     rw [hconj]
   exact ⟨V, rfl, hxV, htNormV⟩
 
+omit [Finite G] in
 theorem hj_exists_centralizer_preimage {A L : Subgroup G}
     (V : Subgroup (Res1Q A L)) (x : ↥(Res1C A L))
     (hxV : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) x ∈ V)
@@ -368,6 +371,7 @@ theorem hj_exists_centralizer_preimage {A L : Subgroup G}
   have hxUtilde : (x : G) ∈ Utilde := Subgroup.mem_inf.mpr ⟨hxW1, hxCL⟩
   exact ⟨π, W1, Utilde, rfl, rfl, rfl, hxUtilde⟩
 
+omit [Finite G] in
 theorem hj_mem_normalizer_preimage {A L : Subgroup G} {Yc : Subgroup (Res1Q A L)}
     (V : Subgroup (Res1Q A L)) (W1 : Subgroup G) (π : ↥(Res1C A L) →* Res1Q A L)
     (hW1def : W1 = (V.comap π).map (Res1C A L).subtype)
@@ -407,6 +411,7 @@ theorem hj_mem_normalizer_preimage {A L : Subgroup G} {Yc : Subgroup (Res1Q A L)
       rw [hz0f']
       group
 
+omit [Finite G] in
 theorem hj_mem_normalizer_inf_centralizer {L : Subgroup G} (W1 Utilde : Subgroup G)
     (hUtildeDef : Utilde = W1 ⊓ Subgroup.centralizer (L : Set G))
     (f : G) (hfW1 : f ∈ Subgroup.normalizer (W1 : Set G))
@@ -435,7 +440,7 @@ theorem hj_not_mem_sylow_sup_zpowers {A L : Subgroup G} {Yc : Subgroup (Res1Q A 
     have := Subgroup.orderOf_dvd_natCard V htV
     rwa [ht5] at this
   have hK2 : IsPGroup 2 ((U : Subgroup ↥Yc).map Yc.subtype) :=
-    (U.isPGroup' : IsPGroup 2 ↥(U : Subgroup ↥Yc)).map Yc.subtype
+    (U.isPGroup : IsPGroup 2 ↥(U : Subgroup ↥Yc)).map Yc.subtype
   have hHnorm : Subgroup.zpowers q ≤ Subgroup.normalizer
       (((U : Subgroup ↥Yc).map Yc.subtype : Subgroup (Res1Q A L)) : Set (Res1Q A L)) :=
     Subgroup.zpowers_le.mpr hcU
@@ -450,7 +455,7 @@ theorem hj_not_mem_sylow_sup_zpowers {A L : Subgroup G} {Yc : Subgroup (Res1Q A 
     rw [hH3, hkk]
     exact Nat.Coprime.pow_right kk (by norm_num : Nat.Coprime 3 2)
   have hdisj : Subgroup.zpowers q ⊓ ((U : Subgroup ↥Yc).map Yc.subtype) = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime hcop
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hVcard : Nat.card V = 2 ^ kk * 3 := by
     have h := hcard
     rw [hdisj, Subgroup.card_bot, mul_one, hH3, hkk] at h
@@ -465,6 +470,7 @@ theorem hj_not_mem_sylow_sup_zpowers {A L : Subgroup G} {Yc : Subgroup (Res1Q A 
     · norm_num at h3
   exact h5not h5dvd
 
+omit [Finite G] in
 theorem hj_not_mem_inf_centralizer {A L : Subgroup G}
     (V : Subgroup (Res1Q A L)) (π : ↥(Res1C A L) →* Res1Q A L)
     (W1 Utilde : Subgroup G)
@@ -493,8 +499,8 @@ theorem hj_exists_two_subgroup_five_normalizer {L : Subgroup G} (Utilde : Subgro
       orderOf z = 5 ∧ z ∈ (Utilde ⊔ Subgroup.zpowers f) ∧
       z ∈ Subgroup.normalizer (S : Set G) ∧ z ∈ Subgroup.centralizer (L : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨S, hSU, hSne, hS2, z, hz5, hzUf, hzS⟩ :=
     exists_five_mem_normalizer_two hfUtilde ⟨k, hfG⟩ hfNotUtilde hxUtilde hx1 hx2
   have hzCL : z ∈ Subgroup.centralizer (L : Set G) :=
@@ -552,6 +558,7 @@ theorem hj_false_of_e125 {A L : Subgroup G} {c : G} (hS : Sec14Std G A c L)
     hS.localRank_lt 5 Nat.prime_five (by norm_num)
   exact false_of_e125 hlr hEab hEcard hzE hz5 hzNotE hSne hS2 hE_NS hzS
 
+omit [Finite G] in
 theorem hj_exists_five_commute {A L : Subgroup G} {Yc : Subgroup (Res1Q A L)}
     (hYF : Res1HJYFacts ↥Yc) (U : Sylow 2 ↥Yc) (c' : ↥(Res1C A L))
     (hyYc : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) c' ∈ Yc)
@@ -575,7 +582,7 @@ theorem false_of_hj_le (hfix : J2AutFixNine) (hE25 : J2HasE25) (h415 : Sec4.Item
     {X K Y M T : Subgroup G} (hC : Ctx155 A X K Y M T) (hLX : L ≤ X)
     {Yc : Subgroup (Res1Q A L)} (hY : Res1AtOf A c L M Yc) (hsimple : IsSimpleGroup ↥Yc)
     (hYF : Res1HJYFacts ↥Yc) (hW : wE155 A M ∉ scriptQ A (lB A)) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨c', hc', hcC, hcA, hc3, hcL, hhyp, hAeq⟩ := hj_exists_res1C_lift hS hY
   obtain ⟨U, hAM, hcU, hU⟩ := hj_exists_sylow_two_normalized hS h142 hY hsimple hYF hC c' hc' hcA
   obtain ⟨hc'3, hyYc, hy3⟩ := hj_orderOf_mk_eq_three hY c' hc' hc3

@@ -137,7 +137,7 @@ private noncomputable def scalarUnitHom {n : Type} [Fintype n] [DecidableEq n] [
 
 private lemma relIndex_le_card_of_le_sup {H : Type*} [Group H] [Finite H] {Z M L : Subgroup H}
     [Finite M] (hZ : Z.Normal) (hL : L ≤ Z ⊔ M) : Z.relIndex L ≤ Nat.card M := by
-  haveI : Z.Normal := hZ
+  have : Z.Normal := hZ
   calc Z.relIndex L ≤ Z.relIndex (Z ⊔ M) :=
         Subgroup.relIndex_le_of_le_right hL
           (Nat.pos_of_dvd_of_pos (Subgroup.relIndex_dvd_card Z (Z ⊔ M)) Nat.card_pos).ne'
@@ -166,7 +166,7 @@ private noncomputable def restrictLinearEquiv {K V : Type*} [Field K] [AddCommGr
   map_smul' c v := by ext; simp
 
 theorem tor_lemmaA {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp : p.Prime)
-    (hp2 : p ≠ 2) (hpF : p ∣ Nat.card F - 1) {G : Subgroup (GL (Fin d) F)}
+    (_hp2 : p ≠ 2) (_hpF : p ∣ Nat.card F - 1) {G : Subgroup (GL (Fin d) F)}
     (hZG : LargeEvenScalars (Fin d) F ≤ G) (hel : MElemMod p d F G) {h g : GL (Fin d) F}
     (hh : h ∈ G) (hg : g ∈ G) (hhp : h ^ p = 1) (hζ : ⁅g, h⁆ ≠ 1) :
     p ∣ d ∧ ∃ G' : Subgroup (GL (Fin (d / p)) F), LargeEvenScalars (Fin (d / p)) F ≤ G' ∧
@@ -183,7 +183,7 @@ theorem tor_lemmaA {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp :
       subst h0
       exact hζ (Subsingleton.elim (⁅g, h⁆) 1)
     · exact hpos
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hconj : g * h * g⁻¹ = h * Matrix.GeneralLinearGroup.scalar (Fin d) ζ := by
     have h1 : g * h * g⁻¹ = Matrix.GeneralLinearGroup.scalar (Fin d) ζ * h := by
       rw [hζeq]
@@ -215,8 +215,8 @@ theorem tor_lemmaA {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp :
     intro h
     apply hζ
     rw [← hζeq, h, map_one]
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hprimUnit : IsPrimitiveRoot ζ p :=
     IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime hζp hζne)
   have hprim : IsPrimitiveRoot (ζ : F) p := IsPrimitiveRoot.coe_units_iff.mpr hprimUnit
@@ -353,7 +353,7 @@ theorem tor_lemmaA {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp :
     rw [iSup_subtype, ← Finset.sup_eq_iSup]
     exact hspan
   have hInt := DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top hi hsup
-  letI : DirectSum.Decomposition (fun ω : {ω // ω ∈ t} =>
+  let : DirectSum.Decomposition (fun ω : {ω // ω ∈ t} =>
       Module.End.eigenspace (T : Module.End F (Fin d → F)) ω) := hInt.chooseDecomposition
   have hsum : finrank F (Fin d → F) =
       ∑ ω ∈ t, finrank F (Module.End.eigenspace (T : Module.End F (Fin d → F)) ω) := by
@@ -458,8 +458,7 @@ theorem tor_lemmaA {p d : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] (hp :
     intro a
     rw [show conjE1 (unitsSmulEquiv (V := E1) a) =
         eE1.symm.trans ((unitsSmulEquiv (V := E1) a).trans eE1) from by
-      simp only [conjE1, MulEquiv.trans_apply, MulEquiv.coe_toMonoidHom,
-        LinearMap.GeneralLinearGroup.congrLinearEquiv_apply]
+      simp only [conjE1, MulEquiv.trans_apply, LinearMap.GeneralLinearGroup.congrLinearEquiv_apply]
       rfl]
     exact trans_unitsSmulEquiv_trans a eE1
   have hrho_scalar : ∀ a : Fˣ,

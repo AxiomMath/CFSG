@@ -34,7 +34,7 @@ theorem uc22s21re_le_or_le {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {M T H₁ H�
     exact h2.trans (Dvd.intro _ (Subgroup.relIndex_mul_relIndex T X M hTX hXM))
   set ρ : ↥X →* Bar2 M := π.comp (Subgroup.inclusion hXM) with hρ
   have hker : ρ.ker ≤ CFSG.pCore 2 ↥X := by
-    haveI : (ρ.ker).Normal := MonoidHom.normal_ker ρ
+    have : (ρ.ker).Normal := MonoidHom.normal_ker ρ
     have hp : IsPGroup 2 ρ.ker := by
       rintro ⟨g, hg⟩
       have hg' : Subgroup.inclusion hXM g ∈ CFSG.pCore 2 ↥M := by

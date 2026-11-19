@@ -15,10 +15,12 @@ open CFSG.LocalAnalysis.WeakClosure81
 variable {W : Type} [CommGroup W] [Finite W]
 variable {Y L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem iSup_conjSet_eq_self_of_normal {Y L : Subgroup (MulAut W)} (hLY : L ≤ Y)
     (hLn : (L.subgroupOf Y).Normal) : (⨆ X ∈ conjSet L Y, X) = L :=
   iSup_conjSet_eq_of_le_normalizer ((normal_subgroupOf_iff_le_normalizer hLY).mp hLn)
 
+omit [Finite W] in
 theorem le_stabSub_fixV_of_subgroupOf_normal {Y L : Subgroup (MulAut W)} (hLY : L ≤ Y)
     (hLn : (L.subgroupOf Y).Normal) : Y ≤ stabSub (fixV L) := by
   refine le_stabSub_fixV fun y hy l hl => ?_
@@ -49,8 +51,9 @@ noncomputable def autQuotEquiv (hW : ∀ w : W, w ^ 2 = 1) (hO : O2Trivial Y)
     obtain ⟨g, hg, rfl⟩ := mem_autQuot.mp hφ
     exact ⟨⟨g.1, hg⟩, Subtype.ext rfl⟩
 
-theorem autQuot_subgroupOf_normal (hW : ∀ w : W, w ^ 2 = 1) (hO : O2Trivial Y)
-    (hB : IsBasicModule Y) (hL : IsComponentOf L Y) (hLn : (L.subgroupOf Y).Normal) :
+omit [Finite W] in
+theorem autQuot_subgroupOf_normal (_hW : ∀ w : W, w ^ 2 = 1) (_hO : O2Trivial Y)
+    (_hB : IsBasicModule Y) (hL : IsComponentOf L Y) (hLn : (L.subgroupOf Y).Normal) :
     ((autQuot L (fixV L)).subgroupOf (autQuot Y (fixV L))).Normal := by
   have hYstab : Y ≤ stabSub (fixV L) := le_stabSub_fixV_of_subgroupOf_normal hL.1 hLn
   let f : ↥Y →* ↥(autQuot Y (fixV L)) :=
@@ -101,8 +104,9 @@ theorem isComponentOf_autQuot (hW : ∀ w : W, w ^ 2 = 1) (hO : O2Trivial Y)
   have := B15P4.isComponentOf_map_hom (quotHom (fixV L)) hcomp hnot
   simpa only [autQuot] using this
 
-theorem map_mem_irrSet_autQuot (hW : ∀ w : W, w ^ 2 = 1) (hO : O2Trivial Y)
-    (hB : IsBasicModule Y) (hL : IsComponentOf L Y) (hLn : (L.subgroupOf Y).Normal)
+omit [Finite W] in
+theorem map_mem_irrSet_autQuot (_hW : ∀ w : W, w ^ 2 = 1) (_hO : O2Trivial Y)
+    (_hB : IsBasicModule Y) (hL : IsComponentOf L Y) (hLn : (L.subgroupOf Y).Normal)
     {I : Subgroup W} (hI : I ∈ irrSet L) :
     I.map (QuotientGroup.mk' (fixV L)) ∈ irrSet (autQuot L (fixV L)) ∧
       I.map (QuotientGroup.mk' (fixV L)) ⊓ fixV (autQuot L (fixV L)) = ⊥ := by
@@ -130,6 +134,7 @@ theorem map_mem_irrSet_autQuot (hW : ∀ w : W, w ^ 2 = 1) (hO : O2Trivial Y)
       rw [hu, map_one],
     fun J hJ _ hJI => hmax J hJ hJI⟩
 
+omit [Finite W] in
 theorem aParam_autSub_autQuot_bot_top (Y : Subgroup (MulAut W)) :
     E3.aParam (autSub (autQuot Y (⊥ : Subgroup W)) ⊤) = E3.aParam Y := by
   let e : W ≃* W ⧸ (⊥ : Subgroup W) := (QuotientGroup.quotientBot (G := W)).symm

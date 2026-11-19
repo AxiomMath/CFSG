@@ -93,7 +93,7 @@ theorem exists_a3_frame_nonsplit {G : Type} [Group G] [Finite G] {p : ℕ} [Fact
     hZ | ⟨j₀, -, hJC⟩
   ·
     classical
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     let Zs : Finset (Fin s) := Finset.univ.filter fun i => jointSupp T i = 0
     have hmemZs : ∀ i, i ∈ Zs ↔ ∀ t ∈ T, t i = 0 := fun i => by
       simp only [Zs, Finset.mem_filter, Finset.mem_univ, true_and]
@@ -153,7 +153,7 @@ theorem exists_a3_frame_nonsplit {G : Type} [Group G] [Finite G] {p : ℕ} [Fact
       · exfalso
         subst hik
         exact hi (Finset.mem_filter.mp hk).2
-      · simp [Pi.single_apply, hik]
+      · simp [hik]
     refine ⟨g, inferInstance, s, r, ε, A₁, hC, hCp, hζ, i, j, k, l, hij,
       fun h => hiZ (h ▸ hkZ), fun h => hiZ (h ▸ hlZ), fun h => hjZ (h ▸ hkZ),
       fun h => hjZ (h ▸ hlZ), hkl, ?_, hmemJ k hkZ, hmemJ l hlZ, hn8, hee, hs4', hrr, hK2⟩
@@ -175,9 +175,9 @@ theorem exists_a3_frame_nonsplit {G : Type} [Group G] [Finite G] {p : ℕ} [Fact
     rwa [ofAdd_toAdd] at h
   ·
     exfalso
-    haveI : CharP (AdjoinRoot g) 2 :=
+    have : CharP (AdjoinRoot g) 2 :=
       charP_of_injective_algebraMap (algebraMap (GaloisField 2 f) (AdjoinRoot g)).injective 2
-    haveI : Finite (AdjoinRoot g) := finite_adjoinRoot
+    have : Finite (AdjoinRoot g) := finite_adjoinRoot
     set X := classSet (jointClass T j₀) 1 with hX
     have hrange : (((SLRep.ggFrame ψ A₁).comp (theta g ε)).comp
         (blockSLOn (AdjoinRoot g) X)).range = J := by

@@ -316,12 +316,12 @@ theorem comp_swap_eq_iff {α : Type*} {a b : Fin n} (μ : Fin n → α) :
     funext x
     rw [Function.comp_apply, Equiv.swap_apply_def]
     by_cases hx : x = a
-    · rw [if_pos hx, hx]
+    · rw [ite_eq_left hx, hx]
       exact h.symm
     · by_cases hx' : x = b
-      · rw [if_neg hx, if_pos hx', hx']
+      · rw [ite_eq_right hx, ite_eq_left hx', hx']
         exact h
-      · rw [if_neg hx, if_neg hx']
+      · rw [ite_eq_right hx, ite_eq_right hx']
 
 theorem card_moved_top_le [CharP k 2] (ε : τ → Finset (Fin n)) (hn : 2 ≤ n)
     (π : Equiv.Perm (Fin n)) (hπ : π * π = 1)
@@ -630,7 +630,7 @@ theorem exists_extra_one_two [CharP k 2] (hn : 4 ≤ n) (ε : τ → Finset (Fin
               rw [h]
               simp
             simp [ha0, ha1, ha2, hne2, hne0]
-    · rw [hε' r hr, topWt_empty, Pi.single_eq_of_ne hr, if_neg hr]
+    · rw [hε' r hr, topWt_empty, Pi.single_eq_of_ne hr, ite_eq_right hr]
       simp
   · intro r hr
     funext a
@@ -675,7 +675,7 @@ theorem exists_extra_last_two [CharP k 2] (hn : 5 ≤ n) (ε : τ → Finset (Fi
         topWt_singleton]
       simp only [Fin.lt_def, Fin.ext_iff]
       split_ifs <;> omega
-    · rw [hε' r hr, topWt_empty, Pi.single_eq_of_ne hr, if_neg hr]
+    · rw [hε' r hr, topWt_empty, Pi.single_eq_of_ne hr, ite_eq_right hr]
       simp
   · intro r hr
     funext a

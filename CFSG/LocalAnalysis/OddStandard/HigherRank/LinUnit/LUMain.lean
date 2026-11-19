@@ -75,7 +75,7 @@ theorem isComponentIn_modelIn_psl {Y : Type} [Group Y] [Finite Y] [IsSimpleGroup
   exact (psl_inner_modelIn hp hp2 hm.admissible hm hv' hKc).of_mulEquiv e
 
 theorem isComponentIn_modelIn_psu {Y : Type} [Group Y] [Finite Y] [IsSimpleGroup Y] {p n r : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hm : Blueprint.LieModel Y .PSU n p r) {v : Y}
+    (_hp : p.Prime) (hp2 : p ≠ 2) (hm : Blueprint.LieModel Y .PSU n p r) {v : Y}
     (hv : orderOf v = 2) {C : Subgroup Y} (hC : IsComponentIn C (Subgroup.centralizer {v})) :
     ModelIn p (luUniTuples n r) C := by
   obtain ⟨Kc, hKc, ⟨e⟩⟩ := exists_component_fixedSubgroup hC

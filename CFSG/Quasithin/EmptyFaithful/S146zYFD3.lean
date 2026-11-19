@@ -35,7 +35,7 @@ theorem le_normalizer_of_mul_twentyFive {X : Type} [Group X] [Finite X] {n : ℕ
     rw [hφ, ← Subgroup.map_map, he, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hUC]
   have hH : Nat.card (P ⊔ (U : Subgroup X) : Subgroup X) = 25 * Nat.card (U : Subgroup X) := by
     have hcop : Nat.Coprime (Nat.card P) (Nat.card (U : Subgroup X)) := by
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 U.isPGroup'
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 U.isPGroup
       rw [hP, hk]
       exact Nat.Coprime.pow_right _ (by norm_num)
     rw [CFSG.Quasithin.H13.NQCore.card_sup_eq_of_mul' hcop hmul, hP]

@@ -55,7 +55,7 @@ theorem wit_exc_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type} [Ad
     have hcen_ne : Nat.card (center A) ≠ 0 := by rw [hcen]; norm_num [ExcRow.cen]
     have : Finite (center A) := by
       by_contra hfin
-      exact hcen_ne (by rw [Nat.card_eq]; exact dif_neg hfin)
+      exact hcen_ne (by rw [Nat.card_eq]; exact dite_eq_right hfin)
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2dvd : 2 ∣ Nat.card (center A) := by rw [hcen]; norm_num [ExcRow.cen]
     obtain ⟨z, hzord⟩ := exists_prime_orderOf_dvd_card' (G := center A) 2 h2dvd

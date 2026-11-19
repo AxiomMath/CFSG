@@ -28,7 +28,7 @@ variable {G : Type} [Group G] {M Q B : Subgroup G} {t : G} {ι : Type} [Fintype 
 theorem phiG_of_mem (φ : ↥(Rt M (LB M Q B) t) →* GL ι K) {g : G}
     (hg : g ∈ Rt M (LB M Q B) t) : phiG φ g = φ ⟨g, hg⟩ := by
   unfold phiG
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 theorem phiG_mul (φ : ↥(Rt M (LB M Q B) t) →* GL ι K) {g h : G} (hg : g ∈ Rt M (LB M Q B) t)
     (hh : h ∈ Rt M (LB M Q B) t) : phiG φ (g * h) = phiG φ g * phiG φ h := by
@@ -47,12 +47,15 @@ section Basic
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {hc : Ctx M Q Z B} {n : ℕ} {t : G} {m : ℕ} {X : Subgroup G}
 
-theorem conj_Q_mem (hc : Ctx M Q Z B) : ∀ x ∈ Q, ∀ k ∈ M, k * x * k⁻¹ ∈ Q :=
-  fun x hx k hk => (hc.conj_mem_Q_of_mem_M hk).1 x hx
+omit [Finite G] in
+theorem conj_Q_mem (hc : Ctx M Q Z B) : ∀ x ∈ Q, ∀ _k ∈ M, _k * x * _k⁻¹ ∈ Q :=
+  fun x hx _k hk => (hc.conj_mem_Q_of_mem_M hk).1 x hx
 
-theorem Env.CN_le_M (e : Env hc n t m X) : hc.CN t ≤ M := fun a ha =>
+omit [Finite G] in
+theorem Env.CN_le_M (_e : Env hc n t m X) : hc.CN t ≤ M := fun _a ha =>
   hc.Rt_le_M t (Ctx.mem_CN.mp ha).1
 
+omit [Finite G] in
 theorem Env.X_le_M (e : Env hc n t m X) : X ≤ M := e.hXR.trans (hc.Rt_le_M t)
 
 theorem Env.Q_le_conj_CN (e : Env hc n t m X) {h : G} (hh : h ∈ M) :
@@ -63,6 +66,7 @@ theorem Env.Q_le_conj_CN (e : Env hc n t m X) {h : G} (hh : h ∈ M) :
   rw [inv_inv] at this
   exact hc.Q_le_CN e.hs.toSec5.mem this
 
+omit [Finite G] in
 theorem Env.conj_CN_le_M (e : Env hc n t m X) {h : G} (hh : h ∈ M) :
     conjSubgroup h (hc.CN t) ≤ M := by
   intro y hy
@@ -84,6 +88,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {P : HypPair Q'}
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem OmegaModel.phiG_N (hmod : OmegaModel hc t Q' E φ ψ P.e) {a : G} (ha : a ∈ hc.CN t) :
     phiG φ a = 1 := by
   have haR : a ∈ Rt M (LB M Q B) t := (Ctx.mem_CN.mp ha).1
@@ -93,6 +98,7 @@ theorem OmegaModel.phiG_N (hmod : OmegaModel hc t Q' E φ ψ P.e) {a : G} (ha : 
     exact Subgroup.mem_subgroupOf.mpr ha
   exact this
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem OmegaModel.mem_Q_of_phiG (e : Env hc n t m X) (hmod : OmegaModel hc t Q' E φ ψ P.e)
     {y : G} (hyX : y ∈ X) (hy : phiG φ y = 1) : y ∈ Q := by
   have hyR : y ∈ Rt M (LB M Q B) t := e.hXR hyX
@@ -103,6 +109,7 @@ theorem OmegaModel.mem_Q_of_phiG (e : Env hc n t m X) (hmod : OmegaModel hc t Q'
   have h2 : y ∈ hc.CN t ⊓ X := ⟨Subgroup.mem_subgroupOf.mp h1, hyX⟩
   rwa [e.hNXQ] at h2
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.exists_mem_X (e : Env hc n t m X) (hmod : OmegaModel hc t Q' E φ ψ P.e)
     {g : GL ι K} (hg : g ∈ X') : ∃ x ∈ X, phiG φ x = g := by
   rw [← hmod.range] at hg
@@ -116,6 +123,7 @@ theorem OmegaModel.exists_mem_X (e : Env hc n t m X) (hmod : OmegaModel hc t Q' 
   rw [← hxa, phiG_mul φ hxR haR, hmod.phiG_N ha, mul_one] at h1
   exact h1
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem OmegaModel.mem_Q_of_phiG_eq (e : Env hc n t m X) (hmod : OmegaModel hc t Q' E φ ψ P.e)
     {y y' : G} (hy : y ∈ X) (hy' : y' ∈ X) (h : phiG φ y = phiG φ y') : y⁻¹ * y' ∈ Q := by
   refine hmod.mem_Q_of_phiG e (X.mul_mem (X.inv_mem hy) hy') ?_
@@ -123,6 +131,7 @@ theorem OmegaModel.mem_Q_of_phiG_eq (e : Env hc n t m X) (hmod : OmegaModel hc t
   have hy'R : y' ∈ Rt M (LB M Q B) t := e.hXR hy'
   rw [phiG_mul φ ((Rt M (LB M Q B) t).inv_mem hyR) hy'R, phiG_inv φ hyR, h, inv_mul_cancel]
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.exists_mem_LX (I : Inputs) (e : Env hc n t m X)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) {w : ι → K} (hw : polar Q' P.e w = 0) :
     ∃ y ∈ LB M Q B, y ∈ X ∧ phiG φ y = lomMat E P.e w := by
@@ -159,7 +168,7 @@ theorem epsFun_eq {L X : Subgroup G} {φG : G → GL ι K} {a : GL ι K} {y : G}
     epsFun M Q L X φG a = piM M Q y := by
   have hex : ∃ y, y ∈ L ∧ y ∈ X ∧ φG y = a := ⟨y, hyL, hyX, hy⟩
   unfold epsFun
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   obtain ⟨h1, h2, h3⟩ := hex.choose_spec
   exact uniq _ h1 h2 y hyL hyX (h3.trans hy.symm)
 
@@ -176,17 +185,21 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {P : HypPair Q'} [(Q.subgroupOf M).Normal]
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem OmegaModel.piM_eq_of_phiG_eq (e : Env hc n t m X) (hmod : OmegaModel hc t Q' E φ ψ P.e)
     {y₁ y₂ : G} (h1L : y₁ ∈ LB M Q B) (h1X : y₁ ∈ X) (h2L : y₂ ∈ LB M Q B) (h2X : y₂ ∈ X)
     (h : phiG φ y₁ = phiG φ y₂) : piM M Q y₁ = piM M Q y₂ :=
   (piM_eq_iff (hc.LB_le_M h1L) (hc.LB_le_M h2L)).mpr (hmod.mem_Q_of_phiG_eq e h1X h2X h)
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem OmegaModel.epsFun_lomHom (e : Env hc n t m X) (hmod : OmegaModel hc t Q' E φ ψ P.e)
     (w : Multiplicative ↥P.perp) {y : G} (hyL : y ∈ LB M Q B) (hyX : y ∈ X)
     (hy : phiG φ y = lomHom E P w) :
     epsFun M Q (LB M Q B) X (phiG φ) (lomHom E P w) = piM M Q y :=
-  epsFun_eq hyL hyX hy fun y₁ h1L h1X y₂ h2L h2X h => hmod.piM_eq_of_phiG_eq e h1L h1X h2L h2X h
+  epsFun_eq hyL hyX hy fun _y₁ h1L h1X _y₂ h2L h2X h => hmod.piM_eq_of_phiG_eq e h1L h1X h2L h2X h
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.exists_lomHom (I : Inputs) (e : Env hc n t m X)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) (w : Multiplicative ↥P.perp) :
     ∃ y ∈ LB M Q B, y ∈ X ∧ phiG φ y = lomHom E P w :=
@@ -205,6 +218,7 @@ theorem OmegaModel.exists_lomHom (I : Inputs) (e : Env hc n t m X)
       hmod.epsFun_lomHom e a haL haX ha, hmod.epsFun_lomHom e b hbL hbX hb,
       piM_mul (hc.LB_le_M haL) (hc.LB_le_M hbL)])
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.epsHom_eq (I : Inputs) (e : Env hc n t m X)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) (w : Multiplicative ↥P.perp) {y : G}
     (hyL : y ∈ LB M Q B) (hyX : y ∈ X) (hy : phiG φ y = lomHom E P w) :
@@ -224,6 +238,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {P : HypPair Q'} [(Q.subgroupOf M).Normal]
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.epsHom_injective (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom Q' m)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) : Function.Injective (epsHom I e hmod) := by
   rw [injective_iff_map_eq_one]
@@ -234,6 +249,7 @@ theorem OmegaModel.epsHom_injective (I : Inputs) (e : Env hc n t m X) (hg : Omeg
   rw [h1] at hy
   exact lomHom_injective E P hg.nondeg (hy.symm.trans (map_one _).symm)
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.piM_comm_epsHom (I : Inputs) (e : Env hc n t m X)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) {a : G} (ha : a ∈ hc.CN t)
     (w : Multiplicative ↥P.perp) :
@@ -242,6 +258,7 @@ theorem OmegaModel.piM_comm_epsHom (I : Inputs) (e : Env hc n t m X)
   rw [hmod.epsHom_eq I e w hyL hyX hy]
   exact piM_comm_of_comm_mem (e.CN_le_M ha) (e.X_le_M hyX) (e.hcen a ha y hyX)
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.eq_one_of_piM_eq_epsHom (I : Inputs) (e : Env hc n t m X)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) {a : G} (ha : a ∈ hc.CN t)
     (w : Multiplicative ↥P.perp) (h : piM M Q a = epsHom I e hmod w) : piM M Q a = 1 := by
@@ -258,6 +275,7 @@ theorem OmegaModel.eq_one_of_piM_eq_epsHom (I : Inputs) (e : Env hc n t m X)
   rw [h]
   exact (piM_eq_one_iff (hc.LB_le_M hyL)).mpr hyQ
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.mem_LB_iff (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom Q' m)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) (x : ↥M ⧸ Q.subgroupOf M) :
     x ∈ bar M Q (LB M Q B) ↔ ∃ a ∈ hc.CN t, ∃ w : Multiplicative ↥P.perp,
@@ -294,6 +312,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {P : HypPair Q'} [(Q.subgroupOf M).Normal]
 
+omit [Finite K] [CharP K 2] [(Q.subgroupOf M).Normal] in
 theorem OmegaModel.conj_LB_eq (I : Inputs) (e : Env hc n t m X)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) {x : G}
     (hxR : x ∈ Rt M (LB M Q B) t) {d : K} (hd : d ≠ 0)
@@ -328,7 +347,8 @@ theorem OmegaModel.conj_LB_eq (I : Inputs) (e : Env hc n t m X)
     exact (LB M Q B).mul_mem hlL (e.N_le_LB I hN)
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [card_conjSubgroup])
 
-theorem OmegaModel.conj_epsHom (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom Q' m)
+omit [Finite K] [CharP K 2] in
+theorem OmegaModel.conj_epsHom (I : Inputs) (e : Env hc n t m X) (_hg : OmegaGeom Q' m)
     (hmod : OmegaModel hc t Q' E φ ψ P.e) {x : G} (hxX : x ∈ X) {d : K} (hd : d ≠ 0)
     (hge : ((phiG φ x : GL ι K) : Matrix ι ι K) *ᵥ P.e = d • P.e) (w : ↥P.perp) :
     piM M Q x * epsHom I e hmod (Multiplicative.ofAdd w) * (piM M Q x)⁻¹ =
@@ -434,6 +454,7 @@ theorem OmegaModel.glue_lineOf (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom
     exact Subgroup.mul_mem_sup ⟨Multiplicative.ofAdd (c • w₀), ofAdd_smul_mem_lineGrp w₀ c, rfl⟩
       (piM_mem_bar ha (e.CN_le_M ha))
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.glue_elt (I : Inputs) (e : Env hc n t m X) (hmod : OmegaModel hc t Q' E φ ψ P.e)
     {x : G} (hxX : x ∈ X) {d : K} (hd : d ≠ 0)
     (hge : ((phiG φ x : GL ι K) : Matrix ι ι K) *ᵥ P.e = d • P.e) :
@@ -519,7 +540,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 theorem Env.conj_CN_eq (I : Inputs) (e : Env hc n t m X) {h : G} (hhM : h ∈ M)
     (hhL : conjSubgroup h (LB M Q B) = LB M Q B) : conjSubgroup h (hc.CN t) = hc.CN t := by
   by_contra hne
-  haveI hQn : (Q.subgroupOf M).Normal :=
+  have hQn : (Q.subgroupOf M).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
   have hQM : Q ≤ M := hc.hyp.Q_normal.1
   obtain ⟨ι, _, _, K, _, _, _, Q', X', E, φ, _, ψ, u, hK, hg, hmod⟩ := e.exists_model I

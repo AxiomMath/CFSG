@@ -15,6 +15,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isElemAbelian_closure {S : Set G} (hcomm : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a)
     (hsq : ∀ a ∈ S, a ^ 2 = 1) : IsElemAbelian 2 (Subgroup.closure S) := by
   have h1 : ∀ x ∈ Subgroup.closure S, ∀ b ∈ S, x * b = b * x := by
@@ -52,6 +53,7 @@ namespace Cex15
 
 variable {M V₀ V U S : Subgroup G}
 
+omit [Finite G] in
 theorem V₀_le_centralizer (h : Cex15 M V₀ V U S) : V₀ ≤ centralizer (U : Set G) :=
   h.V₀_le_S.trans h.S_le_centralizer
 
@@ -83,6 +85,7 @@ theorem isCalH (hS : Std15 G) (h : Cex15 M V₀ V U S) : IsCalH V₀ (centralize
       fun hd => hodd (hd.trans hdvd)
     omega)
 
+omit [Finite G] in
 theorem isSylowIn_inf (h : Cex15 M V₀ V U S) :
     IsSylowIn 2 S (centralizer (U : Set G) ⊓ normalizer (V₀ : Set G)) := by
   rw [h.hyp.normalizer₀, inf_comm]

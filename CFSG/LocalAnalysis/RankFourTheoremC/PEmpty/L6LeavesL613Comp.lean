@@ -26,6 +26,7 @@ theorem mem_normalizer_of_conj_mem {S : Subgroup Y} {g : Y} (h : ∀ s ∈ S, g 
   have hsy : (s : Y) = y := by simpa using h1
   exact hsy ▸ s.2
 
+omit [Finite Y] in
 theorem cjComp_eq_iff (g : Y) (C : ComponentIndex Y) :
     cjComp g C = C ↔ g ∈ normalizer (C.1 : Set Y) := by
   constructor
@@ -43,6 +44,7 @@ theorem cjComp_eq_iff (g : Y) (C : ComponentIndex Y) :
     have := mem_normalizer_iff.mp (Subgroup.inv_mem _ hg) c
     simpa using this.symm
 
+omit [Finite Y] in
 theorem cjComp_ne_self {x : Y}
     (htrans : ∀ C C' : ComponentIndex Y, ∃ k : ℕ, cjComp (x ^ k) C = C')
     (hcard : 1 < Nat.card (ComponentIndex Y)) (C : ComponentIndex Y) : cjComp x C ≠ C := by
@@ -59,6 +61,7 @@ theorem cjComp_ne_self {x : Y}
   have := Nat.card_of_subsingleton C
   omega
 
+omit [Finite Y] in
 theorem exists_cjComp_pow_eq {x a : Y} (hxa : a * x = x * a)
     (htrans : ∀ C C' : ComponentIndex Y, ∃ k : ℕ, cjComp (x ^ k) C = C') (C₀ : ComponentIndex Y) :
     ∃ k : ℕ, ∀ C : ComponentIndex Y, cjComp a C = cjComp (x ^ k) C := by
@@ -76,6 +79,7 @@ theorem exists_cjComp_pow_eq {x a : Y} (hxa : a * x = x * a)
     _ = cjComp (x ^ (k + m)) C₀ := by rw [add_comm]
     _ = cjComp (x ^ k) (cjComp (x ^ m) C₀) := by rw [pow_add, cjComp_mul]
 
+omit [Finite Y] in
 theorem commutator_mem_normalizer {x a b : Y} (hxa : a * x = x * a) (hxb : b * x = x * b)
     (htrans : ∀ C C' : ComponentIndex Y, ∃ k : ℕ, cjComp (x ^ k) C = C') (C₀ : ComponentIndex Y) :
     a * b * a⁻¹ * b⁻¹ ∈ normalizer (C₀.1 : Set Y) := by
@@ -93,6 +97,7 @@ theorem mem_normalizer_of_mem_layer (hZ : ∀ C : ComponentIndex Y, center C.1 =
   rw [conj_eq_π (hZ := hZ) C hl hc]
   exact C.1.mul_mem (C.1.mul_mem (π_mem C l hl) hc) (C.1.inv_mem (π_mem C l hl))
 
+omit [Finite Y] in
 theorem mem_centralizer_of_centralizes_component {x c : Y} (hcx : c * x = x * c)
     (htrans : ∀ C C' : ComponentIndex Y, ∃ k : ℕ, cjComp (x ^ k) C = C') {C₀ : ComponentIndex Y}
     (hc : c ∈ centralizer (C₀.1 : Set Y)) (C : ComponentIndex Y) :
@@ -115,14 +120,16 @@ theorem eq_one_of_mem_layer_of_centralizes (hZ : ∀ C : ComponentIndex Y, cente
     (hc : c ∈ layer Y) (h : ∀ C : ComponentIndex Y, c ∈ centralizer (C.1 : Set Y)) : c = 1 :=
   eq_one_of_π_eq_one (hZ := hZ) hc fun C => (π_eq_one_iff C hc).2 (h C)
 
+omit [Finite Y] in
 theorem isSimpleGroup_of_component {K : Subgroup Y} (hK : IsComponent K)
     (hc : Subgroup.center ↥K = ⊥) : IsSimpleGroup ↥K := by
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
   let e : ↥K ⧸ Subgroup.center ↥K ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hc).trans (QuotientGroup.quotientBot (G := ↥K))
-  haveI : Nontrivial ↥K := e.symm.surjective.nontrivial
+  have : Nontrivial ↥K := e.symm.surjective.nontrivial
   exact IsSimpleGroup.isSimpleGroup_of_surjective e.toMonoidHom e.surjective
 
+omit [Finite Y] in
 theorem exists_noncomm_of_component {K : Subgroup Y} (hK : IsComponent K)
     (hc : Subgroup.center ↥K = ⊥) : ∃ a b : ↥K, a * b ≠ b * a := by
   let e : ↥K ⧸ Subgroup.center ↥K ≃* ↥K :=

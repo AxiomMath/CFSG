@@ -112,7 +112,7 @@ theorem exists_inP11_of_not_normal_of_noncentral (D : Data G) {L : Subgroup G}
   have hLM : L ≤ D.M := hL.1.le
   have hnotN : ¬ D.M ≤ Subgroup.normalizer (L : Set G) := fun h =>
     hN ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 h)
-  obtain ⟨g, hgM, hgN⟩ := SetLike.not_le_iff_exists.mp hnotN
+  obtain ⟨g, hgM, hgN⟩ := IsConcreteLE.not_le_iff_exists.mp hnotN
   have hMmap : D.M.map (MulAut.conj g).toMonoidHom = D.M :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer hgM)
   have hL' : uc22p20bCj g L ∈ calC D.M := by

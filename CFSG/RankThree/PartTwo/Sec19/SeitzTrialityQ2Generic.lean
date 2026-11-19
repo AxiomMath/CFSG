@@ -49,7 +49,7 @@ theorem exists_gen_pair [Finite G] {E : Subgroup G} (hE : CFSG.IsElementaryAbeli
     (hcard : Nat.card E = 3 ^ 2) :
     ∃ x y : G, x ∈ E ∧ y ∈ E ∧ x ≠ 1 ∧ x ^ 3 = 1 ∧ y ^ 3 = 1 ∧ x * y = y * x ∧
       y ∉ ({1, x, x * x} : Set G) ∧ E = Subgroup.closure {x, y} := by
-  haveI := hE
+  have := hE
   have hpow : ∀ a ∈ E, a ^ 3 = 1 := fun a ha => CFSG.elemPow_eq_one_of_isElementaryAbelian a ha
   have hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hE.toIsMulCommutative.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
@@ -67,7 +67,7 @@ theorem exists_gen_pair [Finite G] {E : Subgroup G} (hE : CFSG.IsElementaryAbeli
     have h2 : orderOf x ∣ 3 := orderOf_dvd_of_pow_eq_one hx3
     have h3 : orderOf x ≤ 3 := Nat.le_of_dvd (by norm_num) h2
     omega
-  obtain ⟨y, hyE, hyx⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨y, hyE, hyx⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   have hy3 : y ^ 3 = 1 := hpow y hyE
   have hyset : y ∉ ({1, x, x * x} : Set G) := by
     intro h
@@ -91,7 +91,7 @@ theorem exists_gen_pair [Finite G] {E : Subgroup G} (hE : CFSG.IsElementaryAbeli
 theorem exists_conj_le_sylow [Finite G] {S E : Subgroup G}
     (hS : Nat.card S = 3 ^ (Nat.card G).factorization 3) (hE : IsPGroup 3 E) :
     ∃ g : G, ∀ x ∈ E, g * x * g⁻¹ ∈ S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := hE.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Q (Sylow.ofCard S hS)
   have hPQ : S = (Q : Subgroup G).map (MulAut.conj g).toMonoidHom := by

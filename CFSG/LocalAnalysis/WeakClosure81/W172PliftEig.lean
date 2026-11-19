@@ -25,13 +25,14 @@ structure W172PliftSetup (p : ℕ) (P N : Subgroup Γ) (D : Finset Γ) : Prop wh
   no_two_inverted : ∀ e ∈ D, ∀ f ∈ D, e ≠ f → ∀ u ∈ P,
     e * u * e⁻¹ = u⁻¹ → f * u * f⁻¹ = u⁻¹ → u = 1
 
+omit [Finite Γ] in
 private theorem w172_exists_fixed_mem_coset {K N : Subgroup Γ} {x₀ : Γ}
     (hK : IsPGroup 2 ↥K) (hNodd : Odd (Nat.card ↥N))
     (hKN : K ≤ Subgroup.normalizer (N : Set Γ))
     (hstab : ∀ k ∈ K, x₀⁻¹ * (k * x₀ * k⁻¹) ∈ N) :
     ∃ w : Γ, x₀⁻¹ * w ∈ N ∧ ∀ k ∈ K, k * w * k⁻¹ = w := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let α := {w : Γ // x₀⁻¹ * w ∈ N}
   have hcard : Nat.card α = Nat.card ↥N := by
     refine Nat.card_congr ?_
@@ -52,7 +53,7 @@ private theorem w172_exists_fixed_mem_coset {K N : Subgroup Γ} {x₀ : Γ}
   have hnot : ¬ 2 ∣ Nat.card α := by
     rw [hcard]
     exact fun h2 => (Nat.not_even_iff_odd.2 hNodd) (even_iff_two_dvd.2 h2)
-  letI : SMul ↥K α :=
+  let : SMul ↥K α :=
     ⟨fun k w => ⟨(k : Γ) * (w : Γ) * (k : Γ)⁻¹, by
       have hm : (k : Γ) * (x₀⁻¹ * (w : Γ)) * (k : Γ)⁻¹ ∈ N :=
         (Subgroup.le_normalizer_iff.1 hKN) k k.2 _ w.2
@@ -62,7 +63,7 @@ private theorem w172_exists_fixed_mem_coset {K N : Subgroup Γ} {x₀ : Γ}
             ((k : Γ) * (x₀⁻¹ * (w : Γ)) * (k : Γ)⁻¹) := by group
       rw [heq]
       exact N.mul_mem hc hm⟩⟩
-  letI : MulAction ↥K α :=
+  let : MulAction ↥K α :=
     { one_smul := fun w => Subtype.ext (by
         show (1 : Γ) * (w : Γ) * (1 : Γ)⁻¹ = (w : Γ)
         simp)
@@ -75,6 +76,7 @@ private theorem w172_exists_fixed_mem_coset {K N : Subgroup Γ} {x₀ : Γ}
   have hfix := MulAction.mem_fixedPoints.mp hw (⟨k, hk⟩ : ↥K)
   exact congrArg Subtype.val hfix
 
+omit [Finite Γ] in
 private lemma w172_conj_mem_centralizer {S : Set Γ} {a y : Γ}
     (ha : ∀ s ∈ S, a * s = s * a) (hay : ∀ s ∈ S, a⁻¹ * s = s * a⁻¹)
     (hy : y ∈ Subgroup.centralizer S) :
@@ -119,7 +121,7 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
     rw [Subgroup.le_normalizer_iff]
     exact fun x hx n hn => h.n_norm x hx n hn
   let NP : Subgroup ↥P := N.subgroupOf P
-  haveI hNP : NP.Normal :=
+  have hNP : NP.Normal :=
     (Subgroup.normal_subgroupOf_iff h.le).2 fun n x hn hx => h.n_norm x hx n hn
   let Q := ↥P ⧸ NP
   have hQcomm : ∀ a b : Q, a * b = b * a := by
@@ -139,15 +141,15 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
               (x : Γ) ∈ N := by
             simpa using h.n_norm (x : Γ)⁻¹ (P.inv_mem x.2) _ hc
           have h2 : (y : Γ) * (x : Γ)⁻¹ * (y : Γ)⁻¹ * (x : Γ) ∈ N := by
-            convert h1 using 1 <;> group
+            convert h1 using 1; group
           have h3 : ((y : Γ) * (x : Γ)⁻¹ * (y : Γ)⁻¹ * (x : Γ))⁻¹ ∈ N := N.inv_mem h2
           have h4 : (y : Γ)⁻¹ * ((y : Γ) * (x : Γ)⁻¹ * (y : Γ)⁻¹ * (x : Γ))⁻¹ *
               (y : Γ) ∈ N := by
             simpa using h.n_norm (y : Γ)⁻¹ (P.inv_mem y.2) _ h3
-          convert h4 using 1 <;> group
-        convert hmem using 1 <;> (simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group)
-  letI : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hQcomm }
-  haveI : Fact p.Prime := ⟨h.prime⟩
+          convert h4 using 1; group
+        convert hmem using 1; (simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group)
+  let : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hQcomm }
+  have : Fact p.Prime := ⟨h.prime⟩
   have hQp : IsPGroup p Q := h.pgroup.to_quotient NP
   have hnoinvol : ∀ q : Q, q * q = 1 → q = 1 := by
     intro q hq
@@ -169,7 +171,7 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
     induction x using QuotientGroup.induction_on with
     | H y =>
       show Gf f (Gf f ((y : ↥P) : Q)) = ((y : ↥P) : Q)
-      simp only [Gf, QuotientGroup.map_mk]
+      simp only [Gf]
       apply congrArg (fun z : ↥P => (z : Q))
       ext
       show f.val * (f.val * (y : Γ) * f.val⁻¹) * f.val⁻¹ = (y : Γ)
@@ -181,7 +183,7 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
     induction x using QuotientGroup.induction_on with
     | H y =>
       show Gf f (Gf g ((y : ↥P) : Q)) = Gf g (Gf f ((y : ↥P) : Q))
-      simp only [Gf, QuotientGroup.map_mk]
+      simp only [Gf]
       apply congrArg (fun z : ↥P => (z : Q))
       ext
       show f.val * (g.val * (y : Γ) * g.val⁻¹) * f.val⁻¹ =
@@ -196,7 +198,7 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
     refine ⟨((⟨x, hxP⟩ : ↥P) : Q), Subgroup.mem_top _, ?_⟩
     intro hcon
     apply hxN
-    simp only [Gf, QuotientGroup.map_mk] at hcon
+    simp only [Gf] at hcon
     have hmem : ((φ ⟨e, he⟩ ⟨x, hxP⟩)⁻¹ * ⟨x, hxP⟩ : ↥P) ∈ NP :=
       QuotientGroup.eq.1 hcon
     rw [Subgroup.mem_subgroupOf] at hmem
@@ -205,7 +207,7 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
     have h2 : x⁻¹ * (e * x * e⁻¹) ∈ N := by simpa using N.inv_mem h1
     have h3 : (e * x * e⁻¹) * (x⁻¹ * (e * x * e⁻¹)) * (e * x * e⁻¹)⁻¹ ∈ N :=
       (Subgroup.le_normalizer_iff.1 hPN) (e * x * e⁻¹) haP _ h2
-    have h4 : (e * x * e⁻¹) * x⁻¹ ∈ N := by convert h3 using 1 <;> group
+    have h4 : (e * x * e⁻¹) * x⁻¹ ∈ N := by convert h3 using 1; group
     simpa using h4
   obtain ⟨q, _, hq1, hqinv, hw⟩ :=
     w172_plift_eig_inverted (⊤ : Subgroup Q) (fun w _ hw => hnoinvol w hw)
@@ -216,7 +218,7 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
   have hx₀Q : ((x₀ : ↥P) : Q) = q := hx₀
   let K : Subgroup Γ :=
     { carrier := {k | k ∈ F ∧ (x₀ : Γ)⁻¹ * (k * (x₀ : Γ) * k⁻¹) ∈ N}
-      one_mem' := ⟨F.one_mem, by simpa using N.one_mem⟩
+      one_mem' := ⟨F.one_mem, by simp⟩
       mul_mem' := by
         rintro k l ⟨hkF, hk⟩ ⟨hlF, hl⟩
         refine ⟨F.mul_mem hkF hlF, ?_⟩
@@ -230,24 +232,24 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
         have h1 : k⁻¹ * ((x₀ : Γ)⁻¹ * (k * (x₀ : Γ) * k⁻¹)) * k ∈ N := by
           simpa using (Subgroup.le_normalizer_iff.1 hFN) k⁻¹ (F.inv_mem hkF) _ hk
         have h2 : (k⁻¹ * ((x₀ : Γ)⁻¹ * (k * (x₀ : Γ) * k⁻¹)) * k)⁻¹ ∈ N := N.inv_mem h1
-        convert h2 using 1 <;> group }
+        convert h2 using 1; group }
   have hmemK_fix : ∀ (f : Γ) (hf : f ∈ D), Gf ⟨f, hf⟩ q = q → f ∈ K := by
     intro f hf hfix
     refine ⟨Subgroup.subset_closure hf, ?_⟩
     have hfix' : Gf ⟨f, hf⟩ ((x₀ : ↥P) : Q) = ((x₀ : ↥P) : Q) := by
       rw [hx₀Q]; exact hfix
-    simp only [Gf, QuotientGroup.map_mk] at hfix'
+    simp only [Gf] at hfix'
     have hmem : ((φ ⟨f, hf⟩ x₀)⁻¹ * x₀ : ↥P) ∈ NP := QuotientGroup.eq.1 hfix'
     rw [Subgroup.mem_subgroupOf] at hmem
     have hmem' : (f * (x₀ : Γ) * f⁻¹)⁻¹ * (x₀ : Γ) ∈ N := by
       simpa [φ] using hmem
-    convert N.inv_mem hmem' using 1 <;> group
+    convert N.inv_mem hmem' using 1; group
   have hmemK_inv : ∀ (f : Γ) (hf : f ∈ D), Gf ⟨f, hf⟩ q = q⁻¹ → e * f ∈ K := by
     intro f hf hinv
     refine ⟨F.mul_mem heF (Subgroup.subset_closure hf), ?_⟩
     have hinv' : Gf ⟨f, hf⟩ ((x₀ : ↥P) : Q) = ((x₀ : ↥P) : Q)⁻¹ := by
       rw [hx₀Q]; exact hinv
-    simp only [Gf, QuotientGroup.map_mk] at hinv'
+    simp only [Gf] at hinv'
     have hinvP : ((φ ⟨f, hf⟩ x₀)⁻¹ * x₀⁻¹ : ↥P) ∈ NP := QuotientGroup.eq.1 hinv'
     rw [Subgroup.mem_subgroupOf] at hinvP
     have hfmem : f * (x₀ : Γ) * f⁻¹ * (x₀ : Γ) ∈ N := by
@@ -259,10 +261,10 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
       have hconj : (f * (x₀ : Γ) * f⁻¹) * ((x₀ : Γ) * (f * (x₀ : Γ) * f⁻¹)) *
           (f * (x₀ : Γ) * f⁻¹)⁻¹ ∈ N :=
         (Subgroup.le_normalizer_iff.1 hPN) _ haP _ hinvmem
-      convert hconj using 1 <;> group
+      convert hconj using 1; group
     have hqinv' : Gf ⟨e, he⟩ ((x₀ : ↥P) : Q) = ((x₀ : ↥P) : Q)⁻¹ := by
       rw [hx₀Q]; exact hqinv
-    simp only [Gf, QuotientGroup.map_mk] at hqinv'
+    simp only [Gf] at hqinv'
     have heinvP : ((φ ⟨e, he⟩ x₀)⁻¹ * x₀⁻¹ : ↥P) ∈ NP := QuotientGroup.eq.1 hqinv'
     rw [Subgroup.mem_subgroupOf] at heinvP
     have hemem : e * (x₀ : Γ) * e⁻¹ * (x₀ : Γ) ∈ N := by
@@ -274,7 +276,7 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
       have hconj : (e * (x₀ : Γ) * e⁻¹) * ((x₀ : Γ) * (e * (x₀ : Γ) * e⁻¹)) *
           (e * (x₀ : Γ) * e⁻¹)⁻¹ ∈ N :=
         (Subgroup.le_normalizer_iff.1 hPN) _ haP _ hinvmem
-      convert hconj using 1 <;> group
+      convert hconj using 1; group
     have h1 : e * (f * (x₀ : Γ) * f⁻¹ * (x₀ : Γ)) * e⁻¹ ∈ N := h.norm_n e he _ hfmem
     have hgoal : (e * f) * (x₀ : Γ) * (e * f)⁻¹ =
         (e * (f * (x₀ : Γ) * f⁻¹ * (x₀ : Γ)) * e⁻¹) * (x₀ : Γ) *
@@ -283,7 +285,7 @@ theorem w172_plift_eig_lift {p : ℕ} {P N : Subgroup Γ} {D : Finset Γ}
     have h2 : (x₀ : Γ)⁻¹ * (e * (f * (x₀ : Γ) * f⁻¹ * (x₀ : Γ)) * e⁻¹) *
         (x₀ : Γ) ∈ N := by
       simpa using h.n_norm (x₀ : Γ)⁻¹ (P.inv_mem x₀.2) _ h1
-    convert N.mul_mem h2 (N.inv_mem hemem) using 1 <;> group
+    convert N.mul_mem h2 (N.inv_mem hemem) using 1; group
   have hPodd : Odd (Nat.card ↥P) := by
     obtain ⟨n, hn⟩ := h.pgroup.exists_card_eq
     rw [hn]

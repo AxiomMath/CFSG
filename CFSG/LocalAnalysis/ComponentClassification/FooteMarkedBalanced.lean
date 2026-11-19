@@ -484,7 +484,7 @@ theorem exists_central_sylow_admissible_pair
   have hEFsub2 : IsPGroup 2 ((E ⊔ F).subgroupOf X) := hEF2.comap_subtype
   obtain ⟨S, hSle⟩ := hEFsub2.exists_le_sylow
   let S0 : Subgroup G := (S : Subgroup ↥X).map X.subtype
-  have hS0p : IsPGroup 2 S0 := S.isPGroup'.map X.subtype
+  have hS0p : IsPGroup 2 S0 := S.isPGroup.map X.subtype
   have hEFS0 : E ⊔ F ≤ S0 := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hEFX]
     exact Subgroup.map_mono hSle

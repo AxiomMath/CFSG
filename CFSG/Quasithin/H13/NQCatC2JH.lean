@@ -17,7 +17,7 @@ open CFSG.Walter.J1 CFSG.QuasithinUnique
   abelian_sylow := by
     intro P
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    obtain ⟨S, hS⟩ := (P.isPGroup'.map e.toMonoidHom).exists_le_sylow
+    obtain ⟨S, hS⟩ := (P.isPGroup.map e.toMonoidHom).exists_le_sylow
     have hSab := h.abelian_sylow S
     refine ⟨⟨fun a b => ?_⟩⟩
     have h1 : e a ∈ (S : Subgroup G) := hS ⟨a, a.2, rfl⟩

@@ -18,12 +18,12 @@ open CFSG.Sporadic.ON (J ga gb)
 theorem alpha_ap {x : ℕ} (hx : x < 245520) :
     CFSG.Sporadic.Th.Native.ap (CFSG.Sporadic.ON.Native.orbitData ()).alpha x = tab ONW.A x :=
   ((ON2.natTab_TR (ON2.orb_tabs ON2.mvAll ON2.ordAll ON2.sortAll).1
-    fun i hi => (ON2.inv_facts ON2.invAll hi).1).2 x hx).1
+    fun _i hi => (ON2.inv_facts ON2.invAll hi).1).2 x hx).1
 
 theorem beta_ap {x : ℕ} (hx : x < 245520) :
     CFSG.Sporadic.Th.Native.ap (CFSG.Sporadic.ON.Native.orbitData ()).beta x = tab ONW.B x :=
   ((ON2.natTab_TR (ON2.orb_tabs ON2.mvAll ON2.ordAll ON2.sortAll).2
-    fun i hi => (ON2.inv_facts ON2.invAll hi).2.1).2 x hx).1
+    fun _i hi => (ON2.inv_facts ON2.invAll hi).2.1).2 x hx).1
 
 
 theorem hA : ∀ x < 245520, tab ONW.A x = idx 245520 ga x := fun x hx => by

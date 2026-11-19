@@ -33,7 +33,7 @@ theorem exists_conj_mem_of_sylow_comm {K : Type} [Group K] [Finite K]
     (hcomm : ∀ S : Sylow 3 K, IsMulCommutative (S : Subgroup K)) (hno : NoE27 K)
     {E : Subgroup K} (hE : IsElemAbelian 3 E) (hE9 : Nat.card E = 9) {x : K}
     (hx : orderOf x = 3) : ∃ g : K, g * x * g⁻¹ ∈ E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEp : IsPGroup 3 E := fun e => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 e e.2)⟩
   obtain ⟨S, hES⟩ := hEp.exists_le_sylow
   have hxp : IsPGroup 3 (zpowers x) :=
@@ -72,8 +72,8 @@ theorem sylow_comm_projSL {F : Type} [Field F] [Finite F] (hF : ¬ 3 ∣ Nat.car
     (hlt : n / orderOf (Nat.card F : ZMod 3) < 3) :
     ∀ S : Sylow 3 (StatedProj (StatedSL n F)),
       IsMulCommutative (S : Subgroup (StatedProj (StatedSL n F))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF' : ¬ 3 ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hGL := sylow_isMulCommutative_of_sigmaModel_of_lt Nat.prime_three
     (by rwa [← Nat.card_eq_fintype_card])
@@ -85,8 +85,8 @@ theorem sylow_comm_projSU {L : Type} [Field L] [Finite L] {q n : ℕ} (hL : Nat.
     (hq3 : ¬ 3 ∣ q) (hn : 1 ≤ n) (hlt : n / orderOf (-(q : ZMod 3)) < 3) :
     ∀ S : Sylow 3 (StatedProj (StatedSU n q L)),
       IsMulCommutative (S : Subgroup (StatedProj (StatedSU n q L))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype L := Fintype.ofFinite L
   have hL' : Fintype.card L = q ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hL
   have hGU := sylow_isMulCommutative_of_sigmaModel_of_lt Nat.prime_three hlt
     (fun P => CFSG.GroupTheory.WeirSylow.sylow_GU (by decide) L hL' hq3 hn P)
@@ -98,8 +98,8 @@ theorem sylow_comm_projSU {L : Type} [Field L] [Finite L] {q n : ℕ} (hL : Nat.
 theorem sylow_comm_projSp_two {F : Type} [Field F] [Finite F] (hF : ¬ 3 ∣ Nat.card F) :
     ∀ S : Sylow 3 (StatedProj (StatedSp 2 F)),
       IsMulCommutative (S : Subgroup (StatedProj (StatedSp 2 F))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF' : ¬ 3 ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hmod : Fintype.card F % 3 = 1 ∨ Fintype.card F % 3 = 2 := by omega
   have hSp : ∀ S : Sylow 3 (StatedSp 2 F), IsMulCommutative (S : Subgroup (StatedSp 2 F)) := by

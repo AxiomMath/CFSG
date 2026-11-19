@@ -103,7 +103,7 @@ theorem mctx_mY_le (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) : MY Γ (Yd d 
   rcases mctx_cases hM with ⟨h24, hΓ⟩ | ⟨h23, hΓ⟩ | ⟨h22, h1, h2⟩
   · rw [hΓ, h24]
     rw [show Yd 24 a b O = O from by simp [Yd]]
-    simpa [octStab]
+    simp [octStab]
   · rw [hΓ, h23]
     rw [show Yd 23 a b O = O.erase a from by simp [Yd]]
     rw [M23g_inf_stabilizer_erase hM.cfg.a_O]
@@ -143,7 +143,7 @@ theorem mctx_T_le_mY (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) : T₀ ⊓ �
 
 theorem mctx_octFix_le_T (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
     octFix O ≤ T₀ ⊓ Γ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTO : T₀ ≤ octStab O := by
     intro g hg
     exact mem_octStab_iff.2 ⟨hM.cfg.sylow.le hg, hM.cfg.stab_O g hg⟩

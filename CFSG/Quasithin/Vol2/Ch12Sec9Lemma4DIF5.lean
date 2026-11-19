@@ -12,7 +12,7 @@ open Module CFSG.Open CFSG.Quasithin
 
 private theorem f5_finite_gl (W : Type) [AddCommGroup W] [Module (ZMod 2) W]
     [Module.Finite (ZMod 2) W] : Finite (W ≃ₗ[ZMod 2] W) := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   exact Finite.of_injective (fun e : W ≃ₗ[ZMod 2] W => (e : W → W))
     fun a b h => LinearEquiv.ext fun x => congrFun h x
 
@@ -27,22 +27,22 @@ private theorem f5_card_gl (W : Type) [AddCommGroup W] [Module (ZMod 2) W]
 private theorem f5_simple_gl (W : Type) [AddCommGroup W] [Module (ZMod 2) W]
     [FiniteDimensional (ZMod 2) W] (hW : finrank (ZMod 2) W = 3) :
     IsSimpleGroup (W ≃ₗ[ZMod 2] W) := by
-  haveI := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_top_of_three_le (V := W) (by omega)
+  have := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_top_of_three_le (V := W) (by omega)
   exact (Subgroup.topEquiv :
     (⊤ : Subgroup (W ≃ₗ[ZMod 2] W)) ≃* (W ≃ₗ[ZMod 2] W)).symm.isSimpleGroup
 
 private theorem f5_o2_top (W : Type) [AddCommGroup W] [Module (ZMod 2) W]
     [FiniteDimensional (ZMod 2) W] (hW : finrank (ZMod 2) W = 3) :
     oTwoUpper (⊤ : Subgroup (W ≃ₗ[ZMod 2] W)) = ⊤ := by
-  haveI := f5_simple_gl W hW
-  haveI := f5_finite_gl W
+  have := f5_simple_gl W hW
+  have := f5_finite_gl W
   have hnorm : (oTwoUpper (⊤ : Subgroup (W ≃ₗ[ZMod 2] W))).Normal := by
     refine ⟨fun n hn g => conj_mem_oTwoUpper ?_ hn⟩
     have htop : Subgroup.normalizer ((⊤ : Subgroup (W ≃ₗ[ZMod 2] W)) : Set (W ≃ₗ[ZMod 2] W)) = ⊤ :=
       Subgroup.normalizer_eq_top_iff.2 inferInstance
     rw [htop]
     exact Subgroup.mem_top g
-  haveI := hnorm
+  have := hnorm
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := W ≃ₗ[ZMod 2] W) 3
     (by rw [f5_card_gl W hW]; norm_num)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -87,7 +87,7 @@ private theorem f5_exists_two_dim {U : Type} [AddCommGroup U] [Module (ZMod 2) U
     omega
   obtain ⟨c, hc⟩ : ∃ c : U, c ∉ Y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hYtop (eq_top_iff.2 fun c _ => hcon c)
   have hYbot : Y ≠ ⊥ := by
     intro h
@@ -131,8 +131,8 @@ private theorem f5_moves {U : Type} [AddCommGroup U] [Module (ZMod 2) U]
 theorem factF5_holds : FactF5 := by
   unfold FactF5
   intro V _ _ hV V₁ hV₁ X hX hV₁X H0
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by omega)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := f5_finite_gl V
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by omega)
+  have : Finite (V ≃ₗ[ZMod 2] V) := f5_finite_gl V
   have hU : finrank (ZMod 2) (V ⧸ V₁) = 3 := f5_finrank_quot hV hV₁
   have hO2 := f5_o2_top (V ⧸ V₁) hU
   let ψ : stabS V₁ →* ((V ⧸ V₁) ≃ₗ[ZMod 2] (V ⧸ V₁)) := quotHom V₁

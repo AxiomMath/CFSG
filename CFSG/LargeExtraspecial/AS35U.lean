@@ -71,7 +71,7 @@ theorem exists_lift (hm : 3 ≤ m) (P : Subgroup (PG m)) (hP : IsPGroup 2 P) :
       obtain ⟨t, ht, htp⟩ := hmem
       exact ⟨t, ⟨t, ht, rfl⟩, congrArg Subtype.val htp⟩
   · rintro _ ⟨t, ht, rfl⟩ h1
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
     have hk' : (t : SUid frob m) ^ 2 ^ k = 1 := by
       have := congrArg (fun w : T => ((w : Qhat) : SUid frob m)) hk
       simpa using this

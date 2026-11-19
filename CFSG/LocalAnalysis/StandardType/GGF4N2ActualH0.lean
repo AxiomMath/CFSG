@@ -384,6 +384,7 @@ theorem ggN2_card_SL3 :
   rw [Matrix.card_SL_field, h4]
   simp [Fin.prod_univ_three]
 
+omit [Finite G] in
 theorem ggN2_blockSL_map_quasisimple
     (ψ : Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 2) →* G)
     (hψ : ψ.ker ≤ Subgroup.center _) {i : ℕ} (h : i + 3 ≤ 6) :

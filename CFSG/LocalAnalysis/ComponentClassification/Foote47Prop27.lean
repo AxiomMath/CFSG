@@ -132,7 +132,7 @@ theorem mem_P_of_comm [Finite H] (h : Resid t t' P S) {s : H} (hs : s ∈ (S : S
     (hst : s * t = t * s) : s ∈ P := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : P ≤ (S : Subgroup H) ⊓ centralizer ({t} : Set H) := le_inf h.hPS h.hPC
-  have heq := h.hSyl.eq_of_le hle inf_le_right (S.isPGroup'.to_le inf_le_left)
+  have heq := h.hSyl.eq_of_le hle inf_le_right (S.isPGroup.to_le inf_le_left)
   rw [← heq]
   exact ⟨hs, mem_centralizer_singleton_iff.mpr hst⟩
 
@@ -185,7 +185,7 @@ theorem isSylowOf_S [Finite H] (h : Resid t t' P S) :
     IsSylowOf 2 (S : Subgroup H) (centralizer ({t * t'} : Set H)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [isSylowOf_iff]
-  refine ⟨h.S_le_centralizer_z, S.isPGroup', fun hd => S.not_dvd_index ?_⟩
+  refine ⟨h.S_le_centralizer_z, S.isPGroup, fun hd => S.not_dvd_index ?_⟩
   exact hd.trans (relIndex_dvd_index_of_le h.S_le_centralizer_z)
 
 theorem exists_sylow (h : Resid t t' P S) :
@@ -472,11 +472,11 @@ theorem exists_conj_sylow [Finite H] (h : Resid t t' P S) {w : H} (hw : IsConj (
   have hsyl : IsSylowOf 2 ((g • S : Sylow 2 H) : Subgroup H)
       (centralizer ({g * (t * t') * g⁻¹} : Set H)) := by
     rw [isSylowOf_iff]
-    exact ⟨hle, (g • S).isPGroup', fun hd =>
+    exact ⟨hle, (g • S).isPGroup, fun hd =>
       (g • S).not_dvd_index (hd.trans (relIndex_dvd_index_of_le hle))⟩
   obtain ⟨c, hcC, hc⟩ := exists_conj_le_of_isSylowOf hsyl
     (inf_le_right : (S : Subgroup H) ⊓ centralizer ({g * (t * t') * g⁻¹} : Set H) ≤ _)
-    (S.isPGroup'.to_le inf_le_left)
+    (S.isPGroup.to_le inf_le_left)
   refine ⟨c * g, ?_, ?_⟩
   · have hc' := mem_centralizer_singleton_iff.mp hcC
     calc c * g * (t * t') * (c * g)⁻¹ = c * (g * (t * t') * g⁻¹) * c⁻¹ := by group
@@ -538,7 +538,7 @@ theorem comm_of_mem [Finite H] (h : Resid t t' P S) {w₁ w₂ : H}
       _ = u⁻¹ := e
       _ = w₂⁻¹ * w₁⁻¹ := by rw [hu, mul_inv_rev]
       _ = w₂ * w₁ := by rw [hw₁inv, hw₂inv]
-  obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨u, huS⟩
+  obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨u, huS⟩
   rw [Subgroup.orderOf_mk] at ha
   rcases a with _ | _ | b
   · have hu1 : u = 1 := orderOf_eq_one_iff.mp (by simpa using ha)
@@ -827,7 +827,7 @@ theorem exists_sylow_relIndex_two [Finite H] {t t' : H} {P : Subgroup H} (ht : o
   have h2P := two_dvd_index_of_two_conjugates ht htt' P hPC hP
   obtain ⟨S, hPS⟩ := hPp.exists_le_sylow
   refine ⟨S, hPS, ?_⟩
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hdvd : P.relIndex (S : Subgroup H) ∣ 2 ^ n := by
     rw [← hn]
     exact (P.subgroupOf (S : Subgroup H)).index_dvd_card

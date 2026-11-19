@@ -203,7 +203,7 @@ theorem swap_d (hm : m = 2) {E : Subgroup G} (hE : IsE64 T E) {d₀ d₁ τ : G}
     (hτ : τ ∈ T ⊓ normalizer (E : Set G)) (hτE : τ ∉ (D.B₀ ⊔ D.B₁) ⊔ E) :
     τ * d₀ * τ⁻¹ * d₁⁻¹ ∈ E := by
   obtain ⟨hτT, hτN⟩ := mem_inf.1 hτ
-  haveI := hE.finite
+  have := hE.finite
   have hτ1 : τ ∉ D.T₁ := by
     intro h1
     apply hτE
@@ -279,7 +279,7 @@ theorem swap_d (hm : m = 2) {E : Subgroup G} (hE : IsE64 T E) {d₀ d₁ τ : G}
       have := (mem_normalizer_iff.1 (inv_mem hτN) _).1 h1
       rwa [show τ⁻¹ * (τ * d₀ * τ⁻¹) * τ⁻¹⁻¹ = d₀ by group] at this
     obtain ⟨-, -, -, hB₁⟩ := D.E64_decomp hE
-    haveI : Finite ↥(D.B₁ ⊓ normalizer ((E ⊓ D.B₁ : Subgroup G) : Set G)) :=
+    have : Finite ↥(D.B₁ ⊓ normalizer ((E ⊓ D.B₁ : Subgroup G) : Set G)) :=
       Nat.finite_of_card_ne_zero (by rw [D.card_R₁ hE]; norm_num)
     have hβd := mul_inv_mem_of_card_eq_two_mul (le_inf hB₁.1 le_normalizer)
       (by rw [D.card_R₁ hE, hB₁.2.2]) hβR hd₁ (fun h => hβE (mem_inf.1 h).1)

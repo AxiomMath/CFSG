@@ -16,9 +16,9 @@ variable {Y : Type} [Group Y] [Finite Y] {D : Set Y}
 
 theorem isPGroup_quotient_layer_of_solvable
     (hcls : ∃ d₀ : Y, D = {g | IsConj d₀ g})
-    (hroot : IsRootInvolutionSet D)
-    (hdeg : ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ≠ 4)
-    (hgen : Subgroup.closure D = ⊤)
+    (_hroot : IsRootInvolutionSet D)
+    (_hdeg : ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ≠ 4)
+    (_hgen : Subgroup.closure D = ⊤)
     (hnc : ∀ d ∈ D, d ∉ Subgroup.center Y)
     (hsolv : ∀ N : Subgroup Y, N.Normal → Group.IsSolvable N → N ≤ Subgroup.center Y)
     (hchar : ∀ (N : Subgroup Y) [N.Characteristic], ¬ N ≤ Subgroup.center Y → IsPGroup 2 (Y ⧸ N)) :
@@ -27,7 +27,7 @@ theorem isPGroup_quotient_layer_of_solvable
   set Z : Subgroup Y := Subgroup.center Y with hZ
   set π : Y →* Y ⧸ Z := QuotientGroup.mk' Z with hπ
   set E : Subgroup (Y ⧸ Z) := layer (Y ⧸ Z) with hE
-  haveI hEnormal : E.Normal := by
+  have hEnormal : E.Normal := by
     rw [hE]
     infer_instance
   set Epre : Subgroup Y := E.comap π with hEpre
@@ -39,10 +39,10 @@ theorem isPGroup_quotient_layer_of_solvable
       exact hnc d₀ hd₀ ((QuotientGroup.eq_one_iff d₀).1 h)
     exact ⟨1, π d₀, fun h => hπd₀ h.symm⟩
   have hfit_le : fittingSubgroup (Y ⧸ Z) ≤ CFSG.solvableRadical (Y ⧸ Z) := by
-    haveI hnil : Group.IsNilpotent (fittingSubgroup (Y ⧸ Z)) :=
+    have hnil : Group.IsNilpotent (fittingSubgroup (Y ⧸ Z)) :=
       (CFSG.LocalCores.fitting_nilpotent (G := Y ⧸ Z)).1
     exact le_sSup ⟨inferInstance, inferInstance⟩
-  haveI hRnorm : (CFSG.solvableRadical (Y ⧸ Z)).Normal :=
+  have hRnorm : (CFSG.solvableRadical (Y ⧸ Z)).Normal :=
     Subgroup.sSup_normal _ fun _ hN => hN.1
   have hrad : CFSG.solvableRadical (Y ⧸ Z) = ⊥ :=
     solvable_normal_eq_bot_quotient_center (Y := Y) hsolv
@@ -73,7 +73,7 @@ theorem isPGroup_quotient_layer_of_solvable
         _ ≤ Z.map π := Subgroup.map_mono hle
         _ = ⊥ := hZmap
     exact le_bot_iff.mp hle'
-  haveI : Epre.Characteristic := hEchar
+  have : Epre.Characteristic := hEchar
   have hY2 : IsPGroup 2 (Y ⧸ Epre) := hchar Epre hEnotle
   have hZle : Z ≤ Epre := by
     intro z hz
@@ -102,7 +102,7 @@ theorem commutator_eq_layer
   classical
   set Z : Subgroup Y := Subgroup.center Y with hZ
   set E : Subgroup (Y ⧸ Z) := layer (Y ⧸ Z) with hE
-  haveI hEnormal : E.Normal := by
+  have hEnormal : E.Normal := by
     rw [hE]
     infer_instance
   have hGE2 : IsPGroup 2 ((Y ⧸ Z) ⧸ E) :=
@@ -150,7 +150,7 @@ theorem commutator_eq_layer
     have htop : IsMulCommutative (⊤ : Subgroup ((Y ⧸ Z) ⧸ E)) := by
       have h := Subgroup.isMulCommutative_closure hcomm
       rwa [hXcl] at h
-    letI : IsMulCommutative (⊤ : Subgroup ((Y ⧸ Z) ⧸ E)) := htop
+    let : IsMulCommutative (⊤ : Subgroup ((Y ⧸ Z) ⧸ E)) := htop
     exact congrArg Subtype.val
       (mul_comm' (⟨a, Subgroup.mem_top a⟩ : (⊤ : Subgroup ((Y ⧸ Z) ⧸ E)))
         ⟨b, Subgroup.mem_top b⟩)

@@ -39,7 +39,7 @@ theorem L_le_inftyOf : m.L ≤ inftyOf m.H :=
   (Subgroup.closure_le _).2 fun _ hx => hx.1
 
 theorem rCoreL_le_OHG : N588.rCore m.r m.L ≤ m.OHG := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hle : N588.rCore m.r m.L ≤ m.H := (N588.rCore_le _ _).trans m.L_le_H
   have hn : ((N588.rCore m.r m.L).subgroupOf m.H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hle).2 m.H_le_normalizer_rCoreL
@@ -55,7 +55,7 @@ include hKM hK3 h69
 
 theorem derivedSeries_le_component (hSch : UCK.KSch) {K : Subgroup m.Hbar}
     (hK : IsComponentOf K ⊤) : derivedSeries m.Hbar (Nat.card ↥m.H) ≤ K := by
-  haveI hKn := m.component_normal hKM hK3 h69 hK
+  have hKn := m.component_normal hKM hK3 h69 hK
   set D := derivedSeries m.Hbar (Nat.card ↥m.H) with hD
   set C := centralizer (K : Set m.Hbar) with hC
   have hDperf : ⁅D, D⁆ = D := m.derivedSeries_Hbar_perfect
@@ -89,8 +89,8 @@ theorem derivedSeries_le_component (hSch : UCK.KSch) {K : Subgroup m.Hbar}
     rw [this]
     exact mul_mem_sup k₀.2 hcent
   set J := K ⊔ C with hJ
-  haveI hK'n : (K.subgroupOf J).Normal := Subgroup.normal_subgroupOf
-  haveI hCs : Group.IsSolvable ↥C := m.isSolvable_centralizer_component hKM hK3 h69 hK
+  have hK'n : (K.subgroupOf J).Normal := Subgroup.normal_subgroupOf
+  have hCs : Group.IsSolvable ↥C := m.isSolvable_centralizer_component hKM hK3 h69 hK
   have hsurj : Function.Surjective
       ((QuotientGroup.mk' (K.subgroupOf J)).comp (Subgroup.inclusion (le_sup_right : C ≤ J))) := by
     intro y
@@ -109,7 +109,7 @@ theorem derivedSeries_le_component (hSch : UCK.KSch) {K : Subgroup m.Hbar}
     rw [this]
     show c⁻¹ * k * c ∈ K
     exact hKn.conj_mem' k hk c
-  haveI : Group.IsSolvable (↥J ⧸ K.subgroupOf J) := Group.isSolvable_of_surjective hsurj
+  have : Group.IsSolvable (↥J ⧸ K.subgroupOf J) := Group.isSolvable_of_surjective hsurj
   have hψ := N588.eq_one_of_perfect_of_isSolvable (N588.commutator_eq_top_of_perfect hDperf)
     ((QuotientGroup.mk' (K.subgroupOf J)).comp (Subgroup.inclusion hDKC))
   intro ℓ hℓ
@@ -120,8 +120,8 @@ theorem derivedSeries_le_component (hSch : UCK.KSch) {K : Subgroup m.Hbar}
 
 theorem bar_L_eq (hSch : UCK.KSch) {K : Subgroup m.Hbar} (hK : IsComponentOf K ⊤) :
     m.bar m.L = K := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI hKs := m.isSimpleGroup_component hKM hK3 h69 hK
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have hKs := m.isSimpleGroup_component hKM hK3 h69 hK
   have hD := m.derivedSeries_le_component hKM hK3 h69 hSch hK
   have hLK : m.bar m.L ≤ K :=
     ((m.bar_mono m.L_le_inftyOf).trans m.bar_inftyOf.le).trans hD
@@ -161,7 +161,7 @@ theorem bar_L_eq (hSch : UCK.KSch) {K : Subgroup m.Hbar} (hK : IsComponentOf K �
     subst hK1
     obtain ⟨a, b, hab⟩ := hK.2.2.1.exists_pair_ne
     exact hab (Subsingleton.elim a b)
-  haveI : ((m.bar m.L).subgroupOf K).Normal := Subgroup.normal_subgroupOf
+  have : ((m.bar m.L).subgroupOf K).Normal := Subgroup.normal_subgroupOf
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((m.bar m.L).subgroupOf K) with h | h
   · exfalso
     apply hL1
@@ -176,7 +176,7 @@ theorem bar_L_eq (hSch : UCK.KSch) {K : Subgroup m.Hbar} (hK : IsComponentOf K �
 
 theorem nonempty_mulEquiv_Lbar (hSch : UCK.KSch) {K : Subgroup m.Hbar}
     (hK : IsComponentOf K ⊤) : Nonempty (m.Lbar ≃* ↥K) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   let ψ : ↥m.L →* m.Hbar := m.piH.comp (Subgroup.inclusion m.L_le_H)
   have hincl : (Subgroup.inclusion m.L_le_H).range = m.L.subgroupOf m.H := by
     ext x
@@ -211,7 +211,7 @@ theorem nonempty_mulEquiv_Lbar (hSch : UCK.KSch) {K : Subgroup m.Hbar}
 theorem isSimpleGroup_Lbar_of_inputs (hSch : UCK.KSch) : IsSimpleGroup m.Lbar := by
   obtain ⟨K, hK⟩ := m.exists_component h69
   obtain ⟨e⟩ := m.nonempty_mulEquiv_Lbar hKM hK3 h69 hSch hK
-  haveI := m.isSimpleGroup_component hKM hK3 h69 hK
+  have := m.isSimpleGroup_component hKM hK3 h69 hK
   exact (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
 
 theorem c619_of_inputs (hSch : UCK.KSch) : m.C619 := by

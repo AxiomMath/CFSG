@@ -110,11 +110,11 @@ theorem mem_foldl_toggle : ∀ (L acc : List ℕ), acc.Nodup → ∀ x,
       List.count_cons]
     by_cases hxy : x = y
     · subst hxy
-      simp only [ne_eq, not_true_eq_false, iff_false, beq_self_eq_true, if_true,
+      simp only [ne_eq, not_true_eq_false, iff_false, beq_self_eq_true, ite_true,
         Nat.even_add_one]
       tauto
     · have hyx : (y == x) = false := by simpa using Ne.symm hxy
-      simp only [ne_eq, hxy, not_false_eq_true, iff_true, hyx, Bool.false_eq_true, if_false,
+      simp only [ne_eq, hxy, not_false_eq_true, iff_true, hyx, Bool.false_eq_true, ite_false,
         add_zero]
 
 theorem even_of_toggle (L : List ℕ) (h : (L.foldl toggleJ []).isEmpty = true) (x : ℕ) :
@@ -296,15 +296,15 @@ theorem rep_sparse {p q : ℕ} (g : (Fin n → U4) →+ (Fin q → U4)) (G : ℕ
     rw [hs, Pi.add_apply, Pi.add_apply, hr]
     by_cases h1 : a1 = k
     · subst h1
-      rw [if_pos rfl, getD_xorRows, bitZ_xor, ih, getD_unitRows, Pi.single_eq_same]
+      rw [ite_eq_left rfl, getD_xorRows, bitZ_xor, ih, getD_unitRows, Pi.single_eq_same]
       congr 1
       by_cases h2 : d = a2
       · subst h2
-        rw [if_pos rfl, Pi.single_eq_same]
+        rw [ite_eq_left rfl, Pi.single_eq_same]
         have := hG a3 a4 q1 e
         simpa using this
-      · rw [Pi.single_eq_of_ne h2, if_neg (fun h => h2 (Fin.ext h)), bitZ_zero]
-    · rw [if_neg (fun h => h1 (Fin.ext h)), Pi.single_eq_of_ne (Ne.symm h1), Pi.zero_apply,
+      · rw [Pi.single_eq_of_ne h2, ite_eq_right (fun h => h2 (Fin.ext h)), bitZ_zero]
+    · rw [ite_eq_right (fun h => h1 (Fin.ext h)), Pi.single_eq_of_ne (Ne.symm h1), Pi.zero_apply,
         zero_add, ih]
 
 theorem rep_corr (k : Fin 5) :
@@ -363,7 +363,7 @@ theorem getD_map' {α β : Type*} (f : α → β) (d : α) : ∀ (l : List α) (
 
 theorem rep_rhs (hg : gSpec) (p : Fin 15) :
     RepU ((Pi.evalAddMonoidHom (fun _ : Fin 15 => U4) p).comp certRHS) (rhsBlk certL p.val) :=
-  rep_sparse (Pi.addMonoidHom cycHom) (fun q => cycBlocks.getD q []) (fun q0 => by
+  rep_sparse (_root_.AddMonoidHom.pi cycHom) (fun q => cycBlocks.getD q []) (fun q0 => by
     have h : cycBlocks.getD q0.val [] = cycRows (cycles q0) := getD_map' cycRows [] cyclesL q0.val
     rw [h]
     exact rep_cyc hg q0) p certL

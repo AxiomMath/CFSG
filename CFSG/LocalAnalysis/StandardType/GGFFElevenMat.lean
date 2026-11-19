@@ -24,6 +24,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {b : G} {K : Subgroup G} {z : Fin 3 → K}
 
+omit [Finite G] in
 private theorem cvG_conj {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {n : G} (hn : n ∈ Nor B) {x : G}
     (hx : x ∈ B) : cvG β (n * x * n⁻¹) = ρM β ⟨n, hn⟩ *ᵥ cvG β x := by
@@ -31,11 +32,13 @@ private theorem cvG_conj {B : Subgroup G} [IsElementaryAbelian 3 B]
   rw [cvG_of_mem β hmem, cvG_of_mem β hx, ρM_mulVec]
   exact congrArg (cv β) (Subtype.ext rfl)
 
+omit [Finite G] in
 private theorem conj_eq_of_cv {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {n x y : G} (hn : n ∈ Nor B)
     (hx : x ∈ B) (hy : y ∈ B) (h : ρM β ⟨n, hn⟩ *ᵥ cvG β x = cvG β y) : n * x * n⁻¹ = y :=
   cvG_inj β ((Subgroup.mem_normalizer_iff.mp hn x).mp hx) hy ((cvG_conj β hn hx).trans h)
 
+omit [Finite G] in
 private theorem conj_eq_of_cv_inv {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {n x y : G} (hn : n ∈ Nor B)
     (hx : x ∈ B) (hy : y ∈ B) (h : ρM β ⟨n⁻¹, (Nor B).inv_mem hn⟩ *ᵥ cvG β x = cvG β y) :
@@ -70,6 +73,7 @@ private theorem ρM_mul4 {B : Subgroup G} [IsElementaryAbelian 3 B]
       (Nor B).mul_mem ((Nor B).mul_mem ((Nor B).mul_mem h₁ h₂) h₃) h₄⟩ : Nor B) =
     ⟨m₁, h₁⟩ * ⟨m₂, h₂⟩ * ⟨m₃, h₃⟩ * ⟨m₄, h₄⟩ from Subtype.ext rfl, map_mul, map_mul, map_mul]
 
+omit [Finite G] in
 private theorem ρM_inv {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {m : G} (hm : m ∈ Nor B) {A : Mat}
     (hA : ρM β ⟨m, hm⟩ = A) (hAA : A * A = 1) :
@@ -95,18 +99,21 @@ private theorem ρM_eq_of_cols
   fin_cases i
   exacts [h 0, h 1, h 2, h 3]
 
+omit [Finite G] in
 private theorem cvG_basis {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) (i : Fin 4) :
     cvG β (((Additive.toMul (β i) : B) : G)) = e i := by
   rw [cvG_of_mem β (Additive.toMul (β i)).2]
   exact cv_basis β i
 
+omit [Finite G] in
 private theorem cvG_of_bs {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {bs : Fin 4 → G}
     (hβ : ∀ i, ((Additive.toMul (β i) : B) : G) = bs i) (i : Fin 4) : cvG β (bs i) = e i := by
   rw [← hβ i]
   exact cvG_basis β i
 
+omit [Finite G] in
 private theorem cvG_pow' {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {g : G} (hg : g ∈ B) (k : ℕ) :
     cvG β (g ^ k) = k • cvG β g := by
@@ -114,6 +121,7 @@ private theorem cvG_pow' {B : Subgroup G} [IsElementaryAbelian 3 B]
   | zero => rw [pow_zero, zero_smul, cvG_one]
   | succ k ih => rw [pow_succ, cvG_mul β (B.pow_mem hg k) hg, ih, succ_nsmul]
 
+omit [Finite G] in
 private theorem cvG_vecElt {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B))
     (h0 : cvG β (zs z 0) = e 1) (h1 : cvG β (zs z 1) = e 2) (h2 : cvG β (zs z 2) = e 3)
@@ -124,6 +132,7 @@ private theorem cvG_vecElt {B : Subgroup G} [IsElementaryAbelian 3 B]
     cvG_mul β (B.pow_mem hm0 _) (B.pow_mem hm1 _), cvG_pow' β hm0, cvG_pow' β hm1,
     cvG_pow' β hm2, h0, h1, h2]
 
+omit [Finite G] in
 private theorem mem_cenS_of_ρM_one {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {m : G} (hm : m ∈ Nor B)
     (h : ρM β ⟨m, hm⟩ = 1) : m ∈ CenS B := by
@@ -169,6 +178,7 @@ private theorem T0_mul_self : T0 * T0 = 1 := by
   rw [← mm_eq]
   exact T0_sq
 
+omit [Finite G] in
 private theorem ρM_eq_T0
     {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {bs : Fin 4 → G}
@@ -193,6 +203,7 @@ private theorem ρM_eq_T0
   fin_cases i
   exacts [hcol0, hcol1, hcol2, hcol3]
 
+omit [Finite G] in
 private theorem ρM_eq_Cyc
     {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {bs : Fin 4 → G}
@@ -258,6 +269,7 @@ private theorem cfgOf_eq_mD (h : Setting b K z)
     · exact (key mE (Or.inr (Or.inr (Or.inr rfl))) hE).elim
   exact ⟨β, hβ, hyp, hD⟩
 
+omit [Finite G] in
 private theorem exists_n
     {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B))

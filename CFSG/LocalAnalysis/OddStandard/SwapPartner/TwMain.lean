@@ -41,13 +41,13 @@ theorem swapFrameP2Two_of_inputs (hFus : TwHSFusion) : SwapFrameP2Two := by
     exact map_one eA
   exfalso
   rcases trichotomy hO hshape hStray with ⟨-, hnorm, -⟩ | ⟨K, hW⟩ | ⟨K, hK, hKc, hAK, hne, -⟩
-  · haveI := hnorm
+  · have := hnorm
     exact false_of_normal_abar_of_conj hshape ha ha1 hy
   · exact false_of_wreathCase F hP2 (z_mem_centralizer_x₂ hC) hW
-  · haveI hKc' : K.Characteristic := by
+  · have hKc' : K.Characteristic := by
       subst hK
       exact CFSG.LocalCores.layer_characteristic
-    haveI hKn : K.Normal := inferInstance
+    have hKn : K.Normal := inferInstance
     rcases nonExactShapeEightLookup_holds _ _ Sg V K hKg hO hshape hK hKc hAK hne with
       hA10 | hHS | hL
     · obtain ⟨e⟩ := hA10

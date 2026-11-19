@@ -29,7 +29,7 @@ theorem pair_decomp_of_frame {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (h2 : (p : ℤ) ∣ ∑ j, m 2 j * v j) (h3 : (p : ℤ) ∣ ∑ j, m 3 j * v j) :
     ∃ s t : ℤ, ∀ γ : Fin Tag.E6.rank → ℤ,
       (p : ℤ) ∣ (∑ j, γ j * v j) - (s * iform γ (m 4) + t * iform γ (m 5)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3ne : (3 : ZMod p) ≠ 0 := by
     intro h
     have h' : ((3 : ℤ) : ZMod p) = 0 := by exact_mod_cast h
@@ -42,7 +42,7 @@ theorem pair_decomp_of_frame {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     exact pow_ne_zero _ h3ne
   have hsymC : ∀ a b : Fin 6, Tag.cartanE 6 a b = Tag.cartanE 6 b a := by
     intro a b
-    fin_cases a <;> fin_cases b <;> first | rfl | decide
+    fin_cases a <;> fin_cases b <;> first | rfl
   have hsymE : ∀ x y : Fin Tag.E6.rank → ℤ, iform x y = iform y x := by
     intro x y
     simp only [iform, symmetrizedCartan_E6_apply]
@@ -88,7 +88,7 @@ theorem pair_decomp_of_frame {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     ext i k
     have key0 := hform (m i) (m k)
     rw [hGint i k] at key0
-    simp only [RingHom.mapMatrix_apply, Matrix.map_apply, Matrix.mul_apply,
+    simp only [RingHom.mapMatrix_apply, Matrix.mul_apply,
       Matrix.transpose_apply, hMp, hCp]
     exact key0
   have hMgram : ∀ (x : Fin Tag.E6.rank → ℤ) (k : Fin 6),
@@ -102,11 +102,9 @@ theorem pair_decomp_of_frame {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     intro i k
     rw [← hMgram (m i) k]
     simp only [Matrix.mulVec, dotProduct, hMp6]
-    try rfl
   have hu : ∀ i : Fin 6, Matrix.mulVec Mp vp i = ((∑ j, m i j * v j : ℤ) : ZMod p) := by
     intro i
     simp only [Matrix.mulVec, dotProduct, hMp6, hvp, Int.cast_sum, Int.cast_mul]
-    try rfl
   have hCdet : Cp.det = 3 := by
     have hC : Cp = (Int.castRingHom (ZMod p)).mapMatrix Tag.E6.cartan := by
       ext i j
@@ -176,12 +174,12 @@ theorem pair_decomp_of_frame {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     · show Matrix.mulVec Mp vp (4 : Fin 6) -
         (s * ((iform (m 4) (m 4) : ℤ) : ZMod p) + t * ((iform (m 4) (m 5) : ℤ) : ZMod p)) = 0
       have g44 : ((iform (m 4) (m 4) : ℤ) : ZMod p) = 2 := by simp [hnorm 4]
-      have g45 : ((iform (m 4) (m 5) : ℤ) : ZMod p) = -1 := by rw [h45]; norm_num <;> rfl
+      have g45 : ((iform (m 4) (m 5) : ℤ) : ZMod p) = -1 := by rw [h45]; norm_num
       rw [g44, g45]
       exact (mul_eq_zero.mp (pair_decomp_aux_four _ _ s t hs ht)).resolve_left h3ne
     · show Matrix.mulVec Mp vp (5 : Fin 6) -
         (s * ((iform (m 5) (m 4) : ℤ) : ZMod p) + t * ((iform (m 5) (m 5) : ℤ) : ZMod p)) = 0
-      have g54 : ((iform (m 5) (m 4) : ℤ) : ZMod p) = -1 := by rw [h54]; norm_num <;> rfl
+      have g54 : ((iform (m 5) (m 4) : ℤ) : ZMod p) = -1 := by rw [h54]; norm_num
       have g55 : ((iform (m 5) (m 5) : ℤ) : ZMod p) = 2 := by simp [hnorm 5]
       rw [g54, g55]
       exact (mul_eq_zero.mp (pair_decomp_aux_five _ _ s t hs ht)).resolve_left h3ne
@@ -190,8 +188,7 @@ theorem pair_decomp_of_frame {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
         (s * Matrix.mulVec Mp (Matrix.mulVec Cp (mp 4)) i +
           t * Matrix.mulVec Mp (Matrix.mulVec Cp (mp 5)) i) := by
     intro i
-    simp only [Matrix.mulVec_sub, Matrix.mulVec_add, Matrix.mulVec_smul, Pi.sub_apply,
-      Pi.add_apply, Pi.smul_apply, smul_eq_mul]
+    simp only [Matrix.mulVec_sub, Matrix.mulVec_add, Matrix.mulVec_smul]
     try rfl
   have hMw0 : Matrix.mulVec Mp (vp - Matrix.mulVec Cp (s • mp 4 + t • mp 5)) = 0 := by
     funext i

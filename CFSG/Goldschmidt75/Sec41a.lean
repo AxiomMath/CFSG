@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem eq_one_of_mem_odd_of_mem_sylow (T : Sylow 2 G) {X : Subgroup G}
     (hX : Odd (Nat.card X)) {x : G} (hx : x ∈ X) (hxT : x ∈ (T : Subgroup G)) : x = 1 := by
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨x, hxT⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨x, hxT⟩
   exact eq_one_of_mem_odd_of_two_power hX hx (k := k) (congrArg Subtype.val hk)
 
 theorem card_quotient_lt {N : Subgroup G} [N.Normal] (hN : N ≠ ⊥) :
@@ -42,9 +42,9 @@ theorem exists_sylow_subgroupOf (T : Sylow 2 G) {S₁ S₂ K : Subgroup G} (h₁
       fusionStronglyClosed ((S₁.subgroupOf K : Subgroup K) : Set K) TH ∧
       fusionStronglyClosed ((S₂.subgroupOf K : Subgroup K) : Set K) TH := by
   have hp : IsPGroup 2 ((S₁ ⊔ S₂).subgroupOf K) :=
-    (T.isPGroup'.to_le (sup_le h₁ h₂)).comap_subtype
+    (T.isPGroup.to_le (sup_le h₁ h₂)).comap_subtype
   obtain ⟨TH, hTH⟩ := hp.exists_le_sylow
-  obtain ⟨T', hT'⟩ := (TH.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨T', hT'⟩ := (TH.isPGroup.map K.subtype).exists_le_sylow
   have hle : ∀ {S : Subgroup G}, S ≤ S₁ ⊔ S₂ → S.subgroupOf K ≤ TH := fun hS x hx =>
     hTH (mem_subgroupOf.mpr (hS (mem_subgroupOf.mp hx)))
   have hST' : ∀ {S : Subgroup G}, S ≤ S₁ ⊔ S₂ → S ≤ T' := fun hS x hx =>

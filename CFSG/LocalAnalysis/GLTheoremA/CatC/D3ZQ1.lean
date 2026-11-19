@@ -39,7 +39,7 @@ theorem not_commute_adjX_two {m : Fin Tag.D4.rank} (hm : m ∈ ({0, 1, 3} : Set 
   rw [commutatorElement_eq_one_iff_commute.2 h', eq_comm, conj_eq_one_iff] at hc
   have h0 : xUnit Tag.D4 K m (1 * 1) = xUnit Tag.D4 K m 0 := by rw [hc, xUnit_zero]
   have h1 : (1 : K) * 1 = 0 := xUnit_inj_d4 m h0
-  have h2 : (1 : K) = 0 := by simpa using h1
+  have h2 : (1 : K) = 0 := by simp at h1
   exact one_ne_zero h2
 
 theorem simplePerm_two (β : unipotentPairAut Tag.D4 K) : simplePermHom Tag.D4 K β 2 = 2 := by

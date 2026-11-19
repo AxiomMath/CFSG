@@ -75,7 +75,7 @@ theorem minusBlock_frameMat_swap (φ : K →+* K') (k : GL V₄ K') (Z : Matrix 
 
 theorem plusBlock_frameMat_sq_commutator [Finite K'] {p : ℕ}
     [Fact p.Prime] [CharP K' p] (hp2 : p ≠ 2) {G : Subgroup (GL V₄ K)} (hGS : G ≤ StatedSp 2 K)
-    (hneg : (-1 : GL V₄ K) ∈ G) (hU0 : ∀ x ∈ G, IsSqZero x → x = 1) (φ : K →+* K')
+    (_hneg : (-1 : GL V₄ K) ∈ G) (hU0 : ∀ x ∈ G, IsSqZero x → x = 1) (φ : K →+* K')
     {k : GL V₄ K'} (hk : k ∈ StatedSp 2 K') {v : Matrix V₄ V₄ K} {s : K'}
     (hv : frameMat φ k v = s • tStdMat) (hs : s ≠ 0) {x y : GL V₄ K} (hxG : x ∈ G) (hyG : y ∈ G)
     (hxv : (x : Matrix V₄ V₄ K) * v = v * (x : Matrix V₄ V₄ K))
@@ -87,7 +87,7 @@ theorem plusBlock_frameMat_sq_commutator [Finite K'] {p : ℕ}
         Matrix V₄ V₄ K)) = -1 := by
   rw [frameMat_commutator, map_pow, map_pow]
   exact plusBlock_sq_commutator_eq_one_or_neg hp2 (frameGroup_U0 φ k hU0)
-    (frameGroup_neg φ k hneg) (mem_frameGroup φ k hxG)
+    (mem_frameGroup φ k hxG)
     (frameHom_mem_stdCent φ hk hv hs (hGS hxG) hxv) (mem_frameGroup φ k hyG)
     (frameHom_mem_stdCent φ hk hv hs (hGS hyG) hyv) (by rw [← map_pow, hx4, frameHom_neg_one])
     (by rw [← map_pow, hy4, frameHom_neg_one])
@@ -123,7 +123,7 @@ theorem false_of_frame_signs [Finite K'] {p : ℕ} [Fact p.Prime]
       (frameHom_mem_stdCent φ hkσ hvσ hsσ (hGS hyG) hyv) (hx4' _) (hy4' _) ?_
     rw [← map_pow, ← map_pow, ← frameMat_commutator, plusBlock_frameMat_swap, hcm]
   obtain ⟨hm3, hm1, hmn1⟩ := plusBlock_commutator_cube hp2 (frameGroup_U0 φ k hU0)
-    (frameGroup_neg φ k hneg) (mem_frameGroup φ k hxG) hxC (mem_frameGroup φ k hyG) hyC
+    (mem_frameGroup φ k hxG) hxC (mem_frameGroup φ k hyG) hyC
     (hx4' k) (hy4' k) (by rw [← map_pow, ← map_pow, ← frameMat_commutator, hcp])
   rw [← frameMat_commutator] at hm3 hm1 hmn1
   have hcG : x ^ 2 * y ^ 2 * (x ^ 2)⁻¹ * (y ^ 2)⁻¹ ∈ G :=

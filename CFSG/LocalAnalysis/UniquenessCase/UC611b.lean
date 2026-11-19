@@ -59,6 +59,7 @@ theorem uc611_map_conj_centralizer (c : G) (Y : Subgroup G) :
       _ = c⁻¹ * (x * (c * y * c⁻¹)) * c := by rw [this]
       _ = c⁻¹ * x * c * y := by group
 
+omit [Finite G] in
 theorem uc611_thompson_map_conj (P : Subgroup G) (c : G) :
     thompsonSubgroup (P.map (MulAut.conj c).toMonoidHom) =
       (thompsonSubgroup P).map (MulAut.conj c).toMonoidHom :=
@@ -128,7 +129,7 @@ theorem uc611_sylow_eq_map_conj {p : ℕ} [Fact p.Prime] {M Q P : Subgroup G}
 
 theorem uc611_clauseC_of_sylow {M Q P : Subgroup G} (hQ : IsSylowOf 3 Q M) (hP : IsSylowOf 3 P M)
     (h : rankThreeClauseC M Q) : rankThreeClauseC M P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hcM, rfl⟩ := uc611_sylow_eq_map_conj hQ hP
   exact uc611_clauseC_conj h hcM
 
@@ -250,6 +251,7 @@ theorem uc611_weaklyClosed {P : Subgroup G} (e : ↥P ≃* W₃) :
     ⟨x, hx, by simp⟩
   rwa [hBeq] at hmem
 
+omit [Finite G] in
 theorem uc611_card_center {P : Subgroup G} (e : ↥P ≃* W₃) : Nat.card (Subgroup.center ↥P) = 3 := by
   rw [Nat.card_congr (Subgroup.centerCongr e).toEquiv,
     Nat.card_congr (Equiv.subtypeEquivRight fun c => Subgroup.mem_center_iff),
@@ -286,7 +288,7 @@ theorem uc611_exists_comm_eq {P : Subgroup G} (e : ↥P ≃* W₃) {x : G} (hxP 
 theorem uc611_exists_gen_of_card_three {P : Subgroup G} {X : Subgroup G}
     (hXP : X ≤ P) (hX3 : Nat.card X = 3) (hXA : ¬ X ≤ thompsonSubgroup P) :
     ∃ x ∈ X, X = zpowers x ∧ x ^ 3 = 1 ∧ x ∉ thompsonSubgroup P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxX, hxJ⟩ := IsConcreteLE.not_le_iff_exists.mp hXA
   have _hxP : x ∈ P := hXP hxX
   have hx1 : x ≠ 1 := fun h => hxJ (h ▸ (thompsonSubgroup P).one_mem)

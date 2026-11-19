@@ -22,7 +22,7 @@ theorem OL_le_L : m.OL ≤ m.L := by
   exact x.2
 
 theorem coprime_card_OL : Nat.Coprime m.r (Nat.card m.OL) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have h : Nat.Coprime m.r (Nat.card (CFSG.pPrimeCore m.r ↥m.L)) := CFSG.pPrimeCore_coprime_card
   rwa [← Subgroup.card_map_of_injective m.L.subtype_injective] at h
 
@@ -38,7 +38,7 @@ theorem mem_normalizer_OL {n : G} (hn : n ∈ normalizer (m.L : Set G)) :
     exact Subgroup.mem_map_of_mem _ hp
   exact ⟨_, hmem, by simp⟩
 
-theorem L_le_normalizer_OL : m.L ≤ normalizer (m.OL : Set G) := fun x hx =>
+theorem L_le_normalizer_OL : m.L ≤ normalizer (m.OL : Set G) := fun _x hx =>
   m.mem_normalizer_OL (Subgroup.le_normalizer hx)
 
 theorem not_L_le_M (h619 : m.C619) : ¬ m.L ≤ m.M := by
@@ -83,8 +83,8 @@ theorem OL_le_M (h620 : m.C620) (h632 : m.C632) : m.OL ≤ m.M := by
 theorem odd_card_OL (h63 : R6_3 Dat) (h619 : m.C619) (h620 : m.C620)
     (h632 : m.C632) : ¬ 2 ∣ Nat.card m.OL := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨T, hT, -, hET⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing m.hr
     Nat.prime_two (A := m.EL) (M := m.OL) (Q := ⊥)
     (m.isPGroup_of_le_A_inf_L le_rfl) ((Nat.Prime.coprime_iff_not_dvd m.hr).1 m.coprime_card_OL)

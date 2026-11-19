@@ -42,7 +42,7 @@ theorem full_setT {T : BT} (hT : Full 11 T) (t v : Nat) : Full 11 (setT T t v) :
 theorem getT_setT {T : BT} (hT : Full 11 T) {t i : Nat} (ht : t < 2048) (hi : i < 2048)
     (v : Nat) : getT (setT T t v) i = if t = i then v else getT T i := by
   have h2 : (2 : Nat) ^ 11 = 2048 := rfl
-  rw [setT_eq, if_pos ht, getT_eq, if_pos hi, getT_eq, if_pos hi]
+  rw [setT_eq, ite_eq_left ht, getT_eq, ite_eq_left hi, getT_eq, ite_eq_left hi]
   exact getB_setB 11 T t v i hT (by rw [h2]; exact ht) (by rw [h2]; exact hi)
 
 @[expose] def Inv (T : BT) (R : List Nat) : Prop :=
@@ -56,8 +56,8 @@ theorem inv_set {T : BT} {R : List Nat} (h : Inv T R) {t : Nat} (ht : t < R.leng
   rw [getT_setT hF (by omega) (by omega)]
   by_cases e : t = i
   · subst e
-    rw [if_pos rfl, getN_set_eq ht]
-  · rw [if_neg e, getN_set_ne R e, hR i hi]
+    rw [ite_eq_left rfl, getN_set_eq ht]
+  · rw [ite_eq_right e, getN_set_ne R e, hR i hi]
 
 theorem inv_step {T : BT} {R : List Nat} (h : Inv T R) (op : Op) (hop : op.lt R.length = true) :
     Inv (stepTB O T op) (stepL O R op) := by
@@ -92,7 +92,7 @@ theorem inv_init (A B : Nat) {n : Nat} (hn : n ≤ 2048) : Inv (initB O A B) (in
   have hi' : i < 2048 := by omega
   unfold initB
   rw [getT_setT (full_setT hF 0 A) (by omega) hi', getT_setT hF (by omega) hi', getT_eq,
-    if_pos hi', getB_mkB]
+    ite_eq_left hi', getB_mkB]
   simp only [getN, initN, List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range hi,
     Option.map_some, Option.getD_some]
   by_cases h0 : i = 0
@@ -101,7 +101,7 @@ theorem inv_init (A B : Nat) {n : Nat} (hn : n ≤ 2048) : Inv (initB O A B) (in
   · by_cases h1 : i = 1
     · subst h1
       simp
-    · rw [if_neg (Ne.symm h1), if_neg (Ne.symm h0), if_neg h0, if_neg h1]
+    · rw [ite_eq_right (Ne.symm h1), ite_eq_right (Ne.symm h0), ite_eq_right h0, ite_eq_right h1]
 
 theorem evalWB_eq {T : BT} {R : List Nat} (h : Inv T R) :
     ∀ w : Word, wordLt R.length w = true → evalWB O T w = evalWN O R w

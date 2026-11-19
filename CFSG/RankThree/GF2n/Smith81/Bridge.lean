@@ -84,7 +84,7 @@ theorem Smith1981TheoremBelow.mono {N N' : ℕ} (h : N ≤ N') (hb : Smith1981Th
   fun G _ _ hG => hb G (lt_of_lt_of_le hG h)
 
 theorem Smith1981Below.zero : Smith1981Below 0 :=
-  ⟨fun G _ _ hG => absurd hG (Nat.not_lt_zero _), fun G _ _ hG => absurd hG (Nat.not_lt_zero _)⟩
+  ⟨fun _G _ _ hG => absurd hG (Nat.not_lt_zero _), fun _G _ _ hG => absurd hG (Nat.not_lt_zero _)⟩
 
 theorem Smith1981Below.succ {N : ℕ} (hb : Smith1981Below N)
     (hT : ∀ (G : Type) [Group G] [Finite G], Nat.card G = N → ∀ (M Q Z : Subgroup G),
@@ -117,6 +117,7 @@ section Normal
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem closure_conjClass_eq_normalClosure (z : G) :
     Subgroup.closure {g : G | IsConj z g} = Subgroup.normalClosure ({z} : Set G) := by
   rw [Subgroup.normalClosure]
@@ -133,7 +134,7 @@ theorem outcome_normalClosure (hT : TimmesfeldOutcomeStatement) {z : G}
     Timmesfeld.Outcome ↥(Subgroup.normalClosure ({z} : Set G)) := by
   classical
   set X := Subgroup.normalClosure ({z} : Set G) with hXdef
-  haveI : X.Normal := Subgroup.normalClosure_normal
+  have : X.Normal := Subgroup.normalClosure_normal
   have hzX : z ∈ X := Subgroup.subset_normalClosure rfl
   have hCX : ∀ w : G, IsConj z w → w ∈ X := fun w hw =>
     Subgroup.conjugatesOfSet_subset_normalClosure (Group.mem_conjugatesOfSet_iff.mpr ⟨z, rfl, hw⟩)
@@ -141,7 +142,7 @@ theorem outcome_normalClosure (hT : TimmesfeldOutcomeStatement) {z : G}
   refine hT ↥X D ⟨inferInstance, ?_, ?_, ?_, ?_, ?_, ?_⟩
   ·
     refine ⟨⟨z, hzX⟩, Set.ext fun x => ?_⟩
-    simp only [D, Set.mem_setOf_eq]
+    simp only [D, Set.mem_ofPred_eq]
     constructor
     · intro hx
       obtain ⟨c, hcX, hc⟩ := hconj x hx

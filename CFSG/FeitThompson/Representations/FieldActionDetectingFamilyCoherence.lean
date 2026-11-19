@@ -156,9 +156,10 @@ theorem isComplement'_quotImage (hH0H : H0 ≤ H) (hdisj : Disjoint H U) (hsup :
   exact isComplement'_of_sup_eq_top_of_inf_eq_bot (sup_quotImage_eq_top (H0 := H0) hsup)
     (disjoint_iff.1 (disjoint_quotImage hH0H hdisj))
 
+omit hHn in
 theorem natCard_quotImage_of_le_U {A : Subgroup L} (hH0H : H0 ≤ H) (hdisj : Disjoint H U)
     (hAU : A ≤ U) (hAK : A ≤ K) : Nat.card (quotImage H0 A K) = Nat.card A :=
-  natCard_quotImage hAK fun a ha ha0 =>
+  natCard_quotImage hAK fun _a ha ha0 =>
     Subgroup.disjoint_def.mp hdisj (hH0H ha0) (hAU ha)
 
 theorem quotImage_chiefActionKer_eq (hHK : H ≤ K) :
@@ -194,7 +195,7 @@ theorem quotImage_chiefActionKer_eq (hHK : H ≤ K) :
     rw [← huz]
     exact mk_mem_quotImage huC huK
 
-theorem inf_centralizer_quotImage_eq_bot (hH0H : H0 ≤ H) (hdisj : Disjoint H U) (hHK : H ≤ K)
+theorem inf_centralizer_quotImage_eq_bot (_hH0H : H0 ≤ H) (_hdisj : Disjoint H U) (_hHK : H ≤ K)
     (hfree : ∀ u ∈ U, u ∉ chiefActionKer H H0 U → ∀ h ∈ H,
       ((u⁻¹ * h * u : L) : L ⧸ H0) = (h : L ⧸ H0) → h ∈ H0)
     {z : ↥K ⧸ H0.subgroupOf K} (hz : z ∈ quotImage H0 U K)

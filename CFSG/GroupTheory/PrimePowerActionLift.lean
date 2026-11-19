@@ -27,7 +27,7 @@ theorem exists_prime_power_order_representative
   change aR ∈ (Q : Subgroup G).map f.rangeRestrict at haT
   obtain ⟨g, hg, hga⟩ := Subgroup.mem_map.mp haT
   have hfa : f g = a := congrArg Subtype.val hga
-  obtain ⟨k, hk⟩ := Q.isPGroup'.exists_orderOf_eq_pow (⟨g, hg⟩ : Q)
+  obtain ⟨k, hk⟩ := Q.isPGroup.exists_orderOf_eq_pow (⟨g, hg⟩ : Q)
   have hkg : orderOf g = p ^ k := by
     simpa only [← Subgroup.orderOf_coe] using hk
   have hkpos : 0 < k := by

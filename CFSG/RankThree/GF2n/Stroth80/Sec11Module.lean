@@ -14,7 +14,8 @@ variable {G : Type} [Group G] [Finite G]
 
 variable {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 
-theorem mem_XbarPre_iff (hc : Ctx M Q Z B) {x : G} (hx : x ∈ M) :
+omit [Finite G] in
+theorem mem_XbarPre_iff (_hc : Ctx M Q Z B) {x : G} (hx : x ∈ M) :
     x ∈ XbarPre M Q Z B ↔
       (QuotientGroup.mk ⟨x, hx⟩ : Mbar M Q) ∈ Xbar M Q Z B := by
   unfold XbarPre
@@ -27,9 +28,11 @@ theorem mem_XbarPre_iff (hc : Ctx M Q Z B) {x : G} (hx : x ∈ M) :
   · intro hxbar
     exact ⟨⟨x, hx⟩, by rwa [Subgroup.mem_comap], rfl⟩
 
-theorem XbarPre_le_M (hc : Ctx M Q Z B) : XbarPre M Q Z B ≤ M :=
+omit [Finite G] in
+theorem XbarPre_le_M (_hc : Ctx M Q Z B) : XbarPre M Q Z B ≤ M :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem Q_le_XbarPre (hc : Ctx M Q Z B) : Q ≤ XbarPre M Q Z B := by
   intro q hq
   have hqM : q ∈ M := by
@@ -42,6 +45,7 @@ theorem Q_le_XbarPre (hc : Ctx M Q Z B) : Q ≤ XbarPre M Q Z B := by
   rw [hone]
   exact (Xbar M Q Z B).one_mem
 
+omit [Finite G] in
 theorem XbarPre_normal (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     conjSubgroup m (XbarPre M Q Z B) = XbarPre M Q Z B := by
   have hconj : ∀ {d : G}, d ∈ M → ∀ {x : G}, x ∈ XbarPre M Q Z B →
@@ -73,7 +77,8 @@ theorem XbarPre_normal (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     have h1' : m⁻¹ * (m * x * m⁻¹) * (m⁻¹)⁻¹ = x := by group
     rwa [h1'] at h1
 
-theorem bar_preimage (hc : Ctx M Q Z B) (C : Subgroup (Mbar M Q)) :
+omit [Finite G] in
+theorem bar_preimage (_hc : Ctx M Q Z B) (C : Subgroup (Mbar M Q)) :
     bar M Q ((C.comap (QuotientGroup.mk' (Q.subgroupOf M))).map M.subtype) = C := by
   unfold bar
   have hsub : ((C.comap (QuotientGroup.mk' (Q.subgroupOf M))).map M.subtype).subgroupOf M =
@@ -89,6 +94,7 @@ theorem bar_preimage (hc : Ctx M Q Z B) (C : Subgroup (Mbar M Q)) :
   rw [hsub, Subgroup.map_comap_eq_self_of_surjective
     (QuotientGroup.mk'_surjective (Q.subgroupOf M)) C]
 
+omit [Finite G] in
 theorem bar_XbarPre (hc : Ctx M Q Z B) :
     bar M Q (XbarPre M Q Z B) = Xbar M Q Z B := by
   unfold XbarPre
@@ -122,13 +128,14 @@ theorem XbarPre_le_H0 (hc : Ctx M Q Z B) : XbarPre M Q Z B ≤ H0 M Z := by
         ext
         simp
       rw [heq, map_mul, map_inv, hqy]
-      simpa using mul_inv_cancel ((QuotientGroup.mk' (Q.subgroupOf M)) ⟨x, hxM⟩)
+      simp
     exact Subgroup.mem_subgroupOf.mp hker
   have hxyH0 : x * (y : G)⁻¹ ∈ H0 M Z := hQH0 hxyQ
   have hxEq : x = (x * (y : G)⁻¹) * (y : G) := by group
   rw [hxEq]
   exact (H0 M Z).mul_mem hxyH0 hyH0
 
+omit [Finite G] in
 theorem mem_XbarH_iff (hc : Ctx M Q Z B) (h : ↥(H0 M Z)) :
     h ∈ XbarH M Q Z B ↔ (h : G) ∈ XbarPre M Q Z B := by
   rw [mem_XbarPre_iff hc h.2.1]
@@ -140,16 +147,19 @@ section Model
 
 variable {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem pi_one : M₀.π 1 = 0 := by
   have h := M₀.π_mul 1 Q.one_mem 1 Q.one_mem
   rw [mul_one] at h
   exact left_eq_add.mp h
 
+omit [Finite G] in
 theorem pi_inv {x : G} (hx : x ∈ Q) : M₀.π x⁻¹ = -M₀.π x := by
   have h := M₀.π_mul x hx x⁻¹ (Q.inv_mem hx)
   rw [mul_inv_cancel, pi_one] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit [(Q.subgroupOf M).Normal] [Finite G] in
 theorem pi_commutatorElement (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : ↥(H0 M Z)) (x : G), x ∈ Q →
@@ -164,6 +174,7 @@ theorem pi_commutatorElement (hc : Ctx M Q Z B)
   rw [e, M₀.π_mul q hq _ hmQ, hφπ m q⁻¹ (Q.inv_mem hq), pi_inv hq, map_neg]
   abel
 
+omit [Finite G] in
 theorem commutator_le_Q (hc : Ctx M Q Z B) :
     ⁅Q, XbarPre M Q Z B⁆ ≤ Q := by
   rw [Subgroup.commutator_le]
@@ -223,7 +234,7 @@ theorem pi_smul_mem_image_commutator (hc : Ctx M Q Z B)
     rw [pi_inv (commutator_le_Q hc ha'), haπ, pi_inv (commutator_le_Q hc hy'), smul_neg]
 
 theorem mem_cmComm_iff [Finite K] (hc : Ctx M Q Z B)
-    (h : GlobalModelData M Q Z γ M₀)
+    (_h : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : ↥(H0 M Z)) (x : G), x ∈ Q →
       M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -313,7 +324,7 @@ theorem cmComm_invariant (hc : Ctx M Q Z B)
         ((((T * U * T⁻¹ : M₀.E ≃ₗ[K] M₀.E) : M₀.E →ₗ[K] M₀.E) - 1).comp
           (T : M₀.E →ₗ[K] M₀.E)) := by
       ext y
-      simp [LinearEquiv.mul_apply]
+      simp
     rw [hcomp, LinearMap.range_comp, LinearMap.range_eq_top.mpr T.surjective,
       Submodule.map_top]
   have hstep : ∀ k : XbarH M Q Z B,

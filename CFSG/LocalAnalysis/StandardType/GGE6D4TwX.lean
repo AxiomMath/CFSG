@@ -71,7 +71,7 @@ theorem ggE6D4TwoNodeTwXDatum_of_tbTor (hLB : GGLBalanceInput) (hRig : GGLabelRi
   have hM3 : 3 ∣ ggTorM ⟨.twE6, 0, n⟩ := by simpa [ggTorM] using h3n
   have hmark := ggInnerDiagOn_relabel hRig hInn hXΛ hXl
   have hmark' := largeEvenMarking_and_labelAll (S := fun lab' => lab' = ⟨.twE6, 0, n⟩)
-    (P' := fun R _ I _ => GGTorusTorW 3 5 (ggTorM ⟨.twE6, 0, n⟩) 6 CartanMatrix.E₆
+    (P' := fun R _ I _ => GGTorusTorW 3 5 (ggTorM ⟨.twE6, 0, n⟩) 6 (CartanMatrix.E 6)
       CoxeterMatrix.E₆ R I)
     (fun lab' _ h' => by rw [h']; exact hTw _ hXΛ rfl hM3)
     (fun _ _ _ _ _ _ hP => hP.1) hmark

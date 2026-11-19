@@ -530,7 +530,7 @@ theorem exists_inv_mul_mem_normalizer_sylow [Finite G] {p : ℕ} [Fact p.Prime] 
   have hS'X : S' ≤ X := by
     rintro _ ⟨y, hy, rfl⟩
     exact (Subgroup.mem_normalizer_iff.mp hg y).mp (hSX hy)
-  have hS : IsPGroup p S := P.isPGroup'.map X.subtype
+  have hS : IsPGroup p S := P.isPGroup.map X.subtype
   have hS' : IsPGroup p S' := hS.map _
   have hT : IsPGroup p (S'.subgroupOf X) := hS'.comap_of_injective X.subtype X.subtype_injective
   obtain ⟨Q, hTQ⟩ := IsPGroup.exists_le_sylow hT
@@ -611,7 +611,7 @@ theorem commutator_le_theta_of_le_thetaQuotCentralizer_abelian [Finite G]
   set S := (P : Subgroup X).map X.subtype with hS
   have hSX : S ≤ X := Subgroup.map_subtype_le _
   set T := S ⊓ θL with hT
-  have hT2 : IsPGroup 2 T := (P.isPGroup'.map X.subtype).to_le inf_le_left
+  have hT2 : IsPGroup 2 T := (P.isPGroup.map X.subtype).to_le inf_le_left
   have hET : E ≤ Subgroup.normalizer (T : Set G) :=
     (le_inf hEP (hEL.trans hθN)).trans Subgroup.inf_normalizer_le_normalizer_inf
   have hTE : ⁅T, E⁆ = ⊥ := hEθ T inf_le_right hT2 hET

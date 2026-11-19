@@ -27,7 +27,7 @@ theorem false_of_bound {X : Type} [Group X] [Finite X] (hZ : Subgroup.center X =
     (hinn : (MulAut.conj : X →* MulAut X).range ≤ N) (hαN : α ∈ N)
     (hN : ∀ F : Subgroup (MulAut X), IsElemAbelian 3 F → F ≤ N → Nat.card F ≤ 9) : False := by
   classical
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun f : MulAut X => (f : X → X)) (fun f g h => MulEquiv.ext (congrFun h))
   obtain ⟨R, hRP, hR, hR9, -⟩ := hP.exists_elemAbelian_nine
   have hinj := Hering418.conj_injective_of_center_eq_bot hZ

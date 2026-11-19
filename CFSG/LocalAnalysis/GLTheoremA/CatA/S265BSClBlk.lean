@@ -22,10 +22,10 @@ theorem exists_finrank_fixedByEnd_eq_eight (hF : Nat.card F = 2) (hV : Module.fi
     (hAT : A ≤ Subgroup.normalizer (T : Set (V ≃ₗ[F] V))) :
     ∃ e ∈ A, Module.finrank F ↥(fixedByEnd e) = 8 := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e e' h => LinearEquiv.ext (congrFun h)
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   have hAf' : InvariantBilin A f := fun a => hAf a a.2
   have hpF := cast_three_ne_zero_of_card_two (F := F) hF
   have h3 := Nat.prime_three
@@ -128,10 +128,10 @@ theorem exists_finrank_fixedByEnd_eq_eight (hF : Nat.card F = 2) (hV : Module.fi
       unfold nOut
       rw [Finset.sum_eq_single D₀]
       · show (if e ∈ D₀.1 then 0 else Module.finrank F ↥(blockSpace A D₀.1)) = 2
-        rw [if_neg heD₀, h2]
+        rw [ite_eq_right heD₀, h2]
       · intro D _ hDD
         by_cases hD : D ∈ S
-        · rw [if_pos (heG' D hD hDD)]
+        · rw [ite_eq_left (heG' D hD hDD)]
         · show (if e ∈ D.1 then 0 else Module.finrank F ↥(blockSpace A D.1)) = 0
           rw [hzero D hD]
           simp

@@ -108,17 +108,17 @@ theorem ug86_sum_diag [NeZero r] {ζ : K} (hζ : IsPrimitiveRoot ζ r) (hr : 5 �
     intro a
     by_cases ha0 : a = 0
     · subst ha0
-      rw [if_pos rfl, if_neg h10]
+      rw [ite_eq_left rfl, ite_eq_right h10]
       unfold ug86_diag
       rw [Equiv.swap_apply_left, hv1, Fin.val_zero]
       ring
     · by_cases ha1 : a = 1
       · subst ha1
-        rw [if_neg ha0, if_pos rfl]
+        rw [ite_eq_right ha0, ite_eq_left rfl]
         unfold ug86_diag
         rw [Equiv.swap_apply_right, hv1, Fin.val_zero]
         ring
-      · rw [if_neg ha0, if_neg ha1]
+      · rw [ite_eq_right ha0, ite_eq_right ha1]
         unfold ug86_diag
         rw [Equiv.swap_apply_of_ne_of_ne ha0 ha1, add_zero, add_zero, ← pow_add, ← pow_mul]
         congr 1
@@ -129,7 +129,7 @@ theorem ug86_sum_diag [NeZero r] {ζ : K} (hζ : IsPrimitiveRoot ζ r) (hr : 5 �
   rw [Finset.sum_congr rfl fun a _ => key a, Finset.sum_add_distrib, Finset.sum_add_distrib,
     geom_sum_fin_eq_zero hu hu1, Finset.sum_ite_eq' Finset.univ (0 : Fin r),
     Finset.sum_ite_eq' Finset.univ (1 : Fin r)]
-  simp only [Finset.mem_univ, if_true, zero_add]
+  simp only [Finset.mem_univ, ite_true, zero_add]
   ring
 
 theorem ug86_gamma_apply_zero [NeZero r] {ζ : K} (hζ : IsPrimitiveRoot ζ r) (hr : 5 ≤ r)
@@ -199,8 +199,7 @@ theorem ug86_conj_unitary (h : UnitaryFieldData ℓ f K) {ζ : K} (hζ : IsPrimi
     ug86_map_fourier_inv h hζ hr hrq, diagonal_map (map_zero _), transpose_mul, transpose_mul,
     transpose_smul, transpose_smul, ug86_fourier_transpose, ug86_fourier_inv_transpose,
     diagonal_transpose]
-  simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, inv_mul_cancel₀ hr0,
-    mul_inv_cancel₀ hr0, one_smul]
+  simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, mul_inv_cancel₀ hr0, one_smul]
   calc (heisFourierMat ζ : Matrix (Fin r) (Fin r) K) *
         (diagonal (fun k => h.bar (d k)) * (heisFourierMat ζ)⁻¹) *
         (heisFourierMat ζ * diagonal d * (heisFourierMat ζ)⁻¹)
@@ -297,9 +296,9 @@ theorem ug86_conj_zFix_apply [NeZero r] {A : Matrix (Fin r) (Fin r) K} (hA : IsU
     rw [Matrix.mul_diagonal]
     by_cases ha : a = 0
     · subst ha
-      simp only [if_true]
+      simp only [ite_true]
       ring
-    · simp only [if_neg ha]
+    · simp only [ite_eq_right ha]
       ring
   rw [Finset.sum_congr rfl fun a _ => h1 a, Finset.sum_add_distrib, ← Finset.mul_sum, hsum,
     Finset.sum_ite_eq']
@@ -354,7 +353,7 @@ theorem exists_fixer_of_ne (h : UnitaryFieldData ℓ f K) {r : ℕ} [Fact r.Prim
       _ = 1 := mul_inv_cancel₀ (pow_ne_zero _ hκ0)
   refine ⟨γ * t * γ⁻¹, H.mul_mem (H.mul_mem hγH htH) (H.inv_mem hγH), ?_, ?_⟩
   · intro i hi
-    rw [hgmat, ug86_conj_zFix_apply hΓdet, if_neg hi, hΓ0]
+    rw [hgmat, ug86_conj_zFix_apply hΓdet, ite_eq_right hi, hΓ0]
     ring
   · intro hmono
     have hB : Γ⁻¹ 0 ⟨1, by omega⟩ ≠ 0 := by
@@ -364,7 +363,7 @@ theorem exists_fixer_of_ne (h : UnitaryFieldData ℓ f K) {r : ℕ} [Fact r.Prim
         ((γ * t * γ⁻¹ : GL (Fin r) K) : Matrix (Fin r) (Fin r) K) i ⟨1, by omega⟩ ≠ 0 := by
       intro i hi2 hi1
       rw [hgmat, ug86_conj_zFix_apply hΓdet,
-        if_neg (fun hij => by have := congrArg Fin.val hij; simp at this; omega), mul_zero,
+        ite_eq_right (fun hij => by have := congrArg Fin.val hij; simp at this; omega), mul_zero,
         zero_add]
       exact mul_ne_zero hc (mul_ne_zero (hΓd i (by omega) hi1) hB)
     have h23 := hmono ⟨1, by omega⟩ ⟨2, by omega⟩ ⟨3, by omega⟩

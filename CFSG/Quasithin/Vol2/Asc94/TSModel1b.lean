@@ -63,9 +63,9 @@ theorem exists_uOf {x : Hc} (hx : x ∈ U1) : ∃ w, x = uOf w := by
         revert j
         decide
       rcases hj4 with rfl | rfl | rfl | rfl <;>
-        simp [paramN1, Matrix.single_apply, idx4]
+        simp [paramN1, idx4]
   · rw [hxrow i j hi]
-    simp [paramN1, Matrix.single_apply, Ne.symm hi]
+    simp [paramN1, Ne.symm hi]
 
 theorem uOf_eq_one_iff (w : Fin 4 → ZMod 2) : uOf w = 1 ↔ w = 0 := by
   constructor

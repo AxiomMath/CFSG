@@ -27,7 +27,7 @@ private theorem perfectInLayer_of_isSimpleGroup_fix {S : Type*} [Group S] (β : 
 private theorem exists_noncomm_of_isPerfect (G : Type*) [Group G] [Nontrivial G]
     [Group.IsPerfect G] : ∃ x y : G, x * y ≠ y * x := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact Group.IsPerfect.not_isMulCommutative G ⟨⟨hcon⟩⟩
 
 private theorem perfectInLayer_of_equiv_suzukiGroup {X : Type*}
@@ -84,7 +84,7 @@ private theorem perfectInLayer_suzukiGroup {a : ℕ} (ha : 1 ≤ a)
 
 theorem perfectInLayer_suzuki (m : ℕ)
     (hv : (TauCeti.LieTypeIndex.suzuki m).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.suzuki m, hv⟩).Group))
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {β : MulAut S} (hβ : β ^ p = 1) (hβ1 : β ≠ 1) :
     CFSG.HardMathSupport.Solomon.Coordinator.PerfectInLayer β := by

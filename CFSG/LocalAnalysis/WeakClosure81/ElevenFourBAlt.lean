@@ -24,10 +24,10 @@ theorem le_or_eq_top_of_forall_isTwoPow_mem_of_one_le {A : Type} [Group A] [Fini
     subst hm1
     have hcard : Nat.card A = 3 := by
       rw [Nat.card_congr φ.toEquiv]
-      haveI : Nontrivial (Fin (2 * 1 + 1)) := Fin.nontrivial_iff_two_le.mpr (by norm_num)
+      have : Nontrivial (Fin (2 * 1 + 1)) := Fin.nontrivial_iff_two_le.mpr (by norm_num)
       rw [nat_card_alternatingGroup, Nat.card_fin]
       norm_num
-    haveI : Fact (Nat.card A).Prime := ⟨by rw [hcard]; exact Nat.prime_three⟩
+    have : Fact (Nat.card A).Prime := ⟨by rw [hcard]; exact Nat.prime_three⟩
     rcases D.eq_bot_or_eq_top_of_prime_card with h | h
     · left; rw [h]; exact bot_le
     · exact Or.inr h

@@ -75,8 +75,7 @@ theorem tvMat_add (w : Fin 4 → KF) (hw : vnorm hKF w = 0) (c d : KF) :
   have hWW : wMat hKF w * wMat hKF w = 0 := by
     rw [wMat_mul_wMat, hw, zero_smul]
   unfold tvMat
-  simp only [add_mul, mul_add, one_mul, mul_one, Matrix.smul_mul, Matrix.mul_smul, smul_smul,
-    hWW, smul_zero, add_zero, zero_add, add_smul]
+  simp only [add_mul, mul_add, one_mul, mul_one, Matrix.smul_mul, Matrix.mul_smul, hWW, smul_zero, add_zero, add_smul]
   abel
 
 theorem tvMat_zero (w : Fin 4 → KF) : tvMat hKF w 0 = 1 := by
@@ -171,7 +170,7 @@ theorem card_rootSU {w : Fin 4 → KF} (hw : IsIsoVec hKF w) : Nat.card (rootSU 
 
 theorem sq_rootSU {w : Fin 4 → KF} {hw : vnorm hKF w = 0} {x : SU4} (hx : x ∈ rootSU w hw) :
     x ^ 2 = 1 := by
-  haveI : CharP KF 2 := hKF.charP
+  have : CharP KF 2 := hKF.charP
   obtain ⟨c, hc, hxc⟩ := mem_rootSU.1 hx
   have h2 : c + c = 0 := CharTwo.add_self_eq_zero c
   have hm : ((x : GL (Fin 4) KF) : Matrix (Fin 4) (Fin 4) KF) *
@@ -187,7 +186,7 @@ theorem sq_rootSU {w : Fin 4 → KF} {hw : vnorm hKF w = 0} {x : SU4} (hx : x �
 
 theorem cenIn_rootSU {w : Fin 4 → KF} (hw : IsIsoVec hKF w) {x : SU4} (hx : x ∈ rootSU w hw.2)
     (hx1 : x ≠ 1) : CenIn 2 x := by
-  haveI : CharP KF 2 := hKF.charP
+  have : CharP KF 2 := hKF.charP
   obtain ⟨c, hc, hxc⟩ := mem_rootSU.1 hx
   have hc0 : c ≠ 0 := by
     rintro rfl

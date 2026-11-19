@@ -36,6 +36,7 @@ section Natural
 variable {E W : Type} [Field E] [Algebra (ZMod 2) E] [AddCommGroup W] [Module E W]
   [Module.Finite E W] [Module (ZMod 2) W] [IsScalarTower (ZMod 2) E W]
 
+omit [Algebra (ZMod 2) E] [Module.Finite E W] [IsScalarTower (ZMod 2) E W] in
 theorem nk_span_top {θ : GS →* (W ≃ₗ[E] W)}
     (hirr : ∀ W' : Submodule E W, (∀ g, ∀ w ∈ W', θ g w ∈ W') → W' = ⊥ ∨ W' = ⊤)
     (U : Submodule (ZMod 2) W) (hU : ∀ g, ∀ u ∈ U, θ g u ∈ U) (hUne : U ≠ ⊥) :
@@ -186,14 +187,14 @@ theorem nk_ttGS_orderOf : orderOf ttGS = 2 := by
   have h2 : ttGS * ttGS = 1 := by
     rw [ttGS, ← map_mul, hsq, map_one]
   have hne' : ttGS ≠ 1 := fun h => hne (iota.injective (by rw [map_one]; exact h))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by rw [pow_two]; exact h2) hne'
 
 theorem nk_natCard_le {E W : Type} [Field E] [Finite E] [AddCommGroup W] [Module E W]
     [Finite W] (R : Submodule E W) (h : Module.finrank E R ≤ 1) : Nat.card R ≤ Nat.card E := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fintype R := Fintype.ofFinite R
+  have : Fintype E := Fintype.ofFinite E
+  have : Fintype R := Fintype.ofFinite R
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := E)
     (V := R)]
   calc Fintype.card E ^ Module.finrank E R ≤ Fintype.card E ^ 1 :=
@@ -216,9 +217,9 @@ theorem nk_sl3_transvection_rep {E W : Type} [Field E] [Finite E] [CharP E 2] [A
         LinearMap.toMatrix b b (θ g : W →ₗ[E] W) =
           (M : Matrix (Fin 3) (Fin 3) (ZMod 2)).map (algebraMap (ZMod 2) E)) := by
   classical
-  haveI : Finite W := Module.finite_of_finite E
+  have : Finite W := Module.finite_of_finite E
   have h3 := nk_three_le_finrank hE θ hinj
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := E) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := E) (by omega)
   let ρ : Representation (ZMod 2) GS W :=
     { toFun := fun g => ((θ g : W ≃ₗ[E] W) : W →ₗ[E] W).restrictScalars (ZMod 2)
       map_one' := by ext w; simp

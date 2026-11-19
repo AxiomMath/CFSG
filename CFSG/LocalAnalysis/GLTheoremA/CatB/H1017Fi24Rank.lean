@@ -46,7 +46,7 @@ theorem exists_elemAbelian_le_of_le {X : Type} [Group X] [Finite X] {p : ℕ} [F
 
 private theorem comm_of_elemAbelian_r {X : Type} [Group X] {p : ℕ} {E : Subgroup X}
     (hE : IsElemAbelian p E) {x y : X} (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
-  haveI := hE.1
+  have := hE.1
   have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩)
   simpa using this
 
@@ -68,7 +68,7 @@ theorem elemRank_of_modCheckV {M V : Type} [Inhabited M] {O : Ops M V} {c d : �
     (h : modCheckV O sA sB nregs prog 3 m tops tidx s orb cf ci ct = true)
     {K : Type} [Group K] [Finite K] (ψ : (certMonoid c d sA sB)ˣ ≃* K) {r : ℕ}
     (hr : r ≤ m.basis.length) : ∃ F : Subgroup K, IsElemAbelian 3 F ∧ Nat.card F = 3 ^ r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, hn, -, -⟩ := spec_of_modCheckV Sp h
   have hcard : Nat.card (D.span.map ψ.toMonoidHom) = 3 ^ m.basis.length := by
     rw [Subgroup.card_map_of_injective ψ.injective, D.card_span Nat.prime_three, hn]
@@ -84,7 +84,7 @@ theorem coverRank_of_modCheckV {M V : Type} [Inhabited M] {O : Ops M V} {c d : �
     {H : Type} [Group H] [Finite H] (ψ : (certMonoid c d sA sB)ˣ ≃* H ⧸ Subgroup.center H)
     (hZ : Nat.card (Subgroup.center H) = 3) {r : ℕ} (hr : r ≤ m.basis.length + 1) :
     ∃ F : Subgroup H, IsElemAbelian 3 F ∧ Nat.card F = 3 ^ r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, hn, hA, hF⟩ := spec_of_modCheckV Sp h
   let D' := D.map ψ.toMonoidHom ψ.injective
   have hA' : D'.NoAlt := hA

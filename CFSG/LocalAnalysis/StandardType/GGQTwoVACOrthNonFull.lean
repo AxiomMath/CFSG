@@ -163,7 +163,7 @@ theorem ggQ2OrthNonFull_extract_plus {Bs L : Subgroup G}
   dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
   rw [htag] at hraw
   dsimp only at hraw
-  rw [if_neg hrank3, hn1] at hraw
+  rw [ite_eq_right hrank3, hn1] at hraw
   obtain ⟨K, i1, i2, hK, hQ⟩ := hraw
   obtain ⟨-, -, θ', hP'⟩ := hQ
   exact ⟨K, i1, i2, hK, lab.rank, h4, hodd, θ', hP'.2.1, hperf, hP'.2.2⟩
@@ -197,7 +197,7 @@ theorem ggQ2OrthNonFull_extract_minus {Bs L : Subgroup G}
   dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
   rw [htag] at hraw
   dsimp only at hraw
-  rw [if_neg hrank2, if_neg hrank3, hn1] at hraw
+  rw [ite_eq_right hrank2, ite_eq_right hrank3, hn1] at hraw
   obtain ⟨K, i1, i2, hK, b, c, hbc, hQ⟩ := hraw
   obtain ⟨-, -, θ', hP'⟩ := hQ
   exact ⟨K, i1, i2, hK, lab.rank, h4, heven, b, c, hbc, θ', hP'.2.1, hperf, hP'.2.2⟩

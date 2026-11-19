@@ -108,10 +108,10 @@ private theorem mem_closure_of_mem_spanL : ∀ (gs : List P45) {x : P45}, x ∈ 
   | g :: gs, x, h => by
     simp only [spanL, List.mem_append, List.mem_map] at h
     rcases h with h | ⟨y, hy, rfl⟩
-    · exact Subgroup.closure_mono (fun z hz => by simp only [Set.mem_setOf_eq] at hz ⊢; simp [hz])
+    · exact Subgroup.closure_mono (fun z hz => by simp only [Set.mem_ofPred_eq] at hz ⊢; simp [hz])
         (mem_closure_of_mem_spanL gs h)
     · exact mul_mem (Subgroup.subset_closure (by simp))
-        (Subgroup.closure_mono (fun z hz => by simp only [Set.mem_setOf_eq] at hz ⊢; simp [hz])
+        (Subgroup.closure_mono (fun z hz => by simp only [Set.mem_ofPred_eq] at hz ⊢; simp [hz])
           (mem_closure_of_mem_spanL gs hy))
 
 private theorem mem_spanL_of_mem_closure {gs : List P45}
@@ -477,7 +477,7 @@ private theorem tA_mem_closure {s : Set ↥QA45.originalSubgroup} (h : a1A ∈ s
 private theorem oTwoQA45_eq : oTwoQA45 = Subgroup.closure {y | y ∈ lO} := by
   refine closure_eq_of_subset (fun y hy => Subgroup.subset_closure ?_) (fun y hy => ?_)
   · rcases hy with rfl | rfl | rfl | rfl <;>
-      simp only [lO, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+      simp only [lO, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
   · simp only [lO, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases hy with rfl | rfl | rfl | rfl | rfl
     · exact tA_mem_closure (Set.mem_insert _ _)
@@ -488,7 +488,7 @@ private theorem sylowTwoQA45_eq : sylowTwoQA45 = Subgroup.closure {y | y ∈ lT}
   unfold sylowTwoQA45
   refine closure_eq_of_subset (fun y hy => Subgroup.subset_closure ?_) (fun y hy => ?_)
   · rcases hy with rfl | rfl | rfl | rfl | rfl | rfl <;>
-      simp only [lT, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+      simp only [lT, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
   · simp only [lT, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases hy with rfl | rfl | rfl | rfl | rfl | rfl | rfl
     · exact Subgroup.subset_closure (by simp only [Set.mem_insert_iff, true_or])
@@ -503,7 +503,7 @@ private theorem sQA45_eq : sQA45 = Subgroup.closure {y | y ∈ lS} := by
   refine closure_eq_of_subset (fun y hy => Subgroup.subset_closure ?_)
     (fun y hy => Subgroup.subset_closure ?_)
   · rcases hy with rfl | rfl | rfl | rfl <;>
-      simp only [lS, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+      simp only [lS, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
   · simp only [lS, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases hy with rfl | rfl | rfl | rfl <;>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, true_or, or_true]
@@ -513,7 +513,7 @@ private theorem eUVQA45_eq : eUVQA45 = Subgroup.closure {y | y ∈ lE3} := by
   refine closure_eq_of_subset (fun y hy => Subgroup.subset_closure ?_)
     (fun y hy => Subgroup.subset_closure ?_)
   · rcases hy with rfl | rfl | rfl | rfl <;>
-      simp only [lE3, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+      simp only [lE3, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
   · simp only [lE3, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases hy with rfl | rfl | rfl | rfl <;>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, true_or, or_true]
@@ -523,7 +523,7 @@ private theorem eVQA45_eq : eVQA45 = Subgroup.closure {y | y ∈ lE1} := by
   refine closure_eq_of_subset (fun y hy => Subgroup.subset_closure ?_)
     (fun y hy => Subgroup.subset_closure ?_)
   · rcases hy with rfl | rfl | rfl | rfl <;>
-      simp only [lE1, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+      simp only [lE1, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
   · simp only [lE1, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases hy with rfl | rfl | rfl | rfl <;>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, true_or, or_true]
@@ -533,7 +533,7 @@ private theorem eVAQA45_eq : eVAQA45 = Subgroup.closure {y | y ∈ lE2} := by
   refine closure_eq_of_subset (fun y hy => Subgroup.subset_closure ?_)
     (fun y hy => Subgroup.subset_closure ?_)
   · rcases hy with rfl | rfl | rfl | rfl <;>
-      simp only [lE2, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+      simp only [lE2, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
   · simp only [lE2, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases hy with rfl | rfl | rfl | rfl <;>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, true_or, or_true]
@@ -607,7 +607,7 @@ end SylowHFactsAux
 
 theorem t_mem_oTwoQA45 : (⟨t, t_mem_A⟩ : ↥QA45.originalSubgroup) ∈ oTwoQA45 := by
   rw [oTwoQA45_eq]
-  exact tA_mem_closure (by simp only [lO, Set.mem_setOf_eq, List.mem_cons, true_or, or_true])
+  exact tA_mem_closure (by simp only [lO, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true])
 
 theorem t_mem_sylowTwoQA45 : (⟨t, t_mem_A⟩ : ↥QA45.originalSubgroup) ∈ sylowTwoQA45 := by
   unfold sylowTwoQA45
@@ -620,9 +620,9 @@ theorem card_oTwoQA45 : Nat.card ↥oTwoQA45 = 2 ^ 5 := by
 theorem oTwoQA45_le_sylowTwoQA45 : oTwoQA45 ≤ sylowTwoQA45 := by
   rw [oTwoQA45_eq, sylowTwoQA45_eq]
   refine (Subgroup.closure_le _).2 fun y hy => Subgroup.subset_closure ?_
-  simp only [lO, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hy
+  simp only [lO, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hy
   rcases hy with rfl | rfl | rfl | rfl | rfl <;>
-    simp only [lT, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+    simp only [lT, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
 
 theorem sylowTwoQA45_le_normalizer_oTwoQA45 :
     sylowTwoQA45 ≤ Subgroup.normalizer (oTwoQA45 : Set ↥QA45.originalSubgroup) := by

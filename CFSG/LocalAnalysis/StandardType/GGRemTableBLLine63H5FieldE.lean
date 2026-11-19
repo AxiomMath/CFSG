@@ -19,8 +19,8 @@ theorem card_le_nine_of_commute_pow_three_eq_one {K : Type*} [Field K] {V : Type
     (hcx : ∀ i, Commute (Y i) x) (hpow : ∀ i, Y i ^ 3 = 1) : Nat.card ι ≤ 9 := by
   classical
   set a : K[X] := X ^ 3 - C l with ha
-  haveI : Fact (Irreducible a) := ⟨hirr⟩
-  haveI : NeZero (3 : ℕ) := ⟨by norm_num⟩
+  have : Fact (Irreducible a) := ⟨hirr⟩
+  have : NeZero (3 : ℕ) := ⟨by norm_num⟩
   have hdeg : a.natDegree = 3 := natDegree_X_pow_sub_C
   have htop : primaryComponent x a = ⊤ := by
     rw [eq_top_iff]

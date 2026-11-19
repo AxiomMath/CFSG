@@ -26,8 +26,8 @@ private lemma s888_mem_centralizer_of_conj_eq {F : Subgroup X} {x : X}
 private lemma s888_exists_two_ne_one {A : Subgroup X} (hA : Nat.card A = 4) :
     ∃ x y : X, x ∈ A ∧ y ∈ A ∧ x ≠ 1 ∧ y ≠ 1 ∧ x ≠ y := by
   classical
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; decide)
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; decide)
+  have : Fintype A := Fintype.ofFinite A
   have hcard : Fintype.card A = 4 := by rw [← Nat.card_eq_fintype_card, hA]
   let s : Finset A := (Finset.univ : Finset A).erase 1
   have hs : s.card = 3 := by
@@ -38,7 +38,7 @@ private lemma s888_exists_two_ne_one {A : Subgroup X} (hA : Nat.card A = 4) :
   have hb1 : (b : X) ≠ 1 := by simpa using (Finset.mem_erase.mp hb).1
   exact ⟨(a : X), (b : X), a.2, b.2, ha1, hb1, fun h => hab (Subtype.ext h)⟩
 
-private lemma s888_triple_mul_eq_one {x y z : X} (hxy : Commute x y) (hxz : Commute x z)
+private lemma s888_triple_mul_eq_one {x y z : X} (hxy : Commute x y) (_hxz : Commute x z)
     (hyz : Commute y z) (hx : x * x = 1) (hy : y * y = 1) (hz : z * z = 1) :
     (x * y) * (x * z) * (y * z) = 1 := by
   have h1 : (x * y) * (x * z) = (x * x) * (y * z) := hxy.symm.mul_mul_mul_comm x z

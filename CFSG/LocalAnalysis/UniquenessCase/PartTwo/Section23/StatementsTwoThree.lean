@@ -48,7 +48,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def KBorelSolv20_7 : Prop :=
   ∀ (X : Type) [Group X] [Finite X], S20_7Shape X → ∀ S : Sylow 2 X,
-    IsSolvable ↥(normalizer ((S : Subgroup X) : Set X))
+    Group.IsSolvable ↥(normalizer ((S : Subgroup X) : Set X))
 
 @[expose] def KNatBorelIrr : Prop :=
   ∀ (W : Type) [CommGroup W] [Finite W] (H S P : Subgroup (MulAut W)) (k : ℕ),

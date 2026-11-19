@@ -129,7 +129,7 @@ theorem s21_8N_of_s21_8K {D : Data G} {Ch : Choice2011 G} (hGA : GriessAllModels
       · omega
   have hk : D.k = 1 := by
     unfold Data.k kParam
-    rw [if_pos hsp3]
+    rw [ite_eq_left hsp3]
   have hodd : Odd n :=
     uc22s218n_odd_of_conclusion76_three D Ch hSg h614 h211 (h763 hsp3) hH c hL hX2 hn
   obtain ⟨X, hXc, hXle, hXU⟩ := hUR hH c L hL n hodd hX2 r hr hrn

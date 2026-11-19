@@ -44,7 +44,7 @@ private theorem tw_foldMap_eq_mulVec (u : Fin Tag.F4.rank → ℤ) :
   simp only [tw_foldMatrix, Matrix.mulVec, dotProduct]
   rw [Finset.sum_eq_single (tw_orbIdx i)]
   · simp
-  · intro b _ hb; rw [if_neg hb, zero_mul]
+  · intro b _ hb; rw [ite_eq_right hb, zero_mul]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 private theorem tw_symmetrizedCartan_F4_eq (i j : Fin Tag.F4.rank) :
@@ -77,8 +77,8 @@ private theorem tw_sum_diagramOrbit (β : Fin TwistTag.E6.tag.rank → ℤ) :
       else β + permLattice TwistTag.E6.perm β := by
   rw [SeitzReduction.diagramOrbit_eq_pair_twistedE6Classes]
   by_cases h : permLattice TwistTag.E6.perm β = β
-  · rw [if_pos h, h]; simp
-  · rw [if_neg h, Finset.sum_pair (fun hh => h hh.symm)]
+  · rw [ite_eq_left h, h]; simp
+  · rw [ite_eq_right h, Finset.sum_pair (fun hh => h hh.symm)]
 
 private theorem tw_foldMap_rootReflection
     {β : Fin TwistTag.E6.tag.rank → ℤ} (hβ : IsRoot TwistTag.E6.tag β)
@@ -94,19 +94,19 @@ private theorem tw_foldMap_rootReflection
     exact TwistTag.foldMap_mem_fixedLattice (t := TwistTag.E6)
       (show Fin (TwistTag.E6.foldedTag.rank) → ℤ from u)
   by_cases hfix : permLattice TwistTag.E6.perm β = β
-  · rw [if_pos hfix]
+  · rw [ite_eq_left hfix]
     have hθβ : tw_foldMatrix *ᵥ c = β := by
       rw [← tw_foldMap_eq_mulVec]
-      exact hθ.trans ((tw_sum_diagramOrbit β).trans (by rw [if_pos hfix]))
+      exact hθ.trans ((tw_sum_diagramOrbit β).trans (by rw [ite_eq_left hfix]))
     rw [rootReflection_smul hβ, rootReflection_smul hc, Matrix.mulVec_sub, Matrix.mulVec_smul,
       hθβ]
     congr 1
     rw [corootPair, corootPair, tw_iform_foldMap c u, tw_iform_foldMap c c, hθβ]
-  · rw [if_neg hfix]
+  · rw [ite_eq_right hfix]
     have hne : β ≠ permLattice TwistTag.E6.perm β := fun h => hfix h.symm
     have hθf : tw_foldMatrix *ᵥ c = β + permLattice TwistTag.E6.perm β := by
       rw [← tw_foldMap_eq_mulVec]
-      exact hθ.trans ((tw_sum_diagramOrbit β).trans (by rw [if_neg hfix]))
+      exact hθ.trans ((tw_sum_diagramOrbit β).trans (by rw [ite_eq_right hfix]))
     have hρβr : IsRoot TwistTag.E6.tag (permLattice TwistTag.E6.perm β) :=
       hβ.permLattice (TwistTag.cartan_perm TwistTag.E6)
     have h0 : iform β (permLattice TwistTag.E6.perm β) = 0 :=
@@ -154,7 +154,7 @@ private theorem tw_redMod_foldMap_congr {p : ℕ} {u v : Fin Tag.F4.rank → ℤ
     simp only [tw_foldMatrix, Matrix.mulVec, dotProduct]
     rw [Finset.sum_eq_single (tw_orbIdx i)]
     · simp
-    · intro b _ hb; rw [if_neg hb, zero_mul]
+    · intro b _ hb; rw [ite_eq_right hb, zero_mul]
     · intro h; exact absurd (Finset.mem_univ _) h
   funext i
   simp only [TableBExc.redMod]
@@ -269,18 +269,18 @@ theorem twE6SplitWeyl_conj_frameDiag
     hβ.permLattice (TwistTag.cartan_perm TwistTag.E6)
   have hm : twE6SplitWeyl L β ∈ monomialSubgroup TwistTag.E6.tag L := by
     by_cases hfix : permLattice TwistTag.E6.perm β = β
-    · rw [twE6SplitWeyl, if_pos hfix]
+    · rw [twE6SplitWeyl, ite_eq_left hfix]
       exact CFSG.ClassicalInvolution.ModelFacts.Levi.rootSL2_WSL_mem_monomialSubgroup hβ
-    · rw [twE6SplitWeyl, if_neg hfix]
+    · rw [twE6SplitWeyl, ite_eq_right hfix]
       exact mul_mem (CFSG.ClassicalInvolution.ModelFacts.Levi.rootSL2_WSL_mem_monomialSubgroup hβ)
         (CFSG.ClassicalInvolution.ModelFacts.Levi.rootSL2_WSL_mem_monomialSubgroup hρβr)
   have hmw : MapsRootLines (twE6SplitWeyl L β)
       (if permLattice TwistTag.E6.perm β = β then rootReflection β
        else rootReflection β * rootReflection (permLattice TwistTag.E6.perm β)) := by
     by_cases hfix : permLattice TwistTag.E6.perm β = β
-    · rw [twE6SplitWeyl, if_pos hfix, if_pos hfix]
+    · rw [twE6SplitWeyl, ite_eq_left hfix, ite_eq_left hfix]
       exact CFSG.ClassicalInvolution.ModelFacts.Levi.mapsRootLines_rootSL2_WSL hβ
-    · rw [twE6SplitWeyl, if_neg hfix, if_neg hfix]
+    · rw [twE6SplitWeyl, ite_eq_right hfix, ite_eq_right hfix]
       exact (CFSG.ClassicalInvolution.ModelFacts.Levi.mapsRootLines_rootSL2_WSL hβ).mul
         (CFSG.ClassicalInvolution.ModelFacts.Levi.mapsRootLines_rootSL2_WSL hρβr)
   rw [CFSG.StandardType.monomial_conj_frameDiag_gen hζ hm hmw]
@@ -303,7 +303,7 @@ theorem twE6SplitWeyl_mem_rationalComponent
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   by_cases hfix : permLattice TwistTag.E6.perm β = β
   · rw [show twE6SplitWeyl L β = rootSL2 TwistTag.E6.tag L β WSL from by
-      rw [twE6SplitWeyl, if_pos hfix]]
+      rw [twE6SplitWeyl, ite_eq_left hfix]]
     let Fr : L →+* L := iterateFrobenius L 2 n
     have hFr : ∀ c, Fr c = c ^ S.D.q := fun c => by
       rw [hq]
@@ -338,7 +338,7 @@ theorem twE6SplitWeyl_mem_rationalComponent
         show S.ρ β = β from (hρ β hβr).trans hfix]
       congr 1
       exact hmapfix y
-    haveI hperf : Group.IsPerfect X := hQ.1
+    have hperf : Group.IsPerfect X := hQ.1
     have hKperf : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤ := by
       rw [← commutator_def]
       exact Group.IsPerfect.commutator_eq_top
@@ -355,7 +355,7 @@ theorem twE6SplitWeyl_mem_rationalComponent
     exact hres ⟨WSL, hWX⟩ (Subgroup.mem_top _)
   · rw [show twE6SplitWeyl L β = rootSL2 TwistTag.E6.tag L β WSL *
         rootSL2 TwistTag.E6.tag L (permLattice TwistTag.E6.perm β) WSL from by
-      rw [twE6SplitWeyl, if_neg hfix]]
+      rw [twE6SplitWeyl, ite_eq_right hfix]]
     have hρβr : IsRoot TwistTag.E6.tag (permLattice TwistTag.E6.perm β) :=
       hβr.permLattice (TwistTag.cartan_perm TwistTag.E6)
     obtain ⟨hρρ, h0, hsum, hdiff⟩ := LangRat.rho_orthogonal_of_latPerm_ne S
@@ -440,7 +440,7 @@ theorem twE6SplitWeyl_mem_rationalComponent
         tw_step_rootSL2_of_charTwo S ((S.frob.isRoot_iff β).2 hβr) Fr hFr
           (Matrix.SpecialLinearGroup.map Fr (y : SL(2, L))), hρρ, hmapfixFr y]
       exact (hcomm (y : SL(2, L)) (Matrix.SpecialLinearGroup.map Fr (y : SL(2, L)))).eq.symm
-    haveI hperf : Group.IsPerfect X := hQ.1
+    have hperf : Group.IsPerfect X := hQ.1
     have hKperf : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤ := by
       rw [← commutator_def]
       exact Group.IsPerfect.commutator_eq_top

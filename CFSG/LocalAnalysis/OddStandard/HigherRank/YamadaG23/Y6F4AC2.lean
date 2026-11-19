@@ -95,10 +95,10 @@ theorem y6f4a_D_decomp [Finite G] {L : Subgroup G} [Group.IsPerfect ↥L] {g t :
     (ht : t ∈ centralizer (L : Set G))
     (hH : centralizer ({t} : Set G) ≤ normalizer (L : Set G))
     (hker : ∀ x ∈ centralizer ({t} : Set G), x ∈ centralizer (L : Set G) → x ∈ zpowers t)
-    (hAut : innerAut (L ⧸ center L) ⊔ closure {σ} = ⊤) (hσ2 : σ ^ 2 = 1) :
+    (hAut : innerAut (L ⧸ center L) ⊔ closure {σ} = ⊤) (_hσ2 : σ ^ 2 = 1) :
     centralizer ({g} : Set G) ⊓ centralizer ({t} : Set G) =
       centEl L g ⊔ closure ({g, t} : Set G) := by
-  haveI : (innerAut (L ⧸ center L)).Normal := innerAut_normal_local _
+  have : (innerAut (L ⧸ center L)).Normal := innerAut_normal_local _
   apply le_antisymm
   · intro h hh
     obtain ⟨hhg, hht⟩ := Subgroup.mem_inf.mp hh

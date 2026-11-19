@@ -82,6 +82,7 @@ theorem exists_actAut (d : DichCfg M V₀ V U S H φ) :
   apply Subtype.ext
   rw [Subgroup.normalizerMonoidHom_apply_apply_coe, hkk']
 
+omit [Finite G] in
 private theorem w16q_le_normalizer_sup_of_le {K I C : Subgroup G}
     (hKI : K ≤ Subgroup.normalizer (I : Set G))
     (hKC : ∀ k ∈ K, ∀ x ∈ C, k * x * k⁻¹ ∈ I ⊔ C) :
@@ -317,6 +318,7 @@ theorem card_mul_le_of_offender (d : DichCfg M V₀ V U S H φ)
     _ ≤ Nat.card A * Nat.card ↥(iSub16 V H ⊓ centralizer (A : Set G)) :=
         Nat.mul_le_mul hB_card hcardAI
 
+omit [Finite G] in
 private theorem w16q_barSub_conjSubgroup {K : Subgroup G} {X : Type} [Group X]
     (φ : ↥K →* X) (A : Subgroup G) (k : ↥K) :
     SevenK.barSub K φ (conjSubgroup A (k : G)) =
@@ -351,7 +353,7 @@ theorem exists_not_mem_conj (d : DichCfg M V₀ V U S H φ)
   let I := iSub16 V H
   have hTK : T ≤ Subgroup.normalizer (K : Set G) :=
     (inf_le_left.trans d.cfg.min.fam16.1).trans (le_normalizer_conjClosure V H)
-  haveI : Finite X := Finite.of_surjective φ d.bar.surjective
+  have : Finite X := Finite.of_surjective φ d.bar.surjective
   obtain ⟨ρ, hρ⟩ := d.exists_actAut
   by_contra hnot
   have h' : ∀ g ∈ K, a ∈ conjSubgroup M g := by
@@ -420,7 +422,7 @@ theorem exists_not_mem_conj (d : DichCfg M V₀ V U S H φ)
   exact hα1 (hNN (ρ ⟨a, ha⟩) hαY hall)
 
 theorem card_mul_le_of_not_mem_conj (d : DichCfg M V₀ V U S H φ) {a g : G}
-    (ha : a ∈ tSub16 V₀ S) (hg : g ∈ conjClosure V H) (hag : a ∉ conjSubgroup M g) :
+    (_ha : a ∈ tSub16 V₀ S) (hg : g ∈ conjClosure V H) (hag : a ∉ conjSubgroup M g) :
     Nat.card ↥V₀ * Nat.card ↥(iSub16 V H ⊓ centralizer ({a} : Set G)) ≤
       Nat.card ↥(iSub16 V H) := by
   let I := iSub16 V H
@@ -480,7 +482,7 @@ theorem card_mul_le_of_not_le (d : DichCfg M V₀ V U S H φ)
     {A : Subgroup G} (hA : A ∈ elemFamilyIn 2 (tSub16 V₀ S)) (hAQ : ¬ A ≤ qSub16 V₀ V S H) :
     Nat.card ↥V₀ * Nat.card ↥(A ⊓ qSub16 V₀ V S H) ≤ Nat.card A := by
   obtain ⟨hAT, -, -⟩ := mem_elemFamilyIn.1 hA
-  obtain ⟨a, haA, haQ⟩ := SetLike.not_le_iff_exists.1 hAQ
+  obtain ⟨a, haA, haQ⟩ := IsConcreteLE.not_le_iff_exists.1 hAQ
   obtain ⟨g, hgK, hag⟩ := d.exists_not_mem_conj hNN (hAT haA) haQ
   have h1 := d.card_mul_le_of_not_mem_conj (hAT haA) hgK hag
   have h2 := d.card_mul_le_of_offender hQT hA

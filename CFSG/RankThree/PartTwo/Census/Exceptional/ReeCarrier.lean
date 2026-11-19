@@ -223,12 +223,14 @@ section Isogeny
 
 variable (L : Type) [Field L] [Algebra (ZMod 3) L] [CharP L 3]
 
+omit [Algebra (ZMod 3) L] [CharP L 3] in
 theorem reeMap_sl2Upper (f : L →+* L) (c : L) :
     Matrix.SpecialLinearGroup.map f (sl2Upper c) = sl2Upper (f c) := by
   ext a b
   rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply]
   fin_cases a <;> fin_cases b <;> simp [sl2Upper]
 
+omit [Algebra (ZMod 3) L] [CharP L 3] in
 theorem reeMap_sl2Lower (f : L →+* L) (c : L) :
     Matrix.SpecialLinearGroup.map f (CFSG.LocalAnalysis.ComponentInitial.sl2Lower L c) =
       CFSG.LocalAnalysis.ComponentInitial.sl2Lower L (f c) := by
@@ -260,6 +262,7 @@ theorem specialIsogeny_phia (A : SL(2, L)) :
       rfl
   exact DFunLike.congr_fun h A
 
+omit [CharP L 3] in
 theorem specialIsogeny_phib (A : SL(2, L)) :
     PrimeField.specialIsogeny L (phib L A) = phia L A := by
   have h : (PrimeField.specialIsogeny L).comp (phib L) = phia L := by
@@ -278,6 +281,7 @@ theorem specialIsogeny_phib (A : SL(2, L)) :
       simp
   exact DFunLike.congr_fun h A
 
+omit [Algebra (ZMod 3) L] in
 theorem map_frobenius_sl2Weyl :
     Matrix.SpecialLinearGroup.map (frobenius L 3) (sl2Weyl L) = sl2Weyl L := by
   ext a b
@@ -368,6 +372,7 @@ variable (L : Type) [Field L] [Algebra (ZMod 3) L]
 @[expose] noncomputable def reePhi2 : SL(2, L) →* PrimeField.points L :=
   (MulAut.conj (reeNa L)).toMonoidHom.comp (phib L)
 
+omit [Algebra (ZMod 3) L] in
 theorem sl2Weyl_inv_coe :
     (((sl2Weyl L)⁻¹ : SL(2, L)) : Matrix (Fin 2) (Fin 2) L) = !![0, -1; 1, 0] := by
   rw [Matrix.SpecialLinearGroup.coe_inv, coe_sl2Weyl, Matrix.adjugate_fin_two]
@@ -499,16 +504,19 @@ variable (L : Type) [Field L] [Algebra (ZMod 3) L] [CharP L 3]
 noncomputable abbrev reeMat : PrimeField.points L →* Matrix (Fin 7) (Fin 7) L :=
   (Units.coeHom _).comp (PrimeField.points L).subtype
 
+omit [CharP L 3] in
 theorem reeMat_injective : Function.Injective (reeMat L) := fun _ _ h =>
   Subtype.ext (Units.ext h)
 
 noncomputable abbrev reeF : Matrix (Fin 7) (Fin 7) (ZMod 3) →+* Matrix (Fin 7) (Fin 7) L :=
   (algebraMap (ZMod 3) L).mapMatrix
 
+omit [CharP L 3] in
 theorem reeF_injective : Function.Injective (reeF L) := fun A B h => by
   ext i j
   exact (algebraMap (ZMod 3) L).injective (congrFun (congrFun h i) j)
 
+omit [Algebra (ZMod 3) L] in
 theorem two_eq_neg_one_of_charThree : (2 : L) = -1 := by
   have h : ((3 : ℕ) : L) = 0 := CharP.cast_eq_zero L 3
   push_cast at h
@@ -526,6 +534,7 @@ noncomputable abbrev reeYa : PrimeField.points L :=
 noncomputable abbrev reeYb : PrimeField.points L :=
   PrimeField.rootSubgroupPoints (.inr 1) L (Multiplicative.ofAdd 1)
 
+omit [CharP L 3] in
 theorem reeMat_xa : reeMat L (reeXa L) = reeF L reeXaZ := by
   change ((PrimeField.rootSubgroupPoints (.inl 0) L (Multiplicative.ofAdd 1) :
     Matrix.GeneralLinearGroup (Fin 7) L) : Matrix (Fin 7) (Fin 7) L) = _
@@ -533,6 +542,7 @@ theorem reeMat_xa : reeMat L (reeXa L) = reeF L reeXaZ := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [reeXaZ, map_ofNat]
 
+omit [CharP L 3] in
 theorem reeMat_xb : reeMat L (reeXb L) = reeF L reeXbZ := by
   change ((PrimeField.rootSubgroupPoints (.inl 1) L (Multiplicative.ofAdd 1) :
     Matrix.GeneralLinearGroup (Fin 7) L) : Matrix (Fin 7) (Fin 7) L) = _
@@ -540,6 +550,7 @@ theorem reeMat_xb : reeMat L (reeXb L) = reeF L reeXbZ := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [reeXbZ]
 
+omit [CharP L 3] in
 theorem reeMat_ya : reeMat L (reeYa L) = reeF L reeYaZ := by
   change ((PrimeField.rootSubgroupPoints (.inr 0) L (Multiplicative.ofAdd 1) :
     Matrix.GeneralLinearGroup (Fin 7) L) : Matrix (Fin 7) (Fin 7) L) = _
@@ -547,6 +558,7 @@ theorem reeMat_ya : reeMat L (reeYa L) = reeF L reeYaZ := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [reeYaZ, map_ofNat]
 
+omit [CharP L 3] in
 theorem reeMat_yb : reeMat L (reeYb L) = reeF L reeYbZ := by
   change ((PrimeField.rootSubgroupPoints (.inr 1) L (Multiplicative.ofAdd 1) :
     Matrix.GeneralLinearGroup (Fin 7) L) : Matrix (Fin 7) (Fin 7) L) = _
@@ -554,21 +566,25 @@ theorem reeMat_yb : reeMat L (reeYb L) = reeF L reeYbZ := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [reeYbZ]
 
+omit [CharP L 3] in
 theorem specialIsogeny_reeXa : PrimeField.specialIsogeny L (reeXa L) = reeXb L := by
   rw [PrimeField.specialIsogeny_rootSubgroupPoints, PrimeField.specialIsogenyRootIndex_inl,
     PrimeField.specialIsogenyExponent_inl]
   simp
 
+omit [CharP L 3] in
 theorem specialIsogeny_reeXb : PrimeField.specialIsogeny L (reeXb L) = reeXa L := by
   rw [PrimeField.specialIsogeny_rootSubgroupPoints, PrimeField.specialIsogenyRootIndex_inl,
     PrimeField.specialIsogenyExponent_inl]
   simp
 
+omit [CharP L 3] in
 theorem specialIsogeny_reeYa : PrimeField.specialIsogeny L (reeYa L) = reeYb L := by
   rw [PrimeField.specialIsogeny_rootSubgroupPoints, PrimeField.specialIsogenyRootIndex_inr,
     PrimeField.specialIsogenyExponent_inr]
   simp
 
+omit [CharP L 3] in
 theorem specialIsogeny_reeYb : PrimeField.specialIsogeny L (reeYb L) = reeYa L := by
   rw [PrimeField.specialIsogeny_rootSubgroupPoints, PrimeField.specialIsogenyRootIndex_inr,
     PrimeField.specialIsogenyExponent_inr]
@@ -578,18 +594,22 @@ theorem specialIsogeny_reeYb : PrimeField.specialIsogeny L (reeYb L) = reeYa L :
 
 @[expose] noncomputable def reeV : PrimeField.points L := (reeYa L * reeYb L) ^ 3
 
+omit [CharP L 3] in
 theorem reeMat_u : reeMat L (reeU L) = reeF L reeUZ := by
   rw [reeU, map_pow, map_mul, reeMat_xa, reeMat_xb, ← map_mul, ← map_pow, ree_check.1]
 
+omit [CharP L 3] in
 theorem reeMat_v : reeMat L (reeV L) = reeF L reeVZ := by
   rw [reeV, map_pow, map_mul, reeMat_ya, reeMat_yb, ← map_mul, ← map_pow, ree_check.2.2.2.1]
 
+omit [CharP L 3] in
 theorem specialIsogeny_reeU : PrimeField.specialIsogeny L (reeU L) = reeU L := by
   apply reeMat_injective
   rw [reeU, map_pow, map_mul, specialIsogeny_reeXa, specialIsogeny_reeXb, map_pow, map_mul,
     reeMat_xa,
     reeMat_xb, ← map_mul, ← map_pow, ree_check.2.1, ← reeMat_u, reeU]
 
+omit [CharP L 3] in
 theorem specialIsogeny_reeV : PrimeField.specialIsogeny L (reeV L) = reeV L := by
   apply reeMat_injective
   rw [reeV, map_pow, map_mul, specialIsogeny_reeYa, specialIsogeny_reeYb, map_pow, map_mul,
@@ -615,18 +635,22 @@ theorem reeMat_t : reeMat L (reeT L) = reeF L reeTZ := by
 @[expose] noncomputable def reeHi : PrimeField.points L :=
   reeV L ^ 2 * reeU L ^ 2 * reeV L * reeU L ^ 2
 
+omit [CharP L 3] in
 theorem reeMat_g : reeMat L (reeG L) = reeF L reeGZ := by
   rw [reeG, reeGZ]
   simp only [map_mul, map_pow, reeMat_u, reeMat_v]
 
+omit [CharP L 3] in
 theorem reeMat_h : reeMat L (reeH L) = reeF L reeHZ := by
   rw [reeH, reeHZ]
   simp only [map_mul, map_pow, reeMat_u, reeMat_v]
 
+omit [CharP L 3] in
 theorem reeMat_gi : reeMat L (reeGi L) = reeF L reeGiZ := by
   rw [reeGi, reeGiZ]
   simp only [map_mul, map_pow, reeMat_u, reeMat_v]
 
+omit [CharP L 3] in
 theorem reeMat_hi : reeMat L (reeHi L) = reeF L reeHiZ := by
   rw [reeHi, reeHiZ]
   simp only [map_mul, map_pow, reeMat_u, reeMat_v]
@@ -649,6 +673,7 @@ theorem ree_t_not_commute :
   have h' := congrArg (reeMat L) h
   simpa only [map_mul, map_pow, reeMat_t, reeMat_u] using h'
 
+omit [CharP L 3] in
 theorem reeU_pow_three : reeU L ^ 3 = 1 :=
   reeMat_injective L (by rw [map_pow, reeMat_u, ← map_pow, ree_check.2.2.1, map_one, map_one])
 

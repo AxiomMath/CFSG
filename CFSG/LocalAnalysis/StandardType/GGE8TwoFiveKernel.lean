@@ -99,8 +99,8 @@ private theorem exists_primRoot5
     simp only [eq_intCast, Int.cast_natCast] at h1
     rw [h, S.hqpow.2] at h1
     exact not_isUnit_zero (isCoprime_zero_left.1 h1)
-  haveI : NeZero ((5 : ℕ) : L) := ⟨h5⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  have : NeZero ((5 : ℕ) : L) := ⟨h5⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   have hu : IsUnit ζ := hζ.isUnit (by norm_num)
   exact ⟨hu.unit, by simpa using hζ⟩
 
@@ -317,7 +317,7 @@ private theorem orbitLength_swap (σ : Equiv.Perm (Fin Tag.E8.rank → ℤ))
   have h2 : 2 ∈ {s : ℕ | 0 < s ∧ (σ : (Fin Tag.E8.rank → ℤ) → _)^[s] '' P₁ = P₁} := by
     refine ⟨by norm_num, ?_⟩
     have h2it : (σ : (Fin Tag.E8.rank → ℤ) → _)^[2] = σ ∘ σ := by
-      simpa [Function.iterate_one] using Function.iterate_succ' (σ : (Fin Tag.E8.rank → ℤ) → _) 1
+      simp
     rw [h2it, Set.image_comp, h₁₂, h₂₁]
   have hne' : ({s : ℕ | 0 < s ∧ (σ : (Fin Tag.E8.rank → ℤ) → _)^[s] '' P₁ = P₁}).Nonempty :=
     ⟨2, h2⟩
@@ -330,7 +330,7 @@ private theorem orbitLength_swap (σ : Equiv.Perm (Fin Tag.E8.rank → ℤ))
     intro h
     have h1 : (1 : ℕ) ∈ {s : ℕ | 0 < s ∧ (σ : (Fin Tag.E8.rank → ℤ) → _)^[s] '' P₁ = P₁} :=
       h ▸ hmem
-    rw [Set.mem_setOf_eq, Function.iterate_one] at h1
+    rw [Set.mem_ofPred_eq, Function.iterate_one] at h1
     exact hne (h1.2.symm.trans h₁₂)
   omega
 
@@ -376,7 +376,7 @@ private theorem twistKind_suN {L : Type} [Field L] (σ : Equiv.Perm (Fin Tag.E8.
     rw [hP, hrk, hcard]
     norm_num
   unfold twistKind
-  rw [if_neg hc1, if_neg hc2, if_neg hc3, if_pos hc4]
+  rw [ite_eq_right hc1, ite_eq_right hc2, ite_eq_right hc3, ite_eq_left hc4]
 
 private theorem twistKind_twoD {L : Type} [Field L] (σ : Equiv.Perm (Fin Tag.E8.rank → ℤ))
     (χ : Multiplicative (Fin Tag.E8.rank → ℤ) →* Lˣ) (i : KernelComponent χ)
@@ -400,7 +400,7 @@ private theorem twistKind_twoD {L : Type} [Field L] (σ : Equiv.Perm (Fin Tag.E8
     rw [hP, hrk, hcard]
     norm_num
   unfold twistKind
-  rw [if_neg hc1, if_neg hc2, if_pos hc3]
+  rw [ite_eq_right hc1, ite_eq_right hc2, ite_eq_left hc3]
 
 private theorem WeylConj.kernelRoots_eq
     {L : Type} [Field L] {w : WeylGroup Tag.E8} {ρ ρ' : Equiv.Perm (Fin Tag.E8.rank → ℤ)}
@@ -871,10 +871,10 @@ private theorem kerA_iff (γ : Fin Tag.E8.rank → ℤ) :
     · exact Or.inr (by rw [kf_kerA2_eq]; exact ⟨hγ, h5, h⟩)
   · rintro (h1 | h2)
     · rw [kf_kerA1_eq] at h1
-      simp only [Set.mem_setOf_eq, kf_pA1] at h1
+      simp only [Set.mem_ofPred_eq, kf_pA1] at h1
       exact ⟨h1.1, by rw [h1.2.1]; exact dvd_zero 5⟩
     · rw [kf_kerA2_eq] at h2
-      simp only [Set.mem_setOf_eq, kf_pA2] at h2
+      simp only [Set.mem_ofPred_eq, kf_pA2] at h2
       exact ⟨h2.1, h2.2.1⟩
 
 private theorem kerA_union {L : Type} [Field L] {ζ : Lˣ} (hζ : IsPrimitiveRoot (ζ : L) 5) :
@@ -882,7 +882,7 @@ private theorem kerA_union {L : Type} [Field L] {ζ : Lˣ} (hζ : IsPrimitiveRoo
       kerA1 ∪ kerA2 := by
   rw [kernelRoots_zeta hζ e8TwoFiveKac5A]
   ext γ
-  simp only [Set.mem_setOf_eq, Set.mem_union]
+  simp only [Set.mem_ofPred_eq, Set.mem_union]
   exact kerA_iff γ
 
 private theorem kerA_disjoint : Disjoint kerA1 kerA2 := by
@@ -890,7 +890,7 @@ private theorem kerA_disjoint : Disjoint kerA1 kerA2 := by
   intro γ h1 h2
   rw [kf_kerA1_eq] at h1
   rw [kf_kerA2_eq] at h2
-  simp only [Set.mem_setOf_eq, kf_pA2] at h2
+  simp only [Set.mem_ofPred_eq, kf_pA2] at h2
   exact h2.2.2 h1.2
 
 private theorem kerA1_nonempty : kerA1.Nonempty := by
@@ -915,7 +915,7 @@ private theorem kerA_orth :
   intro x hx y hy
   rw [kf_kerA1_eq] at hx
   rw [kf_kerA2_eq] at hy
-  simp only [Set.mem_setOf_eq] at hx hy
+  simp only [Set.mem_ofPred_eq] at hx hy
   exact kf_kerA_orth_vec x hx.1 hx.2 y hy.1 hy.2
 
 private theorem kf_isConnIn_of_hub (P : Set (Fin Tag.E8.rank → ℤ)) (r₀ : Fin Tag.E8.rank → ℤ)
@@ -1093,7 +1093,7 @@ private theorem kf_S_le_T_A :
   rintro v ⟨γ, hγ, rfl⟩
   change (fun j => (γ j : ℚ)) ∈ Submodule.span ℚ (Set.range kf_bA)
   rw [kf_kerA1_eq] at hγ
-  simp only [Set.mem_setOf_eq, kf_pA1] at hγ
+  simp only [Set.mem_ofPred_eq, kf_pA1] at hγ
   rw [kf_toRat_sum_A γ hγ.2.1 hγ.2.2.1 hγ.2.2.2.1 hγ.2.2.2.2]
   exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
 
@@ -1191,7 +1191,7 @@ private theorem kerA_type :
           iform (E8TwoFiveFin.vecOf [0, 0, 0, 0, 1, 0, 0, 0]) b = 1} =
           {b : Fin Tag.E8.rank → ℤ | IsRoot Tag.E8 b ∧
             (kf_pA1 b ∧ iform (E8TwoFiveFin.vecOf [0, 0, 0, 0, 1, 0, 0, 0]) b = 1)} := by
-        ext b; rw [kf_kerA1_eq]; simp only [Set.mem_setOf_eq]; tauto
+        ext b; rw [kf_kerA1_eq]; simp only [Set.mem_ofPred_eq]; tauto
       rw [hset, E8TwoFiveFin.ncard_root_filter
         (fun b => kf_pA1 b ∧ iform (E8TwoFiveFin.vecOf [0, 0, 0, 0, 1, 0, 0, 0]) b = 1)]
       exact kf_type_count6
@@ -1200,7 +1200,7 @@ private theorem kerA_type :
       (E8TwoFiveFin.isRoot_iff_mem_rootsL g).1 hg
     have hset : {b : Fin Tag.E8.rank → ℤ | b ∈ kerA1 ∧ iform g b = 1} =
         {b : Fin Tag.E8.rank → ℤ | IsRoot Tag.E8 b ∧ (kf_pA1 b ∧ iform g b = 1)} := by
-      ext b; rw [kf_kerA1_eq]; simp only [Set.mem_setOf_eq]; tauto
+      ext b; rw [kf_kerA1_eq]; simp only [Set.mem_ofPred_eq]; tauto
     rw [hset, E8TwoFiveFin.ncard_root_filter (fun b => kf_pA1 b ∧ iform g b = 1)]
     have h2' : E8TwoFiveFin.vecOf (List.ofFn g) (4 : Fin 8) % 5 = 2 := by
       have h3 : g (4 : Fin 8) % 5 = 2 :=
@@ -1256,7 +1256,7 @@ private theorem kerB_union {L : Type} [Field L] {ζ : Lˣ}
     kernelRoots (rootCharHom (fun i : Fin Tag.E8.rank => ζ ^ e8TwoFiveKac5B i)) = kerB := by
   rw [kernelRoots_zeta hζ e8TwoFiveKac5B]
   ext γ
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   exact kerB_iff γ
 
 private theorem kerB_nonempty : kerB.Nonempty := by
@@ -1408,7 +1408,7 @@ private theorem kf_S_le_T_B :
   rintro v ⟨γ, hγ, rfl⟩
   change (fun j => (γ j : ℚ)) ∈ Submodule.span ℚ (Set.range kf_bB)
   rw [kf_kerB_eq] at hγ
-  simp only [Set.mem_setOf_eq] at hγ
+  simp only [Set.mem_ofPred_eq] at hγ
   rw [kf_toRat_sum_B γ hγ.2.1 hγ.2.2]
   exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
 
@@ -1585,7 +1585,7 @@ private theorem kerB_profile :
   · exact (congrArg (fun x : ℤ => x % 5) (dotProduct_e8TwoFiveKac5B _)).trans kf_g2L_u
   · intro b hb
     rw [kf_kerB_eq] at hb
-    simp only [Set.mem_setOf_eq] at hb
+    simp only [Set.mem_ofPred_eq] at hb
     have hbmem : List.ofFn b ∈ E8TwoFiveFin.rootsL :=
       (E8TwoFiveFin.isRoot_iff_mem_rootsL b).1 hb.1
     have hb0 : E8TwoFiveFin.vecOf (List.ofFn b) (0 : Fin 8) = 0 := by
@@ -1628,7 +1628,7 @@ private theorem kerB_profile :
           E8TwoFiveFin.formL (List.ofFn g) lb ≠ 0 := by
       obtain ⟨b, hb, hbne⟩ := hne
       rw [kf_kerB_eq] at hb
-      simp only [Set.mem_setOf_eq] at hb
+      simp only [Set.mem_ofPred_eq] at hb
       have hbmem : List.ofFn b ∈ E8TwoFiveFin.rootsL :=
         (E8TwoFiveFin.isRoot_iff_mem_rootsL b).1 hb.1
       have hb0 : E8TwoFiveFin.vecOf (List.ofFn b) (0 : Fin 8) = 0 := by
@@ -2356,7 +2356,7 @@ private theorem kerB_eq_parabolic :
     refine ⟨hγ, fun i hi => ?_⟩
     have hlt : i.val < 8 := i.isLt
     have hv : i.val = 0 ∨ i.val = 7 := by
-      simp only [Set.mem_setOf_eq, not_and_or, not_le] at hi
+      simp only [Set.mem_ofPred_eq, not_and_or, not_le] at hi
       omega
     rcases hv with hv | hv
     · have : i = (0 : Fin 8) := Fin.ext hv

@@ -63,7 +63,7 @@ theorem hasFpfTorusGen_statedOmegaPlus {K : Type} [Field K] [Finite K] [CharP K 
     rw [hlamcard] at h1
     omega
   have hqEven : Even (Nat.card K) := by
-    letI := Fintype.ofFinite K
+    let := Fintype.ofFinite K
     rw [Nat.even_iff, Nat.card_eq_fintype_card]
     exact FiniteField.even_card_of_char_two (ringChar.eq K 2)
   have hoddq : Odd (Nat.card K - 1) :=

@@ -268,7 +268,7 @@ theorem exists_torus_radCoord (hF : 4 ≤ Nat.card F) (hZQ : Z ≤ Q)
         hδeq (hNQ n n.2) (Units.ne_zero _) h1 (hγτ n) (hlam n)
       exact hχ
   obtain ⟨t, ht⟩ : ∃ t : Fˣ, t ≠ 1 := by
-    haveI : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp (by rw [Nat.card_units]; omega)
+    have : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp (by rw [Nat.card_units]; omega)
     exact exists_ne 1
   have ht' : ((τ (τ.symm t) : Fˣ) : F) ≠ 1 := by
     rw [MulEquiv.apply_symm_apply]
@@ -290,7 +290,7 @@ theorem eq_one_of_commute_torus_radCoord (hF : 8 ≤ Nat.card F)
   classical
   have hcardU : 7 ≤ Nat.card Fˣ := by rw [Nat.card_units]; omega
   obtain ⟨t, ht⟩ : ∃ t : Fˣ, t ≠ 1 := by
-    haveI : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp (by omega)
     exact exists_ne 1
   obtain ⟨s, hs⟩ : ∃ s : Fˣ, s ^ 3 ≠ 1 := by
     by_contra hcon

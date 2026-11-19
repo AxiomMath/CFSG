@@ -188,8 +188,8 @@ private theorem i1412_nonempty_pSimple_equiv_map [Finite B] (hp : p.Prime) (π :
     {X : Subgroup A} {Y : Subgroup B} {J : Subgroup A} (hJ : GLAPComponent p X J)
     (hJπ : GLAPComponent p Y (J.map π)) :
     Nonempty (PSimple p J ≃* PSimple p (J.map π)) := by
-  haveI : IsSimpleGroup (PSimple p J) := (isQuasisimple_pQuot_of_glaPComponent hp hJ).2
-  haveI : IsSimpleGroup (PSimple p (J.map π)) := (isQuasisimple_pQuot_of_glaPComponent hp hJπ).2
+  have : IsSimpleGroup (PSimple p J) := (isQuasisimple_pQuot_of_glaPComponent hp hJ).2
+  have : IsSimpleGroup (PSimple p (J.map π)) := (isQuasisimple_pQuot_of_glaPComponent hp hJπ).2
   have hinj : Function.Injective (i1412PSimpleMap hp π J) := by
     rw [← MonoidHom.ker_eq_bot_iff]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (i1412PSimpleMap hp π J).ker with h | h
@@ -213,7 +213,7 @@ end Central
 private theorem i1412_isCatalogGroup_center_quotient {Y : Type*} [Group Y]
     (hY : CFSG.Open.IsKGroup Y) (hq : CFSG.Open.IsQuasisimple Y) :
     IsCatalogGroup (Y ⧸ Subgroup.center Y) := by
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   refine hY.isCatalogGroup_of_surjective ⊤
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hq)
     ((QuotientGroup.mk' (Subgroup.center Y)).comp (⊤ : Subgroup Y).subtype) ?_
@@ -225,7 +225,7 @@ private theorem i1412_kLevel_le {p : ℕ} (hp : p.Prime) (h : KDLevel p) {Y : Ty
     [Finite Y] (hq : CFSG.Open.IsQuasisimple Y) (hcat : IsCatalogGroup (Y ⧸ Subgroup.center Y))
     {β : MulAut Y} (hβ : β ^ p = 1) {J : Subgroup Y} (hJ : GLAPComponent p (fixSubgroup β) J) :
     kLevel p (PSimple p J) ≤ kLevel p (Y ⧸ Subgroup.center Y) := by
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   set π := QuotientGroup.mk' (Subgroup.center Y) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker ≤ Subgroup.center Y := (QuotientGroup.ker_mk' _).le
@@ -266,7 +266,7 @@ private theorem i1412_exists_conjAut {Q : Type} [Group Q] {K : Subgroup Q} {y : 
       exact mul_inv_eq_iff_eq_mul.2 hk.symm
 
 theorem i1412UsedAt_of_kdLevel {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (h : KDLevel p) : I1412UsedAt G p := by
+    (_hp2 : p ≠ 2) (h : KDLevel p) : I1412UsedAt G p := by
   intro X K y hX hK hyp hyN J hJ
   have hy : IsPGroup p (Subgroup.zpowers y) := isPGroup_zpowers_of_pow_eq_one hyp
   obtain ⟨Q, _, _, K', y', ⟨eK⟩, hnorm, hpow, -, hcomp⟩ := exists_pQuot_transfer hp hy hyN

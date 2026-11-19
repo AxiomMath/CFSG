@@ -60,7 +60,7 @@ theorem closure_pow_eq_top {G : Type*} [Group G] [Finite G] [IsSimpleGroup G] {p
     intro g x hx
     show (g * x * g⁻¹) ^ p = 1
     rw [conj_pow, show x ^ p = 1 from hx, mul_one, mul_inv_cancel]
-  haveI := closure_normal_of_conj_mem _ hS
+  have := closure_normal_of_conj_mem _ hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.closure {x : G | x ^ p = 1}) with h | h
   · exfalso
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
@@ -149,7 +149,7 @@ theorem mem_normalizer_of_pow_seven {Γ : Type*} [Group Γ] [Finite Γ] {Z V : S
 
 theorem isSimpleGroup_of_mulEquiv_j2 {V : Type*} [Group V]
     (e : V ≃* CFSG.Blueprint.NativeSporadic.J2) : IsSimpleGroup V := by
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
   exact MulEquiv.isSimpleGroup e
 
 theorem seven_dvd_card_of_mulEquiv_j2 {V : Type*} [Group V]
@@ -165,7 +165,7 @@ theorem exists_j2_factor_le_normalizer {Γ : Type} [Group Γ]
   obtain ⟨V, hVZ, ⟨e⟩, hkey⟩ :=
     exists_factor_of_mulEquiv CFSG.RankThree.PartTwo.Sec14.Item148HJ.card_alternatingGroup_five ψ
   have hs : IsSimpleGroup ↥V := isSimpleGroup_of_mulEquiv_j2 e
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact ⟨V, hVZ, ⟨e⟩, mem_normalizer_of_pow_seven hVZ hkey
     (closure_pow_eq_top (seven_dvd_card_of_mulEquiv_j2 e))⟩
 

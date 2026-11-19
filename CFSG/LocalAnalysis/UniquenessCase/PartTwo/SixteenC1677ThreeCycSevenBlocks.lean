@@ -49,7 +49,7 @@ private lemma s168e3_cyc_ph1_ph2 (hW : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (w :
   simp only [s168e3_cyc_ph1, s168e3_cyc_ph2, MonoidHom.mul_apply, MonoidHom.id_apply,
     map_mul, s168e3_cyc_pk_pow, s168e3_cyc_nrm]
   norm_num
-  simp [s168e3_cyc_pk_zero, mul_assoc, mul_comm, mul_left_comm, hsq, s168e3_cyc_mmul hsq]
+  simp [s168e3_cyc_pk_zero, mul_comm, mul_left_comm, s168e3_cyc_mmul hsq]
 
 private lemma s168e3_cyc_ph2_ph1 (hW : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (w : W) :
     s168e3_cyc_ph2 x (s168e3_cyc_ph1 x w) = s168e3_cyc_nrm x w := by
@@ -57,7 +57,7 @@ private lemma s168e3_cyc_ph2_ph1 (hW : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (w :
   simp only [s168e3_cyc_ph1, s168e3_cyc_ph2, MonoidHom.mul_apply, MonoidHom.id_apply,
     map_mul, s168e3_cyc_pk_pow, s168e3_cyc_nrm]
   norm_num
-  simp [s168e3_cyc_pk_zero, mul_assoc, mul_comm, mul_left_comm, hsq, s168e3_cyc_mmul hsq]
+  simp [s168e3_cyc_pk_zero, mul_comm, mul_left_comm, s168e3_cyc_mmul hsq]
 
 private lemma s168e3_cyc_ph_sum (hW : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (w : W) :
     s168e3_cyc_ph2 x w * s168e3_cyc_pk x 1 (s168e3_cyc_ph2 x w) *
@@ -66,7 +66,7 @@ private lemma s168e3_cyc_ph_sum (hW : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (w : 
   simp only [s168e3_cyc_ph1, s168e3_cyc_ph2, MonoidHom.mul_apply, MonoidHom.id_apply,
     map_mul, s168e3_cyc_pk_pow]
   norm_num
-  simp [s168e3_cyc_pk_zero, mul_assoc, mul_comm, mul_left_comm, hsq, s168e3_cyc_mmul hsq]
+  simp [mul_comm, mul_left_comm, hsq, s168e3_cyc_mmul hsq]
 
 private lemma s168e3_cyc_nrm_pk_one {x : MulAut W} (hx7 : x ^ 7 = 1) (w : W) :
     s168e3_cyc_pk x 1 (s168e3_cyc_nrm x w) = s168e3_cyc_nrm x w := by
@@ -75,7 +75,7 @@ private lemma s168e3_cyc_nrm_pk_one {x : MulAut W} (hx7 : x ^ 7 = 1) (w : W) :
   simp only [s168e3_cyc_nrm, map_mul, s168e3_cyc_pk_pow]
   norm_num
   rw [h70]
-  simp [mul_assoc, mul_comm, mul_left_comm]
+  simp [mul_comm, mul_left_comm]
 
 private lemma s168e3_cyc_nrm_eq_one {x : MulAut W} (hx7 : x ^ 7 = 1)
     (hfpf : ∀ w : W, x w = w → w = 1) (w : W) : s168e3_cyc_nrm x w = 1 := by
@@ -113,7 +113,7 @@ private lemma s168e3_cyc_t_pk3 {x t : MulAut W} (hx7 : x ^ 7 = 1)
   have h := s168e3_cyc_t_pk hinv 3 w
   simpa [s168e3_cyc_pk, h34] using h
 
-private lemma s168e3_cyc_ph2_t {x t : MulAut W} (hW : ∀ w : W, w ^ 2 = 1) (hx7 : x ^ 7 = 1)
+private lemma s168e3_cyc_ph2_t {x t : MulAut W} (_hW : ∀ w : W, w ^ 2 = 1) (hx7 : x ^ 7 = 1)
     (hinv : t * x * t⁻¹ = x⁻¹) (w : W) :
     s168e3_cyc_ph2 x (t w) = s168e3_cyc_pk x 3 (t (s168e3_cyc_ph1 x w)) := by
   have h7 : s168e3_cyc_pk x 7 (t w) = t w := by
@@ -125,10 +125,9 @@ private lemma s168e3_cyc_ph2_t {x t : MulAut W} (hW : ∀ w : W, w ^ 2 = 1) (hx7
   simp only [s168e3_cyc_ph1, s168e3_cyc_ph2, MonoidHom.mul_apply, MonoidHom.id_apply, map_mul,
     s168e3_cyc_pk_pow, s168e3_cyc_t_pk3 hx7 hinv, s168e3_cyc_t_pk1 hx7 hinv]
   rw [h7, h9]
-  norm_num
-  simp [mul_assoc, mul_comm, mul_left_comm]
+  simp [mul_comm, mul_left_comm]
 
-private lemma s168e3_cyc_ph1_t {x t : MulAut W} (hW : ∀ w : W, w ^ 2 = 1) (hx7 : x ^ 7 = 1)
+private lemma s168e3_cyc_ph1_t {x t : MulAut W} (_hW : ∀ w : W, w ^ 2 = 1) (hx7 : x ^ 7 = 1)
     (hinv : t * x * t⁻¹ = x⁻¹) (w : W) :
     s168e3_cyc_ph1 x (t w) = s168e3_cyc_pk x 3 (t (s168e3_cyc_ph2 x w)) := by
   have h7 : s168e3_cyc_pk x 7 (t w) = t w := by
@@ -147,8 +146,7 @@ private lemma s168e3_cyc_ph1_t {x t : MulAut W} (hW : ∀ w : W, w ^ 2 = 1) (hx7
   simp only [s168e3_cyc_ph1, s168e3_cyc_ph2, MonoidHom.mul_apply, MonoidHom.id_apply, map_mul,
     s168e3_cyc_pk_pow, s168e3_cyc_t_pk3 hx7 hinv, ht2]
   rw [h7, h8]
-  norm_num
-  simp [mul_assoc, mul_comm, mul_left_comm]
+  simp [mul_comm, mul_left_comm]
 
 private lemma s168e3_cyc_g_pk_comm {x g : MulAut W} (hgx : g * x = x * g) (k : ℕ) :
     g * x ^ k = x ^ k * g := by

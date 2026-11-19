@@ -16,7 +16,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem ggTorusTorData_descent_two {L' R : Type} [Group L'] [Finite L'] [Group R] {ψ : L' →* R}
     {N : ℕ} {C : Matrix (Fin N) (Fin N) ℤ} {M : CoxeterMatrix (Fin N)}
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
-    {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian 3 A)
+    {A : Subgroup (MulAut L')} (_hA : CFSG.Open.IsElemAbelian 3 A)
     (hAle : A ≤ U63TB.presZ (U63TB.twoSub ψ.ker hker))
     (H : GGTorusTorData 3 N C M
       (L' ⧸ U63TB.twoSub ψ.ker hker) (U63TB.redSub hker hAle).range) :

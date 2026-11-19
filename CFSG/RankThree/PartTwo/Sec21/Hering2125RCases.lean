@@ -29,7 +29,7 @@ theorem trialityD4_even {G : Type} [Group G] [Finite G] {e : G} {Y : Subgroup G}
     {hq : (TauCeti.LieTypeIndex.trialityD4 q).Valid}
     (φ : Y ⧸ aschbacherSolvableCore 3 Y ≃* (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hq⟩).Group) :
     q.p = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := Subgroup.centralizer ({e} : Set G) with hC
   obtain ⟨hYC, hY'⟩ := mem_thetaComponentsIn_iff.mp hY
   have heC : e ∈ C := Subgroup.mem_centralizer_singleton_iff.mpr rfl
@@ -49,7 +49,7 @@ theorem item2125Cases_of (h45 : Sec4.Item4_5) (h46 : Sec4.Item4_6)
     (hD4 : KFact1118Triality46) (h424 : Sec4.Item4_24M) (hN : Sec11.Item1134E27N)
     (hST : Item1134E27ST) : Item2125Cases := by
   intro G _ _ A E U c L d U₀ a X e Y hgen
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE := hgen.cfg
   have hcfg := hE.cfg
   have hpair := hcfg.pair

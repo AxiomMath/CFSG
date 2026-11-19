@@ -31,10 +31,10 @@ theorem exists_sylow_nf {n : ℕ} (hK : Nat.card K = 3 ^ n) {t : MulAut (D4Model
       α' = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε) ∧
       (g : ModGL Tag.D4 K) ∈ borelGroup Tag.D4 K := by
   classical
-  haveI := charP_three_of_card hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (D4Model K) := inferInstance
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
+  have := charP_three_of_card hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (D4Model K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
   obtain ⟨ψ, hψdef⟩ : ∃ ψ : adjointGroup Tag.D4 K ≃* D4Model K,
       ψ = coordinatePlusWitnessEquiv K (isoAdj K).symm := ⟨_, rfl⟩
   obtain ⟨S', hS'coe⟩ : ∃ S' : Sylow 3 ↥(adjointGroup Tag.D4 K),
@@ -73,7 +73,7 @@ theorem exists_sylow_nf {n : ℕ} (hK : Nat.card K = 3 ^ n) {t : MulAut (D4Model
     rw [inv_inv] at h
     rw [hα'def, h, hα3]; group
   have hα'app : ∀ w, α' w = x⁻¹ * α (x * w * x⁻¹) * x := by
-    intro w; simp [hα'def, MulAut.mul_apply, MulAut.conj_apply, MulAut.conj_inv_apply]
+    intro w; simp [hα'def, MulAut.mul_apply, MulAut.conj_apply]
   have hαx : ∀ w, α (x * w * x⁻¹) = x * α' w * x⁻¹ := by
     intro w; rw [hα'app]; group
   obtain ⟨g, a, σ, ε, hε3, hα'eq, hgB⟩ := exists_normal_form_borel α' hα'3 hUα'
@@ -105,14 +105,14 @@ theorem four_group_borel {n : ℕ} (hK : Nat.card K = 3 ^ n) {t : MulAut (D4Mode
     {A : Subgroup (D4Model K)} (hAS : A ≤ (S : Subgroup (D4Model K)))
     (hA₀ : ∀ a ∈ A, y₀ * a * y₀⁻¹ = a) (hA₁ : ∀ a ∈ A, y₁ * a * y₁⁻¹ = a) : A = ⊥ := by
   classical
-  haveI := charP_three_of_card hK
-  haveI : Finite (D4Model K) := inferInstance
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
+  have := charP_three_of_card hK
+  have : Finite (D4Model K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
   obtain ⟨ψ, x, α', g, a, σ, ε, hmem, hψα, hα'3, hε, hα'eq, hgB⟩ := exists_sylow_nf hK ht3 htE hSt
   obtain ⟨θ, hθdef⟩ : ∃ θ : D4Model K →* ↥(adjointGroup Tag.D4 K),
       θ = ((MulAut.conj x)⁻¹).toMonoidHom.comp ψ.symm.toMonoidHom := ⟨_, rfl⟩
   have hθapp : ∀ w, θ w = x⁻¹ * ψ.symm w * x := by
-    intro w; rw [hθdef]; simp [MulAut.conj_inv_apply]
+    intro w; rw [hθdef]; simp
   have hθinj : Function.Injective θ := by
     rw [hθdef]
     exact ((MulAut.conj x)⁻¹).injective.comp ψ.symm.injective

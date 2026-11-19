@@ -42,7 +42,7 @@ theorem frame_u_abs_le {α₁ β₁ α₂ β₂ α₃ β₃ : Fin Tag.E6.rank �
     omega
 
 theorem sigma_eq_X {p : ℕ}
-    (hp : p.Prime) (hp5 : 5 ≤ p) {α₁ β₁ α₂ β₂ α₃ β₃ : Fin Tag.E6.rank → ℤ}
+    (_hp : p.Prime) (hp5 : 5 ≤ p) {α₁ β₁ α₂ β₂ α₃ β₃ : Fin Tag.E6.rank → ℤ}
     (fr : E6Frame α₁ β₁ α₂ β₂ α₃ β₃) {W : Set (Fin Tag.E6.rank → ℤ)}
     (hX : ∀ w ∈ W, ∀ γ ∈ tcA2Set α₁ β₁ ∪ tcA2Set α₂ β₂, (p : ℤ) ∣ ∑ j, γ j * w j)
     (hfull : ∀ s t : ℤ, ∃ w ∈ W, ∀ γ : Fin Tag.E6.rank → ℤ,
@@ -67,7 +67,7 @@ theorem sigma_eq_X {p : ℕ}
   · intro hγX w hw
     exact hX w hw γ hγX
 
-theorem rho_u_neg {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
+theorem rho_u_neg {p : ℕ} (_hp : p.Prime) (hp5 : 5 ≤ p)
     {α₁ β₁ α₂ β₂ α₃ β₃ : Fin Tag.E6.rank → ℤ} (fr : E6Frame α₁ β₁ α₂ β₂ α₃ β₃)
     {W : Set (Fin Tag.E6.rank → ℤ)} {ρ : Equiv.Perm (Fin Tag.E6.rank → ℤ)}
     (hρroot : ∀ γ, IsRoot .E6 (ρ γ) ↔ IsRoot .E6 γ)

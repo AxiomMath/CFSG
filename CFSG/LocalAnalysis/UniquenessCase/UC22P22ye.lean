@@ -17,21 +17,21 @@ theorem commutator_self_le {A : Type} [Group A] (K : Subgroup A) : ⁅K, K⁆ �
 
 theorem card_commutator_of_card_six {H : Type} [Group H] [Finite H] (h6 : Nat.card H = 6)
     (hZ : Subgroup.center H = ⊥) : Nat.card ↥(⁅(⊤ : Subgroup H), (⊤ : Subgroup H)⁆ : Subgroup H) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := Sylow.exists_subgroup_card_pow_prime 3 (show 3 ^ 1 ∣ Nat.card H by rw [h6]; norm_num)
   rw [pow_one] at hP
   have hidx : P.index = 2 := by
     have h := Subgroup.card_mul_index P
     rw [hP, h6] at h
     omega
-  haveI hPn : P.Normal := Subgroup.normal_of_index_eq_two hidx
+  have hPn : P.Normal := Subgroup.normal_of_index_eq_two hidx
   have hle : ⁅(⊤ : Subgroup H), (⊤ : Subgroup H)⁆ ≤ P := by
     rw [Subgroup.commutator_le]
     intro a _ b _
     have hq : Nat.card (H ⧸ P) = 2 := by rw [← Subgroup.index_eq_card, hidx]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := isCyclic_of_prime_card hq
-    letI : CommGroup (H ⧸ P) := IsCyclic.commGroup
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := isCyclic_of_prime_card hq
+    let : CommGroup (H ⧸ P) := IsCyclic.commGroup
     rw [← QuotientGroup.eq_one_iff, commutatorElement_def, QuotientGroup.mk_mul, QuotientGroup.mk_mul,
       QuotientGroup.mk_mul, QuotientGroup.mk_inv, QuotientGroup.mk_inv]
     have hab : (a : H ⧸ P) * b = b * a := mul_comm _ _
@@ -82,7 +82,7 @@ theorem uc22p22ye_three_lt_pRank (D : Data G) (Ch : Choice2011 G) (h51 : S22_5_1
     (Nb : Fin m → Subgroup (MBar D.M D.U)) (hNb : NbarSplit D Nb)
     (h6 : 6 ≤ (Finset.univ.filter fun k => Nat.card (Nb k) = 6).card) : 3 < CFSG.Open.pRank 3 D.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcl := h51 hH c m Nb hNb
   set S : Finset (Fin m) := Finset.univ.filter fun k => Nat.card (Nb k) = 6 with hS
   have hmemS : ∀ k, k ∈ S ↔ Nat.card (Nb k) = 6 := fun k => by simp [hS]
@@ -120,8 +120,8 @@ theorem uc22p22ye_three_lt_pRank (D : Data G) (Ch : Choice2011 G) (h51 : S22_5_1
       obtain ⟨l, hl⟩ := Set.mem_iUnion.1 hb
       by_cases hkl : k = l
       · subst hkl
-        haveI := isCyclic_of_prime_card (hT3 k)
-        letI : CommGroup ↥(T k) := IsCyclic.commGroup
+        have := isCyclic_of_prime_card (hT3 k)
+        let : CommGroup ↥(T k) := IsCyclic.commGroup
         exact congrArg Subtype.val (mul_comm (⟨a, hk⟩ : ↥(T k)) ⟨b, hl⟩)
       · exact hcommT hkl a b hk hl
     · intro a ha
@@ -137,7 +137,7 @@ theorem uc22p22ye_three_lt_pRank (D : Data G) (Ch : Choice2011 G) (h51 : S22_5_1
   have hXle : X ≤ ⁅(⊤ : Subgroup (MBar D.M D.U)), ⊤⁆ :=
     iSup_le fun k => Subgroup.commutator_mono le_top le_top
   have hMU : D.M ≤ normalizer (D.U : Set G) := (uc22p22e_inCalV_U D).2.2.1
-  haveI hN := cTilde_bot_normal D.M D.U hMU
+  have hN := cTilde_bot_normal D.M D.U hMU
   set e := mbarEquiv D.M D.U with he
   set X' : Subgroup (F11.MBar11 D.M ⊥ D.U) := X.map e.toMonoidHom with hX'
   have hX'n : X'.Normal := hXn.map _ e.surjective

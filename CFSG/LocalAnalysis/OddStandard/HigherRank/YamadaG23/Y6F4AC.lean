@@ -72,7 +72,7 @@ theorem y6f4a_closure_pair_cases {g t : G} (hg2 : g ^ 2 = 1) (ht2 : t ^ 2 = 1)
       exact hgt.symm
 
 theorem y6f4a_no_conj_of_normalizer {g t : G} (hg2 : g ^ 2 = 1) (hg1 : g ≠ 1)
-    (hgt : g * t = t * g)
+    (_hgt : g * t = t * g)
     (hNH : centralizer ({g} : Set G) ⊓ normalizer ((zpowers g ⊔ zpowers t : Subgroup G) : Set G) ≤
       centralizer ({t} : Set G)) :
     ∀ x ∈ centralizer ({g} : Set G), x * t * x⁻¹ ≠ g * t := by
@@ -149,7 +149,7 @@ theorem y6f4a_sq_eq_one_of_sylow_exp_two {Γ : Type} [Group Γ] [Finite Γ] {V F
   have hzpg : IsPGroup 2 (zpowers x) := IsPGroup.of_card_dvd_pow hdvd
   obtain ⟨Q, hQle⟩ := hzpg.exists_le_sylow
   have hxQ : x ∈ Q := hQle (Subgroup.mem_zpowers x)
-  haveI : Finite (Sylow 2 ↥V) := Sylow.finite_of_finiteIndex F''
+  have : Finite (Sylow 2 ↥V) := Sylow.finite_of_finiteIndex F''
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (↥V) F'' Q
   have hxmem : x ∈ (c • F'' : Sylow 2 ↥V) := by rw [hc]; exact hxQ
   have hmem : x ∈ MulAut.conj c • (F'' : Subgroup ↥V) := by

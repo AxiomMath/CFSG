@@ -70,7 +70,7 @@ theorem false_of_endgame (D : Data G) {Ch : Choice2011 G} (hSg : UC6S846.SigmaSt
     obtain ⟨b, hb, hbo⟩ := uc22p22i_exists_elt_of_mem_piSet (B := c.B0) ⟨Nat.prime_three, h3⟩
     exact uc22p2214_false_of_sp D Ch h1930 c Nat.prime_three hk1 hb hbo
   obtain ⟨r, hr, b, hbB, hbr⟩ := exists_orderOf_mem_B0 D c.toCtx21 hn
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr7 := seven_le_of_dvd_card_B0 D c.toCtx21 (by omega) hB3 hr
     (hbr ▸ Subgroup.orderOf_dvd_natCard c.B0 hbB)
   have hr2 : r ≠ 2 := by omega

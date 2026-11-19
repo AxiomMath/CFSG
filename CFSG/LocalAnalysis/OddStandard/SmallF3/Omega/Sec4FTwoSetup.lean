@@ -33,7 +33,7 @@ variable [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B P : Subgroup G} {x :
   {φ : (Fin 7 → ZMod 2) → G}
 
 theorem sec4F_swap_eq_of_iff {Ω : Type} [DecidableEq Ω] {u v a b : Ω} (huv : u ≠ v)
-    (hab : a ≠ b) (h : ∀ g : Ω, (g = u ∨ g = v) ↔ (g = a ∨ g = b)) :
+    (_hab : a ≠ b) (h : ∀ g : Ω, (g = u ∨ g = v) ↔ (g = a ∨ g = b)) :
     Equiv.swap u v = Equiv.swap a b := by
   have hu : u = a ∨ u = b := (h u).mp (Or.inl rfl)
   have hv : v = a ∨ v = b := (h v).mp (Or.inr rfl)

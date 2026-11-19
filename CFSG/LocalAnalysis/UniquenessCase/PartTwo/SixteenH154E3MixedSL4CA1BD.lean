@@ -18,11 +18,11 @@ theorem s16h_threeElem_mem_of_two_normalizes {A : Type*} [Group A] {B T : Subgro
     (hT : IsPGroup 2 ↥T) (hTB : T ≤ Subgroup.normalizer (B : Set A)) {r : A} (hr : r ^ 3 = 1)
     (hrBT : r ∈ B ⊔ T) : r ∈ B := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBH : B ≤ B ⊔ T := le_sup_left
   have hTH : T ≤ B ⊔ T := le_sup_right
   have hHN : B ⊔ T ≤ Subgroup.normalizer (B : Set A) := sup_le Subgroup.le_normalizer hTB
-  haveI hnorm : (B.subgroupOf (B ⊔ T)).Normal :=
+  have hnorm : (B.subgroupOf (B ⊔ T)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hBH).2 hHN
   let π : ↥(B ⊔ T) →* ↥(B ⊔ T) ⧸ B.subgroupOf (B ⊔ T) := QuotientGroup.mk' _
   have hsup : B.subgroupOf (B ⊔ T) ⊔ T.subgroupOf (B ⊔ T) = ⊤ :=

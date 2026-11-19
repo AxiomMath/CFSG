@@ -31,6 +31,7 @@ theorem two_dvd_index_subgroupOf {U Z : Subgroup G} (hU2 : IsPGroup 2 U) (hZU : 
   rw [hn]
   exact dvd_pow_self 2 hn0
 
+omit [Finite G] in
 theorem conj_mem_of_mem_normalizer {N : Subgroup G} {j : G}
     (hj : j ∈ Subgroup.normalizer (N : Set G)) {x : G} (hx : x ∈ N) : j * x * j⁻¹ ∈ N :=
   (Subgroup.mem_normalizer_iff.mp hj x).mp hx
@@ -39,7 +40,7 @@ theorem exists_fixedCoset_ne {U Z J : Subgroup G} (hU2 : IsPGroup 2 U) (hZU : Z 
     (hJ2 : IsPGroup 2 J) (hUn : ∀ j ∈ J, ∀ x ∈ U, j * x * j⁻¹ ∈ U)
     (hZn : ∀ j ∈ J, ∀ x ∈ Z, j * x * j⁻¹ ∈ Z) :
     ∃ u ∈ U, u ∉ Z ∧ ∀ j ∈ J, ⁅u, j⁆ ∈ Z := by
-  letI actU : MulAction J U :=
+  let actU : MulAction J U :=
     { smul := fun j x => ⟨(j : G) * x * (j : G)⁻¹, hUn j j.2 x x.2⟩
       one_smul := fun x => Subtype.ext (by
         show ((1 : J) : G) * (x : G) * ((1 : J) : G)⁻¹ = (x : G)
@@ -47,18 +48,18 @@ theorem exists_fixedCoset_ne {U Z J : Subgroup G} (hU2 : IsPGroup 2 U) (hZU : Z 
       mul_smul := fun j k x => Subtype.ext (by
         show ((j * k : J) : G) * (x : G) * ((j * k : J) : G)⁻¹
           = (j : G) * ((k : G) * (x : G) * (k : G)⁻¹) * (j : G)⁻¹
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_mul]
         group) }
   have hsmul : ∀ (j : J) (a : U), ((j • a : U) : G) = (j : G) * (a : G) * (j : G)⁻¹ :=
     fun _ _ => rfl
-  haveI : MulAction.QuotientAction J (Z.subgroupOf U) :=
+  have : MulAction.QuotientAction J (Z.subgroupOf U) :=
     ⟨fun j {a a'} h => by
       rw [Subgroup.mem_subgroupOf] at h ⊢
       have h' := hZn (j : G) j.2 _ h
       convert h' using 1
       simp only [hsmul, Subgroup.coe_mul, Subgroup.coe_inv]
       group⟩
-  haveI : Finite (↥U ⧸ Z.subgroupOf U) := inferInstance
+  have : Finite (↥U ⧸ Z.subgroupOf U) := inferInstance
   have hpα : 2 ∣ Nat.card (↥U ⧸ Z.subgroupOf U) := two_dvd_index_subgroupOf hU2 hZU
   have ha0 : (QuotientGroup.mk (1 : ↥U) : ↥U ⧸ Z.subgroupOf U) ∈
       MulAction.fixedPoints J (↥U ⧸ Z.subgroupOf U) := by
@@ -84,12 +85,12 @@ theorem exists_fixedCoset_ne {U Z J : Subgroup G} (hU2 : IsPGroup 2 U) (hZU : Z 
 
 theorem exists_fixMod_ne {H L J : Subgroup G} (hL : IsChiBlock H L) (hJ2 : IsPGroup 2 J)
     (hJN : J ≤ Subgroup.normalizer (L : Set G)) :
-    ∃ u ∈ blockU L, u ∉ blockZ L ∧ ∀ j ∈ J, ⁅u, j⁆ ∈ blockZ L :=
+    ∃ u ∈ blockU L, u ∉ blockZ L ∧ ∀ _j ∈ J, ⁅u, _j⁆ ∈ blockZ L :=
   exists_fixedCoset_ne (CFSG.QuasithinUnique.C1.isPGroup_blockU hL.1.1)
     hL.1.1.2.2.2.2.1 hJ2
-    (fun j hj _ hx => conj_mem_of_mem_normalizer
+    (fun _j hj _ hx => conj_mem_of_mem_normalizer
       (CFSG.QuasithinUnique.C1.mem_normalizer_blockU (hJN hj)) hx)
-    (fun j hj _ hx => conj_mem_of_mem_normalizer
+    (fun _j hj _ hx => conj_mem_of_mem_normalizer
       (CFSG.QuasithinUnique.C1.mem_normalizer_blockZ (hJN hj)) hx)
 
 end CFSG.Quasithin.C116Two

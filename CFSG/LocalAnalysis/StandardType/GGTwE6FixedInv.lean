@@ -27,12 +27,12 @@ theorem exists_fixed_involution_twE6 {K : Type} [Field K] [Finite K] {n : ℕ} (
       ∀ φ ∈ X, ∀ u ∈ U, φ u ∈ U) :
     ∃ u : TwE6Delta.RecipeR K n, u * u = 1 ∧ u ≠ 1 ∧ ∀ φ ∈ X, φ u = u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨U, hU, hU2, hUX⟩ := hXU
   obtain ⟨σ, hσ, ε, hε⟩ := TwE6Transport.exists_recipeConj hn hK
   have hXr : X ≤ (TwE6Transport.recipeConj σ ε).range := fun φ hφ => (hε φ).2 (hXI hφ)
@@ -45,7 +45,7 @@ theorem exists_fixed_involution_twE6 {K : Type} [Field K] [Finite K] {n : ℕ} (
   obtain ⟨α, hα, hαD⟩ := TwE6RootKill.rootKill_of_ennolaKill_weylKill
       (TwE6RootKill.ennolaKill_of_steps TwE6RootKill.leviSplitStep_holds
           TwE6RootKill.ennolaSplitStep_holds) TwE6RootKill.weylKill_holds K σ (2 ^ n) hK hσ (ringChar.eq K 2) 3
-    Nat.prime_three h3 _ hAI hA (by rw [if_pos rfl]; exact hA4) hAU D
+    Nat.prime_three h3 _ hAI hA (by rw [ite_eq_left rfl]; exact hA4) hAU D
   obtain ⟨Y, Ym, ⟨g, hY, -⟩, hS⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6ThreeInner.exists_longRootPair_of_negDatum
       (2 ^ n) K σ hK hσ (by rw [ringChar.eq K 2]; norm_num) D.Fr D.hFr D.v D.g0 D.hg0C D.hg0 hα
@@ -54,7 +54,7 @@ theorem exists_fixed_involution_twE6 {K : Type} [Field K] [Finite K] {n : ℕ} (
       (∀ y, f y = D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) y * D.g0) ∧
         Function.Injective f :=
     ⟨(MulAut.conj D.g0⁻¹).toMonoidHom.comp (baseChangeGL (algebraMap K (AlgebraicClosure K))),
-      fun y => by simp [MulAut.conj_apply],
+      fun y => by simp,
       (MulAut.conj D.g0⁻¹).injective.comp (baseChangeGL_injective _)⟩
   have hcomm : ∀ u ∈ Y, ∀ y ∈ TwE6Transport.recipeMat σ ε X,
       Commute (u : ModGL TwistTag.E6.tag K) y := by

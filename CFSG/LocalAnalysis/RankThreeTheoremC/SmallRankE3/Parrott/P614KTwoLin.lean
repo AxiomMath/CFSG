@@ -16,7 +16,7 @@ open scoped MatrixGroups
 
 theorem isCyclic_outer_psl2 (F : Type) [Field F] [Finite F] [CharP F 2] :
     IsCyclic (Outer PSL(2, F)) := by
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic F
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic F
   refine isCyclic_of_surjective ((QuotientGroup.mk' (inner PSL(2, F))).comp
     (CFSG.GorensteinWalter.psl2FieldAut F)) fun a => ?_
   obtain ⟨α, rfl⟩ := QuotientGroup.mk'_surjective (inner PSL(2, F)) a

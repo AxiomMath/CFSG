@@ -13,7 +13,7 @@ open Subgroup CFSG.Blueprint
 theorem false_of_rank_two (hRk : RankTwoStd) {G : Type} [Group G] [Finite G] {x : G}
     {Y : Subgroup G} (hY : EndData G x Y)
     (h : 2 ≤ CFSG.Open.pRank 2 (Subgroup.centralizer (Y : Set G))) : False := by
-  haveI := hY.setting.simple
+  have := hY.setting.simple
   rcases hRk G hY.setting.nonab hY.setting.kProper Y hY.standard h with
       ⟨n, hn, e⟩ | h | h | h | h | h
   · exact hY.setting.notCat (Or.inr (Or.inl ⟨n, by omega, e⟩))
@@ -32,7 +32,7 @@ theorem false_of_quaternion (hQ : ∀ (G : Type) [Group G] [Finite G] (L : Subgr
     {r : ℕ} (hr : 3 ≤ r)
     (e : Nonempty (↥(S : Subgroup ↥(Subgroup.centralizer (Y : Set G))) ≃*
       QuaternionGroup (2 ^ (r - 2)))) : False := by
-  haveI := hY.setting.simple
+  have := hY.setting.simple
   have hstd : CFSG.OddStandard.StandardSetting G Y :=
     ⟨hY.setting.simple, hY.setting.nonab, hY.setting.kProper, hY.standard⟩
   rcases hQ G Y hstd S r hr e with h | h

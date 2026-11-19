@@ -110,7 +110,7 @@ theorem evB_fst_inl (l : Fin s) (u : Fin (d l.succ - d l.castSucc) → K) (p : F
     simp
   · have h' : (Sum.inl p : Fin r ⊕ Fin r) ≠ .inl (orthBlockIdx hd l j) := fun e =>
       h (Sum.inl_injective e)
-    simp [Pi.single_apply, h, h']
+    simp [h, h']
 
 theorem coordB_evB (l : Fin s) (u : Fin (d l.succ - d l.castSucc) → K) :
     coordB hd l (evB hd l u) = u := by
@@ -118,7 +118,7 @@ theorem coordB_evB (l : Fin s) (u : Fin (d l.succ - d l.castSucc) → K) :
   rw [coordB, evB_fst_inl, Finset.sum_eq_single i]
   · simp
   · intro j _ hji
-    rw [if_neg]
+    rw [ite_eq_right]
     exact fun h => hji ((orthBlockIdx_injective hd l h).symm)
   · simp
 
@@ -126,7 +126,7 @@ theorem evB_fst_inl_of_not_mem (l : Fin s) (u : Fin (d l.succ - d l.castSucc) �
     (hp : (p : ℕ) < d l.castSucc ∨ d l.succ ≤ (p : ℕ)) : (evB hd l u).1 (.inl p) = 0 := by
   rw [evB_fst_inl]
   refine Finset.sum_eq_zero fun j _ => ?_
-  rw [if_neg]
+  rw [ite_eq_right]
   intro h
   have := (mem_range_orthBlockIdx hd l p).1 ⟨j, h.symm⟩
   omega

@@ -20,7 +20,7 @@ private theorem lr2of4_conj_injective {S : Type} [Group S]
     rw [Subgroup.mem_center_iff]
     intro w
     have h3 := congrArg (fun f : MulAut S => f w) h1
-    simp only [MulAut.mul_apply, MulAut.conj_apply, MulAut.one_apply] at h3
+    simp only [MulAut.conj_apply, MulAut.one_apply] at h3
     have h4 : (b⁻¹ * a) * w = w * (b⁻¹ * a) := by
       have h5 := congrArg (fun t => t * (b⁻¹ * a)) h3
       simpa [mul_assoc] using h5
@@ -35,7 +35,7 @@ private theorem lr2of4_factorization_eq_of_center_bot
     (hker : Θ.ker = (MulAut.conj : S →* MulAut S).range)
     (h7n : ¬ 7 ∣ n) :
     (Nat.card (MulAut S)).factorization 7 = (Nat.card S).factorization 7 := by
-  haveI : Nonempty S := ⟨1⟩
+  have : Nonempty S := ⟨1⟩
   have hinj := lr2of4_conj_injective hZ
   have hn : n ≠ 0 := by
     rintro rfl
@@ -60,7 +60,7 @@ private theorem lr2opf4_card_mulAut_dvd_of_center_bot
     (hsurj : Function.Surjective Θ)
     (hker : Θ.ker = (MulAut.conj : S →* MulAut S).range) :
     Nat.card (MulAut S) ∣ n * Nat.card S := by
-  haveI : Nonempty S := ⟨1⟩
+  have : Nonempty S := ⟨1⟩
   have hinj := lr2of4_conj_injective hZ
   have hker_card : Nat.card Θ.ker = Nat.card S := by
     rw [hker]
@@ -83,21 +83,21 @@ theorem ord7_card_mulAut_dvd_F4
   · exact absurd hmem (by simp [classicalTags])
   · obtain ⟨-, hum⟩ := hm
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨eR0⟩⟩ := hum
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have h2 : 2 ≤ Nat.card K := Finite.one_lt_card
     have hf : 1 ≤ f := by
       rcases Nat.eq_zero_or_pos f with h | h
       · rw [h, pow_zero] at hKcard
         omega
       · exact h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := by
-      letI : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := by
+      let : Fintype K := Fintype.ofFinite K
       exact charP_of_card_eq_prime_pow (p := 2) (f := f) (by
         rw [← Nat.card_eq_fintype_card]
         exact hKcard)
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
     obtain ⟨-, -, ⟨Θ, -, hsurj, hker⟩, -⟩ :=
       CFSG.LieType.Chevalley.even_F4_exact_automorphism_normal_form (f := f) hf K hKcard
     have hdvd :
@@ -127,19 +127,19 @@ theorem ord7Param_F4
   · exact absurd hmem (by simp [classicalTags])
   · obtain ⟨-, hum⟩ := hm
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨eR0⟩⟩ := hum
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hf : 1 ≤ f := by
       rcases Nat.eq_zero_or_pos f with h | h
       · exact absurd (h ▸ dvd_zero 7) h7
       · exact h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := by
-      letI : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := by
+      let : Fintype K := Fintype.ofFinite K
       exact charP_of_card_eq_prime_pow (p := 2) (f := f) (by
         rw [← Nat.card_eq_fintype_card]
         exact hKcard)
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
     obtain ⟨-, -, ⟨Θ, -, hsurj, hker⟩, -⟩ :=
       CFSG.LieType.Chevalley.even_F4_exact_automorphism_normal_form (f := f) hf K hKcard
     have hfac : (Nat.card (MulAut (CFSG.Blueprint.Chevalley.adjointGroup .F4 K))).factorization 7 =

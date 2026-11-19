@@ -41,7 +41,7 @@ theorem pgl_noSz (hK : PiField π 2 n K) (hq : ModThree π (2 ^ n)) {G : Type} [
     rw [commutatorElement_def] at h
     simpa using h
   by_cases hq2 : π = true ∨ 2 < 2 ^ n
-  · haveI := isSimpleGroup_projImage_slPi hK hq2
+  · have := isSimpleGroup_projImage_slPi hK hq2
     have hQs : IsSimpleGroup ↥Q := hQe.isSimpleGroup
     have hiso : IsoLThreePi ↥Q 2 n := isoLThreePi_of_projImage_slPi hK hq hq2 hQe
     have h3Q : 3 ∣ Nat.card ↥Q := by
@@ -60,7 +60,7 @@ theorem pgl_noSz (hK : PiField π 2 n K) (hq : ModThree π (2 ^ n)) {G : Type} [
     have hsol : Group.IsSolvable ↥(projImage (slPi false 3 (2 ^ n) K)) :=
       Sec13.isSolvable_projImage_slPi_two hK h2
     have hQsol : Group.IsSolvable ↥Q :=
-      solvable_of_surjective (f := hQe.symm.toMonoidHom) hQe.symm.surjective
+      Group.isSolvable_of_surjective (f := hQe.symm.toMonoidHom) hQe.symm.surjective
     exact eq_bot_of_equiv_comm_solvable ε hQsol hcomm hYC hp
 
 end PGL
@@ -149,7 +149,7 @@ theorem d4Two_noSz {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ} (σF : 
         Sec11.KS11Lie6Proof.d4ThreeBCent_holds F (2 ^ f) σF hF hσF h3q _ hM hz'3 hz'1
       have hYM := le_of_commutators_mem hY' hp' hcomm
       obtain ⟨e⟩ := Sec11.KS11Lie4Proof.nonempty_mulEquiv_d4ShortSL2 hσ3
-      haveI : Finite ↥(orbitField TwistTag.D4 F σF.toRingHom Sec11.KS11Lie4Proof.d4Outer) :=
+      have : Finite ↥(orbitField TwistTag.D4 F σF.toRingHom Sec11.KS11Lie4Proof.d4Outer) :=
         Subtype.finite
       exact eq_bot_of_le_sl2 e hYM hp' h3'
   ·

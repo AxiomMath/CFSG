@@ -19,10 +19,10 @@ private theorem k328r1g_transvection_comm {F : Type} [Field F] {d : Fin 4 → F}
   · subst hab
     exact mul_comm _ _
   · by_cases h : i = a ∧ j = b
-    · rw [Matrix.add_apply, Matrix.one_apply_ne hab, zero_add, Matrix.single_apply, if_pos h,
+    · rw [Matrix.add_apply, Matrix.one_apply_ne hab, zero_add, Matrix.single_apply, ite_eq_left h,
         ← h.1, ← h.2, hd]
       exact mul_comm _ _
-    · rw [Matrix.add_apply, Matrix.one_apply_ne hab, zero_add, Matrix.single_apply, if_neg h,
+    · rw [Matrix.add_apply, Matrix.one_apply_ne hab, zero_add, Matrix.single_apply, ite_eq_right h,
         zero_mul, mul_zero]
 
 private theorem k328r1g_mem {F : Type} [Field F] {s : GL (Fin 4) F} {d : Fin 4 → F}

@@ -23,7 +23,7 @@ theorem upper_scalar_pow_succ (a b : ZMod p) (n : ℕ) :
   | succ n ih =>
     rw [pow_succ, ih]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> push_cast <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
 
 theorem mem_center_of_commute_of_pow_eq_one {u c : GL (Fin 2) (ZMod p)} (hu : u ^ p = 1)
     (hu1 : u ≠ 1) (hcu : c * u = u * c) (hc : (orderOf c).Coprime p) :
@@ -117,10 +117,10 @@ theorem not_dvd_card_of_layer_eq_bot
     (hJY : J ≤ Y₀) (hJ : ⁅J, J⁆ = J) : ¬ p ∣ Nat.card J := by
   intro hpJ
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Q := CFSG.pCore p Y with hQ
   have hQp : IsPGroup p Q := CFSG.pCore_isPGroup
-  haveI : Q.Normal := CFSG.pCore_normal
+  have : Q.Normal := CFSG.pCore_normal
   have hQc : centralizer (Q : Set Y) ≤ Q :=
     CFSG.isCharacteristicP_of_pPrimeCore_eq_bot_of_layer_eq_bot Y p h.core_eq_bot hlayer
   obtain ⟨z, hz, hzp⟩ : ∃ z ∈ centralizer ((R : Subgroup Y) : Set Y), orderOf z = p := by
@@ -134,10 +134,10 @@ theorem not_dvd_card_of_layer_eq_bot
         Nat.pow_le_pow_right hp.pos (le_trans (by norm_num) h.three_le_pRank)
       have h2 : 1 < p ^ 1 := by simpa using hp.one_lt
       omega
-    haveI : Nontrivial (R : Subgroup Y) := (Subgroup.nontrivial_iff_ne_bot _).mpr hRne
-    haveI := R.isPGroup'.center_nontrivial
+    have : Nontrivial (R : Subgroup Y) := (Subgroup.nontrivial_iff_ne_bot _).mpr hRne
+    have := R.isPGroup.center_nontrivial
     have hdvd : p ∣ Nat.card (Subgroup.center (R : Subgroup Y)) := by
-      rcases (R.isPGroup'.to_subgroup (Subgroup.center _)).card_eq_or_dvd with h1 | h1
+      rcases (R.isPGroup.to_subgroup (Subgroup.center _)).card_eq_or_dvd with h1 | h1
       · exact absurd h1 Finite.one_lt_card.ne'
       · exact h1
     obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' p hdvd
@@ -158,7 +158,7 @@ theorem not_dvd_card_of_layer_eq_bot
   have hY₀dvd : p ∣ Nat.card (Y₀.map ρ) := by
     have hRne : (R : Subgroup Y).map ρ ≠ ⊥ := fun hb =>
       h.not_sylow_le_of_normal hkerρ ((Subgroup.map_eq_bot_iff _).mp hb)
-    rcases (R.isPGroup'.map ρ).card_eq_or_dvd with h1 | h1
+    rcases (R.isPGroup.map ρ).card_eq_or_dvd with h1 | h1
     · exact absurd (Subgroup.card_eq_one.mp h1) hRne
     · exact h1.trans (Subgroup.card_dvd_of_le (Subgroup.map_mono hRY₀))
   set J' := J.map ρ with hJ'
@@ -177,7 +177,7 @@ theorem not_dvd_card_of_layer_eq_bot
     exact hp.not_dvd_one hpJ
   have hJ'Y : J' ≤ Y₀.map ρ := Subgroup.map_mono hJY
   have hSL : StatedSL 2 (ZMod p) ≤ Y₀.map ρ := by
-    haveI : Group.IsPerfect J' :=
+    have : Group.IsPerfect J' :=
       (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq J').mpr hJ'perf
     obtain ⟨-, -, -, -, hdiv, -⟩ := perfect_prime_linear_recognition h.ne_two J' hJ'ne
     by_cases hpJ' : p ∣ Nat.card J'
@@ -225,7 +225,7 @@ theorem not_dvd_card_of_layer_eq_bot
     show ρ r ∈ StatedSL 2 (ZMod p)
     rw [mem_statedSL_iff]
     apply det_eq_one_of_pow_eq_one
-    obtain ⟨k, hk⟩ := (R.isPGroup'.map ρ) ⟨ρ r, ⟨r, hr, rfl⟩⟩
+    obtain ⟨k, hk⟩ := (R.isPGroup.map ρ) ⟨ρ r, ⟨r, hr, rfl⟩⟩
     have hk' : (ρ r) ^ (p ^ k) = 1 := by simpa using congrArg Subtype.val hk
     obtain ⟨m, hm, hmo⟩ := (Nat.dvd_prime_pow hp).mp (orderOf_dvd_of_pow_eq_one hk')
     have hm1 : m ≤ 1 := by
@@ -241,7 +241,7 @@ theorem not_dvd_card_of_layer_eq_bot
     exact h.ne_top (eq_top_iff.mpr fun x _ => hall x)
   have hWc : W ≤ Y₀ ⊓ GLBConj x Y₀ := by
     refine le_inf hWY fun w hw => ⟨x * w * x⁻¹, hWY (hWn.conj_mem w hw x), ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have h3 := h.three_le_pRank.trans
     (CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp (hRW.trans hWc))
   have h2 := h.pRank_inf_conj_le x hx

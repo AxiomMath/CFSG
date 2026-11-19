@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem e17_step1 {S T : Subgroup G} {t : G} (ht2 : t * t = 1) (htT : t ∉ T)
     (htc : ∀ s ∈ T, s * t = t * s) (hS : S = zpowers t ⊔ T) {s : G} (hs : s ∈ S) :
     s ∈ T ∨ t * s ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht1 : t ≠ 1 := fun h => htT (h ▸ T.one_mem)
   have hord : orderOf t = 2 := orderOf_eq_prime (by rw [pow_two]; exact ht2) ht1
   have hN : zpowers t ≤ normalizer (T : Set G) := by
@@ -40,7 +40,7 @@ private theorem e17_step1 {S T : Subgroup G} {t : G} (ht2 : t * t = 1) (htT : t 
 private theorem e17_abs_aux {S T E : Subgroup G} {t w w' : G} (ht2 : t * t = 1)
     (htT : t ∉ T) (htc : ∀ s ∈ T, s * t = t * s) (hS : S = zpowers t ⊔ T)
     (hT : ∀ u ∈ T, 16 ≤ Nat.card ↥(T ⊓ centralizer ({u} : Set G)) → u ^ 4 = 1)
-    (hwS : w ∈ S) (hES : E ≤ S) (hEw : ∀ e ∈ E, e * w = w * e) (hE : 32 ≤ Nat.card E)
+    (_hwS : w ∈ S) (hES : E ≤ S) (hEw : ∀ e ∈ E, e * w = w * e) (hE : 32 ≤ Nat.card E)
     (hw'T : w' ∈ T) (hw' : w' = w ∨ w = t * w') : w ^ 4 = 1 := by
   have hcomm : Commute t w' := (htc w' hw'T).symm
   have ht4 : t ^ 4 = 1 := by

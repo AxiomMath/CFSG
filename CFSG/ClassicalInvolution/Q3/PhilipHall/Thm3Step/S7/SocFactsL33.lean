@@ -80,7 +80,7 @@ open SocL33 in
 theorem l33Q8Class_proved :
     L33Q8Class := by
   intro G _ _ N hN hC hL T₁ T₂ h₁ h₂
-  haveI := hN
+  have := hN
   obtain ⟨e⟩ := L33.equiv_of_lieModel hL
   obtain ⟨M, hMP, hMA⟩ := L33.autModel e
   have hPA : M.P ≤ M.A := by

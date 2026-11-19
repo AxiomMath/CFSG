@@ -18,7 +18,7 @@ theorem good427_of_orderOf_ne_fifteen {S : Type} [Group S] [Finite S]
     Good427 (Subgroup.centralizer ({y} : Set S)) := by
   intro K hKC _ _ hT
   obtain ⟨a, ha⟩ := exists_card_eq_sixty_mul hT
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨f, hf⟩ := exists_prime_orderOf_dvd_card' (G := K) 5
     (by rw [ha]; exact ⟨12 * 2 ^ a, by ring⟩)
   have hfC : (f : S) ∈ Subgroup.centralizer ({y} : Set S) := hKC f.2
@@ -41,8 +41,8 @@ theorem orderOf_ne_fifteen_m11 : ∀ g : Blueprint.NativeSporadic.M11, orderOf g
   have h := card_orderOf_eq (by norm_num) m11Certificate m11Certificate_check.1 (m := 15)
     (by norm_num)
   rw [mathieu_noFifteen.1, m11Certificate_originalSubgroup] at h
-  haveI : Finite {x : Blueprint.NativeSporadic.M11 // orderOf x = 15} := Subtype.finite
-  haveI : Nonempty {x : Blueprint.NativeSporadic.M11 // orderOf x = 15} := ⟨⟨g, hg⟩⟩
+  have : Finite {x : Blueprint.NativeSporadic.M11 // orderOf x = 15} := Subtype.finite
+  have : Nonempty {x : Blueprint.NativeSporadic.M11 // orderOf x = 15} := ⟨⟨g, hg⟩⟩
   exact (Nat.card_pos (α := {x : Blueprint.NativeSporadic.M11 // orderOf x = 15})).ne' h
 
 theorem noCfgS427_m11 :
@@ -68,8 +68,8 @@ theorem orderOf_ne_fifteen_m12 : ∀ g : Blueprint.NativeSporadic.M12, orderOf g
   have h := card_orderOf_eq (by norm_num) m12Certificate m12Certificate_check (m := 15)
     (by norm_num)
   rw [mathieu_noFifteen.2, m12Certificate_originalSubgroup] at h
-  haveI : Finite {x : Blueprint.NativeSporadic.M12 // orderOf x = 15} := Subtype.finite
-  haveI : Nonempty {x : Blueprint.NativeSporadic.M12 // orderOf x = 15} := ⟨⟨g, hg⟩⟩
+  have : Finite {x : Blueprint.NativeSporadic.M12 // orderOf x = 15} := Subtype.finite
+  have : Nonempty {x : Blueprint.NativeSporadic.M12 // orderOf x = 15} := ⟨⟨g, hg⟩⟩
   exact (Nat.card_pos (α := {x : Blueprint.NativeSporadic.M12 // orderOf x = 15})).ne' h
 
 theorem noCfgS427_m12 :

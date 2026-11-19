@@ -48,7 +48,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC CFSG.LocalAnalysis.RankThreeUC.S15
 
 @[expose] def KFactAltSixCoreCentral : Prop :=
   ∀ (K : Type) [Group K] [Finite K], Group.IsPerfect K → ∀ N : Subgroup K, (hN : N.Normal) →
-    IsSolvable ↥N → Nat.Coprime (Nat.card N) 6 →
+    Group.IsSolvable ↥N → Nat.Coprime (Nat.card N) 6 →
     Nonempty (K ⧸ N ≃* alternatingGroup (Fin 6)) →
     (∀ r : ℕ, r.Prime → CFSG.Open.pRank r N ≤ 3) → N ≤ Subgroup.center K
 

@@ -77,6 +77,7 @@ private theorem edgeCenter_conj_mem {x y : V} {g z : H}
     _ = g * (z * (g⁻¹ * u * g)) * g⁻¹ := by rw [← hcomm]
     _ = (g * z * g⁻¹) * u := by group
 
+omit [GraphAction H Γ] in
 private theorem edgeKernel_le_edgeUnion_left {x y w : V} (hw : Γ.Adj x w) :
     edgeKernel (H := H) Γ x w ≤ edgeUnion H Γ x y := by
   unfold edgeUnion
@@ -151,7 +152,7 @@ private theorem edgeCenter_ne_bot [Finite H] (hM : MoufangCondition H Γ 4)
   have hU : edgeUnion H Γ x y ≠ ⊥ := fun h => hK (le_bot_iff.mp (hUle.trans (le_of_eq h)))
   have hU2 : IsPGroup 2 ↥(edgeUnion H Γ x y) :=
     edgeUnion_isPGroup (n := 4) (by norm_num) hW hval (fun z => (hL z).kernel_le) hxy
-  haveI : Nontrivial ↥(edgeUnion H Γ x y) :=
+  have : Nontrivial ↥(edgeUnion H Γ x y) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr hU
   have hcenter : Subgroup.center ↥(edgeUnion H Γ x y) ≠ ⊥ :=
     ne_of_gt (IsPGroup.bot_lt_center hU2)
@@ -173,6 +174,7 @@ private theorem edgeCenter_ne_bot [Finite H] (hM : MoufangCondition H Γ 4)
     exact hz1
   exact hcne hc1
 
+omit [GraphAction H Γ] in
 private theorem edgeUnion_comm (x y : V) :
     edgeUnion H Γ x y = edgeUnion H Γ y x := by
   unfold edgeUnion
@@ -397,7 +399,7 @@ private theorem edgeCenter_le_fixing_third [Finite H] (hM : MoufangCondition H �
           calc a⁻¹ • y = a⁻¹ • (a • y) := by rw [hay]
             _ = y := by simp
         have hmem := edgeCenter_conj_mem (g := a⁻¹) hainvx hainvy hw
-        convert hmem using 1 <;> group
+        convert hmem using 1; group
     have haNormB : a ∈ Subgroup.normalizer
         (fixingSubgroup H (Γ.neighborSet v) : Set H) :=
       ((socleAt_le_stabilizer (hK v)).trans

@@ -27,7 +27,7 @@ theorem bal207SzNorm :
   have hC : ∀ T : Sylow 5 G, ∀ t ∈ (T : Subgroup G), t ≠ 1 → ∀ g : G, g * t = t * g →
       g ∈ (T : Subgroup G) := fun T =>
     CFSG.AGLEmbedding.KFactProofs.Sz32Local.centralizer_le_of_equiv ε T
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact CFSG.LocalAnalysis.RankFourTheoremC.SzSignalizer.eq_bot_of_normalizes hSz hsimple hC
     (orderOf_eq_prime hk5 hk1) ((Nat.Prime.coprime_iff_not_dvd Nat.prime_five).1 hS) hkS
 

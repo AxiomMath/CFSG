@@ -84,6 +84,7 @@ theorem card_inf_bound (hlist : GoldschmidtS3ListCat.{u}) {D : Type u} [Group D]
   · have := card_inf_bound_oriented (GoldAmN.amalgam_symm h) hc
     rwa [inf_comm H₂ H₁] at this
 
+omit [Finite D] in
 theorem le_centralizer_self_of_sq {A : Subgroup D} (hA : ∀ x ∈ A, x ^ 2 = 1) :
     A ≤ Subgroup.centralizer (A : Set D) := by
   intro x hx
@@ -108,7 +109,7 @@ theorem false_of_three_commuting {T N₀ S₁ S₂ S₃ : Subgroup D} [N₀.Norm
     (c₂₃ : S₂ ≤ Subgroup.centralizer (S₃ : Set D)) (h128 : Nat.card ↥T ≤ 128)
     (hZ : Nat.card ↥T = 128 → Nat.card ↥(centerOf T) ≤ 2) : False := by
   set P := S₁ ⊔ S₂ ⊔ S₃ with hP
-  obtain ⟨t, htT, htN₀⟩ := SetLike.not_le_iff_exists.mp hTN
+  obtain ⟨t, htT, htN₀⟩ := IsConcreteLE.not_le_iff_exists.mp hTN
   have hrel : (T ⊓ N₀).relIndex T ≠ 1 := fun h1 =>
     hTN ((Subgroup.relIndex_eq_one.mp h1).trans inf_le_right)
   have hrel0 : (T ⊓ N₀).relIndex T ≠ 0 := Subgroup.index_ne_zero_of_finite

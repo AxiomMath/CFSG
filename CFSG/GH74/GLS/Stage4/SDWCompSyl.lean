@@ -21,9 +21,9 @@ theorem sdw_exists_sylow_cent {X : Type} [Group X] [Finite X]
   have hz1 : z ≠ 1 := by
     intro h; rw [h, orderOf_one] at hz; exact absurd hz (by norm_num)
   have : Nontrivial ↥(S₀ : Subgroup X) := ⟨⟨⟨z, hzS₀⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
-  have : Nontrivial ↥(Subgroup.center ↥(S₀ : Subgroup X)) := S₀.isPGroup'.center_nontrivial
+  have : Nontrivial ↥(Subgroup.center ↥(S₀ : Subgroup X)) := S₀.isPGroup.center_nontrivial
   have h2 : 2 ∣ Nat.card ↥(Subgroup.center ↥(S₀ : Subgroup X)) := by
-    obtain ⟨n, hn⟩ := (S₀.isPGroup'.to_subgroup (Subgroup.center ↥(S₀ : Subgroup X))).exists_card_eq
+    obtain ⟨n, hn⟩ := (S₀.isPGroup.to_subgroup (Subgroup.center ↥(S₀ : Subgroup X))).exists_card_eq
     rw [hn]
     have hn0 : n ≠ 0 := by
       rintro rfl

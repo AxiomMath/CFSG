@@ -72,7 +72,7 @@ private theorem false_of_mem_pCore_of_mem_E [Finite G] (h : Hyp G D)
     rw [hxconj]
     exact (inferInstance : Q.Normal).conj_mem _ hdQ' lH
   have hcltop : Subgroup.closure (((↑) : H → G) ⁻¹' E) = (⊤ : Subgroup H) := by
-    simpa [H] using Subgroup.closure_preimage_eq_top (S := E)
+    simp [H]
   have hQtop : Q = ⊤ := by
     have hle : Subgroup.closure (((↑) : H → G) ⁻¹' E) ≤ Q :=
       (Subgroup.closure_le Q).mpr hEsubQ

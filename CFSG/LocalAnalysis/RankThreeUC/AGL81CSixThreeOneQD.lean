@@ -216,8 +216,8 @@ private theorem card_fixedPoints_eq_card_inf_centralizer {X : Type*} [Group X] {
 theorem commute_of_card_eight {X : Type*} [Group X] {Q : Subgroup X} (hQ : Nat.card ↥Q = 8)
     {x : X} (hx : x ^ 5 = 1) (hxQ : ∀ q ∈ Q, x * q * x⁻¹ ∈ Q) : ∀ q ∈ Q, x * q = q * x := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
-  haveI : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
   by_cases hx1 : x = 1
   · intro q _
     subst hx1
@@ -292,10 +292,10 @@ private theorem exists_center_eq_zpowers_of_card_two {Q : Type} [Group Q]
     (hZcard : Nat.card (Subgroup.center Q) = 2) :
     ∃ z : Q, Subgroup.center Q = Subgroup.zpowers z ∧ orderOf z = 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(Subgroup.center Q) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(Subgroup.center Q) :=
     Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
-  haveI : Fintype ↥(Subgroup.center Q) := Fintype.ofFinite _
+  have : Fintype ↥(Subgroup.center Q) := Fintype.ofFinite _
   have hZcard' : Fintype.card ↥(Subgroup.center Q) = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hZcard
@@ -366,9 +366,9 @@ private theorem sq_apply_eq_self_of_quotient_eq {Q : Type} [Group Q] {Z : Subgro
 theorem isQ8D8Type_of_extraspecial {Q : Type} [Group Q] (hQ : CFSG.IsExtraspecialPGroup 2 Q)
     (hcard : Nat.card Q = 32) (α : MulAut Q) (hα : orderOf α = 5) : IsQ8D8Type Q := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   have hZcard : Nat.card (Subgroup.center Q) = 2 := hQ.2.2.2
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨z0, hZ, hz0ord⟩ := exists_center_eq_zpowers_of_card_two hZcard
   have hαZ : ∀ w ∈ Subgroup.center Q, α w = w :=
     fun w hw => mulAut_apply_eq_of_mem_center hZ hz0ord α hw

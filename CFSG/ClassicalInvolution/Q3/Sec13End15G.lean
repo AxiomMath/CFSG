@@ -21,6 +21,7 @@ namespace EndHyp
 
 variable {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem mem_zSet_iff (h : EndHyp Ω) (s : TwinSit Ω K K' z) {a : G} :
     a ∈ zSet Ω ↔ ∃ g : G, a = g * z * g⁻¹ := by
   constructor
@@ -31,7 +32,7 @@ theorem mem_zSet_iff (h : EndHyp Ω) (s : TwinSit Ω K K' z) {a : G} :
     exact ⟨conjSub g K, h.thmD.hyp.conjInvariant g K s.mem, s.isInv.conj g⟩
 
 theorem polarE_map_eq_eGroup [hh : Fact (EndHyp Ω)] [h9 : Fact (Perp9 Ω)]
-    (s : TwinSit Ω K K' z) {bf : zGroup Ω → zGroup Ω → ZMod 2} (hbf : IsEndForm Ω bf)
+    (_s : TwinSit Ω K K' z) {bf : zGroup Ω → zGroup Ω → ZMod 2} (hbf : IsEndForm Ω bf)
     {M : Subgroup G} (hM : M ∈ Ω) {p : zGroup Ω} (hp : IsUniqueInvolution M p.1) :
     (Polar.polarE bf (zPoints Ω) p).map (zGroup Ω).subtype = eGroup Ω M := by
   have h := hh.out
@@ -76,14 +77,14 @@ theorem not_isotropic_eGroup [hh : Fact (EndHyp Ω)] [h9 : Fact (Perp9 Ω)] (s :
     obtain ⟨t, ht⟩ := Sec6Gen.exists_uniqueInvolution h.thmD.hyp hR'Ω
     have htE : t ∈ eGroup Ω K := by
       rw [← hER]
-      exact h.mem_eGroup_of_mem_omegaStarNbr hR' ht
-    have hjD : t ∈ zGroup Ω := h.eGroup_le_zGroup s.mem htE
+      exact CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hR' ht
+    have hjD : t ∈ zGroup Ω := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem htE
     have hEsub : eGroup Ω K ≤ eGroup Ω R' := by
       intro x hx
       by_cases hx1 : x = 1
       · rw [hx1]
         exact (eGroup Ω R').one_mem
-      · have hxD : x ∈ zGroup Ω := h.eGroup_le_zGroup s.mem hx
+      · have hxD : x ∈ zGroup Ω := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem hx
         have hbx : bf ⟨x, hxD⟩ ⟨t, hjD⟩ = 0 := hiso ⟨x, hxD⟩ ⟨t, hjD⟩ hx htE
         have hxN : x ∈ Subgroup.normalizer (R' : Set G) :=
           (hbf.spec R' hR'Ω ⟨t, hjD⟩ ht ⟨x, hxD⟩).mp hbx
@@ -110,10 +111,10 @@ theorem not_isotropic_eGroup [hh : Fact (EndHyp Ω)] [h9 : Fact (Perp9 Ω)] (s :
     refine (Subgroup.closure_le _).mpr ?_
     rintro u ⟨L, hL, hu⟩
     obtain ⟨-, heq⟩ := key L (h.star K s.mem L hL)
-    have hu' := h.mem_eGroup_of_isUniqueInvolution hu
+    have hu' := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_isUniqueInvolution (Ω := Ω) hu
     rw [heq] at hu'
     exact hu'
-  exact h13 (le_antisymm hle (h.eGroup_le_zGroup s.mem))
+  exact h13 (le_antisymm hle (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem))
 
 theorem polarData [hh : Fact (EndHyp Ω)] [h9 : Fact (Perp9 Ω)] (s : TwinSit Ω K K' z)
     (h13 : zGroup Ω ≠ eGroup Ω K) (hE : eGroup Ω K ≤ K ⊔ K')
@@ -197,8 +198,8 @@ theorem natCard_zGroup_eq_sixteen_local (h : EndHyp Ω) (h9 : Perp9 Ω) (s : Twi
     (h13 : zGroup Ω ≠ eGroup Ω K) (hE : eGroup Ω K ≤ K ⊔ K') :
     Nat.card (zGroup Ω) = 16 ∧ (∀ a ∈ zGroup Ω, a ≠ 1 → ∃ g : G, a = g * z * g⁻¹) ∧
       zGroup Ω ⊓ Subgroup.normalizer (K : Set G) = eGroup Ω K := by
-  haveI : Fact (EndHyp Ω) := ⟨h⟩
-  haveI : Fact (Perp9 Ω) := ⟨h9⟩
+  have : Fact (EndHyp Ω) := ⟨h⟩
+  have : Fact (Perp9 Ω) := ⟨h9⟩
   obtain ⟨bf, hbf⟩ := h.exists_endForm h9 s h13
   obtain ⟨hcard, hpts⟩ :=
     Polar.PolarData.card_eq_sixteen hbf.sympForm (polarData s h13 hE hbf)
@@ -210,7 +211,7 @@ theorem natCard_zGroup_eq_sixteen_local (h : EndHyp Ω) (h9 : Perp9 Ω) (s : Twi
   have hdiv := h.natCard_zGroup_eq_two_mul h9 s h13
   have hcardI : Nat.card ↥(zGroup Ω ⊓ Subgroup.normalizer (K : Set G)) = 8 := by omega
   have hle : eGroup Ω K ≤ zGroup Ω ⊓ Subgroup.normalizer (K : Set G) :=
-    le_inf (h.eGroup_le_zGroup s.mem) (h.eGroup_le_normalizer s.mem)
+    le_inf (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem) (h.eGroup_le_normalizer s.mem)
   have hcardE : Nat.card (eGroup Ω K) = 8 :=
     (eGroup_eq_zGroup_inf_sup_of_le h h9 s h13 hE).1
   exact (Subgroup.eq_of_le_of_card_ge hle (by omega)).symm
@@ -282,8 +283,8 @@ theorem exists_transitive_pair_of_local (h : EndHyp Ω) (h9 : Perp9 Ω) (s : Twi
       ∃ Λ : Subgroup G, Λ ≤ Subgroup.normalizer (A : Set G) ∧
         ∀ a ∈ A, a ≠ 1 → ∃ l ∈ Λ, a = l * z * l⁻¹ := by
   obtain ⟨h16, hpts, -⟩ := h.natCard_zGroup_eq_sixteen_local h9 s h13 hE
-  haveI : (zGroup Ω).Normal := zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant
-  refine ⟨zGroup Ω, le_rfl, h.eGroup_le_zGroup s.mem, h16, ⊤, ?_, ?_⟩
+  have : (zGroup Ω).Normal := zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant
+  refine ⟨zGroup Ω, le_rfl, CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem, h16, ⊤, ?_, ?_⟩
   · exact le_of_eq (Subgroup.normalizer_eq_top (zGroup Ω : Subgroup G)).symm
   · intro a ha ha1
     obtain ⟨g, hg⟩ := hpts a ha ha1

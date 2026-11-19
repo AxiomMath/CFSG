@@ -60,9 +60,9 @@ theorem exists_conj_fixedSubgroup_D4_graphField {ℓ f e : ℕ} [Fact ℓ.Prime]
     have hψ' : ψ * β * ψ⁻¹ = d4Twist (ε : ℤ) σ := hψ
     refine ⟨ψ, ?_⟩
     rcases hε with rfl | rfl
-    · have : d4GfTwist σ σ 1 = σ := if_pos (Or.inl ⟨rfl, rfl⟩)
+    · have : d4GfTwist σ σ 1 = σ := ite_eq_left (Or.inl ⟨rfl, rfl⟩)
       rw [this, hψ', Nat.cast_one]
-    · have : d4GfTwist σ σ 2 = σ⁻¹ := if_neg (by
+    · have : d4GfTwist σ σ 2 = σ⁻¹ := ite_eq_right (by
         rintro (⟨-, h⟩ | ⟨h, -⟩)
         · exact absurd h (by decide)
         · exact hTinv h)
@@ -78,7 +78,7 @@ theorem exists_conj_fixedSubgroup_D4_graphField {ℓ f e : ℕ} [Fact ℓ.Prime]
     · have hshift : d4Twist (-((1 : ℕ) : ℤ)) T = d4Twist 2 T := by
         rw [← d4Twist_add_three]
         norm_num
-      have : d4GfTwist T T⁻¹ 1 = T⁻¹ := if_neg (by
+      have : d4GfTwist T T⁻¹ 1 = T⁻¹ := ite_eq_right (by
         rintro (⟨h, -⟩ | ⟨-, h⟩)
         · exact hTinv h.symm
         · exact absurd h (by decide))
@@ -87,7 +87,7 @@ theorem exists_conj_fixedSubgroup_D4_graphField {ℓ f e : ℕ} [Fact ℓ.Prime]
     · have hshift : d4Twist (-((2 : ℕ) : ℤ)) T = d4Twist 1 T := by
         rw [← d4Twist_add_three]
         norm_num
-      have : d4GfTwist T T⁻¹ 2 = T := if_pos (Or.inr ⟨rfl, rfl⟩)
+      have : d4GfTwist T T⁻¹ 2 = T := ite_eq_left (Or.inr ⟨rfl, rfl⟩)
       rw [this, hshift]
 
 end GraphFieldConj

@@ -27,7 +27,7 @@ theorem nine3Norm_mem_J (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V
         exact hbBI.2)⟩ : G) ∈
       ⨆ B ∈ nineOmegaIn V K S, B ⊓ pCoreOf 2 K := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
+  have : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
   let I := nineI V K
   let R := pCoreOf 2 K
   let J := ⨆ B ∈ nineOmegaIn V K S, B ⊓ R
@@ -101,11 +101,11 @@ theorem nine3Norm_mem_J (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V
       group
     rw [Subgroup.mem_subgroupOf]
     change (f g : G) * (f g⁻¹ : G) ∈ A₀
-    simp only [f, Subtype.coe_mk, inv_inv, Subgroup.coe_inv]
+    simp only [f, inv_inv, Subgroup.coe_inv]
     rw [hval]
     exact hcomm
   let Nsub : Subgroup ↥I := A₀.subgroupOf I
-  haveI : Nsub.Normal := inferInstance
+  have : Nsub.Normal := inferInstance
   let qf : ↥P → (↥I ⧸ Nsub) := fun g => QuotientGroup.mk' Nsub (f g)
   have hprodQ : ∏ g ∈ (Finset.univ.erase (1 : ↥P)), qf g = 1 := by
     refine Finset.prod_involution (s := Finset.univ.erase (1 : ↥P)) (f := qf)
@@ -158,8 +158,8 @@ theorem nine3Norm_mem_J (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V
   rw [hN]
   exact J.mul_mem (hB_le_J hb) hPsubJ
 
-theorem nine3Norm_image_conj (hc : Nine3Choice V T A K S X p g x)
-    (hI : Nine3IFacts V K S) [IsMulCommutative ↥(nineI V K)]
+theorem nine3Norm_image_conj (_hc : Nine3Choice V T A K S X p g x)
+    (_hI : Nine3IFacts V K S) [IsMulCommutative ↥(nineI V K)]
     {P : Subgroup G} [Fintype ↥P] (hPnormI : P ≤ Subgroup.normalizer (nineI V K : Set G))
     (hPK : P ≤ K) {U : Subgroup G} (hU : U ∈ omegaIn V K (nineE V K)) {z : G} (hz : z ∈ P) :
     ((CFSG.Quasithin.conjSubgroup U z ⊓ pCoreOf 2 K).subgroupOf (nineI V K)).map
@@ -250,7 +250,7 @@ theorem nine3_exists_conj_mem_omega (hc : Nine3Choice V T A K S X p g x)
   let uK : ↥K := ⟨u, huK⟩
   have hRsub : (pCoreOf 2 K).subgroupOf K = CFSG.pCore 2 ↥K :=
     CFSG.openPCoreOf_subgroupOf 2 K
-  haveI : ((pCoreOf 2 K).subgroupOf K).Normal := by
+  have : ((pCoreOf 2 K).subgroupOf K).Normal := by
     rw [hRsub]
     exact CFSG.pCore_normal
   have huKsup : uK ∈ (pCoreOf 2 K).subgroupOf K ⊔ P.subgroupOf K := by
@@ -275,7 +275,7 @@ theorem nine3_exists_conj_mem_omega (hc : Nine3Choice V T A K S X p g x)
 theorem nine3_centralizer_P_le_J (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V K S)
     [IsMulCommutative ↥(nineI V K)]
     {a : G} {P : Subgroup G} [Fintype ↥P] (ha : a ∈ A) (hPK : P ≤ K)
-    (hPcard : Nat.card ↥P = p) (hodd : Odd (Nat.card ↥P))
+    (hPcard : Nat.card ↥P = p) (_hodd : Odd (Nat.card ↥P))
     (hXP : X ≤ pCoreOf 2 K ⊔ P)
     (hinv : ∀ y ∈ P, a⁻¹ * y * a = y⁻¹) :
     nineI V K ⊓ Subgroup.centralizer (P : Set G) ≤

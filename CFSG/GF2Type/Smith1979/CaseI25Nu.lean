@@ -20,11 +20,13 @@ section Abstract
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {N L : Type*} [Group N] [Group L]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem eq_smul_of_mem_span {a w : V} (ε : V →ₗ[ZMod 2] ZMod 2) (hε : ε a = 1)
     (hw : w ∈ (ZMod 2) ∙ a) : w = ε w • a := by
   obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hw
   rw [map_smul, hε, smul_eq_mul, mul_one]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem eps_mul (ψ : N →* (V ≃ₗ[ZMod 2] V)) {a : V} (ε : V →ₗ[ZMod 2] ZMod 2) (hε : ε a = 1)
     (hNa : ∀ n : N, ψ n a = a) (n m : N) (p : V) (hm : ψ m p - p ∈ (ZMod 2) ∙ a) :
     ε (ψ (n * m) p - p) = ε (ψ n p - p) + ε (ψ m p - p) := by
@@ -47,8 +49,8 @@ theorem exists_extension_of_invariant (ψ : N →* (V ≃ₗ[ZMod 2] V)) (ι : L
     (f : L →* Multiplicative (ZMod 2)) (hf : ∀ (n : N) (l : L), f (cj n l) = f l) :
     ∃ ν : N →* Multiplicative (ZMod 2), ∀ l : L, ν (ι l) = f l := by
   classical
-  letI : CommGroup L := { (inferInstance : Group L) with mul_comm := hcomm }
-  letI : Module (ZMod 2) (Additive L) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : CommGroup L := { (inferInstance : Group L) with mul_comm := hcomm }
+  let : Module (ZMod 2) (Additive L) := AddCommGroup.zmodModule (n := 2) fun x => by
     rw [two_nsmul]
     exact hsq (Additive.toMul x)
   obtain ⟨ε, hε⟩ := Module.Projective.exists_dual_eq_one (ZMod 2) ha

@@ -59,11 +59,12 @@ private theorem s265f_simple_of_datum {lab : LargeEvenLabel} {D : Type} [Group D
   have hMD : MarkedModel lab D := MarkedModel.of_mulEquiv e'.symm hMR
   exact ⟨(FR.simple_chev_of_markedModel hG hMD).1, hMD⟩
 
+omit [Finite G] in
 private theorem s265f_twF4_cent_card {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {b : G}
     (hF : FieldOn p b L) {lab : LargeEvenLabel} (htag : lab.tag = .twF4) (hn : lab.n = p)
     (hM : MarkedModel lab (PSimple p L)) :
     Nat.card ↥(FP.fixSub (indAut p L b hF.1)) = 35942400 := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨hβp, hβi⟩ := FR.Res.fieldOn_outer hp hp2 hF
   set β := indAut p L b hF.1 with hβ
   have hβ1 : β ≠ 1 := fun h => hβi ⟨1, by rw [h]; ext x; simp⟩

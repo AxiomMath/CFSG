@@ -135,7 +135,7 @@ private theorem exists_orderOf_nine {K : Type} [Group K] [Finite K]
   refine ⟨t, ht, ?_⟩
   have h1 : orderOf (ε₀ t) = orderOf t := MulEquiv.orderOf_eq ε₀ t
   have h2 : orderOf y = 9 := by
-    rw [hy, show g⁻¹ * g9 * g = MulAut.conj g⁻¹ g9 by simp [MulAut.conj_apply],
+    rw [hy, show g⁻¹ * g9 * g = MulAut.conj g⁻¹ g9 by simp,
       MulEquiv.orderOf_eq, orderOf_g9]
   have hty' : ε₀ t = y := hty
   rw [← h1, hty']
@@ -150,15 +150,15 @@ theorem threeFourSolvThreeNoneAt_l28 (q : TauCeti.PrimePower) (d : TauCeti.Valid
     ThreeFourSolvThreeNoneAt (TauCeti.CFSGIndex.lie d).Group := by
   intro Y _ _ K Y₀ E R I₀ _ _ σ hKn hKX hZ _ _ _ _ hER hE hEc hcore hO2 _ hσY hσs hb _ _
   classical
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eK⟩ := hKX
   have hKc : IsCaseTwoGroup 3 ↥K := ⟨d, Or.inl ⟨rfl, q, hq2, hq3, hd⟩, ⟨eK⟩⟩
   obtain ⟨ε₀⟩ := nonempty_equiv_G8 hKc
   have hdata : ∀ T : Sylow 3 ↥K, L28Data ↥K (T : Subgroup ↥K) := fun T => l28Data_of_equiv ε₀ T
   have hcardA : Nat.card (MulAut ↥K) = 1512 := card_mulAut_of_isCaseTwoGroup_three hKc
-  haveI : Finite (MulAut ↥K) := Nat.finite_of_card_ne_zero (by rw [hcardA]; norm_num)
+  have : Finite (MulAut ↥K) := Nat.finite_of_card_ne_zero (by rw [hcardA]; norm_num)
   set θ : Y →* (MulAut ↥K) := MulAut.conjNormal with hθ
   set C := centralizer (K : Set Y) with hC
   set ι : ↥K →* (MulAut ↥K) := MulAut.conj with hι
@@ -220,7 +220,7 @@ theorem threeFourSolvThreeNoneAt_l28 (q : TauCeti.PrimePower) (d : TauCeti.Valid
     have h2 := Inn.card_mul_index
     rw [h1, hcardA] at h2
     omega
-  haveI : Inn.Normal := L28Data.normal_range_conj ↥K
+  have : Inn.Normal := L28Data.normal_range_conj ↥K
   have hInn2 : ∀ x : (MulAut ↥K), (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ Inn := by
     rintro x ⟨k, hk⟩
     rw [← QuotientGroup.eq_one_iff]
@@ -246,7 +246,7 @@ theorem threeFourSolvThreeNoneAt_l28 (q : TauCeti.PrimePower) (d : TauCeti.Valid
     exact hn
   have hW₀T : W₀ ≤ (T : Subgroup ↥K) := by
     have hp : IsPGroup 3 (W₀ ⊔ (T : Subgroup ↥K) : Subgroup ↥K) :=
-      hW₀p.to_sup_of_normal_left' T.isPGroup' hTW₀
+      hW₀p.to_sup_of_normal_left' T.isPGroup hTW₀
     exact le_sup_left.trans (T.maximal_isPGroup.le_of_ge hp le_sup_right)
   obtain ⟨w, hwJ, hw1⟩ : ∃ w ∈ J.map θ, w ≠ 1 := by
     by_contra h
@@ -291,7 +291,7 @@ theorem threeFourSolvThreeNoneAt_l28 (q : TauCeti.PrimePower) (d : TauCeti.Valid
       rw [hzt, inv_inv] at h1
       rw [← h1]
       group
-  have hTbp : IsPGroup 3 Tb := T.isPGroup'.map ι
+  have hTbp : IsPGroup 3 Tb := T.isPGroup.map ι
   have hTbW : Tb ≤ W := CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 3 hTbY₀ hTbnorm hTbp
   have hpow : ∀ z ∈ D.map θ, ∃ a : ℕ, z ^ 2 ^ a ∈ J.map θ := by
     rintro _ ⟨_, ⟨i, rfl⟩, rfl⟩

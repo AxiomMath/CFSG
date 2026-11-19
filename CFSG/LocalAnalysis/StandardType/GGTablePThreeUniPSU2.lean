@@ -50,7 +50,7 @@ theorem psu2_equiv_psl2 {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ} (h
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = q ∧ Nonempty (PSUg 2 K q ≃* PSLg 2 F) := by
   obtain ⟨f, hf1, hq⟩ := CFSG.AGLEmbedding.ToralCensus.exists_eq_two_pow_of_card_eq_sq hK
   subst hq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨↥(CFSG.LieType.Steinberg.fixedSubfield K 2 f), inferInstance, inferInstance, ?_, ?_⟩
   · rw [CFSG.LieType.Steinberg.card_fixedSubfield hK]
   · have hSU : LargeEvenProj (LargeEvenSUGroup (Fin 2) K (2 ^ f)) ≃*

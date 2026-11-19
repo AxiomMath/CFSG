@@ -102,7 +102,7 @@ theorem g2_exists_order_eightynine_commute [Finite K] [CharP K 2] {ε : Kˣ} (h�
     ∀ y ∈ ([⟨pinnedX .G2 K g2c 1, pinnedX_mem_adjointGroup g2c 1⟩,
         ⟨pinnedX .G2 K g2v 1, pinnedX_mem_adjointGroup g2v 1⟩] : List (adjointGroup .G2 K)),
       ∃ z : adjointGroup .G2 K, orderOf z = 89 ∧ Commute z y := by
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have h2 : ringChar K = 2 := ringChar.eq K 2
   intro y hy
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hy
@@ -135,11 +135,11 @@ theorem lie23To89At_G2 : Lie23To89At .G2 := by
   obtain ⟨-, K, _, _, hcard, ⟨e⟩⟩ := hM.chevalleyExceptionalModel (by decide)
   have hK2 : ringChar K = 2 :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hadm.2.1 hcard
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : CharP K 2 := ringChar.of_eq hK2
   have h11 : 11 ∣ f := eleven_dvd_of_twentythree_dvd_card (by simp) hadm hM
     (dvd_trans h23 (Subgroup.card_subgroup_dvd_card _))
   obtain ⟨ε, hε⟩ := exists_unit_orderOf_eightynine_of_card hcard h11
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have hcov : ∀ x : adjointGroup .G2 K, x * x = 1 → x ≠ 1 →
       ∃ y ∈ ([⟨pinnedX .G2 K g2c 1, pinnedX_mem_adjointGroup g2c 1⟩,
           ⟨pinnedX .G2 K g2v 1, pinnedX_mem_adjointGroup g2v 1⟩] : List (adjointGroup .G2 K)),

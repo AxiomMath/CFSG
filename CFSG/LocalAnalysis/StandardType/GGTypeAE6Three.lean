@@ -37,7 +37,7 @@ private theorem e63_iso_tagA {labJ l : LargeEvenLabel} (hJ : labJ.tag = .A)
     omega
 
 private theorem e63_aut_A2 {J : Type} [Group J] [Finite J] (hperf : commutator J = ⊤)
-    {m : ℕ} (h3 : 3 ∣ 2 ^ m - 1)
+    {m : ℕ} (_h3 : 3 ∣ 2 ^ m - 1)
     (hlab : GGHasLabel ⟨.A, 2, m⟩ (J ⧸ Subgroup.center J)) :
     ∀ E : Subgroup (MulAut J), IsElemAbelian 3 E → Nat.card E ≤ 3 ^ 3 := by
   intro E hE
@@ -66,7 +66,7 @@ private theorem e63_A23_contra
   have hperfJ : commutator ↥J = ⊤ := hlocCore.2.2.2.1.2.2.1
   have hAbab : IsElemAbelian 3 Ab := by
     obtain ⟨hc, hp⟩ := hlocCore.1
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (s := A) (hAbA u.2) (hAbA v.2)
@@ -89,10 +89,10 @@ private theorem e63_A23_contra
   have hperfX : commutator X = ⊤ := hmarked.1
   by_cases hZ : 3 ∣ Nat.card (Subgroup.center X)
   · have h6 := ggE6CoverThreeLocalRank_holds X ⟨.E6, 0, N⟩ hΛX rfl h3 hhX hperfX hZ
-    rw [if_pos hZ] at hmrank
+    rw [ite_eq_left hZ] at hmrank
     omega
   · have h5 := ggE6TorusLiftFiveRank (X := X) hperfX rfl h3 hhX
-    rw [if_neg hZ] at hmrank
+    rw [ite_eq_right hZ] at hmrank
     omega
 
 theorem ggTypeAE6Three_holds
@@ -100,7 +100,7 @@ theorem ggTypeAE6Three_holds
   intro p hp hp2 X _ _ A Ab σ J n hd hk labJ labX hΛJ hΛX hr hhJ hhX
   obtain ⟨⟨hJA, hJ2, hJn, hpJ⟩, htagX, hp3, hpair⟩ := hr
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨D, hDval, ha, hb, hc, he⟩ := ggTPNExcKac_datum hBS hd hΛX hpair hhX
   obtain ⟨hlocCore, -, -, -, -, -, honly, -⟩ := hd.1
   have hfix : ggFixSub σ = ggAutFixedSubgroup σ := by
@@ -112,7 +112,7 @@ theorem ggTypeAE6Three_holds
   obtain ⟨f, hf⟩ := he
   have hEqJ : ∀ J' (hJ' : IsComponentOf J' (ggFixSub σ)), J' = J :=
     fun J' hJ' => eq_of_isComponentOf_of_ggTPNOnlyComp honly (hfix ▸ hJ') (hc J' hJ')
-  haveI : Subsingleton {J' : Subgroup X // IsComponentOf J' (ggFixSub σ)} :=
+  have : Subsingleton {J' : Subgroup X // IsComponentOf J' (ggFixSub σ)} :=
     ⟨fun a b => Subtype.ext (by rw [hEqJ a.1 a.2, hEqJ b.1 b.2])⟩
   have hpos : ∀ i j : Fin D.orbits.length, D.orbits[i].qs = true →
       D.orbits[j].qs = true → i = j := by

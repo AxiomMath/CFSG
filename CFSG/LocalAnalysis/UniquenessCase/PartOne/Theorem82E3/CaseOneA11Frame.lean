@@ -147,7 +147,7 @@ theorem exists_signedLift_of_a11 (h : Case811Sylow c) (e : c.Lbar ≃* alternati
 theorem exists_five_of_a11 (h : Case811Sylow c) (e : c.Lbar ≃* alternatingGroup (Fin 11))
     (h5 : 5 ∈ D.sig) :
     ∃ y ∈ D.M ⊓ Subgroup.centralizer (h.A : Set G), orderOf y = 5 ∧ y ∉ c.L := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine h.exists_mem_centralizer_A_not_mem_L h5 ?_ ?_ ?_
   · exact h.mem_centralizer_of_isPGroup_of_prime (p := 5) Nat.prime_five
       (by norm_num) (by norm_num) (by norm_num)
@@ -194,7 +194,7 @@ private theorem factorization_card_L_of_a11 {c : Ctx82E3 D}
 theorem nonempty_zwr_of_a11 (h : Case811Sylow c) (e : c.Lbar ≃* alternatingGroup (Fin 11)) :
     Nonempty (↥h.P ≃* ZWr 1) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   have hN3 : ¬ 3 ∣ Nat.card O :=
@@ -240,8 +240,8 @@ theorem five_dvd_card_inf_centralizer_pt_of_a11 (e : c.Lbar ≃* alternatingGrou
     {v : Fin 3 → ZMod 3} (hz : ∃ i, v i = 0) :
     5 ∣ Nat.card (c.L ⊓ Subgroup.centralizer (Subgroup.zpowers (s.pt v) : Set G) :
       Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hB : IsPGroup 3 (Subgroup.zpowers (s.pt v)) :=
     (CFSG.Open.isElemAbelian_zpowers (s.pt_pow_three v)).isPGroup
   have hBL : Subgroup.zpowers (s.pt v) ≤ c.L :=

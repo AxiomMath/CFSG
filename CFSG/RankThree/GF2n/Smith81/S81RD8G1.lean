@@ -13,7 +13,7 @@ variable {K : Type} [Field K]
 
 private theorem pow_four_core [CharP K 2] (P : Matrix (Fin 6) (Fin 6) K)
     {a b f g : Fin 6 → K}
-    (hfa : f ⬝ᵥ a = 0) (hgb : g ⬝ᵥ b = 0)
+    (hfa : f ⬝ᵥ a = 0) (_hgb : g ⬝ᵥ b = 0)
     (hF : ∀ z : Fin 6 → K, f ⬝ᵥ (P *ᵥ z) = f ⬝ᵥ z + (f ⬝ᵥ b) * (g ⬝ᵥ z))
     (hG : ∀ z : Fin 6 → K,
       g ⬝ᵥ (P *ᵥ z) = (g ⬝ᵥ a) * (f ⬝ᵥ z) + (1 + (f ⬝ᵥ b) * (g ⬝ᵥ a)) * (g ⬝ᵥ z))

@@ -167,9 +167,9 @@ theorem coreFreeAt_fieldAut_two {p : ℕ} (hp : p = 3 ∨ p = 5) {σ : K ≃+* K
       (CFSG.RankThree.PartOne.KCSpComm.subfieldInj (r := 2) σ).range := by
     rw [CFSG.RankThree.PartOne.KCSpComm.spFixedGroup_fieldAut_eq_range hodd hσp,
       CFSG.RankThree.PartOne.KCSpComm.range_subfieldInj]
-  haveI : Fintype (descentField σ) := Fintype.ofFinite _
+  have : Fintype (descentField σ) := Fintype.ofFinite _
   have hk2 : Fintype.card (descentField σ) = 2 := by rw [← Nat.card_eq_fintype_card, hk]
-  haveI : CharP (descentField σ) 2 := charP_of_card_eq_prime hk2
+  have : CharP (descentField σ) 2 := charP_of_card_eq_prime hk2
   obtain ⟨e6⟩ := CFSG.RankThree.CASymplecticSubfield.nonempty_statedSp_two_mulEquiv_perm hk2
   let e2 : StatedProj (StatedSp 2 (descentField σ)) ≃*
       (CFSG.RankThree.PartOne.KCSpComm.subfieldInj (r := 2) σ).range :=
@@ -187,13 +187,13 @@ theorem coreFreeAt_fieldAut_two {p : ℕ} (hp : p = 3 ∨ p = 5) {σ : K ≃+* K
     have hNn' : ∀ f ∈ spFixedGroup (fieldAut 2 K σ), ∀ n ∈ N, f * n * f⁻¹ ∈ N :=
       fun f hf' n hn => hNn f (mem_fixSub.2 (mem_spFixedGroup.1 hf')) n hn
     let M : Subgroup (spFixedGroup (fieldAut 2 K σ)) := N.subgroupOf (spFixedGroup (fieldAut 2 K σ))
-    haveI hM : M.Normal := ⟨fun m hm g => by
+    have hM : M.Normal := ⟨fun m hm g => by
       rw [Subgroup.mem_subgroupOf] at hm ⊢
       exact hNn' g.1 g.2 m.1 hm⟩
     have hcardM : Nat.card (M.map eH.toMonoidHom) = Nat.card N := by
       rw [Subgroup.card_map_of_injective eH.injective]
       exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hN').toEquiv)
-    haveI : (M.map eH.toMonoidHom).Normal := hM.map _ eH.surjective
+    have : (M.map eH.toMonoidHom).Normal := hM.map _ eH.surjective
     have hcop' : Nat.Coprime p (Nat.card (M.map eH.toMonoidHom)) := by rwa [hcardM]
     have h1 := card_eq_one_of_normal_perm_six hp hcop'
     rw [hcardM] at h1
@@ -248,7 +248,7 @@ theorem isLocallyBalancedAbs_two_sp_two_exc {p : ℕ} (hp : p = 3 ∨ p = 5)
   · intro E hEin hE hEc H hH
     exact localDeltaIn_eq_bot_psp_q Nat.prime_two hf hK hq4 hpp hp2 hp2 (le_refl 2) E hEin hE hEc hH
   · intro D hD _ hDin
-    haveI hEel : CFSG.IsElementaryAbelian p D :=
+    have hEel : CFSG.IsElementaryAbelian p D :=
       { toIsMulCommutative := hD.1
         exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun x =>
           Subtype.ext (hD.2 x x.2) }

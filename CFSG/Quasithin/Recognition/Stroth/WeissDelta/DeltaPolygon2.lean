@@ -227,10 +227,10 @@ private theorem exists_periodic_polygon (hn : 3 ≤ n)
     intro m hm
     by_cases hlast : m = 2 * n - 2
     · subst hlast
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have h : 2 * n - 2 + 2 = 2 * n := by omega
       rw [h, Nat.mod_self]
-    · rw [if_neg hlast, Nat.mod_eq_of_lt]
+    · rw [ite_eq_right hlast, Nat.mod_eq_of_lt]
       omega
   have hper : ∀ i, z (i + 2 * n) = z i := by
     intro i
@@ -368,13 +368,13 @@ private theorem exists_periodic_polygon (hn : 3 ≤ n)
         rw [hmod2]
         exact hmod_add_two m hmlt
       by_cases hpen : m = 2 * n - 2
-      · rw [if_pos hpen] at h2
+      · rw [ite_eq_left hpen] at h2
         rw [h2] at hval
         have hle : height c (p 0) ≤ n - 2 := by
           rw [← hval, hpen]
           exact hheight_last
         omega
-      · rw [if_neg hpen] at h2
+      · rw [ite_eq_right hpen] at h2
         rw [h2] at hval
         exact (hnb_p m (by omega)) hval
   have hdiam : (delta c Good n).dist (z 0) (z n) = n := by
@@ -400,7 +400,7 @@ private theorem eq_succ_of_eq_end (hn : 3 ≤ n)
     (hgirth : ((2 * n + 2 : ℕ) : ℕ∞) ≤ c.graph.egirth)
     (hG : GoodPathSystem c.G0 c.graph n Good) {u z' w1 w2 : c.Γ}
     {p q : GPath c.graph (2 * n - 1)} (hp : Good (2 * n - 1) p) (hq : Good (2 * n - 1) q)
-    (hp0 : p 0 = u) (hq0 : q 0 = u) (hpn : p n = z') (hqn : q n = z')
+    (_hp0 : p 0 = u) (_hq0 : q 0 = u) (hpn : p n = z') (hqn : q n = z')
     (hpw : p (n + 1) = w1) (hqw : q (n + 1) = w2)
     (hend : p (2 * n - 1) = q (2 * n - 1)) : w1 = w2 := by
   have hconn : c.graph.Connected := CosetGeom.connected rfl

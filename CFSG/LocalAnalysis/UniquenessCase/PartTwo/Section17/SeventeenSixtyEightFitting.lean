@@ -29,7 +29,7 @@ theorem isPGroup_pElementSubgroup_centralizer_of_layer_le (D : Data G) {V₀ V :
     (hlayer : CFSG.layer (Bar2 D.M) ≤ A) :
     IsPGroup 5 ↥(CFSG.RankThree.PartOne.pElementSubgroup 5
       (Subgroup.centralizer (A : Set (Bar2 D.M)))) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have htop : CFSG.GH74.GLS.oResidual 5 (Bar2 D.M) = ⊤ :=
     uc22p21c_oResidual_bar_eq_top Nat.prime_five
       (h638 5 Nat.prime_five (by norm_num) (Or.inl h5))
@@ -60,7 +60,7 @@ theorem isPGroup_pElementSubgroup_centralizer_of_layer_le (D : Data G) {V₀ V :
       x ^ 5 ^ n ∈ Subgroup.centralizer (CFSG.pCore 5 (Bar2 D.M) : Set (Bar2 D.M)) :=
     fun x hx => commutator_bar_pow_mem_centralizer_pCore D hV h22 h23 Nat.prime_five
       (hYcomm hx)
-  haveI := CFSG.GroupTheory.isNilpotent_of_le_centralizer_layer_pCores Nat.prime_five h1 h2 h3
+  have := CFSG.GroupTheory.isNilpotent_of_le_centralizer_layer_pCores Nat.prime_five h1 h2 h3
   have hYp : IsPGroup 5 (Subgroup.closure S) := by
     have hcl := CFSG.GroupTheory.isPGroup_closure_of_isNilpotent (Y := ↥(Subgroup.closure S))
       (p := 5) (S := (Subgroup.closure S).subtype ⁻¹' S) fun s hs => by

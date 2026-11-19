@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.RankThreeUC (uniqueSet)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem orderOf_uc22p21cPi_eq {M : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x : ↥M}
     (hx : orderOf x = p) : orderOf (uc22p21cPi M x) = p := by
   have hne : uc22p21cPi M x ≠ 1 := by
@@ -31,7 +32,7 @@ theorem orderOf_uc22p21cPi_eq {M : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p
 
 theorem exists_orderOf_eq_of_dvd_card_bar2 {X : Subgroup G} {p : ℕ} (hp : p.Prime)
     (h : p ∣ Nat.card (Bar2 X)) : ∃ x ∈ X, orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hX : p ∣ Nat.card X := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥X)]
     exact h.mul_right _
@@ -42,7 +43,7 @@ theorem two_le_pRank_of_pair {M L L' T : Subgroup G} {p : ℕ} (hp : p.Prime) (h
     (hL : L ∈ calC M) (hL' : L' ∈ calC M) (hLL' : L ≠ L') (hZ : center (Bar2 L) = ⊥)
     (hTM : T ≤ M) {x y : G} (hxL : x ∈ L) (hyL : y ∈ L') (hxT : x ∈ T) (hyT : y ∈ T)
     (hx : orderOf x = p) (hy : orderOf y = p) : 2 ≤ CFSG.Open.pRank p T := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x' : ↥M := ⟨x, hTM hxT⟩ with hx'
   set y' : ↥M := ⟨y, hTM hyT⟩ with hy'
   have ha : orderOf (uc22p21cPi M x') = p :=

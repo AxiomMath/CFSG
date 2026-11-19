@@ -35,10 +35,10 @@ theorem szd_y_not_mem_Z {Q : Subgroup X} {a c y x : X} (hQ : Sz32QFacts Q a c y 
   rw [h1, hQ.Z_card] at h2
   norm_num at h2
 
-theorem szd_card_sup_zpowers {A : Subgroup X} (hA : IsMulCommutative A) {g : X} (hg : g ∉ A)
+theorem szd_card_sup_zpowers {A : Subgroup X} (_hA : IsMulCommutative A) {g : X} (hg : g ∉ A)
     (hg5 : g ^ 5 = 1) (hcomm : ∀ a ∈ A, a * g = g * a) :
     Nat.card (A ⊔ Subgroup.zpowers g : Subgroup X) = Nat.card A * 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hc : ∀ (a : A) (n : Subgroup.zpowers g),
       Commute (A.subtype a) ((Subgroup.zpowers g).subtype n) := by
     rintro ⟨a, ha⟩ ⟨n, hn⟩
@@ -76,8 +76,8 @@ theorem szd_inf_eq {U Z : Subgroup X} {x : X} (hU : Nat.card U = 25)
     (hx : Nat.card (Subgroup.zpowers x) = 5) (hxU : Subgroup.zpowers x ≤ U)
     (hxZ : Subgroup.zpowers x ≤ Z) (hUZ : ¬ U ≤ Z) : U ⊓ Z = Subgroup.zpowers x := by
   have hle : Subgroup.zpowers x ≤ U ⊓ Z := le_inf hxU hxZ
-  haveI : Finite U := Nat.finite_of_card_ne_zero (by rw [hU]; norm_num)
-  haveI hfin : Finite ↥(U ⊓ Z) :=
+  have : Finite U := Nat.finite_of_card_ne_zero (by rw [hU]; norm_num)
+  have hfin : Finite ↥(U ⊓ Z) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left : U ⊓ Z ≤ U))
       (Subgroup.inclusion_injective _)
   have hd1 : Nat.card ↥(U ⊓ Z) ∣ 25 := hU ▸ Subgroup.card_dvd_of_le (inf_le_left : U ⊓ Z ≤ U)
@@ -97,7 +97,7 @@ theorem szd_inf_eq {U Z : Subgroup X} {x : X} (hU : Nat.card U = 25)
 
 theorem sz32_exists_plane {Q : Subgroup X} {a c y x : X} (hQ : Sz32QFacts Q a c y x) :
     ∃ U : Subgroup X, Sz32PlaneAbs (sz32Z a c) (sz32Om a c y) x U := by
-  haveI hOmc : IsMulCommutative (sz32Om a c y) := hQ.Om_elem.1
+  have hOmc : IsMulCommutative (sz32Om a c y) := hQ.Om_elem.1
   have hxZ : x ∈ sz32Z a c := szd_x_mem_Z hQ
   have hxOm : x ∈ sz32Om a c y := szd_Z_le_Om a c y hxZ
   have hyOm : y ∈ sz32Om a c y := szd_y_mem_Om a c y

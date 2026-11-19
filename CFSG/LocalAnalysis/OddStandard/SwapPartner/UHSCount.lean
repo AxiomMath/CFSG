@@ -20,7 +20,7 @@ private theorem u_inv_zpow_cases {H : Type*} [Group H] {x : H} (hx : x * x = 1) 
   rcases Int.emod_two_eq_zero_or_one i with h | h <;> rw [h] <;> simp
 
 private theorem u_zpowers_inf_eq_bot {M : Type*} [Group M] {x y : M} (hx : x * x = 1)
-    (hy : y * y = 1) (hx1 : x ≠ 1) (hxy : x ≠ y) :
+    (hy : y * y = 1) (_hx1 : x ≠ 1) (hxy : x ≠ y) :
     Subgroup.zpowers x ⊓ Subgroup.zpowers y = ⊥ := by
   apply le_antisymm _ bot_le
   intro w hw
@@ -42,7 +42,7 @@ private theorem u_two_mul_card_le_of_lt {M : Type*} [Group M] [Finite M] {Q P : 
     (hle : Q ≤ P) (hne : Q ≠ P) : 2 * Nat.card Q ≤ Nat.card P := by
   have hdvd : Nat.card Q ∣ Nat.card P := Subgroup.card_dvd_of_le hle
   obtain ⟨m, hm⟩ := hdvd
-  haveI : Nonempty ↥P := ⟨1⟩
+  have : Nonempty ↥P := ⟨1⟩
   have hPpos : 0 < Nat.card P := Nat.card_pos
   have hm0 : m ≠ 0 := by
     intro hm0

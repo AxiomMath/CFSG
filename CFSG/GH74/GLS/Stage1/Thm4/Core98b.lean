@@ -87,12 +87,12 @@ theorem sylow_central_of_zcen {z : G} {S : Subgroup G} (hz : orderOf z = 2)
     CFSG.ABGLocalTools.IsSylowOf 2 S ⊤ ∧ IsCentralInvolution z := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hST⟩ := IsPGroup.exists_le_sylow hS.isPGroup
-  have hTp : IsPGroup 2 ↥(T : Subgroup G) := T.isPGroup'
+  have hTp : IsPGroup 2 ↥(T : Subgroup G) := T.isPGroup
   have hzT : z ∈ (T : Subgroup G) := hST hzS
   have hz1 : z ≠ 1 := by
     intro h; rw [h, orderOf_one] at hz; omega
-  haveI : Nontrivial ↥(T : Subgroup G) := ⟨⟨⟨z, hzT⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
-  haveI : Nontrivial ↥(center ↥(T : Subgroup G)) := hTp.center_nontrivial
+  have : Nontrivial ↥(T : Subgroup G) := ⟨⟨⟨z, hzT⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial ↥(center ↥(T : Subgroup G)) := hTp.center_nontrivial
   have h2dvd : 2 ∣ Nat.card ↥(center ↥(T : Subgroup G)) := by
     rcases (hTp.to_subgroup (center ↥(T : Subgroup G))).card_eq_or_dvd with h | h
     · exfalso

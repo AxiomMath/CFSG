@@ -175,9 +175,11 @@ noncomputable def toFinsetOfSubset {P : Set (↥L → ℂ)} (hPS : P ⊆ indFam 
     Finset (↥L → ℂ) :=
   (Set.Finite.subset (indFam_finite K (finite_Irr.subset Set.sdiff_subset)) hPS).toFinset
 
+omit [K.Normal] in
 @[simp] theorem coe_toFinsetOfSubset {P : Set (↥L → ℂ)} (hPS : P ⊆ indFam K (Irr ↥K \ {1})) :
     ((toFinsetOfSubset hPS : Finset (↥L → ℂ)) : Set (↥L → ℂ)) = P := Set.Finite.coe_toFinset _
 
+omit [K.Normal] in
 theorem mem_toFinsetOfSubset {P : Set (↥L → ℂ)} (hPS : P ⊆ indFam K (Irr ↥K \ {1}))
     {f : ↥L → ℂ} : f ∈ toFinsetOfSubset hPS ↔ f ∈ P := Set.Finite.mem_toFinset _
 
@@ -206,7 +208,7 @@ theorem exists_isSubcoherent_indFam (hodd : Odd (Nat.card G))
     (by rw [hSfin, PrimeFixedTIPGroupCoherence.indFamDetect_self_eq_indFam_sdiff])
   exact ⟨R, hR⟩
 
-omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [Fintype ↑(Irr ↥W₁)] in
+omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [Fintype ↑(Irr ↥W₁)] [K.Normal] in
 theorem cfInner_nu_nu_eq_zero_of_disjoint
     {Sfin : Finset (↥L → ℂ)} {tau : (↥L → ℂ) → (G → ℂ)} {R : (↥L → ℂ) → Finset (G → ℂ)}
     (hc : IsSubcoherent Sfin tau R)
@@ -265,6 +267,7 @@ theorem cfInner_nu_dadeZMap (hD : IsDadeData L A₀ T)
   rw [hval, ← coe_dadeZMap hD ⟨(w : ↥L → ℂ), hwD⟩, cfInner_dadeZMap]
 
 omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [Fintype ↑(Irr ↥W₁)] [K.Normal] in
+omit [Fintype G] [Fintype ↥L] in
 theorem coe_nu_zsmul_sub_zsmul {ν₂ : Submodule.span ℤ S₂ →+ virtualChars G}
     {χ ψ : ↥L → ℂ} (hχ : χ ∈ S₂) (hψ : ψ ∈ S₂) (a b : ℤ)
     (w : Submodule.span ℤ S₂) (hw : (w : ↥L → ℂ) = (a : ℂ) • χ - (b : ℂ) • ψ) :
@@ -333,6 +336,7 @@ theorem exists_isCoherentWith_tauPrincipalRowSub_eq (hodd : Odd (Nat.card G))
   exact ⟨ν', hν', by rw [hψ, heq, coherentVal_apply]⟩
 
 omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [Fintype ↑(Irr ↥W₁)] in
+omit [Fintype ↥L] in
 theorem rowEtaSum_one_eq_prodCharEtaColSum [Fintype ↥((W₁ ⊔ W₂).map L.subtype)]
     [Fintype ↑(Irr ↥W₁)]
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
@@ -482,6 +486,7 @@ theorem cfInner_smul_primeTIrow_sub_smul (hB : h.IsUniformBridgeData σ ζ d n 1
 
 omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [Fintype ↑(Irr ↥W₁)]
   [K.Normal] in
+omit [Group G] in
 theorem cfInner_eq_of_pivot {ρj ρξ Pj e : G → ℂ} {t m : ℂ} (htne : t ≠ 0)
     (hlocal : cfInner (t • ρj - (m * (d : ℂ)) • ρξ) (Pj - (d : ℂ) • e) = t * m)
     (hξP : cfInner ρξ Pj = 0) (hje : cfInner ρj e = 0) (hξe : cfInner ρξ e = 0) :
@@ -491,6 +496,7 @@ theorem cfInner_eq_of_pivot {ρj ρξ Pj e : G → ℂ} {t m : ℂ} (htne : t �
     hξP, hje, hξe] at hlocal
   exact mul_left_cancel₀ htne (by linear_combination hlocal)
 
+omit [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem cfInner_nu_primeTIrow_prodCharEtaColSum_eq (hB : h.IsUniformBridgeData σ ζ d n 1)
     (hA : (fun x : ↥L => (x : G)) '' primeTIbridgeSupport K W₁ W₂ ⊆ A₀)
     (hD : IsDadeData L A₀ T)
@@ -715,7 +721,7 @@ theorem exists_isCoherentWith_coe_nu_primeTIrow_eq (hodd : Odd (Nat.card G))
       CoherentSimultaneousOrientation.cfInner_prodCharEtaColSum hW hω] at hpivot
     have hjne : irrMapSubtype L W₂ (starIrr j) ≠ irrMapSubtype L W₂ j := fun he =>
       (starIrr_ne_self h.isCyclicTIPair.odd_natCard_right hj) (irrMapSubtype_injective L W₂ he)
-    rw [if_neg hjne, mul_zero] at hpivot
+    rw [ite_eq_right hjne, mul_zero] at hpivot
     exact hmpos hpivot.symm
 
 omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [Fintype ↑(Irr ↥W₁)] in

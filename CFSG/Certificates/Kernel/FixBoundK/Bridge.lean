@@ -73,7 +73,7 @@ theorem pA_apply {IV R μ : ℕ}
         rw [bit_eq_testBit]
         cases hb : μ.testBit k
         · rfl
-        · rw [if_pos rfl]
+        · rw [ite_eq_left rfl]
           exact (cperm_apply (hv k (by omega) hb) q).symm
       rw [e, Equiv.Perm.mul_apply, ← ih (Nat.le_of_succ_le hk)]
       change Nat.rec (motive := fun _ => ℕ → ℕ) (fun p => p)

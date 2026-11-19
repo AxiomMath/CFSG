@@ -32,6 +32,7 @@ theorem orderOf_z (hJ : IsExtraspecial2 (J z)) (hcomm : ⁅J z, J z⁆ = Subgrou
     exact hJ.2.2
   rwa [Nat.card_zpowers] at hcard
 
+omit [Finite G] in
 theorem card_center_J (hJ : IsExtraspecial2 (J z)) (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) :
     Nat.card ↥(Subgroup.center (J z)) = 2 := by
   have hZ : Nat.card (centerIn (J z)) = 2 := by
@@ -40,6 +41,7 @@ theorem card_center_J (hJ : IsExtraspecial2 (J z)) (hcomm : ⁅J z, J z⁆ = Sub
   exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe
     (inf_le_left : centerIn (J z) ≤ J z)).toEquiv).trans hZ
 
+omit [Finite G] in
 theorem centralizer_J_eq_centerIn (hCHJ : H z ⊓ Subgroup.centralizer (J z : Set G) ≤ J z) :
     H z ⊓ Subgroup.centralizer (J z : Set G) = centerIn (J z) := by
   apply le_antisymm
@@ -68,6 +70,7 @@ theorem zpowers_le_centralizer (x : H z) :
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact ((commute_z_sigma_A (z := z) x).zpow_left k).eq
 
+omit [Finite G] in
 theorem commutator_mem_centerIn (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) (a b : J z) :
     ⁅(a : G), (b : G)⁆ ∈ centerIn (J z) := by
   have hmem : ⁅(a : G), (b : G)⁆ ∈ ⁅J z, J z⁆ :=
@@ -76,12 +79,14 @@ theorem commutator_mem_centerIn (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) (a
   exact (Subgroup.zpowers_le_of_mem (H := centerIn (J z))
     ⟨z_mem_J hcomm, z_centralizes_J_A (z := z)⟩) hmem
 
+omit [Finite G] in
 theorem conjJ'_mul_inv_mem_centerIn (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {g : H z}
     (hg : (g : G) ∈ J z) (x : J z) :
     ((conjJ' z g x : J z) : G) * (x : G)⁻¹ ∈ centerIn (J z) := by
   have hc := commutator_mem_centerIn hcomm (⟨(g : G), hg⟩ : J z) x
   simpa [conjJ'_apply_coe, commutatorElement_def] using hc
 
+omit [Finite G] in
 theorem conjVA_apply_pi_eq (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {g : H z}
     (hg : (g : G) ∈ J z) (x : J z) :
     conjVA z g (QuotientV.pi z x) = QuotientV.pi z x := by
@@ -92,6 +97,7 @@ theorem conjVA_apply_pi_eq (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {g : H 
   rw [Subgroup.mem_subgroupOf, div_eq_mul_inv]
   exact conjJ'_mul_inv_mem_centerIn hcomm hg x
 
+omit [Finite G] in
 theorem isMulCommutative_V (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) :
     IsMulCommutative (QuotientV.V z) := by
   rw [Subgroup.Normal.quotient_commutative_iff_commutator_le]
@@ -105,6 +111,7 @@ theorem isMulCommutative_V (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) :
   rw [hcomm] at hx'
   exact hzp hx'
 
+omit [Finite G] in
 theorem pow_two_eq_one_V (hJ : IsExtraspecial2 (J z)) (v : QuotientV.V z) : v ^ 2 = 1 := by
   obtain ⟨j, rfl⟩ := QuotientV.pi_surjective z v
   have hj : ((j : J z) : G) * ((j : J z) : G) ∈ centerIn (J z) := by
@@ -116,6 +123,7 @@ theorem pow_two_eq_one_V (hJ : IsExtraspecial2 (J z)) (v : QuotientV.V z) : v ^ 
   have hmap : QuotientV.pi z (j * j) = 1 := MonoidHom.mem_ker.mp hker
   simpa [pow_two, map_mul] using hmap
 
+omit [Finite G] in
 theorem card_V (hJ : IsExtraspecial2 (J z)) (hcard : Nat.card (J z) = 2 ^ 9)
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) : Nat.card (QuotientV.V z) = 2 ^ 8 := by
   have hZsub : Nat.card ((centerIn (J z)).subgroupOf (J z)) = 2 := by
@@ -166,6 +174,7 @@ theorem finrank_addV (hJ : IsExtraspecial2 (J z)) (hcard : Nat.card (J z) = 2 ^ 
   (addAutLinearEquivMonoidHom
     (MulAut.congr (mulEquivVAdd (z := z)) (conjVA z x))).toLinearMap
 
+omit [Finite G] in
 @[simp] theorem conjVLinearMap_apply (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hJ : IsExtraspecial2 (J z)) (x : H z) (v : Additive (QuotientV.V z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV hcomm
@@ -176,6 +185,7 @@ theorem finrank_addV (hJ : IsExtraspecial2 (J z)) (hcard : Nat.card (J z) = 2 ^ 
   rw [conjVLinearMap, addAutLinearEquivMonoidHom_toLinearMap, mulAutToLinearMap_apply]
   rfl
 
+omit [Finite G] in
 theorem conjVLinearMap_one (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hJ : IsExtraspecial2 (J z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV hcomm
@@ -187,6 +197,7 @@ theorem conjVLinearMap_one (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
   rw [conjVLinearMap_apply, map_one]
   rfl
 
+omit [Finite G] in
 theorem conjVLinearMap_mul (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hJ : IsExtraspecial2 (J z)) (x y : H z) :
     letI : CommGroup (QuotientV.V z) := commGroupV hcomm
@@ -221,6 +232,7 @@ theorem conjVLinearMap_mul (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
   AddSubgroup.toZModSubmodule (n := 2)
     (Subgroup.toAddSubgroup (autFixedSubgroup (conjVA z x)))
 
+omit [Finite G] in
 @[simp] theorem mem_fixSubmodule_iff (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hJ : IsExtraspecial2 (J z)) (x : H z) (v : Additive (QuotientV.V z)) :
     v ∈ fixSubmodule hcomm hJ x ↔ Additive.toMul v ∈ autFixedSubgroup (conjVA z x) := by
@@ -228,6 +240,7 @@ theorem conjVLinearMap_mul (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
   let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV hcomm hJ
   rw [fixSubmodule, AddSubgroup.mem_toZModSubmodule, Additive.mem_toAddSubgroup]
 
+omit [Finite G] in
 theorem card_fixSubmodule (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hJ : IsExtraspecial2 (J z)) (x : H z) :
     Nat.card ↥(fixSubmodule hcomm hJ x) = Nat.card ↥(autFixedSubgroup (conjVA z x)) := by
@@ -261,6 +274,7 @@ theorem card_fix (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) (hJ : IsExtraspec
     Nat.card_zmod]
   rfl
 
+omit [Finite G] in
 theorem fixSubmodule_eq_ker (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hJ : IsExtraspecial2 (J z)) (x : H z) :
     letI : CommGroup (QuotientV.V z) := commGroupV hcomm
@@ -280,6 +294,7 @@ theorem fixSubmodule_eq_ker (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
   · intro hfix
     simpa using congrArg Additive.toMul hfix
 
+omit [Finite G] in
 theorem invariants_zpowers_eq_fixSubmodule (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hJ : IsExtraspecial2 (J z)) (x : ↥(H z)) :
     letI : CommGroup (QuotientV.V z) := commGroupV hcomm
@@ -357,6 +372,7 @@ theorem card_CJ_eq_two_mul (hJ : IsExtraspecial2 (J z)) (hcard : Nat.card (J z) 
   rw [Nat.card_congr he]
   exact card_centralizerJ_eq_two_mul hJ hcard hcomm hx
 
+omit [Finite G] in
 theorem conjJ'_eq_one_of_conjVA_eq_one (hJ : IsExtraspecial2 (J z))
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {σ : H z} (hσ : orderOf σ = 3)
     (hV : conjVA z σ = 1) : conjJ' z σ = 1 := by
@@ -433,6 +449,7 @@ theorem conjJ'_eq_one_of_conjVA_eq_one (hJ : IsExtraspecial2 (J z))
   rw [hconjx, hζJ_one, one_mul]
   rfl
 
+omit [Finite G] in
 theorem conjVA_ne_one_of_order_three (hJ : IsExtraspecial2 (J z))
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hCHJ : H z ⊓ Subgroup.centralizer (J z : Set G) ≤ J z) {σ : H z}

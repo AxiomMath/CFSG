@@ -99,7 +99,7 @@ private theorem exists_pSubgroup_map_eq {G N : Type*} [Group G] [Finite G] [Grou
     (S.mapSurjective hg).maximal_isPGroup.eq_of_le
       (hQ.of_equiv Subgroup.topEquiv.symm) le_top
   refine ⟨(S : Subgroup ↥W).map W.subtype, Subgroup.map_subtype_le _,
-    S.isPGroup'.map W.subtype, ?_⟩
+    S.isPGroup.map W.subtype, ?_⟩
   ext y
   constructor
   · rintro ⟨_, ⟨s, hs, rfl⟩, rfl⟩

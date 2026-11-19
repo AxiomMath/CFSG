@@ -25,7 +25,7 @@ theorem isConj_mul_of_isConj_central_of_conj (S : Sylow 2 G) {z v r : G}
     calc g₀ * a * g₀⁻¹ * (g₀ * v * g₀⁻¹) = g₀ * (a * v) * g₀⁻¹ := by group
       _ = g₀ * (v * a) * g₀⁻¹ := by rw [hav]
       _ = g₀ * v * g₀⁻¹ * (g₀ * a * g₀⁻¹) := by group
-  have hWp : IsPGroup 2 W := (S.isPGroup'.to_le inf_le_left).map _
+  have hWp : IsPGroup 2 W := (S.isPGroup.to_le inf_le_left).map _
   obtain ⟨h, hh, hW⟩ := CFSG.QuasiDihedralFusion.exists_conj_le_sylow
     (Subgroup.centralizer {z}) S hzS W hWz hWp
   have hhz : h * z * h⁻¹ = z := by

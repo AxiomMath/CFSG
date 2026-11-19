@@ -216,7 +216,6 @@ theorem srch_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {Q : Ra
       ⟨(Q.levelSubgroup i).mul_mem ((Q.levelSubgroup i).inv_mem hmem) hh, ?_⟩
     have htb : t (Q.base.get ⟨i, hi⟩) = h (Q.base.get ⟨i, hi⟩) := hval
     rw [MulAction.mem_stabilizer_iff, Equiv.Perm.smul_def, Equiv.Perm.mul_apply]
-    change t⁻¹ (h (Q.base.get ⟨i, hi⟩)) = Q.base.get ⟨i, hi⟩
     rw [← htb]
     simp
   set Dg : ℕ → Equiv.Perm (Fin n) := fun j =>
@@ -396,10 +395,10 @@ theorem srch_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {Q : Ra
           unfold imgAt
           rw [Orb.nIf_eq, Orb.blt_dec]
           by_cases h : l < i
-          · rw [if_pos (decide_eq_true h), hBl l h (by omega), hlt l h]
+          · rw [ite_eq_left (decide_eq_true h), hBl l h (by omega), hlt l h]
           · have hli : l = i := by omega
             subst hli
-            rw [if_neg (by simpa using h), ← hbi]
+            rw [ite_eq_right (by simp), ← hbi]
         have e2 : Dg j (Q.base.get ⟨l, by omega⟩) = Q.base.get ⟨i, hi⟩ :=
           Fin.ext (by rw [← hD j hj8, hbv, hbv]; exact Nat.eq_of_beq_eq_true heq)
         rw [himg, hD j hj8, hDc c hcx hcy, Orb.beq_dec, decide_eq_true_iff, ← hbi, e2]
@@ -462,10 +461,10 @@ theorem srch_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {Q : Ra
         · have hp0 := hpos _ (σ⁻¹ p).2 hk0
           have ha0 : a (rpos w (mask w) (Nat.mul n w) (LR i) ((σ⁻¹ p : Fin n) : ℕ)) = p :=
             (hakp _ hk0).2 hp0
-          rw [Finset.sum_eq_single_of_mem _ (Finset.mem_range.2 hk0), if_pos ha0,
+          rw [Finset.sum_eq_single_of_mem _ (Finset.mem_range.2 hk0), ite_eq_left ha0,
             ← hchild _ hk0, ha0]
           intro k hk hne
-          rw [if_neg]
+          rw [ite_eq_right]
           intro hkp
           apply hne
           rw [Finset.mem_range] at hk
@@ -473,12 +472,12 @@ theorem srch_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {Q : Ra
         · have hblt : Nat.blt (rpos w (mask w) (Nat.mul n w) (LR i) ((σ⁻¹ p : Fin n) : ℕ))
               (rcnt (LR i)) = false := Bool.eq_false_iff.2 fun h => hk0 (Nat.blt_eq.mp h)
           unfold child
-          rw [Orb.nIf_eq, Orb.bAnd_eq, hblt, Bool.false_and, if_neg Bool.false_ne_true]
+          rw [Orb.nIf_eq, Orb.bAnd_eq, hblt, Bool.false_and, ite_eq_right Bool.false_ne_true]
           symm
           apply Finset.sum_eq_zero
           intro k hk
           rw [Finset.mem_range] at hk
-          rw [if_neg]
+          rw [ite_eq_right]
           intro hkp
           apply hk0
           rw [← (hakp k hk).1 hkp, hrpos k hk]
@@ -538,7 +537,7 @@ theorem srch_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {Q : Ra
             Fin.ext (by rw [← hD (eJ E) hj0, hbv, hbv]; exact Nat.eq_of_beq_eq_true hd0)
           rw [← hbi, ← e2, ← hDc c hcx hcy, hlt (eL E) hl0']
       ·
-        simp only [hm, Nat.rec_add_one, Nat.rec_zero] at hEm ⊢
+        simp only [hm, Nat.rec_zero] at hEm ⊢
         have hZ : ∀ k < rcnt (LR i), f k ≠ 0 →
             Nat.blt 0 (Nat.land (eM E) (Nat.shiftLeft 1 (a k))) = true := by
           intro k hk hf0
@@ -571,8 +570,7 @@ theorem srch_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {Q : Ra
         refine (hfold _ (fun p => if Nat.blt 0 (Nat.land (eM E) (Nat.shiftLeft 1 p)) = true then
           tgt n w (mask w) (Nat.mul n w) TRI DP E i (LR i) Wd B p
             (srch n w Q.baseCount LR TR TRI BP DP [X, Y] pl) else 0) (fun p s => ?_) n).trans ?_
-        · beta_reduce
-          rw [Orb.nIf_eq]
+        · rw [Orb.nIf_eq]
           split_ifs <;> simp
         · calc ∑ p ∈ Finset.range n, (if Nat.blt 0 (Nat.land (eM E) (Nat.shiftLeft 1 p)) = true
                 then tgt n w (mask w) (Nat.mul n w) TRI DP E i (LR i) Wd B p
@@ -594,13 +592,12 @@ theorem srch_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {Q : Ra
                   (if a k = p then f k else 0) := Finset.sum_comm
             _ = ∑ k ∈ Finset.range (rcnt (LR i)), f k := by
                 refine Finset.sum_congr rfl fun k hk => ?_
-                rw [Finset.sum_ite_eq, if_pos (Finset.mem_range.2 (hakn k (Finset.mem_range.1 hk)))]
+                rw [Finset.sum_ite_eq, ite_eq_left (Finset.mem_range.2 (hakn k (Finset.mem_range.1 hk)))]
       ·
-        simp only [hm, Nat.rec_add_one] at ⊢
+        simp only [hm] at ⊢
         refine (hfold _ (fun k => child n w (mask w) (Nat.mul n w) DP E i (LR i) Wd B (a k) k
           (srch n w Q.baseCount LR TR TRI BP DP [X, Y] pl)) (fun k s => ?_) (rcnt (LR i))).trans ?_
-        · beta_reduce
-          rw [Orb.strictN_eq]
+        · rw [Orb.strictN_eq]
           rfl
         · exact Finset.sum_congr rfl fun k hk => hchild k (Finset.mem_range.1 hk)
   have hfin : Nat.card ↥(Q.originalSubgroup ⊓

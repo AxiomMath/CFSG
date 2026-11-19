@@ -37,7 +37,7 @@ private theorem ltqRc_add_eps_le_twoLocalRank_of_torusLift {X R : Type} [Group X
     TableB.le_twoLocalRank (p := 3) (by norm_num) ⟨U, hUne, hU2, rfl⟩
       (TableB.le_pRank_of_le (by norm_num) hEU hEab hEcard)
   by_cases h3 : 3 ∣ Nat.card (Subgroup.center X)
-  · rw [if_pos h3]
+  · rw [ite_eq_left h3]
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x0, hx0⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center X) 3 h3
     let x : X := (x0 : X)
@@ -82,7 +82,7 @@ private theorem ltqRc_add_eps_le_twoLocalRank_of_torusLift {X R : Type} [Group X
       sup_le hEU (hzpcent.trans (Subgroup.center_le_normalizer (U : Set X)))
     exact TableB.le_twoLocalRank (p := 3) (by norm_num) ⟨U, hUne, hU2, rfl⟩
       (TableB.le_pRank_of_le (by norm_num) hE'N hE'ab hE'card)
-  · rw [if_neg h3, Nat.add_zero]
+  · rw [ite_eq_right h3, Nat.add_zero]
     exact hle
 
 theorem ggALocalRankSubThree_holds

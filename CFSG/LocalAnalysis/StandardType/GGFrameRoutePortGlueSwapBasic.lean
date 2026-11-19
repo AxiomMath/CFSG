@@ -37,7 +37,7 @@ lemma prod_pow_val {F : Type} [Field F] {ζ : Fˣ}
     rw [Fin.prod_univ_succ, Fin.sum_univ_succ, ih (fun i => v i.succ), pow_val_add h3]
 
 noncomputable def coordinateSumRoot {G : Type} [Group G] {Bs : Subgroup G} {m : ℕ}
-    {u : G → Fin m → ZMod 3} (hdet : ¬ 3 ∣ m ∨ ∀ b ∈ Bs, ∑ i, u b i = 0) (b : G) : ZMod 3 :=
+    {u : G → Fin m → ZMod 3} (_hdet : ¬ 3 ∣ m ∨ ∀ b ∈ Bs, ∑ i, u b i = 0) (b : G) : ZMod 3 :=
   if 3 ∣ m then 0 else (∑ i, u b i) * (m : ZMod 3)⁻¹
 
 lemma coordinateSumRoot_spec {G : Type} [Group G] {Bs : Subgroup G} {m : ℕ}
@@ -48,7 +48,7 @@ lemma coordinateSumRoot_spec {G : Type} [Group G] {Bs : Subgroup G} {m : ℕ}
     have hsum : ∑ i, u b i = 0 := hdet.resolve_left (not_not.mpr h3) b hb
     simp [coordinateSumRoot, h3, hm0, hsum]
   · have hm0 : (m : ZMod 3) ≠ 0 := fun h => h3 ((ZMod.natCast_eq_zero_iff m 3).mp h)
-    simp only [coordinateSumRoot, if_neg h3]
+    simp only [coordinateSumRoot, ite_eq_right h3]
     rw [← mul_assoc, mul_comm (m : ZMod 3) (∑ i, u b i), mul_assoc,
       mul_inv_cancel₀ hm0, mul_one]
 
@@ -281,7 +281,7 @@ lemma diag_phi_mem_Bs {G : Type} [Group G] {B Bs : Subgroup G}
   exact hBs.2.2.2 _ hcent hpow
 
 lemma exists_zpow_mul_diag {G : Type} [Group G] {B Bs : Subgroup G} {x : G}
-    {L : Subgroup G} (hBs : GGBstar 3 B Bs) (hxBs : x ∈ Bs)
+    {L : Subgroup G} (hBs : GGBstar 3 B Bs) (_hxBs : x ∈ Bs)
     (hker : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
     {F : Type} [Field F] {m : ℕ} (hF : Nat.card F = 4)
     {φ : ↥(unitarySU 2 1 F m) →* ↥L} (hφs : Function.Surjective φ)

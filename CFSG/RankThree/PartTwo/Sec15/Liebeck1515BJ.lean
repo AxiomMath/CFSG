@@ -97,6 +97,7 @@ private theorem mem_zpowers_of_mem_centralizer (h : CtxB A c L d X) {a : G}
   rw [h.conf.sec13Data.sectionCentralizer_eq] at hsec
   exact hsec
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_centralizer (L : Subgroup G) :
     Subgroup.normalizer (L : Set G) ≤
       Subgroup.normalizer ((Subgroup.centralizer (L : Set G) : Subgroup G) : Set G) :=
@@ -108,11 +109,13 @@ section Unconditional
 variable (h : CtxB A c L d X)
 
 include h in
+omit [Finite G] h in
 theorem mem_E_c :
     c ∈ Subgroup.closure {x | ∃ n ∈ Subgroup.normalizer (L : Set G), x = n * c * n⁻¹} :=
   Subgroup.subset_closure ⟨1, one_mem _, by group⟩
 
 include h in
+omit [Finite G] h in
 theorem le_normalizer_E :
     Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer
       ((Subgroup.closure {x | ∃ n ∈ Subgroup.normalizer (L : Set G), x = n * c * n⁻¹} :
@@ -153,7 +156,7 @@ theorem le_centralizer_E (h : CtxB A c L d X) :
   exact (Subgroup.mem_normalizer_iff.mp (normalizer_le_normalizer_centralizer L hn) c).mp
     h.mem_centralizer_c
 
-theorem le_E_R (h : CtxB A c L d X) :
+theorem le_E_R (_h : CtxB A c L d X) :
     ⁅CFSG.Open.pCoreOf 2 (Subgroup.normalizer (L : Set G)), Subgroup.zpowers c⁆ ≤
       Subgroup.closure {x | ∃ n ∈ Subgroup.normalizer (L : Set G), x = n * c * n⁻¹} := by
   rw [Subgroup.commutator_le]
@@ -164,7 +167,7 @@ theorem le_E_R (h : CtxB A c L d X) :
       Subgroup.closure {x | ∃ n ∈ Subgroup.normalizer (L : Set G), x = n * c * n⁻¹} :=
     Subgroup.subset_closure ⟨g, hgN, rfl⟩
   rw [commutatorElement_def, ← conj_zpow]
-  exact mul_mem (zpow_mem h1 k) (inv_mem (zpow_mem h.mem_E_c k))
+  exact mul_mem (zpow_mem h1 k) (inv_mem (zpow_mem CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.mem_E_c k))
 
 section Route
 
@@ -195,7 +198,7 @@ theorem centralizer_inf_eq_bot (h : CtxB A c L d X) (h152 : Item152 A (lB A))
     rw [Subgroup.mem_inf, Subgroup.mem_inf]
     exact and_congr (Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hg) x)
       (Subgroup.mem_normalizer_iff.mp (hJM hg) x)
-  haveI : ((Subgroup.centralizer (L : Set G) ⊓
+  have : ((Subgroup.centralizer (L : Set G) ⊓
       pPrimeCoreOf 3 (Subgroup.centralizer ({d} : Set G))).subgroupOf
         (Subgroup.centralizer (L : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hnorm
@@ -303,7 +306,7 @@ theorem eq_closure_E (h : CtxB A c L d X) (h152 : Item152 A (lB A))
       rw [Nat.card_zpowers, ← h.conf.sec13Data.orderOf_eq]
       exact orderOf_injective (MulAut.conj n).toMonoidHom (MulAut.conj n).injective c
     obtain ⟨e, he, hconj⟩ := CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.exists_conj_of_pRank_le_one
-      Nat.prime_three (h.pRank_E_le_one h152 h153) (Subgroup.zpowers_le.mpr h.mem_E_c)
+      Nat.prime_three (h.pRank_E_le_one h152 h153) (Subgroup.zpowers_le.mpr CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.mem_E_c)
       (Subgroup.zpowers_le.mpr hx) h.conf.sec13Data.card_zpowers hcard
     rw [MonoidHom.map_zpowers] at hconj
     have hmem : n * c * n⁻¹ ∈ Subgroup.zpowers ((MulAut.conj e).toMonoidHom c) := by
@@ -315,7 +318,7 @@ theorem eq_closure_E (h : CtxB A c L d X) (h152 : Item152 A (lB A))
     exact Subgroup.zpowers_le.mpr hgen hmem
   · rw [Subgroup.closure_le]
     rintro _ ⟨e, he, rfl⟩
-    exact mul_mem (mul_mem he h.mem_E_c) (inv_mem he)
+    exact mul_mem (mul_mem he CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.mem_E_c) (inv_mem he)
 
 theorem three_not_dvd_of_normal (h : CtxB A c L d X) (h152 : Item152 A (lB A))
     (h153 : Item153Main A (lB A)) :
@@ -328,7 +331,7 @@ theorem three_not_dvd_of_normal (h : CtxB A c L d X) (h152 : Item152 A (lB A))
   have hxG : orderOf (x : G) = 3 := by rw [Subgroup.orderOf_coe, hx]
   have hcard : Nat.card (Subgroup.zpowers (x : G)) = 3 := by rw [Nat.card_zpowers, hxG]
   obtain ⟨e, he, hconj⟩ := CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.exists_conj_of_pRank_le_one
-    Nat.prime_three (h.pRank_E_le_one h152 h153) (Subgroup.zpowers_le.mpr h.mem_E_c)
+    Nat.prime_three (h.pRank_E_le_one h152 h153) (Subgroup.zpowers_le.mpr CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.mem_E_c)
     (Subgroup.zpowers_le.mpr (hKE x.2)) h.conf.sec13Data.card_zpowers hcard
   have hmem : e * c * e⁻¹ ∈ K := by
     have h1 : e * c * e⁻¹ ∈ (Subgroup.zpowers c).map (MulAut.conj e).toMonoidHom :=

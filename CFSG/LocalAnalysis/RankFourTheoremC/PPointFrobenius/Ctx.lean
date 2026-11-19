@@ -65,11 +65,13 @@ variable {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x : G}
 
 abbrev frU (P : Sylow p G) (x : G) : Subgroup G := (P : Subgroup G) ⊓ layerOf x
 
+omit [Finite G] in
 theorem layerOf_eq (x : G) :
     layerOf x = CFSG.Open.GLBLayer (centralizer ({x} : Set G)) := by
   unfold layerOf
   rw [zpowers_eq_closure, Subgroup.centralizer_closure]
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq (x : G) :
     centralizer ((zpowers x : Subgroup G) : Set G) = centralizer ({x} : Set G) := by
   rw [zpowers_eq_closure, Subgroup.centralizer_closure]

@@ -41,9 +41,9 @@ theorem not_isSolvable_of_model_PSU {G : Type} [Group G] {ν p f : ℕ}
       ((StatedScalars (Fin ν) K).subgroupOf (StatedSU ν (p ^ f) K))) (QuotientGroup.mk'_surjective _)
   intro hs
   have hs' : Group.IsSolvable (StatedProj (StatedSU ν (p ^ f) K)) :=
-    solvable_of_solvable_injective (f := e.symm.toMonoidHom) e.symm.injective
-  haveI := hsimple.toNontrivial
-  exact (IsSolvable.commutator_lt_top_of_nontrivial _).ne hperfP.commutator_eq_top
+    Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
+  have := hsimple.toNontrivial
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial _).ne hperfP.commutator_eq_top
 
 theorem isQuasisimple_of_tame_of_model_PSU {R : Type} [Group R]
     (hT : CFSG.IsQuasisimple R ∨ Group.IsSolvable R) {ν p f : ℕ}
@@ -51,7 +51,7 @@ theorem isQuasisimple_of_tame_of_model_PSU {R : Type} [Group R]
   rcases hT with h1 | h1
   · exact open_isQuasisimple h1
   · exfalso
-    haveI : Group.IsSolvable R := h1
+    have : Group.IsSolvable R := h1
     exact not_isSolvable_of_model_PSU h inferInstance
 
 section SULane
@@ -109,11 +109,11 @@ theorem twistInner_of_rank3_card18 (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4
         ((S.ρ : (Fin Tag.F4.rank → ℤ) → _)^[componentOrbitLength S.ρ
           (componentRoots (rootCharHom a) i)])
     · unfold twistKind
-      rw [if_pos hin]
+      rw [ite_eq_left hin]
     · unfold twistKind
-      rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-        if_neg (fun h => by omega),
-        if_neg (fun h => by have := h.2; rw [hr3, hn18] at this; omega)]
+      rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+        ite_eq_right (fun h => by omega),
+        ite_eq_right (fun h => by have := h.2; rw [hr3, hn18] at this; omega)]
   exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hTor i hkind
 
 theorem class_good_of_kernelB (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank → Lˣ}
@@ -207,7 +207,7 @@ theorem f4_classes_good (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank → L
   obtain ⟨ω, k, hω3, hω1, hk3, hak⟩ := exists_omega_param hap
   have hk0 : ∃ i, k i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply h1
     have : a = 1 := funext fun i => by rw [hak i, hcon i]; simp
     rw [this]

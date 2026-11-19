@@ -59,7 +59,7 @@ theorem ggTBJE6Levi_of_isoFrame
     GGResSideDatum p Bs X J ∨ GGResLeviSideDatumLE3 p Bs X J := by
   classical
   obtain ⟨Lf, hLf, ζ, hζ, ι₀, nk, m, wt, hζo, hι₀, hrange, hact, hwn, hwt, hClass⟩ := hF
-  haveI : Finite R := Finite.of_equiv ↥X e.toEquiv
+  have : Finite R := Finite.of_equiv ↥X e.toEquiv
   have hZR : Subgroup.center R = ⊥ := by
     have h1 : (Subgroup.center ↥X).map (e : ↥X →* R) = Subgroup.center R :=
       Subgroup.map_center_eq e
@@ -101,9 +101,9 @@ theorem ggTBJE6Levi_of_isoFrame
   let w'' : GGTorusTorWit m 6 ↥X
       ((E.map (MulAut.conj : R →* MulAut R)).map (MulAut.congr e.symm).toMonoidHom) :=
     wt.transport e.symm
-  have hw'' : w''.Holds CartanMatrix.E₆ CoxeterMatrix.E₆ := wt.holds_transport e.symm hwt
+  have hw'' : w''.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆ := wt.holds_transport e.symm hwt
   let w' : GGTorusTorWit m 6 ↥X ((ggGamma X hN).range) := hA' ▸ w''
-  have hw' : w'.Holds CartanMatrix.E₆ CoxeterMatrix.E₆ :=
+  have hw' : w'.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆ :=
     e6iso_holds_of_eq_subgroup hA'.symm w'' hw''
   have hwn' : ∀ k, w'.n k = e.symm (nk k) := by
     intro k

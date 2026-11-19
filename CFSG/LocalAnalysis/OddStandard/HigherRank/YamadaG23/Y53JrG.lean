@@ -20,17 +20,16 @@ private lemma frameWith_Sσ_eq_sup (s : Setting3 G L) (g : G) :
   rw [SFrame.S, Subgroup.zpowers_eq_closure, ← Subgroup.closure_union]
   congr 1
   ext x
-  simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false,
-    or_false, false_or]
+  simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
   tauto
 
 theorem y53_jrG_T1 {c : Ctx5 G L} (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
-    SecProp c.e.T₁ c.s.fr.Z (fun Y _ _ π =>
+    SecProp c.e.T₁ c.s.fr.Z (fun _Y _ _ π =>
       thompsonRank (((c.s.fr.S ⊔ zpowers c.g).subgroupOf c.e.T₁).map π) =
         (c.s.fr.A.subgroupOf c.e.T₁).map π) := by
   obtain ⟨_, _, hact, hg2, _⟩ := c.g_spec hRT
-  have h3 : SecProp (c.s.fr.S ⊔ zpowers c.g) c.s.fr.Z (fun Y _ _ π =>
-      thompsonRank (⊤ : Subgroup Y) =
+  have h3 : SecProp (c.s.fr.S ⊔ zpowers c.g) c.s.fr.Z (fun _Y _ _ π =>
+      thompsonRank (⊤ : Subgroup _Y) =
         (c.s.fr.A.subgroupOf (c.s.fr.S ⊔ zpowers c.g)).map π) := by
     have h15 := (hH.hLF.sigma c.g hg2 hact).2.1
     have h3' := h15.2.2.1

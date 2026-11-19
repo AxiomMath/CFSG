@@ -20,7 +20,7 @@ private theorem pzn_native_isQuasisimple {Q : Type} [Group Q]
     ⟨⟨fun a b => by
       by_contra hne
       exact hc ⟨a, b, hne⟩⟩⟩
-  haveI hQperf : Group.IsPerfect Q := ⟨h.1⟩
+  have hQperf : Group.IsPerfect Q := ⟨h.1⟩
   have hbot : commutator (Q ⧸ Subgroup.center Q) = ⊥ :=
     (commutator_eq_bot_iff _).mpr hcomm
   have hperf : Group.IsPerfect (Q ⧸ Subgroup.center Q) :=
@@ -33,7 +33,7 @@ private theorem pzn_native_isQuasisimple {Q : Type} [Group Q]
     have ha : a = 1 := (Subgroup.eq_bot_iff_forall _).mp htriv a (Subgroup.mem_top a)
     have hb : b = 1 := (Subgroup.eq_bot_iff_forall _).mp htriv b (Subgroup.mem_top b)
     rw [ha, hb]
-  haveI := h.2
+  have := h.2
   exact not_subsingleton _ hsub
 
 theorem ggAutomizer_mem_normalizer_of_fixed_reflection

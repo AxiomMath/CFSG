@@ -775,11 +775,13 @@ private noncomputable abbrev chartD2 (Φ : ↥L2 ≃* ↥chartC2) : Subgroup ↥
 private noncomputable abbrev chartD (Φ : ↥L2 ≃* ↥chartC2) : Subgroup G :=
   (chartD2 Φ).map L2.subtype
 
+omit [Finite G] in
 private theorem chartD2_map (Φ : ↥L2 ≃* ↥chartC2) :
     (chartD2 Φ).map (Φ : ↥L2 →* ↥chartC2) = Q1m.subgroupOf chartC2 := by
   rw [chartD2]
   exact Subgroup.map_comap_eq_self_of_surjective Φ.surjective _
 
+omit [Finite G] in
 private theorem chartD_symm_coe (Φ : ↥L2 ≃* ↥chartC2) (x : ↥(chartD Φ)) :
     (((Subgroup.equivMapOfInjective (chartD2 Φ) L2.subtype L2.subtype_injective).symm x :
       ↥L2) : G) = (x : G) := by
@@ -793,6 +795,7 @@ private noncomputable def chartζ (Φ : ↥L2 ≃* ↥chartC2) : ↥(chartD Φ) 
       ((MulEquiv.subgroupCongr (chartD2_map Φ)).trans
         ((Subgroup.subgroupOfEquivOfLe chartQ1m_le_C2).trans χQ)))
 
+omit [Finite G] in
 private theorem chartζ_apply_coe (Φ : ↥L2 ≃* ↥chartC2) (x : ↥(chartD Φ)) :
     κHom (chartζ Φ x) =
       (Φ ((Subgroup.equivMapOfInjective (chartD2 Φ) L2.subtype L2.subtype_injective).symm x) :
@@ -806,6 +809,7 @@ private theorem chartζ_apply_coe (Φ : ↥L2 ≃* ↥chartC2) (x : ↥(chartD �
   rw [hζ, MulEquiv.trans_apply, κHom_χQ]
   rfl
 
+omit [Finite G] in
 private theorem mem_chartD_iff (Φ : ↥L2 ≃* ↥chartC2) {x : ↥L2} :
     (x : G) ∈ chartD Φ ↔ (Φ x : Equiv.Perm (Fin 315)) ∈ Q1m := by
   constructor
@@ -821,10 +825,12 @@ private theorem mem_chartD_iff (Φ : ↥L2 ≃* ↥chartC2) {x : ↥L2} :
     rw [chartD2, Subgroup.mem_comap]
     exact Subgroup.mem_subgroupOf.mpr hx
 
+omit [Finite G] in
 private theorem chartD_le_L2 (Φ : ↥L2 ≃* ↥chartC2) : chartD Φ ≤ L2 := by
   rintro g ⟨x, -, rfl⟩
   exact x.2
 
+omit [Finite G] in
 private theorem chartD_le_S (Φ : ↥L2 ≃* ↥chartC2)
     (hΦS : ∀ x : ↥L2, (x : G) ∈ S ↔ (Φ x : Equiv.Perm (Fin 315)) ∈ T0m) :
     chartD Φ ≤ S := by
@@ -832,11 +838,13 @@ private theorem chartD_le_S (Φ : ↥L2 ≃* ↥chartC2)
   change Φ x ∈ Q1m.subgroupOf chartC2 at hx
   exact (hΦS x).mpr (Q1m_le_T0m (Subgroup.mem_subgroupOf.mp hx))
 
+omit [Finite G] in
 private theorem chartD_le_S2 (Φ : ↥L2 ≃* ↥chartC2)
     (hΦS : ∀ x : ↥L2, (x : G) ∈ S ↔ (Φ x : Equiv.Perm (Fin 315)) ∈ T0m) :
     chartD Φ ≤ S ⊓ L2 :=
   le_inf (chartD_le_S Φ hΦS) (chartD_le_L2 Φ)
 
+omit [Finite G] in
 private theorem chartD_card (Φ : ↥L2 ≃* ↥chartC2) : Nat.card (chartD Φ) = 64 := by
   rw [chartD, Subgroup.card_map_of_injective L2.subtype_injective]
   have h1 : Nat.card (chartD2 Φ) = Nat.card ↥((chartD2 Φ).map (Φ : ↥L2 →* ↥chartC2)) :=
@@ -848,6 +856,7 @@ private theorem chartD_card (Φ : ↥L2 ≃* ↥chartC2) : Nat.card (chartD Φ) 
 private noncomputable def chartβ (Φ : ↥L2 ≃* ↥chartC2) : ↥L2 :=
   Φ.symm ⟨bm, bm_mem_C2⟩
 
+omit [Finite G] in
 private theorem chartβ_apply (Φ : ↥L2 ≃* ↥chartC2) :
     (Φ (chartβ Φ) : Equiv.Perm (Fin 315)) = bm := by
   have h : Φ (chartβ Φ) = ⟨bm, bm_mem_C2⟩ := Φ.apply_symm_apply _
@@ -856,11 +865,13 @@ private theorem chartβ_apply (Φ : ↥L2 ≃* ↥chartC2) :
 private noncomputable def chartτ (Φ : ↥L2 ≃* ↥chartC2) : ↥L2 :=
   Φ.symm ⟨tm, T0m_le_C2 tm_mem_T0m⟩
 
+omit [Finite G] in
 private theorem chartτ_apply (Φ : ↥L2 ≃* ↥chartC2) :
     (Φ (chartτ Φ) : Equiv.Perm (Fin 315)) = tm := by
   have h : Φ (chartτ Φ) = ⟨tm, T0m_le_C2 tm_mem_T0m⟩ := Φ.apply_symm_apply _
   exact congrArg (fun z : ↥chartC2 => (z : Equiv.Perm (Fin 315))) h
 
+omit [Finite G] in
 private theorem chart_Phi_conj (Φ : ↥L2 ≃* ↥chartC2) {γ x : ↥L2}
     {b : Equiv.Perm (Fin 315)} (hγ : (Φ γ : Equiv.Perm (Fin 315)) = b) :
     (Φ (γ * x * γ⁻¹) : Equiv.Perm (Fin 315)) =
@@ -901,6 +912,7 @@ private theorem chartβ_mem_borel (Φ : ↥L2 ≃* ↥chartC2)
     (chartβ Φ : G) ∈ borelOf L2 S :=
   ⟨(chartβ Φ).2, chartβ_mem_normalizer_S2 Φ hΦS⟩
 
+omit [Finite G] in
 private theorem chartβ_pow_three (Φ : ↥L2 ≃* ↥chartC2) : (chartβ Φ : G) ^ 3 = 1 := by
   have hΦβ : Φ (chartβ Φ) = ⟨bm, bm_mem_C2⟩ := Φ.apply_symm_apply _
   have h3 : (chartβ Φ) ^ 3 = 1 := by
@@ -929,6 +941,7 @@ private theorem chartβ_mem_normalizer_D (Φ : ↥L2 ≃* ↥chartC2) :
   · rw [Subgroup.card_map_of_injective (f := (MulAut.conj (chartβ Φ : G) : G →* G))
       (MulAut.conj (chartβ Φ : G)).injective]
 
+omit [Finite G] in
 private theorem chartζ_actsAs_beta (Φ : ↥L2 ≃* ↥chartC2) :
     ActsAs (chartζ Φ) (chartβ Φ : G) βM := by
   intro x y hy
@@ -946,6 +959,7 @@ private theorem chartζ_actsAs_beta (Φ : ↥L2 ≃* ↥chartC2) :
   rw [chartζ_apply_coe Φ y, ← bm_conj (chartζ Φ x), chartζ_apply_coe Φ x]
   rw [← chart_Phi_conj (x := xL) Φ (chartβ_apply Φ), ← hxy]
 
+omit [Finite G] in
 private theorem chartζ_actsAs_tau (Φ : ↥L2 ≃* ↥chartC2) :
     ActsAs (chartζ Φ) (chartτ Φ : G) τM := by
   intro x y hy
@@ -963,12 +977,14 @@ private theorem chartζ_actsAs_tau (Φ : ↥L2 ≃* ↥chartC2) :
   rw [chartζ_apply_coe Φ y, ← tm_conj (chartζ Φ x), chartζ_apply_coe Φ x]
   rw [← chart_Phi_conj (x := xL) Φ (chartτ_apply Φ), ← hxy]
 
+omit [Finite G] in
 private theorem chartτ_mem_S2 (Φ : ↥L2 ≃* ↥chartC2)
     (hΦS : ∀ x : ↥L2, (x : G) ∈ S ↔ (Φ x : Equiv.Perm (Fin 315)) ∈ T0m) :
     (chartτ Φ : G) ∈ S ⊓ L2 := by
   refine ⟨?_, (chartτ Φ).2⟩
   exact (hΦS (chartτ Φ)).mpr (by rw [chartτ_apply]; exact tm_mem_T0m)
 
+omit [Finite G] in
 private theorem map_beta_chartImage (Φ : ↥L2 ≃* ↥chartC2) {A : Subgroup G}
     (hAD : A ≤ chartD Φ)
     (hA : (chartβ Φ : G) ∈ Subgroup.normalizer (A : Set G)) :
@@ -992,6 +1008,7 @@ private theorem map_beta_chartImage (Φ : ↥L2 ≃* ↥chartC2) {A : Subgroup G
     Subgroup.card_map_of_injective (f := (βM : Q1M →* Q1M)) βM.injective
   exact Subgroup.eq_of_le_of_card_ge hle (le_of_eq hcard.symm)
 
+omit [Finite G] in
 private theorem false_of_relIndex_two (Φ : ↥L2 ≃* ↥chartC2) {A : Subgroup G}
     (hAD : A ≤ chartD Φ)
     (hA : (chartβ Φ : G) ∈ Subgroup.normalizer (A : Set G))
@@ -1108,6 +1125,7 @@ private theorem τM_ne_one : τM ≠ 1 := by
   have h2 : τM e1 = e1 := by rw [h]; rfl
   exact (by decide : f1 ≠ e1) (h1.symm.trans h2)
 
+omit [Finite G] in
 private theorem exists_q_mul_tm_of_notMem (Φ : ↥L2 ≃* ↥chartC2)
     (hΦS : ∀ x : ↥L2, (x : G) ∈ S ↔ (Φ x : Equiv.Perm (Fin 315)) ∈ T0m)
     {x : G} (hxS2 : x ∈ S ⊓ L2)
@@ -1148,6 +1166,7 @@ private theorem exists_q_mul_tm_of_notMem (Φ : ↥L2 ≃* ↥chartC2)
       _ = κHom q * tm := by rw [κHom_χQ]
   exact ⟨q, hΦx⟩
 
+omit [Finite G] in
 private theorem central_action_of_mul_tm (Φ : ↥L2 ≃* ↥chartC2)
     (hDQ : chartD Φ = pCoreOf 2 L1)
     {x : G} (hxS2 : x ∈ S ⊓ L2)
@@ -1185,6 +1204,7 @@ private theorem central_action_of_mul_tm (Φ : ↥L2 ≃* ↥chartC2)
   rw [← hΦx, ← hdval]
   exact hΦconj
 
+omit [Finite G] in
 private theorem exists_q_mul_tm (Φ : ↥L2 ≃* ↥chartC2)
     (hΦS : ∀ x : ↥L2, (x : G) ∈ S ↔ (Φ x : Equiv.Perm (Fin 315)) ∈ T0m)
     (hDQ : chartD Φ = pCoreOf 2 L1)
@@ -1217,6 +1237,7 @@ private theorem false_of_central_q_mul_tm {q : Q1M}
   have hone : MulAut.conj q⁻¹ = 1 := conj_eq_one_of_mem_AJ' hτmem
   exact τM_ne_one (hτ.trans hone)
 
+omit [Finite G] in
 private theorem centralizer_mem_Q1m (Φ : ↥L2 ≃* ↥chartC2)
     (hΦS : ∀ x : ↥L2, (x : G) ∈ S ↔ (Φ x : Equiv.Perm (Fin 315)) ∈ T0m)
     (hDQ : chartD Φ = pCoreOf 2 L1)

@@ -127,8 +127,8 @@ theorem core_diag {F : Type} [Field F] [DecidableEq F] [CharP F 2] [Finite F]
         · subst hij
           by_cases hi : d i = l0
           · simp [eigP, Matrix.diagonal_mul, hi]
-          · simp [eigP, Matrix.diagonal_mul, hi, hd1 i hi]
-        · simp [eigP, Matrix.diagonal_mul, Matrix.diagonal_apply, hij]
+          · simp [eigP, Matrix.diagonal_mul, hd1 i hi]
+        · simp [eigP, Matrix.diagonal_mul, hij]
     have hUgC : Ug d l0 ≤ Cg d := fun x hx => hx.1
     have hUq : CFSG.Open.IsQuasisimple ↥(Ug d l0) := isQuasisimple_Ug d l0 hF (by omega)
     have hle : Ug d l0 ≤ J :=
@@ -208,7 +208,7 @@ theorem core_general {F : Type} [Field F] [DecidableEq F] [CharP F 2] [Finite F]
     exact mul_left_cancel (h2.trans (mul_one P).symm)
   have hd5 : ∀ k, d k ^ 5 = 1 := by
     have h5 := congrArg (fun x : ↥(StatedSU 6 (2 ^ 2) F) => ((x : GL (Fin 6) F).val)) hg'5
-    simp only [Subgroup.coe_pow, Units.val_pow_eq_pow_val, hPd, Units.val_one, one_pow] at h5
+    simp only [Subgroup.coe_pow, Units.val_pow_eq_pow_val, hPd] at h5
     intro k
     have h6 := congrFun (congrFun h5 k) k
     rw [Matrix.diagonal_pow] at h6

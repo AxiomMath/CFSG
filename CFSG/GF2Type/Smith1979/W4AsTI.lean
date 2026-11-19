@@ -73,7 +73,7 @@ theorem card_Mbar_dvd_1512 (H : Hyp4 S g)
 theorem gen4_Mbar_of_L28 (H : Hyp4 S g)
     (hirr : ¬ S.IsReducible) (h : StatedClassicalModel (M0 S g) .PSL 2 2 3) :
     CFSG.GH74.SectionalTwoRankLE S.Mbar 4 := by
-  haveI : Finite S.Mbar := Finite.of_surjective _ S.ρ.rangeRestrict_surjective
+  have : Finite S.Mbar := Finite.of_surjective _ S.ρ.rangeRestrict_surjective
   intro P hP
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 hP
   have hd : Nat.card P ∣ 1512 :=

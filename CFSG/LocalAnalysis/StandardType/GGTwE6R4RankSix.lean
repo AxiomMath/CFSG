@@ -68,22 +68,22 @@ theorem exists_rankSix_recipe (h82 : GGTwE6ThreeTwoLocalInnToralInput)
     ∃ Y : Subgroup (MulAut (TwE6Delta.RecipeR K n)),
       S ≤ Y ∧ (∀ φ ∈ Y, φ ∈ TwE6Delta.RecipeI K n) ∧ IsElemAbelian 3 Y ∧ Nat.card Y = 3 ^ 6 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨σ, hσ, ε, hε⟩ := TwE6Transport.exists_recipeConj (K := K) hn hK
   let k := GaloisField 2 (2 * n)
   let Ω := AlgebraicClosure K
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype k := Fintype.ofFinite k
   have hcard : Fintype.card (GaloisField 2 (2 * n)) = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       CFSG.LieType.Universal.card_galoisField_two_mul 2 n hn, hK]
   let τ : k ≃+* K := FiniteField.ringEquivOfCardEq hcard
-  haveI : CharP K 2 := charP_of_injective_ringHom (f := τ.toRingHom) τ.injective 2
-  letI : Algebra k Ω := ((algebraMap K Ω).comp τ.toRingHom).toAlgebra
-  haveI : IsAlgClosure k Ω :=
+  have : CharP K 2 := charP_of_injective_ringHom (f := τ.toRingHom) τ.injective 2
+  let : Algebra k Ω := ((algebraMap K Ω).comp τ.toRingHom).toAlgebra
+  have : IsAlgClosure k Ω :=
     ⟨IsAlgClosure.isAlgClosed K,
       rs_isAlgebraic_of_ringEquiv τ (fun x => rfl) (AlgebraicClosure.isAlgebraic K)⟩
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
   let Φ : ↥(TwistedDiag.Rgrp Ω Fr) →*

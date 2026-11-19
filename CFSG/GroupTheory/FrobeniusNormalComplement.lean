@@ -164,7 +164,7 @@ theorem exists_mem_sylow_of_alperinDecomposition (S : Sylow p G) {P : Subgroup G
   | @step c n Q _ hQ hPQ hn ih =>
     obtain ⟨u, hu, hux⟩ := ih
     obtain ⟨s, hsS, hsN, hsC⟩ :=
-      exists_mul_mem_centralizer (hyp Q (S.isPGroup'.to_le hQ.1)) hQ.2.1 hn
+      exists_mul_mem_centralizer (hyp Q (S.isPGroup.to_le hQ.1)) hQ.2.1 hn
     refine ⟨u * s, mul_mem hu hsS, fun x hx => ?_⟩
     have hy : c⁻¹ * x * c ∈ Q := by
       have h := hPQ ⟨x, hx, rfl⟩
@@ -283,9 +283,9 @@ theorem exists_isNormalPComplement_of_automizer {p : ℕ} [hp : Fact p.Prime] :
     with hTdef
   have hT : ∀ x : (S : Subgroup G), T x = Abelianization.of x ^ (S : Subgroup G).index :=
     transfer_eq_pow_index hyp S
-  haveI : Finite (Abelianization (S : Subgroup G)) :=
+  have : Finite (Abelianization (S : Subgroup G)) :=
     Quotient.finite (QuotientGroup.leftRel (commutator (S : Subgroup G)))
-  have hAp : IsPGroup p (Abelianization (S : Subgroup G)) := S.isPGroup'.to_quotient _
+  have hAp : IsPGroup p (Abelianization (S : Subgroup G)) := S.isPGroup.to_quotient _
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hAp
   have hcop : Nat.Coprime (Nat.card (Abelianization (S : Subgroup G)))
       (S : Subgroup G).index := by
@@ -301,7 +301,7 @@ theorem exists_isNormalPComplement_of_automizer {p : ℕ} [hp : Fact p.Prime] :
     rw [hy', ← powCoprime_apply hcop, Equiv.apply_symm_apply]
   have hKne : T.ker ≠ ⊤ := by
     have : Nontrivial (S : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).mpr hS
-    have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
     obtain ⟨y, -, hy⟩ := IsConcreteLE.exists_of_lt
       (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := (S : Subgroup G)))
     have hy1 : Abelianization.of y ≠ 1 := by

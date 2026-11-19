@@ -30,7 +30,7 @@ theorem exists_conjLe_of_lang {K L : Type} [Field K] [Finite K] [Field L] [Algeb
         ∀ A : Subgroup (adjointGroup Tag.E8 K), IsElemAbelian 5 A → 5 ^ 3 ≤ Nat.card A →
           ∃ c : adjointGroup Tag.E8 K, A ≤ ι.range.map (MulAut.conj c).toMonoidHom := by
   classical
-  haveI : Finite (ModGL Tag.E8 K) := finite_modGL
+  have : Finite (ModGL Tag.E8 K) := finite_modGL
   obtain ⟨ι, hιinj, hιval⟩ := exists_langTorsionHom hFr hζo hζ hq hg₀C hg₀
   have hξ : ∀ s : eigE8 5 lam,
       g₀ * ExcFrames.frameDiag (τ := Tag.E8) ζ hζ (s : Fin Tag.E8.rank → ZMod 5) * g₀⁻¹ =

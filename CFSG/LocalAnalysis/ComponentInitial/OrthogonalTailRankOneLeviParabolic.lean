@@ -29,7 +29,7 @@ theorem tailRankOneParabolic_le_orthElementaryGroup (i : Fin r) :
   · exact tailBorel_le hb
   · exact tailWeylElt_mem a₀ i
 
-theorem tailRankOneParabolic_le_tailLeviDom {i : Fin r} (hi : i.val + 1 < r)
+theorem tailRankOneParabolic_le_tailLeviDom {i : Fin r} (_hi : i.val + 1 < r)
     (hani : qA.Anisotropic) (ha₀ : a₀ ≠ 0) :
     tailRankOneParabolic qA a₀ i ≤ tailLeviDom r qA i := by
   rw [tailRankOneParabolic, Subgroup.closure_le]

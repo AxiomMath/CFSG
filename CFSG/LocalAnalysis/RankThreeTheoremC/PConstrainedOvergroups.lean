@@ -217,7 +217,7 @@ theorem two_le_pRank_inf_Op_p'p_of_not_isCyclic {p : ℕ} [Fact p.Prime] (hp2 : 
     2 ≤ CFSG.Open.pRank p (((P.subtype hPH : Subgroup H) ⊓ CFSG.Op_p'p p H).map H.subtype) := by
   have hprime : p.Prime := Fact.out
   set R : Subgroup G := ((P.subtype hPH : Subgroup H) ⊓ CFSG.Op_p'p p H).map H.subtype
-  have hRp : IsPGroup p R := P.isPGroup'.to_le (map_inf_Op_p'p_le hPH)
+  have hRp : IsPGroup p R := P.isPGroup.to_le (map_inf_Op_p'p_le hPH)
   obtain ⟨B, hB, hBc⟩ := CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
     (hprime.odd_of_ne_two hp2) hRp hRc
   have hBe : CFSG.IsElementaryAbelian p (B.map R.subtype) :=
@@ -240,7 +240,7 @@ theorem ExtremalObstruction.le_of_isPConstrained (hS : Setting G) {p : ℕ}
   rw [hP3] at hAc
   refine hext.le_of_two_le_pRank_inf_Op_p'p hS hp hPD hPH
     (two_le_pRank_inf_Op_p'p_of_not_isCyclic hodd hPH fun hRc => ?_)
-  have hle := card_le_of_isCyclic_of_centralizer_le hodd P.isPGroup' (map_inf_Op_p'p_le hPH)
+  have hle := card_le_of_isCyclic_of_centralizer_le hodd P.isPGroup (map_inf_Op_p'p_le hPH)
     (le_normalizer_inf_Op_p'p hPH) (inf_centralizer_le_of_isPConstrained hPH hH) hRc hAP hA
   rw [hAc] at hle
   have := (Nat.pow_le_pow_iff_right hprime.one_lt).1 hle

@@ -89,7 +89,7 @@ theorem overgroups_of_isHat {Γ : Type} [Group Γ]
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥L)
     rw [hquotcard, hZcard] at h
     omega
-  haveI hfinL : Finite ↥L := (Nat.card_ne_zero.mp (by rw [hcardLg]; norm_num)).2
+  have hfinL : Finite ↥L := (Nat.card_ne_zero.mp (by rw [hcardLg]; norm_num)).2
   have hcardT : Nat.card (T.subgroupOf L) = 128 := by
     have h := Sylow.card_eq_multiplicity hT.toSylow
     rw [IsSylowIn.coe_toSylow, hcardLg] at h
@@ -103,7 +103,7 @@ theorem overgroups_of_isHat {Γ : Type} [Group Γ]
     norm_num at h ⊢
     exact h
   have hdisj : Subgroup.center ↥L ⊓ (T.subgroupOf L) = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hZcard, hcardT]
     decide
   let φ : ↥CFSG.Blueprint.NativeSporadic.M22 ≃* ↥Mgrp :=

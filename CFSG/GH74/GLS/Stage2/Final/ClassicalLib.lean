@@ -159,7 +159,7 @@ theorem isSylowOf_barOf [Finite G] {z : G} {S : Subgroup G}
     rfl
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, ?_, ?_⟩
-  · rw [← hQ']; exact Q'.isPGroup'
+  · rw [← hQ']; exact Q'.isPGroup
   · rw [Subgroup.relIndex_top_right, ← hQ']
     exact Q'.not_dvd_index
 

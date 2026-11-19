@@ -17,7 +17,7 @@ open CFSG.ComponentClassification.PerfectAutomorphisms
 theorem tripleM22E9NoInvol_of (h : M22E9NoInvol) : TripleM22E9NoInvol := by
   intro X _ _ hperf hT F hF hF9 t ht ht2
   obtain ⟨-, ⟨e⟩⟩ := hT
-  haveI := hperf
+  have := hperf
   let ψ : MulAut X →* MulAut NativeSporadic.M22 :=
     (MulAut.congr e).toMonoidHom.comp (centerQuotientHom X)
   have hψ : Function.Injective ψ :=
@@ -25,7 +25,7 @@ theorem tripleM22E9NoInvol_of (h : M22E9NoInvol) : TripleM22E9NoInvol := by
   have hF' : IsElemAbelian 3 (F.map ψ) := by
     obtain ⟨hc, hp⟩ := hF
     refine ⟨?_, ?_⟩
-    · haveI := hc
+    · have := hc
       infer_instance
     · rintro _ ⟨x, hx, rfl⟩
       rw [← map_pow, hp x hx, map_one]

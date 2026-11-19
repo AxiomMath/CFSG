@@ -83,7 +83,7 @@ theorem nonempty_mulEquiv_HS_of_relators
       exact ⟨presGen hsPresentation 1, by rw [hφ1]; exact (Subtype.ext hx).symm⟩
   obtain ⟨e⟩ : Nonempty (NativeSporadic.HS ≃* hsPresentation.Group) :=
     CFSG.Sporadic.Bridge.HS.nonempty_mulEquiv
-  haveI : IsSimpleGroup hsPresentation.Group :=
+  have : IsSimpleGroup hsPresentation.Group :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.HS.isSimpleGroup_HS e.symm
   have hinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff]

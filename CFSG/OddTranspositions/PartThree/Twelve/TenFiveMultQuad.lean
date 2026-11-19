@@ -76,12 +76,12 @@ theorem reflect_fiveQuad_eq_toLinEquiv_fiveReflOf (k : ℕ) (ε : Bool)
 
 theorem fiveForm_single_self (k : ℕ) (ε : Bool) (i : Fin (k + 1)) (hi : i ≠ Fin.last k) :
     fiveForm k ε (Pi.single i 1) (Pi.single i 1) = 1 := by
-  rw [fiveForm_single k ε (Pi.single i 1) i, if_neg hi, Pi.single_eq_same, one_mul]
+  rw [fiveForm_single k ε (Pi.single i 1) i, ite_eq_right hi, Pi.single_eq_same, one_mul]
 
 theorem fiveForm_single_ne (k : ℕ) (ε : Bool) {i j : Fin (k + 1)} (hij : i ≠ j) :
     fiveForm k ε (Pi.single i 1) (Pi.single j 1) = 0 := by
   rw [fiveForm_single k ε (Pi.single i 1) j]
-  simp [Pi.single_apply, hij, Ne.symm hij]
+  simp [Ne.symm hij]
 
 theorem fiveForm_e0 (k : ℕ) (hk : 1 ≤ k) (ε : Bool) :
     fiveForm k ε (Pi.single (0 : Fin (k + 1)) 1) (Pi.single (0 : Fin (k + 1)) 1) = 1 := by

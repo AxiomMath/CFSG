@@ -52,7 +52,7 @@ theorem maximal_invariant_two_excludes_perfect (L K S J : Subgroup G) (a : G)
   let P : Sylow 2 J := Classical.choice inferInstance
   let T := (P : Subgroup J).map J.subtype
   have hTJ : T ≤ J := Subgroup.map_subtype_le _
-  have hTtwo : IsPGroup 2 T := P.isPGroup'.map J.subtype
+  have hTtwo : IsPGroup 2 T := P.isPGroup.map J.subtype
   have hTS : T ≤ Subgroup.centralizer (S : Set G) :=
     hTJ.trans (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hJS)
   have hjoinTwo : IsPGroup 2 (↥(S ⊔ T)) := htwo.to_sup_of_normal_left' hTtwo

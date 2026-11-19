@@ -19,7 +19,7 @@ private theorem twE6_a12_kacRow_type {lab : LargeEvenLabel} {p : ℕ} (row : Kac
 private theorem twE6_a12_kacRow_d {lab : LargeEvenLabel} {p : ℕ} (row : KacRow lab p)
     (hn : lab.n = 1) (hp : p = 3) : row.d = 2 := by
   have h : ¬ 3 ∣ 2 ^ 1 - 1 := by decide
-  rw [row.d_eq, hn, hp, if_neg h]
+  rw [row.d_eq, hn, hp, ite_eq_right h]
 
 private theorem twE6_a12_kac_check :
     ∀ s ∈ (k0VecsAux (k0DiagOf (GGKacType.E6)).marks 3).filter

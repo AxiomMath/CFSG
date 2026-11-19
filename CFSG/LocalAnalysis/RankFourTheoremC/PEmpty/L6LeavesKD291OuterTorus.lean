@@ -56,8 +56,8 @@ theorem exists_diag_torus {K : Type} [Field K] [Finite K] {p n : ℕ} (hp : p.Pr
     ∃ κ : (Fin 3 → Multiplicative (ZMod p)) →* (Fin n → Kˣ),
       (∀ x j, κ x j ^ p = 1) ∧ (∀ x, ∏ j, κ x j = 1) ∧
       ∀ x (c : Kˣ), (∀ j, κ x j = c) → x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rwa [Nat.card_units])
   have hprimU : IsPrimitiveRoot ζ p := by
     rw [← hζ]

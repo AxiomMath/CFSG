@@ -167,7 +167,7 @@ theorem mem_of_pow_eq_one_of_mem_normalizer {X : Type} [Group X] [Finite X] {p :
       Subgroup.zpowers_le.mpr hq
     have hzp : IsPGroup p (Subgroup.zpowers q) :=
       IsPGroup.of_card_dvd_pow (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hqm)
-    exact (S.isPGroup').to_sup_of_normal_left' hzp hzN
+    exact (S.isPGroup).to_sup_of_normal_left' hzp hzN
   have heq : (S : Subgroup X) = (S : Subgroup X) ⊔ Subgroup.zpowers q :=
     S.maximal_isPGroup.eq_of_le hP hle
   have : q ∈ (S : Subgroup X) ⊔ Subgroup.zpowers q :=

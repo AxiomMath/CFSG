@@ -47,8 +47,8 @@ theorem mapK_BK (g : Nat → Nat) : mapK g BK = key3 (g 0) (g 227759) (g 100817)
   unfold mapK
   rw [BK_fields.1, BK_fields.2.1, BK_fields.2.2]
 
-theorem key3_inj2 {a b c a' b' c' : Nat} (ha : a < 2 ^ 18) (hb : b < 2 ^ 18) (hc : c < 2 ^ 18)
-    (ha' : a' < 2 ^ 18) (hb' : b' < 2 ^ 18) (hc' : c' < 2 ^ 18) (h : key3 a b c = key3 a' b' c') :
+theorem key3_inj2 {a b c a' b' c' : Nat} (ha : a < 2 ^ 18) (hb : b < 2 ^ 18) (_hc : c < 2 ^ 18)
+    (ha' : a' < 2 ^ 18) (hb' : b' < 2 ^ 18) (_hc' : c' < 2 ^ 18) (h : key3 a b c = key3 a' b' c') :
     a = a' ∧ b = b' ∧ c = c' := by
   rw [key3_eq, key3_eq] at h
   omega

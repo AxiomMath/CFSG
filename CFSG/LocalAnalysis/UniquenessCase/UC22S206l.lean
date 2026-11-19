@@ -19,11 +19,11 @@ theorem uc22s206l_eq_top_of_normal [Finite G] {L : Subgroup G}
     (α : ↥L →* alternatingGroup (Fin 9)) (hα : Function.Surjective α)
     (hker : α.ker = CFSG.pCore 2 ↥L) {i : Fin 9} {N : Subgroup ↥(ptCore α i)} (hN : N.Normal)
     {n : ↥(ptCore α i)} (hn : n ∈ N) (hn1 : ptHom α i n ≠ 1) : N = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hN
-  haveI := isSimpleGroup_stabilizer (n := 9) (by norm_num) i
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hN
+  have := isSimpleGroup_stabilizer (n := 9) (by norm_num) i
   have hsurj := ptHom_surjective α hα (by norm_num) i
-  haveI : (N.map (ptHom α i)).Normal := hN.map _ hsurj
+  have : (N.map (ptHom α i)).Normal := hN.map _ hsurj
   have htop : N.map (ptHom α i) = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (ptHom α i)) with h | h
     · have hmem : ptHom α i n ∈ N.map (ptHom α i) := mem_map_of_mem _ hn
@@ -46,11 +46,11 @@ theorem uc22s206l_eq_top_of_normal [Finite G] {L : Subgroup G}
     have hmk' : QuotientGroup.mk' N k = QuotientGroup.mk' N (m⁻¹ * k) := by
       rw [map_mul, map_inv, hm1, inv_one, one_mul]
     rw [hmk', ← map_pow, ha', map_one]
-  haveI : Group.IsPerfect ↥(ptCore α i) :=
+  have : Group.IsPerfect ↥(ptCore α i) :=
     Subgroup.isPerfect_iff.2 (CFSG.Quasithin.perfectCore_perfect (ptPre α i))
   have hsub : Subsingleton (↥(ptCore α i) ⧸ N) := by
     by_contra hns
-    haveI : Nontrivial (↥(ptCore α i) ⧸ N) := not_subsingleton_iff_nontrivial.1 hns
+    have : Nontrivial (↥(ptCore α i) ⧸ N) := not_subsingleton_iff_nontrivial.1 hns
     exact Group.IsPerfect.not_isNilpotent (↥(ptCore α i) ⧸ N) h2.isNilpotent
   exact eq_top_iff.mpr fun k _ => (QuotientGroup.eq_one_iff k).mp (Subsingleton.elim _ _)
 
@@ -108,7 +108,7 @@ theorem uc22s206l_nonempty_range [Finite G] {L : Subgroup G}
     (hker : α.ker = CFSG.pCore 2 ↥L) {i : Fin 9} {Γ : Type} [Group Γ] [Finite Γ]
     (ψ : ↥(ptCore α i) →* Γ) (hψ : ψ.range ≠ ⊥) :
     Nonempty (Bar2 ψ.range ≃* alternatingGroup (Fin 8)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : ψ.ker ≤ (ptHom α i).ker := by
     intro k hk
     by_contra hk1
@@ -174,7 +174,7 @@ theorem uc22s206l_range_ne_bot [Finite G] {L : Subgroup G}
     (α : ↥L →* alternatingGroup (Fin 9)) (hα : Function.Surjective α)
     (hker : α.ker = CFSG.pCore 2 ↥L) {i : Fin 9} {Y : Type*} [Group Y]
     (φ : ↥(ptCore α i) →* Y) (hφ : φ.ker ≤ CFSG.pCore 2 ↥(ptCore α i)) : φ.range ≠ ⊥ := by
-  haveI := isSimpleGroup_stabilizer (n := 9) (by norm_num) i
+  have := isSimpleGroup_stabilizer (n := 9) (by norm_num) i
   intro hbot
   obtain ⟨s, hs⟩ := exists_ne (1 : ↥(MulAction.stabilizer (alternatingGroup (Fin 9)) i))
   obtain ⟨k, rfl⟩ := ptHom_surjective α hα (by norm_num) i s

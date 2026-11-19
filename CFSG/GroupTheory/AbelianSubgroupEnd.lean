@@ -76,7 +76,7 @@ noncomputable def endOf (V : Subgroup G) (hV : ∀ x ∈ V, ∀ y ∈ V, x * y =
 theorem val_endOf_apply {f : G → G} (hf : ∀ v ∈ V, f v ∈ V)
     (hmul : ∀ v ∈ V, ∀ w ∈ V, f (v * w) = f v * f w) (x : AbelianSub V hV) :
     (endOf V hV f x).val = f x.val := by
-  rw [endOf, dif_pos ⟨hf, hmul⟩]
+  rw [endOf, dite_eq_left ⟨hf, hmul⟩]
   rfl
 
 noncomputable def conj (V : Subgroup G) (hV : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x)

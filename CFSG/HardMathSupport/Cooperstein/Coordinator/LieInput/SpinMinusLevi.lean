@@ -57,7 +57,7 @@ theorem block_decomp_minus (hn : 4 ≤ n) (hlast : LastBlockEquiv n hirr) {Y : T
         have hF2 : Fintype.card F = 2 := by rw [← Nat.card_eq_fintype_card, hfcard]; norm_num
         have hsolv : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin (hi - lo + 2)) F) := by
           rw [h2]; exact CFSG.Quasithin.R3c21.S0.isSolvable_sl2_of_card_two hF2
-        haveI := hsolv
+        have := hsolv
         exact decomp_so π A _ hA (Group.isSolvable_of_isSolvable_injective
           (f := e1.symm.toMonoidHom) e1.symm.injective)
       · have h4 : 4 ≤ Nat.card F := by
@@ -82,7 +82,7 @@ theorem block_decomp_minus (hn : 4 ≤ n) (hlast : LastBlockEquiv n hirr) {Y : T
       let i0 : Fin (minusDatum n hirr).rank := ⟨n - 2, by change n - 2 < n - 1; omega⟩
       have hset : lastNodes n (n - 2) = {i0} := by
         ext j
-        simp only [lastNodes, Set.mem_setOf_eq, Set.mem_singleton_iff]
+        simp only [lastNodes, Set.mem_ofPred_eq]
         have := j.isLt
         constructor
         · intro h; exact Fin.ext (by simp [i0]; omega)
@@ -96,9 +96,9 @@ theorem block_decomp_minus (hn : 4 ≤ n) (hlast : LastBlockEquiv n hirr) {Y : T
         have hi' : i = i0 := hi
         subst hi'
         exact le_rfl
-      haveI := fact_shortField hirr
-      haveI := finite_shortField (b := b) (c := c)
-      haveI := charP_shortField (b := b) (c := c)
+      have := fact_shortField hirr
+      have := finite_shortField (b := b) (c := c)
+      have := charP_shortField (b := b) (c := c)
       let e := (shortEquiv n hirr i0 hi0).trans (MulEquiv.subgroupCongr heq.symm)
       exact decomp_of_chev π hker A _ hA e
         (isChevComponent_sl (F := ShortField b c) (k := 2)

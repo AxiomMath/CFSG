@@ -75,7 +75,7 @@ private lemma pff_lin_ext_unit (P : Pt) [Fact P.p.Prime] {W : Type*} [AddCommMon
     rw [Finset.sum_eq_single i]
     · rw [Pi.single_eq_same]; ring
     · intro k _ hk
-      rw [Pi.single_apply, if_neg (Ne.symm hk), mul_zero]
+      rw [Pi.single_apply, ite_eq_right (Ne.symm hk), mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   rw [hz]
@@ -199,7 +199,7 @@ private lemma pff_applyWord_unit_lt (P : Pt) (w : Word) (i : Nat) (hp : 1 < P.p)
       · exact pff_applyRefl_lt P _ _ (by omega) j
       · exact ih j hj
 
-private lemma pff_vec_ext (P : Pt) (hp : 0 < P.p) {a b : Vec}
+private lemma pff_vec_ext (P : Pt) (_hp : 0 < P.p) {a b : Vec}
     (ha : a.length = P.D) (hb : b.length = P.D)
     (halt : ∀ k, k < P.D → a.getD k 0 < P.p)
     (hblt : ∀ k, k < P.D → b.getD k 0 < P.p)

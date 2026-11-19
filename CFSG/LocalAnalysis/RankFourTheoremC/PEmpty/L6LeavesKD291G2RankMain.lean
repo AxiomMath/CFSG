@@ -14,10 +14,10 @@ open scoped commutatorElement
 
 theorem inG2Prime_holds : InG2Prime := by
   intro p hp hp5 G _ _ hG
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Sylow p G := default
   obtain ⟨F, hF, hFfin, hFcard, ⟨e⟩⟩ := exists_mulEquiv_sylow_G2 hp hG.2 P
-  haveI : CharP F p := charP_of_natCard_eq_pow hp hFcard
+  have : CharP F p := charP_of_natCard_eq_pow hp hFcard
   have h2 : (2 : F) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : F) = 0 := by exact_mod_cast h

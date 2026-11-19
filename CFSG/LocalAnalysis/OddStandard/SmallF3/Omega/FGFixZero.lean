@@ -17,6 +17,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   zero_mem' := fun g _ => map_zero g
   smul_mem' := fun c {x} hx g hg => by rw [map_smul, hx g hg]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_finrank_ne_one_of_rho (hsq : ∀ v, ρ (ρ v) = -v) (Y : Submodule (ZMod 3) V)
     (hY : ∀ y ∈ Y, ρ y ∈ Y) : Module.finrank (ZMod 3) Y ≠ 1 := by
   intro h1

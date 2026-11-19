@@ -9,6 +9,7 @@ namespace CFSG.RepresentationTheory.SL2NatSum
 
 variable {K : Type*} [Field K] [Fintype K] [CharP K 2] {R : Type*} [Ring R] [Algebra K R]
 
+omit [CharP K 2] in
 theorem coeff_shift {P : K → R} {W : ℕ → R} (h : R) (s : K)
     (hW : ∀ x, P x = ∑ j ∈ Finset.range (Fintype.card K), x ^ j • W j)
     (hh : ∀ x, h * P x = P (s * x) * h) :
@@ -42,6 +43,7 @@ theorem coeff_shift {P : K → R} {W : ℕ → R} (h : R) (s : K)
   exact sub_eq_zero.mp (coeff_eq_zero_of_forall_sum_eq_zero
     (fun k => h * W k - s ^ k • (W k * h)) hzero j hj)
 
+omit [CharP K 2] in
 private lemma sum_smul_ite_eq_zero_right {P : K → R} {W : ℕ → R}
     (hW : ∀ x, P x = ∑ j ∈ Finset.range (Fintype.card K), x ^ j • W j) (x y : K) :
     (∑ i ∈ Finset.range (Fintype.card K), ∑ k ∈ Finset.range (Fintype.card K),
@@ -57,6 +59,7 @@ private lemma sum_smul_ite_eq_zero_right {P : K → R} {W : ℕ → R}
           simp
     _ = P x := (hW x).symm
 
+omit [CharP K 2] in
 private lemma sum_smul_ite_eq_zero_left {P : K → R} {W : ℕ → R}
     (hW : ∀ x, P x = ∑ j ∈ Finset.range (Fintype.card K), x ^ j • W j) (x y : K) :
     (∑ i ∈ Finset.range (Fintype.card K), ∑ k ∈ Finset.range (Fintype.card K),
@@ -71,6 +74,7 @@ private lemma sum_smul_ite_eq_zero_left {P : K → R} {W : ℕ → R}
           simp
     _ = P y := (hW y).symm
 
+omit [CharP K 2] in
 private lemma sum_smul_mul_coeff {P : K → R} {W : ℕ → R}
     (hW : ∀ x, P x = ∑ j ∈ Finset.range (Fintype.card K), x ^ j • W j) (x y : K) :
     (∑ i ∈ Finset.range (Fintype.card K), ∑ k ∈ Finset.range (Fintype.card K),
@@ -80,6 +84,7 @@ private lemma sum_smul_mul_coeff {P : K → R} {W : ℕ → R}
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [smul_mul_smul_comm, smul_smul]
 
+omit [CharP K 2] in
 private lemma sum_pow_smul_eq_sum_choose (x y : K) (W : ℕ → R) :
     (∑ j ∈ Finset.range (Fintype.card K), (x + y) ^ j • W j) =
       ∑ i ∈ Finset.range (Fintype.card K), ∑ k ∈ Finset.range (Fintype.card K),
@@ -134,9 +139,9 @@ private lemma sum_pow_smul_eq_sum_choose (x y : K) (W : ℕ → R) :
               rw [Nat.lt_sub_iff_add_lt]
               omega
             by_cases hk : k < Fintype.card K - i
-            · rw [if_pos hk, if_pos (hiff.mp hk)]
+            · rw [ite_eq_left hk, ite_eq_left (hiff.mp hk)]
               simp only [f, Nat.add_sub_cancel_left]
-            · rw [if_neg hk, if_neg (hiff.not.mp hk)]
+            · rw [ite_eq_right hk, ite_eq_right (hiff.not.mp hk)]
               simp
   rw [step1, step2, step3, step4]
 
@@ -181,28 +186,28 @@ theorem coeff_mul {n : ℕ} (hq : Fintype.card K = 2 ^ n) {P : K → R} {W : ℕ
   have hmain : W i * W k =
       if i + k < Fintype.card K then ((i + k).choose i : K) • W (i + k) else 0 := by
     simp only [c] at hci
-    rw [if_neg (by omega : ¬ k = 0), if_neg (by omega : ¬ i = 0)] at hci
+    rw [ite_eq_right (by omega : ¬ k = 0), ite_eq_right (by omega : ¬ i = 0)] at hci
     simp only [sub_zero] at hci
     exact (sub_eq_zero.mp hci).symm
   by_cases hik : i &&& k = 0
   · have hodd : Odd ((i + k).choose i) := (odd_choose_add_iff i k).mpr hik
     have hcoef : ((i + k).choose i : K) = 1 := by
-      rw [CharTwo.natCast_eq_ite, if_neg (Nat.not_even_iff_odd.mpr hodd)]
+      rw [CharTwo.natCast_eq_ite, ite_eq_right (Nat.not_even_iff_odd.mpr hodd)]
     have hsum : i + k = i ||| k := add_eq_or_of_and_eq_zero hik
     have hilt : i + k < Fintype.card K := by
       have hi2 : i < 2 ^ n := by rwa [hq] at hi
       have hk2 : k < 2 ^ n := by rwa [hq] at hk
       rw [hq, hsum]
       exact Nat.or_lt_two_pow hi2 hk2
-    rw [if_pos hik, hmain, if_pos hilt, hcoef, one_smul]
+    rw [ite_eq_left hik, hmain, ite_eq_left hilt, hcoef, one_smul]
   · have hnotodd : ¬ Odd ((i + k).choose i) := (odd_choose_add_iff i k).not.mpr hik
     have heven : Even ((i + k).choose i) := Nat.not_odd_iff_even.mp hnotodd
     have hcoef : ((i + k).choose i : K) = 0 := by
-      rw [CharTwo.natCast_eq_ite, if_pos heven]
-    rw [if_neg hik, hmain]
+      rw [CharTwo.natCast_eq_ite, ite_eq_left heven]
+    rw [ite_eq_right hik, hmain]
     by_cases hilt : i + k < Fintype.card K
-    · rw [if_pos hilt, hcoef, zero_smul]
-    · rw [if_neg hilt]
+    · rw [ite_eq_left hilt, hcoef, zero_smul]
+    · rw [ite_eq_right hilt]
 
 theorem coeff_pow_two_comm {n : ℕ} (hq : Fintype.card K = 2 ^ n) {P : K → R} {W : ℕ → R}
     (hW : ∀ x, P x = ∑ j ∈ Finset.range (Fintype.card K), x ^ j • W j)
@@ -228,10 +233,11 @@ theorem coeff_pow_two_comm {n : ℕ} (hq : Fintype.card K = 2 ^ n) {P : K → R}
   have hcpos : 0 < 2 ^ c := Nat.pow_pos (by norm_num)
   have hbcprod := coeff_mul hq hW hPadd (2 ^ b) hbq (2 ^ c) hcq hbpos hcpos
   have hcbprod := coeff_mul hq hW hPadd (2 ^ c) hcq (2 ^ b) hbq hcpos hbpos
-  rw [if_pos hand] at hbcprod
-  rw [if_pos hand'] at hcbprod
+  rw [ite_eq_left hand] at hbcprod
+  rw [ite_eq_left hand'] at hcbprod
   rw [hbcprod, hcbprod, add_comm]
 
+omit [Field K] [CharP K 2] [Algebra K R] in
 theorem coeff_eq_zero_of_not_pow_two {n : ℕ} (hq : Fintype.card K = 2 ^ n) (W : ℕ → R)
     (hprod : ∀ i < Fintype.card K, ∀ k < Fintype.card K, 0 < i → 0 < k →
       W i * W k = if i &&& k = 0 then W (i + k) else 0)
@@ -272,7 +278,7 @@ theorem coeff_eq_zero_of_not_pow_two {n : ℕ} (hq : Fintype.card K = 2 ^ n) (W 
       simp
     have hprod_bk := hprod (2 ^ b) h2b_lt_card k hk_lt_card
       (Nat.pow_pos (by norm_num)) hk_pos
-    rw [if_pos hand] at hprod_bk
+    rw [ite_eq_left hand] at hprod_bk
     have hjk : 2 ^ b + k = j := by
       rw [hk_def]
       exact Nat.add_sub_of_le hb_le_j
@@ -300,6 +306,7 @@ theorem coeff_eq_zero_of_not_pow_two {n : ℕ} (hq : Fintype.card K = 2 ^ n) (W 
         _ = W (2 ^ b) * W k := hprod_bk.symm
         _ = 0 := by rw [ih k hk_lt_j hk_lt_pow hk_pos hkpow, mul_zero]
 
+omit [Field K] [CharP K 2] [Algebra K R] in
 theorem coeff_mul_eq_zero {n : ℕ} (hq : Fintype.card K = 2 ^ n) (W : ℕ → R)
     (hW0 : W 0 = 0)
     (hprod : ∀ i < Fintype.card K, ∀ k < Fintype.card K, 0 < i → 0 < k →
@@ -323,7 +330,7 @@ theorem coeff_mul_eq_zero {n : ℕ} (hq : Fintype.card K = 2 ^ n) (W : ℕ → R
     have hik_lt : i + k < Fintype.card K := by
       rw [hq, hsum]
       exact Nat.or_lt_two_pow hi2 hk2
-    rw [hprod i hi k hk hi0' hk0', if_pos hik]
+    rw [hprod i hi k hk hi0' hk0', ite_eq_left hik]
     have hik_not_pow : ¬ ∃ c, i + k = 2 ^ c := by
       rintro ⟨c, hc⟩
       have hi_lt : i < 2 ^ c := by omega
@@ -332,7 +339,7 @@ theorem coeff_mul_eq_zero {n : ℕ} (hq : Fintype.card K = 2 ^ n) (W : ℕ → R
       rw [← hsum, hc] at hor_lt
       exact (lt_irrefl _ hor_lt)
     exact hnotpow (i + k) (by rwa [hq] at hik_lt) (by omega) hik_not_pow
-  · rw [hprod i hi k hk hi0' hk0', if_neg hik]
+  · rw [hprod i hi k hk hi0' hk0', ite_eq_right hik]
 
 theorem exists_coeff_unipotent {n : ℕ} (hq : Fintype.card K = 2 ^ n)
     (P : K → R) (hP0 : P 0 = 0) (hPadd : ∀ x y, P (x + y) = P x + P y + P x * P y)

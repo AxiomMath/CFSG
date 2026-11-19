@@ -12,17 +12,17 @@ open scoped commutatorElement
 
 theorem normalClosureOf_eq_of_normal {G : Type*} [Group G] {L : Subgroup G} (hL : L.Normal) :
     normalClosureOf L = L := by
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   unfold normalClosureOf
   exact Subgroup.normalClosure_eq_self L
 
 theorem normalClosureOf_eq_of_le_simple {G : Type*} [Group G] {L S : Subgroup G} (hS : S.Normal)
     (hSs : IsSimpleGroup ↥S) (hLS : L ≤ S) (hL1 : L ≠ ⊥) : normalClosureOf L = S := by
-  haveI : S.Normal := hS
+  have : S.Normal := hS
   let N : Subgroup G := Subgroup.normalClosure (L : Set G)
   have hN_le_S : N ≤ S := Subgroup.normalClosure_le_normal hLS
   have hNn : N.Normal := Subgroup.normalClosure_normal
-  haveI hNsub : (N.subgroupOf S).Normal :=
+  have hNsub : (N.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff hN_le_S).2 fun h k hh _ => hNn.conj_mem h hh k
   have hNne : N ≠ ⊥ := by
     intro hbot
@@ -54,7 +54,7 @@ theorem normalClosureOf_eq_layer {K : Type*} [Group K] [Finite K] {z : K} {B S�
   have hS₂_le_layer : S₂ ≤ layer K := by rw [hs.layer_eq]; exact le_sup_right
   have hB_le_layer : B ≤ layer K := by
     rw [← hs.inf_eq]; exact inf_le_left
-  haveI : (layer K).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (layer K).Characteristic := CFSG.LocalCores.layer_characteristic
   have hN_le_layer : N ≤ layer K := Subgroup.normalClosure_le_normal hB_le_layer
   have hS₁_le_N : S₁ ≤ N := by
     rw [← Subgroup.isPerfect_iff.mp hs.comp.1.1, Subgroup.commutator_le]

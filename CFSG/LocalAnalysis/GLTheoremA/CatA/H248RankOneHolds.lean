@@ -36,7 +36,7 @@ private theorem exists_noncomm_of_elemAbelian_cube {p : ℕ} (hp : p.Prime)
     {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S) {A : Subgroup (MulAut S)}
     (hA : CFSG.Open.IsElemAbelian p A) (h3 : p ^ 3 ≤ Nat.card A) :
     ∃ a b : S, a * b ≠ b * a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ^ 2 ≤ Nat.card A :=
     (Nat.pow_le_pow_right hp.pos (by norm_num : 2 ≤ 3)).trans h3
   obtain ⟨E, hEcard⟩ :=
@@ -68,9 +68,9 @@ private theorem false_of_PSL_two (hI : GL83.I_7_13_1) {p q : ℕ} (hp : p.Prime)
   obtain ⟨-, K, _, _, hKcard, ⟨eK⟩⟩ := hmodel
   let ePSL : S ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
     eK.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
-  haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
+  have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
     Finite.of_equiv S ePSL.toEquiv
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hreq : Q.p ≠ 2 := by rw [hQ]; exact hq2
   have hpq' : p ≠ Q.p := by rw [hQ]; exact hpq
   have hrk : CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 1 := by
@@ -87,12 +87,12 @@ private theorem false_of_PSU_three (hI : GL83.I_7_13_1) {p q : ℕ} (hp : p.Prim
     {A : Subgroup (MulAut S)} (hAel : CFSG.Open.IsElemAbelian p A)
     (hA3 : p ^ 3 ≤ Nat.card A) : False := by
   obtain ⟨-, K, _, _, hKcard, ⟨eSU⟩⟩ := hmodel
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card K = Q.p ^ (2 * Q.exponent) := by
     rw [hKcard, ← pow_mul, mul_comm]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K Q.p :=
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K Q.p :=
     charP_of_card_eq_prime_pow (p := Q.p) (f := 2 * Q.exponent)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   have hpq' : p ≠ Q.p := by rw [hQ]; exact hpq
@@ -114,7 +114,7 @@ private theorem false_of_PSU_three (hI : GL83.I_7_13_1) {p q : ℕ} (hp : p.Prim
     refine (CFSG.SectionRank.pRank_quotient_eq
       ((StatedScalars (Fin 3) K).subgroupOf (StatedSU 3 (Q.p ^ Q.exponent) K)) hN).le.trans ?_
     exact hSUrank
-  haveI : Finite (StatedProj (StatedSU 3 (Q.p ^ Q.exponent) K)) :=
+  have : Finite (StatedProj (StatedSU 3 (Q.p ^ Q.exponent) K)) :=
     Finite.of_equiv S eSU.toEquiv
   have hrk : CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 1 :=
     (CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt eSU).le.trans hprojRank
@@ -154,7 +154,7 @@ private theorem false_of_alt (hI : GL83.I_7_13_1) {p n : ℕ} (hp : p.Prime) (hp
     (e : S ≃* ↥(alternatingGroup (Fin n))) (hcat : CFSG.Open.IsCatalogGroup S)
     (hS : IsSimpleGroup S) (hdiv : ¬ p ^ 2 ∣ n.factorial / 2) {A : Subgroup (MulAut S)}
     (hAel : CFSG.Open.IsElemAbelian p A) (hA3 : p ^ 3 ≤ Nat.card A) : False := by
-  haveI : Nontrivial (Fin n) := by
+  have : Nontrivial (Fin n) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, Fintype.card_fin]
     omega
   have hcard : Nat.card S = n.factorial / 2 := by
@@ -177,7 +177,7 @@ private theorem false_of_reeG2 (hI : GL83.I_7_13_1) {p m : ℕ} (hp : p.Prime) (
     have h2 := hp.two_le
     have h4 : p ≠ 4 := by rintro rfl; norm_num at hp
     omega
-  haveI : CharP (GaloisField 3 (2 * m + 1)) ReeTag.G2.prime :=
+  have : CharP (GaloisField 3 (2 * m + 1)) ReeTag.G2.prime :=
     inferInstanceAs (CharP (GaloisField 3 (2 * m + 1)) 3)
   have hK : Nat.card (GaloisField 3 (2 * m + 1)) = 3 ^ (2 * m + 1) :=
     GaloisField.card 3 (2 * m + 1) (by omega)
@@ -206,11 +206,11 @@ theorem rankOneFact_holds : RankOneFact := by
   | sporadic s => simp [CatRankOne] at hi
   | alternating n hn =>
     rcases (by simpa only [CatRankOne] using hi) with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-    · haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) :=
+    · have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) :=
         alternatingGroup.isSimpleGroup (by simp)
       exact (false_of_alt hI hp hp2 (by norm_num : 2 ≤ 5) e hcat e.isSimpleGroup
         (not_sq_dvd_five_factorial hp hp2) hAel hA3).elim
-    · haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+    · have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
         alternatingGroup.isSimpleGroup (by simp)
       have hp3 : p ≠ 3 := fun h => hqp h.symm
       exact (false_of_alt hI hp hp2 (by norm_num : 2 ≤ 6) e hcat e.isSimpleGroup

@@ -56,7 +56,7 @@ theorem autLift_of_induced [Finite V] [Finite K] {π : H →* K} {ρ : H →* Mo
         ⟨inv_mem hx.1, hPi _ hx.2.1, induces_inv hx.2.2.1, inv_mem hx.2.2.2⟩ }
   have hmem : ∀ x : Equiv.Perm V × MulAut K, x ∈ Γ ↔
       (x.1 ∈ semilinGroup F V ∧ P x.1 ∧ Induces π ρ x.1 x.2 ∧ x.2 ∈ R) := fun x => Iff.rfl
-  haveI : Finite Γ := inferInstance
+  have : Finite Γ := inferInstance
   let f : Γ →* R := ((MonoidHom.snd (Equiv.Perm V) (MulAut K)).comp Γ.subtype).codRestrict R
     (fun x => ((hmem _).mp x.2).2.2.2)
   have hf : Function.Surjective f := by
@@ -74,7 +74,7 @@ theorem autLift_of_induced [Finite V] [Finite K] {π : H →* K} {ρ : H →* Mo
     exact ((hmem _).mp x.2).1
   · rintro _ ⟨x, -, rfl⟩
     exact ((hmem _).mp x.2).2.1
-  · exact S.isPGroup'.map g
+  · exact S.isPGroup.map g
   · rintro _ ⟨x, -, rfl⟩
     exact normH_of_induces ((hmem _).mp x.2).2.2.1
   · intro α hα

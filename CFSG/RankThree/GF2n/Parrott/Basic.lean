@@ -17,17 +17,22 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 
 @[expose] def J (z : G) : Subgroup G := inSubgroup (pCore 2) (H z)
 
+omit [Finite G] in
 private theorem J_eq_inSubgroup (z : G) :
     J z = inSubgroup (pCore 2) (Subgroup.centralizer ({z} : Set G)) := rfl
 
+omit [Finite G] in
 theorem H_eq_centralizer : H z = Subgroup.centralizer ({z} : Set G) := rfl
 
+omit [Finite G] in
 theorem J_le_H : J z ≤ H z := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem z_mem_H : z ∈ H z := by
   rw [H_eq_centralizer]
   exact Subgroup.mem_centralizer_singleton_iff.mpr rfl
 
+omit [Finite G] in
 theorem z_mem_J (h : Tim79a.ParrottHyp z) : z ∈ J z := by
   obtain ⟨h1, h2, hcomm, h4, hquot⟩ := h
   have hz : z ∈ ⁅J z, J z⁆ := by
@@ -35,16 +40,19 @@ theorem z_mem_J (h : Tim79a.ParrottHyp z) : z ∈ J z := by
     exact Subgroup.mem_zpowers z
   exact Subgroup.commutator_le_self (J z) hz
 
-theorem z_centralizes_H (h : Tim79a.ParrottHyp z) :
+omit [Finite G] in
+theorem z_centralizes_H (_h : Tim79a.ParrottHyp z) :
     z ∈ Subgroup.centralizer (H z : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
   intro g hg
   exact Subgroup.mem_centralizer_singleton_iff.mp (by simpa [H] using hg)
 
+omit [Finite G] in
 theorem z_centralizes_J (h : Tim79a.ParrottHyp z) :
     z ∈ Subgroup.centralizer (J z : Set G) :=
   Subgroup.centralizer_le (J_le_H (z := z)) (z_centralizes_H h)
 
+omit [Finite G] in
 theorem card_J (h : Tim79a.ParrottHyp z) : Nat.card (J z) = 2 ^ 10 := by
   obtain ⟨h1, ⟨T, F, hTcard, hF, hFcard, hdisj, hcomm, hsup⟩, hJcomm, h4, hquot⟩ := h
   have hTcomm : IsMulCommutative T := isMulCommutative_of_card_two T hTcard
@@ -56,9 +64,11 @@ theorem card_J (h : Tim79a.ParrottHyp z) : Nat.card (J z) = 2 ^ 10 := by
   rw [J_eq_inSubgroup, hcard]
   norm_num
 
+omit [Finite G] in
 theorem isPGroup_J (h : Tim79a.ParrottHyp z) : IsPGroup 2 (J z) :=
   IsPGroup.of_card (n := 10) (card_J h)
 
+omit [Finite G] in
 theorem card_centerIn_J (h : Tim79a.ParrottHyp z) : Nat.card (centerIn (J z)) = 4 := by
   obtain ⟨h1, ⟨T, F, hTcard, hF, hFcard, hdisj, hcomm, hsup⟩, hJcomm, h4, hquot⟩ := h
   have hTcomm : IsMulCommutative T := isMulCommutative_of_card_two T hTcard
@@ -149,6 +159,7 @@ theorem exists_z1 (h : Tim79a.ParrottHyp z) :
     _ = Subgroup.zpowers z1 ⊔ Subgroup.zpowers z := by rw [hT_eq, hC_eq]
     _ = Subgroup.zpowers z ⊔ Subgroup.zpowers z1 := by rw [sup_comm]
 
+omit [Finite G] in
 theorem centralizer_J_eq_centerIn (h : Tim79a.ParrottHyp z) :
     H z ⊓ Subgroup.centralizer (J z : Set G) = centerIn (J z) := by
   obtain ⟨h1, h2, hcomm, h4, hquot⟩ := h

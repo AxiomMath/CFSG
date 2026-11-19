@@ -30,11 +30,11 @@ theorem linearIndependent {F V E I : Type*} [Field F] [AddCommGroup V] [Module F
         exact hja (hχ (MonoidHom.ext hcon))
       have h1 := congrArg (fun x => τ g x - (χ a g : F) • x) hc
       simp only [map_add, map_sum, map_smul, hEigen, smul_zero, map_zero, sub_zero,
-        Finset.smul_sum, smul_smul, ← Finset.sum_sub_distrib] at h1
+        smul_smul] at h1
       have h2 : ∑ k ∈ s, (c k * ((χ k g : F) - (χ a g : F))) • v k = 0 := by
         rw [← h1]
         simp only [mul_sub, sub_smul]
-        simp [Finset.sum_sub_distrib, smul_smul, mul_comm, mul_left_comm]
+        simp [Finset.sum_sub_distrib, smul_smul, mul_comm]
         rw [Finset.smul_sum]; simp [smul_smul, mul_comm]
       have := ih _ h2 j hj
       rcases mul_eq_zero.1 this with h | h

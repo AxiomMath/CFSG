@@ -37,19 +37,22 @@ theorem Ctx.QB_comm (hc : Ctx M Q Z B) {x b : G} (hx : x ∈ QB B)
       _ = g⁻¹ * (x * b) * g := by group
   exact (mul_left_cancel (mul_right_cancel h2)).symm
 
+omit [Finite G] in
 theorem card_subgroupOf_inf_subgroupOf {A C H : Subgroup G} (hA : A ≤ H) :
     Nat.card ↥(A.subgroupOf H ⊓ C.subgroupOf H) = Nat.card ↥(A ⊓ C) :=
   Nat.card_congr
-    { toFun := fun x => ⟨x.1, ⟨Subgroup.mem_subgroupOf.mp x.2.1, Subgroup.mem_subgroupOf.mp x.2.2⟩⟩
-      invFun := fun y => ⟨⟨y.1, hA y.2.1⟩,
-        ⟨Subgroup.mem_subgroupOf.mpr y.2.1, Subgroup.mem_subgroupOf.mpr y.2.2⟩⟩
-      left_inv := fun x => rfl
-      right_inv := fun y => rfl }
+    { toFun := fun _x => ⟨_x.1, ⟨Subgroup.mem_subgroupOf.mp _x.2.1, Subgroup.mem_subgroupOf.mp _x.2.2⟩⟩
+      invFun := fun _y => ⟨⟨_y.1, hA _y.2.1⟩,
+        ⟨Subgroup.mem_subgroupOf.mpr _y.2.1, Subgroup.mem_subgroupOf.mpr _y.2.2⟩⟩
+      left_inv := fun _x => rfl
+      right_inv := fun _y => rfl }
 
+omit [Finite G] in
 theorem card_subgroupOf_of_le {A H : Subgroup G} (hA : A ≤ H) :
     Nat.card ↥(A.subgroupOf H) = Nat.card A :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv
 
+omit [Finite G] in
 theorem mem_centralizer_sup {B C : Subgroup G} {x : G} (hB : x ∈ Subgroup.centralizer (B : Set G))
     (hC : x ∈ Subgroup.centralizer (C : Set G)) :
     x ∈ Subgroup.centralizer ((B ⊔ C : Subgroup G) : Set G) := by

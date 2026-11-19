@@ -137,7 +137,7 @@ theorem outerRow_m12 :
   apply outerRow_of_not_three_dvd_outer
   have h2 : Nat.card (Outer NativeSporadic.M12) ≤ 2 :=
     (CFSG.ComponentClassification.M12Cover.card_outer).le
-  haveI : Finite (NativeSporadic.Carrier .M12) := inferInstanceAs (Finite NativeSporadic.M12)
+  have : Finite (NativeSporadic.Carrier .M12) := inferInstanceAs (Finite NativeSporadic.M12)
   exact CFSG.Quasithin.A318P.not_dvd_outer_of_carrier (S := NativeSporadic.M12) (s := .M12)
     (MulEquiv.refl _) h2 Nat.prime_three (by norm_num)
 

@@ -136,7 +136,7 @@ theorem bridgeSub_isElemAbelian {p : ℕ} {R : Type} [Group R] {Γ : Type*} [Gro
     have hbG : (b : Γ) ∈ G := bridgeSub_le Θ Ebar b.2
     have haE : Θ ⟨(a : Γ), haG⟩ ∈ Ebar := (mem_bridgeSub Θ Ebar ⟨(a : Γ), haG⟩).1 a.2
     have hbE : Θ ⟨(b : Γ), hbG⟩ ∈ Ebar := (mem_bridgeSub Θ Ebar ⟨(b : Γ), hbG⟩).1 b.2
-    haveI : IsMulCommutative Ebar := hE.1
+    have : IsMulCommutative Ebar := hE.1
     have hcommE : (⟨Θ ⟨(a : Γ), haG⟩, haE⟩ : Ebar) * ⟨Θ ⟨(b : Γ), hbG⟩, hbE⟩ =
         ⟨Θ ⟨(b : Γ), hbG⟩, hbE⟩ * ⟨Θ ⟨(a : Γ), haG⟩, haE⟩ := mul_comm' _ _
     have hcomm : Θ ⟨(a : Γ), haG⟩ * Θ ⟨(b : Γ), hbG⟩ =
@@ -258,7 +258,7 @@ theorem cip_iff_pCent {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)} {Γ : 
   constructor
   · intro h
     unfold GGL45NtCIp GGL45IsPElt at h
-    simp only [pCent, Set.mem_setOf_eq]
+    simp only [pCent, Set.mem_ofPred_eq]
     refine ⟨g.2, ?_, ?_⟩
     · intro x hx
       obtain ⟨gx, hgxE, rfl⟩ := (eA5_mem_bridgeSub_iff Θ Ebar x).1 hx
@@ -270,7 +270,7 @@ theorem cip_iff_pCent {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)} {Γ : 
       have hg1 : g ^ p ^ k = 1 := hΘ (by rw [map_pow, hk, map_one])
       rw [← Subgroup.coe_pow, hg1, Subgroup.coe_one]
   · intro h
-    simp only [pCent, Set.mem_setOf_eq] at h
+    simp only [pCent, Set.mem_ofPred_eq] at h
     unfold GGL45NtCIp GGL45IsPElt
     refine ⟨(hI (Θ g)).2 ⟨g, rfl⟩, ?_, ?_⟩
     · intro e he

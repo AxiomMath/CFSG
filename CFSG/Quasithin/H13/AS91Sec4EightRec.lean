@@ -88,7 +88,7 @@ theorem ofC3_spec {X : Array ℕ} (hX : X ∈ Two.c3List ()) :
     D.ofC3 X ∈ D.C3 ∧ D.kap (D.ofC3 X : MulAut ↥D.E) = X := by
   have hex := D.exists_of_mem_c3List hOut hTw hHat hX
   unfold ofC3
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact hex.choose_spec
 
 @[expose] noncomputable def genC3 (gs : List (Array ℕ)) : Subgroup ↥D.Mb :=
@@ -179,7 +179,7 @@ theorem D0_inf_Bb : D.D0 ⊓ D.Bb = ⊥ := by
   refine D.eq_of_kap_eq hOut hTw hHat (D.Bb_le_C3 hOut hTw hHat hφB).1 (one_mem _) ?_
   rw [hk, Subgroup.coe_one, D.kap_one]
 
-theorem D0_le_normalizer : D.D0 ≤ normalizer (D.Bb : Set ↥D.Mb) := fun φ hφ =>
+theorem D0_le_normalizer : D.D0 ≤ normalizer (D.Bb : Set ↥D.Mb) := fun _φ hφ =>
   mem_normalizer_fintype fun _ hb => D.conj_mem_Bb (D.D0_le_C3 hOut hTw hHat hφ).2 hb
 
 theorem card_D0_sup_Bb : Nat.card (D.D0 ⊔ D.Bb : Subgroup ↥D.Mb) = 1024 := by
@@ -189,7 +189,7 @@ theorem card_D0_sup_Bb : Nat.card (D.D0 ⊔ D.Bb : Subgroup ↥D.Mb) = 1024 := b
   rw [h1]
 
 theorem D0_sup_Bb_le_Cb : D.D0 ⊔ D.Bb ≤ D.Cb :=
-  sup_le (fun φ hφ => (D.D0_le_C3 hOut hTw hHat hφ).2) D.Bb_le_Cb
+  sup_le (fun _φ hφ => (D.D0_le_C3 hOut hTw hHat hφ).2) D.Bb_le_Cb
 
 end D0
 
@@ -202,8 +202,9 @@ variable
 
 include hOut hTw hHat
 
+omit hOut hTw hHat in
 theorem BC_normal : (D.BC).Normal :=
-  ⟨fun n hn g => Subgroup.mem_subgroupOf.mpr (D.conj_mem_Bb g.2 (Subgroup.mem_subgroupOf.mp hn))⟩
+  ⟨fun _n hn g => Subgroup.mem_subgroupOf.mpr (D.conj_mem_Bb g.2 (Subgroup.mem_subgroupOf.mp hn))⟩
 
 theorem isElementaryAbelian_BC : CFSG.IsElementaryAbelian 2 ↥(D.BC) := by
   refine { toIsMulCommutative := ⟨⟨fun a b => ?_⟩⟩, exponent_dvd_p := ?_ }
@@ -221,9 +222,9 @@ theorem card_BC : Nat.card ↥(D.BC) = 16 := by
     D.card_Bb hOut hTw hHat]
 
 theorem exists_compl_BC : ∃ K : Subgroup ↥D.Cb, D.BC ⊓ K = ⊥ ∧ D.BC ⊔ K = ⊤ := by
-  haveI := D.BC_normal hOut hTw hHat
-  haveI := D.isElementaryAbelian_BC hOut hTw hHat
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.BC_normal
+  have := D.isElementaryAbelian_BC hOut hTw hHat
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfac : (Nat.card ↥D.Cb).factorization 2 = 10 := by
     rw [D.card_Cb hOut hTw hHat, show (21504 : ℕ) = 2 ^ 10 * 21 by norm_num,
       Nat.factorization_mul (by norm_num) (by norm_num), Nat.Prime.factorization_pow Nat.prime_two]
@@ -249,12 +250,13 @@ theorem exists_compl_BC : ∃ K : Subgroup ↥D.Cb, D.BC ⊓ K = ⊥ ∧ D.BC �
     exact mem_bot.mpr (Subtype.ext hx)
   · rw [hS, hP, BC, sup_comm D.D0, Subgroup.subgroupOf_sup D.Bb_le_Cb hD0C]
 
+omit hOut hTw hHat in
 theorem tb_mem_Cb : D.tb ∈ D.Cb := mem_centralizer_singleton_iff.mpr rfl
 
 open scoped IsMulCommutative in
 theorem nonempty_cb_mulEquiv : Nonempty (↥D.Cb ≃* CFSG.Quasithin.A94.L52.Hc) := by
-  haveI := D.BC_normal hOut hTw hHat
-  haveI := D.isElementaryAbelian_BC hOut hTw hHat
+  have := D.BC_normal
+  have := D.isElementaryAbelian_BC hOut hTw hHat
   obtain ⟨K, hVK, hVK'⟩ := D.exists_compl_BC hOut hTw hHat
   set V : Subgroup ↥D.Cb := D.BC with hVdef
   have : Finite (Additive V) := inferInstanceAs (Finite V)
@@ -262,7 +264,7 @@ theorem nonempty_cb_mulEquiv : Nonempty (↥D.Cb ≃* CFSG.Quasithin.A94.L52.Hc)
   have : Finite (Additive V ≃ₗ[ZMod 2] Additive V) :=
     Finite.of_injective (fun f : Additive V ≃ₗ[ZMod 2] Additive V => (f : Additive V → Additive V))
       fun _ _ h => LinearEquiv.ext (congrFun h)
-  set tC : ↥D.Cb := ⟨D.tb, D.tb_mem_Cb hOut hTw hHat⟩ with htC
+  set tC : ↥D.Cb := ⟨D.tb, D.tb_mem_Cb⟩ with htC
   have htV : tC ∈ V := Subgroup.mem_subgroupOf.mpr (D.tb_mem_Bb hOut hTw hHat)
   set z'' : Additive V := Additive.ofMul ⟨tC, htV⟩ with hz''
   set Γ := MulAction.stabilizer (Additive V ≃ₗ[ZMod 2] Additive V) z'' with hΓ

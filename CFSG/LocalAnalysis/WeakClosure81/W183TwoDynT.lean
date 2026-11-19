@@ -275,7 +275,7 @@ theorem actsOnDynkinMod_bot_of_autAction {G : Type} [Group G] [Finite G] {K H L 
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       group
     have hgpgval : (gpg : G) = (t⁻¹ * (l₀ : G)) * p * (t⁻¹ * (l₀ : G))⁻¹ := by
-      simp only [gpg, q, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [gpg, q]
       group
     rw [← hgpgval, hval]
     exact P.mul_mem hp' (hKP hker)

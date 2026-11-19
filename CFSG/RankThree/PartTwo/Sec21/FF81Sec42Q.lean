@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 def cx (x : G) : ↥(Cen x) := ⟨x, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
 
+omit [Finite G] in
 theorem cx_central (x : G) (c : ↥(Cen x)) : c * cx x = cx x * c :=
   Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp c.2)
 
@@ -29,9 +30,11 @@ abbrev Q (x : G) : Type := ↥(Cen x) ⧸ Subgroup.zpowers (cx x)
 
 abbrev π (x : G) : ↥(Cen x) →* Q x := QuotientGroup.mk' (Subgroup.zpowers (cx x))
 
+omit [Finite G] in
 theorem π_surj (x : G) (y : Q x) : ∃ u : ↥(Cen x), π x u = y :=
   QuotientGroup.mk'_surjective _ y
 
+omit [Finite G] in
 theorem π_eq_one_iff {x : G} (u : ↥(Cen x)) : π x u = 1 ↔ ∃ k : ℤ, (u : G) = x ^ k := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_zpowers_iff]
   constructor
@@ -40,8 +43,10 @@ theorem π_eq_one_iff {x : G} (u : ↥(Cen x)) : π x u = 1 ↔ ∃ k : ℤ, (u 
   · rintro ⟨k, hk⟩
     exact ⟨k, Subtype.ext (by rw [hk]; rfl)⟩
 
+omit [Finite G] in
 theorem π_cx (x : G) : π x (cx x) = 1 := (π_eq_one_iff _).mpr ⟨1, by rw [zpow_one]; rfl⟩
 
+omit [Finite G] in
 theorem π_eq_iff {x : G} (u v : ↥(Cen x)) : π x u = π x v ↔ ∃ k : ℤ, (v : G) = u * x ^ k := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq, Subgroup.mem_zpowers_iff]
   constructor
@@ -54,6 +59,7 @@ theorem π_eq_iff {x : G} (u v : ↥(Cen x)) : π x u = π x v ↔ ∃ k : ℤ, 
     simp only [cx, SubgroupClass.coe_zpow, Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hk]; group
 
+omit [Finite G] in
 theorem lift_conj {x : G} {u v w : ↥(Cen x)}
     (h : π x u * π x v * (π x u)⁻¹ ∈ Subgroup.zpowers (π x w)) :
     ∃ k j : ℤ, (u : G) * v * (u : G)⁻¹ = (w : G) ^ k * x ^ j := by
@@ -62,6 +68,7 @@ theorem lift_conj {x : G} {u v w : ↥(Cen x)}
   obtain ⟨j, hj⟩ := hk
   exact ⟨k, j, by simpa using hj⟩
 
+omit [Finite G] in
 theorem π_mem_zpowers_of_mem_closure {x : G} {y w : ↥(Cen x)}
     (h : (y : G) ∈ Subgroup.closure {(w : G), x}) : π x y ∈ Subgroup.zpowers (π x w) := by
   set P : Subgroup ↥(Cen x) := (Subgroup.zpowers (π x w)).comap (π x)
@@ -88,6 +95,7 @@ theorem mem_nor_of_mem_cen {X : Type} [Group X] [Finite X] {g y : X} (h : g ∈ 
 theorem mem_cen_of_commute {X : Type} [Group X] {g y : X} (h : g * y = y * g) : g ∈ Cen y :=
   Subgroup.mem_centralizer_singleton_iff.mpr h
 
+omit [Finite G] in
 theorem closure_pair_inv (a c : G) :
     Subgroup.closure ({a, c⁻¹} : Set G) = Subgroup.closure {a, c} := by
   refine le_antisymm ((Subgroup.closure_le _).mpr ?_) ((Subgroup.closure_le _).mpr ?_)
@@ -98,6 +106,7 @@ theorem closure_pair_inv (a c : G) :
     · exact Subgroup.subset_closure (by simp)
     · rw [← inv_inv c]; exact Subgroup.inv_mem _ (Subgroup.subset_closure (by simp))
 
+omit [Finite G] in
 theorem conjBy_closure_pair (g a c : G) :
     conjBy g (Subgroup.closure ({a, c} : Set G)) =
       Subgroup.closure {g * a * g⁻¹, g * c * g⁻¹} := by
@@ -143,58 +152,72 @@ theorem conc_conj {x : G} {E : Subgroup G} (h : Conc x E) (g : G) :
 noncomputable def qq (x g : G) : Q x := by
   classical exact if h : g ∈ Cen x then π x ⟨g, h⟩ else 1
 
+omit [Finite G] in
 theorem qq_eq {x g : G} (h : g ∈ Cen x) : qq x g = π x ⟨g, h⟩ := by
-  classical exact dif_pos h
+  classical exact dite_eq_left h
 
+omit [Finite G] in
 theorem qq_surj (x : G) (y : Q x) : ∃ g ∈ Cen x, qq x g = y := by
   obtain ⟨u, rfl⟩ := π_surj x y
   exact ⟨u, u.2, qq_eq u.2⟩
 
+omit [Finite G] in
 theorem qq_mul {x g h : G} (hg : g ∈ Cen x) (hh : h ∈ Cen x) :
     qq x (g * h) = qq x g * qq x h := by
   rw [qq_eq hg, qq_eq hh, qq_eq ((Cen x).mul_mem hg hh), ← map_mul]; rfl
 
+omit [Finite G] in
 theorem qq_inv {x g : G} (hg : g ∈ Cen x) : qq x g⁻¹ = (qq x g)⁻¹ := by
   rw [qq_eq hg, qq_eq ((Cen x).inv_mem hg), ← map_inv]; rfl
 
+omit [Finite G] in
 theorem qq_one (x : G) : qq x 1 = 1 := by
   rw [qq_eq (Cen x).one_mem]; exact map_one _
 
+omit [Finite G] in
 theorem qq_pow {x g : G} (hg : g ∈ Cen x) (n : ℕ) : qq x (g ^ n) = qq x g ^ n := by
   induction n with
   | zero => rw [pow_zero, pow_zero, qq_one]
   | succ n ih => rw [pow_succ, qq_mul ((Cen x).pow_mem hg n) hg, ih, pow_succ]
 
+omit [Finite G] in
 theorem qq_zpow {x g : G} (hg : g ∈ Cen x) (n : ℤ) : qq x (g ^ n) = qq x g ^ n := by
   rcases n with n | n
   · rw [Int.ofNat_eq_natCast, zpow_natCast, zpow_natCast, qq_pow hg]
   · rw [zpow_negSucc, zpow_negSucc, qq_inv ((Cen x).pow_mem hg _), qq_pow hg]
 
+omit [Finite G] in
 theorem qq_conj {x g h : G} (hg : g ∈ Cen x) (hh : h ∈ Cen x) :
     qq x (g * h * g⁻¹) = qq x g * qq x h * (qq x g)⁻¹ := by
   rw [qq_mul ((Cen x).mul_mem hg hh) ((Cen x).inv_mem hg), qq_mul hg hh, qq_inv hg]
 
+omit [Finite G] in
 theorem qq_eq_one_iff {x g : G} (hg : g ∈ Cen x) : qq x g = 1 ↔ ∃ k : ℤ, g = x ^ k := by
   rw [qq_eq hg, π_eq_one_iff]
 
+omit [Finite G] in
 theorem qq_xpow (x : G) (k : ℤ) : qq x (x ^ k) = 1 :=
   (qq_eq_one_iff ((Cen x).zpow_mem (cx x).2 k)).mpr ⟨k, rfl⟩
 
+omit [Finite G] in
 theorem mem_cen_mul {a c g : G} (ha : g ∈ Cen a) (hc : g ∈ Cen c) : g ∈ Cen (a * c) := by
   rw [Subgroup.mem_centralizer_singleton_iff] at ha hc ⊢
   rw [← mul_assoc, ha, mul_assoc, hc, mul_assoc]
 
+omit [Finite G] in
 theorem lift_conj' {x g v w : G} (hg : g ∈ Cen x) (hv : v ∈ Cen x) (hw : w ∈ Cen x)
     (h : qq x g * qq x v * (qq x g)⁻¹ ∈ Subgroup.zpowers (qq x w)) :
     ∃ k j : ℤ, g * v * g⁻¹ = w ^ k * x ^ j := by
   rw [qq_eq hg, qq_eq hv, qq_eq hw] at h
   exact lift_conj (u := ⟨g, hg⟩) (v := ⟨v, hv⟩) (w := ⟨w, hw⟩) h
 
+omit [Finite G] in
 theorem lift_nor' {x g v : G} (hg : g ∈ Cen x) (hv : v ∈ Cen x)
     (h : qq x g ∈ Nor (Subgroup.zpowers (qq x v))) :
     ∃ k j : ℤ, g * v * g⁻¹ = v ^ k * x ^ j :=
   lift_conj' hg hv hv ((Subgroup.mem_normalizer_iff.mp h _).mp (Subgroup.mem_zpowers _))
 
+omit [Finite G] in
 theorem qq_mem_zpowers {x y w : G} (hy : y ∈ Cen x) (hw : w ∈ Cen x)
     (h : y ∈ Subgroup.closure {w, x}) : qq x y ∈ Subgroup.zpowers (qq x w) := by
   rw [qq_eq hy, qq_eq hw]
@@ -207,12 +230,14 @@ theorem nor_of' {x g v : G} (hg : g ∈ Cen x) (hv : v ∈ Cen x)
   rw [← qq_conj hg hv]
   exact qq_mem_zpowers hc hv h
 
+omit [Finite G] in
 theorem qq_mem_cen {x g h : G} (hg : g ∈ Cen x) (hh : h ∈ Cen x) (hc : g * h = h * g) :
     qq x g ∈ Cen (qq x h) :=
   mem_cen_of_commute (by rw [← qq_mul hg hh, ← qq_mul hh hg, hc])
 
 @[expose] def img (x : G) (K : Subgroup G) : Subgroup (Q x) := (K.subgroupOf (Cen x)).map (π x)
 
+omit [Finite G] in
 theorem mem_img {x : G} {K : Subgroup G} {y : Q x} :
     y ∈ img x K ↔ ∃ g ∈ K, g ∈ Cen x ∧ qq x g = y := by
   constructor
@@ -221,9 +246,11 @@ theorem mem_img {x : G} {K : Subgroup G} {y : Q x} :
   · rintro ⟨g, hgK, hg, rfl⟩
     exact ⟨⟨g, hg⟩, Subgroup.mem_subgroupOf.mpr hgK, (qq_eq hg).symm⟩
 
+omit [Finite G] in
 theorem qq_mem_img {x g : G} {K : Subgroup G} (hgK : g ∈ K) (hg : g ∈ Cen x) :
     qq x g ∈ img x K := mem_img.mpr ⟨g, hgK, hg, rfl⟩
 
+omit [Finite G] in
 theorem img_closure {x : G} {S : Set G} (hS : S ⊆ Cen x) :
     img x (Subgroup.closure S) = Subgroup.closure (qq x '' S) := by
   have hle : Subgroup.closure S ≤ Cen x := (Subgroup.closure_le _).mpr hS
@@ -240,16 +267,19 @@ theorem img_closure {x : G} {S : Set G} (hS : S ⊆ Cen x) :
   · rintro _ ⟨g, hg, rfl⟩
     exact qq_mem_img (Subgroup.subset_closure hg) (hS hg)
 
+omit [Finite G] in
 theorem card_subgroupOf_dvd (K H : Subgroup G) : Nat.card (K.subgroupOf H) ∣ Nat.card K := by
   have h1 : Nat.card ((K.subgroupOf H).map H.subtype) = Nat.card (K.subgroupOf H) :=
     Subgroup.card_map_of_injective H.subtype_injective
   rw [← h1, Subgroup.subgroupOf_map_subtype]
   exact Subgroup.card_dvd_of_le inf_le_left
 
+omit [Finite G] in
 theorem coprime_card_img {x : G} {K : Subgroup G} (h : Nat.Coprime 3 (Nat.card K)) :
     Nat.Coprime 3 (Nat.card (img x K)) :=
   Nat.Coprime.coprime_dvd_right ((Subgroup.card_map_dvd _ _).trans (card_subgroupOf_dvd _ _)) h
 
+omit [Finite G] in
 theorem img_equiv {x : G} {K : Subgroup G} (hK : K ≤ Cen x)
     (hinj : ∀ k ∈ K, (∃ i : ℤ, k = x ^ i) → k = 1) : Nonempty (↥(img x K) ≃* ↥K) := by
   set f : ↥K →* Q x := (π x).comp (Subgroup.inclusion hK)

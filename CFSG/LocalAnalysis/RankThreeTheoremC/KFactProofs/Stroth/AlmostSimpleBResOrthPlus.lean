@@ -35,6 +35,7 @@ section Fixed
 variable {K : Type} [Field K] [Finite K] {k : Subfield K} {d : ℕ}
   {Q₀ : QuadraticForm k (Fin d → k)} {Q Q' : QuadraticForm K (Fin d → K)} {σ : K ≃+* K} {p : ℕ}
 
+omit [Finite K] in
 theorem fixesPair_of_subfieldSetup (S : SubfieldSetup k Q₀ Q' σ p)
     {β : MulAut (matrixProjectiveDerived Q)}
     (Θ : matrixProjectiveDerived Q ≃* matrixProjectiveDerived Q')
@@ -77,7 +78,7 @@ theorem plus_outer_fixesPair {L : Type} [Group L] [Finite L] {n f p : ℕ}
   have hcl' := hcl
   obtain ⟨⟨hℓ, hf, hn4⟩, F, _, _, hF, ⟨e⟩⟩ := hcl
   obtain ⟨hchar, -⟩ := coordinate_model_witness_plus hcl' F hF e
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates L .POmegaPlus
     (Or.inr (Or.inl rfl)) n 2 f hcl' F hF e
   set θ := coordinatePlusWitnessEquiv F e with hθ
@@ -124,8 +125,8 @@ theorem plus_outer_fixesPair {L : Type} [Group L] [Finite L] {n f p : ℕ}
     rw [hFk]
     push_cast
     exact ZMod.pow_card _
-  haveI : CharP F 2 := ringChar.of_eq hchar
-  haveI : CharP k 2 := RingHom.charP k.subtype k.subtype_injective 2
+  have : CharP F 2 := ringChar.of_eq hchar
+  have : CharP k 2 := RingHom.charP k.subtype k.subtype_injective 2
   obtain ⟨hQnd, hT⟩ := regular_quadPlus (K := F) (n := n) (by omega)
   obtain ⟨hQnd', hT'⟩ := regular_quadPlus (K := k) (n := n) (by omega)
   obtain ⟨E, hE, hEc⟩ := hge

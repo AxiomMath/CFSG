@@ -26,6 +26,7 @@ namespace SolvNone
 
 variable {Y I₀ : Type} [Group Y] [Finite Y] [Group I₀] [Finite I₀]
 
+omit [Finite Y] in
 private theorem mem_zpowers_of_odd_of_symThree (σ : I₀ →* Y)
     (f : I₀ ⧸ CFSG.pCore 2 I₀ ≃* Equiv.Perm (Fin 3)) {K : Subgroup Y}
     (hKO : ∀ n ∈ (CFSG.pCore 2 I₀).map σ, n ∈ K → n = 1) {y₀ : Y} (hy₀ : y₀ ∈ σ.range)
@@ -92,7 +93,7 @@ theorem le_centralizer_or_le_of_inner {K Y₀ : Subgroup Y} [K.Normal] (σ : I�
   · exact Or.inl hJ
   right
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   have hKC := CFSG.QuasithinUnique.RankOneRecog.inf_centralizer_eq_bot_of_center_eq_bot hZ
   have hσC : (CFSG.pCore 2 I₀).map σ ≤ C := (map_pCore_two_le_pCoreOf σ hσs).trans hO2
   have hrkC' : CFSG.Open.pRank 3 C ≤ 1 := by
@@ -208,7 +209,7 @@ theorem le_centralizer_or_le_of_inner {K Y₀ : Subgroup Y} [K.Normal] (σ : I�
       (hallK y hy hyo)
   ·
     exfalso
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨a, b, ha, hb3, hab⟩ :=
       CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNoSU.exists_cube_not_comm hb
         (not_nonempty_iff.mp hs3)
@@ -225,9 +226,9 @@ theorem le_centralizer_or_le_of_inner {K Y₀ : Subgroup Y} [K.Normal] (σ : I�
     set Pbar := P₀.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 I₀)) with hPbar
     have hHP : CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀)) ≤
         (Pbar : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀)) := by
-      haveI := (normal_oUpperTwo_top :
+      have := (normal_oUpperTwo_top :
         (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀))).Normal)
-      have hsup := hH.to_sup_of_normal_left Pbar.isPGroup'
+      have hsup := hH.to_sup_of_normal_left Pbar.isPGroup
       have := Pbar.maximal_isPGroup.eq_of_ge hsup le_sup_right
       rw [← this]
       exact le_sup_left
@@ -244,11 +245,11 @@ theorem le_centralizer_or_le_of_inner {K Y₀ : Subgroup Y} [K.Normal] (σ : I�
       rintro _ ⟨u, hu, rfl⟩
       exact pow_three_eq_one_of_mem_range_of_odd σ hb ⟨u, rfl⟩
         (hodd_of u (by
-          obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨u, hu⟩
+          obtain ⟨m, hm⟩ := P₀.isPGroup ⟨u, hu⟩
           exact ⟨m, by simpa using congrArg Subtype.val hm⟩))
     have hPKC : (P₀ : Subgroup I₀).map σ ≤ K ⊔ C := by
       rintro _ ⟨u, hu, rfl⟩
-      obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨u, hu⟩
+      obtain ⟨m, hm⟩ := P₀.isPGroup ⟨u, hu⟩
       obtain ⟨k, hk, c, hc, he, -, -⟩ :=
         hdec (σ u) ⟨u, rfl⟩ (hodd_of u ⟨m, by simpa using congrArg Subtype.val hm⟩)
       rw [he]
@@ -256,7 +257,7 @@ theorem le_centralizer_or_le_of_inner {K Y₀ : Subgroup Y} [K.Normal] (σ : I�
     have hPJ : (P₀ : Subgroup I₀).map σ ≤
         (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ := by
       refine Subgroup.map_mono fun u hu => ?_
-      obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨u, hu⟩
+      obtain ⟨m, hm⟩ := P₀.isPGroup ⟨u, hu⟩
       have hum : u ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
       exact Subgroup.subset_closure ⟨Subgroup.mem_top u,
         Odd.of_dvd_nat (Odd.pow (by decide)) (orderOf_dvd_of_pow_eq_one hum)⟩
@@ -271,7 +272,7 @@ theorem le_centralizer_or_le_of_inner {K Y₀ : Subgroup Y} [K.Normal] (σ : I�
       rw [MonoidHom.mem_ker, hz, map_mul, map_mul, map_mul, map_inv, map_inv, hcomm]
       group
     have hz1 : z = 1 := by
-      obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨z, hzP⟩
+      obtain ⟨m, hm⟩ := P₀.isPGroup ⟨z, hzP⟩
       have hm' : z ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
       have h1 : orderOf z ∣ 3 ^ m := orderOf_dvd_of_pow_eq_one hm'
       have h2 : orderOf z ∣ Nat.card σ.ker := by

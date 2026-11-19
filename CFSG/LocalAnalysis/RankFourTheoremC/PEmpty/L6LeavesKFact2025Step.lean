@@ -12,8 +12,8 @@ universe u v
 
 theorem sq_mem_frattini_two' {P : Type*} [Group P] [Finite P] (hP : IsPGroup 2 P) (x : P) :
     x ^ 2 ∈ frattini P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hP.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hP.isNilpotent
   unfold frattini Order.radical
   rw [Subgroup.mem_iInf]
   intro M
@@ -291,7 +291,7 @@ theorem step_of_lt {k : Type u} [Field k] (h2 : (2 : k) ≠ 0) {p : ℕ} (hp : p
         omega
       have hfixX : letI := SteinbergBY.frattiniQuotientAction A R
           ∀ x : R ⧸ frattini R, (∀ a : A, a • x = x) → x = 1 := by
-        letI := SteinbergBY.frattiniQuotientAction A R
+        let := SteinbergBY.frattiniQuotientAction A R
         have hS : FixedPoints.subgroup A (R ⧸ frattini R) = ⊥ := by
           rcases hVirr (FixedPoints.subgroup A (R ⧸ frattini R)) (fun a s hs => by
             rw [(FixedPoints.mem_subgroup A (R ⧸ frattini R) s).mp hs a]; exact hs) with h | h
@@ -327,7 +327,7 @@ theorem step_of_lt {k : Type u} [Field k] (h2 : (2 : k) ≠ 0) {p : ℕ} (hp : p
         have hle := hRmin S hgS
         exact hSne (Subgroup.eq_of_le_of_card_ge hSR hle)
       · intro r hr hrc
-        letI := SteinbergBY.frattiniQuotientAction A R
+        let := SteinbergBY.frattiniQuotientAction A R
         obtain ⟨c, hcc, hcr⟩ := hrc
         have hΦ' : ∀ c : R, c ∈ Subgroup.center R → c ∈ frattini R := fun c hc => by
           rw [hfc]; exact hc

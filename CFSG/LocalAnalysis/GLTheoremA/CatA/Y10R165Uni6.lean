@@ -62,10 +62,12 @@ variable [FiniteDimensional K V] {m : ℕ} (b : Module.Basis (Fin m) K V)
 private noncomputable def diagLin (c : Fin m → Kˣ) : V →ₗ[K] V :=
   Module.Basis.constr (M' := V) b K (fun i => (c i : K) • b i)
 
+omit [FiniteDimensional K V] in
 private theorem diagLin_basis (c : Fin m → Kˣ) (i : Fin m) :
     diagLin b c (b i) = (c i : K) • b i :=
   Module.Basis.constr_basis b K (fun i => (c i : K) • b i) i
 
+omit [FiniteDimensional K V] in
 private theorem diagLin_sum_repr (c : Fin m → Kˣ) (x : V) :
     diagLin b c x = ∑ j, (b.repr x j * (c j : K)) • b j := by
   conv_lhs => rw [← b.sum_repr x]
@@ -73,6 +75,7 @@ private theorem diagLin_sum_repr (c : Fin m → Kˣ) (x : V) :
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [map_smul, diagLin_basis, smul_smul]
 
+omit [FiniteDimensional K V] in
 private theorem diagLin_comp (c c' : Fin m → Kˣ) :
     (diagLin b c).comp (diagLin b c') = diagLin b (c * c') := by
   refine b.ext fun i => ?_
@@ -81,6 +84,7 @@ private theorem diagLin_comp (c c' : Fin m → Kˣ) :
   congr 1
   ring
 
+omit [FiniteDimensional K V] in
 private theorem diagLin_one : diagLin b (1 : Fin m → Kˣ) = LinearMap.id := by
   refine b.ext fun i => ?_
   rw [diagLin_basis]
@@ -108,6 +112,7 @@ private noncomputable def diagEquiv (c : Fin m → Kˣ) : V ≃ₗ[K] V where
       rw [this, diagLin_one]
     exact LinearMap.congr_fun h x
 
+omit [FiniteDimensional K V] in
 private theorem diagEquiv_mul (c c' : Fin m → Kˣ) :
     diagEquiv b c * diagEquiv b c' = diagEquiv b (c * c') := by
   refine LinearEquiv.ext fun x => ?_
@@ -123,6 +128,7 @@ private noncomputable def diagHom : (Fin m → Kˣ) →* (V ≃ₗ[K] V) where
     rfl
   map_mul' c c' := (diagEquiv_mul b c c').symm
 
+omit [FiniteDimensional K V] in
 private theorem diagEquiv_isometry {n : ℕ} {h : UnitaryFieldData 2 n K}
     {B : V →ₛₗ[h.bar] V →ₗ[K] K} (horth : ∀ i j, B (b i) (b j) = if i = j then 1 else 0)
     {c : Fin m → Kˣ} (hμ : ∀ i, h.bar (c i : K) * (c i : K) = 1) (x y : V) :
@@ -135,6 +141,7 @@ private theorem diagEquiv_isometry {n : ℕ} {h : UnitaryFieldData 2 n K}
   rw [map_mul]
   linear_combination (h.bar (b.repr x i) * b.repr y i) * hμ i
 
+omit [FiniteDimensional K V] in
 private theorem toMatrix_diagEquiv (c : Fin m → Kˣ) :
     LinearMap.toMatrix b b ((diagEquiv b c : V ≃ₗ[K] V) : V →ₗ[K] V) =
       Matrix.diagonal (fun i : Fin m => (c i : K)) := by
@@ -144,11 +151,12 @@ private theorem toMatrix_diagEquiv (c : Fin m → Kˣ) :
   rw [diagLin_basis, map_smul, Module.Basis.repr_self]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp
-  · rw [if_neg hij]
-    simp [Finsupp.single_apply, hij]
+  · rw [ite_eq_right hij]
+    simp [hij]
 
+omit [FiniteDimensional K V] in
 private theorem det_diagEquiv (c : Fin m → Kˣ) :
     LinearMap.det ((diagEquiv b c : V ≃ₗ[K] V) : V →ₗ[K] V) = ∏ i, (c i : K) := by
   rw [← LinearMap.det_toMatrix b, toMatrix_diagEquiv, Matrix.det_diagonal]
@@ -194,7 +202,7 @@ private theorem exists_qtorsion_scalarTuple {n m : ℕ} {h : UnitaryFieldData 2 
     rcases hij : ee i with j | k
     · fin_cases j <;> apply Subtype.ext <;>
         simp [γfun, hij, qCoord0, qCoord1, qCoord2, qCoord3, Pi.mul_apply, mul_comm,
-          mul_left_comm, mul_assoc]
+          mul_left_comm]
     · simp [γfun, hij]
   let γK : ↥μ × ↥μ × ↥μ →* (Fin m → Kˣ) :=
     { toFun := fun p i => ((γfun p i : ↥μ) : Kˣ)
@@ -288,16 +296,16 @@ theorem exists_elemAbelian_qtorsion_pointwiseStab_blockSpace [Finite K] [FiniteD
     (A : Subgroup (V ≃ₗ[K] V)) [Fintype A]
     (hp : p.Prime) (hpK : (p : K) ≠ 0) (hA : IsElemAbelian p A) (hB : InvariantSesq A B)
     (hBsym : B.IsSymm) (hBn : B.SeparatingLeft) (D : Hyperplane A p)
-    (hq : q.Prime) (hq2 : q ≠ 2) (hqd : q ∣ 2 ^ n + 1)
+    (hq : q.Prime) (_hq2 : q ≠ 2) (hqd : q ∣ 2 ^ n + 1)
     (hm : 4 ≤ Module.finrank K (Submodule.orthogonalBilin B (blockSpace A D.1))) :
     ∃ F : Subgroup ↥(pointwiseStab (sesqSpecialUnitaryGroupLE B) (blockSpace A D.1)),
       IsElemAbelian q F ∧ 3 ≤ CFSG.Open.pRank q F := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv_self
-  haveI : Finite ↥(sesqSpecialUnitaryGroupLE B) := Subtype.finite
-  haveI : Finite ↥(pointwiseStab (sesqSpecialUnitaryGroupLE B) (blockSpace A D.1)) :=
+  have : Finite K := h.finite
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv_self
+  have : Finite ↥(sesqSpecialUnitaryGroupLE B) := Subtype.finite
+  have : Finite ↥(pointwiseStab (sesqSpecialUnitaryGroupLE B) (blockSpace A D.1)) :=
     Subtype.finite
   have hrefl : B.IsRefl := hBsym.isRefl
   have hc := isCompl_blockSpace_orthogonalBilin A hp hpK hA hB hrefl hBn D
@@ -305,7 +313,7 @@ theorem exists_elemAbelian_qtorsion_pointwiseStab_blockSpace [Finite K] [FiniteD
   have hWsym : (B.domRestrict₁₂ W W).IsSymm := hBsym.domRestrict W
   have hWsep : (B.domRestrict₁₂ W W).SeparatingLeft :=
     separatingLeft_domRestrict_orthogonalBilin hrefl hBn hc
-  haveI : FiniteDimensional K W :=
+  have : FiniteDimensional K W :=
     FiniteDimensional.of_injective (Submodule.subtype W) Subtype.val_injective
   obtain ⟨b, horth⟩ := h.exists_orthonormal_basis hWsym hWsep
   obtain ⟨μ, hμcard, hμexp, hμbar⟩ :=

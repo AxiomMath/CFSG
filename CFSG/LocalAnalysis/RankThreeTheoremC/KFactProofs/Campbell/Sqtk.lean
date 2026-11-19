@@ -24,7 +24,7 @@ theorem sqtkRank_exp_le_one {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 
 
 theorem sqtkRank_card_pow {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {E : Subgroup G} (hE : IsElemAbelian p E) : ∃ m : ℕ, Nat.card E = p ^ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine IsPGroup.exists_card_eq ?_
   intro g
   refine ⟨1, Subtype.ext ?_⟩
@@ -99,6 +99,7 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem kGroup_ker_pow (ψ : ↥X →* GL32) (hψ : ψ.ker = (pCoreOf 2 X).subgroupOf X)
     (H : Subgroup ↥X) (x : ↥H) (hx : x ∈ (ψ.comp H.subtype).ker) :
     ∃ k : ℕ, x ^ (2 ^ k) = 1 := by
@@ -116,7 +117,7 @@ theorem kGroup_ker_le {G S : Type*} [Group G] [Group S] [Finite S] [IsSimpleGrou
     (hπ : Function.Surjective π) (T : Subgroup G) [T.Normal]
     (hT : ∀ x ∈ T, ∃ k : ℕ, x ^ (2 ^ k) = 1) (hab : ∃ a b : S, a * b ≠ b * a) :
     T ≤ π.ker := by
-  haveI : (T.map π).Normal := Subgroup.Normal.map ‹T.Normal› π hπ
+  have : (T.map π).Normal := Subgroup.Normal.map ‹T.Normal› π hπ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.map π) with h | h
   · intro x hx
     have hx' : π x ∈ T.map π := ⟨x, hx, rfl⟩
@@ -129,7 +130,7 @@ theorem kGroup_ker_le {G S : Type*} [Group G] [Group S] [Finite S] [IsSimpleGrou
       obtain ⟨x, hx, rfl⟩ := hs
       obtain ⟨k, hk⟩ := hT x hx
       exact ⟨k, by rw [← map_pow, hk, map_one]⟩
-    haveI : Group.IsNilpotent S := h2.isNilpotent
+    have : Group.IsNilpotent S := h2.isNilpotent
     obtain ⟨a, b, hab⟩ := hab
     exact hab (IsSimpleGroup.comm_iff_isSolvable.2 (inferInstance : Group.IsSolvable S) a b)
 
@@ -151,7 +152,7 @@ theorem CampbellHyp.isKGroupCat (h : CampbellHyp X K R P) : CFSG.SectionRank.IsK
   intro H N _ hS
   by_cases hab : ∀ a b : ↥H ⧸ N, a * b = b * a
   · exact CFSG.SectionRank.catalog_containsAbelianSimple _ hab
-  · push_neg at hab
+  · push Not at hab
     obtain ⟨ψ, -, hψ⟩ := h.exists_psi
     have hπ : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
     have hle : (ψ.comp H.subtype).ker ≤ (QuotientGroup.mk' N).ker :=

@@ -42,7 +42,7 @@ theorem lookup_zip_maps (u v g : ℕ → ℕ) : ∀ (l : List ℕ), (∀ j ∈ l
     have ih := lookup_zip_maps u v g l (fun i hi => h i (List.mem_cons_of_mem _ hi)) y
     by_cases hy : y = u j
     · subst hy
-      simp [List.lookup, h j List.mem_cons_self]
+      simp [h j List.mem_cons_self]
     · have hb : (y == u j) = false := by simpa using hy
       simp only [List.map_cons, List.zip_cons_cons, List.lookup, hb, ih, List.mem_cons, hy,
         false_or]
@@ -166,9 +166,9 @@ theorem exists_blockMaps {e : Perm (Fin n)} {r : ℕ} (hr : r.Prime) (her : e ^ 
       · simp only
         rw [List.zip_append hlen, lookup_append, hclook, hlook]
         by_cases hy : y ∈ b :: rest
-        · simp only [hy, if_true, Option.some_or]
-          rw [if_pos ⟨_, List.mem_cons_self, hy⟩]
-        · simp only [hy, if_false, Option.none_or, List.mem_cons, exists_eq_or_imp, false_or]
+        · simp only [hy, ite_true, Option.some_or]
+          rw [ite_eq_left ⟨_, List.mem_cons_self, hy⟩]
+        · simp only [hy, ite_false, Option.none_or, List.mem_cons, exists_eq_or_imp, false_or]
 
 theorem imgList_mem_elemsOf {e : Perm (Fin n)} {r : ℕ} (hr : r.Prime) (her : e ^ r = 1)
     {L : List ℕ} (hL : ∀ m ∈ L, ∃ x ∈ e.support, fmask (blk e x) = m)

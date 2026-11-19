@@ -36,7 +36,7 @@ theorem injOn_of_isPGroup (ρ : X →* L) (hU : Odd (Nat.card ρ.ker)) {T : Subg
     exact Nat.Coprime.pow_right _ (Nat.coprime_two_right.mpr hU)
   have hk : x⁻¹ * y ∈ ρ.ker := by rw [MonoidHom.mem_ker, map_mul, map_inv, hxy, inv_mul_cancel]
   have h : x⁻¹ * y ∈ ρ.ker ⊓ T := mem_inf.mpr ⟨hk, T.mul_mem (T.inv_mem hx) hy⟩
-  rw [Subgroup.inf_eq_bot_of_coprime hcop, mem_bot] at h
+  rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop)), mem_bot] at h
   exact inv_mul_eq_one.mp h
 
 theorem exists_lift_of_isPGroup (ρ : X →* L)
@@ -465,7 +465,7 @@ theorem l34FieldSignalizerGluing_of_inputs (hmult : Quasithin.SchurMult2L3) :
   rw [map_top_of_surjective ρ₀ hρ₀] at hS
   obtain ⟨S, hSU⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   have hU' : LargeExtraspecial.S5.IsSylowTwoIn (projUnitriangular 3 K) ⊤ :=
-    ⟨le_top, hSU ▸ S.isPGroup', by
+    ⟨le_top, hSU ▸ S.isPGroup, by
       rw [relIndex_top_right, ← hSU]
       exact S.not_dvd_index⟩
   obtain ⟨c, -, hc⟩ := hS.exists_conj hU'

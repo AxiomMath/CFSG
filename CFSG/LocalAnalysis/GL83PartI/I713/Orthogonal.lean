@@ -91,12 +91,12 @@ theorem two_le_pRank_three_classical_POmegaPlus {S : Type} [Group S] [Finite S] 
 
 theorem outClauseFor_classical_POmegaOdd {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     (_hnonab : ∃ a b : S, a * b ≠ b * a) {n p f : ℕ}
-    (h : StatedClassicalModel S .POmegaOdd n p f) : OutClauseFor S := fun ℓ hℓ hℓ2 _ =>
+    (h : StatedClassicalModel S .POmegaOdd n p f) : OutClauseFor S := fun _ℓ hℓ hℓ2 _ =>
   pRank_outer_le_one_of_outPChain hℓ (outPNice_POmegaOdd_all hℓ hℓ2 h).toChain
 
 theorem outClauseFor_classical_POmegaMinus {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     (_hnonab : ∃ a b : S, a * b ≠ b * a) {n p f : ℕ}
-    (h : StatedClassicalModel S .POmegaMinus n p f) : OutClauseFor S := fun ℓ hℓ hℓ2 _ =>
+    (h : StatedClassicalModel S .POmegaMinus n p f) : OutClauseFor S := fun _ℓ hℓ hℓ2 _ =>
   pRank_outer_le_one_of_outPChain hℓ (outPNice_POmegaMinus_all hℓ hℓ2 h).toChain
 
 theorem outClauseFor_classical_POmegaPlus {S : Type} [Group S] [Finite S] [IsSimpleGroup S]

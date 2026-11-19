@@ -28,7 +28,7 @@ theorem mem_of_normal_of_three_dvd_card {H : Type*} [Group H] [Finite H]
   obtain ⟨P, haP⟩ := ha3.exists_le_sylow
   have hPcyc : IsCyclic (P : Subgroup H) :=
     ((CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification Nat.prime_three
-      P.isPGroup').1 ((CFSG.SectionRank.pRank_sylow P).2 ▸ hH)).resolve_right
+      P.isPGroup).1 ((CFSG.SectionRank.pRank_sylow P).2 ▸ hH)).resolve_right
       fun h => absurd h.1 (by norm_num)
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := N) 3 h3
   have hwH : orderOf (w : H) = 3 := by rw [Subgroup.orderOf_coe, hw]
@@ -47,7 +47,7 @@ theorem mem_of_normal_of_three_dvd_card {H : Type*} [Group H] [Finite H]
     omega
   have hz3 : (g * (w : H) * g⁻¹) ^ 3 = 1 := by
     rw [conj_pow, ← hwH, pow_orderOf_eq_one, mul_one, mul_inv_cancel]
-  haveI := hPcyc
+  have := hPcyc
   have hcomm : Commute (g * (w : H) * g⁻¹) a :=
     congrArg Subtype.val
       (mul_comm' (⟨_, hzP⟩ : (P : Subgroup H)) ⟨a, haP (Subgroup.mem_zpowers a)⟩)
@@ -102,9 +102,9 @@ theorem exists_mul_ne_mul_of_isPerfect {K H : Type*} [Group K] [Group H] [Group.
     (ψ : K →* H) {k : K} (hk : ψ k ≠ 1) : ∃ a b : H, a * b ≠ b * a := by
   by_contra hcomm
   push Not at hcomm
-  haveI : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
-  haveI : IsMulCommutative ψ.range := ⟨⟨fun x y => Subtype.ext (hcomm x y)⟩⟩
-  haveI : Subsingleton ψ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+  have : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
+  have : IsMulCommutative ψ.range := ⟨⟨fun x y => Subtype.ext (hcomm x y)⟩⟩
+  have : Subsingleton ψ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
   exact hk (congrArg Subtype.val (Subsingleton.elim (⟨ψ k, k, rfl⟩ : ψ.range) 1))
 
 section Simple
@@ -124,7 +124,7 @@ private theorem yAlpha_facts (hset : Setting204 G A M L N c T i j P)
   set R := CFSG.Open.pCoreOf 2 (K ⊔ T) with hRdef
   set Y := yTwenty X c with hYdef
   set YR := Y ⊔ R with hYRdef
-  haveI := CFSG.pPrimeCore_normal (p := 3) (G := ↥YR)
+  have := CFSG.pPrimeCore_normal (p := 3) (G := ↥YR)
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥YR) with hπ
   set Yb := yAlpha M X T c with hYbdef
   have hKTX : K ⊔ T ≤ X := fun x hx => hX.2 hx
@@ -136,7 +136,7 @@ private theorem yAlpha_facts (hset : Setting204 G A M L N c T i j P)
   have hYRY : YR ≤ Subgroup.normalizer (Y : Set G) := sup_le Subgroup.le_normalizer hRY
   have hYn : (Y.subgroupOf YR).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr hYRY
-  haveI hYbn : Yb.Normal := hYn.map π (QuotientGroup.mk'_surjective _)
+  have hYbn : Yb.Normal := hYn.map π (QuotientGroup.mk'_surjective _)
   let φ : ↥Y →* ↥Yb := (π.comp (Subgroup.inclusion (le_sup_left : Y ≤ YR))).codRestrict Yb
     fun y => ⟨Subgroup.inclusion le_sup_left y, y.2, rfl⟩
   have hφs : Function.Surjective φ := by
@@ -164,7 +164,7 @@ private theorem yAlpha_facts (hset : Setting204 G A M L N c T i j P)
     pPrimeCore_eq_bot_of_normal_of_eq_bot (CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3) Yb,
     φ ⟨c, hcY⟩, ha3, fun N₁ _ hN₁ => eq_top_of_le_normalClosureIn hcY
       (Res6.yTwenty_le_normalClosureIn_self hset X) φ hφs N₁ hN₁, ?_⟩
-  haveI : Group.IsPerfect ↥K := isPerfect_of_mem_oTwoComponentsIn hset.mem_oTwoComponentsIn
+  have : Group.IsPerfect ↥K := isPerfect_of_mem_oTwoComponentsIn hset.mem_oTwoComponentsIn
   have hcK : c ∈ K := self_mem_normalClosureIn M c
   refine exists_mul_ne_mul_of_isPerfect (φ.comp (Subgroup.inclusion hKY)) (k := ⟨c, hcK⟩)
     fun h => ?_

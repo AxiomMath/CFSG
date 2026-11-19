@@ -17,8 +17,8 @@ section Prod
 theorem normal_prod_cases {S : Type} [Group S] [IsSimpleGroup S]
     (hS : ∃ a b : S, a * b ≠ b * a) (K : Subgroup (S × S)) [hKn : K.Normal] :
     K = ⊥ ∨ K = ⊤ ∨ K = (⊤ : Subgroup S).prod ⊥ ∨ K = (⊥ : Subgroup S).prod ⊤ := by
-  haveI : (K.comap (MonoidHom.inl S S)).Normal := Subgroup.Normal.comap hKn _
-  haveI : (K.comap (MonoidHom.inr S S)).Normal := Subgroup.Normal.comap hKn _
+  have : (K.comap (MonoidHom.inl S S)).Normal := Subgroup.Normal.comap hKn _
+  have : (K.comap (MonoidHom.inr S S)).Normal := Subgroup.Normal.comap hKn _
   have hA : K.comap (MonoidHom.inl S S) = ⊥ → ∀ a b : S, (a, b) ∈ K → a = 1 := by
     intro h a b hab
     apply eq_one_of_forall_commute hS
@@ -101,7 +101,7 @@ section Key
 variable {X : Type} [Group X] [Finite X]
 
 theorem card_alt6 : Nat.card A6 = 360 := by
-  haveI := isSimple_alt6
+  have := isSimple_alt6
   rw [← card_innA6]
   exact Nat.card_congr (MonoidHom.ofInjective (conj_injective_of_simple alt6_nonabelian)).toEquiv
 
@@ -111,7 +111,7 @@ theorem swap_key {tt : X}
     (φ : ↥N ≃* A6 × A6) (M : Subgroup X) [M.Normal] (hMN : M ≤ N)
     (hM : ∀ g ∈ N, ⁅tt, g⁆ ∈ M)
     (hK : (M.subgroupOf N).map φ.toMonoidHom = (⊤ : Subgroup A6).prod ⊥) : False := by
-  haveI := isSimple_alt6
+  have := isSimple_alt6
   have hMφ : ∀ (m : X) (hm : m ∈ M), (φ ⟨m, hMN hm⟩).2 = 1 := by
     intro m hm
     have : φ ⟨m, hMN hm⟩ ∈ (M.subgroupOf N).map φ.toMonoidHom := ⟨_, hm, rfl⟩
@@ -168,7 +168,7 @@ theorem swap_key {tt : X}
       have h2 := congrArg (fun z => (φ z).1) h1
       simp only [map_mul, Prod.fst_mul, hms] at h2
       exact h2.symm
-  haveI hM₂n : M₂.Normal := by rw [hM₂]; infer_instance
+  have hM₂n : M₂.Normal := by rw [hM₂]; infer_instance
   have hMM₂ : ∀ x ∈ M, x ∈ M₂ → x = 1 := by
     intro x hx hx2
     obtain ⟨r, hr, rfl⟩ := hx2
@@ -217,7 +217,7 @@ theorem swap_key {tt : X}
     rw [Nat.card_congr f.toEquiv, card_alt6]
   have hM₂eq : M₂ = centralizerDerived tt :=
     Subgroup.eq_of_le_of_card_ge hM₂L (le_of_eq (by rw [hcardM₂, hcardL]))
-  haveI hLn : (centralizerDerived tt).Normal := by rw [← hM₂eq]; exact hM₂n
+  have hLn : (centralizerDerived tt).Normal := by rw [← hM₂eq]; exact hM₂n
   have hNM₂ : N = M₂ := by
     rw [hNdef, hM₂eq]
     unfold normalClosureOf

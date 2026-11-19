@@ -19,13 +19,13 @@ theorem r925_im_N0 (hKSch : UCK.KSch) {Γ : Type} [Group Γ]
   let J : Subgroup Γ := CFSG.pPrimeCore 3 Γ
   let W : Subgroup Γ := K ⊓ J
   obtain ⟨ψ, hψ⟩ := r925_pcore_reps h.rank_gt_three
-  haveI hKn : K.Normal := h.normal_k
-  haveI hJn : J.Normal := CFSG.pPrimeCore_normal
-  haveI hWn : W.Normal := Subgroup.normal_inf_normal K J
+  have hKn : K.Normal := h.normal_k
+  have hJn : J.Normal := CFSG.pPrimeCore_normal
+  have hWn : W.Normal := Subgroup.normal_inf_normal K J
   let N : Subgroup Γ := W ⊓ ⨅ p : {p : ℕ // p.Prime ∧ 5 ≤ p}, (ψ p).ker
-  haveI hiInf : (⨅ p : {p : ℕ // p.Prime ∧ 5 ≤ p}, (ψ p).ker).Normal :=
+  have hiInf : (⨅ p : {p : ℕ // p.Prime ∧ 5 ≤ p}, (ψ p).ker).Normal :=
     Subgroup.normal_iInf_normal fun p => MonoidHom.normal_ker (ψ p)
-  haveI hNn : N.Normal := Subgroup.normal_inf_normal W _
+  have hNn : N.Normal := Subgroup.normal_inf_normal W _
   have hW3 : ∀ w ∈ ((toModO3p Γ).subgroupMap K).ker, ¬ 3 ∣ orderOf w := by
     intro w hw
     have hwπ : (toModO3p Γ) (w : Γ) = 1 := by
@@ -47,7 +47,7 @@ theorem r925_im_N0 (hKSch : UCK.KSch) {Γ : Type} [Group Γ]
     exact Subgroup.mem_inf.mpr ⟨(Subgroup.mem_inf.mp hxW).1, (Subgroup.mem_inf.mp hxW).2⟩
   · by_contra hodd
     rw [Nat.not_odd_iff_even, even_iff_two_dvd] at hodd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hnord⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) 2 hodd
     have hnord' : orderOf (n : Γ) = 2 := (Subgroup.orderOf_coe n).trans hnord
     have hnN : (n : Γ) ∈ N := n.2
@@ -107,7 +107,7 @@ theorem r925_im_N0 (hKSch : UCK.KSch) {Γ : Type} [Group Γ]
       simpa only [mul_assoc] using W.mul_mem hwW hconj
     · refine Subgroup.mem_iInf.mpr ?_
       intro p
-      haveI : Fact p.1.Prime := ⟨p.2.1⟩
+      have : Fact p.1.Prime := ⟨p.2.1⟩
       have hgl2 := r925_gl2_of_a5 h.perfect_k ((toModO3p Γ).subgroupMap K).ker hW3 hq p.1 p.2.2
         ((ψ p).comp K.subtype)
       have hwker : w ∈ (toModO3p Γ).ker := by

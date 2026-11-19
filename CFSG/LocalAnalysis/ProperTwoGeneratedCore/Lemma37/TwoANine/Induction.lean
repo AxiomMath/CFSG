@@ -17,7 +17,7 @@ theorem exists_conj_le_isPGroup {p : ℕ} [Fact p.Prime] {C A B : Subgroup X} (h
   obtain ⟨T₀, hT₀⟩ := (hA.comap_subtype (K := C)).exists_le_sylow
   obtain ⟨T₁, hT₁⟩ := (hB.comap_subtype (K := C)).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C T₁ T₀
-  refine ⟨c, c.2, (T₀ : Subgroup C).map C.subtype, T₀.isPGroup'.map _, Subgroup.map_subtype_le _,
+  refine ⟨c, c.2, (T₀ : Subgroup C).map C.subtype, T₀.isPGroup.map _, Subgroup.map_subtype_le _,
     ?_, ?_⟩
   · rw [← Subgroup.map_subgroupOf_eq_of_le hAC]
     exact Subgroup.map_mono hT₀
@@ -46,7 +46,7 @@ theorem isSylowOf_signalizerJoin (hX : MinimalCounterexample X S t) {p : ℕ} [F
   have hSN : (S : Subgroup X) ≤
       normalizer ((signalizerJoin A ⊓ normalizer (P : Set X) : Subgroup X) : Set X) :=
     fun s hs => inf_mem_normalizer (hSW hs) (Subgroup.le_normalizer (hP.le_normalizer hs))
-  obtain ⟨P₁, hP₁, hSP₁⟩ := exists_isSylowOf_le_normalizer (p := p) hNodd S.isPGroup' hSN
+  obtain ⟨P₁, hP₁, hSP₁⟩ := exists_isSylowOf_le_normalizer (p := p) hNodd S.isPGroup hSN
   have hPP₁ : P ≤ P₁ := le_isSylowOf_of_le_normalizer hP₁ hP.isPGroup
     (le_inf hPW Subgroup.le_normalizer) inf_le_right
   rw [hX.eq_of_le_of_isPGroup hp2 hP hmax (isPGroup_of_isSylowOf hP₁) hPP₁ hSP₁] at hP₁
@@ -81,7 +81,7 @@ theorem exists_mem_normalizer_signalizerJoin (hX : MinimalCounterexample X S t) 
       _ = x * (t * s) * x⁻¹ := by rw [hst]
       _ = x * t * x⁻¹ * (x * s * x⁻¹) := by group
   obtain ⟨c, hcC, T, hT, hTC, hAT, hST⟩ :=
-    exists_conj_le_isPGroup (isPGroup_of_sq_eq_one hA2) (S.isPGroup'.map _) hAC hSC
+    exists_conj_le_isPGroup (isPGroup_of_sq_eq_one hA2) (S.isPGroup.map _) hAC hSC
   have hA'T : A.map (MulAut.conj (c * x)).toMonoidHom ≤ T := by
     rintro _ ⟨a, ha, rfl⟩
     refine hST ⟨x * a * x⁻¹, ⟨a, hAS ha, rfl⟩, ?_⟩
@@ -132,7 +132,7 @@ theorem conj_eq_of_mem_normalizer_signalizerJoin (hX : MinimalCounterexample X S
     refine Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mem_sup_right hwW)
       (Subgroup.mem_sup_left ⟨hk, hkN⟩)) (Subgroup.mem_sup_right ?_)
     exact (Subgroup.mem_normalizer_iff.mp htW _).mp (W.inv_mem hwW)
-  have h := eq_one_of_mem_of_isPGroup_of_odd S.isPGroup' hLodd
+  have h := eq_one_of_mem_of_isPGroup_of_odd S.isPGroup hLodd
     ((S : Subgroup X).mul_mem hyS ((S : Subgroup X).inv_mem hX.central.1)) hmem
   rwa [mul_inv_eq_one] at h
 

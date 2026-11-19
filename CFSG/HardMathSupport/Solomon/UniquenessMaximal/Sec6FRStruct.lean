@@ -124,7 +124,7 @@ theorem exists_rStruct {B K : Subgroup G} (hBp : IsPGroup 3 ↥B)
   have hRY : R ≤ Y := by
     rintro _ ⟨y, -, rfl⟩; exact y.2
   have hBR : B ≤ R := fun b hb => ⟨⟨b, hBY hb⟩, hP (Subgroup.mem_subgroupOf.2 hb), rfl⟩
-  have hRp : IsPGroup 3 ↥R := (P.isPGroup').map _
+  have hRp : IsPGroup 3 ↥R := (P.isPGroup).map _
   have hRc : Nat.card R = 3 ^ (Nat.card Y).factorization 3 := by
     rw [hR, Subgroup.card_map_of_injective Y.subtype_injective, Sylow.card_eq_multiplicity]
   have hRK : Nat.card ↥(R ⊓ K) = 3 ^ (Nat.card K).factorization 3 :=

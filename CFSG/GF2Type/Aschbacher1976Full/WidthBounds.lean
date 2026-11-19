@@ -16,7 +16,8 @@ section Bounds
 
 variable {z : G} {F : Subgroup G}
 
-theorem isElemAbelian_subgroupOf {U : Subgroup G} (hUF : U ≤ F)
+omit [Finite G] in
+theorem isElemAbelian_subgroupOf {U : Subgroup G} (_hUF : U ≤ F)
     (hU : CFSG.Open.IsElemAbelian 2 U) : CFSG.Open.IsElemAbelian 2 (U.subgroupOf F) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
   · apply Subtype.ext
@@ -40,7 +41,7 @@ theorem bounds_F [Fact (Nat.Prime 2)] (hF : CData z F) (v : ℕ)
       Nat.card U ≤ 2 ^ v) ∧
     (∀ (s : ℕ) (f : Fin s → G), (∀ i, f i ∈ F) → (∀ i j, i ≠ j → ⁅f i, f j⁆ = z) →
       s ≤ 2 * v + 1) := by
-  haveI := isEA_quot hF
+  have := isEA_quot hF
   have hQcard : Nat.card (↥F ⧸ Subgroup.center ↥F) = 2 ^ (2 * v) := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥F)
     rw [hcard, hZcard] at h
@@ -49,7 +50,7 @@ theorem bounds_F [Fact (Nat.Prime 2)] (hF : CData z F) (v : ℕ)
       ring
     exact Nat.eq_of_mul_eq_mul_right (by norm_num) h2
   have hdim : Module.finrank (ZMod 2) (Additive (↥F ⧸ Subgroup.center ↥F)) = 2 * v := by
-    haveI : Fintype (Additive (↥F ⧸ Subgroup.center ↥F)) := Fintype.ofFinite _
+    have : Fintype (Additive (↥F ⧸ Subgroup.center ↥F)) := Fintype.ofFinite _
     have h := Module.card_eq_pow_finrank (K := ZMod 2) (V := Additive (↥F ⧸ Subgroup.center ↥F))
     have hA : Nat.card (Additive (↥F ⧸ Subgroup.center ↥F)) = 2 ^ (2 * v) := by
       rw [← hQcard]

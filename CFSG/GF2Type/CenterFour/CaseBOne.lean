@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
+omit [Finite G] in
 private theorem comm_eq_sq_mul_of_involutions {u v : G} (hu : u * u = 1) (hv : v * v = 1) :
     ⁅u, v⁆ = (u * v) ^ 2 := by
   have iu : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu
@@ -19,16 +20,19 @@ private theorem comm_eq_sq_mul_of_involutions {u v : G} (hu : u * u = 1) (hv : v
   rw [commutatorElement_def, iu, iv, sq]
   simp only [mul_assoc]
 
-private theorem mul_self_eq_one_of_inv {z₁ δ : G} (h1 : z₁ * z₁ = 1)
+omit [Finite G] in
+private theorem mul_self_eq_one_of_inv {z₁ δ : G} (_h1 : z₁ * z₁ = 1)
     (hinv : z₁ * δ * z₁ = δ⁻¹) : (z₁ * δ) * (z₁ * δ) = 1 := by
   calc (z₁ * δ) * (z₁ * δ) = (z₁ * δ * z₁) * δ := by group
     _ = δ⁻¹ * δ := by rw [hinv]
     _ = 1 := inv_mul_cancel δ
 
+omit [Finite G] in
 private theorem sq_of_mul_eq {z₁ δ : G} (h1 : z₁ * z₁ = 1) :
     (z₁ * (z₁ * δ)) ^ 2 = δ ^ 2 := by
   rw [← mul_assoc, h1, one_mul]
 
+omit [Finite G] in
 private theorem fused_mul_psi (g q : G) (hz1 : g⁻¹ * z * g * (g⁻¹ * z * g) = 1) :
     Fused z (g⁻¹ * z * g * psi (g⁻¹ * z * g) q) := by
   have e : g⁻¹ * z * g * psi (g⁻¹ * z * g) q = q * (g⁻¹ * z * g) * q⁻¹ := by
@@ -40,6 +44,7 @@ private theorem fused_mul_psi (g q : G) (hz1 : g⁻¹ * z * g * (g⁻¹ * z * g)
   rw [e]
   group
 
+omit [Finite G] in
 private theorem card_le_four_of_inter (J K₁ K₂ : Subgroup G)
     (hA : ∀ x ∈ J, ∀ y ∈ J, x ∉ K₁ → y ∉ K₁ → x * y ∈ K₁)
     (hB : ∀ x ∈ J, ∀ y ∈ J, x ∉ K₂ → y ∉ K₂ → x * y ∈ K₂)
@@ -68,12 +73,14 @@ private theorem card_le_four_of_inter (J K₁ K₂ : Subgroup G)
   have h4 := Nat.card_le_card_of_injective f hf
   simpa using h4
 
+omit [Finite G] in
 private theorem core_mem_of_fused {u w : G} {m : ℕ} (hCu : Config u m) (hw : Fused u w)
     (hcent : centerAt w ≤ centralizer ({u} : Set G)) : w ∈ coreAt u := by
   obtain ⟨k, rfl⟩ := hw
   rw [centerAt_conj u k] at hcent
   exact (hCu.center_le_iff k).mp hcent
 
+omit [Finite G] in
 private theorem centerAt_le_centralizer_of_mem {u w : G}
     (hw : w ∈ centralizer (centerAt u : Set G)) : centerAt u ≤ centralizer ({w} : Set G) := by
   intro y hy
@@ -111,6 +118,7 @@ private theorem commute_of_mem_sup (hC : Config z n) {g : G}
         (Subgroup.mem_centralizer_iff.mp (hC.core_le_centralizer_center hjQ) y hy)
   exact (Subgroup.mem_centralizer_singleton_iff.mp (hle hx)).symm
 
+omit [Finite G] in
 private theorem false_of_mem_K (hC : Config z n) {g δ j : G}
     (hH : g⁻¹ * z * g ∈ centralizer ({z} : Set G))
     (hK : g⁻¹ * z * g ∉ centralizer (centerAt z : Set G))

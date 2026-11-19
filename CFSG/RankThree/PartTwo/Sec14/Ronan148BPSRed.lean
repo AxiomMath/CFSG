@@ -146,6 +146,7 @@ theorem exists_hyperplane_of_bar {D : Subgroup (MulAut (↥L ⧸ aschbacherSolva
 
 end ImageA
 
+omit [Finite Γ] in
 theorem exists_mul_of_le_normalizer {L R : Subgroup Γ} (hRL : R ≤ Subgroup.normalizer (L : Set Γ))
     {g : Γ} (hg : g ∈ L ⊔ R) : ∃ l ∈ L, ∃ r ∈ R, g = l * r := by
   have hconj : ∀ r ∈ R, ∀ l ∈ L, r * l * r⁻¹ ∈ L := fun r hr l hl =>
@@ -213,14 +214,14 @@ theorem isSimpleGroup_of_types148 {X : Type} [Group X] [Finite X]
       Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.M12))
     (hns : ¬ Group.IsSolvable X) : IsSimpleGroup X := by
   rcases hT with ⟨⟨φ⟩⟩ | hL | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩
-  · haveI := CFSG.Sporadic.J2.isSimpleGroup_J2
+  · have := CFSG.Sporadic.J2.isSimpleGroup_J2
     exact φ.isSimpleGroup
   · exact Ronan148K.isSimpleGroup_of_isLThreePi_not_solvable hL hns
-  · haveI := Ronan148K.isSimpleGroup_alt_seven
+  · have := Ronan148K.isSimpleGroup_alt_seven
     exact φ.isSimpleGroup
-  · haveI := CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
+  · have := CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
     exact φ.isSimpleGroup
-  · haveI := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
+  · have := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
     exact φ.isSimpleGroup
 
 end Types
@@ -231,8 +232,8 @@ theorem lrData_of_simple {L R : Subgroup Γ} (hR : Nat.Coprime 3 (Nat.card R))
     (hns : ¬ Group.IsSolvable (↥L ⧸ aschbacherSolvableCore 3 ↥L)) (h3 : 3 ∣ Nat.card L) :
     LRData L R := by
   refine ⟨hR, hLR, hRL, inf_le_thL_of hR hLR fun N hN hN3 => ?_, ?_⟩
-  · haveI := hs
-    haveI := hN
+  · have := hs
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact h
     · exfalso
@@ -245,7 +246,7 @@ theorem lrData_of_simple {L R : Subgroup Γ} (hR : Nat.Coprime 3 (Nat.card R))
       rcases (Nat.Prime.dvd_mul Nat.prime_three).mp h3 with h' | h'
       · exact h'
       · exact absurd h' hθ
-  · haveI := hs
+  · have := hs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center (↥L ⧸ aschbacherSolvableCore 3 ↥L)) with h | h
     · exact h
@@ -286,19 +287,19 @@ theorem kf148PointSigF_of_img (h : KF148PointSigImg) : KF148PointSigF := by
         (sup_le hLR Subgroup.le_normalizer)
     have hN₀LR : N₀ ≤ L ⊔ R :=
       sup_le ((Subgroup.map_subtype_le _).trans le_sup_left) le_sup_right
-    haveI hnorm : (N₀.subgroupOf (L ⊔ R)).Normal :=
+    have hnorm : (N₀.subgroupOf (L ⊔ R)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hN₀LR).mpr hLRN
     set f : ↥W →* ↥(L ⊔ R) ⧸ N₀.subgroupOf (L ⊔ R) :=
       (QuotientGroup.mk' (N₀.subgroupOf (L ⊔ R))).comp (Subgroup.inclusion hWLR) with hf
     have hsolL : Group.IsSolvable ↥L := by
-      haveI := hsolX
-      haveI : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥L) :=
+      have := hsolX
+      have : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥L) :=
         (solvable_prime_complement_core_characterization (H := ↥L) Nat.prime_three).1
       exact Group.isSolvable_of_ker_le_range (aschbacherSolvableCore 3 ↥L).subtype
         (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L)) (fun x hx => ⟨⟨x, by
           rwa [QuotientGroup.ker_mk'] at hx⟩, rfl⟩)
     have hsolM : Group.IsSolvable (↥(L ⊔ R) ⧸ N₀.subgroupOf (L ⊔ R)) := by
-      haveI := hsolL
+      have := hsolL
       refine Group.isSolvable_of_surjective
         (f := (QuotientGroup.mk' (N₀.subgroupOf (L ⊔ R))).comp
           (Subgroup.inclusion (le_sup_left : L ≤ L ⊔ R))) ?_
@@ -314,7 +315,7 @@ theorem kf148PointSigF_of_img (h : KF148PointSigImg) : KF148PointSigF := by
       rw [e]
       exact Subgroup.mem_sup_right ((Subgroup.mem_normalizer_iff.mp (hLR hl) r⁻¹).mp (R.inv_mem hr))
     have hrange : Group.IsSolvable f.range := by
-      haveI := hsolM
+      have := hsolM
       infer_instance
     have hker : Nat.Coprime 3 (Nat.card f.ker) := by
       let j : f.ker →* N₀ :=

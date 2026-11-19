@@ -21,7 +21,7 @@ open CFSG CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevall
       E ≤ subsystemGroup Tag.E8 F {j | j ≠ i} → IsElemAbelian p E → Nat.card E ≤ p ^ 7
 
 theorem levi_card_le_seven {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hd : p ∣ Nat.card K + 1) (hLev : Rk2E8LeviRankInput p)
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (hd : p ∣ Nat.card K + 1) (hLev : Rk2E8LeviRankInput p)
     {J : Set (Fin Tag.E8.rank)} (hJ : J ≠ Set.univ)
     {E : Subgroup (ModGL Tag.E8 K)} (hE : E ≤ subsystemGroup Tag.E8 K J)
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 7 := by
@@ -39,7 +39,7 @@ theorem twoLocal_card_le_seven_adjointGroup_E8 {K : Type} [Field K] [Finite K] [
     ∀ R E : Subgroup (adjointGroup Tag.E8 K), R ≠ ⊥ → IsPGroup 2 R →
       E ≤ Subgroup.normalizer (R : Set (adjointGroup Tag.E8 K)) → IsElemAbelian p E →
       Nat.card E ≤ p ^ 7 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact fun R E hR hR2 hER hE =>
   twoLocal_card_le_of_levi' hp hp2
     (CFSG.RankThree.PartOne.S15K.not_dvd_sub_one_of_dvd_add_one Nat.card_pos
@@ -62,10 +62,10 @@ theorem rk2_up_e8_of_levi {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK :
     lieModel_of_markedModel_E8 ht hM
   obtain ⟨-, F, hF, hFin, hFcard, ⟨φ⟩⟩ := hM'.chevalleyExceptionalModel
     (by decide : StatedLieTag.E8 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hn1 : 1 ≤ lab.n := by omega
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (k := lab.n) hn1 hFcard
   have hQ' : CFSG.IsQuasisimple K := (CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1.2 hQ

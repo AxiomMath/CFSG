@@ -60,7 +60,7 @@ theorem exists_trace_ne_zero : ∃ t : F27, frobF27 (frobF27 t) - 2 * frobF27 t 
   linear_combination h + r ^ 3 * h3
 
 theorem frobF27_pow_three_apply (t : F27) : frobF27 (frobF27 (frobF27 t)) = t := by
-  letI : Fintype F27 := Fintype.ofFinite F27
+  let : Fintype F27 := Fintype.ofFinite F27
   have hcard : Fintype.card F27 = 27 := by
     have := card_F27
     rw [Nat.card_eq_fintype_card] at this
@@ -135,18 +135,22 @@ variable [Finite Y]
 
 @[expose] noncomputable def U₀ : Subgroup Y := (wtHom e).range
 
+omit [Finite Y] in
 theorem wt_mem_U₀ (t : F27) : wt e t ∈ U₀ e := ⟨Multiplicative.ofAdd t, rfl⟩
 
+omit [Finite Y] in
 theorem exists_wt_of_mem_U₀ {k : Y} (hk : k ∈ U₀ e) : ∃ t : F27, wt e t = k := by
   obtain ⟨t, rfl⟩ := hk
   exact ⟨Multiplicative.toAdd t, rfl⟩
 
+omit [Finite Y] in
 theorem card_U₀ : Nat.card (U₀ e) = 27 := by
   have hinj : Function.Injective (wtHom e) := fun s t h =>
     Multiplicative.toAdd.injective (wt_injective e two_ne_zero_F27 h)
   rw [U₀, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv,
     Nat.card_congr Multiplicative.toAdd, card_F27]
 
+omit [Finite Y] in
 theorem isElemAbelian_U₀ : IsElemAbelian 3 (U₀ e) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
   · obtain ⟨a, ha⟩ := a
@@ -165,15 +169,19 @@ theorem isElemAbelian_U₀ : IsElemAbelian 3 (U₀ e) := by
 
 @[expose] noncomputable def S₀ : Subgroup (MulAut Y) := (U₀ e).map (MulAut.conj : Y →* MulAut Y)
 
+omit [Finite Y] in
 theorem card_S₀ : Nat.card (S₀ e) = 27 := by
   rw [S₀, Subgroup.card_map_of_injective (conj_injective_of_L2 e), card_U₀]
 
+omit [Finite Y] in
 theorem isElemAbelian_S₀ : IsElemAbelian 3 (S₀ e) := isElemAbelian_map (isElemAbelian_U₀ e) _
 
+omit [Finite Y] in
 theorem S₀_le_innAut : S₀ e ≤ innAut Y := by
   rintro _ ⟨u, -, rfl⟩
   exact ⟨u, rfl⟩
 
+omit [Finite Y] in
 theorem frobAut_conj_mem {s : MulAut Y} (hs : s ∈ S₀ e) :
     frobAut e * s * (frobAut e)⁻¹ ∈ S₀ e := by
   obtain ⟨u, hu, rfl⟩ := hs
@@ -181,12 +189,14 @@ theorem frobAut_conj_mem {s : MulAut Y} (hs : s ∈ S₀ e) :
   refine ⟨wt e (frobF27 t), wt_mem_U₀ e _, ?_⟩
   rw [mulAut_mul_conj_mul_inv, frobAut_wt]
 
+omit [Finite Y] in
 theorem orderOf_frobAut : orderOf (frobAut e) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime (frobAut_pow_three e) ?_
   intro h1
   exact frobAut_not_mem_innAut e (h1 ▸ Subgroup.one_mem _)
 
+omit [Finite Y] in
 theorem frobAut_mem_normalizer : frobAut e ∈ Subgroup.normalizer (S₀ e) := by
   rw [Subgroup.mem_normalizer_iff]
   intro s
@@ -204,24 +214,29 @@ theorem frobAut_mem_normalizer : frobAut e ∈ Subgroup.normalizer (S₀ e) := b
 
 @[expose] noncomputable def M₀ : Subgroup (MulAut Y) := Subgroup.zpowers (frobAut e) ⊔ S₀ e
 
+omit [Finite Y] in
 theorem zpowers_frobAut_le_normalizer :
     Subgroup.zpowers (frobAut e) ≤ Subgroup.normalizer (S₀ e) :=
   (Subgroup.zpowers_le).2 (frobAut_mem_normalizer e)
 
+omit [Finite Y] in
 theorem M₀_le_normalizer : M₀ e ≤ Subgroup.normalizer (S₀ e) :=
   sup_le (zpowers_frobAut_le_normalizer e) Subgroup.le_normalizer
 
+omit [Finite Y] in
 theorem isPGroup_M₀ : IsPGroup 3 (M₀ e) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hH : IsPGroup 3 (Subgroup.zpowers (frobAut e)) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_frobAut]; norm_num)
   have hK : IsPGroup 3 (S₀ e) := IsPGroup.of_card (n := 3) (by rw [card_S₀]; norm_num)
   exact hH.to_sup_of_normal_right' hK (zpowers_frobAut_le_normalizer e)
 
+omit [Finite Y] in
 theorem frobAut_mem_M₀ : frobAut e ∈ M₀ e := Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
 
+omit [Finite Y] in
 theorem card_M₀ (hA : Nat.card (MulAut Y) = 58968) : Nat.card (M₀ e) = 81 := by
-  haveI : Finite (MulAut Y) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Finite (MulAut Y) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (isPGroup_M₀ e)
   have hdvd : Nat.card (M₀ e) ∣ 58968 := hA ▸ Subgroup.card_subgroup_dvd_card _
   have hk4 : k ≤ 4 := by
@@ -246,8 +261,9 @@ theorem card_M₀ (hA : Nat.card (MulAut Y) = 58968) : Nat.card (M₀ e) = 81 :=
   have : k = 4 := by omega
   rw [hk, this]; norm_num
 
+omit [Finite Y] in
 theorem M₀_inf_innAut (hA : Nat.card (MulAut Y) = 58968) : M₀ e ⊓ innAut Y = S₀ e := by
-  haveI : Finite (MulAut Y) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Finite (MulAut Y) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   have hM := card_M₀ e hA
   have hle : S₀ e ≤ M₀ e ⊓ innAut Y := le_inf le_sup_right (S₀_le_innAut e)
   have hd : Nat.card ↥(M₀ e ⊓ innAut Y) ∣ 81 := by
@@ -270,6 +286,7 @@ theorem M₀_inf_innAut (hA : Nat.card (MulAut Y) = 58968) : M₀ e ⊓ innAut Y
     interval_cases c <;> simp_all
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [h27', card_S₀])).symm
 
+omit [Finite Y] in
 theorem wreath81_M₀ (hA : Nat.card (MulAut Y) = 58968) :
     Wreath81 (M₀ e) (M₀ e ⊓ innAut Y) := by
   rw [M₀_inf_innAut e hA]

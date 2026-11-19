@@ -49,8 +49,8 @@ theorem kd264KAlt_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264KAlt p :
           fun h => hlev7 ⟨h3, Or.inr (Or.inr h)⟩⟩
       have hpn : p ≤ n := by
         by_contra hlt
-        push_neg at hlt
-        haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+        push Not at hlt
+        have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
         have hcardK : Nat.card K = n.factorial / 2 := by
           rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
             Fintype.card_fin]
@@ -60,7 +60,7 @@ theorem kd264KAlt_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264KAlt p :
           have h2 : n.factorial / 2 ∣ n.factorial := Nat.div_dvd_of_dvd (Nat.dvd_factorial (by norm_num) (by omega))
           have hpf : p ∣ n.factorial := hd.trans h2
           exact absurd ((Nat.Prime.dvd_factorial hp).1 hpf) (by omega)
-        haveI := isQuasisimple_nontrivial hq
+        have := isQuasisimple_nontrivial hq
         have htop : (⊤ : Subgroup K) ≤ GLAPPrimeCore p K :=
           le_sSup ⟨inferInstance, by
             rw [Subgroup.card_top]
@@ -73,7 +73,7 @@ theorem kd264KAlt_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264KAlt p :
       exact Or.inl ⟨E, hEB, hEel, hEcard, hEl⟩
     ·
       have h3 : p = 3 := by
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         obtain ⟨a, ha⟩ := (KD264Z.isPGroup_center_of_pPrimeCore hp hcore).exists_card_eq
         rw [hZ3] at ha
         have hpdvd : p ∣ 3 := by
@@ -97,7 +97,7 @@ theorem kd264KAlt_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264KAlt p :
           ∀ ρ : D →* alternatingGroup (Fin 7), Function.Surjective ρ → ρ.ker = Subgroup.center D →
             Odd (Nat.card (Subgroup.center D)) → Nat.card (Subgroup.center D) ∣ 3 := by
         intro D _ _ hD ρ hρ hρk hodd
-        haveI : Group.IsPerfect D := Group.isPerfect_def.2 hD.1
+        have : Group.IsPerfect D := Group.isPerfect_def.2 hD.1
         have hsmall := CFSG.SectionRank.alternating_small_odd_cover_bound (n := 7) (by norm_num)
           (by norm_num) ρ hρ hρk.le (by rw [hρk]; exact hodd)
         rw [hρk] at hsmall

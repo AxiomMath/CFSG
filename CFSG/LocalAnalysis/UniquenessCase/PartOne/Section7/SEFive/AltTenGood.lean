@@ -66,7 +66,7 @@ theorem card_quotient_dvd_two_of_equiv_alternating {K : Subgroup X} [K.Normal]
     hQle.trans (Nat.le_of_dvd (by norm_num) hout)
   have hpos : 0 < Nat.card (X ⧸ K) := Nat.card_pos
   have h2 : Nat.card (X ⧸ K) = 1 ∨ Nat.card (X ⧸ K) = 2 := by omega
-  rcases h2 with h2 | h2 <;> rw [h2] <;> norm_num
+  rcases h2 with h2 | h2 <;> rw [h2]; norm_num
 
 structure AltTenSetup (X : Type*) [Group X] [Finite X] (N : Subgroup X) where
   hN : IsStronglyPEmbedded 5 N
@@ -104,12 +104,12 @@ theorem exists_altTen_setup (hO : CFSG.pPrimeCore 5 X = ⊥)
     (e : ↥(CFSG.generalizedFitting X) ≃* alternatingGroup (Fin 10)) :
     Nonempty (AltTenSetup X N) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let K : Subgroup X := CFSG.generalizedFitting X
   obtain ⟨hKs, -, hKn, hKC⟩ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_five hO hN
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
     exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded (K := K) hO hK1 hN
@@ -131,7 +131,7 @@ theorem exists_altTen_setup (hO : CFSG.pPrimeCore 5 X = ⊥)
     exact Subgroup.map_mono (by
       rw [hT]
       exact normalizer_subgroupOf_le_of_isStronglyPEmbedded hN hPK
-        (P.isPGroup'.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right)
+        (P.isPGroup.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right)
   have hne : N.subgroupOf K ≠ ⊤ := fun h =>
     CFSG.LocalAnalysis.UniquenessCase.UCK.not_le_of_isStronglyPEmbedded hN P hPN hPK T hT
       (Subgroup.subgroupOf_eq_top.mp h)
@@ -183,7 +183,7 @@ private theorem exists_mem_sylow_fixing_blocks
     (∃ s ∈ (S : Subgroup (alternatingGroup (Fin 10))), s ≠ 1 ∧
         ∀ i ∈ B, (s : Perm (Fin 10)) i = i) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let E : Subgroup (Perm (Fin 10)) :=
     (S : Subgroup (alternatingGroup (Fin 10))).map (alternatingGroup (Fin 10)).subtype
   obtain ⟨hEab, hEcard⟩ :=
@@ -253,7 +253,7 @@ private theorem mem_map_of_commute (N : Subgroup X) (D : AltTenSetup X N)
     exact (Subgroup.mem_subgroupOf.1 htPK).1
   let U : Subgroup X := Subgroup.zpowers ((t : ↥D.K) : X)
   have hUleP : U ≤ (D.P : Subgroup X) := Subgroup.zpowers_le.2 htP
-  have hUp : IsPGroup 5 U := D.P.isPGroup'.to_le hUleP
+  have hUp : IsPGroup 5 U := D.P.isPGroup.to_le hUleP
   have hUN : U ≤ N := hUleP.trans D.hPN
   have ht1 : t ≠ 1 := by
     intro h
@@ -409,7 +409,7 @@ private theorem core_centralizes_T (q : ℕ) (N : Subgroup X) (D : AltTenSetup X
   simpa [t0] using h.symm
 
 private theorem core_eq_bot (N : Subgroup X) (D : AltTenSetup X N) [D.K.Normal]
-    {Y : Subgroup X} (hYN : Y ≤ N)
+    {Y : Subgroup X} (_hYN : Y ≤ N)
     (hcommT : ∀ y ∈ Y, ∀ t ∈ (D.T : Subgroup ↥D.K),
       y * ((t : ↥D.K) : X) = ((t : ↥D.K) : X) * y)
     (hYinfK : Y ⊓ D.K = ⊥) : Y = ⊥ := by
@@ -562,9 +562,9 @@ theorem pPrimeCore_eq_bot_of_altTen {q : ℕ} [Fact q.Prime]
         ∀ i ∈ B, (g : Perm (Fin 10)) i = i) → ∀ σ ∈ Q, g * σ * g⁻¹ ∈ Q) → Q = ⊥) :
     CFSG.pPrimeCore q ↥N = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨D⟩ := exists_altTen_setup hO hN e
-  haveI : D.K.Normal := D.hKn
+  have : D.K.Normal := D.hKn
   obtain ⟨⟨s₁, hs₁S, hs₁ne, hs₁fix⟩, ⟨s₂, hs₂S, hs₂ne, hs₂fix⟩⟩ :=
     exists_mem_sylow_fixing_blocks D.S D.hBcard D.hBS
   have hfixB : ∀ g : alternatingGroup (Fin 10), (∀ i ∉ D.B, (g : Perm (Fin 10)) i = i) →
@@ -609,12 +609,12 @@ theorem good_altTen (hO : CFSG.pPrimeCore 5 X = ⊥)
     {N : Subgroup X} (hN : IsStronglyPEmbedded 5 N)
     (e : ↥(CFSG.generalizedFitting X) ≃* alternatingGroup (Fin 10)) : Good 5 N := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine ⟨pPrimeCore_eq_bot_of_altTen (q := 5) hO hN e ?_, ?_⟩
   · intro B hB Q hQ hQB hnorm
     exact AltTen.eq_bot_of_normalized_by_alt_prod hB hQ hQB hnorm
   · obtain ⟨D⟩ := exists_altTen_setup hO hN e
-    haveI : D.K.Normal := D.hKn
+    have : D.K.Normal := D.hKn
     have hQdvd : Nat.card (X ⧸ D.K) ∣ 2 :=
       card_quotient_dvd_two_of_equiv_alternating D.hKC (by norm_num) D.e
     intro x y hxN hyN hx1 hxp hyr hy2 hy5 hxy

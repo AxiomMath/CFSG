@@ -165,7 +165,7 @@ theorem kgSz8_of_cover (hZ : Subgroup.center K ≠ ⊥)
       congrArg Subtype.val (Subgroup.mem_center_iff.mp hs ⟨t, ht⟩)
     set y := ((s : K) : K ⧸ Subgroup.center K) with hydef
     have hy1 : y ≠ 1 := fun h => hsZ ((QuotientGroup.eq_one_iff _).mp h)
-    obtain ⟨k₀, hk₀⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' s
+    obtain ⟨k₀, hk₀⟩ := IsPGroup.iff_orderOf.mp S.isPGroup s
     have hdvd : orderOf y ∣ 2 ^ k₀ := by
       rw [← hk₀, ← Subgroup.orderOf_coe]
       exact orderOf_map_dvd (QuotientGroup.mk' (Subgroup.center K)) (s : K)

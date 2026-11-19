@@ -63,7 +63,7 @@ theorem exists_orderOf_statedSU3' {K : Type} [Field K] [Finite K] {N c f : ℕ} 
 theorem e8E6LayerInput6_of_twE8SCLayer (hL : TwE8SCLayer) :
     CFSG.LieType.SeitzGeneration.ExcHigh.E8E6LayerInput6 := by
   intro q hv p hp h7 _hpq hord
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   unfold TwE8SCLayer at hL
   obtain ⟨K, hKf, hKfin, θ, hKcard, hCh, hθq, P, S, Ψ, hΨsurj, hΨker, ⟨e⟩, hcomm, hdisj⟩ :=
     hL q hv
@@ -191,10 +191,10 @@ theorem e8E6LayerInput6_of_twE8SCLayer (hL : TwE8SCLayer) :
         (twistedFixedGroup TwistTag.E6 K θ) :=
       (QuotientGroup.quotientMulEquivOfEq hFker).symm.trans
         (QuotientGroup.quotientKerEquivOfSurjective F hFsurj)
-    haveI := hDsimple
+    have := hDsimple
     exact eqv.isSimpleGroup
   have hPquasi : CFSG.Open.IsQuasisimple ↥P := ⟨hPcomm, hPsimple⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hdvdN : p ∣ q.card ^ 3 + 1 := dvd_cube_add_one_of_orderOf_six hord
   obtain ⟨a', ha'⟩ := exists_orderOf_statedSU3' (K := K) (N := q.card) (c := q.p)
     (f := q.exponent) (p := p) hcardpow hKcard hdvdN

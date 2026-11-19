@@ -54,11 +54,11 @@ private noncomputable abbrev E : Subgroup OM := X₁ ⊔ Subgroup.zpowers (t₃ 
 private def fixSub (w : ι8 → ZMod 2) : Subgroup OM where
   carrier := {g | ((g : GL ι8 (ZMod 2)) : Matrix ι8 ι8 (ZMod 2)) *ᵥ w = w}
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Units.val_mul, ← Matrix.mulVec_mulVec] at *
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Units.val_mul, ← Matrix.mulVec_mulVec] at *
     rw [hb, ha]
   one_mem' := by simp
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     calc (((a⁻¹ : OM) : GL ι8 (ZMod 2)) : Matrix ι8 ι8 (ZMod 2)) *ᵥ w
         = (((a⁻¹ : OM) : GL ι8 (ZMod 2)) : Matrix ι8 ι8 (ZMod 2)) *ᵥ
             ((((a : OM) : GL ι8 (ZMod 2)) : Matrix ι8 ι8 (ZMod 2)) *ᵥ w) := by rw [ha]
@@ -76,7 +76,7 @@ private theorem t_comm : t₁ * t₂ = t₂ * t₁ ∧ t₁ * (t₃ * t₄) = t�
 private theorem fix_facts : t₁ ∈ fixSub (pt eP 34) ∧ t₂ ∉ fixSub (pt eP 34) ∧
     s ∉ fixSub (pt eP 34) ∧ t₁ ∈ fixSub (pt eP 68) ∧ t₂ ∈ fixSub (pt eP 68) ∧
     t₃ * t₄ ∉ fixSub (pt eP 68) := by
-  simp only [fixSub, Subgroup.mem_mk, Submonoid.mem_mk, Subsemigroup.mem_mk, Set.mem_setOf_eq]
+  simp only [fixSub, Subgroup.mem_mk, Submonoid.mem_mk, Subsemigroup.mem_mk, Set.mem_ofPred_eq]
   decide +kernel
 
 private theorem t₁_ne_one : t₁ ≠ 1 := by
@@ -89,7 +89,7 @@ private theorem isElemAbelian_zpowers_t₁ : IsElemAbelian 3 (Subgroup.zpowers t
     _root_.one_zpow]
 
 private theorem card_zpowers_t₁ : Nat.card (Subgroup.zpowers t₁) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime t_pow.1 t₁_ne_one
 
@@ -100,7 +100,7 @@ private theorem X₁_le_fix : X₁ ≤ fixSub (pt eP 68) :=
   sup_le (Subgroup.zpowers_le.2 fix_facts.2.2.2.1) (Subgroup.zpowers_le.2 fix_facts.2.2.2.2.1)
 
 private theorem X₁_facts : IsElemAbelian 3 X₁ ∧ Nat.card X₁ = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := CFSG.RankThree.PartTwo.Sec5.isElemAbelian_sup_zpowers isElemAbelian_zpowers_t₁
     (fun hm => fix_facts.2.1 (zpowers_t₁_le_fix hm)) t_pow.2.1 (fun a ha => by
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
@@ -108,7 +108,7 @@ private theorem X₁_facts : IsElemAbelian 3 X₁ ∧ Nat.card X₁ = 9 := by
   exact ⟨h.1, by rw [h.2, card_zpowers_t₁]⟩
 
 private theorem X₂_facts : IsElemAbelian 3 X₂ ∧ Nat.card X₂ = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := CFSG.RankThree.PartTwo.Sec5.isElemAbelian_sup_zpowers isElemAbelian_zpowers_t₁
     (fun hm => fix_facts.2.2.1 (zpowers_t₁_le_fix hm)) t_pow.2.2.2 (fun a ha => by
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
@@ -116,7 +116,7 @@ private theorem X₂_facts : IsElemAbelian 3 X₂ ∧ Nat.card X₂ = 9 := by
   exact ⟨h.1, by rw [h.2, card_zpowers_t₁]⟩
 
 private theorem E_facts : IsElemAbelian 3 E ∧ Nat.card E = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := CFSG.RankThree.PartTwo.Sec5.isElemAbelian_sup_zpowers X₁_facts.1
     (fun hm => fix_facts.2.2.2.2.2 (X₁_le_fix hm)) t_pow.2.2.1 (fun a ha => by
       have hc : X₁ ≤ Subgroup.centralizer ({t₃ * t₄} : Set OM) := by

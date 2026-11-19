@@ -108,7 +108,7 @@ theorem p23_hyp51_vertices (hD4 : TwinCentRes.ModelFactD42) (hM12 : TwinCentRes.
   have het : e ≠ t := fun h => e_not_mem_sup hc (h ▸ Subgroup.mem_sup_left hz.mem)
   have ht1 := hz.ne_one
   have hEIH : TwinThmE.EIHAll (Nat.card Y) := by
-    rw [hC.card]; intros; exact ⟨hcit, hP⟩
+    rw [hC.card]; exact ⟨hcit, hP⟩
   have H : CFSG.ClassicalInvolution.Q8P.P24.Hyp51TwinInnerAt (Om R) :=
     CFSG.ClassicalInvolution.Q8P.P24.hyp51TwinInnerPerp_of_model
     TwinCentRes.modelFactSp62 hD4 hM12 (hT n hcit hP) Y R S t hc.std.perp

@@ -188,7 +188,7 @@ theorem j4d_rho_rootReflection_comm_stable
   have hlin : latPerm π (rootReflection f • x) = latPerm π x - corootPair f x • latPerm π f := by
     rw [rootReflection_smul hf]
     ext i
-    simp [latPerm, sub_eq_add_neg, Finsupp.smul_apply, smul_eq_mul]
+    simp [latPerm, sub_eq_add_neg]
   have hcp : corootPair f (S.ρ x) = -corootPair f x := by
     rw [corootPair_eq_iform hτ hf (S.ρ x), corootPair_eq_iform hτ hf x]
     have h := S.frob.iform_eq f x

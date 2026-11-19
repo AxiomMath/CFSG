@@ -127,7 +127,7 @@ theorem fld_label_eq_of_markParams {lab : LargeEvenLabel} {t : StatedLieTag} {n 
       simp only [markTag, markRank, markChar, markDeg, fldClassicalLabel,
         LargeEvenLabel.mk.injEq, reduceCtorEq] at h ⊢ <;>
       (try split_ifs at h ⊢) <;>
-      simp_all <;> omega
+      simp_all
 
 theorem fld_markParams_of_canonLabel {lab : LargeEvenLabel} {t : StatedLieTag} {n g : ℕ}
     (hr : FldRange t n g) (h : canonLabel lab = fldClassicalLabel t n g) :
@@ -140,16 +140,14 @@ theorem fld_markParams_of_canonLabel {lab : LargeEvenLabel} {t : StatedLieTag} {
       simp only [canonLabel, markTag, markRank, markChar, markDeg, fldClassicalLabel,
         LargeEvenLabel.mk.injEq, reduceCtorEq] at h ⊢ <;>
       (try split_ifs at h ⊢) <;>
-      simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, and_false, true_and,
-        and_true, or_false, false_or] at h ⊢ <;>
+      simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, true_and] at h ⊢ <;>
       omega
   · rcases ht with rfl | rfl <;>
       cases tag <;>
       simp only [canonLabel, markTag, markRank, markChar, markDeg, fldClassicalLabel,
         LargeEvenLabel.mk.injEq, reduceCtorEq] at h ⊢ <;>
       (try split_ifs at h ⊢) <;>
-      simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, and_false, true_and,
-        and_true, or_false, false_or] at h ⊢ <;>
+      simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, true_and] at h ⊢ <;>
       omega
 
 private theorem fld_lieModel_of_isLnA_aux1 {q : TauCeti.PrimePower} {k : ℕ} (hk : 1 ≤ k)
@@ -243,7 +241,7 @@ private theorem fld_lieModel_of_isOmPA_aux1 {i : TauCeti.CFSGIndex} {n q : ℕ}
       exact ⟨r, qq, hv, h'.1, h'.2, hrange, rfl⟩
     | _ => simp [onLie, isOmP] at h
 
-theorem fld_lieModel_of_isOmPA {S : Type} [Group S] {n k : ℕ} (hk : 1 ≤ k) (hn : 3 ≤ n)
+theorem fld_lieModel_of_isOmPA {S : Type} [Group S] {n k : ℕ} (hk : 1 ≤ k) (_hn : 3 ≤ n)
     (hnk : k = 1 → 5 ≤ n) (h : catalogIs S (isOmPA n (2 ^ k))) :
     (4 ≤ n ∧ CFSG.Blueprint.LieModel S .POmegaPlus n 2 k) ∨
       (n = 3 ∧ 2 ≤ k ∧ CFSG.Blueprint.LieModel S .PSL 4 2 k) := by
@@ -275,7 +273,7 @@ theorem fld_lieModel_of_isOmPA {S : Type} [Group S] {n k : ℕ} (hk : 1 ≤ k) (
     · omega
     · omega
     · obtain ⟨hk2, -⟩ := h2e
-      have hk1 : k = 1 := Nat.pow_right_injective (a := 2) le_rfl (by simpa [hk2])
+      have hk1 : k = 1 := Nat.pow_right_injective (a := 2) le_rfl (by simp [hk2])
       have := hnk hk1
       omega
 

@@ -21,7 +21,7 @@ theorem mem_b₂ (h : FF84Sec4 b L B K b₁ b₂) : b₂ ∈ B := by
   rw [h.mono.2.1]; exact Subgroup.subset_closure (by simp)
 
 theorem pow3_of_mem (h : FF84Sec4 b L B K b₁ b₂) {x : G} (hx : x ∈ B) : x ^ 3 = 1 := by
-  haveI := h.mono.1.1
+  have := h.mono.1.1
   exact elemPow_eq_one_of_isElementaryAbelian x hx
 
 theorem comm_of_mem (h : FF84Sec4 b L B K b₁ b₂) {x y : G} (hx : x ∈ B) (hy : y ∈ B) :

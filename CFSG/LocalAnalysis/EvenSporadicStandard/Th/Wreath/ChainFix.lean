@@ -15,6 +15,7 @@ open Subgroup SylowEnd CFSG.ABGLocalTools
 variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G} {S A B Aa D : Subgroup G}
   {z b : G}
 
+omit [Finite G] in
 private theorem mem_or_mul_mem_of_mem_sup_zpowers {F : Subgroup G} {t x : G}
     (ht : t * t = 1) (htF : Subgroup.zpowers t ≤ normalizer (F : Set G))
     (hx : x ∈ F ⊔ Subgroup.zpowers t) : x ∈ F ∨ x * t ∈ F := by
@@ -34,7 +35,7 @@ theorem ChainHyp.exists_fix (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     ∃ p ∈ centralizer (D : Set G), p ∈ normalizer (F : Set G) ∧ p ∉ F ∧
       p⁻¹ * (t * p * t⁻¹) ∈ F := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht : t * t = 1 := H.t_sq
   have htinv : t⁻¹ = t := H.t_inv
   have hDC : D ≤ centralizer (D : Set G) := fun x hx =>
@@ -107,7 +108,7 @@ theorem ChainHyp.exists_fix (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     have hne : F ≠ Y := fun h => hYF (le_of_eq h.symm)
     have hlt : F < Y := lt_of_le_of_ne hFY hne
     obtain ⟨y, hy, hyF⟩ :=
-      SetLike.exists_of_lt (CFSG.Goldschmidt75.lt_inf_normalizer (p := 2) hY hlt)
+      _root_.IsConcreteLE.exists_of_lt (CFSG.Goldschmidt75.lt_inf_normalizer (p := 2) hY hlt)
     have hyY : y ∈ Y := hy.1
     have hyN : y ∈ normalizer (F : Set G) := hy.2
     have hzy : IsPGroup 2 (Subgroup.zpowers y) := hY.to_le (Subgroup.zpowers_le.mpr hyY)
@@ -155,7 +156,7 @@ theorem ChainHyp.exists_fix (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   have hF'ltP' : F ⊔ Subgroup.zpowers t < P ⊔ Subgroup.zpowers t :=
     lt_of_le_of_ne hF'leP' hF'neP'
   obtain ⟨z, hzP', hzF'⟩ :=
-    SetLike.exists_of_lt (CFSG.Goldschmidt75.lt_inf_normalizer (p := 2) hP'p hF'ltP')
+    _root_.IsConcreteLE.exists_of_lt (CFSG.Goldschmidt75.lt_inf_normalizer (p := 2) hP'p hF'ltP')
   have hzp : z ∈ P ⊔ Subgroup.zpowers t := hzP'.1
   have hzN : z ∈ normalizer ((F ⊔ Subgroup.zpowers t : Subgroup G) : Set G) := hzP'.2
   have hz_or : z ∈ P ∨ z * t ∈ P :=
@@ -163,9 +164,9 @@ theorem ChainHyp.exists_fix (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   set p : G := if z ∈ P then z else z * t with hpdef
   have hpP : p ∈ P := by
     by_cases hz : z ∈ P
-    · rw [hpdef, if_pos hz]
+    · rw [hpdef, ite_eq_left hz]
       exact hz
-    · rw [hpdef, if_neg hz]
+    · rw [hpdef, ite_eq_right hz]
       exact hz_or.resolve_left hz
   have hpC : p ∈ centralizer (D : Set G) := (Subgroup.mem_inf.mp (hPN hpP)).1
   have hpNF : p ∈ normalizer (F : Set G) := (Subgroup.mem_inf.mp (hPN hpP)).2
@@ -174,15 +175,15 @@ theorem ChainHyp.exists_fix (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     have htNF' : t ∈ normalizer ((F ⊔ Subgroup.zpowers t : Subgroup G) : Set G) :=
       Subgroup.le_normalizer htF'
     by_cases hz : z ∈ P
-    · rw [hpdef, if_pos hz]
+    · rw [hpdef, ite_eq_left hz]
       exact hzN
-    · rw [hpdef, if_neg hz]
+    · rw [hpdef, ite_eq_right hz]
       exact (normalizer _).mul_mem hzN htNF'
   have hpF : p ∉ F := by
     by_cases hz : z ∈ P
-    · rw [hpdef, if_pos hz]
+    · rw [hpdef, ite_eq_left hz]
       exact fun h => hzF' (Subgroup.mem_sup_left h)
-    · rw [hpdef, if_neg hz]
+    · rw [hpdef, ite_eq_right hz]
       intro hztF
       apply hzF'
       have hmem : (z * t) * t ∈ F ⊔ Subgroup.zpowers t :=

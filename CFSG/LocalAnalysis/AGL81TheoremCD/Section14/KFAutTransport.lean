@@ -133,7 +133,7 @@ theorem range_conj_le_range_autMap {F R : Subgroup X}
   let g : ↥(F ⊔ R) := ⟨k, Subgroup.mem_sup_left k.2⟩
   refine ⟨g, ?_⟩
   have h := (autMap_of_mem hRF (g := g) k.2).symm
-  rwa [← h]
+  rw [← h]
 
 theorem isStronglyPEmbedded_autMap_range {F Y R : Subgroup X} {p : ℕ} [Fact p.Prime]
     [Finite X] (hRF : R ≤ Subgroup.normalizer (F : Set X))

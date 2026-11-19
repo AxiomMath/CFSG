@@ -22,7 +22,7 @@ noncomputable def dec8 (c : ℕ) : Perm (Fin 8) :=
 
 theorem code_dec8 {c : ℕ} (h : validC c = true) : gh23Code (dec8 c) = c := by
   have h' := gh23_exists_of_validC h
-  rw [dec8, dif_pos h']
+  rw [dec8, dite_eq_left h']
   exact h'.choose_spec
 
 theorem gh23_clos {nG N : ℕ} {G E PA SG CT : ℕ → ℕ} {cs : List ℕ}
@@ -47,7 +47,7 @@ theorem gh23_clos {nG N : ℕ} {G E PA SG CT : ℕ → ℕ} {cs : List ℕ}
     unfold gh23Sub
     congr 1
     ext g
-    simp only [Set.mem_setOf_eq, gens, List.mem_map, List.mem_range]
+    simp only [Set.mem_ofPred_eq, gens, List.mem_map, List.mem_range]
     constructor
     · rintro ⟨c, ⟨j, hj, rfl⟩, rfl⟩
       exact ⟨j, hj, (code_dec8 (hvG j hj)).symm⟩

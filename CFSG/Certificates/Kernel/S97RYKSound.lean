@@ -223,14 +223,14 @@ theorem invT_facts (h32 : n < 32) {y : Table} (hv : validT n y = true)
   · have hik := idx_lt g⁻¹ hk
     have hpk : imgW 5 (encK n y) (idx n g⁻¹ k) = k := by
       rw [imgW_encK_lt hik, hg _ hik, idx_idx_inv, Nat.mod_eq_of_lt (by omega)]
-    rw [imgW_orW_of (fun i hi' => by change i < 2 ^ 5; omega) hp hik hpk, imgW_encK_lt hk,
+    rw [imgW_orW_of (fun i hi' => by omega) hp hik hpk, imgW_encK_lt hk,
       hR k hk, Nat.mod_eq_of_lt (by omega)]
-  · rw [imgW_encK_ge hk, imgW_orW_none (fun i hi' => by change i < 2 ^ 5; omega)]
+  · rw [imgW_encK_ge hk, imgW_orW_none (fun i hi' => by omega)]
     intro i hi' e
     rw [imgW_encK_lt hi', Nat.mod_eq_of_lt (by have := hlt i hi'; omega)] at e
     exact hk (e ▸ hlt i hi')
 
-theorem injK_spec (h32 : n < 32) {y : Table} (hv : validT n y = true) (h : injK n (encK n y) = true) :
+theorem injK_spec (_h32 : n < 32) {y : Table} (hv : validT n y = true) (h : injK n (encK n y) = true) :
     ∀ i < n, ∀ j < n, ap y i = ap y j → i = j := by
   intro i hi j hj e
   have hlt := (validT_iff.1 hv).2
@@ -576,6 +576,7 @@ theorem tabU_valid (J : List Bool) : AllV D.n (tabU D J) := by
   · obtain ⟨i, -, rfl⟩ := List.mem_map.1 hx
     exact el_valid h32 hg i
 
+omit h32 hg in
 theorem tabU_codes (J : List Bool) : (tabU D J).map (encK D.n) =
     encK D.n (idT D.n) :: (idxU D J).map (fun i => encK D.n (el D i)) := by
   unfold tabU
@@ -609,7 +610,7 @@ theorem pverdictOK_of_K {P : PData} (h32 : P.D.n < 32)
           (eltK P.D.n (encK P.D.n (idT P.D.n)) (P.D.pc.map (wK P.D)))).all (fun u =>
             commK P.D.n (mulK P.D.n (mulK P.D.n (wK P.D g) u) (wK P.D (invWord g)))
               (eltK P.D.n (encK P.D.n (idT P.D.n)) (P.D.pc.map (wK P.D)) t)) := by
-      rw [eltK_fn h32 hg, ← tabU_codes h32 hg]
+      rw [eltK_fn h32 hg, ← tabU_codes]
       refine all_map_congr fun u hu => ?_
       have huv := tabU_valid h32 hg J u hu
       unfold LargeExtraspecial.S11.PairCheck.conjW
@@ -635,7 +636,7 @@ theorem pverdictOK_of_K {P : PData} (h32 : P.D.n < 32)
         ((encK P.D.n (idT P.D.n)) :: (idxU P.D J).map
           (eltK P.D.n (encK P.D.n (idT P.D.n)) (P.D.pc.map (wK P.D)))).map fun u =>
             mulK P.D.n (mulK P.D.n (wK P.D c) u) (wK P.D (invWord c)) := by
-      rw [eltK_fn h32 hg, ← tabU_codes h32 hg]
+      rw [eltK_fn h32 hg, ← tabU_codes]
       unfold tabUc
       rw [List.map_map, List.map_map]
       refine List.map_congr_left fun u hu => ?_

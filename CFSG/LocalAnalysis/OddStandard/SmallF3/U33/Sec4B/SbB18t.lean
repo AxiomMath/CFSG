@@ -143,7 +143,7 @@ private lemma D_eq_Xi_contra (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮)
   have htq_conj : t * q₀ ∈ conjIn (ctxK t tau x₁ x₂ rho) t := by
     rw [hc.tK]
     exact Or.inl htq_inv
-  simp only [conjIn, Set.mem_setOf_eq] at htq_conj
+  simp only [conjIn, Set.mem_ofPred_eq] at htq_conj
   obtain ⟨k, hkK, hkt⟩ := htq_conj
   have hmem := conj_t_mem_smul hc hDall hkK
   rw [hkt] at hmem

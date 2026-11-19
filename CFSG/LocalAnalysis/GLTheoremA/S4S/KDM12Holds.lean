@@ -67,7 +67,7 @@ private theorem clause2 {S : Type} [Group S] (h : catalogIs S isM12) :
   rw [← hcard]
   apply card_le_nine_mulAut_native
   refine ⟨?_, ?_⟩
-  · haveI := hD.1
+  · have := hD.1
     infer_instance
   · intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hx
@@ -104,7 +104,7 @@ private theorem clause3 {S : Type} [Group S] [Finite S] (h : catalogIs S isM12) 
     exact hmem
   obtain ⟨hAle, hA9⟩ := hAmem
   obtain ⟨hAel, hZA⟩ := hnine A hAle hA9
-  haveI := hAel
+  have := hAel
   have hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val ((inferInstance : IsMulCommutative ↥A).is_comm.comm
       (⟨x, hx⟩ : A) ⟨y, hy⟩)
@@ -117,7 +117,7 @@ private theorem clause3 {S : Type} [Group S] [Finite S] (h : catalogIs S isM12) 
   obtain ⟨a, haA, haZ⟩ := hAZ
   obtain ⟨ψ⟩ := hNa a haA haZ
   set N : Subgroup S := Subgroup.normalizer ((Subgroup.zpowers a : Subgroup S) : Set S) with hNdef
-  haveI hKN : (alternatingGroup.kleinFour (Fin 4)).Normal :=
+  have hKN : (alternatingGroup.kleinFour (Fin 4)).Normal :=
     alternatingGroup.normal_kleinFour (by simp)
   obtain ⟨W, hW⟩ : ∃ W : Subgroup (Equiv.Perm (Fin 3) × alternatingGroup (Fin 4)),
       W = (⊥ : Subgroup (Equiv.Perm (Fin 3))).prod (alternatingGroup.kleinFour (Fin 4)) :=

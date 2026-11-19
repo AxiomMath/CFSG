@@ -27,7 +27,7 @@ theorem classicalOddCoreIn_eq_oddCoreIn (X : Subgroup G) :
   unfold CFSG.Open.componentClassificationOddCore CFSG.pPrimeCore
   congr 1
   ext N
-  simp only [Set.mem_setOf_eq, Nat.coprime_two_left]
+  simp only [Set.mem_ofPred_eq, Nat.coprime_two_left]
 
 theorem coreActionKernel_le_trivialOnQuot (J : Subgroup G) :
     coreActionKernel J ≤ CFSG.ClassicalInvolution.Balance.Bootstrap.trivialOnQuot J := by

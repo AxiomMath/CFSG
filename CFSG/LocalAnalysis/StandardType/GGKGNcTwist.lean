@@ -210,7 +210,7 @@ theorem kgNotC_rationalComponent_of_d4_twE6_of_layer
         (CFSG.LieType.Chevalley.componentRoots (CFSG.LieType.AlgebraicGroups.rootCharHom a) i)
         (⇑S.ρ : (Fin CFSG.Blueprint.Chevalley.Tag.E6.rank → ℤ) → Fin
           CFSG.Blueprint.Chevalley.Tag.E6.rank → ℤ))
-    (hlay : ∀ (ℓ f : ℕ) [inst : Fact (Nat.Prime ℓ)] [inst_1 : CharP L ℓ],
+    (hlay : ∀ (ℓ f : ℕ) [_inst : Fact (Nat.Prime ℓ)] [_inst_1 : CharP L ℓ],
       1 ≤ f →
         S.D.q = ℓ ^ f →
           ∀ (n : CFSG.Blueprint.Chevalley.ModGL CFSG.Blueprint.Chevalley.Tag.E6 L)

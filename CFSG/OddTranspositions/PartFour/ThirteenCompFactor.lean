@@ -21,9 +21,9 @@ open CFSG.LocalAnalysis.WeakClosure81 CFSG.Quasithin CFSG.Quasithin.H13.L829N
 theorem isCompositionFactor_comm_of_isSolvable {X : Type} [Group X] (hX : Group.IsSolvable X)
     {L : Type} [Group L] (h : E1.IsCompositionFactor X L) : ∀ a b : L, a * b = b * a := by
   obtain ⟨N, M, hN, -, -, -, hs, ⟨e⟩⟩ := h
-  haveI := hN
-  haveI := hs
-  haveI := hX
+  have := hN
+  have := hs
+  have := hX
   have hc := IsSimpleGroup.comm_iff_isSolvable.mpr
     (inferInstance : Group.IsSolvable (↥M ⧸ N.subgroupOf M))
   intro a b
@@ -38,7 +38,7 @@ theorem isCompositionFactor_perm {r : ℕ} {T : Type} [Group T]
   · exact absurd (isCompositionFactor_comm_of_isSolvable
       (Equiv.Perm.isSolvable (by simpa using hr)) h a b) hab
   have hr5 : 5 ≤ r := by omega
-  haveI : IsSimpleGroup (alternatingGroup (Fin r)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin r)) :=
     alternatingGroup.isSimpleGroup (by simpa using hr5)
   rcases isCompositionFactor_of_normal (alternatingGroup (Fin r)) h with hA | hQ
   · obtain ⟨e⟩ := isCompositionFactor_mulEquiv_of_isSimpleGroup hA
@@ -77,8 +77,8 @@ theorem isCompositionFactor_pi {L : Type} [Group L] [IsSimpleGroup L] (r : ℕ) 
     intro T _ h
     exfalso
     obtain ⟨N, M, hN, -, -, -, hs, -⟩ := h
-    haveI := hN
-    haveI := hs
+    have := hN
+    have := hs
     obtain ⟨q, hq⟩ := exists_ne (1 : ↥M ⧸ N.subgroupOf M)
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
     exact hq (by rw [Subsingleton.elim x 1, QuotientGroup.mk_one])
@@ -96,9 +96,9 @@ theorem isCompositionFactor_pi {L : Type} [Group L] [IsSimpleGroup L] (r : ℕ) 
 theorem oddTranspFactor_of_isCompositionFactor_l2Wreath {f r : ℕ} (hf : 2 ≤ f) {T : Type}
     [Group T] (h : E1.IsCompositionFactor (L2Wreath f r) T) (hnab : ∃ a b : T, a * b ≠ b * a) :
     OddTranspFactor T := by
-  haveI : IsSimpleGroup (CFSG.Theory.Comparator.PSL2Model f) :=
+  have : IsSimpleGroup (CFSG.Theory.Comparator.PSL2Model f) :=
     IsBenderGroup.isSimpleGroup (.isPSL2 f hf (MulEquiv.refl _))
-  haveI hN : (SemidirectProduct.inl : (Fin r → CFSG.Theory.Comparator.PSL2Model f) →*
+  have hN : (SemidirectProduct.inl : (Fin r → CFSG.Theory.Comparator.PSL2Model f) →*
       L2Wreath f r).range.Normal := by
     rw [SemidirectProduct.range_inl_eq_ker_rightHom]
     infer_instance
@@ -136,12 +136,12 @@ theorem oddTranspFactor_of_almostSimpleCase (hD : OddTranspositionCompFactorDeri
   have h2 : Nat.card ((G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M)) = 2 :=
     index_oddCore_eq_two_of_widthOne hSQ hW
   have hsolvQ : Group.IsSolvable (G ⧸ M) := by
-    haveI : Group.IsSolvable (CFSG.oddCore (G ⧸ M)) :=
+    have : Group.IsSolvable (CFSG.oddCore (G ⧸ M)) :=
       CFSG.FeitThompson.isSolvable_of_odd_natCard _ PartThree.EightOne.odd_card_oddCore
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsCyclic ((G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M)) := isCyclic_of_prime_card h2
-    haveI : Group.IsSolvable ((G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M)) := by
-      letI := IsCyclic.commGroup (α := (G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M))
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsCyclic ((G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M)) := isCyclic_of_prime_card h2
+    have : Group.IsSolvable ((G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M)) := by
+      let := IsCyclic.commGroup (α := (G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M))
       exact Group.isSolvable_of_comm fun x y => mul_comm x y
     exact Group.isSolvable_of_subgroup_quotient (CFSG.oddCore (G ⧸ M))
   rcases isCompositionFactor_of_normal M hT with hTM | hTQ
@@ -149,10 +149,10 @@ theorem oddTranspFactor_of_almostSimpleCase (hD : OddTranspositionCompFactorDeri
     obtain ⟨u, hu⟩ := hS.nonempty
     obtain ⟨hord, hodd, hncl, -, -, hradL, hder⟩ :=
       sup_zpowers_hyps hS hrad hM hMs hcent hu (hcls u hu)
-    haveI := hMs
+    have := hMs
     obtain ⟨e⟩ := isCompositionFactor_mulEquiv_of_isSimpleGroup hTM
-    haveI : IsSimpleGroup T := e.symm.isSimpleGroup
-    haveI : (M.subgroupOf (M ⊔ Subgroup.zpowers u)).Normal := Subgroup.normal_subgroupOf
+    have : IsSimpleGroup T := e.symm.isSimpleGroup
+    have : (M.subgroupOf (M ⊔ Subgroup.zpowers u)).Normal := Subgroup.normal_subgroupOf
     let ψ : ↥(M.subgroupOf (M ⊔ Subgroup.zpowers u)) ≃* T :=
       (Subgroup.subgroupOfEquivOfLe le_sup_left).trans e
     have hTL : E1.IsCompositionFactor ↥(M ⊔ Subgroup.zpowers u) T :=
@@ -169,7 +169,7 @@ theorem oddTranspositionCompFactorInput_of_derivedEq
     OddTranspositionCompFactorInput := by
   intro X _ _ s hord hodd hncl T _ hT hnab
   obtain ⟨a, b, hab⟩ := hnab
-  haveI hRn : (CFSG.solvableRadical X).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
+  have hRn : (CFSG.solvableRadical X).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
   have hRs : Group.IsSolvable (CFSG.solvableRadical X) :=
     CFSG.Timmesfeld.Bridge.OddTransp.isSolvable_solvableRadical
   rcases isCompositionFactor_of_normal (CFSG.solvableRadical X) hT with hTR | hTY
@@ -183,7 +183,7 @@ theorem oddTranspositionCompFactorInput_of_derivedEq
       exact hRn.conj_mem s hsR g
     have htop := hS0.eq_top_of_subset _ hDR
     have hXs : Group.IsSolvable X :=
-      solvable_of_surjective (f := (CFSG.solvableRadical X).subtype)
+      Group.isSolvable_of_surjective (f := (CFSG.solvableRadical X).subtype)
         (fun x => ⟨⟨x, htop ▸ Subgroup.mem_top x⟩, rfl⟩)
     exact hab (isCompositionFactor_comm_of_isSolvable hXs hT a b)
   have h1 : ∀ d ∈ {x : X | IsConj s x}, QuotientGroup.mk' (CFSG.solvableRadical X) d ≠ 1 := by

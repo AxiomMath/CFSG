@@ -28,7 +28,7 @@ variable {X : Type} [Group X]
       simp only [commutatorElement_def]; group
     rw [h1]
     exact Q.mul_mem (hconj _ t (ht'Q a ha) ht) (htQ a ha)
-  one_mem' := ⟨V.one_mem, fun a _ => by simpa using Q.one_mem⟩
+  one_mem' := ⟨V.one_mem, fun a _ => by simp⟩
   inv_mem' := by
     rintro t ⟨ht, htQ⟩
     refine ⟨V.inv_mem ht, fun a ha => ?_⟩

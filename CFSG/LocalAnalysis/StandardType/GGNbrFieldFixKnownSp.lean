@@ -57,15 +57,15 @@ theorem exists_fixGeom [Finite K] [CharP K 2] [NeZero m] (hm : 3 ≤ m) {n p : �
   obtain ⟨-, hcard⟩ := card_descentField Nat.prime_two hn hK hσ
   obtain ⟨hS₀, hP₀⟩ := simple_perfect_statedProj (r := m) (k := descentField σ) (by omega)
     (by omega)
-  haveI := hS
-  haveI := hS₀
-  haveI := hP₀
+  have := hS
+  have := hS₀
+  have := hP₀
   have hι : Function.Injective (subfieldInj (r := m) σ) := subfieldInj_injective σ
   have hrange : (subfieldInj (r := m) σ).range = ggFixSub (fieldAut m K σ) := by
     rw [range_subfieldInj, ← spFixedGroup_fieldAut_eq_range hodd hσp]
     exact Subgroup.ext fun x => Iff.rfl
   have hder : ggFixDer (fieldAut m K σ) = (subfieldInj (r := m) σ).range := by
-    haveI : Group.IsPerfect (subfieldInj (r := m) σ).range :=
+    have : Group.IsPerfect (subfieldInj (r := m) σ).range :=
       Group.IsPerfect.range (subfieldInj (r := m) σ)
     calc ggFixDer (fieldAut m K σ)
         = ⁅(subfieldInj (r := m) σ).range, (subfieldInj (r := m) σ).range⁆ := by
@@ -76,7 +76,7 @@ theorem exists_fixGeom [Finite K] [CharP K 2] [NeZero m] (hm : 3 ≤ m) {n p : �
   have hna₀ : ∃ a b : StatedProj (StatedSp m (descentField σ)), a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative (StatedProj (StatedSp m (descentField σ))) :=
+    have : IsMulCommutative (StatedProj (StatedSp m (descentField σ))) :=
       isMulCommutative_iff.mpr hcon
     exact Group.IsPerfect.not_isMulCommutative (StatedProj (StatedSp m (descentField σ))) ‹_›
   have key : ∀ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K m))
@@ -144,11 +144,11 @@ theorem ggFieldFixKnown_sp : GGFieldFixKnown GGFieldFixSpLabel := by
   intro Q hQ
   obtain ⟨t, l, n⟩ := lab
   dsimp only at hBC h3 hn
-  haveI : NeZero l := ⟨by omega⟩
+  have : NeZero l := ⟨by omega⟩
   rcases hBC with ht | ht <;> subst ht <;>
   · dsimp only [LargeEvenRawDatum] at hQ ⊢
     refine NbrGraphSymplectic.recipeSymplectic_all (fun K _ _ hK => ?_) hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     intro hS hna f hf hord
     exact exists_fixGeom h3 hn hp hp2 hK hS hna hf hord
 

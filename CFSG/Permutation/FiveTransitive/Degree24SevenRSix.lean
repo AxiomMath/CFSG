@@ -59,7 +59,7 @@ theorem rSix_sylowSeven_local_data
         (Subgroup.normalizer
           (S : Set (fixingSubgroup P s))) = 84 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let h := Nat.card H
   let n := Nat.card (Sylow 7 H)
@@ -73,7 +73,7 @@ theorem rSix_sylowSeven_local_data
         sylow_card_eq_prime_of_card_eq_prime_mul
           H 7 1866240 (by norm_num) (by norm_num)
             (by simpa only [H] using hH) S
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   have hGlobalCard :
       Nat.card
@@ -127,7 +127,7 @@ theorem rSix_sylowSeven_local_data
     change n % 7 = 1 % 7 at hmod
     norm_num at hmod
     simpa only [n, Nat.card_eq_fintype_card] using hmod
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup H :=
     Subgroup.centralizer (S : Set H)
@@ -167,7 +167,7 @@ theorem rSix_sylowSeven_local_data
   have hrDvd : r ∣ 6 := by
     rw [hrEq]
     exact hrangeDvd
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrel :
       r * N.index = C.index := by
@@ -236,7 +236,7 @@ theorem rSix_orderSeven_elements_are_conjugate
     ∃ q : fixingSubgroup P s,
       q * u * q⁻¹ = v := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let R : Subgroup H := Subgroup.zpowers u
   have hRcard : Nat.card R = 7 := by
@@ -296,9 +296,9 @@ theorem rSix_orderSeven_elements_are_conjugate
       exact huR
   let O := MulAction.orbit (ConjAct H) u
   let A := {w : H // orderOf w = 7}
-  letI : Fintype O := Fintype.ofFinite _
-  letI : Fintype A := Fintype.ofFinite _
-  letI :
+  let : Fintype O := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
+  let :
       Fintype
         (MulAction.stabilizer (ConjAct H) u) :=
     Fintype.ofFinite _

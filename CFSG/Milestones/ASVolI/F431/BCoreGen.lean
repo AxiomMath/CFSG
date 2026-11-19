@@ -86,7 +86,7 @@ theorem burnsideF4m_out_comm_of_normalForm {C A : Type} [Group C] [Group A] (F :
     (hA : ∀ σ τ : A, σ * τ = τ * σ)
     (hnf : ∀ φ : MulAut C, ∃ (g : C) (σ : A), φ = MulAut.conj g * F σ) (α β : MulAut C) :
     ⁅α, β⁆ ∈ (MulAut.conj : C →* MulAut C).range := by
-  haveI := burnsideF4m_innRange_normal C
+  have := burnsideF4m_innRange_normal C
   obtain ⟨g, σ, rfl⟩ := hnf α
   obtain ⟨h, τ, rfl⟩ := hnf β
   rw [← QuotientGroup.ker_mk' (MulAut.conj : C →* MulAut C).range, MonoidHom.mem_ker,

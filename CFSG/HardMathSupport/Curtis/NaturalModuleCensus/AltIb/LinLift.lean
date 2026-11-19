@@ -288,7 +288,7 @@ theorem exists_pSubgroup_lift [Finite G] {σ : G →* M} {p : ℕ} (hp : p.Prime
   refine ⟨P.map H.subtype, fun g hg => ?_, ?_, ?_⟩
   · obtain ⟨h, -, rfl⟩ := hg
     exact h.2.1
-  · exact (P.isPGroup'.map H.subtype)
+  · exact (P.isPGroup.map H.subtype)
   · apply le_antisymm
     · rintro _ ⟨_, ⟨h, hh, rfl⟩, rfl⟩
       exact h.2.2

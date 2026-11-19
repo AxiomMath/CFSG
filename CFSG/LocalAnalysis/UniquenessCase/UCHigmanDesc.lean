@@ -21,22 +21,23 @@ variable {K : Type} [Field K] [CharP K 2]
   (g : Matrix (Fin 2) (Fin 2) K).map (iterateFrobenius K 2 i)
 
 theorem AmatK_uMat (i : ℕ) (a : K) : AmatK i (uMat a) = !![1, a ^ 2 ^ i; 0, 1] := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   ext x y
   fin_cases x <;> fin_cases y <;> simp [AmatK, iterateFrobenius_def]
 
 theorem AmatK_lMat (i : ℕ) (a : K) : AmatK i (lMat a) = !![1, 0; a ^ 2 ^ i, 1] := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   ext x y
   fin_cases x <;> fin_cases y <;> simp [AmatK, iterateFrobenius_def]
 
 theorem frob_surjective [Finite K] (i : ℕ) : ∀ t : K, ∃ a : K, a ^ 2 ^ i = t := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   have hinj : Function.Injective (iterateFrobenius K 2 i) := (iterateFrobenius K 2 i).injective
   intro t
   obtain ⟨a, ha⟩ := Finite.surjective_of_injective hinj t
   exact ⟨a, by simpa [iterateFrobenius_def] using ha⟩
 
+omit [CharP K 2] in
 theorem addSubgroup_top_of_axes (W : AddSubgroup (Fin 2 → K))
     (h0 : ∀ t : K, (![t, 0] : Fin 2 → K) ∈ W) (h1 : ∀ t : K, (![0, t] : Fin 2 → K) ∈ W) :
     W = ⊤ := by
@@ -51,13 +52,13 @@ theorem uMat_sub_self (i : ℕ) (a : K) (w : Fin 2 → K) :
     (AmatK i (uMat a)) *ᵥ w - w = ![a ^ 2 ^ i * w 1, 0] := by
   rw [AmatK_uMat]
   ext j
-  fin_cases j <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+  fin_cases j <;> simp [dotProduct, Fin.sum_univ_two]
 
 theorem lMat_sub_self (i : ℕ) (a : K) (w : Fin 2 → K) :
     (AmatK i (lMat a)) *ᵥ w - w = ![0, a ^ 2 ^ i * w 0] := by
   rw [AmatK_lMat]
   ext j
-  fin_cases j <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+  fin_cases j <;> simp [dotProduct, Fin.sum_univ_two]
 
 theorem natK_simple [Finite K] (i : ℕ) (W : AddSubgroup (Fin 2 → K))
     (hW : ∀ (g : SL(2, K)) (w : Fin 2 → K), w ∈ W → (AmatK i g) *ᵥ w ∈ W) :
@@ -112,7 +113,7 @@ variable {G : Type*} [Group G] {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] 
 theorem exists_matrix_model (ρ : Representation (ZMod 2) G V) :
     ∃ (m : ℕ) (R : G →* Matrix (Fin m) (Fin m) (ZMod 2)) (c : V ≃ₗ[ZMod 2] (Fin m → ZMod 2)),
       ∀ (g : G) (v : V), c (ρ g v) = R g *ᵥ c v := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   let b := Module.finBasis (ZMod 2) V
   refine ⟨Module.finrank (ZMod 2) V,
     (LinearMap.toMatrixAlgEquiv b).toMonoidHom.comp ρ, b.equivFun, fun g v => ?_⟩
@@ -148,7 +149,7 @@ theorem exists_simple_sub {W : Type*} [AddCommGroup W] [Module k W] [FiniteDimen
     ⟨_, ⊤, fun g w _ => Submodule.mem_top, top_ne_bot, rfl⟩
   obtain ⟨S, hS, hne, hr⟩ := Nat.find_spec hex
   refine ⟨S, hS, hne, ?_⟩
-  haveI : Nontrivial S := Submodule.nontrivial_iff_ne_bot.mpr hne
+  have : Nontrivial S := Submodule.nontrivial_iff_ne_bot.mpr hne
   refine ⟨inferInstance, fun W' hW' => ?_⟩
   by_cases hbot : W' = ⊥
   · exact Or.inl hbot
@@ -175,7 +176,7 @@ variable {K : Type} [Field K] [CharP K 2]
 
 theorem Amat_eq_map_AmatK {k : Type} [Field k] [Algebra K k] (i : ℕ) (g : SL(2, K)) :
     (Amat i g : Matrix (Fin 2) (Fin 2) k) = (AmatK i g).map (algebraMap K k) := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   ext x y
   simp [Amat, AmatK, frobK_apply, iterateFrobenius_def]
 
@@ -201,18 +202,18 @@ theorem descent_natural [Finite K] {n : ℕ} (hn : Nat.card K = 2 ^ n)
       ψ (ρ g v) = (AmatK i g) *ᵥ ψ v := by
   classical
   let k := AlgebraicClosure K
-  letI : Algebra (ZMod 2) k := (ZMod.castHom (dvd_refl 2) k).toAlgebra
+  let : Algebra (ZMod 2) k := (ZMod.castHom (dvd_refl 2) k).toAlgebra
   obtain ⟨m, R, c, hc⟩ := exists_matrix_model ρ
   let ι : ZMod 2 →+* k := algebraMap (ZMod 2) k
   let ρk : Representation k SL(2, K) (Fin m → k) := kRep ι R
-  haveI : Nontrivial (Fin m → k) := by
-    haveI : Nonempty (Fin m) := by
+  have : Nontrivial (Fin m → k) := by
+    have : Nonempty (Fin m) := by
       by_contra h
       rw [not_nonempty_iff] at h
-      haveI : Subsingleton (Fin m → ZMod 2) := inferInstance
+      have : Subsingleton (Fin m → ZMod 2) := inferInstance
       exact not_subsingleton V (c.toEquiv.subsingleton_congr.2 inferInstance)
     infer_instance
-  haveI : FiniteDimensional k (Fin m → k) := inferInstance
+  have : FiniteDimensional k (Fin m → k) := inferInstance
   obtain ⟨S, hS, hSne, hSsimple⟩ := exists_simple_sub ρk
   have hx : ∀ x : Fin m → ZMod 2, R d *ᵥ (R d *ᵥ x) + R d *ᵥ x + x = 0 := by
     intro x

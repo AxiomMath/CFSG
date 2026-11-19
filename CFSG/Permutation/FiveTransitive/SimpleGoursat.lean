@@ -58,15 +58,15 @@ private theorem simple_subgroup_le_goursatFst
     Q ≤ I.goursatFst := by
   let M : Subgroup A := I.goursatFst
   let N : Subgroup B := I.goursatSnd
-  letI : M.Normal := by
+  let : M.Normal := by
     dsimp only [M]
     exact Subgroup.normal_goursatFst hfst
-  letI : N.Normal := by
+  let : N.Normal := by
     dsimp only [N]
     exact Subgroup.normal_goursatSnd hsnd
   let K : Subgroup Q :=
     M.comap Q.subtype
-  letI : K.Normal := by
+  let : K.Normal := by
     dsimp only [K]
     exact Subgroup.Normal.comap inferInstance Q.subtype
   rcases (inferInstance : K.Normal).eq_bot_or_eq_top with
@@ -121,15 +121,15 @@ private theorem simple_subgroup_le_goursatFst_of_not_dvd
     Q ≤ I.goursatFst := by
   let M : Subgroup A := I.goursatFst
   let N : Subgroup B := I.goursatSnd
-  letI : M.Normal := by
+  let : M.Normal := by
     dsimp only [M]
     exact Subgroup.normal_goursatFst hfst
-  letI : N.Normal := by
+  let : N.Normal := by
     dsimp only [N]
     exact Subgroup.normal_goursatSnd hsnd
   let K : Subgroup Q :=
     M.comap Q.subtype
-  letI : K.Normal := by
+  let : K.Normal := by
     dsimp only [K]
     exact Subgroup.Normal.comap inferInstance Q.subtype
   rcases (inferInstance : K.Normal).eq_bot_or_eq_top with
@@ -210,7 +210,7 @@ theorem exists_lift_with_aux_eq_one
     exact hl
   let QJ : Subgroup J :=
     Q.subgroupOf J
-  letI : IsSimpleGroup QJ :=
+  let : IsSimpleGroup QJ :=
     (Subgroup.subgroupOfEquivOfLe hQ).isSimpleGroup
   have hQJcard :
       Nat.card QJ = Nat.card Q :=
@@ -279,7 +279,7 @@ theorem exists_lift_with_aux_eq_one_of_not_dvd
     exact hl
   let QJ : Subgroup J :=
     Q.subgroupOf J
-  letI : IsSimpleGroup QJ :=
+  let : IsSimpleGroup QJ :=
     (Subgroup.subgroupOfEquivOfLe hQ).isSimpleGroup
   have hQJcard :
       Nat.card QJ = Nat.card Q :=

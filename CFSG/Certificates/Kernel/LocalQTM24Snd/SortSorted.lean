@@ -159,8 +159,8 @@ theorem passK_sorted (rs : List (List ℕ)) (h : ∀ r ∈ rs, r.Pairwise (· �
   (aux_suba_passGoT_sorted rs h).1
 
 theorem sortN_sorted (l : List ℕ) (hl : l.length ≤ 131072) : (sortN l).Pairwise (· ≤ ·) :=
-  aux_suba_main l hl (fun i => Nat.rec (motive := fun _ => List (List ℕ))
-    (List.map (fun x => [x]) l) (fun _ ih => passK ih) i) rfl (fun i => rfl)
+  aux_suba_main l hl (fun _i => Nat.rec (motive := fun _ => List (List ℕ))
+    (List.map (fun x => [x]) l) (fun _ ih => passK ih) _i) rfl (fun _i => rfl)
 
 end CFSG.KC.LQT.M24Snd
 

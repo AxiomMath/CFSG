@@ -244,7 +244,7 @@ theorem sec33_comm_of_fixed [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
     (mem_conjSubgroup_conj_t77 k a₀ _).2 ha₀
   have hzM : k * a₀ * k⁻¹ ∈ Section3.A0 A Abar ⊔ conjSubgroup k (Section3.A0 A Abar) :=
     S.Lb_le_M hzLb
-  obtain ⟨t, htA, htL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.a0_ne)
+  obtain ⟨t, htA, htL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.a0_ne)
   have hcomm : t * (k * a₀ * k⁻¹) = (k * a₀ * k⁻¹) * t :=
     sec33_fixed_comm h hs hne hzN hsz htA
   have hzL : k * a₀ * k⁻¹ ∈ Section3.A0 A Abar := S.mem_L_of_commute_M htA htL hzM hcomm

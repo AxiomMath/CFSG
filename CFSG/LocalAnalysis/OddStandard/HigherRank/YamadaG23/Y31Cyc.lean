@@ -41,13 +41,13 @@ private theorem eq_of_orderOf_eq_two {C : Type*} [Group C] [Finite C] [IsCyclic 
 
 theorem cyc_of_isPGroup_cent (hS : HRSetting G L) {P : Subgroup G} (hP : IsPGroup 2 P)
     (hPC : P ≤ centralizer (L : Set G)) : IsCyclic ↥P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀⟩ := hS.cyclic
   have hP' : IsPGroup 2 (P.subgroupOf (centralizer (L : Set G))) :=
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
-  haveI : Finite (Sylow 2 ↥(centralizer (L : Set G))) := Sylow.finite_of_finiteIndex Q
-  haveI : IsCyclic ↥Q := (Sylow.equiv S₀ Q).isCyclic.mp hS₀
+  have : Finite (Sylow 2 ↥(centralizer (L : Set G))) := Sylow.finite_of_finiteIndex Q
+  have : IsCyclic ↥Q := (Sylow.equiv S₀ Q).isCyclic.mp hS₀
   have hP'cyc : IsCyclic ↥(P.subgroupOf (centralizer (L : Set G))) :=
     Subgroup.isCyclic_of_le hQ
   exact (Subgroup.subgroupOfEquivOfLe hPC).isCyclic.mp hP'cyc
@@ -75,7 +75,7 @@ theorem s3_invol_cenH (hS : HRSetting G L) {c : G} (hc : c ∈ centIn s.H L)
     exact IsPGroup.to_sup_of_normal_right' hc2grp ht2grp hcz
   have hKC : K ≤ centralizer (L : Set G) :=
     sup_le (Subgroup.zpowers_le.mpr hcC) (Subgroup.zpowers_le.mpr s.t_mem)
-  haveI : IsCyclic ↥K := cyc_of_isPGroup_cent hS hK2 hKC
+  have : IsCyclic ↥K := cyc_of_isPGroup_cent hS hK2 hKC
   have hordc : orderOf (⟨c, hcK⟩ : ↥K) = 2 := (Subgroup.orderOf_mk c hcK).trans hc2
   have hordt : orderOf (⟨s.t, htK⟩ : ↥K) = 2 := (Subgroup.orderOf_mk s.t htK).trans s.t_order
   simpa using Subtype.ext_iff.mp (eq_of_orderOf_eq_two hordc hordt)
@@ -88,7 +88,7 @@ theorem s3_t_mem_Q : s.t ∈ s.T ⊓ centralizer (L : Set G) :=
 
 theorem s3_Q_invol (hS : HRSetting G L) {u : G} (hu : u ∈ s.T ⊓ centralizer (L : Set G))
     (hu2 : orderOf u = 2) : u = s.t := by
-  haveI : IsCyclic ↥(s.T ⊓ centralizer (L : Set G)) := s3_Q_cyclic s hS
+  have : IsCyclic ↥(s.T ⊓ centralizer (L : Set G)) := s3_Q_cyclic s hS
   have htQ : s.t ∈ s.T ⊓ centralizer (L : Set G) := s3_t_mem_Q s
   have huord : orderOf (⟨u, hu⟩ : ↥(s.T ⊓ centralizer (L : Set G))) = 2 :=
     (Subgroup.orderOf_mk u hu).trans hu2
@@ -98,7 +98,7 @@ theorem s3_Q_invol (hS : HRSetting G L) {u : G} (hu : u ∈ s.T ⊓ centralizer 
 
 theorem s3_Q_sq_root (hS : HRSetting G L) {q₀ : G} (hq₀ : q₀ ∈ s.T ⊓ centralizer (L : Set G))
     (hq₀t : q₀ ∉ zpowers s.t) : ∃ q ∈ s.T ⊓ centralizer (L : Set G), q ^ 2 = s.t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 ↥(s.T ⊓ centralizer (L : Set G)) := s.sylow_T.2.1.to_inf_left
   obtain ⟨k, hk⟩ := hQ2.exists_orderOf_eq_pow ⟨q₀, hq₀⟩
   have hord : orderOf q₀ = 2 ^ k := (Subgroup.orderOf_mk q₀ hq₀).symm.trans hk
@@ -125,7 +125,7 @@ theorem s3_Q_sq_root (hS : HRSetting G L) {q₀ : G} (hq₀ : q₀ ∈ s.T ⊓ c
 theorem s3_Q_sq_unique (hS : HRSetting G L) {q q' : G} (hq : q ∈ s.T ⊓ centralizer (L : Set G))
     (hq' : q' ∈ s.T ⊓ centralizer (L : Set G)) (h : q ^ 2 = s.t) (h' : q' ^ 2 = s.t) :
     q' = q ∨ q' = q⁻¹ := by
-  haveI : IsCyclic ↥(s.T ⊓ centralizer (L : Set G)) := s3_Q_cyclic s hS
+  have : IsCyclic ↥(s.T ⊓ centralizer (L : Set G)) := s3_Q_cyclic s hS
   have hr2 : (q' * q⁻¹) ^ 2 = 1 := by
     rw [Commute.mul_pow (setLike_mul_comm hq' (Subgroup.inv_mem _ hq)), h', inv_pow, h]
     exact mul_inv_cancel s.t

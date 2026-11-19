@@ -27,17 +27,17 @@ theorem exists_cube_not_mem_cgrp (h3 : 3 ∣ 2 ^ n + 1) (h9 : ¬ 9 ∣ 2 ^ n + 1
     ∃ b : Fin Tag.E6.rank → Ωˣ, (∀ i, b i ^ 3 = 1) ∧
       g * rootDiagUnit Tag.E6 b * g⁻¹ ∉ TwistedDiag.Cgrp K σ.toRingHom Ω := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   by_contra hcon
   have hall : ∀ b : Fin Tag.E6.rank → Ωˣ, (∀ i, b i ^ 3 = 1) →
       g * rootDiagUnit Tag.E6 b * g⁻¹ ∈ TwistedDiag.Cgrp K σ.toRingHom Ω :=
     fun b hb => Classical.byContradiction fun h => hcon ⟨b, hb, h⟩
   obtain ⟨-, -, hCnorm, hCidx, -⟩ :=
     TwistedDiag.cgrp_facts hn K hK σ.toRingHom hσ h3 Ω Fr hFr
-  haveI : ((TwistedDiag.Cgrp K σ.toRingHom Ω).subgroupOf (TwistedDiag.Rgrp Ω Fr)).Normal :=
+  have : ((TwistedDiag.Cgrp K σ.toRingHom Ω).subgroupOf (TwistedDiag.Rgrp Ω Fr)).Normal :=
     hCnorm
   obtain ⟨m, hm⟩ := id h3
   have hcop : Nat.Coprime 3 m := by
@@ -77,7 +77,7 @@ theorem langCube_not_le_inn (h3 : 3 ∣ 2 ^ n + 1) (h9 : ¬ 9 ∣ 2 ^ n + 1) {g 
       (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) →*
         MulAut ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)).range := by
   intro hle
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   obtain ⟨b, hb, hbC⟩ := exists_cube_not_mem_cgrp hn hK σ hσ Fr hFr h3 h9 hg hgn
   have hx : g * rootDiagUnit Tag.E6 b * g⁻¹ ∈ TwistedDiag.Rgrp Ω Fr :=
     TwE6DD2.conj_cubeTorus_le_Rgrp Fr hFr h3 hg hgn

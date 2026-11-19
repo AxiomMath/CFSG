@@ -378,7 +378,7 @@ theorem pair_flip_central_and_weakly_closed [Finite G]
     apply Subtype.ext
     apply Subtype.ext
     exact heq
-  have hcenter := central_of_no_distinct_commuting_conjugate P.isPGroup' tP hisolatedP
+  have hcenter := central_of_no_distinct_commuting_conjugate P.isPGroup tP hisolatedP
   refine ⟨hcenter, ?_⟩
   intro g hg
   have hcg : Commute (rightConjugateElem t (g : G)) t := by

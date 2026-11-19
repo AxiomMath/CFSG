@@ -21,7 +21,7 @@ theorem le_of_section_three_spor (hL613 : L613) (h2401 : KFact2401Spor)
     (hsec : S622IsSimpleSection H N) (hzH : z ∈ H) (hzN : z ∉ N) (h3d : 3 ∣ N.relIndex H) :
     False := by
   have hp5 : 5 ≤ p := c.conf.config.situation.p_ge
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsE : GLBStronglyEmbedded 3 M :=
     c.stronglyEmbedded hL613 hHL hHM hsec hzH hzN Nat.prime_three (by norm_num) (by omega) h3d
   have h3H : 3 ∣ Nat.card H := h3d.trans (Subgroup.index_dvd_card (N.subgroupOf H))

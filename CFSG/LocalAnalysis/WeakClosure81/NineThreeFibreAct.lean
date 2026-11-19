@@ -21,7 +21,7 @@ private lemma nine3_refl_of_conj (hp : p.Prime) (hp2 : p ≠ 2) {π : Equiv.Perm
     {c : ZMod p} (hπ : π * π = 1) (hne : π ≠ 1)
     (hconj : π * Equiv.addRight (1 : ZMod p) * π = Equiv.addRight c) :
     ∃ a : ZMod p, π = zmodRefl p a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h0
     have hd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).mp h0
@@ -92,7 +92,7 @@ structure Nine3FibreAct (K S : Subgroup G) (p : ℕ) (x : G)
 
 theorem nine3_exists_fibreAct (hc : Nine3Choice V T A K S X p g x) :
     ∃ ρ : ↥K →* Equiv.Perm (ZMod p), Nine3FibreAct K S p x ρ := by
-  haveI : Fact p.Prime := ⟨hc.core.hyp.base.prime⟩
+  have : Fact p.Prime := ⟨hc.core.hyp.base.prime⟩
   have h : TwoPTwo K S X p := hc.core.hyp.base.toTwoPTwo
   have hp : p.Prime := h.prime
   have hp2 : p ≠ 2 := h.odd
@@ -110,7 +110,7 @@ theorem nine3_exists_fibreAct (hc : Nine3Choice V T A K S X p g x) :
     refine ⟨n, ?_⟩
     apply Subtype.ext
     apply Subtype.ext
-    simp only [Subgroup.coe_zpow, Subgroup.coe_subtype]
+    simp only [Subgroup.coe_zpow]
     exact hn
   have hXsubcard : Nat.card Xsub = p := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe h.sylowP.le).toEquiv, hc.core.card]
@@ -150,7 +150,7 @@ theorem nine3_exists_fibreAct (hc : Nine3Choice V T A K S X p g x) :
     refine ⟨⟨⟨y⁻¹, hy'K⟩, hy'X⟩, ?_⟩
     have hdecomp : a = (⟨y⁻¹, hy'K⟩ : ↥K) * ⟨s⁻¹, hs'K⟩ := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_subtype]
+      simp only [Subgroup.coe_mul]
       rw [show y⁻¹ * s⁻¹ = (s * y)⁻¹ by group, hsy, inv_inv]
     change QuotientGroup.mk ((⟨⟨y⁻¹, hy'K⟩, hy'X⟩ : Xsub) : ↥K) = QuotientGroup.mk a
     rw [hdecomp]
@@ -179,8 +179,7 @@ theorem nine3_exists_fibreAct (hc : Nine3Choice V T A K S X p g x) :
     congr 1
     rw [smul_eq_mul]
     apply Subtype.ext
-    simpa using congrArg Subtype.val
-      (map_mul φ (Multiplicative.ofAdd c) (Multiplicative.ofAdd i)).symm
+    simp
   have hρφ : ∀ c : ZMod p,
       ρ ((φ (Multiplicative.ofAdd c) : Xsub) : ↥K) = Equiv.addRight c := by
     intro c
@@ -284,7 +283,7 @@ theorem nine3_exists_fibreAct (hc : Nine3Choice V T A K S X p g x) :
     have hyK : y ∈ K := h.sylowP.le hy
     have hdecomp : k * x₀ * k⁻¹ = (⟨r, hrK⟩ : ↥K) * ⟨y, hyK⟩ := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_subtype]
+      simp only [Subgroup.coe_mul]
       exact hry.symm
     have hρconj : ρ (k * x₀ * k⁻¹) = ρ (⟨y, hyK⟩ : ↥K) := by
       rw [hdecomp, map_mul, hle_ker ⟨r, hrK⟩ (by simpa using hr), one_mul]

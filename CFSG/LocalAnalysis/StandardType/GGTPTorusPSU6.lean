@@ -101,7 +101,7 @@ private lemma ggTP_diag_det {K : Type} [Field K] (ω : Kˣ) (hω3 : orderOf ω =
   rw [Matrix.det_diagonal, ← Units.coe_prod, hprod, Units.val_one]
 
 private lemma ggTP_diag_unitary {K : Type} [Field K] {q : ℕ} (hq : q ≠ 0) (ω : Kˣ)
-    (hω3 : orderOf ω = 3)
+    (_hω3 : orderOf ω = 3)
     (hωq1 : ω ^ (q + 1) = 1) (x : GGTPTorus) :
     ((((ggTP_diagGL (fun i => ω ^ (x.1 i).toAdd.val) : GL (Fin 6) K) :
         Matrix (Fin 6) (Fin 6) K).map (· ^ q)).transpose) *
@@ -210,7 +210,7 @@ private def ggTP_Dhom {K : Type} [Field K] (ω : Kˣ) (hω3 : orderOf ω = 3) :
   map_one' := by
     apply Units.ext
     change Matrix.diagonal (fun i => ((ω ^ (((1 : GGTPTorus).1 i)).toAdd.val : Kˣ) : K)) = 1
-    simp [ggTP_diagGL, Matrix.diagonal_one]
+    simp [Matrix.diagonal_one]
   map_mul' x y := by
     apply Units.ext
     change Matrix.diagonal (fun i => ((ω ^ ((x * y).1 i).toAdd.val : Kˣ) : K)) =

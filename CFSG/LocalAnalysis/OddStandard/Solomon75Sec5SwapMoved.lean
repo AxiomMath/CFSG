@@ -22,10 +22,10 @@ theorem perfect_le_layer_of_le_EPlus {W : Type} [Group W] [Finite W] (hO : pPrim
     {Yh : Subgroup W} (hperf : ⁅Yh, Yh⁆ = Yh) (hE : Yh ≤ EPlus W) : Yh ≤ layer W := by
   classical
   have h3 : pCore 3 W = ⊥ := pCore_three_eq_bot hO
-  haveI h1 : Group.IsSolvable ↥(NOne W) := isSolvable_NOne h3
-  haveI h2 : Group.IsSolvable ↥(NTwo W) := isSolvable_NTwo h3
-  haveI hN1 : (NOne W).Normal := NOne_normal
-  haveI hN2 : (NTwo W).Normal := NTwo_normal
+  have h1 : Group.IsSolvable ↥(NOne W) := isSolvable_NOne h3
+  have h2 : Group.IsSolvable ↥(NTwo W) := isSolvable_NTwo h3
+  have hN1 : (NOne W).Normal := NOne_normal
+  have hN2 : (NTwo W).Normal := NTwo_normal
   have hS : Group.IsSolvable ↥(NOne W ⊔ NTwo W) :=
     CFSG.SignalizerFunctor.Helpers.solvable_sup_of_normalizing (NOne W) (NTwo W)
       (fun x _ => by
@@ -34,8 +34,8 @@ theorem perfect_le_layer_of_le_EPlus {W : Type} [Group W] [Finite W] (hO : pPrim
         exact ⟨fun hy => hN1.conj_mem y hy x, fun hy => by
           have := hN1.conj_mem _ hy x⁻¹
           simpa [mul_assoc] using this⟩) h1 h2
-  haveI hlC : (layer W).Characteristic := layer_characteristic
-  haveI hlN : (layer W).Normal := inferInstance
+  have hlC : (layer W).Characteristic := layer_characteristic
+  have hlN : (layer W).Normal := inferInstance
   let φ : W →* W ⧸ layer W := QuotientGroup.mk' (layer W)
   let ψ : ↥(NOne W ⊔ NTwo W) →* W ⧸ layer W := φ.comp (NOne W ⊔ NTwo W).subtype
   have hRsolv : Group.IsSolvable ↥ψ.range :=
@@ -54,9 +54,9 @@ theorem perfect_le_layer_of_le_EPlus {W : Type} [Group W] [Finite W] (hO : pPrim
     rw [← Subgroup.map_commutator, hperf]
   have hRbot : Yh.map φ = ⊥ := by
     by_contra hne
-    haveI : Group.IsSolvable ↥(Yh.map φ) :=
+    have : Group.IsSolvable ↥(Yh.map φ) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hRle)
-    haveI : Nontrivial ↥(Yh.map φ) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial ↥(Yh.map φ) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial ↥(Yh.map φ)
     have hperf' : commutator ↥(Yh.map φ) = ⊤ :=
       Group.isPerfect_def.1 (Subgroup.isPerfect_iff.2 hRperf)
@@ -144,7 +144,7 @@ theorem alternatingGroup_le_of_card {n : ℕ} (hn : 5 ≤ n) (H : Subgroup (Perm
     (hH : (Nat.card (Perm (Fin n))) ≤ 2 * Nat.card H) : alternatingGroup (Fin n) ≤ H := by
   classical
   have hA := alternatingGroup.isSimpleGroup (α := Fin n) (by simpa using hn)
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hind : H.index = 1 ∨ H.index = 2 := by
     have h1 := Subgroup.card_mul_index H
     have hpos : 0 < H.index := Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite)
@@ -158,7 +158,7 @@ theorem alternatingGroup_le_of_card {n : ℕ} (hn : 5 ≤ n) (H : Subgroup (Perm
   · rw [Subgroup.index_eq_one] at h1
     rw [h1]
     exact le_top
-  · haveI : H.Normal := Subgroup.normal_of_index_eq_two h2
+  · have : H.Normal := Subgroup.normal_of_index_eq_two h2
     have hrel : (H.subgroupOf (alternatingGroup (Fin n))).index ∣ 2 := by
       have := Subgroup.relIndex_dvd_index_of_normal (H := H) (K := alternatingGroup (Fin n))
       rwa [h2] at this
@@ -168,7 +168,7 @@ theorem alternatingGroup_le_of_card {n : ℕ} (hn : 5 ≤ n) (H : Subgroup (Perm
         (Nat.dvd_prime Nat.prime_two).1 hrel
       rcases hle with h | h
       · exact h
-      · haveI : (H.subgroupOf (alternatingGroup (Fin n))).Normal :=
+      · have : (H.subgroupOf (alternatingGroup (Fin n))).Normal :=
           Subgroup.normal_of_index_eq_two h
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
           (H.subgroupOf (alternatingGroup (Fin n))) with hb | ht
@@ -192,13 +192,13 @@ theorem perm_eq_one_of_commute {G : Type} [Group G] [Finite G] {n : ℕ} (hn : 5
   classical
   have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := e
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
-  haveI hAs : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have hAs : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (α := Fin n) (by simpa using hn)
-  haveI : IsSimpleGroup (G ⧸ pPrimeCore 2 G) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (G ⧸ pPrimeCore 2 G) := MulEquiv.isSimpleGroup e
   have hker : θ.ker ≤ pPrimeCore 2 G := by
     by_contra hk
-    haveI hN : (θ.ker.map (QuotientGroup.mk' (pPrimeCore 2 G))).Normal :=
+    have hN : (θ.ker.map (QuotientGroup.mk' (pPrimeCore 2 G))).Normal :=
       Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (θ.ker.map (QuotientGroup.mk' (pPrimeCore 2 G))) with hb | ht

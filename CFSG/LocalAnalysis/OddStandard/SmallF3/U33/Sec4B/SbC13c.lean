@@ -15,10 +15,12 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem c13_O_le_M (t tau x₁ x₂ : G) : ctxO t tau x₁ x₂ ≤ ctxM t tau x₁ x₂ := by
   rw [ctxO, CFSG.Open.pCoreOf]
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp, baseGrp, Subgroup.closure_le]
   intro y hy
@@ -32,11 +34,11 @@ private theorem fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseG
 
 private theorem baseGrp_comm (hc : Ctx13A t L S x₁ x₂ lam rho tau om) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative ↥(baseGrp x₁ x₂) := hc.wreath.baseGrp_eq.1
+  have : IsMulCommutative ↥(baseGrp x₁ x₂) := hc.wreath.baseGrp_eq.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(baseGrp x₁ x₂)) ⟨b, hb⟩)
 
 private theorem om_conj_commutator (hc : Ctx13B t L S x₁ x₂ lam rho tau om) {b : G}
-    (hb : b ∈ ctxQ t tau x₁ x₂ rho) :
+    (_hb : b ∈ ctxQ t tau x₁ x₂ rho) :
     om * (b * om * b⁻¹ * om⁻¹) * om⁻¹ = (b * om * b⁻¹ * om⁻¹)⁻¹ := by
   have hom_inv : om⁻¹ = om := inv_eq_of_mul_eq_one_right hc.om_sq
   rw [hom_inv]
@@ -104,7 +106,7 @@ theorem c13_tau_cent_Y (hc : Ctx13B t L S x₁ x₂ lam rho tau om) :
   have hom := c13_om_data hA
   have ht := c13_t_data hA
   have hV : CFSG.Open.IsElemAbelian 2 (fourGrp x₁ x₂) := hc.wreath.fourGrp_eq_omega.2.1
-  haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := hV.1
+  have : IsMulCommutative ↥(fourGrp x₁ x₂) := hV.1
   have hom_V : ∀ v ∈ fourGrp x₁ x₂, om * v = v * om :=
     c13_cent_V hA om (c13_mem_O hA).2.2
   have ht_V : ∀ v ∈ fourGrp x₁ x₂, t * v = v * t := c13_cent_V hA t (c13_mem_O hA).1
@@ -424,7 +426,7 @@ theorem c13_Y_comm_of (hc : Ctx13B t L S x₁ x₂ lam rho tau om) {g : G}
     (hg : g ∈ ctxM t tau x₁ x₂) (hg2 : g * g = 1) (hgρ : g * rho = rho * g)
     (hcent : ctxYq t tau x₁ x₂ rho ⊓ centralizer ({g} : Set G) = fourGrp x₁ x₂) :
     ⁅ctxYq t tau x₁ x₂ rho, zpowers g⁆ = fourGrp x₁ x₂ := by
-  haveI : IsMulCommutative ↥(ctxYq t tau x₁ x₂ rho) := hc.Y_elem.1
+  have : IsMulCommutative ↥(ctxYq t tau x₁ x₂ rho) := hc.Y_elem.1
   have hYcomm : ∀ a ∈ ctxYq t tau x₁ x₂ rho, ∀ b ∈ ctxYq t tau x₁ x₂ rho,
       a * b = b * a :=
     fun a ha b hb =>

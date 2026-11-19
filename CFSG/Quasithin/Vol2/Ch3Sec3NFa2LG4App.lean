@@ -29,7 +29,7 @@ theorem nfa2_g4_apply (hG4 : Leaf_G4) {q : ℕ} (hq : q.Prime) (h24 : q % 24 = 1
     rw [pow_two]
     exact hs2
   have hsb_ord : orderOf sb = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hsq hs1
   have ht6 : orderOf (xb * ab) = 6 := by
     have hco : (orderOf xb).Coprime (orderOf ab) := by

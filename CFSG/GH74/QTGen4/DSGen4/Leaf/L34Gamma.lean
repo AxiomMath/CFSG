@@ -81,7 +81,7 @@ theorem uSL_inv (F : Type) [Field F] (a b c : F) :
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one, coe_uSL, coe_uSL]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 theorem gammaSL_uSL (F : Type) [Field F] (a b c : F) :
     gammaSL F (uSL F a b c) = uSL F (-b) (-a) (a * b - c) := by
@@ -248,7 +248,7 @@ theorem gammaAut_proj_dMat (F : Type) [Field F] (t₁ t₂ : Fˣ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [gammaJM, Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_three,
-      Matrix.diagonal_apply] <;> ring
+      Matrix.diagonal_apply]; ring
 
 theorem gammaAut_mem_torus3 (F : Type) [Field F] {g : projectiveSL 3 F} (hg : g ∈ torus3 F) :
     gammaAut F g ∈ torus3 F := by

@@ -38,9 +38,9 @@ variable {F : Type} [Field F] [Finite F]
 
 theorem f4ModelAt : F4ModelAt := by
   intro F _ _ n p hF hn hp hp2 hpd
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   obtain ⟨q, ζ, hq, hq2, hζ, hqd⟩ := F4Fam.exists_q_zeta (F := F) hF hn
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   let x : adjointGroup .F4 F := endNodeElt F ζ
   let J : Subgroup (adjointGroup .F4 F) := C3Levi F
   have hxAt := endNodeAt_torusPow (K := F) (ringChar.eq F 2) hq hq2 hζ

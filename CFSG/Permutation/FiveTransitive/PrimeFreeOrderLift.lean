@@ -18,7 +18,7 @@ theorem exists_lift
     rw [Nat.card_zpowers,hy,pow_one])
   let R : Sylow p (V.comap f) := Sylow.nonempty.some
   let S := SylowPreimageNormalizer.ambient f V R
-  have hS : IsPGroup p S := R.isPGroup'.map (V.comap f).subtype
+  have hS : IsPGroup p S := R.isPGroup.map (V.comap f).subtype
   have hmap : S.map f = V := SylowPreimageNormalizer.ambient_map f hf V hV R
   have hdis : Disjoint S f.ker := by
     apply Subgroup.disjoint_of_coprime_natCard

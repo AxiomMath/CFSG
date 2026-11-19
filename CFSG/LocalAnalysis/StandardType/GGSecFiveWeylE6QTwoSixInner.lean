@@ -44,6 +44,7 @@ private theorem inf_inf_zpowers_eq_bot_of_card_six
     simpa using h'
   exact e6QTwoEqOneOfPowThreeOfPowTwo hy3G hy2
 
+omit [Finite G] in
 private theorem frameTorusHom_fixes_quotient_of_card_six
     (hK : Nat.card K = 4) {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -327,6 +328,7 @@ private theorem card_inf_eq_three_pow_four_of_card_six
     hNL hI hdisj
   exact le_antisymm hup hlow
 
+omit [Finite G] [Finite K] in
 private theorem card_map_inf_eq_three_pow_four_of_card_six
     {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -425,6 +427,7 @@ private theorem psigma_swap_mul_threeA_mul_inv_of_card_six
     _ = (↑((torHom hK hω) threeAArg))⁻¹ := rfl
     _ = (USixTwo.threeA hω)⁻¹ := by rw [torHom_threeAArg hK hω]
 
+omit [Finite G] in
 private theorem normalizer_action_delta_pow_of_card_six
     (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     {Bs L : Subgroup G}
@@ -479,6 +482,7 @@ private theorem normalizer_action_delta_pow_of_card_six
     rw [Subgroup.coe_pow, Subgroup.coe_pow]
   rw [hcoe, ← heqL]
 
+omit [Finite G] in
 private theorem normalizer_action_inverts_of_card_six
     (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     {Bs L : Subgroup G}

@@ -14,8 +14,8 @@ theorem derived_le {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G
     (hEA : CFSG.Open.IsElemAbelian p P) (hlarge : 2 < CFSG.Open.pRank p P) :
     P ≤ commutator G := by
   have hs := h51.setting
-  haveI : Fact p.Prime := ⟨hs.prime⟩
-  haveI hPn : P.Normal := h53.normal
+  have : Fact p.Prime := ⟨hs.prime⟩
+  have hPn : P.Normal := h53.normal
   have hcommP : ∀ a b : ↥P, a * b = b * a := fun a b => hEA.1.is_comm.comm a b
   by_cases hr : 1 < CFSG.Open.pRank p (P ⊓ commutator G)
   · have := h53.minimal (P ⊓ commutator G) inferInstance hr inf_le_left
@@ -33,7 +33,7 @@ theorem derived_le {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G
   have hexpP : ∀ x : ↥P, x ^ p = 1 := fun x => by
     have := Monoid.pow_exponent_eq_one x
     rwa [hs.exponent] at this
-  haveI : IsCyclic (N.subgroupOf P) :=
+  have : IsCyclic (N.subgroupOf P) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hNP).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hNP).symm.surjective
   obtain ⟨b, hb1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 h51.actor_ne_bot
@@ -78,9 +78,9 @@ theorem derived_le {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G
       simpa [f] using this
   have hkercard : Nat.card f.ker ≤ p := by
     rw [hker]
-    haveI : IsCyclic ↥(P ⊓ Subgroup.centralizer ({(b : G)} : Set G)) :=
+    have : IsCyclic ↥(P ⊓ Subgroup.centralizer ({(b : G)} : Set G)) :=
       h51.cyclic_centralizer b b.2 hb1'
-    haveI : IsCyclic ((P ⊓ Subgroup.centralizer ({(b : G)} : Set G)).subgroupOf P) :=
+    have : IsCyclic ((P ⊓ Subgroup.centralizer ({(b : G)} : Set G)).subgroupOf P) :=
       isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe inf_le_left).symm.toMonoidHom
         (Subgroup.subgroupOfEquivOfLe inf_le_left).symm.surjective
     exact card_le_of_cyclic hs.prime _ (fun x _ => hexpP x)
@@ -88,7 +88,7 @@ theorem derived_le {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G
     calc Nat.card f.range ≤ Nat.card (N.subgroupOf P) :=
           Nat.card_le_card_of_injective Subtype.val Subtype.val_injective
       _ ≤ p := by
-        haveI : IsCyclic (N.subgroupOf P) := inferInstance
+        have : IsCyclic (N.subgroupOf P) := inferInstance
         exact card_le_of_cyclic hs.prime _ (fun x _ => hexpP x)
   have hPcard : Nat.card ↥P ≤ p * p := by
     rw [← Subgroup.card_mul_index f.ker, Subgroup.index_ker]

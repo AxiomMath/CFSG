@@ -81,7 +81,7 @@ theorem mulAut_eq_one_of_prime_pow_lt {K : Type*} [Group K] [Finite K] {r : ℕ}
     obtain ⟨P, hP⟩ := hA.nonempty_fixed_point_of_prime_not_dvd_card _ hrn
     have hPα : (P : Subgroup K).map (α : K →* K) = P :=
       congrArg Sylow.toSubgroup (hP ⟨α, mem_zpowers α⟩)
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
     have hβ : restrictAut α P hPα ^ r = 1 := by
       ext y
       rw [coe_restrictAut_pow, hα]

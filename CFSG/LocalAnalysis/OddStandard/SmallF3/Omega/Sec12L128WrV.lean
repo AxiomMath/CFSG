@@ -72,7 +72,7 @@ theorem sec128_V_coord_hom {G : Type} [Group G] {V : Subgroup G}
           ∀ q', ((ι (φ q w)).left q' : G) = if q' = q then φ₀ w else 1) ∧
       ∀ a : Multiplicative (ZMod 2) → ↥D, (∀ q, (a q : G) ∈ B) → ∃ v : ↥V, ι v = ⟨a, 1⟩ := by
   classical
-  letI : CommGroup ↥V :=
+  let : CommGroup ↥V :=
     { (inferInstance : Group ↥V) with
       mul_comm := fun a b => hV.1.is_comm.comm a b }
   have hsq : ∀ x : ↥V, x * x = 1 := by
@@ -101,7 +101,7 @@ theorem sec128_V_coord_hom {G : Type} [Group G] {V : Subgroup G}
       · simp [hq, hu₁]
       · simp [hq, hu₂]
     · dsimp only
-      rw [if_pos rfl, if_neg hg, hu₁eq, hu₂eq]
+      rw [ite_eq_left rfl, ite_eq_right hg, hu₁eq, hu₂eq]
       exact hyz.symm
   let coord : ↥V → Multiplicative (ZMod 2) → (Fin 5 → ZMod 2) :=
     fun x => Classical.choose (hex x)
@@ -193,7 +193,7 @@ theorem sec128_V_coord_hom {G : Type} [Group G] {V : Subgroup G}
       · simp [hr, sec128_even_zero]
     · rcases sec12W_two_pts q with rfl | rfl
       · simp [hg, sec128_coord_zero (hcoord (Multiplicative.ofAdd 1))]
-      · simp [hg, hg.symm, sec128_coord_zero (hcoord 1)]
+      · simp [hg.symm, sec128_coord_zero (hcoord 1)]
   let bfun : ↥V → Multiplicative (ZMod 2) → ↥D := fun x q =>
     ⟨φ₀ (coord x q), hBD ((hP.2.2.1 (φ₀ (coord x q))).mpr
       ⟨coord x q, (coord_spec x).1 q, rfl⟩)⟩

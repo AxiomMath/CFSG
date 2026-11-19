@@ -28,8 +28,8 @@ variable {A : GL ι K} {σ : K ≃+* K} {U : Submodule K (ι → K)}
 
 theorem odd_card_fixedSubfield [Finite K] (hodd : Odd (Nat.card K)) (σ : K ≃+* K) :
     Odd (Nat.card (semilinearFixedSubfield σ)) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
   have h := Module.card_eq_pow_finrank (K := semilinearFixedSubfield σ) (V := K)
   rw [Nat.card_eq_fintype_card] at hodd
   rw [h] at hodd
@@ -149,7 +149,7 @@ theorem glaPLayer_inf_centGL_ne_bot_toBilin' [Finite K] (hodd : Odd (Nat.card K)
     rw [← LinearMap.IsAlt.neg hB₀alt y' y, hy y', neg_zero]
   have hdim₀ : finrank K₀ U₀ = finrank K U := by
     rw [finrank_eq_card_basis b₀, Fintype.card_fin]
-  haveI : FiniteDimensional K₀ U₀ := Module.Finite.of_basis b₀
+  have : FiniteDimensional K₀ U₀ := Module.Finite.of_basis b₀
   have hq := CatalogueBAlternatingIsometry.isometry_quasisimple (K := K₀) (V := U₀) B₀ hB₀alt
     hB₀nd (by rw [hdim₀]; exact hdim) (odd_card_fixedSubfield hodd σ) (by rw [hdim₀]; exact hexc)
   have hq' : CFSG.Open.IsQuasisimple ↥(isomU₀ U (Matrix.toBilin' J) U₀) :=
@@ -200,10 +200,11 @@ theorem isQuasisimple_ker_det_of_finrank
   exact CFSG.Open.IsQuasisimple.of_mulEquiv slEquivKerDet'.symm
     ⟨Group.isPerfect_def.1 hq.1, hq.2.1⟩
 
+omit [Finite F] in
 theorem dvd_card_ker_det_of_orderOf (hdim : 2 ≤ finrank F E) {p : ℕ} (hp : p.Prime)
     {g : E ≃ₗ[F] E} (hg : orderOf g = p) :
     p ∣ Nat.card (LinearEquiv.det : (E ≃ₗ[F] E) →* Fˣ).ker := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   by_cases hζ : LinearEquiv.det g = 1
   · have h := orderOf_dvd_natCard
       (⟨g, MonoidHom.mem_ker.2 hζ⟩ : (LinearEquiv.det : (E ≃ₗ[F] E) →* Fˣ).ker)
@@ -245,7 +246,7 @@ theorem glaPLayer_inf_centGL_ne_bot_zero [Finite K] {σ₀ : K →+* K} (hUW : I
       (0 : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ₀] K) w u = 0 := fun _ _ _ _ => ⟨rfl, rfl⟩
   have hσp : σ ^ p = 1 := hσ ▸ pow_orderOf_eq_one σ
   obtain ⟨b, b₀, hb⟩ := exists_fixBasis hp.pos hσp hU hσ
-  haveI : FiniteDimensional (semilinearFixedSubfield σ) (fixU A σ U) := Module.Finite.of_basis b₀
+  have : FiniteDimensional (semilinearFixedSubfield σ) (fixU A σ U) := Module.Finite.of_basis b₀
   have hdim₀ : finrank (semilinearFixedSubfield σ) (fixU A σ U) = finrank K U := by
     rw [finrank_eq_card_basis b₀, Fintype.card_fin]
   have hG : isomU₀ U (0 : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ₀] K) (fixU A σ U) = ⊤ :=
@@ -334,7 +335,7 @@ private theorem dvd_card_isometry_inf_ker_det [Finite F] [FiniteDimensional F E]
     (hg : g ∈ CatalogueBUnitaryIsometry.isometryGroup h) (hgp : orderOf g = p) :
     p ∣ Nat.card ↥(CatalogueBUnitaryIsometry.isometryGroup h ⊓
       (LinearEquiv.det : (E ≃ₗ[F] E) →* Fˣ).ker) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   by_cases hζ : LinearEquiv.det g = 1
   · have h1 := orderOf_dvd_natCard (⟨g, Subgroup.mem_inf.2 ⟨hg, MonoidHom.mem_ker.2 hζ⟩⟩ :
       ↥(CatalogueBUnitaryIsometry.isometryGroup h ⊓ (LinearEquiv.det : (E ≃ₗ[F] E) →* Fˣ).ker))
@@ -385,7 +386,7 @@ theorem unitary_card_fixedSubfield {r f : ℕ}
     (hK : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData r f K) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hσ : orderOf σ = p) (hU : ∀ u ∈ U, ModelGen.semiMap A σ u ∈ U) :
     p ∣ f ∧ Nat.card (semilinearFixedSubfield σ) = (r ^ (f / p)) ^ 2 := by
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   have hσp : σ ^ p = 1 := hσ ▸ pow_orderOf_eq_one σ
   obtain ⟨hdvd, hcard, -⟩ := coprime_finite_field_semilinear_fixed_basis hK.prime
     (by have := hK.one_le; omega : 1 ≤ 2 * f) hK.card σ hσ rfl (semiU A σ hp.pos hσp U hU)
@@ -416,8 +417,8 @@ theorem glaPLayer_inf_centGL_ne_bot_unitForm {r f : ℕ}
     (hxp : orderOf x = p) :
     CFSG.Open.GLAPLayer p
       (blkI (unitForm hK.bar) U W ⊓ centGL {(ModelGen.semiMap A σ).toAddMonoidHom}) ≠ ⊥ := by
-  haveI : Fact r.Prime := ⟨hK.prime⟩
-  haveI : Finite K := hK.finite
+  have : Fact r.Prime := ⟨hK.prime⟩
+  have : Finite K := hK.finite
   have hσp : σ ^ p = 1 := hσ ▸ pow_orderOf_eq_one σ
   obtain ⟨hpf, hE₀⟩ := unitary_card_fixedSubfield hK hp hp2 hσ hU
   obtain ⟨b, b₀, hb⟩ := exists_fixBasis hp.pos hσp hU hσ
@@ -433,7 +434,7 @@ theorem glaPLayer_inf_centGL_ne_bot_unitForm {r f : ℕ}
   have hcompat : ∀ k : semilinearFixedSubfield σ,
       ((conj₀ k : semilinearFixedSubfield σ) : K) = hK.bar k := by
     intro k
-    haveI : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
+    have : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
     obtain ⟨j, hj⟩ := hp.odd_of_ne_two hp2
     have hk2 : k ^ (((r ^ (f / p)) ^ 2) ^ j) = k := by
       have h := FiniteField.pow_card_pow j k
@@ -501,7 +502,7 @@ theorem glaPLayer_inf_centGL_ne_bot_unitForm {r f : ℕ}
     have h1 := congrArg Subtype.val (hg y' y)
     rw [hh₀, hh₀] at h1
     exact h1
-  haveI : FiniteDimensional (semilinearFixedSubfield σ) (fixU A σ U) := Module.Finite.of_basis b₀
+  have : FiniteDimensional (semilinearFixedSubfield σ) (fixU A σ U) := Module.Finite.of_basis b₀
   have hdim₀ : finrank (semilinearFixedSubfield σ) (fixU A σ U) = finrank K U := by
     rw [finrank_eq_card_basis b₀, Fintype.card_fin]
   have hq := isQuasisimple_isometry_inf_ker_det (F := semilinearFixedSubfield σ)

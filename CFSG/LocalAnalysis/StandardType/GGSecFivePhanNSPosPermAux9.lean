@@ -351,7 +351,7 @@ theorem ggNSPosPA7_ratioHom_range_card {G : Type} [Group G] [Finite G] {p : ℕ}
     rintro z ⟨s, rfl⟩
     rw [mem_rootsOfUnity]
     exact ggNSPosPA7_ratioHom_pow h hd a b s
-  haveI : NeZero p := ⟨h.prime.ne_zero⟩
+  have : NeZero p := ⟨h.prime.ne_zero⟩
   have hcard_le : Nat.card ρ.range ≤ p :=
     le_trans (Subgroup.card_le_of_le hle) (card_rootsOfUnity K p)
   obtain ⟨ζ, hζ, hζq⟩ := ggNSPosPA_exists_zeta h
@@ -405,7 +405,7 @@ theorem ggNSPosPA7_ratioHom_range_card {G : Type} [Group G] [Finite G] {p : ℕ}
     rw [hρdef, ggNSPosPA7_ratioHom_apply, hwd, hunits, hratio2]
   have hmem : ζ ^ 2 ∈ ρ.range := ⟨⟨ψ t, htBs⟩, hratio⟩
   have hord : orderOf (ζ ^ 2) = p := by
-    haveI : Fact p.Prime := ⟨h.prime⟩
+    have : Fact p.Prime := ⟨h.prime⟩
     apply orderOf_eq_prime
     · rw [← pow_mul, mul_comm, pow_mul, hζp, one_pow]
     · intro hc

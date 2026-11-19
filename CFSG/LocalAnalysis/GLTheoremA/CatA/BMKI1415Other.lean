@@ -36,7 +36,7 @@ theorem i1415Row_of_ne_BM
   all_goals refine arow_of_factors hOut hbr hOrd (by decide) (by decide) (fun x hx h2 he hd => ?_) p
   all_goals simp only [sporFactors, List.mem_cons, List.not_mem_nil, or_false] at hx
   all_goals rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals first
+  all_goals try first
     | exact absurd rfl h2
     | (exfalso; omega)
     | (exfalso; revert hd
@@ -44,7 +44,7 @@ theorem i1415Row_of_ne_BM
         CFSG.Open.orderJ4, CFSG.Open.orderRu, CFSG.Open.orderON, CFSG.Open.orderCo1,
         CFSG.Open.orderFi23, CFSG.Open.orderFi24Prime, CFSG.Open.orderHN, CFSG.Open.orderLy,
         CFSG.Open.orderTh]; done)
-    | skip
+
   case McL.inr.inl => exact arow_McL_three hOut hbr
   case McL.inr.inr.inl => exact arow_McL_five hOut hbr
   case Suz.inr.inl => exact CFSG.HardMathSupport.Dickson.I271.I1415ASuz.arow_Suz_three hOut hbr hb

@@ -37,6 +37,7 @@ theorem pRank_map_subtype (hp : 1 < p) (K : Subgroup G) (H : Subgroup K) :
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEK).toEquiv
   · exact CFSG.SectionRank.pRank_le_map hp K.subtype K.subtype_injective H
 
+omit [Finite G] in
 theorem card_map_of_injOn {G' : Type} [Group G'] (f : G →* G') {H : Subgroup G}
     (hf : ∀ x ∈ H, f x = 1 → x = 1) : Nat.card (H.map f) = Nat.card H := by
   have hinj : Function.Injective (f.comp H.subtype) := by
@@ -62,6 +63,7 @@ theorem inf_eq_bot_of_coprime [Fact p.Prime] {E N : Subgroup G} (hE : IsPGroup p
   obtain ⟨k, hk⟩ := hE.exists_card_eq
   exact (Subgroup.disjoint_of_coprime_natCard (by rw [hk]; exact hN.pow_left k)).eq_bot
 
+omit [Finite G] in
 theorem map_conjugate {G' : Type} [Group G'] (f : G →* G') (H : Subgroup G) (g : G) :
     (CFSG.conjugate H g).map f = CFSG.conjugate (H.map f) (f g) := by
   ext x
@@ -74,6 +76,7 @@ theorem map_conjugate {G' : Type} [Group G'] (f : G →* G') (H : Subgroup G) (g
     rw [map_mul, map_mul, map_inv, hyx]
     group
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge_of_le [Fact p.Prime] {Q K : Subgroup G} (hQK : Q ≤ K)
     (hQ : IsPGroup p Q) : ∃ P : Subgroup G, IsSylowOf p P K ∧ Q ≤ P := by
   obtain ⟨P, hP⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow
@@ -100,10 +103,10 @@ theorem conjugate_eq_of_mem (h : Hyp G p S Z) {s : G} (hs : s ∈ S) : CFSG.conj
 
 theorem subgroup (h : Hyp G p S Z) (Y : Subgroup G) (hZY : Z ≤ Y) :
     ∃ SY : Subgroup Y, Hyp Y p SY (Z.subgroupOf Y) := by
-  haveI := h.fact
+  have := h.fact
   have hZ'p : IsPGroup p (Z.subgroupOf Y) := h.isPGroup.comap_subtype
   obtain ⟨P, hP⟩ := hZ'p.exists_le_sylow
-  have hQp : IsPGroup p ((P : Subgroup Y).map Y.subtype) := P.isPGroup'.map _
+  have hQp : IsPGroup p ((P : Subgroup Y).map Y.subtype) := P.isPGroup.map _
   obtain ⟨g, hg⟩ := exists_le_conjugate h.sylow hQp
   have hPS : ∀ x : Y, x ∈ (P : Subgroup Y) → g * (x : G) * g⁻¹ ∈ S := fun x hx =>
     mem_conjugate_iff.mp (hg ⟨x, hx, rfl⟩)
@@ -157,9 +160,9 @@ theorem pRank_normalClosure_subgroup (ih : IHBelow (Nat.card G)) (h : Hyp G p S 
 theorem quotient (h : Hyp G p S Z) (N : Subgroup G) [N.Normal]
     (hN : Nat.Coprime p (Nat.card N)) :
     Hyp (G ⧸ N) p (S.map (QuotientGroup.mk' N)) (Z.map (QuotientGroup.mk' N)) := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨P, hPS⟩ := exists_sylow_of_isSylowOf_top h.sylow
-  have hSp : IsPGroup p S := hPS ▸ P.isPGroup'
+  have hSp : IsPGroup p S := hPS ▸ P.isPGroup
   have hSN : S ⊓ N = ⊥ := inf_eq_bot_of_coprime hSp hN
   have hker : ∀ x ∈ S, QuotientGroup.mk' N x = 1 → x = 1 := fun x hx h1 => by
     have hxN : x ∈ N := (QuotientGroup.eq_one_iff x).mp h1
@@ -212,7 +215,7 @@ theorem quotient (h : Hyp G p S Z) (N : Subgroup G) [N.Normal]
 
 theorem concl_of_pPrimeCore_ne_bot (ih : IHBelow (Nat.card G)) (h : Hyp G p S Z)
     (hcore : CFSG.pPrimeCore p G ≠ ⊥) : CFSG.Open.pRank p (normalClosure (Z : Set G)) = 1 := by
-  haveI := h.fact
+  have := h.fact
   have hNc : Nat.Coprime p (Nat.card (CFSG.pPrimeCore p G)) := CFSG.pPrimeCore_coprime_card
   have hq := h.quotient (CFSG.pPrimeCore p G) hNc
   have hcard : Nat.card (G ⧸ CFSG.pPrimeCore p G) < Nat.card G := by

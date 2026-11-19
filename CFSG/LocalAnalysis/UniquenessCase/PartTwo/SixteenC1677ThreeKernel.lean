@@ -16,7 +16,7 @@ private theorem s168e3_isElemAbelianOfRank_of_card {p n : ℕ} [hp : Fact p.Prim
     [Group X] [Finite X] (hc : ∀ x y : X, x * y = y * x) (hexp : ∀ x : X, x ^ p = 1)
     (hcard : Nat.card X = p ^ n) : IsElemAbelianOfRank p n X := by
   classical
-  letI : CommGroup X := { ‹Group X› with mul_comm := hc }
+  let : CommGroup X := { ‹Group X› with mul_comm := hc }
   let inst : Module (ZMod p) (Additive X) := AddCommGroup.zmodModule fun x => by
     change Additive.ofMul (x.toMul ^ p) = 0
     rw [hexp]
@@ -38,7 +38,7 @@ theorem s168e3_kernel_cap {M Q : Type*} [Group M] [Finite M] [Group Q] [Finite Q
     (hrange : CFSG.Open.pRank p φ.range ≤ 2) {A : Subgroup M} (hA : IsElemAbelian p A)
     (hcard : Nat.card ↥A = p ^ 3) :
     Nat.card ↥(A ⊓ φ.ker) = p ∧ IsElemAbelianOfRank p 2 ↥(A.map φ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAk : IsElemAbelian p (A ⊓ φ.ker) := hA.mono inf_le_left
   have hAm : IsElemAbelian p (A.map φ) := hA.map φ
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hAk.isPGroup
@@ -72,7 +72,7 @@ theorem s168e3_noncyclic_fix_of_conj {M T : Type*} [Group M] [CommGroup T] (φ :
     (hz1 : z ≠ 1) (hzφ : φ z = 1) {a : M} (haA : a ∈ A) (ha1 : φ a ≠ 1) (g : M) {x : T}
     (hfix : φ (g * a * g⁻¹) x = x) :
     ∃ B : Subgroup M, IsPGroup p ↥B ∧ ¬ IsCyclic ↥B ∧ ∀ b ∈ B, φ b x = x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let z' : M := g * z * g⁻¹
   let a' : M := g * a * g⁻¹
   have hzp : z ^ p = 1 := hA.2 z hzA
@@ -166,7 +166,7 @@ theorem s168e3_noncyclic_fix_of_conj {M T : Type*} [Group M] [CommGroup T] (φ :
       (A := Subgroup.zpowers z') (B := Subgroup.zpowers a') hnorm
     rw [hinf, Subgroup.card_bot, hHcard, hKcard, mul_one, ← pow_two] at hcard
     exact hcard
-  haveI : Finite ↥(Subgroup.zpowers z' ⊔ Subgroup.zpowers a') :=
+  have : Finite ↥(Subgroup.zpowers z' ⊔ Subgroup.zpowers a') :=
     Nat.finite_of_card_ne_zero (by rw [hcardB]; exact pow_ne_zero 2 hp.ne_zero)
   have hsup_closure : Subgroup.zpowers z' ⊔ Subgroup.zpowers a' =
       Subgroup.closure ({z', a'} : Set M) := by
@@ -222,7 +222,7 @@ theorem s168e3_noncyclic_fix_of_conj {M T : Type*} [Group M] [CommGroup T] (φ :
   have hBF : Subgroup.zpowers z' ⊔ Subgroup.zpowers a' ≤ F :=
     sup_le (Subgroup.zpowers_le.2 hz'F) (Subgroup.zpowers_le.2 ha'F)
   refine ⟨Subgroup.zpowers z' ⊔ Subgroup.zpowers a', hE.isPGroup, ?_, fun b hb => hBF hb⟩
-  haveI : CFSG.IsElementaryAbelian p ↥(Subgroup.zpowers z' ⊔ Subgroup.zpowers a') :=
+  have : CFSG.IsElementaryAbelian p ↥(Subgroup.zpowers z' ⊔ Subgroup.zpowers a') :=
     CFSG.Open.IsElemAbelian.isElementaryAbelian hE
   exact CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hcardB
 
@@ -262,7 +262,7 @@ theorem s168e3_false_of_kernel {D : Data G} {V₀ V L : Subgroup G} {hV : IsElem
   have hAcard : Nat.card ↥A = p ^ 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEM).toEquiv, hEcard]
   obtain ⟨hzcard, hE2⟩ := s168e3_kernel_cap φ hp hker hrange hA hAcard
-  haveI : Nontrivial ↥(A ⊓ φ.ker) := by
+  have : Nontrivial ↥(A ⊓ φ.ker) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hzcard]
     exact hp.one_lt
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥(A ⊓ φ.ker))

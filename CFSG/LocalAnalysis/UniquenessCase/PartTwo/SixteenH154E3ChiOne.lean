@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16h_chione_noncyclic_of_pRank_e3 {H : Subgroup G} {q : ℕ} (hq : q.Prime)
     (h2 : 2 ≤ CFSG.Open.pRank q H) :
     ∃ E : Subgroup G, E ≤ H ∧ IsPGroup q E ∧ ¬ IsCyclic ↥E := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E, hEH, hE, hEc⟩ := CFSG.SectionRank.exists_pRank hq.one_lt H
   have hEp : IsPGroup q E := CFSG.Open.IsElemAbelian.isPGroup hE
   refine ⟨E, hEH, hEp, fun hcyc => ?_⟩

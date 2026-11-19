@@ -60,14 +60,14 @@ theorem card_support_eq_of {π : Perm α} {p s : ℕ} (h : π.cycleType = Multis
 theorem exists_fixed_of_card_lt {π : Perm α} {p s : ℕ} (h : π.cycleType = Multiset.replicate s p)
     (hlt : s * p < Fintype.card α) : ∃ w : α, π w = w := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : (Finset.univ : Finset α) ⊆ π.support := fun x _ => by
     rw [mem_support]; exact hcon x
   have h2 := Finset.card_le_card hsub
   rw [card_support_eq_of h, Finset.card_univ] at h2
   omega
 
-theorem card_closure_ge {p : ℕ} (hp : p.Prime) :
+theorem card_closure_ge {p : ℕ} (_hp : p.Prime) :
     ∀ C : Finset (Perm α), (∀ c ∈ C, IsCycle c ∧ c.support.card = p) →
       (C : Set (Perm α)).Pairwise Disjoint →
       p ^ C.card ≤ Nat.card (Subgroup.closure (C : Set (Perm α))) := by
@@ -137,7 +137,7 @@ theorem card_closure_ge {p : ℕ} (hp : p.Prime) :
         obtain ⟨t, ht⟩ := hdvd'
         have ht2 : t < 2 := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           have : p * 2 ≤ p * t := Nat.mul_le_mul_left p hcon
           omega
         interval_cases t <;> omega
@@ -224,7 +224,7 @@ theorem exists_cycle_avoiding {C : Finset (Perm α)} (hdisj : (C : Set (Perm α)
   set Ay := C.filter (fun c => y ∈ c.support) with hAydef
   obtain ⟨c, hc1, hc2⟩ : ∃ c ∈ C, c ∉ Ax ∪ Ay := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := Finset.card_le_card (show C ⊆ Ax ∪ Ay from fun c hc => hcon c hc)
     have h2 := Finset.card_union_le Ax Ay
     omega
@@ -273,7 +273,7 @@ theorem isElemAbelian_closure_of_comm {H : Type} [Group H] {p : ℕ} (S : Set H)
 theorem exists_sub_card [Finite G] {p : ℕ} (hp : p.Prime) {X : Subgroup G}
     (hX : CFSG.Open.IsElemAbelian p X) {j : ℕ} (hj : p ^ j ≤ Nat.card X) :
     ∃ Z : Subgroup G, Z ≤ X ∧ CFSG.Open.IsElemAbelian p Z ∧ Nat.card Z = p ^ j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := (isPGroup_of_isElemAbelian' hX).exists_card_eq
   have hjm : j ≤ m := by
     rw [hm] at hj
@@ -323,7 +323,7 @@ theorem subRank_spec [Finite G] {p : ℕ} (hp : p.Prime) {U : Subgroup G}
       Nat.card (subRank p k U) = p ^ k := by
   have h := exists_sub_card hp hU hk
   unfold subRank
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 theorem isKConnectedIn_lower [Finite G] {p : ℕ} (hp : p.Prime) {j k : ℕ} (hkj : k ≤ j)
@@ -391,7 +391,7 @@ theorem two_le_pRank_pair {H : Type} [Group H] [Finite H] {p : ℕ} (hp : p.Prim
     (hab : a * b = b * a) (ha : a ^ p = 1) (hb : b ^ p = 1) (ha1 : a ≠ 1) (hb1 : b ≠ 1)
     (hind : ∀ i j : ℕ, a ^ i = b ^ j → a ^ i = 1) :
     2 ≤ CFSG.Open.pRank p (Subgroup.closure ({a, b} : Set H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : ∀ x : H, x ^ p = 1 → x ≠ 1 → ∀ m : ℕ, x ^ m = 1 → p ∣ m := by
     intro x hx hx1 m hm
     rw [← orderOf_eq_prime hx hx1]
@@ -401,7 +401,7 @@ theorem two_le_pRank_pair {H : Type} [Group H] [Finite H] {p : ℕ} (hp : p.Prim
     obtain ⟨t, ht⟩ := hdvd
     have ht2 : t < 2 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : p * 2 ≤ p * t := Nat.mul_le_mul_left p hcon
       omega
     interval_cases t <;> omega
@@ -517,7 +517,7 @@ theorem core_gamma {Cb : Type} [Group Cb] [Finite Cb] {p n s : ℕ} (hp : p.Prim
     ∃ P : Subgroup Cb, CFSG.Open.IsElemAbelian p P ∧ p ^ s ≤ Nat.card P ∧
       P ≤ Subgroup.centralizer ({(e1 : Cb)} : Set Cb) ∧ Kb ≤ CFSG.Open.GLBCore p 2 P := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ι : ↥Kb →* Equiv.Perm (Fin n) := (alternatingGroup (Fin n)).subtype.comp ψ.toMonoidHom
   have hι_inj : Function.Injective ι := fun x y hxy =>
     ψ.injective (Subtype.ext (show ((ψ x : ↥(alternatingGroup (Fin n))) : Equiv.Perm (Fin n)) =
@@ -736,10 +736,10 @@ section Lift
 
 variable {G : Type} [Group G]
 
-theorem exists_lift [Finite G] {p : ℕ} (hp : p.Prime) {C T : Subgroup G} (hTC : T ≤ C)
+theorem exists_lift [Finite G] {p : ℕ} (hp : p.Prime) {C T : Subgroup G} (_hTC : T ≤ C)
     {Q : Subgroup (↥C ⧸ GLAPPrimeCore p ↥C)} (hQ : Q ≤ barX p C T) (hQp : IsPGroup p Q) :
     ∃ S : Subgroup G, S ≤ T ∧ IsPGroup p S ∧ barX p C S = Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Γ : Subgroup ↥C := T.subgroupOf C
   let f : ↥Γ →* (↥C ⧸ GLAPPrimeCore p ↥C) :=
     (QuotientGroup.mk' (GLAPPrimeCore p ↥C)).comp Γ.subtype
@@ -847,7 +847,7 @@ variable {G : Type} [Group G]
 theorem exists_sylow_cover [Finite G] {p : ℕ} (hp : p.Prime) {M S B : Subgroup G}
     (hSM : S ≤ M) (hBM : B ≤ M) (hSp : IsPGroup p S) (hBp : IsPGroup p B) :
     ∃ y ∈ M, ∃ R : Subgroup G, S ≤ R ∧ GLBConj y B ≤ R ∧ IsPGroup p R := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS'p : IsPGroup p ↥(S.subgroupOf M) := hSp.of_equiv (Subgroup.subgroupOfEquivOfLe hSM).symm
   have hB'p : IsPGroup p ↥(B.subgroupOf M) := hBp.of_equiv (Subgroup.subgroupOfEquivOfLe hBM).symm
   obtain ⟨QS, hQS⟩ := IsPGroup.exists_le_sylow hS'p
@@ -855,7 +855,7 @@ theorem exists_sylow_cover [Finite G] {p : ℕ} (hp : p.Prime) {M S B : Subgroup
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥M QB QS
   let R : Subgroup G := (QS : Subgroup ↥M).map M.subtype
   have hRp : IsPGroup p R := by
-    obtain ⟨n, hn⟩ := (QS.isPGroup').exists_card_eq
+    obtain ⟨n, hn⟩ := (QS.isPGroup).exists_card_eq
     apply IsPGroup.of_card (n := n)
     rw [Subgroup.card_map_of_injective M.subtype_injective, hn]
   have hcoe : MulAut.conj g • (QB : Set ↥M) = (QS : Set ↥M) := by
@@ -883,7 +883,7 @@ variable {G : Type} [Group G]
 
 theorem card_eq_pow_pRank [Finite G] {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian p E) : Nat.card E = p ^ CFSG.Open.pRank p E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := (isPGroup_of_isElemAbelian' hE).exists_card_eq
   rw [CFSG.HardMathSupport.Solomon.LocalBalance.pRank_eq_of_card hp hE hm, hm]
 
@@ -903,7 +903,7 @@ theorem succ_le_pow_pred {p r : ℕ} (hp3 : 3 ≤ p) (hr : 2 ≤ r) : r + 1 ≤ 
 theorem elemAbelian_of_barX_elemAbelian [Finite G] {p : ℕ} (hp : p.Prime) {C S : Subgroup G}
     (hSC : S ≤ C) (hS : IsPGroup p S) (hbar : CFSG.Open.IsElemAbelian p (barX p C S)) :
     CFSG.Open.IsElemAbelian p S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj := injective_barX_comp hp hS hSC
   have hmem : ∀ x (hx : x ∈ S),
       (QuotientGroup.mk' (GLAPPrimeCore p ↥C) (⟨x, hSC hx⟩ : ↥C)) ∈ barX p C S := fun x hx =>
@@ -948,7 +948,7 @@ theorem lemma116_of_inputs (hI236 : Lemma116.Input23_6) (hI236gt : Lemma116.Inpu
   obtain ⟨hnotK, hnotD⟩ := hcon
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hS.ne_two
   have hE𝒟 : inD p M E := h.pair.1.1
   have hA𝒟 : inDp p M A := h.pair.1.2.1
@@ -1187,7 +1187,7 @@ theorem lemma116_of_inputs (hI236 : Lemma116.Input23_6) (hI236gt : Lemma116.Inpu
         hI319 G p r hp hp2 hr2 hnot R hRp F U hFek hUek
       have hk_le : CFSG.Open.pRank p (E ⊓ A) ≤ r := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have hle : CFSG.Open.pRank p (E ⊓ A) ≤ CFSG.Open.pRank p E :=
           CFSG.SectionRank.pRank_mono hp.one_lt inf_le_left
         have hEr : CFSG.Open.pRank p E = r + 1 := by omega

@@ -152,7 +152,7 @@ private theorem spinElt_frameF_zero_eq (w : Fin (2 * 4) → K)
     refine Fin.cases ?_ (fun j => ?_) k
     · rw [coordX_spinElt_zero]
       simp only [xvec_frameF, yvec_frameF_zero, coordX_frameF, Matrix.adjugate_one,
-        Matrix.transpose_one, Matrix.mulVec_zero, dotProduct_zero, coordY_frameF, if_true,
+        Matrix.transpose_one, Matrix.mulVec_zero, dotProduct_zero, coordY_frameF, ite_true,
         add_zero, zero_add, one_mul]
       exact hx0.symm
     · rw [coordX_spinElt_succ]
@@ -178,7 +178,7 @@ private theorem exists_realized_coordY_zero_eq_one_of_ne (v : Fin (2 * 4) → K)
   let c : K := (1 - coordY K v 0) / coordY K v k
   refine ⟨elemMap K k 0 c, realized_elemMap k 0 hk c, ?_⟩
   rw [coordY_elemMap]
-  simp only [if_true]
+  simp only [ite_true]
   have hc : c * coordY K v k = 1 - coordY K v 0 := by
     dsimp [c]
     rw [div_mul_cancel₀ _ hyk]

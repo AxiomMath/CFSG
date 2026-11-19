@@ -41,7 +41,7 @@ private theorem cols_pk {w r s h : ℕ} (hw : 0 < w) (hr : 0 < r) (hs : s ≤ r)
   rw [h0, Nat.add_zero]
   refine Finset.sum_congr rfl fun j hj => ?_
   have hj' := Finset.mem_range.1 hj
-  rw [(dm_eq (d := s + u) (i := i) (j := j) (by omega)).2, if_pos hj', Nat.mul_assoc, ← Nat.pow_add]
+  rw [(dm_eq (d := s + u) (i := i) (j := j) (by omega)).2, ite_eq_left hj', Nat.mul_assoc, ← Nat.pow_add]
   congr 2
   ring
 
@@ -354,7 +354,7 @@ private theorem cols7_pk {y : ℕ → ℕ} (hy : ∀ t < 111 * 7, y t < 5) {o : 
 private theorem span_core {C : BConsts} (hC : bConstsOK C = true) {o : ℕ} (ho : o ≤ 104) {N Y : ℕ}
     (hN : LCanon 12 7 111 N) (hY : LCanon 12 7 111 Y)
     (h : bMul7 C ((Y >>> (12 * o)) &&& C.MASK7) N = Y) :
-    ∀ i j : Fin 7, ∀ l : Fin 111, blkM Y i l =
+    ∀ i _j : Fin 7, ∀ l : Fin 111, blkM Y i l =
       ∑ k : Fin 7, blkM Y i ⟨o + k.val, by omega⟩ * blkM N k l := by
   obtain ⟨-, -, -, -, hM, -⟩ := bc_facts hC
   obtain ⟨y, hye, hy, -⟩ := lc_lanes (n := 111 * 7) (by norm_num) hY le_rfl
@@ -373,7 +373,7 @@ private theorem span_core {C : BConsts} (hC : bConstsOK C = true) {o : ℕ} (ho 
   rw [e, ← sum_fin]
   refine Finset.sum_congr rfl fun k _ => ?_
   have hk : (111 * i.val + k.val) % 111 < 7 := by rw [(dm_eq (by omega)).2]; exact k.isLt
-  rw [if_pos hk, ent_pk (by norm_num) (fun t ht => lt_of_lt_of_le (hy t ht) (by norm_num))
+  rw [ite_eq_left hk, ent_pk (by norm_num) (fun t ht => lt_of_lt_of_le (hy t ht) (by norm_num))
       (show 111 * i.val + (o + k.val) < 111 * 7 by omega),
     ent_pk (by norm_num) (fun t ht => lt_of_lt_of_le (hn t ht) (by norm_num)) (idx k.isLt l.isLt),
     show 111 * i.val + k.val + o = 111 * i.val + (o + k.val) by ring]

@@ -24,8 +24,8 @@ theorem cfShape_of_isComponentModN {Q : Type} [Group Q] [Finite Q] {H T L : Subg
   have hTH : T ≤ H := hLT ▸ le_sup_right
   have hCH : C ≤ H := le_of_mem_cComp hC
   have hNH : OInf H ≤ H := hOI ▸ solvRad_le H
-  haveI : Group.IsSolvable ↥T := by
-    haveI := hT.isNilpotent
+  have : Group.IsSolvable ↥T := by
+    have := hT.isNilpotent
     infer_instance
   have hNsolv : Group.IsSolvable ↥(OInf H) := by
     have h := solvRad_isSolvable H
@@ -42,7 +42,7 @@ theorem cfShape_of_isComponentModN {Q : Type} [Group Q] [Finite Q] {H T L : Subg
     rw [sup_right_comm, hCN, hLT]
   intro Λ _ hcf hnc
   have h1 : uc22p20bSimpSec ↥H Λ := uc22p20b_simpSec_of_cf hcf
-  haveI := hN
+  have := hN
   rcases uc22p20b_simpSec_restrict ((OInf H).subgroupOf H) h1 with h2 | h2
   · exfalso
     obtain ⟨a, b, hab⟩ := hnc

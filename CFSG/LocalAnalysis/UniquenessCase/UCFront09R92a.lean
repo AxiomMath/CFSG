@@ -26,7 +26,7 @@ theorem not_hasE9_L9 {D : Data G} {Y H D₃ : Subgroup G} (hyp : Hyp91 D Y H D�
 theorem exists_map_conj_eq_of_card_eq_three {K : Subgroup G} (hK : ¬ HasE9 ↥K)
     {A B : Subgroup G} (hAK : A ≤ K) (hBK : B ≤ K) (hA3 : Nat.card A = 3)
     (hB3 : Nat.card B = 3) : ∃ l ∈ K, A.map (MulAut.conj l).toMonoidHom = B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3' : Nat.card (A.subgroupOf K) = 3 := by
     rw [← hA3]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAK).toEquiv
@@ -35,7 +35,7 @@ theorem exists_map_conj_eq_of_card_eq_three {K : Subgroup G} (hK : ¬ HasE9 ↥K
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBK).toEquiv
   obtain ⟨g, hg⟩ :=
     CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.isConj_of_natCard_eq_prime_of_sylow_cyclic
-      (fun Q => CFSG.GroupTheory.ThreeTranspositions.isCyclic_of_isPGroup_three hK Q.isPGroup')
+      (fun Q => CFSG.GroupTheory.ThreeTranspositions.isCyclic_of_isPGroup_three hK Q.isPGroup)
       hA3' hB3'
   refine ⟨g, g.2, ?_⟩
   have hc : K.subtype.comp (MulAut.conj g).toMonoidHom =

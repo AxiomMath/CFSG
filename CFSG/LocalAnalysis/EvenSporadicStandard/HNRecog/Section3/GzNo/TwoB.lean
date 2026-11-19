@@ -44,7 +44,7 @@ theorem gzNo_twoB (hC : CSideFacts) {G : Type} [Group G] [Finite G] {a z : G}
     intro h1
     have hxG : (x : G) = 1 := by rw [h1]; rfl
     exact hxQ (hxG ▸ (Qz z).one_mem)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxord : orderOf (x : G) = 2 := by
     rw [Subgroup.orderOf_coe]
     exact orderOf_eq_prime hx'2 hx1

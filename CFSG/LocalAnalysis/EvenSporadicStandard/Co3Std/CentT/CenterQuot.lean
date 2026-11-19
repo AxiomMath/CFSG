@@ -186,7 +186,7 @@ theorem card_fixed_centerQuotAut_dvd {K : Type} [Group K] [Finite K] (ζ : MulAu
   have hdiv : Nat.card φ.range ∣ Nat.card (center K) :=
     Subgroup.card_subgroup_dvd_card φ.range
   obtain ⟨k, hk⟩ := hdiv
-  haveI : Nonempty φ.range := ⟨1, φ.range.one_mem⟩
+  have : Nonempty φ.range := ⟨1, φ.range.one_mem⟩
   have hrpos : 0 < Nat.card φ.range := Nat.card_pos
   have hb : Nat.card (fixedSubgroup ζ) = Nat.card Fix * k := by
     have h1 : Nat.card Fix * (Nat.card φ.range * k) =

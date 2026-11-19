@@ -19,9 +19,9 @@ theorem exists_gen_map_conj {S : Type} [Group S] {Y : Subgroup S} (hY : Nat.card
   have hcardH : Nat.card ↥(Y.map (MulAut.conj g).toMonoidHom) = 3 := by
     rw [← hY]
     exact (Nat.card_congr (Subgroup.equivMapOfInjective Y _ hinj).toEquiv).symm
-  haveI : Finite ↥(Y.map (MulAut.conj g).toMonoidHom) :=
+  have : Finite ↥(Y.map (MulAut.conj g).toMonoidHom) :=
     Nat.finite_of_card_ne_zero (by rw [hcardH]; norm_num)
-  haveI : Nontrivial ↥(Y.map (MulAut.conj g).toMonoidHom) :=
+  have : Nontrivial ↥(Y.map (MulAut.conj g).toMonoidHom) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcardH]; norm_num)
   obtain ⟨x, hx1⟩ := exists_ne (1 : ↥(Y.map (MulAut.conj g).toMonoidHom))
   have hcard_zp : Nat.card (Subgroup.zpowers x) = 3 := by

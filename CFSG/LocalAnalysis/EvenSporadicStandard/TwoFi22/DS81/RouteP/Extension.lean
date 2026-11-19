@@ -174,7 +174,7 @@ theorem injective_of_restrict {H L C : Subgroup X} {H₀ L₀ : Subgroup G₀}
     eq_inv_of_mul_eq_one_right hh
   have hcL : c ∈ L := hψCL ⟨c, hc⟩ (by
     rw [hψc]
-    simpa using L₀.inv_mem (ψL ⟨l, hl⟩).2)
+    simp)
   have h2 : ψH (Subgroup.inclusion hLH ⟨c, hcL⟩) = ψH (Subgroup.inclusion hCH ⟨c, hc⟩) := rfl
   rw [hψL, hψC, hψc] at h2
   have h3 : ψL (⟨l, hl⟩ * ⟨c, hcL⟩) = 1 := by

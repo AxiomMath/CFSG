@@ -13,8 +13,8 @@ open CFSG.Open Subgroup
 theorem kFactFieldAutOddAt_holds
     (p : ℕ) (hp2' : p ≠ 2) : KFactFieldAutOddAt p := by
   intro J _ _ α U hp hα hpn hs hna hK hU hfix
-  haveI : IsSimpleGroup J := hs
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup J := hs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnonab : ∃ a b : J, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -50,7 +50,7 @@ theorem kFactFieldAutOddAt_holds
   obtain ⟨c, hcS, -, hαc⟩ :=
     CFSG.ComponentClassification.Asc76X.exists_eq_conj_of_forall_apply_eq hBender S α
       (fun x hx => hfix x hx)
-  obtain ⟨k, hk⟩ := (S.isPGroup' ) ⟨c, hcS⟩
+  obtain ⟨k, hk⟩ := (S.isPGroup ) ⟨c, hcS⟩
   have hck : c ^ 2 ^ k = 1 := congrArg Subtype.val hk
   have hαk : α ^ 2 ^ k = 1 := by
     rw [hαc, ← map_pow, hck, map_one]

@@ -165,9 +165,9 @@ def evenSuppEquiv :
     rw [hg]
     funext i
     by_cases h : i ∈ tFix
-    · rw [dif_pos h]
+    · rw [dite_eq_left h]
       rw [show eFix ⟨i, h⟩ = colOf i from rfl, (eq_fixPt_colOf h).symm]
-    · rw [dif_neg h]
+    · rw [dite_eq_right h]
       have h0 : Multiplicative.toAdd (u : G6.PermMod 24) i = 0 := by
         by_contra h'
         exact h ((mem_evenSupp.1 u.2).2 i h')
@@ -183,7 +183,7 @@ def evenSuppEquiv :
         (fun i => if h : i ∈ tFix then f.1 (eFix ⟨i, h⟩) else 0) from
       Equiv.apply_symm_apply Multiplicative.toAdd _]
     show (if h : fixPt j ∈ tFix then f.1 (eFix ⟨fixPt j, h⟩) else 0) = f.1 j
-    rw [dif_pos (fixPt_mem_tFix j)]
+    rw [dite_eq_left (fixPt_mem_tFix j)]
     rw [show eFix ⟨fixPt j, fixPt_mem_tFix j⟩ = j from colOf_fixPt j]
 
 theorem card_evenSupp_tFix : Nat.card ↥(evenSupp tFix) = 32 := by
@@ -192,8 +192,8 @@ theorem card_evenSupp_tFix : Nat.card ↥(evenSupp tFix) = 32 := by
 
 theorem mem_fixW_tA_iff (w : W11) :
     w ∈ fixW tA ↔ ∃ u : G6.PermMod 24, u ∈ evenSupp tFix ∧ cocodeCoords.κ u = w := by
-  haveI : Fintype ↥(evenSupp tFix) := Fintype.ofFinite _
-  haveI : Fintype ↥(fixW tA) := Fintype.ofFinite _
+  have : Fintype ↥(evenSupp tFix) := Fintype.ofFinite _
+  have : Fintype ↥(fixW tA) := Fintype.ofFinite _
   have hcard : Fintype.card ↥(evenSupp tFix) = Fintype.card ↥(fixW tA) := by
     have h1 := card_evenSupp_tFix
     have h2 := card_fixW_tA
@@ -225,7 +225,7 @@ theorem kappa_eY_tFix : eY tFix ∈ evenSupp tFix ∧ cocodeCoords.κ (eY tFix) 
   · intro i hi
     by_cases h : i ∈ tFix
     · exact h
-    · rw [toAdd_eY, if_neg h] at hi
+    · rw [toAdd_eY, ite_eq_right h] at hi
       exact absurd rfl hi
   · have hbits : ∀ i : Fin 24, (i ∈ tFix ↔ (4491298).testBit (i : ℕ) = true) := by
       decide +kernel
@@ -233,8 +233,8 @@ theorem kappa_eY_tFix : eY tFix ∈ evenSupp tFix ∧ cocodeCoords.κ (eY tFix) 
       funext i
       rw [toAdd_eY, bvec_apply]
       by_cases hi : i ∈ tFix
-      · rw [if_pos hi, if_pos ((hbits i).1 hi)]
-      · rw [if_neg hi, if_neg (fun h' => hi ((hbits i).2 h'))]
+      · rw [ite_eq_left hi, ite_eq_left ((hbits i).1 hi)]
+      · rw [ite_eq_right hi, ite_eq_right (fun h' => hi ((hbits i).2 h'))]
     have hval : actM ccECols 4491298 = 31 := by decide +kernel
     change Multiplicative.ofAdd (ccE (Multiplicative.toAdd (eY tFix))) = z0
     rw [h, ccE_bvec, hval]

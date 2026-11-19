@@ -61,11 +61,11 @@ noncomputable def rckTwoD_canonicalData
   subst m
   have hh : 1 ≤ h := hDe ▸ D.one_le_e
   have hpos : 0 < D.e := D.one_le_e
-  haveI : Finite ↥(frobeniusFixedField GGL 2 D.e) := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥(frobeniusFixedField GGL 2 D.e) := Nat.finite_of_card_ne_zero (by
     rw [card_frobeniusFixedField hpos]
     exact (pow_pos (by decide : 0 < (2 : ℕ)) _).ne')
-  letI : Fintype ↥(frobeniusFixedField GGL 2 D.e) := Fintype.ofFinite _
-  letI : Fintype (GaloisField 2 h) := Fintype.ofFinite _
+  let : Fintype ↥(frobeniusFixedField GGL 2 D.e) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 h) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField 2 h) = Fintype.card ↥(frobeniusFixedField GGL 2 D.e) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       GaloisField.card 2 h (by omega), card_frobeniusFixedField hpos, hDe]
@@ -92,9 +92,9 @@ noncomputable def rckTwoD_canonicalData
   have hframe := rckTwoD_dFrames hτ S hp (rck_natCast_ne_zero_GGL hp hp2) hTp i hm
     (shape_of_twistKind_twoD hk).2 ε hCart
   have hsw := hswap ⟨compRank (componentRoots (rootCharHom a) i) - 2, by omega⟩
-    ⟨compRank (componentRoots (rootCharHom a) i) - 1, by omega⟩ (by simp only [Fin.val_mk]; omega)
-    (by simp only [Fin.val_mk]; omega)
-  haveI := CFSG.LieType.Universal.Spin.Twisted.fact_shortField (minusCoeffs_irr 2 h)
+    ⟨compRank (componentRoots (rootCharHom a) i) - 1, by omega⟩ (by simp only; omega)
+    (by simp only; omega)
+  have := CFSG.LieType.Universal.Spin.Twisted.fact_shortField (minusCoeffs_irr 2 h)
   obtain ⟨φ₀, hφ₀, hker₀, hlong⟩ := rckTwoD_exists_cover_of_datum_field hτ D hm
     (fun j => (ε.symm j : Fin τ.rank → ℤ)) (fun j => simpleRoots_isRoot (ε.symm j).2)
     (fun j k h => ε.symm.injective (Subtype.ext h)) hG (hDs.trans hrange.symm) hfix hsw.1 hsw.2

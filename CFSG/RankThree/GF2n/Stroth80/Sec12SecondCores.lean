@@ -18,7 +18,7 @@ theorem stroth121SpCore_of_secondFalse (hZcard : Sec86ZCardStatement)
     (hirr : Sec86IrredStatement) (hS3 : SecondCfgFalse (IsSpModel 3) 4)
     (hS4 : SecondCfgFalse (IsSpModel 4) 8) : Stroth121SpCoreStatement := by
   intro G _ _ M Q Z B hc n h12 t ht htQ h83 hsub
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have h5 : Sec5Hyp hc n t := h12.toSec5 ht htQ
   have hsp : ∃ m : ℕ, 2 ≤ m ∧ SpMNat hc t m := by
     rcases h83 with ⟨-, hsp, -⟩ | ⟨-, hsp, -⟩
@@ -50,7 +50,7 @@ theorem stroth121OmegaCore_of_secondFalse (hZcard : Sec7ZCardStatement)
     (hS2 : SecondCfgFalse (IsOmegaPlus 5) 8) (hS3 : SecondCfgFalse (IsOmegaPlus 4) 4) :
     Stroth121OmegaCoreStatement := by
   intro G _ _ M Q Z B hc n h12 t ht htQ hex h79 hsub
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have h5 : Sec5Hyp hc n t := h12.toSec5 ht htQ
   have hlarge := h12.large t ht htQ
   have horth : ∃ m : ℕ, 2 ≤ m ∧ (OmegaPlusNat hc t m ∨ OmegaMinusNat hc t m) := by
@@ -98,7 +98,7 @@ theorem stroth12Omega6Minus_of_secondFalse (hZcard : Sec7ZCardStatement)
     (h78 : Stroth78Statement) (h79 : Stroth79Statement) (hSign : OmegaSignStatement)
     (hS : SecondCfgFalse (IsOmegaMinus 3) 4) : Stroth12Omega6MinusStatement := by
   intro G _ _ M Q Z B hc n h12 t ht htQ hm hsub
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have h5 : Sec5Hyp hc n t := h12.toSec5 ht htQ
   have hlarge := h12.large t ht htQ
   have hnot : ¬ OmegaPlusNat hc t 2 := not_omegaPlusNat_two_of (m := 3) le_rfl (Or.inr hm)

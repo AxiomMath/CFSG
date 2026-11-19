@@ -31,7 +31,7 @@ theorem involution_fusion_of_huppert
           simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]⟩)
       by_cases hrank : 2 ≤ pRank 2 U
       · have hhH : h ∈ H :=
-          normalizer_le_overgroup S H 2 hSH hcore U (S.isPGroup'.to_le hUS)
+          normalizer_le_overgroup S H 2 hSH hcore U (S.isPGroup.to_le hUS)
             (hUS.trans hSH) hrank hh
         refine ⟨z * h, H.mul_mem hzH hhH, ?_⟩
         calc
@@ -41,7 +41,7 @@ theorem involution_fusion_of_huppert
       · have htconj : orderOf (g⁻¹ * t * g) = 2 := by
           simpa only [MulAut.conj_apply, inv_inv, ht] using (MulAut.conj g⁻¹).orderOf_eq t
         have hfixed := rank_one_twoGroup_normalizer_fixes_involution U
-          (S.isPGroup'.to_le hUS) (by omega) _ htU htconj h hh
+          (S.isPGroup.to_le hUS) (by omega) _ htU htconj h hh
         refine ⟨z, hzH, ?_⟩
         calc
           z⁻¹ * t * z = g⁻¹ * t * g := hzt

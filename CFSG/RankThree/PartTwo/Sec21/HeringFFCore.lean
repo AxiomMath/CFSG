@@ -21,7 +21,7 @@ theorem ffNotWeaklyClosed_of_not_normalizer_le {A : Subgroup G} {a : G}
     (hW : ¬ Subgroup.normalizer (A : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers a : Subgroup G) : Set G)) :
     FFNotWeaklyClosed a := by
-  rw [SetLike.not_le_iff_exists] at hW
+  rw [IsConcreteLE.not_le_iff_exists] at hW
   obtain ⟨w, hwA, hwa⟩ := hW
   have hzA : Subgroup.zpowers a ≤ A := Subgroup.zpowers_le.mpr haA
   refine ⟨w⁻¹, ?_, ?_⟩
@@ -48,7 +48,7 @@ theorem ffNotWeaklyClosed_of_not_normalizer_le {A : Subgroup G} {a : G}
 theorem ff_exists_conj_le_sylow {H : Type} [Group H] [Finite H] (P : Sylow 3 H) {K : Subgroup H}
     (hK : IsPGroup 3 K) :
     ∃ g : H, K.map (MulAut.conj g).toMonoidHom ≤ (P : Subgroup H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := hK.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq H Q P
   refine ⟨g, ?_⟩
@@ -64,7 +64,7 @@ theorem ff_thetaT_anti {X : Type} [Group X] {p : ℕ} {B B' : Subgroup X} (h : B
 
 theorem ffSylowHyperplaneOdd_of_mem_partTwoS [Finite G] {A : Subgroup G} (hA : A ∈ partTwoS G)
     {a : G} (haA : a ∈ A) : FFSylowHyperplaneOdd a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rintro B ⟨P, rfl⟩ B₀ hB₀ hidx
   obtain ⟨⟨hAab, -, E, hE, hEA⟩, -, hT⟩ := hA
   have hAcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
@@ -83,7 +83,7 @@ theorem ffSylowHyperplaneOdd_of_mem_partTwoS [Finite G] {A : Subgroup G} (hA : A
     have h1 : (MulAut.conj g) ⟨x, hxC⟩ ∈ (P : Subgroup ↥(Subgroup.centralizer ({a} : Set G))) :=
       hg ⟨⟨x, hxC⟩, Subgroup.mem_subgroupOf.mpr hx, rfl⟩
     refine ⟨(g : G) * x * (g : G)⁻¹, ⟨_, h1, rfl⟩, ?_⟩
-    simp [hφ, MulAut.conj_apply, mul_assoc]
+    simp [hφ, mul_assoc]
   set B₀' : Subgroup G := B₀.map φ.toMonoidHom with hB₀'
   have hB₀'Bm : B₀' ≤ Bm := Subgroup.map_mono hB₀
   have hidx' : B₀'.relIndex Bm = 3 := by
@@ -127,7 +127,7 @@ theorem ffSylowCommutatorOdd_of_isSylow [Finite G] {A : Subgroup G} (hA : A ∈ 
       (P : Subgroup ↥(Subgroup.centralizer ({a} : Set G))).map
         (Subgroup.centralizer ({a} : Set G)).subtype = A) :
     FFSylowCommutatorOdd a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hPA⟩ := hSyl
   rintro B ⟨P', rfl⟩ x hxB hx1
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥(Subgroup.centralizer ({a} : Set G)) P P'
@@ -165,13 +165,13 @@ theorem ffSylowCommutatorOdd_of_isSylow [Finite G] {A : Subgroup G} (hA : A ∈ 
 theorem ff_isSimpleGroup_lBar {X : Subgroup G} (h : IsL4L5Sp6 X) : IsSimpleGroup (lBar X) := by
   rcases h with ⟨-, K, hK, hKf, hcard, ⟨e⟩⟩ | ⟨-, K, hK, hKf, hcard, ⟨e⟩⟩ |
     ⟨-, K, hK, hKf, hcard, ⟨e⟩⟩
-  · haveI := CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 4) (by norm_num)
+  · have := CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 4) (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact e.isSimpleGroup
-  · haveI := CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 5) (by norm_num)
+  · have := CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 5) (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact e.isSimpleGroup
-  · haveI := CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K 3 (by norm_num)
+  · have := CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K 3 (by norm_num)
       (Or.inr (Or.inr ⟨by simpa using hcard, le_rfl⟩))
     exact e.isSimpleGroup
 
@@ -185,8 +185,8 @@ theorem ff_exists_noncomm_of_isQuasisimple {Q : Type} [Group Q] (h : CFSG.IsQuas
 theorem ff_aschbacherSolvableCore_eq_center {X : Subgroup G} (hq : CFSG.IsQuasisimple X)
     (hX : IsL4L5Sp6 X) (hQ : CFSG.IsQuasisimple (lBar X)) :
     aschbacherSolvableCore 3 ↥X = Subgroup.center ↥X := by
-  haveI := ff_isSimpleGroup_lBar hX
-  haveI : IsSimpleGroup (↥X ⧸ Subgroup.center ↥X) := hq.2.1
+  have := ff_isSimpleGroup_lBar hX
+  have : IsSimpleGroup (↥X ⧸ Subgroup.center ↥X) := hq.2.1
   obtain ⟨p₀, q₀, hpq₀⟩ := ff_exists_noncomm_of_isQuasisimple hQ
   apply le_antisymm
   ·

@@ -41,7 +41,7 @@ theorem on25_primeCore_eq_bot {K : Type} [Group K] [Finite K] (hq : CFSG.Open.Is
   have hp : Nat.Prime 3 := Nat.prime_three
   refine le_bot_iff.1 (sSup_le fun N hN => ?_)
   obtain ⟨hNn, hcop⟩ := hN
-  haveI := hNn
+  have := hNn
   rcases on25_normal_le_center_or_top hq N with hle | htop
   · obtain ⟨k, hk⟩ := hZ.exists_card_eq
     have hd : Nat.card N ∣ 3 ^ k := hk ▸ Subgroup.card_dvd_of_le hle

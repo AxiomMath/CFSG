@@ -44,7 +44,7 @@ theorem lieSTwoAt_F4 (hLO : LieOrderBridge) : LieSTwoAt fun d => ∃ q, d = .F4 
   have hlay := hsh.layer _ hJ.1 (glaPComponent_perfect hJ)
   have hJc := (glaPComponent_isComponent_of_le_layer hJ hlay).1
   have h48 := lieSTwo_card_sp48 hLO hT
-  haveI : Nontrivial (PSimple 3 J) := by
+  have : Nontrivial (PSimple 3 J) := by
     rw [← Finite.one_lt_card_iff_nontrivial, h48]
     norm_num
   obtain ⟨φ⟩ := I1431C2.nonempty_centerQuot_equiv_psimple hJc.2.2 inferInstance

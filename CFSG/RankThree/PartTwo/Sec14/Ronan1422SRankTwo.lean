@@ -16,7 +16,7 @@ theorem false_of_inverted_of_fixed {V : Type} [CommGroup V] [Finite V] {r : ℕ}
     (hr5 : 5 ≤ r) (hexp : ∀ v : V, v ^ r = 1) (hcard : Nat.card V ≤ r ^ 2)
     (g h : MulAut V) (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) (hfix : ∃ v : V, v ≠ 1 ∧ g v = v)
     (hinv : h * g * h⁻¹ = g⁻¹) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨dl, hdl⟩ : ∃ dl : V →* V, ∀ v, dl v = g v * v⁻¹ :=
     ⟨MonoidHom.mk' (fun v => g v * v⁻¹) (fun a b => by
       simp only [map_mul, mul_inv]; ac_rfl), fun v => rfl⟩
@@ -139,7 +139,7 @@ theorem exists_fixed_of_elemAbelian_nine {V : Type} [CommGroup V] [Finite V] {r 
     (E : Subgroup (MulAut V)) (hEc : ∀ e ∈ E, ∀ f ∈ E, e * f = f * e)
     (hEexp : ∀ e ∈ E, e ^ 3 = 1) (hE9 : Nat.card E = 9) :
     ∃ g ∈ E, g ≠ 1 ∧ ∃ v : V, v ≠ 1 ∧ g v = v := by
-  haveI : Finite (MulAut V) := inferInstance
+  have : Finite (MulAut V) := inferInstance
   by_contra hcon
   have H : ∀ e ∈ E, e ≠ 1 → ∀ w : V, w ≠ 1 → e w ≠ w := fun e he he1 w hw hew =>
     hcon ⟨e, he, he1, w, hw, hew⟩
@@ -205,7 +205,7 @@ theorem exists_fixed_of_elemAbelian_nine {V : Type} [CommGroup V] [Finite V] {r 
       ac_rfl
     rw [hLa x, hLb x, hLab x, hLab2 x, hLa (b x), hLa (b (b x))] at ident
     rw [pow_three']
-    simp only [one_mul, mul_one] at ident
+    simp only [mul_one] at ident
     exact ident.symm
   obtain ⟨v, hv1⟩ := hV
   have hgcd : v ^ (Nat.gcd 3 r) = 1 := pow_gcd_eq_one.mpr ⟨key v, hexp v⟩

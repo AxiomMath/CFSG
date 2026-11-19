@@ -17,6 +17,7 @@ section PermP
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [DecidableEq α] in
 theorem pow_p_of_mem_uSub {p : ℕ} {σ u : Perm α} (hσ : σ ^ p = 1) (hu : u ∈ Claims126.uSub σ) :
     u ^ p = 1 := by
   ext x
@@ -334,7 +335,7 @@ theorem alt_le_of_fix' {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) (hpn : ¬ p
       have h2 : Relation.ReflTransGen (fun a b => (S a ∩ S b).Nonempty) none j :=
         Relation.ReflTransGen.single (by rw [Set.inter_comm]; exact hadj j)
       exact h1.trans h2
-    haveI : Nonempty (Fin n) := ⟨x₀⟩
+    have : Nonempty (Fin n) := ⟨x₀⟩
     rw [← GL83.iSup_altOn_eq_alternatingGroup hS3 hcover hconn]
     refine iSup_le fun o => ?_
     rcases o with _ | s
@@ -432,7 +433,7 @@ theorem alt_le_of_fix' {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) (hpn : ¬ p
       Set.eq_univ_of_forall fun x => Set.mem_iUnion.2 ⟨x, hWs x⟩
     have hconn : ∀ i j, Relation.ReflTransGen (fun a b => (W a ∩ W b).Nonempty) i j := fun i j =>
       Relation.ReflTransGen.single ⟨x₀, hWx i, hWx j⟩
-    haveI : Nonempty (Fin n) := ⟨x₀⟩
+    have : Nonempty (Fin n) := ⟨x₀⟩
     rw [← GL83.iSup_altOn_eq_alternatingGroup hW3 hcover hconn]
     exact iSup_le hWΓ
 
@@ -821,14 +822,14 @@ theorem altOn_le_map (hρ : IsAltRep ρ) {α : MulAut Y} {τ : Perm (Fin n)}
         ⟨⟨x, hNC hx⟩, Subgroup.mem_subgroupOf.2 hx, rfl⟩
       rw [hbot, Subgroup.mem_bot] at h1
       exact Subgroup.mem_sup_left ⟨_, (QuotientGroup.eq_one_iff _).1 h1, rfl⟩
-    · haveI : Nontrivial ↥(barX p C N) := (Subgroup.nontrivial_iff_ne_bot _).2 hbot
+    · have : Nontrivial ↥(barX p C N) := (Subgroup.nontrivial_iff_ne_bot _).2 hbot
       have hq : CFSG.Open.IsQuasisimple ↥(barX p C N) :=
         CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns.isQuasisimple_of_surjective_of_nontrivial
           hNq (CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns.barXHom p hNC)
           (CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns.barXHom_surjective p hNC)
       have hcomp : IsComponentOf (barX p C N) ⊤ := by
         refine ⟨le_top, ?_, hq⟩
-        haveI : (barX p C N).Normal := hNnorm.map _ (QuotientGroup.mk'_surjective _)
+        have : (barX p C N).Normal := hNnorm.map _ (QuotientGroup.mk'_surjective _)
         exact IsSubnormal.step le_top (Subgroup.Normal.subgroupOf inferInstance _) (IsSubnormal.refl _)
       obtain ⟨L, hL, hLN⟩ := exists_glaPComponent_barX_eq (p := p) C hcomp
       intro x hx
@@ -846,7 +847,7 @@ theorem kleinOn_le_map (hp : p.Prime) (hp2 : p ≠ 2) (hρ : IsAltRep ρ)
     (hτ : ∀ y, ρ (α y) = τ * ρ y * τ⁻¹) (h4 : τ.supportᶜ.card = 4) :
     Claims126.kleinOn τ.supportᶜ ≤ (GLAPPrimeCoreOf p (fixSub α)).map ρ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set V := Claims126.kleinOn τ.supportᶜ with hV
   set C : Subgroup Y := fixSub α with hC
   have hValt : ∀ v ∈ V, v ∈ Claims126.altOn τ.supportᶜ := fun v hv =>
@@ -937,7 +938,7 @@ theorem kleinOn_le_map (hp : p.Prime) (hp2 : p ≠ 2) (hρ : IsAltRep ρ)
     rw [pow_one, sq]
     exact ((hSmem _).1 g.2).2.2)⟩
   have hScop : Nat.Coprime p (Nat.card ↥S) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hS2.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right k ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
@@ -993,7 +994,7 @@ theorem component_alt (hp : p.Prime) (hp2 : p ≠ 2) (hρ : IsAltRep ρ)
     5 ≤ τ.supportᶜ.card ∧
       Nonempty (barOf p J ⧸ Subgroup.center (barOf p J) ≃* alternatingGroup (Fin τ.supportᶜ.card)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   set C : Subgroup Y := fixSub α with hC
   set D : Subgroup Y := (Claims126.cA τ).comap ρ with hD
@@ -1134,7 +1135,7 @@ theorem component_alt (hp : p.Prime) (hp2 : p ≠ 2) (hρ : IsAltRep ρ)
     · exact h
   refine ⟨h5, ?_⟩
   set A₀ := Claims126.altOn τ.supportᶜ with hA₀
-  haveI hA₀s : IsSimpleGroup ↥A₀ := Claims126.isSimpleGroup_altOn h5
+  have hA₀s : IsSimpleGroup ↥A₀ := Claims126.isSimpleGroup_altOn h5
   let ρJ : ↥J →* ↥A₀ := (ρ.comp J.subtype).codRestrict A₀ (fun j => by
     rw [← hReq]
     exact ⟨j, j.2, rfl⟩)
@@ -1152,7 +1153,7 @@ theorem component_alt (hp : p.Prime) (hp2 : p ≠ 2) (hρ : IsAltRep ρ)
     exact Subtype.ext (h2 g)
   have hJq : commutator ↥J = ⊤ := Group.isPerfect_def.1 (Subgroup.isPerfect_iff.2 hJperf)
   have hOker : GLAPPrimeCore p ↥J ≤ ρJ.ker := by
-    haveI hn : ((GLAPPrimeCore p ↥J).map ρJ).Normal := (GLAPPrimeCore.normal p ↥J).map ρJ hρJs
+    have hn : ((GLAPPrimeCore p ↥J).map ρJ).Normal := (GLAPPrimeCore.normal p ↥J).map ρJ hρJs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((GLAPPrimeCore p ↥J).map ρJ) with h | h
     · exact (Subgroup.map_eq_bot_iff _).1 h
     · exfalso
@@ -1175,7 +1176,7 @@ theorem component_alt (hp : p.Prime) (hp2 : p ≠ 2) (hρ : IsAltRep ρ)
       have hq : CFSG.Open.IsQuasisimple (barOf p J) :=
         (CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns.isQuasisimple_barX_iff hp hJ.2.1).1
           hJ.2.2.1.2.2
-      haveI := Claims126.nontrivial_of_isQuasisimple hq
+      have := Claims126.nontrivial_of_isQuasisimple hq
       obtain ⟨u, hu⟩ := exists_ne (1 : barOf p J)
       apply hu
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective u
@@ -1213,7 +1214,7 @@ theorem mem_range_conjNormal {n p : ℕ} (hp : Odd p) (h5 : 5 ≤ n)
     set H := (MulAut.conjNormal (H := alternatingGroup (Fin 6)) :
       Perm (Fin 6) →* MulAut ↥(alternatingGroup (Fin 6))).range with hH
     have hinj := CFSG.GroupTheory.AutAlternating.conjNormal_injective_alternatingGroup 6 (by norm_num)
-    haveI := Input236gt.finite_mulAut (alternatingGroup (Fin 6))
+    have := Input236gt.finite_mulAut (alternatingGroup (Fin 6))
     have hHcard : Nat.card H = 720 := by
       rw [hH, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv, Nat.card_perm,
         Nat.card_eq_fintype_card, Fintype.card_fin]
@@ -1337,7 +1338,7 @@ end Tau
 
 theorem input23_4Q_holds : Inputs123b.Input23_4Q := by
   intro p hp hp2 Y _ _ hq hO n hn5 hAlt hpn A hAel hAne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨f⟩ := hAlt
   have hZ : IsPGroup p ↥(Subgroup.center Y) := AltFacts2.isPGroup_center_of_core_eq_bot hp hO
@@ -1412,7 +1413,7 @@ theorem input14_4_AltDown_of_eqv (h183 : Inputs123b.Input18_3_eqv) :
     Prop1116Design.Input14_4_AltDown := by
   intro G _ _ p hp hp2 e a J0 J1 hae hap hJ1 hJ0 hKx n hn
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   set Js : Subgroup G := ⨆ g ∈ Subgroup.zpowers a, GLBConj g J1 with hJs
   rw [hKx] at hJ0
@@ -1492,6 +1493,7 @@ section I236
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem mem_of_isSCp {p : ℕ} {B : Subgroup X} (hB : IsSCp p ⊤ B) {z : X} (hzp : z ^ p = 1)
     (hz : ∀ b ∈ B, b * z = z * b) : z ∈ B := by
   have hc : B ≤ Subgroup.centralizer (Subgroup.zpowers z : Set X) := by
@@ -1544,10 +1546,12 @@ theorem mem_glbCore_of_comm {p : ℕ} (hp : p.Prime) {B B₀ : Subgroup X} (hBel
 @[expose] def tl (b k : X) (m : ℕ) : X :=
   ((List.range m).map fun i => (b ^ (i + 1))⁻¹ * k * b ^ (i + 1)).prod
 
+omit [Finite X] in
 theorem tl_succ (b k : X) (m : ℕ) :
     tl b k (m + 1) = tl b k m * ((b ^ (m + 1))⁻¹ * k * b ^ (m + 1)) := by
   simp [tl, List.range_succ]
 
+omit [Finite X] in
 theorem tl_succ' (b k : X) (m : ℕ) :
     tl b k (m + 1) = (b⁻¹ * k * b) *
       ((List.range m).map fun i => (b ^ (i + 2))⁻¹ * k * b ^ (i + 2)).prod := by
@@ -1555,6 +1559,7 @@ theorem tl_succ' (b k : X) (m : ℕ) :
   simp only [zero_add, pow_one]
   rfl
 
+omit [Finite X] in
 theorem conj_tl (b k : X) (m : ℕ) :
     b⁻¹ * tl b k m * b = ((List.range m).map fun i => (b ^ (i + 2))⁻¹ * k * b ^ (i + 2)).prod := by
   have h : b⁻¹ * tl b k m * b = MulAut.conj b⁻¹ (tl b k m) := by rw [MulAut.conj_apply, inv_inv]
@@ -1565,6 +1570,7 @@ theorem conj_tl (b k : X) (m : ℕ) :
   simp only [Function.comp_apply, MulAut.conj_apply, inv_inv]
   group
 
+omit [Finite X] in
 theorem commute_dg {b k : X} {m : ℕ} (hb : b ^ (m + 1) = 1) (hk : Commute k (tl b k m)) :
     Commute b (k * tl b k m) := by
   have h1 : b⁻¹ * (k * tl b k m) * b = k * tl b k m := by
@@ -1576,6 +1582,7 @@ theorem commute_dg {b k : X} {m : ℕ} (hb : b ^ (m + 1) = 1) (hk : Commute k (t
   calc b * (k * tl b k m) = b * (b⁻¹ * (k * tl b k m) * b) := by rw [h1]
     _ = (k * tl b k m) * b := by group
 
+omit [Finite X] in
 theorem commute_tl_of_commute {s b k : X} (hb : Commute s b) (hk : Commute s k) (m : ℕ) :
     Commute s (tl b k m) := by
   apply Commute.list_prod_right
@@ -1583,6 +1590,7 @@ theorem commute_tl_of_commute {s b k : X} (hb : Commute s b) (hk : Commute s k) 
   obtain ⟨i, -, rfl⟩ := List.mem_map.1 hy
   exact ((hb.pow_right (i + 1)).inv_right.mul_right hk).mul_right (hb.pow_right (i + 1))
 
+omit [Finite X] in
 theorem commute_tl_of {K : Subgroup X} {b k w : X} (hk : k ∈ K) {m : ℕ}
     (h : ∀ i, 0 < i → i ≤ m → ∀ y ∈ GLBConj (b ^ i) K, Commute y w) : Commute (tl b k m) w := by
   apply Commute.list_prod_left
@@ -1596,7 +1604,7 @@ theorem commute_tl_of {K : Subgroup X} {b k w : X} (hk : k ∈ K) {m : ℕ}
 theorem input23_6_holds : Lemma116.Input23_6 := by
   intro X _ _ p n hp hp2 hpn hpdvd B K hB hB3 hK he hB0ne
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨ψ⟩ := he
   have h5 : 5 ≤ n := Input236gt.five_le_of_isQuasisimple hK.2.2 ψ
@@ -1632,7 +1640,7 @@ theorem input23_6_holds : Lemma116.Input23_6 := by
   have hKb₀ : ∀ x ∈ K, x * b₀ = b₀ * x := fun x hx => hB₀K b₀ hb₀ x hx
   have hB₀N : ∀ b ∈ B₀, b ∈ Subgroup.normalizer (K : Set X) := fun b hb =>
     Subgroup.centralizer_le_normalizer (K : Set X) (Subgroup.centralizer_le (fun x hx => hKKs hx) hb.2)
-  haveI hKsimp : IsSimpleGroup ↥K := ψ.isSimpleGroup_congr.2 (AltFacts3.isSimple_alt h5)
+  have hKsimp : IsSimpleGroup ↥K := ψ.isSimpleGroup_congr.2 (AltFacts3.isSimple_alt h5)
   by_cases hN : ∀ b ∈ B, b ∈ Subgroup.normalizer (K : Set X)
   swap
   ·
@@ -1672,7 +1680,7 @@ theorem input23_6_holds : Lemma116.Input23_6 := by
         obtain ⟨w₀, hw₀1, hw₀σ⟩ : ∃ w₀ : ↥K, w₀ ≠ 1 ∧
             σ * (ψ w₀ : Perm (Fin n)) = (ψ w₀ : Perm (Fin n)) * σ := by
           by_cases hσ1 : σ = 1
-          · haveI := Claims126.nontrivial_of_isQuasisimple hK.2.2
+          · have := Claims126.nontrivial_of_isQuasisimple hK.2.2
             obtain ⟨w₀, hw₀⟩ := exists_ne (1 : ↥K)
             exact ⟨w₀, hw₀, by rw [hσ1, one_mul, mul_one]⟩
           · have hσA : σ ∈ alternatingGroup (Fin n) := mem_alt_of_pow hpodd hσp

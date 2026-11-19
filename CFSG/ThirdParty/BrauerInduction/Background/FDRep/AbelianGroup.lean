@@ -119,7 +119,7 @@ lemma abelian_simple_is_linear
     exact W.smul_mem c hx
   let σ : FDRep k G := FDRep.ofSubmodule ρ W hstable
   let i : σ ⟶ ρ := FDRep.ofSubmoduleIncl ρ W hstable
-  haveI : Mono i := by
+  have : Mono i := by
     apply ConcreteCategory.mono_of_injective
       (C := FDRep k G)
     exact
@@ -140,7 +140,7 @@ lemma abelian_simple_is_linear
         hi
     have hv0 : v = 0 := not_neZero.mp fun a ↦ hv h_app
     exact hv hv0
-  haveI : IsIso i := isIso_of_mono_of_nonzero (f := i) hi_ne
+  have : IsIso i := isIso_of_mono_of_nonzero (f := i) hi_ne
   have hWtop : W = ⊤ := by
     apply eq_top_iff.mpr
     intro x hx

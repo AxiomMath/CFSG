@@ -21,7 +21,7 @@ theorem Shape166.conj_inf_normalizer_eq_bot_of_benderType
     {Y : Subgroup X} (hY : IsElemAbelian 2 Y) (hcardY : Nat.card Y = 2 ^ n)
     {W : Subgroup X} (hWY : W ≤ Y) (hW : W ≠ ⊥) {x : X} (hx : conjSubgroup Y x ≠ Y) :
     conjSubgroup Y x ⊓ normalizer (W : Set X) = ⊥ := by
-  haveI : IsSimpleGroup X := hB.isSimple
+  have : IsSimpleGroup X := hB.isSimple
   have hY2 : IsPGroup 2 Y := IsPGroup.of_card (n := n) hcardY
   obtain ⟨S, hYS⟩ := hY2.exists_le_sylow
   obtain ⟨t, hc⟩ := hB.exists_benderCore S

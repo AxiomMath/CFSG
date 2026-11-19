@@ -34,7 +34,7 @@ namespace Case811Sylow
 theorem not_rankThreeGamma_le {c : Counterexample4 G} (h : Case811Sylow c) :
     ¬ CFSG.Open.rankThreeGamma 1 3 h.A ≤ c.S.M := by
   intro hΓ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hA1 : h.A ≠ ⊥ := by
     intro hbot
     have hcard := h.card_A
@@ -58,9 +58,9 @@ theorem false_of_rank_conditions {c : Counterexample4 G} (h : Case811Sylow c) {p
     (hdvd : ∀ X : Subgroup G, X ≤ h.A → Nat.card X = 3 →
       p ∣ Nat.card (Subgroup.normalizer (X : Set G))) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp_prime : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hA_gamma : CFSG.Open.rankThreeGamma 1 3 h.A ≤ c.S.M := by
     refine CFSG.RankThree.PartOne.IsStronglyPEmbedded.rankThreeGamma_one_le
       (p := p) (q := 3) (M := c.S.M) (A := h.A)
@@ -93,7 +93,7 @@ theorem false_of_le_centralizer_A {c : Counterexample4 G} (h : Case811Sylow c) {
     {R : Subgroup G} (hRM : R ≤ c.S.M) (hRA : R ≤ Subgroup.centralizer (h.A : Set G))
     (hR : CFSG.Open.IsElemAbelian p R) (hRcard : Nat.card R = p ^ 2) : False := by
   have hp_prime : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   refine false_of_rank_conditions h hp h76 ?_ ?_ ?_
   · intro E hEA hEab hEcard
     have hle : R ≤ c.S.M ⊓ Subgroup.centralizer (E : Set G) :=
@@ -127,9 +127,9 @@ theorem false_of_commutator_le {c : Counterexample4 G} (h : Case811Sylow c) {p :
     (hRcard : Nat.card R = p ^ 2)
     (hcomm : ⁅c.L, R⁆ ≤ CFSG.Open.pCoreOf 2 c.L) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp_prime : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hp5 : 5 ≤ p := c.five_le_of_mem_sigma hp
   have hp2 : p ≠ 2 := by omega
   have hR_le_NL : R ≤ Subgroup.normalizer (c.L : Set G) := hRM.trans hLM

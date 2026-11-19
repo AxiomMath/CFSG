@@ -11,14 +11,14 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Simple2S5
 
 open CFSG.EvenSporadicStandard.HNRecog
 
-private theorem isSylow2In_and_conj_u_of_tfacts (hT : TMUFacts)
+private theorem isSylow2In_and_conj_u_of_tfacts (_hT : TMUFacts)
     {S : Subgroup (Equiv.Perm (Fin 1408))} (hS : Good S (elemA * elemZ)) {k : ℕ} (hk : k < 2)
     (hY : S ⊓ Subgroup.centralizer ({elemA * elemZ} : Set (Equiv.Perm (Fin 1408))) = yK k)
     (tf : TFacts k) :
     Nat.card ↥(S ⊓ Subgroup.centralizer ({elemA * elemZ} : Set (Equiv.Perm (Fin 1408)))) = 240 ∧
       IsSylow2In S (tSub k) ∧
       ∃ g ∈ S, g * (elemA * elemZ) * g⁻¹ = uElt k := by
-  haveI := hS.simple
+  have := hS.simple
   have htY : elemA * elemZ ∈
       S ⊓ Subgroup.centralizer ({elemA * elemZ} : Set (Equiv.Perm (Fin 1408))) :=
     ⟨hS.mem, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
@@ -71,7 +71,7 @@ theorem exists_h_of_tmuFacts (hT : TMUFacts) {S : Subgroup (Equiv.Perm (Fin 1408
         Set (Equiv.Perm (Fin 1408)))) (tSub 0) :=
       isSylow2In_of_card hTY0 hT.k0.card_T hYcard
     have ht₀2 : orderOf (elemA * elemZ) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [pow_two]; exact hS.sq) hS.ne
     have hcommT : ∀ x ∈ tSub 0, x * (elemA * elemZ) = (elemA * elemZ) * x := by
       intro x hx

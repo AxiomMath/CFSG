@@ -43,7 +43,7 @@ theorem s16t3_mem_map_fixV_iff {L : Subgroup (MulAut W)} {a : MulAut W}
 
 theorem s16t3_injective_toMonoidHom (a : MulAut W) :
     Function.Injective (a.toMonoidHom : W → W) :=
-  fun x y h => a.injective h
+  fun _x _y h => a.injective h
 
 theorem s16t3_PreservesFix.trans {L : Subgroup (MulAut W)} {J J' J'' : Subgroup W}
     {φ : ↥J ≃* ↥J'} {ψ : ↥J' ≃* ↥J''} (hφ : s16t3_PreservesFix L φ)
@@ -118,9 +118,9 @@ theorem s16t3_equivMapOfInjective_semiConj {L : Subgroup (MulAut W)} (a : MulAut
 
 theorem s16t3_IsSemiConj.trans {L : Subgroup (MulAut W)} {α β : MulAut W}
     (hα : α ∈ Subgroup.normalizer (L : Set (MulAut W)))
-    (hβ : β ∈ Subgroup.normalizer (L : Set (MulAut W)))
+    (_hβ : β ∈ Subgroup.normalizer (L : Set (MulAut W)))
     {J J' J'' : Subgroup W} (hJ' : StableUnder L J') {φ : ↥J ≃* ↥J'} {ψ : ↥J' ≃* ↥J''}
-    (hZφ : s16t3_PreservesFix L φ) (hZψ : s16t3_PreservesFix L ψ)
+    (_hZφ : s16t3_PreservesFix L φ) (hZψ : s16t3_PreservesFix L ψ)
     (hφ : s16t3_IsSemiConj L α φ) (hψ : s16t3_IsSemiConj L β ψ) :
     s16t3_IsSemiConj L (β * α) (φ.trans ψ) := by
   intro l hl u hu
@@ -136,7 +136,7 @@ theorem s16t3_IsSemiConj.trans {L : Subgroup (MulAut W)} {α β : MulAut W}
     have hz' : (⟨_, hzJ'⟩ : ↥J') = φ ⟨l (u : W), hu⟩ *
         (⟨(α * l * α⁻¹) ((φ u : ↥J') : W), hmem⟩ : ↥J')⁻¹ := by
       ext
-      simp [div_eq_mul_inv, mul_assoc]
+      simp [mul_assoc]
     rw [hz', map_mul, map_inv] at hzψ
     simpa using hzψ
   have hβl : (β * α) * l * (β * α)⁻¹ = β * (α * l * α⁻¹) * β⁻¹ := by group
@@ -177,7 +177,7 @@ theorem s16t3_IsSemiConj.symm {L : Subgroup (MulAut W)} {α : MulAut W}
   let B' : ↥J' := ⟨l ((φ (φ.symm v) : ↥J') : W), by rw [hvv]; exact hv⟩
   have hzdef : z = A' * B'⁻¹ := by
     apply Subtype.ext
-    simp [z, A', B', div_eq_mul_inv]
+    simp [z, A', B']
   have hsub : (φ.symm z : ↥J) = φ.symm A' * (φ.symm B')⁻¹ := by
     rw [hzdef, map_mul, map_inv]
   have hA : (φ.symm A' : ↥J) = ⟨(α⁻¹ * l * α) ((φ.symm v : ↥J) : W), hmem⟩ := by
@@ -185,7 +185,7 @@ theorem s16t3_IsSemiConj.symm {L : Subgroup (MulAut W)} {α : MulAut W}
     simp only [A', MulEquiv.apply_symm_apply]
   have hB : (φ.symm B' : ↥J) = φ.symm ⟨l (v : W), hv⟩ := by
     apply φ.injective
-    simp only [B', MulEquiv.apply_symm_apply, Subtype.coe_mk]
+    simp only [B', MulEquiv.apply_symm_apply]
   rw [hsub, hA, hB] at hzψ
   simpa [mul_inv_rev, inv_inv] using Subgroup.inv_mem _ hzψ
 
@@ -223,12 +223,12 @@ theorem s16t3_commSub_map_conj {U : Subgroup W} {Y : Subgroup (MulAut W)} (a : M
     obtain ⟨w₀, hw₀, rfl⟩ := hw
     refine ⟨x₀ w₀ * w₀⁻¹, ⟨x₀, hx₀, w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
   · rintro ⟨s, hs, rfl⟩
     obtain ⟨x₀, hx₀, w₀, hw₀, rfl⟩ := hs
     refine ⟨MulAut.conj a x₀, ⟨x₀, hx₀, rfl⟩, a w₀, ⟨w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
 
 theorem s16t3_stableUnder_map {L : Subgroup (MulAut W)} {J : Subgroup W}
     (hJ : StableUnder L J) {a : MulAut W} (ha : a ∈ Subgroup.normalizer (L : Set (MulAut W))) :

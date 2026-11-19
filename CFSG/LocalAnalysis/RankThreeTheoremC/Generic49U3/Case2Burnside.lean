@@ -17,8 +17,8 @@ private theorem burnside_normalizer_le_centralizer {Y : Type*} [Group Y] [Finite
     (hp : p.Prime) (Q : Sylow p Y) (hQc : IsCyclic (Q : Subgroup Y)) {x : Y}
     (hxQ : x ∈ (Q : Subgroup Y)) (hxo : orderOf x = p) (hxc : ∀ y : Y, y * x = x * y) :
     Subgroup.normalizer ((Q : Subgroup Y) : Set Y) ≤ Subgroup.centralizer ((Q : Subgroup Y) : Set Y) := by
-  haveI := hQc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hQc
+  have : Fact p.Prime := ⟨hp⟩
   intro g hg
   set Qs : Subgroup Y := (Q : Subgroup Y) with hQs
   set φ : Subgroup.normalizer (Qs : Set Y) →* MulAut Qs := Qs.normalizerMonoidHom with hφ
@@ -40,7 +40,7 @@ private theorem burnside_normalizer_le_centralizer {Y : Type*} [Group Y] [Finite
   have hgx : g * x * g⁻¹ = x := by rw [hxc g, mul_assoc, mul_inv_cancel, mul_one]
   have hDp : ∀ d ∈ Qs, ∃ k : ℕ, d ^ (p ^ k) = 1 := by
     intro d hd
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨d, hd⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨d, hd⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hgs : ∀ d ∈ Qs, (g ^ s) * d * (g ^ s)⁻¹ = d := by
     intro d hd
@@ -64,7 +64,7 @@ private theorem burnside_exists_complement {Y : Type*} [Group Y] [Finite Y] {p :
     ∃ N : Subgroup Y, (∀ n ∈ N, Nat.Coprime p (orderOf n)) ∧
       (∀ y : Y, Nat.Coprime p (orderOf y) → y ∈ N) ∧
       (∀ y : Y, ∃ n ∈ N, ∃ d ∈ (Q : Subgroup Y), y = n * d) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨(MonoidHom.transferSylow Q hQ).ker, ?_, ?_, ?_⟩
   · intro n hn
     have h1 : orderOf n ∣ Nat.card (MonoidHom.transferSylow Q hQ).ker := by
@@ -74,7 +74,7 @@ private theorem burnside_exists_complement {Y : Type*} [Group Y] [Finite Y] {p :
       (MonoidHom.not_dvd_card_ker_transferSylow Q hQ)).coprime_dvd_right h1
   · intro y hy
     rw [MonoidHom.mem_ker]
-    obtain ⟨k, hk⟩ := Q.isPGroup' (MonoidHom.transferSylow Q hQ y)
+    obtain ⟨k, hk⟩ := Q.isPGroup (MonoidHom.transferSylow Q hQ y)
     have h2 : orderOf (MonoidHom.transferSylow Q hQ y) ∣ p ^ k := orderOf_dvd_of_pow_eq_one hk
     have h3 : orderOf (MonoidHom.transferSylow Q hQ y) ∣ orderOf y := orderOf_map_dvd _ y
     have h4 : Nat.Coprime (p ^ k) (orderOf y) := Nat.Coprime.pow_left k hy
@@ -86,7 +86,7 @@ private theorem burnside_exists_complement {Y : Type*} [Group Y] [Finite Y] {p :
     exact ⟨a.1, a.2, d.1, d.2, h.symm⟩
 
 theorem u3_K0_pComplement_core {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : PointConfig Typ G p P M x J)
-    (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G))
+    (_hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G))
     (hDcyc : IsCyclic ↥((P : Subgroup G) ⊓ u3K0 p x J)) (hxD : x ∈ (P : Subgroup G) ⊓ u3K0 p x J)
     (hxo' : orderOf x = p) :
     ∃ N₀ : Subgroup G, N₀ ≤ u3K0 p x J ∧
@@ -94,7 +94,7 @@ theorem u3_K0_pComplement_core {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (h
       (∀ n ∈ N₀, Nat.Coprime p (orderOf n)) ∧
       ∀ k ∈ u3K0 p x J, ∃ n ∈ N₀, ∃ d ∈ (P : Subgroup G) ⊓ u3K0 p x J, k = n * d := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnorm := u3K0_conj_gen hc
   have hK₀C : u3K0 p x J ≤ Subgroup.centralizer ({x} : Set G) := fun k hk => hk.1
   have hK₀N : Subgroup.centralizer ({x} : Set G) ≤ Subgroup.normalizer ((u3K0 p x J : Subgroup G) : Set G) := by

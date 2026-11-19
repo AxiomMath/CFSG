@@ -112,7 +112,7 @@ theorem puigCenterPCore_le_map_puigSubgroup_sylow [Finite G] [Group.IsSolvable G
     puigCenterPCore p G ≤ (puigSubgroup (S : Subgroup G)).map (S : Subgroup G).subtype :=
   calc puigCenterPCore p G ≤ (puigSubgroup (pCore p G)).map (pCore p G).subtype :=
         map_mono puigCenter_le_puigSubgroup
-    _ ≤ _ := map_puigSubgroup_pCore_le_map_puigSubgroup hp hGodd hp' rfl S.isPGroup'
+    _ ≤ _ := map_puigSubgroup_pCore_le_map_puigSubgroup hp hGodd hp' rfl S.isPGroup
         (pCore_le_sylow hp S)
 
 theorem map_puigSubgroup_sylow_le_puigCentralizerContainer [Finite G] [Group.IsSolvable G]
@@ -139,7 +139,7 @@ theorem map_puigSubgroup_sylow_le_puigCentralizerContainer [Finite G] [Group.IsS
     have := hB
     exact map_isMulCommutative _ _
   · rintro A ⟨B, -, rfl⟩
-    exact S.isPGroup'.to_le (map_subtype_le _)
+    exact S.isPGroup.to_le (map_subtype_le _)
   · rintro A ⟨B, ⟨-, hW⟩, rfl⟩
     exact hnormY B hW
 

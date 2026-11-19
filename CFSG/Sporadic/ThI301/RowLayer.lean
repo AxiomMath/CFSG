@@ -103,7 +103,7 @@ theorem card_eq_of_pow_1728 {G : Type*} [Group G] [Finite G] (hG : ∀ g : G, g 
     intro p hp
     rw [Nat.support_factorization, Nat.mem_primeFactors] at hp
     obtain ⟨hpp, hpd, -⟩ := hp
-    haveI := Fact.mk hpp
+    have := Fact.mk hpp
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hpd
     have h1728 : p ∣ 2 ^ 6 * 3 ^ 3 := by
       rw [← hg]
@@ -119,7 +119,7 @@ theorem card_eq_of_pow_1728 {G : Type*} [Group G] [Finite G] (hG : ∀ g : G, g 
 
 theorem isSolvable_of_pow_1728 {G : Type*} [Group G] [Finite G]
     (hG : ∀ g : G, g ^ 1728 = 1) : Group.IsSolvable G := by
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num) (by rw [Fintype.card_eq_nat_card]; exact card_eq_of_pow_1728 hG)
 
@@ -133,7 +133,7 @@ theorem glaPLayer_eq_bot_of_isSolvable {X : Subgroup J} [Group.IsSolvable X] :
 
 theorem glaPLayer_eq_bot_of_le {H : Subgroup J}
     (hH : ∀ g ∈ H, g ∈ Max3.M ∧ g * hswJ 6 = hswJ 6 * g) : GLAPLayer 3 H = ⊥ := by
-  haveI : Group.IsSolvable H := isSolvable_of_pow_1728 fun g => by
+  have : Group.IsSolvable H := isSolvable_of_pow_1728 fun g => by
     obtain ⟨hM, ht⟩ := hH g g.2
     apply Subtype.ext
     rw [Subgroup.coe_pow, Subgroup.coe_one]

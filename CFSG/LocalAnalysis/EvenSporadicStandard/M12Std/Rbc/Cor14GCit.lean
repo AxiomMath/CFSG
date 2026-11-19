@@ -19,7 +19,7 @@ theorem exists_quaternion_sylow_of_pRank_one {X : Type} [Group X] [Finite X]
     (hq : CFSG.IsQuasisimple X) (hr : CFSG.pRank 2 X = 1) (P : Sylow 2 X) :
     ∃ r : ℕ, 3 ≤ r ∧ Nonempty ((P : Subgroup X) ≃* QuaternionGroup (2 ^ (r - 2))) := by
   have hP2 := hq.2.2
-  haveI : IsSimpleGroup (X ⧸ center X) := hq.2.1
+  have : IsSimpleGroup (X ⧸ center X) := hq.2.1
   let π : X →* X ⧸ center X := QuotientGroup.mk' (center X)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   rcases Junction.sylow_cyclic_or_quaternion hr P with hcyc | ⟨e, he, ⟨eQ⟩⟩

@@ -40,18 +40,18 @@ open CFSG.RankThree.PartOne.KCPrimary
 variable {r g : ℕ} {K : Type} [Field K]
 
 private theorem charP_two_kglSpF [Finite K] (hK : Nat.card K = 2 ^ g) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := g) (by rw [Fintype.card_eq_nat_card, hK])
 
 private theorem nontrivial_kglSpF {T : Type*} [Group T] (h : CFSG.Open.IsQuasisimple T) :
     Nontrivial T := by
-  haveI := h.2
+  have := h.2
   exact (QuotientGroup.mk'_surjective (Subgroup.center T)).nontrivial
 
 private theorem not_isSolvable_kglSpF {T : Type*} [Group T] (h : CFSG.Open.IsQuasisimple T) :
     ¬ Group.IsSolvable T := by
-  haveI := nontrivial_kglSpF h
-  haveI : Group.IsPerfect T := Group.isPerfect_def.mpr h.1
+  have := nontrivial_kglSpF h
+  have : Group.IsPerfect T := Group.isPerfect_def.mpr h.1
   exact Group.IsPerfect.not_isSolvable T
 
 private theorem spSupported_eq_bot_kglSpF {x : StatedSp r K}
@@ -76,7 +76,7 @@ private theorem spSupported_one_kglSpF (hr : 1 ≤ r) :
   rw [eq_top_iff]
   intro u _
   refine mem_spSupported.mpr ⟨by rw [mul_one, one_mul], fun k hk hkO => absurd ?_ hkO⟩
-  haveI : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, hr⟩⟩
+  have : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, hr⟩⟩
   obtain ⟨hki, hkm, hkd⟩ := mem_primaryFactors.mp hk
   have h1 : spEnd (1 : StatedSp r K) = 1 := by simp [spEnd]
   rw [h1, minpoly.one] at hkd
@@ -89,9 +89,9 @@ private theorem exists_orbitPart_kglSpF {ℓ f p n : ℕ} {x y : StatedSp r K}
     ∃ z ∈ spSupported x (O : Set K[X]), z ^ n = 1 ∧
       ∀ j ∈ spSupported x (O : Set K[X]), Commute (z⁻¹ * y) j := by
   classical
-  haveI : Finite ↥(reciprocalOrbits (spEnd x)) :=
+  have : Finite ↥(reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
-  haveI := Fintype.ofFinite ↥(reciprocalOrbits (spEnd x))
+  have := Fintype.ofFinite ↥(reciprocalOrbits (spEnd x))
   obtain ⟨hcomm, hind, hjoin⟩ := blocks.directProduct
   have hpair : Pairwise fun i j : ↥(reciprocalOrbits (spEnd x)) => ∀ u v : StatedSp r K,
       u ∈ spSupported x (i : Set K[X]) → v ∈ spSupported x (j : Set K[X]) → Commute u v :=
@@ -116,20 +116,20 @@ private theorem mem_commutator_kglSpF [Finite K] {G : Type*} [Group G] {A : Subg
     {w : G} (hw : w ∈ A) (hw3 : w ^ 3 = 1) : w ∈ ⁅A, A⁆ := by
   have hsol : ¬ Group.IsSolvable ↥A := fun _ => hns (Group.isSolvable_of_isSolvable_injective
     (Subgroup.inclusion_injective (Subgroup.commutator_le_self A)))
-  haveI : Finite ↥A := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite ↥A := Finite.of_equiv _ e.symm.toEquiv
   have hcard := (Nat.card_congr e.toEquiv).trans
     (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp (K := K) s)
   rw [← Subgroup.map_subtype_commutator]
   refine ⟨⟨w, hw⟩, ?_, rfl⟩
   obtain hs | hs := Nat.eq_zero_or_pos s
   · subst hs
-    haveI : Subsingleton ↥A := (Nat.card_eq_one_iff_unique.mp (by simpa using hcard)).1
+    have : Subsingleton ↥A := (Nat.card_eq_one_iff_unique.mp (by simpa using hcard)).1
     exact (hsol inferInstance).elim
   by_cases hq : (Infinite K ∨ 4 ≤ Nat.card K) ∨ (Nat.card K = 3 ∧ 2 ≤ s) ∨
       (Nat.card K = 2 ∧ 3 ≤ s)
-  · haveI : Group.IsPerfect ↥(StatedSp s K) :=
+  · have : Group.IsPerfect ↥(StatedSp s K) :=
       (CFSG.LieType.Universal.Symplectic.isQuasisimple s K hs hq).1
-    haveI : Group.IsPerfect ↥A :=
+    have : Group.IsPerfect ↥A :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     exact Group.IsPerfect.mem_commutator
   have hK4 : Nat.card K < 4 := by
@@ -171,8 +171,8 @@ theorem ggInnerOn_sp_fixed {r g : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat
     GGInnerOn ((⁅spSupported x {X - 1}, spSupported x {X - 1}⁆).map (proj r K))
       (MulAut.conj (proj r K y)) := by
   classical
-  haveI := charP_two_kglSpF hK
-  haveI : NeZero r := ⟨by omega⟩
+  have := charP_two_kglSpF hK
+  have : NeZero r := ⟨by omega⟩
   obtain ⟨y₁, hy₁, hy₁3, hy₁c, s, ⟨e⟩⟩ : ∃ y₁ ∈ spSupported x {X - 1}, y₁ ^ 3 = 1 ∧
       (∀ j ∈ spSupported x {X - 1}, Commute (y₁⁻¹ * y) j) ∧
       ∃ s, Nonempty (spSupported x {X - 1} ≃* StatedSp s K) := by

@@ -11,6 +11,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma fzl_f_eq_one_of_mem_W {f : ↥(fzN2 t x₁ x₂) →* FzZ2xSigma4}
     (hF : FzF t x₁ x₂ f) {w : G} (hw : w ∈ fzN2 t x₁ x₂) (hwW : w ∈ ctxW t x₁ x₂) :
     f ⟨w, hw⟩ = 1 := by
@@ -27,7 +28,7 @@ private lemma fzl_baseGrp_le_L (h : Ctx t L S x₁ x₂ lam rho tau) :
       tauto)
   exact h1.trans (by rw [← h.inf_eq]; exact inf_le_right)
 
-theorem fzl_f_rho (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCore t) = 2)
+theorem fzl_f_rho (h : Ctx t L S x₁ x₂ lam rho tau) (_hK : Nat.card (twoCore t) = 2)
     {f : ↥(fzN2 t x₁ x₂) →* FzZ2xSigma4} (hF : FzF t x₁ x₂ f) (hr : rho ∈ fzN2 t x₁ x₂) :
     f ⟨rho, hr⟩ ^ 3 = 1 ∧ f ⟨rho, hr⟩ ≠ 1 := by
   have hrho := fzl_rho_Z h
@@ -40,14 +41,14 @@ theorem fzl_f_rho (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCore 
     have hrhoW : rho ∈ ctxW t x₁ x₂ := (fzl_W_mem_iff hF rho).2 ⟨hr, h1⟩
     have hzZ : x₁ ^ 2 ∈ fourGrp x₁ x₂ := Subgroup.subset_closure (by simp)
     have hzW : x₁ ^ 2 ∈ ctxW t x₁ x₂ := fzl_Z_le_W h hzZ
-    haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+    have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
     have hcomm : rho * x₁ ^ 2 = x₁ ^ 2 * rho :=
       congrArg Subtype.val
         (mul_comm' (⟨rho, hrhoW⟩ : ctxW t x₁ x₂) ⟨x₁ ^ 2, hzW⟩)
     exact hrho.2.2.2 (x₁ ^ 2) hzZ (fzl_z1_ne_z2 h).2.1 (by rw [hcomm]; group)
 
-theorem fzl_f_lam (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCore t) = 2)
-    {f : ↥(fzN2 t x₁ x₂) →* FzZ2xSigma4} (hF : FzF t x₁ x₂ f) (hr : rho ∈ fzN2 t x₁ x₂)
+theorem fzl_f_lam (h : Ctx t L S x₁ x₂ lam rho tau) (_hK : Nat.card (twoCore t) = 2)
+    {f : ↥(fzN2 t x₁ x₂) →* FzZ2xSigma4} (_hF : FzF t x₁ x₂ f) (hr : rho ∈ fzN2 t x₁ x₂)
     (hl : lam ∈ fzN2 t x₁ x₂) :
     f ⟨lam, hl⟩ ^ 2 = 1 ∧ f ⟨lam, hl⟩ * f ⟨rho, hr⟩ * (f ⟨lam, hl⟩)⁻¹ = (f ⟨rho, hr⟩)⁻¹ := by
   have hlam := fzl_lam_Z h

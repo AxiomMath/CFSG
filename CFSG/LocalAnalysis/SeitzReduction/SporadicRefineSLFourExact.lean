@@ -15,8 +15,8 @@ section Main
 
 theorem sporadicFixedSLFourInput : LinearPilot.SporadicFixedSLFourInput :=
   sporadicFixedSLFourInput_of_simple fun S _ _ hsp =>
-    (Sporadic.Bridge.finite_simple_of_sporadicRep Open.Open.monster_y443_derived_card
-      Open.Open.monster_y443_derived_simple S hsp).2
+    (Sporadic.Bridge.finite_simple_of_sporadicRep Open.Thm.monster_y443_derived_card
+      Open.Thm.monster_y443_derived_simple S hsp).2
 
 end Main
 

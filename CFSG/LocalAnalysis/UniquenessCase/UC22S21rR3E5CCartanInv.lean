@@ -16,10 +16,10 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22r3e5c_normalizer_inf_of_mem {C H : Subgroup G} {b : G}
     (hbC : b ∈ Subgroup.normalizer (C : Set G)) (hbH : b ∈ H) :
     b ∈ Subgroup.normalizer ((C ⊓ H : Subgroup G) : Set G) := by
-  change b ∈ Subgroup.normalizer ((C ⊓ H : Subgroup G) : Set G)
   rw [Subgroup.mem_normalizer_iff]
   intro x
   constructor

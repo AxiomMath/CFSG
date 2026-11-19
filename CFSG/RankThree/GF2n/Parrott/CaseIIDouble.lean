@@ -19,6 +19,7 @@ abbrev D2 (G : Type) [Group G] : Type := G × Multiplicative (ZMod 2)
 
 def zz (z : G) : D2 G := (z, 1)
 
+omit [Finite G] in
 theorem H_zz (z : G) : H (zz z) = (H z).prod ⊤ := by
   ext x
   rw [Subgroup.mem_prod]
@@ -34,11 +35,13 @@ theorem H_zz (z : G) : H (zz z) = (H z).prod ⊤ := by
     · simpa [zz] using hx1
     · simp [zz]
 
+omit [Finite G] in
 theorem mem_H_of_zz {x : G} {c : Multiplicative (ZMod 2)} (hx : (x, c) ∈ H (zz z)) :
     x ∈ H z := by
   rw [H_zz, Subgroup.mem_prod] at hx
   exact hx.1
 
+omit [Finite G] in
 theorem mk_mem_H_zz {x : G} {c : Multiplicative (ZMod 2)} (hx : x ∈ H z) :
     (x, c) ∈ H (zz z) := by
   rw [H_zz, Subgroup.mem_prod]
@@ -82,7 +85,7 @@ theorem J_zz (z : G) : J (zz z) = (J z).prod ⊤ := by
     have hQnorm : Q.Normal :=
       (Subgroup.prod_normal (pCore 2 A) (⊤ : Subgroup B)).comap e.toMonoidHom
     have hC2card : Nat.card C2 = 2 := by
-      simp [C2, Nat.card_zmod]
+      simp [C2]
     obtain ⟨n, hn⟩ := (pCore_isPGroup (p := 2) (G := A)).exists_card_eq
     have hpProd : IsPGroup 2 ↥((pCore 2 A).prod (⊤ : Subgroup B)) := by
       apply IsPGroup.of_card (n := n + 1)
@@ -140,10 +143,10 @@ theorem centerIn_J_zz (z : G) : centerIn (J (zz z)) = (centerIn (J z)).prod ⊤ 
     exact Prod.ext h (mul_comm _ _)
 
 theorem pPrimeCore_D2 : pPrimeCore 2 (D2 G) = (pPrimeCore 2 G).prod ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C2 := Multiplicative (ZMod 2)
   have hC2card : Nat.card C2 = 2 := by
-    simp [C2, Nat.card_zmod]
+    simp [C2]
   have hC2 : pPrimeCore 2 C2 = ⊥ := by
     rw [pPrimeCore_eq_bot_iff]
     intro K hK hcop
@@ -226,6 +229,7 @@ noncomputable def quotientMapZZ (z : G) :
     ↥(H (zz z)) →* (↥(H z) ⧸ (J z).subgroupOf (H z)) :=
   (QuotientGroup.mk' ((J z).subgroupOf (H z))).comp (fstH z)
 
+omit [Finite G] in
 theorem quotientMapZZ_surjective (z : G) : Function.Surjective (quotientMapZZ z) := by
   intro y
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective ((J z).subgroupOf (H z)) y
@@ -286,7 +290,7 @@ theorem parrottHyp_zz (h : Tim79a.ParrottHypA z) : Tim79a.ParrottHyp (zz z) := b
   let T : Subgroup (D2 G) := (⊥ : Subgroup G).prod (⊤ : Subgroup C2)
   let F : Subgroup (D2 G) := (J z).prod (⊥ : Subgroup C2)
   have hC2card : Nat.card C2 = 2 := by
-    simp [C2, Nat.card_zmod]
+    simp [C2]
   have hcommF : ⁅F, F⁆ = (Subgroup.zpowers z).prod (⊥ : Subgroup C2) := by
     change ⁅(J z).prod (⊥ : Subgroup C2), (J z).prod (⊥ : Subgroup C2)⁆ = _
     rw [Subgroup.commutator_prod_prod, h.commutator]
@@ -342,7 +346,7 @@ theorem parrottHyp_zz (h : Tim79a.ParrottHypA z) : Tim79a.ParrottHyp (zz z) := b
       show F = (J z).prod (⊥ : Subgroup C2) from rfl]
     ext y
     simp only [Subgroup.mem_inf, Subgroup.mem_prod, Subgroup.mem_bot, Subgroup.mem_top,
-      and_true, true_and, Prod.mk.eta]
+      and_true]
     constructor
     · rintro ⟨h1, -, h2⟩
       exact Prod.ext h1 h2
@@ -473,6 +477,7 @@ theorem map_centralizerJ_zz (x : G) (c : Multiplicative (ZMod 2))
       · change y.2 * c = c * y.2
         exact mul_comm _ _
 
+omit [Finite G] in
 theorem orderOf_fst_of_orderOf_prod_eq_three {b : G} {c : Multiplicative (ZMod 2)}
     (h : orderOf ((b, c) : D2 G) = 3) : orderOf b = 3 := by
   have hcard : Nat.card (Multiplicative (ZMod 2)) = 2 := by
@@ -504,6 +509,7 @@ theorem orderOf_fst_of_orderOf_prod_eq_three {b : G} {c : Multiplicative (ZMod 2
   · exact absurd hb hb_ne1
   · exact hb
 
+omit [Finite G] in
 theorem prod_top_injective {A B : Subgroup G}
     (h : A.prod (⊤ : Subgroup (Multiplicative (ZMod 2))) =
       B.prod (⊤ : Subgroup (Multiplicative (ZMod 2)))) : A = B := by

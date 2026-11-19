@@ -17,7 +17,7 @@ theorem kG_one : mcode ((1 : G) : Mat) = idK := by
 theorem kG_mul (g h : G) : mcode ((g * h : G) : Mat) = mmulK (mcode (g : Mat)) (mcode (h : Mat)) := by
   rw [Units.val_mul, mmulK_mcode]
 
-theorem kG_inj : Function.Injective fun g : G => mcode (g : Mat) := fun g h e =>
+theorem kG_inj : Function.Injective fun _g : G => mcode (_g : Mat) := fun _g _h e =>
   Units.ext (mcode_inj e)
 
 theorem hn31 : 31 < 2 ^ 32 := by norm_num

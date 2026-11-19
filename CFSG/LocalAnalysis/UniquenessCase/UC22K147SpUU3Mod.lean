@@ -54,7 +54,7 @@ theorem repMulAut_range_facts {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple
         U = ⊥ ∨ U = ⊤) ∧
       Nonempty ((repMulAut ρ).range ⧸ center (repMulAut ρ).range ≃* Y) ∧
       (repMulAut ρ).ker ≤ center X := by
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   have hnat : CFSG.IsQuasisimple X :=
     ⟨⟨hq.1⟩, hq.2, CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian X hq⟩
   have hψ : ∃ g, (repMulAut ρ).rangeRestrict g ≠ 1 := by
@@ -90,7 +90,7 @@ theorem exists_involution_unitarySU_three {n : ℕ} (hn : 2 ≤ n) {K : Type} [F
     (hU : UnitaryFieldData 2 n K) : ∃ s : unitarySU 2 n K 3, s * s = 1 ∧ s ≠ 1 := by
   obtain ⟨ℓ, hppd⟩ := CFSG.Timmesfeld.exists_isPrimitivePrimeDivisor (k := 6 * n) (by omega) (by omega)
   have hℓ : ℓ.Prime := hppd.prime
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have h2pow : (2 : ZMod ℓ) ^ (6 * n) = 1 :=
     (CFSG.Timmesfeld.Bang.dvd_two_pow_sub_one_iff (6 * n)).mp hppd.dvd
   have hpos : 0 < orderOf (2 : ZMod ℓ) :=
@@ -134,7 +134,7 @@ theorem two_mul_le_finrank_of_irreducible {X : Type} [Group X] (hq : CFSG.Open.I
     {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W] (ρ : Representation (ZMod 2) X W)
     (hirr : ∀ U : Submodule (ZMod 2) W, (∀ g, ∀ u ∈ U, ρ g u ∈ U) → U = ⊥ ∨ U = ⊤)
     (hnt : ∃ g, ρ g ≠ 1) : 2 * n ≤ Module.finrank (ZMod 2) W := by
-  haveI : Nontrivial W := by
+  have : Nontrivial W := by
     by_contra hW
     rw [not_nontrivial_iff_subsingleton] at hW
     obtain ⟨g, hg⟩ := hnt
@@ -166,7 +166,7 @@ theorem two_mul_le_finrank {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X)
     (fun {V} _ _ _ ρ W h1 h2 hex => ?_) (Module.finrank (ZMod 2) M) ρ rfl hnt
   · obtain ⟨g, hg⟩ := hex
     exact absurd (LinearMap.ext fun v => Subsingleton.elim _ _) hg
-  · haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  · have : Finite V := Module.finite_of_finite (ZMod 2)
     refine two_mul_le_finrank_of_irreducible hq hn hU β ρ (fun U hU => ?_) hex
     rcases hirr.eq_bot_or_eq_top ⟨U, fun g v hv => hU g v hv⟩ with h | h
     · exact Or.inl (congrArg Subrepresentation.toSubmodule h)
@@ -191,8 +191,8 @@ theorem two_mul_le_of_gsIrreducible {X : Type} [Group X] (hq : CFSG.Open.IsQuasi
     (hW : Nontrivial W) (hnt : ∃ g, ρ g ≠ 1) :
     2 * n ≤ Module.finrank (ZMod 2) W -
       Module.finrank (ZMod 2) (LinearMap.ker (s.toLinearMap - 1)) := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Group.IsPerfect X := ⟨hq.1⟩
   have hsg : ∀ g w, ρ g (s w) = s (ρ (τ.symm g) w) := fun g w => by
     rw [hs, MulEquiv.apply_symm_apply]
   by_cases hred : ∃ U : Submodule (ZMod 2) W, (∀ g, ∀ u ∈ U, ρ g u ∈ U) ∧ U ≠ ⊥ ∧ U ≠ ⊤
@@ -296,7 +296,7 @@ theorem two_mul_le_of_gsIrreducible {X : Type} [Group X] (hq : CFSG.Open.IsQuasi
     by_cases hinn : ∃ l ∈ L, ∀ x ∈ L, ∃ z ∈ L, (∀ y ∈ L, y * z = z * y) ∧
         a * x * a⁻¹ = l * x * l⁻¹ * z
     ·
-      haveI : Group.IsPerfect L := hperf
+      have : Group.IsPerfect L := hperf
       have hodd := X5.centralizer_odd hsq L hirr'
       have haL : a ∈ L := by
         refine X5.mem_of_involution_inner L hodd haN haa ?_

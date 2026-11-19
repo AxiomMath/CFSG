@@ -90,7 +90,7 @@ theorem exists_centralizer_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E P 
     · have : T = E := le_antisymm inf_le_left hET
       rw [this]
       omega
-    · obtain ⟨e₁, he₁, he₁T⟩ := SetLike.not_le_iff_exists.1 hET
+    · obtain ⟨e₁, he₁, he₁T⟩ := IsConcreteLE.not_le_iff_exists.1 hET
       have he₁inv : ∀ w ∈ W, e₁ * w * e₁⁻¹ = w⁻¹ := by
         rcases hW e₁ he₁ with h | h
         · exact absurd (mem_inf.2 ⟨he₁, hcen h⟩) he₁T

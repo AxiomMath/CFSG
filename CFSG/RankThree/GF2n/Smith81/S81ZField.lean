@@ -34,7 +34,7 @@ theorem chi_mulSingle (α : Rt) (i : Fin (Tag.rank .E7)) (c : Kˣ) :
   rw [chi_eq_prod, Finset.prod_eq_single i]
   · simp
   · intro j _ hji
-    simp [Pi.mulSingle_apply, hji]
+    simp [hji]
   · intro h
     exact absurd (Finset.mem_univ i) h
 
@@ -48,7 +48,7 @@ theorem chi_surjective {α : Rt} (hα : IsRoot .E7 α) : Function.Surjective (ch
 theorem frob_form [Finite K] [CharP K 2] (σ : K ≃+* K) :
     letI : Algebra (ZMod 2) K := ZMod.algebra K 2
     ∃ j : ℕ, j < Module.finrank (ZMod 2) K ∧ ∀ x : K, σ x = x ^ 2 ^ j := by
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   let σa : K →ₐ[ZMod 2] K :=
     { σ.toRingHom with
       commutes' := fun r => by
@@ -67,7 +67,7 @@ theorem chi_ne [Finite K] [CharP K 2] (hq : 4 ≤ Nat.card K) {α β : Rt} (hα 
     ∃ t : Tt K, σ ((chi α t : Kˣ) : K) ≠ ((chi β t : Kˣ) : K) := by
   by_contra hcon
   push Not at hcon
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   obtain ⟨j, hj, hσ⟩ := frob_form σ
   set f := Module.finrank (ZMod 2) K with hfdef
   have hcard : Nat.card K = 2 ^ f := by

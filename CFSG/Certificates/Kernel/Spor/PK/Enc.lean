@@ -54,7 +54,7 @@ theorem enc_add (w : Nat) (f : Nat → Nat) (a b : Nat) :
     have h1 : enc w f (a + (n + 1)) = enc w f (a + n) + f (a + n) * 2 ^ (w * (a + n)) :=
       enc_succ w f (a + n)
     rw [h1, enc_succ w (fun i => f (a + i)) n, ih]
-    simp only [Nat.mul_add, Nat.add_mul, Nat.pow_add, Nat.mul_assoc, Nat.mul_comm,
+    simp only [Nat.mul_add, Nat.pow_add, Nat.mul_comm,
       Nat.mul_left_comm, Nat.add_assoc]
 
 private theorem fd_add_mul_of_lt {w a c j : Nat} (ha : a < 2 ^ (w * j)) :
@@ -70,7 +70,7 @@ theorem fd_enc {w len : Nat} {f : Nat → Nat} (hf : ∀ i < len, f i < 2 ^ w) {
   have h2 : enc w f (j + 1 + r) =
       enc w f j + (f j + enc w (fun i => f (j + 1 + i)) r * 2 ^ w) * 2 ^ (w * j) := by
     rw [enc_add, enc_succ]
-    simp only [Nat.mul_add, Nat.add_mul, Nat.mul_one, Nat.pow_add, Nat.mul_assoc, Nat.mul_comm,
+    simp only [Nat.mul_add, Nat.mul_one, Nat.pow_add, Nat.mul_assoc, Nat.mul_comm,
       Nat.mul_left_comm, Nat.add_assoc]
   rw [h2, fd_add_mul_of_lt h1, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hfj]
 
@@ -133,24 +133,24 @@ theorem fd_add_mul {w x v i j : Nat} (hv : v < 2 ^ w) (hx : fd w x i = 0) :
   rcases Nat.lt_trichotomy j i with hji | hji | hij
   · obtain ⟨d, rfl⟩ : ∃ d, i = j + d + 1 := ⟨i - j - 1, by omega⟩
     have hne : j ≠ j + d + 1 := by omega
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     have e : v * 2 ^ (w * (j + d + 1)) = v * 2 ^ (w * d) * 2 ^ w * 2 ^ (w * j) := by
-      simp only [Nat.mul_add, Nat.mul_one, Nat.pow_add, Nat.mul_assoc, Nat.mul_comm,
+      simp only [Nat.mul_add, Nat.mul_one, Nat.pow_add, Nat.mul_comm,
         Nat.mul_left_comm]
     unfold fd
     rw [e, Nat.add_mul_div_right _ _ (Nat.two_pow_pos _), Nat.add_mul_mod_self_right]
   · subst hji
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     unfold fd at hx ⊢
     rw [Nat.add_mul_div_right _ _ hQ, Nat.add_mod, hx, Nat.zero_add, Nat.mod_mod,
       Nat.mod_eq_of_lt hv]
   · obtain ⟨d, rfl⟩ : ∃ d, j = i + d + 1 := ⟨j - i - 1, by omega⟩
     have hne : i + d + 1 ≠ i := by omega
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     unfold fd at hx ⊢
     obtain ⟨q, hq⟩ := Nat.dvd_of_mod_eq_zero hx
     have e : 2 ^ (w * (i + d + 1)) = 2 ^ (w * i) * (2 ^ w * 2 ^ (w * d)) := by
-      simp only [Nat.mul_add, Nat.mul_one, Nat.pow_add, Nat.mul_assoc, Nat.mul_comm,
+      simp only [Nat.mul_add, Nat.mul_one, Nat.pow_add, Nat.mul_comm,
         Nat.mul_left_comm]
     rw [e, div_add_mul_div _ _ _ _ hQ, ← Nat.div_div_eq_div_mul x (2 ^ (w * i)), hq,
       div_add_lt_div _ _ _ _ hB hv]

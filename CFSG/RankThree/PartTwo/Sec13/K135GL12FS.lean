@@ -45,10 +45,10 @@ private theorem gl12k_sum_injective {F : Type*} [Field F] {V : Type*} [AddCommGr
     fun j => proj_apply_of_isWeight h2 (gl12k_isWeight hR (w j).2)
   have hsum_eq : ∑ j, proj R (lam i) (w j : V) = (w i : V) := by
     rw [Finset.sum_eq_single i]
-    · rw [hpj i, if_pos rfl]
+    · rw [hpj i, ite_eq_left rfl]
     · intro j _ hj
       have hne : lam i ≠ lam j := fun h' => hj (hlam h').symm
-      rw [hpj j, if_neg hne]
+      rw [hpj j, ite_eq_right hne]
     · intro h'
       exact absurd (Finset.mem_univ i) h'
   rw [hsum_eq] at h
@@ -86,7 +86,7 @@ private theorem gl12k_finrank_le_sum {F : Type*} [Field F] {V : Type*} [AddCommG
   exact h1
 
 private theorem gl12k_card {d : ℕ} : (Finset.univ : Finset (Fin d → ZMod 2)).card = 2 ^ d := by
-  simp [Finset.card_univ, Fintype.card_fun]
+  simp [Finset.card_univ]
 
 private theorem gl12k_count {d : ℕ} (l : Fin d → ZMod 2) :
     2 ^ (d - 1) - 1 ≤ ((Finset.univ.erase (0 : Fin d → ZMod 2)).filter
@@ -161,8 +161,7 @@ theorem gl12_fs_core {F : Type*} [Field F] (h2 : (2 : F) ≠ 0) {V : Type*} [Add
       (s' := fun l => (Finset.univ.erase (0 : Fin d → ZMod 2)).filter (fun x => l ⬝ᵥ x = 0))]
     · simp only [Finset.sum_const, smul_eq_mul]
     · intro x l
-      simp only [Finset.mem_erase, Finset.mem_filter, Finset.mem_univ, true_and, and_true] <;>
-        tauto
+      simp only [Finset.mem_erase, Finset.mem_filter, Finset.mem_univ, true_and, and_true]
   have h6 : ∑ x ∈ (Finset.univ.erase (0 : Fin d → ZMod 2)), m = (2 ^ d - 1) * m := by
     rw [Finset.sum_const, smul_eq_mul,
       Finset.card_erase_of_mem (Finset.mem_univ (0 : Fin d → ZMod 2)), gl12k_card]

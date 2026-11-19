@@ -41,6 +41,7 @@ theorem conj_apply_eq_mul {Q : Type*} [Group Q] (σ : MulAut Q) (x : Q) :
   simp only [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv, MulAut.inv_apply,
     MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 theorem eq_one_of_act_of_mem_zpowers {e α : G} {X : Subgroup G}
     (hXe : X ≤ Subgroup.centralizer ({e} : Set G))
     (hZ : Subgroup.center (↥X ⧸ aschbacherSolvableCore 3 ↥X) = ⊥)

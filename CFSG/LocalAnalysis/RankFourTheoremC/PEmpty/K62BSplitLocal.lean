@@ -35,7 +35,7 @@ theorem card_le_of_isCyclic {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {E : 
 theorem card_le_of_le_sylow_cyclic {K : Type*} [Group K] [Finite K] {p : ℕ} (hp : p.Prime)
     (T : Sylow p K) (hT : IsCyclic T) {F : Subgroup K} (hF : IsElemAbelian p F) :
     Nat.card F ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T', hT'⟩ := IsPGroup.exists_le_sylow hF.isPGroup
   have hT'c : IsCyclic T' := (MulEquiv.isCyclic (T'.equiv T)).mpr hT
   have hFc : IsCyclic (F.subgroupOf T') := inferInstance
@@ -88,12 +88,12 @@ theorem local_split (hsplit : KFactSylowSplit) (h7131 : GL83.I_7_13_1) {p : ℕ}
     (hT : ∀ a ∈ T, ∃ q : Q, ψ q = MulAut.conj a) :
     ∃ R : Subgroup (MulAut K), IsCyclic R ∧ R ⊓ inner K = ⊥ ∧
       ∀ q : Q, ∃ a ∈ T, ∃ r ∈ R, ψ q = MulAut.conj a * r := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcent : center K = ⊥ := center_eq_bot_of_simple hsimple hnonab
   have hψrange : IsPGroup p ψ.range := hQ.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   obtain ⟨S, hψS⟩ := IsPGroup.exists_le_sylow hψrange
   obtain ⟨R, hRS, hRinner, hsup⟩ := hsplit p hp hp2 K hsimple hnonab hcat hrank S
-  have hSp : IsPGroup p (S : Subgroup (MulAut K)) := S.isPGroup'
+  have hSp : IsPGroup p (S : Subgroup (MulAut K)) := S.isPGroup
   have hI : ∀ i ∈ (S : Subgroup (MulAut K)) ⊓ inner K, ∃ a ∈ T, i = MulAut.conj a := by
     intro i hi
     have hIp : IsPGroup p ((S : Subgroup (MulAut K)) ⊓ inner K : Subgroup (MulAut K)) :=

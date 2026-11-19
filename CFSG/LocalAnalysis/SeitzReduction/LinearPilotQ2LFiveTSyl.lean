@@ -44,8 +44,8 @@ theorem not_two_dvd_index_of_normalizer_mem [Finite G] {S S₁ W : Subgroup G}
   obtain ⟨T, hST⟩ := hS.exists_le_sylow
   have hne : S ≠ (T : Subgroup G) := fun h => T.not_dvd_index (h ▸ h2)
   obtain ⟨s, hsT, hsS, hsN⟩ :=
-    exists_mem_normalizer_notMem_of_lt_isPGroup T.isPGroup' (lt_of_le_of_ne hST hne)
-  have hsp : IsPGroup 2 (zpowers s) := T.isPGroup'.to_le (zpowers_le.2 hsT)
+    exists_mem_normalizer_notMem_of_lt_isPGroup T.isPGroup (lt_of_le_of_ne hST hne)
+  have hsp : IsPGroup 2 (zpowers s) := T.isPGroup.to_le (zpowers_le.2 hsT)
   obtain ⟨x, hxT, hxS, hxN⟩ : ∃ x ∈ (T : Subgroup G), x ∉ S ∧ x ∈ normalizer (W : Set G) := by
     rcases hW s hsN hsp with h | h
     · exact ⟨s, hsT, hsS, h⟩
@@ -54,7 +54,7 @@ theorem not_two_dvd_index_of_normalizer_mem [Finite G] {S S₁ W : Subgroup G}
       rw [h3]
       exact mul_mem hdS h'
   have hP : IsPGroup 2 (S₁ ⊔ zpowers x : Subgroup G) :=
-    T.isPGroup'.to_le (sup_le (hS₁S.trans hST) (zpowers_le.2 hxT))
+    T.isPGroup.to_le (sup_le (hS₁S.trans hST) (zpowers_le.2 hxT))
   have hPN : S₁ ⊔ zpowers x ≤ normalizer (W : Set G) := sup_le hS₁W (zpowers_le.2 hxN)
   have hPeq := hmax _ hP le_sup_left hPN
   have hxS₁ : x ∈ S₁ := by

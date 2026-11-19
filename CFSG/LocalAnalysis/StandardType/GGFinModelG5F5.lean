@@ -95,7 +95,7 @@ private theorem g5_zp_transport {A B M : Type*} [Group A] [Group B] [Group M]
 
 private theorem g5_sl2_zp_top (p f : ℕ) (hf : 1 ≤ f) (hp : p.Prime) (hp2 : p ≠ 2) :
     g5_zpProp p (⊤ : Subgroup (SL2 (GaloisField 2 f))) := by
-  haveI : Finite (GaloisField 2 f) := by
+  have : Finite (GaloisField 2 f) := by
     apply Nat.finite_of_card_ne_zero
     rw [GaloisField.card 2 f (by omega : (f : ℕ) ≠ 0)]
     exact pow_ne_zero f (by norm_num : (2 : ℕ) ≠ 0)

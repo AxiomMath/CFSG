@@ -91,8 +91,8 @@ theorem l41_conj_t_cases (h : L41GPh1 t L S x₁ x₂ lam rho) {n : G}
 theorem l41_sylow_inf_invCent_eq (h : L41GPh1 t L S x₁ x₂ lam rho) (𝒮 : Sylow 2 G)
     (h𝒮 : S < (𝒮 : Subgroup G)) : invCent t ⊓ (𝒮 : Subgroup G) = S :=
   eq_of_isPGroup_of_odd_relIndex (H := invCent t)
-    (fun s hs => ⟨h.toCtx0.le_invCent hs, h𝒮.le hs⟩) inf_le_left
-    ((show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup').to_le inf_le_right)
+    (fun _s hs => ⟨h.toCtx0.le_invCent hs, h𝒮.le hs⟩) inf_le_left
+    ((show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup).to_le inf_le_right)
     h.toCtx0.relIndex_odd
 
 theorem l41_exists_conj_swap (h : L41GPh1 t L S x₁ x₂ lam rho) (𝒮 : Sylow 2 G)
@@ -100,7 +100,7 @@ theorem l41_exists_conj_swap (h : L41GPh1 t L S x₁ x₂ lam rho) (𝒮 : Sylow
     ∃ a ∈ normalizer (S : Set G) ⊓ (𝒮 : Subgroup G),
       a * t * a⁻¹ = t * (x₁ * x₂) ^ 2 := by
   obtain ⟨a, haSyl, haN, ha_notS⟩ :=
-    exists_mem_normalizer_not_mem (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup') h𝒮
+    exists_mem_normalizer_not_mem (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup) h𝒮
   refine ⟨a, ⟨haN, haSyl⟩, ?_⟩
   rcases l41_conj_t_cases h haN with h1 | h1
   · exfalso

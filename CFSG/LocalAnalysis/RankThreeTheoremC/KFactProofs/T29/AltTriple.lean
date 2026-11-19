@@ -60,8 +60,7 @@ theorem card_abelian_le_nine_of_sylow {L : Type} [Group L] [Finite L] {A : Subgr
   have hd : Nat.card A ∣ 27 := h27 ▸ Subgroup.card_dvd_of_le hAR
   have hA27 : Nat.card A = 27 := by
     have hle : Nat.card A ≤ 27 := Nat.le_of_dvd (by norm_num) hd
-    interval_cases h : Nat.card A <;> first | rfl | (exfalso; omega) | skip
-    all_goals omega
+    interval_cases h : Nat.card A <;> first | rfl | (exfalso; omega)
   have hRA : A = R := Subgroup.eq_of_le_of_card_ge hAR (by omega)
   obtain ⟨r, hr, s, hs, hrs⟩ := hnab
   exact hrs (hAc r (hRA ▸ hr) s (hRA ▸ hs))

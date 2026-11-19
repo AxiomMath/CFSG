@@ -79,7 +79,7 @@ theorem subnormal_partner_of_star
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, htT, ht⟩ : ∃ t ∈ T, orderOf t = 2 := by
     obtain ⟨S, hST⟩ := hTsyl
-    have hT2 : IsPGroup 2 ↥T := hST ▸ S.isPGroup'.map C.subtype
+    have hT2 : IsPGroup 2 ↥T := hST ▸ S.isPGroup.map C.subtype
     obtain ⟨k, hk⟩ := hT2.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl

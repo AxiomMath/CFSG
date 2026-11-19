@@ -28,8 +28,8 @@ private theorem exists_globalModelGF_ringEquiv [Finite G]
     omega
   have hK₀card : Nat.card (GaloisField 2 n₀) = Nat.card Z :=
     (GaloisField.card 2 n₀ hn₀).trans hZcard.symm
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (GaloisField 2 n₀) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (GaloisField 2 n₀) := Fintype.ofFinite _
   have hcardEq : Fintype.card K = Fintype.card (GaloisField 2 n₀) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hK₀card]
   exact ⟨n₀, γ₀, M₀₀, hZcard, hD₀, hK₀card, ⟨FiniteField.ringEquivOfCardEq hcardEq⟩⟩
@@ -86,8 +86,8 @@ private theorem false_of_l4Branch [Finite G]
     (nat : NaturalRep (ι := Fin 3 ⊕ Fin 3) K (StatedOmega (StatedQuadPlus 3 K))
       (XbarPre M Q Z B) X₂ X₁ Q) : False := by
   obtain ⟨n₀, γ₀, M₀₀, hZcard, hD₀, -, ⟨e⟩⟩ := exists_globalModelGF_ringEquiv hc hK
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := by
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
     apply charP_of_card_eq_prime_pow (p := 2) (f := n₀)
     rw [Fintype.card_eq_nat_card, hK, hZcard]
   have natQ : NaturalRep (ι := Fin 3 ⊕ Fin 3) K (StatedOmega (StatedQuadPlus 3 K))
@@ -101,7 +101,7 @@ private theorem false_of_l4Branch [Finite G]
       StatedQuadPlus 3 (GaloisField 2 n₀) (e ∘ v) = e (StatedQuadPlus 3 K v) := by
     intro v
     unfold StatedQuadPlus
-    simp [CFSG.MatrixModel.plusQuadCore, map_sum, map_mul]
+    simp [map_sum, map_mul]
   have hΩmap := CFSG.ClassicalInvolution.Upgrade.map_statedOmega (K := K)
     (L := GaloisField 2 n₀) (QK := StatedQuadPlus 3 K)
     (QL := StatedQuadPlus 3 (GaloisField 2 n₀)) e hQmap
@@ -123,11 +123,11 @@ theorem caseVICore_XbarPre_of_CMLmChain [Finite G]
   rcases hC G M Q Z B hc n m x hw hn ha2 hLm hm with
     ⟨X₁, X₂, X₃, X₄, hX₁, h₁₂, h₂₃, h₃₄, hX₄Q, -, hX₂, hX₃, hX₄, K, hKf, hKfin, hK, nat2,
       nat4⟩ | ⟨-, X₁, X₂, hX₁, -, hX₂Q, -, -, K, hKf, hKfin, hK, nat⟩
-  · letI : Field K := hKf
-    letI : Finite K := hKfin
+  · let : Field K := hKf
+    let : Finite K := hKfin
     exact caseVICore_XbarPre_of_chain hc hw hm hX₁ h₁₂ h₂₃ h₃₄ hX₄Q hX₂ hX₃ hX₄ hK nat2 nat4
-  · letI : Field K := hKf
-    letI : Finite K := hKfin
+  · let : Field K := hKf
+    let : Finite K := hKfin
     exact (false_of_l4Branch hc hw hn hX₁ hX₂Q hK nat).elim
 
 theorem Lgen_le_XbarPre_of_CMLmChain [Finite G]

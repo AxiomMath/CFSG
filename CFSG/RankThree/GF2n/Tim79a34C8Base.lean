@@ -74,7 +74,7 @@ variable {G : Type} [Group G] [Finite G] {M V Q P H : Subgroup G} {n : ℕ}
 theorem c8E_of_mem (cfg : QPCfg M V Q P H Φ ψ a T) {p : G} (hp : p ∈ xOf V H) :
     c8E cfg p = Φ.symm (xToXbar cfg.hyp.setup.mc.toMinCex.V_le_H ⟨p, hp⟩) := by
   unfold c8E
-  exact dif_pos hp
+  exact dite_eq_left hp
 
 theorem c8E_mul (cfg : QPCfg M V Q P H Φ ψ a T) {p q : G} (hp : p ∈ xOf V H)
     (hq : q ∈ xOf V H) : c8E cfg (p * q) = c8E cfg p * c8E cfg q := by
@@ -388,6 +388,7 @@ theorem c8_cent_normalizes (h12 : Lemma12Statement) (cfg : QPCfg M V Q P H Φ ψ
     exact hx
   exact (Subgroup.mem_normalizer_iff.mp (cfg.hyp.setup.mc.toMinCex.M_le_normalizer_P hxM) y).mp hy
 
+omit [Finite G] in
 theorem c8_comm_normalizes {K P' : Subgroup G} (hK : ∀ x ∈ K, ∀ y ∈ P', x * y * x⁻¹ ∈ P')
     {x₁ x₂ : G} (h₁ : x₁ ∈ K) (h₂ : x₂ ∈ K) : ∀ y ∈ P', ⁅x₁, x₂⁆ * y * ⁅x₁, x₂⁆⁻¹ ∈ P' := by
   intro y hy

@@ -173,6 +173,7 @@ theorem wac_conj_le (A : Subgroup G) (g : G) :
   rw [← e]
   exact tim77_conj_mono g (conj_le_WAC hm)
 
+omit [Finite G] in
 theorem wac_conj (A : Subgroup G) (g : G) : WAC (conjSubgroup g A) = conjSubgroup g (WAC A) := by
   refine le_antisymm (wac_conj_le A g) ?_
   have h2 : WAC A ≤ conjSubgroup g⁻¹ (WAC (conjSubgroup g A)) := by
@@ -222,7 +223,7 @@ theorem tim77_commutator_mul_right {a b c : G} (h : b * ⁅a, c⁆ = ⁅a, c⁆ 
       = (a * b * a⁻¹ * b⁻¹) * (b * (a * c * a⁻¹ * c⁻¹) * b⁻¹) := by group
     _ = (a * b * a⁻¹ * b⁻¹) * (a * c * a⁻¹ * c⁻¹) := by rw [hbU]
 
-theorem commutator_wac_eq {A : Subgroup G} (hA : IsElemAbelian 2 A) (hTI : IsTI A)
+theorem commutator_wac_eq {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hTI : IsTI A)
     (hroot : IsRootType 2 A) (hW : ⁅WAC A, WAC A⁆ ≤ A) (hne : ⁅WAC A, WAC A⁆ ≠ ⊥) :
     ⁅WAC A, WAC A⁆ = A := by
   obtain ⟨g, h, hg, hh, a, ha, b, hb, hab⟩ : ∃ g h : G,

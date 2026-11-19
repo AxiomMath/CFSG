@@ -40,7 +40,7 @@ theorem cl_closureFix_omegaProj_seven :
   have hq : CFSG.IsQuasisimple ↥(omegaProj hQ₀) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv e hqΩ
   have hF : IsFStarGroup ↥(omegaProj hQ₀) := isFStarGroup_of_mulEquiv e hfs
-  haveI : Finite ↥(omegaProj hQ₀) :=
+  have : Finite ↥(omegaProj hQ₀) :=
     Finite.of_surjective (omegaToProj hQ₀) (omegaToProj_surjective hQ₀)
   refine closureFix_of_ne_one hq hF ?_
   intro α hα hα1 J hJ

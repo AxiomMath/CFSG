@@ -518,7 +518,7 @@ theorem two_dvd_index_of_lt_sylow {Q : Subgroup H} (P : Sylow 2 H) (hQP : Q < P)
   have h1 : Q.relIndex P ∣ Q.index := by
     rw [← Subgroup.relIndex_mul_index hQP.le]
     exact dvd_mul_right _ _
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   have h2 : Q.relIndex P ∣ 2 ^ n := hn ▸ Subgroup.relIndex_dvd_card Q P
   obtain ⟨a, -, ha⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp h2
   have ha0 : a ≠ 0 := by

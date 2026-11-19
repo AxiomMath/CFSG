@@ -171,19 +171,19 @@ theorem FCH_type_I_frobenius_coherent_family
     refine ⟨fun f => if h : f ∈ Submodule.span ℤ (Prep03.hallIndFamily L)
         then (ν ⟨f, hfam ▸ h⟩ : G → ℂ) else 0, ⟨⟨?_, ?_, ?_⟩, ?_⟩⟩
     · intro f hf g hg
-      simp only [dif_pos hf, dif_pos hg, dif_pos (add_mem hf hg)]
+      simp only [dite_eq_left hf, dite_eq_left hg, dite_eq_left (add_mem hf hg)]
       have h : (⟨f + g, hfam ▸ add_mem hf hg⟩ : Submodule.span ℤ hc.family)
           = ⟨f, hfam ▸ hf⟩ + ⟨g, hfam ▸ hg⟩ := rfl
       rw [h, map_add]
       rfl
     · intro f hf
-      simp only [dif_pos hf]
+      simp only [dite_eq_left hf]
       exact (ν _).2
     · intro f hf g hg
-      simp only [dif_pos hf, dif_pos hg]
+      simp only [dite_eq_left hf, dite_eq_left hg]
       exact hν.inner_eq _ _
     · intro f hf hf1
-      simp only [dif_pos hf]
+      simp only [dite_eq_left hf]
       have hf0 : f ∈ charSpanZero hc.family := mem_charSpanZero.2 ⟨hfam ▸ hf, hf1⟩
       have hz : (⟨f, hfam ▸ hf⟩ : Submodule.span ℤ hc.family)
           = Submodule.inclusion (charSpanZero_le hc.family) ⟨f, hf0⟩ := rfl

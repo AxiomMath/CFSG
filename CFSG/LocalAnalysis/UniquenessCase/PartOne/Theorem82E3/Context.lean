@@ -55,9 +55,9 @@ theorem L_ne_bot (c : Ctx82E3 D) : c.L ≠ ⊥ := by
 
 theorem not_isSolvable (c : Ctx82E3 D) : ¬ Group.IsSolvable D.M := by
   intro hM
-  haveI : Group.IsSolvable ↥D.M := hM
-  haveI : Nontrivial ↥c.L := (Subgroup.nontrivial_iff_ne_bot c.L).mpr (L_ne_bot c)
-  haveI : Group.IsSolvable ↥c.L :=
+  have : Group.IsSolvable ↥D.M := hM
+  have : Nontrivial ↥c.L := (Subgroup.nontrivial_iff_ne_bot c.L).mpr (L_ne_bot c)
+  have : Group.IsSolvable ↥c.L :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion c.hyp81.1)
       (Subgroup.inclusion_injective c.hyp81.1)
   have hcomm : commutator ↥c.L = ⊤ := by
@@ -112,7 +112,7 @@ theorem pRank_eq_three_of_mem_sigma (c : Ctx82E3 D) {p : ℕ} (hp : p ∈ D.sig)
   le_antisymm (pRank_le_three c (D.sig_prime p hp).1 (D.sig_prime p hp).2) (c.three_le p hp)
 
 theorem M_ne_top (_ : Ctx82E3 D) : D.M ≠ ⊤ := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab D.maxLocal.1
 
 theorem conclusion76 (c : Ctx82E3 D) {p : ℕ} (hp : p ∈ D.sig) :

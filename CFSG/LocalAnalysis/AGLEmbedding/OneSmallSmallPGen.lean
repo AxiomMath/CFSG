@@ -83,7 +83,7 @@ theorem ReducedNongeneration.false_of_outer_three (hGen : KFactL34OuterGen)
       exact (R : Subgroup X).mul_mem ((R : Subgroup X).mul_mem ((R : Subgroup X).inv_mem hr) hyR)
         hr
   obtain ⟨d, ⟨hdR, hdK⟩, hdc, hdp⟩ :=
-    exists_central_order_three_of_le_normalizer R.isPGroup' inf_le_left hRRK hRKne
+    exists_central_order_three_of_le_normalizer R.isPGroup inf_le_left hRRK hRKne
   have hfN : f ∈ Subgroup.normalizer (K : Set X) := hRN hfR
   set φ : MulAut K := K.normalizerMonoidHom ⟨f, hfN⟩ with hφdef
   have hφ : ∀ k : K, ((φ k : K) : X) = f * k * f⁻¹ := fun k => rfl

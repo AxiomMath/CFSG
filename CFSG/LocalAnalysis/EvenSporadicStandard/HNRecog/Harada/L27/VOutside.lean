@@ -143,7 +143,7 @@ theorem not_mem_commutator_A5WrTwo_of_centralizer {X : Type*} [Group X] (e : X �
     e v ∉ commutator A5WrTwo := by
   classical
   intro hmem
-  haveI : Finite X := Finite.of_equiv A5WrTwo e.symm.toEquiv
+  have : Finite X := Finite.of_equiv A5WrTwo e.symm.toEquiv
   let u : A5WrTwo := e v
   have hu : u ∈ commutator A5WrTwo := hmem
   have hu2 : u * u = 1 := by

@@ -60,6 +60,7 @@ theorem qTwoNbrRec_rank_six
     (ggUnitDvd63NbrRankInput_holds hLB hPJ) G 3 B Bs x L D J hcfg y K hnbr hN hM
   rwa [show 6 / 3 + 2 = 4 by norm_num]
 
+omit [Finite G] in
 theorem qTwoNbrRec_frame {Bs K : Subgroup G} {F : Type} [Field F] [Finite F] {d : ℕ}
     (h : UnitaryFieldData 2 1 F) (hd : 5 ≤ d) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
     (θ : ↥K ⧸ Subgroup.center ↥K ≃* LargeEvenProj (unitarySU 2 1 F d))

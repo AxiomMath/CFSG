@@ -19,7 +19,7 @@ variable {k₀ : Type*} [Field k₀] {F : Type*} [Field F] [Fintype F] [CharP F 
 theorem card_fix_of_card_eq {n : ℕ} (hn : 1 ≤ n) (hF : Fintype.card F = 2 ^ n)
     {P : Subgroup SL(2, F)} (hcard : Nat.card P = Fintype.card F) :
     Nat.card {w : W // ∀ g ∈ P, ρ g w = w} = Nat.card {w : W // ∀ t : F, ρ (uElt t) w = w} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Sylow 2 SL(2, F) :=
     Sylow.ofCard P (by rw [hcard, hF, factorization_card_sl2_prime hn hF])
   obtain ⟨g, hg⟩ := sylow_conj_description (p := 2) Q
@@ -54,10 +54,10 @@ theorem sl2FixedLineDimStatement_holds : SL2FixedLineDimStatement := by
   obtain ⟨b, hb0, hbfix, hbuniq⟩ := hline
   have hk0 : k ≠ 0 := by omega
   have hke : k * e ≠ 0 := Nat.mul_ne_zero hk0 (by omega)
-  letI : Fintype (GaloisField 2 k) := Fintype.ofFinite _
-  letI : Fintype (GaloisField 2 (k * e)) := Fintype.ofFinite _
-  haveI : Finite V := Module.finite_of_finite (GaloisField 2 k)
-  haveI : Nontrivial V := ⟨⟨b, 0, hb0⟩⟩
+  let : Fintype (GaloisField 2 k) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 (k * e)) := Fintype.ofFinite _
+  have : Finite V := Module.finite_of_finite (GaloisField 2 k)
+  have : Nontrivial V := ⟨⟨b, 0, hb0⟩⟩
   have hK : Fintype.card (GaloisField 2 k) = 2 ^ k := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 k hk0]
   have hF : Fintype.card (GaloisField 2 (k * e)) = 2 ^ (k * e) := by
@@ -82,7 +82,7 @@ theorem sl2FixedLineDimStatement_holds : SL2FixedLineDimStatement := by
     have hirr' : ρ'.IsIrreducible := by
       refine (isIrreducible_iff ρ').mpr ⟨inferInstance, fun W hW =>
         hirr W fun g v hv => hW g v hv⟩
-    haveI : Fact ρ'.IsIrreducible := ⟨hirr'⟩
+    have : Fact ρ'.IsIrreducible := ⟨hirr'⟩
     have hnt' : ∃ g, ρ' g ≠ 1 := by
       obtain ⟨g, hg⟩ := htriv
       refine ⟨g, fun h => hg ?_⟩

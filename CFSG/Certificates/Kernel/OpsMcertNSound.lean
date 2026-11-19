@@ -52,9 +52,9 @@ theorem rel_set {Ra : Array M} {Rl : List Nat} (hR : Rel H Ra Rl) {t : Nat}
   rw [getElem!_pos _ r (by simpa using hr'), Array.getElem_setIfInBounds hr']
   by_cases htr : t = r
   · subst htr
-    rw [getN_set_eq ht, if_pos rfl]
+    rw [getN_set_eq ht, ite_eq_left rfl]
     exact ⟨rfl, hx⟩
-  · rw [if_neg htr, getN_set_ne Rl htr, ← getElem!_pos Ra r hr']
+  · rw [ite_eq_right htr, getN_set_ne Rl htr, ← getElem!_pos Ra r hr']
     exact hR r hr
 
 theorem rel_step {Ra : Array M} {Rl : List Nat} (hR : Rel H Ra Rl) (op : Op)

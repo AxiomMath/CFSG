@@ -20,8 +20,8 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
   CFSG.Walter.Ree.Model
 open CFSG.EvenSporadicStandard.HSStd (autCentralizer)
 
-theorem a6comp_odd_twistedG2 (hO : LieOrderFormulasInput) {J : Type} [Group J] [Finite J] {f : ℕ}
-    (hadm : StatedLieAdmissible .twistedG2 0 3 f) (hm : LieModel J .twistedG2 0 3 f)
+theorem a6comp_odd_twistedG2 (_hO : LieOrderFormulasInput) {J : Type} [Group J] [Finite J] {f : ℕ}
+    (_hadm : StatedLieAdmissible .twistedG2 0 3 f) (hm : LieModel J .twistedG2 0 3 f)
     {α : MulAut J} (hα : orderOf α = 2) {L : Subgroup ↥(fixedSubgroup α)} (hL : IsComponent L)
     (eD : ↥L ≃* alternatingGroup (Fin 6)) : False := by
   have hR : ReeTitsModel J .twistedG2 3 f := by

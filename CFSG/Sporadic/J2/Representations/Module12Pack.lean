@@ -80,9 +80,9 @@ theorem coe_wordProd {d : ℕ} {x : ℕ → GL (Fin d) (ZMod 2)} {P Q : ℕ → 
     obtain ⟨i, b⟩ := l
     rw [wordProd_cons, Units.val_mul, ih, wordK_cons, matOfF_mulF]
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [hQ]
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [hP]
 
 theorem coe_signedProd {d m : ℕ} {x : Fin m → GL (Fin d) (ZMod 2)} {P Q : ℕ → ℕ}
@@ -99,9 +99,9 @@ theorem coe_signedProd {d m : ℕ} {x : Fin m → GL (Fin d) (ZMod 2)} {P Q : �
     obtain ⟨i, b⟩ := l
     rw [signedProd_cons, Units.val_mul, ih, List.map_cons, wordK_cons, matOfF_mulF]
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [hQ]
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [hP]
 
 @[expose] noncomputable def relsOK (d : ℕ) (P Q : ℕ → ℕ) (R : List (List (ℕ × Bool))) : Bool :=
@@ -156,9 +156,7 @@ theorem signedProd_eq_one_of_relsOK {d m : ℕ} {x : Fin m → GL (Fin d) (ZMod 
       relsOK d (selN L) (selN LI) (Rs.map fun w => w.map fun l => (l.1.val, l.2))) = true) :
     ∀ w ∈ Rs, signedProd x w = 1 := by
   rw [bindL_eq] at h
-  beta_reduce at h
   rw [bindL_eq] at h
-  beta_reduce at h
   intro w hw
   apply Units.ext
   rw [coe_signedProd hP hQ, relsOK_sound h _ (List.mem_map_of_mem hw), matOfF_idF, Units.val_one]
@@ -219,7 +217,7 @@ theorem relators_of_codes {A B : GL (Fin 12) (ZMod 2)} {a b bi : ℕ}
     match i with
     | 0 => exact hA
     | i + 1 =>
-      simp only [Nat.add_one_ne_zero, if_false]
+      simp only [Nat.add_one_ne_zero, ite_false]
       exact hB
   have hxi : ∀ i, ((((fun i => if i = 0 then A else B) i)⁻¹ : GL (Fin 12) (ZMod 2)) :
       Matrix (Fin 12) (Fin 12) (ZMod 2)) = matOfF 12 (pick2 a bi i) := by
@@ -227,7 +225,7 @@ theorem relators_of_codes {A B : GL (Fin 12) (ZMod 2)} {a b bi : ℕ}
     match i with
     | 0 => exact hAi
     | i + 1 =>
-      simp only [Nat.add_one_ne_zero, if_false]
+      simp only [Nat.add_one_ne_zero, ite_false]
       exact hBi
   have hD : ((CFSG.Sporadic.Bridge.wordProd (fun i => if i = 0 then A else B) J2.wordD :
       GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)) = matOfF 12 (dK a b bi) :=

@@ -15,8 +15,8 @@ variable {X : Type*} [Group X]
 
 private theorem relIndex_sup_eq_of_le_normalizer {H N : Subgroup X}
     (h : H ≤ normalizer (N : Set X)) : N.relIndex (H ⊔ N) = N.relIndex H := by
-  haveI : (N.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer h
-  haveI : (N.subgroupOf (H ⊔ N)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer h
+  have : (N.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer h
+  have : (N.subgroupOf (H ⊔ N)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer h
   unfold Subgroup.relIndex
   rw [Subgroup.index_eq_card, Subgroup.index_eq_card]
   exact (Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient H N h).toEquiv).symm
@@ -114,7 +114,7 @@ private theorem isPGroup_map_pCore (D : Subgroup X) :
 private theorem le_map_pCore_of_normalizes {D R : Subgroup X} (hRD : R ≤ D)
     (hDR : D ≤ normalizer (R : Set X)) (hR : IsPGroup 2 R) :
     R ≤ (CFSG.pCore 2 ↥D).map D.subtype := by
-  haveI : (R.subgroupOf D).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRD).mpr hDR
+  have : (R.subgroupOf D).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRD).mpr hDR
   have hS : IsPGroup 2 (R.subgroupOf D) := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRD).symm
   have hmem : R.subgroupOf D ∈ {K : Subgroup ↥D | K.Normal ∧ IsPGroup 2 K} :=
     ⟨inferInstance, hS⟩
@@ -126,7 +126,7 @@ private theorem subgroupOf_eq_pCore {A O : Subgroup X} (hAO : A ≤ normalizer (
     (hO : IsPGroup 2 O) (hle : (CFSG.pCore 2 ↥A).map A.subtype ≤ O) :
     O.subgroupOf A = CFSG.pCore 2 ↥A := by
   apply le_antisymm
-  · haveI : (O.subgroupOf A).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAO
+  · have : (O.subgroupOf A).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAO
     have hmem : O.subgroupOf A ∈ {K : Subgroup ↥A | K.Normal ∧ IsPGroup 2 K} :=
       ⟨inferInstance, hO.comap_subtype⟩
     exact le_sSup hmem
@@ -203,11 +203,13 @@ section Conjugates
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem mem_map_conj_iff (J : Subgroup X) (y z : X) :
     z ∈ J.map (MulAut.conj y).toMonoidHom ↔ y⁻¹ * z * y ∈ J := by
   rw [Subgroup.mem_map_equiv]
   rfl
 
+omit [Finite X] in
 private theorem map_conj_eq_iff (J : Subgroup X) (y y' : X) :
     J.map (MulAut.conj y).toMonoidHom = J.map (MulAut.conj y').toMonoidHom ↔
       y⁻¹ * y' ∈ normalizer (J : Set X) := by
@@ -298,7 +300,7 @@ theorem SolvThreeDirectCond.of_indep (X₀ J D O : Subgroup X)
       rw [hj', hcj]
     rw [hi, hcj]
     exact (inf_le_inf (le_refl _) (sup_le_sup_right hle O)).trans (hind y hy)
-  haveI : Fintype (X₀ ⧸ N) := Fintype.ofFinite _
+  have : Fintype (X₀ ⧸ N) := Fintype.ofFinite _
   have key := card_quotient_pCore_eq_prod_of_indep f D O hDf hO hcomm' hind'
   have hfac : ∀ i, Nat.card (↥(f i) ⧸ CFSG.pCore 2 ↥(f i)) =
       Nat.card (↥J ⧸ CFSG.pCore 2 ↥J) := by

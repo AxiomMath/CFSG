@@ -23,7 +23,7 @@ theorem Ctx.eq_smul_of_singular_Wn [CharP K 2] (hc : Ctx M Q Z B)
     {w : M₀.E} (hwW : w ∈ hc.Wn h) (hwb : M₀.B w b = 0) (hwq : M₀.Qf w = 0) :
     ∃ κ : K, w = κ • b := by
   classical
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hsymm : ∀ x y : M₀.E, M₀.B x y = M₀.B y x := fun x y => by
     rw [Tim79.QuadModel.B_comm, CharTwo.neg_eq]
@@ -100,7 +100,7 @@ theorem Ctx.eq_smul_of_singular_Wn [CharP K 2] (hc : Ctx M Q Z B)
       rw [hfix] at h1
       unfold eichlerMap at h1
       rw [hyb] at h1
-      simp only [zero_smul, add_zero, zero_mul] at h1
+      simp only [zero_smul, add_zero] at h1
       have h3 : M₀.B y (u s) • b = 0 := by
         have := h1.symm
         simpa using this

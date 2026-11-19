@@ -51,7 +51,7 @@ theorem exists_pSubgroup_le_normalizer_sylow {X : Type*} [Group X] [Finite X] {N
     le_antisymm le_top
       ((Q.mapSurjective hf).maximal_isPGroup.right (hP.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at hQ
-  refine ⟨(Q : Subgroup M).map M.subtype, Q.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(Q : Subgroup M).map M.subtype, Q.isPGroup.map _, ?_, ?_⟩
   · exact (Subgroup.map_subtype_le _).trans inf_le_left
   · have hcomp : π.comp M.subtype = Pbar.subtype.comp f := MonoidHom.ext fun _ => rfl
     rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, hQ, ← MonoidHom.range_eq_map,
@@ -75,7 +75,7 @@ theorem exists_three_generators_of_even_normal (hB : KFacts.BlackburnRankTwo)
     exact (Subgroup.map_eq_bot_iff_of_injective _
       (show Function.Injective (C.subtype.comp N.subtype) from
         C.subtype_injective.comp N.subtype_injective)).mp h
-  have hT2 : IsPGroup 2 T := (S.isPGroup'.map _).map _
+  have hT2 : IsPGroup 2 T := (S.isPGroup.map _).map _
   set D : Subgroup G := P.map C.subtype with hD
   have hDT : D ≤ Subgroup.normalizer (T : Set G) :=
     (Subgroup.map_mono hPS).trans (Subgroup.le_normalizer_map C.subtype)

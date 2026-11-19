@@ -15,7 +15,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PPointFrobenius
 variable {J : Type} [Group J] [Finite J]
 
 theorem four_le_card_of_hyperplane_action {A : Type} [Group A] [Finite A] {p q n : ℕ}
-    [Fact p.Prime] [Fact q.Prime] (hpq : p ≠ q) (hn : 2 ≤ n) [IsElementaryAbelian q A]
+    [Fact p.Prime] [Fact q.Prime] (hpq : p ≠ q) (_hn : 2 ≤ n) [IsElementaryAbelian q A]
     [MulDistribMulAction J A] {U : Subgroup J} (hU : Nat.card U = p ^ n)
     (hexp : ∀ u ∈ U, u ^ p = 1) (hcomm : ∀ u ∈ U, ∀ v ∈ U, u * v = v * u) {σ : J}
     (hσ : MovesHyperplanes p U σ) (hnt : ∃ u ∈ U, ∃ a : A, u • a ≠ a) :

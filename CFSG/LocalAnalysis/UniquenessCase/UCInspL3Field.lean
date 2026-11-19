@@ -64,7 +64,7 @@ theorem frob_ne_one : FiniteField.Extension.frob K p 3 ≠ 1 := by
   have hall : ∀ g : L3 K p ≃ₐ[K] L3 K p, g = 1 := fun g => by
     obtain ⟨i, -, hi⟩ := FiniteField.Extension.exists_frob_pow_eq K p 3 g
     rw [← hi, h, one_pow]
-  haveI : Subsingleton (L3 K p ≃ₐ[K] L3 K p) := ⟨fun a b => (hall a).trans (hall b).symm⟩
+  have : Subsingleton (L3 K p ≃ₐ[K] L3 K p) := ⟨fun a b => (hall a).trans (hall b).symm⟩
   have h1 := Nat.card_of_subsingleton (1 : L3 K p ≃ₐ[K] L3 K p)
   have h3 := FiniteField.natCard_algEquiv_extension K p 3
   have h13 : (1 : ℕ) = 3 := h1.symm.trans h3
@@ -126,6 +126,7 @@ section KFacts
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem cube_roots_trivial (hq : Nat.card K % 3 = 2) : ∀ c : K, c ^ 3 = 1 → c = 1 := by
   intro c hc
   have hc0 : c ≠ 0 := fun h => by simp [h] at hc
@@ -140,6 +141,7 @@ theorem cube_roots_trivial (hq : Nat.card K % 3 = 2) : ∀ c : K, c ^ 3 = 1 → 
   have h1 : orderOf u = 1 := Nat.eq_one_of_dvd_coprimes hcop hord hord2
   exact congrArg Units.val (orderOf_eq_one_iff.1 h1)
 
+omit [Finite K] in
 theorem no_root_of_cube_trivial (h3 : (3 : K) ≠ 0) (hcube : ∀ c : K, c ^ 3 = 1 → c = 1) :
     ∀ c : K, c ^ 2 + c + 1 ≠ 0 := by
   intro c hc
@@ -155,6 +157,7 @@ section Model
 
 variable {K : Type} [Field K] [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p]
 
+omit [Finite K] in
 theorem three_ne_zero_of_card_mod {f : ℕ} (hf : 1 ≤ f) (hpf : Nat.card K = p ^ f)
     (hq : Nat.card K % 3 = 2) : (3 : K) ≠ 0 := by
   intro h
@@ -174,7 +177,7 @@ theorem exists_model_L {f : ℕ} (hf : 1 ≤ f) (hpf : Nat.card K = p ^ f)
   have h3 : (3 : K) ≠ 0 := three_ne_zero_of_card_mod hf hpf hq
   have hq2 : 2 ≤ Nat.card K := Finite.one_lt_card
   obtain ⟨ℓ, hℓ, hℓdvd, hℓ2, hℓ3, hℓq⟩ := exists_prime_dvd_singer (Nat.card K) hq2 hq
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hcardL : Nat.card (L3 K p) = Nat.card K ^ 3 := FiniteField.natCard_extension K p 3
   have hdvdL : ℓ ∣ Nat.card (L3 K p)ˣ := by
     rw [Nat.card_units, hcardL]

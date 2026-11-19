@@ -12,11 +12,13 @@ open Subgroup CFSG.EvenSporadicStandard.HNRecog.HaradaLA
 variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {zv : V6}
   {R0 F : Subgroup G} {n : G}
 
+omit [Finite G] in
 private lemma commute_zpowers_Fconj (h : Setting25 G t z z₁ ι zv R0 F) {a f : G}
     (ha : a ∈ zpowers (n * t * n⁻¹)) (hf : f ∈ Fconj n F) : a * f = f * a := by
   obtain ⟨e, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
   exact Commute.zpow_left (conj_t_comm_Fconj h hf) e
 
+omit [Finite G] in
 private lemma zpowers_inf_Fconj_eq_bot (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) :
     zpowers (n * t * n⁻¹) ⊓ Fconj n F = ⊥ := by
@@ -27,6 +29,7 @@ private lemma zpowers_inf_Fconj_eq_bot (h : Setting25 G t z z₁ ι zv R0 F)
     _ = Fconj n F ⊓ ι.range := inf_comm ..
     _ = ⊥ := Fconj_inf_range h hn
 
+omit [Finite G] in
 private lemma orderOf_conj_t (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) (hnz : n * z₁ * n⁻¹ = z) :
     orderOf (n * t * n⁻¹) = 2 :=
@@ -34,6 +37,7 @@ private lemma orderOf_conj_t (h : Setting25 G t z z₁ ι zv R0 F)
     intro h1
     exact conj_t_not_mem_Cgrp h hn hnz (by rw [h1]; exact one_mem _))
 
+omit [Finite G] in
 private lemma card_zpowers_conj_t (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) (hnz : n * z₁ * n⁻¹ = z) :
     Nat.card ↥(zpowers (n * t * n⁻¹)) = 2 := by
@@ -62,6 +66,7 @@ private lemma card_zpowers_conj_t (h : Setting25 G t z z₁ ι zv R0 F)
     rw [mul_inv_rev]
     exact (commute_zpowers_Fconj h (inv_mem ha) (inv_mem hf)).symm
 
+omit [Finite G] in
 theorem mem_Qgrp (h : Setting25 G t z z₁ ι zv R0 F) {x : G} :
     x ∈ Qgrp h n ↔ ∃ a ∈ zpowers (n * t * n⁻¹), ∃ f ∈ Fconj n F, x = a * f := Iff.rfl
 
@@ -78,6 +83,7 @@ private noncomputable def prodToQ (h : Setting25 G t z z₁ ι zv R0 F) :
       _ = ((p.1 : G) * (p.2 * q.1)) * q.2 := by rw [hca]
       _ = ((p.1 : G) * p.2) * ((q.1 : G) * q.2) := by group
 
+omit [Finite G] in
 private lemma prodToQ_injective (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) :
     Function.Injective (prodToQ (n := n) (F := F) h) := by
@@ -104,6 +110,7 @@ private lemma prodToQ_injective (h : Setting25 G t z z₁ ι zv R0 F)
     exact mul_left_cancel h2
   exact Prod.ext (Subtype.ext hr) (Subtype.ext hq)
 
+omit [Finite G] in
 private lemma prodToQ_surjective (h : Setting25 G t z z₁ ι zv R0 F) :
     Function.Surjective (prodToQ (n := n) (F := F) h) := by
   rintro ⟨x, hx⟩
@@ -117,6 +124,7 @@ private noncomputable def QgrpMulEquiv (h : Setting25 G t z z₁ ι zv R0 F)
   (MulEquiv.ofBijective (prodToQ (n := n) (F := F) h)
     ⟨prodToQ_injective h hn, prodToQ_surjective h⟩).symm
 
+omit [Finite G] in
 theorem Qgrp_le_K (h : Setting25 G t z z₁ ι zv R0 F) (hn : n ∈ normalizer (ι.range : Set G))
     (hnz : n * z₁ * n⁻¹ = z) : Qgrp h n ≤ Kgrp ι z := by
   intro x hx
@@ -126,6 +134,7 @@ theorem Qgrp_le_K (h : Setting25 G t z z₁ ι zv R0 F) (hn : n ∈ normalizer (
     (Subgroup.zpowers_le.mpr (Setting25.range_le_K h (conj_t_mem_range h hn)) ha)
     (Fconj_le_K h hn hnz hf)
 
+omit [Finite G] in
 theorem card_Qgrp (h : Setting25 G t z z₁ ι zv R0 F) (hn : n ∈ normalizer (ι.range : Set G))
     (hnz : n * z₁ * n⁻¹ = z) : Nat.card (Qgrp h n) = 120 := by
   calc Nat.card (Qgrp h n)
@@ -135,6 +144,7 @@ theorem card_Qgrp (h : Setting25 G t z z₁ ι zv R0 F) (hn : n ∈ normalizer (
     _ = 2 * 60 := by rw [card_zpowers_conj_t h hn hnz, card_Fconj h]
     _ = 120 := by norm_num
 
+omit [Finite G] in
 theorem Qgrp_equiv (h : Setting25 G t z z₁ ι zv R0 F) (hn : n ∈ normalizer (ι.range : Set G))
     (hnz : n * z₁ * n⁻¹ = z) :
     Nonempty (↥(Qgrp h n) ≃* Multiplicative (ZMod 2) × alternatingGroup (Fin 5)) := by

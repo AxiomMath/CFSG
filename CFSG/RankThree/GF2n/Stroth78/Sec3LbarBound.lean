@@ -57,15 +57,15 @@ theorem rhoLin_apply_eq_of_mem_fixSpace_of_normalizes (S : Setting z E F) {a : G
     (hnorm : ∀ ℓ ∈ Lbar S a, ℓ * ω * ℓ⁻¹ = ω ∨ ℓ * ω * ℓ⁻¹ = ω⁻¹)
     {ℓ : Hbar z} (hℓ : ℓ ∈ Lbar S a) {v : Additive (QbarOf S)}
     (hv : v ∈ fixSpace (rhoLin S ω)) : rhoLin S ℓ v = v := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hωq : ∀ u, qS S (rhoLin S ω u) = qS S u :=
     fun u => TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp (rhoBar S ω).2 u
   have hUa : ∀ u ∈ fixSpace (rhoLin S ω),
       QuadraticMap.polar (qS S) u (aVec S h.mem_Q) = 0 := by
     intro u hu
     have horth := CFSG.LargeExtraspecial.AS35QCo.fixSpace_eq_orthogonal
-      (q := qS S) (V := Additive (QbarOf S)) (hq := by letI := modAbF S; exact q_nondegenerate S)
+      (q := qS S) (V := Additive (QbarOf S)) (hq := by let := modAbF S; exact q_nondegenerate S)
       (g := rhoLin S ω) hωq
     have hu' := horth ▸ hu
     have h0 := (LinearMap.BilinForm.mem_orthogonal_iff.mp hu') (aVec S h.mem_Q) haω
@@ -105,8 +105,8 @@ theorem card_Lbar_le_four_of_normalizes (S : Setting z E F) {a : G} {w : ℕ}
     (haω : aVec S h.mem_Q ∈ commSpace (rhoLin S ω))
     (hnorm : ∀ ℓ ∈ Lbar S a, ℓ * ω * ℓ⁻¹ = ω ∨ ℓ * ω * ℓ⁻¹ = ω⁻¹) :
     Nat.card (Lbar S a) ≤ 4 := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hφinj : Function.Injective (rhoGL S) := rhoGL_injective S
   have hω3' : orderOf (rhoLin S ω) = 3 := by rw [orderOf_rhoLin, hω3]
   have hωq : ∀ v, qS S (rhoLin S ω v) = qS S v :=
@@ -133,7 +133,7 @@ theorem card_Lbar_le_four_of_normalizes (S : Setting z E F) {a : G} {w : ℕ}
     simpa [rhoGL_apply] using rhoBar_apply_aVec_of_mem_Lbar S h.mem_Q h.isConj hℓ
   have hmain : Nat.card ((Lbar S a).map (rhoGL S)) ≤ 4 :=
     CFSG.LargeExtraspecial.card_le_four_of_normalizes_of_apply_eq
-      (V := Additive (QbarOf S)) (q := qS S) (hq := by letI := modAbF S; exact q_nondegenerate S)
+      (V := Additive (QbarOf S)) (q := qS S) (hq := by let := modAbF S; exact q_nondegenerate S)
       (ω := rhoLin S ω) (P := (Lbar S a).map (rhoGL S)) (c := aVec S h.mem_Q)
       hωq hω3' h4 hPq hnormP htriv haω
       (by simpa [aVec] using aV_ne_zero S h.mem_Q h.not_mem_ZQ)
@@ -159,7 +159,7 @@ theorem exists_mem_Lbar_conj_ne_of_mem_Rbar (S : Setting z E F) {a : G} {w : ℕ
     (h : Sec3Hyp S a w) {r e : Hbar z} (hr : r ∈ Rbar S a) (hr1 : r ≠ 1)
     (he : e ∈ Eset S a) (h3 : orderOf (r * e) = 3) :
     ∃ ℓ ∈ Lbar S a, ℓ * (r * e) * ℓ⁻¹ ≠ r * e ∧ ℓ * (r * e) * ℓ⁻¹ ≠ (r * e)⁻¹ := by
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hrA2 : r ∈ A2set S :=
     Tset_subset_A2set S a (h.mem_Tset_of_mem_Rbar hr hr1)
   have heA2 : e ∈ A2set S := Eset_subset_A2set S a he
@@ -170,7 +170,7 @@ theorem exists_mem_Lbar_conj_ne_of_mem_Rbar (S : Setting z E F) {a : G} {w : ℕ
   have h3lin : orderOf (rhoLin S r * rhoLin S e) = 3 := by
     rw [← rhoLin_mul, orderOf_rhoLin, h3]
   have hmul := CFSG.LargeExtraspecial.commSpace_mul_of_orderOf_eq_three
-    (q := qS S) (hq := by letI := modAbF S; exact q_nondegenerate S) htypeR htypeE h3lin
+    (q := qS S) (hq := by let := modAbF S; exact q_nondegenerate S) htypeR htypeE h3lin
   have h4 : finrank (ZMod 2) (commSpace (rhoLin S (r * e))) = 4 := by
     rw [rhoLin_mul]
     exact hmul.2.2.1

@@ -98,7 +98,7 @@ theorem card_sGrp (hZ : Subgroup.center lineGroup = ⊥) (h : sylowCheck () = tr
     intro p hp
     obtain ⟨α, -, hα⟩ := rep_of_mem_sElems hp
     have hex : ∃ α, Rep p α := ⟨α, hα⟩
-    simp only [ρ, dif_pos hex]
+    simp only [ρ, dite_eq_left hex]
     exact Classical.choose_spec hex
   have hinj : Set.InjOn ρ ((sElems ()).toFinset : Set Pr) := by
     intro p hp q hq hpq

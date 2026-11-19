@@ -57,7 +57,7 @@ theorem D2AlmostSimple.heisBorel_of_local_of_eq {R : Sylow p X} {A X₀ K : Subg
   set Z : Subgroup X := (R : Subgroup X) ⊓ Subgroup.centralizer ((R : Subgroup X) : Set X)
   have hcore : primeComplementCore (G := X₀) p = ⊥ := by
     subst hX₀
-    exact primeComplementCore_normalizer_eq_bot R.isPGroup' hC
+    exact primeComplementCore_normalizer_eq_bot R.isPGroup hC
   refine ⟨hK.sylow_le_of_not_dvd_card_outer hout, hcard, hX₀.symm, hC, hZ, hcomm, hexp,
     ?_, ?_, hX₀ ▸ hsolv, hcore, hlines⟩
   ·
@@ -102,7 +102,7 @@ theorem D2AlmostSimple.heisBorel_of_local_of_eq {R : Sylow p X} {A X₀ K : Subg
           exact (R : Subgroup X).mul_mem
             ((R : Subgroup X).mul_mem ((R : Subgroup X).inv_mem hr) hxR) hr
       obtain ⟨a, ⟨haW, haR⟩, haC, ha1⟩ :=
-        exists_mem_inf_centralizer_of_isPGroup R.isPGroup' inf_le_right hUn hWR
+        exists_mem_inf_centralizer_of_isPGroup R.isPGroup inf_le_right hUn hWR
       have haZ : a ∈ Z := ⟨haR, haC⟩
       have hord : orderOf a = p := by
         have hdvd : orderOf a ∣ p := hZ ▸ Subgroup.orderOf_dvd_natCard Z haZ
@@ -118,7 +118,7 @@ theorem D2AlmostSimple.heisBorel_of_local_of_eq {R : Sylow p X} {A X₀ K : Subg
     intro W hX₀W hWp
     have hle : (R : Subgroup X) ≤ Subgroup.normalizer (W : Set X) := hK.sylow_le.trans hX₀W
     have hsup : IsPGroup p (W ⊔ (R : Subgroup X) : Subgroup X) :=
-      IsPGroup.to_sup_of_normal_left' hWp R.isPGroup' hle
+      IsPGroup.to_sup_of_normal_left' hWp R.isPGroup hle
     have := R.maximal_isPGroup.le_of_ge hsup le_sup_right
     exact le_sup_left.trans this
 
@@ -129,7 +129,7 @@ theorem D2AlmostSimple.eq_normalizer_of_maximal {R : Sylow p X} {A X₀ K : Subg
     X₀ = Subgroup.normalizer ((R : Subgroup X) : Set X) := by
   have : Fact p.Prime := ⟨hK.prime⟩
   have hNX₀ : Subgroup.normalizer ((R : Subgroup X) : Set X) ≤ X₀ :=
-    hK.normalizer_le_of_rank _ hK.sylow_le R.isPGroup' (by rw [hK.pRank_eq])
+    hK.normalizer_le_of_rank _ hK.sylow_le R.isPGroup (by rw [hK.pRank_eq])
   rcases hmax X₀ hNX₀ with hX | hX
   · exact hX
   · exact absurd hX hK.ne_top
@@ -213,7 +213,7 @@ theorem D2AlmostSimple.torusBorel_of_local {R : Sylow p X} {A X₀ K : Subgroup 
   have hRA : (R : Subgroup X) = A :=
     (Subgroup.eq_of_le_of_card_ge hK.A_le (by rw [hcard, hK.card_A])).symm
   have hNX₀ : Subgroup.normalizer ((R : Subgroup X) : Set X) ≤ X₀ :=
-    hK.normalizer_le_of_rank _ hK.sylow_le R.isPGroup' (by rw [hK.pRank_eq])
+    hK.normalizer_le_of_rank _ hK.sylow_le R.isPGroup (by rw [hK.pRank_eq])
   have hX₀ : X₀ = Subgroup.normalizer ((R : Subgroup X) : Set X) := by
     rcases hmax X₀ hNX₀ with hX | hX
     · exact hX
@@ -274,7 +274,7 @@ theorem D2AlmostSimple.torusBorel_of_local {R : Sylow p X} {A X₀ K : Subgroup 
     intro W _ hX₀W hWp
     have hle : (R : Subgroup X) ≤ Subgroup.normalizer (W : Set X) := hK.sylow_le.trans hX₀W
     have hsup : IsPGroup p (W ⊔ (R : Subgroup X) : Subgroup X) :=
-      IsPGroup.to_sup_of_normal_left' hWp R.isPGroup' hle
+      IsPGroup.to_sup_of_normal_left' hWp R.isPGroup hle
     have := R.maximal_isPGroup.le_of_ge hsup le_sup_right
     exact hRA ▸ le_sup_left.trans this
   · exact ⟨t, hRA ▸ htN, m, lam, e, hm, hlam, he, hRA ▸ hpow, hRA ▸ hinv,

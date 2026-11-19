@@ -11,6 +11,7 @@ open Equiv Equiv.Perm
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [Fintype Ω] in
 theorem exists_restrict {U : Finset Ω} {g : Perm Ω} (hU : ∀ x, x ∉ U → g x = x) :
     ∃ σ : Perm ↥U, Perm.ofSubtype σ = g ∧
       ∀ (x : Ω) (hx : x ∈ U), ((σ ⟨x, hx⟩ : ↥U) : Ω) = g x := by
@@ -41,6 +42,7 @@ theorem mem_of_alternatingGroup_le {U : Finset Ω} {A : Subgroup (Perm Ω)}
   have := h (Perm.mem_alternatingGroup.2 hσs)
   rwa [Subgroup.mem_comap, hσ] at this
 
+omit [Fintype Ω] in
 theorem isDT_swap_mul_swap {F : Finset Ω} {p q r t : Ω}
     (hF : ∀ x, x ∈ F ↔ x = p ∨ x = q ∨ x = r ∨ x = t)
     (hpq : p ≠ q) (hpr : p ≠ r) (hpt : p ≠ t) (hqr : q ≠ r) (hqt : q ≠ t) (hrt : r ≠ t) :
@@ -54,6 +56,7 @@ theorem isDT_swap_mul_swap {F : Finset Ω} {p q r t : Ω}
   · rw [hF] at hx
     grind [Perm.mul_apply]
 
+omit [Fintype Ω] in
 theorem exists_seven_points {F₁ F₂ : Finset Ω} (h1 : F₁.card = 4) (h2 : F₂.card = 4)
     (hz : (F₁ ∩ F₂).card = 1) :
     ∃ z a b c d e f : Ω, F₁ = {z, a, b, c} ∧ F₂ = {z, d, e, f} ∧
@@ -89,6 +92,7 @@ theorem exists_seven_points {F₁ F₂ : Finset Ω} (h1 : F₁.card = 4) (h2 : F
   exact ⟨z, a, b, c, d, e, f, hF1, hF2, hza, hzb, hzc, hzd, hze, hzf, hab, hac, had, hae, haf, hbc,
     hbd, hbe, hbf, hcd, hce, hcf, hde, hdf, hef⟩
 
+omit [Fintype Ω] in
 theorem sq_swap_mul_swap {z a b c d e f : Ω} (hza : z ≠ a) (hzb : z ≠ b) (hzc : z ≠ c)
     (hzd : z ≠ d) (hze : z ≠ e) (hzf : z ≠ f) (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
     (hae : a ≠ e) (haf : a ≠ f) (hbc : b ≠ c) (hbd : b ≠ d) (hbe : b ≠ e) (hbf : b ≠ f)
@@ -131,6 +135,7 @@ theorem sq_swap_mul_swap {z a b c d e f : Ω} (hza : z ≠ a) (hzb : z ≠ b) (h
   rw [hso x h1 h2 h3 h4 h5 h6 h7, hso x h1 h2 h3 h4 h5 h6 h7]
   grind [Perm.mul_apply]
 
+omit [Fintype Ω] in
 theorem alternatingGroup_le_comap_of_inter_one {F₁ F₂ : Finset Ω} (h1 : F₁.card = 4)
     (h2 : F₂.card = 4) (hz : (F₁ ∩ F₂).card = 1) {A : Subgroup (Perm Ω)}
     (hA1 : ∀ s, IsDT F₁ s → s ∈ A) (hA2 : ∀ s, IsDT F₂ s → s ∈ A) :
@@ -256,7 +261,7 @@ theorem star_gen {Ω : Type*} [Fintype Ω] [DecidableEq Ω] {ι : Type*} [Fintyp
   have hconn : ∀ i j, Relation.ReflTransGen (fun a b => (S a ∩ S b).Nonempty) i j := fun i j =>
     Relation.ReflTransGen.single
       ⟨⟨w, hF0U w hw⟩, Finset.mem_union_left _ hw, Finset.mem_union_left _ hw⟩
-  haveI : Nonempty ↥U := ⟨⟨w, hF0U w hw⟩⟩
+  have : Nonempty ↥U := ⟨⟨w, hF0U w hw⟩⟩
   have hgen := GL83.iSup_altOn_eq_alternatingGroup hS3 hcover hconn
   rw [← hgen]
   refine iSup_le fun i h hh => ?_

@@ -20,7 +20,7 @@ theorem le_conjSup (L : Subgroup Q) (a b : Q) : L ≤ conjSup L a b := by
 
 theorem commutator_conjSup {L : Subgroup Q} (hperf : ⁅L, L⁆ = L) (a b : Q) :
     ⁅conjSup L a b, conjSup L a b⁆ = conjSup L a b := by
-  haveI hLp : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
+  have hLp : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
   let fA : Q →* Q := (MulAut.conj a).toMonoidHom
   let fB : Q →* Q := (MulAut.conj b).toMonoidHom
   let fAB : Q →* Q := (MulAut.conj (a * b)).toMonoidHom

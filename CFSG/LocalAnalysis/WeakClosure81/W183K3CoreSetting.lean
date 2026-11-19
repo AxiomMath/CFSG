@@ -49,6 +49,7 @@ noncomputable def Br3TwoComp.swapEquiv (h : Br3TwoComp Y T L₁ L₂) : ↥L₁ 
       (show L₁.map (MulAut.conj (Classical.choose h.swap)).toMonoidHom = L₂ from
         (Classical.choose_spec h.swap).2))
 
+omit [Finite V] in
 theorem Br3TwoComp.isCover3_swap (h : Br3TwoComp Y T L₁ L₂) (hc : IsCover3 ↥L₁) :
     IsCover3 ↥L₂ :=
   hc.of_mulEquiv h.swapEquiv

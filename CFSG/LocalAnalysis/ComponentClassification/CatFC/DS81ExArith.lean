@@ -71,7 +71,6 @@ theorem eleven_dvd_of_twentythree_dvd_lieOrderNumerator {t : StatedLieTag}
     · refine (?_ : Good _) h
       repeat' first
         | exact good_pow _
-        | exact good_two_pow
         | exact good_sub _ (by norm_num)
         | exact good_sub_one
         | exact good_add _
@@ -86,8 +85,8 @@ theorem not_twentythree_dvd_lieOrderNumerator_Tits (q : ℕ) :
 theorem exists_unit_orderOf_eightynine {K : Type} [Field K] [Finite K]
     (h : 89 ∣ Nat.card K - 1) : ∃ ε : Kˣ, orderOf ε = 89 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have hcard : Nat.card Kˣ = Nat.card K - 1 := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_units]
   exact exists_prime_orderOf_dvd_card' (G := Kˣ) 89 (hcard ▸ h)

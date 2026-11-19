@@ -20,7 +20,7 @@ theorem mem_matrixDerived_of_glIncl [Finite K] [CharP K 2]
     (hT₀ : ∃ U : Submodule k (Fin d → k), finrank k U = 3 ∧ ∀ u ∈ U, Q₀ u = 0)
     (hnd : (polarBilin Q).Nondegenerate) {x : GL (Fin d) k} (hx : x ∈ matrixIsometries Q₀)
     (hxD : glIncl k x ∈ matrixDerived Q) : x ∈ matrixDerived Q₀ := by
-  haveI : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
+  have : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
   have hyD : matrixLinearIso (glIncl k x) ∈ orthDerived Q := by
     rw [← CFSG.RankThree.PartOne.KCOrthComm.map_matrixDerived Q]
     exact ⟨glIncl k x, hxD, rfl⟩

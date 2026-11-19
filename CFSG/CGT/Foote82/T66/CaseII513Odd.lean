@@ -178,11 +178,9 @@ theorem u_mem_Cz : g * z * g⁻¹ ∈ G ⊓ Subgroup.centralizer ({z} : Set (GLV
 theorem u_mem_N : g * z * g⁻¹ ∈ Subgroup.normalizer (L : Set (GLV V)) :=
   c.centralizer_le_normalizer d.u_mem_Cz
 
-theorem orderOf_u : orderOf (g * z * g⁻¹) = 2 := c.orderOf_conj_z g
-
 theorem cdim6_u : cdim6 (ψ ⟨g * z * g⁻¹, d.u_mem_H₁⟩) = 1 := by
   rw [cdim6_eq_rank, d.psi_u, ← cdim6_eq_rank]
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.coe_inv]
   rw [cdim6_conj]
   exact c.data.ψ_z
 
@@ -196,7 +194,7 @@ theorem u_not_mem_centralizer (hG1 : CaseIIG1) :
   intro h
   rcases c.eq_one_or_eq_z hG1 d.u_mem_H₁
       (fun l hl => (Subgroup.mem_centralizer_iff.1 h l hl).symm) with h1 | h1
-  · have h2 := d.orderOf_u
+  · have h2 := c.orderOf_conj_z g
     rw [h1, orderOf_one] at h2
     exact absurd h2 (by norm_num)
   · exact d.ne h1
@@ -206,7 +204,7 @@ theorem not_inner (hs : CaseIISplit) (hG1 : CaseIIG1)
     (ad : AD L α β) (hL : Nonempty (↥L ≃* alternatingGroup (Fin 6))) (ℓ₀ : ↥L)
     (hconj : ∀ l : ↥L, conjL L ⟨g * z * g⁻¹, d.u_mem_N⟩ l = ℓ₀ * l * ℓ₀⁻¹) : False := by
   set u := g * z * g⁻¹ with hu
-  have hu2 : u * u = 1 := d.u_mul_u
+  have hu2 : u * u = 1 := (CFSG.CGT.Foote82.CaseII.GD.u_mul_u c)
   have hk : ∀ l ∈ L, ((ℓ₀ : GLV V)⁻¹ * u) * l = l * ((ℓ₀ : GLV V)⁻¹ * u) := by
     intro l hl
     have h1 := congrArg Subtype.val (hconj ⟨l, hl⟩)
@@ -251,7 +249,7 @@ theorem not_inner (hs : CaseIISplit) (hG1 : CaseIIG1)
     intro h1
     rw [h1, inv_one, one_mul] at hcases
     rcases hcases with h | h
-    · have h2 : orderOf u = 2 := d.orderOf_u
+    · have h2 : orderOf u = 2 := c.orderOf_conj_z g
       rw [h, orderOf_one] at h2
       exact absurd h2 (by norm_num)
     · exact d.ne h
@@ -266,7 +264,7 @@ theorem not_inner (hs : CaseIISplit) (hG1 : CaseIIG1)
       (commSpace (HH G L v) ⊤).map (subOne u) := by
     intro w
     rw [← hagree w w.2]
-    exact ⟨w, c.VL_le_V₀ w.2, (subOne_apply u w).symm⟩
+    exact ⟨w, CFSG.CGT.Foote82.CaseII.Ctx.VL_le_V₀ w.2, (subOne_apply u w).symm⟩
   exact h12 (eq_of_finrank_eq_one (d.finrank_V₀u hs) (hmem w₁) (hmem w₂) h1 h2)
 
 theorem exists_odd_perm (hs : CaseIISplit) (hG1 : CaseIIG1)
@@ -277,7 +275,7 @@ theorem exists_odd_perm (hs : CaseIISplit) (hG1 : CaseIIG1)
   set u := g * z * g⁻¹ with hu
   set un : ↥(Subgroup.normalizer (L : Set (GLV V))) := ⟨u, d.u_mem_N⟩ with hun
   obtain ⟨τ, hτ⟩ := ad.exists_perm hL un
-  have hu2 : u * u = 1 := d.u_mul_u
+  have hu2 : u * u = 1 := (CFSG.CGT.Foote82.CaseII.GD.u_mul_u c)
   refine ⟨τ, ?_, ?_, hτ⟩
   ·
     intro hτA

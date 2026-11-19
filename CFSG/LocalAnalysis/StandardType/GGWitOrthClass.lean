@@ -57,7 +57,7 @@ theorem wit_orthClass_three_three {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : 
     (Q : QuadraticForm (ZMod p) U) (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (c : ZMod p) (hc : c ≠ 0) {A : Subgroup (U ≃ₗ[ZMod p] U)} (hA : A = closure (ClassRefl p Q c)) (hai : AbsIrred p A)
     (hp3 : p = 3) (hd : Module.finrank (ZMod p) U = 3) : LinWeyl p A := by
   obtain ⟨e, w, hw, hQe⟩ := wit_orth_normal hp hp2 Q hQ
-  letI : Module (ZMod p) (Fin (Module.finrank (ZMod p) U) → ZMod p) :=
+  let : Module (ZMod p) (Fin (Module.finrank (ZMod p) U) → ZMod p) :=
     Pi.Function.module (Fin (Module.finrank (ZMod p) U)) (ZMod p) (ZMod p)
   let Q' := owR33_Qw p (Module.finrank (ZMod p) U) w
   have he : ∀ v, Q' (e v) = Q v := by

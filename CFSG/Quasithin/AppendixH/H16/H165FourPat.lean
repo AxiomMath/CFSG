@@ -114,7 +114,7 @@ theorem h165_pair_preserving {σ : Equiv.Perm (Fin 24)} (hσ : σ ∈ AutPerm)
       if n.testBit h165PairIdx[(p : ℕ)]! then h165Partner p else p := by
     intro p
     by_cases hb : n.testBit h165PairIdx[(p : ℕ)]! = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       by_contra hne
       have hp : σ p = p := (h p).resolve_right hne
       have hfF : h165PairMoved σ ⟨h165PairIdx[(p : ℕ)]!, h165PairIdx_lt p⟩ = false := by
@@ -129,7 +129,7 @@ theorem h165_pair_preserving {σ : Equiv.Perm (Fin 24)} (hσ : σ ∈ AutPerm)
         rw [hf ⟨h165PairIdx[(p : ℕ)]!, h165PairIdx_lt p⟩]
         exact hfF
       exact absurd (hbit.symm.trans hb) (by decide)
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       by_contra hne
       have hp : σ p = h165Partner p := (h p).resolve_left hne
       have hfT : h165PairMoved σ ⟨h165PairIdx[(p : ℕ)]!, h165PairIdx_lt p⟩ = true := by

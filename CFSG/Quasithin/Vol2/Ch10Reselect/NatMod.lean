@@ -79,14 +79,14 @@ private lemma natE_fixed_zero (u : Fin 2 → K)
   have hu0 : u 0 = 0 := by
     have h := congrFun hb 1
     rw [natE21_mulVec] at h
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h
     linear_combination h
   funext i
   fin_cases i
   · exact hu0
   · exact hu1
 
-theorem rhoSL_fixed_eq_zero [Nontrivial K] {p : UTilde K}
+theorem rhoSL_fixed_eq_zero {p : UTilde K}
     (h : ∀ g : Matrix.SpecialLinearGroup (Fin 2) K, rhoSL K g p = p) : p = 0 := by
   have h1 := h (natE12 (1 : K))
   have h2 := h (natE21 (1 : K))
@@ -100,7 +100,7 @@ theorem rhoSL_mem_lineAdd (g : Matrix.SpecialLinearGroup (Fin 2) K) {w : Fin 2 �
   refine mem_lineAdd_iff.mpr ⟨(g : Matrix (Fin 2) (Fin 2) K) *ᵥ v, ?_⟩
   simp only [rhoSL_apply, Matrix.mulVec_smul]
 
-theorem lineAdd_irreducible [Nontrivial K] {w : Fin 2 → K} (hw : w ≠ 0) (S : AddSubgroup (UTilde K))
+theorem lineAdd_irreducible {w : Fin 2 → K} (_hw : w ≠ 0) (S : AddSubgroup (UTilde K))
     (hS : S ≤ lineAdd K w)
     (hinv : ∀ (g : Matrix.SpecialLinearGroup (Fin 2) K) (p : UTilde K), p ∈ S → rhoSL K g p ∈ S) :
     S = ⊥ ∨ S = lineAdd K w := by
@@ -173,7 +173,7 @@ theorem lineAdd_irreducible [Nontrivial K] {w : Fin 2 → K} (hw : w ≠ 0) (S :
   rw [line_decomp w u]
   exact S.add_mem (hall0 (u 0)) (hall1 (u 1))
 
-theorem lineAdd_perfect [Nontrivial K] {w : Fin 2 → K} (hw : w ≠ 0) :
+theorem lineAdd_perfect {w : Fin 2 → K} (_hw : w ≠ 0) :
     AddSubgroup.closure {x : UTilde K | ∃ (g : Matrix.SpecialLinearGroup (Fin 2) K)
       (p : UTilde K), p ∈ lineAdd K w ∧ x = rhoSL K g p - p} = lineAdd K w := by
   apply le_antisymm
@@ -228,6 +228,7 @@ theorem card_lineAdd [Finite K] {w : Fin 2 → K} (hw : w ≠ 0) :
       exact ⟨u, rfl⟩
   rw [← Nat.card_congr (Equiv.ofBijective f hf), Nat.card_fun, Nat.card_fin]
 
+omit [Field K] in
 theorem card_uTilde [Finite K] : Nat.card (UTilde K) = Nat.card K ^ 4 := by
   show Nat.card ((Fin 2 → K) × (Fin 2 → K)) = Nat.card K ^ 4
   rw [Nat.card_prod, Nat.card_fun, Nat.card_fin]

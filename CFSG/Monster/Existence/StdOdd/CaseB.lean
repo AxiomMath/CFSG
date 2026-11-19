@@ -409,9 +409,8 @@ theorem CaseBCtx.not_commute (ctx : CaseBCtx G F a) {r s : ℕ}
   rw [h₂] at d12
   rw [h₁] at d21
   rcases hr with rfl | rfl | rfl | rfl <;> rcases hs with rfl | rfl | rfl | rfl <;>
-    first
+    try first
     | exact absurd rfl hrs
-    | skip
   · exact ctx.not_commute_five_seven h₁ h₂ hc
   · have := d21.trans (ctx.facts.c11_odd ctx.odd h₂)
     revert this

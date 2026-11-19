@@ -17,9 +17,9 @@ theorem exists_sylow_le_centralizer {G : Type*} [Group G] [Finite G] {w : G}
   obtain ⟨T₀⟩ : Nonempty (Sylow 2 G) := inferInstance
   set T₁ : Subgroup G := (T₀ : Subgroup G) with hT₁
   have : Nontrivial T₁ := (nontrivial_iff_ne_bot T₁).mpr (T₀.ne_bot_of_dvd_card h2)
-  have hZ : Nontrivial (center T₁) := T₀.isPGroup'.center_nontrivial
+  have hZ : Nontrivial (center T₁) := T₀.isPGroup.center_nontrivial
   have hZ2 : 2 ∣ Nat.card (center T₁) := by
-    rcases (T₀.isPGroup'.to_subgroup (center _)).card_eq_or_dvd with h | h
+    rcases (T₀.isPGroup.to_subgroup (center _)).card_eq_or_dvd with h | h
     · exact absurd h Finite.one_lt_card.ne'
     · exact h
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 hZ2
@@ -490,7 +490,7 @@ theorem cfSp4D : GSThmB.CFSp4D := by
     change ψ (m * ψ.symm x) = ψ (ψ.symm x * m)
     rw [map_mul, map_mul, ψ.apply_symm_apply]
     exact hx'
-  have hD'2 : IsPGroup 2 D' := T.isPGroup'.of_equiv eD'.symm
+  have hD'2 : IsPGroup 2 D' := T.isPGroup.of_equiv eD'.symm
   obtain ⟨c, hc, hcR⟩ := exists_conj_le_of_isSylowIn hD'C hD'2 hR
   have hcN := mem_normalizer_of_model hodd h5 ψ h hL hc
   set eL : Lsub K ≃* M := ((ψ.subgroupMap M).trans (MulEquiv.subgroupCongr hL)).symm

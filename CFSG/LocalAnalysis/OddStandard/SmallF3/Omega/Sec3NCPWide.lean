@@ -33,10 +33,10 @@ structure SwapCfg (B : Subgroup G) (x y : G) (M : Subgroup G) : Prop where
 
 theorem le_cent_iff {B : Subgroup G} {y : G} :
     B ≤ centralizer ({y} : Set G) ↔ y ∈ centralizer (B : Set G) :=
-  ⟨fun h => Subgroup.mem_centralizer_iff.2 fun a ha =>
+  ⟨fun h => Subgroup.mem_centralizer_iff.2 fun _a ha =>
       Subgroup.mem_centralizer_singleton_iff.1 (h ha),
-    fun h a ha => Subgroup.mem_centralizer_singleton_iff.2
-      (Subgroup.mem_centralizer_iff.1 h a ha)⟩
+    fun h _a ha => Subgroup.mem_centralizer_singleton_iff.2
+      (Subgroup.mem_centralizer_iff.1 h _a ha)⟩
 
 theorem badI_iff {B : Subgroup G} {y : G} : BadI B y ↔ ThmU.BadInv B y := by
   unfold BadI ThmU.BadInv

@@ -127,7 +127,7 @@ theorem burnsideJ4NP_m4_encJ_maskElt {L : List (ℕ × ℕ)} (hL : coordsOK L = 
     have hlH := burnsideJ4NP_treeElt_mem (burnsideJ4NP_m4_coordsOK hL _ (burnsideJ4NP_getD_mem hl))
     rw [List.foldl_cons, List.foldl_cons]
     by_cases hb : m.testBit l
-    · simp only [hb, if_true]
+    · simp only [hb, ite_true]
       refine ih (fun l' hl' => hS l' (List.mem_cons_of_mem _ hl')) _ _ (Hj.mul_mem ha hlH) ?_
       rw [burnsideJ4NP_encJ_mul ha hlH, hc,
         burnsideJ4NP_encJ_treeElt (burnsideJ4NP_m4_coordsOK hL _ (burnsideJ4NP_getD_mem hl))]

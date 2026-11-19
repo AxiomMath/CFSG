@@ -43,9 +43,9 @@ theorem trialityTwoThreePlanes_holds :
   subst hdq hp3
   obtain ⟨φ, hG⟩ := exists_equiv_trialityGroup8 hq hq1 hv
   have hfs := finite_isSimpleGroup_cat_trialityD4 hv
-  haveI : Finite (Cat ⟨.trialityD4 q, hv⟩) := hfs.1
-  haveI : IsSimpleGroup (Cat ⟨.trialityD4 q, hv⟩) := hfs.2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Cat ⟨.trialityD4 q, hv⟩) := hfs.1
+  have : IsSimpleGroup (Cat ⟨.trialityD4 q, hv⟩) := hfs.2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hel : IsElementaryAbelian 3 ↥E := isElementaryAbelian_of_isElemAbelian hE
   rw [planeGen_iff_closure_fixUnion]
   refine closure_fixUnion_eq_top_of_inner_equiv

@@ -28,7 +28,7 @@ theorem frob_pow_apply {σ : K ≃+* K} (hσ : ∀ a : K, σ a = a ^ 2) (r : ℕ
 theorem eq_one_of_pow_three_of_zeta {φ : K ≃+* K} (h3 : φ ^ 3 = 1)
     (hz : φ (ζ9 : K) = (ζ9 : K) ∨ φ (ζ9 : K) = (ζ9 : K)⁻¹) : φ = 1 := by
   obtain ⟨σ, hσ, hord, hzp⟩ := exists_frob_gen
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [card_ringAut_K]; norm_num)
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [card_ringAut_K]; norm_num)
   have hφmem : φ ∈ Submonoid.powers σ := by
     rw [mem_powers_iff_mem_zpowers, hzp]
     exact Subgroup.mem_top φ

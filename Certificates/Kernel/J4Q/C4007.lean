@@ -82,9 +82,9 @@ theorem ordInsK_eq (a : Nat) : ∀ l : List Nat, ordInsK a l = l.orderedInsert (
     change Bool.rec (motive := fun _ => List Nat) (b :: ordInsK a l) (a :: b :: l) (Nat.ble a b) = _
     rw [ordInsK_eq a l]
     by_cases h : a ≤ b
-    · rw [Nat.ble_eq_true_of_le h, if_pos h]
+    · rw [Nat.ble_eq_true_of_le h, ite_eq_left h]
     · have hf : Nat.ble a b = false := Bool.eq_false_iff.2 fun h' => h (Nat.le_of_ble_eq_true h')
-      rw [hf, if_neg h]
+      rw [hf, ite_eq_right h]
 
 theorem insK_eq : ∀ l : List Nat, insK l = l.insertionSort (· ≤ ·)
   | [] => by

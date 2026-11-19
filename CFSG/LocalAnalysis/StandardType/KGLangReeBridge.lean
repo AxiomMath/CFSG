@@ -62,9 +62,9 @@ theorem kgLangRee_absBridge {a p : ℕ} (ha : 1 ≤ a) (hp : p.Prime)
         (C.Φ * C.Fr ^ b).toMonoidHom ∧
       Finite ↥(((C.Φ * C.Fr ^ b) ^ p).toMonoidHom.eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := by
   classical
-  letI : Algebra (ZMod 2) L := ZMod.algebra L 2
-  haveI : Algebra.IsAlgebraic (ZMod 2) L := hL
-  haveI : CharP L ReeTag.F4.prime := ‹CharP L 2›
+  let : Algebra (ZMod 2) L := ZMod.algebra L 2
+  have : Algebra.IsAlgebraic (ZMod 2) L := hL
+  have : CharP L ReeTag.F4.prime := ‹CharP L 2›
   obtain ⟨hf, a₀, hbs⟩ :=
     CFSG.HardMathSupport.C14ExcBridgeTwF4.bridge_twF4_chev ha hK L hp hp2 hF
   obtain ⟨ρ, Θ, hρinj, hρfix, hΘinj, hI, hconj, hfrob⟩ := hbs
@@ -85,8 +85,6 @@ theorem kgLangRee_absBridge {a p : ℕ} (ha : 1 ≤ a) (hp : p.Prime)
   have hG_eq : (endPow (ReeTag.F4.reeEndo L hf a₀) p).eqLocus (MonoidHom.id _) =
       (((C.Φ * C.Fr ^ a₀) ^ p).toMonoidHom.eqLocus (MonoidHom.id _)) := by
     rw [hF₀S]
-    change (endPow ((C.Φ * C.Fr ^ a₀).toMonoidHom) p).eqLocus (MonoidHom.id _) =
-      (((C.Φ * C.Fr ^ a₀) ^ p).toMonoidHom.eqLocus (MonoidHom.id _))
     rw [kgLangReeBridgeAux_endPow_toMonoidHom]
   refine ⟨a₀, ?_, ?_⟩
   · rw [← hG_eq, ← hF₀S]
@@ -94,16 +92,16 @@ theorem kgLangRee_absBridge {a p : ℕ} (ha : 1 ≤ a) (hp : p.Prime)
     obtain ⟨j, hpj, hj⟩ := hfrob f hfF hfp
     exact ⟨j, hpj, fun r => hj r⟩
   · rw [← hG_eq]
-    haveI : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) := by
+    have : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) := by
       obtain ⟨e⟩ := CFSG.StandardType.centerQuot_twF4H_equiv K a
-      haveI : Finite (CFSG.Blueprint.Chevalley.ModGL .F4 K) := finite_modGL
-      haveI : Finite ↥(CFSG.Blueprint.reeFixedGroup .F4 K CFSG.Blueprint.reeF4Perm
+      have : Finite (CFSG.Blueprint.Chevalley.ModGL .F4 K) := finite_modGL
+      have : Finite ↥(CFSG.Blueprint.reeFixedGroup .F4 K CFSG.Blueprint.reeF4Perm
           (fun i => if i ∈ CFSG.Blueprint.reeF4Long then 2 ^ a else 2 ^ (a + 1))) := Subtype.finite
-      haveI : Finite ↥⁅CFSG.Blueprint.reeFixedGroup .F4 K CFSG.Blueprint.reeF4Perm
+      have : Finite ↥⁅CFSG.Blueprint.reeFixedGroup .F4 K CFSG.Blueprint.reeF4Perm
           (fun i => if i ∈ CFSG.Blueprint.reeF4Long then 2 ^ a else 2 ^ (a + 1)),
           CFSG.Blueprint.reeFixedGroup .F4 K CFSG.Blueprint.reeF4Perm
           (fun i => if i ∈ CFSG.Blueprint.reeF4Long then 2 ^ a else 2 ^ (a + 1))⁆ := Subtype.finite
-      haveI : Finite (CFSG.Blueprint.DerivedCentralQuotient
+      have : Finite (CFSG.Blueprint.DerivedCentralQuotient
           (CFSG.Blueprint.reeFixedGroup .F4 K CFSG.Blueprint.reeF4Perm
             (fun i => if i ∈ CFSG.Blueprint.reeF4Long then 2 ^ a else 2 ^ (a + 1)))) :=
         Finite.of_surjective _ (QuotientGroup.mk'_surjective _)

@@ -22,7 +22,7 @@ theorem suzukiModel_no_order_three (m : ℕ) (hm1 : 1 ≤ m) :
     (a := m) (k := GaloisField 2 (2 * m + 1)) hK
   have hcyc := (CFSG.LieType.Suzuki.suzukiGroup_outer_isCyclic_card_dvd
     (a := m) (K := GaloisField 2 (2 * m + 1)) hm1 hK).1
-  haveI := hcyc
+  have := hcyc
   have hcomm : ∀ a b : CFSG.ComponentClassification.OuterAutomorphisms.Outer
       ↥(suzukiGroup m (GaloisField 2 (2 * m + 1))), a * b = b * a :=
     fun a b => (IsCyclic.isMulCommutative

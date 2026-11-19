@@ -25,10 +25,11 @@ theorem semilinGroup_map_sub {F V : Type} [Field F] [AddCommGroup V] [Module F V
     {r : Equiv.Perm V} (hr : r ∈ semilinGroup F V) (u v : V) : r (u - v) = r u - r v :=
   map_sub (AddMonoidHom.mk' r hr.1) u v
 
+omit [Finite F] [CharP F 2] in
 theorem exists_statedSL_of_sq_zero [CharP F 2] (g : (Fin n → F) →ₗ[F] (Fin n → F))
     (hg : ∀ v, g (g v) = 0) :
     ∃ y : StatedSL n F, ∀ v, natRep (StatedSL n F) y v = v + g v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M : Matrix (Fin n) (Fin n) F := LinearMap.toMatrix' (LinearMap.id + g) with hM
   have hMv : ∀ v, Matrix.mulVec M v = v + g v := by
     intro v
@@ -55,7 +56,7 @@ theorem exists_statedSL_of_sq_zero [CharP F 2] (g : (Fin n → F) →ₗ[F] (Fin
 theorem raise_SL (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) :
     RaiseProp (fun _ => True) (natRep (StatedSL n F))
       (fun Q => fixFlag (natRep (StatedSL n F)) Q) p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro Rh hs _ hRp hRN Q hQ hRQ x hx hx1 hxc
   have hinv : ∀ r ∈ Rh, ∀ k, ∀ v ∈ fixFlag (natRep (StatedSL n F)) Q k,
       r v ∈ fixFlag (natRep (StatedSL n F)) Q k :=
@@ -70,7 +71,7 @@ theorem raise_SL (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) :
   have hN0 : ∃ k, ∃ v ∈ fixFlag (natRep (StatedSL n F)) Q k, N v ≠ 0 := by
     obtain ⟨m, hm⟩ := exists_fixFlag_eq_top (natRep (StatedSL n F)) 2 Q hQ
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hx1
     apply natRep_injective (StatedSL n F)
     apply LinearMap.ext
@@ -93,6 +94,7 @@ theorem raise_SL (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) :
     rw [hy] at h1
     simpa using sub_mem h1 hv
 
+omit [CharP F 2] in
 theorem induced_PSL (hn : 3 ≤ n) (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2)
     (R : Subgroup (MulAut (StatedProj (StatedSL n F)))) (hR : IsPGroup p R) :
     ∀ α ∈ R, ∃ r : Equiv.Perm (Fin n → F), r ∈ semilinGroup F (Fin n → F) ∧ True ∧
@@ -105,8 +107,8 @@ theorem induced_PSL (hn : 3 ≤ n) (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2)
     hαk
   exact ⟨semilinMap A σ, semilinMap_mem A σ, trivial, induces_of_conj _ A σ α h⟩
 
-theorem induced_PSL_two (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) (hF : 4 ≤ Nat.card F)
-    (R : Subgroup (MulAut (StatedProj (StatedSL 2 F)))) (hR : IsPGroup p R) :
+theorem induced_PSL_two (p : ℕ) [Fact p.Prime] (_hp2 : p ≠ 2) (_hF : 4 ≤ Nat.card F)
+    (R : Subgroup (MulAut (StatedProj (StatedSL 2 F)))) (_hR : IsPGroup p R) :
     ∀ α ∈ R, ∃ r : Equiv.Perm (Fin 2 → F), r ∈ semilinGroup F (Fin 2 → F) ∧ True ∧
       Induces (QuotientGroup.mk' ((StatedScalars (Fin 2) F).subgroupOf (StatedSL 2 F)))
         (natRep (StatedSL 2 F)) r α := by

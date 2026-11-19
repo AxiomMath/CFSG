@@ -142,7 +142,7 @@ theorem D1Extremal.d1L2Config (hext : D1Extremal p P M H R)
   obtain ⟨hKe, hC⟩ := hred.nonempty_mulEquiv_psl2GF_and_centralizer_eq_bot hK huniq hcent hd e
   have hdvd : Nat.card (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ∣ p ^ n * n :=
     card_dvd_of_isPGroup_of_psl2GF kFactL2AutPCard hred.ne_two hn hKn hKe hC _
-      Rbar.isPGroup'
+      Rbar.isPGroup
   obtain ⟨E, hER, -, hEcard⟩ := SectionRank.exists_pRank hp.one_lt
     (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p))
   have h3 : p ^ 3 ∣ p ^ n * n :=

@@ -35,10 +35,11 @@ private theorem he42s6_J_le_centralizer (S : HeSetup G) (hB : S.BaseFacts) {z : 
       exact hB.A'_comm b (hB.Z_le_A' (hB.B_le_Z hb)) a ha
   exact sup_le hA hA'
 
+omit [Finite G] in
 private theorem he42s6_mem_of_relIndex_three {J K : Subgroup G} (hJK : J ≤ K)
     (hKN : K ≤ Subgroup.normalizer (J : Set G)) (hidx : J.relIndex K = 3)
     {n : G} (hn : n ∈ K) {m : ℕ} (hnm : n ^ 2 ^ m = 1) : n ∈ J := by
-  haveI : (J.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJK).2 hKN
+  have : (J.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJK).2 hKN
   have hidx' : (J.subgroupOf K).index = 3 := hidx
   have hk3 : (⟨n, hn⟩ : K) ^ 3 ∈ J.subgroupOf K := by
     have h := Subgroup.pow_index_mem (J.subgroupOf K) (⟨n, hn⟩ : K)
@@ -58,8 +59,8 @@ private theorem he42s6_P_le_J {P J : Subgroup G} (hJP : J ≤ P)
     (hP : IsPGroup 2 ↥P) (hfix : ∀ n ∈ P, n ∈ Subgroup.normalizer (J : Set G) → n ∈ J) :
     P ≤ J := by
   by_contra hPJ
-  obtain ⟨p, hpP, hpJ⟩ := SetLike.not_le_iff_exists.1 hPJ
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  obtain ⟨p, hpP, hpJ⟩ := IsConcreteLE.not_le_iff_exists.1 hPJ
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hnc : ∀ H : Subgroup ↥P, H < ⊤ → H < Subgroup.normalizer (H : Set ↥P) :=
     Group.normalizerCondition_of_isNilpotent
   have hlt : J.subgroupOf P < ⊤ := by
@@ -68,7 +69,7 @@ private theorem he42s6_P_le_J {P J : Subgroup G} (hJP : J ≤ P)
       rw [h]
       exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 hmem
-  obtain ⟨n, hnN, hnJ⟩ := SetLike.exists_of_lt (hnc _ hlt)
+  obtain ⟨n, hnN, hnJ⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hlt)
   have hnJ' : (n : G) ∉ J := fun h => hnJ (Subgroup.mem_subgroupOf.2 h)
   have hnorm : (n : G) ∈ Subgroup.normalizer (J : Set G) := by
     apply Subgroup.mem_normalizer_fintype

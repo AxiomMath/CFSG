@@ -34,7 +34,7 @@ theorem commutator_cClos_ne_bot_of_parity (h9 : Hyp9 V T) (hST : S ≤ T)
   have hVT : V ≤ T := h9.sylow.le_of_normal Subgroup.le_normalizer hVnorm hVp
   have hVW : V ≤ E3.wClos V 1 T := E3.le_wClos_of_mQuot_le_self h9.hyp7.1 hVT le_rfl
     (k := 1) (by rw [E3.mQuot_self]; norm_num) (by have := h9.rk_gt; omega)
-  obtain ⟨h, hhN, hhM⟩ := SetLike.not_le_iff_exists.1 h1
+  obtain ⟨h, hhN, hhM⟩ := IsConcreteLE.not_le_iff_exists.1 h1
   have hW1h : conjSubgroup (E3.wClos V 1 T) h = E3.wClos V 1 T :=
     (conjSubgroup_eq_iff_mem_normalizer).2 hhN
   have hVhW1 : conjSubgroup V h ≤ E3.wClos V 1 T := by
@@ -66,7 +66,7 @@ theorem commutator_cClos_ne_bot_of_parity (h9 : Hyp9 V T) (hST : S ≤ T)
       have hEq : conjSubgroup V h ⊓ S = conjSubgroup V h := inf_eq_left.2 hle
       rw [hEq] at hbot
       exact hAne hbot
-    obtain ⟨u, huA, huS⟩ := SetLike.not_le_iff_exists.1 hnle
+    obtain ⟨u, huA, huS⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
     have hne : conjSubgroup V h ⊓ S ≠ ⊥ :=
       inf_ne_bot_of_forall_mem_or_mul_mem hAcard huA (fun x hx => by
         by_cases hxS : x ∈ S

@@ -187,12 +187,12 @@ theorem regs_sound (hk : Ctx k) {R : Nat → Nat}
       have hdm := andB_t (hd m (by omega))
       have hpk := isPk_prodR hk (D.getD m []) fun r hr => hR r (allLt_t hdm.1 r hr)
       let g' : Nat → J := fun r => if r = 5 + m then ((D.getD m []).map g).prod else g r
-      have hgg : ∀ r < 5 + m, g' r = g r := fun r hr => if_neg (by omega)
+      have hgg : ∀ r < 5 + m, g' r = g r := fun r hr => ite_eq_right (by omega)
       have hmap : ∀ i ≤ m, (D.getD i []).map g' = (D.getD i []).map g := fun i hi =>
         List.map_congr_left fun r hr => hgg r (by
           have := allLt_t (andB_t (hd i (by omega))).1 r hr
           omega)
-      have hnew : g' (5 + m) = ((D.getD m []).map g).prod := if_pos rfl
+      have hnew : g' (5 + m) = ((D.getD m []).map g).prod := ite_eq_left rfl
       refine ⟨g', fun r hr => ?_, (hgg 0 (by omega)).trans ga, (hgg 1 (by omega)).trans gb,
         (hgg 2 (by omega)).trans gx, (hgg 3 (by omega)).trans gy, fun i hi => ?_⟩
       · by_cases hrm : r = 5 + m

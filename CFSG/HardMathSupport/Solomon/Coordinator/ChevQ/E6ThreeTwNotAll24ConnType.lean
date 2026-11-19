@@ -31,14 +31,14 @@ theorem isChevSimple_of_mulEquiv {r : ℕ} {S S' : Type} [Group S] [Group S'] (e
   · exact Or.inr ⟨i, hi, ⟨e.symm.trans e'⟩⟩
 
 theorem component_isChevSimple (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (q : ℕ)
-    (hK3 : ringChar K ≠ 3) (hσ : ∀ c, σ c = c ^ q) (hKq : Nat.card K = q ^ 2) (hq2 : 2 ≤ q)
+    (_hK3 : ringChar K ≠ 3) (hσ : ∀ c, σ c = c ^ q) (hKq : Nat.card K = q ^ 2) (hq2 : 2 ≤ q)
     {f : MulAut (twistedE6RootGroup K σ)} (hf3 : f ^ 3 = 1)
     {J : Subgroup (twistedE6RootGroup K σ)}
     (hJ : CFSG.Open.IsComponentOf J (fixedPoints (Subgroup.zpowers f)))
     (h3J : 3 ∣ Nat.card (J ⧸ Subgroup.center J)) :
     IsChevSimple (ringChar K) (J ⧸ Subgroup.center J) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, f', hf', hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hKq hq2
   let qp : TauCeti.PrimePower := ⟨ringChar K, f', hp, by omega⟩
   have hqp : qp.card = q := by
@@ -47,8 +47,8 @@ theorem component_isChevSimple (K : Type) [Field K] [Finite K] (σ : K ≃+* K) 
   have hv : (TauCeti.LieTypeIndex.twistedE6 qp).Valid := TauCeti.LieTypeIndex.valid_twistedE6 qp
   obtain ⟨e⟩ := catEquiv_twistedE6_of_field qp hv K (hqp ▸ hKq) σ (hqp ▸ hσ)
   obtain ⟨-, hsimple⟩ := finite_isSimpleGroup_cat_twistedE6 hv
-  haveI := hsimple
-  haveI : IsSimpleGroup (twistedE6RootGroup K σ) := e.symm.isSimpleGroup
+  have := hsimple
+  have : IsSimpleGroup (twistedE6RootGroup K σ) := e.symm.isSimpleGroup
   have hZ := exceptional_fixed_center_trivial TwistTag.E6 K σ
   have hnc : ∃ a b : twistedE6RootGroup K σ, a * b ≠ b * a :=
     CFSG.HardMathSupport.Dickson.Sec6.I923.exists_noncomm_of_center_bot hZ
@@ -71,7 +71,7 @@ theorem component_isChevSimple (K : Type) [Field K] [Finite K] (σ : K ≃+* K) 
   have hperf : commutator ↥J = ⊤ := (Subgroup.isPerfect_iff.2
     (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ3)).1
   have hbarQ : CFSG.Open.IsQuasisimple (barOf 3 J) := isQuasisimple_quotient_of_glaPComponent hJ3
-  haveI : Nontrivial (barOf 3 J ⧸ Subgroup.center (barOf 3 J)) := hbarQ.2.toNontrivial
+  have : Nontrivial (barOf 3 J ⧸ Subgroup.center (barOf 3 J)) := hbarQ.2.toNontrivial
   have hkφ : φ.ker ≤ Subgroup.center ↥J :=
     CFSG.HardMathSupport.Dickson.Bal207.Small.ker_le_center_of_surjective hJ.2.2 φ hφ
   obtain ⟨g⟩ := LieComp.nonempty_centralQuotient_mulEquiv hperf φ hφ hkφ

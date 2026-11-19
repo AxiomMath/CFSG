@@ -8,7 +8,7 @@ public section
 
 namespace CFSG.LocalAnalysis.RankThreeUC.ProofSupport.CoprimeFixedCentralCoset
 
-theorem commutator_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
+theorem commutator_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} (_hp : p.Prime)
     (X : Subgroup G) (hX : ∀ x ∈ X, x ^ p = 1) (b g : G)
     (hb : ∀ x ∈ X, b * x = x * b) (hx : b * g * b⁻¹ * g⁻¹ ∈ X)
     (hcop : Nat.Coprime (orderOf b) p) : b * g * b⁻¹ * g⁻¹ = 1 := by

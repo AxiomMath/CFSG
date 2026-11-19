@@ -12,7 +12,7 @@ open CFSG.Timmesfeld.Bridge.Asc72 CFSG.OddTranspositions.QZ CFSG.GroupTheory
 theorem eq_bot_of_normal_of_isSolvable_perm_five (N : Subgroup (Equiv.Perm (Fin 5)))
     [hN : N.Normal] (hs : Group.IsSolvable N) : N = ⊥ := by
   classical
-  have hA : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hA : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hc1 : Equiv.swap (0 : Fin 5) 1 * Equiv.swap 1 2 ∈ alternatingGroup (Fin 5) := by
     simp [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_swap']
   have hc2 : Equiv.swap (2 : Fin 5) 3 * Equiv.swap 3 4 ∈ alternatingGroup (Fin 5) := by

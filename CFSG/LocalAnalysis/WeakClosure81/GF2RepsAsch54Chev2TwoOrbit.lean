@@ -18,6 +18,7 @@ variable {Q : Type} [Group Q] [Finite Q] {L T : Subgroup Q} {K : Type} [Group K]
   {D : UniversalRootDatum K} {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K}
   {π : K →* ↥L} {e : ℕ}
 
+omit [Finite Q] in
 theorem nodeTransitive_of_nodeOrbit_eq_univ (hbq : BorelQuotient D n H π e)
     (hRN : T ≤ Subgroup.normalizer (L : Set Q))
     (h𝒜 : ∀ α ∈ (actHom hRN).range,
@@ -81,7 +82,7 @@ theorem not_hasCompFactor_map_parJ_nodeOrbit (hbq : BorelQuotient D n H π e)
   have h𝒜2 : IsPGroup 2 ↥𝒜 :=
     hT2.of_surjective (actHom hRN).rangeRestrict (actHom hRN).rangeRestrict_surjective
   have hT : (TauCeti.diagramGraph D.cartan).IsTree :=
-    @CFSG.AGLEmbeddingD2.Tits.GN516.Conn.diagram_isTree K ↥L _ _ _ D n H π e hbq hLs hnab
+    @CFSG.AGLEmbeddingD2.Tits.GN516.Conn.diagram_isTree K ↥L _ _ D n H π e hbq hLs hnab
   let act : MulAction ↥𝒜 (Fin D.rank) :=
     { smul := fun a x => nodeHom hbq 𝒜 h𝒜 a x
       one_smul := fun x => by

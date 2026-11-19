@@ -57,6 +57,7 @@ structure Distinct4 (P1 P2 A B : ι) : Prop where
   h2B : P2 ≠ B
   hAB : A ≠ B
 
+omit [CharP F 2] in
 theorem nodeN_mulVec {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) (v : ι → F) (r : ι) :
     (nodeN F P1 P2 A B *ᵥ v) r =
       if r = P1 then v A + v P1 else if r = A then v P1 else if r = B then v P2 + v B
@@ -65,15 +66,16 @@ theorem nodeN_mulVec {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) (v : ι → F) 
   simp only [nodeN, Matrix.add_mulVec, Matrix.single_mulVec_eq, Pi.add_apply, Pi.smul_apply,
     Pi.single_apply, smul_eq_mul, one_mul, mul_one, mul_ite, mul_zero]
   by_cases a1 : r = P1
-  · subst a1; simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm]
+  · subst a1; simp [h12, h1A, h1B]
   by_cases a2 : r = A
-  · subst a2; simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, hAB.symm]
+  · subst a2; simp [hAB, h1A.symm, h2A.symm]
   by_cases a3 : r = B
-  · subst a3; simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2B.symm, hAB.symm]
+  · subst a3; simp [h1B.symm, h2B.symm, hAB.symm]
   by_cases a4 : r = P2
-  · subst a4; simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h2A.symm, h2B.symm]
+  · subst a4; simp [h2A, h2B, h12.symm]
   simp [a1, a2, a3, a4]
 
+omit [Fintype ι] in
 theorem card_nodeS {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) : (nodeS P1 P2 A B).card = 4 := by
   obtain ⟨h12, h1A, h1B, h2A, h2B, hAB⟩ := hd
   unfold nodeS
@@ -83,16 +85,18 @@ theorem card_nodeS {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) : (nodeS P1 P2 A 
   · simp [h2A, h2B]
   · simp [h1A, h1B, h12]
 
+omit [CharP F 2] in
 theorem nodeN_supp (P1 P2 A B : ι) (a b : ι) (h : nodeN F P1 P2 A B a b ≠ 0) :
     a ∈ nodeS P1 P2 A B ∧ b ∈ nodeS P1 P2 A B := by
   by_contra hc
   apply h
   simp only [nodeS, Finset.mem_insert, Finset.mem_singleton, not_and_or] at hc
   simp only [nodeN, Matrix.add_apply, Matrix.single_apply]
-  rcases hc with hc | hc <;> push_neg at hc <;> obtain ⟨c1, c2, c3, c4⟩ := hc
+  rcases hc with hc | hc <;> push Not at hc <;> obtain ⟨c1, c2, c3, c4⟩ := hc
   · simp [Ne.symm c1, Ne.symm c2, Ne.symm c3, Ne.symm c4]
   · simp [Ne.symm c1, Ne.symm c2, Ne.symm c3, Ne.symm c4]
 
+omit [CharP F 2] in
 theorem nodeN_inj {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) (v : ι → F)
     (hv : ∀ a ∉ nodeS P1 P2 A B, v a = 0)
     (h : ∀ a ∈ nodeS P1 P2 A B, (nodeN F P1 P2 A B *ᵥ v) a = 0) : ∀ a, v a = 0 := by
@@ -103,9 +107,9 @@ theorem nodeN_inj {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) (v : ι → F)
   have e3 := h B (by simp [nodeS])
   have e4 := h P2 (by simp [nodeS])
   rw [nodeN_mulVec hd'] at e1 e2 e3 e4
-  simp only [if_true, if_neg h1A.symm, if_neg h1B.symm, if_neg h12.symm, if_neg h2A.symm.symm,
-    if_neg hAB, if_neg hAB.symm, if_neg h2B.symm, if_neg h2B, if_neg h2A, if_neg h1A, if_neg h1B,
-    if_neg h12] at e1 e2 e3 e4
+  simp only [ite_true, ite_eq_right h1A.symm, ite_eq_right h1B.symm, ite_eq_right h12.symm, ite_eq_right h2A.symm.symm,
+    ite_eq_right hAB, ite_eq_right hAB.symm, ite_eq_right h2B.symm, ite_eq_right h2B, ite_eq_right h1A, ite_eq_right h1B,
+    ite_eq_right h12] at e1 e2 e3 e4
   have a1 : v P1 = 0 := e2
   have a2 : v B = 0 := e4
   have a3 : v A = 0 := by rw [a1, add_zero] at e1; exact e1
@@ -116,6 +120,7 @@ theorem nodeN_inj {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) (v : ι → F)
     rcases ha with rfl | rfl | rfl | rfl <;> assumption
   · exact hv a ha
 
+omit [CharP F 2] in
 theorem rank_nodeN {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) :
     (nodeN F P1 P2 A B).rank = 4 := by
   apply le_antisymm
@@ -128,6 +133,7 @@ theorem rank_nodeN {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) :
     exact CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.RankTwoCoverOrth.card_le_rank _ _
       (nodeN_inj hd)
 
+omit [CharP F 2] in
 theorem nodeN_mul_nodeN_disjoint {P1 P2 A B P1' P2' A' B' : ι}
     (hd : Disjoint (nodeS P1 P2 A B) (nodeS P1' P2' A' B')) :
     nodeN F P1 P2 A B * nodeN F P1' P2' A' B' = 0 := by
@@ -141,6 +147,7 @@ theorem nodeN_mul_nodeN_disjoint {P1 P2 A B P1' P2' A' B' : ι}
   exact absurd (nodeN_supp P1' P2' A' B' c b h2).1
     (Finset.disjoint_left.1 hd (nodeN_supp P1 P2 A B a c h1).2)
 
+omit [CharP F 2] in
 theorem rank_add_nodeN_disjoint {P1 P2 A B P1' P2' A' B' : ι} (hd1 : Distinct4 P1 P2 A B)
     (hd2 : Distinct4 P1' P2' A' B')
     (hd : Disjoint (nodeS P1 P2 A B) (nodeS P1' P2' A' B')) :
@@ -163,19 +170,19 @@ theorem swap_mulVec {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) (v : ι → F) (
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   by_cases a1 : r = P1
   · subst a1
-    simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, h2B.symm, hAB.symm]
+    simp [hAB, h1A.symm]
     grind
   by_cases a2 : r = A
   · subst a2
-    simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, h2B.symm, hAB.symm]
+    simp [hAB, h1A.symm]
     grind
   by_cases a3 : r = B
   · subst a3
-    simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, h2B.symm, hAB.symm]
+    simp [h2A, h2B, h12.symm, h1B.symm, hAB.symm]
     grind
   by_cases a4 : r = P2
   · subst a4
-    simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, h2B.symm, hAB.symm]
+    simp [h2A, h2B, h12.symm, h1B.symm]
     grind
   simp [a1, a2, a3, a4]
 
@@ -186,21 +193,21 @@ theorem swap_mulVec_eq {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) (v : ι → F
   funext r
   rw [swap_mulVec hd]
   obtain ⟨h12, h1A, h1B, h2A, h2B, hAB⟩ := hd
-  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero]
+  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul]
   by_cases a1 : r = P1
   · subst a1
-    simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, h2B.symm, hAB.symm]
+    simp [h12, h1A, h1B]
   by_cases a2 : r = A
   · subst a2
-    simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, h2B.symm, hAB.symm]
+    simp [hAB, h1A.symm, h2A.symm]
     grind
   by_cases a3 : r = B
   · subst a3
-    simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, h2B.symm, hAB.symm]
+    simp [h1B.symm, h2B.symm, hAB.symm]
     grind
   by_cases a4 : r = P2
   · subst a4
-    simp [h12, h1A, h1B, h2A, h2B, hAB, h12.symm, h1A.symm, h1B.symm, h2A.symm, h2B.symm, hAB.symm]
+    simp [h2A, h2B, h12.symm]
   simp [a1, a2, a3, a4]
 
 theorem rank_swap_le {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) :
@@ -230,7 +237,7 @@ theorem rank_swap_pos {P1 P2 A B : ι} (hd : Distinct4 P1 P2 A B) :
     intro h
     have := congrFun h P1
     rw [swap_mulVec hd] at this
-    simp [Pi.single_apply, Ne.symm hd.h12] at this
+    simp [Ne.symm hd.h12] at this
   have : (LinearMap.range M.mulVecLin) ≠ ⊥ := by
     intro hbot
     apply hne
@@ -267,6 +274,7 @@ theorem distinct4_node (hn : 3 ≤ n) (k : Fin n) :
   cases h : rootSignD n k <;> simp only [ix, Bool.not_true, Bool.not_false] <;>
   refine ⟨by simp, ?_, ?_, ?_, ?_, by simp⟩ <;> simp [hpq]
 
+omit [CharP F 2] in
 theorem spinMatrix_rootD (hn : 3 ≤ n) (k : Fin n) (c : F) :
     (spinMatrix (quadPlus n F) (rootD F hn k (.ofAdd c)) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       1 + c • (Matrix.single (Sum.inl (rootIdxD n k) : Fin n ⊕ Fin n)
@@ -274,6 +282,7 @@ theorem spinMatrix_rootD (hn : 3 ≤ n) (k : Fin n) (c : F) :
         Matrix.single (ix (rootIdxD' n k) (rootSignD n k)) (Sum.inr (rootIdxD n k)) (1 : F)) :=
   spinMatrix_longRoot hn (rootIdxD_ne n (by omega) k) true (rootSignD n k) c
 
+omit [CharP F 2] in
 theorem spinMatrix_negRootD (hn : 3 ≤ n) (k : Fin n) (c : F) :
     (spinMatrix (quadPlus n F) (negRootD F hn k (.ofAdd c)) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       1 + c • (Matrix.single (ix (rootIdxD' n k) (!rootSignD n k))

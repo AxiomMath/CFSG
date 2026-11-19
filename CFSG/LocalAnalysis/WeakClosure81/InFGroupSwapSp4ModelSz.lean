@@ -42,6 +42,7 @@ theorem not_prime_card_suzuki {a : ℕ} {K : Type} [Field K] [Finite K]
       _ = q ^ 2 * (q - 1) * (q ^ 2 + 1) := by rw [pow_two]; ac_rfl
   exact Nat.not_prime_of_dvd_of_lt hdvd (by omega) hlt
 
+omit [Finite Q] in
 private theorem exists_suzuki_fixed_data (hn : 2 ≤ n)
     (hL : L.Normal) (hSp : IsSp4 ↥L n) (hC : centralizer (L : Set Q) = ⊥) (hodd : Odd n)
     {a : Q} (haL : a ∉ L) (ha : a * a = 1) :
@@ -52,7 +53,7 @@ private theorem exists_suzuki_fixed_data (hn : 2 ≤ n)
   have hcl : StatedClassicalModel ↥L .PSp 2 2 n :=
     CFSG.Blueprint.LieModel.statedClassicalModel hSp (by decide)
   obtain ⟨hadm, K, hKf, hKfin, hKcard, ⟨φ⟩⟩ := hcl
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   obtain ⟨m, hm⟩ := hodd
@@ -60,7 +61,7 @@ private theorem exists_suzuki_fixed_data (hn : 2 ≤ n)
   have hm1 : 1 ≤ m := by omega
   have hKm : Nat.card K = 2 ^ (2 * m + 1) := by
     rw [← hm]; exact hKcard
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   let β : MulAut ↥L := MulAut.conjNormal (H := L) a
   have hβ2 : β * β = 1 := by
     change MulAut.conjNormal (H := L) a * MulAut.conjNormal (H := L) a = 1
@@ -95,6 +96,7 @@ private theorem exists_suzuki_fixed_data (hn : 2 ≤ n)
   exact ⟨K, hKf, hKfin, φ, by simpa [β, α] using hSimple,
     by simpa [β, α] using hnotPrime⟩
 
+omit [Finite Q] in
 private theorem isSimpleGroup_inf_centralizer_of_odd
     (hn : 2 ≤ n) (hL : L.Normal) (hSp : IsSp4 ↥L n) (hC : centralizer (L : Set Q) = ⊥)
     (hodd : Odd n) {a : Q} (haL : a ∉ L) (ha : a * a = 1) :
@@ -102,7 +104,7 @@ private theorem isSimpleGroup_inf_centralizer_of_odd
       ¬ (Nat.card ↥(L ⊓ centralizer ({a} : Set Q))).Prime := by
   obtain ⟨K, hKf, hKfin, φ, hSimple, hnotPrime⟩ :=
     exists_suzuki_fixed_data hn hL hSp hC hodd haL ha
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   let β : MulAut ↥L := MulAut.conjNormal (H := L) a
   let α : MulAut (StatedProj (StatedSp 2 K)) := MulAut.congr φ β
   let D : Subgroup Q := L ⊓ centralizer ({a} : Set Q)
@@ -130,11 +132,12 @@ private theorem isSimpleGroup_inf_centralizer_of_odd
   let Ψ : ↥D ≃* fixedSubgroup α :=
     (Subgroup.subgroupOfEquivOfLe hDle).symm.trans
       ((MulEquiv.subgroupCongr hfix).trans (fixedSubgroupCongrEquiv φ β))
-  haveI : IsSimpleGroup (fixedSubgroup α) := by simpa [α, β] using hSimple
+  have : IsSimpleGroup (fixedSubgroup α) := by simpa [α, β] using hSimple
   refine ⟨by simpa [D] using Ψ.isSimpleGroup, ?_⟩
   rw [Nat.card_congr Ψ.toEquiv]
   simpa [α, β] using hnotPrime
 
+omit [Finite Q] in
 theorem suzuki_of_odd (hn : 2 ≤ n) (hL : L.Normal)
     (hSp : IsSp4 ↥L n) (hC : centralizer (L : Set Q) = ⊥) (hodd : Odd n) {a : Q} (haL : a ∉ L)
     (ha : a * a = 1) :

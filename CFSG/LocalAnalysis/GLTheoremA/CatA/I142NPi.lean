@@ -51,7 +51,7 @@ theorem piProd_ker_central (H : ι → Subgroup S)
       by_cases hj : j = i
       · subst hj
         simp [hf']
-      · simp [hf', Pi.mulSingle_apply, hj]
+      · simp [hf', hj]
     have h1 : (f i : S) * piProd H hcomm f' = 1 := by
       rw [← piProd_mulSingle H hcomm i (f i), ← map_mul, ← hsplit, hf]
     have h2 : piProd H hcomm f' = (f i : S)⁻¹ := eq_inv_of_mul_eq_one_right h1
@@ -103,10 +103,12 @@ variable {A : Type*} [Group A]
     rw [hmap] at h1
     rwa [Equiv.apply_symm_apply] at h1⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem coordFun_apply (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) (a : A) (f : ∀ i, ↥(H i))
     (k : ι) : ((coordFun ρ H σ hmap a f k : ↥(H k)) : S) = ρ a (f ((σ a).symm k) : S) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem coordFun_mul (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) (a b : A) (f : ∀ i, ↥(H i)) :
     coordFun ρ H σ hmap (a * b) f = coordFun ρ H σ hmap a (coordFun ρ H σ hmap b f) := by
@@ -116,6 +118,7 @@ theorem coordFun_mul (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →*
   congr 2
   rw [map_mul, Equiv.Perm.mul_def, Equiv.symm_trans_apply]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem coordFun_one (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) (f : ∀ i, ↥(H i)) :
     coordFun ρ H σ hmap 1 f = f := by
@@ -138,12 +141,14 @@ theorem coordFun_one (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →*
     apply Subtype.ext
     simp only [Pi.mul_apply, Subgroup.coe_mul, coordFun_apply, map_mul]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_coordTarget (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) (a : A) (i : ι) (x : ↥(H i)) :
     ρ a (x : S) ∈ H ((σ a) i) := by
   rw [← hmap]
   exact Subgroup.mem_map_of_mem _ x.2
 
+omit [Fintype ι] in
 theorem coordFun_mulSingle (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) (a : A) (i : ι) (x : ↥(H i)) :
     coordFun ρ H σ hmap a (Pi.mulSingle i x) =
@@ -159,7 +164,7 @@ theorem coordFun_mulSingle (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : 
       intro h
       apply hk
       rw [← h, Equiv.apply_symm_apply]
-    simp [Pi.mulSingle_apply, hk, hk']
+    simp [hk, hk']
 
 @[expose] def coordHom (ρ : A →* MulAut S) (H : ι → Subgroup S) (σ : A →* Equiv.Perm ι)
     (hmap : ∀ a i, (H i).map (ρ a).toMonoidHom = H ((σ a) i)) :

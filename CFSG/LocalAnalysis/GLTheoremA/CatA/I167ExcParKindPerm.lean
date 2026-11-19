@@ -134,7 +134,7 @@ theorem exc_card_pos_odd {τ : Tag} {Ψ : Set (Fin τ.rank → ℤ)} (hΨ : IsRo
   set P : Set (Fin τ.rank → ℤ) := {x | x ∈ Ψ ∧ 0 < corootPair γ x} with hPdef
   have hPfin : P.Finite :=
     (finite_setOf_isRoot τ).subset fun x hx => hΨ.isRoot x hx.1
-  haveI : Fintype ↥P := hPfin.fintype
+  have : Fintype ↥P := hPfin.fintype
   have hγP : γ ∈ P := ⟨hγ, by rw [exc_card_pos_odd_aux1 hγr]; norm_num⟩
   have hθmem : ∀ x : ↥P, -(rootReflection γ • (x : Fin τ.rank → ℤ)) ∈ P := by
     intro x
@@ -148,7 +148,7 @@ theorem exc_card_pos_odd {τ : Tag} {Ψ : Set (Fin τ.rank → ℤ)} (hΨ : IsRo
   have hfixP : Function.fixedPoints (excKindTheta γ P hθmem) = {⟨γ, hγP⟩} := by
     rw [hfix]
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     exact ⟨fun h => Subtype.ext h, fun h => by rw [h]⟩
   have hcardFix : Fintype.card (Function.fixedPoints (excKindTheta γ P hθmem)) = 1 := by
     rw [Set.fintypeCard_eq_ncard, hfixP]
@@ -212,7 +212,7 @@ private theorem exc_reflection_perm_sign_aux3 {τ : Tag} {Ψ : Set (Fin τ.rank 
       = {x : Fin τ.rank → ℤ | x ∈ Ψ ∧ 0 < corootPair γ x}.ncard := by
   have hPfin : {x : Fin τ.rank → ℤ | x ∈ Ψ ∧ 0 < corootPair γ x}.Finite :=
     (finite_setOf_isRoot τ).subset fun x hx => hΨ.isRoot x hx.1
-  haveI : Fintype ↥{x : Fin τ.rank → ℤ | x ∈ Ψ ∧ 0 < corootPair γ x} := hPfin.fintype
+  have : Fintype ↥{x : Fin τ.rank → ℤ | x ∈ Ψ ∧ 0 < corootPair γ x} := hPfin.fintype
   rw [← Fintype.card_subtype (p := fun x : ↥Ψ => 0 < corootPair γ x)]
   rw [← Set.fintypeCard_eq_ncard]
   refine Fintype.card_congr ?_

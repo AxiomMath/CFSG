@@ -37,9 +37,9 @@ theorem wv_revneg (g : ℕ → G) : ∀ w : List ℤ, (∀ z ∈ w, z ≠ 0) →
       mul_one, mul_inv_rev]
     by_cases h : 0 < l
     · have h' : ¬ 0 < -l := by omega
-      rw [if_neg h', if_pos h, neg_neg]
+      rw [ite_eq_right h', ite_eq_left h, neg_neg]
     · have h' : 0 < -l := by omega
-      rw [if_pos h', if_neg h, inv_inv]
+      rw [ite_eq_left h', ite_eq_right h, inv_inv]
 
 theorem wv_conj (g : ℕ → G) (u : G) : ∀ w : List ℤ,
     u * wv g w * u⁻¹ = wv (fun h => u * g h * u⁻¹) w
@@ -58,8 +58,8 @@ theorem wv_congr {f g : ℕ → G} {j : ℕ} (h : ∀ i < j, f i = g i) :
     have hw' : lettersOK j w = true := by simpa [lettersOK, List.all_eq_true] using hw
     rw [wv_cons, wv_cons, wv_congr h w hw']
     by_cases hp : 0 < l
-    · rw [if_pos hp, if_pos hp, h _ (by omega)]
-    · rw [if_neg hp, if_neg hp, h _ (by omega)]
+    · rw [ite_eq_left hp, ite_eq_left hp, h _ (by omega)]
+    · rw [ite_eq_right hp, ite_eq_right hp, h _ (by omega)]
 
 end Words
 
@@ -77,9 +77,9 @@ theorem rep_wordA_wv {n j : ℕ} {S SI : Array (Array ℕ)} {g : ℕ → Equiv.P
     refine rep_compA ?_ (rep_wordA_wv hS hSI w hw')
     unfold letterA
     by_cases hp : 0 < l
-    · rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp, ite_eq_left hp]
       exact hS _ (by omega)
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp, ite_eq_right hp]
       exact hSI _ (by omega)
 
 section Tree
@@ -123,8 +123,7 @@ theorem conj_parent {N m d : ℕ} {k l : ℕ → G} {P : List (List ℤ)} {par :
             subst hz
             omega
         · have e1 : wv (fun h => l (h + 1)) [((c + 1 : ℕ) : ℤ)] = l (c + 1) := by
-            rw [wv_cons, wv_nil, mul_one, if_pos (by omega)]
-            beta_reduce
+            rw [wv_cons, wv_nil, mul_one, ite_eq_left (by omega)]
             congr 1
           obtain ⟨W, hW, hWe⟩ := hnorm c hc j hj
           have e2 : wv (fun h => l (h + 1)) (P.getD (par i) []) * wv k W *

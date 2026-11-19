@@ -15,7 +15,7 @@ section Fam
 variable (hM : MatFacts)
 include hM
 
-@[expose] noncomputable def maxGs (ℓ : ℕ) (m : ℕ) : J :=
+noncomputable def maxGs (ℓ : ℕ) (m : ℕ) : J :=
   if m < 3 then xJ m else if m = 3 then uEl ℓ else 1
 
 theorem maxFam {ℓ : ℕ} (hℓ : ℓ < 7)

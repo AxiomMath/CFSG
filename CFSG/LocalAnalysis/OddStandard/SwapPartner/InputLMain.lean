@@ -23,11 +23,11 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 theorem nonExactShapeEightLookup_of_fixedA8Lookup (hL : FixedA8Lookup) :
     NonExactShapeEightLookup := by
   intro X _ _ t Sg V K hX hO hS hKl hc hA hne
-  haveI : K.Characteristic := by
+  have : K.Characteristic := by
     subst hKl
     exact CFSG.LocalCores.layer_characteristic
   obtain ⟨hKp, hKs, hKn⟩ := hc.1
-  haveI : IsSimpleGroup (K ⧸ center K) := hKs
+  have : IsSimpleGroup (K ⧸ center K) := hKs
   have hK : ⁅K, K⁆ = K := Subgroup.isPerfect_iff.mp hKp
   have hcat : CFSG.Blueprint.Catalog (K ⧸ center K) :=
     CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hX K

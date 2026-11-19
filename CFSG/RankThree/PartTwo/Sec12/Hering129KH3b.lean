@@ -23,6 +23,7 @@ namespace Hering129KH3b
 variable {P : Type} [Group P] [Finite P] {Yh Bh : Subgroup P} {xh bh ch : P}
   {K : Type} [Field K] {p f : ℕ} {π : Bool}
 
+omit [Finite P] in
 theorem h3b_card_sup_le_nine {x y : P} (hx : ∀ g : P, x * g = g * x) (hx3 : x ^ 3 = 1)
     (hy3 : y ^ 3 = 1) : Nat.card ↥(Subgroup.zpowers x ⊔ Subgroup.zpowers y) ≤ 9 := by
   have hN : (Subgroup.zpowers x).Normal := by
@@ -78,6 +79,7 @@ theorem h3b_isSolvable_slPi_false (hK : Sec4.PiField false p f K) (h2 : p ^ f = 
   rw [heq]
   exact hsolv
 
+omit [Finite P] in
 theorem h3b_two_lt_of_not_isSolvable {Xh : Subgroup P}
     (hK : Sec4.PiField π p f K) (hq : Sec4.ModThree π (p ^ f))
     (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K)) (hXY : Xh ≤ Yh)
@@ -97,9 +99,9 @@ theorem h3b_two_lt_of_not_isSolvable {Xh : Subgroup P}
       exfalso
       simp [Sec4.ModThree, h2] at hq
   subst hπ
-  haveI : Group.IsSolvable ↥(Sec4.slPi false 3 (p ^ f) K) :=
+  have : Group.IsSolvable ↥(Sec4.slPi false 3 (p ^ f) K) :=
     h3b_isSolvable_slPi_false hK h2
-  haveI : Group.IsSolvable ↥(projImage (Sec4.slPi false 3 (p ^ f) K)) :=
+  have : Group.IsSolvable ↥(projImage (Sec4.slPi false 3 (p ^ f) K)) :=
     Group.isSolvable_of_surjective (Sec4.projOf_surjective _)
   have hχ : Function.Injective
       (e.toMonoidHom.comp (Subgroup.inclusion hXY) :
@@ -122,7 +124,7 @@ theorem hess_to_pgl [Yh.Normal] (hD : HessData Yh Bh xh bh ch) (hK : Sec4.PiFiel
       Group.IsPerfect Xm ∧ ¬ Group.IsSolvable Xm ∧
       ((e ⟨ch, hD.cY⟩ : projImage (Sec4.slPi π 3 (p ^ f) K)) : ProjGenLinGroup (Fin 3) K) ∈ Xm := by
   have hBcomm : ∀ a ∈ Bh, ∀ b ∈ Bh, a * b = b * a := by
-    haveI := hD.elem.1
+    have := hD.elem.1
     exact fun a ha b hb => setLike_mul_comm ha hb
   have hBexp : ∀ a ∈ Bh, a ^ 3 = 1 := fun a ha => hD.elem.2 a ha
   have hxB : xh ∈ Bh := by
@@ -167,7 +169,7 @@ theorem hess_to_pgl [Yh.Normal] (hD : HessData Yh Bh xh bh ch) (hK : Sec4.PiFiel
       exact h4
     exact h3b_not_isSolvable_projSL_two h4' (Group.isSolvable_of_surjective hφ)
   have hq2 : 2 < p ^ f := h3b_two_lt_of_not_isSolvable hK hq e hXY hXns
-  haveI : Group.IsPerfect ↥(projImage (Sec4.slPi π 3 (p ^ f) K)) :=
+  have : Group.IsPerfect ↥(projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     CFSG.RankThree.PartTwo.Sec13.isPerfect_projImage_slPi hK hq2
   have hy3 : y ^ 3 ∈ StatedScalars (Fin 3) K := by
     have h3 := Sec4.isPGLAtP_pow hy 3

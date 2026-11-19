@@ -36,6 +36,7 @@ private theorem mk_commute_of_mem_pCore {X : Type} [Group X] {b l : X}
     _ = QuotientGroup.mk' (CFSG.pCore 2 X) l * QuotientGroup.mk' (CFSG.pCore 2 X) b := by
         rw [h2]
 
+omit [Finite G] in
 private theorem mem_pCore_two_of_mem_pCoreOf {M : Subgroup G} {b l : M}
     (h : (b : G) * (l : G) * (b : G)⁻¹ * (l : G)⁻¹ ∈ CFSG.Open.pCoreOf 2 M) :
     b * l * b⁻¹ * l⁻¹ ∈ CFSG.pCore 2 M := by
@@ -50,8 +51,8 @@ private theorem centralizes_pCore_three {Y : Type} [Group Y] [Finite Y] {Bs P' :
     (hnorm : ∀ x ∈ P', ∀ b ∈ Bs, x * b * x⁻¹ ∈ Bs)
     (hBO : Bs ⊓ CFSG.pCore 3 Y = ⊥) :
     ∀ x ∈ CFSG.pCore 3 Y, ∀ b ∈ Bs, b * x = x * b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pCore 3 Y).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pCore 3 Y).Normal := CFSG.pCore_normal
   intro x hx b hb
   have hle : CFSG.pCore 3 Y ≤ (hP3.toSylow hPidx : Subgroup Y) :=
     IsPGroup.le_sylow_of_normal CFSG.pCore_isPGroup (hP3.toSylow hPidx)
@@ -100,7 +101,7 @@ private theorem le_pCore_of_normal_abelian {Y : Type} [Group Y] [Finite Y] {p : 
 private theorem normal_centralizer_inf_generalizedFitting {Y : Type} [Group Y] :
     (Subgroup.centralizer (CFSG.generalizedFitting Y : Set Y) ⊓
       CFSG.generalizedFitting Y).Normal := by
-  haveI : (CFSG.generalizedFitting Y).Normal :=
+  have : (CFSG.generalizedFitting Y).Normal :=
     CFSG.ComponentClassification.AS76b.generalizedFitting_normal
   refine ⟨fun z hz g => ?_⟩
   obtain ⟨hzC, hzF⟩ := Subgroup.mem_inf.mp hz
@@ -131,7 +132,7 @@ private theorem false_of_Y {Y : Type} [Group Y] [Finite Y] {Bs : Subgroup Y}
     (hOp : ∀ p : ℕ, p.Prime → 3 < p → ∀ x ∈ CFSG.pCore p Y, ∀ b ∈ Bs, b * x = x * b)
     (hcomp : ∀ J : Subgroup Y, CFSG.IsComponent J → ∀ b ∈ Bs, ∀ j ∈ J, b * j = j * b) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hprime : ∀ q : ℕ, q.Prime → ∀ b ∈ Bs, ∀ x ∈ CFSG.pCore q Y, b * x = x * b := by
     intro q hq b hb x hx
     rcases Nat.lt_or_ge q 3 with h | h
@@ -183,7 +184,7 @@ private theorem false_of_Y {Y : Type} [Group Y] [Finite Y] {Bs : Subgroup Y}
   have hBZ : ∀ b ∈ Bs, b ∈ Subgroup.centralizer (CFSG.generalizedFitting Y : Set Y) ⊓
       CFSG.generalizedFitting Y :=
     fun b hb => Subgroup.mem_inf.mpr ⟨hBC b hb, hBF b hb⟩
-  haveI hZN := normal_centralizer_inf_generalizedFitting (Y := Y)
+  have hZN := normal_centralizer_inf_generalizedFitting (Y := Y)
   have hB3pc : Bs ≤ CFSG.pCore 3 Y :=
     le_pCore_of_normal_abelian (p := 3)
       (Z := Subgroup.centralizer (CFSG.generalizedFitting Y : Set Y) ⊓
@@ -197,7 +198,7 @@ private theorem exists_oTwoComponents_map_eq {X : Type} [Group X] [Finite X]
     {J : Subgroup (X ⧸ CFSG.pCore 2 X)} (hJ : CFSG.IsComponent J) :
     ∃ L : Subgroup X, L ∈ oTwoComponents X ∧
       L.map (QuotientGroup.mk' (CFSG.pCore 2 X)) = J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨J', hJ'⟩ : ∃ J' : Subgroup X, J' = J.comap (QuotientGroup.mk' (CFSG.pCore 2 X)) :=
     ⟨_, rfl⟩
   have hJ'sn : J'.IsSubnormal := by
@@ -275,8 +276,8 @@ private theorem exists_oTwoComponents_map_eq {X : Type} [Group X] [Finite X]
   show Group.IsPerfect L ∧ L.IsSubnormal ∧ CFSG.IsQuasisimple (L ⧸ CFSG.pCore 2 L)
   exact ⟨hLperf, hLsn, hq⟩
 
-theorem exists_component {A M : Subgroup G} (h : Sec18Std G A M) {B P : Subgroup G}
-    (hP : IsSylowOf 3 P ⊤) (hBP : B ≤ P) (hPM : P ≤ M) (hB3 : IsPGroup 3 B) (hB1 : B ≠ ⊥)
+theorem exists_component {A M : Subgroup G} (_h : Sec18Std G A M) {B P : Subgroup G}
+    (hP : IsSylowOf 3 P ⊤) (_hBP : B ≤ P) (hPM : P ≤ M) (hB3 : IsPGroup 3 B) (hB1 : B ≠ ⊥)
     (hBn : P ≤ Subgroup.normalizer (B : Set G))
     (hBO : B ⊓ (Sec4.oTwoP 3 ↥M).map M.subtype = ⊥)
     (hBM : B ≤ M)
@@ -284,9 +285,9 @@ theorem exists_component {A M : Subgroup G} (h : Sec18Std G A M) {B P : Subgroup
       b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 M) :
     ∃ K ∈ oTwoComponentsIn M, ∃ b ∈ B, ∃ k ∈ K, b * k * b⁻¹ * k⁻¹ ∉ CFSG.Open.pCoreOf 2 M := by
   by_contra hne
-  push_neg at hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  push Not at hne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Bp, hBp⟩ : ∃ Bp : Subgroup ↥M, Bp = B.subgroupOf M := ⟨_, rfl⟩
   obtain ⟨Pp, hPp⟩ : ∃ Pp : Subgroup ↥M, Pp = P.subgroupOf M := ⟨_, rfl⟩
   obtain ⟨Bs, hBs⟩ : ∃ Bs : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M),
@@ -350,16 +351,16 @@ theorem exists_component {A M : Subgroup G} (h : Sec18Std G A M) {B P : Subgroup
   have hdiv : P.relIndex M ∣ P.relIndex ⊤ := by
     rw [Subgroup.relIndex_top_right]
     exact Subgroup.relIndex_dvd_index_of_le hPM
-  have hPM3 : ¬ 3 ∣ P.relIndex M := fun h => hPK (h.trans hdiv)
+  have hPM3 : ¬ 3 ∣ P.relIndex M := fun _h => hPK (_h.trans hdiv)
   have hPpidx : Pp.index = P.relIndex M := by
     rw [hPp]
     rfl
   have hPidx : ¬ 3 ∣ P'.index := by
     rw [hP']
-    intro h
+    intro _h
     apply hPM3
     rw [← hPpidx]
-    exact h.trans (Subgroup.index_map_dvd Pp (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥M)))
+    exact _h.trans (Subgroup.index_map_dvd Pp (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥M)))
   have hnorm : ∀ x ∈ P', ∀ b ∈ Bs, x * b * x⁻¹ ∈ Bs := by
     intro x hx b hb
     rw [hP'] at hx

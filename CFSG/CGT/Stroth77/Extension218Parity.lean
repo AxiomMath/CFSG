@@ -32,7 +32,7 @@ local macro "simp_t221" : tactic =>
 theorem par221_gens (A B C : ℤ) :
     par221 s (A • gen (Type221.k s) 0 + B • gen (Type221.k s) 1 + C • gen (Type221.k s) 2) =
       ((A : ZMod 2), (B : ZMod 2), (C : ZMod 2)) := by
-  simp [par221, gen, Pi.single_apply]
+  simp [par221, gen]
 
 theorem add_self_eq_zero_t221 : ∀ p : ZMod 2 × ZMod 2 × ZMod 2, p + p = 0 := by
   decide

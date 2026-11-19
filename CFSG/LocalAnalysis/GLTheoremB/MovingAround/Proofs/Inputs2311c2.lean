@@ -213,7 +213,7 @@ theorem exists_invariant_of_plane_sl_prime {p : ℕ} (hp : p.Prime) (hn : 1 ≤ 
     ∃ W : Submodule F (Fin n → F), W ≠ ⊥ ∧ W ≠ ⊤ ∧
       ∀ x ∈ E, ∀ w ∈ W, (x : Matrix (Fin n) (Fin n) F).mulVec w ∈ W := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hxE, y, hyE, hy1, hxy⟩ := exists_independent_pair hp E hexp hcard
   let ρ : SpecialLinearGroup (Fin n) F → Module.End F (Fin n → F) := fun g =>
     Matrix.toLin' (g : Matrix (Fin n) (Fin n) F)

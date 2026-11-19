@@ -24,7 +24,7 @@ private theorem nonidentity_sylowSeven_support_card_eq_fourteen
     (u : S) (hu : u ≠ 1) :
     (((u : S) : P) : Equiv.Perm X).support.card = 14 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let g : Equiv.Perm X := ((u : S) : P)
   have huorder : orderOf u = 7 :=
     Degree15.orderOf_eq_prime_of_card_eq_prime hScard hu
@@ -123,7 +123,7 @@ theorem seven_not_dvd_card_of_not_alternating
     ¬7 ∣ Nat.card P := by
   classical
   intro hseven
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let S : Sylow 7 P := Sylow.nonempty.some
   have hScard : Nat.card S = 7 :=
     sylowSeven_card_eq_seven

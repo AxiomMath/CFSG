@@ -115,7 +115,7 @@ theorem pnormAll_iff (hsz : szOK n w = true) {bs : List Nat} (hb : ∀ b ∈ bs,
     | mem x hx =>
       obtain ⟨b, hb', rfl⟩ := hx
       exact hgen b hb'
-    | one => simpa using (Subgroup.closure {x | ∃ b ∈ bs, sg n w b = x}).one_mem
+    | one => simp
     | mul x y _ _ ihx ihy =>
       have := (Subgroup.closure {x | ∃ b ∈ bs, sg n w b = x}).mul_mem ihx ihy
       simpa [mul_assoc] using this

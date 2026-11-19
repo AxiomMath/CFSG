@@ -22,7 +22,7 @@ theorem ggRootKerStmt_holds :
     GGRootKerStmt := by
   intro t n f hadm hrank ht p hp hp2 hpf ν hν u i
   obtain ⟨x, C, O, hE, -⟩ := ggRankOneModel_of_tag ht hadm hrank
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (GaloisField 2 f)ˣ = 2 ^ f - 1 := by
     rw [Nat.card_units, GaloisField.card 2 f (by have := hadm.2.1; omega)]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := (GaloisField 2 f)ˣ) p (hcard ▸ hpf)

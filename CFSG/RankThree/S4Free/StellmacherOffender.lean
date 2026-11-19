@@ -117,10 +117,12 @@ theorem IsOff.dimOn_pos {S B : Subgroup (MulAut V)} {U : Subgroup V} (hS : IsPGr
   intro hle
   exact h.2.1 fun u hu b hb => hle hb u hu
 
+omit [Finite V] in
 theorem IsOff.mono {S B C : Subgroup (MulAut V)} {U : Subgroup V} (h : IsOff S B U)
     (hCB : C ≤ B) (hC : ¬ U ≤ fixV C) : IsOff S C U :=
   ⟨hCB.trans h.1, hC, h.2.2.mono hCB le_rfl⟩
 
+omit [Finite V] in
 theorem isPGroup_subgroup (hV : ∀ v : V, v ^ 2 = 1) (U : Subgroup V) : IsPGroup 2 U :=
   (isPGroup_two_of_sq_eq_one hV).to_subgroup U
 
@@ -216,11 +218,13 @@ theorem ale_of_isMinOff (hV : ∀ v : V, v ^ 2 = 1) {S A T : Subgroup (MulAut V)
     linarith
   exact le_of_mul_le_mul_right h3 hd
 
+omit [Finite V] in
 theorem mem_map_conj_iff {g x : MulAut V} {B : Subgroup (MulAut V)} :
     x ∈ B.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ B := by
   rw [Subgroup.mem_map_equiv]
   simp
 
+omit [Finite V] in
 theorem centSub_map (g : MulAut V) (Z : Subgroup V) :
     centSub (Z.map g.toMonoidHom) = (centSub Z).map (MulAut.conj g).toMonoidHom := by
   ext x
@@ -236,6 +240,7 @@ theorem centSub_map (g : MulAut V) (Z : Subgroup V) :
     have h2 := congrArg g this
     simpa using h2
 
+omit [Finite V] in
 theorem fixV_map_conj (g : MulAut V) (B : Subgroup (MulAut V)) :
     fixV (B.map (MulAut.conj g).toMonoidHom) = (fixV B).map g.toMonoidHom := by
   ext v
@@ -252,16 +257,19 @@ theorem fixV_map_conj (g : MulAut V) (B : Subgroup (MulAut V)) :
     simp only [MulAut.conj_apply, MulAut.mul_apply]
     simp [this]
 
+omit [Finite V] in
 theorem dimOn_map_conj (g : MulAut V) (B : Subgroup (MulAut V)) (Z : Subgroup V) :
     dimOn (B.map (MulAut.conj g).toMonoidHom) (Z.map g.toMonoidHom) = dimOn B Z := by
   unfold dimOn mRel
   rw [centSub_map, Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj g).injective]
 
+omit [Finite V] in
 theorem codimOn_map_conj (g : MulAut V) (B : Subgroup (MulAut V)) (Z : Subgroup V) :
     codimOn (B.map (MulAut.conj g).toMonoidHom) (Z.map g.toMonoidHom) = codimOn B Z := by
   unfold codimOn mRel
   rw [fixV_map_conj, Subgroup.relIndex_map_map_of_injective _ _ g.injective]
 
+omit [Finite V] in
 theorem conj_off_facts (h : MulAut V) {A : Subgroup (MulAut V)} {Z : Subgroup V}
     (hA : ElemAbOn A (Z.map h.toMonoidHom)) (hZh : ¬ Z.map h.toMonoidHom ≤ fixV A) :
     ¬ Z ≤ fixV (A.map (MulAut.conj h⁻¹).toMonoidHom) ∧
@@ -387,6 +395,7 @@ theorem mul_dimOn_lt_codimOn (hV : ∀ v : V, v ^ 2 = 1) {H S N : Subgroup (MulA
   push_cast
   linarith
 
+omit [Finite V] in
 theorem centSub_top : centSub (⊤ : Subgroup V) = ⊥ := by
   ext g
   rw [mem_centSub, Subgroup.mem_bot]
@@ -396,19 +405,23 @@ theorem centSub_top : centSub (⊤ : Subgroup V) = ⊥ := by
   · rintro rfl u _
     rfl
 
+omit [Finite V] in
 theorem dimOn_top (A : Subgroup (MulAut V)) : dimOn A ⊤ = rk A := by
   unfold dimOn mRel rk
   rw [centSub_top, Subgroup.relIndex_bot_left]
 
+omit [Finite V] in
 theorem codimOn_top (A : Subgroup (MulAut V)) : codimOn A ⊤ = rkIdx (fixV A) := by
   unfold codimOn mRel rkIdx
   rw [Subgroup.relIndex_top_right]
 
+omit [Finite V] in
 theorem elemAbOn_top_iff {A : Subgroup (MulAut V)} : ElemAbOn A ⊤ ↔ IsElemAbelian2 A := by
   refine ⟨fun h => ⟨fun a ha b hb => ?_, fun a ha => ?_⟩, fun h => IsElemAbelian2.elemAbOn h ⊤⟩
   · exact MulEquiv.ext fun v => h.1 a ha b hb v (Subgroup.mem_top v)
   · exact MulEquiv.ext fun v => h.2 a ha v (Subgroup.mem_top v)
 
+omit [Finite V] in
 theorem fixV_eq_top_iff {A : Subgroup (MulAut V)} : (⊤ : Subgroup V) ≤ fixV A ↔ A = ⊥ := by
   constructor
   · intro h
@@ -419,6 +432,7 @@ theorem fixV_eq_top_iff {A : Subgroup (MulAut V)} : (⊤ : Subgroup V) ≤ fixV 
   · rintro rfl
     rw [B1.fixV_bot]
 
+omit [Finite V] in
 theorem isOff_top_iff {S A : Subgroup (MulAut V)} : IsOff S A ⊤ ↔ IsA2 S A := by
   rw [IsOff, IsA2, elemAbOn_top_iff, fixV_eq_top_iff]
 

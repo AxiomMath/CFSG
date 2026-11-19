@@ -12,10 +12,10 @@ theorem mem_inner_of_mem_commutator {S : Type*} [Group S] (h : Nat.card (Outer S
     {R : Subgroup (MulAut S)} {c : R} (hc : c ∈ commutator R) : (c : MulAut S) ∈ inner S := by
   have hcomm : ∀ a b : Outer S, a * b = b * a := by
     rcases (Nat.dvd_prime Nat.prime_two).1 h with h1 | h2
-    · haveI : Subsingleton (Outer S) := (Nat.card_eq_one_iff_unique.1 h1).1
+    · have : Subsingleton (Outer S) := (Nat.card_eq_one_iff_unique.1 h1).1
       exact fun a b => Subsingleton.elim _ _
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : IsCyclic (Outer S) := isCyclic_of_prime_card h2
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : IsCyclic (Outer S) := isCyclic_of_prime_card h2
       exact fun a b => mul_comm' a b
   let f : R →* Outer S := (QuotientGroup.mk' (inner S)).comp R.subtype
   have hker : commutator R ≤ f.ker := by

@@ -30,7 +30,7 @@ theorem parseHexNat_hexStr0x (n : Nat) : parseHexNat (hexStr0x n) = n := by
   have hs : (hexStr0x n).startsWith "0x" = true := by
     simp [hexStr0x]
   unfold parseHexNat
-  rw [if_pos hs, String.Slice.foldl_eq_foldl_toList, String.toList_copy_drop]
+  rw [ite_eq_left hs, String.Slice.foldl_eq_foldl_toList, String.toList_copy_drop]
   simp only [hexStr0x, String.toList_append, String.toList_ofList]
   have h0 : "0x".toList = ['0', 'x'] := by simp
   rw [h0]

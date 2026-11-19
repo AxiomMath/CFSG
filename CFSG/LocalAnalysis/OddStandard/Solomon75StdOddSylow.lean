@@ -86,7 +86,7 @@ theorem StdSetup.isSylowTwoIn_top' (h : StdSetup G L n z)
     rw [hC]
     exact Subgroup.mem_centralizer_singleton_iff
   set T : Subgroup G := (S : Subgroup ↥C).map C.subtype with hT
-  have hT2 : IsPGroup 2 ↥T := S.isPGroup'.map C.subtype
+  have hT2 : IsPGroup 2 ↥T := S.isPGroup.map C.subtype
   obtain ⟨P, hTP⟩ := hT2.exists_le_sylow
   have hzC : z ∈ C := (hmemC z).2 rfl
   have hz1 : z ≠ 1 := by
@@ -105,9 +105,9 @@ theorem StdSetup.isSylowTwoIn_top' (h : StdSetup G L n z)
   have hzP : z ∈ (P : Subgroup G) := hTP hzT
   have hPnt : Nontrivial ↥(P : Subgroup G) :=
     ⟨⟨⟨z, hzP⟩, 1, fun h1 => hz1 (congrArg Subtype.val h1)⟩⟩
-  have hcn : Nontrivial ↥(Subgroup.center ↥(P : Subgroup G)) := P.isPGroup'.center_nontrivial
+  have hcn : Nontrivial ↥(Subgroup.center ↥(P : Subgroup G)) := P.isPGroup.center_nontrivial
   have hdvd : 2 ∣ Nat.card ↥(Subgroup.center ↥(P : Subgroup G)) := by
-    obtain ⟨k, hk⟩ := (P.isPGroup'.to_subgroup (Subgroup.center ↥(P : Subgroup G))).exists_card_eq
+    obtain ⟨k, hk⟩ := (P.isPGroup.to_subgroup (Subgroup.center ↥(P : Subgroup G))).exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       have h1' : Nat.card ↥(Subgroup.center ↥(P : Subgroup G)) = 1 := by simpa using hk
@@ -139,14 +139,14 @@ theorem StdSetup.isSylowTwoIn_top' (h : StdSetup G L n z)
   have hSP : (S : Subgroup ↥C) ≤ (P : Subgroup G).subgroupOf C := fun s hs =>
     hTP ⟨s, hs, rfl⟩
   have hP2' : IsPGroup 2 ↥((P : Subgroup G).subgroupOf C) :=
-    P.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
+    P.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
   have heq : (P : Subgroup G).subgroupOf C = (S : Subgroup ↥C) :=
     le_antisymm (S.maximal_isPGroup.2 hP2' hSP) hSP
   have hPT : (P : Subgroup G) = T := by
     rw [hT, ← heq, Subgroup.map_subgroupOf_eq_of_le hPC]
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hPT]
-    exact P.isPGroup'
+    exact P.isPGroup
   · rw [← hPT, Subgroup.relIndex_top_right]
     exact P.not_dvd_index
 

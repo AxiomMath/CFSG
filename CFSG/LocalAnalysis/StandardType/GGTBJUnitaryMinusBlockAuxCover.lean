@@ -55,7 +55,7 @@ theorem exists_alignedBlock_of_isComponentOf_of_centralizer
     intro c hc g hg
     have h1 := Classical.choose_spec (hC c hc) g hg
     have h2 : hypFrame φ τ (Classical.choose (hC c hc)) = φ (τ (χ c)) := by
-      simp only [hypFrame, χ, dif_pos hc, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
+      simp only [hypFrame, χ, dite_eq_left hc, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
     rwa [h2] at h1
   let E : Set (Multiplicative (Fin m → ZMod p)) := χ '' C
   let H : Subgroup (hypSU h m ε) := Subgroup.centralizer (τ '' E)

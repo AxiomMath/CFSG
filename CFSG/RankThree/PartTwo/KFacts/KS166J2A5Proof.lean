@@ -31,7 +31,7 @@ private theorem isSolvable_centralizer_eq
     (hxK : xJ ∈ K.map ψ.toMonoidHom)
     (hKz : K.map ψ.toMonoidHom ≤ centralizer ({zJ} : Set GJ)) :
     Group.IsSolvable ↥(centralizer (K : Set X)) := by
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ↥(centralizer ((K.map ψ.toMonoidHom : Subgroup GJ) : Set GJ)) :=
     isSolvable_centralizer hKA hxK hKz
   exact Group.isSolvable_of_isSolvable_injective

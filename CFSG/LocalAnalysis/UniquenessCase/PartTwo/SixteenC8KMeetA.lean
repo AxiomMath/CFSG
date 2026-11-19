@@ -14,9 +14,9 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 theorem c8k_sl27_eq_top_of_not_solvable {H : Subgroup ↥(StatedSL 2 (ZMod 7))}
     (hns : ¬ Group.IsSolvable ↥H) : H = ⊤ := by
-  haveI hperf : Group.IsPerfect (SL(2, ZMod 7)) :=
+  have hperf : Group.IsPerfect (SL(2, ZMod 7)) :=
     ⟨Matrix.SL2.commutator_eq_top (F := ZMod 7) (a := 2) (by decide) (by decide)⟩
-  haveI : Group.IsPerfect ↥(StatedSL 2 (ZMod 7)) :=
+  have : Group.IsPerfect ↥(StatedSL 2 (ZMod 7)) :=
     Group.IsPerfect.ofSurjective
       (f := (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 (ZMod 7)).toMonoidHom)
       (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 (ZMod 7)).surjective

@@ -283,13 +283,13 @@ theorem closure_five_three_eq_alt :
   · set P := Subgroup.closure ({finRotate 5, swap 0 1 * swap 1 2} : Set (Perm (Fin 5))) with hP
     have hc5 : finRotate 5 ∈ P := Subgroup.subset_closure (by simp)
     have hc3 : swap 0 1 * swap 1 2 ∈ P := Subgroup.subset_closure (by simp)
-    haveI : MulAction.IsPretransitive P (Fin 5) := by
+    have : MulAction.IsPretransitive P (Fin 5) := by
       refine ⟨fun x y => ?_⟩
       have hx : finRotate 5 x ≠ x := by revert x; decide
       have hy : finRotate 5 y ≠ y := by revert y; decide
       obtain ⟨i, hi⟩ := (isCycle_finRotate_of_le (by norm_num : 2 ≤ 5)).exists_pow_eq hx hy
       exact ⟨⟨finRotate 5 ^ i, Subgroup.pow_mem _ hc5 i⟩, hi⟩
-    haveI : MulAction.IsPreprimitive P (Fin 5) :=
+    have : MulAction.IsPreprimitive P (Fin 5) :=
       MulAction.IsPreprimitive.of_prime_card (by
         rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
     have h3 : (swap 0 1 * swap 1 2 : Perm (Fin 5)).IsThreeCycle := by

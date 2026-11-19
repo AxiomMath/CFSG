@@ -10,8 +10,9 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley TableBEx
 
 variable {R : Type} [Group R] [Finite R] {L' : Type} [Group L'] [Finite L'] (D : FrameData R)
 
+omit [Finite R] [Finite L'] in
 theorem exists_weyl_lift_odd (hD : D.WeylOK) {ψ : L' →* R} (hψ : Function.Surjective ψ)
-    (hker : ψ.ker ≤ Subgroup.center L') (hodd : Odd (Nat.card ψ.ker)) (i : Fin 6) :
+    (_hker : ψ.ker ≤ Subgroup.center L') (hodd : Odd (Nat.card ψ.ker)) (i : Fin 6) :
     ∃ w : L', ψ w = D.nb i ∧ w * w = 1 := by
   obtain ⟨w₀, hw₀⟩ := hψ (D.nb i)
   have hz : w₀ * w₀ ∈ ψ.ker := by
@@ -25,6 +26,7 @@ theorem exists_weyl_lift_odd (hD : D.WeylOK) {ψ : L' →* R} (hψ : Function.Su
     rw [map_pow, hw₀, hk, pow_succ, pow_mul, sq, hD.1 i, one_pow, one_mul]
   · rw [← pow_add, ← two_mul, pow_mul, sq, hzm]
 
+omit [Finite R] in
 theorem coboundary_clause (hAL : GGAbelianLift) (hD : D.Good)
     {ψ : L' →* R} (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hcard : Nat.card ψ.ker = 1 ∨ Nat.card ψ.ker = 3)
@@ -40,6 +42,7 @@ theorem coboundary_clause (hAL : GGAbelianLift) (hD : D.Good)
     exact hD.weyl.2.2.2 i (Multiplicative.toAdd x)
   exact ⟨D.V0_le_Tor hmem, hcube _ hmem⟩
 
+omit [Finite R] [Finite L'] in
 theorem weyl_action_clause (hD : D.WeylOK) {ψ : L' →* R} (hψ : Function.Surjective ψ)
     {ρ : MulAut L' →* MulAut R} (hρ : ∀ a l, ρ a (ψ l) = ψ (a l)) (hρinj : Function.Injective ρ)
     {A : Subgroup (MulAut L')} {Φ : A →* Multiplicative (Fin Tag.E6.rank → ZMod 3)}

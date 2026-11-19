@@ -18,7 +18,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup)
 
 private theorem charP_two_of_card {F : Type} [Field F] [Finite F] {n : ℕ}
     (h : Nat.card F = 2 ^ n) : CharP F 2 := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨m, hp, hm⟩ := FiniteField.card F (ringChar F)
   rw [← Nat.card_eq_fintype_card, h] at hm
   have hd : ringChar F ∣ 2 ^ n := by
@@ -175,7 +175,7 @@ private theorem commute_lifts_of_proj_commute {K : Type} [Field K] [Finite K]
     rw [← hc'] at hdet
     simpa [Matrix.GeneralLinearGroup.det_scalar, Fintype.card_fin] using hdet
   have hζcard : c ^ (Nat.card K - 1) = 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcardu : Nat.card Kˣ = Nat.card K - 1 := by
       simpa [Nat.card_eq_fintype_card] using Fintype.card_units K
     rw [← hcardu]
@@ -203,7 +203,7 @@ private theorem shapeModelNormAt_statedSL {K : Type} [Field K] [Finite K]
     {N m p : ℕ} (hN : 2 ≤ N) (hcard : Nat.card K = 2 ^ m) (hp : p.Prime) (hp2 : p ≠ 2)
     (hnot : ¬ p ∣ Nat.gcd N (2 ^ m - 1)) :
     ShapeModelNormAt (LargeEvenProj (StatedSL N K)) p := by
-  haveI hKchar : CharP K 2 := charP_two_of_card hcard
+  have hKchar : CharP K 2 := charP_two_of_card hcard
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hnot' : ¬ p ∣ Nat.gcd N (Nat.card K - 1) := by
     rw [hcard]; exact hnot
@@ -248,8 +248,8 @@ private theorem shapeModelNormAt_statedSL {K : Type} [Field K] [Finite K]
   obtain ⟨d₁, D₁, hF, hFin, ι, ιSL, h2', hd₁, h22, h23, hιinj, hιSL, hJeq, hBk, _hSc, _E,
     _hE, _hT⟩ :=
     exists_linPsl_block (K := K) (d := N) h2 (by omega) (A : GL (Fin N) K) hp hp2 u hu hpow J hJ'
-  letI : Field D₁ := hF
-  letI : Finite D₁ := hFin
+  let : Field D₁ := hF
+  let : Finite D₁ := hFin
   have hblock : ∀ (z : ↥(StatedSL N K)),
       (z : GL (Fin N) K) * (A : GL (Fin N) K) = (A : GL (Fin N) K) * (z : GL (Fin N) K) →
       ∀ j ∈ J, LargeEvenProjMk (StatedSL N K) z * j *

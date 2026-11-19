@@ -77,7 +77,7 @@ theorem not_isCommutative_barQuot (X : Type) [Group X]
     rw [this]
     exact commutatorElement_eq_one_iff_mul_comm.mpr (hcon _ _)
   have htop : Subgroup.center X = ⊤ := top_le_iff.mp (hq.1 ▸ hc)
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
   have hnt : Nontrivial (X ⧸ Subgroup.center X) := IsSimpleGroup.toNontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : X ⧸ Subgroup.center X)
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center X) x
@@ -147,9 +147,9 @@ variable {G : Type} [Group G] [Finite G]
     (IsLpType 3 (3 ^ 13) (barOf p K) ∨ IsLieOverField 3 (barOf p K))
 
 @[expose] def Prop1116StrongStatement : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} (h : Sec11 G m p B M E A) {a : G}
-    (ha : a ∈ A) (ha1 : a ≠ 1) {K : Subgroup G} (hK : GLAPComponent p (Cg a) K) {q : ℕ}
-    (hq : q.Prime ∧ q ≠ 2 ∧ q ≠ p) (hchev : IsChevSimple q (barOf p K ⧸ Subgroup.center (barOf p K))),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} (_h : Sec11 G m p B M E A) {a : G}
+    (_ha : a ∈ A) (_ha1 : a ≠ 1) {K : Subgroup G} (_hK : GLAPComponent p (Cg a) K) {q : ℕ}
+    (_hq : q.Prime ∧ q ≠ 2 ∧ q ≠ p) (_hchev : IsChevSimple q (barOf p K ⧸ Subgroup.center (barOf p K))),
     K ≤ M ∨ (∃ A1 : Subgroup G, inD p M A1 ∧ a ∈ A1) ∨ Prop1116Iii p q E A K ∨ Prop1116Iv p A K
 
 end Statements
@@ -192,6 +192,7 @@ theorem Prep1116.hp (P : Prep1116 G m p B M E A a K q e J0 J1) : p.Prime := P.st
 theorem sec11_isElemAbelian_A (h : Sec11 G m p B M E A) : IsElemAbelian p A :=
   h.pair.1.2.1.1.1.2.1
 
+omit [Finite G] in
 theorem elemAbelian_isPGroup {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) : IsPGroup p ↥E :=
   fun g => ⟨1, Subtype.ext (by simpa using hE.2 g.1 g.2)⟩
 
@@ -215,7 +216,7 @@ theorem not_coprime_card_of_pComponent {p : ℕ} (hp : p.Prime) {X J : Subgroup 
 
 theorem Prep1116.hJ0p (P : Prep1116 G m p B M E A a K q e J0 J1) : p ∣ Nat.card (barOf p J0) := by
   have hp := P.hp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hndvd
   have hcop : Nat.Coprime p (Nat.card (barOf p J0)) :=
     (Nat.Prime.coprime_iff_not_dvd hp).mpr hndvd
@@ -224,6 +225,7 @@ theorem Prep1116.hJ0p (P : Prep1116 G m p B M E A a K q e J0 J1) : p ∣ Nat.car
     Subgroup.card_eq_card_quotient_mul_card_subgroup (GLAPPrimeCore p ↥J0)
   exact not_coprime_card_of_pComponent hp P.hJ0 (by rw [hcard]; exact Nat.Coprime.mul_right hcop hO)
 
+omit [Finite G] in
 theorem kx_le_cg {p : ℕ} {J : Subgroup G} {x : G} (hJ : J ≤ Cg x) : Kx p J x ≤ Cg x := by
   have hL : GLAPLayer p (Cg x) ≤ Cg x := sSup_le fun L hL => (show GLAPComponent p (Cg x) L from hL).1
   refine iSup₂_le fun g hg => ?_
@@ -293,7 +295,7 @@ theorem type_trichotomy {m p : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup
   have hJ1top : J1 ≠ ⊤ := fun h => hCe (top_le_iff.mp (h ▸ P.hJ1.1))
   have hq1 : CFSG.Open.IsQuasisimple (barOf p J1) :=
     CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp P.hJ1
-  haveI : IsSimpleGroup (barOf p J1 ⧸ Subgroup.center (barOf p J1)) := hq1.2
+  have : IsSimpleGroup (barOf p J1 ⧸ Subgroup.center (barOf p J1)) := hq1.2
   have hnonab := not_isCommutative_barQuot (barOf p J1) hq1
   let φ : ↥J1 →* (barOf p J1 ⧸ Subgroup.center (barOf p J1)) :=
     (QuotientGroup.mk' (Subgroup.center (barOf p J1))).comp

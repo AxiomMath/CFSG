@@ -155,7 +155,7 @@ theorem sevenSq_of_rows42 : ∀ lab ∈ rows42, 7 ^ 2 ∣ labOrd lab → lab ∈
       decide +kernel)
   have hchar : markChar (⟨t, r, n⟩ : LargeEvenLabel) = 2 := by
     cases t <;> simp only [markChar]
-    all_goals first | rfl | (exfalso; exact hB2 rfl) | (exfalso; exact hG2 rfl)
+    all_goals first | (exfalso; exact hB2 rfl) | (exfalso; exact hG2 rfl)
   have hC : l937z_zb_C (markTag (⟨t, r, n⟩ : LargeEvenLabel))
       (markRank (⟨t, r, n⟩ : LargeEvenLabel))
       (2 ^ markDeg (⟨t, r, n⟩ : LargeEvenLabel)) = true :=

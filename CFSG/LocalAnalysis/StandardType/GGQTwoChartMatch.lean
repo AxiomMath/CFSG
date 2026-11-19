@@ -21,6 +21,7 @@ section Helpers
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
 variable {ψ : Su F0 2 1 m →* G}
 
+omit [Finite G] in
 theorem qTwoChartMatch_map_diag_le (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) :
     (qTwoLMDivKind_diag F0 m).map ψ ≤ Bs := by
@@ -44,6 +45,7 @@ theorem qTwoChartMatch_map_diag_le (hF0 : Nat.card F0 = 4)
     exact hb'.symm
   · rw [← map_pow, qTwoLMDivKind_pow_three_of_mem_diag hF0 ht, map_one]
 
+omit [Finite G] in
 theorem qTwoChartMatch_exists_conj_eq (hψ : QTwoOrdModel Bs L ψ)
     (σ : Equiv.Perm (Fin m)) (b : ↥Bs) :
     ∃ g : GL (Fin m) F0, ggIsDiagMat g ∧ ∃ d : Su F0 2 1 m,
@@ -59,6 +61,7 @@ theorem qTwoChartMatch_exists_conj_eq (hψ : QTwoOrdModel Bs L ψ)
   · rw [map_mul, hu'ψ, map_inv]
     group
 
+omit [Finite G] in
 theorem qTwoChartMatch_conj_mem (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs)
     (σ : Equiv.Perm (Fin m)) (b : ↥Bs) :
@@ -74,6 +77,7 @@ theorem qTwoChartMatch_conj_mem (hF0 : Nat.card F0 = 4)
   rw [hdψ]
   exact Bs.mul_mem hdBs b.2
 
+omit [Finite G] in
 theorem qTwoChartMatch_mem_normalizer (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) (σ : Equiv.Perm (Fin m)) :
     ψ (qTwoChartMatch_permHom (F0 := F0) σ) ∈ Subgroup.normalizer (Bs : Set G) := by
@@ -107,6 +111,7 @@ noncomputable def qTwoChartMatch_conjHom (hF0 : Nat.card F0 = 4)
       (Subgroup.normalizer (Bs : Set G))
       (fun σ => qTwoChartMatch_mem_normalizer (F0 := F0) hF0 hψ hBs σ))
 
+omit [Finite G] in
 @[simp]
 theorem qTwoChartMatch_conjHom_apply (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) (σ : Equiv.Perm (Fin m))
@@ -118,6 +123,7 @@ theorem qTwoChartMatch_conjHom_apply (hF0 : Nat.card F0 = 4)
   simp only [MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
   exact Subgroup.normalizerMonoidHom_apply_apply_coe Bs _ b
 
+omit [Finite G] in
 theorem qTwoChartMatch_conjHom_normalizer (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) (σ : Equiv.Perm (Fin m)) :
     Bs.normalizerMonoidHom
@@ -128,6 +134,7 @@ theorem qTwoChartMatch_conjHom_normalizer (hF0 : Nat.card F0 = 4)
   rw [MonoidHom.comp_apply]
   congr 1
 
+omit [Finite G] in
 theorem qTwoChartMatch_conjHom_injective (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) (hm : 5 ≤ m) :
     Function.Injective (qTwoChartMatch_conjHom (F0 := F0) hF0 hψ hBs) := by
@@ -161,11 +168,12 @@ noncomputable def qTwoChartMatch_conjDelta (hF0 : Nat.card F0 = 4)
     (σ : Equiv.Perm (Fin m)) : ↥Bs →* ↥Bs :=
   MonoidHom.mk' (fun b => qTwoChartMatch_conjHom (F0 := F0) hF0 hψ hBs σ b * b⁻¹)
     (fun a b => by
-      letI : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with
+      let : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with
         mul_comm := fun a b => hE.1.is_comm.comm a b }
       rw [map_mul, mul_inv_rev]
       ac_rfl)
 
+omit [Finite G] in
 @[simp]
 theorem qTwoChartMatch_conjDelta_apply (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) (hE : IsElemAbelian 3 Bs)
@@ -173,6 +181,7 @@ theorem qTwoChartMatch_conjDelta_apply (hF0 : Nat.card F0 = 4)
     qTwoChartMatch_conjDelta (F0 := F0) hF0 hψ hBs hE σ b =
       qTwoChartMatch_conjHom (F0 := F0) hF0 hψ hBs σ b * b⁻¹ := rfl
 
+omit [Finite G] in
 theorem qTwoChartMatch_conjDelta_fixed_card (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) (hE : IsElemAbelian 3 Bs)
     (σ : Equiv.Perm (Fin m)) :
@@ -182,6 +191,7 @@ theorem qTwoChartMatch_conjDelta_fixed_card (hF0 : Nat.card F0 = 4)
   rw [MonoidHom.mem_ker, qTwoChartMatch_conjDelta_apply]
   exact mul_inv_eq_one.symm
 
+omit [Finite G] in
 theorem qTwoChartMatch_conjDelta_range_le_three (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) (hE : IsElemAbelian 3 Bs)
     {i j : Fin m} (hij : i ≠ j) :
@@ -280,6 +290,7 @@ theorem qTwoChartMatch_isReflection_swap (hF0 : Nat.card F0 = 4)
   rw [hrange] at hcardmul
   exact hcardmul
 
+omit [Finite G] in
 theorem qTwoChartMatch_conjHom_mem (hF0 : Nat.card F0 = 4)
     (hψ : QTwoOrdModel Bs L ψ) (hBs : GGBstar 3 B Bs) (σ : Equiv.Perm (Fin m)) :
     qTwoChartMatch_conjHom (F0 := F0) hF0 hψ hBs σ ∈ ggAutomizerJoin L Bs 𝒦 := by
@@ -325,8 +336,7 @@ theorem qTwoChartMatch_extendDomain_eq {m n : ℕ}
     rw [Equiv.Perm.extendDomain_apply_subtype (e := σ)
       (f := Equiv.ofInjective ε0 ε0.injective) hb']
     have hsymm : (Equiv.ofInjective ε0 ε0.injective).symm ⟨ε0 a, hb'⟩ = a := by
-      simpa using Equiv.ofInjective_symm_apply (f := (ε0 : Fin m → Fin (n + 1)))
-        ε0.injective a
+      simp
     rw [hsymm]
     exact (hι_apply σ a).symm
   · rw [Equiv.Perm.extendDomain_apply_not_subtype (e := σ)

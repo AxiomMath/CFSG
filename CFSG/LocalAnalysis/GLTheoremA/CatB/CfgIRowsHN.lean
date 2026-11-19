@@ -45,7 +45,7 @@ theorem e125_of_witness {S : Type} [Group S] [Finite S] {x : S}
     (hfac : (Nat.card S).factorization 5 = 6)
     (hC : ¬ 5 ^ 6 ∣ Nat.card (Subgroup.centralizer ({x} : Set S))) :
     ∃ E : Subgroup S, IsElemAbelian 5 E ∧ 5 ^ 3 ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rcases hw with ⟨P, hP⟩ | ⟨Q', Z', hexp, hZQ, hZc, hZ', hcomm, hcard, hxQ, hxZ⟩ |
     ⟨E, hE, hcard, -⟩
   · exfalso
@@ -95,7 +95,7 @@ theorem cfgIRank_m5_five : CfgIRankRow 5 S8.Row.m5 := by
   have eJ : NativeSporadic.HN ≃* CFSG.Sporadic.HNSchreier.JH := CFSG.Sporadic.HNSchreier.hnEquivJ
   have φ : ↥CFSG.Sporadic.HNSchreier.JH ≃* (TauCeti.CFSGIndex.sporadic .HN).Group :=
     eJ.symm.trans b
-  haveI hfin : Finite ↥CFSG.Sporadic.HNSchreier.JH := Finite.of_equiv _ eJ.toEquiv
+  have hfin : Finite ↥CFSG.Sporadic.HNSchreier.JH := Finite.of_equiv _ eJ.toEquiv
   obtain ⟨-, -, -, hfo, hCc, -⟩ := CFSG.Sporadic.HNOddCore.ctuc_hn_five_centralizer_perfect_factor
   have hcardJ : Nat.card ↥CFSG.Sporadic.HNSchreier.JH = 5 ^ 6 * 17473978368 := by
     rw [← Nat.card_congr eJ.toEquiv, CFSG.Sporadic.HN.card_HN]

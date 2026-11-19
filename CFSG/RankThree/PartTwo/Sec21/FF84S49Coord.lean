@@ -10,6 +10,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84 IsoAux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sg_mem_W {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Nor S) (hc3 : c ^ 3 = 1) {x : G}
     (hx : x ∈ ⁅S, Subgroup.zpowers c⁆) : c * x * c⁻¹ ∈ ⁅S, Subgroup.zpowers c⁆ := by
@@ -21,6 +22,7 @@ theorem sg_mem_W {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x
   show (sg c y)⁻¹ * sg c (sg c y) = sg c ((y : G)⁻¹ * sg c y)
   simp only [sg]; group
 
+omit [Finite G] in
 theorem pim_W {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Nor S) (hc3 : c ^ 3 = 1) {x : G}
     (hx : x ∈ ⁅S, Subgroup.zpowers c⁆) : pim c x = 1 := by
@@ -33,6 +35,7 @@ theorem pim_W {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     simp only [pim, sg]; group
   rw [e, hc3']; group
 
+omit [Finite G] in
 theorem W_cen_eq_one {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Nor S) (hc3 : c ^ 3 = 1) {w : G}
     (hw : w ∈ ⁅S, Subgroup.zpowers c⁆) (h : Commute c w) : w = 1 := by
@@ -96,28 +99,34 @@ theorem W_orbit {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     simp only [OneMemClass.coe_one]
     exact ⟨⟨hp1.symm, hs1.symm, ht1.symm, hq1.symm⟩, ⟨hps, htp.symm, hq0.symm⟩,
       ⟨hst, hq1'.symm⟩, hq2.symm, not_false, List.nodup_nil⟩
-  haveI := Fintype.ofFinite ↥⁅S, Subgroup.zpowers c⁆
+  have := Fintype.ofFinite ↥⁅S, Subgroup.zpowers c⁆
   have hlen := hnd.length_le_card
   rw [← Nat.card_eq_fintype_card, hW] at hlen
   simp at hlen
 
+omit [Finite G] in
 private theorem commute_mul_left_iff {a x y : G} (hy : Commute a y) :
     Commute a (x * y) ↔ Commute a x :=
   ⟨fun h => by simpa using h.mul_right hy.inv_right, fun h => h.mul_right hy⟩
 
+omit [Finite G] in
 private theorem commute_mul_right_iff {a x y : G} (hx : Commute a x) :
     Commute a (x * y) ↔ Commute a y :=
   ⟨fun h => by simpa using hx.inv_right.mul_right h, fun h => hx.mul_right h⟩
 
+omit [Finite G] in
 private theorem commute_one_iff {W : Subgroup G} {b : G} (fx : ∀ w ∈ W, Commute b w → w = 1)
     (w : W) : Commute b (w : G) ↔ w = 1 :=
   ⟨fun h => Subtype.ext (fx _ w.2 h), fun h => by rw [h]; simp⟩
 
+omit [Finite G] in
 private theorem cen_iff {a x : G} : x ∈ Cen a ↔ Commute a x :=
   ⟨commute_of_mem_cen, fun h => Subgroup.mem_centralizer_singleton_iff.2 h.eq.symm⟩
 
+omit [Finite G] in
 private theorem conj_fix {a w : G} (h : Commute a w) : a * w * a⁻¹ = w := sg_of_commute h
 
+omit [Finite G] in
 private theorem orbit_step {W : Subgroup G} {b : G}
     (o : ∀ p ∈ W, ∀ q ∈ W, p ≠ 1 → q ≠ 1 → ∃ n : ℕ, b ^ n * p * (b ^ n)⁻¹ = q) {e : Prop}
     {p q : W} (hp : p = 1 ↔ e) (hq : q = 1 ↔ e) :
@@ -134,9 +143,9 @@ private theorem card_pat {H : Type} [Group H] [Finite H] (hH : Nat.card H = 4) (
   classical
   by_cases he : e
   · have : {w : H | (w = 1 ↔ e)} = {1} := by ext w; simp [he]
-    rw [this, if_pos he, Set.ncard_singleton]
+    rw [this, ite_eq_left he, Set.ncard_singleton]
   · have : {w : H | (w = 1 ↔ e)} = ({1} : Set H)ᶜ := by ext w; simp [he]
-    rw [this, if_neg he, Set.ncard_compl, Set.ncard_singleton, hH]
+    rw [this, ite_eq_right he, Set.ncard_compl, Set.ncard_singleton, hH]
 
 @[expose] def PatSet (S : Subgroup G) (b₀ b₁ b₂ : G) (e₀ e₁ e₂ : Prop) : Set G :=
   {x | x ∈ S ∧ (x ∈ Cen b₀ ↔ e₀) ∧ (x ∈ Cen b₁ ↔ e₁) ∧ (x ∈ Cen b₂ ↔ e₂)}
@@ -290,6 +299,7 @@ structure CoordHyp (S : Subgroup G) (b₀ b₁ b₂ : G) : Prop where
   z₁ : ⁅S, Subgroup.zpowers b₁⁆ ≤ CenS (Subgroup.closure ({b₀, b₂} : Set G))
   z₂ : ⁅S, Subgroup.zpowers b₂⁆ ≤ CenS (Subgroup.closure ({b₀, b₁} : Set G))
 
+omit [Finite G] in
 private theorem commute_of_z {W : Subgroup G} {x y : G}
     (hz : W ≤ CenS (Subgroup.closure ({x, y} : Set G))) {w : G} (hw : w ∈ W) :
     Commute x w ∧ Commute y w := by

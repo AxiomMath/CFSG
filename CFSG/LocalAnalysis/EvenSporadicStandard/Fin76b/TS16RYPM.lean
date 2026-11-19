@@ -109,7 +109,7 @@ theorem partI_clauses_M {G : Type} [Group G] [Finite G] {D E : Subgroup G}
     exact le_sup_left
   have hNM : N ≤ M' :=
     le_trans hNC (Subgroup.centralizer_le_normalizer ((D ⊔ E : Subgroup G) : Set G))
-  haveI : (N.subgroupOf M').Normal := partIM_normal_subgroupOf hNC hNodd hNcov
+  have : (N.subgroupOf M').Normal := partIM_normal_subgroupOf hNC hNodd hNcov
   have hN' : ∀ n ∈ N.subgroupOf M', Odd (orderOf n) := by
     intro n hn
     rw [← Subgroup.orderOf_coe]

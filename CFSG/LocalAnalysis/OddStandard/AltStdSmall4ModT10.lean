@@ -121,7 +121,7 @@ theorem map_fst_filter_pairs (L : List T10) (f : T10 → ℕ) (q : T10 × ℕ �
     ((L.map fun x => (x, f x)).filter q).map Prod.fst = L.filter fun x => q (x, f x) := by
   induction L with
   | nil => rfl
-  | cons y L ih => by_cases h : q (y, f y) <;> simp [List.filter_cons, h, ih]
+  | cons y L ih => by_cases h : q (y, f y) <;> simp [h, ih]
 
 theorem pairsT_eq :
     pairsT () = ((allL ()).filter isInv).map fun x => (x, clsIdx (orbitsT ()) x) :=

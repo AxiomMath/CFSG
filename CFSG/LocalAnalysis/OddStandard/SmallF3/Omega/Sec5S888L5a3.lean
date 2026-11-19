@@ -14,6 +14,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem s888l5a3_oddCoreIn_le (X : Subgroup G) : oddCoreIn X ≤ X := by
   unfold oddCoreIn CFSG.inSubgroup
   exact Subgroup.map_subtype_le _
@@ -40,7 +41,7 @@ theorem centralizerMod_inf_centralizer_le_C6 (h514 : Asc82Lemma514) (h516a : Asc
       Subgroup.mem_sup_right ho
     rw [hQO] at hmem
     exact hmem.2.2.1
-  haveI : ((Qsub K₁ K₂ h).subgroupOf
+  have : ((Qsub K₁ K₂ h).subgroupOf
       (Qsub K₁ K₂ h ⊔ oddCoreIn (centralizer ({t} : Set G)))).Normal := by
     have h1 := Subgroup.normal_subgroupOf_sup_of_le_normalizer
       (H := oddCoreIn (centralizer ({t} : Set G))) (N := Qsub K₁ K₂ h) hO_le_N

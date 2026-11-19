@@ -53,16 +53,14 @@ private theorem foldMap_apply_apply_E6 (u : Fin Tag.F4.rank → ℤ) (i : Fin Ta
 
 theorem twE6ThreeTheta_apply (s : Fin Tag.F4.rank → ZMod 3) (i : Fin Tag.E6.rank) :
     twE6ThreeTheta s i = s (e6OrbitIdx i) := by
-  simp only [twE6ThreeTheta, TableBExc.redMod, TableBExc.liftMod]
+  simp only [twE6ThreeTheta, TableBExc.redMod]
   rw [foldMap_apply_apply_E6]
-  congr 1
   simp only [TableBExc.liftMod, Int.cast_natCast, ZMod.natCast_zmod_val]
 
 theorem twE6ThreeFrame_apply (s : Fin Tag.F4.rank → ZMod 3) (i : Fin Tag.E6.rank) :
     twE6ThreeFrame s i =
       ∑ j : Fin Tag.E6.rank, ((Tag.E6.cartan i j : ℤ) : ZMod 3) * s (e6OrbitIdx j) := by
-  simp only [twE6ThreeFrame, frameCoord, TableBExc.redMod, TableBExc.liftMod,
-    Tag.symmetrizedCartan, Tag.symmetrizer, Matrix.one_mul]
+  simp only [twE6ThreeFrame, frameCoord, TableBExc.redMod, Tag.symmetrizedCartan, Tag.symmetrizer, Matrix.one_mul]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [foldMap_apply_apply_E6]
   congr 1

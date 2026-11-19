@@ -25,19 +25,19 @@ theorem par6_eq (x : ℕ) : par6 x = (x.testBit 0 ^^ (x.testBit 1 ^^ (x.testBit 
     (Nat.beq ((x >>> 1 >>> 1) &&& 1) 1 ^^ (Nat.beq ((x >>> 1 >>> 1 >>> 1) &&& 1) 1 ^^
     (Nat.beq ((x >>> 1 >>> 1 >>> 1 >>> 1) &&& 1) 1 ^^
     (Nat.beq ((x >>> 1 >>> 1 >>> 1 >>> 1 >>> 1) &&& 1) 1 ^^ false)))))) = _
-  simp only [beq_land_one, Nat.testBit_shiftRight, Nat.add_zero] <;> rfl
+  simp only [beq_land_one, Nat.testBit_shiftRight, Nat.add_zero]
 
 theorem q0K_eq (n : ℕ) : q0K n = q0b n := by
   change par6 (n ||| n >>> 6) = _
   rw [par6_eq]
   simp only [Nat.testBit_or, Nat.testBit_shiftRight]
-  simp [q0b, List.range_succ, Bool.xor_assoc, Nat.add_comm]
+  simp [q0b, List.range_succ, Nat.add_comm]
 
 theorem f0K_eq (m n : ℕ) : f0K m n = f0b m n := by
   change par6 ((m &&& n >>> 6) ^^^ (m >>> 6 &&& n)) = _
   rw [par6_eq]
   simp only [Nat.testBit_xor, Nat.testBit_and, Nat.testBit_shiftRight]
-  simp [f0b, List.range_succ, Bool.xor_assoc]
+  simp [f0b, List.range_succ]
 
 theorem thK_eq (n : ℕ) : thK n = theta0N n := rfl
 
@@ -129,10 +129,10 @@ theorem ptOK_spec {Cm Dm Rm w k : ℕ} (h : ptOK Cm Dm Rm w k = true) :
   unfold ptOK at h
   cases hw : Nat.beq w 0
   · rw [hw] at h
-    simp only [cond_false, Bool.and_eq_true, Nat.beq_eq, Bool.or_eq_true] at h
+    simp only [Bool.cond_false, Bool.and_eq_true, Nat.beq_eq, Bool.or_eq_true] at h
     exact Or.inr ⟨_, _, _, h.1, h.2⟩
   · rw [hw] at h
-    simp only [cond_true, Bool.and_eq_true] at h
+    simp only [_root_.Bool.cond_true, Bool.and_eq_true] at h
     exact Or.inl h
 
 theorem ptsOK_spec {Cm Dm Rm : ℕ} : ∀ {ws : List ℕ} {k0 : ℕ}, ptsOK Cm Dm Rm ws k0 = true →
@@ -198,7 +198,7 @@ theorem modelInner_of_tOK {t : V12 ≃ₗ[ZMod 2] V12} {LP : List ℕ} {VP m Cm 
       rw [vecOf, Pi.single_apply, Nat.testBit_two_pow]
       by_cases hj : (j : ℕ) = c
       · have hj' : j = ⟨c, by omega⟩ := Fin.ext hj
-        simp [hj, hj']
+        simp [hj']
       · have hj' : j ≠ ⟨c, by omega⟩ := fun e => hj (by rw [e])
         simp [hj', Ne.symm hj]
     rwa [vecOf_ap12, e, linP_single] at this

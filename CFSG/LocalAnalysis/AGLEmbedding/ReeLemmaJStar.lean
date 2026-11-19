@@ -119,7 +119,7 @@ theorem ree_elim_self (hKR8 : KFactReeOrder) (hKR9 : KFactReeOuterSolvable)
     have hS := card_sylow_of_card_ree (by omega) hcardL₀ S
     have hS'A : (S : Subgroup L₀).map MulAut.conj ≤ A :=
       (Subgroup.map_le_range _ _).trans hA
-    have hdvd := hcardA _ hS'A (S.isPGroup'.map _)
+    have hdvd := hcardA _ hS'A (S.isPGroup.map _)
     rw [Subgroup.card_map_of_injective hinjc, hS] at hdvd
     have h1 := Nat.le_of_dvd (by positivity) hdvd
     have h2 : 3 ^ (3 * n) * n < 3 ^ (3 * n) * 3 ^ (3 * n) :=

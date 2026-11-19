@@ -30,7 +30,7 @@ theorem le_famReflectionGroup_of_coprime_of_finite {p : ℕ} (hp : p.Prime)
     obtain ⟨d, hd⟩ := Nat.exists_eq_add_of_le (Finset.single_le_sum
       (f := fun b : F => n b.1) (fun _ _ => Nat.zero_le _) (Finset.mem_univ ⟨a, ha⟩))
     rw [hd, pow_add, pow_mul, hn a ha, one_pow]
-  haveI : NeZero (p ^ N) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have : NeZero (p ^ N) := ⟨pow_ne_zero _ hp.ne_zero⟩
   obtain ⟨ζ', hζ'⟩ := IsCyclic.exists_generator (α := rootsOfUnity (p ^ N) K)
   have hmM : orderOf (ζ' : Kˣ) ∣ p ^ N :=
     orderOf_dvd_of_pow_eq_one ((mem_rootsOfUnity _ _).1 ζ'.2)
@@ -138,10 +138,10 @@ theorem exists_ggDer_famStabilizerSubgroup_le_reflection_of_finite {p : ℕ} (hp
     (F : Set (Fin τ.rank → Kˣ)) (hFfin : F.Finite) (hF : ∀ a ∈ F, ∃ n : ℕ, a ^ p ^ n = 1) :
     ∃ k, LayerFacts.ggDer (famStabilizerSubgroup F) k ≤ famReflectionGroup F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H := famStabilizerSubgroup F with hH
   set N : Subgroup H := (famReflectionGroup F).subgroupOf H with hN
-  haveI hNn : N.Normal := ⟨fun n hn h => by
+  have hNn : N.Normal := ⟨fun n hn h => by
     show ((h * n * h⁻¹ : H) : WeylGroup τ) ∈ famReflectionGroup F
     exact conj_mem_famReflectionGroup h.2 hn⟩
   have hP : IsPGroup p (H ⧸ N) := by
@@ -159,8 +159,8 @@ theorem exists_ggDer_famStabilizerSubgroup_le_reflection_of_finite {p : ℕ} (hp
       exact ((Nat.Prime.coprime_iff_not_dvd hp).2 hm).symm
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact hmem
-  haveI : Group.IsNilpotent (H ⧸ N) := hP.isNilpotent
-  haveI : Group.IsSolvable (H ⧸ N) := inferInstance
+  have : Group.IsNilpotent (H ⧸ N) := hP.isNilpotent
+  have : Group.IsSolvable (H ⧸ N) := inferInstance
   obtain ⟨k, hk⟩ := (inferInstance : Group.IsSolvable (H ⧸ N)).solvable
   refine ⟨k, ?_⟩
   rw [LayerCores.ggDer_eq_map_derivedSeries]

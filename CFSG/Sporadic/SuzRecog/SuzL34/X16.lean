@@ -190,8 +190,7 @@ theorem card_Tbar16 : Nat.card Tbar16 = 4 := by
   rw [Nat.card_coe_set_eq, hfin, Set.ncard_coe_finset]
   rw [Finset.card_insert_of_notMem, Finset.card_insert_of_notMem,
     Finset.card_insert_of_notMem, Finset.card_singleton]
-  all_goals simp [ha1, ha1.symm, hb1, hb1.symm, habne, habne.symm,
-    hab1, hab1.symm, haab, haab.symm, hbab, hbab.symm]
+  all_goals simp [ha1.symm, hb1.symm, habne, hab1.symm, haab, hbab]
 
 noncomputable def a5RelsEquivAlternatingGroup :
     CFSG.CosetTable.PG 2 CFSG.Quasithin.L34Amalgam.a5Rels ≃*
@@ -241,13 +240,13 @@ noncomputable def a5RelsEquivAlternatingGroup :
     change a5a * a5b = 1 at h'
     exact (by decide : a5a * a5b ≠ 1) h'
   have hordA : orderOf A = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hA2 hA_ne
   have hordB : orderOf B = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hB3 hB_ne
   have hordAB : orderOf (A * B) = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime hAB5 hAB_ne
   have hcardA5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup]
@@ -275,8 +274,8 @@ noncomputable def a5RelsEquivAlternatingGroup :
         have hmul := Subgroup.card_mul_index H
         rw [hcard30, hcardA5] at hmul
         omega
-      haveI : H.Normal := Subgroup.normal_of_index_eq_two hindex
-      haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+      have : H.Normal := Subgroup.normal_of_index_eq_two hindex
+      have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
       rcases Subgroup.Normal.eq_bot_or_eq_top H with hbot | htop
       · rw [hbot, Subgroup.card_bot] at hcard30
         omega
@@ -384,7 +383,7 @@ theorem card_ne_twenty (hF11 : F11Prop) {i : ℕ} (hi : i < 4)
     {H : Subgroup (Equiv.Perm (Fin 16))} (hH : H ≤ X16 i) : Nat.card ↥H ≠ 20 := by
   intro hcard
   have h5dvd : 5 ∣ Nat.card ↥H := by rw [hcard]; norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 h5dvd
   have hx' : orderOf ((⟨x, hH x.2⟩ : X16 i) : Equiv.Perm (Fin 16)) = 5 := by
     rw [Subgroup.orderOf_coe, Subgroup.orderOf_mk, Subgroup.orderOf_coe, hx]

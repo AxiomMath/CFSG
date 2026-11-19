@@ -30,7 +30,7 @@ theorem fiveSimilar_odd {k : ℕ} (hk : 4 ≤ k) (ε : Bool) {n : ℕ} (hn : k =
     simpa only [StatedQuadOdd, LinearEquiv.ofBijective_apply] using
       statedQuadOdd_fiveOddMap n ε ν hνα v
 
-theorem fiveSimilar_plus {k : ℕ} (hk : 4 ≤ k) {n : ℕ} (hn : k + 1 = 2 * n) :
+theorem fiveSimilar_plus {k : ℕ} (_hk : 4 ≤ k) {n : ℕ} (hn : k + 1 = 2 * n) :
     FiveSimilarTo k true (StatedQuadPlus n (ZMod 5)) := by
   refine ⟨fivePlusEquiv hn, 1, one_ne_zero, ?_⟩
   intro v
@@ -38,7 +38,7 @@ theorem fiveSimilar_plus {k : ℕ} (hk : 4 ≤ k) {n : ℕ} (hn : k + 1 = 2 * n)
   simpa only [StatedQuadPlus, fivePlusEquiv, LinearEquiv.ofBijective_apply,
     LinearMap.comp_apply] using statedQuadPlus_fivePlusMap hn v
 
-theorem fiveSimilar_minus {k : ℕ} (hk : 4 ≤ k) {n : ℕ} (hn : k + 1 = 2 * n) :
+theorem fiveSimilar_minus {k : ℕ} (_hk : 4 ≤ k) {n : ℕ} (hn : k + 1 = 2 * n) :
     ∃ b c : ZMod 5, (∀ s : ZMod 5, s ^ 2 + b * s + c ≠ 0) ∧
       FiveSimilarTo k false (StatedQuadMinus n (ZMod 5) b c) := by
   refine ⟨0, 3, ?_, ?_⟩

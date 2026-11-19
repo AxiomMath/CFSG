@@ -20,6 +20,7 @@ private theorem matrix_eq_of_mulVec {ι : Type} [Fintype ι] [DecidableEq ι]
   have := congrFun (h (Pi.single j 1)) i
   simpa [Matrix.mulVec_single] using this
 
+omit [Finite V] in
 theorem exists_mulEquiv_of_model {ι : Type} [Fintype ι] [DecidableEq ι]
     {X : Subgroup (GL ι (ZMod 2))} {E : Subgroup (GLV V)} (φ : V ≃ₗ[ZMod 2] (ι → ZMod 2))
     (h1 : ∀ g ∈ mapGL E, ∃ A ∈ X,
@@ -78,12 +79,14 @@ theorem exists_mulEquiv_of_model {ι : Type} [Fintype ι] [DecidableEq ι]
   show φ ((e : GLV V) v) = (A e : Matrix ι ι (ZMod 2)) *ᵥ φ v
   rw [hA e]
 
+omit [Finite V] in
 theorem isOmegaMinusFor_of_model {E : Subgroup (GLV V)} {m : ℕ}
     (h : IsOmegaMinusModel (mapGL E) m) : IsOmegaMinusFor E m := by
   obtain ⟨φ, h1, h2⟩ := h
   obtain ⟨Ψ, hΨ⟩ := exists_mulEquiv_of_model φ h1 h2
   exact ⟨Ψ, φ, hΨ⟩
 
+omit [Finite V] in
 theorem isAltHeartFor_eight_of_plus {E : Subgroup (GLV V)}
     (h : IsOmegaPlusModel (mapGL E) 3) : IsAltHeartFor E 8 := by
   obtain ⟨φ, h1, h2⟩ := h
@@ -94,6 +97,7 @@ theorem isAltHeartFor_eight_of_plus {E : Subgroup (GLV V)}
   rw [hΨ e v]
   exact h₈ (Ψ e) (φ v) x hx
 
+omit [Finite V] in
 theorem isAltHeartFor_of_model {E : Subgroup (GLV V)} {m : ℕ}
     (h : IsAltModel (mapGL E) m) : IsAltHeartFor E m := by
   obtain ⟨φ, θ, hθ⟩ := h

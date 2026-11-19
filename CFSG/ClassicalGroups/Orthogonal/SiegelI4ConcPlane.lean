@@ -21,11 +21,13 @@ section Conc
 variable (hs : I4Setting hBN Qf ρ) (hconc : ∀ π, IsPlane BN π → Conc (planeFamily hBN ρ π))
   {ℓ H : Submodule K N}
 
+omit [Finite K] [FiniteDimensional K N] [FiniteDimensional K V] [CharP K 2] in
 theorem map_famSpace_of_mem_leviGroup (hH : IsLeviSpace BN ℓ H) {g : Gsp BN}
     (hg : g ∈ leviGroup BN H) :
     (famSpace hBN ρ ℓ).map (ρ g : V →ₗ[K] V) = famSpace hBN ρ ℓ := by
   rw [← famSpace_map, map_lin_eq_of_fixed g fun x hx => leviGroup_fix_line hH hg hx]
 
+omit [Finite K] [FiniteDimensional K N] [FiniteDimensional K V] [CharP K 2] in
 theorem exists_levi_hom (hH : IsLeviSpace BN ℓ H) :
     ∃ φ : leviGroup BN H →* (famSpace hBN ρ ℓ ≃ₗ[K] famSpace hBN ρ ℓ),
       ∀ (g : leviGroup BN H) (x : famSpace hBN ρ ℓ), ((φ g x : famSpace hBN ρ ℓ) : V) = ρ g x :=

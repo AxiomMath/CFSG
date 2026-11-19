@@ -18,7 +18,7 @@ private theorem natCard_of_isShapeTwoTwoTimesTwoFourA5 {X : Type} [Group X]
   obtain ⟨e⟩ := hiso
   have hY : Nat.card Y = 16 * 60 := by
     obtain ⟨N, hN, hNiso, hQiso⟩ := hshape
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     obtain ⟨eN⟩ := hNiso
     obtain ⟨eQ⟩ := hQiso
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup N, Nat.card_congr eQ.toEquiv,
@@ -36,7 +36,7 @@ theorem card_le_of_normal_isPGroup {G : Type} [Group G] {X : Subgroup G}
     norm_num at this
     exact this
   obtain ⟨Y, _, ⟨N, hNnorm, hNiso, hQiso⟩, ⟨e⟩⟩ := hX
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   obtain ⟨eQ⟩ := hQiso
   set π : ↥X →* alternatingGroup (Fin 5) :=
     (eQ.toMonoidHom).comp ((QuotientGroup.mk' N).comp
@@ -58,13 +58,13 @@ theorem card_le_of_normal_isPGroup {G : Type} [Group G] {X : Subgroup G}
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hnorm (g : G) g.2 (n : G) hn
-  haveI : (P'.map π).Normal := hP'normal.map π hsurj
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : (P'.map π).Normal := hP'normal.map π hsurj
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (P'.map π) with hbot | htop
   ·
     have hleker : P' ≤ π.ker := (Subgroup.map_eq_bot_iff (H := P') (f := π)).mp hbot
-    haveI : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
-    haveI : Finite ↥π.ker := Subtype.finite
+    have : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
+    have : Finite ↥π.ker := Subtype.finite
     have hle := Subgroup.card_le_of_le hleker
     have hker : Nat.card ↥π.ker = 64 := by
       have h := Subgroup.card_ker_mul_card_of_surjective (f := π) hsurj

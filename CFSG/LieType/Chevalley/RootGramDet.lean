@@ -36,7 +36,7 @@ theorem det_smul_eq_sum_adjugate (D D' : Fin n → Fin τ.rank → ℤ) (M : Mat
   have e : ∀ k, ∑ i, (M.adjugate j i * M i k) • D' k = (M.det • (1 : Matrix (Fin n) (Fin n) ℤ)) j k • D' k :=
     fun k => by rw [← Finset.sum_smul, ← h k, Matrix.mul_apply]
   simp only [e, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    ite_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    ite_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 theorem exists_simpleRoots_coeff {Ψ Ψ' : Set (Fin τ.rank → ℤ)} (hΨ' : IsRootComponent Ψ')
     (hsub : Ψ ⊆ Ψ') (e : simpleRoots Ψ ≃ Fin n) (e' : simpleRoots Ψ' ≃ Fin n) :

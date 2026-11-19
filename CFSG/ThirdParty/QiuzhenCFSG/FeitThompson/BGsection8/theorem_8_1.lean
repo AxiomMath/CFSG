@@ -361,7 +361,7 @@ public theorem CFSG.section8_center_sylow_map_le_center_of_nilpotent
       have hdisj : Disjoint (Q : Subgroup H) (R : Subgroup H) := by
         exact
           IsPGroup.disjoint_of_ne q r (Ne.symm hrq) (Q : Subgroup H) (R : Subgroup H)
-            Q.isPGroup' R.isPGroup'
+            Q.isPGroup R.isPGroup
       have hcomm :=
         Subgroup.commute_of_normal_of_disjoint (Q : Subgroup H) (R : Subgroup H)
           hQnorm hRnorm hdisj (zQ : H) y zQ.property hyR
@@ -387,7 +387,7 @@ public theorem CFSG.section8_subgroupPrimeSet_center_eq_top_of_nilpotent
     have : Nontrivial Q :=
       (Subgroup.nontrivial_iff_ne_bot (H := (Q : Subgroup H))).2 hQ_ne_bot
     have hZQ_nontrivial : Nontrivial (Subgroup.center Q) :=
-      IsPGroup.center_nontrivial (p := q.val) (G := Q) Q.isPGroup'
+      IsPGroup.center_nontrivial (p := q.val) (G := Q) Q.isPGroup
     have hZQ_ne_bot : Subgroup.center Q ≠ ⊥ :=
       (Subgroup.nontrivial_iff_ne_bot (H := Subgroup.center Q)).1 hZQ_nontrivial
     let ZQG : Subgroup H :=
@@ -397,7 +397,7 @@ public theorem CFSG.section8_subgroupPrimeSet_center_eq_top_of_nilpotent
     let B : Subgroup (Subgroup.center H) := ZQG.subgroupOf (Subgroup.center H)
     have hZQG_p : IsPGroup q.val ZQG := by
       have hZQ_p : IsPGroup q.val (Subgroup.center (Q : Subgroup H)) :=
-        Q.isPGroup'.to_subgroup _
+        Q.isPGroup.to_subgroup _
       exact IsPGroup.map hZQ_p (Q : Subgroup H).subtype
     have hBp : IsPGroup q.val B :=
       hZQG_p.of_equiv (Subgroup.subgroupOfEquivOfLe hZQG_le_center).symm
@@ -590,7 +590,7 @@ public theorem CFSG.section8SubgroupInAmbient_isPGroup
 public theorem CFSG.section8SubgroupInAmbient_sylow_isPGroup
     {M : Subgroup G} {p : ℕ} (P : Sylow p M) :
     IsPGroup p (section8SubgroupInAmbient (P : Subgroup M)) :=
-  section8SubgroupInAmbient_isPGroup P.isPGroup'
+  section8SubgroupInAmbient_isPGroup P.isPGroup
 
 /-- The `p`-part exponent of a Sylow subgroup is the `p`-part exponent of the ambient group. -/
 public theorem CFSG.section8_factorization_card_sylow
@@ -671,7 +671,7 @@ public theorem CFSG.section8FittingSubgroup_le_sylow
     simpa [F₀] using section8FittingSubgroup_normal_in (M := M)
   let : F₀.Normal := hF₀norm
   have hsup_p : IsPGroup p (F₀ ⊔ (P : Subgroup M) : Subgroup M) :=
-    IsPGroup.to_sup_of_normal_left hF₀p P.isPGroup'
+    IsPGroup.to_sup_of_normal_left hF₀p P.isPGroup
   have hsup_eq : F₀ ⊔ (P : Subgroup M) = (P : Subgroup M) :=
     P.maximal_isPGroup.eq_of_ge hsup_p le_sup_right
   intro x hx
@@ -766,7 +766,7 @@ public theorem CFSG.section8SylowSubgroupInAmbient_le_fitting_of_isPGroup
     odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card M)
   have hAcomm : IsMulCommutative A :=
     (scnSubgroup_normal_commutative
-      (p := p) (R := (P : Subgroup M)) P.isPGroup' hA).2
+      (p := p) (R := (P : Subgroup M)) P.isPGroup hA).2
   let : A.Normal := hA.1
   let : IsMulCommutative A := hAcomm
   have hA_le_op : A.map (P : Subgroup M).subtype ≤ Op_p'p p M :=
@@ -1329,7 +1329,7 @@ public theorem CFSG.section8SylowSubgroupInAmbient_isPGroup
     (M : Subgroup G) {p : ℕ} (P : Sylow p M) (A : Subgroup (P : Subgroup M)) :
     IsPGroup p (section8SylowSubgroupInAmbient M P A) := by
   have hA_M : IsPGroup p (A.map (P : Subgroup M).subtype) :=
-    IsPGroup.map (P.isPGroup'.to_subgroup A) (P : Subgroup M).subtype
+    IsPGroup.map (P.isPGroup.to_subgroup A) (P : Subgroup M).subtype
   exact IsPGroup.map hA_M M.subtype
 
 /-- Pulling a transported subgroup of a Sylow subgroup back to `M` gives its image in `M`. -/
@@ -1351,7 +1351,7 @@ public theorem CFSG.section8SylowSubgroupInAmbient_ne_bot_of_mem_scnSubgroups
     (hA : A ∈ scnSubgroups 3 (P : Subgroup M)) :
     section8SylowSubgroupInAmbient M P A ≠ ⊥ := by
   have hA_ne_bot : A ≠ ⊥ :=
-    section8_scnSubgroups_ne_bot (p := p) hpodd P.isPGroup' hA
+    section8_scnSubgroups_ne_bot (p := p) hpodd P.isPGroup hA
   intro hAambient_bot
   have hAmap_bot : A.map (P : Subgroup M).subtype = ⊥ := by
     rw [← section8SylowSubgroupInAmbient_subgroupOf_eq M P A, hAambient_bot]
@@ -1683,7 +1683,7 @@ public theorem CFSG.section8_normalizer_centerIn_thompsonSubgroup_eq_of_fitting_
   have hP_ne_bot : (P : Subgroup M) ≠ ⊥ :=
     section8_sylow_ne_bot_of_mem_fitting_primeSet_of_fitting_isPGroup hpF hFp P
   have hZJ_ne_bot : (centerIn (thompsonSubgroup P) : Subgroup M) ≠ ⊥ :=
-    section8_centerIn_thompsonSubgroup_ne_bot_of_ne_bot P.isPGroup' hP_ne_bot
+    section8_centerIn_thompsonSubgroup_ne_bot_of_ne_bot P.isPGroup hP_ne_bot
   have hZJ_norm : (centerIn (thompsonSubgroup P) : Subgroup M).Normal :=
     section8_centerIn_thompsonSubgroup_normal_of_fitting_isPGroup hM hFp P
   exact
@@ -1871,7 +1871,7 @@ public theorem CFSG.section8_pPrimeCore_centralizer_sylowSubgroupInAmbient_eq_bo
   have hsolvM : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr hM.1)
   have hA_M_p : IsPGroup p A_M := by
-    simpa [A_M] using IsPGroup.map (P.isPGroup'.to_subgroup A) (P : Subgroup M).subtype
+    simpa [A_M] using IsPGroup.map (P.isPGroup.to_subgroup A) (P : Subgroup M).subtype
   have hcoreC_M_map_le : (pPrimeCore p C_M).map C_M.subtype ≤ pPrimeCore p M := by
     simpa [C_M] using (proposition_1_15_b (G := M) hsolvM p A_M hA_M_p)
   have hcoreC_M_map_bot : (pPrimeCore p C_M).map C_M.subtype = ⊥ := by
@@ -2024,7 +2024,7 @@ public theorem CFSG.section8SylowSubgroupInAmbient_subgroupOf_sylowImage_mem_scn
       apply Subtype.ext
       exact hyx ▸ congrArg Subtype.val hay
   have hmap_scn : A.map e.toMonoidHom ∈ scnSubgroups 3 P_G :=
-    section8_scnSubgroups_three_map_equiv_of_isPGroup hpodd P.isPGroup' e hA
+    section8_scnSubgroups_three_map_equiv_of_isPGroup hpodd P.isPGroup e hA
   simpa [P_G, ← hAmap_eq] using hmap_scn
 
 /-- The characteristic copy of `Z(J(P))` inside the transported Sylow subgroup maps to the
@@ -2192,7 +2192,7 @@ public theorem CFSG.section8_sylow_subgroupOf_of_global_sylow_le
     ∃ R : Sylow p N, (R : Subgroup N).map N.subtype = (P₀ : Subgroup G) := by
   let Rsub : Subgroup N := (P₀ : Subgroup G).subgroupOf N
   have hRsub_p : IsPGroup p Rsub :=
-    P₀.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hP₀N).symm
+    P₀.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hP₀N).symm
   have hRsub_max :
       ∀ {Q : Subgroup N}, IsPGroup p Q → Rsub ≤ Q → Q = Rsub := by
     intro Q hQp hRsubQ
@@ -2485,7 +2485,7 @@ public theorem CFSG.section8_HStarFamily_fitting_subset_sylowSubgroupInAmbient_o
     simpa [A_G] using section8SylowSubgroupInAmbient_isPGroup M P A
   have hAcomm0 : IsMulCommutative A :=
     (scnSubgroup_normal_commutative
-      (p := p) (R := (P : Subgroup M)) P.isPGroup' hA).2
+      (p := p) (R := (P : Subgroup M)) P.isPGroup hA).2
   have hAMcomm : IsMulCommutative (A.map (P : Subgroup M).subtype) := by
     let : IsMulCommutative A := hAcomm0
     exact Subgroup.map_isMulCommutative (f := (P : Subgroup M).subtype) (H := A)
@@ -2649,7 +2649,7 @@ public theorem CFSG.section8_piCoreIn_singleton_ne_bot_of_mem_subgroupPrimeSet_o
     Sylow.ne_bot_of_dvd_card Q hq_card_H
   have hQ_norm : (Q : Subgroup H).Normal := by infer_instance
   have hQ_pi : IsPiSubgroup (G := H) ({q} : Set Nat.Primes) (Q : Subgroup H) :=
-    section8_isPiSubgroup_singleton_of_isPGroup Q.isPGroup'
+    section8_isPiSubgroup_singleton_of_isPGroup Q.isPGroup
   have hQ_le_core : (Q : Subgroup H) ≤ piCore ({q} : Set Nat.Primes) H :=
     le_sSup
       (show (Q : Subgroup H) ∈
@@ -2677,7 +2677,7 @@ public theorem CFSG.section8_piCoreIn_singleton_ne_bot_of_mem_subgroupPrimeSet_o
   have hQ_norm : (Q : Subgroup H).Normal :=
     Group.IsNilpotent.sylow_normal (show Group.IsNilpotent H from inferInstance) q.val Q
   have hQ_pi : IsPiSubgroup (G := H) ({q} : Set Nat.Primes) (Q : Subgroup H) :=
-    section8_isPiSubgroup_singleton_of_isPGroup Q.isPGroup'
+    section8_isPiSubgroup_singleton_of_isPGroup Q.isPGroup
   have hQ_le_core : (Q : Subgroup H) ≤ piCore ({q} : Set Nat.Primes) H :=
     le_sSup
       (show (Q : Subgroup H) ∈
@@ -4891,7 +4891,7 @@ public theorem CFSG.section8_piCoreIn_singleton_compl_fitting_le_centralizerInFi
     le_sSup
       (show (P : Subgroup F) ∈
           {K : Subgroup F | K.Normal ∧ IsPGroup p K} from
-        ⟨hP_norm, P.isPGroup'⟩)
+        ⟨hP_norm, P.isPGroup⟩)
   intro y hyY
   refine Subgroup.mem_map.mpr ?_
   refine ⟨⟨y, hY_le_F hyY⟩, ?_, rfl⟩
@@ -5062,7 +5062,7 @@ public theorem CFSG.section8_isPGroup_le_piCoreIn_singleton_of_le_nilpotent
     le_sSup
       (show (Q : Subgroup K) ∈
           {L : Subgroup K | L.Normal ∧ IsPGroup q.val L} from
-        ⟨hQnorm, Q.isPGroup'⟩)
+        ⟨hQnorm, Q.isPGroup⟩)
   intro x hxH
   let xK : K := ⟨x, hHK hxH⟩
   have hxHsub : xK ∈ Hsub := by
@@ -6344,7 +6344,7 @@ public theorem CFSG.section8_normalizer_centerIn_thompsonSubgroup_eq_of_maximalO
   have hR_ne_bot : (R : Subgroup N) ≠ ⊥ :=
     Sylow.ne_bot_of_dvd_card (G := N) (p := p) R hpN
   have hZJ_ne_bot : (centerIn (thompsonSubgroup R) : Subgroup N) ≠ ⊥ :=
-    section8_centerIn_thompsonSubgroup_ne_bot_of_ne_bot R.isPGroup' hR_ne_bot
+    section8_centerIn_thompsonSubgroup_ne_bot_of_ne_bot R.isPGroup hR_ne_bot
   have hZJ_norm : (centerIn (thompsonSubgroup R) : Subgroup N).Normal :=
     section8_centerIn_thompsonSubgroup_normal_of_maximalOver_sylowSubgroupInAmbient
       hM hpF hFp P hA hN R
@@ -6689,7 +6689,7 @@ public theorem CFSG.section8_inf_sylow_card_le_sylow
       simpa [R_M_sub] using
         Subgroup.card_map_of_injective (K := R_K_sub) (f := K.subtype) K.subtype_injective
     rw [hcard_map, hcard_R_K]
-  have hR_K_p : IsPGroup p R_K_sub := IsPGroup.map R.isPGroup' e.toMonoidHom
+  have hR_K_p : IsPGroup p R_K_sub := IsPGroup.map R.isPGroup e.toMonoidHom
   have hR_M_p : IsPGroup p R_M_sub := IsPGroup.map hR_K_p K.subtype
   rcases IsPGroup.exists_le_sylow hR_M_p with ⟨P', hR_le_P'⟩
   have hcard_R_le_P' : Nat.card R_M_sub ≤ Nat.card (P' : Subgroup M) :=
@@ -6756,7 +6756,7 @@ public theorem CFSG.section8_inf_sylow_normalizer_factorization_gt_of_card_lt
       simpa [R_M_sub] using
         Subgroup.card_map_of_injective (K := R_K_sub) (f := K.subtype) K.subtype_injective
     rw [hcard_map, hcard_R_K]
-  have hR_K_p : IsPGroup p R_K_sub := IsPGroup.map R.isPGroup' e.toMonoidHom
+  have hR_K_p : IsPGroup p R_K_sub := IsPGroup.map R.isPGroup e.toMonoidHom
   have hR_M_p : IsPGroup p R_M_sub := IsPGroup.map hR_K_p K.subtype
   rcases IsPGroup.exists_le_sylow hR_M_p with ⟨P', hR_le_P'⟩
   let R_P : Subgroup (P' : Subgroup M) := R_M_sub.subgroupOf (P' : Subgroup M)
@@ -6783,7 +6783,7 @@ public theorem CFSG.section8_inf_sylow_normalizer_factorization_gt_of_card_lt
   let NP_M : Subgroup M := NP.map (P' : Subgroup M).subtype
   have hfact_RP_NP :
       Nat.factorization (Nat.card R_P) p < Nat.factorization (Nat.card NP) p :=
-    section8_factorization_lt_normalizer_of_lt_top_in_pgroup P'.isPGroup' hR_P_lt_top
+    section8_factorization_lt_normalizer_of_lt_top_in_pgroup P'.isPGroup hR_P_lt_top
   have hR_P_image_M : section8SubgroupInAmbient (G := M) R_P = R_M_sub := by
     simpa [section8SubgroupInAmbient, R_P] using
       Subgroup.map_subgroupOf_eq_of_le hR_le_P'

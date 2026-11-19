@@ -26,7 +26,7 @@ theorem wv17_eq {k : ℕ} (hk : k < 10) : wv17 k = elsA.getD k 1 := by
   rw [(elsA_eq (by omega)).1, wv17]
   congr 2
   have h := congrArg (fun l => l.getD k []) c17_els.1
-  simp only [List.getD_eq_getElem?_getD, List.getElem?_take, if_pos hk] at h
+  simp only [List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left hk] at h
   simpa only [List.getD_eq_getElem?_getD] using h
 
 theorem prep_el {k : ℕ} (hk : k < 10) : PRep 45 6 (wE k) (elsA.getD k 1) := by

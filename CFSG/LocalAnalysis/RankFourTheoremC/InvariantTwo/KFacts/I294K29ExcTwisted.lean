@@ -183,10 +183,10 @@ theorem rank_twistedE6_five {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) {K :
   have hp2 : (5 : ℕ) ≠ 2 := by norm_num
   set q := ℓ ^ f with hqdef
   have hq : 1 < q := Nat.one_lt_pow (by omega) hℓ.one_lt
-  haveI : Finite (adjointGroup Tag.E6 K) := generated_group_finite Tag.E6 K
+  have : Finite (adjointGroup Tag.E6 K) := generated_group_finite Tag.E6 K
   have hle : twistedE6RootGroup K σ ≤ adjointGroup Tag.E6 K :=
     (graphFixedRootGroup_le _ _ _).trans inf_le_left
-  haveI : Finite (twistedE6RootGroup K σ) := Finite.of_injective _ (Subgroup.inclusion_injective hle)
+  have : Finite (twistedE6RootGroup K σ) := Finite.of_injective _ (Subgroup.inclusion_injective hle)
   set ι : twistedE6RootGroup K σ →* adjointGroup Tag.E6 K := Subgroup.inclusion hle with hι
   have hιi : Function.Injective ι := Subgroup.inclusion_injective hle
   have hpq' : 5 ∣ Nat.card K - 1 := by
@@ -242,7 +242,7 @@ theorem crossAtPrime_twistedE6_five {q : TauCeti.PrimePower}
   have hpq : (5 : ℕ) ≠ q.p := fun h =>
     hdp (h.trans (TauCeti.LieTypeIndex.characteristic_twistedE6 q).symm).symm
   obtain ⟨K, _, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]; exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   have hnd : ¬ 5 ∣ q.p ^ q.exponent := by
     rw [← TauCeti.PrimePower.card_def]; exact not_dvd_card_of_ne hp hpq

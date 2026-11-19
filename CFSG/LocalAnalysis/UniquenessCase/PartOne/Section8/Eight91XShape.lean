@@ -409,10 +409,10 @@ private theorem k891xshape_barImage_R891X {G : Type} [Group G] [Finite G] {L Z :
     barImage L (R891X L Z n) = R891X (⊤ : Subgroup (Bar2 L)) (barImage L Z) n := by
   unfold R891X
   by_cases hn : n = 1
-  · rw [if_pos hn, if_pos hn]
+  · rw [ite_eq_left hn, ite_eq_left hn]
     rw [k891xshape_barImage_opp inf_le_left, k891xshape_barImage_centralizer hZL hZp]
     rw [top_inf_eq]
-  · rw [if_neg hn, if_neg hn]
+  · rw [ite_eq_right hn, ite_eq_right hn]
     rw [k891xshape_barImage_derInf8 inf_le_left, k891xshape_barImage_centralizer hZL hZp]
     rw [top_inf_eq]
 
@@ -486,13 +486,13 @@ private theorem k891xshape_R891X_le {G : Type} [Group G] [Finite G] {L Z : Subgr
     R891X L Z n ≤ L := by
   unfold R891X
   by_cases hn : n = 1
-  · rw [if_pos hn]
+  · rw [ite_eq_left hn]
     change CFSG.RankThree.PartOne.pElementSubgroup 2 (L ⊓ centralizer (Z : Set G)) ≤ L
     unfold CFSG.RankThree.PartOne.pElementSubgroup
     rw [Subgroup.closure_le]
     intro x hx
     exact (Subgroup.mem_inf.mp hx.1).1
-  · rw [if_neg hn]
+  · rw [ite_eq_right hn]
     exact (Subgroup.map_subtype_le (perfectResidual ↥(L ⊓ centralizer (Z : Set G)))).trans inf_le_left
 
 private theorem k891xshape_xShape
@@ -523,7 +523,7 @@ private theorem k891xshape_xShape
         rfl
       have hXeq : R891X (⊤ : Subgroup (Bar2 L))
           (ZOf (barImage L (S ⊓ L))) n = R₀.map (MulAut.conj g).toMonoidHom := by
-        rw [R891X, if_pos hn, top_inf_eq, hcent]
+        rw [R891X, ite_eq_left hn, top_inf_eq, hcent]
         exact hR.opp_eq hn
       rw [hXeq]
       exact hR.sl3Two
@@ -562,14 +562,14 @@ private theorem k891xshzw_R891X_le_centralizer {G : Type} [Group G] [Finite G]
     R891X L Z n ≤ Subgroup.centralizer (Z : Set G) := by
   unfold R891X
   by_cases hn : n = 1
-  · rw [if_pos hn]
+  · rw [ite_eq_left hn]
     change CFSG.RankThree.PartOne.pElementSubgroup 2 (L ⊓ centralizer (Z : Set G)) ≤
       centralizer (Z : Set G)
     unfold CFSG.RankThree.PartOne.pElementSubgroup
     rw [Subgroup.closure_le]
     intro x hx
     exact (Subgroup.mem_inf.mp hx.1).2
-  · rw [if_neg hn]
+  · rw [ite_eq_right hn]
     exact (Subgroup.map_subtype_le (perfectResidual ↥(L ⊓ centralizer (Z : Set G)))).trans
       inf_le_right
 
@@ -758,7 +758,7 @@ private theorem k891xsher_R891X_normalizer {G : Type} [Group G] [Finite G] (L Z 
   by_cases hn : n = 1
   · rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     unfold R891X
-    rw [if_pos hn]
+    rw [ite_eq_left hn]
     unfold Opp
     change (CFSG.RankThree.PartOne.pElementSubgroup 2 (L ⊓ centralizer (Z : Set G))).map
         (MulAut.conj m).toMonoidHom =
@@ -771,7 +771,7 @@ private theorem k891xsher_R891X_normalizer {G : Type} [Group G] [Finite G] (L Z 
       rw [hk]
       exact IsPGroup.of_bot
   · unfold R891X
-    rw [if_neg hn]
+    rw [ite_eq_right hn]
     exact CFSG.RankThreeCoreUniqueness.Helpers.perfectResidualOf_normalizer_contains _
       (Subgroup.le_normalizer hm)
 

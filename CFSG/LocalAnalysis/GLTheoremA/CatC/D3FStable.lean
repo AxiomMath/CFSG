@@ -103,8 +103,8 @@ theorem chev_card_le [CharP K 3] (α : MulAut ↥(adjointGroup Tag.D4 K)) (hα3 
     (A : Subgroup ↥(adjointGroup Tag.D4 K)) (hA : CFSG.Open.IsElemAbelian 3 A)
     (hfix : ∀ a ∈ A, α a = a) : Nat.card A ≤ Nat.card K ^ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := Tag.D4) (K := K)
   obtain ⟨S, hAS, hSα⟩ := exists_stable_sylow_fixing α hα3 A hA hfix
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem Tag.D4).length
   obtain ⟨P₀, hP₀⟩ := (exceptional_ordinary_Sylow_opposition Tag.D4 K 3 w₀ hw₀).1
@@ -129,7 +129,7 @@ theorem chev_card_le [CharP K 3] (α : MulAut ↥(adjointGroup Tag.D4 K)) (hα3 
   set α' : MulAut ↥(adjointGroup Tag.D4 K) := (MulAut.conj x)⁻¹ * α * MulAut.conj x with hα'
   have hα'apply : ∀ y, α' y = x⁻¹ * α (x * y * x⁻¹) * x := by
     intro y
-    simp [hα', MulAut.conj_apply, MulAut.conj_inv_apply]
+    simp [hα', MulAut.conj_apply]
   have hα'3 : α' ^ 3 = 1 := by
     have : α' ^ 3 = (MulAut.conj x)⁻¹ * α ^ 3 * MulAut.conj x := by
       have h := conj_pow (a := (MulAut.conj x)⁻¹) (b := α) (i := 3)

@@ -145,8 +145,8 @@ theorem ggA6_sp_core_abs
         have hJle : J ≤ ⊥ := hJL.trans (le_of_eq hLbot)
         have hJbot : J = ⊥ := le_bot_iff.mp hJle
         obtain ⟨e⟩ := hA6
-        haveI : Nontrivial ↥J := e.toEquiv.nontrivial
-        haveI : Subsingleton ↥J := by rw [hJbot]; infer_instance
+        have : Nontrivial ↥J := e.toEquiv.nontrivial
+        have : Subsingleton ↥J := by rw [hJbot]; infer_instance
         obtain ⟨p, q, hpq⟩ := ‹Nontrivial ↥J›
         exact hpq (Subsingleton.elim p q)
       have hm3 : 3 ≤ m := by
@@ -205,13 +205,13 @@ theorem ggA6_sp_core_abs
         rw [← hwz]
         rw [map_add, hJfixW j hj w hw, hJfixW' j hj z hz]
       obtain ⟨e⟩ := hA6
-      haveI : Nontrivial ↥J := e.toEquiv.nontrivial
-      haveI : Subsingleton ↥J := by rw [hJbot]; infer_instance
+      have : Nontrivial ↥J := e.toEquiv.nontrivial
+      have : Subsingleton ↥J := by rw [hJbot]; infer_instance
       obtain ⟨p, q, hpq⟩ := ‹Nontrivial ↥J›
       exact hpq (Subsingleton.elim p q)
   ·
     exfalso
-    haveI : IsMulCommutative ↥P := ⟨⟨fun a b => Subtype.ext (hab a.1 a.2 b.1 b.2)⟩⟩
+    have : IsMulCommutative ↥P := ⟨⟨fun a b => Subtype.ext (hab a.1 a.2 b.1 b.2)⟩⟩
     have hnil : Group.IsNilpotent ↥P := inferInstance
     have hlie : GGA6CharTwoLie ↥J := ggA6_sp_freeShape B hB hnd P hPB hodd hnil hJ hJfixW
     exact (ggA6_not_shape_of_a6 ↥J ↥J hA6 ⟨MulEquiv.refl _⟩) hlie

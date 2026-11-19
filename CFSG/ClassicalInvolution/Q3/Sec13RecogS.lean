@@ -211,7 +211,7 @@ theorem exists_hom_apply : ∃ φ : G →* AE.AEQ n,
     (∀ f : Multiplicative (Fin n → ZMod 2), ∑ i, f.toAdd i = 0 →
       φ (β f) = AE.mkQ n (AE.Wr.ofVec f.toAdd)) ∧
     ∀ h : H, φ h = AE.mkQ n (AE.Wr.ofPerm (σ h)) := by
-  haveI := hS.normal
+  have := hS.normal
   obtain ⟨ψ, hψ⟩ := hS.exists_vecHom
   let τ : H →* AE.AEQ n := (AE.mkQ n).comp ((RecogS.wrPerm n).comp σ)
   obtain ⟨φ, hφV, hφH⟩ := RecogS.exists_hom_of_isComplement' hS.compl ψ τ (hS.compat hψ)

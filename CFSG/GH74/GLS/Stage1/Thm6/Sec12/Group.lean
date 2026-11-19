@@ -205,7 +205,7 @@ theorem exists_sylow2_ge [Finite G] {A H : Subgroup G} (hA : IsPGroup 2 ↥A) (h
   · intro a ha
     obtain ⟨b, _, rfl⟩ := ha
     exact b.2
-  · exact Sy.isPGroup'.map H.subtype
+  · exact Sy.isPGroup.map H.subtype
   · have hs : ((Sy : Subgroup ↥H).map H.subtype).relIndex H = (Sy : Subgroup ↥H).index := by
       unfold Subgroup.relIndex Subgroup.subgroupOf
       rw [Subgroup.comap_map_eq_self_of_injective H.subtype_injective]

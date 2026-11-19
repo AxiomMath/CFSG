@@ -55,7 +55,7 @@ theorem ObstructionSetting.exists_mem_centralizer_map_le (hS : ObstructionSettin
   have hTS := h13 p hp P M D hext hPD hDab z hzD hz1 hzc hzp T
     (global_invariant_two_maximal_is_maximal_within D M T hT hTM)
   obtain ⟨c, -, hcC, hc⟩ := exists_mem_centralizer_conj_eq_of_isSylowOf hprime
-    (P.isPGroup'.to_le hDP) (hDP.trans hPX) hXc hA'S hTS hA'.2.2.1 hT.2.1
+    (P.isPGroup.to_le hDP) (hDP.trans hPX) hXc hA'S hTS hA'.2.2.1 hT.2.1
   refine ⟨c, hcC, hCD hcC, ?_⟩
   rw [← hc]
   exact Subgroup.map_mono hAA'
@@ -83,7 +83,7 @@ theorem ObstructionSetting.card_pCoreOf_lt_of_conj (hS : ObstructionSetting G)
   obtain ⟨hVM, hVmax⟩ := hopt.invariantTwoMaximalWithin_H hd
   have hDH : D ≤ H := (le_sup_right : D ≤ relPairBase R T ⊔ D).trans hpair.cand.base_le
   obtain ⟨hM, hDP, -, -⟩ := hd.ext.obstruction
-  have hDp : IsPGroup p D := P.isPGroup'.to_le hDP
+  have hDp : IsPGroup p D := P.isPGroup.to_le hDP
   obtain ⟨-, z, hzD, hz1, hzc, hzp, hN₀M, hCD, -⟩ :=
     hS.transitivity_data hD1 hp hd.ext hd.not_le_normalizer hR h13
   set φ := MulAut.conj n with hφ

@@ -93,7 +93,7 @@ theorem apply_mem_signedIrr (hσ : IsCyclicTIIsometry W W1 W2 σ) {χ : classFun
     (hχ : (χ : ↥W → ℂ) ∈ Irr ↥W) : (σ χ : G → ℂ) ∈ signedIrr G := by
   refine mem_signedIrr_of_mem_span_Irr_of_cfInner_self_eq_one
     (virtualChars_le_span_Irr (hσ.map_virtualChars χ (Irr_subset_virtualChars hχ))) ?_
-  rw [hσ.inner_eq, cfInner_eq_ite_of_mem_Irr hχ hχ, if_pos rfl]
+  rw [hσ.inner_eq, cfInner_eq_ite_of_mem_Irr hχ hχ, ite_eq_left rfl]
 
 open scoped Classical in
 theorem cfInner_prodCharEta_prod (hW : IsCyclicTIPair W W1 W2)

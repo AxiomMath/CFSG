@@ -39,7 +39,7 @@ variable {G : Type u} [Group G] {n : ℕ} (T : TitsSystem G n)
     exact T.periodic (i + s)
   ne_bot i := T.ne_bot (i + s)
   comm i j hij hji u hu v hv := by
-    refine SetLike.le_def.mp (iSup₂_le fun k hk => ?_)
+    refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun k hk => ?_)
       (T.comm (i + s) (j + s) (by omega) (by omega) u hu v hv)
     have hk' : i + s < k ∧ k < j + s := hk
     exact le_iSup₂_of_le (k - s) ⟨by omega, by omega⟩
@@ -66,14 +66,14 @@ variable {G : Type u} [Group G] {n : ℕ} (T : TitsSystem G n)
       congr 1
       apply List.map_congr_left
       intro t ht
-      simp [F, add_comm, add_left_comm, add_assoc]
+      simp [F, add_comm]
     have hprod'' : ((intList (i + s + 1) (i + s + n)).map G').prod =
         ((intList (i + 1) (i + n)).map g).prod := by
       rw [hL, List.map_map]
       congr 1
       apply List.map_congr_left
       intro t ht
-      simp [G', add_comm, add_left_comm, add_assoc]
+      simp [G', add_comm]
     have huniq := T.unique (i + s) F G' hF hG (by rw [hprod', hprod'', hprod])
     have hmem : k + s ∈ intList (i + s + 1) (i + s + n) := by
       rw [hL, List.mem_map]
@@ -102,7 +102,7 @@ variable {G : Type u} [Group G] {n : ℕ} (T : TitsSystem G n)
     have hinv : u * v * u⁻¹ * v⁻¹ ∈ (⨆ k ∈ Set.Ioo (c - j) (c - i), T.U k) := by
       have := (⨆ k ∈ Set.Ioo (c - j) (c - i), T.U k).inv_mem h
       simpa [commutatorElement_def, mul_assoc] using this
-    refine SetLike.le_def.mp (iSup₂_le fun k hk => ?_) hinv
+    refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun k hk => ?_) hinv
     have hk' : c - j < k ∧ k < c - i := hk
     exact le_iSup₂_of_le (c - k) ⟨by omega, by omega⟩
       (le_of_eq (by rw [sub_sub_cancel]))

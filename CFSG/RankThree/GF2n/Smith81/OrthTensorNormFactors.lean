@@ -18,7 +18,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 open CFSG.RankThree.GF2n.Stroth80 in
 theorem isSimpleGroup_SL2 (hq : 4 ≤ Nat.card K) : IsSimpleGroup (SL2 K) := by
-  haveI := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl hq)
+  have := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl hq)
   exact (MulEquiv.isSimpleGroup_congr
     (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K)).mpr this
 
@@ -32,7 +32,7 @@ noncomputable def cubeFEquiv (i : Fin 3) : SL2 K ≃* cubeF 3 K i :=
 
 theorem isSimpleGroup_cubeF (hq : 4 ≤ Nat.card K) (i : Fin 3) :
     IsSimpleGroup ↥(cubeF 3 K i) := by
-  haveI := isSimpleGroup_SL2 hq
+  have := isSimpleGroup_SL2 hq
   exact (MulEquiv.isSimpleGroup_congr (cubeFEquiv i)).mp this
 
 @[expose] def mkSL (A : Matrix (Fin 2) (Fin 2) K) (h : A.det = 1) : SL2 K := ⟨A, h⟩
@@ -40,15 +40,18 @@ theorem isSimpleGroup_cubeF (hq : 4 ≤ Nat.card K) (i : Fin 3) :
 @[expose] noncomputable def actSL (i : Fin 3) (A : SL2 K) : Cube 3 K ≃ₗ[K] Cube 3 K :=
   kronSLHom 3 K (Pi.mulSingle i A)
 
+omit [Finite K] [CharP K 2] in
 theorem actSL_apply (i : Fin 3) (A : SL2 K) (v : Cube 3 K) :
     actSL i A v = actMap i (A : Matrix (Fin 2) (Fin 2) K) v := by
   show kronSL (Pi.mulSingle i A : Fin 3 → SL2 K) v = _
   rw [kronSL_apply, coe_mulSingle_SL2]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem actSL_mem (i : Fin 3) (A : SL2 K) : actSL i A ∈ cubeF 3 K i :=
   mem_cubeF.mpr ⟨A, A.2, fun v => actSL_apply i A v⟩
 
+omit [Finite K] [CharP K 2] in
 theorem actSL_mul (i : Fin 3) (A B : SL2 K) : actSL i (A * B) = actSL i A * actSL i B := by
   unfold actSL
   rw [← map_mul, Pi.mulSingle_mul]

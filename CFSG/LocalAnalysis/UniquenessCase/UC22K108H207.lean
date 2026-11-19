@@ -41,7 +41,6 @@ theorem IsList207.of_mulEquiv {S S' : Type} [Group S] [Group S'] (e : S ≃* S')
       first
         | exact Or.inl ⟨n, hn, t h⟩
         | exact Or.inl (t h)
-        | exact ⟨n, hn, t h⟩
         | exact t h
         | refine Or.inr ?_
 

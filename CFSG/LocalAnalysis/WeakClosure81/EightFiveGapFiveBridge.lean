@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem w3Lem85TwoGap5_holds : W3Lem85TwoGap5 G := by
   intro V H T U hD X _ φ hφ h2 hn
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have h83 : Hyp83 V H T := Hyp83.of_hyp7 hD.hyp7 hD.calH hD.not_calH0 hD.sylow
   have hKT := hD.eq_sup
   obtain ⟨φ', hφ', hS'⟩ := exists_ambient_barMap h83 hKT hφ

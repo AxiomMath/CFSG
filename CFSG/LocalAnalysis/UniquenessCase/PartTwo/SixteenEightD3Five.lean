@@ -160,7 +160,7 @@ private theorem s16e_d3_rankThreeGamma_le (D : Data G) (hSg : UC6S846.SigmaStd D
       CFSG.Open.pRank q D.M) :
     rankThreeGamma 1 p Y ≤ D.M := by
   by_cases hpσ : p ∈ D.sig
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M :=
       hSg.sig1_sp p (h1219 ▸ hpσ)
     unfold rankThreeGamma
@@ -189,7 +189,7 @@ theorem s16e_d3_inP11 (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = D
     (hXd : Xbar ≤ ⁅(⊤ : Subgroup (F11.MBar11 D.M V₀ V)), ⊤⁆) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p D.M)) :
     F11.InP11 D (F11.Omega1p p (P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M V₀ V Xbar)) := by
-  haveI := hXn
+  have := hXn
   set Y : Subgroup G := F11.Omega1p p (P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M V₀ V Xbar)
   have hXn' : D.M ≤ normalizer ((F11.barPreimage11 D.M V₀ V Xbar : Subgroup G) : Set G) :=
     fun g hg => uc22p22u_mem_normalizer_barPreimage11 hg
@@ -206,7 +206,7 @@ theorem s16e_d3_inP11 (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = D
   have hYp : IsPGroup p Y := hP.isPGroup.to_le hYP
   have hYnc : ¬ IsCyclic ↥Y := by
     intro hc
-    haveI := hc
+    have := hc
     have h1 : Monoid.exponent ↥Y ∣ p :=
       Monoid.exponent_dvd_of_forall_pow_eq_one fun g => Subtype.ext (hexp g.1 g.2)
     rw [IsCyclic.exponent_eq_card] at h1
@@ -274,17 +274,17 @@ theorem s16e_d3_sig_five (D : Data G) (hSg : UC6S846.SigmaStd D) (h127 : R127 D)
     hSg.sig1_sp 3 (h1219' ▸ h3mem)
   have hk : D.k = 1 := by
     unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-    rw [if_pos hsp]
+    rw [ite_eq_left hsp]
   have hmGT : MBarGT D.M V₀ V (D.k + 1) := by
     rw [Hyp125.mBarGT_iff_lt_mBar hH125 (D.k + 1), hk]
     exact hm
   have hpf := hH125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
   obtain ⟨Xbar, hXn, hXe, hXc, hXd⟩ :=
     s16e_d3_exists_xbar D hV hset hconc hs (Or.inr rfl) (by norm_num) hE
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 hH125
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 7 (F11.O2p 7 D.M)
   exact twelve_twelve D h63 h126 h1211 h111 h6161ii hH125 hmGT _
     (s16e_d3_inPStar D hSg h1219' h1110 h77 hH11 (by norm_num) (by norm_num) (by norm_num)

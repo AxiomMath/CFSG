@@ -18,7 +18,7 @@ variable {n w k cnt : Nat} {T G GI CL : Nat → Nat}
 
 theorem bothK_lt' {j : Nat} (h : j < k) : bothK k G GI j = G j := by
   unfold bothK
-  rw [CFSG.KS.Raw.Orb.nIf_eq, if_pos (Nat.blt_eq.mpr h)]
+  rw [CFSG.KS.Raw.Orb.nIf_eq, ite_eq_left (Nat.blt_eq.mpr h)]
 
 theorem bothK_ge' {j : Nat} (h : k ≤ j) : bothK k G GI j = GI (j - k) := by
   have hb : Nat.blt j k = false := by

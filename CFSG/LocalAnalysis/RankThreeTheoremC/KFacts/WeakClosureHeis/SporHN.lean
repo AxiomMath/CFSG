@@ -14,7 +14,7 @@ theorem sdSpor_HN5 :
   intro K _ _ ⟨e⟩
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨q, z, x, r, hR⟩ := exists_hn_rel
-  haveI hfin : Finite (NativeSporadic.Carrier .HN) :=
+  have hfin : Finite (NativeSporadic.Carrier .HN) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card NativeSporadic.HN ≠ 0
       rw [CFSG.Sporadic.HN.card_HN]; norm_num)

@@ -12,6 +12,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_conjClosure_of_mem_normalizer {K W : Subgroup G} {g : G}
     (hK : g ∈ Subgroup.normalizer (K : Set G))
     (hW : g ∈ Subgroup.normalizer (W : Set G)) :

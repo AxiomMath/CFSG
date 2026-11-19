@@ -30,7 +30,7 @@ theorem l154_oddInner_of_ambAlt {S : Type} [Group S] (h : catalogIs S l154AmbAlt
       have hsc : CFSG.Open.StatedClassicalModel S CFSG.Open.StatedLieTag.PSL 2 q.p q.exponent :=
         hM.2.resolve_right (fun h => absurd h.1 (by norm_num))
       have hq7 : q.p ^ q.exponent = 7 := (TauCeti.PrimePower.card_def q).symm.trans h7
-      haveI : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
+      have : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
       have hF : Nat.card (GaloisField 7 1) = q.p ^ q.exponent := by
         rw [GaloisField.card 7 1 (by norm_num), pow_one, hq7]
       obtain ⟨e7⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_stated q.p q.exponent

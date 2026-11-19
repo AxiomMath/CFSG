@@ -55,7 +55,7 @@ theorem exists_fixer_of_fermat (h : UnitaryFieldData ℓ f K) {r : ℕ} [Fact r.
     have : 2 ^ 3 ∣ 2 ^ f := pow_dvd_pow 2 (by omega)
     simpa using this
   have hr8 : r % 8 = 1 := by omega
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hrq' : r ∣ 2 ^ f + 1 := hrq ▸ dvd_refl r
   obtain ⟨t, s, ht, hs, htdet, hsdet, hy0, hmono⟩ := ug87_core hr8 hζ
   obtain ⟨γ, hγH, hγ⟩ := ug86_exists_mem_fourier h hζ (by omega) hrq' H hTw

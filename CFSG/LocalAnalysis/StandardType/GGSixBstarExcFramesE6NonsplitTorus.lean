@@ -49,7 +49,7 @@ theorem orderOf_eq_two_of_four_le_card_E6 (K : Type) [Field K] [Finite K] {p : �
     (hp : p.Prime) (hp3 : 3 < p) (hpq : ¬ p ∣ Nat.card K) (h1 : ¬ p ∣ Nat.card K - 1)
     {A : Subgroup (adjointGroup Tag.E6 K)} (hA : IsElemAbelian p A) (hAc : p ^ 4 ≤ Nat.card A) :
     orderOf ((Nat.card K : ℕ) : ZMod p) = 2 := by
-  haveI : Finite (adjointGroup Tag.E6 K) := generated_group_finite Tag.E6 K
+  have : Finite (adjointGroup Tag.E6 K) := generated_group_finite Tag.E6 K
   have : Fact p.Prime := ⟨hp⟩
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have he0 := orderOf_natCast_ne_zero hp hpq

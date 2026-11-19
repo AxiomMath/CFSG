@@ -55,6 +55,7 @@ theorem exists_prime_order_le_normalizer_of_powerMap {L T : Subgroup G} {s r : �
   exact ⟨Subgroup.zpowers x, Subgroup.zpowers_le.mpr hxBmem.1, by
     rw [Nat.card_zpowers, hxr], Subgroup.zpowers_le.mpr hxT⟩
 
+omit [Finite G] in
 theorem is3D4_LBar {L : Subgroup G} {n : ℕ} (h : Is3D4 (Bar2 L) n) :
     Is3D4 ↥(borelQuotL L) n :=
   CFSG.Blueprint.LieModel.of_mulEquiv (bar2EquivLBar L) h

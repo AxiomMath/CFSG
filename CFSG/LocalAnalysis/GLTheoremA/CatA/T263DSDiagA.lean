@@ -26,21 +26,26 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 @[expose] def diagK (E J : Subgroup Y) : Subgroup Y := ⨆ e ∈ E, GLBConj e J
 
+omit [Finite Y] in
 theorem t263_isComponentOf_gLBConj {J : Subgroup Y} (hJ : IsComponentOf J ⊤) (g : Y) :
     IsComponentOf (GLBConj g J) ⊤ :=
   i25_isComponentOf_gLBConj hJ (Subgroup.mem_normalizer_iff.2 fun h => by simp)
 
+omit [Finite Y] in
 theorem t263_conj_le_diagK {E J : Subgroup Y} {e : Y} (he : e ∈ E) : GLBConj e J ≤ diagK E J :=
   le_biSup (fun e => GLBConj e J) he
 
+omit [Finite Y] in
 theorem t263_conj_isComponentOf_diagK {E J : Subgroup Y} (hJ : IsComponentOf J ⊤) {e : Y} (he : e ∈ E) :
     IsComponentOf (GLBConj e J) (diagK E J) := by
   have hc := t263_isComponentOf_gLBConj hJ e
   exact ⟨t263_conj_le_diagK he, isSubnormal_of_le_of_le hc.2.1 (t263_conj_le_diagK he) le_top, hc.2.2⟩
 
+omit [Finite Y] in
 theorem t263_gLBConj_conj {J : Subgroup Y} (g e : Y) : GLBConj g (GLBConj e J) = GLBConj (e * g) J :=
   gLBConj_gLBConj g e J
 
+omit [Finite Y] in
 theorem t263_diagK_conj_le {E J : Subgroup Y} {g : Y} (hg : g ∈ E) : GLBConj g (diagK E J) ≤ diagK E J := by
   unfold diagK
   have h : GLBConj g (⨆ e ∈ E, GLBConj e J) = ⨆ e ∈ E, GLBConj g (GLBConj e J) := by
@@ -51,6 +56,7 @@ theorem t263_diagK_conj_le {E J : Subgroup Y} {g : Y} (hg : g ∈ E) : GLBConj g
   rw [t263_gLBConj_conj]
   exact le_biSup (fun e => GLBConj e J) (E.mul_mem he hg)
 
+omit [Finite Y] in
 theorem t263_mem_normalizer_diagK {E J : Subgroup Y} {g : Y} (hg : g ∈ E) :
     g ∈ Subgroup.normalizer (diagK E J : Set Y) := by
   rw [mem_normalizer_iff_gLBConj_eq]
@@ -75,6 +81,7 @@ theorem t263_diagK_components {E J : Subgroup Y} (hJ : IsComponentOf J ⊤) {L :
   have := CFSG.ComponentClassification.Quasisimple.nontrivial hL.2.2
   exact (Subgroup.nontrivial_iff_ne_bot _).1 this hbot
 
+omit [Finite Y] in
 theorem t263_layer_diagK {E J : Subgroup Y} (hJ : IsComponentOf J ⊤) :
     GLALayer (diagK E J) = diagK E J :=
   le_antisymm (i25_layer_le _)

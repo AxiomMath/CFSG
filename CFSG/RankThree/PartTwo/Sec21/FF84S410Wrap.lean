@@ -35,7 +35,7 @@ theorem cen_iff_comm :
   have hbB := mem_b c.sec
   have hb1B := mem_b₁ c.sec
   have hb2B := mem_b₂ c.sec
-  have hBS := c.B_le_nor_S hU
+  have hBS := CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU
   have hfix : ∀ y ∈ Op 2 (Nor U), Commute b y → Commute b₁ y → Commute b₂ y → y = 1 := by
     intro y hy h0 h1 h2
     refine IsoAux.fix_of_B hC hgen hy ?_

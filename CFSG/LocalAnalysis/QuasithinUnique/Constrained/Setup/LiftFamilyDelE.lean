@@ -92,6 +92,7 @@ theorem DelModel.not_double_transposition (M : DelModel ctx i) {A : Subgroup (V 
   rw [hweight, weight_eq_of_mem ctx hA] at hw
   exact lt_irrefl _ hw
 
+omit [Finite V] in
 theorem DelModel.single_transposition (M : DelModel ctx i)
     (hdel : ∀ A, IsMinOffender H A → ∀ i, ⁅Lc i, A⁆ ≠ ⊥ → DelData n (Lc i) A (ctx.α i))
     {A : Subgroup (V ≃ₗ[ZMod 2] V)} (hA : IsMinOffender H A) (hmove : ⁅Lc i, A⁆ ≠ ⊥)
@@ -120,6 +121,7 @@ theorem DelModel.mem_iff_image (M : DelModel ctx i) {X : Subgroup (V ≃ₗ[ZMod
     rw [← hbb]
     exact hb'
 
+omit [Finite V] in
 theorem DelModel.isMinOffender_of_transposition (M : DelModel ctx i)
     (hdel : ∀ A, IsMinOffender H A → ∀ i, ⁅Lc i, A⁆ ≠ ⊥ → DelData n (Lc i) A (ctx.α i))
     (h5 : Fintype.card (ℙ F (Fin 2 → F)) = 5) {A : Subgroup (V ≃ₗ[ZMod 2] V)}

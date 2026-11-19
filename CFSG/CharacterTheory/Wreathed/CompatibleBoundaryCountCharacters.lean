@@ -164,7 +164,7 @@ theorem exists_family_of_hom [IsSimpleGroup G] (hnonab : ∃ x y : G, x * y ≠ 
       Nat.card (CFSG.oddCore (Subgroup.centralizer
       ((S : Subgroup G) : Set G))) from Subgroup.card_map_of_injective Subtype.coe_injective]
     exact weakClosure_oddCore_card _
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   have hcop : Nat.Coprime (Nat.card (ambientOddCore (Subgroup.centralizer
       ((S : Subgroup G) : Set G)))) (Nat.card (S : Subgroup G)) := by
     rw [ha]

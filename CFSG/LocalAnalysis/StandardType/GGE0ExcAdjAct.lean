@@ -144,7 +144,7 @@ theorem ggE0_adjoint_innDiagOn
       CFSG.LocalAnalysis.GLTheoremA.S10.InnDiagOn 2 (Subgroup.zpowers w) X := by
   intro hm
   classical
-  haveI : Finite ↥(adjointGroup τ K) := CFSG.LieType.Chevalley.generated_group_finite τ K
+  have : Finite ↥(adjointGroup τ K) := CFSG.LieType.Chevalley.generated_group_finite τ K
   have hfix : CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj s) =
       Subgroup.centralizer ({s} : Set ↥(adjointGroup τ K)) :=
     fixSubgroup_conj_eq_centralizer s

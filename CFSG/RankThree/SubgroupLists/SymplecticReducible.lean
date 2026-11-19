@@ -249,7 +249,7 @@ theorem quasisimple_gl2_of_unipotent_kernel {p : ℕ} [Fact p.Prime] (hp2 : p �
       rw [Subgroup.mem_center_iff] at hxc ⊢
       intro y
       exact Subtype.ext (hxc y)
-    have hHp : IsPGroup p ((P : Subgroup G).map ρ) := P.isPGroup'.map ρ
+    have hHp : IsPGroup p ((P : Subgroup G).map ρ) := P.isPGroup.map ρ
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hHp
     have hdvd : p ^ k ∣ Nat.card (GL (Fin 2) (ZMod p)) :=
       hk ▸ Subgroup.card_subgroup_dvd_card _

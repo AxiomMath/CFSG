@@ -68,7 +68,7 @@ theorem ggE6TwoLocalRankThree_holds :
   obtain ⟨eB⟩ := CFSG.TauCetiBridge.Even.untwistedBridgeEven_E6 q hv hq2 K hKq
   let eXY : X ≃* (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.E6 q, hv⟩).Group :=
     ((CFSG.LocalAnalysis.GLTheoremA.CanonInn.quotCenterEquivOfBot hZ).symm.trans eC).trans eB
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.E6 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.E6 q, hv⟩).Group :=
     Finite.of_equiv _ eXY.toEquiv
   have hkY : 4 ≤ CFSG.Open.twoLocalPrimeRank 3
       (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.E6 q, hv⟩).Group :=

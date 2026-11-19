@@ -93,7 +93,7 @@ theorem BenderType.exists_le_borel_of_comm_involutions
     intro hbot
     rw [hbot, Subgroup.mem_bot] at hx₀V
     exact hx₀1 hx₀V
-  have hV2 : IsPGroup 2 V := IsPGroup.to_le Q₀.isPGroup' hVQ
+  have hV2 : IsPGroup 2 V := IsPGroup.to_le Q₀.isPGroup hVQ
   have hnorm : J ≤ normalizer (V : Set K) := by
     apply le_normalizer_of_forall_conj_mem
     intro g hg v hv

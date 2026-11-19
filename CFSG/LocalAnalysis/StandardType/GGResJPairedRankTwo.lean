@@ -54,7 +54,7 @@ theorem exact_automizer_of_frame_rankTwo
         ggConjAut (ggGamma J hN).range hm = MulAut.congr Θ (permAut σ)) ∧
       Nat.card (ggAutomizer J Bs) = 8 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpK' : (3 : K) ≠ 0 := by
     intro h
     have h' : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff K 2 3).mp h
@@ -187,7 +187,7 @@ theorem exact_automizer_of_frame_rankTwo
       have htval : ((Θ (oa t) : ↥A) : MulAut ↥J) = a := congrArg Subtype.val ht
       have h1 : (MulAut.conj (φ x))⁻¹ = MulAut.conj (φ x⁻¹) := by
         ext y
-        simp [MulAut.conj_apply]
+        simp
       have h2 : (MulAut.conj (φ x⁻¹))⁻¹ = MulAut.conj (φ x) := by
         rw [← map_inv]
         simp
@@ -592,11 +592,11 @@ theorem _root_.CFSG.StandardType.GGResHyp.exists_lineJLabel_of_B3C3_oppositeLine
         _ = 27 := hEcard
     exact ⟨E', (hEelem.subgroupOf J).map π, hE'card⟩
   obtain ⟨E', hE'a, hE'card⟩ := hEquot
-  haveI : Group.IsPerfect ↥J := ⟨hperfJ⟩
+  have : Group.IsPerfect ↥J := ⟨hperfJ⟩
   have h3rank : 3 ≤ rank :=
     ggSmallThreeRank_linear_rank_three_of_elemAbelian (H := ↥J)
       (lab := (⟨.A, rank, n⟩ : LargeEvenLabel)) hΛ hHas hE'a
-      (by simpa [hE'card]) (Or.inl rfl)
+      (by simp [hE'card]) (Or.inl rfl)
   have hrank5 : 5 ≤ rank := by
     by_contra h
     have hrankle : rank ≤ 4 := by omega
@@ -616,7 +616,7 @@ theorem _root_.CFSG.StandardType.GGResHyp.exists_lineJLabel_of_B3C3_oppositeLine
       (Or.inl ⟨rfl, le_trans (by norm_num : 2 ≤ 3) h3rank⟩) hpe
     exact not_ggHasLabel_of_elemAbelian_of_labelAll_bound
       (H := ↥J) (lab := (⟨.A, rank, n⟩ : LargeEvenLabel))
-      hHas hall hE'a (by simpa [hE'card])
+      hHas hall hE'a (by simp [hE'card])
   have hMarkLab : GGInnerDiagOnLabel
       (fun _ l => l = (⟨.A, rank, n⟩ : LargeEvenLabel)) 3 Bs J := by
     refine ⟨hperfJ, ⟨.A, rank, n⟩, hΛ, ?_⟩
@@ -627,9 +627,9 @@ theorem _root_.CFSG.StandardType.GGResHyp.exists_lineJLabel_of_B3C3_oppositeLine
   obtain ⟨F, hFfield, hFfinite, hFchar, hFcard, hFsign, φ, hφsurj, hkerφ, hYact, _hHas'⟩ :=
     CFSG.StandardType.ResJPairedBlock.ActualA.exists_actual_oppositeLinear_cover_of_marking
       (hH := hH) (hMark := hMarkLab) (h3f := h3n) (h5 := by omega)
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
   let d : ℕ := rank + 1
   have hpK : ¬ 3 ∣ Nat.card F - 1 := hFsign
   have hZ : Nat.card ↥(Bs ⊓ J ⊓ Subgroup.centralizer (J : Set G)) ≤ 3 := by

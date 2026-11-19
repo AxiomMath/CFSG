@@ -91,7 +91,7 @@ theorem isSzNatural_suzukiDElt_fixedSub_eq_bot {a : ℕ} {K : Type} [Field K] [F
     (ρ : Representation (ZMod 2) (↥(suzukiGroup a K)) W) (hρ : IsSzNatural ρ)
     {l : Kˣ} (hl : l ≠ 1) :
     fixedSub ρ (Subgroup.zpowers (suzukiDElt a K l)) = ⊥ := by
-  haveI : CharP K 2 := (suzuki_frobenius_exponents a K hK).1
+  have : CharP K 2 := (suzuki_frobenius_exponents a K hK).1
   obtain ⟨c, φ, hφ⟩ := hρ
   rw [Submodule.eq_bot_iff]
   intro w hw
@@ -154,7 +154,7 @@ theorem suzukiB_le_normalizer_suzukiZ0 {a : ℕ} {K : Type} [Field K] [Finite K]
 theorem suzukiZ0_sup_szZ_eq_top {a : ℕ} {K : Type} [Field K] [Finite K]
     (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     suzukiZ0 a K ⊔ szZ a K = ⊤ := by
-  haveI : IsSimpleGroup ↥(suzukiGroup a K) := (suzuki_simple ha hK).2.2
+  have : IsSimpleGroup ↥(suzukiGroup a K) := (suzuki_simple ha hK).2.2
   have hsz : szZ a K = CFSG.CGT.Timmesfeld75.conjSubgroup (suzukiWElt a K) (suzukiZ0 a K) :=
     rfl
   let H : Subgroup ↥(suzukiGroup a K) :=
@@ -217,7 +217,7 @@ theorem suzukiZ0_sup_szZ_eq_top {a : ℕ} {K : Type} [Field K] [Finite K]
     have hHne : H ≠ ⊥ := by
       intro hbot
       exact hZ0ne (le_bot_iff.mp (hbot ▸ hZ0))
-    haveI : H.Normal := Subgroup.normal_of_index_eq_two hidx
+    have : H.Normal := Subgroup.normal_of_index_eq_two hidx
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H with h | h
     · exact absurd h hHne
     · rw [hH] at h

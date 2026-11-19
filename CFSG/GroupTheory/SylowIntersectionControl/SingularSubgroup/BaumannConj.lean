@@ -36,7 +36,7 @@ theorem exists_sup_map_conj_eq (h : GomiThm45Counterexample c G S)
   have hNM : G ⊓ Subgroup.normalizer (S : Set Ω) ≤ M :=
     CFSG.LocalAnalysis.WeakClosure81.le_of_lt_of_maxOver_eq_singleton hM
       (le_inf h.isSylowTwoOf.1 Subgroup.le_normalizer) (normalizer_inf_lt_g45lc h)
-  obtain ⟨g, hgG, hgM⟩ := SetLike.exists_of_lt hMmax.1
+  obtain ⟨g, hgG, hgM⟩ := _root_.IsConcreteLE.exists_of_lt hMmax.1
   refine ⟨g, hgG, ?_⟩
   let T : Subgroup Ω := S.map (MulAut.conj g).toMonoidHom
   change S ⊔ T = G

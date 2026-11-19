@@ -124,7 +124,7 @@ theorem C₁_22_ne {g : ↥M.Γ} (hg : g ∈ M.C₁) :
     obtain ⟨-, -, a20, a21⟩ := M.C₁_block a.2
     obtain ⟨b02, b12, -, -⟩ := M.C₁_block b.2
     simp only [Subgroup.coe_mul, Units.val_mul, Units.val_mk0, Matrix.mul_apply, Fin.sum_univ_three,
-      a20, a21, b02, b12, zero_mul, mul_zero, zero_add]
+      a20, a21, b02, b12, mul_zero, zero_add]
 
 theorem e22_apply (g : ↥M.C₁) :
     ((M.e22 g : Fˣ) : F) = (((g : ↥M.Γ) : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 2 2 :=
@@ -357,7 +357,7 @@ theorem burnsideA315y_conj_injective {G P : Type} [Group G] [Group P] {L T B : S
     rw [map_mul, map_mul, e.apply_symm_apply]
     calc e g * x = x * e g * x⁻¹ * x := by rw [h1]
       _ = x * e g := by group
-  haveI := h.simple
+  have := h.simple
   obtain ⟨a, b, hab⟩ := h.nonabelian
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L) with hc' | hc'
   · rw [hc', Subgroup.mem_bot] at hc

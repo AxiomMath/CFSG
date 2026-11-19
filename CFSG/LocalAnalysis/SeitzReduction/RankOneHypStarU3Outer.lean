@@ -23,7 +23,7 @@ theorem card_le_two_of_forall_commute {F : Type*} [Group F] [Finite F] {x : F} (
   have hxS : x ∈ (S : Subgroup F) := hS (mem_zpowers x)
   have hxZ : ∀ g ∈ (S : Subgroup F), g * x = x * g := by
     have : Nontrivial (S : Subgroup F) := ⟨⟨⟨x, hxS⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
-    have hZ := (S.isPGroup').center_nontrivial
+    have hZ := (S.isPGroup).center_nontrivial
     obtain ⟨⟨c, hcZ⟩, hc1⟩ := exists_ne (1 : center (S : Subgroup F))
     have hc1' : (c : F) ≠ 1 := fun h => hc1 (Subtype.ext (Subtype.ext h))
     have hcx : (c : F) * x = x * c := by

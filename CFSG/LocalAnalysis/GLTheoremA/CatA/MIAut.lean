@@ -114,7 +114,7 @@ theorem inner_innDiag_holds (hp : p.Prime) {X L : Subgroup G} {g : G} (hL : GLAP
       unfold indAut
       rw [← map_zpow]
       congr 1
-      exact Subtype.ext (by simp [zpow_neg, inv_zpow])
+      exact Subtype.ext (by simp [zpow_neg])
     rw [e]
     exact Subgroup.zpow_mem _ ((indAut_mem_inner_iff hp hL hg).2 hin) k
   obtain ⟨s, hs⟩ := hmem
@@ -122,6 +122,7 @@ theorem inner_innDiag_holds (hp : p.Prime) {X L : Subgroup G} {g : G} (hL : GLAP
   rw [← hs, congr_conj]
   exact hinn _
 
+omit [Finite G] in
 theorem field_nonInnDiag_holds (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {g : G}
     (hF : FieldOn p g L) : NonInnDiag p g L := by
   refine ⟨hF.1, fun hD => ?_⟩

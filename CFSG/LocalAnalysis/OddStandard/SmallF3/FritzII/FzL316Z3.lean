@@ -11,9 +11,11 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma fzl_pow_four_of_sq {x : G} (h : x ^ 2 = 1) : x ^ 4 = 1 := by
   rw [show (4 : ℕ) = 2 * 2 by norm_num, pow_mul, h, one_pow]
 
+omit [Finite G] in
 theorem fzl_W_eq_om2 {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) (hPf : FzPFacts t tau rho E W Q T P)
     (h8 : FzZ8 Z E P) : ∀ g, g ∈ W ↔ g ∈ Q ∧ g ^ 4 = 1 := by

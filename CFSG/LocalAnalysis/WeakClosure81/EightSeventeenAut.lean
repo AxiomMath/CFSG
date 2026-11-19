@@ -66,8 +66,8 @@ theorem exists_mul_trivial_on_section_of_card_mulAut {K N Y X : Subgroup G} {Q :
       map_one' := MulEquiv.ext fun q => α₀_one q
       map_mul' := fun y y' => MulEquiv.ext fun q => α₀_mul y y' q }
   have α_apply : ∀ y k, α y (φ k) = φ (cK y k) := fun y k => α₀_apply y k
-  haveI : Finite (MulAut Q) := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut Q) := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrange3 : IsPGroup 3 ↥α.range :=
     hY.of_surjective α.rangeRestrict (MonoidHom.rangeRestrict_surjective α)
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hrange3

@@ -27,7 +27,7 @@ theorem n4_eq_top_of_isPGroup_quotient (hS : Setting G) {p : ℕ} {P : Sylow p G
     (hsit : SmallRankSituation G p P M) (N : Subgroup M) [N.Normal] (hN : IsPGroup p (M ⧸ N)) :
     N = ⊤ := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPM : (P : Subgroup G) ≤ M :=
     (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).1
   by_contra hNtop
@@ -35,7 +35,7 @@ theorem n4_eq_top_of_isPGroup_quotient (hS : Setting G) {p : ℕ} {P : Sylow p G
     have h0 : N.index ≠ 0 := Subgroup.index_ne_zero_of_finite
     have h1 : N.index ≠ 1 := fun h => hNtop (Subgroup.index_eq_one.mp h)
     omega
-  haveI hnt : Nontrivial (M ⧸ N) := Finite.one_lt_card_iff_nontrivial.mp hidx
+  have hnt : Nontrivial (M ⧸ N) := Finite.one_lt_card_iff_nontrivial.mp hidx
   set π := QuotientGroup.mk' N with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   set P' : Sylow p M := P.subtype hPM with hP'
@@ -59,7 +59,7 @@ theorem n4_eq_top_of_isPGroup_quotient (hS : Setting G) {p : ℕ} {P : Sylow p G
         MonoidHom.range_eq_top.mpr hπ]
     rw [← h2, eq_top_iff, ← himg]
     exact Subgroup.map_mono hPcomm
-  haveI : Group.IsPerfect (M ⧸ N) := Group.isPerfect_def.mpr hperfQ
+  have : Group.IsPerfect (M ⧸ N) := Group.isPerfect_def.mpr hperfQ
   exact Group.IsPerfect.not_isNilpotent (M ⧸ N) hN.isNilpotent
 
 theorem n4_plane63E3 (hS : Setting G) {p : ℕ} {P : Sylow p G} {M : Subgroup G}
@@ -72,7 +72,7 @@ theorem n4_plane63E3 (hS : Setting G) {p : ℕ} {P : Sylow p G} {M : Subgroup G}
   have hzM : z ∈ M := hPM hz.mem
   refine ⟨hPM, hxM, hzM, ?_⟩
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hne : M ≠ ⊤ := by
     intro h
     apply hx.not_centralizer_le
@@ -123,7 +123,7 @@ theorem n4_plane63E3 (hS : Setting G) {p : ℕ} {P : Sylow p G} {M : Subgroup G}
     have hG : CFSG.ABGLocalTools.IsSylowOf p ((P : Subgroup G) ⊓ centralizer ({x} : Set G))
         (centralizer ({x} : Set G)) :=
       CFSG.ABGLocalTools.isSylowOf_iff.mpr
-        ⟨inf_le_right, (P.isPGroup').to_le inf_le_left, hx.sylow_centralizer⟩
+        ⟨inf_le_right, (P.isPGroup).to_le inf_le_left, hx.sylow_centralizer⟩
     rw [← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff M, hA, hB]
     exact CFSG.ABGLocalTools.IsSylowOf.of_le hG (inf_le_inf_right _ hPM) inf_le_right
 

@@ -39,21 +39,23 @@ variable {f : ℕ} {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
   {Ω : Type} [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] [IsAlgClosed Ω] [CharP Ω 2]
   {Fr : Ω →+* Ω}
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 theorem twE6JStar_le_twE6C {q : ℕ} {ζ : Ωˣ}
     (i : KernelComponent (rootCharHom (twE6omega1Tuple ζ))) :
-    twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i ≤ twE6C Fr := by
+    twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i ≤ twE6C Fr := by
   intro x hx
   rw [mem_twE6C]
   unfold twE6JStar rationalComponent rationalSpan at hx
   exact Subgroup.commutator_le_self _
     ((Subgroup.commutator_mono inf_le_right inf_le_right) hx)
 
+omit [IsAlgClosed Ω] in
 theorem torusElt_mem_twE6JStar (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f)) (hod : Odd f)
     {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     (i : KernelComponent (rootCharHom (twE6omega1Tuple ω))) {j : Fin Tag.E6.rank}
     (hj : j ≠ 0) {t : Ωˣ} (ht : t ^ 3 = 1) :
-    torusElt Tag.E6 Ω j t ∈ twE6JStar (Fr := Fr) (q := 3) (ζ := ω) i := by
+    torusElt Tag.E6 Ω j t ∈ twE6JStar (Fr := Fr) (_q := 3) (ζ := ω) i := by
   have hker : kernelRoots (rootCharHom (twE6omega1Tuple ω)) = twE6D5 :=
     kernelRoots_omega1 Nat.prime_three hω3 hω1
   have hΨ : componentRoots (rootCharHom (twE6omega1Tuple ω)) i = twE6D5 :=
@@ -86,11 +88,12 @@ theorem torusElt_mem_twE6JStar (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
   unfold twE6JStar rationalComponent
   exact Subgroup.commutator_mem_commutator hnS htS
 
+omit [IsAlgClosed Ω] in
 theorem twE6BZero_le_twE6JStar (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f)) (hod : Odd f)
     {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     (i : KernelComponent (rootCharHom (twE6omega1Tuple ω))) :
-    twE6BZero ω hω3 ≤ twE6JStar (Fr := Fr) (q := 3) (ζ := ω) i := by
+    twE6BZero ω hω3 ≤ twE6JStar (Fr := Fr) (_q := 3) (ζ := ω) i := by
   have hω23 : (ω ^ 2) ^ 3 = 1 := by
     rw [← pow_mul, mul_comm, pow_mul, hω3, one_pow]
   refine TwE6B.twE6BZero_le_of_gens hω3 ?_ ?_ ?_ ?_

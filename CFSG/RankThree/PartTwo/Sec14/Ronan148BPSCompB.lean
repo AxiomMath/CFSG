@@ -25,7 +25,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 theorem thetaAct_mk {W B : Subgroup Y} (hBW : B ≤ Subgroup.normalizer (W : Set Y)) (b : ↥B)
     (w : ↥W) : thetaAct hBW b (w : ↥W ⧸ aschbacherSolvableCore 3 ↥W) =
       ((conjAct hBW b w : ↥W) : ↥W ⧸ aschbacherSolvableCore 3 ↥W) := by
-  haveI := theta_characteristic ↥W
+  have := theta_characteristic ↥W
   exact quotient_apply_mk (aschbacherSolvableCore 3 ↥W) (conjAct hBW b) w
 
 theorem three_dvd_card_of_isComponent {G : Type*} [Group G] [Finite G]
@@ -183,9 +183,9 @@ theorem exists_E27_of_ne {G : Type} [Group G] [Finite G] {J : Subgroup G} (hJ : 
   have hEc : E ≤ Subgroup.centralizer (E : Set G) := by
     have hA : ∀ {g : G}, g = a ∨ g = b ∨ g = c → E ≤ Subgroup.centralizer ({g} : Set G) := by
       intro g hg
-      have hga : g * a = a * g := by rcases hg with rfl | rfl | rfl <;> simp [hab, hac, hbc]
-      have hgb : g * b = b * g := by rcases hg with rfl | rfl | rfl <;> simp [hab, hac, hbc]
-      have hgc : g * c = c * g := by rcases hg with rfl | rfl | rfl <;> simp [hab, hac, hbc]
+      have hga : g * a = a * g := by rcases hg with rfl | rfl | rfl <;> simp [hab, hac]
+      have hgb : g * b = b * g := by rcases hg with rfl | rfl | rfl <;> simp [hab, hbc]
+      have hgc : g * c = c * g := by rcases hg with rfl | rfl | rfl <;> simp [hac, hbc]
       refine sup_le (sup_le ?_ ?_) ?_
       · exact Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr hga.symm)
       · exact Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr hgb.symm)
@@ -254,7 +254,7 @@ theorem exists_E27_of_quot {H : Type*} [Group H] [Finite H] (N : Subgroup H) [N.
   have hScard : Nat.card S = 27 := by
     rw [hS, Subgroup.card_map_of_injective Et.subtype_injective]
     exact hS₀
-  have hSp : IsPGroup 3 S := (S₀.isPGroup').map Et.subtype
+  have hSp : IsPGroup 3 S := (S₀.isPGroup).map Et.subtype
   have hSE : ∀ x ∈ S, mk x ∈ E := by
     rintro _ ⟨y, -, rfl⟩
     exact y.2
@@ -309,7 +309,7 @@ theorem map_eq_of_noE27 (hP : CFSG.Assembly.IsElemAbelian 3 P)
     have : p ^ 3 = 1 := Subtype.ext (hP.2 p p.2)
     rw [this, map_one]
   obtain ⟨E, hE, hE27⟩ := exists_E27_of_ne hJ h3 hα hne
-  haveI := theta_characteristic ↥W
+  have := theta_characteristic ↥W
   obtain ⟨S, hS, hS27⟩ := exists_E27_of_quot (aschbacherSolvableCore 3 ↥W) (theta_not_dvd _) hE hE27
   apply hb (S.map W.subtype) (Subgroup.map_subtype_le S)
     (CFSG.RankThreeEvenClassification.Helpers.isElemAbelian_map 3 W.subtype S hS)
@@ -355,12 +355,12 @@ theorem le_normalizer_of_commutator {Q : Subgroup Y} (hPW : P ≤ Subgroup.norma
     have hσJ' := hinv J' hJ'c ⟨p, hp⟩
     have hj' : j ∈ J.map σ.toMonoidHom := by rw [hσJ]; exact hj
     obtain ⟨j₀, hj₀, rfl⟩ := hj'
-    have hmem : qs⁻¹ * j₀ * qs ∈ J' := ⟨j₀, hj₀, by simp [MulAut.conj_apply]⟩
+    have hmem : qs⁻¹ * j₀ * qs ∈ J' := ⟨j₀, hj₀, by simp⟩
     have hmem' : σ (qs⁻¹ * j₀ * qs) ∈ J' := by rw [← hσJ']; exact ⟨_, hmem, rfl⟩
     obtain ⟨j₁, hj₁, hj₁e⟩ := hmem'
     have e1 : σ (qs⁻¹ * j₀ * qs) = qs⁻¹ * j₁ * qs := by
       rw [← hj₁e]
-      simp [MulAut.conj_apply]
+      simp
     have e2 : qs * (σ qs)⁻¹ * σ j₀ * (qs * (σ qs)⁻¹)⁻¹ = j₁ := by
       have : σ (qs⁻¹ * j₀ * qs) = (σ qs)⁻¹ * σ j₀ * σ qs := by
         rw [map_mul, map_mul, map_inv]

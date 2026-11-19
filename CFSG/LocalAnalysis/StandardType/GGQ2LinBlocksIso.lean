@@ -454,7 +454,7 @@ private theorem reindex_diagonal_fixes_complement {ι : Type} [Fintype ι] [Deci
     rw [hdiag] at h1'
     have h := congrFun (congrFun h1' (e (Sum.inl a))) (e (Sum.inr b))
     rw [Equiv.sumCompl_apply_inl, Equiv.sumCompl_apply_inr, Matrix.mul_diagonal,
-      hgU' b, mul_one, Matrix.diagonal_apply, if_neg (hTU a b)] at h
+      hgU' b, mul_one, Matrix.diagonal_apply, ite_eq_right (hTU a b)] at h
     exact h
   · rw [Matrix.reindex_apply, Matrix.submatrix_apply, Equiv.symm_symm, Matrix.fromBlocks_apply₂₁,
       Matrix.zero_apply]
@@ -462,7 +462,7 @@ private theorem reindex_diagonal_fixes_complement {ι : Type} [Fintype ι] [Deci
     rw [hdiag] at h2'
     have h := congrFun (congrFun h2' (e (Sum.inr a))) (e (Sum.inl b))
     rw [Equiv.sumCompl_apply_inr, Equiv.sumCompl_apply_inl, Matrix.diagonal_mul,
-      hgU' a, one_mul, Matrix.diagonal_apply, if_neg] at h
+      hgU' a, one_mul, Matrix.diagonal_apply, ite_eq_right] at h
     · exact h
     · intro hEq
       exact hTU b a hEq.symm
@@ -475,10 +475,10 @@ private theorem reindex_diagonal_fixes_complement {ι : Type} [Fintype ι] [Deci
       hgU' b, mul_one] at h
     by_cases hab : a = b
     · subst hab
-      rw [Matrix.diagonal_apply, if_pos rfl, hgU' a] at h
+      rw [Matrix.diagonal_apply, ite_eq_left rfl, hgU' a] at h
       simpa using h
     · have hne' : a.1 ≠ b.1 := fun hh => hab (Subtype.ext hh)
-      rw [Matrix.diagonal_apply, if_neg hne'] at h
+      rw [Matrix.diagonal_apply, ite_eq_right hne'] at h
       simpa [hab] using h
 
 private theorem mem_of_planeIdem_false_plane_eq_one {t : ℕ} (ε : Fin 2)

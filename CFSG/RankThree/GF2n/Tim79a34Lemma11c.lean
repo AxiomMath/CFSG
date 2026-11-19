@@ -12,7 +12,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Timmesfeld.ARS CFSG.Timmesfeld.Tr
   CFSG.Timmesfeld.Transvection.ModelRank CFSG.LieType.Universal.Symplectic
 open scoped commutatorElement Matrix
 
-theorem lemma11c_holds (hB4 : SpRadFactsStatement) (h11a : Lemma11aStatement) :
+theorem lemma11c_holds (_hB4 : SpRadFactsStatement) (h11a : Lemma11aStatement) :
     Lemma11cStatement := by
   intro G _ _ M V Q P H hH hZ hcP n Φ ψ hNat a T ha hT hTV b hb
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex

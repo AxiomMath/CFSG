@@ -29,6 +29,7 @@ theorem tInv1_unitary (hσ : ∀ c, σ (σ c) = c) :
   rw [hT]
   exact h80_tv_unitary hσ (a := (0 : Fin 6)) (b := 1) (by decide) (map_one σ)
 
+omit [CharP F 2] in
 theorem tInv1_det : ((tInv1 F : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).det = 1 := by
   unfold tInv1
   exact det_transvGL 0 1 (by decide) 1
@@ -50,6 +51,7 @@ theorem tInv1_mul_self : tInv1 F * tInv1 F = 1 := by
 
 instance (a b : Fin 6) : Decidable (adm1 a b) := inferInstanceAs (Decidable (a ≠ 1 ∧ b ≠ 0))
 
+omit [CharP F 2] in
 theorem adm1_comm (a b : Fin 6) (hab : a ≠ b) (h : adm1 a b) (c : F) :
     transvGL F a b hab c * tInv1 F = tInv1 F * transvGL F a b hab c := by
   obtain ⟨ha1, hb0⟩ := h
@@ -219,10 +221,9 @@ theorem hpure1 : ∀ ξ ∈ LinearMap.range (rho F (tInv1 F) - 1),
     | (simp (config := {decide := true}) [cfm_add, cfm_smul, cfm_ub_mask]; done)
     | (rw [cfm_zero_of_fixed (fun p q : Fin 6 => (p = 2 ∧ q = 4) ∨ (p = 2 ∧ q = 5) ∨
           (p = 4 ∧ q = 3) ∨ (p = 5 ∧ q = 3)) hz _ hm (by decide)]
-       simp (config := {decide := true}) [cfm_add, cfm_smul, cfm_ub_mask]; done)
+       simp (config := {decide := true}) [cfm_add, cfm_smul, cfm_ub_mask])
     | (rw [← hc]
-       simp (config := {decide := true}) [ranG1, cfm_add, cfm_smul, cfm_ub_mask, Fin.sum_univ_succ,
-         cfm_zero]; done)
+       simp (config := {decide := true}) [ranG1, cfm_add, cfm_smul, cfm_ub_mask, Fin.sum_univ_succ])
   rw [hs_eq]
   exact isPure_comb_024_025 _ _
 

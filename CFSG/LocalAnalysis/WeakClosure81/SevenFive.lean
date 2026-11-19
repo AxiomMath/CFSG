@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def kOrbSub (V H E U : Subgroup G) : Subgroup G :=
   ⨆ k : kSub V H E, conjSubgroup U (k : G)
 
+omit [Finite G] in
 theorem kSub_le_of_forall_le {V H E : Subgroup G}
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) : kSub V H E ≤ H :=
   iSup_le fun W => iSup_le fun hW => hOmH W hW
@@ -34,6 +35,7 @@ theorem commutator_eq_bot_or_exists_conj {V H E U U' : Subgroup G}
     exact (hcomm u hu v hv).symm
   · exact Or.inr ⟨x, hx, hx'⟩
 
+omit [Finite G] in
 theorem kOrbSub_conj_eq_self {V H E U : Subgroup G} {k : G} (hk : k ∈ kSub V H E) :
     conjSubgroup (kOrbSub V H E U) k = kOrbSub V H E U := by
   have hmap : conjSubgroup (kOrbSub V H E U) k =
@@ -44,6 +46,7 @@ theorem kOrbSub_conj_eq_self {V H E U : Subgroup G} {k : G} (hk : k ∈ kSub V H
   rw [hmap, kOrbSub]
   exact Equiv.iSup_congr (Equiv.mulRight (⟨k, hk⟩ : kSub V H E)) (fun _ => rfl)
 
+omit [Finite G] in
 theorem kOrbSub_conjSubgroup {V H E U : Subgroup G} {k : G} (hk : k ∈ kSub V H E) :
     kOrbSub V H E (conjSubgroup U k) = kOrbSub V H E U := by
   have hstep : ∀ m : kSub V H E,
@@ -84,6 +87,7 @@ theorem commutator_conj_eq_bot_of_not_mem_kOrbit {V H E U U' : Subgroup G}
       _ = conjSubgroup U ((a : G) * y * (b : G)⁻¹) :=
           CFSG.Quasithin.conjSubgroup_conjSubgroup U ((a : G) * y) (b : G)⁻¹
 
+omit [Finite G] in
 theorem kOrbSub_le_kSub {V H E U : Subgroup G}
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) (hU : U ∈ omegaSet V H E) :
@@ -91,6 +95,7 @@ theorem kOrbSub_le_kSub {V H E U : Subgroup G}
   iSup_le fun k => le_kSub (conjSubgroup_mem_omegaSet hEH hEnorm hU
     (kSub_le_of_forall_le hOmH k.2))
 
+omit [Finite G] in
 theorem kOrbSub_subgroupOf_normal {V H E U : Subgroup G}
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) (hU : U ∈ omegaSet V H E) :

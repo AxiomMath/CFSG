@@ -16,6 +16,7 @@ namespace Cfg1667
 
 variable {M V W₁ W₂ : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup {W₁ W₂ : Subgroup G}
     (hcomm : ∀ a ∈ W₁, ∀ b ∈ W₂, a * b = b * a) {v : G}
     (hv : v ∈ W₁ ⊔ W₂) : ∃ w₁ ∈ W₁, ∃ w₂ ∈ W₂, w₁ * w₂ = v := by
@@ -35,6 +36,7 @@ private theorem exists_mul_of_mem_sup {W₁ W₂ : Subgroup G}
     exact ⟨a₁⁻¹, W₁.inv_mem ha₁, a₂⁻¹, W₂.inv_mem ha₂,
       by rw [← mul_inv_rev a₂ a₁, hcomm a₁ ha₁ a₂ ha₂]⟩
 
+omit [Finite G] in
 private theorem mul_eq_mul_iff {W₁ W₂ : Subgroup G} (hinf : W₁ ⊓ W₂ = ⊥)
     {a₁ a₂ b₁ b₂ : G} (ha₁ : a₁ ∈ W₁) (ha₂ : a₂ ∈ W₂) (hb₁ : b₁ ∈ W₁) (hb₂ : b₂ ∈ W₂) :
     a₁ * a₂ = b₁ * b₂ ↔ a₁ = b₁ ∧ a₂ = b₂ := by
@@ -60,6 +62,7 @@ private theorem mul_eq_mul_iff {W₁ W₂ : Subgroup G} (hinf : W₁ ⊓ W₂ = 
   · rintro ⟨rfl, rfl⟩
     rfl
 
+omit [Finite G] in
 private theorem card_sup_of_commute_of_inf_eq_bot (L R : Subgroup G)
     (hcomm : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) (hinf : L ⊓ R = ⊥) :
     Nat.card (L ⊔ R : Subgroup G) = Nat.card L * Nat.card R := by
@@ -127,6 +130,7 @@ private theorem card_inf_centralizer_zpowers_eq_two {W : Subgroup G} {t : G}
   · exact absurd hdvd (by norm_num)
   · exact absurd rfl hne4
 
+omit [Finite G] in
 private theorem mem_centralizer_sup {W₁ W₂ V : Subgroup G} (hsup : W₁ ⊔ W₂ = V) {a : G}
     (h₁ : a ∈ Subgroup.centralizer (W₁ : Set G)) (h₂ : a ∈ Subgroup.centralizer (W₂ : Set G)) :
     a ∈ Subgroup.centralizer (V : Set G) := by
@@ -144,10 +148,12 @@ private theorem mem_centralizer_sup {W₁ W₂ V : Subgroup G} (hsup : W₁ ⊔ 
   have hv' := hV hv
   rwa [Subgroup.mem_centralizer_singleton_iff] at hv'
 
+omit [Finite G] in
 private theorem centralizer_zpowers_eq_centralizer_singleton (t : G) :
     Subgroup.centralizer (Subgroup.zpowers t : Set G) = Subgroup.centralizer ({t} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
+omit [Finite G] in
 private theorem mem_centralizer_of_conj {A B : Subgroup G} {b s : G} (hsb : s * b = b * s)
     (hswap : conjSubgroup A s = B) (hcent : b ∈ Subgroup.centralizer (A : Set G)) :
     b ∈ Subgroup.centralizer (B : Set G) := by
@@ -157,11 +163,13 @@ private theorem mem_centralizer_of_conj {A B : Subgroup G} {b s : G} (hsb : s * 
     exact hcent
   rwa [E3.conjSubgroup_centralizer, hswap] at hmem
 
+omit [Finite G] in
 private theorem card_subgroupOf_of_le {H K : Subgroup G} (h : H ≤ K) :
     Nat.card (H.subgroupOf K) = Nat.card H := by
   rw [← Subgroup.card_subtype K (H.subgroupOf K), Subgroup.subgroupOf_map_subtype,
     inf_eq_left.mpr h]
 
+omit [Finite G] in
 private theorem commutator_mul_of_mem_B (h : Cfg1667 M V W₁ W₂) {b : G}
     (hb : b ∈ conjSubgroup V g ⊓ M) {x y : G} (hx : x ∈ V) (hy : y ∈ V) :
     x * y * b * (x * y)⁻¹ * b⁻¹ =
@@ -207,7 +215,7 @@ private theorem mem_commutator_of_relIndex_two (h : Cfg1667 M V W₁ W₂)
         have hEq : (⟨v, hv⟩ : V) * (⟨v⁻¹ * w, V.mul_mem (V.inv_mem hv) hw⟩ : V) =
             (⟨w, hw⟩ : V) := by
           apply Subtype.ext
-          simp [mul_assoc]
+          simp
         rwa [hEq] at hmem
       exact (fun hh => hwU (Subgroup.mem_subgroupOf.mp hh)) hwmem
     have hvu' : v⁻¹ * w ∈ V := hvu.1

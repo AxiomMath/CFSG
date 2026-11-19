@@ -38,7 +38,7 @@ theorem not_central_sylow_of_dvd {p : ℕ} [hpF : Fact p.Prime] {K : Subgroup X}
       rw [← hP n hn g, mul_inv_cancel_right]
     rw [e]
     exact hn
-  haveI := hPn
+  have := hPn
   obtain ⟨H, hH⟩ := Subgroup.exists_right_complement'_of_coprime
     (N := (P : Subgroup ↥K)) (Sylow.card_coprime_index P)
   have hPidx : Nat.card H = (P : Subgroup ↥K).index := hH.symm.index_eq_card.symm
@@ -86,9 +86,9 @@ theorem claim_card_dvd {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgr
   intro B hB hn
   obtain ⟨Ts, hBT⟩ := hB.exists_le_sylow
   have hT : CFSG.Open.fusionIsSylowIn p (Ts : Subgroup X) ⊤ :=
-    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
+    ⟨le_top, Ts.isPGroup, fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
   have hEn : ((compE X).subgroupOf ⊤).Normal := by
-    haveI := compE_normal (X := X)
+    have := compE_normal (X := X)
     infer_instance
   have hE_conj : ∀ g : X, ∀ e ∈ compE X, g * e * g⁻¹ ∈ compE X := fun g e he =>
     (compE_normal (X := X)).conj_mem e he g
@@ -103,7 +103,7 @@ theorem claim_card_dvd {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgr
   have hQT : ∀ q ∈ Q, q ∈ (Ts : Subgroup X) := fun q hq => hTT q (Subgroup.mem_inf.1 hq).1
   have hQE : ∀ q ∈ Q, q ∈ compE X := fun q hq => hTEE q (Subgroup.mem_inf.1 hq).1
   have hQN : ∀ q ∈ Q, q ∈ Subgroup.normalizer (B : Set X) := fun q hq => (Subgroup.mem_inf.1 hq).2
-  have hQp : IsPGroup p Q := Ts.isPGroup'.to_le (fun q hq => hQT q hq)
+  have hQp : IsPGroup p Q := Ts.isPGroup.to_le (fun q hq => hQT q hq)
   have hD2 : IsPGroup 2 (pCoreOf 2 (Subgroup.centralizer (B : Set X))) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
   by_cases hQB : Q ≤ B
@@ -121,7 +121,7 @@ theorem claim_card_dvd {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgr
     have hYT : Y ≤ (Ts : Subgroup X) := by
       rintro y ⟨b, hb, t, ht, rfl⟩
       exact (Ts : Subgroup X).mul_mem (hBT hb) (hTT t ht)
-    have hYp : IsPGroup p Y := Ts.isPGroup'.to_le hYT
+    have hYp : IsPGroup p Y := Ts.isPGroup.to_le hYT
     have hBY : B ≤ Y := fun b hb => ⟨b, hb, 1, TE.one_mem, by group⟩
     have hYB : Y ≤ B := pgroup_normalizer_strict hYp hBY (by
       rintro y ⟨b, hb, t, ht, rfl⟩ hyN
@@ -184,7 +184,7 @@ theorem claim_card_dvd {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgr
       rw [← heq] at h1
       exact h1
     have hRT : Q ⊔ B ≤ (Ts : Subgroup X) := sup_le (fun q hq => hQT q hq) hBT
-    have hRp : IsPGroup p ((Q ⊔ B : Subgroup X)) := Ts.isPGroup'.to_le hRT
+    have hRp : IsPGroup p ((Q ⊔ B : Subgroup X)) := Ts.isPGroup.to_le hRT
     have hc1 : Nat.card B < Nat.card ↥(Q ⊔ B) := Subgroup.card_lt_of_lt hBR
     have hc2 : Nat.card ↥(Q ⊔ B) ≤ Nat.card X := Subgroup.card_le_card_group _
     have hlt : Nat.card X - Nat.card ↥(Q ⊔ B) < n := by omega
@@ -245,7 +245,7 @@ theorem pCoreOf_centralizer_le_normalizer_of_dvd {p : ℕ} (hp : p.Prime) (hp2 :
     {K : Subgroup X} (hK : IsComponentOf K ⊤) (hdvd : p ∣ Nat.card ↥K)
     {B : Subgroup X} (hB : IsPGroup p B) :
     pCoreOf 2 (Subgroup.centralizer (B : Set X)) ≤ Subgroup.normalizer (K : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact claim_card_dvd hp2 hK hdvd _ B hB rfl
 
 theorem pCoreOf_centralizer_singleton_le_normalizer_of_dvd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -319,7 +319,7 @@ theorem le_centralizer_of_not_mem_normalizer' {p : ℕ} (hp : p.Prime)
     exact hle hn
   let Z : Subgroup ↥K := Subgroup.center ↥K
   let Lb : Subgroup (↥K ⧸ Z) := L.map (QuotientGroup.mk' Z)
-  haveI : Lb.Normal := hLn.map _ (QuotientGroup.mk'_surjective Z)
+  have : Lb.Normal := hLn.map _ (QuotientGroup.mk'_surjective Z)
   have hLb2 : IsPGroup 2 Lb := by
     intro x
     obtain ⟨l, hl, hlx⟩ := Subgroup.mem_map.1 x.2
@@ -340,7 +340,7 @@ theorem le_centralizer_of_not_mem_normalizer' {p : ℕ} (hp : p.Prime)
       rw [← hlx, ← map_pow]
       exact (QuotientGroup.eq_one_iff _).2 hZl
     simpa using this
-  haveI : IsSimpleGroup (↥K ⧸ Z) := hK.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Z) := hK.2.2.2
   have hnab : ∃ a b : ↥K ⧸ Z, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon

@@ -74,7 +74,7 @@ theorem y7c_D2_simple {R : Type} [Group R] (c : K7Abs ρ t J Q P M6 M7) {N : Sub
       (QuotientGroup.quotientKerEquivOfSurjective (f.subgroupMap N)
         (f.subgroupMap_surjective N))
   have hs : IsSimpleGroup ↥(N.map f) := by
-    haveI : IsSimpleGroup (↥N ⧸ Subgroup.center ↥N) := hq.2.1
+    have : IsSimpleGroup (↥N ⧸ Subgroup.center ↥N) := hq.2.1
     exact e.symm.isSimpleGroup
   have hna : ¬ ∀ x y : ↥(N.map f), x * y = y * x := by
     obtain ⟨a, b, hab⟩ := hq.2.2

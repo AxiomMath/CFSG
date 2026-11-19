@@ -384,7 +384,7 @@ public theorem proposition_5_involution_mem_D_conjugacy_orbit
     (hyH : y ∈ H) (hyI : IsInvolution y) :
     ∃ d : D, y = (d : G) * s * (d : G)⁻¹ := by
   classical
-  letI : MulAction D G := {
+  let : MulAction D G := {
     smul := fun d x => (d : G) * x * (d : G)⁻¹
     one_smul := by
       intro x
@@ -462,9 +462,9 @@ public theorem proposition_5_involution_mem_D_conjugacy_orbit
         rfl
     }
     exact Nat.card_congr e
-  letI := Fintype.ofFinite D
-  letI := Fintype.ofFinite (MulAction.orbit D s)
-  letI := Fintype.ofFinite (MulAction.stabilizer D s)
+  let := Fintype.ofFinite D
+  let := Fintype.ofFinite (MulAction.orbit D s)
+  let := Fintype.ofFinite (MulAction.stabilizer D s)
   have horbit_stabilizer :
       Nat.card (MulAction.orbit D s) * Nat.card (MulAction.stabilizer D s) =
         Nat.card D := by

@@ -41,7 +41,7 @@ private theorem prime_not_dvd_five_fixer_card
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm
-  have hQ : IsPGroup p Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup p Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQne : Q ≠ ⊥ := by intro he; apply hS; rw [← hQcard,he]; simp
   have hfixeq : (F : Set X) = fixedPoints Q X := by
     ext x
@@ -101,7 +101,7 @@ private theorem prime_not_dvd_five_fixer_card
     have hker : (T : Subgroup N) ≤ rho.ker := fun z hz => hn z hz
     exact prime_not_dvd_range_card_of_sylow_le_ker T rho hker hqimage
   obtain ⟨z,hzT,hzrho⟩ := hex
-  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' (⟨z,hzT⟩ : T)
+  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup (⟨z,hzT⟩ : T)
   have hzorder : orderOf z = q ^ e := (Subgroup.orderOf_coe (⟨z,hzT⟩ : T)).trans he
   have hzpermorder : orderOf z.val.val = q ^ e := by
     rw [Subgroup.orderOf_coe z.val,Subgroup.orderOf_coe z,hzorder]

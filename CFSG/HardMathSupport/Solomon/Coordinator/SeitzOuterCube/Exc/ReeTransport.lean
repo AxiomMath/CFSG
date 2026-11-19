@@ -54,7 +54,7 @@ theorem map_baseChangeGL_reeGamma {t : ReeTag} {X k : Type} [Field X] [Finite X]
     (CFSG.LieType.Chevalley.baseChangeGL_injective (φ : X →+* k))).trans
     (MulEquiv.subgroupCongr (map_baseChangeGL_reeGamma φ b))
 
-theorem reeGamma_equiv_cat_of_card {b : ℕ} (hb : 1 ≤ b) (hv : (LieTypeIndex.reeF4 b).Valid)
+theorem reeGamma_equiv_cat_of_card {b : ℕ} (_hb : 1 ≤ b) (hv : (LieTypeIndex.reeF4 b).Valid)
     {k : Type} [Field k] [Finite k] [CharP k F4.prime] (hk : Nat.card k = 2 ^ (2 * b + 1)) :
     Nonempty (Cat ⟨.reeF4 b, hv⟩ ≃* F4.reeGamma k b) := by
   obtain ⟨X, _, _, _, -, hX, -, ⟨e⟩⟩ := exists_reeGamma_equiv_cat hv

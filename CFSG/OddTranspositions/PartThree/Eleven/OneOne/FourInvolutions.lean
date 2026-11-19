@@ -102,7 +102,7 @@ private theorem nf_mul_nf {G : Type*} [Group G] {v : Fin 4 → G}
   rw [elt_mul_nf hcomm hsq]
   congr 1
   funext i
-  fin_cases i <;> simp [Function.update_apply]
+  fin_cases i <;> simp
 
 private theorem nf_mem {G : Type*} [Group G] {v : Fin 4 → G} (a : Fin 4 → Bool) :
     nf v a ∈ Subgroup.closure (Set.range v) := by
@@ -110,7 +110,7 @@ private theorem nf_mem {G : Type*} [Group G] {v : Fin 4 → G} (a : Fin 4 → Bo
     intro i t
     cases t
     · simp [elt]
-    · simp only [elt, if_true]
+    · simp only [elt, ite_true]
       exact Subgroup.subset_closure ⟨i, rfl⟩
   rw [nf]
   apply Subgroup.mul_mem
@@ -168,7 +168,7 @@ private theorem conj_elt {G : Type*} [Group G] {v c : Fin 4 → G} {z : G}
     (hc : ∀ i, z * v i * z⁻¹ = c i) (i : Fin 4) (t : Bool) :
     z * elt v i t * z⁻¹ = elt c i t := by
   cases t
-  · simpa [elt] using conj_one z
+  · simp [elt]
   · simpa [elt] using hc i
 
 private theorem conj_nf {G : Type*} [Group G] {v c : Fin 4 → G} {z : G} (a : Fin 4 → Bool)
@@ -182,8 +182,7 @@ private theorem nf_x {G : Type*} [Group G] {v : Fin 4 → G}
     nf (fun i => ![v 1, v 0, v 2, v 3] i) a = nf v (fun i => ![a 1, a 0, a 2, a 3] i) := by
   simp only [nf, elt]
   cases a 0 <;> cases a 1 <;> cases a 2 <;> cases a 3 <;> simp
-  all_goals first | group | rw [(hcomm 0 1).eq.symm]
-  all_goals group
+  all_goals rw [(hcomm 0 1).eq.symm]
 
 private theorem nf_y {G : Type*} [Group G] {v : Fin 4 → G}
     (hcomm : ∀ i j, Commute (v i) (v j)) (hsq : ∀ i, v i * v i = 1) (a : Fin 4 → Bool) :
@@ -194,18 +193,17 @@ private theorem nf_y {G : Type*} [Group G] {v : Fin 4 → G}
         (if a 3 then v 0 * v 1 * v 2 * v 3 else 1) := by
     simp only [nf, elt]
     cases a 0 <;> cases a 1 <;> cases a 2 <;> cases a 3 <;> simp
-    all_goals group
   have h2 : nf v (fun i => ![a 0, a 1, false, a 2] i) *
         (if a 3 then v 0 * v 1 * v 2 * v 3 else 1) =
       nf v (fun i => ![xor (a 0) (a 3), xor (a 1) (a 3), a 3, xor (a 2) (a 3)] i) := by
     cases a 3
-    · simp only [Bool.false_eq_true, if_false, one_mul, mul_one]
+    · simp only [Bool.false_eq_true, ite_false, mul_one]
       have hfun : (fun i => ![xor (a 0) false, xor (a 1) false, false, xor (a 2) false] i) =
           (fun i => ![a 0, a 1, false, a 2] i) := by
         funext i
         fin_cases i <;> simp
       rw [hfun]
-    · simp only [if_true]
+    · simp only [ite_true]
       have hu : v 0 * v 1 * v 2 * v 3 = nf v (fun _ : Fin 4 => true) := by simp [nf, elt]
       rw [hu, nf_mul_nf hcomm hsq]
       have hfun : (fun i => xor ((fun i => ![a 0, a 1, false, a 2] i) i) true) =
@@ -244,7 +242,7 @@ theorem mul_self_eq_one_or_of_four_involutions {G : Type*} [Group G] {v : Fin 4 
     exact conj_nf a hcy
   have hxinv : ∀ i, x⁻¹ * v i * x = ![v 1, v 0, v 2, v 3] i := by
     intro i
-    fin_cases i <;> simp only [Matrix.cons_val_zero, Matrix.cons_val_succ]
+    fin_cases i <;> simp only
     · exact conj_inv hx1
     · exact conj_inv hx0
     · exact conj_inv hx2

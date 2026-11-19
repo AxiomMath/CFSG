@@ -112,9 +112,9 @@ theorem gWord_eq (c : ℕ) :
   have h2 : Nat.land c 1 = c % 2 := Nat.and_one_is_mod c
   rw [h1, h2]
   rcases Nat.mod_two_eq_zero_or_one c with h | h
-  · rw [h, if_neg (by norm_num)]
+  · rw [h, ite_eq_right (by norm_num)]
     rfl
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     rfl
 
 theorem ivL_lt {c : ℕ} (hc : c < 12) : ivL INVM c < 12 := (hinv c hc).1
@@ -157,7 +157,7 @@ theorem wVal_gWord {G : Type*} [Group G] {y : ℕ → G} (hy : ∀ c < 12, y (iv
 theorem isStabOf_sound {n k g : ℕ} (h : isStabOf RD n k g = true) :
     g < n ∧ 3 ≤ dKind (RD g) ∧ dKind (RD g) < 5 ∧ dN1 (RD g) = k ∧ dN2 (RD g) = k := by
   unfold isStabOf isEq at h
-  simp only [kandB_iff, CFSG.Certificates.TwDce.Words.andB_iff, Nat.blt_eq, Nat.ble_eq,
+  simp only [kandB_iff, Nat.blt_eq, Nat.ble_eq,
     CFSG.Certificates.TwDce.Words.sB_eq] at h
   obtain ⟨h1, ⟨h2, h3⟩, h4, h5⟩ := h
   exact ⟨h1, h2, h3, Nat.eq_of_beq_eq_true h4, Nat.eq_of_beq_eq_true h5⟩
@@ -260,7 +260,7 @@ theorem wVal_mem (w : ℕ) : wVal fiX w ∈ fiH := by
   obtain ⟨c, -, rfl⟩ := List.mem_map.1 hy
   by_cases hc : c < 12
   · exact hxH c hc
-  · rw [fiX, if_neg (by omega)]
+  · rw [fiX, ite_eq_right (by omega)]
     exact fiH.one_mem
 
 theorem relIndex_map_le {Q : Type*} [Group Q] [Finite Q] (π : Q →* fiPC) (P : Subgroup Q) :
@@ -293,6 +293,7 @@ theorem pt_eval : ∀ (w : List ℕ), (∀ c ∈ w, c < 12) → ∀ p < 54,
     rw [evalWord_cons, A.pt_mul, A.pt_xq c hc p hp, List.foldl_cons]
     exact pt_eval w (fun d hd => hw d (List.mem_cons_of_mem _ hd)) _ (f_lt c hc p hp)
 
+omit [Group Q] A in
 theorem foldl_lt : ∀ (w : List ℕ), (∀ c ∈ w, c < 12) → ∀ p < 54,
     w.foldl (fun p c => fieldAt PB (F c) p) p < 54
   | [], _, _, hp => hp
@@ -302,7 +303,7 @@ theorem foldl_lt : ∀ (w : List ℕ), (∀ c ∈ w, c < 12) → ∀ p < 54,
 theorem pt_lt (q : Q) {p : ℕ} (hp : p < 54) : A.pt q p < 54 := by
   obtain ⟨w, hw, rfl⟩ := A.gen q
   rw [A.pt_eval w hw p hp]
-  exact A.foldl_lt w hw p hp
+  exact CFSG.KD.Fi23Dce3.HAct.foldl_lt w hw p hp
 
 theorem hxFB : ∀ c < 12, ∀ p < 54, fieldAt 11 (FB c) p = A.pt (A.xq c) p := fun c hc p hp => by
   rw [fb_eq c hc p hp, A.pt_xq c hc p hp]
@@ -407,7 +408,7 @@ theorem idx_St_le (hQ : Nat.card Q ≤ 8748) {i : ℕ} (hi : i < 34) :
     _ = Nat.card Q := (A.St i).index_mul_card
     _ ≤ 8748 := hQ
 
-omit hQ in
+omit hQ [Finite Q] in
 theorem exists_tuple (q : Q) : ∃ p < 8748, ∀ i < NB,
     CFSG.KC.TwDce.fld (TU p) (16 * i) 65535 = A.pt q (CFSG.KC.TwDce.fld BS (16 * i) 65535) := by
   obtain ⟨w, hw, rfl⟩ := A.gen q
@@ -415,7 +416,7 @@ theorem exists_tuple (q : Q) : ∃ p < 8748, ∀ i < NB,
   refine ⟨_, h1, fun i hi => ?_⟩
   rw [h2 i hi, tu_facts.1, A.pt_eval w hw _ (base_ok.1 i hi)]
 
-omit hQ in
+omit hQ [Finite Q] in
 theorem walk_tuple {w : List ℕ} (hw : ∀ c ∈ w, c < 12) {p : ℕ} (hp : p < 8748) {y : Q}
     (hy : ∀ i < NB, CFSG.KC.TwDce.fld (TU p) (16 * i) 65535 =
       A.pt y (CFSG.KC.TwDce.fld BS (16 * i) 65535)) :
@@ -426,7 +427,7 @@ theorem walk_tuple {w : List ℕ} (hw : ∀ c ∈ w, c < 12) {p : ℕ} (hp : p <
   refine ⟨h1, fun i hi => ?_⟩
   rw [h2 i hi, hy i hi, A.pt_mul, A.pt_eval w hw _ (A.pt_lt y (base_ok.1 i hi))]
 
-omit hQ in
+omit hQ [Finite Q] in
 theorem fold_tuple : ∀ (cs : List ℕ), (∀ c ∈ cs, c / 2 < 44010) → ∀ (p : ℕ) (y : Q), p < 8748 →
     (∀ i < NB, CFSG.KC.TwDce.fld (TU p) (16 * i) 65535 =
       A.pt y (CFSG.KC.TwDce.fld BS (16 * i) 65535)) →
@@ -552,12 +553,12 @@ theorem index_fiH_le : fiH.FiniteIndex ∧ fiH.index ≤ 729 := by
       tgtElt_mem := by
         intro i k hk
         have h := htP i k hk
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.1
       tgt_spec := by
         intro i k hk
         have h := htP i k hk
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.2 }
   have : Finite fiH := by
     rw [← hrange]

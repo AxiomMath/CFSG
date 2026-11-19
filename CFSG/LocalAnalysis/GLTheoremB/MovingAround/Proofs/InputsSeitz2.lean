@@ -14,7 +14,7 @@ open Equiv Equiv.Perm
 
 theorem eq_five_of_alt_equiv {m : ℕ} (hm : 2 ≤ m)
     (g : alternatingGroup (Fin m) ≃* alternatingGroup (Fin 5)) : m = 5 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
   have h1 := two_mul_nat_card_alternatingGroup (α := Fin m)
   have h2 := two_mul_nat_card_alternatingGroup (α := Fin 5)
   rw [Nat.card_congr g.toEquiv, h2, Nat.card_perm, Nat.card_perm, Nat.card_fin, Nat.card_fin] at h1
@@ -26,7 +26,7 @@ theorem isPiGroup_of_alt_pumpup {K : Type} [Group K] [Finite K] (hq : CFSG.Open.
     (hL : GLAPComponent 3 (Prop1310a5.fixedSub x) L) (hL5 : IsAltType 5 (barOf 3 L)) :
     IsPiGroup 3 K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn5 : 5 ≤ n := SchurFacts.five_le_of_isAltType hq ⟨f⟩
   have hρ := AltFacts5.isAltRep_of_equiv f
   have hZ : IsPGroup 3 ↥(Subgroup.center K) :=

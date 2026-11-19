@@ -28,9 +28,9 @@ theorem co2Five_reach : ∀ w : Fin 2 → ZMod 5, w ≠ 0 → ∃ s : ZMod 5, s 
 
 theorem co2Five_oneClassE :
     OneClassE 5 NativeSporadic.Co2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, y, g₁, g₂, hx, hy, hne, hzx, hzy, h₁x, h₁y, h₂x, h₂y⟩ := co2Five_witness
-  haveI : Finite NativeSporadic.Co2 :=
+  have : Finite NativeSporadic.Co2 :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co2.card_Co2]; norm_num)
   have hsyl : ¬ 5 ^ 4 ∣ Nat.card NativeSporadic.Co2 := by
     rw [CFSG.Sporadic.Co2.card_Co2]

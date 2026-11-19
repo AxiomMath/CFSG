@@ -27,12 +27,13 @@ namespace Data614
 variable {M R E : Subgroup G} {r : ℕ} (d : Data614 M r R E) (hC : TheoremCAt M)
 include d hC
 
-theorem E_le_M : E ≤ M := fun x hx => d.sylow.le (d.E_le hx).1
+omit hC in
+theorem E_le_M : E ≤ M := fun _x hx => d.sylow.le (d.E_le hx).1
 
 theorem inU_of_le {X : Subgroup G} (hXE : X ≤ E) (hX1 : X ≠ ⊥) : InU M X := by
-  haveI : Fact r.Prime := ⟨d.prime⟩
+  have : Fact r.Prime := ⟨d.prime⟩
   have hMself := normalizer_eq_of_isMaxTwoLocal d.maxLocal
-  have hEM : E ≤ M := d.E_le_M hC
+  have hEM : E ≤ M := d.E_le_M
   have hEU : InU M E :=
     inU_of_theoremC d.maxLocal hC d.prime d.odd hEM d.E_el d.E_card d.E_gamma
   have hXp : IsPGroup r X := (IsElemAbelian.isPGroup d.E_el).to_le hXE

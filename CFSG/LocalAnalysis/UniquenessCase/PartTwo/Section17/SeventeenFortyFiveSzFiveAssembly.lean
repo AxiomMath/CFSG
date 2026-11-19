@@ -56,13 +56,13 @@ theorem mem_uniqueSet_inf_of_r8101 (D : Data G)
     factors_of_case8100Four D hV₀ ctx h8100' hc4' hAsyl hAT hBM hBcard hAB hBT
   have h8100₁ : F08.Hyp8100 D ![L, conjSubgroup L x] ![n, n] r p (A ⊓ L) X :=
     ⟨hLcal, hLne, hshape, hr, hrdvd, hpSig, hA₁card.trans hr31.symm,
-      Or.inl (by simpa using inf_le_right), hXprod, hMNX⟩
+      Or.inl (by simp), hXprod, hMNX⟩
   have hU₁ : A ⊓ L ∈ uniqueSet D.M :=
     hR8101 ![L, conjSubgroup L x] ![n, n] r p (A ⊓ L) X h8100₁ (Or.inr hc4')
   have h8100₂ : F08.Hyp8100 D ![L, conjSubgroup L x] ![n, n] r p
       (A ⊓ conjSubgroup L x) X :=
     ⟨hLcal, hLne, hshape, hr, hrdvd, hpSig, hA₂card.trans hr31.symm,
-      Or.inr (by simpa using inf_le_right), hXprod, hMNX⟩
+      Or.inr (by simp), hXprod, hMNX⟩
   have hU₂ : A ⊓ conjSubgroup L x ∈ uniqueSet D.M :=
     hR8101 ![L, conjSubgroup L x] ![n, n] r p (A ⊓ conjSubgroup L x) X h8100₂ (Or.inr hc4')
   exact ⟨hr31, hU₁, hU₂⟩

@@ -38,17 +38,17 @@ private theorem isSolvable_inf_of_map_eq {Y : Type} [Group Y] {m : ℕ} {K : Typ
     (hint : (M₁ ⊓ M₂) ⊓ ψ.range = (parP h ⊓ parP2 h).map ψ) :
     Group.IsSolvable ↥(M₁ ⊓ M₂) := by
   classical
-  haveI hnorm : ψ.range.Normal := Subgroup.normal_of_index_eq_two hidx
-  haveI hpar : Group.IsSolvable ↥(parP h ⊓ parP2 h) := isSolvable_parP_inf_parP2 h
+  have hnorm : ψ.range.Normal := Subgroup.normal_of_index_eq_two hidx
+  have hpar : Group.IsSolvable ↥(parP h ⊓ parP2 h) := isSolvable_parP_inf_parP2 h
   let X : Subgroup Y := M₁ ⊓ M₂
-  haveI hY₀solv : Group.IsSolvable ↥(X ⊓ ψ.range) := by
+  have hY₀solv : Group.IsSolvable ↥(X ⊓ ψ.range) := by
     have hX : X ⊓ ψ.range = (parP h ⊓ parP2 h).map ψ := hint
     rw [hX]
     exact Group.isSolvable_of_surjective
       (f := (Subgroup.equivMapOfInjective (parP h ⊓ parP2 h) ψ hψ).toMonoidHom)
       (Subgroup.equivMapOfInjective (parP h ⊓ parP2 h) ψ hψ).surjective
   let Nx : Subgroup ↥X := ψ.range.subgroupOf X
-  haveI hNsolv : Group.IsSolvable ↥Nx := by
+  have hNsolv : Group.IsSolvable ↥Nx := by
     have hNx : Nx = (X ⊓ ψ.range).subgroupOf X := by
       ext x
       simp only [Nx, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
@@ -57,7 +57,7 @@ private theorem isSolvable_inf_of_map_eq {Y : Type} [Group Y] {m : ℕ} {K : Typ
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left : X ⊓ ψ.range ≤ X)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe (inf_le_left : X ⊓ ψ.range ≤ X)).injective
-  haveI hquot : Group.IsSolvable (Y ⧸ ψ.range) :=
+  have hquot : Group.IsSolvable (Y ⧸ ψ.range) :=
     isSolvable_quotient_of_index_two hidx
   have hker : ((QuotientGroup.mk' ψ.range).comp X.subtype).ker = Nx := by
     ext x
@@ -78,14 +78,14 @@ theorem u4q_ident_ext {L1 L2 S : Subgroup G} {f : ℕ} (hF : F112Hyp L1 L2 S) (h
           Nonempty (↥(perfectCore (L2 ⊔ bigB L1 L2 S)) ≃* ↥(perfectCore (parP2 h)))) ∨
         Nonempty (↥(perfectCore (L2 ⊔ bigB L1 L2 S)) ≃* ↥(perfectCore (parP h))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let V1 : Subgroup G := L1 ⊔ bigB L1 L2 S
   let V2 : Subgroup G := L2 ⊔ bigB L1 L2 S
   obtain ⟨Y₀, _, Yh, _, ι, hY₀, hι, hidx, Th, Mh₁, Mh₂, hpair, ⟨Φ⟩⟩ := hA
   obtain ⟨K', _, hK', ⟨e⟩⟩ := exists_hypSU_equiv_of_lieModel hY₀
   have hfin : Finite Yh :=
     (exists_embedding (Or.inr ⟨Y₀, inferInstance, ι, hY₀, hι, hidx⟩)).1
-  haveI : Finite Yh := hfin
+  have : Finite Yh := hfin
   have hψ₀ : Function.Injective (ι.comp e.toMonoidHom) := hι.comp e.injective
   have hidx₀ : (ι.comp e.toMonoidHom).range.index ≤ 2 := by
     calc (ι.comp e.toMonoidHom).range.index = ι.range.index := by
@@ -96,7 +96,7 @@ theorem u4q_ident_ext {L1 L2 S : Subgroup G} {f : ℕ} (hF : F112Hyp L1 L2 S) (h
     rw [hrange, CFSG.Quasithin.H13.F431.U42.Am.range_comp_mulEquiv]
     exact hidx
   rw [← hrange] at hidx₀ hU
-  haveI hnorm : ψ.range.Normal := Subgroup.normal_of_index_eq_two hidx2
+  have hnorm : ψ.range.Normal := Subgroup.normal_of_index_eq_two hidx2
   have hC : Subgroup.centralizer (ψ.range : Set Yh) = ⊥ := by
     rw [eq_bot_iff]
     intro z hz
@@ -134,7 +134,7 @@ theorem u4q_ident_ext {L1 L2 S : Subgroup G} {f : ℕ} (hF : F112Hyp L1 L2 S) (h
     intro h
     apply hpair.2.1
     rw [hM₁N, hM₂N, h]
-  haveI hquot : Group.IsSolvable (Yh ⧸ ψ.range) := isSolvable_quotient_of_index_two hidx2
+  have hquot : Group.IsSolvable (Yh ⧸ ψ.range) := isSolvable_quotient_of_index_two hidx2
   fin_cases i₁
   · fin_cases i₂
     · exact absurd rfl hii
@@ -169,9 +169,9 @@ theorem u4q_ident_ext {L1 L2 S : Subgroup G} {f : ℕ} (hF : F112Hyp L1 L2 S) (h
       have hint : (Mh₁ ⊓ Mh₂) ⊓ ψ.range = (parP hK' ⊓ parP2 hK').map ψ := by
         rw [hNsplit, hM₁ψ, hM₂ψ,
           ← Subgroup.map_inf (parP hK') (parP2 hK') ψ hψ]
-      haveI hX : Group.IsSolvable ↥(Mh₁ ⊓ Mh₂) :=
+      have hX : Group.IsSolvable ↥(Mh₁ ⊓ Mh₂) :=
         isSolvable_inf_of_map_eq hK' hψ hidx2 hint
-      haveI hV : Group.IsSolvable ↥(V1 ⊓ V2) :=
+      have hV : Group.IsSolvable ↥(V1 ⊓ V2) :=
         Group.isSolvable_of_isSolvable_injective
           (f := (isoφ12 Φ).toMonoidHom) (isoφ12 Φ).injective
       have hB : Group.IsSolvable ↥(bigB L1 L2 S) :=
@@ -219,9 +219,9 @@ theorem u4q_ident_ext {L1 L2 S : Subgroup G} {f : ℕ} (hF : F112Hyp L1 L2 S) (h
         rw [hNsplit, hM₁ψ, hM₂ψ,
           inf_comm ((parP2 hK').map ψ) ((parP hK').map ψ),
           ← Subgroup.map_inf (parP hK') (parP2 hK') ψ hψ]
-      haveI hX : Group.IsSolvable ↥(Mh₁ ⊓ Mh₂) :=
+      have hX : Group.IsSolvable ↥(Mh₁ ⊓ Mh₂) :=
         isSolvable_inf_of_map_eq hK' hψ hidx2 hint
-      haveI hV : Group.IsSolvable ↥(V1 ⊓ V2) :=
+      have hV : Group.IsSolvable ↥(V1 ⊓ V2) :=
         Group.isSolvable_of_isSolvable_injective
           (f := (isoφ12 Φ).toMonoidHom) (isoφ12 Φ).injective
       have hB : Group.IsSolvable ↥(bigB L1 L2 S) :=

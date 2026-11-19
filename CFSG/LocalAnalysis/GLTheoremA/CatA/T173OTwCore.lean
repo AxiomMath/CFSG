@@ -155,8 +155,8 @@ theorem split_of_le_su6Levi {f : ℕ} (hf : 2 ≤ f) {k K : Type} [Field k] [Fie
   have hf1 : 1 ≤ f := by omega
   obtain ⟨-, -, -, -, -, hModel, -⟩ := su6Levi_facts hf1 hk hK hσ
   obtain ⟨-, ⟨K', hK'field, hK'fin, hK'card, ⟨e₀⟩⟩⟩ := hModel
-  letI : Field K' := hK'field
-  letI : Finite K' := hK'fin
+  let : Field K' := hK'field
+  let : Finite K' := hK'fin
   have hKS : Kb ≤ su6Levi σ := hK'.1.trans inf_le_right
   obtain ⟨U, hUne, hU2, hUK, hUsplit⟩ :=
     exists_split_su6Levi_in_model hf hp hp5 hpq hK'card e₀ hAD hA hcard hdA hd1 hK'
@@ -309,8 +309,8 @@ theorem stdExtendsN_of_le_su6Levi {f : ℕ} (hf : 2 ≤ f) {F : Type} [Field F] 
   classical
   have hf1 : 1 ≤ f := by omega
   obtain ⟨k, hkfield, hkalg, hkcard⟩ := exists_subfield_twE6 hf1 hF
-  letI : Field k := hkfield
-  letI : Algebra k F := hkalg
+  let : Field k := hkfield
+  let : Algebra k F := hkalg
   obtain ⟨T, hTne, hT2, hTK, hTsplit⟩ :=
     exists_split_map_twistedE6 hf hkcard hF σ hσ hp hp5 hpq hA hcard hd hAD hKD
   obtain ⟨T0, hT0ne, hT02, hT0K, hsplit0⟩ :=

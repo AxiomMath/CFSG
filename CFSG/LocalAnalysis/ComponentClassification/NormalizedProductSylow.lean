@@ -20,7 +20,7 @@ namespace CFSG.ComponentClassification.NormalizedProductSylow
     exact lift.property
   have hsmallerLe : smaller ≤ product := sup_le (hsylowAmbient.trans le_sup_left) le_sup_right
   have hsmallerTwo : IsPGroup 2 smaller :=
-    (ambientSylow.isPGroup'.map ambient.subtype).to_sup_of_normal_left' htwo hsylowNormalizes
+    (ambientSylow.isPGroup.map ambient.subtype).to_sup_of_normal_left' htwo hsylowNormalizes
   refine ⟨smaller.subgroupOf product, hsmallerTwo.comap_subtype, ?_⟩
   intro overgroup hovergroupTwo hcontained
   let image := overgroup.map product.subtype

@@ -84,7 +84,7 @@ private theorem qtwoDOrthBase_toAdd_mulSingle (n : ℕ) :
   by_cases hi : i = 0
   · subst hi
     simp [dBasis, Pi.basisFun_apply]
-  · simp [dBasis, Pi.basisFun_apply, Pi.single_apply, Pi.mulSingle_eq_of_ne hi, hi]
+  · simp [dBasis, Pi.basisFun_apply, hi]
 
 theorem ggQTwoDOrthBase_coord (hRig : GGLabelRigidInput)
     (hTBF : GGTBFixInput) (hWI : GGNbrInnerWeylInput) {p : ℕ} {B Bs : Subgroup G} {x : G}

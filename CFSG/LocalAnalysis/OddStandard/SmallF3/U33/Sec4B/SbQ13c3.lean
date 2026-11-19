@@ -91,7 +91,7 @@ theorem q13c_card_N_cent (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     have hcard : s.card = 3 := by
       rw [Finset.card_insert_of_notMem h1not, Finset.card_insert_of_notMem hτnot,
         Finset.card_singleton]
-    letI : Fintype ↥K := Fintype.ofFinite ↥K
+    let : Fintype ↥K := Fintype.ofFinite ↥K
     have hle_univ : s.card ≤ Fintype.card ↥K := Finset.card_le_univ s
     rw [hcard] at hle_univ
     rwa [Nat.card_eq_fintype_card]

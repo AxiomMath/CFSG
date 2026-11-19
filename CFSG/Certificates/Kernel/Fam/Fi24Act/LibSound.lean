@@ -49,7 +49,7 @@ theorem covTabL_reps {G : Type*} [Group G] (gen : ℕ → G) (H : Subgroup G) (r
     (hfacts : ∀ e < nf,
       rep (fx (fct blk e)) * lv gen (fc (fct blk e)) * (rep (fy (fct blk e)))⁻¹ ∈ H ∧
       rep (fy (fct blk e)) * lv gen (fic (fct blk e)) * (rep (fx (fct blk e)))⁻¹ ∈ H)
-    (hA : ∀ t < m, A (lo + t) < 1048576) (hc : c < 256)
+    (hA : ∀ t < m, A (lo + t) < 1048576) (_hc : c < 256)
     (h : covTabL blk A T R nf c N lo m = true) :
     ∀ t < m, T (lo + t) < N ∧ rep (A (lo + t)) * lv gen c * (rep (A (T (lo + t))))⁻¹ ∈ H := by
   intro t ht

@@ -78,7 +78,7 @@ theorem inSubgroup_layer_invCent_eq {G : Type} [Group G] [Finite G] {L : Subgrou
       obtain ⟨S, hS⟩ := hT₂p.exists_le_sylow
       have hScyc : IsCyclic ↥(S : Subgroup CC) := hC.cyclic S
       have hT₂cyc : IsCyclic ↥(T₁.subgroupOf CC) := by
-        haveI : IsCyclic ↥(S : Subgroup CC) := hScyc
+        have : IsCyclic ↥(S : Subgroup CC) := hScyc
         exact Subgroup.isCyclic_of_le hS
       have hT₂rank : Group.rank ↥(T₁.subgroupOf CC) ≤ 1 :=
         rank_le_one_of_isCyclic hT₂cyc

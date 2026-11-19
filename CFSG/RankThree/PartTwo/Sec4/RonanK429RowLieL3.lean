@@ -22,10 +22,10 @@ theorem false_of_e9_of_isCyclic_sylow {X : Type*} [Group X] [Finite X]
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := IsPGroup.of_card (n := 2) (by rw [hE9]; norm_num)
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
-  haveI := hcyc Q
-  haveI : IsCyclic (E.subgroupOf (Q : Subgroup X)) := Subgroup.isCyclic _
+  have := hcyc Q
+  have : IsCyclic (E.subgroupOf (Q : Subgroup X)) := Subgroup.isCyclic _
   have heq : E.subgroupOf (Q : Subgroup X) ≃* E := Subgroup.subgroupOfEquivOfLe hQ
-  haveI : IsCyclic E := isCyclic_of_surjective heq.toMonoidHom heq.surjective
+  have : IsCyclic E := isCyclic_of_surjective heq.toMonoidHom heq.surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
   have hord : orderOf g = 9 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, hE9]
@@ -39,12 +39,13 @@ section Rows
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem fix_of_le {σ : MulAut S} {C K : Subgroup S} (hC : ∀ x, x ∈ C ↔ σ x = x) (hKC : K ≤ C) :
     ∀ k ∈ K, σ k = k := fun k hk => (hC k).mp (hKC hk)
 
 theorem exists_ne_one_pow_three {E : Subgroup S} (hE3 : ∀ a ∈ E, a ^ 3 = 1)
     (hE9 : Nat.card E = 9) : ∃ k ∈ E, k ≠ 1 ∧ k ^ 3 = 1 := by
-  haveI : Nontrivial E := by
+  have : Nontrivial E := by
     rw [← Finite.one_lt_card_iff_nontrivial, hE9]
     norm_num
   obtain ⟨k, hk⟩ := exists_ne (1 : E)
@@ -57,7 +58,7 @@ theorem two_pow_mod_three (n : ℕ) : 2 ^ n % 3 = 1 ∨ 2 ^ n % 3 = 2 := by
     rw [pow_succ, Nat.mul_mod]
     rcases ih with h | h <;> rw [h] <;> norm_num
 
-theorem rowLie_SL3 (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a) {n : ℕ} (hn : 1 ≤ n)
+theorem rowLie_SL3 (_hs : IsSimpleGroup S) (_hna : ∃ a b : S, a * b ≠ b * a) {n : ℕ} (hn : 1 ≤ n)
     (eS : S ≃* projSL 3 (GaloisField 2 n)) {σ : MulAut S} (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     {C K : Subgroup S} (hC : ∀ x, x ∈ C ↔ σ x = x) (hKC : K ≤ C) [Group.IsPerfect K]
     (hsub : (K.subgroupOf C).IsSubnormal)
@@ -164,7 +165,7 @@ theorem rowLie_SU3 (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a) {
       omega
     subst hn1
     have hsolv : Group.IsSolvable (projSU 3 2 1) := CFSG.RankThree.PartTwo.Sec13.isSolvable_projSU_two
-    haveI : Group.IsSolvable S :=
+    have : Group.IsSolvable S :=
       Group.isSolvable_of_surjective (f := eS.symm.toMonoidHom) eS.symm.surjective
     obtain ⟨a, b, hab⟩ := hna
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr ‹_› a b)

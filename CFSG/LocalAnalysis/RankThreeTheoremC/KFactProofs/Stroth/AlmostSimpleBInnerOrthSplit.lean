@@ -25,10 +25,10 @@ private theorem oddPCoreInClosure_specialLinear_two {K : Type} [Field K] [Finite
   have hGL : OddPCoreInClosure p (Matrix.GeneralLinearGroup (Fin 2) K) :=
     OddPCoreInClosure.of_mulEquiv Matrix.GeneralLinearGroup.toLin.symm
       (oddPCoreInClosure_generalLinearGroup (E := K) (W := Fin 2 → K) hp hp2)
-  haveI : Finite (LinearMap.GeneralLinearGroup K (Fin 2 → K)) := finite_generalLinearGroup'
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin 2) K) :=
+  have : Finite (LinearMap.GeneralLinearGroup K (Fin 2 → K)) := finite_generalLinearGroup'
+  have : Finite (Matrix.GeneralLinearGroup (Fin 2) K) :=
     Finite.of_equiv _ Matrix.GeneralLinearGroup.toLin.symm.toEquiv
-  haveI : (Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) K →*
+  have : (Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) K →*
       Matrix.GeneralLinearGroup (Fin 2) K).range.Normal := by
     rw [Matrix.SpecialLinearGroup.range_toGL_eq_ker_det]
     infer_instance
@@ -45,7 +45,7 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalFourSplit in
 private theorem oddPCoreInClosure_determinantIsometries {K : Type} [Field K] [Finite K]
     [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     OddPCoreInClosure p (DeterminantIsometries K) := by
-  haveI : Finite (DeterminantIsometries K) := finite_orthogonalGroup (determinantForm K)
+  have : Finite (DeterminantIsometries K) := finite_orthogonalGroup (determinantForm K)
   have hJN : (specialImage K).Normal := by
     rw [CFSG.RankThree.PartOne.specialImage_eq_leftRightImage]
     infer_instance

@@ -17,7 +17,7 @@ theorem two_elements_of_sylow {X : Type*} [Group X] [Finite X] {V Rb : Subgroup 
   intro k hk _ hk2
   have hS : CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   have hS' := hS.of_le (hSR.trans hRN) le_top

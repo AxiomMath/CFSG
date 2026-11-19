@@ -37,12 +37,12 @@ private theorem exists_frameModelV {G : Type} [Group G] [Finite G] {Bs : Subgrou
       Ψ (ιV (Additive.ofMul ((e (M.simple i) : MulAut ↥Bs) b))) =
         (feS n i).mulVec (Ψ (ιV (Additive.ofMul b))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, iadd, imod, ⟨ιV⟩⟩ := exists_ggLinData (p := 3) hBs
-  letI : AddCommGroup V := iadd
-  letI : Module (ZMod 3) V := imod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : AddCommGroup V := iadd
+  let : Module (ZMod 3) V := imod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hVcard : Nat.card V = 3 ^ n := by rw [← card_eq_of_ggLin ιV, hcard]
   have hdim : Module.finrank (ZMod 3) V = n := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)
@@ -200,8 +200,8 @@ theorem exists_frameModel {G : Type} [Group G] [Finite G] {Bs : Subgroup G}
       ∀ i, ρ (e (M.simple i)) = feS n i := by
   classical
   obtain ⟨V, iadd, imod, ιV, Ψ, hΨ⟩ := exists_frameModelV hBs hNT hC hent hT hA e he hfix hcard
-  letI : AddCommGroup V := iadd
-  letI : Module (ZMod 3) V := imod
+  let : AddCommGroup V := iadd
+  let : Module (ZMod 3) V := imod
   let ρ : ↥A →* FEMat n :=
     { toFun := fun φ => frameMat ιV Ψ (φ : MulAut ↥Bs)
       map_one' := frameMat_one ιV Ψ

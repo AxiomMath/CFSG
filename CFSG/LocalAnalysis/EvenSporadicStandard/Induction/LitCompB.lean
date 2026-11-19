@@ -85,8 +85,8 @@ theorem centralTwoBInclusion_of_relativeUAt (P : ∀ (X : Type) [Group X], Prop)
       P X)
     (hU : ∀ (X : Type) [Group X] [Finite X], P X →
       KProperRelativeB.RelativeUAt CFSG.Blueprint.Catalog X) :
-    ∀ (G : Type) [Group G] [Finite G], P G → CFSG.Assembly.KProper CFSG.Blueprint.Catalog G →
-      CentralTwoBInclusion.Property G :=
+    ∀ (_G : Type) [Group _G] [Finite _G], P _G → CFSG.Assembly.KProper CFSG.Blueprint.Catalog _G →
+      CentralTwoBInclusion.Property _G :=
   KProperRelativeB.kProper_B_inclusion_of_inputs_P P hP
     (fun e h => CFSG.SectionRank.catalog_of_mulEquiv e h)
     (KProperRelativeB.reducedCounterexampleSec_of_schreier
@@ -95,7 +95,7 @@ theorem centralTwoBInclusion_of_relativeUAt (P : ∀ (X : Type) [Group X], Prop)
     hU
     (KProperRelativeB.oddLieInput_of_frontier KProperRelativeB.oddExceptionalFrontier_holds)
     (KProperRelativeB.exceptionalInput_of_held
-      fun G _ _ hs hnonab hindex hiso hproper =>
+      fun _G _ _ _hs hnonab hindex hiso hproper =>
         (Sporadic.HeldB.Held_index_two_B_under_proper_subgroup_B hnonab hindex hiso hproper).2)
 
 end FromRelativeU

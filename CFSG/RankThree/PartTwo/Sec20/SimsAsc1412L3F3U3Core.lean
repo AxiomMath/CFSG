@@ -157,7 +157,7 @@ theorem card_normalizer_of_mulEquiv_psl2 (hp2 : p ≠ 2) (e : H ≃* PSL(2, ZMod
     intro T hT
     obtain ⟨P, hP⟩ := (IsPGroup.of_card (n := 1) (by rw [hT, pow_one])).exists_le_sylow
     refine ⟨P, (Subgroup.eq_of_le_of_card_ge hP ?_).symm⟩
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have hdvd : p ^ k ∣ Nat.card PSL(2, ZMod p) := hk ▸ Subgroup.card_subgroup_dvd_card _
     have hk1 : k ≤ 1 := by
       by_contra hk2
@@ -264,7 +264,7 @@ theorem exists_map_conj_eq_of_card_eq {G : Type*} [Group G] [Finite G]
     intro T hT
     obtain ⟨P, hP⟩ := (IsPGroup.of_card (n := 1) (by rw [hT, pow_one])).exists_le_sylow
     refine ⟨P, (Subgroup.eq_of_le_of_card_ge hP ?_).symm⟩
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have hdvd : p ^ k ∣ Nat.card G := hk ▸ Subgroup.card_subgroup_dvd_card _
     have hk1 : k ≤ 1 := by
       by_contra hk2
@@ -305,6 +305,7 @@ private theorem map_conj_map_conj {G : Type*} [Group G] (H : Subgroup G) (g h : 
   simp [MulAut.conj_apply, mul_assoc]
 
 include hK hfix in
+omit [Fact p.Prime] in
 theorem map_conj_zGroup_eq {g₁ g₂ : ProjectiveSpecialUnitaryMatrixGroup J}
     (h : g₁ • pinf J hJ = g₂ • pinf J hJ) :
     (zGroup J hJ).map (MulAut.conj g₁).toMonoidHom =
@@ -321,7 +322,7 @@ theorem map_conj_zGroup_eq {g₁ g₂ : ProjectiveSpecialUnitaryMatrixGroup J}
 private theorem map_conj_one {G : Type*} [Group G] (H : Subgroup G) :
     H.map (MulAut.conj (1 : G)).toMonoidHom = H := by
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem card_map_conj {G : Type*} [Group G] (H : Subgroup G) (g : G) :
     Nat.card (H.map (MulAut.conj g).toMonoidHom) = Nat.card H :=
@@ -539,7 +540,7 @@ theorem exists_conj_zGroup_le_of_sq_dvd {M : Subgroup (ProjectiveSpecialUnitaryM
   have hR2 : p ^ 2 ∣ Nat.card R := R.pow_dvd_card_of_pow_dvd_card hM
   set R' : Subgroup (ProjectiveSpecialUnitaryMatrixGroup J) := (R : Subgroup M).map M.subtype
     with hR'
-  have hR'p : IsPGroup p R' := R.isPGroup'.map M.subtype
+  have hR'p : IsPGroup p R' := R.isPGroup.map M.subtype
   obtain ⟨g, hg⟩ := exists_le_conj_rootGroup J hJ hK hfix hR'p
   set R'' := R'.map (MulAut.conj g⁻¹).toMonoidHom with hR''
   have hR''U : R'' ≤ rootGroup J hJ := by
@@ -608,7 +609,7 @@ theorem false_of_not_sq_dvd (hp7 : 7 ≤ p) (hp3 : p % 3 = 1)
       group
     have : r • (g⁻¹ • x) = g⁻¹ • x := by
       rw [← mul_smul, show r * g⁻¹ = g⁻¹ * (g * r * g⁻¹) by group, mul_smul, hx]
-    rw [← eq_pinf_of_mem_rootGroup J hJ hK hfix hr hr1 this, smul_inv_smul]
+    rw [← eq_pinf_of_mem_rootGroup J hJ hr hr1 this, smul_inv_smul]
   have hu₀Pu : u₀ • Pu = Pu := (hF u₀ (Subgroup.mem_zpowers u₀)).1
   obtain ⟨ι, -, -, hιbl, -, -, hιY⟩ := exists_iotaSL2 J hJ hK hfix hp2
   obtain ⟨y, hyY, hy⟩ := exists_yGroup_two_le_card J hJ hK hfix hp2 hp3
@@ -642,7 +643,7 @@ theorem false_of_not_sq_dvd (hp7 : 7 ≤ p) (hp3 : p % 3 = 1)
     have hv''p : (s⁻¹ * v * s) • pinf J hJ = pinf J hJ := by
       rw [mul_smul, mul_smul, hvQ, inv_smul_smul]
     have hv''o : orderOf (s⁻¹ * v * s) = p := by
-      rw [show s⁻¹ * v * s = MulAut.conj s⁻¹ v by simp [MulAut.conj_apply],
+      rw [show s⁻¹ * v * s = MulAut.conj s⁻¹ v by simp,
         MulEquiv.orderOf_eq, hv]
     have hv''U := mem_rootGroup_of_smul_pinf J hJ hK hfix hv''o hv''p
     have hv''Z : s⁻¹ * v * s ∉ zGroup J hJ := fun hz =>
@@ -657,7 +658,7 @@ theorem false_of_not_sq_dvd (hp7 : 7 ≤ p) (hp3 : p % 3 = 1)
     have hCM : Subgroup.closure {s⁻¹ * v * s, y * (s⁻¹ * v * s) * y⁻¹} ≤
         M.map (MulAut.conj s⁻¹).toMonoidHom := by
       have hv''M : s⁻¹ * v * s ∈ M.map (MulAut.conj s⁻¹).toMonoidHom :=
-        ⟨v, hvM, by simp [MulAut.conj_apply]⟩
+        ⟨v, hvM, by simp⟩
       have hyM' : y ∈ M.map (MulAut.conj s⁻¹).toMonoidHom :=
         ⟨y, hyM, by simpa [MulAut.conj_apply] using hsy⟩
       rw [Subgroup.closure_le, Set.insert_subset_iff, Set.singleton_subset_iff]
@@ -711,7 +712,7 @@ theorem false_of_not_sq_dvd (hp7 : 7 ≤ p) (hp3 : p % 3 = 1)
       rw [Subgroup.mem_bot]
       have h1 : ((d : M) : ProjectiveSpecialUnitaryMatrixGroup J) • (m • Pu) = m • Pu :=
         congrArg Subtype.val (MulAction.mem_stabilizer_iff.mp hd)
-      exact Subtype.ext (Subtype.ext (torusGroup_eq_one_of_smul_eq J hJ hK hfix
+      exact Subtype.ext (Subtype.ext (torusGroup_eq_one_of_smul_eq J hJ
         (Subgroup.mem_subgroupOf.mp d.2) (hB1 m) h1))
     rw [← Nat.card_coe_set_eq, Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hfree),
       Nat.card_prod, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDM).toEquiv, hDcard]

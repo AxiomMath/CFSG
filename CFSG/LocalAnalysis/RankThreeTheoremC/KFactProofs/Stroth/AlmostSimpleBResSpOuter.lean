@@ -24,7 +24,7 @@ theorem mem_of_pow_eq_one_of_index_dvd_two {G : Type*} [Group G] {H : Subgroup G
   rcases (Nat.dvd_prime Nat.prime_two).1 hH with h1 | h2
   · rw [Subgroup.index_eq_one.1 h1]
     exact Subgroup.mem_top g
-  · haveI : H.Normal := Subgroup.normal_of_index_eq_two h2
+  · have : H.Normal := Subgroup.normal_of_index_eq_two h2
     have hq : (QuotientGroup.mk g : G ⧸ H) ^ m = 1 := by
       rw [← QuotientGroup.mk_pow, hg, QuotientGroup.mk_one]
     have h3 : orderOf (QuotientGroup.mk g : G ⧸ H) ∣ m := orderOf_dvd_of_pow_eq_one hq
@@ -45,9 +45,9 @@ theorem le_of_elemAbelian_sp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : ¬ 
     2 * orderOf (Nat.card K : ZMod p) ≤
       (if Even (orderOf (Nat.card K : ZMod p)) then 2 * n else n) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI := isElementaryAbelian_of_isElemAbelian hW
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have := isElementaryAbelian_of_isElemAbelian hW
   have hcardK : Nat.card K = Fintype.card K := Nat.card_eq_fintype_card
   have hpK : ¬ p ∣ Fintype.card K := by rwa [← hcardK]
   rw [hcardK]
@@ -74,6 +74,7 @@ theorem le_of_elemAbelian_sp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : ¬ 
     (Subgroup.inclusion_injective hQ)
   exact CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hWc hcycW
 
+omit [Finite K] in
 theorem proj_injective_sp [CharP K 2] (hn : 1 ≤ n) : Function.Injective (proj n K) := by
   rw [injective_iff_map_eq_one]
   intro y hy
@@ -91,7 +92,7 @@ theorem exists_block_size_sp {p : ℕ} (hp : p.Prime) (hpc : ¬ p ∣ Nat.card K
     (h2e : 2 * orderOf (Nat.card K : ZMod p) ≤
       (if Even (orderOf (Nat.card K : ZMod p)) then 2 * n else n)) :
     ∃ e' : ℕ, 1 ≤ e' ∧ 2 * e' ≤ n ∧ (p : ℤ) ∣ ((Nat.card K : ℤ) ^ 2) ^ e' - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hpos, -⟩ := orderOf_card_spec (K := K) hp hpc
   set e := orderOf (Nat.card K : ZMod p) with he
   have hpow : (Nat.card K : ZMod p) ^ e = 1 := pow_orderOf_eq_one _
@@ -102,12 +103,12 @@ theorem exists_block_size_sp {p : ℕ} (hp : p.Prime) (hpc : ¬ p ∣ Nat.card K
     rw [← pow_mul, hk, sub_self]
   by_cases hev : Even e
   · obtain ⟨f, hf⟩ := hev
-    rw [if_pos ⟨f, hf⟩] at h2e
+    rw [ite_eq_left ⟨f, hf⟩] at h2e
     refine ⟨f, by omega, by omega, hdvd f ?_⟩
     rw [show 2 * f = e by omega]
     exact hpow
   · have hodd : ¬ Even e := hev
-    rw [if_neg hodd] at h2e
+    rw [ite_eq_right hodd] at h2e
     refine ⟨e, hpos, by omega, hdvd e ?_⟩
     rw [two_mul, pow_add, hpow, one_mul]
 
@@ -116,8 +117,8 @@ theorem sp_outer_fixesPair [CharP K 2] (hn : 2 ≤ n) {p : ℕ} (hp : p.Prime) (
     {α : MulAut (StatedProj (StatedSp n K))} (hα : α ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner (StatedProj (StatedSp n K)))
     (hαp : α ^ p = 1) : FixesIndepPair p α := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
   have hpc : ¬ p ∣ Nat.card K := by

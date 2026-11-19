@@ -97,8 +97,10 @@ open Equiv
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem perm_inv_apply_self (f : Perm α) (x : α) : f⁻¹ (f x) = x := Perm.inv_eq_iff_eq.2 rfl
 
+omit [Fintype α] [DecidableEq α] in
 theorem zpow_apply_eq_self {P : Subgroup (Perm α)} {ω : α} {π₁ : Perm α} (hπ3 : π₁ ^ 3 = 1)
     (hπP : ∀ g ∈ P, π₁ * g = g * π₁) (hπω : π₁ ω = ω ∨ ∀ g ∈ P, π₁ ω ≠ g ω) (j : ℤ)
     {g : Perm α} (hg : g ∈ P) (hj : (π₁ ^ j) ω = g ω) : (π₁ ^ j) ω = ω := by
@@ -206,7 +208,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (barAut barOf)
 theorem card_plane {B : Subgroup G} (hB : IsElemAbelian 3 B) {x y : G} (hxB : x ∈ B) (hyB : y ∈ B)
     (hx1 : x ≠ 1) (hyx : y ∉ Subgroup.zpowers x) :
     Nat.card ↥(Subgroup.zpowers x ⊔ Subgroup.zpowers y) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBp : IsPGroup 3 ↥B := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hB.2 g.1 g.2)⟩
   have hle : Subgroup.zpowers x ⊔ Subgroup.zpowers y ≤ B :=
     sup_le ((Subgroup.zpowers_le).2 hxB) ((Subgroup.zpowers_le).2 hyB)
@@ -280,7 +282,7 @@ theorem final_step (hP95 : Prop95) (h111 : Prop111Statement) (h121 : Prop121_of_
     {x : Z} (hx : x ∈ U) (hne : Eh (x * (ψ x)⁻¹ * (ψ (x * (ψ x)⁻¹))⁻¹) ≠ 1) : False := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set mk := QuotientGroup.mk' (GLAPPrimeCore 3 ↥(Cg d)) with hmk
   have hBel : IsElemAbelian 3 B := h.uniq.elemAbelian
   have hBM : B ≤ M := h.uniq.le
@@ -458,7 +460,7 @@ theorem iiHardCaseAltMainTwo_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
   intro G _ _ m B M E A D T L h hN d hd hd1 hfix b _B1 hP _hS hEk K hK _hnot hBsN hcent _hnb halt
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set Bs := Lemma136c.bStarOf B L D b with hBs
   obtain ⟨hLc, -⟩ := hcomp h.toSec13 h.hL
   have hLM : L ≤ M := hLc.1

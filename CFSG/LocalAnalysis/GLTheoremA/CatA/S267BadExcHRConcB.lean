@@ -18,7 +18,7 @@ open CFSG.LocalAnalysis.GLTheoremA.S267.ModelGen (ModelAGen)
 theorem exists_orderOf_eq_fixSubfield {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     {σ : K ≃+* K} (hσ : orderOf σ = p) (hpK : p ∣ Nat.card K - 1) :
     ∃ ζ : Kˣ, orderOf ζ = p ∧ σ (ζ : K) = ζ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc := CFSG.RankThree.PartTwo.KFacts.card_fixSubfield_pow σ
   rw [hσ] at hc
   have hn1 : 1 ≤ Nat.card (fixSubfield σ) := Nat.card_pos
@@ -29,7 +29,7 @@ theorem exists_orderOf_eq_fixSubfield {K : Type} [Field K] [Finite K] {p : ℕ} 
     rw [Nat.cast_sub hn1]
     push_cast at hpK ⊢
     rwa [ZMod.pow_card] at hpK
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨ζ', hζ'⟩ := CFSG.StandardType.TableBSymp.exists_orderOf_eq_of_dvd
     (K := fixSubfield σ) h1
   refine ⟨Units.map (fixSubfield σ).subtype.toMonoidHom ζ', ?_, ?_⟩
@@ -41,6 +41,7 @@ theorem dvd_sq_sub_one_of_dvd_sub_one {p Q : ℕ} (h : p ∣ Q - 1) : p ∣ Q ^ 
 
 variable {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
+omit [Finite Ω] in
 theorem exists_embedding_of_equiv {p : ℕ} {X : Type} [Group X] (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) (eX : X ≃* PSimple p S) :
     ∃ φ : X →* Ω, Function.Injective φ ∧ φ.range = S := by
@@ -94,8 +95,8 @@ theorem card_le_pow_rank_add_two_E78 {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {p
     (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p) {K : Type} [Field K] [Finite K]
     (hpK : p ∣ Nat.card K ^ 2 - 1) (eX : ↥(adjointGroup τ K) ≃* PSimple p S) :
     Nat.card B ≤ p ^ (τ.rank + 2) := by
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   have hdet : ¬ (p : ℤ) ∣ τ.cartan.det := by
     rcases hτ with rfl | rfl
     · rw [det_cartan_E7]
@@ -125,10 +126,10 @@ theorem concA_badExcCore_E6_of_dvd_sub_one_of_card_eq {p q : ℕ} (hp : p.Prime)
     (hdvd : p ∣ Q.card - 1) (hBc : Nat.card B = p ^ (Tag.E6.rank + 2)) : S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_E6] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 Q hv
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
   have hpK : p ∣ Nat.card K - 1 := by rwa [hK]
   have hK5 := five_le_card_of_dvd_sub_one hp5 hpK

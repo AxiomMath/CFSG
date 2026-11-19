@@ -104,7 +104,7 @@ theorem D1OneLieData.inf_d1PlusCore_le_of_mem (hd : D1OneLieData p P M H R Rbar 
   set O := (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ C with hO
   obtain ⟨z₀, hz₀R, hz₀K, hz₀p, hz₀c⟩ := hd.z
   obtain ⟨-, hKX₀⟩ := hd.cfg.red.rankOne_principle hd.comp hd.noncyclic hz₀R hz₀K hz₀p hz₀c
-  have hOp : IsPGroup p O := Rbar.isPGroup'.to_le inf_le_left
+  have hOp : IsPGroup p O := Rbar.isPGroup.to_le inf_le_left
   have hOc : IsCyclic O := hd.cfg.red.isCyclic_of_le_centralizer hd.comp hKX₀ hOp inf_le_right
   have hcomm : O ≤ Subgroup.centralizer (O : Set (H ⧸ primeComplementCore (G := H) p)) :=
     Subgroup.le_centralizer_iff_isMulCommutative.mpr

@@ -77,7 +77,7 @@ theorem oddNorm_psl2_alt5 (hNorm : FactL2pSylowNorm)
   have hsQ : IsSimpleGroup Q := (CFSG.LieType.Simplicity.fam_PSL_simplicity Q 2 p 1 hQ).2
   let P₀ : Sylow 2 Q := default
   have hP₀ : IsSylowTwoOf (P₀ : Subgroup Q) ⊤ := by
-    refine ⟨le_top, P₀.isPGroup', fun h2 => ?_⟩
+    refine ⟨le_top, P₀.isPGroup, fun h2 => ?_⟩
     have h3 := P₀.not_dvd_index
     rw [show ((P₀ : Subgroup Q).subgroupOf ⊤).index = (P₀ : Subgroup Q).index from
       Subgroup.relIndex_top_right _] at h2

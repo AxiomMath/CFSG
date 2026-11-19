@@ -77,9 +77,9 @@ theorem eq_three_of_special {J : Type} [Group J] [Finite J] {Y : Type} [Group Y]
     (ρ : J →* MulAut W) (hρ : ∀ x : J, x ^ q = 1 → ρ x = 1 → x ∈ Subgroup.center J) :
     q = 3 ∧ Q = 3 := by
   classical
-  haveI : Finite (MulAut W) := Finite.of_injective (fun f : MulAut W => (f : W → W))
+  have : Finite (MulAut W) := Finite.of_injective (fun f : MulAut W => (f : W → W))
     (fun f g h => MulEquiv.ext (congrFun h))
-  haveI : Finite Y := Finite.of_equiv _ e.toEquiv
+  have : Finite Y := Finite.of_equiv _ e.toEquiv
   have hqp : q.Prime := hq.out
   have hqodd : Odd q := hqp.odd_of_ne_two hq2
   let π : J →* Y := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center J))
@@ -143,7 +143,7 @@ theorem eq_three_of_special {J : Type} [Group J] [Finite J] {Y : Type} [Group Y]
   obtain ⟨N, hNA, hN, hne⟩ := exists_range_eW_ne_bot hW hq2 hAc hAq hA1
   set Z : Subgroup ↥R := N.comap ψ ⊓ Subgroup.center ↥R with hZdef
   have hZc : Z ≤ Subgroup.center ↥R := inf_le_right
-  haveI hZn : Z.Normal := Subgroup.normal_of_le_center hZc
+  have hZn : Z.Normal := Subgroup.normal_of_le_center hZc
   have hZmap : Z.map ψ = N := by
     apply le_antisymm
     · rintro _ ⟨x, ⟨hxN, -⟩, rfl⟩

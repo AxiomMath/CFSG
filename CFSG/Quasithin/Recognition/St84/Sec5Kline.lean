@@ -29,7 +29,7 @@ private theorem fixes_iff_dist_le_three_of_mem (Y : Setup Γ G) (H : Y.Sec5Hyp s
     z₀ • v = v ↔ Γ.dist (Y.vert 0) v ≤ 3 := by
   obtain ⟨-, -, -, -, -, -, hcard, -⟩ := Y.s52_step8 H hZ
   have h := Y.vertZ_le_stabilizer_iff H hZ 0 1 v
-  rw [one_smul, ← Y.Z_eq_vertZ, if_pos (show Even (0 : ℤ) from ⟨0, by norm_num⟩)] at h
+  rw [one_smul, ← Y.Z_eq_vertZ, ite_eq_left (show Even (0 : ℤ) from ⟨0, by norm_num⟩)] at h
   rw [← h]
   refine ⟨fun hv z hz => ?_, fun hle => hle hz₀Z⟩
   rcases eq_or_ne z 1 with rfl | hz1
@@ -455,14 +455,14 @@ theorem not_rightTransAt_of_eight_le (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ
   intro hR
   have hex : ∃ e : ℤ, Even e ∧ a ≤ e ∧ e + 8 ≤ a + (k : ℤ) := by
     by_cases ha : Even a
-    · exact ⟨a, ha, le_rfl, by push_cast; omega⟩
+    · exact ⟨a, ha, le_rfl, by omega⟩
     · have h9 : 9 ≤ k := by
         rcases hk' with h | h
         · exact absurd h ha
         · exact h
       have haodd : Odd a := Int.not_even_iff_odd.mp ha
       obtain ⟨m, hm⟩ := haodd
-      exact ⟨a + 1, ⟨m + 1, by rw [hm]; ring⟩, by omega, by push_cast; omega⟩
+      exact ⟨a + 1, ⟨m + 1, by rw [hm]; ring⟩, by omega, by omega⟩
   obtain ⟨e, he, hae, he8⟩ := hex
   have hK : Y.arcStab a (a + (k : ℤ)) ≤ Y.K :=
     (Y.arcStab_anti hae he8).trans (le_of_eq (Y.arcStab_eight_eq_K H hZ he))

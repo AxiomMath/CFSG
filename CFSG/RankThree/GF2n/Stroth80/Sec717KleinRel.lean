@@ -18,8 +18,8 @@ theorem mem_statedOmega_quadPlus_three_iff (A : GL (Fin 3 ⊕ Fin 3) K) :
   rw [CFSG.ClassicalGroups.Orthogonal.statedOmega_eq_comap (coe_quadPlus 3 K),
     Subgroup.mem_comap]
   obtain ⟨hs, hp⟩ := Klein.sl4_isSimpleGroup_and_perfect (K := K)
-  haveI := hs
-  haveI := hp
+  have := hs
+  have := hp
   obtain ⟨-, -, -, -, -, -, hcomm, -⟩ :=
     CFSG.RankThree.PartOne.KCOrthogonal.derived_of_index_two_model
       (TauCeti.QuadraticMap.orthogonalGroup (quadPlus 3 K))

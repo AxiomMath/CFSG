@@ -25,7 +25,7 @@ open scoped commutatorElement
 theorem isSU3_modO2_perfectCore_u5PtP {f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) :
     UC22.IsSU3 (CFSG.Quasithin.ModO2 (perfectCore (CFSG.Quasithin.H13.Sec53F.Unit.u5PtP h))) f := by
-  haveI := h.finite
+  have := h.finite
   have h2f : (2 : ℕ) < 2 ^ f := by
     calc (2 : ℕ) = 2 ^ 1 := by norm_num
       _ < 2 ^ f := Nat.pow_lt_pow_right (by norm_num) (by omega)
@@ -74,8 +74,8 @@ theorem k_U5ParabolicGen_holds :
           Y₁.map α.toMonoidHom = Y₁ ∧ Y₂.map α.toMonoidHom = Y₂ := by
   intro X _ _ n hn hU5 S hS
   obtain ⟨K, _, h, ⟨e⟩⟩ := CFSG.Quasithin.H13.F431.Un.OL5.exists_model5 hU5
-  haveI := CFSG.Quasithin.H13.Sec53F.Unit.finite_hypPSU_five h
-  haveI := CFSG.Quasithin.H13.Sec53F.Unit.isSimpleGroup_hypPSU_five h
+  have := CFSG.Quasithin.H13.Sec53F.Unit.finite_hypPSU_five h
+  have := CFSG.Quasithin.H13.Sec53F.Unit.isSimpleGroup_hypPSU_five h
   have hY := CFSG.Quasithin.H13.Sec53F.Unit.u5_yamStd (h := h)
   obtain ⟨φ, hφ⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.exists_mulEquiv_map_eq_of_isSylowIn

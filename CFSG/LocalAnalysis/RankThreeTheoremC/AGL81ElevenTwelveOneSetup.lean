@@ -141,7 +141,7 @@ theorem agl81TwelveSetup_of (h9 : AGL81NineCompetitorQ G) : AGL81TwelveSetup G :
   have hn := (h9 (aglGlobal_of_setting hS) 3 P M H (muAt_of_escape hesc) hd.maxH hd.not_le
     (exists_component_of_d1KBar_ne_bot (d1KBar_ne_bot_of_isAltTwoP hA)) Q H hd.base hd.le_H
     hd.maxH hd.not_le hd.le_H (aglCovers_self H _)).1.nineThree
-  haveI := hn.normal
+  have := hn.normal
   have hQX : Q ≤ Subgroup.normalizer (d1PlusCore 3 H (d1KBar 3 M H) : Set G) :=
     hd.le_H.trans (le_normalizer_d1PlusCore hn.normal)
   obtain ⟨b, hbX, hb3, hbQ⟩ := exists_centralizing_of_three_dvd hd.base.2.1 hQX

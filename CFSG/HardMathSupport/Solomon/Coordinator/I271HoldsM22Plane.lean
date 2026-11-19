@@ -170,7 +170,7 @@ theorem card_sup_zpowers_three {Ω : Type*} [Group Ω] [Finite Ω] {x y : Ω} (h
     (hy3 : y ^ 3 = 1) (hx1 : x ≠ 1) (hy1 : y ≠ 1) (hxy : x * y = y * x) (hyx : y ≠ x)
     (hyxx : y ≠ x * x) :
     Nat.card ↥(Subgroup.zpowers x ⊔ Subgroup.zpowers y) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hox : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hoy : orderOf y = 3 := orderOf_eq_prime hy3 hy1
   have hPcard : Nat.card (Subgroup.zpowers x) = 3 := by rw [Nat.card_zpowers, hox]
@@ -273,7 +273,7 @@ theorem m22_plane
     (hE : IsElemAbelian 3 E) (hc : Nat.card E = 9) :
     Subgroup.closure {s : G | ∃ ε ∈ E, ε ≠ 1 ∧ ε s = s} = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj := conj_injective_G
   have hout : Nat.card (Outer G) ≤ 2 :=
     CFSG.RankThree.PartTwo.Sec4.card_outer_le_two_of_card_mulAut_le
@@ -343,13 +343,13 @@ theorem m22_plane
       have hpQ : p ∈ MulAut.conj g • (↑Q₀ : Subgroup G) := hsm ▸ (hPQ ▸ hpP)
       obtain ⟨p₀, hp₀, hpp⟩ := (Subgroup.mem_smul_pointwise_iff_exists p (MulAut.conj g) _).1 hpQ
       refine ⟨MulAut.conj p₀, ⟨p₀, hP0Q₀ ▸ hp₀, rfl⟩, ?_⟩
-      rw [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+      rw [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
         CFSG.ComponentClassification.OuterAutomorphisms.congr_conj]
       show MulAut.conj (MulAut.conj g p₀) = MulAut.conj p
       rw [← hpp]
       rfl
     · rintro ⟨_, ⟨p₀, hp₀, rfl⟩, rfl⟩
-      rw [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+      rw [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
         CFSG.ComponentClassification.OuterAutomorphisms.congr_conj, ← hEP]
       refine ⟨MulAut.conj g p₀, ?_, rfl⟩
       have : MulAut.conj g p₀ ∈ MulAut.conj g • (↑Q₀ : Subgroup G) :=

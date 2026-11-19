@@ -113,7 +113,7 @@ private lemma s168e3_cyc3_block_sub [Finite W] {x : MulAut W} {Z U : Subgroup W}
 
 private lemma s168e3_cyc3_pow_three_apply {ξ : MulAut W} (hξ : ξ ^ 3 = 1) (z : W) :
     ξ (ξ (ξ z)) = z := by
-  have h : (ξ ^ 3) z = ξ (ξ (ξ z)) := by simp [pow_succ, MulAut.mul_apply, pow_two]
+  have h : (ξ ^ 3) z = ξ (ξ (ξ z)) := by simp [pow_succ, MulAut.mul_apply]
   rw [← h, hξ, MulAut.one_apply]
 
 private lemma s168e3_cyc3_orbit_exhaust {Z : Subgroup W} (hZ : Nat.card ↥Z = 4) {ξ : MulAut W}
@@ -169,7 +169,7 @@ private lemma s168e3_cyc3_orbit_exhaust {Z : Subgroup W} (hZ : Nat.card ↥Z = 4
       · exact hz₀
       · exact hz₁Z
       · exact hz₂Z
-  haveI : Finite (Z : Set W) :=
+  have : Finite (Z : Set W) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_coe_set_eq, hZc]; decide)
   have hle := Set.ncard_le_ncard hsub
   rw [hins, hZc] at hle
@@ -253,7 +253,7 @@ private lemma s168e3_cyc_map_x_stable [Finite W] {A L : Subgroup (MulAut W)} {x 
   rw [hn]
   simp only [MulAut.mul_apply, MulAut.apply_inv_self]
 
-theorem s168e3_cyc3_fix [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {A E L : Subgroup (MulAut W)}
+theorem s168e3_cyc3_fix [Finite W] (_hW : ∀ w : W, w ^ 2 = 1) {A E L : Subgroup (MulAut W)}
     {x y₁ y₂ : MulAut W} {Z₁ Z₂ : Subgroup W} (hEA : E ≤ A)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hE3 : ∀ a ∈ E, a ^ 3 = 1) (hxE : x ∈ E)
     (hy₁E : y₁ ∈ E) (hy₂E : y₂ ∈ E) (hy₁ : y₁ ≠ 1) (hy₂ : y₂ ≠ 1)
@@ -378,7 +378,7 @@ theorem s168e3_cyc3_fix [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {A E L : Subgroup
     have ha₂ne : a₂ ≠ 1 := by
       intro h2
       exact hwZ₁ (by rw [← ha₁a₂, h2, mul_one]; exact ha₁)
-    haveI : Nontrivial ↥Z' := (Finite.one_lt_card_iff_nontrivial).mp (by rw [hZ'card]; norm_num)
+    have : Nontrivial ↥Z' := (Finite.one_lt_card_iff_nontrivial).mp (by rw [hZ'card]; norm_num)
     obtain ⟨z'₀, hz'₀ne⟩ := exists_ne (1 : ↥Z')
     have hz'Z' : (z'₀ : W) ∈ Z' := z'₀.2
     have hz'ne : (z'₀ : W) ≠ 1 := fun hh => hz'₀ne (Subtype.ext hh)

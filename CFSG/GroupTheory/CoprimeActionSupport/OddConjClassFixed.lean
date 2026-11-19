@@ -52,9 +52,9 @@ theorem exists_conj_fixed {G : Type*} [Group G] [Finite G] {P R : Subgroup G}
   set X : Set G := {z | ∃ p ∈ P, z = p * x * p⁻¹} with hX
   have hxX : x ∈ X := ⟨1, P.one_mem, by simp⟩
   let H : Subgroup G := P ⊔ R
-  haveI : Finite X := Finite.of_injective (Subtype.val : X → G) Subtype.val_injective
-  haveI : Nonempty X := ⟨⟨x, hxX⟩⟩
-  letI : MulAction H X :=
+  have : Finite X := Finite.of_injective (Subtype.val : X → G) Subtype.val_injective
+  have : Nonempty X := ⟨⟨x, hxX⟩⟩
+  let : MulAction H X :=
     { smul := fun h z =>
         ⟨(h : G) * z.1 * (h : G)⁻¹, conjClass_conj_mem_sup hRP hx h.2 z.2⟩
       one_smul := fun z => Subtype.ext (by
@@ -79,7 +79,7 @@ theorem exists_conj_fixed {G : Type*} [Group G] [Finite G] {P R : Subgroup G}
   have hB : Odd (Nat.card (R.subgroupOf H)) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe le_sup_right).toEquiv]
     exact hR
-  haveI : (P.subgroupOf H).Normal :=
+  have : (P.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
       (sup_le (Subgroup.le_normalizer) hRP)
   have hSB : P.subgroupOf H ⊔ R.subgroupOf H = ⊤ := by

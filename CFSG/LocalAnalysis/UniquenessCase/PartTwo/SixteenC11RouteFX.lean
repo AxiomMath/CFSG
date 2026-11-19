@@ -14,17 +14,17 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s16c11_compFactorAutInF_of_isSolvable (j : ℕ) {H S : Subgroup G}
     (hH : Group.IsSolvable ↥H) : CompFactorAutInF j H S := by
-  haveI := hH
+  have := hH
   intro Y hYH hY
-  haveI := hY
+  have := hY
   intro X hXn hX1 hXmin hXnc L hL
-  haveI := hXn
-  haveI : CFSG.IsMinimalNormal X := ⟨fun K hK hle => hXmin K hK hle⟩
+  have := hXn
+  have : CFSG.IsMinimalNormal X := ⟨fun K hK hle => hXmin K hK hle⟩
   exact absurd (CFSG.minimalNormal_solvable_isMulCommutative X) hXnc
 
 theorem s16c11_charTwo_of_sylow_le (D : Data G) {X : Subgroup G} (hXM : X ≤ D.M)
     (hTX : D.T ≤ X) : CFSG.QuasithinUnique.CharTwo X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.QuasithinUnique.CharTwo]
   intro x hx
   obtain ⟨hxX, hxc⟩ := Subgroup.mem_inf.1 hx
@@ -44,6 +44,7 @@ theorem s16c11_charTwo_of_sylow_le (D : Data G) {X : Subgroup G} (hXM : X ≤ D.
   exact hO2M_O2X ((D.standing.charTwo D.M D.maxLocal.1)
     (Subgroup.mem_inf.2 ⟨hxM, hxcent⟩))
 
+omit [Finite G] in
 private theorem s16c11_routefx_le_normalizer_preBarSub_bot {M V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) (hM : M ≤ stabTil V₀ V) :
     M ≤ normalizer (preBarSub M V₀ V hV ⊥ : Set G) := by
@@ -63,7 +64,7 @@ private theorem s16c11_routefx_le_normalizer_preBarSub_bot {M V₀ V : Subgroup 
       show actTil V₀ V hV (Subgroup.inclusion hM x) = 1
       have : Subgroup.inclusion hM x = ⟨(x : G), h⟩ := Subtype.ext rfl
       rw [this, h1]
-  haveI : ((preBarSub M V₀ V hV ⊥).subgroupOf M).Normal :=
+  have : ((preBarSub M V₀ V hV ⊥).subgroupOf M).Normal :=
     hker ▸ (inferInstance :
       ((actTil V₀ V hV).comp (Subgroup.inclusion hM)).ker.Normal)
   exact Subgroup.le_normalizer_of_normal_subgroupOf hKM
@@ -75,8 +76,8 @@ theorem s16c11_exists_preimage_of_solvable (D : Data G) {V₀ V : Subgroup G}
     ∃ X : Subgroup G, X ≤ D.M ∧ D.T ≤ X ∧ barSub V₀ V hV X = Xbar ∧
       Group.IsSolvable ↥X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hsolv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hsolv
   have hM : D.M ≤ stabTil V₀ V :=
     le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀
   have hT : IsSylowIn 2 D.T D.M := TwelveShort.isSylowIn_of_le D D.sylowM.le
@@ -133,10 +134,10 @@ theorem s16c11_exists_preimage_of_solvable (D : Data G) {V₀ V : Subgroup G}
   have hQ₀Y : Q₀ ≤ Y := by rw [hY]; exact le_inf (hQ₀T.trans hT_X) hQ₀K
   have hYnorm : Y ≤ normalizer (Q₀ : Set G) := by
     rw [hY]; exact inf_le_left.trans (by rw [hX]; exact inf_le_right)
-  haveI : (Q₀.subgroupOf Y).Normal :=
+  have : (Q₀.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQ₀Y).2 hYnorm
   have hQ₀Yp : IsPGroup 2 (Q₀.subgroupOf Y) := hQ₀_syl.isPGroup.comap_subtype
-  haveI := hQ₀Yp.isNilpotent
+  have := hQ₀Yp.isNilpotent
   have hdvd : Q₀.relIndex Y ∣ Q₀.relIndex K := by
     rw [← Subgroup.relIndex_mul_relIndex Q₀ Y K hQ₀Y hY_le_K]
     exact ⟨Y.relIndex K, rfl⟩
@@ -144,8 +145,8 @@ theorem s16c11_exists_preimage_of_solvable (D : Data G) {V₀ V : Subgroup G}
   have hodd' : Odd (Q₀.relIndex Y) :=
     Nat.not_even_iff_odd.mp fun he => hoddY (even_iff_two_dvd.mp he)
   have hodd_card : Odd (Nat.card (↥Y ⧸ (Q₀.subgroupOf Y))) := hodd'
-  haveI : Group.IsSolvable (↥Y ⧸ (Q₀.subgroupOf Y)) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd_card
-  haveI : Group.IsSolvable ↥Y := Group.isSolvable_of_subgroup_quotient (Q₀.subgroupOf Y)
+  have : Group.IsSolvable (↥Y ⧸ (Q₀.subgroupOf Y)) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd_card
+  have : Group.IsSolvable ↥Y := Group.isSolvable_of_subgroup_quotient (Q₀.subgroupOf Y)
   let ψ : ↥X →* ↥(stabTil V₀ V) := Subgroup.inclusion hXs
   let f : ↥X →* ↥Xbar := MonoidHom.codRestrict ((actTil V₀ V hV).comp ψ) Xbar fun g => by
     have hmem : actTil V₀ V hV (ψ g) ∈ barSub V₀ V hV X :=

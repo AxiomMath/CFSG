@@ -142,10 +142,10 @@ theorem typeII_hF_card_inf_le {p : ℕ} [Fact p.Prime] {G : Type*} [Group G] [Fi
     rwa [hTcard] at h
   obtain ⟨i, hi, hAi⟩ := (Nat.dvd_prime_pow hp).mp hAdvd
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h2i : 2 ≤ i := by
     by_contra hi2
-    push_neg at hi2
+    push Not at hi2
     have : Nat.card (F ⊓ T : Subgroup G) ≤ p := by
       rw [hAi]
       calc p ^ i ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos (by omega)
@@ -221,7 +221,7 @@ theorem typeII_hF_comm_of_le {p : ℕ} [Fact p.Prime] {G : Type*} [Group G] [Fin
   have hFR : F ≤ Φ.range := hΦrange ▸ hFP
   let φ : ↥F →* ↥Z :=
     (MonoidHom.snd ↥T ↥Z).comp (e.symm.toMonoidHom.comp (Subgroup.inclusion hFR))
-  haveI : IsCyclic ↥Z := hZcyc
+  have : IsCyclic ↥Z := hZcyc
   refine MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center φ ?_
   intro a ha
   have haT : (a : G) ∈ T := by
@@ -266,14 +266,14 @@ theorem typeII_hF_pRank_map_conj_le {p : ℕ} (hp : 1 < p) {G : Type*} [Group G]
     · rintro ⟨_, ⟨a, ha, rfl⟩, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using ha
     · intro hy
-      exact ⟨c * y * c⁻¹, ⟨y, hy, rfl⟩, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨c * y * c⁻¹, ⟨y, hy, rfl⟩, by simp [mul_assoc]⟩
   rwa [hmap] at h
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x : G}
   {J : Subgroup G} {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   {Shape : ∀ {X : Type} [Group X], Subgroup X → Subgroup X → Subgroup X → Prop}
 
-theorem typeII_hF (hS : Setting G) (hX : ExtraFacts Typ p Shape) (hc : PointConfig Typ G p P M x J)
+theorem typeII_hF (_hS : Setting G) (hX : ExtraFacts Typ p Shape) (hc : PointConfig Typ G p P M x J)
     (hfus : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G))
     {U : Subgroup G} (hU : IIPlane p P x J U) :
     ∀ F : Subgroup G, IsPGroup p F → U ≤ F → F ≤ M → CFSG.Open.pRank p F ≤ 2 →
@@ -281,7 +281,7 @@ theorem typeII_hF (hS : Setting G) (hX : ExtraFacts Typ p Shape) (hc : PointConf
         (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers x := by
   intro F hFp hUF _ hrk
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hTcard, hTexp, hTnab, -⟩ := typeII_T_structure hX hc
   obtain ⟨Z, hZcyc, hxZ, -, hZT, hTZ, hsup⟩ := typeII_S_decomp hX hc
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1

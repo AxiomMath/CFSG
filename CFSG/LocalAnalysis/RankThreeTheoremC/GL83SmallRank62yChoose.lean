@@ -38,7 +38,7 @@ theorem sr628_exists_invariant {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z :
       (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr hxz.symm))
   have hAO : smallRankS x T ⊔ (zpowers x ⊔ zpowers z) ≤ normalizer (O : Set G) :=
     (sup_le hSC hBC).trans hCO
-  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup'.to_le hf.B_le_P
+  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup.to_le hf.B_le_P
   obtain ⟨hcardA, hAsolv⟩ :=
     sr628_card_sup_and_solvable hp hp2 hf.S_isPGroup hBp hf.B_le_normalizer_S
   have hcop : Nat.Coprime (Nat.card ↥(smallRankS x T ⊔ (zpowers x ⊔ zpowers z)))

@@ -16,7 +16,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec15
 
 theorem j2AutFixNine_holds :
     J2AutFixNine :=
-  fun X _ _ hX E hE σ hσ hfix =>
+  fun _X _ _ hX _E hE _σ hσ hfix =>
     CFSG.RankThree.PartTwo.Sec17.Proof17Res3.j2_aut_eq_one_of_coprime hX hE hσ hfix
 
 theorem j2HasE25_holds : J2HasE25 := by
@@ -43,7 +43,7 @@ theorem j2HasE25_holds : J2HasE25 := by
 
 theorem hjThetaS14_of_item135
     (h135 : Sec13.Item135) : HJThetaS14 :=
-  fun G _ _ A c L h hJ =>
+  fun _G _ _ _A _c _L h hJ =>
     CFSG.RankThree.PartTwo.Sec17.C174.theta_eq_pCore_two_of_j2 h135 h hJ
 
 theorem step155HostE0WRes1TypeFBarLe_hj_holds

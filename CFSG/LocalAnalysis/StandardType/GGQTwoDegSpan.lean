@@ -18,7 +18,7 @@ theorem qTwoDegSpan_sup_eq {H : Type*} [Group H] {A : Subgroup H} {N : ℕ} (hN 
     Subgroup.map (A.subtype.comp ρ.toMonoidHom)
       (MulAction.stabilizer (Equiv.Perm (Fin N)) ω) ⊔ W = A := by
   classical
-  haveI : Nontrivial (Fin N) := Fin.nontrivial_iff_two_le.2 hN
+  have : Nontrivial (Fin N) := Fin.nontrivial_iff_two_le.2 hN
   set E : Equiv.Perm (Fin N) →* H := A.subtype.comp ρ.toMonoidHom with hE
   set P : Subgroup (Equiv.Perm (Fin N)) :=
     MulAction.stabilizer (Equiv.Perm (Fin N)) ω with hP
@@ -67,6 +67,7 @@ theorem qTwoDegSpan_sup_eq {H : Type*} [Group H] {A : Subgroup H} {N : ℕ} (hN 
     exact Subgroup.mem_map_of_mem E hqP
   exact hnot hWle
 
+omit [Finite G] in
 theorem qTwoDegSpan_exists_not_le {Bs L : Subgroup G} {𝒦 : Finset (Subgroup G)} {m N : ℕ}
     (hm : 1 ≤ m) (hNm : N = m + 1)
     (hA : Nat.card ↥(ggAutomizerJoin L Bs 𝒦) = N.factorial)
@@ -97,7 +98,7 @@ theorem qTwoDeg_exists_spanning_neighbour
     {k : QTwoRowKind} {m d c : ℕ} (hrow : QTwoRowData k m d c Bs L x) (hm : 5 ≤ m)
     {ι : Type} {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hP : GGCoxeterPres 3 (ggAutomizerJoin L Bs 𝒦) M e)
-    {N : ℕ} (hN : 6 ≤ N) {e' : Fin (N - 1) ≃ ι}
+    {N : ℕ} (_hN : 6 ≤ N) {e' : Fin (N - 1) ≃ ι}
     (hM : M = (CoxeterMatrix.A (N - 1)).reindex e')
     (hNm : N = m + 1) :
     ∃ (y : G) (K : Subgroup G), GGNbr 3 B x D J y K ∧

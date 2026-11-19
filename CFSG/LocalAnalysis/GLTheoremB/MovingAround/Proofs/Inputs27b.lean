@@ -25,6 +25,7 @@ theorem glaPPrimeCoreOf_eq_bot_of_comp (hO : GLAPPrimeCore 3 X = ⊥) {K : Subgr
   show (GLAPPrimeCore 3 ↥K).map K.subtype = ⊥
   rw [hOK, Subgroup.map_bot]
 
+omit [Finite X] in
 theorem mem_centralizer_of_barAut_eq_one {K : Subgroup X} (hOK : GLAPPrimeCoreOf 3 K = ⊥)
     (g : ↥(Subgroup.normalizer (K : Set X))) (hg : barAut 3 K g = 1) :
     (g : X) ∈ Subgroup.centralizer (K : Set X) := by
@@ -38,10 +39,12 @@ theorem mem_centralizer_of_barAut_eq_one {K : Subgroup X} (hOK : GLAPPrimeCoreOf
   calc x * (g : X) = (g : X) * x * (g : X)⁻¹ * (g : X) := by rw [h2]
     _ = (g : X) * x := by group
 
+omit [Finite X] in
 theorem isElemAbelian_zpowers_of_mem {p : ℕ} {B : Subgroup X} (hB : IsElemAbelian p B) {b : X}
     (hb : b ∈ B) : IsElemAbelian p (Subgroup.zpowers b) :=
   CFSG.Open.IsElemAbelian.mono hB (Subgroup.zpowers_le.2 hb)
 
+omit [Finite X] in
 theorem isElemAbelian_autBar {B : Subgroup X} (hB : IsElemAbelian 3 B) (K : Subgroup X) :
     IsElemAbelian 3 (autBar 3 B K) :=
   CFSG.SectionRank.isElemAbelian_map (Inputs27.isElemAbelian_subgroupOf
@@ -76,7 +79,7 @@ theorem deltaImage_facts (hO : GLAPPrimeCore 3 X = ⊥) {K B : Subgroup X}
       Lemma123.DeltaImage 3 ⊤ (Subgroup.zpowers b) K ≤
         localDeltaTwoIn (innerAut (barOf 3 K) ⊔ Lemma123.DeltaImage 3 ⊤ (Subgroup.zpowers b) K)
           (autBar 3 (Subgroup.zpowers b) K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D : Subgroup X := Subgroup.zpowers b with hDdef
   have hDB : D ≤ B := Subgroup.zpowers_le.2 hbB
   have hDel : IsElemAbelian 3 D := isElemAbelian_zpowers_of_mem hB hbB
@@ -137,8 +140,8 @@ theorem not_isLocallyOTwoBalanced_of_S (hO : GLAPPrimeCore 3 X = ⊥) {K B S : S
       S ⊓ Subgroup.centralizer ({b} : Set X) ≤ pCoreOf 2 (Subgroup.centralizer ({b} : Set X))) :
     ¬ IsLocallyOTwoBalanced 3 1 (autBar 3 B K) := by
   intro hbal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOK := glaPPrimeCoreOf_eq_bot_of_comp hO hK
   have hgen := CFSG.RankThreeEvenClassification.Helpers.coprime_centralizer_generation_of_plane 3
     Nat.prime_three B S (fun f => Subtype.ext (by simpa using hB.2 f.1 f.2)) (by rw [hB9]; norm_num)
@@ -178,6 +181,7 @@ theorem not_isLocallyOTwoBalanced_of_S (hO : GLAPPrimeCore 3 X = ⊥) {K B S : S
   rw [h0] at hle
   exact hWne (le_bot_iff.1 hle)
 
+omit [Finite X] in
 theorem glaPPrimeCore_top_eq_bot {p : ℕ} (hO : GLAPPrimeCore p X = ⊥) :
     GLAPPrimeCore p ↥(⊤ : Subgroup X) = ⊥ := by
   have h := glaPPrimeCore_map_iso p (Subgroup.topEquiv : ↥(⊤ : Subgroup X) ≃* X)
@@ -185,10 +189,12 @@ theorem glaPPrimeCore_top_eq_bot {p : ℕ} (hO : GLAPPrimeCore p X = ⊥) :
   exact Subgroup.map_injective (Subgroup.topEquiv : ↥(⊤ : Subgroup X) ≃* X).injective
     (by simpa using h)
 
+omit [Finite X] in
 theorem mk'_top_injective {p : ℕ} (hO : GLAPPrimeCore p X = ⊥) :
     Function.Injective (QuotientGroup.mk' (GLAPPrimeCore p ↥(⊤ : Subgroup X))) := by
   rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_mk', glaPPrimeCore_top_eq_bot hO]
 
+omit [Finite X] in
 theorem le_of_barX_top_le {p : ℕ} (hO : GLAPPrimeCore p X = ⊥) {H₁ H₂ : Subgroup X}
     (h : barX p ⊤ H₁ ≤ barX p ⊤ H₂) : H₁ ≤ H₂ := by
   intro x hx
@@ -293,8 +299,8 @@ theorem exists_centralizing_lift {K S : Subgroup X} {b : X} (hS : IsPGroup 2 ↥
       barAut 3 K ⟨b, hbK⟩ * barAut 3 K ⟨s, hSN hs⟩) :
     ∃ c ∈ S ⊓ Subgroup.centralizer ({b} : Set X), ∃ hc : c ∈ Subgroup.normalizer (K : Set X),
       barAut 3 K ⟨c, hc⟩ = barAut 3 K ⟨s, hSN hs⟩ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set A : Subgroup X := Subgroup.zpowers b with hA
   have hAp : IsPGroup 3 ↥A := l119_isPGroup_zpowers hb3
   have hAS : A ≤ Subgroup.normalizer (S : Set X) := Subgroup.zpowers_le.2 hbS
@@ -367,8 +373,8 @@ theorem not_isLocallyOTwoBalanced_two_of_weak (hO : GLAPPrimeCore 3 X = ⊥) {K 
     (hweak : IsWeaklyLocallyOTwoBalanced 3 1 (autBar 3 B K)) :
     ¬ IsLocallyOTwoBalanced 3 2 (autBar 3 B K) := by
   intro hbal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOK := glaPPrimeCoreOf_eq_bot_of_comp hO hK
   have hBel : IsElemAbelian 3 (autBar 3 B K) := isElemAbelian_autBar hB K
   have hΔ : ∀ b ∈ B, b ≠ 1 → ∀ (t : X) (ht : t ∈ S), t ∈ Subgroup.centralizer ({b} : Set X) →
@@ -559,7 +565,7 @@ theorem isPGroup_center_of_core_eq_bot {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     rw [hy, orderOf_pow_of_dvd (pow_ne_zero a hp.out.ne_zero) ⟨m, hnm⟩, hnm,
       Nat.mul_div_cancel_left _ (pow_pos hp.out.pos a)]
   have hyZ : y ∈ Subgroup.center Y := Subgroup.pow_mem _ z.2 _
-  haveI hN : (Subgroup.zpowers y).Normal :=
+  have hN : (Subgroup.zpowers y).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.2 hyZ)
   have hcop : Nat.Coprime p (Nat.card (Subgroup.zpowers y)) := by
     rw [Nat.card_zpowers, hyo]
@@ -581,7 +587,7 @@ theorem concl_c_of_lThreeFour (hI7L : Input7_L34)
     (hA2 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut Y))) :
     CFSG.Open.pRank 3 (⊤ : Subgroup Y) = 2 ∧ CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut Y)) = 2 ∧
       9 ∣ Nat.card Y ∧ ¬ 81 ∣ Nat.card Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZp : IsPGroup 3 ↥(Subgroup.center Y) := isPGroup_center_of_core_eq_bot hYO
   have hZc : CFSG.pCore 3 Y = Subgroup.center Y :=
     le_antisymm (CFSG.HardMathSupport.Solomon.Proving.pCore_three_le_center_of_quasisimple hYq)
@@ -666,7 +672,7 @@ theorem concl_c_of_lThreeFour (hI7L : Input7_L34)
           Nat.factorization_eq_zero_of_not_dvd (by norm_num)
         simp [this]
       have hZP : Subgroup.center Y ≤ (P : Subgroup Y) := hZp.le_sylow_of_normal P
-      obtain ⟨⟨x, hx, y, hy, hxy⟩, hexp⟩ := hSL Y hYq hZp hZne hL P P.isPGroup' hZP (by rw [hPc, hZ3])
+      obtain ⟨⟨x, hx, y, hy, hxy⟩, hexp⟩ := hSL Y hYq hZp hZne hL P P.isPGroup hZP (by rw [hPc, hZ3])
       have hxZ : x ∉ Subgroup.center Y ∨ y ∉ Subgroup.center Y := by
         by_contra h
         push Not at h
@@ -778,7 +784,7 @@ theorem concl_of_alt (hSchur : Lemma123.InputSchurAlt')
     (∃ m : ℕ, IsAltType m ↥K) ∨
       (CFSG.Open.pRank 3 (⊤ : Subgroup ↥K) = 2 ∧ CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut ↥K)) = 2 ∧
         9 ∣ Nat.card ↥K ∧ ¬ 81 ∣ Nat.card ↥K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOK0 : GLAPPrimeCore 3 ↥K = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.glaPPrimeCore_eq_bot_of_isSubnormal hO hK.2.1
   have hperf : commutator ↥K = ⊤ := hK.2.2.1
@@ -853,7 +859,7 @@ theorem concl_of_alt (hSchur : Lemma123.InputSchurAlt')
     exact hnab (hEp.toSylow hEi) hE.1
   ·
     obtain ⟨P⟩ : Nonempty (Sylow 3 ↥K) := inferInstance
-    haveI : Fact (IsPGroup 3 ↥(P : Subgroup ↥K)) := ⟨P.isPGroup'⟩
+    have : Fact (IsPGroup 3 ↥(P : Subgroup ↥K)) := ⟨P.isPGroup⟩
     have hnc : ¬ IsCyclic ↥(P : Subgroup ↥K) := fun hc => hnab P inferInstance
     obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
     have hSE : IsElemAbelian 3 (S.map (P : Subgroup ↥K).subtype) :=
@@ -934,7 +940,7 @@ theorem type_cases {X : Type} [Group X] [Finite X] (hXK : CFSG.Open.IsKGroup X) 
     (∃ n : ℕ, IsAltType n (↥K ⧸ Subgroup.center ↥K)) ∨
       (∃ r : ℕ, IsChevSimple r (↥K ⧸ Subgroup.center ↥K)) ∨
       (∃ s : TauCeti.SporadicName, IsSporType s (↥K ⧸ Subgroup.center ↥K)) := by
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
   have hnab := Prop1116Design.not_isCommutative_barQuot ↥K hK.2.2
   have hcat : CFSG.Open.IsCatalogGroup (↥K ⧸ Subgroup.center ↥K) :=
     CFSG.KCore.KGroupNonab.catalogue_of_surjective isoInvariant_isCatalogGroup hXK K hnab

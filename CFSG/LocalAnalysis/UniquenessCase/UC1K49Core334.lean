@@ -16,6 +16,7 @@ open CFSG.ComponentClassification.AschbacherTheorem3 (centerOf frattiniOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem three_subgroups_mem_k334 {N H₁ H₂ H₃ : Subgroup G}
     (hn₁ : H₁ ≤ Subgroup.normalizer (N : Set G)) (hn₂ : H₂ ≤ Subgroup.normalizer (N : Set G))
     (hn₃ : H₃ ≤ Subgroup.normalizer (N : Set G)) (h1 : ⁅⁅H₂, H₃⁆, H₁⁆ ≤ N)
@@ -40,6 +41,7 @@ private theorem three_subgroups_mem_k334 {N H₁ H₂ H₃ : Subgroup G}
   rw [e1]
   exact mul_mem (hconj _ hxy _ hv) (hconj _ hxz _ hu)
 
+omit [Finite G] in
 private theorem three_subgroups_le_k334 {N H₁ H₂ H₃ : Subgroup G}
     (hn₁ : H₁ ≤ Subgroup.normalizer (N : Set G)) (hn₂ : H₂ ≤ Subgroup.normalizer (N : Set G))
     (hn₃ : H₃ ≤ Subgroup.normalizer (N : Set G)) (h1 : ⁅⁅H₂, H₃⁆, H₁⁆ ≤ N)
@@ -76,6 +78,7 @@ private theorem three_subgroups_le_k334 {N H₁ H₂ H₃ : Subgroup G}
       simpa using this
   exact Subgroup.commutator_le.mpr fun w hw z hz => (key w hw).2 z hz
 
+omit [Finite G] in
 private theorem mem_normalizer_commutator_k334 {X Y : Subgroup G} {g : G}
     (hX : g ∈ Subgroup.normalizer (X : Set G)) (hY : g ∈ Subgroup.normalizer (Y : Set G)) :
     g ∈ Subgroup.normalizer ((⁅X, Y⁆ : Subgroup G) : Set G) := by
@@ -83,6 +86,7 @@ private theorem mem_normalizer_commutator_k334 {X Y : Subgroup G} {g : G}
     (Subgroup.mem_normalizer_iff_map_conj_eq).mp hX,
     (Subgroup.mem_normalizer_iff_map_conj_eq).mp hY]
 
+omit [Finite G] in
 private theorem commutator_le_left_of_le_normalizer_k334 {X Y : Subgroup G}
     (hY : Y ≤ Subgroup.normalizer (X : Set G)) : ⁅X, Y⁆ ≤ X := by
   rw [Subgroup.commutator_le]
@@ -90,6 +94,7 @@ private theorem commutator_le_left_of_le_normalizer_k334 {X Y : Subgroup G}
   rw [show ⁅x, y⁆ = x * (y * x⁻¹ * y⁻¹) by rw [commutatorElement_def]; group]
   exact X.mul_mem hx ((Subgroup.mem_normalizer_iff.mp (hY hy) x⁻¹).mp (X.inv_mem hx))
 
+omit [Finite G] in
 private theorem commutator_eq_commutator_commutator_k334 {A L : Subgroup G}
     (hL : ⁅L, L⁆ = L) (hAL : A ≤ Subgroup.normalizer (L : Set G)) :
     ⁅A, L⁆ = ⁅⁅A, L⁆, L⁆ := by
@@ -108,6 +113,7 @@ private theorem commutator_eq_commutator_commutator_k334 {A L : Subgroup G}
     exact h3
   · exact commutator_le_left_of_le_normalizer_k334 (Subgroup.normalizer_commutator_ge_right A L)
 
+omit [Finite G] in
 private theorem comm_le_inf_k334 {D Q : Subgroup G}
     (hDQ : D ≤ Subgroup.normalizer (Q : Set G)) (hQN : Q ≤ Subgroup.normalizer (D : Set G)) :
     ⁅Q, D⁆ ≤ D ⊓ Q :=
@@ -117,6 +123,7 @@ private theorem comm_le_inf_k334 {D Q : Subgroup G}
     ((le_of_eq (Subgroup.commutator_comm Q D)).trans
       ((Subgroup.le_normalizer_iff_commutator_le_right (H := D) (K := Q)).1 hDQ))
 
+omit [Finite G] in
 private theorem comm_comm_N₁_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ ≤ N₀)
     (hD1 : ⁅D, N₁⁆ = ⊥) (hN0Q : ⁅N₀, Q⁆ ≤ N₁) : ⁅⁅Q, D⁆, N₁⁆ = ⊥ := by
   have hN1Q : ⁅N₁, Q⁆ ≤ N₁ := (Subgroup.commutator_mono h01 le_rfl).trans hN0Q
@@ -126,6 +133,7 @@ private theorem comm_comm_N₁_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ ≤
     calc ⁅⁅N₁, Q⁆, D⁆ ≤ ⁅N₁, D⁆ := Subgroup.commutator_mono hN1Q le_rfl
       _ = ⊥ := by rw [Subgroup.commutator_comm, hD1]
 
+omit [Finite G] in
 private theorem comm_N₀_D_sup_N₁_k334 {D N₀ N₁ : Subgroup G} (h01 : N₁ ≤ N₀)
     (hD0 : D ≤ Subgroup.normalizer (N₀ : Set G)) (hnat : NatA5Sec D N₀ N₁) :
     ⁅N₀, D⁆ ⊔ N₁ = N₀ := by
@@ -172,6 +180,7 @@ private theorem comm_N₀_D_sup_N₁_k334 {D N₀ N₁ : Subgroup G} (h01 : N₁
   rw [hprod] at this
   simpa [sup_comm] using this
 
+omit [Finite G] in
 private theorem comm_S_sup_N₁_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ ≤ N₀)
     (h0Q : N₀ ≤ Q) (hD0 : D ≤ Subgroup.normalizer (N₀ : Set G)) (hQD : ⁅Q, D⁆ ≤ N₀)
     (hnat : NatA5Sec D N₀ N₁) : ⁅Q, D⁆ ⊔ N₁ = N₀ := by
@@ -181,6 +190,7 @@ private theorem comm_S_sup_N₁_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ �
   rw [← hND]
   exact sup_le_sup_right hle N₁
 
+omit [Finite G] in
 private theorem sq_mem_N₁_k334 {D N₀ N₁ : Subgroup G} (hnat : NatA5Sec D N₀ N₁) {x : G}
     (hx : x ∈ N₀) : x ^ 2 ∈ N₁ := by
   obtain ⟨φ, ψ, hφs, hψs, hψk, hψeq⟩ := hnat
@@ -194,7 +204,7 @@ private theorem frattini_le_S_inter_N₁_k334 {D Q N₀ N₁ : Subgroup G} (hQ :
     (hN0Q : ⁅N₀, Q⁆ ≤ N₁) (hSN0 : ⁅Q, D⁆ ≤ N₀) (hSQ : ⁅Q, D⁆ ≤ Q)
     (hsq : ∀ x ∈ N₀, x ^ 2 ∈ N₁) : frattiniOf ⁅Q, D⁆ ≤ ⁅Q, D⁆ ⊓ N₁ := by
   set S := ⁅Q, D⁆ with hS
-  haveI : Fact (IsPGroup 2 ↥S) := ⟨hQ.to_le hSQ⟩
+  have : Fact (IsPGroup 2 ↥S) := ⟨hQ.to_le hSQ⟩
   have hSS : ⁅S, S⁆ ≤ N₁ := (Subgroup.commutator_mono hSN0 hSQ).trans hN0Q
   have hfr : frattini S ≤ N₁.comap S.subtype := by
     rw [CFSG.frattini_eq_closure_commutator_union_powers (R := ↥S) (p := 2)]
@@ -214,6 +224,7 @@ private theorem frattini_le_S_inter_N₁_k334 {D Q N₀ N₁ : Subgroup G} (hQ :
   rintro x ⟨y, hy, rfl⟩
   exact y.2
 
+omit [Finite G] in
 private theorem comm_S_eq_self_k334 {D Q : Subgroup G} (hperf : ⁅D, D⁆ = D)
     (hQN : Q ≤ Subgroup.normalizer (D : Set G)) : ⁅⁅Q, D⁆, D⁆ = ⁅Q, D⁆ :=
   (commutator_eq_commutator_commutator_k334 hperf hQN).symm
@@ -221,7 +232,7 @@ private theorem comm_S_eq_self_k334 {D Q : Subgroup G} (hperf : ⁅D, D⁆ = D)
 private theorem comm_S_S_le_frattini_k334 {D Q : Subgroup G} (hQ : IsPGroup 2 Q)
     (hSQ : ⁅Q, D⁆ ≤ Q) : ⁅⁅Q, D⁆, ⁅Q, D⁆⁆ ≤ frattiniOf ⁅Q, D⁆ := by
   set S := ⁅Q, D⁆ with hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : _root_.commutator (↥S) ≤ frattini ↥S :=
     CFSG.OrderReductions.FrattiniElementary.commutator_le_frattini 2 (hQ.to_le hSQ)
   have hmap : (_root_.commutator (↥S)).map S.subtype = ⁅S, S⁆ :=
@@ -268,6 +279,7 @@ private theorem comm_S_R_le_frattini_k334 {D Q N₀ N₁ : Subgroup G} (hQ : IsP
     rwa [hDS] at this
   exact hSR_SS.trans hSS_le
 
+omit [Finite G] in
 private theorem commutator_le_right_of_le_normalizer_k334 {X Y : Subgroup G}
     (hX : X ≤ Subgroup.normalizer (Y : Set G)) : ⁅X, Y⁆ ≤ Y := by
   rw [Subgroup.commutator_le]
@@ -275,6 +287,7 @@ private theorem commutator_le_right_of_le_normalizer_k334 {X Y : Subgroup G}
   rw [show ⁅x, y⁆ = (x * y * x⁻¹) * y⁻¹ by rw [commutatorElement_def]]
   exact Y.mul_mem ((Subgroup.mem_normalizer_iff.mp (hX hx) y).mp hy) (Y.inv_mem hy)
 
+omit [Finite G] in
 private theorem monoidHom_eq_one_of_comm_gen_k334 {S D : Subgroup G} {B : Type*} [Group B]
     (hDN : D ≤ Subgroup.normalizer (S : Set G)) (hDS : ⁅D, S⁆ = S) (f : ↥S →* B)
     (hfix : ∀ (d : ↥D) (x : ↥S) (hx' : (d : G) * (x : G) * (d : G)⁻¹ ∈ S),
@@ -290,7 +303,7 @@ private theorem monoidHom_eq_one_of_comm_gen_k334 {S D : Subgroup G} {B : Type*}
         ⟨d * (s : G) * d⁻¹, (Subgroup.mem_normalizer_iff.mp (hDN hd) s).mp hs⟩ *
           (⟨s, hs⟩ : ↥S)⁻¹ := by
       apply Subtype.ext
-      simp [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
+      simp [Subgroup.coe_mul, commutatorElement_def]
     rw [MonoidHom.mem_ker, hprod, map_mul, map_inv,
       hfix ⟨d, hd⟩ ⟨s, hs⟩ ((Subgroup.mem_normalizer_iff.mp (hDN hd) s).mp hs)]
     exact mul_inv_cancel _
@@ -301,8 +314,9 @@ private theorem monoidHom_eq_one_of_comm_gen_k334 {S D : Subgroup G} {B : Type*}
   rw [← hyx]
   exact MonoidHom.mem_ker.mp hy
 
+omit [Finite G] in
 private theorem S_inter_N₁_le_centerOf_k334 {D Q N₀ N₁ : Subgroup G}
-    (hN0Q : ⁅N₀, Q⁆ ≤ N₁) (hSN0 : ⁅Q, D⁆ ≤ N₀) (hSN₁ : ⁅⁅Q, D⁆, N₁⁆ = ⊥) :
+    (_hN0Q : ⁅N₀, Q⁆ ≤ N₁) (_hSN0 : ⁅Q, D⁆ ≤ N₀) (hSN₁ : ⁅⁅Q, D⁆, N₁⁆ = ⊥) :
     ⁅Q, D⁆ ⊓ N₁ ≤ centerOf ⁅Q, D⁆ := by
   set S := ⁅Q, D⁆ with hS
   have h : ⁅S ⊓ N₁, S⁆ = ⊥ := by
@@ -314,6 +328,7 @@ private theorem S_inter_N₁_le_centerOf_k334 {D Q N₀ N₁ : Subgroup G}
   rw [centerOf]
   exact le_inf inf_le_left hc
 
+omit [Finite G] in
 private theorem exists_commHom_k334 {S P N₁ : Subgroup G} (hSP_le : ⁅S, P⁆ ≤ S ⊓ N₁)
     (hS1_cent : S ⊓ N₁ ≤ centerOf S) (p : ↥P) :
     ∃ c : ↥S →* ↥S, ∀ y : ↥S, (c y : G) = ⁅(y : G), (p : G)⁆ := by
@@ -338,6 +353,7 @@ private theorem exists_commHom_k334 {S P N₁ : Subgroup G} (hSP_le : ⁅S, P⁆
         exact (Subgroup.mem_centralizer_iff.mp (hS1_cent hmemx).2 ⁅(z : G), (p : G)⁆ hmemz.1) }
   exact ⟨c, fun y => rfl⟩
 
+omit [Finite G] in
 private theorem commHom_conj_k334 {D S P N₁ : Subgroup G}
     (hPcent : P ≤ Subgroup.centralizer (D : Set G))
     (hDcent : D ≤ Subgroup.centralizer (N₁ : Set G)) (hSP_le : ⁅S, P⁆ ≤ S ⊓ N₁)
@@ -363,8 +379,9 @@ private theorem commHom_conj_k334 {D S P N₁ : Subgroup G}
   have hfix := Subgroup.mem_centralizer_iff.mp (hDcent d.2) ⁅(y : G), (p : G)⁆ hmem.2
   rw [← hfix]; group
 
+omit [Finite G] in
 private theorem comm_S_centralizer_D_k334 {D Q N₀ N₁ : Subgroup G}
-    (hQ : IsPGroup 2 Q) (hDQ : D ≤ Subgroup.normalizer (Q : Set G))
+    (_hQ : IsPGroup 2 Q) (hDQ : D ≤ Subgroup.normalizer (Q : Set G))
     (hQN : Q ≤ Subgroup.normalizer (D : Set G)) (hperf : ⁅D, D⁆ = D)
     (h01 : N₁ ≤ N₀) (hSN0 : ⁅Q, D⁆ ≤ N₀) (hN0Q : ⁅N₀, Q⁆ ≤ N₁) (hD1 : ⁅D, N₁⁆ = ⊥) :
     ⁅⁅Q, D⁆, Q ⊓ Subgroup.centralizer (D : Set G)⁆ = ⊥ := by
@@ -405,7 +422,7 @@ private theorem comm_S_centralizer_D_k334 {D Q N₀ N₁ : Subgroup G}
 private theorem ker_le_pCoreOf_k334 {D : Subgroup G} (hD5 : IsAlt (Bar2 D) 5)
     {φ : ↥D →* alternatingGroup (Fin 5)} (hφs : Function.Surjective φ) {x : ↥D}
     (hx : φ x = 1) : (x : G) ∈ CFSG.Open.pCoreOf 2 D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Subgroup ↥D := CFSG.pCore 2 ↥D
   have hP : IsPGroup 2 P := CFSG.LieType.BorelTits.pCore_isPGroup (G := ↥D) 2
   obtain ⟨e⟩ := hD5
@@ -431,11 +448,13 @@ private theorem ker_le_pCoreOf_k334 {D : Subgroup G} (hD5 : IsAlt (Bar2 D) 5)
   have hKle : φ.ker ≤ P := CFSG.LieType.BorelTits.le_pCore 2 inferInstance hKp
   exact Subgroup.mem_map.mpr ⟨x, hKle (MonoidHom.mem_ker.mpr hx), rfl⟩
 
+omit [Finite G] in
 private theorem psi_eq_one_iff_k334 {N₀ N₁ : Subgroup G}
     {ψ : ↥N₀ →* ↥(CFSG.Quasithin.G6.coreMod 5)} (hψk : ψ.ker = N₁.subgroupOf N₀) {x : G}
     (hx : x ∈ N₀) : ψ ⟨x, hx⟩ = 1 ↔ x ∈ N₁ := by
   rw [← MonoidHom.mem_ker, hψk, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 private theorem Q_le_normalizer_N₁_k334 {Q N₀ N₁ : Subgroup G} (h01 : N₁ ≤ N₀)
     (hN0Q : ⁅N₀, Q⁆ ≤ N₁) : Q ≤ Subgroup.normalizer (N₁ : Set G) :=
   Subgroup.le_normalizer_iff_commutator_le_left.mpr
@@ -447,10 +466,12 @@ private theorem ker_le_inf_k334 {D Q : Subgroup G} (hD5 : IsAlt (Bar2 D) 5)
   rw [hDQ2]
   exact ker_le_pCoreOf_k334 hD5 hφs he
 
+omit [Finite G] in
 private theorem mem_frattini_iff_k334 {S : Subgroup G} (y : ↥S) :
     (y : G) ∈ frattiniOf S ↔ y ∈ frattini ↥S :=
   Subgroup.mem_map_iff_mem S.subtype_injective
 
+omit [Finite G] in
 private theorem le_N₁_of_comm_le_k334 {D N₀ N₁ Y : Subgroup G} (h01 : N₁ ≤ N₀)
     (hnat : NatA5Sec D N₀ N₁) (hY : Y ≤ N₀) (hYD : ⁅Y, D⁆ ≤ N₁) : Y ≤ N₁ := by
   obtain ⟨φ, ψ, hφs, hψs, hψk, hψeq⟩ := hnat
@@ -482,6 +503,7 @@ private theorem le_N₁_of_comm_le_k334 {D N₀ N₁ Y : Subgroup G} (h01 : N₁
     rwa [show (φ d : Equiv.Perm (Fin 5)) = σ from congrArg Subtype.val hd] at this
   exact (psi_eq_one_iff_k334 hψk hyN).mp hw
 
+omit [Finite G] in
 private theorem comm_Q_R_le_N₁_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ ≤ N₀)
     (hSN0 : ⁅Q, D⁆ ≤ N₀) (hN0Q : ⁅N₀, Q⁆ ≤ N₁) (hD1 : ⁅D, N₁⁆ = ⊥)
     (hnat : NatA5Sec D N₀ N₁) : ⁅Q, D ⊓ Q⁆ ≤ N₁ := by
@@ -502,6 +524,7 @@ private theorem comm_Q_R_le_N₁_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ �
       h1 h2
   exact le_N₁_of_comm_le_k334 h01 hnat ((Subgroup.commutator_mono le_rfl hRD).trans hSN0) h3
 
+omit [Finite G] in
 private theorem exists_mem_comm_psi_eq_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ ≤ N₀)
     (hSN0 : ⁅Q, D⁆ ≤ N₀) (hSN : ⁅Q, D⁆ ≤ Subgroup.normalizer (N₁ : Set G))
     (hSN₁ : ⁅Q, D⁆ ⊔ N₁ = N₀) (ψ : ↥N₀ →* ↥(CFSG.Quasithin.G6.coreMod 5))
@@ -527,7 +550,7 @@ private theorem inj_of_split_k334 {E X : Type*} [Group E] [Finite E] [Group X] [
     (hfixK : ∀ e k, ψ k = 1 → act e k = k)
     (hgen : ∀ T : Subgroup X, (∀ e y, act e y * y⁻¹ ∈ T) → ∀ x, x ∈ T) :
     ∀ x, ψ x = 1 → x = 1 := by
-  letI : CommGroup X := { (inferInstance : Group X) with mul_comm := hcomm }
+  let : CommGroup X := { (inferInstance : Group X) with mul_comm := hcomm }
   obtain ⟨s, hψs', hs'⟩ :=
     CFSG.CGT.PushingUpLit.SYMB.exists_equivariant_section η hA hs hX act hker ψ hψs hψ
   have hrange : ∀ e y, act e y * y⁻¹ ∈ s.range := by
@@ -632,7 +655,7 @@ private theorem ker_le_frattini_of_split_k334 {E P : Type*} [Group E] [Finite E]
     (hfixK : ∀ e k, ψ k = 1 → act e k = k)
     (hgen : ∀ T : Subgroup P, (∀ e x, act e x * x⁻¹ ∈ T) → T = ⊤) :
     ψ.ker ≤ frattini P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hA'⟩ := exists_frattini_quot_action_k334 P
   obtain ⟨ψ', hψ'⟩ : ∃ ψ' : (P ⧸ frattini P) →* ↥(CFSG.Quasithin.G6.coreMod 5),
       ∀ x, ψ' (QuotientGroup.mk x) = ψ x :=
@@ -663,6 +686,7 @@ private theorem ker_le_frattini_of_split_k334 {E P : Type*} [Group E] [Finite E]
   have h1 : (QuotientGroup.mk x : P ⧸ frattini P) = 1 := key _ (by rw [hψ']; exact hx)
   exact (QuotientGroup.eq_one_iff x).mp h1
 
+omit [Finite G] in
 private theorem top_of_comm_gen_k334 {D Q : Subgroup G} (hperf : ⁅D, D⁆ = D)
     (hQN : Q ≤ Subgroup.normalizer (D : Set G)) (act : ↥D →* MulAut ↥⁅Q, D⁆)
     (hact : ∀ (d : ↥D) (x : ↥⁅Q, D⁆), ((act d x : ↥⁅Q, D⁆) : G) = (d : G) * (x : G) * (d : G)⁻¹)
@@ -677,6 +701,7 @@ private theorem top_of_comm_gen_k334 {D Q : Subgroup G} (hperf : ⁅D, D⁆ = D)
   intro x _
   exact (Subgroup.mem_map_iff_mem (⁅Q, D⁆).subtype_injective).mp (h1 x.2)
 
+omit [Finite G] in
 private theorem surjective_eta_k334 {D : Subgroup G} {φ : ↥D →* alternatingGroup (Fin 5)}
     (hφs : Function.Surjective φ) :
     ∀ σ ∈ alternatingGroup (Fin 5),
@@ -698,6 +723,7 @@ private theorem act_mul_inv_mem_frattini_k334 {D Q S : Subgroup G} (hD5 : IsAlt 
   rw [← mem_frattini_iff_k334, Subgroup.coe_mul, Subgroup.coe_inv, hact]
   exact h2
 
+omit [Finite G] in
 private theorem act_eq_of_psi_eq_one_k334 {D S N₁ : Subgroup G} (hD1 : ⁅D, N₁⁆ = ⊥)
     (act : ↥D →* MulAut ↥S)
     (hact : ∀ (d : ↥D) (x : ↥S), ((act d x : ↥S) : G) = (d : G) * (x : G) * (d : G)⁻¹)
@@ -725,7 +751,7 @@ private theorem S_inter_N₁_eq_frattini_k334 {D Q N₀ N₁ : Subgroup G}
   have hSR : ⁅S, D ⊓ Q⁆ ≤ frattiniOf S :=
     comm_S_R_le_frattini_k334 hQ hDQ hQN hperf hSN0 hN0Q hD1
   refine le_antisymm ?_ hfrS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let η : ↥D →* Equiv.Perm (Fin 5) := (alternatingGroup (Fin 5)).subtype.comp φ
   let act : ↥D →* MulAut ↥S := (Subgroup.normalizerMonoidHom S).comp (Subgroup.inclusion hDN)
   let ψ₀ : ↥S →* ↥(CFSG.Quasithin.G6.coreMod 5) := ψ.comp (Subgroup.inclusion hSN0)
@@ -790,6 +816,7 @@ private theorem exists_coboundary_k334 {D Q N₀ N₁ : Subgroup G}
       exact ⟨e, congrArg Subtype.val he⟩) c hc hker
   exact ⟨w, fun d _ => hw d⟩
 
+omit [Finite G] in
 private theorem psi_commutator_eq_k334 {D N₀ : Subgroup G}
     {φ : ↥D →* alternatingGroup (Fin 5)} {ψ : ↥N₀ →* ↥(CFSG.Quasithin.G6.coreMod 5)}
     (hψeq : ∀ (d : ↥D) (n n' : ↥N₀), (n' : G) = (d : G) * n * (d : G)⁻¹ →
@@ -806,6 +833,7 @@ private theorem psi_commutator_eq_k334 {D N₀ : Subgroup G}
     group
   rw [e1, map_mul, map_inv, hψeq d ⟨s, hs0⟩ ⟨_, hdsd⟩ rfl, hsw]
 
+omit [Finite G] in
 private theorem psi_conj_commutator_eq_k334 {D Q N₀ N₁ : Subgroup G}
     (hN0Q : ⁅N₀, Q⁆ ≤ N₁) {ψ : ↥N₀ →* ↥(CFSG.Quasithin.G6.coreMod 5)}
     (hψk : ψ.ker = N₁.subgroupOf N₀) {q s : G} (hq : q ∈ Q)
@@ -822,6 +850,7 @@ private theorem psi_conj_commutator_eq_k334 {D Q N₀ N₁ : Subgroup G}
     group
   rw [e1, map_mul, hk, one_mul]
 
+omit [Finite G] in
 private theorem comm_mul_mem_N₁_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ ≤ N₀)
     (hN0Q : ⁅N₀, Q⁆ ≤ N₁) (hSN0 : ⁅Q, D⁆ ≤ N₀) (hSQ : ⁅Q, D⁆ ≤ Q)
     {φ : ↥D →* alternatingGroup (Fin 5)} {ψ : ↥N₀ →* ↥(CFSG.Quasithin.G6.coreMod 5)}
@@ -863,6 +892,7 @@ private theorem comm_mul_mem_N₁_k334 {D Q N₀ N₁ : Subgroup G} (h01 : N₁ 
       mul_inv_cancel, inv_mul_cancel, one_mul]
   exact (psi_eq_one_iff_k334 hψk hqs).mp h3
 
+omit [Finite G] in
 private theorem centralizes_of_comm_mem_N₁_k334 {D Q N₁ : Subgroup G} (hperf : ⁅D, D⁆ = D)
     (hD1 : ⁅D, N₁⁆ = ⊥) (hQ1 : Q ≤ Subgroup.normalizer (N₁ : Set G)) {y : G} (hy : y ∈ Q)
     (h : ∀ d ∈ D, ⁅y, d⁆ ∈ N₁) : y ∈ Subgroup.centralizer (D : Set G) := by
@@ -919,7 +949,7 @@ theorem k334 {D Q N₀ N₁ : Subgroup G}
     (hD5 : IsAlt (Bar2 D) 5) (hDQ2 : D ⊓ Q = CFSG.Open.pCoreOf 2 D)
     (h01 : N₁ ≤ N₀) (h0Q : N₀ ≤ Q)
     (h0 : D ⊔ Q ≤ Subgroup.normalizer (N₀ : Set G))
-    (h1 : D ⊔ Q ≤ Subgroup.normalizer (N₁ : Set G))
+    (_h1 : D ⊔ Q ≤ Subgroup.normalizer (N₁ : Set G))
     (hD1 : ⁅D, N₁⁆ = ⊥) (hQD : ⁅Q, D⁆ ≤ N₀) (hN0Q : ⁅N₀, Q⁆ ≤ N₁)
     (hnat : NatA5Sec D N₀ N₁) :
     Q = ⁅Q, D⁆ ⊔ (Q ⊓ Subgroup.centralizer (D : Set G)) ∧

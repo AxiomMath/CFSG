@@ -23,9 +23,9 @@ private theorem alternatingGroup_fin_eight_nonabelian :
 
 theorem isQuasisimple_center_eq_bot_of_alt8 {G : Type*} [Group G]
     (e : G ≃* alternatingGroup (Fin 8)) : CFSG.IsQuasisimple G ∧ center G = ⊥ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup G := e.isSimpleGroup
+  have : IsSimpleGroup G := e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := alternatingGroup_fin_eight_nonabelian
   refine CFSG.LocalCores.isQuasisimple_of_isSimpleGroup ⟨e.symm a, e.symm b, ?_⟩
   intro h

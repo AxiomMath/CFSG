@@ -17,8 +17,8 @@ theorem s168e3_not_sq_dvd_336_card_of_isSLn_six_seven
     (hp3 : p ≠ 3) (hp7 : p ≠ 7) :
     ¬ p ^ 2 ∣ 336 * Nat.card B := by
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hSL
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   intro hsq
   have hcard : Nat.card B = Nat.card (StatedSL n K) := Nat.card_congr e.toEquiv

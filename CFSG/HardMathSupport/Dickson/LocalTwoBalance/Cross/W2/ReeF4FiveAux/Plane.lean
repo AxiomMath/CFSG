@@ -112,7 +112,7 @@ theorem exists_primitive_five (L : Type) [Field L] [CharP L 2] [IsAlgClosed L] :
     omega
   have : NeZero (5 : ℕ) := ⟨by norm_num⟩
   have : NeZero ((5 : ℕ) : L) := ⟨by exact_mod_cast hp⟩
-  obtain ⟨ξ₀, hξ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  obtain ⟨ξ₀, hξ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   lift ξ₀ to Lˣ using hξ₀.isUnit (by norm_num)
   rw [IsPrimitiveRoot.coe_units_iff] at hξ₀
   exact ⟨ξ₀, hξ₀⟩

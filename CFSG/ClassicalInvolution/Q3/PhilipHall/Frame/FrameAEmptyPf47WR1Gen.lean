@@ -306,7 +306,7 @@ theorem nonempty_equiv_UV (hΩ : TypeRHyp Ω) :
   exact ⟨(MulEquiv.ofBijective f' hbij).symm⟩
 
 theorem centralizer_eq (hXM : 𝕏𝕏 ≤ 𝕄)
-    (hsurj : ∀ g : G, ∃ y ∈ 𝕐𝕐, ∃ w ∈ W, πN g = πN (y * w)) (hWE : W = 𝕌𝕍) :
+    (hsurj : ∀ g : G, ∃ y ∈ 𝕐𝕐, ∃ w ∈ W, πN g = πN (y * w)) (_hWE : W = 𝕌𝕍) :
     Subgroup.centralizer ((W.map πN : Subgroup (G ⧸ classicalInvolutionOddCore G)) :
       Set (G ⧸ classicalInvolutionOddCore G)) = W.map πN := by
   have hEX := d.isSylow2In_UV d.tor.UV_le_X d.tor.hXY hXM
@@ -318,7 +318,7 @@ theorem centralizer_eq (hXM : 𝕏𝕏 ≤ 𝕄)
       intro e he
       have heW : πN e ∈ W.map πN := Subgroup.mem_map_of_mem _ (d.UV_le_W he)
       have h1 : Commute (πN g) (πN e) := (Subgroup.mem_centralizer_iff.mp hgb (πN e) heW).symm
-      have h2 : Commute (πN w) (πN e) := d.mk_comm (d.W_le_M hw) (d.W_le_M (d.UV_le_W he))
+      have h2 : Commute (πN w) (πN e) := d.mk_comm (CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf.WR1.Data.W_le_M hw) (CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf.WR1.Data.W_le_M (d.UV_le_W he))
       have h3 : πN y = πN g * (πN w)⁻¹ := by
         rw [hgyw, map_mul]
         group
@@ -333,7 +333,7 @@ theorem centralizer_eq (hXM : 𝕏𝕏 ≤ 𝕄)
     intro b hb
     obtain ⟨a', ha', rfl⟩ := Subgroup.mem_map.mp ha
     obtain ⟨b', hb', rfl⟩ := Subgroup.mem_map.mp hb
-    exact d.mk_comm (d.W_le_M hb') (d.W_le_M ha')
+    exact d.mk_comm (CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf.WR1.Data.W_le_M hb') (CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf.WR1.Data.W_le_M ha')
 
 end Data
 

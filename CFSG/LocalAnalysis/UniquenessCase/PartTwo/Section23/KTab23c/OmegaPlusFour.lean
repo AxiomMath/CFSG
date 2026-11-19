@@ -23,7 +23,7 @@ private def e4P (K : Type) [Field K] : ιP → K :=
 
 private lemma quadP_apply (v : ιP → K) :
     StatedQuadPlus 2 K v = v (Sum.inl 0) * v (Sum.inr 0) + v (Sum.inl 1) * v (Sum.inr 1) := by
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two]
+  simp [StatedQuadPlus, Fin.sum_univ_two]
 
 private def polarP (u v : ιP → K) : K :=
   StatedQuadPlus 2 K (u + v) - StatedQuadPlus 2 K u - StatedQuadPlus 2 K v
@@ -251,9 +251,9 @@ theorem isCyclic_of_odd_of_fix [Finite K] [CharP K 2] {E : Subgroup (GL ιP K)}
     (hodd : Odd (Nat.card ↥E)) (hfix : ∀ g ∈ E, (g : Matrix ιP ιP K) *ᵥ e1P K = e1P K) :
     IsCyclic ↥E := by
   classical
-  haveI hfinGL : Finite (GL ιP K) :=
+  have hfinGL : Finite (GL ιP K) :=
     Finite.of_injective (fun u : GL ιP K => (u : Matrix ιP ιP K)) (fun a b h => Units.ext h)
-  haveI hfinE : Finite ↥E :=
+  have hfinE : Finite ↥E :=
     Finite.of_injective (fun g : ↥E => (g : GL ιP K)) Subtype.coe_injective
   have hodd' : ∀ g : ↥E, Odd (orderOf (g : GL ιP K)) := fun g =>
     Odd.of_dvd_nat hodd (Subgroup.orderOf_dvd_natCard E g.2)
@@ -290,7 +290,7 @@ theorem isCyclic_of_odd_of_fix [Finite K] [CharP K 2] {E : Subgroup (GL ιP K)}
             rw [hdecg]
         _ = e2Coord (g : GL ιP K) • e1P K := by rw [hga]
     have hx := congrFun hvec (Sum.inl 1)
-    have hx' : (1 : K) = 0 := by simpa [e1P, e2P] using hx
+    have hx' : (1 : K) = 0 := by simp [e1P, e2P] at hx
     exact one_ne_zero hx'
   have hβmul : ∀ g h : ↥E, e2Char ((g * h : ↥E) : GL ιP K) =
       e2Char (g : GL ιP K) * e2Char (h : GL ιP K) := by

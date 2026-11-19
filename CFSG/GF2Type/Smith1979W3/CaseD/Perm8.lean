@@ -70,7 +70,7 @@ theorem even_of_le_four {n : ℕ} (h4 : n ≤ 4) (h1 : n ≠ 1) (h3 : n ≠ 3) :
   · exact absurd rfl h3
   · decide
 
-theorem Irr8.exists_conj_inter_odd (h : Irr8 X) {t : Perm (Fin 8)} (htX : t ∈ X) (ht : IsDT t) :
+theorem Irr8.exists_conj_inter_odd (h : Irr8 X) {t : Perm (Fin 8)} (_htX : t ∈ X) (ht : IsDT t) :
     ∃ g ∈ X, (t.support ∩ (g * t * g⁻¹).support).card = 1 ∨
       (t.support ∩ (g * t * g⁻¹).support).card = 3 := by
   by_contra hcon

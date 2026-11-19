@@ -71,7 +71,7 @@ theorem all_any_LL (F : Array (Array Nat)) :
   rw [← Array.all_toList, LL, List.all_map]
   congr 1
   funext f
-  simp [Function.comp_def, ← Array.any_toList]
+  simp [← Array.any_toList]
 
 theorem tailS_eq (mode n : Nat) (AR : Array IVec) (rho : Array Nat) (B : Array (Array Int))
     (R : Array IVec) (absidx F H : Array (Array Nat)) (d : Nat) (dk : DK)

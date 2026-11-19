@@ -44,6 +44,7 @@ private theorem f3_mem_Vt {s : Setting3 G L} {p : G}
     refine ⟨v, hv, ?_⟩
     rw [hm, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private theorem mem_normalizer_inf_centralizer {K V : Subgroup G} {a : G}
     (haK : a ∈ Subgroup.normalizer (K : Set G))
     (haV : a ∈ Subgroup.normalizer (V : Set G)) :
@@ -177,7 +178,7 @@ theorem f3_c5 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
 theorem f3_c6 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     conjClass s.C₂ s.t = s.tCoset (cen s.fr.B) := by
   ext w
-  simp only [conjClass, Setting3.tCoset, Set.mem_setOf_eq]
+  simp only [conjClass, Setting3.tCoset, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨c, hc, rfl⟩
     obtain ⟨v, hv, hveq⟩ := f3_tX_sub hH c (f3_C₂_le_X hH hc)

@@ -58,6 +58,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def Sigma2Print (D : Data G) : Prop :=
   ∀ p ∈ D.sig2, ∃ P P₀ : Subgroup G, UC6.Hyp612 D p P P₀ ∧ UC6.Clause2Print D p P P₀
 
+omit [Finite G] in
 theorem uc22p22q_frobenius_of_product {W K V : Subgroup G} (h : rankThreeFrobeniusProduct W K V) :
     CFSG.Open.uniqueFourIsFrobenius (W ⊔ V) K V := by
   obtain ⟨X, hXW, hXK, hK, hV, hKX, hKn, hKV, hfpf⟩ := h
@@ -83,7 +84,7 @@ theorem uc22p22q_frobenius_of_product {W K V : Subgroup G} (h : rankThreeFrobeni
 theorem sigma2Print_ofSetup (hS : RankThreeUC.Standing G) (S : RankThreeUC.Setup G) :
     Sigma2Print (PartTwo.Three.dataOfSetup hS S) := fun p hp => by
   obtain ⟨hpA, Q, hw, hB⟩ := hp
-  haveI : Fact p.Prime := ⟨(PartTwo.Three.prime_of_mem_rankThreeSigmaA hpA).1⟩
+  have : Fact p.Prime := ⟨(PartTwo.Three.prime_of_mem_rankThreeSigmaA hpA).1⟩
   have h3 : 3 ≤ CFSG.Open.pRank p (Q : Subgroup G) :=
     CFSG.RankThreeCoreUniqueness.Helpers.selected_sylow_rank_at_least_three hS.rank p hpA Q
   have hQM : (Q : Subgroup G) ≤ S.M :=
@@ -165,7 +166,7 @@ theorem uc22p22q_r613defAt_of (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1
           ext l
           have hl : (l : G) * z = z * (l : G) :=
             congrArg Subtype.val (Subgroup.mem_center_iff.1 hzc l)
-          simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one, one_mul,
+          simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, one_mul,
             inv_one, mul_one]
           rw [mul_inv_eq_iff_eq_mul]
           exact hl.symm

@@ -159,7 +159,7 @@ theorem card_A_le : Nat.card (A (ccOf CC)) ≤ 5859000000 := by
   rw [hf0, cntA0] at s0
   rw [ha1, cntA1] at s1
   rw [ha2, cntA2] at s2
-  simp only [List.map_nil, List.nil_append, List.map_cons, List.cons_append, List.singleton_append] at s0 s1 s2
+  simp only [List.map_nil, List.nil_append, List.map_cons, List.cons_append] at s0 s1 s2
   rw [← AC_nil, ← fixS_nil]
   calc Nat.card (fixS (ccOf CC) [] []) ≤ 15624 * Nat.card (fixS (ccOf CC) [] [dv a0_b]) := s0
     _ ≤ 15624 * (3125 * Nat.card (fixS (ccOf CC) [] [dv a0_b, dv a1_b])) := Nat.mul_le_mul_left _ s1

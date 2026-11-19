@@ -31,8 +31,9 @@ theorem exists_quaternion_quotient_of_simpleUnder (ρ : Representation (ZMod p) 
     (hfix := hfix) (hT := hT) (hDT := hDT) (hDTc := hDTc) (W := W)
     (hWinv := hWinv) (hWs := hWs) (hWt := hWt)
 
+omit [Finite V] [Finite Γ] in
 theorem normalizer_sup_zpowers_and_fixV (ρ : Representation (ZMod p) Γ V)
-    {T : Subgroup Γ} {d x : Γ} (hdT : d ∈ Subgroup.normalizer (T : Set Γ))
+    {T : Subgroup Γ} {d x : Γ} (_hdT : d ∈ Subgroup.normalizer (T : Set Γ))
     (hxT : x ∈ Subgroup.normalizer (T : Set Γ)) (hdx : Commute d x)
     (hfixx : fixV ρ (Subgroup.zpowers x) = ⊥) :
     x ∈ Subgroup.normalizer ((T ⊔ Subgroup.zpowers d : Subgroup Γ) : Set Γ) ∧
@@ -44,7 +45,7 @@ theorem normalizer_sup_zpowers_and_fixV (ρ : Representation (ZMod p) Γ V)
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
       exact (hdx.zpow_left k).eq)
   refine ⟨?_, ?_⟩
-  · exact Subgroup.normalizer_inf_normalizer_le_normalizer_sup T (Subgroup.zpowers d)
+  · exact inf_normalizer_le_normalizer_sup T (Subgroup.zpowers d)
       (Subgroup.mem_inf.mpr ⟨hxT, hxzd⟩)
   · intro v hv
     have hmem := (CFSG.LocalAnalysis.UniquenessCase.UC6.mem_fixV_zpowers_uc6 ρ x v).mpr hv

@@ -11,6 +11,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_pow_three_not_comm_of_isThreeOnePlusTwo {D : Subgroup G}
     (hD : IsThreeOnePlusTwo ↥D) :
     Nat.card D = 27 ∧ (∀ x ∈ D, x ^ 3 = 1) ∧ ¬ IsMulCommutative D := by

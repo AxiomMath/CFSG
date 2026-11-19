@@ -21,9 +21,9 @@ theorem exists_rescaled_pair {F V : Type} [Field F] [IsAlgClosed F] [AddCommGrou
     ∃ (x y : Module.End F V) (ζ : F), (∃ c : F, c ≠ 0 ∧ x = c • (X : Module.End F V)) ∧
       (∃ c : F, c ≠ 0 ∧ y = c • (Y : Module.End F V)) ∧ x ^ p = 1 ∧ y ^ p = 1 ∧
       ζ ≠ 1 ∧ ζ ^ p = 1 ∧ x * y = ζ • (y * x) := by
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     by_contra h
-    haveI : Subsingleton V := not_nontrivial_iff_subsingleton.mp h
+    have : Subsingleton V := not_nontrivial_iff_subsingleton.mp h
     exact hnc (LinearEquiv.ext fun _ => Subsingleton.elim _ _)
   have hp0 : 0 < p := Nat.pos_of_ne_zero fun h => hp (by simp [h])
   have hpne : p ≠ 0 := Nat.pos_iff_ne_zero.mp hp0

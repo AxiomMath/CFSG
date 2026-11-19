@@ -73,7 +73,7 @@ theorem coreFree_cyc_simple {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type} 
     (hxH : x ∈ Subgroup.normalizer (H : Set (MulAut S)))
     (hexc : ¬ (p = 3 ∧ catalogIs S (onLie (isL2 27)) ∧ x ∉ innerAut S)) :
     GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer ({x} : Set (MulAut S))) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := hxord ▸ pow_orderOf_eq_one x
   rcases hChev with hL | hAmb
   · obtain ⟨idx, ⟨e⟩, hch⟩ := CFSG.HardMathSupport.Dickson.I271.lieType_of_catalogIs hL
@@ -95,8 +95,8 @@ theorem coreFree_cyc_quasi {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [
     (hgH : g ∈ Subgroup.normalizer (H : Set (MulAut K)))
     (hexc : ¬ (p = 3 ∧ catalogIs (K ⧸ Subgroup.center K) (onLie (isL2 27)) ∧ g ∉ innerAut K)) :
     GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer ({g} : Set (MulAut K))) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut K) := finite_mulAut K
   by_cases hg1 : g = 1
   · subst hg1
     have hHC : H ⊓ Subgroup.centralizer ({1} : Set (MulAut K)) = H := by
@@ -127,8 +127,8 @@ theorem isCoreFreeLocalType_of_card_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     {A : Subgroup (MulAut K)} (hA : CFSG.Open.IsElemAbelian p A) (hcard : Nat.card A ≤ p)
     (hL : p = 3 → catalogIs (K ⧸ Subgroup.center K) (onLie (isL2 27)) → A ≤ innerAut K) :
     IsCoreFreeLocalType p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut K) := finite_mulAut K
   intro D hDA H hH hDN
   by_cases hD : D = ⊥
   · subst hD

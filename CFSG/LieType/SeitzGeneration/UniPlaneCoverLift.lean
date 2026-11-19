@@ -46,7 +46,7 @@ theorem seitzHyperGamma_eq_top_of_uniPlaneGen {K C : Type*} [Group K] [Group C] 
     (h : CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2311c.UniPlaneGen r (coverImage e E)) :
     CFSG.LieType.Seitz.seitzHyperGamma p E = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine QuasiHigh.seitzHyperGamma_eq_top_of_quot hperf
     (CFSG.Open.IsElemAbelian.isPGroup hE) ?_
   have hG : Subgroup.closure {c : C | ∃ φ ∈ coverImage e E, φ ≠ 1 ∧ φ c = c ∧

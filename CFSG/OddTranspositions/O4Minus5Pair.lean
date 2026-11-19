@@ -31,7 +31,7 @@ theorem card_K25 : Nat.card K25 = 25 := by
   simpa using GaloisField.card 5 2 (by norm_num)
 
 theorem frob25_mul_self : frob25 * frob25 = 1 := by
-  haveI : Fintype K25 := Fintype.ofFinite K25
+  have : Fintype K25 := Fintype.ofFinite K25
   ext x
   show frob25 (frob25 x) = x
   change (x ^ 5) ^ 5 = x
@@ -48,8 +48,8 @@ theorem frob25_mul_self : frob25 * frob25 = 1 := by
 theorem frob25_ne_one : frob25 ≠ 1 := by
   intro h
   classical
-  haveI : Fintype K25 := Fintype.ofFinite K25
-  haveI : DecidableEq K25 := Classical.decEq K25
+  have : Fintype K25 := Fintype.ofFinite K25
+  have : DecidableEq K25 := Classical.decEq K25
   have hroot : ∀ x : K25, (X ^ 5 - X : K25[X]).IsRoot x := by
     intro x
     rw [Polynomial.IsRoot, eval_sub, eval_pow, eval_X, sub_eq_zero]
@@ -110,13 +110,13 @@ theorem PSL225_isSimple : IsSimpleGroup PSL225 := by
   norm_num
 
 theorem L225Subgroup_isSimple : IsSimpleGroup L225Subgroup := by
-  haveI : IsSimpleGroup PSL225 := PSL225_isSimple
+  have : IsSimpleGroup PSL225 := PSL225_isSimple
   exact L225SubgroupEquiv.symm.isSimpleGroup
 
 theorem L225Subgroup_isMinimalNormal : IsMinimalNormal L225Subgroup := by
   refine ⟨inferInstance, ?_, ?_⟩
   · intro hbot
-    haveI : Nontrivial L225Subgroup := L225SubgroupEquiv.symm.toEquiv.nontrivial
+    have : Nontrivial L225Subgroup := L225SubgroupEquiv.symm.toEquiv.nontrivial
     rw [hbot] at this
     exact (not_nontrivial_iff_subsingleton.mpr inferInstance) this
   · intro N hNnorm hNle
@@ -224,7 +224,7 @@ theorem exists_distinct_class65 : ∃ d ∈ class65, ∃ e ∈ class65, d ≠ e 
     simpa using h
   have hex : ∃ p, CFSG.GorensteinWalter.psl2FieldAut K25 frob25 p ≠ p := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hfne (MulEquiv.ext (fun p => by simpa using h p))
   obtain ⟨p, hp⟩ := hex
   refine ⟨SemidirectProduct.inr frob25, inr_frob25_mem_class65,
@@ -234,9 +234,9 @@ theorem exists_distinct_class65 : ∃ d ∈ class65, ∃ e ∈ class65, d ≠ e 
   · intro heq
     have hleft := congrArg SemidirectProduct.left heq
     simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
-      SemidirectProduct.inv_left, SemidirectProduct.inv_right, SemidirectProduct.left_inl,
+      SemidirectProduct.inv_left, SemidirectProduct.left_inl,
       SemidirectProduct.right_inl, SemidirectProduct.left_inr, SemidirectProduct.right_inr,
-      map_one, MulAut.one_apply, inv_one, map_inv, SemidirectProduct.one_left] at hleft
+      map_one, MulAut.one_apply, inv_one, map_inv] at hleft
     have h2 : p * ((CFSG.GorensteinWalter.psl2FieldAut K25 frob25) p)⁻¹ = 1 := by
       simpa [one_mul, mul_one] using hleft.symm
     exact hp (mul_inv_eq_one.mp h2).symm
@@ -251,7 +251,7 @@ theorem closure_class65_eq_top : Subgroup.closure class65 = ⊤ := by
     · intro x hx
       have hxconj : IsConj (SemidirectProduct.inr frob25) x := hx
       exact Subgroup.subset_closure (hxconj.trans (isConj_iff.mpr ⟨g, rfl⟩))
-    · simpa using H.one_mem
+    · simp
     · intro x y hx hy hx' hy'
       have heq : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [heq]
@@ -263,7 +263,7 @@ theorem closure_class65_eq_top : Subgroup.closure class65 = ⊤ := by
   have hHnotle : ¬ H ≤ L225Subgroup := by
     intro hle
     exact inr_frob25_not_mem_psl (hle (Subgroup.subset_closure inr_frob25_mem_class65))
-  haveI : (H.subgroupOf L225Subgroup).Normal := hHnorm.subgroupOf L225Subgroup
+  have : (H.subgroupOf L225Subgroup).Normal := hHnorm.subgroupOf L225Subgroup
   have hcapne : H.subgroupOf L225Subgroup ≠ ⊥ := by
     intro hbot
     obtain ⟨d, hd, e, he, hde⟩ := exists_distinct_class65
@@ -274,12 +274,12 @@ theorem closure_class65_eq_top : Subgroup.closure class65 = ⊤ := by
       rw [L225Subgroup, SemidirectProduct.range_inl_eq_ker_rightHom]
       show SemidirectProduct.rightHom (d * e⁻¹) = 1
       rw [map_mul, map_inv, rightHom_mem_class65 hd, rightHom_mem_class65 he]
-      simp [frob25_mul_self]
+      simp
     have hsub : (⟨d * e⁻¹, hmemPSL⟩ : L225Subgroup) ∈ H.subgroupOf L225Subgroup := hmemH
     rw [hbot] at hsub
     have hone : d * e⁻¹ = 1 := congrArg Subtype.val (Subgroup.mem_bot.mp hsub)
     exact hde (mul_inv_eq_one.mp hone)
-  haveI : IsSimpleGroup L225Subgroup := L225Subgroup_isSimple
+  have : IsSimpleGroup L225Subgroup := L225Subgroup_isSimple
   have hcap : H.subgroupOf L225Subgroup = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (H.subgroupOf L225Subgroup) with h | h
     · exact absurd h hcapne
@@ -291,10 +291,10 @@ theorem closure_class65_eq_top : Subgroup.closure class65 = ⊤ := by
       exact Subgroup.mem_top _
     exact hsub
   have hAutTop : Subgroup.zpowers frob25 = ⊤ := by
-    haveI : Finite (K25 ≃+* K25) :=
+    have : Finite (K25 ≃+* K25) :=
       Finite.of_injective (fun f : K25 ≃+* K25 => (f : K25 → K25))
         (fun f g h => RingEquiv.ext (congrFun h))
-    haveI : Finite (Subgroup.zpowers frob25) :=
+    have : Finite (Subgroup.zpowers frob25) :=
       Finite.of_injective (fun x : Subgroup.zpowers frob25 => (x : K25 ≃+* K25))
         Subtype.coe_injective
     apply Subgroup.eq_top_of_card_eq

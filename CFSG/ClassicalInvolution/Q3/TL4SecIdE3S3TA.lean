@@ -150,7 +150,7 @@ theorem exists_index_two {F : Subgroup Y} [F.Normal] (h : F.index = 2 ∨ F.inde
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 (Y ⧸ F)))
     have hcard : Nat.card (Y ⧸ F) = 6 := by rw [← h, Subgroup.index]
     have hP3 : Nat.card (P : Subgroup (Y ⧸ F)) = 3 := by
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
       have hdvd : Nat.card (P : Subgroup (Y ⧸ F)) ∣ 6 :=
         hcard ▸ Subgroup.card_subgroup_dvd_card _
       have h3 : 3 ∣ Nat.card (P : Subgroup (Y ⧸ F)) :=

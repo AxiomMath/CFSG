@@ -47,6 +47,7 @@ namespace Q8D8Op
 variable {I J R T Z : Module.End F V} (h : Q8D8Op I J R T Z)
 include h
 
+omit h in
 theorem form_of_fixed {g : Module.End F V} {u : V} (h2 : (2 : F) ≠ 0) (hTu : T u = u)
     (hTgu : T (g u) = g u) (hTRu : T (R u) = -(R u)) (hTRgu : T (R (g u)) = -(R (g u)))
     (hli : LinearIndependent F ![u, g u, R u, R (g u)])
@@ -96,8 +97,8 @@ theorem false_of_li_fixed [FiniteDimensional F V] (h2 : (2 : F) ≠ 0)
     exact ⟨c, by rw [← hc]; simp [Fin.sum_univ_four]⟩
   have hTI : T (I u) = I u := by rw [← n3_comm_apply h.it u, hTu]
   have hTJ : T (J u) = J u := by rw [← n3_comm_apply h.jt u, hTu]
-  obtain ⟨a1, a2, hIu⟩ := h.form_of_fixed h2 hTu hTgu hTRu hTRgu hli4 hspan I hTI
-  obtain ⟨b1, b2, hJu⟩ := h.form_of_fixed h2 hTu hTgu hTRu hTRgu hli4 hspan J hTJ
+  obtain ⟨a1, a2, hIu⟩ := Q8D8Op.form_of_fixed h2 hTu hTgu hTRu hTRgu hli4 hspan I hTI
+  obtain ⟨b1, b2, hJu⟩ := Q8D8Op.form_of_fixed h2 hTu hTgu hTRu hTRgu hli4 hspan J hTJ
   have e1 : I (J u) = b1 • I u + b2 • I (g u) := by
     rw [hJu, map_add, map_smul, map_smul]
   have e2 : J (I u) = a1 • J u + a2 • J (g u) := by

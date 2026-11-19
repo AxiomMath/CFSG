@@ -54,7 +54,7 @@ private theorem comm_Y_t_mul (hz : Ctx4Z t L S x₁ x₂ lam rho tau) {a b : G}
     (ha : a ∈ ctxYq t tau x₁ x₂ rho) (hb : b ∈ ctxYq t tau x₁ x₂ rho) :
     t * (a * b) * t⁻¹ * (a * b)⁻¹ =
       (t * a * t⁻¹ * a⁻¹) * (t * b * t⁻¹ * b⁻¹) := by
-  haveI : IsMulCommutative (ctxYq t tau x₁ x₂ rho) :=
+  have : IsMulCommutative (ctxYq t tau x₁ x₂ rho) :=
     IsMulCommutative.of_comm fun x y =>
       Subtype.ext (hz.Q_comm x.1 (hz.Y_le_Q x.2) y.1 (hz.Y_le_Q y.2))
   have hb' : t * b * t⁻¹ * b⁻¹ ∈ ctxYq t tau x₁ x₂ rho :=
@@ -77,7 +77,7 @@ private theorem comm_Y_t_inv (hz : Ctx4Z t L S x₁ x₂ lam rho tau) {a : G}
 
 theorem comm_Y_t_surj (hz : Ctx4Z t L S x₁ x₂ lam rho tau) :
     ∀ v ∈ fourGrp x₁ x₂, ∃ a ∈ ctxYq t tau x₁ x₂ rho, t * a * t⁻¹ * a⁻¹ = v := by
-  haveI : IsMulCommutative (ctxYq t tau x₁ x₂ rho) :=
+  have : IsMulCommutative (ctxYq t tau x₁ x₂ rho) :=
     IsMulCommutative.of_comm fun x y =>
       Subtype.ext (hz.Q_comm x.1 (hz.Y_le_Q x.2) y.1 (hz.Y_le_Q y.2))
   obtain ⟨V', v₁, v₂, hV'⟩ := hz.data_V

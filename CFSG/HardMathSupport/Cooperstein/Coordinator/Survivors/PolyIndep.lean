@@ -71,7 +71,7 @@ theorem poly_finset_zero {K : Type*} [Field K] [Fintype K] (E : Finset ℕ)
   let P : K[X] := ∑ e ∈ E, C (a e) * X ^ e
   have hP : P = 0 := by
     refine eq_zero_of_forall_eval_zero_of_natDegree_lt_card P (fun r => ?_) ?_
-    · simp only [P, eval_finset_sum, eval_mul, eval_C, eval_pow, eval_X]
+    · simp only [P, eval_finsetSum, eval_mul, eval_C, eval_pow, eval_X]
       exact h r
     · have hdeg : P.natDegree ≤ E.sup id := by
         refine natDegree_sum_le_of_forall_le _ _ fun e he => ?_
@@ -121,7 +121,7 @@ theorem mem_of_forall_poly_inj {K V ι : Type*} [Field K] [Fintype K] [AddCommGr
         (Submodule.Quotient.mk_eq_zero S).2 (h c)
       have h2 := congrArg φ h1
       simp only [map_sum, map_smul, smul_eq_mul, map_zero] at h2
-      simp only [P, eval_finset_sum, eval_mul, eval_C, eval_pow, eval_X]
+      simp only [P, eval_finsetSum, eval_mul, eval_C, eval_pow, eval_X]
       rw [← h2]
       exact Finset.sum_congr rfl fun i _ => mul_comm _ _
     · have hdeg : P.natDegree ≤ Finset.univ.sup ex := by

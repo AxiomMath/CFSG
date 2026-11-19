@@ -44,11 +44,11 @@ theorem loK_cons (y : Nat) (l : List Nat) :
   | v + 1 => by
     rw [loK_succ, loK_succ, loK_cons y l v, List.count_cons, add_mul]
     rcases lt_trichotomy y v with h | rfl | h
-    · simp only [h, if_true, Nat.lt_succ_of_lt h, beq_iff_eq, h.ne, if_false]
+    · simp only [h, ite_true, Nat.lt_succ_of_lt h, beq_iff_eq, h.ne, ite_false]
       omega
-    · simp only [lt_irrefl, if_false, beq_self_eq_true, if_true, Nat.lt_succ_self]
+    · simp only [lt_irrefl, ite_false, beq_self_eq_true, ite_true, Nat.lt_succ_self]
       omega
-    · simp only [Nat.not_lt.2 h.le, if_false, beq_iff_eq, h.ne', Nat.not_lt.2 h]
+    · simp only [Nat.not_lt.2 h.le, ite_false, beq_iff_eq, h.ne', Nat.not_lt.2 h]
       omega
 
 theorem loK_lt {l : List Nat} (hc : ∀ x, l.count x < 256) : ∀ v, loK v l < 2 ^ (8 * v)
@@ -68,10 +68,10 @@ theorem histK_split (v : Nat) : ∀ l : List Nat,
     rw [histK_cons, hU, loK_cons, List.count_cons]
     rcases lt_trichotomy y v with h | rfl | h
     · refine ⟨U, ?_⟩
-      simp only [h, if_true, beq_iff_eq, h.ne, if_false, Nat.add_zero]
+      simp only [h, ite_true, beq_iff_eq, h.ne, ite_false, Nat.add_zero]
       ring
     · refine ⟨U, ?_⟩
-      simp only [lt_irrefl, if_false, beq_self_eq_true, if_true, Nat.add_zero]
+      simp only [lt_irrefl, ite_false, beq_self_eq_true, ite_true, Nat.add_zero]
       ring
     · refine ⟨U + 2 ^ (8 * (y - v - 1)), ?_⟩
       have e : 2 ^ (8 * y) = 2 ^ (8 * v) * (256 * 2 ^ (8 * (y - v - 1))) := by
@@ -79,7 +79,7 @@ theorem histK_split (v : Nat) : ∀ l : List Nat,
         rw [h256, ← Nat.pow_add, ← Nat.pow_add]
         congr 1
         omega
-      simp only [Nat.not_lt.2 h.le, if_false, beq_iff_eq, h.ne', Nat.add_zero]
+      simp only [Nat.not_lt.2 h.le, ite_false, beq_iff_eq, h.ne', Nat.add_zero]
       rw [e]
       ring
 
@@ -224,7 +224,7 @@ theorem dfsB_of_dfsKI {M : Nat} {pr ct : Nat → Nat → Nat} {nbr : Nat → Lis
       hNM k hkM l hlM hkl⟩, hNM _ hik l hlM hikl⟩, hNM _ hjk l hlM hjkl⟩, hNM _ hijk l hlM hijkl⟩
   have hleaf : leafK pr ct i j k l = true := by
     simpa only [hbl, hg4, Bool.not_true, Bool.false_or] using hKl
-  simp only [hg4, Bool.not_true, Bool.false_or]
+  simp only [Bool.not_true, Bool.false_or]
   exact leafBad_of_leafK hleaf
 
 end CFSG.KC.Kc3K

@@ -74,6 +74,7 @@ lemma lift_three_17_8W {H T : Subgroup G} (hTH : T ≤ H) (hQT : pCoreOf 2 H ≤
   have hZperm : Permutes Z S' := CFSG.GroupTheory.map_permutes_map H.subtype hZ₀perm
   exact ⟨Z, S', Z₀, hZdef, hZ₀map, hZcard, hZH, hQS', hS'T, hZperm, hS'def⟩
 
+omit [Finite G] in
 lemma image_three_17_8W {H : Subgroup G} {A R' : Subgroup G} {Sb' : Subgroup (Bar2 H)}
     {S' : Subgroup G} {x₀ : ↥H} (hAH : A ≤ H)
     (hAR' : conjSubgroup A (x₀ : G) ≤ R') (hR'S' : R' ≤ S')
@@ -102,6 +103,7 @@ lemma image_three_17_8W {H : Subgroup G} {A R' : Subgroup G} {Sb' : Subgroup (Ba
     rw [hrs]
     exact Subgroup.mem_comap.mp hs
 
+omit [Finite G] in
 lemma normalizer_left_three_17_8W {H : Subgroup G} {Zb : Subgroup (Bar2 H)} {Z : Subgroup G}
     {Z₀ : Subgroup ↥H} (hZdef : Z = Z₀.map H.subtype)
     (hZ₀map : Z₀.map (S18.piBar2 H) = Zb) {R' : Subgroup G}
@@ -119,6 +121,7 @@ lemma normalizer_left_three_17_8W {H : Subgroup G} {Zb : Subgroup (Bar2 H)} {Z :
   have h := (Subgroup.map_mono hZ₀N).trans (Subgroup.le_normalizer_map (S18.piBar2 H))
   simpa [S18.imageBar2] using h
 
+omit [Finite G] in
 lemma normalizer_right_three_17_8W {H T : Subgroup G} {Sb' : Subgroup (Bar2 H)}
     {S' : Subgroup G} (hS'pre : S' = (Sb'.comap (S18.piBar2 H)).map H.subtype)
     {R' : Subgroup G} (hNT : T ⊓ normalizer (S' : Set G) ≤ normalizer (R' : Set G)) :
@@ -195,6 +198,7 @@ lemma normalizer_right_three_17_8W {H T : Subgroup G} {Sb' : Subgroup (Bar2 H)}
     simpa [S18.imageBar2] using Subgroup.le_normalizer_map (S18.piBar2 H)
   exact hle h
 
+omit [Finite G] in
 lemma normalizer_three_17_8W {H T : Subgroup G} {Sb' : Subgroup (Bar2 H)}
     {Zb : Subgroup (Bar2 H)} {Z S' : Subgroup G} {Z₀ : Subgroup ↥H}
     (hZdef : Z = Z₀.map H.subtype) (hZ₀map : Z₀.map (S18.piBar2 H) = Zb)
@@ -206,6 +210,7 @@ lemma normalizer_three_17_8W {H T : Subgroup G} {Sb' : Subgroup (Bar2 H)}
   sup_le (normalizer_left_three_17_8W hZdef hZ₀map hNR')
     (normalizer_right_three_17_8W hS'pre hNT)
 
+omit [Finite G] in
 lemma conj_lift_three_17_8W {H : Subgroup G} {A : Subgroup G} {Sb' : Subgroup (Bar2 H)}
     {S' : Subgroup G} {x₀ : ↥H} (hAH : A ≤ H)
     (hAxSb' : conjSubgroup (S18.imageBar2 H A) (S18.piBar2 H x₀) ≤ Sb')

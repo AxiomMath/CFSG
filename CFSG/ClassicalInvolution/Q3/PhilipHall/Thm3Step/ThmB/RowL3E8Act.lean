@@ -80,10 +80,10 @@ theorem comm_mem_eGrp (d : LJ Ω K J K' z j u v)
     (hx : x ∈ M) (ha : a ∈ Subgroup.centralizer (eGrp Ω z K : Set G)) :
     x * a * x⁻¹ * a⁻¹ ∈ eGrp Ω z K := by
   have h8 := h.card_eGrp_K d hs
-  haveI := h.eGrp_normal h8
+  have := h.eGrp_normal h8
   set E := eGrp Ω z K with hE
   set A := Subgroup.centralizer (E : Set G) with hA
-  haveI hAn : A.Normal := inferInstance
+  have hAn : A.Normal := inferInstance
   obtain ⟨m, hm⟩ := Sec6Gen.exists_uniqueInvolution h.hΩ.hyp hM
   obtain ⟨gm, hgm⟩ := h.exists_conj hM hm
   have hmE : m ∈ E := hgm ▸ h.conj_mem_eGrp h8 gm
@@ -124,7 +124,7 @@ theorem comm_mem_eGrp' (d : LJ Ω K J K' z j u v)
     (ha : a ∈ Subgroup.centralizer (eGrp Ω z K : Set G)) :
     g * a * g⁻¹ * a⁻¹ ∈ eGrp Ω z K := by
   have h8 := h.card_eGrp_K d hs
-  haveI := h.eGrp_normal h8
+  have := h.eGrp_normal h8
   set E := eGrp Ω z K with hE
   set A := Subgroup.centralizer (E : Set G) with hA
   set π := QuotientGroup.mk' E with hπ

@@ -351,6 +351,7 @@ section Base
 
 variable [Finite G] {t tau lam rho x₁ x₂ a₁₂ a₂₂ a₃₂ : G} {T₂ : Subgroup G}
 
+omit [Finite G] in
 theorem fz59f_c_mem (x₁ x₂ : G) : (x₁ * x₂)⁻¹ ∈ baseGrp x₁ x₂ :=
   (baseGrp x₁ x₂).inv_mem ((baseGrp x₁ x₂).mul_mem (Subgroup.subset_closure (by simp))
     (Subgroup.subset_closure (by simp)))
@@ -401,6 +402,7 @@ theorem fz59f_grid_of_base (hB : Fz59Base t tau lam rho x₁ x₂ a₁₂ a₂�
     (fz59f_F2 hq hRρ hRρ' ha hF1 hz) (fz59f_t_eq h hcE) rfl hsh.lam_sq
     hsh.lam_comm₃.1.mul_inv_cancel hsh.lam_comm₃.2.mul_inv_cancel h.lam_rho
 
+omit [Finite G] in
 theorem fz59f_b_eq {Z E W Q R T : Subgroup G} (h : FzStr t tau lam rho Z E W Q R T) (c a1 : G) :
     fz59fFrame rho (c * t) a1 0 0 = rho * c * rho⁻¹ * t ∧
     fz59fFrame rho (c * t) a1 1 0 = rho * (rho * c * rho⁻¹) * rho⁻¹ * t ∧
@@ -413,6 +415,7 @@ theorem fz59f_b_eq {Z E W Q R T : Subgroup G} (h : FzStr t tau lam rho Z E W Q R
   · show rho * (rho * (c * t) * rho⁻¹) * rho⁻¹ = _
     rw [e1, e2]
 
+omit [Finite G] in
 theorem fz59f_b_mul_t {Z E W Q R T : Subgroup G} (h : FzStr t tau lam rho Z E W Q R T)
     (c a1 : G) :
     fz59fFrame rho (c * t) a1 0 0 * t = rho * c * rho⁻¹ ∧

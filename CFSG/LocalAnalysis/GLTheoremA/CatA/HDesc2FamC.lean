@@ -50,6 +50,7 @@ theorem kDescFamRes_linear_aux (htd : Td4Ob p fLinear) (hN3 : KD264InnGood) (hPL
     · rintro ⟨-, hov⟩
       exact hq4 (by simpa [ov2Idx, fieldSize] using hov)
 
+omit hN1 in
 theorem kDescFamRes_unitary_aux (htd : Td4Ob p fUnitary) (hN3 : KD264InnGood) (hPL : KD264PL 3)
     (hLow : KD264LiftLow 3) (hU : UnitaryRes) :
     KDescFamRes p fUnitary := by

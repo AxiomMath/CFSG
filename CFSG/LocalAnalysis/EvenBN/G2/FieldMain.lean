@@ -45,7 +45,7 @@ theorem false_of_fieldCase (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t
     ⟨⟨x, hQN hx⟩, hB₀ (mem_subgroupOf.2 hx), rfl⟩
   have hPB : yamadaP d t ≤ B := le_sup_left.trans hQB
   have htB : t ∈ B := hQB (mem_sup_right (mem_zpowers t))
-  haveI : ((yamadaP d t).subgroupOf B).Normal :=
+  have : ((yamadaP d t).subgroupOf B).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hB.le
   have hcyc := h.isCyclic_quotient_yamadaP_of_field hW d hK hQ hsyl hex hF hB hPB
   have hfus := h.field_conj_t_not_mem_yamadaP hW d hK hQ hsyl hex hF

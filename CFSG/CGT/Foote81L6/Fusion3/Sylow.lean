@@ -14,7 +14,7 @@ variable {G : Type*} [Group G] [Finite G]
 private theorem exists_mem_sylow_inv_mul_mem (K : Subgroup G) [K.Normal]
     (hK : ∀ g : G, Odd (orderOf g) → g ∈ K) (P : Sylow 2 G) (g : G) :
     ∃ p ∈ (P : Subgroup G), p⁻¹ * g ∈ K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsurj : Function.Surjective (QuotientGroup.mk' K) := QuotientGroup.mk'_surjective K
   have h2 : IsPGroup 2 (G ⧸ K) := by
     intro q
@@ -55,7 +55,7 @@ theorem exists_conj_eq_of_odd (T : Sylow 2 G) {H : Subgroup G} (hTH : (T : Subgr
               rw [hk ω hω]; group
           _ = ω := by group }
   have hKmem : ∀ k : ↥H, k ∈ K ↔ ∀ ω ∈ Ω, (k : G) * ω * (k : G)⁻¹ = ω := fun _ => Iff.rfl
-  haveI : K.Normal := ⟨fun k hk h => by
+  have : K.Normal := ⟨fun k hk h => by
     rw [hKmem] at hk ⊢
     intro ω hω
     have h1 : (h : G)⁻¹ * ω * h ∈ Ω := by
@@ -103,7 +103,7 @@ theorem exists_conj_eq_and_conj_le {p : ℕ} [Fact p.Prime] {P Q : Subgroup G} {
       _ = y := hg
   · have hq' : (⟨g⁻¹ * q * g, hmemC q hq⟩ : ↥(centralizer ({x} : Set G))) ∈ Q' := by
       rw [mem_subgroupOf]
-      exact ⟨q, hq, by simp [MulAut.conj_apply]⟩
+      exact ⟨q, hq, by simp⟩
     have hmem : c * ⟨g⁻¹ * q * g, hmemC q hq⟩ * c⁻¹ ∈ (SK : Subgroup _) := by
       rw [← hc, Sylow.coe_subgroup_smul, mem_smul_pointwise_iff_exists]
       exact ⟨_, hS hq', rfl⟩
@@ -112,6 +112,7 @@ theorem exists_conj_eq_and_conj_le {p : ℕ} [Fact p.Prime] {P Q : Subgroup G} {
     convert hmem using 1
     group
 
+omit [Finite G] in
 private theorem card_le_two_mul_of_cosets {T C : Subgroup G} (hCT : C ≤ T)
     (h : ∀ u ∈ T, ∀ v ∈ T, u ∉ C → v ∉ C → u⁻¹ * v ∈ C) : Nat.card T ≤ 2 * Nat.card C := by
   set C' : Subgroup ↥T := C.subgroupOf T
@@ -133,11 +134,11 @@ private theorem card_le_two_mul_of_cosets {T C : Subgroup G} (hCT : C ≤ T)
         obtain ⟨v, rfl⟩ := QuotientGroup.mk_surjective q
         by_cases hv : (v : G) ∈ C
         · refine ⟨false, ?_⟩
-          simp only [Bool.false_eq_true, if_false]
+          simp only [Bool.false_eq_true, ite_false]
           rw [QuotientGroup.eq, mem_subgroupOf]
           simpa using hv
         · refine ⟨true, ?_⟩
-          simp only [if_true]
+          simp only [ite_true]
           rw [QuotientGroup.eq, mem_subgroupOf]
           simpa using h u₀ hu₀T v v.2 hu₀C hv
       have := Nat.card_le_card_of_surjective _ hsurj
@@ -155,11 +156,11 @@ theorem exists_conj_comm_of_not_sylow (T : Sylow 2 G) {x : G} (hxT : x ∈ (T : 
       (SK : Subgroup _) = (T : Subgroup G).subgroupOf (centralizer ({x} : Set G))) :
     ∃ k : G, k * x * k⁻¹ ∈ (T : Subgroup G) ∧
       ∀ u ∈ (T : Subgroup G), u * (k * x * k⁻¹) = (k * x * k⁻¹) * u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx := card_le_two_mul_of_cosets inf_le_left hcos
   set Q : Subgroup ↥(centralizer ({x} : Set G)) :=
     (T : Subgroup G).subgroupOf (centralizer ({x} : Set G))
-  have hQ : IsPGroup 2 Q := T.isPGroup'.comap_subtype
+  have hQ : IsPGroup 2 Q := T.isPGroup.comap_subtype
   obtain ⟨S, hQS⟩ := hQ.exists_le_sylow
   have hne : (S : Subgroup ↥(centralizer ({x} : Set G))) ≠ Q := fun h => hns ⟨S, h⟩
   have hcardQ : Nat.card Q = Nat.card ↥((T : Subgroup G) ⊓ centralizer ({x} : Set G)) := by
@@ -169,7 +170,7 @@ theorem exists_conj_comm_of_not_sylow (T : Sylow 2 G) {x : G} (hxT : x ∈ (T : 
     by_contra hle
     push Not at hle
     exact hne (eq_of_le_of_card_ge hQS hle).symm
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 S.isPGroup
   have hdvd : Nat.card Q ∣ Nat.card (S : Subgroup ↥(centralizer ({x} : Set G))) :=
     card_dvd_of_le hQS
   rw [hk] at hdvd hlt
@@ -183,7 +184,7 @@ theorem exists_conj_comm_of_not_sylow (T : Sylow 2 G) {x : G} (hxT : x ∈ (T : 
     (S : Subgroup ↥(centralizer ({x} : Set G))).map (centralizer ({x} : Set G)).subtype
   have hS'card : Nat.card S' = Nat.card (S : Subgroup ↥(centralizer ({x} : Set G))) :=
     card_map_of_injective (subtype_injective _)
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have hS'C : S' ≤ centralizer ({x} : Set G) := map_subtype_le _
   have hxS' : x ∈ S' :=
     ⟨⟨x, mem_centralizer_singleton_iff.2 rfl⟩, hQS (by rw [mem_subgroupOf]; exact hxT), rfl⟩

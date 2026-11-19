@@ -69,7 +69,7 @@ theorem exists_R : ∃ R : Subgroup X, IsPGroup 2 R ∧ R ≤ normalizer (S.inst
     rw [hR, card_map_of_injective (subtype_injective _), Sylow.card_eq_multiplicity,
       H.factorization_normalizer S.inst₁]
     rfl
-  have hp : IsPGroup 2 R := Q.isPGroup'.map _
+  have hp : IsPGroup 2 R := Q.isPGroup.map _
   have hTR : S.T₂of T₁ ≤ R := fun g hg => ⟨⟨g, hT₂N hg⟩, hQ hg, rfl⟩
   refine ⟨R, hp, hRN, fun Q' hQ' hle hQ'N => ?_, hTR, hcard, ?_⟩
   · refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
@@ -170,7 +170,7 @@ theorem not_sylow : ∃ P : Subgroup X, IsPGroup 2 P ∧ T₁ < P := by
   obtain ⟨P, hP⟩ := H.isPGroup.exists_le_sylow
   have hT₁P : T₁ = (P : Subgroup X) := by
     by_contra hne
-    exact hcon ⟨P, P.isPGroup', lt_of_le_of_ne hP hne⟩
+    exact hcon ⟨P, P.isPGroup, lt_of_le_of_ne hP hne⟩
   have hcardT₁ : Nat.card T₁ = 2 ^ (Nat.card (⊤ : Subgroup X)).factorization 2 := by
     rw [hT₁P, Sylow.card_eq_multiplicity, Subgroup.card_top]
   have hcardR : Nat.card R = 2 ^ (Nat.card (⊤ : Subgroup X)).factorization 2 := by

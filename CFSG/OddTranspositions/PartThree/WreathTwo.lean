@@ -97,7 +97,7 @@ theorem exists_mulEquiv_wreathTwo {L Y : Type*} [Group L] [Group Y] {A B : Subgr
       = (if σ = 1 then 1 else r) * (if τ = 1 then 1 else r)
     rcases TauCeti.perm_fin_two_eq_one_or_swap σ with rfl | rfl <;>
       rcases TauCeti.perm_fin_two_eq_one_or_swap τ with rfl | rfl <;>
-      simp [swap01_ne_one, Equiv.swap_swap (0 : Fin 2) 1, hr]
+      simp [hr]
   let ss : Equiv.Perm (Fin 2) →* Y := MonoidHom.mk' ssFun hss
   have ss_apply : ∀ σ : Equiv.Perm (Fin 2), ss σ = if σ = 1 then 1 else r := fun _ => rfl
   have hcompat : ∀ σ : Equiv.Perm (Fin 2),
@@ -108,12 +108,12 @@ theorem exists_mulEquiv_wreathTwo {L Y : Type*} [Group L] [Group Y] {A B : Subgr
     rw [MonoidHom.comp_apply, MonoidHom.comp_apply]
     rcases TauCeti.perm_fin_two_eq_one_or_swap σ with rfl | rfl
     · change g ((permAct (Fin 2) L) 1 f) = (MulAut.conj (ss 1)) (g f)
-      simp [MulAut.conj_apply]
+      simp
     · change g ((permAct (Fin 2) L) (Equiv.swap 0 1) f)
           = (MulAut.conj (ss (Equiv.swap 0 1))) (g f)
       rw [show (permAct (Fin 2) L) (Equiv.swap 0 1) f
             = fun i => f (Equiv.swap 0 1 i) from by ext i; rfl]
-      simp only [g_apply, ss_apply, if_neg swap01_ne_one, MulAut.conj_apply,
+      simp only [g_apply, ss_apply, ite_eq_right swap01_ne_one, MulAut.conj_apply,
         Equiv.swap_apply_left, Equiv.swap_apply_right]
       rw [conj_sq_swap hr]
       exact hcomm (αY (f 1)) (α (f 1)).2 (r * αY (f 0) * r⁻¹)
@@ -131,7 +131,7 @@ theorem exists_mulEquiv_wreathTwo {L Y : Type*} [Group L] [Group Y] {A B : Subgr
     obtain ⟨f, σ⟩ := x
     rw [F_apply] at hx
     rcases TauCeti.perm_fin_two_eq_one_or_swap σ with rfl | rfl
-    · rw [if_pos rfl, mul_one] at hx
+    · rw [ite_eq_left rfl, mul_one] at hx
       have ha_mem : αY (f 0) ∈ A := (α (f 0)).2
       have hb_mem : r * αY (f 1) * r⁻¹ ∈ B := conjB (α (f 1)) (α (f 1)).2
       have ha_eq : αY (f 0) = (r * αY (f 1) * r⁻¹)⁻¹ := eq_inv_of_mul_eq_one_left hx
@@ -160,7 +160,7 @@ theorem exists_mulEquiv_wreathTwo {L Y : Type*} [Group L] [Group Y] {A B : Subgr
         fin_cases i <;> assumption
       subst hf
       rfl
-    · rw [if_neg swap01_ne_one] at hx
+    · rw [ite_eq_right swap01_ne_one] at hx
       have hggmem : αY (f 0) * (r * αY (f 1) * r⁻¹) ∈ A ⊔ B :=
         Subgroup.mul_mem_sup (α (f 0)).2 (conjB (α (f 1)) (α (f 1)).2)
       have hr_mem : r ∈ A ⊔ B := by
@@ -179,7 +179,7 @@ theorem exists_mulEquiv_wreathTwo {L Y : Type*} [Group L] [Group Y] {A B : Subgr
       by_cases hy : y ∈ A ⊔ B
       · exact ⟨y, hy, 1, by simp⟩
       · refine ⟨y * r, ?_, Equiv.swap 0 1,
-          by rw [if_neg swap01_ne_one, mul_assoc, hr, mul_one]⟩
+          by rw [ite_eq_right swap01_ne_one, mul_assoc, hr, mul_one]⟩
         rw [Subgroup.mul_mem_iff_of_index_two hindex]
         exact ⟨fun hyP => absurd hyP hy, fun hrP => absurd hrP hrN⟩
     obtain ⟨z, hz, σ, hyz⟩ := hzσ
@@ -189,10 +189,10 @@ theorem exists_mulEquiv_wreathTwo {L Y : Type*} [Group L] [Group Y] {A B : Subgr
     let f : Fin 2 → L := fun i => if i = 0 then fL0 else fL1
     have hf0 : f 0 = fL0 := by
       dsimp only [f]
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
     have hf1 : f 1 = fL1 := by
       dsimp only [f]
-      rw [if_neg (by decide : (1 : Fin 2) ≠ 0)]
+      rw [ite_eq_right (by decide : (1 : Fin 2) ≠ 0)]
     have hα0 : αY (f 0) = a := by
       rw [hf0, αY_symm]
     have hα1 : r * αY (f 1) * r⁻¹ = b := by
@@ -203,6 +203,6 @@ theorem exists_mulEquiv_wreathTwo {L Y : Type*} [Group L] [Group Y] {A B : Subgr
   refine ⟨MulEquiv.ofBijective F ⟨hinj, hsurj⟩, ?_⟩
   change SemidirectProduct.lift g ss hcompat
       (SemidirectProduct.inr (Equiv.swap 0 1)) = r
-  rw [SemidirectProduct.lift_inr, ss_apply, if_neg swap01_ne_one]
+  rw [SemidirectProduct.lift_inr, ss_apply, ite_eq_right swap01_ne_one]
 
 end CFSG.OddTranspositions.PartThree

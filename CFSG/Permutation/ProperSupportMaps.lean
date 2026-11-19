@@ -40,6 +40,7 @@ variable {d : I} {B : Finset I → Subgroup X} {hB : Monotone B}
   map_one' := by ext; simp
   map_mul' x y := by ext; simp
 
+omit [Fintype I] in
 @[simp] theorem conjMapHom_apply_coe
     (hBmap : ∀ (σ : Equiv.Perm I) (S : Finset I),
       (B S).map (MulAut.conj (ρ σ)).toMonoidHom = B (S.image σ))
@@ -60,7 +61,7 @@ variable {d : I} {B : Finset I → Subgroup X} {hB : Monotone B}
     (S : Finset I) (σ : Equiv.Perm I) (hσ : S.image σ ⊆ deletionSet d) (x : B S) :
     phiOf (hB := hB) (a := a) (t := t) hBmap S σ hσ x =
       (t σ)⁻¹ * a (Subgroup.inclusion (hB hσ) (conjMapHom hBmap σ S x)) * t σ := by
-  simp [phiOf, MulAut.conj_apply]
+  simp [phiOf]
 
 theorem exists_perm_image_subset_deletionSet
     (S : Finset I) (hS : S ≠ Finset.univ) :
@@ -68,7 +69,7 @@ theorem exists_perm_image_subset_deletionSet
   classical
   by_cases hSD : S = deletionSet d
   · refine ⟨1, ?_⟩
-    simpa [hSD]
+    simp [hSD]
   · have hDnot : ¬ deletionSet d ⊆ S := by
       intro hDS
       apply hSD
@@ -92,9 +93,9 @@ theorem exists_perm_image_subset_deletionSet
     have hsk : s ≠ k := fun h => hkS (h ▸ hsS)
     rw [Equiv.swap_apply_def]
     by_cases hsd : s = d
-    · rw [if_neg hsk, if_pos hsd]
+    · rw [ite_eq_right hsk, ite_eq_left hsd]
       exact hkD
-    · rw [if_neg hsk, if_neg hsd]
+    · rw [ite_eq_right hsk, ite_eq_right hsd]
       exact Finset.mem_erase.mpr ⟨hsd, Finset.mem_univ s⟩
 
 @[expose] noncomputable def properSupportPhi
@@ -110,7 +111,7 @@ theorem covariance_of_subset
       (B S).map (MulAut.conj (ρ σ)).toMonoidHom = B (S.image σ))
     (hgen : ∀ (S : Finset I), S ⊆ deletionSet d → 2 ≤ S.card →
       B S = ⨆ P : PairBelow S, B (P : Finset I))
-    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (hPcard : P.card = 2)
+    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (_hPcard : P.card = 2)
       (hPD : P ⊆ deletionSet d) (hPσD : P.image σ ⊆ deletionSet d) (x : B P),
         a (Subgroup.inclusion (hB hPσD) (conjMapHom hBmap σ P x)) =
           t σ * a (Subgroup.inclusion (hB hPD) x) * (t σ)⁻¹)
@@ -195,7 +196,7 @@ theorem covariance_of_subset
         omega
       · rw [Finset.erase_eq_of_notMem h, hcardD]
         omega
-    obtain ⟨P, hSP, hPQ, hPcard⟩ :=
+    obtain ⟨P, hSP, hPQ, _hPcard⟩ :=
       Finset.exists_subsuperset_card_eq hSQ hcardS hQcard
     have hPD : P ⊆ deletionSet d := hPQ.trans (Finset.erase_subset _ _)
     have hQσ : Q.image σ ⊆ deletionSet d := by
@@ -225,7 +226,7 @@ theorem covariance_of_subset
       a (Subgroup.inclusion (hB hσ) (conjMapHom hBmap σ S x)) =
           a (Subgroup.inclusion (hB hPσD) (conjMapHom hBmap σ P y)) := by rw [harg]
       _ = t σ * a (Subgroup.inclusion (hB hPD) y) * (t σ)⁻¹ :=
-          hpair P σ hPcard hPD hPσD y
+          hpair P σ _hPcard hPD hPσD y
       _ = t σ * a (Subgroup.inclusion (hB hS) x) * (t σ)⁻¹ := by rw [hbase]
 
 theorem pairCovariance_of_cross
@@ -243,13 +244,13 @@ theorem pairCovariance_of_cross
           a (Subgroup.inclusion (hB (pair_subset_deletionSet hdu.symm hdv.symm)) x) =
         a (Subgroup.inclusion (hB (pair_subset_deletionSet hdu.symm hdv.symm)) x) *
           t (Equiv.swap c d)) :
-    ∀ (P : Finset I) (σ : Equiv.Perm I) (hPcard : P.card = 2)
+    ∀ (P : Finset I) (σ : Equiv.Perm I) (_hPcard : P.card = 2)
       (hPD : P ⊆ deletionSet d) (hPσD : P.image σ ⊆ deletionSet d) (x : B P),
         a (Subgroup.inclusion (hB hPσD) (conjMapHom hBmap σ P x)) =
           t σ * a (Subgroup.inclusion (hB hPD) x) * (t σ)⁻¹ := by
   classical
-  intro P σ hPcard hPD hPσD x
-  obtain ⟨i, j, hij, rfl⟩ := Finset.card_eq_two.mp hPcard
+  intro P σ _hPcard hPD hPσD x
+  obtain ⟨i, j, hij, rfl⟩ := Finset.card_eq_two.mp _hPcard
   have hcontain : ∀ {i j : I}, i ≠ j → i ≠ d → j ≠ d →
       B ({i, j} : Finset I) ≤ B (deletionSet d) := by
     intro i j _ hid hjd
@@ -294,7 +295,7 @@ theorem properSupportPhi_apply_of_image_subset
       (B S).map (MulAut.conj (ρ σ)).toMonoidHom = B (S.image σ))
     (hgen : ∀ (S : Finset I), S ⊆ deletionSet d → 2 ≤ S.card →
       B S = ⨆ P : PairBelow S, B (P : Finset I))
-    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (hPcard : P.card = 2)
+    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (_hPcard : P.card = 2)
       (hPD : P ⊆ deletionSet d) (hPσD : P.image σ ⊆ deletionSet d) (x : B P),
         a (Subgroup.inclusion (hB hPσD) (conjMapHom hBmap σ P x)) =
           t σ * a (Subgroup.inclusion (hB hPD) x) * (t σ)⁻¹)
@@ -316,7 +317,7 @@ theorem properSupportPhi_apply_of_image_subset
       rw [Finset.image_image]
       congr 1
       ext y
-      simp [Equiv.Perm.mul_apply]
+      simp
     rw [himage]
     exact hσ
   have hcov := covariance_of_subset hBmap hgen hpair hI R hσ₀ δ hδR
@@ -350,7 +351,7 @@ theorem properSupportPhi_apply_of_subset
       (B S).map (MulAut.conj (ρ σ)).toMonoidHom = B (S.image σ))
     (hgen : ∀ (S : Finset I), S ⊆ deletionSet d → 2 ≤ S.card →
       B S = ⨆ P : PairBelow S, B (P : Finset I))
-    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (hPcard : P.card = 2)
+    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (_hPcard : P.card = 2)
       (hPD : P ⊆ deletionSet d) (hPσD : P.image σ ⊆ deletionSet d) (x : B P),
         a (Subgroup.inclusion (hB hPσD) (conjMapHom hBmap σ P x)) =
           t σ * a (Subgroup.inclusion (hB hPD) x) * (t σ)⁻¹)
@@ -375,7 +376,7 @@ theorem properSupportPhi_comp_inclusion
       (B S).map (MulAut.conj (ρ σ)).toMonoidHom = B (S.image σ))
     (hgen : ∀ (S : Finset I), S ⊆ deletionSet d → 2 ≤ S.card →
       B S = ⨆ P : PairBelow S, B (P : Finset I))
-    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (hPcard : P.card = 2)
+    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (_hPcard : P.card = 2)
       (hPD : P ⊆ deletionSet d) (hPσD : P.image σ ⊆ deletionSet d) (x : B P),
         a (Subgroup.inclusion (hB hPσD) (conjMapHom hBmap σ P x)) =
           t σ * a (Subgroup.inclusion (hB hPD) x) * (t σ)⁻¹)
@@ -405,7 +406,7 @@ theorem properSupportPhi_apply_common
       (B S).map (MulAut.conj (ρ σ)).toMonoidHom = B (S.image σ))
     (hgen : ∀ (S : Finset I), S ⊆ deletionSet d → 2 ≤ S.card →
       B S = ⨆ P : PairBelow S, B (P : Finset I))
-    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (hPcard : P.card = 2)
+    (hpair : ∀ (P : Finset I) (σ : Equiv.Perm I) (_hPcard : P.card = 2)
       (hPD : P ⊆ deletionSet d) (hPσD : P.image σ ⊆ deletionSet d) (x : B P),
         a (Subgroup.inclusion (hB hPσD) (conjMapHom hBmap σ P x)) =
           t σ * a (Subgroup.inclusion (hB hPD) x) * (t σ)⁻¹)
@@ -424,7 +425,7 @@ theorem properSupportPhi_apply_common
     intro hx
     have hmem : σ (σ⁻¹ d) ∈ deletionSet d :=
       hσS (Finset.mem_image.mpr ⟨σ⁻¹ d, hx, rfl⟩)
-    have hd : d ∈ deletionSet d := by simpa using hmem
+    have hd : d ∈ deletionSet d := by simp at hmem
     exact (Finset.mem_erase.mp hd).1 rfl
   have hτd : τ d = d := by
     calc
@@ -439,7 +440,7 @@ theorem properSupportPhi_apply_common
     ext
     change (MulAut.conj (ρ σ)).toMonoidHom (ρ π) = ρ τ
     dsimp [τ]
-    simp only [map_mul, map_inv, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [map_mul, map_inv]
   have htτ : t τ = t σ * t π * (t σ)⁻¹ := by
     dsimp [τ]
     simp only [map_mul, map_inv]

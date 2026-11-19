@@ -42,12 +42,14 @@ theorem pRank_autFixedSubgroup_congr {G H : Type*} [Group G] [Group H] [Finite G
 
 variable {X : Type*} [Group X] [Finite X] {L : Subgroup X} [L.Normal] {p : ℕ}
 
+omit [Finite X] in
 theorem quotientAut_conjNormal_eq_conjHom (x : X) :
     CFSG.quotientAut (MulAut.conjNormal (H := L) x) = conjHom (L := L) x := by
   ext y
   obtain ⟨j, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥L) y
   rw [CFSG.quotientAut_mk, conjHom_apply, conjOnCenterQuotient_apply]
 
+omit [L.Normal] in
 theorem autFixedSubgroup_quotientAut_eq_map (hp : p.Prime) (α : MulAut ↥L) (hαp : α ^ p = 1)
     (hZ : ¬ p ∣ Nat.card (Subgroup.center ↥L)) :
     CFSG.autFixedSubgroup (CFSG.quotientAut α) =
@@ -62,10 +64,10 @@ theorem autFixedSubgroup_quotientAut_eq_map (hp : p.Prime) (α : MulAut ↥L) (h
   have hcardA : Nat.card A = orderOf α := Nat.card_zpowers α
   have hcopZ : Nat.Coprime (Nat.card A) (Nat.card Z) := by
     rw [hcardA]; exact hcopα
-  letI : Z.Characteristic := Subgroup.centerCharacteristic
-  letI hInv : CFSG.IsInvariant A ↥L Z := CFSG.isInvariant_of_characteristic Z
-  letI : IsMulCommutative Z := Subgroup.center.isMulCommutative (G := ↥L)
-  letI : MulDistribMulAction A (↥L ⧸ Z) :=
+  let : Z.Characteristic := Subgroup.centerCharacteristic
+  let hInv : CFSG.IsInvariant A ↥L Z := CFSG.isInvariant_of_characteristic Z
+  let : IsMulCommutative Z := Subgroup.center.isMulCommutative (G := ↥L)
+  let : MulDistribMulAction A (↥L ⧸ Z) :=
     CFSG.quotientMulDistribMulAction (A := A) (G := ↥L) Z hInv
   have hC : CFSG.fixedPointSubgroup A ↥L = CFSG.autFixedSubgroup α := by
     simpa [A] using CFSG.fixedPointSubgroup_zpowers_eq_autFixedSubgroup (J := ↥L) α

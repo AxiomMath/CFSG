@@ -65,7 +65,7 @@ theorem stmt15_3_1_GH_of_counterexample_parts_F4
     (branches : CFSG.Quasithin.StageTheorem1513_F4)
     (closing : StageTheorem1531Counterexample_F4) : Stmt15_3_1_GH := by
   intro G _ _ context T Mc hypothesis
-  haveI : Finite4 G := finite4_of_gen4 context.1
+  have : Finite4 G := finite4_of_gen4 context.1
   change CFSG.Quasithin.NativeSixModels G
   exact nativeSixModels_of_counterexample_parts_F4 triality tits existence branches closing
     G T Mc hypothesis

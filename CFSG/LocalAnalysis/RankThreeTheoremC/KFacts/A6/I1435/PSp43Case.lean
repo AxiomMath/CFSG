@@ -16,7 +16,7 @@ theorem card_centralizer_conj {G : Type*} [Group G] (h a : G) :
     Nat.card (centralizer ({h * a * h⁻¹} : Set G)) = Nat.card (centralizer ({a} : Set G)) := by
   refine Nat.card_congr ((MulAut.conj h⁻¹).toEquiv.subtypeEquiv fun y => ?_)
   simp only [MulEquiv.toEquiv_eq_coe, MulEquiv.coe_toEquiv, MulAut.conj_apply, inv_inv,
-    SetLike.mem_coe, mem_centralizer_singleton_iff]
+    mem_centralizer_singleton_iff]
   constructor
   · intro H
     calc h⁻¹ * y * h * a = h⁻¹ * (y * (h * a * h⁻¹)) * h := by group

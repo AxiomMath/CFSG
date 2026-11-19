@@ -55,7 +55,7 @@ private lemma plq_dval_eq_cartan (m : ℕ) (hm : 4 ≤ m) (t j : Fin m) :
   push_cast
   by_cases hij : t = j
   · simp [hij]
-  · rw [if_neg hij, if_neg (show ¬ (m ≤ 2) by omega)]
+  · rw [ite_eq_right hij, ite_eq_right (show ¬ (m ≤ 2) by omega)]
     split_ifs <;> norm_num
 
 theorem dFormAB_apply (m : ℕ) (ε : Bool) (a b : Fin m) (v : DVec m) :
@@ -98,7 +98,7 @@ theorem dTau_apply_vec (m : ℕ) (ε : Bool) {a b : Fin m} (hab : a ≠ b) (v : 
       rw [dTau_apply_left m ε hab]
       have hfa : dFormAB m ε a b (dBasis m a) = 1 := by
         rw [dFormAB_apply]
-        simp [dBasis, Pi.basisFun_apply, Pi.single_apply, hab]
+        simp [dBasis, Pi.basisFun_apply, hab]
       rw [hfa]
       change dSgn ε • dBasis m b = dBasis m a - 1 • dRootAB m ε a b
       rw [dRootAB]
@@ -109,7 +109,7 @@ theorem dTau_apply_vec (m : ℕ) (ε : Bool) {a b : Fin m} (hab : a ≠ b) (v : 
         rw [dTau_apply_right m ε hab]
         have hfb : dFormAB m ε a b (dBasis m b) = -dSgn ε := by
           rw [dFormAB_apply]
-          simp [dBasis, Pi.basisFun_apply, Pi.single_apply, hab.symm]
+          simp [dBasis, Pi.basisFun_apply, hab.symm]
         rw [hfb]
         change dSgn ε • dBasis m a = dBasis m b - (-dSgn ε) • dRootAB m ε a b
         rw [dRootAB]
@@ -119,14 +119,14 @@ theorem dTau_apply_vec (m : ℕ) (ε : Bool) {a b : Fin m} (hab : a ≠ b) (v : 
       · rw [dTau_apply_of_ne m ε hia hib]
         have hfi : dFormAB m ε a b (dBasis m i) = 0 := by
           rw [dFormAB_apply]
-          simp [dBasis, Pi.basisFun_apply, Pi.single_apply, hia, hib]
+          simp [dBasis, Pi.basisFun_apply, hia, hib]
         rw [hfi, zero_smul, sub_zero]
   have h := congrArg (fun L : DVec m →ₗ[ZMod 3] DVec m => L v) hLR
   rwa [Module.preReflection_apply] at h
 
 theorem dTau_apply_eq_self_iff (m : ℕ) (ε : Bool) {a b : Fin m} (hab : a ≠ b) (v : DVec m) :
     dTau m ε a b v = v ↔ v a = dSgn ε * v b := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   rw [dTau_apply_vec m ε hab v, sub_eq_self, smul_eq_zero]
   constructor
   · rintro (h | h)
@@ -228,8 +228,8 @@ private lemma plq_dRootForm_dRoot_dval (m : ℕ) (hm : 4 ≤ m) (t j : Fin m) :
             show OrthTorus.simpleHi j = ⟨j.val + 1, hj⟩ from
               Fin.ext (OrthTorus.simpleHi_of_lt hj),
             hdt, hdj, plq_dSgn_false]
-        simp only [Fin.ext_iff, Fin.val_mk, hijv]
-        split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+        simp only [Fin.ext_iff, hijv]
+        split_ifs <;> (try norm_num) <;> first | omega | contradiction
       · have hdt : decide (t.val + 1 = m) = false := by
           rw [decide_eq_false_iff_not]; omega
         have hdj : decide (j.val + 1 = m) = true := by
@@ -242,8 +242,8 @@ private lemma plq_dRootForm_dRoot_dval (m : ℕ) (hm : 4 ≤ m) (t j : Fin m) :
             show OrthTorus.simpleHi j = ⟨m - 1, by omega⟩ from
               Fin.ext (OrthTorus.simpleHi_of_last hj),
             hdt, hdj, plq_dSgn_false, plq_dSgn_true]
-        simp only [Fin.ext_iff, Fin.val_mk]
-        split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+        simp only [Fin.ext_iff]
+        split_ifs <;> (try norm_num) <;> first | omega
     · rcases lt_or_eq_of_le (show j.val + 1 ≤ m by omega) with hj | hj
       · have hdt : decide (t.val + 1 = m) = true := by
           rw [decide_eq_true_eq]; omega
@@ -257,8 +257,8 @@ private lemma plq_dRootForm_dRoot_dval (m : ℕ) (hm : 4 ≤ m) (t j : Fin m) :
             show OrthTorus.simpleHi j = ⟨j.val + 1, hj⟩ from
               Fin.ext (OrthTorus.simpleHi_of_lt hj),
             hdt, hdj, plq_dSgn_true, plq_dSgn_false]
-        simp only [Fin.ext_iff, Fin.val_mk]
-        split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+        simp only [Fin.ext_iff]
+        split_ifs <;> (try norm_num) <;> first | omega
       · exact absurd (Fin.ext (by omega : t.val = j.val)) hij
 
 theorem dRootForm_dRoot (m : ℕ) (hm : 4 ≤ m) (t j : Fin m) :
@@ -267,7 +267,7 @@ theorem dRootForm_dRoot (m : ℕ) (hm : 4 ≤ m) (t j : Fin m) :
 
 theorem dRoot_linearIndependent (m : ℕ) (hm : 4 ≤ m) :
     LinearIndependent (ZMod 3) (dRoot m) := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   rw [Fintype.linearIndependent_iff]
   intro g hg
   let A : Matrix (Fin m) (Fin m) (ZMod 3) :=
@@ -303,7 +303,7 @@ theorem eq_zero_of_dRootForm_eq_zero (m : ℕ) (hm : 4 ≤ m) (v : DVec m)
     (hv : ∀ t, dRootForm m t v = 0) : v = 0 := by
   let w : ℕ → ZMod 3 := fun k => if hk : k < m then v ⟨k, hk⟩ else 0
   have hw : ∀ (k : ℕ) (hk : k < m), w k = v ⟨k, hk⟩ := by
-    intro k hk; simp only [w, dif_pos hk]
+    intro k hk; simp only [w, dite_eq_left hk]
   have hw_eq : ∀ i : Fin m, v i = w i.val := by
     intro i
     rw [hw i.val i.isLt]
@@ -312,13 +312,13 @@ theorem eq_zero_of_dRootForm_eq_zero (m : ℕ) (hm : 4 ≤ m) (v : DVec m)
     have hk' : k < m := by omega
     have hlt : (⟨k, hk'⟩ : Fin m).val + 1 < m := by simpa using hk
     have hdec : decide ((⟨k, hk'⟩ : Fin m).val + 1 = m) = false := by
-      simp only [Fin.val_mk, decide_eq_false_iff_not]; omega
+      simp only [decide_eq_false_iff_not]; omega
     have hv' := hv ⟨k, hk'⟩
     rw [dRootForm, dFormAB_apply] at hv'
     rw [hdec] at hv'
     rw [hw_eq (OrthTorus.simpleLo ⟨k, hk'⟩), hw_eq (OrthTorus.simpleHi ⟨k, hk'⟩),
         OrthTorus.simpleLo_of_lt hlt, OrthTorus.simpleHi_of_lt hlt] at hv'
-    simp only [plq_dSgn_false, one_mul, Fin.val_mk] at hv'
+    simp only [plq_dSgn_false, one_mul] at hv'
     exact sub_eq_zero.mp hv'
   have hconst : ∀ k, k < m → w k = w 0 := by
     intro k
@@ -330,7 +330,7 @@ theorem eq_zero_of_dRootForm_eq_zero (m : ℕ) (hm : 4 ≤ m) (v : DVec m)
         exact ih (by omega)
   have hlast : w (m - 2) + w (m - 1) = 0 := by
     have htlast : (⟨m - 1, by omega⟩ : Fin m).val + 1 = m := by
-      simp only [Fin.val_mk]
+      simp only
       omega
     have hdec : decide ((⟨m - 1, by omega⟩ : Fin m).val + 1 = m) = true := by
       simp [htlast]
@@ -340,7 +340,7 @@ theorem eq_zero_of_dRootForm_eq_zero (m : ℕ) (hm : 4 ≤ m) (v : DVec m)
     rw [hw_eq (OrthTorus.simpleLo ⟨m - 1, by omega⟩),
         hw_eq (OrthTorus.simpleHi ⟨m - 1, by omega⟩)] at h
     rw [OrthTorus.simpleLo_of_last htlast, OrthTorus.simpleHi_of_last htlast] at h
-    simp only [plq_dSgn_true, Fin.val_mk] at h
+    simp only [plq_dSgn_true] at h
     ring_nf at h
     exact h
   have hw0 : w 0 = 0 := by

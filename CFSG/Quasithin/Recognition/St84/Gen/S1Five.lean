@@ -47,6 +47,7 @@ private theorem elementary_of_sq_const {H : Type*} [Group H] (V : Subgroup H)
   rw [mul_inv_rev, hinv x, hinv y] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem isElemSec_of_transitive {K A Q L : Subgroup G} (hQL : Q ≤ L) (hA : IsElemSec K A)
     (hQ : IsElemSec A Q) (hcen : ∀ a ∈ A, ∀ l ∈ L, ⁅a, l⁆ ∈ K) (hcard : 8 ≤ A.relIndex Q)
     (htrans : ∀ x ∈ Q, x ∉ A → ∀ y ∈ Q, y ∉ A → ∃ l ∈ L, y⁻¹ * (l * x * l⁻¹) ∈ A) :
@@ -126,7 +127,7 @@ theorem isElemSec_of_transitive {K A Q L : Subgroup G} (hQL : Q ≤ L) (hA : IsE
     rw [e]
     exact K.mul_mem h2' h1
   let N : Subgroup ↥Q := K.subgroupOf Q
-  haveI hNnormal : N.Normal :=
+  have hNnormal : N.Normal :=
     (Subgroup.normal_subgroupOf_iff hKQ).mpr fun k q hk hq => hKconj q (hQL hq) k hk
   let H := ↥Q ⧸ N
   let f : ↥Q →* H := QuotientGroup.mk' N
@@ -144,7 +145,7 @@ theorem isElemSec_of_transitive {K A Q L : Subgroup G} (hQL : Q ≤ L) (hA : IsE
       exact K.inv_mem (hcen (a : G) haA (q : G) (hQL hqQ))
     have e : (((q * a) / (a * q) : ↥Q) : G) = ⁅(q : G), (a : G)⁆ := by
       simp only [div_eq_mul_inv, mul_inv_rev, Subgroup.coe_mul, Subgroup.coe_inv,
-        Subgroup.coe_zpow, commutatorElement_def]
+        commutatorElement_def]
       group
     rw [e]
     exact hc
@@ -188,7 +189,7 @@ theorem isElemSec_of_transitive {K A Q L : Subgroup G} (hQL : Q ≤ L) (hA : IsE
     rw [← map_pow]
     exact Subgroup.mem_map.mpr
       ⟨q ^ 2, Subgroup.mem_subgroupOf.mpr (hsqQ (q : G) q.2), rfl⟩
-  haveI : V.Normal := hVnormal
+  have : V.Normal := hVnormal
   have hGqcard : 8 ≤ Nat.card (H ⧸ V) := by
     rw [← Subgroup.index_eq_card]
     exact hV8

@@ -99,7 +99,7 @@ private theorem s16h_e3_l3_binaryNaturalSL_map_conj {W : Type} [CommGroup W]
   exact ⟨(CFSG.Quasithin.Vol2.Ch10.SecA.conjEquivMap H σ).toMonoidHom.comp π,
     CFSG.Quasithin.Vol2.Ch10.SecA.realizesVia_map_conj hπ σ⟩
 
-theorem s16h_e3_l3_exists_twist_stable_natural (hQ : ∀ q : Q, q ^ 2 = 1)
+theorem s16h_e3_l3_exists_twist_stable_natural (_hQ : ∀ q : Q, q ^ 2 = 1)
     {L : Subgroup (MulAut Q)} (hL : IsPSL 3 2 1 ↥L)
     (hsum : SumOfNat (fun H A B => BinaryNaturalSL H A B 3 1) L (⊤ : Subgroup Q) ⊥ 3)
     {τ : MulAut Q} (hτ : τ ∈ normalizer (L : Set (MulAut Q))) :

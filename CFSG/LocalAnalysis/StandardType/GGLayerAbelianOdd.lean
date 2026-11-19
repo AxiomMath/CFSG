@@ -12,7 +12,7 @@ private theorem exists_odd_prime_mem_pow_eq_one {G : Type*} [Group G] [Finite G]
   have hcard : Nat.card E ≠ 1 := fun h => hne (Subgroup.card_eq_one.1 h)
   have hp : (Nat.card E).minFac.Prime := Nat.minFac_prime hcard
   have hdvd : (Nat.card E).minFac ∣ Nat.card E := Nat.minFac_dvd _
-  haveI : Fact (Nat.card E).minFac.Prime := ⟨hp⟩
+  have : Fact (Nat.card E).minFac.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (Nat.card E).minFac hdvd
   refine ⟨(Nat.card E).minFac, hp, hE.ne_two_of_dvd_nat hdvd, x, x.2, fun h => ?_, ?_⟩
   · have hx1 : x = 1 := Subtype.ext h
@@ -170,7 +170,7 @@ theorem goodA_all_abelianOdd (hK : CompTypesCyc) (hT : TitsCentSolv) :
     by_cases hTits : catalogIs S (onLie (· = TauCeti.LieTypeIndex.tits))
     · apply goodA_subtype_top_of_centFix
       intro P hP hPp
-      haveI := hT S hTits p hp hp2 (Subgroup.zpowers z) (isElemAbelian_zpowers hzp)
+      have := hT S hTits p hp hp2 (Subgroup.zpowers z) (isElemAbelian_zpowers hzp)
         (by rw [Ne, Subgroup.zpowers_eq_bot]; exact hz1)
       have hPz : P ≤ I142.centFix (Subgroup.zpowers z) := by
         intro x hx
@@ -273,7 +273,7 @@ theorem ggExcAdjOddLayerCores_iff_centre {τ : Tag}
     obtain ⟨β, T, hT⟩ := h K A hA hAc
     exact LayerCores.layerCentre_of_isSubCoreFamily hT z hz hzc hz2
   · intro h K _ _ _ A hA hAc
-    haveI := generated_group_finite τ K
+    have := generated_group_finite τ K
     obtain ⟨hS, hnc⟩ := LayerCores.adjointGroup_isSimple_nonabelian hτ K
     have hE := LayerCores.centFix_map_conj A
     have key := (LayerCores.exists_subCoreFamily_iff_layerCentre_odd hS hnc
@@ -290,7 +290,7 @@ theorem ggE6InndiagOddLayerCores_iff_centre :
     obtain ⟨β, T, hT⟩ := h K A hA hAc hAD
     exact LayerCores.layerCentre_of_isSubCoreFamily hT z hz hzc hz2
   · intro h K _ _ _ A hA hAc hAD
-    haveI := generated_group_finite .E6 K
+    have := generated_group_finite .E6 K
     obtain ⟨hS, hnc⟩ := LayerCores.adjointGroup_isSimple_nonabelian (Or.inr (Or.inl rfl)) K
     have hEq : LayerSixE.autFix A = I142.centFix A :=
       Subgroup.ext fun x => LayerSixE.mem_autFix.trans I142.mem_centFix.symm
@@ -307,7 +307,7 @@ theorem ggTwE6OddLayerCores_iff_centre :
     obtain ⟨β, T, hT⟩ := h f hf A hA hAc hAD
     exact LayerCores.layerCentre_of_isSubCoreFamily hT z hz hzc hz2
   · intro h f hf A hA hAc hAD
-    haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) :=
+    have : Finite ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) :=
       Subtype.finite
     have hq := TwE6Nonsplit.isQuasisimple_graphFixedRootGroup f hf
     have hZ0 : Subgroup.center ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
@@ -319,8 +319,8 @@ theorem ggTwE6OddLayerCores_iff_centre :
           Subgroup.center ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
             (frobQ 2 f))) :=
       ((QuotientGroup.quotientMulEquivOfEq hZ0).trans QuotientGroup.quotientBot).symm
-    haveI := hq.2.1
-    haveI hS : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
+    have := hq.2.1
+    have hS : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
         (frobQ 2 f)) := eZ.isSimpleGroup
     have hnc : ∃ a b : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)),
         a * b ≠ b * a := by

@@ -54,7 +54,7 @@ theorem out1_foldl_steps {step : Nat → Nat → Nat} (hz : ∀ k, step k 0 = 0)
     · exact h2 k h
 
 theorem out1_pair_trip {N : Nat} {T : Nat → Nat} {IT WT a c j : Nat}
-    (h : pairK N T IT WT a c j ≠ 0) (hc : c ≠ 0) (hbit : bitK IT j = true)
+    (h : pairK N T IT WT a c j ≠ 0) (_hc : c ≠ 0) (hbit : bitK IT j = true)
     (hcomm : comm 32 6 (T j) a = true) :
     tripK N T a (T j) (fget WT (c - 1) 30) = true := by
   unfold pairK at h
@@ -65,7 +65,7 @@ theorem out1_pair_trip {N : Nat} {T : Nat → Nat} {IT WT a c j : Nat}
   · exact absurd rfl h
 
 theorem out1_outerAt_inner {TA : Nat → Nat} {N : Nat} {T : Nat → Nat} {IT WT i c : Nat}
-    (h : outerAt TA N T IT WT i c ≠ 0) (hc : c ≠ 0)
+    (h : outerAt TA N T IT WT i c ≠ 0) (_hc : c ≠ 0)
     (hsq : Nat.beq (mul 32 6 (TA i) (TA i)) (pidn 32 6) = true)
     (hnot : inL N T (TA i) = false) :
     innerK N T IT WT (TA i) c ≠ 0 := by
@@ -115,8 +115,8 @@ theorem outerK_spec {NA N IT WT : Nat} {TA T : Nat → Nat} (h : 0 < outerK NA T
   have hpair' : pairK N T IT WT (TA i) c' j ≠ 0 := hpair
   exact ⟨c', hc', out1_pair_trip hpair' hc' hbit hcomm⟩
 
-theorem tabsOf_found {N : Nat} {T : Nat → Nat} {x : Nat} (hT : ∀ i < N, PP 32 6 (T i))
-    (hx : PP 32 6 x) (h : inL N T x = true) :
+theorem tabsOf_found {N : Nat} {T : Nat → Nat} {x : Nat} (_hT : ∀ i < N, PP 32 6 (T i))
+    (_hx : PP 32 6 x) (h : inL N T x = true) :
     found (indexOf (tabsOf N T)) (tabsOf N T) (unpack 32 6 x) = true := by
   rw [CFSG.KS.PEnum.found_indexOf_iff]
   unfold inL at h
@@ -129,7 +129,6 @@ theorem tabsOf_found {N : Nat} {T : Nat → Nat} {x : Nat} (hT : ∀ i < N, PP 3
 theorem bit_of_itK {N IT : Nat} {T : Nat → Nat} (h : itK N T IT = true) {j : Nat} (hj : j < N)
     (hs : Nat.beq (mul 32 6 (T j) (T j)) (pidn 32 6) = true) : bitK IT j = true := by
   have h1 := CFSG.KS.allN_spec h j hj
-  unfold CFSG.KC.HeFixK.itK at h1
   simp only [strictB_app] at h1
   rw [hs] at h1
   revert h1

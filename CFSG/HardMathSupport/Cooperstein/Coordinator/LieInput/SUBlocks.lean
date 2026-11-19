@@ -259,7 +259,7 @@ theorem aIdx_disj (S : Finset (Fin (n / 2))) (i j : ↥S) : aIdx S i ≠ Fin.rev
 
 theorem su_exists_norm_eq (hF : Nat.card F = (2 ^ f) ^ 2) {x : F}
     (hx : unitaryInvolution F 2 f x = x) : ∃ a, unitaryInvolution F 2 f a * a = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases h0 : x = 0
   · exact ⟨0, by simp [h0]⟩
   · exact CFSG.ClassicalGroups.Unitary.exists_norm_eq_of_fixed hF hx h0
@@ -267,8 +267,8 @@ theorem su_exists_norm_eq (hF : Nat.card F = (2 ^ f) ^ 2) {x : F}
 theorem phi_eq_zero_of_ePos {S : Finset (Fin (n / 2))} {j : Fin (n / 2)}
     (hj : ∀ a ∈ S, j.val < a.val) {x : Fin n} (hx : x ∈ ePos S) : phi j x = 0 := by
   rcases mem_ePos.mp hx with ⟨a, ha, rfl | rfl⟩ | hmid
-  · rw [phi_lowIdx, if_neg (by have := hj a ha; omega)]
-  · rw [phi_rev_lowIdx, if_neg (by have := hj a ha; omega)]; simp
+  · rw [phi_lowIdx, ite_eq_right (by have := hj a ha; omega)]
+  · rw [phi_rev_lowIdx, ite_eq_right (by have := hj a ha; omega)]; simp
   · exact phi_mid j hmid
 
 
@@ -276,7 +276,7 @@ theorem GEu_le_leviM (hn : 2 ≤ n) {S : Finset (Fin (n / 2))} (hS : S.Nonempty)
     {J : Set (Fin (n / 2))} (hJ : ∀ j, j ∉ J → ∀ a ∈ S, j.val < a.val) :
     GEu hF S ≤ leviM (rootDatum hF n) J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ := unitaryInvolution_involutive (K := F) (p := 2) (f := f) hF
   have hcard : 2 ≤ (ePos S).card := by
     rw [ePos_card]
@@ -328,7 +328,7 @@ theorem GAu_le_leviM (hn : 2 ≤ n) {S : Finset (Fin (n / 2))} {J : Set (Fin (n 
     (hJ : ∀ j, j ∉ J → ∀ a ∈ S, ∀ b ∈ S, (a.val ≤ j.val ↔ b.val ≤ j.val)) :
     GAu hF S ≤ leviM (rootDatum hF n) J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ := unitaryInvolution_involutive (K := F) (p := 2) (f := f) hF
   rintro _ ⟨g, rfl⟩
   have hg : g ∈ Subgroup.closure (Set.range (Matrix.TransvectionStruct.toSpecialLinearGroup :
@@ -369,7 +369,7 @@ theorem antidiag_mul_extendMat (M : Matrix (Fin n') (Fin n') F) :
   exact this.symm
 
 include hr in
-theorem mem_range_suEmbed_of_support (hσ : ∀ c, σ (σ c) = c) {x : SU σ n}
+theorem mem_range_suEmbed_of_support (_hσ : ∀ c, σ (σ c) = c) {x : SU σ n}
     (hx : ∀ u v, ¬ (u ∈ Set.range τ ∧ v ∈ Set.range τ) →
       mat σ n x u v = (1 : Matrix (Fin n) (Fin n) F) u v) :
     x ∈ (suEmbed σ hτ hr).range := by
@@ -459,7 +459,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ} (hF : Nat.card F 
 theorem rankOne_le_GEu {S : Finset (Fin (n / 2))} {i : Fin (n / 2)} (hi : i ∈ S)
     (hnext : ∀ h : i.val + 1 < n / 2, (⟨i.val + 1, h⟩ : Fin (n / 2)) ∈ S) :
     rankOne (rootDatum hF n).rootGroup i ≤ GEu hF S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ := unitaryInvolution_involutive (K := F) (p := 2) (f := f) hF
   intro x hx
   refine mem_range_suEmbed_of_support (eTau_injective S) (eTau_rev S) hσ ?_
@@ -484,7 +484,7 @@ theorem rankOne_le_GEu {S : Finset (Fin (n / 2))} {i : Fin (n / 2)} (hi : i ∈ 
 theorem rankOne_le_GAu {S : Finset (Fin (n / 2))} {k : Fin (n / 2)} (hk : k.val + 1 < n / 2)
     (h1 : k ∈ S) (h2 : (⟨k.val + 1, hk⟩ : Fin (n / 2)) ∈ S) :
     rankOne (rootDatum hF n).rootGroup k ≤ GAu hF S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ := unitaryInvolution_involutive (K := F) (p := 2) (f := f) hF
   set p : Fin n := lowIdx k with hp
   set q : Fin n := lowIdx (n := n) ⟨k.val + 1, hk⟩ with hq

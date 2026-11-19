@@ -130,7 +130,7 @@ theorem rootDiagUnit_zetaVec_kgExpVec_add_ne_one {L : Type} [Field L] {ζ : Lˣ}
     (hαβ : iform α β = 0) :
     rootDiagUnit Tag.E6 (zetaVec ζ hζ (kgExpVec α + kgExpVec β)) ≠ 1 := by
   have hnum : ¬ ((0 : ZMod 3) = ((2 : ℤ) : ZMod 3) + ((0 : ℤ) : ZMod 3)) := by decide +kernel
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h
   have h' : zetaVec ζ hζ (kgExpVec α + kgExpVec β) = 1 :=
     CFSG.LieType.Chevalley.rootDiagUnit_injective (h.trans rootDiagUnit_one.symm)

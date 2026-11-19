@@ -986,7 +986,7 @@ theorem finrank_fixSub_Us_one_eq_one :
       dsimp only [T] at h ⊢
       rw [mat_shortTorus_scalar_eVec, mat_shortTorus_scalar_eVec] at h
       rw [show (2 ^ j : ℤ) = ((2 ^ j : ℕ) : ℤ) by norm_cast] at h
-      simp only [show (1 : Fin 3) ≠ 2 by decide, if_false, if_true, 
+      simp only [show (1 : Fin 3) ≠ 2 by decide, ite_false, ite_true, 
         map_pow, one_mul, one_div, zpow_neg, zpow_natCast, map_inv₀] at h
       rw [inv_pow, inv_inv, ← pow_mul] at h
       simpa only [pow_succ, Nat.mul_comm] using h
@@ -1009,7 +1009,7 @@ theorem finrank_fixSub_Us_one_eq_one :
       dsimp only [P] at h ⊢
       rw [mat_shortTorus_scalar_eVec, mat_shortTorus_scalar_eVec] at h
       rw [show (2 ^ j : ℤ) = ((2 ^ j : ℕ) : ℤ) by norm_cast] at h
-      simp only [show (2 : Fin 3) ≠ 1 by decide, if_false, if_true, 
+      simp only [show (2 : Fin 3) ≠ 1 by decide, ite_false, ite_true, 
         map_pow, one_mul, div_one, zpow_neg, zpow_natCast] at h
       rw [← pow_mul (algebraMap K k (a : K)) 2 (2 ^ j)] at h
       simpa only [pow_succ, Nat.mul_comm] using h
@@ -1050,7 +1050,7 @@ theorem finrank_fixSub_Us_zero_le_two :
       rw [(chi_shortTorus_one_two_eq_one hirrQ hσ ht hnt hgen hp u).1,
         mat_shortTorus_scalar_eVec, mat_shortTorus_scalar_eVec,
         show (2 ^ j : ℤ) = ((2 ^ j : ℕ) : ℤ) by norm_cast] at h
-      simp only [show (0 : Fin 3) ≠ 1 by decide, if_false, if_true, 
+      simp only [show (0 : Fin 3) ≠ 1 by decide, ite_false, ite_true, 
         map_pow, one_mul, one_div, zpow_neg, zpow_natCast, map_inv₀] at h
       rw [inv_pow, inv_inv, ← pow_mul] at h
       simpa only [pow_succ, Nat.mul_comm] using h
@@ -1075,7 +1075,7 @@ theorem finrank_fixSub_Us_zero_le_two :
           true false a) = algebraMap K k (a : K) ^ ∑ i ∈ J, 2 ^ i := hchar a
       rw [hχ0, hchar', mat_shortTorus_scalar_eVec, mat_shortTorus_scalar_eVec,
         show (2 ^ j : ℤ) = ((2 ^ j : ℕ) : ℤ) by norm_cast] at hp0
-      simp only [show (1 : Fin 3) ≠ 0 by decide, if_false, if_true, 
+      simp only [show (1 : Fin 3) ≠ 0 by decide, ite_false, ite_true, 
         map_pow, div_one, zpow_neg, zpow_natCast] at hp0
       have hle : 2 ^ j ≤ ∑ i ∈ J, 2 ^ i := Finset.single_le_sum (fun i hi => Nat.zero_le _) hj
       have hnonzero : algebraMap K k (a : K) ≠ 0 :=

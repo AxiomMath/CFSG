@@ -39,7 +39,7 @@ theorem wit_conj {r k c g : M} (hkr : k * r = r * k)
 
 theorem cqCheck_of_sylow [DecidableEq M] (K S : Subgroup M) [Finite K] {r : M}
     (hr : ∀ k ∈ K, k * r = r * k) (hr2 : r * r = 1) (L : List M) (hL : ∀ g, g ∈ L ↔ g ∈ K)
-    (hSK : S ≤ K) (hS : IsPGroup 2 S) (hidx : ¬ 2 ∣ (S.subgroupOf K).index)
+    (_hSK : S ≤ K) (hS : IsPGroup 2 S) (hidx : ¬ 2 ∣ (S.subgroupOf K).index)
     (hw : ∀ c ∈ S, c * c = r → ∃ g ∈ K, (c * (g * c * g⁻¹)) * (c * (g * c * g⁻¹)) = 1 ∧
       c * (g * c * g⁻¹) ≠ 1 ∧ c * (g * c * g⁻¹) ≠ r) :
     Nobq.cqCheck r L = true := by

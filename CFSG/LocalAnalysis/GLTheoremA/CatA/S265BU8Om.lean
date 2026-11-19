@@ -29,8 +29,8 @@ theorem qUConcl_of_u8 {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup Ω} {
     (hTB : ¬ (⁅T, B⁆ : Subgroup Ω) ≤ Subgroup.centralizer (S : Set Ω)) : QUConcl 3 S B x b := by
   classical
   have hp := cfg.prime
-  haveI := Fact.mk hp
-  haveI := cfg.normal
+  have := Fact.mk hp
+  have := cfg.normal
   have hnorm : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g => by
     rw [Subgroup.normalizer_eq_top]
     exact Subgroup.mem_top g
@@ -80,10 +80,10 @@ theorem qUConcl_of_u8 {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup Ω} {
     omega
   have hTB2 : IsPGroup 2 (⁅T, B⁆ : Subgroup Ω) :=
     cfg.two.to_le (Subgroup.le_normalizer_iff_commutator_le_left.1 cfg.bnorm)
-  obtain ⟨g₀, hg₀, hg₀S⟩ := SetLike.not_le_iff_exists.1 hTB
+  obtain ⟨g₀, hg₀, hg₀S⟩ := IsConcreteLE.not_le_iff_exists.1 hTB
   have hΦg₀ : Φ g₀ ≠ 1 := fun h1 => hg₀S ((centMod_iff_centralizer cfg.core (hnorm g₀)).1
     ((chevAut_eq_one_iff hp cfg.comp (hnorm g₀)).1 h1))
-  haveI : IsCyclic (K ≃+* K) := by
+  have : IsCyclic (K ≃+* K) := by
     obtain ⟨σ₀, -, -, htop, -⟩ := finite_field_automorphism_fixed_field_cardinality h.prime
       (by have := h.one_le; omega) h.card
     exact isCyclic_iff_exists_zpowers_eq_top.mpr ⟨σ₀, htop⟩

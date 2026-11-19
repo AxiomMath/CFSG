@@ -77,9 +77,9 @@ theorem Ψ_frobRows (q : Fin 154) :
   by_cases hq : q.val < 84
   · have hl : q.val / 3 < 28 := by omega
     have hs : (burnsideF48d_unit (q.val / 3)).size = 28 := by simp [burnsideF48d_unit]
-    rw [if_pos hq, burnsideF48d_Ψ_realW, burnsideF48d_b, if_pos hq, vec_map_frob ω hω hs,
+    rw [ite_eq_left hq, burnsideF48d_Ψ_realW, burnsideF48d_b, ite_eq_left hq, vec_map_frob ω hω hs,
       burnsideF48d_vec_unit ω hl, burnsideF48d_φ_pow ω hω, burnsideF48d_φ_three]
-  · rw [if_neg hq, burnsideF48d_b, if_neg hq, ← frobH_apply, map_zero]
+  · rw [ite_eq_right hq, burnsideF48d_b, ite_eq_right hq, ← frobH_apply, map_zero]
     have : vecOf W.zero = 0 := by
       funext j
       rw [vecOf_apply, W.toV_zero, V.val_zero]
@@ -146,10 +146,10 @@ theorem exists_ρhat_of_checks {KT : Nat → Nat} {RL : List (List Nat)} {T : Na
     ∃ ρ : ↥(Subgroup.closure (Set.range h)) →* Equiv.Perm (Fin 26572),
       ∀ k (p : Fin 26572), ((ρ ⟨h k, Subgroup.subset_closure ⟨k, rfl⟩⟩ p : Fin 26572) : ℕ) =
         T k p := by
-  haveI : CharP K 3 := by
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 3 := by
+    have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact charP_of_card_eq_prime_pow (f := 3) (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hc : ∀ p < 26572, canon (key KT p) = true := fun p hp => (wf84_spec (hwf p hp)).2.1
   have hb : ∀ p < 26572, VB 84 (vOf (key KT p)) := fun p hp => (wf84_spec (hwf p hp)).1
@@ -169,11 +169,11 @@ theorem exists_ρhat_of_checks {KT : Nat → Nat} {RL : List (List Nat)} {T : Na
       · have hk : k = 8 := Fin.ext h8
         subst hk
         have hrk : burnsideF48d_rows (burnsideF48d_colTab ()) ((8 : Fin 9) : ℕ) =
-            burnsideF48d_frobRows () := if_pos rfl
+            burnsideF48d_frobRows () := ite_eq_left rfl
         rw [hF, hrk]
         exact (Ψ_combW_frob ω hω hwr).symm
       · have hrk : burnsideF48d_rows (burnsideF48d_colTab ()) k =
-            burnsideF48d_genRows (burnsideF48d_colTab ()) k := if_neg h8
+            burnsideF48d_genRows (burnsideF48d_colTab ()) k := ite_eq_right h8
         rw [hg k (by omega), hrk]
         exact (burnsideF48d_Ψ_combW ω (burnsideF48d_rowsWF _) hwr _
           (burnsideF48d_Ψ_genRows ω hω k)).symm

@@ -29,8 +29,8 @@ theorem lieS3_false_of_inner
     [IsSimpleGroup S] (hnab : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) {a : S} (ha3 : MulAut.conj a ^ 3 = 1)
     (ha1 : MulAut.conj a ≠ 1) (hc : CompOfType S (MulAut.conj a) isL2three6) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
   have hZ : Subgroup.center S = ⊥ := center_eq_bot_of_simple hnab
   have hA3 : a ^ 3 = 1 := by
     have hcen : a ^ 3 ∈ Subgroup.center S := by
@@ -61,7 +61,7 @@ theorem lieS3_false_of_inner
 theorem lieS3_holds :
     LieS3 := by
   intro S _ _ hs hnab d hc ⟨e⟩ α hα3 hα1 hcomp
-  haveI := hs
+  have := hs
   have hne : d.1.characteristic ≠ 2 := by omega
   obtain ⟨t, n, f, hm, ht, hA⟩ := lieS3_exists_model d hne e
   rw [hc] at hm

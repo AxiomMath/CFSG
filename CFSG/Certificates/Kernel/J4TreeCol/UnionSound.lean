@@ -50,7 +50,7 @@ theorem colUnion_sound {G : Mats} {T : Tabs} {D : CRec} (hG : MatsOK G) (hT : ta
   have hlab : ∀ m < 2 ^ r, labJ (eta bv r m) = labC D m := fun m hm => (hlab' m hm).1
   have hlab1 : labJ 1 = 0 := by
     unfold labJ
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hinj : ∀ i < 2 ^ r, ∀ j < 2 ^ r, eta bv r i = eta bv r j → i = j := by
     intro i hi j hj e
     have hx : i ^^^ j < 2 ^ r := Nat.xor_lt_two_pow hi hj
@@ -63,14 +63,14 @@ theorem colUnion_sound {G : Mats} {T : Tabs} {D : CRec} (hG : MatsOK G) (hT : ta
     by_cases hm0 : D.mode = 0
     · refine ⟨qProd, qProd_conj, fun i hi j hj => ?_⟩
       unfold qC qProd
-      rw [if_pos hm0, ← eta_xor hE le_rfl]
+      rw [ite_eq_left hm0, ← eta_xor hE le_rfl]
       exact hlab _ (Nat.xor_lt_two_pow hi hj)
     · have hm1 : D.mode = 1 := by
         have := Nat.le_of_ble_eq_true hmode
         omega
       refine ⟨burnsideJ4NP_colPair, burnsideJ4NP_colPair_conj, fun i hi j hj => ?_⟩
       unfold qC
-      rw [if_neg hm0]
+      rw [ite_eq_right hm0]
       split_ifs with hij
       · exact (pairP_label hG hE hi hj (hpair hm1 i j hij hj)).symm
       · rw [colPair_symm (eta_comm hE i j)]

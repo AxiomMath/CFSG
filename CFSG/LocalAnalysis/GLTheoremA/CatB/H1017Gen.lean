@@ -23,8 +23,8 @@ theorem card_le_of_involution_data_k (k : ℕ)
     (R E : Subgroup X) (hR : R ≠ ⊥) (hR2 : IsPGroup 2 R)
     (hER : E ≤ Subgroup.normalizer (R : Set X)) (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hlt
   push Not at hlt
   have hEne : E ≠ ⊥ := by
@@ -53,7 +53,7 @@ theorem card_le_of_involution_data_k (k : ℕ)
     rintro _ ⟨b, hb, rfl⟩
     exact hBx b hb
   have hV2 : IsPGroup 2 V := hR2.to_le inf_le_left
-  haveI : Nontrivial V := ⟨⟨⟨x, hxV⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial V := ⟨⟨⟨x, hxV⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
   have hZ := hV2.center_nontrivial
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center V) 2
     (by
@@ -125,6 +125,7 @@ theorem card_le_of_involution_data_k (k : ℕ)
     omega
   · exact hvu (hb u hu2 F hFu hFab hFk v hv2 hvC huv)
 
+omit [Finite X] in
 theorem involution_data_of_conj_k (k : ℕ) {a : X}
     (ha : ∀ F : Subgroup X, F ≤ Subgroup.centralizer ({a} : Set X) → IsElemAbelian 3 F →
       Nat.card F ≤ 3 ^ k)
@@ -140,7 +141,7 @@ theorem involution_data_of_conj_k (k : ℕ) {a : X}
   obtain ⟨g, hg⟩ := isConj_iff.1 ht
   subst hg
   let c : X ≃* X := MulAut.conj g⁻¹
-  have hc : ∀ w : X, c w = g⁻¹ * w * g := fun w => by simp [c, MulAut.conj_apply]
+  have hc : ∀ w : X, c w = g⁻¹ * w * g := fun w => by simp [c]
   have hmap : ∀ F : Subgroup X, F ≤ Subgroup.centralizer ({g * a * g⁻¹} : Set X) →
       F.map c.toMonoidHom ≤ Subgroup.centralizer ({a} : Set X) := by
     rintro F hF _ ⟨f, hf, rfl⟩
@@ -215,11 +216,14 @@ variable {E V : Type} [CommGroup E] [Finite E] [AddCommGroup V] [Finite V] [Modu
 theorem isPGroup_of_elemAbelian3' {X : Type} [Group X] {F : Subgroup X} (hF : IsElemAbelian 3 F) :
     IsPGroup 3 F := fun g => ⟨1, Subtype.ext (by simpa using hF.2 g g.2)⟩
 
+omit [Finite V] in
 theorem one_apply_lin (v : V) : (1 : V ≃ₗ[ZMod 2] V) v = v := rfl
 
+omit [Finite V] in
 theorem add_self_zmod2 (v : V) : v + v = 0 := by
   rw [← two_smul (ZMod 2) v, show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
+omit [Finite V] in
 theorem neg_eq_self_zmod2 (v : V) : -v = v := by
   rw [neg_eq_iff_add_eq_zero, add_self_zmod2]
 
@@ -228,7 +232,7 @@ theorem false_of_invariant_subspace {k : ℕ} (hcard : Nat.card E = 3 ^ k)
     (hdim : Module.finrank (ZMod 2) V = 2 * k) (W : Submodule (ZMod 2) V) (hW : W ≠ ⊤)
     (hinv : ∀ e : E, ∀ w ∈ W, ρ e w ∈ W)
     (hstep : ∀ x : E, (∀ w ∈ W, ρ x w = w) → ∀ v, ρ x v - v ∈ W) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinv' : ∀ e : E, ∀ w, ρ e (ρ e⁻¹ w) = w := fun e w => by
     rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one, one_apply_lin]
   have hmap : ∀ e : E, W.map ((ρ e : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V) = W := fun e => by
@@ -263,7 +267,7 @@ theorem false_of_invariant_subspace {k : ℕ} (hcard : Nat.card E = 3 ^ k)
     rw [one_apply_lin]
     have := h3 v
     rwa [hsq] at this
-  haveI : FiniteDimensional (ZMod 2) V := inferInstance
+  have : FiniteDimensional (ZMod 2) V := inferInstance
   have hlt := Submodule.finrank_lt hW
   have hle := CFSG.PreuniquenessRankFour.Helpers.faithful_binary_elementary_linear_action_dimension_bound
     (acting := E) (space := W) 3 k (by norm_num) hcard hpow r hr
@@ -274,7 +278,7 @@ theorem false_of_fixed_vector {k : ℕ} (hcard : Nat.card E = 3 ^ k)
     (hdim : Module.finrank (ZMod 2) V = 2 * k) {v : V} (hv : v ≠ 0) (hfix : ∀ e, ρ e v = v) :
     False := by
   classical
-  haveI := Fintype.ofFinite E
+  have := Fintype.ofFinite E
   let P : V →ₗ[ZMod 2] V := ∑ e : E, ((ρ e : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V)
   have hP : ∀ w, P w = ∑ e : E, ρ e w := fun w => by
     simp only [P, LinearMap.sum_apply, LinearEquiv.coe_coe]
@@ -339,7 +343,7 @@ theorem typeSystem_data {n k : ℕ} (hn : n = 2 * k) {L : Type} [Group L]
     (∀ F : Subgroup H, IsElemAbelian 3 F → Nat.card F ≤ 3 ^ k) ∧
     (∀ F : Subgroup H, IsElemAbelian 3 F → Nat.card F = 3 ^ k → ∀ u : H, u * u = 1 →
       (∀ f ∈ F, f * u = u * f) → u = 1 ∨ u = T.z) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdim : Module.finrank (ZMod 2) (Fin n → ZMod 2) = 2 * k := by
     rw [Module.finrank_fin_fun, hn]
   have hQ3 : ∀ q : H, T.φ q = 1 → q ^ 3 = 1 → q = 1 := by
@@ -360,8 +364,8 @@ theorem typeSystem_data {n k : ℕ} (hn : n = 2 * k) {L : Type} [Group L]
     have h1 : T.φ (x : H) = 1 := hact (by rw [map_one]; exact hx)
     exact Subtype.ext (hQ3 _ h1 (hF.2 x x.2))
   refine ⟨fun F hF => ?_, fun F hF hFk u hu2 huF => ?_⟩
-  · haveI := hF.1
-    letI : CommGroup F := IsMulCommutative.instCommGroup
+  · have := hF.1
+    let : CommGroup F := IsMulCommutative.instCommGroup
     have hpow : ∀ e : F, e ^ 3 = 1 := fun e => Subtype.ext (hF.2 e e.2)
     obtain ⟨r, hr⟩ := IsPGroup.iff_card.1 (isPGroup_of_elemAbelian3' hF)
     have hle := CFSG.PreuniquenessRankFour.Helpers.faithful_binary_elementary_linear_action_dimension_bound
@@ -369,8 +373,8 @@ theorem typeSystem_data {n k : ℕ} (hn : n = 2 * k) {L : Type} [Group L]
     rw [hdim] at hle
     rw [hr]
     exact Nat.pow_le_pow_right (by norm_num) (by omega)
-  · haveI := hF.1
-    letI : CommGroup F := IsMulCommutative.instCommGroup
+  · have := hF.1
+    let : CommGroup F := IsMulCommutative.instCommGroup
     have hpow : ∀ e : F, e ^ 3 = 1 := fun e => Subtype.ext (hF.2 e e.2)
     by_cases hu : T.φ u = 1
     · by_cases hv : T.vec u = 0

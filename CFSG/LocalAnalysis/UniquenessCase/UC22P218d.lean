@@ -144,7 +144,7 @@ theorem uc22p218d_pow_action_sp4 {n : ℕ} (hX : IsSp4 X n) {U : Subgroup X} (hU
     {α : MulAut X} (hαU : U.map α.toMonoidHom = U) {m : ℕ} (hm : Odd m) (hα : α ^ m = 1) :
     ∃ k : ℕ, ∀ b ∈ normalizer (U : Set X), α b * (b ^ k)⁻¹ ∈ U := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   obtain ⟨φ, rfl⟩ := uc22p218c_exists_mulEquiv_map e hU
   have hα' : (MulAut.congr φ).symm α ^ m = 1 := by rw [← map_pow, hα, map_one]
   obtain ⟨k, hk⟩ := uc22p218d_exists_pow_action _ (map_congr_symm_eq φ hαU) hm hα'
@@ -159,7 +159,7 @@ theorem uc22p218d_pow_action_sp4 {n : ℕ} (hX : IsSp4 X n) {U : Subgroup X} (hU
 theorem uc22p218d_pow_sub_one_mem_sp4 {n : ℕ} (hX : IsSp4 X n) {U : Subgroup X} (hU : IsSylowTwoOf U ⊤) {b : X}
     (hb : b ∈ normalizer (U : Set X)) : b ^ (2 ^ n - 1) ∈ U := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   obtain ⟨φ, rfl⟩ := uc22p218c_exists_mulEquiv_map e hU
   rw [CFSG.Quasithin.H13.L32A.C.SkPf.normalizer_map] at hb
   obtain ⟨b', hb', rfl⟩ := mem_map.1 hb
@@ -169,8 +169,8 @@ theorem uc22p218d_pow_sub_one_mem_sp4 {n : ℕ} (hX : IsSp4 X n) {U : Subgroup X
 theorem uc22p218d_not_dvd_card_sylow_sp4 [Finite X] {n r : ℕ} (hX : IsSp4 X n) (hr : r.Prime)
     (hrn : r ∣ 2 ^ n - 1) : ¬ r ∣ Nat.card (Sylow 2 X) := by
   obtain ⟨⟨-, hn1, -, -⟩, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := uc22pwlie_charP_two hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 X) := inferInstance
   obtain ⟨φ, hφ⟩ := uc22p218c_exists_mulEquiv_map e (isSylowTwoOf_sylow P)
   have hc : Nat.card (Sylow 2 X) = (normalizer ((P : Subgroup X) : Set X)).index := Sylow.card_eq_index_normalizer P
@@ -180,7 +180,7 @@ theorem uc22p218d_not_dvd_card_sylow_sp4 [Finite X] {n r : ℕ} (hX : IsSp4 X n)
 theorem uc22p218d_pRank_le_two_sp4 [Finite X] {n p : ℕ} (hX : IsSp4 X n) (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2 := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e,
     ← CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt (CFSG.PGLModel.projSpEquivStatedProj 2 K)]
   exact CFSG.RankThree.PartOne.LIT.pRank_projSp_two_le hp hp2
@@ -195,7 +195,7 @@ theorem uc22p218d_three_le_of_odd {n : ℕ} (hX : IsSp4 X n) (hn : Odd n) : 3 �
 
 theorem uc22p218d_center_eq_bot_sp4 {n : ℕ} (hX : IsSp4 X n) : center X = ⊥ := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   exact CFSG.QuasithinUnique.Lin2.Five.center_eq_bot_of_equiv e
 
 end Abstract
@@ -280,7 +280,7 @@ theorem uc22p218d_eq_one_of_pow_eq_one {L S : Subgroup G} {n p : ℕ} (hS : IsSy
 
 theorem uc22p218d_not_dvd_card_sylow_of_bar2 {L : Subgroup G} {n r : ℕ} (hX : IsSp4 (Bar2 L) n) (hr : r.Prime)
     (hrn : r ∣ 2 ^ n - 1) : ¬ r ∣ Nat.card (Sylow 2 ↥L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥L) := inferInstance
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) := QuotientGroup.mk'_surjective _
   have hker : (QuotientGroup.mk' (CFSG.pCore 2 ↥L)).ker ≤ Q := by
@@ -298,7 +298,7 @@ theorem uc22p218d_not_dvd_card_sylow_of_bar2 {L : Subgroup G} {n r : ℕ} (hX : 
 
 theorem uc22p218d_pRank_le_two_of_bar2 {L : Subgroup G} {n p : ℕ} (hX : IsSp4 (Bar2 L) n) (hp : p.Prime)
     (hp2 : p ≠ 2) : CFSG.Open.pRank p L ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥L) := by
     obtain ⟨m, hm⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).exists_card_eq
     rw [hm]

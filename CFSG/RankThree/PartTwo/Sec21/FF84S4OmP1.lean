@@ -70,7 +70,7 @@ theorem nlSig_reach : ∀ t : F6, qMinus t = 0 → polarMinus sig0 t = 1 →
   decide +kernel
 
 theorem om_pair_trans {s t : F6} (hs : qMinus s = 1) (ht : qMinus t = 0)
-    (hst : qMinus (s + t) = 0) (h0 : t ≠ 0) :
+    (hst : qMinus (s + t) = 0) (_h0 : t ≠ 0) :
     ∃ g : OmG, g • sig0 = s ∧ g • tau0 = t := by
   have hs0 : s ≠ 0 := by
     rintro rfl

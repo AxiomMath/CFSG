@@ -105,7 +105,7 @@ theorem centUK_sound {ucnt ru : Nat} {LU : Nat → Nat → Nat} {LVU : Nat → N
       simp only [List.map_cons, List.map_nil, List.getD_cons_zero, Nat.beq_eq]
       rw [← hυ i hi root hr, ← actN_mul, ← hgk, hc i hi, hgk, actN_mul, tw_pt R hσ k hk,
         hυ i hi _ (R.pt k hk).lt]
-    rw [if_neg hu, Raw.Orb.bIf_eq, if_pos hall] at hj
+    rw [ite_eq_right hu, Raw.Orb.bIf_eq, ite_eq_left hall] at hj
     exact absurd hj (by decide)
 
 end Mem
@@ -198,7 +198,7 @@ theorem fix2_of_two_level {r0 r1 c0 c1 b0 b1 : Nat} {L0 L1 : Nat → Nat → Nat
   obtain ⟨j, hj, e, hgj⟩ := hrep g hg h0
   rw [h1] at e
   have hj0 : j = 0 := R1.inj hj R1.hd.cnt_pos (by rw [e, R1.hd.root])
-  rw [hgj, hj0, tw_eq, if_neg (fun h => absurd h.1 (Nat.lt_irrefl 0))]
+  rw [hgj, hj0, tw_eq, ite_eq_right (fun h => absurd h.1 (Nat.lt_irrefl 0))]
 
 variable {root cnt r : Nat} {L : Nat → Nat → Nat} {LV : Nat → Nat}
   {PTS POS PAR LAB TI : Nat → Nat} {σ : Nat → Equiv.Perm (Fin n)}
@@ -229,7 +229,7 @@ theorem coverK_sound (R : Rep n root cnt r L LV PTS POS PAR LAB TI)
     rcases Nat.eq_zero_or_pos k with h0 | h0
     · exfalso
       apply hs1
-      rw [hsk, h0, tw_eq, if_neg (fun h => absurd h.1 (Nat.lt_irrefl 0))]
+      rw [hsk, h0, tw_eq, ite_eq_right (fun h => absurd h.1 (Nat.lt_irrefl 0))]
     · exact h0
   have hy : r32 PTS k < n := (R.pt k hk).lt
   have hss : actN (tw σ PAR LAB k) (r32 PTS k) = root := by
@@ -248,7 +248,7 @@ theorem coverK_sound (R : Rep n root cnt r L LV PTS POS PAR LAB TI)
     rw [Nat.blt_eq]
     exact hk0
   simp only [List.map_cons, List.map_nil, hd, List.getD_cons_succ, List.getD_cons_zero, hss,
-    Nat.beq_refl, hb0, Raw.Orb.bIf_eq, ↓reduceIte] at hj
+    Nat.beq_refl, hb0, Raw.Orb.bIf_eq] at hj
   have he : conjW G a0 (W k) root = r32 PTS k ∧
       conjW G a0 (W k) b = actN (tw σ PAR LAB k) b := by
     split at hj

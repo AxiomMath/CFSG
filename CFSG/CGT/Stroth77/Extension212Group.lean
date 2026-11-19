@@ -16,15 +16,19 @@ theorem k_one_eq_n_lift (τ : StrothTypeIndex) : τ.k 1 = τ.n := by
   have h := congrFun τ.k_eq 1
   simpa using h
 
+omit [Finite S] in
 theorem orderOf_c_lift (D : StrothTypeData B τ) : orderOf D.c = 2 ^ τ.k 0 := by
   rw [D.orderOf_c, k_zero_eq_m_lift]
 
+omit [Finite S] in
 theorem orderOf_a_lift (D : StrothTypeData B τ) : orderOf D.a = 2 ^ τ.k 1 := by
   rw [D.orderOf_a, k_one_eq_n_lift]
 
+omit [Finite S] in
 theorem orderOf_b_lift (D : StrothTypeData B τ) : orderOf D.b = 2 ^ τ.k 2 := by
   rw [D.orderOf_b, τ.k_two]
 
+omit [Finite S] in
 theorem mul_comm_of_data (D : StrothTypeData B τ) (x y : B) : x * y = y * x :=
   D.ec_injective (by rw [D.ec_mul, D.ec_mul, add_comm])
 
@@ -32,18 +36,23 @@ section Fixed
 
 variable (D : StrothTypeData B τ)
 
+omit [Finite S] in
 theorem ec_conj_uv_data (y : B) : D.ec (conjBy D.uv_mem y) = τ.action.φuv (D.ec y) :=
   D.uv_conj y
 
+omit [Finite S] in
 theorem ec_conj_t_data (y : B) : D.ec (conjBy D.t_mem y) = τ.action.φt (D.ec y) :=
   D.t_conj y
 
+omit [Finite S] in
 theorem ec_conj_u_data (y : B) : D.ec (conjBy D.u_mem y) = τ.action.φu (D.ec y) :=
   D.u_conj y
 
+omit [Finite S] in
 theorem ec_conj_ρ_data (y : B) : D.ec (conjBy D.ρ_mem y) = τ.action.φρ (D.ec y) :=
   D.ρ_conj y
 
+omit [Finite S] in
 theorem exists_mul_self_eq_of_two_nsmul (y : B) {z : Torus τ.k} (hz : 2 • z = D.ec y) :
     ∃ σ : B, σ * σ = y :=
   ⟨Additive.toMul (D.e.symm z), by
@@ -51,6 +60,7 @@ theorem exists_mul_self_eq_of_two_nsmul (y : B) {z : Torus τ.k} (hz : 2 • z =
     rw [D.ec_mul, ← two_nsmul, show D.ec (Additive.toMul (D.e.symm z)) = z from
       D.e.apply_symm_apply z, hz]⟩
 
+omit [Finite S] in
 theorem ec_conj_mul_inv {g : S} (hg : g ∈ Subgroup.normalizer B) {φ : Torus τ.k →+ Torus τ.k}
     (hφ : ∀ y : B, D.ec (conjBy hg y) = φ (D.ec y)) (y : B) :
     D.ec (conjBy hg y * y⁻¹) = φ (D.ec y) - D.ec y := by
@@ -85,6 +95,7 @@ theorem conj_sq_mul_inv_eq_sq (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (
     _ = (β : S) * β * d * d * (d * d)⁻¹ := by rw [← h3]
     _ = (β : S) * β := by group
 
+omit [Finite S] in
 theorem false_of_mul_self_eq (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S') {x : S} (hxC : x ∈ C) (hxB : x ∉ B)
     {σ : B} (hσ : (σ : S) * σ = x * x) : False := by
@@ -188,6 +199,7 @@ end IndexTwo
 
 section Inclusion
 
+omit [Finite S] in
 theorem pow_two_pow_eq_one_of_orderOf (hBC : B ≤ C) {x : B} {e : ℕ} (h : orderOf x = 2 ^ e) :
     (⟨x, hBC x.2⟩ : C) ^ (2 ^ e) = 1 := by
   apply Subtype.ext
@@ -268,6 +280,7 @@ theorem incl4_gen2 (h0 : K 0 = k 0) (h1 : K 1 = k 1 + 1) (h2 : K 2 = k 2 + 1) :
     incl4 k K h0 h1 h2 (gen k 2) = (2 : ℤ) • gen K 2 := by
   simp [incl4, torusHomOfGens_gen]
 
+omit [Finite S] in
 theorem conjTorus_incl (D : StrothTypeData B τ) (hBC : B ≤ C) (hL : D.L ≤ Subgroup.normalizer C)
     (E : Torus K ≃+ Additive C) (ι : Torus τ.k →+ Torus K)
     (hι : ∀ β : B, E (ι (D.ec β)) = Additive.ofMul (⟨β, hBC β.2⟩ : C)) {g : S} (hgL : g ∈ D.L)
@@ -312,10 +325,12 @@ theorem incl4_gen (h0 : K 0 = k 0) (h1 : K 1 = k 1 + 1) (h2 : K 2 = k 2 + 1) (j 
 
 end Inclusion
 
+omit [Finite S] in
 theorem conjTorusIdx4_trans {k : Fin 3 → ℕ} (E : Torus k ≃+ Additive C) (φ : Torus k ≃+ Torus k)
     {g : S} (hg : g ∈ Subgroup.normalizer C) (x : Torus k) :
     conjTorusIdx4 (φ.trans E) hg x = φ.symm (conjTorusIdx4 E hg (φ x)) := rfl
 
+omit [Finite S] in
 theorem hasStrothTypeOver_of_basisChange (D : StrothTypeData B τ)
     (hL : D.L ≤ Subgroup.normalizer C)
     (τ' : StrothTypeIndex) (E : Torus τ'.k ≃+ Additive C) (φ : Torus τ'.k ≃+ Torus τ'.k)
@@ -327,6 +342,7 @@ theorem hasStrothTypeOver_of_basisChange (D : StrothTypeData B τ)
     HasStrothTypeOver D C τ' :=
   hasStrothTypeOver_of_conjTorus_Idx4 D hL τ' (φ.trans E) h
 
+omit [Finite S] in
 theorem hasStrothType_of_basisChange (D : StrothTypeData B τ) (hL : D.L ≤ Subgroup.normalizer C)
     (τ' : StrothTypeIndex) (E : Torus τ'.k ≃+ Additive C) (φ : Torus τ'.k ≃+ Torus τ'.k)
     (h : ∀ j, φ.symm (conjTorusIdx4 E (hL D.uv_mem_L) (φ (gen τ'.k j))) =
@@ -342,10 +358,10 @@ section BasisTwo
 theorem comm_of_index_two (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 2 * Nat.card B) (x y : C) : x * y = y * x := by
   have hindex : (B.subgroupOf C).index = 2 := index_two_of_relIndex hBC hrel
-  haveI : (B.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hindex
+  have : (B.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hindex
   have hcard : Nat.card (C ⧸ B.subgroupOf C) = 2 := by
     rw [← Subgroup.index_eq_card, hindex]
-  haveI : IsCyclic (C ⧸ B.subgroupOf C) := isCyclic_of_prime_card hcard
+  have : IsCyclic (C ⧸ B.subgroupOf C) := isCyclic_of_prime_card hcard
   exact comm_of_le_centralizer_of_cyclic_quotient hBC hC inferInstance x y
 
 variable (D : StrothTypeData B τ)
@@ -405,6 +421,7 @@ theorem exists_torusBasis_idx2_of_data (hBC : B ≤ C) (hC : C ≤ Subgroup.cent
   obtain ⟨E, hE⟩ := exists_torusEquiv_Idx4 hcomm x hx hgen hcard
   exact ⟨E, hE 0, hE 1, hE 2⟩
 
+omit [Finite S] in
 theorem E_incl2 (hBC : B ≤ C) {K : Fin 3 → ℕ} (hK0 : K 0 = τ.k 0 + 1) (hK1 : K 1 = τ.k 1)
     (hK2 : K 2 = τ.k 2) {d : S} (hdC : d ∈ C) (hd : d * d = (D.c : S))
     (E : Torus K ≃+ Additive C) (hE0 : E (gen K 0) = Additive.ofMul (⟨d, hdC⟩ : C))
@@ -465,6 +482,7 @@ section Agree
 
 variable (D : StrothTypeData B τ)
 
+omit [Finite S] in
 theorem agreeB2_of_data (hBC : B ≤ C) (hL : D.L ≤ Subgroup.normalizer C) {K : Fin 3 → ℕ}
     (hK0 : K 0 = τ.k 0 + 1) (hK1 : K 1 = τ.k 1) (hK2 : K 2 = τ.k 2) (E : Torus K ≃+ Additive C)
     (hE : ∀ β : B, E (incl2 τ.k K hK0 hK1 hK2 (D.ec β)) = Additive.ofMul (⟨β, hBC β.2⟩ : C))
@@ -480,6 +498,7 @@ theorem agreeB2_of_data (hBC : B ≤ C) (hL : D.L ≤ Subgroup.normalizer C) {K 
   · rw [← incl2_gen1 hK0 hK1 hK2]; exact key _
   · rw [← incl2_gen2 hK0 hK1 hK2]; exact key _
 
+omit [Finite S] in
 theorem agreeB4_of_data (hBC : B ≤ C) (hL : D.L ≤ Subgroup.normalizer C) {K : Fin 3 → ℕ}
     (hK0 : K 0 = τ.k 0) (hK1 : K 1 = τ.k 1 + 1) (hK2 : K 2 = τ.k 2 + 1) (E : Torus K ≃+ Additive C)
     (hE : ∀ β : B, E (incl4 τ.k K hK0 hK1 hK2 (D.ec β)) = Additive.ofMul (⟨β, hBC β.2⟩ : C))

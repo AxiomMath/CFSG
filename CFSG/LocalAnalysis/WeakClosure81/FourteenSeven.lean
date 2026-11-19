@@ -53,6 +53,7 @@ private theorem fixV_ne_bot_of_isPGroup {W : Type*} [CommGroup W] [Finite W]
   unfold Nat.ModEq at this
   omega
 
+omit [Finite G] in
 theorem eq_bot_or_eq_top_of_stable {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G))
     (hirr : ConjGenerated M V₀ V) {S : Subgroup (Vtil V₀ V hV)}
@@ -121,6 +122,7 @@ theorem eq_bot_of_isPGroup_of_stable {M V₀ V : Subgroup G} (hV : IsElemAbelian
     have hw : w ∈ fixV P := by rw [h]; exact Subgroup.mem_top w
     simpa using (mem_fixV.1 hw) p hp
 
+omit [Finite G] in
 theorem eq_one_of_acts_trivially_mod {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G))
     (hirr : ConjGenerated M V₀ V) {W : Subgroup (Vtil V₀ V hV)} (hW : W ≠ ⊤)
@@ -189,7 +191,7 @@ theorem barSub_normalizes_barSub_BOf {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
 theorem isPGroup_barSub_BOf {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h : Hyp64 n M V₀ V g) :
     IsPGroup 2 (barSub V₀ V h.elemAbelian (BOf M V g)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := h.elemAbelian
   have hM : M ≤ Subgroup.normalizer (V : Set G) := h.normalizer_eq.symm.le
   have hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G) := h.le_normalizer₀
@@ -297,7 +299,7 @@ theorem fourteen_seven_three {n : ℕ} {M V₀ V : Subgroup G} {g : G}
     {Y : Subgroup G} (hY : Y ≤ LOf V g ⊓ M ⊓ conjSubgroup M g) :
     ⁅cMbarBOf M V₀ V h.elemAbelian g, barSub V₀ V h.elemAbelian Y⁆ ≤
       pCoreOf 2 (cMbarBOf M V₀ V h.elemAbelian g) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := h.elemAbelian
   have hM : M ≤ Subgroup.normalizer (V : Set G) := h.normalizer_eq.symm.le
   have hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G) := h.le_normalizer₀
@@ -380,7 +382,7 @@ theorem fourteen_seven_three {n : ℕ} {M V₀ V : Subgroup G} {g : G}
     rw [isPGroup_iff_primeFactors_card_subset (p := 2) (by norm_num : 2 ≠ 0)]
     intro q hq
     obtain ⟨hqprime, hqdvdcard, -⟩ := Nat.mem_primeFactors.mp hq
-    haveI : Fact q.Prime := ⟨hqprime⟩
+    have : Fact q.Prime := ⟨hqprime⟩
     obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' q hqdvdcard
     have hqeq2 : q = 2 := by
       by_contra hne
@@ -427,6 +429,7 @@ theorem fourteen_seven_three {n : ℕ} {M V₀ V : Subgroup G} {g : G}
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hW0le hW0norm hW0p
   exact hB5.trans hB6
 
+omit [Finite G] in
 private theorem isPGroup_Vtil (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
     IsPGroup 2 (Vtil V₀ V hV) := by
   intro v
@@ -449,6 +452,7 @@ theorem V₀_le_UOf {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h : Hyp64 n M V�
     exact Subgroup.mem_sup_right hv
   exact hvCB
 
+omit [Finite G] in
 theorem preTil_imgTil_of_le {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V) (hUV : U ≤ V)
     (hV₀U : V₀ ≤ U) : preTil V₀ V hV (imgTil V₀ V hV U) = U := by
   apply le_antisymm
@@ -546,7 +550,7 @@ theorem mQuot_UOf_eq_rkIdx {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h : Hyp64 
 theorem index_imgTil_UOf_eq_two {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h : Hyp64 n M V₀ V g)
     (hgen : GenHyp M V g) (hν : E3.mQuot V (UOf M V g) ≤ 1) :
     (imgTil V₀ V h.elemAbelian (UOf M V g)).index = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUtop : imgTil V₀ V h.elemAbelian (UOf M V g) ≠ ⊤ := imgTil_UOf_ne_top h hgen
   obtain ⟨k, hk⟩ := (isPGroup_Vtil V₀ V h.elemAbelian).index
     (imgTil V₀ V h.elemAbelian (UOf M V g))
@@ -660,7 +664,7 @@ theorem commutator_eq_bot_of_forall_normalizing
     (hXnorm : ∀ m ∈ Mbar M V₀ V h.elemAbelian, ∀ x ∈ X, m * x * m⁻¹ ∈ X)
     (hXB : ⁅X, barSub V₀ V h.elemAbelian (BOf M V g)⁆ = ⊥) :
     ⁅X, barSub V₀ V h.elemAbelian Y⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := h.elemAbelian
   have hM : M ≤ Subgroup.normalizer (V : Set G) := h.normalizer_eq.symm.le
   have hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G) := h.le_normalizer₀
@@ -706,7 +710,7 @@ theorem commutator_eq_bot_of_forall_normalizing
         rwa [show x⁻¹ * (x * q * x⁻¹) * (x⁻¹)⁻¹ = q by group] at h⟩
   have hQXcore : X ⊓ pCoreOf 2 Cb ≤ pCoreOf 2 X :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hQX hQnorm hQp
-  haveI : Nontrivial (Vtil V₀ V hV) := by
+  have : Nontrivial (Vtil V₀ V hV) := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
     apply imgTil_UOf_ne_top h hgen
@@ -734,8 +738,9 @@ theorem commutator_eq_bot_of_forall_normalizing
       (P := pCoreOf 2 X) (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X) hst
   exact le_bot_iff.1 (hQ.trans (hQXcore.trans (le_of_eq hcorebot)))
 
+omit [Finite G] in
 theorem barSub_comm_of_isCyclic {V₀ V Y : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hYs : Y ≤ stabTil V₀ V) (hYc : IsCyclic ↥Y) :
+    (_hYs : Y ≤ stabTil V₀ V) (hYc : IsCyclic ↥Y) :
     ∀ a ∈ barSub V₀ V hV Y, ∀ b ∈ barSub V₀ V hV Y, a * b = b * a := by
   intro a ha b hb
   obtain ⟨ga, hgaY, rfl⟩ := (mem_barSub V₀ V hV Y a).1 ha
@@ -748,8 +753,9 @@ theorem barSub_comm_of_isCyclic {V₀ V Y : Subgroup G} (hV : IsElemAbelian 2 V)
     exact congrArg (fun y : ↥Y => (y : G)) hcommY
   rw [← map_mul, ← map_mul, hcomm]
 
+omit [Finite G] in
 theorem barSub_pow_card {V₀ V Y : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hYs : Y ≤ stabTil V₀ V) : ∀ a ∈ barSub V₀ V hV Y, a ^ Nat.card Y = 1 := by
+    (_hYs : Y ≤ stabTil V₀ V) : ∀ a ∈ barSub V₀ V hV Y, a ^ Nat.card Y = 1 := by
   intro a ha
   obtain ⟨g, hgY, rfl⟩ := (mem_barSub V₀ V hV Y a).1 ha
   have hYpow : (⟨(g : G), hgY⟩ : ↥Y) ^ Nat.card Y = 1 := pow_card_eq_one'
@@ -761,6 +767,7 @@ theorem barSub_pow_card {V₀ V Y : Subgroup G} (hV : IsElemAbelian 2 V)
     exact h
   rw [← map_pow, hgpow, map_one]
 
+omit [Finite G] in
 private theorem mkTil_mul_inv_mem_imgTil_iff {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V)
     (hV₀U : V₀ ≤ U) (x y : IntMod V hV) :
     mkTil V₀ V hV x * (mkTil V₀ V hV y)⁻¹ ∈ imgTil V₀ V hV U ↔
@@ -995,7 +1002,7 @@ theorem fourteen_eight_one {n : ℕ} {M V₀ V : Subgroup G} {g : G}
         induction k with
         | zero =>
           intro v
-          simpa using H.one_mem
+          simp
         | succ k ih =>
           intro v
           rw [pow_succ, pow_succ, MulAut.mul_apply, MulAut.mul_apply]

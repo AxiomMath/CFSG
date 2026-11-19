@@ -48,7 +48,7 @@ theorem isFaithfulLocal_iff_isXf {T L : Subgroup G} :
 
 theorem isSylowTwoOf_of_sylow_le (T : Sylow 2 G) {H : Subgroup G} (hTH : (T : Subgroup G) ≤ H) :
     IsSylowTwoOf (T : Subgroup G) H :=
-  isSylowTwoOf_of_quasithinIsSylowTwo ⟨T.isPGroup', T.not_dvd_index⟩ hTH
+  isSylowTwoOf_of_quasithinIsSylowTwo ⟨T.isPGroup, T.not_dvd_index⟩ hTH
 
 theorem isFaithfulLocal_of_commutator_ne_bot (hEven : quasithinEvenCharacteristic G)
     (T : Sylow 2 G) {H L V : Subgroup G} (hH : InH (T : Subgroup G) H) (hL : L ∈ cComp H)

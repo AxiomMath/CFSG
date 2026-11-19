@@ -93,9 +93,9 @@ theorem i165On_famD_of_engine (hE : Om165Engine) (hR : OmHypRankLower) :
         split <;> simp_all
   obtain ⟨F, hfield, hfinite, hchar, hcard, ⟨eΩ⟩⟩ :=
     exists_mulEquiv_statedOmega_plus_of_hasLabel hℓ4 hK hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   let Q : QuadraticForm F (Fin ℓ ⊕ Fin ℓ → F) := CFSG.LieType.Universal.Spin.quadPlus ℓ F
   let e : K ≃* ↥(orthDerived Q) :=
     eΩ.trans (CFSG.RankThree.PartOne.statedOmegaOrthEquiv

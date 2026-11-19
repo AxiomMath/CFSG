@@ -187,13 +187,13 @@ private theorem langAsm_charP_two_of_langSetup
 private theorem langAsm_not_isSolvable_of_isQuasisimple {Q : Type} [Group Q]
     (hQ : CFSG.IsQuasisimple Q) : ¬ Group.IsSolvable Q := by
   intro hs
-  haveI := hs
+  have := hs
   obtain ⟨-, hsimple, a, b, hab⟩ := hQ
   exact hab ((IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance) a b)
 
 private theorem langAsm_isSolvable_of_le {G : Type} [Group G] {H K : Subgroup G}
     (hle : H ≤ K) (hK : Group.IsSolvable ↥K) : Group.IsSolvable ↥H := by
-  haveI := hK
+  have := hK
   exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
     (Subgroup.inclusion_injective hle)
 
@@ -223,7 +223,7 @@ private theorem langAsm_ggCompFieldAt_congr {G H : Type} [Group G] [Group H]
     {X : Subgroup G} {Y : Subgroup H} {Q : ℕ}
     (h : GGCompFieldAt Q X) (θ : ↥X ≃* ↥Y) : GGCompFieldAt Q Y := by
   obtain ⟨lab, hlab, hchar, hdeg, h1, h2, h3, hhas, R, instR, hR, ⟨φ⟩⟩ := h
-  letI : Group R := instR
+  let : Group R := instR
   have hq : (↥X ⧸ Subgroup.center ↥X) ≃* (↥Y ⧸ Subgroup.center ↥Y) :=
     QuotientGroup.congr _ _ θ (Subgroup.map_center_eq θ)
   have hhas' : GGHasLabel lab (↥Y ⧸ Subgroup.center ↥Y) := by
@@ -249,8 +249,8 @@ theorem ggExcCompLiftRestInput_of_model
     (hB1 : LangFullFieldAt) : GGExcCompLiftRestInput τ H := by
   intro K _ _ _ p hp hp2 hq1 hq2 hH a b ha hb hab ha1 X hX hpX
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨f, -, hfcard⟩ := FiniteField.card K 2
   have hk : Nat.card K = 2 ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]; exact hfcard
@@ -262,7 +262,7 @@ theorem ggExcCompLiftRestInput_of_model
   obtain ⟨L, _, _, S, ι, hq, hAlg, _, hιinj, hιrange, hιaT, hιbT⟩ := hpair
   have h2L : (2 : L) = 0 :=
     langAsm_charP_two_of_langSetup S f.pos (by rw [hq, hk])
-  haveI : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero (one_ne_zero : (1 : L) ≠ 0) h2L
+  have : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero (one_ne_zero : (1 : L) ≠ 0) h2L
   have hpL : (p : L) ≠ 0 := by
     intro hp0
     have h2p : 2 ∣ p := (CharP.cast_eq_zero_iff L 2 p).mp hp0

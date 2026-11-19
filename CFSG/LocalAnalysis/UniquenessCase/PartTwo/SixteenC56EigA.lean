@@ -20,6 +20,7 @@ private theorem sum_range_succ_of_periodic {M : Type*} [AddCommGroup M] (g : ℕ
   rw [h] at h1
   exact add_right_cancel (h2.symm.trans h1)
 
+omit [Fintype K] [DecidableEq K] [CharP K 2] in
 theorem pol_mulVec_of_similitude {A : Matrix OmI OmI K} {c : K}
     (hQ : ∀ v, quad (A *ᵥ v) = c * quad v) (v w : OmI → K) :
     pol (A *ᵥ v) (A *ᵥ w) = c * pol v w := by
@@ -94,13 +95,13 @@ theorem eigen_decomp (A : GL OmI K) (hA : A ^ (Fintype.card K - 1) = 1)
           (((A : Matrix OmI OmI K) ^ j) *ᵥ v)
     · rfl
     · rw [Finset.sum_eq_single 0]
-      · rw [if_pos (dvd_zero _), pow_zero, Matrix.one_mulVec]
+      · rw [ite_eq_left (dvd_zero _), pow_zero, Matrix.one_mulVec]
         rw [show (-1 : K) = 1 by rw [CharTwo.neg_eq (1 : K)], one_smul]
       · intro j hj hj0
         have hlt : j < Fintype.card K - 1 := Finset.mem_range.mp hj
         have hndvd : ¬ (Fintype.card K - 1) ∣ j :=
           fun h => hj0 (Nat.eq_zero_of_dvd_of_lt h hlt)
-        rw [if_neg hndvd, zero_smul]
+        rw [ite_eq_right hndvd, zero_smul]
       · intro hnot
         exact absurd (Finset.mem_range.mpr hnpos) hnot
 

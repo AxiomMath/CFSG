@@ -39,7 +39,7 @@ theorem Qh_le_Tm : Qh ≤ Tm := by
   exact Tm.mul_mem (U1_le_Tm hu) (U2_le_Tm hv)
 
 theorem card_NH1 : Nat.card NH1 = 3072 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdvd : Nat.card NH1 ∣ 21504 := by
     rw [← card_Hc]
     exact Subgroup.card_subgroup_dvd_card NH1

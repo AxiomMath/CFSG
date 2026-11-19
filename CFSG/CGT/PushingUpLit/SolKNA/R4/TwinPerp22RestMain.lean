@@ -46,7 +46,7 @@ theorem abelianO2R_of_three_twins (hr : 4 ≤ r) (hNo : NoQ16E4) (hList : SmallL
     have h4dvd : 4 ∣ orderOf u₂ := by rw [d.hu₂.2]
     exact d.hne (eq_of_mem_inf_of_four_dvd d.hyp d.hK'.1 d.mem d.hu₂.1 hu₂K h4dvd)
   have hc2' : IsPGroup 2 (Subgroup.zpowers (u₁ * u₂)) := isPGroup_zpowers_of_mul_self_eq_one d.sq_12 hc1
-  haveI := TwinExitPf6.normal_coreHull d.hyp hc2'
+  have := TwinExitPf6.normal_coreHull d.hyp hc2'
   exact tightInO2_oddQuot_of_normal htH hcent
 
 theorem hyp51B_of_three_twins (hr : 4 ≤ r) (hNo : NoQ16E4) (hList : SmallListR)

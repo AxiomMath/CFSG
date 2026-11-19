@@ -29,12 +29,12 @@ theorem theta_le_pCore_two_of_j2 {Y : Type} [Group Y] [Finite Y]
   set θ := aschbacherSolvableCore 3 Y with hθ
   set Q := CFSG.pCore 2 Y with hQ
   obtain ⟨hθsol, hθn, -⟩ := solvable_prime_complement_core_characterization (H := Y) Nat.prime_three
-  haveI : θ.Characteristic := hθn
-  haveI : θ.Normal := inferInstance
+  have : θ.Characteristic := hθn
+  have : θ.Normal := inferInstance
   have hsimp : IsSimpleGroup (Y ⧸ Q) :=
     (MulEquiv.isSimpleGroup_congr e).mpr CFSG.Sporadic.J2.isSimpleGroup_J2
   let π := QuotientGroup.mk' Q
-  haveI hnorm : (θ.map π).Normal :=
+  have hnorm : (θ.map π).Normal :=
     Subgroup.Normal.map inferInstance π (QuotientGroup.mk'_surjective Q)
   rcases hsimp.eq_bot_or_eq_top_of_normal (θ.map π) with h | h
   · intro y hy
@@ -42,8 +42,8 @@ theorem theta_le_pCore_two_of_j2 {Y : Type} [Group Y] [Finite Y]
     rw [h, Subgroup.mem_bot] at this
     exact (QuotientGroup.eq_one_iff y).mp this
   · exfalso
-    haveI : Group.IsSolvable θ := hθsol
-    haveI hsolv : Group.IsSolvable (Y ⧸ Q) := by
+    have : Group.IsSolvable θ := hθsol
+    have hsolv : Group.IsSolvable (Y ⧸ Q) := by
       refine Group.isSolvable_of_surjective (f := π.comp θ.subtype) ?_
       intro z
       have hz : z ∈ θ.map π := h ▸ Subgroup.mem_top z
@@ -52,16 +52,16 @@ theorem theta_le_pCore_two_of_j2 {Y : Type} [Group Y] [Finite Y]
     have hcardX : Nat.card (Y ⧸ Q) = 604800 := by
       rw [Nat.card_congr e.toEquiv]
       exact KFacts.KS14.card_nativeJ2
-    haveI hperf : Group.IsPerfect (Y ⧸ Q) :=
+    have hperf : Group.IsPerfect (Y ⧸ Q) :=
       (Sec13.isPerfect_center_of_isSimpleGroup hsimp (by rw [hcardX]; norm_num)).1
-    haveI : Nontrivial (Y ⧸ Q) := hsimp.toNontrivial
+    have : Nontrivial (Y ⧸ Q) := hsimp.toNontrivial
     exact Group.IsPerfect.not_isSolvable (Y ⧸ Q) hsolv
 
 
 theorem injOn_mk_pCore_two {Y : Type} [Group Y] [Finite Y] {S : Subgroup Y} (hS : IsPGroup 3 S) :
     Set.InjOn (QuotientGroup.mk' (CFSG.pCore 2 Y)) (S : Set Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx y hy hxy
   have h : x⁻¹ * y ∈ CFSG.pCore 2 Y := QuotientGroup.eq.mp hxy
   have hS' : x⁻¹ * y ∈ S := S.mul_mem (S.inv_mem hx) hy
@@ -79,7 +79,7 @@ theorem exists_sylow_three {A L K S : Subgroup G} {c b a : G} (cfg : Cfg129 G A 
     (hHJ : HJType129 L K) :
     ∃ Q : Subgroup G, Q ≤ K ∧ IsPGroup 3 Q ∧ Nat.card Q = 27 ∧ A ⊓ L ≤ Q ∧
       Q ≤ Subgroup.centralizer ({c} : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hbA, haA, haL, hb1, ha1, haB, hbL, -⟩ := cfg.point_facts
   have hstd := cfg.std
   have hAe : CFSG.Assembly.IsElemAbelian 3 A := hstd.isE27.1
@@ -113,7 +113,7 @@ theorem exists_sylow_three {A L K S : Subgroup G} {c b a : G} (cfg : Cfg129 G A 
   · intro y hy
     obtain ⟨q, -, rfl⟩ := Subgroup.mem_map.mp hy
     exact cfg.hIK q.2
-  · exact Q'.isPGroup'.map _
+  · exact Q'.isPGroup.map _
   · rw [Subgroup.card_map_of_injective I.subtype_injective]
     exact hQ'card
   · intro y hy
@@ -218,8 +218,8 @@ theorem exists_normal_two_subgroup (h415 : Sec4.Item4_15)
     ∃ T : Subgroup G, IsPGroup 2 T ∧ S ≤ T ∧ T ≤ K ∧ T ≤ Subgroup.centralizer ({a} : Set G) ∧
       ∀ g ∈ Subgroup.centralizer ({a} : Set G), g ∈ Subgroup.centralizer ({b} : Set G) →
         ∀ t ∈ T, g * t * g⁻¹ ∈ T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hHJ.2
   have hX : Nonempty ((↥K ⧸ CFSG.pCore 2 ↥K) ≃* NativeSporadic.J2) := ⟨e⟩
   obtain ⟨hbA, haA, haL, hb1, ha1, haB, hbL, -⟩ := cfg.point_facts

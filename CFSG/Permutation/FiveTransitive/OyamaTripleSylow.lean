@@ -13,7 +13,7 @@ open MulAction
 
 variable {G X : Type*} [Group G] [Finite G] [MulAction G X] [Finite X]
 
-@[expose] abbrev image (s : Set X) (S : Sylow 2 (fixingSubgroup G s)) : Subgroup G :=
+abbrev image (s : Set X) (S : Sylow 2 (fixingSubgroup G s)) : Subgroup G :=
   (S : Subgroup (fixingSubgroup G s)).map (fixingSubgroup G s).subtype
 
 @[expose] def FourFixedSix (G X : Type*) [Group G] [MulAction G X] : Prop :=
@@ -50,7 +50,7 @@ theorem triple_sylow_fixed_six
   have hbase := base_subset_fixed s S
   have hge : 3 ≤ (fixedPoints Q X).ncard := by
     simpa only [hs] using Set.ncard_le_ncard hbase
-  have hp : IsPGroup 2 Q := S.isPGroup'.map H.subtype
+  have hp : IsPGroup 2 Q := S.isPGroup.map H.subtype
   have hm := hp.card_modEq_card_fixedPoints X
   change Nat.card X % 2 = Nat.card (fixedPoints Q X) % 2 at hm
   rw [Nat.card_coe_set_eq] at hm
@@ -87,7 +87,7 @@ theorem exists_triple_sylow_fixing
     rintro g ⟨u,hu,rfl⟩
     exact hKH u.property
   let B : Subgroup H := A.subgroupOf H
-  have hA : IsPGroup 2 A := P.isPGroup'.map K.subtype
+  have hA : IsPGroup 2 A := P.isPGroup.map K.subtype
   have hB : IsPGroup 2 B := hA.of_injective
     (Subgroup.subgroupOfEquivOfLe hAH).toMonoidHom
     (Subgroup.subgroupOfEquivOfLe hAH).injective

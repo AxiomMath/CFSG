@@ -226,6 +226,6 @@ theorem sectionalTwoRankLE_four_of_three_rOf_bot (hchar : IsCharTwoType G) {M X 
       (∀ w ∈ pCoreOf 2 X, g * w * g⁻¹ = w) → g ∈ pCoreOf 2 X :=
     fun g _ hgN hgc => hB2 g (hNM hgN) hgc
   exact sectionalTwoRankLE_of_sylow S
-    (sectionalTwoRankLE_four_of_selfCentralizing_four S.isPGroup' hWS hcard hsq hCW)
+    (sectionalTwoRankLE_four_of_selfCentralizing_four S.isPGroup hWS hcard hsq hCW)
 
 end CFSG.CGT.PushingUpLit.SolK

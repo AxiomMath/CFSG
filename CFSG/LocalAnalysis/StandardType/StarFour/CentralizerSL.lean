@@ -180,7 +180,7 @@ theorem SemiFrame.isQuasisimple_slOnBlock [Finite F] (fr : SemiFrame F ρ) {i : 
   classical
   obtain ⟨hm2, hm3 | h4⟩ := hi
   · exact isQuasisimple_slOnBlock_native fr i hm2 (Or.inl hm3)
-  · haveI : Fintype (fr.E i) := Fintype.ofFinite _
+  · have : Fintype (fr.E i) := Fintype.ofFinite _
     obtain ⟨s, -, hs⟩ :=
       Finset.exists_subset_card_eq (s := (Finset.univ : Finset (fr.E i))) (n := 4)
       (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h4)
@@ -190,13 +190,13 @@ theorem SemiFrame.exists_eq_slOnBlock_of_isComponentOf [Finite F] [CharP F 2] [M
     (fr : SemiFrame F ρ) {K : Subgroup (SpecialLinearGroup F V)}
     (hK : IsComponentOf K (repCentSL ρ)) : ∃ i, fr.GoodAtBlock i ∧ K = fr.slOnBlock i := by
   classical
-  haveI : Finite V :=
+  have : Finite V :=
     Finite.of_injective ((Module.finBasis F V).equivFun : V → (Fin (Module.finrank F V) → F))
       (Module.finBasis F V).equivFun.injective
-  haveI : Finite (SpecialLinearGroup F V) :=
+  have : Finite (SpecialLinearGroup F V) :=
     Finite.of_injective (fun u : SpecialLinearGroup F V => (u : V → V))
       (fun u v h => by ext x; exact congrFun h x)
-  haveI : ∀ b, CharP (fr.E b) 2 := fun b =>
+  have : ∀ b, CharP (fr.E b) 2 := fun b =>
     charP_of_injective_algebraMap (algebraMap F (fr.E b)).injective 2
   let β := {i : Fin fr.r // LayerFacts.GoodBlock fr.E fr.m i}
   have hSC : ∀ b : β, fr.slOnBlock b.1 ≤ repCentSL ρ := fun b => fr.slOnBlock_le_repCentSL b.1
@@ -255,7 +255,7 @@ theorem SemiFrame.exists_eq_slOnBlock_of_isComponentOf [Finite F] [CharP F 2] [M
   · rcases b.2.2 with h3 | ⟨s, hs⟩
     · exact Or.inl h3
     · refine Or.inr ?_
-      haveI : Fintype (fr.E b.1) := Fintype.ofFinite _
+      have : Fintype (fr.E b.1) := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card]
       calc 4 = s.card := hs.symm
         _ ≤ (Finset.univ : Finset (fr.E b.1)).card := Finset.card_le_univ s

@@ -75,6 +75,7 @@ section Gram
 variable
   [IsSimpleGroup G] (I : Inputs10) (ψ : Mbar0 S ≃* T6)
 
+omit [IsSimpleGroup G] in
 theorem gram_self (i : ℕ) : gram S ψ i i = 0 := by
   rw [gram, polar_self]
   generalize S.q (xcl S ψ i) = a

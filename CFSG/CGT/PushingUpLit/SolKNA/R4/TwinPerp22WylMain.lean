@@ -108,7 +108,7 @@ theorem false_of_frame (hr : 4 ≤ r) (hE : TwinThmER r n) (h4 : Thm4RTwinBelow 
     exact oddCore_le_of_alpha hp hcA hc1 htA hAC hαle hCzE
   have htopE := F.thmE_apply h c hc hr hE hCzE hME hUE
   have hEn : F.E.Normal := Subgroup.normalizer_eq_top_iff.mp htopE
-  haveI := h.core.simple
+  have := h.core.simple
   exact not_tightInO2_of_fstar h.core.nonab F.z_ne_one ⟨F.E, hEn, F.E_isPGroup c hc, F.z_mem_E⟩
 
 end Final

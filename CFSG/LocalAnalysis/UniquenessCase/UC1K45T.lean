@@ -20,7 +20,7 @@ private theorem kof_pCore_p_eq_bot (h : Base45 p G D) :
     CFSG.pCore p ↥(Kof G) = ⊥ := by
   have hmap : (CFSG.pCore p ↥(Kof G)).map (Kof G).subtype ≤ CFSG.pCore p G := by
     refine CFSG.BaerSuzuki.Helpers.le_pCore_of_normal_isPGroup ?_ ?_
-    · haveI : (CFSG.pCore p ↥(Kof G)).Characteristic := inferInstance
+    · have : (CFSG.pCore p ↥(Kof G)).Characteristic := inferInstance
       exact ConjAct.normal_of_characteristic_of_normal
     · exact (CFSG.pCore_isPGroup (p := p) (G := ↥(Kof G))).map (Kof G).subtype
   rw [h.Op] at hmap
@@ -30,7 +30,7 @@ private theorem kof_pCore_p_eq_bot (h : Base45 p G D) :
 private theorem kof_pPrimeCore_two_eq_bot (h : Base45 p G D)
     (hK22p : ∀ q : ℕ, q.Prime → q ∣ Nat.card ↥(Kof G) → q = 2 ∨ q = p) :
     CFSG.pPrimeCore 2 ↥(Kof G) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro N hN hcop
   have hpN : IsPGroup p N := by
@@ -132,6 +132,7 @@ theorem uc45_T_ne_bot (h : Base45 p G D)
     exact Subgroup.mem_center_iff.mp (hXZ hx) g
   exact hK hKbot
 
+omit [Finite G] in
 private theorem commutator_self_le_ZX
     (hcl : commutator ↥(Xof G) ≤ Subgroup.center ↥(Xof G)) :
     ⁅Xof G, Xof G⁆ ≤ ZXof G := by
@@ -147,6 +148,7 @@ private theorem commutator_self_le_ZX
   rw [← hmapcomm]
   exact Subgroup.map_mono hcl
 
+omit [Finite G] in
 private theorem uc45_T_center_fixed_mod_ZX
     (hcl : commutator ↥(Xof G) ≤ Subgroup.center ↥(Xof G))
     (hZX : ZXof G ≤ Subgroup.center G) {z : G}
@@ -248,7 +250,7 @@ theorem uc45_T_hyp (h : Base45 p G D)
     have hZTG : (Subgroup.center ↥(Tof G D)).map (Tof G D).subtype ≤ Subgroup.center G :=
       hZT.trans hZX
     have hcyc : IsCyclic ↥((Subgroup.center ↥(Tof G D)).map (Tof G D).subtype) := by
-      haveI : IsCyclic ↥(Subgroup.center G) := h.center_cyclic
+      have : IsCyclic ↥(Subgroup.center G) := h.center_cyclic
       exact Subgroup.isCyclic_of_le hZTG
     exact ((Subgroup.equivMapOfInjective (Subgroup.center ↥(Tof G D)) (Tof G D).subtype
       (Tof G D).subtype_injective).isCyclic).mpr hcyc

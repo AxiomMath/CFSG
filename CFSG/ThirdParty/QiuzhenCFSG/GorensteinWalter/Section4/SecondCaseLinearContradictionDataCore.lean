@@ -58,14 +58,14 @@ public theorem secondCase_linearContradictionData_core
     (K : Type u) [Field K] [Finite K]
     (hKprimePower : IsOddPrimePower (Nat.card K))
     (e : Nonempty ((d.E ⧸ Subgroup.center d.E) ≃* PSL2 K))
-    (hmodel : d.model = ComponentQuotientModel.projectiveSpecialLinear
+    (_hmodel : d.model = ComponentQuotientModel.projectiveSpecialLinear
       K hKprimePower e) :
     LinearCaseContradictionData := by
   obtain ⟨c', w', d', hwM, hdE, ⟨post⟩⟩ :=
     secondCase_linear_aligned_postNineData hmin c w d K hKprimePower e
   have hmodel' : d'.model = ComponentQuotientModel.projectiveSpecialLinear
       K hKprimePower (hdE ▸ e) := by
-    simpa [hmodel]
+    simp
   obtain ⟨p1, hp1eq, hp01, hp1p, hLines⟩ :=
     secondCase_linear_p1_data c' w' d' post.od post.indices.p0
       post.indices.p0_def
@@ -281,7 +281,6 @@ public theorem secondCase_linearContradictionData_core
           (MulAut.conj (hreg x)).toMonoidHom).map
           (MulAut.conj (hreg x)⁻¹).toMonoidHom = post.od.P ⊔ d'.E
       rw [Subgroup.map_map]
-      congr 1
       ext z
       simp [MulAut.conj_apply, mul_assoc]
     have hYcard : ∀ Y : InM, Nat.card Y.1 = post.od.p := by
@@ -321,8 +320,7 @@ public theorem secondCase_linearContradictionData_core
     have hYleCen' : ∀ Y : InM,
           conjugateSubgroup Y.1 (hreg x)⁻¹ ≤
             Subgroup.centralizer (post.od.A : Set G) := by
-        intro Y
-        intro z hz
+        intro Y z hz
         rcases Subgroup.mem_map.mp hz with ⟨y, hy, hzy⟩
         have hzy' : (hreg x)⁻¹ * y * hreg x = z := by
           simpa [MulAut.conj_apply] using hzy
@@ -379,7 +377,6 @@ public theorem secondCase_linearContradictionData_core
             rw [hPinterE] at hzPE
             exact Subgroup.mem_bot.mp hzPE)
           hZle (by
-            change Nat.card (conjugateSubgroup Y.1 (hreg x)⁻¹) = post.od.p
             change Nat.card (Y.1.map (MulAut.conj (hreg x)⁻¹).toMonoidHom) = post.od.p
             rw [Subgroup.card_map_of_injective (MulAut.conj (hreg x)⁻¹).injective]
             exact hYcard Y)
@@ -697,13 +694,13 @@ public theorem secondCase_linearContradictionData_core
           rw [Nat.dvd_div_iff_mul_dvd hminus] at hpT
           have hmul : r ∣ 2 * post.od.p := by
             rw [hpr]
-            simpa [Nat.mul_comm] using (Nat.dvd_mul_right r 2)
+            simp [Nat.mul_comm]
           exact dvd_trans hmul hpT
         · rw [h] at hpT
           rw [Nat.dvd_div_iff_mul_dvd hplus] at hpT
           have hmul : r ∣ 2 * post.od.p := by
             rw [hpr]
-            simpa [Nat.mul_comm] using (Nat.dvd_mul_right r 2)
+            simp [Nat.mul_comm]
           have htmp : r ∣ Nat.card K + 1 := dvd_trans hmul hpT
           have hrK : r ∣ Nat.card K := by
             rw [hKcard]
@@ -911,7 +908,6 @@ public theorem secondCase_linearContradictionData_core
           change (x.1.1.map (MulAut.conj (TConj x : G)).toMonoidHom).map
               (MulAut.conj (TConj x : G)⁻¹).toMonoidHom = x.1.1
           rw [Subgroup.map_map]
-          congr 1
           ext z
           simp [MulAut.conj_apply, mul_assoc]
         rw [← hconjEq]
@@ -1024,11 +1020,11 @@ public theorem secondCase_linearContradictionData_core
       rw [hval]
       exact ed.2
     have hXDp : IsPGroup post.od.p XD :=
-      IsPGroup.of_card (n := 1) (by simpa [hXDcard])
+      IsPGroup.of_card (n := 1) (by simp [hXDcard])
     obtain ⟨SD, hXDleSD⟩ := hXDp.exists_le_sylow
     have hSDcyc : IsCyclic SD := by
       obtain ⟨SE, hSleSE⟩ :=
-        (SD.isPGroup').map φ |>.exists_le_sylow
+        (SD.isPGroup).map φ |>.exists_le_sylow
       have hSEcyc : IsCyclic SE := hSylowCyc SE
       have hmapcyc : IsCyclic ((SD : Subgroup D).map φ) := by
         let : IsCyclic SE := hSEcyc
@@ -1054,7 +1050,7 @@ public theorem secondCase_linearContradictionData_core
       simpa [ψSD, zs] using hzs
     have hψSDinj : Function.Injective ψSD :=
       cyclic_pGroup_hom_injective_of_prime_subgroup_not_le_ker
-        SD.isPGroup' hSDcyc XSD hXSDcard ψSD hXSDnotker
+        SD.isPGroup hSDcyc XSD hXSDcard ψSD hXSDnotker
     have hSDcardle : Nat.card SD ≤ Nat.card post.od.P :=
       Nat.card_le_card_of_injective ψSD hψSDinj
     have hSDcard : Nat.card SD = post.od.p := by
@@ -1282,13 +1278,13 @@ public theorem secondCase_linearContradictionData_core
           rw [Nat.dvd_div_iff_mul_dvd hminus] at hpT
           have hmul : r ∣ 2 * post.od.p := by
             rw [hpr]
-            simpa [Nat.mul_comm] using (Nat.dvd_mul_right r 2)
+            simp [Nat.mul_comm]
           exact dvd_trans hmul hpT
         · rw [h] at hpT
           rw [Nat.dvd_div_iff_mul_dvd hplus] at hpT
           have hmul : r ∣ 2 * post.od.p := by
             rw [hpr]
-            simpa [Nat.mul_comm] using (Nat.dvd_mul_right r 2)
+            simp [Nat.mul_comm]
           have htmp : r ∣ Nat.card K + 1 := dvd_trans hmul hpT
           have hrK : r ∣ Nat.card K := by
             rw [hKcard]
@@ -1628,7 +1624,7 @@ public theorem secondCase_linearContradictionData_core
           _ = Nat.card R := by rw [inf_eq_left.mpr hRleE]
           _ = post.od.p := hRcard
       have hREp : IsPGroup post.od.p RE :=
-        IsPGroup.of_card (n := 1) (by simpa [hREcard])
+        IsPGroup.of_card (n := 1) (by simp [hREcard])
       obtain ⟨S, hRS⟩ := hREp.exists_le_sylow
       let P0E : Subgroup (d'.E) := post.od.P0.subgroupOf d'.E
       have hP0Ecard : Nat.card P0E = post.od.p := by
@@ -1644,7 +1640,7 @@ public theorem secondCase_linearContradictionData_core
                 exact inf_le_right.trans post.od.K_le_E))]
           _ = post.od.p := post.od.P0_card
       have hP0Ep : IsPGroup post.od.p P0E :=
-        IsPGroup.of_card (n := 1) (by simpa [hP0Ecard])
+        IsPGroup.of_card (n := 1) (by simp [hP0Ecard])
       obtain ⟨S0, hP0S0⟩ := hP0Ep.exists_le_sylow
       obtain ⟨e, he⟩ :=
         @MulAction.IsPretransitive.exists_smul_eq (d'.E) (Sylow post.od.p (d'.E))
@@ -1736,7 +1732,7 @@ public theorem secondCase_linearContradictionData_core
         rw [hyeq']
         have hEq : (MulEquiv.toMonoidHom (MulAut.conj (hreg x)⁻¹))
             ((hreg x) * e0 * (hreg x)⁻¹) = (e0 : G) := by
-          simp [MulAut.conj_apply, mul_assoc]
+          simp [mul_assoc]
         rw [hEq]
         exact he0
       have hY0card : Nat.card Y0 = post.od.p := by
@@ -1776,7 +1772,6 @@ public theorem secondCase_linearContradictionData_core
             change (post.od.P0.map (MulAut.conj (e0 : G)).toMonoidHom).map
               (MulAut.conj (e0 : G)⁻¹).toMonoidHom = post.od.P0
             rw [Subgroup.map_map]
-            congr 1
             ext z
             simp [MulAut.conj_apply, mul_assoc]
       exact secondCase_linear_P_not_conjugate_P0 c' w' d' K post hPconjP0
@@ -1816,11 +1811,11 @@ public theorem secondCase_linearContradictionData_core
       rw [hval]
       exact ed.2
     have hYDp : IsPGroup post.od.p YD :=
-      IsPGroup.of_card (n := 1) (by simpa [hYDcard])
+      IsPGroup.of_card (n := 1) (by simp [hYDcard])
     obtain ⟨SD, hYDleSD⟩ := hYDp.exists_le_sylow
     have hSDcyc : IsCyclic SD := by
       obtain ⟨SE, hSleSE⟩ :=
-        (SD.isPGroup').map φ |>.exists_le_sylow
+        (SD.isPGroup).map φ |>.exists_le_sylow
       have hSEcyc : IsCyclic SE := by
         let eE' : (d'.E) ≃* (E' : Subgroup G) :=
           MulEquiv.subgroupMap (MulAut.conj (hreg x)) d'.E
@@ -1853,7 +1848,7 @@ public theorem secondCase_linearContradictionData_core
       simpa [ψSD, zs] using hzs
     have hψSDinj : Function.Injective ψSD :=
       cyclic_pGroup_hom_injective_of_prime_subgroup_not_le_ker
-        SD.isPGroup' hSDcyc YSD hYSDcard ψSD hYSDnotker
+        SD.isPGroup hSDcyc YSD hYSDcard ψSD hYSDnotker
     have hSDcardle : Nat.card SD ≤ Nat.card (X x) :=
       Nat.card_le_card_of_injective ψSD hψSDinj
     have hSDcard : Nat.card SD = post.od.p := by
@@ -2605,7 +2600,6 @@ public theorem secondCase_linearContradictionData_core
           (x.1.1.map (MulAut.conj (TConj x : G)).toMonoidHom).map
               (MulAut.conj ((TConj x : G)⁻¹)).toMonoidHom = x.1.1 := by
         rw [Subgroup.map_map]
-        congr 1
         ext z
         simp [MulAut.conj_apply, mul_assoc]
       have hPback : post.od.P.map
@@ -2937,7 +2931,7 @@ public theorem secondCase_linearContradictionData_core
   have hXsCard : Nat.card Xs = (p1 - 1) * Nat.card K * post.equation9.k' := by
     change Nat.card (Lines × Fin (Nat.card K * post.equation9.k')) = _
     rw [Nat.card_prod, hLines]
-    simp [Nat.card_eq_fintype_card, Nat.mul_assoc, Nat.mul_left_comm, Nat.mul_comm]
+    simp [Nat.card_eq_fintype_card, Nat.mul_assoc, Nat.mul_comm]
   have hregion := secondCase_linearEquation11_indexed_region_inequality
     (M := w'.M) (P := post.od.P) (Xs := Xs)
     (p := p1) (q := Nat.card K) (k' := post.equation9.k')

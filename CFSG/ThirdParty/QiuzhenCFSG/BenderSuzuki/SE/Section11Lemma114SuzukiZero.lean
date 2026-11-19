@@ -20,7 +20,7 @@ noncomputable section
 
 namespace CFSG.BenderSuzuki
 
-open MatrixGroups PFAppendixIII External
+open _root_.CFSG.BenderSuzuki.MatrixGroups PFAppendixIII External
 
 universe u
 
@@ -29,7 +29,7 @@ private theorem lemma114_binaryGaloisFieldOne_eq_zero_or_one
   apply eq_zero_or_one_of_sq_eq_self
   have hcard : Nat.card (BinaryGaloisField 1) = 2 := by
     simpa [BinaryGaloisField] using GaloisField.card 2 1 (by norm_num)
-  letI : Fintype (BinaryGaloisField 1) := Fintype.ofFinite _
+  let : Fintype (BinaryGaloisField 1) := Fintype.ofFinite _
   have hx := FiniteField.pow_card x
   rw [Fintype.card_eq_nat_card, hcard] at hx
   simpa [pow_two] using hx
@@ -150,7 +150,7 @@ set_option maxHeartbeats 1200000 in
 private theorem lemma114_suzukiZero_standard_pair_order :
     orderOf
       (lemma114_suzukiZeroCentralInvolution * lemma114_suzukiZeroWeyl) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   apply orderOf_eq_prime_iff.mpr
   constructor
   · apply Subtype.ext

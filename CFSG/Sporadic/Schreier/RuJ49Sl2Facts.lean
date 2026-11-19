@@ -116,7 +116,7 @@ theorem rep_tabK {g0 g3 : Array ℕ} {G0 G3 : Equiv.Perm (Fin 4060)} (h0 : Rep 4
     Rep 4060 (tabK #[g0, g3] #[ruInv g0, ruInv g3] (rows ()) k)
       (evalSigned [G0, G3] (wordOf (rows ()) k)) := by
   have hl : lettersOK 2 (wordOf (rows ()) k) = true := by
-    simp only [lettersOK, List.all_eq_true, bne_iff_ne, ne_eq, decide_eq_true_eq]
+    simp only [lettersOK, List.all_eq_true]
     intro l hl
     rcases hk l hl with rfl | rfl <;> decide
   exact rep_wordA_evalSigned (k := 2) (rep_pair_getD h0 h3)
@@ -187,10 +187,10 @@ theorem Facts.PhM_gm {l : ℤ} (hl : l = 1 ∨ l = 2) :
     PhM G0 G3 (gm l) = if l = 1 then G0 else G3 := by
   obtain ⟨-, -, -, -, -, h533, h107⟩ := id hF
   rcases hl with rfl | rfl
-  · simp only [PhM, keyOf_gm, gkey, if_true, PhiG, h533, evalSigned]
+  · simp only [PhM, keyOf_gm, gkey, ite_true, PhiG, h533, evalSigned]
     simp
   · have : (2 : ℤ) ≠ 1 := by norm_num
-    simp only [PhM, keyOf_gm, gkey, this, if_false, PhiG, h107, evalSigned]
+    simp only [PhM, keyOf_gm, gkey, this, ite_false, PhiG, h107, evalSigned]
     simp
 
 theorem Facts.PhM_one : PhM G0 G3 1 = 1 := by
@@ -204,11 +204,11 @@ theorem Facts.PhM_mul_gm (m : SL5) {l : ℤ} (hl : l = 1 ∨ l = 2) :
   rw [hF.PhM_gm hl]
   unfold PhM
   rcases hl with rfl | rfl
-  · simp only [gm, if_true]
+  · simp only [gm, ite_true]
     rw [keyOf_mul, keyOf_Me]
     exact hk.1
   · have : (2 : ℤ) ≠ 1 := by norm_num
-    simp only [gm, this, if_false]
+    simp only [gm, this, ite_false]
     rw [keyOf_mul, keyOf_Mf]
     exact hk.2
 

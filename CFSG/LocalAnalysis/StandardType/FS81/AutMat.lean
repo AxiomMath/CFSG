@@ -102,7 +102,7 @@ theorem matOf_one (B : Basis3 G k) : B.matOf 1 = 1 := by
   by_cases h : i = j
   · subst h
     simp
-  · rw [Pi.single_eq_of_ne h, if_neg h]
+  · rw [Pi.single_eq_of_ne h, ite_eq_right h]
 
 theorem matOf_injective (B : Basis3 G k) : Function.Injective B.matOf := by
   intro φ ψ h

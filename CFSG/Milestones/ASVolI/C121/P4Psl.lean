@@ -47,6 +47,7 @@ section Module
 
 variable {𝕎 : Type} [CommGroup 𝕎] [Finite 𝕎]
 
+omit [Finite 𝕎] in
 theorem burnsideC121_p4_normal_cases {G : Subgroup (MulAut 𝕎)} [IsSimpleGroup ↥G]
     (N : Subgroup (MulAut 𝕎)) (hNG : N ≤ G) (hN : ∀ g ∈ G, ∀ x ∈ N, g * x * g⁻¹ ∈ N) :
     N = ⊥ ∨ N = G := by
@@ -71,6 +72,7 @@ theorem burnsideC121_p4_comm_aux {M : Type*} [CommGroup M] (a b c d : M) :
   simp only [ofMul_mul, ofMul_inv]
   abel
 
+omit [Finite 𝕎] in
 theorem burnsideC121_p4_perfect_two_step {G : Subgroup (MulAut 𝕎)}
     (hperf : commutator ↥G = ⊤) {U₁ J U₂ : Subgroup 𝕎} (hG₁ : G ≤ stabSub U₁)
     (h1 : G ≤ centSec U₁ J) (h3 : G ≤ centSec J U₂) : G ≤ centSec U₁ U₂ := by
@@ -110,6 +112,7 @@ theorem burnsideC121_p4_perfect_two_step {G : Subgroup (MulAut 𝕎)}
   rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at this
   exact this
 
+omit [Finite 𝕎] in
 theorem burnsideC121_p4_le_stabSub {G : Subgroup (MulAut 𝕎)} {J : Subgroup 𝕎}
     (h : ∀ x ∈ G, ∀ w ∈ J, x w ∈ J) : G ≤ stabSub J := by
   intro g hg u
@@ -207,7 +210,7 @@ theorem burnsideC121_p4_psl_section
     {F : Type} [Field F] [Fintype F] {n : ℕ} (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
     (θ : ↥G ≃* SL(2, F)) {A : Subgroup (MulAut 𝕎)} (hAG : A ≤ G) (hA1 : A ≠ ⊥)
     (hAe : IsElemAbelian2 A) (hFF : Nat.card 𝕎 ≤ Nat.card A * Nat.card (fixV A)) :
-    ∃ (U₁ U₂ : Subgroup 𝕎) (hU : U₂ ≤ U₁) (hG₁ : G ≤ stabSub U₁) (hG₂ : G ≤ stabSub U₂)
+    ∃ (U₁ U₂ : Subgroup 𝕎) (_hU : U₂ ≤ U₁) (hG₁ : G ≤ stabSub U₁) (hG₂ : G ≤ stabSub U₂)
       (e : Sec U₁ U₂ ≃* Multiplicative (Fin 2 → F)),
       ∀ (g : ↥G) (x : Sec U₁ U₂), e (B5.secHom G hG₁ hG₂ g x) =
         Multiplicative.ofAdd ((θ g : Matrix (Fin 2) (Fin 2) F) *ᵥ Multiplicative.toAdd (e x)) := by
@@ -227,7 +230,7 @@ theorem burnsideC121_p4_psl_section
     have : Nontrivial SL(2, F) := IsSimpleGroup.toNontrivial
     have := Finite.one_lt_card (α := SL(2, F))
     omega
-  obtain ⟨U₁, U₂, hU, hG₁, hG₂, hnt, hirr⟩ := burnsideC121_p4_exists_irr_section hcommG hG1
+  obtain ⟨U₁, U₂, _hU, hG₁, hG₂, hnt, hirr⟩ := burnsideC121_p4_exists_irr_section hcommG hG1
   have hfaith : G ⊓ centSec U₁ U₂ = ⊥ := by
     rcases burnsideC121_p4_normal_cases (G ⊓ centSec U₁ U₂) inf_le_left (by
       intro g hg x hx
@@ -280,7 +283,7 @@ theorem burnsideC121_p4_psl_section
     exact hA1 (Subgroup.eq_bot_of_card_eq A h1)
   have hoffM : Nat.card M ≤ Nat.card AM * Nat.card (fixV AM) := by
     rw [hAMc]
-    exact burnsideC121_p4_sec_offender hU (hAG.trans hG₁) hFF
+    exact burnsideC121_p4_sec_offender _hU (hAG.trans hG₁) hFF
   obtain ⟨B, hBA, hB, hBc⟩ := B1.exists_offender_below (X := GM) ⟨hAMG, hAM1, hAMe⟩ 0
     (by simpa using hoffM)
   obtain ⟨Q, -, hQ, hQq, hQw, -⟩ := exists_quadratic_offender_le (V := M)
@@ -313,7 +316,7 @@ theorem burnsideC121_p4_psl_section
       (eL.symm.trans θM)
   have hα : ∀ x : ↥L₀, α₀ (QuotientGroup.mk x) = θM (eL.symm x) := fun x => rfl
   have hntW : Nontrivial Wl := by
-    obtain ⟨u, hu1, hu2⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hU (fun h => hnt (by
+    obtain ⟨u, hu1, hu2⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne _hU (fun h => hnt (by
       rw [h]
       intro g hg
       exact ⟨hG₁ hg, fun w hw => U₁.mul_mem (((hG₁ hg) w).2 hw) (U₁.inv_mem hw)⟩)))
@@ -337,7 +340,7 @@ theorem burnsideC121_p4_psl_section
     rw [hQw]
     simpa using hBc
   have hirrM : ∀ J : Subgroup M, (∀ l ∈ GM, ∀ v ∈ J, l v ∈ J) → J = ⊥ ∨ J = ⊤ :=
-    Bridge.TypeList.irr_of_isIrrSec (B5.isIrrSec_autSec (lt_of_le_of_ne hU (fun h => hnt (by
+    Bridge.TypeList.irr_of_isIrrSec (B5.isIrrSec_autSec (lt_of_le_of_ne _hU (fun h => hnt (by
       rw [h]
       intro g hg
       exact ⟨hG₁ hg, fun w hw => U₁.mul_mem (((hG₁ hg) w).2 hw) (U₁.inv_mem hw)⟩)))
@@ -345,10 +348,10 @@ theorem burnsideC121_p4_psl_section
   have hperfL : Group.IsPerfect ↥L₀ :=
     Group.IsPerfect.ofSurjective (f := (θM.symm.trans eL).toMonoidHom) (θM.symm.trans eL).surjective
   obtain ⟨-, θ₀, hθ₀, halt, -⟩ := central_quotient_SL2_alternatives_GL hn hF L₀ A₀
-    ⟨hntW, fun U hU => B42L2.irr_map θb hirrM U hU⟩ hperfL α₀ hA₀1 hAN (B42L2.quad_map θb hQq)
+    ⟨hntW, fun U _hU => B42L2.irr_map θb hirrM U _hU⟩ hperfL α₀ hA₀1 hAN (B42L2.quad_map θb hQq)
     hoff
   rcases halt with ⟨-, β₀, hβ₀, -⟩ | hdel
-  · refine ⟨U₁, U₂, hU, hG₁, hG₂, θb.trans (AddEquiv.toMultiplicative β₀), fun g x => ?_⟩
+  · refine ⟨U₁, U₂, _hU, hG₁, hG₂, θb.trans (AddEquiv.toMultiplicative β₀), fun g x => ?_⟩
     have hx₀ : ((eL (sE g) : ↥L₀) : Wl ≃ₗ[ZMod 2] Wl) = ψ (B5.secHom G hG₁ hG₂ g) := rfl
     have h1 := hβ₀ (eL (sE g)) (Multiplicative.toAdd (θb x))
     rw [hθ₀, hα, MulEquiv.symm_apply_apply, hθM, hx₀, B42L2.toAdd_binPsi] at h1

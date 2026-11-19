@@ -34,7 +34,7 @@ theorem exists_sylow_meeting_XE (hRK : R ≤ K) (hRsyl : IsSylow2In R K)
     AscP1Nine3.isSylow2In_inf_of_le_normalizer' hV le_sup_left hYN
   obtain ⟨S₂, hS₂⟩ := hV.2.1.exists_le_sylow
   have heq : (S₂ : Subgroup G) ⊓ X = V ⊓ X :=
-    hVX.2.2 _ inf_le_right S₂.isPGroup'.to_inf_left (inf_le_inf_right X hS₂)
+    hVX.2.2 _ inf_le_right S₂.isPGroup.to_inf_left (inf_le_inf_right X hS₂)
   exact ⟨S₂, hRV.trans hS₂, heq ▸ hVX⟩
 
 end CFSG.ClassicalInvolution.Asc77

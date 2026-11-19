@@ -16,6 +16,7 @@ section Omega
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F] [Finite F] {q : ℕ} [Fact q.Prime]
   [CharP F q] (Φ : QuadForm F (ι → F))
 
+omit [Finite F] in
 theorem ea1_Omega (hι : 5 ≤ Fintype.card ι) :
     EA1ε Φ.polar (fun v => Φ.Q v = 0) (natRep (StatedOmega Φ.Q)) (-1) := by
   intro x y hx hxy

@@ -16,7 +16,7 @@ variable {n : ℕ} {F : Type} [Field F] [Finite F]
 
 local notation "sc" => GeneralLinearGroup.scalar (Fin n)
 
-theorem exists_split_pair (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem exists_split_pair (_hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {A B : GL (Fin n) F} {z a b : Fˣ} (hAB : A * B = sc z * (B * A)) (hzp : z ^ p = 1)
     (hz1 : z ≠ 1) (hA : A ^ p = sc a) (hB : B ^ p = sc b) :
     ∃ (S T : GL (Fin n) F) (c w : Fˣ), S ^ p = 1 ∧ T ^ p = sc c ∧ S * T = sc w * (T * S) ∧

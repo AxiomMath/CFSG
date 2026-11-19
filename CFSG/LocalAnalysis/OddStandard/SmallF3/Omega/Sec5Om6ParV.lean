@@ -99,15 +99,18 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 @[expose] noncomputable def om6par_embed (φ : ↥L →* omegaGroup hQ) : ↥L →* OGroup Q :=
   (omegaGroup hQ).subtype.comp φ
 
+omit [Finite G] in
 theorem om6par_embed_injective (hinj : Function.Injective φ) :
     Function.Injective (om6par_embed φ) :=
   Subtype.val_injective.comp hinj
 
+omit [Finite G] in
 theorem om6par_embed_range (hφ : Function.Surjective φ) :
     (om6par_embed φ).range = omegaGroup hQ := by
   rw [om6par_embed, MonoidHom.range_comp, MonoidHom.range_eq_top.mpr hφ,
     ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem om6par_pocket_map (hφ : Function.Surjective φ) (hinj : Function.Injective φ) {z : G}
     (hzL : z ∈ L) {K : Subgroup G} (hK : Sl23PocketIn L z K) :
     Sl23PocketIn (omegaGroup hQ) ((φ ⟨z, hzL⟩ : omegaGroup hQ) : OGroup Q)
@@ -120,6 +123,7 @@ theorem om6par_pocket_map (hφ : Function.Surjective φ) (hinj : Function.Inject
   have h2 := (sec63PC_sl23PocketIn_map_iff (om6par_embed φ) (om6par_embed_injective hinj)).mpr h1
   rwa [← MonoidHom.range_eq_map, om6par_embed_range hφ] at h2
 
+omit [Finite G] in
 theorem om6par_twoRes_map (hinj : Function.Injective φ) {z : G} (hzL : z ∈ L) {K : Subgroup G}
     (hK : K ≤ twoRes (L ⊓ centralizer ({z} : Set G))) :
     (K.subgroupOf L).map (om6par_embed φ) ≤ twoRes (omegaGroup hQ ⊓
@@ -144,6 +148,7 @@ theorem om6par_twoRes_map (hinj : Function.Injective φ) {z : G} (hzL : z ∈ L)
   rw [ff_map_twoRes _ (om6par_embed_injective hinj)]
   exact (Subgroup.closure_le _).2 fun g hg => Subgroup.subset_closure ⟨hle hg.1, hg.2⟩
 
+omit [Finite G] in
 theorem om6par_iso_of_eq (hinj : Function.Injective φ) {K : Subgroup G} (hKL : K ≤ L)
     {P : Subgroup (OGroup Q)} (h : (K.subgroupOf L).map (om6par_embed φ) = P)
     (hP : Nonempty (↥P ≃* SL23)) : Nonempty (↥K ≃* SL23) :=
@@ -151,6 +156,7 @@ theorem om6par_iso_of_eq (hinj : Function.Injective φ) {K : Subgroup G} (hKL : 
     ((Subgroup.equivMapOfInjective _ _ (om6par_embed_injective hinj)).trans
       ((MulEquiv.subgroupCongr h).trans e))
 
+omit [Finite G] in
 theorem om6par_conj_mem {K : Subgroup G} {g : G} (h : CFSG.conjugate K g = K) {x : G} :
     g⁻¹ * x * g ∈ K ↔ x ∈ K := by
   constructor
@@ -161,8 +167,9 @@ theorem om6par_conj_mem {K : Subgroup G} {g : G} (h : CFSG.conjugate K g = K) {x
     rwa [← this]
   · intro hx
     rw [← h]
-    exact Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨x, hx, by simp⟩
 
+omit [Finite G] in
 theorem om6par_mem_twoCoreIn_iff {K : Subgroup G} (e : ↥K ≃* SL23) {x : G} (hx : x ∈ K) :
     x ∈ twoCoreIn K ↔ x ^ 4 = 1 := by
   have h1 : (⟨x, hx⟩ : ↥K) ∈ CFSG.pCore 2 ↥K ↔ e ⟨x, hx⟩ ∈ CFSG.pCore 2 SL23 := by
@@ -175,6 +182,7 @@ theorem om6par_mem_twoCoreIn_iff {K : Subgroup G} (e : ↥K ≃* SL23) {x : G} (
   · intro h
     exact Subtype.ext (by simpa using h)
 
+omit [Finite G] in
 theorem om6par_conj_formula {g : G} {x : simGroup Q} (hx : CoverAct L φ g x) (l : ↥L) :
     ∃ m : ↥L, (m : G) = g⁻¹ * (l : G) * g * (l : G)⁻¹ ∧
       om6par_embed φ m = simAct Q x⁻¹ (om6par_embed φ l) * (om6par_embed φ l)⁻¹ := by
@@ -184,6 +192,7 @@ theorem om6par_conj_formula {g : G} {x : simGroup Q} (hx : CoverAct L φ g x) (l
   rw [map_mul, map_inv]
   exact congrArg (· * (om6par_embed φ l)⁻¹) (hx'.2 l l' rfl)
 
+omit [Finite G] in
 theorem om6par_outer_iff (hinj : Function.Injective φ) {K : Subgroup G} (hKL : K ≤ L)
     (he : Nonempty (↥K ≃* SL23)) {g : G} {x : simGroup Q} (hx : CoverAct L φ g x)
     (hgK : CFSG.conjugate K g = K) {P : Subgroup (OGroup Q)}
@@ -213,6 +222,7 @@ theorem om6par_outer_iff (hinj : Function.Injective φ) {K : Subgroup G} (hKL : 
     rw [← hfm, ← key l hl m hm, hm]
     exact hmem
 
+omit [Finite G] in
 theorem om6par_map_mem {K : Subgroup G} {g : G} {x : simGroup Q} (hx : CoverAct L φ g x)
     (hgK : ∀ k ∈ K, g * k * g⁻¹ ∈ K) {u : OGroup Q}
     (hu : u ∈ (K.subgroupOf L).map (om6par_embed φ)) :
@@ -221,6 +231,7 @@ theorem om6par_map_mem {K : Subgroup G} {g : G} {x : simGroup Q} (hx : CoverAct 
   exact ⟨⟨g * (l : G) * g⁻¹, (Subgroup.mem_normalizer_iff.mp hx.1 (l : G)).mp l.2⟩,
     hgK _ hl, hx.2 l _ rfl⟩
 
+omit [Finite G] in
 theorem om6par_normalized {K : Subgroup G} {g : G} {x : simGroup Q} (hx : CoverAct L φ g x)
     (hgK : CFSG.conjugate K g = K) {P : Subgroup (OGroup Q)}
     (hP : (K.subgroupOf L).map (om6par_embed φ) = P) (u : OGroup Q) :
@@ -233,6 +244,7 @@ theorem om6par_normalized {K : Subgroup G} {g : G} {x : simGroup Q} (hx : CoverA
     exact (om6par_conj_mem hgK).mpr hk) h
   rwa [← MulAut.mul_apply, ← map_mul, inv_mul_cancel, map_one, MulAut.one_apply] at h'
 
+omit [Finite G] in
 theorem om6par_fix {K : Subgroup G} {y : G} {x : simGroup Q} (hx : CoverAct L φ y x)
     (hK : K ≤ centralizer ({y} : Set G)) {P : Subgroup (OGroup Q)}
     (hP : (K.subgroupOf L).map (om6par_embed φ) = P) : ∀ u ∈ P, simAct Q x u = u := by
@@ -240,12 +252,14 @@ theorem om6par_fix {K : Subgroup G} {y : G} {x : simGroup Q} (hx : CoverAct L φ
   rintro _ ⟨l, hl, rfl⟩
   exact t5_cent_map_mem hx (Subgroup.mem_centralizer_singleton_iff.mp (hK hl)).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem om6par_fix_sup {x : simGroup Q} {P₁ P₂ : Subgroup (OGroup Q)}
-    (h₁ : ∀ u ∈ P₁, simAct Q x u = u) (h₂ : ∀ u ∈ P₂, simAct Q x u = u) :
-    ∀ u ∈ P₁ ⊔ P₂, simAct Q x u = u := fun u hu =>
+    (h₁ : ∀ _u ∈ P₁, simAct Q x _u = _u) (h₂ : ∀ _u ∈ P₂, simAct Q x _u = _u) :
+    ∀ _u ∈ P₁ ⊔ P₂, simAct Q x _u = _u := fun _u hu =>
   mem_fixSub_iff.mp ((sup_le (fun v hv => mem_fixSub_iff.mpr (h₁ v hv))
     (fun v hv => mem_fixSub_iff.mpr (h₂ v hv)) : P₁ ⊔ P₂ ≤ fixSub (simAct Q x)) hu)
 
+omit [Finite G] in
 theorem om6par_cent_comm (hφ : Function.Surjective φ) (hinj : Function.Injective φ)
     (h3 : 3 ≤ Module.finrank (ZMod 3) V) {e g y : G} {xe xg xy : simGroup Q}
     (he : CoverAct L φ e xe) (hg : CoverAct L φ g xg) (hy : CoverAct L φ y xy) :

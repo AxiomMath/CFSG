@@ -152,7 +152,7 @@ theorem uc22p22q_wreath_Z2 {G : Type} [Group G] {P : Subgroup G}
   have hA3 : ∀ a : Multiplicative (ZMod 3), a ^ 3 = 1 := fun a => by
     simpa [hcard] using pow_card_eq_one' (x := a)
   have hs : (Multiplicative.ofAdd (1 : ZMod 3)) ≠ 1 := by decide
-  haveI : Finite ↥P := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite ↥P := Finite.of_equiv _ e.symm.toEquiv
   have hWp : IsPGroup 3 (Multiplicative (ZMod 3) ≀ᵣ Multiplicative (ZMod 3)) := by
     rw [IsPGroup.iff_card]
     exact ⟨4, by rw [RegularWreathProduct.card, hcard]; norm_num⟩

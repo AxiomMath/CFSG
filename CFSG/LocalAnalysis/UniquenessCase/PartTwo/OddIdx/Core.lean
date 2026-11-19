@@ -27,7 +27,7 @@ theorem conclusion_of_levi {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp : p.
   classical
   obtain ⟨hYperf, Z, hZn, hZ2, hYalt⟩ := hY
   obtain ⟨e⟩ := hYalt
-  haveI := hZn
+  have := hZn
   have hcomm : ⁅Y, Y⁆ = Y := by
     have h := Subgroup.map_subtype_commutator Y
     rw [hYperf] at h
@@ -39,7 +39,7 @@ theorem conclusion_of_levi {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp : p.
   have hC : CFSG.KCore.KGroupNonab (DvdOrThreeFree 51840) ↥C :=
     CFSG.KCore.KGroupNonab.of_injective (isoInvariant_dvdOrThreeFree 51840) hN
       (Subgroup.inclusion hCN) (Subgroup.inclusion_injective hCN)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg, -⟩ := exists_hom_psl2_of_leviBlock hlevi
   have hCP : CFSG.KCore.KGroupNonab (DvdOrThreeFree 51840)
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod p)) :=
@@ -48,7 +48,7 @@ theorem conclusion_of_levi {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp : p.
     rw [Nat.card_zmod]
     have := hp.two_le
     omega
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod p)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod p)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4p
   have hnonab : ∃ a b : Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod p), a * b ≠ b * a :=
     CFSG.ComponentClassification.CatalogueBSmallRee.projectiveSpecialLinear_two_nonabelian
@@ -93,7 +93,7 @@ theorem conclusion_of_levi {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp : p.
           (hp.dvd_of_dvd_pow h3)) hp3
     · exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_five).mp h5
   refine ⟨hp_eq, ?_⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   rw [hp_eq] at hlevi
   obtain ⟨f, hf, -, hfexp⟩ := exists_hom_sl2_of_leviBlock hlevi
   let ρ : ↥Y →* Matrix.SpecialLinearGroup (Fin 2) (ZMod 5) :=
@@ -108,7 +108,7 @@ theorem conclusion_of_levi {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp : p.
     rw [show MonoidHom.ker ρ = (MonoidHom.ker f).comap (Subgroup.inclusion hYC) from
       MonoidHom.comap_ker f (Subgroup.inclusion hYC)]
     exact hfker_pg.comap_of_injective _ (Subgroup.inclusion_injective hYC)
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   let q := QuotientGroup.mk' Z
   let W : Subgroup (alternatingGroup (Fin 5)) :=
     ((MonoidHom.ker ρ).map q).map e.toMonoidHom
@@ -136,7 +136,7 @@ theorem conclusion_of_levi {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp : p.
     have h := (Subgroup.map_eq_bot_iff (MonoidHom.ker ρ)).mp hmapq
     rwa [QuotientGroup.ker_mk'] at h
   have hKbot : MonoidHom.ker ρ = ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (IsPGroup.disjoint_of_ne 5 2 (by norm_num) (MonoidHom.ker ρ) Z hKpg hZ2).eq_bot_of_le
       hKleZ
   have hρinj : Function.Injective ρ := (MonoidHom.ker_eq_bot_iff ρ).mp hKbot
@@ -175,21 +175,21 @@ theorem conclusion_of_levi {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp : p.
     · exact Subgroup.index_eq_one.mp h1
     · exfalso
       have hnorm : ρ.range.Normal := Subgroup.normal_of_index_eq_two h2
-      haveI := hnorm
+      have := hnorm
       have hcomm_le : commutator (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) ≤ ρ.range := by
         apply Subgroup.Normal.quotient_commutative_iff_commutator_le.mp
         have hcardquot :
             Nat.card (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5) ⧸ ρ.range) = 2 := by
           rw [← Subgroup.index_eq_card]
           exact h2
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : IsCyclic (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5) ⧸ ρ.range) :=
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : IsCyclic (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5) ⧸ ρ.range) :=
           isCyclic_of_prime_card (p := 2) hcardquot
         exact inferInstance
       have hfour : ∃ s : Finset (ZMod 5), s.card = 4 := by
         refine ⟨(Finset.univ : Finset (ZMod 5)).erase 4, ?_⟩
         rw [Finset.card_erase_of_mem (Finset.mem_univ 4), Finset.card_univ, ZMod.card]
-      haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) :=
+      have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) :=
         CFSG.LinearGroups.special_linear_dimension_two_perfect hfour
       have htoprange : ρ.range = ⊤ := by
         have : (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5))) ≤ ρ.range := by

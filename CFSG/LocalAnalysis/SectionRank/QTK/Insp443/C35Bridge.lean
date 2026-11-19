@@ -43,7 +43,7 @@ theorem KConfig.exists_noncomm {X : Type} [Group X] {L V MK : Subgroup X}
 theorem KConfig.normalizer_pCoreOf_MK {X : Type} [Group X] {L V MK : Subgroup X}
     (h : KConfig X L V MK) :
     Subgroup.normalizer ((pCoreOf 2 MK : Subgroup X) : Set X) = MK := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVL : pCoreOf 2 L ≤ pCoreOf 2 MK :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
       ((CFSG.LieType.BorelTits.pCoreOf_le 2 L).trans h.le_MK)
@@ -60,22 +60,22 @@ theorem KConfig.normalizer_pCoreOf_MK {X : Type} [Group X] {L V MK : Subgroup X}
 theorem KConfig.eq_perfectCore_of_simple {X : Type} [Group X] [Finite X] {L V MK : Subgroup X}
     (h : KConfig X L V MK) (hP : IsSimpleGroup (ModO2 (perfectCore MK))) :
     L = perfectCore MK := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLne : L ≠ ⊥ := fun hL =>
     h.ne_bot (by rw [h.eq_commutator, hL, Subgroup.commutator_bot_right])
   have hLle : L ≤ perfectCore MK := le_perfectCore_of_perfect h.le_MK h.perfect
-  haveI hX0perf : Group.IsPerfect ↥(perfectCore MK) :=
+  have hX0perf : Group.IsPerfect ↥(perfectCore MK) :=
     Subgroup.isPerfect_iff.mpr (perfectCore_perfect MK)
   have hLnormal : (L.subgroupOf (perfectCore MK)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLle).mpr
       ((perfectCore_le MK).trans h.MK_le_normalizer)
-  haveI : (L.subgroupOf (perfectCore MK)).Normal := hLnormal
+  have : (L.subgroupOf (perfectCore MK)).Normal := hLnormal
   let ρ : ↥(perfectCore MK) →* ModO2 (perfectCore MK) :=
     QuotientGroup.mk' (CFSG.pCore 2 ↥(perfectCore MK))
   have hρsurj : Function.Surjective ρ := QuotientGroup.mk'_surjective _
   have himgN : ((L.subgroupOf (perfectCore MK)).map ρ).Normal :=
     hLnormal.map ρ hρsurj
-  haveI : ((L.subgroupOf (perfectCore MK)).map ρ).Normal := himgN
+  have : ((L.subgroupOf (perfectCore MK)).map ρ).Normal := himgN
   have himg_ne : (L.subgroupOf (perfectCore MK)).map ρ ≠ ⊥ := by
     intro hbot
     have hLle2 : L ≤ pCoreOf 2 (perfectCore MK) := by
@@ -92,8 +92,8 @@ theorem KConfig.eq_perfectCore_of_simple {X : Type} [Group X] [Finite X] {L V MK
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (perfectCore MK)).to_le hLle2
     have hLbot : L = ⊥ := by
       by_contra hne
-      haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hne
-      haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr h.perfect
+      have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hne
+      have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr h.perfect
       exact Group.IsPerfect.not_isNilpotent ↥L hL2.isNilpotent
     exact hLne hLbot
   have himg_top : (L.subgroupOf (perfectCore MK)).map ρ = ⊤ := by
@@ -180,8 +180,8 @@ theorem KConfig.c35Base
       (2 ≤ f ∧ IsG2 2 f X) ∨ (1 ≤ f ∧ Is3D4 2 f X) ∨ (Odd f ∧ 3 ≤ f ∧ Is2F4 f X))
     {L V MK : Subgroup X} (h : KConfig X L V MK) :
     CFSG.Quasithin.C35Base (⊤ : Subgroup X) MK L V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hsimp : IsSimpleGroup X := hXs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hsimp : IsSimpleGroup X := hXs
   have hX : ∃ a b : X, a * b ≠ b * a := h.exists_noncomm
   have hEven : CFSG.Blueprint.EvenLieType X := evenLieType_of_family hfam
   have hqX : CFSG.Open.IsQuasisimple X := by

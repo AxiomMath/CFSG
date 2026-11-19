@@ -58,6 +58,7 @@ theorem KerTwo.orderOf_eq_two (hπ : KerTwo u π) {w : G} (hw : w ∈ centralize
 
 variable [Finite G] [Finite B]
 
+omit [Finite G] [Finite B] in
 theorem KerTwo.card_ker_le (hu1 : u ≠ 1) (hπ : KerTwo u π) {K : Subgroup G}
     (hK : K ≤ centralizer ({u} : Set G)) :
     Nat.card (π.comp (Subgroup.inclusion hK)).ker ≤ 2 := by
@@ -85,6 +86,7 @@ theorem KerTwo.card_ker_le (hu1 : u ≠ 1) (hπ : KerTwo u π) {K : Subgroup G}
         Nat.card_le_card_of_injective _ hinj
     _ = 2 := by simp
 
+omit [Finite G] in
 theorem KerTwo.card_le (hu1 : u ≠ 1) (hπ : KerTwo u π) {K : Subgroup G}
     (hK : K ≤ centralizer ({u} : Set G)) {C : Subgroup B}
     (hKC : ∀ k (hk : k ∈ K), π ⟨k, hK hk⟩ ∈ C) : Nat.card K ≤ 2 * Nat.card C := by
@@ -98,6 +100,7 @@ theorem KerTwo.card_le (hu1 : u ≠ 1) (hπ : KerTwo u π) {K : Subgroup G}
   calc Nat.card K = Nat.card f.ker * Nat.card f.range := h1.symm
     _ ≤ 2 * Nat.card C := Nat.mul_le_mul h2 h3
 
+omit [Finite B] in
 theorem KerTwo.dvd_of_dvd (hu1 : u ≠ 1) (hπ : KerTwo u π) {K : Subgroup G}
     (hK : K ≤ centralizer ({u} : Set G)) {C : Subgroup B}
     (hKC : ∀ k (hk : k ∈ K), π ⟨k, hK hk⟩ ∈ C) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -119,13 +122,14 @@ theorem KerTwo.dvd_of_dvd (hu1 : u ≠ 1) (hπ : KerTwo u π) {K : Subgroup G}
   have hr : p ∣ Nat.card f.range := (hp.dvd_mul.1 hdvd).resolve_left hndvd
   exact hr.trans (Subgroup.card_dvd_of_le hrange)
 
+omit [Finite B] in
 theorem KerTwo.ncard_le_two_mul (hπ : KerTwo u π) {N : Set G}
     (hN : ∀ n ∈ N, n ∈ centralizer ({u} : Set G)) {F : Set B} (hF : F.Finite)
     (hmap : ∀ n (hn : n ∈ N), π ⟨n, hN n hn⟩ ∈ F) : N.ncard ≤ 2 * F.ncard := by
   classical
   let f : G → B := fun n => if h : n ∈ centralizer ({u} : Set G) then π ⟨n, h⟩ else 1
   have hf : ∀ n (hn : n ∈ N), f n = π ⟨n, hN n hn⟩ := fun n hn => by
-    simp only [f, dif_pos (hN n hn)]
+    simp only [f, dite_eq_left (hN n hn)]
   have hNfin : N.Finite := Set.toFinite N
   have hmaps : ∀ a ∈ hNfin.toFinset, f a ∈ hF.toFinset := by
     intro a ha

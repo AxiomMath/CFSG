@@ -58,10 +58,11 @@ theorem mem_Zinf_of_forall_conj {x : G}
   · have := D.conjBy₂_z_mem hOut hTw hg₁ hs₀
     rwa [Setting.conjBy_z, h.setting_z] at this
 
+omit hOut hTw hg₁ hs₀ in
 theorem conj_mem_R {n : G} (hn : n ∈ normalizer (Zinf (h := h) g₁ s₀ : Set G)) {x : G}
     (hx : x ∈ Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G)) :
     n * x * n⁻¹ ∈ Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G) :=
-  ⟨conj_mem_Kgrp (h := h) hn hx.1, D.conj_mem_centralizer hOut hTw hg₁ hs₀ hn hx.2⟩
+  ⟨conj_mem_Kgrp (h := h) hn hx.1, CFSG.Quasithin.H13.AS91.Data41.conj_mem_centralizer hn hx.2⟩
 
 theorem Φo_mem_p2 {x : G}
     (hx : x ∈ Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G))
@@ -73,7 +74,7 @@ theorem sq_mem_Zinf {x : G}
     (hx : x ∈ Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G)) :
     x * x ∈ Zinf (h := h) g₁ s₀ := by
   refine D.mem_Zinf_of_forall_conj hOut hTw hg₁ hs₀ fun n hn => ?_
-  have hy := D.conj_mem_R hOut hTw hg₁ hs₀ (inv_mem hn) hx
+  have hy := CFSG.Quasithin.H13.AS91.Data41.conj_mem_R (inv_mem hn) hx
   have hyM := D.hSM hOut hTw hg₁ hs₀ hy.2
   have hp := D.Φo_mem_p2 hOut hTw hg₁ hs₀ hy hyM
   have h1 : h.setting.ρ (⟨_, hyM⟩ * ⟨_, hyM⟩) = 1 := by
@@ -88,8 +89,8 @@ theorem commutator_mem_Zinf {x y : G}
     (hy : y ∈ Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G)) :
     ⁅x, y⁆ ∈ Zinf (h := h) g₁ s₀ := by
   refine D.mem_Zinf_of_forall_conj hOut hTw hg₁ hs₀ fun n hn => ?_
-  have hx' := D.conj_mem_R hOut hTw hg₁ hs₀ (inv_mem hn) hx
-  have hy' := D.conj_mem_R hOut hTw hg₁ hs₀ (inv_mem hn) hy
+  have hx' := CFSG.Quasithin.H13.AS91.Data41.conj_mem_R (inv_mem hn) hx
+  have hy' := CFSG.Quasithin.H13.AS91.Data41.conj_mem_R (inv_mem hn) hy
   have hxM := D.hSM hOut hTw hg₁ hs₀ hx'.2
   have hyM := D.hSM hOut hTw hg₁ hs₀ hy'.2
   have hc := Two.p2Grp_comm (D.Φo_mem_p2 hOut hTw hg₁ hs₀ hx' hxM)
@@ -124,13 +125,13 @@ theorem rep_mem_CQZ {n : ℕ} (h3 : QuadraticMap.polar q0 (vecOf 3) (vecOf n) = 
   · rw [hk]
     refine (h.setting.polar_cl_eq_zero_iff (h.setting.conj_mem_QG s₀.2 (D.rep_mem 3))
       (D.rep_mem n)).mp ?_
-    rw [D.polar_ψV, D.ψV_cl_conj_rep3 hOut hTw hg₁ hs₀, ψV_cl_rep]
+    rw [D.polar_ψV, D.ψV_cl_conj_rep3 hs₀, ψV_cl_rep]
     exact h192
 
 theorem CQZ_le_R : h.setting.QG ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G) ≤
     Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G) := by
   rw [D.Kgrp_inf_eq_Bgrp hOut hTw hg₁ hs₀]
-  exact D.QG_inf_le_Bgrp hOut hTw hg₁ hs₀
+  exact D.QG_inf_le_Bgrp
 
 theorem center_le_QG {y : ↥(Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G))}
     (hy : y ∈ center ↥(Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G))) :
@@ -158,11 +159,11 @@ theorem center_R : (center ↥(Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h 
   apply le_antisymm
   · rintro _ ⟨y, hy, rfl⟩
     refine D.mem_Zinf_of_forall_conj hOut hTw hg₁ hs₀ fun n hn => ?_
-    have hR := D.conj_mem_R hOut hTw hg₁ hs₀ (inv_mem hn) y.2
+    have hR := CFSG.Quasithin.H13.AS91.Data41.conj_mem_R (inv_mem hn) y.2
     have hc : (⟨_, hR⟩ : ↥(Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G))) ∈
         center _ := by
       refine mem_center_iff.mpr fun r => Subtype.ext ?_
-      have hr := D.conj_mem_R hOut hTw hg₁ hs₀ hn r.2
+      have hr := CFSG.Quasithin.H13.AS91.Data41.conj_mem_R hn r.2
       have := congrArg Subtype.val (mem_center_iff.mp hy ⟨_, hr⟩)
       simp only [Subgroup.coe_mul] at this ⊢
       calc (r : G) * (n⁻¹ * y * n⁻¹⁻¹) = n⁻¹ * ((n * r * n⁻¹) * y) * n := by group
@@ -212,8 +213,8 @@ theorem comm_R : ⁅Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ 
       rw [← hz, commutatorElement_def, commutatorElement_def]
       group
     rw [e]
-    exact commutator_mem_commutator (D.conj_mem_R hOut hTw hg₁ hs₀ hnN hxR)
-      (D.conj_mem_R hOut hTw hg₁ hs₀ hnN hyR)
+    exact commutator_mem_commutator (CFSG.Quasithin.H13.AS91.Data41.conj_mem_R hnN hxR)
+      (CFSG.Quasithin.H13.AS91.Data41.conj_mem_R hnN hyR)
 
 theorem card_R : Nat.card ↥(Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G)) =
     2 ^ 15 := by
@@ -231,8 +232,8 @@ theorem R_eq_pCoreOf_K : Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) 
   · rw [← hφk]
     exact φ.normal_ker
   · intro X hXn hXp
-    haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-    haveI := hXn.map φ hφs
+    have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+    have := hXn.map φ hφs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (X.map φ) with hb | ht
     · intro x hx
       rw [← hφk, MonoidHom.mem_ker]

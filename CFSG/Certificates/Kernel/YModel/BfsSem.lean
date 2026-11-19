@@ -124,7 +124,7 @@ theorem inv_init (hr : root < n) : Inv n root steps 0 (init n root) := by
     subst this
     refine ⟨hr, ?_⟩
     change ((Array.replicate n n).set! root 0)[root]! = 0
-    rw [hpos root hr, if_pos rfl]
+    rw [hpos root hr, ite_eq_left rfl]
   · intro y hy h
     simp only [init] at h ⊢
     rw [hpos y hy] at h ⊢
@@ -159,7 +159,7 @@ theorem innerF_spec (hs : ∀ j < steps.size, ∀ x < n, (steps[j]!)[x]! < n) {c
   set y := (steps[j]!)[x]! with hy
   unfold innerF
   by_cases hnew : (s.1[y]! == n) = true
-  · rw [if_pos hnew]
+  · rw [ite_eq_left hnew]
     refine ⟨_, rfl, ?_⟩
     have hnm : ¬ Mem s.2.1 y := (I.pos_n hyn).mp (beq_iff_eq.mp hnew)
     have hne : ∀ a < s.2.1.size, s.2.1[a]! ≠ y := fun a ha e => hnm ⟨a, ha, e⟩
@@ -190,22 +190,22 @@ theorem innerF_spec (hs : ∀ j < steps.size, ∀ x < n, (steps[j]!)[x]! < n) {c
       split
       · rename_i ha'
         refine ⟨(I.pts_lt a ha').1, ?_⟩
-        rw [hps _ (I.pts_lt a ha').1, if_neg (hne a ha')]
+        rw [hps _ (I.pts_lt a ha').1, ite_eq_right (hne a ha')]
         exact (I.pts_lt a ha').2
       · refine ⟨hyn, ?_⟩
-        rw [hps y hyn, if_pos rfl]
+        rw [hps y hyn, ite_eq_left rfl]
         omega
     · intro z hz h
       rw [hps z hz] at h ⊢
       split at h
       · rename_i e
         subst e
-        rw [if_pos rfl, hsz, hpts _ (by omega), if_neg (by omega)]
+        rw [ite_eq_left rfl, hsz, hpts _ (by omega), ite_eq_right (by omega)]
         exact ⟨by omega, rfl⟩
-      · rw [if_neg ‹_›, hsz]
+      · rw [ite_eq_right ‹_›, hsz]
         obtain ⟨h1, h2⟩ := I.pos_mem z hz h
         refine ⟨by omega, ?_⟩
-        rw [hpts _ (by omega), if_pos h1]
+        rw [hpts _ (by omega), ite_eq_left h1]
         exact h2
     · intro a ha h0
       rw [hsz] at ha
@@ -242,7 +242,7 @@ theorem innerF_spec (hs : ∀ j < steps.size, ∀ x < n, (steps[j]!)[x]! < n) {c
       · subst e
         exact ⟨s.2.1.size, by rw [hsz]; omega, by rw [get_push_eq]⟩
       · exact hmem _ (hd j' (by omega) hj's)
-  · rw [if_neg hnew]
+  · rw [ite_eq_right hnew]
     refine ⟨_, rfl, ⟨I, hc, hx, ?_⟩⟩
     intro j' hj' hj's
     by_cases e : j' = j
@@ -272,7 +272,7 @@ theorem outerF_spec (hs : ∀ j < steps.size, ∀ x < n, (steps[j]!)[x]! < n) {c
   simp only [Prod.mk.eta]
   by_cases hc : c < s.2.1.size
   · left
-    rw [if_pos hc]
+    rw [ite_eq_left hc]
     refine ⟨hc, _, rfl, ?_⟩
     have J := inner_loop (root := root) hs (c := c) (x := s.2.1[c]!) steps.size 0 s (by omega)
       ⟨I, hc, rfl, fun j' hj' => absurd hj' (Nat.not_lt_zero _)⟩
@@ -285,7 +285,7 @@ theorem outerF_spec (hs : ∀ j < steps.size, ∀ x < n, (steps[j]!)[x]! < n) {c
       exact hd' j hj hj
     · exact I'.closed a (by omega) j hj
   · right
-    rw [if_neg hc]
+    rw [ite_eq_right hc]
     exact ⟨by omega, rfl⟩
 
 theorem outer_loop (hs : ∀ j < steps.size, ∀ x < n, (steps[j]!)[x]! < n) :

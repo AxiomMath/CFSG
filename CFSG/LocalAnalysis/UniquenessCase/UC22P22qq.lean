@@ -34,10 +34,10 @@ theorem uc22p22qq_frattini {p : ℕ} [Fact p.Prime] {S Y M : Subgroup G} (hSY : 
   simpa [mul_assoc] using h2
 
 theorem uc22p22qq_normalizer_centralizer_le {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L P₁ : Subgroup G}
-    (hL : LieModel ↥L .PSL 2 p n) (hP₁L : P₁ ≤ L) (hS : IsSylowOf p (P₁.subgroupOf L) ⊤) {x : G}
+    (hL : LieModel ↥L .PSL 2 p n) (_hP₁L : P₁ ≤ L) (hS : IsSylowOf p (P₁.subgroupOf L) ⊤) {x : G}
     (hxL : x ∈ normalizer (L : Set G)) (hxc : ∀ y ∈ P₁, x * y * x⁻¹ = y) :
     ∃ d ∈ centralizer (L : Set G), ∃ a ∈ P₁, x = d * a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F, hFf, hFfin, e, hF, hFq⟩ := CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' hp hp2 hL
   obtain ⟨-, hSp, hSnd⟩ := isSylowOf_iff.1 hS
   let W : Sylow p ↥L := hSp.toSylow (by simpa [Subgroup.relIndex_top_right] using hSnd)

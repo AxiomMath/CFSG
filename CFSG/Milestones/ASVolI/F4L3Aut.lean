@@ -39,7 +39,7 @@ theorem burnsideF447_setup {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Finite
       ((R₁ = V1 ∧ R₂ = V2) ∨ (R₁ = V2 ∧ R₂ = V1)) := by
   obtain ⟨TD, hyam⟩ := burnsideF4d_Y1_yam h
   have hmodel := burnsideF4d_Y1_lieModel h
-  haveI := h.normal
+  have := h.normal
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective h.centralizer_trivial
   obtain ⟨F, hFf, hFfin, hFchar, E', hFcard, hP⟩ :=
@@ -58,7 +58,7 @@ theorem burnsideF447_setup {f : ℕ} (hf : 2 ≤ f) {E : Type} [Group E] [Finite
     rcases hP with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · exact ⟨_, _, _, _, hdata, Or.inl ⟨rfl, rfl⟩, h1, h2⟩
     · exact ⟨_, _, _, _, hdata.swap, Or.inr ⟨rfl, rfl⟩, h1, h2⟩
-  haveI : Finite (projectiveSL 3 F) := Finite.of_equiv ↥Gp E'.toEquiv
+  have : Finite (projectiveSL 3 F) := Finite.of_equiv ↥Gp E'.toEquiv
   obtain ⟨Φ, hΦdef⟩ : ∃ Φ : projectiveSL 3 F →* E, ∀ p, Φ p = ((E'.symm p : ↥Gp) : E) :=
     ⟨Gp.subtype.comp E'.symm.toMonoidHom, fun p => rfl⟩
   have hΦinj : Function.Injective Φ := fun a b hab =>
@@ -276,12 +276,14 @@ open CFSG.Open CFSG.QuasithinUnique.Fin257.L3
 variable {F : Type} [Field F] [CharP F 2] {E : Type} [Group E]
   {Φ : projectiveSL 3 F →* E} {ρ : E →* MulAut (projectiveSL 3 F)}
 
+omit [CharP F 2] in
 theorem burnsideF447_rho_Phi (hΦ : Function.Injective Φ)
     (hΦρ : ∀ (e : E) (p : projectiveSL 3 F), Φ (ρ e p) = e * Φ p * e⁻¹)
     (g : projectiveSL 3 F) : ρ (Φ g) = MulAut.conj g := by
   refine MulEquiv.ext fun p => hΦ ?_
   rw [hΦρ, MulAut.conj_apply, map_mul, map_mul, map_inv]
 
+omit [CharP F 2] in
 theorem burnsideF447_comm_iff (hΦ : Function.Injective Φ)
     (hΦρ : ∀ (e : E) (p : projectiveSL 3 F), Φ (ρ e p) = e * Φ p * e⁻¹)
     (e : E) (p : projectiveSL 3 F) : ρ e p = p ↔ e * Φ p = Φ p * e := by
@@ -332,7 +334,7 @@ theorem burnsideF447_card_eq_of_iso {F K : Type} [Field F] [Finite F] [Field K] 
     · omega
   ·
     exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hF3 := card_statedProj_statedSL_three_mul (F := F)
     have hK3 := card_statedProj_statedSL_three_mul (F := K)
     have hq'odd : Odd (Nat.card K) := by rw [hq'K]; exact hodd.pow
@@ -420,11 +422,13 @@ noncomputable def burnsideF447_eΦ (hΦ : Function.Injective Φ) {Gp : Subgroup 
     (hrange : Φ.range = Gp) : ↥Gp ≃* projectiveSL 3 F :=
   ((MonoidHom.ofInjective hΦ).trans (MulEquiv.subgroupCongr hrange)).symm
 
+omit [CharP F 2] in
 theorem burnsideF447_Phi_eΦ (hΦ : Function.Injective Φ) {Gp : Subgroup E}
     (hrange : Φ.range = Gp) (x : ↥Gp) : Φ (burnsideF447_eΦ hΦ hrange x) = (x : E) := by
   have h := ((MonoidHom.ofInjective hΦ).trans (MulEquiv.subgroupCongr hrange)).apply_symm_apply x
   exact congrArg Subtype.val h
 
+omit [CharP F 2] in
 theorem burnsideF447_eΦ_conj (hΦ : Function.Injective Φ) {Gp : Subgroup E}
     (hrange : Φ.range = Gp)
     (hΦρ : ∀ (e : E) (p : projectiveSL 3 F), Φ (ρ e p) = e * Φ p * e⁻¹) (b : E)
@@ -434,6 +438,7 @@ theorem burnsideF447_eΦ_conj (hΦ : Function.Injective Φ) {Gp : Subgroup E}
   rw [hΦρ, burnsideF447_Phi_eΦ, burnsideF447_Phi_eΦ, hxy]
 
 open CFSG.ASVolI.ChF in
+omit [CharP F 2] in
 theorem burnsideF447_innDiag_of_mem [Finite F] (hΦ : Function.Injective Φ) {Gp : Subgroup E}
     (hrange : Φ.range = Gp) (hΦρ : ∀ (e : E) (p : projectiveSL 3 F), Φ (ρ e p) = e * Φ p * e⁻¹)
     {b : E} (hb : ρ b ∈ linearAutGroup 3 F) : InnDiag3 Gp b := by
@@ -552,8 +557,8 @@ theorem burnsideF447_mem_of_innDiag {F : Type} [Field F] [CharP F 2] [Finite F] 
       ← Nat.card_congr eP.toEquiv]
     exact Nat.card_congr ψ.toEquiv
   have hKcard := burnsideF447_card_eq_of_iso hf hF hcard
-  haveI := Fintype.ofFinite F
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite F
+  have := Fintype.ofFinite K
   let τ : F ≃+* K := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKcard])
   let π := projIso τ
@@ -583,6 +588,7 @@ variable {F : Type} [Field F] [Finite F]
 noncomputable def burnsideF447_fp (θ : ↥(semilinearAutGroup 3 F)) : F ≃+* F :=
   Classical.choose (Classical.choose_spec (mem_semilinearAutGroup_iff.mp θ.2))
 
+omit [Finite F] in
 theorem burnsideF447_fp_spec (θ : ↥(semilinearAutGroup 3 F)) :
     ∃ A : GL (Fin 3) F, (θ : MulAut (projectiveSL 3 F)) =
       conjAut 3 F A * fieldAut 3 F (burnsideF447_fp θ) :=
@@ -654,6 +660,7 @@ open CFSG.Open CFSG.QuasithinUnique.Fin257.L3 CFSG.Quasithin.H13.F431.L3.P3
 variable {F : Type} [Field F] [CharP F 2] {E : Type} [Group E]
   {Φ : projectiveSL 3 F →* E} {ρ : E →* MulAut (projectiveSL 3 F)}
 
+omit [CharP F 2] in
 theorem burnsideF447_normalizer_iff (hΦ : Function.Injective Φ)
     (hΦρ : ∀ (e : E) (p : projectiveSL 3 F), Φ (ρ e p) = e * Φ p * e⁻¹)
     (e : E) (X : Subgroup (projectiveSL 3 F)) :
@@ -696,6 +703,7 @@ theorem burnsideF447_pres_iff {P : Type} [Group P] [Finite P] {θ : MulAut P} {U
     have : q = p := θ.injective hqp
     rwa [← this]
 
+omit [CharP F 2] in
 theorem burnsideF447_fieldAut_dMat (σ : F ≃+* F) (t₁ t₂ : Fˣ) :
     fieldAut 3 F σ (proj 3 F (dMat t₁ t₂)) =
       proj 3 F (dMat (Units.map σ.toMonoidHom t₁) (Units.map σ.toMonoidHom t₂)) := by
@@ -712,6 +720,7 @@ theorem burnsideF447_fieldAut_U (σ : F ≃+* F) {p : projectiveSL 3 F}
   exact mem_Ubar.mpr ⟨σ c, σ a, σ b, by
     rw [map_mul, map_mul, fieldAut_wP, fieldAut_xP, fieldAut_yP]⟩
 
+omit [CharP F 2] in
 theorem burnsideF447_fieldAut_B0 (σ : F ≃+* F) {p : projectiveSL 3 F}
     (hp : p ∈ torus3 F) : fieldAut 3 F σ p ∈ torus3 F := by
   obtain ⟨t₁, t₂, rfl⟩ := mem_torus3.mp hp
@@ -724,6 +733,7 @@ theorem burnsideF447_nuDiag_U (s t : Fˣ) {p : projectiveSL 3 F}
   exact mem_Ubar.mpr ⟨(s : F) * t * c, s * a, t * b, by
     rw [map_mul, map_mul, conjAut_nuDiag_wP, conjAut_nuDiag_xP, conjAut_nuDiag_yP]⟩
 
+omit [CharP F 2] in
 theorem burnsideF447_nuDiag_B0 (s t : Fˣ) {p : projectiveSL 3 F}
     (hp : p ∈ torus3 F) : conjAut 3 F (nuDiagGL s t) p ∈ torus3 F := by
   obtain ⟨t₁, t₂, rfl⟩ := mem_torus3.mp hp
@@ -867,6 +877,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {E : Type} [Group E]
   Subgroup.normalizer (((projUnitriangular 3 F).map Φ : Subgroup E) : Set E) ⊓
     Subgroup.normalizer (((torus3 F).map Φ : Subgroup E) : Set E)
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_Phi_mem_normalizer (hΦ : Function.Injective Φ) (X : Subgroup (projectiveSL 3 F))
     (u : projectiveSL 3 F) :
     Φ u ∈ Subgroup.normalizer ((X.map Φ : Subgroup E) : Set E) ↔
@@ -901,7 +912,7 @@ theorem burnsideF447_Bt_inf_U (hq : 2 < Nat.card F) (hΦ : Function.Injective Φ
   have := burnsideF447_U_inf_normB0 hq hu huT
   rw [this, map_one]
 
-theorem burnsideF447_frattini [Finite E] [Φ.range.Normal] (hq : 2 < Nat.card F)
+theorem burnsideF447_frattini [Finite E] [Φ.range.Normal] (_hq : 2 < Nat.card F)
     (hΦ : Function.Injective Φ) {n : E}
     (hn : n ∈ Subgroup.normalizer (((projUnitriangular 3 F).map Φ : Subgroup E) : Set E)) :
     ∃ u ∈ (projUnitriangular 3 F).map Φ, ∃ b ∈ burnsideF447_Bt Φ, n = u * b := by
@@ -1106,14 +1117,16 @@ open CFSG.Open CFSG.QuasithinUnique.Fin257.L3 CFSG.Quasithin.H13.F431.L3.P3
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {E : Type} [Group E]
   {Φ : projectiveSL 3 F →* E} {ρ : E →* MulAut (projectiveSL 3 F)}
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_nuDiag_comm (s t s' t' : Fˣ) :
     (nuDiagGL (F := F) s t) * nuDiagGL s' t' = nuDiagGL s' t' * nuDiagGL s t := by
   apply Units.ext
   simp only [Units.val_mul, coe_nuDiagGL, Matrix.diagonal_mul_diagonal]
   congr 1
   funext i
-  fin_cases i <;> simp [mul_comm, mul_left_comm, mul_assoc]
+  fin_cases i <;> simp [mul_comm, mul_left_comm]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_diag_comm (δ δ' : Fˣ) {g g' : projectiveSL 3 F} (hg : g ∈ torus3 F)
     (hg' : g' ∈ torus3 F) :
     Commute (conjAut 3 F (nuDiagGL δ 1) * MulAut.conj g)
@@ -1132,10 +1145,10 @@ theorem burnsideF447_diag_comm (δ δ' : Fˣ) {g g' : projectiveSL 3 F} (hg : g 
     obtain ⟨s₁, s₂, rfl⟩ := mem_torus3.mp hg'
     show _ = _
     rw [← map_mul, ← map_mul]
-    congr 1
     rw [← map_mul, ← map_mul, dMat_mul, dMat_mul, mul_comm t₁ s₁, mul_comm t₂ s₂]
   exact ((h1.mul_right (h2 δ hg')).mul_left ((h2 δ' hg).symm.mul_right h3))
 
+omit [CharP F 2] in
 theorem burnsideF447_diag_fpE (hE : ∀ e : E, ρ e ∈ semilinearAutGroup 3 F) {b : E}
     {δ t₁ t₂ : Fˣ} {σ : F ≃+* F}
     (h : ρ b = conjAut 3 F (nuDiagGL δ 1) * MulAut.conj (proj 3 F (dMat t₁ t₂)) *
@@ -1181,11 +1194,13 @@ structure burnsideF447_Ctx {F : Type} [Field F] [Finite F] [CharP F 2] {E : Type
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {E : Type} [Group E] [Finite E]
   {f : ℕ} {Φ : projectiveSL 3 F →* E} {ρ : E →* MulAut (projectiveSL 3 F)} {Gp : Subgroup E}
 
+omit [Finite E] in
 theorem burnsideF447_Ctx.hq (C : burnsideF447_Ctx f Φ ρ Gp) : 2 < Nat.card F := by
   rw [C.hF]
   calc 2 < 2 ^ 2 := by norm_num
     _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) C.hf
 
+omit [Finite E] in
 theorem burnsideF447_Ctx.fpE_Phi (C : burnsideF447_Ctx f Φ ρ Gp) (p : projectiveSL 3 F) :
     burnsideF447_fpE C.hE (Φ p) = 1 := by
   rw [burnsideF447_fpE_one_iff, burnsideF447_rho_Phi C.hΦ C.hΦρ]
@@ -1193,6 +1208,7 @@ theorem burnsideF447_Ctx.fpE_Phi (C : burnsideF447_Ctx f Φ ρ Gp) (p : projecti
   rw [← conjAut_toGL]
   exact conjAut_mem_linearAutGroup _
 
+omit [Finite E] in
 theorem burnsideF447_Ctx.innDiag_iff (C : burnsideF447_Ctx f Φ ρ Gp) (b : E) :
     InnDiag3 Gp b ↔ burnsideF447_fpE C.hE b = 1 := by
   rw [burnsideF447_fpE_one_iff]
@@ -1205,7 +1221,7 @@ theorem burnsideF447_B0_le [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) (hodd :
     (hB : IsHallTwoPrime Bbar N)
     (hB0 : ∀ b : E, b ∈ B0bar ↔ b ∈ Bbar ∧ InnDiag3 Gp b) :
     B0bar ≤ (fittingSubgroup ↥Bbar).map Bbar.subtype := by
-  haveI : Φ.range.Normal := by rw [C.hrange]; infer_instance
+  have : Φ.range.Normal := by rw [C.hrange]; infer_instance
   have hodd' : Odd Φ.range.index := by rw [C.hrange]; exact hodd
   set fp := burnsideF447_fpE C.hE with hfp
   have hB0' : ∀ b, b ∈ B0bar ↔ b ∈ Bbar ∧ fp b = 1 := fun b => by
@@ -1237,7 +1253,7 @@ theorem burnsideF447_B0_le [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) (hodd :
       simp [Subgroup.mem_subgroupOf]
     rw [this]
     infer_instance
-  haveI : IsMulCommutative ↥(B0bar.subgroupOf Bbar) :=
+  have : IsMulCommutative ↥(B0bar.subgroupOf Bbar) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (hcomm _ (Subgroup.mem_subgroupOf.mp a.2) _
       (Subgroup.mem_subgroupOf.mp b.2)))⟩⟩
   have hle : B0bar.subgroupOf Bbar ≤ fittingSubgroup ↥Bbar := le_sSup ⟨hnorm, inferInstance⟩
@@ -1275,7 +1291,7 @@ theorem burnsideF447_exists_prime {f m₁ r : ℕ} (hf : 2 ≤ f) (hm₁ : 1 < m
     · intro hsr
       subst hsr
       have h2 : s ≠ 2 := hs.ne_two hfpos
-      haveI : Fact s.Prime := ⟨hs.prime⟩
+      have : Fact s.Prime := ⟨hs.prime⟩
       have h3 : s ∣ 2 ^ (s - 1) - 1 := by
         rw [Bang.dvd_two_pow_sub_one_iff]
         exact ZMod.pow_card_sub_one_eq_one (by
@@ -1292,7 +1308,7 @@ theorem burnsideF447_exists_prime {f m₁ r : ℕ} (hf : 2 ≤ f) (hm₁ : 1 < m
 theorem burnsideF447_moved {F : Type} [Field F] [Finite F] {f : ℕ} (hf : 1 ≤ f)
     (hF : Nat.card F = 2 ^ f) {σ : F ≃+* F} {s : ℕ} (hs : s.Prime) (hsf : s ∣ 2 ^ f - 1)
     (hsd : ¬ s ∣ 2 ^ (f / orderOf σ) - 1) : ∃ a : Fˣ, orderOf a = s ∧ σ (a : F) ≠ a := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hdvd : s ∣ Nat.card Fˣ := by rw [Nat.card_units, hF]; exact hsf
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' s hdvd
   refine ⟨a, ha, fun hfix => hsd ?_⟩
@@ -1307,7 +1323,7 @@ theorem burnsideF447_moved {F : Type} [Field F] [Finite F] {f : ℕ} (hf : 1 ≤
     have hτ' : τ ∈ MulAction.stabilizer (F ≃+* F) (a : F) :=
       Subgroup.zpowers_le.mpr (MulAction.mem_stabilizer_iff.mpr hfix) hτ
     exact MulAction.mem_stabilizer_iff.mp hτ'
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have ha0 : (⟨(a : F), hmemS⟩ : S) ≠ 0 := by
     intro h
     have : (a : F) = 0 := congrArg Subtype.val h
@@ -1333,6 +1349,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.H13.F431
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {E : Type} [Group E] [Finite E]
   {f : ℕ} {Φ : projectiveSL 3 F →* E} {ρ : E →* MulAut (projectiveSL 3 F)} {Gp : Subgroup E}
 
+omit [Finite F] in
 theorem burnsideF447_dMat_inj {u a : Fˣ}
     (h : proj 3 F (dMat u u⁻¹) = proj 3 F (dMat a a⁻¹)) : u = a := by
   have h1 : proj 3 F (dMat (u * a⁻¹) (u⁻¹ * a)) = 1 := by
@@ -1356,6 +1373,7 @@ theorem burnsideF447_dMat_inj {u a : Fˣ}
   field_simp at this
   simpa using this
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_torus_conj_fix {g h : projectiveSL 3 F} (hg : g ∈ torus3 F)
     (hh : h ∈ torus3 F) : g * h * g⁻¹ = h := by
   obtain ⟨t₁, t₂, rfl⟩ := mem_torus3.mp hg
@@ -1365,11 +1383,13 @@ theorem burnsideF447_torus_conj_fix {g h : projectiveSL 3 F} (hg : g ∈ torus3 
     rw [← map_mul, ← map_mul, dMat_mul, dMat_mul, mul_comm t₁ s₁, mul_comm t₂ s₂]
   rw [this]; group
 
+omit [Finite E] in
 theorem burnsideF447_Phi_torus_mem_Bt {g : projectiveSL 3 F} (hg : g ∈ torus3 F) :
     Φ g ∈ burnsideF447_Bt Φ :=
   ⟨map_mem_normalizer_map Φ (torus3_le_normalizer hg),
     map_mem_normalizer_map Φ (Subgroup.le_normalizer hg)⟩
 
+omit [Finite E] in
 theorem burnsideF447_orderOf_fitting {B : Subgroup E} (z : ↥B) (hz : z ∈ fittingSubgroup ↥B) :
     orderOf (⟨z, hz⟩ : ↥(fittingSubgroup ↥B)) = orderOf (z : E) := by
   rw [Subgroup.orderOf_mk, Subgroup.orderOf_mk]
@@ -1380,7 +1400,7 @@ theorem burnsideF447_fitting_le [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) (h
     (hB : IsHallTwoPrime Bbar N)
     (hB0 : ∀ b : E, b ∈ B0bar ↔ b ∈ Bbar ∧ InnDiag3 Gp b) :
     (fittingSubgroup ↥Bbar).map Bbar.subtype ≤ B0bar := by
-  haveI : Φ.range.Normal := by rw [C.hrange]; infer_instance
+  have : Φ.range.Normal := by rw [C.hrange]; infer_instance
   have hodd' : Odd Φ.range.index := by rw [C.hrange]; exact hodd
   set fp := burnsideF447_fpE C.hE with hfp
   have hB0' : ∀ b, b ∈ B0bar ↔ b ∈ Bbar ∧ fp b = 1 := fun b => by rw [hB0 b, C.innDiag_iff]
@@ -1513,14 +1533,14 @@ theorem burnsideF447_clause3_E {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
     (hB : IsHallTwoPrime Bbar (M₁ ⊓ M₂))
     (hB0 : ∀ b : E, b ∈ B0bar ↔ b ∈ Bbar ∧ InnDiag3 Gp b) :
     B0bar = (fittingSubgroup ↥Bbar).map Bbar.subtype := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   have hf : 2 ≤ f := burnsideF4d_L3_two_le_f hyp
   have hodd : Odd Gp.index := burnsideF4d_L3_odd hf hyp
-  haveI := hyp.amalgam.toHypF_4_4g.normal
+  have := hyp.amalgam.toHypF_4_4g.normal
   obtain ⟨F, hFf, hFfin, hFchar, Φ, ρ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hρ, hΦρ, hE, hD, hO,
     h₁, h₂, hRv⟩ := burnsideF447_setup hf hyp.amalgam.toHypF_4_4g
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hN := (burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂).1
   have C : burnsideF447_Ctx f Φ ρ Gp := ⟨hf, hFcard, hΦ, hρ, hrange, hΦρ, hE⟩
   exact le_antisymm (burnsideF447_B0_le C hodd hN hB hB0) (burnsideF447_fitting_le C hodd hN hB hB0)
@@ -1731,6 +1751,7 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.H13.F431 CFSG.QuasithinUnique.Fin25
 
 variable {E : Type} [Group E] [Finite E]
 
+omit [Finite E] in
 theorem burnsideF447_Ybar_mem (Gp Mi Bbar : Subgroup E) [Gp.Normal] {b : E} (hbB : b ∈ Bbar)
     (hbM : b ∈ Mi)
     (hcomm : ∀ x ∈ oPPrime 2 (Gp ⊓ Mi), b * x * b⁻¹ * x⁻¹ ∈ pCoreOf 2 (oPPrime 2 (Gp ⊓ Mi))) :
@@ -1855,6 +1876,7 @@ theorem burnsideF447_conj_V2_iff (a c : Fˣ) (p : projectiveSL 3 F) :
     rw [e] at h
     simpa using (V2 : Subgroup (projectiveSL 3 F)).mul_mem h hq
 
+omit [Finite E] in
 theorem burnsideF447_normalizer_of_diag (C : burnsideF447_Ctx f Φ ρ Gp) {R : Subgroup (projectiveSL 3 F)}
     {b : E} {x y z : Fˣ} (hρ : ρ b = conjAut 3 F (burnsideF447_diagGL x y z))
     (hmatch : (R = V1 ∧ y = z) ∨ (R = V2 ∧ x = y)) :
@@ -1865,6 +1887,7 @@ theorem burnsideF447_normalizer_of_diag (C : burnsideF447_Ctx f Φ ρ Gp) {R : S
   · exact (burnsideF447_normalizer_iff C.hΦ C.hΦρ b _).mpr fun p => by
       rw [hρ]; exact burnsideF447_conj_V2_iff _ _ p
 
+omit [Finite E] in
 theorem burnsideF447_hlev_of_diag {R : Subgroup (projectiveSL 3 F)}
     {b : E} {x y z : Fˣ} (hρ : ρ b = conjAut 3 F (burnsideF447_diagGL x y z))
     (hmatch : (R = V1 ∧ y = z) ∨ (R = V2 ∧ x = y)) :
@@ -1890,6 +1913,7 @@ theorem burnsideF447_Ybar_of_diag [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp)
   burnsideF447_Ybar_conj C hR2 hUR h₂ hu hconj hb (burnsideF447_hlev_of_diag hρ hmatch)
     (h₂ ▸ burnsideF447_normalizer_of_diag C hρ hmatch)
 
+omit [Finite F] [Finite E] [CharP F 2] in
 theorem burnsideF447_rho_Phi_dMat (hΦ : Function.Injective Φ)
     (hΦρ : ∀ (e : E) (p : projectiveSL 3 F), Φ (ρ e p) = e * Φ p * e⁻¹) (t₁ t₂ : Fˣ) :
     ρ (Φ (proj 3 F (dMat t₁ t₂))) =
@@ -1943,6 +1967,7 @@ theorem burnsideF447_f_two_of_Ybar_bot [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ
   have : 2 ^ 3 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf3
   omega
 
+omit [Finite E] in
 theorem burnsideF447_eq_one_of_conj_one {u b : E} (h : u⁻¹ * b * u = 1) : b = 1 := by
   have : b = u * (u⁻¹ * b * u) * u⁻¹ := by group
   rw [this, h]
@@ -2038,7 +2063,7 @@ theorem burnsideF447_E_le_Gp [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp)
       refine ⟨e⁻¹ * x * e, ?_, ?_⟩
       · have := Subgroup.Normal.conj_mem (inferInstance : Gp.Normal) x hx e⁻¹
         simpa using this
-      · simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      · simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         group
   have hS' := hS.map_equiv (MulAut.conj e)
   rw [hGp] at hS'
@@ -2063,7 +2088,7 @@ theorem burnsideF447_E_le_Gp [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp)
     · intro hx
       have h1 : e * x * e⁻¹ ∈ ((projUnitriangular 3 F).map Φ).map (MulAut.conj h).toMonoidHom := by
         refine ⟨h⁻¹ * e * x * (h⁻¹ * e)⁻¹, hx, ?_⟩
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         group
       rw [← hconj] at h1
       obtain ⟨s, hs, hsx⟩ := h1
@@ -2091,8 +2116,8 @@ theorem burnsideF447_oPPrime_eq_self {P : Type} [Group P] [Finite P] (N : Subgro
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKN).mpr (burnsideF4d_le_normalizer_oPPrime N)
   have himgnorm : ((K.subgroupOf N).map π).Normal :=
     hKnorm.map π (QuotientGroup.mk'_surjective _)
-  haveI := hs
-  haveI := himgnorm
+  have := hs
+  have := himgnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((K.subgroupOf N).map π) with hbot | htop
   · exfalso
     have hKQ : K ≤ pCoreOf 2 N := by
@@ -2133,7 +2158,7 @@ theorem burnsideF447_oPPrime_eq_self {P : Type} [Group P] [Finite P] (N : Subgro
     rw [this]
     exact K.mul_mem h5 h6
 
-theorem burnsideF447_oPPrime_normalizer [Finite F] [CharP F 2] (hq : Nat.card F = 4)
+theorem burnsideF447_oPPrime_normalizer (hq : Nat.card F = 4)
     {R : Subgroup (projectiveSL 3 F)} (hR : R = V1 ∨ R = V2) :
     oPPrime 2 (Subgroup.normalizer (R : Set (projectiveSL 3 F))) =
       Subgroup.normalizer (R : Set (projectiveSL 3 F)) := by
@@ -2177,14 +2202,14 @@ theorem burnsideF447_clause1_E {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
     (hY : f447Ybar Gp M₂ Bbar = ⊥) :
     f = 2 ∧ M₁ = oPPrime 2 (Gp ⊓ M₁) ∧ M₂ = oPPrime 2 (Gp ⊓ M₂) ∧ B0bar = Bbar ∧
       Nat.card ↥Bbar = 3 := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   have hf : 2 ≤ f := burnsideF4d_L3_two_le_f hyp
   have hodd : Odd Gp.index := burnsideF4d_L3_odd hf hyp
-  haveI := hyp.amalgam.toHypF_4_4g.normal
+  have := hyp.amalgam.toHypF_4_4g.normal
   obtain ⟨F, hFf, hFfin, hFchar, Φ, ρ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hρ, hΦρ, hE, hD, hO,
     h₁, h₂, hRv⟩ := burnsideF447_setup hf hyp.amalgam.toHypF_4_4g
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hN := (burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂).1
   have C : burnsideF447_Ctx f Φ ρ Gp := ⟨hf, hFcard, hΦ, hρ, hrange, hΦρ, hE⟩
   have hodd' : Odd Φ.range.index := by rw [hrange]; exact hodd
@@ -2229,11 +2254,11 @@ theorem burnsideF447_clause1_E {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
     constructor
     · intro hy
       refine ⟨u * y * u⁻¹, (hconj y).mp hy, ?_⟩
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       group
     · rintro ⟨b, hb, rfl⟩
       refine (hconj _).mpr ?_
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
       have e : u * (u⁻¹ * b * u) * u⁻¹ = b := by group
       rw [e]
       exact hb
@@ -2259,8 +2284,8 @@ theorem burnsideF447_odd_centralizer {f : ℕ} {E : Type} [Group E] {Gp M₁ M�
     (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) {Bbar : Subgroup E}
     (hB : IsHallTwoPrime Bbar (M₁ ⊓ M₂)) :
     Odd (Nat.card ↥(Subgroup.centralizer ((imB β ε Bbar : Subgroup M) : Set M))) := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
   have hf : 2 ≤ f := burnsideF4d_L3_two_le_f hyp
   obtain ⟨D, hG, hz, hDS, hQ₁, hQ₂⟩ := burnsideF4d_L3_setup hf hyp
   obtain ⟨hBH, hBodd, k, hk⟩ := burnsideF4d_Z4_imB_hall β hyp.faithful ε hyp.inj hB
@@ -2270,7 +2295,7 @@ theorem burnsideF447_odd_centralizer {f : ℕ} {E : Type} [Group E] {Gp M₁ M�
       with h | h
     · exact even_iff_two_dvd.mp h
     · exact absurd h hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := exists_prime_orderOf_dvd_card' 2 hev
   have hjC : (j : M) ∈ Subgroup.centralizer ((imB β ε Bbar : Subgroup M) : Set M) := j.2
   have hj2 : (j : M) ^ 2 = 1 := by
@@ -2463,7 +2488,7 @@ theorem burnsideF447_sl2_invol_conj [Finite F] [CharP F 2] {B : Matrix.SpecialLi
     exact hne (by rw [ha0, hd0])
   subst hda
   have hsq : d * d + b * c = 1 := by linear_combination hdet + (b * c) * h2
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   by_cases hc : c = 0
   ·
     have hd1 : d = 1 := by
@@ -2492,7 +2517,7 @@ theorem burnsideF447_sl2_invol_conj [Finite F] [CharP F 2] {B : Matrix.SpecialLi
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hM, hg]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [burnsideF447_coe_yEl, Matrix.mul_apply, Fin.sum_univ_two, hc, hd1] <;> ring
+      simp [burnsideF447_coe_yEl, Matrix.mul_apply, Fin.sum_univ_two, hc, hd1]; ring
   ·
     obtain ⟨r, hr⟩ := FiniteField.isSquare_of_char_two (ringChar.eq F 2) c⁻¹
     have hrc : r * r * c = 1 := by rw [← hr]; field_simp
@@ -2524,9 +2549,9 @@ theorem burnsideF447_sl2_invol_conj_x [Finite F] [CharP F 2]
 theorem burnsideF447_sl2_not_solvable [Finite F] (hF : 4 ≤ Nat.card F) :
     ¬ Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) F) := by
   intro hsolv
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF
-  haveI : Group.IsSolvable (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
+  have : Group.IsSolvable (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
     Group.isSolvable_of_surjective
       (f := QuotientGroup.mk' (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F)))
       (QuotientGroup.mk'_surjective _)
@@ -2747,7 +2772,7 @@ theorem burnsideF447_Lam_invol_conj [Finite F] [CharP F 2] {p : projectiveSL 3 F
 theorem burnsideF447_Lam_not_solvable [Finite F] (hF : 4 ≤ Nat.card F) :
     ¬ Group.IsSolvable ↥(burnsideF447_Lam (F := F)) := by
   intro h
-  haveI : Group.IsSolvable ↥(burnsideF447_lv (F := F)).range := h
+  have : Group.IsSolvable ↥(burnsideF447_lv (F := F)).range := h
   apply burnsideF447_sl2_not_solvable hF
   exact Group.isSolvable_of_isSolvable_injective
     (f := (burnsideF447_lv (F := F)).rangeRestrict) (by
@@ -2770,7 +2795,7 @@ theorem burnsideF447_Lam_cent_T0 [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F)
   have hcard : 1 < Nat.card Fˣ := by
     rw [Nat.card_units]
     omega
-  haveI : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp hcard
+  have : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp hcard
   obtain ⟨c, hc1⟩ := exists_ne (1 : Fˣ)
   have hc : (c : F) ≠ ((c⁻¹ : Fˣ) : F) := by
     intro hcc
@@ -2807,7 +2832,7 @@ theorem burnsideF447_conj_diag_xP {F : Type} [Field F] (x y z : Fˣ) (t : F) :
   change Matrix.diagonal _ * xM t * Matrix.diagonal _ = xM _
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [xM, Matrix.mul_apply, Matrix.diagonal_apply] <;> field_simp
+    simp [xM, Matrix.mul_apply, Matrix.diagonal_apply]; field_simp
 
 theorem burnsideF447_conj_diag_yP {F : Type} [Field F] (x y z : Fˣ) (t : F) :
     conjAut 3 F (burnsideF447_diagGL x y z) (yP t) = yP ((y : F) * ((z⁻¹ : Fˣ) : F) * t) := by
@@ -2819,7 +2844,7 @@ theorem burnsideF447_conj_diag_yP {F : Type} [Field F] (x y z : Fˣ) (t : F) :
   change Matrix.diagonal _ * yM t * Matrix.diagonal _ = yM _
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [yM, Matrix.mul_apply, Matrix.diagonal_apply] <;> field_simp
+    simp [yM, Matrix.mul_apply, Matrix.diagonal_apply]; field_simp
 
 theorem burnsideF447_conj_diag_wP {F : Type} [Field F] (x y z : Fˣ) (t : F) :
     conjAut 3 F (burnsideF447_diagGL x y z) (wP t) = wP ((x : F) * ((z⁻¹ : Fˣ) : F) * t) := by
@@ -2831,7 +2856,7 @@ theorem burnsideF447_conj_diag_wP {F : Type} [Field F] (x y z : Fˣ) (t : F) :
   change Matrix.diagonal _ * wM t * Matrix.diagonal _ = wM _
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wM, Matrix.mul_apply, Matrix.diagonal_apply] <;> field_simp
+    simp [wM, Matrix.mul_apply, Matrix.diagonal_apply]; field_simp
 
 end YChar
 
@@ -2856,6 +2881,7 @@ theorem burnsideF447_Qbar_eq (C : burnsideF447_Ctx f Φ ρ Gp) {M₂ : Subgroup 
   rw [this, CFSG.Quasithin.H13.F431.pCoreOf_map_of_injective Φ C.hΦ,
     CFSG.GH74.QTGen4.DSGen4.L34.pCoreOf_normalizer_V1]
 
+omit [Finite F] in
 theorem burnsideF447_yP_mem_V1 {t : F} (h : yP t ∈ (V1 : Subgroup (projectiveSL 3 F))) :
     t = 0 := by
   obtain ⟨a, c, hac⟩ := mem_V1.mp h
@@ -2931,18 +2957,21 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.H13.F431
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {E : Type} [Group E] [Finite E] {f : ℕ}
   {Φ : projectiveSL 3 F →* E} {ρ : E →* MulAut (projectiveSL 3 F)} {Gp : Subgroup E}
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_diagGL_scalar (x : Fˣ) :
     burnsideF447_diagGL (F := F) x x x = Matrix.GeneralLinearGroup.scalar (Fin 3) x := by
   apply Units.ext
   show Matrix.diagonal _ = (Matrix.scalar (Fin 3) (x : F))
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_conjAut_diagGL_scalar (x : Fˣ) :
     conjAut 3 F (burnsideF447_diagGL x x x) = 1 := by
   rw [burnsideF447_diagGL_scalar]
   exact burnsideF447_conjAut_scalar x
 
+omit [Finite F] in
 theorem burnsideF447_conj_diagGL_U (a b c : Fˣ) {p : projectiveSL 3 F}
     (hp : p ∈ projUnitriangular 3 F) :
     conjAut 3 F (burnsideF447_diagGL a b c) p ∈ projUnitriangular 3 F := by
@@ -2951,6 +2980,7 @@ theorem burnsideF447_conj_diagGL_U (a b c : Fˣ) {p : projectiveSL 3 F}
     burnsideF447_conj_diag_yP]
   exact mem_Ubar.mpr ⟨_, _, _, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_conj_diagGL_dMat (a b c t₁ t₂ : Fˣ) :
     conjAut 3 F (burnsideF447_diagGL a b c) (proj 3 F (dMat t₁ t₂)) = proj 3 F (dMat t₁ t₂) := by
   have ha : (a : F) ≠ 0 := a.ne_zero
@@ -2967,6 +2997,7 @@ theorem burnsideF447_conj_diagGL_dMat (a b c t₁ t₂ : Fˣ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, Matrix.mul_apply] <;> field_simp
 
+omit [Finite E] in
 theorem burnsideF447_mem_Bt_of_diag (C : burnsideF447_Ctx f Φ ρ Gp) {b : E} {x y z : Fˣ}
     (h : ρ b = conjAut 3 F (burnsideF447_diagGL x y z)) : b ∈ burnsideF447_Bt Φ := by
   refine ⟨(burnsideF447_normalizer_iff C.hΦ C.hΦρ b _).mpr fun p => ?_,
@@ -2995,6 +3026,7 @@ theorem burnsideF447_mem_Bt_of_diag (C : burnsideF447_Ctx f Φ ρ Gp) {b : E} {x
       rw [ht, burnsideF447_conj_diagGL_dMat]
       exact dP_mem_torus3 _ _
 
+omit [Finite F] in
 theorem burnsideF447_s12_diagGL (a b c : Fˣ) :
     Matrix.SpecialLinearGroup.toGL (s₁₂Mat : Matrix.SpecialLinearGroup (Fin 3) F) *
       burnsideF447_diagGL a b c *
@@ -3007,6 +3039,7 @@ theorem burnsideF447_s12_diagGL (a b c : Fˣ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [s₁₂M, Matrix.mul_apply, Matrix.diagonal_apply]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_xP_yP_inj {a b a' b' : F} (h : xP a * yP b = xP a' * yP b') :
     a = a' ∧ b = b' := by
   have hU1 : xMat a * yMat b ∈ unitriangular 3 F :=
@@ -3027,6 +3060,7 @@ theorem burnsideF447_xP_yP_inj {a b a' b' : F} (h : xP a * yP b = xP a' * yP b')
   simp [xM, yM, Matrix.mul_apply, Fin.sum_univ_three] at e01 e12
   exact ⟨e01, e12⟩
 
+omit [Finite F] in
 theorem burnsideF447_centralizer_diag_U {x₀ y₀ : Fˣ} (hxy : x₀ ≠ y₀) {v : projectiveSL 3 F}
     (hv : v ∈ projUnitriangular 3 F)
     (h : conjAut 3 F (burnsideF447_diagGL y₀ x₀ y₀) v = v) : ∃ c : F, v = wP c := by
@@ -3137,7 +3171,7 @@ theorem burnsideF447_aut_eq_one {F : Type} [Field F] [Finite F] {f : ℕ} (hf : 
     have hn : Nat.card Fˣ = 2 ^ f - 1 := by rw [Nat.card_units, hF]
     have hog : orderOf g = 2 ^ f - 1 := by rw [orderOf_eq_card_of_forall_mem_zpowers hg, hn]
     have hyS : ((g ^ 3 : Fˣ) : F) ∈ S := hmemS _ (hcubes g)
-    haveI : Fintype S := Fintype.ofFinite S
+    have : Fintype S := Fintype.ofFinite S
     have hy0 : (⟨((g ^ 3 : Fˣ) : F), hyS⟩ : S) ≠ 0 := by
       intro h0
       have : ((g ^ 3 : Fˣ) : F) = 0 := congrArg Subtype.val h0
@@ -3194,6 +3228,7 @@ theorem burnsideF447_aut_eq_one {F : Type} [Field F] [Finite F] {f : ℕ} (hf : 
       norm_num
     omega
 
+omit [Finite E] in
 theorem burnsideF447_rho_Bt (C : burnsideF447_Ctx f Φ ρ Gp) {b : E} (hb : b ∈ burnsideF447_Bt Φ) :
     ∃ (d₀ d₁ d₂ : Fˣ) (σ : F ≃+* F),
       ρ b = conjAut 3 F (burnsideF447_diagGL d₀ d₁ d₂) * fieldAut 3 F σ := by
@@ -3202,6 +3237,7 @@ theorem burnsideF447_rho_Bt (C : burnsideF447_Ctx f Φ ρ Gp) {b : E} (hb : b �
   rw [hdiag, burnsideF447_nuDiagGL_eq, ← conjAut_toGL, burnsideF447_toGL_dMat, ← map_mul,
     burnsideF447_diagGL_mul]
 
+omit [Finite F] in
 theorem burnsideF447_wP_cent {v : projectiveSL 3 F} (hv : v ∈ projUnitriangular 3 F) (c : F) :
     v * wP c = wP c * v := by
   obtain ⟨c', a, b, rfl⟩ := mem_Ubar.mp hv
@@ -3213,12 +3249,14 @@ theorem burnsideF447_wP_cent {v : projectiveSL 3 F} (hv : v ∈ projUnitriangula
     _ = (wP c * wP c') * xP a * yP b := by rw [← wP_add, ← wP_add, add_comm]
     _ = wP c * (wP c' * xP a * yP b) := by group
 
+omit [Finite F] [Finite E] in
 theorem burnsideF447_rho_s12 (hΦ : Function.Injective Φ)
     (hΦρ : ∀ (e : E) (p : projectiveSL 3 F), Φ (ρ e p) = e * Φ p * e⁻¹) :
     ρ (Φ s₁₂P) = conjAut 3 F (Matrix.SpecialLinearGroup.toGL (s₁₂Mat : Matrix.SpecialLinearGroup (Fin 3) F)) := by
   rw [burnsideF447_rho_Phi hΦ hΦρ, conjAut_toGL]
   rfl
 
+omit [Finite F] [Finite E] in
 theorem burnsideF447_rho_conj_s12 (hΦ : Function.Injective Φ)
     (hΦρ : ∀ (e : E) (p : projectiveSL 3 F), Φ (ρ e p) = e * Φ p * e⁻¹) {y : E} {a b c : Fˣ}
     (hy : ρ y = conjAut 3 F (burnsideF447_diagGL a b c)) :
@@ -3226,6 +3264,7 @@ theorem burnsideF447_rho_conj_s12 (hΦ : Function.Injective Φ)
   rw [map_mul, map_mul, map_inv, burnsideF447_rho_s12 hΦ hΦρ, hy, ← map_inv, ← map_mul, ← map_mul,
     burnsideF447_s12_diagGL]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_diagGL_inj {a b c a' b' c' : Fˣ}
     (h : burnsideF447_diagGL (F := F) a b c = burnsideF447_diagGL a' b' c') :
     a = a' ∧ b = b' ∧ c = c' := by
@@ -3235,6 +3274,7 @@ theorem burnsideF447_diagGL_inj {a b c a' b' c' : Fˣ}
   · simpa [burnsideF447_diagGL] using congrFun (congrFun h' 1) 1
   · simpa [burnsideF447_diagGL] using congrFun (congrFun h' 2) 2
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_map_diagGL (σ : F ≃+* F) (a b c : Fˣ) :
     Matrix.GeneralLinearGroup.map (σ : F →+* F) (burnsideF447_diagGL a b c) =
       burnsideF447_diagGL (Units.map σ.toMonoidHom a) (Units.map σ.toMonoidHom b)
@@ -3246,6 +3286,7 @@ theorem burnsideF447_map_diagGL (σ : F ≃+* F) (a b c : Fˣ) :
   funext i
   fin_cases i <;> simp
 
+omit [CharP F 2] in
 theorem burnsideF447_diag_field_comm {d₀ d₁ d₂ e₀ e₁ e₂ : Fˣ} {σ : F ≃+* F}
     (h : conjAut 3 F (burnsideF447_diagGL d₀ d₁ d₂) * fieldAut 3 F σ *
         conjAut 3 F (burnsideF447_diagGL e₀ e₁ e₂) =
@@ -3308,7 +3349,7 @@ theorem burnsideF447_LV7 [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {M₂ : S
       w * (Φ s₁₂P * y * (Φ s₁₂P)⁻¹) = (Φ s₁₂P * y * (Φ s₁₂P)⁻¹) * w) :
     ∃ c : F, ∃ b ∈ f447Ybar Gp M₂ (burnsideF447_Bt Φ),
       Φ s₁₂P * w * (Φ s₁₂P)⁻¹ = Φ (yP c) * b := by
-  haveI : Φ.range.Normal := by rw [C.hrange]; infer_instance
+  have : Φ.range.Normal := by rw [C.hrange]; infer_instance
   obtain ⟨u₁, hu₁, b, hb, rfl⟩ := burnsideF447_frattini C.hq C.hΦ hw
   obtain ⟨v, hv, rfl⟩ := hu₁
   have hSB : ∀ g, g ∈ (projUnitriangular 3 F).map Φ → g ∈ burnsideF447_Bt Φ → g = 1 :=
@@ -3476,7 +3517,8 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {E : Type} [Group E] [Finit
 @[expose] noncomputable def burnsideF447_Tbar (Φ : projectiveSL 3 F →* E) : Subgroup E :=
   (burnsideF447_T0 (F := F)).map Φ
 
-theorem burnsideF447_Ibar_le (C : burnsideF447_Ctx f Φ ρ Gp) {M₂ : Subgroup E}
+omit [Finite E] in
+theorem burnsideF447_Ibar_le (_C : burnsideF447_Ctx f Φ ρ Gp) {M₂ : Subgroup E}
     (h₂ : M₂ = Subgroup.normalizer (((V1 : Subgroup (projectiveSL 3 F)).map Φ : Subgroup E) :
       Set E)) : burnsideF447_Ibar Φ ≤ M₂ := by
   rintro _ ⟨p, ⟨B, rfl⟩, rfl⟩
@@ -3573,7 +3615,7 @@ theorem burnsideF447_Ybar_inf_Ibar [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp)
   have e21 := congrFun (congrFun hm 2) 1
   have e22 := congrFun (congrFun hm 2) 2
   simp [burnsideF447_diagGL, Matrix.GeneralLinearGroup.scalar, burnsideF447_blkMat,
-    Matrix.mul_apply, Matrix.diagonal_apply, Fin.sum_univ_three] at e11 e12 e21 e22
+    Matrix.mul_apply, Matrix.diagonal_apply] at e11 e12 e21 e22
   have hdet := B.2
   rw [Matrix.det_fin_two, e11, e22, e12, e21] at hdet
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
@@ -3589,56 +3631,66 @@ theorem burnsideF447_Ybar_inf_Ibar [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp)
   rw [hB1, map_one, map_one]
   exact Subgroup.one_mem _
 
+omit [Finite E] in
 theorem burnsideF447_Ctx.hq4 (C : burnsideF447_Ctx f Φ ρ Gp) : 4 ≤ Nat.card F := by
   rw [C.hF]
   calc 4 = 2 ^ 2 := by norm_num
     _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) C.hf
 
+omit [CharP F 2] [Finite E] in
 theorem burnsideF447_Ibar_not_solvable (hΦ : Function.Injective Φ) (hq : 4 ≤ Nat.card F) :
     ¬ Group.IsSolvable ↥(burnsideF447_Ibar Φ) := by
   intro h
   apply burnsideF447_Lam_not_solvable hq
-  haveI : Group.IsSolvable ↥((burnsideF447_Lam (F := F)).map Φ) := h
+  have : Group.IsSolvable ↥((burnsideF447_Lam (F := F)).map Φ) := h
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.equivMapOfInjective _ Φ hΦ).toMonoidHom)
     (Subgroup.equivMapOfInjective _ Φ hΦ).injective
 
+omit [Finite F] [Finite E] in
 theorem burnsideF447_Xbar_le_Ibar : burnsideF447_Xbar Φ ≤ burnsideF447_Ibar Φ :=
   Subgroup.map_mono burnsideF447_Xroot_le_Lam
 
+omit [Finite F] [Finite E] in
 theorem burnsideF447_Xbar_sq {x : E} (hx : x ∈ burnsideF447_Xbar Φ) : x * x = 1 := by
   obtain ⟨p, hp, rfl⟩ := hx
   have := burnsideF447_Xroot_elemAbelian (F := F)
   have h2 := this.2 p hp
   rw [← map_mul, ← pow_two, h2, map_one]
 
+omit [Finite F] [Finite E] in
 theorem burnsideF447_Xbar_card (hΦ : Function.Injective Φ) :
     Nat.card ↥(burnsideF447_Xbar Φ) = Nat.card F := by
   rw [burnsideF447_Xbar, Subgroup.card_map_of_injective hΦ, burnsideF447_Xroot_card]
 
+omit [CharP F 2] [Finite E] in
 theorem burnsideF447_Ibar_card (hΦ : Function.Injective Φ) :
     Nat.card ↥(burnsideF447_Ibar Φ) = Nat.card F * (Nat.card F ^ 2 - 1) := by
   rw [burnsideF447_Ibar, Subgroup.card_map_of_injective hΦ, burnsideF447_Lam_card]
 
+omit [Finite F] [Finite E] in
 theorem burnsideF447_Xbar_le_U :
     burnsideF447_Xbar Φ ≤ (projUnitriangular 3 F).map Φ := by
   rintro _ ⟨p, ⟨s, rfl⟩, rfl⟩
   refine ⟨yP s, mem_Ubar.mpr ⟨0, 0, s, by rw [wP_zero, xP_zero]; group⟩, ?_⟩
   rw [burnsideF447_lv_xEl]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_blk_dEl (c : Fˣ) :
     burnsideF447_blk (burnsideF447_dEl c) = dMat (F := F) 1 c := by
   apply Subtype.ext
   rw [burnsideF447_coe_blk, coe_dMat, burnsideF447_coe_dEl]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [burnsideF447_blkMat, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [burnsideF447_blkMat]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_T0_le_torus3 : burnsideF447_T0 (F := F) ≤ torus3 F := by
   rintro _ ⟨c, rfl⟩
   show proj 3 F (burnsideF447_blk (burnsideF447_dEl c)) ∈ torus3 F
   rw [burnsideF447_blk_dEl]
   exact dP_mem_torus3 _ _
 
+omit [Finite E] in
 theorem burnsideF447_Tbar_le_B0bar [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {Bbar B0bar : Subgroup E}
     (hB : Bbar = burnsideF447_Bt Φ) (hB0 : ∀ b : E, b ∈ B0bar ↔ b ∈ Bbar ∧ InnDiag3 Gp b) :
     burnsideF447_Tbar Φ ≤ B0bar := by
@@ -3659,6 +3711,7 @@ theorem burnsideF447_Ybar_le_B0bar [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp)
   rw [burnsideF447_fpE_one_iff, hρ]
   exact conjAut_mem_linearAutGroup _
 
+omit [Finite E] in
 theorem burnsideF447_B0bar_comm [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {Bbar B0bar : Subgroup E}
     (hB : Bbar = burnsideF447_Bt Φ) (hB0 : ∀ b : E, b ∈ B0bar ↔ b ∈ Bbar ∧ InnDiag3 Gp b) :
     ∀ a ∈ B0bar, ∀ b ∈ B0bar, a * b = b * a := by
@@ -3668,6 +3721,7 @@ theorem burnsideF447_B0bar_comm [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {B
   exact burnsideF447_Bt_one_comm C.hq C.hΦ C.hρ C.hΦρ C.hE (hB ▸ ha'.1) (hB ▸ hb'.1)
     ((C.innDiag_iff a).mp ha'.2) ((C.innDiag_iff b).mp hb'.2)
 
+omit [Finite E] in
 theorem burnsideF447_Ibar_cent_Tbar (C : burnsideF447_Ctx f Φ ρ Gp) {i : E} (hi : i ∈ burnsideF447_Ibar Φ)
     (h : ∀ b ∈ burnsideF447_Tbar Φ, i * b = b * i) : i ∈ burnsideF447_Tbar Φ := by
   obtain ⟨p, hp, rfl⟩ := hi
@@ -3678,6 +3732,7 @@ theorem burnsideF447_Ibar_cent_Tbar (C : burnsideF447_Ctx f Φ ρ Gp) {i : E} (h
     rw [map_mul, map_mul]
     exact h _ ⟨x, hx, rfl⟩
 
+omit [Finite E] in
 theorem burnsideF447_Ibar_invol_conj (hΦ : Function.Injective Φ) {x : E}
     (hx : x ∈ burnsideF447_Ibar Φ) (hx2 : x * x = 1) (hx1 : x ≠ 1) :
     ∃ m ∈ burnsideF447_Ibar Φ, m * Φ (yP 1) * m⁻¹ = x := by
@@ -3688,6 +3743,7 @@ theorem burnsideF447_Ibar_invol_conj (hΦ : Function.Injective Φ) {x : E}
   refine ⟨Φ h, ⟨h, hh, rfl⟩, ?_⟩
   rw [← burnsideF447_lv_xEl, ← map_inv, ← map_mul, ← map_mul, hhp]
 
+omit [Finite F] [CharP F 2] [Finite E] in
 theorem burnsideF447_i₀_ne (hΦ : Function.Injective Φ) : Φ (yP (1 : F)) ≠ 1 := by
   intro h
   have h1 : yP (1 : F) = 1 := hΦ (by rw [h, map_one])
@@ -3698,7 +3754,7 @@ theorem burnsideF447_i₀_ne (hΦ : Function.Injective Φ) : Φ (yP (1 : F)) ≠
 
 theorem burnsideF447_Xbar_klein (C : burnsideF447_Ctx f Φ ρ Gp) :
     ∃ K : Subgroup E, K ≤ burnsideF447_Xbar Φ ∧ Nat.card K = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : 2 ^ 2 ∣ Nat.card ↥(burnsideF447_Xbar Φ) := by
     rw [burnsideF447_Xbar_card C.hΦ, C.hF]
     exact pow_dvd_pow 2 C.hf
@@ -3758,7 +3814,7 @@ theorem burnsideF447_x_ZZ [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {M₁ M�
     have e : (MulAut.conj (Φ s₁₂P)⁻¹).toMonoidHom (Φ (burnsideF447_lv (burnsideF447_xEl s))) =
         Φ (wP s) := by
       rw [burnsideF447_lv_xEl]
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
       rw [← map_inv, ← map_mul, ← map_mul]
       congr 1
       have := s12P_conj_wP' (F := F) s
@@ -3781,7 +3837,7 @@ theorem burnsideF447_x_ZZ [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {M₁ M�
     obtain ⟨u, hu, hug⟩ := hg
     have : g = (Φ s₁₂P)⁻¹ * u * Φ s₁₂P := by
       rw [← hug]
-      simp [MulAut.conj_apply]
+      simp
     rw [this]
     have e : Φ s₁₂P * ((Φ s₁₂P)⁻¹ * u * Φ s₁₂P) * (Φ s₁₂P)⁻¹ = u := by group
     rw [e]
@@ -3789,9 +3845,10 @@ theorem burnsideF447_x_ZZ [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {M₁ M�
   · intro hg
     rw [← hEq]
     refine ⟨Φ s₁₂P * g * (Φ s₁₂P)⁻¹, hg, ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     group
 
+omit [Finite F] [Finite E] in
 theorem burnsideF447_xbar_inv : (Φ s₁₂P)⁻¹ = Φ (s₁₂P : projectiveSL 3 F) := by
   have h : (s₁₂P : projectiveSL 3 F)⁻¹ = s₁₂P :=
     inv_eq_of_mul_eq_one_right (s12P_mul_self (F := F))
@@ -3804,7 +3861,7 @@ theorem burnsideF447_no_invert [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {M�
     (hinv : ∀ y ∈ f447Ybar Gp M₂ (burnsideF447_Bt Φ),
       w * ((Φ s₁₂P)⁻¹ * y * Φ s₁₂P) * w⁻¹ = ((Φ s₁₂P)⁻¹ * y * Φ s₁₂P)⁻¹) :
     f447Ybar Gp M₂ (burnsideF447_Bt Φ) = ⊥ := by
-  haveI : Φ.range.Normal := by rw [C.hrange]; infer_instance
+  have : Φ.range.Normal := by rw [C.hrange]; infer_instance
   obtain ⟨u₁, hu₁, b, hb, rfl⟩ := burnsideF447_frattini C.hq C.hΦ hw
   obtain ⟨v, hv, rfl⟩ := hu₁
   have hSB : ∀ g, g ∈ (projUnitriangular 3 F).map Φ → g ∈ burnsideF447_Bt Φ → g = 1 :=
@@ -3903,6 +3960,7 @@ theorem burnsideF447_no_invert [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) {M�
   rw [this, hŷ1]
   group
 
+omit [Finite F] [Finite E] in
 theorem burnsideF447_xbar_i₀ :
     (Φ s₁₂P)⁻¹ * Φ (yP (1 : F)) * Φ s₁₂P = Φ (wP (1 : F)) := by
   rw [← map_inv, ← map_mul, ← map_mul]
@@ -4010,7 +4068,7 @@ theorem burnsideF447_SE_solvable {M : Type} [Group M] [Finite M]
     {C H W : Subgroup M} (hHC : H ≤ C) {t : M} (htH : t ∈ H) (ht2 : t * t = 1) (ht1 : t ≠ 1)
     (hcent : ∀ g ∈ C, g * t = t * g → g ∈ H)
     (hconj : ∀ x ∈ H, x * x = 1 → x ≠ 1 → ∃ m ∈ H, m * t * m⁻¹ = x)
-    (hne : H ≠ C) (hWH : W ≤ H) (hWexp : ∀ x ∈ W, x ^ 2 = 1) (hWodd : Odd (W.relIndex H))
+    (hne : H ≠ C) (_hWH : W ≤ H) (hWexp : ∀ x ∈ W, x ^ 2 = 1) (hWodd : Odd (W.relIndex H))
     (hE : ∃ E : Subgroup M, E ≤ C ∧ Nat.card E = 4 ∧ ∀ x ∈ E, x ^ 2 = 1) :
     Group.IsSolvable ↥H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -4115,8 +4173,8 @@ theorem burnsideF447_clause2_M
     imB β ε B0bar = Subgroup.centralizer ((imB β ε B0bar : Subgroup M) : Set M) ∧
       ¬ ∃ g : M, ∀ y ∈ imB β ε (f447Ybar Gp M₂ Bbar), g * y * g⁻¹ = y⁻¹ := by
   have hY : f447Ybar Gp M₂ Bbar ≠ ⊥ := fun h => hYM (by rw [h]; simp [imB])
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   have hf : 2 ≤ f := burnsideF4d_L3_two_le_f hyp
   have hb1 : Function.Injective (burnsideF4d_bOne β ε) :=
     hyp.inj.comp (f1_injective β hyp.faithful)
@@ -4335,7 +4393,7 @@ theorem burnsideF447_clause2_M
     have hne : H ≠ C := fun h => hnot (le_of_eq h.symm)
     have hsolv := burnsideF447_SE_solvable (C := C) (H := H) (W := X) hHC htH ht2 ht1 hcent
       hconj hne hXH hXexp hXodd hKlein
-    haveI : Group.IsSolvable ↥H := hsolv
+    have : Group.IsSolvable ↥H := hsolv
     let f₀ : ↥Ibar →* M := (burnsideF4d_bTwo β ε).comp (Subgroup.inclusion P.I_le)
     have hf₀ : Function.Injective f₀ := hb2.comp (Subgroup.inclusion_injective _)
     have hf₀H : ∀ u, f₀ u ∈ H := fun u => by
@@ -4528,6 +4586,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.H13.F431
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {E : Type} [Group E] [Finite E] {f : ℕ}
   {Φ : projectiveSL 3 F →* E} {ρ : E →* MulAut (projectiveSL 3 F)} {Gp : Subgroup E}
 
+omit [Finite E] in
 theorem burnsideF447_Ctx.twist (C : burnsideF447_Ctx f Φ ρ Gp) (α : E ≃* E) (hα : Gp.map α.toMonoidHom = Gp) :
     burnsideF447_Ctx f (α.toMonoidHom.comp Φ) (ρ.comp α.symm.toMonoidHom) Gp where
   hf := C.hf
@@ -4541,6 +4600,7 @@ theorem burnsideF447_Ctx.twist (C : burnsideF447_Ctx f Φ ρ Gp) (α : E ≃* E)
     rw [h, map_mul, map_mul, map_inv, MulEquiv.apply_symm_apply]
   hE := fun e => C.hE _
 
+omit [Finite F] [CharP F 2] [Finite E] in
 theorem burnsideF447_norm_twist (α : E ≃* E) (X : Subgroup (projectiveSL 3 F)) :
     Subgroup.normalizer ((X.map (α.toMonoidHom.comp Φ) : Subgroup E) : Set E) =
       (Subgroup.normalizer ((X.map Φ : Subgroup E) : Set E)).map α.toMonoidHom := by
@@ -4548,35 +4608,38 @@ theorem burnsideF447_norm_twist (α : E ≃* E) (X : Subgroup (projectiveSL 3 F)
     (Subgroup.map_map _ _ _).symm
   rw [e, Subgroup.map_normalizer_eq_of_bijective _ α.bijective]
 
+omit [Finite F] [CharP F 2] [Finite E] in
 theorem burnsideF447_Bt_twist (α : E ≃* E) :
     burnsideF447_Bt (α.toMonoidHom.comp Φ) = (burnsideF447_Bt Φ).map α.toMonoidHom := by
   unfold burnsideF447_Bt
   rw [burnsideF447_norm_twist α (projUnitriangular 3 F), burnsideF447_norm_twist α (torus3 F),
     Subgroup.map_inf _ _ _ α.injective]
 
+omit [Finite E] in
 theorem burnsideF447_map_conj_self {H : Subgroup E} {u : E} (hu : u ∈ H) :
     H.map (MulAut.conj u⁻¹).toMonoidHom = H := by
   ext x
   constructor
   · rintro ⟨y, hy, rfl⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     exact H.mul_mem (H.mul_mem (H.inv_mem hu) hy) hu
   · intro hx
     refine ⟨u * x * u⁻¹, H.mul_mem (H.mul_mem hu hx) (H.inv_mem hu), ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     group
 
+omit [Finite E] in
 theorem burnsideF447_map_conj_normal (H : Subgroup E) [H.Normal] (u : E) :
     H.map (MulAut.conj u⁻¹).toMonoidHom = H := by
   ext x
   constructor
   · rintro ⟨y, hy, rfl⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     have := Subgroup.Normal.conj_mem inferInstance y hy u⁻¹
     simpa using this
   · intro hx
     refine ⟨u * x * u⁻¹, Subgroup.Normal.conj_mem inferInstance x hx u, ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     group
 
 theorem burnsideF447_pkgV1' [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) (hodd : Odd Gp.index)
@@ -4592,7 +4655,7 @@ theorem burnsideF447_pkgV1' [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) (hodd 
     (hB0 : ∀ b : E, b ∈ B0bar ↔ b ∈ Bbar ∧ InnDiag3 Gp b) :
     ∃ (Ibar Xbar : Subgroup E) (xbar i₀ : E),
       burnsideF447_PkgOf Gp M₁ M₂ Bbar B0bar Ibar Xbar xbar i₀ := by
-  haveI : Φ.range.Normal := by rw [C.hrange]; infer_instance
+  have : Φ.range.Normal := by rw [C.hrange]; infer_instance
   have hodd' : Odd Φ.range.index := by rw [C.hrange]; exact hodd
   obtain ⟨u, hu, hconj⟩ := burnsideF447_hall_conj C.hq C.hΦ hodd' hN hB
   have huN : u ∈ M₁ ⊓ M₂ := by
@@ -4606,11 +4669,11 @@ theorem burnsideF447_pkgV1' [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) (hodd 
     constructor
     · intro hy
       refine ⟨u * y * u⁻¹, (hconj y).mp hy, ?_⟩
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
       group
     · rintro ⟨b, hb, rfl⟩
       refine (hconj _).mpr ?_
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
       have e : u * (u⁻¹ * b * u) * u⁻¹ = b := by group
       rw [e]
       exact hb
@@ -4621,6 +4684,7 @@ theorem burnsideF447_pkgV1' [Gp.Normal] (C : burnsideF447_Ctx f Φ ρ Gp) (hodd 
   · rw [burnsideF447_norm_twist, ← hN, burnsideF447_map_conj_self huN]
   · rw [hS, ← Subgroup.map_map, burnsideF447_map_conj_self hu]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF447_gamma_semilinear {σ : MulAut (projectiveSL 3 F)}
     (hσ : σ ∈ semilinearAutGroup 3 F) :
     gammaAut F * σ * (gammaAut F)⁻¹ ∈ semilinearAutGroup 3 F := by
@@ -4646,6 +4710,7 @@ theorem burnsideF447_gamma_semilinear {σ : MulAut (projectiveSL 3 F)}
   rw [e, hδc]
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (hsem _) (dualAut_mul_mul_dualAut_mem hσ)) (hsem _)
 
+omit [Finite E] in
 theorem burnsideF447_Ctx.swap (C : burnsideF447_Ctx f Φ ρ Gp) :
     burnsideF447_Ctx f (Φ.comp (gammaAut F : projectiveSL 3 F →* projectiveSL 3 F))
       ((MulAut.conj (gammaAut F)).toMonoidHom.comp ρ) Gp where
@@ -4665,7 +4730,7 @@ theorem burnsideF447_Ctx.swap (C : burnsideF447_Ctx f Φ ρ Gp) :
     have h := C.hΦρ e (gammaAut F p)
     have hγinv : (gammaAut F)⁻¹ = gammaAut F :=
       inv_eq_of_mul_eq_one_right (gammaAut_mul_self F)
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MonoidHom.coe_coe,
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, _root_.MonoidHom.coe_ofClass,
       MulAut.conj_apply, hγinv, MulAut.mul_apply]
     rw [gammaAut_gammaAut F]
     exact h
@@ -4726,14 +4791,14 @@ theorem burnsideF447_pkg {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup
     (hB0 : ∀ b : E, b ∈ B0bar ↔ b ∈ Bbar ∧ InnDiag3 Gp b) :
     ∃ (Ibar Xbar : Subgroup E) (xbar i₀ : E),
       burnsideF447_PkgOf Gp M₁ M₂ Bbar B0bar Ibar Xbar xbar i₀ := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   have hf : 2 ≤ f := burnsideF4d_L3_two_le_f hyp
   have hodd : Odd Gp.index := burnsideF4d_L3_odd hf hyp
-  haveI := hyp.amalgam.toHypF_4_4g.normal
+  have := hyp.amalgam.toHypF_4_4g.normal
   obtain ⟨F, hFf, hFfin, hFchar, Φ, ρ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hρ, hΦρ, hE, hD, hO,
     h₁, h₂, hRv⟩ := burnsideF447_setup hf hyp.amalgam.toHypF_4_4g
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hNp := burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂
   have C : burnsideF447_Ctx f Φ ρ Gp := ⟨hf, hFcard, hΦ, hρ, hrange, hΦρ, hE⟩
   have hS : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) = (projUnitriangular 3 F).map Φ := by
@@ -4753,7 +4818,7 @@ section Target
 theorem as_F_4_47 : F_4_47 := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hL hκ Bbar B0bar hB hB0
   subst hκ
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   refine ⟨burnsideF447_clause1 hyp hB hB0, ?_, burnsideF447_clause3 hyp hB hB0⟩
   intro hYM
   obtain ⟨Ibar, Xbar, xbar, i₀, P⟩ := burnsideF447_pkg hyp hB hB0

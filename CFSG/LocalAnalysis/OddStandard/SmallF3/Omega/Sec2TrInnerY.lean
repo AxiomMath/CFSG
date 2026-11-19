@@ -41,9 +41,9 @@ theorem asc82OmegaPlusInner_of_projInner (hproj : Asc82OmegaPlusProjInner) :
     Asc82OmegaPlusInner := by
   intro G _ _ Y hY w hw hwY hnp
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hσ, ⟨e⟩⟩ := isOmegaStar_of_lieModel_plus hY.2
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hρ := oddCentralCover_quotient_oddCore hY.1.1 e
   have hw' : (⟨w, hwY⟩ : ↥Y) * ⟨w, hwY⟩ = 1 := by
     apply Subtype.ext

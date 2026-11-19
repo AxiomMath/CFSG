@@ -86,7 +86,7 @@ theorem false_of_cfg_of_le' [Finite X] (D : Subgroup (MulAut X))
   have he1 : e = 1 := by
     refine hEZ e he (fun k hk => ?_)
     have h := hfix k hk
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply] at h
+    simp only [MulAut.conj_apply] at h
     calc e * k = e * k * e⁻¹ * e := by group
       _ = k * e := by rw [h]
   rw [he1, map_one]

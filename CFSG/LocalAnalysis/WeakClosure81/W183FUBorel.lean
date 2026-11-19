@@ -21,10 +21,10 @@ section Certified
 
 theorem w183fu_five_borel {G : Type} [Group G] [Finite G] {Q S : Subgroup G} (hQ : IsU3 ↥Q 2)
     (hS : IsSylowIn 2 S Q) : ∃ z ∈ Q ⊓ Subgroup.normalizer (S : Set G), orderOf z = 5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimple : IsSimpleGroup ↥Q :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hQ
-  haveI := hsimple
+  have := hsimple
   have hnonab : ∃ a b : ↥Q, a * b ≠ b * a :=
     CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_PSU3 hQ
   have hZ : Subgroup.center ↥Q = ⊥ :=
@@ -43,7 +43,7 @@ theorem w183fu_five_borel {G : Type} [Group G] [Finite G] {Q S : Subgroup G} (hQ
   have hFcard5 : Nat.card F = 5 := by simpa using hFcard
   have hcardgt : 1 < Nat.card F := by rw [hFcard5]; norm_num
   have hne : F ≠ ⊥ := (Subgroup.one_lt_card_iff_ne_bot F).mp hcardgt
-  haveI : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).mpr hne
+  have : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).mpr hne
   obtain ⟨z', hz'F, hz'ne⟩ := Subgroup.exists_ne_one_of_nontrivial F
   have hord' : orderOf z' = 5 := orderOf_eq_prime (hFabel.2 z' hz'F) hz'ne
   have hN : z' ∈ Subgroup.normalizer ((S.subgroupOf Q : Subgroup ↥Q) : Set ↥Q) := by
@@ -154,7 +154,7 @@ theorem w183fu_le_pRank_statedPSU_torus {K : Type} [Field K] [Finite K] {q n ℓ
     have hmem : u⁻¹ ∈ μ := by
       have hi := hconst ⟨0, by omega⟩
       rw [← hi]
-      simpa [toMat, toUnits] using (g.1 ⟨0, by omega⟩).2
+      simp [toMat, toUnits]
     have hpowmu : (u⁻¹) ^ ℓ = 1 := by
       simpa using hμpow ⟨u⁻¹, hmem⟩
     have hprod : ∏ i : Fin n, toMat g i = 1 := by

@@ -82,7 +82,7 @@ theorem exists_lift_mem_commutator (μ : X →* Q) (hμ : Function.Surjective μ
       (∀ g ∈ J.comap μ, g * m * g⁻¹ * m⁻¹ ∈ Subgroup.center X) ∧
       (∀ u ∈ ⁅J.comap μ, J.comap μ⁆, u * m = m * u) := by
   have hJJ : ⁅J, J⁆ = J := by
-    haveI := hJp
+    have := hJp
     exact Subgroup.commutator_eq_self (H := J)
   have hmap : ⁅J.comap μ, J.comap μ⁆.map μ = J := by
     rw [Subgroup.map_commutator, Subgroup.map_comap_eq_self_of_surjective hμ, hJJ]
@@ -121,7 +121,7 @@ theorem false_of_commute (μ : X →* Q) {N : Subgroup X} {J : Subgroup Q} (hN :
   have hJ0 : ⁅J, J⁆ = ⊥ := by
     rw [← hN, ← Subgroup.map_commutator, hNN, Subgroup.map_bot]
   have hJJ : ⁅J, J⁆ = J := by
-    haveI := hJp
+    have := hJp
     exact Subgroup.commutator_eq_self (H := J)
   rw [hJJ] at hJ0
   rw [hJ0] at hcJ
@@ -310,7 +310,7 @@ theorem false_of_diagE_case (hK : PiField π p f K) {τ : K} (hτ : τ ^ 3 = 1) 
   have hent_m' : ent (m : GL (Fin 3) K) = (e : K) * ((ξ⁻¹ : Kˣ) : K) := by
     simp only [hent]
     rw [hconj, Units.val_mul, coe_diagE, GeneralLinearGroup.coe_scalar]
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+    simp [Matrix.mul_apply, Matrix.diagonal_apply]
   have hdet : GeneralLinearGroup.det y = e := by
     rw [← det_inv_conj g₀ y, hg₀, det_diagE]
   have hdetm : GeneralLinearGroup.det (m : GL (Fin 3) K) = 1 :=
@@ -413,7 +413,7 @@ theorem false_of_cube_ne_one (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     obtain ⟨ξ, hyx, hmem⟩ := common y z hz hyz
     obtain ⟨-, -, -, hcyc, -⟩ := h3
     refine habel fun u v hu hv => ?_
-    letI := hcyc.commGroup
+    let := hcyc.commGroup
     have := mul_comm (⟨_, hmem u hu⟩ : ↥(slPi π 3 (p ^ f) K ⊓ Subgroup.centralizer {y}))
       ⟨_, hmem v hv⟩
     have h2 : (u : GL (Fin 3) K) * v = (v : GL (Fin 3) K) * u := congrArg Subtype.val this

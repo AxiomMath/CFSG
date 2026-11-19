@@ -74,7 +74,7 @@ theorem max_of_trees {pt : ℕ} (hpt : pt + 364 ≤ 728) {a b c : ℕ}
       ((g ⟨pt, by omega⟩ : Fin 728) : ℕ) < pt + 364)
     (hlt : P < R) (hRX : R ≤ X) : R = X := by
   set p : Fin 728 := ⟨pt, by omega⟩ with hp
-  obtain ⟨g, hgR, hgP⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨g, hgR, hgP⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hgX := hRX hgR
   have hgp : ((g p : Fin 728) : ℕ) ≠ pt := fun he => hgP (by
     rw [hP]

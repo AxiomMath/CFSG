@@ -296,7 +296,7 @@ theorem exists_omega_conj_eichler (hQ : Q.polarBilin.Nondegenerate) (h6 : 6 ≤ 
     (fun i => by fin_cases i <;> simp [he, hf, he', hf'])
     (fun i j => by
       fin_cases i <;> fin_cases j <;>
-        simp [polar_self_eq_zero, hef, hef', hfe, hfe', he, he', hf, hf'])
+        simp [hef, hef', hfe, hfe', he, he', hf, hf'])
   have hge : g e = e' := hg 0
   have hgf : g f = f' := hg 1
   by_cases hΩ : g ∈ omegaGroup Q hQ
@@ -312,7 +312,7 @@ theorem exists_omega_conj_eichler (hQ : Q.polarBilin.Nondegenerate) (h6 : 6 ≤ 
     have h2 := LinearMap.BilinForm.finrank_orthogonal hQ (Submodule.span (ZMod 2) {e, f})
     rw [finrank_span_pair hi] at h2
     omega
-  letI : Invertible (Q r) := invertibleOfNonzero hQr
+  let : Invertible (Q r) := invertibleOfNonzero hQr
   have htO : TauCeti.QuadraticMap.reflection Q r ∈ orthogonalGroup Q :=
     TauCeti.QuadraticMap.reflection_mem_orthogonalGroup Q r
   have hte : TauCeti.QuadraticMap.reflection Q r e = e :=

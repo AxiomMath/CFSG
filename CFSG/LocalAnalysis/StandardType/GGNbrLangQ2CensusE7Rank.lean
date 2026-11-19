@@ -44,10 +44,10 @@ theorem q2c_E7_rank {p d : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .E7) (h
   subst hlab
   have hsplt : p ∣ 2 ^ n - 1 ∨ (n = 1 ∧ p = 3) :=
     (largeEvenSplit_E_iff (lab := ⟨.E7, l, n⟩) (Or.inr (Or.inl rfl))).mp hsplit
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro Q hQ
   obtain ⟨K, _, _, hKcard, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  have : CharP K 2 := charP_two_of_card hKcard
   refine ⟨K, inferInstance, inferInstance, hKcard, hQ', ?_⟩
   intro A hA hAI hbig hlo hup
   have hZ : Subgroup.center (TableBExc.RecipeGroup .E7 K) = ⊥ :=
@@ -66,7 +66,7 @@ theorem q2c_E7_rank {p d : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .E7) (h
   let A₁ : Subgroup (adjointGroup Tag.E7 K) := A₀.map e.toMonoidHom
   have hA₁ : IsElemAbelian p A₁ := CFSG.SectionRank.isElemAbelian_map hA₀ e.toMonoidHom
   have hcardA₁ : Nat.card A₁ = Nat.card A₀ := Subgroup.card_map_of_injective e.injective
-  haveI : Finite (adjointGroup Tag.E7 K) :=
+  have : Finite (adjointGroup Tag.E7 K) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.E7 K
   have hcard_le : Nat.card A ≤ p ^ 7 := by
     obtain ⟨k, hk⟩ := hA₁.isPGroup.exists_card_eq

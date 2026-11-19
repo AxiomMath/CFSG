@@ -41,7 +41,8 @@ theorem c8_p0 (D : Data G) {V₀ V K : Subgroup G} {hV : IsElemAbelian 2 V} {v�
     exact ⟨fun h1 => ⟨x.2.1, x.2.2, hXs x.2, congrArg Subtype.val h1⟩,
       fun h1 => Subtype.ext h1.2.2.2⟩
 
-theorem c8p0_subgroupOf {K Y C : Subgroup G} (hYK : Y ≤ K) (hCY : C ≤ Y) (h : C8P0 Y C) :
+omit [Finite G] in
+theorem c8p0_subgroupOf {K Y C : Subgroup G} (hYK : Y ≤ K) (_hCY : C ≤ Y) (h : C8P0 Y C) :
     C8P0 (Y.subgroupOf K) (C.subgroupOf K) := by
   obtain ⟨P, inst, φ, hs, hk, he, hp⟩ := h
   let e := Subgroup.subgroupOfEquivOfLe hYK
@@ -58,6 +59,7 @@ theorem c8p0_subgroupOf {K Y C : Subgroup G} (hYK : Y ≤ K) (hCY : C ≤ Y) (h 
     rw [Subgroup.mem_subgroupOf]
     exact hx
 
+omit [Finite G] in
 theorem c8k_prod_of_alt {M K : Subgroup G} (h : K = (K ⊓ M) ⊔ I9 K) :
     (K ⊓ M).subgroupOf K ⊔ CFSG.pPrimeCore 3 ↥K = ⊤ := by
   unfold I9 at h

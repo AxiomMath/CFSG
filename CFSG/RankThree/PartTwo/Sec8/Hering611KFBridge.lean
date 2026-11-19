@@ -54,7 +54,7 @@ theorem nonempty_sec11K_quot_alt6 (C : Cfg611 G A c L E T d S K) :
     KFacts.card_fixedField_of_orderOf_eq_three hσ3 hcard
   obtain ⟨e1⟩ := Sec11.nonempty_sec11K_quotient_mulEquiv hdN hd3 hQ hZ
   obtain ⟨e2⟩ := Sec11.fieldCent_nonempty_eqLocus_congr ψ α
-  haveI : Fintype (GH74.GLS.IVK.fixedField σ) := Fintype.ofFinite _
+  have : Fintype (GH74.GLS.IVK.fixedField σ) := Fintype.ofFinite _
   have hK9 : Fintype.card (GH74.GLS.IVK.fixedField σ) = 9 := by
     rw [← Nat.card_eq_fintype_card, hσcard]
     norm_num

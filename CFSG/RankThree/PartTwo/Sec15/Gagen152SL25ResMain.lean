@@ -181,7 +181,7 @@ theorem ResCtx.false_of_ne_bot
   obtain ⟨hPn155, hzK0⟩ :=
     h.le_n155_and_mem_pCoreOf hne hY hU hU1 (hU.symm ▸ hUQ) (hU.symm ▸ hAU)
       hzθ hθeq hPQ h155 hRb hdA hd1 hdZ
-  haveI : Fact p.Prime := ⟨h.pdata.prime⟩
+  have : Fact p.Prime := ⟨h.pdata.prime⟩
   have hPp : IsPGroup p P := by
     obtain ⟨R, hR, hPR, -⟩ := h.pdata.char_p
     exact IsPGroup.to_le hR.isPGroup hPR

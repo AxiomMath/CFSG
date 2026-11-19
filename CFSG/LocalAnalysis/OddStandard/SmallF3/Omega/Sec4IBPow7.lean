@@ -18,8 +18,8 @@ theorem sec4I_fixed_of_pow_seven {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (p : Submodule (ZMod 3) V) (hp : ∀ x ∈ p, h x ∈ p)
     (hd : Module.finrank (ZMod 3) p ≤ 5) : ∀ x ∈ p, h x = x := by
   classical
-  haveI : Finite ↥p := Module.finite_of_finite (ZMod 3)
-  haveI : Fintype ↥p := Fintype.ofFinite ↥p
+  have : Finite ↥p := Module.finite_of_finite (ZMod 3)
+  have : Fintype ↥p := Fintype.ofFinite ↥p
   let f : Function.End ↥p := fun u => ⟨h u, hp u u.2⟩
   have hiter : ∀ (m : ℕ) (u : ↥p), ((f^[m]) u : V) = (⇑h)^[m] (u : V) := by
     intro m
@@ -58,10 +58,10 @@ theorem sec4I_fixed_of_pow_seven {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
         (hmem ⟨y.1, (Submodule.mem_inf.1 y.2).1⟩).2 (Submodule.mem_inf.1 y.2).2⟩
       left_inv := fun x => Subtype.ext (Subtype.ext rfl)
       right_inv := fun y => Subtype.ext rfl }
-  haveI : Finite ↥q := Module.finite_of_finite (ZMod 3)
-  haveI : Fintype ↥q := Fintype.ofFinite ↥q
+  have : Finite ↥q := Module.finite_of_finite (ZMod 3)
+  have : Fintype ↥q := Fintype.ofFinite ↥q
   have hfix : Nat.card (Function.fixedPoints f) = Nat.card ↥q := Nat.card_congr e
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have h1 := Equiv.Perm.card_fixedPoints_modEq (f := f) (p := 7) (n := 1)
     (by simpa using hf)
   have hmod1 : Nat.card ↥p ≡ Nat.card ↥q [MOD 7] := by

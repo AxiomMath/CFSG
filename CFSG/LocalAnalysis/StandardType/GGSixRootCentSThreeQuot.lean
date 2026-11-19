@@ -17,7 +17,7 @@ theorem ggSThree_components_fitting_le_map {X : Type*} [Group X] [Finite X] {H C
       CFSG.fittingSubgroup (X ⧸ CFSG.pPrimeCore 3 X) ≤
         H.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : X →* X ⧸ CFSG.pPrimeCore 3 X := QuotientGroup.mk' (CFSG.pPrimeCore 3 X)
   have hcop : Nat.Coprime 3 (Nat.card (CFSG.pPrimeCore 3 X)) := CFSG.pPrimeCore_coprime_card
   have hnot3 : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 X) :=

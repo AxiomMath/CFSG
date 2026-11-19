@@ -65,11 +65,11 @@ theorem SpOK.push {n : Nat} {R : Array Pair} {L : List Ent} {b : Nat} (hR : SpOK
   refine ⟨by rw [Array.size_setIfInBounds, hs], fun e he => ?_⟩
   rcases List.mem_cons.1 he with rfl | he
   · refine ⟨Nat.lt_succ_self _, hn, ?_⟩
-    rw [getElem!_setIfInBounds_of_lt' (by rw [hs]; exact hn), if_pos rfl]
+    rw [getElem!_setIfInBounds_of_lt' (by rw [hs]; exact hn), ite_eq_left rfl]
     exact hP
   · obtain ⟨h1, h2, h3⟩ := hL e he
     refine ⟨by omega, h2, ?_⟩
-    rw [getElem!_setIfInBounds_of_lt' (by rw [hs]; exact h2), if_neg (by omega)]
+    rw [getElem!_setIfInBounds_of_lt' (by rw [hs]; exact h2), ite_eq_right (by omega)]
     exact h3
 
 variable {c rm one pad t0 t1 t2 t3 t4 t5 t6 : Nat}

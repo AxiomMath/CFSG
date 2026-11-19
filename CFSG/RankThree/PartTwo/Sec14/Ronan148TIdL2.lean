@@ -15,7 +15,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 open CFSG.RankThree.PartTwo.KFacts (IsInnerAut)
 
 theorem l2_ident {X : Type} [Group X] [Finite X] {P : Subgroup (MulAut X)} {K₀ : Subgroup X}
-    (hKs : IsSimpleGroup ↥K₀) (hinv : ∀ σ ∈ P, ∀ k ∈ K₀, σ k ∈ K₀)
+    (_hKs : IsSimpleGroup ↥K₀) (hinv : ∀ σ ∈ P, ∀ k ∈ K₀, σ k ∈ K₀)
     (hfaith : ∀ σ ∈ P, (∀ k ∈ K₀, σ k = k) → σ = 1) (hP9 : Nat.card P = 9)
     (hP3 : ∀ σ ∈ P, σ ^ 3 = 1)
     (hsolv : ∀ σ ∈ P, σ ≠ 1 → Group.IsSolvable (Sec4.autFix σ))
@@ -129,7 +129,7 @@ theorem l2_ident {X : Type} [Group X] [Finite X] {P : Subgroup (MulAut X)} {K₀
     have hle : (Sec4.autFix α).map K₀.subtype ≤ Sec4.autFix (σ : MulAut X) := by
       rw [hα, hmap]
       exact inf_le_right
-    haveI := hsol
+    have := hsol
     have hsolα : Group.IsSolvable (Sec4.autFix α) := by
       have hs2 : Group.IsSolvable ((Sec4.autFix α).map K₀.subtype) :=
         Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
@@ -137,8 +137,8 @@ theorem l2_ident {X : Type} [Group X] [Finite X] {P : Subgroup (MulAut X)} {K₀
         ((Sec4.autFix α).equivMapOfInjective K₀.subtype K₀.subtype_injective).toMonoidHom)
         (MulEquiv.injective _)
     rw [autFix_eq_eqLocus] at hsolα
-    haveI := hsolα
-    haveI := hQ.1
+    have := hsolα
+    have := hQ.1
     have : Nontrivial (α.toMonoidHom.eqLocus (MonoidHom.id ↥K₀)) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hQ
     exact Group.IsPerfect.not_isSolvable _ hsolα

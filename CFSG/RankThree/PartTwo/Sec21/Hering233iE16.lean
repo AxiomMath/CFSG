@@ -42,7 +42,7 @@ theorem linearOutcome_of_e16 {G : Type} [Group G] [Finite G]
     (hEL : E ≤ Subgroup.normalizer (L : Set G)) (p : ℕ) (hp : p.Prime)
     (hpS : Subgroup.centralizer (CFSG.pCore p L : Set L) ≤ K₀) :
     ∃ (N : Subgroup L) (_ : N.Normal), LinearOutcome L p N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK₀top : K₀ ≠ ⊤ := QuotientGroup.nontrivial_iff.mp inferInstance
   have hctop : ∀ N : Subgroup L, N ≤ Subgroup.center L →
       ¬ Subgroup.centralizer (N : Set L) ≤ K₀ := by

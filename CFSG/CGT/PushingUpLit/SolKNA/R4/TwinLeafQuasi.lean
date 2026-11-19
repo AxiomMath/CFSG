@@ -31,8 +31,8 @@ theorem TwinPairAt.map {F G : Type} [Group F] [Group G] (ψ : F ≃* G) {z : F}
     simpa using map_centralizer_mulEquiv ψ.symm (ψ z)
   have hsolv : ∀ X : Subgroup F, Group.IsSolvable ↥X → Group.IsSolvable ↥(X.map ψ.toMonoidHom) :=
     fun X hX => by
-      haveI := hX
-      exact solvable_of_surjective
+      have := hX
+      exact Group.isSolvable_of_surjective
         (f := (Subgroup.equivMapOfInjective X ψ.toMonoidHom ψ.injective).toMonoidHom)
         (Subgroup.equivMapOfInjective X ψ.toMonoidHom ψ.injective).surjective
   refine ⟨X₁.map ψ.toMonoidHom, X₂.map ψ.toMonoidHom, ψ u₁, ψ u₂, ?_, hsolv _ hs₁, hsolv _ hs₂,

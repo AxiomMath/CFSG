@@ -64,7 +64,7 @@ theorem card_Aq : Nat.card (Aq h) = 2 ^ 8 := by
     have hle : zpowers z ≤ Mgrp z :=
       Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr (Commute.refl z))
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv]
-    haveI : Fintype G := Fintype.ofFinite G
+    have : Fintype G := Fintype.ofFinite G
     rw [Nat.card_eq_fintype_card, Fintype.card_zpowers]
     exact orderOf_eq_prime h.z_sq h.z_ne_one
   have hRleM : Rgrp h ≤ Mgrp z :=

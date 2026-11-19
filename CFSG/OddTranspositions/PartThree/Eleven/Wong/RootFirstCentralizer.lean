@@ -182,7 +182,7 @@ private theorem h1_mem_normalizer_P1 [Finite G] : D.h1 ∈ normalizer (D.P1 : Se
     rw [show D.q1 a = D.i1 (thetaM a.toAdd) from rfl]
     rw [← map_inv, ← map_mul, ← map_mul, hM_conj_thetaM]
     exact D.q1.mem_range.mpr ⟨.ofAdd (-a.toAdd), rfl⟩
-  haveI : Finite ↥D.P1 := Finite.of_injective (fun x : ↥D.P1 => (x : G)) Subtype.val_injective
+  have : Finite ↥D.P1 := Finite.of_injective (fun x : ↥D.P1 => (x : G)) Subtype.val_injective
   exact eq_of_le_of_card_ge hle (by
     rw [Subgroup.card_map_of_injective (MulAut.conj D.h1).injective])
 
@@ -364,7 +364,7 @@ private theorem center_SL5_eq : (Subgroup.center SL5 : Set SL5) = {1, -1} := by
   ext x
   change x ∈ Subgroup.center SL5 ↔ x ∈ ({1, -1} : Set SL5)
   rw [sl5_mem_center_iff]
-  simp [or_comm]
+  simp
 
 private theorem card_center_SL5 : Nat.card (Subgroup.center SL5) = 2 := by
   rw [← SetLike.coe_sort_coe, center_SL5_eq, Nat.card_coe_set_eq, Set.ncard_pair]
@@ -378,7 +378,7 @@ private theorem card_quotient_center_SL5 :
 
 private theorem isSimpleGroup_quotient_center_SL5 :
     IsSimpleGroup (SL5 ⧸ Subgroup.center SL5) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (F := ZMod 5) (by
     rw [Nat.card_eq_fintype_card]
     norm_num)
@@ -390,7 +390,7 @@ private theorem exists_quaternion_subgroup_image [Finite G] :
       T ≤ D.i2.range ∧ IsSylowOf 2 T D.i2.range ∧
       Nonempty (T ≃* QuaternionGroup 2) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨φ, hinj, hφa1, -⟩ := exists_quaternion_hom hM cM hM_pow_four hM_sq_ne_one
     (by rw [cM_sq_test, hM_sq_test]) cM_conj_hM
   let ψ : QuaternionGroup 2 →* G := D.i2.comp φ
@@ -426,7 +426,7 @@ private theorem exists_quaternion_subgroup_image [Finite G] :
 private theorem isSylowOf_quaternion_P1_sup_i2 [Finite G] {T : Subgroup G}
     (hcardT : Nat.card T = 8) (hTleL2 : T ≤ D.i2.range) :
     IsSylowOf 2 T (D.P1 ⊔ D.i2.range) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardL2 : Nat.card D.i2.range = 120 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective D.inj2).toEquiv, card_SL5]
   have hcardSup : Nat.card (D.P1 ⊔ D.i2.range : Subgroup G) = 600 := by
@@ -505,7 +505,7 @@ private theorem brauer_suzuki_centrality [Finite G] :
       ∀ c : firstCentralizer D,
         c⁻¹ * tC * c * tC⁻¹ ∈ firstOddCore D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C := firstCentralizer D
   let X := firstOddCore D
   obtain ⟨T, -, htT, hsylC, -, -, ⟨eT⟩⟩ := D.exists_sylow_centralizer_P1
@@ -624,7 +624,7 @@ private theorem firstOddCore_sup_centralizer_top [Finite G]
       inf_eq_left.mpr (le_sup_right : zpowers tC ≤ N)] at h
   refine le_antisymm ?_ le_top
   intro c hc
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hmem : c ∈ normalizer (zpowers tC : Set (firstCentralizer D)) ⊔ N := by
     rw [hFr]
     exact Subgroup.mem_top c
@@ -685,7 +685,7 @@ private theorem t_central_mod_V [Finite G] {c : G}
     (hc : c ∈ centralizer (D.P1 : Set G)) :
     c⁻¹ * D.t * c * D.t⁻¹ ∈ D.V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := centralizer (D.P1 : Set G)
   obtain ⟨T, -, htT, hsylC, -, -, ⟨eT⟩⟩ := D.exists_sylow_centralizer_P1
   have hTC : T ≤ C := hsylC.le
@@ -963,10 +963,10 @@ private theorem fixed_points_quotient_tConjAction [Finite G]
     {q : D.V ⧸ D.P1.subgroupOf D.V}
     (hq : ∀ a : tZpowers D, tConjActionOnQuotient D a q = q) : q = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let V := D.V
   let P : Subgroup V := D.P1.subgroupOf D.V
-  haveI : P.Normal := D.P1_subgroupOf_V_normal
+  have : P.Normal := D.P1_subgroupOf_V_normal
   have hA2 : IsPGroup 2 (tZpowers D) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, D.orderOf_t]; norm_num)
   have hcop : ¬ 2 ∣ Nat.card P := by
@@ -990,7 +990,7 @@ private theorem isMulCommutative_V_quotient_P1 [Finite G] :
   classical
   let V := D.V
   let P : Subgroup V := D.P1.subgroupOf D.V
-  haveI : P.Normal := D.P1_subgroupOf_V_normal
+  have : P.Normal := D.P1_subgroupOf_V_normal
   let tA : tZpowers D := ⟨D.t, mem_zpowers D.t⟩
   let φ : MulAut (V ⧸ P) := tConjActionOnQuotient D tA
   have htA2 : tA * tA = 1 := by
@@ -1033,8 +1033,8 @@ private theorem isMulCommutative_V_quotient_P1 [Finite G] :
 private theorem commutator_V_le_P1 [Finite G] : ⁅D.V, D.V⁆ ≤ D.P1 := by
   let V := D.V
   let P : Subgroup V := D.P1.subgroupOf D.V
-  haveI : P.Normal := D.P1_subgroupOf_V_normal
-  haveI : IsMulCommutative (V ⧸ P) := isMulCommutative_V_quotient_P1 (D := D)
+  have : P.Normal := D.P1_subgroupOf_V_normal
+  have : IsMulCommutative (V ⧸ P) := isMulCommutative_V_quotient_P1 (D := D)
   have hcomm : _root_.commutator V ≤ P :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp
       (inferInstance : IsMulCommutative (V ⧸ P))
@@ -1097,7 +1097,7 @@ private theorem exists_sylow_normalizer_map {C M : Subgroup G} [Finite G]
     ∃ P : Sylow 2 (C.subgroupOf M),
       (((P : Subgroup (C.subgroupOf M)).map (C.subgroupOf M).subtype : Subgroup M).map
         M.subtype) = (Q : Subgroup C).map C.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let e : C ≃* C.subgroupOf M := (Subgroup.subgroupOfEquivOfLe hCM).symm
   let P : Sylow 2 (C.subgroupOf M) :=
     Sylow.mapSurjective (f := e.toMonoidHom) e.surjective Q
@@ -1127,7 +1127,7 @@ private theorem P1_sup_i2_sup_h1_le [Finite G] :
 private theorem normalizer_P1_eq [Finite G] :
     normalizer (D.P1 : Set G) = D.i2.range ⊔ D.V ⊔ zpowers D.h1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := centralizer (D.P1 : Set G)
   let M : Subgroup G := normalizer (D.P1 : Set G)
   let R : Subgroup G := D.i2.range ⊔ D.V ⊔ zpowers D.h1
@@ -1143,7 +1143,7 @@ private theorem normalizer_P1_eq [Finite G] :
   let NM : Subgroup M := C.subgroupOf M
   have hNMnormal : NM.Normal :=
     Subgroup.normal_subgroupOf_centralizer_normalizer (D.P1 : Set G)
-  haveI : NM.Normal := hNMnormal
+  have : NM.Normal := hNMnormal
   obtain ⟨P, hPmapQ⟩ := exists_sylow_normalizer_map hCM Q
   have hPmap : ((P : Subgroup NM).map NM.subtype : Subgroup M).map M.subtype = T := by
     rw [hPmapQ, hQ, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTC]

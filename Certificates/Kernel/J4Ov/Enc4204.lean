@@ -32,9 +32,9 @@ theorem cat_enc4204 {A B : Array (Array V2)} {as bs : List Nat} (hs : A.size = a
   intro k
   rw [getN_append]
   by_cases h : k < A.size
-  · rw [Array.getElem?_append_left h, if_pos (hs ▸ h)]
+  · rw [Array.getElem?_append_left h, ite_eq_left (hs ▸ h)]
     exact ha k
-  · rw [Array.getElem?_append_right (by omega), if_neg (hs ▸ h), hs]
+  · rw [Array.getElem?_append_right (by omega), ite_eq_right (hs ▸ h), hs]
     exact hb _
 
 theorem one_enc4204 {X : Array V2} {x : Nat} (h : WfA X ∧ encR X = x) :

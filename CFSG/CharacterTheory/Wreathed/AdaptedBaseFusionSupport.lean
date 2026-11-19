@@ -200,7 +200,7 @@ theorem eq_one_of_conj_fixed (hn : 2 ≤ n) {k : G}
     rw [← h1]
     exact (modelBase S e).mul_mem hJB hJ1B
   by_contra hx1
-  obtain ⟨r, hr⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨x, modelBase_le_sylow S e hx⟩
+  obtain ⟨r, hr⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨x, modelBase_le_sylow S e hx⟩
   rw [Subgroup.orderOf_mk] at hr
   have hr0 : r ≠ 0 := by
     rintro rfl

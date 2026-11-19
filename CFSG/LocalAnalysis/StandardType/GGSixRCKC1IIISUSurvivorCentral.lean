@@ -32,7 +32,7 @@ theorem eq_zero_of_two_prime_field_tests (b : SUF)
 
 
 theorem unitary_eichler_conjugate_sub
-    {k : ℕ} (hk : 4 ≤ k) {e a : Fin k → SUF} {c : SUF} {s q : SUG k}
+    {k : ℕ} (_hk : 4 ≤ k) {e a : Fin k → SUF} {c : SUF} {s q : SUG k}
     (hse : natRep (SU SUσ k) s e = e)
     (hq : ∀ v, natRep (SU SUσ k) q v =
       v + (suH rckSU_suF_card k).β e v • (a + c • e) +
@@ -137,19 +137,19 @@ theorem eq_zero_of_unitary_plane_eichler_tests
     simp
   have hdual1 : (suH rckSU_suF_card k).β e₀ (rckSU_std (Fin.rev (sI1 hk))) = 0 := by
     rw [rckSU_suH_std]
-    simp only [Fin.rev_inj, if_neg h01]
+    simp only [Fin.rev_inj, ite_eq_right h01]
   have hdual10 : (suH rckSU_suF_card k).β e₁ (rckSU_std (Fin.rev (sI0 hk))) = 0 := by
     rw [rckSU_suH_std]
-    simp only [Fin.rev_inj, if_neg h01.symm]
+    simp only [Fin.rev_inj, ite_eq_right h01.symm]
   have hdual11 : (suH rckSU_suF_card k).β e₁ (rckSU_std (Fin.rev (sI1 hk))) = 1 := by
     rw [rckSU_suH_std]
     simp
   have hN0 : rckSU_Nlin hk (rckSU_std (Fin.rev (sI0 hk))) = e₁ := by
     rw [rckSU_Nlin_apply]
-    simp [e₁, rckSU_std, rckSUc_e, rckSUc_e', Pi.single_apply, eq_comm, h01]
+    simp [e₁, rckSU_std, rckSUc_e, rckSUc_e', eq_comm, h01]
   have hN1 : rckSU_Nlin hk (rckSU_std (Fin.rev (sI1 hk))) = e₀ := by
     rw [rckSU_Nlin_apply]
-    simp [e₀, rckSU_std, rckSUc_e, rckSUc_e', Pi.single_apply, eq_comm, h01]
+    simp [e₀, rckSU_std, rckSUc_e, rckSUc_e', h01]
   have hBT0 : (suH rckSU_suF_card k).β t (rckSU_std (Fin.rev (sI0 hk))) = SUσ a := by
     rw [hE, ReflForm.add_left, ReflForm.smul_left, ReflForm.smul_left, hdual0, hdual10]
     simp only [suH, CFSG.StandardType.GGOppRadSpU.suForm_σ, mul_one, mul_zero, add_zero]
@@ -274,10 +274,10 @@ theorem mem_suZ0_of_fix_planePerp
     simp [rckSUc_e']
   have hp01 : H.β e₀ d₁ = 0 := by
     rw [rckSU_suH_std]
-    simp only [rckSUc_e', Fin.rev_inj, if_neg h01]
+    simp only [rckSUc_e', Fin.rev_inj, ite_eq_right h01]
   have hp10 : H.β e₁ d₀ = 0 := by
     rw [rckSU_suH_std]
-    simp only [rckSUc_e', Fin.rev_inj, if_neg h01.symm]
+    simp only [rckSUc_e', Fin.rev_inj, ite_eq_right h01.symm]
   have hp11 : H.β e₁ d₁ = 1 := by
     rw [rckSU_suH_std]
     simp [rckSUc_e']
@@ -395,9 +395,9 @@ theorem mem_suZ0_of_fix_planePerp
         rckSUc_e'_zero_ne_one hk] using hcol1
     have hperp : rckSU_std j ∈ H.perp (rckSU_U hk) := by
       rw [rckSU_mem_perp_U_iff]
-      simp [rckSU_std, Pi.single_apply, eq_comm, hj0, hj1]
+      simp [rckSU_std, eq_comm, hj0, hj1]
     rw [hfix _ hperp]
-    simp [rckSU_std, Pi.single_apply, eq_comm, hj0, hj1]
+    simp [rckSU_std, eq_comm, hj0, hj1]
   have hseq : s = suZ hk v := by
     apply Subtype.ext
     apply Units.ext

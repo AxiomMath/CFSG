@@ -189,18 +189,18 @@ theorem exists_E₀
   have hWP : W ≤ P := omegaZ_le
   have hWp : ∀ w ∈ W, w ^ p = 1 := fun w hw => pow_eq_one_of_mem_omegaZ hw
   have hP1 : (P : Subgroup G) ≠ ⊥ := fun h0 => hPc (by rw [h0]; infer_instance)
-  have hW1 : W ≠ ⊥ := omegaZ_ne_bot P.isPGroup' hP1
+  have hW1 : W ≠ ⊥ := omegaZ_ne_bot P.isPGroup hP1
   have hWcard : Nat.card W = p := card_eq_of_isCyclic_of_pow_eq_one hW hW1 hWp
   have hTW : c.T₀ ≤ Subgroup.normalizer (W : Set G) :=
     hT₀P.trans normalizer_le_normalizer_omegaZ
   set U := centralPart hp2 (P : Subgroup G) W hWc with hUdef
   have hUP : U ≤ P := centralPart_le hp2 hWc
-  have hUp : IsPGroup p U := P.isPGroup'.to_le hUP
+  have hUp : IsPGroup p U := P.isPGroup.to_le hUP
   have hTU : c.T₀ ≤ Subgroup.normalizer (U : Set G) := fun τ hτ =>
     le_normalizer_centralPart hp2 hWc (hT₀P hτ) (hTW hτ)
   have hWU : W ≤ U := le_centralPart hp2 hWc hWP hWp
   have hUW : ∃ x ∈ U, x ∉ W := by
-    have : Fact (IsPGroup p (P : Subgroup G)) := ⟨P.isPGroup'⟩
+    have : Fact (IsPGroup p (P : Subgroup G)) := ⟨P.isPGroup⟩
     obtain ⟨E, hEn, hEc, hEe⟩ := lemma_4_5_a (R := (P : Subgroup G)) hp2 hPc
     have hEW : ¬ E ≤ W.subgroupOf P := by
       intro hle
@@ -212,7 +212,7 @@ theorem exists_E₀
     have hEpow : ∀ y ∈ E, y ^ p = 1 := fun y hy => elemPow_eq_one_of_isElementaryAbelian y hy
     have hxp : x ^ p = 1 := hEpow x hxE
     have hWE : W.subgroupOf P ≤ E := by
-      have hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
+      have hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
       have hne := Group.IsNilpotent.inf_center_ne_bot_of_normal (G := (P : Subgroup G))
         (H := E) (by
           intro h0
@@ -288,7 +288,7 @@ theorem exists_E₀
       rw [this, bot_sup_eq]
     have hnorm : (Subgroup.zpowers (π x)).Normal :=
       hEmap ▸ hEn.map π (QuotientGroup.mk'_surjective WP)
-    have : Fact (IsPGroup p ((P : Subgroup G) ⧸ WP)) := ⟨P.isPGroup'.to_quotient WP⟩
+    have : Fact (IsPGroup p ((P : Subgroup G) ⧸ WP)) := ⟨P.isPGroup.to_quotient WP⟩
     have hcen := normal_subgroup_card_eq_prime_le_center (G := (P : Subgroup G) ⧸ WP)
       (p := p) (Subgroup.zpowers (π x)) (by
         rw [Nat.card_zpowers]

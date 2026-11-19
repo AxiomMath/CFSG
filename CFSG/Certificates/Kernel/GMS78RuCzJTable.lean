@@ -53,7 +53,7 @@ private theorem pid_fget {i : Nat} (hi : i < 128) : fget (CFSG.KC.Census.pid 128
   have h := (CFSG.KC.Census.SP.pid_good_of_le (n := 128) (w := 7) (by norm_num) (by norm_num)).1
   have h2 : (CFSG.KC.Census.unpackP 128 7 (CFSG.KC.Census.pid 128 7))[i]! =
       (CFSG.Monster.B.Co2.Native.idA 128)[i]! := by rw [h]
-  rw [CFSG.KC.Census.SP.unpackP_get, if_pos hi, at'_eq, CFSG.Monster.B.Co2.idA_get hi] at h2
+  rw [CFSG.KC.Census.SP.unpackP_get, ite_eq_left hi, at'_eq, CFSG.Monster.B.Co2.idA_get hi] at h2
   exact h2
 
 private theorem pvalid_inj {u : Nat} (h : CFSG.KC.Census.pvalid 128 7 u = true) :
@@ -92,8 +92,7 @@ private theorem validA_czUnpack {u : Nat} (h : CFSG.KC.Census.pvalid 128 7 u = t
 
 private theorem keyA_czUnpack (u : Nat) : keyA 128 [0, 5, 3] (czUnpack u) = czKey u := by
   show _ = fget u 0 7 + (128 * fget u 5 7 + 16384 * fget u 3 7)
-  simp only [keyA, List.map_cons, List.map_nil, Nat.ofDigits_cons, Nat.ofDigits_nil, Nat.cast_id,
-    czUnpack_get u (show 0 < 128 by norm_num), czUnpack_get u (show 5 < 128 by norm_num),
+  simp only [keyA, List.map_cons, List.map_nil, Nat.ofDigits_cons, Nat.ofDigits_nil, czUnpack_get u (show 0 < 128 by norm_num), czUnpack_get u (show 5 < 128 by norm_num),
     czUnpack_get u (show 3 < 128 by norm_num)]
   omega
 
@@ -308,8 +307,8 @@ private theorem tabRow_get (H : Facts GS cP PT RW LK PAR LAB INV) :
     simp only [tabRow]
     by_cases h0 : a = 0
     · subst h0
-      rw [if_pos rfl, CFSG.Monster.B.Co2.idA_get hb, H.row0 b hb]
-    · rw [if_neg h0, CFSG.Monster.B.Co2.compA_get hb]
+      rw [ite_eq_left rfl, CFSG.Monster.B.Co2.idA_get hb, H.row0 b hb]
+    · rw [ite_eq_right h0, CFSG.Monster.B.Co2.compA_get hb]
       have hpos : 0 < a := Nat.pos_of_ne_zero h0
       obtain ⟨hpa, hla, -⟩ := H.tree a ha hpos
       rw [par_eq H ha, lab_eq H ha, ih _ (by omega) (by omega) b hb, LU_getD hla,
@@ -386,8 +385,8 @@ private theorem gIdx_eq (H : Facts GS cP PT RW LK PAR LAB INV) {k : Nat} (hk : k
   exact (H.edgeRow 0 (by norm_num)).2 k hk
 
 private theorem gIdx_map (H : Facts GS cP PT RW LK PAR LAB INV) :
-    (List.range 6).map (gIdx (cU cP)) = (List.range 6).map fun k => fget (LK k) 0 11 :=
-  List.map_congr_left fun k hk => gIdx_eq H (List.mem_range.1 hk)
+    (List.range 6).map (gIdx (cU cP)) = (List.range 6).map fun _k => fget (LK _k) 0 11 :=
+  List.map_congr_left fun _k hk => gIdx_eq H (List.mem_range.1 hk)
 
 private theorem tree_rel (H : Facts GS cP PT RW LK PAR LAB INV) {a : Nat} (ha : a < 2048)
     (hpos : 0 < a) :

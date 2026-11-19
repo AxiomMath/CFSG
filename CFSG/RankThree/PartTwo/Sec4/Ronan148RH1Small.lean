@@ -63,7 +63,7 @@ theorem noCfgS427_mcl :
     ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S → (∃ a b : S, a * b ≠ b * a) →
       Nonempty (S ≃* Blueprint.NativeSporadic.Carrier .McL) → NoCfgS427 S ∧ NoONS427 S := by
   intro S _ _ _ hna ⟨e⟩
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .McL) := Finite.of_equiv S e.toEquiv
+  have : Finite (Blueprint.NativeSporadic.Carrier .McL) := Finite.of_equiv S e.toEquiv
   have hcard : Nat.card S = 898128000 :=
     (Nat.card_congr e.toEquiv).trans CFSG.Sporadic.McL.card_McL
   have hgood : ∀ y : Blueprint.NativeSporadic.McL, orderOf y = 3 →

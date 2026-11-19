@@ -490,7 +490,7 @@ private theorem rightProjection_top_conj_eq_self_pf43
   let ρ := internalSemidirectRightProjection_pf43 hsemi
   let gg : (⊤ : Subgroup L) := ⟨g, by trivial⟩
   let xx : (⊤ : Subgroup L) := ⟨x, by trivial⟩
-  letI : CommGroup W1 := hcyc1.commGroup
+  let : CommGroup W1 := hcyc1.commGroup
   change ρ (gg * xx * gg⁻¹) = ρ xx
   rw [map_mul, map_mul]
   simp [mul_assoc, gg, xx]
@@ -505,7 +505,7 @@ private theorem elementCentralizer_le_W_of_hypothesis_4_2
       hcent, _hW1, _hW2, hW, _hodd⟩
   intro g hg
   rcases hsemi.mul_surjective g (by trivial) with ⟨k, hk, u, hu, rfl⟩
-  letI : CommGroup W1 := hcyc1.commGroup
+  let : CommGroup W1 := hcyc1.commGroup
   have hux : (u : L) * x = x * u := by
     simpa using mul_comm (⟨u, hu⟩ : W1) (⟨x, hxW1⟩ : W1)
   have hxg : x * (k * u) = (k * u) * x := by
@@ -592,8 +592,8 @@ private theorem conjBy_eq_self_of_mem_W
     Section2.conjBy w z = z := by
   rcases hW.mul_surjective w hw with ⟨x, hx, y, hy, hwxy⟩
   rcases hW.mul_surjective z hz with ⟨u, hu, v, hv, hzuv⟩
-  letI : CommGroup W1 := hcyc1.commGroup
-  letI : CommGroup W2 := hcyc2.commGroup
+  let : CommGroup W1 := hcyc1.commGroup
+  let : CommGroup W2 := hcyc2.commGroup
   have hxu : x * u = u * x := by
     simpa using mul_comm (⟨x, hx⟩ : W1) (⟨u, hu⟩ : W1)
   have hyv : y * v = v * y := by
@@ -1654,7 +1654,7 @@ private theorem exists_character_family_fixed_column_pf43
   have htwo : 2 ≤ Fintype.card I := two_le_card_left_pf43 (h42 := h42) hω
   have hI_ne_zero : Fintype.card I ≠ 0 := by
     omega
-  letI : NeZero (Fintype.card I) := ⟨hI_ne_zero⟩
+  let : NeZero (Fintype.card I) := ⟨hI_ne_zero⟩
   let e : Fin (Fintype.card I) ≃ I := equivFinWithBase_pf43 i0
   have he0 : e 0 = i0 := by
     simpa [e] using equivFinWithBase_apply_zero_pf43 (a0 := i0)
@@ -1670,8 +1670,8 @@ private theorem exists_character_family_fixed_column_pf43
       Section3.isOrthonormalDoubleFamily_apply hω.orthonormal (e a, j) (e b, j)
   rcases Theory.Character.irreducible_characters_form_basis (G := L) with
     ⟨ι, hι, χ, hχ, b, hb⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   have hχfull := hχ
   rcases hχ with ⟨hirr, _hall, hinj⟩
   let muBasis : ι → Section1.ClassFunction L := fun k => Section1.ofConjClassFunction (χ k)
@@ -1991,7 +1991,7 @@ private theorem exists_other_row_pf43
   have htwo : 2 ≤ Fintype.card I := two_le_card_left_pf43 (h42 := h42) hω
   have hI_ne_zero : Fintype.card I ≠ 0 := by
     omega
-  letI : NeZero (Fintype.card I) := ⟨hI_ne_zero⟩
+  let : NeZero (Fintype.card I) := ⟨hI_ne_zero⟩
   let e : Fin (Fintype.card I) ≃ I := equivFinWithBase_pf43 i0
   have hlt : 1 < Fintype.card I := by
     omega

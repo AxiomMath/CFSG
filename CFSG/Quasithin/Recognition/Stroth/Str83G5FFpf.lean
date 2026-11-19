@@ -30,8 +30,8 @@ theorem mem_of_commutator_mem_of_isSzNatural
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) :=
     GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   let ρ : Representation (ZMod 2) (suzukiGroup a K) (Additive (Ch3z.chiefMod L N)) :=
     sectionRep hHL hHN hNL hE hO e
   have hρ' : IsSzNatural ρ := hρ
@@ -52,7 +52,7 @@ theorem mem_of_commutator_mem_of_isSzNatural
         rwa [QuotientGroup.ker_mk'] at hker
       exact (CFSG.Quasithin.F1.mem_pCore_iff_coe δH).mp hmem
     have hone : (⟨δ, hδcore⟩ : ↥(pCoreOf 2 (L1 ⊔ S))) = 1 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hoddCore : Odd (orderOf (⟨δ, hδcore⟩ : ↥(pCoreOf 2 (L1 ⊔ S)))) := by
         rw [Subgroup.orderOf_mk]
         exact hodd
@@ -169,7 +169,6 @@ theorem mem_of_commutator_mem_of_isSzNatural
         intro a b ha hb
         change ρ (a * b) w1 = w1
         rw [map_mul]
-        change (ρ a * ρ b) w1 = w1
         rw [Module.End.mul_apply, hb, ha]
       inv_mem' := by
         intro a ha

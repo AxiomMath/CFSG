@@ -214,17 +214,17 @@ theorem symplectic_core_central_involution_sylow [Finite G] {M : Subgroup G}
         have h1 : (⟨s, hs⟩ : S) ∈ T.subgroupOf S := htop ▸ mem_top _
         exact mem_subgroupOf.mp h1
       have h1 := CFSG.LocalAnalysis.ComponentInitial.p_group_normalizer_condition
-        S.isPGroup' hlt
+        S.isPGroup hlt
       rw [← subgroupOf_normalizer_eq hTS] at h1
       have h2 : (normalizer (T : Set G)).subgroupOf S = T.subgroupOf S := by
         rw [← inf_subgroupOf_left]
         congr 1
         exact CFSG.Quasithin.SteinbergCC.eq_of_isSylowOf_of_le hT (inf_le_right.trans hNT)
-          (S.isPGroup'.to_le inf_le_left) (le_inf hTS le_normalizer)
+          (S.isPGroup.to_le inf_le_left) (le_inf hTS le_normalizer)
       exact absurd h1 (by rw [h2]; exact lt_irrefl _)
     refine ⟨?_, hZT, hΩ⟩
     rw [CFSG.ABGLocalTools.isSylowOf_iff, relIndex_top_right, hTeq]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
   ·
     let ψ : M →* MulAut (CFSG.pCore 2 M) ⧸
         (MulAut.conj : CFSG.pCore 2 M →* MulAut (CFSG.pCore 2 M)).range :=

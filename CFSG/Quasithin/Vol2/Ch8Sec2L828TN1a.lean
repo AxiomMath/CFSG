@@ -154,7 +154,7 @@ private theorem two_le_pRank_top_N1a {B : Type} [Group B] [Finite B] {x z : B}
     le_top (Subgroup.mem_top z)
 
 private theorem not_mem_zpowers_N1a {H Y Y' : Subgroup G} (hY : Y ∈ cComp H) (hY' : Y' ∈ cComp H)
-    (hne : Y ≠ Y') {a b y : ↥H} (ha : a ∈ Y.subgroupOf H) (hb : b ∈ Y'.subgroupOf H)
+    (hne : Y ≠ Y') {a b y : ↥H} (_ha : a ∈ Y.subgroupOf H) (hb : b ∈ Y'.subgroupOf H)
     (hao : orderOf (QuotientGroup.mk' (CFSG.solvableRadical ↥H) a) = 5)
     (hbo : orderOf (QuotientGroup.mk' (CFSG.solvableRadical ↥H) b) = 5)
     (hy : y ∈ Y.subgroupOf H)
@@ -210,7 +210,7 @@ private theorem exists_elemAbelian_sq_N1a {A B : Type} [Group A] [Finite A] [Gro
       Nat.pow_le_pow_right (by norm_num) hk
     rw [← hexp'] at h2
     exact absurd (h2.trans h1) (by norm_num)
-  haveI : Fact (IsPGroup 5 ↥(P : Subgroup A)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup 5 ↥(P : Subgroup A)) := ⟨P.isPGroup⟩
   obtain ⟨S', -, hS'card, hS'el⟩ := CFSG.lemma_4_5_a (by norm_num : (5 : ℕ) ≠ 2) hnc
   have hS'e : CFSG.Open.IsElemAbelian 5 S' :=
     ⟨inferInstance, fun x hx => congrArg Subtype.val

@@ -25,7 +25,7 @@ noncomputable abbrev burnsideSL3G_vb (α : Vtx X) : Subgroup X.Universal :=
 
 variable {X}
 
-theorem burnsideSL3G_vi_le_qv_self (h : Hyp20 X) {α : Vtx X} (hα : IsMVtx X α) {k : ℕ}
+theorem burnsideSL3G_vi_le_qv_self (_h : Hyp20 X) {α : Vtx X} (hα : IsMVtx X α) {k : ℕ}
     (hk : k < critDist X) : Vi X α k ≤ Qv X α := by
   refine iSup₂_le fun ρ hρ => ?_
   have hρ' : X.treeGraph.dist α ρ ≤ k := hρ

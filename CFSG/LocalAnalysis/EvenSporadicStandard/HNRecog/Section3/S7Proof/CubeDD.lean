@@ -14,12 +14,12 @@ variable {G : Type} [Group G]
 theorem s7_DD {a z x t t' : G} (H : S7Hyps a z) (hx : IsConj a x) (hord : orderOf (a * x) = 3)
     (ht : t ∈ orb2A a a ∩ orb2A a x) (ht' : t' ∈ orb2A a a ∩ orb2A a x) (hne : t ≠ t')
     (hcomm : t * t' = t' * t) : IsConj a (t * t') ∧ IsConj z (a * (t * t')) := by
-  have ht1 : IsConj a t := by simpa only [orb2A, Set.mem_setOf_eq] using ht.1.1
-  have ht2a : IsConj a (a * t) := by simpa only [orb2A, Set.mem_setOf_eq] using ht.1.2
-  have htx : IsConj a (x * t) := by simpa only [orb2A, Set.mem_setOf_eq] using ht.2.2
-  have ht'1 : IsConj a t' := by simpa only [orb2A, Set.mem_setOf_eq] using ht'.1.1
-  have ht'2a : IsConj a (a * t') := by simpa only [orb2A, Set.mem_setOf_eq] using ht'.1.2
-  have ht'x : IsConj a (x * t') := by simpa only [orb2A, Set.mem_setOf_eq] using ht'.2.2
+  have ht1 : IsConj a t := by simpa only [orb2A, Set.mem_ofPred_eq] using ht.1.1
+  have ht2a : IsConj a (a * t) := by simpa only [orb2A, Set.mem_ofPred_eq] using ht.1.2
+  have htx : IsConj a (x * t) := by simpa only [orb2A, Set.mem_ofPred_eq] using ht.2.2
+  have ht'1 : IsConj a t' := by simpa only [orb2A, Set.mem_ofPred_eq] using ht'.1.1
+  have ht'2a : IsConj a (a * t') := by simpa only [orb2A, Set.mem_ofPred_eq] using ht'.1.2
+  have ht'x : IsConj a (x * t') := by simpa only [orb2A, Set.mem_ofPred_eq] using ht'.2.2
   have ha2 : a ^ 2 = 1 := s7_sq_of_isConj_a H (IsConj.refl a)
   have ha1 : a ≠ 1 := s7_ne_one_of_isConj_a H (IsConj.refl a)
   have ht2 : t ^ 2 = 1 := s7_sq_of_isConj_a H ht1
@@ -150,7 +150,7 @@ theorem s7_DD {a z x t t' : G} (H : S7Hyps a z) (hx : IsConj a x) (hord : orderO
       · exact h
       · exact (hatt'_notz h).elim
     have hmem2AB : t * t' ∈ orb2AB a z a := by
-      simp only [orb2AB, Set.mem_setOf_eq]
+      simp only [orb2AB, Set.mem_ofPred_eq]
       exact ⟨hztt, hatt'_conj_a⟩
     have htt'G : t * t' ∈ Gxy a x := (Gxy a x).mul_mem htG ht'G
     obtain ⟨k, hk⟩ := H.parity.self.two_power_of_2AB x (t * t') hx hmem2AB htt'G

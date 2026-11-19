@@ -81,7 +81,7 @@ private theorem w1369_inf_eq_bot_of_odd_of_isPGroup {G : Type*} [Group G] [Finit
 
 private theorem w1369_isQuasisimple_native {Q : Type*} [Group Q]
     (hq : CFSG.Open.IsQuasisimple Q) : CFSG.IsQuasisimple Q := by
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2
   refine ⟨Group.isPerfect_def.mpr hq.1, hq.2, ?_⟩
   by_contra hcon
   have hcomm : ∀ a b : Q ⧸ Subgroup.center Q, a * b = b * a := by
@@ -133,9 +133,9 @@ theorem w1369_o2Trivial_of_odd_centralizer {M : Type} [CommGroup M] [Finite M]
         intro x hx
         have hx' : (⟨x, hx⟩ : ↥L) ∈ (P ⊓ L).subgroupOf L := by rw [htop]; trivial
         simpa using (Subgroup.mem_subgroupOf.mp hx').1
-      haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
-      haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
-      haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
+      have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
+      have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+      have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
       exact (Group.IsPerfect.not_isNilpotent ↥L) (hP2.to_le hLP).isNilpotent
   have hPYnorm : Y ≤ Subgroup.normalizer (P : Set (MulAut M)) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPY).mp hPN

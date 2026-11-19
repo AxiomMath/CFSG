@@ -18,10 +18,10 @@ theorem exists_linearEquiv_pow_card_smul_of_isSimple {W : Type*} [AddCommGroup W
       LinearMap.det (g : W →ₗ[K] W) = δ := by
   classical
   obtain ⟨I, hI, ⟨e⟩⟩ := isSimpleModule_iff_quot_maximal.mp ‹IsSimpleModule B W›
-  letI : Field (B ⧸ I) := Ideal.Quotient.field I
+  let : Field (B ⧸ I) := Ideal.Quotient.field I
   let eK : W ≃ₗ[K] B ⧸ I := e.restrictScalars K
-  haveI : FiniteDimensional K (B ⧸ I) := LinearEquiv.finiteDimensional eK
-  haveI : Finite (B ⧸ I) := Module.finite_of_finite K
+  have : FiniteDimensional K (B ⧸ I) := LinearEquiv.finiteDimensional eK
+  have : Finite (B ⧸ I) := Module.finite_of_finite K
   let φ : (B ⧸ I) ≃ₐ[K] (B ⧸ I) := FiniteField.frobeniusAlgEquivOfAlgebraic K (B ⧸ I)
   have hφ : ∀ y, φ y = y ^ Fintype.card K := FiniteField.frobeniusAlgEquivOfAlgebraic_apply K _
   have hφdet : LinearMap.det (φ.toLinearEquiv : (B ⧸ I) →ₗ[K] (B ⧸ I)) ≠ 0 :=
@@ -68,14 +68,14 @@ private theorem exists_linearEquiv_pow_card_smul_aux (n : ℕ) :
     by_cases hV : Nontrivial V
     · obtain ⟨W, hW⟩ := IsSemisimpleModule.exists_simple_submodule B V
       obtain ⟨W', hWW'⟩ := exists_isCompl W
-      haveI : FiniteDimensional K W :=
+      have : FiniteDimensional K W :=
         Module.Finite.of_injective ((W.subtype).restrictScalars K) Subtype.val_injective
-      haveI : FiniteDimensional K W' :=
+      have : FiniteDimensional K W' :=
         Module.Finite.of_injective ((W'.subtype).restrictScalars K) Subtype.val_injective
       let e : (W × W') ≃ₗ[K] V := (Submodule.prodEquivOfIsCompl W W' hWW').restrictScalars K
       have hdim : finrank K W + finrank K W' = n := by
         rw [← hn, ← e.finrank_eq, Module.finrank_prod]
-      haveI : Nontrivial W := IsSimpleModule.nontrivial B W
+      have : Nontrivial W := IsSimpleModule.nontrivial B W
       have hW0 : 0 < finrank K W := Module.finrank_pos
       obtain ⟨gW, hgW, hdW⟩ := exists_linearEquiv_pow_card_smul_of_isSimple (K := K) (B := B)
         (W := W) hδ
@@ -83,7 +83,7 @@ private theorem exists_linearEquiv_pow_card_smul_aux (n : ℕ) :
       have hdW'' : LinearMap.det (gW' : W' →ₗ[K] W') = 1 := by
         by_cases hW' : Nontrivial W'
         · exact hdW' hW'
-        · haveI : Subsingleton W' := not_nontrivial_iff_subsingleton.mp hW'
+        · have : Subsingleton W' := not_nontrivial_iff_subsingleton.mp hW'
           exact LinearMap.det_eq_one_of_subsingleton _
       refine ⟨e.symm.trans ((gW.prodCongr gW').trans e), fun b v => ?_, fun _ => ?_⟩
       · have hes : e.symm (b • v) = b • e.symm v :=
@@ -101,7 +101,7 @@ private theorem exists_linearEquiv_pow_card_smul_aux (n : ℕ) :
               (e.symm : V →ₗ[K] (W × W')) :=
           LinearMap.ext fun v => rfl
         rw [h1, LinearMap.det_conj, LinearMap.det_prodMap, hdW, hdW'', mul_one]
-    · haveI : Subsingleton V := not_nontrivial_iff_subsingleton.mp hV
+    · have : Subsingleton V := not_nontrivial_iff_subsingleton.mp hV
       exact ⟨LinearEquiv.refl K V, fun _ _ => Subsingleton.elim _ _, fun h => absurd h hV⟩
 
 theorem exists_linearEquiv_pow_card_smul {V : Type*} [AddCommGroup V] [Module K V] [Module B V]
@@ -116,22 +116,22 @@ theorem exists_conj_eq_pow_card {V : Type*} [AddCommGroup V] [Module K V] [Finit
     ∃ g : V ≃ₗ[K] V, (∀ x ∈ E, g * x * g⁻¹ = x ^ Fintype.card K) ∧
       (Nontrivial V → LinearMap.det (g : V →ₗ[K] V) = δ) := by
   classical
-  letI : CommGroup E :=
+  let : CommGroup E :=
     { (inferInstance : Group E) with mul_comm := fun x y => Subtype.ext (hcomm x x.2 y y.2) }
   let ρ : E →* (V →ₗ[K] V) :=
     { toFun := fun x => ((x : V ≃ₗ[K] V) : V →ₗ[K] V)
       map_one' := rfl
       map_mul' := fun _ _ => rfl }
   let L : MonoidAlgebra K E →ₐ[K] (V →ₗ[K] V) := MonoidAlgebra.lift K (V →ₗ[K] V) E ρ
-  letI : Module (MonoidAlgebra K E) V := Module.compHom V L.toRingHom
+  let : Module (MonoidAlgebra K E) V := Module.compHom V L.toRingHom
   have hsmul : ∀ (b : MonoidAlgebra K E) (v : V), b • v = L b v := fun _ _ => rfl
-  haveI : IsScalarTower K (MonoidAlgebra K E) V := ⟨fun c b v => by
+  have : IsScalarTower K (MonoidAlgebra K E) V := ⟨fun c b v => by
     rw [hsmul, hsmul, map_smul]
     rfl⟩
-  haveI : NeZero (Nat.card E : K) := ⟨hcard⟩
-  haveI : ComplementedLattice (Submodule (MonoidAlgebra K E) V) :=
+  have : NeZero (Nat.card E : K) := ⟨hcard⟩
+  have : ComplementedLattice (Submodule (MonoidAlgebra K E) V) :=
     ⟨fun W => MonoidAlgebra.Submodule.exists_isCompl W⟩
-  haveI : IsSemisimpleModule (MonoidAlgebra K E) V := IsSemisimpleModule.mk
+  have : IsSemisimpleModule (MonoidAlgebra K E) V := IsSemisimpleModule.mk
   obtain ⟨g, hg, hdet⟩ :=
     exists_linearEquiv_pow_card_smul (K := K) (B := MonoidAlgebra K E) (V := V) hδ
   refine ⟨g, fun x hx => ?_, hdet⟩

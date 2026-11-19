@@ -21,7 +21,7 @@ private instance s16c1_G47_oddCore_characteristic (H : Type*) [Group H] :
 
 private theorem s16c1_G47_odd_card_oddCore (H : Type*) [Group H] [Finite H] :
     Odd (Nat.card (CFSG.oddCore H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [s16c1_G47_oddCore_eq_pPrimeCore_two]
   exact Nat.coprime_two_left.mp CFSG.pPrimeCore_coprime_card
 
@@ -29,7 +29,7 @@ private theorem s16c1_G47_normalizer_zpowers_card {X : Type} [Group X] [Finite X
     (hcard : Nat.card X = 120) {u g : X} (hu : orderOf u = 5)
     (hgu : g * u * g⁻¹ ∉ Subgroup.zpowers u) :
     Nat.card (Subgroup.normalizer (Subgroup.zpowers u : Set X)) = 20 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let P : Subgroup X := Subgroup.zpowers u
   have hPcard : Nat.card P = 5 := by
     show Nat.card (Subgroup.zpowers u) = 5
@@ -43,7 +43,7 @@ private theorem s16c1_G47_normalizer_zpowers_card {X : Type} [Group X] [Finite X
   let Ps : Sylow 5 X := hP5.toSylow (by rw [hPidx]; norm_num)
   have hPs_coe : (Ps : Subgroup X) = P :=
     IsPGroup.toSylow_coe (hP1 := hP5) (hP2 := by rw [hPidx]; norm_num)
-  haveI : Finite (Sylow 5 X) :=
+  have : Finite (Sylow 5 X) :=
     Finite.of_injective (fun Q : Sylow 5 X => (Q : Set X))
       (fun Q R h => SetLike.coe_injective h)
   have hg_smul_ne : g • Ps ≠ Ps := by
@@ -60,7 +60,7 @@ private theorem s16c1_G47_normalizer_zpowers_card {X : Type} [Group X] [Finite X
     exact hgu hmemP
   have hn_ne_one : Nat.card (Sylow 5 X) ≠ 1 := by
     intro hn1
-    haveI : Subsingleton (Sylow 5 X) := (Nat.card_eq_one_iff_unique.mp hn1).1
+    have : Subsingleton (Sylow 5 X) := (Nat.card_eq_one_iff_unique.mp hn1).1
     exact hg_smul_ne (Subsingleton.elim _ _)
   have hn_dvd : Nat.card (Sylow 5 X) ∣ 24 := by
     have h := Sylow.card_dvd_index Ps
@@ -104,7 +104,7 @@ private theorem s16c1_G47_five_dvd_contra {X : Type} [Group X] [Finite X]
     {u g : X} (hu : orderOf u = 5)
     (hgu : g * u * g⁻¹ ∉ Subgroup.zpowers u)
     (hKc : Nat.card K = 5 ∨ Nat.card K = 15) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let P : Subgroup X := Subgroup.zpowers u
   have hPcard : Nat.card P = 5 := by
     show Nat.card (Subgroup.zpowers u) = 5
@@ -118,11 +118,11 @@ private theorem s16c1_G47_five_dvd_contra {X : Type} [Group X] [Finite X]
   let Ps : Sylow 5 X := hP5.toSylow (by rw [hPidx]; norm_num)
   have hPs_coe : (Ps : Subgroup X) = P :=
     IsPGroup.toSylow_coe (hP1 := hP5) (hP2 := by rw [hPidx]; norm_num)
-  haveI : Finite (Sylow 5 X) :=
+  have : Finite (Sylow 5 X) :=
     Finite.of_injective (fun Q : Sylow 5 X => (Q : Set X))
       (fun Q R h => SetLike.coe_injective h)
   have hdvdK : 5 ∣ Nat.card (↥K) :=
-    hKc.elim (fun h => by rw [h] <;> norm_num) (fun h => by rw [h] <;> norm_num)
+    hKc.elim (fun h => by rw [h]) (fun h => by rw [h]; norm_num)
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 5 hdvdK
   have hy0ord : orderOf (y : X) = 5 := by rw [Subgroup.orderOf_coe, hyord]
   let A : Subgroup X := Subgroup.zpowers (y : X)
@@ -136,7 +136,7 @@ private theorem s16c1_G47_five_dvd_contra {X : Type} [Group X] [Finite X]
     exact y.2
   obtain ⟨Q, hAQ⟩ := IsPGroup.exists_le_sylow (p := 5) hA5
   have hQcard : Nat.card Q = 5 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have h5dvd : 5 ∣ Nat.card Q := by
       have h := Subgroup.card_dvd_of_le hAQ
       rwa [hAcard] at h
@@ -240,7 +240,7 @@ private theorem s16c1_G47_five_dvd_contra {X : Type} [Group X] [Finite X]
         have := Subgroup.subgroupOf_inj.mp hsub
         rwa [inf_eq_left.mpr hA2K, inf_eq_left.mpr hB2K] at this
       exact hA2_ne_B2 h2
-    haveI : Finite (Sylow 5 ↥K) :=
+    have : Finite (Sylow 5 ↥K) :=
       Finite.of_injective (fun S : Sylow 5 ↥K => (S : Set ↥K))
         (fun S T h => SetLike.coe_injective h)
     have hm_mod : Nat.card (Sylow 5 ↥K) ≡ 1 [MOD 5] := card_sylow_modEq_one 5 ↥K
@@ -256,16 +256,16 @@ private theorem s16c1_G47_five_dvd_contra {X : Type} [Group X] [Finite X]
       rcases (Nat.dvd_prime (by norm_num : Nat.Prime 3)).mp hm_dvd with h | h
       · exact h
       · rw [h] at hm_mod; norm_num [Nat.ModEq] at hm_mod
-    haveI : Subsingleton (Sylow 5 ↥K) := (Nat.card_eq_one_iff_unique.mp hm_eq1).1
+    have : Subsingleton (Sylow 5 ↥K) := (Nat.card_eq_one_iff_unique.mp hm_eq1).1
     exact hA's_ne (Subsingleton.elim _ _)
 
 theorem s16c1_G47_sl2five_odd_normal {X : Type} [Group X] (hX : IsSL2Prime X 5)
     {K : Subgroup X} (hK : K.Normal) (hodd : Odd (Nat.card K)) : K = ⊥ := by
   classical
   obtain ⟨hcard, hperf, u, t, g, hu, ht, hgu⟩ := s16c1_sl2five_facts hX
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Group.IsPerfect X := Group.isPerfect_def.2 (by simpa [commutator_def] using hperf)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Group.IsPerfect X := Group.isPerfect_def.2 (by simpa [commutator_def] using hperf)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hnorm_card : Nat.card (Subgroup.normalizer (Subgroup.zpowers u : Set X)) = 20 :=
     s16c1_G47_normalizer_zpowers_card hcard hu hgu
   have hdvd120 : Nat.card K ∣ 120 := by
@@ -296,7 +296,7 @@ theorem s16c1_G47_sl2five_odd_normal {X : Type} [Group X] (hX : IsSL2Prime X 5)
     exact s16c1_G47_five_dvd_contra hcard hK hu hgu hKc
   have hno3 : Nat.card K ≠ 3 := by
     intro hK3
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hdvd3 : 3 ∣ Nat.card (↥K) := by
       rw [hK3]
     obtain ⟨c, hcorder⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 hdvd3
@@ -350,15 +350,15 @@ theorem s16c1_G47_sl2five_odd_normal {X : Type} [Group X] (hX : IsSL2Prime X 5)
   rcases hmem with h1 | h3 | h5 | h15
   · exact Subgroup.eq_bot_of_card_eq K h1
   · exact (hno3 h3).elim
-  · exact (hno5 (by rw [h5] <;> norm_num)).elim
-  · exact (hno5 (by rw [h15] <;> norm_num)).elim
+  · exact (hno5 (by rw [h5])).elim
+  · exact (hno5 (by rw [h15]; norm_num)).elim
 
 theorem s16c1_G47_oddNormal {Hs : Type} [Group Hs] [Finite Hs] {Ys Xs N : Subgroup Hs}
-    (hY : Ys.Normal) (hXY : Xs ≤ Ys) (hX : IsSL2Prime ↥Xs 5) (hN : N ≤ Ys)
+    (hY : Ys.Normal) (_hXY : Xs ≤ Ys) (hX : IsSL2Prime ↥Xs 5) (hN : N ≤ Ys)
     (hNn : (N.subgroupOf Ys).Normal) (hNodd : Odd (Nat.card N)) :
     ∃ N₀ : Subgroup Hs, N₀.Normal ∧ Odd (Nat.card N₀) ∧ N ≤ N₀ ∧ N₀ ≤ Ys ∧ Xs ⊓ N₀ = ⊥ := by
   classical
-  haveI : Ys.Normal := hY
+  have : Ys.Normal := hY
   let N₀ : Subgroup Hs := (CFSG.oddCore ↥Ys).map Ys.subtype
   have hN₀norm : N₀.Normal := by
     refine ⟨fun x hx g => ?_⟩

@@ -29,7 +29,7 @@ theorem isCyclic_of_faithful_central_commutator {G : Type*} [Group G]
           simpa [mul_assoc] using this
         have hc : (a.1 * y * a.1⁻¹ * y⁻¹) * (b.1 * y * b.1⁻¹ * y⁻¹)
             = (b.1 * y * b.1⁻¹ * y⁻¹) * (a.1 * y * a.1⁻¹ * y⁻¹) := by
-          letI := IsCyclic.commGroup (α := X)
+          let := IsCyclic.commGroup (α := X)
           have := mul_comm (⟨a.1 * y * a.1⁻¹ * y⁻¹, hcomm a.1 a.2⟩ : X)
             ⟨b.1 * y * b.1⁻¹ * y⁻¹, hcomm b.1 b.2⟩
           exact congrArg Subtype.val this
@@ -50,7 +50,7 @@ theorem isCyclic_of_faithful_central_commutator {G : Type*} [Group G]
     apply hfaith d.1 d.2
     calc d.1 * y = (d.1 * y * d.1⁻¹ * y⁻¹) * (y * d.1) := by group
       _ = y * d.1 := by rw [h1, one_mul]
-  haveI hcyc : IsCyclic f.range := by
+  have hcyc : IsCyclic f.range := by
     classical
     obtain ⟨g, hg⟩ := exists_zpow_surjective X
     by_cases hK : ∃ x : X, x ∈ f.range ∧ x ≠ (1 : X)
@@ -98,7 +98,7 @@ theorem isCyclic_of_faithful_central_commutator {G : Type*} [Group G]
         by_contra hne
         exact hK ⟨x, hx, hne⟩
       rw [hbot]
-      haveI : Subsingleton (⊥ : Subgroup X) :=
+      have : Subsingleton (⊥ : Subgroup X) :=
         ⟨fun a b => Subtype.ext (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
       exact isCyclic_of_subsingleton
   exact isCyclic_of_surjective (MonoidHom.ofInjective hinj).symm

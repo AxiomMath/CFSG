@@ -107,7 +107,7 @@ theorem untwCrossRankStep_G2 : UntwCrossRankStep Tag.G2 := by
   refine untwCrossRankStep_of_row (D := [6, 2]) (N := 6) (by decide)
     (fun K _ _ => card_adjointGroup_G2_dvd K) ?_
   intro ℓ f₀ p hℓ hf₀ hp hp5 hne K k _ _ _ _ hK hk m hm hpm hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcong := natCast_card_eq_of_pow (p := p) hK hk
   have hp2 : p ≠ 2 := by omega
   have hlow : ∀ e : ℕ, (e = 1 ∨ e = 2) →
@@ -156,11 +156,11 @@ theorem untwCrossRankStep_G2 : UntwCrossRankStep Tag.G2 := by
     have hpd : p ∣ Nat.card K ^ 2 + Nat.card K + 1 := Int.natCast_dvd_natCast.1 hd3
     have hdd : ((Nat.card K ^ 2 + Nat.card K + 1 : ℕ) : ℤ) =
         (Nat.card K : ℤ) ^ 2 + 1 * (Nat.card K : ℤ) + 1 := by
-      push_cast <;> ring
+      push_cast; ring
     by_cases hℓ2 : ℓ = 2
     · subst hℓ2
-      haveI : Fintype K := Fintype.ofFinite K
-      haveI : CharP K 2 :=
+      have : Fintype K := Fintype.ofFinite K
+      have : CharP K 2 :=
         charP_of_card_eq_prime_pow (f := p * f₀) (by rw [← Nat.card_eq_fintype_card]; exact hK)
       have h := CFSG.RankThree.Chevalley.even_G2_cyclotomic_three_six_tori_and_prime_centralizers
         K (1 : ℤ) (Or.inr rfl) (Nat.card K ^ 2 + Nat.card K + 1) hdd hp (by omega) hpd
@@ -182,7 +182,7 @@ theorem untwCrossRankStep_G2 : UntwCrossRankStep Tag.G2 := by
     have hd6 : ((Nat.card K ^ 2 + 1 - Nat.card K : ℕ) : ℤ) =
         (Nat.card K : ℤ) ^ 2 + (-1) * (Nat.card K : ℤ) + 1 := by
       rw [Nat.cast_sub hN]
-      push_cast <;> ring
+      push_cast; ring
     have hpd : (p : ℤ) ∣ ((Nat.card K ^ 2 + 1 - Nat.card K : ℕ) : ℤ) := by
       rw [hd6]
       have e6 : (exhaustionPhi 6).eval (Nat.card K : ℤ) =
@@ -195,8 +195,8 @@ theorem untwCrossRankStep_G2 : UntwCrossRankStep Tag.G2 := by
     have hpd' : p ∣ Nat.card K ^ 2 + 1 - Nat.card K := Int.natCast_dvd_natCast.1 hpd
     by_cases hℓ2 : ℓ = 2
     · subst hℓ2
-      haveI : Fintype K := Fintype.ofFinite K
-      haveI : CharP K 2 :=
+      have : Fintype K := Fintype.ofFinite K
+      have : CharP K 2 :=
         charP_of_card_eq_prime_pow (f := p * f₀) (by rw [← Nat.card_eq_fintype_card]; exact hK)
       have h := CFSG.RankThree.Chevalley.even_G2_cyclotomic_three_six_tori_and_prime_centralizers
         K (-1 : ℤ) (Or.inl rfl) (Nat.card K ^ 2 + 1 - Nat.card K) hd6 hp (by omega) hpd'

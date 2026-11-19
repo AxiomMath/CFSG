@@ -41,6 +41,7 @@ theorem normalizer_le_normalizer_inf_centralizer (T : Subgroup G) :
   have h1 := key n⁻¹ (inv_mem hn) _ hx
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 theorem centerIn_J_le_inf_centralizer_of_isSylowOf (h : Tim79a.ParrottHyp z)
     (hZ : centerIn (J z) = centerIn (H z)) {M : Subgroup G} (hM : centerIn (J z) ≤ M)
     {T : Subgroup G} (hT : IsSylowOf 2 T (H z ⊓ M)) :
@@ -99,6 +100,7 @@ private theorem conjugate_zpowers_eq (a g : G) :
   rw [CFSG.conjugate, MonoidHom.map_zpowers]
   simp
 
+omit [Finite G] in
 private theorem conjugate_conjugate_eq (R : Subgroup G) (a b : G) :
     CFSG.conjugate (CFSG.conjugate R a) b = CFSG.conjugate R (a * b) := by
   ext x

@@ -35,7 +35,7 @@ theorem isDiag_mul' {x y : Matrix (Fin n) (Fin n) K} (hx : x.IsDiag) (hy : y.IsD
       simpa using this
     · have hc : Commute x y := Subtype.ext (Units.ext (commute_of_isDiag hx.1 hy.1))
       rw [hc.mul_pow, hx.2, hy.2, one_mul]
-  one_mem' := ⟨by simpa using Matrix.isDiag_one, one_pow _⟩
+  one_mem' := ⟨by simp, one_pow _⟩
   inv_mem' {x} hx := by
     refine ⟨?_, ?_⟩
     · have h1 : (((x⁻¹ : unitarySU ℓ f K n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
@@ -152,9 +152,9 @@ theorem exists_diag_det_inv (h : UnitaryFieldData ℓ f K) (hn : 0 < n) {c : K}
     intro j
     rw [hd]
     by_cases hj : j = ⟨0, hn⟩
-    · simp only [if_pos hj, map_inv₀]
+    · simp only [ite_eq_left hj, map_inv₀]
       rw [← mul_inv, hc, inv_one]
-    · simp only [if_neg hj, map_one, mul_one]
+    · simp only [ite_eq_right hj, map_one, mul_one]
   have hprod : ∏ j, d j = c⁻¹ := by
     rw [hd]
     simp

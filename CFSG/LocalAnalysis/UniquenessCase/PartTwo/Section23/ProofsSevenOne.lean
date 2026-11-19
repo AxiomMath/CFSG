@@ -89,7 +89,7 @@ private theorem E_le_centralizer_of_inverting (D : Data G) (hUZ : D.U = D.Z)
       intro z hz
       exact congrArg Subtype.val
         ((Subgroup.mem_centralizer_iff.mp hm) ⟨z, hZleM hz⟩ (Subgroup.mem_subgroupOf.mpr hz))
-  haveI : (D.Z.subgroupOf D.M).Normal := hZsubN
+  have : (D.Z.subgroupOf D.M).Normal := hZsubN
   have hCnorm : (C.subgroupOf D.M).Normal := by
     rw [hCeq]
     exact Subgroup.normal_centralizer
@@ -157,7 +157,7 @@ private theorem normalizer_le_uniqueFourConj {M : Subgroup G} {q : ℕ} (hq : q.
       rw [mul_inv_rev, Subgroup.map_map]
       congr 1
       ext x
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     have h3 : uniqueFourConj (b * g') M = uniqueFourConj g' M := by
       rw [hcomp, uniqueFourConj_eq_self_iff.mpr (Subgroup.le_normalizer hbM)]
     calc normalizer (B : Set G) =
@@ -173,7 +173,7 @@ theorem inf_map_conj_eq_bot_of_gamma_le (D : Data G) (h63 : UC6.R6_3 D) (hUZ : D
     (hQexp : ∀ x ∈ Q, x ^ q = 1) (hΓ : rankThreeGamma 1 q Q ≤ D.M) {g : G}
     (hg : g ∉ D.M) : Q ⊓ D.M.map (MulAut.conj g).toMonoidHom = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hQq : IsPGroup q Q := hR.isPGroup.to_le hQR
   set g' : G := g⁻¹ with hg'def
   have hg' : g' ∉ D.M := by
@@ -262,7 +262,7 @@ theorem s23_7_1_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch) (h77 : F07
     (hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M) (h6 : S23_6 D Ch)
     (hrk : ∀ p ∈ D.sig, 3 ≤ CFSG.Open.pRank p D.M) (h63 : UC6.R6_3 D) : S23_7_1 D Ch := by
   intro h1930 c q hq hq2 Q hQM hQq hQnc hQexp hQcl p hp P hPM hPn hPO Q0 hQ0 hQN hQn g hg
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hUZ : D.U = D.Z := (h4 h1930 c).1
   have hσ : D.sig ⊆ D.sig1 := fun r hr => (h6 h1930 c) ▸ hr
   have hspSig : ∀ r ∈ D.sig, CFSG.RankThree.PartOne.IsStronglyPEmbedded r D.M := by

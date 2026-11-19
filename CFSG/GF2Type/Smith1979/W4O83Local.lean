@@ -15,6 +15,7 @@ open CFSG.RankThree.OrthogonalInvolutions (add_self_vec neg_vec_eq)
 
 variable {G : Type} [Group G] [Finite G] {S : Setting G}
 
+omit [Finite G] in
 theorem mem_Qa_iff' (g x : G) : x ∈ S.Qa g ↔ g⁻¹ * x * g ∈ S.QG := by
   rw [Setting.Qa_eq_map]
   constructor
@@ -88,6 +89,7 @@ theorem Omega83Config.exists_fixed_index (C : Omega83Config S)
   rw [e] at this
   exact this hk
 
+omit [Finite G] in
 theorem pCoreOf_facts (K : Subgroup G) :
     IsPGroup 2 (pCoreOf 2 K) ∧ pCoreOf 2 K ≤ K ∧
       ∀ k ∈ K, ∀ r ∈ pCoreOf 2 K, k * r * k⁻¹ ∈ pCoreOf 2 K := by
@@ -101,6 +103,7 @@ theorem pCoreOf_facts (K : Subgroup G) :
     obtain ⟨o', ho', rfl⟩ := hr
     exact ⟨⟨k, hk⟩ * o' * ⟨k, hk⟩⁻¹, CFSG.pCore_normal.conj_mem o' ho' _, rfl⟩
 
+omit [Finite G] in
 theorem zpow_eq_one_or_self {x : G} (hx2 : orderOf x = 2) (k : ℤ) : x ^ k = 1 ∨ x ^ k = x := by
   have h2 : ((orderOf x : ℕ) : ℤ) = 2 := by exact_mod_cast hx2
   have h := zpow_mod_orderOf x k
@@ -111,6 +114,7 @@ theorem zpow_eq_one_or_self {x : G} (hx2 : orderOf x = 2) (k : ℤ) : x ^ k = 1 
   · right
     rw [← h, h1, zpow_one]
 
+omit [Finite G] in
 theorem normalizer_zpowers_eq_centralizer {x : G} (hx2 : orderOf x = 2) :
     normalizer (zpowers x : Set G) = centralizer ({x} : Set G) := by
   have hx1 : x ≠ 1 := by
@@ -146,6 +150,7 @@ theorem normalizer_zpowers_eq_centralizer {x : G} (hx2 : orderOf x = 2) :
       exact (hcomm.zpow_left k).eq
     exact (centralizer_le_normalizer _) hg
 
+omit [Finite G] in
 theorem centralizer_pCoreOf_le (hchar : IsCharTwoType G) {x : G} (hx2 : orderOf x = 2) :
     ∀ y ∈ centralizer ({x} : Set G),
       (∀ r ∈ pCoreOf 2 (centralizer ({x} : Set G)), y * r = r * y) →

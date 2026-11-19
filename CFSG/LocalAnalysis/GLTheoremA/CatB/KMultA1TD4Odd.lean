@@ -18,7 +18,7 @@ theorem SubnQuot.comap (ψ : L →* G) (hψ : Function.Surjective ψ) (h : SubnQ
     SubnQuot L T := by
   obtain ⟨J, hJ, φ, hφ⟩ := h
   exact ⟨J.comap ψ, hJ.comap ψ, φ.comp (ψ.subgroupComap J),
-    hφ.comp (ψ.subgroupComap_surjective_of_surjective J hψ)⟩
+    hφ.comp (ψ.subgroupComap_surjective J hψ)⟩
 
 theorem SubnQuot.of_mulEquiv (e : G ≃* L) (h : SubnQuot G T) : SubnQuot L T :=
   h.comap e.symm.toMonoidHom e.symm.surjective
@@ -47,7 +47,7 @@ theorem SubnQuot.quotient [IsSimpleGroup T] (hT : ¬ Group.IsSolvable T) (N : Su
     { toFun := fun x => ⟨((x : ↥J) : G), x.2⟩
       map_one' := rfl
       map_mul' := fun _ _ => rfl }
-  haveI : Group.IsSolvable ↥M := by
+  have : Group.IsSolvable ↥M := by
     refine Group.isSolvable_of_isSolvable_injective (f := ι) ?_
     intro x y hxy
     have h := congrArg (fun z : ↥N => (z : G)) hxy
@@ -90,7 +90,7 @@ theorem SubnQuot.normal [IsSimpleGroup T] (hT : ¬ Group.IsSolvable T) (N : Subg
       have : φ x ∈ M.map φ := Subgroup.mem_map_of_mem φ hxM
       rw [hb, Subgroup.mem_bot] at this
       exact this
-    haveI : Group.IsSolvable (↥J ⧸ χ.ker) :=
+    have : Group.IsSolvable (↥J ⧸ χ.ker) :=
       Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective χ)
     refine hT (Group.isSolvable_of_surjective (f := QuotientGroup.lift χ.ker φ hχker) ?_)
     intro t
@@ -117,7 +117,7 @@ theorem SubnQuot.card_eq_of_isSimpleGroup [IsSimpleGroup G] [Nontrivial T] (h : 
     have hx : x = 1 := Subtype.ext ((Subgroup.mem_bot).1 x.2)
     have hy : y = 1 := Subtype.ext ((Subgroup.mem_bot).1 y.2)
     exact hab (by rw [hx, hy])
-  · haveI : IsSimpleGroup ↥(⊤ : Subgroup G) := (Subgroup.topEquiv (G := G)).isSimpleGroup
+  · have : IsSimpleGroup ↥(⊤ : Subgroup G) := (Subgroup.topEquiv (G := G)).isSimpleGroup
     have hinj : Function.Injective φ := by
       rcases (inferInstance : φ.ker.Normal).eq_bot_or_eq_top with hk | hk
       · exact (MonoidHom.ker_eq_bot_iff φ).1 hk
@@ -134,9 +134,9 @@ theorem SubnQuot.card_eq_of_isSimpleGroup [IsSimpleGroup G] [Nontrivial T] (h : 
 theorem SubnQuot.card_eq_centerQuot [IsSimpleGroup T] (hT : ¬ Group.IsSolvable T)
     [IsSimpleGroup (G ⧸ Subgroup.center G)] (h : SubnQuot G T) :
     Nat.card T = Nat.card (G ⧸ Subgroup.center G) := by
-  haveI : Group.IsSolvable ↥(Subgroup.center G) := Group.isSolvable_of_comm fun a b =>
+  have : Group.IsSolvable ↥(Subgroup.center G) := Group.isSolvable_of_comm fun a b =>
     Subtype.ext ((Subgroup.mem_center_iff.1 b.2) a)
-  haveI : Nontrivial T := IsSimpleGroup.toNontrivial
+  have : Nontrivial T := IsSimpleGroup.toNontrivial
   exact (h.quotient hT (Subgroup.center G)).card_eq_of_isSimpleGroup
 
 theorem isSolvable_quot_commutator : Group.IsSolvable (G ⧸ commutator G) :=

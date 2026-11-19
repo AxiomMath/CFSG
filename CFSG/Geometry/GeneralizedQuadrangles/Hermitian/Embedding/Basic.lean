@@ -44,12 +44,15 @@ variable {ι : V → Submodule K W} {A U : Submodule K W}
     (U : Submodule K W) : Set V :=
   {L | c L = 1 ∧ Γ.neighborSet L ⊆ sectionPoints c ι U}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem mem_sectionPoints {x : V} :
     x ∈ sectionPoints c ι U ↔ c x = 0 ∧ ι x ≤ U := Iff.rfl
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem mem_sectionLines {L : V} :
     L ∈ sectionLines c ι U ↔ c L = 1 ∧ ι L ≤ U := Iff.rfl
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem mem_fullSectionLines {L : V} :
     L ∈ fullSectionLines c ι U ↔
       c L = 1 ∧ Γ.neighborSet L ⊆ sectionPoints c ι U := Iff.rfl
@@ -62,6 +65,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj] {c : Γ.Coloring
 variable {K : Type*} [Field K] {W : Type*} [AddCommGroup W] [Module K W]
 variable {ι : V → Submodule K W} {A U : Submodule K W}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem line_eq_sup_of_two_adjacent_points (hι : IsProjGQ c ι A) {x y L : V}
     (hx : c x = 0) (hy : c y = 0) (hxy : x ≠ y)
     (hxL : Γ.Adj x L) (hyL : Γ.Adj y L) :
@@ -70,9 +74,9 @@ theorem line_eq_sup_of_two_adjacent_points (hι : IsProjGQ c ι A) {x y L : V}
   have hx1 : finrank K (ι x) = 1 := hι.finrank_point x hx
   have hy1 : finrank K (ι y) = 1 := hι.finrank_point y hy
   have hL2 : finrank K (ι L) = 2 := hι.finrank_line L hL
-  haveI : FiniteDimensional K (ι x) := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K (ι y) := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K (ι L) := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K (ι x) := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K (ι y) := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K (ι L) := Module.finite_of_finrank_pos (by omega)
   have hne : ι x ≠ ι y := fun h => hxy (hι.injective h)
   have hbot : ι x ⊓ ι y = ⊥ := by
     rw [Submodule.eq_bot_iff]
@@ -91,18 +95,21 @@ theorem line_eq_sup_of_two_adjacent_points (hι : IsProjGQ c ι A) {x y L : V}
     sup_le ((hι.adj_iff x L hx hL).1 hxL) ((hι.adj_iff y L hy hL).1 hyL)
   exact (Submodule.eq_of_le_of_finrank_eq hle (by rw [hsup2, hL2])).symm
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem line_le_of_two_sectionPoints (hι : IsProjGQ c ι A) {x y L : V}
     (hx : x ∈ sectionPoints c ι U) (hy : y ∈ sectionPoints c ι U) (hxy : x ≠ y)
     (hxL : Γ.Adj x L) (hyL : Γ.Adj y L) : ι L ≤ U := by
   rw [line_eq_sup_of_two_adjacent_points hι hx.1 hy.1 hxy hxL hyL]
   exact sup_le hx.2 hy.2
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem neighborSet_subset_of_sectionLines (hι : IsProjGQ c ι A) {L : V}
     (hL : L ∈ sectionLines c ι U) : Γ.neighborSet L ⊆ sectionPoints c ι U := by
   intro x hx
   have hx0 : c x = 0 := color_eq_zero_of_adj_of_color_eq_one hL.1 hx
   exact ⟨hx0, ((hι.adj_iff x L hx0 hL.1).1 hx.symm).trans hL.2⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem le_of_neighborSet_subset_sectionPoints (hι : IsProjGQ c ι A) {L : V}
     (hL : c L = 1) (hneigh : Γ.neighborSet L ⊆ sectionPoints c ι U) : ι L ≤ U := by
   intro v hv
@@ -144,6 +151,7 @@ variable {ι : V → Submodule K W} {A U : Submodule K W}
   ∀ U : Submodule K W, U ≤ A → finrank K U = 2 → (∀ L, c L = 1 → ι L ≠ U) →
     2 ≤ (sectionPoints c ι U).ncard → (sectionPoints c ι U).ncard = ℓ + 1
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem HasConstantSecants.ncard_eq {ℓ : ℕ} (h : HasConstantSecants c ι A ℓ)
     {U : Submodule K W} (hU : U ≤ A) (h2 : finrank K U = 2)
     (hne : ∀ L, c L = 1 → ι L ≠ U) (hge : 2 ≤ (sectionPoints c ι U).ncard) :
@@ -158,6 +166,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj] {c : Γ.Coloring
 variable {K : Type*} [Field K] {W : Type*} [AddCommGroup W] [Module K W]
 variable {ι : V → Submodule K W} {A U : Submodule K W}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem pairwiseNoncollinear_of_sectionLines_eq_empty (hP : IsGeneralizedPolygon Γ 4)
     (hι : IsProjGQ c ι A) (hempty : sectionLines c ι U = ∅) :
     IsPairwiseNoncollinear Γ (sectionPoints c ι U) := by
@@ -297,7 +306,7 @@ variable {ι : V → Submodule K W} {A U : Submodule K W}
 theorem section_trichotomy (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
-    (hι : IsProjGQ c ι A) (hU : U ≤ A) :
+    (hι : IsProjGQ c ι A) (_hU : U ≤ A) :
     IsPencilSection c ι U ∨ IsPairwiseNoncollinear Γ (sectionPoints c ι U) ∨
       ∃ t' : ℕ, 1 ≤ t' ∧ IsFullSubquadrangle c (sectionPoints c ι U) t' := by
   classical

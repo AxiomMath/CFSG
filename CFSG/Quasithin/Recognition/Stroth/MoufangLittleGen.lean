@@ -16,6 +16,7 @@ open scoped Pointwise
 variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
   {n : ℕ} {D : Type} [Group D] [MulAction D V] [FaithfulSMul D V] [GraphAction D Γ]
 
+omit [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptRoot_le_littleGroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 2 ≤ n) (k : ℤ) : aptRoot D Γ n t k ≤ littleGroup D Γ n := by
   rw [aptRoot_eq_pathRootGroup ht k]
@@ -25,18 +26,21 @@ theorem aptRoot_le_littleGroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartment
     (t : ZMod (2 * n) → V) : Subgroup D :=
   ⨆ k : ℤ, aptRoot D Γ n t k
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_le_aptRootGroup {t : ZMod (2 * n) → V} (k : ℤ) :
     aptRoot D Γ n t k ≤ aptRootGroup D Γ n t :=
   le_iSup (fun j : ℤ => aptRoot D Γ n t j) k
 
+omit [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptRootGroup_le_littleGroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 2 ≤ n) : aptRootGroup D Γ n t ≤ littleGroup D Γ n := by
   rw [aptRootGroup]
   exact iSup_le fun k => aptRoot_le_littleGroup ht hn k
 
+omit [Fintype V] in
 theorem apt_val_add {t : ZMod (2 * n) → V} (hn : 1 ≤ n) (a : ZMod (2 * n)) (c : ℤ) :
     apt t ((a.val : ℤ) + c) = t (a + (c : ZMod (2 * n))) := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   show t ((((a.val : ℤ) + c : ℤ) : ZMod (2 * n))) = t (a + (c : ZMod (2 * n)))
   congr 1
   push_cast
@@ -57,7 +61,7 @@ theorem apt_dist_eq {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
 theorem apt_adj_iff {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) {a b : ZMod (2 * n)} :
     Γ.Adj (t a) (t b) ↔ b = a + 1 ∨ b = a - 1 := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   have h1n : 1 ≤ n := by omega
   have hapt : ∀ c : ZMod (2 * n), apt t (c.val : ℤ) = t c := by
     intro c
@@ -136,7 +140,7 @@ private theorem apt_eq_of_eq_on_window {t t' : ZMod (2 * n) → V}
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) {a : ℤ}
     (hwin : ∀ r : ℤ, a ≤ r → r ≤ a + (n : ℤ) + 1 → apt t' r = apt t r) :
     t' = t := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   have hgp : IsGenPolygon Γ n := isGenPolygon_of_isGeneralizedPolygon (by omega) hP hT
   have hU : UniqueGeod Γ n := hgp.uniqueGeod
   funext k
@@ -241,13 +245,14 @@ theorem two_ne_zero_zmod (hn : 2 ≤ n) : (2 : ZMod (2 * n)) ≠ 0 := by
   have := Nat.le_of_dvd (by norm_num) hd
   omega
 
+omit [FaithfulSMul D V] in
 theorem apt_fix_of_fix_two {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) {g : D}
     (hstab : g • (Set.range t) = Set.range t) {c : ZMod (2 * n)}
     (hc : g • t c = t c) (hc1 : g • t (c + 1) = t (c + 1)) :
     ∀ k : ZMod (2 * n), g • t k = t k := by
   classical
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   have hmem : ∀ k : ZMod (2 * n), g • t k ∈ Set.range t := by
     intro k
     have hx : t k ∈ Set.range t := Set.mem_range_self k
@@ -326,6 +331,7 @@ theorem apt_fix_of_fix_two {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
     ring
   rw [← hk, hkey]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_add_two_mul {t : ZMod (2 * n) → V} (k c : ℤ) :
     aptRoot D Γ n t (k + 2 * (n : ℤ) * c) = aptRoot D Γ n t k := by
   ext g
@@ -340,6 +346,7 @@ theorem aptRoot_add_two_mul {t : ZMod (2 * n) → V} (k c : ℤ) :
     simpa [show k + 2 * (n : ℤ) * c + i = (k + i) + 2 * (n : ℤ) * c by ring,
       apt_add_two_mul] using hw
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem apt_ne_succ {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 2 ≤ n)
     (k : ZMod (2 * n)) : t k ≠ t (k + 1) := by
   intro h
@@ -350,6 +357,7 @@ theorem apt_ne_succ {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (h
     rw [show (2 : ZMod (2 * n)) = 1 + 1 by norm_num, h5.symm, zero_add]
   exact two_ne_zero_zmod (by omega) h6
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem apt_ne_two_zmod {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 2 ≤ n)
     (k : ZMod (2 * n)) : t k ≠ t (k + 2) := by
   intro h
@@ -362,6 +370,7 @@ theorem apt_ne_two_zmod {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t
     (t : ZMod (2 * n) → V) : Subgroup D :=
   ⨆ k ∈ Set.Icc (1 : ℤ) (n : ℤ), aptRoot D Γ n t k
 
+omit [FaithfulSMul D V] in
 theorem exists_smul_apartment_through_chamber {t t' : ZMod (2 * n) → V}
     (ht : IsPolygonApartment Γ n t) (ht' : IsPolygonApartment Γ n t')
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ)
@@ -463,14 +472,16 @@ theorem exists_aptReflection {t : ZMod (2 * n) → V} (ht : IsPolygonApartment �
       (aptRoot_le_littleGroup ht (by omega) i huD))
     (aptRoot_le_littleGroup ht (by omega) (i + (n : ℤ)) hw)
 
+omit [Fintype V] in
 theorem apt_val {t : ZMod (2 * n) → V} (hn : 1 ≤ n) (k : ZMod (2 * n)) :
     apt t (k.val : ℤ) = t k := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   show t (((k.val : ℤ) : ZMod (2 * n))) = t k
   congr 1
   push_cast
   exact ZMod.natCast_zmod_val k
 
+omit [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] in
 theorem reflection_mem_normalizer {t : ZMod (2 * n) → V} {m : D} {i : ℤ} (hn : 3 ≤ n)
     (hmL : m ∈ littleGroup D Γ n)
     (hact : ∀ k : ℤ, m • apt t k = apt t (2 * i - k)) :
@@ -506,7 +517,8 @@ theorem reflection_mem_normalizer {t : ZMod (2 * n) → V} {m : D} {i : ℤ} (hn
     (t : ZMod (2 * n) → V) : Subgroup ↥(littleGroup D Γ n) :=
   moufangB D Γ n t ⊓ moufangN D Γ n t
 
-theorem fixingSubgroup_subgroupOf_le_littleCartan {t : ZMod (2 * n) → V} (hn : 1 ≤ n) :
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
+theorem fixingSubgroup_subgroupOf_le_littleCartan {t : ZMod (2 * n) → V} (_hn : 1 ≤ n) :
     (fixingSubgroup D (Set.range t)).subgroupOf (littleGroup D Γ n) ≤
       moufangCartan D Γ n t := by
   intro g hg
@@ -526,6 +538,7 @@ theorem fixingSubgroup_subgroupOf_le_littleCartan {t : ZMod (2 * n) → V} (hn :
     · intro hy
       exact ⟨y, hy, hfix y hy⟩
 
+omit [FaithfulSMul D V] in
 theorem moufangCartan_le_fixingSubgroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) :
     moufangCartan D Γ n t ≤ (fixingSubgroup D (Set.range t)).subgroupOf (littleGroup D Γ n) := by
@@ -546,6 +559,7 @@ theorem moufangCartan_le_fixingSubgroup {t : ZMod (2 * n) → V} (ht : IsPolygon
   obtain ⟨k, rfl⟩ := hx
   exact apt_fix_of_fix_two ht hn hP hT hstab h0 h1 k
 
+omit [FaithfulSMul D V] in
 theorem moufangCartan_eq_fixingSubgroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) :
     moufangCartan D Γ n t = (fixingSubgroup D (Set.range t)).subgroupOf (littleGroup D Γ n) :=

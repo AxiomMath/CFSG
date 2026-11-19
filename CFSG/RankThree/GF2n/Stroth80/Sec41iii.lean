@@ -69,14 +69,14 @@ theorem sl2_of_commuting_normal_prod {K : Type} [Field K] [Finite K] [CharP K 2]
     (e : Γ ≃* ↥(StatedSL 2 K) × ↥(StatedSL 2 K)) {F₁ F₂ : Subgroup Γ} [F₁.Normal] [F₂.Normal]
     (h1 : F₁ ≠ ⊥) (h2 : F₂ ≠ ⊥) (hc : ∀ x ∈ F₁, ∀ y ∈ F₂, x * y = y * x) :
     Nonempty (↥F₁ ≃* ↥(StatedSL 2 K)) ∧ Nonempty (↥F₂ ≃* ↥(StatedSL 2 K)) := by
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) := isSimpleGroup_statedSL_two hq
+  have : IsSimpleGroup ↥(StatedSL 2 K) := isSimpleGroup_statedSL_two hq
   have hA : ∃ a b : ↥(StatedSL 2 K), a * b ≠ b * a := by
     by_contra h
     push Not at h
-    exact not_isSolvable_of_isQuasisimple hq (isSolvable_of_comm fun a b => h a b)
-  haveI hN1 : (F₁.map e.toMonoidHom).Normal :=
+    exact not_isSolvable_of_isQuasisimple hq (_root_.Group.isSolvable_of_comm fun a b => h a b)
+  have hN1 : (F₁.map e.toMonoidHom).Normal :=
     Subgroup.Normal.map ‹F₁.Normal› e.toMonoidHom e.surjective
-  haveI hN2 : (F₂.map e.toMonoidHom).Normal :=
+  have hN2 : (F₂.map e.toMonoidHom).Normal :=
     Subgroup.Normal.map ‹F₂.Normal› e.toMonoidHom e.surjective
   have h1' : F₁.map e.toMonoidHom ≠ ⊥ := fun h =>
     h1 ((Subgroup.map_eq_bot_iff_of_injective F₁ e.injective).mp h)

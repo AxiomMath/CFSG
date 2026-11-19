@@ -15,7 +15,7 @@ namespace KDRank3Amb
 
 theorem dvd_card_outer {p : ℕ} (hp : p.Prime) {S : Type} [Group S] {E : Subgroup (MulAut S)}
     (hE : IsElemAbelian p E) (hnot : ¬ E ≤ inner S) : p ∣ Nat.card (Outer S) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hxE, hxI⟩ := Set.not_subset.1 hnot
   have hx1 : (QuotientGroup.mk x : Outer S) ≠ 1 := fun h => hxI ((QuotientGroup.eq_one_iff x).1 h)
   have hxp : (QuotientGroup.mk x : Outer S) ^ p = 1 := by

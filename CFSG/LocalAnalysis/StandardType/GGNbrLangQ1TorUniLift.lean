@@ -139,7 +139,7 @@ end Helpers
 
 theorem q1TorUni_component_lift {d m : ℕ} {K : Type} [Field K] [Finite K]
     (τ : K ≃+* K) (hτ : ∀ x, τ (τ x) = x) (hτQ : ∀ x, τ x = x ^ 2 ^ m)
-    (s : GL (Fin d) K) (hs : s ∈ Held.heldGU d K τ hτ)
+    (s : GL (Fin d) K) (_hs : s ∈ Held.heldGU d K τ hτ)
     (hsN : s ∈ Subgroup.normalizer (LargeEvenSUGroup (Fin d) K (2 ^ m) : Set (GL (Fin d) K)))
     (J₀ : Subgroup (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ m))))
     (hJ₀ : CFSG.Open.IsComponentOf J₀

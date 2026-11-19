@@ -23,6 +23,6 @@ theorem KFactSetting.of_d1Global (hS : D1Global G) : KFactSetting 4 G where
   simple := hS.simple
   nonab := hS.nonab
   kProper := hS.kProper
-  le_pRank p hp P := four_le_pRank_sylow (mem_betaFour_of_mem_sigmaA hS.rank hp) P
+  le_pRank _p hp P := four_le_pRank_sylow (mem_betaFour_of_mem_sigmaA hS.rank hp) P
 
 end CFSG.LocalAnalysis.RankFourTheoremC

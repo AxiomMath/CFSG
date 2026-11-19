@@ -22,6 +22,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {ρ : ↥(centralizer ({t} : Se
 @[expose] def lyB1 (x₁ x₂ x₃ : ↥(centralizer ({t} : Set G))) : Subgroup G :=
   Subgroup.closure {(x₁ : G), (x₂ : G), (x₃ : G)}
 
+omit [Finite G] in
 theorem ly_hR (D : LyData G t ρ) : IsExtraSpec2 (lyR ρ) ∧ Nat.card (lyR ρ) = 2 ^ Row.ly.rexp := by
   obtain ⟨h2, hc, hf, hz⟩ := lyR_extraspecial D
   refine ⟨⟨h2, hc.trans hf.symm, hf, hz⟩, ?_⟩
@@ -32,6 +33,7 @@ private theorem xp_indep : ∀ i j k : Fin 3,
     x1p ^ i.val * x2p ^ j.val * x3p ^ k.val = 1 → i = 0 ∧ j = 0 ∧ k = 0 := by
   decide +kernel
 
+omit [Finite G] in
 theorem ly_hB (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     IsElemAbelian Row.ly.prime (lyB1 x₁ x₂ x₃) ∧
       Nat.card (lyB1 x₁ x₂ x₃) = Row.ly.prime ^ (Row.ly.rank - 1) := by
@@ -62,13 +64,15 @@ private theorem x2p_conj_lyU : (∀ i, ∃ v, ExtraspecialNF.mon lyU v = x2p * l
 private theorem x3p_conj_lyU : (∀ i, ∃ v, ExtraspecialNF.mon lyU v = x3p * lyU i * x3p⁻¹) ∧
     ∀ i, ∃ v, ExtraspecialNF.mon lyU v = x3p⁻¹ * lyU i * x3p⁻¹⁻¹ := by decide +kernel
 
+omit [Finite G] in
 theorem lyR_le_centralizer_x₁ (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     lyR ρ ≤ centralizer ({(x₁ : G)} : Set G) :=
   le_centralizer_lyR D S.pow₁ fun π hπ => by
     rw [S.rho₁]
     exact comm_lyVS x1p_comm_lyU hπ
 
-theorem ly_hBN (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
+omit [Finite G] in
+theorem ly_hBN (_D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     lyB1 x₁ x₂ x₃ ≤ Subgroup.normalizer (lyR ρ : Set G) := by
   refine (Subgroup.closure_le _).2 ?_
   rintro g (rfl | rfl | rfl)
@@ -86,20 +90,24 @@ theorem ly_hBN (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     · have h := conj_mem_lyVS (π := x3p⁻¹) (fun i => x3p_conj_lyU.2 i) hπ
       rwa [inv_inv] at h
 
+omit [Finite G] in
 theorem ly_hd (S : LyStd ρ x₁ x₂ x₃) : (x₁ : G) ∈ lyB1 x₁ x₂ x₃ ∧ (x₁ : G) ≠ 1 := by
   refine ⟨Subgroup.subset_closure (Set.mem_insert _ _), fun h => ?_⟩
   have h3 := LyData.orderOf_x₁ S
   rw [h, orderOf_one] at h3
   exact absurd h3 (by norm_num)
 
+omit [Finite G] in
 theorem ly_R0 (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) : rowR0Of (x₁ : G) (lyR ρ) = lyR ρ :=
   inf_eq_left.2 (lyR_le_centralizer_x₁ D S)
 
+omit [Finite G] in
 theorem ly_hR0 (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     Nat.card (rowR0Of (x₁ : G) (lyR ρ)) = 2 ^ Row.ly.r0exp := by
   rw [ly_R0 D S, card_lyR D]
   rfl
 
+omit [Finite G] in
 theorem ly_hR0t (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) : IsExtraSpec2 (rowR0Of (x₁ : G) (lyR ρ)) := by
   rw [ly_R0 D S]
   exact (ly_hR D).1
@@ -117,7 +125,7 @@ private theorem isQuasisimple_centralizer (D : LyData G t ρ) (S : LyStd ρ x₁
     CFSG.Open.IsQuasisimple ↥(centralizer ({(x₁ : G)} : Set G)) := by
   refine ⟨(D.isPerfect_centralizer S).commutator_eq_top, ?_⟩
   obtain ⟨hsimple, -, -⟩ := D.centQuot_facts S.pow₁ S.rho₁
-  haveI := hsimple
+  have := hsimple
   exact MulEquiv.isSimpleGroup (QuotientGroup.quotientMulEquivOfEq (D.center_centralizer S))
 
 private theorem centralizer_layer (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :

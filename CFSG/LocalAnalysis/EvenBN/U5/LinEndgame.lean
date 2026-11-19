@@ -55,7 +55,7 @@ theorem swap_exists_elemAb_of_not_mem {B : Subgroup G} (hB : CFSG.IsElementaryAb
     ∃ C X : Subgroup G, C ≤ B ∧ X ≤ centralizer ({v} : Set G) ∧ CFSG.IsElementaryAbelian 2 X ∧
       Nat.card X = 2 * Nat.card C ∧ Nat.card B ≤ Nat.card C * Nat.card C := by
   classical
-  haveI := hB
+  have := hB
   have hsq : ∀ b : G, b ∈ B → b * b = 1 := fun b hb => by
     have := CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := B) b hb
     simpa [sq] using this
@@ -127,8 +127,8 @@ theorem swap_exists_elemAb_of_not_mem {B : Subgroup G} (hB : CFSG.IsElementaryAb
   have hcardC₀ : Nat.card C₀ = Nat.card C := Subgroup.card_map_of_injective B.subtype_injective
   refine ⟨C₀, C₀ ⊔ zpowers v, hC₀B, sup_le hC₀cent (zpowers_le.2 (mem_centralizer_singleton_iff.2 rfl)),
     ?_, ?_, ?_⟩
-  · haveI : CFSG.IsElementaryAbelian 2 C₀ := CFSG.IsElementaryAbelian.of_le hB hC₀B
-    haveI : CFSG.IsElementaryAbelian 2 (zpowers v) :=
+  · have : CFSG.IsElementaryAbelian 2 C₀ := CFSG.IsElementaryAbelian.of_le hB hC₀B
+    have : CFSG.IsElementaryAbelian 2 (zpowers v) :=
       CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one (by rw [sq]; exact hv2)
     exact CFSG.IsElementaryAbelian.sup_of_le_centralizer (E := C₀) (C := zpowers v)
       (zpowers_le.2 (mem_centralizer_iff.2 fun x hx => mem_centralizer_singleton_iff.1 (hC₀cent hx)))
@@ -139,6 +139,7 @@ theorem swap_exists_elemAb_of_not_mem {B : Subgroup G} (hB : CFSG.IsElementaryAb
     calc Nat.card B = Nat.card φ.ker * Nat.card φ.range := h1.symm
       _ ≤ Nat.card C * Nat.card C := Nat.mul_le_mul le_rfl h2
 
+omit [Finite G] in
 theorem swap_map_conj_mul (b t : G) (X : Subgroup G) :
     X.map (MulAut.conj (b * t)).toMonoidHom =
       (X.map (MulAut.conj t).toMonoidHom).map (MulAut.conj b).toMonoidHom := by
@@ -172,8 +173,8 @@ theorem swap_endgame :
         (∀ Y : Subgroup G, Y ≤ R → CFSG.IsElementaryAbelian 2 Y → (2 ^ f) ^ 12 ≤ Nat.card Y →
           Y = B ∨ Y = B.map (MulAut.conj t).toMonoidHom) → False := by
   intro G _ _ _ f hf t B D R ht2 hBel hBcard hBne hD hDel hbound hR hDR htR hKC
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hBel
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hBel
   set Bt : Subgroup G := B.map (MulAut.conj t).toMonoidHom with hBt
   have hq : 4 ≤ 2 ^ f := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -185,7 +186,7 @@ theorem swap_endgame :
   have hBtR : Bt ≤ R := hBtD.trans hDR
   have hBt_card : Nat.card Bt = Nat.card B :=
     Subgroup.card_map_of_injective (MulAut.conj t).injective
-  haveI : CFSG.IsElementaryAbelian 2 Bt := CFSG.IsElementaryAbelian.map _
+  have : CFSG.IsElementaryAbelian 2 Bt := CFSG.IsElementaryAbelian.map _
   have hperm : ∀ r ∈ normalizer (R : Set G),
       (B.map (MulAut.conj r).toMonoidHom = B ∧ Bt.map (MulAut.conj r).toMonoidHom = Bt) ∨
       (B.map (MulAut.conj r).toMonoidHom = Bt ∧ Bt.map (MulAut.conj r).toMonoidHom = B) := by
@@ -197,7 +198,7 @@ theorem swap_endgame :
         Nat.card (X.map (MulAut.conj r).toMonoidHom) = (2 ^ f) ^ 12 := fun X hX => by
       rw [Subgroup.card_map_of_injective (MulAut.conj r).injective, hX]
     have h1 := hKC (B.map (MulAut.conj r).toMonoidHom) (hmapR B hBR)
-      (by haveI := hBel; exact CFSG.IsElementaryAbelian.map _) (le_of_eq (hcard B hBcard).symm)
+      (by have := hBel; exact CFSG.IsElementaryAbelian.map _) (le_of_eq (hcard B hBcard).symm)
     have h2 := hKC (Bt.map (MulAut.conj r).toMonoidHom) (hmapR Bt hBtR)
       (by exact CFSG.IsElementaryAbelian.map _) (le_of_eq (hcard Bt (hBt_card.trans hBcard)).symm)
     have hne : B.map (MulAut.conj r).toMonoidHom ≠ Bt.map (MulAut.conj r).toMonoidHom := fun h =>
@@ -245,7 +246,7 @@ theorem swap_endgame :
     have hbound' : ∀ X : Subgroup G, X ≤ centralizer ({v} : Set G) → CFSG.IsElementaryAbelian 2 X →
         Nat.card X ≤ 2 * (2 ^ f) ^ 4 := by
       intro X hX hXel
-      haveI := hXel
+      have := hXel
       have hXc : X.map (MulAut.conj g).toMonoidHom ≤ centralizer ({t} : Set G) := by
         rintro _ ⟨x, hx, rfl⟩
         rw [mem_centralizer_singleton_iff]
@@ -271,7 +272,7 @@ theorem swap_endgame :
       rw [hXcard] at h1
       have h6 : (2 ^ f) ^ 6 ≤ Nat.card C := by
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         have : Nat.card C * Nat.card C < (2 ^ f) ^ 6 * (2 ^ f) ^ 6 := Nat.mul_self_lt_mul_self hlt
         have e12 : (2 ^ f) ^ 6 * (2 ^ f) ^ 6 = (2 ^ f) ^ 12 := by ring
         rw [e12] at this

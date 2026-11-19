@@ -124,7 +124,7 @@ theorem isSylowIn_two_of_C0 {C₀ T : Subgroup G} (hTC : T ≤ C₀) (hTcard : N
   have hTp' : IsPGroup 2 ↥(T.subgroupOf C₀) := hTp.of_equiv (Subgroup.subgroupOfEquivOfLe hTC).symm
   obtain ⟨R, hR⟩ := hTp'.exists_le_sylow
   have hRp : IsPGroup 2 ↥((R : Subgroup ↥C₀).map C₀.subtype) :=
-    R.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ C₀.subtype C₀.subtype_injective)
+    R.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ C₀.subtype C₀.subtype_injective)
   have hTQ : T ≤ (R : Subgroup ↥C₀).map C₀.subtype := by
     intro x hx
     exact Subgroup.mem_map.mpr ⟨⟨x, hTC hx⟩, hR (Subgroup.mem_subgroupOf.mpr hx), rfl⟩

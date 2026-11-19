@@ -49,7 +49,7 @@ theorem ob5_card_quot {W : Type} [CommGroup W] {B U : Subgroup W} (hUB : U ≤ B
 
 theorem ob5_card_U_sixteen {U : Type} [Group U] [Finite U] (hU : IsPGroup 2 U) (hrk : rk U = 4) :
     Nat.card U = 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := U)).mp hU
   have hrk' : rk U = n := by
     unfold rk
@@ -107,7 +107,7 @@ theorem ob5_card_QB (c : S828Ctx T L I H h k) (hB256 : Nat.card ↥((ch82B (fsuV
   rw [h2, hB256] at h1
   omega
 
-theorem ob5_card_M (c : S828Ctx T L I H h k) (hQB16 : Nat.card (QB (fsuV T I) (ch82B (fsuV T I) h) (ch82U (fsuV T I) h)) = 16) :
+theorem ob5_card_M (_c : S828Ctx T L I H h k) (hQB16 : Nat.card (QB (fsuV T I) (ch82B (fsuV T I) h) (ch82U (fsuV T I) h)) = 16) :
     Nat.card (QB (fsuV T I) (ch82B (fsuV T I) h) (ch82U (fsuV T I) h) ×
       QB (fsuV T I) (ch82B (fsuV T I) h) (ch82U (fsuV T I) h)) = 2 ^ 8 := by
   rw [Nat.card_prod, hQB16]

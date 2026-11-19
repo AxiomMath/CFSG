@@ -61,8 +61,7 @@ theorem autOn_pCoreOf {X V : Subgroup G} (hX : X ≤ Subgroup.normalizer (V : Se
     obtain ⟨y', hy', rfl⟩ := hy
     have : f y' ∈ CFSG.pCore 2 ↥(autOn X V) := hmap ▸ Subgroup.mem_map_of_mem f hy'
     refine ⟨f y', ?_, ?_⟩
-    · try with_reducible rfl
-      exact this
+    · exact this
     · exact hfx y'
   · rintro ⟨s', hs', rfl⟩
     rw [← hmap] at hs'

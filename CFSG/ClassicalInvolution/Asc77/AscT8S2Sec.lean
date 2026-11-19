@@ -62,7 +62,7 @@ theorem eq_image_of_mem_USet_le_sylow (hp : p ≠ 2) {Λ : Set (Subgroup H)}
         (QuotientGroup.mk' N)) := h1
     rwa [Subgroup.comap_map_eq, QuotientGroup.ker_mk'] at h2
   have hU2 : IsPGroup 2 U := hΛ.isPGroup_of_mem_USet hp hU
-  obtain ⟨n, hn, hUn⟩ := exists_conj_le_of_le_sup_odd hN S.isPGroup' hU2 hUSN
+  obtain ⟨n, hn, hUn⟩ := exists_conj_le_of_le_sup_odd hN S.isPGroup hU2 hUSN
   have hJ' : conjSub n⁻¹ J ∈ Λ := hΛ.conjInvariant _ J hJ
   have hU4 : 4 ≤ Nat.card U := by
     obtain ⟨-, -, -, -, -, -, -, -, h4⟩ := hΛ.exists_data_of_mem_USet hp hU

@@ -216,7 +216,6 @@ theorem exists_radical_of_finrank_eq_four [Module.Finite (ZMod 2) K]
     all_goals first
       | exact absurd hjk (by decide)
       | exact h.self₁₂ _ _
-      | exact h.self₁₃ _ _
       | exact e₀₁₂
       | exact e₀₁₃
       | exact e₀₂₃

@@ -69,7 +69,7 @@ theorem not_compOfType_isA6 {S : Type} [Group S] [Finite S] {α : MulAut S}
   obtain ⟨ψ⟩ := nonempty_equiv_a6 hT
   have hJle := hlayer J hJ.1 (glaPComponent_perfect hJ)
   have hJc := (glaPComponent_isComponent_of_le_layer hJ hJle).1
-  haveI : Nontrivial (PSimple 3 J) := by
+  have : Nontrivial (PSimple 3 J) := by
     have h360 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
       rw [nat_card_alternatingGroup, Nat.card_fin]
       decide

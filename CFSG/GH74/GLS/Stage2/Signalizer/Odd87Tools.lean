@@ -164,7 +164,7 @@ theorem le_of_le_sup_centralizer {p : ℕ} [hp : Fact p.Prime] (K : Subgroup A) 
   have hPn : (P : Subgroup ↥T).Normal := inferInstance
   have hPc : (P : Subgroup ↥T).Characteristic := Sylow.characteristic_of_normal P hPn
   set Q : Subgroup A := (P : Subgroup ↥T).map T.subtype with hQ
-  have hQp : IsPGroup p ↥Q := (P.isPGroup').map T.subtype
+  have hQp : IsPGroup p ↥Q := (P.isPGroup).map T.subtype
   have hQn : Q.Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨t, ht, rfl⟩ := hn

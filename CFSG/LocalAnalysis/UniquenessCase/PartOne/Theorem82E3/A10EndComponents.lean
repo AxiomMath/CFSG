@@ -46,6 +46,7 @@ private theorem exists_mem_deg_three (F : A10Frame c) :
     rwa [Nat.card_zpowers] at h
   exact ⟨(x : G), hxA, hdeg, by rw [← hord, pow_orderOf_eq_one]⟩
 
+omit [Finite G] in
 private theorem centralizer_ne_top [IsSimpleGroup G] {B : Subgroup G} (hB3 : Nat.card B = 3)
     (hnonab : ∃ a b : G, a * b ≠ b * a) :
     Subgroup.centralizer (B : Set G) ≠ ⊤ := by
@@ -187,7 +188,7 @@ private theorem componentLayerOf_centralizer_le_of_deg_ne_three
     (hO : CFSG.Open.pCoreOf 2 (Subgroup.centralizer (B : Set G)) = ⊥) :
     CFSG.GorensteinWalter.componentLayerOf (Subgroup.centralizer (B : Set G)) ≤ D.M := by
   classical
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   let H : Subgroup G := Subgroup.centralizer (B : Set G)
   let E : Subgroup G := CFSG.GorensteinWalter.componentLayerOf H
   change CFSG.GorensteinWalter.componentLayerOf H ≤ D.M

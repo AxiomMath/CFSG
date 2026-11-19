@@ -172,7 +172,7 @@ noncomputable def fiberEquiv
     have hIg : hG ∈ I.map (MulAut.conj g).toMonoidHom := by
       refine (Subgroup.mem_map).2 ?_
       refine ⟨(v : G) * (b : G), I.mul_mem v.2 b.2, ?_⟩
-      simpa [MulAut.conj_apply, MonoidHom.coe_coe, mul_assoc] using h_conj.symm
+      simpa [MulAut.conj_apply, _root_.MonoidHom.coe_ofClass, mul_assoc] using h_conj.symm
     exact ⟨hG, ⟨hI, hIg⟩⟩
   · intro h
     apply Subtype.ext

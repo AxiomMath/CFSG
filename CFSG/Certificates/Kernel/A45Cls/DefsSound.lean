@@ -53,8 +53,8 @@ theorem cntN_eq (f : Nat → Bool) :
         Bool.rec (motive := fun _ => Nat) (cntN m f) (Nat.succ (cntN m f)) (f m) := rfl
     rw [e, Finset.range_add_one, Finset.filter_insert, cntN_eq f m]
     cases hf : f m
-    · rw [if_neg (by simp)]
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_right (by simp)]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
 
 @[expose] def fixC (g : Equiv.Perm (Fin n)) : Nat := (Finset.univ.filter fun i => g i = i).card
 

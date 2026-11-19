@@ -120,7 +120,7 @@ theorem octSystemOf_root_eight_card (hK : Nat.card K = 2 ^ (2 * a + 1)) :
 
 theorem octagon_orders_of_root_cards {m : ℕ} (hTits : Tits83Orders) (R : RankTwoSystem X 8)
     [Finite X] (hR : RGD2 8 (octH K a) (octR1 K a) (octR2 K a) (Ug K a) (octRoot K a))
-    [IsSimpleGroup (Gm K a)] (ha : 1 ≤ a) (hm : 2 ≤ m)
+    (_ha : 1 ≤ a) (_hm : 2 ≤ m)
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     (hroot1 : Nat.card (R.root 1) = 2 ^ (2 * (2 * a + 1)))
     (hroot8 : Nat.card (R.root 8) = 2 ^ m) :

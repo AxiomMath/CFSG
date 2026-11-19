@@ -428,7 +428,7 @@ theorem coprime_hyperplane_generation [Nontrivial A] {H : Type u} [Group H] [Fin
     have : IsInvariant A H Q := isInvariant_of_forall_smul_mem hQ
     have hQp : ¬ p ∣ Nat.card (Q : Subgroup H) :=
       fun h => hp (h.trans (Subgroup.card_subgroup_dvd_card _))
-    have : Group.IsNilpotent (Q : Subgroup H) := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (Q : Subgroup H) := Q.isPGroup.isNilpotent
     exact ⟨Q, le_hyperplane_join_of_invariant (A := A) (p := p) (Q : Subgroup H)
       (solvable_hyperplane_generation (A := A) inferInstance hQp)⟩
   have hdvd : Nat.card H ∣ Nat.card X := by

@@ -68,7 +68,7 @@ theorem a2l_chev3On_g23 (hQ : a2lFixedQuasi) (hG : a2lG23Comp) :
   intro K _ _ hK h2 _ hnF hS σ hσ X hXσ hXc hXF
   exfalso
   obtain ⟨σ', P, hPF, hF⟩ := a2l_exc_reduce hK hnF hσ hXσ hXc hXF
-  haveI : IsSimpleGroup (K ⧸ center K) := hK.2.1
+  have : IsSimpleGroup (K ⧸ center K) := hK.2.1
   have hq := hQ (K ⧸ center K) hK.2.2
     ⟨.G2, 0, 3, 1, Nat.prime_three, by norm_num, hS.admissible, hS⟩
   obtain ⟨hP, hF'⟩ := a2l_exc_component hq hPF hF

@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem central_in_J_of_decomposition {T F : Subgroup G}
     (hT : Nat.card T = 2) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) :

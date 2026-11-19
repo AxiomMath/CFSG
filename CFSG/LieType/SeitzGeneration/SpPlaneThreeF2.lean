@@ -37,7 +37,7 @@ theorem PairCenters.symm {i j : LineIdx E} (h : PairCenters E i j) : PairCenters
     exact h y' hy' y hy hy'0 hy0
 
 theorem pairCenters_none (D : SpPlaneDecomp 3 E) {M : Subgroup ↥E} (hM : Nat.card M = 3) :
-    PairCenters E none (some ⟨M, hM⟩) := fun y hy y' hy' _ _ =>
+    PairCenters E none (some ⟨M, hM⟩) := fun _y hy _y' hy' _ _ =>
   transCenter_add_of_mem_summands_three D hM hy hy'
 
 theorem PairCenters.of_one [Finite K] (hcard : Nat.card E = 9) (D : SpPlaneDecomp 3 E)
@@ -93,11 +93,11 @@ theorem exists_big_or_fixed [Finite K] (hr : 5 ≤ r) (hexp : ∀ x ∈ E, x ^ 3
   by_contra hcon
   push Not at hcon
   obtain ⟨hfix, hle⟩ := hcon
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hP : CFSG.RankThree.PartOne.KCUnitaryPlane.IsPlane 3 ↥E :=
     ⟨Nat.prime_three, by rw [hcard]; norm_num, fun x => Subtype.ext (hexp x x.2)⟩
-  haveI : Fintype {M : Subgroup ↥E // Nat.card M = 3} := Fintype.ofFinite _
+  have : Fintype {M : Subgroup ↥E // Nat.card M = 3} := Fintype.ofFinite _
   have e := (LinearEquiv.ofBijective (DirectSum.coeLinearMap (spInnerSummand 3 E))
     D.internal).finrank_eq
   rw [Module.finrank_directSum, Fintype.sum_option] at e
@@ -140,7 +140,7 @@ theorem exists_pair_of_big {U : Submodule K (Fin r ⊕ Fin r → K)}
   have hnot : ¬ U ≤ Submodule.span K {y, spEnd g y} := fun h => by
     have := Submodule.finrank_mono h
     omega
-  obtain ⟨w, hwU, hwP⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨w, hwU, hwP⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hw : w ∈ Submodule.span K {y, spEnd g y} ⊔
       LinearMap.BilinForm.orthogonal (spForm r K) (Submodule.span K {y, spEnd g y}) := by
     rw [hcompl.sup_eq_top]
@@ -230,7 +230,7 @@ theorem mixed_transCenter_F2 [Finite K] (hK : Nat.card K = 2) {E : Subgroup (Sta
     ∃ y ∈ spLineSpace L, ∃ y' ∈ spLineSpace N, y ≠ 0 ∧ y' ≠ 0 ∧
       TransCenter (centralizerSpan E) (y + y') := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h2 := one_add_one_of_card_two hK
   obtain ⟨a, haL, ha1⟩ := exists_ne_one_of_one_lt_card (M := L) (by rw [hL]; norm_num)
   obtain ⟨b, hbN, hb1⟩ := exists_ne_one_of_one_lt_card (M := N) (by rw [hN]; norm_num)

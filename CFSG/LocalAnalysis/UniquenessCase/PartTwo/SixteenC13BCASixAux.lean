@@ -52,12 +52,14 @@ theorem s16c13bcA_map_eq_of_mem_normalizer {Γ : Type*} [Group Γ] {A : Subgroup
     show g * (g⁻¹ * x * g) * g⁻¹ = x
     group
 
+omit [Finite G] in
 theorem s16c13bcA_wTil_map_conj (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (L : Subgroup G) (x : MulAut (Vtil V₀ V hV)) :
     (wTil V₀ V hV L).map x.toMonoidHom =
       commSub ⊤ ((lBar V₀ V hV L).map (MulAut.conj x).toMonoidHom) :=
   (s15_Infra_commSub_top_map_conj (lBar V₀ V hV L) x).symm
 
+omit [Finite G] in
 theorem s16c13bcA_wTil_map_eq (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (L : Subgroup G) {x : MulAut (Vtil V₀ V hV)}
     (h : (lBar V₀ V hV L).map (MulAut.conj x).toMonoidHom = lBar V₀ V hV L) :

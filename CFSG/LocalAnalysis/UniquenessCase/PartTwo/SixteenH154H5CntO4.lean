@@ -114,7 +114,7 @@ private theorem s16h_centralizer_natImage_le_statedScalars {K : Type} [Field K] 
     have hsingle : (Pi.single (Sum.inl (0 : Fin 1)) (1 : K) : s16hι → K) ≠ 0 := by
       intro h
       have := congrFun h (Sum.inl (0 : Fin 1))
-      simpa using this
+      simp at this
     refine hsingle ((toAddMap_eq_zero_iff g).mp ?_)
     have h1 : f (Pi.single (Sum.inl (0 : Fin 1)) (1 : K)) = 0 := by
       rw [hμ, h0, zero_smul]
@@ -180,7 +180,7 @@ theorem s16h_natNorm_elemAbelian_le_omegaMinus4 {K : Type} [Field K] [Finite K] 
   have hEtop : IsElemAbelian q (⊤ : Subgroup ↥A') := by
     rw [← Subgroup.subgroupOf_self]
     exact hE.subgroupOf A'
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp
     (show IsPGroup q ↥A' from fun x => ⟨1, Subtype.ext (by simpa using hE.2 x.1 x.2)⟩)
   have hrank := CFSG.PreuniquenessRankFour.Helpers.elementary_rank_le_kernel_rank_add_image_rank

@@ -20,7 +20,7 @@ theorem map_conj_map_conj (K : Subgroup GL4) (a b : GL4) :
 
 theorem map_conj_one (K : Subgroup GL4) : K.map (MulAut.conj (1 : GL4)).toMonoidHom = K := by
   ext x
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 section Cert
 

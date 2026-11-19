@@ -68,7 +68,7 @@ private theorem e6CenOA_pow_inj {u w : G} (hu3 : u ^ 3 = 1) (hw3 : w ^ 3 = 1) (h
   rcases lt_trichotomy i i' with hlt | rfl | hgt
   · exact (key hlt hi' h).elim
   · refine ⟨rfl, ?_⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have ho : orderOf w = 3 := orderOf_eq_prime hw3 hw1
     exact pow_injOn_Iio_orderOf (x := w) (Set.mem_Iio.2 (by rw [ho]; exact hj))
       (Set.mem_Iio.2 (by rw [ho]; exact hj')) (mul_left_cancel h)
@@ -78,7 +78,7 @@ private theorem e6CenOA_eq_pow_mul_pow {P : Subgroup G} (hP : Nat.card P = 3 ^ 2
     (hu : u ∈ P) (hw : w ∈ P) (hu3 : u ^ 3 = 1) (hw3 : w ^ 3 = 1) (hw1 : w ≠ 1)
     (huw : u ∉ Subgroup.zpowers w) {s : G} (hs : s ∈ P) :
     ∃ i j : ZMod 3, s = u ^ i.val * w ^ j.val := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   obtain ⟨f, hf⟩ : ∃ f : ZMod 3 × ZMod 3 → P, ∀ p, (f p : G) = u ^ p.1.val * w ^ p.2.val :=
     ⟨fun p => ⟨_, mul_mem (pow_mem hu p.1.val) (pow_mem hw p.2.val)⟩, fun _ => rfl⟩
   have hinj : Function.Injective f := by
@@ -89,7 +89,7 @@ private theorem e6CenOA_eq_pow_mul_pow {P : Subgroup G} (hP : Nat.card P = 3 ^ 2
       (ZMod.val_lt j) (ZMod.val_lt j') h'
     exact Prod.ext (ZMod.val_injective 3 e1) (ZMod.val_injective 3 e2)
   obtain ⟨⟨i, j⟩, hij⟩ :=
-    (hinj.bijective_of_nat_card_le (by simp [hP, Nat.card_prod, Nat.card_zmod])).2 ⟨s, hs⟩
+    (hinj.bijective_of_nat_card_le (by simp [hP])).2 ⟨s, hs⟩
   refine ⟨i, j, ?_⟩
   have h' := congrArg Subtype.val hij
   rw [hf] at h'
@@ -606,7 +606,7 @@ theorem e6Cen_OA [Finite K] (hK : 3 ∣ Nat.card K - 1) (h3 : ω ^ 3 = 1) (h1 : 
   simp only [torV, Units.val_pow_eq_pow_val] at hrel
   obtain ⟨hf02, hf0⟩ := e6CenOA_trace_cases h3 h1 (ZMod.val_lt (f 2)) (ZMod.val_lt (f 0)) hrel
   have hprim : IsPrimitiveRoot ω 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPrimitiveRoot.iff_orderOf.2 (orderOf_eq_prime h3 h1)
   have hf45 : f 4 = f 5 := ZMod.val_injective 3
     (hprim.pow_inj (ZMod.val_lt _) (ZMod.val_lt _) (hc4.trans (hb45.trans hc5.symm)))

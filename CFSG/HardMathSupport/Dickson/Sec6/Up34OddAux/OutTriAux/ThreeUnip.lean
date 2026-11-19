@@ -28,7 +28,7 @@ theorem exists_conj_unipotent_noL34 {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K
       (MulAut.conj u * fieldActor (t := TwistTag.D4) σ σ) ^ 3 = 1 ∧
       (NoL34Layer (MulAut.conj u * fieldActor (t := TwistTag.D4) σ σ) → NoL34Layer β) := by
   classical
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hfix, hg3⟩ := exists_conj_fieldActor_of_order_three Nat.prime_three (by norm_num) hf hK
     σ hσ β hβ hout
@@ -104,15 +104,15 @@ theorem noL34Layer_three_D4_outer_three {f : ℕ} (hf : 1 ≤ f) {K : Type}
     (hσ : ∀ c, σ c = c ^ (3 ^ f))
     (β : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) (hβ3 : β ^ 3 = 1)
     (hout : β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner _) : NoL34Layer β := by
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   obtain ⟨u, hu, hu3, hgood⟩ := exists_conj_unipotent_noL34 hf hK σ hσ β hβ3 hout
   refine hgood ?_
   obtain ⟨w, s, r, r', hs, hr, hr', hw⟩ := exists_twistedConj_longForm hf hK σ hσ hu hu3
   refine noL34Layer_of_conj (MulAut.conj w⁻¹) _ ?_
-  rw [conj_mul_twisted hf hK σ hσ (fieldActor (t := TwistTag.D4) σ σ) u w, hw]
+  rw [conj_mul_twisted σ (fieldActor (t := TwistTag.D4) σ σ) u w, hw]
   by_cases hne : s = 0 ∧ r = 0 ∧ r' = 0
   · obtain ⟨rfl, rfl, rfl⟩ := hne
-    rw [longElt_zero hf hK σ hσ, longElt_zero hf hK σ hσ, longElt_zero hf hK σ hσ]
+    rw [longElt_zero σ, longElt_zero σ, longElt_zero σ]
     simp only [mul_one, map_one, one_mul]
     exact noL34Layer_fieldActor_odd Nat.prime_three (by norm_num) hf hK σ hσ
   · obtain ⟨ε, c, hc, hc0, hε⟩ := exists_conj_to_top_of_longForm hf hK σ hσ hs hr hr' hne

@@ -36,7 +36,7 @@ theorem uc22s13xi_pRank_le_lkQuot7 {p : ℕ} [Fact p.Prime] (H : Subgroup G) :
     CFSG.Open.pRank p H ≤ CFSG.Open.pRank p (⊤ : Subgroup (LKQuot7 p H)) := by
   have hp : p.Prime := Fact.out
   obtain ⟨E, hEH, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt H
-  haveI := hE.1
+  have := hE.1
   have hmem : ∀ x : ↥E, QuotientGroup.mk' (CFSG.pPrimeCore p ↥H) (Subgroup.inclusion hEH x) ∈
       ImageModK p H (Opp p H) := by
     intro x
@@ -71,7 +71,7 @@ theorem uc22s13xi_pRank_le_lkQuot7 {p : ℕ} [Fact p.Prime] (H : Subgroup G) :
 
 theorem uc22s13xi_pRank_le_two {H : Subgroup G}
     (e : LKQuot7 3 H ≃* MulAut (CFSG.Theory.Comparator.PSL2Model 3)) : CFSG.Open.pRank 3 H ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL : CFSG.HardMathSupport.Timmesfeld.ComponentBalance.IsL2TwoPowOdd
       (CFSG.Theory.Comparator.PSL2Model 3) := ⟨3, by decide, by norm_num, ⟨MulEquiv.refl _⟩⟩
   have h1 : CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut (CFSG.Theory.Comparator.PSL2Model 3))) ≤ 2 :=

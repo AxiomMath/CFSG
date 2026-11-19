@@ -40,10 +40,10 @@ theorem triGGHasLabel_congr {lab : LargeEvenLabel} {R R' : Type} [Group R] [Grou
 theorem triPComp_eq_derived {X : Type} [Group X] [Finite X] {p : ℕ} {C J : Subgroup X}
     (hJ : GLAPComponent p C J) (hs : IsSimpleGroup ↥(⁅C, C⁆ : Subgroup X)) : J = ⁅C, C⁆ := by
   have hJC : (⁅C, C⁆ : Subgroup X) ≤ C := Subgroup.commutator_le_self C
-  haveI : (⁅C, C⁆.subgroupOf C).Normal :=
+  have : (⁅C, C⁆.subgroupOf C).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (Subgroup.normalizer_commutator_ge_left C C)
   have hsolv : Group.IsSolvable (↥C ⧸ (⁅C, C⁆ : Subgroup X).subgroupOf C) := by
-    haveI : Group.IsSolvable (↥C ⧸ commutator ↥C) := inferInstance
+    have : Group.IsSolvable (↥C ⧸ commutator ↥C) := inferInstance
     let e := QuotientGroup.quotientMulEquivOfEq (CFSG.StandardType.ggCommutator_subgroupOf C)
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact CFSG.LocalAnalysis.GLTheoremA.Y10GFldOrth.FOB.eq_of_component hJC hsolv hs hJ
@@ -79,8 +79,8 @@ theorem triComponent_equiv {X G : Type} [Group X] [Finite X] [Group G] {C J : Su
     (e : ↥C ≃* G) (hs : IsSimpleGroup ↥(commutator G)) (hJ : GLAPComponent p C J) :
     Nonempty (↥J ≃* ↥(commutator G)) := by
   have e' := triDerivedEquiv e
-  haveI := hs
-  haveI : IsSimpleGroup ↥(⁅C, C⁆ : Subgroup X) := e'.isSimpleGroup
+  have := hs
+  have : IsSimpleGroup ↥(⁅C, C⁆ : Subgroup X) := e'.isSimpleGroup
   have hJeq : J = ⁅C, C⁆ := triPComp_eq_derived hJ inferInstance
   exact ⟨(MulEquiv.subgroupCongr hJeq).trans e'⟩
 
@@ -88,7 +88,7 @@ theorem tri_nonabelian_of_center_bot {G : Type*} [Group G] [Nontrivial G]
     (hZ : Subgroup.center G = ⊥) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcomm
   push Not at hcomm
-  haveI : IsMulCommutative G := ⟨⟨fun a b => hcomm a b⟩⟩
+  have : IsMulCommutative G := ⟨⟨fun a b => hcomm a b⟩⟩
   have hc : Subgroup.center G = ⊤ := Subgroup.center_eq_top
   rw [hZ] at hc
   obtain ⟨a, b, hab⟩ := exists_pair_ne G
@@ -100,7 +100,7 @@ theorem triComponent_equiv_simple {X G : Type} [Group X] [Finite X] [Group G] [I
     (hna : ∃ a b : G, a * b ≠ b * a) {C J : Subgroup X} {p : ℕ} (e : ↥C ≃* G)
     (hJ : GLAPComponent p C J) : Nonempty (↥J ≃* G) := by
   have hcomm : commutator G = ⊤ := triCommutator_eq_top hna
-  haveI : IsSimpleGroup ↥(commutator G) :=
+  have : IsSimpleGroup ↥(commutator G) :=
     (MulEquiv.subgroupCongr hcomm).isSimpleGroup_congr.2 (Subgroup.topEquiv.isSimpleGroup_congr.2 inferInstance)
   obtain ⟨eJ₀⟩ := triComponent_equiv e inferInstance hJ
   exact ⟨(eJ₀.trans (MulEquiv.subgroupCongr hcomm)).trans Subgroup.topEquiv⟩
@@ -117,7 +117,7 @@ theorem tri_g2_simple {f : ℕ} (hf : 2 ≤ f) {F₀ : Type} [Field F₀] [Finit
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have hG : IsSimpleGroup ↥(adjointGroup Tag.G2 F₀) :=
     CFSG.RankThree.PartTwo.Sec11.KS11Lie2Proof.isSimpleGroup_g2 h3
-  haveI := hG.toNontrivial
+  have := hG.toNontrivial
   exact ⟨hG, tri_nonabelian_of_center_bot CFSG.LieType.Chevalley.center_adjointGroup_eq_bot⟩
 
 theorem triCanon_G2 (hRig : GGLabelRigidInput) {X : Type} [Group X] [Finite X] {C J : Subgroup X}
@@ -125,10 +125,10 @@ theorem triCanon_G2 (hRig : GGLabelRigidInput) {X : Type} [Group X] [Finite X] {
     (hF₀ : Nat.card F₀ = 2 ^ f) (e : ↥C ≃* ↥(adjointGroup Tag.G2 F₀)) (hJ : GLAPComponent 3 C J)
     (hlabJ : HasLabel ↥J (fun l : GLALabel => l = labJ)) : canonLabel labJ = ⟨.G2, 0, f⟩ := by
   obtain ⟨hG, hna⟩ := tri_g2_simple hf hF₀
-  haveI := hG
+  have := hG
   obtain ⟨eJ⟩ := triComponent_equiv_simple hna e hJ
-  haveI : IsSimpleGroup ↥J := eJ.isSimpleGroup
-  haveI : Group.IsPerfect ↥J :=
+  have : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   have hlam : LargeEvenInLambda2 (⟨.G2, 0, f⟩ : GLALabel) := ⟨(by show 1 ≤ f; omega), rfl, hf⟩
   have hGH : GGHasLabel (⟨.G2, 0, f⟩ : GLALabel)
@@ -152,23 +152,23 @@ theorem triCanon_PGL_true (hRig : GGLabelRigidInput) {X : Type} [Group X] [Finit
   have hq2 : 2 < 2 ^ f := by
     calc 2 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI := hF.finite
+  have := hF.finite
   set G := projImage (Sec4.glPi true 3 (2 ^ f) F) with hG
   have hcomm := Sec13.commutator_projImage_glPi hF hq2
   have hSP : projImage (Sec4.slPi true 3 (2 ^ f) F) ≤ G :=
     Subgroup.map_mono (Sec4.slPi_le_glPi (fun h => absurd h (by decide)))
-  haveI hPs : IsSimpleGroup ↥(projImage (Sec4.slPi true 3 (2 ^ f) F)) :=
+  have hPs : IsSimpleGroup ↥(projImage (Sec4.slPi true 3 (2 ^ f) F)) :=
     Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hF hq2
   have eP : ↥(commutator ↥G) ≃* ↥(projImage (Sec4.slPi true 3 (2 ^ f) F)) :=
     (MulEquiv.subgroupCongr hcomm).trans (Subgroup.subgroupOfEquivOfLe hSP)
-  haveI hs : IsSimpleGroup ↥(commutator ↥G) := eP.isSimpleGroup
+  have hs : IsSimpleGroup ↥(commutator ↥G) := eP.isSimpleGroup
   obtain ⟨eJ₀⟩ := triComponent_equiv e hs hJ
   have eS : CFSG.Assembly.LowTwoRank.StatedProj (StatedSL 3 F) ≃*
       ↥(projImage (Sec4.slPi true 3 (2 ^ f) F)) :=
     CFSG.Adapters.RankTwoModelTransports.statedProjEquivProjImage (StatedSL 3 F) rfl
   let eJ : ↥J ≃* CFSG.Assembly.LowTwoRank.StatedProj (StatedSL 3 F) := (eJ₀.trans eP).trans eS.symm
-  haveI : IsSimpleGroup ↥J := (eJ₀.trans eP).isSimpleGroup
-  haveI : Group.IsPerfect ↥J :=
+  have : IsSimpleGroup ↥J := (eJ₀.trans eP).isSimpleGroup
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   obtain ⟨eQ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLinFld.nonempty_quotCenter_equiv eJ
   have h := Y10GInnLin.linLabelDict_of_ggLabelRigidInput hRig ↥J labJ 3 f F (by norm_num)
@@ -182,24 +182,24 @@ theorem triCanon_PGL_false (hRig : GGLabelRigidInput) {X : Type} [Group X] [Fini
   have hq2 : 2 < 2 ^ f := by
     calc 2 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI := hF.finite
+  have := hF.finite
   set G := projImage (Sec4.glPi false 3 (2 ^ f) F) with hG
   have hcomm := Sec13.commutator_projImage_glPi hF hq2
   have hSP : projImage (Sec4.slPi false 3 (2 ^ f) F) ≤ G :=
     Subgroup.map_mono (Sec4.slPi_le_glPi (fun _ => hF.unitary))
-  haveI hPs : IsSimpleGroup ↥(projImage (Sec4.slPi false 3 (2 ^ f) F)) :=
+  have hPs : IsSimpleGroup ↥(projImage (Sec4.slPi false 3 (2 ^ f) F)) :=
     Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hF hq2
   have eP : ↥(commutator ↥G) ≃* ↥(projImage (Sec4.slPi false 3 (2 ^ f) F)) :=
     (MulEquiv.subgroupCongr hcomm).trans (Subgroup.subgroupOfEquivOfLe hSP)
-  haveI hs : IsSimpleGroup ↥(commutator ↥G) := eP.isSimpleGroup
+  have hs : IsSimpleGroup ↥(commutator ↥G) := eP.isSimpleGroup
   obtain ⟨eJ₀⟩ := triComponent_equiv e hs hJ
   have eS : CFSG.Assembly.LowTwoRank.StatedProj (StatedSU 3 (2 ^ f) F) ≃*
       ↥(projImage (Sec4.slPi false 3 (2 ^ f) F)) :=
     CFSG.Adapters.RankTwoModelTransports.statedProjEquivProjImage (StatedSU 3 (2 ^ f) F) rfl
   let eJ : ↥J ≃* CFSG.Assembly.LowTwoRank.StatedProj (StatedSU 3 (2 ^ f) F) :=
     (eJ₀.trans eP).trans eS.symm
-  haveI : IsSimpleGroup ↥J := (eJ₀.trans eP).isSimpleGroup
-  haveI : Group.IsPerfect ↥J :=
+  have : IsSimpleGroup ↥J := (eJ₀.trans eP).isSimpleGroup
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   have hE : Nat.card F = (2 ^ f) ^ 2 := by rw [hF.card]; rfl
   have hlam : LargeEvenInLambda2 (⟨.twA, 2, f⟩ : GLALabel) :=

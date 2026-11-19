@@ -39,7 +39,7 @@ theorem KSch.schreierSections (h : KSch) {X : Type} [Group X] [Finite X]
     (∀ w ∈ W, ∃ a ∈ A, ∃ b ∈ B, w = a * b) → CFSG.Open.pRank p W ≤ 2
 
 theorem kHupAt_three : KHupAt 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro X _ _ W A B hW hA hB hAc hBc hprod
   refine CFSG.SectionRank.pRank_le (by norm_num) ?_
   intro E hEW hE
@@ -79,7 +79,7 @@ theorem kComp_holds : KComp := by
   refine ⟨fun X _ _ L L' hL hL' hne =>
     CFSG.ComponentClassification.LocalComponents.commute_of_ne L L' hL hL' hne, ?_⟩
   intro X _ _ L N hN hL
-  haveI := hN
+  have := hN
   exact CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes L N hL
 
 @[expose] def KSubn : Prop :=
@@ -114,14 +114,17 @@ variable {X : Type} [Group X] [Finite X]
 
 private def conjS (g : X) (S : Subgroup X) : Subgroup X := S.map (MulAut.conj g).toMonoidHom
 
+omit [Finite X] in
 private theorem mem_conjS {g x : X} {S : Subgroup X} : x ∈ conjS g S ↔ g⁻¹ * x * g ∈ S := by
   unfold conjS
   rw [Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
 
+omit [Finite X] in
 private theorem conjS_mul (g h : X) (S : Subgroup X) : conjS g (conjS h S) = conjS (g * h) S := by
   ext x
   simp only [mem_conjS, mul_inv_rev, mul_assoc]
 
+omit [Finite X] in
 private theorem conjS_eq_of_mem {K : Subgroup X} {a : X} (ha : a ∈ K) : conjS a K = K := by
   ext x
   rw [mem_conjS]
@@ -132,25 +135,27 @@ private theorem conjS_eq_of_mem {K : Subgroup X} {a : X} (ha : a ∈ K) : conjS 
   · intro h
     exact K.mul_mem (K.mul_mem (K.inv_mem ha) h) ha
 
+omit [Finite X] in
 private theorem conjS_inf (g : X) (S T : Subgroup X) :
     conjS g (S ⊓ T) = conjS g S ⊓ conjS g T := by
   ext x
   simp [mem_conjS]
 
+omit [Finite X] in
 private theorem card_conjS (g : X) (S : Subgroup X) : Nat.card (conjS g S) = Nat.card S :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
 open CFSG.ABGLocalTools in
 theorem kWiel_holds : KWiel := by
   intro X _ _ A B p hp hAB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have key : ∀ K : Subgroup X, ∃ S : Sylow p X, IsSylowOf p ((S : Subgroup X) ⊓ K) K := by
     intro K
     obtain ⟨R, hR⟩ := exists_isSylowOf p K
     obtain ⟨S, hS⟩ := hR.isPGroup.exists_le_sylow
     refine ⟨S, ?_⟩
     have h1 : (S : Subgroup X) ⊓ K = R :=
-      hR.eq_of_le (le_inf hS hR.le) inf_le_right S.isPGroup'.to_inf_left
+      hR.eq_of_le (le_inf hS hR.le) inf_le_right S.isPGroup.to_inf_left
     rw [h1]
     exact hR
   have conj_good : ∀ (K S : Subgroup X) (a : X), a ∈ K →
@@ -257,12 +262,13 @@ private noncomputable def copAct (N : Subgroup X) (h : X)
         (Subgroup.zpowers_le.2 hh) a.2
       exact (Subgroup.mem_normalizer_iff.mp ha x).mp hx)
 
+omit [Finite X] in
 private theorem copAct_fixed (N : Subgroup X) (h : X) (hh : h ∈ Subgroup.normalizer (N : Set X)) :
     letI : MulDistribMulAction (Subgroup.zpowers h) N :=
       MulDistribMulAction.compHom N (copAct N h hh)
     (CFSG.fixedPointSubgroup (Subgroup.zpowers h) N).map N.subtype =
       N ⊓ Subgroup.centralizer ({h} : Set X) := by
-  letI : MulDistribMulAction (Subgroup.zpowers h) N :=
+  let : MulDistribMulAction (Subgroup.zpowers h) N :=
     MulDistribMulAction.compHom N (copAct N h hh)
   ext x
   constructor
@@ -289,19 +295,20 @@ private theorem copAct_fixed (N : Subgroup X) (h : X) (hh : h ∈ Subgroup.norma
     group
 
 open scoped commutatorElement in
+omit [Finite X] in
 private theorem copComm_map (N : Subgroup X) (h : X) (hh : h ∈ Subgroup.normalizer (N : Set X))
     (H : Subgroup N) :
     letI : MulDistribMulAction (Subgroup.zpowers h) N :=
       MulDistribMulAction.compHom N (copAct N h hh)
     (CFSG.commutatorSubgroup (Subgroup.zpowers h) N H).map N.subtype =
       ⁅H.map N.subtype, Subgroup.zpowers h⁆ := by
-  letI : MulDistribMulAction (Subgroup.zpowers h) N :=
+  let : MulDistribMulAction (Subgroup.zpowers h) N :=
     MulDistribMulAction.compHom N (copAct N h hh)
   unfold CFSG.commutatorSubgroup
   rw [MonoidHom.map_closure, Subgroup.commutator_def]
   congr 1
   ext z
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨_, ⟨a, y, hy, rfl⟩, rfl⟩
     refine ⟨((y⁻¹ : N) : X), ⟨y⁻¹, H.inv_mem hy, rfl⟩, (a : X), a.2, ?_⟩
@@ -316,9 +323,9 @@ private theorem copComm_map (N : Subgroup X) (h : X) (hh : h ∈ Subgroup.normal
 
 theorem kCop_holds : KCop := by
   intro X _ _ N h hN hh hodd
-  letI : MulDistribMulAction (Subgroup.zpowers h) N :=
+  let : MulDistribMulAction (Subgroup.zpowers h) N :=
     MulDistribMulAction.compHom N (copAct N h hh)
-  haveI : Group.IsNilpotent N := hN.isNilpotent
+  have : Group.IsNilpotent N := hN.isNilpotent
   have hsolv : Group.IsSolvable N := inferInstance
   have hcop : Nat.Coprime (Nat.card (Subgroup.zpowers h)) (Nat.card N) := by
     obtain ⟨k, hk⟩ := hN.exists_card_eq

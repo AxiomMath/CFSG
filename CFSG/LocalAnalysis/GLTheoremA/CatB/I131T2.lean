@@ -25,6 +25,7 @@ variable {G : Type} [Group G] [Finite G]
     apply Subtype.ext
     simp [mul_assoc]
 
+omit [Finite G] in
 @[simp] theorem indL_apply (L : Subgroup G) (t : ↥(Subgroup.normalizer (L : Set G))) (l : ↥L) :
     ((indL L t l : ↥L) : G) = (t : G) * (l : G) * (t : G)⁻¹ :=
   rfl
@@ -118,6 +119,7 @@ theorem indS_mk (p : ℕ) [Fact p.Prime] (L : Subgroup G) (t : ↥(Subgroup.norm
 @[expose] def piS (p : ℕ) [Fact p.Prime] (L : Subgroup G) : ↥L →* PSimple p L :=
   (QuotientGroup.mk' (Subgroup.center (PQuot p L))).comp (QuotientGroup.mk' (GLAPPrimeCore p ↥L))
 
+omit [Finite G] in
 theorem piS_apply (p : ℕ) [Fact p.Prime] (L : Subgroup G) (x : ↥L) :
     piS p L x = QuotientGroup.mk (QuotientGroup.mk x) :=
   rfl
@@ -126,6 +128,7 @@ theorem indS_piS (p : ℕ) [Fact p.Prime] (L : Subgroup G) (t : ↥(Subgroup.nor
     (x : ↥L) : indS p L t (piS p L x) = piS p L (indL L t x) :=
   indS_mk p L t x
 
+omit [Finite G] in
 theorem glaPPrimeCoreOf_eq_map (p : ℕ) (L : Subgroup G) :
     GLAPPrimeCoreOf p L = (GLAPPrimeCore p ↥L).map L.subtype :=
   rfl

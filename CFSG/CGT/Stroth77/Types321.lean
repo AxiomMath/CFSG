@@ -43,43 +43,43 @@ theorem compat_rho : Compat k ρM :=
 
 theorem uv_sq : MatEq k (uvM * uvM) (1) :=
   MatEq.of_witness (W := !![-9, 62, -94; -3, 17, -6; 2, -5, 12]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem t_sq : MatEq k (tM * tM) (1) :=
   MatEq.of_witness (W := !![7, 0, -14; -1, 1, 5; -1, 0, 10]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem uv_comm_t : MatEq k (tM * uvM) (uvM * tM) :=
   MatEq.of_witness (W := !![-25, 20, 52; -5, -4, 35; 1, -5, 29]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem rho_cube : MatEq k (ρM * (ρM * ρM)) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem u_sq : MatEq k (uM * uM) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem u_rho : MatEq k (ρM * (uM * (ρM * uM))) (1) :=
   MatEq.of_witness (W := !![0, -1, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem uv_rho : MatEq k (ρM * uvM) (tM * ρM) :=
   MatEq.of_witness (W := !![-1, 0, 10; 0, 0, 0; 0, 0, 2]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem t_rho : MatEq k (ρM * tM) (tM * (uvM * ρM)) :=
   MatEq.of_witness (W := !![5, 14, 24; -1, -24, 18; 0, -25, 23]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem uv_comm_u : MatEq k (uM * uvM) (uvM * uM) :=
   MatEq.of_witness (W := !![0, -11, -11; 0, -2, -1; 0, 1, 2]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem t_u : MatEq k (uM * tM) (tM * (uvM * uM)) :=
   MatEq.of_witness (W := !![-4, 14, -25; 1, -24, 3; 0, -25, 2]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 @[expose] def action : SigmaFourAction k :=
   SigmaFourAction.ofMatEq uvM tM uM ρM
@@ -122,43 +122,43 @@ theorem compat_rho : Compat k ρM :=
 
 theorem uv_sq : MatEq k (uvM * uvM) (1) :=
   MatEq.of_witness (W := !![1, 14, 34; -6, 31, 60; 3, 7, 36]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem t_sq : MatEq k (tM * tM) (1) :=
   MatEq.of_witness (W := !![-7, 0, -14; 2, 1, 5; 1, 0, -4]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem uv_comm_t : MatEq k (tM * uvM) (uvM * tM) :=
   MatEq.of_witness (W := !![1, 20, 60; 11, -4, 17; 3, -7, 3]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem rho_cube : MatEq k (ρM * (ρM * ρM)) (1) :=
   MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem u_sq : MatEq k (uM * uM) (1) :=
   MatEq.of_witness (W := !![1, 0, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem u_rho : MatEq k (ρM * (uM * (ρM * uM))) (1) :=
   MatEq.of_witness (W := !![1, 1, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem uv_rho : MatEq k (ρM * uvM) (tM * ρM) :=
   MatEq.of_witness (W := !![-1, 0, 10; 0, 0, -2; 1, 0, 4]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem t_rho : MatEq k (ρM * tM) (tM * (uvM * ρM)) :=
   MatEq.of_witness (W := !![3, -34, 72; -2, -10, -2; -1, 11, -21]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem uv_comm_u : MatEq k (uM * uvM) (uvM * uM) :=
   MatEq.of_witness (W := !![0, -1, 7; -2, -4, 1; 1, -1, 4]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 theorem t_u : MatEq k (uM * tM) (tM * (uvM * uM)) :=
   MatEq.of_witness (W := !![12, -34, -11; -7, -10, 3; -4, 11, 4]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp)
 
 @[expose] def action : SigmaFourAction k :=
   SigmaFourAction.ofMatEq uvM tM uM ρM

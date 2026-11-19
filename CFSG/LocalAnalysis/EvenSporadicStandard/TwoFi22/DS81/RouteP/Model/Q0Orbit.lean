@@ -66,12 +66,12 @@ theorem card_orbit_ge : 891 ≤ Nat.card (MulAction.orbit ↥Q0 plane) := by
   simpa using this
 
 theorem finite_Q0 : Finite ↥Q0 := by
-  haveI := finite_L0
+  have := finite_L0
   exact Finite.of_injective (Subgroup.inclusion Q0_le_L0) (Subgroup.inclusion_injective _)
 
 theorem card_D0_le_card_stabilizer :
     Nat.card D0 ≤ Nat.card (MulAction.stabilizer ↥Q0 plane) := by
-  haveI := finite_Q0
+  have := finite_Q0
   have hle : D0.subgroupOf Q0 ≤ MulAction.stabilizer ↥Q0 plane := by
     intro q hq
     rw [MulAction.mem_stabilizer_iff]
@@ -115,7 +115,7 @@ theorem exists_planeX_eq_of_mem_orbit {P : Finset Ω} (hP : P ∈ MulAction.orbi
   exact hP
 
 theorem stabilizer_plane_eq : MulAction.stabilizer ↥Q0 plane = D0.subgroupOf Q0 := by
-  haveI := finite_Q0
+  have := finite_Q0
   have hle : D0.subgroupOf Q0 ≤ MulAction.stabilizer ↥Q0 plane := by
     intro q hq
     rw [MulAction.mem_stabilizer_iff]

@@ -15,6 +15,7 @@ namespace Case34A7
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem exists_equiv_of_center_bot {L : Subgroup (GLV V)} (hZ : Subgroup.center ↥L = ⊥)
     {S : Type} [Group S] (e : (↥L ⧸ Subgroup.center ↥L) ≃* S) :
     ∃ f : ↥L ≃* S, ∀ l : ↥L, f l = e (QuotientGroup.mk l) := by
@@ -75,7 +76,7 @@ theorem data {Γ A L : Subgroup (GLV V)} {m : ℕ} (h : G93Hyp Γ A L L m)
   have hL : toMulSub L ≠ ⊥ :=
     ne_bot_of_isQuasisimple (isQuasisimple_toMulSub h.L_comp.2.2)
   have hfix := fixV_eq_bot_of_irr hirr hL
-  letI : Module (ZMod 2) (Additive (Multiplicative V)) :=
+  let : Module (ZMod 2) (Additive (Multiplicative V)) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       have h3 : Additive.toMul (2 • x) = 1 := by
         rw [toMul_nsmul]

@@ -66,10 +66,10 @@ theorem exists_mulEquiv_statedSU_of_label_center_three {K : Type} [Group K] [Fin
     (unitarySix_mult (n := n) hn2 hK hG (by rw [h3])).1
   obtain ⟨F, hFld, hFin, hChar, C, hCn, hFcard, hCcen, ⟨e⟩⟩ :=
     exists_mulEquiv_statedSU_quot_of_isLabel hG hK (by rfl) hn2
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  letI : C.Normal := hCn
+  let : Field F := hFld
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  let : C.Normal := hCn
   have hperf : Group.IsPerfect (StatedSU 6 (2 ^ n) F) :=
     (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (f := n) (F := F) (n := 6) hFcard
       (by norm_num) (by simp)).1.1
@@ -92,7 +92,7 @@ theorem exists_mulEquiv_statedSU_of_label_center_three {K : Type} [Group K] [Fin
     subst hCtop
     have hZq : Subgroup.center
         (StatedSU 6 (2 ^ n) F ⧸ Subgroup.center (StatedSU 6 (2 ^ n) F)) = ⊥ := by
-      haveI : Group.IsPerfect (StatedSU 6 (2 ^ n) F) := hperf
+      have : Group.IsPerfect (StatedSU 6 (2 ^ n) F) := hperf
       exact Group.IsPerfect.center_quotient_center_eq_bot (G := StatedSU 6 (2 ^ n) F)
     obtain ⟨e'⟩ : Nonempty (K ≃*
         (StatedSU 6 (2 ^ n) F ⧸ Subgroup.center (StatedSU 6 (2 ^ n) F))) := ⟨e⟩

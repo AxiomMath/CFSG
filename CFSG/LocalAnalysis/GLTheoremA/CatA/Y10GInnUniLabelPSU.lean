@@ -81,7 +81,7 @@ theorem isSolvable_quot_heldSU_three_two {E : Type} [Field E] [Finite E] (τ' : 
   have hsol : Group.IsSolvable ↥(heldSU 3 E τ' hτ') :=
     hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 3) (b := 3)
       Nat.prime_two Nat.prime_three (by norm_num) hcard
-  haveI := hsol
+  have := hsol
   exact Group.instIsSolvableQuotientSubgroup (Subgroup.center ↥(heldSU 3 E τ' hτ'))
 
 theorem not_isSolvable_quot_center {J : Type} [Group J] [IsSimpleGroup (J ⧸ Subgroup.center J)] :
@@ -89,14 +89,14 @@ theorem not_isSolvable_quot_center {J : Type} [Group J] [IsSimpleGroup (J ⧸ Su
   intro hsol
   have hcomm : ∀ a b : J ⧸ Subgroup.center J, a * b = b * a :=
     IsSimpleGroup.comm_iff_isSolvable.mpr hsol
-  haveI : IsMulCommutative (J ⧸ Subgroup.center J) := ⟨⟨hcomm⟩⟩
-  letI : CommGroup (J ⧸ Subgroup.center J) := IsMulCommutative.instCommGroup
+  have : IsMulCommutative (J ⧸ Subgroup.center J) := ⟨⟨hcomm⟩⟩
+  let : CommGroup (J ⧸ Subgroup.center J) := IsMulCommutative.instCommGroup
   have hcyc : IsCyclic (J ⧸ Subgroup.center J) := IsSimpleGroup.isCyclic
-  haveI := hcyc
+  have := hcyc
   have hJcomm : ∀ a b : J, a * b = b * a :=
-    commutative_of_cyclic_center_quotient (QuotientGroup.mk' (Subgroup.center J))
-      (by rw [QuotientGroup.ker_mk'])
-  haveI : IsMulCommutative J := ⟨⟨hJcomm⟩⟩
+    (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (Subgroup.center J))
+      (by rw [QuotientGroup.ker_mk'])).is_comm.comm
+  have : IsMulCommutative J := ⟨⟨hJcomm⟩⟩
   have htop : Subgroup.center J = ⊤ := Subgroup.center_eq_top
   exact not_subsingleton (J ⧸ Subgroup.center J)
     (QuotientGroup.subsingleton_iff.mpr htop)

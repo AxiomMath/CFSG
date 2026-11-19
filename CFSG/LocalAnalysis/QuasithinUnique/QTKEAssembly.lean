@@ -40,7 +40,7 @@ theorem exists_maxTwoLocal_ge_sylow {G : Type*} [Group G] [Finite G] (T : Sylow 
     ∃ M : Subgroup G, quasithinIsMaxTwoLocal M ∧ (T : Subgroup G) ≤ M := by
   let S := {H : Subgroup G | IsTwoLocal H ∧ (T : Subgroup G) ≤ H}
   have hN : Subgroup.normalizer ((T : Subgroup G) : Set G) ∈ S :=
-    ⟨⟨T, hT, T.isPGroup', rfl⟩, Subgroup.le_normalizer⟩
+    ⟨⟨T, hT, T.isPGroup, rfl⟩, Subgroup.le_normalizer⟩
   obtain ⟨M, -, hM⟩ := S.toFinite.exists_le_maximal hN
   exact ⟨M, ⟨hM.prop.1, fun H hH hMH => (hM.eq_of_le ⟨hH, hM.prop.2.trans hMH⟩ hMH).symm⟩,
     hM.prop.2⟩

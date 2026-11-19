@@ -202,13 +202,14 @@ variable {E : Subgroup R} (hE : IsMulCommutative E) (hEp : ∀ x ∈ E, x ^ p = 
 
 include hE hEp hEcard
 
+omit hE hEcard in
 theorem plane_le_base : E ≤ B := fun _ hx => h.mem_base_of_pow_eq_one (hEp _ hx)
 
 theorem inf_base_centralizer_plane_eq : B ⊓ Subgroup.centralizer (E : Set R) = E := by
   have hfin := h.finite
   have hp := h.prime
   set D : Subgroup R := B ⊓ Subgroup.centralizer (E : Set R) with hD
-  have hED : E ≤ D := le_inf (h.plane_le_base hE hEp hEcard) (le_centralizer_self hE)
+  have hED : E ≤ D := le_inf (h.plane_le_base hEp) (le_centralizer_self hE)
   have hDB : D ≤ B := inf_le_left
   have hdvd : Nat.card D ∣ p ^ 3 := h.card_base ▸ Subgroup.card_dvd_of_le hDB
   obtain ⟨k, hk3, hkD⟩ := (Nat.dvd_prime_pow hp).1 hdvd
@@ -223,7 +224,7 @@ theorem inf_base_centralizer_plane_eq : B ⊓ Subgroup.centralizer (E : Set R) =
       have hDB' : D = B := Subgroup.eq_of_le_of_card_ge hDB (by rw [hkD, hk3', h.card_base])
       have hBc : B ≤ Subgroup.centralizer (E : Set R) := hDB' ▸ inf_le_right
       have hEc : E ≤ Subgroup.centralizer (B : Set R) := Subgroup.le_centralizer_iff.1 hBc
-      have hEZ : E ≤ Z₀ := h.center_base ▸ le_inf (h.plane_le_base hE hEp hEcard) hEc
+      have hEZ : E ≤ Z₀ := h.center_base ▸ le_inf (h.plane_le_base hEp) hEc
       have hle : p ^ 2 ≤ p := by
         rw [← hEcard, ← h.card_socle]
         exact Subgroup.card_le_of_le hEZ
@@ -237,7 +238,7 @@ theorem inf_base_centralizer_plane_eq : B ⊓ Subgroup.centralizer (E : Set R) =
 theorem socle_le_plane : Z₀ ≤ E := by
   rw [← h.inf_base_centralizer_plane_eq hE hEp hEcard, ← h.center_base]
   exact le_inf inf_le_left
-    (inf_le_right.trans (Subgroup.centralizer_le (h.plane_le_base hE hEp hEcard)))
+    (inf_le_right.trans (Subgroup.centralizer_le (h.plane_le_base hEp)))
 
 theorem centralizer_plane_eq : Subgroup.centralizer (E : Set R) = E ⊔ C := by
   refine le_antisymm (fun x hx => ?_)
@@ -263,11 +264,12 @@ variable {A₀ : Subgroup R} (hA₀E : A₀ ≤ E) (hA₀card : Nat.card A₀ = 
 
 include hA₀E hA₀card hA₀
 
+omit hE hEcard in
 theorem line_inf_central_eq_bot : A₀ ⊓ C = ⊥ := by
   have hfin := h.finite
   have hle : A₀ ⊓ C ≤ A₀ ⊓ Z₀ :=
     le_inf inf_le_left (h.inf_base_central ▸
-      le_inf ((inf_le_left.trans hA₀E).trans (h.plane_le_base hE hEp hEcard)) inf_le_right)
+      le_inf ((inf_le_left.trans hA₀E).trans (h.plane_le_base hEp)) inf_le_right)
   rw [le_bot_iff.1 (hle.trans (le_of_eq
     (inf_eq_bot_of_ne_of_card_eq_prime h.prime hA₀card h.card_socle hA₀)))]
 
@@ -287,7 +289,7 @@ theorem isInternalDirectProduct_centralizer_plane :
     IsInternalDirectProduct (Subgroup.centralizer (E : Set R)) A₀ C := by
   have hn := h.normal_central
   refine isInternalDirectProduct_of_sup_eq ?_
-    (h.line_inf_central_eq_bot hE hEp hEcard hA₀E hA₀card hA₀)
+    (h.line_inf_central_eq_bot hEp hA₀E hA₀card hA₀)
     (Subgroup.commutator_eq_bot_iff_le_centralizer.2 fun x _ =>
       Subgroup.mem_centralizer_iff.2 fun y hy =>
         ((Subgroup.mem_center_iff.1 (h.central hy)) x).symm)

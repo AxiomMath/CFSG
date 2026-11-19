@@ -32,7 +32,7 @@ theorem closureOf_eq {dt : Data} {dk : DK} (h : Rel dt dk) (ids : List Nat)
   rw [closure_eq dt (fun i => dk.reflP.getD i 0) ids.toArray
     (fun i hi j hj => h.refl i (hids i (by simpa using hi)) j hj)
     (fun i hi => Nat.lt_trans (hids i (by simpa using hi)) h.Nlt) (by simpa using hn)]
-  simp only [List.toList_toArray]
+  simp only
   rfl
 
 theorem forIn_yieldG {α β : Type} (g : β → α → β) (f : α → β → Id (ForInStep β))
@@ -102,7 +102,7 @@ theorem extensions_eq {dt : Data} {dk : DK} (h : Rel dt dk) (common X : Nat)
       (fun o sg => if c i sg = true then o.push (i, sg) else o) out)]
     · change (List.foldl _ #[] _).toList = _
       rw [ext_loop c]
-      simp only [Array.toList_empty, List.nil_append]
+      simp only [List.nil_append]
       apply flatMap_congr'
       intro i hi
       have hiN := bitsK_lt _ dk.N i hY hi

@@ -98,7 +98,7 @@ theorem mem_isoRoots_or_perp {γ : Fin Tag.E6.rank → ℤ}
 theorem mem_rootCharKernel_chiIso {L : Type} [Field L] {l : Lˣ} (hl : orderOf l = 3)
     {γ : Fin Tag.E6.rank → ℤ} : γ ∈ rootCharKernel (chiIso l) ↔
       IsRoot .E6 γ ∧ (iform (bE6 0) γ + iform (bE6 1) γ + iform (bE6 2) γ) % 3 = 0 := by
-  simp only [rootCharKernel, Set.mem_setOf_eq, chiIso, rootChar_mul_left, rootChar_hChar,
+  simp only [rootCharKernel, Set.mem_ofPred_eq, chiIso, rootChar_mul_left, rootChar_hChar,
     ← zpow_add]
   rw [← orderOf_dvd_iff_zpow_eq_one, hl, Nat.cast_ofNat, Int.dvd_iff_emod_eq_zero]
 

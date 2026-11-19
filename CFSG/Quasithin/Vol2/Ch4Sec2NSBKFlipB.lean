@@ -21,23 +21,29 @@ variable (D : StdData G T L I K m k (m + 1) j) (hj : 0 < j)
 noncomputable def zE (t : Fin j → Fin (m + 1) → ZMod 2) : G :=
   Classical.choose (exists_coG_eq D t)
 
+omit [Finite G] in
 theorem zE_mem (t : Fin j → Fin (m + 1) → ZMod 2) : zE D t ∈ uZero I K :=
   (Classical.choose_spec (exists_coG_eq D t)).1
 
+omit [Finite G] in
 theorem coG_zE (t : Fin j → Fin (m + 1) → ZMod 2) : coG D (zE D t) = t :=
   (Classical.choose_spec (exists_coG_eq D t)).2
 
+omit [Finite G] in
 theorem zE_coG {z : G} (hz : z ∈ uZero I K) : zE D (coG D z) = z :=
   coG_injOn D (zE_mem D _) hz (coG_zE D _)
 
+omit [Finite G] in
 theorem zE_add (t t' : Fin j → Fin (m + 1) → ZMod 2) : zE D (t + t') = zE D t * zE D t' := by
   apply coG_injOn D (zE_mem D _) (Subgroup.mul_mem _ (zE_mem D t) (zE_mem D t'))
   rw [coG_zE, coG_mul D (zE_mem D t) (zE_mem D t'), coG_zE, coG_zE]
 
+omit [Finite G] in
 theorem zE_zero : zE D (0 : Fin j → Fin (m + 1) → ZMod 2) = 1 := by
   apply coG_injOn D (zE_mem D _) (one_mem _)
   rw [coG_zE, coG_one D]
 
+omit [Finite G] in
 theorem exists_wZ_eq (x : Fin j → ZMod 2) : ∃ u : G, u ∈ uZero I K ∧ wZ D u = x := by
   refine ⟨zE D (fun i => Pi.single (Fin.last m) (x i)), zE_mem D _, ?_⟩
   funext i
@@ -54,10 +60,12 @@ theorem wE_surj : Function.Surjective (wE (j := j) (m := m)) := by
   funext i
   simp [wE]
 
+omit [Finite G] in
 theorem wE_zE (t : Fin j → Fin (m + 1) → ZMod 2) : wE t = wZ D (zE D t) := by
   funext i
   simp [wE, wZ, coG_zE]
 
+omit [Finite G] in
 theorem arOf_one (F : RForm D) : arOf D hj (1 : G) = 0 :=
   (arOf_eq_zero_iff D hj F (one_mem _)).mpr (fun z _ => by simp)
 
@@ -95,14 +103,17 @@ theorem arOf_one (F : RForm D) : arOf D hj (1 : G) = 0 :=
       group]
     exact arOf_mul D hj F (h2 _ (zE_mem D t)) (h2 _ (zE_mem D t'))
 
+omit [Finite G] in
 theorem AE_apply (g : G) (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (t : Fin j → Fin (m + 1) → ZMod 2) :
     ((AE hj F g h1 t : ↥(astd m)) : Fin (m + 1) → ZMod 2) = arOf D hj (g⁻¹ * zE D t * g) := rfl
 
+omit [Finite G] in
 theorem AE'_apply (g : G) (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I)
     (t : Fin j → Fin (m + 1) → ZMod 2) :
     ((AE' hj F g h2 t : ↥(astd m)) : Fin (m + 1) → ZMod 2) = arOf D hj (g * zE D t * g⁻¹) := rfl
 
+omit [Finite G] in
 theorem exists_flip_equivs (F : RForm D) (hjm : j = m) {g : G}
     (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I)
@@ -144,6 +155,7 @@ structure FlipEq (D : StdData G T L I K m k (m + 1) j) (hj : 0 < j) (g : G) wher
   h1 : ∀ v ∈ uZero I K, arOf D hj (g⁻¹ * v * g) = (ab (wZ D v) : Fin (m + 1) → ZMod 2)
   h2 : ∀ u ∈ uZero I K, arOf D hj (g * u * g⁻¹) = (ab' (wZ D u) : Fin (m + 1) → ZMod 2)
 
+omit [Finite G] in
 theorem exists_pure_flip (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I) (E : FlipEq D hj g) (a₀ : ↥(astd m))
     (x : Fin j → ZMod 2) :

@@ -187,7 +187,7 @@ theorem ggCorFiveTwentyInputQTwoOffE6Dep_of_layers
   intro G _ _ p B Bs x L D J hH hLQ hnoE
   have hS : GGQTwoSetting p B Bs x L D J := ⟨hH, hLQ, hnoE⟩
   have hp : p = 3 := ggQ2_pThree hS
-  haveI : Fact p.Prime := ⟨hH.1.tableB_facts.1⟩
+  have : Fact p.Prime := ⟨hH.1.tableB_facts.1⟩
   have hC : Subgroup.centralizer (Bs : Set G) ≤ Subgroup.normalizer (ggG0 p B x L D J : Set G) := by
     obtain ⟨hI, hBs, hDJsub⟩ := hH.1
     have hSst : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1

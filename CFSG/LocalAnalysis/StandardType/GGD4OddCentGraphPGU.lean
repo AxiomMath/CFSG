@@ -118,7 +118,7 @@ private theorem ggP_graphCentralizer_y0_frob_eq
 
 private theorem ggP_secFrob_eq_conj
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {μ : Lˣ}
-    (hμ : (μ : L) ^ 2 + μ + 1 = 0) {Fr : L →+* L} (hFrμ : Fr (μ : L) = (μ : L) ^ 2) :
+    (hμ : (μ : L) ^ 2 + μ + 1 = 0) {Fr : L →+* L} (_hFrμ : Fr (μ : L) = (μ : L) ^ 2) :
     ∃ c : ModGL TwistTag.D4.tag L,
       (∀ m ∈ secM μ, secFrob Fr m = c * ggP_Frob1 Fr m * c⁻¹) ∧
         secFrob Fr (rootDiagUnit TwistTag.D4.tag (secTuple μ)) = c⁻¹ := by
@@ -246,10 +246,10 @@ theorem ggD4OddCent_secondCent_isoPGU
       (d4TrialityY0 K * (diagramMap TwistTag.D4 K)⁻¹)) (2 ^ n) := by
   classical
   have : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := AlgebraicClosure K with hL
-  haveI : IsAlgClosed L := inferInstance
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := inferInstance
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   set Fr : L →+* L := iterateFrobenius L 2 n with hFrdef
   have hFr : ∀ c : L, Fr c = c ^ Nat.card K := fun c => by
     rw [hFrdef, iterateFrobenius_def, hK]

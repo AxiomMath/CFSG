@@ -106,7 +106,7 @@ theorem cls_eq {t : W} {x : ℕ} (hx : x < 24) (h : R.ρ t = (Rm x).toMat) : R.c
   have hex : ∃ y, y < 24 ∧ R.ρ t = (Rm y).toMat := ⟨x, hx, h⟩
   have hcls : R.cls t = T1 hex.choose := by
     unfold cls
-    rw [dif_pos hex]
+    rw [dite_eq_left hex]
   rw [hcls]
   congr 1
   exact Rm_inj hex.choose hex.choose_spec.1 x hx
@@ -363,7 +363,7 @@ private theorem ncard_conjugatesOf_ge_twelve [Finite W] {t : W} (ht : R.IsRefl t
     intro y hy
     have h : f y = (R.exists_isRefl_of_lt hy).choose := by
       dsimp only [f]
-      rw [dif_pos hy]
+      rw [dite_eq_left hy]
     rw [h]
     exact (R.exists_isRefl_of_lt hy).choose_spec
   have hfcls : ∀ y (hy : y < 24), R.cls (f y) = T1 y := by

@@ -13,6 +13,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma mem_normalizer_of_mapsTo {H : Subgroup G} {g : G} (hg : g * g = 1)
     (h : ∀ x ∈ H, g * x * g⁻¹ ∈ H) : g ∈ normalizer (H : Set G) := by
   rw [Subgroup.mem_set_normalizer_iff]
@@ -27,13 +28,13 @@ private lemma mem_normalizer_of_mapsTo {H : Subgroup G} {g : G} (hg : g * g = 1)
 
 theorem y7n_exists_sylow {V Q : Subgroup G} (hQ : IsPGroup 2 Q) (hQV : Q ≤ V) :
     ∃ P1 : Subgroup G, IsSylowIn 2 V P1 ∧ Q ≤ P1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q' : Subgroup ↥V := Q.subgroupOf V
   have hQ' : IsPGroup 2 Q' := hQ.comap_subtype
   obtain ⟨P', hP'⟩ := hQ'.exists_le_sylow
   refine ⟨(P' : Subgroup ↥V).map V.subtype, ?_, ?_⟩
   · have hgrp : IsPGroup 2 ((P' : Subgroup ↥V).map V.subtype) :=
-      IsPGroup.map (H := (P' : Subgroup ↥V)) P'.isPGroup' V.subtype
+      IsPGroup.map (H := (P' : Subgroup ↥V)) P'.isPGroup V.subtype
     have hsub : (((P' : Subgroup ↥V).map V.subtype).subgroupOf V) = P' :=
       Subgroup.comap_map_eq_self_of_injective V.subtype_injective P'
     refine ⟨Subgroup.map_subtype_le (P' : Subgroup ↥V), hgrp, ?_⟩
@@ -46,7 +47,7 @@ theorem y7n_exists_sylow {V Q : Subgroup G} (hQ : IsPGroup 2 Q) (hQV : Q ≤ V) 
 theorem y7n_Q_pgroup {c : Ctx7 G L} (hRT : c.s.R ≠ c.s.T) (h5 : c.toCtx5.Facts5)
     (h7 : c.Upto79) : IsPGroup 2 ↥(P7 c.e ⊔ (closure {c.g, c.s.t} : Subgroup G)) := by
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨h71, h72⟩, h73⟩, h74⟩, h75⟩, h76⟩, h77⟩, h78⟩, h79⟩ := h7
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 (P7 c.e) := y7n_P_pgroup h76
   have hgpow : c.g ^ 2 = 1 := (c.g_spec hRT).2.2.2.1
   have hg2 : c.g * c.g = 1 := by simpa [pow_two] using hgpow

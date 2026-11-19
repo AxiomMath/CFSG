@@ -82,12 +82,12 @@ private theorem pdual_swap (i : Fin n) (p : PIdx n) :
   rcases p with j | j | j
   · by_cases h : j = i
     · subst h
-      simp [Equiv.swap_apply_def]
+      simp
     · simp [Equiv.swap_apply_def, h]
   · simp [Equiv.swap_apply_def]
   · by_cases h : j = i
     · subst h
-      simp [Equiv.swap_apply_def]
+      simp
     · simp [Equiv.swap_apply_def, h]
 
 private theorem swapV_mem {Q : QuadraticForm K V} {b : Basis (PIdx n) K V}
@@ -97,12 +97,12 @@ private theorem swapV_mem {Q : QuadraticForm K V} {b : Basis (PIdx n) K V}
     rcases p with j | j | j
     · by_cases h : j = i
       · subst h
-        simp [Equiv.swap_apply_def, hb.sing_v, hb.sing_w]
+        simp [hb.sing_v, hb.sing_w]
       · simp [Equiv.swap_apply_def, h]
     · simp [Equiv.swap_apply_def]
     · by_cases h : j = i
       · subst h
-        simp [Equiv.swap_apply_def, hb.sing_v, hb.sing_w]
+        simp [hb.sing_v, hb.sing_w]
       · simp [Equiv.swap_apply_def, h]
   · rw [swapV_apply, swapV_apply, hb.polar_eq, hb.polar_eq]
     simp only [pdual_swap, Equiv.apply_eq_iff_eq]
@@ -116,12 +116,12 @@ private theorem swapV_mul_ptorus (b : Basis (PIdx n) K V) (i : Fin n) (μ : Kˣ)
   rcases p with j | j | j
   · by_cases h : j = i
     · subst h
-      simp [Equiv.swap_apply_def]
+      simp
     · simp [Equiv.swap_apply_def, h]
   · simp [Equiv.swap_apply_def]
   · by_cases h : j = i
     · subst h
-      simp [Equiv.swap_apply_def]
+      simp
     · simp [Equiv.swap_apply_def, h]
 
 private theorem ptorus_mulSingle_mem [Finite K] [CharP K 2] {Q : QuadraticForm K V}
@@ -280,7 +280,7 @@ theorem card_le_two_of_commute [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K)
       TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup (hCO hg) _
     generalize b.repr (g (b (.inr (.inl 1)))) (.inr (.inl 0)) = l at hl ⊢
     have h2 : polar Q (b (.inr (.inl 1))) (b (.inr (.inl 0))) = 1 := by
-      rw [hb.polar_eq, hdu', if_pos rfl]
+      rw [hb.polar_eq, hdu', ite_eq_left rfl]
     rw [hl, QuadraticMap.map_add (Q : V → K), QuadraticMap.map_smul, polar_smul_right, h2] at h1
     simp only [smul_eq_mul, mul_one] at h1
     linear_combination h1

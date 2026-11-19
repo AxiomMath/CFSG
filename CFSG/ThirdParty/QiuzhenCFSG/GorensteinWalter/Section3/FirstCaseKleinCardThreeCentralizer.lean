@@ -37,7 +37,7 @@ public theorem firstCase_klein_card_three_subgroup_centralizes_U
       (pPrimeCore_normal (p := 2) (G := c.Hhat)).conj_mem
         u0 hu0 (⟨h, hh⟩ : c.Hhat), by simp⟩
   have hUcyc : IsCyclic c.U :=
-    isCyclic_of_prime_card (α := c.U) (p := 3) (by simpa [hUcard])
+    isCyclic_of_prime_card (α := c.U) (p := 3) (by simp [hUcard])
   have hAutcard : Nat.card (MulAut c.U) = 2 := by
     rw [IsCyclic.card_mulAut c.U, hUcard, Nat.totient_prime Nat.prime_three]
   intro x hx

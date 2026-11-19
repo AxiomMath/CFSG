@@ -94,7 +94,7 @@ theorem false_of_section_centralizer (hp : p.Prime) (O : Subgroup H) [O.Normal]
   set π := QuotientGroup.mk' O with hπ
   set T : Subgroup (H ⧸ O) := ψ.range with hT
   let e : S ≃* T := MonoidHom.ofInjective hψ
-  haveI : IsSimpleGroup T := MulEquiv.isSimpleGroup e.symm
+  have : IsSimpleGroup T := MulEquiv.isSimpleGroup e.symm
   set C : Subgroup H := centralizer ({d₀} : Set H) with hC
   set G : Subgroup ↥C := (T.comap π).subgroupOf C with hG
   have hmem : ∀ x : ↥G, π ((x : ↥C) : H) ∈ T := fun x => Subgroup.mem_subgroupOf.1 x.2

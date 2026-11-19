@@ -39,7 +39,7 @@ theorem sylowFixedLine_of_isPGroup {ι K : Type} [Fintype ι] [DecidableEq ι] [
     (hfix : ∀ v : ι → K,
       (∀ u ∈ U, ((u : GL ι K) : Matrix ι ι K) *ᵥ v = v) → v ∈ Submodule.span K {e}) :
     SylowFixedLine Γ e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S
   obtain ⟨x, hx⟩ := KTabA.exists_fixed_sylow_eq_span 2 U hU e hfix S
   refine ⟨x, fun v => (hx v).trans ?_⟩
@@ -54,7 +54,7 @@ theorem sylowFixedLine_minus (K : Type) [Field K] [Finite K] [CharP K 2] (b c : 
 
 theorem sylowFixedLine_plus (K : Type) [Field K] [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) :
     SylowFixedLine (StatedOmega (StatedQuadPlus 2 K)) (e1P K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, hU, hfix⟩ :=
     KTabA.exists_fixedLine_statedOmega_plus_two_single (K := K) 2 (by omega)
   exact sylowFixedLine_of_isPGroup U hU _ hfix

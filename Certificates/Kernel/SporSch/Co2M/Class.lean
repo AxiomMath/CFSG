@@ -133,7 +133,7 @@ theorem rm_rows {r : ℕ} (hr : r < 3) (k : ℕ) (hk : k < 22) :
 
 theorem rpRep {r : ℕ} (hr : r < 3) :
     MatRep.Rep 22 co2PackedVecs (unpack 2300 12 (RP r)) (RM r) (RM r) :=
-  bindK_sound good V_size (fun i hi => V_get hi) rfl (allN_spec bind_ok r hr)
+  bindK_sound good V_size (fun _i hi => V_get hi) rfl (allN_spec bind_ok r hr)
 
 theorem matPerm_eq {pt : Array UInt32}
     (hpt : ∀ j < 2300, (pt[co2PackedVecs[j]!]!).toNat = j) {rows : List ℕ} {a : Array ℕ}

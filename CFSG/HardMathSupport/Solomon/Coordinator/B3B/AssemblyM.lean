@@ -24,7 +24,7 @@ theorem hUM_holds : ∀ s : Gmat, orderOf s = 3 →
       CFSG.HardMathSupport.Solomon.Coordinator.IsHatSix ↥K ∨
         CFSG.HardMathSupport.Solomon.LocalBalance.IsHatON ↥K → False := by
   intro s hs hi K hK hhat
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   obtain ⟨c, hc⟩ := isConj_iff.1 (CFSG.HardMathSupport.Dickson.Sec6.BM2.m3bClass_holds s hs hi)
   refine bmInv_false_of_hat_of_mulEquiv (MulAut.conj c) hK hhat ?_
   rw [MulAut.conj_apply, hc]

@@ -45,6 +45,7 @@ theorem qTwoNbrLabel_not_central {B D J : Subgroup G} {x y : G} {K : Subgroup G}
   rw [hbot]
   exact bot_le
 
+omit [Finite G] in
 theorem qTwoNbrLabel_pow_three_central {x : G} {K : Subgroup G} (hx3 : x ^ 3 = 1) {a : ↥K}
     (ha : ∀ k : ↥K, x * (k : G) * x⁻¹ = ((a * k * a⁻¹ : ↥K) : G)) :
     a ^ 3 ∈ Subgroup.center ↥K := by

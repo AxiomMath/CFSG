@@ -109,8 +109,10 @@ variable {Q : Type} [Group Q] [Finite Q]
 
 abbrev q1 (ρ : Q →* P6) : Subgroup Q := (alternatingGroup (Fin 6)).comap ρ
 
+omit [Finite Q] in
 theorem mem_q1 {ρ : Q →* P6} {x : Q} : x ∈ q1 ρ ↔ ρ x ∈ alternatingGroup (Fin 6) := Iff.rfl
 
+omit [Finite Q] in
 theorem lam_sup_ker (ρ : Q →* P6) (hρs : Function.Surjective ρ) :
     ⁅q1 ρ, q1 ρ⁆ ⊔ ρ.ker = q1 ρ := by
   apply le_antisymm
@@ -129,12 +131,14 @@ theorem lam_sup_ker (ρ : Q →* P6) (hρs : Function.Surjective ρ) :
     rw [hx']
     exact Subgroup.mul_mem_sup hl h2
 
+omit [Finite Q] in
 theorem ker_comp_q1 (J₀ : Subgroup Q) (ρ : Q →* P6) (hρk : ρ.ker = J₀) :
     (ρ.comp (q1 ρ).subtype).ker = J₀.subgroupOf (q1 ρ) := by
   ext x
   rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, ← hρk, MonoidHom.mem_ker]
   rfl
 
+omit [Finite Q] in
 theorem range_comp_q1 (ρ : Q →* P6) (hρs : Function.Surjective ρ) :
     (ρ.comp (q1 ρ).subtype).range = alternatingGroup (Fin 6) := by
   ext a
@@ -145,6 +149,7 @@ theorem range_comp_q1 (ρ : Q →* P6) (hρs : Function.Surjective ρ) :
     obtain ⟨x, rfl⟩ := hρs a
     exact ⟨⟨x, ha⟩, rfl⟩
 
+omit [Finite Q] in
 theorem subgroupOf_q1_le_center (J₀ : Subgroup Q) (ρ : Q →* P6) (hJc : J₀ ≤ Subgroup.center Q) :
     J₀.subgroupOf (q1 ρ) ≤ Subgroup.center ↥(q1 ρ) := by
   intro x hx
@@ -152,10 +157,12 @@ theorem subgroupOf_q1_le_center (J₀ : Subgroup Q) (ρ : Q →* P6) (hJc : J₀
   intro g
   exact Subtype.ext (Subgroup.mem_center_iff.1 (hJc (Subgroup.mem_subgroupOf.1 hx)) g)
 
+omit [Finite Q] in
 theorem le_q1 (J₀ : Subgroup Q) (ρ : Q →* P6) (hρk : ρ.ker = J₀) : J₀ ≤ q1 ρ := fun j hj => by
   rw [mem_q1, MonoidHom.mem_ker.1 (hρk ▸ hj)]
   exact one_mem _
 
+omit [Finite Q] in
 theorem isPGroup_subgroupOf_q1 (J₀ : Subgroup Q) (ρ : Q →* P6) (hρk : ρ.ker = J₀)
     (hJ2 : IsPGroup 2 J₀) : IsPGroup 2 ↥(J₀.subgroupOf (q1 ρ)) :=
   hJ2.of_equiv (Subgroup.subgroupOfEquivOfLe (le_q1 J₀ ρ hρk)).symm
@@ -213,10 +220,11 @@ section Lam
 
 variable {Q : Type} [Group Q] [Finite Q] (J₀ : Subgroup Q) [J₀.Normal] (ρ : Q →* P6)
 
+omit [Finite Q] in
 theorem lam_center_imp (hJc : J₀ ≤ Subgroup.center Q) (hρs : Function.Surjective ρ)
     (hρk : ρ.ker = J₀) {x : Q} (hx : x ∈ ⁅q1 ρ, q1 ρ⁆)
     (hc : ∀ w ∈ ⁅q1 ρ, q1 ρ⁆, x * w = w * x) : x ∈ J₀ := by
-  haveI : (J₀.subgroupOf (q1 ρ)).Normal := Subgroup.Normal.subgroupOf inferInstance _
+  have : (J₀.subgroupOf (q1 ρ)).Normal := Subgroup.Normal.subgroupOf inferInstance _
   have hρ₁k := ker_comp_q1 J₀ ρ hρk
   have hρ₁r := range_comp_q1 ρ hρs
   have hZ := map_center_commutator_eq (J₀.subgroupOf (q1 ρ)) (subgroupOf_q1_le_center J₀ ρ hJc)
@@ -231,6 +239,7 @@ theorem lam_center_imp (hJc : J₀ ≤ Subgroup.center Q) (hρs : Function.Surje
   rw [hZ] at hyZ
   exact hyZ.2
 
+omit [Finite Q] [J₀.Normal] in
 theorem lam_inf_eq_bot_of_center (hJc : J₀ ≤ Subgroup.center Q)
     (hcen : Subgroup.center (commutator ↥(q1 ρ)) = ⊥) : ⁅q1 ρ, q1 ρ⁆ ⊓ J₀ = ⊥ := by
   rw [eq_bot_iff]
@@ -248,7 +257,7 @@ theorem lam_involutions_central (hKG : KGI22One) (hJc : J₀ ≤ Subgroup.center
     (hJ2 : IsPGroup 2 J₀) (hρs : Function.Surjective ρ) (hρk : ρ.ker = J₀)
     (hcen : Subgroup.center (commutator ↥(q1 ρ)) ≠ ⊥) :
     ∀ x ∈ ⁅q1 ρ, q1 ρ⁆, x * x = 1 → ∀ w ∈ ⁅q1 ρ, q1 ρ⁆, x * w = w * x := by
-  haveI : (J₀.subgroupOf (q1 ρ)).Normal := Subgroup.Normal.subgroupOf inferInstance _
+  have : (J₀.subgroupOf (q1 ρ)).Normal := Subgroup.Normal.subgroupOf inferInstance _
   have key := involutions_central_of_alt_six hKG (J₀.subgroupOf (q1 ρ))
     (subgroupOf_q1_le_center J₀ ρ hJc) (isPGroup_subgroupOf_q1 J₀ ρ hρk hJ2)
     (ρ.comp (q1 ρ).subtype) (ker_comp_q1 J₀ ρ hρk) (range_comp_q1 ρ hρs) hcen
@@ -264,6 +273,7 @@ section Core
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem closure_involutions_eq_top {V₀ : Subgroup Q} (hV₀ : ∀ v ∈ V₀, v * v = 1) {q : Q}
     (hgen : V₀ ⊔ V₀.map (MulAut.conj q).toMonoidHom = ⊤) :
     Subgroup.closure {x : Q | x * x = 1} = ⊤ := by
@@ -277,6 +287,7 @@ theorem closure_involutions_eq_top {V₀ : Subgroup Q} (hV₀ : ∀ v ∈ V₀, 
     calc q * x * q⁻¹ * (q * x * q⁻¹) = q * (x * x) * q⁻¹ := by group
       _ = 1 := by rw [this]; group
 
+omit [Finite Q] in
 theorem map_gen {V₀ : Subgroup Q} {ρ : Q →* P6} (hρs : Function.Surjective ρ) {q : Q}
     (hgen : V₀ ⊔ V₀.map (MulAut.conj q).toMonoidHom = ⊤) :
     V₀.map ρ ⊔ (V₀.map ρ).map (MulAut.conj (ρ q)).toMonoidHom = ⊤ := by
@@ -342,7 +353,7 @@ theorem lam_inf_eq_bot_aux (hKG : KGI22One) (hOdd : OddCoverExact P6) (J₀ : Su
     rw [mem_q1, hρv]
     exact D0_le_A6 (VA_le_D0 zA_mem_VA)
   have hlsQ₁ : ls ∈ q1 ρ := Subgroup.commutator_le_left _ _ hls.2
-  haveI : (J₀.subgroupOf (q1 ρ)).Normal := Subgroup.Normal.subgroupOf inferInstance _
+  have : (J₀.subgroupOf (q1 ρ)).Normal := Subgroup.Normal.subgroupOf inferInstance _
   exact hcen (center_commutator_eq_bot_of_alt_six hKG (J₀.subgroupOf (q1 ρ))
     (subgroupOf_q1_le_center J₀ ρ hJc) (isPGroup_subgroupOf_q1 J₀ ρ hρk hJ2)
     (ρ.comp (q1 ρ).subtype) (ker_comp_q1 J₀ ρ hρk) (range_comp_q1 ρ hρs)
@@ -385,6 +396,7 @@ theorem swap_not_mem_alt : swap (0 : Fin 6) 1 ∉ alternatingGroup (Fin 6) := by
   rw [Perm.mem_alternatingGroup, Perm.sign_swap (by decide)]
   decide
 
+omit [Finite Q] in
 theorem commutator_eq_lam (J₀ : Subgroup Q) [J₀.Normal] (hJc : J₀ ≤ Subgroup.center Q)
     (ρ : Q →* P6) (hρs : Function.Surjective ρ) (hρk : ρ.ker = J₀) :
     commutator Q = ⁅q1 ρ, q1 ρ⁆ := by
@@ -406,11 +418,13 @@ theorem commutator_eq_lam (J₀ : Subgroup Q) [J₀.Normal] (hJc : J₀ ≤ Subg
   · rw [commutator_def]
     exact Subgroup.commutator_mono le_top le_top
 
+omit [Finite Q] in
 theorem sq_mem_commutator (hgen' : Subgroup.closure {x : Q | x * x = 1} = ⊤) :
     ∀ y : Q, y * y ∈ commutator Q :=
   sq_mem_of_gen (commutator Q) (fun x y =>
     Subgroup.commutator_mem_commutator (Subgroup.mem_top x) (Subgroup.mem_top y)) hgen'
 
+omit [Finite Q] in
 theorem exists_compl_of_odd (J₀ : Subgroup Q) [J₀.Normal] (hJc : J₀ ≤ Subgroup.center Q)
     (ρ : Q →* P6) (hρs : Function.Surjective ρ) (hρk : ρ.ker = J₀)
     (hΛ0 : ⁅q1 ρ, q1 ρ⁆ ⊓ J₀ = ⊥) {u : Q} (hu2 : u * u = 1)
@@ -549,6 +563,7 @@ theorem exists_rho (h : E2.Pair X T M V g) [((E2.Pair.PP M V X g).subgroupOf X).
       rw [this]
       exact Subgroup.mul_mem _ hy (hPJ h1)
 
+omit [Finite Γ] in
 theorem map_pre_eq [((E2.Pair.PP M V X g).subgroupOf X).Normal]
     (A : Subgroup (E2.Pair.Xbar M V X g)) :
     ((E2.Pair.pre M V X g A).subgroupOf X).map
@@ -631,7 +646,7 @@ theorem eight_six (hKG : E2.KGI22One) (hOdd : Ch3E213M.OddCoverExact (Equiv.Perm
     alternatingGroup.commutator_perm_eq (by simp)
   obtain ⟨eC⟩ := nonempty_commutator_equiv ρ hρs (by rw [hρk]; exact hcomm0)
   have eA := eC.trans (MulEquiv.subgroupCongr hcomm6)
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hsimp : IsSimpleGroup ↥(commutator (E2.Pair.Xbar M V X g)) := MulEquiv.isSimpleGroup eA
   have hperf : Group.IsPerfect ↥(commutator (E2.Pair.Xbar M V X g)) :=
     ⟨commutator_eq_top_of_mulEquiv' eA commutator_alt_six⟩

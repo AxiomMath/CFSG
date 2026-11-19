@@ -55,7 +55,7 @@ private theorem PGroupData.map_of_injOn {H Y : Type*} [Group H] [Group Y]
     rw [← map_mul, ← map_mul] at hab
     exact hinj (P.mul_mem (h.T_le ha) (h.T_le hb)) (P.mul_mem (h.T_le hb) (h.T_le ha)) hab
   D_cyc := by
-    haveI := h.D_cyc
+    have := h.D_cyc
     exact isCyclic_of_surjective (φ.subgroupMap D) (φ.subgroupMap_surjective D)
   x_mem := Subgroup.mem_map_of_mem φ h.x_mem
   x_ord := by
@@ -281,7 +281,7 @@ private theorem sylow_subgroupOf {G : Type*} [Group G] [Finite G] [Fact p.Prime]
     ∃ T : Sylow p M, (T : Subgroup M) = (P : Subgroup G).subgroupOf M := by
   have h : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup G) M := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨hPM, P.isPGroup', fun h =>
+    exact ⟨hPM, P.isPGroup, fun h =>
       P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPM))⟩
   exact h.exists_sylow_eq_subgroupOf
 
@@ -291,7 +291,7 @@ private theorem isSylowOf_top_subgroupOf {G : Type*} [Group G] [Finite G] [Fact 
     CFSG.ABGLocalTools.IsSylowOf p ((P : Subgroup G).subgroupOf M) (⊤ : Subgroup M) := by
   obtain ⟨T, hT⟩ := sylow_subgroupOf P hPM
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right, ← hT]
-  exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+  exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
 
 private theorem wc_subgroupOf {G : Type} [Group G] [Finite G] {M P : Subgroup G}
     {x : G} (hxM : x ∈ M)
@@ -399,7 +399,7 @@ theorem case2Data3_of_G {p : ℕ} [Fact p.Prime] (hp3 : p = 3) {G : Type} [Group
   have hp : p.Prime := Fact.out
   have hTP : T ≤ (P : Subgroup G) := hpd.T_le
   have hTM : T ≤ M := hTP.trans hPM
-  have hPp : IsPGroup p ((P : Subgroup G).subgroupOf M) := P.isPGroup'.comap_subtype
+  have hPp : IsPGroup p ((P : Subgroup G).subgroupOf M) := P.isPGroup.comap_subtype
   have hinj : Set.InjOn (QuotientGroup.mk' (primeComplementCore (G := ↥M) p))
       (((P : Subgroup G).subgroupOf M : Subgroup ↥M) : Set ↥M) :=
     injOn_mk_of_isPGroup hp _ (primeComplementCore_coprime p) hPp
@@ -442,7 +442,7 @@ theorem u3_normal_core_proof_gen3 {G : Type} [Group G] [Finite G] {p : ℕ} {P :
     (hIrr : TypeTorusIrred Typ p) (hFpf : TypeTorusFpf Typ p) (hOn : TypeTorusOnCenter Typ p)
     (hmax : TypeBorelMax Typ p) :
     M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore p M : Subgroup G) : Set G) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨hPC, hwc⟩ := hfus
   have hpd := u3_pdata_gen3 hc hPC hTstr hSdec hAut
   obtain ⟨F, hFM, hF, hFD⟩ := u3_exists_Fhat_gen3 hS hc hPC hpd hpd.sup_eq.ge

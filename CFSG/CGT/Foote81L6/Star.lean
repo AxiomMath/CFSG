@@ -15,7 +15,7 @@ theorem zpar_natCast (m : ℕ) (hm : 1 ≤ m) (k : ℕ) : zpar m hm k = k := map
 
 theorem zpar_eq_zero_iff {m : ℕ} (hm : 1 ≤ m) {i : ZMod (2 ^ m)} :
     zpar m hm i = 0 ↔ ∃ c : ZMod (2 ^ m), i = c + c := by
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
   constructor
   · intro h
     have hv : zpar m hm (i.val : ZMod (2 ^ m)) = 0 := by rwa [ZMod.natCast_zmod_val]
@@ -33,7 +33,7 @@ theorem zpar_eq_zero_iff {m : ℕ} (hm : 1 ≤ m) {i : ZMod (2 ^ m)} :
 
 theorem zpar_eq_zero_of_mul_half {m : ℕ} (hm : 1 ≤ m) {i : ZMod (2 ^ m)}
     (h : i * ((2 ^ (m - 1) : ℕ) : ZMod (2 ^ m)) = 0) : zpar m hm i = 0 := by
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
   obtain ⟨k, rfl⟩ : ∃ k, m = k + 1 := ⟨m - 1, by omega⟩
   rw [Nat.add_sub_cancel] at h
   have h' : ((i.val * 2 ^ k : ℕ) : ZMod (2 ^ (k + 1))) = 0 := by

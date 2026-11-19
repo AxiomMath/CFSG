@@ -193,8 +193,8 @@ private theorem card_quotient_lt_of_ne_bot [Finite W] {U : Submodule (ZMod 2) W}
   have hne : ∃ x : W, x ∈ U ∧ x ≠ 0 := by
     simpa [Submodule.eq_bot_iff] using hU
   obtain ⟨x, hx, hx0⟩ := hne
-  haveI : Nontrivial ↥U := ⟨⟨x, hx⟩, ⟨0, U.zero_mem⟩, fun h => hx0 (congrArg Subtype.val h)⟩
-  haveI : Finite ↥U := Subtype.finite
+  have : Nontrivial ↥U := ⟨⟨x, hx⟩, ⟨0, U.zero_mem⟩, fun h => hx0 (congrArg Subtype.val h)⟩
+  have : Finite ↥U := Subtype.finite
   have h1 : 1 < Nat.card ↥U := Finite.one_lt_card
   have h2 := Submodule.card_eq_card_quotient_mul_card U
   have h3 : Nat.card (W ⧸ U) < Nat.card (W ⧸ U) * Nat.card ↥U :=
@@ -227,7 +227,7 @@ theorem SU3ModuleBound.false_of_invariant_submodule (hSU3 : SU3ModuleBound) {K :
     (hperf : commutator K = ⊤) {U : Submodule (ZMod 2) W}
     (hU : ∀ g, U.map (ρ g) ≤ U) (hUbot : U ≠ ⊥) (hUtop : U ≠ ⊤)
     (hcard : Nat.card W = (2 ^ f) ^ 6) : False := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have hU' : ∀ g v, v ∈ U → ρ g v ∈ U := fun g v hv =>
     (hU g) (Submodule.mem_map.mpr ⟨v, hv, rfl⟩)
   let Xs : Subrepresentation ρ := { toSubmodule := U, apply_mem_toSubmodule := hU' }
@@ -369,7 +369,7 @@ private theorem odd_normal_le_center {K : Type*} [Group K] [Finite K]
 
 private theorem false_of_two_quotient_center {K : Type*} [Group K] [Finite K]
     (hK : CFSG.IsQuasisimple K) (h2 : IsPGroup 2 (K ⧸ Subgroup.center K)) : False := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2.1
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2.1
   have hgt : ⊥ < Subgroup.center (K ⧸ Subgroup.center K) := h2.bot_lt_center
   have htop : Subgroup.center (K ⧸ Subgroup.center K) = ⊤ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center _)).resolve_left (ne_of_gt hgt)
@@ -406,7 +406,7 @@ theorem isQuasisimple_imgQ_r0 (hS : Sec7Hyp M V n f)
     exact hker
   have hSU : CFSG.IsQuasisimple
       ↥(Unitary.SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) (n - 2)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact Unitary.isQuasisimple_SU (card_galoisField_two_mul hS.one_le) (by omega) (by
       intro hcon
       have hf2 : 2 ≤ f := by
@@ -780,9 +780,9 @@ private theorem irredNt (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
   let Asec := D.core.base.Asec
   let R0 := fiveR0 M V A B
   let P0 := fiveP0 M V A B
-  letI : Esec.Normal := D.core.base.normalE
-  letI : Asec.Normal := D.core.base.normalA
-  letI : Fact (RootMany.IsElemSection Esec Asec) := D.core.base.elemSection
+  let : Esec.Normal := D.core.base.normalE
+  let : Asec.Normal := D.core.base.normalA
+  let : Fact (RootMany.IsElemSection Esec Asec) := D.core.base.elemSection
   have hρ : ∀ r : ↥R0, ρ (ψ r) = secRep Esec Asec r := D.core.hρ
   have hR0R : R0 ≤ rOf M h :=
     (L2Datum.r0_le_inf_cenOf hS.toSec6Hyp hD).trans (L2Datum.inf_cenOf_le_rOf hD)
@@ -855,9 +855,9 @@ private theorem irredSpan (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
   let Asec := D.core.base.Asec
   let R0 := fiveR0 M V A B
   let P0 := fiveP0 M V A B
-  letI : Esec.Normal := hEn
-  letI : Asec.Normal := hAn
-  letI : Fact (RootMany.IsElemSection Esec Asec) := hEs
+  let : Esec.Normal := hEn
+  let : Asec.Normal := hAn
+  let : Fact (RootMany.IsElemSection Esec Asec) := hEs
   intro C hC
   have hAeq := subgroupOf_imgQ_eq_map_r0BarMap hS.toSec6Hyp hC.1 hC.2
   have hset : {u : W | ∃ a ∈ (C.subgroupOf R0).map ψ, ∃ w, u = ρ a w - w} =
@@ -954,9 +954,9 @@ private theorem irredTIcond (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
   let Asec := D.core.base.Asec
   let R0 := fiveR0 M V A B
   let P0 := fiveP0 M V A B
-  letI : Esec.Normal := hEn
-  letI : Asec.Normal := hAn
-  letI : Fact (RootMany.IsElemSection Esec Asec) := hEs
+  let : Esec.Normal := hEn
+  let : Asec.Normal := hAn
+  let : Fact (RootMany.IsElemSection Esec Asec) := hEs
   rintro X ⟨A', hA', rfl⟩ Y ⟨B', hB', rfl⟩
   rw [D.hΔ] at hA' hB'
   obtain ⟨C, hC, rfl⟩ := hA'
@@ -1023,9 +1023,9 @@ private theorem irredUInvariant (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
   let Esec := D.core.base.Esec
   let Asec := D.core.base.Asec
   let R0 := fiveR0 M V A B
-  letI : Esec.Normal := hEn
-  letI : Asec.Normal := hAn
-  letI : Fact (RootMany.IsElemSection Esec Asec) := hEs
+  let : Esec.Normal := hEn
+  let : Asec.Normal := hAn
+  let : Fact (RootMany.IsElemSection Esec Asec) := hEs
   intro x hx
   obtain ⟨r, rfl⟩ := D.core.hψ x
   intro v hv
@@ -1047,8 +1047,8 @@ private theorem irredNsub (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
         (imgQ M '' {C | C ∈ sigmaSet M V ∧ C ≤ cenOf (A ⊔ B)}) f (n - 2) hf
           (Nat.le_sub_of_add_le (Nat.le_of_succ_le h5)))
     (h5 : 5 ≤ n) (D : IrredModule hS hD hS1 hS2 hS3 hS5 hS7 hS9 h5)
-    [hEn : D.core.base.Esec.Normal] [hAn : D.core.base.Asec.Normal]
-    [hEs : Fact (RootMany.IsElemSection D.core.base.Esec D.core.base.Asec)]
+    [_hEn : D.core.base.Esec.Normal] [_hAn : D.core.base.Asec.Normal]
+    [_hEs : Fact (RootMany.IsElemSection D.core.base.Esec D.core.base.Asec)]
     {N : Subgroup G} (hVN : V ≤ N) (hNP0 : N ≤ fiveP0 M V A B) :
     N.subgroupOf (fiveR0 M V A B) ≤ D.core.base.Esec ∧
     D.core.base.Asec ≤ N.subgroupOf (fiveR0 M V A B) := by
@@ -1057,12 +1057,11 @@ private theorem irredNsub (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
   let Asec := D.core.base.Asec
   let R0 := fiveR0 M V A B
   let P0 := fiveP0 M V A B
-  letI : Esec.Normal := hEn
-  letI : Asec.Normal := hAn
-  letI : Fact (RootMany.IsElemSection Esec Asec) := hEs
+  let : Esec.Normal := _hEn
+  let : Asec.Normal := _hAn
+  let : Fact (RootMany.IsElemSection Esec Asec) := _hEs
   constructor
   · intro x hx
-    change x ∈ D.core.base.Esec
     rw [D.core.base.hE]
     exact Subgroup.mem_subgroupOf.mpr (hNP0 (Subgroup.mem_subgroupOf.mp hx))
   · intro x hx
@@ -1095,9 +1094,9 @@ private theorem irredFinal (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
   let Asec := D.core.base.Asec
   let R0 := fiveR0 M V A B
   let P0 := fiveP0 M V A B
-  letI : Esec.Normal := hEn
-  letI : Asec.Normal := hAn
-  letI : Fact (RootMany.IsElemSection Esec Asec) := hEs
+  let : Esec.Normal := hEn
+  let : Asec.Normal := hAn
+  let : Fact (RootMany.IsElemSection Esec Asec) := hEs
   have hf2 : 2 ≤ f := irredHf2 hS
   obtain ⟨hNsub, hAsub⟩ := irredNsub hS hD hS1 hS2 hS3 hS5 hS7 hS9 h5 D hVN hNP0
   have hX : secSub Esec Asec (N.subgroupOf R0) = ⊥ ∨
@@ -1169,9 +1168,9 @@ theorem irred_five_of (hS : Sec7Hyp M V n f) (hSU3 : SU3ModuleBound) (hTI : Unit
   let base := irredBase hS hD hS1 hS3 hS5 hS7
   let core := irredModuleCore hS hD hS1 hS2 hS3 hS5 hS7 base h5
   let D := irredModule hS hD hS1 hS2 hS3 hS5 hS7 hS9 h5 core
-  letI : D.core.base.Esec.Normal := D.core.baseNormalE
-  letI : D.core.base.Asec.Normal := D.core.baseNormalA
-  letI : Fact (RootMany.IsElemSection D.core.base.Esec D.core.base.Asec) :=
+  let : D.core.base.Esec.Normal := D.core.baseNormalE
+  let : D.core.base.Asec.Normal := D.core.baseNormalA
+  let : Fact (RootMany.IsElemSection D.core.base.Esec D.core.base.Asec) :=
     D.core.baseElemSection
   intro N hVN hNP0 hNR0
   exact irredFinal hS hD hS1 hS2 hS3 hS5 hS7 hS9 h5 hSU3 hTI h71TI D hVN hNP0 hNR0

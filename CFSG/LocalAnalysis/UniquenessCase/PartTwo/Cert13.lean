@@ -31,8 +31,8 @@ theorem s13_Cert13_gcd_two_pow (n : ℕ) (hn : 1 ≤ n) :
 
 theorem s13_isL2_two_of_isL2Odd_five {X : Type} [Group X]
     (h : IsL2Odd X 5) : IsL2 X 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 5 1) 5 1
     (by norm_num) (GaloisField.card 5 1 (by norm_num)) h
   obtain ⟨e5⟩ := CFSG.Walter.nonempty_psl2_five_mulEquiv_psl2_four
@@ -42,7 +42,7 @@ theorem s13_isL2_two_of_isL2Odd_five {X : Type} [Group X]
   · exact absurd hn (by decide)
 
 theorem s13_dvd_card_of_isL2_or_isSz {X : Type} [Group X]
-    [Finite X] {n s r : ℕ} (hX : IsL2 X n ∨ IsSz X n) (hs : s ∣ n) (hr : r.Prime)
+    [Finite X] {n s r : ℕ} (hX : IsL2 X n ∨ IsSz X n) (hs : s ∣ n) (_hr : r.Prime)
     (hrd : r ∣ 2 ^ s - 1) : r ∣ Nat.card X := by
   have hdvd : r ∣ 2 ^ n - 1 := hrd.trans (Nat.pow_sub_one_dvd_pow_sub_one 2 hs)
   rcases hX with h | h

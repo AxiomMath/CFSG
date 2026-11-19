@@ -132,7 +132,7 @@ theorem levi_conj (A A' : Matrix (Fin 2) (Fin 2) (ZMod 2)) (B B' : Matrix ι₂ 
   show fromBlocks A 0 0 B * fromBlocks 1 0 φ 1 * fromBlocks A' 0 0 B' =
     fromBlocks 1 0 (B * φ * A') 1
   rw [fromBlocks_multiply, fromBlocks_multiply]
-  simp [hA, hB, mul_assoc]
+  simp [hA, hB]
 
 theorem levi_mem_normalizer (A A' : Matrix (Fin 2) (Fin 2) (ZMod 2)) (B B' : Matrix ι₂ ι₂ (ZMod 2))
     (hA : A * A' = 1) (hA' : A' * A = 1) (hB : B * B' = 1) (hB' : B' * B = 1) :
@@ -275,7 +275,7 @@ theorem f27_mem (x : Fin 3 × Fin 3 × Fin 3) : f27 x ∈ E0 :=
 theorem card_E0 : Nat.card E0 = 27 := by
   apply le_antisymm
   · have hE := isElemAbelian_E0
-    haveI := hE.1
+    have := hE.1
     have h := Rank3.card_le_three_pow_of_injective' (ι := ι) (E := ↥E0) (fun a b => mul_comm' a b)
       (fun e => Subtype.ext (by simpa using hE.2 e e.2)) E0.subtype E0.subtype_injective
     have hι : Fintype.card ι = 6 := by simp [ι, ι₂]
@@ -331,6 +331,7 @@ section I106
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_map_subtype {J : Subgroup G} {W P : Subgroup ↥J}
     (h : W ≤ Subgroup.normalizer (P : Set ↥J)) :
     W.map J.subtype ≤ Subgroup.normalizer ((P.map J.subtype : Subgroup G) : Set G) := by
@@ -361,7 +362,7 @@ theorem i106L62At_holds : I106L62At G := by
   have hrange : π.range = ⊤ := MonoidHom.range_eq_top_of_surjective π hπs
   refine ⟨fun E hEK hE => ?_, ?_⟩
   ·
-    haveI := hE.1
+    have := hE.1
     have hinj : Function.Injective (π.comp (Subgroup.inclusion hEK)) := by
       rw [injective_iff_map_eq_one]
       intro x hx

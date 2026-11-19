@@ -31,7 +31,7 @@ theorem i294_false_of_alternating {p : ℕ} {Y : Type} [Group Y] [Finite Y] {L :
     (hn : 5 ≤ n) (e : ↥L ≃* alternatingGroup (Fin n)) : False := by
   have hp : p.Prime := h.prime
   have hodd : p ≠ 2 := h.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrankL : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup (MulAut ↥L)) := by
     have h1 := CFSG.SectionRank.pRank_top_le_of_injective hp.one_lt
       (MulAut.conjNormal : Y →* MulAut ↥L) (i294_conjNormal_injective_alt h.cent)

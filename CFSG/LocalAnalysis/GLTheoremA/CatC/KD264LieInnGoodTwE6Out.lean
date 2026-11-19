@@ -28,7 +28,7 @@ theorem mem_inndiag_of_mem_innAutDerived_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Pri
   rw [innAutDerived_eq_commutator_of_perfect hC] at hα
   have hKf : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hring := card_ringAut_and_isCyclic hℓ K hKf
-  haveI : IsCyclic (RingAut K) := hring.2
+  have : IsCyclic (RingAut K) := hring.2
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, hsurj, hker, -, -, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK σ hσ
   rw [← hker, MonoidHom.mem_ker]

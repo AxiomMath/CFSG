@@ -100,8 +100,8 @@ theorem s16h_e3_CycTwoCent_centralizer_le
     simp only [Subgroup.coe_mul, Subgroup.coe_inv, MulAut.mul_apply]
     exact h2
   have hDcomm : ∀ a b : ↥D, a * b = b * a := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI : IsMulCommutative ↥D :=
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : IsMulCommutative ↥D :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hD]; norm_num)
     exact fun a b => mul_comm' a b
   let g' : MulAut W := (d₀ : MulAut W)⁻¹ * g

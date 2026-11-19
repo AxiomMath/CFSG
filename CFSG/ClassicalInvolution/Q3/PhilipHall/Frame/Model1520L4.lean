@@ -116,7 +116,7 @@ theorem u01_cube (h3 : (3 : F) = 0) (c : F) : u01 c ^ 3 = 1 := by
     Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four, u01, E01] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_four, u01, E01];
     linear_combination c * h3
 
 theorem u10_cube (h3 : (3 : F) = 0) (c : F) : u10 c ^ 3 = 1 := by
@@ -125,7 +125,7 @@ theorem u10_cube (h3 : (3 : F) = 0) (c : F) : u10 c ^ 3 = 1 := by
     Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four, u10, E10] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_four, u10, E10];
     linear_combination c * h3
 
 theorem u23_cube (h3 : (3 : F) = 0) (c : F) : u23 c ^ 3 = 1 := by
@@ -134,7 +134,7 @@ theorem u23_cube (h3 : (3 : F) = 0) (c : F) : u23 c ^ 3 = 1 := by
     Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four, u23, E23] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_four, u23, E23];
     linear_combination c * h3
 
 theorem u32_cube (h3 : (3 : F) = 0) (c : F) : u32 c ^ 3 = 1 := by
@@ -143,7 +143,7 @@ theorem u32_cube (h3 : (3 : F) = 0) (c : F) : u32 c ^ 3 = 1 := by
     Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four, u32, E32] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_four, u32, E32];
     linear_combination c * h3
 
 theorem u01_comm (c : F) : u01 c * rootInv F (show 2 ≤ 4 by norm_num) =

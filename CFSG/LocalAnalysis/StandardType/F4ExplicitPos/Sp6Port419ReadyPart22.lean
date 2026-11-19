@@ -64,7 +64,7 @@ theorem cast_spCommC_eq_f4C3Coeff
         rw [← map_sub]
         exact isRoot_c3ToF4 hd
       refine (intCast_eq_zero_of_natAbs (natAbs_commC_one_one_long hα hβ hαβ hr h4)).trans ?_
-      rw [f4C3Coeff_one_one, stringNorm, if_pos hd']
+      rw [f4C3Coeff_one_one, stringNorm, ite_eq_left hd']
       exact (intCast_eq_zero_of_natAbs (by norm_num)).symm
     · have h2 : toStd 3 (α + β) ⬝ᵥ toStd 3 (α + β) = 2 := by
         obtain ⟨t, ht⟩ := exists_stdVec_of_mem_roots hr
@@ -75,7 +75,7 @@ theorem cast_spCommC_eq_f4C3Coeff
         rw [← map_sub, isRoot_c3ToF4_iff]
         exact hd
       refine (intCast_eq_one_of_natAbs (Sp.natAbs_commC_one_one hα hβ hαβ hr h2)).trans ?_
-      rw [f4C3Coeff_one_one, stringNorm, if_neg hd']
+      rw [f4C3Coeff_one_one, stringNorm, ite_eq_right hd']
       exact (intCast_eq_one_of_natAbs (by norm_num)).symm
   · have hr' : CFSG.Blueprint.Chevalley.IsRoot .F4 (c3ToF4 α + 2 • c3ToF4 β) := by
       rw [← map_nsmul, ← map_add]
@@ -100,24 +100,26 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem spF4Par_add
     (γ : Fin 3 → ℤ) (c d : K) :
     spF4Par K γ (c + d) = spF4Par K γ c * spF4Par K γ d := by
   by_cases h : CFSG.Blueprint.Chevalley.IsRoot .F4 (c3ToF4 γ)
   · change xPar (rootOperatorFamily .F4) (c3ToF4 γ) (c + d) =
       xPar (rootOperatorFamily .F4) (c3ToF4 γ) c * xPar (rootOperatorFamily .F4) (c3ToF4 γ) d
-    rw [xPar, dif_pos h, xPar, dif_pos h, xPar, dif_pos h]
+    rw [xPar, dite_eq_left h, xPar, dite_eq_left h, xPar, dite_eq_left h]
     exact (rootOperatorFamily .F4).eltElement_add ⟨c3ToF4 γ, h⟩ c d
   · change xPar (rootOperatorFamily .F4) (c3ToF4 γ) (c + d) =
       xPar (rootOperatorFamily .F4) (c3ToF4 γ) c * xPar (rootOperatorFamily .F4) (c3ToF4 γ) d
-    rw [xPar, dif_neg h, xPar, dif_neg h, xPar, dif_neg h, mul_one]
+    rw [xPar, dite_eq_right h, xPar, dite_eq_right h, xPar, dite_eq_right h, mul_one]
 
+omit [CharP K 2] in
 theorem spF4Par_of_not_exact
     {γ : Fin 3 → ℤ}
     (hγ : γ ∉ CFSG.LieType.RootSystem.roots (isFiniteType_cartanC 3) ∅) (c : K) :
     spF4Par K γ c = 1 := by
   change xPar (rootOperatorFamily .F4) (c3ToF4 γ) c = 1
-  rw [xPar, dif_neg]
+  rw [xPar, dite_eq_right]
   exact fun h => hγ (isRoot_c3ToF4_iff.1 h)
 
 theorem f4Par_simple_one_ne_one_exact
@@ -130,7 +132,7 @@ theorem f4Par_simple_one_ne_one_exact
       rw [show ((Adjoint.f4Par K (Pi.single i 1) 1 : ↥(adjointGroup .F4 K)) : ModGL .F4 K) =
           (rootOperatorFamily .F4).eltUnit K (simpleRoot .F4 i) 1 from ?_] at h1
       · exact h1
-      · rw [Adjoint.f4Par, xPar, dif_pos (isRoot_single .F4 i)]
+      · rw [Adjoint.f4Par, xPar, dite_eq_left (isRoot_single .F4 i)]
         rfl
     rwa [← (rootOperatorFamily .F4).eltUnit_simple i 1]
   have h2 : simpleRootSL2 .F4 K i (uSL 1) = simpleRootSL2 .F4 K i 1 := by
@@ -146,6 +148,7 @@ theorem f4Par_simple_one_ne_one_exact
   rw [h5] at h4
   exact one_ne_zero h4
 
+omit [CharP K 2] in
 theorem spF4_rels_exact
     (O : CommOrder (Sp.Φ 3 K))
     (hadd : ∀ γ (c d : K), spF4Par K γ (c + d) = spF4Par K γ c * spF4Par K γ d)
@@ -172,6 +175,7 @@ theorem spF4_rels_exact
 
 variable [Finite K]
 
+omit [CharP K 2] in
 theorem exists_hom_spToF4_exact
     (O : CommOrder (Sp.Φ 3 K))
     (hadd : ∀ γ (c d : K), spF4Par K γ (c + d) = spF4Par K γ c * spF4Par K γ d)

@@ -23,6 +23,7 @@ theorem isSylowTwoIn_inf_of_normal_sylow {Y : Type*} [Group Y] [Finite Y]
   ext x
   simp [Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem exists_sylowTwoIn_normalizer_t {t : G} {W M : Subgroup G}
     (_hM : M = normalizer (W : Set G)) (htM : t ∈ M) (ht2 : orderOf t = 2) :
     ∃ S : Subgroup G, IsSylowTwoIn S M ∧ t ∈ S := by

@@ -19,10 +19,10 @@ private lemma normal_le_center_or_top_of_isTripleCover {T : Type*} [Group T]
     {N : Subgroup T} (hN : N.Normal) :
     N ≤ Subgroup.center T ∨ N = ⊤ := by
   classical
-  haveI : Group.IsPerfect T := hperf
-  haveI : N.Normal := hN
-  haveI : IsSimpleGroup (T ⧸ Subgroup.center T) := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : Group.IsPerfect T := hperf
+  have : N.Normal := hN
+  have : IsSimpleGroup (T ⧸ Subgroup.center T) := by
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     exact MulEquiv.isSimpleGroup hT.2.some
   have hperfTop : ⁅(⊤ : Subgroup T), (⊤ : Subgroup T)⁆ = ⊤ :=
     Subgroup.commutator_eq_self
@@ -54,10 +54,10 @@ private lemma pi_d_mem_map_of_ne_bot {X T : Type*} [Group X] [Finite X] [Group T
     (hbot : K.map π ≠ ⊥) :
     π d ∈ K.map π := by
   classical
-  haveI : Group.IsPerfect X := hXperf
-  haveI : Finite T := Finite.of_surjective π hπ
-  haveI : Group.IsPerfect T := Group.IsPerfect.ofSurjective hπ
-  haveI : (K.map π).Normal := hK.map π hπ
+  have : Group.IsPerfect X := hXperf
+  have : Finite T := Finite.of_surjective π hπ
+  have : Group.IsPerfect T := Group.IsPerfect.ofSurjective hπ
+  have : (K.map π).Normal := hK.map π hπ
   have hdich := normal_le_center_or_top_of_isTripleCover (Group.IsPerfect.ofSurjective hπ) hT
     (N := K.map π) (hK.map π hπ)
   rcases hdich with hle | htop
@@ -82,7 +82,7 @@ private lemma mem_of_pi_mem_map {X T : Type*} [Group X] [Group T]
     {K : Subgroup X} (hK : K.Normal) (hπd : π d ∈ K.map π) :
     d ∈ K := by
   classical
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   obtain ⟨k, hk, hkπ⟩ := Subgroup.mem_map.mp hπd
   let e : X := k⁻¹ * d
   have he : e ∈ π.ker := by
@@ -125,7 +125,7 @@ private lemma exists_isPGroup_lift {X Γ : Type*} [Group X] [Finite X] [Group Γ
     (ht2 : IsPGroup 2 (Subgroup.zpowers t)) :
     ∃ x : X, f x = t ∧ IsPGroup 2 (Subgroup.zpowers x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, rfl⟩ := hf t
   let x := Group.pSingular 2 y
   let z := Group.pRegular 2 y
@@ -150,7 +150,7 @@ private lemma fixedSubgroup_data {X : Type} [Group X] {N M : Subgroup X} (hN : N
     ∃ F₀ : Subgroup X, N ≤ F₀ ∧ F₀ ≤ M ∧
       ∀ m ∈ M, x * m * x⁻¹ * m⁻¹ ∈ N ↔ m ∈ F₀ := by
   classical
-  letI : N.Normal := hN
+  let : N.Normal := hN
   let qN : X →* X ⧸ N := QuotientGroup.mk' N
   let F₀ : Subgroup X :=
     (Subgroup.centralizer ({qN x} : Set (X ⧸ N))).comap qN ⊓ M
@@ -231,8 +231,8 @@ private lemma range_chiefQ {X : Type} [Group X] {p : ℕ} [Fact p.Prime]
     simp
 
 private lemma natCard_ker_le_relIndex {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
-    {N M F₀ : Subgroup X} (hN : N.Normal) (hMn : M.Normal) (hF₀M : F₀ ≤ M)
-    (hNF₀ : N ≤ F₀) {F : Type} [AddCommGroup F] [Module (ZMod p) F]
+    {N M F₀ : Subgroup X} (_hN : N.Normal) (hMn : M.Normal) (hF₀M : F₀ ≤ M)
+    (_hNF₀ : N ≤ F₀) {F : Type} [AddCommGroup F] [Module (ZMod p) F]
     (ρ : Representation (ZMod p) X F) (q : X → F)
     (hqadd : ∀ m ∈ M, ∀ m' ∈ M, q (m * m') = q m + q m')
     (hqker : ∀ m ∈ M, q m = 0 ↔ m ∈ N)
@@ -241,8 +241,8 @@ private lemma natCard_ker_le_relIndex {X : Type} [Group X] [Finite X] {p : ℕ} 
     {x : X} (hfix : ∀ m ∈ M, x * m * x⁻¹ * m⁻¹ ∈ N ↔ m ∈ F₀) :
     Nat.card (LinearMap.ker (ρ x - 1)) ≤ N.relIndex F₀ := by
   classical
-  letI : N.Normal := hN
-  haveI : M.Normal := hMn
+  let : N.Normal := _hN
+  have : M.Normal := hMn
   let qF : F₀ →* Multiplicative F :=
     { toFun := fun a => Multiplicative.ofAdd (q a)
       map_one' := by
@@ -281,7 +281,7 @@ private lemma natCard_ker_le_relIndex {X : Type} [Group X] [Finite X] {p : ℕ} 
   rw [Subgroup.relIndex, Subgroup.index_eq_card, hfirst, hcardrange]
 
 private lemma finrank_ker_le_three {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
-    (hp5 : 5 ≤ p) {N M : Subgroup X} (hNn : N.Normal) (hMn : M.Normal) (hNM : N < M)
+    (_hp5 : 5 ≤ p) {N M : Subgroup X} (hNn : N.Normal) (hMn : M.Normal) (hNM : N < M)
     (hcomm : ∀ x ∈ M, ∀ y ∈ M, x * y * x⁻¹ * y⁻¹ ∈ N)
     (hexp : ∀ x ∈ M, x ^ p ∈ N)
     (hR3 : ∀ N M : Subgroup X, N.Normal → M.Normal → N ≤ M →
@@ -299,8 +299,8 @@ private lemma finrank_ker_le_three {X : Type} [Group X] [Finite X] {p : ℕ} [Fa
     {x : X} (hx2 : IsPGroup 2 (Subgroup.zpowers x)) (hxker : x ∉ ρ.ker) :
     Module.finrank (ZMod p) (LinearMap.ker (ρ x - 1)) ≤ 3 := by
   classical
-  haveI : N.Normal := hNn
-  haveI : M.Normal := hMn
+  have : N.Normal := hNn
+  have : M.Normal := hMn
   obtain ⟨F₀, hNF₀, hF₀M, hfix⟩ := fixedSubgroup_data hNn hNM.le
   have hnonfix : ∃ m ∈ M, x * m * x⁻¹ * m⁻¹ ∉ N := by
     by_contra h
@@ -347,12 +347,12 @@ private lemma fixed_of_mainAlg166 (hmain : MainAlg166) {Γ T : Type} [Group Γ] 
   obtain ⟨𝕜, h𝕜field, h𝕜alg, h𝕜char, V, hVadd, hVmod, hVfin, σ,
     hσirr, hσinj, hσbound, hσdesc⟩ :=
     exists_isAlgClosed_extension (p := p) ρbar hirr hfaith
-  letI := h𝕜field
-  letI := h𝕜alg
-  letI := h𝕜char
-  letI := hVadd
-  letI := hVmod
-  letI := hVfin
+  let := h𝕜field
+  let := h𝕜alg
+  let := h𝕜char
+  let := hVadd
+  let := hVmod
+  let := hVfin
   have hR3σ : ∀ t : Γ, IsPGroup 2 (Subgroup.zpowers t) → t ≠ 1 →
       Module.finrank 𝕜 (LinearMap.ker (σ t - 1)) ≤ 3 :=
     fun t ht2 htne => (hσbound t).trans (hR3bar t ht2 htne)
@@ -372,7 +372,7 @@ private lemma quotient_basic {X T : Type*} [Group X] [Group T]
     (QuotientGroup.mk' K d) ^ 3 = 1 ∧
     (QuotientGroup.lift K π hKle) (QuotientGroup.mk' K d) ∈ Subgroup.center T := by
   classical
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · exact QuotientGroup.lift_surjective_of_surjective (N := K) π hπ hKle
   · have hker : (QuotientGroup.lift K π hKle).ker = (π.ker).map (QuotientGroup.mk' K) :=
@@ -383,7 +383,7 @@ private lemma quotient_basic {X T : Type*} [Group X] [Group T]
   · have hker : (QuotientGroup.lift K π hKle).ker = (π.ker).map (QuotientGroup.mk' K) :=
       QuotientGroup.ker_lift (N := K) π hKle
     rw [hker]
-    haveI : Group.IsSolvable ↥π.ker := hkerS
+    have : Group.IsSolvable ↥π.ker := hkerS
     exact Group.isSolvable_of_surjective
       (f := (QuotientGroup.mk' K).subgroupMap π.ker)
       ((QuotientGroup.mk' K).subgroupMap_surjective π.ker)
@@ -405,9 +405,9 @@ private lemma quotient_I1 {X T : Type*} [Group X] [Group T]
     I₁.map (QuotientGroup.mk' K) ≤
       Subgroup.centralizer ({QuotientGroup.mk' K d} : Set (X ⧸ K)) := by
   classical
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   refine ⟨?_, ?_, ?_, ?_⟩
-  · haveI : Group.IsPerfect I₁ := hI₁
+  · have : Group.IsPerfect I₁ := hI₁
     exact Group.IsPerfect.map (QuotientGroup.mk' K)
   · have hcomp : (QuotientGroup.lift K π hKle).comp (QuotientGroup.mk' K) = π :=
       MonoidHom.ext fun x => rfl
@@ -425,7 +425,7 @@ private lemma quotient_I1 {X T : Type*} [Group X] [Group T]
         change π i = 1 at h2
         exact h2
       exact Subgroup.mem_map.mpr ⟨i, ⟨hi, MonoidHom.mem_ker.mpr h1⟩, rfl⟩
-    haveI : IsPGroup 2 ↥((I₁ ⊓ π.ker).map (QuotientGroup.mk' K)) :=
+    have : IsPGroup 2 ↥((I₁ ⊓ π.ker).map (QuotientGroup.mk' K)) :=
       hI₁2.map (QuotientGroup.mk' K)
     exact IsPGroup.to_le this hle
   · intro x hx
@@ -487,13 +487,13 @@ theorem gflat_of_mainAlg166 (hmain : MainAlg166) {X : Type} [Group X] [Finite X]
       (∀ x ∈ M, ∀ y ∈ M, x * y * x⁻¹ * y⁻¹ ∈ N) → (∀ x ∈ M, x ^ p ∈ N) →
       ∀ m ∈ M, (∀ i ∈ I₁, m * i * m⁻¹ * i⁻¹ ∈ N) → m * d * m⁻¹ * d⁻¹ ∈ N := by
   classical
-  haveI : Group.IsPerfect X := hXperf
+  have : Group.IsPerfect X := hXperf
   intro N M hNn hMn hNM hMD hChief hcomm hexp m hmM hfixI
   obtain ⟨F, hFadd, hFmod, hFfin, ρ, q, hirr, hqsurj, hqadd, hqker, hρ⟩ :=
     exists_chiefRep (p := p) hNn hMn hNM hChief hcomm hexp
-  letI := hFadd
-  letI := hFmod
-  letI := hFfin
+  let := hFadd
+  let := hFmod
+  let := hFfin
   have hfixρ : ∀ i ∈ I₁, ρ i (q m) = q m := fun i hi =>
     (@rho_apply_eq_iff X _ N M p F _ _ ρ q hqadd hqker hρ hMn m hmM i).mpr (hfixI i hi)
   suffices hgoal : ρ d (q m) = q m by
@@ -511,10 +511,10 @@ theorem gflat_of_mainAlg166 (hmain : MainAlg166) {X : Type} [Group X] [Finite X]
       CFSG.Theory.Representation.kerRepresentation ρ
     let πbar : Γ →* T := QuotientGroup.lift K π hKle
     let Ī₁ : Subgroup Γ := I₁.map (QuotientGroup.mk' K)
-    haveI : Group.IsPerfect Γ := by
+    have : Group.IsPerfect Γ := by
       change Group.IsPerfect (X ⧸ K)
       infer_instance
-    haveI : Finite Γ := by
+    have : Finite Γ := by
       change Finite (X ⧸ K)
       infer_instance
     obtain ⟨hπbar_surj, hker3bar, hkerSbar, hd3bar, hdZbar⟩ :=

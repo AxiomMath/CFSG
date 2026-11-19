@@ -144,7 +144,7 @@ theorem res20_7NoC3_of_hyp51Three (hH : Res20_7Hyp51Three) :
     by_contra ha1
     have haS : a ∈ (S : Subgroup G) := ha.1.1
     have hp2 : IsPGroup 2 ↥(Subgroup.zpowers a) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS)
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS)
     obtain ⟨n, hn2, hn1⟩ := late_exists_pow_invol hp2 ha1
     have hnA : a ^ n ∈ centralizerModOdd (centralizerModOdd (S : Subgroup G) (K ⊔ K')) J :=
       Subgroup.pow_mem _ ha n

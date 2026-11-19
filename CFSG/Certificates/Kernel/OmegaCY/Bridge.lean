@@ -128,7 +128,7 @@ theorem stage2_true {tab m c : ℕ} (h1 : bf tab (lane c m) (lane c m) = 0)
     · rename_i hb
       have hlt : lane c g < 2 ^ (m + 1) := by
         rw [← shl1]
-        simp only [Nat.ble_eq, decide_eq_true_eq, not_le] at hb
+        simp only [Nat.ble_eq, not_le] at hb
         exact hb
       rw [h3 g hg hlt, shl1]
       simp
@@ -172,14 +172,14 @@ theorem psiG_two_pow (g : ℕ → M) (j : ℕ) : ∀ m, psiG g (2 ^ j) m = if j 
       simp [h, e]
 
 theorem psiG_pow (g : ℕ → M) {j : ℕ} (hj : j < 7) : psiG g (2 ^ j) 7 = g j := by
-  rw [psiG_two_pow, if_pos hj]
+  rw [psiG_two_pow, ite_eq_left hj]
 
 theorem psiG_lo (g : ℕ → M) {e : ℕ} (he : e < 2 ^ 3) : ∀ {m : ℕ}, 3 ≤ m →
     psiG g e m = psiG g e 3 := by
   intro m hm
   induction m, hm using Nat.le_induction with
   | base => rfl
-  | succ m hm ih => rw [psiG_succ, ih, testBit_of_lt8 he hm, if_neg (by simp), mul_one]
+  | succ m hm ih => rw [psiG_succ, ih, testBit_of_lt8 he hm, ite_eq_right (by simp), mul_one]
 
 theorem psiG_three (g : ℕ → M) (e : ℕ) : psiG g e 3 = (if e.testBit 0 = true then g 0 else 1) *
     (if e.testBit 1 = true then g 1 else 1) * (if e.testBit 2 = true then g 2 else 1) := by
@@ -315,7 +315,7 @@ theorem lemmaY_of_srch [Finite M] (hs : srch3 tab = true) (ht : tabOK tab = true
       rw [betaP_succ, cy_nIfD, bt_eq, psiG_succ (g := fun i => psiG g (l i) 7) k n]
       cases hb : k.testBit n
       · simpa using ⟨ih1, ih2⟩
-      · simp only [if_true]
+      · simp only [ite_true]
         rw [hlc n (by omega)]
         exact ⟨bm2_lt tab ih1 (hl n (by omega)), by rw [psi_mul hr ih1 (hl n (by omega)), ih2]⟩
   have hβ : ∀ k, beta2 tab c k < 2 ^ 7 ∧ psiG g (beta2 tab c k) 7 = Φ (α (psiG h k 7)) := by

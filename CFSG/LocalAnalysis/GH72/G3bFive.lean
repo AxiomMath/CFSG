@@ -32,7 +32,7 @@ theorem lemma_3_5 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
     ∀ v ∈ A, ∀ w ∈ A, orderOf v = 2 → orderOf w = 2 → v ∉ 𝔖.S₁ → v ∉ 𝔖.S₂ → w ∉ 𝔖.S₁ →
       w ∉ 𝔖.S₂ → ∃ g ∈ Subgroup.normalizer (A : Set G), g * v * g⁻¹ = w := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S : Subgroup G := (𝔖.S : Subgroup G) with hSdef
   set S₁ : Subgroup G := 𝔖.S₁ with hS₁def
   set S₂ : Subgroup G := 𝔖.S₂ with hS₂def
@@ -96,8 +96,8 @@ theorem lemma_3_5 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
   have hA₂eq : A ⊓ S₂ = Subgroup.zpowers c ⊔ Subgroup.zpowers z₂ := by
     apply le_antisymm
     · intro y hy
-      haveI : Fintype ↥(A ⊓ S₂) := Fintype.ofFinite _
-      haveI : IsKleinFour ↥(A ⊓ S₂) := isKleinFour_of_isFourIn hV₂
+      have : Fintype ↥(A ⊓ S₂) := Fintype.ofFinite _
+      have : IsKleinFour ↥(A ⊓ S₂) := isKleinFour_of_isFourIn hV₂
       have hy' : (⟨y, hy⟩ : ↥(A ⊓ S₂)) ∈ (Finset.univ : Finset ↥(A ⊓ S₂)) :=
         Finset.mem_univ _
       have huniv := IsKleinFour.eq_finset_univ (G := ↥(A ⊓ S₂))
@@ -711,7 +711,7 @@ theorem lemma_3_5 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
     norm_num at hxord
   have h15case : Cc.relIndex Q = 15 → False := by
     intro h15
-    haveI : Fintype ↥S₁ := Fintype.ofFinite _
+    have : Fintype ↥S₁ := Fintype.ofFinite _
     have hcardS₁ : Fintype.card ↥S₁ = 4 := by
       rw [← Nat.card_eq_fintype_card]; exact h₁.card_four
     obtain ⟨x, hx1⟩ := Fintype.exists_ne_of_one_lt_card (α := ↥S₁) (by omega) (1 : ↥S₁)
@@ -741,8 +741,8 @@ theorem lemma_3_5 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
     (Subgroup.mem_normalizer_iff.mp hd'N_A₂ c).mp hcA₂
   have hunivA₂ : ∀ {y : G}, y ∈ A ⊓ S₂ → y = c * z₂ ∨ y = c ∨ y = z₂ ∨ y = 1 := by
     intro y hy
-    haveI : Fintype ↥(A ⊓ S₂) := Fintype.ofFinite _
-    haveI : IsKleinFour ↥(A ⊓ S₂) := isKleinFour_of_isFourIn hV₂
+    have : Fintype ↥(A ⊓ S₂) := Fintype.ofFinite _
+    have : IsKleinFour ↥(A ⊓ S₂) := isKleinFour_of_isFourIn hV₂
     have hy' : (⟨y, hy⟩ : ↥(A ⊓ S₂)) ∈ (Finset.univ : Finset ↥(A ⊓ S₂)) := Finset.mem_univ _
     have huniv := IsKleinFour.eq_finset_univ (G := ↥(A ⊓ S₂))
       (x := (⟨c, hcA₂⟩ : ↥(A ⊓ S₂))) (y := (⟨z₂, hz₂A₂⟩ : ↥(A ⊓ S₂)))
@@ -817,14 +817,14 @@ theorem lemma_3_5 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
         have h2 : z₂ = 1 := by
           have h := congrArg (fun t => c⁻¹ * t) hfixy
           simp only [← mul_assoc, inv_mul_cancel, one_mul] at h
-          first | exact h | exact h.symm
+          exact h.symm
         exact hz₂1 h2
       · exfalso
         rw [h1, hd'c_eq] at hfixy
         have h2 : z₂ = 1 := by
           have h := congrArg (fun t => c⁻¹ * t) hfixy
           simp only [← mul_assoc, inv_mul_cancel, one_mul] at h
-          first | exact h | exact h.symm
+          first | exact h
         exact hz₂1 h2
       · rw [h1]; exact Subgroup.mem_zpowers z₂
       · rw [h1]; exact Subgroup.one_mem _
@@ -913,7 +913,7 @@ theorem lemma_3_5 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
     have hA₀card : Nat.card ↥(A ⊓ centralizer (Q : Set G)) = 2 :=
       CFSG.GH72.card_inf_centralizer_eq_two_of_relIndex_eq_twentyOne hA hQ_le_K h21
     obtain ⟨t, htA₀, ht1⟩ : ∃ t ∈ A ⊓ centralizer (Q : Set G), t ≠ 1 := by
-      haveI : Fintype ↥(A ⊓ centralizer (Q : Set G)) := Fintype.ofFinite _
+      have : Fintype ↥(A ⊓ centralizer (Q : Set G)) := Fintype.ofFinite _
       have hcard : Fintype.card ↥(A ⊓ centralizer (Q : Set G)) = 2 := by
         rw [← Nat.card_eq_fintype_card]; exact hA₀card
       obtain ⟨t, ht⟩ := Fintype.exists_ne_of_one_lt_card
@@ -1000,7 +1000,7 @@ theorem lemma_3_5 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
     · exact absurd h15 h15case
     · exact absurd h21 h21case
   have hQbarAmb_abelian : IsMulCommutative ↥QbarAmb := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     apply IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
     rw [hQbarAmb_card', ← hQ_index_card, hQ9]
     norm_num

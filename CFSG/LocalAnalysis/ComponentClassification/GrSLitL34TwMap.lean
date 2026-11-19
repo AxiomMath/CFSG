@@ -23,11 +23,11 @@ noncomputable def phiG (g : G) : Equiv.Perm (Fin 42) :=
 
 theorem phiG_of_mem {g : G} (hg : g ∈ normalizer (K : Set G)) : phiG φ g = φ ⟨g, hg⟩ := by
   unfold phiG
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 theorem phiG_of_not_mem {g : G} (hg : g ∉ normalizer (K : Set G)) : phiG φ g = 1 := by
   unfold phiG
-  exact dif_neg hg
+  exact dite_eq_right hg
 
 theorem phiG_mul {g g' : G} (hg : g ∈ normalizer (K : Set G)) (hg' : g' ∈ normalizer (K : Set G)) :
     phiG φ (g * g') = phiG φ g * phiG φ g' := by
@@ -66,12 +66,12 @@ noncomputable def rhoFun (t : G) (g : G) : WrE :=
 theorem rhoFun_of_mem {g : G} (hg : g ∈ normalizer (K : Set G)) :
     rhoFun φ t g = ⟨phiG φ g, phiG φ (t⁻¹ * g * t), false⟩ := by
   unfold rhoFun
-  exact if_pos hg
+  exact ite_eq_left hg
 
 theorem rhoFun_of_not_mem {g : G} (hg : g ∉ normalizer (K : Set G)) :
     rhoFun φ t g = ⟨phiG φ (t⁻¹ * g), phiG φ (g * t), true⟩ := by
   unfold rhoFun
-  exact if_neg hg
+  exact ite_eq_right hg
 
 theorem mul_of_e_false (x y : WrE) (hy : y.e = false) :
     x * y = ⟨x.a * y.a, x.b * y.b, x.e⟩ := by

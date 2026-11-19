@@ -39,7 +39,7 @@ private theorem o2c_conjAut_fix {G : Type*} [Group G] {L P : Subgroup G} {s : G}
 private theorem o2c_centralizer_le_normalizer_map {G : Type*} [Group G]
     {L P : Subgroup G} {s : G} {m : ℕ}
     (e : ↥L ≃* SpecialLinearGroup (Fin m) (ZMod 2)) (hs : s ∈ L)
-    (hPs : P ≤ Subgroup.centralizer ({s} : Set G))
+    (_hPs : P ≤ Subgroup.centralizer ({s} : Set G))
     (hnor : L ⊓ Subgroup.centralizer ({s} : Set G) ≤
       Subgroup.normalizer (P : Set G)) :
     Subgroup.centralizer ({e ⟨s, hs⟩} : Set (SpecialLinearGroup (Fin m) (ZMod 2))) ≤
@@ -67,7 +67,7 @@ private theorem o2c_centralizer_le_normalizer_map {G : Type*} [Group G]
 
 private theorem o2c_conjAut_mul_inv_mem {G : Type*} [Group G] {L P : Subgroup G} {s : G}
     {m : ℕ} (e : ↥L ≃* SpecialLinearGroup (Fin m) (ZMod 2)) (hs : s ∈ L)
-    (hPs : P ≤ Subgroup.centralizer ({s} : Set G))
+    (_hPs : P ≤ Subgroup.centralizer ({s} : Set G))
     (hnor : L ⊓ Subgroup.centralizer ({s} : Set G) ≤
       Subgroup.normalizer (P : Set G)) {p : G} (hpP : p ∈ P)
     (hpN : p ∈ Subgroup.normalizer (L : Set G))

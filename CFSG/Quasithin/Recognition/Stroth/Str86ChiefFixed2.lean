@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_first_meet {H U Lo Hi Y : Subgroup G} {n : ℕ}
     (hser : F112W.IsChiefSeriesBetween H U Lo Hi n)
     (hYHi : Y ≤ Hi) (hY : ¬ Y ≤ Lo) :
@@ -59,7 +60,7 @@ theorem exists_first_meet {H U Lo Hi Y : Subgroup G} {n : ℕ}
 theorem relIndex_le_pow_of_fixedPointFree
     {H S U Lo Hi Y : Subgroup G} {r n : ℕ} {d : G}
     (hU : IsElemAbelian 2 U) (hUH : U ≤ H)
-    (hHU : H ≤ Subgroup.normalizer (U : Set G))
+    (_hHU : H ≤ Subgroup.normalizer (U : Set G))
     (hSH : S ≤ H) (hser : F112W.IsChiefSeriesBetween H U Lo Hi n)
     (hnat : ∀ Lo' Hi' : Subgroup G, Lo ≤ Lo' → Hi' ≤ Hi → IsChiefStep H U Lo' Hi' →
       ¬ IsCentralStep H Lo' Hi' → ∀ X : Subgroup G, Lo' ≤ X → X ≤ Hi' →
@@ -161,6 +162,7 @@ theorem relIndex_le_pow_of_fixedPointFree
         ≤ r ^ n * r := Nat.mul_le_mul ih' (hrel.trans_le hnat')
       _ = r ^ (n + 1) := by rw [pow_succ]
 
+omit [Finite G] in
 theorem _root_.CFSG.Quasithin.F112W.IsChiefSeriesBetween.le_right_of_ne_bot
     {H U W N : Subgroup G} {n : ℕ}
     (h : F112W.IsChiefSeriesBetween H U W N n) (hWN : W < N) : N ≤ U := by
@@ -172,17 +174,17 @@ theorem _root_.CFSG.Quasithin.F112W.IsChiefSeriesBetween.le_right_of_ne_bot
 theorem exists_not_fixed_of_fixedPointFree
     {H S U Lo Hi Y : Subgroup G} {n : ℕ} {d d' : G}
     (hU : IsElemAbelian 2 U) (hUH : U ≤ H)
-    (hHU : H ≤ Subgroup.normalizer (U : Set G))
-    (hSH : S ≤ H) (hser : F112W.IsChiefSeriesBetween H U Lo Hi n)
+    (_hHU : H ≤ Subgroup.normalizer (U : Set G))
+    (_hSH : S ≤ H) (hser : F112W.IsChiefSeriesBetween H U Lo Hi n)
     (htor : ∀ Lo' Hi' : Subgroup G, Lo ≤ Lo' → Hi' ≤ Hi → IsChiefStep H U Lo' Hi' →
       ¬ IsCentralStep H Lo' Hi' → ∀ x ∈ Hi',
         (∀ s ∈ S, s * x * s⁻¹ * x⁻¹ ∈ Lo') →
           d' * x * d'⁻¹ * x⁻¹ ∈ Lo' → x ∈ Lo')
-    (hLoY : Lo ≤ Y) (hYHi : Y ≤ Hi) (hY1 : Lo < Y)
+    (_hLoY : Lo ≤ Y) (hYHi : Y ≤ Hi) (hY1 : Lo < Y)
     (hYS : ∀ s ∈ S, ∀ y ∈ Y, s * y * s⁻¹ * y⁻¹ ∈ Lo)
     (hdH : d ∈ H) (hdo : Odd (orderOf d)) (hdY : ∀ y ∈ Y, d * y * d⁻¹ ∈ Y)
     (hfpf : ∀ y ∈ Y, d * y * d⁻¹ * y⁻¹ ∈ Lo → y ∈ Lo)
-    (hd'Y : ∀ y ∈ Y, d' * y * d'⁻¹ ∈ Y) :
+    (_hd'Y : ∀ y ∈ Y, d' * y * d'⁻¹ ∈ Y) :
     ∃ y ∈ Y, d' * y * d'⁻¹ * y⁻¹ ∉ Lo := by
   have hLoHi : Lo < Hi := lt_of_lt_of_le hY1 hYHi
   have hHiU : Hi ≤ U := hser.le_right_of_ne_bot hLoHi

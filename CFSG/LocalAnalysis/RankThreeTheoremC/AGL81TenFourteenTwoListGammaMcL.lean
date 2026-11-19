@@ -29,7 +29,7 @@ theorem kFactTenFourteenTwoA5GammaRest_of_uThreeJFour
     (hR : KFactTenFourteenTwoA5GammaUThreeJFour) :
     KFactTenFourteenTwoA5GammaRest := by
   intro p K _ _ T K₁ J hp hp2 hL hZ hC2 hL2 hS3 hrank hΓ hK₁ hJs hJp hJ1 hJirr
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, hi, hi10, hRee, ⟨e⟩⟩ := hL
   by_cases hMcL : i = .sporadic .McL
   · exfalso
@@ -50,15 +50,15 @@ theorem kFactTenFourteenTwoA5GammaRest_of_uThreeJFour
       rw [hg, hH.1] at hdvd
       norm_num at hdvd
     obtain ⟨E, hET, hE, hEc⟩ :=
-      GL83.I243.Inner.exists_isElemAbelian_card_sq_of_not_isCyclic hp2 T.isPGroup' hTnc
+      GL83.I243.Inner.exists_isElemAbelian_card_sq_of_not_isCyclic hp2 T.isPGroup hTnc
     have h2 := CFSG.SectionRank.le_pRank (by norm_num) (le_inf hET (hET.trans hTz)) hE hEc
     have hCK₁ := (RankOneCent.centralizer_le_narrowGamma hzT hoz h2).trans hΓ
     rcases hY K₁ hCK₁ with h | h
     · apply hJ1
-      haveI := hH.2.2.2.2.2.2.1
-      haveI : Group.IsSolvable J :=
+      have := hH.2.2.2.2.2.2.1
+      have : Group.IsSolvable J :=
         Group.isSolvable_of_isSolvable_injective (inclusion_injective (hJs.le.trans h))
-      haveI : Group.IsPerfect J :=
+      have : Group.IsPerfect J :=
         (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq J).mpr hJp
       obtain ⟨n, hn⟩ := (inferInstance : Group.IsSolvable J).solvable
       have htop : ∀ k, derivedSeries J k = ⊤ := by

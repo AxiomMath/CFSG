@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.EvenBN.Tits.N
 variable {G : Type} [Group G] [Finite G]
 variable (d : Data G)
 
+omit [Finite G] in
 theorem Jg_le_of_normal {T : Subgroup G} (hT : (T.subgroupOf (Hg d)).Normal) (hX : Xg d ≤ T) :
     Jg d ≤ T := by
   have h1 : Subgroup.normalClosure (((Xg d).subgroupOf (Hg d) : Subgroup ↥(Hg d)) :
@@ -22,6 +23,7 @@ theorem Jg_le_of_normal {T : Subgroup G} (hT : (T.subgroupOf (Hg d)).Normal) (hX
   obtain ⟨j', hj', rfl⟩ := hj
   exact Subgroup.mem_subgroupOf.1 (h1 hj')
 
+omit [Finite G] in
 theorem centralizer_le_Kz (z₀ : G) (hZV : Zz d z₀ ≤ d.s56V) :
     centralizer (d.s56V : Set G) ≤ Kz d z₀ := by
   intro c hc
@@ -44,6 +46,7 @@ theorem centralizer_le_Kz (z₀ : G) (hZV : Zz d z₀ ≤ d.s56V) :
   · rw [hcomm y hy, mul_inv_cancel]
     exact one_mem _
 
+omit [Finite G] in
 theorem le_oddCoreSub_of_normal_odd {K : Subgroup (MulAut ↥d.s56V)} (hKH : K ≤ Hs d)
     (hKn : ∀ h ∈ Hs d, ∀ n ∈ K, h * n * h⁻¹ ∈ K) (hodd : Odd (Nat.card K)) :
     K ≤ oddCoreSub (Hs d) := by
@@ -55,6 +58,7 @@ theorem le_oddCoreSub_of_normal_odd {K : Subgroup (MulAut ↥d.s56V)} (hKH : K �
   intro k hk
   exact ⟨⟨k, hKH hk⟩, hle (Subgroup.mem_subgroupOf.2 hk), rfl⟩
 
+omit [Finite G] in
 theorem centralizer_inf_Hs_conj_mem (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * h⁻¹ ∈ Ws d)
     {h c : MulAut ↥d.s56V} (hh : h ∈ Hs d)
     (hc : c ∈ centralizer ((Ws d : Subgroup (MulAut ↥d.s56V)) : Set (MulAut ↥d.s56V)) ⊓ Hs d) :
@@ -68,6 +72,7 @@ theorem centralizer_inf_Hs_conj_mem (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w 
     _ = h * (c * (h⁻¹ * w * h⁻¹⁻¹)) * h⁻¹ := by rw [h1]
     _ = h * c * h⁻¹ * w := by group
 
+omit [Finite G] in
 theorem commute_star_of_mem_Jp {N : Subgroup (MulAut ↥d.s56V)} (hNn : ∀ h ∈ Hs d, ∀ n ∈ N, h * n * h⁻¹ ∈ N)
     (hXN : ∀ x ∈ Xg d, ∀ n ∈ N, n * star d x = star d x * n) (hX : Xg d ≤ Hg d)
     {g : G} (hg : g ∈ Jp d) {n : MulAut ↥d.s56V} (hn : n ∈ N) : n * star d g = star d g * n := by

@@ -34,7 +34,7 @@ private lemma r920kwa_eq_or_eq_top_of_le_of_index_two {G : Type*} [Group G] [Fin
     exact (Subgroup.eq_of_index_dvd_index hle hdvd').symm
 
 theorem false_of_irreducible_section_of_abelian_index_two {T E : Type} [Group T] [Finite T]
-    [Group E] [Finite E] (π : T →* E) (hπ : Function.Surjective π) (hE : ∀ e : E, e * e = 1)
+    [Group E] [Finite E] (π : T →* E) (hπ : Function.Surjective π) (_hE : ∀ e : E, e * e = 1)
     (hE8 : Nat.card E = 8) (σ : T ≃* T) (f : E ≃* E) (hσf : ∀ t, π (σ t) = f (π t))
     (hirr : ∀ F : Subgroup E, (∀ e ∈ F, f e ∈ F) → F = ⊥ ∨ F = ⊤)
     (hab : ∃ B : Subgroup T, (∀ a ∈ B, ∀ b ∈ B, a * b = b * a) ∧ B.index ≤ 2)

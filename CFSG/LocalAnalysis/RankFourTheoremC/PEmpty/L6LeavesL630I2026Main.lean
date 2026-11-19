@@ -14,7 +14,7 @@ open scoped commutatorElement
 
 theorem isInvolvedIn_of_hom {Y K : Type} [Group Y] [Group K] (ι : Y →* K) (N : Subgroup Y)
     [N.Normal] (hker : ι.ker ≤ N) : IsInvolvedIn (Y ⧸ N) K := by
-  haveI hN' : (N.map ι.rangeRestrict).Normal :=
+  have hN' : (N.map ι.rangeRestrict).Normal :=
     Subgroup.Normal.map ‹_› _ ι.rangeRestrict_surjective
   refine ⟨ι.range, N.map ι.rangeRestrict, hN', ⟨?_⟩⟩
   let f : Y →* ↥ι.range ⧸ N.map ι.rangeRestrict :=
@@ -44,7 +44,7 @@ theorem isInvolvedIn_of_hom {Y K : Type} [Group Y] [Group K] (ι : Y →* K) (N 
 
 theorem kFactI2026_holds : KFactI2026 := by
   intro q E _ _ hq hq2 hcomm hexp hcard X P S hPX hP5 hSX hST hSP hS
-  haveI : Finite (MulAut E) :=
+  have : Finite (MulAut E) :=
     Finite.of_injective (fun g : MulAut E => (g : E → E))
       (fun g h hgh => MulEquiv.ext (fun x => congrFun hgh x))
   obtain ⟨α, β, γ, δ, z, hpres⟩ := I2026.exists_pres hS

@@ -165,7 +165,7 @@ private theorem isCyclic_sylow_three {C Z : Subgroup Q} (hZ : Nat.card Z ≤ 3)
     have := Subgroup.card_comap_dvd_of_injective Z f hf
     exact (Nat.le_of_dvd Nat.card_pos this).trans hZ
   have hcy := CFSG.RankThree.Coprime.isCyclic_of_forall_pow_eq_one_mem (p := 3) (by norm_num)
-    P.isPGroup' ⊤ (Z.comap f) hZc fun x _ hx3 =>
+    P.isPGroup ⊤ (Z.comap f) hZc fun x _ hx3 =>
       hCZ (f x) x.1.2 (by rw [← map_pow, hx3, map_one])
   exact (Subgroup.topEquiv.isCyclic).mp hcy
 

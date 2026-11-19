@@ -30,7 +30,7 @@ theorem rank_field_of_upD42Pumpup_omega_plus_semilinear
   have hg := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaPlus
     (Or.inr (Or.inl rfl)) n 2 f hG K hK e
   let E := coordinatePlusWitnessEquiv K e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv G E.toEquiv
   have hβ3 : MulAut.congr E β ^ 3 = 1 := by rw [← map_pow, hx.1, map_one]
   have hD : MulAut.congr E β ∉ (linearConjugationHom (coordinateQuadPlus n K)).range := by
@@ -41,7 +41,7 @@ theorem rank_field_of_upD42Pumpup_omega_plus_semilinear
     rw [CFSG.ComponentClassification.OuterAutomorphisms.congr_conj,
       MulEquiv.apply_symm_apply, ht]
   have hne : MulAut.congr E β ≠ 1 := fun h => hD (h ▸ Subgroup.one_mem _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf (MulAut.congr E β) = 3 := orderOf_eq_prime hβ3 hne
   have hdesc := orthogonal_prime_semilinear_actual_fixed_form_descent' G .POmegaPlus
     (Or.inr (Or.inl rfl)) n 2 f 3 hG Nat.prime_three (by norm_num) K hK e
@@ -101,7 +101,7 @@ theorem upD42Chev2Out_d4_holds : UpD42Chev2Out
         (blueprintLieModel_D 4 q hv e)
     have hC0 := hC
     obtain ⟨-, K, _, _, hK, ⟨eK⟩⟩ := hC0
-    haveI : CharP K 2 :=
+    have : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two hC.1.2.1 hK
     let E := coordinatePlusWitnessEquiv K eK

@@ -82,7 +82,7 @@ private theorem s7z_doubleTransposition_pair :
     Equiv.swap 0 2 * Equiv.swap 1 4, ?_, ?_, ?_⟩
   · exact Equiv.Perm.cycleType_swap_mul_swap_of_nodup (by decide)
   · exact Equiv.Perm.cycleType_swap_mul_swap_of_nodup (by decide)
-  · haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  · have : Fact (Nat.Prime 5) := ⟨by decide⟩
     apply orderOf_eq_prime
     · decide
     · decide

@@ -204,7 +204,7 @@ theorem exists_card_nine_le_centralizer {M M2 : Subgroup G}
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx'3, pow_one])
   obtain ⟨Q, hQ⟩ := hzp.exists_le_sylow
   have hcardQ : Nat.card (Q : Subgroup ↥E) = 9 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have h2 := Subgroup.card_mul_index (Q : Subgroup ↥E)
     rw [hk, hE] at h2
     have hk2 := eq_two_of_three_pow_mul_eq_144 h2 Q.not_dvd_index

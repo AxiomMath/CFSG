@@ -20,7 +20,7 @@ variable {S : Type*} [Group S] [Finite S]
 theorem not_dvd_card_of_forall_pow {p r : ℕ} (hp : p.Prime) (hr : r.Prime) (hpr : p ≠ r)
     {H : Subgroup S} (hH : ∀ s ∈ H, ∃ m : ℕ, s ^ (r ^ m) = 1) : ¬ p ∣ Nat.card H := by
   intro hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hd
   obtain ⟨m, hm⟩ := hH g g.2
   have h1 : orderOf g ∣ r ^ m := orderOf_dvd_of_pow_eq_one (Subtype.ext (by simpa using hm))
@@ -33,14 +33,14 @@ theorem uniPlaneGen_of_rSubgroups {p r : ℕ} (hp : p.Prime) (hr : r.Prime) (hpr
     (hstab : ∀ H ∈ 𝓗, ∀ e ∈ E, ∀ s ∈ H, e s ∈ H) (hgen : ⨆ H ∈ 𝓗, H = ⊤) :
     UniPlaneGen r E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CFSG.IsElementaryAbelian p E :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CFSG.IsElementaryAbelian p E :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p E).mpr hE
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; exact pow_ne_zero _ hp.ne_zero)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; exact pow_ne_zero _ hp.ne_zero)
   rw [UniPlaneGen, eq_top_iff, ← hgen]
   refine iSup₂_le fun H hH => ?_
   have hpH : ¬ p ∣ Nat.card H := not_dvd_card_of_forall_pow hp hr hpr (hr' H hH)
-  letI : MulDistribMulAction E H :=
+  let : MulDistribMulAction E H :=
     { smul := fun e s => ⟨(e : MulAut S) s, hstab H hH e e.2 s s.2⟩
       one_smul := fun s => Subtype.ext rfl
       mul_smul := fun e e' s => Subtype.ext rfl
@@ -1129,7 +1129,7 @@ theorem scalar_mem_primeFormUnitary (h : UnitaryFieldData ℓ f K) {c : Kˣ} (hc
     by_cases hij : i = j
     · subst hij
       simp
-    · simp [Matrix.one_apply, hij, Ne.symm hij]
+    · simp [hij, Ne.symm hij]
   rw [h1]
   have hc' : h.bar (c : K) * (c : K) = 1 := by rw [mul_comm]; exact hc
   simp only [idGram, Units.val_one, Matrix.mul_one, Matrix.smul_mul, Matrix.one_mul, smul_smul,
@@ -1253,7 +1253,7 @@ theorem exists_isotropic_of_heis (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (
       (∀ w ∈ W, (X : Matrix (Fin n) (Fin n) K) *ᵥ w ∈ W) ∧
       (∀ w ∈ W, (Y : Matrix (Fin n) (Fin n) K) *ᵥ w ∈ W) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by omega
   set σ := unitaryInvolution K ℓ f with hσdef
   have hσb : ∀ c, σ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
@@ -1624,7 +1624,7 @@ theorem uniPlaneGen_of_pair (h : UnitaryFieldData ℓ f K) (hℓ2 : ℓ ≠ 2) (
         ((Y : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) :
     UniPlaneGen ℓ E ∨ (n = p ∧ X * Y ≠ Y * X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hℓ : ℓ.Prime := Fact.out
   have hn0 : 0 < n := by omega
   have hq : ℓ ^ f ≠ 2 := by
@@ -1782,6 +1782,7 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInit
 
 variable {ℓ f n p : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [CharP K ℓ]
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] in
 theorem map_suSub_le_uniPlaneClosure_of_ne (h : UnitaryFieldData ℓ f K) (hn : 1 ≤ n) (hp : p.Prime)
     (hp2 : p ≠ 2) {σ : K ≃+* K} (hσ : orderOf σ = p) (hnq : (n, ℓ ^ (f / p)) ≠ (3, 2))
     {E : Subgroup (MulAut (primeFormP h (idGram K n)))} (N : primeFormUnitary h (idGram K n))
@@ -1825,6 +1826,7 @@ theorem map_suSub_le_uniPlaneClosure_of_ne (h : UnitaryFieldData ℓ f K) (hn : 
   have hgℓ : g ^ ℓ = 1 := by rwa [hchar] at hg
   rw [pow_one, ← map_pow, hy, ← map_pow, ← map_pow, hgℓ, map_one, map_one, map_one]
 
+omit [Finite K] [Fact ℓ.Prime] in
 theorem map_suSub_le_uniPlaneClosure (h : UnitaryFieldData ℓ f K) (hn : 1 ≤ n) (hp : p.Prime)
     (hp2 : p ≠ 2) {σ : K ≃+* K} (hσ : orderOf σ = p) (hq₀ : ℓ ^ (f / p) ≠ 2)
     {E : Subgroup (MulAut (primeFormP h (idGram K n)))} (N : primeFormUnitary h (idGram K n))
@@ -1841,7 +1843,7 @@ theorem uniPlaneGen_field_outer (h : UnitaryFieldData ℓ f K) (hℓ2 : ℓ ≠ 
     {E : Subgroup (MulAut (primeFormP h (idGram K n)))} (hE : IsElemAbelian p E)
     (hc : Nat.card E = p ^ 2) (hD : ¬ E ≤ primeFormD h (idGram K n)) : UniPlaneGen ℓ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hℓ : ℓ.Prime := Fact.out
   have hodd : ∀ m : ℕ, ℓ ^ m ≠ 2 := fun m h2 => by
     have hodd : Odd (ℓ ^ m) := (hℓ.odd_of_ne_two hℓ2).pow
@@ -2018,7 +2020,7 @@ theorem uniPlaneGen_inndiag (h : UnitaryFieldData ℓ f K) (hℓ2 : ℓ ≠ 2) (
       primeFormConjHom h (idGram K n) A ∈ E ∧ primeFormConjHom h (idGram K n) B ∈ E ∧
         A * B ≠ B * A) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by omega
   obtain ⟨x, hxE, y, hyE, hy1, hxy⟩ := exists_independent_pair hp E hE.2 hc
   obtain ⟨A, rfl⟩ := hD hxE

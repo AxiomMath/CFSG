@@ -90,6 +90,7 @@ variable [Finite G]
   V ⊓ conjSubgroup M g ⊓ centralizer ((conjSubgroup V g ⊓ M : Subgroup G) : Set G) ≤
     F11.CTilde (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g)
 
+omit [Finite G] in
 theorem oneFirst_swap (M V₀ V : Subgroup G) (g : G) :
     OneFirst (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) g⁻¹ ↔ OneDual M V₀ V g := by
   simp only [OneFirst, OneDual, conjSubgroup_conjSubgroup_inv]

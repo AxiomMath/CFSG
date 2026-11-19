@@ -192,7 +192,7 @@ theorem normalizer_zpowers_le_of_centralizer_le (hS : Setting G) (hU0 : FullCore
     normalizer ((zpowers x : Subgroup G) : Set G) ≤ M := by
   have hprime := sigmaA_prime p hp
   have hfact : Fact p.Prime := ⟨hprime⟩
-  obtain ⟨T, hT⟩ := ((P.isPGroup'.to_inf_left (K := centralizer ({x} : Set G))).comap_subtype
+  obtain ⟨T, hT⟩ := ((P.isPGroup.to_inf_left (K := centralizer ({x} : Set G))).comap_subtype
     (K := centralizer ({x} : Set G))).exists_le_sylow
   set S : Subgroup G := (T : Subgroup (centralizer ({x} : Set G))).map
     (centralizer ({x} : Set G)).subtype with hSdef
@@ -217,7 +217,7 @@ theorem exists_centralizer_not_le_of_not_gamma_one_le (hS : Setting G) (hU0 : Fu
     by_contra h
     push Not at h
     exact hfail ((gamma_le_iff 1 p (P : Subgroup G) M).mpr fun Q hQP hQ1 => h Q hQP hQ1)
-  have hQp : IsPGroup p Q := P.isPGroup'.to_le hQP
+  have hQp : IsPGroup p Q := P.isPGroup.to_le hQP
   have hQc : IsCyclic Q := by
     by_contra hnc
     exact hQM ((gamma_normalizer_le 2 p (P : Subgroup G) Q hQP
@@ -226,6 +226,6 @@ theorem exists_centralizer_not_le_of_not_gamma_one_le (hS : Setting G) (hU0 : Fu
     exists_pow_eq_one_normalizer_le_of_isCyclic hprime hQp hQc hQ1
   exact ⟨x, hQP hxQ, hx1, hxp, fun hCM => hQM (hNQx.trans
     (normalizer_zpowers_le_of_centralizer_le hS hU0 hp hM
-      (two_le_pRank_inf_centralizer P.isPGroup' (by omega) (hQP hxQ) hx1 hxp) hCM))⟩
+      (two_le_pRank_inf_centralizer P.isPGroup (by omega) (hQP hxQ) hx1 hxp) hCM))⟩
 
 end CFSG.LocalAnalysis.RankThreeTheoremC

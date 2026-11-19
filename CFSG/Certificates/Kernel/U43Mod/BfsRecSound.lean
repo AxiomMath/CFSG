@@ -46,14 +46,14 @@ theorem bfsRec_eq (step : ℕ → Array ℕ → Array ℕ) (k cap : ℕ) (x0 : A
   · intro h s
     unfold outerG
     by_cases hc : h < s.2.1.size
-    · rw [if_pos hc, if_pos hc, forIn_yield_foldl _ _ _ (innerG step h s.2.1[h]!) ?_]
+    · rw [ite_eq_left hc, ite_eq_left hc, forIn_yield_foldl _ _ _ (innerG step h s.2.1[h]!) ?_]
       · rfl
       · intro j s'
         unfold innerG
         by_cases hc' : (!s'.1.contains (keyOf (step j s.2.1[h]!))) = true
-        · rw [if_pos hc', if_pos hc']
-        · rw [if_neg hc', if_neg hc']
-    · rw [if_neg hc, if_neg hc]
+        · rw [ite_eq_left hc', ite_eq_left hc']
+        · rw [ite_eq_right hc', ite_eq_right hc']
+    · rw [ite_eq_right hc, ite_eq_right hc]
 
 theorem push_get_lt {α : Type} [Inhabited α] {a : Array α} {x : α} {i : ℕ} (h : i < a.size) :
     (a.push x)[i]! = a[i]! := by
@@ -108,7 +108,7 @@ theorem inv_innerG {step : ℕ → Array ℕ → Array ℕ} {k : ℕ} {x0 : Arra
   unfold innerG
   dsimp only
   by_cases hc : (!seen.contains (keyOf (step j x))) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     have hc' : seen.contains (keyOf (step j x)) = false := by simpa using hc
     have hsz : (L.push (step j x)).size = L.size + 1 := Array.size_push _
     have hpar : par.size = L.size := H.szp
@@ -165,7 +165,7 @@ theorem inv_innerG {step : ℕ → Array ℕ → Array ℕ} {k : ℕ} {x0 : Arra
         exact absurd e.symm (hnew i' hi')
       · rfl
     · simp
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine ⟨H, Ext.refl _, by simpa using hc⟩
 
 theorem inv_inner_fold {step : ℕ → Array ℕ → Array ℕ} {k : ℕ} {x0 : Array ℕ} {h : ℕ}
@@ -201,7 +201,7 @@ theorem inv_outer (step : ℕ → Array ℕ → Array ℕ) (k : ℕ) (x0 : Array
     generalize (List.range h).foldl (outerG step k) (initS x0) = s at H D
     unfold outerG
     by_cases hc : h < s.2.1.size
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       obtain ⟨H2, E2, C2⟩ := inv_inner_fold (h := h) (x := s.2.1[h]!) (List.range' 0 k) s
         (fun j hj => by simpa using hj) H hc rfl
       refine ⟨H2, fun i hi hi2 j hj => ?_⟩
@@ -211,7 +211,7 @@ theorem inv_outer (step : ℕ → Array ℕ → Array ℕ) (k : ℕ) (x0 : Array
         rw [E2.2 i' hi', E2.2 i (Nat.lt_trans hi hc), e]
       · rw [E2.2 i hc]
         exact (H2.seen _).1 (C2 j (by simpa using hj))
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       refine ⟨H, fun i hi hi2 j hj => D i ?_ hi2 j hj⟩
       omega
 

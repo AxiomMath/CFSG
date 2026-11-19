@@ -334,7 +334,7 @@ theorem le_centralizer_of_mk_mem_center {L : Subgroup G} [Finite L] (S : Sylow 3
     group
   have hkS : s * d * s⁻¹ * d⁻¹ ∈ (S : Subgroup ↥L) :=
     mul_mem (mul_mem (mul_mem hs hdS) (inv_mem hs)) (inv_mem hdS)
-  obtain ⟨m, hm⟩ := S.isPGroup' ⟨_, hkS⟩
+  obtain ⟨m, hm⟩ := S.isPGroup ⟨_, hkS⟩
   have hk1 : s * d * s⁻¹ * d⁻¹ = 1 :=
     eq_one_of_mem_of_pow_three_pow hθ3 hk (k := m) (by simpa using congrArg Subtype.val hm)
   calc s * d = s * d * s⁻¹ * d⁻¹ * (d * s) := by group

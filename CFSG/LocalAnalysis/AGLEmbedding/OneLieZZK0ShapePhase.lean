@@ -38,7 +38,7 @@ theorem glbCore_one_map_le [Fact p.Prime]
     (hTF : OneLieTorusFacts p L T₁ n e) :
     (GLBCore p 1 (T₁ : Subgroup L)).map L.subtype ≤
       ((H₁ ⊓ M).subgroupOf H₁).map (QuotientGroup.mk' (primeComplementCore (G := H₁) p)) := by
-  have h2 := two_le_pRank_of_isPGroup_not_isCyclic h.red.prime h.red.ne_two T₁.isPGroup'
+  have h2 := two_le_pRank_of_isPGroup_not_isCyclic h.red.prime h.red.ne_two T₁.isPGroup
     h.sylow_noncyclic
   have hNle : Subgroup.normalizer ((T₁ : Subgroup L) : Set L) ≤ GLBCore p 1 (T₁ : Subgroup L) :=
     le_sSup ⟨(T₁ : Subgroup L), le_rfl, by omega, rfl⟩

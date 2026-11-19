@@ -100,6 +100,7 @@ theorem thompsonReplacement {R S V A : Subgroup G} (hRS : R ≤ S) (hVR : V ≤ 
       rw [← hxq, hrA, hAcard]
     exact Nat.eq_of_mul_eq_mul_right Nat.card_pos heq
 
+omit [Finite G] in
 theorem exists_le_autOn_eq {T V : Subgroup G}
     (hTV : T ≤ Subgroup.normalizer (V : Set G)) {B : Subgroup (MulAut ↥V)}
     (hB : B ≤ autOn T V) :
@@ -147,7 +148,7 @@ theorem not_isFFInt_of_disp_sub {G₁ T V : Subgroup G}
         (A ⊓ Subgroup.centralizer (V : Set G)).relIndex A <
           (V ⊓ Subgroup.centralizer ({t} : Set G)).relIndex V) :
     ¬ IsFFInt G₁ V hV := by
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   intro hFF
   obtain ⟨Astar, hAstar_le, hAstar_ne, hAstar_el, hAstar_off⟩ := hFF
   have hTN : T ≤ Subgroup.normalizer (V : Set G) := hT.1.trans hG₁V
@@ -262,7 +263,7 @@ theorem not_isDualFFInt_of_disp_sub {G₁ T V : Subgroup G}
         (A ⊓ Subgroup.centralizer (V : Set G)).relIndex A <
           Nat.card (⁅V, A⁆ : Subgroup G)) :
     ¬ IsDualFFInt G₁ V hV := by
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   intro hFF
   obtain ⟨B, hB_le, hB_ne, hB_el, hB_off⟩ := hFF
   have hTN : T ≤ Subgroup.normalizer (V : Set G) := hT.1.trans hG₁V
@@ -452,6 +453,7 @@ theorem centralizerMod_eq_pCoreOf_of_isL2Quot {H U L N : Subgroup G} {m : ℕ}
         (x := (⟨k, hkH⟩ : ↥H))).mp hz1
     exact (CFSG.mem_openPCoreOf_iff (⟨k, hkH⟩ : ↥H)).mpr hkR
 
+omit [Finite G] in
 theorem relIndex_inf_pCoreOf_le_two_pow {H A : Subgroup G} {m : ℕ}
     (hm2 : 2 ≤ m) (hL2 : IsL2Quot m (oTwoQuot ↥H))
     (hAH : A ≤ H) (hAe : IsElemAbelian 2 A) :
@@ -537,6 +539,7 @@ theorem l2_chiefStep_relIndex_ge {H V L N A : Subgroup G} {m : ℕ} (hm2 : 2 ≤
     relIndex_inf_pCoreOf_le_two_pow hm2 hL2 hAH hA
   exact himg.trans (hq.trans hrel)
 
+omit [Finite G] in
 theorem exists_noncentral_chiefStep_of_one {H U N : Subgroup G} {n : ℕ}
     (h : IsChiefSeriesFrom H U N n) (hn : n = 1) :
     ∃ L K, IsChiefStep H U L K ∧ ¬ IsCentralStep H L K := by
@@ -597,6 +600,7 @@ theorem lemmaFF2_c_le_one {H V A : Subgroup G} {m c : ℕ} (hm2 : 2 ≤ m)
       simpa [pow_two] using this
     nlinarith [hk2, h2]
 
+omit [Finite G] in
 theorem lemmaFF2_zero {H V : Subgroup G} (hV : IsElemAbelian 2 V)
     {c : ℕ} (hser : IsChiefSeriesFrom H V V c) (hc : c = 0) :
     ⁅V, oTwoUpper H⁆ = ⊥ :=

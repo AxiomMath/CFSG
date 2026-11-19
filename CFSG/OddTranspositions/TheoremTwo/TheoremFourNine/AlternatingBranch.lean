@@ -45,7 +45,7 @@ theorem card_centralizer_triple {π : Perm (Fin 7)} (h : π.cycleType = {2, 2, 2
 
 theorem piA_sq : piA * piA = 1 := by decide
 theorem piA_sign : Perm.sign piA = -1 := by
-  simp [piA, Perm.sign_mul, Perm.sign_swap]
+  simp [piA, Perm.sign_mul]
 theorem piA_support : piA.support.card = 6 := by decide
 theorem piA_cycleType : piA.cycleType = {2, 2, 2} := by
   rcases cycleType_of_odd_involution piA_sq piA_sign with h | h
@@ -75,7 +75,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Set G} {u w v z a : G} {K₁ S' : Subgroup G}
 
 theorem Config.false_of_A7 (hQ : Config D u w v z a K₁ S') {L : Subgroup G} [hL : L.Normal]
-    (hL2 : L.index = 2) (hzL : z ∉ L) (hK₁L : K₁ ≤ L) (hDL : ∀ d ∈ D, d ∉ L)
+    (hL2 : L.index = 2) (hzL : z ∉ L) (_hK₁L : K₁ ≤ L) (hDL : ∀ d ∈ D, d ∉ L)
     (e7 : L ≃* alternatingGroup (Fin 7)) : False := by
   classical
   obtain ⟨eK⟩ := hQ.K₁_A5
@@ -198,13 +198,13 @@ theorem Config.false_of_A7 (hQ : Config D u w v z a K₁ S') {L : Subgroup G} [h
 theorem pPrimeCore_eq_bot_of_rad {L : Subgroup G} [hL : L.Normal]
     (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥) :
     CFSG.pPrimeCore 2 L = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card (CFSG.pPrimeCore 2 L)) :=
     Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := L))
   have hsolv : Group.IsSolvable (CFSG.pPrimeCore 2 L) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   set M : Subgroup G := (CFSG.pPrimeCore 2 L).map L.subtype
-  haveI : M.Normal := inferInstance
-  have hMs : Group.IsSolvable M := solvable_of_solvable_injective
+  have : M.Normal := inferInstance
+  have hMs : Group.IsSolvable M := Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.equivMapOfInjective _ _ L.subtype_injective).symm.toMonoidHom)
     (Subgroup.equivMapOfInjective _ _ L.subtype_injective).symm.injective
   have := hrad M inferInstance hMs

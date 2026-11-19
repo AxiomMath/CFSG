@@ -33,14 +33,17 @@ theorem form_comm (halt : F.IsAlt) (x y : V) : F x y = F y x := by
   rw [charTwo_neg] at this
   exact this
 
+omit [CharP K 2] in
 theorem form_self (halt : F.IsAlt) (x : V) : F x x = 0 := halt.self_eq_zero x
 
 theorem two_eq_zero_K : (2 : K) = 0 := CharTwo.two_eq_zero
 
+omit [CharP K 2] in
 theorem mem_pointRad_iff {e : V} {g : V ≃ₗ[K] V} :
     g ∈ pointRadSubgroup F e ↔
       IsIsom F g ∧ g e = e ∧ ∀ v, F v e = 0 → ∃ c : K, g v = v + c • e := Iff.rfl
 
+omit [CharP K 2] in
 theorem pointRad_om_perp {e f : V} {g : V ≃ₗ[K] V} (hg : g ∈ pointRadSubgroup F e) :
     F (g f - f) e = 0 := by
   obtain ⟨h1, h2, -⟩ := hg
@@ -104,6 +107,7 @@ theorem pointRad_mul_self (halt : F.IsAlt) {e f : V} (hef : F e f = 1) {g : V �
 @[expose] def elationMap (F : LinearMap.BilinForm K V) (e f ω : V) : V →ₗ[K] V :=
   LinearMap.id + (F.flip e).smulRight ω + (F.flip ω + (F f ω) • F.flip e).smulRight e
 
+omit [CharP K 2] in
 theorem elationMap_apply (F : LinearMap.BilinForm K V) (e f ω v : V) :
     elationMap F e f ω v = v + F v e • ω + (F v ω + F f ω * F v e) • e := by
   simp [elationMap, add_assoc]
@@ -137,7 +141,7 @@ theorem elationEquiv_f (halt : F.IsAlt) {e f ω : V} (hef : F e f = 1) (hω : F 
   have hfe : F f e = 1 := by rw [form_comm halt]; exact hef
   rw [elationEquiv_apply, hfe, one_smul, mul_one, charTwo_add_self, zero_smul, add_zero]
 
-theorem elationEquiv_mem (halt : F.IsAlt) {e f ω : V} (hef : F e f = 1) (hω : F ω e = 0) :
+theorem elationEquiv_mem (halt : F.IsAlt) {e f ω : V} (_hef : F e f = 1) (hω : F ω e = 0) :
     elationEquiv halt e f ω hω ∈ pointRadSubgroup F e := by
   have hωe' : F e ω = 0 := by rw [form_comm halt]; exact hω
   refine ⟨fun x y => ?_, ?_, fun y hy => ⟨F y ω, ?_⟩⟩
@@ -152,6 +156,7 @@ theorem elationEquiv_mem (halt : F.IsAlt) {e f ω : V} (hef : F e f = 1) (hω : 
   · rw [elationEquiv_apply, hy]
     simp
 
+omit [CharP K 2] in
 theorem exists_smul_of_ker_le (φ ψ : V →ₗ[K] K) (h : ∀ v, φ v = 0 → ψ v = 0) :
     ∃ c : K, ∀ v, ψ v = c * φ v := by
   have h1 : ⨅ _i : Unit, LinearMap.ker φ ≤ LinearMap.ker ψ := by
@@ -176,6 +181,7 @@ theorem perp_perp (hnd : F.Nondegenerate) (halt : F.IsAlt) (e u : V)
     ring
   exact sub_eq_zero.mp this
 
+omit [CharP K 2] in
 theorem ne_zero_of_form_eq_one {e f : V} (hef : F e f = 1) : e ≠ 0 := by
   rintro rfl
   simp at hef
@@ -207,6 +213,7 @@ section Dim
 
 variable [Finite K] [FiniteDimensional K V]
 
+omit [CharP K 2] [Finite K] in
 theorem exists_perp_not_mem_span (hdim : 3 ≤ Module.finrank K V) {e : V} (hne : e ≠ 0) :
     ∃ ω : V, F ω e = 0 ∧ ∀ c : K, ω ≠ c • e := by
   by_contra hcon
@@ -224,6 +231,7 @@ theorem exists_perp_not_mem_span (hdim : 3 ≤ Module.finrank K V) {e : V} (hne 
     simpa using this
   omega
 
+omit [CharP K 2] [Finite K] in
 theorem exists_perp_ne_zero (hdim : 3 ≤ Module.finrank K V) (e f : V) :
     ∃ w : V, w ≠ 0 ∧ F w e = 0 ∧ F w f = 0 := by
   let ψ : V →ₗ[K] K × K := (F.flip e).prod (F.flip f)
@@ -240,6 +248,7 @@ theorem exists_perp_ne_zero (hdim : 3 ≤ Module.finrank K V) (e f : V) :
 
 end Dim
 
+omit [CharP K 2] in
 theorem eq_zero_of_perp_span (hnd : F.Nondegenerate) {P : Set V} (hspan : Submodule.span K P = ⊤)
     {u : V} (h : ∀ e ∈ P, F u e = 0) : u = 0 := by
   apply hnd.1
@@ -277,12 +286,15 @@ theorem exists_partner (hnd : F.Nondegenerate) (halt : F.IsAlt) {e f : V} (hef :
   · rw [map_smul, LinearMap.smul_apply, huf, smul_zero]
   · rw [map_smul, hwu, smul_eq_mul, inv_mul_cancel₀ hz]
 
+omit [CharP K 2] in
 theorem mem_pointRad_iff' {e : V} {g : V ≃ₗ[K] V} :
     g ∈ pointRad F e ↔ g ∈ pointRadSubgroup F e := Iff.rfl
 
+omit [CharP K 2] in
 theorem pointRadSubgroup_le_symp (e : V) : pointRadSubgroup F e ≤ sympSubgroup F :=
   fun _ hg => hg.1
 
+omit [CharP K 2] in
 theorem conj_mem_pointRad {e : V} {g h : V ≃ₗ[K] V} (hg : g ∈ sympSubgroup F)
     (hh : h ∈ pointRadSubgroup F e) : g * h * g⁻¹ ∈ pointRadSubgroup F (g e) := by
   have hh' := hh
@@ -304,6 +316,7 @@ theorem conj_mem_pointRad {e : V} {g h : V ≃ₗ[K] V} (hg : g ∈ sympSubgroup
     rw [hc, map_add, map_smul]
     simp
 
+omit [CharP K 2] in
 theorem elationFull_conj {H : Subgroup (V ≃ₗ[K] V)} (hH : H ≤ sympSubgroup F) {e : V}
     (hfull : ElationFull F ((H : Set _) ∩ pointRad F e) e) {g : V ≃ₗ[K] V} (hg : g ∈ H) :
     ElationFull F ((H : Set _) ∩ pointRad F (g e)) (g e) := by

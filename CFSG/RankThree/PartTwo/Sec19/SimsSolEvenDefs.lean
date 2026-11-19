@@ -55,6 +55,7 @@ theorem centralizer_le : Subgroup.centralizer (X : Set G) ≤ M := by
 theorem Y_le_Q : CFSG.Open.pCoreOf 2 X ≤ CFSG.Open.pCoreOf 2 M :=
   CFSG.CGT.PushingUpLit.SolK.XNorm.Y_le_Q S.xnorm
 
+omit [Finite G] S in
 theorem W_le_Y : blockU X ≤ CFSG.Open.pCoreOf 2 X := by
   rw [blockU, blockQ, Subgroup.commutator_le]
   intro y hy x hx
@@ -65,9 +66,10 @@ theorem W_le_Y : blockU X ≤ CFSG.Open.pCoreOf 2 X := by
   rw [h2]
   exact (CFSG.Open.pCoreOf 2 X).mul_mem hy h1
 
-theorem W_le_Q : blockU X ≤ CFSG.Open.pCoreOf 2 M := S.W_le_Y.trans S.Y_le_Q
+theorem W_le_Q : blockU X ≤ CFSG.Open.pCoreOf 2 M := CFSG.RankThree.PartTwo.Sec19.SolEven.Setting.W_le_Y.trans S.Y_le_Q
 
 omit S in
+omit [Finite G] in
 theorem map_conj_eq_of_normalized {H : Subgroup G} {m : G}
     (h1 : ∀ x ∈ H, m * x * m⁻¹ ∈ H) (h2 : ∀ x ∈ H, m⁻¹ * x * m⁻¹⁻¹ ∈ H) :
     H.map (MulAut.conj m).toMonoidHom = H := by

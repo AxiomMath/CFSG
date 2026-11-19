@@ -57,7 +57,7 @@ theorem parrottHyp_of_caseV (hO : OMinusSixTwoAutPSp43Statement) (hH : NTStrothH
   have haV : cfg.aG ∈ V := qpCfg_aG_mem_V cfg
   have haW : cfg.aG ∈ wOf V H := (Additive.toMul (ψ a)).2
   have haG1 : cfg.aG ≠ 1 := qpCfg_aG_ne_one cfg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord2 : orderOf cfg.aG = 2 := orderOf_eq_prime (hc.elemAb.2 cfg.aG haV) haG1
   have hcent : Subgroup.centralizer ({cfg.aG} : Set G) = M :=
     (h12 G M V Q P H hyp cfg.centre Φ ψ cfg.nat a T cfg.ne cfg.trans cfg.point).1

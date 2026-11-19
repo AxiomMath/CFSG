@@ -68,7 +68,7 @@ theorem noXBlock_borelPre_done_B
     (hsub : CFSG.Open.IsSubnormal Y (borelPre T Ls))
     (hblock : CFSG.AGLEmbedding.InClassXBlock Y) : False := by
   classical
-  haveI : Finite (X ⧸ gnC T) :=
+  have : Finite (X ⧸ gnC T) :=
     Finite.of_surjective (QuotientGroup.mk' (gnC T)) (QuotientGroup.mk'_surjective (gnC T))
   refine noXBlock_borelPre_done hX hLs hinv ?_ Y hY hsub hblock
   refine hLI_of_component_li hX hLs ?_
@@ -92,7 +92,7 @@ theorem noXBlock_borelPre_done_D
     (hsub : CFSG.Open.IsSubnormal Y (borelPre T Ls))
     (hblock : CFSG.AGLEmbedding.InClassXBlock Y) : False := by
   classical
-  haveI : Finite (X ⧸ gnC T) :=
+  have : Finite (X ⧸ gnC T) :=
     Finite.of_surjective (QuotientGroup.mk' (gnC T)) (QuotientGroup.mk'_surjective (gnC T))
   refine noXBlock_borelPre_done hX hLs hinv ?_ Y hY hsub hblock
   refine hLI_of_component_li hX hLs ?_
@@ -116,7 +116,7 @@ theorem noXBlock_borelPre_done_2D
     (hsub : CFSG.Open.IsSubnormal Y (borelPre T Ls))
     (hblock : CFSG.AGLEmbedding.InClassXBlock Y) : False := by
   classical
-  haveI : Finite (X ⧸ gnC T) :=
+  have : Finite (X ⧸ gnC T) :=
     Finite.of_surjective (QuotientGroup.mk' (gnC T)) (QuotientGroup.mk'_surjective (gnC T))
   refine noXBlock_borelPre_done hX hLs hinv ?_ Y hY hsub hblock
   refine hLI_of_component_li hX hLs ?_

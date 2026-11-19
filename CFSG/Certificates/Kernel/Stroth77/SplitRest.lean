@@ -80,7 +80,7 @@ theorem mem_AEsp_iff (ht : tabOK D = true) (hc : clOK D = true) {g : Msp} :
   · intro hg
     have hle : AEsp ≤ subS D memAE ht (cl_facts hc).2.1 := by
       refine (Subgroup.closure_le _).2 fun x hx => ?_
-      simp only [Set.mem_setOf_eq, gensAEsp, List.mem_cons, List.not_mem_nil, or_false] at hx
+      simp only [Set.mem_ofPred_eq, gensAEsp, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl
       · exact ⟨1, by norm_num, rfl, elS_1⟩
       · exact ⟨2, by norm_num, rfl, elS_2⟩
@@ -256,11 +256,11 @@ theorem mem_S1_iff {s : Msp} : s ∈ Tsp ⊓ (Perm.sign.comp θsp).ker ↔ s ∈
   unfold sg
   constructor
   · rintro ⟨h1, h2⟩
-    exact ⟨h1, by rw [if_pos h2]⟩
+    exact ⟨h1, by rw [ite_eq_left h2]⟩
   · rintro ⟨h1, h2⟩
     refine ⟨h1, ?_⟩
     by_contra h
-    rw [if_neg h] at h2
+    rw [ite_eq_right h] at h2
     exact absurd h2 (by decide)
 
 theorem mem_S1_iff_elS (ht : tabOK D = true) {g : Msp} :

@@ -14,7 +14,7 @@ theorem proper_normal_le_pPrimeCore {D : Subgroup G} (hD : Nat.card D = 3)
     (hgen : Subgroup.normalClosure (D : Set G) = ⊤)
     (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup G) = 1) (N : Subgroup G) [N.Normal]
     (hN : N ≠ ⊤) : N ≤ CFSG.pPrimeCore 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases h3 : 3 ∣ Nat.card N
   · have hDle : D ≤ N :=
       le_of_normal_of_dvd_card (p := 3) (by norm_num) hrank hD (inferInstance : N.Normal) h3
@@ -31,7 +31,7 @@ theorem isSimpleGroup_quotient_pPrimeCore {D : Subgroup G} (hD : Nat.card D = 3)
     (hgen : Subgroup.normalClosure (D : Set G) = ⊤)
     (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup G) = 1) :
     IsSimpleGroup (G ⧸ CFSG.pPrimeCore 3 G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup G := CFSG.pPrimeCore 3 G
   have hcop : Nat.Coprime 3 (Nat.card P) :=
     CFSG.pPrimeCore_coprime_card (p := 3) (G := G)
@@ -41,7 +41,7 @@ theorem isSimpleGroup_quotient_pPrimeCore {D : Subgroup G} (hD : Nat.card D = 3)
       rw [htop, Subgroup.card_top]
       exact hD ▸ Subgroup.card_subgroup_dvd_card D
     exact (Nat.prime_three.coprime_iff_not_dvd).1 hcop h3dvd
-  haveI : Nontrivial (G ⧸ P) := QuotientGroup.nontrivial_iff.2 hPne
+  have : Nontrivial (G ⧸ P) := QuotientGroup.nontrivial_iff.2 hPne
   refine { eq_bot_or_eq_top_of_normal := ?_ }
   intro T hT
   let M : Subgroup G := T.comap (QuotientGroup.mk' P)
@@ -57,7 +57,7 @@ theorem isSimpleGroup_quotient_pPrimeCore {D : Subgroup G} (hD : Nat.card D = 3)
     have : g ∈ M := by rw [hMtop]; exact mem_top g
     exact this
   · left
-    haveI : M.Normal := hMnorm
+    have : M.Normal := hMnorm
     have hMle : M ≤ P := proper_normal_le_pPrimeCore hD hgen hrank M hMtop
     have hMeq : M = P := le_antisymm hMle hPle
     refine eq_bot_iff.2 fun t ht => ?_

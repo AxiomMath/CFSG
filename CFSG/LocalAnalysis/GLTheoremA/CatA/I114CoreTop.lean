@@ -83,7 +83,7 @@ theorem core_T_eq_bot [Finite Y] {B K T : Subgroup Y} (hB : IsElemAbelian 3 B)
       exact h
     exact two_group_le_pair_trivial hKK₂ hKK₃ hK₂K₃ hZ₂ hZ₃ hA' hT₂ hT₃ hTp
   ·
-    obtain ⟨t, htT, htP⟩ := SetLike.not_le_iff_exists.1 hA'
+    obtain ⟨t, htT, htP⟩ := IsConcreteLE.not_le_iff_exists.1 hA'
     have hPn : ∀ b ∈ B, b ∈ Subgroup.normalizer (K : Set Y) →
         cj b (cj x K ⊔ cj (x * x) K) = cj x K ⊔ cj (x * x) K := by
       intro b hb hbN

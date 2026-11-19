@@ -80,7 +80,7 @@ theorem false_of_comm (h : T7F2.Hyp25T Ω K K' W S R R' z t u₁ u₂ t') {g : G
         _ = t' * (a * z) := by rw [mul_assoc]
   obtain ⟨a', ha'A, ha'1, hna'⟩ := T7T.c25_3_proved G Ω K K' W S R R' z t' u₁
     u₂ hyp' _ hA4 hzA hcommA
-  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup.to_le inf_le_left
   have haN : a ∈ T7F2.Nsub S R :=
     h.mem_N_of_conj_R' haS (mem_normalizer_iff_conjSub_eq.mp hF'.1)
   rcases hAmem a' ha'A with rfl | rfl | rfl | rfl
@@ -119,7 +119,7 @@ theorem exists_comm_swap_of_ff (h11 : (S : Subgroup G) ⊓ Subgroup.centralizer
   have haz : a * z = z * a := hzS a haS
   have ht'z : t' * z = z * t' := hzS t' ht'S
   have hai : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha2
-  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup.to_le inf_le_left
   have haN : a ∈ T7F2.Nsub S R :=
     h.mem_N_of_conj_R' haS (mem_normalizer_iff_conjSub_eq.mp hF'.1)
   obtain ⟨b, hb⟩ : ∃ b : G, b = t' * a * t'⁻¹ := ⟨_, rfl⟩
@@ -433,7 +433,7 @@ theorem exists_ff_of_pure_mixed (h11 : (S : Subgroup G) ⊓ Subgroup.centralizer
   have hz2 : z * z = 1 := h.hz.sq
   have ht'inv : t'⁻¹ = t' := h.ht'inv
   have hci : c⁻¹ = c := inv_eq_of_mul_eq_one_right hc2
-  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup.to_le inf_le_left
   have hcN : c ∈ T7F2.Nsub S R :=
     h.mem_N_of_conj_R' hcS (mem_normalizer_iff_conjSub_eq.mp hFc.1)
   obtain ⟨b, hb⟩ : ∃ b : G, b = t' * c * t'⁻¹ := ⟨_, rfl⟩
@@ -562,7 +562,7 @@ theorem exists_ff_of_inner (h11 : (S : Subgroup G) ⊓ Subgroup.centralizer
     ∃ e ∈ (S : Subgroup G), e * e = 1 ∧ IsFAut R e ∧ IsFAut R' e := by
   obtain ⟨r, hrR, hrc⟩ := hin
   obtain ⟨t', h⟩ := T7T.exists_hyp25T hyp
-  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup.to_le inf_le_left
   have haN : a ∈ T7F2.Nsub S R :=
     h.mem_N_of_conj_R' haS (mem_normalizer_iff_conjSub_eq.mp hF'.1)
   have hrN : r⁻¹ ∈ T7F2.Nsub S R := (T7F2.Nsub S R).inv_mem (h.R_le_N hrR)

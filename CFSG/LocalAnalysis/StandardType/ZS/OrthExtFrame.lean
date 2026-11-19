@@ -386,7 +386,7 @@ private theorem frameELast_not_mem_frameW {H : Subgroup (U ≃ₗ[ZMod p] U)}
     apply Finset.sum_eq_zero
     intro i _
     rw [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply]
-    rw [if_neg (frameIdx_ne_last h4 i), smul_zero]
+    rw [ite_eq_right (frameIdx_ne_last h4 i), smul_zero]
   rw [hcoord1] at hcoord0
   exact one_ne_zero hcoord0
 

@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23ne_inv_mul_inv_mul_eq_one_iff {u v : G} (hu : u * u = 1) :
     v⁻¹ * u⁻¹ * v * u = 1 ↔ v * u = u * v := by
   have hui : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu
@@ -38,7 +39,7 @@ private theorem c23ne_inv_mul_inv_mul_eq_one_iff {u v : G} (hu : u * u = 1) :
       _ = 1 := by group
 
 theorem c23ne_transvection_mul {V Y : Subgroup G} (hV : IsElemAbelian 2 V) (hY : mSub Y = 1)
-    {s t : G} (hs : s ∈ normalizer (V : Set G)) (ht : t ∈ normalizer (V : Set G))
+    {s t : G} (hs : s ∈ normalizer (V : Set G)) (_ht : t ∈ normalizer (V : Set G))
     (hs2 : s ^ 2 = 1) (ht2 : t ^ 2 = 1)
     (hst : V ⊓ centralizer ({s} : Set G) = V ⊓ centralizer ({t} : Set G))
     (hsY : commElt V s = Y) (htY : commElt V t = Y) :

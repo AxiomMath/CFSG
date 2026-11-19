@@ -114,7 +114,7 @@ theorem exists_noncomm_inf_of_component (T : Sylow 2 H) {K : Subgroup H} (hK : I
     exact hz'1 (congrArg Subtype.val hmem)
   obtain ⟨a₀, ha₀P, b₀, hb₀P, hab₀⟩ := hnab
   let ι : ↥K →* ↥(layer H) := Subgroup.inclusion hKN
-  have hQ2 : IsPGroup 2 ((P : Subgroup ↥K).map ι) := P.isPGroup'.map ι
+  have hQ2 : IsPGroup 2 ((P : Subgroup ↥K).map ι) := P.isPGroup.map ι
   obtain ⟨S', hS'⟩ := hQ2.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥(layer H) S' S₀
   have hconj : ∀ p ∈ (P : Subgroup ↥K),

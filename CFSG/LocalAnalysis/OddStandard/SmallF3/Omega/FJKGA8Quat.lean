@@ -16,6 +16,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fj_polar_self_of_sq {g : V ≃ₗ[ZMod 3] V}
     (hg : ∀ x y, polar Q (g x) (g y) = polar Q x y) {x : V} (hx : g (g x) = -x) :
     polar Q x (g x) = 0 := by
@@ -24,6 +25,7 @@ private theorem fj_polar_self_of_sq {g : V ≃ₗ[ZMod 3] V}
   have h2 : (2 : ZMod 3) * polar Q x (g x) = 0 := by linear_combination -h1
   exact (mul_eq_zero.mp h2).resolve_left (by decide)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fj_polar_adj_of_sq {g R : V ≃ₗ[ZMod 3] V}
     (hg : ∀ x y, polar Q (g x) (g y) = polar Q x y)
     (hR : ∀ x y, polar Q (R x) y = polar Q x (R y)) (hc : ∀ x, R (g x) = g (R x)) {x : V}
@@ -34,6 +36,7 @@ private theorem fj_polar_adj_of_sq {g R : V ≃ₗ[ZMod 3] V}
   have h3 : (2 : ZMod 3) * polar Q (R x) (g x) = 0 := by linear_combination h1 + h2
   exact (mul_eq_zero.mp h3).resolve_left (by decide)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fj_exists_polar_self_ne_zero {W : Submodule (ZMod 3) V}
     (hW : (Q.restrict W).Nondegenerate) (hne : W ≠ ⊥) : ∃ u ∈ W, polar Q u u ≠ 0 := by
   by_contra hcon
@@ -53,6 +56,7 @@ private theorem fj_exists_polar_self_ne_zero {W : Submodule (ZMod 3) V}
   rw [hW.radical_eq_bot, Submodule.mem_bot] at hrad
   exact hw0 (congrArg Subtype.val hrad)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fj_polar_coeff {ι : Type*} [Fintype ι] [DecidableEq ι] {v : ι → V}
     {c : ι → ZMod 3} {x : V} (h0 : ∀ i j, i ≠ j → polar Q (v i) (v j) = 0)
     (hx : x = ∑ i, c i • v i) (j : ι) : polar Q x (v j) = c j * polar Q (v j) (v j) := by
@@ -62,6 +66,7 @@ private theorem fj_polar_coeff {ι : Type*} [Fintype ι] [DecidableEq ι] {v : �
   rw [hsum, Finset.sum_eq_single j (fun i _ hij => by rw [h0 i j hij, mul_zero])
     (fun h => absurd (Finset.mem_univ j) h)]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fj_orth_four {x0 x1 x2 x3 : V}
     (h01 : polar Q x0 x1 = 0) (h02 : polar Q x0 x2 = 0) (h03 : polar Q x0 x3 = 0)
     (h12 : polar Q x1 x2 = 0) (h13 : polar Q x1 x3 = 0) (h23 : polar Q x2 x3 = 0) :

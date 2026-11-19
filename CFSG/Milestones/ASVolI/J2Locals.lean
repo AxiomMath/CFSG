@@ -55,7 +55,7 @@ theorem burnsideJ27_quotEquiv_conj {G : Type} [Group G] {C₁ C₂ A₁ A₂ : S
     [(A₁.subgroupOf C₁).Normal] [(A₂.subgroupOf C₂).Normal] :
     Nonempty ((↥C₁ ⧸ A₁.subgroupOf C₁) ≃* (↥C₂ ⧸ A₂.subgroupOf C₂)) := by
   let e : ↥C₁ ≃* ↥C₂ :=
-    { toFun := fun x => ⟨l * x * l⁻¹, (hC _).mpr (by simpa [mul_assoc] using x.2)⟩
+    { toFun := fun x => ⟨l * x * l⁻¹, (hC _).mpr (by simp [mul_assoc])⟩
       invFun := fun y => ⟨l⁻¹ * y * l, (hC _).mp y.2⟩
       left_inv := fun x => Subtype.ext (by simp [mul_assoc])
       right_inv := fun y => Subtype.ext (by simp [mul_assoc])
@@ -507,7 +507,7 @@ theorem burnsideJ27_KRu_eq {G : Type} [Group G] [Finite G] {L V T : Subgroup G}
   rw [Nat.card_congr e.toEquiv, CFSG.Quasithin.RuType.card_subgroupOf_of_le hQK, hQ,
     M.toRuData.card_Q] at h1
   have hSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F4) = 60 := by
-    letI : Fintype F4 := Fintype.ofFinite _
+    let : Fintype F4 := Fintype.ofFinite _
     have hc : Fintype.card F4 = 4 := by
       rw [← Nat.card_eq_fintype_card]
       show Nat.card (GaloisField 2 2) = 4
@@ -598,7 +598,7 @@ theorem burnsideJ27_sylow5_cyclic {G : Type} [Group G] [Finite G]
     (hB5 : CFSG.ASVolI.ChIJK.IsSylowIn 5 B5 (CFSG.Quasithin.RuType.ruH M.T)) :
     ∃ b ∈ CFSG.Quasithin.RuType.ruH M.T, orderOf b = 5 ∧ B5 = Subgroup.zpowers b := by
   obtain ⟨hle, hp, hidx⟩ := hB5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨n, hn⟩ := hp.exists_card_eq
   have hmul := Subgroup.card_mul_index (B5.subgroupOf (CFSG.Quasithin.RuType.ruH M.T))
   rw [CFSG.Quasithin.RuType.card_subgroupOf_of_le hle, hn, M.toRuData.card_H] at hmul
@@ -652,7 +652,7 @@ theorem burnsideJ27_isSylowTwoIn_of_sylow {G : Type} [Group G] [Finite G] {C D :
   refine ⟨hle, ?_, ?_⟩
   · have h1 : IsPGroup 2 ↥(D.subgroupOf C) := by
       rw [← hP]
-      exact P.isPGroup'
+      exact P.isPGroup
     exact h1.of_equiv (Subgroup.subgroupOfEquivOfLe hle)
   · rw [← hP]
     exact P.not_dvd_index
@@ -699,7 +699,7 @@ open CFSG.ASVolI.ChIJK in
 theorem burnsideJ27_P5_eq {G : Type} [Group G] [Finite G] {b : G}
     (hP : Nat.card (CFSG.Quasithin.RuType.P5 b) = 5 ^ 3) :
     CFSG.Quasithin.RuType.P5 b = pCoreOf 5 (CFSG.Quasithin.RuType.G5 b) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hO : Nat.card (CFSG.Quasithin.RuType.O5 b) = 5 ^ 3 := by
     rw [← CFSG.Quasithin.RuType.card_P5, hP]
   have h1 : CFSG.Quasithin.RuType.O5 b ≤ CFSG.pCore 5 ↥(CFSG.Quasithin.RuType.G5 b) := by
@@ -783,7 +783,7 @@ theorem burnsideJ27_part2 {G : Type} [Group G] [Finite G]
           (Subgroup.centralizer ((CFSG.conjugate M.B g : Subgroup G) : Set G)) ≃*
         ↥(CFSG.Blueprint.NativeSporadic.M11 ⊓
           MulAction.stabilizer (Equiv.Perm (Fin 11)) (0 : Fin 11))) := by
-  haveI hN1 := burnsideJ27_normal_centralizer (CFSG.conjugate M.B g)
+  have hN1 := burnsideJ27_normal_centralizer (CFSG.conjugate M.B g)
   refine ⟨hN1, ?_⟩
   obtain ⟨e1⟩ := M.lemma_J27_2
   obtain ⟨e2⟩ := burnsideJ27_quotEquiv_conj (C₁ := Subgroup.centralizer (M.B : Set G))
@@ -811,7 +811,7 @@ theorem burnsideJ27_part3 {G : Type} [Group G] [Finite G]
         (CFSG.conjugate M.B g).subgroupOf
           (Subgroup.normalizer ((CFSG.conjugate M.B g : Subgroup G) : Set G)) ≃*
         MulAut ↥(alternatingGroup (Fin 6))) := by
-  haveI hN1 : ((CFSG.conjugate M.B g).subgroupOf
+  have hN1 : ((CFSG.conjugate M.B g).subgroupOf
       (Subgroup.normalizer ((CFSG.conjugate M.B g : Subgroup G) : Set G))).Normal :=
     Subgroup.normal_in_normalizer
   refine ⟨hN1, ?_⟩
@@ -1291,7 +1291,7 @@ theorem burnsideJ27_m10_cent {x : P10} (hx : x ∈ A6Models.m10)
     have h2 := congrArg code this
     rw [code_mul, code_mul, hea] at h2
     simpa using h2
-  simp only [hm, hcomm, Bool.not_true, Bool.false_or, Bool.or_eq_true, List.contains_eq_any_beq,
+  simp only [hm, hcomm, Bool.not_true, Bool.false_or, List.contains_eq_any_beq,
     List.any_eq_true, beq_iff_eq] at h1
   obtain ⟨a, ha, hax⟩ := h1
   rw [burnsideJ27_mem_E0]
@@ -1304,6 +1304,7 @@ variable {R : Type} [Group R] [Finite R]
 
 open scoped Pointwise in
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent instCommGroupOfIsSimpleGroupOfIsNilpotent in
+omit [Finite R] in
 theorem burnsideJ27_aut_lines (hab : ∀ x y : R, x * y = y * x) (d : MulAut R)
     (h : ∀ r : R, d r = r ∨ d r = r⁻¹) : (∀ r : R, d r = r) ∨ (∀ r : R, d r = r⁻¹) := by
   by_contra hcon
@@ -1408,7 +1409,7 @@ theorem burnsideJ27_card_lines (hexp : ∀ x : R, x ^ 3 = 1) (hcard : Nat.card R
     rw [hbb]
   have h1 := Nat.card_le_card_of_injective f hf
   have h2 : Nat.card {x : R // x ≠ 1} = 26 := by
-    letI : Fintype R := Fintype.ofFinite R
+    let : Fintype R := Fintype.ofFinite R
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq,
       ← Nat.card_eq_fintype_card, hcard]
   rw [h2, Nat.card_prod, Nat.card_eq_fintype_card (α := Bool), Fintype.card_bool] at h1
@@ -1422,6 +1423,7 @@ variable {R : Type} [Group R] [Finite R]
 
 open scoped Pointwise in
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent instCommGroupOfIsSimpleGroupOfIsNilpotent in
+omit [Finite R] in
 theorem burnsideJ27_smul_eq (Γ : Subgroup (MulAut R)) (γ : ↥Γ) (H : Subgroup R) :
     γ • H = H.map (γ : MulAut R).toMonoidHom := by
   show ((γ : MulAut R) • H) = _
@@ -1441,8 +1443,8 @@ theorem burnsideJ27_GT1 (hab : ∀ x y : R, x * y = y * x) (hexp : ∀ x : R, x 
     (h1 : B.map g1.toMonoidHom ≠ B) (h2 : B.map g2.toMonoidHom ≠ B)
     (h12 : B.map g1.toMonoidHom ≠ B.map g2.toMonoidHom) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite (MulAut R) :=
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite (MulAut R) :=
     Finite.of_injective (fun f : MulAut R => (f : R → R)) DFunLike.coe_injective
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 3) (n := 3) hab hexp
     (by rw [hcard]; norm_num)
@@ -1501,7 +1503,7 @@ theorem burnsideJ27_GT1 (hab : ∀ x y : R, x * y = y * x) (hexp : ∀ x : R, x 
     generalize X.ncard = o at *
     interval_cases o <;> omega
   obtain ⟨hX13e, hs⟩ := key
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hΓ13 : Nat.card Γ = 13 * Nat.card stab := by rw [← hmul, hX13e]; ring
   have hs0 : Nat.card stab ≠ 0 := Nat.card_pos.ne'
   have h13s : ¬ 13 ∣ Nat.card stab := by rcases hs with h | h <;> rw [h] <;> norm_num
@@ -1526,8 +1528,8 @@ theorem burnsideJ27_GT1 (hab : ∀ x y : R, x * y = y * x) (hexp : ∀ x : R, x 
       rcases hs with h | h <;> omega
     generalize Nat.card (Sylow 13 ↥Γ) = n at *
     rcases hs with hs | hs <;> rw [hs] at h1 <;> interval_cases n <;> omega
-  haveI : Subsingleton (Sylow 13 ↥Γ) := (Nat.card_eq_one_iff_unique.mp hn1).1
-  haveI hPn : (P : Subgroup ↥Γ).Normal := Sylow.normal_of_subsingleton P
+  have : Subsingleton (Sylow 13 ↥Γ) := (Nat.card_eq_one_iff_unique.mp hn1).1
+  have hPn : (P : Subgroup ↥Γ).Normal := Sylow.normal_of_subsingleton P
   let incl : ↥T →* ↥Γ := Subgroup.inclusion hTΓ
   let ψT : ↥T →* MulAut ↥(P : Subgroup ↥Γ) :=
     (MulAut.conjNormal (H := (P : Subgroup ↥Γ))).comp incl
@@ -1655,6 +1657,7 @@ variable {G : Type} [Group G] [Finite G]
 
 open scoped Pointwise in
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent instCommGroupOfIsSimpleGroupOfIsNilpotent in
+omit [Finite G] in
 theorem burnsideJ27_mem_map_conj {g x : G} {X : Subgroup G} :
     x ∈ X.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ X := by
   rw [Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
@@ -1703,7 +1706,7 @@ theorem burnsideJ27_TR (R L1 L2 : Subgroup G) (hR : Nat.card R = 27)
     (hL1 : L1 ≤ R) (hL2 : L2 ≤ R) (g : G)
     (hg : L2 = L1.map (MulAut.conj g⁻¹).toMonoidHom) :
     ∃ k ∈ Subgroup.normalizer (R : Set G), L2 = L1.map (MulAut.conj k).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set C : Subgroup G := Subgroup.centralizer (L2 : Set G) with hC
   set R' : Subgroup G := R.map (MulAut.conj g⁻¹).toMonoidHom with hR'
   have hRC : R ≤ C := by
@@ -1803,11 +1806,13 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent instCommGr
 
 open scoped Pointwise in
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent instCommGroupOfIsSimpleGroupOfIsNilpotent in
+omit [Finite G] in
 theorem burnsideJ27_psi_apply (R : Subgroup G) (k : ↥(Subgroup.normalizer (R : Set G)))
     (r : ↥R) : ((burnsideJ27_psi R k r : ↥R) : G) = (k : G) * r * (k : G)⁻¹ := rfl
 
 open scoped Pointwise in
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent instCommGroupOfIsSimpleGroupOfIsNilpotent in
+omit [Finite G] in
 theorem burnsideJ27_psi_ker (R : Subgroup G)
     (hab : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x)
     (hC : ∀ x : G, (∀ r ∈ R, x * r = r * x) → x ∈ R) :
@@ -1831,6 +1836,7 @@ theorem burnsideJ27_psi_ker (R : Subgroup G)
 
 open scoped Pointwise in
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent instCommGroupOfIsSimpleGroupOfIsNilpotent in
+omit [Finite G] in
 theorem burnsideJ27_psi_map (R L : Subgroup G) (k : ↥(Subgroup.normalizer (R : Set G))) :
     (L.subgroupOf R).map (burnsideJ27_psi R k).toMonoidHom =
       (L.map (MulAut.conj (k : G)).toMonoidHom).subgroupOf R := by
@@ -1926,7 +1932,7 @@ theorem burnsideJ27_GT2 (R B T B1 B2 : Subgroup G) (hR : Nat.card R = 27)
     intro L L' hL hL' h
     have := Subgroup.subgroupOf_inj.mp h
     rwa [inf_eq_left.mpr hL, inf_eq_left.mpr hL'] at this
-  haveI : Finite ↥R := inferInstance
+  have : Finite ↥R := inferInstance
   refine burnsideJ27_GT1 (R := ↥R)
     (fun x y => Subtype.ext (hab x x.2 y y.2)) (fun x => Subtype.ext (hexp x x.2)) hR
     ψ.range h3 (B.subgroupOf R) hBc ψT.range hTRle hTRp (by rw [hTRcard]; exact hT16) hTBR
@@ -1983,7 +1989,7 @@ theorem burnsideJ27_perfectResidual_eq {X : Type*} [Group X] (P : Subgroup X) (h
 
 @[expose] def burnsideJ27_conjEquiv {G : Type} [Group G] {X₁ X₂ : Subgroup G} (l : G)
     (h : ∀ x : G, x ∈ X₂ ↔ l⁻¹ * x * l ∈ X₁) : ↥X₁ ≃* ↥X₂ where
-  toFun x := ⟨l * x * l⁻¹, (h _).mpr (by simpa [mul_assoc] using x.2)⟩
+  toFun x := ⟨l * x * l⁻¹, (h _).mpr (by simp [mul_assoc])⟩
   invFun y := ⟨l⁻¹ * y * l, (h _).mp y.2⟩
   left_inv x := Subtype.ext (by simp [mul_assoc])
   right_inv y := Subtype.ext (by simp [mul_assoc])
@@ -2043,8 +2049,8 @@ theorem burnsideJ27_isHatCover_of_equiv {X X' S : Type} [Group X] [Group X'] [Gr
     QuotientGroup.congr (Subgroup.center X) (Subgroup.center X') e hc
   refine ⟨⟨?_, ?_, ?_⟩, ?_, ⟨eQ.symm.trans eq⟩⟩
   · exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
-  · haveI := hsimp
-    haveI : Nontrivial (X' ⧸ Subgroup.center X') := eQ.symm.toEquiv.nontrivial
+  · have := hsimp
+    have : Nontrivial (X' ⧸ Subgroup.center X') := eQ.symm.toEquiv.nontrivial
     exact IsSimpleGroup.isSimpleGroup_of_surjective eQ.toMonoidHom eQ.surjective
   · refine ⟨eQ a, eQ b, fun hh => hab ?_⟩
     apply eQ.injective
@@ -2188,7 +2194,7 @@ theorem burnsideJ27_exists_T :
     ∃ T : Subgroup G, T ≤ M.GP ∧ IsPGroup 2 T ∧ 16 ∣ Nat.card T ∧
       ∀ t ∈ T, ∃ g : M.GP, (g : G) = t ∧ burnsideJ27_Phi M e g ∈ burnsideJ27_T0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T0Y : Subgroup ↥M.GP := burnsideJ27_T0.comap (burnsideJ27_Phi M e) with hT0Y
   have hc : Nat.card T0Y = 48 := by
     rw [hT0Y, burnsideJ27_card_comap M e _ burnsideJ27_T0_le_aut, burnsideJ27_card_T0]
@@ -2418,7 +2424,7 @@ theorem burnsideJ27_conj_to_B {f x : G} (hfz : IsConj M.z f) (hfx : f * x = x * 
     have : x = c * y * c⁻¹ := by rw [hy]; group
     rw [this, h]
     group)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨h, -, hh⟩ := M.exists_conj_bel hyH (orderOf_eq_prime hy3 hy1)
   refine ⟨h * c⁻¹, burnsideJ27_zpowers_eq_conj M ?_⟩
   have hw : (h * c⁻¹) * x * (h * c⁻¹)⁻¹ = h * y * h⁻¹ := by rw [hy]; group
@@ -2624,14 +2630,14 @@ theorem burnsideJ27_psl_center {w : ↥A6Models.psl29} (hw : ∀ v : ↥A6Models
 open CFSG.Quasithin.RuType CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts in
 theorem burnsideJ27_psl_simple : IsSimpleGroup ↥A6Models.psl29 := by
   obtain ⟨-, ψ, -, -⟩ := Unc25K1.A6Model.exists_pslEquiv
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : Nontrivial ↥A6Models.psl29 := ψ.toEquiv.nontrivial
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : Nontrivial ↥A6Models.psl29 := ψ.toEquiv.nontrivial
   exact IsSimpleGroup.isSimpleGroup_of_surjective ψ.symm.toMonoidHom ψ.symm.surjective
 
 open CFSG.Quasithin.RuType CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts in
 theorem burnsideJ27_psl_perfect : Group.IsPerfect ↥A6Models.psl29 := by
   obtain ⟨-, ψ, -, -⟩ := Unc25K1.A6Model.exists_pslEquiv
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
   exact Group.IsPerfect.ofSurjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective
 
@@ -2662,7 +2668,7 @@ theorem burnsideJ27_card_center_NXG : Nat.card (Subgroup.center ↥M.NXG) = 3 :=
 open CFSG.Quasithin.RuType CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts in
 theorem burnsideJ27_NXG_eq_commutator_mul (x : ↥M.NXG) :
     ∃ d ∈ commutator ↥M.NXG, ∃ b ∈ (burnsideJ27_pi M e).ker, x = d * b := by
-  haveI := burnsideJ27_psl_perfect
+  have := burnsideJ27_psl_perfect
   have h1 : (commutator ↥M.NXG).map (burnsideJ27_pi M e) = ⊤ := by
     rw [map_commutator_eq, MonoidHom.range_eq_top_of_surjective _ (burnsideJ27_pi_surj M e)]
     exact Group.IsPerfect.commutator_eq_top (G := ↥A6Models.psl29)
@@ -2712,7 +2718,7 @@ theorem burnsideJ27_NXG_perfect : commutator ↥M.NXG = ⊤ := by
   have hcB : (c : G) ∈ M.B := by
     rw [burnsideJ27_pi_ker, Subgroup.mem_subgroupOf] at hck
     exact hck
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hc3 : c ^ 3 = 1 := Subtype.ext (M.pow_three_of_mem_B hcB)
   have hord : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   have hker : (burnsideJ27_pi M e).ker = Subgroup.zpowers c :=
@@ -2734,8 +2740,8 @@ theorem burnsideJ27_isHatCover_NXG : IsHatCover ↥M.NXG (alternatingGroup (Fin 
     (QuotientGroup.quotientMulEquivOfEq (burnsideJ27_center_NXG M e)).trans
       (QuotientGroup.quotientKerEquivOfSurjective (burnsideJ27_pi M e) (burnsideJ27_pi_surj M e))
   obtain ⟨-, ψ, -, -⟩ := Unc25K1.A6Model.exists_pslEquiv
-  haveI := burnsideJ27_psl_simple
-  haveI : Nontrivial (↥M.NXG ⧸ Subgroup.center ↥M.NXG) := eQ.toEquiv.nontrivial
+  have := burnsideJ27_psl_simple
+  have : Nontrivial (↥M.NXG ⧸ Subgroup.center ↥M.NXG) := eQ.toEquiv.nontrivial
   refine ⟨⟨hperf, ?_, ?_⟩, burnsideJ27_card_center_NXG M e, ⟨eQ.trans ψ⟩⟩
   · exact IsSimpleGroup.isSimpleGroup_of_surjective eQ.symm.toMonoidHom eQ.symm.surjective
   · by_contra hcon
@@ -2800,7 +2806,7 @@ theorem burnsideJ27_noncentral {u : G} (hu : u ∈ burnsideJ27_R0 M e) (huB : u 
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set Rg : Subgroup G := burnsideJ27_R0 M e with hRg
   have hcard : Nat.card Rg = 3 ^ 3 := by
     rw [hRg, burnsideJ27_card_R0 M e]
@@ -2856,8 +2862,8 @@ theorem burnsideJ27_noncentral {u : G} (hu : u ∈ burnsideJ27_R0 M e) (huB : u 
       have : Nat.card (Rg ⧸ Z) = 1 := by omega
       rw [this]
       exact one_dvd _
-  haveI : IsCyclic (Rg ⧸ Z) := isCyclic_of_card_dvd_prime hqdvd
-  haveI := isMulCommutative_of_isCyclic_quotient_center_self Rg
+  have : IsCyclic (Rg ⧸ Z) := isCyclic_of_card_dvd_prime hqdvd
+  have := isMulCommutative_of_isCyclic_quotient_center_self Rg
   apply burnsideJ27_R0_not_comm M e
   intro x hx y hy
   have := (IsMulCommutative.is_comm (M := Rg)).comm ⟨x, hx⟩ ⟨y, hy⟩
@@ -2968,8 +2974,8 @@ theorem burnsideJ27_R0_class {r : G} (hr : r ∈ burnsideJ27_R0 M e) (hr1 : r �
         | exact Or.inl h1
         | exact absurd h2 hc1
         | (right; left; rw [h1, h2]; done)
-        | (right; right; rw [h1, h2, inv_inv]; done)
-        | (right; right; rw [h1, h2]; done)
+        | (right; right; rw [h1, h2, inv_inv])
+        | (right; right; rw [h1, h2])
   have hcomm : Commute c u := hcu
   have hcomm' : Commute c y0 := hcy
   have h2 : y0⁻¹ * u * y0 = c⁻¹ * u := by
@@ -2998,7 +3004,7 @@ theorem burnsideJ27_R0_class {r : G} (hr : r ∈ burnsideJ27_R0 M e) (hr1 : r �
 open CFSG.Quasithin.RuType CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts in
 theorem burnsideJ27_order3_conj_R0 {x : G} (hx : orderOf x = 3) :
     ∃ c : G, c * x * c⁻¹ ∈ burnsideJ27_R0 M e := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcard : Nat.card (burnsideJ27_R0 M e) = 3 ^ 3 := by
     rw [burnsideJ27_card_R0 M e]
     norm_num
@@ -3344,7 +3350,7 @@ theorem burnsideJ27_isSquare_units {F : Type} [Field F] (u : Fˣ) (h : IsSquare 
   obtain ⟨a, ha⟩ := h
   have ha0 : a ≠ 0 := by
     rintro rfl
-    exact u.ne_zero (by simpa using ha)
+    exact u.ne_zero (by simp at ha)
   exact ⟨Units.mk0 a ha0, Units.ext (by simpa using ha)⟩
 
 section Diag
@@ -3363,7 +3369,7 @@ theorem burnsideJ27_N7c {i : G} (hi2 : i ^ 2 = 1) (hi1 : i ≠ 1)
   have hGP : i ∈ M.GP := burnsideJ27_normN_le_GP M e hnorm
   set y : M.GP := ⟨i, hGP⟩ with hy
   have hnz : ¬ IsConj M.z i := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let _ : Fintype (GaloisField 3 2) := Fintype.ofFinite _
     have hc9 : Nat.card (GaloisField 3 2) = 9 := by
       rw [GaloisField.card 3 2 (by norm_num)]
@@ -3419,7 +3425,7 @@ theorem burnsideJ27_N7c {i : G} (hi2 : i ^ 2 = 1) (hi1 : i ≠ 1)
     have hv1 : v ≠ 1 := fun h1 => hvI (h1 ▸ Subgroup.one_mem _)
     have hvo : orderOf v = 2 := orderOf_eq_prime hv2 hv1
     have hcard := CFSG.GH74.GLS.C3.Layer1.Bk.card_fixedSubgroup_of_outer_nine hF hc9 eL hvD hvI hvo
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨x5, hx5⟩ := exists_prime_orderOf_dvd_card' (G := ↥(fixedSubgroup
       (↥M.NXG ⧸ Subgroup.center ↥M.NXG) v)) 5 (by rw [hcard]; norm_num)
     obtain ⟨n, hn⟩ := QuotientGroup.mk_surjective (x5 : ↥M.NXG ⧸ Subgroup.center ↥M.NXG)
@@ -3886,7 +3892,7 @@ theorem burnsideJ27_j28_card_inv_S {G : Type} [Group G] [Finite G] (M : RuDataM 
         then 8 else 0 := by
     intro B
     by_cases hB : B.trace = 0 ∧ ∃ s : ruS M.L, M.χ s = Multiplicative.ofAdd B ∧ (s : G) ^ 2 = 1
-    · rw [if_pos hB]
+    · rw [ite_eq_left hB]
       obtain ⟨-, s0, hs0, hs02⟩ := hB
       rw [← M.toRuData.card_V]
       have hmemV : ∀ s : {s : P // f s = B}, (s0 : G)⁻¹ * (s.1.1 : G) ∈ ruV M.L := by
@@ -3919,7 +3925,7 @@ theorem burnsideJ27_j28_card_inv_S {G : Type} [Group G] [Finite G] (M : RuDataM 
       · apply Subtype.ext
         show (s0 : G)⁻¹ * ((s0 : G) * (v : G)) = (v : G)
         group
-    · rw [if_neg hB]
+    · rw [ite_eq_right hB]
       have : IsEmpty {s : P // f s = B} := ⟨fun s => hB ⟨by
         have h := M.χ_trace s.1.1
         rwa [show Multiplicative.toAdd (M.χ s.1.1) = B from s.2] at h, s.1.1, hχB B s, s.1.2⟩⟩
@@ -4210,7 +4216,7 @@ theorem burnsideJ27_j28_card_coset_inv {G : Type} [Group G] [Finite G] (M : RuDa
       if (A.trace = 0 ∧ stAct (M.θ x0L) A = A) then 4 else 0 := by
     intro A
     by_cases hA : A.trace = 0 ∧ stAct (M.θ x0L) A = A
-    · rw [if_pos hA]
+    · rw [ite_eq_left hA]
       obtain ⟨htr, hfixA⟩ := hA
       obtain ⟨B, hBtr, hB⟩ := D2 A htr hfixA
       have hBtr' : IsTraceZero B := hBtr
@@ -4265,7 +4271,7 @@ theorem burnsideJ27_j28_card_coset_inv {G : Type} [Group G] [Finite G] (M : RuDa
         apply Subtype.ext
         show (sA : G)⁻¹ * ((sA : G) * (v.1 : G)) = (v.1 : G)
         group
-    · rw [if_neg hA]
+    · rw [ite_eq_right hA]
       have : IsEmpty {s : P // f s = A} := ⟨fun s => hA ⟨by
         have h := M.χ_trace s.1.1
         rwa [show Multiplicative.toAdd (M.χ s.1.1) = A from s.2] at h, by
@@ -4364,7 +4370,7 @@ theorem burnsideJ27_j28_card_inv_R1_L {G : Type} [Group G] [Finite G] (M : RuDat
         else 0 := by
     intro r
     by_cases hr : r ∈ SL3.R0
-    · rw [if_pos hr]
+    · rw [ite_eq_left hr]
       have hcset : Nat.card {x : P // f x = r} =
           Nat.card {x : G // ∃ hx : x ∈ M.L, M.θ ⟨x, hx⟩ = r ∧ x ^ 2 = 1} := by
         refine Nat.card_congr
@@ -4375,7 +4381,7 @@ theorem burnsideJ27_j28_card_inv_R1_L {G : Type} [Group G] [Finite G] (M : RuDat
             right_inv := fun z => rfl }
       rw [hcset]
       by_cases hr1' : r = 1
-      · rw [if_pos hr1']
+      · rw [ite_eq_left hr1']
         subst hr1'
         have hθS : ∀ s : ruS M.L, M.θ ⟨(s : G), M.toRuData.S_le_L s.2⟩ = 1 := by
           intro s
@@ -4393,9 +4399,9 @@ theorem burnsideJ27_j28_card_inv_R1_L {G : Type} [Group G] [Finite G] (M : RuDat
           exact z.2.choose_spec.1
         rw [M.θ_ker, Subgroup.mem_subgroupOf] at hk
         exact hk
-      · rw [if_neg hr1']
+      · rw [ite_eq_right hr1']
         exact burnsideJ27_j28_card_Cset M hx1L hx12 hr0 hr1 hr hr1'
-    · rw [if_neg hr]
+    · rw [ite_eq_right hr]
       have : IsEmpty {x : P // f x = r} := ⟨fun x => hr (x.2 ▸ hfR0 x.1)⟩
       exact Nat.card_of_isEmpty
   rw [hsum]
@@ -4409,10 +4415,10 @@ theorem burnsideJ27_j28_card_inv_R1_L {G : Type} [Group G] [Finite G] (M : RuDat
     have := SL3.card_R0
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype] at this
     exact this
-  rw [← Finset.add_sum_erase F _ h1F, if_pos rfl]
+  rw [← Finset.add_sum_erase F _ h1F, ite_eq_left rfl]
   have h64 : ∑ x ∈ F.erase 1, (if x = 1 then Nat.card {s : ruS M.L // (s : G) ^ 2 = 1} else 64) =
       ∑ x ∈ F.erase 1, 64 :=
-    Finset.sum_congr rfl fun x hx => if_neg (Finset.ne_of_mem_erase hx)
+    Finset.sum_congr rfl fun x hx => ite_eq_right (Finset.ne_of_mem_erase hx)
   rw [h64, Finset.sum_const, Finset.card_erase_of_mem h1F, hcardF, smul_eq_mul]
 
 end BurnsideJ28Cnt
@@ -4583,14 +4589,14 @@ theorem burnsideJ27_j28_card_inv_R1_H {G : Type} [Group G] [Finite G] (M : RuDat
         Nat.card {x : G // ∃ hx : x ∈ ruH M.T, M.φ ⟨x, hx⟩ = A ∧ x ^ 2 = 1} else 0 := by
     intro A
     by_cases hA : A ∈ Sigma.U0
-    · rw [if_pos hA]
+    · rw [ite_eq_left hA]
       refine Nat.card_congr
         { toFun := fun x => ⟨x.1.1, hR1H x.1.2.1, x.2, x.1.2.2⟩
           invFun := fun z => ⟨⟨z.1, burnsideJ27_j28_mem_R1_of_φ M z.2.choose
               (by rw [z.2.choose_spec.1]; exact hA), z.2.choose_spec.2⟩, z.2.choose_spec.1⟩
           left_inv := fun x => rfl
           right_inv := fun z => rfl }
-    · rw [if_neg hA]
+    · rw [ite_eq_right hA]
       have : IsEmpty {x : P // f x = A} :=
         ⟨fun x => hA (x.2 ▸ burnsideJ27_j28_φ_R1 M x.1.2.1)⟩
       exact Nat.card_of_isEmpty
@@ -4997,7 +5003,7 @@ theorem burnsideJ27_ncard_code (L : List (List ℕ)) (hL : ∀ c ∈ L, c ∈ Co
     · intro hc
       have hcL : c ∈ L := by simpa using hc
       obtain ⟨σ, -, hσc⟩ := AutA6.exists_of_mem_autL (hL c hcL)
-      exact ⟨σ, by rw [Set.mem_setOf_eq, hσc]; exact hcL, hσc⟩
+      exact ⟨σ, by rw [Set.mem_ofPred_eq, hσc]; exact hcL, hσc⟩
   rw [← Set.ncard_image_of_injective _ code_injective, himg, Set.ncard_coe_finset,
     List.toFinset_card_of_nodup hn]
 
@@ -5599,7 +5605,7 @@ theorem burnsideJ27_part8 {G : Type} [Group G] [Finite G] (M : RuDataM G) {s : G
   · have hset : (conjClass M.z ∩ ((M.K : Set G) \ (ruQ M.T : Set G))) =
         {x : G | IsConj M.z x ∧ x ∈ M.K ∧ x ∉ ruQ M.T} := by
       ext x
-      simp only [Set.mem_inter_iff, Set.mem_diff, SetLike.mem_coe, Set.mem_setOf_eq,
+      simp only [Set.mem_inter_iff, Set.mem_sdiff, SetLike.mem_coe, Set.mem_ofPred_eq,
         burnsideJ27_mem_conjClass_iff]
     rw [hset, ← Nat.card_coe_set_eq]
     exact hcard

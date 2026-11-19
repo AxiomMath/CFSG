@@ -63,6 +63,7 @@ private theorem exists_odd_torus_generator {z w y : V} (hLz : LocalFacts H Γ z)
     le_inf_sup_of_le_sup hz hy B hBsoc hBz hsup
   exact hLz.torusGen w y hz hy hwy (B ⊓ socTorus H Γ z w y) inf_le_right hgen
 
+omit [GraphAction H Γ] in
 private theorem odd_relIndex_of_odd_card {z : V} {K : Subgroup H} (hK : Odd (Nat.card K)) :
     Odd ((fixingSubgroup H (Γ.neighborSet z)).relIndex K) :=
   hK.of_dvd_nat (Subgroup.relIndex_dvd_card _ _)

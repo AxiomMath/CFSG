@@ -84,6 +84,7 @@ theorem A49_K_equiv_A5 (hA : A8Model L)
     e5.surjective.comp (QuotientGroup.mk'_surjective _)
   exact ⟨MulEquiv.ofBijective φ ⟨hinj, hsurj⟩⟩
 
+omit [Finite G] in
 theorem A49_K_inv_conj (e : ↥K ≃* alternatingGroup (Fin 5)) {x y : G} (hx : x ∈ K) (hy : y ∈ K)
     (hx2 : x * x = 1) (hy2 : y * y = 1) (hx1 : x ≠ 1) (hy1 : y ≠ 1) :
     ∃ g ∈ K, g * x * g⁻¹ = y := by

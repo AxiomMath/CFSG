@@ -20,8 +20,8 @@ theorem exists_ctx23L_of_mem_calLLow (D : Data G) (Ch : Choice2011 G) (h1930 : H
     (hTI : CFSG.CGT.Timmesfeld75.IsTI D.U) {L₀ : Subgroup G} (hL₀ : L₀ ∈ calLLow D.T D.M) :
     ∃ c : Ctx23L D Ch, c.L0 = L₀ ∧ c.B = c.B0 := by
   classical
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
-  haveI : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
   obtain ⟨n, hn⟩ := uc22main1_nParam D h20_10 h1930 hL₀
   obtain ⟨B0, hch, hB0, hpi, hα, hBM⟩ := hCh L₀ hL₀ n hn
   obtain ⟨L, hL0L, hLmax⟩ := Finite.exists_le_maximal

@@ -10,6 +10,7 @@ open CFSG.QuasithinUnique.Setup.Family
 
 variable {M : Type} [Group M] [Finite M] {G L : Subgroup M}
 
+omit [Finite M] in
 theorem mem_center_of_mem_ker_actionOnCQ (hLG : L ≤ G) (hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L)
     (hcent : ∀ g ∈ G, (∀ l ∈ L, g * l = l * g) → g ∈ L) (hperf : Group.IsPerfect ↥L)
     (g : ↥G)
@@ -53,6 +54,7 @@ theorem card_le_center_mul_aut (hLG : L ≤ G)
         Nat.mul_le_mul h2 h1
     _ = _ := mul_comm _ _
 
+omit [Finite M] in
 theorem actionOnCQ_injective_of_center_trivial (hLG : L ≤ G)
     (hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L)
     (hcent : ∀ g ∈ G, (∀ l ∈ L, g * l = l * g) → g ∈ L) (hperf : Group.IsPerfect ↥L)

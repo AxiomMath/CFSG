@@ -24,10 +24,10 @@ theorem row9_of_data {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y] (φ 
       Nat.card {c : X // (∃ n : ℕ, c ^ (2 ^ n) = 1) ∧ c * zt = zt * c ∧ c * gt = gt * c} ≤ m)
     (hc : Nat.card Y = 2 ^ k * o) (ho : Odd o) (hkm : 8 * m < 2 ^ k) :
     ∃ k o m : ℕ, Nat.card Y = 2 ^ k * o ∧ Odd o ∧ 8 * m < 2 ^ k ∧
-      ∀ z g : Y, z ^ 2 = 1 → z ≠ 1 → orderOf g = 7 → z * g = g * z →
-        ∀ Q : Subgroup Y, (∀ q ∈ Q, q * z = z * q ∧ q * g = g * q) → IsPGroup 2 Q →
+      ∀ _z _g : Y, _z ^ 2 = 1 → _z ≠ 1 → orderOf _g = 7 → _z * _g = _g * _z →
+        ∀ Q : Subgroup Y, (∀ q ∈ Q, q * _z = _z * q ∧ q * _g = _g * q) → IsPGroup 2 Q →
           Nat.card ↥Q ≤ m :=
-  ⟨k, o, m, hc, ho, hkm, fun z g hz2 hz1 hg hzg Q hQ hQp =>
+  ⟨k, o, m, hc, ho, hkm, fun _z _g hz2 hz1 hg hzg Q hQ hQp =>
     hφ.two_subgroup_bound hm hz2 hz1 hg hzg Q hQ hQp⟩
 
 theorem row9_model_SL {Y : Type} [Group Y] [Finite Y] (h : IsSLEps3 true 7 Y) :

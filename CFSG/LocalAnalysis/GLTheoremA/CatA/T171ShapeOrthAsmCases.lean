@@ -26,12 +26,12 @@ abbrev OrthPairedBlock {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGro
   ∀ {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (x y : ↥(orthDerived Q))
     (_hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
     (_hyc : (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V))
-    (hyp : y ^ p = 1) {h : K[X]}
-    (hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (hne1 : h ≠ X - 1)
-    (hne : h ≠ reciprocalPolynomial h)
-    (hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
+    (_hyp : y ^ p = 1) {h : K[X]}
+    (_hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (_hne1 : h ≠ X - 1)
+    (_hne : h ≠ reciprocalPolynomial h)
+    (_hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
     (J : Subgroup (ProjOrthDerived Q))
-    (hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
+    (_hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
     (hN : piOrth Q y ∈ Subgroup.normalizer (J : Set (ProjOrthDerived Q))),
     (catalogIs (PSimple p J) (onLie isLinearCharTwoIdx) ∧
         MI.indAut p J (piOrth Q y) hN ∈ innAutDerived (PSimple p J)) ∨
@@ -43,12 +43,12 @@ abbrev OrthSelfDualBlock {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommG
   ∀ {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (x y : ↥(orthDerived Q))
     (_hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
     (_hyc : (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V))
-    (hyp : y ^ p = 1) {h : K[X]}
-    (hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (hne1 : h ≠ X - 1)
-    (hself : h = reciprocalPolynomial h)
-    (hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
+    (_hyp : y ^ p = 1) {h : K[X]}
+    (_hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (_hne1 : h ≠ X - 1)
+    (_hself : h = reciprocalPolynomial h)
+    (_hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
     (J : Subgroup (ProjOrthDerived Q))
-    (hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
+    (_hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
     (hN : piOrth Q y ∈ Subgroup.normalizer (J : Set (ProjOrthDerived Q))),
     (catalogIs (PSimple p J) (onLie isUnitaryCharTwoIdx) ∧
         MI.indAut p J (piOrth Q y) hN ∈ innAutDerived (PSimple p J)) ∨
@@ -60,23 +60,23 @@ abbrev OrthFixedBlock {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGrou
   ∀ {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (x y : ↥(orthDerived Q))
     (_hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
     (_hyc : (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V))
-    (hyp : y ^ p = 1) (F : Subgroup (V ≃ₗ[K] V))
-    (hFq : CFSG.IsQuasisimple ↥F) (hFle : F ≤ supportedFixedDerived Q (x : V ≃ₗ[K] V))
-    (hFn : (F.subgroupOf (supportedFixedDerived Q (x : V ≃ₗ[K] V))).Normal)
+    (_hyp : y ^ p = 1) (F : Subgroup (V ≃ₗ[K] V))
+    (_hFq : CFSG.IsQuasisimple ↥F) (_hFle : F ≤ supportedFixedDerived Q (x : V ≃ₗ[K] V))
+    (_hFn : (F.subgroupOf (supportedFixedDerived Q (x : V ≃ₗ[K] V))).Normal)
     (J : Subgroup (ProjOrthDerived Q))
-    (hJeq : J = (F.subgroupOf (orthDerived Q)).map (piOrth Q))
+    (_hJeq : J = (F.subgroupOf (orthDerived Q)).map (piOrth Q))
     (hN : piOrth Q y ∈ Subgroup.normalizer (J : Set (ProjOrthDerived Q))),
     MI.indAut p J (piOrth Q y) hN ∈
       CFSG.ComponentClassification.OuterAutomorphisms.inner (PSimple p J)
 
 abbrev OrthComponentBlockAnalysis {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V) : Prop :=
-  ∀ {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (x y : ↥(orthDerived Q))
-    (hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
-    (hyc : (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V))
-    (hyp : y ^ p = 1) (hx1 : x ≠ 1)
+  ∀ {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (x y : ↥(orthDerived Q))
+    (_hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
+    (_hyc : (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V))
+    (_hyp : y ^ p = 1) (_hx1 : x ≠ 1)
     (J : Subgroup (ProjOrthDerived Q))
-    (hcomp : CFSG.Assembly.IsComponentOf J (CFSG.RankThree.PartOne.KCOrthogonal.centralizerImage Q
+    (_hcomp : CFSG.Assembly.IsComponentOf J (CFSG.RankThree.PartOne.KCOrthogonal.centralizerImage Q
       (x : V ≃ₗ[K] V)))
     (hN : piOrth Q y ∈ Subgroup.normalizer (J : Set (ProjOrthDerived Q))),
     (catalogIs (PSimple p J) (onLie isLinearCharTwoIdx) ∧
@@ -123,7 +123,7 @@ theorem orthComponentBlockAnalysis_of_cases {K V : Type} [Field K] [Finite K] [C
       rw [hsigma]
       exact map_centralizerImage_orthProjEquiv hQne x] at h
     exact (CFSG.Assembly.isComponentOf_iff_open).2 h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxord : orderOf x = p := by
     refine orderOf_eq_prime ?_ hx1
     apply Subtype.ext

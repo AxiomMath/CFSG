@@ -66,7 +66,7 @@ theorem exists_odd_complement {H U : Subgroup G} (hU : IsSylow2In U H) (hUc : Is
         rw [← hmk]
         exact orderOf_map_dvd _ _
       rw [Subgroup.orderOf_mk] at h1
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨b, hb⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨b, hb⟩
       have h2 : orderOf ((QuotientGroup.mk' N) b) ∣ 2 ^ k := by
         rw [← hk, Subgroup.orderOf_mk]
         exact orderOf_map_dvd _ _

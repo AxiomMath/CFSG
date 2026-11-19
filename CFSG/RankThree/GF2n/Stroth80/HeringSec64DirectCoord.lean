@@ -42,6 +42,7 @@ theorem Env.exists_conj_ne (I : Inputs) (e : Env hc n t m X) :
   have hm := e.hm
   omega
 
+omit [Finite G] in
 theorem mem_conjSubgroup_of_mem {T : Subgroup G} {x y : G} (hy : y ∈ T) :
     x * y * x⁻¹ ∈ conjSubgroup x T :=
   mem_conjSubgroup.mpr (by rw [show x⁻¹ * (x * y * x⁻¹) * x = y by group]; exact hy)
@@ -81,7 +82,8 @@ theorem Env.comm_conj_CN_mem_V' (I : Inputs) (e : Env hc n t m X) {g : G} (hg : 
   rw [e1]
   exact mem_conjSubgroup_of_mem h1
 
-theorem Env.comm_conj_CN_mem_Z (e : Env hc n t m X) {g : G} (hg : g ∈ M) {a : G}
+omit [Finite G] in
+theorem Env.comm_conj_CN_mem_Z (_e : Env hc n t m X) {g : G} (hg : g ∈ M) {a : G}
     (ha : a ∈ hc.CN t) {y : G} (hy : y ∈ conjSubgroup g (Vt M (LB M Q B) B Z t)) :
     ⁅g * a * g⁻¹, y⁆ ∈ Z := by
   have hv : g⁻¹ * y * g ∈ Vt M (LB M Q B) B Z t := mem_conjSubgroup.mp hy
@@ -104,6 +106,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {u : ι → K}
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.inf_conj_V_le_Z (I : Inputs) (e : Env hc n t m X)
     (h63b : StronglyClosedMod M (hc.CN t) (LB M Q B)) (hg : OmegaGeom Q' m)
     (hmod : OmegaModel hc t Q' E φ ψ u)
@@ -177,6 +180,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {u : ι → K}
 
+omit [CharP K 2] in
 theorem OmegaModel.exists_chart (I : Inputs) (e : Env hc n t m X)
     (h63b : StronglyClosedMod M (hc.CN t) (LB M Q B)) (hg : OmegaGeom Q' m)
     (hK : Nat.card K = Nat.card Z) (hX : AddCommutantScalar X')
@@ -298,7 +302,7 @@ theorem OmegaModel.exists_chart (I : Inputs) (e : Env hc n t m X)
   let a : G → Matrix ι ι K := fun x =>
     if hx : x ∈ Rt M (LB M Q B) t then ((φ ⟨x, hx⟩ : GL ι K) : Matrix ι ι K) else 1
   have ha : ∀ (x : G) (hx : x ∈ Rt M (LB M Q B) t),
-      a x = ((φ ⟨x, hx⟩ : GL ι K) : Matrix ι ι K) := fun x hx => dif_pos hx
+      a x = ((φ ⟨x, hx⟩ : GL ι K) : Matrix ι ι K) := fun x hx => dite_eq_left hx
   let Φ : G → (ι → K) × (ι → K) := fun x => (cv ⁅x, c⁆, cv x)
   have hzero : ∀ x ∈ Q, Φ x = 0 ↔ x ∈ Z := by
     intro x hx

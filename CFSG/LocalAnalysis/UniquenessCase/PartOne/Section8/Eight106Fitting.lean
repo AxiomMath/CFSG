@@ -56,14 +56,16 @@ private theorem R_solvable {B : Subgroup G} :
     Group.IsSolvable ↥(CFSG.fittingSubgroupOf (centralizer (B : Set G))) := by
   have hnil : Group.IsNilpotent (CFSG.fittingSubgroupOf (centralizer (B : Set G))) :=
     fittingSubgroupOf_isNilpotent (centralizer (B : Set G))
-  haveI : Group.IsNilpotent (CFSG.fittingSubgroupOf (centralizer (B : Set G))) := hnil
+  have : Group.IsNilpotent (CFSG.fittingSubgroupOf (centralizer (B : Set G))) := hnil
   exact IsNilpotent.to_isSolvable
 
+omit [Finite G] in
 private theorem K_le_centralizer {L B : Subgroup G} :
     F08.KOf8103 L B ≤ centralizer (B : Set G) := by
   unfold F08.KOf8103 F08.DerInf8
   exact (Subgroup.map_subtype_le _).trans inf_le_right
 
+omit [Finite G] in
 private theorem centralizer_ne_top {B : Subgroup G} (hB1 : B ≠ ⊥)
     (hG : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b * a) :
     centralizer (B : Set G) ≠ ⊤ := by
@@ -93,6 +95,7 @@ private theorem K_isKGroup {D : Data G} {L B : Subgroup G} (hB1 : B ≠ ⊥) :
     (CFSG.ComponentClassification.CatalogueKProper.open_isKProper_iff.1 D.standing.kProper)
     (F08.KOf8103 L B) hKne
 
+omit [Finite G] in
 private theorem K_le_normalizer_R {L B : Subgroup G} :
     F08.KOf8103 L B ≤
       normalizer (CFSG.fittingSubgroupOf (centralizer (B : Set G)) : Set G) := by
@@ -108,6 +111,7 @@ private theorem K_le_normalizer_R {L B : Subgroup G} :
     infer_instance
   exact hKX.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hRX).mp hRsub)
 
+omit [Finite G] in
 private theorem X_le_normalizer_R {B : Subgroup G} :
     centralizer (B : Set G) ≤
       normalizer (CFSG.fittingSubgroupOf (centralizer (B : Set G)) : Set G) := by
@@ -122,6 +126,7 @@ private theorem X_le_normalizer_R {B : Subgroup G} :
     infer_instance
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hRX).mp hRsub
 
+omit [Finite G] in
 private theorem normalizer_inf_le_normalizer_K {L B : Subgroup G} :
     normalizer ((L ⊓ centralizer (B : Set G) : Subgroup G) : Set G) ≤
       normalizer (F08.KOf8103 L B : Set G) := by
@@ -132,16 +137,16 @@ private theorem normalizer_inf_le_normalizer_K {L B : Subgroup G} :
 private theorem eq_bot_of_odd_of_isL2 {K N : Subgroup G} {m : ℕ}
     (hL2 : IsL2 (Bar2 K) m) (hm : 1 ≤ m) (hNK : N ≤ K)
     (hKN : K ≤ normalizer (N : Set G)) (hodd : Odd (Nat.card N)) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmodel : StatedClassicalModel (Bar2 K) .PSL 2 2 m := hL2.statedClassicalModel (by decide)
-  haveI : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
+  have : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   let π : K →* Bar2 K := QuotientGroup.mk' (CFSG.pCore 2 ↥K)
   have hker : π.ker = CFSG.pCore 2 ↥K := QuotientGroup.ker_mk' _
   have hNnormal : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
   have hmapnormal : ((N.subgroupOf K).map π).Normal :=
     hNnormal.map π (QuotientGroup.mk'_surjective _)
-  haveI := hmapnormal
+  have := hmapnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf K).map π) with h | h
   · have hle : N.subgroupOf K ≤ CFSG.pCore 2 ↥K := by
       rw [← hker]
@@ -182,6 +187,7 @@ private theorem R_inf_K_eq_bot {L B : Subgroup G} {m : ℕ}
   · exact CFSG.Walter.Transitivity.le_normalizer_inf hRK Subgroup.le_normalizer
   · exact Odd.of_dvd_nat hodd (Subgroup.card_dvd_of_le inf_le_left)
 
+omit [Finite G] in
 private theorem B_le_R {B : Subgroup G} (hBcard : Nat.card B = 3) :
     B ≤ CFSG.fittingSubgroupOf (centralizer (B : Set G)) := by
   let X := centralizer (B : Set G)
@@ -189,7 +195,7 @@ private theorem B_le_R {B : Subgroup G} (hBcard : Nat.card B = 3) :
     intro b hb
     rw [Subgroup.mem_centralizer_iff]
     intro c hc
-    haveI : IsCyclic B := isCyclic_of_prime_card (p := 3) hBcard
+    have : IsCyclic B := isCyclic_of_prime_card (p := 3) hBcard
     have hcomm := (isCyclic_of_prime_card (p := 3) hBcard).isMulCommutative.is_comm.comm
       (⟨b, hb⟩ : B) (⟨c, hc⟩ : B)
     exact (congrArg Subtype.val hcomm).symm
@@ -209,7 +215,7 @@ private theorem exists_D {hK2 : KU45Syl3} {D : Data G} {L P B : Subgroup G} {p n
     (hH : F08.Hyp8102 D L P p n) (hB : F08.NotationB8103 L P n B)
     (h8103 : R8103At D L P p n) :
     ∃ D : Subgroup G, D ≤ P ⊓ F08.KOf8103 L B ∧ Nat.card D = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K := F08.KOf8103 L B
   have hEven : Even n := h8103.1
   have hX : IsU45 (Bar2 L) n := isU45_of_hyp8102 hH hEven
@@ -282,7 +288,7 @@ private theorem B_sup_D_eq_E {B D E R K : Subgroup G}
   exact hSE
 
 private theorem mem_centralizer_A_of_commute_D {D : Data G} {L P B : Subgroup G} {p n : ℕ}
-    (hH : F08.Hyp8102 D L P p n) (hB : F08.NotationB8103 L P n B)
+    (_hH : F08.Hyp8102 D L P p n) (_hB : F08.NotationB8103 L P n B)
     {R E Dsub A : Subgroup G} (hRX : R ≤ centralizer (B : Set G))
     (hEall : ∀ y ∈ P, y ^ 3 = 1 → y ∈ E)
     (hBDE : B ⊔ Dsub = E) (hA : F08.NotationA8103 L P p n A)
@@ -343,6 +349,7 @@ private theorem mem_normalizer_K_of_centralizes_A {D : Data G} {L P B : Subgroup
   rw [hKdef]
   exact normalizer_inf_le_normalizer_K (L := L) (B := B) hxNLX
 
+omit [Finite G] in
 private theorem mem_centralizer_K_of_mem_normalizer_K {K R : Subgroup G}
     (hKleR : K ≤ normalizer (R : Set G)) (hRK : R ⊓ K = ⊥)
     {x : G} (hxR : x ∈ R) (hxNK : x ∈ normalizer (K : Set G)) :
@@ -387,7 +394,7 @@ private theorem exists_conj_mem_P_of_pow_three_eq_one {B P : Subgroup G}
     (hPX : IsSylowOf 3 P (centralizer (B : Set G)))
     {x : G} (hxX : x ∈ centralizer (B : Set G)) (hx3 : x ^ 3 = 1) :
     ∃ k ∈ centralizer (B : Set G), k⁻¹ * x * k ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X := centralizer (B : Set G)
   let x' : X := ⟨x, hxX⟩
   have hx'3 : x' ^ 3 = 1 := by ext; simpa using hx3
@@ -453,11 +460,11 @@ private theorem R_inf_E_eq_B {B Dsub R E K : Subgroup G}
   rw [hBcard, hk, hk2] at hcard_lt
   norm_num at hcard_lt
 
-private theorem mem_B_of_pow_three_eq_one {B Dsub R E K P : Subgroup G}
+private theorem mem_B_of_pow_three_eq_one {B _Dsub R E K P : Subgroup G}
     (hPX : IsSylowOf 3 P (centralizer (B : Set G)))
     (hRX : R ≤ centralizer (B : Set G))
     (hXleR : centralizer (B : Set G) ≤ normalizer (R : Set G))
-    (hRK : R ⊓ K = ⊥)
+    (_hRK : R ⊓ K = ⊥)
     (hEall : ∀ y ∈ P, y ^ 3 = 1 → y ∈ E)
     (hRE : (R ⊓ E : Subgroup G) = B)
     {x : G} (hxR : x ∈ R) (hx3 : x ^ 3 = 1) :
@@ -488,6 +495,7 @@ private theorem mem_B_of_pow_three_eq_one {B Dsub R E K P : Subgroup G}
     exact hyB
   exact hxB
 
+omit [Finite G] in
 private theorem D_le_E_and_B_le_E {B Dsub E P : Subgroup G}
     (hEall : ∀ y ∈ P, y ^ 3 = 1 → y ∈ E)
     (hBcard : Nat.card B = 3) (hDcard : Nat.card Dsub = 3)
@@ -501,7 +509,7 @@ private theorem D_le_E_and_B_le_E {B Dsub E P : Subgroup G}
     exact congrArg Subtype.val h
   · intro b hb
     refine hEall b (hBP hb) ?_
-    haveI : IsCyclic B := isCyclic_of_prime_card (p := 3) hBcard
+    have : IsCyclic B := isCyclic_of_prime_card (p := 3) hBcard
     have h := pow_card_eq_one' (x := (⟨b, hb⟩ : B))
     rw [hBcard] at h
     exact congrArg Subtype.val h
@@ -550,7 +558,7 @@ private theorem exists_le_centralizer_inputs {D : Data G} {L P B : Subgroup G} {
       (K := K) (R := R) (E := E) (Dsub := Dsub) (A := A)
       (by rfl) (Subgroup.map_subtype_le _) K_le_normalizer_R hRKbot hEall hBDE hA hxR hxD
   · intro x hxR hx3
-    exact mem_B_of_pow_three_eq_one (B := B) (Dsub := Dsub) (R := R) (E := E) (K := K) (P := P)
+    exact mem_B_of_pow_three_eq_one (B := B) (_Dsub := Dsub) (R := R) (E := E) (K := K) (P := P)
       hPX (Subgroup.map_subtype_le _) (X_le_normalizer_R (B := B)) hRKbot hEall hRE hxR hx3
 
 theorem fittingSubgroupOf_le_centralizer_at (hK2 : KU45Syl3) (hK462 : UCK.K462) {D : Data G}
@@ -566,13 +574,13 @@ theorem fittingSubgroupOf_le_centralizer_at (hK2 : KU45Syl3) (hK462 : UCK.K462) 
     have h1 : Nat.card B = 1 := by rw [h, Subgroup.card_bot]
     have h3 : Nat.card B = 3 := hB.1
     omega
-  haveI : Group.IsPerfect ↥K := K_isPerfect (L := L) (B := B)
+  have : Group.IsPerfect ↥K := K_isPerfect (L := L) (B := B)
   have hKperf : ⁅K, K⁆ = K :=
     CFSG.GroupTheory.commutator_eq_self_of_isPerfect_subgroup (P := K)
   have hKk : CFSG.Open.IsKGroup ↥K := K_isKGroup (D := D) hB1
   have hL2 : IsL2 (Bar2 K) (2 * n) := hB.2.2
   have hRK : K ≤ normalizer (R : Set G) := K_le_normalizer_R
-  have hRs : IsSolvable ↥R := R_solvable (B := B)
+  have hRs : Group.IsSolvable ↥R := R_solvable (B := B)
   have hRodd : Odd (Nat.card R) := R_odd (B := B) hX2
   have hBcard : Nat.card B = 3 := hB.1
   have hn2 : 2 ≤ n := two_le_n hSg h8103 hH

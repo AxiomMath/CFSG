@@ -543,7 +543,7 @@ theorem eq_of_add_mul_eq {K : Type*} [Field K] (h2 : (2 : K) ≠ 0) {i : K} (hi 
   exact mul_left_cancel₀ hi0 (mul_left_cancel₀ h2 e2)
 
 theorem isCyclic_SO2 [Finite F] (h2 : (2 : F) ≠ 0) : IsCyclic ↥(SO2 F) := by
-  obtain ⟨u, hu⟩ := IsAlgClosed.exists_eq_mul_self (-1 : AlgebraicClosure F)
+  obtain ⟨u, hu⟩ := IsAlgClosed.isSquare (-1 : AlgebraicClosure F)
   have hι : Function.Injective (algebraMap F (AlgebraicClosure F)) :=
     (algebraMap F (AlgebraicClosure F)).injective
   have h2K : (2 : AlgebraicClosure F) ≠ 0 := by

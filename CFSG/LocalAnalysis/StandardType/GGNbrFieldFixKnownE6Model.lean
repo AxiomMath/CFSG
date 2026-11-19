@@ -75,7 +75,7 @@ theorem e6FixOn_isRoot
   subst hH₀
   have hq : CFSG.IsQuasisimple ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) :=
     CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 ↥(fixSubfield σ)
-  haveI : IsSimpleGroup (LargeEvenCenterQuot (adjointGroup Tag.E6 ↥(fixSubfield σ))) :=
+  have : IsSimpleGroup (LargeEvenCenterQuot (adjointGroup Tag.E6 ↥(fixSubfield σ))) :=
     hq.2.1
   refine ⟨hq.2.1, hq.2.2, ?_⟩
   refine ggFixGeom_of_transport hq.2.2 m m₀ hs (E6FieldFix.fixE6Equiv σ hσpow hcop) ?_ ?_

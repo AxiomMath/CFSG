@@ -10,17 +10,20 @@ namespace CFSG.HardMathSupport.GuralnickMalle
 
 variable {K E : Type*} [Field K] [CharP K 2] [AddCommGroup E] [Module K E]
 
+omit [CharP K 2] in
 theorem polarBilin_self_of_eq_zero (Qf : QuadraticForm K E) (a : E) (ha : Qf a = 0) :
     QuadraticMap.polarBilin Qf a a = 0 := by
   rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar_self, ha]
   simp
 
+omit [CharP K 2] in
 theorem siegelLin_apply_self_left (Qf : QuadraticForm K E) (a b : E)
     (ha : Qf a = 0) (hab : QuadraticMap.polarBilin Qf a b = 0) (c : K) :
     siegelLin Qf a b c a = a := by
   rw [siegelLin_apply, hab, polarBilin_self_of_eq_zero Qf a ha]
   simp
 
+omit [CharP K 2] in
 theorem siegelLin_apply_self_right (Qf : QuadraticForm K E) (a b : E)
     (hb : Qf b = 0) (hab : QuadraticMap.polarBilin Qf a b = 0) (c : K) :
     siegelLin Qf a b c b = b := by
@@ -29,6 +32,7 @@ theorem siegelLin_apply_self_right (Qf : QuadraticForm K E) (a b : E)
   rw [siegelLin_apply, hba, polarBilin_self_of_eq_zero Qf b hb]
   simp
 
+omit [CharP K 2] in
 theorem siegelLin_mul (Qf : QuadraticForm K E) (a b : E)
     (ha : Qf a = 0) (hb : Qf b = 0) (hab : QuadraticMap.polarBilin Qf a b = 0)
     (c c' : K) :
@@ -55,10 +59,9 @@ theorem siegelLin_isometry (Qf : QuadraticForm K E) (a b : E)
   set v : K := QuadraticMap.polarBilin Qf x a with hv
   have hQz : Qf ((c * u) • a + (c * v) • b) = 0 := by
     simp only [QuadraticMap.map_add Qf, ← QuadraticMap.polarBilin_apply_apply,
-      QuadraticMap.map_smul, map_smul, LinearMap.smul_apply, ha, hb, hab, smul_zero, mul_zero,
-      zero_mul, add_zero, zero_add]
+      QuadraticMap.map_smul, map_smul, LinearMap.smul_apply, ha, hb, hab, smul_zero, add_zero]
   have hBz : QuadraticMap.polarBilin Qf x ((c * u) • a + (c * v) • b) = 0 := by
-    simp only [map_add, map_smul, LinearMap.smul_apply, ← hu, ← hv, smul_eq_mul]
+    simp only [map_add, map_smul, ← hu, ← hv, smul_eq_mul]
     have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
     calc (c * u) * v + (c * v) * u = 2 * (c * u * v) := by ring
       _ = 0 := by rw [h2, zero_mul]
@@ -113,6 +116,7 @@ theorem siegelEquiv_inv (Qf : QuadraticForm K E) (a b : E)
     (siegelEquiv Qf a b ha hb hab c)⁻¹ = siegelEquiv Qf a b ha hb hab c :=
   inv_eq_of_mul_eq_one_right (siegelEquiv_mul_self Qf a b ha hb hab c)
 
+omit [CharP K 2] in
 theorem exists_polarBilin_pair (Qf : QuadraticForm K E) (a b : E)
     (hnd : ∀ x, (∀ y, QuadraticMap.polarBilin Qf x y = 0) → x = 0)
     (hli : LinearIndependent K ![a, b]) (α β : K) :
@@ -124,7 +128,7 @@ theorem exists_polarBilin_pair (Qf : QuadraticForm K E) (a b : E)
   have hΦx : ∀ x, Φ x = (QuadraticMap.polarBilin Qf x a,
       QuadraticMap.polarBilin Qf x b) := by
     intro x
-    simp [Φ, f, g, BilinForm.flip_apply]
+    simp [Φ, f, g]
   have hsurj : Function.Surjective Φ := by
     by_contra hnot
     have hlt : LinearMap.range Φ < ⊤ := by
@@ -177,6 +181,7 @@ theorem exists_polarBilin_pair (Qf : QuadraticForm K E) (a b : E)
   exact ⟨x, by simpa [hΦx x] using congrArg Prod.fst hx,
     by simpa [hΦx x] using congrArg Prod.snd hx⟩
 
+omit [CharP K 2] in
 theorem siegelLin_sub_one_apply (Qf : QuadraticForm K E) (a b : E) (c : K) (x : E) :
     (siegelLin Qf a b c - 1) x =
       c • (QuadraticMap.polarBilin Qf x b • a) +
@@ -184,6 +189,7 @@ theorem siegelLin_sub_one_apply (Qf : QuadraticForm K E) (a b : E) (c : K) (x : 
   rw [LinearMap.sub_apply, Module.End.one_eq_id, LinearMap.id_apply, siegelLin_apply]
   abel
 
+omit [CharP K 2] in
 theorem siegelLin_sub_one_range (Qf : QuadraticForm K E) (a b : E)
     (hnd : ∀ x, (∀ y, QuadraticMap.polarBilin Qf x y = 0) → x = 0)
     (hli : LinearIndependent K ![a, b]) (c : K) (hc : c ≠ 0) :
@@ -207,7 +213,7 @@ theorem siegelLin_sub_one_range (Qf : QuadraticForm K E) (a b : E)
     obtain ⟨x, hxa, hxb⟩ := hpair c⁻¹ 0
     refine ⟨x, ?_⟩
     rw [siegelLin_sub_one_apply, hxa, hxb]
-    simp only [zero_smul, smul_zero, add_zero, zero_add, smul_smul, mul_inv_cancel₀ hc,
+    simp only [zero_smul, smul_zero, zero_add, smul_smul, mul_inv_cancel₀ hc,
       one_smul]
   refine le_antisymm hsubset (Submodule.span_le.mpr ?_)
   intro y hy
@@ -220,6 +226,7 @@ section MovedSpaceSingular
 
 variable {Qf : QuadraticForm K E} {a b : E}
 
+omit [CharP K 2] in
 theorem Qf_eq_zero_on_span_singular_pair (ha : Qf a = 0) (hb : Qf b = 0)
     (hab : QuadraticMap.polarBilin Qf a b = 0) {y : E}
     (hy : y ∈ Submodule.span K ({a, b} : Set E)) : Qf y = 0 := by

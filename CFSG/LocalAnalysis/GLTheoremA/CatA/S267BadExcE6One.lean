@@ -43,7 +43,7 @@ theorem concA_of_actData_quot {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup
     (hπZ : π.ker ≤ Subgroup.center ↥S) {Γ : Ω →* MulAut ↥(adjointGroup .E6 K)}
     (hΓ : ∀ (b : Ω) (g : ↥S), Γ b (π g) = π ⟨b * g * b⁻¹, hS.conj_mem _ g.2 b⟩)
     (hW : ModelGen.ActData 3 B (fun x => Γ x)) : S267ConcA 3 S B := by
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
   exact ModelGen.concA_of_actData_central Nat.prime_three (by norm_num) hS hperf hcore hB hBC π
     hπ hπZ (fun x => Γ x) (fun x g => (hΓ x g).symm) hW
 
@@ -73,8 +73,8 @@ theorem concA_of_lift {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω} [Fi
     (hBle : Nat.card B ≤ 3 ^ 6 * Nat.card (Subgroup.zpowers (entrywiseAdjointAut .E6 σ)))
     (hL : HypLift Γ ζ hζ b) : S267ConcA 3 S B := by
   classical
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
-  haveI : Finite (MulAut ↥(adjointGroup .E6 K)) :=
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite (MulAut ↥(adjointGroup .E6 K)) :=
     Finite.of_injective (fun f : MulAut ↥(adjointGroup .E6 K) =>
       (f : ↥(adjointGroup .E6 K) → ↥(adjointGroup .E6 K))) DFunLike.coe_injective
   obtain ⟨M, t, hMel, hMc, hMΓ, hbM, ht1, ht2, htM, htb⟩ := hL
@@ -222,13 +222,13 @@ theorem concA_of_outer_elt_quot {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgro
     (hΓker : Γ.ker = centModSubgroup 3 S) {b : Ω} (hbB : b ∈ B)
     (hbI : Γ b ∉ (hatAut .E6 K).range) : S267ConcA 3 S B := by
   classical
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
-  haveI : Finite (MulAut ↥(adjointGroup .E6 K)) :=
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite (MulAut ↥(adjointGroup .E6 K)) :=
     Finite.of_injective (fun f : MulAut ↥(adjointGroup .E6 K) =>
       (f : ↥(adjointGroup .E6 K) → ↥(adjointGroup .E6 K))) DFunLike.coe_injective
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hK : Nat.card K = ringChar K ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   have hb3 : Γ b ^ 3 = 1 := by rw [← map_pow, hB.2 b hbB, map_one]
   have hbI' : Γ b ∉ CFSG.HardMathSupport.Timmesfeld.CrossChar.e6Inndiag K := by
@@ -295,10 +295,10 @@ theorem concA_of_outer_elt_quot {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgro
       apply Subtype.ext
       apply Subtype.ext
       simpa using hĀ₁el.2 _ (Subgroup.mem_subgroupOf.1 f.2)⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P₁, hP₁⟩ := hV3.exists_le_sylow
     obtain ⟨P₂, hP₂⟩ := hA3.exists_le_sylow
-    haveI : Finite (Sylow 3 ↥N) := Sylow.finite_of_finiteIndex P₁
+    have : Finite (Sylow 3 ↥N) := Sylow.finite_of_finiteIndex P₁
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥N) P₂ P₁
     have hgI : (g : MulAut ↥(adjointGroup .E6 K)) ∈ (hatAut .E6 K).range :=
       (Subgroup.mem_inf.1 g.2).1
@@ -306,7 +306,7 @@ theorem concA_of_outer_elt_quot {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgro
         Subgroup.centralizer ({s} : Set (MulAut ↥(adjointGroup .E6 K))) :=
       (Subgroup.mem_inf.1 g.2).2
     set P := (P₁ : Subgroup ↥N).map N.subtype with hP
-    have hP3 : IsPGroup 3 P := P₁.isPGroup'.map _
+    have hP3 : IsPGroup 3 P := P₁.isPGroup.map _
     have hVP : vAd ζ hζ ≤ P := fun f hf =>
       ⟨⟨f, hVN hf⟩, hP₁ (Subgroup.mem_subgroupOf.2 hf), rfl⟩
     set X := Ā₁.map (MulAut.conj (g : MulAut ↥(adjointGroup .E6 K))).toMonoidHom with hX
@@ -406,7 +406,7 @@ theorem concA_E6_three_of_quot {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgrou
     have hI : B.map Γ ≤ (hatAut .E6 K).range := by
       rintro _ ⟨b, hb, rfl⟩
       exact hout b hb
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨ζ, hζo⟩ : ∃ ζ : Kˣ, orderOf ζ = 3 :=
       exists_prime_orderOf_dvd_card' 3 (by rw [Nat.card_units]; exact h3)
     have hζ : ζ ^ 3 = 1 := hζo ▸ pow_orderOf_eq_one ζ
@@ -454,8 +454,8 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 theorem concA_badExcCore_E6_three_of_mod_one {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p) {Ω : Type} [Group Ω] [Finite Ω]
-    (hK : CFSG.Open.IsKGroup Ω) {S B : Subgroup Ω} (hS : S.Normal) (hperf : ⁅S, S⁆ = S)
-    (hcore : GLAPPrimeCore p ↥S = ⊥) (hB : IsElemAbelian p B) (hSB : S ⊔ B = ⊤)
+    (_hK : CFSG.Open.IsKGroup Ω) {S B : Subgroup Ω} (hS : S.Normal) (hperf : ⁅S, S⁆ = S)
+    (hcore : GLAPPrimeCore p ↥S = ⊥) (hB : IsElemAbelian p B) (_hSB : S ⊔ B = ⊤)
     (hrank : p ^ GLATwoLocalRank p Ω ≤ Nat.card B) (hB4 : p ^ 4 ≤ Nat.card B)
     (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p) (hp3B : ¬ (p = 3 ∧ Nat.card B = 3 ^ 4))
     {Q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.E6 Q).Valid)
@@ -470,7 +470,7 @@ theorem concA_badExcCore_E6_three_of_mod_one {p q : ℕ} (hp : p.Prime) (hp2 : p
   subst hchar
   obtain ⟨K, _, _, hKc, hKchar, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 Q hv
-  haveI := hKchar
+  have := hKchar
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
   have h3 : 3 ∣ Nat.card K - 1 := by rwa [hKc]
   set e₀ := e.trans eC with he₀

@@ -86,7 +86,7 @@ private theorem secRho_tv_ne_one [Finite M] {X : Subgroup 𝔾}
   exact hx4 (pow_four_of_secRho_tv_eq_one hφa hτX hgen h1 x hx)
 
 private theorem secRho_conj_isTransvection {X : Subgroup 𝔾} {φ : Module.Dual (ZMod 2) M}
-    {a : M} (hφa : φ a = 0) (hτX : tv φ a hφa ∈ X) (haQ : a ∉ secQ X φ)
+    {a : M} (hφa : φ a = 0) (_hτX : tv φ a hφa ∈ X) (haQ : a ∉ secQ X φ)
     {g : 𝔾} (hg : g ∈ X) (hdX : g⁻¹ * tv φ a hφa * g ∈ X) :
     IsF2Transvection (secRho X φ a ⟨g⁻¹ * tv φ a hφa * g, hdX⟩) := by
   let P : Submodule (ZMod 2) M := secP X a
@@ -291,9 +291,9 @@ theorem exists_section [Finite M] {X : Subgroup 𝔾} {τ : 𝔾} (hτ : IsF2Tra
   let Z : Submodule (ZMod 2) ↥P := Q.comap P.subtype
   let V := ↥P ⧸ Z
   let ρ : ↥X →* LinearMap.GeneralLinearGroup (ZMod 2) V := secRho X φ a
-  haveI : Finite V :=
+  have : Finite V :=
     Finite.of_surjective (Submodule.mkQ Z) (Submodule.mkQ_surjective Z)
-  haveI : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
   have haQ : a ∉ secQ X φ := not_mem_secQ hφa hτX hgen hX4
   let U : Set 𝔾 := {x | ∃ g ∈ X, x = g⁻¹ * tv φ a hφa * g}
   let S : Set (LinearMap.GeneralLinearGroup (ZMod 2) V) :=

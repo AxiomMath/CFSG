@@ -266,7 +266,7 @@ theorem irr22_sd4 (C : Subgroup (Wn 10)) (hUC : UC ≤ C) (hCM : C ≤ maskSub 1
   · exact Or.inl hCU
   right
   have hlt : UC < C := lt_of_le_of_ne hUC (Ne.symm hCU)
-  obtain ⟨c, hcC, hcU⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨c, hcC, hcU⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   obtain ⟨m, hm, rfl⟩ := hCM hcC
   have hmU : m ∉ combos hbU0Basis := fun h => hcU (toW_mem_maskSub h)
   obtain ⟨r, hr, hmr⟩ := c_red22_sd4 m hm hmU
@@ -291,9 +291,9 @@ theorem irr22_sd4 (C : Subgroup (Wn 10)) (hUC : UC ≤ C) (hCM : C ≤ maskSub 1
       intro k hk
       by_cases ha : a = 0
       · subst ha
-        simp only [wordAct22_sd4, if_true]
+        simp only [wordAct22_sd4, ite_true]
         exact ih _ (hAC k hk)
-      · simp only [wordAct22_sd4, if_neg ha]
+      · simp only [wordAct22_sd4, ite_eq_right ha]
         exact ih _ (hBC k hk)
   have hgens : ∀ a ∈ hbU0Basis ++ (wordsFor22_sd4 r).map (fun w => wordAct22_sd4 w r), toW 10 a ∈ C := by
     intro a ha

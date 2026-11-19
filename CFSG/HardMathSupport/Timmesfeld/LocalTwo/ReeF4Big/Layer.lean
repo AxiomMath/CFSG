@@ -43,6 +43,7 @@ section Types
 
 variable {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime] {a : ℕ}
 
+omit [CharP K ReeTag.F4.prime] in
 theorem suzuki_nonab (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     ∃ x y : suzukiGroup a K, x * y ≠ y * x := by
   obtain ⟨-, hnt, -⟩ := suzuki_simple ha hK
@@ -73,13 +74,13 @@ theorem layerType_props (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) {G : 
     simpa using congrArg e h1
   rcases h with h | h
   · obtain ⟨e⟩ := h
-    haveI := (suzuki_simple ha hK).2.2
+    have := (suzuki_simple ha hK).2.2
     obtain ⟨hq, hz⟩ := CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (suzuki_nonab ha hK)
     refine ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hq, hcen e.symm hz, ?_⟩
     rw [Nat.card_congr e.toEquiv, suzuki_order hK]
     exact Dvd.dvd.mul_right (Dvd.dvd.mul_left (dvd_refl _) _) _
   · obtain ⟨e⟩ := h
-    haveI := CFSG.LieType.Ree.LargeReeInvolution.isSimpleGroup_SL2 ha hK
+    have := CFSG.LieType.Ree.LargeReeInvolution.isSimpleGroup_SL2 ha hK
     obtain ⟨hq, hz⟩ := CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
       (CFSG.LieType.Ree.LargeReeInvolution.exists_SL2_mul_ne_mul (K := K))
     refine ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hq, hcen e.symm hz, ?_⟩
@@ -140,7 +141,7 @@ theorem plane_layer (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime)
     hbF hbp hb1 hne (P.Ψ z) hxb
   exact ⟨A, Sg, hAm, hc, hi, hs, hxA, hty⟩
 
-theorem plane_layer_dvd (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) (hp : p.Prime)
+theorem plane_layer_dvd (_ha : 1 ≤ a) (_hK : Nat.card K = 2 ^ (2 * a + 1)) (hp : p.Prime)
     (hp3 : 3 < p) (P : ReePlane K a p)
     {z : (rootsOfUnity p (AlgebraicClosure K)) × (rootsOfUnity p (AlgebraicClosure K))}
     (hne : rootCharKernel (expTuple (z.1 : (AlgebraicClosure K)ˣ) (z.2 : (AlgebraicClosure K)ˣ)

@@ -24,7 +24,7 @@ private theorem exists_inverting_of_mod {K N C A : Subgroup G} (hKN : K ≤ norm
     (hCK : C ≤ K) (hcop : ¬ 3 ∣ Nat.card N) (hAC : A ≤ C) (hA3 : Nat.card A = 3) {c : G}
     (hcC : c ∈ C) (hmod : ∀ a ∈ A, (c * a * c⁻¹) * a ∈ N) :
     ∃ t ∈ C, ∀ a ∈ A, t * a * t⁻¹ = a⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAN : A ⊓ N = ⊥ := (Subgroup.disjoint_of_coprime_natCard (by
     rw [hA3]; exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hcop)).eq_bot
   set D : Subgroup G := N ⊓ C with hD
@@ -62,7 +62,7 @@ theorem exists_inverting {M L B : Subgroup G} {b₀ a : G} (hL : L ∈ calC M)
     (haL : a ∈ L) (ha3 : orderOf a = 3)
     (hac : a ∈ centralizer ((zpowers b₀ ⊔ B : Subgroup G) : Set G)) :
     ∃ t ∈ L ⊓ centralizer ((zpowers b₀ ⊔ B : Subgroup G) : Set G), t * a * t⁻¹ = a⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : ¬ 3 ∣ Nat.card (pCoreOf 2 L) :=
     P2251c.not_dvd_card_of_isPGroup_two (UC6S846.isPGroup_pCoreOf L) Nat.prime_three (by norm_num)
   set ā : Bar2 L := QuotientGroup.mk (⟨a, haL⟩ : ↥L) with hā
@@ -84,11 +84,11 @@ theorem exists_inverting {M L B : Subgroup G} {b₀ a : G} (hL : L ∈ calC M)
     · refine exists_inverting_of_fixed hsh h1 ?_ hout hā3 hā1 hfix
       rw [← map_pow, show (⟨b₀, hb₀N⟩ : ↥(normalizer (L : Set G))) ^ 3 = 1 from
         Subtype.ext hb₀3, map_one]
-    · haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
+    · have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
       have hāp : IsPGroup 3 (zpowers ā) := IsPGroup.of_card (n := 1)
         (by rw [Nat.card_zpowers, orderOf_eq_prime hā3 hā1, pow_one])
       obtain ⟨Q, hQ⟩ := hāp.exists_le_sylow
-      haveI : IsCyclic (Q : Subgroup (Bar2 L)) :=
+      have : IsCyclic (Q : Subgroup (Bar2 L)) :=
         RankFourTheoremC.Nongeneration.isCyclic_sylow_of_pRank_le_one (by norm_num) h1.le Q
       have hāQ : ā ∈ (Q : Subgroup (Bar2 L)) := hQ (mem_zpowers ā)
       obtain ⟨n, -, hn⟩ := CFSG.GroupTheory.exists_mem_normalizer_conj_eq_inv_of_perfect Q
@@ -141,9 +141,9 @@ theorem exists_transvection {M L S : Subgroup G} {a₀ a₁ : G} (hL : L ∈ cal
     (ha₁ : a₁ ∈ S ⊓ L) (ha₁3 : orderOf a₁ = 3) (ha₀ : a₀ ∈ S) (ha₀3 : a₀ ^ 3 = 1)
     (hout : ¬ IsInnerAut (UC6S846.rhoL L ⟨a₀, hSL ha₀⟩)) :
     ∃ x ∈ S ⊓ L, x * a₀ * x⁻¹ = a₀ * a₁ ∧ x * a₁ = a₁ * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSp : IsPGroup 3 S := hS.isPGroup
-  haveI hcyc : IsCyclic ↥(S ⊓ L) :=
+  have hcyc : IsCyclic ↥(S ⊓ L) :=
     R8107Shape.isCyclic_of_isPGroup_of_pRank_eq_one hr inf_le_right hSp.to_inf_left
   have h1 : CFSG.Open.pRank 3 (⊤ : Subgroup (Bar2 L)) = 1 := by
     rw [pRank_bar2_eq_of_odd Nat.prime_three (by norm_num), hr]
@@ -193,13 +193,13 @@ theorem exists_outer_or_trivial {M L₁ L₂ S : Subgroup G} {a₀ a₂ : G} (hL
     (ha₀ : a₀ ∈ S) (ha₀3 : a₀ ^ 3 = 1) (hout : ¬ IsInnerAut (UC6S846.rhoL L₁ ⟨a₀, hS₁ ha₀⟩)) :
     ∃ b, ∃ hb : b ∈ S, b ^ 3 = 1 ∧ ¬ IsInnerAut (UC6S846.rhoL L₁ ⟨b, hS₁ hb⟩) ∧
       (¬ IsInnerAut (UC6S846.rhoL L₂ ⟨b, hS₂ hb⟩) ∨ UC6S846.rhoL L₂ ⟨b, hS₂ hb⟩ = 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hin : IsInnerAut (UC6S846.rhoL L₂ ⟨a₀, hS₂ ha₀⟩)
   swap
   · exact ⟨a₀, ha₀, ha₀3, hout, Or.inl hin⟩
   by_cases h01 : UC6S846.rhoL L₂ ⟨a₀, hS₂ ha₀⟩ = 1
   · exact ⟨a₀, ha₀, ha₀3, hout, Or.inr h01⟩
-  haveI : Finite (MulAut (Bar2 L₂)) := MulEquiv.finite_left
+  have : Finite (MulAut (Bar2 L₂)) := MulEquiv.finite_left
   have h1 : CFSG.Open.pRank 3 (⊤ : Subgroup (Bar2 L₂)) = 1 := by
     rw [pRank_bar2_eq_of_odd Nat.prime_three (by norm_num), hr₂]
   have hQc := isCyclic_of_le_range_conj

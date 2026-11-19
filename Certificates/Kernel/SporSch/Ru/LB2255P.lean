@@ -151,7 +151,7 @@ theorem ord_eq {k : Nat} (hk : k < 19) :
   unfold ordOK at h
   rw [e]
   cases e1 : ord14Exp.getD k false <;> rw [e1] at h <;> cases e2 : ordK (atK k) <;>
-    rw [e2] at h <;> first | rfl | exact absurd h Bool.false_ne_true
+    rw [e2] at h <;> (exact absurd h Bool.false_ne_true)
 
 theorem ords : (List.range 19).map (fun k => ruOrd14 (compA 4060 ruA0A (ruRepZA k))) =
     [false, false, false, true, false, false, true, false, false, false, false, true, false,

@@ -121,7 +121,7 @@ theorem corollaryA2
       normalClosure ((S₁ ⊓ S₂ : Subgroup G) : Set G) ⊔ goldschmidtOddCore G := by
   have hc : S₁ ≤ centralizer (S₂ : Set G) := commutator_eq_bot_iff_le_centralizer.mp hcomm
   have hp : IsPGroup 2 (S₁ ⊔ S₂ : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' (T₁.isPGroup'.to_le h₁) (T₂.isPGroup'.to_le h₂)
+    IsPGroup.to_sup_of_normal_right' (T₁.isPGroup.to_le h₁) (T₂.isPGroup.to_le h₂)
       (hc.trans (centralizer_le_normalizer _))
   obtain ⟨T, hT⟩ := hp.exists_le_sylow
   have h₁T : S₁ ≤ T := le_sup_left.trans hT

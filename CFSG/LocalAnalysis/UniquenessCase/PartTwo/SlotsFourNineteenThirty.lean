@@ -21,6 +21,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Four
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_codimSet_eq_centMod {V₀ V : Subgroup G}
     (hV : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) {t : G}
     (ht : ∀ v ∈ V, t * v * t⁻¹ ∈ V) :
@@ -36,6 +37,7 @@ theorem card_codimSet_eq_centMod {V₀ V : Subgroup G}
       exact ⟨hv, by rwa [← hV v⁻¹ (inv_mem hv) (t * v * t⁻¹) (ht v hv)] at hmem⟩
   exact Nat.card_congr (Equiv.subtypeEquivRight hiff)
 
+omit [Finite G] in
 theorem mBarGT_of_minCodimGt {M V₀ V : Subgroup G}
     (hMV : M ≤ normalizer (V : Set G))
     (hVab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) {n : ℕ}

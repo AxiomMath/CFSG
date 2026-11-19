@@ -126,8 +126,8 @@ variable {e : ι → Fin n → K}
 theorem herm_lc_right (he : ∀ i j, herm σ (e i) (e j) = if i = j then 1 else 0) (i : ι)
     (f : ι → K) : herm σ (e i) (lc e f) = f i := by
   rw [lc, herm_sum_right, Finset.sum_eq_single i (fun j _ hj => by
-    rw [herm_smul_right, he, if_neg (Ne.symm hj), mul_zero]) (by simp), herm_smul_right, he,
-    if_pos rfl, mul_one]
+    rw [herm_smul_right, he, ite_eq_right (Ne.symm hj), mul_zero]) (by simp), herm_smul_right, he,
+    ite_eq_left rfl, mul_one]
 
 theorem herm_lc (he : ∀ i j, herm σ (e i) (e j) = if i = j then 1 else 0) (f g : ι → K) :
     herm σ (lc e f) (lc e g) = ∑ i, σ (f i) * g i := by
@@ -155,7 +155,7 @@ theorem uCentre_lc (hσ : IsUnitaryInvolution σ) (h2K : (2 : K) ≠ 0)
       set y := f i • e i + f j • e j with hy
       have hyy : herm σ y y = σ (f i) * f i + σ (f j) * f j := by
         simp only [hy, herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, he,
-          if_neg hij, if_neg (Ne.symm hij), if_true]
+          ite_eq_right hij, ite_eq_right (Ne.symm hij), ite_true]
         ring
       obtain ⟨d, hd⟩ := exists_smul_norm_one hσ (hyy ▸ hm)
       have hd0 : d ≠ 0 := by
@@ -170,8 +170,8 @@ theorem uCentre_lc (hσ : IsUnitaryInvolution σ) (h2K : (2 : K) ≠ 0)
       have hii := he i i
       have hjj := he j j
       have hij' := he i j
-      rw [if_pos rfl] at hii hjj
-      rw [if_neg hij] at hij'
+      rw [ite_eq_left rfl] at hii hjj
+      rw [ite_eq_right hij] at hij'
       obtain ⟨t, ht, htx, hfix⟩ := exists_mem_of_orthonormal hσ hii hjj hij' hpij _ _ hN1
       set f₀ : ι → K := Function.update (Function.update f i 0) j 0 with hf₀
       set f' : ι → K := f₀ + Pi.single i d⁻¹ with hf'
@@ -358,11 +358,11 @@ theorem exists_isotropic_of_two_le (hσ : IsUnitaryInvolution σ) {W : Submodule
 @[expose] def eigU (x : SUid σ n) (γ : K) : Submodule K (Fin n → K) where
   carrier := {v | x • v = γ • v}
   add_mem' {v w} hv hw := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [smul_add, hv, hw, smul_add]
   zero_mem' := by simp
   smul_mem' c v hv := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [smul_comm, hv, smul_comm]
 
 theorem mem_eigU {x : SUid σ n} {γ : K} {v : Fin n → K} : v ∈ eigU x γ ↔ x • v = γ • v :=
@@ -558,7 +558,7 @@ theorem sum_commProj (h2K : (2 : K) ≠ 0) (v : Fin n → K) :
   generalize a • v = y₁
   generalize b • v = y₂
   generalize a • y₂ = y₃
-  simp only [if_true, Bool.false_eq_true, if_false]
+  simp only [ite_true, Bool.false_eq_true, ite_false]
   match_scalars <;> field_simp <;> ring
 
 theorem norm_sgn_mul {γ : K} (hε : σ γ * γ = 1) (s : Bool) : σ (sgn s * γ) * (sgn s * γ) = 1 := by
@@ -632,8 +632,8 @@ theorem uCentre_of_comm (hσ : IsUnitaryInvolution σ) (h2K : (2 : K) ≠ 0)
     have hiso : herm σ (x • e i + y • e j) (x • e i + y • e j) = 0 := by
       have hij' := he i j
       have hji' := he j i
-      rw [if_neg hij] at hij'
-      rw [if_neg (Ne.symm hij)] at hji'
+      rw [ite_eq_right hij] at hij'
+      rw [ite_eq_right (Ne.symm hij)] at hji'
       simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, he1, hij', hji',
         mul_zero, add_zero, zero_add, mul_one]
       linear_combination hxy

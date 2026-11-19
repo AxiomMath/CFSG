@@ -24,33 +24,33 @@ theorem I2017LieCenterL62_holds :
     obtain ⟨d, hv⟩ := j
     have hd : d = TauCeti.LieTypeIndex.A 5 gfTwoPP := hi
     subst hd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime gfTwoPP.p) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime gfTwoPP.p) := ⟨Nat.prime_two⟩
     let ψ : TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.A 5 gfTwoPP, hv⟩ ≃*
         Matrix.ProjectiveSpecialLinearGroup (Fin 6) (GaloisField 2 1) :=
       (CFSG.RankThree.PartTwo.Census.typeAGroupEquivProjSL 5 gfTwoPP hv).trans
         ((CFSG.PGLModel.projSLEquivStatedProj 6 (GaloisField 2 1)).trans
           (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 6 (GaloisField 2 1)).symm)
-    obtain ⟨-, ⟨hm⟩⟩ := CFSG.Open.Open.griess_schur_multipliers_psl 2 1 6 (by norm_num) (by norm_num)
+    obtain ⟨-, ⟨hm⟩⟩ := CFSG.Open.Thm.griess_schur_multipliers_psl 2 1 6 (by norm_num) (by norm_num)
       (fun h => absurd h (by norm_num))
-    haveI : Subsingleton (ZMod (Nat.gcd 6 (2 ^ 1 - 1))) := ZMod.subsingleton_iff.mpr (by norm_num)
-    haveI : Subsingleton (ZMod (CFSG.Open.griessPSLExceptional 6 (2 ^ 1)).1) :=
+    have : Subsingleton (ZMod (Nat.gcd 6 (2 ^ 1 - 1))) := ZMod.subsingleton_iff.mpr (by norm_num)
+    have : Subsingleton (ZMod (CFSG.Open.griessPSLExceptional 6 (2 ^ 1)).1) :=
       ZMod.subsingleton_iff.mpr (by decide)
-    haveI : Subsingleton (ZMod (CFSG.Open.griessPSLExceptional 6 (2 ^ 1)).2) :=
+    have : Subsingleton (ZMod (CFSG.Open.griessPSLExceptional 6 (2 ^ 1)).2) :=
       ZMod.subsingleton_iff.mpr (by decide)
-    haveI hsubTarget : Subsingleton
+    have hsubTarget : Subsingleton
         (Multiplicative (ZMod (Nat.gcd 6 (2 ^ 1 - 1)) × ZMod (CFSG.Open.griessPSLExceptional 6 (2 ^ 1)).1 ×
           ZMod (CFSG.Open.griessPSLExceptional 6 (2 ^ 1)).2)) :=
       inferInstanceAs (Subsingleton (ZMod (Nat.gcd 6 (2 ^ 1 - 1)) × ZMod (CFSG.Open.griessPSLExceptional 6 (2 ^ 1)).1 ×
           ZMod (CFSG.Open.griessPSLExceptional 6 (2 ^ 1)).2))
-    haveI : Subsingleton (CFSG.Open.griessHopfMultiplier
+    have : Subsingleton (CFSG.Open.griessHopfMultiplier
         (Matrix.ProjectiveSpecialLinearGroup (Fin 6) (GaloisField 2 1))) := hm.toEquiv.subsingleton
     have hY : ∀ (Y : Type) [Group Y], Y ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 6) (GaloisField 2 1) →
         Nat.card (hopfMultiplier Y) = 1 := by
       intro Y _ φ
-      haveI : Subsingleton (CFSG.Open.griessHopfMultiplier Y) :=
+      have : Subsingleton (CFSG.Open.griessHopfMultiplier Y) :=
         (CFSG.LieType.Steinberg.CentralExt.griessHopfMultiplierCongr φ).toEquiv.subsingleton
-      haveI : Subsingleton (hopfMultiplier Y) :=
+      have : Subsingleton (hopfMultiplier Y) :=
         (hopfMultiplierEquivGriess Y).symm.toEquiv.subsingleton
       exact Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
     have hqs : CFSG.IsQuasisimple Q :=

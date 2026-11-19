@@ -135,8 +135,7 @@ theorem nzV_iff {v : Fin 4 → ZMod 3} : nzV v = true ↔ v ≠ 0 := by
     by_contra hh
     have h4 : v 0 = 0 ∧ v 1 = 0 ∧ v 2 = 0 ∧ v 3 = 0 := by
       have := hh
-      simp only [nzV, Bool.not_eq_true', Bool.not_eq_false, Bool.and_eq_true, decide_eq_true_eq,
-        Bool.not_eq_true, Bool.not_not] at this
+      simp only [nzV, Bool.not_eq_true', Bool.not_eq_false, Bool.and_eq_true, decide_eq_true_eq] at this
       tauto
     apply h
     ext i

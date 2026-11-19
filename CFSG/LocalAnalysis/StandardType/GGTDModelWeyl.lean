@@ -34,16 +34,14 @@ private lemma l48g2_tuple_act (N : ℕ) (k : Fin N) (t : Fin (N + 1) → Kˣ) :
   by_cases h1 : i = k.castSucc
   · subst h1
     rw [Equiv.swap_apply_left]
-    simp [ggTDpvFun, Pi.mul_apply, Pi.mulSingle_apply, l48g2_castSucc_ne_succ,
-      l48g2_succ_ne_castSucc]
+    simp [ggTDpvFun, Pi.mul_apply, l48g2_castSucc_ne_succ]
   · by_cases h2 : i = k.succ
     · subst h2
       rw [Equiv.swap_apply_right]
-      simp [ggTDpvFun, Pi.mul_apply, Pi.mulSingle_apply, l48g2_castSucc_ne_succ,
-        l48g2_succ_ne_castSucc]
+      simp [ggTDpvFun, Pi.mul_apply, l48g2_succ_ne_castSucc]
     · rw [Equiv.swap_apply_of_ne_of_ne h1 h2]
       simp only [ggTDpvFun, Pi.mul_apply, Pi.mulSingle_apply]
-      rw [if_neg h1, if_neg h2]
+      rw [ite_eq_right h1, ite_eq_right h2]
       simp
 
 private lemma l48g2_tuple_div (N : ℕ) (k : Fin N) (t : Fin (N + 1) → Kˣ) (i : Fin (N + 1)) :
@@ -52,17 +50,15 @@ private lemma l48g2_tuple_div (N : ℕ) (k : Fin N) (t : Fin (N + 1) → Kˣ) (i
   by_cases h1 : i = k.castSucc
   · subst h1
     rw [Equiv.swap_apply_left]
-    simp [ggTDpvFun, Pi.mul_apply, Pi.mulSingle_apply, l48g2_castSucc_ne_succ,
-      l48g2_succ_ne_castSucc]
+    simp [ggTDpvFun, Pi.mul_apply, l48g2_castSucc_ne_succ]
   · by_cases h2 : i = k.succ
     · subst h2
       rw [Equiv.swap_apply_right]
-      simp [ggTDpvFun, Pi.mul_apply, Pi.mulSingle_apply, l48g2_castSucc_ne_succ,
-        l48g2_succ_ne_castSucc]
+      simp [ggTDpvFun, Pi.mul_apply, l48g2_succ_ne_castSucc]
     · rw [Equiv.swap_apply_of_ne_of_ne h1 h2]
       simp only [ggTDpvFun, Pi.mul_apply, Pi.mulSingle_apply]
-      rw [if_neg h1, if_neg h2]
-      simp [div_self]
+      rw [ite_eq_right h1, ite_eq_right h2]
+      simp
 
 private lemma l48g2_c9 (M : GGTDModel K N m L') (k : Fin N) {τ : MulAut L'}
     (hτ : τ ∈ ggTDT M) :
@@ -152,16 +148,16 @@ private lemma l48g2_c12 (M : GGTDModel K N m L') {p : ℕ} (hp : p.Prime) (hp2 :
     by_cases h1 : i = k.castSucc
     · subst h1
       show ggTDpvFun N k ζ k.castSucc ^ p = 1
-      simp [ggTDpvFun, l48g2_castSucc_ne_succ, l48g2_succ_ne_castSucc, hζp]
+      simp [ggTDpvFun, l48g2_castSucc_ne_succ, hζp]
     · by_cases h2 : i = k.succ
       · subst h2
         show ggTDpvFun N k ζ k.succ ^ p = 1
         rw [show ggTDpvFun N k ζ k.succ = ζ⁻¹ by
-          simp [ggTDpvFun, l48g2_castSucc_ne_succ, l48g2_succ_ne_castSucc]]
+          simp [ggTDpvFun, l48g2_succ_ne_castSucc]]
         rw [inv_pow, hζp, inv_one]
       · show ggTDpvFun N k ζ i ^ p = 1
         have h1' : ggTDpvFun N k ζ i = 1 := by
-          simp [ggTDpvFun, h1, h2, l48g2_castSucc_ne_succ, l48g2_succ_ne_castSucc]
+          simp [ggTDpvFun, h1, h2]
         rw [h1', one_pow]
   have hmemA : MulAut.conj (M.φ (M.dgm s)) ∈ A := M.heart_mem hsc hAT s hsp
   refine ⟨MulAut.conj (M.φ (M.dgm s)), hmemA, ?_⟩
@@ -178,10 +174,10 @@ private lemma l48g2_c12 (M : GGTDModel K N m L') {p : ℕ} (hp : p.Prime) (hp2 :
     simpa using this
   have hsval1 : (s : Fin (N + 1) → Kˣ) k.castSucc = ζ := by
     show ggTDpvFun N k ζ k.castSucc = ζ
-    simp [ggTDpvFun, l48g2_castSucc_ne_succ, l48g2_succ_ne_castSucc]
+    simp [ggTDpvFun, l48g2_castSucc_ne_succ]
   have hsval2 : (s : Fin (N + 1) → Kˣ) k.succ = ζ⁻¹ := by
     show ggTDpvFun N k ζ k.succ = ζ⁻¹
-    simp [ggTDpvFun, l48g2_castSucc_ne_succ, l48g2_succ_ne_castSucc]
+    simp [ggTDpvFun, l48g2_succ_ne_castSucc]
   rw [hsval1, hsval2] at hval
   exact hζneinv (div_eq_one.mp hval)
 

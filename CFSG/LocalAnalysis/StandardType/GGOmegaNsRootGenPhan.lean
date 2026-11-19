@@ -36,6 +36,7 @@ open Polynomial QuadraticMap Module CFSG.RankThree.Classical2
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [CharP F 2] in
 private theorem exists_unitary_model_deg_two {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x)
     (hp2 : Odd p) {h : F[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
@@ -90,15 +91,15 @@ private theorem exists_unitary_model_deg_two {x : V ≃ₗ[F] V} (hx : OddOrderI
 
 private theorem exists_adapted_basis {k : ℕ} {U : Fin k → Submodule F V}
     {x : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
-    (hx : OddOrderIsometry Q p x) (hh : h ∈ primaryFactors x.toLinearMap)
+    (_hx : OddOrderIsometry Q p x) (hh : h ∈ primaryFactors x.toLinearMap)
     (hdeg2 : h.natDegree = 2)
     (hU : IsPlaneSystem Q U) (hmaps : ∀ j, ∀ v ∈ U j, x v ∈ U j)
     (hUh : ∀ j, U j ≤ primaryComponent x.toLinearMap h)
-    (hW : primaryComponent x.toLinearMap h = ⊤)
+    (_hW : primaryComponent x.toLinearMap h = ⊤)
     {ℓ f : ℕ} {hUd : UnitaryFieldData ℓ (f * 1) (AdjoinRoot h)}
     {B : primaryComponent x.toLinearMap h →ₛₗ[hUd.bar]
       primaryComponent x.toLinearMap h →ₗ[AdjoinRoot h] AdjoinRoot h}
-    (hBsymm : B.IsSymm) (hBsep : B.SeparatingLeft)
+    (hBsymm : B.IsSymm) (_hBsep : B.SeparatingLeft)
     (htr : ∀ (u w : primaryComponent x.toLinearMap h) (c : AdjoinRoot h),
       Algebra.trace F (AdjoinRoot h) (B u w * c) =
         polar Q (u : V) ((c • w : primaryComponent x.toLinearMap h) : V))
@@ -243,6 +244,7 @@ private theorem exists_adapted_basis {k : ℕ} {U : Fin k → Submodule F V}
     rw [Basis.mk_apply]
     exact huU j
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem plane_smul_mem {k : ℕ} {U : Fin k → Submodule F V}
     {x : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
     (hmaps : ∀ j, ∀ v ∈ U j, x v ∈ U j) (j : Fin k)
@@ -252,6 +254,7 @@ private theorem plane_smul_mem {k : ℕ} {U : Fin k → Submodule F V}
   rw [coe_mk_smul_primaryComponent]
   exact aeval_mem_of_stable (hmaps j) g hv
 
+omit [Finite F] [CharP F 2] in
 private theorem plane_eq_span_basis {k : ℕ} {U : Fin k → Submodule F V}
     {x : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
     (hU : IsPlaneSystem Q U) (hmaps : ∀ j, ∀ v ∈ U j, x v ∈ U j)
@@ -291,6 +294,7 @@ private theorem plane_eq_span_basis {k : ℕ} {U : Fin k → Submodule F V}
   obtain ⟨c, hc⟩ := LinearMap.mem_range.mp hv'
   exact ⟨c, hc⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem apply_eq_on_plane_of_apply_basis {k : ℕ} {U : Fin k → Submodule F V}
     {x : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
     (hU : IsPlaneSystem Q U) (hmaps : ∀ j, ∀ v ∈ U j, x v ∈ U j)
@@ -328,9 +332,10 @@ private theorem apply_eq_on_plane_of_apply_basis {k : ℕ} {U : Fin k → Submod
     rw [coe_blockGL]
   rw [← hc, hzact, hsmul, hc]
 
+omit [Finite F] [CharP F 2] in
 private theorem polarPerp_pair_eq_iSup {k : ℕ} {U : Fin k → Submodule F V}
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hU : IsPlaneSystem Q U)
-    (hUtop : (⨆ j, U j : Submodule F V) = ⊤) (hdimV : finrank F V = 2 * k)
+    (_hUtop : (⨆ j, U j : Submodule F V) = ⊤) (hdimV : finrank F V = 2 * k)
     (a b : Fin k) (hab : a ≠ b) :
     polarPerp Q (U a ⊔ U b) = ⨆ j ∈ (Finset.univ.erase a).erase b, U j := by
   classical
@@ -375,6 +380,7 @@ private theorem polarPerp_pair_eq_iSup {k : ℕ} {U : Fin k → Submodule F V}
       rw [hU.finrank_biSup s, hcard_s, hdimP])
   exact heq.symm
 
+omit [Finite F] [CharP F 2] in
 private theorem eval_one_ne_zero_of_irreducible {h : F[X]} [Fact (Irreducible h)]
     (hmon : h.Monic) (hne : h ≠ X - 1) : h.eval 1 ≠ 0 := by
   intro h0
@@ -384,8 +390,9 @@ private theorem eval_one_ne_zero_of_irreducible {h : F[X]} [Fact (Irreducible h)
   have heq := Polynomial.eq_of_monic_of_associated (monic_X_sub_C (1 : F)) hmon hass
   exact hne (by simpa using heq.symm)
 
+omit [FiniteDimensional F V] [Finite F] [CharP F 2] in
 private theorem primaryComponent_pair_eq {d y : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
-    (hself : h = reciprocalPolynomial h) (hne1 : h ≠ X - 1)
+    (_hself : h = reciprocalPolynomial h) (hne1 : h ≠ X - 1)
     (hmon : h.Monic)
     {A P : Submodule F V} (hAP : IsCompl A P)
     (hA_stable : ∀ x ∈ A, y x ∈ A) (hP_stable : ∀ x ∈ P, y x ∈ P)
@@ -433,13 +440,14 @@ private theorem primaryComponent_pair_eq {d y : V ≃ₗ[F] V} {h : F[X]} [Fact 
     rw [aeval_apply_eq_of_agree hA_stable hyA h hx]
     exact mem_primaryComponent.mp (hA_le_d hx)
 
+omit [Finite F] [CharP F 2] in
 private theorem othersSpace_pair_eq {d y : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
     (hself : h = reciprocalPolynomial h) (hne1 : h ≠ X - 1)
     (hmon : h.Monic)
     {A P : Submodule F V} (hAP : IsCompl A P)
-    (hA_stable : ∀ x ∈ A, y x ∈ A) (hP_stable : ∀ x ∈ P, y x ∈ P)
+    (hA_stable : ∀ x ∈ A, y x ∈ A) (_hP_stable : ∀ x ∈ P, y x ∈ P)
     (hyA : ∀ x ∈ A, y x = d x) (hyP : ∀ x ∈ P, y x = x)
-    (hA_d : ∀ x ∈ A, d x ∈ A)
+    (_hA_d : ∀ x ∈ A, d x ∈ A)
     (hA_le_d : A ≤ primaryComponent d.toLinearMap h) :
     othersSpace y.toLinearMap h = P := by
   classical
@@ -507,6 +515,7 @@ private theorem othersSpace_pair_eq {d y : V ≃ₗ[F] V} {h : F[X]} [Fact (Irre
     exact hβP
   exact le_antisymm hothers_le hP_le
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem apply_aeval_commute {x z : V ≃ₗ[F] V} (hzx : Commute z x)
     (p : F[X]) (v : V) :
     z (aeval x.toLinearMap p v) = aeval x.toLinearMap p (z v) := by
@@ -517,6 +526,7 @@ private theorem apply_aeval_commute {x z : V ≃ₗ[F] V} (hzx : Commute z x)
     (f := x.toLinearMap) (g := z.toLinearMap) hcommEnd p
   exact congrArg (fun e : Module.End F V => e v) h.eq
 
+omit [Finite F] [CharP F 2] in
 private theorem othersSpace_eq_bot_of_top {d : V ≃ₗ[F] V} {h : F[X]}
     (hd : OddOrderIsometry Q p d)
     (hh : h ∈ primaryFactors d.toLinearMap)
@@ -532,6 +542,7 @@ private theorem othersSpace_eq_bot_of_top {d : V ≃ₗ[F] V} {h : F[X]}
     ⟨hv, hvtop⟩
   simpa using hdisj.le_bot hmem
 
+omit [Finite F] [CharP F 2] in
 private theorem blockDet_pair_eq {d y z : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
     (hW : primaryComponent d.toLinearMap h = ⊤)
     {A P : Submodule F V} (hAP : IsCompl A P)
@@ -595,7 +606,7 @@ private theorem blockDet_pair_eq {d y z : V ≃ₗ[F] V} {h : F[X]} [Fact (Irred
     · rw [codisjoint_iff, eq_top_iff]
       intro x _
       have hxV : (x : V) ∈ A ⊔ P := by
-        simpa [hAP.sup_eq_top] using Submodule.mem_top (x := (x : V))
+        simp [hAP.sup_eq_top]
       obtain ⟨u, hu, v, hv, huv⟩ := Submodule.mem_sup.mp hxV
       have huW : u ∈ W := by
         change u ∈ primaryComponent d.toLinearMap h
@@ -711,6 +722,7 @@ private theorem blockDet_pair_eq {d y z : V ≃ₗ[F] V} {h : F[X]} [Fact (Irred
   rw [hbd_y, hbd]
   exact hdet_zAy
 
+omit [Finite F] [CharP F 2] in
 private theorem blockDet_pair_eq_one {d y z : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
     (hW : primaryComponent d.toLinearMap h = ⊤)
     {A P : Submodule F V} (hAP : IsCompl A P)
@@ -728,6 +740,7 @@ private theorem blockDet_pair_eq_one {d y z : V ≃ₗ[F] V} {h : F[X]} [Fact (I
   rw [blockDet_pair_eq hW hAP hdA hdP hyA_stable hyA hAy hzCent hzSd hzA hzP hzy hzS]
   exact blockDet_eq_one_of_mem_specialBlock hzG
 
+omit [Finite F] [CharP F 2] in
 private theorem blockDet_d_eq_one_of_mem_pair {d y z : V ≃ₗ[F] V} {h : F[X]}
     [Fact (Irreducible h)]
     (hW : primaryComponent d.toLinearMap h = ⊤)
@@ -745,13 +758,14 @@ private theorem blockDet_d_eq_one_of_mem_pair {d y z : V ≃ₗ[F] V} {h : F[X]}
   rw [← blockDet_pair_eq hW hAP hdA hdP hyA_stable hyA hAy hzCent hzSd hzA hzP hzy hzSy]
   exact blockDet_eq_one_of_mem_specialBlock hzPair
 
+omit [Finite F] [CharP F 2] in
 private theorem pairBlock_le_specialBlock {d y z : V ≃ₗ[F] V} {h : F[X]}
     [Fact (Irreducible h)] (hd : OddOrderIsometry Q p d)
     (hh : h ∈ primaryFactors d.toLinearMap)
     (hW : primaryComponent d.toLinearMap h = ⊤)
     {A P : Submodule F V} (hAP : IsCompl A P)
     (hdA : ∀ x ∈ A, d x ∈ A) (hdP : ∀ x ∈ P, d x ∈ P)
-    (hyA : ∀ x ∈ A, y x = d x) (hyP : ∀ x ∈ P, y x = x)
+    (hyA : ∀ x ∈ A, y x = d x) (_hyP : ∀ x ∈ P, y x = x)
     (hAy : primaryComponent y.toLinearMap h = A)
     (hothers : othersSpace y.toLinearMap h = P)
     (hzPair : z ∈ specialBlock Q y h) :
@@ -805,9 +819,10 @@ private theorem pairBlock_le_specialBlock {d y z : V ≃ₗ[F] V} {h : F[X]}
       hzSd hzA hzP hzy hzSy
   exact mem_specialBlock.mpr ⟨hzSd, hdet⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_pairBlock_of_fixes_perp
     {d : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
-    (hne1 : h ≠ X - 1)
+    (_hne1 : h ≠ X - 1)
     (hW : primaryComponent d.toLinearMap h = ⊤)
     {y z : V ≃ₗ[F] V} {A P : Submodule F V}
     (hAP : IsCompl A P)
@@ -863,7 +878,7 @@ theorem specialBlock_le_iSup_specialBlock_pair (hQ : (QuadraticMap.polarBilin Q)
       (∀ x ∈ U a ⊔ U b, y a b x = d x) ∧ ∀ x ∈ polarPerp Q (U a ⊔ U b), y a b x = x) :
     specialBlock Q d h ≤ ⨆ (a : Fin k) (b : Fin k) (_ : a ≠ b), specialBlock Q (y a b) h := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hself : h = reciprocalPolynomial h :=
     (OddOrderIsometry.reciprocal_eq_of_dvd_card_succ hd hp hpq hh hh1).symm
@@ -883,9 +898,9 @@ theorem specialBlock_le_iSup_specialBlock_pair (hQ : (QuadraticMap.polarBilin Q)
     rw [CFSG.RankThree.PartOne.KCUnitary.finrank_adjoinRoot, hdeg2]
   obtain ⟨ℓ, f, hUd, B, hcard, hBsymm, hBsep, htr, hrange⟩ :=
     exists_unitary_model_deg_two hd hpodd hh hh1 hself hE2
-  haveI : Fact ℓ.Prime := ⟨hUd.prime⟩
-  haveI : CharP (AdjoinRoot h) ℓ := hUd.charP
-  haveI : Finite (AdjoinRoot h) := hUd.finite
+  have : Fact ℓ.Prime := ⟨hUd.prime⟩
+  have : CharP (AdjoinRoot h) ℓ := hUd.charP
+  have : Finite (AdjoinRoot h) := hUd.finite
   have hVdim : finrank F (primaryComponent d.toLinearMap h) = 2 * k := by
     rw [hW, finrank_top, hdimV]
   have hfinW : finrank (AdjoinRoot h) (primaryComponent d.toLinearMap h) = k := by
@@ -899,7 +914,7 @@ theorem specialBlock_le_iSup_specialBlock_pair (hQ : (QuadraticMap.polarBilin Q)
     intro j hb0
     have h := hb_orth j j
     rw [hb0] at h
-    simpa using h
+    simp at h
   let G : Subgroup (V ≃ₗ[F] V) := specialBlock Q d h
   let N : Subgroup (V ≃ₗ[F] V) :=
     ⨆ (a : Fin k) (b : Fin k) (_ : a ≠ b), specialBlock Q (y a b) h

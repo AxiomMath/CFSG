@@ -40,23 +40,23 @@ variable {W V : Type} [CommGroup W] [CommGroup V] [Finite W] [Finite V]
 theorem omegaMinus6Line_of_map_congr (H : Subgroup (MulAut W)) (H' : Subgroup (MulAut V))
     (n : ℕ) (e : W ≃* V) (hH' : H' = H.map (CFSG.Quasithin.H.congrHom e))
     (h : OmegaMinus6Line V H' n) : OmegaMinus6Line W H n := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
   dsimp only
   intro Tstar hTnorm hT2 hST
-  letI : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
-  letI : MulAction ↥H' V := MulAction.compHom V H'.subtype
-  letI : MulAction ↥H' (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
+  let : MulAction ↥H' V := MulAction.compHom V H'.subtype
+  let : MulAction ↥H' (Set V) := Set.mulActionSet
   let eH : ↥H ≃* ↥H' :=
     ((MulAut.congr e).subgroupMap H).trans (MulEquiv.subgroupCongr hH'.symm)
   let S' : Sylow 2 ↥H' := S.mapSurjective (f := eH.toMonoidHom) eH.surjective
-  letI : MulDistribMulAction ↥S' V :=
+  let : MulDistribMulAction ↥S' V :=
     MulDistribMulAction.compHom V (H'.subtype.comp (S' : Subgroup ↥H').subtype)
   let ℓ' : Subgroup V := fixedPointSubgroup ↥S' V
   let Pℓ' : Subgroup ↥H' := MulAction.stabilizer ↥H' (ℓ' : Set V)
@@ -226,7 +226,7 @@ end Transport
 
 theorem kTab23b_OmegaMinus6_line_of_natural (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H)
     (hline : IsOmegaMinus ↥H 6 n ∧ NatOmegaMinus H ⊤ ⊥ 6 n)
     (hNat : ∀ (K : Type) [Field K] [Finite K] (b c : K) (m : ℕ), Nat.card K = 2 ^ m →
       (∀ s : K, s ^ 2 + b * s + c ≠ 0) →
@@ -253,8 +253,8 @@ theorem kTab23b_OmegaMinus6_line_of_natural (W : Type) [CommGroup W] [Finite W]
         ∀ Pstar : Subgroup ↥H, Minimal Good Pstar →
           Pstar ≠ ⊤ ∧ (IsL2 (Bar2 (Hinf Pstar)) n ∨ (n = 1 ∧ Hinf Pstar = ⊥)) := by
   obtain ⟨-, K, hF, hFin, b, c, hK, hirr, hReal⟩ := hline.2
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨π, e, he⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC.exists_natEquiv
       (ι := Fin 2 ⊕ Fin 2 ⊕ Fin 2)
@@ -298,7 +298,7 @@ variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
   map_mul' := by
     intro e f
     ext x
-    simp [map_add]
+    simp
 
 @[simp]
 theorem linMulAut_apply (e : V ≃ₗ[K] V) (x : Multiplicative V) :
@@ -358,21 +358,24 @@ noncomputable abbrev T2Q (K : Type) [Field K] (b c : K) : QuadraticForm K (T2V K
 noncomputable abbrev T2G (K : Type) [Field K] (b c : K) : Subgroup (T2V K ≃ₗ[K] T2V K) :=
   orthElementaryGroup (T2Q K b c)
 
+omit [Finite K] [CharP K 2] in
 theorem t2q_anisotropic (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     (minusTailForm K b c).Anisotropic :=
   anisotropic_minusTailForm hirr
 
+omit [CharP K 2] in
 theorem t2q_regular (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     (polarBilin (minusTailForm K b c)).Nondegenerate :=
   nondegenerate_minusTailForm hirr
 
+omit [Finite K] [CharP K 2] in
 theorem t2q_finrank : Module.finrank K (Fin 2 → K) = 2 := finrank_fin_two_fun
 
 instance t2G_finite (K : Type) [Field K] [Finite K] (b c : K) : Finite ↥(T2G K b c) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (T2V K) := by infer_instance
-  haveI : Finite (T2V K → T2V K) := by infer_instance
-  haveI : Finite (T2V K ≃ₗ[K] T2V K) :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (T2V K) := by infer_instance
+  have : Finite (T2V K → T2V K) := by infer_instance
+  have : Finite (T2V K ≃ₗ[K] T2V K) :=
     Finite.of_injective ((↑) : (T2V K ≃ₗ[K] T2V K) → T2V K → T2V K)
       DFunLike.coe_injective
   exact Subtype.finite
@@ -469,7 +472,6 @@ theorem t2G_card (K : Type) [Field K] [Finite K] [CharP K 2] (b c : K)
     have hIcc : Finset.Icc 1 (3 - 1) = ({1, 2} : Finset ℕ) := by decide
     rw [hIcc]
     norm_num [q, Finset.prod_insert]
-    push_cast
     ring
   exact_mod_cast hInt'
 
@@ -538,7 +540,7 @@ theorem t2Odd_not_two_dvd (K : Type) [Field K] [Finite K] (h2 : 2 ∣ Nat.card K
     (t2q_anisotropic hirr)).toSylow (by
       rw [t2U_index K b c hirr]
       exact t2Odd_not_two_dvd K (by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         exact dvd_natCard_of_charP (K := K) (p := 2)))
 
 @[simp]
@@ -1296,7 +1298,7 @@ theorem isSolvable_tailRankOneParabolic_F2 (K : Type) [Field K] [Finite K] [Char
   have hcard576 : Nat.card ↥(tailRankOneParabolic (minusTailForm K b c) (t2a0 K) (0 : Fin 2)) = 576 := by
     rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPle).toEquiv]
     exact T2P0_card (K := K) (b := b) (c := c) hirr hK
-  letI : Fintype ↥(tailRankOneParabolic (minusTailForm K b c) (t2a0 K) (0 : Fin 2)) := Fintype.ofFinite _
+  let : Fintype ↥(tailRankOneParabolic (minusTailForm K b c) (t2a0 K) (0 : Fin 2)) := Fintype.ofFinite _
   have hcard : Fintype.card ↥(tailRankOneParabolic (minusTailForm K b c) (t2a0 K) (0 : Fin 2)) =
       2 ^ 6 * 3 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hcard576]
@@ -1310,19 +1312,18 @@ theorem T2H_line (K : Type) [Field K] [Finite K] [CharP K 2] (b c : K)
       (n = 1 ∧ Hinf (T2P0H K b c) = ⊥)) :
     OmegaMinus6Line (Multiplicative (T2V K)) (T2H K b c) n := by
   classical
-  letI : MulDistribMulAction ↥(T2H K b c) (Multiplicative (T2V K)) :=
+  let : MulDistribMulAction ↥(T2H K b c) (Multiplicative (T2V K)) :=
     MulDistribMulAction.compHom _ (T2H K b c).subtype
-  letI : MulAction ↥(T2H K b c) (Multiplicative (T2V K)) := MulDistribMulAction.toMulAction
-  letI : MulAction ↥(T2H K b c) (Set (Multiplicative (T2V K))) := Set.mulActionSet
+  let : MulAction ↥(T2H K b c) (Multiplicative (T2V K)) := MulDistribMulAction.toMulAction
+  let : MulAction ↥(T2H K b c) (Set (Multiplicative (T2V K))) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S (Multiplicative (T2V K)) :=
+  let : MulDistribMulAction ↥S (Multiplicative (T2V K)) :=
     MulDistribMulAction.compHom _ ((T2H K b c).subtype.comp (S : Subgroup ↥(T2H K b c)).subtype)
   let ℓ : Subgroup (Multiplicative (T2V K)) := fixedPointSubgroup ↥S _
   let Pℓ : Subgroup ↥(T2H K b c) :=
     MulAction.stabilizer ↥(T2H K b c) (ℓ : Set (Multiplicative (T2V K)))
   dsimp only
-  intro Tstar hTnorm hT2 hST
-  intro Pstar hmin
+  intro Tstar hTnorm hT2 hST Pstar hmin
   have hSylS : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup ↥(T2H K b c)) ⊤ :=
     CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow S
   have hSylStd : CFSG.QuasithinUnique.IsSylowTwoOf
@@ -1601,11 +1602,11 @@ theorem omegaMinus6NaturalLine
         (CFSG.Quasithin.H.natImage
           (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 3 K b c))) m := by
   intro K hF hFin b c m hK hirr
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := m) (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have hmpos : 0 < m := by
     rcases Nat.eq_zero_or_pos m with rfl | h
@@ -1661,7 +1662,7 @@ theorem omegaMinus6NaturalLine
     have hcomp : (CFSG.Quasithin.H.congrHom e.symm).comp
         (CFSG.Quasithin.H.congrHom e) = MonoidHom.id _ := by
       refine MonoidHom.ext fun x => MulEquiv.ext fun y => ?_
-      simp [CFSG.Quasithin.H.congrHom_apply]
+      simp
     rw [hcomp, Subgroup.map_id]
   exact omegaMinus6Line_of_map_congr (CFSG.Quasithin.H.natImage Γ) (T2H K b c) m e.symm
     hH' (T2H_line K b c hirr m hres)
@@ -1672,7 +1673,7 @@ theorem hsurj_holds :
       ∃ f : ↥(Hinf (tailRankOneParabolic (minusTailForm K b c) a (0 : Fin 2))) →*
           Matrix.SpecialLinearGroup (Fin 2) K, Function.Surjective f ∧ IsPGroup 2 f.ker := by
   intro K hF hFin b c a n hn hK ha hirr
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card]; exact hK)
   exact tailRankOneSL2Surjection_minus (b := b) (c := c) hirr

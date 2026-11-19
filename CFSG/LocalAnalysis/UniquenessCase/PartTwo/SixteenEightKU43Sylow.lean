@@ -16,7 +16,7 @@ variable {T : Type*} [Group T] [Finite T]
 
 theorem card_sylow_eq_prime {p : ℕ} [Fact p.Prime] (P : Sylow p T) (hdvd : p ∣ Nat.card T)
     (hsq : ¬ p ^ 2 ∣ Nat.card T) : Nat.card P = p := by
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp P.isPGroup
   have hmul : Nat.card P * (P : Subgroup T).index = Nat.card T := (P : Subgroup T).card_mul_index
   have hnd : ¬ p ∣ (P : Subgroup T).index := P.not_dvd_index
   rcases k with _ | _ | k
@@ -33,7 +33,7 @@ theorem card_sylow_mul_totient_le {p d : ℕ} [Fact p.Prime]
     (hP : ∀ P : Sylow p T, Nat.card P = d ∧ IsCyclic P) :
     Nat.card (Sylow p T) * d.totient ≤ Nat.card {x : T // orderOf x = d} := by
   classical
-  haveI : Fintype T := Fintype.ofFinite T
+  have : Fintype T := Fintype.ofFinite T
   let f : (Σ P : Sylow p T, {a : (P : Subgroup T) // orderOf a = d}) → {x : T // orderOf x = d} :=
     fun x => ⟨(x.2.1 : T), by rw [Subgroup.orderOf_coe]; exact x.2.2⟩
   have hzp : ∀ (P : Sylow p T) (a : (P : Subgroup T)), orderOf a = d →
@@ -51,10 +51,10 @@ theorem card_sylow_mul_totient_le {p d : ℕ} [Fact p.Prime]
     rfl
   have hcard : ∀ P : Sylow p T, Nat.card {a : (P : Subgroup T) // orderOf a = d} = d.totient := by
     intro P
-    haveI := (hP P).2
+    have := (hP P).2
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
     exact IsCyclic.card_orderOf_eq_totient (by rw [← Nat.card_eq_fintype_card, (hP P).1])
-  haveI : Fintype (Sylow p T) := Fintype.ofFinite _
+  have : Fintype (Sylow p T) := Fintype.ofFinite _
   calc Nat.card (Sylow p T) * d.totient
       = Nat.card (Σ P : Sylow p T, {a : (P : Subgroup T) // orderOf a = d}) := by
         rw [Nat.card_sigma, Finset.sum_congr rfl (fun P _ => hcard P), Finset.sum_const,
@@ -88,12 +88,14 @@ section Transfer
 
 variable {S : Type*} [Group S] [Finite S] (X : Subgroup S)
 
+omit [Finite S] in
 theorem card_normalizer_dvd_map (Q : Subgroup X) :
     Nat.card (normalizer (Q : Set X)) ∣
       Nat.card (normalizer ((Q.map X.subtype : Subgroup S) : Set S)) := by
   rw [← Subgroup.card_map_of_injective (K := normalizer (Q : Set X)) X.subtype_injective]
   exact Subgroup.card_dvd_of_le (Subgroup.le_normalizer_map X.subtype)
 
+omit [Finite S] in
 theorem card_map_subtype (Q : Subgroup X) : Nat.card (Q.map X.subtype) = Nat.card Q :=
   Subgroup.card_map_of_injective X.subtype_injective
 
@@ -110,7 +112,7 @@ theorem mem_npSet {c d m p N n : ℕ} (hc : 0 < c) (hdm : d ∣ m) (hN : N ∣ c
     (hNn : N * n = m) (hn : n % p = 1) : n ∈ npSet c d m p := by
   have hN0 : 0 < N := Nat.pos_of_dvd_of_pos hN hc
   have hdiv : m / N = n := by rw [← hNn, Nat.mul_div_cancel_left _ hN0]
-  simp only [npSet, if_pos hdm]
+  simp only [npSet, ite_eq_left hdm]
   exact Finset.mem_image.2 ⟨N, Finset.mem_filter.2 ⟨Nat.mem_divisors.2 ⟨hN, hc.ne'⟩, hdN,
     Dvd.intro _ hNn, by rw [hdiv]; exact hn⟩, hdiv⟩
 
@@ -147,12 +149,12 @@ theorem noncyclic3_of_facts {S : Type*} [Group S] [Finite S] (hF : U43CountingFa
   classical
   by_contra hcon
   push Not at hcon
-  haveI h3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI h5 : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI h7 : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have h3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have h5 : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have h7 : Fact (Nat.Prime 7) := ⟨by decide⟩
   have hcyc : ∀ P : Sylow 3 X, IsCyclic P := by
     intro P
-    haveI := hcon ((P : Subgroup X).map X.subtype) (map_subtype_le _) (P.isPGroup'.map _)
+    have := hcon ((P : Subgroup X).map X.subtype) (map_subtype_le _) (P.isPGroup.map _)
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective (P : Subgroup X) X.subtype X.subtype_injective).symm.toMonoidHom
       (MulEquiv.surjective _)
@@ -162,7 +164,7 @@ theorem noncyclic3_of_facts {S : Type*} [Group S] [Finite S] (hF : U43CountingFa
   have hn0 : X.index ≠ 0 := by intro h; rw [h, mul_zero] at hmn; exact absurd hmn (by norm_num)
   have h27 : ∀ P : Sylow 3 X, ¬ 27 ∣ Nat.card P := by
     intro P h
-    haveI := hcyc P
+    have := hcyc P
     obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := P)
     rw [← hg] at h
     have ho := orderOf_pow_orderOf_div (orderOf_pos g).ne' h
@@ -219,7 +221,7 @@ theorem noncyclic3_of_facts {S : Type*} [Group S] [Finite S] (hF : U43CountingFa
     ·
       have hP9 : ∀ P : Sylow 3 X, Nat.card P = 9 := by
         intro P
-        obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+        obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P.isPGroup
         have h9 : 9 ∣ Nat.card P := by
           rw [hm, ← (P : Subgroup X).card_mul_index] at h
           exact Nat.Coprime.dvd_of_dvd_mul_right (Nat.Coprime.pow_left 2 (hcop P)) h
@@ -239,7 +241,7 @@ theorem noncyclic3_of_facts {S : Type*} [Group S] [Finite S] (hF : U43CountingFa
       obtain ⟨N, n, hN, hdN, hNn, hn, hc⟩ := cyc_data (T := X) (p := 3) (d := 9)
         (c := Nat.gcd 1458 m) (fun P => ⟨hP9 P, hcyc P⟩) (fun P => by
           refine Nat.dvd_gcd ?_ (Subgroup.card_subgroup_dvd_card _)
-          haveI := hcyc P
+          have := hcyc P
           obtain ⟨a, ha⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := P)
           rw [hP9] at ha
           have hzP : zpowers (a : X) = (P : Subgroup X) := by
@@ -284,7 +286,7 @@ theorem card_normalizer_zpowers_dvd (x : G) :
   classical
   set H : Subgroup G := zpowers x with hH
   set N : Subgroup G := normalizer (H : Set G) with hN
-  haveI : (H.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have : (H.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   let f : N →* MulAut (H.subgroupOf N) := MulAut.conjNormal
   have hxN : x ∈ N := Subgroup.le_normalizer (mem_zpowers x)
   have hxH : (⟨x, hxN⟩ : N) ∈ H.subgroupOf N := by
@@ -304,7 +306,7 @@ theorem card_normalizer_zpowers_dvd (x : G) :
   have hcardH : Nat.card (H.subgroupOf N) = orderOf x := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer)).toEquiv,
       Nat.card_zpowers]
-  haveI : IsCyclic (H.subgroupOf N) :=
+  have : IsCyclic (H.subgroupOf N) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer)).symm.toMonoidHom
       (MulEquiv.surjective _)
   have hrange : Nat.card f.range ∣ (orderOf x).totient := by
@@ -331,8 +333,8 @@ theorem U43CentFacts.toCountingFacts {S : Type*} [Group S] [Finite S] (h : U43Ce
   norm7 := h.norm7
   norm5 := by
     intro P hP
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-    haveI := isCyclic_of_prime_card hP
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have := isCyclic_of_prime_card hP
     obtain ⟨a, ha⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := P)
     rw [hP] at ha
     have hzP : zpowers (a : S) = P := by
@@ -343,7 +345,7 @@ theorem U43CentFacts.toCountingFacts {S : Type*} [Group S] [Finite S] (h : U43Ce
     exact h1.trans (Nat.mul_dvd_mul_right (h.cent5 _ (by rw [Subgroup.orderOf_coe, ha])) 4)
   norm9 := by
     intro g hg
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 := card_normalizer_zpowers_dvd g
     rw [hg, show Nat.totient 9 = 6 by decide] at h1
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp (h.cent9 g hg)

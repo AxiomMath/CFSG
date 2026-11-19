@@ -209,12 +209,12 @@ theorem rootSubgroup_d8Start_le (i : Fin 8) (b : Bool) :
   have hmem : rootPairE8 K (d8Simple i) ≤ ⨆ k, e8D8Chain K k := by
     by_cases hi : i = 0
     · subst hi
-      have h0 : d8Simple 0 = e8D8Root := by rw [d8Simple_eq_chain 0, if_pos rfl]
+      have h0 : d8Simple 0 = e8D8Root := by rw [d8Simple_eq_chain 0, ite_eq_left rfl]
       rw [h0]
       exact (le_of_eq (e8D8Chain_zero_eq (K := K)).symm).trans
         (le_iSup (fun k => e8D8Chain K k) 0)
     · have h0 : d8Simple i = Pi.single (e8D8Node i) 1 := by
-        rw [d8Simple_eq_chain i, if_neg hi]
+        rw [d8Simple_eq_chain i, ite_eq_right hi]
       rw [h0, ← e8D8Chain_ne_zero_eq (K := K) hi]
       exact le_iSup (fun k => e8D8Chain K k) i
   have hpair : rootPairE8 K (d8Start i b) ≤ ⨆ k, e8D8Chain K k := by

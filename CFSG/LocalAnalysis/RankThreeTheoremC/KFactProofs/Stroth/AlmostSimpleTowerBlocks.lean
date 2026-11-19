@@ -140,6 +140,7 @@ theorem two_indep_of_blockHom {G H Q : Type*} [Group G] [Group H] [Group Q] {p :
 
 variable {K : Type} [Field K] [Finite K] {p n : ℕ}
 
+omit [Finite K] in
 theorem eq_one_of_mem_scalars_of_pow_eq_one (hp : p.Prime) (hpK : ¬ p ∣ Nat.card K - 1)
     (hn : 0 < n) {y : SpecialLinearGroup (Fin n) K} (hy : y ∈ scalars n K) (hyp : y ^ p = 1) :
     y = 1 := by
@@ -163,6 +164,7 @@ theorem eq_one_of_mem_scalars_of_pow_eq_one (hp : p.Prime) (hpK : ¬ p ∣ Nat.c
   rw [hyc, hc1]
   simp
 
+omit [Finite K] in
 theorem two_indep_blocks (hp : p.Prime) (hpK : ¬ p ∣ Nat.card K - 1) (hn : 0 < n) {e r : ℕ}
     (σ : (Fin e × Fin 2) ⊕ Fin r ≃ Fin n) {g : SpecialLinearGroup (Fin e) K} (hg : orderOf g = p) :
     Commute (proj n K (blkSL σ (Pi.mulSingle 0 g))) (proj n K (blkSL σ (Pi.mulSingle 1 g))) ∧
@@ -296,13 +298,13 @@ theorem uMat_apply_zero_two (hn : 3 ≤ n) (a b : K) :
     uMat hn a b ⟨0, by omega⟩ ⟨2, by omega⟩ = a := by
   have h02 : (⟨0, by omega⟩ : Fin n) ≠ ⟨2, by omega⟩ := by simp [Fin.ext_iff]
   have h10 : (⟨1, by omega⟩ : Fin n) ≠ ⟨0, by omega⟩ := by simp [Fin.ext_iff]
-  simp [uMat, Matrix.one_apply_ne h02, Matrix.single_apply, h10]
+  simp [uMat, Matrix.one_apply_ne h02, h10]
 
 theorem uMat_apply_one_two (hn : 3 ≤ n) (a b : K) :
     uMat hn a b ⟨1, by omega⟩ ⟨2, by omega⟩ = b := by
   have h12 : (⟨1, by omega⟩ : Fin n) ≠ ⟨2, by omega⟩ := by simp [Fin.ext_iff]
   have h01 : (⟨0, by omega⟩ : Fin n) ≠ ⟨1, by omega⟩ := by simp [Fin.ext_iff]
-  simp [uMat, Matrix.one_apply_ne h12, Matrix.single_apply, h01]
+  simp [uMat, Matrix.one_apply_ne h12, h01]
 
 theorem exists_two_indep_fixed_unip {ℓ : ℕ} [Fact ℓ.Prime] [CharP K ℓ] (hn : 3 ≤ n) :
     ∃ x₁ x₂ : projectiveSL n K, Commute x₁ x₂ ∧ x₁ ^ ℓ = 1 ∧ x₂ ^ ℓ = 1 ∧

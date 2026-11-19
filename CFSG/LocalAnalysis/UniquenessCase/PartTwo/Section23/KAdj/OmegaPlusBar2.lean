@@ -43,7 +43,7 @@ private lemma subgroupOf_inf_pCore_E08 {K : Type} [Field K] [Finite K] [CharP K 
 theorem card_bar2_hinf_plusFlagStab {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : 4 ≤ Nat.card K) :
     Nat.card (Bar2 (Hinf (plusFlagStab K 3 ({1} : Finset ℕ)))) = Nat.card SL(2, K) ^ 2 := by
-  haveI : Finite (PlusLin K) := finite_plusAut (K := K) 3
+  have : Finite (PlusLin K) := finite_plusAut (K := K) 3
   obtain ⟨e0⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.KTabD.nonempty_bar2_hinf_lineStab_statedOmegaPlus_three
       (K := K) hK

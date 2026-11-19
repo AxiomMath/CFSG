@@ -75,7 +75,7 @@ private theorem le_focalSubgroup_of_residual {H : Type} [Group H] [Finite H] (S 
     (S : Subgroup H) ≤ S.focalSubgroup := by
   have hker : S.transferFocal.ker = ⊤ := by
     refine hH _ (MonoidHom.normal_ker _) fun y => ?_
-    obtain ⟨k, hk⟩ := (S.isPGroup'.to_quotient S.focalSubgroupOf) (S.transferFocal y)
+    obtain ⟨k, hk⟩ := (S.isPGroup.to_quotient S.focalSubgroupOf) (S.transferFocal y)
     exact ⟨k, by simpa [MonoidHom.mem_ker, map_pow] using hk⟩
   intro s hs
   obtain ⟨y, hy⟩ := Subgroup.transferFocal_surjective S (QuotientGroup.mk ⟨s, hs⟩)

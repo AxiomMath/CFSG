@@ -150,7 +150,7 @@ theorem glaPLayer_ne_bot_of_component [Finite G] {p : ℕ} [hp : Fact p.Prime] {
     intro h
     have hb := hΛbar
     rw [h, barX, Subgroup.bot_subgroupOf, Subgroup.map_bot] at hb
-    haveI := isQuasisimple_nontrivial hquot
+    have := isQuasisimple_nontrivial hquot
     exact (bot_ne_top : (⊥ : Subgroup (↥Dq ⧸ GLAPPrimeCore p ↥Dq)) ≠ ⊤) hb
   have hΛcomp : GLAPComponent p (Cbar p K E) (GLAPLayer p Dq) :=
     glaPComponent_of_isSubnormal' hp.out hDq_Cb hΛc

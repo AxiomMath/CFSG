@@ -24,7 +24,7 @@ theorem shape86DeltaT'_of_shape86Delta (h711 : ∀ H : Subgroup G, W3Lem711Alt �
   let X : Type := ↥(kGenIn V H) ⧸ CFSG.pCore 2 ↥(kGenIn V H)
   let φ : ↥(kGenIn V H) →* X := QuotientGroup.mk' (CFSG.pCore 2 ↥(kGenIn V H))
   have hφ : IsBarMap (kGenIn V H) (pCoreOf 2 (kGenIn V H)) φ := isBarMap_mk_pCore (kGenIn V H)
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨φ', hφ', hS⟩ := exists_ambient_barMap h hKT hφ
   have hSit : BarSituation X (barSub (kGenIn V H) φ V) := by
     rw [← hS]

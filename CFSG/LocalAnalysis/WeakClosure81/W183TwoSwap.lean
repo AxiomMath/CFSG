@@ -41,7 +41,7 @@ theorem false_of_swap_class_mod {G : Type} [Group G] [Finite G] {K H L : Subgrou
   have hxK : (xL : G) ∉ K := fun hk => hxφne ((hφk xL).mpr hk)
   have hxH : (xL : G) ∈ H := hL.2.2.1 xL.2
   obtain ⟨m, hm0, hm2odd, hwm⟩ := hOT (xL : G) hxH
-  letI : (K.subgroupOf H).Normal := hL.1
+  let : (K.subgroupOf H).Normal := hL.1
   let Q := ↥H ⧸ (K.subgroupOf H)
   let q : ↥H →* Q := QuotientGroup.mk' (K.subgroupOf H)
   let A : Subgroup Q := (L.subgroupOf H).map q
@@ -75,7 +75,7 @@ theorem false_of_swap_class_mod {G : Type} [Group G] [Finite G] {K H L : Subgrou
       group
     rw [heq]
     exact Subgroup.mem_map.2 ⟨d ^ 2 * (xL : G) * (d ^ 2)⁻¹, hconj, by
-      simp [L', CFSG.Quasithin.conjSubgroup, mul_assoc]⟩
+      simp [mul_assoc]⟩
   let aH : ↥H := dH * xH * dH⁻¹
   have haB : q aH ∈ B := by
     refine Subgroup.mem_map.2 ⟨aH, ?_, rfl⟩
@@ -84,7 +84,7 @@ theorem false_of_swap_class_mod {G : Type} [Group G] [Finite G] {K H L : Subgrou
   have hxQA : (q xH)⁻¹ ∈ A := by
     refine Subgroup.mem_map.2 ⟨xH⁻¹, ?_, map_inv q xH⟩
     rw [Subgroup.mem_subgroupOf]
-    simpa [xH] using L.inv_mem xL.2
+    simp [xH]
   let wH : ↥H := dH * (xH * dH * xH⁻¹)
   have hwH : (wH : G) = d * ((xL : G) * d * (xL : G)⁻¹) := by
     simp [wH, dH, xH]
@@ -191,7 +191,7 @@ theorem false_of_swap_class_mod {G : Type} [Group G] [Finite G] {K H L : Subgrou
         rw [map_mul, map_inv, hmφ, inv_mul_cancel]
       have hkL' : ((mL⁻¹ * lL : ↥L) : G) ∈ L' := hL'.2.1 hker
       have heq : (mL : G) * ((mL⁻¹ * lL : ↥L) : G) = l := by
-        simp [lL, mul_assoc]
+        simp [lL]
       rw [← heq]
       exact L'.mul_mem hmLM.2 hkL'
     have hLL : ∀ a ∈ L, ∀ b ∈ L, a * b * a⁻¹ * b⁻¹ ∈ K := by
@@ -209,7 +209,7 @@ theorem false_of_swap_class_mod {G : Type} [Group G] [Finite G] {K H L : Subgrou
         rw [mul_inv_rev]
         simpa [mul_assoc] using hcφ'
       exact mul_inv_eq_one.mp h1
-    letI : CommGroup X := { (inferInstance : Group X) with mul_comm := hXcomm }
+    let : CommGroup X := { (inferInstance : Group X) with mul_comm := hXcomm }
     have hprime : Nat.Prime (Nat.card X) := IsSimpleGroup.prime_card
     have h4card : 4 ∣ Nat.card X := by
       rw [← hxOrder]

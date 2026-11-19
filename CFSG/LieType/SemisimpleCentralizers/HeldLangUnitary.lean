@@ -92,7 +92,7 @@ theorem fixed_of_Ai_scalar [Finite K] [NeZero d] (σ : K ≃+* K) (M : Matrix (F
     have h3 : (σ c - c) * M i j = 0 := by linear_combination this
     simpa [hdiff] using h3
   rw [hA'] at hM
-  haveI : Nonempty (Fin d) := ⟨0⟩
+  have : Nonempty (Fin d) := ⟨0⟩
   have : (0 : Matrix (Fin d) (Fin d) K).det = 0 := Matrix.det_zero
   exact hM this
 
@@ -162,8 +162,8 @@ theorem exists_unitary_cocycle {p e : ℕ} (hp : p.Prime) (he : 1 ≤ e) (hK : N
     ∃ (u : GL (Fin d) K) (l : Kˣ),
       conjTr bar (u : Matrix (Fin d) (Fin d) K) * (u : Matrix (Fin d) (Fin d) K) = 1 ∧
       Matrix.GeneralLinearGroup.scalar (Fin d) l * A = u⁻¹ * glMap σ u := by
-  haveI : Finite K := CFSG.Semidihedral.FixedFieldData.finite_of_prime_power_card K hp hK
-  haveI : Nonempty (Fin d) := ⟨0⟩
+  have : Finite K := CFSG.Semidihedral.FixedFieldData.finite_of_prime_power_card K hp hK
+  have : Nonempty (Fin d) := ⟨0⟩
   have hbb := hbar.invol
   have hbne : bar ≠ 1 := by
     obtain ⟨c', hc'⟩ := hbar.exists_ne

@@ -33,7 +33,7 @@ private theorem exponent_centralizer_c₂ :
     rw [Monoid.exponent_dvd_iff_forall_pow_eq_one]
     intro g
     exact Subtype.ext (by simpa using sq_centralizer_c₂ g.1 g.2)
-  haveI : Nontrivial (Subgroup.centralizer ({c₂} : Set A5)) :=
+  have : Nontrivial (Subgroup.centralizer ({c₂} : Set A5)) :=
     ⟨1, ⟨c₂, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩, fun hcon =>
       one_ne_c₂ (congrArg Subtype.val hcon)⟩
   have hle : Monoid.exponent (Subgroup.centralizer ({c₂} : Set A5)) ≤ 2 :=
@@ -132,7 +132,7 @@ private theorem centralizer_inl_eq_prod (a : A5) :
     rw [Subgroup.mem_centralizer_iff] at hp ⊢
     simp only [Subgroup.mem_top, and_true, Set.mem_singleton_iff, forall_eq] at hp ⊢
     rw [Prod.ext_iff]
-    simp only [Prod.fst_mul, Prod.snd_mul, Prod.fst_one, Prod.snd_one, one_mul, mul_one]
+    simp only [Prod.fst_mul, Prod.snd_mul, one_mul, mul_one]
     exact ⟨hp, trivial⟩
 
 private noncomputable def centralizer_inl_prod (a : A5) :

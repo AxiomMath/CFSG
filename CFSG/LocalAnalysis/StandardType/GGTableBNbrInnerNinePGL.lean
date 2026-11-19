@@ -61,7 +61,7 @@ theorem exists_lift_of_not_dvd {d p : ℕ} (hp : p.Prime) (hpK : ¬ p ∣ Nat.ca
   obtain ⟨P⟩ : Nonempty (Sylow p Xt) := inferInstance
   have hPinj : ∀ g ∈ (P : Subgroup Xt), f g = 1 → g = 1 := by
     intro g hg h1
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
     exact hker g h1 k (congrArg Subtype.val hk)
   have hfinj : Function.Injective (f.comp (P : Subgroup Xt).subtype) := by
     rw [injective_iff_map_eq_one]

@@ -47,32 +47,30 @@ private theorem shiftW_shiftW_neg {b : Idx0} (h : pr (b : Fin e7Data.d) theta4 =
 private theorem jFunW_of_zero {m : Matrix (Fin 2) (Fin 2) K} {w : W K} {b : Idx0}
     (h : pr (b : Fin e7Data.d) theta4 = 0) : jFunW m w b = w b := by
   unfold jFunW
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem jFunW_of_neg {m : Matrix (Fin 2) (Fin 2) K} {w : W K} {b : Idx0}
     (h : pr (b : Fin e7Data.d) theta4 = -1) :
     jFunW m w b = m 0 0 * w b + m 0 1 * w (shiftW theta4 b) := by
   unfold jFunW
-  rw [if_neg (show ¬ (pr (b : Fin e7Data.d) theta4 = 0) by omega), if_pos h]
+  rw [ite_eq_right (show ¬ (pr (b : Fin e7Data.d) theta4 = 0) by omega), ite_eq_left h]
 
 private theorem jFunW_of_pos {m : Matrix (Fin 2) (Fin 2) K} {w : W K} {b : Idx0}
     (h : pr (b : Fin e7Data.d) theta4 = 1) :
     jFunW m w b = m 1 0 * w (shiftW (-theta4) b) + m 1 1 * w b := by
   unfold jFunW
-  rw [if_neg (show ¬ (pr (b : Fin e7Data.d) theta4 = 0) by omega),
-    if_neg (show ¬ (pr (b : Fin e7Data.d) theta4 = -1) by omega)]
+  rw [ite_eq_right (show ¬ (pr (b : Fin e7Data.d) theta4 = 0) by omega),
+    ite_eq_right (show ¬ (pr (b : Fin e7Data.d) theta4 = -1) by omega)]
 
 @[expose] def jOpW (m : Matrix (Fin 2) (Fin 2) K) : Module.End K (W K) where
   toFun w := Finsupp.equivFunOnFinite.symm (jFunW m w)
   map_add' v w := by
     ext b
-    simp only [Finsupp.equivFunOnFinite_symm_apply_apply, Finsupp.coe_add, Pi.add_apply,
-      Finsupp.add_apply, jFunW]
+    simp only [Finsupp.equivFunOnFinite_symm_apply_apply, Finsupp.add_apply, jFunW]
     split_ifs <;> ring
   map_smul' c v := by
     ext b
-    simp only [Finsupp.equivFunOnFinite_symm_apply_apply, Finsupp.coe_smul, Pi.smul_apply,
-      Finsupp.smul_apply, smul_eq_mul, RingHom.id_apply, jFunW]
+    simp only [Finsupp.equivFunOnFinite_symm_apply_apply, Finsupp.smul_apply, smul_eq_mul, RingHom.id_apply, jFunW]
     split_ifs <;> ring
 
 theorem jOpW_apply (m : Matrix (Fin 2) (Fin 2) K) (w : W K) (b : Idx0) :
@@ -87,10 +85,10 @@ theorem jOpW_one : jOpW (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   rw [jOpW_apply, Module.End.one_apply]
   rcases pr_mem isRoot_theta4 (b : Fin e7Data.d) with h | h | h
   · rw [jFunW_of_neg h]
-    simp [Matrix.one_apply]
+    simp
   · rw [jFunW_of_zero h]
   · rw [jFunW_of_pos h]
-    simp [Matrix.one_apply]
+    simp
 
 theorem jOpW_mul (m m' : Matrix (Fin 2) (Fin 2) K) : jOpW (m * m') = jOpW m * jOpW m' := by
   apply LinearMap.ext
@@ -137,7 +135,7 @@ theorem xuWUnit_theta4 [CharP K 2] (c : K) :
   intro b
   rw [xuWUnit_apply_coord, jHomW_val, jOpW_apply, MinData.Valid.slLower_val]
   unfold jFunW
-  rcases pr_mem isRoot_theta4 (b : Fin e7Data.d) with h | h | h <;> simp [h] <;> ring
+  rcases pr_mem isRoot_theta4 (b : Fin e7Data.d) with h | h | h <;> simp [h]; ring
 
 theorem xuWUnit_neg_theta4 [CharP K 2] (c : K) :
     xuWUnit (neg_mem_Perp theta4_mem_Perp) c = jHomW (MinData.Valid.slUpper K c) := by
@@ -148,6 +146,6 @@ theorem xuWUnit_neg_theta4 [CharP K 2] (c : K) :
   intro b
   rw [xuWUnit_apply_coord, jHomW_val, jOpW_apply, MinData.Valid.slUpper_val, neg_neg, pr_neg]
   unfold jFunW
-  rcases pr_mem isRoot_theta4 (b : Fin e7Data.d) with h | h | h <;> simp [h] <;> ring
+  rcases pr_mem isRoot_theta4 (b : Fin e7Data.d) with h | h | h <;> simp [h]
 
 end CFSG.RankThree.GF2n.Smith81.D6Spin

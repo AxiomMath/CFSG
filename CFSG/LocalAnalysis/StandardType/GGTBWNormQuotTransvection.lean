@@ -35,6 +35,7 @@ theorem fix_of_mem_closure_refl (h : Λ → V) (α : Λ → Module.Dual (ZMod p)
     conv_lhs => rw [← hx]
     exact x.symm_apply_apply w
 
+omit [Fintype Λ] [DecidableEq Λ] in
 theorem linearIndependent_coroots_typeA {m : ℕ} (e : Fin (m + 1) ≃ Λ)
     {C : Matrix Λ Λ ℤ} (hCA : ∀ i j : Fin (m + 1), C (e i) (e j) = CartanMatrix.A (m + 1) i j)
     (h : Λ → V) (α : Λ → Module.Dual (ZMod p) V) (hpair : ∀ i j, α i (h j) = (C i j : ZMod p))
@@ -49,7 +50,7 @@ theorem linearIndependent_coroots_typeA {m : ℕ} (e : Fin (m + 1) ≃ Λ)
     intro i k
     rw [hCA, hAm, Matrix.map_apply]
     congr 1
-    simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff, Fin.coe_castSucc]
+    simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff, Fin.val_castSucc]
   have hmul : Am *ᵥ c = 0 := by
     funext i
     have h0 := congrArg (α (e i.castSucc)) hc

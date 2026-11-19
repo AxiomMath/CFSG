@@ -60,7 +60,7 @@ theorem reeGamma_planes_conj_three
           S = ((cj E g).subgroupOf C).map φ.toMonoidHom := by
     intro E hE hc
     have hcomm : ∀ u ∈ E, ∀ v ∈ E, u * v = v * u := by
-      haveI := hE.1
+      have := hE.1
       intro u hu v hv
       exact congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨u, hu⟩ : E) ⟨v, hv⟩)
     have hne : E ≠ ⊥ := by

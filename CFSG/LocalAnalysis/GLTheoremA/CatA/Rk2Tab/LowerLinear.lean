@@ -53,11 +53,13 @@ def diagVecSuccHom (k : ℕ) : (Fin k → Fˣ) →* (Fin (k + 1) → Fˣ) where
     · intro j
       simp [diagVecSucc, Pi.mul_apply]
 
+omit [Fintype F] in
 theorem prod_diagVecSucc (k : ℕ) (u : Fin k → Fˣ) : ∏ i, diagVecSucc k u i = 1 := by
   rw [diagVecSucc, Fin.prod_univ_succ]
   simp only [Fin.cons_zero, Fin.cons_succ]
   exact inv_mul_cancel _
 
+omit [Fintype F] in
 theorem diagVecSucc_injective (k : ℕ) : Function.Injective (diagVecSucc (F := F) k) := by
   intro u v h
   funext i
@@ -88,11 +90,13 @@ def diagVecOneHom (k : ℕ) : (Fin k → Fˣ) →* (Fin (k + 2) → Fˣ) where
       · intro l
         simp [diagVecOne, diagVecSucc, Pi.mul_apply]
 
+omit [Fintype F] in
 theorem prod_diagVecOne (k : ℕ) (u : Fin k → Fˣ) : ∏ i, diagVecOne k u i = 1 := by
   rw [diagVecOne, Fin.prod_univ_succ]
   simp only [Fin.cons_zero, Fin.cons_succ, one_mul]
   exact prod_diagVecSucc k u
 
+omit [Fintype F] in
 theorem diagVecOne_injective (k : ℕ) : Function.Injective (diagVecOne (F := F) k) := by
   intro u v h
   funext i
@@ -104,6 +108,7 @@ def rootsPiHom (k r : ℕ) : (Fin k → rootsOfUnity r F) →* (Fin k → Fˣ) :
     (Subgroup.subtype (rootsOfUnity r F)).comp
       (Pi.evalMonoidHom (fun _ => rootsOfUnity r F) i)
 
+omit [Fintype F] in
 theorem rootsPiHom_injective (k r : ℕ) : Function.Injective (rootsPiHom (F := F) k r) := by
   intro u v h
   funext i
@@ -113,6 +118,7 @@ theorem rootsPiHom_injective (k r : ℕ) : Function.Injective (rootsPiHom (F := 
 def diagTorusGL (k r : ℕ) : Subgroup (GL (Fin (k + 2)) F) :=
   (torusDiag.comp ((diagVecOneHom (F := F) k).comp (rootsPiHom (F := F) k r))).range
 
+omit [Fintype F] in
 theorem diagTorusGL_le_SL (k r : ℕ) : diagTorusGL (F := F) k r ≤ StatedSL (k + 2) F := by
   rintro _ ⟨u, rfl⟩
   refine torusDiag_mem_SL ?_
@@ -131,7 +137,8 @@ theorem card_diagTorusGL (k r : ℕ) [NeZero r] (hrd : r ∣ Nat.card F - 1) :
   rw [CFSG.LieType.Steinberg.CentralExt.SLClosed.card_rootsOfUnity_eq_gcd r,
     Nat.gcd_eq_left (by rwa [← Nat.card_eq_fintype_card])]
 
-theorem isElemAbelian_diagTorusGL (k r : ℕ) (hr : r.Prime) :
+omit [Fintype F] in
+theorem isElemAbelian_diagTorusGL (k r : ℕ) (_hr : r.Prime) :
     IsElemAbelian r (diagTorusGL (F := F) k r) := by
   have htop : IsElemAbelian r (⊤ : Subgroup (Fin k → rootsOfUnity r F)) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -145,11 +152,13 @@ theorem isElemAbelian_diagTorusGL (k r : ℕ) (hr : r.Prime) :
 noncomputable def rootSubgroupGL (d : ℕ) : Subgroup (GL (Fin d) F) :=
   (linHom d 1 1).range
 
+omit [Fintype F] in
 theorem mem_rootSubgroupGL {d : ℕ} {x : GL (Fin d) F} :
     x ∈ rootSubgroupGL (F := F) d ↔
       ∃ s : Multiplicative (Fin 1 × Fin 1 → F), linHom (K := F) d 1 1 s = x :=
   MonoidHom.mem_range
 
+omit [Fintype F] in
 theorem rootSubgroupGL_le_SL (d : ℕ) [CharP F 2] : rootSubgroupGL (F := F) d ≤ StatedSL d F := by
   rintro _ ⟨s, rfl⟩
   refine Subgroup.subset_closure ?_
@@ -173,6 +182,7 @@ theorem card_rootSubgroupGL {d : ℕ} (hd : 2 ≤ d) :
     Nat.card_fun, Nat.card_prod]
   norm_num
 
+omit [Fintype F] in
 theorem isPGroup_two_rootSubgroupGL (d : ℕ) [CharP F 2] : IsPGroup 2 (rootSubgroupGL (F := F) d) := by
   refine IsPGroup.iff_orderOf.2 fun x => ?_
   obtain ⟨s, hs⟩ := x.2
@@ -190,10 +200,11 @@ theorem isPGroup_two_rootSubgroupGL (d : ℕ) [CharP F 2] : IsPGroup 2 (rootSubg
   · exact ⟨0, by rw [pow_zero]; exact h⟩
   · exact ⟨1, by rw [pow_one]; exact h⟩
 
+omit [Fintype F] in
 theorem rootSubgroupGL_subgroupOf_inf_scalars (d : ℕ) (hd : 2 ≤ d) :
     (rootSubgroupGL (F := F) d).subgroupOf (StatedSL d F) ⊓
       (StatedScalars (Fin d) F).subgroupOf (StatedSL d F) = ⊥ := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   rw [eq_bot_iff]
   rintro z ⟨hzX, hzK⟩
   rw [Subgroup.mem_bot]
@@ -216,11 +227,11 @@ theorem rootSubgroupGL_subgroupOf_inf_scalars (d : ℕ) (hd : 2 ≤ d) :
       ⟨0, by omega⟩) ⟨1, by omega⟩
     rw [linHom, coe_glOfAdd, Matrix.add_apply] at h1
     have hL : (1 : Matrix (Fin d) (Fin d) F) ⟨0, by omega⟩ ⟨1, by omega⟩ = 0 := by
-      rw [Matrix.one_apply, if_neg h01']
+      rw [Matrix.one_apply, ite_eq_right h01']
     have hR : (GeneralLinearGroup.scalar (Fin d) c :
         Matrix (Fin d) (Fin d) F) ⟨0, by omega⟩ ⟨1, by omega⟩ = 0 := by
       rw [GeneralLinearGroup.coe_scalar]
-      simp [h01']
+      simp
     rw [hL, hR, zero_add] at h1
     simpa [linBlock] using h1
   have hs1 : s = 1 := by
@@ -263,19 +274,21 @@ theorem rootClassSubgroup_ne_bot [CharP F 2] {n : ℕ} (hn : 2 ≤ n) :
     exact Fintype.one_lt_card
   exact (Subgroup.one_lt_card_iff_ne_bot _).1 hgt
 
-theorem isPGroup_two_rootClassSubgroup [CharP F 2] {n : ℕ} (hn : 2 ≤ n) :
+omit [Fintype F] in
+theorem isPGroup_two_rootClassSubgroup [CharP F 2] {n : ℕ} (_hn : 2 ≤ n) :
     IsPGroup 2 (rootClassSubgroup (F := F) n) := by
   have hX_SL : rootSubgroupGL (F := F) n ≤ StatedSL n F := rootSubgroupGL_le_SL n
   have hXSL2 : IsPGroup 2 ((rootSubgroupGL (F := F) n).subgroupOf (StatedSL n F)) :=
     (isPGroup_two_rootSubgroupGL n).of_equiv (Subgroup.subgroupOfEquivOfLe hX_SL).symm
   exact hXSL2.map _
 
+omit [Fintype F] in
 theorem diagonal_mul_linBlock_one_one {k : ℕ} (v : Fin (k + 2) → Fˣ) (s : Fin 1 × Fin 1 → F) :
     diagonal (fun i => (v i : F)) * linBlock (k + 2) 1 1 s *
         diagonal (fun i => (((v i)⁻¹ : Fˣ) : F)) =
       linBlock (k + 2) 1 1 (fun _ => (v 0 : F) * s ⟨0, 0⟩ * (((v 1)⁻¹ : Fˣ) : F)) := by
   ext i j
-  simp only [Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.diagonal_apply_eq, linBlock,
+  simp only [Matrix.mul_diagonal, Matrix.diagonal_mul, linBlock,
     Matrix.of_apply]
   by_cases h : i.val < 1 ∧ 1 ≤ j.val ∧ j.val < 2
   · have hi : i = 0 := Fin.ext (Nat.lt_one_iff.mp h.1)
@@ -286,9 +299,10 @@ theorem diagonal_mul_linBlock_one_one {k : ℕ} (v : Fin (k + 2) → Fˣ) (s : F
       simpa using hv)
     subst hi
     subst hj
-    simp [h]
-  · simp only [dif_neg h, mul_zero, zero_mul]
+    simp
+  · simp only [dite_eq_right h, mul_zero, zero_mul]
 
+omit [Fintype F] in
 theorem torusDiag_mul_linHom_mul_inv (k : ℕ) (v : Fin (k + 2) → Fˣ)
     (s : Multiplicative (Fin 1 × Fin 1 → F)) :
     torusDiag v * linHom (K := F) (k + 2) 1 1 s * torusDiag (fun i => (v i)⁻¹) =
@@ -304,12 +318,13 @@ theorem torusDiag_mul_linHom_mul_inv (k : ℕ) (v : Fin (k + 2) → Fˣ)
     funext i
     have h : ((v i : Fˣ) : F) * (((v i)⁻¹ : Fˣ) : F) = ((1 : Fˣ) : F) := by
       rw [← Units.val_mul, mul_inv_cancel]
-    simpa using h
+    simp
   rw [mul_add, add_mul, mul_one, show (diagonal fun i => (v i : F)) *
       (diagonal fun i => (((v i)⁻¹ : Fˣ) : F)) = 1 from hD,
     diagonal_mul_linBlock_one_one]
   rfl
 
+omit [Fintype F] in
 theorem diagTorusGL_le_normalizer_rootSubgroupGL (k r : ℕ) :
     diagTorusGL (F := F) k r ≤
       Subgroup.normalizer (rootSubgroupGL (F := F) (k + 2) : Set (GL (Fin (k + 2)) F)) := by
@@ -324,7 +339,7 @@ theorem diagTorusGL_le_normalizer_rootSubgroupGL (k r : ℕ) :
   exact (torusDiag_mul_linHom_mul_inv k v s).symm
 
 theorem exists_elemAbelian_le_normalizer_statedProj_of (d r k : ℕ) [CharP F 2] (hd : 2 ≤ d)
-    (hr : r.Prime) (hr2 : r ≠ 2) (D0 : Subgroup (GL (Fin d) F))
+    (_hr : r.Prime) (_hr2 : r ≠ 2) (D0 : Subgroup (GL (Fin d) F))
     (hD_SL : D0 ≤ StatedSL d F)
     (hD_scal : ∀ z : ↥(StatedSL d F), (z : GL (Fin d) F) ∈ D0 →
       (z : GL (Fin d) F) ∈ StatedScalars (Fin d) F → (z : GL (Fin d) F) = 1)
@@ -334,7 +349,7 @@ theorem exists_elemAbelian_le_normalizer_statedProj_of (d r k : ℕ) [CharP F 2]
       X ≠ ⊥ ∧ IsPGroup 2 X ∧ IsElemAbelian r E ∧ Nat.card E = r ^ k ∧
         E ≤ Subgroup.normalizer (X : Set (StatedProj (StatedSL d F))) := by
   classical
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   have hX_SL : rootSubgroupGL (F := F) d ≤ StatedSL d F := rootSubgroupGL_le_SL d
   let π : ↥(StatedSL d F) →* StatedProj (StatedSL d F) :=
     QuotientGroup.mk' ((StatedScalars (Fin d) F).subgroupOf (StatedSL d F))
@@ -376,7 +391,7 @@ theorem exists_elemAbelian_le_normalizer_statedProj (k r : ℕ) [CharP F 2] (hr 
     ∃ E X : Subgroup (StatedProj (StatedSL (k + 2) F)),
       X ≠ ⊥ ∧ IsPGroup 2 X ∧ IsElemAbelian r E ∧ Nat.card E = r ^ k ∧
         E ≤ Subgroup.normalizer (X : Set (StatedProj (StatedSL (k + 2) F))) := by
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   refine exists_elemAbelian_le_normalizer_statedProj_of (k + 2) r k (by omega) hr hr2
     (diagTorusGL (F := F) k r) (diagTorusGL_le_SL k r) ?_ (card_diagTorusGL k r hrd)
     (isElemAbelian_diagTorusGL k r hr) (diagTorusGL_le_normalizer_rootSubgroupGL k r)
@@ -402,6 +417,7 @@ theorem exists_elemAbelian_le_normalizer_statedProj (k r : ℕ) [CharP F 2] (hr 
 def diagTorusSixGL (r : ℕ) : Subgroup (GL (Fin 6) F) :=
   (torusDiag.comp ((diagVecSuccHom (F := F) 5).comp (rootsPiHom (F := F) 5 r))).range
 
+omit [Fintype F] in
 theorem diagTorusSixGL_le_SL (r : ℕ) : diagTorusSixGL (F := F) r ≤ StatedSL 6 F := by
   rintro _ ⟨u, rfl⟩
   refine torusDiag_mem_SL ?_
@@ -420,7 +436,8 @@ theorem card_diagTorusSixGL (r : ℕ) [NeZero r] (hrd : r ∣ Nat.card F - 1) :
   rw [CFSG.LieType.Steinberg.CentralExt.SLClosed.card_rootsOfUnity_eq_gcd r,
     Nat.gcd_eq_left (by rwa [← Nat.card_eq_fintype_card])]
 
-theorem isElemAbelian_diagTorusSixGL (r : ℕ) (hr : r.Prime) :
+omit [Fintype F] in
+theorem isElemAbelian_diagTorusSixGL (r : ℕ) (_hr : r.Prime) :
     IsElemAbelian r (diagTorusSixGL (F := F) r) := by
   have htop : IsElemAbelian r (⊤ : Subgroup (Fin 5 → rootsOfUnity r F)) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -431,6 +448,7 @@ theorem isElemAbelian_diagTorusSixGL (r : ℕ) (hr : r.Prime) :
   rw [diagTorusSixGL, MonoidHom.range_eq_map]
   exact htop.map _
 
+omit [Fintype F] in
 theorem diagTorusSixGL_le_normalizer_rootSubgroupGL (r : ℕ) :
     diagTorusSixGL (F := F) r ≤
       Subgroup.normalizer (rootSubgroupGL (F := F) 6 : Set (GL (Fin 6) F)) := by
@@ -481,9 +499,9 @@ theorem exists_surjective_of_card_hopfMultiplier {S E E₀ : Type} [Group S] [Fi
     (hcard : Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier S) = Nat.card p₀.ker) :
     ∃ φ : E₀ →* E, Function.Surjective φ ∧ φ.ker ≤ p₀.ker := by
   classical
-  haveI : Finite (CFSG.RankThree.PerfectCover.HopfCover S) :=
+  have : Finite (CFSG.RankThree.PerfectCover.HopfCover S) :=
     CFSG.RankThree.PerfectCover.finite_hopfCover inferInstance
-  haveI : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier S) :=
+  have : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier S) :=
     CFSG.RankThree.PerfectCover.finite_hopfMultiplier inferInstance
   let h := CFSG.RankThree.PerfectCover.hopfLift p hp hker
   let h₀ := CFSG.RankThree.PerfectCover.hopfLift p₀ hp₀ hker₀
@@ -561,7 +579,7 @@ theorem card_diagTorusFourGL {F : Type} [Field F] [Fintype F] (r : ℕ) [NeZero 
   rw [CFSG.LieType.Steinberg.CentralExt.SLClosed.card_rootsOfUnity_eq_gcd r,
     Nat.gcd_eq_left (by rwa [← Nat.card_eq_fintype_card])]
 
-theorem isElemAbelian_diagTorusFourGL {F : Type} [Field F] [Fintype F] (r : ℕ) (hr : r.Prime) :
+theorem isElemAbelian_diagTorusFourGL {F : Type} [Field F] [Fintype F] (r : ℕ) (_hr : r.Prime) :
     IsElemAbelian r (diagTorusFourGL (F := F) r) := by
   have htop : IsElemAbelian r (⊤ : Subgroup (Fin 3 → rootsOfUnity r F)) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -625,7 +643,7 @@ theorem card_hopfMultiplier_statedProj_of_five_le {F : Type} [Field F] [Fintype 
 theorem card_center_specialLinearGroup_eq_gcd {F : Type} [Field F] [Fintype F] {d : ℕ} (hd : 1 ≤ d) :
     Nat.card (Subgroup.center (SpecialLinearGroup (Fin d) F)) =
       Nat.gcd d (Fintype.card F - 1) := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   rw [Nat.card_congr
     (SpecialLinearGroup.center_equiv_rootsOfUnity (n := Fin d) (R := F)).toEquiv]
   rw [show max (Fintype.card (Fin d)) 1 = d by simp [max_eq_left hd]]
@@ -642,14 +660,14 @@ theorem exists_surjective_statedSL_of_model {K : Type} [Group K] [Finite K] {d :
   classical
   let ψ : ProjectiveSpecialLinearGroup (Fin d) F ≃* StatedProj (StatedSL d F) :=
     CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj d F
-  haveI : Group.IsPerfect (ProjectiveSpecialLinearGroup (Fin d) F) :=
+  have : Group.IsPerfect (ProjectiveSpecialLinearGroup (Fin d) F) :=
     CFSG.LinearGroups.linear_projective_perfect (by omega) (Or.inl hd)
-  haveI hSperf : Group.IsPerfect (StatedProj (StatedSL d F)) :=
+  have hSperf : Group.IsPerfect (StatedProj (StatedSL d F)) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
-  haveI hKperf : Group.IsPerfect K := hQ.1
-  haveI : Group.IsPerfect (SpecialLinearGroup (Fin d) F) :=
+  have hKperf : Group.IsPerfect K := hQ.1
+  have : Group.IsPerfect (SpecialLinearGroup (Fin d) F) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hd
-  haveI hSLperf : Group.IsPerfect ↥(StatedSL d F) :=
+  have hSLperf : Group.IsPerfect ↥(StatedSL d F) :=
     Group.IsPerfect.ofSurjective
       (f := (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL d F).toMonoidHom)
       (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL d F).surjective
@@ -697,11 +715,11 @@ theorem exists_surjective_statedSL_of_model {K : Type} [Group K] [Finite K] {d :
 theorem le_evenRank_of_surjective_statedSL_torus {K : Type} [Group K] [Finite K] {r k : ℕ}
     {F : Type} [Field F] [Fintype F] [CharP F 2] (hr : r.Prime) (hr2 : r ≠ 2)
     (hrd : r ∣ Nat.card F - 1) {φ : ↥(StatedSL (k + 2) F) →* K}
-    (hφ : Function.Surjective φ)
+    (_hφ : Function.Surjective φ)
     (hker : φ.ker ≤ (StatedScalars (Fin (k + 2)) F).subgroupOf (StatedSL (k + 2) F)) :
     k ≤ evenRank K := by
   classical
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   let D : Subgroup ↥(StatedSL (k + 2) F) := (diagTorusGL (F := F) k r).subgroupOf _
   let X : Subgroup ↥(StatedSL (k + 2) F) := (rootSubgroupGL (F := F) (k + 2)).subgroupOf _
   have hD : D ⊓ φ.ker = ⊥ := by
@@ -752,7 +770,7 @@ theorem le_evenRank_of_injective_statedSL_six {K : Type} [Group K] [Finite K] {r
     (hφ : Function.Injective φ) :
     5 ≤ evenRank K := by
   classical
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   let D : Subgroup ↥(StatedSL 6 F) := (diagTorusSixGL (F := F) r).subgroupOf _
   let X : Subgroup ↥(StatedSL 6 F) := (rootSubgroupGL (F := F) 6).subgroupOf _
   have hXne : X ≠ ⊥ := by
@@ -790,7 +808,7 @@ theorem le_evenRank_of_injective_statedSL_four {K : Type} [Group K] [Finite K] {
     (hφ : Function.Injective φ) :
     3 ≤ evenRank K := by
   classical
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   let D : Subgroup ↥(StatedSL 4 F) := (diagTorusFourGL (F := F) r).subgroupOf _
   let X : Subgroup ↥(StatedSL 4 F) := (rootSubgroupGL (F := F) 4).subgroupOf _
   have hXne : X ≠ ⊥ := by
@@ -897,7 +915,7 @@ theorem det_pslThreeBlock {F : Type} [Field F] (B : Matrix (Fin 2) (Fin 1) F) :
   have h := det_fromBlocks_zero₂₁
     (A := (1 : Matrix (Fin 2) (Fin 2) F)) (B := B)
     (D := (1 : Matrix (Fin 1) (Fin 1) F))
-  simpa [pslThreeBlock, det_one] using h
+  simp [pslThreeBlock, det_one]
 
 @[expose] def pslThreeUHom {F : Type} [Field F] [CharP F 2] :
     Multiplicative (Matrix (Fin 2) (Fin 1) F) →* SpecialLinearGroup (Fin 2 ⊕ Fin 1) F where
@@ -1059,8 +1077,7 @@ theorem pslThreeDiag_mul_pslThreeBlock {F : Type} [Field F] [CharP F 2]
     (C := (0 : Matrix (Fin 1) (Fin 2) F)) (D := (1 : Matrix (Fin 1) (Fin 1) F))
     (A' := (threeCycleMat F ^ (-a).val)) (B' := (0 : Matrix (Fin 2) (Fin 1) F))
     (C' := (0 : Matrix (Fin 1) (Fin 2) F)) (D' := (1 : Matrix (Fin 1) (Fin 1) F))
-  simp only [pslThreeDiag, pslThreeBlock, Matrix.zero_mul, Matrix.mul_zero, Matrix.one_mul,
-    Matrix.mul_one, add_zero, zero_add] at h1 h2 ⊢
+  simp only [pslThreeDiag, pslThreeBlock, Matrix.zero_mul, Matrix.mul_zero, Matrix.mul_one, add_zero, zero_add] at h1 h2 ⊢
   rw [h1, h2]
   rw [show threeCycleMat F ^ a.val * threeCycleMat F ^ (-a).val = 1 by
     rw [← threeCycleMat_pow_val_add, add_neg_cancel, ZMod.val_zero, pow_zero]]
@@ -1077,15 +1094,15 @@ theorem pslThreeSHom_range_le_normalizer {F : Type} [Field F] [CharP F 2] :
     rfl
   apply Subtype.ext
   rw [hinv]
-  simp only [Subgroup.coe_mul, coe_pslThreeSHom, coe_pslThreeUHom, coe_pslThreeDiag]
+  simp only [coe_pslThreeUHom, coe_pslThreeDiag]
   exact (pslThreeDiag_mul_pslThreeBlock a.toAdd B.toAdd).symm
 
 theorem exists_elemAbelian_le_normalizer_PSL_three {F : Type} [Field F] [Finite F] [CharP F 2] :
     ∃ E X : Subgroup (ProjectiveSpecialLinearGroup (Fin 3) F),
       X ≠ ⊥ ∧ IsPGroup 2 X ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 1 ∧
         E ≤ Subgroup.normalizer (X : Set (ProjectiveSpecialLinearGroup (Fin 3) F)) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : SpecialLinearGroup (Fin 2 ⊕ Fin 1) F →*
       ProjectiveSpecialLinearGroup (Fin 2 ⊕ Fin 1) F :=
     QuotientGroup.mk' (Subgroup.center (SpecialLinearGroup (Fin 2 ⊕ Fin 1) F))
@@ -1183,7 +1200,7 @@ theorem not_three_dvd_center_of_psl_two_one {K : Type} [Group K] [Finite K] {d :
     by_cases h4 : d = 4
     · right; subst h4; decide
     left
-    simp [CFSG.Blueprint.Multiplier.exceptionalOrders, h2, h3, h4]
+    simp [CFSG.Blueprint.Multiplier.exceptionalOrders, h3, h4]
   rintro h3dvd
   rcases he with he | he <;> rw [hg, he] at hdvd
   · exact absurd (h3dvd.trans hdvd) (by norm_num)
@@ -1203,14 +1220,14 @@ theorem rk2_low_a_ge (K : Type) [Group K] [Finite K] (lab : GLALabel)
     exists_model_psl_of_isLabel hM (d := lab.rank + 1) (n := lab.n)
       (by simp [markTag, htag]) (by simp [markRank, htag])
       (by simp [markChar, htag]) (by simp [markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hF4 : 4 ≤ Nat.card F := by
     rw [hcardF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ lab.n := Nat.pow_le_pow_right (by norm_num) hn
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hcardF
   have hdim : lab.rank + 1 = (lab.rank - 1) + 2 := by omega
@@ -1278,7 +1295,7 @@ theorem exists_elemAbelian_le_normalizer_statedProj_six {F : Type} [Field F] [Fi
       X ≠ ⊥ ∧ IsPGroup 2 X ∧ IsElemAbelian r E ∧ Nat.card E = r ^ 5 ∧
         E ≤ Subgroup.normalizer (X : Set (StatedProj (StatedSL 6 F))) := by
   classical
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have hscal : ∀ z : ↥(StatedSL 6 F), (z : GL (Fin 6) F) ∈ diagTorusSixGL (F := F) r →
       (z : GL (Fin 6) F) ∈ StatedScalars (Fin 6) F → (z : GL (Fin 6) F) = 1 := by
     rintro z hzD hzK
@@ -1330,14 +1347,14 @@ theorem rk2_low_a_five_of_three_le (K : Type) [Group K] [Finite K] (lab : GLALab
     exists_model_psl_of_isLabel hM (d := 6) (n := lab.n)
       (by simp [markTag, htag]) (by simp [markRank, htag, hrank])
       (by simp [markChar, htag]) (by simp [markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hF4 : 4 ≤ Nat.card F := by
     rw [hcardF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ lab.n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hcardF
   obtain ⟨p, hp, hp5, hpd⟩ :=
@@ -1378,10 +1395,10 @@ theorem rk2_low_a_five_of_two (K : Type) [Group K] [Finite K] (lab : GLALabel)
     exists_model_psl_of_isLabel hM (d := 6) (n := lab.n)
       (by simp [markTag, htag]) (by simp [markRank, htag, hrank])
       (by simp [markChar, htag]) (by simp [markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hcardF
   have hFcard : Nat.card F = 4 := by rw [hcardF, hn]; norm_num
@@ -1458,10 +1475,10 @@ theorem rk2_low_d_three_ge (K : Type) [Group K] [Finite K] (lab : GLALabel)
     exists_model_psl_of_isLabel hM (d := 4) (n := lab.n)
       (by simp [markTag, htag, hrank]) (by simp [markRank, htag, hrank])
       (by simp [markChar, htag]) (by simp [markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hcardF
   have hF4 : 4 ≤ Nat.card F := by
@@ -1571,6 +1588,7 @@ theorem coe_kSHom (k m : ℕ) (a : Multiplicative (Fin k → ZMod 3)) :
     Matrix (Fin 2 × Fin k) (Fin 2 × Fin k) K :=
   Matrix.of fun ib jb => if ib.2 = 0 ∧ jb.2 = 1 then X ib.1 jb.1 else 0
 
+omit [CharP K 2] in
 theorem kYMat_mul_kYMat (k : ℕ) [NeZero k] (hk : 2 ≤ k) (X X' : Matrix (Fin 2) (Fin 2) K) :
     kYMat (K := K) k X * kYMat k X' = 0 := by
   ext ib jb
@@ -1587,12 +1605,14 @@ theorem kYMat_mul_kYMat (k : ℕ) [NeZero k] (hk : 2 ≤ k) (X X' : Matrix (Fin 
   · have : ¬ (ib.2 = 0 ∧ kc.2 = 1) := fun h' => h h'.2
     rw [ite_eq_right this, zero_mul]
 
+omit [CharP K 2] in
 theorem kYMat_add (k : ℕ) [NeZero k] (X X' : Matrix (Fin 2) (Fin 2) K) :
     kYMat (K := K) k (X + X') = kYMat k X + kYMat k X' := by
   ext ib jb
   simp only [kYMat, of_apply, Matrix.add_apply]
   split_ifs <;> simp
 
+omit [CharP K 2] in
 theorem one_add_kYMat_mul (k : ℕ) [NeZero k] (hk : 2 ≤ k) (X X' : Matrix (Fin 2) (Fin 2) K) :
 
     (1 + kYMat (K := K) k X) * (1 + kYMat k X') = 1 + kYMat k (X + X') := by
@@ -1630,7 +1650,7 @@ theorem det_one_add_kYMat (k : ℕ) [NeZero k] (hk : 2 ≤ k) (X : Matrix (Fin 2
     rw [fromBlocks_multiply, one_add_kYMat_mul k hk]
     simp)
 
-theorem kBlockMat_mul_kYMat {k : ℕ} [NeZero k] (hk : 2 ≤ k) (a : Fin k → ZMod 3)
+theorem kBlockMat_mul_kYMat {k : ℕ} [NeZero k] (_hk : 2 ≤ k) (a : Fin k → ZMod 3)
     (X : Matrix (Fin 2) (Fin 2) K) :
     kBlockMat k a * kYMat k X =
       kYMat k (threeCycleMat K ^ (a 0).val * X * threeCycleMat K ^ (-(a 1)).val) *
@@ -1678,7 +1698,7 @@ theorem exists_elemAbelian_le_normalizer_PSL_blocks [Finite K] (m : ℕ) {k : �
     ∃ E X : Subgroup (ProjectiveSpecialLinearGroup (KBlockIdx k m) K),
       X ≠ ⊥ ∧ IsPGroup 2 X ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ k ∧
         E ≤ Subgroup.normalizer (X : Set (ProjectiveSpecialLinearGroup (KBlockIdx k m) K)) := by
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   set φ := kSHom k m K
   set ψ := kUHom k m hk K
   have hφ : Function.Injective φ := by
@@ -1799,10 +1819,10 @@ theorem rk2_low_a_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
     exists_model_psl_of_isLabel hM (d := lab.rank + 1) (n := lab.n)
       (by simp [markTag, htag]) (by simp [markRank, htag])
       (by simp [markChar, htag]) (by simp [markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hcardF
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .PSL (lab.rank + 1) 2 1 := by
@@ -1850,10 +1870,10 @@ theorem rk2_low_d_three_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
     exists_model_psl_of_isLabel hM (d := 4) (n := lab.n)
       (by simp [markTag, htag, hrank]) (by simp [markRank, htag, hrank])
       (by simp [markChar, htag]) (by simp [markDeg, htag])
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hcardF
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .PSL 4 2 1 := by

@@ -16,12 +16,12 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
 theorem IsMinFam16.pCoreOf_conjClosure_eq_iSub16 (h1 : W16One G) (hS : Std15 G)
-    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (_hV : ¬ V ≤ pCoreOf 2 H)
     {X : Type} [Group X] {φ : ↥(conjClosure V H) →* X}
     (hφ : SevenK.IsBarMap (conjClosure V H) (iSub16 V H) φ)
     (hO : ∀ N : Subgroup X, N.Normal → IsPGroup 2 N → N = ⊥) :
     pCoreOf 2 (conjClosure V H) = iSub16 V H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Fam16 M U S H := hH.fam16
   have hVH : V ≤ H := h.V_le_S.trans hF.1
   have hKH : conjClosure V H ≤ H :=

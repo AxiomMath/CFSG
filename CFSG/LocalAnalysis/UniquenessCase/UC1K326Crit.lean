@@ -18,13 +18,13 @@ theorem exists_exp3_normal_coprime (hQ : CFSG.pCore 3 G ≠ ⊥) :
       ∀ c : G, Nat.Coprime (orderOf c) 3 → c ∈ Subgroup.centralizer (D : Set G) →
         c ∈ Subgroup.centralizer (CFSG.pCore 3 G : Set G) := by
   let Q : Subgroup G := CFSG.pCore 3 G
-  haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ
-  haveI : Fact (IsPGroup 3 Q) := ⟨CFSG.pCore_isPGroup (p := 3) (G := G)⟩
-  haveI : Q.Characteristic := CFSG.pCore_characteristic (p := 3) (G := G)
+  have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ
+  have : Fact (IsPGroup 3 Q) := ⟨CFSG.pCore_isPGroup (p := 3) (G := G)⟩
+  have : Q.Characteristic := CFSG.pCore_characteristic (p := 3) (G := G)
   have hpodd : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨H, hHchar, -, -, hHexp, hHfix⟩ :=
     CFSG.theorem_1_13 (G := Q) (p := 3) hpodd
-  haveI : H.Characteristic := hHchar
+  have : H.Characteristic := hHchar
   have hDchar : (H.map Q.subtype).Characteristic := inferInstance
   refine ⟨H.map Q.subtype, Subgroup.map_subtype_le H, inferInstance, ?_, ?_⟩
   · intro x hx
@@ -52,8 +52,8 @@ theorem centralizer_le_pCore_of_coprime {D : Subgroup G} (hD : D.Normal)
     (hcent : Subgroup.centralizer (CFSG.pCore 3 G : Set G) ≤ CFSG.pCore 3 G) :
     Subgroup.centralizer (D : Set G) ≤ CFSG.pCore 3 G := by
   let C : Subgroup G := Subgroup.centralizer (D : Set G)
-  haveI : D.Normal := hD
-  haveI : C.Normal := Subgroup.normal_centralizer
+  have : D.Normal := hD
+  have : C.Normal := Subgroup.normal_centralizer
   have hCp : IsPGroup 3 C := by
     intro g
     have hn0 : orderOf (g : G) ≠ 0 := (orderOf_pos (g : G)).ne'
@@ -79,6 +79,7 @@ theorem centralizer_le_pCore_of_coprime {D : Subgroup G} (hD : D.Normal)
     simpa [k] using hk1
   exact le_sSup ⟨inferInstance, hCp⟩
 
+omit [Finite G] in
 private lemma mem_frattiniKernel_conjNormal_iff {Q : Subgroup G} [Q.Normal] {h : G} :
     MulAut.conjNormal h ∈ CFSG.LargeEvenClassification.Helpers.frattiniKernel Q ↔
       ∀ x ∈ Q, h * x * h⁻¹ * x⁻¹ ∈ (frattini Q).map Q.subtype := by
@@ -89,7 +90,7 @@ private lemma mem_frattiniKernel_conjNormal_iff {Q : Subgroup G} [Q.Normal] {h :
     have h1 := hk' ⟨x, hx⟩
     rw [QuotientGroup.eq_iff_div_mem] at h1
     refine Subgroup.mem_map.mpr ⟨MulAut.conjNormal h ⟨x, hx⟩ / ⟨x, hx⟩, h1, ?_⟩
-    simp [MulAut.conjNormal_apply, Subgroup.coe_div, Subgroup.coe_inv, div_eq_mul_inv]
+    simp [MulAut.conjNormal_apply, div_eq_mul_inv]
   · intro hfix
     change ∀ element : Q, ((MulAut.conjNormal h) element : Q ⧸ frattini Q) =
       (element : Q ⧸ frattini Q)
@@ -100,7 +101,7 @@ private lemma mem_frattiniKernel_conjNormal_iff {Q : Subgroup G} [Q.Normal] {h :
       apply Subtype.ext
       have hyeq' : (y : G) = h * x * h⁻¹ * x⁻¹ := hyeq
       rw [hyeq']
-      simp [MulAut.conjNormal_apply, Subgroup.coe_div, Subgroup.coe_inv, div_eq_mul_inv]
+      simp [MulAut.conjNormal_apply, div_eq_mul_inv]
     rwa [hy'] at hy
 
 theorem mem_pCore_of_trivial_on_frattini {p : ℕ} [Fact p.Prime]
@@ -109,7 +110,7 @@ theorem mem_pCore_of_trivial_on_frattini {p : ℕ} [Fact p.Prime]
       g * x * g⁻¹ * x⁻¹ ∈ (frattini ↥(CFSG.pCore p G)).map (CFSG.pCore p G).subtype) :
     g ∈ CFSG.pCore p G := by
   let Q : Subgroup G := CFSG.pCore p G
-  haveI : Q.Normal := CFSG.pCore_normal (p := p) (G := G)
+  have : Q.Normal := CFSG.pCore_normal (p := p) (G := G)
   let K : Subgroup G :=
     (CFSG.LargeEvenClassification.Helpers.frattiniAutAction Q).ker.comap (MulAut.conjNormal)
   have hKnormal : K.Normal := by dsimp [K]; infer_instance

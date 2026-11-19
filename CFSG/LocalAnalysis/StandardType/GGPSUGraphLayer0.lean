@@ -165,7 +165,7 @@ theorem psuTheta_mul {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f 
 
 theorem psuTheta_one {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     (X : GL (Fin n) K) : psuTheta h X (1 : Matrix (Fin n) (Fin n) K) = 1 := by
-  simp [psuTheta, Matrix.map_one, psuLayer0a_unit_mul_inv n K X]
+  simp [psuTheta, Matrix.map_one]
 
 theorem psuTheta_theta {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     (X : GL (Fin n) K) (hXs : (X : Matrix (Fin n) (Fin n) K) *

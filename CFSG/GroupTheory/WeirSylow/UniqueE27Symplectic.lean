@@ -57,7 +57,7 @@ theorem uniqueElemSylow_of_sylow_mulEquiv_statedSp {G : Type*} [Group G] [Finite
     (K : Type) [Field K] [Finite K] (hK : ¬ 3 ∣ Nat.card K)
     (h : ∀ P : Sylow 3 G, ∃ P' : Sylow 3 (StatedSp 3 K), Nonempty (P ≃* P')) :
     UniqueElemSylow 3 3 G := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hK' : ¬ 3 ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hq2 : 2 ≤ Fintype.card K := Fintype.one_lt_card
   refine uniqueElemSylow_of_sigmaModel (one_le_padicValNat_three_pow_orderOf_sub_one hK' hq2)

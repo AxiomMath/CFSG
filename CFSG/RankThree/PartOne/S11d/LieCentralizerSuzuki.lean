@@ -34,7 +34,7 @@ theorem false_of_twistedB2 {T : Type} [Group T] [Finite T]
   have hxord : orderOf (e x) = p :=
     orderOf_eq_prime (by rw [← map_pow, hxp, map_one])
       (fun h1 => hx1 (e.injective (h1.trans (map_one e).symm)))
-  have hpS : IsPGroup 2 (S : Subgroup (suzukiGroup a K)) := S.isPGroup'
+  have hpS : IsPGroup 2 (S : Subgroup (suzukiGroup a K)) := S.isPGroup
   obtain ⟨k, hk⟩ := hpS ⟨e x, hxS⟩
   have hdvd : p ∣ 2 ^ k := by
     have h1 : orderOf (⟨e x, hxS⟩ : (S : Subgroup (suzukiGroup a K))) ∣ 2 ^ k :=

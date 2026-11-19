@@ -107,6 +107,7 @@ open Classical in
 noncomputable def termAt (H : Subgroup X) (ϕ : H →* C) (b x : X) : C :=
   if h : x⁻¹ * b * x ∈ H then ϕ ⟨x⁻¹ * b * x, h⟩ else 1
 
+omit [Finite X] in
 theorem termAt_mul_right {H : Subgroup X} (ϕ : H →* C) (b x : X) {h : X} (hh : h ∈ H) :
     termAt H ϕ b (x * h) = termAt H ϕ b x := by
   unfold termAt
@@ -115,7 +116,7 @@ theorem termAt_mul_right {H : Subgroup X} (ϕ : H →* C) (b x : X) {h : X} (hh 
       have e : (x * h)⁻¹ * b * (x * h) = h⁻¹ * (x⁻¹ * b * x) * h := by group
       rw [e]
       exact H.mul_mem (H.mul_mem (H.inv_mem hh) hy) hh
-    rw [dif_pos hy, dif_pos hy']
+    rw [dite_eq_left hy, dite_eq_left hy']
     have e : (⟨(x * h)⁻¹ * b * (x * h), hy'⟩ : H) =
         ⟨h, hh⟩⁻¹ * ⟨x⁻¹ * b * x, hy⟩ * ⟨h, hh⟩ := by
       apply Subtype.ext
@@ -123,15 +124,16 @@ theorem termAt_mul_right {H : Subgroup X} (ϕ : H →* C) (b x : X) {h : X} (hh 
       group
     rw [e, map_mul, map_mul, map_inv, mul_comm ((ϕ ⟨h, hh⟩)⁻¹), mul_assoc, inv_mul_cancel,
       mul_one]
-  · rw [dif_neg hy]
+  · rw [dite_eq_right hy]
     have hy' : ¬ (x * h)⁻¹ * b * (x * h) ∈ H := by
       intro hy'
       apply hy
       have e : x⁻¹ * b * x = h * ((x * h)⁻¹ * b * (x * h)) * h⁻¹ := by group
       rw [e]
       exact H.mul_mem (H.mul_mem hh hy') (H.inv_mem hh)
-    rw [dif_neg hy']
+    rw [dite_eq_right hy']
 
+omit [Finite X] in
 theorem termAt_mul_left {H : Subgroup X} (ϕ : H →* C) (b : X) {s x : X} (hs : b * s = s * b) :
     termAt H ϕ b (s * x) = termAt H ϕ b x := by
   have hs' : s⁻¹ * b * s = b := by
@@ -144,6 +146,7 @@ theorem termAt_mul_left {H : Subgroup X} (ϕ : H →* C) (b : X) {s x : X} (hs :
   unfold termAt
   rw [e]
 
+omit [Finite X] in
 theorem termAt_eq_of_coe_eq {H : Subgroup X} (ϕ : H →* C) (b : X) {x y : X}
     (h : (x : X ⧸ H) = (y : X ⧸ H)) : termAt H ϕ b x = termAt H ϕ b y := by
   have hxy : x⁻¹ * y ∈ H := QuotientGroup.eq.1 h
@@ -151,6 +154,7 @@ theorem termAt_eq_of_coe_eq {H : Subgroup X} (ϕ : H →* C) (b : X) {x y : X}
   calc termAt H ϕ b x = termAt H ϕ b (x * (x⁻¹ * y)) := (termAt_mul_right ϕ b x hxy).symm
     _ = termAt H ϕ b y := by rw [← e]
 
+omit [Finite X] in
 theorem termAt_pow {H : Subgroup X} (ϕ : H →* C) {b : X} {p : ℕ} (hbp : b ^ p = 1) (x : X) :
     termAt H ϕ b x ^ p = 1 := by
   unfold termAt
@@ -170,6 +174,7 @@ theorem iterate_smul_fun {M : Type} [Group M] (M' : Type) [MulAction M M'] (b : 
   | zero => simp
   | succ n ih => rw [Function.iterate_succ_apply', ih, pow_succ', mul_smul]
 
+omit [Finite X] in
 theorem mem_of_smul_fix (H : Subgroup X) {b x : X} (h : b • (x : X ⧸ H) = (x : X ⧸ H)) :
     x⁻¹ * b * x ∈ H := by
   have h1 : (b * x)⁻¹ * x ∈ H := QuotientGroup.eq.1 h
@@ -177,6 +182,7 @@ theorem mem_of_smul_fix (H : Subgroup X) {b x : X} (h : b • (x : X ⧸ H) = (x
   rw [e]
   exact H.inv_mem h1
 
+omit [Finite X] in
 theorem coe_out_eq (H : Subgroup X) (ω : X ⧸ H) : ((Quotient.out ω : X) : X ⧸ H) = ω :=
   QuotientGroup.out_eq' ω
 
@@ -185,7 +191,7 @@ theorem transfer_eq_prod_fix (H : Subgroup X) [Fintype (X ⧸ H)] (ϕ : H →* C
     (hp : p.Prime) (hbp : b ^ p = 1) :
     MonoidHom.transfer ϕ b =
       ∏ ω ∈ Finset.univ.filter (fun ω : X ⧸ H => b • ω = ω), termAt H ϕ b (Quotient.out ω) := by
-  letI : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers b) (X ⧸ H))) :=
+  let : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers b) (X ⧸ H))) :=
     Fintype.ofFinite _
   rw [MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot ϕ b]
   have out_eq_of_fix : ∀ ω : X ⧸ H, b • ω = ω →
@@ -253,7 +259,7 @@ theorem transfer_eq_prod_fix (H : Subgroup X) [Fintype (X ⧸ H)] (ϕ : H →* C
       have hmem : (q.out.out)⁻¹ * b * q.out.out ∈ H :=
         mem_of_smul_fix H (by rw [hcoe]; exact hqfix)
       unfold termAt
-      rw [dif_pos hmem]
+      rw [dite_eq_left hmem]
       congr 1
       apply Subtype.ext
       simp only [hq1, pow_one]
@@ -383,7 +389,7 @@ theorem transfer_core {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime] {
       (∃ x : X, y = x⁻¹ * b * x) → φ ⟨b⁻¹ * y, H.mul_mem (H.inv_mem hbH) hyH⟩ = 1) :
     MonoidHom.transfer φ b ≠ 1 := by
   classical
-  letI : Fintype (X ⧸ H) := Fintype.ofFinite _
+  let : Fintype (X ⧸ H) := Fintype.ofFinite _
   have hp : p.Prime := Fact.out
   have hbp : b ^ p = 1 := by
     rw [← hord]
@@ -449,7 +455,7 @@ theorem transfer_core {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime] {
       simp
     simp only [hF]
     unfold termAt
-    rw [dif_pos hyH, e, map_mul, h1, mul_one]
+    rw [dite_eq_left hyH, e, map_mul, h1, mul_one]
   have hcardb := card_and_prod_fixed (K := Subgroup.zpowers b) (α := X ⧸ H) (M := C) hzp
     (fun _ => (1 : C)) (fun _ _ => rfl) Finset.univ (fun _ _ _ => Finset.mem_univ _)
     (fun _ _ => one_pow p)
@@ -494,7 +500,7 @@ theorem transfer_core {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime] {
 
 theorem input32_7_holds : Lemma113b.Input32_7 := by
   intro X _ _ p _ P C _ φ b hbP hord hφb hext
-  exact transfer_core (X := X) (P : Subgroup X) P.isPGroup' P.not_dvd_index φ b hbP hord hφb hext
+  exact transfer_core (X := X) (P : Subgroup X) P.isPGroup P.not_dvd_index φ b hbP hord hφb hext
 
 section PieceD
 

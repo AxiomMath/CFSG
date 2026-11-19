@@ -70,6 +70,7 @@ theorem coe_frobSU (hK : Nat.card K = (2 ^ 1) ^ 2) (A : StatedSU 5 (2 ^ 1) K) :
     ((frobSU hK A : StatedSU 5 (2 ^ 1) K) : GL (Fin 5) K) = frobGL (A : GL (Fin 5) K) :=
   rfl
 
+omit [Fact (Nat.Prime 2)] [CharP K 2] in
 theorem exists_omega_card_four (hK : Nat.card K = (2 ^ 1) ^ 2) :
     ∃ ω : K, ω ^ 3 = 1 ∧ ω ^ 2 ≠ ω := by
   classical

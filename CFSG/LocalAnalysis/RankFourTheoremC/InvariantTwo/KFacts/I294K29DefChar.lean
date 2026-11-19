@@ -18,7 +18,7 @@ theorem kd29DefChar_of_lieQConstrained (h : ∀ q : ℕ, q.Prime → 5 ≤ q →
     KD29DefChar := by
   intro p hp hp5 X _ _ L hLn hs hn _ hd _ hcen _ _ w hwL hw1 hwp
   obtain ⟨m, hm, ⟨e⟩⟩ := hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hChev := isChevOfChar_of_characteristic hm e
   have hQL : Subgroup.zpowers w ≤ L := Subgroup.zpowers_le.2 hwL
   have hQ1 : Subgroup.zpowers w ≠ ⊥ := fun h0 => hw1 (Subgroup.zpowers_eq_bot.1 h0)

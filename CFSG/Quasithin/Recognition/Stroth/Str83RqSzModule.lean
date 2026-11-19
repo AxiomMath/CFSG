@@ -23,14 +23,14 @@ open CFSG.RankThree.GF2n.Tim81.Sec2
 variable {G : Type} [Group G] [Finite G]
 
 private theorem isSimpleGroup_sz {a : ℕ} (ha : 1 ≤ a) : IsSimpleGroup ↥(Sz a) := by
-  haveI : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a) :=
+  have : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a) :=
     (CFSG.BenderSuzuki.External.huppert_blackburn_XI_3_6 a (by omega)).1
   exact (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv a).isSimpleGroup
 
 private theorem not_isMulCommutative_sz {a : ℕ} (ha : 1 ≤ a) :
     ¬ IsMulCommutative ↥(Sz a) := by
   intro hcomm
-  haveI : IsMulCommutative ↥(Sz a) := hcomm
+  have : IsMulCommutative ↥(Sz a) := hcomm
   obtain ⟨x, y, hxy⟩ := CFSG.SectionRank.suzukiMatrixGroup_nonabelian a (by omega)
   have hxy' : (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv a).symm x *
       (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv a).symm y =
@@ -41,7 +41,8 @@ private theorem not_isMulCommutative_sz {a : ℕ} (ha : 1 ≤ a) :
     have h := congrArg (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv a) hxy'
     simpa using h)
 
-private theorem exists_trivSubgroup {V Z L : Subgroup G} (hsec : IsElemSec Z V)
+omit [Finite G] in
+private theorem exists_trivSubgroup {V Z L : Subgroup G} (_hsec : IsElemSec Z V)
     (hL : L ≤ Subgroup.normalizer (V : Set G) ⊓ Subgroup.normalizer (Z : Set G)) :
     ∃ N : Subgroup ↥L, N.Normal ∧
       ∀ x : ↥L, x ∈ N ↔ ∀ v ∈ V, ⁅(x : G), v⁆ ∈ Z := by
@@ -85,13 +86,14 @@ private theorem exists_trivSubgroup {V Z L : Subgroup G} (hsec : IsElemSec Z V)
   rw [e]
   exact (Subgroup.mem_normalizer_iff.mp hxZ _).mp (hn _ hconjV)
 
+omit [Finite G] in
 private theorem eq_top_of_pCore_le_of_map_ne_bot {L : Subgroup G} {N : Subgroup ↥L}
     (hN : N.Normal) (hP : CFSG.pCore 2 ↥L ≤ N)
     (hs : IsSimpleGroup (oTwoQuot ↥L))
     (hne : N.map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) ≠ ⊥) : N = ⊤ := by
   classical
   let q : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
-  haveI hmap : (N.map q).Normal :=
+  have hmap : (N.map q).Normal :=
     hN.map q (QuotientGroup.mk'_surjective _)
   rcases hs.eq_bot_or_eq_top_of_normal (N.map q) with hbot | htop
   · exact absurd hbot hne
@@ -107,6 +109,7 @@ private theorem eq_top_of_pCore_le_of_map_ne_bot {L : Subgroup G} {N : Subgroup 
       rw [map_mul, map_inv, hnq, inv_mul_cancel]
     simpa using N.mul_mem hn (hP hmem)
 
+omit [Finite G] in
 private theorem exists_sq_map_ne_one_of_sz
     {L T : Subgroup G} {a : ℕ} (ha : 1 ≤ a)
     (hSz : Nonempty (oTwoQuot ↥L ≃* Sz a)) (hT : IsSylowTwoOf T L) :
@@ -192,9 +195,9 @@ private theorem two_pow_le_relIndex_of_irreducible_of_sz
   let l₀' : ↥L := ⟨l₀, hl₀⟩
   let v₀' : ↥V := ⟨v₀, hv₀⟩
   obtain ⟨W, hWadd, hWmod, hWfin, ⟨s⟩⟩ := exists_secRep hsecHyp
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   have hfix : s.ρ l₀' (s.cl v₀') ≠ s.cl v₀' := by
     intro h
     exact hne₀ ((SecRep.fix_iff hsecHyp s l₀' v₀').mp h)
@@ -202,7 +205,7 @@ private theorem two_pow_le_relIndex_of_irreducible_of_sz
     CFSG.Quasithin.St84.pCore_le_secRep_ker s hsecHyp hChief
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨eSz⟩ := hSz
   let e : oTwoQuot ↥L ≃* CFSG.Blueprint.suzukiGroup a K :=
     eSz.trans (suzukiGroupEquivSz a K hK).symm
@@ -218,10 +221,10 @@ private theorem two_pow_le_relIndex_of_irreducible_of_sz
   have hρ_mk : ∀ l : ↥L, ρ (e (q l)) = (s.ρ l).toLinearMap := by
     intro l
     rw [show ρ (e (q l)) = (Φ (e (q l))).toLinearMap from rfl]
-    simp [Φ, bar, q, QuotientGroup.lift_mk']
-  haveI : Nontrivial W := ⟨s.ρ l₀' (s.cl v₀'), s.cl v₀', hfix⟩
+    simp [Φ, bar, q]
+  have : Nontrivial W := ⟨s.ρ l₀' (s.cl v₀'), s.cl v₀', hfix⟩
   have hirrρ : ρ.IsIrreducible := by
-    haveI : Nontrivial (Subrepresentation ρ) := by
+    have : Nontrivial (Subrepresentation ρ) := by
       refine ⟨⊥, ⊤, ?_⟩
       intro h
       exact bot_ne_top (α := Submodule (ZMod 2) W)
@@ -234,7 +237,7 @@ private theorem two_pow_le_relIndex_of_irreducible_of_sz
     rcases SecRep.irreducible hChief hsecHyp s U.toSubmodule hS with h | h
     · exact Or.inl (Subrepresentation.toSubmodule_injective h)
     · exact Or.inr (Subrepresentation.toSubmodule_injective h)
-  letI : Fact ρ.IsIrreducible := ⟨hirrρ⟩
+  let : Fact ρ.IsIrreducible := ⟨hirrρ⟩
   have hntρ : ∃ g, ρ g ≠ 1 := by
     by_contra h
     push Not at h
@@ -250,7 +253,7 @@ private theorem two_pow_le_relIndex_of_irreducible_of_sz
   have hker : s.cls.ker = Z.subgroupOf V := by
     ext n
     rw [MonoidHom.mem_ker, s.ker n, Subgroup.mem_subgroupOf]
-  haveI hNZV : (Z.subgroupOf V).Normal :=
+  have hNZV : (Z.subgroupOf V).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVZ).mpr hnormalZV
   have hquotW : Nat.card (↥V ⧸ Z.subgroupOf V) = Nat.card W := by
     have eW : (↥V ⧸ Z.subgroupOf V) ≃* Multiplicative W :=
@@ -272,6 +275,7 @@ private theorem two_pow_le_relIndex_of_irreducible_of_sz
     · exact le_trans (Nat.pow_le_pow_right (by norm_num) (by nlinarith)) hbig
   rwa [hcardW] at hbound
 
+omit [Finite G] in
 private theorem false_of_trivial_on_quotients_of_sz
     {V Z W L : Subgroup G} {a : ℕ} (ha : 1 ≤ a)
     (hSz : Nonempty (oTwoQuot ↥L ≃* Sz a)) (hsec : IsElemSec Z V)
@@ -295,16 +299,16 @@ private theorem false_of_trivial_on_quotients_of_sz
       have hxwZ : ⁅(x : G), ⁅(x : G), v⁆⁆ ∈ Z := htrivW (x : G) x.2 _ hwW
       have e : ⁅((x ^ 2 : ↥L) : G), v⁆ =
           ⁅(x : G), ⁅(x : G), v⁆⁆ * ⁅(x : G), v⁆ ^ 2 := by
-        simp only [Subgroup.coe_pow, Subgroup.coe_mul, commutatorElement_def, pow_two]
+        simp only [Subgroup.coe_mul, commutatorElement_def, pow_two]
         group
       rw [e]
       exact Z.mul_mem hxwZ hw2Z
   let X := oTwoQuot ↥L
   let q : ↥L →* X := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   have hsimple : IsSimpleGroup X := by
-    haveI : IsSimpleGroup ↥(Sz a) := isSimpleGroup_sz ha
+    have : IsSimpleGroup ↥(Sz a) := isSimpleGroup_sz ha
     exact (Classical.choice hSz).isSimpleGroup
-  haveI hNmap : (N.map q).Normal :=
+  have hNmap : (N.map q).Normal :=
     hNnormal.map q (QuotientGroup.mk'_surjective _)
   rcases hsimple.eq_bot_or_eq_top_of_normal (N.map q) with hbot | htop
   · have hsqX : ∀ y : X, y ^ 2 = 1 := by
@@ -318,7 +322,7 @@ private theorem false_of_trivial_on_quotients_of_sz
     have hcomm : IsMulCommutative X :=
       CFSG.BenderSuzuki.isMulCommutative_of_forall_sq_one hsqX
     obtain ⟨e⟩ := hSz
-    haveI : IsMulCommutative X := hcomm
+    have : IsMulCommutative X := hcomm
     exact not_isMulCommutative_sz ha e.surjective.isMulCommutative
   · have hNtop : N = ⊤ := by
       rw [eq_top_iff]
@@ -414,6 +418,7 @@ section Vertex
 
 variable {L T : Subgroup G}
 
+omit [Finite G] in
 theorem commutator_mem_of_quadratic_of_sz {V Z : Subgroup G}
     {a : ℕ} (ha : 1 ≤ a)
     (hSz : Nonempty (oTwoQuot ↥L ≃* Sz a)) (hT : IsSylowTwoOf T L) (hsec : IsElemSec Z V)
@@ -427,7 +432,7 @@ theorem commutator_mem_of_quadratic_of_sz {V Z : Subgroup G}
     exact (hNmem p).mpr fun v hv =>
       hQ (p : G) (Subgroup.mem_map.mpr ⟨p, hp, rfl⟩) v hv
   have hsimple : IsSimpleGroup (oTwoQuot ↥L) := by
-    haveI : IsSimpleGroup ↥(Sz a) := isSimpleGroup_sz ha
+    have : IsSimpleGroup ↥(Sz a) := isSimpleGroup_sz ha
     exact (Classical.choice hSz).isSimpleGroup
   obtain ⟨t, htT, htsq⟩ := exists_sq_map_ne_one_of_sz ha hSz hT
   have ht2p : t ^ 2 ∉ CFSG.pCore 2 ↥L := by
@@ -446,7 +451,7 @@ theorem commutator_mem_of_quadratic_of_sz {V Z : Subgroup G}
     have hsq : ⁅(t : G), v⁆ ^ 2 ∈ Z := hsec.2.2 _ hcommV
     have e : ⁅((t ^ 2 : ↥L) : G), v⁆ =
         ⁅(t : G), ⁅(t : G), v⁆⁆ * ⁅(t : G), v⁆ ^ 2 := by
-      simp only [Subgroup.coe_pow, Subgroup.coe_mul, commutatorElement_def, pow_two]
+      simp only [Subgroup.coe_mul, commutatorElement_def, pow_two]
       group
     rw [e]
     exact Z.mul_mem hq hsq

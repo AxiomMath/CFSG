@@ -20,7 +20,7 @@ variable {P : Pt}
 theorem chkD_common {k : Nat} {sm : List Nat} {clo : List (Nat × Nat × Nat × Nat)}
     {lv : List (Nat × List Nat × List Nat)} {ex : List (List Nat)}
     (h : chkPtD P (k, sm, clo, lv, ex) = true) :
-    ∃ (hp : P.p = 3) (hD : P.D ≤ 10) (_ : Fact P.p.Prime), P.WF ∧ wfCheck P = true ∧
+    ∃ (_hp : P.p = 3) (_hD : P.D ≤ 10) (_ : Fact P.p.Prime), P.WF ∧ wfCheck P = true ∧
       ∃ Dl : List CE, (∀ x ∈ Dl, Sem P x) ∧
         wK6 P.D (Nat.mul 3 (ones P.D)) (Nat.mul 16 (Nat.sub P.D 1)) (yK P.D) Dl.length
           (P.gens.map (packR P)) (Dl.map fun x => packR P x.1) sm ex lv = true := by
@@ -33,21 +33,21 @@ theorem chkD_common {k : Nat} {sm : List Nat} {clo : List (Nat × Nat × Nat × 
       (Nat.add (gensK P).length clo.length) (gensK P)
       (gensK P ++ clo.map fun e => (e.2.2.1, e.2.2.2)) sm ex lv) = true at h
   simp only [Bool.and_eq_true, Nat.beq_eq, Nat.ble_eq] at h
-  obtain ⟨⟨⟨⟨⟨⟨hp, -⟩, hD⟩, -⟩, hG⟩, hclo⟩, hkind⟩ := h
-  have hfact : Fact P.p.Prime := ⟨by rw [hp]; norm_num⟩
-  rw [gensK_eqW hp] at hG hclo hkind
-  obtain ⟨hWF, hwf⟩ := WF_of_gens hp hD hG
+  obtain ⟨⟨⟨⟨⟨⟨_hp, -⟩, _hD⟩, -⟩, hG⟩, hclo⟩, hkind⟩ := h
+  have hfact : Fact P.p.Prime := ⟨by rw [_hp]; norm_num⟩
+  rw [gensK_eqW _hp] at hG hclo hkind
+  obtain ⟨hWF, hwf⟩ := WF_of_gens _hp _hD hG
   have hclo' : cloK (Nat.mul 3 (ones P.D)) (Nat.mul 16 (Nat.sub P.D 1)) P.gens.length
       (P.gens.map (packR P)) (P.gens.map (packR P) ++ clo.map ent) clo P.gens.length 0
       (P.gens.map (packR P) ++ clo.map ent) = true := by
     rw [List.length_map] at hclo
     exact hclo
-  obtain ⟨hDl, hsem⟩ := clo_specW hp hD clo _ hclo'
+  obtain ⟨hDl, hsem⟩ := clo_specW _hp _hD clo _ hclo'
   have hlen : (cloD P (baseD P) clo).length = P.gens.length + clo.length := by
     have := congrArg List.length hDl
     simp only [List.length_map, List.length_append] at this
     exact this
-  refine ⟨hp, hD, hfact, hWF, hwf, cloD P (baseD P) clo, hsem, ?_⟩
+  refine ⟨_hp, _hD, hfact, hWF, hwf, cloD P (baseD P) clo, hsem, ?_⟩
   have e1 : (P.gens.map (packR P) ++ clo.map fun e => (e.2.2.1, e.2.2.2)) =
       (cloD P (baseD P) clo).map (fun x => packR P x.1) := hDl.symm
   have e2 : Nat.add (P.gens.map (packR P)).length clo.length = (cloD P (baseD P) clo).length := by
@@ -232,7 +232,7 @@ open Classical in
 theorem witE6_spec {Q : Pt} (h : ∃ c, verifyWE6 Q c = true) :
     ∃ c, witE6 Q = .weyl c ∧ verifyWE6 Q c = true := by
   unfold witE6
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact ⟨_, rfl, Classical.choose_spec h⟩
 
 @[expose] noncomputable def mk1D (P : Pt) (cd : List (Nat × Nat)) (rp : NK.Rep1) : NRep :=
@@ -248,7 +248,7 @@ theorem witE6_spec {Q : Pt} (h : ∃ c, verifyWE6 Q c = true) :
 theorem partD_lt {P : Pt} {B : Nat} {d : FDN} {i : Nat} (hi : i < 15) :
     partD P B d i = partN P B d i := by
   unfold partD
-  simp only [Nat.blt_eq.mpr hi, cond_true]
+  simp only [Nat.blt_eq.mpr hi, _root_.Bool.cond_true]
 
 theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i = true) :
     ∃ T, verifyAllD P B T = true := by
@@ -263,20 +263,20 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
   have h20 := h 20 (by norm_num)
   unfold partN at h0 h9 h14
   unfold partD at h15 h20
-  simp only [Nat.beq_refl, cond_true, beqF (by norm_num : (9 : Nat) ≠ 0),
+  simp only [Nat.beq_refl, _root_.Bool.cond_true, beqF (by norm_num : (9 : Nat) ≠ 0),
     beqF (by norm_num : (14 : Nat) ≠ 0), beqF (by norm_num : (14 : Nat) ≠ 9),
     bltF (by norm_num : ¬ (9 : Nat) < 9), bltF (by norm_num : ¬ (14 : Nat) < 9),
-    bltF (by norm_num : ¬ (14 : Nat) < 14), cond_false] at h0 h9 h14
-  simp only [Nat.beq_refl, cond_true, bltF (by norm_num : ¬ (15 : Nat) < 15),
+    bltF (by norm_num : ¬ (14 : Nat) < 14), Bool.cond_false] at h0 h9 h14
+  simp only [Nat.beq_refl, _root_.Bool.cond_true, bltF (by norm_num : ¬ (15 : Nat) < 15),
     bltF (by norm_num : ¬ (20 : Nat) < 15), beqF (by norm_num : (20 : Nat) ≠ 15),
-    bltF (by norm_num : ¬ (20 : Nat) < 20), cond_false, Bool.true_and] at h15 h20
+    bltF (by norm_num : ¬ (20 : Nat) < 20), Bool.cond_false, Bool.true_and] at h15 h20
   have hmsk : ∀ k < 8, mskB (ptF P) P.D (cloE (gensK P) rows)
       (slc (Nat.succ (Nat.div bk.length 8)) k bk) = true := by
     intro k hk
     have := hN (k + 1) (by omega)
     unfold partN at this
-    simp only [beqF (by omega : k + 1 ≠ 0), cond_false,
-      Nat.blt_eq.mpr (by omega : k + 1 < 9), cond_true] at this
+    simp only [beqF (by omega : k + 1 ≠ 0), Bool.cond_false,
+      Nat.blt_eq.mpr (by omega : k + 1 < 9), _root_.Bool.cond_true] at this
     exact this
   have htg : ∀ k < 4, all2 (tagN (ptF P) P.D (gensK P).length (Nat.add (gensK P).length rows.length)
       (pk P.D P.x) (gensK P) (cloE (gensK P) rows) R0 R1)
@@ -285,16 +285,16 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
     intro k hk
     have := hN (k + 10) (by omega)
     unfold partN at this
-    simp only [beqF (by omega : k + 10 ≠ 0), beqF (by omega : k + 10 ≠ 9), cond_false,
-      bltF (by omega : ¬ k + 10 < 9), Nat.blt_eq.mpr (by omega : k + 10 < 14), cond_true] at this
+    simp only [beqF (by omega : k + 10 ≠ 0), beqF (by omega : k + 10 ≠ 9), Bool.cond_false,
+      bltF (by omega : ¬ k + 10 < 9), Nat.blt_eq.mpr (by omega : k + 10 < 14), _root_.Bool.cond_true] at this
     exact this
   have hs2 : ∀ r < 4, allI (fun j rp => bne (Nat.beq (Nat.mod j 4) r) true || !(needs2D rp) ||
       s2N P (ptF P) (gensK P) (pk P.D P.x) cd rp) R1 0 = true := by
     intro r hr
     have := h (r + 16) (by omega)
     unfold partD at this
-    simp only [bltF (by omega : ¬ r + 16 < 15), beqF (by omega : r + 16 ≠ 15), cond_false,
-      Nat.blt_eq.mpr (by omega : r + 16 < 20), cond_true, Nat.add_sub_cancel] at this
+    simp only [bltF (by omega : ¬ r + 16 < 15), beqF (by omega : r + 16 ≠ 15), Bool.cond_false,
+      Nat.blt_eq.mpr (by omega : r + 16 < 20), _root_.Bool.cond_true] at this
     exact this
   change (Nat.beq P.p 3 && Nat.ble 1 P.D && Nat.ble P.D 9 && allK (reflOK (fdB 3 P.D)) (gensK P) &&
       allK (fun g => Nat.beq (dotK (fdB 3 P.D) g.2 (pk P.D P.x)) 0) (gensK P) &&
@@ -410,13 +410,13 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
       exact absurd h2 (by decide)
     · rw [e] at h3
       exact h3
-    · rw [beqF e, cond_false, Bool.and_eq_true, Nat.beq_eq] at h3
+    · rw [beqF e, Bool.cond_false, Bool.and_eq_true, Nat.beq_eq] at h3
       obtain ⟨hk1, h3⟩ := h3
       refine ⟨hk1, fun e3 => ?_, fun e3 => ?_⟩
       · have e3' : Nat.beq rp.2.2.1.1 3 = true := by rw [e3]; rfl
-        rw [e3', cond_true] at h3
+        rw [e3', _root_.Bool.cond_true] at h3
         exact h3
-      · rw [beqF e3, cond_false, Bool.and_eq_true, Bool.or_eq_true, Nat.beq_eq, Nat.beq_eq] at h3
+      · rw [beqF e3, Bool.cond_false, Bool.and_eq_true, Bool.or_eq_true, Nat.beq_eq, Nat.beq_eq] at h3
         exact h3
   have hv0 : vFixN P = true := by
     unfold vFixN
@@ -636,7 +636,7 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
       have ht2 := hall i hi hi2
       rw [htg2] at ht2
       rcases tag2N_cases ht2 with h' | h' | ⟨-, hk, hw, heq⟩ | h'
-      all_goals first | exact absurd h'.1 (by norm_num) | skip
+      all_goals try exact absurd h'.1 (by norm_num)
       obtain ⟨hpe, hde⟩ := hcdE cd[i] (List.getElem_mem hi)
       rw [nthK_eq', List.getD_eq_getElem _ _ hk] at heq
       have hw' := Snd.ltAll_spec _ w hw
@@ -722,7 +722,7 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
       rw [← dotK_packR hp hD, hpr]
       simpa using hmvK
     by_cases hz : rp.2.1 = 0
-    · have hk : (mk1D P cd rp).kind = .cent := if_pos hz
+    · have hk : (mk1D P cd rp).kind = .cent := ite_eq_left hz
       rw [hk]
       change centOK P (decR P.D rp.1) = true
       refine centOK_of hp hD ?_
@@ -736,7 +736,7 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
           change (if rp.2.1 = 0 then NKind.cent
             else if rp.2.2.1.1 = 3 then .w (witE6 (ptX P [rp.1] P.bound))
             else .w (witB (ptX P [rp.1] P.bound) rp.2.2.1.1)) = _
-          rw [if_neg hz, if_pos h3, hc]
+          rw [ite_eq_right hz, ite_eq_left h3, hc]
         rw [hk]
         have hs := hst rp hmem hca (by unfold needs2D; rw [hkd, h3]; rfl)
         change (wfCheck (withExtra P [decR P.D rp.1]) && verifyWE6 (withExtra P [decR P.D rp.1]) c &&
@@ -748,7 +748,7 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
           change (if rp.2.1 = 0 then NKind.cent
             else if rp.2.2.1.1 = 3 then .w (witE6 (ptX P [rp.1] P.bound))
             else .w (witB (ptX P [rp.1] P.bound) rp.2.2.1.1)) = _
-          rw [if_neg hz, if_neg h3]
+          rw [ite_eq_right hz, ite_eq_right h3]
         rw [hk]
         obtain ⟨hbad, hver⟩ := witB_bad hchk hkk
         generalize witB (ptX P [rp.1] P.bound) rp.2.2.1.1 = w at hbad hver ⊢
@@ -778,7 +778,7 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
       unfold centEntryOK
       rw [hget]
       by_cases hz : R1[j].2.1 = 0
-      · have hk : (mk1D P cd R1[j]).kind = .cent := if_pos hz
+      · have hk : (mk1D P cd R1[j]).kind = .cent := ite_eq_left hz
         obtain ⟨hrf, -, -, -⟩ := hR1 R1[j] (List.getElem_mem hj)
         obtain ⟨hr, -⟩ := canon_facts hp hD hca hrf
         rw [hz] at hc'
@@ -806,11 +806,11 @@ theorem partD_verify (P : Pt) (B : Nat) (d : FDN) (h : ∀ i < 21, partD P B d i
           change ∃ w, (if R1[j].2.1 = 0 then NKind.cent
             else if R1[j].2.2.1.1 = 3 then .w (witE6 (ptX P [R1[j].1] P.bound))
             else .w (witB (ptX P [R1[j].1] P.bound) R1[j].2.2.1.1)) = .w w
-          rw [if_neg hz]
+          rw [ite_eq_right hz]
           by_cases h3 : R1[j].2.2.1.1 = 3
-          · rw [if_pos h3]
+          · rw [ite_eq_left h3]
             exact ⟨_, rfl⟩
-          · rw [if_neg h3]
+          · rw [ite_eq_right h3]
             exact ⟨_, rfl⟩
         obtain ⟨w, hk⟩ := hk
         dsimp only

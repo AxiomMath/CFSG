@@ -61,7 +61,7 @@ private theorem ff_K2_exists_E (hQ : Q.Nondegenerate)
       exact Prod.ext rfl (by simp)
     exact Subgroup.mem_map.mpr ⟨p.1 * a * p.1⁻¹,
       (omegaGroup_normal hR).conj_mem _ ha p.1, hcalc.symm⟩
-  haveI : E.Normal := hEnorm
+  have : E.Normal := hEnorm
   have hfileModelR : LieModel (omegaGroup hR) .PSp 2 3 1 := by
     have hZ : Subgroup.center (omegaGroup hR) = ⊥ :=
       Subgroup.eq_bot_of_card_eq (Subgroup.center (omegaGroup hR))
@@ -101,7 +101,7 @@ private theorem ff_K2_exists_E (hQ : Q.Nondegenerate)
   let E' : Subgroup ↥(ffFix hQ h2 (projOrthToProjSim Q (toProj Q t))) :=
     E.map eC.toMonoidHom
   have hEnorm' : E'.Normal := hEnorm.map _ eC.surjective
-  haveI : E'.Normal := hEnorm'
+  have : E'.Normal := hEnorm'
   have hLieE' : LieModel ↥E' .PSp 2 3 1 :=
     hLieE.of_mulEquiv (Subgroup.equivMapOfInjective E eC.toMonoidHom eC.injective)
   have hPE' : IsPGroup 2 (↥(ffFix hQ h2 (projOrthToProjSim Q (toProj Q t))) ⧸ E') :=

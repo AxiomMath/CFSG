@@ -180,7 +180,7 @@ theorem exists_inf_map_conj_eq_bot {p : ℕ} [hp : Fact p.Prime] {P : Sylow p G}
   push Not at hcon
   have hdvd : ∀ g : G, p ∣ conjInterCard (P : Subgroup G) g := by
     intro g
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (P.isPGroup'.to_le
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (P.isPGroup.to_le
       (inf_le_left (b := (P : Subgroup G).map (MulAut.conj g).toMonoidHom)))
     have hk0 : k ≠ 0 := by
       rintro rfl

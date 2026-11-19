@@ -35,8 +35,8 @@ theorem pRank_le_one_reeGamma_G2 (a : ℕ) (ha : 1 ≤ a) (K : Type) [Field K] [
     [CharP K ReeTag.G2.prime] (hK : Nat.card K = 3 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime)
     (hp5 : 5 ≤ p) :
     CFSG.Open.pRank p (⊤ : Subgroup (ReeTag.G2.reeGamma K a)) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ReeTag.G2.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ReeTag.G2.reeGamma K a) := Subtype.finite
   refine CFSG.QuasithinUnique.Id2519.pRank_le_one_of_sylow_cyclic hp fun P => ?_
   have hq1 : 1 ≤ Nat.card K := by rw [hK]; exact Nat.one_le_pow _ _ (by norm_num)
   have hpq : ¬ p ∣ Nat.card K := fun h => by
@@ -68,7 +68,7 @@ theorem pRank_le_one_reeGamma_G2 (a : ℕ) (ha : 1 ≤ a) (K : Type) [Field K] [
     · exact h1 h
   have hP : Nat.card P = 1 := by
     rw [Sylow.card_eq_multiplicity, Nat.factorization_eq_zero_of_not_dvd hndvd, pow_zero]
-  haveI : Subsingleton (P : Subgroup (ReeTag.G2.reeGamma K a)) := (Nat.card_eq_one_iff_unique.1 hP).1
+  have : Subsingleton (P : Subgroup (ReeTag.G2.reeGamma K a)) := (Nat.card_eq_one_iff_unique.1 hP).1
   exact isCyclic_of_subsingleton
 
 open CFSG.HardMathSupport.Lang.Coordinator in

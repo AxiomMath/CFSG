@@ -94,12 +94,10 @@ theorem not_mem_W_of_nonsplit (hn : 2 ≤ n) (hs4 : s ^ 4 = v₁ * v₃) {r p : 
   have h2 := congrArg (fun x : Vec n => x.2.1) hW
   simp only [Prod.snd_add, Prod.snd_zero, Prod.fst_add, Prod.fst_zero] at h2
   rcases hi with rfl | rfl
-  · simp only [actS'_iter_one, actS'_iter_two, actS'_apply, Prod.snd_neg, Prod.fst_neg,
-      Prod.snd_add, Prod.fst_add] at h2
+  · simp only [actS'_iter_one, actS'_iter_two, actS'_apply, Prod.snd_neg, Prod.fst_neg] at h2
     apply odd_add_self_ne_zero hn (p.2.1 - r.1 - r.2.1 - 1)
     linear_combination h2 + (-2) * hrel
-  · simp only [actS'_iter_three, actS'_iter_two, actS'_apply, Prod.snd_neg, Prod.fst_neg,
-      Prod.snd_add, Prod.fst_add] at h2
+  · simp only [actS'_iter_three, actS'_iter_two, actS'_apply, Prod.snd_neg, Prod.fst_neg] at h2
     apply odd_add_self_ne_zero hn (p.2.1 + r.1)
     linear_combination h2 + 2 * hrel
 
@@ -107,7 +105,7 @@ theorem y₀_comm (hn : 1 ≤ n) (hs4 : s ^ 4 = 1) {r : Vec n}
     (hj2 : vec v₁ v₂ v₃ r * s ^ 2 * (vec v₁ v₂ v₃ r * s ^ 2) = 1) :
     vec v₁ v₂ v₃ ((0, -r.2.2, -r.1) : Vec n) * s ^ 1 * (vec v₁ v₂ v₃ r * s ^ 2) *
       (vec v₁ v₂ v₃ ((0, -r.2.2, -r.1) : Vec n) * s ^ 1)⁻¹ = vec v₁ v₂ v₃ r * s ^ 2 := by
-  have hσ : s ^ 4 = vec v₁ v₂ v₃ (0 : Vec n) := by rw [hs4, hF.vec_zero]
+  have hσ : s ^ 4 = vec v₁ v₂ v₃ (0 : Vec n) := by rw [hs4, CFSG.OddStandard.ONan76.AlperinFrame.vec_zero]
   have hrel : r.1 + r.2.1 + r.2.2 = 0 := by
     rw [hF.sq_vec_s2 hσ, hF.vec_eq_one_iff hn] at hj2
     have := congrArg Prod.fst hj2
@@ -230,7 +228,7 @@ theorem false_of_extremal [Finite G] (hn : 3 ≤ n) {b j k : G} (hb : b ∈ hF.V
     apply hbo
     rw [hF.vec_pow_two_pow_pred, nsmul_two_pow_pred]
     simp only [h, mul_zero]
-    exact hF.vec_zero
+    exact CFSG.OddStandard.ONan76.AlperinFrame.vec_zero
   have hεa' : (2 : ZMod (2 ^ n)) ^ (n - 1) * a = 2 ^ (n - 1) := by
     rcases (two_mul_eq_zero_iff hn1 _).1 (show 2 * (2 ^ (n - 1) * a) = 0 by
       rw [← mul_assoc, two_mul_two_pow_pred hn1, zero_mul]) with h | h

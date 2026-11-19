@@ -63,6 +63,7 @@ section Core
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem bgll_map_cube {σ : F ≃+* F} (hσ : orderOf σ = 3) (M : Matrix (Fin 3) (Fin 3) F) :
     ((M.map σ).map σ).map σ = M := by
   ext i j
@@ -118,6 +119,7 @@ section Main
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem bgll_coe_mul_scalar (g : GL (Fin 3) F) (c : Fˣ) :
     ((g * GeneralLinearGroup.scalar (Fin 3) c : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       (c : F) • (g : Matrix (Fin 3) (Fin 3) F) := by

@@ -53,22 +53,22 @@ theorem H_le_normalizer_pre {Y : Subgroup m.Hbar} (hY : Y.Normal) :
   rw [this]
   exact hY.conj_mem _ hxY _
 
-theorem E_le_normalizer_OHG : m.E ≤ normalizer ((m.OHG : Subgroup G) : Set G) := fun e he =>
+theorem E_le_normalizer_OHG : m.E ≤ normalizer ((m.OHG : Subgroup G) : Set G) := fun _e he =>
   N588.mem_normalizer_map_of_characteristic
     (Subgroup.le_normalizer (m.hZ.E_le_centralizer he))
 
 theorem OHG_le_M : m.OHG ≤ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   refine m.le_M_of_coprime m.E_le_normalizer_OHG ?_
   rw [OHG, Subgroup.card_map_of_injective m.H.subtype_injective]
   exact (Nat.Prime.coprime_iff_not_dvd m.hr).1 CFSG.pPrimeCore_coprime_card
 
 theorem pPrimeCore_Hbar : CFSG.pPrimeCore m.r m.Hbar = ⊥ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   exact CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot m.r
 
 theorem inf_OH_eq_bot {X : Subgroup ↥m.H} (hX : IsPGroup m.r X) : X ⊓ m.OH = ⊥ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   rw [eq_bot_iff]
   intro x hx
   have h1 : orderOf x ∣ Nat.card (m.OH) := Subgroup.orderOf_dvd_natCard _ hx.2
@@ -117,7 +117,7 @@ theorem R_sylow_H (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) : IsSylowOf m.r m.R 
 
 theorem bar_R_sylow (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) :
     IsSylowOf m.r (m.bar m.R) ⊤ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hRH := m.R_le_H h69
   have hsyl := m.R_sylow_H h69
   refine isSylowOf_of_card le_top ?_
@@ -173,7 +173,7 @@ theorem card_bar_Z : Nat.card (m.bar m.Z) = m.r := by
 
 theorem centralizer_le_M_of_mem_E {e : G} (he : e ∈ m.E) (he1 : e ≠ 1) :
     centralizer ({e} : Set G) ≤ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hEp : IsPGroup m.r m.E := m.isPGroup_A.to_le m.E_le_A
   have hp : IsPGroup m.r (zpowers e) := hEp.to_le (zpowers_le.2 he)
   have hne : zpowers e ≠ ⊥ := by rwa [Ne, zpowers_eq_bot]
@@ -190,7 +190,7 @@ theorem centralizer_le_M_of_mem_E {e : G} (he : e ∈ m.E) (he1 : e ≠ 1) :
 theorem pre_le_M {e : G} (he : e ∈ m.E) (he1 : e ≠ 1) {Y : Subgroup m.Hbar}
     (hY : ∀ y ∈ Y, y * m.piH ⟨e, m.hZ.E_le_centralizer he⟩ =
       m.piH ⟨e, m.hZ.E_le_centralizer he⟩ * y) : m.pre Y ≤ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   set e' : ↥m.H := ⟨e, m.hZ.E_le_centralizer he⟩ with he'
   have he'r : orderOf e' = m.r := by
     rw [← Subgroup.orderOf_coe]
@@ -228,7 +228,7 @@ theorem pre_le_M {e : G} (he : e ∈ m.E) (he1 : e ≠ 1) {Y : Subgroup m.Hbar}
 
 theorem exists_conj_le_bar_R (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) {T : Subgroup m.Hbar}
     (hT : IsPGroup m.r T) : ∃ k : m.Hbar, ∀ x ∈ T, k⁻¹ * x * k ∈ m.bar m.R := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨T', hT', hTT'⟩ := exists_isSylowOf_ge (le_top : T ≤ ⊤) hT
   obtain ⟨k, -, hk⟩ := (m.bar_R_sylow h69).exists_mem_conj hT'
   exact ⟨k, fun x hx => (hk x).1 (hTT' hx)⟩
@@ -256,7 +256,7 @@ theorem card_le_of_elemAbelian (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) {B : Su
   have hle : B.map (MulAut.conj k⁻¹).toMonoidHom ≤ m.bar m.A := by
     rintro _ ⟨x, hx, rfl⟩
     have hx' : (MulAut.conj k⁻¹).toMonoidHom x = k⁻¹ * x * k := by
-      simp [MulAut.conj_apply]
+      simp
     rw [hx']
     exact m.mem_bar_A_of_pow h69 (hk x hx) (by
       rw [m.conj_pow_inv, hB.2 x hx, mul_one, inv_mul_cancel])
@@ -276,7 +276,7 @@ theorem pRank_Hbar_le_three (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (X : Subgr
 theorem fittingSubgroupOf_le_pCore :
     CFSG.fittingSubgroupOf (⊤ : Subgroup m.Hbar) ≤
       (CFSG.pCore m.r ↥(⊤ : Subgroup m.Hbar)).map (⊤ : Subgroup m.Hbar).subtype := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   rw [CFSG.fittingSubgroupOf, CFSG.fitting_eq_sup_pCore]
   refine Subgroup.map_mono (iSup_le fun q => ?_)
   obtain ⟨⟨q, hqmem⟩, -⟩ := q
@@ -284,7 +284,7 @@ theorem fittingSubgroupOf_le_pCore :
   by_cases hqr : q = m.r
   · subst hqr
     exact le_rfl
-  · haveI : Fact q.Prime := ⟨hq⟩
+  · have : Fact q.Prime := ⟨hq⟩
     have hQp : IsPGroup q (CFSG.pCore q ↥(⊤ : Subgroup m.Hbar)) := CFSG.pCore_isPGroup
     have hmap : (CFSG.pCore q ↥(⊤ : Subgroup m.Hbar)).map (⊤ : Subgroup m.Hbar).subtype ≤
         CFSG.pPrimeCore m.r m.Hbar := by
@@ -306,7 +306,7 @@ theorem isPGroup_fittingSubgroupOf : IsPGroup m.r (CFSG.fittingSubgroupOf (⊤ :
 
 theorem layer_ne_bot (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) :
     componentLayerOf (⊤ : Subgroup m.Hbar) ≠ ⊥ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   intro hE
   have hF : generalizedFittingSubgroupOf (⊤ : Subgroup m.Hbar) =
       CFSG.fittingSubgroupOf (⊤ : Subgroup m.Hbar) := by
@@ -327,7 +327,7 @@ theorem le_bar_pre (Y : Subgroup m.Hbar) : Y ≤ m.bar (m.pre Y) := by
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective m.OH y
   exact ⟨x, ⟨x, hy, rfl⟩, rfl⟩
 
-theorem pre_bar_le {W : Subgroup G} (hWH : W ≤ m.H) : m.pre (m.bar W) ≤ W ⊔ m.OHG := by
+theorem pre_bar_le {W : Subgroup G} (_hWH : W ≤ m.H) : m.pre (m.bar W) ≤ W ⊔ m.OHG := by
   intro x hx
   obtain ⟨hxH, hxW⟩ := (m.mem_pre).1 hx
   obtain ⟨w, hw, hwx⟩ := hxW

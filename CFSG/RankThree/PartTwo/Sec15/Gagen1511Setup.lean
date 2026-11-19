@@ -81,7 +81,7 @@ theorem facts_of_prod_of_isoLThreePi {A L : Subgroup G} {c : G} (h : Sec15R G A 
     (hprod : Nonempty (lBarA c L A ≃* Multiplicative (ZMod 3) × Sec12.lBar c L)) :
     Nat.card (A ⊓ L : Subgroup G) = 9 ∧ c ∉ L ∧ A = Subgroup.zpowers c ⊔ (A ⊓ L) := by
   have hD := h.toSec13Data
-  haveI : Group.IsPerfect (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
+  have : Group.IsPerfect (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
     (Sec6.isQuasisimple_of_mem_thetaComponentsAt hD.mem_thetaComponentsAt).1
   obtain ⟨-, hq2⟩ := Sec19.Step1914TriProof.isSimpleGroup_of_isoLThreePi he hiso
   have hZ : Subgroup.center (↥L ⧸ aschbacherSolvableCore 3 ↥L) = ⊥ := by
@@ -121,6 +121,7 @@ private theorem card_image_inf {A L : Subgroup G} {c : G} (hD : Sec13Data G A c 
   rw [CFSG.RankThree.PartOne.Q1327T.card_map_mk_of_isPGroup Nat.prime_three hP3,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv, h9]
 
+omit [Finite G] in
 private theorem exists_mem_inf_of_mem_image {A L : Subgroup G}
     {z : ↥L ⧸ aschbacherSolvableCore 3 ↥L}
     (hz : z ∈ ((A ⊓ L).subgroupOf L).map (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L)))

@@ -218,7 +218,7 @@ theorem pRank_three_centralizerOnQuotient_le_one
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     CFSG.Open.pRank 3 (C82E3 c) ≤ 1 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcard : Nat.card ↥(zSub P c.L) = 3 := c.card_inf_centralizer_of_onan hON hP
   refine CFSG.SectionRank.pRank_le (by norm_num : 1 < 3) ?_
   intro E hEC hE
@@ -286,9 +286,9 @@ theorem pRank_three_centralizerOnQuotient_le_one
   simpa using hcardE'
 
 theorem p4_sections_centralizer'
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     (haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3) (haZ : a ∉ zSub P c.L)
     (hK9b : K9bIn) (hK4 : K4) :
     ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S →
@@ -296,7 +296,7 @@ theorem p4_sections_centralizer'
       CFSG.SignalizerFunctorTheorem.IsSectionOf S ↥(CM c a) →
         IsAlt S 5 ∨ IsAlt S 6 ∨ (∀ Q : Sylow 3 S, IsCyclic (Q : Subgroup S)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro S _ _ hSsimple hSnonab hsec
   obtain ⟨K, f, hf⟩ := hsec
   have hInCat : CFSG.Assembly.InCatalog S := by
@@ -437,8 +437,8 @@ theorem g2_coprime_excluded'
   obtain ⟨S, hSgrp, hSfin, hSsimple, hSnonab, hSsec, hcase⟩ :=
     g2_coprime_section'' c hON h7 hP hNZ haL ha3 haZ hJ h3 hzZ hz3 hzN hK12 hπ hiso hinner
       hp hp3 hq hmodel
-  letI := hSgrp
-  letI := hSfin
+  let := hSgrp
+  let := hSfin
   have hP4 := p4_sections_centralizer' c hON h7 hP hNZ haL ha3 haZ hK9b hK4
   rcases hcase with ⟨hmod, hmodelS⟩ | ⟨hmod, hmodelS⟩
   · obtain ⟨⟨Q, hQnc⟩, h5, h6⟩ := psl3_section_data hmodelS hp3 hmod hq

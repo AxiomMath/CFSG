@@ -261,6 +261,7 @@ private theorem orbit_bound_card (hS : Sec6Hyp M V)
           simp
         rw [hset, Set.ncard_coe_finset, Finset.card_range]
 
+omit [Finite G] in
 private theorem orbit_bound_distinct {g : ↥U} {k₀ : ℕ}
     (hmin : ∀ d, 0 < d → d < k₀ → conjSubgroup ((g : G) ^ d) V ≠ V) :
     ∀ i < k₀, ∀ j < k₀,
@@ -300,6 +301,7 @@ theorem MinBad.orbit_bound (hS : Sec6Hyp M V) (hm : MinBad V U B α β)
   exact ⟨k₀, hk₀pos, orbit_bound_card hS hm ht π g htr hk₀pos hk₀V,
     orbit_bound_distinct hmin⟩
 
+omit [Finite G] in
 private theorem comap_eq_inf_sup_center {S₁ : Sylow 2 ↥U} {N : Subgroup (UBar U)} [N.Normal]
     (hNle : N ≤ (S₁ : Subgroup ↥U).map (QuotientGroup.mk' (Subgroup.center ↥U))) :
     N.comap (QuotientGroup.mk' (Subgroup.center ↥U)) =
@@ -339,7 +341,7 @@ private theorem preimage_eq_sylow_sup_center {S₁ : Sylow 2 ↥U} (N : Subgroup
       Nhat = N.comap (QuotientGroup.mk' (Subgroup.center ↥U)) ∧
       Nhat = T ⊔ Subgroup.center ↥U ∧ IsPGroup 2 T ∧ T ≤ (S₁ : Subgroup ↥U) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsurj : Function.Surjective (QuotientGroup.mk' (Subgroup.center ↥U)) :=
     QuotientGroup.mk'_surjective _
   let Sbar : Sylow 2 (UBar U) := Sylow.mapSurjective hsurj S₁
@@ -349,7 +351,7 @@ private theorem preimage_eq_sylow_sup_center {S₁ : Sylow 2 ↥U} (N : Subgroup
     exact hNle
   exact ⟨N.comap (QuotientGroup.mk' (Subgroup.center ↥U)),
     (S₁ : Subgroup ↥U) ⊓ N.comap (QuotientGroup.mk' (Subgroup.center ↥U)), rfl,
-    comap_eq_inf_sup_center hNle', S₁.isPGroup'.to_le inf_le_left, inf_le_left⟩
+    comap_eq_inf_sup_center hNle', S₁.isPGroup.to_le inf_le_left, inf_le_left⟩
 
 private theorem exists_fixed_point {S₁ : Sylow 2 ↥U}
     (hodd : Odd (ptsIn V (sylowImage U S₁)).ncard)
@@ -358,7 +360,7 @@ private theorem exists_fixed_point {S₁ : Sylow 2 ↥U}
     ∃ C : Subgroup G, C ∈ ptsIn V (sylowImage U S₁) ∧ C ≤ U ∧
       (∀ t ∈ T, conjSubgroup (t : G) C = C) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h𝒜 : ∀ x ∈ T.map U.subtype, ∀ C ∈ ptsIn V (sylowImage U S₁),
       C.map (MulAut.conj x).toMonoidHom ∈ ptsIn V (sylowImage U S₁) := by
     intro x hx C hC
@@ -414,6 +416,7 @@ private theorem fixed_point_inter_bot (hS : Sec6Hyp M V) (h64 : OmegaM M V)
   exact (CFSG.Timmesfeld.Bridge.OddTransp.not_mem_of_isSolvable
     (hm.setup hS h64) (hm.meetsSq hS h64) hNsol hnbar) hnN
 
+omit [Finite G] in
 private theorem sylow_part_centralizes {N : Subgroup (UBar U)} [N.Normal]
     {Nhat T : Subgroup ↥U} [Nhat.Normal] (hNhat : Nhat = T ⊔ Subgroup.center ↥U)
     {C : Subgroup G} (hCfixT : ∀ t ∈ T, conjSubgroup (t : G) C = C)
@@ -447,7 +450,7 @@ private theorem sylow_part_centralizes {N : Subgroup (UBar U)} [N.Normal]
     have hX : (⟨(t : G)⁻¹ * (c : G)⁻¹ * (t : G) * (c : G), hmemU2⟩ : ↥U) =
         t⁻¹ * ((⟨(c : G), hcU⟩ : ↥U)⁻¹ * t * (⟨(c : G), hcU⟩ : ↥U)) := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, inv_inv]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       group
     exact Subgroup.mem_map.mpr
       ⟨⟨(t : G)⁻¹ * (c : G)⁻¹ * (t : G) * (c : G), hmemU2⟩, hX ▸ h2, rfl⟩
@@ -462,6 +465,7 @@ private theorem sylow_part_centralizes {N : Subgroup (UBar U)} [N.Normal]
   calc (t : G) * (c : G) = (c : G) * ((c : G)⁻¹ * (t : G) * (c : G)) := by group
     _ = (c : G) * (t : G) := by rw [h3]
 
+omit [Finite G] in
 private theorem preimage_centralizes_point {N : Subgroup (UBar U)} [N.Normal]
     {Nhat T : Subgroup ↥U} [Nhat.Normal] (hNhat : Nhat = T ⊔ Subgroup.center ↥U)
     {C : Subgroup G} (hCfixT : ∀ t ∈ T, conjSubgroup (t : G) C = C)
@@ -527,7 +531,7 @@ theorem MinBad.eq_bot_of_normal (hS : Sec6Hyp M V) (h64 : OmegaM M V) (hm : MinB
   have hNhatN : Nhat.Normal := by
     rw [hNhatdef]
     infer_instance
-  haveI := hNhatN
+  have := hNhatN
   obtain ⟨C, hCmem, hCU, hCfixT⟩ :=
     exists_fixed_point hodd hT2 hTS
   have hCN : C ⊓ Nhat.map U.subtype = ⊥ :=
@@ -539,7 +543,6 @@ theorem MinBad.eq_bot_of_normal (hS : Sec6Hyp M V) (h64 : OmegaM M V) (hm : MinB
     intro n hn
     rw [mem_center_iff_mem_ZU]
     refine Subgroup.mem_inf.mpr ⟨n.2, ?_⟩
-    change (n : G) ∈ Subgroup.centralizer (U : Set G)
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     have hEU : EU V U ⊆ Subgroup.centralizer ({(n : G)} : Set G) := by

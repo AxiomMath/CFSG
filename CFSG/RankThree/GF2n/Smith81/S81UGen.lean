@@ -143,14 +143,17 @@ private theorem h75_conj_comm {G : Type*} [Group G] (S P x : G) (h : P * x = x *
     _ = S * (x * P) * S⁻¹ := by rw [h]
     _ = (S * x * S⁻¹) * (S * P * S⁻¹) := by group
 
+omit [CharP F 2] in
 private theorem h75_inv_rho (Sf : GL (Fin 6) F) (v : Cube F) :
     rho F Sf⁻¹ (rho F Sf v) = v := by
   rw [← rho_mul_apply, inv_mul_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem h75_rho_inv (Sf : GL (Fin 6) F) (v : Cube F) :
     rho F Sf (rho F Sf⁻¹ v) = v := by
   rw [← rho_mul_apply, mul_inv_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem h75_conj_apply (Sf x : GL (Fin 6) F) (η : Cube F) :
     rho F (Sf * x * Sf⁻¹) (rho F Sf η) = rho F Sf (rho F x η) := by
   rw [rho_mul_apply, rho_mul_apply, h75_inv_rho]
@@ -168,6 +171,7 @@ private theorem h75_range_le_ker (x : GL (Fin 6) F) (hx2 : x * x = 1) {w : Cube 
   rw [map_sub, hR, show v - rho F x v - (rho F x v - v) = (v + v) - (rho F x v + rho F x v) by abel,
     hdouble, hdouble, sub_self]
 
+omit [CharP F 2] in
 private theorem h75_push (Sf x : GL (Fin 6) F) {r : Cube F}
     (hr : r ∈ LinearMap.range (rho F x - 1)) :
     rho F Sf r ∈ LinearMap.range (rho F (Sf * x * Sf⁻¹) - 1) := by
@@ -175,6 +179,7 @@ private theorem h75_push (Sf x : GL (Fin 6) F) {r : Cube F}
   refine LinearMap.mem_range.mpr ⟨rho F Sf η, ?_⟩
   simp only [LinearMap.sub_apply, Module.End.one_apply, map_sub, h75_conj_apply]
 
+omit [CharP F 2] in
 private theorem h75_decomp (Sf x t : GL (Fin 6) F) (ht : t = Sf * x * Sf⁻¹) {ξ : Cube F}
     (hξ : rho F t ξ = ξ) : ∃ ξ₀ ∈ LinearMap.ker (rho F x - 1), ξ = rho F Sf ξ₀ := by
   subst ht
@@ -360,7 +365,7 @@ theorem exists_fixed_roots [Finite F] (hσ : IsUnitaryInvolution σ) {ω : F} (h
       ∃ A ∈ Gcent σ t, ∃ B ∈ Gcent σ t, gShort hσ hω hab hb c = ⁅A, B⁆) :
     ∃ s ∈ S, s ≠ 0 ∧ ∀ (a b : Fin 6) (hab : a ≠ b) (hb : b ≠ partner a), pos a b → ∀ c : F,
       Wact σ (gShort hσ hω hab hb c) s = s := by
-  haveI : Finite (Cube F) := Module.finite_of_finite F
+  have : Finite (Cube F) := Module.finite_of_finite F
   have hA2 : ∀ a : Wform σ, a + a = 0 := by
     intro a
     apply Subtype.ext
@@ -417,14 +422,17 @@ theorem exists_fixed_roots [Finite F] (hσ : IsUnitaryInvolution σ) {ω : F} (h
     exists_nonzero_fixed (R := ↥(Fσ σ)) (A := ↥(Wform σ)) hA2 S hS Y hY hYS
   exact ⟨s, hs, hs0, fun a b hab hb hp c => hfix _ (hmem a b hab hb c hp)⟩
 
+omit [CharP F 2] in
 private theorem h78_rho_rho_inv (Sf : GL (Fin 6) F) (v : Cube F) :
     rho F Sf (rho F Sf⁻¹ v) = v := by
   rw [← rho_mul_apply, mul_inv_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem h78_rho_inv_rho (Sf : GL (Fin 6) F) (v : Cube F) :
     rho F Sf⁻¹ (rho F Sf v) = v := by
   rw [← rho_mul_apply, inv_mul_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem h78_conj_range (Sf x : GL (Fin 6) F) (η : Cube F) :
     rho F Sf⁻¹ (rho F (Sf * x * Sf⁻¹) η - η) = (rho F x - 1) (rho F Sf⁻¹ η) := by
   have hc : Sf⁻¹ * (Sf * x * Sf⁻¹) = x * Sf⁻¹ := by group

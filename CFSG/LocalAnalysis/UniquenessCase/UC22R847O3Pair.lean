@@ -40,8 +40,8 @@ theorem exists_invPair_index_le_of {X : Type} [Group X] [Finite X] {P : Type} [G
     ∃ x g : X, orderOf x = 3 ∧ g * x * g⁻¹ = x⁻¹ ∧
       ∃ Q : Subgroup P, Q.index ≤ p ∧ ∀ u ∈ Q, φ u x = x ∧ φ u g = g := by
   obtain ⟨x₀, g₀, hx₀, hg₀⟩ := h3
-  haveI : Finite (ThreeInvPair X) := Subtype.finite
-  haveI : Nonempty (ThreeInvPair X) := ⟨⟨(x₀, g₀), hx₀, hg₀⟩⟩
+  have : Finite (ThreeInvPair X) := Subtype.finite
+  have : Nonempty (ThreeInvPair X) := ⟨⟨(x₀, g₀), hx₀, hg₀⟩⟩
   obtain ⟨ω, hω⟩ := uc22p22y_exists_fixed_index_le (Ω := ThreeInvPair X) hp hexp hPab φ
     (MulAut.conj : X →* MulAut X).range hcyc hquot fun z hz hzi => by
       obtain ⟨x, g, hx, hg, hzx, hzg⟩ := hfix z hz hzi
@@ -80,7 +80,7 @@ theorem exists_invPair_fixed_psl2FieldAut (F : Type) [Field F] [CharP F 2] :
     refine Matrix.SpecialLinearGroup.ext _ _ fun i j => ?_
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_sl2OrderThree,
       hs₀, Matrix.mul_fin_two, Matrix.mul_fin_two]
-    fin_cases i <;> fin_cases j <;> simp <;> linear_combination h2
+    fin_cases i <;> fin_cases j <;> simp; linear_combination h2
   have hsc : s₀ * sl2OrderThree * s₀⁻¹ = (sl2OrderThree)⁻¹ := by
     calc s₀ * sl2OrderThree * s₀⁻¹ =
         (sl2OrderThree)⁻¹ * (sl2OrderThree * s₀ * sl2OrderThree) * s₀⁻¹ := by group
@@ -127,7 +127,7 @@ theorem exists_fixed_invPair {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) {p 
 theorem lossPairAt_of_isL2Ev {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsL2Ev X n) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) : LossPairAt X p := by
   intro P _ _ hexp hPab φ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrp : ∀ x ∈ φ.range, x ^ p = 1 := by
     rintro _ ⟨y, rfl⟩
     rw [← map_pow, hexp, map_one]
@@ -147,7 +147,7 @@ private theorem exists_invPair_of_perfect {X : Type} [Group X] [Finite X]
     (hperf : _root_.commutator X = ⊤) (h3 : 3 ∣ Nat.card X)
     (h3r : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 1) :
     ∃ x g : X, orderOf x = 3 ∧ g * x * g⁻¹ = x⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := X) 3 h3
   obtain ⟨w, hwN, hwC⟩ := uc22ine229_exists_mem_normalizer_not_mem_centralizer hperf
     Nat.prime_three (by norm_num) h3r (X := zpowers x) (by rw [Nat.card_zpowers, hx])

@@ -19,7 +19,7 @@ variable {Y : Type} [Group Y] [Finite Y] {F Γ B R₀ : Subgroup Y} {x : Y}
 theorem nf5_z_mem_comp (h : NF5 F Γ B R₀ x)
     (hZ : ∀ L : Subgroup Y, IsComponentOf L ⊤ → Subgroup.center ↥L = ⊥) {z : Y} (hz : NF5Z F z)
     {K : Subgroup Y} (hK : IsComponentOf K ⊤) : z ∈ K := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hFN : F ≤ Subgroup.normalizer (K : Set Y) := fun f hf => nf5_comp_normalized h hZ hK hf
   have hsyl : CFSG.ABGLocalTools.IsSylowOf 5 F (Subgroup.normalizer (K : Set Y)) :=
     h.sylow.of_le hFN le_top

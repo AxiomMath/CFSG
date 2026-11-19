@@ -29,8 +29,8 @@ private theorem modCommRank_conj {F : Type} [AddCommGroup F] [Module (ZMod 2) F]
 theorem su3IrreducibleRank_holds : SU3IrreducibleRank := by
   unfold SU3IrreducibleRank
   intro n F₀ _ _ hn hcard F _ _ _ σ _ g hg hσg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F₀ 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F₀ 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hcard
   have hσne : σ ≠ 1 := fun h => hσg (by rw [h, MonoidHom.one_apply])
   have hker : ∀ x, σ x = 1 → (x : GL (Fin 3) F₀) ∈ StatedScalars (Fin 3) F₀ :=

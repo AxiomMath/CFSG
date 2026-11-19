@@ -225,7 +225,7 @@ theorem exists_listed {Q : Subgroup ↥(GB i)} {qL : List (List ℕ)} (hQ : XDes
       have := card_le_of_le hle
       rw [hW4c, hl4, h8] at this
       omega
-    obtain ⟨c, hcU, hcW⟩ := SetLike.not_le_iff_exists.1 hlt
+    obtain ⟨c, hcU, hcW⟩ := IsConcreteLE.not_le_iff_exists.1 hlt
     have hcq : code c.1 ∈ qL := (hQ.mem c).1 (hUQ hcU)
     rcases hcov _ hcq with h5 | ⟨k, hk, hck⟩
     · exact absurd ((hW4d.mem c).2 ((hs4 _).1 h5)) hcW

@@ -64,9 +64,9 @@ private theorem exists_diagonal_model_famFive_E6 {Ω : Type} [Group Ω] [Finite 
   classical
   obtain ⟨F, hFld, hFinF, hCharF, hFcard, hZ, ⟨M⟩⟩ :=
     exists_dmodel_E6 hcfg hlab htag h3 hmark
-  letI : Field F := hFld
-  letI : Finite F := hFinF
-  letI : CharP F 2 := hCharF
+  let : Field F := hFld
+  let : Finite F := hFinF
+  let : CharP F 2 := hCharF
   have hn2 : 2 ≤ lab.n := by
     by_cases h : lab.n < 2
     · have hn1 : lab.n = 1 := le_antisymm (Nat.lt_succ_iff.mp h) hlab.1
@@ -122,7 +122,7 @@ private theorem exists_rootCharKernel_famFive_E6 {Ω : Type} [Group Ω] [Finite 
       Subgroup.zpowers (rootDiagUnit Tag.E6 c) := by
     rw [hK, hdc] at hcent
     exact hcent
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := F) (p := 3) h3F
   have hA : e6TorusThree F ζ ≤ M.barB := e6TorusThree_le_barB hcfg hq M hZ hdiag hζ
   obtain ⟨α, hαker⟩ := rootCharKernel_nonempty_of_torusThree_le (F := F) hζ hA hcomp' hcent'
@@ -165,9 +165,9 @@ theorem false_of_famFive_E6 {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subg
   classical
   obtain ⟨F, hFld, hFinF, hCharF, hq, h3F, hZ, ⟨M, hdiag⟩⟩ :=
     exists_diagonal_model_famFive_E6 hcfg hlab htag h3 hmark
-  letI : Field F := hFld
-  letI : Finite F := hFinF
-  letI : CharP F 2 := hCharF
+  let : Field F := hFld
+  let : Finite F := hFinF
+  let : CharP F 2 := hCharF
   obtain ⟨-, α, -, -, hαroot, hαUK⟩ :=
     exists_rootCharKernel_famFive_E6 hcfg hq h3F M hZ hdiag
   have hW := weylElt_mem_normalizer_piImg_closureIn_famFive_E6 hcfg hq M hZ hdiag
@@ -183,14 +183,14 @@ theorem false_of_famFive_E6 {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subg
   have hnormG : adjointGroup Tag.E6 F ≤ Subgroup.normalizer (R : Set (ModGL Tag.E6 F)) := by
     rw [← hXtop]
     exact le_trans le_sup_left hRnorm
-  haveI : Finite ↥(adjointGroup Tag.E6 F) := Subtype.finite
-  haveI hsimple : IsSimpleGroup ↥(adjointGroup Tag.E6 F) :=
+  have : Finite ↥(adjointGroup Tag.E6 F) := Subtype.finite
+  have hsimple : IsSimpleGroup ↥(adjointGroup Tag.E6 F) :=
     CFSG.LieType.Simplicity.isSimpleGroup_of_mulEquiv
       (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 F)
       ((QuotientGroup.quotientMulEquivOfEq
         (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot_field Tag.E6 F)).trans
         QuotientGroup.quotientBot).symm
-  haveI hNrm : (R.subgroupOf (adjointGroup Tag.E6 F)).Normal :=
+  have hNrm : (R.subgroupOf (adjointGroup Tag.E6 F)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRle).2 hnormG
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (R.subgroupOf (adjointGroup Tag.E6 F)) with hbot | htop
@@ -199,8 +199,8 @@ theorem false_of_famFive_E6 {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subg
   · have hReq : R = adjointGroup Tag.E6 F :=
       le_antisymm hRle (Subgroup.subgroupOf_eq_top.1 htop)
     rw [hReq] at hR2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Nontrivial ↥(adjointGroup Tag.E6 F) := hsimple.toNontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial ↥(adjointGroup Tag.E6 F) := hsimple.toNontrivial
     have hZnt : Nontrivial ↥(Subgroup.center ↥(adjointGroup Tag.E6 F)) := hR2.center_nontrivial
     rw [CFSG.LieType.Chevalley.center_adjointGroup_eq_bot_field Tag.E6 F] at hZnt
     exact (Subgroup.nontrivial_iff_ne_bot (⊥ : Subgroup ↥(adjointGroup Tag.E6 F))).1 hZnt rfl

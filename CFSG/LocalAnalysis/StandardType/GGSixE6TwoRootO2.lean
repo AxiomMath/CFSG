@@ -130,7 +130,7 @@ private theorem rootO2E6_map_castHom_surjective :
   intro A
   have hcard : Nat.card F2 = 2 := by
     rw [GaloisField.card 2 1 (by norm_num), pow_one]
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Fintype F2 := Fintype.ofFinite F2
   let ε : F2 ≃+* ZMod 2 :=
     FiniteField.ringEquivOfCardEq (by rw [← Nat.card_eq_fintype_card, hcard, ZMod.card])
   have hφ : ZMod.castHom (dvd_refl 2) F2 = ε.symm.toRingHom := RingHom.ext_zmod _ _

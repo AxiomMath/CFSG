@@ -18,14 +18,16 @@ section Sylow
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_subgroupOf {p : ℕ} {X R : Subgroup G} (hRX : R ≤ X) (hR : IsPGroup p ↥R) :
     IsPGroup p ↥(R.subgroupOf X) :=
   hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRX).symm
 
+omit [Finite G] in
 theorem exists_sylow_of_isSylowIn {p : ℕ} [Fact p.Prime] {X R : Subgroup G}
     (hR : IsSylowIn p X R) : ∃ S : Sylow p ↥X, (S : Subgroup ↥X).map X.subtype = R := by
   obtain ⟨S, hS⟩ := (isPGroup_subgroupOf hR.1 hR.2.1).exists_le_sylow
-  refine ⟨S, hR.2.2 _ (Subgroup.map_subtype_le _) (S.isPGroup'.map _) ?_⟩
+  refine ⟨S, hR.2.2 _ (Subgroup.map_subtype_le _) (S.isPGroup.map _) ?_⟩
   intro r hr
   exact ⟨⟨r, hR.1 hr⟩, hS (Subgroup.mem_subgroupOf.2 hr), rfl⟩
 
@@ -60,23 +62,28 @@ theorem le_pRank_of_card {p : ℕ} [Fact p.Prime] {H E : Subgroup G} (hEH : E �
     exact le_trans (Nat.lt_pow_self (Fact.out : p.Prime).one_lt).le h1
   · exact ⟨E, hEH, hE, hk⟩
 
+omit [Finite G] in
 theorem card_gLBConj (g : G) (H : Subgroup G) : Nat.card ↥(GLBConj g H) = Nat.card ↥H := by
   unfold GLBConj
   exact Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 theorem isPGroup_gLBConj {p : ℕ} (g : G) {H : Subgroup G} (hH : IsPGroup p ↥H) :
     IsPGroup p ↥(GLBConj g H) := by
   unfold GLBConj
   exact hH.map _
 
+omit [Finite G] in
 theorem isElemAbelian_gLBConj {p : ℕ} (g : G) {H : Subgroup G} (hH : IsElemAbelian p H) :
     IsElemAbelian p (GLBConj g H) := by
   unfold GLBConj
   exact hH.map _
 
+omit [Finite G] in
 theorem gLBConj_self {g : G} {H : Subgroup G} (hg : g ∈ H) : GLBConj g H = H :=
   gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hg)
 
+omit [Finite G] in
 theorem le_cg_of_mem_centerOf {R : Subgroup G} {z : G} (hz : z ∈ centerOf R) : R ≤ Cg z := by
   intro r hr
   rw [Cg, Subgroup.mem_centralizer_iff]
@@ -154,6 +161,7 @@ section PrimeCore
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_glaPPrimeCoreOf (p : ℕ) (X : Subgroup G) :
     X ≤ Subgroup.normalizer ((GLAPPrimeCoreOf p X : Subgroup G) : Set G) := by
   have hn : ((GLAPPrimeCoreOf p X).subgroupOf X).Normal := by
@@ -175,9 +183,9 @@ theorem glaPPrimeCoreOf_le_of_hyperplanes {X H M : Subgroup G} (hHX : H ≤ X)
     (hΓ : ∀ D : Subgroup G, D ≤ H → 2 ≤ CFSG.Open.pRank 3 D →
       Subgroup.normalizer (D : Set G) ≤ M) :
     GLAPPrimeCoreOf 3 X ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsElementaryAbelian 3 ↥H := hH.isElementaryAbelian
-  haveI : Nontrivial ↥H := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsElementaryAbelian 3 ↥H := hH.isElementaryAbelian
+  have : Nontrivial ↥H := by
     rw [← Finite.one_lt_card_iff_nontrivial, hHc]
     norm_num
   have hHV : H ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 X : Subgroup G) : Set G) :=
@@ -202,6 +210,7 @@ section Counting
 
 variable {P : Type} [Group P] [Finite P]
 
+omit [Finite P] in
 theorem commutatorElement_mul_right' (hcl : ∀ x y z : P, ⁅x, y⁆ * z = z * ⁅x, y⁆) (x a b : P) :
     ⁅x, a * b⁆ = ⁅x, a⁆ * ⁅x, b⁆ := by
   have h := hcl x b a⁻¹
@@ -221,6 +230,7 @@ theorem commutatorElement_mul_right' (hcl : ∀ x y z : P, ⁅x, y⁆ * z = z * 
     apply Subtype.ext
     exact commutatorElement_mul_right' hcl x a b
 
+omit [Finite P] in
 theorem ker_commMap (hcl : ∀ x y z : P, ⁅x, y⁆ * z = z * ⁅x, y⁆) (x : P) :
     (commMap hcl x).ker = Subgroup.centralizer ({x} : Set P) := by
   ext y
@@ -263,6 +273,7 @@ theorem isElemAbelian_sup_zpowers {U : Subgroup P} (hU : IsElemAbelian 3 U) {w :
   rw [Lemma1111.inf_zpowers_trivial hw3 hw1 hwU, Lemma1111.card_zpowers_three hw1 hw3] at h
   omega
 
+omit [Finite P] in
 theorem isElemAbelian_center (hexp : ∀ x : P, x ^ 3 = 1) : IsElemAbelian 3 (Subgroup.center P) :=
   ⟨⟨⟨fun a b => Subtype.ext ((Subgroup.mem_center_iff.1 b.2 a))⟩⟩, fun x _ => hexp x⟩
 
@@ -271,7 +282,7 @@ theorem extraspecial_of_card (hexp : ∀ x : P, x ^ 3 = 1)
     (hab : ∀ U : Subgroup P, IsElemAbelian 3 U → Nat.card U ≤ 27)
     (hd : 3 ^ 4 * Nat.card ↥(commutator P) ≤ Nat.card P) :
     Nat.card P = 3 ^ 5 ∧ commutator P = Subgroup.center P ∧ Nat.card ↥(Subgroup.center P) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP3 : IsPGroup 3 P := fun g => ⟨1, by rw [pow_one]; exact hexp g⟩
   have hc1 : 1 ≤ Nat.card ↥(commutator P) := Nat.card_pos
   have hZel := isElemAbelian_center hexp
@@ -284,7 +295,7 @@ theorem extraspecial_of_card (hexp : ∀ x : P, x ^ 3 = 1)
     have h1 := hab ⊤ htop
     rw [Subgroup.card_top] at h1
     omega
-  haveI : Nontrivial P := ⟨⟨x, 1, fun h => hxZ (h ▸ Subgroup.one_mem _)⟩⟩
+  have : Nontrivial P := ⟨⟨x, 1, fun h => hxZ (h ▸ Subgroup.one_mem _)⟩⟩
   have hZnt : Nontrivial ↥(Subgroup.center P) := hP3.center_nontrivial
   obtain ⟨kZ, hkZ⟩ := IsPGroup.iff_card.1 (hP3.to_subgroup (Subgroup.center P))
   have hkZ1 : 1 ≤ kZ := by
@@ -403,6 +414,7 @@ section Omega
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mul_pow_three_eq_one {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
     (hcx : ⁅y, x⁆ * x = x * ⁅y, x⁆) (hcy : ⁅y, x⁆ * y = y * ⁅y, x⁆) : (x * y) ^ 3 = 1 := by
   set c := ⁅y, x⁆ with hc
@@ -426,6 +438,7 @@ theorem mul_pow_three_eq_one {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
     simp only [pow_succ, pow_zero, one_mul, mul_assoc]
   rw [e, hc3, hx, hy, one_mul, one_mul]
 
+omit [Finite G] in
 theorem mem_omegaOne_three {C : Subgroup G}
     (hcl : ∀ x ∈ C, ∀ y ∈ C, ∀ w ∈ C, ⁅x, y⁆ * w = w * ⁅x, y⁆) {x : G}
     (hx : x ∈ omegaOne 3 C) : x ∈ C ∧ x ^ 3 = 1 := by
@@ -438,6 +451,7 @@ theorem mem_omegaOne_three {C : Subgroup G}
       (hcl b hb.1 a ha.1 b hb.1)⟩
   | inv a _ ha => exact ⟨C.inv_mem ha.1, by rw [inv_pow, ha.2, inv_one]⟩
 
+omit [Finite G] in
 theorem omegaOne_facts {R₁ R₂ : Subgroup G} (hR₂ : R₂ ≤ R₁)
     (hc : ∀ r ∈ R₁, ∀ x ∈ R₂, ⁅r, x⁆ ∈ R₂ ∧ ∀ w ∈ R₂, ⁅r, x⁆ * w = w * ⁅r, x⁆) :
     (∀ x ∈ omegaOne 3 R₂, x ^ 3 = 1) ∧ omegaOne 3 R₂ ≤ R₁ ∧
@@ -518,7 +532,7 @@ theorem setting_facts (h : Cex127 G m 3 B M E A N D) (hA3 : CFSG.Open.pRank 3 A 
 
 theorem exists_ekIn {R : Subgroup G} (hR : IsSylowIn 3 ⊤ R) {E : Subgroup G} {k : ℕ}
     (hE4 : k ≤ CFSG.Open.pRank 3 E) : ∃ H : Subgroup G, IsEkIn 3 k R H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E₄, -, hE₄, hE₄c⟩ := exists_elemAbelian_card_pow_of_le_pRank' hE4
   obtain ⟨x, -, T, hTp, -, hRT, hE₄T⟩ :=
     exists_conj_le_pGroup' (le_top : R ≤ ⊤) hR.2.1 (le_top : E₄ ≤ ⊤) hE₄.isPGroup
@@ -530,7 +544,7 @@ theorem core_le (h : Cex127 G m 3 B M E A N D) (hA3 : CFSG.Open.pRank 3 A = 3)
     (hk : CFSG.Open.pRank 3 (E ⊓ A) = 2) (hE5 : 5 ≤ CFSG.Open.pRank 3 E) {z : G}
     (hz1 : IsPCentralIn 3 M z) :
     GLAPPrimeCoreOf 3 (Cg z) ≤ M ∧ pPrimePCore 3 (Cg z) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R₀, hR₀M, hzR₀⟩ := hz1
   obtain ⟨hR₀G, -, hΓ⟩ := setting_facts h hA3 hk hR₀M
   have hR₀C : R₀ ≤ Cg z := le_cg_of_mem_centerOf hzR₀
@@ -553,7 +567,7 @@ theorem claim1211_m3_holds : Claim1211_m3 := by
   intro G _ _ m p B M E A N D h K hK z _ hz1 hz2 R hR _ hRM E' hE'R hE'
   obtain ⟨hcom, hp3, hE5, -⟩ := hK
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hOM⟩ := core_le h hcom.2.1.1 hcom.2.1.2 hE5 hz1
   obtain ⟨R₀, hR₀M, hzR₀⟩ := hz1
   obtain ⟨hR₀G, -, -⟩ := setting_facts h hcom.2.1.1 hcom.2.1.2 hR₀M
@@ -594,6 +608,7 @@ section R3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem critical_comm {R₁ : Subgroup G} {C : Subgroup ↥R₁}
     (hC : CFSG.SectionRank.Ccomm.IsThompsonCritical C) :
     ∀ r ∈ R₁, ∀ x ∈ C.map R₁.subtype, ⁅r, x⁆ ∈ C.map R₁.subtype ∧
@@ -613,10 +628,10 @@ theorem critical_comm {R₁ : Subgroup G} {C : Subgroup ↥R₁}
 end R3
 
 @[expose] def Claim1211_rank4 : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1)
-    (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M) {R : Subgroup G} (hR : IsSylowIn 3 (Cg z) R)
-    (hAR : A ≤ R) (hRM : R ≤ M) (C : Subgroup ↥(R ⊓ pPrimePCore 3 (Cg z))),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1)
+    (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M) {R : Subgroup G} (_hR : IsSylowIn 3 (Cg z) R)
+    (_hAR : A ≤ R) (_hRM : R ≤ M) (C : Subgroup ↥(R ⊓ pPrimePCore 3 (Cg z))),
     CFSG.SectionRank.Ccomm.IsThompsonCritical C →
       3 ^ 4 * Nat.card ↥⁅omegaOne 3 (C.map (R ⊓ pPrimePCore 3 (Cg z)).subtype),
           omegaOne 3 (C.map (R ⊓ pPrimePCore 3 (Cg z)).subtype)⁆ ≤
@@ -624,7 +639,7 @@ end R3
 
 theorem claim1211_R3_of_rank4 (h4 : Claim1211_rank4) : Claim1211_R3 := by
   intro G _ _ m p B M E A N D h K hK z hz hz1 hz2 R hR hAR hRM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR₁p : IsPGroup 3 ↥(R ⊓ pPrimePCore 3 (Cg z)) := isPGroup_of_le' hR.2.1 inf_le_left
   obtain ⟨⟨C, hC⟩, -⟩ := CFSG.SectionRank.Ccomm.thompson_critical_subgroup hR₁p
   obtain ⟨hexp, hle, hn, hcomm, hcl⟩ :=
@@ -637,6 +652,7 @@ section TI
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_pPrimePCore (p : ℕ) (X : Subgroup G) :
     (CFSG.GH74.GLS.pPrimePCore p ↥X).map X.subtype = pPrimePCore p X := rfl
 
@@ -644,7 +660,7 @@ theorem tI3_of_quotient {X : Subgroup G}
     (hTI : ∀ S T : Sylow 3 (↥X ⧸ CFSG.GH74.GLS.pPrimePCore 3 ↥X), S ≠ T →
       (S : Subgroup (↥X ⧸ CFSG.GH74.GLS.pPrimePCore 3 ↥X)) ⊓ T = ⊥) :
     TI3 X (pPrimePCore 3 X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro S T hS hT hne x hx
   set O' := CFSG.GH74.GLS.pPrimePCore 3 ↥X with hO'
   set π := QuotientGroup.mk' O' with hπ
@@ -682,9 +698,9 @@ end TI
       ∀ S T : Sylow 3 X, S ≠ T → (S : Subgroup X) ⊓ T = ⊥
 
 @[expose] def Claim1211_L29 : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1)
-    (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1)
+    (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M),
     IsLpType 2 9
         ↥(CFSG.GH74.GLS.oPrimeResidual 3 (↥(Cg z) ⧸ CFSG.GH74.GLS.pPrimePCore 3 ↥(Cg z))) ∨
       IsSL2Nine ↥(CFSG.GH74.GLS.oPrimeResidual 3 (↥(Cg z) ⧸ CFSG.GH74.GLS.pPrimePCore 3 ↥(Cg z)))
@@ -700,7 +716,7 @@ open Matrix
 variable {F : Type} [Field F]
 
 theorem three_eq_zero_of_card [Finite F] (hF9 : Nat.card F = 9) : (3 : F) = 0 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have h9 : ((Fintype.card F : ℕ) : F) = 0 := FiniteField.cast_card_eq_zero F
   rw [← Nat.card_eq_fintype_card, hF9] at h9
   have : (3 : F) * 3 = 0 := by
@@ -715,7 +731,7 @@ theorem pow_three_of_fixes (h3 : (3 : F) = 0) {g : Matrix (Fin 2) (Fin 2) F} (hd
     rw [← Matrix.exists_mulVec_eq_zero_iff]
     exact ⟨v, hv, by rw [Matrix.sub_mulVec, hgv, Matrix.one_mulVec, sub_self]⟩
   rw [Matrix.det_fin_two] at hdet hker
-  simp [Matrix.one_apply] at hker
+  simp at hker
   have htr : g 0 0 + g 1 1 = 2 := by linear_combination hdet - hker
   have e : g ^ 3 = g * (g * g) := by rw [pow_succ, pow_two, mul_assoc]
   rw [e]
@@ -749,8 +765,8 @@ abbrev slAct : MulAction ↥(StatedSL 2 F) (Fin 2 → F) where
 theorem tI_statedSL [Finite F] (hF9 : Nat.card F = 9) (S T : Sylow 3 ↥(StatedSL 2 F))
     (hST : S ≠ T) : (S : Subgroup ↥(StatedSL 2 F)) ⊓ T = ⊥ := by
   classical
-  letI : MulAction ↥(StatedSL 2 F) (Fin 2 → F) := slAct
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : MulAction ↥(StatedSL 2 F) (Fin 2 → F) := slAct
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 := three_eq_zero_of_card hF9
   have hdvd : 3 ∣ Nat.card (Fin 2 → F) := by
     rw [Nat.card_fun, Nat.card_fin, hF9]
@@ -760,9 +776,9 @@ theorem tI_statedSL [Finite F] (hF9 : Nat.card F = 9) (S T : Sylow 3 ↥(StatedS
       change (((u : ↥(StatedSL 2 F)) : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) *ᵥ 0 = 0
       exact Matrix.mulVec_zero _
   obtain ⟨v, hvS, hv0⟩ :=
-    S.isPGroup'.exists_fixed_point_of_prime_dvd_card_of_fixed_point (Fin 2 → F) hdvd (hfix0 S)
+    S.isPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point (Fin 2 → F) hdvd (hfix0 S)
   obtain ⟨w, hwT, hw0⟩ :=
-    T.isPGroup'.exists_fixed_point_of_prime_dvd_card_of_fixed_point (Fin 2 → F) hdvd (hfix0 T)
+    T.isPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point (Fin 2 → F) hdvd (hfix0 T)
   have hfixS : ∀ s ∈ (S : Subgroup ↥(StatedSL 2 F)),
       (((s : GL (Fin 2) F)) : Matrix (Fin 2) (Fin 2) F) *ᵥ v = v := fun s hs => hvS ⟨s, hs⟩
   have hfixT : ∀ t ∈ (T : Subgroup ↥(StatedSL 2 F)),
@@ -867,7 +883,7 @@ theorem tI_statedProj [Finite F] (hF9 : Nat.card F = 9)
     (S T : Sylow 3 (StatedProj (StatedSL 2 F))) (hST : S ≠ T) :
     (S : Subgroup (StatedProj (StatedSL 2 F))) ⊓ T = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z := (StatedScalars (Fin 2) F).subgroupOf (StatedSL 2 F) with hZ
   have hπs : Function.Surjective (QuotientGroup.mk' Z) := QuotientGroup.mk'_surjective Z
   obtain ⟨S₀, hS₀⟩ := Sylow.mapSurjective_surjective hπs 3 S
@@ -903,8 +919,8 @@ theorem tI_statedProj [Finite F] (hF9 : Nat.card F = 9)
     apply Units.ext
     simp only [Subgroup.coe_pow, Units.val_pow_eq_pow_val, Subgroup.coe_one, Units.val_one]
     rw [hcm, ← map_pow, pow_two, hdet, map_one]
-  obtain ⟨k, hk⟩ := S₀.isPGroup' ⟨s, hs⟩
-  obtain ⟨l, hl⟩ := T₀.isPGroup' ⟨t, ht⟩
+  obtain ⟨k, hk⟩ := S₀.isPGroup ⟨s, hs⟩
+  obtain ⟨l, hl⟩ := T₀.isPGroup ⟨t, ht⟩
   have hsk : s ^ (3 ^ k * 3 ^ l) = 1 := by
     have := congrArg Subtype.val hk
     simp only [Subgroup.coe_pow, Subgroup.coe_one] at this
@@ -946,7 +962,7 @@ theorem tI_of_mulEquiv {X Y : Type} [Group X] [Group Y] [Finite X] (e : X ≃* Y
     (hY : ∀ S T : Sylow 3 Y, S ≠ T → (S : Subgroup Y) ⊓ T = ⊥) :
     ∀ S T : Sylow 3 X, S ≠ T → (S : Subgroup X) ⊓ T = ⊥ := by
   intro S T hST
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective e.toMonoidHom := e.injective
   have hsurj : Function.Surjective e.toMonoidHom := e.surjective
   have h1 := hY (S.mapSurjective hsurj) (T.mapSurjective hsurj) (by
@@ -968,7 +984,7 @@ theorem tI_of_oPrimeResidual {X : Type} [Group X] [Finite X]
   set W := CFSG.GH74.GLS.oPrimeResidual 3 X with hW
   have hle : ∀ P : Sylow 3 X, (P : Subgroup X) ≤ W := by
     intro P x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     apply Subgroup.subset_closure
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   let toW : Sylow 3 X → Sylow 3 ↥W := fun P =>
@@ -1016,10 +1032,11 @@ section Constraint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSylowIn_of_isSylowOf {p : ℕ} [Fact p.Prime] {P K : Subgroup G}
     (h : CFSG.ABGLocalTools.IsSylowOf p P K) : IsSylowIn p K P := by
   obtain ⟨Q, rfl⟩ := h
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun R' hR'K hR'p hle => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, fun R' hR'K hR'p hle => ?_⟩
   have h1 : (Q : Subgroup ↥K) ≤ R'.subgroupOf K := fun x hx =>
     Subgroup.mem_subgroupOf.2 (hle ⟨x, hx, rfl⟩)
   have h2 := Q.maximal_isPGroup.eq_of_ge (isPGroup_subgroupOf hR'K hR'p) h1
@@ -1066,6 +1083,7 @@ section Pullback
 
 variable {Y : Type} [Group Y] [Finite Y] {O : Subgroup Y} [O.Normal] {R' : Subgroup Y}
 
+omit [Finite Y] in
 theorem eq_of_mk_eq (hRO : R' ⊓ O = ⊥) {u v : Y} (hu : u ∈ R') (hv : v ∈ R')
     (h : QuotientGroup.mk' O u = QuotientGroup.mk' O v) : u = v := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at h
@@ -1074,6 +1092,7 @@ theorem eq_of_mk_eq (hRO : R' ⊓ O = ⊥) {u v : Y} (hu : u ∈ R') (hv : v ∈
   calc u = u * (u⁻¹ * v) := by rw [hm, mul_one]
     _ = v := by group
 
+omit [Finite Y] in
 theorem card_map_mk_of_le (hRO : R' ⊓ O = ⊥) {U : Subgroup Y} (hUR : U ≤ R') :
     Nat.card ↥(U.map (QuotientGroup.mk' O)) = Nat.card ↥U := by
   have hinj : Function.Injective ((QuotientGroup.mk' O).comp U.subtype) := fun a b hab =>
@@ -1081,6 +1100,7 @@ theorem card_map_mk_of_le (hRO : R' ⊓ O = ⊥) {U : Subgroup Y} (hUR : U ≤ R
   have h1 := Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv
   rw [h1, MonoidHom.range_comp, Subgroup.range_subtype]
 
+omit [Finite Y] in
 theorem map_pullback {Ū : Subgroup (Y ⧸ O)} (hŪ : Ū ≤ R'.map (QuotientGroup.mk' O)) :
     (Ū.comap (QuotientGroup.mk' O) ⊓ R').map (QuotientGroup.mk' O) = Ū := by
   apply le_antisymm
@@ -1090,11 +1110,13 @@ theorem map_pullback {Ū : Subgroup (Y ⧸ O)} (hŪ : Ū ≤ R'.map (QuotientGro
     obtain ⟨r, hr, rfl⟩ := hŪ hx
     exact ⟨r, ⟨hx, hr⟩, rfl⟩
 
+omit [Finite Y] in
 theorem card_pullback (hRO : R' ⊓ O = ⊥) {Ū : Subgroup (Y ⧸ O)}
     (hŪ : Ū ≤ R'.map (QuotientGroup.mk' O)) :
     Nat.card ↥(Ū.comap (QuotientGroup.mk' O) ⊓ R') = Nat.card ↥Ū := by
   rw [← card_map_mk_of_le hRO inf_le_right, map_pullback hŪ]
 
+omit [Finite Y] in
 theorem isElemAbelian_pullback (hRO : R' ⊓ O = ⊥) {Ū : Subgroup (Y ⧸ O)}
     (hŪ : IsElemAbelian 3 Ū) : IsElemAbelian 3 (Ū.comap (QuotientGroup.mk' O) ⊓ R') := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun u hu => ?_⟩
@@ -1109,7 +1131,7 @@ theorem exists_elemAbelian_pullback (hRO : R' ⊓ O = ⊥) {Ū : Subgroup (Y ⧸
     (hŪ : Ū ≤ R'.map (QuotientGroup.mk' O)) {k : ℕ} (hk : k ≤ CFSG.Open.pRank 3 Ū) :
     ∃ U : Subgroup Y, U ≤ Ū.comap (QuotientGroup.mk' O) ⊓ R' ∧ IsElemAbelian 3 U ∧
       Nat.card ↥U = 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Vb, hVU, hV, hVc⟩ := exists_elemAbelian_card_pow_of_le_pRank' hk
   refine ⟨Vb.comap (QuotientGroup.mk' O) ⊓ R', inf_le_inf_right _ (Subgroup.comap_mono hVU),
     isElemAbelian_pullback hRO hV, ?_⟩
@@ -1118,22 +1140,22 @@ theorem exists_elemAbelian_pullback (hRO : R' ⊓ O = ⊥) {Ū : Subgroup (Y ⧸
 end Pullback
 
 @[expose] def Claim1211_ZR : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1)
-    (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M) {R : Subgroup G}, IsSylowIn 3 (Cg z) R →
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1)
+    (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M) {R : Subgroup G}, IsSylowIn 3 (Cg z) R →
       IsCyclic ↥(centerOf R)
 
 theorem cTilde_isPConstrained_of_inputs (hI : Input24_5) (hZR : Claim1211_ZR) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-      (h : Cex127 G m p B M E A N D) {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G}
-      (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M),
+      (_h : Cex127 G m p B M E A N D) {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G}
+      (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M),
       CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z)) := by
   intro G _ _ m p B M E A N D h K hK z hz hz1 hz2
   have hcyc : ∀ R : Subgroup G, IsSylowIn 3 (Cg z) R → IsCyclic ↥(centerOf R) :=
     fun R hR => hZR h hK hz hz1 hz2 hR
   obtain ⟨hcom, hp3, hE5, -⟩ := hK
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hOM, -⟩ := core_le h hcom.2.1.1 hcom.2.1.2 hE5 hz1
   obtain ⟨R₀, hR₀M, hzR₀⟩ := hz1
   obtain ⟨hR₀G, hΓ4, hΓ⟩ := setting_facts h hcom.2.1.1 hcom.2.1.2 hR₀M
@@ -1206,7 +1228,7 @@ theorem cTilde_isPConstrained_of_inputs (hI : Input24_5) (hZR : Claim1211_ZR) :
     have := isSylowIn_top_of_sylow (S.mapSurjective hπs)
     rwa [Sylow.coe_mapSurjective, hSR'] at this
   have hPc : IsCyclic ↥(centerOf P) := by
-    haveI := hcyc R₀ hR₀S
+    have := hcyc R₀ hR₀S
     have hinj : Function.Injective (π.comp R'.subtype) := fun a b hab =>
       Subtype.ext (eq_of_mk_eq hRO a.2 b.2 hab)
     have hrange : (π.comp R'.subtype).range = P := by
@@ -1312,8 +1334,8 @@ theorem isCyclic_centerOf_of_mulEquiv {G : Type} [Group G] {P Q : Subgroup G} (e
   exact isCyclic_of_surjective e'.toMonoidHom e'.surjective
 
 @[expose] def Claim1211_A0 : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K),
     ∃ x : G, (∃ k : ℕ, x ^ (3 ^ k) = 1) ∧ x ∈ Subgroup.normalizer ((E ⊓ A : Subgroup G) : Set G) ∧
       x ∉ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G)
 
@@ -1322,7 +1344,7 @@ theorem claim1211_ZR_of_A0 (hA0 : Claim1211_A0) : Claim1211_ZR := by
   obtain ⟨x, ⟨kx, hxk⟩, hxN, hxC⟩ := hA0 h hK
   obtain ⟨hcom, hp3, hE5, -⟩ := hK
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF := h.toSec11.toSec10Fails
   have hEA := h.pair
   obtain ⟨R₀, hR₀M, hzR₀⟩ := hz1
@@ -1434,15 +1456,15 @@ theorem claim1211_ZR_of_A0 (hA0 : Claim1211_A0) : Claim1211_ZR := by
 
 theorem cTilde_isPConstrained_of_A0 (hI : Input24_5) (hA0 : Claim1211_A0) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-      (h : Cex127 G m p B M E A N D) {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G}
-      (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M),
+      (_h : Cex127 G m p B M E A N D) {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G}
+      (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M),
       CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z)) := by
-  intro G _ _ m p B M E A N D h K hK z hz hz1 hz2
-  exact cTilde_isPConstrained_of_inputs hI (claim1211_ZR_of_A0 hA0) h hK hz hz1 hz2
+  intro G _ _ m p B M E A N D h K _hK z hz _hz1 hz2
+  exact cTilde_isPConstrained_of_inputs hI (claim1211_ZR_of_A0 hA0) h _hK hz _hz1 hz2
 
 @[expose] def Claim1211_A0bar : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K),
     ∃ xb : ↥N ⧸ GLAPPrimeCore 3 ↥N, (∃ k : ℕ, xb ^ (3 ^ k) = 1) ∧
       xb ∈ Subgroup.normalizer ((barX 3 N (E ⊓ A) : Subgroup (↥N ⧸ GLAPPrimeCore 3 ↥N)) :
         Set (↥N ⧸ GLAPPrimeCore 3 ↥N)) ∧
@@ -1454,7 +1476,7 @@ theorem claim1211_A0_of_A0bar (hb : Claim1211_A0bar) : Claim1211_A0 := by
   obtain ⟨xb, ⟨k, hk⟩, hxN, hxC⟩ := hb h hK
   obtain ⟨hcom, hp3, -, -⟩ := hK
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hAN : A ≤ N := by
     intro a ha
@@ -1512,32 +1534,32 @@ theorem claim1211_A0_of_A0bar (hb : Claim1211_A0bar) : Claim1211_A0 := by
 
 theorem cTilde_isPConstrained_of_A0bar (hI : Input24_5) (hb : Claim1211_A0bar) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-      (h : Cex127 G m p B M E A N D) {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G}
-      (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M),
+      (_h : Cex127 G m p B M E A N D) {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G}
+      (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M),
       CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z)) :=
   cTilde_isPConstrained_of_A0 hI (claim1211_A0_of_A0bar hb)
 
 theorem claim1211_rank4_of_inputs (hI : Input24_5) (hb : Claim1211_A0bar) (h4 : ∀ {G : Type} [Group
-    G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D) {K : Subgroup
-    G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z) (hz2
+    G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D) {K : Subgroup
+    G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z) (_hz2
     : ¬ Cg z ≤ M), CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z)) → ∀ {R :
-    Subgroup G} (hR : IsSylowIn 3 (Cg z) R) (hAR : A ≤ R) (hRM : R ≤ M) (C : Subgroup ↥(R ⊓
+    Subgroup G} (_hR : IsSylowIn 3 (Cg z) R) (_hAR : A ≤ R) (_hRM : R ≤ M) (C : Subgroup ↥(R ⊓
     pPrimePCore 3 (Cg z))), CFSG.SectionRank.Ccomm.IsThompsonCritical C → 3 ^ 4 * Nat.card
     ↥⁅omegaOne 3 (C.map (R ⊓ pPrimePCore 3 (Cg z)).subtype), omegaOne 3 (C.map (R ⊓ pPrimePCore 3
     (Cg z)).subtype)⁆ ≤ Nat.card ↥(omegaOne 3 (C.map (R ⊓ pPrimePCore 3 (Cg z)).subtype))) :
     Claim1211_rank4 := by
-  intro G _ _ m p B M E A N D h K hK z hz hz1 hz2 R hR hAR hRM C hC
-  exact h4 h hK hz hz1 hz2 (cTilde_isPConstrained_of_A0bar hI hb h hK hz hz1 hz2) hR hAR hRM C hC
+  intro G _ _ m p B M E A N D h K _hK z hz _hz1 hz2 R _hR _hAR _hRM C hC
+  exact h4 h _hK hz _hz1 hz2 (cTilde_isPConstrained_of_A0bar hI hb h _hK hz _hz1 hz2) _hR _hAR _hRM C hC
 
 theorem claim1211_L29_of_inputs (hI : Input24_5) (hb : Claim1211_A0bar) (hL : ∀ {G : Type} [Group G]
-    [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D) {K : Subgroup G}
-    (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z) (hz2 :
+    [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D) {K : Subgroup G}
+    (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z) (_hz2 :
     ¬ Cg z ≤ M), CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z)) → IsLpType
     2 9 ↥(CFSG.GH74.GLS.oPrimeResidual 3 (↥(Cg z) ⧸ CFSG.GH74.GLS.pPrimePCore 3 ↥(Cg z))) ∨
     IsSL2Nine ↥(CFSG.GH74.GLS.oPrimeResidual 3 (↥(Cg z) ⧸ CFSG.GH74.GLS.pPrimePCore 3 ↥(Cg z)))) :
     Claim1211_L29 := by
-  intro G _ _ m p B M E A N D h K hK z hz hz1 hz2
-  exact hL h hK hz hz1 hz2 (cTilde_isPConstrained_of_A0bar hI hb h hK hz hz1 hz2)
+  intro G _ _ m p B M E A N D h K _hK z hz _hz1 hz2
+  exact hL h _hK hz _hz1 hz2 (cTilde_isPConstrained_of_A0bar hI hb h _hK hz _hz1 hz2)
 
 theorem lemma1211_of_subclaims (h129 : Lemma129PrintedStatement) (h1210 : Lemma1210Statement)
     (h4 : Claim1211_rank4) (hL : Claim1211_L29) (hβ : Claim1211_noBeta) : Lemma1211Statement :=
@@ -1546,16 +1568,16 @@ theorem lemma1211_of_subclaims (h129 : Lemma129PrintedStatement) (h1210 : Lemma1
 
 theorem lemma1211_of_subclaims' (h129 : Lemma129PrintedStatement) (h1210 : Lemma1210Statement)
     (hI : Input24_5) (hb : Claim1211_A0bar) (h4 : ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E
-        A N D : Subgroup G} (h : Cex127 G m p B M E A N D) {K : Subgroup G} (hK : AlphaData1211 p M
-        E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M),
+        A N D : Subgroup G} (_h : Cex127 G m p B M E A N D) {K : Subgroup G} (_hK : AlphaData1211 p M
+        E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M),
         CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z)) → ∀ {R : Subgroup G}
-        (hR : IsSylowIn 3 (Cg z) R) (hAR : A ≤ R) (hRM : R ≤ M) (C : Subgroup ↥(R ⊓ pPrimePCore 3
+        (_hR : IsSylowIn 3 (Cg z) R) (_hAR : A ≤ R) (_hRM : R ≤ M) (C : Subgroup ↥(R ⊓ pPrimePCore 3
         (Cg z))), CFSG.SectionRank.Ccomm.IsThompsonCritical C → 3 ^ 4 * Nat.card ↥⁅omegaOne 3 (C.map
         (R ⊓ pPrimePCore 3 (Cg z)).subtype), omegaOne 3 (C.map (R ⊓ pPrimePCore 3 (Cg z)).subtype)⁆
         ≤ Nat.card ↥(omegaOne 3 (C.map (R ⊓ pPrimePCore 3 (Cg z)).subtype))) (hL : ∀ {G : Type} [Group G]
-        [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D) {K : Subgroup
-        G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z)
-        (hz2 : ¬ Cg z ≤ M), CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z))
+        [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D) {K : Subgroup
+        G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z)
+        (_hz2 : ¬ Cg z ≤ M), CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z))
         → IsLpType 2 9 ↥(CFSG.GH74.GLS.oPrimeResidual 3 (↥(Cg z) ⧸ CFSG.GH74.GLS.pPrimePCore 3 ↥(Cg
         z))) ∨ IsSL2Nine ↥(CFSG.GH74.GLS.oPrimeResidual 3 (↥(Cg z) ⧸ CFSG.GH74.GLS.pPrimePCore 3
         ↥(Cg z))))

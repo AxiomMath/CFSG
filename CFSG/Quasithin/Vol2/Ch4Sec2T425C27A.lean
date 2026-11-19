@@ -90,7 +90,7 @@ theorem two_le_pRank_of_surjective {G : Type} [Group G] [Finite G] {K : Subgroup
       calc p = p ^ 1 := (pow_one p).symm
         _ < p ^ 2 := Nat.pow_lt_pow_right hp.out.one_lt (by norm_num)
     omega
-  have h2 := CFSG.Quasithin.A3Facts.two_le_pRank_of_not_isCyclic hp2 P.isPGroup' hnc
+  have h2 := CFSG.Quasithin.A3Facts.two_le_pRank_of_not_isCyclic hp2 P.isPGroup hnc
   rwa [pRank_top_subtype] at h2
 
 end CFSG.Quasithin.H13.Ch4.T425C27

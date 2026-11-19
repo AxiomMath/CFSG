@@ -119,9 +119,11 @@ theorem hconj : ∀ (g : R) (i : Fin 306936), cls (g • i) = g * cls i * g⁻¹
 variable (hB : Bridge) {r : ℕ} (hT : TwinN r)
 include hB hT
 
+omit hB in
 theorem pt_lt {i : ℕ} (hi : i < m r) : pt (F r) i < 306936 :=
   ((hT.fix _).2 ⟨i, hi, rfl⟩).1
 
+omit hB in
 theorem pt_inj {i j : ℕ} (hi : i < m r) (hj : j < m r) (h : pt (F r) i = pt (F r) j) : i = j := by
   rcases Nat.lt_trichotomy i j with h' | h' | h'
   · exact absurd h (Nat.ne_of_lt (hT.inc i j h' hj))
@@ -136,8 +138,9 @@ theorem fix_iff (hr : r < 3) (a : Fin 306936) :
   exact ⟨fun h => ⟨a.2, h⟩, fun h => h.2⟩
 
 theorem pf_fix (hr : r < 3) {i : ℕ} (hi : i < m r) : xr r • pf (pt (F r) i) = pf (pt (F r) i) :=
-  (fix_iff hB hT hr _).2 ⟨i, hi, (pf_val (pt_lt hB hT hi)).symm⟩
+  (fix_iff hB hT hr _).2 ⟨i, hi, (pf_val (pt_lt hT hi)).symm⟩
 
+omit hB in
 theorem lw_len : (lw r).length = (lt r).length := by
   unfold lw
   rw [List.length_append, hT.lt_len]
@@ -145,34 +148,40 @@ theorem lw_len : (lw r).length = (lt r).length := by
 @[expose] noncomputable def lP (r j : ℕ) : Fin 306936 :=
   wordElt (nthL [] (lw r) j) • CFSG.Sporadic.Fi24.root
 
+omit hB in
 theorem lw_mem {j : ℕ} (hj : j < (lt r).length) : nthL [] (lw r) j ∈ lw r :=
-  nthL_mem [] (by rw [lw_len hB hT]; exact hj)
+  nthL_mem [] (by rw [lw_len hT]; exact hj)
 
 theorem letter_act {j : ℕ} (hj : j < (lt r).length) {i : ℕ} (hi : i < m r) :
     cls (lP r j) • pf (pt (F r) i) = pf (pt (F r) (ent (nthL 0 (lt r) j) i)) := by
-  have h := cls_word hB (hT.lw_lt _ (lw_mem hB hT hj)) (pf (pt (F r) i))
+  have h := cls_word hB (hT.lw_lt _ (lw_mem hT hj)) (pf (pt (F r) i))
   apply Fin.ext
   unfold lP
-  rw [h, pf_val (pt_lt hB hT hi), (hT.letters j hj i hi).2,
-    pf_val (pt_lt hB hT (hT.letters j hj i hi).1)]
+  rw [h, pf_val (pt_lt hT hi), (hT.letters j hj i hi).2,
+    pf_val (pt_lt hT (hT.letters j hj i hi).1)]
 
+omit hB in
 theorem letter_lt {j : ℕ} (hj : j < (lt r).length) {i : ℕ} (hi : i < m r) :
     ent (nthL 0 (lt r) j) i < m r := (hT.letters j hj i hi).1
 
+omit hB in
 theorem hc_ne : (hc r).length ≠ 0 := fun h => hT.hc0.1 (List.length_eq_zero_iff.1 h)
 
+omit hB in
 theorem nthL_hc0 : nthL [] (lw r) 0 = [] := by
-  have hl : 0 < (hc r).length := Nat.pos_of_ne_zero (hc_ne hB hT)
+  have hl : 0 < (hc r).length := Nat.pos_of_ne_zero (hc_ne hT)
   have e1 := nthL_eq [] (lw r) 0 (by unfold lw; rw [List.length_append]; omega)
   have e2 := nthL_eq [1] (hc r) 0 hl
   rw [e1]
   unfold lw
   rw [List.getElem_append_left hl, ← e2, hT.hc0.2]
 
+omit hB in
 theorem lP_zero : lP r 0 = CFSG.Sporadic.Fi24.root := by
   unfold lP
-  rw [nthL_hc0 hB hT, wordElt_nil, one_smul]
+  rw [nthL_hc0 hT, wordElt_nil, one_smul]
 
+omit hB in
 theorem nthL_bw {k : ℕ} (hk : k < (bp r).length) :
     nthL [] (lw r) ((hc r).length + k) = nthL [] (bw r) k := by
   have hk' : k < (bw r).length := by rw [hT.bw_len]; exact hk
@@ -185,11 +194,11 @@ theorem nthL_bw {k : ℕ} (hk : k < (bp r).length) :
 theorem lP_bw {k : ℕ} (hk : k < (bp r).length) :
     lP r ((hc r).length + k) = pf (pt (F r) (nthL 0 (bp r) k)) := by
   unfold lP
-  rw [nthL_bw hB hT hk]
+  rw [nthL_bw hT hk]
   have hw : ∀ l ∈ nthL [] (bw r) k, l < 26 :=
     hT.lw_lt _ (by unfold lw; exact List.mem_append_right _ (nthL_mem [] (by rw [hT.bw_len]; exact hk)))
   apply Fin.ext
-  rw [root_val _ hB hw, (hT.bp_pts k hk).2.symm, pf_val (pt_lt hB hT (hT.bp_pts k hk).1)]
+  rw [root_val _ hB hw, (hT.bp_pts k hk).2.symm, pf_val (pt_lt hT (hT.bp_pts k hk).1)]
 
 theorem lP_fix (hr : r < 3) {j : ℕ} (hj : j < (hc r).length) : xr r • lP r j = lP r j := by
   have hW : nthL [] (lw r) j = nthL [] (hc r) j := by
@@ -202,7 +211,7 @@ theorem lP_fix (hr : r < 3) {j : ℕ} (hj : j < (hc r).length) : xr r • lP r j
   have : lP r j = pf (pt (F r) i) := by
     apply Fin.ext
     unfold lP
-    rw [hW, root_val _ hB hw, ← e, pf_val (pt_lt hB hT hi)]
+    rw [hW, root_val _ hB hw, ← e, pf_val (pt_lt hT hi)]
   rw [this]
   exact pf_fix hB hT hr hi
 
@@ -232,14 +241,16 @@ include hB hT
   e.1 < m r ∧ (∀ i < m r, ent e.2 i < m r) ∧
     ∀ i < m r, cls (pf (pt (F r) e.1)) • pf (pt (F r) i) = pf (pt (F r) (ent e.2 i))
 
+omit hB hT in
 theorem third_eq {x y : ℕ × ℕ} (hx : EntryOK r x) (hy : EntryOK r y) :
     cls (pf (pt (F r) (ent x.2 y.1))) = cls (pf (pt (F r) x.1)) *
       cls (pf (pt (F r) y.1)) * cls (pf (pt (F r) x.1)) := by
   rw [← hx.2.2 y.1 hy.1, hconj, cls_inv]
 
+omit hB hT in
 theorem entry_step (x y : ℕ × ℕ) (hx : EntryOK r x) (hy : EntryOK r y) :
     EntryOK r (ent x.2 y.1, cmpT (m r) (cmpT (m r) x.2 y.2) x.2) := by
-  have hthird := third_eq hB hT hx hy
+  have hthird := third_eq hx hy
   obtain ⟨hx1, hx2, hx3⟩ := hx
   obtain ⟨hy1, hy2, hy3⟩ := hy
   refine ⟨hx2 y.1 hy1, fun i hi => ?_, fun i hi => ?_⟩
@@ -255,29 +266,30 @@ theorem entry_init : ∀ e ∈ c0 r, EntryOK r e := by
   · unfold c0 at he
     rcases List.mem_cons.1 he with he | he
     · rw [he]
-      have h0 : 0 < (lt r).length := by rw [hT.lt_len]; have := hc_ne hB hT; omega
-      refine ⟨hT.m_pos, fun i hi => letter_lt hB hT h0 hi, fun i hi => ?_⟩
+      have h0 : 0 < (lt r).length := by rw [hT.lt_len]; have := hc_ne hT; omega
+      refine ⟨hT.m_pos, fun i hi => letter_lt hT h0 hi, fun i hi => ?_⟩
       dsimp only
-      rw [hT.F0, ← root_eq, ← lP_zero hB hT]
+      rw [hT.F0, ← root_eq, ← lP_zero hT]
       exact letter_act hB hT h0 hi
     · obtain ⟨j, hj, rfl⟩ := c0_mem_aux (lt r) (lenL (hc r)) (bp r) 0 e he
       rw [Nat.zero_add, lenL_eq]
       have hjl : (hc r).length + j < (lt r).length := by
         rw [hT.lt_len, hT.bw_len]; omega
-      refine ⟨(hT.bp_pts j hj).1, fun i hi => letter_lt hB hT hjl hi, fun i hi => ?_⟩
+      refine ⟨(hT.bp_pts j hj).1, fun i hi => letter_lt hT hjl hi, fun i hi => ?_⟩
       dsimp only
       rw [← lP_bw hB hT hj]
       exact letter_act hB hT hjl hi
 
 theorem entry_ok : ∀ e ∈ cl r, EntryOK r e :=
-  cBuild_mem (EntryOK r) (entry_step hB hT) (entry_init hB hT) hT.cd_ok
+  cBuild_mem (EntryOK r) (entry_step) (entry_init hB hT) hT.cd_ok
 
 theorem T0_act {i : ℕ} (hi : i < m r) :
     cls CFSG.Sporadic.Fi24.root • pf (pt (F r) i) = pf (pt (F r) (ent (nthL 0 (lt r) 0) i)) := by
-  have h0 : 0 < (lt r).length := by rw [hT.lt_len]; have := hc_ne hB hT; omega
-  rw [← lP_zero hB hT]
+  have h0 : 0 < (lt r).length := by rw [hT.lt_len]; have := hc_ne hT; omega
+  rw [← lP_zero hT]
   exact letter_act hB hT h0 hi
 
+omit hB in
 theorem ent_eq_iff {T i : ℕ} (hi : i < m r) (hT' : ent T i < m r) {c : R}
     (hc : c • pf (pt (F r) i) = pf (pt (F r) (ent T i))) :
     c • pf (pt (F r) i) = pf (pt (F r) i) ↔ ent T i = i := by
@@ -285,8 +297,8 @@ theorem ent_eq_iff {T i : ℕ} (hi : i < m r) (hT' : ent T i < m r) {c : R}
   constructor
   · intro h
     have := congrArg Fin.val h
-    rw [pf_val (pt_lt hB hT hT'), pf_val (pt_lt hB hT hi)] at this
-    exact pt_inj hB hT hT' hi this
+    rw [pf_val (pt_lt hT hT'), pf_val (pt_lt hT hi)] at this
+    exact pt_inj hT hT' hi this
   · intro h
     rw [h]
 
@@ -296,12 +308,12 @@ theorem entry_twin (hr : r < 3) {e : ℕ × ℕ} (he : e ∈ (cl r).tail) :
   obtain ⟨h1, h2, h3⟩ := entry_ok hB hT e he'
   obtain ⟨r1, r2⟩ := hT.rows e he
   have hT0 : ∀ i < m r, ent (nthL 0 (lt r) 0) i < m r := fun i hi =>
-    letter_lt hB hT (by rw [hT.lt_len]; have := hc_ne hB hT; omega) hi
+    letter_lt hT (by rw [hT.lt_len]; have := hc_ne hT; omega) hi
   have hp0 : e.1 ≠ 0 := by
     intro h
     apply r1
     rw [h]
-    refine (ent_eq_iff hB hT hT.m_pos (hT0 0 hT.m_pos) (T0_act hB hT hT.m_pos)).1 ?_
+    refine (ent_eq_iff hT hT.m_pos (hT0 0 hT.m_pos) (T0_act hB hT hT.m_pos)).1 ?_
     rw [hT.F0, ← root_eq]
     exact (comm_iff _ _).1 rfl
   refine ⟨?_, pf_fix hB hT hr h1, ?_, ?_, ?_⟩
@@ -309,11 +321,11 @@ theorem entry_twin (hr : r < 3) {e : ℕ × ℕ} (he : e ∈ (cl r).tail) :
     exact pf_fix hB hT hr hT.m_pos
   · intro h
     have := congrArg Fin.val h
-    rw [root_eq, pf_val (by norm_num), pf_val (pt_lt hB hT h1), ← hT.F0] at this
-    exact hp0 (pt_inj hB hT h1 hT.m_pos this.symm)
+    rw [root_eq, pf_val (by norm_num), pf_val (pt_lt hT h1), ← hT.F0] at this
+    exact hp0 (pt_inj hT h1 hT.m_pos this.symm)
   · intro h
     apply r1
-    exact (ent_eq_iff hB hT h1 (hT0 _ h1) (T0_act hB hT h1)).1 ((comm_iff _ _).1 h)
+    exact (ent_eq_iff hT h1 (hT0 _ h1) (T0_act hB hT h1)).1 ((comm_iff _ _).1 h)
   · intro c hc hc0 hcp
     obtain ⟨i, hi, hci⟩ := (fix_iff hB hT hr c).1 hc
     have hcpf : c = pf (pt (F r) i) := by rw [hci, pf_of]
@@ -321,7 +333,7 @@ theorem entry_twin (hr : r < 3) {e : ℕ × ℕ} (he : e ∈ (cl r).tail) :
     have hi0 : i ≠ 0 := fun h => hc0 (by rw [h, hT.F0]; rfl)
     have hip : i ≠ e.1 := fun h => hcp (by rw [h])
     rw [eq_comm, comm_iff, eq_comm (a := cls (pf (pt (F r) i)) * cls (pf (pt (F r) e.1))), comm_iff,
-      ent_eq_iff hB hT hi (hT0 i hi) (T0_act hB hT hi), ent_eq_iff hB hT hi (h2 i hi) (h3 i hi)]
+      ent_eq_iff hT hi (hT0 i hi) (T0_act hB hT hi), ent_eq_iff hT hi (h2 i hi) (h3 i hi)]
     exact r2 i hi hi0 hip
 
 end Class
@@ -335,7 +347,7 @@ theorem root_act (hB : Bridge) (y : Fin 306936) :
   rw [cls_root, tR_val hB]
   change _ = CF NW NT 26 y.val
   unfold CF
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 include hB hT
 
@@ -386,7 +398,7 @@ theorem cover {i : ℕ} (hi : i < m r) : ∃ h ∈ H r, h • pf (pt (F r) i) = 
   obtain ⟨v, ⟨l, hl, rfl⟩, hv⟩ := hT.cover i hi
   obtain ⟨g, hg, eg⟩ := inw_elt hB hT l hl
   refine ⟨g, hg, Fin.ext ?_⟩
-  rw [eg, pf_val (pt_lt hB hT hi), hv]
+  rw [eg, pf_val (pt_lt hT hi), hv]
 
 theorem cover' (hr : r < 3) {a : Fin 306936} (ha : xr r • a = a) :
     ∃ h ∈ H r, h • a = CFSG.Sporadic.Fi24.root := by
@@ -418,7 +430,7 @@ theorem twin0_in (hr : r < 3) {b : Fin 306936}
     set t := wordElt W • CFSG.Sporadic.Fi24.root with ht
     have htv : t.val = cP NW NT W 0 := root_val W hB hWl
     have htf : xr r • t = t := by
-      have : t = pf (pt (F r) j) := Fin.ext (by rw [htv, pf_val (pt_lt hB hT hj)]; exact hjt.symm)
+      have : t = pf (pt (F r) j) := Fin.ext (by rw [htv, pf_val (pt_lt hT hj)]; exact hjt.symm)
       rw [this]
       exact pf_fix hB hT hr hj
     have ht0 : t ≠ CFSG.Sporadic.Fi24.root := fun e => t0 (by rw [← htv, e])
@@ -438,6 +450,7 @@ theorem twin0_in (hr : r < 3) {b : Fin 306936}
   obtain ⟨e, he, hpe⟩ := hT.tests.2 i hi (by rw [hbi]; exact hnT) htest
   exact ⟨e, he, by rw [hbpf, hpe]⟩
 
+omit hB in
 theorem cl_tail_ne : (cl r).tail ≠ [] := by
   obtain ⟨D, hD⟩ := cBuild_prefix (m r) (cd r) (c0 r)
   unfold cl
@@ -450,7 +463,7 @@ theorem cl_tail_ne : (cl r).tail ≠ [] := by
 theorem hK1 (hr : r < 3) (a : Fin 306936) (ha : xr r • a = a) :
     ∃ b, TabFi23.Twin cls (xr r) a b := by
   obtain ⟨h, hh, ha0⟩ := cover' hB hT hr ha
-  obtain ⟨e, he⟩ := List.exists_mem_of_ne_nil _ (cl_tail_ne hB hT)
+  obtain ⟨e, he⟩ := List.exists_mem_of_ne_nil _ (cl_tail_ne hT)
   have tw := entry_twin hB hT hr he
   have tw' := twin_smul' hB hT hr ((H r).inv_mem hh) tw
   rw [← ha0, inv_smul_smul] at tw'
@@ -471,7 +484,7 @@ theorem cP_eq_wN : ∀ (w : List ℕ), (∀ l ∈ w, l < 26) → ∀ x, cP NW NT
   | l :: w, h, x => by
     rw [cP_cons, cP_eq_wN w (fun l' hl' => h l' (List.mem_cons_of_mem l hl')) x]
     unfold CF
-    rw [if_neg (by have := h l List.mem_cons_self; omega)]
+    rw [ite_eq_right (by have := h l List.mem_cons_self; omega)]
     rfl
 
 theorem ev_word_fix (hB : Bridge) : ∀ (w : List ℕ), (∀ l ∈ w, l ∈ CFSG.KD.Fi24TwinK.ev) →
@@ -483,7 +496,7 @@ theorem ev_word_fix (hB : Bridge) : ∀ (w : List ℕ), (∀ l ∈ w, l ∈ CFSG
     obtain ⟨c, d⟩ := CFSG.KD.Fi24TwinK.ev_fix l hl
     rw [cP_cons, cP_cons, a, b]
     unfold CF
-    simp only [show l ≠ 26 by have := ev_lt' l hl; omega, if_false]
+    simp only [show l ≠ 26 by have := ev_lt' l hl; omega, ite_false]
     exact ⟨c, d⟩
 
 theorem sA_inv : sA⁻¹ = cls p1 * cls CFSG.Sporadic.Fi24.root := by
@@ -555,7 +568,7 @@ variable (hB : Bridge) {r : ℕ} (hT : TwinN r)
 include hB hT
 
 theorem hK2 (hr : r < 3) (a b a' b' : Fin 306936) (hab : TabFi23.Twin cls (xr r) a b)
-    (hab' : TabFi23.Twin cls (xr r) a' b') (he : cls a' * cls b' = cls a * cls b) :
+    (_hab' : TabFi23.Twin cls (xr r) a' b') (he : cls a' * cls b' = cls a * cls b) :
     (a' = a ∧ b' = b) ∨ (a' = b ∧ b' = cls a • b) ∨ (a' = cls a • b ∧ b' = a) := by
   obtain ⟨h, hh, ha0⟩ := cover' hB hT hr hab.1
   have tw := twin_smul' hB hT hr hh hab
@@ -587,7 +600,7 @@ theorem hK2 (hr : r < 3) (a b a' b' : Fin 306936) (hab : TabFi23.Twin cls (xr r)
     change (jR g * h) • b = _
     rw [mul_smul, hbe, CFSG.Sporadic.Fi24.jR_smul]
     apply Fin.ext
-    rw [hgv, ← he', pf_val (pt_lt hB hT (entry_ok hB hT _ (nthP_mem hj)).1), g1]
+    rw [hgv, ← he', pf_val (pt_lt hT (entry_ok hB hT _ (nthP_mem hj)).1), g1]
     rfl
   have hcu : ∀ y, cls (u • y) = u * cls y * u⁻¹ := fun y => hconj u y
   have hsA : cls (u • a') * cls (u • b') = sA := by
@@ -680,7 +693,8 @@ theorem lP_fix' (hr : r < 3) {j : ℕ} (hj : j < (lt r).length) : xr r • lP r 
     rw [lP_bw hB hT hk]
     exact pf_fix hB hT hr (hT.bp_pts k hk).1
 
-theorem cls_C (hr : r < 3) {a : Fin 306936} (ha : xr r • a = a) : cls a ∈ C r := by
+omit hB hT in
+theorem cls_C (_hr : r < 3) {a : Fin 306936} (ha : xr r • a = a) : cls a ∈ C r := by
   rw [mem_C]
   unfold xr at ha ⊢
   rw [CFSG.Sporadic.Fi24.jR_smul] at ha
@@ -693,7 +707,7 @@ theorem wE_C (hr : r < 3) : ∀ (u : List ℕ), (∀ l ∈ u, l < (lt r).length)
   | l :: u, h => by
     unfold wE
     rw [List.map_cons, List.prod_cons]
-    exact (C r).mul_mem (cls_C hB hT hr (lP_fix' hB hT hr (h l List.mem_cons_self)))
+    exact (C r).mul_mem (cls_C hr (lP_fix' hB hT hr (h l List.mem_cons_self)))
       (wE_C hr u fun l' hl' => h l' (List.mem_cons_of_mem l hl'))
 
 theorem wE_act : ∀ (u : List ℕ), (∀ l ∈ u, l < (lt r).length) → ∀ {i : ℕ}, i < m r →
@@ -704,8 +718,9 @@ theorem wE_act : ∀ (u : List ℕ), (∀ l ∈ u, l < (lt r).length) → ∀ {i
     have hl := h l List.mem_cons_self
     unfold wE at e ⊢
     rw [List.map_cons, List.prod_cons, mul_smul, e, letter_act hB hT hl hlt, wF_cons]
-    exact ⟨rfl, letter_lt hB hT hl hlt⟩
+    exact ⟨rfl, letter_lt hT hl hlt⟩
 
+omit hB hT in
 theorem wE_inv (u : List ℕ) : (wE r u)⁻¹ = wE r u.reverse := by
   induction u with
   | nil => unfold wE; simp
@@ -716,22 +731,23 @@ theorem wE_inv (u : List ℕ) : (wE r u)⁻¹ = wE r u.reverse := by
 
 @[expose] noncomputable def gE (r k : ℕ) : R := wE r (nthL [] (gw r) k)
 
+omit hB in
 theorem gw_lt' {k : ℕ} (hk : k < (gw r).length) : ∀ l ∈ nthL [] (gw r) k, l < (lt r).length :=
   hT.gw_lt _ (nthL_mem [] hk)
 
 theorem gE_C (hr : r < 3) {k : ℕ} (hk : k < (gw r).length) : gE r k ∈ C r :=
-  wE_C hB hT hr _ (gw_lt' hB hT hk)
+  wE_C hB hT hr _ (gw_lt' hT hk)
 
 theorem gE_act {k : ℕ} (hk : k < (gw r).length) {i : ℕ} (hi : i < m r) :
     gE r k • pf (pt (F r) i) = pf (pt (F r) (gF (lt r) (gw r) k i)) ∧ gF (lt r) (gw r) k i < m r :=
-  wE_act hB hT _ (gw_lt' hB hT hk) hi
+  wE_act hB hT _ (gw_lt' hT hk) hi
 
 theorem gEi_act {k : ℕ} (hk : k < (gw r).length) {i : ℕ} (hi : i < m r) :
     (gE r k)⁻¹ • pf (pt (F r) i) = pf (pt (F r) (gFI (lt r) (gw r) k i)) ∧
       gFI (lt r) (gw r) k i < m r := by
   unfold gE
-  rw [wE_inv hB hT]
-  exact wE_act hB hT _ (fun l hl => gw_lt' hB hT hk l (List.mem_reverse.1 hl)) hi
+  rw [wE_inv]
+  exact wE_act hB hT _ (fun l hl => gw_lt' hT hk l (List.mem_reverse.1 hl)) hi
 
 @[expose] noncomputable def gC (hr : r < 3) (k : Fin (gw r).length) : C r :=
   ⟨gE r k, gE_C hB hT hr k.2⟩
@@ -756,22 +772,22 @@ theorem sE_mem (hr : r < 3) : ∀ (v : List ℕ), (∀ e ∈ v, e / 2 < (gw r).l
       Subgroup.subset_closure ⟨⟨e / 2, he⟩, rfl⟩
     by_cases h2 : e % 2 = 0
     · have hm : (if e % 2 = 0 then gE r (e / 2) else (gE r (e / 2))⁻¹) * sE r v ∈ C r := by
-        rw [if_pos h2]; exact (C r).mul_mem hg hs
+        rw [ite_eq_left h2]; exact (C r).mul_mem hg hs
       refine ⟨hm, ?_⟩
       have : (⟨sE r (e :: v), hm⟩ : C r) = ⟨gE r (e / 2), hg⟩ * ⟨sE r v, hs⟩ := by
         apply Subtype.ext
         change (if e % 2 = 0 then gE r (e / 2) else (gE r (e / 2))⁻¹) * sE r v = _
-        rw [if_pos h2]
+        rw [ite_eq_left h2]
         rfl
       rw [this, map_mul]
       exact (Q hB hT hr).mul_mem hq1 hq
     · have hm : (if e % 2 = 0 then gE r (e / 2) else (gE r (e / 2))⁻¹) * sE r v ∈ C r := by
-        rw [if_neg h2]; exact (C r).mul_mem ((C r).inv_mem hg) hs
+        rw [ite_eq_right h2]; exact (C r).mul_mem ((C r).inv_mem hg) hs
       refine ⟨hm, ?_⟩
       have : (⟨sE r (e :: v), hm⟩ : C r) = (⟨gE r (e / 2), hg⟩)⁻¹ * ⟨sE r v, hs⟩ := by
         apply Subtype.ext
         change (if e % 2 = 0 then gE r (e / 2) else (gE r (e / 2))⁻¹) * sE r v = _
-        rw [if_neg h2]
+        rw [ite_eq_right h2]
         rfl
       rw [this, map_mul, map_inv]
       exact (Q hB hT hr).mul_mem ((Q hB hT hr).inv_mem hq1) hq
@@ -789,13 +805,13 @@ theorem sE_act : ∀ (v : List ℕ), (∀ e ∈ v, e / 2 < (gw r).length) → �
         (sF (lt r) (gw r) v i) < m r
     rw [mul_smul, ev]
     by_cases h2 : e % 2 = 0
-    · rw [if_pos h2, if_pos h2]
+    · rw [ite_eq_left h2, ite_eq_left h2]
       exact gE_act hB hT he hlt
-    · rw [if_neg h2, if_neg h2]
+    · rw [ite_eq_right h2, ite_eq_right h2]
       exact gEi_act hB hT he hlt
 
 @[expose] noncomputable def lC (hr : r < 3) {c : ℕ} (hc : c < (lt r).length) : C r :=
-  ⟨cls (lP r c), cls_C hB hT hr (lP_fix' hB hT hr hc)⟩
+  ⟨cls (lP r c), cls_C hr (lP_fix' hB hT hr hc)⟩
 
 theorem lC_inv (hr : r < 3) {c : ℕ} (hc : c < (lt r).length) :
     (lC hB hT hr hc)⁻¹ = lC hB hT hr hc := Subtype.ext (cls_inv _)
@@ -813,8 +829,8 @@ theorem norm_gen (hr : r < 3) {c : ℕ} (hc : c < (hc r).length) (k : Fin (gw r)
   apply ρ_ext hB hT hr
   intro i hi
   change (cls (lP r c) * gE r k * cls (lP r c)) • pf (pt (F r) i) = _
-  rw [mul_smul, mul_smul, letter_act hB hT hcl hi, (gE_act hB hT k.2 (letter_lt hB hT hcl hi)).1,
-    letter_act hB hT hcl (gE_act hB hT k.2 (letter_lt hB hT hcl hi)).2, hact i hi,
+  rw [mul_smul, mul_smul, letter_act hB hT hcl hi, (gE_act hB hT k.2 (letter_lt hT hcl hi)).1,
+    letter_act hB hT hcl (gE_act hB hT k.2 (letter_lt hT hcl hi)).2, hact i hi,
     (sE_act hB hT _ hv hi).1]
 
 theorem norm_letter (hr : r < 3) {c : ℕ} (hc : c < (hc r).length) :
@@ -885,19 +901,19 @@ theorem c0_Q (hr : r < 3) : ∀ e ∈ cl r, EntryOK r e ∧
       ρ r ⟨_, hm⟩ ∈ Q hB hT hr := by
   have h0C : cls CFSG.Sporadic.Fi24.root ∈ C r := by
     rw [root_eq, ← hT.F0]
-    exact cls_C hB hT hr (pf_fix hB hT hr hT.m_pos)
+    exact cls_C hr (pf_fix hB hT hr hT.m_pos)
   refine cBuild_mem (fun e => EntryOK r e ∧ ∀ hm : cls CFSG.Sporadic.Fi24.root *
       cls (pf (pt (F r) e.1)) ∈ C r, ρ r ⟨_, hm⟩ ∈ Q hB hT hr) ?_
     (fun e he => ⟨entry_init hB hT e he, ?_⟩) hT.cd_ok
   · rintro x y ⟨hx, qx⟩ ⟨hy, qy⟩
-    refine ⟨entry_step hB hT x y hx hy, fun hm => ?_⟩
-    · have hxC : cls (pf (pt (F r) x.1)) ∈ C r := cls_C hB hT hr (pf_fix hB hT hr hx.1)
-      have hyC : cls (pf (pt (F r) y.1)) ∈ C r := cls_C hB hT hr (pf_fix hB hT hr hy.1)
+    refine ⟨entry_step x y hx hy, fun hm => ?_⟩
+    · have hxC : cls (pf (pt (F r) x.1)) ∈ C r := cls_C hr (pf_fix hB hT hr hx.1)
+      have hyC : cls (pf (pt (F r) y.1)) ∈ C r := cls_C hr (pf_fix hB hT hr hy.1)
       have mx := (C r).mul_mem h0C hxC
       have my := (C r).mul_mem h0C hyC
       have qx' := qx mx
       have qy' := qy my
-      have hthird := third_eq hB hT hx hy
+      have hthird := third_eq hx hy
       have e : (⟨_, hm⟩ : C r) = ⟨_, mx⟩ * (⟨_, my⟩)⁻¹ * ⟨_, mx⟩ := by
         apply Subtype.ext
         change cls CFSG.Sporadic.Fi24.root * cls (pf (pt (F r) (ent x.2 y.1))) =
@@ -931,16 +947,17 @@ theorem c0_Q (hr : r < 3) : ∀ e ∈ cl r, EntryOK r e ∧
         unfold gE wE
         rw [hT.gw_b j hj]
         simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
-        rw [lP_zero hB hT, lP_bw hB hT hj]
+        rw [lP_zero hT, lP_bw hB hT hj]
       rw [e]
       exact Subgroup.subset_closure ⟨⟨j, hjg⟩, rfl⟩
 
+omit hB hT in
 theorem twin_prod_C (hr : r < 3) {a b : Fin 306936} (hab : TabFi23.Twin cls (xr r) a b) :
     cls a * cls b ∈ C r :=
-  (C r).mul_mem (cls_C hB hT hr hab.1) (cls_C hB hT hr hab.2.1)
+  (C r).mul_mem (cls_C hr hab.1) (cls_C hr hab.2.1)
 
 theorem twin_Q (hr : r < 3) {a b : Fin 306936} (hab : TabFi23.Twin cls (xr r) a b) :
-    ρ r ⟨_, twin_prod_C hB hT hr hab⟩ ∈ Q hB hT hr := by
+    ρ r ⟨_, twin_prod_C hr hab⟩ ∈ Q hB hT hr := by
   obtain ⟨h, hh, ha0⟩ := cover' hB hT hr hab.1
   have tw := twin_smul' hB hT hr hh hab
   rw [ha0] at tw
@@ -948,11 +965,11 @@ theorem twin_Q (hr : r < 3) {a b : Fin 306936} (hab : TabFi23.Twin cls (xr r) a 
   have hC := H_le_C hB hT hr hh
   have h0C : cls CFSG.Sporadic.Fi24.root ∈ C r := by
     rw [root_eq, ← hT.F0]
-    exact cls_C hB hT hr (pf_fix hB hT hr hT.m_pos)
+    exact cls_C hr (pf_fix hB hT hr hT.m_pos)
   have hmC : cls CFSG.Sporadic.Fi24.root * cls (pf (pt (F r) e.1)) ∈ C r :=
-    (C r).mul_mem h0C (cls_C hB hT hr (pf_fix hB hT hr (entry_ok hB hT e hem).1))
+    (C r).mul_mem h0C (cls_C hr (pf_fix hB hT hr (entry_ok hB hT e hem).1))
   have hq := (c0_Q hB hT hr e hem).2 hmC
-  have eq : (⟨_, twin_prod_C hB hT hr hab⟩ : C r) =
+  have eq : (⟨_, twin_prod_C hr hab⟩ : C r) =
       (⟨h, hC⟩)⁻¹ * ⟨_, hmC⟩ * ⟨h, hC⟩ := by
     apply Subtype.ext
     change cls a * cls b = h⁻¹ * (cls CFSG.Sporadic.Fi24.root * cls (pf (pt (F r) e.1))) * h
@@ -1028,14 +1045,14 @@ theorem class2 (hr : r < 3) : ∀ x ∈ Set.range (fun k => ρ r (gC hB hT hr k)
 theorem hK3 (hr : r < 3) (a₁ b₁ a₂ b₂ a₃ b₃ : Fin 306936) (h₁ : TabFi23.Twin cls (xr r) a₁ b₁)
     (h₂ : TabFi23.Twin cls (xr r) a₂ b₂) (h₃ : TabFi23.Twin cls (xr r) a₃ b₃) (f : Fin 306936)
     (hf : xr r • f = f) : ⁅⁅cls a₁ * cls b₁, cls a₂ * cls b₂⁆, cls a₃ * cls b₃⁆ • f = f := by
-  set p₁ : C r := ⟨_, twin_prod_C hB hT hr h₁⟩
-  set p₂ : C r := ⟨_, twin_prod_C hB hT hr h₂⟩
-  set p₃ : C r := ⟨_, twin_prod_C hB hT hr h₃⟩
+  set p₁ : C r := ⟨_, twin_prod_C hr h₁⟩
+  set p₂ : C r := ⟨_, twin_prod_C hr h₂⟩
+  set p₃ : C r := ⟨_, twin_prod_C hr h₃⟩
   have key := triple_comm_closure _ (class2 hB hT hr) _ (twin_Q hB hT hr h₁) _ (twin_Q hB hT hr h₂) _
     (twin_Q hB hT hr h₃)
   rw [← map_commutatorElement, ← map_commutatorElement] at key
   have e := congrArg (fun σ : Equiv.Perm (FS r) => (σ ⟨f, hf⟩).1) key
-  simp only [ρ_apply, Equiv.Perm.coe_one, id_eq] at e
+  simp only [Equiv.Perm.coe_one] at e
   have e2 : ((⁅⁅p₁, p₂⁆, p₃⁆ : C r) : R) = ⁅⁅cls a₁ * cls b₁, cls a₂ * cls b₂⁆, cls a₃ * cls b₃⁆ := by
     rw [← (C r).coe_subtype, map_commutatorElement, map_commutatorElement]
     rfl

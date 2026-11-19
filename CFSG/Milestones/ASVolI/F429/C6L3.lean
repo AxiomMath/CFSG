@@ -35,7 +35,7 @@ theorem burnsideF429_card_twisted_le (σ : F ≃+* F) {l : F} (hl : l ≠ 0) (S 
     intro x y hxy
     have h' : (x : F) * x₀⁻¹ = (y : F) * x₀⁻¹ := congrArg Subtype.val hxy
     exact Subtype.ext (mul_right_cancel₀ (inv_ne_zero hx₀) h')
-  · push_neg at h
+  · push Not at h
     refine Nat.card_le_card_of_injective (fun _ => (⟨0, map_zero σ⟩ : {a : F // σ a = a})) ?_
     intro a b _
     exact Subtype.ext (by rw [h a a.2, h b b.2])
@@ -49,7 +49,7 @@ theorem burnsideF429_card_twisted_le_sq (σ : F ≃+* F) {l₁ l₂ : F} (hl₁ 
   have hc₀ : ∀ p ∈ S, (p.1, c₀ p.1) ∈ S := by
     intro p hp
     have h : ∃ c, (p.1, c) ∈ S := ⟨p.2, hp⟩
-    simp only [c₀, dif_pos h]
+    simp only [c₀, dite_eq_left h]
     exact h.choose_spec
   have hmem₂ : ∀ p ∈ S, l₂ * σ (p.2 - c₀ p.1) = p.2 - c₀ p.1 := by
     intro p hp
@@ -118,6 +118,7 @@ theorem burnsideF429_L3_V2_inj {b c b' c' : F} (h : yP b * wP c = yP b' * wP c')
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   exact ⟨by linear_combination hb - b' * h2, by linear_combination -hc - c' * h2⟩
 
+omit [CharP F 2] in
 theorem burnsideF429_L3_wP_inj {c c' : F} (h : wP c = wP c') : c = c' := by
   have h1 : xP 0 * wP c = yP 0 * wP c' := by rw [xP_zero, yP_zero, h]
   exact (xP_wP_eq_yP_wP h1).2.2
@@ -147,7 +148,7 @@ theorem burnsideF429_L3_card_V2 [Finite F] :
 theorem burnsideF429_L3_elemAb_le {B : Subgroup (projectiveSL 3 F)}
     (hBU : B ≤ projUnitriangular 3 F) (hB : IsElemAbelian 2 B) : B ≤ V1 ∨ B ≤ V2 := by
   by_contra h
-  rw [not_or, SetLike.not_le_iff_exists, SetLike.not_le_iff_exists] at h
+  rw [not_or, IsConcreteLE.not_le_iff_exists, IsConcreteLE.not_le_iff_exists] at h
   obtain ⟨⟨g, hgB, hgV⟩, ⟨g', hg'B, hg'V⟩⟩ := h
   obtain ⟨c, a, b, rfl⟩ := mem_Ubar.mp (hBU hgB)
   obtain ⟨c', a', b', rfl⟩ := mem_Ubar.mp (hBU hg'B)
@@ -362,12 +363,12 @@ variable {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF429_c6_L3 {f : ℕ} (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf : 2 ≤ f)
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C6 .L3 f Gp M₁ M₂ T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, hFf, hFfin, hFchar, Φ, ρ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hρ, hΦρ, hE, hD, hO,
     h₁, h₂, -⟩ := burnsideF447_setup hf hyp.toHypF_4_4g
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hNp := burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂
   have hS : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) = (projUnitriangular 3 F).map Φ := by
     have hle : pCoreOf 2 (M₁ ⊓ M₂) ≤ Gp := burnsideF4d_Y2_pCore_le hf hyp.toHypF_4_4g
@@ -401,7 +402,7 @@ theorem burnsideF429_c6_L3 {f : ℕ} (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf :
       · exact (Subgroup.card_le_of_le h).trans burnsideF429_L3_card_V2.le
   ·
     intro A hAT hAe hAS
-    obtain ⟨t, htA, htS⟩ := SetLike.not_le_iff_exists.mp hAS
+    obtain ⟨t, htA, htS⟩ := IsConcreteLE.not_le_iff_exists.mp hAS
     have htT := hAT htA
     have htt : t * t = 1 := by rw [← pow_two]; exact hAe.2 t htA
     have htG : t ∉ Gp := fun h => htS (by rw [← hTG]; exact ⟨htT, h⟩)
@@ -437,10 +438,10 @@ theorem burnsideF429_c6_L3 {f : ℕ} (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf :
           (fun p : Bool × X => if p.1 then t * (p.2 : E) else (p.2 : E)) (φ a) = a := by
         intro a
         by_cases ha : (a : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))
-        · have e : φ a = (false, ⟨a, a.2, ha⟩) := dif_pos ha
+        · have e : φ a = (false, ⟨a, a.2, ha⟩) := dite_eq_left ha
           rw [e]
           rfl
-        · have e : φ a = (true, ⟨t * a, hmemX a ha⟩) := dif_neg ha
+        · have e : φ a = (true, ⟨t * a, hmemX a ha⟩) := dite_eq_right ha
           rw [e]
           show t * (t * (a : E)) = a
           rw [← mul_assoc, htt, one_mul]

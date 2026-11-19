@@ -64,7 +64,7 @@ private lemma tau_mem_iff_not_mem {n : ℕ} (𝒜 : Finset (Finset (Fin n)))
     · exact absurd hw' hw
     · exact hτw
 
-theorem sec9e_even_of_no_singleton {n : ℕ} (hn : 1 ≤ n) (𝒜 : Finset (Finset (Fin n)))
+theorem sec9e_even_of_no_singleton {n : ℕ} (_hn : 1 ≤ n) (𝒜 : Finset (Finset (Fin n)))
     (hcard : 𝒜.card = 2 ^ (n - 1)) (h0 : ∅ ∈ 𝒜)
     (hΔ : ∀ A ∈ 𝒜, ∀ B ∈ 𝒜, symmDiff A B ∈ 𝒜)
     (hs : ∀ i : Fin n, ({i} : Finset (Fin n)) ∉ 𝒜) : ∀ A ∈ 𝒜, Even A.card := by

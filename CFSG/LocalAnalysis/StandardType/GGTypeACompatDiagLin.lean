@@ -45,9 +45,9 @@ theorem range_slLowerBlockHom (n : ℕ) (F : Type) [Field F] :
       rw [Matrix.fromBlocks_apply₁₁, slLowerBlockEquiv_inl]
       simp [Matrix.one_apply_eq]
     · rw [Matrix.fromBlocks_apply₁₂, slLowerBlockEquiv_inl, slLowerBlockEquiv_inr]
-      simp [Matrix.one_apply, Fin.succ_ne_zero, eq_comm]
+      simp [Fin.succ_ne_zero, eq_comm]
     · rw [Matrix.fromBlocks_apply₂₁, slLowerBlockEquiv_inr, slLowerBlockEquiv_inl]
-      simp [Matrix.one_apply, Fin.succ_ne_zero, eq_comm]
+      simp [Fin.succ_ne_zero]
     · exfalso
       rcases hij with h | h
       · rw [slLowerBlockEquiv_inr] at h
@@ -69,10 +69,10 @@ theorem range_slLowerBlockHom (n : ℕ) (F : Type) [Field F] :
         simp [Matrix.one_apply_eq]
       · rw [Matrix.fromBlocks_apply₁₂, slLowerBlockEquiv_inl, slLowerBlockEquiv_inr,
           hA' 0 q.succ (Or.inl (by simp))]
-        simp [Matrix.one_apply, Fin.succ_ne_zero, eq_comm]
+        simp [Fin.succ_ne_zero, eq_comm]
       · rw [Matrix.fromBlocks_apply₂₁, slLowerBlockEquiv_inr, slLowerBlockEquiv_inl,
           hA' p.succ 0 (Or.inr (by simp))]
-        simp [Matrix.one_apply, Fin.succ_ne_zero, eq_comm]
+        simp [Fin.succ_ne_zero]
       · rw [Matrix.fromBlocks_apply₂₂, slLowerBlockEquiv_inr, slLowerBlockEquiv_inr, hs,
           Matrix.submatrix_apply]
     refine ⟨⟨s, ?_⟩, ?_⟩
@@ -105,12 +105,12 @@ theorem range_slUpperBlockHom (n : ℕ) (F : Type) [Field F] :
       · rw [hl q] at h
         exact h (Finset.mem_erase.mpr ⟨Fin.castSucc_ne_last q, Finset.mem_univ _⟩)
     · rw [Matrix.fromBlocks_apply₁₂, hl p, hr q]
-      simp [Matrix.one_apply, Fin.castSucc_ne_last, eq_comm]
+      simp [Fin.castSucc_ne_last]
     · rw [Matrix.fromBlocks_apply₂₁, hr p, hl q]
-      simp [Matrix.one_apply, Fin.castSucc_ne_last, eq_comm]
+      simp [Fin.castSucc_ne_last, eq_comm]
     · obtain rfl : p = q := Subsingleton.elim p q
       rw [Matrix.fromBlocks_apply₂₂, hr p]
-      simp [Matrix.one_apply]
+      simp
   · intro A hA
     set s : Matrix (Fin n) (Fin n) F := A.val.submatrix Fin.castSucc Fin.castSucc with hs
     have hmat : slUpperBlockMat n F s = A.val := by
@@ -123,14 +123,14 @@ theorem range_slUpperBlockHom (n : ℕ) (F : Type) [Field F] :
       · rw [Matrix.fromBlocks_apply₁₁, hl p, hl q, hs, Matrix.submatrix_apply]
       · rw [Matrix.fromBlocks_apply₁₂, hl p, hr q,
           hA' p.castSucc (Fin.last n) (Or.inr (by simp))]
-        simp [Matrix.one_apply, Fin.castSucc_ne_last, eq_comm]
+        simp [Fin.castSucc_ne_last]
       · rw [Matrix.fromBlocks_apply₂₁, hr p, hl q,
           hA' (Fin.last n) q.castSucc (Or.inl (by simp))]
-        simp [Matrix.one_apply, Fin.castSucc_ne_last, eq_comm]
+        simp [Fin.castSucc_ne_last, eq_comm]
       · obtain rfl : p = q := Subsingleton.elim p q
         rw [Matrix.fromBlocks_apply₂₂, hr p,
           hA' (Fin.last n) (Fin.last n) (Or.inr (by simp))]
-        simp [Matrix.one_apply]
+        simp
     refine ⟨⟨s, ?_⟩, ?_⟩
     · rw [← det_slUpperBlockMat, hmat]
       exact A.2
@@ -160,7 +160,7 @@ private theorem blockComplProj_slPerm_swap {F : Type} [Field F] (h2 : (2 : F) = 
     CFSG.SeitzReduction.LinearPilot.blockComplProj, diagonal_mul, mul_diagonal,
     signedPerm_apply]
   by_cases h : i = Equiv.swap a r j
-  · simp only [if_pos h, Pi.one_apply, mul_one, one_mul]
+  · simp only [ite_eq_left h, Pi.one_apply, mul_one, one_mul]
     congr 1
     simp only [Finset.mem_erase, Finset.mem_univ, and_true]
     rw [h]
@@ -172,7 +172,7 @@ private theorem blockComplProj_slPerm_swap {F : Type} [Field F] (h2 : (2 : F) = 
       have := congrArg (Equiv.swap a r) h2
       rw [Equiv.swap_apply_self, Equiv.swap_apply_right] at this
       exact h1 this
-  · simp only [if_neg h, Pi.one_apply, mul_zero, zero_mul]
+  · simp only [ite_eq_right h, Pi.one_apply, mul_zero, zero_mul]
 
 theorem exists_lift_lowerBlock_eq {X : Type} [Group X] {F : Type} [Field F] (h2 : (2 : F) = 0)
     {n : ℕ} {φ : SpecialLinearGroup (Fin (n + 1)) F →* X}

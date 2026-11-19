@@ -53,14 +53,14 @@ theorem fusOK_fused {rep : ℕ → ℕ} {nc : ℕ} {depth kind arg cls wit : Lis
     have hcl := allBelow_spec h c hc
     unfold classOK at hcl
     by_cases k0 : (nth kind c).beq 0 = true
-    · simp only [k0, cond_true] at hcl
+    · simp only [k0, _root_.Bool.cond_true] at hcl
       exact Fused.target (memN_spec hcl)
     by_cases k1 : (nth kind c).beq 1 = true
-    · simp only [k0, k1, cond_true, cond_false, Bool.false_eq_true, Bool.and_eq_true,
+    · simp only [k0, k1, _root_.Bool.cond_true, Bool.cond_false, Bool.and_eq_true,
         Nat.blt_eq] at hcl
       exact Fused.aut hcl.1 (stepOK_fused hcl.2 ih')
     · simp only [Bool.not_eq_true] at k0 k1
-      simp only [k0, k1, cond_false, Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq] at hcl
+      simp only [k0, k1, Bool.cond_false, Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq] at hcl
       obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := hcl
       exact Fused.pow h3 h1 h2 (stepOK_fused h4 ih')
 
@@ -277,7 +277,7 @@ theorem gens_mem_T [Finite G] (H : PcHyp u q z) (C : ∀ k < 7, phiOK (343 * k) 
   unfold PSub
   refine sup_le ((closure_le _).2 ?_) (zpowers_le.2 ⟨16807, by norm_num, by simp [psi, nfQ, dec, decQ]⟩)
   rintro _ ⟨i, rfl⟩
-  fin_cases i <;> simp only [Fin.isValue]
+  fin_cases i <;> simp only
   · exact ⟨2401, by norm_num, by simp [psi, nfQ, dec, decQ]⟩
   · exact ⟨343, by norm_num, by simp [psi, nfQ, dec, decQ]⟩
   · exact ⟨49, by norm_num, by simp [psi, nfQ, dec, decQ]⟩

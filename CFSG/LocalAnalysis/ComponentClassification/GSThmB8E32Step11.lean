@@ -392,7 +392,7 @@ theorem NUW_eq : C.NUW = C.U := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   obtain ⟨T, hT⟩ := C.U_sylow
-  have hU2 : IsPGroup 2 C.U := hT ▸ T.isPGroup'
+  have hU2 : IsPGroup 2 C.U := hT ▸ T.isPGroup
   obtain ⟨w, hwU, hwN, hwn⟩ := Eight.exists_mem_normalizer_not_mem hU2 inf_le_left hne
   have hyNUW : y ∈ C.NUW := ⟨hyU, hyN⟩
   have hwQ : w ∈ normalizer ((C.Q y : Subgroup X) : Set X) := by

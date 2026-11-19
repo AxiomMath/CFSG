@@ -36,6 +36,7 @@ theorem q2cFPo_blockSize_le (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length) :
   zero_mem' := fun _ _ => rfl
   smul_mem' := fun a _ hv j hj => by simp [hv j hj]
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFPo_Wb_inf_Vsub {b : ℕ} :
     q2cFPo_Wb (K := K) (n := n) d b ⊓ Vsub n (d.getD b 0) = ⊥ := by
   rw [Submodule.eq_bot_iff]
@@ -45,15 +46,17 @@ theorem q2cFPo_Wb_inf_Vsub {b : ℕ} :
   · exact hvV j hj
   · exact hvW j (fun h => hj h.1)
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFPo_Wb_le_Vsub {b : ℕ} :
     q2cFPo_Wb (K := K) (n := n) d b ≤ Vsub n (d.getD (b + 1) 0) := by
   intro v hv j hj
   exact hv j (fun h => absurd h.2 (not_lt.mpr hj))
 
+omit [Field K] [CharP K 2] in
 private lemma q2cFPo_exists_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
     (T : Finset K) (hT : T.card ≤ 3) : ∃ c : K, c ∉ T := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h16 : 16 ≤ Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, hK, pow_two]
     exact Nat.mul_le_mul hq hq
@@ -63,6 +66,7 @@ private lemma q2cFPo_exists_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 
   obtain ⟨c, -, hc⟩ := Finset.exists_mem_notMem_of_card_lt_card hcard
   exact ⟨c, hc⟩
 
+omit [Field K] [CharP K 2] in
 private lemma q2cFPo_exists_avoid3 (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
     (a b c : K) : ∃ x : K, x ≠ a ∧ x ≠ b ∧ x ≠ c := by
   classical
@@ -105,10 +109,10 @@ theorem q2cFPo_exists_nodes (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
   have h20 : sg K f c2 ≠ c0 := (q2cFPo_sg_ne_iff hK c2 c0).mpr hc2c
   refine ⟨ω, ?_, ?_⟩
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [hω0, hω1, hω2, hω3]
+    fin_cases i <;> fin_cases j <;> simp_all
   · intro i j hij
     fin_cases i <;> fin_cases j <;>
-      simp_all [hω0, hω1, hω2, hω3, hc0m, hc1m, h01, h02, h10, h20]
+      simp_all
 
 @[expose] noncomputable def q2cFPo_bvec {n : ℕ} (d : List ℕ) (pol : List Bool) (ω : Fin 4 → K)
     (b : ℕ) (t : Fin 4) : Fin n → K :=
@@ -118,23 +122,26 @@ theorem q2cFPo_exists_nodes (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
       else ω t ^ (k.val - d.getD b 0)
     else 0
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFPo_bvec_mem_Wb (pol : List Bool) (ω : Fin 4 → K) (b : ℕ) (t : Fin 4) :
     q2cFPo_bvec (K := K) (n := n) d pol ω b t ∈ q2cFPo_Wb (K := K) (n := n) d b := by
   intro j hj
   simp only [q2cFPo_bvec]
-  rw [if_neg hj]
+  rw [ite_eq_right hj]
 
 @[expose] noncomputable def q2cFPo_A {n : ℕ} (d : List ℕ) (pol : List Bool) (ω : Fin 4 → K)
     (b r : ℕ) : Submodule K (Fin n → K) :=
   Submodule.span K (Set.range fun t : {t : Fin 4 // t.val < r} =>
     q2cFPo_bvec (K := K) (n := n) d pol ω b t.1)
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFPo_A_mono (pol : List Bool) (ω : Fin 4 → K) (b : ℕ) {r r' : ℕ} (h : r ≤ r') :
     q2cFPo_A (K := K) (n := n) d pol ω b r ≤ q2cFPo_A (K := K) (n := n) d pol ω b r' := by
   apply Submodule.span_mono
   rintro v ⟨t, rfl⟩
   exact ⟨⟨t.1, lt_of_lt_of_le t.2 h⟩, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFPo_A_le_Wb (pol : List Bool) (ω : Fin 4 → K) (b r : ℕ) :
     q2cFPo_A (K := K) (n := n) d pol ω b r ≤ q2cFPo_Wb (K := K) (n := n) d b := by
   apply Submodule.span_le.mpr

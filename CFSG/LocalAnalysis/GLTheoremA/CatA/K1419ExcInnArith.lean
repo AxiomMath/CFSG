@@ -40,7 +40,7 @@ theorem l3u3_inn_card_centerQuotient_mul {C R : Type*} [Group C] [Group R]
 
 theorem l3u3_inn_two_pow_mul_odd_inj {a b u w : ℕ} (hu : Odd u) (hw : Odd w)
     (h : 2 ^ a * u = 2 ^ b * w) : a = b ∧ u = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu0 : u ≠ 0 := hu.pos.ne'
   have hw0 : w ≠ 0 := hw.pos.ne'
   have hv := congrArg (padicValNat 2) h
@@ -63,7 +63,7 @@ theorem l3u3_inn_odd_pow_two_sq_sub_one {m : ℕ} (hm : 1 ≤ m) : Odd ((2 ^ m) 
 
 theorem l3u3_inn_not_three_dvd_of_card_eq {N m T Z S : ℕ} (hN : L3U3Order N) (hT : Odd T)
     (hS : Odd S) (hZ : Z ∣ T) (h : N * Z = T * (2 ^ m) ^ 3 * S) : ¬ 3 ∣ m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn3, hn1, hv⟩ := hN.padicValNat_two
   have hZodd : Odd Z := hT.of_dvd_nat hZ
   have h1 := congrArg (padicValNat 2) h
@@ -279,7 +279,7 @@ theorem l3u3_inn_not_order_of_card_sl {ν m N : ℕ} (hν : 5 ≤ ν) (hm : 1 �
           have hν5 : ν = 5 := by omega
           subst hν5
           obtain ⟨n, hn3, hn1, hv⟩ := hN.padicValNat_two
-          haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+          have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
           have hQodd : Odd (Q - 1) := l3u3_inn_odd_sub_one_of_even hQeven (by omega)
           have hgodd : Odd g := hQodd.of_dvd_nat hgdvd
           have hPodd : Odd P := by

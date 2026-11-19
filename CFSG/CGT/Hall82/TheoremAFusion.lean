@@ -107,7 +107,7 @@ theorem exists_isSylowOf_le_centralizer (S : Setting G M θ z π) (F : Facts)
     (H : Steps12 G M θ π) (q : ↥(CFSG.Open.pCoreOf 2 M))
     (hq : Multiplicative.toAdd (π q) ≠ 0) :
     ∃ P : Subgroup G, IsSylowOf 2 P M ∧ P ≤ Subgroup.centralizer {(q : G)} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 (M ⊓ Subgroup.centralizer {(q : G)})
   refine ⟨P, ?_, hP.le.trans inf_le_right⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hP ⊢
@@ -201,6 +201,7 @@ theorem conj_sq (H : Steps12 G M θ π) {g a : G}
   calc a * a = g * ((g⁻¹ * a * g) * (g⁻¹ * a * g)) * g⁻¹ := by group
     _ = 1 := by rw [h]; group
 
+omit [Finite G] in
 theorem card_conjSubgroup (g : G) (T : Subgroup G) : Nat.card (conjSubgroup g T) = Nat.card T :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
@@ -212,7 +213,7 @@ variable (S : Setting G M θ z π) (F : Facts) (H : Steps12 G M θ π)
 include S F H hij hc hg
 
 theorem conj_le_M : conjSubgroup g (CFSG.Open.pCoreOf 2 M) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc0 : Multiplicative.toAdd (π c) ≠ 0 := by rw [hc]; exact F.pc_ne_zero i j hij
   obtain ⟨P, hP, hPC⟩ := S.exists_isSylowOf_le_centralizer F H c hc0
   rw [hg] at hPC
@@ -237,6 +238,7 @@ theorem conj_le_M : conjSubgroup g (CFSG.Open.pCoreOf 2 M) ≤ M := by
   rw [e] at h
   exact hP.le h
 
+omit F H hij hc in
 theorem conj_le_centralizer :
     conjSubgroup g (CFSG.Open.pCoreOf 2 M) ≤ Subgroup.centralizer {(c : G)} := by
   intro w hw
@@ -247,7 +249,7 @@ theorem conj_le_centralizer :
 theorem θ_conj_eq (w : G) (hw : w ∈ conjSubgroup g (CFSG.Open.pCoreOf 2 M)) (hwM : w ∈ M) :
     θ ⟨w, hwM⟩ = 1 ∨ θ ⟨w, hwM⟩ = swap i j := by
   have hWM := conj_le_M S F H hij hc hg
-  have hWC := conj_le_centralizer S F H hij hc hg
+  have hWC := conj_le_centralizer S hg
   set W := conjSubgroup g (CFSG.Open.pCoreOf 2 M) with hWdef
   set E : Subgroup (Perm (Fin 6)) := (W.subgroupOf M).map θ with hEdef
   have hfixW : ∀ (x : ↥M), (x : G) ∈ W →
@@ -611,7 +613,7 @@ theorem weaklyClosedIn_z (S : Setting G M θ z π) (F : Facts) (H : Steps12 G M 
 
 theorem exists_sylow_le (S : Setting G M θ z π) (F : Facts) (H : Steps12 G M θ π) :
     ∃ P : Sylow 2 G, (P : Subgroup G) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 M
   have hVS : CFSG.Open.pCoreOf 2 M ≤ S₀ :=
     CFSG.ClassicalInvolution.GlaubermanAut.isSylowOf_le_of_le_normalizer hS₀ S.isPGroup S.V_le

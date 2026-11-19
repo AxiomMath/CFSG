@@ -32,7 +32,7 @@ theorem not_two_dvd_relIndex_inf_of_parabolic_of_sylow {B R L J N : Subgroup G}
   have hm := Subgroup.relIndex_mul_relIndex N (J₁ ⊔ N) (J ⊔ N) le_sup_right
     (sup_le_sup_right hJ₁J N)
   rw [hU, hU₁, ← hr] at hm
-  haveI : N.IsFiniteRelIndex J₁ := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : N.IsFiniteRelIndex J₁ := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hpos : 0 < N.relIndex J₁ := Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero
   have hx : (J₁ ⊔ N).relIndex (J ⊔ N) = J₁.relIndex J := Nat.eq_of_mul_eq_mul_left hpos hm
   have hUL : J ⊔ N ≤ L := sup_le hJL hNL
@@ -45,6 +45,7 @@ theorem not_two_dvd_relIndex_inf_of_parabolic_of_sylow {B R L J N : Subgroup G}
   · exact hJ h
   · exact hodd h
 
+omit [Finite G] in
 theorem normalizer_le_of_cgs_le {R H : Subgroup G} (hCGS : CGS R ≤ H) :
     ∀ C : Subgroup G, C ≤ R → C ≠ ⊥ → (C.subgroupOf R).Characteristic →
       Subgroup.normalizer (C : Set G) ≤ H := fun C hC hC1 hCc =>

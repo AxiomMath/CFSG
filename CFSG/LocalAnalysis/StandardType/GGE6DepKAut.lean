@@ -15,6 +15,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem weyl_elt {Bs X : Subgroup G} (hBsN : Bs ≤ Subgroup.normalizer (X : Set G))
     {T : Subgroup ↥X} {w : Fin 6 → ↥X}
     (hcl5 : ∀ a ∈ (ggGamma X hBsN).range, ∀ t ∈ T, a t = t)
@@ -25,11 +26,13 @@ private theorem weyl_elt {Bs X : Subgroup G} (hBsN : Bs ≤ Subgroup.normalizer 
   exact ⟨(hcl7 i a ha).2, fun a' ha' =>
     hcl5 a' ha' (w i * (a (w i))⁻¹) (hcl7 i a ha).1⟩
 
+omit [Finite G] in
 private theorem actsAsK_one {Bs : Subgroup G} (κ : Additive ↥Bs →+ Vec6) :
     ActsAsK κ (1 : MulAut ↥Bs) 1 := by
   intro b
   rw [MulAut.one_apply, Matrix.one_mulVec]
 
+omit [Finite G] in
 private theorem actsAsK_mul {Bs : Subgroup G} {κ : Additive ↥Bs →+ Vec6}
     {φ ψ : MulAut ↥Bs} {g h : Mat6} (hφ : ActsAsK κ φ g) (hψ : ActsAsK κ ψ h) :
     ActsAsK κ (φ * ψ) (g * h) := by

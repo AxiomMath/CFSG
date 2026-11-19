@@ -64,9 +64,9 @@ theorem mem_fixSub_conjAut_iff (Y : Subgroup G) {s : G} (hs : s * s = 1)
   invFun q := ⟨⟨(q : G), q.2.1⟩, (mem_fixSub_conjAut_iff Y hs hsN ⟨(q : G), q.2.1⟩).mpr
     (Subgroup.mem_centralizer_singleton_iff.mp (show (q : G) ∈ centralizer ({s} : Set G) from
       q.2.2)).symm⟩
-  left_inv p := rfl
-  right_inv q := rfl
-  map_mul' a b := rfl
+  left_inv _p := rfl
+  right_inv _q := rfl
+  map_mul' _a _b := rfl
 
 theorem exists_outer_of_outerData (Y : Subgroup G) {P : Type} [Group P] (ρ : ↥Y →* P)
     (hρ : OddCentralCover ρ) {s : G} (hs : s * s = 1) (hsN : s ∈ normalizer (Y : Set G))
@@ -143,7 +143,7 @@ theorem exists_outer_of_outerData (Y : Subgroup G) {P : Type} [Group P] (ρ : �
     have hu2 : ((û : ↥Y) : G) ^ 2 = 1 := by
       rw [pow_two, ← Subgroup.coe_mul, hûû']
       rfl
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hu2 hu1
   · have h1 := congrArg Subtype.val hkey
     have h2 : ((((b * m)⁻¹ * σ (b * m) : ↥Y)) : G) =

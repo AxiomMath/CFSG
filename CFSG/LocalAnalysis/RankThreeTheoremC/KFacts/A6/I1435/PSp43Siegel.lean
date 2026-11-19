@@ -47,7 +47,7 @@ theorem uGL_mem (s : T3) : uGL s ∈ StatedSp 2 (ZMod 3) := by
 @[expose] def uSpHom : Multiplicative T3 →* StatedSp 2 (ZMod 3) where
   toFun s := ⟨uGL (Multiplicative.toAdd s), uGL_mem _⟩
   map_one' := Subtype.ext (Units.ext uMat_zero)
-  map_mul' s t := Subtype.ext (Units.ext (uMat_mul _ _).symm)
+  map_mul' _s _t := Subtype.ext (Units.ext (uMat_mul _ _).symm)
 
 abbrev Z43 : Subgroup (StatedSp 2 (ZMod 3)) :=
   (StatedScalars (Fin 2 ⊕ Fin 2) (ZMod 3)).subgroupOf (StatedSp 2 (ZMod 3))

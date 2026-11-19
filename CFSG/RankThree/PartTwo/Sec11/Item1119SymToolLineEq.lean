@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -75,8 +75,8 @@ theorem aux_LineEq_mem_form {G : Type*} [Group G] (u d : G) (hud : u * d = d * u
   exact hle hx
 
 theorem closure_pair_eq_of_mem {G : Type*} [Group G] [Finite G] (u e d : G)
-    (hud : u * d = d * u) (hu3 : u ^ 3 = 1) (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1)
-    (hu : u ∉ Subgroup.zpowers d)
+    (hud : u * d = d * u) (hu3 : u ^ 3 = 1) (_hd3 : d ^ 3 = 1) (_hd1 : d ≠ 1)
+    (_hu : u ∉ Subgroup.zpowers d)
     (he : e ∈ Subgroup.closure ({u, d} : Set G)) (hed : e ∉ Subgroup.zpowers d) :
     Subgroup.closure ({e, d} : Set G) = Subgroup.closure ({u, d} : Set G) := by
   have hcomm : Commute u d := hud

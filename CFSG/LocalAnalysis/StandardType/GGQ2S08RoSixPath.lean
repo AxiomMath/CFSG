@@ -86,10 +86,10 @@ private lemma ggQ2s08r6_vec_inj {a0 a1 a2 a3 a4 a5 : Fin 6}
   have hleft : ∀ i : Fin 6, b (![a0, a1, a2, a3, a4, a5] i) = i := by
     intro i
     fin_cases i <;>
-      simp [b, h01, h01.symm, h02, h02.symm, h03, h03.symm, h04, h04.symm,
-        h05, h05.symm, h12, h12.symm, h13, h13.symm, h14, h14.symm, h15, h15.symm,
-        h23, h23.symm, h24, h24.symm, h25, h25.symm, h34, h34.symm, h35, h35.symm,
-        h45, h45.symm]
+      simp [b, h01.symm, h02.symm, h03.symm, h04.symm,
+        h05.symm, h12.symm, h13.symm, h14.symm, h15.symm,
+        h23.symm, h24.symm, h25.symm, h34.symm, h35.symm,
+        h45.symm]
   intro i j hij
   have h := congrArg b hij
   rwa [hleft i, hleft j] at h

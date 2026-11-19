@@ -46,7 +46,7 @@ theorem L143Row.of_card_centralizer_eq_sylow [Finite S] {x : S}
     (hC : Nat.card (Subgroup.centralizer ({x} : Set S)) = 3 ^ (Nat.card S).factorization 3)
     (E : Subgroup S) (hEc : ∀ e ∈ E, ∀ f ∈ E, e * f = f * e) (hE3 : ∀ e ∈ E, e ^ 3 = 1)
     (hE : 27 ≤ Nat.card E) : L143Row x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Sylow 3 S := Sylow.ofCard (Subgroup.centralizer ({x} : Set S)) hC
   have hP : (P : Subgroup S) = Subgroup.centralizer ({x} : Set S) := Sylow.coe_ofCard _ _
   have hEp : IsPGroup 3 E := fun e => ⟨1, by
@@ -73,7 +73,7 @@ private theorem l143Row_of_mulEquiv_J3
   rcases CFSG.AGLEmbeddingD2.Wilson.NormalizerAction.card_centralizer_of_equiv_J3_dichotomy
     e hx3 hx1 with h | h
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hx : orderOf x = 3 := orderOf_eq_prime hx3 hx1
     let ψ : Q ≃* ↥CFSG.Sporadic.Schreier.j3P :=
       e.trans CFSG.RankThree.PartTwo.Sec21.Item228CensusProof.j3CarrierEquiv
@@ -104,8 +104,8 @@ private theorem l143Row_of_mulEquiv_J3
       exact Subtype.ext hcomm
     exact L143Row.of_alt_six_le_centralizer I hIC eI
   ·
-    haveI : Finite CFSG.Blueprint.NativeSporadic.J3 := (CFSG.Sporadic.J3.fam_j3_simplicity).1
-    haveI : Finite Q := Finite.of_equiv _ e.symm.toEquiv
+    have : Finite CFSG.Blueprint.NativeSporadic.J3 := (CFSG.Sporadic.J3.fam_j3_simplicity).1
+    have : Finite Q := Finite.of_equiv _ e.symm.toEquiv
     have hQ : (Nat.card Q).factorization 3 = 5 := by
       rw [Nat.card_congr e.toEquiv]
       exact CFSG.AGLEmbeddingD2.Wilson.NormalizerAction.factorization_card_J3_three

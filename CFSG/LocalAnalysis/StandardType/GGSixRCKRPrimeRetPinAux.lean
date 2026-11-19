@@ -18,7 +18,7 @@ theorem rckPn_pinnedX_commutator
     ⁅pinnedX τ K a c, pinnedX τ K b d⁆ =
       if IsRoot τ (a + b) then pinnedX τ K (a + b) (c * d) else 1 := by
   by_cases hr : IsRoot τ (a + b)
-  · rw [if_pos hr]
+  · rw [ite_eq_left hr]
     have hneab : a ≠ b := by
       intro hab
       subst hab
@@ -32,7 +32,7 @@ theorem rckPn_pinnedX_commutator
     have h1 : ((commConst τ a b (1, 1) : ℤ) : K) = 1 := by
       rcases hC with h | h <;> rw [h] <;> simp [CharTwo.neg_eq]
     rw [h1, one_mul]
-  · rw [if_neg hr, commutatorElement_eq_one_iff_commute]
+  · rw [ite_eq_right hr, commutatorElement_eq_one_iff_commute]
     by_cases hab : a = b
     · subst hab
       rw [Commute, SemiconjBy, ← pinnedX_add, ← pinnedX_add, add_comm]

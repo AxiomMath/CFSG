@@ -28,7 +28,7 @@ theorem twoD_two_mem_rationalComponent
       S hτ hT i hk h5
   have hr2 : r = 2 := CharP.eq L hchar hTwo
   cases hr2
-  haveI := hr
+  have := hr
   have hrr := S.rationalRoots_eq_of_five_leT hT i h5
   let f := (MulAut.conj z⁻¹).toMonoidHom
   let P := D.orbitGroup.map (MulAut.conj z).toMonoidHom
@@ -58,7 +58,6 @@ theorem twoD_two_mem_rationalComponent
     apply Subtype.ext
     change (v : ModGL τ L) ^ 2 ^ n = 1
     rw [hvg]
-    change (f g) ^ 2 ^ n = 1
     rw [← map_pow, hn, map_one]
   have hvC := D.mem_orbitGroupC_of_charElem hv hvn
   have hvO : (v : ModGL τ L) ∈ D.orbitGroup :=

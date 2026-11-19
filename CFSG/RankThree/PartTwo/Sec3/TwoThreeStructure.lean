@@ -42,7 +42,7 @@ theorem card_eq_card_sylow_mul :
   have hTB' : (T : Subgroup G) ⊓ (B : Subgroup G) = ⊥ := by
     apply disjoint_iff.mp
     apply Subgroup.disjoint_of_coprime_natCard
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     rw [hB9, hk]
     exact Nat.Coprime.pow_left k (by norm_num)
   let μ : ↥(T : Subgroup G) × ↥(B : Subgroup G) → G := fun p => (p.1 : G) * p.2
@@ -72,7 +72,7 @@ theorem card_eq_card_sylow_mul :
 
 include hB9 hTB in
 theorem isSolvable_quotient_pCore_two : Group.IsSolvable (G ⧸ CFSG.pCore 2 G) := by
-  obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
   obtain ⟨j, hj⟩ := (pCore_two_isPGroup (G := G)).exists_card_eq
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 G)
   rw [card_eq_card_sylow_mul T B hB9 hTB, hk, hB9, hj] at h1
@@ -93,7 +93,7 @@ theorem isSolvable_quotient_pCore_two : Group.IsSolvable (G ⧸ CFSG.pCore 2 G) 
 include hB9 hTB in
 theorem card_quotient_pCore_two :
     ∃ a : ℕ, Nat.card (G ⧸ CFSG.pCore 2 G) = 2 ^ a * 3 ^ 2 := by
-  obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
   obtain ⟨j, hj⟩ := (pCore_two_isPGroup (G := G)).exists_card_eq
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 G)
   rw [card_eq_card_sylow_mul T B hB9 hTB, hk, hB9, hj] at h1
@@ -173,7 +173,7 @@ theorem mem_of_forall_commute_mod
   obtain ⟨b, hb, hbt⟩ := Subgroup.mem_map.mp (hC htC)
   have h3 : (QuotientGroup.mk' Q t) ^ 3 = 1 := by
     rw [← hbt, ← map_pow, hB3 b hb, map_one]
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
   have hk' : (QuotientGroup.mk' Q t) ^ 2 ^ k = 1 := by
     have := congrArg Subtype.val hk
     rw [Subgroup.coe_pow, Subgroup.coe_one] at this
@@ -487,7 +487,7 @@ theorem relIndex_le_two_of_centralizes {P : Subgroup G} (hPT : P ≤ (T : Subgro
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h'
     have : y ∈ (B : Subgroup G) ⊓ CFSG.pCore 2 G := ⟨hyB, h'⟩
     rwa [inf_pCore_two_eq_bot B hB9, Subgroup.mem_bot] at this)
-  have hR : IsPGroup 2 ((T : Subgroup G).map ψ) := T.isPGroup'.map ψ
+  have hR : IsPGroup 2 ((T : Subgroup G).map ψ) := T.isPGroup.map ψ
   rw [relIndex_eq_card_map_actMod T B hB9 hTB hBc hB3 hPT]
   have hfix : ∀ σ ∈ P.map ψ, σ ys = ys := by
     rintro _ ⟨p, hp, rfl⟩

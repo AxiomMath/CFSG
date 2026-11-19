@@ -10,14 +10,14 @@ namespace CFSG.StandardType
 private lemma ggQ2g_D_offdiag {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     CartanMatrix.D m i j = -1 ∨ CartanMatrix.D m i j = 0 := by
   rw [CartanMatrix.D, Matrix.of_apply]
-  simp only [hij, if_false]
+  simp only [hij, ite_false]
   split_ifs <;> omega
 
 private lemma ggQ2g_D_tail {m : ℕ} (hm : 5 ≤ m) (j : Fin m) (hj : j.val ≠ 0) :
     CartanMatrix.D m ⟨0, by omega⟩ j ≠ 0 ↔ j.val = 1 := by
   have hne : (⟨0, by omega⟩ : Fin m) ≠ j := fun h => hj (by rw [← h])
   rw [CartanMatrix.D, Matrix.of_apply]
-  simp only [hne, if_false]
+  simp only [hne, ite_false]
   split_ifs <;> simp_all <;> omega
 
 private theorem ggQ2g_coxeter_of_D {ι : Type} (M : CoxeterMatrix ι) (C : Matrix ι ι ℤ)
@@ -31,7 +31,7 @@ private theorem ggQ2g_coxeter_of_D {ι : Type} (M : CoxeterMatrix ι) (C : Matri
   by_cases hij : i = j
   · subst hij
     simp
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     have hne : e i ≠ e j := fun h => hij (e.injective h)
     have h1 := he i j
     have h2 := he j i
@@ -39,8 +39,8 @@ private theorem ggQ2g_coxeter_of_D {ι : Type} (M : CoxeterMatrix ι) (C : Matri
     have hji' := ggQ2g_D_offdiag (Ne.symm hij)
     rcases hC.2 (e i) (e j) hne with ⟨hm, hc, -⟩ | ⟨hm, hc, -⟩ | ⟨hm, hp, hn1, hn2⟩ |
       ⟨hm, hp, hn1, hn2⟩
-    · rw [hm, if_pos (by rw [← h1]; exact hc)]
-    · rw [hm, if_neg (by rw [← h1, hc]; norm_num)]
+    · rw [hm, ite_eq_left (by rw [← h1]; exact hc)]
+    · rw [hm, ite_eq_right (by rw [← h1, hc]; norm_num)]
     · exfalso
       rw [h1, h2] at hp
       rw [h1] at hn1

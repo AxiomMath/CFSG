@@ -36,7 +36,7 @@ theorem exists_conj_isPGroup_sup {H A B : Subgroup G} (hAH : A ≤ H) (hBH : B �
   refine ⟨(g : G), g.2, ?_⟩
   set T : Subgroup G := (Q₁ : Subgroup H).map H.subtype with hT
   have hTp : IsPGroup 2 ↥T :=
-    Q₁.isPGroup'.of_surjective ((Q₁ : Subgroup H).equivMapOfInjective H.subtype
+    Q₁.isPGroup.of_surjective ((Q₁ : Subgroup H).equivMapOfInjective H.subtype
       H.subtype_injective).toMonoidHom ((Q₁ : Subgroup H).equivMapOfInjective H.subtype
       H.subtype_injective).surjective
   refine hTp.to_le (sup_le ?_ ?_)
@@ -147,7 +147,7 @@ theorem BadStd8.omega_orbit_two [IsSimpleGroup G] (h : BadStd8 Ω K J S R T W z 
     have hJ''J : conjSub c J' ≠ J := by
       intro e
       have hT₁cJ : conjSub c T₁ ≤ J := e ▸ hT₁cJ''
-      have hpg : IsPGroup 2 ↥(T₀ ⊔ conjSub c T₁) := S'.isPGroup'.to_le hS'
+      have hpg : IsPGroup 2 ↥(T₀ ⊔ conjSub c T₁) := S'.isPGroup.to_le hS'
       have h1 : T₀ ⊔ conjSub c T₁ = T₀ := hT₀s.2.2 _ (sup_le hT₀J hT₁cJ) hpg le_sup_left
       have hle : conjSub c T₁ ≤ T₀ := h1 ▸ le_sup_right
       have hT₁cs : IsSylow2In (conjSub c T₁) J := by

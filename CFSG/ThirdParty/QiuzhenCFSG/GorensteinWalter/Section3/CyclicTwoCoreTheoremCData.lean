@@ -71,20 +71,20 @@ public theorem firstCase_cyclic_a7_theoremC_data_of_B_le_M
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G)
     (od : FirstCaseOrientedPrimeData c)
-    (hfirst : FirstCase c)
-    (hcyclic : twoCoreOf c.Hhat ≤ c.S0)
-    (hHhat : c.Hhat = c.H)
+    (_hfirst : FirstCase c)
+    (_hcyclic : twoCoreOf c.Hhat ≤ c.S0)
+    (_hHhat : c.Hhat = c.H)
     (hU : od.d.bg.U = fittingSubgroupOf od.d.bg.U ⊔ od.d.bg.B)
     (Q : Sylow od.p ↥od.d.bg.B)
-    (M : Subgroup G) (hMmax : IsCoatom M)
-    (hMN : Subgroup.normalizer
+    (M : Subgroup G) (_hMmax : IsCoatom M)
+    (_hMN : Subgroup.normalizer
       (sylowCarrier (firstCase_P2_sylow c od hU Q) : Set G) ≤ M)
-    (hSM : (c.S : Subgroup G) ≤ M)
+    (_hSM : (c.S : Subgroup G) ≤ M)
     (fd : FirstCaseFourData c od.d)
-    (hV2 : fd.V2 ≤ componentLayerOf M)
-    (hA7 : Nonempty ((componentLayerOf M) ⧸
+    (_hV2 : fd.V2 ≤ componentLayerOf M)
+    (_hA7 : Nonempty ((componentLayerOf M) ⧸
       pPrimeCore 2 (componentLayerOf M) ≃* alternatingGroup (Fin 7)))
-    (hp3 : od.p = 3)
+    (_hp3 : od.p = 3)
     (hBleM : od.d.bg.B ≤ M)
     (hdata : ∀ _ : (od.d.bg.B ≤ M),
       firstCase_cyclic_a7_theoremC_data hmin c od) :

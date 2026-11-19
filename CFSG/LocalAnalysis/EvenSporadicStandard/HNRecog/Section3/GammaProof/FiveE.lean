@@ -10,15 +10,17 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private theorem fiveE_orderOf_mul_two {u t : G} (hu : orderOf u = 2) (ht : orderOf t = 2)
     (hcomm : u * t = t * u) (hne : u * t ≠ 1) : orderOf (u * t) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime ?_ hne
   have hu2 : u ^ 2 = 1 := by rw [← pow_orderOf_eq_one, hu]
   have ht2 : t ^ 2 = 1 := by rw [← pow_orderOf_eq_one, ht]
   calc (u * t) ^ 2 = u ^ 2 * t ^ 2 := (show Commute u t from hcomm).mul_pow 2
     _ = 1 := by rw [hu2, ht2, one_mul]
 
+omit [Finite G] in
 private theorem fiveE_tab5Set_subset (i : Fin 5) :
     tab5Set a z i ⊆
       orb2A a a ∪ orb2B a z a ∪ orb4A a z a ∪ orb4B a a ∪ orb6A a a := by
@@ -34,6 +36,7 @@ private theorem fiveE_tab5Set_subset (i : Fin 5) :
   · intro x hx
     exact Or.inr hx
 
+omit [Finite G] in
 theorem gamma_five_E (H : GammaHyps a z) {y t : G} (hy : y ∈ orb5E a a) (ht : t ∈ orb2A a y) :
     ∃ y₁ ∈ orb2A a a ∪ orb2B a z a ∪ orb4A a z a ∪ orb4B a a ∪ orb6A a a,
       t ∈ orb2A a y₁ := by

@@ -12,7 +12,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup glaPComponent_map_fix
 theorem k1419ClsTransJ_holds : K1419ClsTransJFact := by
   intro Q _ _ β J hβ hJ hZ
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   let π : Q →* PQ Q ⧸ Subgroup.center (PQ Q) :=
     (QuotientGroup.mk' (Subgroup.center (PQ Q)) : PQ Q →* PQ Q ⧸ Subgroup.center (PQ Q)).comp
       (QuotientGroup.mk' (GLAPPrimeCore 3 Q) : Q →* PQ Q)

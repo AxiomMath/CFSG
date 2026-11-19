@@ -213,7 +213,7 @@ private theorem sylow_five_count_eq_twenty_one_of_card_ten_thousand_five_hundred
         Nat.card (fixingSubgroup P t) = 21000) :
     Nat.card (Sylow 5 (fixingSubgroup P t)) = 21 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let L : Subgroup P := fixingSubgroup P t
   let Y := SubMulAction.ofFixingSubgroup P t
   let S : Sylow 5 L := Sylow.nonempty.some
@@ -297,7 +297,7 @@ private theorem sylow_five_count_eq_twenty_one_of_card_ten_thousand_five_hundred
       MulAction.IsPreprimitive L Y := by
     exact three_point_stabilizer_is_preprimitive
       X P hcard h5 t ht
-  letI : MulAction.IsPreprimitive L Y :=
+  let : MulAction.IsPreprimitive L Y :=
     hprimitive
   have hYcard : Nat.card Y = 21 :=
     three_point_remaining_card X P hcard t ht
@@ -305,7 +305,7 @@ private theorem sylow_five_count_eq_twenty_one_of_card_ten_thousand_five_hundred
       (MulAction.stabilizer L y).index = 21 := by
     rw [MulAction.index_stabilizer_of_transitive,
       hYcard]
-  letI :
+  let :
       N.IsFiniteRelIndex
         (MulAction.stabilizer L y) :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
@@ -384,7 +384,7 @@ private theorem sylow_five_card_eq_one_hundred_twenty_five_of_card_eq_one_hundre
     (hGcard : Nat.card G = 125 * m)
     (S : Sylow 5 G) :
     Nat.card S = 125 := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hfactorization :
       (125 * m).factorization 5 = 3 := by
     rw [show 125 * m = 5 * (5 * (5 * m)) by
@@ -450,7 +450,7 @@ private theorem point_stabilizer_sylow_five_card_eq_one
     Nat.card
       (Sylow 5 (MulAction.stabilizer L y)) = 1 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let K : Subgroup L := MulAction.stabilizer L y
   have hKindex : K.index = 21 := by
     rw [MulAction.index_stabilizer_of_transitive,
@@ -642,14 +642,14 @@ private theorem card_sylow_five_containing_support_ten
             (fixingSubgroup P t))} =
       11 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let L : Subgroup P := fixingSubgroup P t
   let Y := SubMulAction.ofFixingSubgroup P t
   have hprimitive :
       MulAction.IsPreprimitive L Y :=
     three_point_stabilizer_is_preprimitive
       X P hcard h5 t ht
-  letI : MulAction.IsPreprimitive L Y :=
+  let : MulAction.IsPreprimitive L Y :=
     hprimitive
   have hYcard : Nat.card Y = 21 :=
     three_point_remaining_card X P hcard t ht
@@ -743,7 +743,7 @@ private theorem card_sylow_five_containing_support_ten
     let A : Subgroup K :=
       (S₀ : Subgroup L).comap K.subtype
     have hAisP : IsPGroup 5 A :=
-      S₀.isPGroup'.comap_subtype
+      S₀.isPGroup.comap_subtype
     obtain ⟨T, hAT⟩ :=
       hAisP.exists_le_sylow
     have huA : uK ∈ A := by
@@ -817,7 +817,7 @@ private theorem three_point_stabilizer_card_not_ten_thousand_five_hundred_or_twe
         Nat.card (fixingSubgroup P t) = 21000) :
     False := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let L : Subgroup P := fixingSubgroup P t
   have hglobal (S : Sylow 5 L) :
       Nat.card S = 125 := by

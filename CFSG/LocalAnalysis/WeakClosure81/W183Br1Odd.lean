@@ -50,7 +50,7 @@ theorem br1_odd_core (h64o : Asch6_4Odd) (h65o : Asch6_5Odd) (hsimple : IsSimple
     (hel : IsElemAbelian 2 A) (hq : commSpace A (commSub A) = ⊥)
     (hker : A ⊓ Subgroup.centralizer (L : Set (LGL 2 V)) = ⊥) (hshape : OddShape ↥L) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite (LGL 2 V) := w183_finite_lgl
   let Y' : Subgroup (LGL 2 V) := A ⊔ L
   have hLY' : L ≤ Y' := le_sup_right
   have hAY' : A ≤ Y' := le_sup_left
@@ -152,12 +152,12 @@ theorem br1_odd_core (h64o : Asch6_4Odd) (h65o : Asch6_5Odd) (hsimple : IsSimple
       hel' hquad hALc p 1 ↥L (inferInstance : Group ↥L) hp hp2 h3p (Or.inr hU3.2) hcomp.2
 
 theorem br1_odd_false_one (h64o : Asch6_4Odd) (h65o : Asch6_5Odd) (h : Assumption131 Y Γ VA i)
-    (hLY : L ≤ Y) (hLn : ∀ y ∈ Y, ∀ l ∈ L, y * l * y⁻¹ ∈ L)
+    (_hLY : L ≤ Y) (hLn : ∀ y ∈ Y, ∀ l ∈ L, y * l * y⁻¹ ∈ L)
     (hcent : ∀ y ∈ Y, (∀ l ∈ L, y * l = l * y) → y = 1) (hsimple : IsSimpleGroup ↥L)
     (hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a) (hshape : OddShape ↥L) (hA : A ∈ Γ)
     (h4 : 4 ≤ Nat.card ↥A) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite (LGL 2 V) := w183_finite_lgl
   have hAY : A ≤ Y := h.le_G A hA
   have hel : IsElemAbelian 2 A := h.isElemAb A hA
   have hq : commSpace A (commSub A) = ⊥ := h.quadratic A hA
@@ -182,7 +182,7 @@ theorem br1_odd_false_two (h64o : Asch6_4Odd) (h65o : Asch6_5Odd) {𝒢 : Set (S
     (hB : Br2Common Y Γ VA T 𝒢 Zs m i₀ δ) (htwo : Br2TwoComp Y T L₁ L₂)
     (hshape : OddShape ↥L₁) (hA : A ∈ Γ) (h4 : 4 ≤ Nat.card ↥A) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite (LGL 2 V) := w183_finite_lgl
   have hAY : A ≤ Y := hB.h131.le_G A hA
   have hel : IsElemAbelian 2 A := hB.h131.isElemAb A hA
   have hqA : commSpace A (commSub A) = ⊥ := hB.h131.quadratic A hA
@@ -303,8 +303,8 @@ theorem br1_odd_false_two (h64o : Asch6_4Odd) (h65o : Asch6_5Odd) {𝒢 : Set (S
       have hrank : mOf A D ≤ m - i₀ - 1 := by
         have := hB.hmi
         omega
-      haveI := htwo.simple₁
-      haveI := htwo.simple₂
+      have := htwo.simple₁
+      have := htwo.simple₂
       exact Assumption131.false_of_two_kernels hB.h131 hA htwo.le₁ htwo.le₂ htwo.nonab₁
         htwo.nonab₂ htwo.comm hAn₁ hAn₂ rfl rfl hD0 hF0 hDF hrank
 

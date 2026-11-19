@@ -72,7 +72,7 @@ omit [Finite G] [FiniteDimensional ℂ A] in
   have hgg : (QuotientGroup.rightRel S).r g g := by
     refine ⟨1, ?_⟩
     simp
-  rw [indToCoindAux, LinearMap.pi_apply, dif_pos hgg]
+  rw [indToCoindAux, LinearMap.pi_apply, dite_eq_left hgg]
   · have hsub :
         (⟨g * g⁻¹, by
           simp⟩ : S) = 1 := by
@@ -87,7 +87,7 @@ lemma indToCoindAux_of_not_rel
     (g g₁ : G) (a : A) (h : ¬ (QuotientGroup.rightRel S).r g₁ g) :
     indToCoindAux S ρ g a g₁ = 0 := by
   classical
-  rw [indToCoindAux, LinearMap.pi_apply, dif_neg h]
+  rw [indToCoindAux, LinearMap.pi_apply, dite_eq_right h]
   simp
 
 omit [Finite G] [FiniteDimensional ℂ A] in
@@ -97,7 +97,7 @@ omit [Finite G] [FiniteDimensional ℂ A] in
     indToCoindAux S ρ g a (s * g₁) = ρ s (indToCoindAux S ρ g a g₁) := by
   rcases em ((QuotientGroup.rightRel S).r g₁ g) with ⟨s₁, rfl⟩ | h
   · simp only [indToCoindAux, LinearMap.pi_apply]
-    rw [dif_pos ⟨s * s₁, mul_assoc ..⟩, dif_pos ⟨s₁, rfl⟩]
+    rw [dite_eq_left ⟨s * s₁, mul_assoc ..⟩, dite_eq_left ⟨s₁, rfl⟩]
     simp [S.smul_def, mul_assoc, ← S.mul_def]
   · rw [indToCoindAux_of_not_rel S ρ _ _ _ h, indToCoindAux_of_not_rel, map_zero]
     exact mt
@@ -119,7 +119,7 @@ omit [Finite G] [FiniteDimensional ℂ A] in
     indToCoindAux S ρ (s * g₁) (ρ s a) g₂ = indToCoindAux S ρ g₁ a g₂ := by
   rcases em ((QuotientGroup.rightRel S).r g₂ g₁) with ⟨s₁, rfl⟩ | h
   · simp only [indToCoindAux, LinearMap.pi_apply]
-    rw [dif_pos ⟨s₁ * s⁻¹, by simp [S.smul_def, smul_eq_mul, mul_assoc]⟩, dif_pos ⟨s₁, rfl⟩,
+    rw [dite_eq_left ⟨s₁ * s⁻¹, by simp [S.smul_def, smul_eq_mul, mul_assoc]⟩, dite_eq_left ⟨s₁, rfl⟩,
       ← Module.End.mul_apply, ← map_mul]
     congr
     simp [Subtype.ext_iff, S.smul_def, mul_assoc]

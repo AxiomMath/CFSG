@@ -72,8 +72,6 @@ theorem card_projSL_four_three_dvd :
     rw [card_SL_eq (K := ZMod 3) (by norm_num : 1 ≤ 4), Nat.card_zmod]
     first
     | decide
-    | rfl
-    | norm_num [Finset.prod_Icc_succ_top]
   rw [← hSL, hsplit]
   exact Dvd.intro _ rfl
 

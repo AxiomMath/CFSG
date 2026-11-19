@@ -109,7 +109,7 @@ private theorem false_of_commute_four
       · apply huv
         rw [eq_inv_of_mul_eq_one_left h]
         exact inv_eq_of_mul_eq_one_right (by rw [← sq, hv2])
-  haveI := hDs
+  have := hDs
   have hyD : x * d ∈ D := D.mul_mem hxD hdD
   have h6 : (⟨x * d, hyD⟩ : D) ^ 6 = 1 := Subtype.ext (mul_pow_six_eq_one hxd hx3 hd2)
   rcases pow_two_or_pow_three_of_card_sixty hD60 h6 with h | h

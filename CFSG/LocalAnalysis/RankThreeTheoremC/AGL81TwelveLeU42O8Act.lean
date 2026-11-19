@@ -175,7 +175,7 @@ theorem false_of_card_le_nine {A : Type} [Group A] [Finite A] {Y P E F : Subgrou
     (hFY : F ≤ Y) (hF : IsElemAbelian 3 F) (hF27 : Nat.card F = 27)
     (hrk : Open.pRank 3 (Y ⊔ E) ≤ 3) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hcE, hc1, hcY⟩ :=
     exists_centralizing_of_card_le_nine hcen hinner hP h9 hE hE27 hEY hEP
   have hc3 : c ^ 3 = 1 := hE.2 c hcE

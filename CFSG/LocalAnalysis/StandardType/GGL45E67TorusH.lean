@@ -656,8 +656,8 @@ private theorem ggL45E67_frame_fin
       (x₀ * y * x₀⁻¹ ∈ H) ↔ (⇑Fw)^[3] y = y) :
     ∀ z : ↥(torusGroup τ L), (⇑FZ)^[3] z = z → IsOfFinOrder z := by
   intro z hz
-  haveI : Finite R := Finite.of_surjective (θ : K ⧸ Subgroup.center K → R) θ.surjective
-  haveI : Finite (MulAut R) := TableBSymp.finite_mulAut
+  have : Finite R := Finite.of_surjective (θ : K ⧸ Subgroup.center K → R) θ.surjective
+  have : Finite (MulAut R) := TableBSymp.finite_mulAut
   have hzfix : (⇑Fw)^[3] (z : ModGL τ L) = (z : ModGL τ L) := by
     have := congrArg (fun w : ↥(torusGroup τ L) => (w : ModGL τ L)) hz
     rwa [hFZ_iter 3 z] at this
@@ -895,7 +895,7 @@ private theorem ggL45E67_frame_hone_hzpow_data
     (⟨y, hy⟩ : ↥(torusGroup τ L)) ^ 3 ^ s = 1 ∧
       FZ (⟨y, hy⟩ : ↥(torusGroup τ L)) = (⟨y, hy⟩ : ↥(torusGroup τ L)) ^ c := by
   let Z := ↥(torusGroup τ L)
-  letI : CommGroup Z :=
+  let : CommGroup Z :=
     { (inferInstance : Group Z) with
       mul_comm := fun a b => Subtype.ext (torusGroup_comm a.2 b.2) }
   have hfixZ : (⇑FZ)^[3] (⟨y, hy⟩ : Z) = ⟨y, hy⟩ := by
@@ -936,7 +936,7 @@ private theorem ggL45E67_frame_hone_hFwj
     (∀ k : ℕ, (⇑Fw)^[k] y = y ^ (c ^ k)) ∧
       ∀ k : ℕ, (⇑Fw)^[k] y ∈ torusGroup τ L := by
   let Z := ↥(torusGroup τ L)
-  letI : CommGroup Z :=
+  let : CommGroup Z :=
     { (inferInstance : Group Z) with
       mul_comm := fun a b => Subtype.ext (torusGroup_comm a.2 b.2) }
   have hFZj : ∀ k : ℕ, ((⇑FZ)^[k] (⟨y, hy⟩ : Z)) = (⟨y, hy⟩ : Z) ^ (c ^ k) := by
@@ -1209,7 +1209,7 @@ private theorem ggL45E67_frame_pair_y
     (hcard : 3 ^ 2 ≤ Nat.card A)
     (hFZ_iter : ∀ k z, ((FZ^[k]) z : ModGL τ L) = (⇑Fw)^[k] (z : ModGL τ L))
     (hFZ_apply : ∀ z : ↥(torusGroup τ L), (FZ z : ModGL τ L) = Fw (z : ModGL τ L)) :
-    ∃ (y₁ y₂ : ModGL τ L) (hy₁ : y₁ ∈ A) (hy₂ : y₂ ∈ A)
+    ∃ (y₁ y₂ : ModGL τ L) (_hy₁ : y₁ ∈ A) (_hy₂ : y₂ ∈ A)
       (hy1T : y₁ ∈ torusGroup τ L) (hy2T : y₂ ∈ torusGroup τ L),
       Fw y₁ = y₁ ∧ Fw y₂ = y₂ ∧ (⇑Fw)^[3] y₁ = y₁ ∧ (⇑Fw)^[3] y₂ = y₂ ∧
       (⇑FZ)^[3] (⟨y₁, hy1T⟩ : ↥(torusGroup τ L)) = ⟨y₁, hy1T⟩ ∧
@@ -1219,20 +1219,20 @@ private theorem ggL45E67_frame_pair_y
       FZ (⟨y₁, hy1T⟩ : ↥(torusGroup τ L)) = ⟨y₁, hy1T⟩ ∧
       FZ (⟨y₂, hy2T⟩ : ↥(torusGroup τ L)) = ⟨y₂, hy2T⟩ ∧
       (∀ m n : ℕ, y₁ ^ m * y₂ ^ n = 1 → 3 ∣ m ∧ 3 ∣ n) := by
-  obtain ⟨y₁, hy₁, y₂, hy₂, hind⟩ :=
+  obtain ⟨y₁, _hy₁, y₂, _hy₂, hind⟩ :=
     CFSG.HardMathSupport.C14Cl.exists_indep Nat.prime_three A hA3 hcard
-  have hy1T : y₁ ∈ torusGroup τ L := (mem_twistedTorusOf.mp (hAT hy₁)).1
-  have hy2T : y₂ ∈ torusGroup τ L := (mem_twistedTorusOf.mp (hAT hy₂)).1
+  have hy1T : y₁ ∈ torusGroup τ L := (mem_twistedTorusOf.mp (hAT _hy₁)).1
+  have hy2T : y₂ ∈ torusGroup τ L := (mem_twistedTorusOf.mp (hAT _hy₂)).1
   have hFw1 : Fw y₁ = y₁ := by
     rw [hFw_def y₁]
-    exact (mem_twistedTorusOf.mp (hAT hy₁)).2
+    exact (mem_twistedTorusOf.mp (hAT _hy₁)).2
   have hFw2 : Fw y₂ = y₂ := by
     rw [hFw_def y₂]
-    exact (mem_twistedTorusOf.mp (hAT hy₂)).2
+    exact (mem_twistedTorusOf.mp (hAT _hy₂)).2
   have hfix1 : (⇑Fw)^[3] y₁ = y₁ := by
-    simpa [Function.iterate_succ_apply', hFw1]
+    simp [Function.iterate_succ_apply', hFw1]
   have hfix2 : (⇑Fw)^[3] y₂ = y₂ := by
-    simpa [Function.iterate_succ_apply', hFw2]
+    simp [Function.iterate_succ_apply', hFw2]
   have hfix1Z : (⇑FZ)^[3] (⟨y₁, hy1T⟩ : ↥(torusGroup τ L)) = ⟨y₁, hy1T⟩ := by
     apply Subtype.ext
     rw [hFZ_iter 3 (⟨y₁, hy1T⟩ : ↥(torusGroup τ L))]
@@ -1243,10 +1243,10 @@ private theorem ggL45E67_frame_pair_y
     exact hfix2
   have hy13 : (⟨y₁, hy1T⟩ : ↥(torusGroup τ L)) ^ 3 = 1 := by
     apply Subtype.ext
-    exact hA3 y₁ hy₁
+    exact hA3 y₁ _hy₁
   have hy23 : (⟨y₂, hy2T⟩ : ↥(torusGroup τ L)) ^ 3 = 1 := by
     apply Subtype.ext
-    exact hA3 y₂ hy₂
+    exact hA3 y₂ _hy₂
   have hFy1 : FZ (⟨y₁, hy1T⟩ : ↥(torusGroup τ L)) = ⟨y₁, hy1T⟩ := by
     apply Subtype.ext
     rw [hFZ_apply]
@@ -1255,7 +1255,7 @@ private theorem ggL45E67_frame_pair_y
     apply Subtype.ext
     rw [hFZ_apply]
     exact hFw2
-  exact ⟨y₁, y₂, hy₁, hy₂, hy1T, hy2T, hFw1, hFw2, hfix1, hfix2,
+  exact ⟨y₁, y₂, _hy₁, _hy₂, hy1T, hy2T, hFw1, hFw2, hfix1, hfix2,
     hfix1Z, hfix2Z, hy13, hy23, hFy1, hFy2, hind⟩
 
 private theorem ggL45E67_frame_pair_hpe
@@ -1356,7 +1356,7 @@ private theorem ggL45E67_frame_pair_z
       GGL45IsPElt 3 (Θ ⟨x₀ * (z₁ : ModGL τ L) * x₀⁻¹, hmk1⟩) ∧
       GGL45IsPElt 3 (Θ ⟨x₀ * (z₂ : ModGL τ L) * x₀⁻¹, hmk2⟩) := by
   let Z := ↥(torusGroup τ L)
-  letI : CommGroup Z :=
+  let : CommGroup Z :=
     { (inferInstance : Group Z) with
       mul_comm := fun a b => Subtype.ext (torusGroup_comm a.2 b.2) }
   obtain ⟨hy13, hy23, hq3⟩ :=

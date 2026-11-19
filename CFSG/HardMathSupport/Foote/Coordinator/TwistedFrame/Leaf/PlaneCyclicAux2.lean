@@ -41,7 +41,7 @@ theorem isCyclic_centralizer_of_injective_hom' {G H : Type*} [Group G] [Group H]
 
 theorem dvd_phi12_of_orderOf {p q : ℕ} (hp : p.Prime)
     (h : orderOf ((q : ℕ) : ZMod p) = 12) : p ∣ q ^ 4 - q ^ 2 + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : q ≠ 0 := by
     rintro rfl
     rw [Nat.cast_zero, orderOf_zero] at h
@@ -299,11 +299,11 @@ theorem cyclic_of_d4 {K : Type} [Field K] [Finite K] {w : WeylGroup Tag.E8}
   classical
   intro g hg
   obtain ⟨ℓ, hℓK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓp, hcard⟩ := FiniteField.card K ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
-  haveI : CharP D.L ℓ := charP_of_injective_algebraMap (algebraMap K D.L).injective ℓ
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : Fact ℓ.Prime := ⟨hℓp⟩
+  have : CharP D.L ℓ := charP_of_injective_algebraMap (algebraMap K D.L).injective ℓ
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hKcard : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hFr : D.Fr = iterateFrobenius D.L ℓ (f : ℕ) :=
     RingHom.ext fun c => by rw [D.hFr, hKcard, iterateFrobenius_def]

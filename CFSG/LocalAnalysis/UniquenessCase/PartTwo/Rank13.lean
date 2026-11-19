@@ -178,6 +178,7 @@ theorem s13_pElementSubgroup_map {G' : Type} [Group G'] {p : ℕ} (hp : p.Prime)
     · rw [map_pow]
       exact hfix (f h) hpow hpe
 
+omit [Finite G] in
 theorem s13_exists_orderOf_of_pElementSubgroup_ne_bot {p : ℕ} (hp : p.Prime) {H : Subgroup G}
     (h : pElementSubgroup p H ≠ ⊥) : ∃ s ∈ pElementSubgroup p H, orderOf s = p := by
   have hgen : ∃ x ∈ ({x : G | x ∈ H ∧ ∃ k : ℕ, orderOf x = p ^ k} : Set G), x ≠ 1 := by

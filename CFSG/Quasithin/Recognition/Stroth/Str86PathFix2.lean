@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem f112_fixes_map_conj {L1 L2 S : Subgroup G} {n : ℕ}
     {p : GPath (CosetGeom.graph (f112C1 L1 L2 S ⊔ f112C2 L1 L2 S) (f112C1 L1 L2 S)
       (f112C2 L1 L2 S)) n}
@@ -19,13 +20,14 @@ theorem f112_fixes_map_conj {L1 L2 S : Subgroup G} {n : ℕ}
     ∀ i, i ≤ n →
       f112CosetSMul (x⁻¹ * h * x)
         ((p.map (f112CosetSMul x⁻¹)
-          (fun a b hab => (f112CosetSMul_adj x⁻¹).mpr hab)) i) =
+          (fun _a _b hab => (f112CosetSMul_adj x⁻¹).mpr hab)) i) =
         (p.map (f112CosetSMul x⁻¹)
-          (fun a b hab => (f112CosetSMul_adj x⁻¹).mpr hab)) i := by
+          (fun _a _b hab => (f112CosetSMul_adj x⁻¹).mpr hab)) i := by
   intro i hi
   rw [GPath.map_apply]
   exact f112CosetSMul_conj_fix x h (hfix i hi)
 
+omit [Finite G] in
 theorem f112_orderOf_conj_two_power {L1 L2 S : Subgroup G} {h x : f112Act L1 L2 S}
     (h2 : ∃ k : ℕ, orderOf ((h : ↥(f112BaseGroup L1 L2 S)) : G) = 2 ^ k) :
     ∃ k : ℕ, orderOf (((x⁻¹ * h * x : f112Act L1 L2 S) : ↥(f112BaseGroup L1 L2 S)) : G) =
@@ -35,9 +37,10 @@ theorem f112_orderOf_conj_two_power {L1 L2 S : Subgroup G} {h x : f112Act L1 L2 
   have hconj : (((x⁻¹ * h * x : f112Act L1 L2 S) : ↥(f112BaseGroup L1 L2 S)) : G) =
       (MulAut.conj ((x : ↥(f112BaseGroup L1 L2 S)) : G)⁻¹)
         ((h : ↥(f112BaseGroup L1 L2 S)) : G) := by
-    simp [MulAut.conj_apply]
+    simp
   rw [hconj, (MulAut.conj ((x : ↥(f112BaseGroup L1 L2 S)) : G)⁻¹).orderOf_eq, hk]
 
+omit [Finite G] in
 theorem f112_vtype_smul {L1 L2 S : Subgroup G} (x : f112Act L1 L2 S)
     (v : f112Verts L1 L2 S) :
     CosetGeom.vtype (f112CosetSMul x v) = CosetGeom.vtype v := by

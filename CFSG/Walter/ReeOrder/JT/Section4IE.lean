@@ -403,7 +403,7 @@ theorem exists_M₁
   have hSGM : SG ≤ D.M := Subgroup.map_subtype_le _
   have hSGπ : ∀ r' : ℕ, r'.Prime → r' ∣ Nat.card SG → r' ∣ Nat.card c.Q := by
     intro r' hr'' hr'S
-    have hSp : IsPGroup r SG := S.isPGroup'.map _
+    have hSp : IsPGroup r SG := S.isPGroup.map _
     obtain ⟨k, hk⟩ := hSp.exists_card_eq
     rw [hk] at hr'S
     have := (Nat.prime_dvd_prime_iff_eq hr'' hr).mp (hr''.dvd_of_dvd_pow hr'S)

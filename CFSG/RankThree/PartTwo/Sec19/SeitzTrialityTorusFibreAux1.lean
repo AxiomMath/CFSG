@@ -44,7 +44,7 @@ theorem rcfa_scalar_central {K' : Type} [Field K'] (u : K')
     (z : Matrix.SpecialLinearGroup (Fin 3) K') (hz : (z : Matrix (Fin 3) (Fin 3) K') = u • 1)
     (g : Matrix.SpecialLinearGroup (Fin 3) K') : g * z = z * g := by
   apply Subtype.ext
-  simp [Matrix.SpecialLinearGroup.coe_mul, hz, Matrix.mul_smul, Matrix.smul_mul]
+  simp [Matrix.SpecialLinearGroup.coe_mul, hz]
 
 theorem rcfa_scalar_pow_eq_one {K' : Type} [Field K'] (u : K')
     (z : Matrix.SpecialLinearGroup (Fin 3) K') (hz : (z : Matrix (Fin 3) (Fin 3) K') = u • 1)
@@ -72,7 +72,7 @@ theorem rcfa_unitary_scalar {K' : Type} [Field K'] (q : ℕ) (hq : q ≠ 0) (u :
 
 theorem rcfa_cube_root {K' : Type} [Field K'] [Finite K'] (h : 3 ∣ Nat.card K' - 1) :
     ∃ x : K', x ^ 3 = 1 ∧ x ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card K'ˣ := by rw [Nat.card_units]; exact h
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
   have hg3 : g ^ 3 = 1 := by rw [← hg]; exact pow_orderOf_eq_one g
@@ -149,7 +149,7 @@ theorem rcfa_central_order_three {ε : ℤ} {p : ℕ} {L : Type} [Field L] [Alge
       rcfa_scalar_central _ z hz
     have hmem : Matrix.SpecialLinearGroup.toGL z ∈ unitarySet (2 ^ n) 3 := by
       have hcoe : (Matrix.SpecialLinearGroup.toGL z : Matrix (Fin 3) (Fin 3) L) = w • 1 := hz
-      simp only [unitarySet, Set.mem_setOf_eq, hcoe]
+      simp only [unitarySet, Set.mem_ofPred_eq, hcoe]
       refine ⟨?_, ?_, rcfa_unitary_scalar (2 ^ n) hq0' w hw_q1⟩
       · intro i j
         by_cases hij : i = j

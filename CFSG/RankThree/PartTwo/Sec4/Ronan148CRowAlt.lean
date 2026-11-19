@@ -63,8 +63,7 @@ theorem mul_cycleOf_mul_inv {e x : Perm α} (hxe : x * e = e * x) (a : α) :
   simp only [Perm.mul_apply]
   rw [cycleOf_apply, cycleOf_apply]
   split_ifs with h1 h2 h2
-  · change x (e (x⁻¹ y)) = e y
-    have : x (e (x⁻¹ y)) = (x * e) (x⁻¹ y) := rfl
+  · have : x (e (x⁻¹ y)) = (x * e) (x⁻¹ y) := rfl
     rw [this, hxe, Perm.mul_apply, show x (x⁻¹ y) = y from Equiv.apply_symm_apply x y]
   · exact absurd ((hsame y).mp h1) h2
   · exact absurd ((hsame y).mpr h2) h1
@@ -76,9 +75,9 @@ theorem cycleOf_mul_comm (e : Perm α) (a : α) : e.cycleOf a * e = e * e.cycleO
   rw [cycleOf_apply, cycleOf_apply]
   by_cases h : e.SameCycle a y
   · have h' : e.SameCycle a (e y) := sameCycle_apply_right.mpr h
-    rw [if_pos h', if_pos h]
+    rw [ite_eq_left h', ite_eq_left h]
   · have h' : ¬ e.SameCycle a (e y) := fun h'' => h (sameCycle_apply_right.mp h'')
-    rw [if_neg h', if_neg h]
+    rw [ite_eq_right h', ite_eq_right h]
 
 theorem isThreeCycle_cycleOf {e : Perm α} (he : e ^ 3 = 1) {a : α} (ha : e a ≠ a) :
     (e.cycleOf a).IsThreeCycle := by
@@ -94,7 +93,7 @@ theorem isThreeCycle_cycleOf {e : Perm α} (he : e ^ 3 = 1) {a : α} (ha : e a �
 theorem apply_eq_of_mem_pPrimeCoreOf {e x : Perm α} (he : e ^ 3 = 1)
     (hx : x ∈ pPrimeCoreOf 3 (alternatingGroup α ⊓ Subgroup.centralizer ({e} : Set (Perm α))))
     {a : α} (ha : e a ≠ a) : x a = a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K := alternatingGroup α ⊓ Subgroup.centralizer ({e} : Set (Perm α)) with hK
   set N := pPrimeCoreOf 3 K with hN
   have hxK : x ∈ K := Sec14.pPrimeCoreOf_le 3 K hx
@@ -127,11 +126,11 @@ theorem apply_eq_of_mem_pPrimeCoreOf {e x : Perm α} (he : e ^ 3 = 1)
       push Not at h
       have h1 : e.SameCycle (x a) y := by
         by_contra h1
-        exact h.1 (by rw [hc', cycleOf_apply, if_neg h1])
+        exact h.1 (by rw [hc', cycleOf_apply, ite_eq_right h1])
       have h2 : e.SameCycle a y := by
         by_contra h2
         apply h.2
-        rw [hc, cycleOf_inv, cycleOf_apply, if_neg (fun h3 => h2 (sameCycle_inv.mp h3))]
+        rw [hc, cycleOf_inv, cycleOf_apply, ite_eq_right (fun h3 => h2 (sameCycle_inv.mp h3))]
       exact hns (h2.trans h1.symm)
     have hord3 : orderOf (c' * c⁻¹) = 3 := by
       rw [hdisj.orderOf, hc'3.orderOf, orderOf_inv, hc3.orderOf]
@@ -190,7 +189,7 @@ theorem apply_eq_of_mem_pPrimeCoreOf {e x : Perm α} (he : e ^ 3 = 1)
 theorem pPrimeCoreOf_eq_bot_of_card_fix {e : Perm α} (he : e ^ 3 = 1)
     (hf : 5 ≤ (Finset.univ.filter (fun y => e y = y)).card) :
     pPrimeCoreOf 3 (alternatingGroup α ⊓ Subgroup.centralizer ({e} : Set (Perm α))) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set T := Finset.univ.filter (fun y => e y = y) with hT
   set K := alternatingGroup α ⊓ Subgroup.centralizer ({e} : Set (Perm α)) with hK
   set N := pPrimeCoreOf 3 K with hN
@@ -239,15 +238,15 @@ theorem pPrimeCoreOf_eq_bot_of_card_fix {e : Perm α} (he : e ^ 3 = 1)
     exact hxK.1
   have hTcard : Nat.card {y // y ∈ T} = T.card := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe]
-  haveI : IsSimpleGroup (alternatingGroup {y // y ∈ T}) :=
+  have : IsSimpleGroup (alternatingGroup {y // y ∈ T}) :=
     alternatingGroup.isSimpleGroup (by rw [hTcard]; exact hf)
   have hιinj : Function.Injective ι := ofSubtype_injective
   have eKT : KT ≃* alternatingGroup {y // y ∈ T} :=
     ((alternatingGroup {y // y ∈ T}).equivMapOfInjective ι hιinj).symm
-  haveI : IsSimpleGroup KT := eKT.isSimpleGroup
+  have : IsSimpleGroup KT := eKT.isSimpleGroup
   have h3KT : 3 ∣ Nat.card KT := by
     rw [Nat.card_congr eKT.toEquiv, Nat.card_eq_fintype_card]
-    haveI : Nontrivial {y // y ∈ T} := by
+    have : Nontrivial {y // y ∈ T} := by
       rw [← Fintype.one_lt_card_iff_nontrivial, Fintype.card_coe]
       omega
     rw [card_alternatingGroup, Fintype.card_coe]
@@ -282,7 +281,7 @@ theorem eq_one_of_forall_mem_pPrimeCoreOf (hα : Fintype.card α ≤ 12) {E : Su
     (hx : ∀ e ∈ E, e ≠ 1 →
       x ∈ pPrimeCoreOf 3 (alternatingGroup α ⊓ Subgroup.centralizer ({e} : Set (Perm α)))) :
     x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hx1
   obtain ⟨e₀, he₀E, he₀1⟩ : ∃ e ∈ E, e ≠ 1 := by
     by_contra hcon
@@ -322,7 +321,7 @@ theorem eq_one_of_forall_mem_pPrimeCoreOf (hα : Fintype.card α ≤ 12) {E : Su
     push Not at h
     exact he₀1 (Equiv.ext h)
   have hωT : ω ∉ x.support := fun h => hω ((hfix e₀ he₀E he₀1 ω).mpr h)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hmaps : ∀ g ∈ (Finset.univ : Finset E), (g : Perm α) ω ∈ x.supportᶜ := by
     intro g _
     rw [Finset.mem_compl]

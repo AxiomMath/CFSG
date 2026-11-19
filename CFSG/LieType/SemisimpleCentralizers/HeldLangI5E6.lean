@@ -25,7 +25,7 @@ theorem kd264I5Universal_E6 (q : TauCeti.PrimePower) (hd : (TauCeti.LieTypeIndex
     ∃ E : Subgroup L, E ≤ CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup β ∧ IsElemAbelian 3 E ∧
       5 + CFSG.Open.pRank 3 (Subgroup.center L) ≤ CFSG.Open.pRank 3 E := by
   classical
-  haveI hcyc : IsCyclic ↥(Subgroup.center L) := hL.2.2.1
+  have hcyc : IsCyclic ↥(Subgroup.center L) := hL.2.2.1
   obtain ⟨K, _, _, hKcard, hKchar, ⟨eK⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hd
   obtain ⟨eX⟩ := hL.2.1
@@ -40,8 +40,8 @@ theorem kd264I5Universal_E6 (q : TauCeti.PrimePower) (hd : (TauCeti.LieTypeIndex
   have hxo : x ∉ e6Inndiag K := fun hmem =>
     hout ((mem_innAutDerived_congr eA).1
       (commutator_le_innAutDerived _ (CFSG.HardMathSupport.Dickson.Sec6.I923.e6Inndiag_le_commutator (K := K) hmem)))
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP K q.p := hKchar
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP K q.p := hKchar
   obtain ⟨σ, hσord, h3f, ψ, hψ⟩ := exists_conj_entrywise_of_not_mem_e6Inndiag q.prime_p q.exponent_pos K hK'
     Nat.prime_three (by norm_num) hx3 hxo
   have hσ3 : σ ^ 3 = 1 := by rw [← hσord]; exact pow_orderOf_eq_one σ
@@ -51,7 +51,7 @@ theorem kd264I5Universal_E6 (q : TauCeti.PrimePower) (hd : (TauCeti.LieTypeIndex
     calc 5 ≤ 2 ^ 3 := by norm_num
       _ ≤ q.p ^ 3 := Nat.pow_le_pow_left q.prime_p.two_le 3
       _ ≤ q.p ^ q.exponent := Nat.pow_le_pow_right q.prime_p.pos hf3
-  haveI hMfin : Finite (e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
+  have hMfin : Finite (e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
   have hperfM : Group.IsPerfect (e6Data_valid.minGroup K) := (CFSG.LieType.CurtisTits.isQuasisimple_e6 K).1
   have hperfL : Group.IsPerfect L := Group.isPerfect_def.2 hL.1.1
   let qC : e6Data_valid.minGroup K →* L ⧸ Subgroup.center L := eA.symm.toMonoidHom.comp (e6Isogeny K)

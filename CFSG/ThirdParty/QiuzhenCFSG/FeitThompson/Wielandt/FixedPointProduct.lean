@@ -893,7 +893,7 @@ public theorem chiefFactor_elementaryAbelian_of_nontrivial
   have hP_top : (P : Subgroup M) = ⊤ :=
     hminv (P : Subgroup M) hP_normal hP_inv hP_ne_bot
   have htop_p : IsPGroup p (⊤ : Subgroup M) :=
-    P.isPGroup'.of_equiv (MulEquiv.subgroupCongr hP_top)
+    P.isPGroup.of_equiv (MulEquiv.subgroupCongr hP_top)
   have hMpgroup : IsPGroup p M := htop_p.of_equiv Subgroup.topEquiv
   let : Fact (IsPGroup p M) := ⟨hMpgroup⟩
   let Ω : Subgroup M := omega₁ (G := M) (p := p)

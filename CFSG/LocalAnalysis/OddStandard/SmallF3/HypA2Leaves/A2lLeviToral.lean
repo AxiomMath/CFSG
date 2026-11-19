@@ -27,7 +27,7 @@ theorem a2l_levi_component_toral {τ : Tag} {K : Type} [Field K] [Finite K]
     (hcomm : ∀ x ∈ H, ∀ y ∈ Q, x * y = y * x) (hqH : CFSG.IsQuasisimple ↥H) :
     CFSG.Assembly.IsComponentOf H
       (adjointGroup τ K ⊓ centralizer ({rootDiagUnit τ a} : Set (ModGL τ K))) := by
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨hSX, hSn, -⟩ := odd_toral_involution_centralizer_p_component_root_reduction τ K hK2 a ha
   have hSX' : H ⊔ Q ≤ toralCentralizer τ K a := hS ▸ hSX
   have hSn' : ((H ⊔ Q).subgroupOf (toralCentralizer τ K a)).Normal := hS ▸ hSn
@@ -49,7 +49,7 @@ theorem a2l_exists_sl2_27_of_sl6 {K : Type} [Field K] [Finite K] (hK : Nat.card 
     (hz1 : z ≠ 1) (hzr : z ∈ Ψ.range) (hzc : ∀ x ∈ Ψ.range, z * x = x * z) :
     ∃ N : Subgroup G, N ≤ Ψ.range ∧ z ∈ N ∧ HarrisLit.IsSLTwoOver 27 ↥N := by
   have hK' : Nat.card K = 3 ^ 1 := by rw [hK]; norm_num
-  haveI : CharP K 3 :=
+  have : CharP K 3 :=
     LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_three le_rfl
       hK'
   have hP : Group.IsPerfect SL(6, K) :=
@@ -77,7 +77,7 @@ theorem a2l_exists_sl2_27_of_sl6 {K : Type} [Field K] [Finite K] (hK : Nat.card 
   · rintro _ ⟨g, rfl⟩
     exact ⟨ι g, rfl⟩
   · have hinj : Function.Injective (Ψ.comp ι) := hΨinj.comp hιinj
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     exact ⟨F, inferInstance, inferInstance, by rw [← Nat.card_eq_fintype_card, hFcard],
       ⟨(MonoidHom.ofInjective hinj).symm⟩⟩
 
@@ -92,7 +92,7 @@ theorem a2l_datum_of_levi_a5 {τ : Tag} {K : Type} [Field K] [Finite K]
       (adjointGroup τ K ⊓ centralizer ({z} : Set (ModGL τ K)))) (hTU : TypU ↥T)
     (Ψ : SL(6, K) →* ModGL τ K) (hker : Ψ.ker ≤ center SL(6, K)) (hΨT : Ψ.range ≤ T)
     (hzr : z ∈ Ψ.range) : a2lDatum ↥(adjointGroup τ K) := by
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hzc : ∀ x ∈ Ψ.range, z * x = x * z := fun x hx =>
     mem_centralizer_singleton_iff.1 (hTc.1 (hΨT hx)).2 |>.symm
   obtain ⟨N, hNΨ, hzN, hN⟩ := a2l_exists_sl2_27_of_sl6 hK Ψ hker hz1 hzr hzc

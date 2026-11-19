@@ -67,7 +67,7 @@ theorem exists_card_support_eq_three :
   have hxS : x ∈ S := by
     by_contra h
     exact hx (hfix b hbB x h)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 B := fun g => ⟨1, Subtype.ext (by simpa using hB3 g g.2)⟩
   set O := MulAction.orbit B x with hO
   set Bx := MulAction.stabilizer B x with hBx

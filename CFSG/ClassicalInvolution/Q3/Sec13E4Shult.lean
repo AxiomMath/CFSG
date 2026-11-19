@@ -17,16 +17,19 @@ variable {G : Type} [Group G] [Finite G]
 abbrev bar (K : Subgroup G) : Subgroup (G ⧸ pCore 2 G) :=
   K.map (QuotientGroup.mk' (pCore 2 G))
 
+omit [Finite G] in
 theorem comap_bar (K : Subgroup G) :
     (bar K).comap (QuotientGroup.mk' (pCore 2 G)) = K ⊔ pCore 2 G := by
   unfold bar
   rw [Subgroup.comap_map_eq, QuotientGroup.ker_mk']
 
+omit [Finite G] in
 private theorem e4_mk_mem_bar_iff (K : Subgroup G) (g : G) :
     QuotientGroup.mk' (pCore 2 G) g ∈ bar K ↔ g ∈ K ⊔ pCore 2 G := by
   rw [← comap_bar K]
   exact Iff.rfl
 
+omit [Finite G] in
 private theorem e4_map_conj_bar (K : Subgroup G) (x : G) :
     (bar K).map (MulAut.conj (x : G ⧸ pCore 2 G)).toMonoidHom = bar (conjSub x K) := by
   unfold bar conjSub
@@ -43,14 +46,15 @@ private theorem e4_mem_normalizer_of_conjSub_eq {X : Type} [Group X] {n : X} {E 
   have : n⁻¹ * (n * x * n⁻¹) * n = x := by group
   rw [this]
 
+omit [Finite G] in
 private theorem e4_card_map_mk_mul (K N : Subgroup G) [N.Normal] :
     Nat.card (K.map (QuotientGroup.mk' N)) * Nat.card ↥(K ⊓ N) = Nat.card K := by
   let g : K →* G ⧸ N := (QuotientGroup.mk' N).domRestrict K
   have h1 : Nat.card g.range = g.ker.index := (Subgroup.index_ker g).symm
   have h2 : g.ker.index * Nat.card g.ker = Nat.card K := Subgroup.index_mul_card g.ker
   have h3 : g.ker = N.subgroupOf K := by
-    rw [MonoidHom.ker_restrict, QuotientGroup.ker_mk']
-  have h4 : g.range = K.map (QuotientGroup.mk' N) := MonoidHom.restrict_range K _
+    rw [MonoidHom.ker_domRestrict, QuotientGroup.ker_mk']
+  have h4 : g.range = K.map (QuotientGroup.mk' N) := MonoidHom.domRestrict_range K _
   have h5 : Nat.card (N.subgroupOf K) = Nat.card ↥(K ⊓ N) := by
     have := Subgroup.card_map_of_injective (K := N.subgroupOf K) (f := K.subtype)
       K.subtype_injective
@@ -293,6 +297,7 @@ theorem shultHyp {K : Subgroup G} (hK : K ∈ Ω) :
         e4_mem_normalizer_of_conjSub_eq heq
       exact QuotientGroup.eq.mpr (by rw [mul_one]; exact Subgroup.inv_mem _ hyN)
 
+omit [Finite G] in
 theorem normalClosure_bar {K : Subgroup G} (hK : K ∈ Ω) :
     Subgroup.normalClosure (bar K : Set (G ⧸ pCore 2 G)) = ⊤ := by
   rw [eq_top_iff]

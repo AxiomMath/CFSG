@@ -46,7 +46,7 @@ theorem orderOf_rootDiagUnit_eq_prime {p : ℕ} [hp : Fact p.Prime] {ε : Kˣ} (
       rw [rootChar, Finset.prod_eq_single j]
       · simp
       · intro i _ hij
-        simp [Pi.single_apply, hij]
+        simp [hij]
       · intro h
         exact absurd (Finset.mem_univ j) h
     rw [hchar]
@@ -68,7 +68,7 @@ theorem orderOf_rootDiagUnit_eq_prime_of_pow {p : ℕ} [hp : Fact p.Prime] (a : 
       rw [rootChar, Finset.prod_eq_single j]
       · simp
       · intro i _ hij
-        simp [Pi.single_apply, hij]
+        simp [hij]
       · intro h
         exact absurd (Finset.mem_univ j) h
     rw [hchar]
@@ -102,7 +102,7 @@ theorem sum_single_mul (j : Fin τ.rank) (β : Fin τ.rank → ℤ) :
   rw [Finset.sum_eq_single j]
   · simp
   · intro i _ hij
-    simp [Pi.single_apply, hij]
+    simp [hij]
   · intro h
     exact absurd (Finset.mem_univ j) h
 

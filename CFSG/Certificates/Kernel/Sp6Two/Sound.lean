@@ -86,12 +86,12 @@ theorem tableG {start : List ℕ} {mul : List ℕ → List ℕ → List ℕ} {ge
     exact pk_inj cp cm (by rw [pp, hx, pm, ph])
   obtain ⟨C', hC'lo, hC'hi⟩ : ∃ C' : ℕ → ℕ, (∀ i ≤ n * k, C' i = C i) ∧
       ∀ i, n * k ≤ i → C' i = n := by
-    refine ⟨fun i => if i ≤ n * k then C i else n, fun i hi => if_pos hi, fun i hi => ?_⟩
+    refine ⟨fun i => if i ≤ n * k then C i else n, fun i hi => ite_eq_left hi, fun i hi => ?_⟩
     by_cases h : i ≤ n * k
     · have e : i = n * k := by omega
-      simp only [if_pos h]
+      simp only [ite_eq_left h]
       rw [e, hCn]
-    · exact if_neg h
+    · exact ite_eq_right h
   have hstep : ∀ h < fuel, ∀ s < gens.length,
       CFSG.KC.G2Three.StepOK mul gens (build start mul gens PL) PL.toArray C' POS h s
         (h * gens.length + s) := by
@@ -224,7 +224,7 @@ theorem centTest6 {E : Array (List ℕ)} {R : ℕ → ℕ} {o n hi PA PB T : ℕ
       Nat.beq (MULF (recX R o i) PB) (MULF PB (recX R o i)) &&
       Nat.beq (P2K (recX R o i) 9) ONE)
   · rfl
-  · rw [hq, cond_true] at hb
+  · rw [hq, _root_.Bool.cond_true] at hb
     simpa using hb
 
 theorem found_of_inTab {O : Array (List ℕ)} {R : ℕ → ℕ} {o n i : ℕ} {u : List ℕ}
@@ -263,7 +263,7 @@ theorem invTest6 {S : Array (List ℕ)} {R I : ℕ → ℕ} {o n o0 n0 o1 n1 o2 
   unfold invF at hb
   cases hq : Nat.beq (MULF (recX R o t) (recX R o t)) ONE
   · rfl
-  · rw [hq, cond_true] at hb
+  · rw [hq, _root_.Bool.cond_true] at hb
     rw [← px] at hb
     simp only [Bool.or_eq_true] at hb
     simp only [Bool.not_true, Bool.false_or, Bool.or_eq_true]

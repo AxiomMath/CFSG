@@ -155,7 +155,7 @@ theorem QUCfg.ident_d4two {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup �
   obtain ⟨t, r, n⟩ := lab
   dsimp only at htD hr3 e2 e3 hpn
   subst htD
-  simp only [markRank, markDeg, if_neg hr3] at e2 e3
+  simp only [markRank, markDeg, ite_eq_right hr3] at e2 e3
   subst e2
   obtain rfl : n = 3 := by omega
   have h : CFSG.Blueprint.LieModel (PSimple 3 S) .POmegaPlus 4 2 3 := by

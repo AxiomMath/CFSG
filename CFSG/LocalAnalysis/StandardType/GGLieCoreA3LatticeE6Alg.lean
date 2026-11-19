@@ -299,7 +299,7 @@ private lemma ggLieE6A_eqvGen_transfer_forward {τ : Tag} {M : Type*} [CommGroup
     ∀ (a b : kernelRoots χ),
       Relation.EqvGen (fun (u v : kernelRoots χ) =>
         (u : Fin τ.rank → ℤ) ⬝ᵥ (τ.symmetrizedCartan *ᵥ (v : Fin τ.rank → ℤ)) ≠ 0) a b →
-      ∀ (hα : a.1 ∈ kernelRoots χ) (hβ : b.1 ∈ kernelRoots χ),
+      ∀ (_hα : a.1 ∈ kernelRoots χ) (_hβ : b.1 ∈ kernelRoots χ),
         Relation.EqvGen (fun (u v : Fin τ.rank → ℤ) =>
           u ∈ kernelRoots χ ∧ v ∈ kernelRoots χ ∧
           u ⬝ᵥ (τ.symmetrizedCartan *ᵥ v) ≠ 0) a.1 b.1 := by
@@ -307,18 +307,18 @@ private lemma ggLieE6A_eqvGen_transfer_forward {τ : Tag} {M : Type*} [CommGroup
   refine Relation.EqvGen.rec (motive := fun (x y : kernelRoots χ)
       (_ : Relation.EqvGen (fun (u v : kernelRoots χ) =>
         (u : Fin τ.rank → ℤ) ⬝ᵥ (τ.symmetrizedCartan *ᵥ (v : Fin τ.rank → ℤ)) ≠ 0) x y) =>
-    ∀ (hα : x.1 ∈ kernelRoots χ) (hβ : y.1 ∈ kernelRoots χ),
+    ∀ (_hα : x.1 ∈ kernelRoots χ) (_hβ : y.1 ∈ kernelRoots χ),
       Relation.EqvGen (fun (u v : Fin τ.rank → ℤ) =>
         u ∈ kernelRoots χ ∧ v ∈ kernelRoots χ ∧
         u ⬝ᵥ (τ.symmetrizedCartan *ᵥ v) ≠ 0) x.1 y.1) ?_ ?_ ?_ ?_ h
-  · intro x y hxy hα hβ
-    exact Relation.EqvGen.rel _ _ ⟨hα, hβ, hxy⟩
-  · intro x hα hβ
+  · intro x y hxy _hα _hβ
+    exact Relation.EqvGen.rel _ _ ⟨_hα, _hβ, hxy⟩
+  · intro x _hα _hβ
     exact Relation.EqvGen.refl x.1
-  · intro x y hxy ih hα hβ
-    exact Relation.EqvGen.symm _ _ (ih hβ hα)
-  · intro x y z hxy hyz ih1 ih2 hα hβ
-    exact Relation.EqvGen.trans _ _ _ (ih1 hα y.2) (ih2 y.2 hβ)
+  · intro x y hxy ih _hα _hβ
+    exact Relation.EqvGen.symm _ _ (ih _hβ _hα)
+  · intro x y z hxy hyz ih1 ih2 _hα _hβ
+    exact Relation.EqvGen.trans _ _ _ (ih1 _hα y.2) (ih2 y.2 _hβ)
 
 private lemma ggLieE6A_eqvGen_transfer_backward {τ : Tag} {M : Type*} [CommGroup M]
     (χ : Multiplicative (Fin τ.rank → ℤ) →* M) :
@@ -370,7 +370,7 @@ private lemma ggLieE6A_kernelRoots_eq {τ : Tag} {L : Type} [Field L]
     (hd2 : ∀ γ, rootChar a₂ γ = 1 ↔ ggLiePair γ c₂ = 0) :
     kernelRoots (jointChar a₁ a₂) = a3Ker τ c₁ c₂ := by
   ext γ
-  simp only [kernelRoots, Set.mem_setOf_eq, a3Ker, ggLieE6A_jointChar_ofAdd,
+  simp only [kernelRoots, Set.mem_ofPred_eq, a3Ker, ggLieE6A_jointChar_ofAdd,
     Prod.mk_eq_one, hd1 γ, hd2 γ]
 
 private lemma ggLieE6A_componentRoots_eq {τ : Tag} {L : Type} [Field L]

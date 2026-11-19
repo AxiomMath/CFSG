@@ -19,9 +19,9 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_nontrivial_offender {T K : Subgroup G} {V : Type} [CommGroup V]
     (D : ModData K V) (hK : IsShort2 K) (hKJ : ⁅K, thompsonJ T⁆ = K)
-    (hJN : thompsonJ T ≤ Subgroup.normalizer (K : Set G))
+    (_hJN : thompsonJ T ≤ Subgroup.normalizer (K : Set G))
     (hAN : ∀ A, IsMaxElemAbelian T A → A ≤ Subgroup.normalizer (K : Set G))
-    (hAle : ∀ A, IsMaxElemAbelian T A → A ≤ thompsonJ T)
+    (_hAle : ∀ A, IsMaxElemAbelian T A → A ≤ thompsonJ T)
     (hconj : ∀ (m : G) (hm : m ∈ Subgroup.normalizer (K : Set G)), gammaAut D hm = 1 →
       ∀ u ∈ blockU K, m * u * m⁻¹ = u) :
     ∃ A, ∃ hA : IsMaxElemAbelian T A, ∃ (a : G) (ha : a ∈ A),
@@ -81,7 +81,7 @@ theorem exists_normFixed_lin2 {P T K : Subgroup G}
   classical
   have hK : IsShort2 K := hKP.1.1
   obtain ⟨F, _, _, D, hcard, hrange⟩ := modData_of_lin2 hlin
-  haveI : CharP F 2 := charP_two_of_card (by omega) hcard
+  have : CharP F 2 := charP_two_of_card (by omega) hcard
   have hq4 : 4 ≤ Fintype.card F := by
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -240,8 +240,8 @@ theorem exists_normFixed_lin2 {P T K : Subgroup G}
       _ = f := by group
   let K₀ : Subgroup G := N ⊓ Subgroup.centralizer (F' : Set G)
   have hK₀N : K₀ ≤ N := inf_le_left
-  haveI : Finite ↥N := inferInstance
-  letI : Fintype (↥N ⧸ K₀.subgroupOf N) := Fintype.ofFinite _
+  have : Finite ↥N := inferInstance
+  let : Fintype (↥N ⧸ K₀.subgroupOf N) := Fintype.ofFinite _
   choose r hr using fun q : ↥N ⧸ K₀.subgroupOf N => QuotientGroup.mk_surjective q
   let g : (↥N ⧸ K₀.subgroupOf N) → MulAut (Multiplicative (Fin 2 → F)) := fun q =>
     gammaAut D (hNN (r q).2)
@@ -278,7 +278,7 @@ theorem exists_normFixed_lin2 {P T K : Subgroup G}
             (((r q : ↥N) : G)⁻¹ * ((r q' : ↥N) : G))⁻¹) *
             (((r q : ↥N) : G)⁻¹ * ((r q' : ↥N) : G)) := by rw [this]
       _ = (((r q : ↥N) : G)⁻¹ * ((r q' : ↥N) : G)) * f := by group
-  haveI : Nonempty (↥N ⧸ K₀.subgroupOf N) := ⟨QuotientGroup.mk 1⟩
+  have : Nonempty (↥N ⧸ K₀.subgroupOf N) := ⟨QuotientGroup.mk 1⟩
   obtain ⟨x, hxℓ, hxne⟩ := exists_trace_ne_zero ℓ hℓne g σ hσ hσinj
   obtain ⟨u₀, hu₀⟩ := D.surj (Multiplicative.ofAdd x)
   have hu₀F : (u₀ : G) ∈ F' := hℓF u₀ (by rw [hu₀]; exact hxℓ)

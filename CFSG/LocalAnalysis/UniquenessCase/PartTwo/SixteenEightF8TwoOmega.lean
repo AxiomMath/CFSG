@@ -19,6 +19,7 @@ private theorem s16g_commutator_sl2 (hK : 4 ≤ Nat.card K) : commutator SL(2, K
       rwa [Finset.card_univ, ← Nat.card_eq_fintype_card])
   exact (CFSG.LinearGroups.special_linear_dimension_two_perfect ⟨s, hs⟩).commutator_eq_top
 
+omit [Finite K] in
 theorem s16g_rhoTwo_mul_rhoOne_eq_one [CharP K 2] {A B : SL(2, K)}
     (h : rhoTwoMat A * rhoOneMat B = 1) : A = 1 ∧ B = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -68,6 +69,7 @@ theorem s16g_rhoTwo_mul_rhoOne_eq_one [CharP K 2] {A B : SL(2, K)}
     simp only [Fin.forall_fin_two]
     simp [hb00, hb01, hb10, hb11]
 
+omit [Finite K] in
 theorem s16g_rhoTwo_mul_rhoOne_fix [CharP K 2] (A : SL(2, K)) :
     (rhoTwoMat A * rhoOneMat (Matrix.SpecialLinearGroup.transpose A⁻¹)) *ᵥ
         (Pi.single (Sum.inl 0) 1 + Pi.single (Sum.inr 0) 1 : Fin 2 ⊕ Fin 2 → K) =
@@ -88,6 +90,7 @@ theorem s16g_rhoTwo_mul_rhoOne_fix [CharP K 2] (A : SL(2, K)) :
   · linear_combination
       (-((A : Matrix (Fin 2) (Fin 2) K) 0 1 * (A : Matrix (Fin 2) (Fin 2) K) 0 0)) * h2
 
+omit [Finite K] in
 private theorem s16g_transpose_inv_pow {A : SL(2, K)} {n : ℕ} (h : A ^ n = 1) :
     (Matrix.SpecialLinearGroup.transpose A⁻¹) ^ n = 1 := by
   apply Subtype.ext
@@ -145,7 +148,7 @@ theorem s16g_omega_fixed_singular [CharP K 2] {ι₂ ι : Type} [Fintype ι₂] 
     {u₂ : ι₂ → K} (hu₂ : Q₂ u₂ = 1) :
     ∃ g : Matrix.GeneralLinearGroup ι K, g ∈ StatedOmega Q ∧ orderOf g = p ∧
       ∃ u : ι → K, u ≠ 0 ∧ Q u = 0 ∧ (g : Matrix ι ι K) *ᵥ u = u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSL := s16g_commutator_sl2 hK
   obtain ⟨A, hA⟩ := CFSG.HardMathSupport.Seitz.Proving.exists_orderOf_eq_prime_SL2 hp hpK
   have hA1 : A ≠ 1 := by
@@ -193,6 +196,7 @@ theorem s16g_omega_fixed_singular [CharP K 2] {ι₂ ι : Type} [Fintype ι₂] 
     · rw [oblk_mulVec_inl, Matrix.one_mulVec]
     · rw [oblk_mulVec_inr, e2, s16g_rhoTwo_mul_rhoOne_fix A, hu2]
 
+omit [Finite K] in
 private theorem s16g_single_ne_zero_om {ι : Type} [DecidableEq ι] (i : ι) :
     (Pi.single i 1 : ι → K) ≠ 0 := fun h => by
   have h1 := congrFun h i

@@ -17,7 +17,7 @@ theorem card_gl32 : Nat.card (GL (Fin 3) (ZMod 2)) = 168 := by
   decide
 
 theorem commutator_gl32 : commutator (GL (Fin 3) (ZMod 2)) = ⊤ := by
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le le_rfl
   have hsurj : Function.Surjective
       (Matrix.SpecialLinearGroup.toGL :
@@ -28,7 +28,7 @@ theorem commutator_gl32 : commutator (GL (Fin 3) (ZMod 2)) = ⊤ := by
       obtain ⟨u, hu⟩ := hu
       rw [← hu, Subsingleton.elim u 1, Units.val_one]
     exact ⟨⟨g, hdet⟩, Units.ext rfl⟩
-  haveI := Group.IsPerfect.ofSurjective hsurj
+  have := Group.IsPerfect.ofSurjective hsurj
   exact Group.IsPerfect.commutator_eq_top
 
 theorem center_gl32 : Subgroup.center (GL (Fin 3) (ZMod 2)) = ⊥ := by

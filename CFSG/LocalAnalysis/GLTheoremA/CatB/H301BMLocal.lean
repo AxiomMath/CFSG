@@ -44,7 +44,7 @@ private theorem card_pCore_inf_le_fixQ (H : Subgroup (cent xGriess)) (P : cent x
     (hP : ∀ h, thetaEquiv (P h) = (((h : MGriess) : AutO) : SpaceB ≃ₗ[ℚ] SpaceB)) :
     Nat.card ↥(CFSG.pCore 2 (cent xGriess) ⊓ Subgroup.centralizer (H : Set (cent xGriess))) ≤
       Nat.card {r : Q // ∀ h ∈ H, conjQ (P h) r = r} := by
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [natCard_Q]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [natCard_Q]; norm_num)
   have key : ∀ y : ↥(CFSG.pCore 2 (cent xGriess) ⊓ Subgroup.centralizer (H : Set (cent xGriess))),
       ∃ r : Q, rhoEquiv r = (((y.1 : cent xGriess) : MGriess) : AutO) ∧
         ∀ h ∈ H, conjQ (P h) r = r := by

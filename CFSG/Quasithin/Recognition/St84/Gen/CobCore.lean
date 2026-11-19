@@ -241,7 +241,7 @@ private lemma two_pow_add_eq_two_pow {n a b : ℕ} (ha : a < n) (hb : b < n)
     omega
   exact ⟨Nat.pow_right_injective (by norm_num) ha', Nat.pow_right_injective (by norm_num) hb'⟩
 
-private lemma not_dvd_two_pow_add_sub_one {n i j : ℕ} (hn : 2 ≤ n) (hi : i < n) (hj : 1 ≤ j)
+private lemma not_dvd_two_pow_add_sub_one {n i j : ℕ} (hn : 2 ≤ n) (hi : i < n) (_hj : 1 ≤ j)
     (hjn : j < n) (hne : (i, j) ≠ (n - 1, n - 2)) :
     ¬ (2 ^ n - 1) ∣ 2 ^ i + 2 ^ (j + 1) - 1 := by
   intro hdvd
@@ -309,7 +309,7 @@ private lemma eta_cob_expand [NeZero n] {Φ : K → K → K} {a : Fin n → Fin 
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
   by_cases hj : j = 0
-  · simp only [hj, if_true]
+  · simp only [hj, ite_true]
     rw [← mul_assoc, Finset.mul_sum]
     congr 1
     refine Finset.sum_congr rfl fun k _ => ?_
@@ -345,7 +345,7 @@ private lemma coeff_torus_family [Fintype K] [CharP K 2] [NeZero n]
   rw [← eta_scale_expand ha c p t, ← eta_torus_rhs_expand ha c p t]
   exact htor c hc p t
 
-private lemma dvd_of_coeff_torus [Fintype K] [CharP K 2] {n : ℕ} (hn : 2 ≤ n)
+private lemma dvd_of_coeff_torus [Fintype K] [CharP K 2] {n : ℕ} (_hn : 2 ≤ n)
     (hK : Nat.card K = 2 ^ n) {a : Fin n → Fin n → K} {i j : Fin n}
     (hij : a i j ≠ 0)
     (hcoef : ∀ c : K, c ≠ 0 →
@@ -465,7 +465,7 @@ private lemma coeff_last_zero {n : ℕ} [Fintype K] [CharP K 2] [NeZero n] (hn :
     have := congrArg Fin.val h
     simp at this
     omega
-  simp only [if_neg hj0, if_neg hi0, add_zero] at hcoeff
+  simp only [ite_eq_right hj0, ite_eq_right hi0, add_zero] at hcoeff
   have hji : a ⟨n - 2, by omega⟩ ⟨n - 1, by omega⟩ = 0 := by
     refine hkill ⟨n - 2, by omega⟩ ⟨n - 1, by omega⟩ hi0 ?_
     intro h
@@ -537,13 +537,13 @@ private theorem eta_eq_zero_of_torus_symm {K : Type*} [Field K] {n : ℕ} (hn : 
     (hsym : ∃ w : K → K, ∀ s t : K, Φ s t + t * w s = Φ t s + s * w t) :
     ∀ p t : K, eta Φ p t = 0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact (pow_pos (by norm_num) n).ne')
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : NeZero n := ⟨by omega⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact (pow_pos (by norm_num) n).ne')
+  have : Fintype K := Fintype.ofFinite K
+  have : NeZero n := ⟨by omega⟩
   have hlt : 2 ^ (n - 1) < Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, hK]
     exact Nat.pow_lt_pow_right (by norm_num) (by omega)
@@ -578,7 +578,7 @@ theorem coboundary_of_torus_symm {K : Type*} [Field K] {n : ℕ} (hn : 2 ≤ n)
     (htor : ∀ c : K, c ≠ 0 → ∀ p, ∃ w : K, ∀ t, Φ (c * p) (c ^ 2 * t) = c * Φ p t + t * w)
     (hsym : ∃ w : K → K, ∀ s t, Φ s t + t * w s = Φ t s + s * w t) :
     ∀ p, ∃ w : K, ∀ t, Φ p t = t * w := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK
   intro p

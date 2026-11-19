@@ -57,6 +57,7 @@ variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
 variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
+omit [Finite H] h hMh hMc in
 theorem Vq_le_Vh : Mc ⊔ closure ({τ, l} : Set H) ≤ zjVh Mc t τ l := by
   change Mc ⊔ closure ({τ, l} : Set H) ≤ Mc ⊔ closure ({t, τ, l} : Set H)
   refine sup_le le_sup_left ?_
@@ -81,6 +82,7 @@ private lemma closure_t_tau_le_normalizer_Mc :
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg ⊢
     tauto)).trans (E_le_normalizer_Mc h hMh hMc)
 
+omit [Finite H] h hMh hMc in
 private lemma mem_sup_Mc_iff_exists {E : Subgroup H}
     (hE : E ≤ normalizer (Mc : Set H)) {g : H} :
     g ∈ Mc ⊔ E ↔ ∃ m ∈ Mc, ∃ e ∈ E, m * e = g := by
@@ -90,7 +92,7 @@ private lemma mem_sup_Mc_iff_exists {E : Subgroup H}
 
 theorem mem_Vq_iff {g : H} : g ∈ Mc ⊔ closure ({τ, l} : Set H) ↔
     ∃ m ∈ Mc, g = m ∨ g = m * τ ∨ g = m * l ∨ g = m * (τ * l) := by
-  rw [mem_sup_Mc_iff_exists h hMh hMc (closure_tau_l_le_normalizer_Mc h hMh hMc)]
+  rw [mem_sup_Mc_iff_exists (closure_tau_l_le_normalizer_Mc h hMh hMc)]
   constructor
   · rintro ⟨m, hm, e, he, rfl⟩
     refine ⟨m, hm, ?_⟩
@@ -110,7 +112,7 @@ theorem mem_Vq_iff {g : H} : g ∈ Mc ⊔ closure ({τ, l} : Set H) ↔
 
 private lemma card_closure_tau_l : Nat.card ↥(closure ({τ, l} : Set H)) = 4 := by
   have hτ1 : τ ≠ 1 := fun h1 =>
-    tau_not_mem_Mc h hMh hMc (by rw [h1]; exact Mc.one_mem)
+    tau_not_mem_Mc h hMc (by rw [h1]; exact Mc.one_mem)
   have hl1 : l ≠ 1 := fun h1 =>
     l_not_mem_Mh h hMh (by rw [h1]; exact Mh.one_mem)
   have hlτ : l ≠ τ := fun h1 =>
@@ -141,6 +143,7 @@ private lemma card_closure_tau_l : Nat.card ↥(closure ({τ, l} : Set H)) = 4 :
     Set.ncard_insert_of_notMem (by simp [Ne.symm hτll]),
     Set.ncard_singleton]
 
+omit [Finite H] in
 private lemma Mc_inf_closure_tau_l : Mc ⊓ closure ({τ, l} : Set H) = ⊥ :=
   le_bot_iff.mp ((inf_le_inf_left Mc (Subgroup.closure_mono (by
     intro g hg
@@ -155,25 +158,25 @@ theorem card_Vq : Nat.card ↥(Mc ⊔ closure ({τ, l} : Set H)) = 1024 := by
 theorem t_not_mem_Vq : t ∉ Mc ⊔ closure ({τ, l} : Set H) := by
   intro ht
   obtain ⟨m, hm, e1 | e2 | e3 | e4⟩ := (mem_Vq_iff h hMh hMc).mp ht
-  · exact t_not_mem_Mh h hMh (by rw [e1]; exact Mc_le_Mh h hMh hMc hm)
+  · exact t_not_mem_Mh h hMh (by rw [e1]; exact Mc_le_Mh hMc hm)
   · exact t_not_mem_Mh h hMh
-      (by rw [e2]; exact Mh.mul_mem (Mc_le_Mh h hMh hMc hm) (tau_mem_Mh h hMh))
+      (by rw [e2]; exact Mh.mul_mem (Mc_le_Mh hMc hm) (tau_mem_Mh h hMh))
   · have htl : t * l ∈ Mh := by
       rw [e3, show m * l * l = m by
         calc m * l * l = m * (l * l) := by group
           _ = m := by rw [h.l_sq, mul_one]]
-      exact Mc_le_Mh h hMh hMc hm
+      exact Mc_le_Mh hMc hm
     exact tl_not_mem_Mh h hMh htl
   · have htl : t * l ∈ Mh := by
       rw [e4, show m * (τ * l) * l = m * τ by
         calc m * (τ * l) * l = m * τ * (l * l) := by group
           _ = m * τ := by rw [h.l_sq, mul_one]]
-      exact Mh.mul_mem (Mc_le_Mh h hMh hMc hm) (tau_mem_Mh h hMh)
+      exact Mh.mul_mem (Mc_le_Mh hMc hm) (tau_mem_Mh h hMh)
     exact tl_not_mem_Mh h hMh htl
 
 theorem mem_McTT_iff {g : H} : g ∈ Mc ⊔ closure ({t, τ} : Set H) ↔
     ∃ m ∈ Mc, g = m ∨ g = m * t ∨ g = m * τ ∨ g = m * (t * τ) := by
-  rw [mem_sup_Mc_iff_exists h hMh hMc (closure_t_tau_le_normalizer_Mc h hMh hMc)]
+  rw [mem_sup_Mc_iff_exists (closure_t_tau_le_normalizer_Mc h hMh hMc)]
   constructor
   · rintro ⟨m, hm, e, he, rfl⟩
     refine ⟨m, hm, ?_⟩

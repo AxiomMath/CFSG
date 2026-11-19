@@ -22,7 +22,6 @@ theorem wcode_eq_tcode {n w : ℕ} {t : Array ℕ} {σ : Perm (Fin n)}
   unfold wcode tcode
   congr 1
   refine List.map_congr_left fun i _ => ?_
-  change (σ i : ℕ) * 2 ^ (w * (i : ℕ)) = t[(i : ℕ)]! * 2 ^ (w * (i : ℕ))
   rw [h i]
 
 @[expose] def img {n : ℕ} (σ : Perm (Fin n)) (i : ℕ) : ℕ := if h : i < n then σ ⟨i, h⟩ else 0
@@ -76,9 +75,9 @@ theorem fld_wcode {n w : ℕ} (hw : n < 2 ^ w) (σ : Perm (Fin n)) :
 theorem pg_wcode {n w : ℕ} (hw : n < 2 ^ w) (σ : Perm (Fin n)) (i : Fin n) :
     pg w (mask w) (wcode w σ) i = σ i := by
   have e : (if (i : ℕ) < n then img σ i else 0) = σ i := by
-    rw [if_pos i.isLt]
+    rw [ite_eq_left i.isLt]
     unfold img
-    rw [dif_pos i.isLt]
+    rw [dite_eq_left i.isLt]
   have h := pg_of_fld (i := i) (fld_wcode hw σ) (by rw [e]; exact (Fin.isLt _).trans hw)
   rw [h, e]
 

@@ -61,7 +61,7 @@ theorem sec6Entry_of_pumpUp {X : Type} [Group X] [Finite X] {n : ℕ} (hA : ¬ H
 theorem sec6Choice_exists {X : Type} [Group X] [Finite X] {n : ℕ}
     (h : ∃ s : X, orderOf s = 2 ∧ ∃ M, Sec6MComp X n (cen s) M) : ∃ t, IsSec6Choice X n t := by
   classical
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   set I : Finset X := Finset.univ.filter fun s => orderOf s = 2 ∧ ∃ M, Sec6MComp X n (cen s) M
     with hI
   set f : X → ℕ := fun s => modOddCard (Sec6M X n (cen s)) with hf

@@ -68,7 +68,7 @@ theorem v_zpowers_inf_eq_bot {M : Subgroup G} {c : G} (hc : orderOf c = 3) (hcM 
     have hh : c ∈ Subgroup.zpowers c ⊓ M := by rw [this]; exact Subgroup.mem_zpowers c
     exact hh.2
 
-theorem v_cenb_gen {M : Subgroup G} (hM : IsMulCommutative M) {c : G} (hc : orderOf c = 3)
+theorem v_cenb_gen {M : Subgroup G} (_hM : IsMulCommutative M) {c : G} (hc : orderOf c = 3)
     (hcN : c ∈ Subgroup.normalizer (M : Set G)) (hcM : c ∉ M)
     (hZ : Nat.card (M ⊓ Cen c : Subgroup G) = 9) :
     ∀ T : Subgroup G, T ≤ (M ⊔ Subgroup.zpowers c) ⊓ Cen c →
@@ -133,6 +133,7 @@ theorem v_cenb_gen {M : Subgroup G} (hM : IsMulCommutative M) {c : G} (hc : orde
           exact aux _ _ _ hcc
       _ = (b * ↑x * b⁻¹ * (↑x)⁻¹) * (b * ↑y * b⁻¹ * (↑y)⁻¹) := by group
 
+omit [Finite G] in
 theorem v_commMap_apply {A : Subgroup G} (hA : IsMulCommutative A) {b : G}
     (hb : b ∈ Subgroup.normalizer (A : Set G)) (x : A) : vCommMap hA hb x = ⁅b, (x : G)⁆ := rfl
 
@@ -145,7 +146,7 @@ theorem v_comm_le_range {A : Subgroup G} (hA : IsMulCommutative A) {b : G}
   have key : ∀ n : ℕ, ∀ x ∈ A, b ^ n * x * (b ^ n)⁻¹ ∈ A ∧ ⁅b ^ n, x⁆ ∈ φ.range := by
     intro n
     induction n with
-    | zero => intro x hx; simp [hx, Subgroup.one_mem]
+    | zero => intro x hx; simp [hx]
     | succ n ih =>
       intro x hx
       obtain ⟨h1, h2⟩ := ih x hx
@@ -200,10 +201,12 @@ theorem v_cen_card_mul_le {A : Subgroup G} (hA : IsMulCommutative A) {b : G}
       ≤ Nat.card φ.ker * Nat.card φ.range := Nat.mul_le_mul_left _ h2
     _ = Nat.card A := h1
 
+omit [Finite G] in
 theorem v_comm {X : Subgroup G} (hX : IsMulCommutative X) {u v : G} (hu : u ∈ X) (hv : v ∈ X) :
     u * v = v * u :=
   congrArg Subtype.val (hX.is_comm.comm ⟨u, hu⟩ ⟨v, hv⟩)
 
+omit [Finite G] in
 theorem v_inf_cen_eq {M : Subgroup G} (hM : IsMulCommutative M) (c : G) :
     M ⊓ Cen c = M ⊓ CenS (M ⊔ Subgroup.zpowers c : Subgroup G) := by
   ext s
@@ -229,7 +232,7 @@ variable {b : G} {J B A P D : Subgroup G}
 
 theorem v_card27 (h : FF79Sec34In4 b J B A P D) {X : Subgroup G} (hX : X ≤ Cen b)
     (hX3 : IsPGroup 3 X) : Nat.card X ≤ 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB := L41.isSylowOf_card_p h.sylB
   have h27 : Nat.card B = 27 := by rw [h.elemB.2]; norm_num
   obtain ⟨k, hk⟩ := hX3.exists_card_eq
@@ -285,7 +288,7 @@ theorem v_b_not_mem (h : FF79Sec34In4 b J B A P D) {As : Subgroup G} (hAs : FF79
 
 theorem v_card_P0 (h : FF79Sec34In4 b J B A P D) {As : Subgroup G} (hAs : FF79AStar b D A As) :
     Nat.card (As ⊔ Subgroup.zpowers b : Subgroup G) = 3 * Nat.card As := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb := v_b_not_mem h hAs
   have hle : Nat.card (Subgroup.zpowers b ⊔ As : Subgroup G) ≤ 3 * Nat.card As := by
     have := v_card_sup_le (H := Subgroup.zpowers b) (N := As)
@@ -307,11 +310,11 @@ theorem v_card_P0 (h : FF79Sec34In4 b J B A P D) {As : Subgroup G} (hAs : FF79AS
   rw [hk, hj] at hlt hle ⊢
   have hjk : j < k := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     exact absurd hlt (not_lt.mpr (Nat.pow_le_pow_right (by norm_num) hh))
   have hkj : k ≤ j + 1 := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     have : 3 ^ (j + 1) < 3 ^ k := Nat.pow_lt_pow_right (by norm_num) hh
     rw [pow_succ] at this
     omega
@@ -322,7 +325,7 @@ theorem sec34_cenb_syl (h : FF79Sec34In4 b J B A P D) :
     ∀ S : Subgroup G, IsSylowOf 3 S ⊤ → b ∈ S → ∀ T : Subgroup G, T ≤ S → T ≤ Cen b →
       Nat.card T ≤ 27 ∧ (Nat.card T = 27 → b ∈ T) := by
   intro S hS hbS T hTS hTb
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨As, hAs⟩ := h.star
   have hcommAs : IsMulCommutative As := hAs.2.2.1
   have hbN : b ∈ Nor As := hAs.2.2.2.1

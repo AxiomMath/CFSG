@@ -51,7 +51,7 @@ theorem exists_int_combination (x : Torus k) :
     ∃ z : Fin 3 → ℤ, x = z 0 • gen k 0 + z 1 • gen k 1 + z 2 • gen k 2 := by
   choose z hz using fun i => ZMod.intCast_surjective (x i)
   refine ⟨z, funext fun i => ?_⟩
-  fin_cases i <;> simp [gen, Pi.single_apply, hz]
+  fin_cases i <;> simp [gen, hz]
 
 theorem exists_mul_modEq_one_of_odd {d : ℤ} (hd : Odd d) (n : ℕ) :
     ∃ d' : ℤ, d * d' ≡ 1 [ZMOD 2 ^ n] := by

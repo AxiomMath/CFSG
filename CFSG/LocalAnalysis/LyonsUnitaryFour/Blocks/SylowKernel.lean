@@ -150,7 +150,7 @@ theorem normal_complement_principal_sylow_kernel [Fintype G]
     exact h
   have hpelt : ∀ u ∈ (P : Subgroup G), ∃ k : ℕ, orderOf u ∣ p ^ k := by
     intro u hu
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨u, hu⟩
     refine ⟨k, orderOf_dvd_of_pow_eq_one ?_⟩
     have := congrArg Subtype.val hk
     simpa using this

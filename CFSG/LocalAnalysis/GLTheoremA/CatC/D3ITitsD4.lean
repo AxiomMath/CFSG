@@ -26,7 +26,7 @@ variable {G : Type} [Group G] [Finite G] (r : ℕ) [Fact r.Prime]
 
 theorem pCoreOf_le_sylow {H : Subgroup G} (S : Sylow r G) (hSH : (S : Subgroup G) ≤ H) :
     pCoreOf r H ≤ S := by
-  haveI : (pCore r H).Normal := CFSG.LieType.BorelTits.pCore_normal r
+  have : (pCore r H).Normal := CFSG.LieType.BorelTits.pCore_normal r
   have h1 : pCore r H ≤ (S.subtype hSH : Subgroup H) :=
     (CFSG.LieType.BorelTits.pCore_isPGroup (G := H) r).le_sylow_of_normal (S.subtype hSH)
   have h2 := Subgroup.map_mono (f := H.subtype) h1
@@ -60,7 +60,7 @@ theorem holds_D4Model_three {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.
 
 theorem d3InnerSylow_of_levi (h : D3InnerLevi) : D3InnerSylow := by
   intro K _ _ n hK t ht3 htE z hz2 hz1 hzI hzt A hA hA1 hAt hAz
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : 1 ≤ n := by
     by_contra hn0
     have hn0' : n = 0 := by omega

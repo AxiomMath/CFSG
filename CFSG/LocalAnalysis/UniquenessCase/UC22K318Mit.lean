@@ -102,7 +102,7 @@ theorem lieModel_psp_of_eq (hq2 : q ≠ 2) {P : Subgroup (GL (Fin 2 ⊕ Fin 2) (
       have h2 := hq.two_le
       omega
   have hZs : Group.IsSolvable (center (StatedSp 2 (ZMod q))) :=
-    isSolvable_of_comm fun a b => Subtype.ext (mem_center_iff.1 b.2 a)
+    _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (mem_center_iff.1 b.2 a)
   have hZ : center (StatedSp 2 (ZMod q)) =
       (StatedScalars (Fin 2 ⊕ Fin 2) (ZMod q)).subgroupOf (StatedSp 2 (ZMod q)) :=
     eq_of_simple_quotients hZs hqs.2.1 hs
@@ -160,7 +160,7 @@ theorem list_of_quasisimple (hIII : MitchellPartThree) (hq2 : q ≠ 2)
       statedClassicalModel_psl_two hq5 (eS.symm.trans (QuotientGroup.congr (center P)
         (center SL(2, ZMod q)) e (Subgroup.map_center_eq e)))⟩)⟩)
   ·
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact Or.inl (Or.inl ⟨5, by norm_num, by norm_num, Or.inl (Or.inl ⟨by decide,
       statedClassicalModel_psl_two le_rfl (eS.symm.trans (QuotientGroup.congr (center P)
         (center SL(2, ZMod 5)) e (Subgroup.map_center_eq e)))⟩)⟩)

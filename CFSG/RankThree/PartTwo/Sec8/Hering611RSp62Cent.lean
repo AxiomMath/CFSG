@@ -15,7 +15,7 @@ open CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two
 
 theorem exists_conj_mem_zpowers_x0 {x : H6} (hx : orderOf x = 5) :
     ∃ g : H6, g * x * g⁻¹ ∈ Subgroup.zpowers x0 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h25 : ¬ 5 ^ 2 ∣ Nat.card H6 := by
     rw [card_H6]
     norm_num
@@ -31,7 +31,7 @@ theorem cent_model {γ : H6} (hγ3 : γ ^ 3 = 1) (hγ1 : γ ≠ 1) {P : Subgroup
     (h5 : 5 ∣ Nat.card P) :
     ∃ Cg : Subgroup H6, Cg ≤ Subgroup.centralizer ({γ} : Set H6) ∧ P ≤ Cg ∧
       Nonempty (Cg ≃* Equiv.Perm (Fin 6)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := P) 5 h5
   have hx5 : orderOf (x : H6) = 5 := by rw [Subgroup.orderOf_coe]; exact hx
   obtain ⟨g, hg⟩ := exists_conj_mem_zpowers_x0 hx5
@@ -151,7 +151,7 @@ theorem kF611Sp62Cent_holds : KF611Sp62Cent := by
       subst hx
       exact Subgroup.mem_center_iff.mpr (fun g => by simp)
     rw [hCtop] at hP
-    haveI : IsSimpleGroup (⊤ : Subgroup Kb) := Subgroup.topEquiv.isSimpleGroup
+    have : IsSimpleGroup (⊤ : Subgroup Kb) := Subgroup.topEquiv.isSimpleGroup
     have hsn : (P.subgroupOf ⊤).IsSubnormal := (mem_thetaComponentsIn_iff.mp hP).2.2.1
     rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup inferInstance hsn with hb | ht
     · have hPbot : P = ⊥ := by

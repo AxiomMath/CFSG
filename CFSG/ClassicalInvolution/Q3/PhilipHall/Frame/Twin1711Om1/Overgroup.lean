@@ -23,7 +23,7 @@ private noncomputable def ovS1 : Subgroup WP where
   one_mem' := Or.inl (by simp)
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     have e : x * y * t0 * (x * y)⁻¹ = x * (y * t0 * y⁻¹) * x⁻¹ := by group
     rw [e]
     rcases hy with hy | hy
@@ -39,7 +39,7 @@ private noncomputable def ovS1 : Subgroup WP where
         exact Or.inl rfl
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [inv_inv]
     rcases hx with hx | hx
     · left

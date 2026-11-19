@@ -66,8 +66,8 @@ private theorem centreTwoFree_of_shapeComm {τ : Tag} {K : Type} [Field K] [Fini
 theorem twoCenterOdd_holds {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : TwoCenterOdd p := by
   classical
   intro τ K _ _ hK2 p₀ S a hq2 hτ hT hap h1
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]

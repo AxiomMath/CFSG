@@ -223,7 +223,7 @@ theorem cenFix_finrank_ker_le {K : Type} [Field K] (h3 : (3 : K) ≠ 0)
       · change P (hVec Tag.E6 K j) ∈ _
         rw [hP, hh j]
         exact Submodule.zero_mem _
-      · have e : rootVec Tag.E6 K α = Finsupp.single (Sum.inr ⟨α, hα⟩) 1 := dif_pos hα
+      · have e : rootVec Tag.E6 K α = Finsupp.single (Sum.inr ⟨α, hα⟩) 1 := dite_eq_left hα
         rw [← e]
         exact hroot α hα
   have hker : LinearMap.ker (S - 1) ≤ Submodule.span K (Set.range f) := by
@@ -287,8 +287,8 @@ theorem finrank_ker_eq_24_of_bmMono_z {K : Type} [Field K] [Finite K] (hK3 : rin
     Module.finrank K (LinearMap.ker
       (((s : ModGL .E6 K) : Module.End K (RootModule .E6 K)) - 1)) = 24 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have h3 : (3 : K) ≠ 0 := by
     intro h0
     have h0' : ((3 : ℕ) : K) = 0 := by
@@ -310,7 +310,7 @@ theorem finrank_ker_eq_24_of_bmMono_z {K : Type} [Field K] [Finite K] (hK3 : rin
   have hxL := CFSG.LieType.Chevalley.baseChangeGL_mem_adjointGroup
     (algebraMap K (AlgebraicClosure K)) s.2
   obtain ⟨a, ha3, ha1, hdim⟩ := KSNotAll24.exists_torus_conj_of_cube_one hK3 hxL hx3
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 := fun h0 =>
     hK3 ((Nat.prime_dvd_prime_iff_eq Fact.out Nat.prime_three).1

@@ -46,7 +46,7 @@ theorem pairOrder_z_ne_N10_one (hC : CentData z ι) (i j : Fin 2) :
     rw [pairOrder_mul_right (p := z) (q := ι σ) (hC.comm σ)]
     exact h_ne hσ hcard
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one]
+    simp only [pow_zero, pow_one, one_mul, mul_one]
   · exact h_ne hρ (Or.inl hcardρ)
   · rw [← map_mul]
     exact h_ne hτσ (Or.inr hcardτρ)
@@ -70,14 +70,14 @@ theorem pairOrder_x_ne_N10_one [Finite G] (hC : CentData z ι) (hx : IsConj z (�
     rw [hpair1]
     apply hkey
     by_cases hε : ε ρ₄' = -1
-    · right; norm_num [if_pos hε]
-    · left; norm_num [if_neg hε]
+    · right; norm_num [ite_eq_left hε]
+    · left; norm_num [ite_eq_right hε]
   have h2ne : pairOrder (ι τ₀) (z * ι ρ₄) ≠ N10 1 := by
     rw [hpair2]
     apply hkey
     by_cases hε : ε ρ₄' = -1
-    · left; norm_num [if_pos hε]
-    · right; norm_num [if_neg hε]
+    · left; norm_num [ite_eq_left hε]
+    · right; norm_num [ite_eq_right hε]
   have hxt : ι τ₀ * z = z * ι τ₀ := (hC.comm τ₀).symm
   have hxρ : ι τ₀ * ι ρ₄ = ι ρ₄ * ι τ₀ := by
     have h := mem_centralizer_singleton_iff.1 (ι_liftS8_mem_centralizer ι ρ₄')
@@ -90,7 +90,7 @@ theorem pairOrder_x_ne_N10_one [Finite G] (hC : CentData z ι) (hx : IsConj z (�
       _ = z * (ι ρ₄ * ι τ₀) := by rw [hxρ]
       _ = (z * ι ρ₄) * ι τ₀ := by group
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one]
+    simp only [pow_zero, pow_one, one_mul, mul_one]
   · exact h1ne
   · rw [pairOrder_mul_right hxρ]
     exact h1ne
@@ -111,7 +111,7 @@ theorem pairOrder_x₂_ne_N10_one [Finite G] (hC : CentData z ι) (hP1 : IsConj 
   have hρ : ι' ρ₄ = ι ρ₄ := h1' ρ₄ hsignρ₄
   have hx' : IsConj z (ι' τ₀) := by rw [hx1]; exact hP1
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one]
+    simp only [pow_zero, pow_one, one_mul, mul_one]
   · have h := pairOrder_x_ne_N10_one (hC := hC') (hx := hx') (i := 0) (j := 0)
     simp only [Fin.val_zero, pow_zero, one_mul] at h
     rw [hx1, hρ] at h
@@ -124,11 +124,11 @@ theorem pairOrder_x₂_ne_N10_one [Finite G] (hC : CentData z ι) (hP1 : IsConj 
     rw [heq] at h
     exact h
   · have h := pairOrder_x_ne_N10_one (hC := hC') (hx := hx') (i := 1) (j := 0)
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at h
+    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one] at h
     rw [hx1, hρ] at h
     exact h
   · have h := pairOrder_x_ne_N10_one (hC := hC') (hx := hx') (i := 0) (j := 1)
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at h
+    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul] at h
     rw [hx1, hρ] at h
     exact h
 

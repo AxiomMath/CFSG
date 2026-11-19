@@ -128,9 +128,9 @@ theorem derived_inter_J_le_J1sub_of_J0sub_normal (h : Tim79a.ParrottHyp z)
       _ = g * (n * (g⁻¹ * y * g⁻¹⁻¹)) * g⁻¹ := by rw [hc]
       _ = g * n * g⁻¹ * y := by group
   set N : Subgroup ↥(H z) := P ⊓ Subgroup.centralizer (J0 : Set ↥(H z)) with hNdef
-  haveI : N.Normal := by
-    haveI := hPn
-    haveI := hCn
+  have : N.Normal := by
+    have := hPn
+    have := hCn
     infer_instance
   have hL1 := P_H_commutator_CJ_le_center (z := z) D h hJ0
   have hL2 := P_H_derived_commutator_CJ_eq_bot (z := z) D h hJ0

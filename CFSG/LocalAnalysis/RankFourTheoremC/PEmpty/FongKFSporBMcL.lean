@@ -28,9 +28,9 @@ theorem mclFive_reach : ∀ w : Fin 2 → ZMod 5, w ≠ 0 → ∃ s : ZMod 5, s 
 
 theorem mclFive_oneClassE :
     OneClassE 5 NativeSporadic.McL := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, y, g₁, g₂, hx, hy, hne, hzx, hzy, h₁x, h₁y, h₂x, h₂y⟩ := mclFive_witness
-  haveI : Finite NativeSporadic.McL :=
+  have : Finite NativeSporadic.McL :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.McL.card_McL]; norm_num)
   have hsyl : ¬ 5 ^ 4 ∣ Nat.card NativeSporadic.McL := by
     rw [CFSG.Sporadic.McL.card_McL]

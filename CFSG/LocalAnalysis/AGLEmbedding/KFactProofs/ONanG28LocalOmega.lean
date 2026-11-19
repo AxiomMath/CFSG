@@ -201,9 +201,9 @@ theorem forest_root (hD : D.OK) (hq : quadOK tzc = true) {k : ℕ} (hk : k < 5) 
   have h0 : IsCC M tzc 1 := Or.inl (by simp [rho_zE])
   by_cases hk0 : k = 0
   · subst hk0
-    rw [omLo_vals.1, hD.root0, rootElt, if_pos rfl]
+    rw [omLo_vals.1, hD.root0, rootElt, ite_eq_left rfl]
     exact ⟨valid_canonCode valid_tzc, canon_even valid_tzc, isCC_canon M valid_tzc hq h0⟩
-  · rw [hD.roots k (by omega) hk, rootElt, if_neg hk0]
+  · rw [hD.roots k (by omega) hk, rootElt, ite_eq_right hk0]
     have hmem : D.seedW[k - 1]! ∈ D.seedW := by
       rw [getElem!_pos D.seedW (k - 1) (by rw [hD.seed_len]; omega)]
       exact List.getElem_mem _
@@ -441,7 +441,7 @@ theorem omega_main (D : OmCodes) (hK : Nat.card K = 8) (hD : D.OK) :
       Set (adjointGroup .G2 K)) := fun n hn => PX_le_SX M (hpx n hn).1
   have hB0 : B 0 = Subgroup.zpowers (zE M) := by
     show Bsub M (px 0 * rootElt M D (omIdx 0)) = _
-    rw [hrt0, rootElt, if_pos rfl, mul_one, Bsub, conjSub_eq_self_iff]
+    rw [hrt0, rootElt, ite_eq_left rfl, mul_one, Bsub, conjSub_eq_self_iff]
     exact hSX 0 (by norm_num)
   have hmax := maximal_of_trees (A := Subgroup.zpowers (zE M)) hG hSm (by norm_num) B omIdx px
     (fun k => Bsub M (rootElt M D k)) (fun k => omLo (k + 1) - omLo k) hsurj hBinj

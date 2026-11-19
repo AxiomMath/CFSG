@@ -40,7 +40,7 @@ theorem normal_and_index_dvd_six [Finite G] [Finite K] (hS : LocalSetting hω b 
     rw [MulAut.congr_apply]
     simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
     congr 1
-  haveI hInn : Inn.Normal :=
+  have hInn : Inn.Normal :=
     ⟨fun _ ⟨u, hu⟩ σ => ⟨σ u, by
       rw [← hu]
       ext v
@@ -123,7 +123,7 @@ theorem relPPrimeCore_le_centralizer_and_odd_index [Finite G] [Finite K]
   let X : Sylow 2 ↥Cbs := Classical.choice (inferInstance : Nonempty (Sylow 2 ↥Cbs))
   have hXle : (X : Subgroup ↥Cbs) ≤ O.subgroupOf Cbs := by
     intro t ht
-    have hX2 : IsPGroup 2 ↥(X : Subgroup ↥Cbs) := X.isPGroup'
+    have hX2 : IsPGroup 2 ↥(X : Subgroup ↥Cbs) := X.isPGroup
     obtain ⟨n, hn⟩ := hX2 ⟨t, ht⟩
     have ht_ord : orderOf (t : ↥Cbs) ∣ 2 ^ n := by
       have h := (orderOf_dvd_iff_pow_eq_one).mpr hn
@@ -143,7 +143,7 @@ theorem relPPrimeCore_le_centralizer_and_odd_index [Finite G] [Finite K]
         rw [hzeq]
         exact Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩
       exact Subgroup.zpowers_le.mpr ht3 hmem
-    haveI : (O.subgroupOf R).Normal := by
+    have : (O.subgroupOf R).Normal := by
       refine ⟨fun x hx g => ?_⟩
       have hxO : (x : G) ∈ O := Subgroup.mem_subgroupOf.mp hx
       refine Subgroup.mem_subgroupOf.mpr ?_

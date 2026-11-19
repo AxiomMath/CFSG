@@ -114,7 +114,7 @@ theorem primaryMultiplicity_le_three_of_minus_eight
     (hdim : finrank K V = 8) (hminus : ¬ IsPlusType Q) (hx1 : x ≠ 1)
     {h : K[X]} (hh : h ∈ primaryFactors x.toLinearMap) (hne : h ≠ X - 1) :
     primaryMultiplicity x.toLinearMap h ≤ 3 := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hself := selfDual_of_dvd_card_add_one hx (by norm_num [hK]) hh hne
   have hdeg := natDegree_eq_two_of_selfDual hx hK hh hne hself
   have hfix : 2 ≤ finrank K (fixedSpace x) := by
@@ -139,7 +139,7 @@ theorem componentImage_sl2_of_multiplicity_two [Nontrivial V]
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = 4 ∧
       Nonempty (↥(componentImage Q x h) ≃* Matrix.SpecialLinearGroup (Fin 2) F) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hself := selfDual_of_dvd_card_add_one hx (by norm_num [hK]) hh hne
   have hdeg := natDegree_eq_two_of_selfDual hx hK hh hne hself
   obtain ⟨d, ℓ, f, hU, B, hd, hcard, hchar, -, hsymm, hleft, ⟨e⟩⟩ :=
@@ -150,7 +150,7 @@ theorem componentImage_sl2_of_multiplicity_two [Nontrivial V]
   subst hℓ
   have hf : f = 2 := Nat.pow_right_injective le_rfl (hcard.symm.trans hK)
   subst hf
-  haveI := hU.finite
+  have := hU.finite
   obtain ⟨e₂⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2
     hU hsymm hleft hm
   have hFΩ : specialBlock Q x h ≤ orthDerived Q :=
@@ -199,7 +199,7 @@ theorem component_cases_of_not_sl2
       IsEmpty (↥J ⧸ Subgroup.center ↥J ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F))
     (hno16 : ∀ (F : Type) [Field F] [Finite F], Nat.card F = 16 →
       IsEmpty (↥J ⧸ Subgroup.center ↥J ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F)) :
-    ∃ (x : ↥(orthDerived Q)) (hx : OddOrderIsometry Q 5 (x : V ≃ₗ[K] V)),
+    ∃ (x : ↥(orthDerived Q)) (_hx : OddOrderIsometry Q 5 (x : V ≃ₗ[K] V)),
       QuotientGroup.mk x = a ∧
       ((∃ h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap, h ≠ X - 1 ∧
           primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h = 3 ∧
@@ -209,25 +209,25 @@ theorem component_cases_of_not_sl2
           IsPlusType (Q.comp (fixedSpace (x : V ≃ₗ[K] V)).subtype) ∧
           J = fixedComponentImage Q (x : V ≃ₗ[K] V))) := by
   classical
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
-  obtain ⟨x, Rep, hx, Cset, hxa, hRep, hcomp, htype⟩ :=
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  obtain ⟨x, Rep, _hx, Cset, hxa, hRep, hcomp, htype⟩ :=
     exists_components_named Nat.prime_five (by decide) hQ hT
       (by rw [ringChar.eq K 2]; decide) a ha ha1
   have hx1 : (x : V ≃ₗ[K] V) ≠ 1 := by
     intro h
     apply ha1
     rw [← hxa, show x = 1 from Subtype.ext h, QuotientGroup.mk_one]
-  refine ⟨x, hx, hxa, ?_⟩
-  have hft := CFSG.RankThree.PartOne.K159.fixed_type hx Nat.prime_five (by decide)
+  refine ⟨x, _hx, hxa, ?_⟩
+  have hft := CFSG.RankThree.PartOne.K159.fixed_type _hx Nat.prime_five (by decide)
     (by norm_num [hK]) hdim hminus hx1
   rcases hcomp J hJ with ⟨h, hh, hne, hq, rfl⟩ | hJC
   · have hh' := hRep.1 hh
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
-    have hge := two_le_multiplicity_of_quasisimple hx hh' hq
-    have hle := primaryMultiplicity_le_three_of_minus_eight hK hx hdim hminus hx1 hh' hne
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
+    have hge := two_le_multiplicity_of_quasisimple _hx hh' hq
+    have hle := primaryMultiplicity_le_three_of_minus_eight hK _hx hdim hminus hx1 hh' hne
     rcases (show primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h = 2 ∨
       primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h = 3 by omega) with hm | hm
-    · obtain ⟨F, _, _, hF, ⟨e⟩⟩ := componentImage_sl2_of_multiplicity_two hQ hK hx hh' hne hq hm
+    · obtain ⟨F, _, _, hF, ⟨e⟩⟩ := componentImage_sl2_of_multiplicity_two hQ hK _hx hh' hne hq hm
       let eQ := QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)
       exact False.elim ((hno4 F hF).false eQ)
     · exact Or.inl ⟨h, hh', hne, hm, hq, rfl⟩
@@ -238,7 +238,7 @@ theorem component_cases_of_not_sl2
       rcases hft with h2 | ⟨h4, hm⟩ | ⟨h6, hp⟩
       · have hge := hlist.1
         omega
-      · obtain ⟨F, _, _, hF, ⟨e⟩⟩ := fixedComponentImage_sl2_of_fixed_four hQ hK hx h4 hm
+      · obtain ⟨F, _, _, hF, ⟨e⟩⟩ := fixedComponentImage_sl2_of_fixed_four hQ hK _hx h4 hm
         let eQ := QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)
         exact False.elim ((hno16 F hF).false eQ)
       · exact Or.inr ⟨h6, hp, rfl⟩
@@ -371,7 +371,7 @@ theorem componentImage_statedSU_of_multiplicity_three [Nontrivial V]
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (_ : CharP F 2), Nat.card F = 16 ∧
       Nonempty (↥(componentImage Q x h) ≃* ↥(StatedSU 3 4 F)) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hself := selfDual_of_dvd_card_add_one hx (by norm_num [hK]) hh hne
   have hdeg := natDegree_eq_two_of_selfDual hx hK hh hne hself
   obtain ⟨d, ℓ, f, hU, B, hd, hcard, hchar, -, hsymm, hleft, ⟨e⟩⟩ :=
@@ -382,9 +382,9 @@ theorem componentImage_statedSU_of_multiplicity_three [Nontrivial V]
   subst hℓ
   have hf : f = 2 := Nat.pow_right_injective le_rfl (hcard.symm.trans hK)
   subst hf
-  haveI := hU.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hU.charP
+  have := hU.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hU.charP
   have hF : Nat.card (AdjoinRoot h) = (2 ^ 2) ^ 2 := by simpa using hU.card
   obtain ⟨e₀, he₀⟩ := hU.exists_orthonormal_basis hsymm hleft
   let e₁ := e₀.reindex (finCongr hm)

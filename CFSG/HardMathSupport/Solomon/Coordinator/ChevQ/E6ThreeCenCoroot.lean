@@ -27,7 +27,7 @@ theorem cen_iform_single {τ : Tag} (x : Fin τ.rank → ℤ) (j : Fin τ.rank) 
   rw [Finset.sum_eq_single j]
   · simp
   · intro k _ hk
-    simp [Pi.single_apply, hk]
+    simp [hk]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -46,14 +46,14 @@ theorem cen_rootChar_coroot {K : Type} [Field K] (u : Kˣ) (β γ : Fin Tag.E6.r
 
 theorem cen_three_dvd_of_zpow_eq_one {G : Type*} [Group G] {ω : G} (hω3 : ω ^ 3 = 1)
     (hω1 : ω ≠ 1) {m : ℤ} (h : ω ^ m = 1) : (3 : ℤ) ∣ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 := orderOf_dvd_iff_zpow_eq_one.2 h
   rw [orderOf_eq_prime hω3 hω1] at h2
   exact_mod_cast h2
 
 theorem cen_four_le_card {K : Type} [Field K] [Finite K] {ω : Kˣ} (hω3 : ω ^ 3 = 1)
     (hω1 : ω ≠ 1) : 4 ≤ Nat.card K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Kˣ := by
     have h := orderOf_dvd_natCard ω
     rwa [orderOf_eq_prime hω3 hω1] at h

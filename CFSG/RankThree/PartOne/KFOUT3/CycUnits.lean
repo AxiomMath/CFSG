@@ -109,7 +109,7 @@ theorem exists_threeElts {Γ : Type*} [CommGroup Γ] [Finite Γ] :
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 Γ))
   refine ⟨S.toSubgroup, fun g => ⟨fun hg => ?_, fun ⟨n, hn⟩ => ?_⟩, Sylow.card_eq_multiplicity S⟩
-  · obtain ⟨n, hn⟩ := S.isPGroup' ⟨g, hg⟩
+  · obtain ⟨n, hn⟩ := S.isPGroup ⟨g, hg⟩
     exact ⟨n, congrArg Subtype.val hn⟩
   · have hP : IsPGroup 3 (Subgroup.zpowers g) := by
       intro x

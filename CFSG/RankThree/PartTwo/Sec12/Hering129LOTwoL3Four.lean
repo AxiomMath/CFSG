@@ -54,7 +54,7 @@ theorem four_exists_involution_ker {Y L : Type*} [Group Y] [Finite Y] [Group L] 
   obtain ⟨c₁, c₂, hc₁, hc₂, h1, h2, hc1, hc2, hne, hc⟩ := four_mem_sylow hF (S.mapSurjective hφ)
   obtain ⟨s₁, hs₁, rfl⟩ := Subgroup.mem_map.mp hc₁
   obtain ⟨s₂, hs₂, rfl⟩ := Subgroup.mem_map.mp hc₂
-  have hN : IsPGroup 2 ((S : Subgroup Y) ⊓ φ.ker : Subgroup Y) := S.isPGroup'.to_le inf_le_left
+  have hN : IsPGroup 2 ((S : Subgroup Y) ⊓ φ.ker : Subgroup Y) := S.isPGroup.to_le inf_le_left
   rcases hN.card_eq_or_dvd with h1N | h2N
   · exfalso
     have hinj : ∀ x ∈ S, φ x = 1 → x = 1 := fun x hx hφx => by
@@ -83,7 +83,7 @@ theorem four_map_eq_one_of_sq {Y L : Type*} [Group Y] [Finite Y] [Group L] (φ :
   obtain ⟨z, hzS, hz2, hφz⟩ := four_exists_involution_ker φ hφ hF hY S
   have hz1 : z ≠ 1 := (orderOf_eq_prime_iff.mp hz2).2
   have : Nontrivial (S : Subgroup Y) := ⟨⟨⟨z, hzS⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
-  obtain ⟨c, -, hc⟩ := rank_one_two_group_unique_involution S.isPGroup' (four_noCommuting hY S)
+  obtain ⟨c, -, hc⟩ := rank_one_two_group_unique_involution S.isPGroup (four_noCommuting hY S)
   have hw' := hc ⟨⟨w, hw⟩, (Subgroup.orderOf_mk w hw).trans (orderOf_eq_prime hw2 hw1)⟩
   have hz' := hc ⟨⟨z, hzS⟩, (Subgroup.orderOf_mk z hzS).trans hz2⟩
   have hwz : w = z := congrArg (fun t : Involution (S : Subgroup Y) => ((t : S) : Y))

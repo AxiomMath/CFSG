@@ -27,7 +27,7 @@ theorem fzc_sy2_of {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
     rw [inf_eq_left.mpr hQV, hs.card_Q, hq.card_V, hq.card_W, hr] at h1
     omega
   have hV4 : S4A.RankLE (l41V S t x₁ x₂) 4 := S4A.RankLE.of_relIndex_two hQV hrel hQ3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine h.ass (S4A.sectionalTwoRankLE_of_sylow_rank (hV.1.toSylow hV.2) ?_)
   intro X hX
   exact hV4 X (by simpa using hX)

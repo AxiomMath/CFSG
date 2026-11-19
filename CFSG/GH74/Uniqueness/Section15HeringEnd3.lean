@@ -114,7 +114,7 @@ variable {G Ω : Type*} [Group G] [MulAction G Ω] {p : ℕ} {ω : Ω} {K P : Su
 theorem EndHyp.card_sylow [Finite G] (h : EndHyp G Ω p ω K P) (S : Sylow 2 G) :
     Nat.card S = 2 ^ p := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   have hidx : Odd (S : Subgroup G).index :=
     Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp S.not_dvd_index)
   have hG := (S : Subgroup G).card_mul_index
@@ -133,7 +133,7 @@ theorem EndHyp.not_dvd_card_normalizer [Finite G] (h : EndHyp G Ω p ω K P) (S 
     intro hmod
     exact not_dvd_two_pow_sub_one h.prime ((Nat.modEq_iff_dvd' Nat.one_le_two_pow).mp hmod.symm)
   obtain ⟨s, hsS, hs1, hys⟩ := exists_ne_one_commute_of_normalizes (S : Subgroup G) y.2 hyG hS
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨s, hsS⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨s, hsS⟩
   have hn' : s ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
   have ht := orderOf_pow_orderOf_div_two hs1 hn'
   apply h.mul_ne_of_orderOf_eq_two ht h.prime (by have := h.three_le; omega) hyG
@@ -376,7 +376,7 @@ theorem EndHyp.false_of_central_involutions [Finite G] (h : EndHyp G Ω p ω K P
     have htop : N = ⊤ := top_le_iff.mp (h.closure ▸ hcl)
     have hSn : (S : Subgroup G).Normal := Subgroup.normalizer_eq_top_iff.mp htop
     have hSsol : Group.IsSolvable (S : Subgroup G) := by
-      have := S.isPGroup'.isNilpotent
+      have := S.isPGroup.isNilpotent
       infer_instance
     have hbot := h.solvable _ hSn hSsol
     have hc1 : Nat.card (S : Subgroup G) = 1 := by rw [hbot, Subgroup.card_bot]

@@ -50,7 +50,7 @@ private lemma ggQTUbj_delta_of_mem {n : ℕ} {K : Type} [Field K] [Finite K]
       C.ω ^ (((C.ι (Additive.ofMul ⟨b, hb⟩) : ↥(GGQTwoXInLAug n)) :
         Fin (n + 1) → ZMod 3) i).val := by
   funext i
-  simp only [ggQTUbj_delta, dif_pos hb]
+  simp only [ggQTUbj_delta, dite_eq_left hb]
 
 omit [Finite G] in
 private lemma ggQTUbj_pair {n : ℕ} {K : Type} [Field K] [Finite K]

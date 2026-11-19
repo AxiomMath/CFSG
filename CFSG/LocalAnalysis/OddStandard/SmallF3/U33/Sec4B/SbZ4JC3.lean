@@ -33,6 +33,7 @@ private theorem pack_lt :
         65536 := by
   decide +kernel
 
+omit [Finite H] in
 private theorem conj_zjVec (y z v₁ v₂ g : H) (n : ℕ) :
     g * zjVec y z v₁ v₂ n * g⁻¹ =
       (g * y * g⁻¹) ^ (n &&& 1) * (g * z * g⁻¹) ^ ((n >>> 1) &&& 1) *
@@ -74,13 +75,15 @@ namespace ZJBase
 variable {Q Y V V' B : Subgroup H} {ρ t τ l y z v₁ v₂ : H}
 variable (h : ZJBase Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
-private theorem code_pow_conj {g u : H} (hu : u ∈ Y) {b : ℕ} (hb : b < 2) :
+omit [Finite H] in
+private theorem code_pow_conj {g u : H} (_hu : u ∈ Y) {b : ℕ} (hb : b < 2) :
     zjCode y z v₁ v₂ ((g * u * g⁻¹) ^ b) =
       (if b != 0 then zjCode y z v₁ v₂ (g * u * g⁻¹) else 0) := by
   interval_cases b
   · simpa using h.code_one
   · simp
 
+omit [Finite H] in
 private theorem code_mul4 {a b c d : H} (ha : a ∈ Y) (hb : b ∈ Y) (hc : c ∈ Y)
     (hd : d ∈ Y) :
     zjCode y z v₁ v₂ (a * b * c * d) =
@@ -89,6 +92,7 @@ private theorem code_mul4 {a b c d : H} (ha : a ∈ Y) (hb : b ∈ Y) (hc : c �
   rw [h.code_mul (mul_mem (mul_mem ha hb) hc) hd, h.code_mul (mul_mem ha hb) hc,
     h.code_mul ha hb]
 
+omit [Finite H] in
 theorem mat_col (g : H) :
     ZJFin.col (zjMat y z v₁ v₂ g) 0 = zjCode y z v₁ v₂ (g * y * g⁻¹) ∧
     ZJFin.col (zjMat y z v₁ v₂ g) 1 = zjCode y z v₁ v₂ (g * z * g⁻¹) ∧
@@ -101,6 +105,7 @@ theorem mat_col (g : H) :
   unfold zjMat
   exact pack_col ⟨_, h0⟩ ⟨_, h1⟩ ⟨_, h2⟩ ⟨_, h3⟩
 
+omit [Finite H] in
 theorem mat_lt (g : H) : zjMat y z v₁ v₂ g < 65536 := by
   have h0 : zjCode y z v₁ v₂ (g * y * g⁻¹) < 16 := h.code_lt (h.normal_Y g y h.y_mem)
   have h1 : zjCode y z v₁ v₂ (g * z * g⁻¹) < 16 := h.code_lt (h.normal_Y g z h.z_mem)
@@ -109,6 +114,7 @@ theorem mat_lt (g : H) : zjMat y z v₁ v₂ g < 65536 := by
   unfold zjMat
   exact pack_lt ⟨_, h0⟩ ⟨_, h1⟩ ⟨_, h2⟩ ⟨_, h3⟩
 
+omit [Finite H] in
 theorem mat_app {n : ℕ} (hn : n < 16) (g : H) :
     ZJFin.app (zjMat y z v₁ v₂ g) n = zjCode y z v₁ v₂ (g * zjVec y z v₁ v₂ n * g⁻¹) := by
   obtain ⟨hc0, hc1, hc2, hc3⟩ := h.mat_col g
@@ -131,6 +137,7 @@ theorem mat_app {n : ℕ} (hn : n < 16) (g : H) :
   simp only [e0, e1, e2, e3]
   interval_cases n <;> simp
 
+omit [Finite H] in
 theorem mat_mul (g g' : H) :
     zjMat y z v₁ v₂ (g * g') = ZJFin.mmul (zjMat y z v₁ v₂ g) (zjMat y z v₁ v₂ g') := by
   obtain ⟨hb0, hb1, hb2, hb3⟩ := h.mat_col g'
@@ -157,8 +164,9 @@ theorem mat_mul (g g' : H) :
   unfold zjMat
   simp only [e0, e1, e2, e3]
 
+omit [Finite H] in
 theorem mat_one : zjMat y z v₁ v₂ (1 : H) = ZJFin.one := by
-  obtain ⟨hb0, hb1, hb2, hb4, hb8⟩ := h.vec_basis
+  obtain ⟨hb0, hb1, hb2, hb4, hb8⟩ := (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂))
   have c1 : zjCode y z v₁ v₂ y = 1 := by
     have hv := h.code_vec (n := 1) (by norm_num)
     rwa [hb1] at hv
@@ -177,6 +185,7 @@ theorem mat_one : zjMat y z v₁ v₂ (1 : H) = ZJFin.one := by
   rw [c1, c2, c4, c8]
   decide
 
+omit [Finite H] in
 theorem mat_eq_iff (g g' : H) :
     zjMat y z v₁ v₂ g = zjMat y z v₁ v₂ g' ↔ g⁻¹ * g' ∈ centralizer (Y : Set H) := by
   constructor
@@ -221,6 +230,7 @@ theorem mat_eq_iff (g g' : H) :
     unfold zjMat
     simp only [e0, e1, e2, e3]
 
+omit [Finite H] in
 theorem mat_mem_P (g : H) : zjMat y z v₁ v₂ g ∈ ZJFin.Plist := by
   have hyV : y ∈ V := by rw [h.V_eq]; exact Subgroup.subset_closure (by simp)
   have hzV : z ∈ V := by rw [h.V_eq]; exact Subgroup.subset_closure (by simp)
@@ -241,7 +251,7 @@ theorem mat_mem_P (g : H) : zjMat y z v₁ v₂ g ∈ ZJFin.Plist := by
     have hgy : g * y * g⁻¹ = 1 := by
       have hv := h.vec_code hcy
       rw [hz0] at hv
-      rw [h.vec_basis.1] at hv
+      rw [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).1] at hv
       exact hv.symm
     have hy1 : y = 1 := by
       calc y = g⁻¹ * (g * y * g⁻¹) * g := by group
@@ -252,7 +262,7 @@ theorem mat_mem_P (g : H) : zjMat y z v₁ v₂ g ∈ ZJFin.Plist := by
     have hgz : g * z * g⁻¹ = 1 := by
       have hv := h.vec_code hcz
       rw [hz0] at hv
-      rw [h.vec_basis.1] at hv
+      rw [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).1] at hv
       exact hv.symm
     have hz1 : z = 1 := by
       calc z = g⁻¹ * (g * z * g⁻¹) * g := by group
@@ -329,6 +339,7 @@ theorem mat_mem_P (g : H) : zjMat y z v₁ v₂ g ∈ ZJFin.Plist := by
   · rw [(h.mat_col g).2.2.2]; exact hc3
   · rw [(h.mat_col g).2.2.1, (h.mat_col g).2.2.2]; exact hc23
 
+omit [Finite H] in
 theorem card_range_mat :
     Nat.card (Set.range (zjMat y z v₁ v₂)) * Nat.card (centralizer (Y : Set H)) =
       Nat.card H := by

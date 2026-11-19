@@ -17,10 +17,12 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
+omit [Finite G] in
 private theorem conjSubgroup_sup' (A B : Subgroup G) (x : G) :
     conjSubgroup (A ⊔ B) x = conjSubgroup A x ⊔ conjSubgroup B x :=
   Subgroup.map_sup A B _
 
+omit [Finite G] in
 private theorem le_normalizer_inf_centralizer_conjClosure {Z A : Subgroup G} :
     A ≤ normalizer ((A ⊓ centralizer (conjClosure Z A : Set G) : Subgroup G) : Set G) := by
   intro a ha
@@ -34,11 +36,11 @@ private theorem le_normalizer_inf_centralizer_conjClosure {Z A : Subgroup G} :
 
 theorem le_conjSubgroup_of_relIndex_two_pow (h1 : W16One G) (h15 : W16Fifteen G) (hS : Std15 G)
     (c : Cfg1620 M V₀ V U S R H g B) {X : Subgroup G}
-    (hCX : H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G) ≤ X) (hXH : X ≤ H)
+    (_hCX : H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G) ≤ X) (hXH : X ≤ H)
     (hXn : (X.subgroupOf H).Normal)
     (hX2 : ∃ k : ℕ, (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)).relIndex X = 2 ^ k)
     {h : G} (hh : h ∈ H) : X ≤ conjSubgroup M h := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := c.cex.V_le_S.trans (c.S_le.trans c.mem.1)
   have hCHM : H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G) ≤ M := by
     intro x hx
@@ -130,7 +132,7 @@ theorem not_le_centralizer_conjClosure (h1 : W16One G) (h5 : W16Five G) (h15 : W
 theorem conjSubgroup_le_sup_iff (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G)
     (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B) {y : G} (hy : y ∈ H) :
     conjSubgroup V y ≤ V ⊔ (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)) ↔ y ∈ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := c.cex.V_le_S.trans (c.S_le.trans c.mem.1)
   let C : Subgroup G := H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)
   have hHnormC : H ≤ normalizer (C : Set G) :=

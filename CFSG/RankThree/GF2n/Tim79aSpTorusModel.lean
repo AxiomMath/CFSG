@@ -41,8 +41,7 @@ theorem tor_triple_mulVec [CharP F 2] (a a' x : Fin n ⊕ Fin n → F) (r s : F)
         (r * spForm a' x + r * s * spForm a a' * spForm a x) • a' := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   rw [← mulVec_mulVec, ← mulVec_mulVec]
-  simp only [spTrans_mulVec, spForm_add_left, spForm_add_right, spForm_smul_left',
-    spForm_smul_right', spForm_self, tor_spForm_swap a a']
+  simp only [spTrans_mulVec, spForm_add_right, spForm_smul_right', spForm_self, tor_spForm_swap a a']
   linear_combination (norm := module) h2 • ((s * spForm a x) • a)
 
 @[expose] def torDmap (a a' : Fin n ⊕ Fin n → F) (μ : F) (x : Fin n ⊕ Fin n → F) :
@@ -71,12 +70,12 @@ theorem tor_torDmap_comp [CharP F 2] {a a' : Fin n ⊕ Fin n → F} (hβ : spFor
   have hdq : spForm a' x / spForm a a' * spForm a a' = spForm a' x := div_mul_cancel₀ _ hβ
   have hpa : spForm a (torDmap a a' ν x) = ν⁻¹ * spForm a x := by
     rw [tor_torDmap_apply]
-    simp only [spForm_add_right, spForm_smul_right', spForm_self, mul_zero, zero_add, add_zero]
+    simp only [spForm_add_right, spForm_smul_right', spForm_self, mul_zero, add_zero]
     linear_combination (ν⁻¹ - 1) * hdb
   have hqa : spForm a' (torDmap a a' ν x) = ν * spForm a' x := by
     rw [tor_torDmap_apply]
     simp only [spForm_add_right, spForm_smul_right', spForm_self, tor_spForm_swap a a',
-      mul_zero, zero_add, add_zero]
+      mul_zero, add_zero]
     linear_combination (ν - 1) * hdq
   rw [tor_torDmap_apply a a' μ, hqa, hpa]
   simp only [tor_torDmap_apply]
@@ -87,7 +86,7 @@ theorem tor_orderOf_three [CharP F 2] {a a' : Fin n ⊕ Fin n → F} {x y : Stat
     (hr : r * (s * spForm a a' * spForm a a') = 1)
     (hx : SpExtras.mat n F x = spTrans a s) (hy : SpExtras.mat n F y = spTrans a' r) :
     orderOf (x * y) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hcube, hne⟩ := tim79a_braid_key ha hB hs hr
   apply orderOf_eq_prime
   · apply SpExtras.mat_injective
@@ -115,12 +114,12 @@ theorem tor_torus_mulVec [CharP F 2] {a a' : Fin n ⊕ Fin n → F} (hβ : spFor
     module
   have hpy : spForm a y = r₁ * spForm a a' * spForm a' x := by
     rw [hy]
-    simp only [spForm_add_right, spForm_smul_right', spForm_self, mul_zero, zero_add, add_zero]
+    simp only [spForm_add_right, spForm_smul_right', spForm_self, mul_zero, add_zero]
     linear_combination (spForm a x) * e1 + (spForm a x) * h2
   have hqy : spForm a' y = spForm a a' * spForm a x := by
     rw [hy]
     simp only [spForm_add_right, spForm_smul_right', spForm_self, tor_spForm_swap a a',
-      mul_zero, zero_add, add_zero]
+      mul_zero, add_zero]
     linear_combination (spForm a' x + spForm a a' * spForm a x) * e1 + (spForm a' x) * h2
   have hA : (r₁ * spForm a a' * spForm a' x + r₁ * (spForm a a' * spForm a a') * spForm a x) +
       (s * (s⁻¹ * r₁) * spForm a a' * (spForm a a' * spForm a x) +

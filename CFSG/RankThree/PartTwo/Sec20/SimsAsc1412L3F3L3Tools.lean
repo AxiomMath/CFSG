@@ -41,8 +41,7 @@ private theorem cayley_hamilton_three {R : Type*} [CommRing R] (Y : Matrix (Fin 
     Y * Y * Y = Y.trace • (Y * Y) - c2 Y • Y + Y.det • (1 : Matrix (Fin 3) (Fin 3) R) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.trace_fin_three, Matrix.det_fin_three, c2,
-      Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.trace_fin_three, Matrix.det_fin_three, c2] <;> ring
 
 private theorem two_mul_c2 {R : Type*} [CommRing R] (Y : Matrix (Fin 3) (Fin 3) R) :
     2 * c2 Y = Y.trace ^ 2 - (Y * Y).trace := by
@@ -53,7 +52,7 @@ private theorem det_smul_one_add_smul {R : Type*} [CommRing R] (c s : R)
     (E : Matrix (Fin 3) (Fin 3) R) :
     (c • (1 : Matrix (Fin 3) (Fin 3) R) + s • E).det =
       c ^ 3 + c ^ 2 * s * E.trace + c * s ^ 2 * c2 E + s ^ 3 * E.det := by
-  simp [Matrix.det_fin_three, Matrix.trace_fin_three, c2, Matrix.one_apply]
+  simp [Matrix.det_fin_three, Matrix.trace_fin_three, c2]
   ring
 
 private theorem order_three_data {p : ℕ} [Fact p.Prime] (hp : p % 3 = 2)
@@ -91,7 +90,7 @@ private theorem order_three_data {p : ℕ} [Fact p.Prime] (hp : p % 3 = 2)
     rw [h4, h8, one_smul]
   have hC : c2 Y = 0 := by
     have h9 := congrFun (congrFun h2 0) 0
-    simp [hT, Matrix.one_apply] at h9
+    simp [hT] at h9
     exact h9.symm
   refine ⟨hT, hC, ?_⟩
   have h10 := two_mul_c2 Y
@@ -148,7 +147,7 @@ private theorem exists_idempotent {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) (hp : p
     have hCH := cayley_hamilton_three e
     rw [hee, hee, htr, hc2] at hCH
     have h7 := congrFun (congrFun hCH 0) 0
-    simp [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply] at h7
+    simp [Matrix.add_apply, Matrix.smul_apply] at h7
     exact h7
   exact ⟨e, hee, hYe, htr, hc2, hd⟩
 
@@ -242,7 +241,7 @@ theorem exists_commuting_scaling {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) (hp : p 
   have hform : c • (1 - e) + d • e = c • (1 : Matrix (Fin 3) (Fin 3) (ZMod p)) + (d - c) • e := by
     ext i j
     by_cases hij : i = j <;>
-      simp [Matrix.add_apply, Matrix.smul_apply, Matrix.sub_apply, Matrix.one_apply, hij] <;>
+      simp [Matrix.add_apply, Matrix.smul_apply, Matrix.sub_apply, hij] <;>
       ring
   refine ⟨c • (1 - e) + d • e, ?_, ?_, fun M hMt hiso => ?_⟩
   · rw [hform, det_smul_one_add_smul, hte, hc2e, hde]
@@ -256,12 +255,12 @@ theorem exists_commuting_scaling {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) (hp : p 
 private theorem adMat_u_mulVec {K : Type*} [Field K] (w : Fin 3 → K) :
     adMat (1 : K) 1 0 1 *ᵥ w = ![w 0 - 2 * w 1 - w 2, w 1 + w 2, w 2] := by
   ext i
-  fin_cases i <;> simp [adMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> simp [adMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three]; ring
 
 private theorem adMat_v_mulVec {K : Type*} [Field K] (w : Fin 3 → K) :
     adMat (1 : K) 0 1 1 *ᵥ w = ![w 0, -w 0 + w 1, -w 0 + 2 * w 1 + w 2] := by
   ext i
-  fin_cases i <;> simp [adMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> simp [adMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
 
 private theorem irreducible_adMat {K : Type*} [Field K] (h2 : (2 : K) ≠ 0)
     (W : Submodule K (Fin 3 → K)) (hU : ∀ w ∈ W, adMat (1 : K) 1 0 1 *ᵥ w ∈ W)
@@ -272,14 +271,14 @@ private theorem irreducible_adMat {K : Type*} [Field K] (h2 : (2 : K) ≠ 0)
     rw [adMat_u_mulVec] at this
     convert this using 1
     ext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp; ring
   have hNV : ∀ w ∈ W, (![0, -w 0, -w 0 + 2 * w 1] : Fin 3 → K) ∈ W := by
     intro w hw
     have := W.sub_mem (hV w hw) hw
     rw [adMat_v_mulVec] at this
     convert this using 1
     ext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp
   have h2' : (-2 : K) ≠ 0 := neg_ne_zero.mpr h2
   have he0 : W ≠ ⊥ → (![1, 0, 0] : Fin 3 → K) ∈ W := by
     intro hbot
@@ -299,13 +298,13 @@ private theorem irreducible_adMat {K : Type*} [Field K] (h2 : (2 : K) ≠ 0)
         have hne : (-2 * w 1) ≠ 0 := mul_ne_zero h2' h1w
         convert h3 using 1
         ext i
-        fin_cases i <;> simp [h2w, hne] <;> field_simp
+        fin_cases i <;> simp [h2w]; field_simp
     · have h1 := hNU _ (hNU w hw)
       have h3 := W.smul_mem (-2 * w 2)⁻¹ h1
       have hne : (-2 * w 2) ≠ 0 := mul_ne_zero h2' h2w
       convert h3 using 1
       ext i
-      fin_cases i <;> simp [hne] <;> field_simp
+      fin_cases i <;> simp; field_simp
   by_cases hbot : W = ⊥
   · exact Or.inl hbot
   · right
@@ -316,7 +315,7 @@ private theorem irreducible_adMat {K : Type*} [Field K] (h2 : (2 : K) ≠ 0)
       have h3 := W.smul_mem (-2 : K)⁻¹ h1
       convert h3 using 1
       ext i
-      fin_cases i <;> simp [h2'] <;> field_simp
+      fin_cases i <;> simp; field_simp
     have e1 : (![0, 1, 0] : Fin 3 → K) ∈ W := by
       have h1 := W.add_mem hx e2
       have h3 := W.smul_mem (-1 : K) h1

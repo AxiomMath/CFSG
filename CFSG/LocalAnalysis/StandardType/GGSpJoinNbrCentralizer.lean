@@ -46,6 +46,7 @@ section Pieces
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem center_range_statedSp_eq_bot {n : ℕ} {F : Type} [Field F] [CharP F 2]
     (φ : StatedSp n F →* G) (hinj : Function.Injective φ) : Subgroup.center φ.range = ⊥ := by
   have hZsp : Subgroup.center (StatedSp n F) = ⊥ := by
@@ -183,7 +184,7 @@ theorem ggSpNbrCentralizerInput_of_atL (hMp : GGInnerDiagMpInput) (hlift : GGSpL
   have h3b := ggSpStdSubCentralizer_of_levi hMp hlift hLevi hcfg hat.2.1 hat.2.2.1 hat.2.2.2.1 hN
   have hJK' : J ≤ K' := hsub G p B x L D J hcfg.1 hcfg.2.2 y' K' hnbr
   have hp : p.Prime := hcfg.1.2.2.2.2.2.1.1
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hy : orderOf y' = p := orderOf_eq_prime (hnbr.1.1.1.2 y' hnbr.1.2.1) hnbr.1.2.2.1
   have hle : Bs ⊓ Subgroup.centralizer (K' : Set G) ≤ Subgroup.zpowers y' := by
     rintro c ⟨hcBs, hcK⟩

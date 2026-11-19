@@ -247,6 +247,7 @@ theorem pbOK_of : pbOK mus 81 = true := by
       exact e
 
 include hMs hM hMc hrun htree hmt in
+omit htree in
 theorem nonabOK_of (h : nonabK MTK = true) : nonabOK mus 81 = true := by
   obtain ⟨-, -, -, hinj, -⟩ := run_facts hrun
   have hP := fun k (hk : k < 81) => PP_L hrun hk

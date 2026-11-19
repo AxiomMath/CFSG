@@ -104,7 +104,7 @@ theorem four_dvd_zeroBlock_of_full_planeFrame
   have hπi : π.symm i = j := by simp [π]
   have hπj : π.symm j = i := by simp [π]
   have hd₂i : k i d₂ = α⁻¹ := by
-    rw [hd₂ i, if_neg hij, hπi, hd₁ j, if_pos rfl, hπj, hdi]
+    rw [hd₂ i, ite_eq_right hij, hπi, hd₁ j, ite_eq_left rfl, hπj, hdi]
   have hR2d : R ^ 2 * (d : StatedSp n K) * (R ^ 2)⁻¹ = d₂ := by
     calc R ^ 2 * (d : StatedSp n K) * (R ^ 2)⁻¹ = R * (R * d * R⁻¹) * R⁻¹ := by rw [pow_two]; group
       _ = R * d₁ * R⁻¹ := by rw [hRd]

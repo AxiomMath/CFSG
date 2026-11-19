@@ -56,7 +56,7 @@ theorem not_card_three_of_isMaximal_aux {Γ : Type*} [Group Γ] [Finite Γ]
   have hE9'e : IsElemAbelian 3 E9' := isElemAbelian_map' hE9e _
   have hE9'c : Nat.card E9' = 9 := by
     rw [hE9', Subgroup.card_map_of_injective (MulAut.conj g).injective, hE9c]
-  have hP1 : IsPGroup 3 (P1 : Subgroup Γ) := P1.isPGroup'
+  have hP1 : IsPGroup 3 (P1 : Subgroup Γ) := P1.isPGroup
   have hnt : Nontrivial (P1 : Subgroup Γ) := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     have : (3 : ℕ) ∣ Nat.card (P1 : Subgroup Γ) := by
@@ -141,7 +141,7 @@ theorem exists_fixed_three_element {H : Type*} [Group H] [Finite H]
       have h2 := h.symm.trans this
       exact absurd h2 (by decide)
     obtain ⟨Q₀, hQ₀⟩ := hBp.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 3 Y) hcard
-    refine ⟨(Q₀ : Subgroup Y).map Y.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup'.map _,
+    refine ⟨(Q₀ : Subgroup Y).map Y.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup.map _,
       fun n hn => ?_, ?_⟩
     · rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective Y)]
       exact Q₀.pow_dvd_card_of_pow_dvd_card hn

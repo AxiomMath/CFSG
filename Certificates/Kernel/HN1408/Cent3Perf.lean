@@ -50,6 +50,7 @@ theorem e_inj {n n' : Nat} (hn : n < 60) (hn' : n' < 60) (h : E n = E n') : n = 
 variable (hC : Nat.card cC = 1440)
 include hC
 
+omit hC in
 theorem gen_mP {l : Nat} (hl : l < 2) : el (MG l) ∈ mP := by
   apply Subgroup.subset_closure
   interval_cases l
@@ -74,7 +75,7 @@ theorem e_mem : ∀ n < 60, el (E n) ∈ mP := by
       have hp := Nat.blt_eq.mp a
       have hl := Nat.blt_eq.mp b
       rw [← el_mul hC (mg_lt hl) (e_parts (by omega)).1 (e_parts hn).1 c]
-      exact mul_mem (gen_mP hC hl) (ih _ hp (by omega))
+      exact mul_mem (gen_mP hl) (ih _ hp (by omega))
 
 theorem cl_row {n l : Nat} (hn : n < 60) (hl : l < 2) :
     fd (ECl n) l < 60 ∧ el (MG l) * el (E n) = el (E (fd (ECl n) l)) := by

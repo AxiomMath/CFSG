@@ -49,7 +49,7 @@ section Certified
 
 theorem sec33_data [Finite G] {A Abar S₀ B : Subgroup G} {s : G} (hC : Sec3Ctx A Abar S₀ B)
     (hs : Section3.IsSChoice A Abar S₀ B s) (hq : 2 < Section3.q A Abar)
-    [hNn : ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal] :
+    [_hNn : ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal] :
     Sec32dData (↥(Section3.Y A Abar s))
       ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s))
       {t | (t : G) ∈ Section4.D A Abar s} := by
@@ -139,7 +139,7 @@ theorem sec33_data [Finite G] {A Abar S₀ B : Subgroup G} {s : G} (hC : Sec3Ctx
       unfold Section3.q at hq
       rw [h1] at hq
       exact hq
-    obtain ⟨a, haA, ha0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hA0A hC.a0_ne)
+    obtain ⟨a, haA, ha0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hA0A hC.a0_ne)
     obtain ⟨a', ha'A, ha'0, hla⟩ :=
       sec32d_exists_third hC hC.hyp.elemAbelian hq' haA ha0
     have hainv : a⁻¹ = a :=
@@ -246,7 +246,7 @@ theorem sec33Tau_mk {Y N : Subgroup G} [hNn : (N.subgroupOf Y).Normal] {s : G}
     sec33Tau hs hsN (QuotientGroup.mk z) = QuotientGroup.mk (sec33ConjAut Y hs z) :=
   QuotientGroup.congr_mk _ _ _ _ z
 
-theorem sec33_mk_eq_iff {Y N : Subgroup G} [hNn : (N.subgroupOf Y).Normal] (y z : ↥Y) :
+theorem sec33_mk_eq_iff {Y N : Subgroup G} [_hNn : (N.subgroupOf Y).Normal] (y z : ↥Y) :
     (QuotientGroup.mk y : ↥Y ⧸ N.subgroupOf Y) = QuotientGroup.mk z ↔
       (y : G)⁻¹ * z ∈ N := by
   rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
@@ -255,7 +255,7 @@ theorem sec33_mk_eq_iff {Y N : Subgroup G} [hNn : (N.subgroupOf Y).Normal] (y z 
 def sec33Fix (Y N : Subgroup G) (s : G) (hYN : ∀ y ∈ Y, y ∈ normalizer (N : Set G)) :
     Subgroup G where
   carrier := {y | y ∈ Y ∧ s * y * s⁻¹ * y⁻¹ ∈ N}
-  one_mem' := ⟨Subgroup.one_mem _, by simpa using N.one_mem⟩
+  one_mem' := ⟨Subgroup.one_mem _, by simp⟩
   mul_mem' := by
     rintro a b ⟨haY, ha⟩ ⟨hbY, hb⟩
     refine ⟨Subgroup.mul_mem _ haY hbY, ?_⟩
@@ -351,7 +351,7 @@ theorem sec33_not_central [Finite G] {A Abar S₀ B : Subgroup G} {s : G}
     (QuotientGroup.mk ⟨a₀, sec32d_A_le_Y ha₀⟩ : ↥(Section3.Y A Abar s) ⧸
       (Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)) ∉ Subgroup.center _ := by
   intro hcen
-  obtain ⟨u, huAb, huL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hC.setup.Lb_le hC.setup.Lb_ne)
+  obtain ⟨u, huAb, huL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hC.setup.Lb_le hC.setup.Lb_ne)
   have hodd := hC.setup.odd_orderOf_mul ha₀ ha₀L huAb huL
   have huY : u ∈ Section3.Y A Abar s := sec32d_Abar_le_Y huAb
   set x : ↥(Section3.Y A Abar s) := ⟨a₀, sec32d_A_le_Y ha₀⟩ with hx

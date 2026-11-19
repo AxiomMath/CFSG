@@ -148,19 +148,19 @@ theorem three_mul_finrank_eig_le [FiniteDimensional K V] {g h : V ≃ₗ[K] V} {
         intro μ hμ
         simp only [Finset.mem_insert, Finset.mem_singleton] at hμ
         rcases hμ with rfl | rfl | rfl
-        · simp only [if_true]; exact a.2
-        · simp only [hω1, if_false, if_true]; exact hb'
-        · simp only [hω21, hωω2.symm, if_false]; exact hd')
+        · simp only [ite_true]; exact a.2
+        · simp only [hω1, ite_false, ite_true]; exact hb'
+        · simp only [hω21, hωω2.symm, ite_false]; exact hd')
       (by
         rw [Finset.sum_insert (by simp [hω1.symm, hω21.symm]),
           Finset.sum_insert (by simp [hωω2]), Finset.sum_singleton]
-        simp only [if_true, hω1, if_false, hω21, hωω2.symm]
+        simp only [ite_true, hω1, ite_false, hω21, hωω2.symm]
         rw [← add_assoc]
         exact hz)
     have h1 := key 1 (by simp)
     have h2 := key ω (by simp)
     have h3 := key (ω ^ 2) (by simp)
-    simp only [if_true, hω1, if_false, hω21, hωω2.symm] at h1 h2 h3
+    simp only [ite_true, hω1, ite_false, hω21, hωω2.symm] at h1 h2 h3
     have hb0 : (b : V) = 0 := by
       have : h.symm (h (b : V)) = h.symm 0 := by rw [h2]
       simpa using this

@@ -56,7 +56,7 @@ theorem s16c11_modelRF3_orthMinus_zmod_struct {m : ℕ} (hm : m = 3 ∨ m = 4) :
         (⊥ : Subgroup (Multiplicative (S16C11FrIdx m → ZMod 2)))) ∧
       ∃ g ∈ X, natAct (S16C11FrO m) g y * y⁻¹ ∉
         (⊥ : Subgroup (Multiplicative (S16C11FrIdx m → ZMod 2)))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀ : Sylow 2 ↥(s16c11FrP m)⟩ :=
     Sylow.nonempty (p := 2) (G := ↥(s16c11FrP m))
   let T : Subgroup ↥(S16C11FrO m) := (T₀ : Subgroup ↥(s16c11FrP m)).map (s16c11FrP m).subtype
@@ -64,7 +64,7 @@ theorem s16c11_modelRF3_orthMinus_zmod_struct {m : ℕ} (hm : m = 3 ∨ m = 4) :
     intro x hx
     obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.1 hx
     exact y.2
-  have hT2 : IsPGroup 2 ↥T := (Sylow.isPGroup' T₀).map (s16c11FrP m).subtype
+  have hT2 : IsPGroup 2 ↥T := (Sylow.isPGroup T₀).map (s16c11FrP m).subtype
   have hsub : T.subgroupOf (s16c11FrP m) = (T₀ : Subgroup ↥(s16c11FrP m)) := by
     change Subgroup.comap (s16c11FrP m).subtype
       (Subgroup.map (s16c11FrP m).subtype (T₀ : Subgroup ↥(s16c11FrP m))) = _

@@ -25,7 +25,7 @@ private lemma a11ge_two_ne_zero : (2 : ZMod 7) ≠ 0 := by decide
 private lemma a11ge_single_vecMul (A : M4) (i : Fin 4) :
     vecMul (Pi.single i 1) A = A i := by
   funext j
-  simp [Matrix.vecMul, dotProduct, Pi.single_apply, Finset.sum_ite_eq, Finset.mem_univ]
+  simp [Matrix.vecMul, dotProduct, Pi.single_apply, Finset.mem_univ]
 
 private lemma a11ge_matrix_eq_of_rows {A B : M4}
     (h : ∀ i, vecMul (Pi.single i (1 : ZMod 7)) A =
@@ -36,9 +36,9 @@ private lemma a11ge_matrix_eq_of_rows {A B : M4}
 
 private lemma a11ge_vecMul_a8Dscal (a u : ZMod 7) (hu : u ≠ 0) :
     vecMul ![a, u, u, u] (a8Dscal u⁻¹) = ![a, 1, 1, 1] := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   funext j
-  fin_cases j <;> simp [a8Dscal, Matrix.vecMul, dotProduct, Fin.sum_univ_four, Matrix.diagonal]
+  fin_cases j <;> simp [a8Dscal, Matrix.vecMul, dotProduct, Matrix.diagonal]
   all_goals exact mul_inv_cancel₀ hu
 
 private lemma a11ge_det_ne_zero_of_mul_eq_one {A B : M4} (h : A * B = 1) : A.det ≠ 0 := by
@@ -49,7 +49,7 @@ private lemma a11ge_det_ne_zero_of_mul_eq_one {A B : M4} (h : A * B = 1) : A.det
 
 private lemma a11ge_mul_comm_of_mul_eq_one {A B : M4} (h : A * B = 1) : B * A = 1 := by
   have hdet : Invertible A.det := Matrix.detInvertibleOfRightInverse (A := A) (B := B) h
-  letI : Invertible A := Matrix.invertibleOfDetInvertible (A := A)
+  let : Invertible A := Matrix.invertibleOfDetInvertible (A := A)
   rw [← Matrix.inv_eq_right_inv h, Matrix.inv_mul_of_invertible]
 
 private def a11ge_matAddEquiv (m m' : M4) (hm : m * m' = 1) :
@@ -64,7 +64,6 @@ private def a11ge_matAddEquiv (m m' : M4) (hm : m * m' = 1) :
     change vecMul (vecMul v m') m = v
     rw [Matrix.vecMul_vecMul, hm', Matrix.vecMul_one]
   map_add' v w := by
-    change vecMul (v + w) m = vecMul v m + vecMul w m
     rw [Matrix.add_vecMul]
 
 private noncomputable def a11ge_matAut {G : Type} [Group G] {Bs : Subgroup G}
@@ -87,7 +86,7 @@ private lemma a11ge_decomp {G : Type} [Group G] {Bs : Subgroup G}
     (e f : Additive ↥Bs ≃+ (Fin 4 → ZMod 7)) :
     ∀ b : Additive ↥Bs, f b =
       vecMul (e b) (Matrix.of fun i j => f (e.symm (Pi.single i 1)) j) := by
-  letI : AddCommMonoid (Additive ↥Bs) :=
+  let : AddCommMonoid (Additive ↥Bs) :=
     { (inferInstance : AddMonoid (Additive ↥Bs)) with
       add_comm := fun x y => e.injective (by rw [map_add, map_add, add_comm]) }
   intro b
@@ -383,7 +382,7 @@ private lemma a11ge_exists_alpha (u : ZMod 7) (hu : u ≠ 0)
     rw [ZMod.inv_eq_of_mul_eq_one 7 6 6 (by decide)]
     rw [show (-(vecMul f (a8MonK3 π k))) = (6 : ZMod 7) • vecMul f (a8MonK3 π k) from by
       rw [show (6 : ZMod 7) = -1 from by decide]
-      simpa using (neg_smul (1 : ZMod 7) (vecMul f (a8MonK3 π k))).symm]
+      simp]
 
 private lemma a11ge_blk_zero_zero (M : M3) : Certificates.A8Nbr476.blk M 0 0 = 1 := by
   simp [Certificates.A8Nbr476.blk]
@@ -437,7 +436,7 @@ private lemma a11ge_vecMul_a8MonK_succ (v : Fin 4 → ZMod 7) (π : Equiv.Perm (
 private lemma a11ge_vecMul_single_blk (M : M3) :
     vecMul (Pi.single (0 : Fin 4) 1) (Certificates.A8Nbr476.blk M) = Pi.single 0 1 := by
   funext j
-  fin_cases j <;> simp [a11ge_single_vecMul, Certificates.A8Nbr476.blk]
+  fin_cases j <;> simp [Certificates.A8Nbr476.blk]
 
 private lemma a11ge_T_eq_blk (u : ZMod 7) (π : Equiv.Perm (Fin 3)) (k : Fin 3 → ZMod 3) :
     a8MonK π k * a8Dscal u⁻¹ = Certificates.A8Nbr476.blk (u⁻¹ • a8MonK3 π k) := by
@@ -522,7 +521,7 @@ private lemma a11ge_excCases_a_ne_zero {c : Case} (hc : c ∈ excCases) : c.2.1 
 
 theorem a11GlueExtInput_holds : A11GlueExtInput := by
   intro G _ Bs L K J hNT hJK xb y hy hJx ρ ιK ιL hF hK hV hLx hL hLJ
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P, Q, hP, hPQ, hQP⟩ := a11ge_exists_frame ιK ιL
   have hdetP : P.det ≠ 0 := a11ge_det_ne_zero_of_mul_eq_one hPQ
   obtain ⟨ψ1, hψ1J, hψ1L⟩ := hLJ (Equiv.swap 1 2) (by decide)

@@ -200,8 +200,8 @@ theorem exists_normalizing_conj (P : Sylow 2 G) {x y g : G}
     have h1 := Subgroup.relIndex_mul_index hQ
     exact Q.not_dvd_index (by rw [← h1]; exact Dvd.dvd.mul_right hd _)
   obtain ⟨c, hcC, hc⟩ := exists_conj_two_sylow (C := C) (P₁ := (P : Subgroup G))
-    (P₂ := ((g • P : Sylow 2 G) : Subgroup G)) ⟨hPC, P.isPGroup', hodd P hPC⟩
-    ⟨hP'C, (g • P).isPGroup', hodd (g • P) hP'C⟩
+    (P₂ := ((g • P : Sylow 2 G) : Subgroup G)) ⟨hPC, P.isPGroup, hodd P hPC⟩
+    ⟨hP'C, (g • P).isPGroup, hodd (g • P) hP'C⟩
   have hmem : ∀ w, w ∈ ((g • P : Sylow 2 G) : Subgroup G) ↔ g⁻¹ * w * g ∈ (P : Subgroup G) := by
     intro w
     rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
@@ -228,7 +228,7 @@ theorem exists_sylow (hTp : IsPGroup 2 T) (hTH : T ≤ centralizer ({t} : Set G)
     ∃ P : Sylow 2 G, (P : Subgroup G) = T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hTp.exists_le_sylow
-  exact ⟨P, h.eq_of_le hTH hTmax P.isPGroup' hP⟩
+  exact ⟨P, h.eq_of_le hTH hTmax P.isPGroup hP⟩
 
 theorem eq_of_conj (P : Sylow 2 G) (hP : (P : Subgroup G) = T) {g : G}
     (hg : ∀ w ∈ T, (g * t * g⁻¹) * w = w * (g * t * g⁻¹)) : g * t * g⁻¹ = t := by

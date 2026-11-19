@@ -57,7 +57,7 @@ theorem false_of_fixed_central {X : Type} [Group X] [Finite X] (hX : Group.IsPer
   have hβ₁2 := restrictAut_sq (QuotientGroup.congr Z Z α hZα) (quotient_congr_sq α hα Z hZα)
     Pb hPbα
   have hβ₁fix := card_fixedSubgroup_quotient_le_two α hα Z P hZc hZP hZα hZcyc hfix hPbα
-  have hPb2 : IsPGroup 2 Pb := P.isPGroup'.map π
+  have hPb2 : IsPGroup 2 Pb := P.isPGroup.map π
   let f : (P : Subgroup X) →* Pb := π.subgroupMap (P : Subgroup X)
   have hf : Function.Surjective f := π.subgroupMap_surjective _
   have hfker : f.ker = Z.subgroupOf (P : Subgroup X) := by
@@ -77,7 +77,7 @@ theorem false_of_fixed_central {X : Type} [Group X] [Finite X] (hX : Group.IsPer
     rw [Subgroup.mem_center_iff]
     intro q
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hZc hp) q)
-  have h8 := central_sylow_commutator P hZc (P.isPGroup'.to_le hZP)
+  have h8 := central_sylow_commutator P hZc (P.isPGroup.to_le hZP)
   rw [show commutator X = ⊤ from hX.commutator_eq_top, inf_top_eq] at h8
   have hZD : f.ker ≤ commutator (P : Subgroup X) := by
     rw [hfker]
@@ -139,7 +139,7 @@ theorem false_of_fixed_central {X : Type} [Group X] [Finite X] (hX : Group.IsPer
             (Subgroup.card_map_of_injective (P : Subgroup X).subtype_injective).symm
         _ ≤ Nat.card Z := Subgroup.card_le_of_le hle
         _ ≤ 2 := hZcard
-    rcases involutory_automorphism_shape P.isPGroup' _ hβ₂2 hβ₂fix with hPA | hPB
+    rcases involutory_automorphism_shape P.isPGroup _ hβ₂2 hβ₂fix with hPA | hPB
     · apply hsu
       have := hPA ⟨s, hsP⟩ ⟨u, huP⟩ (by rw [Subgroup.orderOf_mk]; exact hs)
         (by rw [Subgroup.orderOf_mk]; exact hu)
@@ -147,7 +147,7 @@ theorem false_of_fixed_central {X : Type} [Group X] [Finite X] (hX : Group.IsPer
     ·
       obtain ⟨x, y, hgen, hy2, hyx, hy⟩ := hPB
       obtain ⟨e⟩ := CFSG.GorensteinWalter.dihedral_of_generators_of_not_mem x y hgen.symm hy2 hyx hy
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') x
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) x
       have hk1 : 1 ≤ k := by
         by_contra hk0
         have hk0' : k = 0 := by omega
@@ -175,7 +175,7 @@ theorem false_of_fixed_central {X : Type} [Group X] [Finite X] (hX : Group.IsPer
       obtain ⟨-, -, -, -, hconj⟩ :=
         CFSG.Semidihedral.Principal.dihedral_derived_involutions_conjugate P hn ⟨e'.symm⟩
       have hall := hconj hX.commutator_eq_top
-      obtain ⟨z, hzZ, hz2⟩ := exists_orderOf_eq_two_of_isPGroup (P.isPGroup'.to_le hZP) hZne
+      obtain ⟨z, hzZ, hz2⟩ := exists_orderOf_eq_two_of_isPGroup (P.isPGroup.to_le hZP) hZne
       have hcentral : ∀ w : X, orderOf w = 2 → w = z := by
         intro w hw
         obtain ⟨c, hc⟩ := isConj_iff.mp (hall w z hw hz2)

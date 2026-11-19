@@ -99,6 +99,7 @@ theorem s16n9b_rkIdx_imgTil_le (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (W
   unfold rkIdx E3.mQuot
   exact padicValNat_two_le_of_dvd Subgroup.index_ne_zero_of_finite h1
 
+omit [Finite G] in
 theorem s16n9b_commOn_le_imgTil (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (W : Subgroup G)
     (g : ↥(stabTil V₀ V)) :
     s16n9bCommOn (imgTil V₀ V hV W) (actTil V₀ V hV g⁻¹) ≤
@@ -119,6 +120,7 @@ theorem s16n9b_commOn_le_imgTil (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (
   rw [hval]
   exact hmem
 
+omit [Finite G] in
 theorem s16n9b_not_le_fixV_of_commutator (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     {W : Subgroup G} (g : ↥(stabTil V₀ V)) {w : G} (hwW : w ∈ W) (hwV : w ∈ V)
     (hw0 : w⁻¹ * (g : G)⁻¹ * w * (g : G) ∉ V₀) :
@@ -203,7 +205,7 @@ theorem s16n9b_exists_mem_cTilde_of_pRank_lt {M V₀ V : Subgroup G} (hV : IsEle
     (hlt : CFSG.Open.pRank p (Mbar M V₀ V hV) < k) :
     ∃ y ∈ F11.CTilde M V₀ V, orderOf y = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEM, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt M
   by_contra hno
   let φ : ↥E →* MulAut (Vtil V₀ V hV) :=
@@ -222,7 +224,7 @@ theorem s16n9b_exists_mem_cTilde_of_pRank_lt {M V₀ V : Subgroup G} (hV : IsEle
     refine Subgroup.mem_iInf.2 fun v => Subgroup.mem_iInf.2 fun hv => ?_
     exact ⟨hEM e.2, stabTil_le_normalizer₀ V₀ V (hMs (hEM e.2)), hcomm v hv⟩
   have hle : CFSG.Open.pRank p M ≤ CFSG.Open.pRank p (Mbar M V₀ V hV) := by
-    haveI := hE.1
+    have := hE.1
     refine CFSG.SectionRank.le_pRank_of_injective hp.one_lt (fun a b => mul_comm' a b)
       (fun a => Subtype.ext ?_) hEcard φ hinj ?_
     · rw [Subgroup.coe_pow, hE.2 a a.2]

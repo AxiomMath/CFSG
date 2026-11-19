@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem conj_mul_conj_of_comm {a q₁ q₂ : G} (ha : a * a = 1) (h1 : q₁ * q₁ = 1)
     (h2 : q₂ * q₂ = 1) (h12 : Commute q₁ q₂) (hp : Commute (a * q₁ * a) q₂) :
     (q₁ * a * q₁⁻¹) * a * (q₂ * a * q₂⁻¹) = (q₁ * q₂) * a * (q₁ * q₂)⁻¹ := by
@@ -30,6 +31,7 @@ theorem conj_mul_conj_of_comm {a q₁ q₂ : G} (ha : a * a = 1) (h1 : q₁ * q�
     _ = q₁ * q₂ * a * (q₁ * q₂) := by rw [ha, mul_one]; group
     _ = q₁ * q₂ * a * (q₂ * q₁) := by rw [h12.eq]
 
+omit [Finite G] in
 theorem commute_conj_of_orderOf_mul_eq_four {t b : G} (ht : t * t = 1) (hb : b * b = 1)
     (h4 : orderOf (t * b) = 4) : Commute (t * b * t⁻¹) b := by
   have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht
@@ -52,7 +54,7 @@ variable (hC : HypothesisC D) {β : Set G} (hβ : β ∈ Aalpha D hC.alpha) {a b
   (hno : ∀ x ∈ D, x ∈ Subgroup.closure {a, b} → IsTriangle D a x c → ¬ IsThirdKind a x c)
 include hβ ha hc hac hane hb h4 hno
 
-theorem exists_Q_conj_of_mem_secondKindS {y : G} (hyD : y ∈ D) (hyS : y ∈ Subgroup.zpowers a ⊔ conjClosure (Subgroup.closure {a, b}) (a * c))
+theorem exists_Q_conj_of_mem_secondKindS {y : G} (_hyD : y ∈ D) (hyS : y ∈ Subgroup.zpowers a ⊔ conjClosure (Subgroup.closure {a, b}) (a * c))
     {x : G} (hx : x ∈ Subgroup.closure ({a, b, c} : Set G)) (hxy : x * a * x⁻¹ = y) :
     ∃ q ∈ conjClosure (Subgroup.closure {a, b}) (a * c), q * a * q⁻¹ = y := by
   classical
@@ -248,6 +250,7 @@ theorem conj_mul_mem_of_mem_Aalpha : (a * c) * b * (a * c)⁻¹ ∈ β := by
 
 end LocalStep
 
+omit [Finite G] in
 theorem conj_image_mem_blockClass {α γ : Set G} (hγ : γ ∈ blockClass α) (x : G) :
     (fun y => x * y * x⁻¹) '' γ ∈ blockClass α := by
   obtain ⟨g, rfl⟩ := mem_blockClass_iff.mp hγ

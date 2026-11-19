@@ -14,6 +14,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PSTypes_toProj_eq_or_eq_piOrth {a b : OGroup Q}
     (h : toProj Q a = toProj Q b) : a = b ∨ a = piOrth Q * b := by
   have hmem : a / b ∈ piGroup Q := by
@@ -29,6 +30,7 @@ theorem ffOutFF6PSTypes_toProj_eq_or_eq_piOrth {a b : OGroup Q}
     rw [← h1]
     group
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PSTypes_conj_map {G : Type*} [Group G] (f : OGroup Q →* G)
     (a b : OGroup Q) : f a * f b * (f a)⁻¹ = f (a * b * a⁻¹) := by
   rw [map_mul, map_mul, map_inv]
@@ -68,7 +70,7 @@ theorem ffOutFF6PSTypes_tsz0_eq (hQ : Q.Nondegenerate)
   rw [hset, ff6p_toProj_signChange_compl]
 
 theorem ffOutFF6PSTypes_i1_conj (hQ : Q.Nondegenerate)
-    (hdim : Module.finrank (ZMod 3) V = 6) (fr : PFrame Q (Option (Fin 5)) ffC)
+    (hdim : Module.finrank (ZMod 3) V = 6) (_fr : PFrame Q (Option (Fin 5)) ffC)
     {x : ProjSim Q} {α β : ℤˣ} {z : ProjSim Q} {u : OGroup Q} (hu : u * u = 1)
     (hβ : invType u = (1, β)) (hz : z = projOrthToProjSim Q (toProj Q u)) (hαβ : α = β)
     (hx : SimHasType x 1 α) :

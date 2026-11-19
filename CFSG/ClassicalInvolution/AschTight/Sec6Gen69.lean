@@ -21,7 +21,7 @@ theorem six_eight [Finite G] (hΩ : HypOmegaGen Ω) (S : Sylow 2 G) {U : Subgrou
   obtain ⟨K, hK, hUK⟩ := exists_member_of_mem_USet hΩ hU
   obtain ⟨V₀, hV₀, hV₀K⟩ := exists_mem_of_mem_etaSet hΩ hηS' hK ⟨hU, hUS⟩ hUK
   have hV₀U : V₀ ∈ USet Ω := (hS₁.1 hV₀).1
-  have hT : IsPGroup 2 ↥(U ⊔ V₀) := S.isPGroup'.to_le (sup_le hUS (hηS V₀ hV₀))
+  have hT : IsPGroup 2 ↥(U ⊔ V₀) := S.isPGroup.to_le (sup_le hUS (hηS V₀ hV₀))
   have hdich := eq_or_sup_mem_RSet hΩ hK hU hV₀U hUK hV₀K hT
   have hlie : ∀ V : Subgroup G, (U = V ∨ U ⊔ V ∈ RSet Ω) → V ≤ K := by
     intro V h
@@ -92,7 +92,7 @@ theorem exists_invariant_mem_etaSet [Finite G]
   classical
   have hΩc := hΩ.conjInvariant
   set 𝒮 : Subgroup G := (S : Subgroup G) with h𝒮
-  have h𝒮2 : IsPGroup 2 𝒮 := S.isPGroup'
+  have h𝒮2 : IsPGroup 2 𝒮 := S.isPGroup
   let Adm : Set (Set (Subgroup G)) :=
     {η | η ⊆ UinS Ω 𝒮 ∧ (∀ s ∈ 𝒮, ∀ U ∈ η, conjSub s U ∈ η) ∧ InDistinctMembers Ω η}
   have hAdm : Adm.Nonempty :=
@@ -182,7 +182,7 @@ theorem eta_abelian_of_cyc66 [Finite G] (hΩ : HypOmegaGen Ω)
       {U | U ∈ USet Ω ∧ U ≤ ⨆ V ∈ η, V} = η := by
   have hcomm : ∀ A ∈ η, ∀ B ∈ η, Commutes A B := by
     have hdistinct : ∀ A ∈ η, ∀ B ∈ η, A ≠ B → Commutes A B := by
-      refine hC (S : Subgroup G) S.isPGroup' η (fun A hA => (h.1 hA).2)
+      refine hC (S : Subgroup G) S.isPGroup η (fun A hA => (h.1 hA).2)
         (fun A hA s hs => hinv s hs A hA) ?_ ?_
       · intro A hA
         obtain ⟨R, -, J, -, -, -, hcyc, -, h4⟩ := exists_data_of_mem_USet hΩ (h.1 hA).1

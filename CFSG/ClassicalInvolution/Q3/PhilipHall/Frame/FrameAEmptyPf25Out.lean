@@ -24,11 +24,11 @@ abbrev P3 : Type := Equiv.Perm (Fin 3) × Equiv.Perm (Fin 3)
   one_mem' := by simp
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Prod.fst_mul, Prod.snd_mul, map_mul] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_mul, Prod.snd_mul, map_mul] at *
     rw [ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, Prod.fst_inv, Prod.snd_inv, map_inv] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_inv, Prod.snd_inv, map_inv] at *
     rw [ha]
 
 theorem sign_of_invol : ∀ p : Perm (Fin 3), p ≠ 1 → p * p = 1 → Perm.sign p = -1 := by decide
@@ -48,7 +48,7 @@ theorem card_units_int : Nat.card ℤˣ = 2 := by
   rw [Nat.card_eq_two_iff]
   exact ⟨1, -1, by decide, by
     ext u
-    simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff, true_iff]
+    simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff]
     rcases Int.units_eq_one_or u with h | h <;> simp [h]⟩
 
 theorem card_of_signEq {H : Subgroup P3} (hH : H ≤ signEq) (hodd : ∃ x ∈ H, Perm.sign x.1 = -1) :

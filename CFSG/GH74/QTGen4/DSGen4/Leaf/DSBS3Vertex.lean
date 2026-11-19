@@ -22,7 +22,7 @@ theorem cos_two {M A : Subgroup G} (h : M.relIndex A = 2) {a b : G}
   have key : ∀ x : G, ∀ hx : x ∈ A, x ∉ M → (c : G) * x ∈ M := by
     intro x hx hxM
     have h1 := hc ⟨x, hx⟩
-    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_mk] at h1
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul] at h1
     rcases h1 with ⟨h1, _⟩ | ⟨h1, _⟩
     · exact h1
     · exact absurd h1 hxM
@@ -142,7 +142,7 @@ theorem leafDSBS3Vertex [DSLeaf LeafDSBA5Vertex] [DSLeaf LeafSylowS] [DSLeaf Lea
   intro G _ _ L1 L2 S h
   obtain ⟨e⟩ := h.s3
   have H2 : Hyp111R L2 L1 S := h.hyp.symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup G := L2 ⊔ bigB L2 L1 S with hPdef
   set Q : Subgroup G := pCoreOf 2 P with hQdef
   set N : Subgroup G := pCoreOf 2 L2 with hNdef
@@ -311,7 +311,7 @@ theorem leafDSBS3Vertex [DSLeaf LeafDSBA5Vertex] [DSLeaf LeafSylowS] [DSLeaf Lea
     exact hS₂N (le_antisymm h1 hNS₂)
   obtain ⟨t, htS2, htN⟩ : ∃ t ∈ S ⊓ L2, t ∉ N := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hS₂N (le_antisymm (fun x hx => hcon x hx) hNS₂)
   have htL : t ∈ L2 := htS2.2
   have htS : t ∈ S := htS2.1
@@ -377,8 +377,7 @@ theorem leafDSBS3Vertex [DSLeaf LeafDSBA5Vertex] [DSLeaf LeafSylowS] [DSLeaf Lea
         have hZN := (hψker _).mp hZ
         have e1 : ⁅t⁻¹ * d, x⁆ = (((⟨t, htL⟩ : ↥L2)⁻¹ * conjSubHom L2 d (hPN hdP) ⟨x, hx⟩ *
             ⟨t, htL⟩ * (⟨x, hx⟩ : ↥L2)⁻¹ : ↥L2) : G) := by
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv, conjSubHom_coe, commutatorElement_def,
-            Subgroup.coe_mk]
+          simp only [Subgroup.coe_mul, Subgroup.coe_inv, conjSubHom_coe, commutatorElement_def]
           group
         rw [e1]
         exact hNQ' hZN

@@ -38,7 +38,7 @@ private theorem rckp2_longRoot_proof_irrel {F : Type} [Field F] {n : ℕ} (hn : 
 private theorem rckp2_eq_zero_or_one {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2)
     (c : F) : c = 0 ∨ c = 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : ({0, 1} : Finset F).card = 2 := by
     rw [Finset.card_insert_of_notMem (by simp [zero_ne_one]), Finset.card_singleton]
   have hcF : Fintype.card F = 2 := by rwa [Nat.card_eq_fintype_card] at hF
@@ -71,7 +71,7 @@ private theorem rckp2_exists_pair_POmegaPlus_of_eq {F : Type} [Field F] [Finite 
       V ≤ pCoreOf 2 (Subgroup.normalizer (L.D.rootGroup β : Set L.K)) ∧
       ∀ v ∈ V, v ≠ 1 → ∃ j : L.K, v = j * x * j⁻¹ := by
   subst hL
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   change ∃ (β : Fin (Spin.plusDatum n F hn3).rank → ℤ)
       (x : spinGroup (Spin.quadPlus n F)) (V : Subgroup (spinGroup (Spin.quadPlus n F))),
       β ∈ (Spin.plusDatum n F hn3).roots ∧ GGLongRoot (Spin.plusDatum n F hn3) β ∧
@@ -100,7 +100,7 @@ private theorem rckp2_exists_pair_POmegaPlus_of_eq {F : Type} [Field F] [Finite 
   have hroot_le : ∀ {γ : Fin n → ℤ}, γ ∈ roots (isFiniteType_cartanD n) ∅ →
       ht γ ≤ 2 * (n : ℤ) - 3 := by
     intro γ hγ
-    rw [Spin.rootsD_eq n (by omega), Set.mem_setOf_eq] at hγ
+    rw [Spin.rootsD_eq n (by omega), Set.mem_ofPred_eq] at hγ
     obtain ⟨i, j, s, t, hij, hs, hts, hstd⟩ := hγ
     rw [Spin.ht_of_toStdD_eq_add n (by omega) hstd]
     have hi : (i:ℤ) < (n:ℤ) := by exact_mod_cast i.isLt
@@ -136,7 +136,7 @@ private theorem rckp2_exists_pair_POmegaPlus_of_eq {F : Type} [Field F] [Finite 
     have hk := congrFun hstd (⟨2, by omega⟩ : Fin n)
     rw [Pi.add_apply, Pi.add_apply, Pi.single_eq_of_ne h20, Pi.single_eq_same,
       Pi.single_eq_of_ne h21] at hk
-    exact (by omega : (1:ℤ) ≠ 0) (by simpa using hk)
+    exact (by omega : (1:ℤ) ≠ 0) (by simp at hk)
   have hδθ : δ ≠ θ := by
     intro h
     have hstd : Spin.toStdD n δ = Spin.toStdD n θ := by rw [h]
@@ -323,7 +323,7 @@ private theorem rckp2_exists_pair_POmegaPlus_of_eq {F : Type} [Field F] [Finite 
     have hc : (Spin.plusFrame n F hn3).vec (⟨1, by omega⟩ : Fin n) false +
         (Spin.plusFrame n F hn3).vec (⟨0, by omega⟩ : Fin n) true =
         (Spin.plusFrame n F hn3).vec (⟨1, by omega⟩ : Fin n) false + 0 := by
-      simpa using heq
+      simp at heq
     exact hne0 (add_left_cancel hc)
   let V : Subgroup (spinGroup (Spin.quadPlus n F)) := pairSub x y hx2p hy2p hxy
   have hV_card : Nat.card V = 4 := card_pairSub hx2p hy2p hxy hx1 hy1 hxy_ne
@@ -403,7 +403,7 @@ private theorem rckp2_exists_pair_POmegaPlus_of_eq {F : Type} [Field F] [Finite 
     · exact ⟨z, hxy_conj⟩
 
 theorem rckIIPair_OmegaPlus
-    (n : ℕ) (hn : 4 ≤ n) (hadm : StatedLieAdmissible .POmegaPlus n 2 1) :
+    (n : ℕ) (hn : 4 ≤ n) (_hadm : StatedLieAdmissible .POmegaPlus n 2 1) :
     RCKIIPair .POmegaPlus n := by
   have hn3 : 3 ≤ n := by omega
   have hcardF : Nat.card (GaloisField 2 1) = 2 := by

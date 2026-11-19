@@ -81,7 +81,7 @@ theorem local_theta_actual_normalization
       Subtype.ext hz.sq_eq_one⟩
   have habelian : HasAbelianSylow 2 K := by
     intro S
-    let : IsElementaryAbelian 2 (S : Subgroup K) := htwo _ S.isPGroup'
+    let : IsElementaryAbelian 2 (S : Subgroup K) := htwo _ S.isPGroup
     infer_instance
   let q := QuotientGroup.mk' W
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -114,7 +114,7 @@ theorem local_theta_actual_normalization
     exact CFSG.pPrimeCore_coprime_card
   have hZJquot : ZJK.map q =
       (orderZJ (QS : Subgroup (K ⧸ W))).map (QS : Subgroup (K ⧸ W)).subtype :=
-    orderZJ_image_of_coprime_kernel hp q hqker SK S.isPGroup'
+    orderZJ_image_of_coprime_kernel hp q hqker SK S.isPGroup
   have hnormal : (ZJK.map q).Normal := by
     rw [hZJquot]
     let : ((orderZJ (QS : Subgroup (K ⧸ W))).map
@@ -124,7 +124,7 @@ theorem local_theta_actual_normalization
     rw [(MonoidHom.ker_eq_bot_iff K.subtype).mpr K.subtype_injective]
     simp
   have hZJambient : ZJK.map K.subtype = ZJ := by
-    have hh := orderZJ_image_of_coprime_kernel hp K.subtype hKker SK S.isPGroup'
+    have hh := orderZJ_image_of_coprime_kernel hp K.subtype hKker SK S.isPGroup
     change (S : Subgroup K).map K.subtype = QG at hSQ
     rwa [hSQ] at hh
   let M := Subgroup.normalizer (ZJK : Set K)
@@ -142,7 +142,7 @@ theorem local_theta_actual_normalization
     · intro hg
       obtain ⟨w, hw, n, hn, hmul⟩ :=
         orderZJ_normal_complement_normalizer_product hp W
-          CFSG.pPrimeCore_coprime_card SK S.isPGroup' hnormal (⟨g, hg⟩ : K)
+          CFSG.pPrimeCore_coprime_card SK S.isPGroup hnormal (⟨g, hg⟩ : K)
       have hnG : n.val ∈ Subgroup.normalizer (ZJ : Set G) := by
         change n ∈ M at hn
         rw [hMambient] at hn
@@ -152,7 +152,7 @@ theorem local_theta_actual_normalization
     · rintro ⟨w, hw, n, hn, rfl⟩
       exact K.mul_mem ((Subgroup.map_subtype_le W) hw) hn.1
   obtain ⟨w, hw, hnorm, hwi⟩ := orderZJ_odd_normal_complement_involution hp W
-    CFSG.pPrimeCore_coprime_card hWodd SK S.isPGroup' hnormal hzKi
+    CFSG.pPrimeCore_coprime_card hWodd SK S.isPGroup hnormal hzKi
   have hwG : w.val ∈ W.map K.subtype := Subgroup.mem_map.mpr ⟨w, hw, rfl⟩
   have hnormG : rightConjugateElem z w.val ∈ Subgroup.normalizer (ZJ : Set G) := by
     change rightConjugateElem zK w ∈ M at hnorm

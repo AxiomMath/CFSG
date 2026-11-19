@@ -14,7 +14,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
 theorem fixed_of_sub_fixed {G : Type*} [Group G] [Finite G] (ρ : Representation (ZMod 2) G V)
     (S : Subgroup G) (hS : ¬ 2 ∣ S.index) {v : V} (hfix : ∀ g h, ρ g (ρ h v - v) = ρ h v - v)
     (hv : ∀ s ∈ S, ρ s v = v) (g : G) : ρ g v = v := by
-  letI : DistribMulAction G V := DistribMulAction.compHom V (1 : G →* Module.End (ZMod 2) V)
+  let : DistribMulAction G V := DistribMulAction.compHom V (1 : G →* Module.End (ZMod 2) V)
   have hsmul : ∀ (h : G) (x : V), h • x = x := fun _ _ => rfl
   obtain ⟨m, hm⟩ := exists_coboundary_of_odd_index S hS (fun h => ρ h v - v)
     (fun a b => by
@@ -32,7 +32,7 @@ theorem fixes_of_fixes_secW (ρ : Representation (ZMod 2) H V) (K : Subgroup H)
     {S P : Subgroup ↥K} (hSP : S ≤ P) (hS : ¬ 2 ∣ S.index)
     (hP : ∀ m : SecW ρ K, (∀ s ∈ S, secW ρ K s m = m) → ∀ p ∈ P, secW ρ K p m = m)
     {v : V} (hv : ∀ s ∈ S, ρ (s : H) v = v) : ∀ p ∈ P, ρ (p : H) v = v := by
-  letI : DistribMulAction ↥K (SecW ρ K) := DistribMulAction.compHom _ (secW ρ K)
+  let : DistribMulAction ↥K (SecW ρ K) := DistribMulAction.compHom _ (secW ρ K)
   have hsmul : ∀ (k : ↥K) (m : SecW ρ K), k • m = secW ρ K k m := fun _ _ => rfl
   let c : ↥K → SecW ρ K := fun k =>
     Submodule.Quotient.mk ⟨ρ k v - v, sub_mem_commOn k.2 Submodule.mem_top⟩

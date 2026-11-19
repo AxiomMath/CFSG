@@ -132,7 +132,7 @@ private theorem k330c_hasFieldRP_projectiveSp {K : Type} [Field K]
     [Finite K] {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f) (hK : Nat.card K = p ^ f) :
     HasFieldRP (StatedProj (StatedSp 2 K)) (p ^ f) spBound := by
   intro W hW h7T
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hcyc : IsCyclic ↥W := isCyclic_of_prime_card hW
   obtain ⟨a, ha⟩ := hcyc.exists_generator
   have hordg : orderOf a = 7 := by

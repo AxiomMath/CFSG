@@ -237,7 +237,7 @@ theorem outerToralForm_holds : OuterToralForm := by
   classical
   obtain ⟨-, hdec, ⟨Θ, hΘ, -, hker, -⟩, hcyc, hcard3, -, hZ, -⟩ :=
     odd_triality_exact_automorphism_normal_form hℓ hℓ2 hf K hK σ hσ
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
   have hinj : Function.Injective (MulAut.conj : C0 σ →* MulAut (C0 σ)) := nf1_conj_injective hZ
   have hq2 : 2 ≤ ℓ ^ f := le_trans hℓ.two_le (Nat.le_self_pow (by omega) ℓ)
   have hσ3 : σ ^ 3 = 1 := triOdd_sigma_pow_three σ (ℓ ^ f) hK hσ

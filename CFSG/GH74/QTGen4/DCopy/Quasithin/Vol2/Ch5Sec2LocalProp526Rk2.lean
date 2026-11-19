@@ -16,10 +16,10 @@ open CFSG.GH74.QTGen4.DSGen4
 variable {G : Type} [Group G] [CFSG.GH74.QTGen4.Finite4 G]
 
 theorem stmt5_2_6_L2K_rank2_of_F4
-    (h331 : Stmt3_3_1_F4) (hRL : RankOneListedFacts.{0}) (hF11 : StmtF11_5_2_F4)
-    (hbor : Stmt5_2_6_borel_F4) (h524 : Stmt5_2_4_F4) (h510 : Stmt5_1_10_F4)
-    (h38 : Vol2Native.A38ForSQTKCat) (hU3 : FactU3Cover) (hC58 : TheoremC58)
-    (h317 : AS317Sylow) (h512 : Stmt5_1_2_F4) : Stmt5_2_6_L2K_rank2_F4 := by
+    (_h331 : Stmt3_3_1_F4) (hRL : RankOneListedFacts.{0}) (_hF11 : StmtF11_5_2_F4)
+    (_hbor : Stmt5_2_6_borel_F4) (h524 : Stmt5_2_4_F4) (h510 : Stmt5_1_10_F4)
+    (h38 : Vol2Native.A38ForSQTKCat) (hU3 : FactU3Cover) (_hC58 : TheoremC58)
+    (_h317 : AS317Sylow) (_h512 : Stmt5_1_2_F4) : Stmt5_2_6_L2K_rank2_F4 := by
   intro G _ _ T M L V H B D L₂ n hyp hnb ⟨P, hP, hL₂P⟩ hloc
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

@@ -75,7 +75,7 @@ theorem exists_e8FourPointData (F : Type) [Field F] [Finite F] [CharP F 2] {n p 
         adjEmb .E8 F (AlgebraicClosure F) z =
           g * rootDiagUnit .E8 (d6zTorsionChar p ζ lam) * g⁻¹ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨lam, hqlam, hlam⟩ := exists_lam_of_rk2Ord_four hcard hp hrk
   have hp5 : 5 ≤ p := five_le_of_rk2Ord_four hp hp2 hrk
   have hp3 : 3 < p := by omega

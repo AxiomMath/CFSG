@@ -138,7 +138,7 @@ theorem psi_range_not_solvable (b : Module.Basis (Fin 2) (ZMod p) E)
     apply Subtype.ext
     simp only [Subgroup.coe_mul]
     exact comm_of_pm _ _ (psi_ker_eq b Λ a.1 a.2)
-  haveI := hkerComm
+  have := hkerComm
   apply hns
   exact Group.isSolvable_of_ker_le_range (psiHom b Λ).ker.subtype (psiHom b Λ).rangeRestrict
     (by rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype])
@@ -219,29 +219,29 @@ theorem core_disj [Module.Finite (ZMod p) E] (hp2 : p ≠ 2)
   ·
     exfalso
     obtain ⟨⟨hcomm, -⟩, -⟩ := h1
-    haveI := hcomm
+    have := hcomm
     exact hHns inferInstance
   ·
     exfalso
     obtain ⟨hcyc, -⟩ := h2
-    haveI := hcyc
+    have := hcyc
     exact hHns inferInstance
   ·
     exfalso
     obtain ⟨z, -, ⟨e⟩⟩ := h3
-    haveI : Group.IsSolvable (DihedralGroup z) :=
+    have : Group.IsSolvable (DihedralGroup z) :=
       CFSG.Quasithin.Dickson.isSolvable_dihedral z
     exact hHns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   ·
     exfalso
     obtain ⟨-, ⟨e⟩⟩ := h4
-    haveI : Group.IsSolvable (alternatingGroup (Fin 4)) :=
+    have : Group.IsSolvable (alternatingGroup (Fin 4)) :=
       alternatingGroup.isSolvable (by simp)
     exact hHns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   ·
     exfalso
     obtain ⟨-, ⟨e⟩⟩ := h5
-    haveI : Group.IsSolvable (Equiv.Perm (Fin 4)) := Equiv.Perm.isSolvable (by simp)
+    have : Group.IsSolvable (Equiv.Perm (Fin 4)) := Equiv.Perm.isSolvable (by simp)
     exact hHns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   ·
     obtain ⟨-, ⟨e⟩⟩ := h6
@@ -262,9 +262,9 @@ theorem core_disj [Module.Finite (ZMod p) E] (hp2 : p ≠ 2)
   ·
     exfalso
     obtain ⟨m, t, P, hPn, hPel, -, hQcyc, -⟩ := h7
-    haveI := hPn
-    haveI := hPel.1
-    haveI : IsCyclic ((psiHom b Λ).range ⧸ P) := hQcyc
+    have := hPn
+    have := hPel.1
+    have : IsCyclic ((psiHom b Λ).range ⧸ P) := hQcyc
     exact hHns (Group.isSolvable_of_subgroup_quotient P)
   ·
     obtain ⟨m, hm, ⟨e⟩⟩ := h8

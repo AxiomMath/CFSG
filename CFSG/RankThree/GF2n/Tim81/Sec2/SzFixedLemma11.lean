@@ -136,7 +136,7 @@ private theorem finrank_le_two_pow_mul_finrank_invariants_aux :
   | zero =>
     intro E _ _ k _ _ C _ _ _ ρ hsq hcard
     have h1 : Nat.card E = 1 := by simpa using hcard
-    haveI : Subsingleton E := (Nat.card_eq_one_iff_unique.mp h1).1
+    have : Subsingleton E := (Nat.card_eq_one_iff_unique.mp h1).1
     have htop : Representation.invariants ρ = ⊤ := by
       rw [eq_top_iff]
       intro v _
@@ -148,7 +148,7 @@ private theorem finrank_le_two_pow_mul_finrank_invariants_aux :
   | succ m ih =>
     intro E _ _ k _ _ C _ _ _ ρ hsq hcard
     have hcard1 : 1 < Nat.card E := by rw [hcard]; exact Nat.one_lt_two_pow (by omega)
-    haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp hcard1
+    have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp hcard1
     obtain ⟨x, hx1⟩ := exists_ne (1 : E)
     have hx2 : x ^ 2 = 1 := by rw [pow_two]; exact hsq x
     have hcomm : ∀ a b : E, a * b = b * a := by
@@ -156,7 +156,7 @@ private theorem finrank_le_two_pow_mul_finrank_invariants_aux :
       have hab : (a * b)⁻¹ = a * b := by rw [inv_eq_iff_mul_eq_one]; exact hsq (a * b)
       rw [← hab, mul_inv_rev, inv_eq_iff_mul_eq_one.mpr (hsq b),
         inv_eq_iff_mul_eq_one.mpr (hsq a)]
-    haveI hSnorm : (Subgroup.zpowers x : Subgroup E).Normal :=
+    have hSnorm : (Subgroup.zpowers x : Subgroup E).Normal :=
       ⟨fun n hn g => by
         rw [show g * n * g⁻¹ = n by rw [hcomm g n, mul_assoc, mul_inv_cancel, mul_one]]
         exact hn⟩

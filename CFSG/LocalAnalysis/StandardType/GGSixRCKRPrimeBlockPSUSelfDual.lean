@@ -152,8 +152,8 @@ private theorem rckRPb4_PSU_two
     (ι : (ggU .PSU 2 (g + 1)).K →* G)
     {β₀ : Fin (ggU .PSU 2 (g + 1)).D.rank → ℤ}
     {v w : Fin n → GaloisField 2 (2 * (g + 1))}
-    (hβ₀ : β₀ ∈ (ggU .PSU 2 (g + 1)).D.roots)
-    (hlong : GGLongRoot (ggU .PSU 2 (g + 1)).D β₀)
+    (_hβ₀ : β₀ ∈ (ggU .PSU 2 (g + 1)).D.roots)
+    (_hlong : GGLongRoot (ggU .PSU 2 (g + 1)).D β₀)
     (hcenter : ∀ y, ι y ∈ Subgroup.center G →
       y ∈ Subgroup.center (ggU .PSU 2 (g + 1)).K)
     (hrange : ι.range = J')
@@ -185,7 +185,6 @@ private theorem rckRPb4_PSU_two
     intro y hy
     have hy' : e y ∈ Subgroup.center (ggU .PSU 2 (g + 1)).K := by
       apply hcenter (e y)
-      change ι (e y) ∈ Subgroup.center _
       exact hy
     have hcentermap : (Subgroup.center (ggU .PSL 2 (g + 1)).K).map
         (e : (ggU .PSL 2 (g + 1)).K →* (ggU .PSU 2 (g + 1)).K) =
@@ -320,7 +319,6 @@ private theorem rckRPb4m_case_PSL
     intro y hy
     have hy' : e y ∈ Subgroup.center (ggU .PSU 2 (g + 1)).K := by
       apply hcenter (e y)
-      change ι (e y) ∈ Subgroup.center _
       exact hy
     have hcentermap : (Subgroup.center (ggU .PSL 2 (g + 1)).K).map
         (e : (ggU .PSL 2 (g + 1)).K →* (ggU .PSU 2 (g + 1)).K) =

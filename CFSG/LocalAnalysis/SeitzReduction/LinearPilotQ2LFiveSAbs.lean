@@ -103,7 +103,7 @@ theorem exists_isPGroup_lt_of_card_lt {p : ℕ} [Fact p.Prime] {R S P : Subgroup
   have hPc : Nat.card P ≤ Nat.card (Q₁ : Subgroup R) := by
     rw [← Nat.card_congr (subgroupOfEquivOfLe hPR).toEquiv]
     exact Subgroup.card_le_of_le hQ₁
-  refine ⟨(Q₀ : Subgroup R).map R.subtype, Q₀.isPGroup'.map _, ?_, map_subtype_le _⟩
+  refine ⟨(Q₀ : Subgroup R).map R.subtype, Q₀.isPGroup.map _, ?_, map_subtype_le _⟩
   have hle : S ≤ (Q₀ : Subgroup R).map R.subtype := fun x hx =>
     ⟨⟨x, hSR hx⟩, hQ₀ (mem_subgroupOf.2 hx), rfl⟩
   refine lt_of_le_of_ne hle fun heq => ?_
@@ -265,7 +265,7 @@ theorem exists_isPGroup_sup_normalizer {C T S' : Subgroup G} (hT : IsPGroup 2 T)
   obtain ⟨Q₀, hQ₀⟩ := hT.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 C) hcard
   set Q : Subgroup G := (Q₀ : Subgroup C).map C.subtype with hQ
   have hQC : Q ≤ C := map_subtype_le _
-  have hQp : IsPGroup 2 Q := Q₀.isPGroup'.map _
+  have hQp : IsPGroup 2 Q := Q₀.isPGroup.map _
   have hTQ : T ≤ normalizer (Q : Set G) := by
     rw [le_normalizer_iff]
     rintro b hb _ ⟨y, hy, rfl⟩

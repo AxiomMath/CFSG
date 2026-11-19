@@ -40,8 +40,8 @@ theorem liftPair_core_Y {n : ℕ} (h : TwinCoreHyp n G R S t₀) (hRc : tightCor
     (hc : c = u ∨ c = z * u ∨ c = u * t ∨ c = z * u * t)
     (htC : t ∈ Subgroup.centralizer ({c} : Set G))
     (lJ : TwinExitPf9.LiftedAtSec J c t htC) (lJ' : TwinExitPf9.LiftedAtSec J' c t htC)
-    (x y : G) (hxK : x ∈ K) (hyK' : y ∈ K') (hx2 : x * x = z) (hy2 : y * y = z)
-    (hxy : x * y = u) (hxt : x * t = t * x) (hxc : x ∈ Subgroup.centralizer ({c} : Set G)) :
+    (x y : G) (hxK : x ∈ K) (_hyK' : y ∈ K') (hx2 : x * x = z) (_hy2 : y * y = z)
+    (_hxy : x * y = u) (hxt : x * t = t * x) (hxc : x ∈ Subgroup.centralizer ({c} : Set G)) :
     ∃ M M' : Subgroup G,
       Q3NL.IsSectionMember3 (Subgroup.centralizer ({c} : Set G)) M t ∧
       Q3NL.IsSectionMember3 (Subgroup.centralizer ({c} : Set G)) M' t ∧
@@ -118,7 +118,7 @@ theorem liftPair_core_Y {n : ℕ} (h : TwinCoreHyp n G R S t₀) (hRc : tightCor
       (fun hP => secAut_fix_secImg hΩ hc2' hP hxc hxJ)
       (fun hP => secAut_fix_secImg hΩ hc2' hP hxc hxJ')
   have hH : IsSubnormal (coreHull (CoreAssembly.conjClass (tightCore R)) c) ⊤ := by
-    haveI := normal_coreHull hΩ hc2'
+    have := normal_coreHull hΩ hc2'
     exact isSubnormal_of_normal_subgroupOf le_top inferInstance
   obtain ⟨M₁, hM₁, hM₁a, hM₁b⟩ :=
     exists_sectionMember_of_lift hH (t := ⟨t, htC⟩) htH hsq' hL₁

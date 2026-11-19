@@ -155,7 +155,7 @@ theorem pow_two_mem_uRad [CharP K 2] {W : Submodule K (Fin 3 → K)} (hW0 : W �
     | succ k ih =>
       intro w
       rw [pow_succ, Module.End.mul_apply, ih, pow_succ, Module.End.mul_apply, hfWdef,
-        LinearMap.restrict_coe_apply]
+        LinearMap.coe_restrict_apply]
   have hfWnil : IsNilpotent fW := by
     refine ⟨2 ^ a, LinearMap.ext fun w => Subtype.ext ?_⟩
     rw [hfWpow, hfpow, hNa, zero_mulVec]
@@ -191,7 +191,7 @@ theorem pow_two_mem_uRad [CharP K 2] {W : Submodule K (Fin 3 → K)} (hW0 : W �
     exact (Submodule.Quotient.mk_eq_zero W).mp h
   · rw [hN2, ← mulVec_mulVec, ← hfv, ← hfv]
     have h := congrArg (fun φ : Module.End K W => ((φ ⟨w, hw⟩ : W) : Fin 3 → K)) hfW2
-    simpa only [sq, Module.End.mul_apply, hfWdef, LinearMap.restrict_coe_apply,
+    simpa only [sq, Module.End.mul_apply, hfWdef, _root_.LinearMap.coe_restrict_apply,
       LinearMap.zero_apply, Submodule.coe_zero] using h
 
 theorem not_two_dvd_card_ker_proj [Finite K] : ¬ 2 ∣ Nat.card (proj 3 K).ker := by
@@ -234,7 +234,7 @@ theorem exists_lift_isPElement [Finite K] {x : projectiveSL 3 K} {k : ℕ} (hx :
 theorem fixedSub_ne_bot [Finite K] [CharP K 2] {S : Subgroup (SpecialLinearGroup (Fin 3) K)}
     (hS : IsPGroup 2 S) : fixedSub S ≠ ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction S (Fin 3 → K) :=
+  let : MulAction S (Fin 3 → K) :=
     MulAction.compHom (Fin 3 → K) (SpecialLinearGroup.toLin'.comp S.subtype)
   have hsmul : ∀ (s : S) (v : Fin 3 → K), s • v = (s : Matrix (Fin 3) (Fin 3) K) *ᵥ v := by
     intro s v
@@ -242,7 +242,7 @@ theorem fixedSub_ne_bot [Finite K] [CharP K 2] {S : Subgroup (SpecialLinearGroup
     rw [SpecialLinearGroup.toLin'_apply, Matrix.toLin'_apply]
   have hmod := hS.card_modEq_card_fixedPoints (Fin 3 → K)
   have hK2 : 2 ∣ Nat.card K := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact Nat.dvd_of_mod_eq_zero (FiniteField.even_card_of_char_two (ringChar.eq K 2))
   have hV : 2 ∣ Nat.card (Fin 3 → K) := by
@@ -257,7 +257,7 @@ theorem fixedSub_ne_bot [Finite K] [CharP K 2] {S : Subgroup (SpecialLinearGroup
     push Not at hne
     have hsub : Subsingleton (MulAction.fixedPoints S (Fin 3 → K)) :=
       ⟨fun a b => Subtype.ext ((hne a a.2).trans (hne b b.2).symm)⟩
-    haveI : Nonempty (MulAction.fixedPoints S (Fin 3 → K)) := ⟨⟨0, h0⟩⟩
+    have : Nonempty (MulAction.fixedPoints S (Fin 3 → K)) := ⟨⟨0, h0⟩⟩
     have h1 : Nat.card (MulAction.fixedPoints S (Fin 3 → K)) = 1 := Nat.card_unique
     rw [h1] at hF
     norm_num at hF

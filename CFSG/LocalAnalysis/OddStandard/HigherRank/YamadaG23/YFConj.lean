@@ -31,7 +31,7 @@ private theorem orderOf_conj_mk_eq_two (hS : HRSetting G L)
   · intro hα1
     rw [hα1] at hact
     have hwC : w ∈ centralizer (L : Set G) := by
-      haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+      have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
       exact (actsAs_one_iff L).mp hact
     have hwz : (⟨w, hw⟩ : ↥L) ∈ center ↥L := by
       rw [Subgroup.mem_center_iff]
@@ -87,7 +87,7 @@ theorem s3_invol_conj (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))
     have h := actsAs_mul L (actsAs_inv L hv_acts) hw_acts'
     simpa [c] using h
   have hcC : c ∈ centralizer (L : Set G) := by
-    haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+    have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
     exact (actsAs_one_iff L).mp hc_acts
   have hcL : c ∈ L := L.mul_mem (L.inv_mem hv) hwL
   have hcz : (⟨c, hcL⟩ : ↥L) ∈ center ↥L := by

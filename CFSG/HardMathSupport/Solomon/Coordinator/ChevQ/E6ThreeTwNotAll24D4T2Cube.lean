@@ -58,8 +58,8 @@ theorem d4t2CubeToral_holds :
     D4T2CubeToral := by
   intro L _ _ ℓ _ hℓ hℓ3 halg a hap h24 Eh hEhM hab hcard hdE
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLp : ringChar L ≠ 3 := by
     rw [ringChar.eq L ℓ]
     exact hℓ3
@@ -78,12 +78,12 @@ theorem d4t2CubeToral_holds :
   have hEhA : Eh ≤ adjointGroup .E6 L := fun x hx => (mem_toralCentralizer.1 (hEhC hx)).1
   have hcomm : ∀ x ∈ Eh, ∀ y ∈ Eh, x * y = y * x := fun x hx y hy => hab.comm hx hy
   have hexp : ∀ x ∈ Eh, x ^ 3 = 1 := hab.2
-  haveI : Finite Eh := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite Eh := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hEhfin : (Eh : Set (ModGL Tag.E6 L)).Finite := Set.toFinite _
   have hd1 : rootDiagUnit .E6 a ≠ 1 := d4t2_rootDiagUnit_ne_one h24
   have hd3 : rootDiagUnit .E6 a ^ 3 = 1 := hexp _ hdE
   have hdo : orderOf (rootDiagUnit .E6 a) = 3 := orderOf_eq_prime hd3 hd1
-  haveI : Finite (Subgroup.zpowers (rootDiagUnit .E6 a)) :=
+  have : Finite (Subgroup.zpowers (rootDiagUnit .E6 a)) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hdo]; norm_num)
   obtain ⟨e, heE, he⟩ : ∃ e ∈ Eh, e ∉ Subgroup.zpowers (rootDiagUnit .E6 a) := by
     by_contra h
@@ -96,7 +96,7 @@ theorem d4t2CubeToral_holds :
     Subgroup.zpowers (rootDiagUnit .E6 a) ⊔ Subgroup.zpowers e with hP
   have hPcard : Nat.card P = 3 ^ 2 :=
     KSNotAll24.card_zpowers_sup_zpowers (hcomm _ hdE e heE) hd1 hd3 (hexp e heE) he
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
   obtain ⟨f, hfE, hf⟩ : ∃ f ∈ Eh, f ∉ P := by
     by_contra h
     push Not at h
@@ -214,7 +214,7 @@ theorem d4t2CubeToral_holds :
     rw [e1]
     exact hg₂n
   have hPS : P ≤ S := sup_le (Subgroup.zpowers_le.2 hdS) (Subgroup.zpowers_le.2 heS)
-  haveI : Finite S := Finite.of_injective (Subgroup.inclusion (inf_le_left : S ≤ Eh))
+  have : Finite S := Finite.of_injective (Subgroup.inclusion (inf_le_left : S ≤ Eh))
     (Subgroup.inclusion_injective _)
   have hlt : P < S := lt_of_le_of_ne hPS fun h => hf (h ▸ hfS)
   have h1 := Subgroup.card_lt_of_lt hlt

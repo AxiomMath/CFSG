@@ -26,7 +26,7 @@ theorem irreducibleNoA2WidthThree_of_TI
   have hL4 : Nat.card (S.Lbar g) = 4 := by
     rw [hL, hw]
     norm_num
-  haveI : Nontrivial (S.Lbar g) := by
+  have : Nontrivial (S.Lbar g) := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hsub
     have h1 : Nat.card (S.Lbar g) = 1 := Nat.card_eq_one_iff_unique.mpr ⟨hsub, ⟨1⟩⟩
@@ -55,7 +55,7 @@ theorem irreducibleNoA2WidthThree_of_TI
     obtain ⟨m, hm⟩ := MonoidHom.mem_range.mp hpM
     rw [← hm]
     exact map_clSub_eq_of_fix S haQ hne m (by rw [hm]; exact hPfix p hp)
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   exact (card_ne_nine_of_stab S.q S.q_nondegenerate
     (by rw [S.finrank_Qt_eq_two_mul_width, hw])
     (S.clSub (S.QG ⊓ S.Qa g)) hWts (by rw [hW3, hw]) P' hPq hPW') hP'card

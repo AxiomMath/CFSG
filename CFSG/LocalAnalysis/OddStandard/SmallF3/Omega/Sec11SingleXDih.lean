@@ -228,7 +228,7 @@ theorem s11s_exists_conj_sq {σ t : G} (hσ : σ * σ = 1) (ht : t * t = 1) (n :
     calc σ * (y ^ k)⁻¹ * σ * y ^ k
         = σ * y ^ (-k) * σ * y ^ k := by rw [← zpow_neg]
       _ = (y ^ k * σ) * σ * y ^ k := by rw [hσy_neg]
-      _ = y ^ k * y ^ k := by simp only [mul_assoc, hσ, mul_one, one_mul]
+      _ = y ^ k * y ^ k := by simp only [mul_assoc, hσ, mul_one]
       _ = y ^ (2 * k) := by rw [← zpow_add, show k + k = 2 * k by ring]
   · refine ⟨t * y ^ k, Subgroup.mul_mem _
       (Subgroup.mem_sup_left (Subgroup.mem_zpowers t))

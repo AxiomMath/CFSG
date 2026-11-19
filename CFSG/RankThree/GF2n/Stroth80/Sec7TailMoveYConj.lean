@@ -15,6 +15,7 @@ variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensio
   {B : LinearMap.BilinForm K E} {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb : Subgroup X}
   {Tt : X → Submodule K E} {q : ℕ}
 
+omit [Finite X] in
 theorem MoveFrame.Y_not_conj_into_V (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
     (hN : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb)
     (hcomm : ∀ v ∈ V, ∀ a ∈ V, v * (h * a * h⁻¹) = (h * a * h⁻¹) * v)
@@ -70,6 +71,7 @@ theorem MoveFrame.Y_not_conj_into_V (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
       exact hr6
     omega
 
+omit [Finite X] in
 theorem MoveFrame.Y_hVnot (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
     (hnc : ∀ a ∈ V, a ≠ 1 → ∀ v ∈ V, v ≠ 1 → ∀ (g : X), ∀ w ∈ V,
       g * w * g⁻¹ ≠ (h * a * h⁻¹) * v) :

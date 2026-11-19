@@ -94,7 +94,7 @@ theorem centralizer_eq_bot_or_card_eq_three_not_plus (H : Hyp4 S g) (hNo : NoA2 
       rw [show ({aV ht, b} : Set (Vt S g t)) = Set.range ![aV ht, b] by
         ext x
         simp only [Set.mem_range, Set.mem_insert_iff, Set.mem_singleton_iff, Fin.exists_fin_two,
-          Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+          Matrix.cons_val_zero, Matrix.cons_val_one]
         tauto]
       simpa using hdim
     ·

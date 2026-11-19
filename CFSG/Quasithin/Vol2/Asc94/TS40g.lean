@@ -59,15 +59,18 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 
 @[expose] def Frame3.Dc (F : Frame3 G z) (l : G) : Subgroup G := cjS l⁻¹ F.D
 
+omit [Finite G] in
 theorem Frame3.mem_Dc (F : Frame3 G z) {l x : G} : x ∈ F.Dc l ↔ l * x * l⁻¹ ∈ F.D := by
   show x ∈ cjS l⁻¹ F.D ↔ _
   rw [Gen.mem_cj, inv_inv]
 
+omit [Finite G] in
 theorem Frame3.Dc_one (F : Frame3 G z) : F.Dc 1 = F.D := by
   ext x
   rw [F.mem_Dc]
   simp
 
+omit [Finite G] in
 theorem Frame3.z_mem_D (F : Frame3 G z) : z ∈ F.D := ⟨F.z_mem_A, F.toFrame1.toFrame0.z_mem_U⟩
 
 theorem Frame3.NA_le_normalizer_D (F : Frame3 G z) {n : G} (hn : n ∈ F.NA) :
@@ -88,11 +91,13 @@ theorem Frame3.normalizer_D_inf (F : Frame3 G z) (hII : Subgroup.normalizer (F.U
   rw [hII] at h3
   exact ⟨h3, hnL⟩
 
+omit [Finite G] in
 theorem Frame3.card_Dc (F : Frame3 G z) (l : G) : Nat.card (F.Dc l) = 8 := by
   show Nat.card (cjS l⁻¹ F.D) = 8
   rw [Gen.card_conjSubgroup]
   exact F.card_A_U
 
+omit [Finite G] in
 theorem Frame3.Dc_sub_Sz (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u) {l x : G}
     (hl : l ∈ Subgroup.normalizer (F.A : Set G)) (hx : x ∈ F.Dc l) (hx1 : x ≠ 1) : x ∈ F.Sz := by
   rw [F.mem_Dc] at hx
@@ -170,6 +175,7 @@ theorem Frame3.card_stab_eq (F : Frame3 G z) {g : G} (hg : g ∈ Subgroup.normal
   have := F.card_stab_le (Subgroup.inv_mem _ hg)
   simpa using this
 
+omit [Finite G] in
 theorem Frame3.orbit_eq (F : Frame3 G z) {i : Fin 7} {a : G} (ha : a ∈ F.Δ i) :
     {x : G | ∃ l ∈ F.NA, x = l⁻¹ * a * l} = F.Δ i := by
   ext x
@@ -180,11 +186,12 @@ theorem Frame3.orbit_eq (F : Frame3 G z) {i : Fin 7} {a : G} (ha : a ∈ F.Δ i)
     obtain ⟨l, hl, hxl⟩ := F.Δ_trans i a ha x hx
     exact ⟨l, hl, hxl⟩
 
+omit [Finite G] in
 theorem Frame3.orbit_ncard (F : Frame3 G z) {i : Fin 7} {a : G} (ha : a ∈ F.Δ i) :
     (F.Δ i).ncard * Nat.card ↥(F.NA ⊓ Subgroup.centralizer ({a} : Set G)) = Nat.card ↥F.NA :=
   card_orbit_eq_ncard F.NA a (F.Δ i) (F.orbit_eq ha)
 
-theorem Frame3.symm_D (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u) {l : G}
+theorem Frame3.symm_D (F : Frame3 G z) (_hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u) {l : G}
     (hl : l ∈ Subgroup.normalizer (F.A : Set G)) (h : l * z * l⁻¹ ∈ F.D) :
     l⁻¹ * z * l ∈ F.D := by
   have hz1 : z ≠ 1 := F.z_ne_one
@@ -254,7 +261,7 @@ theorem Frame3.Dm_eq (F : Frame3 G z) {l : G} (hl : l ∈ Subgroup.normalizer (F
   classical
   have h : ∃ l' ∈ Subgroup.normalizer (F.A : Set G), l⁻¹ * z * l = l'⁻¹ * z * l' := ⟨l, hl, rfl⟩
   unfold Frame3.Dm
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   obtain ⟨hl', hs⟩ := Classical.choose_spec h
   exact (F.Dc_eq hl hl' hs).symm
 

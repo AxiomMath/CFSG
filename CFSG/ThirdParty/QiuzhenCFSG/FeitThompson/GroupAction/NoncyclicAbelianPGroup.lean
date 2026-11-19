@@ -364,7 +364,7 @@ public theorem CFSG.iSup_fixedPointSubgroup_cyclicQuot_eq_top_of_noncyclic_abeli
     have hAq : Nat.Coprime (Nat.card A) q := by
       rw [hn]
       exact ((Fact.out : p.Prime).coprime_pow_of_not_dvd (m := n) hp_not_dvd_q).symm
-    let _ : Fact (IsPGroup q (Q : Subgroup G)) := ⟨Q.isPGroup'⟩
+    let _ : Fact (IsPGroup q (Q : Subgroup G)) := ⟨Q.isPGroup⟩
     have hQtop :
         (⨆ (Y : Subgroup A) (_ : IsCyclic (A ⧸ Y)),
           fixedPointSubgroup (↥Y) (Q : Subgroup G)) = ⊤ := by

@@ -47,7 +47,7 @@ theorem s16e_d5_tetra {u v : Multiplicative (Fin 4 → ZMod 3)}
     have e : ↥S' ≃ ↥S :=
       { toFun := fun x => ⟨Multiplicative.ofAdd x.1, (hmemS' x.1).mp x.2⟩
         invFun := fun y =>
-          ⟨Multiplicative.toAdd y.1, (hmemS' _).mpr (by simpa using y.2)⟩
+          ⟨Multiplicative.toAdd y.1, (hmemS' _).mpr (by simp)⟩
         left_inv := fun x => by ext; simp
         right_inv := fun y => by ext; simp }
     rw [Nat.card_congr e]

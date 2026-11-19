@@ -42,14 +42,14 @@ private theorem center_statedSU_eq_scalars_galoisField (n f : ℕ) (hf : 1 ≤ f
         (StatedSU n (2 ^ f) (GaloisField 2 (2 * f))) := by
   let K := GaloisField 2 (2 * f)
   have hK : Nat.card K = (2 ^ f) ^ 2 := card_galoisField_two_mul f hf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := inferInstance
   rcases (show n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ 4 ≤ n by omega) with
     rfl | rfl | rfl | rfl | hn4
-  · haveI : Subsingleton ↥(StatedSU 0 (2 ^ f) K) :=
+  · have : Subsingleton ↥(StatedSU 0 (2 ^ f) K) :=
       subsingleton_statedSU_of_le_one (by omega) (2 ^ f) K
     exact Subsingleton.elim _ _
-  · haveI : Subsingleton ↥(StatedSU 1 (2 ^ f) K) :=
+  · have : Subsingleton ↥(StatedSU 1 (2 ^ f) K) :=
       subsingleton_statedSU_of_le_one (by omega) (2 ^ f) K
     exact Subsingleton.elim _ _
   · rw [CFSG.ComponentClassification.RankTwoClassical.center_statedSU_two_eq_bot hK]

@@ -131,8 +131,8 @@ theorem inFSq_sup_of_isSubnormal_rankOne
 theorem isSL3_of_isL3_of_isQuasisimple {X : Type} [Group X] {n : ℕ}
     (hq : CFSG.Open.IsQuasisimple X) (h : IsL3 X n) : UC22.IsSL3 X n := by
   have hs := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
-  haveI := hs
-  haveI := uc22p22a_qs_nontrivial hq
+  have := hs
+  have := uc22p22a_qs_nontrivial hq
   have hc : Subgroup.center X = ⊥ :=
     uc22p22a_center_eq_bot (uc22p22d_noncomm_of_perfect hq.1)
   exact ⟨hq, CFSG.Blueprint.LieModel.of_mulEquiv
@@ -142,8 +142,8 @@ theorem isSL3_of_isSLn_of_isQuasisimple {X : Type} [Group X] {n : ℕ}
     (hq : CFSG.Open.IsQuasisimple X) (h : IsSLn X 3 n) : UC22.IsSL3 X n := by
   have hn : 1 ≤ n := by
     obtain ⟨K, hKf, hKfin, hK, -⟩ := h
-    letI : Field K := hKf
-    haveI : Finite K := hKfin
+    let : Field K := hKf
+    have : Finite K := hKfin
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     rcases Nat.eq_zero_or_pos n with rfl | hpos
     · rw [hK, pow_zero] at h1
@@ -185,7 +185,7 @@ theorem bParam_le_two_mul_of_is2F4
     (hO2 : O2Trivial Y) (hfix : fixV T ≠ fixV Y) (h2F4 : Is2F4 n ↥L) :
     bParam L Y ≤ 2 * n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTY : T ≤ Y := hsyl.1
   have hLY : L ≤ Y := hcomp.1
   have hTL : IsSylowIn 2 (T ⊓ L) L :=

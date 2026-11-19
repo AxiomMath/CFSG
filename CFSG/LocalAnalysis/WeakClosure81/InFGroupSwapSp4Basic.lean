@@ -35,7 +35,7 @@ theorem tA_eq (h : Setting L T P₀ P₁ n w) (A : Subgroup Q) :
 
 theorem le_normalizer_inf (h : Setting L T P₀ P₁ n w) :
     T ≤ normalizer ((T ⊓ L : Subgroup Q) : Set Q) := by
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   intro t ht
   refine Subgroup.inf_normalizer_le_normalizer_inf (H := T) (K := L) ⟨?_, ?_⟩
   · exact Subgroup.le_normalizer ht
@@ -98,10 +98,12 @@ theorem sp4C_one_eq (h : Setting L T P₀ P₁ n w) :
     rw [sp4Q₁_zero h, h.k₂₀]
   exact h'.trans h.concl₀.Q₁_cent
 
+omit [Finite Q] in
 private theorem sp4C_le_rad {P R : Subgroup Q} : sp4C P R ≤ R := by
   unfold sp4C
   exact inf_le_left
 
+omit [Finite Q] in
 private theorem sp4Z_le_rad {P R : Subgroup Q}
     (hc : Sp4ParConcl n L P (T ⊓ L) R) : sp4Z P (T ⊓ L) R ≤ R := by
   have h1 : sp4Z P (T ⊓ L) R ≤ sp4C P R ⊔ sp4Z P (T ⊓ L) R := le_sup_right

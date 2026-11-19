@@ -51,7 +51,7 @@ theorem simplyTwoConnected_inducedSystemAll_iff (A : Set C) :
 
 theorem dm07Thm66 : DM07Thm66 := by
   intro ι _ M W _ cs w₀ hw C δ hB _hthick t ht hb hc
-  haveI : Finite W := CoxeterSystem.finite_of_w0 cs w₀ hw
+  have : Finite W := CoxeterSystem.finite_of_w0 cs w₀ hw
   obtain ⟨rk, hinj, hone, hmono⟩ := CoxeterSystem.exists_rank cs
   have hrk : IsRankFn cs rk := ⟨hinj, hone, hmono⟩
   have hX : (buildingSystem cs δ).Connected := buildingSystem_connected hB

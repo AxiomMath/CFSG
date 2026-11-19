@@ -29,7 +29,7 @@ theorem zmod2_eq_zero_or_one (s : ZMod 2) : s = 0 ∨ s = 1 := by
 theorem card_NZ [Finite V] (U : Submodule (ZMod 2) V) (hU : Module.finrank (ZMod 2) U = 2) :
     Nat.card (NZ U) = 3 := by
   classical
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   have hcard : Fintype.card U = 4 := by
     rw [Module.card_eq_pow_finrank (K := ZMod 2) (V := U), ZMod.card, hU]
     norm_num
@@ -137,7 +137,7 @@ theorem exists_transvection_of_involution [Finite V] (U : Submodule (ZMod 2) V)
   have hgu : g u - u = a 0 • (g u₀ - u₀) := by
     rw [← ha]
     simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, map_add, map_smul, hfg]
+      map_add, map_smul, hfg]
     module
   have hgV := congrArg (fun w : U => (w : V)) hgu
   simp only [Submodule.coe_sub, Submodule.coe_smul] at hgV

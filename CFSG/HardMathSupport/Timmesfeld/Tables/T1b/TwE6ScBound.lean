@@ -37,7 +37,7 @@ theorem pRank_three_twistedE6Sc_le_six {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f)
     (h3 : 3 ∣ p ^ f + 1) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (twistedE6Group p f)) ≤ 6 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K := GaloisField p (2 * f) with hK
   have hKcard : Nat.card K = p ^ (2 * f) := by
     rw [hK, GaloisField.card p (2 * f) (by omega)]

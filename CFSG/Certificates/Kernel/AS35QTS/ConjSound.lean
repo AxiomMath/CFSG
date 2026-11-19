@@ -68,7 +68,7 @@ theorem lane1 {c : Nat} (hc : c < 82944) :
 
 theorem laneT_dc {IL S INV : List Nat} (h : invOK G IL S INV = true) : dcG G laneT = tau0 := by
   unfold invOK at h
-  simp only [and'_eq, Bool.and_eq_true, frc_eqL, lanesK_eq] at h
+  simp only [Bool.and_eq_true, frc_eqL, lanesK_eq] at h
   have hb := beq_one_tb h.1
   rw [eqP_lane one_tb0, lane1 hg hG laneT_lt, lane_cst one_tb0, decN_ixT, eqP_e] at hb
   exact hb
@@ -78,17 +78,20 @@ theorem dl_eq {IL S INV : List Nat} (hs : slOK G S = true) (h : invOK G IL S INV
   change tau0 :: sl = _
   rw [sl_eq hg hG hs, List.map_cons, laneT_dc hg hG h]
 
+omit hg hG in
 theorem incS {S : List Nat} (hs : slOK G S = true) : ∀ s ∈ S, s < 82944 := by
   unfold slOK at hs
   rw [and'_eq, Bool.and_eq_true] at hs
   exact incB_lt hs.1
 
+omit hg hG in
 theorem incD {S : List Nat} (hs : slOK G S = true) : ∀ s ∈ laneT :: S, s < 82944 := by
   intro s h
   rcases List.mem_cons.1 h with rfl | h
   · exact laneT_lt
-  · exact incS hg hG hs s h
+  · exact incS hs s h
 
+omit hg hG in
 theorem incIL {IL : List Nat} (h : ilOK G IL = true) : ∀ s ∈ IL, s < 82944 := by
   unfold ilOK at h
   rw [and'_eq, Bool.and_eq_true] at h
@@ -98,15 +101,15 @@ theorem invOK_spec {IL S INV : List Nat} (hil : ilOK G IL = true) (hs : slOK G S
     (h : invOK G IL S INV = true) :
     ∀ c ∈ il, c = tau0 ∨ c ∈ sl ∨
       ∃ a ∈ dlC, ∃ b ∈ dlC, a ≠ b ∧ mulC a b = mulC b a ∧ mulC a b = c := by
-  have hD := incD hg hG hs
+  have hD := incD hs
   have hdl := dl_eq hg hG hs h
   have hτ := laneT_dc hg hG h
   rw [il_eq hg hG hil, sl_eq hg hG hs]
   intro c hc
   obtain ⟨l, hl, rfl⟩ := List.mem_map.1 hc
-  have hlN := incIL hg hG hil l hl
+  have hlN := incIL hil l hl
   unfold invOK at h
-  simp only [and'_eq, Bool.and_eq_true, frc_eqL, lanesK_eq] at h
+  simp only [Bool.and_eq_true, frc_eqL, lanesK_eq] at h
   obtain ⟨-, hW, hZ⟩ := h
   have ht := allT_testBit hlN
   have hb := tb_zero hZ l
@@ -120,7 +123,7 @@ theorem invOK_spec {IL S INV : List Nat} (hil : ilOK G IL = true) (hs : slOK G S
     right
     obtain ⟨w, hw, hwl⟩ := indINV_tb l INV hb
     obtain ⟨j, hj⟩ := allI_mem hW w hw
-    simp only [and'_eq, Bool.and_eq_true] at hj
+    simp only [Bool.and_eq_true] at hj
     obtain ⟨ha, hb', hne, hcomm, hprod⟩ := hj
     rw [hwl] at hprod
     have ha' := of_decide_eq_true ((Dmask_tb S _).symm.trans (bitN_one ha))
@@ -151,9 +154,9 @@ theorem rootOK_spec {IL R : List Nat} (hil : ilOK G IL = true) (h : rootOK G IL 
   obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hc
   rw [List.length_map] at hj
   rw [List.getElem_map] at hm ⊢
-  have hlN := incIL hg hG hil IL[j] (List.getElem_mem _)
+  have hlN := incIL hil IL[j] (List.getElem_mem _)
   unfold rootOK at h
-  simp only [and'_eq, Bool.and_eq_true, frc_eqL, lanesK_eq, mulK_frc, bindP_eq] at h
+  simp only [Bool.and_eq_true, frc_eqL, lanesK_eq, mulK_frc, bindP_eq] at h
   obtain ⟨hR, hr1, hr2⟩ := h
   have hRb := incB_lt hR
   have htj : (ones (lenR IL)).testBit j = true := by
@@ -195,7 +198,7 @@ theorem rootOK_spec {IL R : List Nat} (hil : ilOK G IL = true) (h : rootOK G IL 
 
 theorem classOK_spec {S CLS : List Nat} (hs : slOK G S = true) (h : classOK G S CLS = true) :
     ∀ t ∈ sl, ∃ m ∈ codes, mulC m t0c = mulC t m := by
-  have hSb := incS hg hG hs
+  have hSb := incS hs
   cases S with
   | nil => exact absurd h (by unfold classOK; rw [lanesK_eq]; exact Bool.false_ne_true)
   | cons s0 S' =>
@@ -210,7 +213,7 @@ theorem classOK_spec {S CLS : List Nat} (hs : slOK G S = true) (h : classOK G S 
   rw [lanesK_eq] at h
   change allI2 (s0 :: S') CLS _ = true at h
   obtain ⟨hjc, hf⟩ := allI2_spec h j hj
-  simp only [and'_eq, Bool.and_eq_true, mulK_frc, Nat.blt_eq] at hf
+  simp only [Bool.and_eq_true, mulK_frc, Nat.blt_eq] at hf
   obtain ⟨hmN, he⟩ := hf
   have hsN : (s0 :: S')[j] < 82944 := hSb _ (List.getElem_mem _)
   have h1 := beq_one_tb he
@@ -222,7 +225,7 @@ theorem ordOK_spec {IL S INV : List Nat} (hs : slOK G S = true) (hi : invOK G IL
     (h : ordOK G S = true) :
     ∀ a ∈ dlC, ∀ b ∈ dlC, mulC (mulC a b) (mulC a b) = e0 ∨
       mulC (mulC (mulC a b) (mulC a b)) (mulC a b) = e0 := by
-  have hD := incD hg hG hs
+  have hD := incD hs
   rw [dl_eq hg hG hs hi]
   intro a ha b hb
   obtain ⟨i, hi', rfl⟩ := List.getElem_of_mem ha

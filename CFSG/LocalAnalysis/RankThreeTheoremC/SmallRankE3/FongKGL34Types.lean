@@ -168,6 +168,7 @@ theorem sigma_sq_of_graphField (hn : 3 ≤ n) {A : GL (Fin n) F} {σ : F ≃+* F
   rw [← pow_two, sq_conjAut_fieldAut_dualAut] at h
   exact (eq_one_of_conjAut_mul_fieldAut_eq_one hn _ _ h).1
 
+omit [Finite F] in
 theorem sigma_eq_of_sq_eq_one (hF : Nat.card F = 2 ^ f) (hf : 1 ≤ f) {σ τ : F ≃+* F}
     (hσ : σ ≠ 1) (hτ : τ ≠ 1) (hσσ : σ * σ = 1) (hττ : τ * τ = 1) : σ = τ := by
   obtain ⟨-, h1⟩ := even_and_eq_pow_of_involution hf hF hσ hσσ
@@ -197,6 +198,7 @@ theorem eq_of_isFieldType (hn : 3 ≤ n) (hF : Nat.card F = 2 ^ f) (hf : 1 ≤ f
   rw [this]
   exact conjAut_mem_linearAutGroup _
 
+omit [Finite F] in
 theorem eq_of_isGraphType {S : Subgroup (MulAut (projectiveSL n F))}
     (hSD : S ⊓ linearAutGroup n F = ⊥) {ι ι' : MulAut (projectiveSL n F)} (hι : ι ∈ S)
     (hι' : ι' ∈ S) (hT : IsGraphType ι) (hT' : IsGraphType ι') : ι = ι' := by

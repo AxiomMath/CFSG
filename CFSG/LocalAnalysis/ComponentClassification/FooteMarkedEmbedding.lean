@@ -24,15 +24,17 @@ theorem footeCounterexample_familyType {t : G} {L : Subgroup G}
     (hce : FooteCounterexample G t L) : FooteFamilyType L :=
   hce.1.2.2.2.2.1
 
+omit [Finite G] in
 theorem footeFamilyType_top_simple {L : Subgroup G} (hFT : FooteFamilyType L) :
     IsSimpleGroup (L ⧸ Open.fusionZStar L) := by
   rcases hFT with h | ⟨p, f, hp, hp2, hf, h5, hLM⟩
   · let e := Classical.choice h
-    haveI : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 7)) :=
       alternatingGroup.isSimpleGroup (by simp)
     exact e.isSimpleGroup
   · exact CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hLM
 
+omit [Finite G] in
 theorem footeFamilyType_top_nonabelian {L : Subgroup G} (hFT : FooteFamilyType L) :
     ∃ a b : L ⧸ Open.fusionZStar L, a * b ≠ b * a := by
   rcases hFT with h | ⟨p, f, hp, hp2, hf, h5, hLM⟩
@@ -46,8 +48,8 @@ theorem footeFamilyType_top_nonabelian {L : Subgroup G} (hFT : FooteFamilyType L
   · have hSCM := hLM.statedClassicalModel (by decide)
     obtain ⟨-, F, hField, hFinite, hF, he⟩ := hSCM
     let e := Classical.choice he
-    letI := hField
-    letI := hFinite
+    let := hField
+    let := hFinite
     have h4 : 4 ≤ Nat.card F := by
       rw [hF]
       omega
@@ -57,6 +59,7 @@ theorem footeFamilyType_top_nonabelian {L : Subgroup G} (hFT : FooteFamilyType L
     exact ⟨e'.symm x, e'.symm y, fun h => hxy (by
       simpa using congrArg (fun z => e' z) h)⟩
 
+omit [Finite G] in
 theorem footeFamilyType_outer_solvable {L : Subgroup G} (hFT : FooteFamilyType L) :
     Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (L ⧸ Open.fusionZStar L)) := by
@@ -66,8 +69,8 @@ theorem footeFamilyType_outer_solvable {L : Subgroup G} (hFT : FooteFamilyType L
       (Or.inr (by norm_num)) e
   · have hSCM := hLM.statedClassicalModel (by decide)
     obtain ⟨-, F, hField, hFinite, hF, he⟩ := hSCM
-    letI := hField
-    letI := hFinite
+    let := hField
+    let := hFinite
     let e := Classical.choice he
     let e' : (L ⧸ Open.fusionZStar L) ≃*
         Matrix.ProjectiveSpecialLinearGroup (Fin 2) F :=
@@ -82,7 +85,7 @@ theorem footeSwapSetting_outer_solvable {t : G} {L : Subgroup G} {𝓢 : Set (Su
 
 theorem footeFamilyType_top_rank {L : Subgroup G} (hFT : FooteFamilyType L) :
     2 ≤ CFSG.pRank 2 (L ⧸ Open.fusionZStar L) := by
-  haveI : IsSimpleGroup (L ⧸ Open.fusionZStar L) := footeFamilyType_top_simple hFT
+  have : IsSimpleGroup (L ⧸ Open.fusionZStar L) := footeFamilyType_top_simple hFT
   have hq : CFSG.IsQuasisimple (L ⧸ Open.fusionZStar L) :=
     CFSG.LocalAnalysis.ComponentInitial.isQuasisimple_of_isSimpleGroup
       (footeFamilyType_top_nonabelian hFT)
@@ -131,6 +134,7 @@ theorem footeSwapSetting_isomorphicFamily {t : G} {L : Subgroup G} {𝓢 : Set (
     X ≤ conjugate M g →
     (∀ a ∈ K, ∃ x ∈ X, ∃ o ∈ oddCoreIn (markedLayer S T M), a = x * o) → g ∈ M
 
+omit [Finite G] in
 theorem markedCount_conjugate {S : Set (Subgroup G)} {T : Type*} [Group T]
     (hFam : IsomorphicFamily S T) (M : Subgroup G) (g : G) :
     markedCount S T (conjugate M g) = markedCount S T M := by
@@ -295,8 +299,6 @@ theorem markedFusionControl_of_cover_of_kernel
         (MulAut.conj g⁻¹).toMonoidHom =
         twoLayerIn (centralizer ({g⁻¹ * t * g} : Set G)) := by
       rw [map_twoLayerIn]
-      change twoLayerIn ((centralizer ({t} : Set G)).map
-        (MulAut.conj g⁻¹).toMonoidHom) = twoLayerIn (centralizer ({g⁻¹ * t * g} : Set G))
       rw [Subgroup.map_conj_centralizer_singleton, inv_inv]
     have hmap := map_mono (f := (MulAut.conj g⁻¹).toMonoidHom) hker
     rw [Subgroup.map_sup, eO, eL] at hmap
@@ -343,7 +345,7 @@ theorem markedFusionControl_of_cover_of_kernel
 
 theorem false_of_markedEmbedding_of_controls
     {S : Set (Subgroup G)} {T : Type*} [Group T] [Finite T]
-    (hFam : FooteMarked.IsomorphicFamily S T)
+    (_hFam : FooteMarked.IsomorphicFamily S T)
     (hTrank : 2 ≤ CFSG.pRank 2 T)
     {M : Subgroup G} (hMtop : M ≠ ⊤) (hMbal : FooteMarked.Balanced S T M)
     (hDnorm : Subgroup.normalizer (FooteMarked.markedLayer S T M : Set G) = M)
@@ -487,7 +489,7 @@ theorem footeMarkedEmbeddingExclusion_of_absorption
   intro G _ _ t L 𝓢 hset M hMtop hMbal hDnorm hCpure
   let T := L ⧸ Open.fusionZStar L
   have hFam : FooteMarked.IsomorphicFamily 𝓢 T := footeSwapSetting_isomorphicFamily hset
-  haveI : IsSimpleGroup T := footeSwapSetting_top_simple hset
+  have : IsSimpleGroup T := footeSwapSetting_top_simple hset
   have hTnonab : ∃ a b : T, a * b ≠ b * a := footeSwapSetting_top_nonabelian hset
   have hTrank : 2 ≤ CFSG.pRank 2 T := footeSwapSetting_top_rank hset
   have hOutT : Group.IsSolvable

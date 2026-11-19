@@ -54,6 +54,7 @@ theorem isPerfect_of_simple_nonabelian {G : Type*} [Group G] [IsSimpleGroup G]
       _ = b * a := by rw [this]; group
   · exact h
 
+omit [Finite X] in
 theorem le_commutator_of_simple_nonabelian {Y : Subgroup X} [IsSimpleGroup Y]
     (hnab : ∃ a ∈ Y, ∃ b ∈ Y, a * b ≠ b * a) : Y ≤ commutator X := by
   have : Group.IsPerfect Y := isPerfect_of_simple_nonabelian (by
@@ -66,6 +67,7 @@ section Data
 
 variable {t : X} {Y U : Subgroup X}
 
+omit [Finite X] in
 theorem not_conj_mem_of_data (D : SylowData t Y U) (ht2 : t * t = 1) (ht1 : t ≠ 1)
     (hC : Nat.card (centralizer ({t} : Set X)) = 1440) (g : X) :
     g * t * g⁻¹ ∉ U := by
@@ -96,7 +98,7 @@ theorem not_conj_mem_of_data (D : SylowData t Y U) (ht2 : t * t = 1) (ht1 : t �
 
 theorem isPGroup_T_of_data (D : SylowData t Y U) (ht2 : t * t = 1) :
     IsPGroup 2 (U ⊔ zpowers t : Subgroup X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : IsPGroup 2 U := IsPGroup.of_card D.card
   have hnorm : zpowers t ≤ normalizer (U : Set X) := by
     intro g hg
@@ -116,6 +118,7 @@ theorem isPGroup_T_of_data (D : SylowData t Y U) (ht2 : t * t = 1) :
       exact this
   exact hU.to_sup_of_normal_left' (isPGroup_zpowers_of_mul_self ht2) hnorm
 
+omit [Finite X] in
 theorem card_T_inf_centralizer_of_data (D : SylowData t Y U) (ht2 : t * t = 1) :
     Nat.card ((U ⊔ zpowers t) ⊓ centralizer ({t} : Set X) : Subgroup X) = 2 ^ 5 := by
   have htC : t ∈ centralizer ({t} : Set X) := mem_centralizer_singleton_iff.mpr rfl
@@ -140,6 +143,7 @@ theorem card_T_inf_centralizer_of_data (D : SylowData t Y U) (ht2 : t * t = 1) :
     simpa using hu
   · exact fun h => D.t_not_mem h.1
 
+omit [Finite X] in
 theorem hfus_of_data (D : SylowData t Y U) (ht2 : t * t = 1) (ht1 : t ≠ 1)
     (hC : Nat.card (centralizer ({t} : Set X)) = 1440) (g : X)
     (hg : g * t * g⁻¹ ∈ U ⊔ zpowers t) :
@@ -155,7 +159,7 @@ theorem hfus_of_data (D : SylowData t Y U) (ht2 : t * t = 1) (ht1 : t ≠ 1)
 
 theorem not_isPGroup_of_card_979200 {Y : Subgroup X} (h : Nat.card Y = 979200) :
     ¬ IsPGroup 2 Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hY
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hY
   rw [h] at hn
@@ -172,7 +176,7 @@ theorem gomi1P_facts_of_data [IsSimpleGroup Y]
     (hKZ : ∀ k ∈ Y ⊓ centralizer ({t} : Set X),
       (∀ k' ∈ Y ⊓ centralizer ({t} : Set X), k * k' = k' * k) → k = 1)
     (D : SylowData t Y U) : Gomi1PFacts Y (layer X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htY : t ∉ Y := fun h => hout ⟨t, h, fun z _ => rfl⟩
   have hKt : ∀ k ∈ Y ⊓ centralizer ({t} : Set X), k * t = t * k := fun k hk =>
     mem_centralizer_singleton_iff.mp hk.2
@@ -201,7 +205,7 @@ theorem gomi1P_facts_of_data [IsSimpleGroup Y]
   have htP : t ∈ (P : Subgroup X) := hPT ▸ htT
   have hidx : (U.subgroupOf (P : Subgroup X)).index = 2 := by
     rw [hPT]; exact index_eq_two_of_normalizes ht2 D.norm D.t_not_mem
-  haveI hUn : (U.subgroupOf (P : Subgroup X)).Normal := normal_of_index_eq_two hidx
+  have hUn : (U.subgroupOf (P : Subgroup X)).Normal := normal_of_index_eq_two hidx
   have hfus₂ : ∀ g : X, g * t * g⁻¹ ∈ (P : Subgroup X) → g * t * g⁻¹ ∉ U := fun g _ =>
     not_conj_mem_of_data D ht2 ht1 hC g
   have htc : t ∉ commutator X :=
@@ -216,7 +220,7 @@ theorem gomi1P_facts_of_data [IsSimpleGroup Y]
   have hp : pCore 2 X = ⊥ :=
     pCore_two_eq_bot (not_isPGroup_of_card_979200 hYcard) ht2 htn hout hcent.le
   have hF : fittingSubgroup X = ⊥ := fitting_eq_bot hO hp
-  haveI : (layer X).Characteristic := LocalCores.layer_characteristic
+  have : (layer X).Characteristic := LocalCores.layer_characteristic
   have htL : t ∉ layer X := fun h => htc (layer_le_commutator h)
   have hLnab : ∃ a ∈ layer X, ∃ b ∈ layer X, a * b ≠ b * a := by
     by_contra hcon

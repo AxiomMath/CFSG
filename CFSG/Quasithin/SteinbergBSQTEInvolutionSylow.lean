@@ -119,14 +119,14 @@ theorem sylow_transfer {A : Type*} [Group A] [Finite A] {t : A}
   have hfacH : (Nat.card H).factorization 2 = (Nat.card A).factorization 2 := by
     rw [hcardH, Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne', Finsupp.add_apply,
       Nat.factorization_eq_zero_of_not_dvd hC2, zero_add, hfacC]
-  obtain ⟨Û, ⟨eT⟩⟩ := hlift T hTt T.isPGroup'
+  obtain ⟨Û, ⟨eT⟩⟩ := hlift T hTt T.isPGroup
   refine ⟨?_, fun E hET hcomm hexp => ?_⟩
-  · have hÛ : IsPGroup 2 Û := T.isPGroup'.of_equiv eT.symm
+  · have hÛ : IsPGroup 2 Û := T.isPGroup.of_equiv eT.symm
     have hcardÛ : Nat.card Û = 2 ^ (Nat.card H).factorization 2 := by
       rw [Nat.card_congr eT.toEquiv, hTcard, hfacH]
     have := hH1 Û hÛ hcardÛ
     exact isCyclic_of_surjective (centerCongr eT).toMonoidHom (centerCongr eT).surjective
-  · obtain ⟨Ê, ⟨eE⟩⟩ := hlift E (hET.trans hTt) (T.isPGroup'.to_le hET)
+  · obtain ⟨Ê, ⟨eE⟩⟩ := hlift E (hET.trans hTt) (T.isPGroup.to_le hET)
     rw [← Nat.card_congr eE.toEquiv]
     refine hH2 Ê (fun x hx y hy => ?_) (fun x hx => ?_)
     · have h := hcomm _ (eE ⟨x, hx⟩).2 _ (eE ⟨y, hy⟩).2

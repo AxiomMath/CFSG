@@ -69,18 +69,18 @@ theorem exists_lang_triD4_data (hF : FrobeniusOnRoots) {ℓ f : ℕ} (hℓ : ℓ
       (∃ S₀ : Sylow p D.Γ, (S₀ : Subgroup D.Γ) ≤ D.torus.subgroupOf D.Γ) ∧
       Nonempty (graphFixedRootGroup TwistTag.D4 K σ.toRingHom ≃* D.Γ) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 3)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   let Fr : L →+* L := iterateFrobenius L ℓ f
   have hFr : ∀ c, Fr c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   have hq2 : 2 ≤ ℓ ^ f := Nat.one_lt_pow (by omega) hℓ.one_lt
@@ -176,17 +176,17 @@ theorem exists_lang_triD4_model {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) 
       D.model ≤ D.Γ ∧ Finite D.model ∧
       Nonempty (graphFixedRootGroup TwistTag.D4 K σ.toRingHom ≃* D.Γ) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 3)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   let L := AlgebraicClosure K
-  haveI hLchar : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have hLchar : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   let Fr : L →+* L := iterateFrobenius L ℓ f
   have hFr : ∀ c, Fr c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   obtain ⟨g0, hg0C, hg0⟩ := lang_conjugator_D4 (K := K) (ℓ := ℓ) hf L

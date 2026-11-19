@@ -25,6 +25,7 @@ theorem exists_zpow_of_card_prime {Z : Subgroup G} (hZr : (Nat.card Z).Prime) {�
   obtain ⟨s, hs⟩ := mem_zpowers_iff.mp hζ'
   exact ⟨s, hs.symm⟩
 
+omit [Finite M] in
 theorem sum_smul_conj (V : Subgroup G) [Fintype V] {g : G} (hg : ∀ v ∈ V, g * v * g⁻¹ ∈ V)
     (m : M) : ∑ v : V, (v : G) • g • m = g • ∑ v : V, (v : G) • m := by
   let φ : V → V := fun v => ⟨g * v * g⁻¹, hg v v.2⟩
@@ -57,10 +58,10 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
     (hmove : ∀ a, ∃ v ∈ Vi a, y a * v * (y a)⁻¹ * v⁻¹ ∈ Z ∧ y a * v * (y a)⁻¹ * v⁻¹ ≠ 1) :
     False := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hZr' : (Nat.card Z).Prime := hZr ▸ hr
   have hZcomm : ∀ ζ ∈ Z, ∀ g : G, g * ζ = ζ * g := fun ζ hζ g => Subgroup.mem_center_iff.mp (hZc hζ) g
-  haveI hZn : Z.Normal := ⟨fun n hn g => by rw [hZcomm n hn g, mul_inv_cancel_right]; exact hn⟩
+  have hZn : Z.Normal := ⟨fun n hn g => by rw [hZcomm n hn g, mul_inv_cancel_right]; exact hn⟩
   have memVZ : ∀ x ∈ V ⊔ Z, ∃ v ∈ V, ∃ ζ ∈ Z, v * ζ = x := fun x hx =>
     Subgroup.mem_sup_of_normal_right.mp hx
   have commVZ : ∀ x ∈ V ⊔ Z, ∀ x' ∈ V ⊔ Z, x * x' = x' * x := by
@@ -113,7 +114,7 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
     · intro x hx
       obtain ⟨k, hk, rfl⟩ := (hmem x).mp hx
       rw [mul_smul, mul_smul, inv_smul_smul, hm k hk]
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   let e : M →+ M := AddMonoidHom.mk' (fun x => ∑ v : V, (v : G) • x)
     (fun x x' => by simp [smul_add, Finset.sum_add_distrib])
   have he : ∀ x, e x = ∑ v : V, (v : G) • x := fun x => rfl
@@ -131,7 +132,7 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
     intro K ⟨h1, h2, h3, m, hm0, hm⟩
     by_cases hVK : V ≤ K
     · exact ⟨0, 1, by decide, (hViV 0).trans hVK, (hViV 1).trans hVK⟩
-    obtain ⟨v₀, hv₀, hv₀K⟩ := SetLike.not_le_iff_exists.mp hVK
+    obtain ⟨v₀, hv₀, hv₀K⟩ := IsConcreteLE.not_le_iff_exists.mp hVK
     obtain ⟨k₀, hk₀, ζ₀, hζ₀, hv₀e⟩ := h3 v₀ hv₀
     have hζ₀1 : ζ₀ ≠ 1 := by
       rintro rfl; rw [mul_one] at hv₀e; exact hv₀K (hv₀e ▸ hk₀)
@@ -158,7 +159,7 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
       · exact Or.inl (le_antisymm hLH hHL)
       right
       apply le_antisymm hLV
-      obtain ⟨l, hl, hlH⟩ := SetLike.not_le_iff_exists.mp hLH
+      obtain ⟨l, hl, hlH⟩ := IsConcreteLE.not_le_iff_exists.mp hLH
       have hlK : l ∉ K := fun h => hlH ⟨h, hLV hl⟩
       obtain ⟨k, hk, ζ, hζ, hle⟩ := h3 l (hLV hl)
       have hζ1 : ζ ≠ 1 := by
@@ -204,9 +205,9 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
       exact ⟨0, 1, by decide, hVjK 2 0 (by decide) huV, hVjK 2 1 (by decide) huV⟩
   have hK₀ : ∃ K₀, 𝒦 K₀ := by
     set A := V ⊔ Z with hA
-    letI iC : CommGroup A :=
+    let iC : CommGroup A :=
       { (inferInstance : Group A) with mul_comm := fun a b => Subtype.ext (commVZ a a.2 b b.2) }
-    haveI : CFSG.IsElementaryAbelian r A :=
+    have : CFSG.IsElementaryAbelian r A :=
       { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (commVZ a a.2 b b.2)⟩⟩
         exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g => by
           obtain ⟨v, hv, ζ, hζ, hg⟩ := memVZ g g.2
@@ -217,10 +218,10 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
             simpa using congrArg Subtype.val this
           rw [Subgroup.coe_pow, ← hg, (show Commute v ζ from hZcomm ζ hζ v).mul_pow, hVr v hv,
             hζr, one_mul, Subgroup.coe_one] }
-    haveI : Nontrivial Z := Finite.one_lt_card_iff_nontrivial.mp (hZr ▸ hr.one_lt)
+    have : Nontrivial Z := Finite.one_lt_card_iff_nontrivial.mp (hZr ▸ hr.one_lt)
     obtain ⟨⟨ζ, hζ⟩, hne⟩ := exists_ne (1 : Z)
     have hζ1 : ζ ≠ 1 := fun h => hne (Subtype.ext h)
-    haveI : Nontrivial A := ⟨⟨⟨ζ, mem_sup_right hζ⟩, 1, fun h => hζ1 (congrArg Subtype.val h)⟩⟩
+    have : Nontrivial A := ⟨⟨⟨ζ, mem_sup_right hζ⟩, 1, fun h => hζ1 (congrArg Subtype.val h)⟩⟩
     let α : A →* MulAut (Multiplicative M) :=
       { toFun := fun a =>
           { toFun := fun x => Multiplicative.ofAdd ((a : G) • x.toAdd)
@@ -237,7 +238,7 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
     have hex : ∃ B : Subgroup A, B.index = r ∧
         ∃ x ∈ CFSG.SolvableSignalizer.fixedBySubgroup α B, x ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : (⨆ (B : Subgroup A) (_ : B.index = r),
           CFSG.SolvableSignalizer.fixedBySubgroup α B) ≤ ⊥ :=
         iSup₂_le fun B hB x hx => (Subgroup.mem_bot).mpr (hcon B hB x hx)
@@ -260,7 +261,7 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
       exact hxne (hZM _ hζ' h1 _ (hxfix b hb))
     · intro v hv
       let Z' := Z.subgroupOf A
-      haveI : Z'.Normal := hZn.subgroupOf A
+      have : Z'.Normal := hZn.subgroupOf A
       have hBc : IsCoatom B := Subgroup.isCoatom_of_index_prime (by rw [hB]; exact hr)
       have hZ'B : ¬ Z' ≤ B := fun h =>
         hxne (hZM ζ hζ hζ1 _ (hxfix ⟨ζ, mem_sup_right hζ⟩ (h (Subgroup.mem_subgroupOf.mpr hζ))))

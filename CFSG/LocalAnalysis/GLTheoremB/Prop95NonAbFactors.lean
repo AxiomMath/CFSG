@@ -61,7 +61,7 @@ theorem cj_mul (q q' : Q) (T : Subgroup Q) : cj (q * q') T = cj q (cj q' T) := b
   simp [mul_assoc]
 
 theorem cj_one (T : Subgroup Q) : cj 1 T = T := by
-  ext x; simp [mem_cj]
+  ext x; simp
 
 theorem mem_normalizer_of_cj_eq {q : Q} {T : Subgroup Q} (h : cj q T = T) :
     q ∈ Subgroup.normalizer (T : Set Q) := by
@@ -398,11 +398,11 @@ theorem exists_factorization [Finite Q] {N : Subgroup Q} (hNn : N.Normal) (hN1 :
         _ = cj q (cj (q⁻¹ * n * q) (S i)) := cj_mul _ _ _
         _ = cj q (S i) := by rw [cj_eq_of_mem_normalizer h1]
     have hTs : IsSimpleGroup T := by
-      haveI := hsimple i
+      have := hsimple i
       exact MulEquiv.isSimpleGroup
         ((S i).equivMapOfInjective (MulAut.conj q).toMonoidHom (MulAut.conj q).injective).symm
     have hT1 : T ≠ ⊥ := by
-      haveI := hTs
+      have := hTs
       exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
     have hex : ∃ j, T ⊓ S j ≠ ⊥ := by
       by_contra hno
@@ -422,8 +422,8 @@ theorem exists_factorization [Finite Q] {N : Subgroup Q} (hNn : N.Normal) (hN1 :
     obtain ⟨j, hj⟩ := hex
     have hAn : N ≤ Subgroup.normalizer ((T ⊓ S j : Subgroup Q) : Set Q) := fun n hn =>
       mem_normalizer_inf' (hTn hn) (hnorm j hn)
-    haveI := hTs
-    haveI := hsimple j
+    have := hTs
+    have := hsimple j
     refine ⟨j, ?_⟩
     rcases eq_bot_or_eq_of_simple (N := N) (T := T) (A := T ⊓ S j) inf_le_left hTN hAn with h | h
     · exact absurd h hj

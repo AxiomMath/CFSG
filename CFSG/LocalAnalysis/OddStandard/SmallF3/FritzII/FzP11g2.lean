@@ -70,7 +70,7 @@ private theorem fz_mem_sup_of_commute {A B : Subgroup G}
     calc (a * b)⁻¹ = b⁻¹ * a⁻¹ := by group
       _ = a⁻¹ * b⁻¹ := by rw [← mul_inv_rev, ← mul_inv_rev, hba]
 
-private theorem fz_commutator_le_sup (hzR : z ∈ R) (hTYR : T = Y ⊔ R)
+private theorem fz_commutator_le_sup (_hzR : z ∈ R) (hTYR : T = Y ⊔ R)
     (hYR : Y ≤ centralizer (R : Set G))
     (hRq : ∀ x ∈ R, ∀ y ∈ R, x * y * x⁻¹ * y⁻¹ ∈ zpowers z) :
     ⁅T, T⁆ ≤ Y ⊔ zpowers z := by
@@ -96,7 +96,7 @@ theorem fz_bar_le (hRT : R ≤ T) : fzBar z R ≤ fzBar z T := by
   exact Subgroup.map_mono (f := QuotientGroup.mk' (zpowers (zC z)))
     (Subgroup.subgroupOf_mono (centralizer ({z} : Set G)) hRT)
 
-theorem fz_bar_strong (hzR : z ∈ R) (hRT : R ≤ T) (hTz : T ≤ centralizer ({z} : Set G))
+theorem fz_bar_strong (hzR : z ∈ R) (hRT : R ≤ T) (_hTz : T ≤ centralizer ({z} : Set G))
     (hcl : ∀ a ∈ R, ∀ g ∈ centralizer ({z} : Set G), g * a * g⁻¹ ∈ T → g * a * g⁻¹ ∈ R) :
     ∀ t ∈ fzBar z R, ∀ g : FzCbar z, g⁻¹ * t * g ∈ fzBar z T → g⁻¹ * t * g ∈ fzBar z R := by
   intro t ht g hg
@@ -152,7 +152,7 @@ theorem fz_weak_of_strong {X : Type} [Group X] [Finite X] {S Q : Subgroup X}
     rwa [show g⁻¹ * (g * x * g⁻¹) * g = x by group] at hxQ'
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [rightConjugate_card])
 
-theorem fz_bar_comm (hzR : z ∈ R) (hRT : R ≤ T) (hTz : T ≤ centralizer ({z} : Set G))
+theorem fz_bar_comm (hzR : z ∈ R) (_hRT : R ≤ T) (hTz : T ≤ centralizer ({z} : Set G))
     (hRq : ∀ x ∈ R, ∀ y ∈ R, x * y * x⁻¹ * y⁻¹ ∈ zpowers z) (hTYR : T = Y ⊔ R)
     (hYR : Y ≤ centralizer (R : Set G)) (hYRz : Y ⊓ R ≤ zpowers z) :
     fzBar z R ⊓ ⁅fzBar z T, fzBar z T⁆ = ⊥ := by

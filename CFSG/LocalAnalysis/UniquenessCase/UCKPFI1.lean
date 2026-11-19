@@ -50,7 +50,7 @@ theorem exists_two_fixed_points {G : Type*} [Group G] {Ω : Type*} [Finite Ω] (
     {r : ℕ} (hr : r.Prime) (hr3 : 3 ≤ r) (hΩ : Nat.card Ω % r = 2) {s : G} (hs : s ^ r = 1) :
     ∃ ω₁ ω₂ : Ω, ω₁ ≠ ω₂ ∧ rho s ω₁ = ω₁ ∧ rho s ω₂ = ω₂ := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let P : Subgroup (Equiv.Perm Ω) := Subgroup.zpowers (rho s)
   have hP : IsPGroup r P := by
     intro x
@@ -71,7 +71,7 @@ theorem exists_two_fixed_points {G : Type*} [Group G] {Ω : Type*} [Finite Ω] (
     have : Nat.card (MulAction.fixedPoints P Ω) % r = Nat.card (MulAction.fixedPoints P Ω) :=
       Nat.mod_eq_of_lt (by omega)
     omega
-  haveI : Finite (MulAction.fixedPoints P Ω) := inferInstance
+  have : Finite (MulAction.fixedPoints P Ω) := inferInstance
   have hnt : Nontrivial (MulAction.fixedPoints P Ω) := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   obtain ⟨⟨ω₁, h₁⟩, ⟨ω₂, h₂⟩, hne⟩ := exists_pair_ne (MulAction.fixedPoints P Ω)
   refine ⟨ω₁, ω₂, fun h => hne (Subtype.ext h), ?_, ?_⟩

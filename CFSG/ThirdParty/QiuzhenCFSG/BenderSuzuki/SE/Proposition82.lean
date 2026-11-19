@@ -183,7 +183,7 @@ public theorem proposition_8_2_b
     let p : theorem4bFixedPoints M Y := ⟨omega, homega⟩
     have hnontrivial : Nontrivial (theorem4bFixedPoints M Y) :=
       Finite.one_lt_card_iff_nontrivial.mp (by omega)
-    letI : Nontrivial (theorem4bFixedPoints M Y) := hnontrivial
+    let : Nontrivial (theorem4bFixedPoints M Y) := hnontrivial
     obtain ⟨q, hqp⟩ := exists_ne p
     have hqomega : (q : conjugateCosetSpace M) ≠ omega := by
       intro h

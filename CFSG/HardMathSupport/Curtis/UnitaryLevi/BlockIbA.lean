@@ -50,7 +50,7 @@ theorem blockIbAbFam_A : BlockIbAbFam (IsLieOf IdxA) := by
   obtain ⟨X, _, φ, hcyc, hker⟩ := blockIbA_core hP hD hA U hUL hUP hUD hU3
   intro a ha b hb
   have hcomm : ∀ u v : φ.range, u * v = v * u := by
-    letI := hcyc.commGroup
+    let := hcyc.commGroup
     intro u v; exact mul_comm u v
   have h1 := hcomm ⟨φ ⟨a, ha⟩, ⟨_, rfl⟩⟩ ⟨φ ⟨b, hb⟩, ⟨_, rfl⟩⟩
   have h2 : φ ⟨a, ha⟩ * φ ⟨b, hb⟩ = φ ⟨b, hb⟩ * φ ⟨a, ha⟩ := congrArg Subtype.val h1
@@ -73,7 +73,7 @@ theorem blockIbRankFam_A : BlockIbRankFam (IsLieOf IdxA) := by
     have : (a : Y) ∈ E ⊓ Subgroup.centralizer (Lb : Set Y) := ⟨a.2, hC⟩
     rw [hcon, Subgroup.mem_bot] at this
     exact Subtype.ext this
-  haveI : IsCyclic ↥E := by
+  have : IsCyclic ↥E := by
     have e : ↥E ≃* φ.range := MonoidHom.ofInjective hinj
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥E)

@@ -143,7 +143,7 @@ theorem big_U
     have hU'N : U' ≤ normalizer ((Q' : Subgroup ↥c.L) : Set ↥c.L) := hU'J'.trans hJ'B
     have hU'2 : IsPGroup 2 U' := Bender.isPGroup_two_of_sq_eq_one hU'sq
     have h1 : IsPGroup 2 ↥(U' ⊔ (Q' : Subgroup ↥c.L)) :=
-      IsPGroup.to_sup_of_normal_right' hU'2 Q'.isPGroup' hU'N
+      IsPGroup.to_sup_of_normal_right' hU'2 Q'.isPGroup hU'N
     have h2 := Q'.maximal_isPGroup.eq_of_ge h1 le_sup_right
     rw [← h2]
     exact le_sup_left
@@ -152,7 +152,7 @@ theorem big_U
     rw [hU'card, hU.card_eq, show Nat.card ↥J' = Nat.card (centralizer (c.L : Set X)) from
       (Nat.card_congr (MonoidHom.ofInjective hf).toEquiv).symm]
   have hW : J' ⊓ (Q' : Subgroup ↥c.L) = U' :=
-    hU'syl.eq_of_le (le_inf hU'J' hU'Q') inf_le_left (Q'.isPGroup'.to_le inf_le_right)
+    hU'syl.eq_of_le (le_inf hU'J' hU'Q') inf_le_left (Q'.isPGroup.to_le inf_le_right)
   have hU'n : ∀ j ∈ J', ∀ u ∈ U', j * u * j⁻¹ ∈ U' := by
     intro j hj u hu
     rw [← hW] at hu ⊢

@@ -14,19 +14,21 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec9ci_reflOf_apply {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     (hpol : ∀ i j : Fin n, i ≠ j → QuadraticMap.polar Q (b i) (b j) = 0)
     {k : Fin n} (hk : Q (b k) ≠ 0) (m : Fin n) :
     ((reflOf Q (b k) hk : OGroup Q) : V ≃ₗ[ZMod 3] V) (b m) =
       (if m = k then (-1 : ZMod 3) else 1) • b m := by
-  letI : Invertible (Q (b k)) := invertibleOfNonzero hk
+  let : Invertible (Q (b k)) := invertibleOfNonzero hk
   rw [reflOf_eq (b k) hk, TauCeti.QuadraticMap.coe_reflectionOrthogonal]
   by_cases hmk : m = k
   · subst hmk
-    rw [if_pos rfl, TauCeti.QuadraticMap.reflection_apply_self, neg_one_smul]
-  · rw [if_neg hmk, TauCeti.QuadraticMap.reflection_apply_of_polar_eq_zero Q (b k)
+    rw [ite_eq_left rfl, TauCeti.QuadraticMap.reflection_apply_self, neg_one_smul]
+  · rw [ite_eq_right hmk, TauCeti.QuadraticMap.reflection_apply_of_polar_eq_zero Q (b k)
       (hpol k m (fun h => hmk h.symm)), one_smul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec9ci_piOrth_smul (c : ZMod 3) (x : V) :
     (piOrth Q : V ≃ₗ[ZMod 3] V) (c • x) = (-c) • x := by
   rw [coe_piOrth_apply, ← neg_smul]
@@ -36,10 +38,10 @@ private theorem sec9ci_pairCoeff {n : ℕ} {i j m : Fin n} (hij : i ≠ j) :
       (if m = j then (-1 : ZMod 3) else 1) * (if m = i then (-1 : ZMod 3) else 1) := by
   by_cases hmi : m = i
   · subst hmi
-    simp [hij, Ne.symm hij]
+    simp [hij]
   · by_cases hmj : m = j
     · subst hmj
-      simp [hij, hmi]
+      simp [hmi]
     · simp [hmi, hmj]
 
 private theorem sec9ci_piCoeff {n : ℕ} {T : Finset (Fin n)} {j : Fin n} (hj : Tᶜ = {j})
@@ -51,12 +53,12 @@ private theorem sec9ci_piCoeff {n : ℕ} {T : Finset (Fin n)} {j : Fin n} (hj : 
       have hmem : j ∈ Tᶜ := by rw [hj]; exact Finset.mem_singleton_self j
       rw [Finset.mem_compl] at hmem
       exact hmem (h ▸ hm)
-    rw [if_pos hm, if_neg hmj]
+    rw [ite_eq_left hm, ite_eq_right hmj]
     decide
   · have hmj : m = j := by
       have hmem : m ∈ Tᶜ := by rw [Finset.mem_compl]; exact hm
       rwa [hj, Finset.mem_singleton] at hmem
-    rw [if_neg hm, if_pos hmj]
+    rw [ite_eq_right hm, ite_eq_left hmj]
 
 private theorem sec9ci_isSquare_units_zmod3 {u : (ZMod 3)ˣ} (h : IsSquare u) : u = 1 := by
   obtain ⟨w, hw⟩ := h
@@ -120,8 +122,8 @@ theorem sec9ci_norm_const (hQ : Q.Nondegenerate)
       map_smul, sec9ci_reflOf_apply hpol hbi m, smul_smul, sec9ci_pairCoeff hij]
   have hdet : CFSG.ClassicalInvolution.detSpinorNorm hQ g = 1 := (mem_omegaGroup_iff hQ).mp hgΩ
   rw [hg_eq, map_mul] at hdet
-  letI : Invertible (Q (b i)) := invertibleOfNonzero hbi
-  letI : Invertible (Q (b j)) := invertibleOfNonzero hbj
+  let : Invertible (Q (b i)) := invertibleOfNonzero hbi
+  let : Invertible (Q (b j)) := invertibleOfNonzero hbj
   have hii : CFSG.ClassicalInvolution.detSpinorNorm hQ (reflOf Q (b i) hbi) =
       ((-1 : (ZMod 3)ˣ),
         TauCeti.squareClassHom (unitOfInvertible (Q (b i)))) := by
@@ -199,13 +201,13 @@ theorem sec9ci_refl_of_i1 (hQ : Q.Nondegenerate) (h6 : Module.finrank (ZMod 3) V
           have h := hm
           rw [hj, Finset.mem_singleton] at h
           exact h
-        rw [if_pos hm, if_pos hmj]
+        rw [ite_eq_left hm, ite_eq_left hmj]
       · have hmj : m ≠ j := by
           intro h
           apply hm
           rw [hj, Finset.mem_singleton]
           exact h
-        rw [if_neg hm, if_neg hmj]
+        rw [ite_eq_right hm, ite_eq_right hmj]
     rw [hgT m, hcoeff]
   · have hT5' : T.card = 5 := by omega
     have hcompl : Tᶜ.card = 1 := by

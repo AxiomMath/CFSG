@@ -118,7 +118,7 @@ private theorem powFR_succ (d X e N k : Nat) :
     powFR d X e N (k + 1) =
       (let sq := mulF d (powFR d X e N k) (powFR d X e N k)
        if bit e ((N - 1) - k) then mulF d sq X else sq) := by
-  simp only [powFR, Nat.rec_add_one, strictN_eq, nIf_eq]
+  simp only [powFR, strictN_eq, nIf_eq]
 
 private theorem rowsMatrix_powFR (d X e N : Nat) :
     ∀ k, k ≤ N → rowsMatrix d (unpackR d (powFR d X e N k)) =
@@ -143,7 +143,7 @@ private theorem rowsMatrix_powFR (d X e N : Nat) :
         have h := hb
         rw [bit_eq_mod, hN] at h
         exact Nat.eq_of_beq_eq_true h
-      rw [if_pos hb, hb1]
+      rw [ite_eq_left hb, hb1]
       rw [rowsMatrix_unpackR_mulF, rowsMatrix_unpackR_mulF, ih]
       rw [← pow_add, ← pow_succ]
       congr 1
@@ -159,7 +159,7 @@ private theorem rowsMatrix_powFR (d X e N : Nat) :
           cases h
         have := Nat.mod_lt (e / 2 ^ (N - (k + 1))) (by norm_num : 0 < 2)
         omega
-      rw [if_neg hb, hb0, Nat.add_zero]
+      rw [ite_eq_right hb, hb0, Nat.add_zero]
       rw [rowsMatrix_unpackR_mulF, ih]
       rw [← pow_add]
       congr 1
@@ -179,11 +179,11 @@ private theorem rowsMatrix_ops2_pow (d : Nat) (M : Array Nat) (e : Nat) :
     intro M
     unfold Ops.pow
     by_cases h0 : e = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       rw [show (ops2 d).one = idRows d from rfl, rowsMatrix_idRows, h0, pow_zero]
     by_cases h1 : e = 1
-    · rw [if_neg h0, if_pos h1, h1, pow_one]
-    · rw [if_neg h0, if_neg h1]
+    · rw [ite_eq_right h0, ite_eq_left h1, h1, pow_one]
+    · rw [ite_eq_right h0, ite_eq_right h1]
       dsimp only
       have hMul : rowsMatrix d ((ops2 d).mul M M) = rowsMatrix d M * rowsMatrix d M := by
         change rowsMatrix d (mulRows d M M) = _
@@ -195,12 +195,12 @@ private theorem rowsMatrix_ops2_pow (d : Nat) (M : Array Nat) (e : Nat) :
         rw [← pow_two, ← pow_mul]
       have hdm := Nat.div_add_mod e 2
       by_cases ho : e % 2 = 1
-      · rw [if_pos ho]
+      · rw [ite_eq_left ho]
         change rowsMatrix d (mulRows d M ((ops2 d).pow ((ops2 d).mul M M) (e / 2))) = _
         rw [rowsMatrix_mulRows, ihY, hpow, ← pow_succ']
         congr 1
         omega
-      · rw [if_neg ho, ihY, hpow]
+      · rw [ite_eq_right ho, ihY, hpow]
         congr 1
         omega
 
@@ -256,13 +256,13 @@ private theorem ops2_pow_wf (d : Nat) : ∀ (M : Array Nat) (e : Nat),
     intro M hMsize hMb
     unfold Ops.pow
     by_cases h0 : e = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       rw [show (ops2 d).one = idRows d from rfl]
       exact ⟨by simp [idRows], fun i hi => idRows_lt hi⟩
     by_cases h1 : e = 1
-    · rw [if_neg h0, if_pos h1]
+    · rw [ite_eq_right h0, ite_eq_left h1]
       exact ⟨hMsize, hMb⟩
-    · rw [if_neg h0, if_neg h1]
+    · rw [ite_eq_right h0, ite_eq_right h1]
       dsimp only
       have hMM : (mulRows d M M).size = d := by rw [mulRows, Array.size_map, hMsize]
       have hMMb : ∀ i < d, (mulRows d M M)[i]! < 2 ^ d :=
@@ -270,11 +270,11 @@ private theorem ops2_pow_wf (d : Nat) : ∀ (M : Array Nat) (e : Nat),
       obtain ⟨ihsz, ihb⟩ := ih (e / 2) (by omega) (mulRows d M M) hMM hMMb
       have hdm := Nat.div_add_mod e 2
       by_cases ho : e % 2 = 1
-      · rw [if_pos ho]
+      · rw [ite_eq_left ho]
         change (mulRows d M ((ops2 d).pow (mulRows d M M) (e / 2))).size = d ∧
           ∀ i < d, (mulRows d M ((ops2 d).pow (mulRows d M M) (e / 2)))[i]! < 2 ^ d
         exact ⟨by rw [mulRows, Array.size_map, hMsize], mulRows_lt hMsize ihsz ihb⟩
-      · rw [if_neg ho]
+      · rw [ite_eq_right ho]
         exact ⟨ihsz, ihb⟩
 
 private theorem rowsMatrix_inj {d : Nat} {R S : Array Nat}
@@ -327,7 +327,7 @@ private theorem length_stepK_foldl (d n : Nat) :
 
 private theorem size_step (d : Nat) (R : Array (Array Nat)) (op : Op) :
     ((ops2 d).step R op).size = R.size := by
-  cases op <;> simp [Ops.step, Array.size_set!]
+  cases op <;> simp [Ops.step]
 
 private theorem getR_map {d n : Nat} {Rl : List Nat} {Ra : Array (Array Nat)}
     (hlen : Rl.length = n) (hsize : Ra.size = n)
@@ -393,7 +393,7 @@ private theorem map_initK (d A B n : Nat) :
     by_cases h0 : i = 0
     · simp [h0]
     · by_cases h1 : i = 1
-      · simp [h0, h1]
+      · simp [h1]
       · simp [h0, h1, unpackR_idF]
 
 private theorem appK_eq (d X : Nat) : ∀ (n v : Nat),
@@ -422,10 +422,10 @@ private theorem appK_lt (d X n v : Nat) (hv : v < 2 ^ d) : appK d X n v < 2 ^ d 
   | succ n ih => exact ih (v := vmF d X v) (vmF_lt d X v)
 
 private theorem appBaseK_lt (d b : Nat) :
-    ∀ (xs : List Nat) (n v : Nat), v < 2 ^ d → appBaseK d b xs n v < 2 ^ d
-  | [], n, v, hv => hv
-  | X :: xs, n, v, hv =>
-    appBaseK_lt d b xs (n / b) (appK d X (n % b) v) (appK_lt d X _ v hv)
+    ∀ (xs : List Nat) (_n _v : Nat), _v < 2 ^ d → appBaseK d b xs _n _v < 2 ^ d
+  | [], _n, _v, hv => hv
+  | X :: xs, _n, _v, hv =>
+    appBaseK_lt d b xs (_n / b) (appK d X (_n % b) _v) (appK_lt d X _ _v hv)
 
 private theorem vne_eq (d u w : Nat) :
     (ops2 d).vne u w = !Nat.beq (u % 2 ^ d) (w % 2 ^ d) := by
@@ -898,13 +898,13 @@ private theorem cubicConjData_of_K {d A B : Nat} {D : CubData} (F : cubicKData d
       ((ops2 d).mul ((ops2 d).mul ((ops2 d).pow RD.Xa D.a) ((ops2 d).pow RD.Ya D.b))
         ((ops2 d).pow ((ops2 d).commM D.r RD.Xa RD.Ya) D.k)) = true := by
     have h := conjOK_of_conjK F.hconjX
-    simp only [PD.hWx, RD.hH, RD.hX, RD.hY, PD.hZp] at h
+    simp only [PD.hWx, RD.hH, RD.hX] at h
     exact h
   have hconjYA : (ops2 d).conjOK RD.Ha RD.Ya
       ((ops2 d).mul ((ops2 d).mul ((ops2 d).pow RD.Xa D.c) ((ops2 d).pow RD.Ya D.d))
         ((ops2 d).pow ((ops2 d).commM D.r RD.Xa RD.Ya) D.l)) = true := by
     have h := conjOK_of_conjK F.hconjY
-    simp only [PD.hWy, RD.hH, RD.hX, RD.hY, PD.hZp] at h
+    simp only [PD.hWy, RD.hH, RD.hY] at h
     exact h
   have hconjZA : (ops2 d).conjOK RD.Ha ((ops2 d).commM D.r RD.Xa RD.Ya)
       ((ops2 d).pow ((ops2 d).commM D.r RD.Xa RD.Ya) D.μ) = true := by
@@ -932,7 +932,7 @@ private theorem cubicCheck_assembly {d A B : Nat} {D : CubData} (F : cubicKData 
   simp only [MD.hXpow, MD.hYpow, MD.hHpow, MD.hZmoveA, MD.hZXA, MD.hZYA,
     CD.hconjXA, CD.hconjYA, CD.hconjZA, CD.hdistA,
     F.hnregs, F.hprog, F.hrx, F.hry, F.hrh, F.hr0, F.hoh0]
-  simp only [decide_true, ops2_eq_self, Bool.true_and, Bool.and_true]
+  simp only [decide_true, ops2_eq_self, Bool.and_true]
 
 theorem cubicCheck_of_K {d A B : Nat} {csA csB : List Char} {D : CubData}
     (hA : m1Bind csA d A = true) (hB : m1Bind csB d B = true)

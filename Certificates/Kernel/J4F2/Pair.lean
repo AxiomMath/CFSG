@@ -113,7 +113,7 @@ theorem rowsNe_of {X Y : Array V2} {x y : Nat} (hX : WfA X ∧ encR X = x) (hY :
   rw [encR_bit, encR_bit]
   by_cases hp : p / 128 < 112
   · have hv := hr (p / 128) hp
-    simp only [vNe, Bool.not_eq_true, List.any_eq_false, List.mem_range, bne_iff_ne, ne_eq,
+    simp only [vNe, List.any_eq_false, List.mem_range, bne_iff_ne, ne_eq,
       Decidable.not_not] at hv
     have hm : p % 128 < 128 := Nat.mod_lt _ (by omega)
     by_cases hj : p % 128 < 112

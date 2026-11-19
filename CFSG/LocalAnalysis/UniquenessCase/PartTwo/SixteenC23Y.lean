@@ -20,7 +20,7 @@ theorem c23_exists_noncyclic_le_preBarSub {M V₀ V E : Subgroup G} (hV : IsElem
     (hN : barSub V₀ V hV E ≤ normalizer (K : Set (MulAut (Vtil V₀ V hV)))) :
     ∃ B : Subgroup G, B ≤ E ∧ B ≤ preBarSub M V₀ V hV K ∧ IsElemAbelian p B ∧
       ¬ IsCyclic ↥B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEst : E ≤ stabTil V₀ V := hEM.trans hMs
   let Q' : Subgroup (MulAut (Vtil V₀ V hV)) := K ⊓ barSub V₀ V hV E
   have hQ' : Q' ≤ barSub V₀ V hV E := inf_le_right

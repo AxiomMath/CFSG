@@ -49,20 +49,26 @@ variable {X R L : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2]
   (H : burnsideC135_H1 X R L α β βU)
 include H
 
+omit [CharP F 2] in
 theorem le : L ≤ X := le_of_mem_cComp H.comp
 
+omit [CharP F 2] in
 theorem normQ : X ≤ Subgroup.normalizer (c134Q X L : Set G) := le_normalizer_c134Q H.normL
 
+omit [CharP F 2] in
 theorem normU : X ≤ Subgroup.normalizer (centerOf (c134Q X L) : Set G) :=
   le_normalizer_centerOf H.normQ
 
+omit [CharP F 2] in
 theorem Q_le : c134Q X L ≤ pCoreOf 2 X :=
   (MS93.commutator_le_pCoreOf H.le H.normL).trans
     (MS93.pCoreOf_le_pCoreOf_of_le_normalizer H.le H.normL)
 
+omit [CharP F 2] in
 theorem dual : IsSumOfNaturalModulesVia L (c134Q X L) (centerOf (c134Q X L)) α true 2 :=
   ⟨H.le.trans H.normQ, inf_le_left, β, H.βs, H.βk, H.βeq⟩
 
+omit [CharP F 2] in
 theorem comm : ∀ x ∈ c134Q X L, ∀ y ∈ c134Q X L, x * y * x⁻¹ * y⁻¹ ∈ centerOf (c134Q X L) :=
   fun _ hx _ hy => burnsideC135_comm_mem_U H.dual hx hy
 
@@ -70,10 +76,12 @@ theorem T_comm_U {t u : G} (ht : t ∈ pCoreOf 2 X) (hu : u ∈ centerOf (c134Q 
     t * u = u * t :=
   commute_of_mem_pCoreOf H.surj H.le H.normL H.nat ht hu
 
+omit [CharP F 2] in
 theorem centralizer_U_le :
     X ⊓ Subgroup.centralizer (centerOf (c134Q X L) : Set G) ≤ pCoreOf 2 X :=
   burnsideC135_centralizer_U_le' H.ms H.prod H.surj H.le H.normL H.nat
 
+omit [CharP F 2] in
 theorem eq_zero_or_one (c : F) : c = 0 ∨ c = 1 := by
   by_contra hc
   push Not at hc
@@ -82,11 +90,13 @@ theorem eq_zero_or_one (c : F) : c = 0 ∨ c = 1 := by
   have := H.card
   omega
 
+omit [CharP F 2] in
 theorem exists_coords (x y : Fin 3 → F) :
     ∃ q : ↥(c134Q X L), Multiplicative.toAdd (β q) 0 = x ∧ Multiplicative.toAdd (β q) 1 = y := by
   obtain ⟨q, hq⟩ := H.βs (Multiplicative.ofAdd ![x, y])
   exact ⟨q, by rw [hq]; rfl, by rw [hq]; rfl⟩
 
+omit [CharP F 2] in
 theorem mem_U_of_coords (q : ↥(c134Q X L)) (h0 : Multiplicative.toAdd (β q) 0 = 0)
     (h1 : Multiplicative.toAdd (β q) 1 = 0) : (q : G) ∈ centerOf (c134Q X L) := by
   have h2 : q ∈ β.ker := by
@@ -99,6 +109,7 @@ theorem mem_U_of_coords (q : ↥(c134Q X L)) (h0 : Multiplicative.toAdd (β q) 0
   rw [H.βk, Subgroup.mem_subgroupOf] at h2
   exact h2
 
+omit [CharP F 2] in
 theorem shear {t : G} (ht : t ∈ pCoreOf 2 X) :
     ∃ μ : F, ∀ (q q' : ↥(c134Q X L)), (q' : G) = t * q * t⁻¹ →
       Multiplicative.toAdd (β q') 0 =
@@ -162,6 +173,7 @@ theorem shear {t : G} (ht : t ∈ pCoreOf 2 X) :
   · rw [hc q q' hq', hmix, hc00, one_smul]
   · rw [hc q q' hq', hmix, hc10, hc11, zero_smul, zero_add, one_smul]
 
+omit [CharP F 2] in
 theorem comm_W₁_mem_U {t w : G} (ht : t ∈ pCoreOf 2 X) (hw : w ∈ burnsideC135_Wc β 1) :
     t * w * t⁻¹ * w⁻¹ ∈ centerOf (c134Q X L) := by
   obtain ⟨μ, hμ⟩ := H.shear ht
@@ -205,14 +217,17 @@ variable {X L : Subgroup G} {F : Type} [Field F]
   haveI := Classical.propDecidable (g ∈ c134Q X L)
   if h : g ∈ c134Q X L then Multiplicative.toAdd (β ⟨g, h⟩) else 0
 
+omit [Finite G] in
 theorem burnsideC135_uc_of_mem {g : G} (h : g ∈ centerOf (c134Q X L)) :
     burnsideC135_uc βU g = Multiplicative.toAdd (βU ⟨g, h⟩) := by
-  rw [burnsideC135_uc, dif_pos h]
+  rw [burnsideC135_uc, dite_eq_left h]
 
+omit [Finite G] in
 theorem burnsideC135_qc_of_mem {g : G} (h : g ∈ c134Q X L) :
     burnsideC135_qc β g = Multiplicative.toAdd (β ⟨g, h⟩) := by
-  rw [burnsideC135_qc, dif_pos h]
+  rw [burnsideC135_qc, dite_eq_left h]
 
+omit [Finite G] in
 theorem burnsideC135_uc_mul {a b : G} (ha : a ∈ centerOf (c134Q X L)) (hb : b ∈ centerOf (c134Q X L)) :
     burnsideC135_uc βU (a * b) = burnsideC135_uc βU a + burnsideC135_uc βU b := by
   rw [burnsideC135_uc_of_mem ha, burnsideC135_uc_of_mem hb, burnsideC135_uc_of_mem ((centerOf (c134Q X L)).mul_mem ha hb)]
@@ -220,12 +235,14 @@ theorem burnsideC135_uc_mul {a b : G} (ha : a ∈ centerOf (c134Q X L)) (hb : b 
       ⟨a, ha⟩ * ⟨b, hb⟩ := rfl
   rw [e, map_mul, toAdd_mul]
 
+omit [Finite G] in
 theorem burnsideC135_qc_mul {a b : G} (ha : a ∈ c134Q X L) (hb : b ∈ c134Q X L) :
     burnsideC135_qc β (a * b) = burnsideC135_qc β a + burnsideC135_qc β b := by
   rw [burnsideC135_qc_of_mem ha, burnsideC135_qc_of_mem hb, burnsideC135_qc_of_mem ((c134Q X L).mul_mem ha hb)]
   have e : (⟨a * b, (c134Q X L).mul_mem ha hb⟩ : ↥(c134Q X L)) = ⟨a, ha⟩ * ⟨b, hb⟩ := rfl
   rw [e, map_mul, toAdd_mul]
 
+omit [Finite G] in
 theorem burnsideC135_uc_inv {a : G} (ha : a ∈ centerOf (c134Q X L)) : burnsideC135_uc βU a⁻¹ = -burnsideC135_uc βU a := by
   have h := burnsideC135_uc_mul (βU := βU) ha ((centerOf (c134Q X L)).inv_mem ha)
   rw [mul_inv_cancel, burnsideC135_uc_of_mem (centerOf (c134Q X L)).one_mem] at h
@@ -236,6 +253,7 @@ theorem burnsideC135_uc_inv {a : G} (ha : a ∈ centerOf (c134Q X L)) : burnside
   rw [h1] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit [Finite G] in
 theorem burnsideC135_qc_inv {a : G} (ha : a ∈ c134Q X L) : burnsideC135_qc β a⁻¹ = -burnsideC135_qc β a := by
   have h := burnsideC135_qc_mul (β := β) ha ((c134Q X L).inv_mem ha)
   rw [mul_inv_cancel, burnsideC135_qc_of_mem (c134Q X L).one_mem] at h
@@ -256,6 +274,7 @@ variable {X R L : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2]
   (H : burnsideC135_H1 X R L α β βU)
 include H
 
+omit [CharP F 2] in
 theorem eq_one_of_uc {a : G} (ha : a ∈ centerOf (c134Q X L)) (h : burnsideC135_uc βU a = 0) : a = 1 := by
   rw [burnsideC135_uc_of_mem ha] at h
   have h1 : βU ⟨a, ha⟩ = βU 1 := by
@@ -263,6 +282,7 @@ theorem eq_one_of_uc {a : G} (ha : a ∈ centerOf (c134Q X L)) (h : burnsideC135
     exact Multiplicative.toAdd.injective h
   exact congrArg Subtype.val (burnsideC135_βU_injective H.dsg h1)
 
+omit [CharP F 2] in
 theorem qc_eq_zero_iff {a : G} (ha : a ∈ c134Q X L) : burnsideC135_qc β a = 0 ↔ a ∈ centerOf (c134Q X L) := by
   rw [burnsideC135_qc_of_mem ha]
   constructor
@@ -280,6 +300,7 @@ theorem qc_eq_zero_iff {a : G} (ha : a ∈ c134Q X L) : burnsideC135_qc β a = 0
     rw [h1]
     rfl
 
+omit [Fintype F] [CharP F 2] H [Finite G] in
 theorem mem_W₁_iff {a : G} : a ∈ burnsideC135_Wc β 1 ↔ a ∈ c134Q X L ∧ burnsideC135_qc β a 1 = 0 := by
   constructor
   · intro h
@@ -289,6 +310,7 @@ theorem mem_W₁_iff {a : G} : a ∈ burnsideC135_Wc β 1 ↔ a ∈ c134Q X L �
     rw [burnsideC135_qc_of_mem hQ] at h1
     exact burnsideC135_mem_Wc.mpr ⟨hQ, h1⟩
 
+omit [Fintype F] [CharP F 2] H [Finite G] in
 theorem mem_W₂_iff {a : G} : a ∈ burnsideC135_Wc β 0 ↔ a ∈ c134Q X L ∧ burnsideC135_qc β a 0 = 0 := by
   constructor
   · intro h
@@ -298,6 +320,7 @@ theorem mem_W₂_iff {a : G} : a ∈ burnsideC135_Wc β 0 ↔ a ∈ c134Q X L �
     rw [burnsideC135_qc_of_mem hQ] at h1
     exact burnsideC135_mem_Wc.mpr ⟨hQ, h1⟩
 
+omit [CharP F 2] in
 theorem uc_conj {l u : G} (hl : l ∈ L) (hu : u ∈ centerOf (c134Q X L)) :
     burnsideC135_uc βU (l * u * l⁻¹) = ((slNat α ⟨l, hl⟩ : Matrix.SpecialLinearGroup (Fin 3) F) :
       Matrix (Fin 3) (Fin 3) F) *ᵥ burnsideC135_uc βU u := by
@@ -306,6 +329,7 @@ theorem uc_conj {l u : G} (hl : l ∈ L) (hu : u ∈ centerOf (c134Q X L)) :
   rw [burnsideC135_uc_of_mem hmem, burnsideC135_uc_of_mem hu]
   exact H.dsg.natU_act ⟨l, hl⟩ ⟨u, hu⟩ ⟨_, hmem⟩ rfl
 
+omit [CharP F 2] in
 theorem qc_conj {l q : G} (hl : l ∈ L) (hq : q ∈ c134Q X L) (i : Fin 2) :
     burnsideC135_qc β (l * q * l⁻¹) i = ((dualHom (slNat α ⟨l, hl⟩) : Matrix.SpecialLinearGroup (Fin 3) F) :
       Matrix (Fin 3) (Fin 3) F) *ᵥ burnsideC135_qc β q i := by
@@ -345,6 +369,7 @@ theorem comm_eq_of_qc {g w w' : G} (hg : g ∈ pCoreOf 2 X) (hw : w ∈ c134Q X 
     _ = g * (w * (w⁻¹ * w')) * g⁻¹ * (w * (w⁻¹ * w'))⁻¹ := by group
 
 omit H in
+omit [Finite G] in
 theorem comm_mul_left' {g c w : G} (h : g * (c * w * c⁻¹ * w⁻¹) = (c * w * c⁻¹ * w⁻¹) * g) :
     (g * c) * w * (g * c)⁻¹ * w⁻¹ = (c * w * c⁻¹ * w⁻¹) * (g * w * g⁻¹ * w⁻¹) := by
   calc (g * c) * w * (g * c)⁻¹ * w⁻¹ = (g * (c * w * c⁻¹ * w⁻¹)) * g⁻¹ * (g * w * g⁻¹ * w⁻¹) := by
@@ -352,12 +377,14 @@ theorem comm_mul_left' {g c w : G} (h : g * (c * w * c⁻¹ * w⁻¹) = (c * w *
     _ = (c * w * c⁻¹ * w⁻¹) * (g * w * g⁻¹ * w⁻¹) := by rw [h]; group
 
 omit H in
+omit [Finite G] in
 theorem comm_mul_right' {g a b : G} (h : a * (g * b * g⁻¹ * b⁻¹) = (g * b * g⁻¹ * b⁻¹) * a) :
     g * (a * b) * g⁻¹ * (a * b)⁻¹ = (g * a * g⁻¹ * a⁻¹) * (g * b * g⁻¹ * b⁻¹) := by
   calc g * (a * b) * g⁻¹ * (a * b)⁻¹ = (g * a * g⁻¹ * a⁻¹) * (a * (g * b * g⁻¹ * b⁻¹)) * a⁻¹ := by
         group
     _ = (g * a * g⁻¹ * a⁻¹) * (g * b * g⁻¹ * b⁻¹) := by rw [h]; group
 
+omit [Finite G] [Fintype F] [CharP F 2] H in
 theorem U_comm' {u x : G} (hu : u ∈ centerOf (c134Q X L)) (hx : x ∈ c134Q X L) :
     x * u = u * x :=
   Subgroup.mem_centralizer_iff.mp hu.2 x hx
@@ -378,13 +405,13 @@ theorem exists_mul_mem_V {t : G} (ht : t ∈ pCoreOf 2 X) :
     · exact hs0 x
     · exact hs1 x
   have hsW : ∀ x, ((s x : ↥(c134Q X L)) : G) ∈ burnsideC135_Wc β 1 := fun x =>
-    H.mem_W₁_iff.mpr ⟨hsQ x, by rw [hsc]; rfl⟩
+    CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mpr ⟨hsQ x, by rw [hsc]; rfl⟩
   have hqcW : ∀ w ∈ burnsideC135_Wc β 1, burnsideC135_qc β w = ![burnsideC135_qc β w 0, 0] := by
     intro w hw
     funext i
     rcases (by decide : ∀ i : Fin 2, i = 0 ∨ i = 1) i with rfl | rfl
     · rfl
-    · exact (H.mem_W₁_iff.mp hw).2
+    · exact (CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mp hw).2
   let D : (Fin 3 → F) → (Fin 3 → F) := fun x =>
     burnsideC135_uc βU (t * s x * t⁻¹ * ((s x : ↥(c134Q X L)) : G)⁻¹)
   have hDw : ∀ w ∈ burnsideC135_Wc β 1,
@@ -401,7 +428,7 @@ theorem exists_mul_mem_V {t : G} (ht : t ∈ pCoreOf 2 X) :
       rfl
     have h2 := hDw _ hmul
     rw [h1] at h2
-    rw [← h2, comm_mul_right' (H.U_comm' (H.comm_W₁_mem_U ht (hsW x')) (hsQ x)),
+    rw [← h2, comm_mul_right' (CFSG.ASVolI.burnsideC135_H1.U_comm' (H.comm_W₁_mem_U ht (hsW x')) (hsQ x)),
       burnsideC135_uc_mul (H.comm_W₁_mem_U ht (hsW x)) (H.comm_W₁_mem_U ht (hsW x'))]
   have hrel : ∀ γ : Matrix.SpecialLinearGroup (Fin 3) F, ∃ y : Fin 3 → F, ∀ v,
       (γ : Matrix (Fin 3) (Fin 3) F) *ᵥ D ((γ : Matrix (Fin 3) (Fin 3) F)ᵀ *ᵥ v) =
@@ -419,11 +446,11 @@ theorem exists_mul_mem_V {t : G} (ht : t ∈ pCoreOf 2 X) :
       · exact hc₂0
       · exact hc₂1
     have hc₂W : ((c₂ : ↥(c134Q X L)) : G) ∈ burnsideC135_Wc β 0 :=
-      H.mem_W₂_iff.mpr ⟨hc₂Q, by rw [hc₂c]; rfl⟩
+      CFSG.ASVolI.burnsideC135_H1.mem_W₂_iff.mpr ⟨hc₂Q, by rw [hc₂c]; rfl⟩
     set c₁ := c * ((c₂ : ↥(c134Q X L)) : G)⁻¹ with hc₁def
     have hc₁Q : c₁ ∈ c134Q X L := (c134Q X L).mul_mem hcQ ((c134Q X L).inv_mem hc₂Q)
     have hc₁W : c₁ ∈ burnsideC135_Wc β 1 := by
-      refine H.mem_W₁_iff.mpr ⟨hc₁Q, ?_⟩
+      refine CFSG.ASVolI.burnsideC135_H1.mem_W₁_iff.mpr ⟨hc₁Q, ?_⟩
       rw [burnsideC135_qc_mul hcQ ((c134Q X L).inv_mem hc₂Q), burnsideC135_qc_inv hc₂Q, hc₂c]
       simp
     have hc12 : c = c₁ * c₂ := by rw [hc₁def]; group
@@ -455,17 +482,17 @@ theorem exists_mul_mem_V {t : G} (ht : t ∈ pCoreOf 2 X) :
     have e3 : c * s x * c⁻¹ * ((s x : ↥(c134Q X L)) : G)⁻¹ =
         (c₁ * c₂) * s x * (c₁ * c₂)⁻¹ * ((s x : ↥(c134Q X L)) : G)⁻¹ := by rw [← hc12]
     rw [e2, comm_mul_left' (H.T_comm_U ht hcwU), burnsideC135_uc_mul hcwU hslU, e3,
-      comm_mul_left' (H.U_comm' hc₂wU hc₁Q)]
+      comm_mul_left' (CFSG.ASVolI.burnsideC135_H1.U_comm' hc₂wU hc₁Q)]
     have hc₁w : c₁ * s x * c₁⁻¹ * ((s x : ↥(c134Q X L)) : G)⁻¹ = 1 := by
       rw [burnsideC135_comm_of_sq hsq₁ hc₁W (hsW x)]; group
     rw [hc₁w, mul_one, H.uc_comm' hc₂W (hsW x), hc₂c, hsc]
-    simp only [Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero]
+    simp only [Matrix.cons_val_one, Matrix.cons_val_zero]
     rw [add_comm]
   obtain ⟨y₀, hy₀⟩ := burnsideC135_weight H.card D hDadd hrel
   obtain ⟨c₀, hc₀0, hc₀1⟩ := H.exists_coords 0 (-y₀)
   have hc₀Q : ((c₀ : ↥(c134Q X L)) : G) ∈ c134Q X L := c₀.2
   have hc₀W : ((c₀ : ↥(c134Q X L)) : G) ∈ burnsideC135_Wc β 0 :=
-    H.mem_W₂_iff.mpr ⟨hc₀Q, by rw [burnsideC135_qc_of_mem hc₀Q]; exact hc₀0⟩
+    CFSG.ASVolI.burnsideC135_H1.mem_W₂_iff.mpr ⟨hc₀Q, by rw [burnsideC135_qc_of_mem hc₀Q]; exact hc₀0⟩
   refine ⟨c₀, hc₀W, Subgroup.mem_centralizer_iff.mpr fun w hw => ?_⟩
   have hwQ := hW₁Q hw
   have hcwU := H.comm _ hc₀Q w hwQ

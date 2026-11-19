@@ -107,7 +107,7 @@ theorem ringEquiv_eq_refl_of_kleinTwist (τ : K ≃+* K) (A : (Fin 4 → K) ≃+
     congr 1
     ext i j
     by_cases h1 : i = 0 <;> by_cases h2 : j = 1 <;>
-      simp [vecMulVec, Matrix.single_apply, he₀, he₁, Pi.single_apply, h1, h2, eq_comm]
+      simp [vecMulVec, he₀, he₁, Pi.single_apply, h1, h2, eq_comm]
   have hρu : ∀ t w, Klein.rho (Matrix.SpecialLinearGroup.transvection h01 t) w =
       w + t • P (vecMulVec e₀ e₁) w := fun t w => by
     rw [Klein.rho_apply, hu, cong_one_add_smul_vecMulVec]

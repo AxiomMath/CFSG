@@ -116,7 +116,7 @@ theorem Tmat_mul_self {v : Fin 6 → ZMod 2} (hv : v 5 = 0) : Tmat v * Tmat v = 
     exact zmod2_add_self_eq_zero (v i)
   rw [Tmat_mul hv hv, h2, Tmat_zero]
 
-theorem Tmat_conj {N : M6} (hN : IsAlt N) {v : Fin 6 → ZMod 2} (hv : v 5 = 0) :
+theorem Tmat_conj {N : M6} (hN : IsAlt N) {v : Fin 6 → ZMod 2} (_hv : v 5 = 0) :
     Tmat v * N * (Tmat v)ᵀ = N + Matrix.of fun i j => v i * N j 5 + N i 5 * v j := by
   have hsym : ∀ i j, N i j = N j i := fun i j => congrFun (congrFun hN.1 j) i
   have h55 : N 5 5 = 0 := hN.2 5
@@ -138,7 +138,7 @@ theorem wedge_cases {v h : Fin 6 → ZMod 2} (H : ∀ i j, v i * h j + h i * v j
   · exact Or.inl hv
   obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hv (funext fun k => hne k)
   have hvi : v i = 1 := hone _ hi
   have key : ∀ j, h j = h i * v j := fun j => by
@@ -158,7 +158,7 @@ theorem t2_comm {A : M6} (hc : ∀ B : M6, IsUT B → A * B = B * A) {k l : Fin 
       rintro ⟨h1, h2⟩
       rw [h1, h2] at hji
       exact lt_irrefl _ (lt_of_lt_of_le hkl hji)
-    simp only [Matrix.add_apply, Matrix.one_apply, Matrix.of_apply, if_neg hne, add_zero]
+    simp only [Matrix.add_apply, Matrix.one_apply, Matrix.of_apply, ite_eq_right hne, add_zero]
   have e0 := hc _ hB
   rw [Matrix.mul_add, Matrix.mul_one, Matrix.add_mul, Matrix.one_mul] at e0
   have e1 := add_left_cancel e0
@@ -187,19 +187,19 @@ theorem t2_col {A : M6} (hc : ∀ B : M6, IsUT B → A * B = B * A)
     (hdiag : ∀ l : Fin 6, A l l = 1) {k l : Fin 6} (hkl : k < l) (r : Fin 6) :
     A r k = if r = k then 1 else 0 := by
   have e := t2_comm hc hkl r l
-  rw [if_pos (rfl : l = l), mul_one, hdiag l] at e
+  rw [ite_eq_left (rfl : l = l), mul_one, hdiag l] at e
   exact e
 
 theorem t2_row {A : M6} (hc : ∀ B : M6, IsUT B → A * B = B * A) {k l c : Fin 6}
     (hkl : k < l) (hcl : c ≠ l) : A l c = 0 := by
   have e := t2_comm hc hkl k c
-  rw [if_neg hcl, mul_zero, if_pos (rfl : k = k)] at e
+  rw [ite_eq_right hcl, mul_zero, ite_eq_left (rfl : k = k)] at e
   exact e.symm
 
 theorem center_UT {A : M6} (hA : IsUT A) (hc : ∀ B : M6, IsUT B → A * B = B * A) :
     A = 1 ∨ A = tau0M := by
   have hdiag : ∀ l : Fin 6, A l l = 1 := fun l => by
-    rw [hA l l le_rfl, if_pos rfl]
+    rw [hA l l le_rfl, ite_eq_left rfl]
   have c0 : ∀ r : Fin 6, A r 0 = if r = 0 then 1 else 0 :=
     t2_col (k := 0) (l := 1) hc hdiag (by decide)
   have c1 : ∀ r : Fin 6, A r 1 = if r = 1 then 1 else 0 :=
@@ -251,9 +251,9 @@ theorem center_UT {A : M6} (hA : IsUT A) (hc : ∀ B : M6, IsUT B → A * B = B 
     by_cases hrc : r = 0 ∧ c = 5
     · obtain ⟨rfl, rfl⟩ := hrc
       rw [h]
-      simp [tau0M, Matrix.one_apply]
+      simp [tau0M]
     · rw [hall r c hrc]
-      simp only [tau0M, Matrix.add_apply, Matrix.of_apply, if_neg hrc, add_zero]
+      simp only [tau0M, Matrix.add_apply, Matrix.of_apply, ite_eq_right hrc, add_zero]
 
 theorem exists_GL_of_isUT {B : M6} (hB : IsUT B) : ∃ g : GL6, g ∈ UTsub ∧ (g : M6) = B := by
   refine ⟨UTunit (fun p => B p.1.1 p.1.2), mem_UTsub.mpr ?_, ?_⟩
@@ -309,7 +309,7 @@ theorem mem_K0_iff_alphaS (x : Stab0) : x.1 ∈ K0 ↔ alphaS x = 1 := by
     have h1 : sig x.1 (0, Pi.single j 1) = (0, Pi.single j 1) :=
       mem_K0.mp hx (0, Pi.single j 1) (mem_F_iff.mpr rfl)
     rw [alphaS_coe, Ablk_apply, h1, Units.val_one]
-    simp [Matrix.one_apply, Pi.single_apply, eq_comm]
+    simp [Matrix.one_apply, Pi.single_apply]
   · intro hx y hy
     have hA : Ablk (sig x.1) = 1 := by
       rw [← alphaS_coe, hx]
@@ -349,11 +349,11 @@ theorem exists_tau0_mem {Xs Ps : Subgroup ↥Stab0} (hXP : Xs ≤ Ps)
     (hUT : ∀ g ∈ Ps, IsUT ((alphaS g : GL6) : M6))
     (hUTall : ∀ A : GL6, A ∈ UTsub → ∃ g ∈ Ps, alphaS g = A)
     (hne : ∃ x ∈ Xs, alphaS x ≠ 1) : ∃ x ∈ Xs, ((alphaS x : GL6) : M6) = tau0M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 ↥UTsub := IsPGroup.of_card card_UTsub
-  haveI : Group.IsNilpotent ↥UTsub := hp.isNilpotent
+  have : Group.IsNilpotent ↥UTsub := hp.isNilpotent
   let H : Subgroup ↥UTsub := (Xs.map alphaS).subgroupOf UTsub
-  haveI : H.Normal := by
+  have : H.Normal := by
     refine ⟨fun a ha u => ?_⟩
     obtain ⟨x, hx, hxa⟩ := Subgroup.mem_map.mp (Subgroup.mem_subgroupOf.mp ha)
     obtain ⟨g, hg, hgu⟩ := hUTall u.1 u.2

@@ -75,7 +75,7 @@ end Aux
 
 variable {G : Type} [Group G]
 
-theorem complement_exists {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem complement_exists {p n : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (H : Subgroup G) (hH : CFSG.IsExtraspecialPGroup p H) (hexp : Monoid.exponent H = p)
     (hcard : Nat.card H = p ^ (1 + 2 * n)) (hn : 1 < n)
     (X : Subgroup G) (hXH : X ≤ H) (hXp : Nat.card X = p) (hXZ : X ≠ centerIn H) :
@@ -83,8 +83,8 @@ theorem complement_exists {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       H ⊓ centralizer (X : Set G) = X ⊔ L ∧ Disjoint X L ∧
       CFSG.IsExtraspecialPGroup p L ∧ Monoid.exponent L = p ∧
       Nat.card L = p ^ (1 + 2 * (n - 1)) ∧ centerIn L = centerIn H := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfin : Finite H := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have hfin : Finite H := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.ne_zero)
   obtain ⟨hPg, hcomm, hfratt, hcenter⟩ := hH
   have hK : ∀ a b : H, ⁅a, b⁆ ∈ Subgroup.center H := by
     intro a b
@@ -92,8 +92,8 @@ theorem complement_exists {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact Subgroup.commutator_mem_commutator (mem_top _) (mem_top _)
   have hcenterIn : Nat.card (centerIn H) = p := by
     rw [centerIn, Subgroup.card_map_of_injective H.subtype_injective]; exact hcenter
-  haveI : Finite (centerIn H) := Nat.finite_of_card_ne_zero (by rw [hcenterIn]; exact hp.ne_zero)
-  haveI : Fact (Nat.Prime (Nat.card X)) := ⟨hXp ▸ hp⟩
+  have : Finite (centerIn H) := Nat.finite_of_card_ne_zero (by rw [hcenterIn]; exact hp.ne_zero)
+  have : Fact (Nat.Prime (Nat.card X)) := ⟨hXp ▸ hp⟩
   obtain ⟨x, hxX, hXeq⟩ : ∃ x ∈ X, X = Subgroup.zpowers x := by
     obtain ⟨g, hg⟩ := (isCyclic_of_prime_card hXp : IsCyclic X)
     refine ⟨g, g.2, ?_⟩
@@ -219,7 +219,7 @@ theorem complement_exists {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       rw [zpow_mul, zpow_natCast, hxp, one_zpow]
     have := congrArg Subtype.val this
     simpa [hx'] using this
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [hLcard]; exact pow_ne_zero _ hp.ne_zero)
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [hLcard]; exact pow_ne_zero _ hp.ne_zero)
   have hexpL : Monoid.exponent L = p := by
     have h1 : Monoid.exponent L ∣ Monoid.exponent H := by
       have := Monoid.exponent_dvd_of_monoidHom (Subgroup.inclusion hLH) (Subgroup.inclusion_injective hLH)
@@ -228,7 +228,7 @@ theorem complement_exists {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rcases (Nat.dvd_prime hp).mp h1 with h | h
     · exfalso
       have hall : ∀ g : L, g = 1 := fun g => by simpa [h] using Monoid.pow_exponent_eq_one g
-      haveI : Subsingleton L := ⟨fun a b => by rw [hall a, hall b]⟩
+      have : Subsingleton L := ⟨fun a b => by rw [hall a, hall b]⟩
       have h2 := Nat.card_of_subsingleton (1 : L)
       rw [hLcard] at h2
       have := (Nat.pow_eq_one.mp h2)
@@ -252,8 +252,7 @@ theorem complement_exists {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       have h2 := (hLmem _).mpr hm
       set m : G := (((y' ^ i * x' ^ j)⁻¹ * h : H) : G) with hmdef
       have hdec : (h : G) = y ^ i * x ^ j * m := by
-        simp only [hmdef, hx', hy, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_zpow,
-          Subgroup.coe_mk]
+        simp only [hmdef, hx', hy, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_zpow]
         group
       have hxl : Commute (x ^ j) (l : G) :=
         Commute.zpow_left (show Commute x (l : G) from hxcomm l l.2) j
@@ -303,7 +302,7 @@ theorem complement_exists {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rcases (Nat.dvd_prime hp).mp h1 with h | h
     · exact absurd (Subgroup.eq_bot_of_card_eq _ h) hnotab
     · exact Subgroup.eq_of_le_of_card_ge hcommle (by rw [h, hcenterL])
-  haveI : Fact (IsPGroup p L) := ⟨IsPGroup.of_card hLcard⟩
+  have : Fact (IsPGroup p L) := ⟨IsPGroup.of_card hLcard⟩
   have hfrL : frattini L = _root_.commutator L := by
     rw [CFSG.frattini_eq_closure_commutator_union_powers (p := p)]
     apply le_antisymm

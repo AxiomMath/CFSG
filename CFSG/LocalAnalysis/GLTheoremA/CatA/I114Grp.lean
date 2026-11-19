@@ -17,7 +17,7 @@ theorem mem_cj {g : Y} {H : Subgroup Y} {z : Y} : z ∈ cj g H ↔ g⁻¹ * z * 
   · rintro ⟨h, hh, rfl⟩
     simpa [cj, MulAut.conj_apply, mul_assoc] using hh
   · intro hz
-    exact ⟨g⁻¹ * z * g, hz, by simp [cj, MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g⁻¹ * z * g, hz, by simp [MulAut.conj_apply, mul_assoc]⟩
 
 theorem cj_mul (g h : Y) (H : Subgroup Y) : cj (g * h) H = cj g (cj h H) := by
   ext z

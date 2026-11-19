@@ -66,9 +66,9 @@ private lemma heisDesc_mem_range_scalar_of_mulVec {K F : Type} [Field K] [Field 
     ext i j
     by_cases hij : i = j
     · subst hij
-      rw [Matrix.scalar_apply, Matrix.diagonal_apply, if_pos rfl]
+      rw [Matrix.scalar_apply, Matrix.diagonal_apply, ite_eq_left rfl]
       exact hdiag_eq i₀ i
-    · rw [Matrix.scalar_apply, Matrix.diagonal_apply, if_neg hij]
+    · rw [Matrix.scalar_apply, Matrix.diagonal_apply, ite_eq_right hij]
       exact (hoff i j hij).symm
 
 theorem exists_rep_over {K F : Type} [Field K] [Field F] [Algebra K F] {N : ℕ}
@@ -117,8 +117,8 @@ theorem exists_rep_over {K F : Type} [Field K] [Field F] [Algebra K F] {N : ℕ}
         ext i j
         by_cases hij : i = j
         · subst hij
-          simp [Matrix.scalar_apply, Matrix.diagonal_apply]
-        · simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+          simp [Matrix.scalar_apply]
+        · simp [Matrix.scalar_apply, hij]
       rw [hmap, Matrix.scalar_apply, Matrix.diagonal_const_mulVec]
 
 end CFSG.StandardType.ClassicalPosition.HeisRank

@@ -78,8 +78,8 @@ theorem fixesPair_sigma0 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K
     Nat.prime_two (by omega) hK3
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨e⟩ := nonempty_fixedPoints_fieldActor_mulEquiv_g2 (σ := σ) hK2
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : CharP (fixSubfield σ) 2 := RingHom.charP (fixSubfield σ).subtype
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : CharP (fixSubfield σ) 2 := RingHom.charP (fixSubfield σ).subtype
     (fixSubfield σ).subtype_injective 2
   have hpair := hasIndepPair_adjointG2_three (fixSubfield σ) (card_fixSubfield_of_cube hn hK hσ)
   exact fixesPair_of_injective_fixed

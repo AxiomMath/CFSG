@@ -85,7 +85,7 @@ theorem us_symm_apply {g : V7 ≃ₗ[ZMod 3] V7} {σ : Equiv.Perm (Fin 6)} {ε :
         rw [LinearMap.comp_apply, LinearEquiv.coe_coe, ub_zero, hs0, map_smul, LinearMap.smul_apply]
       | succ n =>
         rw [LinearMap.comp_apply, LinearEquiv.coe_coe, hs, LinearMap.smul_apply, us_ub, us_ub,
-          if_neg (Fin.succ_ne_zero _).symm, if_neg (Fin.succ_ne_zero _).symm, smul_zero]
+          ite_eq_right (Fin.succ_ne_zero _).symm, ite_eq_right (Fin.succ_ne_zero _).symm, smul_zero]
     rw [this, LinearMap.smul_apply, smul_eq_mul]
   · intro k
     rw [hus]
@@ -95,7 +95,7 @@ theorem us_symm_apply {g : V7 ≃ₗ[ZMod 3] V7} {σ : Equiv.Perm (Fin 6)} {ε :
       induction j using Fin.cases with
       | zero =>
         rw [LinearMap.comp_apply, LinearEquiv.coe_coe, ub_zero, hs0, map_smul, ← ub_zero,
-          us_ub, us_ub, if_neg (Fin.succ_ne_zero _), if_neg (Fin.succ_ne_zero _), smul_zero]
+          us_ub, us_ub, ite_eq_right (Fin.succ_ne_zero _), ite_eq_right (Fin.succ_ne_zero _), smul_zero]
       | succ n =>
         rw [LinearMap.comp_apply, LinearEquiv.coe_coe, hs, us_ub, us_ub]
         simp only [Fin.succ_inj]

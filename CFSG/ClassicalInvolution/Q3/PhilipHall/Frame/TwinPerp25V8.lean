@@ -99,7 +99,7 @@ open Classical in
 theorem kerF_of_mem {y : G} (hy : y ∈ layerX Ω c) :
     Λ.kerF y = Λ.lbe (QuotientGroup.mk ⟨y, hy⟩) := by
   unfold kerF
-  rw [dif_pos hy]
+  rw [dite_eq_left hy]
 
 @[expose] noncomputable def kerMap :
     KerMap Ω c (↥(coreHull Ω c) ⧸ classicalInvolutionOddCore ↥(coreHull Ω c)) where

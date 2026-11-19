@@ -19,6 +19,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem cor2Beta_wcl_le_normalClosure (t : G) :
     CFSG.LargeExtraspecial.S11.wcl t ≤ normalClosure ({t} : Set G) := by
   refine (Subgroup.closure_le _).mpr ?_
@@ -127,7 +128,7 @@ theorem cor2Beta_component_lift {S : Sylow 2 G} {t : G} (hs : ShultSetup S t) {N
   have hNn : ∀ (g n : G), n ∈ N → g * n * g⁻¹ ∈ N := fun g n hn =>
     (inferInstance : N.Normal).conj_mem n hn g
   obtain ⟨V, hVK, hVW, hV4, hVnc⟩ := hV
-  haveI := hV4
+  have := hV4
   obtain ⟨a, b, ha1, hb1, hab1⟩ := cor2Beta_kleinFour_two (X := ↥V)
   have hVW' : ∀ v ∈ V, ∃ w ∈ CFSG.LargeExtraspecial.S11.wcl t, π w = v := fun v hv => by
     obtain ⟨w, hw, rfl⟩ := hVW hv
@@ -272,17 +273,17 @@ theorem cor2Beta_component_lift {S : Sylow 2 G} {t : G} (hs : ShultSetup S t) {N
   exact (Subgroup.mem_centralizer_iff.mp (hKC hk).2 n hn).symm
 
 theorem cor2Beta_componentLift_of :
-    ∀ (G : Type) [Group G] [Finite G] {S : Sylow 2 G} {t : G} (hs : ShultSetup S t)
+    ∀ (G : Type) [Group G] [Finite G] {S : Sylow 2 G} {t : G} (_hs : ShultSetup S t)
       {N : Subgroup G} [N.Normal]
-      (hN : N = CFSG.Goldschmidt.oddCoreOf (normalClosure ({t} : Set G)))
+      (_hN : N = CFSG.Goldschmidt.oddCoreOf (normalClosure ({t} : Set G)))
       {Kb : Subgroup (G ⧸ N)}
-      (hK : IsComponentOf Kb ((normalClosure ({t} : Set G)).map (QuotientGroup.mk' N)))
-      (hV : ∃ V : Subgroup (G ⧸ N), V ≤ Kb ∧
+      (_hK : IsComponentOf Kb ((normalClosure ({t} : Set G)).map (QuotientGroup.mk' N)))
+      (_hV : ∃ V : Subgroup (G ⧸ N), V ≤ Kb ∧
           V ≤ (CFSG.LargeExtraspecial.S11.wcl t).map (QuotientGroup.mk' N) ∧ IsKleinFour ↥V ∧
           ∀ v ∈ V, v ≠ 1 → ∃ k ∈ Kb, k * v ≠ v * k),
       ∃ K : Subgroup G, IsComponentOf K (normalClosure ({t} : Set G)) ∧
         K.map (QuotientGroup.mk' N) = Kb ∧ ∀ k ∈ K, ∀ n ∈ N, k * n = n * k :=
-  fun _ _ _ _ _ hs _ _ hN _ hK hV => cor2Beta_component_lift hs hN hK hV
+  fun _ _ _ _ _ _hs _ _ _hN _ _hK _hV => cor2Beta_component_lift _hs _hN _hK _hV
 
 section LayerData
 
@@ -291,16 +292,16 @@ variable {X : Type} [Group X] [Finite X]
 theorem cor2Beta_component_not_le_odd {N' : Subgroup X} (hodd : Odd (Nat.card N'))
     {K : Subgroup X} (hK : CFSG.IsComponent K) : ¬ K ≤ N' := by
   intro hKN
-  haveI : Group.IsSolvable N' := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-  haveI : Group.IsSolvable K := Group.isSolvable_of_isSolvable_injective
+  have : Group.IsSolvable N' := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsSolvable K := Group.isSolvable_of_isSolvable_injective
     (Subgroup.inclusion_injective hKN)
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-  haveI : Group.IsPerfect K := hK.1.1
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Group.IsPerfect K := hK.1.1
   exact Group.IsPerfect.not_isSolvable K inferInstance
 
 theorem cor2Beta_component_commute_odd {N' : Subgroup X} [N'.Normal]
     (hodd : Odd (Nat.card N')) {K : Subgroup X} (hK : CFSG.IsComponent K) : ⁅K, N'⁆ = ⊥ := by
-  haveI : Group.IsSolvable N' := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsSolvable N' := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   exact (CFSG.LocalCores.component_solvable_centralizer inferInstance
     (inferInstance : N'.Normal).isSubnormal).1 K hK
 
@@ -311,9 +312,9 @@ theorem cor2Beta_layer_data {N' : Subgroup X} [N'.Normal] (hodd : Odd (Nat.card 
     ∃ P : Subgroup X, P.Normal ∧ (∀ x : X, ∃ p ∈ P, ∃ e ∈ CFSG.layer X, p * e = x) ∧
       (∀ e ∈ CFSG.layer X, ∀ p ∈ P, e * p = p * e) ∧ (∀ p ∈ P, ∃ a : ℕ, p ^ 2 ^ a ∈ N') := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ : X →* X ⧸ N' := QuotientGroup.mk' N' with hρ
-  haveI hsolv : Group.IsSolvable N' := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have hsolv : Group.IsSolvable N' := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have hEN : ⁅CFSG.layer X, N'⁆ = ⊥ :=
     (CFSG.LocalCores.component_solvable_centralizer hsolv
       (inferInstance : N'.Normal).isSubnormal).2
@@ -562,7 +563,7 @@ theorem cor2Beta_isCoveringOf_component {H N K : Subgroup G} [N.Normal]
     (hB : CFSG.BenderSuzuki.IsBenderGroup
       (↥(K.map (QuotientGroup.mk' N)) ⧸ Subgroup.center ↥(K.map (QuotientGroup.mk' N)))) :
     IsCoveringOf Tim77Cor2BetaList ↥K := by
-  haveI : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
+  have : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
   refine ⟨hK.2.2.1, Subgroup.center ↥K, le_rfl, inferInstance, ?_⟩
   set π : G →* G ⧸ N := QuotientGroup.mk' N with hπ
   have hker : (π.subgroupMap K).ker ≤ Subgroup.center ↥K := by
@@ -586,7 +587,7 @@ theorem cor2Beta_E_shape_of_components {H : Subgroup G}
       ∀ i, IsCoveringOf Tim77Cor2BetaList ↥(K i) := by
   classical
   obtain ⟨r, ⟨e⟩⟩ : ∃ r : ℕ, Nonempty (Fin r ≃ {K : Subgroup G // IsComponentOf K H}) := by
-    haveI : Finite {K : Subgroup G // IsComponentOf K H} := inferInstance
+    have : Finite {K : Subgroup G // IsComponentOf K H} := inferInstance
     obtain ⟨r, ⟨e⟩⟩ := Finite.exists_equiv_fin {K : Subgroup G // IsComponentOf K H}
     exact ⟨r, ⟨e.symm⟩⟩
   refine ⟨r, fun i => (e i).1, fun i => le_sSup (e i).2, fun i => hnormal _ (e i).2, ?_, ?_,
@@ -638,7 +639,7 @@ theorem cor2Beta_decomp_of_layer_data {H N : Subgroup G} [hHn : H.Normal] [N.Nor
     obtain ⟨p, hp, e, he, rfl⟩ := hP1 h hh
     rw [← hP2 e he p hp]
     exact Subgroup.mul_mem_sup he (hPY hp)
-  haveI : IsMulCommutative ↥(E ⊓ Y) :=
+  have : IsMulCommutative ↥(E ⊓ Y) :=
     ⟨⟨fun a b => Subtype.ext (hYc b.1 b.2.2 a.1 a.2.1)⟩⟩
   have hcompl : HasNormalTwoComplement ↥Y := by
     refine cor2Beta_hasNormalTwoComplement_of_split (Z := E ⊓ Y) hNodd hNY inf_le_right
@@ -706,9 +707,9 @@ theorem cor2Beta_shultDecomp_of (hGold : Goldschmidt1974) (hB4 : Cor2BetaCompone
   intro G _ _ S t hs
   classical
   set H : Subgroup G := normalClosure ({t} : Set G) with hH
-  haveI hHn : H.Normal := inferInstance
+  have hHn : H.Normal := inferInstance
   set N : Subgroup G := CFSG.Goldschmidt.oddCoreOf H with hNdef
-  haveI hNn : N.Normal := oddCoreOf_normal hHn
+  have hNn : N.Normal := oddCoreOf_normal hHn
   have hNH : N ≤ H := Subgroup.map_subtype_le _
   have hNodd : Odd (Nat.card N) := odd_card_oddCoreOf H
   set π : G →* G ⧸ N := QuotientGroup.mk' N with hπ

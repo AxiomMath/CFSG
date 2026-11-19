@@ -110,7 +110,7 @@ theorem exists_cyclic (M : Matrix (Fin 2) (Fin 2) K) (hM : M * M + M + 1 = 0)
     simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two] at e1 e2 e3
     apply hns (M 0 0)
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp
     all_goals first | linear_combination e1 | linear_combination e2 |
       linear_combination e3 - e1 + e2
   obtain ⟨v, hv⟩ := hv
@@ -123,7 +123,7 @@ theorem exists_cyclic (M : Matrix (Fin 2) (Fin 2) K) (hM : M * M + M + 1 = 0)
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.mulVec, dotProduct] at h0 h1 ⊢
-    all_goals first | ring1 | linear_combination h0 | linear_combination h1
+    all_goals first | linear_combination h0 | linear_combination h1
 
 theorem exists_conj (M N : Matrix (Fin 2) (Fin 2) K) (hM : M * M + M + 1 = 0)
     (hN : N * N + N + 1 = 0) (hMns : ∀ c : K, M ≠ c • (1 : Matrix (Fin 2) (Fin 2) K))

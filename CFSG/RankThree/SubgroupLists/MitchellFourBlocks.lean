@@ -132,6 +132,7 @@ section Finite
 
 variable [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p]
 
+omit [Finite K] in
 theorem orderOf_plusBar_of_pow_four (h2 : (2 : K) ≠ 0) {G : Subgroup (GL V₄ K)} {x : GL V₄ K}
     (hxG : x ∈ G) (hxC : x ∈ stdCent K) (hx4 : x ^ 4 = -1) :
     orderOf (plusBar h2 hxG hxC) = 4 := by
@@ -151,14 +152,15 @@ variable (hp2 : p ≠ 2) {G : Subgroup (GL V₄ K)} (hU0 : ∀ x ∈ G, IsSqZero
   (hneg : (-1 : GL V₄ K) ∈ G)
 include hp2 hU0 hneg
 
+omit hneg in
 theorem plusBlock_sq_commutator_eq_one_or_neg {x y : GL V₄ K}
     (hxG : x ∈ G) (hxC : x ∈ stdCent K) (hyG : y ∈ G) (hyC : y ∈ stdCent K)
     (hx4 : x ^ 4 = -1) (hy4 : y ^ 4 = -1) :
     plusBlock ((x ^ 2 * y ^ 2 * (x ^ 2)⁻¹ * (y ^ 2)⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) = 1 ∨
       plusBlock ((x ^ 2 * y ^ 2 * (x ^ 2)⁻¹ * (y ^ 2)⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) = -1 := by
   have h2 := two_ne_zero_of_charP (K := K) hp2
-  obtain ⟨f, hF⟩ := card_eq_pow_of_finite (K := K) (p := p) hp2
-  have hcomm := sq_mul_sq_comm_of_orderOf_four hF _ (not_dvd_card_plusImage hp2 hU0 hneg)
+  obtain ⟨f, hF⟩ := card_eq_pow_of_finite (K := K) (p := p)
+  have hcomm := sq_mul_sq_comm_of_orderOf_four hF _ (not_dvd_card_plusImage hp2 hU0)
     (orderOf_plusBar_of_pow_four h2 hxG hxC hx4) (orderOf_plusBar_of_pow_four h2 hyG hyC hy4)
   have hcG : x ^ 2 * y ^ 2 * (x ^ 2)⁻¹ * (y ^ 2)⁻¹ ∈ G :=
     G.mul_mem (G.mul_mem (G.mul_mem (G.pow_mem hxG 2) (G.pow_mem hyG 2))
@@ -169,11 +171,12 @@ theorem plusBlock_sq_commutator_eq_one_or_neg {x y : GL V₄ K}
   refine (plusBar_eq_one_iff h2 hcG hcC).mp ?_
   have e : plusBar h2 hcG hcC = plusBar h2 hxG hxC ^ 2 * plusBar h2 hyG hyC ^ 2 *
       (plusBar h2 hxG hxC ^ 2)⁻¹ * (plusBar h2 hyG hyC ^ 2)⁻¹ := by
-    rw [plusBar_pow, plusBar_pow, plusBar_inv hp2 hU0 hneg, plusBar_inv hp2 hU0 hneg, plusBar_mul,
+    rw [plusBar_pow, plusBar_pow, plusBar_inv hp2, plusBar_inv hp2, plusBar_mul,
       plusBar_mul, plusBar_mul]
   rw [e, hcomm]
   group
 
+omit hneg in
 theorem plusBlock_commutator_cube {x y : GL V₄ K} (hxG : x ∈ G)
     (hxC : x ∈ stdCent K) (hyG : y ∈ G) (hyC : y ∈ stdCent K) (hx4 : x ^ 4 = -1)
     (hy4 : y ^ 4 = -1)
@@ -183,14 +186,14 @@ theorem plusBlock_commutator_cube {x y : GL V₄ K} (hxG : x ∈ G)
       plusBlock ((x * y * x⁻¹ * y⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) ≠ 1 ∧
       plusBlock ((x * y * x⁻¹ * y⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) ≠ -1 := by
   have h2 := two_ne_zero_of_charP (K := K) hp2
-  obtain ⟨f, hF⟩ := card_eq_pow_of_finite (K := K) (p := p) hp2
+  obtain ⟨f, hF⟩ := card_eq_pow_of_finite (K := K) (p := p)
   have hwG : x * y * x⁻¹ * y⁻¹ ∈ G :=
     G.mul_mem (G.mul_mem (G.mul_mem hxG hyG) (G.inv_mem hxG)) (G.inv_mem hyG)
   have hwC : x * y * x⁻¹ * y⁻¹ ∈ stdCent K :=
     mul_mem (mul_mem (mul_mem hxC hyC) (inv_mem hxC)) (inv_mem hyC)
   have e : plusBar h2 hwG hwC = plusBar h2 hxG hxC * plusBar h2 hyG hyC *
       (plusBar h2 hxG hxC)⁻¹ * (plusBar h2 hyG hyC)⁻¹ := by
-    rw [plusBar_inv hp2 hU0 hneg, plusBar_inv hp2 hU0 hneg, plusBar_mul, plusBar_mul, plusBar_mul]
+    rw [plusBar_inv hp2, plusBar_inv hp2, plusBar_mul, plusBar_mul, plusBar_mul]
   have hxy : plusBar h2 hxG hxC * plusBar h2 hyG hyC ≠
       plusBar h2 hyG hyC * plusBar h2 hxG hxC := by
     intro hc
@@ -201,7 +204,7 @@ theorem plusBlock_commutator_cube {x y : GL V₄ K} (hxG : x ∈ G)
       Matrix.SpecialLinearGroup.coe_one] at h
     exact one_ne_neg_one_matTwo h2 h
   obtain ⟨h3, h1⟩ := commutator_pow_three_of_orderOf_four hF _
-    (not_dvd_card_plusImage hp2 hU0 hneg) (orderOf_plusBar_of_pow_four h2 hxG hxC hx4)
+    (not_dvd_card_plusImage hp2 hU0) (orderOf_plusBar_of_pow_four h2 hxG hxC hx4)
     (orderOf_plusBar_of_pow_four h2 hyG hyC hy4) hxy
   rw [← e, plusBar_pow, plusBar_eq_one_iff, Units.val_pow_eq_pow_val,
     plusBlock_pow h2 (mem_stdCent.mp hwC).2] at h3

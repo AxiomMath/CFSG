@@ -58,7 +58,7 @@ private theorem cO1_fixed_sup_span_eq_top {K V : Type*} [Field K] [AddCommGroup 
     (⨅ g : G, LinearMap.ker (ρ g - LinearMap.id)) ⊔
       Submodule.span K {w | ∃ g : G, ∃ u, w = u - ρ g u} = ⊤ := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   rw [Nat.card_eq_fintype_card] at hG
   rw [eq_top_iff]
   intro v _
@@ -97,7 +97,7 @@ private theorem cO1_card_ne_zero {K : Type} [Field K] [Fintype K] [CharP K 2] {d
     (S : ClSetting K (Fin d)) : (Nat.card S.E₀ : K) ≠ 0 := by
   intro hzero
   rw [CharP.cast_eq_zero_iff K 2] at hzero
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 hzero
   have hxp : x ^ S.p = 1 := by
     apply Subtype.ext

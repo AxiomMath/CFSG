@@ -222,22 +222,22 @@ theorem dgn_mul {β : Fin (4 + 1) → ℕ} {M N : Mat5} (hM : M.BlockTriangular 
   ext i j
   simp only [dgn, Matrix.of_apply, Matrix.mul_apply]
   by_cases h : β i = β j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     refine Finset.sum_congr rfl fun k _ => ?_
     by_cases hk : β i = β k
-    · rw [if_pos hk, if_pos (hk.symm.trans h)]
-    · rw [if_neg hk, zero_mul]
+    · rw [ite_eq_left hk, ite_eq_left (hk.symm.trans h)]
+    · rw [ite_eq_right hk, zero_mul]
       rcases lt_or_gt_of_ne hk with hlt | hgt
       · rw [hN (show β j < β k by rw [← h]; exact hlt), mul_zero]
       · rw [hM hgt, zero_mul]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     symm
     refine Finset.sum_eq_zero fun k _ => ?_
     by_cases hk : β i = β k
     · by_cases hk' : β k = β j
       · exact absurd (hk.trans hk') h
-      · rw [if_neg hk', mul_zero]
-    · rw [if_neg hk, zero_mul]
+      · rw [ite_eq_right hk', mul_zero]
+    · rw [ite_eq_right hk, zero_mul]
 
 theorem dgn_one (β : Fin (4 + 1) → ℕ) : dgn β 1 = 1 := by
   ext i j
@@ -290,7 +290,7 @@ theorem levi_decomp (c : Bool × Bool × Bool × Bool) {d : SL5} (hd : d ∈ Blo
       rw [dgn_mul hM (dgn_blockTriangular _ _), dgn_dgn, e1]
     by_cases h : bf c i = bf c j
     · have := congrFun (congrFun hdg i) j
-      simp only [dgn, Matrix.of_apply, if_pos h] at this
+      simp only [dgn, Matrix.of_apply, ite_eq_left h] at this
       rw [this]
       exact Matrix.one_apply_ne hji.ne'
     · have h1 := bf_lt c j i

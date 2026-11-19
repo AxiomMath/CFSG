@@ -45,33 +45,33 @@ theorem ob5_exists_pair (b : Module.Basis (Fin 2) F W) (v : W) :
   exact ⟨_, _, this.symm⟩
 
 theorem ob5E_zero (b : Module.Basis (Fin 2) F W) : ob5E b (b 0) = b 0 := by
-  simp [ob5E, Module.Basis.constr_basis]
+  simp [ob5E]
 
 theorem ob5E_apply (b : Module.Basis (Fin 2) F W) (c0 c1 : F) :
     ob5E b (c0 • b 0 + c1 • b 1) = (c0 + c1) • b 0 + c1 • b 1 := by
-  have h1 : ob5E b (b 1) = b 1 + b 0 := by simp [ob5E, Module.Basis.constr_basis]
+  have h1 : ob5E b (b 1) = b 1 + b 0 := by simp [ob5E]
   rw [map_add, map_smul, map_smul, ob5E_zero, h1]
   simp only [smul_add, add_smul]
   abel
 
 theorem ob5Dg_apply (b : Module.Basis (Fin 2) F W) (μ : F) (c0 c1 : F) :
     ob5Dg b μ (c0 • b 0 + c1 • b 1) = (c0 * μ) • b 0 + (c1 * μ⁻¹) • b 1 := by
-  have h0 : ob5Dg b μ (b 0) = μ • b 0 := by simp [ob5Dg, Module.Basis.constr_basis]
-  have h1 : ob5Dg b μ (b 1) = μ⁻¹ • b 1 := by simp [ob5Dg, Module.Basis.constr_basis]
+  have h0 : ob5Dg b μ (b 0) = μ • b 0 := by simp [ob5Dg]
+  have h1 : ob5Dg b μ (b 1) = μ⁻¹ • b 1 := by simp [ob5Dg]
   rw [map_add, map_smul, map_smul, h0, h1, smul_smul, smul_smul]
 
 theorem ob5Dg_zero (b : Module.Basis (Fin 2) F W) (μ : F) : ob5Dg b μ (b 0) = μ • b 0 := by
-  simp [ob5Dg, Module.Basis.constr_basis]
+  simp [ob5Dg]
 
 theorem ob5Dg_one (b : Module.Basis (Fin 2) F W) (μ : F) : ob5Dg b μ (b 1) = μ⁻¹ • b 1 := by
-  simp [ob5Dg, Module.Basis.constr_basis]
+  simp [ob5Dg]
 
 theorem ob5Wr_zero (b : Module.Basis (Fin 2) F W) : ob5Wr b (b 0) = b 1 := by
-  simp [ob5Wr, Module.Basis.constr_basis]
+  simp [ob5Wr]
 
 theorem ob5Wr_apply (b : Module.Basis (Fin 2) F W) (c0 c1 : F) :
     ob5Wr b (c0 • b 0 + c1 • b 1) = (-c1) • b 0 + c0 • b 1 := by
-  have h1 : ob5Wr b (b 1) = -b 0 := by simp [ob5Wr, Module.Basis.constr_basis]
+  have h1 : ob5Wr b (b 1) = -b 0 := by simp [ob5Wr]
   rw [map_add, map_smul, map_smul, ob5Wr_zero, h1]
   simp only [smul_neg, neg_smul]
   abel

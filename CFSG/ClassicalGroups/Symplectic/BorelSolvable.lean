@@ -17,10 +17,10 @@ theorem isSolvable_borel_sp {m : ℕ} (hm : 3 ≤ m) {F : Type} [Field F] [Finit
   change Group.IsSolvable ↥B
   have hcomm : IsMulCommutative (↥B ⧸ CFSG.pCore 2 ↥B) :=
     isMulCommutative_borel_quotient_sp (m := m) (F := F) hm B rfl
-  haveI : IsMulCommutative (↥B ⧸ CFSG.pCore 2 ↥B) := hcomm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥B) := by
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥B) :=
+  have : IsMulCommutative (↥B ⧸ CFSG.pCore 2 ↥B) := hcomm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥(CFSG.pCore 2 ↥B) := by
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥B) :=
       IsPGroup.isNilpotent (pCore_isPGroup (p := 2) (G := ↥B))
     infer_instance
   exact Group.isSolvable_of_subgroup_quotient (CFSG.pCore 2 ↥B)

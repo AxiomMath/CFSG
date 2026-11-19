@@ -112,7 +112,7 @@ theorem odd_orderOf_of_nilpotent_normal [Finite Ω] {Y N : Subgroup Ω} (hNY : N
   have hGnorm : Y ≤ Subgroup.normalizer (N : Set Ω) := le_normalizer_of_conj hn
   have hnormN : Y ≤ Subgroup.normalizer (N' : Set Ω) := fun g hg =>
     CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (H := N) _ (hGnorm hg)
-  have hpN : IsPGroup 2 ↥N' := P.isPGroup'.map N.subtype
+  have hpN : IsPGroup 2 ↥N' := P.isPGroup.map N.subtype
   have hle := CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hNG hnormN hpN
   rw [hO2] at hle
   have hy1 : ((y : ↥N) : Ω) ∈ N' := Subgroup.mem_map_of_mem _ hyP

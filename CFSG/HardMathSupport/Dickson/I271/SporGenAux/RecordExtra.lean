@@ -21,7 +21,7 @@ theorem noSig_planes_of_extra {M : Type*} [Group M] [Finite M] {P R : Subgroup M
       Subgroup M) = p)
     (hB : ∀ y ∈ P, orderOf y = p → RankOK p (R ⊓ centralizer ({y} : Set M) : Subgroup M)) :
     ∀ Ê : Subgroup (MulAut ↥P), IsElemAbelian p Ê → Nat.card Ê = p ^ 2 → NoSig p Ê := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzC : z ∈ centralizer (A : Set M) ⊓ (R ⊓ centralizer ({z} : Set M)) :=
     ⟨Subgroup.mem_centralizer_iff.2 fun q hq =>
         Subgroup.mem_centralizer_singleton_iff.1 (hAC hq),
@@ -64,7 +64,7 @@ theorem noSig_planes_of_record_extra_rank {M : Type*} [Group M] [Finite M] {P R 
     (hAcard : Nat.card (centralizer (A : Set M) ⊓ (R ⊓ centralizer ({z} : Set M)) :
       Subgroup M) = p) :
     ∀ Ê : Subgroup (MulAut ↥P), IsElemAbelian p Ê → Nat.card Ê = p ^ 2 → NoSig p Ê := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA_sylow : ∃ S : Sylow p ↥P, (S : Subgroup ↥P) = A.subgroupOf P := by
     obtain ⟨S0, hS0⟩ := hSyl
     have hfac : p ^ 3 = p ^ (Nat.card P).factorization p := by

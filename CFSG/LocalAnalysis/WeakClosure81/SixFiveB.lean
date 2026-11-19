@@ -45,17 +45,21 @@ theorem conjV₀_inf_V (h : Hyp65 n M V₀ V g) : conjSubgroup V₀ g ⊓ V = �
   rw [conjSubgroup_conjSubgroup_inv] at hh
   exact hh
 
+omit [Finite G] in
 theorem Z0_le_U (h : Hyp65 n M V₀ V g) : Z0Of M V₀ g ≤ UOf M V g := by
   unfold Z0Of UOf
   exact inf_le_inf_right _ h.le
 
+omit [Finite G] in
 theorem Y_le_B (h : Hyp65 n M V₀ V g) : YOf M V₀ g ≤ BOf M V g := by
   unfold YOf BOf
   exact inf_le_inf_right _ (conjSubgroup_mono h.le g)
 
+omit [Finite G] in
 theorem Z0_ne_bot (h : Hyp65 n M V₀ V g) : Z0Of M V₀ g ≠ ⊥ := by
   exact h.inCalO1.1.1.2.2 h.ne_bot
 
+omit [Finite G] in
 theorem Y_ne_bot (h : Hyp65 n M V₀ V g) : YOf M V₀ g ≠ ⊥ := by
   exact h.inCalO1.1.2.2.2 h.ne_bot
 

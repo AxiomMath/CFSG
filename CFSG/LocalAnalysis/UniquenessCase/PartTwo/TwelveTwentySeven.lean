@@ -11,10 +11,12 @@ open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_mem_of_mem_normalizer {N : Subgroup G} {g n : G}
     (hg : g ∈ Subgroup.normalizer (N : Set G)) (hn : n ∈ N) : g * n * g⁻¹ ∈ N :=
   ((Subgroup.mem_normalizer_iff.mp hg) n).mp hn
 
+omit [Finite G] in
 private theorem conj_mem_centralizer {N : Subgroup G} {g c : G}
     (hg : g ∈ Subgroup.normalizer (N : Set G))
     (hc : c ∈ Subgroup.centralizer (N : Set G)) :
@@ -26,6 +28,7 @@ private theorem conj_mem_centralizer {N : Subgroup G} {g c : G}
     _ = g * (c * (g⁻¹ * n * g)) * g⁻¹ := by rw [hc _ hn']
     _ = (g * c * g⁻¹) * n := by group
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_centralizer (N : Subgroup G) :
     Subgroup.normalizer (N : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (N : Set G) : Set G) := by
@@ -44,7 +47,7 @@ private theorem exists_nontrivial_fixed_point_of_isPGroup
     (hP : IsPGroup 2 P) (hQ : IsPGroup 2 Q) (hQn : Nontrivial Q)
     (a : Q) (ha : a ∈ MulAction.fixedPoints P Q) :
     ∃ q : Q, q ≠ a ∧ ∀ p : P, p • q = q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hnpos, hncard⟩ := hQ.nontrivial_iff_card.mp hQn
   have hdvd : 2 ∣ Nat.card Q := by
     rw [hncard]
@@ -53,6 +56,7 @@ private theorem exists_nontrivial_fixed_point_of_isPGroup
     hP.exists_fixed_point_of_prime_dvd_card_of_fixed_point Q hdvd ha
   exact ⟨b, fun h => hba h.symm, fun p => (MulAction.mem_fixedPoints.mp hb) p⟩
 
+omit [Finite G] in
 private theorem eq_bot_or_eq_of_closure_conj_eq {M V₀ V : Subgroup G}
     (hgen : ∀ v ∈ V, v ∉ V₀ →
       Subgroup.closure {x : G | ∃ m ∈ M, x = m * v * m⁻¹} = V)
@@ -115,6 +119,7 @@ private noncomputable def quotAut {X : Type*} [Group X] [Finite X] (H : Subgroup
   MulEquiv.ofBijective (quotMap H σ hσ)
     ⟨quotMap_injective H σ hσ, (Finite.injective_iff_surjective).mp (quotMap_injective H σ hσ)⟩
 
+omit [Finite G] in
 private theorem commMap_mul {V : Subgroup G}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a)
     {k x y : G} (hk : k ∈ Subgroup.normalizer (V : Set G)) (hx : x ∈ V) (hy : y ∈ V) :
@@ -132,6 +137,7 @@ private theorem commMap_mul {V : Subgroup G}
           rw [hcomm (k * y * k⁻¹) hky x⁻¹ hxinv]
     _ = (k * x * k⁻¹ * x⁻¹) * (k * y * k⁻¹ * y⁻¹) := by group
 
+omit [Finite G] in
 private theorem commMap_inv {V : Subgroup G}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a)
     {k x : G} (hk : k ∈ Subgroup.normalizer (V : Set G)) (hx : x ∈ V) :
@@ -141,6 +147,7 @@ private theorem commMap_inv {V : Subgroup G}
     _ = x * (k * x * k⁻¹)⁻¹ := hcomm (k * x * k⁻¹)⁻¹ (V.inv_mem hkx) x hx
     _ = (k * x * k⁻¹ * x⁻¹)⁻¹ := by group
 
+omit [Finite G] in
 private theorem mul_commMap_eq {V : Subgroup G}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a)
     {q₁ q₂ v : G} (hc₁ : q₁ * v * q₁⁻¹ * v⁻¹ ∈ V)
@@ -158,6 +165,7 @@ private theorem mul_commMap_eq {V : Subgroup G}
     _ = (q₁ * v * q₁⁻¹ * v⁻¹) * (q₂ * v * q₂⁻¹ * v⁻¹) :=
           (hcomm (q₁ * v * q₁⁻¹ * v⁻¹) hc₁ (q₂ * v * q₂⁻¹ * v⁻¹) hc₂V).symm
 
+omit [Finite G] in
 private theorem conj_commMap_eq {V : Subgroup G}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a)
     {x q v : G} (hdV : x * v * x⁻¹ * v⁻¹ ∈ V)
@@ -188,7 +196,7 @@ theorem exists_conj_eq_mul_of_inCalV0 {M V₀ V X : Subgroup G} (h : InCalV0 M V
   obtain ⟨hV₀, hV, hV₀leV, -, -, hgen, hnot2red⟩ := h
   obtain ⟨hV₀ne, -, hMNV₀, hV₀E⟩ := hV₀
   obtain ⟨-, hVM, hMNV, hVE⟩ := hV
-  haveI : IsMulCommutative V := hVE.1
+  have : IsMulCommutative V := hVE.1
   have hcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a := fun a ha b hb => hVE.comm ha hb
   have hV_le_cent : V ≤ Subgroup.centralizer (V : Set G) := Subgroup.le_centralizer V
   have hXM : X ≤ M := fun x hx => ((hX x).mp hx).1
@@ -204,7 +212,7 @@ theorem exists_conj_eq_mul_of_inCalV0 {M V₀ V X : Subgroup G} (h : InCalV0 M V
     hKNV.trans (normalizer_le_normalizer_centralizer V)
   have hVK : V ≤ K := (le_inf hVM hV_le_cent).trans hCK
   let Ck : Subgroup K := (Subgroup.centralizer (V : Set G)).subgroupOf K
-  haveI : Ck.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKNC
+  have : Ck.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKNC
   let P : Type _ := K ⧸ Ck
   have hPcard : Nat.card P = 2 ^ n := by
     show Nat.card (K ⧸ Ck) = 2 ^ n
@@ -248,7 +256,7 @@ theorem exists_conj_eq_mul_of_inCalV0 {M V₀ V X : Subgroup G} (h : InCalV0 M V
     rw [← hcomm']
     group
   let V0V : Subgroup V := V₀.subgroupOf V
-  haveI : V0V.Normal := inferInstance
+  have : V0V.Normal := inferInstance
   let Q : Type _ := V ⧸ V0V
   have hpres : ∀ k : K, V0V ≤ V0V.comap (conjAutV k).toMonoidHom := by
     intro k x hx
@@ -302,7 +310,7 @@ theorem exists_conj_eq_mul_of_inCalV0 {M V₀ V X : Subgroup G} (h : InCalV0 M V
     rw [QuotientGroup.eq_one_iff] at hcontr
     exact hvV₀ (Subgroup.mem_subgroupOf.mp hcontr)
   let phiQ : P →* MulAut Q := QuotientGroup.lift Ck conjQuotAut hCk_kerQ
-  letI : MulAction P Q := MulAction.compHom Q phiQ
+  let : MulAction P Q := MulAction.compHom Q phiQ
   have h1fixQ : (1 : Q) ∈ MulAction.fixedPoints P Q := by
     rw [MulAction.mem_fixedPoints]
     intro p
@@ -333,7 +341,7 @@ theorem exists_conj_eq_mul_of_inCalV0 {M V₀ V X : Subgroup G} (h : InCalV0 M V
       Subgroup.mem_subgroupOf.mp h
     have hcoeeq : (((conjAutV ⟨k', hk'⟩) w / w : V) : G) =
         k' * (w : G) * k'⁻¹ * (w : G)⁻¹ := by
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv,
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv,
         conjAutV, MonoidHom.comp_apply, normalizerMonoidHom_apply_coe, Subgroup.coe_inclusion]
     rwa [hcoeeq] at hmem
   have hKleX : K ≤ X := by
@@ -345,7 +353,7 @@ theorem exists_conj_eq_mul_of_inCalV0 {M V₀ V X : Subgroup G} (h : InCalV0 M V
       { carrier := {x : G | x ∈ V ∧ k * x * k⁻¹ * x⁻¹ ∈ V₀}
         one_mem' := by
           refine ⟨V.one_mem, ?_⟩
-          simpa using V₀.one_mem
+          simp
         mul_mem' := by
           rintro x y ⟨hxV, hx0⟩ ⟨hyV, hy0⟩
           refine ⟨V.mul_mem hxV hyV, ?_⟩
@@ -375,7 +383,7 @@ theorem exists_conj_eq_mul_of_inCalV0 {M V₀ V X : Subgroup G} (h : InCalV0 M V
     exact (hVleSk hu).2
   have hKleV₀ : K ≤ Subgroup.centralizer (V₀ : Set G) := by
     let phiV₀ : P →* MulAut V₀ := QuotientGroup.lift Ck conjAutV₀ hCk_kerV₀
-    letI : MulAction P V₀ := MulAction.compHom V₀ phiV₀
+    let : MulAction P V₀ := MulAction.compHom V₀ phiV₀
     have hV₀nontriv : Nontrivial V₀ := (Subgroup.nontrivial_iff_ne_bot V₀).mpr hV₀ne
     have h1fixV₀ : (1 : V₀) ∈ MulAction.fixedPoints P V₀ := by
       rw [MulAction.mem_fixedPoints]

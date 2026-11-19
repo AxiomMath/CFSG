@@ -115,20 +115,20 @@ theorem sim_mLetter {L : Array (Array W)} {i : ℕ} {words : Array (List ℤ)}
   · have hneg : (-z).natAbs ≤ 2 := by simpa using h2
     have := sim_mGen hz0 h2
     unfold mLetter letterG
-    rw [if_pos h2, if_pos hneg, if_pos h2]
+    rw [ite_eq_left h2, ite_eq_left hneg, ite_eq_left h2]
     exact this
   · have hk : z.natAbs - 3 < i := by omega
     have hneg : ¬ (-z).natAbs ≤ 2 := by simpa using h2
     obtain ⟨h1, h2'⟩ := hL _ hk
     unfold mLetter letterG
-    rw [if_neg h2, if_neg hneg, if_neg h2, if_pos hk]
+    rw [ite_eq_right h2, ite_eq_right hneg, ite_eq_right h2, ite_eq_left hk]
     simp only [Int.natAbs_neg]
     by_cases hpos : 0 < z
     · have hn : ¬ 0 < -z := by omega
-      rw [if_pos hpos, if_neg hn, if_pos hpos]
+      rw [ite_eq_left hpos, ite_eq_right hn, ite_eq_left hpos]
       exact ⟨h1, h2'⟩
     · have hn : 0 < -z := by omega
-      rw [if_neg hpos, if_pos hn, if_neg hpos, inv_inv]
+      rw [ite_eq_right hpos, ite_eq_left hn, ite_eq_right hpos, inv_inv]
       exact ⟨h2', h1⟩
 
 theorem sim_mLetters {words : Array (List ℤ)} (hok : CFSG.Sporadic.Fi23.Native.slpOK words = true) :

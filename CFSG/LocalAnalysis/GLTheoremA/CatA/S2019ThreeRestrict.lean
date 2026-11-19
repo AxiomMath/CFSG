@@ -29,12 +29,12 @@ variable {F V : Type*} [Field F] [AddCommGroup V] [Module F V]
       inv := ((g.1⁻¹ : LinearMap.GeneralLinearGroup F V) : V →ₗ[F] V).restrict g.2.2
       val_inv := by
         ext w
-        simp only [Module.End.mul_apply, LinearMap.restrict_coe_apply, Module.End.one_apply]
+        simp only [Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply, Module.End.one_apply]
         rw [← Module.End.mul_apply, ← Units.val_mul, mul_inv_cancel, Units.val_one,
           Module.End.one_apply]
       inv_val := by
         ext w
-        simp only [Module.End.mul_apply, LinearMap.restrict_coe_apply, Module.End.one_apply]
+        simp only [Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply, Module.End.one_apply]
         rw [← Module.End.mul_apply, ← Units.val_mul, inv_mul_cancel, Units.val_one,
           Module.End.one_apply] }
   map_one' := by
@@ -81,8 +81,8 @@ theorem eq_one_of_fix_eigen (h2 : (2 : F) ≠ 0) {c g : LinearMap.GeneralLinearG
 
 theorem sq_mem_frattini {P : Type*} [Group P] [Finite P] (hP : IsPGroup 2 P) (x : P) :
     x ^ 2 ∈ frattini P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hP.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hP.isNilpotent
   unfold frattini Order.radical
   rw [Subgroup.mem_iInf]
   intro M

@@ -18,9 +18,9 @@ theorem LangSetup.exists_charP_isAlgebraic_zmod (S : LangSetup τ L p) (hAlg : S
     have h := S.hqpow.2
     rw [hq, Nat.cast_pow] at h
     exact (pow_eq_zero_iff hf.ne').1 h
-  haveI hch : CharP L l := (CharP.charP_iff_prime_eq_zero hl).2 hl0
-  haveI : Fact l.Prime := ⟨hl⟩
-  letI := ZMod.algebra L l
+  have hch : CharP L l := (CharP.charP_iff_prime_eq_zero hl).2 hl0
+  have : Fact l.Prime := ⟨hl⟩
+  let := ZMod.algebra L l
   refine ⟨hch, ⟨fun c => ?_⟩⟩
   obtain ⟨n, hn, hc⟩ := hAlg c
   have hq1 : 1 < S.D.q := S.hqpow.1.one_lt

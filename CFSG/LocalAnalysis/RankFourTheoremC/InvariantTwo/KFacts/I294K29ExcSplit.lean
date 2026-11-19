@@ -55,7 +55,7 @@ theorem rank_adjointGroup_of_dvd_sub_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     3 ≤ CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup τ K)) ∧
       ∀ y : adjointGroup τ K, y ^ p = 1 →
         3 ≤ CFSG.Open.pRank p (centralizer ({y} : Set (adjointGroup τ K))) := by
-  haveI : Finite (adjointGroup τ K) := generated_group_finite τ K
+  have : Finite (adjointGroup τ K) := generated_group_finite τ K
   obtain ⟨A, hAR, hRN, hA, hAc⟩ := exists_torsion_torusSub hp hpq hker
   have hRidx := not_dvd_index_monomialSub hp hp2 hpq ds hd0 hds
   have hidx : ¬ p ∣ (MonoidHom.id (adjointGroup τ K)).range.index := by
@@ -127,14 +127,14 @@ theorem crossAtPrime_untwisted_of_dvd_sub_one {τ : Tag}
       (ds.map fun d => ∑ i ∈ Finset.range d, x ^ i).prod) :
     CrossAtPrime ⟨c q, hv⟩ p := by
   refine crossAtPrime_of_model fun hp hp5 _ => ?_
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨φ⟩ := hB q hv (GaloisField q.p q.exponent) hK
   have hp2 : p ≠ 2 := by omega
   obtain ⟨h3, hr'⟩ := rank_adjointGroup_of_dvd_sub_one (K := GaloisField q.p q.exponent) hp hp2
     (by rw [hK]; exact hpq) (hker _ hp5) hr ds hd0 hds
-  haveI : Finite (adjointGroup τ (GaloisField q.p q.exponent)) := generated_group_finite τ _
+  have : Finite (adjointGroup τ (GaloisField q.p q.exponent)) := generated_group_finite τ _
   exact ⟨adjointGroup τ (GaloisField q.p q.exponent), inferInstance, inferInstance,
     ⟨φ.symm.trans (adjointQuotientEquiv τ _)⟩, h3, hr'⟩
 

@@ -42,8 +42,8 @@ theorem nonLocalized_map_mulAut {J : Subgroup G} (γ : MulAut G) (hJ : NonLocali
   intro T hT hs hle
   refine hJ (T.map γ.symm.toMonoidHom) (fun h => hT ?_) ?_ fun j hj => ?_
   · rwa [Subgroup.map_eq_bot_iff_of_injective _ γ.symm.injective] at h
-  · haveI := hs
-    exact solvable_of_surjective (MonoidHom.subgroupMap_surjective γ.symm.toMonoidHom T)
+  · have := hs
+    exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective γ.symm.toMonoidHom T)
   · have hγj : γ j ∈ Subgroup.normalizer (T : Set G) := hle ⟨j, hj, rfl⟩
     rw [Subgroup.mem_normalizer_iff] at hγj ⊢
     intro t
@@ -67,8 +67,8 @@ theorem s2019FixCentralizes_of_nonLocalized [Finite G] (p : ℕ) (α : MulAut G)
   · subst h
     by_cases hT : T = ⊥
     · rw [hT, Subgroup.commutator_bot_left]
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Group.IsNilpotent ↥T := hT2.isNilpotent
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Group.IsNilpotent ↥T := hT2.isNilpotent
       exact absurd hLT (hJn T hT inferInstance)
 
 theorem s2019FixCentralizes_conj_of_nonLocalized [Finite G] (p : ℕ) (α γ : MulAut G)
@@ -76,7 +76,7 @@ theorem s2019FixCentralizes_conj_of_nonLocalized [Finite G] (p : ℕ) (α γ : M
     (hJC : J ≤ fixSubgroup α) (hcomm : ⁅fixSubgroup α, fixSubgroup α⁆ ≤ J)
     (hJs : IsSimpleGroup ↥J) (hJn : NonLocalized J) : S2019FixCentralizes p (γ * α * γ⁻¹) := by
   have hfix := fixSubgroup_conj α γ
-  haveI := hJs
+  have := hJs
   refine s2019FixCentralizes_of_nonLocalized p _ (J := J.map γ.toMonoidHom) ?_ ?_
     (J.equivMapOfInjective γ.toMonoidHom γ.injective).symm.isSimpleGroup
     (nonLocalized_map_mulAut γ hJn)

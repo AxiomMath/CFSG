@@ -215,7 +215,7 @@ theorem mul_scalar_ne_of_coord {g h c : GL ι K} {a b : ι} (hab : a ≠ b)
     ← smul_one_eq_diagonal, smul_mulVec, one_mulVec, mulVec_smul, hg] at this
   apply hh
   rw [← this]
-  simp [Pi.single_apply, hab.symm]
+  simp [hab.symm]
 
 theorem three_le_localRank_omega [Finite K] (Q : (ι → K) → K) (f : Fin 4 → ι)
     (hf : Function.Injective f) (g : Fin 3 → ι) (hg : Function.Injective g)
@@ -226,7 +226,7 @@ theorem three_le_localRank_omega [Finite K] (Q : (ι → K) → K) (f : Fin 4 �
       Q v - Q w = q3 (v ∘ g) - q3 (w ∘ g))
     (h2 : (2 : K) ≠ 0) (h4 : (2 : K) ^ 2 ≠ 1) :
     3 ≤ localRank 3 (StatedProj (StatedOmega Q)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set H : Subgroup (GL ι K) := StatedOmega Q with hH
   set x : GL ι K := gen f hf lmat lmat_one lmat_mul c3 with hxdef
   set y : GL ι K := gen f hf rmat rmat_one rmat_mul c3 with hydef
@@ -301,7 +301,7 @@ theorem three_le_localRank_omega [Finite K] (Q : (ι → K) → K) (f : Fin 4 �
       exact CFSG.HardMathSupport.Timmesfeld.DFour.blk4_mulVec_single_of_not f hf _ hn0
     have hzv : (((z : GL ι K) : Matrix ι ι K) *ᵥ Pi.single (g 0) 1) (g 1) ≠ 0 := by
       rw [hzdef, coe_adjGen, blk3_mulVec_g]
-      simp [Fin.sum_univ_three, Pi.single_apply, hg.eq_iff, adjmat, c3]
+      simp [Pi.single_apply, hg.eq_iff, adjmat, c3]
     exact mul_scalar_ne_of_coord (hg.ne (by decide)) hfix hzv hs
   have ht1 : t ∉ StatedScalars ι K := by
     rintro ⟨u, hu⟩
@@ -377,8 +377,8 @@ theorem notMem_range_frame3 (a b : Fin m → ι) (ha : Function.Injective a)
   constructor <;>
   · rintro ⟨k, hk⟩
     fin_cases k <;>
-      simp [frame3, ha.eq_iff, hb.eq_iff, hab, (hab _ _).symm, hca, hcb, (hca _).symm,
-        (hcb _).symm, h, h.symm] at hk
+      simp [frame3, ha.eq_iff, hb.eq_iff, hab, (hab _ _).symm, (hca _).symm,
+        (hcb _).symm, h.symm] at hk
 
 theorem frame4_frame3_disjoint (a b : Fin m → ι) (ha : Function.Injective a)
     (hb : Function.Injective b) (hab : ∀ i j, a i ≠ b j) {i0 i1 i₀ : Fin m} {c : ι}
@@ -386,8 +386,7 @@ theorem frame4_frame3_disjoint (a b : Fin m → ι) (ha : Function.Injective a)
     ∀ k l, frame4 a b i0 i1 k ≠ frame3 a b i₀ c l := by
   intro k l
   fin_cases k <;> fin_cases l <;>
-    simp [frame4, frame3, ha.eq_iff, hb.eq_iff, hab, (hab _ _).symm, hca, hcb, h0, h1,
-      h0.symm, h1.symm]
+    simp [frame4, frame3, ha.eq_iff, hb.eq_iff, hab, (hab _ _).symm, hca, hcb, h0.symm, h1.symm]
 
 theorem hq3_of_sum (a b : Fin m → ι) (ha : Function.Injective a) (hb : Function.Injective b)
     (hab : ∀ i j, a i ≠ b j) (i₀ : Fin m) {c : ι} (hca : ∀ i, a i ≠ c) (hcb : ∀ i, b i ≠ c)
@@ -499,9 +498,9 @@ section Models
 theorem three_le_twoLocalRank_of_odd {G : Type} [Group G] [Finite G] {n ℓ f : ℕ}
     (h : StatedClassicalModel G .POmegaOdd n ℓ f) (hℓ3 : ℓ ≠ 3) : 3 ≤ GLATwoLocalRank 3 G := by
   obtain ⟨⟨hℓ, hf, hn, hℓ2⟩, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
+  have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   obtain ⟨c2, c4⟩ := char_facts (K := K) hℓ hℓ2 hℓ3
-  haveI : Finite (StatedProj (StatedOmega (StatedQuadOdd n K))) := Finite.of_equiv G e.toEquiv
+  have : Finite (StatedProj (StatedOmega (StatedQuadOdd n K))) := Finite.of_equiv G e.toEquiv
   change 3 ≤ localRank 3 G
   rw [CFSG.RankThree.PartTwo.Census.localRank_eq_of_mulEquiv e Nat.prime_three]
   exact three_le_localRank_odd hn c2 c4
@@ -510,8 +509,8 @@ theorem three_le_twoLocalRank_of_minus {G : Type} [Group G] [Finite G] {n ℓ f 
     (h : StatedClassicalModel G .POmegaMinus n ℓ f) (hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3) :
     3 ≤ GLATwoLocalRank 3 G := by
   obtain ⟨⟨hℓ, hf, hn⟩, K, _, _, hK, -, -, -, -⟩ := id h
-  haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
-  haveI := Fintype.ofFinite K
+  have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
+  have := Fintype.ofFinite K
   obtain ⟨c2, c4⟩ := char_facts (K := K) hℓ hℓ2 hℓ3
   have hrc : ringChar K ≠ 2 := by rw [ringChar.eq K ℓ]; exact hℓ2
   obtain ⟨δ, hδ⟩ := FiniteField.exists_nonsquare (F := K) hrc
@@ -521,7 +520,7 @@ theorem three_le_twoLocalRank_of_minus {G : Type} [Group G] [Finite G] {n ℓ f 
       .POmegaMinus n ℓ f :=
     ⟨⟨hℓ, hf, hn⟩, K, inferInstance, inferInstance, hK, 0, -δ, hirr, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨e⟩ := CFSG.Blueprint.EvenSource.nonempty_mulEquiv_of_statedClassicalModel h hM
-  haveI : Finite (StatedProj (StatedOmega (StatedQuadMinus n K 0 (-δ)))) :=
+  have : Finite (StatedProj (StatedOmega (StatedQuadMinus n K 0 (-δ)))) :=
     Finite.of_equiv G e.toEquiv
   change 3 ≤ localRank 3 G
   rw [CFSG.RankThree.PartTwo.Census.localRank_eq_of_mulEquiv e Nat.prime_three]

@@ -74,14 +74,14 @@ theorem m11_prop34 (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 G)
     by_contra hnot
     have hlt : Q < (P : Subgroup G) := inf_lt_left.mpr hnot
     have hgrow := pGroup_proper_subgroup_lt_internal_normalizer 3 Nat.prime_three
-      (P : Subgroup G) Q P.isPGroup' hlt
+      (P : Subgroup G) Q P.isPGroup hlt
     obtain ⟨y, hy, hyQ⟩ := IsConcreteLE.exists_of_lt hgrow
     have hyP : y ∈ (P : Subgroup G) := hy.1
     have hyN : y ∈ normalizer (Q : Set G) := hy.2
     have hx'Q : y * x * y⁻¹ ∈ Q := (mem_normalizer_iff.mp hyN x).mp hxQ
     have hx'3 : (y * x * y⁻¹) ^ 3 = 1 := by rw [conj_pow, hx3]; simp
     have hx'x : y * x * y⁻¹ ∈ zpowers x := hfus _ (hΩ _ hx'Q hx'3) ⟨y, rfl⟩
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨y, hyP⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨y, hyP⟩
     have hym : y ^ (3 ^ m) = 1 := congrArg Subtype.val hm
     have hxy := p34_conj_eq_of_pow hx1 hx3 hym hx'x
     have hyC : y ∈ C := mem_centralizer_singleton_iff.mpr (mul_inv_eq_iff_eq_mul.mp hxy)

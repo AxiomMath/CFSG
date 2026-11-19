@@ -24,7 +24,7 @@ theorem inf_centralizer_eq_of_isPGroup {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   have hle : V ⊓ centralizer (Q : Set G) ≤ E :=
     hZ ▸ inf_le_inf_left V (centralizer_le hZQ)
   refine le_antisymm hle fun e he => ?_
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVN : V ≤ normalizer (V₀ : Set G) := by
     intro v hv
     rw [mem_normalizer_iff]
@@ -41,7 +41,7 @@ theorem inf_centralizer_eq_of_isPGroup {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
           _ = v * w * v⁻¹ := by group
       rw [hw']
       exact hw
-  have hsolv : Group.IsSolvable V := isSolvable_of_comm fun a b => Subtype.ext (hV.comm a.2 b.2)
+  have hsolv : Group.IsSolvable V := _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (hV.comm a.2 b.2)
   have hcop := IsPGroup.coprime_card_of_ne p 2 hp2 Q V hQ hV.isPGroup
   obtain ⟨c, hc, n, hn, hcn⟩ :=
     CFSG.LocalAnalysis.EvenBN.Common.exists_mem_inf_centralizer_mul_of_coprime hV₀V hVN hQV hQV₀
@@ -92,7 +92,7 @@ theorem isSylowIn_of_forall_inv_mul_mem {p : ℕ} [Fact p.Prime] {X C N S R : Su
   have h3 := CFSG.QuasithinUnique.C5.relIndex_inf_eq_of_le_normalizer hNC
   rw [← hXeq] at h3
   have hne : (N ⊓ C).relIndex N ≠ 0 := by
-    haveI := isFiniteRelIndex_of_finiteIndex (H := N ⊓ C) (K := N)
+    have := isFiniteRelIndex_of_finiteIndex (H := N ⊓ C) (K := N)
     exact relIndex_ne_zero
   have h4 : N.relIndex X = (N ⊓ C).relIndex C := by
     apply Nat.eq_of_mul_eq_mul_left (Nat.pos_of_ne_zero hne)
@@ -107,6 +107,7 @@ theorem isSylowIn_of_forall_inv_mul_mem {p : ℕ} [Fact p.Prime] {X C N S R : Su
   · exact hR.not_dvd_relIndex h
   · exact h6 h
 
+omit [Finite G] in
 theorem mem_normalizer_inf_centralizer_of_mem_normalizer {V Q : Subgroup G} {w : G}
     (hwV : w ∈ normalizer (V : Set G)) (hwQ : w ∈ normalizer (Q : Set G)) :
     w ∈ normalizer ((V ⊓ centralizer (Q : Set G) : Subgroup G) : Set G) := by

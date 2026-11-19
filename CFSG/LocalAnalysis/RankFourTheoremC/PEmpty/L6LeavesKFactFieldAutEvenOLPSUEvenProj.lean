@@ -38,11 +38,11 @@ theorem not_dvd_card_normalizer_statedProj_isometry {ι : Type} [Fintype ι] [De
     (R : Subgroup (StatedProj H)) (hR2 : IsPGroup 2 R) (hR1 : R ≠ ⊥) :
     ¬ r ∣ Nat.card (Subgroup.normalizer (R : Set (StatedProj H))) := by
   intro hrN
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨hZc, hZcard⟩ := scalars_subgroupOf_facts ι F H
   have hrZ : ¬ r ∣ Nat.card ((StatedScalars ι F).subgroupOf H) := fun h =>
     hmin 1 one_pos (by omega) (by simpa using h.trans hZcard)
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨g, R', hgord, hR'2, hR'1, hgR'⟩ :=
     exists_lift_normalizing ((StatedScalars ι F).subgroupOf H) hZc hr hrZ R hR2 hR1 hrN
   let ρ : ↥H →* ((ι → F) ≃ₗ[F] (ι → F)) := (natActionOL ι F).comp H.subtype

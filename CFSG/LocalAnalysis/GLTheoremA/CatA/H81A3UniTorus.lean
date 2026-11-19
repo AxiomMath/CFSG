@@ -57,7 +57,7 @@ theorem exists_conj_diagU_mem [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       (hd : ∏ i, d i = 1), (∀ i, d i ^ p = 1) →
         projU h (diagU h d hn hd) ∈ P.map (primeFormConjHom h (idGram K 4) A).toMonoidHom := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨B, hBP, -, hBel, hBcard⟩ :=
     CFSG.StandardType.TableBUE.exists_lift_of_noTorsion (projU h) (QuotientGroup.mk'_surjective _)
       hp (projU_noTorsion hp hp2) hP

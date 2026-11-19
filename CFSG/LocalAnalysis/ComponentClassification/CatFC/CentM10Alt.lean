@@ -64,7 +64,7 @@ theorem alt_numeric_720 {n r : ℕ} (hr : 1 ≤ r) (hrn : 2 * r ≤ n)
     have h4 : 5040 ≤ 2 ^ (r - 1) * r.factorial * m.factorial :=
       h1.trans (Nat.le_mul_of_pos_left _ hP)
     omega
-  interval_cases r <;> interval_cases m <;> norm_num [Nat.factorial] at h <;> omega
+  interval_cases r <;> interval_cases m <;> norm_num [Nat.factorial] at h; omega
 
 private theorem alt8_orderOf_eq_six {G : Type*} [Group G] {g : G} (h6 : g ^ 6 = 1)
     (h2 : g ^ 2 ≠ 1) (h3 : g ^ 3 ≠ 1) : orderOf g = 6 := by

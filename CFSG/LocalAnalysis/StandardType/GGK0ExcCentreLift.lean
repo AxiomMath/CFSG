@@ -34,7 +34,7 @@ theorem lift_elemAbelian_central
       (∀ z ∈ E, ∀ g ∈ ggFixSub e, g * z = z * g) ∧
       ∀ (a : MulAut L') (b : MulAut R), (∀ l, b (ψ l) = ψ (a l)) → (∀ y ∈ ER, b y = y) →
         ∀ z ∈ E, a z = z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hC : ¬p ∣ Nat.card ψ.ker := by
     intro hpker
     exact (Nat.Prime.coprime_iff_not_dvd hp).1 hcop.symm
@@ -48,7 +48,7 @@ theorem lift_elemAbelian_central
     · exact ⟨1, by rw [← Subgroup.orderOf_coe x, h, pow_one]⟩
   refine ⟨liftSubgroup p ψ ER, ?_, ?_, ?_, ?_, ?_⟩
   · constructor
-    · haveI : IsMulCommutative ER := hER.1
+    · have : IsMulCommutative ER := hER.1
       exact Function.Surjective.isMulCommutative
         (f := (liftSubgroupEquiv hψ hker hC hU).symm)
         (liftSubgroupEquiv hψ hker hC hU).symm.surjective

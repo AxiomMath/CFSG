@@ -14,27 +14,27 @@ open CFSG.Blueprint (LieModel)
 theorem r95_hasL32Quot_map {Q Q' : Type} [Group Q] [Group Q'] (e : Q ≃* Q') {E : Subgroup Q}
     (hE : HasL32Quot E) : HasL32Quot (E.map e.toMonoidHom) := by
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
+  let : Group Qm := hQm
   let ε := E.equivMapOfInjective e.toMonoidHom e.injective
   exact ⟨Qm, hQm, π.comp ε.symm.toMonoidHom, hπ.comp ε.symm.surjective, hm⟩
 
 theorem r95_not_isSolvable_of_hasL32Quot {Q : Type} [Group Q] {E : Subgroup Q}
     (hE : HasL32Quot E) {W : Subgroup Q} (hEW : E ≤ W) : ¬ Group.IsSolvable ↥W := by
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
+  let : Group Qm := hQm
   obtain ⟨hsimple, hcard⟩ :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hm
   intro hW
-  haveI : Group.IsSolvable ↥W := hW
-  haveI : IsSimpleGroup Qm := hsimple
+  have : Group.IsSolvable ↥W := hW
+  have : IsSimpleGroup Qm := hsimple
   have hsolvE : Group.IsSolvable ↥E :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hEW)
   have hsolvQ : Group.IsSolvable Qm := by
-    haveI : Group.IsSolvable ↥E := hsolvE
+    have : Group.IsSolvable ↥E := hsolvE
     exact Group.isSolvable_of_surjective hπ
   have hcomm : ∀ a b : Qm, a * b = b * a :=
     IsSimpleGroup.comm_iff_isSolvable.mpr hsolvQ
-  haveI : IsMulCommutative Qm := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative Qm := IsMulCommutative.of_comm hcomm
   have hprime : (Nat.card Qm).Prime := Group.is_simple_iff_prime_card.mp hsimple
   rw [hcard] at hprime
   exact (by norm_num : ¬ Nat.Prime 168) hprime
@@ -42,14 +42,14 @@ theorem r95_not_isSolvable_of_hasL32Quot {Q : Type} [Group Q] {E : Subgroup Q}
 theorem r95_exists_order_three_of_hasL32Quot {Q : Type} [Group Q] [Finite Q] {E : Subgroup Q}
     (hE : HasL32Quot E) : ∃ A : Subgroup Q, A ≤ E ∧ Nat.card A = 3 := by
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
+  let : Group Qm := hQm
   obtain ⟨-, hcard⟩ :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hm
   have hdvd : Nat.card Qm ∣ Nat.card ↥E := Subgroup.card_dvd_of_surjective hπ
   have h3 : 3 ∣ Nat.card ↥E := by
     have : 3 ∣ Nat.card Qm := by rw [hcard]; norm_num
     exact dvd_trans this hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := ↥E) 3 h3
   refine ⟨(Subgroup.zpowers c).map E.subtype, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩
@@ -60,14 +60,14 @@ theorem r95_exists_noncomm_two_subgroup {Q : Type} [Group Q] [Finite Q] {E : Sub
     (hE : HasL32Quot E) :
     ∃ R : Subgroup Q, R ≤ E ∧ IsPGroup 2 R ∧ ∃ a ∈ R, ∃ b ∈ R, a * b ≠ b * a := by
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
-  haveI : Finite Qm := Finite.of_surjective π hπ
+  let : Group Qm := hQm
+  have : Finite Qm := Finite.of_surjective π hπ
   obtain ⟨K, hK, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hm
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   have hK2 : Nat.card K = 2 := by rw [hKcard]; norm_num
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by norm_num) hKcard
   obtain ⟨m, hm3, S, r, hrS, s, hsS, -, hro, -, -, hconj⟩ :=
@@ -96,10 +96,10 @@ theorem r95_exists_noncomm_two_subgroup {Q : Type} [Group Q] [Finite Q] {E : Sub
   let a : Qm := e.symm r
   let b : Qm := e.symm s
   have haS : a ∈ (S' : Subgroup Qm) := by
-    simp only [S', Sylow.coe_mapSurjective, a]
+    simp only [S', a]
     exact Subgroup.mem_map_of_mem e.symm.toMonoidHom hrS
   have hbS : b ∈ (S' : Subgroup Qm) := by
-    simp only [S', Sylow.coe_mapSurjective, b]
+    simp only [S', b]
     exact Subgroup.mem_map_of_mem e.symm.toMonoidHom hsS
   have hab : a * b ≠ b * a := by
     intro h
@@ -119,7 +119,7 @@ theorem r95_exists_noncomm_two_subgroup {Q : Type} [Group Q] [Finite Q] {E : Sub
       _ = π y * π x := map_mul π y x
       _ = b * a := by rw [hxπ, hyπ]
   refine ⟨(P : Subgroup ↥E).map E.subtype, Subgroup.map_subtype_le _,
-    (P.isPGroup').map E.subtype, (x : Q), Subgroup.mem_map_of_mem E.subtype hxP,
+    (P.isPGroup).map E.subtype, (x : Q), Subgroup.mem_map_of_mem E.subtype hxP,
     (y : Q), Subgroup.mem_map_of_mem E.subtype hyP, hxy⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.F09

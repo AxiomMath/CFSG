@@ -63,18 +63,18 @@ theorem concA_badExcCore_twistedE6_of_outer {p q : ℕ} (hp : p.Prime) (hp2 : p 
     (hBc : Nat.card B = p ^ (if p ∣ Q.card - 1 then 6 else 8)) : S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_twistedE6] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   have hp5 : 5 ≤ p := by
     have h2 := hp.two_le
     have : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
     omega
   obtain ⟨K, _, σ, hK, hσ, ⟨ec⟩⟩ := exists_catEquiv_twistedE6 Q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 2 (pow_ne_zero _ Q.prime_p.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hσ' : σ = unitaryInvolution K Q.p Q.exponent :=
     RingEquiv.ext fun c => (hσ c).trans (unitaryInvolution_apply K Q.p Q.exponent c).symm
@@ -85,15 +85,15 @@ theorem concA_badExcCore_twistedE6_of_outer {p q : ℕ} (hp : p.Prime) (hp2 : p 
       IsElemAbelian p F → Nat.card F ≤ p ^ (if p ∣ Q.p ^ Q.exponent - 1 then 4 else 6) :=
     card_le_pow_twistedE6 hK Q.exponent_pos hp hp5 (hQ ▸ hdvd)
   by_cases h1 : p ∣ Q.card - 1
-  · rw [if_pos h1] at hBc
+  · rw [ite_eq_left h1] at hBc
     have h1' : p ∣ Q.p ^ Q.exponent - 1 := hQ ▸ h1
     have hdiag : ¬ p ∣ Nat.gcd 3 (Q.p ^ Q.exponent + 1) := fun h =>
       hp3 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 (h.trans (Nat.gcd_dvd_left _ _)))
     refine TwE6Outer.concA_of_twistedE6_of_outer hK Q.exponent_pos hq2 hp hp2 h1' hdiag hS hcore
       hZ hB hBC hBc (ec.symm.trans e.symm) fun F hF => ?_
     have h := hX F hF
-    rwa [if_pos h1'] at h
-  · rw [if_neg h1] at hBc
+    rwa [ite_eq_left h1'] at h
+  · rw [ite_eq_right h1] at hBc
     have hQ1 : 1 ≤ Q.card :=
       Nat.one_le_iff_ne_zero.2 (by rw [hQ]; exact pow_ne_zero _ Q.prime_p.ne_zero)
     have h2 : p ∣ Q.card + 1 := by
@@ -107,7 +107,7 @@ theorem concA_badExcCore_twistedE6_of_outer {p q : ℕ} (hp : p.Prime) (hp2 : p 
     refine TwE6Outer.concA_of_twistedE6_of_outer_of_dvd_add_one hK Q.exponent_pos hq2 hp hp5
       (hQ ▸ h2) hS hcore hZ hB hBC hBc (ec.symm.trans e.symm) fun F hF => ?_
     have h := hX F hF
-    rwa [if_neg h1'] at h
+    rwa [ite_eq_right h1'] at h
 
 theorem concA_badExcCore_twistedE6_of_dvd {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq2 : q ≠ 2)
     (hS : S.Normal) (hperf : ⁅S, S⁆ = S) (hcore : GLAPPrimeCore p ↥S = ⊥)

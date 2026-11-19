@@ -32,7 +32,7 @@ theorem y7a_cent_M6_A (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5
   refine le_antisymm ?_ hV1C
   by_contra hle
   change ¬ ∀ x, x ∈ centIn (M6 c.e) c.s.fr.A → x ∈ V1 c.e at hle
-  push_neg at hle
+  push Not at hle
   obtain ⟨m, hm, hmNotV⟩ := hle
   have hmM6 : m ∈ M6 c.e := (Subgroup.mem_inf.mp hm).1
   have htNormM : c.s.t ∈ Subgroup.normalizer (centIn (M6 c.e) c.s.fr.A : Set G) := by
@@ -97,7 +97,7 @@ theorem y7a_cent_M6_A (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5
       (commutatorElement_inv (g₁ := c.s.t) (g₂ := x)).symm
     rw [h2]
     exact (V1 c.e).inv_mem h1
-  haveI : (c.s.fr.Z.subgroupOf c.s.fr.A).Normal := y7a_Z_normal_A c hH
+  have : (c.s.fr.Z.subgroupOf c.s.fr.A).Normal := y7a_Z_normal_A c hH
   obtain ⟨ψ, lab, P, hP⟩ := y7a_reg_data c hH hF
   obtain ⟨f, hchar, -, -, hker⟩ := y7a_mod_hom c hH hF hP
   have hfx : f ⟨x, hxM6⟩ = 1 := by

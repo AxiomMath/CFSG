@@ -11,8 +11,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem R_card_modEq3 {T : Subgroup G} {a : G} (ha : a ∈ Subgroup.normalizer (T : Set G))
     (h3 : a ^ 3 = 1) : Nat.card (T ⊓ Cen a : Subgroup G) ≡ Nat.card T [MOD 3] := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype T := Fintype.ofFinite T
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype T := Fintype.ofFinite T
   let φ : MulAut T := T.normalizerMonoidHom ⟨a, ha⟩
   have hφ : ∀ u : T, ((φ u : T) : G) = a * u * a⁻¹ := fun u => rfl
   have hφ3 : ∀ u : T, (φ (φ (φ u)) : T) = u := by
@@ -49,6 +49,7 @@ theorem R_card_modEq3 {T : Subgroup G} {a : G} (ha : a ∈ Subgroup.normalizer (
   rw [e] at h
   exact h.symm
 
+omit [Finite G] in
 theorem R_card_cen {X T L : Subgroup G} {a : G} (hTX : T ≤ X) (hLX : L ≤ X)
     (hXT : X ≤ Subgroup.normalizer (T : Set G))
     (hTL : T ⊓ L = ⊥) (hdec : ∀ x ∈ X, ∃ u ∈ T, ∃ l ∈ L, x = u * l) (haL : a ∈ L) :

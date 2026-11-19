@@ -54,7 +54,7 @@ theorem p_dvd_genericOrders_of_lieModel (hGA : CFSG.Open.GriessAllModelsStatemen
     (hq : CFSG.Open.IsQuasisimple K) (e : K ⧸ Subgroup.center K ≃* X)
     {t : StatedLieTag} {n r f : ℕ} (hm : CFSG.Models.LieModel X t n r f)
     (hdvd : p ∣ Nat.card (center K)) : p ∣ (genericOrders t n r f).1 := by
-  haveI hperf : Group.IsPerfect K := ⟨hq.1⟩
+  have hperf : Group.IsPerfect K := ⟨hq.1⟩
   have h1 := card_ker_dvd_hopfMultiplier hperf (centralQuotientMap e)
     (centralQuotientMap_surjective e) (centralQuotientMap_ker e).le
   rw [centralQuotientMap_ker e] at h1
@@ -81,9 +81,9 @@ theorem isLinearOrUnitaryAt_of_tables
     (hq : CFSG.Open.IsQuasisimple K) (hcat : CFSG.Open.IsCatalogGroup (K ⧸ Subgroup.center K))
     (hZ : Subgroup.center K ≠ ⊥) (hZp : IsPGroup p (Subgroup.center K)) :
     IsLinearOrUnitaryAt p (K ⧸ Subgroup.center K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hperf : Group.IsPerfect K := ⟨hq.1⟩
-  haveI : Nontrivial (center K) := (Subgroup.nontrivial_iff_ne_bot _).2 hZ
+  have : Fact p.Prime := ⟨hp⟩
+  have hperf : Group.IsPerfect K := ⟨hq.1⟩
+  have : Nontrivial (center K) := (Subgroup.nontrivial_iff_ne_bot _).2 hZ
   obtain ⟨m, hm, hmcard⟩ := hZp.nontrivial_iff_card.mp inferInstance
   have hdvd : p ∣ Nat.card (center K) := hmcard ▸ dvd_pow_self p hm.ne'
   obtain ⟨i, ⟨e⟩⟩ := hcat

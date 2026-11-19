@@ -14,7 +14,7 @@ theorem aParam_le_of_card_le (X : Subgroup (MulAut W)) {n : ℕ}
   classical
   refine CFSG.Quasithin.RonanE42.aParam_le_of_aSet_empty X n ?_
   intro A hA
-  simp only [aSet, Set.mem_setOf_eq] at hA
+  simp only [aSet, Set.mem_ofPred_eq] at hA
   obtain ⟨hAX, hAne, hAel, hAfix⟩ := hA
   have hA2 : ∀ a ∈ A, a ^ 2 = 1 := hAel.2
   have hAcard : Nat.card A ≤ 2 ^ n := h A hAX hA2

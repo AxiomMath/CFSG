@@ -29,7 +29,7 @@ private theorem has_setIfInBounds (a : BSet) (j i : ℕ) (h : j < a.size) :
   · subst i
     simp [h]
   · have hji : ¬ i = j := fun h' => hij h'.symm
-    simp [hij, hji]
+    simp [hij]
 
 private theorem imageFold_succ (f : ℕ → ℕ) (b : BSet) (k : ℕ) :
     imageFold D f b (k + 1) =
@@ -44,8 +44,8 @@ private theorem imageFold_size (f : ℕ → ℕ) (b : BSet) (k : ℕ) (hk : k �
     have hk' : k ≤ D.n := Nat.le_of_succ_le hk
     rw [imageFold_succ]
     by_cases hb : b.has k = true
-    · rw [if_pos hb, Array.size_set!, ih hk']
-    · rw [if_neg hb, ih hk']
+    · rw [ite_eq_left hb, Array.size_set!, ih hk']
+    · rw [ite_eq_right hb, ih hk']
 
 private theorem imageFold_has {f : ℕ → ℕ} (hf : ∀ j < D.n, f j < D.n) (b : BSet)
     (k : ℕ) (hk : k ≤ D.n) (i : ℕ) (hi : i < D.n) :
@@ -60,7 +60,7 @@ private theorem imageFold_has {f : ℕ → ℕ} (hf : ∀ j < D.n, f j < D.n) (b
     have hklt : k < D.n := Nat.lt_of_succ_le hk
     rw [imageFold_succ]
     by_cases hb : b.has k = true
-    · rw [if_pos hb,
+    · rw [ite_eq_left hb,
         has_setIfInBounds _ _ _ (by rw [imageFold_size f b k hk']; exact hf k hklt),
         ih hk']
       constructor
@@ -71,7 +71,7 @@ private theorem imageFold_has {f : ℕ → ℕ} (hf : ∀ j < D.n, f j < D.n) (b
         rcases Nat.lt_succ_iff_lt_or_eq.mp hj with hj | rfl
         · exact Or.inr ⟨j, hj, hbj, hfj⟩
         · exact Or.inl hfj
-    · rw [if_neg hb, ih hk']
+    · rw [ite_eq_right hb, ih hk']
       constructor
       · rintro ⟨j, hj, hbj, hfj⟩
         exact ⟨j, Nat.lt_succ_of_lt hj, hbj, hfj⟩
@@ -103,7 +103,7 @@ theorem size_imageB (f : ℕ → ℕ) (b : BSet) : (imageB D f b).size = D.n :=
 theorem mem_members {n : ℕ} {b : BSet} {i : ℕ} : i ∈ members n b ↔ i < n ∧ b.has i = true := by
   simp [members]
 
-theorem rep_top (hR : Realizes D elt) : Rep D elt (topB D) (tabSet D elt) := by
+theorem rep_top (_hR : Realizes D elt) : Rep D elt (topB D) (tabSet D elt) := by
   constructor
   · intro i hi
     rw [topB, BSet.has_ofFn _ hi]
@@ -126,6 +126,7 @@ theorem rep_ofList (hR : Realizes D elt) {l : List ℕ} (hl : ∀ i ∈ l, i < D
   · rintro x ⟨i, hi, rfl⟩
     exact ⟨i, hl i hi, rfl⟩
 
+omit [Group Γ] in
 theorem rep_inter {b c : BSet} {X Y : Set Γ} (hX : Rep D elt b X) (hY : Rep D elt c Y) :
     Rep D elt (interB D b c) (X ∩ Y) := by
   constructor
@@ -135,6 +136,7 @@ theorem rep_inter {b c : BSet} {X Y : Set Γ} (hX : Rep D elt b X) (hY : Rep D e
   · rintro x ⟨hx, _⟩
     exact hX.2 x hx
 
+omit [Group Γ] in
 theorem rep_union {b c : BSet} {X Y : Set Γ} (hX : Rep D elt b X) (hY : Rep D elt c Y) :
     Rep D elt (unionB D b c) (X ∪ Y) := by
   constructor
@@ -194,6 +196,7 @@ theorem Rep.card_subgroup (hR : Realizes D elt) {b : BSet} {X : Subgroup Γ}
     (hX : Rep D elt b (X : Set Γ)) : Nat.card X = BSet.count D.n b :=
   hX.card_set hR
 
+omit [Group Γ] in
 theorem Rep.subset_iff {b c : BSet} {X Y : Set Γ} (hX : Rep D elt b X) (hY : Rep D elt c Y) :
     X ⊆ Y ↔ ∀ i < D.n, b.has i = true → c.has i = true := by
   constructor

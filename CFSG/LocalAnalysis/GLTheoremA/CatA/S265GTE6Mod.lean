@@ -46,10 +46,10 @@ theorem exists_model_fieldActor_of_fieldOn {Ω : Type} [Group Ω] [Finite Ω] {S
       ∃ ε : ↥(twistedE6RootGroup K σ) ≃* PSimple 3 S,
         MulAut.congr ε.symm (chevAut 3 S ⟨b, hF.1⟩) = fieldActor σ δ := by
   obtain ⟨hX, lab, hlam, hraw⟩ := hF.2
-  haveI : Group.IsPerfect (PQuot 3 S) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot 3 S) := ⟨hq.1⟩
   have hZ : Subgroup.center (PSimple 3 S) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot (PQuot 3 S)
-  haveI hsimp : IsSimpleGroup (PSimple 3 S) := hq.2
+  have hsimp : IsSimpleGroup (PSimple 3 S) := hq.2
   have hnab : ∀ (R : Type) [Group R], (PSimple 3 S ≃* R) → ∃ a c : R, a * c ≠ c * a := by
     intro R _ e
     obtain ⟨a, ha⟩ := exists_ne (1 : PSimple 3 S)
@@ -84,7 +84,7 @@ theorem exists_model_fieldActor_of_fieldOn {Ω : Type} [Group Ω] [Finite Ω] {S
   subst htag hn
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
   obtain ⟨K, _, _, hK, -, -, θ, -, f, hf, u, hu, hord, hind⟩ := hraw
-  haveI : CharP K 2 := I107L.charP_two_of_card_sq hK
+  have : CharP K 2 := I107L.charP_two_of_card_sq hK
   obtain ⟨σ, hσ⟩ : ∃ σ : K ≃+* K, ∀ c, σ c = c ^ 2 ^ 3 :=
     ⟨iterateFrobeniusEquiv K 2 3, fun c => by
       rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def]⟩

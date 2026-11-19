@@ -107,7 +107,7 @@ private lemma exists_moving_point_signed {c : Counterexample4 G} (h : Case811Syl
       (∀ k ∈ c.L ⊓ Subgroup.normalizer (h.A : Set G),
         X.map (MulAut.conj k).toMonoidHom ≠ Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, a, hc₀, ha_range, ha_apply, hXinj, ha_inj, ha_memA, ha_order⟩ :=
     h.signed_coords_setup hK6c hlie hfam
   let aG : Multiplicative (Fin 3 → ZMod 3) → G := fun v => ((a v : ↥c.L) : G)
@@ -180,7 +180,7 @@ private lemma exists_moving_point_signed {c : Counterexample4 G} (h : Case811Syl
     have hvec : (![0, 1, 0] : Fin 3 → ZMod 3) =
         fun i => (z : ZMod 3) * ![1, 0, 0] i := by
       have := congrArg Multiplicative.toAdd hv
-      simpa [zsmul_eq_mul, e1, e2] using this
+      simp [zsmul_eq_mul, e1, e2] at this
     exact signed_e2_ne_smul_e1 (z : ZMod 3) hvec
   have hmiss : ∀ k ∈ c.L ⊓ Subgroup.normalizer (h.A : Set G),
       X.map (MulAut.conj k).toMonoidHom ≠ Y := by
@@ -243,7 +243,7 @@ private lemma exists_moving_point_sumZero {c : Counterexample4 G} (h : Case811Sy
       (∀ k ∈ c.L ⊓ Subgroup.normalizer (h.A : Set G),
         X.map (MulAut.conj k).toMonoidHom ≠ Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, a, hc₀, ha_range, ha_apply, hXinj, ha_one_iff, ha_memA, ha_order⟩ :=
     h.sumZero_coords_setup hK6c hlie hfam
   let aG : Multiplicative (Fin 4 → ZMod 3) → G := fun v => ((a v : ↥c.L) : G)
@@ -447,7 +447,7 @@ theorem false_of_ne_char {c : Counterexample4 G} (h : Case811Sylow c)
     (hp : p ∈ CFSG.Open.uniqueFourSigma c.S.M)
     (h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M p)
     (hpr : p ≠ r) : False := by
-  haveI : Fact p.Prime := ⟨hp.1.1⟩
+  have : Fact p.Prime := ⟨hp.1.1⟩
   exact false_of_ne_char_of_forall_pElement h hK7 hlie hp h76 hpr
     (h.mem_centralizer_of_isPGroup hK6c hlie (c.five_le_of_mem_sigma hp))
 

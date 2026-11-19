@@ -18,7 +18,7 @@ theorem lemma14_7_25_case_i (C : Ctx722 G T L V H γ γ' g k) (D : Data T L V θ
     ∃ D' : Subgroup G, D' ≤ oTwoUpper H ∧ (∀ x ∈ D', ∀ y ∈ oTwoUpper H, x * y = y * x) ∧
       Nat.card D' = 4 ∧ fsuV1 T V < D' ∧ H ≤ Subgroup.normalizer (D' : Set G) := by
   have SM := secMod_s C D
-  haveI := SM.normal
+  have := SM.normal
   obtain ⟨ρ, hρ, hiso⟩ := isoMod_core_s C D hi
   have hcLl : θ ⟨c, D.c_L⟩ ∈ Ll := (D.ll _).mpr D.c_N
   obtain ⟨e, ⟨l, hl, s₁, hs₁, s₂, hs₂, rfl⟩, heR, hfix⟩ :=

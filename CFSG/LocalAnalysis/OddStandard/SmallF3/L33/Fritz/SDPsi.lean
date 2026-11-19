@@ -28,6 +28,7 @@ variable (cfg : SDConfig t L) (M : SDModel ↥L) (T : Sylow 2 ↥(centralizer ({
   (hT : ∀ g ∈ (T : Subgroup ↥(centralizer ({t} : Set X))),
     SDAct.actC cfg.le_normalizer g ∈ SDAutP.P M.F)
 
+omit [Finite X] in
 theorem psiOf_apply (g : ↥(centralizer ({t} : Set X))) (hg : g ∈ (T : Subgroup _)) :
     psiOf cfg M T hT ⟨(g : X), ⟨g, hg, rfl⟩⟩ =
       (SDAutP.phi M.F ⟨SDAct.actC cfg.le_normalizer g, hT g hg⟩ : Perm (ZMod 8)) := by
@@ -41,6 +42,7 @@ theorem psiOf_apply (g : ↥(centralizer ({t} : Set X))) (hg : g ∈ (T : Subgro
   rw [hx]
   rfl
 
+omit [Finite X] in
 private lemma psiOf_eq_phi_actC (g : ↥(Config.sylowIn T))
     (c : ↥(centralizer ({t} : Set X))) (hcT : c ∈ (T : Subgroup _))
     (hceq : (g : X) = (c : X)) :
@@ -49,6 +51,7 @@ private lemma psiOf_eq_phi_actC (g : ↥(Config.sylowIn T))
   rw [show g = ⟨(c : X), ⟨c, hcT, rfl⟩⟩ from Subtype.ext hceq]
   exact psiOf_apply cfg M T hT c hcT
 
+omit [Finite X] in
 theorem psiOf_eq_one_iff (g : ↥(Config.sylowIn T)) :
     psiOf cfg M T hT g = 1 ↔ (g : X) ∈ coreActionKernel L := by
   obtain ⟨c, hcT, hceq⟩ := Subgroup.mem_map.mp g.2
@@ -77,9 +80,11 @@ theorem psiOf_eq_one_iff (g : ↥(Config.sylowIn T)) :
   · intro hc
     exact mem_centralizer_iff.mpr (fun j hj => cfg.commute_kernel hj hc)
 
+omit [Finite X] in
 theorem psiOf_mem_H8 (g : ↥(Config.sylowIn T)) : psiOf cfg M T hT g ∈ H8 :=
   ((SDAutP.phi M.F) _).2
 
+omit [Finite X] in
 theorem psiOf_mem_S16 (g : ↥(Config.sylowIn T)) (hg : (g : X) ∈ L) :
     psiOf cfg M T hT g ∈ SD.S16 := by
   obtain ⟨c, hcT, hceq⟩ := Subgroup.mem_map.mp g.2

@@ -101,7 +101,7 @@ theorem thetaTwo_range_eq (m : ℕ) (hm : 1 ≤ m) :
     rw [hv, ← Torus.ofInt_zsmul]
     apply Torus.ofInt_eq_ofInt_iff.mpr
     intro i
-    simp only [Pi.smul_apply, smul_eq_mul, Torus.ofInt_apply]
+    simp only [Pi.smul_apply, smul_eq_mul]
     rw [Int.two_mul_ediv_two_of_even (thetaTwoM_mulVec_even m D i)]
   · rintro ⟨w, rfl⟩
     obtain ⟨W, hW⟩ := Torus.exists_ofInt w
@@ -134,7 +134,7 @@ theorem even_matVec_sub_of_thetaTwo_eq (m : ℕ) (hm : 1 ≤ m) (M : IntMat)
   have hcoord := congrFun hEq i
   have hmeven : Even ((thetaTwoM m *ᵥ D) i) := thetaTwoM_mulVec_even m D i
   have hk1 : 1 ≤ (Type200.k m) i := by
-    fin_cases i <;> simp [Type200.k] <;> omega
+    fin_cases i <;> simp [Type200.k]; omega
   exact even_of_intCast_eq_even (n := (Type200.k m) i) hk1 hmeven hcoord
 
 theorem thetaTwo_eq_iff_even (m : ℕ) (hm : 1 ≤ m) (M : IntMat)
@@ -286,7 +286,7 @@ theorem square_class_dichotomy_familyTwo (m : ℕ) (hm : 2 ≤ m)
     let E : Fin 3 → ℤ := ![e0, e1, e2]
     have hE : (2 : ℤ) • E = Q - ![1, 0, 0] := by
       funext i
-      fin_cases i <;> simp [E, he0, he1, he2] <;> omega
+      fin_cases i <;> simp [E, he0, he1, he2]
     have hq2 : (2 : ℤ) • Torus.ofInt (Type200.k m) E = q - Torus.c := by
       rw [← Torus.ofInt_zsmul, hE, Torus.ofInt_sub, ← hQ', type200_c_eq_ofInt]
     obtain ⟨d, hd⟩ := exists_thetaTwo_eq_of_two_zsmul m (by omega) ⟨_, hq2⟩
@@ -479,11 +479,11 @@ theorem two_torsion_solution_familyTwo (Z : StrothDatum X)
   have hv_eq : v = (2 : ℤ) ^ (Z.τ.m + 1) • (![0, 1, 0] : Fin 3 → ℤ) := by
     funext i
     fin_cases i <;>
-      simp [v, hk1, hk2, hε0, hε1, hε2, Nat.add_sub_cancel]
+      simp [v, hk1, hk2, hε0, hε1, hε2]
   have hv'_eq : v' = (2 : ℤ) ^ (Z.τ.m + 1) • (![0, 0, 1] : Fin 3 → ℤ) := by
     funext i
     fin_cases i <;>
-      simp [v', hk1, hk2, hε'0, hu1, hu2, hε2, hε1, Nat.add_sub_cancel]
+      simp [v', hk1, hk2, hε'0, hu1, hu2, hε2, hε1]
   constructor
   · calc w = Torus.ofInt Z.τ.k v := hwε
       _ = Torus.ofInt Z.τ.k ((2 : ℤ) ^ (Z.τ.m + 1) • (![0, 1, 0] : Fin 3 → ℤ)) := by
@@ -523,7 +523,7 @@ theorem commute_of_deviationTorus_eq_zero (Z : StrothDatum X) {s x : G}
 
 theorem deviation_form_diag_familyTwo (Z : StrothDatum X)
     (hk : ∀ i, 2 ≤ Z.τ.k i) (hrel : Z.τ.m + 2 = Z.τ.n)
-    (F : Subgroup G) (hDF : Z.D ≤ F) (hF : F ≤ Z.centralizerInMho)
+    (F : Subgroup G) (_hDF : Z.D ≤ F) (hF : F ≤ Z.centralizerInMho)
     (hN : X.L ≤ Subgroup.normalizer (F : Set G))
     (hidx : (Z.D.subgroupOf F).index = 2)
     (hcent : F ≤ Subgroup.centralizer ((omegaIn (Z.τ.n - 2) Z.D : Subgroup G) : Set G))

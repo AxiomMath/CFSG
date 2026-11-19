@@ -69,16 +69,16 @@ theorem kzMemModO2Image_kz3 {G : Type} [Group G] {Gz Y : Subgroup G}
 
 theorem kzKey_kz3 {G : Type} [Group G] [Finite G] {Gz L K0 P : Subgroup G}
     (hrk : CFSG.Open.SQTKTauCeti.StronglyQuasithin (↥Gz ⧸ CFSG.pCore 2 ↥Gz))
-    (hLG : L ≤ Gz) (hLK : L ≤ K0) (hK0G : K0 ≤ Gz)
+    (hLG : L ≤ Gz) (hLK : L ≤ K0) (_hK0G : K0 ≤ Gz)
     (hLq : CFSG.Quasithin.IsAlt 6 (↥L ⧸ CFSG.pCore 2 ↥L) ∨
       CFSG.Quasithin.IsHat (↥L ⧸ CFSG.pCore 2 ↥L) (alternatingGroup (Fin 6)))
-    (hPG : P ≤ Gz) (hP3 : IsPGroup 3 P) (hPc : Nat.card P = 9) (hPexp : ∀ p ∈ P, p ^ 3 = 1)
+    (hPG : P ≤ Gz) (_hP3 : IsPGroup 3 P) (hPc : Nat.card P = 9) (hPexp : ∀ p ∈ P, p ^ 3 = 1)
     (hcomm : ∀ p ∈ P, ∀ k ∈ K0, p * k * p⁻¹ * k⁻¹ ∈ pCoreOf 2 Gz) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNL : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
-  haveI hNG : (CFSG.pCore 2 ↥Gz).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNL : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have hNG : (CFSG.pCore 2 ↥Gz).Normal := CFSG.pCore_normal
   obtain ⟨x, y, hx1, hx3, hy3, hxy, hyx⟩ := kzThreeRank2OfAlt6OrHat_kz3 hLq
   have hXYcomm : ∀ u ∈ ({x, y} : Set (↥L ⧸ CFSG.pCore 2 ↥L)), ∀ v ∈ ({x, y} : Set (↥L ⧸ CFSG.pCore 2 ↥L)),
       u * v = v * u := by
@@ -192,7 +192,7 @@ theorem kzKey_kz3 {G : Type} [Group G] [Finite G] {Gz L K0 P : Subgroup G}
   have hPbarcard : Nat.card (CFSG.Quasithin.modO2Image Gz P) = 9 := by
     rw [CFSG.Quasithin.P134.card_modO2Image hPG hPinf, hPc]
   have hPcomm : ∀ a b : ↥P, a * b = b * a :=
-    IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (by rw [hPc]; norm_num)
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hPc]; norm_num)).is_comm.comm
   have hPbarcomm : ∀ a ∈ CFSG.Quasithin.modO2Image Gz P, ∀ b ∈ CFSG.Quasithin.modO2Image Gz P,
       a * b = b * a := by
     intro a ha b hb
@@ -247,7 +247,7 @@ theorem kzKey_kz3 {G : Type} [Group G] [Finite G] {Gz L K0 P : Subgroup G}
     have h2 := kzCardCenterLeThree_kz3 hLq
     omega
   ·
-    obtain ⟨e, he, hePbar⟩ := SetLike.not_le_iff_exists.mp hA
+    obtain ⟨e, he, hePbar⟩ := IsConcreteLE.not_le_iff_exists.mp hA
     set Sset : Set (↥Gz ⧸ CFSG.pCore 2 ↥Gz) :=
       (↑(CFSG.Quasithin.modO2Image Gz P) : Set _) ∪ ↑Ebar with hSset
     have hsc : ∀ u ∈ Sset, ∀ v ∈ Sset, u * v = v * u := by

@@ -345,7 +345,7 @@ theorem two_core [Finite G] {B : Subgroup G} (hB2 : IsPGroup 2 B)
   obtain ⟨S⟩ : Nonempty (Sylow 2 Q) := inferInstance
   set P : Subgroup G := (S : Subgroup Q).map Q.subtype with hP
   have hPQ : P ≤ Q := map_subtype_le _
-  have hP2 : IsPGroup 2 P := S.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := S.isPGroup.map _
   have hBQ : B ≤ Q := by
     intro b hb
     refine ⟨(hBK hb).1, (hBK hb).1.1, fun k hk => ?_⟩

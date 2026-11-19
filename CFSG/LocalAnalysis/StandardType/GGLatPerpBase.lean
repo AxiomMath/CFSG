@@ -88,7 +88,7 @@ theorem ggRootList_mem {τ : Tag} {v : Fin τ.rank → ℤ} : v ∈ ggRootList �
 
 theorem ggPerpList_mem {τ : Tag} {α β : Fin τ.rank → ℤ} :
     β ∈ ggPerpList τ α ↔ β ∈ ggPerp τ α := by
-  simp only [ggPerpList, List.mem_filter, ggPerp, perp, Set.mem_setOf_eq, ggGram_eq_latGram,
+  simp only [ggPerpList, List.mem_filter, ggPerp, perp, Set.mem_ofPred_eq, ggGram_eq_latGram,
     beq_iff_eq]
   constructor
   · rintro ⟨hβ, hg⟩; exact ⟨ggRootList_mem.mp hβ, hg⟩
@@ -97,7 +97,7 @@ theorem ggPerpList_mem {τ : Tag} {α β : Fin τ.rank → ℤ} :
 theorem ggPerp_eq_finset (τ : Tag) (α : Fin τ.rank → ℤ) :
     ggPerp τ α = ↑(ggPerpFinset τ α) := by
   ext β
-  simp only [ggPerp, perp, Set.mem_setOf_eq, Finset.mem_coe, ggPerpFinset, Finset.mem_filter,
+  simp only [ggPerp, perp, Set.mem_ofPred_eq, Finset.mem_coe, ggPerpFinset, Finset.mem_filter,
     ggGram_eq_latGram, beq_iff_eq]
   constructor
   · rintro ⟨hβ, hg⟩; exact ⟨mem_rootFinset.mpr hβ, hg⟩

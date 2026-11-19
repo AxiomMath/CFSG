@@ -202,7 +202,7 @@ theorem ggExcNonsplitRankInput_F4 : GGExcNonsplitRankInput .F4 := by
   by_cases hcnt : degCount Tag.F4 e ≤ 1
   · exact (rankLE1_F4 K hp hpq (he ▸ hcnt) E hE).trans_lt (lt_pow_four hp)
   · have h30 := le_thirty_of_degCount_pos (τ := Tag.F4) (e := e) (by simp) (by omega)
-    interval_cases e <;> first | omega | exact absurd hcnt (by decide) | skip
+    interval_cases e <;> try first | omega | exact absurd hcnt (by decide)
     · exact ((sylowTorus_F4_three K hp (by omega) (dvd_sq_add_add_one_of_orderOf hp he)).rank_le
         hp hE).trans_lt hsq
     · exact ((sylowTorus_F4_four K hp (by omega) (dvd_sq_add_one_of_orderOf hp he)).rank_le
@@ -222,7 +222,7 @@ theorem ggExcNonsplitRankInput_E7 : GGExcNonsplitRankInput .E7 := by
   by_cases hcnt : degCount Tag.E7 e ≤ 1
   · exact (rankLE1_E7 K hp hpq (he ▸ hcnt) E hE).trans_lt (lt_pow_four hp)
   · have h30 := le_thirty_of_degCount_pos (τ := Tag.E7) (e := e) (by simp) (by omega)
-    interval_cases e <;> first | omega | exact absurd hcnt (by decide) | skip
+    interval_cases e <;> try first | omega | exact absurd hcnt (by decide)
     · exact ((sylowTorus_E7_three' K hp he).rank_le hp hE).trans_lt hcu
     · exact ((sylowTorus_E7_four K hp he).rank_le hp hE).trans_lt hsq
     · exact ((sylowTorus_E7_six' K hp he).rank_le hp hE).trans_lt hcu

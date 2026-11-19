@@ -93,10 +93,10 @@ theorem lieSEightAt_B4 (hGA : CFSG.Open.GriessAllModelsStatement) (hStar : LieSE
   swap
   · exact absurd h0 (by norm_num)
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨φ⟩⟩ := hsc
-  letI := hKfield
-  haveI := hKfin
+  let := hKfield
+  have := hKfin
   have hK8 : Nat.card K = 8 := by rw [hKcard]; norm_num
-  haveI : CharP K 2 := lieSEight_charP_two hK8
+  have : CharP K 2 := lieSEight_charP_two hK8
   have hπ : Function.Bijective (QuotientGroup.mk' (Subgroup.center Y)) :=
     ⟨(MonoidHom.ker_eq_bot_iff _).1 (by rw [QuotientGroup.ker_mk', hZ]),
       QuotientGroup.mk'_surjective _⟩

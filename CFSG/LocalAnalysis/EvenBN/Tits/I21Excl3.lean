@@ -82,7 +82,7 @@ include h
 theorem c_ne_one : c ≠ 1 := fun hc => h.c_nmem (hc ▸ one_mem _)
 
 theorem orderOf_c : orderOf c = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime h.c_sq h.c_ne_one
 
 theorem zpow_eq_one_iff (i : ℤ) : r ^ i = 1 ↔ (2 : ℤ) ^ m ∣ i := by
@@ -119,6 +119,7 @@ theorem z0_ne_one : z0 r m ≠ 1 := by
 
 theorem z0_sq : z0 r m ^ 2 = 1 := h.orderOf_z0 ▸ pow_orderOf_eq_one _
 
+omit h in
 theorem z0_eq_zpow : z0 r m = r ^ ((2 : ℤ) ^ (m - 1)) := by
   rw [z0, ← zpow_natCast]
   norm_cast
@@ -139,7 +140,7 @@ theorem eq_z0_of_sq_eq_one {j : ℤ} (hne : r ^ j ≠ 1) (hsq : (r ^ j) ^ 2 = 1)
     exact (mul_dvd_mul_iff_right (by norm_num)).mp h1
   obtain ⟨k, hk⟩ := h2
   have h3 : r ^ j = (z0 r m) ^ k := by
-    rw [hk, zpow_mul, h.z0_eq_zpow]
+    rw [hk, zpow_mul, DihRel.z0_eq_zpow]
   rcases zpow_eq_one_or_self h.orderOf_z0 k with h4 | h4
   · exact absurd (h3.trans h4) hne
   · exact h3.trans h4
@@ -157,8 +158,8 @@ theorem z0_comm_c : z0 r m * c = c * z0 r m := ((Commute.pow_right h.commute_cr 
 theorem s_comm_z0 : s * z0 r m = z0 r m * s := by
   have hinv : (z0 r m)⁻¹ = z0 r m := inv_eq_of_mul_eq_one_right (by rw [← sq]; exact h.z0_sq)
   have h1 : r ^ (-((2 : ℤ) ^ (m - 1))) = z0 r m := by
-    rw [zpow_neg, ← h.z0_eq_zpow, hinv]
-  calc s * z0 r m = s * r ^ ((2 : ℤ) ^ (m - 1)) := by rw [← h.z0_eq_zpow]
+    rw [zpow_neg, ← DihRel.z0_eq_zpow, hinv]
+  calc s * z0 r m = s * r ^ ((2 : ℤ) ^ (m - 1)) := by rw [← DihRel.z0_eq_zpow]
     _ = r ^ (-((2 : ℤ) ^ (m - 1))) * s := h.s_mul_zpow _
     _ = z0 r m * s := by rw [h1]
 

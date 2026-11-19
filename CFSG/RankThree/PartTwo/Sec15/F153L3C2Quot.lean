@@ -40,7 +40,7 @@ theorem odd_card_center_of_pCore_eq_bot {Q : Type*} [Group Q] [Finite Q]
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center Q)) 2 h2
   have hz' : orderOf (z : Q) = 2 := (Subgroup.orderOf_coe z).trans hz
   have hzc : (z : Q) ∈ Subgroup.center Q := z.2
-  haveI hnorm : (Subgroup.zpowers (z : Q)).Normal := by
+  have hnorm : (Subgroup.zpowers (z : Q)).Normal := by
     refine ⟨fun m hm g => ?_⟩
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hm
     have hc : Commute g (z : Q) := Subgroup.mem_center_iff.mp hzc g
@@ -84,7 +84,7 @@ theorem quot_commutator_central_mul {Q : Type*} [Group Q] {z w : Q}
 theorem quasi_normal_le_center_or_eq_top {Q : Type*} [Group Q] (hq : CFSG.IsQuasisimple Q)
     (N : Subgroup Q) [N.Normal] : N ≤ Subgroup.center Q ∨ N = ⊤ := by
   obtain ⟨hperf, hsimp, -⟩ := hq
-  haveI : (N.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
+  have : (N.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases hsimp.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (Subgroup.center Q)))
     with h | h

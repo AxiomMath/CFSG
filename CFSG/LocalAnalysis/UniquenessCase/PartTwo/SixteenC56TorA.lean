@@ -33,8 +33,7 @@ private theorem vec_jHom_diagSL (s t : S.Kˣ) (w : W) :
   funext i
   rcases i with i | i <;> fin_cases i <;>
     simp [OmegaEig.torusVals, Sum.elim_inl, Sum.elim_inr, ofMat, toMat, diagSL,
-      Matrix.diagonal_apply, Matrix.mul_apply, Matrix.transpose_apply, Fin.sum_univ_two,
-      Fin.rev] <;>
+      Matrix.diagonal_apply, Matrix.mul_apply, Fin.rev] <;>
     ring
 
 theorem actHom_torus_mem_omega (α β : S.Kˣ) :

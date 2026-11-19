@@ -50,8 +50,8 @@ theorem mul_self_of_table : w₀ * w₀ = 1 := by
 
 theorem isLongest_of_table :
     IsLongest (coxeterMatrix hA).toCoxeterSystem Set.univ w₀ := by
-  haveI : Finite (coxeterMatrix hA).Group := finite_group hA
-  haveI : Finite ((coxeterMatrix hA).toCoxeterSystem.parabolic (Set.univ : Set (Fin n))) := by
+  have : Finite (coxeterMatrix hA).Group := finite_group hA
+  have : Finite ((coxeterMatrix hA).toCoxeterSystem.parabolic (Set.univ : Set (Fin n))) := by
     rw [CoxeterSystem.parabolic_univ]
     infer_instance
   have hinv : w₀⁻¹ = w₀ := inv_eq_of_mul_eq_one_right (mul_self_of_table hA htab hρ)
@@ -79,8 +79,8 @@ theorem hop_of_table (i : Fin n) :
   have hk : A i (ρ k) = A (ρ i) k := by
     rw [← hAρ i (ρ k), hρ]
   simp only [map_sub, map_neg, map_smul, htab, hρ, Pi.neg_apply, Pi.single_apply,
-    mul_neg, Finset.sum_neg_distrib, neg_neg, Finset.sum_ite_eq', Finset.mem_univ, if_true,
-    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, smul_neg, sub_neg_eq_add, hk]
+    mul_neg, Finset.sum_neg_distrib, neg_neg, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
+    mul_ite, mul_one, mul_zero, smul_neg, sub_neg_eq_add, hk]
   rw [neg_smul, sub_eq_add_neg]
 
 end Table

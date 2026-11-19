@@ -58,7 +58,7 @@ theorem vertex_r (c12 : Commute x₁ x₂) (c13 : Commute x₁ x₃) (c23 : Comm
 
 theorem vertex_s (c12 : Commute x₁ x₂) (c13 : Commute x₁ x₃) (c23 : Commute x₂ x₃)
     (s₁ : s * x₁ * s⁻¹ = x₁ * x₃) (s₂ : s * x₂ * s⁻¹ = x₂ * x₃) (s₃ : s * x₃ * s⁻¹ = x₃⁻¹)
-    (hm : (m : ℤ) = 2 * m') (z₃ : x₃ ^ (2 * m) = j) (o₃ : x₃ ^ (4 * m) = 1) :
+    (_hm : (m : ℤ) = 2 * m') (z₃ : x₃ ^ (2 * m) = j) (o₃ : x₃ ^ (4 * m) = 1) :
     s * nf x₁ x₂ x₃ (-(m' : ℤ)) m' m * s⁻¹ = nf x₁ x₂ x₃ (-(m' : ℤ)) m' m * j := by
   have h : s * nf x₁ x₂ x₃ (-(m' : ℤ)) m' m * s⁻¹ =
       nf x₁ x₂ x₃ (-(m' : ℤ)) m' (-(m' : ℤ) + m' - m) :=
@@ -145,7 +145,7 @@ theorem vertex_mem_W : vertex D ∈ W := by
   exact W.mul_mem (W.mul_mem (W.zpow_mem D.x₁_mem_W _) (W.zpow_mem D.x₂_mem_W _))
     (W.zpow_mem D.x₃_mem_W _)
 
-theorem vertex_ne (hju : D.F.j = D.b * D.b'⁻¹) :
+theorem vertex_ne (_hju : D.F.j = D.b * D.b'⁻¹) :
     vertex D ≠ 1 ∧ vertex D ≠ t ∧ vertex D ≠ D.F.j ∧ vertex D ≠ t * D.F.j := by
   have hz2 : t * t = 1 := (Perp23.Two.TwoFrame.hzK D).sq
   have hz1 : t ≠ 1 := (Perp23.Two.TwoFrame.hzK D).ne_one

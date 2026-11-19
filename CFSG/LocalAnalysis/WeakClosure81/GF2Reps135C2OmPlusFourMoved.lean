@@ -97,13 +97,10 @@ private lemma w183_intCast_eq {m : ℕ} (hm3 : 3 ≤ m) {p q : ℤ}
   rcases hp with hp | hp | hp <;> rcases hq with hq | hq | hq <;>
     rw [hp, hq] at h ⊢
   all_goals first
-    | rfl
     | exact absurd h (by simpa using h1)
     | exact absurd h (by simpa using h2)
-    | exact absurd h (by simpa using h3)
     | exact absurd h.symm (by simpa using h1)
     | exact absurd h.symm (by simpa using h2)
-    | exact absurd h.symm (by simpa using h3)
 
 private def w183_rho12 : Fin 4 → ℤ := Pi.single w183_z1 1 + Pi.single w183_z2 1
 
@@ -157,24 +154,24 @@ private lemma w183_V_rho12 {m : ℕ} :
       Pi.single w183_z1 (1 : ZMod m) + Pi.single w183_z2 (1 : ZMod m) := by
   funext b
   fin_cases b <;>
-    simp [w183_V, w183_rho12, Pi.add_apply, Pi.single_apply, Int.cast_add, Int.cast_one,
-      w183_z0, w183_z1, w183_z2, w183_z3]
+    simp [w183_V, w183_rho12, Pi.add_apply, Int.cast_one,
+      w183_z1, w183_z2]
 
 private lemma w183_V_rho13 {m : ℕ} :
     w183_V (m := m) w183_rho13 =
       Pi.single w183_z1 (1 : ZMod m) + Pi.single w183_z3 (1 : ZMod m) := by
   funext b
   fin_cases b <;>
-    simp [w183_V, w183_rho13, Pi.add_apply, Pi.single_apply, Int.cast_add, Int.cast_one,
-      w183_z0, w183_z1, w183_z2, w183_z3]
+    simp [w183_V, w183_rho13, Pi.add_apply, Int.cast_one,
+      w183_z1, w183_z3]
 
 private lemma w183_V_rho23 {m : ℕ} :
     w183_V (m := m) w183_rho23 =
       Pi.single w183_z2 (1 : ZMod m) + Pi.single w183_z3 (1 : ZMod m) := by
   funext b
   fin_cases b <;>
-    simp [w183_V, w183_rho23, Pi.add_apply, Pi.single_apply, Int.cast_add, Int.cast_one,
-      w183_z0, w183_z1, w183_z2, w183_z3]
+    simp [w183_V, w183_rho23, Pi.add_apply, Int.cast_one,
+      w183_z2, w183_z3]
 
 private lemma w183_mul_eq_one {a b : ℤ} (ha : a = 1 ∨ a = -1) (hb : b = 1 ∨ b = 0)
     (h : a * b = 1) : a = 1 ∧ b = 1 := by
@@ -335,7 +332,7 @@ theorem omq_exists_seven_orbit_roots_four {m : ℕ} (hm3 : 3 ≤ m)
         have hc := congrFun h (w183_c1 i)
         rw [hu6_apply i (w183_c1 i), hu6_apply j (w183_c1 i)] at hc
         rw [hc1] at hc
-        simp [w183_c1_ne_z0 i] at hc
+        simp at hc
         exact w183_intCast_eq hm3 (w183_pm01_of (w183_sgnOf_eq _))
           (w183_pm01_of (w183_sgnOf_eq _)) hc
       exact hkey6 (by simp [hc1, hsgn])
@@ -475,7 +472,7 @@ theorem omq_exists_seven_orbit_roots_four {m : ℕ} (hm3 : 3 ≤ m)
         have hc := congrFun h (w183_c2 i)
         rw [hu_apply i (w183_c2 i), hu_apply j (w183_c2 i)] at hc
         rw [hc2] at hc
-        simp [w183_c2_ne_z0 i, w183_c2_ne_z0 j] at hc
+        simp [w183_c2_ne_z0 j] at hc
         exact w183_intCast_eq hm3 (w183_pm01_of (w183_sgn2Of_eq _))
           (w183_pm01_of (w183_sgn2Of_eq _)) hc
       exact hkey (by simp [hc2, hsgn, hsgn2])

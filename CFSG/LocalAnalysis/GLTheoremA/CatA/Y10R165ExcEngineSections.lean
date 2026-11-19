@@ -139,7 +139,7 @@ theorem exists_section_lift_of_splits {H G G₀ : Type} [Group H] [Finite H] [Gr
       exact ⟨s, s.2, congrArg Subtype.val hs⟩
   have hSπ : ∀ s : ↥S, π s = eS s := fun s => rfl
   have hSperf : Group.IsPerfect ↥S := by
-    letI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
+    let : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
     exact Group.IsPerfect.ofSurjective (f := eS.symm.toMonoidHom) eS.symm.surjective
   exact ⟨S, eS, hSleC, hSmap, hSker, hSπ, hSperf⟩
 
@@ -217,7 +217,7 @@ private theorem exists_qElement_of_noncentral {H G : Type} [Group H] [Group G]
     {J J₁ : Subgroup G} {S S₁ : Subgroup H} (eS : ↥S ≃* ↥J) (eS₁ : ↥S₁ ≃* ↥J₁)
     (hSπ : ∀ a : ↥S, π a = eS a) (hS₁π : ∀ b : ↥S₁, π b = eS₁ b)
     (hcomm : ∀ a ∈ J, ∀ b ∈ J₁, Commute a b) (hSperf : ⁅S, S⁆ = S)
-    {q : ℕ} (hq : q.Prime) {s₀ : G} (hs₀J₁ : s₀ ∈ J₁) (hs₀q : orderOf s₀ = q)
+    {q : ℕ} (_hq : q.Prime) {s₀ : G} (hs₀J₁ : s₀ ∈ J₁) (hs₀q : orderOf s₀ = q)
     (hs₀Z : (⟨s₀, hs₀J₁⟩ : ↥J₁) ∉ Subgroup.center ↥J₁) :
     ∃ y₁ : H, y₁ ∈ S₁ ∧ orderOf y₁ = q ∧ π y₁ = s₀ ∧ y₁ ∉ S := by
   have hSJ : ∀ a ∈ S, π a ∈ J := fun a ha => by
@@ -266,7 +266,7 @@ private theorem exists_elemAbelian_card_pow_three_of_sections {H G : Type} [Grou
       F.map π ≤ Subgroup.normalizer (J : Set G) ∧
       F ⊓ π.ker = ⊥ ∧ 3 ≤ CFSG.Open.pRank q F := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨y₁, hy₁S₁, hy₁q, hy₁π, hy₁notS⟩ :=
     exists_qElement_of_noncentral hker eS eS₁ hSπ hS₁π hcomm hSperf hq hs₀J₁ hs₀q hs₀Z
   obtain ⟨T, hTleS, hTel, hTcard, hTmap⟩ :=
@@ -384,14 +384,14 @@ theorem concl165Avoid_of_sections {H G : Type} [Group H] [Finite H] [Group G] [F
     (hSleC : S ≤ Subgroup.centralizer ({x} : Set H))
     (hS₁leC : S₁ ≤ Subgroup.centralizer ({x} : Set H))
     (hSπ : ∀ a : ↥S, π a = eS a) (hS₁π : ∀ b : ↥S₁, π b = eS₁ b)
-    (hSker : S ⊓ π.ker = ⊥) (hS₁ker : S₁ ⊓ π.ker = ⊥)
+    (_hSker : S ⊓ π.ker = ⊥) (_hS₁ker : S₁ ⊓ π.ker = ⊥)
     (hcomm : ∀ a ∈ J, ∀ b ∈ J₁, Commute a b)
     {F₀ : Subgroup G} (hF₀le : F₀ ≤ J) (hF₀el : IsElemAbelian q F₀)
     (hF₀card : Nat.card F₀ = q ^ 2) {s₀ : G} (hs₀J₁ : s₀ ∈ J₁) (hs₀q : orderOf s₀ = q)
     (hs₀Z : (⟨s₀, hs₀J₁⟩ : ↥J₁) ∉ Subgroup.center ↥J₁) :
     Concl165Avoid H p q Ã π.ker := by
   classical
-  haveI : Group.IsPerfect ↥J := Group.IsPerfect.mk hJq.1
+  have : Group.IsPerfect ↥J := Group.IsPerfect.mk hJq.1
   have hSperf : ⁅S, S⁆ = S :=
     (Subgroup.isPerfect_iff (H := S)).mp
       (Group.IsPerfect.ofSurjective (f := eS.symm.toMonoidHom) eS.symm.surjective)

@@ -71,6 +71,7 @@ theorem L_le_normalizer (hs : Setting t J n e E D M) (hx : ExactData t J n e F D
     L ≤ normalizer (M : Set X) :=
   hx.LJ.trans (J_le_normalizer hs)
 
+omit [Finite X] [IsSimpleGroup X] in
 theorem f_mul_self (hx : ExactData t J n e F DF f L N) : f * f = 1 := by
   rw [← sq]
   exact (card_sq_of_klein hx.Fk).2 f hx.fF
@@ -167,7 +168,7 @@ variable [Finite X] [IsSimpleGroup X] {t : X} {J : Subgroup X} {n : ℕ}
 
 theorem ExactData.conj_eq (hs : Setting t J n e E D M) (hn : n = 9)
     (hx : ExactData t J n e F DF f L N) {y : X}
-    (hy : y ∈ GSLit.fixedLayer M (zpowers f)) (hy' : y ∉ core M) : conjBy N y = N := by
+    (hy : y ∈ GSLit.fixedLayer M (zpowers f)) (_hy' : y ∉ core M) : conjBy N y = N := by
   classical
   by_contra hne
   obtain ⟨θ⟩ := hs.alt

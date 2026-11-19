@@ -57,7 +57,7 @@ theorem ggTBJE6LeviL_split
     GGTBJETypeLeviL .E6 fun p n labJ => ggTBJE6RowCand p n labJ ∨ p = 3 := by
   intro G _ _ p B Bs x L D J y K hH _ _ _ n hΛ hL _ _ _ _ _ hnc
   have hp3 : p ≠ 3 := fun h => hnc (Or.inr h)
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hst : LargeEvenStandardType p B x L := hH.1.1.2.2.2.2.2.2.2
   obtain ⟨labs, hlabs, hhass, _, _, _, _, _, hPs⟩ := largeEvenMarking_exists_hasLabel hst.1
   have heq : labs = (⟨.E6, 0, n⟩ : LargeEvenLabel) :=
@@ -76,7 +76,7 @@ theorem ggTBJE6LeviK_split
     GGTBJETypeLeviK .E6 fun p n labJ => ggTBJE6RowCand p n labJ ∨ p = 3 := by
   intro G _ _ p B Bs x L D J y K hH hJK _ _ _ n hΛ hK hreg _ _ _ _ hnc
   have hp3 : p ≠ 3 := fun h => hnc (Or.inr h)
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hnb : GGNbr p B x D J y K := hH.2.2.2.2.1
   have hHS := ggNbr_halfSplit_of_hyp ggRawInnFieldInput_holds
     (ggRawInndiagIsoInput_of_rest (ggRawInndiagIsoRestInput_of_round5 ggRawInndiagIsoRound5_holds))

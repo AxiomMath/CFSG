@@ -198,7 +198,7 @@ theorem isComponentOf_map_of_injective {G G' : Type*} [Group G] [Group G'] {f : 
 theorem center_eq_bot_of_isQuasisimple {Y : Type*} [Group Y] [IsSimpleGroup Y]
     (hq : CFSG.Open.IsQuasisimple Y) : Subgroup.center Y = ⊥ := by
   refine (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Y)).resolve_right fun h => ?_
-  haveI : Nontrivial (Y ⧸ Subgroup.center Y) := hq.2.toNontrivial
+  have : Nontrivial (Y ⧸ Subgroup.center Y) := hq.2.toNontrivial
   obtain ⟨u, v, huv⟩ := exists_pair_ne (Y ⧸ Subgroup.center Y)
   obtain ⟨u, rfl⟩ := QuotientGroup.mk_surjective u
   obtain ⟨v, rfl⟩ := QuotientGroup.mk_surjective v
@@ -319,14 +319,14 @@ theorem d42TrialityShape_of_model
         (hcomp L hL).2.2 h.l0Sub_le h.isSimpleGroup_l0Sub h.relIndex_l0Sub_le
     refine ⟨fun L L' hL hL' =>
       Subgroup.map_injective hinj ((huniq L hL).trans (huniq L' hL').symm), fun L hL => ?_⟩
-    haveI := h.isSimpleGroup_l0Sub
+    have := h.isSimpleGroup_l0Sub
     obtain ⟨eL0⟩ := h.nonempty_l0_mulEquiv
     let eM : ↥L ≃* ↥L0 :=
       (L.equivMapOfInjective _ hinj).trans (MulEquiv.subgroupCongr (huniq L hL))
-    haveI : IsSimpleGroup ↥L := eM.isSimpleGroup
+    have : IsSimpleGroup ↥L := eM.isSimpleGroup
     exact isLieQuot_u33_of_mulEquiv (center_eq_bot_of_isQuasisimple hL.2.2) (eM.trans eL0)
   · rw [hc] at hcomp
-    haveI := h.isSolvable_centralizer_t2
+    have := h.isSolvable_centralizer_t2
     have hnone : ∀ L : Subgroup S, ¬ CFSG.Open.IsComponentOf L (fixSubgroup τ) := fun L hL =>
       CFSG.LargeExtraspecial.S5.not_isSolvable_of_isQuasisimple (hcomp L hL).2.2
         (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (hcomp L hL).1))

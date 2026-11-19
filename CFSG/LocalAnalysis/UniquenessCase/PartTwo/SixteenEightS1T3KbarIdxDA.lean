@@ -13,7 +13,7 @@ theorem s16t3_index_le_two_of_normIdx {Q : Type*} [Group Q] [Finite Q] {Γ : Sub
     (Γ.subgroupOf (Subgroup.normalizer (Γ : Set Q))).index ≤ 2 := by
   classical
   set N := Subgroup.normalizer (Γ : Set Q) with hN
-  haveI : Fintype (↥N ⧸ Γ.subgroupOf N) := Fintype.ofFinite _
+  have : Fintype (↥N ⧸ Γ.subgroupOf N) := Fintype.ofFinite _
   by_contra hcon
   rw [not_le] at hcon
   have hcard : 2 < Fintype.card (↥N ⧸ Γ.subgroupOf N) := by

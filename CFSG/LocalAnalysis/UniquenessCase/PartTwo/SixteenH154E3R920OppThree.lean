@@ -36,6 +36,7 @@ private theorem r920oppthree_perm_pow_prime_sq {p : ℕ} (hp : p.Prime) {Ω : Ty
     omega
   exact pow_dvd_pow p hk
 
+omit [Finite G] in
 private theorem r920oppthree_mapQuotient_normalizerMonoidHom_conj {H : Subgroup G} {x : G}
     (hxH : x ∈ H) (hxN : x ∈ normalizer (H : Set G)) :
     MulAut.mapQuotient (CFSG.pCore 2 ↥H) (Subgroup.normalizerMonoidHom H ⟨x, hxN⟩)
@@ -58,8 +59,8 @@ theorem sylow_two_nine_of_isL2 {A : Type} [Group A] [Finite A] (hA : IsL2 A 3) :
     rw [CFSG.LargeExtraspecial.Bender.card_sylow_of_psl2 A 2 3 hS]
     norm_num
   refine ⟨hcard, fun a ha => ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup A :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup A :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA
   have haK : a ∈ (MulAction.toPermHom A (Sylow 2 A)).ker := by
     rw [MonoidHom.mem_ker]
@@ -84,7 +85,7 @@ theorem sylow_two_nine_of_isL2 {A : Type} [Group A] [Finite A] (hA : IsL2 A 3) :
           simpa only [MulAction.toPermHom_apply, MulAction.toPerm_apply,
             Equiv.Perm.one_apply] using this
         rw [← hb, hbS]
-      haveI : Subsingleton (Sylow 2 A) := hsub
+      have : Subsingleton (Sylow 2 A) := hsub
       have hle : Nat.card (Sylow 2 A) ≤ 1 := by simp
       omega
   rw [hbot] at haK
@@ -94,8 +95,8 @@ theorem le_of_isPGroup_three_of_isL2_normal {L X P : Subgroup G} (hL2 : IsL2 (Ba
     (hLX : L ≤ X) (hN : (L.subgroupOf X).Normal) (hrk : CFSG.Open.pRank 3 X ≤ 1)
     (hPX : P ≤ X) (hP : IsPGroup 3 ↥P) : P ≤ L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXL : X ≤ normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLX).1 hN
   have hex : ∃ Q : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 Q X ∧ P ≤ Q := by
@@ -148,7 +149,7 @@ theorem le_of_isPGroup_three_of_isL2_normal {L X P : Subgroup G} (hL2 : IsL2 (Ba
     have hQcyc : IsCyclic Q :=
       CFSG.LocalAnalysis.UniquenessCase.UCK.K31.isCyclic_of_pRank_le_one
         Nat.prime_three (by norm_num) hQ.isPGroup hQrank
-    haveI : IsCyclic Q := hQcyc
+    have : IsCyclic Q := hQcyc
     obtain ⟨gQ, hgQ⟩ := IsCyclic.exists_generator (α := Q)
     have hgQtop : Subgroup.zpowers gQ = ⊤ := le_antisymm le_top fun x _ => hgQ x
     have hQgen : Q = Subgroup.zpowers (gQ : G) := by
@@ -165,7 +166,7 @@ theorem le_of_isPGroup_three_of_isL2_normal {L X P : Subgroup G} (hL2 : IsL2 (Ba
       (MulAut.mapQuotient (CFSG.pCore 2 ↥L)).comp γ
     let Ψ : Q →* Equiv.Perm (Sylow 2 (Bar2 L)) :=
       (MulAction.toPermHom (MulAut (Bar2 L)) (Sylow 2 (Bar2 L))).comp Φ
-    haveI : Fintype (Sylow 2 (Bar2 L)) := Fintype.ofFinite _
+    have : Fintype (Sylow 2 (Bar2 L)) := Fintype.ofFinite _
     have hΨ9 : (Ψ gQ) ^ 9 = 1 := by
       have hdvd : orderOf (Ψ gQ) ∣ 3 ^ k := by
         rw [← hgord, Subgroup.orderOf_coe]
@@ -251,7 +252,7 @@ theorem le_of_isPGroup_three_of_isL2_normal {L X P : Subgroup G} (hL2 : IsL2 (Ba
 theorem eq_of_normal_of_pRank_le_one {L X : Subgroup G} (hL2 : IsL2 (Bar2 L) 3) (hLX : L ≤ X)
     (hN : (L.subgroupOf X).Normal) (hX3 : Opp 3 X = X) (hrk : CFSG.Open.pRank 3 X ≤ 1) :
     X = L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXle : X ≤ L := by
     rw [← hX3]
     refine (Subgroup.closure_le L).mpr ?_

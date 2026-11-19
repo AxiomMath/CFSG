@@ -297,7 +297,7 @@ theorem exists_conj_mem_torusW {r : ℕ} [hr : Fact r.Prime] (hrW : r ∣ Nat.ca
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPJ).toEquiv,
       Subgroup.card_map_of_injective (Subgroup.subtype_injective _)]
   have hPp : IsPGroup r (P.subgroupOf J) := by
-    obtain ⟨k, hk⟩ := PW.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := PW.isPGroup.exists_card_eq
     exact IsPGroup.of_card (hPcard.trans hk)
   have hPidx : ¬ r ∣ (P.subgroupOf J).index := by
     have h1 := Subgroup.card_mul_index (P.subgroupOf J)

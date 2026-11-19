@@ -16,6 +16,7 @@ open Matrix
 variable {F K : Type} [Field F] [Field K] [Finite K] [Algebra F K] [CharP K 2]
 variable (E : QuadExt F K (unitaryInvolution K 2 1))
 
+omit [Finite K] [CharP K 2] in
 private theorem sum_interval_eq_sum_fin {n k b : ℕ} (hbk : b + k ≤ n)
     (f : Fin n → K) (hf : ∀ p : Fin n, (p.val < b ∨ b + k ≤ p.val) → f p = 0) :
     ∑ p : Fin n, f p = ∑ t : Fin k, f (⟨b + t.val, by omega⟩ : Fin n) := by

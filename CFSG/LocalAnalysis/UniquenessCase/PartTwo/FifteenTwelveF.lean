@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s15_Twelve_conjSubgroup_sup (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊔ B) g = conjSubgroup A g ⊔ conjSubgroup B g := by
   unfold conjSubgroup
@@ -76,7 +77,7 @@ theorem s15_Twelve_exists_inner (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgr
 
 theorem s15_Twelve_normalizes_all (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
     (h : Hyp154 D V₀ V L) (hV : IsElemAbelian 2 V) (hL : barSub V₀ V hV L ≠ ⊥) {n : ℕ} {k : G}
-    (hk : Cond1512 n D.M V k) (hn : n ≤ 2) (hγ : gamma15 D.M V₀ V hV L = n + 1)
+    (hk : Cond1512 n D.M V k) (_hn : n ≤ 2) (hγ : gamma15 D.M V₀ V hV L = n + 1)
     (hs : s15 D.M V₀ V hV L = 3) {Z₁ : Subgroup G} (hZ₁ : Z₁ ∈ wConj D.M V₀ V hV L)
     (hin : conjSubgroup (fSub15 D.M V₀ V hV L Z₁) k⁻¹ ≤ D.M)
     (hR : ¬ conjSubgroup V k ⊓ D.M ≤ normalizer (fSub15 D.M V₀ V hV L Z₁ : Set G)) :

@@ -55,15 +55,15 @@ theorem closure_gP : closure (gP '' {k | k < 2}) = P := by
   rw [QP_closure]
   congr 1
   ext z
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     interval_cases k
-    · exact Or.inl (if_pos rfl)
-    · exact Or.inr (if_neg (by norm_num))
+    · exact Or.inl (ite_eq_left rfl)
+    · exact Or.inr (ite_eq_right (by norm_num))
   · rintro (rfl | rfl)
-    · exact ⟨0, by norm_num, if_pos rfl⟩
-    · exact ⟨1, by norm_num, if_neg (by norm_num)⟩
+    · exact ⟨0, by norm_num, ite_eq_left rfl⟩
+    · exact ⟨1, by norm_num, ite_eq_right (by norm_num)⟩
 
 theorem rep_pa : CFSG.Monster.B.Co2.Rep 28 genL[0]! pa := by
   unfold CFSG.Monster.B.Co2.Rep
@@ -77,9 +77,9 @@ theorem prep_gP {G : ℕ → ℕ} (h0 : tabOK genL[0]! (G 0) = true)
     (h1 : tabOK genL[1]! (G 1) = true) : ∀ k < 2, PRep 28 5 (G k) (gP k) := by
   intro k hk
   interval_cases k
-  · rw [gP, if_pos rfl]
+  · rw [gP, ite_eq_left rfl]
     exact prep_tab h0 rep_pa
-  · rw [gP, if_neg (by norm_num)]
+  · rw [gP, ite_eq_right (by norm_num)]
     exact prep_tab h1 rep_pb
 
 @[expose] noncomputable def sylP (k : ℕ) : Equiv.Perm (Fin 28) := permOfArr 28 sylL[k]!

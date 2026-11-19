@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem exists_decomposition (h : Tim79a.ParrottHyp z) :
     ∃ T F : Subgroup G, Nat.card T = 2 ∧ IsExtraspecial2 F ∧ Nat.card F = 2 ^ 9 ∧
       T ⊓ F = ⊥ ∧ (∀ t ∈ T, ∀ f ∈ F, Commute t f) ∧
@@ -20,18 +21,21 @@ theorem exists_decomposition (h : Tim79a.ParrottHyp z) :
   obtain ⟨h1, ⟨T, F, hT, hF, hFc, hdisj, hcomm, hsup⟩, hrest⟩ := h
   exact ⟨T, F, hT, hF, hFc, hdisj, hcomm, by simpa [J, H] using hsup⟩
 
-theorem J_eq_sup_T_F {T F : Subgroup G} (h : Tim79a.ParrottHyp z)
+omit [Finite G] in
+theorem J_eq_sup_T_F {T F : Subgroup G} (_h : Tim79a.ParrottHyp z)
     (hTF : T ⊔ F = J z) : J z = T ⊔ F := hTF.symm
 
+omit [Finite G] in
 private theorem commute_of_card_two {A : Subgroup G} (hA : Nat.card A = 2) {a b : G}
     (ha : a ∈ A) (hb : b ∈ A) : Commute a b := by
   have hcomm : IsMulCommutative A := by
-    haveI : IsCyclic A := isCyclic_of_prime_card (p := 2) hA
+    have : IsCyclic A := isCyclic_of_prime_card (p := 2) hA
     infer_instance
   have h : a ∈ Subgroup.centralizer (A : Set G) :=
     (Subgroup.le_centralizer_iff_isMulCommutative (K := A)).mpr hcomm ha
   exact (Subgroup.mem_centralizer_iff.mp h b hb).symm
 
+omit [Finite G] in
 theorem commutator_mem_centerIn_J (h : Tim79a.ParrottHyp z) {x y : G}
     (hx : x ∈ J z) (hy : y ∈ J z) : ⁅x, y⁆ ∈ centerIn (J z) := by
   obtain ⟨T, F, hT, hF, hFc, hdisj, hcomm, hTF⟩ := exists_decomposition h
@@ -49,6 +53,7 @@ theorem commutator_mem_centerIn_J (h : Tim79a.ParrottHyp z) {x y : G}
   rw [hcenter]
   exact Subgroup.mem_sup_right (hle hmem)
 
+omit [Finite G] in
 theorem sq_mem_centerIn_J (h : Tim79a.ParrottHyp z) {x : G} (hx : x ∈ J z) :
     x * x ∈ centerIn (J z) := by
   obtain ⟨T, F, hT, hF, hFc, hdisj, hcomm, hTF⟩ := exists_decomposition h
@@ -77,6 +82,7 @@ theorem sq_mem_centerIn_J (h : Tim79a.ParrottHyp z) {x : G} (hx : x ∈ J z) :
   rw [heq]
   exact Subgroup.mem_sup_right hff
 
+omit [Finite G] in
 theorem centerIn_J_sq (h : Tim79a.ParrottHyp z) {x : G} (hx : x ∈ centerIn (J z)) :
     x * x = 1 := by
   obtain ⟨T, F, hT, hF, hFc, hdisj, hcomm, hTF⟩ := exists_decomposition h

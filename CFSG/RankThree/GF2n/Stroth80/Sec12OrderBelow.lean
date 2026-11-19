@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
 theorem SubConfig.satz_of_orderBelow {N : Subgroup G} (H : StrothHyp M Q Z)
     (h : SubConfig M Q Z N) (hn : Stroth1980Below (Nat.card G)) : SubConfigSatz M Q Z N := by
   obtain ⟨hN, hsub⟩ := h
-  haveI := hN
+  have := hN
   refine ⟨⟨hN, hsub⟩, hN, fun B₂ hB₂ => ?_⟩
   exact hn _ (CFSG.RankThree.GF2n.Smith81.card_H0_quot_lt H) _ _ _ hB₂.hyp B₂ hB₂.conj hB₂.le
     hB₂.ne

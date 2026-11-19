@@ -23,22 +23,22 @@ theorem lowerBoundGo_spec (A : Array Nat) (x : Nat)
   | fuel + 1, lo, hi, h1, h2, h3, h4, h5 => by
     simp only [lowerBoundGo]
     by_cases hlt : lo < hi
-    · rw [if_pos hlt]
+    · rw [ite_eq_left hlt]
       have hm : (lo + hi) / 2 < A.size := by omega
       have e : A[(lo + hi) / 2]! = A[(lo + hi) / 2] := by simp [hm]
       rw [e]
       have hp : 2 ^ (fuel + 1) = 2 * 2 ^ fuel := by rw [Nat.pow_succ]; omega
       by_cases hc : A[(lo + hi) / 2] < x
-      · rw [if_pos hc]
+      · rw [ite_eq_left hc]
         exact lowerBoundGo_spec A x hA fuel _ _ (by omega) h2 (by omega)
           (fun j hj hjl => by
             by_cases hjm : j < lo
             · exact h4 j hj hjm
             · exact Nat.lt_of_le_of_lt (hA j _ hj hm (by omega)) hc) h5
-      · rw [if_neg hc]
+      · rw [ite_eq_right hc]
         exact lowerBoundGo_spec A x hA fuel _ _ (by omega) (by omega) (by omega) h4
           (fun j hj hjl => Nat.le_trans (Nat.le_of_not_lt hc) (hA _ j hm hj hjl))
-    · rw [if_neg hlt]
+    · rw [ite_eq_right hlt]
       have e : hi = lo := by omega
       subst e
       exact ⟨h2, h4, h5⟩
@@ -77,13 +77,13 @@ theorem search_eq_idx {A : Array Nat} {L : List Nat} {t : KT} {n : Nat} (hL : A.
     subst hr
     rw [i1 r (by omega) (by rw [hget r hi]; exact hix)]
     have e : A[r]! = A[r] := by simp [hi]
-    simp [hsize, hi, e, hix]
+    simp [hsize, hi, hix]
   · rw [i2 (fun i hi hix => hx ⟨i, by omega, by rw [← hget i (by omega)]; exact hix⟩)]
     rw [hsize]
     by_cases hr : r < A.size
     · have e : A[r]! = A[r] := by simp [hr]
       have hne : A[r] ≠ x := fun h => hx ⟨r, hr, h⟩
-      simp [hr, e, hne]
+      simp [hr, hne]
     · simp [hr]
 
 end CFSG.KC.SmithD6Search

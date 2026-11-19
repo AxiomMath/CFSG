@@ -108,6 +108,7 @@ theorem membersOK_of {n : ℕ} {ta tb : Array ℕ} {Δ : Lab} (h1 : D.mw = D'.mw
   rw [← h1, ← h2, ← h3, ← h4]
   exact h
 
+omit [Inhabited Lab] in
 theorem o2OK_of {Ot Ot' : Array (OmegaData (List Lab))} (h1 : D.mw = D'.mw) (h3 : D.Om = D'.Om)
     (h4 : D.sTabs = D'.sTabs) (h5 : Ot = Ot') (h : O2OK act D Ot) : O2OK act D' Ot' := by
   unfold O2OK at h ⊢

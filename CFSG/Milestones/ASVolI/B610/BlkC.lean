@@ -97,6 +97,7 @@ theorem burnsideB610_ffJ_le_normalizer {t : MulAut W} (ht : t ∈ B19.tvSet X Φ
   exact B19.mem_normalizer_of_map_conj_eq (burnsideB610_GOf_map_conj hW hS ht (hA.1 ha)
     (hS.map_conj_FOf hW hA ht ha))
 
+omit [Finite W] hW in
 theorem burnsideB610_map_conj_mem_blocks {B : Subgroup (MulAut W)}
     (hB : B ∈ burnsideB610_blocks X Φ) {g : MulAut W} (hg : g ∈ X) :
     B.map (MulAut.conj g).toMonoidHom ∈ burnsideB610_blocks X Φ := by

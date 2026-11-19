@@ -24,7 +24,7 @@ theorem isSylowOf_pCoreOf_centralizerModCore {X Y S H W : Subgroup G} (hXY : X �
     (hYX : Y ≤ normalizer (X : Set G)) (hS : IsSylowOf 2 S Y) (hYXS : Y ≤ X ⊔ S) (hYH : Y ≤ H)
     (hSW : IsSylowOf 2 S W) (hNW : H ⊓ normalizer (pCoreOf 2 Y : Set G) ≤ W) :
     IsSylowOf 2 (pCoreOf 2 Y) (centralizerModCore X ⊓ H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRY : pCoreOf 2 Y ≤ Y := pCoreOf_le 2 Y
   have hYR : Y ≤ normalizer (pCoreOf 2 Y : Set G) := le_normalizer_pCoreOf 2 Y
   have hXO : normalizer (X : Set G) ≤ normalizer (oTwoIn X : Set G) :=
@@ -92,7 +92,7 @@ theorem exists_mem_calMOf_isSylowOf_centralizerModCore (D : Data G) {Y : Subgrou
     ∃ H ∈ calMOf Y,
       H ⊓ normalizer (jIn (pCoreOf 2 Y) : Set G) ≤ normalizer (Opp 3 Y : Set G) ∧
       IsSylowOf 2 (pCoreOf 2 Y) (centralizerModCore (Opp 3 Y) ⊓ H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYmax : Maximal (· ∈ calY2_9 D) Y := hY
   have hYM : Y ≤ D.M := hYmax.prop.1.1
   obtain ⟨S, hS⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 Y

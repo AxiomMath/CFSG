@@ -29,7 +29,7 @@ theorem foldl_xor_split (f g : Nat → Bool) (l : List Nat) (c : Bool) :
     rw [ih, foldl_xor_false f l (c ^^ (f i ^^ g i)), foldl_xor_false f l (c ^^ f i),
       foldl_xor_false g l (false ^^ g i)]
     cases c <;> cases f i <;> cases g i <;>
-      simp [Bool.xor_assoc, Bool.xor_comm, Bool.xor_left_comm]
+      simp [Bool.xor_comm]
 
 theorem eq_of_xor_eq_zero {a b : Nat} (h : a ^^^ b = 0) : a = b := by
   have e := congrArg (· ^^^ b) h
@@ -67,7 +67,7 @@ theorem conjP_tvP {p q : Nat × Nat} (hp : TvP p) (hq : TvP q) : TvP (conjP p q)
   unfold conjP TvP
   simp only
   cases h1 : form ψ v <;> cases h2 : form φ w <;>
-    simp only [Bool.false_eq_true, ↓reduceIte, if_true]
+    simp only [Bool.false_eq_true, ↓reduceIte]
   · exact ⟨hv, hφ, hv0, hφ0, hφv⟩
   · refine ⟨hv, xor_lt64 hφ hψ, hv0, fun h => ?_, ?_⟩
     · rw [eq_of_xor_eq_zero h, hψw] at h2
@@ -95,7 +95,7 @@ theorem conjP_conjP {p q : Nat × Nat} (hp : TvP p) : conjP p (conjP p q) = q :=
   unfold conjP
   simp only
   cases h1 : form ψ v <;> cases h2 : form φ w <;>
-    simp only [Bool.false_eq_true, ↓reduceIte, if_true, h1, h2, form_xor_left, form_xor_right,
+    simp only [Bool.false_eq_true, ↓reduceIte, h1, h2, form_xor_left, form_xor_right,
       hψw, Bool.xor_false, Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
 
 @[expose] def lastIdx (f : Nat → Nat) (x d : Nat) : Nat → Nat
@@ -124,13 +124,13 @@ theorem foldl_set_get (f : Nat → Nat) (M d N x : Nat) (hx : x < M) :
       Array.getElem_setIfInBounds (by rw [hs]; exact hx), lastIdx]
     by_cases h : f N = x
     · simp [h]
-    · rw [if_neg h, if_neg h, ← ih, getElem!_pos _ x (by rw [hs]; exact hx)]
+    · rw [ite_eq_right h, ite_eq_right h, ← ih, getElem!_pos _ x (by rw [hs]; exact hx)]
 
 theorem lastIdx_none {f : Nat → Nat} {x d N : Nat} (h : ∀ j < N, f j ≠ x) : lastIdx f x d N = d := by
   induction N with
   | zero => rfl
   | succ N ih =>
-    rw [lastIdx, if_neg (h N (Nat.lt_succ_self N))]
+    rw [lastIdx, ite_eq_right (h N (Nat.lt_succ_self N))]
     exact ih fun j hj => h j (by omega)
 
 theorem lastIdx_last {f : Nat → Nat} {x d N j : Nat} (hj : j < N) (hf : f j = x)
@@ -141,8 +141,8 @@ theorem lastIdx_last {f : Nat → Nat} {x d N j : Nat} (hj : j < N) (hf : f j = 
     rw [lastIdx]
     by_cases hN : j = N
     · subst hN
-      rw [if_pos hf]
-    · rw [if_neg (hl N (by omega) (Nat.lt_succ_self N))]
+      rw [ite_eq_left hf]
+    · rw [ite_eq_right (hl N (by omega) (Nat.lt_succ_self N))]
       exact ih (by omega) fun j' h1 h2 => hl j' h1 (by omega)
 
 theorem foldl_set_none {f : Nat → Nat} {M d N x : Nat} (hx : x < M) (h : ∀ j < N, f j ≠ x) :
@@ -189,7 +189,7 @@ theorem codeOf_mod {p : Nat × Nat} (hp : TvP p) : codeOf p % 64 = p.2 := by
 theorem mem_of_tvP {p : Nat × Nat} (hp : TvP p) : p ∈ tvList.toList := by
   rw [tvList_toList, List.mem_filterMap]
   refine ⟨codeOf p, List.mem_range.mpr (codeOf_lt hp), ?_⟩
-  rw [codeOf_div hp, codeOf_mod hp, if_pos ⟨hp.2.2.1, hp.2.2.2.1, hp.2.2.2.2⟩]
+  rw [codeOf_div hp, codeOf_mod hp, ite_eq_left ⟨hp.2.2.1, hp.2.2.2.1, hp.2.2.2.2⟩]
 
 theorem tvList_codes_sorted : (tvList.toList.map codeOf).Pairwise (· < ·) := by
   rw [tvList_toList, List.map_filterMap]

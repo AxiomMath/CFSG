@@ -102,7 +102,7 @@ theorem two_le_pRank_map_mk {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact p.P
     have hy' : ((y : X) : H) ∈ C := by
       have h1 : (QuotientGroup.mk' C) ((y : X) : H) = 1 := congrArg Subtype.val hy
       exact (QuotientGroup.eq_one_iff _).mp h1
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P₀.isPGroup') y
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P₀.isPGroup) y
     have hk' : orderOf ((y : X) : H) = p ^ k := by
       rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hk]
     exact Subtype.ext (Subtype.ext (NQTerm.eq_one_of_orderOf_dvd_prime_pow hp hCp hy' hk'.dvd))
@@ -112,6 +112,7 @@ theorem two_le_pRank_map_mk {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact p.P
     exact CFSG.SectionRank.pRank_top_le_of_injective hp.one_lt ψ hψ
   omega
 
+omit [Finite G] in
 theorem pCore_map_le_of_sylowTwo {T Y : Subgroup G} (hT : quasithinIsSylowTwo T) (hTY : T ≤ Y) :
     (CFSG.pCore 2 Y).map Y.subtype ≤ T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

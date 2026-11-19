@@ -86,7 +86,7 @@ theorem ElevenOneHyp.centralizer_eq {hC : HypothesisC D} (h : ElevenOneHyp hC) :
   rcases h.centralizer_le_or_index_two with hCH | ⟨hidx, x, hxC, hxH, hx2⟩
   · exact hCH
   · exfalso
-    haveI hHn : ((Halpha D hC.alpha).subgroupOf
+    have hHn : ((Halpha D hC.alpha).subgroupOf
         (Subgroup.centralizer {hC.d})).Normal :=
       Subgroup.normal_of_index_eq_two hidx
     have hHnormC : ∀ h k, h ∈ Halpha D hC.alpha → k ∈ Subgroup.centralizer {hC.d} →

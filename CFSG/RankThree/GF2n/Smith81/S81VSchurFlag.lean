@@ -26,7 +26,7 @@ private theorem s81v_sub_one_mem_flag {V : Type*} [AddCommGroup V] [Module F V] 
     rw [SetLike.mem_coe, Submodule.mem_comap, Basis.mem_span_image]
     intro k hk
     rw [Finset.mem_coe, Finsupp.mem_support_iff] at hk
-    simp only [Set.mem_setOf_eq] at hj ⊢
+    simp only [Set.mem_ofPred_eq] at hj ⊢
     by_contra hki
     apply hk
     have hjk : j ≤ k := by
@@ -36,7 +36,7 @@ private theorem s81v_sub_one_mem_flag {V : Type*} [AddCommGroup V] [Module F V] 
     · have h0 : LinearMap.toMatrixAlgEquiv b T k j = 0 := hTu (show id j < id k from hlt)
       rw [LinearMap.toMatrixAlgEquiv_apply] at h0
       rw [LinearMap.sub_apply, map_sub, Finsupp.sub_apply, h0, Module.End.one_apply,
-        Basis.repr_self, Finsupp.single_apply, if_neg hlt.ne, sub_zero]
+        Basis.repr_self, Finsupp.single_apply, ite_eq_right hlt.ne, sub_zero]
     · subst heq
       have h1 : LinearMap.toMatrixAlgEquiv b T j j = 1 := hTd j
       rw [LinearMap.toMatrixAlgEquiv_apply] at h1
@@ -104,7 +104,7 @@ theorem exists_schur_space [Finite F] [CharP F 2] {E : Subgroup (GL (Fin 6) F)}
       W ≤ Submodule.span F {u | ∃ e ∈ E, ∃ v,
         u = ((e : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).mulVec v - v} := by
   let ρ : Representation F E (Fin 6 → F) :=
-    (MonoidHomClass.toMonoidHom (Matrix.toLinAlgEquiv' (R := F) (n := Fin 6))).comp
+    (MonoidHom.ofClass (Matrix.toLinAlgEquiv' (R := F) (n := Fin 6))).comp
       ((Units.coeHom (Matrix (Fin 6) (Fin 6) F)).comp E.subtype)
   have hact : ∀ (a : E) (v : Fin 6 → F),
       ρ a v = ((a : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).mulVec v :=
@@ -139,7 +139,7 @@ theorem exists_schur_space [Finite F] [CharP F 2] {E : Subgroup (GL (Fin 6) F)}
   set Fl : ℕ → Submodule F (Fin 6 → F) :=
     fun i => Submodule.span F (b '' {j | (j : ℕ) < i}) with hFl
   have hFl0 : Fl 0 = ⊥ := by
-    simp only [hFl, Nat.not_lt_zero, Set.setOf_false, Set.image_empty, Submodule.span_empty]
+    simp only [hFl, Nat.not_lt_zero, Set.ofPred_false, Set.image_empty, Submodule.span_empty]
   have hFl6 : Fl m = ⊤ := by
     have : {j : Fin m | (j : ℕ) < m} = Set.univ := Set.eq_univ_of_forall fun j => j.isLt
     simp only [hFl, this, Set.image_univ, b.span_eq]

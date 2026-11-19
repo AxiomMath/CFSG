@@ -83,7 +83,7 @@ private theorem ffSymmDiff_erase (K : Finset (Option (Fin 5))) (σ : Equiv.Perm 
       (K.erase none) = K := by
   by_cases hn : none ∈ K
   · have hs : Equiv.Perm.sign σ = -1 := h.mp hn
-    rw [if_neg (by rw [hs]; decide)]
+    rw [ite_eq_right (by rw [hs]; decide)]
     ext x
     by_cases hx : x = none
     · subst hx; simp [Finset.mem_symmDiff, hn]
@@ -92,7 +92,7 @@ private theorem ffSymmDiff_erase (K : Finset (Option (Fin 5))) (σ : Equiv.Perm 
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h1 | h1
       · exact h1
       · exact absurd (h.mpr h1) hn
-    rw [if_pos hs, ← Finset.bot_eq_empty, bot_symmDiff, Finset.erase_eq_of_notMem hn]
+    rw [ite_eq_left hs, ← Finset.bot_eq_empty, bot_symmDiff, Finset.erase_eq_of_notMem hn]
 
 theorem ffB0p_le_omega (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) ffC) :
     ffB0p fr ≤ omegaGroup hQ := by

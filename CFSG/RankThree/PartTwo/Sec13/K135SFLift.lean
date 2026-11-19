@@ -51,7 +51,7 @@ theorem pRank_fixed_quotient_le {M : Type*} [Group M] [Finite M] (N₀ : Subgrou
       exact Commute.zpow_left hg k
     have hmem : ((g : M) : M ⧸ N₀) ∈ {x : M ⧸ N₀ | ∀ a : Subgroup.zpowers t,
         CFSG.Semidihedral.Principal.CoprimeFixedPoint.quotientAction α N₀ hN a x = x} := by
-      rw [Set.mem_setOf_eq]
+      rw [Set.mem_ofPred_eq]
       intro a
       rw [CFSG.Semidihedral.Principal.CoprimeFixedPoint.quotientAction_mk]
       have h1 : QuotientGroup.mk' N₀ ((a : M) * g * (a : M)⁻¹) = QuotientGroup.mk' N₀ g := by
@@ -170,7 +170,7 @@ theorem ker_le_of_perfect_solvable_kernel {X S : Type*} [Group X] [Finite X] [Gr
     have : π x ∈ ρ.ker.map π := Subgroup.mem_map_of_mem π hx
     rw [h, Subgroup.mem_bot] at this
     exact this
-  · haveI : Group.IsSolvable π.ker := hsolv
+  · have : Group.IsSolvable π.ker := hsolv
     let f : π.ker →* X ⧸ ρ.ker := (QuotientGroup.mk' ρ.ker).comp π.ker.subtype
     have hf : Function.Surjective f := by
       intro y
@@ -183,10 +183,10 @@ theorem ker_le_of_perfect_solvable_kernel {X S : Type*} [Group X] [Finite X] [Gr
         rw [QuotientGroup.eq]
         have := (MonoidHom.normal_ker ρ).conj_mem k hk x⁻¹
         simpa [mul_assoc] using this
-    haveI : Group.IsSolvable (X ⧸ ρ.ker) := Group.isSolvable_of_surjective hf
+    have : Group.IsSolvable (X ⧸ ρ.ker) := Group.isSolvable_of_surjective hf
     have hsub : Subsingleton (X ⧸ ρ.ker) := by
       by_contra hns
-      haveI : Nontrivial (X ⧸ ρ.ker) := not_subsingleton_iff_nontrivial.mp hns
+      have : Nontrivial (X ⧸ ρ.ker) := not_subsingleton_iff_nontrivial.mp hns
       exact Group.IsPerfect.not_isSolvable (X ⧸ ρ.ker) inferInstance
     apply hρ
     ext x

@@ -20,6 +20,7 @@ section Image
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem card_autImage {B K : Subgroup X} (hperf : commutator ↥K = ⊤) :
     Nat.card (autImage B K) = autOrderIn B K := by
   unfold autImage actHom
@@ -39,7 +40,7 @@ theorem exists_sub_autImage {p k : ℕ} (hp : p.Prime) {B K : Subgroup X}
     (hB : IsElemAbelian p B) (hperf : commutator ↥K = ⊤) (hk : p ^ k ∣ autOrderIn B K) :
     ∃ E : Subgroup (MulAut (↥K ⧸ Subgroup.center ↥K)), E ≤ autImage B K ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, hD⟩ := Sylow.exists_subgroup_card_pow_prime p
     (show p ^ k ∣ Nat.card ↥(autImage B K) by rw [card_autImage hperf]; exact hk)
   refine ⟨D.map (autImage B K).subtype, Subgroup.map_subtype_le D,
@@ -47,6 +48,7 @@ theorem exists_sub_autImage {p k : ℕ} (hp : p.Prime) {B K : Subgroup X}
   rw [Subgroup.card_map_of_injective (autImage B K).subtype_injective]
   exact hD
 
+omit [Finite X] in
 theorem card_eq_autOrderIn_mul {B K : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)) :
     Nat.card B = autOrderIn B K * Nat.card (B ⊓ Subgroup.centralizer (K : Set X) : Subgroup X) := by
   have h := Subgroup.relIndex_mul_card (H := Subgroup.centralizer (K : Set X)) (K := B)
@@ -67,6 +69,7 @@ theorem pRank_eq_add_autOrderIn {p r : ℕ} (hp : p.Prime) {B K : Subgroup X}
   rw [i271_pRank_eq hp hBel hm, i271_pRank_eq hp hCel hc]
   omega
 
+omit [Finite X] in
 theorem autImage_le_range_conj {B K : Subgroup X} (h : InducesInnerIn B K) :
     autImage B K ≤ (MulAut.conj : (↥K ⧸ Subgroup.center ↥K) →* MulAut (↥K ⧸ Subgroup.center ↥K)).range := by
   intro e he

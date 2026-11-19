@@ -14,7 +14,7 @@ theorem not_prime_cube_dvd_factorial {p n : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) 
   intro h
   have hpn : p ≤ n := (hp.dvd_factorial).mp (dvd_trans (dvd_pow_self p (by norm_num)) h)
   have hp12 : p ≤ 12 := hpn.trans hn
-  interval_cases p <;> first | (exfalso; revert hp; norm_num; done) | skip
+  interval_cases p <;> try (exfalso; revert hp; norm_num; done)
   all_goals interval_cases n <;> simp_all [Nat.factorial]
 
 theorem false_of_alt_five {p n : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hn5 : 5 ≤ n) (hn : n ≤ 12)

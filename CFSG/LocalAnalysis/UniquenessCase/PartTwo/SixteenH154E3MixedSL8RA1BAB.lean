@@ -62,9 +62,9 @@ theorem s16h_sl28_join_elemAbelian_seven {A B : Subgroup X}
           rw [show (a * x * a⁻¹) * a⁻¹ * a = a * x * a⁻¹ from by group]
           exact hx.2
         rwa [show a⁻¹ * (a * x * a⁻¹) * a = x from by group] at hmem
-  haveI : ((A ⊓ B).subgroupOf A).Normal :=
+  have : ((A ⊓ B).subgroupOf A).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hnorm
-  haveI : IsSimpleGroup ↥A := hA
+  have : IsSimpleGroup ↥A := hA
   have hdisj : A ⊓ B = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((A ⊓ B).subgroupOf A) with h | h
     · refine le_bot_iff.mp fun x hx => ?_

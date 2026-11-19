@@ -29,7 +29,7 @@ section Main
 variable {G : Type} [Group G] [Finite G] [CoreLike G] {Ω : Set (Subgroup G)}
   {K K' W : Subgroup G} {S : Sylow 2 G} {R R' : Subgroup G} {z t u₁ u₂ a : G}
 
-@[expose] def kerLayer [Finite G] (Ω : Set (Subgroup G)) (c : G) : Subgroup G :=
+@[expose] def kerLayer (Ω : Set (Subgroup G)) (c : G) : Subgroup G :=
   Subgroup.centralizer ({c} : Set G) ⊓ trivialOnQuot (layerX Ω c)
 namespace Ctx
 

@@ -25,7 +25,7 @@ theorem sec5op_final_of_odd (hyp : Sec5OPHyp t z T π) {K : Subgroup G}
       one_mem' := by
         refine ⟨Subgroup.one_mem _, ?_⟩
         intro y hy
-        simpa using Subgroup.one_mem (oddCoreIn (sec5op_Y t z))
+        simp
       mul_mem' := by
         rintro k₁ k₂ ⟨hk₁H, hk₁⟩ ⟨hk₂H, hk₂⟩
         refine ⟨Subgroup.mul_mem _ hk₁H hk₂H, ?_⟩

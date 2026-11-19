@@ -23,6 +23,7 @@ open CoordSL
 
 @[expose] def resBlock : Matrix (Fin 2) (Fin 2) K := !![0, 1; 1, 1]
 
+omit [Finite K] in
 theorem resBlock_det : resBlock (K := K).det = 1 := by
   rw [resBlock, Matrix.det_fin_two_of, zero_mul, one_mul, zero_sub]
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -30,6 +31,7 @@ theorem resBlock_det : resBlock (K := K).det = 1 := by
     simpa [one_add_one_eq_two] using h2
   exact neg_eq_of_add_eq_zero_left h
 
+omit [Finite K] in
 theorem resBlock_pow_three : resBlock (K := K) ^ 3 = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   ext i j
@@ -41,6 +43,7 @@ theorem resBlock_pow_three : resBlock (K := K) ^ 3 = 1 := by
     simpa [one_add_one_eq_two] using h2
   fin_cases i <;> fin_cases j <;> simp [h11]
 
+omit [Finite K] [CharP K 2] in
 theorem resBlock_apply_zero_one : resBlock (K := K) 0 1 = 1 := rfl
 
 private noncomputable def resFinEquiv (hr : 2 ≤ r) : Fin r ≃ Fin 2 ⊕ Fin (r - 2) :=
@@ -50,10 +53,12 @@ private noncomputable def resMat (hr : 2 ≤ r) : Matrix (Fin r) (Fin r) K :=
   (Matrix.fromBlocks resBlock 0 0 (1 : Matrix (Fin (r - 2)) (Fin (r - 2)) K)).submatrix
     (resFinEquiv hr) (resFinEquiv hr)
 
+omit [Finite K] in
 private theorem resMat_det (hr : 2 ≤ r) : (resMat (K := K) hr).det = 1 := by
   rw [resMat, Matrix.det_submatrix_equiv_self, Matrix.det_fromBlocks_zero₂₁,
     resBlock_det, Matrix.det_one, mul_one]
 
+omit [Finite K] in
 private theorem resMat_pow_three (hr : 2 ≤ r) : (resMat (K := K) hr) ^ 3 = 1 := by
   have hM3 : (Matrix.fromBlocks resBlock 0 0
       (1 : Matrix (Fin (r - 2)) (Fin (r - 2)) K)) ^ 3 = 1 := by
@@ -61,12 +66,14 @@ private theorem resMat_pow_three (hr : 2 ≤ r) : (resMat (K := K) hr) ^ 3 = 1 :
     simp
   rw [resMat, SLNS.submatrix_pow_equiv, hM3, Matrix.submatrix_one_equiv]
 
+omit [Finite K] [CharP K 2] in
 private theorem resMat_offdiag (hr : 2 ≤ r) :
     resMat (K := K) hr ((resFinEquiv hr).symm (Sum.inl 0))
       ((resFinEquiv hr).symm (Sum.inl 1)) = 1 := by
   rw [resMat, Matrix.submatrix_apply]
   simp [Matrix.fromBlocks_apply₁₁, resBlock]
 
+omit [Finite K] [CharP K 2] in
 private theorem resD0_comm (hr : 2 ≤ r) (k : Fin s → ℕ) :
     (Matrix.fromBlocks
         (1 : Matrix (Fin (CoordSL.rootPB g).dim × Fin s)
@@ -79,12 +86,14 @@ private theorem resD0_comm (hr : 2 ≤ r) (k : Fin s → ℕ) :
   rw [SLNS.nsCore, Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
   simp
 
+omit [Finite K] in
 private theorem resD0_det (hr : 2 ≤ r) :
     (Matrix.fromBlocks
       (1 : Matrix (Fin (CoordSL.rootPB g).dim × Fin s)
         (Fin (CoordSL.rootPB g).dim × Fin s) K) 0 0 (resMat (K := K) hr)).det = 1 := by
   rw [Matrix.det_fromBlocks_zero₂₁, Matrix.det_one, one_mul, resMat_det]
 
+omit [Finite K] in
 private theorem resD0_pow_three (hr : 2 ≤ r) :
     (Matrix.fromBlocks
       (1 : Matrix (Fin (CoordSL.rootPB g).dim × Fin s)
@@ -92,6 +101,7 @@ private theorem resD0_pow_three (hr : 2 ≤ r) :
   rw [Matrix.fromBlocks_diagonal_pow, one_pow, resMat_pow_three]
   simp
 
+omit [Finite K] [CharP K 2] in
 private theorem frameSL_pow_three
     (hC : (CoordSL.rootMat g).det = 1)
     (hCp : (CoordSL.rootMat g) ^ 3 = 1) (k : Fin s → ℕ) :
@@ -103,12 +113,13 @@ private theorem frameSL_pow_three
         intro i
         have hzero : (k i * 3) % 3 = 0 :=
           Nat.mod_eq_zero_of_dvd (dvd_mul_left 3 (k i))
-        simpa [Pi.smul_apply, Nat.mul_comm] using hzero)
+        simp [Pi.smul_apply, Nat.mul_comm])
     simpa [SLNS.nsSL_zero] using hcongr
   calc (A₀ * SLNS.nsSL ε hC k * A₀⁻¹) ^ 3
       = A₀ * (SLNS.nsSL ε hC k) ^ 3 * A₀⁻¹ := by rw [conj_pow]
     _ = 1 := by rw [hns]; group
 
+omit [Finite G] in
 theorem residual_le_one
     (hN : Bs ≤ Subgroup.normalizer (J : Set G))
     (hSC : ∀ x ∈ Subgroup.centralizer (Bs : Set G), x ^ 3 = 1 → x ∈ Bs)
@@ -259,7 +270,7 @@ theorem residual_le_one
     simp [D0, i0, i1, j0, j1, resMat_offdiag hr]
   have hright : SLNS.nsMat ε (CoordSL.rootMat g) k i0 i1 = 0 := by
     rw [SLNS.nsMat, Matrix.submatrix_apply]
-    simp [SLNS.nsCore, Matrix.fromBlocks_apply₂₂, Matrix.one_apply, i0, i1, j0, j1, hj]
+    simp [SLNS.nsCore, Matrix.fromBlocks_apply₂₂, i0, i1, j0, j1, hj]
   have hone : (1 : K) = 0 := by
     calc (1 : K) = D i0 i1 := hleft.symm
       _ = SLNS.nsMat ε (CoordSL.rootMat g) k i0 i1 := by rw [hD_eq]

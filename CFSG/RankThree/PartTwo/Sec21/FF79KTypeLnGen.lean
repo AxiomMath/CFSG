@@ -40,7 +40,7 @@ theorem E9Data.mem_R_iff (h : E9Data a b) {x : H} :
   · intro hx
     obtain ⟨i, j, rfl⟩ := Hering214.exists_pow_mul_pow_of_mem_closure h.a3 h.b3 h.comm hx
     refine ⟨⟨i % 3, Nat.mod_lt _ (by norm_num)⟩, ⟨j % 3, Nat.mod_lt _ (by norm_num)⟩, ?_⟩
-    simp only [h.pow_mod i, h.pow_mod' j, Nat.mod_mod]
+    simp only [h.pow_mod i, h.pow_mod' j]
   · rintro ⟨i, j, rfl⟩
     exact mul_mem (pow_mem (subset_closure (by simp)) _) (pow_mem (subset_closure (by simp)) _)
 
@@ -130,9 +130,9 @@ theorem mem_normalizer_of_forall_conj_mem [Finite H] {K : Subgroup H} {j : H}
 theorem conj_eq_of {j y z : H} (h : j * y = z * j) : MulAut.conj j y = z := by
   rw [MulAut.conj_apply, h, mul_assoc, mul_inv_cancel, mul_one]
 
-theorem E9Data.a_mem (h : E9Data a b) : a ∈ R a b := subset_closure (by simp)
+theorem E9Data.a_mem (_h : E9Data a b) : a ∈ R a b := subset_closure (by simp)
 
-theorem E9Data.b_mem (h : E9Data a b) : b ∈ R a b := subset_closure (by simp)
+theorem E9Data.b_mem (_h : E9Data a b) : b ∈ R a b := subset_closure (by simp)
 
 theorem E9Data.a2_mem (h : E9Data a b) : a ^ 2 ∈ R a b := pow_mem h.a_mem _
 
@@ -151,7 +151,7 @@ theorem conj_mem_of_gens {j : H} (ha : MulAut.conj j a ∈ R a b) (hb : MulAut.c
   intro x hx
   exact hle ⟨x, hx, rfl⟩
 
-theorem conj_R_formula (h : E9Data a b) (j : H) (i k : ℕ) :
+theorem conj_R_formula (_h : E9Data a b) (j : H) (i k : ℕ) :
     MulAut.conj j (a ^ i * b ^ k) = MulAut.conj j a ^ i * MulAut.conj j b ^ k := by
   simp [map_mul, map_pow]
 
@@ -165,6 +165,7 @@ variable [Finite H] {r₁ r₂ w : H}
   ![(a, b), (a ^ 2, b), (a, b ^ 2), (a ^ 2, b ^ 2), (b, a), (b, a ^ 2), (b ^ 2, a),
     (b ^ 2, a ^ 2)]
 
+omit [Finite H] in
 theorem NormData.conj_pair (D : NormData a b r₁ r₂ w) (k : Fin 8) :
     (MulAut.conj (jk r₁ r₂ w k) a, MulAut.conj (jk r₁ r₂ w k) b) = qk a b k := by
   have h1a := conj_eq_of D.r₁a
@@ -191,11 +192,13 @@ theorem NormData.jk_mem (D : NormData a b r₁ r₂ w) (k : Fin 8) :
     exact conj_mem_of_gens hA.1 hA.2 x hx
   exact mem_normalizer_of_forall_conj_mem hq
 
+omit [Finite H] in
 theorem pow_two_sq_of_pow_three {x : H} (hx3 : x ^ 3 = 1) : (x ^ 2) ^ 2 = x := by
   rw [← pow_mul]
   conv_rhs => rw [← mul_one x, ← hx3]
   group
 
+omit [Finite H] in
 theorem bad_pair {a b x : H} {c : H ≃* H} (hx3 : x ^ 3 = 1) (hab : b ≠ a) (hab2 : b ≠ a ^ 2)
     (hu : c a = x ∨ c a = x ^ 2) (hv : c b = x ∨ c b = x ^ 2) : False := by
   have hc2 : c (a ^ 2) = c a ^ 2 := map_pow c a 2
@@ -205,6 +208,7 @@ theorem bad_pair {a b x : H} {c : H ≃* H} (hx3 : x ^ 3 = 1) (hab : b ≠ a) (h
   · exact hab2 (c.injective (by rw [hc2, hu, hv, pow_two_sq_of_pow_three hx3]))
   · exact hab (c.injective (hv.trans hu.symm))
 
+omit [Finite H] in
 theorem NormData.qk_injective (D : NormData a b r₁ r₂ w) : Function.Injective (qk a b) := by
   have h1 := D.toE9Data.a_ne_b
   have h2 := D.toE9Data.a_ne_a2
@@ -217,6 +221,7 @@ theorem NormData.qk_injective (D : NormData a b r₁ r₂ w) : Function.Injectiv
 
 @[expose] def InBlocks (a b u : H) : Prop := u = a ∨ u = a ^ 2 ∨ u = b ∨ u = b ^ 2
 
+omit [Finite H] in
 theorem NormData.pair_mem_range (D : NormData a b r₁ r₂ w) {s : H}
     (hu : InBlocks a b (MulAut.conj s a)) (hv : InBlocks a b (MulAut.conj s b)) :
     (MulAut.conj s a, MulAut.conj s b) ∈ Set.range (qk a b) := by
@@ -299,6 +304,7 @@ theorem NormData.ncard_conj (D : NormData a b r₁ r₂ w)
   rw [← hinj.ncard_image, himg, Set.ncard_range_of_injective D.qk_injective]
   simp
 
+omit [Finite H] in
 theorem NormData.tau_inv (D : NormData a b r₁ r₂ w) {x : H} (hx : x ∈ R a b) :
     (r₁ * r₂) * x * (r₁ * r₂)⁻¹ = x⁻¹ := by
   obtain ⟨i, j, rfl⟩ := D.toE9Data.mem_R_iff.mp hx
@@ -324,6 +330,7 @@ theorem NormData.tau_mem (D : NormData a b r₁ r₂ w) :
     r₁ * r₂ ∈ Subgroup.normalizer (R a b : Set H) := by
   simpa [jk] using D.jk_mem 3
 
+omit [Finite H] in
 theorem NormData.noncomm (D : NormData a b r₁ r₂ w) :
     ∃ x ∈ R a b, r₁ * (w * x * w⁻¹) * r₁⁻¹ ≠ w * (r₁ * x * r₁⁻¹) * w⁻¹ := by
   refine ⟨a, D.toE9Data.a_mem, ?_⟩

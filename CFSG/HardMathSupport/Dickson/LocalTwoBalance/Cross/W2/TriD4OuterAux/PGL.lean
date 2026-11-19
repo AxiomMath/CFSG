@@ -67,7 +67,7 @@ theorem pgl_normal_coprime_eq_bot (hK : PiField π p f K) (hq : ModThree π (p ^
     rw [hQdef]
     exact Subgroup.subgroupOfEquivOfLe hSP
   have hsimple : IsSimpleGroup ↥Q := by
-    haveI := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
+    have := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
     exact hQe.isSimpleGroup
   have h3Q : 3 ∣ Nat.card ↥Q :=
     KFacts.three_dvd_card_of_mulEquiv_projImage hQe (Sec4.cycThree_mem_slPi hπ)

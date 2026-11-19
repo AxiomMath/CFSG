@@ -73,7 +73,7 @@ theorem SecTwoHyp.constrained_setup (h : SecTwoHyp X t u) {Q : Subgroup X} (hQn 
   by_cases hzc : u ^ 2 ∈ center X
   · exact Or.inl hzc
   right
-  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup
   have hQS : Q ≤ S := hQ2.le_sylow_of_normal S
   have hzQ : u ^ 2 ∈ Q := hCQ (mem_centralizer_iff.mpr fun q hq =>
     (h.z_mem_center hS2 hRS (hQS hq)))

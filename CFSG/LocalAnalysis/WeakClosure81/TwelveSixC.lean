@@ -14,10 +14,11 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 
+omit [Finite G] in
 theorem Setting12Two.ker_eq_of_irreducible (hMult : SchurMultiplierInput) (h : Setting12Two A M n)
     (ρ : G →* LGL 2 V) (hq : RepQuad ρ A) (hirr : IsChiefFactor ρ ⊤ ⊥)
     (hnt : IsNoncentral ρ ⊤ ⊥) : ρ.ker = CFSG.Quasithin.kerIn M ⊤ := by
-  haveI : ρ.ker.Normal := MonoidHom.normal_ker ρ
+  have : ρ.ker.Normal := MonoidHom.normal_ker ρ
   have hCK : ρ.ker ≤ CFSG.Quasithin.kerIn M ⊤ := h.ker_le_of_irreducible ρ hirr hnt
   have hCM : ρ.ker ≤ M := hCK.trans CFSG.Quasithin.kerIn_le
   have h' : Setting12Two (A.map (QuotientGroup.mk' ρ.ker))
@@ -38,6 +39,7 @@ theorem Setting12Two.ker_eq_of_irreducible (hMult : SchurMultiplierInput) (h : S
     rwa [QuotientGroup.ker_mk'] at hker
   exact le_antisymm hCK hle
 
+omit [Finite G] in
 theorem Setting12Two.trivial_on_chief (hMult : SchurMultiplierInput) (h : Setting12Two A M n)
     (ρ : G →* LGL 2 V) (hq : RepQuad ρ A) {W₁ W₂ : Submodule (ZMod 2) V}
     (hcf : IsChiefFactor ρ W₁ W₂) :
@@ -45,7 +47,7 @@ theorem Setting12Two.trivial_on_chief (hMult : SchurMultiplierInput) (h : Settin
   classical
   intro x hx w hw
   by_cases hnc : IsNoncentral ρ W₁ W₂
-  · haveI : Finite (SecMod W₁ W₂) :=
+  · have : Finite (SecMod W₁ W₂) :=
       Finite.of_surjective (Submodule.Quotient.mk (p := W₂.comap W₁.subtype))
         (Submodule.Quotient.mk_surjective (p := W₂.comap W₁.subtype))
     have hσker : (sectionRep ρ W₁ W₂ hcf.2.1 hcf.2.2.1).ker = CFSG.Quasithin.kerIn M ⊤ :=
@@ -61,10 +63,11 @@ theorem Setting12Two.trivial_on_chief (hMult : SchurMultiplierInput) (h : Settin
     unfold IsNoncentral
     exact ⟨x, w, hw, hcontra⟩
 
+omit [Finite G] in
 theorem Setting12Two.isPGroup_map_ker (hMult : SchurMultiplierInput) (h : Setting12Two A M n)
     (ρ : G →* LGL 2 V) (hq : RepQuad ρ A) :
     IsPGroup 2 ((CFSG.Quasithin.kerIn M ⊤).map ρ) :=
   isPGroup_map_of_trivial_on_chief ρ (CFSG.Quasithin.kerIn M ⊤)
-    (fun W₁ W₂ hcf x hx w hw => Setting12Two.trivial_on_chief hMult h ρ hq hcf x hx w hw)
+    (fun _W₁ _W₂ hcf x hx w hw => Setting12Two.trivial_on_chief hMult h ρ hq hcf x hx w hw)
 
 end CFSG.LocalAnalysis.WeakClosure81

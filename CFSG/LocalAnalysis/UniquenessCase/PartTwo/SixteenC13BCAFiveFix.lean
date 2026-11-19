@@ -63,8 +63,8 @@ theorem s16c13bcA_exists_fixed_odd_orbit {W : Type} [CommGroup W] [Finite W]
     (hT : ∀ w₁ w₂ : W, w₁ ≠ 1 → w₂ ≠ 1 → Odd (Nat.card (MulAction.orbit ↥H w₁)) →
       Odd (Nat.card (MulAction.orbit ↥H w₂)) → w₂ ∈ MulAction.orbit ↥H w₁) :
     ∃ n : W, n ≠ 1 ∧ (∀ p ∈ P, p n = n) ∧ Odd (Nat.card (MulAction.orbit ↥H n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥H :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥H :=
     Finite.of_injective (fun x : ↥H => (x : MulAut W)) (fun _ _ h => Subtype.ext h)
   obtain ⟨w₀, hw₀⟩ := hW1
   have hord : orderOf w₀ = 2 := orderOf_eq_prime (hW w₀) hw₀
@@ -75,9 +75,9 @@ theorem s16c13bcA_exists_fixed_odd_orbit {W : Type} [CommGroup W] [Finite W]
   have hfix1 : (1 : W) ∈ MulAction.fixedPoints ↥S W := by
     rw [MulAction.mem_fixedPoints]
     intro g
-    simpa [Subgroup.smul_def, MulAut.smul_def] using map_one (g : MulAut W)
+    simp
   obtain ⟨n, hnfix, h1n⟩ :=
-    S.isPGroup'.exists_fixed_point_of_prime_dvd_card_of_fixed_point (α := W) h2dvd hfix1
+    S.isPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point (α := W) h2dvd hfix1
   have hn_ne : n ≠ 1 := Ne.symm h1n
   have hSle : (S : Subgroup ↥H) ≤ MulAction.stabilizer ↥H n := by
     intro s hs
@@ -115,7 +115,7 @@ theorem s16c13bcA_exists_fixed_odd_orbit {W : Type} [CommGroup W] [Finite W]
     rw [congrArg (fun s : Set W => Nat.card s) hRorb]
     exact hnodd
   have hRnot : ¬ 2 ∣ Nat.card R := hRodd.not_two_dvd_nat
-  haveI : Finite R :=
+  have : Finite R :=
     Finite.of_injective (fun x : R => (x : W)) (fun _ _ h => Subtype.ext h)
   have hSinv : ∀ g : ↥P, ∀ x ∈ R, g • x ∈ R := by
     intro g x hx

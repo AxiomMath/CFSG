@@ -51,6 +51,7 @@ variable {G : Type*} [Group G] [Finite G] {n : ℕ} {v₁ v₂ v₃ s t : G}
 
 include hF
 
+omit [Finite G] in
 theorem V_isPGroup (hPs : IsSylowOf 2 hF.P ⊤) : IsPGroup 2 hF.V :=
   hPs.isPGroup.to_le hF.V_le_P
 
@@ -59,7 +60,7 @@ theorem pow_two_pow_eq_one (hn : 1 ≤ n) {v : G} (hv : v ∈ hF.V) : v ^ 2 ^ n 
   obtain ⟨p, rfl⟩ := hF.exists_vec_of_mem_V hn hv
   have h0 : (2 : ZMod (2 ^ n)) ^ n = 0 := by exact_mod_cast ZMod.natCast_self (2 ^ n)
   rw [← hF.vec_nsmul]
-  convert hF.vec_zero
+  convert CFSG.OddStandard.ONan76.AlperinFrame.vec_zero
   ext <;> simp [nsmul_eq_mul, h0]
 
 omit [Finite G] in

@@ -36,6 +36,7 @@ theorem coe_perpLeviEquivLam (y : ↥(EPilot.perpLevi .E7 K)) :
 theorem coe_lamEquivLamW (l : ↥(Lam K)) :
     ((lamEquivLamW K l : ↥(LamW K)) : (Module.End K (W K))ˣ) = resV0 K l := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem coe_lamWEquivEAut0 (g : ↥(LamW K)) :
     ((lamWEquivEAut0 K g : ↥(EAut0 K)) : W K ≃ₗ[K] W K) = vAut0 K (g : (Module.End K (W K))ˣ) :=
   rfl

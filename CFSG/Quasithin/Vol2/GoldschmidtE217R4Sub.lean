@@ -30,6 +30,7 @@ theorem e217ConclOne_of_isSolvable_le {H T M V : Subgroup G} (h : E2.Hyp28 H T M
   rw [hY]
   exact ⟨E2.dpP H V U z, d.PR.trans inf_le_left, hIP, hext, φ, hφs, hφk⟩
 
+omit [Finite G] in
 theorem charTwo_of_le {H H₀ : Subgroup G} (hchar : CharTwo H) (hQ : pCoreOf 2 H ≤ H₀)
     (hH₀ : H₀ ≤ H) : CharTwo H₀ := CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hchar hH₀ hQ
 

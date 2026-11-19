@@ -28,7 +28,7 @@ theorem kd147c_layer_ne_bot {K : Type} [Field K] [Finite K] (hpK : ¬ 3 ∣ Nat.
     GLAPLayer 3 (Subgroup.centralizer ({z} : Set S)) ≠ ⊥ := by
   have hx : orderOf (e.symm z) = 3 := by rw [MulEquiv.orderOf_eq]; exact hz
   obtain ⟨R, hR, h3⟩ := kd147c_component hpK hq4 (e.symm z) hx
-  haveI : Finite ↥(adjointGroup Tag.G2 K) := Finite.of_equiv S e.symm.toEquiv
+  have : Finite ↥(adjointGroup Tag.G2 K) := Finite.of_equiv S e.symm.toEquiv
   have hker : Nat.Coprime 3 (Nat.card ↥(Subgroup.centralizer ({e.symm z} : Set _) ⊓
       (e : ↥(adjointGroup Tag.G2 K) →* S).ker)) := by
     rw [(MonoidHom.ker_eq_bot_iff _).2 e.injective, inf_bot_eq, Subgroup.card_bot]
@@ -71,7 +71,7 @@ theorem kd147c_g2_of_catalog {T : Type} [Group T] (h : catalogIs T (onLie isG2Bi
 theorem kd147_clause_c (S : Type) [Group S] [Finite S] (hS : catalogIs S (onLie isG2Big)) :
     ∀ z : S, orderOf z = 3 → GLAPLayer 3 (Subgroup.centralizer ({z} : Set S)) ≠ ⊥ := by
   obtain ⟨q, hv, h2q, hq3, ⟨eS⟩⟩ := kd147c_g2_of_catalog hS
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨eQ⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv

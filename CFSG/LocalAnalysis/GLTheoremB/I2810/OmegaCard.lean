@@ -18,6 +18,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.OmegaCard
 
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem quot_iso_model {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMod 2) → ZMod 2)
     [IsSimpleGroup ↥(StatedOmega Q)] (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (hΩ : OmegaModelWith Q W K a U₁ U₂) :
@@ -30,15 +31,16 @@ theorem quot_iso_model {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZM
     exact ⟨toBar W K k, by rw [← MonoidHom.comp_apply, hθb]⟩
   exact OmegaAux.quasisimple_quot_iso hR.quasi θb hsurj
 
+omit [Finite X] in
 theorem isOmegaTwo_quot (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X} {n : ℕ} (hn : 2 ≤ n)
     (hΩ : OmegaAny W K a U₁ U₂ n) :
     ∃ ε : Bool, IsOmegaTwo ε (n + 1) (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) := by
   rcases hΩ with hp | hmi
-  · haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus (n + 1) (ZMod 2))) :=
+  · have : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus (n + 1) (ZMod 2))) :=
       CFSG.ComponentClassification.RankTwoClassical.ORigid.isSimpleGroup_statedOmega_quadPlus_of_three_le
         (K := ZMod 2) (k := n + 1) (by omega)
     exact ⟨true, quot_iso_model _ hR hp⟩
-  · haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1)) :=
+  · have : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1)) :=
       CFSG.ComponentClassification.RankTwoClassical.ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le
         (K := ZMod 2) (b := 1) (c := 1) (m := n + 1) (by omega) (by decide)
     exact ⟨false, quot_iso_model _ hR hmi⟩

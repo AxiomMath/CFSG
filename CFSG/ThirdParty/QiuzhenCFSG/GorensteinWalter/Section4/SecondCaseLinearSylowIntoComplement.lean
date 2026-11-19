@@ -40,7 +40,7 @@ public theorem secondCase_linear_sylow_into_semidirect_complement
     · exact (Fact.out : Nat.Prime p).ne_one h1
     · exact hpne heq
   have hCindex : C.index = Nat.card N := by
-    have hcard := hcomp.card_mul
+    have hcard := hcomp.card_mul_card
     have hmul := C.card_mul_index
     apply Nat.eq_of_mul_eq_mul_left (Nat.card_pos (α := C))
     calc
@@ -50,7 +50,7 @@ public theorem secondCase_linear_sylow_into_semidirect_complement
   let PC0 : Sylow p C := default
   let PC : Subgroup H := (PC0 : Subgroup C).map C.subtype
   have hPCp : IsPGroup p PC :=
-    (PC0.isPGroup').map C.subtype
+    (PC0.isPGroup).map C.subtype
   have hPCindex : ¬ p ∣ PC.index := by
     rw [show PC = (PC0 : Subgroup C).map C.subtype by rfl,
       Subgroup.index_map_of_injective

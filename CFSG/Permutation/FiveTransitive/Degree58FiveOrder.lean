@@ -27,7 +27,7 @@ private theorem sylow_card
   let _ : Fintype F := Fintype.ofFinite _
   obtain ⟨hF,hAlt⟩ := Degree58FiveSylowData.five_fixed_card_and_image P hcard h5 hnotAlt s hs S hS
   change Nat.card F = 8 at hF
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   have hfixed : Nat.card (fixedPoints Q X) = 8 := by rwa [← hfixeq]
   have hQcard := Degree58FiveGroupBound.card_le_3125 P hcard h5 hnotAlt Q hQ hfixed
@@ -51,7 +51,7 @@ private theorem sylow_card
     g.val ((Subgroup.orderOf_coe g).trans hg) hcomm
   have heq : Nat.card Q = Nat.card S := Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective
   rw [heq] at hle
-  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hepos : 1 ≤ e := by
     by_contra hn
     exact hS (by rw [he,show e=0 by omega,pow_zero])

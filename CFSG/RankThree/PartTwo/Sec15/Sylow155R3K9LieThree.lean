@@ -88,24 +88,24 @@ theorem isCyclic_sylow_quotient {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact
     (h : ∀ R : Sylow p G, IsCyclic R) {P : Subgroup G} (N : Subgroup P) [N.Normal] :
     ∀ R : Sylow p (P ⧸ N), IsCyclic R := fun R =>
   Quasithin.F134.isCyclic_of_isPGroup_of_surjective (f := QuotientGroup.mk' N)
-    (QuotientGroup.mk'_surjective N) (KFacts.isCyclic_sylow_subgroup P h) R R.isPGroup'
+    (QuotientGroup.mk'_surjective N) (KFacts.isCyclic_sylow_subgroup P h) R R.isPGroup
 
 theorem isEmpty_quotEquiv_j2_of_isCyclic_sylow_five
     (h5 : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup Blueprint.NativeSporadic.J2))
     {S : Type} [Group S] [Finite S] (hS : ∀ R : Sylow 5 S, IsCyclic R) (P : Subgroup S)
     (N : Subgroup P) [N.Normal] : IsEmpty (P ⧸ N ≃* Blueprint.NativeSporadic.J2) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine ⟨fun e => ?_⟩
-  haveI : Finite Blueprint.NativeSporadic.J2 := Finite.of_equiv _ e.toEquiv
+  have : Finite Blueprint.NativeSporadic.J2 := Finite.of_equiv _ e.toEquiv
   have hcyc : ∀ R : Sylow 5 Blueprint.NativeSporadic.J2, IsCyclic R := fun R =>
     Quasithin.F134.isCyclic_of_isPGroup_of_surjective (f := e.toMonoidHom) e.surjective
-      (isCyclic_sylow_quotient hS N) R R.isPGroup'
+      (isCyclic_sylow_quotient hS N) R R.isPGroup
   obtain ⟨T⟩ : Nonempty (Sylow 5 Blueprint.NativeSporadic.J2) := inferInstance
   exact absurd h5 (not_le.mpr (Nat.lt_succ_of_le
     (CFSG.AGLEmbedding.pRank_le_one_of_isCyclic_sylow (by norm_num) T (hcyc T))))
 
 private theorem card_projSL_two_three_one : Nat.card (projSL 2 (GaloisField 3 1)) = 12 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_congr (projSLEquivPSL (GaloisField 3 1)).toEquiv,
     CFSG.Glauberman.Dickson.MaxUp.card_psl2_galoisField (p := 3) (m := 1) (by norm_num)
       one_ne_zero]
@@ -113,8 +113,8 @@ private theorem card_projSL_two_three_one : Nat.card (projSL 2 (GaloisField 3 1)
 
 theorem isCyclic_sylow_five_projSL_two_three {e : ℕ} (he : 2 ≤ e) :
     ∀ R : Sylow 5 (projSL 2 (GaloisField 3 e)), IsCyclic R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hK : Nat.card (GaloisField 3 e) = 3 ^ e := GaloisField.card 3 e (by omega)
   have h7 : 7 ≤ Nat.card (GaloisField 3 e) := by
     rw [hK]
@@ -129,7 +129,7 @@ theorem isCyclic_sylow_five_projSL_two_three {e : ℕ} (he : 2 ≤ e) :
   intro R
   exact Quasithin.F134.isCyclic_of_isPGroup_of_surjective
     (f := (projSLEquivPSL (GaloisField 3 e)).symm.toMonoidHom)
-    (MulEquiv.surjective _) hPSL R R.isPGroup'
+    (MulEquiv.surjective _) hPSL R R.isPGroup
 
 theorem rowOfK9_projSL_two_three_of_pRank
     (h5 : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup Blueprint.NativeSporadic.J2))
@@ -138,11 +138,11 @@ theorem rowOfK9_projSL_two_three_of_pRank
   · obtain rfl : e = 1 := by omega
     exact rowOfK9_of_not_dvd (by rw [card_projSL_two_three_one]; norm_num)
   · intro S _ _ _ _ ⟨eS⟩ σ _ _ P _ _ _ N _
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-    haveI : Finite (projSL 2 (GaloisField 3 e)) := Finite.of_equiv S eS.toEquiv
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Finite (projSL 2 (GaloisField 3 e)) := Finite.of_equiv S eS.toEquiv
     have hS : ∀ R : Sylow 5 S, IsCyclic R := fun R =>
       Quasithin.F134.isCyclic_of_isPGroup_of_surjective (f := eS.symm.toMonoidHom)
-        eS.symm.surjective (isCyclic_sylow_five_projSL_two_three h2) R R.isPGroup'
+        eS.symm.surjective (isCyclic_sylow_five_projSL_two_three h2) R R.isPGroup
     exact isEmpty_quotEquiv_j2_of_isCyclic_sylow_five h5 hS P N
 
 theorem rowOfK9_projSL_two_three

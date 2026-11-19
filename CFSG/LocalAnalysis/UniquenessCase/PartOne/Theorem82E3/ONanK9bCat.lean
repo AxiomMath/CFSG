@@ -50,7 +50,7 @@ private theorem catalog_card_360_isAlt {S : Type} [Group S] [Finite S] [IsSimple
     ⟨n, hn, ⟨e⟩⟩ | ⟨t, n, p, f, ht, hp, hf, hmin, hmin0, hB, hadm, hcardLie, hmodel⟩ |
       ⟨p, f, hRee⟩ | ⟨p, f, hTits⟩ | ⟨s, ⟨e⟩⟩
   ·
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hcardAlt : Nat.card S = n.factorial / 2 := by
       rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     have h360 : n.factorial / 2 = 360 := by rw [← hcardAlt, hcard]
@@ -178,7 +178,7 @@ private theorem card_comap_centralizer_mk'_eq_9720
     [Finite Y] (e : Y ⧸ Subgroup.center Y ≃* CFSG.Blueprint.NativeSporadic.ON)
     {x : Y} (hx3 : orderOf x = 3) (hxZ : x ∉ Subgroup.center Y)
     (hZcard : Nat.card (Subgroup.center Y) = 3)
-    (hC0card : Nat.card (Subgroup.centralizer ({x} : Set Y)) = 3240) :
+    (_hC0card : Nat.card (Subgroup.centralizer ({x} : Set Y)) = 3240) :
     Nat.card (Subgroup.comap (QuotientGroup.mk' (Subgroup.center Y))
       (Subgroup.centralizer
         ({(QuotientGroup.mk' (Subgroup.center Y)) x} :
@@ -352,7 +352,7 @@ theorem K6_of_K2
   let Cstar : Subgroup Y := (Subgroup.centralizer ({π x'} : Set (Y ⧸ Z))).comap π
   have hCstarcard : Nat.card Cstar = 9720 :=
     card_comap_centralizer_mk'_eq_9720 e hx'3 hx'Z hZcard hC0card
-  letI : MulAction Cstar Y :=
+  let : MulAction Cstar Y :=
     MulAction.compHom Y ((ConjAct.toConjAct (G := Y)).toMonoidHom.comp Cstar.subtype)
   have hsmul : ∀ c : Cstar, c • x' = (c : Y) * x' * (c : Y)⁻¹ := fun c => rfl
   have hC0le : C0 ≤ Cstar := centralizer_le_comap_centralizer_mk'

@@ -15,59 +15,59 @@ open scoped commutatorElement
 theorem commutator_range_le_inner'
     {Ω R : Type} [Group Ω] [Group R] {L : Subgroup Ω}
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* R)
-    (hL : commutator ↥L = ⊤) {p : ℕ}
+    (_hL : commutator ↥L = ⊤) {p : ℕ}
     {I : Set (MulAut R)} {D : Subgroup (MulAut R)}
     (hDn : D.Normal) (hID : ∀ φ ∈ I, φ ^ p = 1 → φ ∈ D)
     (hodd : Odd ((MulAut.conj : R →* MulAut R).range.relIndex D))
     {B A T : Subgroup Ω} (hAelem : IsElemAbelian p A) (hT2 : IsPGroup 2 T)
     (hBN : B ≤ Subgroup.normalizer (L : Set Ω))
     (hAB : A ≤ B)
-    (hAI : ∀ a ha, ggLAut L θ ⟨a, hBN (hAB ha)⟩ ∈ I)
+    (hAI : ∀ _a ha, ggLAut L θ ⟨_a, hBN (hAB ha)⟩ ∈ I)
     (hTN : T ≤ Subgroup.normalizer (L : Set Ω))
     (hBT : B ≤ Subgroup.normalizer (T : Set Ω)) :
     ⁅((ggLAut L θ).comp (Subgroup.inclusion hTN)).range,
-      ((ggLAut L θ).comp (Subgroup.inclusion (fun a ha => hBN (hAB ha)))).range⁆ ≤
+      ((ggLAut L θ).comp (Subgroup.inclusion (fun _a ha => hBN (hAB ha)))).range⁆ ≤
       (MulAut.conj : R →* MulAut R).range := by
   rw [Subgroup.commutator_le]
-  rintro _ ⟨⟨t, ht⟩, rfl⟩ _ ⟨⟨a, haA⟩, rfl⟩
-  have hzT : ⁅(t : Ω), (a : Ω)⁆ ∈ T := by
-    have h1 : (a : Ω) * (t : Ω)⁻¹ * (a : Ω)⁻¹ ∈ T :=
+  rintro _ ⟨⟨t, ht⟩, rfl⟩ _ ⟨⟨_a, haA⟩, rfl⟩
+  have hzT : ⁅(t : Ω), (_a : Ω)⁆ ∈ T := by
+    have h1 : (_a : Ω) * (t : Ω)⁻¹ * (_a : Ω)⁻¹ ∈ T :=
       (Subgroup.mem_normalizer_iff.mp (hBT (hAB haA)) (t : Ω)⁻¹).mp (T.inv_mem ht)
-    have hz : ⁅(t : Ω), (a : Ω)⁆ = (t : Ω) * ((a : Ω) * (t : Ω)⁻¹ * (a : Ω)⁻¹) := by
+    have hz : ⁅(t : Ω), (_a : Ω)⁆ = (t : Ω) * ((_a : Ω) * (t : Ω)⁻¹ * (_a : Ω)⁻¹) := by
       rw [commutatorElement_def]; group
     rw [hz]
     exact T.mul_mem ht h1
-  have hzN : ⁅(t : Ω), (a : Ω)⁆ ∈ Subgroup.normalizer (L : Set Ω) := hTN hzT
+  have hzN : ⁅(t : Ω), (_a : Ω)⁆ ∈ Subgroup.normalizer (L : Set Ω) := hTN hzT
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hT2 ⟨_, hzT⟩
   rw [Subgroup.orderOf_mk] at hk
-  have hzpow : ⁅(t : Ω), (a : Ω)⁆ ^ 2 ^ k = 1 := by
+  have hzpow : ⁅(t : Ω), (_a : Ω)⁆ ^ 2 ^ k = 1 := by
     rw [← hk]
     exact pow_orderOf_eq_one _
-  have hzmap : ggLAut L θ ⟨⁅(t : Ω), (a : Ω)⁆, hzN⟩ =
-      ⁅ggLAut L θ ⟨(t : Ω), hTN ht⟩, ggLAut L θ ⟨(a : Ω), hBN (hAB haA)⟩⁆ := by
-    have h1 : (⟨⁅(t : Ω), (a : Ω)⁆, hzN⟩ : Subgroup.normalizer (L : Set Ω)) =
+  have hzmap : ggLAut L θ ⟨⁅(t : Ω), (_a : Ω)⁆, hzN⟩ =
+      ⁅ggLAut L θ ⟨(t : Ω), hTN ht⟩, ggLAut L θ ⟨(_a : Ω), hBN (hAB haA)⟩⁆ := by
+    have h1 : (⟨⁅(t : Ω), (_a : Ω)⁆, hzN⟩ : Subgroup.normalizer (L : Set Ω)) =
         ⁅(⟨(t : Ω), hTN ht⟩ : Subgroup.normalizer (L : Set Ω)),
-          (⟨(a : Ω), hBN (hAB haA)⟩ : Subgroup.normalizer (L : Set Ω))⁆ :=
+          (⟨(_a : Ω), hBN (hAB haA)⟩ : Subgroup.normalizer (L : Set Ω))⁆ :=
       Subtype.ext rfl
     rw [h1, map_commutatorElement]
-  have hgaD : ggLAut L θ ⟨(a : Ω), hBN (hAB haA)⟩ ∈ D := by
-    have hpowN : (⟨(a : Ω), hBN (hAB haA)⟩ : Subgroup.normalizer (L : Set Ω)) ^ p = 1 := by
+  have hgaD : ggLAut L θ ⟨(_a : Ω), hBN (hAB haA)⟩ ∈ D := by
+    have hpowN : (⟨(_a : Ω), hBN (hAB haA)⟩ : Subgroup.normalizer (L : Set Ω)) ^ p = 1 := by
       ext
-      simpa using hAelem.2 a haA
-    have hpow : (ggLAut L θ ⟨(a : Ω), hBN (hAB haA)⟩) ^ p = 1 := by
+      simpa using hAelem.2 _a haA
+    have hpow : (ggLAut L θ ⟨(_a : Ω), hBN (hAB haA)⟩) ^ p = 1 := by
       rw [← map_pow, hpowN, map_one]
-    exact hID _ (hAI a haA) hpow
+    exact hID _ (hAI _a haA) hpow
   have hDmem : ⁅ggLAut L θ ⟨(t : Ω), hTN ht⟩,
-      ggLAut L θ ⟨(a : Ω), hBN (hAB haA)⟩⁆ ∈ D := by
+      ggLAut L θ ⟨(_a : Ω), hBN (hAB haA)⟩⁆ ∈ D := by
     rw [commutatorElement_def]
     exact D.mul_mem (hDn.conj_mem _ hgaD _) (D.inv_mem hgaD)
-  have hzpowN : (⟨⁅(t : Ω), (a : Ω)⁆, hzN⟩ : Subgroup.normalizer (L : Set Ω)) ^ 2 ^ k = 1 := by
+  have hzpowN : (⟨⁅(t : Ω), (_a : Ω)⁆, hzN⟩ : Subgroup.normalizer (L : Set Ω)) ^ 2 ^ k = 1 := by
     ext
     simpa using hzpow
-  have hpow0 : (ggLAut L θ ⟨⁅(t : Ω), (a : Ω)⁆, hzN⟩) ^ 2 ^ k = 1 := by
+  have hpow0 : (ggLAut L θ ⟨⁅(t : Ω), (_a : Ω)⁆, hzN⟩) ^ 2 ^ k = 1 := by
     rw [← map_pow, hzpowN, map_one]
   have hpow : (⁅ggLAut L θ ⟨(t : Ω), hTN ht⟩,
-      ggLAut L θ ⟨(a : Ω), hBN (hAB haA)⟩⁆) ^ 2 ^ k = 1 := by
+      ggLAut L θ ⟨(_a : Ω), hBN (hAB haA)⟩⁆) ^ 2 ^ k = 1 := by
     rw [← hzmap]
     exact hpow0
   exact mem_range_conj_of_pow_two_pow hodd hDmem hpow
@@ -83,10 +83,10 @@ theorem u6_noAct_core
     (⁅T, B⁆ : Subgroup Ω) ≤ Subgroup.centralizer (L : Set Ω) := by
   obtain ⟨K', hKfield, hKfinite, hfield, θ, hmark⟩ :=
     u6Marking_holds Ω L K A d β n hSetup hU6 hnodd
-  letI := hKfield
-  letI := hKfinite
-  letI := hfield
-  letI : CharP K' 2 := hfield.charP
+  let := hKfield
+  let := hKfinite
+  let := hfield
+  let : CharP K' 2 := hfield.charP
   have hL : commutator ↥L = ⊤ := hSetup.qs.1
   have hpq : 3 ∣ 2 ^ n + 1 := by
     obtain ⟨k, rfl⟩ := hnodd
@@ -182,7 +182,7 @@ theorem u6_noAct_core
     simpa [T1, lamT, Ab, lam, lamA, lamB, R] using h
   have hRsimple_na := CFSG.LocalAnalysis.GLTheoremA.T156.Uni.simple_noncomm_proj
     (d := 6) (k := K') (g := n) hKcard (by norm_num) (by norm_num)
-  haveI : IsSimpleGroup R := hRsimple_na.1
+  have : IsSimpleGroup R := hRsimple_na.1
   have hRnc : ¬ IsMulCommutative R := by
     intro h
     obtain ⟨a, b, hab⟩ := hRsimple_na.2
@@ -227,7 +227,7 @@ theorem u6_noAct_core
         have h := map_commutatorElement lam
           (⟨t, hTN ht⟩ : Subgroup.normalizer (L : Set Ω))
           (⟨b, hBN hb⟩ : Subgroup.normalizer (L : Set Ω))
-        convert h using 3 <;> rfl
+        convert h using 3
       rw [h1]
       exact hcomm
     exact CFSG.StandardType.mem_centralizer_of_ggLAut_eq_one L θ hL hlz

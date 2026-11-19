@@ -38,7 +38,7 @@ theorem pRank_le_two_spor {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prim
     Open.pRank p (⊤ : Subgroup K) ≤ 2 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group s
   have f : K ≃* CFSG.Blueprint.NativeSporadic.Carrier s := e.trans b.symm
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) := Finite.of_equiv _ f.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) := Finite.of_equiv _ f.toEquiv
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt f]
   suffices hmid : SporMidAt (CFSG.Blueprint.NativeSporadic.Carrier s) p by
     rcases hmid with h3 | ⟨h4, hpair, -⟩
@@ -47,12 +47,12 @@ theorem pRank_le_two_spor {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prim
   rcases hs with hl | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
   · exact sporMidAt_of_offList (card_carrier_eq_sporOrd CFSG.Milestones.fam_m_finiteness) s p hp
       hp2 hl
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact KFactProofs.KlingenIdentSporAux.rankData_M22_three
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact KFactProofs.KlingenIdentSporAux.rankData_Fi24_seven
-  · haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-    haveI := CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
+  · have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    have := CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
     exact KFactProofs.KlingenIdentSporAux.rankData_M_thirteen (MulEquiv.refl _)
 
 private theorem weakCore_eq_top_of_equiv {K X : Type} [Group K] [Finite K] [Group X] [Finite X]
@@ -71,13 +71,13 @@ theorem weakCore_eq_top_spor
     (hs : P1ThreeSporList p s) (hJ3 : ¬ (s = .J3 ∧ p = 3)) (hM22 : ¬ (s = .M22 ∧ p = 3))
     (hFi : ¬ (s = .Fi24Prime ∧ p = 7)) (hM : ¬ (s = .M ∧ p = 13)) (T : Sylow p K) :
     GLBWeakCore p (T : Subgroup K) = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group s
   have e' : K ≃* CFSG.Blueprint.NativeSporadic.Carrier s := e.trans b.symm
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) := Finite.of_equiv _ e'.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) := Finite.of_equiv _ e'.toEquiv
   have hMs : s = .M → IsSimpleGroup K := by
     rintro rfl
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
       CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
     exact e'.isSimpleGroup
   rcases hs with ⟨rfl, hs⟩ | ⟨rfl, hs⟩ | ⟨rfl, hs⟩ | ⟨rfl, rfl⟩
@@ -113,7 +113,7 @@ theorem weakCore_eq_top_spor
         decide
       exact weakCore_eq_top_of_equiv e'
         (KFactProofs.KlingenIdentSporAux.genData_B_three hc).1 T
-    · haveI := hMs rfl
+    · have := hMs rfl
       obtain ⟨ε⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple e'
       obtain ⟨x, y, -, -, hxy, -⟩ :=
         CFSG.AGLEmbedding.Norton.MON11_13.hasNoncommPair_thirteen_of_mulEquiv_Gmat ε
@@ -122,8 +122,8 @@ theorem weakCore_eq_top_spor
           hxy (h.is_comm.comm x y)
       let e'' : K ⧸ Subgroup.center K ≃* CFSG.Blueprint.NativeSporadic.Carrier .M :=
         ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).trans e'
-      haveI : Nontrivial (CFSG.Blueprint.NativeSporadic.Carrier .M) := e'.injective.nontrivial
-      haveI : Nontrivial (K ⧸ Subgroup.center K) := e''.symm.injective.nontrivial
+      have : Nontrivial (CFSG.Blueprint.NativeSporadic.Carrier .M) := e'.injective.nontrivial
+      have : Nontrivial (K ⧸ Subgroup.center K) := e''.symm.injective.nontrivial
       exact KFactProofs.KlingenIdentSporAux.weakCore_eq_top_M_three e''
         (by rw [hZ]; exact IsPGroup.of_bot) T
     · exact (hM22 ⟨rfl, rfl⟩).elim
@@ -136,11 +136,11 @@ theorem weakCore_eq_top_spor
         KFactProofs.KlingenIdentSporAux.genData_HN_five.1 T
     · exact weakCore_eq_top_of_equiv e'
         KFactProofs.KlingenIdentSporAux.genData_B_five_of_scal.1 T
-    · haveI := hMs rfl
+    · have := hMs rfl
       exact (KFactProofs.KlingenIdentSporAux.genData_M_five e').1 T
   · rcases hs with rfl | rfl
     · exact (hFi ⟨rfl, rfl⟩).elim
-    · haveI := hMs rfl
+    · have := hMs rfl
       exact (KFactProofs.KlingenIdentSporAux.genData_M_seven e').1 T
   · exact (hM ⟨rfl, rfl⟩).elim
 

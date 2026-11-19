@@ -116,8 +116,8 @@ theorem le_centralizer_of_hyperplanes {p : ℕ} [Fact p.Prime] {E S P : Subgroup
       ∀ a ∈ S ⊓ centralizer (D : Set X), ∀ c ∈ P ⊓ centralizer (D : Set X), a * c = c * a) :
     S ≤ centralizer (P : Set X) := by
   classical
-  letI : MulDistribMulAction E S := Subgroup.conjMulDistribMulActionOfLeNormalizer E S hES
-  haveI : IsElementaryAbelian p E := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hE
+  let : MulDistribMulAction E S := Subgroup.conjMulDistribMulActionOfLeNormalizer E S hES
+  have : IsElementaryAbelian p E := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hE
   have hgen := CFSG.SolvableHall.coprime_hyperplane_generation (p := p) (A := E) (H := S) hS
   have hle : (⊤ : Subgroup S).map S.subtype ≤ centralizer (P : Set X) := by
     rw [← hgen]
@@ -158,7 +158,7 @@ namespace NineCore
 
 theorem normalizer_le_of_hyperplane (h : NineCore G M p Q H E k) {D : Subgroup G} (hDE : D ≤ E)
     (hcard : Nat.card E = p * Nat.card D) : normalizer (D : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨hk, hEQ, hE, hEc, hΓ⟩ := h.stdE
   have hk2 := h.k_two_le
   have hDc : Nat.card D = p ^ (k - 1) := by
@@ -184,10 +184,10 @@ theorem starImg_le_centralizer_pCore (h : NineCore G M p Q H E k) {S : Subgroup 
         Subgroup (↥H ⧸ primeComplementCore (G := ↥H) p)) : Set (↥H ⧸ primeComplementCore
           (G := ↥H) p)) := by
   classical
-  haveI hpf : Fact p.Prime := ⟨h.prime⟩
+  have hpf : Fact p.Prime := ⟨h.prime⟩
   have hp := h.prime
   set O : Subgroup ↥H := primeComplementCore (G := ↥H) p with hOdef
-  haveI hOn : O.Normal := primeComplementCore_normal p
+  have hOn : O.Normal := primeComplementCore_normal p
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
   set π : ↥H →* ↥H ⧸ O := QuotientGroup.mk' O with hπdef
   set Y' : Subgroup ↥H := (H ⊓ M).subgroupOf H with hY'
@@ -234,7 +234,7 @@ theorem starImg_le_centralizer_pCore (h : NineCore G M p Q H E k) {S : Subgroup 
   have hEsc : Nat.card Es = Nat.card E := by
     rw [hEs, card_map_mk_of_isPGroup hp O hO hEhp, hEhc]
   have hEel : IsElemAbelian p Es := (h.stdE.2.2.1.subgroupOf H).map π
-  haveI : Nontrivial Es := by
+  have : Nontrivial Es := by
     rw [← Finite.one_lt_card_iff_nontrivial, hEsc, h.stdE.2.2.2.1]
     exact one_lt_pow' hp.one_lt (by omega)
   have hEsY : Es ≤ Ys := by

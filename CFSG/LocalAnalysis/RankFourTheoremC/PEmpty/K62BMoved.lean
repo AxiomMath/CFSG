@@ -28,7 +28,7 @@ variable {P : Subgroup Y}
 
 theorem Cfg.le_card_movedOrbit (h : Cfg p P x z) {C : ComponentIndex Y} (hC : ¬ Fixed P C) :
     p ≤ Nat.card ↥(MulAction.orbit ↥P C) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨n, hn⟩ := h.isPGroup.index (MulAction.stabilizer ↥P C)
   have hidx : (MulAction.stabilizer ↥P C).index = Nat.card ↥(MulAction.orbit ↥P C) := by
     rw [MulAction.index_stabilizer, Nat.card_coe_set_eq]
@@ -67,6 +67,7 @@ noncomputable def movedFam (U : Subgroup Y) (i : MovedOrbit P C) : Subgroup Y :=
 
 variable {P C}
 
+omit [Finite Y] in
 theorem moved_mem_conjMap_iff {U : Subgroup Y} {a v : Y} :
     v ∈ U.map (MulAut.conj a).toMonoidHom ↔ ∃ u ∈ U, a * u * a⁻¹ = v := by
   simp [Subgroup.mem_map]
@@ -156,7 +157,7 @@ theorem mem_normalizer_iSup_movedFam {U : Subgroup Y}
   · intro he
     have := conj_mem_iSup_movedFam hTU ⟨g⁻¹, P.inv_mem hg⟩ he
     have e1 : g⁻¹ * (g * e * g⁻¹) * g⁻¹⁻¹ = e := by group
-    simp only [Subgroup.coe_inv] at this
+    simp only at this
     rw [e1] at this
     exact this
 
@@ -170,7 +171,7 @@ theorem Cfg.isCyclic_inf_of_moved (h : Cfg p P x z) (h64 : KFactCenterCyclicGeFi
     {C : ComponentIndex Y} (hC : ¬ Fixed P C) : IsCyclic ↥(P ⊓ C.1) := by
   by_contra hnc
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by have := h.five_le; omega
   obtain ⟨U, hUR, hTU, hUc, hUp, hUab⟩ :=
     CFSG.Goldschmidt.Sec82.exists_normal_plane_le_of_le (T := P ⊓ normalizer (C.1 : Set Y))
@@ -200,7 +201,7 @@ theorem Cfg.isCyclic_inf_of_moved (h : Cfg p P x z) (h64 : KFactCenterCyclicGeFi
     exact CFSG.Goldschmidt.Sec82.not_isCyclic_of_card_sq hp hUc hUp
       ((isCyclic_subgroupOf_iff hUC).1 hcyc)
   ·
-    letI : Fintype (MovedOrbit P C) := Fintype.ofFinite _
+    let : Fintype (MovedOrbit P C) := Fintype.ofFinite _
     have hUe' : ∀ i : MovedOrbit P C, IsElemAbelian p (movedFam P C U i) := fun i =>
       isElemAbelian_movedFam hUe i
     have hUle : ∀ i : MovedOrbit P C, movedFam P C U i ≤ (i.1 : ComponentIndex Y).1 :=

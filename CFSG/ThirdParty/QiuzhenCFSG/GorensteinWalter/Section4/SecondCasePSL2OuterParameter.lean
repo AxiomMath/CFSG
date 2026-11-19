@@ -54,7 +54,7 @@ public theorem secondCase_psl2_parameter_ge_two_of_aligned_not_le_component
   have hSEnc : ¬ IsCyclic SE :=
     secondCase_psl2_sylow_not_cyclic_of_component_le
       c w d K hK e d.E le_rfl SE
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp SE.isPGroup')
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card.mp SE.isPGroup)
   let A : Subgroup G := (SE : Subgroup d.E).map d.E.subtype
   have hAleS : A ≤ (c.S : Subgroup G) := by
     intro x hx

@@ -24,7 +24,7 @@ theorem aSet_aParam_nonempty [Finite W] {X : Subgroup (MulAut W)}
     have hmem : sSup {k : ℕ | 0 < k ∧ (E3.aSet k X).Nonempty} ∈
         {k : ℕ | 0 < k ∧ (E3.aSet k X).Nonempty} :=
       Nat.sSup_mem hne (E3.aSet_bddAbove X)
-    rw [E3.aParam, if_pos he]
+    rw [E3.aParam, ite_eq_left he]
     exact hmem.2
   · exact absurd h (lt_irrefl 0)
 

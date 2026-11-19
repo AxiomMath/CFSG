@@ -26,7 +26,7 @@ theorem nModel_mem_sylow (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G) (e : S ≃* Wr
 
 theorem nModel_pow_two_pow (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G) (e : S ≃* Wreath (2 ^ n))
     (w : Wreath (2 ^ n)) : ∃ k : ℕ, nModel n hn S e w ^ 2 ^ k = 1 := by
-  obtain ⟨k, hk⟩ := (centralizerSylow n hn S e).isPGroup' ⟨_, nModel_mem_sylow n hn S e w⟩
+  obtain ⟨k, hk⟩ := (centralizerSylow n hn S e).isPGroup ⟨_, nModel_mem_sylow n hn S e w⟩
   exact ⟨k, congrArg Subtype.val hk⟩
 
 theorem centralizerOddCoreMap_nModel_injective [Finite G] (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G)

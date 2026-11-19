@@ -48,6 +48,7 @@ theorem twoResidual_sup_of_isPGroup_two {J T : Subgroup G} (hT : IsPGroup 2 T)
     rw [hsplit, hpow, hk', mul_one]
     exact hl
 
+omit [Finite G] in
 private theorem le_normalizer_inf_of_le_of_normalizer {K M H T : Subgroup G}
     (hTH : T ≤ H) (hTM : T ≤ M) (hKH : H ≤ Subgroup.normalizer (K : Set G)) :
     T ≤ Subgroup.normalizer (K ⊓ M : Set G) := by
@@ -56,6 +57,7 @@ private theorem le_normalizer_inf_of_le_of_normalizer {K M H T : Subgroup G}
   have htM : t ∈ Subgroup.normalizer (M : Set G) := Subgroup.le_normalizer (hTM ht)
   exact Subgroup.inf_normalizer_le_normalizer_inf ⟨htK, htM⟩
 
+omit [Finite G] in
 private theorem range_actPerm_le_centralizer {K M J Y : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) {i j : Fin 11} (hij : i ≠ j)
     (hI : (((K ⊓ M).subgroupOf K).map
@@ -95,11 +97,12 @@ private theorem range_actPerm_le_centralizer {K M J Y : Subgroup G}
     exact h1.trans (normalizer_a11TwoSetStab_le hij)
   exact ⟨by simpa [ψ] using hle, by simpa [ψ] using hge⟩
 
+omit [Finite G] in
 private theorem le_ker_fold_of_maxInvariant {K M J R H Y : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) {i j : Fin 11} (hij : i ≠ j)
     (hI : (((K ⊓ M).subgroupOf K).map
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))).map e.toMonoidHom = a11TwoSetStab i j)
-    (hJ : J = K ⊓ M) (hR : IsMaxInvariantTwoIn J R H) (hRY : R ≤ Y)
+    (hJ : J = K ⊓ M) (hR : IsMaxInvariantTwoIn J R H) (_hRY : R ≤ Y)
     (hYN : Y ≤ Subgroup.normalizer (K : Set G))
     (hRK : R ≤ Subgroup.normalizer (K : Set G))
     {φ : ↥Y →* ↥(a11TwoSetStab i j)}
@@ -221,6 +224,7 @@ private theorem isPGroup_map_ker_fold {K J Y : Subgroup G}
   rw [Subgroup.coe_pow, ← hzy]
   exact hk
 
+omit [Finite G] in
 private theorem le_normalizer_map_ker {Y : Subgroup G} {i j : Fin 11}
     {φ : ↥Y →* ↥(a11TwoSetStab i j)} :
     Y ≤ Subgroup.normalizer (((φ.ker).map Y.subtype) : Set G) := by
@@ -332,11 +336,11 @@ private theorem ker_le_ker_of_not_three_dvd {Y X : Type} [Group Y] [Finite Y] [G
   exact Subgroup.mem_bot.mp hxmap
 
 private theorem map_ker_le_pCoreOf {Y X : Type} [Group Y] [Finite Y] [Group X]
-    {i j : Fin 11} {φ : Y →* ↥(a11TwoSetStab i j)} (hφ : Function.Surjective φ)
+    {i j : Fin 11} {φ : Y →* ↥(a11TwoSetStab i j)} (_hφ : Function.Surjective φ)
     (hker : IsPGroup 2 φ.ker) (π : Y →* X) :
     φ.ker.map π ≤ CFSG.Open.pCoreOf 2 π.range := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf 2 (Subgroup.map_le_range π φ.ker) ?_ (hker.map π)
   refine (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.map_le_range π φ.ker)).mpr ?_
   have htop : (⊤ : Subgroup Y) ≤ Subgroup.normalizer (φ.ker : Set Y) := by
@@ -351,7 +355,7 @@ private theorem isPGroup_map_comap_pCore {Y X : Type} [Group Y] [Finite Y] [Grou
     (hle : π.ker ≤ φ.ker) :
     IsPGroup 2 (((CFSG.pCore 2 ↥π.range).comap π.rangeRestrict).map φ) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [isPGroup_iff_pow_pow_eq_one]
   intro z
   obtain ⟨y, hy, hzy⟩ := Subgroup.mem_map.mp z.2
@@ -376,7 +380,7 @@ private theorem map_comap_pCore_eq_bot {Y X : Type} [Group Y] [Finite Y] [Group 
     (hφ : Function.Surjective φ) {π : Y →* X} (hle : π.ker ≤ φ.ker) :
     ((CFSG.pCore 2 ↥π.range).comap π.rangeRestrict).map φ = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup Y := (CFSG.pCore 2 ↥π.range).comap π.rangeRestrict
   have hNnormal : N.Normal :=
     (CFSG.pCore_normal (p := 2) (G := ↥π.range)).comap π.rangeRestrict
@@ -410,7 +414,7 @@ private theorem pCoreOf_le_map_ker {Y X : Type} [Group Y] [Finite Y] [Group X]
     (hφ : Function.Surjective φ) {π : Y →* X} (hle : π.ker ≤ φ.ker) :
     CFSG.Open.pCoreOf 2 π.range ≤ φ.ker.map π := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let πr : Y →* ↥π.range := π.rangeRestrict
   let N : Subgroup Y := (CFSG.pCore 2 ↥π.range).comap πr
   have hNbot : N.map φ = ⊥ := by
@@ -439,7 +443,7 @@ theorem exists_quotient_pCore_two_mulEquiv_perm_nine {Y X : Type} [Group Y] [Fin
     π.ker ≤ φ.ker ∧ CFSG.Open.pCoreOf 2 π.range = φ.ker.map π ∧
       Nonempty (↥π.range ⧸ CFSG.pCore 2 ↥π.range ≃* Equiv.Perm (Fin 9)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : π.ker ≤ φ.ker := ker_le_ker_of_not_three_dvd hij hφ hπ
   have hmap_le : φ.ker.map π ≤ CFSG.Open.pCoreOf 2 π.range :=
     map_ker_le_pCoreOf hφ hker π
@@ -482,6 +486,7 @@ theorem exists_quotient_pCore_two_mulEquiv_perm_nine {Y X : Type} [Group Y] [Fin
   exact ⟨hle, hO2, ⟨(QuotientGroup.quotientMulEquivOfEq hfkercore.symm).trans
     ((QuotientGroup.quotientKerEquivOfSurjective f hf).trans e9)⟩⟩
 
+omit [Finite G] in
 private theorem not_three_dvd_card_ker_mk'_comp {M Y : Subgroup G} (hYM : Y ≤ M)
     {O : Subgroup ↥M} [O.Normal] (hO3 : ¬ 3 ∣ Nat.card O) :
     ¬ 3 ∣ Nat.card ((QuotientGroup.mk' O).comp (Subgroup.inclusion hYM)).ker := by
@@ -516,7 +521,7 @@ private theorem twoResidual_range_mk'_comp {M Y : Subgroup G} (hYM : Y ≤ M) :
         (((QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥M)).comp (Subgroup.inclusion hYM)).range) =
       ((CFSG.Quasithin.twoResidual Y).subgroupOf M).map
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥M)) := by
-  haveI : (CFSG.pPrimeCore 3 ↥M).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore 3 ↥M).Normal := CFSG.pPrimeCore_normal
   let π : ↥M →* (↥M ⧸ CFSG.pPrimeCore 3 ↥M) := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥M)
   let πY : ↥Y →* (↥M ⧸ CFSG.pPrimeCore 3 ↥M) := π.comp (Subgroup.inclusion hYM)
   have h1 := CFSG.Quasithin.E1.map_twoResidual πY (⊤ : Subgroup ↥Y)
@@ -549,6 +554,7 @@ private theorem isSylowOf_map_mk'_of_sylow {M T : Subgroup G} (O : Subgroup ↥M
     CFSG.RankThree.PartOne.Sec1511.isSylowOf_map_mk' (p := 2) (O := O) h1
   exact CFSG.ABGLocalTools.isSylowOf_iff.mpr h2
 
+omit [Finite G] in
 private theorem image_normalizer_le_normalizer_twoResidual {M H Y : Subgroup G}
     (O : Subgroup ↥M) [O.Normal] (π : ↥M →* (↥M ⧸ O))
     (Hs : Subgroup (↥M ⧸ O)) (hYM : Y ≤ M)
@@ -576,7 +582,7 @@ private theorem exists_maxInvariantTwoIn_sylow {M H E Q : Subgroup G}
       CFSG.ABGLocalTools.IsSylowOf 2 T (H ⊓ M) ∧ R ≤ T ∧
       CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   let J : Subgroup G := K ⊓ M
   obtain ⟨R, -, hR⟩ :=
@@ -608,8 +614,8 @@ private theorem exists_quotient_data {M H E Q R T : Subgroup G}
         ((CFSG.Quasithin.twoResidual ((kSub 3 M H ⊓ M) ⊔ T)).subgroupOf M).map
           (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥M)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pPrimeCore 3 ↥M).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pPrimeCore 3 ↥M).Normal := CFSG.pPrimeCore_normal
   let K : Subgroup G := kSub 3 M H
   let J : Subgroup G := K ⊓ M
   let Y : Subgroup G := J ⊔ T
@@ -662,8 +668,8 @@ theorem S14Choice.exists_sevenThreeData {M H E Q : Subgroup G}
         Subgroup.normalizer (CFSG.Quasithin.twoResidual Hs :
           Set (↥M ⧸ CFSG.pPrimeCore 3 ↥M)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pPrimeCore 3 ↥M).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pPrimeCore 3 ↥M).Normal := CFSG.pPrimeCore_normal
   let K : Subgroup G := kSub 3 M H
   let J : Subgroup G := K ⊓ M
   let O : Subgroup ↥M := CFSG.pPrimeCore 3 ↥M

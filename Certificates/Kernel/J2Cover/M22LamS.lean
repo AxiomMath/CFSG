@@ -150,9 +150,7 @@ theorem stL_bit {i p : Nat} (q : Nat) (hi : i < 4725) (hp : p < 128) :
   have hh := mtK_lt (itK (pg 13 (mask 13) ACP i)) (btK p)
   unfold stL
   rw [strictN_lam]
-  beta_reduce
   rw [hS, lane_lo _ hsi, strictN_lam]
-  beta_reduce
   rw [lt_spec hsi hp, lane_lo _ hh, testBit_nxor, testBit_nxor, lane_hi _ hsi, lane_hi _ hh,
     testBit_fld1]
   have e : Nat.add (Nat.shiftLeft (mtK (itK (pg 13 (mask 13) ACP i)) (btK p)) (nat_lit 7))

@@ -241,7 +241,7 @@ theorem le_M_of_le_pPrimeCoreOf (h : Sec17Std G A c L Y₀) (h166 : Item166 A (l
   have hT'syl : CFSG.ABGLocalTools.IsSylowOf 2 T' E := ⟨T, rfl⟩
   have hT'E : T' ≤ E := Subgroup.map_subtype_le _
   have hT'Q : T' ∈ scriptQ A (lB A) := mem_scriptQ_of_le hEQ hT'E hTA
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map _
   have hNT : delta A (lB A) (Subgroup.normalizer (T' : Set G)) ≤ M :=
     hY3 _ (Proof17Res12.delta_normalizer_mem_scriptY3 h hT'Q hT'2 hT1 hT'E
       (Proof17Res12.ne_top_of_not_three_dvd h

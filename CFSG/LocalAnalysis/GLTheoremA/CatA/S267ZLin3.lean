@@ -35,10 +35,12 @@ theorem mem_range_conj_of_commute_lang {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
   rw [← mul_conj_mul_inv, hg, map_mul, map_mul, map_inv]
   group
 
+omit [Finite K] in
 theorem map_range_slC : (slC (K := K)).range.map (descendAut 3 K) = linearAutGroup 3 K := by
   rw [← MonoidHom.range_comp, linearAutGroup_eq_range]
   congr 1
 
+omit [Finite K] in
 theorem card_inf_range_slC (E : Subgroup (MulAut (SpecialLinearGroup (Fin 3) K))) :
     Nat.card ↥(E ⊓ (slC (K := K)).range) =
       Nat.card ↥(E.map (descendAut 3 K) ⊓ linearAutGroup 3 K) := by
@@ -66,7 +68,7 @@ theorem exists_lang_form {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) [CharP 
     (haD : descendAut 3 K a ∉ linearAutGroup 3 K) :
     ∃ (B : GL (Fin 3) K) (σ : K ≃+* K), orderOf σ = 3 ∧ a = slC B * slF σ * (slC B)⁻¹ ∧
       3 ∣ f ∧ Nat.card (semilinearFixedSubfield σ) = ℓ ^ (f / 3) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hā1 : descendAut 3 K a ≠ 1 := fun h => haD (h ▸ (linearAutGroup 3 K).one_mem)
   have hā3 : descendAut 3 K a ^ 3 = 1 := by rw [← map_pow, ha3, map_one]
   have hāp : orderOf (descendAut 3 K a) = 3 := orderOf_eq_prime hā3 hā1
@@ -107,7 +109,7 @@ theorem dvd_card_sub_one_of_cube {ℓ f : ℕ} (hK : Nat.card K = ℓ ^ f) (hpf 
 theorem z3Model_sl3 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) [CharP K ℓ] (hK : Nat.card K = ℓ ^ f)
     (hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3) : Z3Model 3 (SpecialLinearGroup (Fin 3) K) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3K0 : ((3 : ℕ) : K) ≠ 0 := by
     intro h
     rw [CharP.cast_eq_zero_iff K ℓ] at h
@@ -228,6 +230,7 @@ theorem z3Model_sl3 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) [CharP K ℓ
     rw [this, Subgroup.map_id]
   rwa [hE''] at h2
 
+omit [Finite K] in
 theorem mem_zpowers_of_scalar {z g : SpecialLinearGroup (Fin 3) K} {c : K}
     (hc : (z : Matrix (Fin 3) (Fin 3) K) = scalar (Fin 3) c) (hcp : IsPrimitiveRoot c 3)
     (hg : g ∈ Subgroup.center (SpecialLinearGroup (Fin 3) K)) : g ∈ Subgroup.zpowers z := by
@@ -244,7 +247,7 @@ theorem exists_equiv_sl3 {F : Type} [Field F] [Finite F] (hF2 : Nat.card F ≠ 2
     (e : M ⧸ Subgroup.center M ≃* projectiveSL 3 F) :
     Nonempty (M ≃* SpecialLinearGroup (Fin 3) F) ∧ IsPGroup 3 (Subgroup.center M) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρC : SpecialLinearGroup (Fin 3) F →* M ⧸ Subgroup.center M :=
     e.symm.toMonoidHom.comp (proj 3 F) with hρC
   have hC : Function.Surjective ρC := e.symm.surjective.comp (proj_surjective 3 F)
@@ -303,8 +306,8 @@ theorem exists_equiv_sl3 {F : Type} [Field F] [Finite F] (hF2 : Nat.card F ≠ 2
 
 theorem z3LinBranch_holds : Z3LinBranch := by
   intro p Q hp hp2 hQ2 hQp M _ _ hM hO hZ hcat
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨i, hi, ⟨e₀⟩⟩ := hcat
   rcases i with _ | _ | ⟨⟨d, hv⟩⟩ | _
   · exact absurd hi id

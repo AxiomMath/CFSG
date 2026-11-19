@@ -26,7 +26,7 @@ theorem hinner_su4 {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K) (
     ∀ E : Subgroup (primeFormP h (idGram K 4)), IsElemAbelian 3 E → Nat.card E = 27 →
       HyperGen 3 (⊤ : Subgroup (primeFormP h (idGram K 4))) E := by
   intro E hE hc
-  haveI := h.finite
+  have := h.finite
   have hne : ¬ (4 = 3 ∧ 2 ^ f = 2) := by omega
   let ψ : primeFormP h (idGram K 4) ≃* StatedProj (StatedSU 4 (2 ^ f) K) :=
     (Classical.choice (unitary_prime_form_full_semilinear_realization h
@@ -55,9 +55,9 @@ theorem hinner_su4 {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K) (
 
 theorem seitz27_su4 {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K) (hf : 4 ≤ f) :
     Seitz27 (primeFormP h (idGram K 4)) := by
-  haveI := h.finite
+  have := h.finite
   have hne : ¬ (4 = 3 ∧ 2 ^ f = 2) := by omega
-  haveI : IsSimpleGroup (primeFormP h (idGram K 4)) :=
+  have : IsSimpleGroup (primeFormP h (idGram K 4)) :=
     CFSG.RankThree.Classical.isSimpleGroup_primeFormP_one h (by norm_num) hne
   have hnab : ∃ a b : primeFormP h (idGram K 4), a * b ≠ b * a := by
     have hnc := CFSG.RankThree.Classical.not_commute_primeFormP_one h (by norm_num) hne

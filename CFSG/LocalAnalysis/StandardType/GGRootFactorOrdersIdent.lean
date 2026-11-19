@@ -80,7 +80,7 @@ private lemma toNat_two (q : ℕ) : (((q : ℤ) ^ 2 - (-1 : ℤ) ^ 2).toNat) = q
 private lemma add_one_dvd_sq_sub_one (q : ℕ) : q + 1 ∣ q ^ 2 - 1 :=
   ⟨q - 1, by rw [← one_pow 2, Nat.sq_sub_sq, one_pow]⟩
 
-private lemma two_pow_dvd_ordA {k f : ℕ} (hk : 0 < k) (hf : 0 < f) :
+private lemma two_pow_dvd_ordA {k f : ℕ} (hk : 0 < k) (_hf : 0 < f) :
     2 ^ (f * (k * (k + 1) / 2)) ∣ ordA k (2 ^ f) := by
   unfold ordA
   have hmem : 2 ∈ Finset.Icc 2 (k + 1) := by
@@ -94,7 +94,7 @@ private lemma two_pow_dvd_ordA {k f : ℕ} (hk : 0 < k) (hf : 0 < f) :
   rw [show (2 ^ f) ^ (k * (k + 1) / 2) = 2 ^ (f * (k * (k + 1) / 2)) by rw [← pow_mul]]
   exact dvd_mul_right _ _
 
-private lemma two_pow_dvd_ordTwistedA {k f : ℕ} (hk : 0 < k) (hf : 0 < f) :
+private lemma two_pow_dvd_ordTwistedA {k f : ℕ} (hk : 0 < k) (_hf : 0 < f) :
     2 ^ (f * (k * (k + 1) / 2)) ∣ ordTwistedA k (2 ^ f) := by
   unfold ordTwistedA
   have hmem : 2 ∈ Finset.Icc 2 (k + 1) := by
@@ -661,7 +661,7 @@ private lemma ordTwistedD_eq_60 {k f : ℕ} (h : ordTwistedD k (2 ^ f) = 60) :
       have h3 : f * 1 ≤ f * ((k + 2) * ((k + 2) - 1)) := Nat.mul_le_mul_left f he
       omega
     revert h
-    interval_cases k <;> interval_cases f <;> first | omega | decide
+    interval_cases k <;> interval_cases f <;> first | omega
 
 private lemma ordTwistedD_ne_360 {k f : ℕ} (h : ordTwistedD k (2 ^ f) = 360) : False := by
   have hf : 0 < f := by
@@ -816,8 +816,8 @@ theorem ggRootFactorOrders_two_le_count_sixty {t : CFSG.Open.StatedLieTag} {n f 
       simpa using List.count_le_length (a := 60) (l := [ordTwistedA (n - 3) (2 ^ f)])
     omega
   | PSp =>
-    simp only [ggRootFactorOrders, List.mem_cons, List.mem_singleton, List.not_mem_nil,
-      or_false, false_or] at ho
+    simp only [ggRootFactorOrders, List.mem_cons, List.not_mem_nil,
+      or_false] at ho
     split_ifs at ho with hn2
     · rcases ho with rfl | rfl
       · have hlen : [ggSpLayerOrd (n - 1) (2 ^ f)].count 60 ≤ 1 := by
@@ -836,7 +836,7 @@ theorem ggRootFactorOrders_two_le_count_sixty {t : CFSG.Open.StatedLieTag} {n f 
           split_ifs at h <;> omega
         have hb : ggSpLayerOrd (n - 2) (2 ^ f) = 60 := by
           by_contra hb
-          simp [List.count_cons, ha, hb] at h
+          simp [ha, hb] at h
         obtain ⟨hm, hf⟩ := ggSpLayerOrd_eq_60 hb
         obtain ⟨-, hf2⟩ := ordA_eq_60 ha
         left
@@ -849,7 +849,7 @@ theorem ggRootFactorOrders_two_le_count_sixty {t : CFSG.Open.StatedLieTag} {n f 
       subst o
       have ha : ordA 1 (2 ^ f) = 60 := by
         by_contra ha
-        simp [List.count_cons, ha] at h
+        simp [ha] at h
       obtain ⟨-, hf⟩ := ordA_eq_60 ha
       right
       exact ⟨rfl, hn4, hf⟩
@@ -861,7 +861,7 @@ theorem ggRootFactorOrders_two_le_count_sixty {t : CFSG.Open.StatedLieTag} {n f 
         split_ifs at h <;> omega
       have hb : ordD (n - 2) (2 ^ f) = 60 := by
         by_contra hb
-        simp [List.count_cons, ha, hb] at h
+        simp [ha, hb] at h
       obtain ⟨-, hf⟩ := ordA_eq_60 ha
       subst hf
       exact (ordD_ne_60 hb).elim
@@ -874,7 +874,7 @@ theorem ggRootFactorOrders_two_le_count_sixty {t : CFSG.Open.StatedLieTag} {n f 
       split_ifs at h <;> omega
     have hb : ordTwistedD (n - 2) (2 ^ f) = 60 := by
       by_contra hb
-      simp [List.count_cons, ha, hb] at h
+      simp [ha, hb] at h
     obtain ⟨-, hf⟩ := ordA_eq_60 ha
     subst hf
     obtain ⟨-, hf'⟩ := ordTwistedD_eq_60 hb
@@ -931,8 +931,8 @@ theorem ggRootFactorOrders_mem_360 {t : CFSG.Open.StatedLieTag} {n f : ℕ} {o :
     simp only [List.mem_singleton] at h
     exact (ordTwistedA_ne_360 h.symm).elim
   | PSp =>
-    simp only [ggRootFactorOrders, List.mem_cons, List.mem_singleton, List.not_mem_nil,
-      or_false, false_or] at ho
+    simp only [ggRootFactorOrders, List.mem_cons, List.not_mem_nil,
+      or_false] at ho
     split_ifs at ho with hn2
     · rcases ho with rfl | rfl
       · simp only [List.mem_singleton] at h
@@ -944,8 +944,7 @@ theorem ggRootFactorOrders_mem_360 {t : CFSG.Open.StatedLieTag} {n f : ℕ} {o :
       · simp only [List.mem_singleton] at h
         obtain ⟨hm, hf⟩ := ggSpLayerOrd_eq_360 h.symm
         exact ⟨rfl, by omega, hf⟩
-      · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-          false_or] at h
+      · simp only [List.mem_cons, List.not_mem_nil, or_false] at h
         rcases h with h | h
         · exact (ordA_ne_360 h.symm).elim
         · obtain ⟨hm, hf⟩ := ggSpLayerOrd_eq_360 h.symm
@@ -956,24 +955,21 @@ theorem ggRootFactorOrders_mem_360 {t : CFSG.Open.StatedLieTag} {n f : ℕ} {o :
     split_ifs at ho with hn4
     · simp only [List.mem_singleton] at ho
       subst o
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-        false_or] at h
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at h
       rcases h with h | h | h
       · exact (ordA_ne_360 h.symm).elim
       · exact (ordA_ne_360 h.symm).elim
       · exact (ordA_ne_360 h.symm).elim
     · simp only [List.mem_singleton] at ho
       subst o
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-        false_or] at h
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at h
       rcases h with h | h
       · exact (ordA_ne_360 h.symm).elim
       · exact (ordD_ne_360 h.symm).elim
   | POmegaMinus =>
     simp only [ggRootFactorOrders, List.mem_singleton] at ho
     subst o
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-      false_or] at h
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at h
     rcases h with h | h
     · exact (ordA_ne_360 h.symm).elim
     · exact (ordTwistedD_ne_360 h.symm).elim
@@ -1024,8 +1020,8 @@ theorem ggRootFactorOrders_mem_174182400 {t : CFSG.Open.StatedLieTag} {n f : ℕ
     simp only [List.mem_singleton] at h
     exact (ordTwistedA_ne_174182400 h.symm).elim
   | PSp =>
-    simp only [ggRootFactorOrders, List.mem_cons, List.mem_singleton, List.not_mem_nil,
-      or_false, false_or] at ho
+    simp only [ggRootFactorOrders, List.mem_cons, List.not_mem_nil,
+      or_false] at ho
     split_ifs at ho with hn2
     · rcases ho with rfl | rfl
       · simp only [List.mem_singleton] at h
@@ -1039,8 +1035,7 @@ theorem ggRootFactorOrders_mem_174182400 {t : CFSG.Open.StatedLieTag} {n f : ℕ
         have hbc : ordBC (n - 1) (2 ^ f) = 174182400 :=
           ggSpLayerOrd_eq_ordBC_of_ne_360 (by norm_num) h.symm
         exact (ordBC_ne_174182400 hbc).elim
-      · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-          false_or] at h
+      · simp only [List.mem_cons, List.not_mem_nil, or_false] at h
         rcases h with h | h
         · exact (ordA_ne_174182400 h.symm).elim
         · have hbc : ordBC (n - 2) (2 ^ f) = 174182400 :=
@@ -1052,16 +1047,14 @@ theorem ggRootFactorOrders_mem_174182400 {t : CFSG.Open.StatedLieTag} {n f : ℕ
     split_ifs at ho with hn4
     · simp only [List.mem_singleton] at ho
       subst o
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-        false_or] at h
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at h
       rcases h with h | h | h
       · exact (ordA_ne_174182400 h.symm).elim
       · exact (ordA_ne_174182400 h.symm).elim
       · exact (ordA_ne_174182400 h.symm).elim
     · simp only [List.mem_singleton] at ho
       subst o
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-        false_or] at h
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at h
       rcases h with h | h
       · exact (ordA_ne_174182400 h.symm).elim
       · obtain ⟨hk, hf⟩ := ordD_eq_174182400 h.symm
@@ -1069,8 +1062,7 @@ theorem ggRootFactorOrders_mem_174182400 {t : CFSG.Open.StatedLieTag} {n f : ℕ
   | POmegaMinus =>
     simp only [ggRootFactorOrders, List.mem_singleton] at ho
     subst o
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-      false_or] at h
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at h
     rcases h with h | h
     · exact (ordA_ne_174182400 h.symm).elim
     · exact (ordTwistedD_ne_174182400 h.symm).elim
@@ -1124,8 +1116,8 @@ theorem ggRootFactorOrders_mem_25920 {t : CFSG.Open.StatedLieTag} {n f : ℕ} {o
     left
     exact ⟨rfl, by omega, hf⟩
   | PSp =>
-    simp only [ggRootFactorOrders, List.mem_cons, List.mem_singleton, List.not_mem_nil,
-      or_false, false_or] at ho
+    simp only [ggRootFactorOrders, List.mem_cons, List.not_mem_nil,
+      or_false] at ho
     split_ifs at ho with hn2
     · rcases ho with rfl | rfl
       · simp only [List.mem_singleton] at h
@@ -1139,8 +1131,7 @@ theorem ggRootFactorOrders_mem_25920 {t : CFSG.Open.StatedLieTag} {n f : ℕ} {o
         have hbc : ordBC (n - 1) (2 ^ f) = 25920 :=
           ggSpLayerOrd_eq_ordBC_of_ne_360 (by norm_num) h.symm
         exact (ordBC_ne_25920 hbc).elim
-      · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-          false_or] at h
+      · simp only [List.mem_cons, List.not_mem_nil, or_false] at h
         rcases h with h | h
         · exact (ordA_ne_25920 h.symm).elim
         · have hbc : ordBC (n - 2) (2 ^ f) = 25920 :=
@@ -1152,24 +1143,21 @@ theorem ggRootFactorOrders_mem_25920 {t : CFSG.Open.StatedLieTag} {n f : ℕ} {o
     split_ifs at ho with hn4
     · simp only [List.mem_singleton] at ho
       subst o
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-        false_or] at h
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at h
       rcases h with h | h | h
       · exact (ordA_ne_25920 h.symm).elim
       · exact (ordA_ne_25920 h.symm).elim
       · exact (ordA_ne_25920 h.symm).elim
     · simp only [List.mem_singleton] at ho
       subst o
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-        false_or] at h
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at h
       rcases h with h | h
       · exact (ordA_ne_25920 h.symm).elim
       · exact (ordD_ne_25920 h.symm).elim
   | POmegaMinus =>
     simp only [ggRootFactorOrders, List.mem_singleton] at ho
     subst o
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
-      false_or] at h
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at h
     rcases h with h | h
     · exact (ordA_ne_25920 h.symm).elim
     · obtain ⟨hk, hf⟩ := ordTwistedD_eq_25920 h.symm

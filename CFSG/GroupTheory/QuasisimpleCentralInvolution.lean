@@ -31,7 +31,7 @@ theorem odd_orderOf_of_mem_center_of_surjective {Q H : Type} [Group Q] [Finite Q
       intro hev
       obtain ⟨z, hz⟩ :=
         exists_prime_orderOf_dvd_card' (G := Subgroup.center Q) 2 (even_iff_two_dvd.mp hev)
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hzQ : (z : Q) ∈ Subgroup.center Q := z.2
       have hzmem : (z : Q) ∈ Subgroup.zpowers (z : Q) := Subgroup.mem_zpowers _
       have hzpow : Subgroup.zpowers (z : Q) ≤ CFSG.pCore 2 Q := by

@@ -244,7 +244,7 @@ theorem psAut_not_inner {H : Type} [Group H] (p : ℕ) (δ : MulAut H)
     (hperf : commutator (ppQuot p H) = ⊤) (hnon : ¬ InnerAutGrp p H δ) :
     psAut p δ ∉ (MulAut.conj : psimpleOf p H →* MulAut (psimpleOf p H)).range := by
   intro hin
-  haveI : Group.IsPerfect (ppQuot p H) := Group.isPerfect_def.2 hperf
+  have : Group.IsPerfect (ppQuot p H) := Group.isPerfect_def.2 hperf
   obtain ⟨q₀, hq₀⟩ := mem_inner_of_central_surjective
     (QuotientGroup.mk' (Subgroup.center (ppQuot p H))) (QuotientGroup.mk'_surjective _)
     (by rw [QuotientGroup.ker_mk']) (θ := ppAut p δ) (θ' := psAut p δ)
@@ -279,7 +279,7 @@ theorem noLocalTwo_of_fieldAutOn (hfam : I2015NLFamilies) {H : Type} [Group H] [
       rcases hne with h0 | h0
       · exact h0 h
       · exact h0 h'
-    haveI : Finite R := Finite.of_equiv _ θ.toEquiv
+    have : Finite R := Finite.of_equiv _ θ.toEquiv
     have hNL : NoLocalTwo p f := hP' h3 f hf hord inferInstance
     have hconj : MulAut.congr θ (psAut p δ) = u * f * u⁻¹ :=
       ((glaInduces_relOfAut_iff p δ θ _).1 hind).symm

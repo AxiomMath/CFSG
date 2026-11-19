@@ -115,12 +115,14 @@ section Over2
 variable {K Y : Type} [Group K] [Finite K] [Group Y] [Finite Y] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* Y}
 
+omit [Finite K] [Finite Y] in
 theorem borelQuotient_torus_eq_bot (h : BorelQuotient D n H π 1) (k : Fin D.rank) : H k = ⊥ := by
   refine eq_bot_iff.2 fun g hg => ?_
   have := h.torus_pow k g hg
   rw [pow_one] at this
   exact this
 
+omit [Finite K] [Finite Y] in
 theorem borelQuotient_injective (h : BorelQuotient D n H π 1) : Function.Injective π := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
   intro z hz
@@ -180,6 +182,7 @@ theorem false_of_orth_adj (h : BorelQuotient D n H π 1) {exc : Fin D.rank → F
     rw [Subgroup.map_sup]; exact sup_le ha hb
   exact hVns (hC E _ hEC hVC hel hcard)
 
+omit [Finite Y] in
 theorem exists_E27_of_nodes (h : BorelQuotient D n H π 1) (h3 : ∀ i, HasOrderThree D i)
     (h6 : ∀ i, Nat.card (rankOne D.rootGroup i) = 6 ∧
       ∃ a ∈ rankOne D.rootGroup i, ∃ b ∈ rankOne D.rootGroup i, a * b ≠ b * a)

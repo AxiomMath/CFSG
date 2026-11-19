@@ -13,7 +13,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD264Gen
 
 open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
-theorem lines_subtype {n p : ℕ} {P Q : Subgroup (Equiv.Perm (Fin n))} (hQP : Q ≤ P) {ι : Type*}
+theorem lines_subtype {n p : ℕ} {P Q : Subgroup (Equiv.Perm (Fin n))} (_hQP : Q ≤ P) {ι : Type*}
     (line : ι → Equiv.Perm (Fin n))
     (hlinesSet : {H : Subgroup (Equiv.Perm (Fin n)) | H ≤ Q ∧ Nat.card H = p} =
       Set.range (fun j => Subgroup.zpowers (line j)))

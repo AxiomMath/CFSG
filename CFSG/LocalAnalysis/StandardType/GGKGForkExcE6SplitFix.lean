@@ -32,7 +32,7 @@ private theorem ggKGSf_mactC_subtype_coe {G : Type} [CommGroup G] {r : ℕ} (H :
     mactC M (fun i => (a i : G)) = fun i => ((mactC M a i : H) : G) := by
   funext i
   simp only [mactC]
-  rw [Subgroup.val_finset_prod]
+  rw [Subgroup.val_finsetProd]
   exact Finset.prod_congr rfl fun j _ => by rw [Subgroup.coe_zpow]
 
 private theorem ggKGSf_canonicalRep_pow_charTwo
@@ -91,7 +91,7 @@ theorem card_fixed_le_five_cube
     exists_splitFrame (K := K) (p := 5) Fr hFr hET
   have hw' : (5 ∣ Nat.card K - 1 ∧ F.w = 1) ∨
       (5 ∣ Nat.card K + 1 ∧ ExcIsLongest .E6 F.w) := Or.inl ⟨h5, hw⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨v, _hvW, hweyl_raw⟩ :=
     ggKGExc_normalizer_weyl (τ := .E6) (K := K) (p := 5)
@@ -146,7 +146,7 @@ theorem card_fixed_le_five_cube
       exact baseChangeGL_injective (algebraMap K (AlgebraicClosure K)) hfix
     calc e * u = (u * e * u⁻¹) * u := by rw [hconj]
       _ = u * e := by group
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have horder : orderOf v = 5 := orderOf_eq_prime hv5 hv1
   have hex : ∀ e : {e : adjointGroup .E6 K // e ∈ ET ∧ u * e = e * u},
       ∃ a : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ,
@@ -212,15 +212,15 @@ theorem card_fixed_le_five_cube
     exact Subtype.ext
       (Subtype.ext (baseChangeGL_injective (algebraMap K (AlgebraicClosure K)) hBeq))
   have hCcard : Nat.card (rootsOfUnity 5 (AlgebraicClosure K)) = 5 := by
-    haveI : NeZero (5 : AlgebraicClosure K) := ⟨by
+    have : NeZero (5 : AlgebraicClosure K) := ⟨by
       intro h
       have h' : ((5 : ℕ) : AlgebraicClosure K) = 0 := h
       rw [CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 5] at h'
       norm_num at h'⟩
-    haveI : IsSepClosed (AlgebraicClosure K) := inferInstance
-    haveI : HasEnoughRootsOfUnity (AlgebraicClosure K) 5 :=
+    have : IsSepClosed (AlgebraicClosure K) := inferInstance
+    have : HasEnoughRootsOfUnity (AlgebraicClosure K) 5 :=
       IsSepClosed.hasEnoughRootsOfUnity (AlgebraicClosure K) 5
-    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 5
+    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 5
     exact hζ.card_rootsOfUnity
   calc Nat.card {e : adjointGroup .E6 K // e ∈ ET ∧ u * e = e * u}
       ≤ Nat.card {a : Fin Tag.E6.rank → rootsOfUnity 5 (AlgebraicClosure K) //

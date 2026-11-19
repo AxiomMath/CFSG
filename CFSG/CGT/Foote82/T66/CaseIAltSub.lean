@@ -32,7 +32,7 @@ theorem sum_fin_add_two {k : ℕ} (x : Fin (k + 2) → ZMod 2) :
 theorem sum_resVec {k : ℕ} (j₀ : Fin k) (x : Fin (k + 2) → ZMod 2) :
     ∑ j, resVec j₀ x j = ∑ i, x i := by
   rw [sum_fin_add_two]
-  simp only [resVec, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [resVec, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 @[expose] def resHom {k : ℕ} (j₀ : Fin k) : evenWeight (k + 2) →+ evenWeight k where
@@ -89,6 +89,7 @@ theorem resHom_evenWeightPerm {k : ℕ} (j₀ : Fin k) (σ : Perm (Fin k)) {x : 
 variable {X X' : Subgroup (GLV V)} {k : ℕ} {ρ : ↥X →* Perm (Fin (k + 2))}
   {β : ↥(commSpace X' ⊤) →+ altHeart (k + 2)}
 
+omit [Finite V] in
 theorem altSub (hk : 5 ≤ k) (hH : HeartFor X (k + 2) ρ X' β) (hinj : Function.Injective ρ)
     (hsurj : ∀ τ ∈ altOn {i : Fin (k + 2) | i ≠ 0 ∧ i ≠ 1}, ∃ x : ↥X, ρ x = τ)
     {B : Subgroup (GLV V)} (hBX : B ≤ X)
@@ -254,7 +255,7 @@ theorem altSub (hk : 5 ≤ k) (hH : HeartFor X (k + 2) ρ X' β) (hinj : Functio
         intro j
         rw [hy, pairEW_apply]
         have h0 : (shift2 k j : Fin (k + 2)) ≠ 0 := (shift2 k j).2.1
-        simp only [h0, if_false, add_zero]
+        simp only [h0, ite_false, add_zero]
         by_cases hj : j = j₂
         · simp [hj]
         · have : (shift2 k j : Fin (k + 2)) ≠ shift2 k j₂ := fun h =>
@@ -265,7 +266,7 @@ theorem altSub (hk : 5 ≤ k) (hH : HeartFor X (k + 2) ρ X' β) (hinj : Functio
       have hval := congrArg (pairFun j₂ j₁) hmem
       rw [map_zero, pairFun_mk, resHom_apply_of_zero j₀ hz0 hz1,
         resHom_apply_of_zero j₀ hz0 hz1, hzs, hzs, hys, hys, hys, hys, hγi2, hγi1] at hval
-      simp [h12, h13, h23, Ne.symm h12, Ne.symm h13, Ne.symm h23] at hval
+      simp [h12, Ne.symm h23] at hval
     · intro y
       have : y ∈ βB.range := by rw [h]; trivial
       exact this

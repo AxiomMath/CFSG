@@ -16,6 +16,7 @@ variable {k E V V' : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup V] [M
 
 variable [Module.Finite k V] [Module.Finite k V'] [Module.Finite k E]
 
+omit [Module.Finite k E] in
 private lemma datumElt_proof_irrel (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
     (h1 h2 : ∀ t, π (ι t) = 0) (t : E) :
     datumElt ι π h1 t = datumElt ι π h2 t := by
@@ -23,6 +24,7 @@ private lemma datumElt_proof_irrel (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
   ext v
   rfl
 
+omit [Module.Finite k E] in
 private lemma datumRoot_proof_irrel (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
     (h1 h2 : ∀ t, π (ι t) = 0) :
     datumRoot ι π h1 = datumRoot ι π h2 := by
@@ -38,6 +40,7 @@ private lemma datumRoot_proof_irrel (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
       exact ⟨t, by rw [datumElt_proof_irrel ι π h1 h2 t, ht]⟩
   rw [hset]
 
+omit [Module.Finite k E] in
 private lemma datumRoot_congr {ι1 ι2 : E →ₗ[k] V} {π1 π2 : V →ₗ[k] E}
     (h1 : ∀ t, π1 (ι1 t) = 0) (h2 : ∀ t, π2 (ι2 t) = 0)
     (hι : ι1 = ι2) (hπ : π1 = π2) :
@@ -48,13 +51,16 @@ private lemma datumRoot_congr {ι1 ι2 : E →ₗ[k] V} {π1 π2 : V →ₗ[k] E
 
 variable {X : Type} [AddCommGroup X] [Module k X] [Module.Finite k X]
 
+omit [Module.Finite k E] [Module.Finite k X] in
 private lemma mem_flagW_iff (v : DSpace E X) :
     v ∈ flagW k E X ↔ v.2.1 = 0 ∧ v.2.2 = 0 := by
   simp [flagW, Prod.ext_iff]
 
+omit [Module.Finite k E] [Module.Finite k X] in
 private lemma mem_flagK_iff (v : DSpace E X) : v ∈ flagK k E X ↔ v.2.2 = 0 := by
   simp [flagK]
 
+omit [Module.Finite k E] [Module.Finite k X] in
 private lemma range_stdIota_eq_flagW :
     LinearMap.range (stdIota k E X) = flagW k E X := by
   ext v
@@ -75,6 +81,7 @@ private lemma datumElt_std_eq_rootElt (h : ∀ t, stdPi k E X (stdIota k E X t) 
   obtain ⟨a, x, b⟩ := v
   simp [datumElt_apply, rootElt, rootEquiv, shearE, stdIota, stdPi, LinearMap.mulLeft_apply]
 
+omit [Module.Finite k E] [Module.Finite k X] in
 theorem datumQ_std : datumQ (stdIota k E X) (stdPi k E X) = QK k E X := by
   ext g
   constructor
@@ -165,9 +172,9 @@ theorem pCoreOf_normalizer_datumRoot (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (
     pCoreOf 2 (Subgroup.normalizer (datumRoot ι π h : Set (SpecialLinearGroup k V))) =
       datumQ ι π := by
   obtain ⟨X', hX'AC, hX'Mod, hX'Fin, L, hLι, hLπ⟩ := exists_datumLin ι π h hι hπ
-  letI : AddCommGroup X' := hX'AC
-  letI : Module k X' := hX'Mod
-  letI : Module.Finite k X' := hX'Fin
+  let : AddCommGroup X' := hX'AC
+  let : Module k X' := hX'Mod
+  let : Module.Finite k X' := hX'Fin
   have hιL : L.toLinearMap ∘ₗ ι = stdIota k E X' := by
     apply LinearMap.ext
     intro t

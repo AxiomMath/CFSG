@@ -19,23 +19,23 @@ theorem add_self_eq_zero_of_charTwo [CharP F 2] (v : V) : v + v = 0 := by
 def fixSp (y : V →ₗ[F] V) : Submodule F V where
   carrier := {v | y v = v}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_add, ha, hb]
   zero_mem' := by simp
   smul_mem' c v hv := by
-    simp only [Set.mem_setOf_eq] at hv ⊢
+    simp only [Set.mem_ofPred_eq] at hv ⊢
     rw [map_smul, hv]
 
 def kerSum (y : V →ₗ[F] V) : Submodule F V where
   carrier := {v | v + y v + y (y v) = 0}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, map_add] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, map_add] at ha hb ⊢
     calc a + b + (y a + y b) + (y (y a) + y (y b))
         = (a + y a + y (y a)) + (b + y b + y (y b)) := by abel
       _ = 0 := by rw [ha, hb, add_zero]
   zero_mem' := by simp
   smul_mem' c v hv := by
-    simp only [Set.mem_setOf_eq, map_smul] at hv ⊢
+    simp only [Set.mem_ofPred_eq, map_smul] at hv ⊢
     rw [← smul_add, ← smul_add, hv, smul_zero]
 
 theorem mem_fixSp {y : V →ₗ[F] V} {v : V} : v ∈ fixSp y ↔ y v = v := Iff.rfl
@@ -45,6 +45,7 @@ theorem mem_kerSum {y : V →ₗ[F] V} {v : V} : v ∈ kerSum y ↔ v + y v + y 
 
 variable [CharP F 2] {y : V →ₗ[F] V}
 
+omit [CharP F 2] in
 theorem sum_mem_fixSp (hy3 : ∀ v, y (y (y v)) = v) (v : V) : v + y v + y (y v) ∈ fixSp y := by
   rw [mem_fixSp, map_add, map_add, hy3]
   abel
@@ -77,18 +78,22 @@ theorem isCompl_fixSp_kerSum (hy3 : ∀ v, y (y (y v)) = v) : IsCompl (fixSp y) 
     rw [hv]
     exact Submodule.add_mem_sup (sum_mem_fixSp hy3 v) (sum'_mem_kerSum hy3 v)
 
+omit [CharP F 2] in
 theorem sum_mem_of_invariant {U : Submodule F V} (hU : ∀ u ∈ U, y u ∈ U) {u : V} (hu : u ∈ U) :
     u + y u + y (y u) ∈ U :=
   U.add_mem (U.add_mem hu (hU u hu)) (hU _ (hU u hu))
 
+omit [CharP F 2] in
 theorem sum'_mem_of_invariant {U : Submodule F V} (hU : ∀ u ∈ U, y u ∈ U) {u : V} (hu : u ∈ U) :
     y u + y (y u) ∈ U :=
   U.add_mem (hU u hu) (hU _ (hU u hu))
 
+omit [CharP F 2] in
 theorem kerSum_invariant {w : V} (hw : w ∈ kerSum y) : y w ∈ kerSum y := by
   rw [mem_kerSum] at hw ⊢
   rw [← map_add, ← map_add, hw, map_zero]
 
+omit [CharP F 2] in
 theorem linearIndependent_pair (hω : ∀ ω : F, ω ^ 2 + ω + 1 ≠ 0) {w : V} (hw : w ∈ kerSum y)
     (hw0 : w ≠ 0) : LinearIndependent F ![w, y w] := by
   rw [LinearIndependent.pair_iff]
@@ -126,6 +131,7 @@ section Classification
 
 variable [FiniteDimensional F V]
 
+omit [CharP F 2] in
 theorem two_le_finrank_of_invariant (hω : ∀ ω : F, ω ^ 2 + ω + 1 ≠ 0) {U : Submodule F V}
     (hU : ∀ u ∈ U, y u ∈ U) (hUk : U ≤ kerSum y) (hU0 : U ≠ ⊥) : 2 ≤ Module.finrank F U := by
   obtain ⟨u, hu, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hU0
@@ -287,8 +293,8 @@ theorem exists_fixed_mem [Finite F] [CharP F 2] {R : Subgroup SL(3, F)} (hR : Is
     {W : Submodule F (Fin 3 → F)} (hW0 : W ≠ ⊥)
     (hW : ∀ g ∈ R, ∀ w ∈ W, (g : Matrix (Fin 3) (Fin 3) F) *ᵥ w ∈ W) :
     ∃ w ∈ W, w ≠ 0 ∧ ∀ g ∈ R, (g : Matrix (Fin 3) (Fin 3) F) *ᵥ w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI act : MulAction R W :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let act : MulAction R W :=
     { smul := fun g w => ⟨(g : Matrix (Fin 3) (Fin 3) F) *ᵥ (w : Fin 3 → F), hW g g.2 w w.2⟩
       one_smul := fun w => Subtype.ext (by
         change ((1 : R) : Matrix (Fin 3) (Fin 3) F) *ᵥ (w : Fin 3 → F) = w
@@ -298,11 +304,11 @@ theorem exists_fixed_mem [Finite F] [CharP F 2] {R : Subgroup SL(3, F)} (hR : Is
           (g : Matrix (Fin 3) (Fin 3) F) *ᵥ ((h : Matrix (Fin 3) (Fin 3) F) *ᵥ (w : Fin 3 → F))
         rw [Matrix.mulVec_mulVec]
         rfl) }
-  haveI : Module.Finite F W := Module.Finite.of_finite
+  have : Module.Finite F W := Module.Finite.of_finite
   have h2 : 2 ∣ Nat.card W := by
     rw [Module.natCard_eq_pow_finrank (K := F)]
     have hF : 2 ∣ Nat.card F := by
-      haveI := Fintype.ofFinite F
+      have := Fintype.ofFinite F
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff F 2 _).mp (FiniteField.cast_card_eq_zero F)
     exact dvd_pow hF (by rwa [Ne, Submodule.finrank_eq_zero])
@@ -319,7 +325,7 @@ theorem exists_fixed_mem [Finite F] [CharP F 2] {R : Subgroup SL(3, F)} (hR : Is
 theorem exists_fixed_vector_of_orderOf_three [Finite F] (hK : Nat.card F % 3 = 2) {y : SL(3, F)}
     (hy : orderOf y = 3) :
     ∃ v : Fin 3 → F, v ≠ 0 ∧ (y : Matrix (Fin 3) (Fin 3) F) *ᵥ v = v := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy, pow_one])
   have hmod := hP.card_modEq_card_fixedPoints (Fin 3 → F)
@@ -433,7 +439,7 @@ theorem exists_smul_one_of_pow_two_pow (hK : Nat.card F % 3 = 2) {y : SL(3, F)}
     have hcomm2 : B ^ 2 * (y : Matrix (Fin 3) (Fin 3) F) = (y : Matrix (Fin 3) (Fin 3) F) * B ^ 2 :=
       (Commute.pow_left (show Commute B (y : Matrix (Fin 3) (Fin 3) F) from hcomm) 2).eq
     obtain ⟨s, hs⟩ := ih hcomm2 ⟨c, hB2⟩
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨t, ht⟩ := FiniteField.isSquare_of_char_two (ringChar.eq F 2) s
     have hBB : B * B = (t * t) • (1 : Matrix (Fin 3) (Fin 3) F) := by
       rw [← sq, hs, ht]
@@ -472,15 +478,15 @@ variable {F : Type*} [Field F]
 def fixSL (S : Subgroup SL(3, F)) : Submodule F (Fin 3 → F) where
   carrier := {v | ∀ g ∈ S, (g : Matrix (Fin 3) (Fin 3) F) *ᵥ v = v}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     intro g hg
     rw [Matrix.mulVec_add, ha g hg, hb g hg]
   zero_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     intro g _
     exact Matrix.mulVec_zero _
   smul_mem' c v hv := by
-    simp only [Set.mem_setOf_eq] at hv ⊢
+    simp only [Set.mem_ofPred_eq] at hv ⊢
     intro g hg
     rw [Matrix.mulVec_smul, hv g hg]
 

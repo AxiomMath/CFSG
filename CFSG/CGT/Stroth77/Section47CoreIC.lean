@@ -89,7 +89,7 @@ theorem t200_h7 (hm : 1 ≤ m) :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨a, b, hd⟩ := hfix (e * e₀⁻¹) (mul_mem he (inv_mem he₀)) hmem
         refine ⟨(true, a, b), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, h8] at hle
@@ -293,9 +293,9 @@ theorem t200_i_h9 (hm : 1 ≤ m)
   have hDcard : Nat.card D = 2 ^ (m + (m + 2) + (m + 2)) := dD.card
   have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
   have hnf : ∀ y ∈ X, ∃ (v : Torus (StrothTypeIndex.t200 m).k) (l k : Bool),
       y = dD.ofTorus v * dD.d8 false false l * bpow e k :=
     fun y hy => t200_i_mem_CSc₁ dD hE hm hφe (hX hy)
@@ -317,7 +317,7 @@ theorem t200_i_h9 (hm : 1 ≤ m)
     · exact h.choose_spec.1
     · exact X.one_mem
   by_cases hD : ∀ x ∈ X, x ∈ D
-  · haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+  · have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge hD hcard.ge
   exfalso
   push Not at hD
@@ -424,7 +424,7 @@ theorem t200_i_h8 (hm : 1 ≤ m) (hrel : Rel34i dD e (2 ^ (m + 1))) :
       t200iAction_wt] at hy1
     cases l' <;>
     simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
-      AddMonoidHom.id_apply, Bool.and_false, map_add, map_sub, map_zero, torusDiag_ofInt,
+      AddMonoidHom.id_apply, Bool.and_false, map_zero, torusDiag_ofInt,
       t200_φu, ← Torus.ofInt_add, ← Torus.ofInt_sub, add_zero, zero_add, ← natCast_zsmul,
       ← Torus.ofInt_zsmul, t200_ofInt_eq_zero_iff, Pi.add_apply, Pi.sub_apply, Pi.smul_apply,
       smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,

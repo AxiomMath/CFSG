@@ -11,6 +11,7 @@ open CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {M H : Subgroup G}
 
+omit [Finite G] in
 theorem three_dvd_card_inf_of_weakBlock {L : Subgroup G} (hL : L ∈ weakBlockSet M H)
     (h3 : 3 ∣ Nat.card (L ⊓ H : Subgroup G)) :
     3 ∣ Nat.card (H ⊓ M : Subgroup G) := by

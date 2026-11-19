@@ -123,9 +123,9 @@ theorem StrothFrame.IsD.stroth_3_10 {F : StrothFrame G} {D : Subgroup G} {τ : S
     refine lt_of_le_of_ne le_top fun htop => hNS.ne (le_antisymm hNS.le fun x hx => ?_)
     have : (⟨x, hx⟩ : (F.S : Subgroup G)) ∈ IP := by rw [htop]; trivial
     exact Subgroup.mem_subgroupOf.mp this
-  have : Group.IsNilpotent (F.S : Subgroup G) := F.S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (F.S : Subgroup G) := F.S.isPGroup.isNilpotent
   obtain ⟨x, hxN, hxnot⟩ :=
-    SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent IP hIPlt)
+    _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent IP hIPlt)
   have hxsub : x ∈ (Subgroup.normalizer (N : Set G)).subgroupOf (F.S : Subgroup G) := by
     rw [Subgroup.subgroupOf_normalizer_eq hNS.le]
     exact hxN
@@ -189,7 +189,7 @@ theorem StrothFrame.stroth_3_10 (F : StrothFrame G)
         Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) = D) ∧
       (F.S : Subgroup G) ≤ Subgroup.normalizer (D : Set G) := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   set P : Set (Subgroup G) := {D | ∃ (τ : StrothTypeIndex) (dD : StrothWeakTypeData D τ),
     F.IsD D dD ∧ IsSylowIn 2 (Subgroup.normalizer (D : Set G))

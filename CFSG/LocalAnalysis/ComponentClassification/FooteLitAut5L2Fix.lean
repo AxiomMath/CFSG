@@ -145,7 +145,7 @@ theorem pgl_fixed_l2
       (n := Fin 2) (R := F)).comp e.toMonoidHom)
       (Matrix.ProjectiveSpecialLinearGroup.toPGL_injective.comp e.injective)]
     exact card_dvd_of_le hQC
-  have hQ2 : IsPGroup 2 Q := R.isPGroup'.to_le inf_le_left
+  have hQ2 : IsPGroup 2 Q := R.isPGroup.to_le inf_le_left
   obtain ⟨j, hj⟩ := hQ2.exists_card_eq
   have h4 : ¬ 4 ∣ 2 * m := by
     intro h

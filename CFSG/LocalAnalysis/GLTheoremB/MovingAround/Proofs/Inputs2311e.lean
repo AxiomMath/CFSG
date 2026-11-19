@@ -279,9 +279,9 @@ theorem exists_mixing_element_of_paired_sp_uni (S : SpPlaneSetup ℓ f p r K Aha
     rw [hγ, hψw, one_smul]
 
 @[expose] def compSub {x : StatedSp r K} (a : K[X]) {M : Submodule K (Fin r ⊕ Fin r → K)}
-    (hstab : ∀ s ∈ M, spEnd x s ∈ M) : Submodule (AdjoinRoot a) (primaryComponent (spEnd x) a) where
+    (hstab : ∀ _s ∈ M, spEnd x _s ∈ M) : Submodule (AdjoinRoot a) (primaryComponent (spEnd x) a) where
   carrier := {v | (v : Fin r ⊕ Fin r → K) ∈ M}
-  add_mem' := fun {s t} hs ht => M.add_mem hs ht
+  add_mem' := fun {_s _t} hs ht => M.add_mem hs ht
   zero_mem' := M.zero_mem
   smul_mem' := fun c v hv => coe_smul_mem_of_stable hstab c v hv
 
@@ -915,12 +915,12 @@ theorem uniPlaneGen_inner_unitary_pow {m k : ℕ} {q : TauCeti.PrimePower}
     E₁ hcard₁ hSU
 
 theorem uniSeitzPlanes_unitary_inner_five
-    (hTor : ∀ {ℓ f n p : ℕ} {K : Type} [Field K] (h : UnitaryFieldData ℓ f K), p.Prime → p ∣ ℓ ^ f + 1 →
+    (hTor : ∀ {ℓ f n p : ℕ} {K : Type} [Field K] (_h : UnitaryFieldData ℓ f K), p.Prime → p ∣ ℓ ^ f + 1 →
       ℓ ^ f ≠ 2 → ∀ (E : Subgroup (unitarySU ℓ f K (n + 1))), (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) →
         (∀ x ∈ E, x ^ p = 1) → Nat.card E = p ^ 2 →
         Subgroup.closure {g : unitarySU ℓ f K (n + 1) |
           ∃ x ∈ E, x ≠ 1 ∧ g * x = x * g ∧ g ^ ringChar K = 1} = ⊤)
-    (hNS : ∀ {ℓ f p n : ℕ} {K : Type} [Field K] (hU : UnitaryFieldData ℓ f K), p.Prime → 5 ≤ p → p ≠ ℓ →
+    (hNS : ∀ {ℓ f p n : ℕ} {K : Type} [Field K] (_hU : UnitaryFieldData ℓ f K), p.Prime → 5 ≤ p → p ≠ ℓ →
       ¬ p ∣ ℓ ^ f + 1 → ¬ p ∣ ℓ ^ f - 1 → 3 ≤ n → ∀ (E : Subgroup (unitarySU ℓ f K n)),
         (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) → (∀ x ∈ E, x ^ p = 1) → Nat.card E = p ^ 2 →
         Subgroup.closure {g : unitarySU ℓ f K n |
@@ -931,7 +931,7 @@ theorem uniSeitzPlanes_unitary_inner_five
   have hpq : p ≠ q.p := by simpa using hpd
   set ℓ := TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA m q, hv⟩ with hℓ
   set f := TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA m q, hv⟩ with hf
-  have hU := CFSG.RankThree.PartTwo.Census.unitaryFieldData_galoisField ℓ f
+  have _hU := CFSG.RankThree.PartTwo.Census.unitaryFieldData_galoisField ℓ f
     (TauCeti.ValidLieTypeIndex.fieldExponent_pos ⟨.twistedA m q, hv⟩)
   have hℓq : ℓ = q.p := by simp [hℓ, TauCeti.ValidLieTypeIndex.characteristic]
   have hrange := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
@@ -948,14 +948,14 @@ theorem uniSeitzPlanes_unitary_inner_five
         rw [h2] at h1
         have := Nat.le_of_dvd (by norm_num) h1
         omega
-      rw [eq_top_iff, ← hTor hU hp h1 hq E' hcomm hexp hcard]
+      rw [eq_top_iff, ← hTor _hU hp h1 hq E' hcomm hexp hcard]
       exact closure_le_closure_sq _ _
     by_cases h2 : p ∣ ℓ ^ f - 1
-    · exact uniClosure_unitarySU_split_sq hU hp hp2 h2 (by omega) E' hcomm hexp hcard
-    · rw [eq_top_iff, ← hNS hU hp hp5 (by rw [hℓq]; exact hpq) h1 h2 (by omega) E' hcomm hexp hcard]
+    · exact uniClosure_unitarySU_split_sq _hU hp hp2 h2 (by omega) E' hcomm hexp hcard
+    · rw [eq_top_iff, ← hNS _hU hp hp5 (by rw [hℓq]; exact hpq) h1 h2 (by omega) E' hcomm hexp hcard]
       exact closure_le_closure_sq _ _
-  have h := uniPlaneGen_inner_unitary_pow (k := 2) hv hp hlift hSU hE hc hinner
-  simpa using h
+  have _h := uniPlaneGen_inner_unitary_pow (k := 2) hv hp hlift hSU hE hc hinner
+  simpa using _h
 
 end UnitaryInner
 
@@ -1018,7 +1018,7 @@ theorem orthSq_closure_eq_top_of_le (E : Subgroup (orthDerived Q))
   have : g' = g := Subtype.ext hgg'
   exact this ▸ hg'
 
-theorem orthSq_eichler_pow_nsmul {u w : V} (hu : Q u = 0) (huw : polar Q u w = 0) (n : ℕ) :
+theorem orthSq_eichler_pow_nsmul {u w : V} (_hu : Q u = 0) (huw : polar Q u w = 0) (n : ℕ) :
     eichler Q u w ^ n = eichler Q u (n • w) := by
   induction n with
   | zero => simp [eichler_zero_right]
@@ -1423,6 +1423,7 @@ open Polynomial
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {E : Subgroup (orthDerived Q)}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem orthSq_eichler_mem_of_plane (hEΩ : elementaryGroup Q ≤ orthDerived Q) {z : E}
     (hz1 : z ≠ 1)
     {e : V} (heQ : Q e = 0) {τ : K} (hτ : τ ≠ 0)
@@ -1453,7 +1454,7 @@ theorem orthSq_eichler_mem_of_plane (hEΩ : elementaryGroup Q ≤ orthDerived Q)
     (orthSq_eichler_pow_ringChar e w)
 
 
-theorem orthSq_eichler_mem_of_pair_pieces (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
+theorem orthSq_eichler_mem_of_pair_pieces (_hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
     (hK : KernelLineData Q p E) (hEΩ : elementaryGroup Q ≤ orthDerived Q)
     (hNS : OrthNoInvariantSingular Q E) {M₁ M₂ : Subgroup E} (hM₁ : Nat.card M₁ = p)
     (hM₂ : Nat.card M₂ = p) (hM : M₁ ≠ M₂) {P₁ P₂ : Submodule K V} (hP₁ : IsPiece Q E P₁)
@@ -1617,7 +1618,7 @@ theorem orthSq_closure_eq_top_of_noSingular_two {K V : Type} [Field K] [Finite K
     Subgroup.closure {h : orthDerived Q |
       ∃ x ∈ E, x ≠ 1 ∧ h * x = x * h ∧ h ^ (ringChar K ^ 2) = 1} = ⊤ := by
   classical
-  haveI : Nontrivial V := nontrivial_of_three_singular hT
+  have : Nontrivial V := nontrivial_of_three_singular hT
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, hPP, hPV, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS
@@ -1804,6 +1805,7 @@ theorem orthSq_unitaryTransvection_eq {E W : Type*} [Field E] [AddCommGroup W]
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem orthSq_pow_ringChar_of_blockGL_eq (hx : OddOrderIsometry Q p x) {r : K[X]}
     [Fact (Irreducible r)] (hr : r ∈ primaryFactors x.toLinearMap)
     {φ : primaryComponent x.toLinearMap r →ₗ[AdjoinRoot r] AdjoinRoot r}
@@ -2704,6 +2706,7 @@ section ManyBig
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {E : Subgroup (orthDerived Q)}
 
+omit [Finite K] in
 theorem orthSq_eichler_mem_of_restricted_plane {U : Submodule K V} (hU : PolarNondegOn Q U)
     (hEU : orthDerived (Q.comp U.subtype) = elementaryGroup (Q.comp U.subtype))
     (E : Subgroup (orthDerived Q))
@@ -2860,7 +2863,7 @@ section ManyBigMain
 theorem orthSq_closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : (polarBilin Q).Nondegenerate)
-    (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) (hdim : 7 ≤ finrank K V)
+    (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) (_hdim : 7 ≤ finrank K V)
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpl : p ≠ ringChar K)
     (E : Subgroup (orthDerived Q))
     (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hexp : ∀ x ∈ E, x ^ p = 1)
@@ -2870,7 +2873,7 @@ theorem orthSq_closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K
       ∃ x ∈ E, x ≠ 1 ∧ h * x = x * h ∧ h ^ (ringChar K ^ 2) = 1} = ⊤ := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Nontrivial V := nontrivial_of_three_singular hT
+  have : Nontrivial V := nontrivial_of_three_singular hT
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, hPP, -, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS
@@ -2878,7 +2881,7 @@ theorem orthSq_closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K
   obtain ⟨i, j, hij⟩ := exists_pieces_diff_lines hK hp hpl hP hPsp (M := M)
     fun i => ⟨hMc i, hMP i⟩
   have hji : j ≠ i := fun h => hij (h ▸ rfl)
-  haveI : Nonempty {k : Fin n // k ≠ i} := ⟨⟨j, hji⟩⟩
+  have : Nonempty {k : Fin n // k ≠ i} := ⟨⟨j, hji⟩⟩
   have hEΩ : elementaryGroup Q ≤ orthDerived Q := (orthDerived_eq_and_le_closure hQ hT).1.ge
   have hEich : ∀ k : {k : Fin n // k ≠ i}, ∀ x ∈ planeFixSpace E ⊔ P i ⊔ P k,
       ∀ y ∈ planeFixSpace E ⊔ P i ⊔ P k, eichler Q x y ∈ orthSqSpan Q E := by

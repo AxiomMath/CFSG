@@ -39,7 +39,7 @@ theorem row_hB : IsElemAbelian Row.co2.prime (B1.subgroupOf co2P) ∧
   obtain ⟨hd3, -, hb2, hb3, -⟩ := pow_facts
   obtain ⟨⟨hcomm, hpow⟩, hcard⟩ :=
     isElemAbelian_closure_three hdb2 hdb3 hb23 hd3 hb2 hb3 indep_facts
-  haveI : IsMulCommutative ↥B1 := hcomm
+  have : IsMulCommutative ↥B1 := hcomm
   have e : ↥(B1.subgroupOf co2P) ≃* ↥B1 :=
     Subgroup.subgroupOfEquivOfLe (B1_le_locC.trans locC_le_P)
   refine ⟨⟨isMulCommutative_iff.2 fun a b => e.injective ?_, fun g hg => ?_⟩, ?_⟩
@@ -85,7 +85,7 @@ private theorem glaPComponent_XB (hXB : co2XB ∈ co2P) :
   obtain ⟨-, -, -, -, hLC, hLn, hcent, -⟩ := co2CaseB_spec
   obtain ⟨e'⟩ := nonempty_Lsub_equiv
   have hLP : Lsub ≤ co2P := fun l hl => (hLC hl).2
-  haveI hs : IsSimpleGroup ↥(Lsub.subgroupOf co2P) := isSimpleGroup_of_equiv_QP45 e'
+  have hs : IsSimpleGroup ↥(Lsub.subgroupOf co2P) := isSimpleGroup_of_equiv_QP45 e'
   have hnab := nonabelian_of_equiv_QP45 e'
   have hp3 := three_dvd_card_of_equiv_QP45 e'
   have hmapC := map_centralizer_subtype' co2P (⟨co2XB, hXB⟩ : ↥co2P)
@@ -194,8 +194,8 @@ private theorem catalogIs_isU4of_two {X : Type} [Group X] {K : Type} [Field K] [
         2 ^ 1 := by
     rw [hc2, hf2]
   rw [← hq] at e
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField (TauCeti.ValidLieTypeIndex.characteristic
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField (TauCeti.ValidLieTypeIndex.characteristic
     ⟨.twistedA 3 pp2, valid_twistedA_three⟩)
       (2 * TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA 3 pp2, valid_twistedA_three⟩)) :=
     Fintype.ofFinite _

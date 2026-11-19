@@ -20,8 +20,8 @@ private theorem nonempty_mulEquiv_statedOmega_minus {X : Type} [Group X] {n : �
     (h : IsOmegaMinus X (2 * n) 1) :
     Nonempty (X ≃* ↥(StatedOmega (StatedQuadMinus ((2 * n) / 2) (ZMod 2) 1 1))) := by
   obtain ⟨-, K, hKfield, hKfinite, b, c, hKcard, hpoly, ⟨eY⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   rw [pow_one] at hKcard
   exact ⟨eY.trans (Q2.statedProjOmegaEquiv (StatedQuadMinus ((2 * n) / 2) K b c) hKcard
     (StatedQuadMinus ((2 * n) / 2) (ZMod 2) 1 1)
@@ -31,8 +31,8 @@ private theorem nonempty_mulEquiv_statedOmega_plus {X : Type} [Group X] {n : ℕ
     (h : IsOmegaPlus X (2 * n) 1) :
     Nonempty (X ≃* ↥(StatedOmega (StatedQuadPlus ((2 * n) / 2) (ZMod 2)))) := by
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨eY⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   rw [pow_one] at hKcard
   exact ⟨eY.trans (Q2.statedProjOmegaEquiv (StatedQuadPlus ((2 * n) / 2) K) hKcard
     (StatedQuadPlus ((2 * n) / 2) (ZMod 2))
@@ -138,7 +138,7 @@ theorem omegaCentralizerShape_holds : OmegaCentralizerShape := by
     subst m
     obtain ⟨e1⟩ := nonempty_mulEquiv_statedSp_of_isOmegaEps2 (X := X) (Y := Y)
       (Or.inr rfl) hX hY
-    haveI : IsSimpleGroup ↥(StatedSp 3 (ZMod 2)) :=
+    have : IsSimpleGroup ↥(StatedSp 3 (ZMod 2)) :=
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.OmegaFacts.isSimpleGroup_statedSp_zmod_two
         (n := 3) (by norm_num)
     exact e1.isSimpleGroup

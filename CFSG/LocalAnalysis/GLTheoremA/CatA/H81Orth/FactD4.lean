@@ -36,11 +36,11 @@ theorem h81Choice_plus_four_model {F : Type} [Field F] [Finite F] {p : ℕ} (hp 
   refine h81Choice_of_lift hQnd hT hK hK3 hp hp2 hpK hP (fun Pt hPt hPtc => ?_)
     (fun yy hy hR hW hpJ => ?_) (fun yy hy hR hW α hα hαJ => ?_)
   ·
-    haveI := hPt.1
-    letI : CommGroup ↥Pt :=
+    have := hPt.1
+    let : CommGroup ↥Pt :=
       { (inferInstance : Group ↥Pt) with mul_comm := fun a b => mul_comm' a b }
-    haveI : Finite (Fin 4 ⊕ Fin 4 → F) := Module.finite_of_finite F
-    haveI : Finite ((Fin 4 ⊕ Fin 4 → F) ≃ₗ[F] (Fin 4 ⊕ Fin 4 → F)) :=
+    have : Finite (Fin 4 ⊕ Fin 4 → F) := Module.finite_of_finite F
+    have : Finite ((Fin 4 ⊕ Fin 4 → F) ≃ₗ[F] (Fin 4 ⊕ Fin 4 → F)) :=
       Finite.of_injective (fun e : (Fin 4 ⊕ Fin 4 → F) ≃ₗ[F] _ => (e : _ → _))
         fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
     let ρ : Representation F ↥Pt (Fin 4 ⊕ Fin 4 → F) :=
@@ -90,7 +90,7 @@ theorem h81FactD4_holds : H81FactD4 := by
   · exact absurd hi id
   change d = .D 4 Q at hi
   subst hi
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hFcard : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩) = Q.p ^ Q.exponent :=
     CFSG.Models.card_fixedField_of (TauCeti.LieTypeIndex.characteristic_D 4 Q)
@@ -98,7 +98,7 @@ theorem h81FactD4_holds : H81FactD4 := by
   let e : H ≃* ProjOrthDerived (quadPlus 4 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩)) :=
     e₀.trans ((CFSG.RankThree.PartTwo.Census.Carrier.SpinD.typeDGroupEquivStatedProj_of_valid 4 Q
       hv).trans (CFSG.RankThree.PartOne.statedProjOrthEquiv (coe_quadPlus 4 _)))
-  haveI : Finite (ProjOrthDerived (quadPlus 4 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩))) :=
+  have : Finite (ProjOrthDerived (quadPlus 4 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩))) :=
     Finite.of_equiv H e.toEquiv
   have hch := h81Choice_plus_four_model hp hp2 Q hQ2 hFcard hdiv
     ((CFSG.LocalAnalysis.GLTheoremA.T123C.isElemAbelian_map_iff (f := e.toMonoidHom) e.injective p

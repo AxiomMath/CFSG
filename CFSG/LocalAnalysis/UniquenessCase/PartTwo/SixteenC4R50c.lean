@@ -23,23 +23,27 @@ variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
 @[expose] def subOfAdd (A : AddSubgroup (Fin 4 → F.K)) : Subgroup (Vtil V₀ V hV) :=
   (AddSubgroup.toSubgroup A).comap F.β.toMonoidHom
 
+omit [Finite G] in
 theorem mem_subOfAdd (A : AddSubgroup (Fin 4 → F.K)) (w : Vtil V₀ V hV) :
     w ∈ F.subOfAdd A ↔ F.vec w ∈ A := Iff.rfl
 
+omit [Finite G] in
 theorem addSub_subOfAdd (A : AddSubgroup (Fin 4 → F.K)) : F.addSub (F.subOfAdd A) = A := by
   ext x
   simp [mem_addSub, mem_subOfAdd]
 
+omit [Finite G] in
 theorem card_addSub (S : Subgroup (Vtil V₀ V hV)) : Nat.card (F.addSub S) = Nat.card S := by
   refine Nat.card_congr ?_
   exact
-    { toFun := fun x => ⟨F.ofVec x, (F.vec_mem_addSub S (F.ofVec x)).1 (by simpa using x.2)⟩
+    { toFun := fun x => ⟨F.ofVec x, (F.vec_mem_addSub S (F.ofVec x)).1 (by simp)⟩
       invFun := fun w => ⟨F.vec w, (F.vec_mem_addSub S w).2 w.2⟩
       left_inv := fun x => Subtype.ext (F.vec_ofVec x)
       right_inv := fun w => Subtype.ext (F.ofVec_vec w) }
 
 end UFrame
 
+omit [Finite G] in
 theorem s16_C4R50c_mkTil_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil ⊥ V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -53,6 +57,7 @@ theorem s16_C4R50c_mkTil_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
   · rintro rfl
     exact map_one _
 
+omit [Finite G] in
 theorem s16_C4R50c_sing_of_mem_addSub {V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (F : UFrame ⊥ V hV L) {U : Subgroup G}
     (hts : ∀ x : IntMod V hV, x.val ∈ U → F.Sing (mkTil ⊥ V hV x))
@@ -64,13 +69,13 @@ theorem s16_C4R50c_sing_of_mem_addSub {V L : Subgroup G} {hV : IsElemAbelian 2 V
   simpa [UFrame.Sing, hxeq] using hs
 
 theorem s16c4_normalizer_le_of_bar (D : Data G) (h61 : UC6.R6_1 D) (h3 : 3 ∈ D.sig)
-    {V : Subgroup G} {hV : IsElemAbelian 2 V} (hP : PairFacts D.M ⊥ V) {Q : Subgroup G}
+    {V : Subgroup G} {hV : IsElemAbelian 2 V} (_hP : PairFacts D.M ⊥ V) {Q : Subgroup G}
     (hQV : Q ≤ V) (hQ1 : Q ≠ ⊥) {E : Subgroup (MulAut (Vtil ⊥ V hV))}
     (hE : E ≤ Mbar D.M ⊥ V hV) (hEp : IsPGroup 3 E) (hEc : ¬ IsCyclic E)
     (hEQ : ∀ φ ∈ E, ∀ w ∈ imgTil ⊥ V hV Q, φ w ∈ imgTil ⊥ V hV Q) :
     normalizer (Q : Set G) ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := preBarSub D.M ⊥ V hV E
   have hCM : C ≤ D.M := fun g hg => ((mem_preBarSub D.M ⊥ V hV E).1 hg).1
   have hCs : C ≤ stabTil ⊥ V := fun g hg => ((mem_preBarSub D.M ⊥ V hV E).1 hg).2.choose

@@ -78,7 +78,7 @@ theorem largeEvenLabelAll_noLine_twE6Split {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     fun _ _ _ _ ⟨hl, hn⟩ hs hna => ⟨4, Or.inl hl, hn hs hna⟩
 
 theorem ggNbrInnerWeylOn_twE6Split : GGNbrInnerWeylOn GGNbrWeylTwE6SplitLabel :=
-  ggNbrInnerWeylOn_of_labels fun p lab hp hp2 hlab ⟨hpow, ht, hp3, hdvd⟩ =>
+  ggNbrInnerWeylOn_of_labels fun _p _lab hp hp2 hlab ⟨hpow, ht, hp3, hdvd⟩ =>
     largeEvenLabelAll_weylInnerKLevel_of_noLine_or
       (largeEvenLabelAll_pow_mem_powMem hp hp2 hlab hpow)
       (largeEvenLabelAll_noLine_twE6Split hp hp2 hlab ⟨ht, hp3, hdvd⟩)

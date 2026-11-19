@@ -12,10 +12,12 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.Ext
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22br4_isKGroup_mbar_of_isKGroup (M V : Subgroup G) (hM : CFSG.Open.IsKGroup ↥M) :
     CFSG.Open.IsKGroup (MBar M V) :=
   hM.quotient _
 
+omit [Finite G] in
 theorem uc22br4_isKGroup_mbar (hG : CFSG.Open.IsKProper G) (M V : Subgroup G) (hM : M ≠ ⊤) :
     CFSG.Open.IsKGroup (MBar M V) :=
   uc22br4_isKGroup_mbar_of_isKGroup M V (hG.isKGroup M hM)
@@ -30,7 +32,7 @@ theorem uc22br4_isKGroup_mbar_catalog (hG : CFSG.Open.IsKProper G) (M V : Subgro
   uc22br4_isKGroup_catalog_of_open (uc22br4_isKGroup_mbar hG M V hM)
 
 theorem uc22br4_M_ne_top (D : Data G) : D.M ≠ ⊤ := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab D.maxLocal.1
 
 theorem uc22br4_isKGroup_mbar_data_catalog (D : Data G) (V : Subgroup G) :
@@ -40,9 +42,11 @@ theorem uc22br4_isKGroup_mbar_data_catalog (D : Data G) (V : Subgroup G) :
 @[expose] def uc22br4_phi (M V K : Subgroup G) (hKM : K ≤ M) : ↥K →* MBar M V :=
   (QuotientGroup.mk' (kerAct M V).normalCore).comp (Subgroup.inclusion hKM)
 
+omit [Finite G] in
 theorem uc22br4_phi_apply (M V K : Subgroup G) (hKM : K ≤ M) (k : ↥K) :
     uc22br4_phi M V K hKM k = (QuotientGroup.mk ⟨(k : G), hKM k.2⟩ : MBar M V) := rfl
 
+omit [Finite G] in
 theorem uc22br4_range_inclusion {K M : Subgroup G} (hKM : K ≤ M) :
     (Subgroup.inclusion hKM).range = K.subgroupOf M := by
   ext x
@@ -52,21 +56,25 @@ theorem uc22br4_range_inclusion {K M : Subgroup G} (hKM : K ≤ M) :
   · intro hx
     exact ⟨⟨x, hx⟩, rfl⟩
 
+omit [Finite G] in
 theorem uc22br4_range_phi (M V K : Subgroup G) (hKM : K ≤ M) :
     (uc22br4_phi M V K hKM).range = mbarImage M V K := by
   unfold uc22br4_phi mbarImage
   rw [MonoidHom.range_comp, uc22br4_range_inclusion hKM]
 
+omit [Finite G] in
 theorem uc22br4_ker_phi (M V K : Subgroup G) (hV : M ≤ normalizer (V : Set G)) (hKM : K ≤ M) :
     (uc22br4_phi M V K hKM).ker = (centralizer (V : Set G)).subgroupOf K := by
   ext k
   rw [MonoidHom.mem_ker, uc22br4_phi_apply, uc22br_gt_mk_eq_one_iff hV, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem uc22br4_card_mbarImage (M V K : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     (hKM : K ≤ M) :
     Nat.card (mbarImage M V K) = ((centralizer (V : Set G)).subgroupOf K).index := by
   rw [← uc22br4_range_phi M V K hKM, ← uc22br4_ker_phi M V K hV hKM, Subgroup.index_ker]
 
+omit [Finite G] in
 theorem uc22br4_mbarImage_eq_bot_iff (M V K : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     (hKM : K ≤ M) : mbarImage M V K = ⊥ ↔ K ≤ centralizer (V : Set G) := by
   rw [← uc22br4_range_phi M V K hKM, MonoidHom.range_eq_bot_iff, ← MonoidHom.ker_eq_top_iff,
@@ -80,6 +88,7 @@ theorem uc22br4_mbarImage_eq_bot_iff (M V K : Subgroup G) (hV : M ≤ normalizer
     intro x _
     exact h x.2
 
+omit [Finite G] in
 theorem uc22br4_mbarImage_normal (M V K : Subgroup G) (hKM : K ≤ M)
     (hMK : M ≤ normalizer (K : Set G)) : (mbarImage M V K).Normal := by
   have hn : (K.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).2 hMK
@@ -123,6 +132,7 @@ theorem uc22br4_pCore_bot_iff (M V : Subgroup G) (hV : M ≤ normalizer (V : Set
     have := (uc22br4_mbarImage_eq_bot_iff M V K hV hKM).2 hKC
     rwa [himg] at this
 
+omit [Finite G] in
 theorem uc22br4_injective (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod]
     (e : ↥V ≃* Multiplicative Vmod) (ρ : Representation (ZMod 2) (MBar M V) Vmod)
@@ -161,8 +171,8 @@ theorem uc22br4_exists_conjModule (M V : Subgroup G) (hV : M ≤ normalizer (V :
     ∃ (Vmod : Type) (_ : AddCommGroup Vmod) (_ : Module (ZMod 2) Vmod) (_ : Finite Vmod)
       (e : ↥V ≃* Multiplicative Vmod) (ρ : Representation (ZMod 2) (MBar M V) Vmod),
       ConjModule M V e ρ := by
-  haveI : IsMulCommutative ↥V := hel.1
-  letI : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule (n := 2) (fun x => by
+  have : IsMulCommutative ↥V := hel.1
+  let : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule (n := 2) (fun x => by
     apply Additive.toMul.injective
     simp only [toMul_nsmul, toMul_zero]
     exact Subtype.ext (hel.2 _ x.toMul.2))
@@ -204,6 +214,7 @@ theorem uc22br4_exists_conjModule (M V : Subgroup G) (hV : M ≤ normalizer (V :
   rw [hw']
   rfl
 
+omit [Finite G] in
 theorem uc22br4_isElemAbelian_of_equiv (V : Subgroup G) {Vmod : Type} [AddCommGroup Vmod]
     [Module (ZMod 2) Vmod] (e : ↥V ≃* Multiplicative Vmod) : CFSG.Open.IsElemAbelian 2 V := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -241,6 +252,7 @@ variable {M V : Subgroup G} {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) V
     rw [this]
     exact W.inv_mem hx
 
+omit [Finite G] in
 theorem uc22br4_symm_rho (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ) (m : ↥M) (x : Vmod) :
     ((e.symm (Multiplicative.ofAdd (ρ (QuotientGroup.mk m) x)) : ↥V) : G) =
@@ -266,6 +278,7 @@ theorem uc22br4_symm_rho (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Mult
     rw [uc22br4_symm_rho hV e ρ hc m x]
     exact (mem_normalizer_iff.1 (hW m.2) _).1 hx
 
+omit [Finite G] in
 theorem uc22br4_mem_subrep (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ) (W : Subgroup G)
     (hW : M ≤ normalizer (W : Set G)) (x : Vmod) :
@@ -297,10 +310,12 @@ theorem uc22br4_mem_subrep (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Mu
     rw [this, toAdd_inv]
     exact S.toSubmodule.neg_mem ha2
 
+omit [Finite G] in
 theorem uc22br4_subgrp_le (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (S : Subrepresentation ρ) :
     uc22br4_subgrp e ρ S ≤ V := fun _ hg => hg.1
 
+omit [Finite G] in
 theorem uc22br4_subgrp_normalizer (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ)
     (S : Subrepresentation ρ) : M ≤ normalizer (uc22br4_subgrp e ρ S : Set G) := by
@@ -321,6 +336,7 @@ theorem uc22br4_subgrp_normalizer (hV : M ≤ normalizer (V : Set G)) (e : ↥V 
 
 end Irr
 
+omit [Finite G] in
 theorem uc22br4_isIrreducible_iff (M V : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod]
     (e : ↥V ≃* Multiplicative Vmod) (ρ : Representation (ZMod 2) (MBar M V) Vmod)
@@ -377,7 +393,7 @@ theorem uc22br4_isIrreducible_iff (M V : Subgroup G) (hV : M ≤ normalizer (V :
       apply e.injective
       rw [map_one]
       exact Multiplicative.toAdd.injective hx0
-    haveI : Nontrivial (Subrepresentation ρ) := ⟨⟨⊥, ⊤, hbt⟩⟩
+    have : Nontrivial (Subrepresentation ρ) := ⟨⟨⊥, ⊤, hbt⟩⟩
     refine { eq_bot_or_eq_top := fun S => ?_ }
     rcases hirr (uc22br4_subgrp e ρ S) (uc22br4_subgrp_le e ρ S)
       (uc22br4_subgrp_normalizer hV e ρ hc S) with h1 | h1
@@ -404,8 +420,8 @@ theorem uc22br4_isQuasisimple_of_surjective {S T : Type*} [Group S] [Group T]
     (hS : CFSG.Open.IsQuasisimple S) (ψ : S →* T) (hψ : Function.Surjective ψ) [Nontrivial T] :
     CFSG.Open.IsQuasisimple T := by
   obtain ⟨hperf, hsimp⟩ := hS
-  haveI : Group.IsPerfect S := ⟨hperf⟩
-  haveI : Group.IsPerfect T := Group.IsPerfect.ofSurjective hψ
+  have : Group.IsPerfect S := ⟨hperf⟩
+  have : Group.IsPerfect T := Group.IsPerfect.ofSurjective hψ
   refine ⟨Group.IsPerfect.commutator_eq_top, ?_⟩
   have hle : center S ≤ (center T).comap ψ := fun z hz =>
     Subgroup.map_center_le_center hψ (Subgroup.mem_map_of_mem ψ hz)
@@ -415,7 +431,7 @@ theorem uc22br4_isQuasisimple_of_surjective {S T : Type*} [Group S] [Group T]
     obtain ⟨t, rfl⟩ := QuotientGroup.mk_surjective y
     obtain ⟨s, rfl⟩ := hψ t
     exact ⟨QuotientGroup.mk s, rfl⟩
-  haveI := hsimp
+  have := hsimp
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ψ'.ker with h | h
   · have hinj : Function.Injective ψ' := (MonoidHom.ker_eq_bot_iff ψ').1 h
     exact (MulEquiv.ofBijective ψ' ⟨hinj, hψ'⟩).isSimpleGroup_congr.1 hsimp
@@ -428,7 +444,7 @@ theorem uc22br4_isQuasisimple_of_surjective {S T : Type*} [Group S] [Group T]
         exact (MonoidHom.mem_ker.1 (h ▸ Subgroup.mem_top z))
       have ha : a ∈ center T := (QuotientGroup.eq_one_iff a).1 h1
       exact ((Subgroup.mem_center_iff.1 ha b)).symm
-    haveI : IsMulCommutative T := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative T := ⟨⟨hcomm⟩⟩
     exact Group.IsPerfect.not_isMulCommutative T ‹_›
 
 theorem uc22br4_conj_mem_map_of_characteristic {Y : Type*} [Group Y] {X : Subgroup Y}
@@ -469,6 +485,7 @@ theorem uc22br4_map_pCore_le_pCore_of_isSubnormal {Y : Type*} [Group Y] (p : ℕ
   | step X Z hXZ hZ hN ih =>
     exact (key hXZ ((Subgroup.normal_subgroupOf_iff_le_normalizer hXZ).mp hN)).trans ih
 
+omit [Finite G] in
 theorem uc22br4_isComponentOf_mbarImage (M V K : Subgroup G) (hV : M ≤ normalizer (V : Set G))
     (hO2 : CFSG.pCore 2 (MBar M V) = ⊥) (hK : K ∈ calC M) (hKV : ¬ K ≤ centralizer (V : Set G)) :
     CFSG.Open.IsComponentOf (mbarImage M V K) ⊤ := by
@@ -505,7 +522,7 @@ theorem uc22br4_isComponentOf_mbarImage (M V K : Subgroup G) (hV : M ≤ normali
     rw [hrange]
     intro h
     exact hKV ((uc22br4_mbarImage_eq_bot_iff M V K hV hKM).1 h)
-  haveI : Nontrivial ↥φ.range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial ↥φ.range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   let ψ : Bar2 K →* ↥φ.range :=
     QuotientGroup.lift (CFSG.pCore 2 ↥K) φ.rangeRestrict (by rwa [MonoidHom.ker_rangeRestrict])
   have hψ : Function.Surjective ψ := by
@@ -516,6 +533,7 @@ theorem uc22br4_isComponentOf_mbarImage (M V K : Subgroup G) (hV : M ≤ normali
   rw [← hrange]
   exact this
 
+omit [Finite G] in
 theorem uc22br4_conjClosure_eq (M K : Subgroup G) :
     conjClosure M K = ⨆ g : ↥M, K.map (MulAut.conj (g : G)).toMonoidHom := by
   unfold conjClosure conjSetOf
@@ -528,12 +546,14 @@ theorem uc22br4_conjClosure_eq (M K : Subgroup G) :
         {K' | ∃ g ∈ M, K' = K.map (MulAut.conj g).toMonoidHom} := ⟨g, g.2, rfl⟩
     exact le_iSup₂_of_le (K.map (MulAut.conj (g : G)).toMonoidHom) hmem le_rfl
 
+omit [Finite G] in
 theorem uc22br4_subgroupOf_iSup {ι : Type*} (M : Subgroup G) (X : ι → Subgroup G)
     (hX : ∀ i, X i ≤ M) : (⨆ i, X i).subgroupOf M = ⨆ i, (X i).subgroupOf M := by
   apply Subgroup.map_injective M.subtype_injective
   rw [Subgroup.map_iSup, Subgroup.map_subgroupOf_eq_of_le (iSup_le hX)]
   simp_rw [Subgroup.map_subgroupOf_eq_of_le (hX _)]
 
+omit [Finite G] in
 theorem uc22br4_subgroupOf_map_conj (M K : Subgroup G) (g : ↥M) :
     (K.map (MulAut.conj (g : G)).toMonoidHom).subgroupOf M =
       (K.subgroupOf M).map (MulAut.conj g).toMonoidHom := by
@@ -550,6 +570,7 @@ theorem uc22br4_subgroupOf_map_conj (M K : Subgroup G) (g : ↥M) :
   · rintro ⟨y, hy, rfl⟩
     exact ⟨y, hy, rfl⟩
 
+omit [Finite G] in
 theorem uc22br4_mbarImage_map_conj (M V K : Subgroup G) (g : ↥M) :
     mbarImage M V (K.map (MulAut.conj (g : G)).toMonoidHom) =
       (mbarImage M V K).map (MulAut.conj (QuotientGroup.mk g : MBar M V)).toMonoidHom := by
@@ -557,6 +578,7 @@ theorem uc22br4_mbarImage_map_conj (M V K : Subgroup G) (g : ↥M) :
   rw [uc22br4_subgroupOf_map_conj, Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 theorem uc22br4_lgConj_mbarImage (M V K : Subgroup G) (hKM : K ≤ M) :
     Ext.lgConj (mbarImage M V K) = mbarImage M V (conjClosure M K) := by
   have hXM : ∀ g : ↥M, K.map (MulAut.conj (g : G)).toMonoidHom ≤ M := by
@@ -602,6 +624,7 @@ theorem uc22br4_numConj_mbarImage_le (M V K : Subgroup G) :
         Set.ncard_le_ncard hsub (Set.toFinite _)
     _ ≤ (conjSetOf M K).ncard := Set.ncard_image_le (Set.toFinite _)
 
+omit [Finite G] in
 theorem uc22br4_mBarGT_mono (M V₀ V : Subgroup G) {m n : ℕ} (h : MBarGT M V₀ V n)
     (hmn : m ≤ n) : MBarGT M V₀ V m := by
   have hp : 2 ^ (m + 1) ≤ 2 ^ (n + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)

@@ -40,8 +40,8 @@ theorem sl_two_false_of_center_bot {E : Type*} [Field E] (h2 : (2 : E) ≠ 0) {T
 theorem two_ne_zero_of_card {E : Type*} [Field E] [Finite E] {ℓ m : ℕ} (hℓ : ℓ.Prime)
     (hℓ2 : ℓ ≠ 2) (hm : 1 ≤ m) (hc : Nat.card E = ℓ ^ m) : (2 : E) ≠ 0 := by
   intro h
-  haveI : CharP E 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by exact_mod_cast h)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : CharP E 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by exact_mod_cast h)
+  have : Fintype E := Fintype.ofFinite E
   obtain ⟨n, -, hn⟩ := FiniteField.card E 2
   rw [Nat.card_eq_fintype_card, hn] at hc
   have h1 : ℓ ∣ 2 ^ (n : ℕ) := hc ▸ dvd_pow_self ℓ (by omega)
@@ -64,14 +64,14 @@ theorem good_block_a5_false (H : UnitaryPrimaryData hK.bar B x)
     (hker : g.ker ≤ Subgroup.center _) (hker3 : ∀ u ∈ g.ker, u ^ 3 = 1)
     (hZ : Subgroup.center T = ⊥)
     (hL : Nonempty ((T ⧸ Subgroup.center T) ≃* alternatingGroup (Fin 5))) : False := by
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
   have hℓ1 : 1 ≤ ℓ := hK.prime.one_lt.le
   have hℓ3 : 3 ≤ ℓ := by have := hK.prime.two_le; omega
   have hfd : 1 ≤ f * (a : K[X]).natDegree := Nat.mul_pos hK.one_le hd
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
   by_cases hself : dualPoly hK.bar (a : K[X]) = a
   · obtain ⟨hE, Hf, hHf, hHfl, ⟨e⟩⟩ :=
@@ -83,7 +83,7 @@ theorem good_block_a5_false (H : UnitaryPrimaryData hK.bar B x)
         exact this
       obtain ⟨e2⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
+      have : Finite hE.fixedField := inferInstance
       have hcardF : Nat.card hE.fixedField = ℓ ^ (f * (a : K[X]).natDegree) :=
         hE.card_fixedField
       refine sl_two_false_of_center_bot (two_ne_zero_of_card hK.prime hℓ2 hfd hcardF)

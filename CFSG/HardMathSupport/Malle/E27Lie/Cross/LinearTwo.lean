@@ -16,7 +16,7 @@ open Subgroup CFSG.BenderSuzuki.MatrixGroups CFSG.GorensteinWalter
 theorem false_of_cyclic_sylow_three {G : Type*} [Group G] [Finite G]
     (hcyc : ∀ P : Sylow 3 G, IsCyclic P) {R : Subgroup G}
     (hR : CFSG.Assembly.IsElemAbelian 3 R) (hc : Nat.card R = 27) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 R := fun x => ⟨1, Subtype.ext (by simpa using hR.2 x x.2)⟩
   obtain ⟨P, hP⟩ := hp.exists_le_sylow
   have h1 : IsCyclic ↥(P : Subgroup G) := hcyc P
@@ -40,7 +40,7 @@ variable {X : Type} [Group X] [Finite X] {K R T : Subgroup X} {z : X}
 theorem false_of_psl2_model (h : E27Config X K R T z) (hz : z ∈ K) {p f : ℕ}
     (hcl : StatedClassicalModel K .PSL 2 p f) (hp3 : p ≠ 3) (hq4 : 4 ≤ p ^ f) : False := by
   obtain ⟨⟨hp, hf, -⟩, F, hF, hFin, hFc, ⟨e⟩⟩ := hcl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let θ : ↥K ≃* PSL2MatrixGroup F :=
     ((e.trans (statedProjSLEquiv' 2 F)).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL 2 F).symm)
@@ -63,7 +63,7 @@ theorem false_of_psl2_model (h : E27Config X K R T z) (hz : z ∈ K) {p f : ℕ}
     have hcop : Nat.Coprime 3 (Nat.card F) := by
       rw [hFc']
       exact Nat.Coprime.pow_right _ ((Nat.coprime_primes Nat.prime_three hp).2 (Ne.symm hp3))
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact psl2_sylow_isCyclic_of_coprime_field_card F hFc' (by omega) 3 (by norm_num) hcop P
   ·
     have h27 : 27 ∣ Nat.card K := by

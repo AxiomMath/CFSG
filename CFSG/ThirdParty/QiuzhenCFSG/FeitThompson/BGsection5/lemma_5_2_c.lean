@@ -22,13 +22,13 @@ public theorem CFSG.lemma_5_2_c
   obtain ⟨_hZcard, hWmem⟩ := lemma_5_2_b (p := p) hpodd (R := R) hpR hR hE hEmax
   have hWchar : W.Characteristic := by
     simpa [W, Ω₁Z₂] using z2OmegaCandidate_characteristic (G := R) (p := p)
-  letI : W.Characteristic := hWchar
+  let : W.Characteristic := hWchar
   have hTchar : T.Characteristic := by
     simpa [T, CΩ₁Z₂] using (inferInstance : T.Characteristic)
   have hWcard : Nat.card W = p ^ 2 := hWmem.1
   have hWelem : IsElementaryAbelian p W := hWmem.2
-  letI : IsElementaryAbelian p W := hWelem
-  letI : W.Normal := by infer_instance
+  let : IsElementaryAbelian p W := hWelem
+  let : W.Normal := by infer_instance
   let φ : R →* MulAut W := (MulAut.conjNormal (H := W))
   have hker : φ.ker = T := by
     ext r
@@ -58,7 +58,7 @@ public theorem CFSG.lemma_5_2_c
           _ = ((w : W) : R) := by simp [mul_assoc]
       simpa [φ, MulAut.conjNormal_apply] using hconj
   have hQp : IsPGroup p (R ⧸ φ.ker) := hpR.to_quotient (φ.ker)
-  haveI : Fact (IsPGroup p (R ⧸ φ.ker)) := ⟨hQp⟩
+  have : Fact (IsPGroup p (R ⧸ φ.ker)) := ⟨hQp⟩
   have hQodd : Odd (Nat.card (R ⧸ φ.ker)) := by
     rcases hQp.exists_card_eq with ⟨n, hn⟩
     rw [hn]
@@ -68,7 +68,7 @@ public theorem CFSG.lemma_5_2_c
       quotient_centralizer_card_le_p_of_elementaryAbelian_rank_two
         (p := p) (E := W) (Q := R ⧸ φ.ker) hWcard hQodd
         (i := QuotientGroup.kerLift φ) (hi := QuotientGroup.kerLift_injective (φ := φ))
-  haveI : T.Normal := by
+  have : T.Normal := by
     rw [← hker]
     infer_instance
   have hT_ne_top : T ≠ ⊤ := by
@@ -85,7 +85,7 @@ public theorem CFSG.lemma_5_2_c
     have hk_ne_zero : k ≠ 0 := by
       intro hk0
       have hcard_one : Nat.card (R ⧸ T) = 1 := by simpa [hk0] using hk
-      haveI : Nontrivial (R ⧸ T) := hQ_nontrivial
+      have : Nontrivial (R ⧸ T) := hQ_nontrivial
       exact Nat.ne_of_gt Finite.one_lt_card hcard_one
     have hk_le_one : k ≤ 1 := by
       rw [hk] at hQle

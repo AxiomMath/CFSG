@@ -22,7 +22,7 @@ theorem exists_conj_map_le_and_centralizer_inf_eq_of_isSylowIn
       R.map (MulAut.conj g).toMonoidHom ≤ S ∧
       P ⊓ Subgroup.centralizer ({g * a * g⁻¹} : Set Γ) =
         R.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Ht : Subgroup Γ := H ⊓ Subgroup.centralizer ({t} : Set Γ)
   let R0 : Subgroup Γ := R.map (MulAut.conj h⁻¹).toMonoidHom
   have hR0H : R0 ≤ H := by
@@ -35,10 +35,10 @@ theorem exists_conj_map_le_and_centralizer_inf_eq_of_isSylowIn
     refine Subgroup.mem_centralizer_singleton_iff.mpr ?_
     calc
       (MulAut.conj h⁻¹ y) * t = h⁻¹ * (y * (h * t * h⁻¹)) * h := by
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       _ = h⁻¹ * ((h * t * h⁻¹) * y) * h := by rw [hy']
       _ = t * (MulAut.conj h⁻¹ y) := by
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
   have hR0Ht : R0 ≤ Ht := le_inf hR0H hR0C
   have hR0P : IsPGroup 2 R0 := hR.isPGroup.map (MulAut.conj h⁻¹).toMonoidHom
   have hR0HtP : IsPGroup 2 (R0.subgroupOf Ht) := hR0P.comap_subtype (K := Ht)

@@ -36,7 +36,7 @@ theorem eq_alternatingGroup_or_isE8L3 {Ω : Type} [Fintype Ω]
     rw [Subgroup.mem_comap, Equiv.Perm.mem_alternatingGroup,
       Equiv.Perm.mem_alternatingGroup]
     have hsign : Perm.sign (φ.symm x) = Perm.sign x := by
-      simpa [φ, Equiv.permCongrHom_symm] using Equiv.Perm.sign_permCongr e.symm x
+      simp [φ, Equiv.permCongrHom_symm]
     change Perm.sign (φ.symm x) = 1 ↔ Perm.sign x = 1
     rw [hsign]
   have hS8 : IsSylowIn 2 S8 (alternatingGroup (Fin 8)) := by

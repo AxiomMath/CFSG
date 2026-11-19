@@ -104,7 +104,7 @@ theorem genT_eq (z : Int) (hz : 0 < z) : n7GenT[(z - 1).toNat]! =
       omega
     have h' : z ≠ 1 ∧ z ≠ 2 ∧ z ≠ 3 ∧ z ≠ 4 ∧ z ≠ 5 ∧ z ≠ 6 := by omega
     rw [getElem!_neg n7GenT (z - 1).toNat hi]
-    simp only [h'.1, h'.2.1, h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2.1, h'.2.2.2.2.2, if_false]
+    simp only [h'.1, h'.2.1, h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2.1, h'.2.2.2.2.2, ite_false]
     rfl
 
 theorem genV_eq (z : Int) (hz : ¬ 0 < z) : n7GenV[(-z - 1).toNat]! =
@@ -128,22 +128,22 @@ theorem genV_eq (z : Int) (hz : ¬ 0 < z) : n7GenV[(-z - 1).toNat]! =
     have h' : z ≠ 0 ∧ z ≠ -1 ∧ z ≠ -2 ∧ z ≠ -3 ∧ z ≠ -4 ∧ z ≠ -5 ∧ z ≠ -6 := by omega
     rw [getElem!_neg n7GenV (-z - 1).toNat hi]
     simp only [h'.1, h'.2.1, h'.2.2.1, h'.2.2.2.1, h'.2.2.2.2.1, h'.2.2.2.2.2.1, h'.2.2.2.2.2.2,
-      if_false]
+      ite_false]
     rfl
 
 theorem rd_empty : Rd #[] 0 := fun x hx => by
   refine ⟨?_, by simp [fd]⟩
-  simp [ap, fd] <;> rfl
+  simp [ap, fd]; rfl
 
 theorem n7L_get (z : Int) : Rd (n7L z) (NL z) := by
   unfold n7L NL
   by_cases hz : 0 < z
-  · rw [if_pos hz, if_pos hz, genT_eq z hz]
+  · rw [ite_eq_left hz, ite_eq_left hz, genT_eq z hz]
     repeat' refine ite_pair (Q := Rd) ?_ ?_
     exacts [(gen_get (k := 0) (by norm_num)).1, (gen_get (k := 1) (by norm_num)).1,
       (gen_get (k := 2) (by norm_num)).1, (gen_get (k := 3) (by norm_num)).1,
       (gen_get (k := 4) (by norm_num)).1, (gen_get (k := 5) (by norm_num)).1, rd_empty]
-  · rw [if_neg hz, if_neg hz, genV_eq z hz]
+  · rw [ite_eq_right hz, ite_eq_right hz, genV_eq z hz]
     repeat' refine ite_pair (Q := Rd) ?_ ?_
     exacts [(gen_get (k := 0) (by norm_num)).2.2, (gen_get (k := 0) (by norm_num)).2.2,
       (gen_get (k := 1) (by norm_num)).2.2,

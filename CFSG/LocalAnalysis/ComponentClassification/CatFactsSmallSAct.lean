@@ -76,7 +76,7 @@ theorem isPGroup_S : IsPGroup 2 h.S := by
   obtain ⟨R, hR⟩ := h.S_sylow
   have hle : h.S ≤ centralizer ({h.a} : Set H) ⊓ normalizer (h.J : Set H) := h.S_le
   have h1 : IsPGroup 2 (h.S.subgroupOf (centralizer ({h.a} : Set H) ⊓
-      normalizer (h.J : Set H))) := hR ▸ R.isPGroup'
+      normalizer (h.J : Set H))) := hR ▸ R.isPGroup
   exact h1.of_equiv (subgroupOfEquivOfLe hle)
 
 theorem exists_sylow_D : ∃ T : Sylow 2 ↥h.J, (T : Subgroup h.J) = h.D.subgroupOf h.J := by
@@ -154,7 +154,7 @@ theorem mem_D_sup_P_iff_inner (hZ : center (OddBar h.J) = ⊥) (s : h.S) :
         exact orderOf_dvd_of_pow_eq_one hxk)
     have hxD : x ∈ (Tb : Subgroup (OddBar h.J)) := by
       have hsup : IsPGroup 2 ↥((Tb : Subgroup (OddBar h.J)) ⊔ zpowers x) :=
-        IsPGroup.to_sup_of_normal_left' Tb.isPGroup' hx2 (zpowers_le.2 hxN)
+        IsPGroup.to_sup_of_normal_left' Tb.isPGroup hx2 (zpowers_le.2 hxN)
       have heq := Tb.maximal_isPGroup.le_of_ge hsup le_sup_left
       exact heq (mem_sup_right (mem_zpowers x))
     rw [hTb] at hxD

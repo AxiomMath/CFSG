@@ -16,8 +16,8 @@ open CFSG.Assembly.LowTwoRank
 private theorem card_of_isSLTwoOver' {q : ℕ} {Y : Type} [Group Y]
     (h : HarrisLit.IsSLTwoOver q Y) : Nat.card Y = q * (q ^ 2 - 1) := by
   obtain ⟨F, hF, hFint, hFcard, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hFint
+  let := hF
+  let := hFint
   rw [Nat.card_congr e.toEquiv,
     Nat.card_congr (specialLinearGroupEquivStatedSL 2 F).toEquiv,
     CFSG.Open.StatedAPI.card_statedSL_two, Nat.card_eq_fintype_card, hFcard]
@@ -44,7 +44,7 @@ private theorem isPGroup_two_center_sl2 (F : Type) [Field F] :
 private theorem pPrimeCore_eq_bot_of_quasisimple {X : Type*} [Group X] [Finite X]
     (hq : CFSG.IsQuasisimple X) (hZle : Nat.card ↥(Subgroup.center X) ≤ 2)
     (heven : Even (Nat.card X)) : pPrimeCore 2 X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : (pPrimeCore 2 X).Normal := inferInstance
   have hcop : Nat.Coprime 2 (Nat.card ↥(pPrimeCore 2 X)) := CFSG.pPrimeCore_coprime_card
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hN with htop | hle
@@ -67,12 +67,12 @@ private theorem pPrimeCore_eq_bot_of_quasisimple {X : Type*} [Group X] [Finite X
 
 theorem isSLTwoOver_quotient {q : ℕ} (hq : Odd q) (h5 : 5 ≤ q) {N : Type} [Group N]
     (h : HarrisLit.IsSLTwoOver q N) : HarrisLit.IsSLTwoOver q (N ⧸ pPrimeCore 2 N) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSL : HarrisLit.IsSLTwoOver q N := h
   obtain ⟨F, hF, hFint, hFcard, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hFint
-  haveI : Finite N := Finite.of_equiv _ e.toEquiv.symm
+  let := hF
+  let := hFint
+  have : Finite N := Finite.of_equiv _ e.toEquiv.symm
   have h4 : 4 ≤ Nat.card F := by rw [Nat.card_eq_fintype_card, hFcard]; omega
   have hqSL : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) F) :=
     isQuasisimple_of_perfect_of_simple_center
@@ -101,10 +101,10 @@ theorem isSLTwoOver_quotient {q : ℕ} (hq : Odd q) (h5 : 5 ≤ q) {N : Type} [G
 theorem isPerfect_of_isSLTwoOver {q : ℕ} (h5 : 5 ≤ q) {N : Type} [Group N]
     (h : HarrisLit.IsSLTwoOver q N) : Group.IsPerfect N := by
   obtain ⟨F, hF, hFint, hFcard, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hFint
+  let := hF
+  let := hFint
   have h4 : 4 ≤ Nat.card F := by rw [Nat.card_eq_fintype_card, hFcard]; omega
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F h4
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
@@ -112,14 +112,14 @@ theorem isSLTwoOver_of_perfect_central_extension (hGA : TBLit.GriessMultipliersO
     (hq : Odd q) (h5 : 5 ≤ q) {E : Type} [Group E] [Finite E] (hE : Group.IsPerfect E)
     {A : Subgroup E} [A.Normal] (hA : A ≤ center E) (hA2 : IsPGroup 2 ↥A)
     (hN : HarrisLit.IsSLTwoOver q (E ⧸ A)) : HarrisLit.IsSLTwoOver q E ∧ A = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNkeep := hN
   obtain ⟨F, hF, hFint, hFcard, ⟨eA⟩⟩ := hN
-  letI := hF
-  letI := hFint
+  let := hF
+  let := hFint
   have h4 : 4 ≤ Nat.card F := by rw [Nat.card_eq_fintype_card, hFcard]; omega
   obtain ⟨p, hCharP, f, hp, hcardF⟩ := FiniteField.card' F
-  haveI : CharP F p := hCharP
+  have : CharP F p := hCharP
   have hqf : p ^ (f : ℕ) = q := by rw [← hcardF]; exact hFcard
   have hp2 : p ≠ 2 := by
     rintro rfl
@@ -159,7 +159,7 @@ theorem isSLTwoOver_of_perfect_central_extension (hGA : TBLit.GriessMultipliersO
     · rw [Fintype.card_fin]; ring
     · ext i j
       by_cases hij : i = j <;>
-        simp [Matrix.diagonal_apply, Matrix.neg_apply, Matrix.one_apply, hij]
+        simp [Matrix.neg_apply, hij]
   have hneg1 : (-1 : Matrix.SpecialLinearGroup (Fin 2) F) ≠ 1 := by
     intro hh
     have hm := congrArg (fun g : Matrix.SpecialLinearGroup (Fin 2) F =>
@@ -234,7 +234,7 @@ theorem isSLTwoOver_nine_of_psl_nine (hGA : TBLit.GriessMultipliersOdd) {M : Typ
     (hwZ : w ∈ Open.fusionZStar M)
     (h : LieModel (M ⧸ Open.fusionZStar M) .PSL 2 3 2) :
     HarrisLit.IsSLTwoOver 9 (M ⧸ pPrimeCore 2 M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q := M ⧸ pPrimeCore 2 M
   have hQq : CFSG.IsQuasisimple Q := hM.2
   have hOQ : pPrimeCore 2 Q = ⊥ := CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot (G := M) 2

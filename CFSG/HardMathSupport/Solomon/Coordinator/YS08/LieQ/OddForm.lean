@@ -20,6 +20,7 @@ variable {F : Type} [Field F] [Finite F] {q : ℕ} [Fact q.Prime] [CharP F q] {V
 @[expose] def EA2ε (Φ : ReflForm F V) (Sing : V → Prop) (ρ : H →* Module.End F V) : Prop :=
   ∀ x : V, Sing x → ∃ (c₀ : F) (h : H), c₀ ≠ 0 ∧ ∀ v, ρ h v = v + (c₀ * Φ.β x v) • x
 
+omit [Finite F] in
 theorem rigid_of_comm_form (Φ : ReflForm F V) (Sing : V → Prop) (TS : Submodule F V → Prop)
     (ρ : H →* Module.End F V) {ε : F} (hε : ε = 1 ∨ ε = -1) (hσΦ : ∀ c, Φ.σ (Φ.σ c) = c)
     (hdim : 3 ≤ Module.finrank F V) (hTS : ∀ U, TS U → Φ.IsTotallyIsotropic U)
@@ -107,7 +108,7 @@ theorem rigid_of_comm_form (Φ : ReflForm F V) (Sing : V → Prop) (TS : Submodu
         have := Submodule.finrank_mono hle
         rw [finrank_span_singleton hx0] at this
         omega
-      obtain ⟨y₁, hy₁P, hy₁⟩ := SetLike.not_le_iff_exists.1 hnle1
+      obtain ⟨y₁, hy₁P, hy₁⟩ := IsConcreteLE.not_le_iff_exists.1 hnle1
       have hnle2 : ¬ Φ.perp (X (k + 1)) ≤ Submodule.span F ({x, y₁} : Set V) := by
         intro hle
         have h1 := Submodule.finrank_mono hle
@@ -117,12 +118,13 @@ theorem rigid_of_comm_form (Φ : ReflForm F V) (Sing : V → Prop) (TS : Submodu
           simp only [Finset.coe_insert, Finset.coe_singleton] at this
           exact le_trans this h3
         omega
-      obtain ⟨y₂, hy₂P, hy₂⟩ := SetLike.not_le_iff_exists.1 hnle2
+      obtain ⟨y₂, hy₂P, hy₂⟩ := IsConcreteLE.not_le_iff_exists.1 hnle2
       exact hC.line_of_eichler hε hσΦ hx0 hy₁ hy₂ (hE x hx hx0 y₁ hy₁P) (hE x hx hx0 y₂ hy₂P)
   exact FormCoreQ.rigid_form_core_q Φ hε hσΦ hdim (X (k + 1)) hW0 (hXTI (k + 1)) r hr hΦ n hn hrn
     hline hE
 
 
+omit [Finite F] in
 theorem rigidInner_form (Φ : ReflForm F V) (Sing : V → Prop) (TS : Submodule F V → Prop)
     (ρ : H →* Module.End F V) (𝔉 : Subgroup H → ℕ → Submodule F V) {ε : F}
     (hε : ε = 1 ∨ ε = -1) (hσΦ : ∀ c, Φ.σ (Φ.σ c) = c)

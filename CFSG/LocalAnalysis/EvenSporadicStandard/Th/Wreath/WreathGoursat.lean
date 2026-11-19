@@ -72,6 +72,7 @@ private def wreathK (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD)) (Q : Subg
         exact mul_right_cancel (mul_left_cancel hthis')
       simpa only [inv_inv] using hXY.symm
 
+omit [Finite G] in
 private theorem wreathK_le_Hn (hD : DHyp A Aa t D) (w : AddMonoid.End (VSub hD))
     (Q : Subgroup G) (hHn : L ⊓ normalizer (A : Set G) ≤ wComm hD w) :
     wreathK hD w Q hHn ≤ L ⊓ normalizer (A : Set G) :=
@@ -116,9 +117,9 @@ private theorem B_le_wreathK (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   · intro v hv
     rw [H.comm_omega1_of_mem_B W W2 hD hb hβ (wKer_le_omega1 hD w hv)]
 
-private theorem wreathK_normal (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
-    (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
-    (hwH : ∀ n ∈ L ⊓ normalizer (A : Set G), vConj hD n * w = w * vConj hD n)
+private theorem wreathK_normal (_H : ThCyc G L R t) (_W : ThLocalIn L S A B z)
+    (_W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
+    (_hwH : ∀ n ∈ L ⊓ normalizer (A : Set G), vConj hD n * w = w * vConj hD n)
     {Q : Subgroup G} (hQ : QHyp L A D t Q)
     (hHn : L ⊓ normalizer (A : Set G) ≤ wComm hD w) :
     ∀ h ∈ L ⊓ normalizer (A : Set G), ∀ x ∈ wreathK hD w Q hHn,

@@ -14,7 +14,6 @@ namespace Certificates
 
 theorem certificate1023505 :     CFSG.StandardType.SporadicShape.SporKRestCover 5 CFSG.Blueprint.NativeSporadic.Th :=
   by
-    intros
     exact @CFSG.StandardType.SporadicShape.SporKRestCover.of_mulEquiv ↥CFSG.Sporadic.Th.J
       CFSG.Blueprint.NativeSporadic.Th inferInstance inferInstance CFSG.Sporadic.Th.thEquivJ.symm 5
       CertificateChecks.KernelThFive.sporKRest_cover_Th_5_kernel

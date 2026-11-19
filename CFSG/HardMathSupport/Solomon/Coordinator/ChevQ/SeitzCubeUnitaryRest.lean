@@ -70,7 +70,7 @@ theorem eq_top_of_normal_two (h : UnitaryFieldData ℓ f K) (hq4 : 4 ≤ ℓ ^ f
   have hcardF : 4 ≤ Nat.card (CFSG.LieType.Steinberg.fixedSubfield K ℓ f) := by
     rw [CFSG.LieType.Steinberg.card_fixedSubfield hF]
     exact hq4
-  haveI hsimple : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
+  have hsimple : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
       (CFSG.LieType.Steinberg.fixedSubfield K ℓ f)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcardF
   have hperf := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card
@@ -84,7 +84,7 @@ theorem eq_top_of_normal_two (h : UnitaryFieldData ℓ f K) (hq4 : 4 ≤ ℓ ^ f
     (CFSG.LieType.Steinberg.fixedSubfield K ℓ f)) with hZ
   set ψ := QuotientGroup.mk' Z with hψ
   have hψs : Function.Surjective ψ := QuotientGroup.mk'_surjective Z
-  haveI hmapn : (N'.map ψ).Normal := hN'n.map ψ hψs
+  have hmapn : (N'.map ψ).Normal := hN'n.map ψ hψs
   have hg' : φ.symm g ∈ N' := by
     show φ (φ.symm g) ∈ N
     rw [MulEquiv.apply_symm_apply]
@@ -164,6 +164,7 @@ variable {ℓ f n p : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [Cha
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Finite K] in
 theorem iSupIndep_eigen {Y : Matrix (Fin n) (Fin n) K} {ν ζ : K} (hν : ν ≠ 0)
     (hζ : IsPrimitiveRoot ζ p) :
     iSupIndep fun l : Fin p => Module.End.eigenspace (Matrix.toLin' Y) (ν * ζ ^ (l : ℕ)) := by
@@ -218,6 +219,7 @@ variable {ℓ f n p : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [Cha
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Finite K] in
 theorem isON_pair {σ : K ≃+* K} (hσ : ∀ c, σ (σ c) = c) {e₁ e₂ : Fin n → K}
     (h11 : herm σ e₁ e₁ = 1) (h22 : herm σ e₂ e₂ = 1) (h12 : herm σ e₁ e₂ = 0) :
     ONExt.IsON σ ![e₁, e₂] := by
@@ -225,10 +227,12 @@ theorem isON_pair {σ : K ≃+* K} (hσ : ∀ c, σ (σ c) = c) {e₁ e₂ : Fin
   intro i j
   fin_cases i <;> fin_cases j <;> simp [h11, h22, h12, h21]
 
+omit [Finite K] in
 theorem orthoEmb_pair (e₁ e₂ : Fin n → K) (c : Fin 2 → K) :
     orthoEmb ![e₁, e₂] c = c 0 • e₁ + c 1 • e₂ := by
   simp [orthoEmb_apply, Fin.sum_univ_two]
 
+omit [Finite K] in
 theorem smul_orthoEmb_pair {σ : K ≃+* K} {s : SUid σ n} {e₁ e₂ : Fin n → K} {l₁ l₂ : K}
     (h₁ : s • e₁ = l₁ • e₁) (h₂ : s • e₂ = l₂ • e₂) (c : Fin 2 → K) :
     s • orthoEmb ![e₁, e₂] c = orthoEmb ![e₁, e₂] ![l₁ * c 0, l₂ * c 1] := by
@@ -236,6 +240,7 @@ theorem smul_orthoEmb_pair {σ : K ≃+* K} {s : SUid σ n} {e₁ e₂ : Fin n �
     smul_smul, smul_smul]
   simp [mul_comm]
 
+omit [Finite K] in
 theorem inv_smul_of_eigen {σ : K ≃+* K} {s : SUid σ n} {e : Fin n → K} {l : K} (hl : l ≠ 0)
     (h₁ : s • e = l • e) : s⁻¹ • e = l⁻¹ • e := by
   rw [inv_smul_eq_iff, smul_comm, h₁, smul_smul, inv_mul_cancel₀ hl, one_smul]
@@ -263,7 +268,7 @@ theorem allCenters_plane (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p 
   have hσ : IsUnitaryInvolution σ₀ := Nonsplit.isUnitaryInvolution h
   have hσi := hσ.invol
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set Bm : Matrix (Fin n) (Fin n) K := ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hBm
   have he₁0 : e₁ ≠ 0 := by
     rintro rfl
@@ -483,7 +488,7 @@ theorem allCenters_insert (h : UnitaryFieldData ℓ f K) (hq2 : ℓ ^ f ≠ 2)
     by_cases hkk : k = k'
     · subst hkk
       simp
-    · rw [if_neg (fun h0 => hkk (S.equivFin.symm.injective (Subtype.ext h0))), if_neg hkk]
+    · rw [ite_eq_right (fun h0 => hkk (S.equivFin.symm.injective (Subtype.ext h0))), ite_eq_right hkk]
   have hxS : Set.range x = e '' ↑S := by
     ext v
     constructor
@@ -497,17 +502,17 @@ theorem allCenters_insert (h : UnitaryFieldData ℓ f K) (hq2 : ℓ ^ f ≠ 2)
   have hix : ∀ k, herm σ₀ (x k) (e i) = 0 := by
     intro k
     simp only [hx]
-    rw [he, if_neg]
+    rw [he, ite_eq_right]
     intro h0
     apply hi
     rw [← h0]
     exact (S.equivFin.symm k).2
   have horth : ∀ c, herm σ₀ (orthoEmb x c) (e i) = 0 := ONExt.herm_orthoEmb_of_orth x hix
   have hij : i ≠ j := fun h0 => hi (h0 ▸ hj)
-  have hii : herm σ₀ (e i) (e i) = 1 := by rw [he, if_pos rfl]
-  have hjj : herm σ₀ (e j) (e j) = 1 := by rw [he, if_pos rfl]
-  have hie : herm σ₀ (e i) (e j) = 0 := by rw [he, if_neg hij]
-  have hje : herm σ₀ (e j) (e i) = 0 := by rw [he, if_neg (Ne.symm hij)]
+  have hii : herm σ₀ (e i) (e i) = 1 := by rw [he, ite_eq_left rfl]
+  have hjj : herm σ₀ (e j) (e j) = 1 := by rw [he, ite_eq_left rfl]
+  have hie : herm σ₀ (e i) (e j) = 0 := by rw [he, ite_eq_right hij]
+  have hje : herm σ₀ (e j) (e i) = 0 := by rw [he, ite_eq_right (Ne.symm hij)]
   set j' := S.equivFin ⟨j, hj⟩ with hj'
   have hxj : x j' = e j := by simp [hx, hj']
   intro v hv hvi
@@ -604,6 +609,7 @@ theorem four_le_of_dvd_succ (hp : p.Prime) (hp2 : p ≠ 2) {q : ℕ} (hq0 : q �
     · exact absurd hpq (by norm_num)
     · exact absurd hp (by norm_num)
 
+omit [Finite K] in
 theorem linearIndependent_of_orthonormal {σ : K ≃+* K} {ι : Type*} [Fintype ι] [DecidableEq ι]
     {e : ι → Fin n → K} (he : ∀ i j, herm σ (e i) (e j) = if i = j then 1 else 0) :
     LinearIndependent K e := by
@@ -612,7 +618,7 @@ theorem linearIndependent_of_orthonormal {σ : K ≃+* K} {ι : Type*} [Fintype 
   have h1 := congrArg (herm σ (e i)) hg
   rw [herm_zero_right, herm_sum_right] at h1
   simp only [herm_smul_right, he, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true] at h1
+    Finset.mem_univ, ite_true] at h1
   exact h1
 
 theorem hyperGen_of_nonab_two (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p ≠ 2)
@@ -640,7 +646,7 @@ theorem hyperGen_of_nonab_two (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2
   have hσi := hσ.invol
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hpK : (p : K) ≠ 0 := heis_natCast_ne_zero hζ hp.two_le
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hq4 : 4 ≤ ℓ ^ f :=
     four_le_of_dvd_succ hp hp2 (pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero) hpq hq2
   have hrs : ∀ c : K, ((r : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ≠ c • 1 :=
@@ -762,16 +768,16 @@ theorem hyperGen_of_nonab_two (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2
     · by_cases hll : l = l'
       · subst hll
         simp [he_def, ha]
-      · rw [if_neg (by simpa using hll)]
+      · rw [ite_eq_right (by simpa using hll)]
         exact hJorth (l, c₁) (l', c₁) (fun h0 => hll (congrArg Prod.fst h0)) _ (haJ l) _ (haJ l')
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       exact hJorth (l, c₁) (l', c₂) (fun h0 => hc12 (congrArg Prod.snd h0)) _ (haJ l) _ (hbJ l')
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       exact hJorth (l, c₂) (l', c₁) (fun h0 => hc21 (congrArg Prod.snd h0)) _ (hbJ l) _ (haJ l')
     · by_cases hll : l = l'
       · subst hll
         simp [he_def, hb]
-      · rw [if_neg (by simpa using hll)]
+      · rw [ite_eq_right (by simpa using hll)]
         exact hJorth (l, c₂) (l', c₂) (fun h0 => hll (congrArg Prod.fst h0)) _ (hbJ l) _ (hbJ l')
   set H := (hyperClosure p ⊤ E).comap π with hH
   have hcz : ((c₁ : ℕ) : ZMod p) - ((c₂ : ℕ) : ZMod p) ≠ 0 := by
@@ -908,7 +914,7 @@ theorem map_scalar_eq_one {d : TauCeti.ValidLieTypeIndex} {m : ℕ} {q : TauCeti
         have h3 := hrange.2 (by omega)
         rw [hqcard] at h2
         omega)
-  haveI : IsSimpleGroup (Cat ⟨.twistedA m q, hv⟩) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (Cat ⟨.twistedA m q, hv⟩) := MulEquiv.isSimpleGroup e
   have hσ : IsUnitaryInvolution σ₀ := Nonsplit.isUnitaryInvolution h
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hcen : Subgroup.center (Cat ⟨.twistedA m q, hv⟩) = ⊥ := by

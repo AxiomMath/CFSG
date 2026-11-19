@@ -132,6 +132,7 @@ section Irreducible
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem transvection_pow_ringChar {m : Type*} [Fintype m] [DecidableEq m] {i j : m}
     (hij : i ≠ j) (c : F) : SpecialLinearGroup.transvection hij c ^ ringChar F = 1 := by
   have h : ∀ k : ℕ, SpecialLinearGroup.transvection hij c ^ k =
@@ -163,7 +164,7 @@ theorem det_eq_one_of_perfect {G : Type*} [Group G] (hG : commutator G = ⊤) {m
 
 @[expose] noncomputable def twistHom {G : Type*} [Group G] (α : MulAut G) (p : ℕ) :
     G →* (Fin p → G) :=
-  Pi.monoidHom fun k : Fin p => (α ^ (k : ℕ)).toMonoidHom
+  _root_.MonoidHom.pi fun k : Fin p => (α ^ (k : ℕ)).toMonoidHom
 
 @[expose] noncomputable def twistBlock {p : ℕ} (hp3 : 3 ≤ p) {Q : Fin p → Matrix (Fin p) (Fin p) F}
     (hQ : OrthDecomp Q) (Cu : GL (Fin p) F) :
@@ -177,6 +178,7 @@ theorem coe_twistBlock {p : ℕ} (hp3 : 3 ≤ p) {Q : Fin p → Matrix (Fin p) (
       Matrix (Fin (p * p)) (Fin (p * p)) F) =
         blockMat Q (fun k => ((conjAutSL Cu ^ (k : ℕ)) v : Matrix (Fin p) (Fin p) F)) := rfl
 
+omit [Finite F] in
 theorem conjAutSL_pow_shiftIdx {p : ℕ} (hp : 0 < p) {Cu : GL (Fin p) F}
     (hαp : conjAutSL Cu ^ p = 1) (v : SpecialLinearGroup (Fin p) F) (k : Fin p) :
     (conjAutSL Cu ^ ((shiftIdx hp k : Fin p) : ℕ)) v = conjAutSL Cu ((conjAutSL Cu ^ (k : ℕ)) v) := by
@@ -184,6 +186,7 @@ theorem conjAutSL_pow_shiftIdx {p : ℕ} (hp : 0 < p) {Cu : GL (Fin p) F}
   simp only
   rw [← pow_eq_pow_mod _ hαp, pow_succ', MulAut.mul_apply]
 
+omit [Finite F] in
 theorem kr_mul_twist_comm {p : ℕ} (hp : 0 < p) {Q : Fin p → Matrix (Fin p) (Fin p) F}
     {T : Matrix (Fin p) (Fin p) F} (hT : ∀ k, T * Q k = Q (shiftIdx hp k) * T)
     {Cu : GL (Fin p) F} (hαp : conjAutSL Cu ^ p = 1) (v : SpecialLinearGroup (Fin p) F) :
@@ -379,7 +382,7 @@ theorem seitzHyperGamma_eq_top_of_linearDiag {K : Type} [Group K] [Finite K]
     (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3) (hL : LinearDiag p E) :
     seitzHyperGamma p E = ⊤ := by
   obtain ⟨n, F, _, _, θ, hn, hpF, hpq, hlin⟩ := hL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj := modelAut_injective hperf θ
   have hE' : IsElemAbelian p (E.map (modelAut θ)) :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hE _

@@ -152,7 +152,7 @@ theorem burnsideC1b_exists_complement_sec {F : Type} [Field F] [Fintype F] [Char
       X ⊓ Z = W ∧ X ⊔ Z = V := by
   have hZV : Z ≤ V := hV.2.1
   have hWA : W ≤ A := hWZ.trans (hZV.trans hVA)
-  haveI hN : (W.subgroupOf A).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWA).mpr hAW
+  have hN : (W.subgroupOf A).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWA).mpr hAW
   set π := QuotientGroup.mk' (W.subgroupOf A) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hWα' : W.subgroupOf A ≤ α.ker := fun x hx =>
@@ -259,13 +259,13 @@ theorem burnsideC1b_commutator_mem_sec {F : Type} [Field F] {A V₁ Z₁ V₂ Z�
     (h₂ : IsSumOfNaturalModulesVia A V₂ Z₂ α dual 1)
     (hV₁A : V₁ ≤ A) (hV₂A : V₂ ≤ A) (hWZ₁ : W ≤ Z₁) (hWZ₂ : W ≤ Z₂)
     (hAW : A ≤ Subgroup.normalizer (W : Set G))
-    (hWα : ∀ a : ↥A, (a : G) ∈ W → α a = 1) (hYA : Y ≤ A)
+    (hWα : ∀ a : ↥A, (a : G) ∈ W → α a = 1) (_hYA : Y ≤ A)
     (hY : ∀ x ∈ V₁, ∀ v ∈ V₂, ⁅x, v⁆ ∈ Y)
     (hYc : ∀ a ∈ A, ∀ y ∈ Y, a * y * a⁻¹ * y⁻¹ ∈ W)
     (hZ₁ : ∀ z ∈ Z₁, ∀ v ∈ V₂, ⁅z, v⁆ ∈ W) (hZ₂ : ∀ x ∈ V₁, ∀ z ∈ Z₂, ⁅x, z⁆ ∈ W) :
     ∀ x ∈ V₁, ∀ v ∈ V₂, ⁅x, v⁆ ∈ W := by
   have hWA : W ≤ A := hWZ₁.trans (h₁.2.1.trans hV₁A)
-  haveI hN : (W.subgroupOf A).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWA).mpr hAW
+  have hN : (W.subgroupOf A).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWA).mpr hAW
   set π := QuotientGroup.mk' (W.subgroupOf A) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hWα' : W.subgroupOf A ≤ α.ker := fun x hx =>

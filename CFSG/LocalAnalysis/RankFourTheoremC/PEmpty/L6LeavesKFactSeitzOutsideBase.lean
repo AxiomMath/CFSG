@@ -19,7 +19,7 @@ open CFSG.AGLEmbeddingD2 (KFactSeitzRankTwo IsD2SeitzException)
 theorem zpowers_hyperplane {G : Type*} [Group G] {f : ℕ} (hf : f.Prime) {E : Subgroup G}
     (hE : IsElemAbelian f E) (hc : Nat.card E = f ^ 2) {a : G} (ha : a ∈ E) (ha1 : a ≠ 1) :
     Subgroup.zpowers a ≤ E ∧ (Subgroup.zpowers a).relIndex E = f := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hle : Subgroup.zpowers a ≤ E := Subgroup.zpowers_le.mpr ha
   have ho : orderOf a = f := orderOf_eq_prime (hE.2 a ha) ha1
   refine ⟨hle, ?_⟩
@@ -201,7 +201,7 @@ theorem not_sq_dvd_two_pow_mul {f a q : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hq 
 theorem false_of_card_three_sixty {G : Type*} [Group G] [Finite G] [IsSimpleGroup G]
     (hG : Nat.card G = 360) (S : Sylow 2 G) {E P : Subgroup G} (hE : Nat.card E = 9)
     (hP : P ≠ ⊤) (hEP : E ≤ P) (hSP : (S : Subgroup G) ≤ P) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card (S : Subgroup G) = 8 := by
     rw [Sylow.card_eq_multiplicity, hG, Nat.factorization_def _ Nat.prime_two]
     have : padicValNat 2 360 = 3 := by
@@ -228,22 +228,22 @@ theorem false_of_card_three_sixty {G : Type*} [Group G] [Finite G] [IsSimpleGrou
 theorem not_sq_dvd_sixty {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) : ¬ f ^ 2 ∣ 60 := by
   intro h
   have hle : f ≤ 7 := by nlinarith [Nat.le_of_dvd (by norm_num) h]
-  interval_cases f <;> first | omega | (exfalso; norm_num at hf) | (exfalso; norm_num at h)
+  interval_cases f <;> first | omega | (exfalso; norm_num at hf)
 
 theorem not_sq_dvd_168 {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) : ¬ f ^ 2 ∣ 168 := by
   intro h
   have hle : f ≤ 13 := by nlinarith [Nat.le_of_dvd (by norm_num) h]
-  interval_cases f <;> first | omega | (exfalso; norm_num at hf) | (exfalso; norm_num at h)
+  interval_cases f <;> first | omega | (exfalso; norm_num at hf)
 
 theorem eq_three_of_sq_dvd_360 {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (h : f ^ 2 ∣ 360) :
     f = 3 := by
   have hle : f ≤ 18 := by nlinarith [Nat.le_of_dvd (by norm_num) h]
-  interval_cases f <;> first | omega | (exfalso; norm_num at hf) | (exfalso; norm_num at h)
+  interval_cases f <;> first | omega | (exfalso; norm_num at hf)
 
 theorem eq_three_of_sq_dvd_20160 {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (h : f ^ 2 ∣ 20160) :
     f = 3 := by
   have hle : f ≤ 141 := by nlinarith [Nat.le_of_dvd (by norm_num) h]
-  interval_cases f <;> first | omega | (exfalso; norm_num at hf) | (exfalso; norm_num at h)
+  interval_cases f <;> first | omega | (exfalso; norm_num at hf)
 
 theorem center_eq_bot_of_simple {K : Type*} [Group K] [Finite K] [IsSimpleGroup K] {f : ℕ}
     (hf : f.Prime) (hf2 : f ≠ 2) {E U : Subgroup K} (hc : Nat.card E = f ^ 2)
@@ -257,14 +257,14 @@ theorem center_eq_bot_of_simple {K : Type*} [Group K] [Finite K] [IsSimpleGroup 
       rw [hgn, mul_inv_cancel_right]
       exact hn⟩
     have hUtop : U = ⊤ := by
-      haveI := hnormal U
+      have := hnormal U
       exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal U).resolve_left hU0
     have hE0 : E ≠ ⊥ := by
       rintro rfl
       rw [Subgroup.card_bot] at hc
       nlinarith [hf.two_le]
     have hEtop : E = ⊤ := by
-      haveI := hnormal E
+      have := hnormal E
       exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal E).resolve_left hE0
     obtain ⟨n, hn⟩ := hU.exists_card_eq
     have hEU : Nat.card E = Nat.card U := by rw [hEtop, hUtop]

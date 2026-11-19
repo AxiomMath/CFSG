@@ -51,7 +51,7 @@ theorem KR_conj_mem {g k : G} (hg : g ∈ c.N1) (hk : k ∈ c.KR) : g⁻¹ * k *
 
 theorem exists_klein_pi {π : MulAut ↥E →* Equiv.Perm (Fin 5)} (hπ : EPi E π)
     {d : Equiv.Perm (Fin 5)} (hdA : Equiv.Perm.sign d = 1) (hd2 : d * d = 1) (hd1 : d ≠ 1) :
-    ∃ b₁ b₂ : G, ∃ hb₁ : b₁ ∈ B, ∃ hb₂ : b₂ ∈ B, b₁ * b₁ = 1 ∧ b₂ * b₂ = 1 ∧
+    ∃ b₁ b₂ : G, ∃ hb₁ : b₁ ∈ B, ∃ _hb₂ : b₂ ∈ B, b₁ * b₁ = 1 ∧ b₂ * b₂ = 1 ∧
       b₁ * b₂ = b₂ * b₁ ∧ b₁ ≠ 1 ∧ b₂ ≠ 1 ∧ b₁ ≠ b₂ ∧ π (c.kappa ⟨b₁, hb₁⟩) = d := by
   obtain ⟨d', hd'2, hd'1, hd'd, hcomm, hd'A⟩ := alt5_involution_commute d hdA hd2 hd1
   obtain ⟨β₁, hβ₁⟩ := c.exists_pi_kappa hπ (Equiv.Perm.mem_alternatingGroup.2 hdA)

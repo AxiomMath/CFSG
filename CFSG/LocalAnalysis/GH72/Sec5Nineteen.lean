@@ -38,7 +38,7 @@ private theorem eq_of_inf_normalizer_le' {t : ℕ} [Fact t.Prime] {F R : Subgrou
     intro htop
     rw [subgroupOf_eq_top] at htop
     exact hne (le_antisymm hFR htop)
-  obtain ⟨y, hy, hyU⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hU)
+  obtain ⟨y, hy, hyU⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hU)
   rw [← subgroupOf_normalizer_eq hFR, mem_subgroupOf] at hy
   exact hyU (mem_subgroupOf.mpr (h ⟨y.2, hy⟩))
 

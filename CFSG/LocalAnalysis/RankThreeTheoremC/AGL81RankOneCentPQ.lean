@@ -23,7 +23,7 @@ theorem exists_commute_mul_of_comm_mem {p : ℕ} [Fact p.Prime] {N : Subgroup G}
     simpa using hM z⁻¹ (inv_mem hz) n hn
   let C : Subgroup G :=
     { carrier := {x | x ∈ normalizer (N : Set G) ∧ x * g * x⁻¹ * g⁻¹ ∈ N}
-      one_mem' := ⟨one_mem _, by simpa using N.one_mem⟩
+      one_mem' := ⟨one_mem _, by simp⟩
       mul_mem' := fun {x y} hx hy => by
         refine ⟨mul_mem hx.1 hy.1, ?_⟩
         have e : x * y * g * (x * y)⁻¹ * g⁻¹ =
@@ -57,13 +57,13 @@ theorem exists_commute_mul_of_comm_mem {p : ℕ} [Fact p.Prime] {N : Subgroup G}
   have hcard : Nat.card F = Nat.card N := by
     refine Nat.card_congr
       { toFun := fun y => ⟨y.1⁻¹ * g, y.2⟩
-        invFun := fun n => ⟨g * (n : G)⁻¹, by simpa using n.2⟩
+        invFun := fun n => ⟨g * (n : G)⁻¹, by simp⟩
         left_inv := fun y => Subtype.ext (by simp)
         right_inv := fun n => Subtype.ext (by simp) }
   have hndvd : ¬ p ∣ Nat.card F := by
     rw [hcard]
     exact (Nat.Prime.coprime_iff_not_dvd Fact.out).mp hN.symm
-  letI := act
+  let := act
   obtain ⟨y, hy⟩ := ha.nonempty_fixed_point_of_prime_not_dvd_card F hndvd
   have h1 : a * y.1 * a⁻¹ = y.1 :=
     congrArg Subtype.val (hy ⟨a, mem_zpowers a⟩)
@@ -147,7 +147,7 @@ theorem hasNormalPComplement_of_cyclic_pSubgroups {p : ℕ} [Fact p.Prime] [Fini
       rw [mul_inv_eq_one, mul_inv_eq_iff_eq_mul]
       exact h.symm
     have hRp : IsPGroup p (Q ⊓ N : Subgroup Y) := hQ.to_inf_left
-    haveI : IsCyclic (Q ⊓ N : Subgroup Y) := hcyc _ inf_le_right hRp
+    have : IsCyclic (Q ⊓ N : Subgroup Y) := hcyc _ inf_le_right hRp
     have hRfix : ∀ r ∈ (Q ⊓ N : Subgroup Y), x * r * x⁻¹ = r := by
       by_cases hR : (Q ⊓ N : Subgroup Y) = ⊥
       · intro r hr
@@ -199,8 +199,8 @@ theorem isCyclic_of_isPGroup_of_le {p : ℕ} [Fact p.Prime] [Finite Y] {N : Subg
     IsCyclic R := by
   have hR' : IsPGroup p (R.subgroupOf N) := hR.comap_subtype
   obtain ⟨P, hP⟩ := hR'.exists_le_sylow
-  haveI := hcyc P
-  haveI : IsCyclic (R.subgroupOf N) := Subgroup.isCyclic_of_le hP
+  have := hcyc P
+  have : IsCyclic (R.subgroupOf N) := Subgroup.isCyclic_of_le hP
   exact isCyclic_of_surjective (subgroupOfEquivOfLe hRN).toMonoidHom
     (subgroupOfEquivOfLe hRN).surjective
 
@@ -214,14 +214,14 @@ theorem hasNormalPComplement_of_cyclic_sylow_central_quotient {p : ℕ} [Fact p.
 theorem hasNormalPComplement_of_cyclic_sylow_central {p : ℕ} [Fact p.Prime] [Finite Y]
     (hcyc : ∀ P : Sylow p Y, IsCyclic P) (hcen : ∀ x : Y, orderOf x = p → x ∈ center Y) :
     CFSG.HasNormalPComplement p Y := by
-  haveI : Subsingleton (Y ⧸ (⊤ : Subgroup Y)) := QuotientGroup.subsingleton_quotient_top
+  have : Subsingleton (Y ⧸ (⊤ : Subgroup Y)) := QuotientGroup.subsingleton_quotient_top
   have hq : CFSG.HasNormalPComplement p (Y ⧸ (⊤ : Subgroup Y)) :=
     ⟨⊥, inferInstance, by simp,
       (IsPGroup.of_subsingleton (p := p) (G := Y ⧸ (⊤ : Subgroup Y))).to_quotient _⟩
   refine hasNormalPComplement_of_cyclic_pSubgroups (⊤ : Subgroup Y) (fun R _ hR => ?_)
     (fun x _ hx => hcen x hx) hq
   obtain ⟨P, hP⟩ := hR.exists_le_sylow
-  haveI := hcyc P
+  have := hcyc P
   exact Subgroup.isCyclic_of_le hP
 
 end LemmaP

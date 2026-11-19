@@ -45,7 +45,7 @@ public theorem fittingSubgroupOf_eq_self_of_card_three
   let ρ : U →* MulAut F :=
     (F.normalizerMonoidHom).comp ι
   have hUodd' : Odd (Nat.card U) := Nat.coprime_two_left.mp hUodd
-  have hsolv : IsSolvable U := odd_order_theorem U hUodd'
+  have hsolv : Group.IsSolvable U := odd_order_theorem U hUodd'
   have hFcyc : IsCyclic F := by
     let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact isCyclic_of_prime_card (by simpa [F] using hFcard)

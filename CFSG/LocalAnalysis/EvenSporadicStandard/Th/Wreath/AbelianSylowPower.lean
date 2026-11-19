@@ -25,6 +25,7 @@ theorem QHyp.inf_centralizer_t_eq (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     exact ⟨hQ.D_le (hD.Aa_le ha),
       mem_centralizer_singleton_iff.2 (H.comm_of_mem_L (W.B_le (W2.Aa_le ha))).symm⟩
 
+omit [Finite G] in
 theorem QHyp.mem_omega1_iff (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {q : G} (hq : q ∈ Q) :
     q ∈ omega1 D hD.comm ↔ q ^ 2 = 1 :=
   ⟨fun h => h.2, fun h => ⟨hQ.mem_of_sq_eq_one q hq h, h⟩⟩
@@ -38,7 +39,7 @@ theorem QHyp.sq_mem_A_iff (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   · intro hq2
     let Y : Subgroup G :=
       { carrier := {x | x ∈ Q ∧ x ^ 2 ∈ A}
-        one_mem' := ⟨Q.one_mem, by simpa using A.one_mem⟩
+        one_mem' := ⟨Q.one_mem, by simp⟩
         mul_mem' := by
           rintro x y ⟨hxQ, hxA⟩ ⟨hyQ, hyA⟩
           refine ⟨Q.mul_mem hxQ hyQ, ?_⟩
@@ -128,6 +129,7 @@ private def QHyp.powImage (hQ : QHyp L A D t Q) (k : ℕ) : Subgroup G where
     rintro z ⟨q, hq, rfl⟩
     exact ⟨q⁻¹, Q.inv_mem hq, by rw [inv_pow]⟩
 
+omit [Finite G] in
 private theorem QHyp.mem_powImage (hQ : QHyp L A D t Q) (k : ℕ) {z : G} :
     z ∈ hQ.powImage k ↔ ∃ q ∈ Q, q ^ 2 ^ k = z := Iff.rfl
 
@@ -136,6 +138,7 @@ private def QHyp.powHom (hQ : QHyp L A D t Q) (k : ℕ) : ↥Q →* ↥Q where
   map_one' := Subtype.ext (one_pow _)
   map_mul' x y := Subtype.ext ((show Commute x.1 y.1 from hQ.comm x.1 x.2 y.1 y.2).mul_pow (2 ^ k))
 
+omit [Finite G] in
 private theorem QHyp.powImage_le_omega1 (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) {k : ℕ}
     (hk : ∀ q ∈ Q, q ^ 2 ^ (k + 1) = 1) : hQ.powImage k ≤ omega1 D hD.comm := by
   intro z hz
@@ -145,6 +148,7 @@ private theorem QHyp.powImage_le_omega1 (hD : DHyp A Aa t D) (hQ : QHyp L A D t 
   rw [← pow_mul, show 2 ^ k * 2 = 2 ^ (k + 1) from (pow_succ 2 k).symm]
   exact hk q hq
 
+omit [Finite G] in
 private theorem QHyp.powImage_normalized (hQ : QHyp L A D t Q) (k : ℕ) :
     (∀ n ∈ L ⊓ normalizer (A : Set G), ∀ z ∈ hQ.powImage k, n * z * n⁻¹ ∈ hQ.powImage k) ∧
       (∀ z ∈ hQ.powImage k, t * z * t⁻¹ ∈ hQ.powImage k) := by
@@ -158,6 +162,7 @@ private theorem QHyp.powImage_normalized (hQ : QHyp L A D t Q) (k : ℕ) :
     rw [← conj_pow]
     exact (QHyp.mem_powImage hQ k).2 ⟨t * q * t⁻¹, hQ.conj_t_mem q hq, rfl⟩
 
+omit [Finite G] in
 private theorem QHyp.powImage_ne_bot (hQ : QHyp L A D t Q) {k : ℕ}
     (hk : ¬ ∀ q ∈ Q, q ^ 2 ^ k = 1) : hQ.powImage k ≠ ⊥ := by
   intro hbot
@@ -167,6 +172,7 @@ private theorem QHyp.powImage_ne_bot (hQ : QHyp L A D t Q) {k : ℕ}
   rw [hbot] at hmem
   simpa using hmem
 
+omit [Finite G] in
 private theorem QHyp.powImage_eq_range (hQ : QHyp L A D t Q) (k : ℕ) :
     hQ.powImage k = (hQ.powHom k).range.map Q.subtype := by
   ext z
@@ -192,7 +198,7 @@ theorem QHyp.pow_eq_A_or_exponent_four (H : ThCyc G L R t) (W : ThLocalIn L S A 
   have hex : ∃ k : ℕ, ∀ q ∈ Q, q ^ 2 ^ k = 1 := by
     obtain ⟨n, hn⟩ := hQ.pgroup.exists_card_eq
     refine ⟨n, fun q hq => ?_⟩
-    haveI : Fintype ↥Q := Fintype.ofFinite ↥Q
+    have : Fintype ↥Q := Fintype.ofFinite ↥Q
     have hdvd : orderOf q ∣ Nat.card ↥Q := by
       have h : orderOf (⟨q, hq⟩ : ↥Q) ∣ Nat.card ↥Q := by
         rw [Nat.card_eq_fintype_card]

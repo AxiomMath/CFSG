@@ -245,7 +245,7 @@ theorem elementaryAbelianPRank_inf_centralizer_sigmaCore_le_one_of_prime
       (natCard_eq_pow_factorization_of_le hp hPM' hPcard)
       (normalizer_commutator_ge_right M M hg))
   have hlt : normalizer ((P : Subgroup G) : Set G) < ⊤ :=
-    normalizer_lt_top_of_isPGroup hna hp hPbot P.isPGroup'
+    normalizer_lt_top_of_isPGroup hna hp hPbot P.isPGroup
   have hNM : normalizer ((P : Subgroup G) : Set G) = M := by
     by_contra hne
     exact hlt.ne (hM.2 _ (lt_of_le_of_ne hMN (Ne.symm hne)))

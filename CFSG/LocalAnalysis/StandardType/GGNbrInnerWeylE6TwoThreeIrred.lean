@@ -55,7 +55,7 @@ section Main
 
 theorem ggSCWeylIrred_adjoint_E6_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     GGSCWeylIrred 3 4 (adjointGroup .E6 K) := by
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   intro E hE h4 _ _
   obtain ⟨c, hc⟩ := exists_conj_eq_range_torusE6Two h2 hK hE h4

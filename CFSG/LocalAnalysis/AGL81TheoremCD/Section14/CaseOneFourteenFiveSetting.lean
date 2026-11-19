@@ -15,11 +15,12 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 variable {G : Type} [Group G] [Finite G] {M H E Q J : Subgroup G}
 
+omit [Finite G] in
 private theorem inf_normalizer_le_inf_of_isSylowOf {p : ℕ} {K M P : Subgroup G}
     (hp : p.Prime) (hstrong : CFSG.RankThree.PartOne.IsStronglyPEmbedded p M)
     (hP : CFSG.ABGLocalTools.IsSylowOf p P K) (hPM : P ≤ M) :
     ∀ U : Subgroup G, U ≤ P → U ≠ ⊥ → K ⊓ Subgroup.normalizer (U : Set G) ≤ K ⊓ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro U hU hUbot
   have hUp : IsPGroup p U := hP.isPGroup.to_le hU
   have hUM : U ≤ M := hU.trans hPM
@@ -27,6 +28,7 @@ private theorem inf_normalizer_le_inf_of_isSylowOf {p : ℕ} {K M P : Subgroup G
     hstrong.normalizer_le hUbot hUp hUM
   exact le_inf inf_le_left (inf_le_right.trans hNU)
 
+omit [Finite G] in
 private theorem inf_centralizer_le_pPrimeCore {p : ℕ} {K C : Subgroup G}
     (hcent : Subgroup.centralizer
       (((K.subgroupOf C).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥C))) :
@@ -72,7 +74,7 @@ theorem S14Choice.caseOne_setting_centralizer (h : S14Choice G M H E Q J) (hA : 
         (CFSG.pPrimeCore p ↥C).map C.subtype := by
   classical
   have hp' : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
-  haveI : Fact p.Prime := ⟨hp'⟩
+  have : Fact p.Prime := ⟨hp'⟩
   have hp2 : p ≠ 2 := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_odd p hp.1
   have hp3 : p ≠ 3 := fun h3 => h.hypCGen.not_mem_sigmaSet (h3 ▸ hp)
   have hp5 : 5 ≤ p := Nat.Prime.five_le_of_ne_two_of_ne_three hp' hp2 hp3

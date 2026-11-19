@@ -53,8 +53,8 @@ theorem exists_radical_of_negDatum_r (q : ℕ) (K : Type) [Field K] [Finite K] (
         ∃ R : Subgroup (twistedE6RootGroup K σ), R ≤ twE6LongRootRadical X ∧
           R ≤ Subgroup.closure (hyperRSet ⊤ E₀ (ringChar K) 3) ∧ ¬ R ≤ X := by
   classical
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have hTt : ∀ x ∈ E₀, g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
       (x : ModGL TwistTag.E6.tag K) * g0 ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K) := by
     intro x hx
@@ -70,7 +70,7 @@ theorem exists_radical_of_negDatum_r (q : ℕ) (K : Type) [Field K] [Finite K] (
     push Not at h
     interval_cases q <;> norm_num at hK <;> omega
   obtain ⟨hpr, f, hf1, hqf⟩ := twE6_exists_pow_ringChar_of_card_sq K q hK hq2
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [hK, hqf]
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := fun c => by rw [hσ c, hqf]
   have hSL2 : ∀ u : twistedE6RootGroup K σ,

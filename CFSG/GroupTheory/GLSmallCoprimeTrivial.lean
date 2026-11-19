@@ -13,7 +13,7 @@ theorem card_GL_fin_two_zmod_three : Nat.card (GL (Fin 2) (ZMod 3)) = 48 := by
 
 theorem card_GL_fin_one_zmod_three : Nat.card (GL (Fin 1) (ZMod 3)) = 2 := by
   rw [Matrix.card_GL_field (𝔽 := ZMod 3) 1]
-  simp [Fin.prod_univ_one]
+  simp
 
 theorem MonoidHom.eq_one_of_coprime_six_GL_fin_two {G : Type*} [Group G] [Finite G]
     (hcop : Nat.Coprime (Nat.card G) 6) (ρ : G →* GL (Fin 2) (ZMod 3)) : ρ = 1 := by

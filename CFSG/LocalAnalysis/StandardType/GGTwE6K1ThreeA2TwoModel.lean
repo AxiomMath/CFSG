@@ -142,8 +142,8 @@ theorem statedClassicalModel_component_threeA2_two {K : Type} [Field K] [Finite 
       (CFSG.LieType.Seitz.fixedPoints (Subgroup.zpowers (twistedE6InndiagConj K σ h)))) :
     Subgroup.center ↥J = ⊥ ∧ StatedClassicalModel (↥J ⧸ Subgroup.center ↥J) .PSU 3 2 3 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card]; exact hK.trans (by norm_num))
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hK3 : ringChar K ≠ 3 := by
@@ -164,9 +164,9 @@ theorem statedClassicalModel_component_threeA2_two {K : Type} [Field K] [Finite 
     have h216 := (rationalComponent_of_unitary_frame_T D.S D.hT i (le_refl 3) hψ hΨ π hπ).2
       (by rw [hone i, pow_one, D.sq_eq])
     obtain ⟨hperf, hsimp, -⟩ := hqs
-    haveI := hperf
-    haveI := hsimp
-    haveI : Nontrivial ↥(rationalComponent D.S.ρ D.S.Γ (rootCharHom D.a) i) :=
+    have := hperf
+    have := hsimp
+    have : Nontrivial ↥(rationalComponent D.S.ρ D.S.Γ (rootCharHom D.a) i) :=
       (QuotientGroup.mk_surjective (s := Subgroup.center _)).nontrivial
     exact Group.IsPerfect.not_isSolvable _ (isSolvable_of_card_dvd_216 h216)
   have hs3 := (hall i).1

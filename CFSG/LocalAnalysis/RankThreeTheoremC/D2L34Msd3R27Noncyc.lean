@@ -73,7 +73,7 @@ private theorem D2L34R27.comm_of_factorization
     (hU27 : 27 ≤ Nat.card U) (hEU : E ≤ U) (hUC : U ≤ Subgroup.centralizer (E : Set G))
     (hEel : IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (hEcore : GLBCore 3 1 E ≤ M)
     (hCNN : CN ≤ N) (hNCN : N ≤ Subgroup.normalizer (CN : Set G))
-    (hCNZ : CN ≤ Subgroup.normalizer (Z : Set G)) (hECN : E ≤ CN) (hUCN : U ⊓ CN = E)
+    (hCNZ : CN ≤ Subgroup.normalizer (Z : Set G)) (hECN : E ≤ CN) (_hUCN : U ⊓ CN = E)
     (hBN : B ≤ N) (hBX : B ≤ Subgroup.normalizer (X₂ : Set G))
     (hfac : ∀ n ∈ N, ∃ c ∈ CN, ∃ b ∈ B, n = c * b) :
     ∀ a ∈ U, ∀ b ∈ U, a * b = b * a := by
@@ -194,7 +194,7 @@ theorem center3_of_noncyclic27
     (hS : ¬ IsCyclic ↥((S : Subgroup ↥(ffC M T)).map (ffC M T).subtype)) :
     Center3Conclusion M := by
   have ctx := c.ctx
-  haveI := ctx.amb
+  have := ctx.amb
   have hc := ctx.conf
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT := c.sylow
@@ -223,7 +223,7 @@ theorem center3_of_noncyclic27
       (Subgroup.centralizer_le_normalizer _))
   set D := (S : Subgroup ↥(ffC M T)).map (ffC M T).subtype with hD
   have hDC : D ≤ ffC M T := Subgroup.map_subtype_le _
-  have hDp : IsPGroup 3 D := S.isPGroup'.map _
+  have hDp : IsPGroup 3 D := S.isPGroup.map _
   obtain ⟨W, hWM, hWp, hWidx, hDW⟩ := exists_sylow_le (hDC.trans hCM) hDp
   have hWCc : ¬ IsCyclic ↥(W ⊓ ffC M T) := fun hcyc =>
     hS (Subgroup.isCyclic_of_le (H' := W ⊓ ffC M T) (le_inf hDW hDC))
@@ -340,7 +340,7 @@ theorem center3_of_noncyclic27
     P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPM))
   have hmax : ∀ A' : Subgroup G, A' ≤ W → IsElemAbelian 3 A' → Nat.card A' ≤ 27 :=
     fun A' hA'W hA' =>
-      card_le_of_isElemAbelian_of_pRank hPM P.isPGroup' hPidx hP3 (hA'W.trans hWM) hA'
+      card_le_of_isElemAbelian_of_pRank hPM P.isPGroup hPidx hP3 (hA'W.trans hWM) hA'
   obtain ⟨P₀, hP₀W, hP₀3, hP₀n⟩ := exists_normal_order_three_le_of_tail3 hcon hLn hLsmall hWM
     hWp hWidx hEW hEL hE9 hEab hEel.2 hUab
     ⟨F, hFW, fun a ha b hb => congrArg Subtype.val (hFel.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩),

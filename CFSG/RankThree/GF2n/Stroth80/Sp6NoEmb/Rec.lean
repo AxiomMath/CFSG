@@ -30,7 +30,7 @@ theorem dElt_conj_uElt (z : Kˣ) (s : K) :
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
     Matrix.SpecialLinearGroup.coe_inv]
   fin_cases i <;> fin_cases j <;>
-    simp [dElt, uElt, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two] <;> ring
+    simp [dElt, uElt, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two]; ring
 
 theorem dElt_inv_conj_lElt (z : Kˣ) (s : K) :
     (dElt z)⁻¹ * lElt s * dElt z = lElt ((z : K) ^ 2 * s) := by
@@ -38,7 +38,7 @@ theorem dElt_inv_conj_lElt (z : Kˣ) (s : K) :
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
     Matrix.SpecialLinearGroup.coe_inv]
   fin_cases i <;> fin_cases j <;>
-    simp [dElt, lElt, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two] <;> ring
+    simp [dElt, lElt, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two]; ring
 
 theorem uElt_neg (s : K) : uElt (-s) = (uElt s)⁻¹ := by
   rw [eq_inv_iff_mul_eq_one, ← CFSG.QuasithinUnique.Setup.SL2Modules.uElt_add, neg_add_cancel,
@@ -162,16 +162,19 @@ theorem dSlotHom_apply (l : Fin 3) (c : Kˣ) : dSlotHom l c = dSlot l c := rfl
 
 variable [Fintype K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem dSlot_pow_card (l : Fin 3) (c : Kˣ) : dSlot l c ^ Fintype.card K = dSlot l c := by
   rw [← dSlotHom_apply, ← map_pow]
   congr 1
   apply Units.ext
   rw [Units.val_pow_eq_pow_val, FiniteField.pow_card]
 
+omit [Fintype K] [CharP K 2] in
 theorem dSlot_commute (l m : Fin 3) (c c' : Kˣ) : Commute (dSlot l c) (dSlot m c') := by
   rw [dSlot_eq_levi, dSlot_eq_levi]
   exact levi_diagGL_commute _ _
 
+omit [Fintype K] in
 theorem sub_one_pow_two_pow {Y : Type*} [AddCommGroup Y] [Module K Y] (A : Module.End K Y)
     (n : ℕ) : (A - 1) ^ (2 ^ n) = A ^ (2 ^ n) - 1 := by
   have h2 : (2 : Module.End K Y) = 0 := by
@@ -203,6 +206,7 @@ theorem torus_pow_card (ρ : Representation K (StatedSp 3 K) Y) (l : Fin 3) (c :
 @[expose] def SingleCoord (ρ : Representation K (StatedSp 3 K) Y) : Prop :=
   ∀ l m : Fin 3, l ≠ m → fixT ρ l ⊔ fixT ρ m = ⊤
 
+omit [Fintype K] [CharP K 2] in
 theorem torus_mul_eq_zero {ρ : Representation K (StatedSp 3 K) Y} (hsc : SingleCoord ρ)
     {l m : Fin 3} (hlm : l ≠ m) (c c' : Kˣ) :
     (ρ (dSlot l c) - 1) * (ρ (dSlot m c') - 1) = 0 := by
@@ -237,10 +241,12 @@ theorem Pt_apply_eq_zero_iff (ρ : Representation K (StatedSp 3 K) Y) (l : Fin 3
     (Pt ρ l c) y = 0 ↔ ρ (dSlot l c) y = y := by
   rw [LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero]
 
+omit [CharP K 2] in
 theorem two_le_card : 2 ≤ Fintype.card K := by
   have := Fintype.one_lt_card (α := K)
   omega
 
+omit [Fintype K] [CharP K 2] in
 theorem zeta_sub_one (hsc : SingleCoord ρ) (c : Kˣ) :
     (ρ (zeta c) - 1 : Module.End K Y) = Pt ρ 0 c + Pt ρ 1 c + Pt ρ 2 c := by
   have h01 := torus_mul_eq_zero hsc (show (0 : Fin 3) ≠ 1 by decide) c c
@@ -252,6 +258,7 @@ theorem zeta_sub_one (hsc : SingleCoord ρ) (c : Kˣ) :
   simp only [mul_add, add_mul, one_mul, mul_one, h01, h02, h12, zero_add]
   abel
 
+omit [Fintype K] [CharP K 2] in
 theorem sum_three_pow {A B C : Module.End K Y} (hAB : A * B = 0) (hAC : A * C = 0)
     (hBA : B * A = 0) (hBC : B * C = 0) (hCA : C * A = 0) (hCB : C * B = 0) :
     ∀ n : ℕ, 1 ≤ n → (A + B + C) ^ n = A ^ n + B ^ n + C ^ n := by
@@ -308,6 +315,7 @@ theorem exists_gen : ∃ c₀ : Kˣ, ∀ c : Kˣ, c ∈ Subgroup.zpowers c₀ :=
   IsCyclic.exists_generator
 
 omit [CharP K 2] in
+omit [Fintype K] in
 theorem mem_fixT_iff_gen {c₀ : Kˣ} (hgen : ∀ c : Kˣ, c ∈ Subgroup.zpowers c₀) (l : Fin 3)
     (y : Y) : y ∈ fixT ρ l ↔ ρ (dSlot l c₀) y = y := by
   refine ⟨fun h => h c₀, fun h c => ?_⟩
@@ -359,6 +367,7 @@ theorem proj0_mem (hsc : SingleCoord ρ) {c₀ : Kˣ} (hgen : ∀ c : Kˣ, c ∈
   rw [mem_zeroSp_iff hsc hgen, proj0, ← Module.End.mul_apply, mul_sub, mul_one, ← pow_succ',
     Nat.sub_add_cancel (by omega), zeta_sub_one_pow hsc, sub_self, LinearMap.zero_apply]
 
+omit [CharP K 2] in
 theorem proj0_commute_levi (c₀ : Kˣ) (A : GL (Fin 3) K) : Commute (ρ (levi A)) (proj0 ρ c₀) := by
   have h : Commute (ρ (levi A)) (ρ (zeta c₀)) := ((zeta_commute c₀ A).map ρ).symm
   exact (Commute.one_right _).sub_right ((h.sub_right (Commute.one_right _)).pow_right _)
@@ -394,6 +403,7 @@ theorem proj0_range (hsc : SingleCoord ρ) (c₀ : Kˣ) (l : Fin 3) (z : Y) :
   rw [← pow_succ, Nat.sub_add_cancel (by omega), torus_pow_card] at e
   rw [proj0, LinearMap.sub_apply, Module.End.one_apply, ← Module.End.mul_apply, e, sub_self]
 
+omit [CharP K 2] in
 theorem proj0_of_mem_M (hsc : SingleCoord ρ) (c₀ : Kˣ) {m : Y}
     (hm : m ∈ fixT ρ 1 ⊓ fixT ρ 2) :
     proj0 ρ c₀ m = m - (Pt ρ 0 c₀ ^ (Fintype.card K - 1)) m := by
@@ -451,7 +461,7 @@ theorem rootE_neg {i j : Fin 3} (hij : i ≠ j) (a : K) : rootE hij (-a) = (root
   rw [eq_inv_iff_mul_eq_one, ← rootE_add, neg_add_cancel, rootE]
   have : TauCeti.transvectionUnit hij (0 : K) = 1 := by
     apply Units.ext
-    simp [Matrix.transvection]
+    simp
   rw [this, map_one]
 
 omit [Fintype K] [CharP K 2] in
@@ -470,8 +480,9 @@ theorem levi_diagGL_eq_mul (τ : Fin 3 → Kˣ) :
     diagonal_mul_diagonal, diagonal_mul_diagonal]
   congr 1
   funext x
-  fin_cases x <;> simp [Pi.mulSingle_apply]
+  fin_cases x <;> simp
 
+omit [Fintype K] [CharP K 2] in
 theorem torus_fix_of_mem_zeroSp {y : Y} (hy : y ∈ zeroSp ρ) (τ : Fin 3 → Kˣ) :
     ρ (levi (diagGL τ)) y = y := by
   rw [levi_diagGL_eq_mul, map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply,
@@ -500,7 +511,7 @@ theorem rootE_fix_of_mem_zeroSp (hK : 3 ≤ Fintype.card K) (hsc : SingleCoord �
     rw [levi_diagGL_conj_rootE, ← rootE_neg, ← rootE_add]
     congr 1
     have hτi : (τ i : K) = z := by simp [hτ]
-    have hτj : ((τ j)⁻¹ : Kˣ) = 1 := by simp [hτ, Pi.mulSingle_apply, hij.symm]
+    have hτj : ((τ j)⁻¹ : Kˣ) = 1 := by simp [hτ, hij.symm]
     rw [hτi, hτj, Units.val_one, mul_one]
     field_simp
     ring
@@ -574,6 +585,7 @@ omit [Fintype K] [CharP K 2] in
     Submodule K Y :=
   LinearMap.range (Pt ρ 1 c₀) ⊔ LinearMap.range (Pt ρ 2 c₀)
 
+omit [Fintype K] [CharP K 2] in
 theorem compl12_fixT0 (hsc : SingleCoord ρ) (c₀ : Kˣ) {n : Y} (hn : n ∈ compl12 ρ c₀) :
     n ∈ fixT ρ 0 := by
   intro c
@@ -610,7 +622,7 @@ theorem slotSL0_fix_compl12 (hK : 3 ≤ Fintype.card K) (hsc : SingleCoord ρ) (
     (g : SL(2, K)) {n : Y} (hn : n ∈ compl12 ρ c₀) : ρ (slotSL 0 g) n = n :=
   sl2_fix_of_dElt_fix hK (ρ.comp (slotSL 0)) (compl12 ρ c₀)
     (fun g' _ hw => slotSL0_mem_compl12 c₀ g' hw)
-    (fun c w hw => compl12_fixT0 hsc c₀ hw c) g n hn
+    (fun c _w hw => compl12_fixT0 hsc c₀ hw c) g n hn
 
 theorem exists_M_add_compl12 (hsc : SingleCoord ρ) {c₀ : Kˣ}
     (hgen : ∀ c : Kˣ, c ∈ Subgroup.zpowers c₀) (y : Y) :
@@ -670,7 +682,7 @@ theorem slot0_functional_eq_zero (hK : 3 ≤ Fintype.card K) (hirr : ρ.IsIrredu
     have hpow : ∀ k : ℕ, (Pt ρ 0 c₀ ^ k) (m : Y) ∈ fixT ρ 1 ⊓ fixT ρ 2 := by
       intro k
       induction k with
-      | zero => simpa using m.2
+      | zero => simp
       | succ k ih =>
         rw [pow_succ', Module.End.mul_apply, LinearMap.sub_apply, Module.End.one_apply]
         exact Submodule.sub_mem _ (by
@@ -781,7 +793,7 @@ theorem repMultiplicity_trivial_of_trivial {G V : Type} [Group G] [AddCommGroup 
       rw [compositionMultiplicity_of_subsingleton, Module.finrank_zero_of_subsingleton])
     (fun {V} _ _ _ σ hσ ht => by
       obtain ⟨e⟩ := equiv_trivial_of_trivial_isIrreducible σ hσ ht
-      rw [repMultiplicity_of_isIrreducible hσ, if_pos ⟨e⟩, e.toLinearEquiv.finrank_eq,
+      rw [repMultiplicity_of_isIrreducible hσ, ite_eq_left ⟨e⟩, e.toLinearEquiv.finrank_eq,
         Module.finrank_self])
     (fun {V} _ _ _ σ W hW1 hW2 ht => by
       rw [repMultiplicity_sub_quot σ W, hW1 (toRepresentation_trivial W ht),
@@ -820,13 +832,13 @@ theorem rec_main (hK : 4 ≤ Fintype.card K) [FiniteDimensional K Y] (hirr : ρ.
       have h1 := LinearMap.congr_fun (e.isIntertwining' g) (W.toSubmodule.mkQ m)
       rw [LinearMap.comp_apply, LinearMap.comp_apply, Representation.trivial_apply] at h1
       exact h1
-    obtain ⟨m, -, hm⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hWne)
+    obtain ⟨m, -, hm⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hWne)
     have hne : W.toSubmodule.mkQ m ≠ 0 := by
       rwa [Ne, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     have hφm : φ m = 0 := by rw [hφ0]; rfl
     exact hne (e.toLinearEquiv.injective (hφm.trans (map_zero e.toLinearEquiv).symm))
   have hQ1 : nontrivCount W.quotient = 1 := by
-    rw [nontrivCount_of_isIrreducible _ hQirr, if_neg hQnt]
+    rw [nontrivCount_of_isIrreducible _ hQirr, ite_eq_right hQnt]
   have h1 := nontrivCount_sub_quot (ρ.comp (slotSL 0)) (Msub ρ)
   have h2 := nontrivCount_sub_quot (Msub ρ).toRepresentation W
   have hW0 : nontrivCount W.toRepresentation = 0 := by omega
@@ -858,7 +870,7 @@ theorem rec_main (hK : 4 ≤ Fintype.card K) [FiniteDimensional K Y] (hirr : ρ.
     have h' : (Msub ρ).toRepresentation g m = m := e.toLinearEquiv.injective h
     exact congrArg Subtype.val h'
   rw [repMultiplicity_sub_quot (ρ.comp (slotSL 0)) (Msub ρ),
-    repMultiplicity_of_isIrreducible hMirr, if_neg hMtriv, zero_add,
+    repMultiplicity_of_isIrreducible hMirr, ite_eq_right hMtriv, zero_add,
     repMultiplicity_trivial_of_trivial _ (quotient_Msub_trivial hK3 hsc)]
   exact Submodule.finrank_quotient_add_finrank _
 

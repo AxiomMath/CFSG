@@ -66,7 +66,7 @@ theorem exists_coset_hom {C : Type*} [Group C] (N : Subgroup C) [N.Normal] {t g 
   have he_inj : Function.Injective e := by
     intro a b hab
     fin_cases a <;> fin_cases b <;> simp_all
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcard_le : Nat.card Q ≤ Nat.card (Fin 4) := by
     rw [hcard, Nat.card_fin]
   have he_bij : Function.Bijective e := he_inj.bijective_of_nat_card_le hcard_le

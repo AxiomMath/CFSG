@@ -18,7 +18,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private lemma l48gL_gpow_three {K : Type} [Field K] [Finite K] [CharP K 2]
     {L' : Type} [Group L'] [Finite L']
-    (hK : Nat.card K = 2)
+    (_hK : Nat.card K = 2)
     (ψ : L' →* LargeEvenProj (LargeEvenSpGroup K 4)) (hψ : Function.Surjective ψ)
     {e : MulAut L'} (he3 : e ^ 3 = 1)
     {g : LargeEvenProj (LargeEvenSpGroup K 4)} (hg : ∀ l : L', ψ (e l) = g * ψ l * g⁻¹) :
@@ -76,8 +76,8 @@ private lemma l48gL_map_fix {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem ggB2der_layer_sixfix {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 2)
     {L' : Type} [Group L'] [Finite L'] (ψ : L' →* LargeEvenProj (LargeEvenSpGroup K 4))
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
-    (hperf : commutator L' = ⊤) (hZ2 : IsPGroup 2 (Subgroup.center L'))
-    {e : MulAut L'} (he1 : e ≠ 1) (he3 : e ^ 3 = 1)
+    (_hperf : commutator L' = ⊤) (hZ2 : IsPGroup 2 (Subgroup.center L'))
+    {e : MulAut L'} (_he1 : e ≠ 1) (he3 : e ^ 3 = 1)
     {g : LargeEvenProj (LargeEvenSpGroup K 4)} (hg : ∀ l : L', ψ (e l) = g * ψ l * g⁻¹)
     (hW : Module.finrank K (SmallRule.fixSpaceOf SmallRule.spRep (Subgroup.zpowers g)) = 6) :
     IsComponentOf (LargeEvenLayer (ggFixSub e)) (ggFixSub e) ∧

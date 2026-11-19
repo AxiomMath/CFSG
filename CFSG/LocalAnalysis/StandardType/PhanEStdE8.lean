@@ -22,9 +22,11 @@ open CFSG.Timmesfeld (edgeE simplyLacedLevis_e8)
 
 variable (k : Type) [Field k] [Finite k] [CharP k 2]
 
+omit [Finite k] [CharP k 2] in
 theorem e8Datum_cartan : (e8Datum k).cartan = CartanMatrix.E 8 :=
   cartanE_eq 8
 
+omit [Finite k] [CharP k 2] in
 theorem coxeterMatrix_e8Datum :
     coxeterMatrix (e8Datum k).isFiniteType = CoxeterMatrix.E₈ :=
   coxeterMatrix_cartanE8 _ (e8Datum_cartan k)
@@ -32,15 +34,18 @@ theorem coxeterMatrix_e8Datum :
 noncomputable def e8W0 : (coxeterMatrix (e8Datum k).isFiniteType).Group :=
   (exists_longest_E8 (e8Datum k).isFiniteType (e8Datum_cartan k)).choose
 
+omit [Finite k] [CharP k 2] in
 theorem e8W0_isLongest :
     CFSG.Monster.B.Geometry.IsLongest (coxeterMatrix (e8Datum k).isFiniteType).toCoxeterSystem
       Set.univ (e8W0 k) :=
   (exists_longest_E8 (e8Datum k).isFiniteType (e8Datum_cartan k)).choose_spec.1
 
+omit [Finite k] [CharP k 2] in
 theorem e8W0_table (i : Fin (e8Datum k).rank) :
     weylAction (e8Datum k).isFiniteType (e8W0 k) (Pi.single i 1) = -Pi.single (id i) 1 :=
   (exists_longest_E8 (e8Datum k).isFiniteType (e8Datum_cartan k)).choose_spec.2.1 i
 
+omit [Finite k] [CharP k 2] in
 theorem e8W0_hop (i : Fin (e8Datum k).rank) :
     e8W0 k * (coxeterMatrix (e8Datum k).isFiniteType).toCoxeterSystem.simple i * e8W0 k =
       (coxeterMatrix (e8Datum k).isFiniteType).toCoxeterSystem.simple i :=
@@ -50,6 +55,7 @@ theorem e8_hedge_aux : ∀ i j : Fin 8, i < j → CoxeterMatrix.E₈ i j = 3 →
   intro i j hij h
   fin_cases i <;> fin_cases j <;> simp_all [CoxeterMatrix.E₈, edgeE]
 
+omit [Finite k] [CharP k 2] in
 theorem e8_hedge : ∀ i j : Fin (e8Datum k).rank, i < j →
     coxeterMatrix (e8Datum k).isFiniteType i j = 3 → edgeE (e8Datum k).rank i j := by
   intro i j hij h
@@ -63,6 +69,7 @@ variable {k} (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c)
       (Adjoint.torus (τ := .E8) k) (e8W0 k) :=
   adjFrobData θ hθ (e8W0_hop k)
 
+omit [Finite k] in
 theorem e8_nm_mul_self (i : Fin (e8Datum k).rank) :
     CFSG.LieType.Chevalley.weylElement .E8 k i *
       CFSG.LieType.Chevalley.weylElement .E8 k i = 1 :=

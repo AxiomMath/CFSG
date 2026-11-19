@@ -57,7 +57,7 @@ private lemma w183b2_central_kernel {K : Type*} [Field K] {G : Type} [Group G] {
     refine hq ?_
     have := congrArg (fun F : Q →ₗ[K] Q => F q) h1
     simpa [σH] using this
-  haveI : N.Normal := MonoidHom.normal_ker σH.asGroupHom
+  have : N.Normal := MonoidHom.normal_ker σH.asGroupHom
   have hNc : N ≤ Subgroup.center ↥H :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hq N hNtop
   intro a ha hfix
@@ -158,9 +158,9 @@ theorem w183b2_no_mixed_abstract_of_quasi {G : Type} [Group G] [Finite G]
     (htwo₂ : ¬ Δ ≤ Subgroup.centralizer (A₁ : Set G)) (hAbs : AbsIrrOverF4 ↥A₁) :
     Nat.card ↥Δ ≤ 4 := by
   obtain ⟨hWnt, honly⟩ := (isIrreducible_iff ρ).1 hirr
-  haveI : Nontrivial W := hWnt
+  have : Nontrivial W := hWnt
   obtain ⟨Q, hQadd, hQmod, hQfd, σ, ψ, hσ, hψ, hspan⟩ := w183b2_exists_irr_quotient ρ
-  letI : Module (ZMod 2) Q :=
+  let : Module (ZMod 2) Q :=
     Module.compHom Q (algebraMap (ZMod 2) (AlgebraicClosure (ZMod 2)))
   have hntriv₁ : ∃ a ∈ A₁, ∃ q : Q, σ a q ≠ q := by
     by_contra hcon

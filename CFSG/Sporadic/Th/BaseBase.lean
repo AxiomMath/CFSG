@@ -20,7 +20,7 @@ namespace CFSG.Sporadic.Th
 
 open Native Matrix Pointwise
 
-@[expose] def bz (b : Bool) : ZMod 2 := if b then 1 else 0
+def bz (b : Bool) : ZMod 2 := if b then 1 else 0
 
 theorem bz_xor (x y : Bool) : bz (x ^^ y) = bz x + bz y := by
   cases x <;> cases y <;> decide
@@ -41,7 +41,7 @@ theorem dot_spec (u w : V4) : bz (u.dot w) = u.toVec ⬝ᵥ w.toVec := by
   simp only [V4.toVec_apply, bz]
   cases u.testBit j.val <;> cases w.testBit j.val <;> simp
 
-@[expose] def keyVec (k : Key) (a : Fin 2) : Fin 248 → ZMod 2 :=
+def keyVec (k : Key) (a : Fin 2) : Fin 248 → ZMod 2 :=
   if a = 0 then k.u.toVec else k.v.toVec
 
 theorem keyVec_zero (k : Key) : keyVec k 0 = k.u.toVec := rfl

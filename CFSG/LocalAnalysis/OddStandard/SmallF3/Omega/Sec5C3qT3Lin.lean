@@ -19,7 +19,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
 
 theorem sec5c3q_finite_end [FiniteDimensional (ZMod 3) V] :
     Finite (Module.End (ZMod 3) V) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite V := Module.finite_of_finite (ZMod 3)
   exact Finite.of_injective (fun f : Module.End (ZMod 3) V => (f : V → V)) DFunLike.coe_injective
 
 theorem sec5c3q_apply_apply {t : Module.End (ZMod 3) V} (ht : t * t = 1) (v : V) :

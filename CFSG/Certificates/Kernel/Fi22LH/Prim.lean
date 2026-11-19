@@ -4,7 +4,7 @@ public import Certificates.Data.Kernel.Fi22.LHK
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import CFSG.Certificates.Kernel.Spor.RawOrbEval
 import Mathlib.Algebra.Order.Ring.Nat
-import Mathlib.Data.Nat.SuccPred
+import Mathlib.Order.SuccPred.Nat
 import Mathlib.Tactic.NormNum.Inv
 import Mathlib.Tactic.NormNum.Pow
 
@@ -130,6 +130,7 @@ theorem testBit_fld (q o w i : Nat) :
     (fld(q, o, 2 ^ w - 1)).testBit i = (decide (i < w) && q.testBit (o + i)) := by
   rw [fld_eq, Nat.testBit_mod_two_pow, ← Nat.shiftRight_eq_div_pow, Nat.testBit_shiftRight]
 
+set_option exponentiation.threshold 3510 in
 theorem m3510_eq : m3510 = 2 ^ 3510 - 1 := by
   change (1 <<< 3510) - 1 = _
   rw [Nat.one_shiftLeft]
@@ -138,6 +139,7 @@ theorem sb_eq (q : Nat) : sb q = q / 2 ^ 4212 % 2 ^ 3510 := by
   unfold sb
   rw [m3510_eq, fld_eq]
 
+set_option exponentiation.threshold 3510 in
 theorem sb_lt (q : Nat) : sb q < 2 ^ 3510 := by
   rw [sb_eq]
   exact Nat.mod_lt _ (Nat.two_pow_pos _)
@@ -197,7 +199,7 @@ theorem testBit_bsP (n : Nat) (p : Nat → Bool) : ∀ d lo y, (bsP n p d lo).te
       change (nIf(p lo, Nat.shiftLeft (nat_lit 1) lo, nat_lit 0)).testBit y = true ↔ _
       rw [nIf_eq]
       by_cases hp : p lo = true
-      · rw [if_pos hp, shiftLeft_one, Nat.testBit_two_pow]
+      · rw [ite_eq_left hp, shiftLeft_one, Nat.testBit_two_pow]
         constructor
         · intro e
           have := of_decide_eq_true e
@@ -206,7 +208,7 @@ theorem testBit_bsP (n : Nat) (p : Nat → Bool) : ∀ d lo y, (bsP n p d lo).te
         · rintro ⟨h1, h2, -, -⟩
           simp at h2
           exact decide_eq_true (by omega)
-      · rw [if_neg hp, Nat.zero_testBit]
+      · rw [ite_eq_right hp, Nat.zero_testBit]
         simp only [Bool.false_eq_true, false_iff, not_and]
         intro h1 h2 _ hy
         simp at h2
@@ -240,9 +242,9 @@ theorem testBit_bsP_zero {n d : Nat} (hn : n ≤ 2 ^ d) (p : Nat → Bool) (y : 
   have h := testBit_bsP n p d 0 y
   cases e : (bsP n p d 0).testBit y
   · symm
-    simp only [Bool.and_eq_false_iff, decide_eq_false_iff_not, Bool.not_eq_true]
+    simp only [Bool.and_eq_false_iff, decide_eq_false_iff_not]
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have := h.2 ⟨Nat.zero_le _, by omega, hc.1, by simpa using hc.2⟩
     rw [e] at this
     exact Bool.false_ne_true this

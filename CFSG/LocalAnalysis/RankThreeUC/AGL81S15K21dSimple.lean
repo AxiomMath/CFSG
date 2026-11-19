@@ -20,7 +20,7 @@ theorem exists_noncomm_of_four_dvd {S : Type} [Group S] [IsSimpleGroup S]
     (h4 : 4 ∣ Nat.card S) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  haveI : IsMulCommutative S := ⟨⟨h⟩⟩
+  have : IsMulCommutative S := ⟨⟨h⟩⟩
   have hp : (Nat.card S).Prime := Group.is_simple_iff_prime_card.1 inferInstance
   rcases hp.eq_one_or_self_of_dvd 4 h4 with h1 | h1
   · omega
@@ -85,7 +85,7 @@ theorem simple_G2 {S : Type} [Group S] [Finite S] {Q : TauCeti.PrimePower}
   obtain ⟨p, f, hp, hf⟩ := Q
   dsimp only at hQ
   subst hQ
-  haveI : Fact (Nat.Prime 2) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨hp⟩
   let F := GaloisField 2 f
   have hF : Nat.card F = (⟨2, f, hp, hf⟩ : TauCeti.PrimePower).card := by
     rw [GaloisField.card _ _ hf.ne', TauCeti.PrimePower.card_def]
@@ -162,7 +162,7 @@ theorem k21dSimple_holds : K21dSimple := by
       exact fin h4 (CFSG.LieType.Simplicity.fam_classical_converse S ⟨_, _, _, _, hm⟩).2.2
   ·
     obtain ⟨e⟩ := CFSG.AGLEmbeddingD2.McLaughlin.nonempty_equiv_G52_of_isL5Two hL5
-    haveI : IsSimpleGroup (CFSG.GroupTheory.GL52.G52) := CFSG.GroupTheory.GL52.isSimpleGroup_G52
+    have : IsSimpleGroup (CFSG.GroupTheory.GL52.G52) := CFSG.GroupTheory.GL52.isSimpleGroup_G52
     have h4 : 4 ∣ Nat.card S := by
       rw [Nat.card_congr e.toEquiv, CFSG.GroupTheory.GL52.card_G52]
       norm_num
@@ -179,7 +179,7 @@ theorem k21dSimple_holds : K21dSimple := by
       norm_num
     exact fin h4 (CFSG.LieType.Simplicity.fam_classical_converse S ⟨_, _, _, _, hm⟩).2.2
   ·
-    haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by rcases hn with rfl | rfl <;> simp)
     have h4 : 4 ∣ Nat.card S := by
       rw [Nat.card_congr e.toEquiv]

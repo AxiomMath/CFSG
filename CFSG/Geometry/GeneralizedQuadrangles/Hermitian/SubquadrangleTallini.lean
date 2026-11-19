@@ -15,6 +15,7 @@ universe u
 variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   {c : Γ.Coloring (Fin 2)} {q : ℕ}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem mem_P'_of_subquadrangleColoring_eq_zero {P' : Set V}
     {v : subquadrangleSet Γ c P'} (hv : subquadrangleColoring c P' v = 0) : v.1 ∈ P' := by
   rcases mem_subquadrangleSet.mp v.2 with h | h
@@ -83,7 +84,7 @@ theorem spanSet_subquadrangle (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
       have h := hw.2
       rwa [dist_subquadrangleGraph_of_isFullSubquadrangle hP hT c hΓ.deg hF y.2 w.2] at h⟩
   have htrpos : 0 < (traceSet (Γ.induce (subquadrangleSet Γ c P')) x y).ncard := by
-    rw [ncard_trace hP' hxy', degree_subquadrangleGraph hΓ hF x, if_pos hx]
+    rw [ncard_trace hP' hxy', degree_subquadrangleGraph hΓ hF x, ite_eq_left hx]
     omega
   obtain ⟨w, hw⟩ := (Set.ncard_pos (s := traceSet (Γ.induce (subquadrangleSet Γ c P'))
     x y)).mp htrpos
@@ -99,16 +100,16 @@ theorem spanSet_subquadrangle (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
       f z ∈ (Γ.induce (subquadrangleSet Γ c P')).neighborSet w := by
     intro z hz
     rw [mem_neighborSet]
-    simp only [f, dif_pos hz]
+    simp only [f, dite_eq_left hz]
     exact commonNeighbor_adj_right hP' (hw2 z hz)
   have hfinj : Set.InjOn f (spanSet (Γ.induce (subquadrangleSet Γ c P')) x y) := by
     intro z hz z' hz' heq
     have hzL : (Γ.induce (subquadrangleSet Γ c P')).Adj (f z) z := by
-      simp only [f, dif_pos hz]
+      simp only [f, dite_eq_left hz]
       exact (commonNeighbor_adj_left hP' (hw2 z hz)).symm
     have hz'L : (Γ.induce (subquadrangleSet Γ c P')).Adj (f z) z' := by
       rw [heq]
-      simp only [f, dif_pos hz']
+      simp only [f, dite_eq_left hz']
       exact (commonNeighbor_adj_left hP' (hw2 z' hz')).symm
     have hle1 := ncard_spanSet_inter_neighborSet_le_one hP' hT' hxy' (f z)
     exact (Set.ncard_le_one (s := spanSet (Γ.induce (subquadrangleSet Γ c P')) x y ∩
@@ -121,7 +122,7 @@ theorem spanSet_subquadrangle (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
           Set.ncard_le_ncard (by rintro z ⟨z0, hz0, rfl⟩; exact hfmap z0 hz0)
       _ = (Γ.induce (subquadrangleSet Γ c P')).degree w :=
           ncard_neighborSet (Γ.induce (subquadrangleSet Γ c P')) w
-      _ = q + 1 := by rw [degree_subquadrangleGraph hΓ hF w, if_pos hw0]
+      _ = q + 1 := by rw [degree_subquadrangleGraph hΓ hF w, ite_eq_left hw0]
   have heq : spanSet Γ x.1 y.1 =
       Subtype.val '' spanSet (Γ.induce (subquadrangleSet Γ c P')) x y := by
     refine Set.eq_of_subset_of_ncard_le hsub ?_
@@ -141,7 +142,7 @@ theorem isRegularVertex_subquadrangle (hΓ : IsThasQuadrangle Γ c q) {P' : Set 
     have h := hxy'
     rwa [dist_subquadrangleGraph_of_isFullSubquadrangle hP hΓ.thick c hΓ.deg hF x.2 y.2]
       at h
-  rw [degree_subquadrangleGraph hΓ hF x, if_pos hx]
+  rw [degree_subquadrangleGraph hΓ hF x, ite_eq_left hx]
   rw [← Set.ncard_image_of_injective _ Subtype.val_injective,
     spanSet_subquadrangle hΓ hF hx hxy]
   exact hΓ.span x.1 y.1 (hF.1 x.1 (mem_P'_of_subquadrangleColoring_eq_zero hx)) hxy
@@ -251,7 +252,7 @@ theorem traceSet_subset_of_isFullSubquadrangle (hΓ : IsThasQuadrangle Γ c q) {
   have hv0 : c v = 0 := by
     have h := (hP.eq_iff_even_dist c v u).2 (by
       rw [SimpleGraph.dist_comm, huv]; exact ⟨2, rfl⟩)
-    rwa [h, hu]
+    rw [h, hu]
   have hxy4 : Γ.dist x y = 4 := dist_eq_four_of_mem_trace hP huv hxT hyT hxy
   have hmemP : ∀ a : subquadrangleSet Γ c P', a.1 ∈ traceSet Γ u v → a.1 ∈ P' := by
     intro a ha
@@ -359,15 +360,15 @@ theorem traceSet_subset_of_isFullSubquadrangle (hΓ : IsThasQuadrangle Γ c q) {
     rw [← hvalX, Set.ncard_image_of_injective _ Subtype.val_injective, hXcard]
     ring
   have hTcard : (traceSet Γ u v).ncard = q ^ 3 + 1 := by
-    rw [ncard_trace hP huv, hΓ.deg u, if_pos hu]
+    rw [ncard_trace hP huv, hΓ.deg u, ite_eq_left hu]
   have heq : traceSet Γ u v ∩ P' = traceSet Γ u v :=
     Set.eq_of_subset_of_ncard_le Set.inter_subset_left (by rw [hcardTP, hTcard])
   intro w hw
   have : w ∈ traceSet Γ u v ∩ P' := by rw [heq]; exact hw
   exact this.2
 
-theorem val_image_subquadrangleTrace (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
-    (hF : IsFullSubquadrangle c P' q) {u v : V} (hTP : traceSet Γ u v ⊆ P') :
+theorem val_image_subquadrangleTrace (_hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
+    (_hF : IsFullSubquadrangle c P' q) {u v : V} (hTP : traceSet Γ u v ⊆ P') :
     Subtype.val '' subquadrangleTrace Γ c P' u v = traceSet Γ u v := by
   ext w
   constructor
@@ -419,7 +420,7 @@ theorem isLinearVariety_subquadrangleTrace (hΓ : IsThasQuadrangle Γ c q) {P' :
     have hv0 : c v = 0 := by
       have h := (hP.eq_iff_even_dist c v u).2 (by
         rw [SimpleGraph.dist_comm, huv]; exact ⟨2, rfl⟩)
-      rwa [h, hu]
+      rw [h, hu]
     refine ⟨?_, ?_⟩
     · have hne : Γ.dist u w.1 ≠ 0 := by
         intro h0
@@ -460,7 +461,7 @@ private theorem exists_mem_P'_not_mem_trace (hΓ : IsThasQuadrangle Γ c q) {P' 
   have hPcard : P'.ncard = (q ^ 2 + 1) * (q ^ 2 * q + 1) :=
     ncard_of_isFullSubquadrangle hP hΓ.thick c hΓ.deg hF
   have hTcard : (traceSet Γ u v).ncard = q ^ 3 + 1 := by
-    rw [ncard_trace hP huv, hΓ.deg u, if_pos hu]
+    rw [ncard_trace hP huv, hΓ.deg u, ite_eq_left hu]
   have hle : P'.ncard ≤ (traceSet Γ u v).ncard := Set.ncard_le_ncard (fun w hw => h w hw)
   rw [hPcard, hTcard] at hle
   have h2 : 2 ≤ q ^ 2 + 1 := by nlinarith [hΓ.two_le]
@@ -470,7 +471,7 @@ private theorem exists_mem_P'_not_mem_trace (hΓ : IsThasQuadrangle Γ c q) {P' 
 
 theorem isStarPlane_subquadrangleTrace (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
     (hF : IsFullSubquadrangle c P' q) {u v : V} (hu : c u = 0) (huv : Γ.dist u v = 4)
-    (hTP : traceSet Γ u v ⊆ P') {x y z : subquadrangleSet Γ c P'}
+    (_hTP : traceSet Γ u v ⊆ P') {x y z : subquadrangleSet Γ c P'}
     (hxT : x.1 ∈ traceSet Γ u v) (hyT : y.1 ∈ traceSet Γ u v)
     (hzT : z.1 ∈ traceSet Γ u v)
     (hnc : ¬ IsStarCollinear (Γ.induce (subquadrangleSet Γ c P'))
@@ -491,7 +492,7 @@ private theorem exists_other_point (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
   have hP' : IsGeneralizedPolygon (Γ.induce (subquadrangleSet Γ c P')) 4 :=
     isGeneralizedPolygon_subquadrangleGraph hP hΓ.thick c hΓ.deg hF
   have hdegx : (Γ.induce (subquadrangleSet Γ c P')).degree x = q + 1 := by
-    rw [degree_subquadrangleGraph hΓ hF x, if_pos hx]
+    rw [degree_subquadrangleGraph hΓ hF x, ite_eq_left hx]
   have hpos : 0 < ((Γ.induce (subquadrangleSet Γ c P')).neighborSet x).ncard := by
     rw [ncard_neighborSet, hdegx]
     omega
@@ -500,7 +501,7 @@ private theorem exists_other_point (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
   have hL1 : subquadrangleColoring c P' L = 1 :=
     color_eq_one_of_adj_of_color_eq_zero hx hxL
   have hdegL : (Γ.induce (subquadrangleSet Γ c P')).degree L = q ^ 2 + 1 := by
-    rw [degree_subquadrangleGraph hΓ hF L, if_neg (by rw [hL1]; decide)]
+    rw [degree_subquadrangleGraph hΓ hF L, ite_eq_right (by rw [hL1]; decide)]
   have hpos2 : 1 < ((Γ.induce (subquadrangleSet Γ c P')).neighborSet L).ncard := by
     rw [ncard_neighborSet, hdegL]
     nlinarith [hΓ.two_le]
@@ -659,9 +660,9 @@ theorem exists_ptPerp_of_mem_clSet (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
     omega
   let T : Set V := traceSet Γ x.1 y.1
   have hTcard : T.ncard = q ^ 3 + 1 := by
-    rw [ncard_trace hP hxy, hΓ.deg x.1, if_pos hx0]
+    rw [ncard_trace hP hxy, hΓ.deg x.1, ite_eq_left hx0]
   have hwncard : (Γ.neighborSet w).ncard = q ^ 3 + 1 := by
-    rw [ncard_neighborSet, hΓ.deg w, if_pos hw0]
+    rw [ncard_neighborSet, hΓ.deg w, ite_eq_left hw0]
   let φ : V → V := fun u =>
     if h : u ∈ T then
       commonNeighbor hP (dist_eq_two_of_mem_span_of_mem_trace hP hT hxy hwspan h)
@@ -669,18 +670,18 @@ theorem exists_ptPerp_of_mem_clSet (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
   have hφmem : ∀ u ∈ T, φ u ∈ Γ.neighborSet w := by
     intro u hu
     rw [mem_neighborSet]
-    simp only [φ, dif_pos hu]
+    simp only [φ, dite_eq_left hu]
     exact commonNeighbor_adj_left hP
       (dist_eq_two_of_mem_span_of_mem_trace hP hT hxy hwspan hu)
   have hφinj : Set.InjOn φ T := by
     intro u hu u' hu' heq
     have huL : Γ.Adj u (φ u) := by
-      simp only [φ, dif_pos hu]
+      simp only [φ, dite_eq_left hu]
       exact commonNeighbor_adj_right hP
         (dist_eq_two_of_mem_span_of_mem_trace hP hT hxy hwspan hu)
     have hu'L : Γ.Adj u' (φ u) := by
       rw [heq]
-      simp only [φ, dif_pos hu']
+      simp only [φ, dite_eq_left hu']
       exact commonNeighbor_adj_right hP
         (dist_eq_two_of_mem_span_of_mem_trace hP hT hxy hwspan hu')
     by_contra hne
@@ -697,7 +698,7 @@ theorem exists_ptPerp_of_mem_clSet (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
   have hLu : Γ.Adj L u := by
     have h := commonNeighbor_adj_right hP
       (dist_eq_two_of_mem_span_of_mem_trace hP hT hxy hwspan huT)
-    simp only [φ, dif_pos huT] at hφu
+    simp only [φ, dite_eq_left huT] at hφu
     rw [hφu] at h
     exact h.symm
   have huP : u ∈ P' := hLfull hLu

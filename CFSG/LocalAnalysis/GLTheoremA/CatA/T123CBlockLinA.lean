@@ -262,7 +262,7 @@ theorem commute_of_mem_blockImage {a : primaryFactors x} {g : GL (Fin n) K}
 @[expose] noncomputable def restrictDet (a₀ : GL (Fin n) K)
     (hax : Matrix.toLin' (a₀ : Matrix (Fin n) (Fin n) K) = x) (a : K[X]) :
     ↥(Subgroup.centralizer ({a₀} : Set (GL (Fin n) K))) →* AdjoinRoot a :=
-  LinearMap.det.comp ((MonoidHomClass.toMonoidHom (commutantRestrictHom a)).comp
+  LinearMap.det.comp ((MonoidHom.ofClass (commutantRestrictHom a)).comp
     ((Units.coeHom (commutant x)).comp (centralizerToCommutantUnits a₀ hax)))
 
 theorem restrictDet_apply (a₀ : GL (Fin n) K)

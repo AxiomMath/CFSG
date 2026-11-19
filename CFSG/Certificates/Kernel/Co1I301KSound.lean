@@ -71,7 +71,6 @@ theorem relK_sound (x y xi yi : Nat) (w : List (Fin 2 × Bool)) :
   | cons l w ih =>
     rw [List.foldl_cons, List.foldl_cons, ← ih]
     refine congrArg (fun z => List.foldl _ z w) ?_
-    change CFSG.Sporadic.Co1Schreier.Native.mul (unpackR 24 a) _ = unpackR 24 (mulWK a _)
     have e : (if l.1 = 0 then (if l.2 = true then unpackR 24 x else unpackR 24 xi) else
         (if l.2 = true then unpackR 24 y else unpackR 24 yi)) =
         unpackR 24 (if l.1 = 0 then (if l.2 = true then x else xi) else

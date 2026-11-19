@@ -124,7 +124,7 @@ theorem u81_inner (u : U4X D L K n) {R : Subgroup G}
     (hR : CFSG.ABGLocalTools.IsSylowOf (2 ^ n - 1) R D.M) (α : MulAut ↥(barImage D.M L))
     (hα : α ^ Nat.card ↥(barImage D.M R) = 1) :
     α ∈ (MulAut.conj : ↥(barImage D.M L) →* MulAut ↥(barImage D.M L)).range := by
-  haveI : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (u4x_isSylowOf_barImage hR).isPGroup
   have hrn : 2 ^ n - 1 ≠ n := by rcases u.hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
   have hcop : Nat.Coprime (Nat.card ↥(barImage D.M R)) n := by
@@ -137,7 +137,7 @@ theorem u81_inner_part (u : U4X D L K n) {R : Subgroup G}
     (hR : CFSG.ABGLocalTools.IsSylowOf (2 ^ n - 1) R D.M) {β : Bar2 D.M}
     (hβ : β ∈ barImage D.M R) :
     ∃ x ∈ barImage D.M R ⊓ barImage D.M L, ∀ f ∈ barImage D.M L, β * f * β⁻¹ = x * f * x⁻¹ := by
-  haveI : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
   obtain ⟨-, -, h₀, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   exact u81_inner_mem (u4x_isSylowOf_barImage hR) (u.u81_le_normalizer hR) h₀ (u.u81_inner hR) hβ
 
@@ -161,7 +161,7 @@ theorem u81_decomp (u : U4X D L K n) {R : Subgroup G}
 theorem u81_card_inf (u : U4X D L K n) {R : Subgroup G}
     (hR : CFSG.ABGLocalTools.IsSylowOf (2 ^ n - 1) R D.M) :
     Nat.card ↥(barImage D.M R ⊓ barImage D.M L) = 2 ^ n - 1 := by
-  haveI : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
   obtain ⟨e, -⟩ := uc22p22l_barImage_equiv u.hL
   obtain ⟨h1, h2⟩ := u81_dvd_card u.hLS
   rw [Nat.card_congr e.toEquiv] at h1 h2
@@ -173,7 +173,7 @@ theorem u81_isCyclic (u : U4X D L K n)
     (hR : CFSG.ABGLocalTools.IsSylowOf (2 ^ n - 1) R D.M) :
     IsCyclic ↥(barImage D.M R ⊓ centralizer
       ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M))) := by
-  haveI : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
   have hr := u.prime_r
   have hS := u4x_isSylowOf_barImage hR
   obtain ⟨hcomm, hinf, -, -, -, -, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
@@ -190,9 +190,9 @@ theorem u81_comm (u : U4X D L K n)
     (hr3 : CFSG.Open.pRank (2 ^ n - 1) D.M ≤ 3) {R : Subgroup G}
     (hR : CFSG.ABGLocalTools.IsSylowOf (2 ^ n - 1) R D.M) :
     ∀ x ∈ R, ∀ y ∈ R, x * y = y * x := by
-  haveI : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := u.u81_isCyclic hr3 hR
+  have : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := u.u81_isCyclic hr3 hR
   obtain ⟨hcomm, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have h₀ := CFSG.GroupTheory.isElemAbelian_of_card_prime (u.u81_card_inf hR)
   have h₁ := CFSG.GroupTheory.isElemAbelian_of_card_prime (u.symm.u81_card_inf hR)

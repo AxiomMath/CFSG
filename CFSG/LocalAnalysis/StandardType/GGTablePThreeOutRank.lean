@@ -140,7 +140,7 @@ private lemma exists_char_of_eigenvector {K V G : Type} [Field K] [AddCommGroup 
 private lemma cube_root_exists {K : Type} [Field K] [Finite K] {q : ℕ}
     (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1) :
     ∃ ω : Kˣ, orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     have h : 3 ∣ (q + 1) * (q - 1) := dvd_mul_of_dvd_left hq3 _
@@ -326,7 +326,7 @@ theorem outRank_bound {K : Type} [Field K] [Finite K] [CharP K 2] {q n : ℕ}
     have hsq : s (((χ x : Kˣ) : K) • v) = ((χ x : Kˣ) : K) ^ q • s v := hs _ v
     rw [← hsx, hvx, hsq, hqinv (χ x) (hchi3 χ x)]
     simp
-  haveI : Fintype (E →* Kˣ) := Fintype.ofFinite _
+  have : Fintype (E →* Kˣ) := Fintype.ofFinite _
   let Λ : Finset (E →* Kˣ) := Finset.univ.filter (fun χ => W χ ≠ ⊥)
   let S : Finset (E →* Kˣ) := Λ.erase 1
   have hS_mem : ∀ χ : E →* Kˣ, χ ∈ S ↔ χ ≠ 1 ∧ W χ ≠ ⊥ := by

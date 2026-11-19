@@ -107,7 +107,7 @@ theorem g2_spec :
       · exact Or.inl h2
       · exact Or.inr h2
   · have h1 := hC a ha
-    simp only [Bool.and_eq_true, decide_eq_true_eq, Bool.not_eq_true'] at h1
+    simp only [decide_eq_true_eq, Bool.not_eq_true'] at h1
     obtain ⟨⟨⟨h2, h3⟩, h4⟩, h5⟩ := h1
     exact ⟨h2, h3, h4, h5⟩
 
@@ -138,7 +138,7 @@ theorem ncard_centPair {α : Finset (Fin 7)} (hα : α ∈ e64Sets) (h : α.card
   have himg : Subtype.val '' {c : ↥e64Sub | CentPair c ℓᶜ h} =
       ↑((centAt ℓ).map (mkQ 7)).toFinset := by
     ext y
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.coe_toFinset, List.mem_map]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.coe_toFinset, List.mem_map]
     constructor
     · rintro ⟨a, ha, rfl⟩
       exact (centPair_iff_mem hℓ h a).1 ha
@@ -225,7 +225,7 @@ theorem ncard_twinInv :
       α ≠ β ∧ ∃ (hα : α.card = 4) (hβ : β.card = 4), CentPair a α hα ∧ CentPair a β hβ} =
       ↑((a7 ()).map (mkQ 7)).toFinset := by
     ext y
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.coe_toFinset, List.mem_map]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.coe_toFinset, List.mem_map]
     constructor
     · rintro ⟨a, ha, rfl⟩
       exact (twinInv_iff a).1 ha

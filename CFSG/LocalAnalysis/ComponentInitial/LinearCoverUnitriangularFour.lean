@@ -612,7 +612,7 @@ theorem perfect_cover_kernel_bound_of_sylow {P Q : Type*} [Group P] [Group Q] [F
     IsElementaryAbelian 2 η.ker ∧ Nat.card η.ker ≤ 16 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T : Subgroup P := (S : Subgroup Q).comap η with hTdef
-  have hTp : IsPGroup 2 T := S.isPGroup'.comap_of_ker_isPGroup η h2
+  have hTp : IsPGroup 2 T := S.isPGroup.comap_of_ker_isPGroup η h2
   have hTi : ¬ 2 ∣ T.index := by
     rw [hTdef, Subgroup.index_comap_of_surjective _ hη]
     exact S.not_dvd_index

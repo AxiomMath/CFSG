@@ -30,14 +30,14 @@ private noncomputable def ggQ2xKDf_complEquiv {n : ℕ} (p : Fin n) :
   left_inv i := by
     apply Fin.ext
     have hi := i.isLt; have hp := p.isLt
-    simp only [Fin.val_mk]
+    simp only
     split_ifs <;> omega
   right_inv j := by
     apply Subtype.ext
     apply Fin.ext
     have hj := j.1.isLt; have hp := p.isLt
     have hjne : (j:ℕ) ≠ (p:ℕ) := fun h => j.2 (Fin.ext h)
-    simp only [Fin.val_mk]
+    simp only
     split_ifs <;> omega
 
 private lemma ggQ2xKDf_complEquiv_val {n : ℕ} (p : Fin n) (i : Fin (n-1)) :
@@ -47,8 +47,7 @@ private lemma ggQ2xKDf_complEquiv_val {n : ℕ} (p : Fin n) (i : Fin (n-1)) :
 private lemma ggQ2xKDf_D_shift {n : ℕ} (hn : 4 ≤ n) (i j : Fin (n-1)) :
     CartanMatrix.D n ⟨(i:ℕ)+1, by omega⟩ ⟨(j:ℕ)+1, by omega⟩ =
       CartanMatrix.D (n-1) i j := by
-  simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk, Fin.mk.injEq, Fin.ext_iff,
-    true_and, and_true]
+  simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
   split_ifs <;> omega
 
 private lemma ggQ2xKDf_D_zero_entry {n : ℕ} (hn : 4 ≤ n) (p : Fin n)
@@ -72,15 +71,15 @@ private lemma ggQ2xKDf_D_fork {n : ℕ} (hn : 4 ≤ n) (p : Fin n)
     CartanMatrix.D n (ggQ2xKDf_complEquiv p i) (ggQ2xKDf_complEquiv p j) =
       CartanMatrix.A (n-1) i j := by
   rw [CartanMatrix.D, CartanMatrix.A]
-  simp only [Matrix.of_apply, Fin.mk.injEq]
+  simp only [Matrix.of_apply]
   by_cases hij : i = j
   · subst hij
-    simp [ggQ2xKDf_complEquiv_val]
+    simp
   · have hne : ¬ ((ggQ2xKDf_complEquiv p i : Fin n) =
         (ggQ2xKDf_complEquiv p j : Fin n)) := by
       intro hh
       exact hij ((ggQ2xKDf_complEquiv p).injective (Subtype.ext hh))
-    simp only [if_neg hij, if_neg hne, ggQ2xKDf_complEquiv_val]
+    simp only [ite_eq_right hij, ite_eq_right hne, ggQ2xKDf_complEquiv_val]
     split_ifs <;> omega
 
 private lemma ggQ2xKDf_A_finCongr {m m' : ℕ} (h : m = m') (i j : Fin m) :
@@ -132,21 +131,19 @@ private lemma ggQ2xKDf_det_zero_of_ne {n m : ℕ} (p : Fin n)
 private lemma ggQ2xKDf_D_left {n : ℕ} (hn : 4 ≤ n) (i : Fin n)
     (h1 : 1 ≤ (i:ℕ)) (h2 : (i:ℕ) + 2 < n) :
     CartanMatrix.D n i ⟨(i:ℕ)-1, by omega⟩ = -1 := by
-  simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk, Fin.mk.injEq, Fin.ext_iff,
-    true_and, and_true]
+  simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
   split_ifs <;> omega
 
 private lemma ggQ2xKDf_D_right {n : ℕ} (hn : 4 ≤ n) (i : Fin n)
     (h : (i:ℕ) + 3 < n) :
     CartanMatrix.D n i ⟨(i:ℕ)+1, by omega⟩ = -1 := by
-  simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk, Fin.mk.injEq, Fin.ext_iff,
-    true_and, and_true]
+  simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff,
+    true_and]
   split_ifs <;> omega
 
 private lemma ggQ2xKDf_D_fork_n2 {n : ℕ} (hn : 4 ≤ n) :
     CartanMatrix.D n ⟨n-3, by omega⟩ ⟨n-2, by omega⟩ = -1 := by
-  simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk, Fin.mk.injEq, Fin.ext_iff,
-    true_and, and_true]
+  simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
   split_ifs <;> omega
 
 private lemma ggQ2xKDf_leaf_D {n : ℕ} (hn : 4 ≤ n) (a₀ : Fin n)
@@ -162,7 +159,7 @@ private lemma ggQ2xKDf_leaf_D {n : ℕ} (hn : 4 ≤ n) (a₀ : Fin n)
   have hc1ne : c1 ≠ a₀ := by
     intro hh
     have hv := congrArg Fin.val hh
-    simp only [c1, Fin.val_mk] at hv
+    simp only [c1] at hv
     omega
   have hc1D : CartanMatrix.D n a₀ c1 ≠ 0 := by
     have hd := ggQ2xKDf_D_left hn a₀ hi0 h2
@@ -173,7 +170,7 @@ private lemma ggQ2xKDf_leaf_D {n : ℕ} (hn : 4 ≤ n) (a₀ : Fin n)
     have hc2ne : c2 ≠ a₀ := by
       intro hh
       have hv := congrArg Fin.val hh
-      simp only [c2, Fin.val_mk] at hv
+      simp only [c2] at hv
       omega
     have hc2D : CartanMatrix.D n a₀ c2 ≠ 0 := by
       have hd := ggQ2xKDf_D_right hn a₀ hlt
@@ -182,7 +179,7 @@ private lemma ggQ2xKDf_leaf_D {n : ℕ} (hn : 4 ≤ n) (a₀ : Fin n)
     have hc12 : c1 ≠ c2 := by
       intro hh
       have hv := congrArg Fin.val hh
-      simp only [c1, c2, Fin.val_mk] at hv
+      simp only [c1, c2] at hv
       omega
     exact hc12 ((huniq c1 ⟨hc1ne, hc1D⟩).trans (huniq c2 ⟨hc2ne, hc2D⟩).symm)
   · have hi_eq : (a₀:ℕ) = n-3 := by omega
@@ -190,7 +187,7 @@ private lemma ggQ2xKDf_leaf_D {n : ℕ} (hn : 4 ≤ n) (a₀ : Fin n)
     have hc2ne : c2 ≠ a₀ := by
       intro hh
       have hv := congrArg Fin.val hh
-      simp only [c2, Fin.val_mk] at hv
+      simp only [c2] at hv
       omega
     have hc2D : CartanMatrix.D n a₀ c2 ≠ 0 := by
       have hae : a₀ = (⟨n-3, by omega⟩ : Fin n) := Fin.ext hi_eq
@@ -202,7 +199,7 @@ private lemma ggQ2xKDf_leaf_D {n : ℕ} (hn : 4 ≤ n) (a₀ : Fin n)
     have hc12 : c1 ≠ c2 := by
       intro hh
       have hv := congrArg Fin.val hh
-      simp only [c1, c2, Fin.val_mk] at hv
+      simp only [c1, c2] at hv
       omega
     exact hc12 ((huniq c1 ⟨hc1ne, hc1D⟩).trans (huniq c2 ⟨hc2ne, hc2D⟩).symm)
 

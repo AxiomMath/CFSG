@@ -28,8 +28,8 @@ theorem evalWA_unpack {m : Nat} {gs : Array (Array Nat)} {G : Nat → Nat}
         (evalWK n w G wd) := rfl
     rw [evalWA, e, h1, hx]
     cases x.2
-    · exact ⟨by rw [if_neg Bool.false_ne_true, invCand_PP hpx, compA_PP hpx.inv h2], hpx.inv.mul h2⟩
-    · exact ⟨by rw [if_pos rfl, compA_PP hpx h2], hpx.mul h2⟩
+    · exact ⟨by rw [ite_eq_right Bool.false_ne_true, invCand_PP hpx, compA_PP hpx.inv h2], hpx.inv.mul h2⟩
+    · exact ⟨by rw [ite_eq_left rfl, compA_PP hpx h2], hpx.mul h2⟩
 
 omit hw in
 theorem dihWK_eq {m : Nat} (G : Nat → Nat) (wr ws : List (Fin m × Bool)) :

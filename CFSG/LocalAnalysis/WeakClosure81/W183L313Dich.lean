@@ -18,6 +18,7 @@ open Pointwise
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem w183l313_key_odd {Q S D Lm : Subgroup Γ} (hB : BorelU34 Q S D) (hS : IsSylowIn 2 S Q)
     (hL : ∀ n ∈ Q ⊓ Subgroup.normalizer (S : Set Γ), ∀ l ∈ Lm, n * l * n⁻¹ ∈ Lm)
     (hZL : sylowCenter S ≤ Lm) (hLZ : ∀ l ∈ Lm, ∀ z ∈ sylowCenter S, l * z = z * l)
@@ -98,7 +99,7 @@ theorem w183l313_outer_involution {Y Q S D Pk : Subgroup Γ} (hQ : IsU3 ↥Q 2) 
     (hPN : ∀ n ∈ Y ⊓ Subgroup.normalizer (S : Set Γ), ∀ p ∈ Pk, n * p * n⁻¹ ∈ Pk)
     (hK : ∀ k ∈ Pk, k ∈ Q → k ∈ S) {f : Γ} (hf : f ∈ Pk) (hf2 : f * f = 1) (hfQ : f ∉ Q) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf_inv : f⁻¹ = f := inv_eq_of_mul_eq_one_right hf2
   set Z := sylowCenter S with hZ
   have hZS : Z ≤ S := inf_le_left
@@ -200,7 +201,7 @@ theorem w183l313_outer_involution {Y Q S D Pk : Subgroup Γ} (hQ : IsU3 ↥Q 2) 
       intro z hz
       refine ⟨hZS hz, ?_⟩
       rw [hF2 z hz]
-      simpa using Z.one_mem
+      simp
     have hWS : W ≤ S := fun x hx => hx.1
     have hstep : ∀ d ∈ D, ∀ s ∈ W, d * s * d⁻¹ ∈ W := by
       intro d hd s hs
@@ -408,7 +409,7 @@ theorem w183l313_dichotomy {Y Q S Lm Pk : Subgroup Γ} (hQ : IsU3 ↥Q 2) (hS : 
       obtain ⟨hrp, hr'⟩ := hr
       rw [not_imp] at hr'
       obtain ⟨hrdvd, hrne⟩ := hr'
-      haveI : Fact (Nat.Prime r) := ⟨hrp⟩
+      have : Fact (Nat.Prime r) := ⟨hrp⟩
       obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Pk ⊓ Q)) r hrdvd
       have hrodd : Odd r := hrp.odd_of_ne_two hrne
       have hkPk : (k : Γ) ∈ Pk := k.2.1

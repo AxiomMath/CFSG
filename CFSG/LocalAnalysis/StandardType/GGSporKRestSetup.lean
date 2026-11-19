@@ -31,7 +31,7 @@ theorem ggSporKRest_setup {W : Type} [Group W] [Finite W] {p : ℕ} {H E : Subgr
   · rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEF).toEquiv, hE2]
   · obtain ⟨P, _hEP, hPH⟩ := ggSporKRest_sylow_le hp hE hE2 hctl
     have hPF : (P : Subgroup W) ≤ CFSG.generalizedFitting W :=
-      ggSporKRest_pGroup_le_fstar hpodd hOut P.isPGroup'
+      ggSporKRest_pGroup_le_fstar hpodd hOut P.isPGroup
     exact ggSporKRest_sylow_subgroupOf P hPF hPH
   · exact ggSporKRest_controls_subgroupOf hctl
 

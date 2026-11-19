@@ -14,13 +14,14 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem card_sylow_three_of_card_504 (hcard : Nat.card G = 504) (T : Sylow 3 G) :
     Nat.card (T : Subgroup G) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Sylow.card_eq_multiplicity, hcard]
   have h : (504 : ℕ) = 3 ^ 2 * 56 := by norm_num
   rw [Nat.factorization_def _ Nat.prime_three, h, padicValNat.mul (by norm_num) (by norm_num),
     padicValNat.prime_pow, padicValNat.eq_zero_of_not_dvd (by norm_num)]
   norm_num
 
+omit [Finite G] in
 theorem isPGroup_three_of_card_nine {H : Subgroup G} (h : Nat.card H = 9) : IsPGroup 3 H :=
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   IsPGroup.of_card (n := 2) (by rw [h]; norm_num)
@@ -31,7 +32,7 @@ theorem exists_sylow_three_centralizer (hcard : Nat.card G = 504)
     ∃ T : Sylow 3 G, U ≤ (T : Subgroup G) ∧
       Subgroup.normalizer (U : Set G) ≤ Subgroup.normalizer ((T : Subgroup G) : Set G) ∧
       ∀ x : G, (∀ t ∈ (T : Subgroup G), x * t = t * x) → x ∈ (T : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxU, hx1⟩ : ∃ x ∈ U, x ≠ 1 := (Subgroup.bot_or_exists_ne_one U).resolve_left hU0
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hU) ⟨x, hxU⟩
   have hk' : orderOf x = 3 ^ k := by
@@ -120,30 +121,31 @@ theorem exists_sylow_three_centralizer (hcard : Nat.card G = 504)
       Subgroup.eq_of_le_of_card_ge hUT (by rw [hTcard, h9])
     rw [hUeq]
 
+omit [Finite G] in
 theorem le_sylow_of_le_normalizer {T : Sylow 3 G} {Z : Subgroup G} (hZ : IsPGroup 3 Z)
     (hZN : Z ≤ Subgroup.normalizer ((T : Subgroup G) : Set G)) : Z ≤ (T : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hsup : IsPGroup 3 ↥((T : Subgroup G) ⊔ Z) := T.isPGroup'.to_sup_of_normal_left' hZ hZN
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hsup : IsPGroup 3 ↥((T : Subgroup G) ⊔ Z) := T.isPGroup.to_sup_of_normal_left' hZ hZN
   have := T.maximal_isPGroup.eq_of_ge hsup le_sup_left
   exact le_sup_right.trans this.le
 
 theorem pCoreOf_normalizer_sylow_three (T : Sylow 3 G) :
     pCoreOf 3 (Subgroup.normalizer ((T : Subgroup G) : Set G)) = (T : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  refine le_antisymm ?_ (le_pCoreOf_of_le_normalizer 3 Subgroup.le_normalizer le_rfl T.isPGroup')
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  refine le_antisymm ?_ (le_pCoreOf_of_le_normalizer 3 Subgroup.le_normalizer le_rfl T.isPGroup)
   exact le_sylow_of_le_normalizer (pCoreOf_isPGroup 3 _) (pCoreOf_le 3 _)
 
 theorem holds_three_of_centralizers (hs : IsSimpleGroup G) (hcard : Nat.card G = 504)
     (hK : ∀ y : G, orderOf y = 3 → Nat.card (Subgroup.centralizer ({y} : Set G)) = 9) :
     Holds G 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro U hU0 hU
   obtain ⟨T, hUT, hNU, -⟩ := exists_sylow_three_centralizer hcard hK hU0 hU
   have hTcard := card_sylow_three_of_card_504 hcard T
   have hTcore := pCoreOf_normalizer_sylow_three T
   refine ⟨T, Subgroup.normalizer ((T : Subgroup G) : Set G), ?_, hNU, ?_, ?_, le_rfl⟩
   · intro htop
-    haveI : (T : Subgroup G).Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : (T : Subgroup G).Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases hs.eq_bot_or_eq_top_of_normal (T : Subgroup G) with h | h
     · have : Nat.card (T : Subgroup G) = 1 := by rw [h]; exact Subgroup.card_bot
       omega
@@ -157,7 +159,7 @@ theorem holds_three_of_centralizers (hs : IsSimpleGroup G) (hcard : Nat.card G =
 theorem radRigidInner_three_of_centralizers (hcard : Nat.card G = 504)
     (hK : ∀ y : G, orderOf y = 3 → Nat.card (Subgroup.centralizer ({y} : Set G)) = 9) :
     RadRigidInner 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro R hR x hx hxo
   obtain ⟨h0, hp, hc, hnt⟩ := hR
   obtain ⟨T, hRT, hNR, hCT⟩ := exists_sylow_three_centralizer hcard hK h0 hp
@@ -171,10 +173,10 @@ theorem radRigidInner_three_of_centralizers (hcard : Nat.card G = 504)
     exact congrArg Subtype.val this
   have hTR : (T : Subgroup G) ≤ R := by
     have : (T : Subgroup G) ≤ pCoreOf 3 (Subgroup.normalizer (R : Set G)) :=
-      le_pCoreOf_of_le_normalizer 3 hTN hNR T.isPGroup'
+      le_pCoreOf_of_le_normalizer 3 hTN hNR T.isPGroup
     rwa [hc] at this
   have hxT : x ∈ (T : Subgroup G) := hCT x fun t ht => hx t (hTR ht)
-  exact eq_one_of_mem_pGroup_of_coprime T.isPGroup' hxT hxo
+  exact eq_one_of_mem_pGroup_of_coprime T.isPGroup hxT hxo
 
 instance innerAut_normal : ((MulAut.conj : G →* MulAut G).range).Normal where
   conj_mem := by
@@ -208,7 +210,7 @@ theorem radRigid_three_of_centralizers (hs : IsSimpleGroup G) (hna : ∃ a b : G
     (hcard : Nat.card G = 504)
     (hK : ∀ y : G, orderOf y = 3 → Nat.card (Subgroup.centralizer ({y} : Set G)) = 9)
     (hAut : Nat.card (MulAut G) = 3 * Nat.card G) [Finite (MulAut G)] : RadRigid 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcen := center_eq_bot_of_simple_nonabelian hs hna
   have hinj := mulAut_conj_injective_of_center_bot hcen
   intro R hR α hfix hord

@@ -15,7 +15,7 @@ open CFSG.EvenSporadicStandard.Co3Std.CentT (centerQuotAut)
 
 theorem kdnpSmall_holds : KDNPSmall := by
   intro E _ _ hq _hZ σ hσ _h2 h4
-  haveI : IsSimpleGroup (E ⧸ center E) := hq.2.1
+  have : IsSimpleGroup (E ⧸ center E) := hq.2.1
   obtain ⟨hcomm, _hne, hdvd⟩ :=
     CFSG.GroupTheory.SmallFixedTwoGroup.displacement_of_isQuasisimple hq hσ
   have hle : Nat.card (fixedSubgroup (centerQuotAut σ)) ≤ 4 :=

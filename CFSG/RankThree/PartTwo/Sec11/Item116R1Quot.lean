@@ -23,7 +23,7 @@ theorem isCyclic_sylow_of_surjective_of_injOn {K W Z : Type*} [Group K] [Group W
   have hHS : (T : Subgroup K).map f = (S : Subgroup Z) :=
     congrArg (fun P : Sylow 3 Z => (P : Subgroup Z)) hT
   set H : Subgroup K := (T : Subgroup K) with hH
-  have hHp : IsPGroup 3 H := T.isPGroup'
+  have hHp : IsPGroup 3 H := T.isPGroup
   have hinj : Function.Injective (g.comp H.subtype) := by
     rw [injective_iff_map_eq_one]
     intro x hx
@@ -31,7 +31,7 @@ theorem isCyclic_sylow_of_surjective_of_injOn {K W Z : Type*} [Group K] [Group W
       hHp.to_le (Subgroup.zpowers_le.mpr x.2)
     exact Subtype.ext (hg (x : K) hP hx)
   obtain ⟨Q, hQ⟩ := (hHp.map g).exists_le_sylow
-  haveI : IsCyclic (Q : Subgroup W) := hW Q
+  have : IsCyclic (Q : Subgroup W) := hW Q
   have hφQ : ∀ x : H, (g.comp H.subtype) x ∈ (Q : Subgroup W) := fun x =>
     hQ (Subgroup.mem_map_of_mem g x.2)
   have hHc : IsCyclic H := by
@@ -92,14 +92,14 @@ theorem map_pCore_two_centralizer_le {H : Type*} [Group H] [Finite H] (N : Subgr
     (inSubgroup (CFSG.pCore 2) (Subgroup.centralizer ({y} : Set H))).map (QuotientGroup.mk' N) ≤
       inSubgroup (CFSG.pCore 2)
         (Subgroup.centralizer ({QuotientGroup.mk' N y} : Set (H ⧸ N))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card N) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hN
   have hZ3 : IsPGroup 3 (Subgroup.zpowers y) := by
     rcases (Nat.dvd_prime Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hy) with h1 | h1
     · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h1, pow_zero])
     · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h1, pow_one])
-  haveI : Fact (IsPGroup 3 (Subgroup.zpowers y)) := ⟨hZ3⟩
+  have : Fact (IsPGroup 3 (Subgroup.zpowers y)) := ⟨hZ3⟩
   have hkey : Subgroup.centralizer
       (((Subgroup.zpowers y).map (QuotientGroup.mk' N) : Subgroup (H ⧸ N)) : Set (H ⧸ N)) =
       (Subgroup.centralizer ((Subgroup.zpowers y : Subgroup H) : Set H)).map
@@ -144,7 +144,7 @@ namespace CFSG.RankThree.PartTwo.Sec11
 
 theorem aq4_center_layer_le_fitting {X : Type*} [Group X] [Finite X] :
     (Subgroup.center (CFSG.layer X)).map (CFSG.layer X).subtype ≤ CFSG.fittingSubgroup X := by
-  haveI : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
   have hnormal : ((Subgroup.center (CFSG.layer X)).map (CFSG.layer X).subtype).Normal :=
     inferInstance
   have hcomm : (Subgroup.center (CFSG.layer X)).map (CFSG.layer X).subtype ≤
@@ -156,7 +156,7 @@ theorem aq4_center_layer_le_fitting {X : Type*} [Group X] [Finite X] :
     obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.mp hg
     obtain ⟨w, hw, rfl⟩ := Subgroup.mem_map.mp (SetLike.mem_coe.mp hh)
     exact (congrArg Subtype.val (Subgroup.mem_center_iff.mp hw z)).symm
-  haveI : IsMulCommutative ((Subgroup.center (CFSG.layer X)).map (CFSG.layer X).subtype) :=
+  have : IsMulCommutative ((Subgroup.center (CFSG.layer X)).map (CFSG.layer X).subtype) :=
     Subgroup.le_centralizer_iff_isMulCommutative.mp hcomm
   exact le_sSup (s := {N : Subgroup X | N.Normal ∧ Group.IsNilpotent N}) ⟨hnormal, inferInstance⟩
 
@@ -200,6 +200,7 @@ abbrev CAt (a : G) : Type := ↥(Subgroup.centralizer ({a} : Set G))
 
 abbrev QAt (a : G) : Type := CAt a ⧸ aschbacherSolvableCore 3 (CAt a)
 
+omit [Finite G] in
 theorem inSubgroup_pCore_map_of_injective {Hh : Type*} [Group Hh] {p : ℕ} (ι : Hh →* G)
     (hι : Function.Injective ι) (S : Subgroup Hh) :
     inSubgroup (CFSG.pCore p) (S.map ι) = (inSubgroup (CFSG.pCore p) S).map ι := by
@@ -208,6 +209,7 @@ theorem inSubgroup_pCore_map_of_injective {Hh : Type*} [Group Hh] {p : ℕ} (ι 
   rw [← hiso, Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 theorem inSubgroup_pCore_centralizer_inf (a : G) (y' : CAt a) :
     inSubgroup (CFSG.pCore 2) (Subgroup.centralizer ({a} : Set G) ⊓
       Subgroup.centralizer ({(y' : G)} : Set G)) =

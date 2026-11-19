@@ -31,11 +31,11 @@ theorem nonempty_mulEquiv_image {p : ℕ} [Fact p.Prime] {X : Subgroup G} (hKX :
 theorem isPComponent_subgroupOf (hK : PComp 3 Y H K z)
     (hD2 : IsPGroup 2 (rankThreePrimeCore 3 H)) {X : Subgroup G} (hKX : K ≤ X)
     (hXK : X ≤ normalizer (K : Set G)) : CFSG.IsPComponent 3 (K.subgroupOf X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := isSimpleGroup_kbar hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := isSimpleGroup_kbar hK
   have hn : (K.subgroupOf X).Normal := (normal_subgroupOf_iff_le_normalizer hKX).mpr hXK
   obtain ⟨e⟩ := nonempty_mulEquiv_image (p := 3) hKX hXK
-  haveI : IsSimpleGroup ↥((K.subgroupOf X).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥X))) :=
+  have : IsSimpleGroup ↥((K.subgroupOf X).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥X))) :=
     e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := kbar_nonabelian hK
   refine isPComponent_of_normal Nat.prime_three hn
@@ -45,6 +45,7 @@ theorem isPComponent_subgroupOf (hK : PComp 3 Y H K z)
       ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
   · exact (Subgroup.Normal.map hn _ (QuotientGroup.mk'_surjective _)).isSubnormal
 
+omit [Finite G] in
 theorem centralizer_pCore_le_of_le {X : Subgroup G} (hXH : X ≤ H) (hDX : pCoreOf 2 H ≤ X)
     (hCT : H ⊓ centralizer (pCoreOf 2 H : Set G) ≤ pCoreOf 2 H) :
     centralizer (CFSG.pCore 2 ↥X : Set ↥X) ≤ CFSG.pCore 2 ↥X := by
@@ -62,8 +63,8 @@ theorem centralizer_pCore_le_of_le {X : Subgroup G} (hXH : X ≤ H) (hDX : pCore
 theorem isPGroup_pPrimeCore (hK : PComp 3 Y H K z) (hD2 : IsPGroup 2 (rankThreePrimeCore 3 H))
     {X T : Subgroup G} (hKX : K ≤ X) (hTX : T ≤ X) (hX : K ⊔ T = X) (hT2 : IsPGroup 2 T)
     (hXK : X ≤ normalizer (K : Set G)) : IsPGroup 2 ↥(CFSG.pPrimeCore 3 ↥X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (K.subgroupOf X).Normal := (normal_subgroupOf_iff_le_normalizer hKX).mpr hXK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (K.subgroupOf X).Normal := (normal_subgroupOf_iff_le_normalizer hKX).mpr hXK
   have htop : K.subgroupOf X ⊔ T.subgroupOf X = ⊤ := by
     apply Subgroup.map_injective X.subtype_injective
     rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hKX,
@@ -137,8 +138,8 @@ theorem not_le_normalizer_sup {M S X : Subgroup G} (hK : PComp 3 M H K z) (hKX :
 theorem nonempty_quotient_center_equiv (hK : PComp 3 Y H K z) {X : Subgroup G} (hKX : K ≤ X) :
     Nonempty ((↥(K.subgroupOf X) ⧸ CFSG.pPrimeCore 3 ↥(K.subgroupOf X)) ⧸
       center (↥(K.subgroupOf X) ⧸ CFSG.pPrimeCore 3 ↥(K.subgroupOf X)) ≃* Kbar K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := isSimpleGroup_kbar hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := isSimpleGroup_kbar hK
   let ι : ↥(K.subgroupOf X) ≃* ↥K := Subgroup.subgroupOfEquivOfLe hKX
   have hψ :
       Function.Surjective ((QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)).comp ι.toMonoidHom) := by

@@ -51,7 +51,7 @@ theorem exists_perp_ne_zero_vec {m : ℕ} (hm : 2 ≤ m) {K : Type} [Field K] {u
   refine ⟨Pi.single j (u i) - Pi.single i (u j), ?_, ?_⟩
   · intro h0
     have := congrFun h0 j
-    simp [Pi.single_apply, hji] at this
+    simp [hji] at this
     exact hi this
   · rw [sub_dotProduct, single_dotProduct, single_dotProduct]
     ring
@@ -109,7 +109,7 @@ theorem Ctx.exists_conj_of_SL (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : 
     simpa [Matrix.vecMul_vecMul, Units.inv_mul] using this
   exact exists_smul_of_vecMulVec_eq_of_ne hum hb0 heq
 
-theorem Ctx.img_conj_Rt_eq {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec5Hyp hc n t)
+theorem Ctx.img_conj_Rt_eq {hc : Ctx M Q Z B} {n : ℕ} {t : G} (_hs : Sec5Hyp hc n t)
     {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} (h : GlobalModelData M Q Z γ M₀)
     {hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img (Vt M (LB M Q B) B Z t) →

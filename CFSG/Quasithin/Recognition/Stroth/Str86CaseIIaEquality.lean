@@ -11,16 +11,19 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem centralizer_zpowers_eq_singleton (t : G) :
     Subgroup.centralizer (Subgroup.zpowers t : Set G) =
       Subgroup.centralizer ({t} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
+omit [Finite G] in
 private theorem relIndex_cjSub {A B : Subgroup G} (g : G) :
     (cjSub g A).relIndex (cjSub g B) = A.relIndex B := by
   unfold cjSub
   exact Subgroup.relIndex_map_map_of_injective A B (MulAut.conj g).injective
 
+omit [Finite G] in
 private theorem le_centralizer_conjClosure_of_conj {B Z H : Subgroup G}
     (h : ∀ g ∈ H, B ≤ Subgroup.centralizer (cjSub g Z : Set G)) :
     B ≤ Subgroup.centralizer (conjClosure Z H : Set G) := by
@@ -39,12 +42,14 @@ private theorem le_centralizer_conjClosure_of_conj {B Z H : Subgroup G}
   intro u hu
   exact (Subgroup.mem_centralizer_iff.mp (hle hu) b rfl).symm
 
+omit [Finite G] in
 private theorem cjSub_le_centralizer_of_le_centralizer {Q Z : Subgroup G} {g : G}
     (h : Q ≤ Subgroup.centralizer (Z : Set G)) :
     cjSub g Q ≤ Subgroup.centralizer (cjSub g Z : Set G) := by
   rw [← B2F.cjSub_centralizer]
   exact cjSub_mono h
 
+omit [Finite G] in
 theorem str86_isSzU3Quot_of_statedSU {L1 : Subgroup G} {k : ℕ} (hk : 2 ≤ k) {F : Type}
     [Field F] [Finite F] (hFc : Nat.card F = (2 ^ k) ^ 2)
     (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
@@ -85,6 +90,7 @@ theorem str86_q2_le_s
   conv_rhs => rw [hS2]
   exact le_sup_right
 
+omit [Finite G] in
 theorem str86_l2sup_le_normalizer_q2 {L1 L2 S : Subgroup G} :
     L2 ⊔ S ≤ Subgroup.normalizer (Q2 L1 L2 S : Set G) :=
   (sup_le le_sup_left
@@ -285,7 +291,7 @@ theorem str86_caseIIa_two_small_involution
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     (hB2 : VBig L2) (hL2 : IsL2Quot m (oTwoQuot ↥L2))
     (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hIIa : L2 ⊔ Q2 L1 L2 S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
+    (_hIIa : L2 ⊔ Q2 L1 L2 S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
     (hZ : Z1 L1 L2 S ≤ Q2 L1 L2 S)
     (hc : IsChiefSeriesFrom (L2 ⊔ S) (str86U L1 L2 S) (str86U L1 L2 S) 2) :
     ∃ t ∈ Q2 L1 L2 S, t ∉ Q1 L1 L2 S ∧ t * t = 1 ∧

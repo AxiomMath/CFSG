@@ -20,6 +20,7 @@ private lemma y6b_g_comm_M3 (c : Ctx5 G L) (hF : c.Facts5) (hRT : c.s.R ≠ c.s.
   have h := congrArg (· * c.g) (hF.2.2.2.1 hRT m hm)
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 private lemma y6b_conj_conj (x a : G) :
     (MulAut.conj x) (((MulAut.conj x)⁻¹) a) = a := by
   simp only [MulAut.conj_apply, MulAut.conj_inv_apply]
@@ -31,7 +32,7 @@ theorem y6b_E16_le_M3g (c : Ctx5 G L) : y6bE16 c ≤ M3 c.s ⊔ zpowers c.g := b
 
 theorem y6b_M3g_comm (c : Ctx5 G L) (hF : c.Facts5) (hRT : c.s.R ≠ c.s.T) :
     IsMulCommutative ↥(M3 c.s ⊔ zpowers c.g) := by
-  haveI hM3 : IsMulCommutative ↥(M3 c.s) := y6e_M3_comm c hF
+  have hM3 : IsMulCommutative ↥(M3 c.s) := y6e_M3_comm c hF
   have hgc := y6b_g_comm_M3 c hF hRT
   rw [Subgroup.sup_eq_closure]
   refine Subgroup.isMulCommutative_closure ?_
@@ -50,7 +51,7 @@ theorem y6b_M3g_comm (c : Ctx5 G L) (hF : c.Facts5) (hRT : c.s.R ≠ c.s.T) :
 
 theorem y6b_card_M3g (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
     (hRT : c.s.R ≠ c.s.T) : Nat.card ↥(M3 c.s ⊔ zpowers c.g) = 128 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgc := y6b_g_comm_M3 c hF hRT
   have hgH : c.g ∈ c.s.H := c.s.sylow_T.1 (y6b_g_mem_T c hRT)
   have hg_not_M3 : c.g ∉ M3 c.s := by
@@ -120,7 +121,7 @@ theorem y6b_not_conj_t (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
     subst ha
     exact htu
   have hUc : IsMulCommutative ↥U := by
-    haveI : IsMulCommutative ↥B := hBcomm
+    have : IsMulCommutative ↥B := hBcomm
     rw [hUdef]
     infer_instance
   have hle := y6b_card_abelian_H_le (s := c.s) (e := c.e) hH hRT hUH hUp hUc

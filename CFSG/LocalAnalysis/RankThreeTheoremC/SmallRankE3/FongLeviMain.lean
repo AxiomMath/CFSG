@@ -59,7 +59,7 @@ structure E3Inputs : Prop where
     E3Setting K K₀ B z p → ∀ (hv : LieTypeIndex.tits.Valid),
       Nonempty (↥K ≃* ValidLieTypeIndex.Group ⟨.tits, hv⟩) → False
   alt : ∀ {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : A} {p : ℕ},
-    E3Setting K K₀ B z p → ∀ {n : ℕ} (hn : 5 ≤ n), (n = 5 ∨ n = 6 ∨ n = 8) →
+    E3Setting K K₀ B z p → ∀ {n : ℕ} (_hn : 5 ≤ n), (n = 5 ∨ n = 6 ∨ n = 8) →
       Nonempty (↥K ≃* alternatingGroup (Fin n)) → False
   a1seven : ∀ {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : A} {p : ℕ},
     E3Setting K K₀ B z p → ∀ {q : PrimePower}, q.card = 7 → ∀ (hv : (LieTypeIndex.A 1 q).Valid),

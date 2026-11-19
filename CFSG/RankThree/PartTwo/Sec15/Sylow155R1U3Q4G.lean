@@ -28,7 +28,7 @@ private theorem res1U3Q4G_eq_one_of_mem {H : Type*} [Group H] {N : Subgroup H}
 private theorem res1U3Q4G_orderOf_mk {H : Type*} [Group H] {N : Subgroup H} [N.Normal]
     (hN : IsPGroup 2 N) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {g : H} (hg : g ^ p = 1)
     (hg1 : g ≠ 1) : orderOf (QuotientGroup.mk' N g) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine orderOf_eq_prime (by rw [← map_pow, hg, map_one]) fun h => ?_
   exact hg1 (res1U3Q4G_eq_one_of_mem hN hp hp2 hg ((QuotientGroup.eq_one_iff g).mp h))
 
@@ -45,7 +45,7 @@ theorem five_facts_of_a7_m22 (h148 : Item148R) (hbot : Item145BotS14) (h142 : It
         Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.M22))
     (τ : Res1Tau Q P A c L X K Y M T P' Yc z) :
     5 ∣ Nat.card X ∧ ∀ x ∈ X, x ∈ Res1C A L → x ^ 5 = 1 → x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX4 : X ∈ scriptY4 A (lB A) := τ.ctx.res ▸ τ.ctx.isY.2.1
   have htype := type_quot_pCore_two_of_mem_scriptY4 h148 hbot h142 h131 τ.sec15 (hQ _ τ.q)
     τ.norm τ.omega hX4

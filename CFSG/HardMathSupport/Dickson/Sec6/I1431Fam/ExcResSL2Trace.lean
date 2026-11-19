@@ -129,7 +129,7 @@ theorem excres_normalizer_inner
     rw [hχd, hχd] at h1
     have h2 := add_right_cancel h1
     have h3 := ε.injective h2
-    simp only [Units.coe_map, Units.val_inv_eq_inv_val] at h3
+    simp only [Units.coe_map] at h3
     exact h3.symm
   have hσ : ∀ x, σ x = x := excres_ringEquiv_eq_id_of_trace c σ hσ3 fun t ht => by
     simpa using htrace (Units.mk0 t ht)

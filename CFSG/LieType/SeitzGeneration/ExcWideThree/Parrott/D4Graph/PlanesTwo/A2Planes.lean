@@ -28,12 +28,14 @@ theorem pW_nodup : (triples.map fun t => wordN (pW t.1 t.2.1 t.2.2)).Nodup := by
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem wordG_replicate (n : ℕ) (w : List ℕ) :
     wordG K (List.replicate n w).flatten = wordG K w ^ n := by
   induction n with
   | zero => simp [wordG_nil]
   | succ n ih => rw [List.replicate_succ, List.flatten_cons, wordG_append, ih, pow_succ']
 
+omit [Finite K] in
 theorem wordG_pW (a b e : ℕ) :
     wordG K (pW a b e) = wordG K rW ^ a * wordG K dW ^ b * wordG K y0W ^ e := by
   rw [pW, wordG_append, wordG_append, wordG_replicate, wordG_replicate, wordG_replicate]
@@ -111,6 +113,7 @@ theorem exists_pW_of_mem (hK : Nat.card K = 2) {g : ↥(adjointGroup Tag.D4 K)} 
   rw [wordG_pW, pow_mod_three (r_pow_three hK) a, pow_mod_three (d_pow_three hK) b,
     pow_mod_three (y₀_pow_three hK) e]
 
+omit [Finite K] in
 theorem wordG_pW_mem (a b e : ℕ) : wordG K (pW a b e) ∈ subP K := by
   rw [wordG_pW]
   refine (subP K).mul_mem ((subP K).mul_mem ((subP K).pow_mem ?_ a) ((subP K).pow_mem ?_ b))

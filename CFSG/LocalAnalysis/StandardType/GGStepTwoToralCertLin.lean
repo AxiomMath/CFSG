@@ -50,7 +50,7 @@ theorem card_le_finrank_of_tri {k : ℕ} (v : Fin k → Fin n → F) (c : Fin k 
   have hli := linearIndependent_of_tri v c hd ht
   have hli' : LinearIndependent F (fun j => (⟨v j, hW j⟩ : W)) :=
     LinearIndependent.of_comp W.subtype hli
-  haveI : Module.Finite F W := Module.Finite.of_injective W.subtype W.injective_subtype
+  have : Module.Finite F W := Module.Finite.of_injective W.subtype W.injective_subtype
   simpa using hli'.fintype_card_le_finrank
 
 theorem finrank_ker_mulVecLin_le {m : ℕ} (M : Matrix (Fin m) (Fin n) F) {k : ℕ}
@@ -62,12 +62,12 @@ theorem finrank_ker_mulVecLin_le {m : ℕ} (M : Matrix (Fin m) (Fin n) F) {k : �
 
 theorem finrank_mono_gen {A B : Submodule F (Fin n → F)} (h : A ≤ B) :
     Module.finrank F A ≤ Module.finrank F B := by
-  haveI : Module.Finite F B := Module.Finite.of_injective B.subtype B.injective_subtype
+  have : Module.Finite F B := Module.Finite.of_injective B.subtype B.injective_subtype
   exact Submodule.finrank_mono h
 
 theorem eq_of_le_of_finrank_le_gen {A B : Submodule F (Fin n → F)} (h : A ≤ B)
     (hd : Module.finrank F B ≤ Module.finrank F A) : A = B := by
-  haveI : Module.Finite F B := Module.Finite.of_injective B.subtype B.injective_subtype
+  have : Module.Finite F B := Module.Finite.of_injective B.subtype B.injective_subtype
   exact Submodule.eq_of_le_of_finrank_le h hd
 
 theorem natCard_ge_pow_gen [Finite F] (W : Submodule F (Fin n → F)) {k : ℕ}
@@ -85,7 +85,7 @@ theorem finrank_eq_of_natCard_gen [Finite F] (W : Submodule F (Fin n → F)) {k 
 
 theorem tcExists_two_independent_gen (D : Submodule F (Fin n → F)) (h2 : Module.finrank F D = 2) :
     ∃ d1 ∈ D, d1 ≠ 0 ∧ ∃ d2 ∈ D, ∀ c : F, d2 ≠ c • d1 := by
-  haveI : Module.Finite F D := Module.Finite.of_injective D.subtype D.injective_subtype
+  have : Module.Finite F D := Module.Finite.of_injective D.subtype D.injective_subtype
   have hpos : 0 < Module.finrank F D := by omega
   obtain ⟨⟨d1, hd1⟩, hne⟩ := Module.finrank_pos_iff_exists_ne_zero.mp hpos
   have hne' : d1 ≠ 0 := fun h => hne (Subtype.ext h)
@@ -96,7 +96,7 @@ theorem tcExists_two_independent_gen (D : Submodule F (Fin n → F)) (h2 : Modul
     obtain ⟨c, rfl⟩ := hcon x hx
     exact Submodule.smul_mem _ c (Submodule.mem_span_singleton_self d1)
   have h1 : Module.finrank F D ≤ Module.finrank F (Submodule.span F {d1}) := by
-    haveI : Module.Finite F (Submodule.span F {d1}) :=
+    have : Module.Finite F (Submodule.span F {d1}) :=
       Module.Finite.of_injective _ (Submodule.injective_subtype _)
     exact Submodule.finrank_mono hle
   rw [finrank_span_singleton hne'] at h1
@@ -176,7 +176,7 @@ theorem tcKerOK_sound (hp : p.Prime) {rows : List (Array ℤ)} {vs : List (Array
   simp only [tcKerOK, Bool.and_eq_true, List.all_eq_true, List.mem_range, beq_iff_eq,
     decide_eq_true_eq, bne_iff_ne, ne_eq] at h
   obtain ⟨hker, htri⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨fun v hv r hr => (tcFun_zero_iff r v.1).mpr (hker v hv r hr), fun W hW => ?_⟩
   have hget : ∀ j : Fin vs.length, vs.getD j (#[], 0) = vs.get j := fun j => by
     simp
@@ -204,7 +204,7 @@ theorem tcEchOK_sound (hp : p.Prime) {gens : List (Array ℤ)} {rows : List TcEc
   simp only [tcEchOK, Bool.and_eq_true, List.all_eq_true, List.mem_range, beq_iff_eq,
     decide_eq_true_eq, bne_iff_ne, ne_eq] at h
   obtain ⟨hcomb, htri⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨fun r hr => ?_, fun W hW => ?_⟩
   · have := tcEqMod_iff.mp (hcomb r hr)
     rw [this]
@@ -229,7 +229,7 @@ theorem tcEchOK_sound (hp : p.Prime) {gens : List (Array ℤ)} {rows : List TcEc
 theorem finrank_tcKerSub_le (hp : p.Prime) {L : List (Array ℤ)}
     (hL : tcEchOK p n L (tcEchelon p n L) = true ∧ (tcEchelon p n L).length = L.length) :
     Module.finrank (ZMod p) (tcKerSub p n L) ≤ n - L.length := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let M : Matrix (Fin L.length) (Fin n) (ZMod p) := fun j i => ((tcEnt (L.get j) i : ℤ) : ZMod p)
   have hker : tcKerSub p n L = LinearMap.ker M.mulVecLin := by
     ext f
@@ -259,25 +259,25 @@ theorem finrank_tcKerSub_le (hp : p.Prime) {L : List (Array ℤ)}
 
 theorem natCard_ge_pow (hp : p.Prime) (W : Submodule (ZMod p) (Fin n → ZMod p)) {k : ℕ}
     (hk : k ≤ Module.finrank (ZMod p) W) : p ^ k ≤ Nat.card W := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have := natCard_ge_pow_gen (F := ZMod p) W hk
   rwa [Nat.card_zmod] at this
 
 theorem finrank_eq_two_of_natCard (hp : p.Prime) (D : Submodule (ZMod p) (Fin n → ZMod p))
     (h : Nat.card D = p ^ 2) : Module.finrank (ZMod p) D = 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : Nat.card D = Nat.card (ZMod p) ^ 2 := by rw [Nat.card_zmod]; exact h
   exact finrank_eq_of_natCard_gen (F := ZMod p) D (by rw [Nat.card_zmod]; exact hp.two_le) h2
 
 theorem tcExists_two_independent (hp : p.Prime) (D : Submodule (ZMod p) (Fin n → ZMod p))
     (h2 : Module.finrank (ZMod p) D = 2) :
     ∃ d1 ∈ D, d1 ≠ 0 ∧ ∃ d2 ∈ D, ∀ c : ZMod p, d2 ≠ c • d1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact tcExists_two_independent_gen (F := ZMod p) D h2
 
 theorem finrank_mono_zmod (hp : p.Prime) {A B : Submodule (ZMod p) (Fin n → ZMod p)}
     (h : A ≤ B) : Module.finrank (ZMod p) A ≤ Module.finrank (ZMod p) B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact finrank_mono_gen (F := ZMod p) h
 
 theorem tcKerOK_finrank_ge (hp : p.Prime) {rows : List (Array ℤ)} {vs : List (Array ℤ × ℕ)}
@@ -294,12 +294,12 @@ theorem inf_ne_bot_of_finrank_zmod (hp : p.Prime) {V D S : Submodule (ZMod p) (F
     (hD : D ≤ V) (hS : S ≤ V)
     (h : Module.finrank (ZMod p) V < Module.finrank (ZMod p) D + Module.finrank (ZMod p) S) :
     D ⊓ S ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact inf_ne_bot_gen (F := ZMod p) hD hS h
 
 theorem eq_of_le_of_finrank_le_zmod (hp : p.Prime) {A B : Submodule (ZMod p) (Fin n → ZMod p)}
     (h : A ≤ B) (hd : Module.finrank (ZMod p) B ≤ Module.finrank (ZMod p) A) : A = B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact eq_of_le_of_finrank_le_gen (F := ZMod p) h hd
 
 end CFSG.StandardType.StepTwoToralCert

@@ -30,7 +30,7 @@ theorem cyclicFourNotWeaklyClosed :
     (by omega) hxo
   rw [hZx] at hnwc
   unfold CFSG.EvenSporadicStandard.Finkelstein77.WeaklyClosedInNormalizer at hnwc
-  push_neg at hnwc
+  push Not at hnwc
   obtain ⟨h, hle, hne⟩ := hnwc
   have hconj : conjugate Z h⁻¹ = Z.map (MulAut.conj h).toMonoidHom := by
     unfold conjugate

@@ -24,7 +24,7 @@ theorem le_ker_of_perfect {G H : Type} [Group G] [CommGroup H] (φ : G →* H) {
   rw [← hT, Subgroup.commutator_le]
   intro a ha b hb
   rw [MonoidHom.mem_ker, commutatorElement_def, map_mul, map_mul, map_inv, map_inv]
-  simp [mul_comm, mul_assoc, mul_left_comm]
+  simp [mul_assoc]
 
 theorem eq_of_perfect_of_subnormal {X : Type} [Group X] {Q K : Subgroup X}
     (hQ : CFSG.Open.IsQuasisimple Q) (hKQ : CFSG.Open.IsSubnormal K Q) (hK : ⁅K, K⁆ = K)
@@ -331,39 +331,39 @@ theorem mat_yStd_zetaU2 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
   rw [mat_yStd]
   congr 1
   funext k
-  fin_cases k <;> simp [zetaU_val, Subgroup.coe_pow, Units.val_pow_eq_pow_val]
+  fin_cases k <;> simp [zetaU_val, Units.val_pow_eq_pow_val]
 
 theorem dz_zero (ζ : K) : dz ζ ![0, 0, 0, 0] = 1 := by
   unfold dz
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem dz_yStd (ζ : K) (hζ : IsPrimitiveRoot ζ 3) : dz ζ ![1, 1, 1, 0] = mat (yStd (zetaU ζ hζ)) := by
   rw [mat_yStd_zetaU ζ hζ]
   unfold dz
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem dz_yStd2 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
     dz ζ ![2, 2, 2, 0] = mat (yStd (zetaU ζ hζ ^ 2)) := by
   rw [mat_yStd_zetaU2 ζ hζ]
   unfold dz
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem dz_c211 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
     dz ζ ![0, 0, 1, 2] = mat (c211 ζ hζ) := by
   rw [mat_c211 ζ hζ]
   unfold dz
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem dz_c022 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
     dz ζ ![1, 1, 2, 2] = mat (c022 ζ hζ) := by
   rw [mat_c022 ζ hζ]
   unfold dz
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem normal_form (s : SU4) (hs : s ^ 3 = 1) (ζ : K) (hζ : IsPrimitiveRoot ζ 3) :
     ∃ h : SU4, h * s * h⁻¹ = 1 ∨ h * s * h⁻¹ = yStd (zetaU ζ hζ) ∨

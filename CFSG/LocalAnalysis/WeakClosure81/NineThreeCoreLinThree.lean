@@ -44,7 +44,7 @@ private lemma nine3_prod_phi_three {T W : Type} [MulOneClass T] [CommMonoid W] (
     (∏ k : Fin 3, (if ε k then φ k i else 1)) =
       (if ε 1 then φ 1 i else 1) * (if ε 2 then φ 2 i else 1) := by
   rw [Fin.prod_univ_three]
-  cases h0 : ε 0 <;> simp [h0, hφ0 i]
+  cases h0 : ε 0 <;> simp [hφ0 i]
 
 private lemma nine3_prod_psi_three {T' W : Type} [MulOneClass T'] [CommMonoid W]
     (ψ : Fin 3 → T' →* W)
@@ -52,7 +52,7 @@ private lemma nine3_prod_psi_three {T' W : Type} [MulOneClass T'] [CommMonoid W]
     (∏ l : Fin 3, (if π l then ψ l j else 1)) =
       (if π 0 then ψ 0 j else 1) * (if π 2 then ψ 2 j else 1) := by
   rw [Fin.prod_univ_three]
-  cases h1 : π 1 <;> simp [h1, hψ1 j]
+  cases h1 : π 1 <;> simp [hψ1 j]
 
 private lemma nine3_phiProd_mul {T W : Type} [MulOneClass T] [CommMonoid W]
     (hW : ∀ w : W, w * w = 1)
@@ -73,7 +73,7 @@ private lemma nine3_psiProd_mul_same {T' W : Type} [MulOneClass T'] [CommMonoid 
   rw [← Finset.prod_mul_distrib]
   refine Finset.prod_congr rfl ?_
   intro l _
-  cases hπ : π l <;> simp [hπ, map_mul]
+  cases hπ : π l <;> simp [map_mul]
 
 private lemma nine3_psiProd_one {T' W : Type} [MulOneClass T'] [CommMonoid W] (ψ : Fin 3 → T' →* W)
     (π : Fin 3 → Bool) : (∏ l : Fin 3, (if π l then ψ l 1 else 1)) = 1 := by
@@ -189,7 +189,7 @@ private lemma nine3_ite_pair_eq_snd {W : Type} [Group W]
   · rfl
 
 theorem nine3_la_three {T T' W : Type} [CommGroup T] [CommGroup T'] [CommGroup W]
-    (hT : ∀ i : T, i * i = 1) (hT' : ∀ j : T', j * j = 1) (hW : ∀ w : W, w * w = 1)
+    (_hT : ∀ i : T, i * i = 1) (hT' : ∀ j : T', j * j = 1) (hW : ∀ w : W, w * w = 1)
     (P : Fin 3 → Subgroup W) (hP : ∀ k l, k ≠ l → P k ⊓ P l = ⊥)
     (φ : Fin 3 → T →* W) (ψ : Fin 3 → T' →* W) (hφ0 : ∀ i, φ 0 i = 1) (hψ1 : ∀ j, ψ 1 j = 1)
     (hφP : ∀ k i, φ k i ∈ P k) (hψP : ∀ l j, ψ l j ∈ P l)

@@ -35,8 +35,8 @@ theorem card_eq_evenLieOrder_of_hasLabel_twA3 {R : Type} [Group R]
   unfold GGHasLabel CFSG.StandardType.LargeEvenRawDatum at h
   simp only [LargeEvenRecipeUnitary] at h
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hKcard
   have hM : LieModel (LargeEvenProj (LargeEvenSUGroup (Fin 4) K 2)) .PSU 4 2 1 :=
     Or.inl ⟨by decide, statedClassicalModel_unitary 4 1 hK' ⟨Nat.prime_two, by norm_num,
@@ -49,8 +49,8 @@ private theorem card_eq_evenLieOrder_of_hasLabel_twA4 {R : Type} [Group R]
   unfold GGHasLabel CFSG.StandardType.LargeEvenRawDatum at h
   simp only [LargeEvenRecipeUnitary] at h
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hKcard
   have hM : LieModel (LargeEvenProj (LargeEvenSUGroup (Fin 5) K 2)) .PSU 5 2 1 :=
     Or.inl ⟨by decide, statedClassicalModel_unitary 5 1 hK' ⟨Nat.prime_two, by norm_num,
@@ -63,8 +63,8 @@ private theorem card_eq_evenLieOrder_of_hasLabel_C4 {R : Type} [Group R]
   unfold GGHasLabel CFSG.StandardType.LargeEvenRawDatum at h
   simp only [LargeEvenRecipeSymplectic] at h
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK' : Nat.card K = 2 ^ 1 := by simpa using hKcard
   have hM : LieModel (LargeEvenProj (LargeEvenSpGroup K 4)) .PSp 4 2 1 :=
     Or.inl ⟨by decide, statedClassicalModel_symplectic 4 1 hK' ⟨Nat.prime_two, by norm_num,
@@ -77,8 +77,8 @@ private theorem card_eq_evenLieOrder_of_hasLabel_D4 {R : Type} [Group R]
   unfold GGHasLabel CFSG.StandardType.LargeEvenRawDatum at h
   simp only [LargeEvenRecipeOmegaPlus] at h
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK' : Nat.card K = 2 ^ 1 := by simpa using hKcard
   have hM : LieModel (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K 4))) .POmegaPlus 4 2 1 :=
     Or.inl ⟨by decide, statedClassicalModel_omegaPlus 4 1 hK' ⟨Nat.prime_two, by norm_num,
@@ -91,8 +91,8 @@ private theorem card_eq_evenLieOrder_of_hasLabel_D5 {R : Type} [Group R]
   unfold GGHasLabel CFSG.StandardType.LargeEvenRawDatum at h
   simp only [LargeEvenRecipeOmegaPlus] at h
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK' : Nat.card K = 2 ^ 1 := by simpa using hKcard
   have hM : LieModel (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K 5))) .POmegaPlus 5 2 1 :=
     Or.inl ⟨by decide, statedClassicalModel_omegaPlus 5 1 hK' ⟨Nat.prime_two, by norm_num,

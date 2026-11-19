@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.SmallF3.HarrisU33
 
 
 theorem corAStatement_of_certificates : CorAStatement :=
-  fun F _ _ h S =>
+  fun _F _ _ h S =>
     CFSG.ClassicalInvolution.exists_normal_elemAbelian_eight_of_not_fourGenerated h S
 
 end CFSG.OddStandard.SmallF3.HarrisU33

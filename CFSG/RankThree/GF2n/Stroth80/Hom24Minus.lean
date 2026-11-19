@@ -199,16 +199,16 @@ theorem stroth_2_4_omegaMinus (K : Type) [Field K] [Finite K] {m : ℕ} (hm : 2 
   have hc0 : c ≠ 0 := by simpa using hirr 0
   have hQx₁ : quadMinus m K b c x₁ = 1 := by
     rw [hx₁, quadMinus_apply]
-    simp [Pi.single_apply]
+    simp
   have hQx₂ : quadMinus m K b c x₂ = c := by
     rw [hx₂, quadMinus_apply]
-    simp [Pi.single_apply]
+    simp
   have hx₁P : x₁ ∈ P.perp := by
     rw [hmem, hx₁]
-    simp [Pi.single_apply]
+    simp
   have hx₂P : x₂ ∈ P.perp := by
     rw [hmem, hx₂]
-    simp [Pi.single_apply]
+    simp
   have hS₁ : x₁ ∈ {x | x ∈ P.perp ∧ quadMinus m K b c x ≠ 0} :=
     ⟨hx₁P, by rw [hQx₁]; exact one_ne_zero⟩
   have hS₂ : x₂ ∈ {x | x ∈ P.perp ∧ quadMinus m K b c x ≠ 0} :=
@@ -218,7 +218,7 @@ theorem stroth_2_4_omegaMinus (K : Type) [Field K] [Finite K] {m : ℕ} (hm : 2 
     intro s t hst
     have h0 := congrFun hst (Sum.inr (Sum.inr 0))
     have h1 := congrFun hst (Sum.inr (Sum.inr 1))
-    simp [hx₁, hx₂, Pi.single_apply] at h0 h1
+    simp [hx₁, hx₂] at h0 h1
     exact ⟨h0, h1⟩
   have hspan_of : ∀ v : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K, v ∈ P.perp →
       quadMinus m K b c v = 0 → polar (quadMinus m K b c) v x₁ = 0 →
@@ -244,18 +244,18 @@ theorem stroth_2_4_omegaMinus (K : Type) [Field K] [Finite K] {m : ℕ} (hm : 2 
     · have hi : i ≠ i0 := fun h => hk1 (congrArg Sum.inl h)
       have hmemi : (Pi.single (Sum.inl i) (1 : K) :
           Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ∈ P.perp :=
-        (hmem _).mpr ⟨by simp [Pi.single_apply], by simp [Pi.single_apply, Ne.symm hi]⟩
+        (hmem _).mpr ⟨by simp, by simp [Ne.symm hi]⟩
       have hpol : polar (quadMinus m K b c) (Pi.single (Sum.inl i) (1 : K)) x₁ = 0 := by
         rw [polar_single_inl_quadMinus, hx₁]
-        simp [Pi.single_apply]
+        simp
       exact hspan_of _ hmemi (quadMinus_single_inl i) hpol
     · have hi : i ≠ i0 := fun h => hk2 (congrArg Sum.inr (congrArg Sum.inl h))
       have hmemi : (Pi.single (Sum.inr (Sum.inl i)) (1 : K) :
           Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ∈ P.perp :=
-        (hmem _).mpr ⟨by simp [Pi.single_apply, Ne.symm hi], by simp [Pi.single_apply]⟩
+        (hmem _).mpr ⟨by simp [Ne.symm hi], by simp⟩
       have hpol : polar (quadMinus m K b c) (Pi.single (Sum.inr (Sum.inl i)) (1 : K)) x₁ = 0 := by
         rw [polar_single_inr_quadMinus, hx₁]
-        simp [Pi.single_apply]
+        simp
       exact hspan_of _ hmemi (quadMinus_single_inr i) hpol
     · exact hinr j
   have hspan : P.perp ≤ Submodule.span K {x | x ∈ P.perp ∧ quadMinus m K b c x ≠ 0} := by

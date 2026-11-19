@@ -20,8 +20,8 @@ theorem even_finrank_comSp_of_order_three
     (y : SpV n ≃ₗ[ZMod 2] SpV n) (hy3 : y ^ 3 = 1) :
     Even (Module.finrank (ZMod 2) (comSp y)) := by
   classical
-  haveI : Fintype ↥(comSp y) := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fintype ↥(comSp y) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let f : Function.End ↥(comSp y) := fun z => ⟨y z, e_mem_comSp z.2⟩
   have hf : f ^ 3 ^ 1 = 1 := by
     rw [show f ^ 3 ^ 1 = f * f * f by rw [pow_one, pow_succ, pow_succ, pow_one]]
@@ -50,13 +50,13 @@ theorem finrank_comSp_le_two_of_coordinate
     [Fintype (SpNonzeroBlock A)] (hAe : IsElemAbelian 3 A)
     (D0 : SpNonzeroBlock A)
     (hD0 : Module.finrank (ZMod 2) (blockSpace A D0.1.1) = 2)
-    (y : ↥A) (hyD0 : y ∉ D0.1.1)
+    (y : ↥A) (_hyD0 : y ∉ D0.1.1)
     (hyD : ∀ D : SpNonzeroBlock A, D ≠ D0 → y ∈ D.1.1) :
     Module.finrank (ZMod 2) (comSp (y : SpV n ≃ₗ[ZMod 2] SpV n)) ≤ 2 := by
   classical
   let hp : Nat.Prime 3 := by norm_num
   let hpF : (3 : ZMod 2) ≠ 0 := by decide
-  haveI : Fintype {D : SpNonzeroBlock A // D ≠ D0} := Fintype.ofFinite _
+  have : Fintype {D : SpNonzeroBlock A // D ≠ D0} := Fintype.ofFinite _
   let f : SpNonzeroBlock A → ℕ := fun D => Module.finrank (ZMod 2) (blockSpace A D.1.1)
   let U' : Submodule (ZMod 2) (SpV n) :=
     ⨆ D : {D : SpNonzeroBlock A // D ≠ D0}, blockSpace A D.1.1.1

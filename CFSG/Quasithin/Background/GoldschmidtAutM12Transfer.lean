@@ -35,7 +35,7 @@ theorem hasTwoE16_of_surjective {G G' : Type} [Group G] [Finite G] [Group G'] (�
     rw [injective_iff_map_eq_one]
     intro t ht
     have h3 : (t : G) ^ 3 = 1 := hker _ ht
-    obtain ⟨j, hj⟩ := P.isPGroup' t
+    obtain ⟨j, hj⟩ := P.isPGroup t
     have h2 : (t : G) ^ 2 ^ j = 1 := by simpa using congrArg Subtype.val hj
     have h1 : orderOf (t : G) ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one h2
     have h1' : orderOf (t : G) ∣ 3 := orderOf_dvd_of_pow_eq_one h3

@@ -89,17 +89,17 @@ theorem exists_fixed_nonsolvable_ggGamma {p : ℕ} {B Bs : Subgroup G} {x : G}
   ·
     intro hsol
     have hJL : J ≤ L := hJcomp.1.trans inf_le_left
-    haveI : Group.IsSolvable ↥(J.subgroupOf L) := hsol
-    haveI : Group.IsSolvable ↥J :=
+    have : Group.IsSolvable ↥(J.subgroupOf L) := hsol
+    have : Group.IsSolvable ↥J :=
       Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe hJL).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hJL).symm.injective
-    haveI hperf : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJcomp.2.2.1
-    haveI : Nontrivial ↥J := by
-      haveI := hJcomp.2.2.2
+    have hperf : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJcomp.2.2.1
+    have : Nontrivial ↥J := by
+      have := hJcomp.2.2.2
       by_contra hno
       rw [not_nontrivial_iff_subsingleton] at hno
-      haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
+      have : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
         (QuotientGroup.mk_surjective :
           Function.Surjective (QuotientGroup.mk : ↥J → ↥J ⧸ Subgroup.center ↥J)).subsingleton
       exact not_subsingleton (↥J ⧸ Subgroup.center ↥J) ‹_›
@@ -209,7 +209,7 @@ theorem exists_mem_centralizer_nonsolvable {R L' : Type} [Group R] [Group L'] (�
       have h1 := hχ ⟨a₀, ha₀A⟩ l
       rw [hJ₀fix l hl] at h1
       exact (mul_inv_eq_iff_eq_mul.mp h1.symm).symm
-    haveI : Group.IsSolvable ↥(J₀.map ψ) :=
+    have : Group.IsSolvable ↥(J₀.map ψ) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
     let g : J₀ →* ↥(J₀.map ψ) :=

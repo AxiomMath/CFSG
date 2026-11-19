@@ -22,6 +22,7 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
   (θ : K ≃+* K) (hθ : ∀ c, θ.toRingHom (θ.toRingHom c) = c)
   (l : K) (hl : θ.toRingHom l = l + 1)
 
+omit [CharP K 2] in
 theorem card_normOne {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     (hθq : ∀ c, θ.toRingHom c = c ^ (2 ^ f)) :
     Nat.card (CFSG.LieType.Steinberg.normOne θ) = 2 ^ f + 1 := by
@@ -33,11 +34,12 @@ theorem card_normOne {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     rw [ht, ← pow_succ, ← Units.val_pow_eq_pow_val, ← Units.val_eq_one]
   rw [heq, IsCyclic.card_powMonoidHom_ker, Nat.card_units, hK]
   have hmul : (2 ^ f) ^ 2 - 1 = (2 ^ f + 1) * (2 ^ f - 1) := by
-    exact (Nat.sq_sub_sq (2 ^ f) 1).trans (by simp [mul_comm])
+    exact (Nat.sq_sub_sq (2 ^ f) 1).trans (by simp)
   rw [hmul, Nat.gcd_mul_right_left]
 
-theorem exists_normOne_prime {f p : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
-    (hθq : ∀ c, θ.toRingHom c = c ^ (2 ^ f)) (hp : p.Prime) (hpq : p ∣ 2 ^ f + 1) :
+omit [CharP K 2] in
+theorem exists_normOne_prime {f p : ℕ} (_hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
+    (hθq : ∀ c, θ.toRingHom c = c ^ (2 ^ f)) (_hp : p.Prime) (hpq : p ∣ 2 ^ f + 1) :
     ∃ ζ : CFSG.LieType.Steinberg.normOne θ, orderOf (ζ : Kˣ) = p := by
   have hd : p ∣ Nat.card K - 1 := by
     rw [hK]
@@ -70,6 +72,7 @@ theorem graph_frame_selfCent {f p : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ 
     (cover_centralizer_langPFrame_le K θ hθ l hl hf hK hθq hp hp2 hp3 ζ hζ hζo q hqs hqk ?_) hxp
   exact Subgroup.mem_centralizer_iff.mpr fun e he => (hx e he).symm
 
+omit [CharP K 2] in
 theorem card_eq_six_of_selfCent_five {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     (hθq : ∀ c, θ.toRingHom c = c ^ (2 ^ f)) (h5 : 5 ∣ 2 ^ f + 1)
     (E : Subgroup (graphFixedRootGroup TwistTag.E6 K θ.toRingHom))
@@ -241,7 +244,7 @@ theorem exists_aligned_graph_of_card_or_seven {r : ℕ} {L : Type} [Group L] [Fi
     (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ p = 1) (hζo : orderOf (ζ : Kˣ) = p)
     (ψ : L →* TwE6Delta.RecipeR K f) (A : Subgroup (MulAut L))
     (hTB : GGTorusTBGroup p r (TwE6Delta.RecipeR K f) (TwE6Delta.RecipeI K f) L ψ A)
-    (hCard : p ^ 5 ≤ Nat.card A ∨ 7 ≤ p) :
+    (_hCard : p ^ 5 ≤ Nat.card A ∨ 7 ≤ p) :
     ∃ ψa : L →* graphFixedRootGroup TwistTag.E6 K θ.toRingHom,
       Function.Surjective ψa ∧ ψa.ker ≤ Subgroup.center L ∧
       ∃ Λ : graphFixedRootGroup TwistTag.E6 K θ.toRingHom →* MulAut L,
@@ -272,7 +275,7 @@ theorem exists_aligned_graph {L : Type} [Group L] [Finite L]
 theorem ggTorusTorW_recipe_twE6 {f p : ℕ} (hf : 2 ≤ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     (hpq : p ∣ 2 ^ f + 1) :
-    GGTorusTorW p 5 (2 ^ f + 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆
+    GGTorusTorW p 5 (2 ^ f + 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆
       (TwE6Delta.RecipeR K f) (TwE6Delta.RecipeI K f) := by
   classical
   let : Fact p.Prime := ⟨hp⟩
@@ -344,7 +347,7 @@ theorem ggTBTorE6IndTwist_holds : GGTBTorE6IndTwist := by
   have : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, ← pow_mul])
   refine ⟨K, i1, i2, hK, hQK, ?_⟩
   rw [hEnn]
-  simpa only [ggTorM, LargeEvenLabel.tag, LargeEvenLabel.n, or_true, if_true] using
+  simpa only [ggTorM, LargeEvenLabel.tag, LargeEvenLabel.n, or_true, ite_true] using
     ggTorusTorW_recipe_twE6 K hf2 hK hp hp2 hp3 hpq
 
 end CFSG.StandardType.TBE6IndTwist

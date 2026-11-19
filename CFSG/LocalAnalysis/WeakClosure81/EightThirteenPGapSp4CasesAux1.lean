@@ -26,7 +26,7 @@ lemma wcgapsc_sp4Z_add (b c b' c' : F) :
   rw [sp4Z, sp4Z, sp4Z, tau_mul_tau]
   refine tau_congr _ _ ?_
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [sym2, add_comm, add_left_comm]
+  fin_cases i <;> fin_cases j <;> simp [sym2]
 
 lemma wcgapsc_sp4Z_zero : sp4Z (0 : F) 0 = 1 := by
   apply statedSp_ext
@@ -92,7 +92,7 @@ lemma wcgapsc_addHom_ext [Finite F] (hF : Nat.card F = 4) {ω : F}
     (hω : ω ^ 2 + ω + 1 = 0) {L M : F →+ F} (h1 : L 1 = M 1) (hω' : L ω = M ω) :
     L = M := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   ext x
   have hx : x ∈ ({0, 1, ω, ω ^ 2} : Finset F) := by
     rw [← TauCeti.univ_eq_zero_one_root_sq hF hω]
@@ -117,7 +117,7 @@ theorem wcgapsc_graph_cases [Finite F] [CharP F 2] (hF : Nat.card F = 4)
     (∃ a : F, a ≠ 0 ∧ ∀ x, L x = a * x) ∨
     (∃ b : F, b ≠ 0 ∧ ∀ x, L x = b * x ^ 2) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨ω, hω⟩ := TauCeti.exists_sq_add_self_add_one_eq_zero_of_card_eq_four hF
   set u := L 1 with hu
   set v := L ω with hv

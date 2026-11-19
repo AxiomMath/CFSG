@@ -14,8 +14,8 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem generalizedFitting_le_of_normal (hS : IsSimpleGroup ↥(generalizedFitting G))
     {N : Subgroup G} (hN : N.Normal) (hN1 : N ≠ ⊥) : generalizedFitting G ≤ N := by
-  haveI := hN
-  haveI : (generalizedFitting G).Normal :=
+  have := hN
+  have : (generalizedFitting G).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := G)).2
   rcases hS.eq_bot_or_eq_top_of_normal ((N ⊓ generalizedFitting G).subgroupOf _) with
     hbot | htop

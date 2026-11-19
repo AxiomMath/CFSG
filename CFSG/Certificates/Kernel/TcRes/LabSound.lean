@@ -11,7 +11,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -190,29 +190,29 @@ theorem compLab_eq (r N k n : ℕ) :
   · simp only [compLab, brecN_eq, nbeq_eq, tkKind, tcrComponentLabel, Nat.succ_eq_add_one,
       nmul_eq, nsub_eq]
     by_cases h1 : N = r * (r + 1)
-    · rw [if_pos h1, decide_eq_true h1]
+    · rw [ite_eq_left h1, decide_eq_true h1]
       rfl
-    rw [if_neg h1, decide_eq_false h1]
+    rw [ite_eq_right h1, decide_eq_false h1]
     by_cases h2 : N = 2 * r * (r - 1)
-    · rw [if_pos h2, decide_eq_true h2]
+    · rw [ite_eq_left h2, decide_eq_true h2]
       rfl
-    rw [if_neg h2, decide_eq_false h2]
+    rw [ite_eq_right h2, decide_eq_false h2]
     by_cases h3 : r = 6
-    · rw [if_pos h3, decide_eq_true h3]
+    · rw [ite_eq_left h3, decide_eq_true h3]
       rfl
-    rw [if_neg h3, decide_eq_false h3]
+    rw [ite_eq_right h3, decide_eq_false h3]
     by_cases h4 : r = 7
-    · rw [if_pos h4, decide_eq_true h4]
+    · rw [ite_eq_left h4, decide_eq_true h4]
       rfl
-    rw [if_neg h4, decide_eq_false h4]
+    rw [ite_eq_right h4, decide_eq_false h4]
     rfl
   · simp [compLab, brecN_eq, nbeq_eq, tkKind, tcrComponentLabel, tkLab, tkTg]
   · simp [compLab, brecN_eq, nbeq_eq, tkKind, tcrComponentLabel, tkLab, tkTg]
   · simp only [compLab, brecN_eq, nbeq_eq, tkKind, tcrComponentLabel]
     by_cases h3 : r = 6
-    · rw [if_pos h3, decide_eq_true h3]
+    · rw [ite_eq_left h3, decide_eq_true h3]
       rfl
-    rw [if_neg h3, decide_eq_false h3]
+    rw [ite_eq_right h3, decide_eq_false h3]
     rfl
 
 @[expose] noncomputable def tkEx (l : TcrLab) : ℕ := (((tcrLabelClass l).tail.head?).map tkLab).getD NOLAB
@@ -223,7 +223,7 @@ theorem extraLab_eq {l : TcrLab} (hl : l.r < 16) : extraLab (tkLab l) = tkEx l :
   simp only at a1 a2 a3 hl
   simp only [extraLab, strictN_eq, a1, a2, a3, brecN_eq, nbeq_eq, andB_eq]
   cases t <;> simp only [tkTg, tkEx, tcrLabelClass] <;> (try split_ifs) <;>
-    simp_all [tkLab, tkTg, nmul_eq, ndiv_eq, nmod_eq]
+    simp_all [tkLab, tkTg, ndiv_eq, nmod_eq]
 
 theorem mem_class {l m : TcrLab} (hm : m ∈ tcrLabelClass l) :
     (m = l ∨ m.r ≤ 3) ∧ m.n ≤ 2 * l.n := by
@@ -262,15 +262,14 @@ theorem split3_eq {l : TcrLab} (hl : l.r < 16) : split3 (tkLab l) = tcrSplitT 3 
   obtain ⟨t, r, n⟩ := l
   rw [Bool.eq_iff_iff]
   cases t <;> simp [tcrSplitT, tcrUntw, untw, m3, p3, tkTg, orB_eq, andB_eq, notB_eq, nbeq_eq,
-    nble_eq, nmod_eq, npow_eq, nsub_eq, nadd_eq] <;> tauto
+    nble_eq, nmod_eq]; tauto
 
 theorem half3_eq {l : TcrLab} (hl : l.r < 16) : half3 (tkLab l) = tcrHalfSplitT 3 l := by
   obtain ⟨a1, a2, a3⟩ := tkLab_dec hl
   rw [half3, strictB_eq, strictB_eq, strictB_eq, a1, a2, a3, tcrHalfSplitT, ← split3_eq hl]
   obtain ⟨t, r, n⟩ := l
   rw [Bool.eq_iff_iff]
-  cases t <;> simp [tkTg, orB_eq, andB_eq, notB_eq, nbeq_eq, m3, p3, nmod_eq, npow_eq, nsub_eq,
-    nadd_eq] <;> tauto
+  cases t <;> simp [tkTg, orB_eq, andB_eq, nbeq_eq, m3, p3, nmod_eq]
 
 theorem splitP_eq (p : ℕ) {l : TcrLab} (hl : l.r < 16) : splitP p (tkLab l) = tcrSplitT p l := by
   obtain ⟨a1, -, a3⟩ := tkLab_dec hl
@@ -278,7 +277,7 @@ theorem splitP_eq (p : ℕ) {l : TcrLab} (hl : l.r < 16) : splitP p (tkLab l) = 
   obtain ⟨t, r, n⟩ := l
   rw [Bool.eq_iff_iff]
   cases t <;> simp [tcrSplitT, tcrUntw, untw, mP, pP, tkTg, orB_eq, andB_eq, notB_eq, nbeq_eq,
-    nble_eq, nmod_eq, npow_eq, nsub_eq, nadd_eq] <;> tauto
+    nble_eq, nmod_eq]; tauto
 
 theorem halfP_eq (p : ℕ) {l : TcrLab} (hl : l.r < 16) :
     halfP p (tkLab l) = tcrHalfSplitT p l := by
@@ -286,8 +285,7 @@ theorem halfP_eq (p : ℕ) {l : TcrLab} (hl : l.r < 16) :
   rw [halfP, strictB_eq, strictB_eq, strictB_eq, a1, a2, a3, tcrHalfSplitT, ← splitP_eq p hl]
   obtain ⟨t, r, n⟩ := l
   rw [Bool.eq_iff_iff]
-  cases t <;> simp [tkTg, orB_eq, andB_eq, notB_eq, nbeq_eq, mP, pP, nmod_eq, npow_eq, nsub_eq,
-    nadd_eq] <;> tauto
+  cases t <;> simp [tkTg, orB_eq, andB_eq, nbeq_eq, mP, pP, nmod_eq]; tauto
 
 theorem meets_eq {a b : TcrLab} (ha : a.r < 16) (han : a.n < 2 ^ 30) (hb : b.r < 16)
     (hbn : b.n < 2 ^ 30) :
@@ -319,7 +317,7 @@ theorem meets_eq {a b : TcrLab} (ha : a.r < 16) (han : a.n < 2 ^ 30) (hb : b.r <
       ⟨tkLab_inj hmr hb, fun h => h ▸ rfl⟩
     have e2 : (tkLab m = tkLab c) ↔ m = c :=
       ⟨tkLab_inj hmr hcr, fun h => h ▸ rfl⟩
-    simp only [List.contains_cons, List.contains_nil, Bool.or_false, beq_iff_eq]
+    simp only [List.contains_cons, List.contains_nil, Bool.or_false]
     by_cases h1 : m = b <;> by_cases h2 : m = c <;> simp_all
 
 theorem dR_lt (d : ℕ) : dR d < 16 := by
@@ -375,17 +373,17 @@ theorem allowed_imp {bl f dJ dx : ℕ} (h : allowed bl f dJ dx = true) :
   simp only [allowed, brecB_eq, nbeq_eq, andB_eq, orB_eq] at h
   by_cases h0 : bl = 0
   · subst h0
-    simp only [decide_true, cond_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true] at h
+    simp only [decide_true, _root_.Bool.cond_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true] at h
     obtain ⟨rfl, (⟨rfl, rfl | rfl | rfl⟩ | ⟨rfl, rfl⟩)⟩ := h <;> decide
   · by_cases h2 : bl = 2
     · subst h2
       have h20 : ((2 : ℕ) = 0) = False := by decide
-      simp only [h20, decide_false, cond_false,
-        decide_true, cond_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true] at h
+      simp only [h20, decide_false, Bool.cond_false,
+        decide_true, _root_.Bool.cond_true, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true] at h
       obtain ⟨rfl, rfl, rfl | rfl⟩ := h <;> simp only [c1Eps] <;> decide
-    · simp only [h0, h2, decide_false, cond_false, Bool.and_eq_true, decide_eq_true_eq,
+    · simp only [h0, h2, decide_false, Bool.cond_false, Bool.and_eq_true, decide_eq_true_eq,
         Bool.or_eq_true] at h
-      obtain ⟨rfl, rfl, rfl | rfl | rfl⟩ := h <;> simp only [c1Eps, h0, if_false] <;> decide
+      obtain ⟨rfl, rfl, rfl | rfl | rfl⟩ := h <;> simp only [c1Eps, h0, ite_false] <;> decide
 
 theorem jok_spec {bl psJ dJ : ℕ} {ps ds : ℕ → ℕ} (h : jok bl psJ dJ ps ds = true) :
     ∀ f ∈ c1Flags bl, ∀ x < 4, ps x ≠ psJ →
@@ -396,15 +394,15 @@ theorem jok_spec {bl psJ dJ : ℕ} {ps ds : ℕ → ℕ} (h : jok bl psJ dJ ps d
       tcrAllowedC1 (c1Eps bl) f (tkCd dJ) (tkCd (ds x)) = true := by
   intro f hf x hx hps hsp hoth
   have hX : jokX bl f psJ dJ ps ds x = true := by
-    simp only [jok, brecB_eq, nbeq_eq, andB_eq, Bool.and_eq_true] at h
+    simp only [jok, brecB_eq, nbeq_eq, andB_eq] at h
     by_cases h2 : bl = 2
     · subst h2
-      simp only [c1Flags, if_true, List.mem_singleton] at hf
+      simp only [c1Flags, ite_true, List.mem_singleton] at hf
       subst hf
-      simp only [decide_true, cond_true] at h
+      simp only [decide_true, _root_.Bool.cond_true] at h
       exact (allLt_iff _ _).1 h x hx
-    · simp only [c1Flags, h2, if_false, List.mem_cons, List.mem_nil_iff, or_false] at hf
-      simp only [h2, decide_false, cond_false, Bool.and_eq_true] at h
+    · simp only [c1Flags, h2, ite_false, List.mem_cons, List.mem_nil_iff, or_false] at hf
+      simp only [h2, decide_false, Bool.cond_false, Bool.and_eq_true] at h
       rcases hf with rfl | rfl
       · exact (allLt_iff _ _).1 h.1 x hx
       · exact (allLt_iff _ _).1 h.2 x hx
@@ -525,15 +523,15 @@ theorem jok5_spec {s psJ dJ : ℕ} {ps ds fs : ℕ → ℕ} (hfs : ∀ y < 6, fs
         (tcrLabsOf (tkCd5 (ds y)) f).any (tcrHalfSplitT 5) = true) → False := by
   intro f hf x hx hps hsp hoth
   obtain ⟨fi, hfi, hX⟩ : ∃ fi, fi < 3 ∧ f = 2 * fi + 1 ∧ jok5X f fi psJ dJ ps ds fs x = true := by
-    simp only [jok5, brecB_eq, nbeq_eq, andB_eq, Bool.and_eq_true] at h
+    simp only [jok5, brecB_eq, nbeq_eq, andB_eq] at h
     by_cases h1 : s = 1
     · subst h1
-      simp only [c2Flags, if_true, List.mem_singleton] at hf
+      simp only [c2Flags, ite_true, List.mem_singleton] at hf
       subst hf
-      simp only [decide_true, cond_true] at h
+      simp only [decide_true, _root_.Bool.cond_true] at h
       exact ⟨1, by norm_num, rfl, (allLt_iff _ _).1 h x hx⟩
-    · simp only [c2Flags, h1, if_false, List.mem_cons, List.mem_nil_iff, or_false] at hf
-      simp only [h1, decide_false, cond_false, Bool.and_eq_true] at h
+    · simp only [c2Flags, h1, ite_false, List.mem_cons, List.mem_nil_iff, or_false] at hf
+      simp only [h1, decide_false, Bool.cond_false, Bool.and_eq_true] at h
       rcases hf with rfl | rfl
       · exact ⟨0, by norm_num, rfl, (allLt_iff _ _).1 h.1 x hx⟩
       · exact ⟨2, by norm_num, rfl, (allLt_iff _ _).1 h.2 x hx⟩

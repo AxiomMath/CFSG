@@ -128,7 +128,7 @@ theorem comap_le_oddCore_sup_ker (D : Subgroup G) (M : Subgroup (quotientSubgrou
   have hPker : ∀ x ∈ (P : Subgroup N), (x : D) ∈ (restriction D).ker := by
     intro x hx
     apply htwo x
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hP : Subgroup.normalizer (P : Set N) ≤ Subgroup.centralizer (P : Set N) := by
     intro g _

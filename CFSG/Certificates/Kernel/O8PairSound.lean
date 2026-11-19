@@ -155,11 +155,11 @@ private theorem bit_spec (hs : SAFacts) {CH : Nat}
     · rw [bIfT (Nat.beq_refl 0)] at hc
       have h0 := Nat.eq_of_beq_eq_true hc
       have e : saElt 0 = 1 := by
-        rw [saElt, dif_neg fun h => absurd h.1 (Nat.lt_irrefl 0)]
+        rw [saElt, dite_eq_right fun h => absurd h.1 (Nat.lt_irrefl 0)]
       exact ⟨fun _ => e ▸ one_mem _, fun h1 => absurd (h0.symm.trans h1) (by norm_num)⟩
     · obtain ⟨hp, hl, -⟩ := hs.tree i hi hpos
       have e : saElt i = gen (sylowIdx.getD (saLab i) 0) * saElt (saPar i) := by
-        rw [saElt, dif_pos ⟨hpos, hp⟩]
+        rw [saElt, dite_eq_left ⟨hpos, hp⟩]
       rw [bIfF (beqF (Nat.pos_iff_ne_zero.1 hpos)), lab_eq] at hc
       have hc' : f1 CH i = Nat.xor (f1 CH (saPar i))
           (Bool.rec (motive := fun _ => Nat) 0 1 (Nat.beq (saLab i) 4)) := by
@@ -198,8 +198,8 @@ private noncomputable def mkE (Y X : Equiv.Perm (Fin 360)) (m : Nat) : Equiv.Per
 private theorem actsSel {g : Equiv.Perm (Fin 360)} {M : Nat} (hg : Acts g M) (n : Nat) :
     Acts (if n = 1 then g else 1) (Bool.rec (motive := fun _ => Nat) idK M (Nat.beq n 1)) := by
   by_cases h : n = 1
-  · rw [if_pos h, beqT h]; exact hg
-  · rw [if_neg h, beqF h]; exact acts_idK
+  · rw [ite_eq_left h, beqT h]; exact hg
+  · rw [ite_eq_right h, beqF h]; exact acts_idK
 
 private theorem acts_mkE {Y X : Equiv.Perm (Fin 360)} {y x : Nat} (hY : Acts Y y) (hX : Acts X x)
     (m : Nat) : Acts (mkE Y X m) (maskK y x m) := by
@@ -274,7 +274,7 @@ theorem pairFacts_of_K {V A B CH PO NO : Nat} {T : ETab}
   have hi0 : i ≠ 0 := by
     rintro rfl
     apply hB1
-    rw [saElt, dif_neg fun h => absurd h.1 (Nat.lt_irrefl 0)]
+    rw [saElt, dite_eq_right fun h => absurd h.1 (Nat.lt_irrefl 0)]
   have hsq : matMulM (saMat i) (saMat i) = idCode := by
     have a := acts_mul aB aB
     rw [hB2'] at a

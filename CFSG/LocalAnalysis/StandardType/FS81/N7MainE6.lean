@@ -104,12 +104,12 @@ theorem nmF1_eq_prod_E6 {M : Matrix (Fin 8) (Fin 8) (ZMod 3)} (hM : M ∈ nmF1) 
         let tj := nmSgn (Finset.univ \ {0, j})
         have hti_mem : ti ∈ nmE6 := by
           refine ⟨Finset.univ \ {0, i}, ?_, ?_, rfl⟩
-          · simp [hi0]
+          · simp
           · rw [Finset.card_sdiff_of_subset (Finset.subset_univ _), Finset.card_pair (Ne.symm hi0),
               Finset.card_univ, Fintype.card_fin]
         have htj_mem : tj ∈ nmE6 := by
           refine ⟨Finset.univ \ {0, j}, ?_, ?_, rfl⟩
-          · simp [hj0]
+          · simp
           · rw [Finset.card_sdiff_of_subset (Finset.subset_univ _), Finset.card_pair (Ne.symm hj0),
               Finset.card_univ, Fintype.card_fin]
         have hsymm : symmDiff (Finset.univ \ {0, i}) (Finset.univ \ {0, j}) = {i, j} := by
@@ -117,11 +117,11 @@ theorem nmF1_eq_prod_E6 {M : Matrix (Fin 8) (Fin 8) (ZMod 3)} (hM : M ∈ nmF1) 
           simp only [Finset.mem_symmDiff, Finset.mem_sdiff, Finset.mem_univ,
             Finset.mem_singleton, Finset.mem_insert, true_and]
           by_cases hx0 : x = 0
-          · subst hx0; simp [hi0, hj0, Ne.symm hi0, Ne.symm hj0]
+          · subst hx0; simp [Ne.symm hi0, Ne.symm hj0]
           · by_cases hxi : x = i
             · subst hxi; simp [hi0, hij]
             · by_cases hxj : x = j
-              · subst hxj; simp [hj0, hij, Ne.symm hij]
+              · subst hxj; simp [hj0, Ne.symm hij]
               · simp [hx0, hxi, hxj]
         have htij : ti * tj = nmSgn {i, j} := by
           dsimp [ti, tj]
@@ -186,7 +186,7 @@ theorem nmFixCount_of_mem_nmE6 {M : Matrix (Fin 8) (Fin 8) (ZMod 3)} (hM : M ∈
     · intro h i hi
       have hcoord := congrFun h i
       rw [nmSgn_mulVec] at hcoord
-      simp only [if_pos hi] at hcoord
+      simp only [ite_eq_left hi] at hcoord
       rcases (ZMod.neg_eq_self_iff (v i)).mp hcoord with h0 | h2
       · exact h0
       · omega

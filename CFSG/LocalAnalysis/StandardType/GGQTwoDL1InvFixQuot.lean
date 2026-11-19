@@ -15,6 +15,7 @@ namespace NsQuot
 
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite G] in
 theorem Datum.mem_centralizer_of_chart {p : ℕ} {B Bs X Z : Subgroup G}
     {f : ↥(Subgroup.normalizer (X : Set G)) →* Q}
     (hD : Datum p (Subgroup.normalizer (X : Set G)) f X Bs Z) (hX : Group.IsPerfect ↥X)

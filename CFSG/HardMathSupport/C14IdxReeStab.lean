@@ -31,7 +31,7 @@ private theorem exists_rootDiagUnit_preimage_entrywiseFrobGL
     ∃ s : Fin ReeTag.F4.tag.rank → Lˣ,
       entrywiseFrobGL ReeTag.F4.tag L 2 (2 * a₀ + 1) (rootDiagUnit ReeTag.F4.tag s) =
         rootDiagUnit ReeTag.F4.tag t := by
-  haveI : CharP L 2 := ‹CharP L ReeTag.F4.prime›
+  have : CharP L 2 := ‹CharP L ReeTag.F4.prime›
   have ht := rootDiagUnit_mem_torusGroup (τ := ReeTag.F4.tag) t
   rw [← map_entrywiseFrobGL_torusGroup 2 (2 * a₀ + 1)] at ht
   obtain ⟨y, hy, hyt⟩ := ht
@@ -58,7 +58,7 @@ theorem isReeConj_apply_apply
       frobTwistGL ReeTag.F4.tag L 2 (2 * a₀ + 1)
         ((h : ModGL ReeTag.F4.tag L) *
           (entrywiseFrobGL ReeTag.F4.tag L 2 (2 * a₀ + 1) (h : ModGL ReeTag.F4.tag L))⁻¹) g := by
-  haveI : CharP L 2 := ‹CharP L ReeTag.F4.prime›
+  have : CharP L 2 := ‹CharP L ReeTag.F4.prime›
   change ((F' (F' g) : adjointGroup ReeTag.F4.tag L) : ModGL ReeTag.F4.tag L) =
     frobTwistGL ReeTag.F4.tag L 2 (2 * a₀ + 1)
       ((h : ModGL ReeTag.F4.tag L) *

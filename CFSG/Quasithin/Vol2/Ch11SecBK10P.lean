@@ -213,7 +213,7 @@ theorem torusRigid_L3 {f : ℕ} (hf : Odd f) (hK : Nat.card K = 2 ^ f) :
   obtain ⟨Q, hQ⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   refine TorusRigid.of_at ?_ (torusRigidAt_L3 hf hK)
   rw [← hQ]
-  refine ⟨le_top, Q.isPGroup', ?_⟩
+  refine ⟨le_top, Q.isPGroup, ?_⟩
   change ¬ 2 ∣ (Q : Subgroup (projectiveSL 3 K)).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact Q.not_dvd_index

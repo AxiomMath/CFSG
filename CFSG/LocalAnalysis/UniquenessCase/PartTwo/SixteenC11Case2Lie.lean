@@ -16,9 +16,9 @@ open Matrix
 theorem s16c11_modelRF3_statedSL {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ}
     (hm : 2 ≤ m) : S16C11ModelRF3 (FFModel.nat (StatedSL m K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
   let e := s16c11_case2lie_slEquiv m K
   let U := LinearFlag.unitriangular m K
   let V := LinearFlag.flagStabilizer m K {i : ℕ | 2 ≤ i ∧ i ≤ m - 1}
@@ -27,7 +27,7 @@ theorem s16c11_modelRF3_statedSL {K : Type} [Field K] [Finite K] (hK : Nat.card 
   obtain ⟨P, hP⟩ := LinearFlag.exists_sylow_unitriangular (K := K) (p := 2) (n := m) (by omega)
   have hU : IsPGroup 2 U := by
     rw [show U = LinearFlag.unitriangular m K from rfl]
-    exact hP ▸ P.isPGroup'
+    exact hP ▸ P.isPGroup
   have hUidx : ¬ 2 ∣ U.index := by
     change ¬ 2 ∣ (LinearFlag.unitriangular m K).index
     exact hP ▸ P.not_dvd_index
@@ -89,15 +89,15 @@ theorem s16c11_modelRF3_statedSL {K : Type} [Field K] [Finite K] (hK : Nat.card 
 theorem s16c11_modelRF3_statedSp {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {r : ℕ}
     (hr : 2 ≤ r) : S16C11ModelRF3 (FFModel.nat (StatedSp r K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
   let T := SymplecticFlag.unipotent r K
   let X := SymplecticHigher.flagStabilizer r K (Set.Icc 2 r)
   obtain ⟨P, hP⟩ := SymplecticFlag.exists_sylow_unipotent (K := K) (p := 2) (r := r)
   have hT : IsPGroup 2 T := by
     change IsPGroup 2 (SymplecticFlag.unipotent r K)
-    exact hP ▸ P.isPGroup'
+    exact hP ▸ P.isPGroup
   have hTidx : ¬ 2 ∣ T.index := by
     change ¬ 2 ∣ (SymplecticFlag.unipotent r K).index
     exact hP ▸ P.not_dvd_index
@@ -133,7 +133,7 @@ theorem s16c11_modelRF3_statedSp {K : Type} [Field K] [Finite K] (hK : Nat.card 
 
 theorem s16c11_eq_of_isLn_le {W : Type} [CommGroup W] [Finite W] {L L₀ : Subgroup (MulAut W)}
     {m : ℕ} (hm : m ≠ 0) (hL₀ : IsLn ↥L₀ m 1) (hL : IsLn ↥L m 1) (hle : L ≤ L₀) : L = L₀ := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun e : MulAut W => (e : W → W))
       (fun e₁ e₂ h => MulEquiv.ext (congrFun h))
   exact Subgroup.eq_of_le_of_card_ge hle (s16e_card_eq_of_isLn hm hL₀ hL).le
@@ -141,7 +141,7 @@ theorem s16c11_eq_of_isLn_le {W : Type} [CommGroup W] [Finite W] {L L₀ : Subgr
 theorem s16c11_eq_of_isSpn_six_le {W : Type} [CommGroup W] [Finite W]
     {L L₀ : Subgroup (MulAut W)} (hL₀ : IsSpn ↥L₀ 6 1) (hL : IsSpn ↥L 6 1) (hle : L ≤ L₀) :
     L = L₀ := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun e : MulAut W => (e : W → W))
       (fun e₁ e₂ h => MulEquiv.ext (congrFun h))
   exact Subgroup.eq_of_le_of_card_ge hle (s16e_card_eq_of_isSpn_six hL₀ hL).le

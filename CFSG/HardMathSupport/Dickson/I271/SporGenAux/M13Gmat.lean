@@ -149,10 +149,10 @@ theorem xword_c (xw : List Bool) :
     simp only [List.map_cons, List.flatten_cons, gw_append]
     cases b
     · refine ⟨δ, hδ, ?_⟩
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       rw [mul_assoc, hx2c, ← mul_assoc, h, mul_assoc]
     · refine ⟨δ * 6, by omega, ?_⟩
-      simp only [if_true]
+      simp only [ite_true]
       rw [mul_assoc, hx1c, ← mul_assoc, conj_pow_of h 6, ← pow_mul, mul_assoc]
 
 theorem line_conj_c (e : CensusLine) :
@@ -173,9 +173,9 @@ theorem line_conj_c (e : CensusLine) :
   unfold lineConjW
   simp only [gw_append]
   cases hC : e.toC
-  · simp only [Bool.false_eq_true, if_false]
+  · simp only [Bool.false_eq_true, ite_false]
     exact comp_c hX hG hcen
-  · simp only [if_true]
+  · simp only [ite_true]
     exact comp_c hX hG hy2z
 
 end Lines
@@ -237,12 +237,12 @@ theorem line_plane_conj (e : CensusLine) (he : e ∈ censusLines) (μ : ℕ) (h�
     rw [pow_mul, ← h1, conj_pow]
   cases hC : e.toC
   · rw [hC] at hWc
-    simp only [Bool.false_eq_true, if_false] at hWc ⊢
+    simp only [Bool.false_eq_true, ite_false] at hWc ⊢
     have ht : gw (lineTargetW e) = gw thirteenX := by
       unfold lineTargetW; simp [hC]
     exact conj_plane_eq hxo hzo hlamμ hδ12 (key _ ht) (mul_inv_eq_iff_eq_mul.2 hWc)
   · rw [hC] at hWc
-    simp only [if_true] at hWc ⊢
+    simp only [ite_true] at hWc ⊢
     have ht : gw (lineTargetW e) = gw genD13W1 := by
       unfold lineTargetW; simp [hC]
     exact conj_plane_eq hco hdo hlamμ hδ12 (key _ ht) (mul_inv_eq_iff_eq_mul.2 hWc)
@@ -279,7 +279,7 @@ theorem centGen_Gmat_thirteen (hG : (Nat.card Gmat).factorization 13 = 3)
     (hGenD : Subgroup.closure (Set.range fun i : Fin genD13Gens.size => gw genD13Gens[i]) = ⊤)
     (hGen13 : Subgroup.closure (Set.range fun i : Fin gen13Gens.size => gw gen13Gens[i]) = ⊤) :
     CentGen 13 Gmat := by
-  haveI : Finite Gmat := Nat.finite_of_card_ne_zero (by
+  have : Finite Gmat := Nat.finite_of_card_ne_zero (by
     intro h; rw [h] at hG; simp at hG)
   intro P hPel hPcard
   obtain ⟨hg13, hd13, hc13, hcg, hcd, hdg, hc1, -⟩ := d13_gw_facts

@@ -162,12 +162,12 @@ theorem card_le_four_of_fix_four {X : Type} [Finite X] (hX : Nat.card X = 16) {R
     [Group R] [Finite R] (ρ : R →* Equiv.Perm X) (hsq : ∀ r : R, r * r = 1)
     (hfix : ∀ r : R, r ≠ 1 → Nat.card {x : X // ρ r x = x} = 4) : Nat.card R ≤ 4 := by
   classical
-  letI : MulAction R X := MulAction.compHom X ρ
-  haveI : Fintype R := Fintype.ofFinite R
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : ∀ r : R, Fintype (MulAction.fixedBy X r) :=
+  let : MulAction R X := MulAction.compHom X ρ
+  have : Fintype R := Fintype.ofFinite R
+  have : Fintype X := Fintype.ofFinite X
+  have : ∀ r : R, Fintype (MulAction.fixedBy X r) :=
     fun r => Fintype.ofFinite (MulAction.fixedBy X r)
-  haveI : Fintype (MulAction.orbitRel.Quotient R X) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient R X) := Fintype.ofFinite _
   have hburn := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group R X
   have hcard_fixed : ∀ r : R, Fintype.card (MulAction.fixedBy X r)
       = Nat.card {x : X // ρ r x = x} := by
@@ -213,7 +213,7 @@ theorem card_le_four_of_fix_four {X : Type} [Finite X] (hX : Nat.card X = 16) {R
     exact (Nat.dvd_add_iff_right h2).mpr h1
   have h3 : ¬ 3 ∣ Nat.card R := by
     intro h3dvd
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨r, hr⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
     have h2 : orderOf r ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hsq r)
     rw [hr] at h2

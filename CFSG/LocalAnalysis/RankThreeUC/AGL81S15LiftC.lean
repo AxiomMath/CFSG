@@ -174,9 +174,9 @@ theorem isComponent_of_centralizes_fstar_aux_quasisimple {Y Z : Type} [Group Y] 
       rw [Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype, hV]
     rw [commutator_def]
     exact h1
-  · haveI : ((zPre π Ls V).subgroupOf V).Normal := zPre_normal π Ls V hVs.le
+  · have : ((zPre π Ls V).subgroupOf V).Normal := zPre_normal π Ls V hVs.le
     obtain ⟨e⟩ := zPre_equiv π Ls V hVs
-    haveI : IsSimpleGroup (↥Ls ⧸ Subgroup.center ↥Ls) := hLs.2.2.2
+    have : IsSimpleGroup (↥Ls ⧸ Subgroup.center ↥Ls) := hLs.2.2.2
     exact ((QuotientGroup.quotientMulEquivOfEq
       (isComponent_of_centralizes_fstar_aux_center π Ls V hVs hZ)).trans e).isSimpleGroup
 
@@ -184,7 +184,7 @@ theorem isComponent_of_centralizes_fstar_aux_subnormal {Y : Type} [Group Y] [Fin
     (Chat V : Subgroup Y) [Chat.Normal] (hsub : CFSG.Open.IsSubnormal (V ⊔ Chat) ⊤)
     (hcent : V ≤ Subgroup.centralizer (fstarIn Chat : Set Y)) :
     CFSG.Open.IsSubnormal V ⊤ := by
-  haveI : (fstarIn Chat).Normal := isComponent_of_centralizes_fstar_aux_normal Chat
+  have : (fstarIn Chat).Normal := isComponent_of_centralizes_fstar_aux_normal Chat
   set W : Subgroup Y := (V ⊔ Chat) ⊓ Subgroup.centralizer (fstarIn Chat : Set Y) with hW
   have hVW : V ≤ W := le_inf le_sup_left hcent
   have hWH : W ≤ V ⊔ Chat := inf_le_left
@@ -219,7 +219,7 @@ theorem isComponent_of_centralizes_fstar {Y Z : Type} [Group Y] [Finite Y] [Grou
     (hV : ⁅V, V⁆ = V) (hsub : CFSG.Open.IsSubnormal (V ⊔ π.ker) ⊤)
     (hcent : V ≤ Subgroup.centralizer (fstarIn π.ker : Set Y)) :
     CFSG.Open.IsComponentOf V ⊤ := by
-  haveI : (π.ker).Normal := MonoidHom.normal_ker π
+  have : (π.ker).Normal := MonoidHom.normal_ker π
   have hZ : zPre π Ls V ≤ Subgroup.centralizer (V : Set Y) := by
     refine isComponent_of_centralizes_fstar_aux_threeSubgroups V _ hV ?_
     exact (isComponent_of_centralizes_fstar_aux_commutator_le π Ls V hVs).trans

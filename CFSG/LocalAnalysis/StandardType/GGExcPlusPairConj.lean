@@ -108,8 +108,8 @@ theorem ggExcPlusModel_exists_weylHom
       ∀ a ∈ ggAutomizer (MulAut.conj : L' →* MulAut L').range A, GGIsReflection p a →
         ∃ (w : WeylGroup τ) (i : Fin τ.rank), a = ψ (w * simple τ i * w⁻¹) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨Φ, w, hw, hact, hnorm⟩ := hM
   have hN : ∀ i, MulAut.conj (w i) ∈ Subgroup.normalizer (A : Set (MulAut L')) :=
     fun i => conj_mem_normalizer_of_torusWeylElt hsc (hw i)

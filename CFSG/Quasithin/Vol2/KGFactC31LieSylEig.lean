@@ -27,9 +27,8 @@ theorem eigen_repr_apply [Fintype Λ] {b : Module.Basis Λ K V} {ρ : G →* Mod
   have hsum : ρ x v = ∑ k, (b.repr v k * χ k x) • b k := by
     conv_lhs => rw [← b.sum_repr v]
     simp only [map_sum, map_smul, hχ x hx, smul_smul]
-  rw [hsum, map_sum, Finsupp.finset_sum_apply]
-  simp only [map_smul, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.single_apply,
-    smul_eq_mul]
+  rw [hsum, map_sum, _root_.Finsupp.finsetSum_apply]
+  simp only [map_smul, Module.Basis.repr_self, Finsupp.smul_apply, smul_eq_mul]
   rw [Finset.sum_eq_single j]
   · simp [mul_comm]
   · intro k _ hk

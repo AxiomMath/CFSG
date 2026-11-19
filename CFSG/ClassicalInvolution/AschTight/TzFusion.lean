@@ -15,7 +15,7 @@ variable {G : Type} [Group G]
 theorem isPGroup_of_mem_rSet {Ω : Set (Subgroup G)} {R : Subgroup G} (hR : R ∈ RSet Ω) :
     IsPGroup 2 R := by
   obtain ⟨J, -, P, rfl⟩ := hR
-  exact P.isPGroup'.map _
+  exact P.isPGroup.map _
 
 theorem quaternionGroup_a_mul_xa_ne {n : ℕ} (hn : 2 ≤ n) :
     (QuaternionGroup.a 1 : QuaternionGroup n) * QuaternionGroup.xa 0 ≠

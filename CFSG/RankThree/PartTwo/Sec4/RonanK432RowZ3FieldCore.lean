@@ -15,7 +15,7 @@ section NumberTheory
 
 theorem one_le_padicValNat_three {m : ℕ} (hm3 : m % 3 = 0) (hm0 : 0 < m) :
     1 ≤ padicValNat 3 m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact one_le_padicValNat_of_dvd hm0.ne' (Nat.dvd_of_mod_eq_zero hm3)
 
 theorem three_pow_succ_dvd {m : ℕ} (hm3 : m % 3 = 0) :
@@ -26,7 +26,7 @@ theorem three_pow_succ_dvd {m : ℕ} (hm3 : m % 3 = 0) :
   exact ⟨3 * k ^ 2 + 3 * k + 1, by rw [hk]; ring⟩
 
 theorem not_three_pow_succ_dvd {m : ℕ} (hm0 : 0 < m) : ¬ 3 ^ (padicValNat 3 m + 1) ∣ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact pow_succ_padicValNat_not_dvd hm0.ne'
 
 theorem not_three_pow_succ_dvd_mul {m : ℕ} (hm3 : m % 3 = 0) (hm0 : 0 < m) :
@@ -51,7 +51,7 @@ theorem not_three_pow_succ_dvd_sq {m : ℕ} (hm3 : m % 3 = 0) :
 
 theorem three_pow_succ_dvd_cube_add_one (k : ℕ) :
     3 ^ (padicValNat 3 ((3 * k + 1) * (3 * k + 3)) + 1) ∣ (3 * k + 2) ^ 3 + 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : 3 ^ padicValNat 3 ((3 * k + 1) * (3 * k + 3)) ∣ 3 * k + 3 := by
     have hcop : Nat.Coprime (3 ^ padicValNat 3 ((3 * k + 1) * (3 * k + 3))) (3 * k + 1) :=
       Nat.Coprime.pow_left _ ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr (by omega))

@@ -21,7 +21,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K]
     (σ : K) : Matrix (Fin n) (Fin n) K :=
   1 + ((σ - 1) / ∑ i, h.bar (w i) * w i) • vecMulVec w (fun i => h.bar (w i))
 
-@[expose] def TorusFourierGenU (h : UnitaryFieldData ℓ f K) (r : ℕ) : Prop :=
+@[expose] def TorusFourierGenU (_h : UnitaryFieldData ℓ f K) (r : ℕ) : Prop :=
   ∀ ζ : K, IsPrimitiveRoot ζ r → ∀ H : Subgroup (GL (Fin r) K), H ≤ unitarySU ℓ f K r →
     (∀ g ∈ unitarySU ℓ f K r, (∃ t, (g : Matrix (Fin r) (Fin r) K) = diagonal t) → g ∈ H) →
     (∀ g ∈ unitarySU ℓ f K r, (∃ t, (g : Matrix (Fin r) (Fin r) K) * heisFourierMat ζ =

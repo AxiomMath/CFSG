@@ -33,8 +33,8 @@ theorem kDiag_transport_strong {X Y : Type} [Group X] [Group Y] [Finite X]
     ∀ P : Subgroup X, IsParabolicTwo X P →
       (S : Subgroup X) ≤ Subgroup.normalizer (P : Set X) →
       ∀ x ∈ P, θ x ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Y := Finite.of_surjective e e.surjective
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Finite.of_surjective e e.surjective
   intro θ S hSθ P hP hSP x hx
   let θ' : MulAut Y := MulAut.congr e θ
   let S' : Sylow 2 Y := S.mapSurjective (f := e.toMonoidHom) e.surjective
@@ -77,15 +77,15 @@ theorem kDiag_graphFixedRootGroup_strong (σ : K ≃+* K) {f : ℕ} (hf : 1 ≤ 
     ∀ P : Subgroup (Cm σ), IsParabolicTwo (Cm σ) P →
       (S : Subgroup (Cm σ)) ≤ Subgroup.normalizer (P : Set (Cm σ)) →
       ∀ x ∈ P, θ x ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK3
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hσ' : ∀ c, σ.toRingHom c = c ^ (2 ^ f) := fun c => hσ c
   intro θ S hSθ P hPpar hSP x hx
-  have hSP' : (S : Subgroup (Cm σ)) ≤ P := hPpar.le_of_le_normalizer S.isPGroup' hSP
+  have hSP' : (S : Subgroup (Cm σ)) ≤ P := hPpar.le_of_le_normalizer S.isPGroup hSP
   have hNSP : Subgroup.normalizer ((S : Subgroup (Cm σ)) : Set (Cm σ)) ≤ P :=
     hPpar.normalizer_le S hSP'
   have hUsyl : CFSG.ABGLocalTools.IsSylowOf 2 (Ust σ) ⊤ :=
@@ -93,7 +93,7 @@ theorem kDiag_graphFixedRootGroup_strong (σ : K ≃+* K) {f : ℕ} (hf : 1 ≤ 
       (CFSG.Quasithin.H13.Sec53F.TriD4.d4_sylow σ)
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf 2 ((S : Subgroup (Cm σ))) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hSsyl.exists_mem_conj hUsyl
   have hSmap : ((S : Subgroup (Cm σ))).map θ.toMonoidHom = (S : Subgroup (Cm σ)) := by
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_
@@ -178,8 +178,8 @@ theorem kDiag_of_is3D4_strong {n : ℕ} {X : Type} [Group X] [Finite X] (hX : Is
     CFSG.Blueprint.LieModel.chevalleyExceptionalModel hX' ht
   obtain ⟨hf, K, hfield, hfinite, σ, hK, hσ, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_triality_model hm
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   exact kDiag_transport_strong e (kDiag_graphFixedRootGroup_strong σ hf hK hσ)
 
 theorem kDiag_of_is3D4 {n : ℕ} {X : Type} [Group X] [Finite X] (hX : Is3D4 X n) :

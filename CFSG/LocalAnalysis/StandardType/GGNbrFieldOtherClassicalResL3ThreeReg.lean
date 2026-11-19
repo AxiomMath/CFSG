@@ -153,7 +153,7 @@ theorem isReg_of_pow_three_eq {B : Matrix (Fin 3) (Fin 3) F} {l : F}
     rfl
   have hpB : aeval B p = ∑ j : Fin 3, c j • B ^ (j : ℕ) := by
     rw [hp, Fin.sum_univ_three]
-    simp only [map_add, map_mul, aeval_C, aeval_X, map_pow, algebraMap_smul, Fin.val_zero,
+    simp only [map_add, map_mul, aeval_C, aeval_X, map_pow, Fin.val_zero,
       Fin.val_one, Fin.val_two, pow_zero, pow_one, Algebra.smul_def, mul_one]
   have hpv : aeval B p *ᵥ (Pi.single 0 1 : Fin 3 → F) = 0 := by
     rw [hpB, ← krylov_mulVec, hc]

@@ -20,7 +20,7 @@ variable {A : Type} [Group A]
 @[expose] def conjAutOf (Y : Subgroup A) {g : A} (hg : g ∈ normalizer (Y : Set A)) : MulAut ↥Y where
   toFun y := ⟨g * y * g⁻¹, (Subgroup.mem_normalizer_iff.1 hg y).1 y.2⟩
   invFun y := ⟨g⁻¹ * y * g, (Subgroup.mem_normalizer_iff.1 hg (g⁻¹ * y * g)).2 (by
-    simpa [mul_assoc] using y.2)⟩
+    simp [mul_assoc])⟩
   left_inv y := Subtype.ext (by simp [mul_assoc])
   right_inv y := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
@@ -83,7 +83,7 @@ theorem uc22p22yc_conj_le_normalizer (D : Data G) (Ch : Choice2011 G) (h2 : S22_
     (hR : ∀ x ∈ R, conjOnHom (Nb i) (toMbarOf D hPM) hPN x • ω = ω) :
     ∃ n ∈ D.M, (R.map P.subtype).map (MulAut.conj n⁻¹).toMonoidHom ≤
       normalizer (proofEiHat D (preN D (Nb i)) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn, hE⟩ := uc22p22xh_conj D Ch h2 h3 h51 hH c m Nb hNb i ω
   refine ⟨n, P22x.preN_le_M D (Nb i) hn, ?_⟩
   rintro _ ⟨_, ⟨x, hxR, rfl⟩, rfl⟩
@@ -117,7 +117,7 @@ theorem uc22p22yc_noncyclic_conj (D : Data G) {p : ℕ} (hp : p.Prime) {P : Subg
     (R.map P.subtype).map (MulAut.conj n⁻¹).toMonoidHom ≤ D.M ∧
       IsPGroup p ↥((R.map P.subtype).map (MulAut.conj n⁻¹).toMonoidHom) ∧
       ¬ IsCyclic ↥((R.map P.subtype).map (MulAut.conj n⁻¹).toMonoidHom) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRel : IsElemAbelian p (R.map P.subtype) := hel.mono (Subgroup.map_subtype_le R)
   have hXel : IsElemAbelian p ((R.map P.subtype).map (MulAut.conj n⁻¹).toMonoidHom) :=
     hRel.map _

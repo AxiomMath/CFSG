@@ -46,7 +46,7 @@ theorem c636_of_r_gt_3 (hr : 3 < m.r) (h63 : R6_3 Dat)
     rcases Nat.even_or_odd (Nat.card ↥(m.K ⊓ normalizer (m.L : Set G))) with h | h
     · exact even_iff_two_dvd.1 h
     · exact absurd h hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hu1 : (u : G) ≠ 1 := by
     intro h

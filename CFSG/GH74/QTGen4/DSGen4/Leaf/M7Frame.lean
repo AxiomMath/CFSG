@@ -303,13 +303,13 @@ theorem Ctx.relIndex_dvd_six (h : Ctx L P d k t) (F : QFrame P)
     have h2 : Nat.card ↥T.toFinset = T.toFinset.card := Nat.card_eq_finsetCard T.toFinset
     have h3 : T.toFinset.card ≤ T.length := List.toFinset_card_le (l := T)
     omega
-  haveI : Finite ↥f.range :=
+  have : Finite ↥f.range :=
     Finite.of_surjective f.rangeRestrict (MonoidHom.rangeRestrict_surjective f)
   have hdmem : F.M h.dP ∈ f.range :=
     MonoidHom.mem_range.mpr ⟨⟨d, h.d_mem_cent⟩, rfl⟩
   have hdord : orderOf (⟨F.M h.dP, hdmem⟩ : ↥f.range) = 3 := by
     rw [Subgroup.orderOf_mk]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨-, -, hd3, hd1, -⟩ := h.rel F.M hker
     exact orderOf_eq_prime hd3 hd1
   have h3 : 3 ∣ Nat.card f.range := by
@@ -318,7 +318,7 @@ theorem Ctx.relIndex_dvd_six (h : Ctx L P d k t) (F : QFrame P)
   have hpos : 0 < Nat.card f.range := Nat.card_pos
   rw [hrel]
   have h36 : Nat.card f.range = 3 ∨ Nat.card f.range = 6 := by omega
-  rcases h36 with h36 | h36 <;> rw [h36] <;> norm_num
+  rcases h36 with h36 | h36 <;> rw [h36]; norm_num
 
 theorem pow_mulVec_fix {a : Mat4} {v : Vec4} (hv : a *ᵥ v = v) (n : ℕ) :
     a ^ n *ᵥ v = v := by
@@ -342,7 +342,7 @@ theorem Ctx.inv_fixV_a (h : Ctx L P d k t) (F : QFrame P)
     have h1 := orderOf_injective (MulAut.conj (p : G)⁻¹).toMonoidHom
       (MulAut.conj (p : G)⁻¹).injective k
     have h2 : (MulAut.conj (p : G)⁻¹).toMonoidHom k = (p : G)⁻¹ * k * (p : G) := by
-      simp [MulAut.conj_apply]
+      simp
     rw [h2, h.hk3] at h1
     exact h1
   have hsub : (⟨(p : G)⁻¹ * k * (p : G), h.hLP hx1L⟩ : ↥P) = p⁻¹ * h.kP * p :=
@@ -363,6 +363,7 @@ theorem Ctx.inv_fixV_a (h : Ctx L P d k t) (F : QFrame P)
       exact pow_mulVec_fix hv 2
   rw [Matrix.mulVec_mulVec, ← hmat, ← Matrix.mulVec_mulVec, hX]
 
+omit [Finite G] in
 theorem Ctx.inv_fixV_b (h : Ctx L P d k t) (F : QFrame P)
     (hker : ∀ p : ↥P, F.M p = 1 ↔ (p : G) ∈ pCoreOf 2 P)
     (hcent : CentFacts (glMat (F.M h.kP)) (glMat (F.M h.dP)) (glMat (F.M h.tP))) (p : ↥P)
@@ -493,7 +494,7 @@ theorem Ctx.type1_of_frame (h : Ctx L P d k t) (F : QFrame P)
     rw [hA] at hav
     exact (hfixa v).mpr hav
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hk' := hcon k h.hk
     have h2 := (comm_pre_iff F hPQ h0b hSb h.kP).mp hk'
     obtain ⟨v, hv, hv0⟩ := Finset.exists_mem_ne (by omega : 1 < (fixV bI).card) 0
@@ -503,6 +504,7 @@ theorem Ctx.type1_of_frame (h : Ctx L P d k t) (F : QFrame P)
     rw [hA] at this
     exact (hfixa v).mpr this
 
+omit [Finite G] in
 theorem Ctx.type2_of_frame (h : Ctx L P d k t) (F : QFrame P)
     (hA : glMat (F.M h.kP) = aII) (hB : glMat (F.M h.dP) = bII)
     (hII : TypeIIFacts aII bII (glMat (F.M h.tP))) :
@@ -533,7 +535,7 @@ theorem Ctx.type2_of_frame (h : Ctx L P d k t) (F : QFrame P)
         exact zero_mem_img F X
       exact ext_of_img F hΦX hXQ le_rfl hΦQ (by rw [hS, img_bot_of_ker])
     · right
-      push_neg at hall
+      push Not at hall
       obtain ⟨v, hv, hv0⟩ := hall
       have hgen := hirr (img F X) (zero_mem_img F X)
         (fun u hu w hw => add_mem_img F X hu hw) hinv ⟨v, hv, hv0⟩

@@ -19,7 +19,7 @@ theorem component_to_simple {Y : Type} [Group Y] [Finite Y] {α : MulAut Y} (hα
       β ^ 3 = 1 ∧ GLAPComponent 3 (Lemma510Ns.fixSub β) J' ∧
         ∃ ψ : barOf 3 J →* barOf 3 J', Function.Surjective ψ ∧
           ψ.ker ≤ Subgroup.center (barOf 3 J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : Y →* Y ⧸ Subgroup.center Y := QuotientGroup.mk' (Subgroup.center Y)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker ≤ Subgroup.center Y := (QuotientGroup.ker_mk' _).le
@@ -88,8 +88,8 @@ theorem SL3EpsOfChar.of_mulEquiv' {p : ℕ} {X X' : Type} [Group X] [Group X'] (
 theorem isL3Kind_of_isLThreeFour {X : Type} [Group X] (h : IsLThreeFour X) : IsL3Kind 2 X := by
   obtain ⟨F, hF, hfin, hcard, ⟨e⟩⟩ := h
   have hchar : CharP F 2 := by
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype F := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
   refine Or.inr ⟨Matrix.SpecialLinearGroup (Fin 3) F, inferInstance,
     Or.inl ⟨F, hF, hfin, hchar, by rw [hcard], ⟨CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 F⟩⟩,
@@ -119,7 +119,7 @@ theorem isLThreeFour_of_central_quotient {X X' : Type} [Group X] [Group X'] (hX 
     (ψ : X →* X') (hψ : Function.Surjective ψ) (hk : ψ.ker ≤ Subgroup.center X) :
     IsLThreeFour X' := by
   obtain ⟨hs, hna⟩ := isSimpleGroup_of_isLThreeFour hX
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center X = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
     · exact h

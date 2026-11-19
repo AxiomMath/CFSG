@@ -135,9 +135,9 @@ theorem isQuasisimple_map_mk_center {E : Type*} [Group E] {K : Subgroup E}
     (hK : CFSG.IsQuasisimple ↥K) :
     CFSG.IsQuasisimple ↥(K.map (QuotientGroup.mk' (center E))) := by
   refine ⟨?_, ?_, ?_⟩
-  · haveI : Group.IsPerfect ↥K := hK.1
+  · have : Group.IsPerfect ↥K := hK.1
     exact Group.IsPerfect.ofSurjective (mapMkCenter_surjective K)
-  · haveI : IsSimpleGroup (↥K ⧸ center ↥K) := hK.2.1
+  · have : IsSimpleGroup (↥K ⧸ center ↥K) := hK.2.1
     obtain ⟨e⟩ := nonempty_quotient_center_equiv_map hK
     exact e.symm.isSimpleGroup
   · obtain ⟨e⟩ := nonempty_quotient_center_equiv_map hK

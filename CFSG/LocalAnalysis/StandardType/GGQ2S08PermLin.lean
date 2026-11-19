@@ -219,7 +219,7 @@ theorem exists_fun_of_sym {c a : Vn n} (hs : ∀ i j, a i = a j ↔ c i = c j) :
   have hspec : c (Classical.choose hex) = c i := Classical.choose_spec hex
   have ha : a (Classical.choose hex) = a i := (hs _ _).mpr hspec
   show a i = f (c i)
-  simp only [f, dif_pos hex]
+  simp only [f, dite_eq_left hex]
   exact ha.symm
 
 theorem exists_perm_monotone (c : Vn n) :

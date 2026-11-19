@@ -31,8 +31,8 @@ include S
 
 theorem lay_cen_eq_one (hN : FF79LemmaN) (hQ : FF84.LemmaQ) {x : G} (hx : x ∈ Lay H)
     (hxΛ : ∀ y ∈ Λ, y * x = x * y) (hxΔ : ∀ y ∈ Δ, y * x = x * y) : x = 1 := by
-  haveI : IsSimpleGroup ↥Λ := S.Λiso.simple
-  haveI : IsSimpleGroup ↥Δ := S.Δiso.simple
+  have : IsSimpleGroup ↥Λ := S.Λiso.simple
+  have : IsSimpleGroup ↥Δ := S.Δiso.simple
   rw [S.Lay_eq hN hQ] at hx
   obtain ⟨d, hd, k, hk, rfl⟩ := m42_mem_sup_of_comm
     (fun a ha y hy => (S.comm_ΛΔ hN hQ y hy a ha).symm) hx
@@ -63,7 +63,7 @@ theorem lay_cen_eq_one (hN : FF79LemmaN) (hQ : FF84.LemmaQ) {x : G} (hx : x ∈ 
 theorem three_cen_eq_one (hN : FF79LemmaN) (hQ : FF84.LemmaQ) {x : G} (hxH : x ∈ H)
     (hx3 : orderOf x = 3) (hxΛ : ∀ y ∈ Λ, y * x = x * y) (hxΔ : ∀ y ∈ Δ, y * x = x * y) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPH, -, hPidx⟩ := S.syl
   have hPcard := S.card_P
   have hPp : IsPGroup 3 (Subgroup.closure ({e, f} : Set G)) :=
@@ -130,7 +130,7 @@ theorem three_cen_eq_one (hN : FF79LemmaN) (hQ : FF84.LemmaQ) {x : G} (hxH : x �
 theorem two_cen_eq_one (hN : FF79LemmaN) (hQ : FF84.LemmaQ) {z : G} (hzH : z ∈ H) {k : ℕ}
     (hzk : orderOf z = 2 ^ k) (hzΛ : ∀ y ∈ Λ, y * z = z * y) (hzΔ : ∀ y ∈ Δ, y * z = z * y) :
     z = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Z : Subgroup G := H ⊓ CenS Λ ⊓ CenS Δ
   have hZH : Z ≤ H := fun x hx => hx.1.1
   have hZn : ∀ h ∈ H, ∀ n ∈ Z, h * n * h⁻¹ ∈ Z := by

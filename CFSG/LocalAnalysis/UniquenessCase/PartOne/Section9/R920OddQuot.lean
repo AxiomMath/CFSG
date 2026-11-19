@@ -14,15 +14,18 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem opp_le (p : ℕ) (Y : Subgroup G) : Opp p Y ≤ Y := by
   unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
   rw [Subgroup.closure_le]
   exact fun x hx => hx.1
 
+omit [Finite G] in
 theorem mem_opp_of_orderOf {p : ℕ} {Y : Subgroup G} {x : G} (hx : x ∈ Y)
     (hk : ∃ k : ℕ, orderOf x = p ^ k) : x ∈ Opp p Y :=
   Subgroup.subset_closure ⟨hx, hk⟩
 
+omit [Finite G] in
 theorem opp_conj_mem {p : ℕ} {Y : Subgroup G} {w : G} (hw : w ∈ Y) {x : G}
     (hx : x ∈ Opp p Y) : w * x * w⁻¹ ∈ Opp p Y := by
   unfold Opp CFSG.RankThree.PartOne.pElementSubgroup at hx ⊢
@@ -31,7 +34,7 @@ theorem opp_conj_mem {p : ℕ} {Y : Subgroup G} {w : G} (hw : w ∈ Y) {x : G}
     refine Subgroup.subset_closure ⟨Y.mul_mem (Y.mul_mem hw hx.1) (Y.inv_mem hw), ?_⟩
     obtain ⟨k, hk⟩ := hx.2
     exact ⟨k, by rw [← hk]; exact MulEquiv.orderOf_eq (MulAut.conj w) x⟩
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     rw [show w * (x * y) * w⁻¹ = (w * x * w⁻¹) * (w * y * w⁻¹) by group]
     exact Subgroup.mul_mem _ hx hy
@@ -39,6 +42,7 @@ theorem opp_conj_mem {p : ℕ} {Y : Subgroup G} {w : G} (hw : w ∈ Y) {x : G}
     rw [show w * x⁻¹ * w⁻¹ = (w * x * w⁻¹)⁻¹ by group]
     exact Subgroup.inv_mem _ hx
 
+omit [Finite G] in
 theorem le_normalizer_opp (p : ℕ) (Y : Subgroup G) : Y ≤ normalizer (Opp p Y : Set G) := by
   intro w hw
   rw [Subgroup.mem_normalizer_iff]
@@ -47,6 +51,7 @@ theorem le_normalizer_opp (p : ℕ) (Y : Subgroup G) : Y ≤ normalizer (Opp p Y
   have := opp_conj_mem (Y.inv_mem hw) hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem opp_opp (p : ℕ) (Y : Subgroup G) : Opp p (Opp p Y) = Opp p Y := by
   refine le_antisymm (opp_le p _) ?_
   unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
@@ -57,7 +62,7 @@ theorem opp_opp (p : ℕ) (Y : Subgroup G) : Opp p (Opp p Y) = Opp p Y := by
 theorem exists_three_elem_mk_ne_one {Y : Subgroup G} {N : Subgroup ↥Y} [N.Normal]
     (h3 : 3 ∣ Nat.card (↥Y ⧸ N)) :
     ∃ y : ↥Y, (∃ k : ℕ, orderOf y = 3 ^ k) ∧ (y : ↥Y ⧸ N) ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y ⧸ N) 3 h3
   obtain ⟨y₀, rfl⟩ := QuotientGroup.mk_surjective b
   have hpos : 0 < orderOf y₀ := orderOf_pos y₀
@@ -74,11 +79,12 @@ theorem exists_three_elem_mk_ne_one {Y : Subgroup G} {N : Subgroup ↥Y} [N.Norm
     have : (y₀ : ↥Y ⧸ N) ^ m = 1 := by rw [← QuotientGroup.mk_pow]; exact h1
     exact hm3 (hb ▸ orderOf_dvd_of_pow_eq_one this)
 
+omit [Finite G] in
 theorem surjective_mk_inclusion_of_sup {L Y : Subgroup G} (hYL : Y ≤ L)
     (hL : L = Y ⊔ pCoreOf 2 L) :
     Function.Surjective
       ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion hYL)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYN : Y ≤ Subgroup.normalizer (pCoreOf 2 L : Set G) :=
     hYL.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L)
   intro q
@@ -97,9 +103,10 @@ theorem surjective_mk_inclusion_of_sup {L Y : Subgroup G} (hYL : Y ≤ L)
   rw [e]
   exact hb
 
+omit [Finite G] in
 theorem pCoreOf_le_pCoreOf_of_sup {L Y : Subgroup G} (hYL : Y ≤ L) (hL : L = Y ⊔ pCoreOf 2 L) :
     pCoreOf 2 Y ≤ pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set φ : ↥Y →* ↥L ⧸ CFSG.pCore 2 ↥L :=
     (QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion hYL) with hφ
   have hsurj : Function.Surjective φ := surjective_mk_inclusion_of_sup hYL hL
@@ -128,16 +135,16 @@ theorem three_dvd_card_bar2 (S : SliceCore D L D₃ Y H) : 3 ∣ Nat.card (Bar2 
   S.facts.three_dvd
 
 theorem Y_eq_opp_sup (S : SliceCore D L D₃ Y H) : Y = Opp 3 Y ⊔ pCoreOf 2 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (Bar2 Y) := S.isSimpleGroup_bar2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (Bar2 Y) := S.isSimpleGroup_bar2
   set Q : Subgroup ↥Y := CFSG.pCore 2 ↥Y with hQdef
-  haveI hQ : Q.Normal := CFSG.pCore_normal
+  have hQ : Q.Normal := CFSG.pCore_normal
   set N : Subgroup ↥Y := (Opp 3 Y).subgroupOf Y with hNdef
-  haveI hN : N.Normal :=
+  have hN : N.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (opp_le 3 Y)).2 (le_normalizer_opp 3 Y)
   set π : ↥Y →* Bar2 Y := QuotientGroup.mk' Q with hπ
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective Q
-  haveI : (N.map π).Normal := hN.map π hsurj
+  have : (N.map π).Normal := hN.map π hsurj
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map π) with hbot | htop
   · exfalso
     obtain ⟨y, ⟨k, hk⟩, hy1⟩ := exists_three_elem_mk_ne_one (N := Q) S.three_dvd_card_bar2

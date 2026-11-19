@@ -111,7 +111,7 @@ private theorem ap_idT {n i : Nat} (hn : n < 2 ^ 32) (hi : i < n) : ap (idT n) i
     Nat.mod_eq_of_lt (by omega)]
 
 private theorem oddOne_sound {n w m : Nat} {L : List Nat} {X e : Nat} (hn : 1 < n)
-    (hc : ∀ Y ∈ L, canonK n w (mask w) (n * w) Y = true)
+    (_hc : ∀ Y ∈ L, canonK n w (mask w) (n * w) Y = true)
     (hX : canonK n w (mask w) (n * w) X = true) (h : oddOne n w m L X e = true) :
     (tblEq n (tabP n w X) (idT n) || !powFixW n [tabP n w X] m ||
       (L.map (tabP n w)).any (fun h => let hi := invT n h; invOK n h hi &&

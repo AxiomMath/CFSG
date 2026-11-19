@@ -24,7 +24,7 @@ theorem RootHyp.not_commutator_W0_Pc_le_V
     (hW₀ne : W₀ ≠ ⊥) :
     ¬ ⁅W₀, Pc M V⁆ ≤ V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hbot
   obtain ⟨y, hyH, hPy, hVy, hHy⟩ := h.exists_mem_conj_eq_of_eq_sup hPH hH
   set B : Subgroup G := conjSubgroup y V ⊓ W₀ with hB
@@ -153,7 +153,7 @@ private theorem RootHyp.exists_conj_inf_not_le_kOf
     ∃ c ∈ Subgroup.centralizer (V : Set G),
       ¬ conjSubgroup c (Pc M V ⊓ W₀) ≤ kOf V H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L : Subgroup G := V ⊔ (Pc M V ⊓ W₀) with hLdef
   have hLW : L ≤ Tim79a.xOf V H :=
     sup_le (le_xOf_self V H) (inf_le_right.trans hW₀)
@@ -239,6 +239,7 @@ private theorem RootHyp.betaSubgroup_conj_inv
     exact (Subgroup.closure_le _).mpr fun x hx => Subgroup.subset_closure (hsub hx)
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [card_conjSubgroup])
 
+omit [Finite G] in
 private theorem RootHyp.betaSubgroup_imgK_inv_and_ne
     (hPH : Pc M V ≤ H)
     {E : Subgroup G} (hE_le_P : E ≤ Pc M V) (hE_notK : ¬ E ≤ kOf V H)
@@ -289,6 +290,7 @@ private theorem RootHyp.imgK_betaSubgroup_eq
       exact conj_mem_conjSubgroup r x.2
     rwa [hEbar_inv r (hRN hrR)] at hry'
 
+omit [Finite G] in
 private theorem RootHyp.betaSup_eq_of_imgK_eq
     (hPH : Pc M V ≤ H) {E : Subgroup G} (hE_le_P : E ≤ Pc M V)
     (hEbar_eq : imgK V H E = imgK V H (Pc M V)) :
@@ -328,7 +330,7 @@ theorem RootHyp.exists_beta_decomposition
         x ∈ conjSubgroup c (Pc M V ⊓ W₀)} ∧
       E ≤ Pc M V ∧ ¬ E ≤ kOf V H ∧ Pc M V = (Pc M V ⊓ kOf V H) ⊔ E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c₀, hc₀, hc₀K⟩ :=
     exists_conj_inf_not_le_kOf h hPH hVH hH hnM hK hnab hL hW₀ hN hW₀ne
   obtain ⟨E, hE, hE_le_P, hE_notK⟩ := exists_betaSubgroup_basic h hc₀ hc₀K
@@ -348,7 +350,7 @@ private theorem RootHyp.commutator_betaGenerator_le
     ∀ s ∈ {x : G | ∃ c ∈ Subgroup.centralizer (V : Set G),
       x ∈ conjSubgroup c (Pc M V ⊓ W₀)}, ∀ t ∈ X, ⁅s, t⁆ ∈ V ⊓ W₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCVleM : Subgroup.centralizer (V : Set G) ≤ M := h.centralizer_le_M
   have hP2 : IsPGroup 2 (Pc M V) := (inSubgroup_pCore_two M).1.to_le inf_le_left
   rintro s ⟨c, hc, hs⟩ t ht
@@ -386,6 +388,7 @@ private theorem RootHyp.commutator_betaGenerator_le
   rw [hcA]
   exact hA
 
+omit [Finite G] in
 private theorem commutator_X_betaSubgroup_le
     (hPH : Pc M V ≤ H)
     {W₀ : Subgroup G} (hN : H ≤ Subgroup.normalizer (W₀ : Set G))
@@ -417,6 +420,7 @@ private theorem commutator_X_betaSubgroup_le
     · exact hgen
   exact hXE
 
+omit [Finite G] in
 private theorem RootHyp.normal_inf_kOf_subgroupOf (hPH : Pc M V ≤ H) :
     ((Pc M V ⊓ kOf V H).subgroupOf (Pc M V)).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]
@@ -434,6 +438,7 @@ private theorem RootHyp.normal_inf_kOf_subgroupOf (hPH : Pc M V ≤ H) :
       simpa [mul_assoc] using h
     · exact (Subgroup.mem_normalizer_iff.mp (le_normalizer_kOf V H (hPH hq)) a).mpr haK
 
+omit [Finite G] in
 private theorem RootHyp.commutator_le_betaSup
     {W₀ : Subgroup G} {E : Subgroup G} (hE_le_P : E ≤ Pc M V)
     (hP_eq : Pc M V = (Pc M V ⊓ kOf V H) ⊔ E)
@@ -442,7 +447,7 @@ private theorem RootHyp.commutator_le_betaSup
     (hXE : ⁅X, E⁆ ≤ V ⊓ W₀)
     (hAnorm : ((Pc M V ⊓ kOf V H).subgroupOf (Pc M V)).Normal) :
     ⁅X, Pc M V⁆ ≤ V ⊓ W₀ := by
-  haveI : ((Pc M V ⊓ kOf V H).subgroupOf (Pc M V)).Normal := hAnorm
+  have : ((Pc M V ⊓ kOf V H).subgroupOf (Pc M V)).Normal := hAnorm
   have hPCV : Pc M V ≤ Subgroup.centralizer (V : Set G) := inf_le_right
   rw [Subgroup.commutator_le]
   intro x hx p hp
@@ -498,7 +503,7 @@ theorem RootHyp.commutator_le_inf_of_commutator_inf_kOf_eq_bot
     (hXK : ⁅X, Pc M V ⊓ kOf V H⁆ = ⊥) :
     ⁅X, Pc M V⁆ ≤ V ⊓ W₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, hEdef, hE_le_P, -, hP_eq⟩ :=
     RootHyp.exists_beta_decomposition h hPH hVH hH hnM hK hnab hL hW₀ hN hW₀ne
   have hgen := commutator_betaGenerator_le h hPH hVH hW₀ hN hXP

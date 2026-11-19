@@ -38,7 +38,7 @@ theorem center_eq_of_le_of_center_quotient_eq_bot {K : Type*} [Group K] {N : Sub
 theorem isQuasisimple_of_quotient_center {K T : Type*} [Group K] [Group T]
     (hKp : Group.IsPerfect K) (e : K ⧸ Subgroup.center K ≃* T) (hT : IsSimpleGroup T)
     (hnc : ∃ a b : T, a * b ≠ b * a) : IsQuasisimple K := by
-  haveI : IsSimpleGroup T := hT
+  have : IsSimpleGroup T := hT
   refine ⟨hKp, e.isSimpleGroup, ?_⟩
   obtain ⟨a, b, hab⟩ := hnc
   exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -73,7 +73,7 @@ theorem false_of_faithful_e9_l32 {Γ : Type} [Group Γ] [Finite Γ] {A K : Subgr
     exact ⟨fun h => ⟨a.2, h⟩, fun h => h.2⟩
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := hA.1.2
   have hc3 : orderOf c = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (hA3 c hcA) hc1
   have hcard : Nat.card ι.range = 9 := by
     have hzA : Subgroup.zpowers c ≤ A := Subgroup.zpowers_le.mpr hcA
@@ -132,9 +132,9 @@ theorem kf148ThetaTyped_of (h429 : Sec4.Item4_29) (hGA : CFSG.Open.GriessAllMode
     ·
       exact Sec4.RonanK429.center_eq_bot_of_mulEquiv φ Sec13.isPerfect_center_alt7.2
     ·
-      haveI := hKp
-      haveI : Nontrivial ↥K := by
-        haveI : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hKqs.2.1.toNontrivial
+      have := hKp
+      have : Nontrivial ↥K := by
+        have : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hKqs.2.1.toNontrivial
         exact (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
       exact Sec4.RonanK429.center_eq_bot_of_isoLThreePi hn hK2
   · rcases hW with ⟨hq, ⟨φ⟩⟩ | ⟨hq, hq2, ⟨φ⟩⟩

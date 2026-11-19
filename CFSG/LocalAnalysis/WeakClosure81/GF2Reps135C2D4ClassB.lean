@@ -85,6 +85,7 @@ local notation "C₀" => graphFixedRootGroup TwistTag.D4 K σ.toRingHom
 local notation "Xr" => pinnedX TwistTag.D4.tag K
 
 include hf hK hσ in
+omit [Finite K] in
 theorem w135c2_trialityD4_classB (hW : ∀ w : W, w ^ 2 = 1) (hZL : Subgroup.center ↥L = ⊥)
     {x : ↥L} (hx : ConjC σ ((modelProj L e x : C₀) : ModGL TwistTag.D4.tag K) (ox₁ σ 1)) :
     12 * f ≤ E3.mQuot ⊤ (fixV (Subgroup.zpowers (x : MulAut W))) := by

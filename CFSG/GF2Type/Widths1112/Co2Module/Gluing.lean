@@ -32,7 +32,7 @@ private theorem co2u_exists_coeffs (W : Submodule (ZMod 2) V)
     (hW : Module.finrank (ZMod 2) W = 2) {x : V} (hx : x ∈ W) (hx0 : x ≠ 0)
     {S : V} (hS : S ∈ W) (hSx : ∀ a : ZMod 2, a • x ≠ S) {y : V} (hy : y ∈ W) :
     ∃ a b : ZMod 2, y = a • x + b • S := by
-  haveI : FiniteDimensional (ZMod 2) W := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional (ZMod 2) W := Module.finite_of_finrank_pos (by omega)
   let bx : W := ⟨x, hx⟩
   let bS : W := ⟨S, hS⟩
   have hbx0 : bx ≠ 0 := fun h => hx0 (congrArg Subtype.val h)
@@ -64,7 +64,7 @@ theorem fixes_line_of_two_power (W : Submodule (ZMod 2) V)
     intro x y
     rw [← add_assoc, co2u_add_self, zero_add]
   have hpos : 0 < Module.finrank (ZMod 2) W := by rw [hW]; norm_num
-  haveI : Module.Finite (ZMod 2) W := Module.finite_of_finrank_pos hpos
+  have : Module.Finite (ZMod 2) W := Module.finite_of_finrank_pos hpos
   obtain ⟨⟨y₀, hy₀⟩, hy₀ne'⟩ := Module.finrank_pos_iff_exists_ne_zero.mp hpos
   have hy₀ne : y₀ ≠ 0 := fun h => hy₀ne' (Subtype.ext h)
   have hTT : T (T y₀) = T y₀ + y₀ :=
@@ -186,10 +186,10 @@ private def planeAction (ρ : Representation (ZMod 2) Γ V) (W : Submodule (ZMod
 
 private theorem perfect_map_trivial_of_solvable {G H : Type*} [Group G] [Group H]
     [Group.IsSolvable H] [Group.IsPerfect G] (f : G →* H) (g : G) : f g = 1 := by
-  haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
+  have : Group.IsPerfect f.range := Group.IsPerfect.range f
   have hsub : Subsingleton f.range := by
     by_contra h
-    haveI : Nontrivial f.range := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial f.range := not_subsingleton_iff_nontrivial.mp h
     exact Group.IsPerfect.not_isSolvable f.range inferInstance
   have h1 : (⟨f g, MonoidHom.mem_range.mpr ⟨g, rfl⟩⟩ : f.range) = 1 := Subsingleton.elim _ _
   exact congrArg Subtype.val h1
@@ -198,16 +198,16 @@ theorem perfect_fixes_plane (ρ : Representation (ZMod 2) Γ V) (W : Submodule (
     (hW : Module.finrank (ZMod 2) W = 2) (P : Subgroup Γ) (hP : P ≤ ⁅P, P⁆)
     (hPW : ∀ p ∈ P, ∀ y ∈ W, ρ p y ∈ W) :
     ∀ p ∈ P, ∀ y ∈ W, ρ p y = y := by
-  haveI hfin : Module.Finite (ZMod 2) W := Module.finite_of_finrank_pos (by omega)
+  have hfin : Module.Finite (ZMod 2) W := Module.finite_of_finrank_pos (by omega)
   have hcard : Nat.card W = 4 := by
     have h : Nat.card W = Nat.card (ZMod 2) ^ Module.finrank (ZMod 2) W :=
       Module.natCard_eq_pow_finrank
     rw [hW, Nat.card_zmod] at h
     norm_num at h
     exact h
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Group.IsSolvable (Equiv.Perm W) := Equiv.Perm.isSolvable hcard.le
-  haveI : Group.IsPerfect P :=
+  have : Finite W := Nat.finite_of_card_ne_zero (by omega)
+  have : Group.IsSolvable (Equiv.Perm W) := Equiv.Perm.isSolvable hcard.le
+  have : Group.IsPerfect P :=
     Subgroup.isPerfect_iff.mpr (le_antisymm (Subgroup.commutator_le_self P) hP)
   intro p hp y hy
   have h1 := perfect_map_trivial_of_solvable (planeAction ρ W P hPW) (⟨p, hp⟩ : P)
@@ -346,7 +346,7 @@ theorem pow_apply_eq_coef {T : Module.End (ZMod 2) V} {x : V} (hT2 : T (T x) = x
     have h3 : ¬ ((-1 : ZMod 3) = 1) := by decide
     have h4 : coef (-1 : ZMod 3) = ![1, 1] := by
       unfold coef
-      rw [if_neg h2, if_neg h3]
+      rw [ite_eq_right h2, ite_eq_right h3]
     rw [h1, h4]
     simp [pow_two, hT2]
 

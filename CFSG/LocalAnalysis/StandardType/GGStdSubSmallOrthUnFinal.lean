@@ -13,7 +13,7 @@ open CFSG.Assembly TableB TableBOrth SmallOrthUn
 
 theorem plusTwoVacuousInput_holds : PlusTwoVacuousInput := by
   intro K _ _ m hK hm A D a hE hr hU
-  haveI : CharP K 2 := charP_two_of_card (n := 1) le_rfl (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (n := 1) le_rfl (by rw [hK, pow_one])
   have hK1 : ∀ c : K, c ^ 3 = 1 → c = 1 :=
     OrthRestOdd.eq_one_of_pow_eq_one_of_dvd (n := 1) (p := 3) (by rw [hK, pow_one])
       Nat.prime_three (by norm_num)
@@ -35,7 +35,7 @@ theorem plusTwoVacuousInput_holds : PlusTwoVacuousInput := by
 
 theorem minusUnitVacuousInput_holds : MinusUnitVacuousInput := by
   intro K _ _ n m p b c hK hm hp hpn hirr A D a hE hr hU
-  haveI : CharP K 2 := charP_two_of_card (one_le_of_card hK) hK
+  have : CharP K 2 := charP_two_of_card (one_le_of_card hK) hK
   have hp2 : p ≠ 2 := by
     rintro rfl
     have hodd : ¬ 2 ∣ 2 ^ n + 1 := by

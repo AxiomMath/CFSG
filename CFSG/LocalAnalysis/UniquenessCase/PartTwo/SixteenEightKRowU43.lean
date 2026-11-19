@@ -29,13 +29,13 @@ theorem s16k_false_of_u43 (h : S16gRowCtx D V₀ V L hV) (hU43 : S16kU43Noncycli
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
   have hrk3 : 3 ≤ CFSG.Open.pRank p (Mbar D.M V₀ V hV) := h.three_le_pRank hpσ
   obtain ⟨S, hGrp, hLie, hHat⟩ := hS
-  letI := hGrp
+  let := hGrp
   by_cases hp3 : p = 3
   ·
     obtain ⟨Q, hQc, hQf, q, ρ, hqs, hqk, hρ, heq, hexp, hcard, hirrMap⟩ :=
       s16k_exists_quot_map (D := D) (V₀ := V₀) (V := V) (L := L) (hV := hV) h
     have hcard12 : Nat.card Q = 2 ^ 12 := by rw [hcard, hm]
-    haveI : Nontrivial Q := by
+    have : Nontrivial Q := by
       rw [← Finite.one_lt_card_iff_nontrivial, hcard12]
       norm_num
     have hrk12 : rk ↥(⊤ : Subgroup Q) = 12 := by
@@ -78,9 +78,9 @@ theorem s16k_false_of_u43 (h : S16gRowCtx D V₀ V L hV) (hU43 : S16kU43Noncycli
     have hcentC : CFSG.Open.pRank p (Subgroup.centralizer (L' : Set (MulAut Q))) ≤ 1 := by
       have hc := s16k_pRank_centralizer_le (Q := Q) hexp hirrQ hcard12 hp hp2
       by_cases hd : orderOf (2 : ZMod p) ∣ 12
-      · rw [if_pos hd] at hc
+      · rw [ite_eq_left hd] at hc
         exact hc
-      · rw [if_neg hd] at hc
+      · rw [ite_eq_right hd] at hc
         omega
     have hcent : CFSG.Open.pRank p
         (N ⊓ Subgroup.centralizer (L' : Set (MulAut Q))) ≤ 1 :=

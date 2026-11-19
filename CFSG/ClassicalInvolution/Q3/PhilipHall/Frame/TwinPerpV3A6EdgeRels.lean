@@ -42,7 +42,7 @@ theorem getD_ofFn_ge {α : Type*} (f : Fin 8 → α) (d : α) {j : ℕ} (hj : 8 
 theorem edgeSwap_node (k : Fin 3) (i : ℕ) (hi : i < 4) (t : ℕ) (ht : t < 2) :
     (ae6EdgeSwap k ⟨2 * i + t, by omega⟩).val = 2 * edgeNode k i + t := by
   unfold edgeNode
-  rw [if_pos hi]
+  rw [ite_eq_left hi]
   interval_cases i <;> interval_cases t <;> fin_cases k <;> rfl
 
 theorem edgeSwap_getD (k : Fin 3) (i t : ℕ) (ht : t < 2) :
@@ -57,7 +57,7 @@ theorem edgeSwap_getD (k : Fin 3) (i t : ℕ) (ht : t < 2) :
     exact Fin.ext (edgeSwap_node k i hi t ht)
   · have he : edgeNode k i = i := by
       unfold edgeNode
-      rw [if_neg hi]
+      rw [ite_eq_right hi]
     rw [he, getD_ofFn_ge _ _ (by omega), getD_ofFn_ge _ _ (by omega)]
 
 theorem curtisRels_edgeSwap (k : Fin 3) :
@@ -65,7 +65,7 @@ theorem curtisRels_edgeSwap (k : Fin 3) :
   refine (curtisRels_iff _).2 ?_
   have h := curtisRelations_comp curtisRelations_curtisGen (edgeNode k) (fun i hi => by
       unfold edgeNode
-      rw [if_pos hi]
+      rw [ite_eq_left hi]
       interval_cases i <;> fin_cases k <;> decide)
     (by fin_cases k <;> decide) (by fin_cases k <;> decide)
   have ea : (fun i => (List.ofFn fun j => curtisGen (ae6EdgeSwap k j)).getD (2 * i) 1) =

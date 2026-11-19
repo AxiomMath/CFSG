@@ -62,7 +62,7 @@ theorem exists_sylow_eq_zpowers
   have hcard : Nat.card (Subgroup.zpowers φ) = p := by rw [Nat.card_zpowers, hφ]
   have hP : IsPGroup p (Subgroup.zpowers φ) := IsPGroup.of_card (n := 1) (by rw [hcard, pow_one])
   obtain ⟨S, hS⟩ := hP.exists_le_sylow
-  have hSdvd := near_aut_pSubgroup_card_dvd h S S.isPGroup'
+  have hSdvd := near_aut_pSubgroup_card_dvd h S S.isPGroup
   have hle : Nat.card (S : Subgroup (MulAut X)) ≤ Nat.card (Subgroup.zpowers φ) := by
     rw [hcard]
     exact Nat.le_of_dvd h.prime.pos hSdvd

@@ -61,7 +61,7 @@ theorem ghii23List_of_alt8 (h : Alt8Classification) : GHII23List := by
   have hH : H ≤ alternatingGroup (Fin 8) := by
     rintro _ ⟨p, rfl⟩
     exact hρA (ι p)
-  have hnsH : ¬ IsSolvable ↥H := by
+  have hnsH : ¬ Group.IsSolvable ↥H := by
     intro hs
     exact hns (@Group.isSolvable_of_isSolvable_injective P ↥ι₁.range _ _
       (MonoidHom.ofInjective hι₁).toMonoidHom (MonoidHom.ofInjective hι₁).injective hs)

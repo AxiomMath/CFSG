@@ -32,7 +32,7 @@ theorem kfA6_no_two_normalized (B : Subgroup (alternatingGroup (Fin 6))) (hB : N
   have hinj : Function.Injective (MulAut.conj (MulAut.conj g)⁻¹).toMonoidHom :=
     (MulAut.conj (MulAut.conj g)⁻¹).injective
   obtain ⟨k, hk⟩ : ∃ k : ℕ, Nat.card Q = 2 ^ k := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact hQ.exists_card_eq
   obtain ⟨Q', hQ'⟩ : ∃ Q' : Subgroup (MulAut (alternatingGroup (Fin 6))),
       Q' = Q.map (MulAut.conj (MulAut.conj g)⁻¹).toMonoidHom := ⟨_, rfl⟩

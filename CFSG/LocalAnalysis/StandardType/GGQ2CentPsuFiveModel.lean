@@ -65,7 +65,7 @@ theorem exists_diagModel_twA
         calc 3 ^ (d / 3 + 2) ≤ 3 ^ (d - 3) :=
               Nat.pow_le_pow_right (by norm_num) (by omega)
           _ = 3 ^ ggUnitaryTorusRank 3 d := by
-              simp only [ggUnitaryTorusRank, if_pos h3d]
+              simp only [ggUnitaryTorusRank, ite_eq_left h3d]
           _ ≤ Nat.card (ggBeta L θ hBN).range := hβ
       exact hβ'.trans ((Subgroup.card_le_of_le (range_ggBeta_le θ hBBs hBN hN)).trans
         (card_range_ggBeta_le_ggGamma θ hN))

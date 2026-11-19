@@ -34,7 +34,7 @@ theorem w183finSp44G2Y_g2_complete_bounded : ∀ p ∈ pairsL,
     w183finSp44G2Y_exists_of_zip_all_mem _ _ _ (by simpa using h.1) h.2 p hp
   by_cases he : e = 0
   · subst he
-    rw [if_pos rfl] at hei
+    rw [ite_eq_left rfl] at hei
     simp only [List.any_eq_true, Bool.and_eq_true, beq_iff_eq] at hei
     obtain ⟨c, hc_mem, -, hc_check⟩ := hei
     refine Or.inr ⟨c, hc_check, ?_⟩
@@ -44,7 +44,7 @@ theorem w183finSp44G2Y_g2_complete_bounded : ∀ p ∈ pairsL,
     have hrow : corData[k].all w183finSp44G2Y_corRowValid = true :=
       (List.all_eq_true.mp w183finSp44G2Y_corData_valid) _ (List.getElem_mem hk8c)
     exact (List.all_eq_true.mp hrow) c hc_mem'
-  · rw [if_neg he] at hei
+  · rw [ite_eq_right he] at hei
     refine Or.inl ⟨e, Nat.pos_of_ne_zero he, ?_, hei⟩
     have hk8r : k < g2Rows.length := by rw [w183finSp44G2Y_g2Rows_length]; exact hk
     have heR : e ∈ g2Rows[k] := by

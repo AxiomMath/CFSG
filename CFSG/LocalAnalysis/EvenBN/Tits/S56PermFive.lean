@@ -14,14 +14,14 @@ theorem perm_five_pow_four_eq_one_of_commute :
 theorem exists_orderOf_five_normal {P : Type*} [Group P] [Finite P]
     (hP : Nat.card P = 20 ∨ Nat.card P = 40) :
     ∃ x₀ : P, orderOf x₀ = 5 ∧ ∀ g : P, g * x₀ * g⁻¹ ∈ Subgroup.zpowers x₀ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite (Sylow 5 P) :=
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite (Sylow 5 P) :=
     Finite.of_injective (fun Q : Sylow 5 P => (Q : Set P)) SetLike.coe_injective
   have h5 : 5 ∣ Nat.card P := by
     rcases hP with h | h <;> rw [h] <;> norm_num
   have hcard : ∀ Q : Sylow 5 P, Nat.card (Q : Subgroup P) = 5 := by
     intro Q
-    obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+    obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 Q.isPGroup
     have h1 : 5 ∣ Nat.card (Q : Subgroup P) := Q.dvd_card_of_dvd_card h5
     have h2 : Nat.card (Q : Subgroup P) ∣ Nat.card P := Subgroup.card_subgroup_dvd_card _
     rw [ha] at h1 h2 ⊢
@@ -56,7 +56,7 @@ theorem exists_orderOf_five_normal {P : Type*} [Group P] [Finite P]
     unfold Nat.ModEq at hmod
     generalize Nat.card (Sylow 5 P) = m at hm8 hpos hle8 hmod ⊢
     interval_cases m <;> omega
-  haveI : Subsingleton (Sylow 5 P) := (Nat.card_eq_one_iff_unique.1 hn5).1
+  have : Subsingleton (Sylow 5 P) := (Nat.card_eq_one_iff_unique.1 hn5).1
   have hSn : (S : Subgroup P).Normal := Sylow.normal_of_subsingleton S
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(S : Subgroup P)) 5 (by simp [hS5])
   have hx5 : orderOf (x : P) = 5 := by

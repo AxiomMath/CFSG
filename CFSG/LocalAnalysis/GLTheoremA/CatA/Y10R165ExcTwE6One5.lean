@@ -36,6 +36,7 @@ noncomputable abbrev B6 (h : UnitaryFieldData 2 f K) :
     (Fin 6 → K) →ₛₗ[h.bar] (Fin 6 → K) →ₗ[K] K :=
   gramForm h (C6 K)
 
+omit [Finite K] in
 theorem B6_isSymm (h : UnitaryFieldData 2 f K) : (B6 h).IsSymm := by
   refine gramForm_isSymm h ?_
   change ((CFSG.LieType.Chevalley.E6GraphLevi.antiId K).map h.bar)ᵀ =
@@ -47,6 +48,7 @@ theorem B6_isSymm (h : UnitaryFieldData 2 f K) : (B6 h).IsSymm := by
   rw [hmap]
   exact CFSG.LieType.Chevalley.E6GraphLevi.antiId_transpose (K := K)
 
+omit [Finite K] in
 theorem B6_separatingLeft (h : UnitaryFieldData 2 f K) : (B6 h).SeparatingLeft :=
   gramForm_separatingLeft h (det_antiIdGL_ne_zero (K := K))
 
@@ -55,19 +57,23 @@ theorem e0_ne_zero (K : Type) [Field K] : e0 K ≠ 0 := by
   have := congrFun h 0
   simp [e0] at this
 
+omit [Finite K] in
 theorem B6_e0_e0 (h : UnitaryFieldData 2 f K) : B6 h (e0 K) (e0 K) = 0 := by
   simp [B6, gramForm_apply, C6, CFSG.SeitzReduction.TwistedE6Pilot.coe_antiIdGL,
     CFSG.LieType.Chevalley.E6GraphLevi.antiId, e0, Matrix.mulVec, dotProduct, Fin.sum_univ_six]
 
+omit [Finite K] in
 theorem B6_e0_e5 (h : UnitaryFieldData 2 f K) : B6 h (e0 K) (e5 K) = 1 := by
   simp [B6, gramForm_apply, C6, CFSG.SeitzReduction.TwistedE6Pilot.coe_antiIdGL,
     CFSG.LieType.Chevalley.E6GraphLevi.antiId, e0, e5, Matrix.mulVec, dotProduct,
     Fin.sum_univ_six]
 
+omit [Finite K] in
 theorem B6_e5_e5 (h : UnitaryFieldData 2 f K) : B6 h (e5 K) (e5 K) = 0 := by
   simp [B6, gramForm_apply, C6, CFSG.SeitzReduction.TwistedE6Pilot.coe_antiIdGL,
     CFSG.LieType.Chevalley.E6GraphLevi.antiId, e5, Matrix.mulVec, dotProduct, Fin.sum_univ_six]
 
+omit [Finite K] in
 theorem hyperbolic_splitting_U2 (h : UnitaryFieldData 2 f K) :
     Module.finrank K (U2 K) = 2 ∧
       ((B6 h).domRestrict₁₂ (U2 K) (U2 K)).SeparatingLeft ∧
@@ -82,6 +88,7 @@ theorem hyperbolic_splitting_U2 (h : UnitaryFieldData 2 f K) :
   have hV : Module.finrank K (Fin 6 → K) = 6 := Module.finrank_fin_fun (R := K) (n := 6)
   rw [hfr, hV]
 
+omit [Finite K] in
 theorem isQuasisimple_pointwiseStab_U2 (h : UnitaryFieldData 2 f K) :
     IsQuasisimple ↥(pointwiseStab (sesqSpecialUnitaryGroupLE (B6 h)) (U2 K)) := by
   obtain ⟨-, -, hcompl, hsepW, hfr⟩ := hyperbolic_splitting_U2 h
@@ -110,10 +117,12 @@ theorem isQuasisimple_pointwiseStab_U2 (h : UnitaryFieldData 2 f K) :
   (LinearMap.GeneralLinearGroup.generalLinearEquiv K (Fin 6 → K)).toMonoidHom.comp
     (Matrix.GeneralLinearGroup.toLin).toMonoidHom
 
+omit [Finite K] in
 theorem toLinLE_apply (g : GL (Fin 6) K) (v : Fin 6 → K) :
     toLinLE K g v = (g : Matrix (Fin 6) (Fin 6) K) *ᵥ v := by
-  simp [toLinLE, Matrix.GeneralLinearGroup.toLin_apply]
+  simp [toLinLE]
 
+omit [Finite K] in
 theorem toLinLE_toLinearMap (g : GL (Fin 6) K) :
     (toLinLE K g : (Fin 6 → K) →ₗ[K] (Fin 6 → K)) =
       Matrix.toLin' (g : Matrix (Fin 6) (Fin 6) K) := by
@@ -126,6 +135,7 @@ theorem toLinLE_injective (K : Type) [Field K] : Function.Injective (toLinLE K) 
   (LinearMap.GeneralLinearGroup.generalLinearEquiv K (Fin 6 → K)).injective.comp
     (Matrix.GeneralLinearGroup.toLin).injective
 
+omit [Finite K] in
 theorem mem_toLinLE_gramSU (h : UnitaryFieldData 2 f K) (g : GL (Fin 6) K) :
     toLinLE K g ∈ sesqSpecialUnitaryGroupLE (B6 h) ↔ g ∈ gramSU h (C6 K) := by
   rw [mem_sesqSpecialUnitaryGroupLE, mem_gramSU_iff_isometry]
@@ -200,6 +210,7 @@ noncomputable def QSUEquiv (h : UnitaryFieldData 2 f K) :
     apply Subtype.ext
     exact hg
 
+omit [Finite K] in
 theorem isQuasisimple_QSU (h : UnitaryFieldData 2 f K) : IsQuasisimple ↥(QSU h) :=
   CFSG.LocalCores.isQuasisimple_of_mulEquiv (QSUEquiv h).symm
     (isQuasisimple_pointwiseStab_U2 h)
@@ -210,21 +221,20 @@ theorem e0_mem_U2 (K : Type) [Field K] : e0 K ∈ U2 K :=
 theorem e5_mem_U2 (K : Type) [Field K] : e5 K ∈ U2 K :=
   Submodule.subset_span (by simp)
 
+omit [Finite K] in
 theorem diag3_one_fixes_U2 (h : UnitaryFieldData 2 f K) (ζ : Kˣ)
-    (hζbar : h.bar (ζ : K) = ζ) :
+    (_hζbar : h.bar (ζ : K) = ζ) :
     ∀ v ∈ U2 K, toLinLE K (diag3 1 ζ 1) v = v := by
   intro v hv
   obtain ⟨a, b, rfl⟩ := (Submodule.mem_span_pair).mp hv
   have h0 : toLinLE K (diag3 1 ζ 1) (e0 K) = e0 K := by
     rw [toLinLE_apply]
     ext i
-    fin_cases i <;> simp [diag3, coe_diag3, e0, Matrix.mulVec, Matrix.diagonal, Units.smul_def,
-        smul_eq_mul, mul_one]
+    fin_cases i <;> simp [diag3, e0, Matrix.mulVec, Matrix.diagonal, mul_one]
   have h5 : toLinLE K (diag3 1 ζ 1) (e5 K) = e5 K := by
     rw [toLinLE_apply]
     ext i
-    fin_cases i <;> simp [diag3, coe_diag3, e5, Matrix.mulVec, Matrix.diagonal, Units.smul_def,
-        smul_eq_mul, mul_one]
+    fin_cases i <;> simp [diag3, e5, Matrix.mulVec, Matrix.diagonal, mul_one]
   rw [map_add, map_smul, map_smul, h0, h5]
 
 noncomputable def zQSU (h : UnitaryFieldData 2 f K) (ζ : Kˣ)
@@ -233,6 +243,7 @@ noncomputable def zQSU (h : UnitaryFieldData 2 f K) (ζ : Kˣ)
       diag3_mem_gramSU h 1 ζ 1 (by simp) hζbar (by simp)⟩,
     diag3_one_fixes_U2 h ζ hζbar⟩
 
+omit [Finite K] in
 private theorem diag3_pow (a b c : Kˣ) (n : ℕ) :
     diag3 a b c ^ n = diag3 (a ^ n) (b ^ n) (c ^ n) := by
   induction n with
@@ -240,10 +251,11 @@ private theorem diag3_pow (a b c : Kˣ) (n : ℕ) :
   | succ n ih =>
     rw [pow_succ, ih, diag3_mul, pow_succ, pow_succ, pow_succ]
 
+omit [Finite K] in
 theorem orderOf_zQSU (h : UnitaryFieldData 2 f K) (p : ℕ) (hp : p.Prime) (ζ : Kˣ)
     (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     orderOf (zQSU h ζ hζbar) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← Subgroup.orderOf_coe (zQSU h ζ hζbar)]
   apply orderOf_eq_prime
   · apply Subtype.ext
@@ -257,16 +269,17 @@ theorem orderOf_zQSU (h : UnitaryFieldData 2 f K) (p : ℕ) (hp : p.Prime) (ζ :
   · intro h1
     have h11 := congrArg (fun g : ↥(gramSU h (C6 K)) =>
       (((g : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)) 1 1) h1
-    simp [zQSU, diag3, coe_diag3] at h11
+    simp [zQSU, diag3] at h11
     have h1' : orderOf ζ = 1 := orderOf_eq_one_iff.mpr h11
     rw [hζ] at h1'
     exact hp.ne_one h1'
 
-noncomputable abbrev Qbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
-    (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
+noncomputable abbrev Qbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (_hp : p.Prime)
+    (_hp2 : p ≠ 2) (ζ : Kˣ) (_hζ : orderOf ζ = p) (_hζbar : h.bar (ζ : K) = ζ) :
     Subgroup (primeFormP h (C6 K)) :=
   ((QuotientGroup.mk' (N6 h)).comp (QSU h).subtype).range
 
+omit [Finite K] in
 theorem quotient_QSU_injective (h : UnitaryFieldData 2 f K) :
     Function.Injective ((QuotientGroup.mk' (N6 h)).comp (QSU h).subtype) := by
   intro x y hxy
@@ -295,6 +308,7 @@ theorem quotient_QSU_injective (h : UnitaryFieldData 2 f K) :
     _ = 1 * y := by rw [hxy1]
     _ = y := one_mul y
 
+omit [Finite K] in
 theorem isQuasisimple_Qbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     IsQuasisimple ↥(Qbar h p hp hp2 ζ hζ hζbar) :=
@@ -304,7 +318,7 @@ theorem isQuasisimple_Qbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp
 theorem dvd_card_Qbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     p ∣ Nat.card (Qbar h p hp hp2 ζ hζ hζbar) := by
-  haveI : Fintype ↥(Qbar h p hp hp2 ζ hζ hζbar) := Fintype.ofFinite _
+  have : Fintype ↥(Qbar h p hp hp2 ζ hζ hζbar) := Fintype.ofFinite _
   let x : ↥(Qbar h p hp hp2 ζ hζ hζbar) :=
     ⟨((QuotientGroup.mk' (N6 h)).comp (QSU h).subtype) (zQSU h ζ hζbar),
       ⟨zQSU h ζ hζbar, rfl⟩⟩
@@ -324,19 +338,22 @@ theorem dvd_card_Qbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.
   ⟨r3Hom h p ζ hζ hζbar (Multiplicative.ofAdd ((1, 0, 0) : ZMod p × ZMod p × ZMod p)),
     (r3Hom h p ζ hζ hζbar _).2⟩
 
+omit [Finite K] in
 theorem zbar_eq_mk_zSU (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (ζ : Kˣ)
     (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     zbar h p ζ hζ hζbar = (QuotientGroup.mk' (N6 h)) (zSU h p ζ hζ hζbar) := rfl
 
+omit [Finite K] in
 theorem zSU_eq_diag3 (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     ((zSU h p ζ hζ hζbar : ↥(gramSU h (C6 K))) : GL (Fin 6) K) = diag3 ζ 1 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply Matrix.GeneralLinearGroup.ext
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [zSU, r3Hom, diag3, coe_diag3, ZMod.val_zero, ZMod.val_one]
+    simp [zSU, r3Hom, diag3, ZMod.val_zero, ZMod.val_one]
 
+omit [Finite K] in
 theorem mem_orthogonal_U2_coords (h : UnitaryFieldData 2 f K) {w : Fin 6 → K}
     (hw : w ∈ Submodule.orthogonalBilin (B6 h) (U2 K)) : w 0 = 0 ∧ w 5 = 0 := by
   have hbar_inj : Function.Injective h.bar := by
@@ -355,6 +372,7 @@ theorem mem_orthogonal_U2_coords (h : UnitaryFieldData 2 f K) {w : Fin 6 → K}
       Fin.sum_univ_six] using h
   exact ⟨hbar_inj (by rw [h5, map_zero]), hbar_inj (by rw [h0, map_zero])⟩
 
+omit [Finite K] in
 theorem zSU_fixes_orthogonal (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) {w : Fin 6 → K}
     (hw : w ∈ Submodule.orthogonalBilin (B6 h) (U2 K)) :
@@ -363,9 +381,10 @@ theorem zSU_fixes_orthogonal (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (
   rw [zSU_eq_diag3 h p hp ζ hζ hζbar, toLinLE_apply]
   ext i
   fin_cases i <;>
-    simp only [Matrix.mulVec, dotProduct, Matrix.diagonal, Fin.sum_univ_six]
+    simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_six]
   all_goals simp [h0, h5]
 
+omit [Finite K] in
 theorem zSU_maps_U2 (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) {u : Fin 6 → K}
     (hu : u ∈ U2 K) :
@@ -377,18 +396,19 @@ theorem zSU_maps_U2 (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Pr
   have hz0 : ((diag3 ζ 1 1 : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *ᵥ e0 K =
       ζ • e0 K := by
     ext i
-    fin_cases i <;> simp [diag3, coe_diag3, e0, Matrix.mulVec, Matrix.diagonal, Units.smul_def,
+    fin_cases i <;> simp [diag3, e0, Matrix.mulVec, Matrix.diagonal, Units.smul_def,
         smul_eq_mul, mul_one]
   have hz5 : ((diag3 ζ 1 1 : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *ᵥ e5 K =
       ζ⁻¹ • e5 K := by
     ext i
-    fin_cases i <;> simp [diag3, coe_diag3, e5, Matrix.mulVec, Matrix.diagonal, Units.smul_def,
+    fin_cases i <;> simp [diag3, e5, Matrix.mulVec, Matrix.diagonal, Units.smul_def,
         smul_eq_mul, mul_one]
   rw [Matrix.mulVec_add, Matrix.mulVec_smul, Matrix.mulVec_smul, hz0, hz5]
   refine Submodule.add_mem _ ?_ ?_
   · exact Submodule.smul_mem _ _ (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
   · exact Submodule.smul_mem _ _ (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
 
+omit [Finite K] in
 theorem QSU_maps_orthogonal (h : UnitaryFieldData 2 f K) (x : ↥(QSU h))
     {w : Fin 6 → K} (hw : w ∈ Submodule.orthogonalBilin (B6 h) (U2 K)) :
     toLinLE K (x : GL (Fin 6) K) w ∈ Submodule.orthogonalBilin (B6 h) (U2 K) := by
@@ -403,6 +423,7 @@ theorem QSU_maps_orthogonal (h : UnitaryFieldData 2 f K) (x : ↥(QSU h))
     _ = B6 h u w := hxI u w
     _ = 0 := hw u hu
 
+omit [Finite K] in
 theorem QSU_commute_zSU (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) (x : ↥(QSU h)) :
     (x : ↥(gramSU h (C6 K))) * zSU h p ζ hζ hζbar =
@@ -424,6 +445,7 @@ theorem QSU_commute_zSU (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : 
   simp only [Subgroup.coe_mul, map_mul]
   exact hlin
 
+omit [Finite K] in
 theorem Qbar_le_centralizer_zbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     Qbar h p hp hp2 ζ hζ hζbar ≤

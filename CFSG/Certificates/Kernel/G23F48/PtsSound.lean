@@ -50,21 +50,21 @@ private theorem scan_spec (p : Nat) : ∀ r,
     obtain ⟨ih0, ih1⟩ := ih
     rw [scan_succ]
     by_cases h3 : pg 2 (mask 2) p r < 3
-    · rw [if_pos h3]
+    · rw [ite_eq_left h3]
       by_cases h0 : normScan p r = 0
-      · rw [if_pos h0]
+      · rw [ite_eq_left h0]
         have hz := ih0 h0
         by_cases hv0 : pg 2 (mask 2) p r = 0
-        · rw [if_pos hv0]
+        · rw [ite_eq_left hv0]
           refine ⟨fun _ s hs => ?_, fun h => absurd h (by decide)⟩
           rcases Nat.lt_or_ge s r with h1 | h1
           · exact hz s h1
           · have e : s = r := by omega
             rw [e]
             exact hv0
-        · rw [if_neg hv0]
+        · rw [ite_eq_right hv0]
           by_cases hv1 : pg 2 (mask 2) p r = 1
-          · rw [if_pos hv1]
+          · rw [ite_eq_left hv1]
             refine ⟨fun h => absurd h (by decide), fun _ => ⟨fun s hs => ?_, r, by omega, hz, hv1⟩⟩
             rcases Nat.lt_or_ge s r with h1 | h1
             · rw [hz s h1]
@@ -72,9 +72,9 @@ private theorem scan_spec (p : Nat) : ∀ r,
             · have e : s = r := by omega
               rw [e]
               exact h3
-          · rw [if_neg hv1]
+          · rw [ite_eq_right hv1]
             exact ⟨fun h => absurd h (by decide), fun h => absurd h (by decide)⟩
-      · rw [if_neg h0]
+      · rw [ite_eq_right h0]
         refine ⟨fun h => absurd h h0, fun h => ?_⟩
         obtain ⟨ha, t, ht, hb⟩ := ih1 h
         refine ⟨fun s hs => ?_, t, by omega, hb⟩
@@ -83,7 +83,7 @@ private theorem scan_spec (p : Nat) : ∀ r,
         · have e : s = r := by omega
           rw [e]
           exact h3
-    · rw [if_neg h3]
+    · rw [ite_eq_right h3]
       exact ⟨fun h => absurd h (by decide), fun h => absurd h (by decide)⟩
 
 theorem ptNormK_spec {p : Nat} (h : ptNormK p = true) :
@@ -135,7 +135,7 @@ theorem genK_spec {G MA : Nat} {F : Nat → Nat} {i : Nat} (h : genK G MA F i = 
     beq_t.1 (allN_spec hq r hr)
   by_cases hs : rowsK MA (F i) (F (pg 10 (mask 10) G i)) 1 = true
   · exact ⟨1, Or.inl rfl, rows hs⟩
-  · rw [if_neg hs] at h2
+  · rw [ite_eq_right hs] at h2
     exact ⟨2, Or.inr rfl, rows h2⟩
 
 theorem gensK_spec {G MA F : Nat → Nat} (h : gensK G MA F = true) {k i : Nat} (hk : k < 4)

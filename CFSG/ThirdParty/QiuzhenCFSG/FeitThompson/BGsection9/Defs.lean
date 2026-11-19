@@ -77,7 +77,7 @@ section Section9
 variable {G : Type*} [Group G] [Finite G] [IsMinCE G]
 
 public theorem CFSG.section9_solvable_of_proper_subgroup {H : Subgroup G} (hHproper : H ≠ ⊤) :
-    IsSolvable H :=
+    Group.IsSolvable H :=
   IsMinCE.proper_subgroups_solvable H (lt_top_iff_ne_top.2 hHproper)
 
 omit [IsMinCE G] in

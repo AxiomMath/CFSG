@@ -207,8 +207,8 @@ theorem eq_sup_inf_of_card {H₁ H₂ E : Subgroup G} [Finite H₁] [Finite H₂
         rwa [mul_inv_rev, ← hc _ (inv_mem hx) _ (inv_mem hy)] at this }
   have hP₁ : P₁ ≤ H₁ := fun x hx => hx.1
   have hP₂ : P₂ ≤ H₂ := fun y hy => hy.1
-  haveI : Finite P₁ := Finite.of_injective _ (inclusion_injective hP₁)
-  haveI : Finite P₂ := Finite.of_injective _ (inclusion_injective hP₂)
+  have : Finite P₁ := Finite.of_injective _ (inclusion_injective hP₁)
+  have : Finite P₂ := Finite.of_injective _ (inclusion_injective hP₂)
   have hc₁ : Nat.card P₁ ≤ k₁ := h₁ P₁ hP₁ fun x hx => by
     obtain ⟨hx, y, hy, hxy⟩ := hx
     exact (hsq x hx y hy hxy).1
@@ -223,7 +223,7 @@ theorem eq_sup_inf_of_card {H₁ H₂ E : Subgroup G} [Finite H₁] [Finite H₂
     exact mul_mem (mem_sup_left ⟨hx, y, hy, hg⟩) (mem_sup_right ⟨hy, x, hx, hg⟩)
   have hcard' : Nat.card ↥(P₁ ⊔ P₂) = Nat.card P₁ * Nat.card P₂ :=
     card_sup_of_le_normalizer (le_normalizer_of_comm hcP) hiP
-  haveI : Finite ↥(P₁ ⊔ P₂) := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥(P₁ ⊔ P₂) := Nat.finite_of_card_ne_zero (by
     rw [hcard']
     exact Nat.mul_ne_zero (Nat.card_pos (α := P₁)).ne' (Nat.card_pos (α := P₂)).ne')
   have hle : Nat.card E ≤ Nat.card ↥(P₁ ⊔ P₂) := card_le_of_le hEP

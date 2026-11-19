@@ -79,11 +79,11 @@ theorem exists_lift_of_cover_aux5 {X : Type} [Group X] (K : Subgroup X) {x k : X
     exact hodd
   exact hle hx
 
-theorem exists_lift_of_cover_aux6 {Z : Type} [Group Z] [Finite Z] (E N : Subgroup Z) (hN : N ≤ E)
+theorem exists_lift_of_cover_aux6 {Z : Type} [Group Z] [Finite Z] (E N : Subgroup Z) (_hN : N ≤ E)
     [(N.subgroupOf E).Normal] (hE : ⁅E, E⁆ = E) (h2 : ∀ e ∈ E, ∃ a : ℕ, e ^ (2 ^ a) ∈ N) :
     E ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect ↥E := Subgroup.isPerfect_iff.2 hE
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect ↥E := Subgroup.isPerfect_iff.2 hE
   have hQ2 : IsPGroup 2 (↥E ⧸ N.subgroupOf E) := by
     intro q
     obtain ⟨e, rfl⟩ := QuotientGroup.mk_surjective q
@@ -91,10 +91,10 @@ theorem exists_lift_of_cover_aux6 {Z : Type} [Group Z] [Finite Z] (E N : Subgrou
     refine ⟨a, ?_⟩
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact ha
-  haveI : Group.IsNilpotent (↥E ⧸ N.subgroupOf E) := hQ2.isNilpotent
+  have : Group.IsNilpotent (↥E ⧸ N.subgroupOf E) := hQ2.isNilpotent
   have hsub : Subsingleton (↥E ⧸ N.subgroupOf E) := by
     by_contra hns
-    haveI : Nontrivial (↥E ⧸ N.subgroupOf E) := not_subsingleton_iff_nontrivial.1 hns
+    have : Nontrivial (↥E ⧸ N.subgroupOf E) := not_subsingleton_iff_nontrivial.1 hns
     exact Group.IsPerfect.not_isSolvable (↥E ⧸ N.subgroupOf E) inferInstance
   intro e he
   have h1 : (QuotientGroup.mk ⟨e, he⟩ : ↥E ⧸ N.subgroupOf E) = 1 := Subsingleton.elim _ _
@@ -127,7 +127,7 @@ theorem exists_lift_of_cover {X : Type} [Group X] [Finite X] {T : Subgroup X}
     intro e he
     obtain ⟨x, rfl⟩ := hsurj e
     exact ⟨x, he, rfl⟩
-  haveI : (((oddHull K).map (QuotientGroup.mk' (CFSG.pCore 2 X))).subgroupOf Ebar).Normal := by
+  have : (((oddHull K).map (QuotientGroup.mk' (CFSG.pCore 2 X))).subgroupOf Ebar).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hNE]
     rintro _ e ⟨l, hl, rfl⟩ he
     obtain ⟨k, hk, rfl⟩ := hEK e he
@@ -152,7 +152,7 @@ theorem card_le_pRank_of_components_aux1_gen {Y : Type} [Group Y] [Finite Y] {r 
     {k : ℕ} {Q : Type} [Group Q] (hQcard : Nat.card Q = r ^ k) (hQexp : ∀ q : Q, q ^ r = 1)
     (ψ : ↥A →* Q) (hψ : Function.Surjective ψ) {H : Subgroup Y} (hAH : A ≤ H) :
     k ≤ CFSG.Open.pRank r H := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let pw : ↥A →* ↥A :=
     { toFun := fun a => a ^ r
       map_one' := one_pow r
@@ -193,14 +193,14 @@ theorem card_le_pRank_of_components_aux1_gen {Y : Type} [Group Y] [Finite Y] {r 
 theorem card_le_pRank_of_components_aux2 {G : Type} [Group G] [Finite G] {r : ℕ} (hr : r.Prime)
     (hdvd : r ∣ Nat.card (G ⧸ Subgroup.center G)) :
     ∃ x : G, x ∉ Subgroup.center G ∧ ∃ n : ℕ, x ^ (r ^ n) = 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow r G))
   by_contra hcon
   push Not at hcon
   have hPle : (P : Subgroup G) ≤ Subgroup.center G := by
     intro x hx
     by_contra hxZ
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨x, hx⟩
     exact hcon x hxZ n (by simpa using congrArg Subtype.val hn)
   have h1 : Nat.card (P : Subgroup G) ∣ Nat.card (Subgroup.center G) :=
     Subgroup.card_dvd_of_le hPle
@@ -233,11 +233,11 @@ theorem card_le_pRank_of_components_aux3 {G : Type} [Group G] {r : ℕ} (hr : r.
 
 theorem card_le_pRank_of_components_gen {Y : Type} [Group Y] [Finite Y] (S : Finset (Subgroup Y))
     (hS : ∀ J ∈ S, CFSG.Open.IsComponentOf J ⊤) (H : Subgroup Y)
-    (hSH : ∀ J ∈ S, J ≤ H) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
+    (hSH : ∀ J ∈ S, J ≤ H) {r : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2)
     (hdvd : ∀ J ∈ S, r ∣ Nat.card (↥J ⧸ Subgroup.center ↥J)) :
     S.card ≤ CFSG.Open.pRank r H := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hex : ∀ J : ↥S, ∃ x : Y, x ∈ J.1 ∧ x ∉ Subgroup.centralizer (J.1 : Set Y) ∧
       ∃ a : ℕ, x ^ (r ^ a) = 1 := by
     intro J
@@ -317,7 +317,7 @@ theorem card_le_pRank_of_components_gen {Y : Type} [Group Y] [Finite Y] (S : Fin
     simp
   have hQcard : Nat.card (↥S → Multiplicative (ZMod r)) = r ^ S.card := by
     rw [Nat.card_pi]
-    simp [Nat.card_zmod]
+    simp
   have hAcomm : ∀ a ∈ Ψ.range, ∀ b ∈ Ψ.range, a * b = b * a := by
     rintro _ ⟨g, rfl⟩ _ ⟨g', rfl⟩
     rw [← map_mul, ← map_mul, mul_comm g g']
@@ -339,8 +339,8 @@ theorem card_le_pRank_of_components_gen {Y : Type} [Group Y] [Finite Y] (S : Fin
 theorem perfect_le_normalizer_component_aux1 {W : Type} [Group W] [Finite W]
     (h : CFSG.Open.IsQuasisimple W) :
     ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ Nat.card (W ⧸ Subgroup.center W) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hsimple : IsSimpleGroup (W ⧸ Subgroup.center W) := h.2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hsimple : IsSimpleGroup (W ⧸ Subgroup.center W) := h.2
   by_contra hcon
   push Not at hcon
   have hpos : Nat.card (W ⧸ Subgroup.center W) ≠ 0 := Nat.card_pos.ne'
@@ -348,8 +348,8 @@ theorem perfect_le_normalizer_component_aux1 {W : Type} [Group W] [Finite W]
     by_contra hd2
     exact hcon d hd hd2 hdn)
   have hp2 : IsPGroup 2 (W ⧸ Subgroup.center W) := IsPGroup.of_card hpow
-  haveI : Group.IsNilpotent (W ⧸ Subgroup.center W) := hp2.isNilpotent
-  haveI : IsMulCommutative (W ⧸ Subgroup.center W) :=
+  have : Group.IsNilpotent (W ⧸ Subgroup.center W) := hp2.isNilpotent
+  have : IsMulCommutative (W ⧸ Subgroup.center W) :=
     ⟨⟨fun a b => IsSimpleGroup.comm_iff_isSolvable.2 inferInstance a b⟩⟩
   exact quotient_center_nonabelian_of_isQuasisimple h inferInstance
 
@@ -386,7 +386,7 @@ theorem perfect_le_normalizer_component_gen {Y : Type} [Group Y] [Finite Y]
     E ≤ Subgroup.normalizer (J : Set Y) := by
   classical
   obtain ⟨r, hr, hr2, hrJ⟩ := perfect_le_normalizer_component_aux1 (W := ↥J) hJ.2.2
-  letI : MulAction ↥E (Subgroup Y) :=
+  let : MulAction ↥E (Subgroup Y) :=
     MulAction.compHom (Subgroup Y)
       ((ConjAct.toConjAct : Y ≃* ConjAct Y).toMonoidHom.comp E.subtype)
   have hsmul : ∀ (e : ↥E) (K : Subgroup Y), e • K = K.map (MulAut.conj (e : Y)).toMonoidHom :=
@@ -410,14 +410,14 @@ theorem perfect_le_normalizer_component_gen {Y : Type} [Group Y] [Finite Y]
   have hcardO : Nat.card ↥(MulAction.orbit ↥E J) ≤ 4 := by
     rw [Nat.card_coe_set_eq, Set.ncard_eq_toFinset_card _ hOfin]
     omega
-  haveI : Group.IsSolvable (Equiv.Perm ↥(MulAction.orbit ↥E J)) := Equiv.Perm.isSolvable hcardO
+  have : Group.IsSolvable (Equiv.Perm ↥(MulAction.orbit ↥E J)) := Equiv.Perm.isSolvable hcardO
   let ρ : ↥E →* Equiv.Perm ↥(MulAction.orbit ↥E J) :=
     MulAction.toPermHom ↥E ↥(MulAction.orbit ↥E J)
-  haveI : Group.IsPerfect ↥E := Subgroup.isPerfect_iff.2 hE
-  haveI : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
+  have : Group.IsPerfect ↥E := Subgroup.isPerfect_iff.2 hE
+  have : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
   have hsub : Subsingleton ↥ρ.range := by
     by_contra hns
-    haveI : Nontrivial ↥ρ.range := not_subsingleton_iff_nontrivial.1 hns
+    have : Nontrivial ↥ρ.range := not_subsingleton_iff_nontrivial.1 hns
     exact Group.IsPerfect.not_isSolvable ↥ρ.range inferInstance
   intro e he
   have h1 : ρ ⟨e, he⟩ = 1 :=

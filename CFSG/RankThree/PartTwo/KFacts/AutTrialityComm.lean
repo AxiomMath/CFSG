@@ -29,8 +29,8 @@ theorem isInnerAut_of_mem_commutator_of_trialityD4
     rw [commutator_def, Subgroup.map_commutator] at h1
     rw [commutator_def]
     exact Subgroup.commutator_mono le_top le_top h1
-  haveI : IsCyclic (K ≃+* K) := hcyc
-  haveI : IsMulCommutative (K ≃+* K) := IsCyclic.isMulCommutative
+  have : IsCyclic (K ≃+* K) := hcyc
+  have : IsMulCommutative (K ≃+* K) := IsCyclic.isMulCommutative
   have hcomm_le : commutator (MulAut C) ≤ Θ.ker := by
     rw [commutator_def, Subgroup.commutator_le]
     intro a _ b _

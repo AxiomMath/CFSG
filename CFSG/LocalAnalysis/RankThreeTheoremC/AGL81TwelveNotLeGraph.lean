@@ -468,13 +468,13 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNotLe
 theorem kFactTwelveNotLeGraph_holds : KFactTwelveNotLeGraph :=
   kFactTwelveNotLeGraph_of_griess
     CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds
-    (fun A _ _ Y P X hP hX hXs => Tower.exists_solvThree_parabolic hP hX hXs)
-    (fun A _ _ Y P hP hb => Tower.noTwoSymThree_of_two_bound hP hb)
-    (fun A _ _ Y P J t hZ hY hO hB2 hP hJP hJs hJiso htY htP =>
+    (fun _A _ _ _Y _P _X hP hX hXs => Tower.exists_solvThree_parabolic hP hX hXs)
+    (fun _A _ _ _Y _P hP hb => Tower.noTwoSymThree_of_two_bound hP hb)
+    (fun _A _ _ _Y _P _J _t hZ hY hO hB2 hP hJP hJs hJiso htY htP =>
       Sp.hatOf_conj_eq_of_spTwo hZ hY hO hB2 hP hJP hJs hJiso htY htP)
-    (fun A _ _ Y P hY hO h96 hP => Small.noTwoSymThree_of_overgroupOrder96 hY hO h96 hP)
-    (fun A _ _ Y P hY hO h hP => UFour.noTwoSymThree_of_u42 hY hO h hP)
-    (fun A _ _ Y P hY hO hA8 hP X X' X₁ hX hX' hXs hXs' hne hX₁s hX₁ h1 h2 =>
+    (fun _A _ _ _Y _P hY hO h96 hP => Small.noTwoSymThree_of_overgroupOrder96 hY hO h96 hP)
+    (fun _A _ _ _Y _P hY hO h hP => UFour.noTwoSymThree_of_u42 hY hO h hP)
+    (fun _A _ _ _Y _P hY hO hA8 hP _X _X' _X₁ hX hX' hXs hXs' hne hX₁s hX₁ h1 h2 =>
       AltEight.false_of_three_members hY hO hA8 hP hX hX' hXs hXs' hne hX₁s hX₁ h1 h2)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNotLe

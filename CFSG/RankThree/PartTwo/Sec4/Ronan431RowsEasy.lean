@@ -87,7 +87,7 @@ theorem rowSOf431_four_Sp (p : ℕ) [Fact p.Prime] (hp : 3 < p) :
   refine rowSOf431_of_noCfg fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSp 2 p 1 :=
     ⟨Fact.out, le_rfl, le_rfl, fun h => by simp at h; omega⟩
-  haveI : Finite (projSp 2 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSp 2 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSp 2 (GaloisField p 1)) .PSp 2 p 1 :=
     Or.inl ⟨by decide,
       CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSp hadm (MulEquiv.refl _)⟩
@@ -104,12 +104,12 @@ theorem rowSOf431_four_Sp (p : ℕ) [Fact p.Prime] (hp : 3 < p) :
   have := (h3.trans h2)
   omega
 
-theorem rowSOf431_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 : p % 3 = 2) :
+theorem rowSOf431_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (_hp : 3 < p) (hp3 : p % 3 = 2) :
     RowSOf431 (projSL 4 (GaloisField p 1)) := by
   refine rowSOf431_of_noCfg fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSL 4 p 1 :=
     ⟨Fact.out, le_rfl, by norm_num, fun h => by simp at h, fun h => by simp at h⟩
-  haveI : Finite (projSL 4 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSL 4 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSL 4 (GaloisField p 1)) .PSL 4 p 1 :=
     Or.inl ⟨by decide,
       CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSL hadm (MulEquiv.refl _)⟩
@@ -126,12 +126,12 @@ theorem rowSOf431_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 
   have := (h3.trans h2)
   omega
 
-theorem rowSOf431_four_SU_of_mod_one (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 : p % 3 = 1) :
+theorem rowSOf431_four_SU_of_mod_one (p : ℕ) [Fact p.Prime] (_hp : 3 < p) (hp3 : p % 3 = 1) :
     RowSOf431 (projSU 4 p 1) := by
   refine rowSOf431_of_noCfg fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSU 4 p 1 :=
     ⟨Fact.out, le_rfl, by norm_num, fun h => by simp at h⟩
-  haveI : Finite (projSU 4 p 1) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSU 4 p 1) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSU 4 p 1) .PSU 4 p 1 :=
     Or.inl ⟨by decide,
       CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSU hadm (MulEquiv.refl _)⟩
@@ -179,7 +179,7 @@ theorem rowSOf431_three :
     norm_num
   have hno : NoCfgS431 RonanK432.Ree27 :=
     noCfgS431_of_not_five_dvd (by rw [hcard]; norm_num)
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.reeG2 1, hr⟩).Group := Finite.of_equiv _ f.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.reeG2 1, hr⟩).Group := Finite.of_equiv _ f.toEquiv
   exact rowSOf431_of_noCfgS431 (hno.of_mulEquiv f.symm)
 
 theorem rowSOf431_alternating_le_eight {n : ℕ} (hn5 : 5 ≤ n) (hn8 : n ≤ 8) :
@@ -278,7 +278,7 @@ theorem rowSOf431_eight_SL5 : RowSOf431 (projSL 5 (GaloisField 2 1)) :=
       RonanK429.noE27_projSL_five_two)
 
 theorem rowSOf431_eight_SU5_4 : RowSOf431 (projSU 5 2 2) := by
-  haveI : Finite (projSU 5 2 2) := Item434SmallTwoOther.UTools.finite_projSU_gf16 5
+  have : Finite (projSU 5 2 2) := Item434SmallTwoOther.UTools.finite_projSU_gf16 5
   exact rowSOf431_of_noCfg fun _ _ _ hs hna ⟨e⟩ => noCfgS431_of_autNoE27
     (RonanK429.autNoE27_of_mulEquiv_of_noE27 e hs hna outU54_holds
       (RonanK429.noE27_of_not_dvd RonanK432.not_27_dvd_card_u54))

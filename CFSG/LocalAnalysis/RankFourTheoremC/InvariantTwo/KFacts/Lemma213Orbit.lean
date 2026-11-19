@@ -26,7 +26,7 @@ namespace Red
 
 theorem eq_zpowers_of_ne (R : Red n p K P z D) {T : Subgroup K} (hTD : T ≤ D) (hzT : z ∈ T)
     (hne : T ≠ D) : T = zpowers z := by
-  haveI := R.fact
+  have := R.fact
   have hp := R.prime
   have hcardz : Nat.card (zpowers z) = p := by rw [Nat.card_zpowers, R.conf.ord]
   have hdvd : Nat.card T ∣ p ^ 2 := R.conf.card ▸ card_dvd_of_le hTD
@@ -52,13 +52,13 @@ theorem inf_normalizer_eq_zpowers (R : Red n p K P z D) {w : K} (hw : w ∈ D)
   have hwD : w ∈ D ⊓ normalizer (C.1 : Set K) := by rw [h]; exact hw
   exact hmove ((smul_eq_self_iff w C).2 hwD.2)
 
-theorem not_mem_zpowers (R : Red n p K P z D) {w : K} (hw : w ∈ D) {C : ComponentIndex K}
+theorem not_mem_zpowers (R : Red n p K P z D) {w : K} (_hw : w ∈ D) {C : ComponentIndex K}
     (hmove : w • C ≠ C) : w ∉ zpowers z := fun h =>
   hmove ((smul_eq_self_iff w C).2 (zpowers_le.2 (R.z_mem_normalizer C) h))
 
 theorem pow_smul_eq (R : Red n p K P z D) {w : K} (hw : w ∈ D) {C : ComponentIndex K}
     (hmove : w • C ≠ C) {i j : ℕ} (h : w ^ i • C = w ^ j • C) : i ≡ j [MOD p] := by
-  haveI := R.fact
+  have := R.fact
   have hwp : w ^ p = 1 := R.conf.elem.2 w hw
   have hnorm : w ^ ((i : ℤ) - j) ∈ normalizer (C.1 : Set K) := by
     rw [← smul_eq_self_iff]
@@ -82,7 +82,7 @@ theorem exists_diag (R : Red n p K P z D) {w : K} (hw : w ∈ D) {C₁ : Compone
       (∀ C' : ComponentIndex K, (∀ j : ℕ, w ^ j • C₁ ≠ C') → π R.hZ C' y hy = 1) ∧
       (∀ N : ℕ, x ^ N = 1 → y ^ N = 1) := by
   classical
-  haveI := R.fact
+  have := R.fact
   have hwp : w ^ p = 1 := R.conf.elem.2 w hw
   set Cs : ℕ → ComponentIndex K := fun i => w ^ i • C₁ with hCs
   set c : ℕ → K := fun i => w ^ i * x * (w ^ i)⁻¹ with hc
@@ -192,7 +192,7 @@ theorem exists_diag_zpowers (R : Red n p K P z D) {w : K} (hw : w ∈ D) {C₁ :
     (hk : x ^ (p ^ k) = 1) :
     ∃ (y : K) (hy : y ∈ layer K) (m : ℤ), y = z ^ m ∧ π R.hZ C₁ y hy = x ∧
       ∀ C' : ComponentIndex K, (∀ j : ℕ, w ^ j • C₁ ≠ C') → π R.hZ C' y hy = 1 := by
-  haveI := R.fact
+  have := R.fact
   obtain ⟨y, hy, hwy, hcoord, hcoord1, hpow⟩ := R.exists_diag hw hmove hx
   have hwP : ∀ j : ℕ, w ^ j ∈ (P : Subgroup K) := fun j => pow_mem (R.conf.le hw) j
   have hzy : z * y * z⁻¹ = y := by
@@ -233,7 +233,7 @@ theorem exists_diag_zpowers (R : Red n p K P z D) {w : K} (hw : w ∈ D) {C₁ :
 
 theorem orbit_eq (R : Red n p K P z D) {w : K} (hw : w ∈ D) {C₀ : ComponentIndex K}
     (hmove : w • C₀ ≠ C₀) (C : ComponentIndex K) : ∃ j : ℕ, w ^ j • C₀ = C := by
-  haveI := R.fact
+  have := R.fact
   by_contra hno
   push Not at hno
   obtain ⟨y, hy, m, hym, hy0, hy1⟩ := R.exists_diag_zpowers hw hmove (R.zc_mem C₀)

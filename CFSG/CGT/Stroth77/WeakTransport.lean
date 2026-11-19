@@ -122,7 +122,7 @@ theorem inl_mem_auxSub {X : Subgroup S} {n : C} :
   · intro hn
     exact ⟨n, hn, rfl⟩
 
-theorem auxGen_mem_normalizer {X : Subgroup S} (hXC : X ≤ C) {g : S}
+theorem auxGen_mem_normalizer {X : Subgroup S} (_hXC : X ≤ C) {g : S}
     (hg : g ∈ Subgroup.normalizer C) (h1 : conjAutOfMemNormalizer g hg ∈ D.auxL hL)
     (hgX : g ∈ Subgroup.normalizer X) :
     D.auxGen hL g hg h1 ∈ Subgroup.normalizer (D.auxSub hL X) := by
@@ -463,7 +463,7 @@ theorem cube_mem_centralizer_of_index_le_four {B C : Subgroup S} {g : S} [Finite
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBC).toEquiv
     rw [h2] at h1
     rw [← Subgroup.index_eq_card]
-    haveI : Finite B := Finite.of_injective (fun x : B => (⟨x, hBC x.2⟩ : C)) (by
+    have : Finite B := Finite.of_injective (fun x : B => (⟨x, hBC x.2⟩ : C)) (by
       intro x y hxy
       have h := congrArg (fun z : C => (z : S)) hxy
       exact Subtype.ext h)

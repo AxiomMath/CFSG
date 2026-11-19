@@ -53,7 +53,7 @@ theorem isPerfect_xbar_of_statedSp {n : ℕ} (hn : 3 ≤ n) {V H : Subgroup G}
   have hF : Nat.card (GaloisField 2 1) = 2 := by
     rw [GaloisField.card 2 1 (by norm_num)]
     norm_num
-  haveI hP : Group.IsPerfect (StatedSp n (GaloisField 2 1)) :=
+  have hP : Group.IsPerfect (StatedSp n (GaloisField 2 1)) :=
     Group.isPerfect_def.mpr (commutator_statedSp_eq_top hn hF)
   let e' : ↥(StatedSp n (GaloisField 2 1)) ≃* Xbar V H :=
     e.trans ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot)
@@ -62,16 +62,16 @@ theorem isPerfect_xbar_of_statedSp {n : ℕ} (hn : 3 ≤ n) {V H : Subgroup G}
 theorem xOf_le_pResidual_two [Finite G] {M V Q P H : Subgroup G} (hc : MinCex M V Q P H)
     (hperf : Group.IsPerfect (Xbar V H)) : xOf V H ≤ pResidual 2 G := by
   refine le_iInf fun N => le_iInf fun hN => le_iInf fun hp => ?_
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hVH : V ≤ H := hc.V_le_H
   have hW : wOf V H ≤ xOf V H := wOf_le_xOf V H
   have hXH : xOf V H ≤ H := xOf_le_H hVH
   have hWn : ((wOf V H).subgroupOf (xOf V H)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hW).2
       (fun x hx => H_le_normalizer_wOf V H (hXH hx))
-  haveI : (N.subgroupOf (xOf V H)).Normal := hN.subgroupOf (xOf V H)
+  have : (N.subgroupOf (xOf V H)).Normal := hN.subgroupOf (xOf V H)
   let Lx : Subgroup ↥(xOf V H) := (N.subgroupOf (xOf V H)) ⊔ ((wOf V H).subgroupOf (xOf V H))
-  haveI : Lx.Normal := Subgroup.sup_normal _ _
+  have : Lx.Normal := Subgroup.sup_normal _ _
   let ψ : ↥(xOf V H) →* Xbar V H := xToXbar hVH
   have hψs : Function.Surjective ψ := xToXbar_surjective hVH
   have hker : ψ.ker ≤ Lx := by

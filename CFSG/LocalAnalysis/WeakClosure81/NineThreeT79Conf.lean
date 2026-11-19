@@ -26,7 +26,7 @@ theorem nine3_config (h : Nine3T79Setup V T A K S X p g x) {ρ : ↥K →* Equiv
   have hI : Nine3IFacts V K S := h.hI
   have h35 : Nat.card ↥(nineDelta V S) = 3 ∨ Nat.card ↥(nineDelta V S) = 5 := h.h35
   have hN : nineH0 V K g ≤ normalizer (nineI0 V K g : Set G) := h.hN
-  haveI : Fact p.Prime := ⟨hc.core.hyp.base.prime⟩
+  have : Fact p.Prime := ⟨hc.core.hyp.base.prime⟩
   have hp3 : p = 3 := nine3_p_eq_three hc hI h35
   have hAΩ : A ∈ omegaIn V K (nineE V K) :=
     ⟨hc.core.A_mem_nineOmegaIn.1, hc.core.nineOmegaIn_le_K hc.core.A_mem_nineOmegaIn⟩
@@ -38,10 +38,10 @@ theorem nine3_config (h : Nine3T79Setup V T A K S X p g x) {ρ : ↥K →* Equiv
   have hUc0 : (1 : ZMod p) ≠ 0 := one_ne_zero
   obtain ⟨e, heU, heR⟩ : ∃ e ∈ U, e ∉ pCoreOf 2 K := by
     obtain ⟨-, -, -, hnle⟩ := mem_omegaSet.mp hUΩ.1
-    exact SetLike.not_le_iff_exists.mp hnle
+    exact IsConcreteLE.not_le_iff_exists.mp hnle
   obtain ⟨a, haA, haR⟩ : ∃ a ∈ A, a ∉ pCoreOf 2 K := by
     obtain ⟨-, -, -, hnle⟩ := mem_omegaSet.mp hAΩ.1
-    exact SetLike.not_le_iff_exists.mp hnle
+    exact IsConcreteLE.not_le_iff_exists.mp hnle
   have hcard2 : 2 ≤ Nat.card ↥(nineOmegaIn V K S) := by
     obtain ⟨n, hn1, hn2⟩ := Nine3Core.card_nineOmegaIn hc.core
     have h2n : 2 ^ n = 2 ∨ 2 ^ n = 4 := by
@@ -79,7 +79,7 @@ theorem nine3_config (h : Nine3T79Setup V T A K S X p g x) {ρ : ↥K →* Equiv
     intro hle
     obtain ⟨y, hyA'g, hyR⟩ : ∃ y ∈ conjSubgroup A' g⁻¹, y ∉ pCoreOf 2 K := by
       obtain ⟨-, -, -, hnle⟩ := mem_omegaSet.mp hA'ginv_Ω.1
-      exact SetLike.not_le_iff_exists.mp hnle
+      exact IsConcreteLE.not_le_iff_exists.mp hnle
     have hyconj : g⁻¹ * y * g ∈ A' := by simpa using mem_conjSubgroup_iff.mp hyA'g
     have hyRg : g⁻¹ * y * g ∈ conjSubgroup (pCoreOf 2 K) g := hle hyconj
     have hy : y ∈ pCoreOf 2 K := by
@@ -105,7 +105,7 @@ theorem nine3_config (h : Nine3T79Setup V T A K S X p g x) {ρ : ↥K →* Equiv
     · exact hA'notleR (le_trans hle inf_le_right)
     · exact hA'notleRg (le_trans hle inf_le_right)
   obtain ⟨v, hvV, hvO0⟩ : ∃ v ∈ V, v ∉ pCoreOf 2 (nineH0 V K g) :=
-    SetLike.not_le_iff_exists.mp (nine3_dcal_not_le_pCore h hV0).1
+    IsConcreteLE.not_le_iff_exists.mp (nine3_dcal_not_le_pCore h hV0).1
   have hHnorm : nineH V K ≤
       Subgroup.normalizer ((pCoreOf 2 (nineH0 V K g) ⊓ nineH V K : Subgroup G) : Set G) :=
     (le_inf ((le_sup_left : nineH V K ≤ nineH0 V K g).trans
@@ -181,7 +181,7 @@ theorem nine3_config (h : Nine3T79Setup V T A K S X p g x) {ρ : ↥K →* Equiv
     let vd : ↥(nineH0 V K g) := ⟨hD * (d : G) * hD⁻¹, hVle hv'd⟩
     have hd_eq : d = (⟨hD, hhD⟩ : ↥(nineH0 V K g))⁻¹ * vd * ⟨hD, hhD⟩ := by
       apply Subtype.ext
-      simp only [vd, Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+      simp only [vd, Subgroup.coe_mul, Subgroup.coe_inv]
       group
     have hvd_ne : π vd ≠ 1 := by
       intro hvd1

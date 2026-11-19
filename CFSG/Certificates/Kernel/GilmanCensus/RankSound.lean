@@ -46,14 +46,14 @@ theorem rows_key {α : Type} [Inhabited α] (p : Nat → α → Bool) (g : α �
     · simp [hs]
     · intro i h1 h2
       have := hS i (by omega)
-      rw [getElem!_pos S i h1, if_pos (by omega)] at this
+      rw [getElem!_pos S i h1, ite_eq_left (by omega)] at this
       rw [Array.getElem_mapIdx]
       exact this
   | succ n ih =>
     intro a S ha hs hS
     rw [List.range'_succ, List.foldl_cons]
     have hSa := hS a (by omega)
-    rw [if_neg (by omega)] at hSa
+    rw [ite_eq_right (by omega)] at hSa
     apply ih (a + 1) _ (by omega)
     · split <;> simp [hs]
     · intro i hi
@@ -61,10 +61,10 @@ theorem rows_key {α : Type} [Inhabited α] (p : Nat → α → Bool) (g : α �
       by_cases hia : i = a
       · subst hia
         by_cases hp : p i R[i] = true
-        · rw [if_pos hp, Array.set!_eq_setIfInBounds,
+        · rw [ite_eq_left hp, Array.set!_eq_setIfInBounds,
             getElem!_pos _ i (by simp [hs]; omega), Array.getElem_setIfInBounds_self]
           simp [hp]
-        · rw [if_neg hp]
+        · rw [ite_eq_right hp]
           have := hS i hi
           simp [hp, this]
       · have e : (if p a R[a] = true then S.set! a (g R[a]) else S)[i]! = S[i]! := by
@@ -235,7 +235,7 @@ theorem rq_step (n m j : Nat) (s : Array (Array Int) × Nat) (st : List (List In
   dsimp only
   rw [pickQ_spec]
   by_cases hlt : A.length < m
-  · rw [if_pos hlt, hF]
+  · rw [ite_eq_left hlt, hF]
     cases ht : rest.findIdx? (fun r => r.getD j 0 != 0) with
     | none => exact ⟨A, hL, rfl, rfl, hm, hsz⟩
     | some t =>
@@ -293,7 +293,7 @@ theorem rq_step (n m j : Nat) (s : Array (Array Int) × Nat) (st : List (List In
               have hiA : A.length + 1 ≤ i := by
                 simp only [Bool.and_eq_true, decide_eq_true_eq] at hc
                 exact hc.1
-              rw [if_pos hc, if_pos (by simpa using hiA)]
+              rw [ite_eq_left hc, ite_eq_left (by simpa using hiA)]
               have hri : R1[i].toList.length = n := by
                 have hsz1 : R1.size = A.length + 1 + W.length := by
                   rw [← length_LLI, hR1]
@@ -312,15 +312,15 @@ theorem rq_step (n m j : Nat) (s : Array (Array Int) × Nat) (st : List (List In
                 (by simpa using hri), hR1k]
               unfold rqRowL
               dsimp only
-              rw [if_pos hc2]
-            · rw [if_neg hc]
+              rw [ite_eq_left hc2]
+            · rw [ite_eq_right hc]
               by_cases hiA : A.length + 1 ≤ i
-              · rw [if_pos (by simpa using hiA)]
+              · rw [ite_eq_left (by simpa using hiA)]
                 have hc0 : ¬(R1[i].toList.getD j 0 != 0) = true := by simpa [hiA] using hc
                 unfold rqRowL
                 dsimp only
-                rw [if_neg hc0]
-              · rw [if_neg (by simpa using hiA)])
+                rw [ite_eq_right hc0]
+              · rw [ite_eq_right (by simpa using hiA)])
       rw [hR1, mapIdx_below] at hLL
       refine ⟨A ++ [p], ?_, ?_, rfl, ?_, ?_⟩
       · rw [hLL, List.append_assoc, List.singleton_append]
@@ -331,7 +331,7 @@ theorem rq_step (n m j : Nat) (s : Array (Array Int) × Nat) (st : List (List In
       · intro r hr
         obtain ⟨r', hr', rfl⟩ := List.mem_map.mp hr
         exact length_rqRowL p r' j n hpl (hsz r' (hWmem r' hr'))
-  · rw [if_neg hlt]
+  · rw [ite_eq_right hlt]
     have h0 : rest = [] := List.eq_nil_of_length_eq_zero (by omega)
     subst h0
     exact ⟨A, hL, rfl, rfl, hm, hsz⟩
@@ -345,12 +345,12 @@ theorem rankQ_eq (rows : Array (Array Int)) (h : ∀ r ∈ rows.toList, r.size =
     rankQ rows = rankQK (LLI rows) := by
   rw [rankQ_fold]
   by_cases h0 : rows.size = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     have : LLI rows = [] := by
       rw [← List.length_eq_zero_iff, length_LLI, h0]
     rw [this]
     rfl
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     obtain ⟨r0, tl, hrt⟩ : ∃ r0 tl, LLI rows = r0 :: tl := by
       cases hl : LLI rows with
       | nil =>

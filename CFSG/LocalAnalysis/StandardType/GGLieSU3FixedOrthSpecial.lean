@@ -27,7 +27,7 @@ theorem ggLieSU3Fixed_eq_specialBlock {K : Type} [Field K] [Finite K] [CharP K 2
     (hDq : CFSG.Assembly.IsQuasisimple ↥D) :
     D = specialBlock Q y j ∧ 2 ≤ primaryMultiplicity y.toLinearMap j := by
   classical
-  haveI : Fact (Irreducible j) := ⟨irreducible_of_mem_primaryFactors hj⟩
+  have : Fact (Irreducible j) := ⟨irreducible_of_mem_primaryFactors hj⟩
   have hcomm_le : ⁅supportedBlock Q y j, supportedBlock Q y j⁆ ≤ specialBlock Q y j := by
     rw [Subgroup.commutator_le]
     intro g hg g' hg'
@@ -69,11 +69,11 @@ theorem ggLieSU3Fixed_eq_specialBlock {K : Type} [Field K] [Finite K] [CharP K 2
   have hDnat : CFSG.IsQuasisimple ↥D :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥D).mp hDq
   have hDnt : Nontrivial ↥D := by
-    haveI : IsSimpleGroup (↥D ⧸ Subgroup.center ↥D) := hDq.2
+    have : IsSimpleGroup (↥D ⧸ Subgroup.center ↥D) := hDq.2
     exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥D))
   have hDnoncomm : ¬ IsMulCommutative ↥D := by
-    haveI : Group.IsPerfect ↥D := ⟨hDq.1⟩
-    haveI : Nontrivial ↥D := hDnt
+    have : Group.IsPerfect ↥D := ⟨hDq.1⟩
+    have : Nontrivial ↥D := hDnt
     exact Group.IsPerfect.not_isMulCommutative (G := ↥D)
   have hm2 : 2 ≤ primaryMultiplicity y.toLinearMap j := by
     have hmpos : 0 < primaryMultiplicity y.toLinearMap j := by
@@ -86,7 +86,7 @@ theorem ggLieSU3Fixed_eq_specialBlock {K : Type} [Field K] [Finite K] [CharP K 2
       have hFbot : specialBlock Q y j = ⊥ :=
         hy.specialBlock_eq_bot_of_finrank_eq_one hj hm1
       have hDbot : D = ⊥ := le_bot_iff.mp (hDF.trans (le_of_eq hFbot))
-      haveI : Subsingleton ↥D := by rw [hDbot]; infer_instance
+      have : Subsingleton ↥D := by rw [hDbot]; infer_instance
       obtain ⟨a, b, hab⟩ := hDnt
       exact absurd (Subsingleton.elim a b) hab
     · exact hge
@@ -100,7 +100,7 @@ theorem ggLieSU3Fixed_eq_specialBlock {K : Type} [Field K] [Finite K] [CharP K 2
       refine IsMulCommutative.of_comm fun a b => Subtype.ext ?_
       exact hcomm (a : V ≃ₗ[K] V) a.2 (b : V ≃ₗ[K] V) (hDF b.2)
   · exfalso
-    haveI : Group.IsSolvable ↥(specialBlock Q y j) := hFsolv
+    have : Group.IsSolvable ↥(specialBlock Q y j) := hFsolv
     have hDsolv : Group.IsSolvable ↥D :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hDF)
         (Subgroup.inclusion_injective hDF)

@@ -33,7 +33,7 @@ theorem genData_M_five {T : Type} [Group T] [Finite T] [IsSimpleGroup T] [Fact (
 theorem genData_M_seven {T : Type} [Group T] [Finite T] [IsSimpleGroup T] [Fact (Nat.Prime 7)]
     (e : T ≃* NativeSporadic.Carrier .M) : GenData T 7 := by
   obtain ⟨ε⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple e
-  haveI : Finite ↥CFSG.Monster.Generated.Gmat := Finite.of_equiv T ε.toEquiv
+  have : Finite ↥CFSG.Monster.Generated.Gmat := Finite.of_equiv T ε.toEquiv
   exact ⟨fun S => CFSG.AGLEmbedding.Norton.OrdinaryProofs.weakCore_seven_of_tcGen ε
       CFSG.AGLEmbedding.Norton.MON5_7.tcGenDatum_seven_gmat S,
     CFSG.AGLEmbedding.Norton.MON5_7.coverWeakGen_seven_of_monster e⟩
@@ -41,7 +41,7 @@ theorem genData_M_seven {T : Type} [Group T] [Finite T] [IsSimpleGroup T] [Fact 
 theorem rankData_M_thirteen {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
     [Fact (Nat.Prime 13)] (e : T ≃* NativeSporadic.Carrier .M) : RankData T 13 := by
   have hcard : Nat.card T = monsterOrder :=
-    CFSG.AGLEmbedding.MonsterRows.card_eq_monsterOrder CFSG.Open.Open.monster_y443_derived_card e
+    CFSG.AGLEmbedding.MonsterRows.card_eq_monsterOrder CFSG.Open.Thm.monster_y443_derived_card e
   have hS : ¬ 13 ^ 4 ∣ Nat.card T := by
     rw [hcard]
     norm_num [monsterOrder]

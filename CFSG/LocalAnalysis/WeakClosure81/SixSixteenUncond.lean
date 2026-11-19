@@ -17,7 +17,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 theorem eGen_le_centralizer_sup {V X S K : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hKXS : K = X ⊔ S) (hSK : IsSylowIn 2 S K)
+    (hV : IsElemAbelian 2 V) (_hKXS : K = X ⊔ S) (hSK : IsSylowIn 2 S K)
     {i : ℕ} (hi : i + 1 < E3.sParam hV) :
     E1.eGen 1 K S (E3.gammaSet V i K) ≤
       (K ⊓ Subgroup.centralizer (E3.cClos V (i + 1) S : Set G)) ⊔ S := by
@@ -41,7 +41,7 @@ theorem exists_mul_of_sup {V X S K : Subgroup G} {p : ℕ}
     ∀ g ∈ K,
       ∃ d ∈ K ⊓ Subgroup.centralizer (E3.cClos V (i + 1) S : Set G),
       ∃ n ∈ K ⊓ Subgroup.normalizer (E3.wClos V i S : Set G), g = d * n := by
-  haveI : Fintype ↥K := Fintype.ofFinite _
+  have : Fintype ↥K := Fintype.ofFinite _
   have hS_K : S ≤ K := by rw [hKXS]; exact le_sup_right
   have hcardNat : Nat.card K = Nat.card X * Nat.card S := by
     have hrel : S.relIndex K = Nat.card X := by
@@ -53,8 +53,8 @@ theorem exists_mul_of_sup {V X S K : Subgroup G} {p : ℕ}
     have h := Subgroup.relIndex_mul_card (H := S) (K := K)
     rw [inf_eq_left.mpr hS_K, hrel] at h
     exact h.symm
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hXp
   obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hS2
   have hcardF : Fintype.card ↥K = p ^ a * 2 ^ b := by
@@ -101,6 +101,7 @@ theorem exists_mul_of_sup {V X S K : Subgroup G} {p : ℕ}
   · simpa [hDdef] using hd
   · simpa [hNdef] using hn
 
+omit [Finite G] in
 theorem isPGroup_of_pow_eq_one {p : ℕ} {X : Subgroup G} (hexp : ∀ x ∈ X, x ^ p = 1) :
     IsPGroup p X :=
   IsPGroup.of_exponent_dvd_pow (n := 1)
@@ -114,11 +115,11 @@ theorem isPretransitive_of_coprime_index {D Ω : Type*} [Group D] [Finite D] [Mu
     (hcop : Nat.Coprime (Nat.card Ω) P.index) :
     letI : MulAction P Ω := MulAction.compHom Ω P.subtype
     IsPretransitive P Ω := by
-  letI : MulAction P Ω := MulAction.compHom Ω P.subtype
+  let : MulAction P Ω := MulAction.compHom Ω P.subtype
   rcases isEmpty_or_nonempty Ω with hΩ | hΩ
   · exact ⟨fun x => isEmptyElim x⟩
   · obtain ⟨ω⟩ := hΩ
-    haveI : IsPretransitive D Ω := htrans
+    have : IsPretransitive D Ω := htrans
     rw [isPretransitive_iff_base (G := ↥P) ω]
     intro x
     have hDcard : (MulAction.stabilizer D ω).index = Nat.card Ω :=
@@ -161,7 +162,7 @@ theorem isSylowIn_sup_of_mul_comm {X S : Subgroup G} {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hXp : IsPGroup p X) (hS2 : IsPGroup 2 S)
     (hperm : (X : Set G) * (S : Set G) = (S : Set G) * (X : Set G)) :
     IsSylowIn 2 S (X ⊔ S) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdisj : X ⊓ S = ⊥ := by
     have hd := IsPGroup.disjoint_of_ne p 2 hp2 X S hXp hS2
     rwa [disjoint_iff] at hd
@@ -185,8 +186,8 @@ theorem relIndex_inf_dvd_card_of_mul_comm {X S D K : Subgroup G} {p : ℕ}
     (hDK : D ≤ K) (hSD : S ≤ Subgroup.normalizer (D : Set G)) :
     (D ⊓ X).relIndex D ∣ Nat.card S := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXK : X ≤ K := by rw [hKXS]; exact le_sup_left
   have hSK : S ≤ K := by rw [hKXS]; exact le_sup_right
   have hKmul : (K : Set G) = (X : Set G) * (S : Set G) := by
@@ -199,7 +200,7 @@ theorem relIndex_inf_dvd_card_of_mul_comm {X S D K : Subgroup G} {p : ℕ}
   have hDDS : D ≤ DS := le_sup_left
   have hSDS : S ≤ DS := le_sup_right
   have hDDSK : DS ≤ K := sup_le hDK hSK
-  haveI hDnormDS : (D.subgroupOf DS).Normal :=
+  have hDnormDS : (D.subgroupOf DS).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (H := DS) (N := D)
       (sup_le Subgroup.le_normalizer hSD)
   have hDSX : (DS : Set G) = (X ⊓ DS : Set G) * (S : Set G) := by
@@ -292,10 +293,10 @@ theorem six_sixteen_A {X S K D W : Subgroup G} {p : ℕ}
     (hfac : ∀ g ∈ K, ∃ d ∈ D, ∃ n ∈ K ⊓ Subgroup.normalizer (W : Set G), g = d * n) :
     ∀ x ∈ X, ∃ n ∈ X ⊓ Subgroup.normalizer (W : Set G), ∃ d ∈ X ⊓ D, x = n * d := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype G := Fintype.ofFinite G
-  letI : MulAction G (Subgroup G) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype G := Fintype.ofFinite G
+  let : MulAction G (Subgroup G) :=
     MulAction.compHom (Subgroup G) (MulAut.conj : G →* MulAut G)
   have hXK : X ≤ K := by rw [hKXS]; exact le_sup_left
   have hSK : S ≤ K := by rw [hKXS]; exact le_sup_right
@@ -307,12 +308,12 @@ theorem six_sixteen_A {X S K D W : Subgroup G} {p : ℕ}
     change W.map (MulAut.conj g).toMonoidHom = W ↔ g ∈ Subgroup.normalizer (W : Set G)
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     rfl
-  letI : MulAction ↥K (Subgroup G) := MulAction.compHom (Subgroup G) K.subtype
-  letI : MulAction ↥X (MulAction.orbit K W) :=
+  let : MulAction ↥K (Subgroup G) := MulAction.compHom (Subgroup G) K.subtype
+  let : MulAction ↥X (MulAction.orbit K W) :=
     MulAction.compHom (MulAction.orbit K W) (Subgroup.inclusion hXK)
-  letI : MulAction ↥D (MulAction.orbit K W) :=
+  let : MulAction ↥D (MulAction.orbit K W) :=
     MulAction.compHom (MulAction.orbit K W) (Subgroup.inclusion hDK)
-  haveI : Finite (MulAction.orbit K W) :=
+  have : Finite (MulAction.orbit K W) :=
     Finite.of_surjective
       (fun k : ↥K => (⟨k • W, MulAction.mem_orbit W k⟩ : MulAction.orbit K W))
       (by rintro ⟨ω, hω⟩; rcases hω with ⟨k, rfl⟩; exact ⟨k, rfl⟩)
@@ -337,7 +338,7 @@ theorem six_sixteen_A {X S K D W : Subgroup G} {p : ℕ}
     change (Subgroup.inclusion hDK ⟨d, hd⟩ : ↥K) • W = k • W
     change d • W = (k : G) • W
     rw [hdn, mul_smul, (hstab n).2 hn.2]
-  haveI : IsPretransitive ↥X (MulAction.orbit K W) := hXtrans
+  have : IsPretransitive ↥X (MulAction.orbit K W) := hXtrans
   obtain ⟨n, hn⟩ : ∃ n, Nat.card (MulAction.orbit K W) = p ^ n := by
     obtain ⟨n, hn⟩ := IsPGroup.card_orbit (p := p) (G := ↥X) (α := MulAction.orbit K W)
       hXp (⟨W, MulAction.mem_orbit_self W⟩ : MulAction.orbit K W)
@@ -367,9 +368,9 @@ theorem six_sixteen_A {X S K D W : Subgroup G} {p : ℕ}
       (hp.dvd_of_dvd_pow (hpdvd.trans hdvd)))
   have hPtrans := isPretransitive_of_coprime_index (D := ↥D)
     (Ω := MulAction.orbit K W) ((D ⊓ X).subgroupOf D) hDtrans hcop
-  letI : MulAction ↥((D ⊓ X).subgroupOf D) (MulAction.orbit K W) :=
+  let : MulAction ↥((D ⊓ X).subgroupOf D) (MulAction.orbit K W) :=
     MulAction.compHom (MulAction.orbit K W) ((D ⊓ X).subgroupOf D).subtype
-  haveI : IsPretransitive ↥((D ⊓ X).subgroupOf D) (MulAction.orbit K W) := hPtrans
+  have : IsPretransitive ↥((D ⊓ X).subgroupOf D) (MulAction.orbit K W) := hPtrans
   intro x hx
   have hxK : x⁻¹ ∈ K := hXK (X.inv_mem hx)
   have hmem : x⁻¹ • W ∈ MulAction.orbit K W :=
@@ -397,8 +398,8 @@ theorem exists_mul_of_isPGroup {V X S : Subgroup G} {p : ℕ}
     {i : ℕ} (hi : i + 1 < E3.sParam hV) :
     ∀ x ∈ X, ∃ a ∈ X ⊓ Subgroup.normalizer (E3.wClos V i S : Set G),
       ∃ b ∈ X ⊓ Subgroup.centralizer (E3.cClos V (i + 1) S : Set G), x = a * b := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSXS : IsSylowIn 2 S (X ⊔ S) := isSylowIn_sup_of_mul_comm hp hp2 hXp hS2 hperm
   have hdisj : X ⊓ S = ⊥ := by
     have hd := IsPGroup.disjoint_of_ne p 2 hp2 X S hXp hS2

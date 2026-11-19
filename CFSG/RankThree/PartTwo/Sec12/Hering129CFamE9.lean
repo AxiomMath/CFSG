@@ -43,7 +43,7 @@ theorem census_card_abar (hD : Census129 c a I X f) :
 theorem census_center_eq_bot (hD : Census129 c a I X f)
     (h3 : ∀ z ∈ Subgroup.center Q, z ^ 3 = 1 → z = 1) : Subgroup.center Q = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (isPGroup_center_of_theta_eq_bot hD.theta_eq_bot).exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl

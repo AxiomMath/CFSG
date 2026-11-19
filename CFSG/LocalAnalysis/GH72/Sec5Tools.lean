@@ -495,7 +495,7 @@ theorem exists_mem_normalizer_of_conj_mem [Finite G] {H B Y : Subgroup G} (hBH :
     (odd_natCard_O H).of_dvd_nat (card_dvd_of_le inf_le_right)
   obtain ⟨k, hk⟩ := hY.exists_card_eq
   have hi : (B ⊓ O H) ⊓ Y = ⊥ := by
-    refine inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hk]
     exact (Nat.coprime_two_right.mpr hodd).pow_right k
   have hcard :
@@ -614,7 +614,7 @@ theorem eq_of_inf_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime] {U R : Subgr
     have : (⟨r, hr⟩ : R) ∈ U.subgroupOf R := htop ▸ mem_top _
     exact this
   have : Group.IsNilpotent R := hR.isNilpotent
-  obtain ⟨r, hrN, hrU⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨r, hrN, hrU⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   refine hrU (h (mem_inf.mpr ⟨r.2, ?_⟩))
   rw [mem_normalizer_iff]
   intro g

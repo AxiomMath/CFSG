@@ -86,7 +86,7 @@ private noncomputable def scG (u : F9ˣ) : OGroup (hermForm 3) := uidToOrth 3 (s
 private theorem scU_of_norm (u : F9ˣ) (hu : σ9 (u : F9) * (u : F9) = 1) :
     scU u = (⟨Matrix.GeneralLinearGroup.scalar (Fin 3) u, scalar_mem_uid_three u hu⟩ :
       Uid σ9 3) := by
-  rw [scU, dif_pos hu]
+  rw [scU, dite_eq_left hu]
 
 private theorem scG_of_norm (u : F9ˣ) (hu : σ9 (u : F9) * (u : F9) = 1) :
     scG u = uidToOrth 3 (⟨Matrix.GeneralLinearGroup.scalar (Fin 3) u,

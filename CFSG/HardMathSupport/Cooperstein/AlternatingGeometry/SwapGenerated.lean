@@ -63,7 +63,7 @@ theorem exists_omegaEquiv_Wr_of_swaps {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
   let P : Ω → Prop := fun x => ∃ y, y ≠ x ∧ swap x y ∈ W
   let σ : Ω → Ω := fun x => if h : P x then Classical.choose h else x
   have hσ : ∀ x, P x → σ x ≠ x ∧ swap x (σ x) ∈ W := fun x hx => by
-    simp only [σ, dif_pos hx]; exact Classical.choose_spec hx
+    simp only [σ, dite_eq_left hx]; exact Classical.choose_spec hx
   have hσu : ∀ x y, y ≠ x → swap x y ∈ W → σ x = y := fun x y hy hxy => by
     have hP : P x := ⟨y, hy, hxy⟩
     exact swap_unique_of_isPGroup hW (hσ x hP).1 hy (hσ x hP).2 hxy

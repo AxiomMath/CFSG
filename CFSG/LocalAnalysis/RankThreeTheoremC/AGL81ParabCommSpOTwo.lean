@@ -40,11 +40,11 @@ theorem mem_center_of_commute_with_range_toGL {m : ℕ} {x : GL (Fin m) K}
 
 theorem eq_one_of_mem_center_of_pow_two_pow [CharP K 2] {m k : ℕ} {t : GL (Fin m) K}
     (ht : t ∈ Subgroup.center (GL (Fin m) K)) (hk : t ^ 2 ^ k = 1) : t = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := Matrix.GeneralLinearGroup.mem_center_iff_val_mem_range_scalar.mp ht
   rcases Nat.eq_zero_or_pos m with rfl | hm
   · exact Units.ext (Matrix.ext fun i => i.elim0)
-  · haveI : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+  · have : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
     have h1 : Matrix.scalar (Fin m) (c ^ 2 ^ k) = Matrix.scalar (Fin m) (1 : K) := by
       rw [map_pow, hc, ← Units.val_pow_eq_pow_val, hk, Units.val_one, map_one]
     have h2 : c ^ 2 ^ k = 1 := Matrix.scalar_inj.mp h1
@@ -55,13 +55,13 @@ theorem eq_one_of_mem_center_of_pow_two_pow [CharP K 2] {m k : ℕ} {t : GL (Fin
 
 theorem pCore_specialLinear_eq_bot [Finite K] [CharP K 2] (m : ℕ) :
     CFSG.pCore 2 (SpecialLinearGroup (Fin m) K) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge m 2 with hm | hm
-  · haveI := subsingleton_specialLinear_of_lt_two (K := K) hm
+  · have := subsingleton_specialLinear_of_lt_two (K := K) hm
     exact Subsingleton.elim _ _
   rcases hm.eq_or_lt with rfl | hm3
   · classical
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact CFSG.Quasithin.SteinbergBK.pCore_two_specialLinearGroup_eq_bot n.pos
       (by rw [Nat.card_eq_fintype_card]; exact hn)
@@ -75,7 +75,7 @@ theorem pCore_specialLinear_eq_bot [Finite K] [CharP K 2] (m : ℕ) :
         have h := CFSG.pCore_isPGroup (p := 2) (G := SpecialLinearGroup (Fin m) K)
         rw [htop] at h
         exact h.of_equiv Subgroup.topEquiv
-      haveI := hP.isNilpotent
+      have := hP.isNilpotent
       exact not_isSolvable_of_isQuasisimple hSL inferInstance
     · rw [eq_bot_iff]
       intro s hs
@@ -94,7 +94,7 @@ theorem pCore_specialLinear_eq_bot [Finite K] [CharP K 2] (m : ℕ) :
 
 theorem eq_bot_of_isPGroup_normal_gl [Finite K] [CharP K 2] {m : ℕ}
     {T : Subgroup (GL (Fin m) K)} [hTn : T.Normal] (hT : IsPGroup 2 T) : T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ : SpecialLinearGroup (Fin m) K →* GL (Fin m) K := SpecialLinearGroup.toGL
   have hnorm : (T.comap ρ).Normal := hTn.comap ρ
   have hle : T.comap ρ ≤ CFSG.pCore 2 (SpecialLinearGroup (Fin m) K) :=
@@ -124,25 +124,27 @@ section LeviNormal
 variable {r : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] {I : Set ℕ}
   (hI : ∀ i ∈ I, i ≤ r) {t : ℕ} (htI : t ∈ I)
 
+omit [Finite K] [CharP K 2] in
 theorem spFlagCutHom_surjective {b : ℕ} (hb : b ∈ I) :
     Function.Surjective (spFlagCutHom (K := K) hI (spFlagPrev_mem I b) hb) := fun A =>
   ⟨⟨spFlagCutEmb (spFlagPrev I b) b (hI b hb) A,
     spFlagCutEmb_mem hI _ (fun _ hc => le_spFlagPrev_or_le hc) A⟩, cutHom_cutEmb hI hb A⟩
 
 include htI in
+omit [Finite K] [CharP K 2] in
 theorem spFlagResHom_surjective (hmax : ∀ c ∈ I, c ≤ t) :
     Function.Surjective (spFlagResHom (K := K) hI htI) := fun c =>
   ⟨⟨spFlagResEmb t c, spFlagResEmb_mem hI hmax c⟩, resHom_resEmb hI htI hmax c⟩
 
 include hI htI in
-theorem le_ker_spFlagLeviHom_of_normal_isPGroup (hI1 : ∀ i ∈ I, 1 ≤ i)
+theorem le_ker_spFlagLeviHom_of_normal_isPGroup (_hI1 : ∀ i ∈ I, 1 ≤ i)
     (hmax : ∀ c ∈ I, c ≤ t) (R : Subgroup ↥(flagStabilizer r K I)) [hR : R.Normal]
     (hRp : IsPGroup 2 R) : R ≤ (spFlagLeviHom hI htI).ker := by
   intro x hx
   rw [MonoidHom.mem_ker]
   refine leviHom_eq_one_of_blocks hI htI (fun b hb => ?_) ?_
   · have hβ := spFlagCutHom_surjective (K := K) hI hb
-    haveI : (R.map (spFlagCutHom (K := K) hI (spFlagPrev_mem I b) hb)).Normal := hR.map _ hβ
+    have : (R.map (spFlagCutHom (K := K) hI (spFlagPrev_mem I b) hb)).Normal := hR.map _ hβ
     have hbot := eq_bot_of_isPGroup_normal_gl (hRp.map (spFlagCutHom (K := K) hI
       (spFlagPrev_mem I b) hb))
     have hmem : spFlagCutHom (K := K) hI (spFlagPrev_mem I b) hb x ∈
@@ -150,7 +152,7 @@ theorem le_ker_spFlagLeviHom_of_normal_isPGroup (hI1 : ∀ i ∈ I, 1 ≤ i)
     rw [hbot] at hmem
     exact Subgroup.mem_bot.mp hmem
   · have hβ := spFlagResHom_surjective (K := K) hI htI hmax
-    haveI : (R.map (spFlagResHom (K := K) hI htI)).Normal := hR.map _ hβ
+    have : (R.map (spFlagResHom (K := K) hI htI)).Normal := hR.map _ hβ
     have hbot := eq_bot_of_isPGroup_normal_statedSp (r - t)
       (hRp.map (spFlagResHom (K := K) hI htI))
     have hmem : spFlagResHom (K := K) hI htI x ∈ R.map (spFlagResHom (K := K) hI htI) :=

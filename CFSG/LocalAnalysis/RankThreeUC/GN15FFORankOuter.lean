@@ -244,9 +244,9 @@ private theorem norm_family_if {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldD
     ∀ j, h.norm ((fun j : Fin 5 => if h : (j : ℕ) < 4 then ζ ^ a ⟨j, h⟩ else 1) j : K) = 1 := by
   intro j
   by_cases hj : (j : ℕ) < 4
-  · simp only [dif_pos hj]
+  · simp only [dite_eq_left hj]
     simpa [zpow_natCast] using unitary_norm_zpow_eq_one h hζ (a ⟨j, hj⟩ : ℤ)
-  · simp only [dif_neg hj]
+  · simp only [dite_eq_right hj]
     simp [UnitaryFieldData.norm]
 
 private theorem prod_four_diagClass {f : ℕ} {K : Type} [Field K]

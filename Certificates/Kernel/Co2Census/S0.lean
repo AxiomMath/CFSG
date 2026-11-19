@@ -77,7 +77,7 @@ theorem chainRec_rec {k : ℕ} (hk : k < 6) :
     rw [hG l hl, colAct_eq]
     rfl
   unfold chainRecOK at hrec
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, List.all_eq_true,
+  simp only [Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true,
     List.mem_range] at hrec
   obtain ⟨⟨⟨hr, hl⟩, hpos⟩, hle⟩ := hrec
   exact (CFSG.KC.Co2SmithS.orbRec_sound (cap := 100) hpos hle hstep (Nat.eq_of_beq_eq_true hl) (by
@@ -169,7 +169,7 @@ theorem repK_sElt
 theorem gensSub_gAB : gensSub gAB 2 = S0 := by
   have e : gAB '' {l | l < 2} = {aE, bE} := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff, gAB]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, gAB]
     constructor
     · rintro ⟨l, hl, rfl⟩
       rcases (by omega : l = 0 ∨ l = 1) with rfl | rfl
@@ -223,10 +223,10 @@ theorem repK_s0Rep
   obtain ⟨-, -, -, -, h4, h5, -, h7⟩ := L_misc_spec
   by_cases h0 : j = 0
   · subst h0
-    rw [s0Rep, if_pos rfl, h4, h5]
+    rw [s0Rep, ite_eq_left rfl, h4, h5]
     exact repK_one
   · obtain ⟨j', rfl⟩ := Nat.exists_eq_succ_of_ne_zero h0
-    rw [s0Rep, if_neg h0, Nat.succ_sub_one, (h7 j' (by omega)).1]
+    rw [s0Rep, ite_eq_right h0, Nat.succ_sub_one, (h7 j' (by omega)).1]
     exact repK_sElt _
 
 theorem s0_class

@@ -19,7 +19,7 @@ section Certified
 
 theorem fs79Co3Excluded_of_catalog (hKD : KDCo3Cat) : FS79Co3Excluded := by
   intro G _ _ L h hL
-  haveI := h.simple
+  have := h.simple
   obtain ⟨z, t, T₀, P, x, hcfg, hP, hTP, hx, hxT, -, hxz, hxt⟩ := co3_inner_swap h hL
   have hT₀ : Nat.card T₀ = 2 ^ 10 := card_T₀_eq hcfg hL
   obtain ⟨Q, hQ, hQdvd⟩ := exists_sylow_le_centralizer hcfg hP hTP hx hxT hxz hxt

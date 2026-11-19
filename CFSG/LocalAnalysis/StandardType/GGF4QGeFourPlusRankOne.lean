@@ -187,8 +187,8 @@ theorem plusMember_native {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X : Subg
                     ((τ (Pi.mulSingle k (ofAdd 1)) : ↥(orthDerived Q)) :
                       V ≃ₗ[GaloisField 2 f] V)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     have h2 : (2 : ℕ) ∣ 1 :=
@@ -483,7 +483,7 @@ theorem plusMember_native {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X : Subg
       by_cases h : m' = m
       · subst h
         simp
-      · simp [Pi.mulSingle_eq_of_ne h, h]
+      · simp [h]
     rcases OmPlusFrame.spAct_reflection_cases hp2 hε h2 hcardFx with
       ⟨rfl, j, hj, hi⟩ | ⟨i, j, k, hij, hik, hjk, hiπ, hjπ, hkπ, hεjk, hεi⟩
     ·
@@ -546,8 +546,8 @@ theorem plusMember_native {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X : Subg
         (hfixed_single k hεk) (hfixed_single l hεl)
       have e := e0.trans (MulEquiv.subgroupCongr hN)
       have hS : IsSimpleGroup ↥(ggRankOneIn X Bs φ) := by
-        haveI := hsimp
-        haveI : Nontrivial ↥(ggRankOneIn X Bs φ) := e.toEquiv.nontrivial
+        have := hsimp
+        have : Nontrivial ↥(ggRankOneIn X Bs φ) := e.toEquiv.nontrivial
         exact IsSimpleGroup.isSimpleGroup_of_surjective e.symm.toMonoidHom e.symm.surjective
       have hnab' : ∃ g h : ↥(ggRankOneIn X Bs φ), g * h ≠ h * g := by
         obtain ⟨g, h, hgh⟩ := hnab
@@ -624,9 +624,9 @@ theorem plusMember_native {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X : Subg
           rcases OmPlusFrame.fin_three_cases hij hik hjk m with rfl | rfl | rfl
           · rw [(hcoordv _).2.2]
           · rw [(hcoordv _).2.1]
-            simp [hjk, Ne.symm hjk, hηη]
+            simp [Ne.symm hjk, hηη]
           · rw [(hcoordv _).1]
-            simp [hjk, Ne.symm hjk]
+            simp [Ne.symm hjk]
         · rw [hℓτ]
           refine congrArg τΩ ?_
           apply hcoordeq
@@ -791,7 +791,7 @@ theorem plusMember_facts {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X : Subgr
           Nat.card ↥(ggRankOneIn X Bs φ') = 2 ^ f * ((2 ^ f) ^ 2 - 1))) ∧
     Nat.card ↥Bs = p ^ 3 * Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨V, _, _, _, Q, ψΩ, τ, cv, -, -, -, hcardBs, -, hcvsurj, -, hA, hinj, hper⟩ :=
     plusMember_native hp hBs hNT hf hpq hker hrange hℓ hkerℓ hZX hrankℓ
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)

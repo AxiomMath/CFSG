@@ -152,7 +152,7 @@ theorem tmOrb_cmap7_inv (x : Fin 7 → ZMod 3) :
   simp only [tmOrb_cmap7, Finset.mul_sum, ← mul_assoc]
   rw [Finset.sum_comm]
   simp only [← Finset.sum_mul, h, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ,
-    if_true]
+    ite_true]
 
 theorem tmOrb_cmap7_injective : Function.Injective tmOrb_cmap7 := fun x y hxy => by
   rw [← tmOrb_cmap7_inv x, ← tmOrb_cmap7_inv y, hxy]
@@ -162,7 +162,7 @@ theorem tmOrb_dual7_cmap7 (i : Fin 7) (x : Fin 7 → ZMod 3) :
   funext k
   simp only [tmOrb_dual7, tmOrb_cmap7, tmOrb_refl7, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
     mul_add, Finset.sum_add_distrib, Pi.single_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [tmOrb_negCart7_symm i k]
   congr 1
   rw [mul_comm]

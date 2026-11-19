@@ -52,10 +52,12 @@ open CFSG.ClassicalInvolution.Phan CFSG.ClassicalInvolution.Balance.StrongBalanc
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
-private def qTwoNGB_ufd (hK : Nat.card K = 4) :
+omit [Finite K] [CharP K 2] in
+private theorem qTwoNGB_ufd (hK : Nat.card K = 4) :
     CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 K :=
   ⟨Nat.prime_two, le_refl 1, by rw [hK]; norm_num⟩
 
+omit [Field K] [Finite K] [CharP K 2] in
 private theorem qTwoNGB_card_eq (hK : Nat.card K = 4) : Nat.card K = ((2 : ℕ) ^ 1) ^ 2 := by
   rw [hK]; norm_num
 

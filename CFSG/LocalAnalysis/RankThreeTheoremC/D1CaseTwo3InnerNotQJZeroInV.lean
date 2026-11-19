@@ -24,6 +24,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Hyp111
 
+omit [Finite G] in
 theorem mem_normalizer_oUpperTwo {X : Subgroup G} {n : G} (hn : n ∈ X) :
     n ∈ normalizer (CFSG.ComponentClassification.AS76b.oUpperTwo X : Set G) := by
   rw [mem_normalizer_iff_map_conj_eq, CFSG.ComponentClassification.AS76b.oUpperTwo,

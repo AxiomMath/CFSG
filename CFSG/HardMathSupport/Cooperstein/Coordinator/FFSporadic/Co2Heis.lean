@@ -138,8 +138,8 @@ theorem heisA_ambient :
       (by simpa [wordValue, letterValue, List.getD_eq_getElem?_getD, mul_assoc, pow_succ] using E ([34, 38], [38, 34]) (by simp [heisEqs])) (by simpa [wordValue, letterValue, List.getD_eq_getElem?_getD, mul_assoc, pow_succ] using E ([40, 44], [44, 40]) (by simp [heisEqs])) (by simpa [wordValue, letterValue, List.getD_eq_getElem?_getD, mul_assoc, pow_succ] using E ([34, 44], [44, 34]) (by simp [heisEqs])) (by simpa [wordValue, letterValue, List.getD_eq_getElem?_getD, mul_assoc, pow_succ] using E ([38, 40], [40, 38]) (by simp [heisEqs])) hne,
     ?_, ?_⟩
 
-  · intro i; fin_cases i <;> first | exact heisVals_mem _ | (simp; exact heisVals_mem _)
-  · intro i; fin_cases i <;> first | exact heisVals_mem _ | (simp; exact heisVals_mem _)
+  · intro i; fin_cases i <;> (simp; exact heisVals_mem _)
+  · intro i; fin_cases i <;> (simp; exact heisVals_mem _)
 
   · intro i; fin_cases i
     · exact (by simpa [wordValue, letterValue, List.getD_eq_getElem?_getD, mul_assoc, pow_succ] using E ([40, 40, 40], []) (by simp [heisEqs]))

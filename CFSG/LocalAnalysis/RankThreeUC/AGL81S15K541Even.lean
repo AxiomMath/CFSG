@@ -63,7 +63,7 @@ theorem nonempty_equiv_sl3_of_catalog_A2 {S : Type} [Group S] (d : TauCeti.Valid
   simp only at hQ2 hQe
   subst hQ2
   subst hQe
-  haveI : Fact (Nat.Prime 2) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨hp⟩
   have hcard : Nat.card (GaloisField 2 ex) % 3 = 2 := by
     rw [GaloisField.card 2 ex hex.ne']
     obtain ⟨m, rfl⟩ := hn
@@ -87,7 +87,7 @@ theorem nonempty_equiv_sl3_two_of_catalog_A1 {S : Type} [Group S] (d : TauCeti.V
   subst hp7
   have hex1 : ex = 1 := Nat.pow_right_injective (by norm_num : 2 ≤ 7) (hq7'.trans (pow_one 7).symm)
   subst hex1
-  haveI : Fact (Nat.Prime 7) := ⟨hp⟩
+  have : Fact (Nat.Prime 7) := ⟨hp⟩
   let φ : GaloisField 7 1 ≃+* ZMod 7 := (GaloisField.equivZmodP 7).toRingEquiv
   obtain ⟨e3⟩ := CFSG.LocalAnalysis.ComponentInitial.nonempty_GL_three_two_equiv_PSL_two_seven
   let e4 : GL (Fin 3) (ZMod 2) ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2) :=

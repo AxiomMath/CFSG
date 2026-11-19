@@ -231,7 +231,7 @@ theorem uc22s218_g2_pRank_eq_two {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hY :
     rw [hK', hfac]
     exact dvd_mul_of_dvd_right hrn _
   unfold CFSG.LocalAnalysis.RankThreeUC.S15.rkG2
-  rw [if_pos ((CFSG.LocalAnalysis.RankThreeUC.S15.eS_eq_one_iff hq1).2 h1)]
+  rw [ite_eq_left ((CFSG.LocalAnalysis.RankThreeUC.S15.eS_eq_one_iff hq1).2 h1)]
 
 theorem uc22s218_g2_pRank_le_two {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hY : IsG2 Y n)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : CFSG.Open.pRank p (⊤ : Subgroup Y) ≤ 2 := by

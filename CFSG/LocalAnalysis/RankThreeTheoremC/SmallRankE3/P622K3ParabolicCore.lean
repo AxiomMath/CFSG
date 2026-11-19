@@ -22,7 +22,7 @@ theorem projSL3_parabolic_section {F : Type} [Field F] [Finite F] [CharP F 2]
       H ≤ (stabilizer (flagSpace 3 F d)).map (proj 3 F) ∧ S622IsSimpleSection H N ∧ z ∈ H ∧
         z ∉ N ∧ 3 ∣ N.relIndex H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hev : Even (Nat.card F) := by
     have := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
@@ -43,7 +43,7 @@ theorem projSL3_parabolic_section {F : Type} [Field F] [Finite F] [CharP F 2]
       (by omega)
   have hnc : ∃ a b : SL(2, F), a * b ≠ b * a :=
     CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.Parrott.P614.P614K136.SL2_nonabelian F
-  haveI hDn : (Nr.subgroupOf B).Normal := by rw [← hrad]; infer_instance
+  have hDn : (Nr.subgroupOf B).Normal := by rw [← hrad]; infer_instance
   let e : ↥B ⧸ Nr.subgroupOf B ≃* SL(2, F) :=
     (QuotientGroup.quotientMulEquivOfEq hrad).symm.trans (e1.trans e2)
   have hsec : S622IsSimpleSection B Nr := isSimpleSection_of_quotient_equiv hNB e hsl2 hnc
@@ -104,7 +104,7 @@ theorem projSL3_parabolic_section {F : Type} [Field F] [Finite F] [CharP F 2]
       rw [Nat.pow_mod, hq2]
     omega
   have hzB : z ∈ B := by
-    haveI hBn : (B.subgroupOf P).Normal := by
+    have hBn : (B.subgroupOf P).Normal := by
       have hBP' : B.subgroupOf P = CFSG.perfectResidual P := by
         rw [hB]
         exact Subgroup.comap_map_eq_self_of_injective P.subtype_injective _

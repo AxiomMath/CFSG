@@ -38,7 +38,7 @@ theorem exists_sylow_extension
     intro x hx
     obtain ⟨r,_,rfl⟩ := Subgroup.mem_map.mp hx
     exact r.property.2
-  have hA : IsPGroup p A := R.isPGroup'.map K.subtype
+  have hA : IsPGroup p A := R.isPGroup.map K.subtype
   have hAFp : IsPGroup p (A.subgroupOf F) := hA.comap_subtype
   obtain ⟨S,hAS⟩ := hAFp.exists_le_sylow
   let H : Subgroup G := (S : Subgroup F).map F.subtype
@@ -51,7 +51,7 @@ theorem exists_sylow_extension
     intro x hx
     obtain ⟨s,_,rfl⟩ := Subgroup.mem_map.mp hx
     exact s.property
-  have hH : IsPGroup p H := S.isPGroup'.map F.subtype
+  have hH : IsPGroup p H := S.isPGroup.map F.subtype
   have hHcard : Nat.card H=p^(Nat.card F).factorization p := by
     have he := Nat.card_congr ((S : Subgroup F).equivMapOfInjective F.subtype Subtype.val_injective).toEquiv
     exact he.symm.trans S.card_eq_multiplicity

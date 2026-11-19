@@ -251,7 +251,7 @@ theorem exists_three_fpf (hc : Ctx19 S U M V x z A B R) (h194M : pPrimeCore 2 �
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Hh, H₀, hN, -, hH₀Hh, ⟨e⟩, -, -, -, hfpf, -⟩ := hc.concl.normalizerT
   have hTM : Tsub S U ≤ M := T_le_S.trans (S_le_M hc)
-  have hTp : IsPGroup 2 ↥(Tsub S U) := S.isPGroup'.to_le T_le_S
+  have hTp : IsPGroup 2 ↥(Tsub S U) := S.isPGroup.to_le T_le_S
   obtain ⟨σ, hσ⟩ : ∃ σ : Equiv.Perm (Fin 3), orderOf σ = 3 :=
     ⟨finRotate 3, orderOf_eq_prime (by decide) (by decide)⟩
   set a₀ : ↥H₀ := e.symm σ with ha₀

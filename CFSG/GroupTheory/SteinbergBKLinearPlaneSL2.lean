@@ -270,7 +270,7 @@ theorem sl2_le_of_no_normal_pgroup {p : ℕ} [hp : Fact p.Prime] [Finite k] (hk 
     exact ⟨rfl, (smul_eq_zero.mp hst).resolve_right hw0⟩
   set P := gl2ColMatrix v₁ w with hP
   have hPunit : IsUnit P := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit, hP, gl2ColMatrix_col]
+    rw [← Matrix.linearIndependent_col_iff_isUnit, hP, gl2ColMatrix_col]
     exact hind
   set PG : GL (Fin 2) k := hPunit.unit with hPG
   have hPGval : (PG : Matrix (Fin 2) (Fin 2) k) = P := rfl

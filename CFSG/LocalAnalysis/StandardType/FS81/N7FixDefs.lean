@@ -72,14 +72,14 @@ theorem q2nN7_sgn_eq_spMat (S : Finset (Fin 8)) :
   by_cases h : i = j
   · subst h
     simp [sgn, spMat_apply]
-  · simp [sgn, spMat_apply, Matrix.diagonal_apply_ne _ h, h]
+  · simp [sgn, spMat_apply, h]
 
 theorem q2nN7_sgn_mul (S T : Finset (Fin 8)) : sgn S * sgn T = sgn (symmDiff S T) := by
   unfold sgn
   rw [Matrix.diagonal_mul_diagonal]
   congr 1
   funext i
-  by_cases hS : i ∈ S <;> by_cases hT : i ∈ T <;> simp [hS, hT, Finset.mem_symmDiff] <;> decide
+  by_cases hS : i ∈ S <;> by_cases hT : i ∈ T <;> simp [hS, hT, Finset.mem_symmDiff]
 
 theorem q2nN7_sgn_empty : sgn ∅ = 1 := by
   simp [sgn, Matrix.diagonal_one]
@@ -97,9 +97,9 @@ theorem q2nN7_sgn_injective : Function.Injective sgn := by
   simp only [sgn, Matrix.diagonal_apply_eq] at h1
   by_cases hS : i ∈ S <;> by_cases hT : i ∈ T
   · exact iff_of_true hS hT
-  · rw [if_pos hS, if_neg hT] at h1
+  · rw [ite_eq_left hS, ite_eq_right hT] at h1
     exact absurd h1 (by decide)
-  · rw [if_neg hS, if_pos hT] at h1
+  · rw [ite_eq_right hS, ite_eq_left hT] at h1
     exact absurd h1 (by decide)
   · exact iff_of_false hS hT
 
@@ -117,7 +117,7 @@ theorem q2nN7_sgn_mulVec (S : Finset (Fin 8)) (v : Fin 8 → ZMod 3) :
   funext i
   simp only [sgn, Matrix.mulVec_diagonal]
   by_cases h : i ∈ S
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     exact neg_one_mul _
   · simp [h]
 

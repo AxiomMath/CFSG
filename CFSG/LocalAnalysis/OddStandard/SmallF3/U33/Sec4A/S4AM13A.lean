@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 theorem m13_comm_R (h : L41GPh10 t L S x₁ x₂ lam rho) {a b : G} (ha : a ∈ l41R t x₁ x₂ rho)
     (hb : b ∈ l41R t x₁ x₂ rho) : a * b = b * a := by
-  haveI := h.rab
+  have := h.rab
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(l41R t x₁ x₂ rho)) ⟨b, hb⟩)
 
 theorem m13_t_mem_N (h : L41GPh3 t L S x₁ x₂ lam rho) : t ∈ l41N t x₁ x₂ :=

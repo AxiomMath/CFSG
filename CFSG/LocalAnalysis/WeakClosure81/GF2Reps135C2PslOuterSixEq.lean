@@ -52,7 +52,7 @@ theorem w135c2_six_three_graph_eq {K : Type} [Field K] [Fintype K] [CharP K 2]
         (B : Matrix (Fin 6) (Fin 6) K) = 1 := by
       rw [← Matrix.GeneralLinearGroup.coe_mul, inv_mul_cancel, Matrix.GeneralLinearGroup.coe_one]
     rw [← minorMatrix_mul, h1, minorMatrix_one]
-  haveI hntW : Nontrivial W := by
+  have hntW : Nontrivial W := by
     obtain ⟨x, hx⟩ := hne
     have hx' : ¬ ∀ y : W, ρ x y = y := by
       intro hy
@@ -72,7 +72,7 @@ theorem w135c2_six_three_graph_eq {K : Type} [Field K] [Fintype K] [CharP K 2]
         rw [Matrix.mulVec_mulVec, hPP', Matrix.one_mulVec]
       map_add' := fun a b => Matrix.mulVec_add PB a b }
   let D0a : V ≃+ V := rev.toAddEquiv.trans mulPA
-  letI : Module (ZMod 2) V :=
+  let : Module (ZMod 2) V :=
     AddCommGroup.zmodModule (G := V) (n := 2) fun x => by
       ext s
       show (2 : ℕ) • x s = 0
@@ -135,7 +135,7 @@ theorem w135c2_six_three_graph_eq {K : Type} [Field K] [Fintype K] [CharP K 2]
     (Nat.card_congr (Representation.IntertwiningMap.equivAlgEnd ρ).toEquiv).trans hcardEnd
   have htwo : ∀ f : ρ.IntertwiningMap ρ, f = 0 ∨ f = 1 := by
     obtain ⟨y, hy, hyu⟩ := (Nat.card_eq_two_iff' (0 : ρ.IntertwiningMap ρ)).1 hcard
-    haveI : Nontrivial (ρ.IntertwiningMap ρ) := ⟨⟨y, 0, hy⟩⟩
+    have : Nontrivial (ρ.IntertwiningMap ρ) := ⟨⟨y, 0, hy⟩⟩
     intro f
     by_cases hf : f = 0
     · exact Or.inl hf

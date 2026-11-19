@@ -54,7 +54,7 @@ theorem hgen_of_le_normalClosure [Finite V] (hKinv : Invariant K J) {a : GLV V}
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hl
   have h1 : γ * a ^ n * γ⁻¹ = (γ * a * γ⁻¹) ^ n := by
     have := map_zpow (MulAut.conj γ) a n
-    simpa using this
+    simp
   rw [h1]
   have hgen : γ * a * γ⁻¹ ∈ Subgroup.closure {s | s ∈ K ∧ IsTransvOn J s} :=
     Subgroup.subset_closure

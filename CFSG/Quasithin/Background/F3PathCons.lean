@@ -25,13 +25,13 @@ variable {n : ℕ}
     · obtain ⟨j, rfl⟩ : ∃ j, i = j + 1 := ⟨i - 1, by omega⟩
       show Γ.Adj (if j + 1 = 0 then y else p (j + 1 - 1))
         (if j + 1 + 1 = 0 then y else p (j + 1 + 1 - 1))
-      rw [if_neg (by omega : ¬ (j + 1 = 0)), if_neg (by omega : ¬ (j + 1 + 1 = 0)),
+      rw [ite_eq_right (by omega : ¬ (j + 1 = 0)), ite_eq_right (by omega : ¬ (j + 1 + 1 = 0)),
         show j + 1 - 1 = j by omega, show j + 1 + 1 - 1 = j + 1 by omega]
       exact p.adj j (by omega)
   tail i hi := by
     have h1 : i ≠ 0 := by omega
     show (if i = 0 then y else p (i - 1)) = (if n + 1 = 0 then y else p (n + 1 - 1))
-    rw [if_neg h1, if_neg (by omega : ¬ (n + 1 = 0)), show n + 1 - 1 = n by omega]
+    rw [ite_eq_right h1, ite_eq_right (by omega : ¬ (n + 1 = 0)), show n + 1 - 1 = n by omega]
     exact p.tail (i - 1) (by omega)
 
 @[simp] theorem cons_zero (y : V) {n : ℕ} (p : GPath Γ n) (h : Γ.Adj y (p 0)) :
@@ -40,7 +40,7 @@ variable {n : ℕ}
 @[simp] theorem cons_succ (y : V) {n : ℕ} (p : GPath Γ n) (h : Γ.Adj y (p 0)) (i : ℕ) :
     cons y p h (i + 1) = p i := by
   show (if i + 1 = 0 then y else p (i + 1 - 1)) = p i
-  rw [if_neg (by omega : ¬ (i + 1 = 0)), show i + 1 - 1 = i by omega]
+  rw [ite_eq_right (by omega : ¬ (i + 1 = 0)), show i + 1 - 1 = i by omega]
 
 theorem noBack_cons (y : V) {n : ℕ} (p : GPath Γ n) (h : Γ.Adj y (p 0))
     (hp : p.NoBack) (hy : y ≠ p 1) : (cons y p h).NoBack := by
@@ -87,20 +87,20 @@ theorem noBack_nil (v : V) : (nil (Γ := Γ) v).NoBack := by
     by_cases hlt : i < n
     · have e1 : i ≤ n := by omega
       have e2 : i + 1 ≤ n := by omega
-      simp only [e1, e2, if_true]
+      simp only [e1, e2, ite_true]
       exact p.adj i hlt
     · by_cases heq : i = n
       · subst i
         have hk : 0 < m := by omega
         change Γ.Adj (if n ≤ n then p n else q (n - n))
           (if n + 1 ≤ n then p (n + 1) else q (n + 1 - n))
-        rw [if_pos le_rfl, h, if_neg (by omega)]
+        rw [ite_eq_left le_rfl, h, ite_eq_right (by omega)]
         have e : n + 1 - n = 1 := by omega
         rw [e]
         exact q.adj 0 hk
       · have h1 : ¬ i ≤ n := by omega
         have h2 : ¬ i + 1 ≤ n := by omega
-        simp only [h1, h2, if_false]
+        simp only [h1, h2, ite_false]
         have e : i + 1 - n = (i - n) + 1 := by omega
         rw [e]
         exact q.adj (i - n) (by omega)
@@ -112,39 +112,39 @@ theorem noBack_nil (v : V) : (nil (Γ := Γ) v).NoBack := by
       subst i
       change (if n ≤ n then p n else q (n - n)) =
         (if n + 0 ≤ n then p (n + 0) else q (n + 0 - n))
-      rw [if_pos le_rfl, if_pos (by omega)]
+      rw [ite_eq_left le_rfl, ite_eq_left (by omega)]
       simp
     · have h1 : ¬ i ≤ n := by omega
       by_cases hm0 : m = 0
       · subst m
         change (if i ≤ n then p i else q (i - n)) =
           (if n ≤ n then p n else q (n - n))
-        rw [if_neg h1, if_pos le_rfl]
+        rw [ite_eq_right h1, ite_eq_left le_rfl]
         have hq : q (i - n) = q 0 := q.tail (i - n) (by omega)
         rw [hq, ← h]
       · have hmpos : 0 < m := by omega
         change (if i ≤ n then p i else q (i - n)) =
           (if n + m ≤ n then p (n + m) else q (n + m - n))
-        rw [if_neg h1, if_neg (by omega), Nat.add_sub_cancel_left]
+        rw [ite_eq_right h1, ite_eq_right (by omega), Nat.add_sub_cancel_left]
         exact q.tail (i - n) (by omega)
 
 @[simp] theorem append_apply_left {m : ℕ} (p : GPath Γ n) (q : GPath Γ m) (h : p n = q 0)
     {i : ℕ} (hi : i ≤ n) : append p q h i = p i := by
   show (if i ≤ n then p i else q (i - n)) = p i
-  rw [if_pos hi]
+  rw [ite_eq_left hi]
 
 theorem append_apply_right {m : ℕ} (p : GPath Γ n) (q : GPath Γ m) (h : p n = q 0)
     {i : ℕ} (hi : n ≤ i) : append p q h i = q (i - n) := by
   by_cases heq : i = n
   · subst i
     show (if n ≤ n then p n else q (n - n)) = q (n - n)
-    rw [if_pos le_rfl, Nat.sub_self, h]
+    rw [ite_eq_left le_rfl, Nat.sub_self, h]
   · have hlt : ¬ i ≤ n := by omega
     show (if i ≤ n then p i else q (i - n)) = q (i - n)
-    rw [if_neg hlt]
+    rw [ite_eq_right hlt]
 
 theorem noBack_append {m : ℕ} (p : GPath Γ n) (q : GPath Γ m) (h : p n = q 0)
-    (hp : p.NoBack) (hq : q.NoBack) (hn : 0 < n) (hm : 0 < m)
+    (hp : p.NoBack) (hq : q.NoBack) (hn : 0 < n) (_hm : 0 < m)
     (hcross : p (n - 1) ≠ q 1) : (append p q h).NoBack := by
   intro i hi heq
   by_cases hlt : i + 2 ≤ n

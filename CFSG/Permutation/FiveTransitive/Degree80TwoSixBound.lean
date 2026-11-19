@@ -25,7 +25,7 @@ private theorem orbit_geometry
       ∀ x : X, Nat.card (orbit (sylowImage X P s S) x) ≤ 2 := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hX : Nat.card X = 80 := by rwa [Nat.card_eq_fintype_card]
   have hfixed : Nat.card (fixedPoints Q X) = 6 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
@@ -53,7 +53,7 @@ theorem sylow_card_le_eight
   let _ : Fact (Nat.Prime 2) := ⟨by decide⟩
   let Q := sylowImage X P s S
   let _ : Fintype Q := Fintype.ofFinite _
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixed : Nat.card (fixedPoints Q X) = 6 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF

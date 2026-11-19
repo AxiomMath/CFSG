@@ -207,7 +207,7 @@ theorem cmK_spec {k : Nat} (h : cmK D T N k = true) :
   rw [PK.allN_iff] at h
   intro i hi hc
   have := h i hi
-  rw [PK.bIf_eq, if_pos hc, bitK_eq] at this
+  rw [PK.bIf_eq, ite_eq_left hc, bitK_eq] at this
   exact this
 
 theorem cenK_iff {X A B : Nat} {σ α β : Equiv.Perm (Fin 14)} (hX : Rep X σ) (hA : Rep A α)
@@ -278,9 +278,9 @@ theorem resK_spec {r : Nat} (h : resK D T r = true) :
   simp only [PK.strictB_eq, PK.bIf_eq, Nat.add_eq] at h
   constructor
   · intro h0
-    rwa [if_pos (by rw [h0]; rfl)] at h
+    rwa [ite_eq_left (by rw [h0]; rfl)] at h
   · intro h0
-    rwa [if_neg (fun e => h0 (beq_true e))] at h
+    rwa [ite_eq_right (fun e => h0 (beq_true e))] at h
 
 theorem tripK_spec {k₁ k₂ k₃ : Nat} (h : tripK D k₁ k₂ k₃ = true) {j : Nat} (hj : j < 32)
     (hc0 : fget (D (56 + k₁)) j 14 ≠ 0)
@@ -293,11 +293,11 @@ theorem tripK_spec {k₁ k₂ k₃ : Nat} (h : tripK D k₁ k₂ k₃ = true) {j
   simp only [PK.strictB_eq, Nat.add_eq, Nat.mul_eq] at h
   rw [PK.allN_iff] at h
   have := h j hj
-  rw [PK.bIf_eq, if_pos (by
+  rw [PK.bIf_eq, ite_eq_left (by
     rw [PK.bAnd_eq, PK.bAnd_eq, bitK_eq, bitK_eq, hc2, hc3, Bool.and_true, Bool.and_true,
       Bool.not_eq_true']
     exact Bool.eq_false_iff.2 fun e => hc0 (beq_true e))] at this
-  simp only [PK.strictB_eq, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Bool.not_eq_true'] at this
+  simp only [PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Bool.not_eq_true'] at this
   obtain ⟨h0, hlt, he, hs2, hs⟩ := this
   exact ⟨_, fun e => by rw [e] at h0; exact absurd h0 (by decide), hlt, beq_true he, hs2, hs⟩
 

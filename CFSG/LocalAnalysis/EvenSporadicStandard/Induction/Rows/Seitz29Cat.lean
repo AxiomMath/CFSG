@@ -71,7 +71,7 @@ theorem exceptionalOrders_even_cases {t : StatedLieTag} {n f : ℕ}
     (t = .PSU ∧ n = 6 ∧ f = 1) ∨ (t = .twistedB2 ∧ n = 0 ∧ f = 3) ∨
     (t = .PSL ∧ n = 3 ∧ f = 2) := by
   unfold exceptionalOrders at h
-  split at h <;> first | simp_all | (revert h; decide)
+  split at h <;> first | simp_all
 
 theorem card_lt_of_exceptional {c : ℕ} {t : StatedLieTag} {n f : ℕ}
     (h : (t = .PSL ∧ n = 2 ∧ f = 2) ∨ (t = .PSL ∧ n = 3 ∧ f = 1) ∨ (t = .PSL ∧ n = 4 ∧ f = 1) ∨
@@ -160,7 +160,7 @@ theorem seitz29OddCat_of_inputs
       exact (false_of_oddLie_fixedComponent hGLS hO (oddLieType_of_alternating_six ⟨θ⟩) hσ hD
         hDcard).elim
     · obtain ⟨k, hk5, -, -, ⟨eA⟩⟩ := alt_arm hn hn6 θ hσ hD
-      haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
       have hk : Nat.card (↥D ⧸ center ↥D) = k.factorial / 2 := by
         rw [Nat.card_congr eA.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
       exact (factorial_div_two_ne k (hk.symm.trans hDcard)).elim

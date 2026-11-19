@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem s16t3_card_iso_eq_of_trans (hq : CFSG.Open.IsQuasisimple ↥L)
     (htrans : ∀ I₁ ∈ irrSet L, ∀ I₂ ∈ irrSet L,
       ∃ g ∈ Subgroup.normalizer (L : Set (MulAut W)), I₂ = I₁.map g.toMonoidHom)
@@ -21,7 +22,7 @@ theorem s16t3_card_iso_eq_of_trans (hq : CFSG.Open.IsQuasisimple ↥L)
         XMod.IsIrr ↥L J ∧ XMod.Iso ↥L J Y₁} =
       Nat.card {J : Subgroup (W ⧸ modFix L (⊤ : Subgroup W)) //
         XMod.IsIrr ↥L J ∧ XMod.Iso ↥L J Y₂} := by
-  letI : MulDistribMulAction ↥(Subgroup.normalizer (L : Set (MulAut W)))
+  let : MulDistribMulAction ↥(Subgroup.normalizer (L : Set (MulAut W)))
       (W ⧸ modFix L (⊤ : Subgroup W)) :=
     quotAct (X := L) (W := (⊤ : Subgroup W)) le_rfl (fun _ _ _ _ => trivial)
   obtain ⟨hI₁, hY₁⟩ := s16t3_lift hq h₁

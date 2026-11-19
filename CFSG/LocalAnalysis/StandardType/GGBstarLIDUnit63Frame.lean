@@ -169,7 +169,7 @@ theorem exists_unitary_frame63 [Finite K] {h : UnitaryFieldData 2 n K}
     have hf3 : f ^ 3 = (l : K) • (1 : Module.End K R) := by
       refine LinearMap.ext fun v => Subtype.ext ?_
       rw [hfpow, ← Units.val_pow_eq_pow_val, hM3]
-      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mulVec_diagonal]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
     have hdet := congrArg LinearMap.det hf3
     rw [map_pow, LinearMap.det_smul, map_one, mul_one] at hdet
     have hl0 : (l : K) ≠ 0 := l.ne_zero

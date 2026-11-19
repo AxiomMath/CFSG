@@ -59,6 +59,7 @@ private theorem s16h_card_map_mul_card_inf_ker_cond {H N : Type*} [Group H] [Gro
   rw [h2, mul_comm] at h1
   exact h1
 
+omit [Finite G] in
 private theorem s16h_card_inf_preBarSub_eq {M V₀ V E : Subgroup G} (hV : IsElemAbelian 2 V)
     (hEM : E ≤ M) (hEs : E ≤ stabTil V₀ V) (Xbar : Subgroup (MulAut (Vtil V₀ V hV))) :
     Nat.card ↥(E ⊓ preBarSub M V₀ V hV Xbar) =
@@ -87,7 +88,7 @@ private theorem s16h_card_inf_preBarSub_eq {M V₀ V E : Subgroup G} (hV : IsEle
   exact h1.symm
 
 private theorem s16h_conj_mem_centSub {W : Type*} [CommGroup W] {U : Subgroup W}
-    {g φ : MulAut W} (hg : ∀ u ∈ U, g u ∈ U) (hg' : ∀ u ∈ U, g⁻¹ u ∈ U)
+    {g φ : MulAut W} (_hg : ∀ u ∈ U, g u ∈ U) (hg' : ∀ u ∈ U, g⁻¹ u ∈ U)
     (hφ : φ ∈ centSub U) : g * φ * g⁻¹ ∈ centSub U := by
   intro u hu
   rw [MulAut.mul_apply, MulAut.mul_apply, hφ (g⁻¹ u) (hg' u hu)]
@@ -105,7 +106,7 @@ theorem s16h_uniqueMax_of_fix_two (D : Data G) (h61 : UC6.R6_1 D) (h127 : R127 D
       UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G)) := by
   have hV := h.hyp151.isElemAbelian
   have hpp := D.sig_prime q hq
-  haveI : Fact q.Prime := ⟨hpp.1⟩
+  have : Fact q.Prime := ⟨hpp.1⟩
   have hq2le : 2 ≤ q := hpp.1.two_le
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp151.hyp125.pairFacts.le_normalizer

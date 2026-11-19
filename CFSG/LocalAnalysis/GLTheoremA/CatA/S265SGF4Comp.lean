@@ -87,13 +87,13 @@ theorem SG.model_of_le_component_F4 {F : Type} [Field F] [Finite F] {f : ℕ}
     exact ⟨⟨Nat.prime_two, le_rfl, by norm_num, by simp⟩, F', inferInstance, inferInstance,
       by rw [hF']; norm_num, ⟨e.trans (QuotientGroup.quotientMulEquivOfEq
         (CFSG.LieType.Universal.Symplectic.center_eq 3 F'))⟩⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := f)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := f)
     (by rw [← Nat.card_eq_fintype_card, hF])
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
-  haveI : Finite ↥(adjointGroup Tag.F4 F) := by
+  have : Finite ↥(adjointGroup Tag.F4 F) := by
     have : Finite (Module.End F (RootModule Tag.F4 F)) := Module.finite_of_finite F
     infer_instance
   have hpK : ¬ 3 ∣ Nat.card F := by

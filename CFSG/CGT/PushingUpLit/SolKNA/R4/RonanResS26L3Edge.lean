@@ -17,7 +17,7 @@ section Cit3
 
 
 theorem l3_exists_comm_conj {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finite A]
-    (T : Subgroup A) [T.Normal] (hT : IsSimpleGroup ↥T) (hab : ∃ a b : ↥T, a * b ≠ b * a)
+    (T : Subgroup A) [T.Normal] (_hT : IsSimpleGroup ↥T) (_hab : ∃ a b : ↥T, a * b ≠ b * a)
     (hC : Subgroup.centralizer (T : Set A) = ⊥)
     (hL3 : CFSG.ClassicalInvolution.Q3.TA3.SmallL3Ne3 ↥T)
     {R : Subgroup A} {S : Sylow 2 R} {z : A} (hd : TightDatum R S z) (hc : TightClsR r A R S z)

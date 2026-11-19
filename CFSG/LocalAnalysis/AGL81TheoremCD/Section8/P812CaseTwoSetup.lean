@@ -75,7 +75,7 @@ theorem le_centralizerSection_of_ne {X : Type} [Group X] [Finite X] {p : ℕ} (h
 theorem inf_eq_of_pRank_le_one {X : Type} [Group X] [Finite X] {K A B : Subgroup X}
     (hr : CFSG.Open.pRank 3 K ≤ 1) (hA : CFSG.Open.IsElemAbelian 3 A) (hBA : B ≤ A)
     (hBK : B ≤ K) (hB3 : Nat.card B = 3) : A ⊓ K = B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE : CFSG.Open.IsElemAbelian 3 (A ⊓ K) := hA.mono inf_le_left
   have hle : B ≤ A ⊓ K := le_inf hBA hBK
   have h3le : 3 ≤ Nat.card ↥(A ⊓ K) := by
@@ -110,7 +110,7 @@ theorem closure_eq_of_not_mem_sup {X : Type} [Group X] [Finite X] {A A₁ A₂ :
     (hA₂A : A₂ ≤ A) (hA₁₂ : Nat.card ↥(A₁ ⊔ A₂) = 9) {a₀ a₁ a₂ : X} (ha₀ : a₀ ∈ A)
     (ha₀' : a₀ ∉ A₁ ⊔ A₂) (ha₁ : Subgroup.zpowers a₁ = A₁)
     (ha₂ : Subgroup.zpowers a₂ = A₂) : Subgroup.closure {a₀, a₁, a₂} = A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup X := A₁ ⊔ A₂
   have hDle : D ≤ A := sup_le hA₁A hA₂A
   have hDcard : Nat.card ↥D = 9 := hA₁₂
@@ -204,7 +204,7 @@ private theorem map_conj_component_of_mem (h : P812Hyp G M p L₁ L₂) {g : G} 
     rw [show L₂g = CFSG.conjugate L₂ g⁻¹ from rfl,
       CFSG.LocalCores.conjugate_conjugate, inv_mul_cancel]
     ext x
-    simp [CFSG.conjugate, MulAut.conj_apply]
+    simp [CFSG.conjugate]
   have hconjL₁ : CFSG.conjugate L₁ g = L₁ := by
     rw [CFSG.conjugate]
     exact (Subgroup.mem_normalizer_iff_map_conj_eq).mp (Subgroup.inv_mem _ hgN₁)
@@ -218,7 +218,7 @@ private theorem map_conj_component_of_mem (h : P812Hyp G M p L₁ L₂) {g : G} 
 
 private theorem map_conj_eq_of_not_normalizes {X : Type} [Group X] [Finite X]
     {p : ℕ} {M L₁ L₂ S A A₂ : Subgroup X} {g : X}
-    (h : P812Hyp X M p L₁ L₂) (hA : CFSG.Open.IsElemAbelian 3 A) (hAS : A ≤ S)
+    (h : P812Hyp X M p L₁ L₂) (_hA : CFSG.Open.IsElemAbelian 3 A) (hAS : A ≤ S)
     (hA₂ : A₂ ≤ L₂) (hA₂A : A₂ ≤ A) (hA₂3 : Nat.card A₂ = 3)
     (hC : ∀ x ∈ S, ⁅Subgroup.zpowers x, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype →
       ⁅Subgroup.zpowers x, L₂⁆ ≤ (CFSG.pPrimeCore p ↥L₂).map L₂.subtype → x = 1)
@@ -401,7 +401,7 @@ private theorem not_mem_sup_centralizerSection_of_outer
     (hA : CFSG.Open.IsElemAbelian 3 A) (hAS : A ≤ S)
     (hA₁ : A₁ ≤ L₁) (hA₁A : A₁ ≤ A) (hA₁3 : Nat.card A₁ = 3)
     (hA₂ : A₂ ≤ L₂) (hA₂A : A₂ ≤ A) (hA₂3 : Nat.card A₂ = 3)
-    (hC : ∀ x ∈ S, ⁅Subgroup.zpowers x, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype →
+    (_hC : ∀ x ∈ S, ⁅Subgroup.zpowers x, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype →
       ⁅Subgroup.zpowers x, L₂⁆ ≤ (CFSG.pPrimeCore p ↥L₂).map L₂.subtype → x = 1)
     (h₁ : A ⊓ CFSG.GH74.GLS.centralizerSection L₁
         ((CFSG.pPrimeCore p ↥L₁).map L₁.subtype) ≤ A₂)

@@ -86,7 +86,7 @@ theorem exists_setup (hbhs : BHSLocalCStar) (h616 : AschbacherSixSixteenNormal)
       (Nat.Prime.factorization_pos_of_dvd Nat.prime_two (Nat.card_pos.ne') h2).ne'
     exact h3 h1
   have hCM : characteristicCoreStar (T : Subgroup G) ≤ M :=
-    characteristicCoreStar_le_of_unique T.isPGroup' hT1 hu
+    characteristicCoreStar_le_of_unique T.isPGroup hT1 hu
   obtain ⟨I, H, S, hc⟩ := exists_nineChoice_of_le h.charTwo T hCM h.M_ne_top
     (h.not_isStronglyEmbeddedOrder hBS)
   obtain ⟨Y₀, hY₀⟩ := exists_base_pair_of_nineChoice hbhs h.charTwo hc

@@ -397,7 +397,7 @@ theorem b_st1_prop89_of_autlevel_general
     (hc : Config8 y S U u K W)
     (hK : HasL2Model (kBar K) (fun q => q = 9))
     (hQ : pRank 2 ↥(W ⊓ CxK u K) = 1) : False := by
-  haveI : IsSimpleGroup G := hsimple
+  have : IsSimpleGroup G := hsimple
   have hxstar : ¬ IsStar2 y := fun h => hc.oddCore (T5 y h)
   have hKN : ∀ c ∈ centralizer ({u} : Set G), ∀ k ∈ K, c * k * c⁻¹ ∈ K :=
     K_normal_of_rank_one hc.unbal.1.2 hK hc.sylow_W hQ
@@ -414,7 +414,7 @@ theorem b_st1_prop89_of_autlevel_general
       intro hcomm
       obtain ⟨a, b, hab⟩ := hnonab
       exact hab (hcomm.is_comm.comm a b)
-    letI : Group.IsPerfect G :=
+    let : Group.IsPerfect G :=
       TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnoncomm
     have hG3 : 3 ≤ CFSG.Open.twoRank G := by
       simpa only [CFSG.Open.twoRank, CFSG.SectionRank.pRank_eq_open_pRank_top] using hrank3

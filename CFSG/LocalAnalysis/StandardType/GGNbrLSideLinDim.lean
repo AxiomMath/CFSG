@@ -72,7 +72,7 @@ theorem ggNbrLSideLin_dim {K : Type} [Field K] {r n : ℕ} {D : Fin r → Type} 
     let k : Fin (d i) := ⟨0, hk⟩
     have h1 := congrFun h i
     have h2 := congrFun (congrFun h1 k) k
-    simpa using h2
+    simp at h2
   let ρ : Matrix (Fin (d i)) (Fin (d i)) (D i) → Matrix (Fin n) (Fin n) K :=
     fun X => Φ (Pi.single (M := fun j => Matrix (Fin (d j)) (Fin (d j)) (D j)) i X)
   have hρ_add : ∀ X Y, ρ (X + Y) = ρ X + ρ Y := by
@@ -99,8 +99,8 @@ theorem ggNbrLSideLin_dim {K : Type} [Field K] {r n : ℕ} {D : Fin r → Type} 
     ext j p q
     by_cases hj : j = i
     · subst hj
-      simp [Pi.single_apply, Finset.sum_apply]
-    · simp [Pi.single_apply, Finset.sum_apply, hj]
+      simp [Finset.sum_apply]
+    · simp [Finset.sum_apply, hj]
   have hsum1 : ρ 1 = ∑ k : Fin (d i), ρ (Matrix.single k k 1) := by
     simp only [ρ]
     rw [← Matrix.sum_single_one (m := Fin (d i)) (α := D i)]
@@ -125,7 +125,7 @@ theorem ggNbrLSideLin_dim {K : Type} [Field K] {r n : ℕ} {D : Fin r → Type} 
         rw [Matrix.single_add, hρ_add, Matrix.add_mulVec]
       map_smul' := by
         intro c x
-        simp only [Pi.smul_apply, RingHom.id_apply, smul_eq_mul]
+        simp only [Pi.smul_apply, RingHom.id_apply]
         rw [Finset.smul_sum]
         refine Finset.sum_congr rfl fun j _ => ?_
         rw [← Matrix.smul_single, hρ_smul, Matrix.smul_mulVec] }
@@ -138,8 +138,8 @@ theorem ggNbrLSideLin_dim {K : Type} [Field K] {r n : ℕ} {D : Fin r → Type} 
     exact sub_eq_zero.mp hz
   have hle := LinearMap.finrank_le_finrank_of_injective (f := T) hinj
   rw [Module.finrank_fintype_fun_eq_card] at hle
-  haveI : Module.Finite K (D i) := Module.Finite.of_finite
-  haveI : Module.Free K (D i) := Module.Free.of_divisionRing K (D i)
+  have : Module.Finite K (D i) := Module.Finite.of_finite
+  have : Module.Free K (D i) := Module.Free.of_divisionRing K (D i)
   rw [Module.finrank_pi_fintype] at hle
   simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul] at hle
   simpa using hle

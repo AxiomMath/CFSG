@@ -65,7 +65,7 @@ theorem fixed_eq_zero_s3 (D : E11Data H I) (hU : Module.finrank D.F D.U = 2)
     (hcH : ∀ h ∈ H, h * c = c * h) (hyH : ∀ h ∈ H, h * y = y * h)
     (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) (hy2 : y * y = 1) (hyc : y * c = c⁻¹ * y) :
     ∀ v : V, c v = v → v = 0 := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hc3' := cube_apply hc3
   have hy2' : ∀ v, y (y v) = v := fun v => by
     have h := congrArg (fun g : GLV V => g v) hy2
@@ -179,7 +179,7 @@ theorem fixSub_s3 (hdim : Module.finrank (ZMod 2) V = 8) {c y : GLV V} (hc3 : c 
     (hy2 : y * y = 1) (hyc : y * c = c⁻¹ * y) (hfree : ∀ v : V, c v = v → v = 0) :
     Module.finrank (ZMod 2) (fixSub y) = 4 ∧ fixSub y ⊓ conjSub c (fixSub y) = ⊥ ∧
       fixSub y ⊔ conjSub c (fixSub y) = ⊤ := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hy2' : ∀ v, y (y v) = v := fun v => by
     have h := congrArg (fun g : GLV V => g v) hy2
     simpa [LinearEquiv.mul_apply] using h

@@ -21,7 +21,7 @@ theorem centralizes {F : Type*} [Field F] {G : Type*} [Group G] [Finite G]
     (hEF : (Nat.card E : F) ≠ 0) (hrF : (r : F) ≠ 0) :
     D ≤ Subgroup.centralizer (E : Set G) := by
   classical
-  haveI : IsCyclic D := isCyclic_of_prime_card hDcard
+  have : IsCyclic D := isCyclic_of_prime_card hDcard
   obtain ⟨⟨d, hdD⟩, hgen⟩ := IsCyclic.exists_generator (α := D)
   have hzp : D = Subgroup.zpowers d := by
     apply le_antisymm

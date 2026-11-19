@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.HigherRank.YamadaG23
 private lemma exists_pair_ne_one {V : Type} [Group V] [Finite V] (hcard : Nat.card V = 8) :
     ∃ a b : V, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   classical
-  letI : Fintype V := Fintype.ofFinite V
+  let : Fintype V := Fintype.ofFinite V
   have hcardV : Fintype.card V = 8 := by rw [Fintype.card_eq_nat_card, hcard]
   have hAcard : Nat.card {v : V // v ≠ 1} = 7 := by
     rw [Nat.subtype_card (({1} : Finset V)ᶜ) (by intro x; simp)]
@@ -42,7 +42,7 @@ theorem asl_complement (act : N →* MulAut W) (vact : N →* MulAut V) (π : W 
     rw [mul_inv_rev, inv_eq_of_mul_eq_one_right (hW2 a),
       inv_eq_of_mul_eq_one_right (hW2 b)] at h
     exact h.symm
-  letI : CommGroup W := { ‹Group W› with mul_comm := hcomm }
+  let : CommGroup W := { ‹Group W› with mul_comm := hcomm }
   have hV2 : ∀ v : V, v ^ 2 = 1 := by
     intro v
     obtain ⟨w, rfl⟩ := hπ v

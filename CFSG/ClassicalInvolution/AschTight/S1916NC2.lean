@@ -57,7 +57,7 @@ theorem not_case2_of (hSC : C19_14SCTmp p f) (hB3 : GoldschmidtB3Tmp) :
   obtain ⟨L, t, V, hDT⟩ := exists_sec19DataT hd
   have hwr : IsWreathed ((S : Subgroup G) ⊓ sec19X K z) :=
     S1911.isWreathed_inf_sec19X_of_case2 hDT h1
-  have hA2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ sec19X K z) := S.isPGroup'.to_le inf_le_left
+  have hA2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ sec19X K z) := S.isPGroup.to_le inf_le_left
   have hsc : fusionStronglyClosed (((S : Subgroup G) ⊓ sec19X K z : Subgroup G) : Set G) S := by
     intro x hx g hg
     refine ⟨hg, ?_⟩

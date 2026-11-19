@@ -21,9 +21,11 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_of_mem_centBar {p : ℕ} {U L : Subgroup G} {b : G} (hb : b ∈ centBar p U L) : b ∈ U :=
   (Subgroup.mem_inf.1 hb).2
 
+omit [Finite G] in
 theorem b_mem_normalizer_LOf {p : ℕ} {L0 : Subgroup G} {d b : G} (hbd : b ∈ Cg d) :
     b ∈ Subgroup.normalizer (Lemma1314.LOf p L0 d b : Set G) :=
   Lemma1314c.mem_normalizer_LOf hbd Lemma1314c.mem_normalizer_L0bOf_self
@@ -53,7 +55,7 @@ theorem barAut_ne_one_of_lemma1313 (hL1313 : Lemma1313Statement) {m p : ℕ}
     (hb1 : b ≠ 1) (hbN : b ∈ Subgroup.normalizer (Lemma1314.LOf p L0 d b : Set G)) :
     barAut p (Lemma1314.LOf p L0 d b) ⟨b, hbN⟩ ≠ 1 := by
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, ⟨hLc, hL0bc, -⟩, -, hLpi⟩ := hL1313 h hU hb hb1
   set L : Subgroup G := Lemma1314.LOf p L0 d b with hLdef
   set L0b : Subgroup G := Lemma1314.L0bOf p L0 b with hL0bdef
@@ -87,7 +89,7 @@ theorem barAut_ne_one_of_lemma1313 (hL1313 : Lemma1313Statement) {m p : ℕ}
 theorem pumpupBlock_of_lemma1313 (hL1313 : Lemma1313Statement) : Lemma1314.PumpupBlock := by
   intro G _ _ m p B M E A D T R L0 d h U hU b hb hb1
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbd : b ∈ Cg d := hU.2.1 (mem_of_mem_centBar hb)
   have hbN := b_mem_normalizer_LOf (p := p) (L0 := L0) hbd
   have hbp : b ^ p = 1 := hU.1.2.1.2 b (mem_of_mem_centBar hb)
@@ -120,7 +122,7 @@ theorem ddKey_le_of_le {p : ℕ} {E A E' A' : Subgroup G}
   classical
   unfold ddKey
   have h6 : (if IsPGroup p ↥(E ⊔ A) then 1 else 0) ≤ (if IsPGroup p ↥(E' ⊔ A') then 1 else 0) := by
-    rw [if_pos h5]
+    rw [ite_eq_left h5]
     split_ifs <;> norm_num
   exact Prod.Lex.toLex_mono (Prod.mk_le_mk.2 ⟨h1, Prod.Lex.toLex_mono (Prod.mk_le_mk.2 ⟨h2,
     Prod.Lex.toLex_mono (Prod.mk_le_mk.2 ⟨h3, Prod.Lex.toLex_mono (Prod.mk_le_mk.2 ⟨h4, h6⟩)⟩)⟩)⟩)
@@ -144,7 +146,7 @@ theorem U_le_A {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
 theorem rank_inf_le_two_of_rank_eq_three {m p : ℕ} {B M E A : Subgroup G} (h : Sec11 G m p B M E A)
     (hA3 : CFSG.Open.pRank p A = 3) : CFSG.Open.pRank p (E ⊓ A) ≤ 2 := by
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hE : inD p M E := h.pair.1.1
   have hAp : inDp p M A := h.pair.1.2.1
@@ -197,6 +199,7 @@ theorem core_cg2_le_M (hP112 : Prop112Statement) {m p : ℕ} {B M E A D T R L0 :
   · exact h1
   · exact absurd h2 hii
 
+omit [Finite G] in
 theorem cg2_eq_inf' (d z : G) : Cg2 z d = Cg d ⊓ Cg z := by
   rw [← Lemma1314c.cg2_eq_inf d z, Cg2, Cg2, Set.pair_comm]
 
@@ -206,6 +209,7 @@ theorem core_inf_le_core_cg2 {p : ℕ} (hp : p.Prime) {X : Subgroup G} {d z : G}
   rw [cg2_eq_inf']
   exact glaPPrimeCoreOf_le_of_isSubnormal hp (isSubnormal_inf hX (Cg z))
 
+omit [Finite G] in
 theorem uConjJoin_eq_of_le_normalizer {U L : Subgroup G}
     (hUN : U ≤ Subgroup.normalizer (L : Set G)) : Lemma1314c.uConjJoin U L = L := by
   unfold Lemma1314c.uConjJoin
@@ -236,6 +240,7 @@ section FiFaith
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barAut_inner_p {p : ℕ} {L : Subgroup G} {u : G} (huL : u ∈ L)
     (huN : u ∈ Subgroup.normalizer (L : Set G)) :
     barAut p L ⟨u, huN⟩ = MulAut.conj (QuotientGroup.mk' (GLAPPrimeCore p ↥L) ⟨u, huL⟩) := by
@@ -246,7 +251,6 @@ theorem barAut_inner_p {p : ℕ} {L : Subgroup G} {u : G} (huL : u ∈ L)
     rw [barAut_mk, MulAut.conj_apply, QuotientGroup.mk'_apply, ← QuotientGroup.mk_mul,
       ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul]
     congr 1
-    all_goals (apply Subtype.ext; simp)
 
 theorem mem_layer_of_p_element {p : ℕ} [Fact p.Prime] {L0 : Subgroup G} {b u0 : G}
     (hbord : orderOf b = p) (hnorm : GLBConj b L0 = L0)
@@ -266,7 +270,7 @@ theorem mem_layer_of_p_element {p : ℕ} [Fact p.Prime] {L0 : Subgroup G} {b u0 
   have hZn : ∀ y ∈ Y, GLBConj y Z = Z := by
     intro y hy
     rw [hZ, ← Prop1310a5b.glaPLayer_gLBConj', gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hy)]
-  haveI hnormal : (Z.subgroupOf Y).Normal := by
+  have hnormal : (Z.subgroupOf Y).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h1 : (n : G) ∈ GLBConj (g : G) Z := by
@@ -299,7 +303,7 @@ theorem mem_layer_of_p_element {p : ℕ} [Fact p.Prime] {L0 : Subgroup G} {b u0 
     rw [hsplit, ← map_pow]
     have : (⟨n, hnY⟩ : ↥Y) ^ (orderOf n) = 1 := by
       apply Subtype.ext
-      simpa using pow_orderOf_eq_one n
+      simp
     rw [this, map_one]
   have hone : orderOf (π ⟨u0, hu0Y⟩) = 1 :=
     Nat.eq_one_of_dvd_coprimes hcopm (orderOf_dvd_of_pow_eq_one h3) (orderOf_dvd_of_pow_eq_one hm)
@@ -345,6 +349,7 @@ theorem eq_one_of_mem_coreOf_of_pow {p : ℕ} [Fact p.Prime] {L : Subgroup G} {y
     (orderOf_dvd_of_pow_eq_one hyp) hord
   exact orderOf_eq_one_iff.1 h1
 
+omit [Finite G] in
 theorem exists_zpow_mul_zpow_of_mem_closure_pair {a b c : G} (hab : a * b = b * a)
     (hc : c ∈ Subgroup.closure ({a, b} : Set G)) : ∃ i j : ℤ, c = a ^ i * b ^ j := by
   have hcomm : Commute a b := hab
@@ -377,7 +382,7 @@ theorem centBar_U_LOf_eq_bot (hL1313 : Lemma1313Statement) (hL133 : Lemma133Stat
     (hU : IsU1312 p B M D L0 d U) {b : G} (hb : b ∈ centBar p U (L1of p M D L0)) (hb1 : b ≠ 1) :
     centBar p U (Lemma1314.LOf p L0 d b) = ⊥ := by
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set L : Subgroup G := Lemma1314.LOf p L0 d b with hLdef
   set L0b : Subgroup G := Lemma1314.L0bOf p L0 b with hL0bdef
   have hbU : b ∈ U := mem_of_mem_centBar hb
@@ -564,7 +569,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem not_dvd_card_center {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : q ≠ p) {Q : Type} [Group Q]
     [Finite Q] (hcore : GLAPPrimeCore p Q = ⊥) : ¬ q ∣ Nat.card (Subgroup.center Q) := by
   intro hdvd
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' q hdvd
   have hzc : (z : Q) ∈ Subgroup.center Q := z.2
   have hnorm : (Subgroup.zpowers (z : Q)).Normal := by
@@ -597,6 +602,7 @@ theorem card_barOf_dvd {p : ℕ} [Fact p.Prime] {K L : Subgroup G} (hKL : K ≤ 
   rw [Nat.card_congr (Prop115.barOfIso (p := p) hKL).toEquiv]
   exact (Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_subgroup_dvd_card _)
 
+omit [Finite G] in
 theorem L0bOf_le_LOf {p : ℕ} {L0 : Subgroup G} {d b : G} :
     Lemma1314.L0bOf p L0 b ≤ Lemma1314.LOf p L0 d b :=
   le_iSup₂_of_le (f := fun g (_ : g ∈ GLAPLayer p (Subgroup.centralizer ({d} : Set G))) =>
@@ -606,7 +612,7 @@ theorem L0bOf_le_LOf {p : ℕ} {L0 : Subgroup G} {d b : G} :
 theorem excBlock_of_orders (hL1313 : Lemma1313Statement) (hO : Exc5Orders) : Lemma1314.ExcBlock := by
   intro G _ _ m p B M E A D T R L0 d h _ U hU b hb hb1 hp5 hΩ _ hexc
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   subst hp5
   obtain ⟨ε, n, hn, hO2, hF⟩ := hΩ
   obtain ⟨-, ⟨hLc, -, -⟩, -, -⟩ := hL1313 h hU hb hb1
@@ -674,7 +680,7 @@ theorem isQuasisimple_of_open {Q : Type*} [Group Q] (h : CFSG.Open.IsQuasisimple
     rw [map_commutatorElement, commutatorElement_def,
       hab ((QuotientGroup.mk' (Subgroup.center Q)) x), mul_inv_cancel_right, mul_inv_cancel]
   rw [hcomm] at hle
-  haveI := hsimple
+  have := hsimple
   obtain ⟨a, b, hne⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -703,7 +709,7 @@ theorem inChevTwo_of_comp (hI144 : Lemma1315b.Input14_4_1) (hL1313 : Lemma1313St
     {H : Subgroup G} (hH : GLAPComponent p (Cg2 d z) H) (hHL : H ≤ Lemma1314.LOf p L0 d b) :
     Prop95Iv.InChevTwo (barOf p H) := by
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := by
     have h3 : 3 < p := h139a.1
     by_contra hlt

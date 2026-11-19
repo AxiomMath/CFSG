@@ -77,7 +77,7 @@ theorem false_of_cube_scalar (h2 : (2 : K) = 0) (hK : ∀ x : K, x ≠ 0 → x ^
       linear_combination (-c) * hc3
   have hsum : ∀ v, v = (v + fa v + fa (fa v)) + (v + c ^ 2 • fa v + c • fa (fa v)) +
       (v + c • fa v + c ^ 2 • fa (fa v)) := fun v => by
-    match_scalars <;> first | ring1 | linear_combination -h3 | linear_combination h3 |
+    match_scalars <;> first | linear_combination -h3 | linear_combination h3 |
       linear_combination hcc | linear_combination -hcc
   have htop : iSup E = ⊤ := by
     rw [eq_top_iff]

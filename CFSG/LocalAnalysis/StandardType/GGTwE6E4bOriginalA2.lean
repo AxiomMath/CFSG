@@ -160,7 +160,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_A2
       (fun _ lab => lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs J) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJperf, lab, hlab, hraw⟩ := hMark
   obtain ⟨R₀, hR₀, I₀, F₀, hQ₀⟩ := largeEvenRawDatum_exists hraw
   obtain ⟨-, -, θ₀, hP₀⟩ := hQ₀
@@ -171,15 +171,15 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_A2
   subst ht
   dsimp only [LargeEvenRawDatumLegacy] at hraw
   obtain ⟨Kf, hKfield, hKfin, hKcard, hQ⟩ := hraw
-  letI : Field Kf := hKfield
-  letI : Finite Kf := hKfin
+  let : Field Kf := hKfield
+  let : Finite Kf := hKfin
   obtain ⟨-, -, θ, hP⟩ := hQ
   obtain ⟨hS, hBsN', hBsI⟩ := hP
   have hdvd : 3 ∣ 2 ^ n + 1 := hS.2
   have hn : 1 ≤ n := hlab.1
   let hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP Kf 2 := CFSG.StandardType.charP_two_of_card (m := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP Kf 2 := CFSG.StandardType.charP_two_of_card (m := n * 2)
     (by rw [hKcard, pow_mul])
   have hinj : Function.Injective (iterateFrobenius Kf 2 n) :=
     (iterateFrobenius Kf 2 n).injective
@@ -187,9 +187,9 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_A2
     ⟨hinj, Finite.surjective_of_injective hinj⟩
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
   obtain ⟨inst, hinst⟩ := exists_algebra_isAlgClosure_ggl Kf
-  letI : Algebra Kf GGL := inst
-  haveI : IsAlgClosure Kf GGL := hinst
-  haveI : CharP GGL 2 := charP_of_injective_algebraMap (algebraMap Kf GGL).injective 2
+  let : Algebra Kf GGL := inst
+  have : IsAlgClosure Kf GGL := hinst
+  have : CharP GGL 2 := charP_of_injective_algebraMap (algebraMap Kf GGL).injective 2
   let Fr : GGL →+* GGL := ggFrobT n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => ggFrobT_apply n c
   obtain ⟨ε, hε⟩ := TwE6DD2.exists_recipeEquiv hn hKcard σ hσ
@@ -214,7 +214,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_A2
   · exact GGResHyp.actual_J_not_twE6_qplus_toral_of_lineJDatum hH hD hn hKcard hdvd hBI
       σ hσ Fr hFr ε hε htor
   · have hnt : ¬ E6AdToral E := htor
-    haveI : Finite A := Subtype.finite
+    have : Finite A := Subtype.finite
     have hle : Nat.card A ≤ 3 ^ 4 :=
       SCFourCover.card_le_four_of_not_e6AdToral_rgrpModel_of_cover
         (Ω := GGL) (n := n) (K := Kf) (hn := hn) (hK := hKcard) (σ := σ) (hσ := hσ)
@@ -229,7 +229,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_A2
       norm_num at h
       exact h
     let γ := recipeActorModelEquiv hn hKcard σ hσ Fr hFr ε hε hψ hker hJperf hAI
-    haveI : Finite E := Finite.of_surjective γ.toEquiv.toFun γ.toEquiv.surjective
+    have : Finite E := Finite.of_surjective γ.toEquiv.toFun γ.toEquiv.surjective
     have hcardEA : Nat.card E = Nat.card A :=
       (Nat.card_congr γ.toEquiv).symm
     have hcardE : Nat.card E = 3 ^ 4 := hcardEA.trans hcardA
@@ -349,7 +349,7 @@ theorem GGResHyp.actual_J_not_twE6_qplus_for_A2
         Subgroup.centralizer (E' : Set (ModGL Tag.E6 GGL))) :
         Set (ModGL Tag.E6 GGL)) = fixedA2Torus GGL := by
       simpa [E'] using hS0
-    haveI : Finite E' :=
+    have : Finite E' :=
       Finite.of_surjective _ ((MulAut.conj y0).toMonoidHom.subgroupMap_surjective E)
     have hAabE' : IsElemAbelian 3 E' := hAab.map _
     have hcardE' : Nat.card E' = 3 ^ 4 := by

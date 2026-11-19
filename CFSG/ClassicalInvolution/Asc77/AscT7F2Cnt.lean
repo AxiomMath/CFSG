@@ -198,7 +198,7 @@ theorem card_P' : Nat.card ↥(Psub S R') * 2 = Nat.card R' * Nat.card ↥(Csub 
 
 omit h11 in
 theorem relIndex_P'_le (h16 : C25_16 p f) : (Psub S R').relIndex (Nsub S R) ≤ 2 := by
-  have hN2 : IsPGroup 2 ↥(Nsub S R) := S.isPGroup'.to_le (show Nsub S R ≤ _ from inf_le_left)
+  have hN2 : IsPGroup 2 ↥(Nsub S R) := S.isPGroup.to_le (show Nsub S R ≤ _ from inf_le_left)
   have hF : ∀ y ∈ Nsub S R, ¬ IsFAut R' y := fun y hy =>
     h16 G Ω K K' W S R R' z t u₁ u₂ h.hyp y (mem_Nsub.mp hy).1
   have hB := T7F2.relIndex_sup_centralizer_le_two h.hqR' h.hzR' h.R'_le_N hN2
@@ -214,7 +214,7 @@ theorem relIndex_P'_le (h16 : C25_16 p f) : (Psub S R').relIndex (Nsub S R) ≤ 
   exact hB
 
 theorem relIndex_R'_C_le (h16 : C25_16 p f) : R'.relIndex (Csub S R) ≤ 2 := by
-  have hN2 : IsPGroup 2 ↥(Csub S R) := S.isPGroup'.to_le (show Csub S R ≤ _ from inf_le_left)
+  have hN2 : IsPGroup 2 ↥(Csub S R) := S.isPGroup.to_le (show Csub S R ≤ _ from inf_le_left)
   have hF : ∀ y ∈ Csub S R, ¬ IsFAut R' y := fun y hy =>
     h16 G Ω K K' W S R R' z t u₁ u₂ h.hyp y (mem_Csub.mp hy).1
   have hB := T7F2.relIndex_sup_centralizer_le_two h.hqR' h.hzR' h.R'_le_C hN2

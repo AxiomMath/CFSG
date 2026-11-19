@@ -20,7 +20,7 @@ theorem exists_isSylowOf [Finite G] (p : ℕ) [Fact p.Prime] (H : Subgroup G) :
   refine ⟨(P : Subgroup H).map H.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
-  · exact P.isPGroup'.map H.subtype
+  · exact P.isPGroup.map H.subtype
   · rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact (Nat.Prime.coprime_iff_not_dvd Fact.out).mpr (P.not_dvd_index)

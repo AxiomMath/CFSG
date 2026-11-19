@@ -17,6 +17,7 @@ variable (hc : Ctx4Q t L S x₁ x₂ lam rho tau)
 include hc
 
 omit hc in
+omit [Finite G] in
 theorem mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -37,7 +38,7 @@ theorem mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers 
 theorem s_facts {s : G} (hs : s = t ∨ s = tau ∨ s = t * tau) :
     s * s = 1 ∧ s ∈ ctxO t tau x₁ x₂ ∧ (∀ u ∈ closure ({t, tau} : Set G), s * u = u * s) ∧
       rho * s = s * rho ∧ lam * s = s * lam := by
-  haveI : IsMulCommutative ↥(closure ({t, tau} : Set G)) :=
+  have : IsMulCommutative ↥(closure ({t, tau} : Set G)) :=
     (elemAbelian_closure_pair hc.t_mul_self hc.tau_mul_self hc.t_comm_tau).1
   have htT : t ∈ closure ({t, tau} : Set G) := subset_closure (by simp)
   have htauT : tau ∈ closure ({t, tau} : Set G) := subset_closure (by simp)

@@ -21,7 +21,7 @@ noncomputable scoped instance frattiniQuotientAction {G : Type} [Group G] (P : S
 theorem smul_mk_frattini {G : Type} [Group G] (P : Subgroup G)
     (x : Subgroup.normalizer (P : Set G)) (y : ↥P) :
     x • (QuotientGroup.mk y : ↥P ⧸ frattini ↥P) = QuotientGroup.mk (x • y) := by
-  letI : MulAction.QuotientAction (Subgroup.normalizer (P : Set G)) (frattini ↥P) :=
+  let : MulAction.QuotientAction (Subgroup.normalizer (P : Set G)) (frattini ↥P) :=
     characteristic_subgroup_quotientAction (frattini ↥P)
   exact MulAction.Quotient.smul_mk (frattini ↥P) x y
 
@@ -62,9 +62,9 @@ theorem exists_quot_smul_ne {G : Type} [Group G] [Finite G] (P : Subgroup G)
     ∃ q : ↥P ⧸ frattini ↥P, dN • q ≠ q := by
   by_contra hall
   push Not at hall
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H := Subgroup.zpowers dN
-  letI : MulDistribMulAction H ↥P := MulDistribMulAction.compHom ↥P H.subtype
+  let : MulDistribMulAction H ↥P := MulDistribMulAction.compHom ↥P H.subtype
   have hstab : ∀ q : ↥P ⧸ frattini ↥P,
       H ≤ MulAction.stabilizer (Subgroup.normalizer (P : Set G)) q :=
     fun q => Subgroup.zpowers_le.mpr (MulAction.mem_stabilizer_iff.mpr (hall q))
@@ -86,10 +86,10 @@ theorem lift_fixed_of_cube_one {G : Type} [Group G] [Finite G] (P : Subgroup G)
     (hP : IsPGroup 2 P) (c : Subgroup.normalizer (P : Set G)) (hc3 : c ^ 3 = 1)
     (q : ↥P ⧸ frattini ↥P) (hq : c • q = q) :
     ∃ x : ↥P, (QuotientGroup.mk x : ↥P ⧸ frattini ↥P) = q ∧ c • x = x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H := Subgroup.zpowers c
-  letI : MulDistribMulAction H ↥P := MulDistribMulAction.compHom ↥P H.subtype
-  letI : MulAction H (↥P ⧸ frattini ↥P) := MulAction.compHom (↥P ⧸ frattini ↥P) H.subtype
+  let : MulDistribMulAction H ↥P := MulDistribMulAction.compHom ↥P H.subtype
+  let : MulAction H (↥P ⧸ frattini ↥P) := MulAction.compHom (↥P ⧸ frattini ↥P) H.subtype
   have hstab : H ≤ MulAction.stabilizer (Subgroup.normalizer (P : Set G)) q :=
     Subgroup.zpowers_le.mpr (MulAction.mem_stabilizer_iff.mpr hq)
   have hfixed : ∀ s : H, s • q = q := fun s => MulAction.mem_stabilizer_iff.mp (hstab s.2)
@@ -109,7 +109,7 @@ theorem lift_fixed_of_cube_one {G : Type} [Group G] [Finite G] (P : Subgroup G)
 
 theorem exists_rep_fpf_of_kernel {G : Type} [Group G] [Finite G]
     {P K : Subgroup G} (hP : IsPGroup 2 P) (hKP : K ≤ Subgroup.normalizer (P : Set G))
-    (hOK : CFSG.Open.pCoreOf 2 K ≤ P) {c d : G} (hcK : c ∈ K) (hc3 : c ^ 3 = 1)
+    (hOK : CFSG.Open.pCoreOf 2 K ≤ P) {c d : G} (_hcK : c ∈ K) (hc3 : c ^ 3 = 1)
     (hd3 : d ^ 3 = 1) (hdP : d ∈ Subgroup.normalizer (P : Set G))
     (hdnt : ∃ x ∈ P, d * x * d⁻¹ ≠ x)
     (hdK : ∀ k ∈ K, d * k * d⁻¹ * k⁻¹ ∈ P)
@@ -180,10 +180,10 @@ theorem exists_rep_fpf_of_kernel {G : Type} [Group G] [Finite G]
       exact h0
     rw [hρN] at h1
     exact Additive.ofMul.injective h1
-  haveI : Nontrivial W.toSubmodule :=
+  have : Nontrivial W.toSubmodule :=
     ⟨⟨⟨(ρN dN - 1) (Additive.ofMul q), LinearMap.mem_range_self _ _⟩, 0,
       fun h => hw0 (congrArg Subtype.val h)⟩⟩
-  haveI : Finite W.toSubmodule := inferInstance
+  have : Finite W.toSubmodule := inferInstance
   refine ⟨W.toSubmodule, inferInstance, inferInstance, inferInstance, inferInstance,
     W.toRepresentation, ?_⟩
   intro k hk v hv

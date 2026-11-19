@@ -104,7 +104,7 @@ theorem threeCycleMat_commute_cases (A : Matrix (Fin 2) (Fin 2) 𝔽₂)
     ext i j
     fin_cases i <;> fin_cases j
     · rfl
-    · simpa using h01
+    · simp
     · simpa using h01.symm
     · simpa using h10.symm
   have h2 : ∀ x : 𝔽₂, x = 0 ∨ x = 1 := by decide
@@ -115,12 +115,11 @@ theorem threeCycleMat_commute_cases (A : Matrix (Fin 2) (Fin 2) 𝔽₂)
         (!![a, b; b, a + b] : Matrix (Fin 2) (Fin 2) 𝔽₂) = threeCycleMat 𝔽₂ ^ 2 := by
     intro a b
     rcases h2 a with rfl | rfl <;> rcases h2 b with rfl | rfl
-    · left; ext i j; fin_cases i <;> fin_cases j <;> simp <;> decide
-    · right; right; left; ext i j; fin_cases i <;> fin_cases j <;> simp [threeCycleMat] <;>
-        decide
-    · right; left; ext i j; fin_cases i <;> fin_cases j <;> simp <;> decide
+    · left; ext i j; fin_cases i <;> fin_cases j <;> simp
+    · right; right; left; ext i j; fin_cases i <;> fin_cases j <;> simp [threeCycleMat]
+    · right; left; ext i j; fin_cases i <;> fin_cases j <;> simp
     · right; right; right; ext i j; fin_cases i <;> fin_cases j <;>
-        simp [threeCycleMat_sq] <;> decide
+        simp [threeCycleMat_sq]; decide
   rw [hA]
   exact key (A 0 0) (A 0 1)
 
@@ -241,7 +240,7 @@ theorem centralizer_xBlock_le (g : Matrix.SpecialLinearGroup (Fin 2 ⊕ Q) 𝔽�
     intro hA0
     rw [hA0, Matrix.det_zero] at hdet
     have : (0 : 𝔽₂) * D.det = 1 := hdet
-    simpa using this
+    simp at this
   have hAcases' : A = 1 ∨ A = threeCycleMat 𝔽₂ ∨ A = threeCycleMat 𝔽₂ ^ 2 := by
     rcases hAcases with h0 | h1 | h2 | h3
     · exact absurd h0 hAne

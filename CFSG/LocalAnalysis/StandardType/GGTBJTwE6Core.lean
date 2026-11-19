@@ -144,7 +144,7 @@ theorem ggTBJ_twE6_core
     exact mul_inv_eq_iff_eq_mul.mp h
   let ι := {β : Fin Tag.E6.rank → ℤ //
     β ∈ componentRoots (rootCharHom (TableBExc.E6Three.zetaVec ζ hζ t₀)) i}
-  haveI : Nonempty ι := by
+  have : Nonempty ι := by
     obtain ⟨a, ha⟩ := Quotient.exists_rep i
     exact ⟨⟨a.1, ⟨a.2, ha⟩⟩⟩
   have hroot : ∀ a : ι, IsRoot Tag.E6 a.1 := fun a => isRoot_of_mem_componentRoots a.2

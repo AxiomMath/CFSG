@@ -150,6 +150,7 @@ private theorem w16g_comp_map_t (hD : Data8 A t z N) (hG : Gen8 A t z N k a) (i 
   congr 1
   rw [← CFSG.Quasithin.Asc81c.fixV_map_conj (Subgroup.zpowers (k * z ^ (i : ℕ))) t, hR]
 
+omit [Finite W] in
 private theorem w16g_rk_map (g : MulAut W) (S : Subgroup W) :
     rk ↥(S.map g.toMonoidHom) = rk S := by
   unfold rk
@@ -246,7 +247,7 @@ theorem s13_eight_decomp (h : Cfg133 A t 3) (hD : Data8 A t z N) (hG : Gen8 A t 
   have hrkU : rk ↥(commSub ⊤ N) = 6 := by rw [hD.hNV]; exact hD.hrkz
   have hthree : ∑ i : Fin 3, rk (F i) = 3 * rk (F 0) := by
     rw [Finset.sum_congr rfl fun i _ => hrk_eq i]
-    simp [Finset.sum_const, nsmul_eq_mul]
+    simp [Finset.sum_const]
   have h2 : rk (F 0) = 2 := by
     have h6 : rk ↥(commSub ⊤ N) = ∑ i : Fin 3, rk (F i) := by
       rw [← hsup]; exact hsum

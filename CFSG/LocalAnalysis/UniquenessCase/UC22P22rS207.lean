@@ -36,8 +36,8 @@ theorem uc22p22r_lieModel_of_szL2Product207 {X P : Type} [Group X] [Finite X] [G
     rcases hC with hC | hC
     · exact uc22p22r_lieModel_isSimple (by decide) hC
     · exact uc22p22r_lieModel_isSimple (by decide) hC
-  haveI : IsSimpleGroup A := hsimp hA
-  haveI : IsSimpleGroup B := hsimp hB
+  have : IsSimpleGroup A := hsimp hA
+  have : IsSimpleGroup B := hsimp hB
   have hsup : ((MonoidHom.snd A B).comp f.toMonoidHom).ker ⊔
       ((MonoidHom.fst A B).comp f.toMonoidHom).ker = ⊤ := by
     rw [eq_top_iff]
@@ -69,7 +69,7 @@ theorem uc22p22r_shape207 (D : Data G) (h207 : S20_7 D) (h1930 : H1930 D) {L K :
   rcases h207 h1930 L hL with ⟨n, hn, h⟩ | h | h | h | h | h | ⟨n, hn, h⟩ | h
   · rcases h with h | h | h | h | h | h | h | h | h | h | h | h | h | h
     · have hF : K108FamSz _ := ⟨n, hn, hA (by decide) h⟩; simp only [IsList207, hF, true_or, or_true]
-    · have hF : K108FamL2 _ := ⟨n, hn, hA (by decide) h⟩; simp only [IsList207, hF, true_or, or_true]
+    · have hF : K108FamL2 _ := ⟨n, hn, hA (by decide) h⟩; simp only [IsList207, hF, true_or]
     · have hF : K108FamL3 _ := ⟨n, hn, hA (by decide) h⟩; simp only [IsList207, hF, true_or, or_true]
     · have hF : K108FamU3 _ := ⟨n, hn, hA (by decide) h⟩; simp only [IsList207, hF, true_or, or_true]
     · have hF : K108FamL4 _ := ⟨n, hn, hA (by decide) h⟩; simp only [IsList207, hF, true_or, or_true]

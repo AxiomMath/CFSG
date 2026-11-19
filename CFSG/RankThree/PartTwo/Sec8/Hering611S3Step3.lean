@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_pCoreOf_centralizer {V : Subgroup G} (hV2 : IsPGroup 2 V)
     (hVc : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) :
     V ≤ CFSG.Assembly.pCoreOf 2 (Subgroup.centralizer (V : Set G)) := by
@@ -29,7 +30,7 @@ theorem le_pCoreOf_centralizer {V : Subgroup G} (hV2 : IsPGroup 2 V)
     exact hn
 
 theorem step3_not_le_centralizer (hchar : CFSG.Assembly.IsCharTwoType G) {V : Subgroup G}
-    (hV2 : IsPGroup 2 V) (hV1 : V ≠ ⊥) (hVc : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) {d : G}
+    (hV2 : IsPGroup 2 V) (hV1 : V ≠ ⊥) (_hVc : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) {d : G}
     (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) (hdV : d ∈ Subgroup.centralizer (V : Set G)) :
     ¬ CFSG.Assembly.pCoreOf 2 (Subgroup.centralizer (V : Set G)) ≤
       Subgroup.centralizer ({d} : Set G) := by

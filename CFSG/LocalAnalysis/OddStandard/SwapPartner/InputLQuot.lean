@@ -52,7 +52,7 @@ theorem le_centralizer_of_quotConj_eq_one (hK : ⁅K, K⁆ = K) {t : X} (h : quo
   rw [quotConj_mk, MulAut.one_apply] at hx
   simpa using hx
 
-theorem map_le_fixedSubgroup_quotConj {t : X} {A : Subgroup X} (hAK : A ≤ K)
+theorem map_le_fixedSubgroup_quotConj {t : X} {A : Subgroup X} (_hAK : A ≤ K)
     (hAc : A ≤ centralizer ({t} : Set X)) :
     (A.subgroupOf K).map (QuotientGroup.mk' (center K)) ≤ fixedSubgroup (quotConj K t) := by
   rintro - ⟨a, ha, rfl⟩

@@ -39,11 +39,11 @@ theorem kFieldCent_sp4 :
   intro X _ _ a r hX hr hr2 θ hθ hθN
   obtain ⟨⟨-, -, -⟩, K, hField, hFin, hK, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  letI : Field K := hField
-  letI : Finite K := hFin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field K := hField
+  let : Finite K := hFin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (p := 2) (f := a)
       (by rw [← Nat.card_eq_fintype_card, hK])
   have hθr : θ ^ r = 1 := by rw [← hθ]; exact pow_orderOf_eq_one θ
@@ -96,7 +96,7 @@ theorem kFieldCent_u3 :
     CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
   have hU : UnitaryFieldData 2 a K :=
     ⟨Nat.prime_two, ha1, by rw [hKcard, ← pow_mul, mul_comm]⟩
-  haveI : Finite K := hU.finite
+  have : Finite K := hU.finite
   have h2a : 2 ^ a ≠ 2 := fun h => hne (by rw [h])
   have ha2 : 2 ≤ a := by
     rcases Nat.lt_or_ge a 2 with h | h

@@ -77,7 +77,7 @@ theorem invariant_sylow_with_supplement_intersection_parts
     exact Subgroup.mem_map_of_mem supplement.subtype
       ((invariant_sylow_subgroup_iff groupPrime internalSylow).mp internal_fixed actorElement original member)
   obtain ⟨sylow, contains, fixed⟩ := invariant_sylow_containing prime groupPrime prime_prime
-    groupPrime_prime actor_pgroup coprime embedded (internalSylow.isPGroup'.map supplement.subtype)
+    groupPrime_prime actor_pgroup coprime embedded (internalSylow.isPGroup.map supplement.subtype)
     embedded_invariant
   have intersection_eq : (sylow : Subgroup GroupType) ⊓ supplement = embedded := by
     have internal_contains : (internalSylow : Subgroup supplement) ≤
@@ -85,7 +85,7 @@ theorem invariant_sylow_with_supplement_intersection_parts
       intro element member
       exact contains (Subgroup.mem_map_of_mem supplement.subtype member)
     have internal_pgroup : IsPGroup groupPrime ((sylow : Subgroup GroupType).subgroupOf supplement) :=
-      (sylow.isPGroup'.to_le
+      (sylow.isPGroup.to_le
         (show (sylow : Subgroup GroupType) ⊓ supplement ≤ sylow from inf_le_left)).of_equiv
         ((Subgroup.subgroupOfEquivOfLe
           (show (sylow : Subgroup GroupType) ⊓ supplement ≤ supplement from inf_le_right)).symm.trans

@@ -27,10 +27,10 @@ theorem abelian_of_max_isPGroup {Y : Type*} [Group Y] [Finite Y] {N X T : Subgro
   obtain ⟨P, hXP⟩ := hX'.exists_le_sylow
   obtain ⟨P', hTP⟩ := hT'.exists_le_sylow
   have hP : X' = P := Subgroup.eq_of_le_of_card_ge hXP (by
-    have := himg (P : Subgroup N) P.isPGroup'
+    have := himg (P : Subgroup N) P.isPGroup
     omega)
   have hP' : T' = P' := Subgroup.eq_of_le_of_card_ge hTP (by
-    have := himg (P' : Subgroup N) P'.isPGroup'
+    have := himg (P' : Subgroup N) P'.isPGroup
     omega)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq N P P'
   intro a ha b hb

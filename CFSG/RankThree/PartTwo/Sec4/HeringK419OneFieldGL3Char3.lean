@@ -240,7 +240,7 @@ theorem not_isType419_of_commute_gl3_char3 {E : Type} [Field E] [Finite E] [Char
   have hMp : ∀ p, M p = ((T⁻¹ : GL (Fin 3) E) : Matrix (Fin 3) (Fin 3) E) *
       ((ρ p : GL (Fin 3) E) : Matrix (Fin 3) (Fin 3) E) * (T : Matrix (Fin 3) (Fin 3) E) := by
     intro p
-    simp [M, MulAut.conj_apply]
+    simp [M]
   have hTe : (T : Matrix (Fin 3) (Fin 3) E) *ᵥ (Pi.single 0 1 : Fin 3 → E) = u := by
     ext i
     rw [Matrix.mulVec_single_one]

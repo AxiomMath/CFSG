@@ -35,6 +35,7 @@ theorem center_eq_bot_of_isL2Square_or_isL2U3Product {X : Type} [Group X] {n : �
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_mem_ker_conjModPCore_of_autOmega {I P : Subgroup G}
     (hPN : P ≤ normalizer (I : Set G)) (hP : IsPGroup 3 P)
     (hK : ∀ Q : Subgroup (MulAut (Bar2 I)), IsPGroup 3 Q →
@@ -50,6 +51,7 @@ theorem commutator_mem_ker_conjModPCore_of_autOmega {I P : Subgroup G}
   rw [SetLike.mem_coe, MonoidHom.mem_ker, map_mul, map_mul, map_mul, map_inv, map_inv, hc]
   group
 
+omit [Finite G] in
 theorem inf_inf_map_ker_conjModPCore_eq_bot {I P : Subgroup G}
     (hPN : P ≤ normalizer (I : Set G)) (hP : IsPGroup 3 P)
     (hZ : Subgroup.center (Bar2 I) = ⊥) :

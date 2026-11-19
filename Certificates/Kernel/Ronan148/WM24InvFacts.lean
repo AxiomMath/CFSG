@@ -38,7 +38,7 @@ theorem invCheck_true : invCheck () = true := by
     intro l hl
     obtain ⟨pQ, hcj⟩ := hQ l hl
     have PQ := pp_of_permB hw pQ
-    rw [eQ l hl, hx, Bool.and_eq_true, conj_unpack hw pQ pX, inv_unpack hw pX,
+    rw [eQ l hl, hx, Bool.and_eq_true, conj_unpack hw pQ pX, inv_unpack pX,
       eqA_PP (PQ.mul (PX.mul PQ.inv)) PX.inv]
     exact ⟨CFSG.KC.Misc.ArrEnum.validA_unpack pQ, hcj⟩
   · rw [CFSG.Monster.B.Co2.allLt_iff]

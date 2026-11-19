@@ -46,7 +46,7 @@ theorem ntpS2_perm
     refine ntpS2_componentRootSpan_injective (L := L) a ?_
     refine Subgroup.map_injective (f := (MulAut.conj g).toMonoidHom) (MulEquiv.injective _) ?_
     rw [hφ i, hφ j, hij]
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product Tag.E6 L (rootCharHom a)).2.1
   refine ⟨Equiv.ofBijective φ ⟨hinj, Finite.surjective_of_injective hinj⟩, fun i => ?_⟩
   change (componentRootSpan L (rootCharHom a) i).map (MulAut.conj g).toMonoidHom =

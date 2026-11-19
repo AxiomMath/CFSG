@@ -33,8 +33,8 @@ theorem s16h_sl28_seven_cTilde_no_seven
     ¬ 7 ∣ Nat.card ↥(F11.CTilde D.M ⊥ V) := by
   have h7L : 7 ∣ Nat.card ↥(lBar ⊥ V h.hyp151.isElemAbelian L) := by
     obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hrow.1
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hKcard]
     norm_num
   intro h7C

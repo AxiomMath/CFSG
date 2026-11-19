@@ -42,7 +42,7 @@ theorem gf2nType_of_remaining_thm1
   have S : StrothOpenSectionsOT := strothOpenSectionsOT_of_remaining h716 h717
     (stroth86Statement_of_thm1 (theorem1Statement_of_inputs h79)) h98 h108 h1111
   have hR : Smith81.Stroth1980Rel :=
-    Smith81.stroth1980Rel_of_step fun N hS hM => stroth_order_step_of_open S hS hM
+    Smith81.stroth1980Rel_of_step fun _N hS hM => stroth_order_step_of_open S hS hM
   have hSm : Smith81.Smith1981Statement := Smith81.smith1981_of_rel hR
   gf2nType_of_tim81_inputs h79 (Smith81.stroth1980_of_rel hR hSm) hSm
 

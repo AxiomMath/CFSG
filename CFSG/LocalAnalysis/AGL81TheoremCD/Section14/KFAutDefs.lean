@@ -22,13 +22,13 @@ namespace CFSG.LocalAnalysis.AGL81TheoremCD.Section14.KFAut
 
 theorem two_le_pRank_three_of_nine_le {X : Type*} [Group X] [Finite X] {A : Subgroup X}
     (hexp : ∀ x ∈ A, x ^ 3 = 1) (h9 : 9 ≤ Nat.card A) : 2 ≤ CFSG.Open.pRank 3 A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.Quasithin.Ch1Sec3.two_le_pRank_of_pow_eq_one (p := 3) hexp (by simpa using h9)
 
 theorem card_le_three_of_exponent_three_of_pRank_le_one {X : Type*} [Group X] [Finite X]
     {A : Subgroup X} (hexp : ∀ x ∈ A, x ^ 3 = 1) (hA : CFSG.Open.pRank 3 A ≤ 1) :
     Nat.card A ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3 : IsPGroup 3 A := fun x => ⟨1, Subtype.ext (by simpa using hexp x x.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hA3
   by_contra h
@@ -56,9 +56,9 @@ theorem card_le_nine_of_map_isCyclic {X Y : Type*} [Group X] [Group Y] [Finite X
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv]
   have hrange : f.range = R.map φ := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-  haveI : Finite ↥(f.range) :=
+  have : Finite ↥(f.range) :=
     Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI : IsCyclic ↥(f.range) := hrange ▸ hcyc
+  have : IsCyclic ↥(f.range) := hrange ▸ hcyc
   have hexpf : ∀ y ∈ f.range, y ^ 3 = 1 := by
     rintro _ ⟨x, rfl⟩
     simpa [f, map_pow] using congrArg φ (hexp x x.2)
@@ -86,7 +86,7 @@ theorem autMAt_of_pRank_le_one (p : ℕ) {X : Type*} [Group X] [Finite X] {N : S
 
 theorem autMAt_of_not_three_dvd (p : ℕ) {X : Type*} [Group X] [Finite X] (N : Subgroup X)
     (h3 : ¬ 3 ∣ Nat.card X) : AutMAt p N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro R _ hexp h9
   exfalso
   have hR3 : IsPGroup 3 R := fun x => ⟨1, Subtype.ext (by simpa using hexp x x.2)⟩
@@ -103,7 +103,7 @@ theorem autMFor_of {p : ℕ} [Fact p.Prime] {L : Type*} [Group L] [IsSimpleGroup
         (↥(CFSG.generalizedFitting X) ≃* L) → AutMAt p N) :
     AutMFor p L := by
   intro X _ _ ⟨e⟩ N hN
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting X) :=
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting X) :=
     (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
   have hpF : p ∣ Nat.card ↥(CFSG.generalizedFitting X) := by
     rw [Nat.card_congr e.toEquiv]

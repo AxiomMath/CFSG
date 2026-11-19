@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t q tau lam rho u : G} {Z E X W R T : Subgroup G}
 
+omit [Finite G] in
 private lemma fzbs_3h_conj_t {g r : G} (hg : g * t * g⁻¹ = t)
     (hr : r * t * r⁻¹ = t * u ^ 2) :
     (g * r * g⁻¹) * t * (g * r * g⁻¹)⁻¹ = t * (g * u ^ 2 * g⁻¹) := by
@@ -24,6 +25,7 @@ private lemma fzbs_3h_conj_t {g r : G} (hg : g * t * g⁻¹ = t)
         = g * (r * (g⁻¹ * t * g) * r⁻¹) * g⁻¹ by group, hginv, hr,
       show g * (t * u ^ 2) * g⁻¹ = (g * t * g⁻¹) * (g * u ^ 2 * g⁻¹) by group, hg]
 
+omit [Finite G] in
 private lemma fzbs_3h_y_mem (hS : FzbsStr t q tau lam rho u Z E X W R T) {r₃ y : G}
     (hy : y = 1 ∨ y = r₃ ∨ y = rho * r₃ * rho⁻¹ ∨ y = rho ^ 2 * r₃ * (rho ^ 2)⁻¹)
     (hr₃ : r₃ ∈ ⁅R, zpowers rho⁆) : y ∈ ⁅R, zpowers rho⁆ := by
@@ -104,12 +106,12 @@ theorem fzbs_P_sq (hS : FzbsStr t q tau lam rho u Z E X W R T) {r₃ : G}
   have hyP := fzbs_3h_y_mem hS hy hr₃
   have hy2E : y ^ 2 ∈ E := by
     rcases hy with h | h | h | h
-    · rw [h]; simpa using (one_mem E : (1 : G) ∈ E)
+    · rw [h]; simp
     · rw [h]; exact hr₃2
     · rw [h]
       have h1 := hS.rho_E (r₃ ^ 2) hr₃2
       rwa [show (rho * r₃ * rho⁻¹) ^ 2 = rho * r₃ ^ 2 * rho⁻¹ by
-        simp only [pow_two, mul_inv_rev]; group]
+        simp only [pow_two]; group]
     · rw [h]
       have h1 := hS.rho_E (r₃ ^ 2) hr₃2
       have h2 := hS.rho_E (rho * r₃ ^ 2 * rho⁻¹) h1
@@ -127,6 +129,7 @@ theorem fzbs_P_sq (hS : FzbsStr t q tau lam rho u Z E X W R T) {r₃ : G}
   rw [hp2]
   exact E.mul_mem (E.mul_mem hy2E hcE) hmE
 
+omit [Finite G] in
 theorem fzbs_P_comm (hS : FzbsStr t q tau lam rho u Z E X W R T)
     (hsq : ∀ p ∈ ⁅R, zpowers rho⁆, p ^ 2 ∈ E) {a b : G} (ha : a ∈ ⁅R, zpowers rho⁆)
     (hb : b ∈ ⁅R, zpowers rho⁆) : ⁅a, b⁆ ∈ E := by
@@ -162,6 +165,7 @@ theorem fzbs_t_notin_P (hS : FzbsStr t q tau lam rho u Z E X W R T)
   rw [show t * t * t = t by rw [htt, one_mul]] at hnorm
   exact hS.t_notin_E hnorm
 
+omit [Finite G] in
 theorem fzbs_P_X (hS : FzbsStr t q tau lam rho u Z E X W R T) (htP : t ∉ ⁅R, zpowers rho⁆)
     {x : G} (hx : x ∈ X) (hxP : x ∈ ⁅R, zpowers rho⁆) : x ∈ E := by
   rcases hS.X_split x hx with h | h

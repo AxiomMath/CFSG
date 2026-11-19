@@ -13,7 +13,7 @@ open scoped Pointwise
 theorem exists_conj_mem_zpowers_of_five {Y : Type*} [Group Y] [Finite Y] (E : Subgroup Y)
     (hE : ¬ 25 ∣ Nat.card E) {σ π : Y} (hσE : σ ∈ E) (hπE : π ∈ E) (hσ : orderOf σ = 5)
     (hπ : orderOf π = 5) : ∃ e ∈ E, e * σ * e⁻¹ ∈ Subgroup.zpowers π := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   have hpow : (5 : ℕ) ^ 2 = 25 := by decide
   have hE25 : ¬ 5 ^ 2 ∣ Nat.card E := by rw [hpow]; exact hE
   let σ' : E := ⟨σ, hσE⟩
@@ -43,7 +43,7 @@ theorem exists_conj_mem_zpowers_of_five {Y : Type*} [Group Y] [Finite Y] (E : Su
     rw [Nat.card_zpowers, hπ', hfac, pow_one]
   let As : Sylow 5 E := Sylow.ofCard A hAcard
   let Bs : Sylow 5 E := Sylow.ofCard B hBcard
-  haveI : Finite (Sylow 5 E) := Sylow.finite_of_finiteIndex As
+  have : Finite (Sylow 5 E) := Sylow.finite_of_finiteIndex As
   obtain ⟨e, he⟩ := MulAction.exists_smul_eq E As Bs
   have heA : MulAut.conj e • A = B := by
     have h : ((e • As : Sylow 5 E) : Subgroup E) = ((Bs : Sylow 5 E) : Subgroup E) := by

@@ -21,6 +21,7 @@ variable {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
 noncomputable def ubarD (hn : 3 ≤ n) (k : Fin n) : spinGroup (quadPlus n F) :=
   rootD F hn k (.ofAdd 1) * negRootD F hn k (.ofAdd 1)
 
+omit [Finite F] in
 theorem spinMatrix_ubarD (hn : 3 ≤ n) (k : Fin n) :
     (spinMatrix (quadPlus n F) (ubarD hn k) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       1 + nodeN F (Sum.inl (rootIdxD n k)) (Sum.inr (rootIdxD n k))
@@ -28,12 +29,14 @@ theorem spinMatrix_ubarD (hn : 3 ≤ n) (k : Fin n) :
   rw [ubarD, map_mul, Units.val_mul, spinMatrix_rootD hn, spinMatrix_negRootD hn]
   exact ubar_matrix_aux (distinct4_node hn k)
 
+omit [Finite F] in
 theorem rk1_ubarD (hn : 3 ≤ n) (k : Fin n) :
     rk1 (spinMatrix (quadPlus n F) (ubarD hn k) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) = 4 := by
   unfold rk1
   rw [spinMatrix_ubarD hn k, add_sub_cancel_left]
   exact rank_nodeN (distinct4_node hn k)
 
+omit [Finite F] in
 theorem sl2_cube : (upperSL2 (1 : F) * lowerSL2 1) ^ 3 = 1 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   rw [pow_three]
@@ -48,23 +51,27 @@ theorem sl2_cube : (upperSL2 (1 : F) * lowerSL2 1) ^ 3 = 1 := by
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two] <;> grind
 
+omit [Finite F] in
 theorem ubarD_pow_three (hn : 3 ≤ n) (k : Fin n) : (ubarD (F := F) hn k) ^ 3 = 1 := by
   have : ubarD (F := F) hn k = rankOneD F hn k (upperSL2 1 * lowerSL2 1) := by
     rw [map_mul, rankOneD_upperSL2, rankOneD_lowerSL2]; rfl
   rw [this, ← map_pow, sl2_cube, map_one]
 
+omit [Finite F] in
 theorem ubarD_ne_one (hn : 3 ≤ n) (k : Fin n) : ubarD (F := F) hn k ≠ 1 := by
   intro h
   have := rk1_ubarD (F := F) hn k
   rw [h, map_one, Units.val_one] at this
   simp [rk1] at this
 
+omit [Finite F] [CharP F 2] in
 theorem eq_zero_or_one_of_card_two (hF : Nat.card F = 2) (c : F) : c = 0 ∨ c = 1 := by
   obtain ⟨y, -, hy⟩ := (Nat.card_eq_two_iff' (0 : F)).1 hF
   by_cases hc : c = 0
   · exact Or.inl hc
   · exact Or.inr ((hy c hc).trans (hy 1 one_ne_zero).symm)
 
+omit [Finite F] in
 theorem hom_pow_three (φ : Multiplicative F →* spinGroup (quadPlus n F)) (c : F) :
     φ (.ofAdd c) ^ 3 = φ (.ofAdd c) := by
   have h3 : (3 : F) = 1 := by
@@ -72,6 +79,7 @@ theorem hom_pow_three (φ : Multiplicative F →* spinGroup (quadPlus n F)) (c :
   rw [← map_pow, ← ofAdd_nsmul, nsmul_eq_mul]
   simp [h3]
 
+omit [Finite F] in
 theorem mul_eq_ubarD (hF : Nat.card F = 2) (hn : 3 ≤ n) (k : Fin n)
     {x y : spinGroup (quadPlus n F)} (hx : x ∈ (rootD F hn k).range)
     (hy : y ∈ (negRootD F hn k).range) (h3 : (x * y) ^ 3 = 1) (h1 : x * y ≠ 1) :
@@ -108,6 +116,7 @@ theorem zpow_cases {G : Type*} [Group G] {u : G} (h : u ^ 3 = 1) (m : ℤ) :
     simp only [zpow_ofNat]
     exact (eq_inv_of_mul_eq_one_right this).symm.symm
 
+omit [Finite F] in
 theorem rk1_conj_zpow_ubarD (hn : 3 ≤ n) (k : Fin n) (m : ℤ) (g : spinGroup (quadPlus n F)) :
     rk1 (spinMatrix (quadPlus n F) (g * ubarD hn k ^ m * g⁻¹) :
       Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) = 0 ∨
@@ -125,6 +134,7 @@ theorem rk1_conj_zpow_ubarD (hn : 3 ≤ n) (k : Fin n) (m : ℤ) (g : spinGroup 
     rw [h, map_inv, rk1_inv]
     exact rk1_ubarD hn k
 
+omit [Finite F] in
 theorem rk1_zpow_ubarD (hn : 3 ≤ n) (k : Fin n) (m : ℤ) :
     rk1 (spinMatrix (quadPlus n F) (ubarD hn k ^ m) :
       Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) = 0 ∨
@@ -133,7 +143,7 @@ theorem rk1_zpow_ubarD (hn : 3 ≤ n) (k : Fin n) (m : ℤ) :
   have := rk1_conj_zpow_ubarD (F := F) hn k m 1
   simpa using this
 
-theorem val_spec (hn : 3 ≤ n) (k : Fin n) :
+theorem val_spec (_hn : 3 ≤ n) (k : Fin n) :
     (k.val + 1 < n ∧ (rootIdxD n k).val = k.val ∧ rootSignD n k = false) ∨
       (¬ k.val + 1 < n ∧ (rootIdxD n k).val = n - 2 ∧ rootSignD n k = true) := by
   by_cases h : k.val + 1 < n
@@ -145,11 +155,11 @@ theorem val_spec (hn : 3 ≤ n) (k : Fin n) :
 theorem orth_cases (hn : 3 ≤ n) {i j : Fin n} (hij : i ≠ j) (hc : cartanD n i j = 0) :
     ((rootIdxD n i).val + 2 ≤ (rootIdxD n j).val ∨ (rootIdxD n j).val + 2 ≤ (rootIdxD n i).val) ∨
       (rootIdxD n i = rootIdxD n j ∧ rootSignD n i = !rootSignD n j) := by
-  simp only [cartanD, Matrix.of_apply, if_neg hij] at hc
+  simp only [cartanD, Matrix.of_apply, ite_eq_right hij] at hc
   have hadj : ¬ ((i.val + 1 = j.val ∧ j.val + 1 < n) ∨ (j.val + 1 = i.val ∧ i.val + 1 < n) ∨
       (i.val + 3 = n ∧ j.val + 1 = n) ∨ (j.val + 3 = n ∧ i.val + 1 = n)) := by
     intro h
-    rw [if_pos h] at hc
+    rw [ite_eq_left h] at hc
     norm_num at hc
   have hne : i.val ≠ j.val := fun h => hij (Fin.ext h)
   rcases val_spec hn i with ⟨hi1, hi2, hi3⟩ | ⟨hi1, hi2, hi3⟩ <;>
@@ -202,6 +212,7 @@ theorem disjoint_nodeS (hn : 3 ≤ n) {i j : Fin n}
   subst this
   omega
 
+omit [Finite F] in
 theorem rk1_pair_ne (hn : 3 ≤ n) {i j : Fin n} (hij : i ≠ j) (hc : cartanD n i j = 0) :
     rk1 (spinMatrix (quadPlus n F) (ubarD hn i * ubarD hn j) :
       Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) ≠ 0 ∧
@@ -235,28 +246,33 @@ theorem rk1_pair_ne (hn : 3 ≤ n) {i j : Fin n} (hij : i ≠ j) (hc : cartanD n
     have h2 := rank_swap_pos (F := F) (distinct4_node hn i)
     omega
 
+omit [Finite F] [CharP F 2] in
 theorem mem_rootGroup_ubarD_left (hn : 3 ≤ n) (k : Fin n) :
     rootD F hn k (.ofAdd 1) ∈ (plusDatum n F hn).rootGroup (Pi.single k 1) := by
   show _ ∈ plusRootGroup n F hn (Pi.single k 1)
   rw [plusRootGroup_single]
   exact ⟨_, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem mem_rootGroup_ubarD_right (hn : 3 ≤ n) (k : Fin n) :
     negRootD F hn k (.ofAdd 1) ∈ (plusDatum n F hn).rootGroup (-Pi.single k 1) := by
   show _ ∈ plusRootGroup n F hn (-Pi.single k 1)
   rw [plusRootGroup_neg_single]
   exact ⟨_, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem mem_range_rootD_of_mem (hn : 3 ≤ n) (k : Fin n) {x : spinGroup (quadPlus n F)}
     (hx : x ∈ (plusDatum n F hn).rootGroup (Pi.single k 1)) : x ∈ (rootD F hn k).range := by
   rw [← plusRootGroup_single]
   exact hx
 
+omit [Finite F] [CharP F 2] in
 theorem mem_range_negRootD_of_mem (hn : 3 ≤ n) (k : Fin n) {x : spinGroup (quadPlus n F)}
     (hx : x ∈ (plusDatum n F hn).rootGroup (-Pi.single k 1)) : x ∈ (negRootD F hn k).range := by
   rw [← plusRootGroup_neg_single]
   exact hx
 
+omit [Finite F] in
 theorem spin_orth (hF : Nat.card F = 2) (hn : 3 ≤ n) (i j : Fin n) (hij : i ≠ j)
     (hcart : (plusDatum n F hn).cartan i j = 0) :
     ∃ xi ∈ (plusDatum n F hn).rootGroup (Pi.single i 1),

@@ -16,11 +16,11 @@ section F2b
 
 variable {F : Type} [Field F] [Finite F]
 
-theorem two_eq_zero_of_card {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) : (2 : F) = 0 := by
-  haveI := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+theorem two_eq_zero_of_card {n : ℕ} (hF : Nat.card F = 2 ^ n) (_hn : 1 ≤ n) : (2 : F) = 0 := by
+  have := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : Fintype.card F = 2 ^ n := by rw [← Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow h
+  have : CharP F 2 := charP_of_card_eq_prime_pow h
   exact CharP.cast_eq_zero F 2
 
 theorem sl2_stab_mul_self {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) (g : ↥(StatedSL 2 F))
@@ -52,7 +52,7 @@ theorem sl2_stab_mul_self {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) (g 
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, Fin.zero_eta, Fin.isValue,
-      Fin.mk_one, if_true, if_false, one_ne_zero, zero_ne_one]
+      Fin.mk_one, ite_true, ite_false, one_ne_zero, zero_ne_one]
   · linear_combination (-1 : F) * hdet + M 0 0 * htr - h2
   · linear_combination M 0 1 * htr
   · linear_combination M 1 0 * htr

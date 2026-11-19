@@ -279,7 +279,7 @@ theorem mem_range_twE6ThreeFrameHom_of_mem_torus
 
 abbrev TwistedE6ThreeSCReference : Prop :=
   ∀ {f : ℕ} (hf : 1 ≤ f) (h3 : ¬ 3 ∣ 2 ^ f + 1)
-    {ζ : (GaloisField 2 (2 * f))ˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1)
+    {ζ : (GaloisField 2 (2 * f))ˣ} (_hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1)
     {A : Subgroup ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))},
     IsElemAbelian 3 A → 3 ^ 4 ≤ Nat.card A →
     (∀ c ∈ Subgroup.centralizer (A : Set
@@ -298,7 +298,7 @@ theorem twistedE6ThreeSCUnique_of_scReference (hSC : TwistedE6ThreeSCReference) 
   have hcomp : (MulAut.conj (c' * c⁻¹)).toMonoidHom.comp (MulAut.conj c).toMonoidHom =
       (MulAut.conj c').toMonoidHom := by
     ext x
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
   rw [hc', hc, Subgroup.map_map, hcomp]
 

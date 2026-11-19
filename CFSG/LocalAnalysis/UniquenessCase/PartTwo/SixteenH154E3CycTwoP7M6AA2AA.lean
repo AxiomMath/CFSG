@@ -34,8 +34,8 @@ theorem s16h_e3_CycTwoP7M6A_normSylow_selfCent
   obtain ⟨helem, hcent, hrel⟩ :=
     s16h_e3_CycTwoP7M6AA2AAA_pCore_structure D S hr3 hσ hV h hc hp hLp hχ hs2 hres hp7 hm
       hbad
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   exact ⟨pCoreOf 7 (Mbar D.M V₀ V hV),
     CFSG.LieType.BorelTits.pCoreOf_le 7 _,
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 7 _,

@@ -29,7 +29,7 @@ theorem not_dvd_five_fixer
     rw [Nat.card_zpowers,hu,pow_one]
   obtain ⟨S,hZS⟩ := hZ.exists_le_sylow
   let Q := sylowImage X P (s : Set X) S
-  have hQ : IsPGroup 11 Q := S.isPGroup'.map _
+  have hQ : IsPGroup 11 Q := S.isPGroup.map _
   have hQcard : Nat.card Q = Nat.card S := Subgroup.card_map_of_injective H.subtype_injective
   have hSge : 11 ≤ Nat.card S := by
     have h := Subgroup.card_le_of_le hZS

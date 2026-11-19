@@ -32,14 +32,14 @@ theorem tree_specR (hR : KeyRep R mm ONE) (hg : ∀ j < m, R (gk j) (g j))
     by_cases h0 : i = 0
     · subst h0
       have e0 : Nat.beq 0 0 = true := rfl
-      rw [if_pos e0] at h
+      rw [ite_eq_left e0] at h
       have e := beq_of h
       refine ⟨fun h => absurd h (Nat.lt_irrefl 0), ?_⟩
       rw [e, tabElt_zero]
       exact hR.one
     · have hb : (Nat.beq i 0 = true) = False := by
         simp only [Nat.beq_eq, h0]
-      rw [if_neg (by rw [hb]; exact id), sB_eq, sB_eq, bRec_eq] at h
+      rw [ite_eq_right (by rw [hb]; exact id), sB_eq, sB_eq, bRec_eq] at h
       split_ifs at h with h1
       · rw [bRec_eq] at h
         split_ifs at h with h2
@@ -67,7 +67,7 @@ theorem tabData_ofR (hR : KeyRep R mm ONE) (hg : ∀ j < m, R (gk j) (g j))
     split_ifs at h with h1
     · rw [bRec_eq] at h
       refine ⟨blt_of h1, fun hq1 => ?_⟩
-      rw [if_pos (Eq.mpr Nat.blt_eq hq1), sB_eq] at h
+      rw [ite_eq_left (Eq.mpr Nat.blt_eq hq1), sB_eq] at h
       exact blt_of h
   have mono : ∀ q q', q < q' → q' < n → key (sg q) < key (sg q') := by
     intro q q' hqq hq'
@@ -159,7 +159,7 @@ theorem sylow_ofR [Finite G] (hR : KeyRep R mm ONE) (hg : ∀ j < m, R (gk j) (g
   have h := hk a ha
   unfold killC at h
   have hb0 : (Nat.beq a 0 = true) = False := by simp only [Nat.beq_eq, ha0]
-  rw [bRec_eq, if_neg (by rw [hb0]; exact id), sB_eq, sB_eq, bRec_eq] at h
+  rw [bRec_eq, ite_eq_right (by rw [hb0]; exact id), sB_eq, sB_eq, bRec_eq] at h
   split_ifs at h with h1
   rw [bRec_eq] at h
   split_ifs at h with h2
@@ -188,7 +188,7 @@ theorem sylow_ofR [Finite G] (hR : KeyRep R mm ONE) (hg : ∀ j < m, R (gk j) (g
     rw [this] at hord
     simp at hord
   have hb0' : (Nat.beq (REP (CI a)) 0 = true) = False := by simp only [Nat.beq_eq, hr0]
-  rw [bRec_eq, if_neg (by rw [hb0']; exact id), sB_eq, bRec_eq] at hrc
+  rw [bRec_eq, ite_eq_right (by rw [hb0']; exact id), sB_eq, bRec_eq] at hrc
   have h81 : 81 ≤ Nat.card ↥(S₀ ⊓ centralizer ({E (REP (CI a))} : Set G)) := by
     split_ifs at hrc with h4
     · exfalso
@@ -212,7 +212,7 @@ theorem sylow_ofR [Finite G] (hR : KeyRep R mm ONE) (hg : ∀ j < m, R (gk j) (g
         have hcw := blt_of h6
         refine ⟨hcw, fun ht0 => ?_, prodEq _ hcw _ hx _ hx _ hcw (beq_of h5)⟩
         have hb : (Nat.beq t 0 = true) = False := by simp only [Nat.beq_eq, ht0]
-        rw [bRec_eq, if_neg (by rw [hb]; exact id)] at h7
+        rw [bRec_eq, ite_eq_right (by rw [hb]; exact id)] at h7
         exact blt_of h7
       have mono : ∀ t t', t < t' → t' < 81 → cw (CI a) t < cw (CI a) t' := by
         intro t t' htt ht'

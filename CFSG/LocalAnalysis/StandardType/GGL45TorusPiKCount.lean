@@ -86,7 +86,7 @@ private theorem ggEbar_le_ggN0 {K : Type*} {R : Type} [Group K] [Group R] {J : S
     change ggInducedAut θ e ∈ (J : Set (MulAut R))
     rw [hJI]
     exact (ggL45_inducesIn_iff (R := R) θ I e).mp (hInd e he)
-  · haveI : IsMulCommutative ↥(ggEbar θ E) :=
+  · have : IsMulCommutative ↥(ggEbar θ E) :=
       (CFSG.Open.IsElemAbelian.map hEelem (ggInducedAut θ)).1
     intro v hv
     exact setLike_mul_comm (s := ggEbar θ E) hv hu
@@ -240,7 +240,7 @@ private theorem ggS0N0_cyclic {R : Type} [Group R] {J S S0 N0 : Subgroup (MulAut
       (ggPsi0 (J := J) (S := S) (S0 := S0) (N0 := N0) hS0S hker))
     (hSJcyc : IsCyclic (↥S ⧸ J.subgroupOf S)) :
     ∃ g ∈ S0, ∀ s ∈ S0, ∃ k : ℤ, g ^ k * s ∈ N0 := by
-  haveI : IsCyclic (↥S0 ⧸ (N0.subgroupOf S0)) :=
+  have : IsCyclic (↥S0 ⧸ (N0.subgroupOf S0)) :=
     isCyclic_of_injective _ hpsi_inj
   obtain ⟨q, hqgen⟩ := IsCyclic.exists_generator (α := ↥S0 ⧸ (N0.subgroupOf S0))
   obtain ⟨g1, hg1⟩ := QuotientGroup.mk'_surjective (N0.subgroupOf S0) q
@@ -270,7 +270,7 @@ private theorem ggS0N0_cyclic_main {K : Type*} {R : Type} [Group K] [Group R]
   have hS0S : ggS0 S θ E ≤ S := inf_le_left
   have hN0normal : ((ggN0 J θ E).subgroupOf (ggS0 S θ E)).Normal :=
     ggN0_subgroupOf_normal (S0 := ggS0 S θ E) (N0 := ggN0 J θ E) hNn
-  haveI : ((ggN0 J θ E).subgroupOf (ggS0 S θ E)).Normal := hN0normal
+  have : ((ggN0 J θ E).subgroupOf (ggS0 S θ E)).Normal := hN0normal
   have hker : (ggN0 J θ E).subgroupOf (ggS0 S θ E) ≤
       (ggPi0 (J := J) (S := S) (S0 := ggS0 S θ E) hS0S).ker :=
     ggPi0_kernel (J := J) (S := S) (S0 := ggS0 S θ E) (N0 := ggN0 J θ E)
@@ -359,15 +359,15 @@ theorem ggL45TorusKGHyp_card_mul_card_le {p : ℕ} {lab : LargeEvenLabel} {R : T
     Nat.card E * Nat.card E ≤ p * Nat.card {t : MulAut R // t ∈ I ∧
       (∀ e ∈ E, t * ggInducedAut θ e = ggInducedAut θ e * t) ∧ t ^ p ∈ E.map (ggInducedAut θ)} := by
   classical
-  haveI : Finite (K ⧸ Subgroup.center K) :=
+  have : Finite (K ⧸ Subgroup.center K) :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective _)
-  haveI : Finite R := Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (MulAut R) := TableBSymp.finite_mulAut (R := R)
+  have : Finite R := Finite.of_equiv _ θ.toEquiv
+  have : Finite (MulAut R) := TableBSymp.finite_mulAut (R := R)
   obtain ⟨hψp, hFA, hEelem, hEcard2, hD4, hInd, hψE, hSat, hRk, hP⟩ := hH
   obtain ⟨P, hPE, hEcardP, hPforall⟩ := hP
   obtain ⟨J, S, hJI, hJS, hJnorm, ⟨g0, hg0S, hg0cyc⟩, hSp⟩ := hcyc
-  haveI : (J.subgroupOf S).Normal := hJnorm
+  have : (J.subgroupOf S).Normal := hJnorm
   let Ebar : Subgroup (MulAut R) := ggEbar θ E
   let S0 : Subgroup (MulAut R) := ggS0 S θ E
   let N0 : Subgroup (MulAut R) := ggN0 J θ E

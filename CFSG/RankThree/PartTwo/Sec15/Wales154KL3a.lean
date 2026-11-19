@@ -63,7 +63,7 @@ theorem sq_fix_of_pow_two_pow {g : GL (Fin 3) K} {k : ℕ} (hg : g ^ 2 ^ k = 1)
     (hgW : ∀ v ∈ W, (g : Matrix (Fin 3) (Fin 3) K) *ᵥ v ∈ W) :
     (∀ v ∈ W, ((g ^ 2 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ v = v) ∧
       ∀ v, ((g ^ 2 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ v - v ∈ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Matrix (Fin 3) (Fin 3) K := (g : Matrix (Fin 3) (Fin 3) K) - 1 with hNdef
   have hgN : (g : Matrix (Fin 3) (Fin 3) K) = N + 1 := by rw [hNdef, sub_add_cancel]
   have hnil : IsNilpotent N := by
@@ -139,6 +139,7 @@ theorem sq_eq_one_of_fix {W : Submodule K (Fin 3 → K)} {g : GL (Fin 3) K}
       have h' := W.neg_mem h
       rwa [neg_sub] at h'
 
+omit [CharP K 2] in
 theorem conj_mem_fixGroup {W : Submodule K (Fin 3 → K)} {d u : GL (Fin 3) K}
     (hd : ∀ v ∈ W, (d : Matrix (Fin 3) (Fin 3) K) *ᵥ v ∈ W)
     (hdi : ∀ v ∈ W, ((d⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ v ∈ W)
@@ -167,7 +168,7 @@ variable {K : Type*} [Field K] [CharP K 2]
 
 theorem eq_one_of_mem_center_of_pow {z : GL (Fin 3) K}
     (hz : z ∈ Subgroup.center (GL (Fin 3) K)) {m : ℕ} (hm : z ^ 2 ^ m = 1) : z = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Matrix.GeneralLinearGroup.center_eq_range_scalar] at hz
   obtain ⟨u, rfl⟩ := hz
   have hu : (u : K) ^ 2 ^ m = 1 := by
@@ -203,9 +204,10 @@ theorem mem_of_pow_two_pow {S : Subgroup (GL (Fin 3) K)} (hS : IsPGroup 2 S)
 
 variable [Finite K]
 
+omit [CharP K 2] in
 theorem exists_twoGroup_map_eq {P : Subgroup (ProjGenLinGroup (Fin 3) K)} (hP : IsPGroup 2 P) :
     ∃ S : Subgroup (GL (Fin 3) K), IsPGroup 2 S ∧ S.map ProjGenLinGroup.mk = P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : Function.Surjective (ProjGenLinGroup.mk.subgroupComap P) :=
     MonoidHom.subgroupComap_surjective _ P ProjGenLinGroup.mk_surjective
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 2 (P.comap ProjGenLinGroup.mk)))
@@ -220,8 +222,8 @@ theorem exists_twoGroup_map_eq {P : Subgroup (ProjGenLinGroup (Fin 3) K)} (hP : 
 
 theorem exists_fixed_vector {S : Subgroup (GL (Fin 3) K)} (hS : IsPGroup 2 S) :
     ∃ w : Fin 3 → K, w ≠ 0 ∧ ∀ s ∈ S, (s : Matrix (Fin 3) (Fin 3) K) *ᵥ w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥S (Fin 3 → K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥S (Fin 3 → K) :=
     { smul := fun s w => ((s : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ w
       one_smul := fun w => by
         show ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ w = w
@@ -233,7 +235,7 @@ theorem exists_fixed_vector {S : Subgroup (GL (Fin 3) K)} (hS : IsPGroup 2 S) :
             (((s : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ w)
         rw [Units.val_mul, Matrix.mulVec_mulVec] }
   have h2 : 2 ∣ Nat.card (Fin 3 → K) := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨m, -, hm⟩ := FiniteField.card K 2
     rw [Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_fin, hm]
     exact dvd_pow (dvd_pow_self 2 (PNat.ne_zero m)) (by omega)
@@ -399,7 +401,7 @@ theorem exists_projSL_pow_four (K : Type*) [Field K] [CharP K 2] :
     rw [hM2]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three] <;> linear_combination h2
+      simp [Matrix.mul_apply, Fin.sum_univ_three]; linear_combination h2
   have hA4 : A ^ 4 = 1 := by
     apply Units.ext
     rw [Units.val_pow_eq_pow_val, hAM, Units.val_one, show (4 : ℕ) = 2 * 2 from rfl, pow_mul,
@@ -442,8 +444,8 @@ theorem exists_pow_ne_self (n : ℕ) (hn : 1 ≤ n) :
 
 theorem exists_pow_eq_add_one (n : ℕ) (hn : 1 ≤ n) :
     ∃ b : GaloisField 2 (2 * n), b ^ 2 ^ n = b + 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI := Fintype.ofFinite (GaloisField 2 (2 * n))
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := Fintype.ofFinite (GaloisField 2 (2 * n))
   obtain ⟨β, hβ⟩ := exists_pow_ne_self n hn
   set c : GaloisField 2 (2 * n) := β ^ 2 ^ n + β with hc
   have hc0 : c ≠ 0 := by
@@ -465,7 +467,7 @@ theorem exists_pow_eq_add_one (n : ℕ) (hn : 1 ≤ n) :
 
 theorem exists_projSU_pow_four (n : ℕ) (hn : 1 ≤ n) :
     ∃ t : ↥(CFSG.PGLModel.projSU 3 2 n), t ^ 4 = 1 ∧ t ^ 2 ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨b, hb⟩ := exists_pow_eq_add_one n hn
   let M : Matrix (Fin 3) (Fin 3) (GaloisField 2 (2 * n)) :=
     !![1 + b, b, 1; b, 1 + b, 1; 1, 1, 1]

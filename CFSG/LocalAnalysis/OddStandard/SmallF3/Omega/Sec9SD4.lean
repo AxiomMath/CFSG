@@ -30,7 +30,7 @@ theorem sec9d_B_le_conj (h36 : Asc82Lemma36) (h37 : Asc82Lemma37) (h66 : Asc82Le
       _ = (t * t) * (z * z) := by group
       _ = 1 := by rw [sec9d_t_sq h, sec9d_z_sq h, one_mul]
   have hb2 : orderOf b = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (by rw [pow_two]; exact sec9d_B_sq h hb) hb1
   have hLgM : IsOm6M (CFSG.conjugate L g) := sec9d_isOm6M_conj h
   have hnorm : B ≤ normalizer (CFSG.conjugate L g : Set G) :=

@@ -47,9 +47,9 @@ theorem pRank_aut_le_one {p : ℕ} (hp : p.Prime) {K T : Type} [Group K] [Finite
     (hperf : commutator K = ⊤) (e : K ⧸ Subgroup.center K ≃* T) {N : ℕ}
     (hN : Nat.card (MulAut T) ∣ N) (hpN : ¬ p ^ 2 ∣ N) :
     CFSG.Open.pRank p (⊤ : Subgroup (MulAut K)) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect K := ⟨hperf⟩
-  haveI : Finite (MulAut K) := MulEquiv.finite_left
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect K := ⟨hperf⟩
+  have : Finite (MulAut K) := MulEquiv.finite_left
   set ψ : MulAut K →* MulAut T :=
     (MulAut.congr e).toMonoidHom.comp
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom K) with hψ
@@ -67,7 +67,7 @@ theorem pRank_aut_le_one {p : ℕ} (hp : p.Prime) {K T : Type} [Group K] [Finite
 theorem card_mulAut_L27 {T : Type} [Group T] {q' : TauCeti.PrimePower}
     {hv : (TauCeti.LieTypeIndex.A 1 q').Valid} (h7 : q'.card = 7)
     (e : T ≃* (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group) : Nat.card (MulAut T) = 336 := by
-  haveI : Fact q'.p.Prime := ⟨q'.prime_p⟩
+  have : Fact q'.p.Prime := ⟨q'.prime_p⟩
   have hF : Nat.card (GaloisField q'.p q'.exponent) = 7 := by
     rw [GaloisField.card _ _ q'.exponent_pos.ne', ← TauCeti.PrimePower.card_def, h7]
   let f : T ≃* CFSG.GH74.GLS.IVK.L2 (GaloisField q'.p q'.exponent) :=
@@ -76,7 +76,7 @@ theorem card_mulAut_L27 {T : Type} [Group T] {q' : TauCeti.PrimePower}
         (GaloisField q'.p q'.exponent))
   have hT : Nat.card T = 168 :=
     Prop1116Design.card_statedProj_two_seven ⟨_, inferInstance, inferInstance, hF, ⟨f⟩⟩
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
   rw [CFSG.GH74.Uniqueness.SU.K.KI8.card_aut_eq ⟨by rw [hF]; decide, by rw [hF]; norm_num⟩ f
     (by norm_num) hF, hT]
 
@@ -218,7 +218,7 @@ theorem rankOne_or_lieChar (hp : p.Prime) (hp2 : p ≠ 2) {r : ℕ} (hrp : r ≠
 theorem claims1116_input23_10_of_faith (h5 : InputsSeitz.Input23_10Faith)
     (h3 : Input23_10FaithThree) : Claims1116.Input23_10 := by
   intro G _ _ p r hp hp2 hrp X J E hJ hEX hE hE3 hchev hexc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK : IsComponentOf (barX p X J) ⊤ := hJ.2.2.1
   have hcore : GLAPPrimeCore p (↥X ⧸ GLAPPrimeCore p ↥X) = ⊥ := CFSG.pPrimeCore_quotient_eq_bot hp
   have ec := Claims1116.barX_centerQuotEquiv hp hJ
@@ -298,8 +298,8 @@ theorem valid_A_two_pp3 : (TauCeti.LieTypeIndex.A 2 pp3).Valid := by
 theorem isChevSimple_three_of_isLpType {T : Type} [Group T] (h : IsLpType 3 3 T) :
     IsChevSimple 3 T := by
   obtain ⟨F, hF, hFin, hc, ⟨f⟩⟩ := h
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
-  haveI : Fact pp3.p.Prime := ⟨pp3.prime_p⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact pp3.p.Prime := ⟨pp3.prime_p⟩
   have hc' : Nat.card F = 3 ^ 1 := by rw [hc]; norm_num
   let eK := CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL F 3 3 1 (by norm_num) hc'
   let eC := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 pp3 valid_A_two_pp3
@@ -356,7 +356,7 @@ theorem sporOrd_bounds (s : TauCeti.SporadicName) :
   cases s <;> decide
 
 theorem card_alt (n : ℕ) (hn : 2 ≤ n) : Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
 
 @[expose] def SporDownCase (s : TauCeti.SporadicName) (p : ℕ) (T : Type) [Group T] : Prop :=
@@ -437,7 +437,7 @@ theorem sporDownRow_of_model {s : TauCeti.SporadicName} {p : ℕ} (hp : p.Prime)
     (h : Finite Q → ∀ k : Q, orderOf k = p → DownCompOK s p k) : SporDownRow s p := by
   intro S _ _ _ ⟨e⟩ x hx I hI
   let φ : S ≃* Q := e.trans b.symm
-  haveI : Finite Q := Finite.of_equiv S φ.toEquiv
+  have : Finite Q := Finite.of_equiv S φ.toEquiv
   have hk : orderOf (φ x) = p := by rw [MulEquiv.orderOf_eq, hx]
   have := downCompOK_of_mulEquiv hp φ.symm (h inferInstance _ hk)
   rw [MulEquiv.symm_apply_apply] at this
@@ -453,7 +453,7 @@ theorem sporDownRow_of_centShape {s : TauCeti.SporadicName} {p : ℕ} (hp : p.Pr
     (h : CFSG.HardMathSupport.Dickson.I271.CentShape p Good Q)
     (hG : ∀ (T : Type) [Group T], Good T → DownTypeOK s p T) : SporDownRow s p :=
   sporDownRow_of_model hp b fun hfin _ hk => by
-    haveI := hfin
+    have := hfin
     exact downCompOK_of_centShape hp h hG hk
 
 theorem isChevSimple_five_of_A5 {T : Type} [Group T] (e : T ≃* ↥(alternatingGroup (Fin 5))) :
@@ -623,7 +623,7 @@ theorem downTypeOK_suz_five_of_card_360 {T : Type} [Group T] [Finite T] (hc : Na
           omega
       subst hn6
       refine Or.inr (Or.inr (Or.inl ⟨rfl, rfl, ?_⟩))
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hK : Nat.card (GaloisField 3 2) = 9 := by
         rw [GaloisField.card 3 2 (by norm_num)]
         norm_num
@@ -640,7 +640,7 @@ theorem card_zmod_five : Nat.card (ZMod 5) = 5 := by
 theorem isLpType_two_five_of_A5 {T : Type} [Group T]
     (e : T ≃* ↥(alternatingGroup (Fin 5))) :
     IsLpType 2 5 T := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g⟩ := CFSG.ClassicalModels.nonempty_statedLinearModel_equiv_alternating_five (ZMod 5)
     (Or.inr card_zmod_five)
   exact ⟨ZMod 5, inferInstance, inferInstance, card_zmod_five, ⟨e.trans g.symm⟩⟩
@@ -651,7 +651,7 @@ theorem downCompOK_three_of_card_dvd_360 {s : TauCeti.SporadicName}
     (hk : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 360) : DownCompOK s 3 k := by
   intro I hI
   obtain ⟨hs', hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab Nat.prime_three hI
-  haveI := hs'
+  have := hs'
   have h3 : 3 * Nat.card (PSimple 3 I) ∣ 360 :=
     (CFSG.LocalAnalysis.GLTheoremA.I1416Rows.three_mul_card_pSimple_dvd_cent hk3 hI.1).trans hk
   have hd : Nat.card (PSimple 3 I) ∣ 3000 :=
@@ -680,7 +680,7 @@ theorem downCompOK_of_lines {s : TauCeti.SporadicName} (hp : p.Prime)
       ∃ j, H = Subgroup.zpowers (line j))
     (hmem : ∀ j, line j ∈ P) (hline : ∀ j, DownCompOK s p (⟨line j, hmem j⟩ : ↥P)) :
     ∀ k : ↥P, orderOf k = p → DownCompOK s p k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro k hk
   have hko : orderOf (k : Equiv.Perm (Fin n)) = p := by rw [Subgroup.orderOf_coe]; exact hk
   obtain ⟨g, hgP, hgQ⟩ :=
@@ -735,12 +735,12 @@ theorem pSimple_equiv_of_normal_record (hp : p.Prime) (hPR : P ≤ R) {x : Equiv
     (hpD : p ∣ Nat.card ↥D) (I : Subgroup ↥P)
     (hI : GLAPComponent p (Subgroup.centralizer ({(⟨x, hxP⟩ : ↥P)} : Set ↥P)) I) :
     Nonempty (PSimple p I ≃* ↥D) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k : ↥P := ⟨x, hxP⟩ with hk
   set Cq : Subgroup ↥P := Subgroup.centralizer ({k} : Set ↥P) with hCq
   set L : Subgroup ↥P := D.subgroupOf P with hL
   let eL : ↥L ≃* ↥D := Subgroup.subgroupOfEquivOfLe hDP
-  haveI hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
+  have hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
   have hLnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨g, hg, h, hh, hgh⟩ := hDnab
     refine ⟨eL.symm ⟨g, hg⟩, eL.symm ⟨h, hh⟩, fun he => hgh ?_⟩
@@ -875,7 +875,7 @@ theorem not_isChevSimple_of_isSporType
     (Nat.card_congr es.toEquiv).trans
       (CFSG.HardMathSupport.Solomon.Coordinator.sporadicOrdersTable_holds s)
   obtain ⟨hb1, hb2, hb3⟩ := sporOrd_bounds s
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
   rintro (⟨i, hi, ⟨e⟩⟩ | ⟨i, hi, ⟨e⟩⟩)
   · cases i with
     | lie d =>
@@ -950,8 +950,8 @@ theorem inputSporDownChev_of_rows
       p ^ 2 ∣ CFSG.HardMathSupport.Solomon.Coordinator.sporOrd s → SporDownRow s p) :
     Claims1116b.InputSporDownChev := by
   intro S _ _ hS hnc p hp hp2 s hs α hα I hI q hq hq2 hqp hchev
-  haveI := hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hS
+  have : Fact p.Prime := ⟨hp⟩
   have hα1 : α ≠ 1 := by
     rintro rfl
     rw [Claims1116b.fixSubgroup_one_eq_top] at hI
@@ -1029,7 +1029,7 @@ theorem downCompOK_five_of_card_dvd_3000
     {k : Q} (hk : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 3000) : DownCompOK s 5 k := by
   intro I hI
   obtain ⟨hs, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab Nat.prime_five hI
-  haveI := hs
+  have := hs
   have hd : Nat.card (PSimple 5 I) ∣ 3000 :=
     ((CFSG.LocalAnalysis.GLTheoremA.KDL227Rows.card_pSimple_dvd 5 I).trans
       (Subgroup.card_dvd_of_le hI.1)).trans hk
@@ -1071,7 +1071,7 @@ theorem sporDownRow_McL_three
 
 theorem sporDownRow_Ly_five
     : SporDownRow .Ly 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .Ly
   exact sporDownRow_of_centShape (Good := fun _ _ => False) Nat.prime_five b
     (fun k hk1 hk5 => Or.inl (CFSG.HardMathSupport.Dickson.I271.pConstrainedShape_Ly_five _
@@ -1080,7 +1080,7 @@ theorem sporDownRow_Ly_five
 theorem sporDownRow_McL_five
     : SporDownRow .McL 5 := by
   have hc : Nat.card CFSG.Blueprint.NativeSporadic.McL = 898128000 := CFSG.Sporadic.McL.card_McL
-  haveI : Finite CFSG.Blueprint.NativeSporadic.McL :=
+  have : Finite CFSG.Blueprint.NativeSporadic.McL :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   have b : CFSG.Blueprint.NativeSporadic.McL ≃* (TauCeti.CFSGIndex.sporadic .McL).Group :=
     (CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .McL).some
@@ -1175,7 +1175,7 @@ theorem sporDownRow_J4_eleven
         · rw [h0, mul_zero] at hk; exact absurd hk Nat.card_pos.ne'
         · exact h0
       omega
-    haveI := Fintype.ofFinite ↥(Subgroup.centralizer ({u} : Set ↥J))
+    have := Fintype.ofFinite ↥(Subgroup.centralizer ({u} : Set ↥J))
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (p := 11) (q := 2) (a := 2) (b := k - 1) (by norm_num) (by norm_num) (by norm_num) ?_
     rw [Fintype.card_eq_nat_card, hk]
@@ -1193,13 +1193,13 @@ open CFSG.Open CFSG.Blueprint CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sect
 theorem downCompOK_seven_ThJ
     (k : J) (hk : orderOf k = 7) : DownCompOK .Th 7 k := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
-  haveI : Finite J :=
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Finite J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
   have hz : DownCompOK .Th 7 (slpJ a b prog7 24 * slpJ a b prog7 25 ^ 6) := by
     intro I hI
     obtain ⟨hs, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab hp7 hI
-    haveI := hs
+    have := hs
     have hd : 7 * Nat.card (PSimple 7 I) ∣ 1176 :=
       card_centralizer_z7 ▸ prime_mul_card_pSimple_dvd_cent hp7 orderOf_z7 hI.1
     have hd168 : Nat.card (PSimple 7 I) ∣ 168 :=
@@ -1238,7 +1238,7 @@ theorem sporDownRow_J3_three
     : SporDownRow .J3 3 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .J3
   exact sporDownRow_of_model Nat.prime_three b fun hfin _ hk => by
-    haveI := hfin
+    have := hfin
     exact downCompOK_of_centShapeSplit Nat.prime_three (by norm_num)
       CFSG.HardMathSupport.Dickson.I271.centShapeSplit_J3 hk
 
@@ -1246,7 +1246,7 @@ theorem sporDownRow_Suz_three
     : SporDownRow .Suz 3 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .Suz
   exact sporDownRow_of_model Nat.prime_three b fun hfin _ hk => by
-    haveI := hfin
+    have := hfin
     exact downCompOK_of_centShapeSplit Nat.prime_three (by norm_num)
       CFSG.HardMathSupport.Dickson.I271.centShapeSplit_Suz hk
 
@@ -1254,7 +1254,7 @@ theorem sporDownRow_HN_five
     : SporDownRow .HN 5 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .HN
   exact sporDownRow_of_model Nat.prime_five b fun hfin _ hk => by
-    haveI := hfin
+    have := hfin
     exact downCompOK_of_centShapeRk' Nat.prime_five
       (CFSG.HardMathSupport.Dickson.I271.hn5_centShapeRk'_HN
         CFSG.HardMathSupport.Dickson.I271.hnFiveMoved_holds)
@@ -1265,7 +1265,7 @@ theorem sporDownRow_J4_three
   obtain ⟨hfin, -, -, ⟨b⟩⟩ :=
     CFSG.Sporadic.J4.j4_model CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group
   have hM : Nat.card CFSG.Blueprint.NativeSporadic.M22 = 443520 := CFSG.Sporadic.Mathieu.card_M22
-  haveI : Finite CFSG.Blueprint.NativeSporadic.M22 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.M22 :=
     Nat.finite_of_card_ne_zero (by rw [hM]; norm_num)
   have hrow := @sporDownRow_of_model' .J4 3 Nat.prime_three ↥CFSG.Sporadic.J4.J _ hfin b
   refine hrow fun x hx I hI => ?_
@@ -1326,7 +1326,7 @@ theorem sporDownRow_Fi22_five
     rfl
   have hIL : I ≤ GLAPLayer 5 (Subgroup.centralizer ({x} : Set S)) := le_sSup hI
   obtain ⟨hs, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab Nat.prime_five hI
-  haveI := hs
+  have := hs
   have hd : Nat.card (PSimple 5 I) ∣ 3000 :=
     ((CFSG.LocalAnalysis.GLTheoremA.KDL227Rows.card_pSimple_dvd 5 I).trans
       ((Subgroup.card_dvd_of_le hIL).trans (by rw [hL]; norm_num)))
@@ -1359,7 +1359,7 @@ theorem sporDownRow_Ly_three
 theorem sporDownRow_M_seven
     : SporDownRow .M 7 := by
   intro S _ _ hS hs x hx I hI
-  haveI := hS
+  have := hS
   have hsh := CFSG.HardMathSupport.Dickson.I271.simpleCentShapeRk'_M_of_gmat (p := 7) (by norm_num)
     (fun _ _ _ _ e h => CFSG.HardMathSupport.Dickson.I271.GoodSpor.of_equiv e h)
     (fun _ _ _ _ e h => CFSG.HardMathSupport.Dickson.I271.RkSpor.of_equiv e h)
@@ -1374,7 +1374,7 @@ theorem sporDownRow_Co1_five
     : SporDownRow .Co1 5 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .Co1
   exact sporDownRow_of_model Nat.prime_five b fun hfin _ hk => by
-    haveI := hfin
+    have := hfin
     exact downCompOK_of_centShapeMulti Nat.prime_five
       (CFSG.HardMathSupport.Dickson.I271.TabCo1.centShapeMulti_Co1_five
         CFSG.HardMathSupport.Timmesfeld.Proving.sporadicOuterLeTwo_holds)
@@ -1383,7 +1383,7 @@ theorem sporDownRow_Co1_five
 theorem sporDownRow_He_three
     : SporDownRow .He 3 := by
   intro S _ _ hS hs x hx I hI
-  haveI := hS
+  have := hS
   have hcard : Nat.card S = CFSG.HardMathSupport.Solomon.Coordinator.sporOrd .He :=
     (Nat.card_congr hs.some.toEquiv).trans
       (CFSG.HardMathSupport.Solomon.Coordinator.sporadicOrdersTable_holds .He)
@@ -1393,7 +1393,7 @@ theorem sporDownRow_He_three
       norm_num)
   have hcen : Subgroup.center S = ⊥ := Claims1116b.center_eq_bot_of_simple hnc
   let eT : ↥(⊤ : Subgroup S) ≃* S := Subgroup.topEquiv
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup S) := eT.isSimpleGroup
+  have : IsSimpleGroup ↥(⊤ : Subgroup S) := eT.isSimpleGroup
   have hncT : ∃ a b : ↥(⊤ : Subgroup S), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eT.symm a, eT.symm b, fun h => hab (by simpa using congrArg eT h)⟩
@@ -1432,7 +1432,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem sporDownRow_J2_five
     : SporDownRow .J2 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, -, hQcard, -⟩, ⟨hlinesSet, -⟩, hrec, hgood, hbad⟩ :=
     R3E_J2_full_five_centralizer_structure
   have hM := j2_autModel
@@ -1494,7 +1494,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem sporDownRow_Co3_five
     : SporDownRow .Co3 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrec0, hrec25, hC0, -, hDs, hDnab, hDcard,
     hDcent, -, hC25, -, hAC, hAn, hAcard, -, -, hAc⟩ := R3E_Co3_full_five_centralizer_structures
   have e : CFSG.Blueprint.NativeSporadic.Co3 ≃* ↥co3P := co3PermEquiv
@@ -1564,7 +1564,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem sporDownRow_He_five
     : SporDownRow .He 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrec, ⟨hC0, -⟩,
     ⟨hDs, hDnab, hDcard, hDP, hDcent, -⟩⟩ := R3E_He_full_five_centralizer_structures
   have hM := heAutModel
@@ -1620,7 +1620,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem sporDownRow_Co2_five
     : SporDownRow .Co2 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrec0, hC0, -, hAC, hAn, hAcard, -, -,
     hAc, hC1, -, hDs, hDnab, hDcard, hDcent, hDcard5⟩ := R3E_Co2_full_five_centralizer_structures
   have e : CFSG.Blueprint.NativeSporadic.Co2 ≃* ↥co2P := co2PermEquiv
@@ -1675,7 +1675,7 @@ theorem sporDownRow_Co2_five
       by_cases h : (j : ℕ) = 0
       · rw [(hrec0 j).2 h]; exact hL0
       · have h1 : co2FiveRecordOf j = 1 := by
-          simp only [co2FiveRecordOf, h, if_false]
+          simp only [co2FiveRecordOf, h, ite_false]
         rw [h1]; exact hL1
     have h := downCompOK_conj Nat.prime_five hnorm hjP (hmem _) hr
     have heq : (⟨co2FiveTransporter j * co2FiveLine (co2FiveRepLine (co2FiveRecordOf j)) *
@@ -1699,7 +1699,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 theorem sporDownRow_He_seven
     : SporDownRow .He 7 := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrecmem, -, ⟨hC0, -⟩, ⟨hC1, -⟩, ⟨hC2, -⟩,
     ⟨hA0C, hA0n, hA0P, hA0card, -, -, hA0c⟩, ⟨hDs, hDnab, hDcard, hDP, hDcent, -⟩,
     ⟨hA2C, hA2n, hA2P, hA2card, -, hA2c⟩⟩ := R3E_He_full_seven_centralizer_structures
@@ -1729,7 +1729,7 @@ theorem sporDownRow_He_seven
   have hL1 : DownCompOK .He 7 (⟨heSevenLine 1, hmem 1⟩ : ↥heP) := by
     have hDfin : Finite ↥heSevenD1 := Finite.of_injective (Subgroup.inclusion hDP)
       (Subgroup.inclusion_injective hDP)
-    haveI := hDfin
+    have := hDfin
     have hT : DownTypeOK .He 7 ↥heSevenD1 := downTypeOK_of_not_chev
       (not_isChevSimple_of_card_bound hDcard (by norm_num) (by norm_num)
         (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide))
@@ -1772,7 +1772,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem sporDownRow_Suz_five
     : SporDownRow .Suz 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, -, -, hQsyl⟩, ⟨hlinesSet, -⟩, hrec, hgood, hbad⟩ :=
     R3E_Suz_full_five_centralizer_structures
   have hR : ∀ r ∈ suzT, ∀ q ∈ suzM, r * q * r⁻¹ ∈ suzM := fun r hr q hq =>
@@ -1845,7 +1845,7 @@ section RowRu
 open CFSG.RankThree.PartOne CFSG.Sporadic.RuSchreier in
 theorem sporDownRow_Ru_five
     : SporDownRow .Ru 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrecmem, ⟨hrec0, hrec1⟩, ⟨hC0, hC0c⟩,
     ⟨hC1, hC1c⟩, ⟨hAC, hAn, -, hAcard, -, -, hAc⟩,
     ⟨hDs, ⟨g1, hg1, h1, hh1, hgh⟩, hDcard, hDP, hDcent, -⟩⟩ :=
@@ -1934,7 +1934,7 @@ section RowHS
 open CFSG.RankThree.Native CFSG.RankThree.PartOne in
 theorem sporDownRow_HS_five
     : SporDownRow .HS 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrecmem, -, ⟨hC0, -⟩, ⟨hC2, -⟩,
     ⟨hC23, -⟩, ⟨hA0C, hA0n, hA0P, hA0card, -, -, hA0c⟩,
     ⟨hA23C, hA23n, hA23P, hA23card, -, -, hA23c⟩,

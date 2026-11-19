@@ -145,10 +145,10 @@ private theorem R891X_le_R891Y_of_R891YSet
     R891X L (R891Z L S) n ≤ R891Y (R891H L S) (R891Z L S) Ys := by
   have hn1 : n ≠ 1 := by omega
   have hXH : R891X L (R891Z L S) n ≤ R891H L S := by
-    rw [R891X, if_neg hn1, CFSG.LocalAnalysis.UniquenessCase.UC22.F08.DerInf8]
+    rw [R891X, ite_eq_right hn1, CFSG.LocalAnalysis.UniquenessCase.UC22.F08.DerInf8]
     exact (Subgroup.map_subtype_le _).trans inf_le_right
   have hXperfect : Group.IsPerfect (R891X L (R891Z L S) n) := by
-    rw [R891X, if_neg hn1, CFSG.LocalAnalysis.UniquenessCase.UC22.F08.DerInf8]
+    rw [R891X, ite_eq_right hn1, CFSG.LocalAnalysis.UniquenessCase.UC22.F08.DerInf8]
     exact CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidualOf_isPerfect _
   let P : Subgroup G :=
     (Ys.comap (QuotientGroup.mk' (R891Ker (R891H L S) (R891Z L S)))).map

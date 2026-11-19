@@ -32,7 +32,7 @@ theorem ggIOneUnitaryDvdDeltaSixTwo_holds :
   obtain ⟨ν, hν⟩ := SmallU.exists_nu_actsU hM hd3 hdiag (⟨0, hd1⟩ : Fin 6)
   obtain ⟨δ, hδp, hδ1, hnode⟩ := node_exists hh Nat.prime_three (by norm_num) hM hd3 hAb hadmb
     (⟨0, hd1⟩ : Fin 6) ν hν
-  obtain ⟨c, hcs⟩ : ∃ c : Fin 6, c ≠ (⟨0, hd1⟩ : Fin 6) := ⟨⟨1, by norm_num⟩, by simp [Fin.ext_iff]⟩
+  obtain ⟨c, hcs⟩ : ∃ c : Fin 6, c ≠ (⟨0, hd1⟩ : Fin 6) := ⟨⟨1, by norm_num⟩, by simp⟩
   obtain ⟨x, hx⟩ := hnode c hcs
   obtain ⟨a₀, ha₀A, ha₀⟩ : ∃ a₀ ∈ A, qAutHom L' a₀ = (x : MulAut (Qt L')) := x.2
   have hxact : ActsU φ (x : MulAut (Qt L')) (nodeDiag c δ) := by
@@ -52,7 +52,7 @@ theorem ggIOneUnitaryDvdDeltaSixTwo_holds :
         by_contra h'
         exact hi (Finset.mem_erase.mpr ⟨h', Finset.mem_univ i⟩)
       subst hic
-      simp only [nodeDiag, if_neg hj, if_pos rfl]
+      simp only [nodeDiag, ite_eq_right hj]
       exact fun e => hδ1 e.symm
   have hbig : BigOK 1 (Finset.univ.erase c : Finset (Fin 6)) := Or.inl (by omega)
   obtain ⟨hlay, hcomp⟩ := layer_eq_block_of_isNodeOn hM hxact hτ hbig
@@ -106,7 +106,7 @@ theorem ggIOneUnitaryDvdDeltaSixTwo_holds :
   have hx1 : x = 1 := Subtype.ext (by rw [← ha₀, h1, map_one]; rfl)
   rw [hx1, map_one] at hx
   have h2 := congrFun hx c
-  simp only [nodeDiag, if_pos rfl, Pi.one_apply] at h2
+  simp only [nodeDiag, Pi.one_apply] at h2
   exact hδ1 h2.symm
 
 end CFSG.StandardType.USixTwo

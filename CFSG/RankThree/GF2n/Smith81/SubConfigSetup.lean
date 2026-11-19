@@ -81,6 +81,7 @@ section Setup
 
 variable [Finite G] {M Q Z B : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem exists_mem_conj_of_one_lt {L : Subgroup G} (h : 1 < Nat.card (Nt M L t)) :
     ∃ m ∈ M, t ∈ conjSubgroup m L := by
   by_contra hne
@@ -95,6 +96,7 @@ theorem exists_mem_conj_of_one_lt {L : Subgroup G} (h : 1 < Nat.card (Nt M L t))
   rw [hN, Subgroup.card_bot] at h
   exact lt_irrefl 1 h
 
+omit [Finite G] in
 theorem Q_le_Rt_of_mem (H : StrothHyp M Q Z) {L : Subgroup G} (hQL : Q ≤ L) {m : G}
     (hm : m ∈ M) (ht : t ∈ conjSubgroup m L) : Q ≤ Rt M L t := by
   have hQm : Q ≤ conjSubgroup m L := by
@@ -105,9 +107,10 @@ theorem Q_le_Rt_of_mem (H : StrothHyp M Q Z) {L : Subgroup G} (hQL : Q ≤ L) {m
     simpa using this
   exact hQm.trans (le_iSup_of_le m (le_iSup_of_le hm (le_iSup_of_le ht le_rfl)))
 
+omit [Finite G] in
 theorem Q_le_Nt_of (H : StrothHyp M Q Z) {L : Subgroup G} (hRM : Rt M L t ≤ M)
     (hQR : Q ≤ Rt M L t) : Q ≤ Nt M L t := by
-  haveI : (Q.subgroupOf (Rt M L t)).Normal :=
+  have : (Q.subgroupOf (Rt M L t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => H.Q_normal.2 (hRM hx)
   have hp : IsPGroup 2 (Q.subgroupOf (Rt M L t)) :=
     (isPGroup_Q' H).comap_of_injective _ (Subgroup.subtype_injective _)
@@ -117,12 +120,14 @@ theorem Q_le_Nt_of (H : StrothHyp M Q Z) {L : Subgroup G} (hRM : Rt M L t ≤ M)
         (Subgroup.map_subgroupOf_eq_of_le hQR).symm
     _ ≤ Nt M L t := Subgroup.map_mono hle
 
+omit [Finite G] in
 theorem Q_le_Nt_of_one_lt (hc : Ctx M Q Z B) (h : 1 < Nat.card (Nt M (LB M Q B) t)) :
     Q ≤ Nt M (LB M Q B) t := by
   obtain ⟨m, hm, ht⟩ := exists_mem_conj_of_one_lt h
   exact Q_le_Nt_of hc.hyp (Rt_le_M hc.LB_le_M t)
     (Q_le_Rt_of_mem hc.hyp le_sup_left hm ht)
 
+omit [Finite G] in
 theorem Nt_le_Rt (M L : Subgroup G) (t : G) : Nt M L t ≤ Rt M L t :=
   (inSubgroup_pCore_two (Rt M L t)).2.1
 
@@ -131,11 +136,13 @@ theorem Rt_le_H0 (hc : Ctx M Q Z B) (t : G) : Rt M (LB M Q B) t ≤ H0 M Z :=
 
 variable [(Q.subgroupOf (H0 M Z)).Normal]
 
+omit [Finite G] in
 theorem bar_Rt_le_subCfgM (L : Subgroup G) (t : G) :
     bar (H0 M Z) Q (Rt M L t) ≤ SubCfgM M Q Z (Nt M L t) :=
   (bar_le_normalizer (inSubgroup_pCore_two (Rt M L t)).2.2).trans
     (normalizer_le_normalizer_cen _)
 
+omit [Finite G] in
 theorem subCfgQ_le_bar_Rt (L : Subgroup G) (t : G) :
     SubCfgQ M Q Z (Nt M L t) ≤ bar (H0 M Z) Q (Rt M L t) :=
   bar_mono (Nt_le_Rt M L t)

@@ -168,10 +168,10 @@ theorem ggNormalizerOvergroupsChar_projElementary [Finite K] (p : ℕ) [Fact p.P
       (B.subgroupOf (elementaryGroup Q)).map
         (QuotientGroup.mk' ((scalars K V).subgroupOf (elementaryGroup Q)))) :
     GGNormalizerOvergroupsChar p (ProjElementary Q) := by
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) DFunLike.coe_injective
-  haveI : Finite (elementaryGroup Q) := inferInstance
+  have : Finite (elementaryGroup Q) := inferInstance
   refine GGNormalizerOvergroupsChar.of_coatoms fun S M hS hSi hNM hM => ?_
   obtain ⟨W, hW, rfl⟩ := exists_map_stabilizer_of_isCoatom
     ((scalars K V).subgroupOf (elementaryGroup Q)) p (B.subgroupOf (elementaryGroup Q))

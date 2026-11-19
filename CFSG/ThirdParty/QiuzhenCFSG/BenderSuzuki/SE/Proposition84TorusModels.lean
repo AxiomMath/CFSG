@@ -13,7 +13,7 @@ noncomputable section
 
 namespace CFSG.BenderSuzuki
 
-open MatrixGroups PFAppendixIII PFchapter1section1
+open _root_.CFSG.BenderSuzuki.MatrixGroups PFAppendixIII PFchapter1section1
 open scoped LinearAlgebra.Projectivization Pointwise
 
 universe u v
@@ -53,7 +53,7 @@ public theorem suzuki_invertedTorus_of_borel
   let G := SuzukiMatrixGroup m
   obtain ⟨rho, pinfO, S, hrho, hnormalizer, _hregular, htwoRaw⟩ :=
     suzuki_sylow_normalizer_action m hm
-  letI : MulAction G Omega := MulAction.compHom Omega rho
+  let : MulAction G Omega := MulAction.compHom Omega rho
   have hnormalizer' :
       Subgroup.normalizer ((S : Subgroup G) : Set G) =
         MulAction.stabilizer G pinfO := by
@@ -148,7 +148,7 @@ public theorem suzuki_invertedTorus_of_borel
     exact eH.isCyclic.mp (inferInstance : IsCyclic Kˣ)
   have hH0cyclic : IsCyclic H0 := eH0.isCyclic.mpr hHcyclic
   have hH0comm : IsMulCommutative H0 := by
-    letI : IsCyclic H0 := hH0cyclic
+    let : IsCyclic H0 := hH0cyclic
     exact IsCyclic.isMulCommutative
   have hT0set : (H0 : Set G) =
       {x : G | x ∈ H0 ∧ rightConjugateElem x w = x⁻¹} := by
@@ -201,15 +201,15 @@ public theorem pgl_invertedTorus_of_borel
         IsCyclic T ∧ Nat.card T = 2 ^ n - 1 := by
   classical
   let K := BinaryGaloisField n
-  letI : Field K := instFieldGaloisField 2 n
+  let : Field K := instFieldGaloisField 2 n
   let G := Matrix.ProjGenLinGroup (Fin 2) K
   let Omega := ℙ K (Fin 2 → K)
-  letI : Finite G :=
+  let : Finite G :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk
       Matrix.ProjGenLinGroup.mk_surjective
   obtain ⟨rho, pinf, S, hrho, hnormalizer, _hregular, htwoRaw⟩ :=
     pgl_sylow_normalizer_action n hn
-  letI : MulAction G Omega := MulAction.compHom Omega rho
+  let : MulAction G Omega := MulAction.compHom Omega rho
   have hnormalizer' :
       Subgroup.normalizer ((S : Subgroup G) : Set G) =
         MulAction.stabilizer G pinf := by
@@ -233,15 +233,15 @@ public theorem pgl_invertedTorus_of_borel
   have he0 : e0 ≠ 0 := by
     intro h
     have := congrFun h 0
-    simpa [e0] using this
+    simp [e0] at this
   have he1 : e1 ≠ 0 := by
     intro h
     have := congrFun h 1
-    simpa [e1] using this
+    simp [e1] at this
   have he01 : e01 ≠ 0 := by
     intro h
     have := congrFun h 0
-    simpa [e01] using this
+    simp [e01] at this
   let alpha0 : Omega := Projectivization.mk K e0 he0
   let beta0 : Omega := Projectivization.mk K e1 he1
   let gamma0 : Omega := Projectivization.mk K e01 he01
@@ -252,7 +252,7 @@ public theorem pgl_invertedTorus_of_borel
       Projectivization.mk_eq_mk_iff] at h
     rcases h with ⟨c, hc⟩
     have h0 := congrFun hc 0
-    simpa [e0, e1] using h0
+    simp [e0, e1] at h0
   let diagGL (k : Kˣ) : GL (Fin 2) K :=
     Matrix.GeneralLinearGroup.mkOfDetNeZero
       (Matrix.diagonal ![(k : K), 1]) (by
@@ -284,7 +284,7 @@ public theorem pgl_invertedTorus_of_borel
     refine ⟨1, ?_⟩
     funext i
     fin_cases i <;>
-      simp [wGL, e0, e1, beta0, Matrix.mulVec, Fin.sum_univ_two]
+      simp [wGL, e0, e1, Matrix.mulVec]
   have hwbeta : w • beta0 = alpha0 := by
     change rho w beta0 = alpha0
     rw [hrho w beta0 wGL rfl]
@@ -294,7 +294,7 @@ public theorem pgl_invertedTorus_of_borel
     refine ⟨1, ?_⟩
     funext i
     fin_cases i <;>
-      simp [wGL, e0, e1, alpha0, Matrix.mulVec, Fin.sum_univ_two]
+      simp [wGL, e0, e1, Matrix.mulVec]
   have htorus_alpha (k : Kˣ) : torus k • alpha0 = alpha0 := by
     change rho (torus k) alpha0 = alpha0
     rw [hrho (torus k) alpha0 (diagHom k) rfl]
@@ -304,7 +304,7 @@ public theorem pgl_invertedTorus_of_borel
     refine ⟨(k : K), ?_⟩
     funext i
     fin_cases i <;>
-      simp [diagHom, diagGL, e0, Matrix.mulVec, Fin.sum_univ_two]
+      simp [diagHom, diagGL, e0, Matrix.mulVec]
   have htorus_beta (k : Kˣ) : torus k • beta0 = beta0 := by
     change rho (torus k) beta0 = beta0
     rw [hrho (torus k) beta0 (diagHom k) rfl]
@@ -314,7 +314,7 @@ public theorem pgl_invertedTorus_of_borel
     refine ⟨1, ?_⟩
     funext i
     fin_cases i <;>
-      simp [diagHom, diagGL, e1, Matrix.mulVec, Fin.sum_univ_two]
+      simp [diagHom, diagGL, e1, Matrix.mulVec]
   let H0 : Subgroup G :=
     MulAction.stabilizer G alpha0 ⊓ MulAction.stabilizer G beta0
   have hH0set : (H0 : Set G) =
@@ -358,7 +358,7 @@ public theorem pgl_invertedTorus_of_borel
     have hc1 := congrFun hc 1
     have hd0 := congrFun hd 0
     have hd1 := congrFun hd 1
-    simp [e0, e1, Matrix.mulVec, Fin.sum_univ_two] at hc0 hc1 hd0 hd1
+    simp [e0, e1, Matrix.mulVec] at hc0 hc1 hd0 hd1
     change (c : K) = (A : Matrix (Fin 2) (Fin 2) K) 0 0 at hc0
     change (0 : K) = (A : Matrix (Fin 2) (Fin 2) K) 1 0 at hc1
     change (0 : K) = (A : Matrix (Fin 2) (Fin 2) K) 0 1 at hd0
@@ -409,7 +409,7 @@ public theorem pgl_invertedTorus_of_borel
     refine ⟨1, ?_⟩
     funext i
     fin_cases i <;>
-      simp [diagHom, diagGL, e01, Matrix.mulVec, Fin.sum_univ_two]
+      simp [diagHom, diagGL, e01, Matrix.mulVec]
   have htorus_injective : Function.Injective torus := by
     intro k l hkl
     have hact := congrArg (fun g : G => g • gamma0) hkl
@@ -439,7 +439,7 @@ public theorem pgl_invertedTorus_of_borel
     eRange.isCyclic.mp (inferInstance : IsCyclic Kˣ)
   have hH0cyclic : IsCyclic H0 := eH0.isCyclic.mpr hRangeCyclic
   have hH0comm : IsMulCommutative H0 := by
-    letI : IsCyclic H0 := hH0cyclic
+    let : IsCyclic H0 := hH0cyclic
     exact IsCyclic.isMulCommutative
   have hwGL_sq : wGL * wGL = 1 := by
     apply Matrix.GeneralLinearGroup.ext
@@ -454,7 +454,6 @@ public theorem pgl_invertedTorus_of_borel
   have hweyl_torus (k : Kˣ) :
       rightConjugateElem (torus k) w = (torus k)⁻¹ := by
     rw [rightConjugateElem, hw_inv]
-    change w * torus k * w = (torus k)⁻¹
     have hGL : wGL * diagHom k * wGL =
         Matrix.GeneralLinearGroup.scalar (Fin 2) k * diagHom k⁻¹ := by
       apply Matrix.GeneralLinearGroup.ext
@@ -509,7 +508,7 @@ public theorem psl_invertedTorus_of_borel
         IsCyclic T ∧ Nat.card T = 2 ^ n - 1 := by
   let K := BinaryGaloisField n
   let Q := Matrix.ProjGenLinGroup (Fin 2) K
-  letI : Finite Q :=
+  let : Finite Q :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk
       Matrix.ProjGenLinGroup.mk_surjective
   let e : PSL2BinaryMatrixGroup n ≃* Q :=
@@ -602,7 +601,7 @@ public theorem psu_invertedTorus_with_centralizer_of_borel
       Projectivization.mk_eq_mk_iff] at hraw
     rcases hraw with ⟨c, hc⟩
     have h0 := congrFun hc 0
-    simpa [vinf, vzero] using h0
+    simp [vinf, vzero] at h0
   have hpinf : pinf = alpha0 := by
     by_contra hne
     have halphaNe : alpha0 ≠ pinf := fun h => hne h.symm
@@ -1165,7 +1164,7 @@ public theorem psu_invertedTorus_with_centralizer_of_borel
       intro hzero
       apply Units.ne_zero (k * d)
       have h := congrArg (fun z : k0 => (z : K)) hzero
-      simpa [e0] using h
+      simp [e0] at h
     let a : k0ˣ := Units.mk0 e0 he0
     have haIncl : fixedIncl a = k * d := by
       apply Units.ext
@@ -1216,7 +1215,7 @@ public theorem psu_invertedTorus_with_centralizer_of_borel
       let eFixed : k0 ≃ {x : K // J.conj x = x} := {
         toFun x := ⟨x, by
           have hxmem : (x : K) ∈ FixedBy.subfield K J.conj := by
-            simpa [k0] using x.property
+            simp [k0]
           have hx :=
             (FixedBy.subfield_mem_iff K J.conj (x : K)).mp hxmem
           simpa [RingAut.smul_def] using hx⟩
@@ -1343,13 +1342,13 @@ public theorem simpleBenderAtExponent_borel_invertedTorus
     exact ⟨T, hTset, hTcyclic, hTcard.trans hTQcard'⟩
   · rcases hPSU with
     ⟨E, hEfield, hEfinite, J, hJ, hEcard, hfixedCard, ⟨e⟩⟩
-    letI : Field E := hEfield
-    letI : Finite E := hEfinite
-    letI : Fintype E := Fintype.ofFinite E
-    letI : Finite (Matrix.ProjGenLinGroup (Fin 3) E) :=
+    let : Field E := hEfield
+    let : Finite E := hEfinite
+    let : Fintype E := Fintype.ofFinite E
+    let : Finite (Matrix.ProjGenLinGroup (Fin 3) E) :=
       Finite.of_surjective Matrix.ProjGenLinGroup.mk
         Matrix.ProjGenLinGroup.mk_surjective
-    letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+    let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
       Finite.of_injective
         (fun x : ProjectiveSpecialUnitaryMatrixGroup J =>
           (x : Matrix.ProjGenLinGroup (Fin 3) E)) Subtype.coe_injective
@@ -1517,7 +1516,7 @@ public theorem proposition84_base_cyclicNormalizer_of_borel_model
       refine ⟨⟨x, hx⟩, ?_⟩
       apply Subtype.ext
       exact hxy
-    letI : IsCyclic JF := hJFcyclic
+    let : IsCyclic JF := hJFcyclic
     exact isCyclic_of_surjective inclJ hinclJ
   have hJXcard : Nat.card JX = 2 ^ n - 1 := by
     calc

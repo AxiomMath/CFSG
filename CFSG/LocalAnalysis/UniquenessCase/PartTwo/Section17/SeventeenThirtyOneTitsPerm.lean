@@ -673,7 +673,7 @@ theorem gap17_31_TitsPerm_holds
     refine ⟨1, D.M.one_mem, ?_⟩
     have hconj_one : MulAut.conj (1 : G) = 1 := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [hconj_one]
     exact (Subgroup.map_id L).symm
 

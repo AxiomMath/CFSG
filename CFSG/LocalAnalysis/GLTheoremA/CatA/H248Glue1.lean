@@ -45,7 +45,7 @@ theorem le_pRank_of_elemAbelian {H : Type} [Group H] [Finite H] {p k : ℕ} (hp 
     omega
   exact le_csSup hbdd ⟨E, hE0, hE, hcard⟩
 
-theorem isElemAbelian_map {H K : Type} [Group H] [Group K] (f : H →* K) (hf : Function.Injective f)
+theorem isElemAbelian_map {H K : Type} [Group H] [Group K] (f : H →* K) (_hf : Function.Injective f)
     {p : ℕ} {E : Subgroup H} (hE : CFSG.Open.IsElemAbelian p E) :
     CFSG.Open.IsElemAbelian p (E.map f) := by
   obtain ⟨hcomm, hexp⟩ := hE

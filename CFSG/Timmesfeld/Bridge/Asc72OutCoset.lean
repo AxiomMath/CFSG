@@ -20,7 +20,7 @@ theorem subset_inner_of_coset_orders {L : Type*} [Group L] [Finite L]
   have hinj := CFSG.Fischer.mulAutConj_injective hZ
   obtain ⟨a, haP, ha⟩ : ∃ a ∈ (P : Subgroup L), orderOf a = 2 := by
     have hdvd : 2 ∣ Nat.card (P : Subgroup L) :=
-      P.isPGroup'.card_eq_or_dvd.resolve_left fun h => hP (Subgroup.card_eq_one.mp h)
+      P.isPGroup.card_eq_or_dvd.resolve_left fun h => hP (Subgroup.card_eq_one.mp h)
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
     exact ⟨x, x.2, by rw [Subgroup.orderOf_coe, hx]⟩
   have ha1 : a ≠ 1 := by

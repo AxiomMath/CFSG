@@ -101,13 +101,13 @@ private theorem am2t_not_iso_A_nf_ne_one {r nf m : ℕ} (hnf : nf ≠ 1) (hm : 3
 private theorem am2t_blockA_two_eq (r : ℕ) (hr : 2 ≤ r) :
     ggMultBlockA r 1 2 = ⟨⟨.twA, r, 1⟩, decide (r ≠ 2)⟩ := by
   simp only [ggMultBlockA]
-  rw [if_neg (by decide : ¬ ((2 : ℕ) = 1)), if_pos hr]
+  rw [ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ite_eq_left hr]
   simp
 
 private theorem am2t_blockA_two_eq' (r : ℕ) (hr : ¬ 2 ≤ r) :
     ggMultBlockA r 1 2 = ⟨⟨.A, 1, 1⟩, false⟩ := by
   simp only [ggMultBlockA]
-  rw [if_neg (by decide : ¬ ((2 : ℕ) = 1)), if_neg hr]
+  rw [ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ite_eq_right hr]
   rfl
 
 private theorem am2t_not_iso_blockA_two {r m : ℕ} (hm : 3 ≤ m) :
@@ -142,13 +142,13 @@ private theorem am2t_v0_three_false : ggMultV0 3 false 1 = [⟨⟨.twA, 3, 1⟩,
 
 private theorem am2t_v0_ge_four_true (a : ℕ) (ha1 : ¬ a ≤ 1) (ha2 : a ≠ 2) (ha3 : a ≠ 3) :
     ggMultV0 a true 1 = [⟨⟨.D, a, 1⟩, true⟩] := by
-  simp only [ggMultV0, if_neg ha1, if_neg ha2, if_neg ha3]
-  rw [if_pos trivial]
+  simp only [ggMultV0, ite_eq_right ha1, ite_eq_right ha2, ite_eq_right ha3]
+  rw [ite_eq_left trivial]
 
 private theorem am2t_v0_ge_four_false (a : ℕ) (ha1 : ¬ a ≤ 1) (ha2 : a ≠ 2) (ha3 : a ≠ 3) :
     ggMultV0 a false 1 = [⟨⟨.twD, a, 1⟩, true⟩] := by
-  simp only [ggMultV0, if_neg ha1, if_neg ha2, if_neg ha3]
-  rw [if_neg (by decide : ¬ (false = true))]
+  simp only [ggMultV0, ite_eq_right ha1, ite_eq_right ha2, ite_eq_right ha3]
+  rw [ite_eq_right (by decide : ¬ (false = true))]
 
 private theorem am2t_v0_iso {a : ℕ} {eps : Bool} {o : GGKacOrbit} {m : ℕ} (hm : 3 ≤ m)
     (ho : o ∈ ggMultV0 a eps 1) (h : GGLabelIso o.lab ⟨.A, m, 1⟩) :
@@ -194,8 +194,7 @@ private theorem am2t_orbits_A_false (a b c : ℕ) :
       (if 2 ≤ a then [⟨⟨.A, a - 1, 1⟩, decide (a ≠ 2)⟩] else []) ++
       (if 2 ≤ b then [⟨⟨.A, b - 1, 2⟩, true⟩] else []) := by
   by_cases ha : 2 ≤ a <;> by_cases hb : 2 ≤ b <;>
-    simp [ggMultDatumA, ggMultBlockA, ggMultAllEq, List.range_succ, List.getD_cons_zero,
-      List.getD_cons_succ, List.headD_cons, ha, hb]
+    simp [ggMultDatumA, ggMultAllEq, List.range_succ, ha, hb]
 
 private theorem am2t_orbits_A_true (a b c : ℕ) :
     (ggMultDatumA 3 1 2 true [a, b, c]).orbits =
@@ -203,8 +202,7 @@ private theorem am2t_orbits_A_true (a b c : ℕ) :
       (if 2 ≤ b then [ggMultBlockA (b - 1) 1 2] else []) ++
       (if 2 ≤ c then [ggMultBlockA (c - 1) 1 2] else []) := by
   by_cases ha : 2 ≤ a <;> by_cases hb : 2 ≤ b <;> by_cases hc : 2 ≤ c <;>
-    simp [ggMultDatumA, ggMultAllEq, List.range_succ, List.getD_cons_zero,
-      List.getD_cons_succ, List.headD_cons, ha, hb, hc]
+    simp [ggMultDatumA, ggMultAllEq, List.range_succ, ha, hb, hc]
 
 private theorem am2t_orbits_C (a b : ℕ) :
     (ggMultDatumC 3 1 2 [a, b]).orbits =
@@ -214,28 +212,26 @@ private theorem am2t_orbits_C (a b : ℕ) :
       (if 2 ≤ b then [ggMultBlockA (b - 1) 1 2] else []) := by
   by_cases ha1 : a = 1 <;> by_cases ha2 : a = 2 <;> by_cases ha : 2 ≤ a <;>
     by_cases hb : 2 ≤ b <;>
-    simp [ggMultDatumC, List.range_succ, List.getD_cons_zero,
-      List.getD_cons_succ, List.headD_cons, ha1, ha2, ha, hb]
+    simp [ggMultDatumC, List.range_succ, ha1, ha2, ha, hb]
 
 private theorem am2t_orbits_D (a b : ℕ) (tw : Bool) :
     (ggMultDatumD 3 1 2 tw [a, b]).orbits =
       ggMultV0 a (ggMultEps0 3 2 tw [a, b]) 1 ++
       (if 2 ≤ b then [ggMultBlockA (b - 1) 1 2] else []) := by
   by_cases hb : 2 ≤ b <;>
-    simp [ggMultDatumD, List.range_succ, List.getD_cons_zero,
-      List.getD_cons_succ, List.headD_cons, hb]
+    simp [ggMultDatumD, List.range_succ, hb]
 
 private theorem am2t_eps0_false (a b : ℕ) :
     ggMultEps0 3 2 false [a, b] = true ↔ b % 2 = 0 := by
   rcases Nat.mod_two_eq_zero_or_one b with h | h
-  · rw [h]; simp [ggMultEps0, List.getD_cons_zero, List.getD_cons_succ, h]
-  · rw [h]; simp [ggMultEps0, List.getD_cons_zero, List.getD_cons_succ, h]
+  · rw [h]; simp [ggMultEps0, h]
+  · rw [h]; simp [ggMultEps0, h]
 
 private theorem am2t_eps0_true (a b : ℕ) :
     ggMultEps0 3 2 true [a, b] = true ↔ b % 2 = 1 := by
   rcases Nat.mod_two_eq_zero_or_one b with h | h
-  · rw [h]; simp [ggMultEps0, List.getD_cons_zero, List.getD_cons_succ, h]
-  · rw [h]; simp [ggMultEps0, List.getD_cons_zero, List.getD_cons_succ, h]
+  · rw [h]; simp [ggMultEps0, h]
+  · rw [h]; simp [ggMultEps0, h]
 
 private theorem am2t_mem_A_false {a b c : ℕ} {o : GGKacOrbit}
     (ho : o ∈ (ggMultDatumA 3 1 2 false [a, b, c]).orbits) :
@@ -243,9 +239,8 @@ private theorem am2t_mem_A_false {a b c : ℕ} {o : GGKacOrbit}
       (2 ≤ b ∧ o = ⟨⟨.A, b - 1, 2⟩, true⟩) := by
   rw [am2t_orbits_A_false] at ho
   by_cases ha : 2 ≤ a <;> by_cases hb : 2 ≤ b <;>
-    simp only [ha, hb, if_true, if_false, List.mem_append, List.mem_cons,
-      List.mem_singleton, List.not_mem_nil, List.mem_nil_iff, or_false, false_or,
-      and_true, true_and] at ho <;>
+    simp only [ha, hb, ite_true, ite_false, List.mem_append, List.mem_cons,
+      List.mem_nil_iff, or_false, false_or] at ho <;>
     tauto
 
 private theorem am2t_mem_A_true {a b c : ℕ} {o : GGKacOrbit}
@@ -254,9 +249,8 @@ private theorem am2t_mem_A_true {a b c : ℕ} {o : GGKacOrbit}
       (2 ≤ c ∧ o = ggMultBlockA (c - 1) 1 2) := by
   rw [am2t_orbits_A_true] at ho
   by_cases ha : 2 ≤ a <;> by_cases hb : 2 ≤ b <;> by_cases hc : 2 ≤ c <;>
-    simp only [ha, hb, hc, if_true, if_false, List.mem_append, List.mem_cons,
-      List.mem_singleton, List.not_mem_nil, List.mem_nil_iff, or_false, false_or,
-      and_true, true_and] at ho <;>
+    simp only [ha, hb, hc, ite_true, ite_false, List.mem_append, List.mem_cons,
+      List.mem_nil_iff, or_false, false_or] at ho <;>
     tauto
 
 private theorem am2t_mem_C {a b : ℕ} {o : GGKacOrbit}
@@ -275,8 +269,7 @@ private theorem am2t_mem_D {a b : ℕ} {tw : Bool} {o : GGKacOrbit}
       (2 ≤ b ∧ o = ggMultBlockA (b - 1) 1 2) := by
   rw [am2t_orbits_D, List.mem_append] at ho
   by_cases hb : 2 ≤ b <;>
-    simp only [hb, if_true, if_false, List.mem_cons, List.mem_singleton,
-      List.not_mem_nil, List.mem_nil_iff, or_false, false_or, and_true, true_and] at ho <;>
+    simp only [hb, ite_true, ite_false, List.mem_cons, List.mem_nil_iff, or_false] at ho <;>
     tauto
 
 
@@ -352,8 +345,7 @@ private theorem am2t_orbits_A_nf2 (a b c : ℕ) :
       (if 2 ≤ b then [ggMultBlockA (b - 1) 2 1] else []) ++
       (if 2 ≤ c then [ggMultBlockA (c - 1) 2 1] else []) := by
   by_cases ha : 2 ≤ a <;> by_cases hb : 2 ≤ b <;> by_cases hc : 2 ≤ c <;>
-    simp [ggMultDatumA, ggMultAllEq, List.range_succ, List.getD_cons_zero,
-      List.getD_cons_succ, List.headD_cons, ha, hb, hc]
+    simp [ggMultDatumA, ggMultAllEq, List.range_succ, ha, hb, hc]
 
 private theorem am2t_mem_A_nf2 {a b c : ℕ} {o : GGKacOrbit}
     (ho : o ∈ (ggMultDatumA 3 2 1 false [a, b, c]).orbits) :
@@ -361,9 +353,8 @@ private theorem am2t_mem_A_nf2 {a b c : ℕ} {o : GGKacOrbit}
       (2 ≤ c ∧ o = ggMultBlockA (c - 1) 2 1) := by
   rw [am2t_orbits_A_nf2] at ho
   by_cases ha : 2 ≤ a <;> by_cases hb : 2 ≤ b <;> by_cases hc : 2 ≤ c <;>
-    simp only [ha, hb, hc, if_true, if_false, List.mem_append, List.mem_cons,
-      List.mem_singleton, List.not_mem_nil, List.mem_nil_iff, or_false, false_or,
-      and_true, true_and] at ho <;>
+    simp only [ha, hb, hc, ite_true, ite_false, List.mem_append, List.mem_cons,
+      List.mem_nil_iff, or_false, false_or] at ho <;>
     tauto
 
 private theorem am2t_blockA_two_qs {r : ℕ} (hr : 3 ≤ r) : (ggMultBlockA r 1 2).qs = true := by
@@ -428,7 +419,7 @@ private theorem am2t_D3 {D : GGKacDatum} {o : GGKacOrbit} {m : ℕ}
 
 private theorem am2t_A {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit} {m : ℕ}
     (hDm : D ∈ ggMultTableCl (.A r) false 3 1) (ho : o ∈ D.orbits)
-    (hqs : o.qs = true) (huniq : ∀ o' ∈ D.orbits, o'.qs = true → o' = o)
+    (_hqs : o.qs = true) (huniq : ∀ o' ∈ D.orbits, o'.qs = true → o' = o)
     (hJ : GGLabelIso o.lab ⟨.A, m, 1⟩) (hm : 3 ≤ m)
     (hX : ¬ GGLabelIso o.lab ⟨.A, r, 1⟩)
     (hlab : LargeEvenInLambda2 (⟨.A, r, 1⟩ : LargeEvenLabel)) :
@@ -454,7 +445,7 @@ private theorem am2t_A {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit} {m : ℕ}
     by_contra hb
     have hmem : (⟨⟨.A, b - 1, 2⟩, true⟩ : GGKacOrbit) ∈
         (ggMultDatumA 3 1 2 false [a, b, b]).orbits := by
-      rw [am2t_orbits_A_false a b b, if_pos (show 2 ≤ b by omega)]
+      rw [am2t_orbits_A_false a b b, ite_eq_left (show 2 ≤ b by omega)]
       exact List.mem_append_right _ (by simp)
     have heq := huniq _ hmem rfl
     have hiso : GGLabelIso (⟨.A, b - 1, 2⟩ : LargeEvenLabel) ⟨.A, m, 1⟩ := by
@@ -488,10 +479,10 @@ private theorem am2t_A {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit} {m : ℕ}
 
 private theorem am2t_D_false {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit} {m : ℕ}
     (hDm : D ∈ ggMultTableCl (.D r) false 3 1) (ho : o ∈ D.orbits)
-    (hqs : o.qs = true) (huniq : ∀ o' ∈ D.orbits, o'.qs = true → o' = o)
+    (_hqs : o.qs = true) (huniq : ∀ o' ∈ D.orbits, o'.qs = true → o' = o)
     (hJ : GGLabelIso o.lab ⟨.A, m, 1⟩) (hm : 3 ≤ m) (hr4 : 4 ≤ r)
-    (hX : ¬ GGLabelIso o.lab ⟨.D, r, 1⟩)
-    (hlab : LargeEvenInLambda2 (⟨.D, r, 1⟩ : LargeEvenLabel)) :
+    (_hX : ¬ GGLabelIso o.lab ⟨.D, r, 1⟩)
+    (_hlab : LargeEvenInLambda2 (⟨.D, r, 1⟩ : LargeEvenLabel)) :
     (∃ labJ labX : LargeEvenLabel, GGLabelIso o.lab labJ ∧
         GGLabelIso (⟨.D, r, 1⟩ : LargeEvenLabel) labX ∧ LargeEvenInLambda2 labJ ∧
         LargeEvenInLambda2 labX ∧ GGTablePRow 3 labJ labX) ∨
@@ -538,7 +529,7 @@ private theorem am2t_D_false {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit} {m : �
 
 private theorem am2t_D_true {r : ℕ} {D : GGKacDatum} {o : GGKacOrbit} {m : ℕ}
     (hDm : D ∈ ggMultTableCl (.D r) true 3 1) (ho : o ∈ D.orbits)
-    (hqs : o.qs = true) (huniq : ∀ o' ∈ D.orbits, o'.qs = true → o' = o)
+    (_hqs : o.qs = true) (huniq : ∀ o' ∈ D.orbits, o'.qs = true → o' = o)
     (hJ : GGLabelIso o.lab ⟨.A, m, 1⟩) (hm : 3 ≤ m) (hr4 : 4 ≤ r)
     (hX : ¬ GGLabelIso o.lab ⟨.twD, r, 1⟩)
     (hlab : LargeEvenInLambda2 (⟨.twD, r, 1⟩ : LargeEvenLabel)) :
@@ -621,60 +612,60 @@ theorem ggAm2Table_outcome {lab : LargeEvenLabel} {D : GGKacDatum} {o : GGKacOrb
   ·
     simp only [ggKacTypeClOfLabel] at hTlab
     by_cases h2 : 2 ≤ r
-    · rw [if_pos h2] at hTlab
+    · rw [ite_eq_left h2] at hTlab
       obtain ⟨hT, htw, hnf⟩ := am2t_some_eq hTlab
       rw [← hT, ← htw, ← hnf] at hDm
       exact (am2t_BC hDm ho hJ hm).elim
-    · rw [if_neg h2] at hTlab; simp at hTlab
+    · rw [ite_eq_right h2] at hTlab; simp at hTlab
   ·
     simp only [ggKacTypeClOfLabel] at hTlab
     by_cases h2 : 2 ≤ r
-    · rw [if_pos h2] at hTlab
+    · rw [ite_eq_left h2] at hTlab
       obtain ⟨hT, htw, hnf⟩ := am2t_some_eq hTlab
       rw [← hT, ← htw, ← hnf] at hDm
       exact (am2t_BC hDm ho hJ hm).elim
-    · rw [if_neg h2] at hTlab; simp at hTlab
+    · rw [ite_eq_right h2] at hTlab; simp at hTlab
   ·
     simp only [ggKacTypeClOfLabel] at hTlab
     by_cases h4 : 4 ≤ r
-    · rw [if_pos h4] at hTlab
+    · rw [ite_eq_left h4] at hTlab
       obtain ⟨hT, htw, hnf⟩ := am2t_some_eq hTlab
       rw [← hT, ← htw, ← hnf] at hDm
       rcases am2t_D_false hDm ho hqs huniq hJ hm h4 hX hlab with hrow | ⟨h5, holab⟩
       · exact Or.inl hrow
       · exact Or.inr (Or.inl ⟨h5, holab⟩)
-    · rw [if_neg h4] at hTlab
+    · rw [ite_eq_right h4] at hTlab
       by_cases h3 : r = 3
-      · rw [if_pos h3] at hTlab
+      · rw [ite_eq_left h3] at hTlab
         obtain ⟨hT, htw, hnf⟩ := am2t_some_eq hTlab
         rw [← hT, ← htw, ← hnf] at hDm
         subst h3
         exact (am2t_D3 hDm ho hqs hJ hm hX).elim
-      · rw [if_neg h3] at hTlab; simp at hTlab
+      · rw [ite_eq_right h3] at hTlab; simp at hTlab
   ·
     simp only [ggKacTypeClOfLabel] at hTlab
     by_cases h4 : 4 ≤ r
-    · rw [if_pos h4] at hTlab
+    · rw [ite_eq_left h4] at hTlab
       obtain ⟨hT, htw, hnf⟩ := am2t_some_eq hTlab
       rw [← hT, ← htw, ← hnf] at hDm
       rcases am2t_D_true hDm ho hqs huniq hJ hm h4 hX hlab with hrow | ⟨h6, holab⟩
       · exact Or.inl hrow
       · exact Or.inr (Or.inr ⟨h6, holab⟩)
-    · rw [if_neg h4] at hTlab
+    · rw [ite_eq_right h4] at hTlab
       by_cases h3 : r = 3
-      · rw [if_pos h3] at hTlab
+      · rw [ite_eq_left h3] at hTlab
         obtain ⟨hT, htw, hnf⟩ := am2t_some_eq hTlab
         rw [← hT, ← htw, ← hnf] at hDm
         subst h3
         exact (am2t_twA hDm ho hJ hm).elim
-      · rw [if_neg h3] at hTlab
+      · rw [ite_eq_right h3] at hTlab
         by_cases h2 : r = 2
-        · rw [if_pos h2] at hTlab
+        · rw [ite_eq_left h2] at hTlab
           obtain ⟨hT, htw, hnf⟩ := am2t_some_eq hTlab
           rw [← hT, ← htw, ← hnf] at hDm
           subst h2
           exact (am2t_twD2 hDm ho hJ hm).elim
-        · rw [if_neg h2] at hTlab; simp at hTlab
+        · rw [ite_eq_right h2] at hTlab; simp at hTlab
   all_goals
     simp only [ggKacTypeClOfLabel] at hTlab
     simp at hTlab

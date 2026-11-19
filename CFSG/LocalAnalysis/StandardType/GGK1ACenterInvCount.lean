@@ -89,19 +89,19 @@ private lemma invCountFun_of_lt [LinearOrder α] (hσ : Function.Involutive σ)
     (d : {a : α // a < σ a} → G) {a : α} (h : a < σ a) :
     invCountFun hσ d a = d ⟨a, h⟩ := by
   unfold invCountFun
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 private lemma invCountFun_of_gt [LinearOrder α] (hσ : Function.Involutive σ)
     (d : {a : α // a < σ a} → G) {a : α} (h : σ a < a) :
     invCountFun hσ d a = (d ⟨σ a, by rw [hσ a]; exact h⟩)⁻¹ := by
   unfold invCountFun
-  rw [dif_neg (not_lt.mpr (le_of_lt h)), dif_pos h]
+  rw [dite_eq_right (not_lt.mpr (le_of_lt h)), dite_eq_left h]
 
 private lemma invCountFun_of_fixed [LinearOrder α] (hσ : Function.Involutive σ)
     (d : {a : α // a < σ a} → G) {a : α} (h : σ a = a) : invCountFun hσ d a = 1 := by
   unfold invCountFun
-  rw [dif_neg (show ¬ a < σ a by rw [h]; exact lt_irrefl a),
-    dif_neg (show ¬ σ a < a by rw [h]; exact lt_irrefl a)]
+  rw [dite_eq_right (show ¬ a < σ a by rw [h]; exact lt_irrefl a),
+    dite_eq_right (show ¬ σ a < a by rw [h]; exact lt_irrefl a)]
 
 private lemma invCountFun_apply_inv [LinearOrder α] (hσ : Function.Involutive σ)
     (d : {a : α // a < σ a} → G) (a : α) :

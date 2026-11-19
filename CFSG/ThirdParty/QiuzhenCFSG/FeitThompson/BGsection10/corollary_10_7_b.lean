@@ -30,7 +30,7 @@ public theorem CFSG.section10_exists_complementInNormalizer
     {p : Nat.Primes} (P : Sylow p.val G) :
     ∃ V : Subgroup G, section10ComplementInNormalizer P V := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let N : Subgroup G := Subgroup.normalizer (((P : Subgroup G) : Set G))
   let Psub : Subgroup N := (P : Subgroup G).subgroupOf N
   have hHall : IsHallSubgroup ({p} : Set Nat.Primes) Psub := by
@@ -101,7 +101,7 @@ public theorem CFSG.section10_omega1Z_eq_omega1_of_isCyclic
     {R : Type*} [Group R] [IsCyclic R] {p : ℕ} :
     Ω₁Z p R = omega₁ (G := R) (p := p) := by
   classical
-  letI : CommGroup R := IsCyclic.commGroup
+  let : CommGroup R := IsCyclic.commGroup
   have hcenter : Subgroup.center R = ⊤ := CommGroup.center_eq_top
   apply le_antisymm
   · simpa [Ω₁Z] using
@@ -190,7 +190,7 @@ private theorem CFSG.section10_complement_commutatorAction_eq_top_ambient
     commutatorAction (A := V) (G := (P : Subgroup G)) = ⊤ := by
   classical
   rcases hVcomp with ⟨hVleN, hcomp⟩
-  letI : Subgroup.Normalizes V (P : Subgroup G) := ⟨hVleN⟩
+  let : Subgroup.Normalizes V (P : Subgroup G) := ⟨hVleN⟩
   have hcomm_ambient : ⁅(P : Subgroup G), V⁆ = (P : Subgroup G) :=
     (corollary_10_7_a (G := G) P ⟨hVleN, hcomp⟩).2
   have hcomm_action_map :
@@ -248,15 +248,15 @@ private theorem CFSG.section10_nilpotencyClassLe_of_card_le_p_cubed
   let hp : Nat.Prime p := Fact.out
   let hRp : IsPGroup p R := Fact.out
   rcases subsingleton_or_nontrivial R with hsub | hnontriv
-  · letI : Subsingleton R := hsub
-    haveI : Group.IsNilpotent R := Group.isNilpotent_of_subsingleton
+  · let : Subsingleton R := hsub
+    have : Group.IsNilpotent R := Group.isNilpotent_of_subsingleton
     have hnil : Group.nilpotencyClass R = 0 :=
       (Group.nilpotencyClass_zero_iff_subsingleton (G := R)).2 hsub
     exact (Subgroup.upperCentralSeries_eq_top_iff_nilpotencyClass_le
       (G := R) (n := 2)).2 <| by
       simp [hnil]
-  letI : Nontrivial R := hnontriv
-  letI : Group.IsNilpotent R := hRp.isNilpotent
+  let : Nontrivial R := hnontriv
+  let : Group.IsNilpotent R := hRp.isNilpotent
   have hquot_p : IsPGroup p (R ⧸ Subgroup.center R) := hRp.to_quotient (Subgroup.center R)
   have hcenter_ne_bot : Subgroup.center R ≠ ⊥ := by
     exact ne_of_gt hRp.bot_lt_center
@@ -309,11 +309,11 @@ private theorem CFSG.section10_nilpotencyClassLe_of_card_le_p_cubed
       exact hcyc.isMulCommutative
     · have hsub : Subsingleton (R ⧸ Subgroup.center R) :=
         (Nat.card_eq_one_iff_unique.mp (by simpa using h0)).1
-      letI : Subsingleton (R ⧸ Subgroup.center R) := hsub
+      let : Subsingleton (R ⧸ Subgroup.center R) := hsub
       exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
   have hnil_cls : Group.nilpotencyClass R ≤ 2 := by
-    letI : IsMulCommutative (R ⧸ Subgroup.center R) := hquot_comm
-    letI : CommGroup (R ⧸ Subgroup.center R) := IsMulCommutative.instCommGroup
+    let : IsMulCommutative (R ⧸ Subgroup.center R) := hquot_comm
+    let : CommGroup (R ⧸ Subgroup.center R) := IsMulCommutative.instCommGroup
     have hquot_nil : Group.nilpotencyClass (R ⧸ Subgroup.center R) ≤ 1 := by
       simpa using (CommGroup.nilpotencyClass_le_one (G := R ⧸ Subgroup.center R))
     have hker_center : (QuotientGroup.mk' (Subgroup.center R) :
@@ -363,7 +363,7 @@ public theorem CFSG.section10_isExtraspecial_of_noncommutative_card_p3_exponent_
       rw [hKcard]
       exact one_lt_pow₀ hp.one_lt (by decide)
     exact Finite.one_lt_card_iff_nontrivial.mp hcard_gt
-  letI : Nontrivial K := hKnontriv
+  let : Nontrivial K := hKnontriv
   have hclass2 : NilpotencyClassLe 2 K :=
     section10_nilpotencyClassLe_of_card_le_p_cubed (R := K) (p := p) (by rw [hKcard])
   have hcomm_center : commutator K ≤ Subgroup.center K :=
@@ -418,7 +418,7 @@ public theorem CFSG.section10_isExtraspecial_of_noncommutative_card_p3_exponent_
       exact Nat.eq_of_mul_eq_mul_right (pow_pos hp.pos 2) hmul
     have hquot_cyc : IsCyclic (K ⧸ Subgroup.center K) :=
       isCyclic_of_prime_card (α := K ⧸ Subgroup.center K) hquot_card
-    letI : IsCyclic (K ⧸ Subgroup.center K) := hquot_cyc
+    let : IsCyclic (K ⧸ Subgroup.center K) := hquot_cyc
     apply hKnoncomm
     exact MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center
       (QuotientGroup.mk' (Subgroup.center K))
@@ -427,14 +427,14 @@ public theorem CFSG.section10_isExtraspecial_of_noncommutative_card_p3_exponent_
     simpa [hm_eq_one] using hm
   have hquot_nontriv : Nontrivial (K ⧸ Subgroup.center K) := by
     by_contra htriv
-    haveI : Subsingleton (K ⧸ Subgroup.center K) := not_nontrivial_iff_subsingleton.mp htriv
+    have : Subsingleton (K ⧸ Subgroup.center K) := not_nontrivial_iff_subsingleton.mp htriv
     have hcenter_top : Subgroup.center K = ⊤ :=
       QuotientGroup.subgroup_eq_top_of_subsingleton (Subgroup.center K) inferInstance
     apply hKnoncomm
     refine ⟨⟨fun x y => ?_⟩⟩
     have hxcent : x ∈ Subgroup.center K := by simp [hcenter_top]
     exact (Subgroup.mem_center_iff.mp hxcent y).symm
-  letI : Nontrivial (K ⧸ Subgroup.center K) := hquot_nontriv
+  let : Nontrivial (K ⧸ Subgroup.center K) := hquot_nontriv
   exact {
     center_order_p := hcenter_card
     quotient_elementary_abelian :=
@@ -501,13 +501,13 @@ public theorem CFSG.section10_omegaOneCenter_eq_center_map_of_centralProduct
     section10OmegaOneCenter p P =
       ((Subgroup.center Q).map Q.subtype).map P.subtype := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hQp : IsPGroup p.val Q := IsPGroup.of_card (n := 3) hQcard
-  letI : Fact (IsPGroup p.val Q) := ⟨hQp⟩
+  let : Fact (IsPGroup p.val Q) := ⟨hQp⟩
   have hQextra : IsExtraspecial p.val Q :=
       section10_isExtraspecial_of_noncommutative_card_p3_exponent_p
       (K := Q) (p := p.val) hQcard hQexp hQnoncomm
-  letI : IsExtraspecial p.val Q := hQextra
+  let : IsExtraspecial p.val Q := hQextra
   have hder_center :
       (derivedSubgroup Q).map Q.subtype =
         (Subgroup.center Q).map Q.subtype :=
@@ -516,7 +516,7 @@ public theorem CFSG.section10_omegaOneCenter_eq_center_map_of_centralProduct
   have hΩder :
       (omega₁ (G := Y) (p := p.val)).map Y.subtype =
         (derivedSubgroup Q).map Q.subtype := by
-    letI : IsCyclic Y := hYcyc
+    let : IsCyclic Y := hYcyc
     calc
       (omega₁ (G := Y) (p := p.val)).map Y.subtype =
           (Ω₁Z p.val Y).map Y.subtype := by
@@ -607,7 +607,7 @@ public theorem CFSG.corollary_10_7_b
   classical
   by_cases hPbot : (P : Subgroup G) = ⊥
   · left
-    haveI : Subsingleton (P : Subgroup G) := by
+    have : Subsingleton (P : Subgroup G) := by
       refine ⟨fun x y => Subtype.ext ?_⟩
       have hxbot : (x : G) ∈ (⊥ : Subgroup G) := by
         simpa [hPbot] using x.property
@@ -617,12 +617,12 @@ public theorem CFSG.corollary_10_7_b
       have hyone : (y : G) = 1 := by simpa using hybot
       simp [hxone, hyone]
     exact ⟨⟨fun x y => Subsingleton.elim (x * y) (y * x)⟩⟩
-  · haveI : Fact p.val.Prime := ⟨p.property⟩
-    haveI : Nontrivial (P : Subgroup G) :=
+  · have : Fact p.val.Prime := ⟨p.property⟩
+    have : Nontrivial (P : Subgroup G) :=
       (Subgroup.nontrivial_iff_ne_bot (P : Subgroup G)).2 hPbot
-    haveI : Fact (IsPGroup p.val (P : Subgroup G)) := ⟨P.isPGroup'⟩
+    have : Fact (IsPGroup p.val (P : Subgroup G)) := ⟨P.isPGroup⟩
     have hp_dvd_P : p.val ∣ Nat.card (P : Subgroup G) := by
-      rcases P.isPGroup'.card_eq_or_dvd with hcard | hdiv
+      rcases P.isPGroup.card_eq_or_dvd with hcard | hdiv
       · exact False.elim (hPbot ((Subgroup.card_eq_one (H := (P : Subgroup G))).mp hcard))
       · exact hdiv
     have hp_dvd_G : p.val ∣ Nat.card G :=
@@ -631,7 +631,7 @@ public theorem CFSG.corollary_10_7_b
       Odd.ne_two_of_dvd_nat IsMinCE.odd_order hp_dvd_G
     obtain ⟨V, hVcomp⟩ := section10_exists_complementInNormalizer (G := G) P
     rcases hVcomp with ⟨hVleN, hcomp⟩
-    letI : Subgroup.Normalizes V (P : Subgroup G) := ⟨hVleN⟩
+    let : Subgroup.Normalizes V (P : Subgroup G) := ⟨hVleN⟩
     let ρ : V →* MulAut (P : Subgroup G) :=
       MulDistribMulAction.toMulAut V (P : Subgroup G)
     have hcommV :
@@ -669,7 +669,7 @@ public theorem CFSG.corollary_10_7_b
       odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card V)
     have hρodd : Odd (Nat.card ρ.range) :=
       odd_of_card_dvd hVodd (Subgroup.card_range_dvd ρ)
-    haveI : FaithfulSMul ρ.range (P : Subgroup G) := inferInstance
+    have : FaithfulSMul ρ.range (P : Subgroup G) := inferInstance
     rcases
       (theorem_4_16 (R := (P : Subgroup G)) (A := ρ.range) (p := p.val)
         hpodd hcopρ hPrank hcommρ hρodd).2 with hcommP | hshape
@@ -678,11 +678,11 @@ public theorem CFSG.corollary_10_7_b
         ⟨P₁, P₂, hcentral, hP₁card, hP₁exp, hP₁noncomm, hP₂cyc, hΩder⟩
       have hP₁p : IsPGroup p.val P₁ :=
         (Fact.out : IsPGroup p.val (P : Subgroup G)).to_subgroup P₁
-      letI : Fact (IsPGroup p.val P₁) := ⟨hP₁p⟩
+      let : Fact (IsPGroup p.val P₁) := ⟨hP₁p⟩
       have hP₁extra : IsExtraspecial p.val P₁ :=
         section10_isExtraspecial_of_noncommutative_card_p3_exponent_p
           (K := P₁) (p := p.val) hP₁card hP₁exp hP₁noncomm
-      letI : IsExtraspecial p.val P₁ := hP₁extra
+      let : IsExtraspecial p.val P₁ := hP₁extra
       have hder_center :
           (derivedSubgroup P₁).map P₁.subtype =
             (Subgroup.center P₁).map P₁.subtype :=
@@ -691,7 +691,7 @@ public theorem CFSG.corollary_10_7_b
       have hΩcenter :
           (Ω₁Z p.val P₂).map P₂.subtype =
             (Subgroup.center P₁).map P₁.subtype := by
-        letI : IsCyclic P₂ := hP₂cyc
+        let : IsCyclic P₂ := hP₂cyc
         calc
           (Ω₁Z p.val P₂).map P₂.subtype =
               (omega₁ (G := P₂) (p := p.val)).map P₂.subtype := by

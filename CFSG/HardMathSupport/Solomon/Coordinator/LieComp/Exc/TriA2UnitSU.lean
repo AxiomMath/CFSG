@@ -101,11 +101,11 @@ theorem stdUnitary_equiv_fin {ℓ f ν : ℕ} (hℓ : ℓ.Prime) {L : Type} [Fie
       exact ⟨Y, Subtype.ext hY⟩⟩
   exact ⟨F, hFcard, ⟨e⟩⟩
 
-theorem lieFactorData_statedSU_three {ℓ f : ℕ} (hℓ : ℓ.Prime) {F : Type} [Field F] [Finite F]
+theorem lieFactorData_statedSU_three {ℓ f : ℕ} (_hℓ : ℓ.Prime) {F : Type} [Field F] [Finite F]
     [CharP F ℓ] (hF : Nat.card F = (ℓ ^ f) ^ 2) (hq : 5 ≤ ℓ ^ f) :
     LieFactorData ℓ ↥(StatedSU 3 (ℓ ^ f) F) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hnq : (3, ℓ ^ f) ≠ (3, 2) := fun h => by
     have := congrArg Prod.snd h
     simp only at this
@@ -115,15 +115,15 @@ theorem lieFactorData_statedSU_three {ℓ f : ℕ} (hℓ : ℓ.Prime) {F : Type}
   have := suFactorFacts_holds F 3 (ℓ ^ f) hFc le_rfl hnq
   rwa [hring] at this
 
-theorem componentFactor_statedSU_of_surjective {ℓ f : ℕ} (hℓ : ℓ.Prime) {F : Type} [Field F]
+theorem componentFactor_statedSU_of_surjective {ℓ f : ℕ} (_hℓ : ℓ.Prime) {F : Type} [Field F]
     [Finite F] [CharP F ℓ] (hF : Nat.card F = (ℓ ^ f) ^ 2) (hq : 5 ≤ ℓ ^ f)
     {Q : Type} [Group Q] [Finite Q] (g : ↥(StatedSU 3 (ℓ ^ f) F) →* Q)
     (hg : Function.Surjective g)
     (hgk : g.ker ≤ Subgroup.center ↥(StatedSU 3 (ℓ ^ f) F)) :
     ComponentFactor ℓ Q := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact ℓ.Prime := ⟨_hℓ⟩
+  have : Fintype F := Fintype.ofFinite F
   have hnq : (3, ℓ ^ f) ≠ (3, 2) := fun h => by
     have := congrArg Prod.snd h
     simp only at this
@@ -148,8 +148,8 @@ theorem compsWith_of_su_hom {P : (X : Type) → [Group X] → Prop}
     (g : ↥(StatedSU 3 (ℓ ^ f) F) →* ↥J) (hg : Function.Surjective g)
     (hgk : g.ker ≤ Subgroup.center ↥(StatedSU 3 (ℓ ^ f) F)) : CompsWith P C := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype F := Fintype.ofFinite F
   have hnq : (3, ℓ ^ f) ≠ (3, 2) := fun h => by
     have := congrArg Prod.snd h
     simp only at this

@@ -29,7 +29,7 @@ theorem invConj_of_janko {G : Type} [Group G] [Finite G] (f t : G) (E : Subgroup
     rw [this, Nat.factorization_mul (by norm_num) (by norm_num),
       Nat.Prime.factorization_pow Nat.prime_two]
     simp [Nat.factorization_eq_zero_of_not_dvd (show ¬ 2 ∣ 109725 by norm_num)]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Sylow 2 Γ := Sylow.ofCard E' (by rw [hE'card, hfac]; norm_num)
   let jj : Γ := ⟨j, hj⟩
   have hjj : IsPGroup 2 (zpowers jj) := by

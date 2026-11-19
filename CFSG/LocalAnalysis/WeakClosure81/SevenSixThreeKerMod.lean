@@ -25,6 +25,7 @@ attribute [local instance] Fintype.ofFinite
     ext w
     simp
 
+omit [Finite G] [Finite W] in
 @[simp] theorem coe_restrictRep_apply (ρ : Representation (ZMod 2) G W)
     (W₂ : Submodule (ZMod 2) W) (h : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) (g : G) (w : W₂) :
     ((restrictRep ρ W₂ h g w : W₂) : W) = ρ g (w : W) :=
@@ -38,6 +39,7 @@ private noncomputable def avg (ρ : Representation (ZMod 2) G W) (Q : Subgroup G
     W →ₗ[ZMod 2] W :=
   ∑ x : Q, ρ (x : G)
 
+omit [Finite W] in
 private lemma avg_apply (ρ : Representation (ZMod 2) G W) (Q : Subgroup G) (w : W) :
     avg ρ Q w = ∑ x : Q, ρ (x : G) w := by
   simp [avg]
@@ -48,6 +50,7 @@ private noncomputable def mulRightEquiv (Q : Subgroup G) (y : Q) : Q ≃ Q where
   left_inv x := by ext; simp
   right_inv x := by ext; simp
 
+omit [Finite W] in
 theorem commSpace_inf_fixSub_eq_bot (ρ : Representation (ZMod 2) G W) {Q : Subgroup G}
     (hodd : Odd (Nat.card Q)) : commSpace ρ Q ⊓ fixSub ρ Q = ⊥ := by
   rw [Submodule.eq_bot_iff]
@@ -82,6 +85,7 @@ theorem commSpace_inf_fixSub_eq_bot (ρ : Representation (ZMod 2) G W) {Q : Subg
   rw [hfix] at hker
   exact hker
 
+omit [Finite G] [Finite W] in
 theorem map_mem_commSpace (ρ : Representation (ZMod 2) G W) {Q : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (Q : Set G)) {w : W} (hw : w ∈ commSpace ρ Q) :
     ρ g w ∈ commSpace ρ Q := by
@@ -111,6 +115,7 @@ theorem map_mem_commSpace (ρ : Representation (ZMod 2) G W) {Q : Subgroup G} {g
       (g * y * g⁻¹) (hy' y hy))
   exact hmap (Submodule.mem_map_of_mem hw)
 
+omit [Finite G] [Finite W] in
 theorem forall_map_mem_of_sup_zpowers_eq_top (ρ : Representation (ZMod 2) G W) {Q : Subgroup G}
     {u : G} (hu : u * u = 1) (hgen : Q ⊔ Subgroup.zpowers u = ⊤) {W' : Submodule (ZMod 2) W}
     (hQ : ∀ x ∈ Q, ∀ w ∈ W', ρ x w ∈ W') (hu' : ∀ w ∈ W', ρ u w ∈ W') :
@@ -151,6 +156,7 @@ private def Good (ρ : Representation (ZMod 2) G W) (Q : Subgroup G) (u : G)
   X ≤ commSpace ρ Q ∧ X ≠ ⊥ ∧
     (∀ x ∈ Q, ∀ w ∈ X, ρ x w ∈ X) ∧ (∀ w ∈ X, ρ u w ∈ X)
 
+omit [Finite G] in
 theorem exists_irreducible_le_commSpace (ρ : Representation (ZMod 2) G W) {Q : Subgroup G}
     {u : G} (hu : u * u = 1) (hu' : u ∈ Subgroup.normalizer (Q : Set G))
     (hgen : Q ⊔ Subgroup.zpowers u = ⊤) (hne : commSpace ρ Q ≠ ⊥) :
@@ -207,7 +213,6 @@ theorem exists_irreducible_le_commSpace (ρ : Representation (ZMod 2) G W) {Q : 
     have hXeq : X = W₂ := by
       have hset : (X : Set W) = (W₂ : Set W) := by
         refine Set.eq_of_subset_of_ncard_le hsub ?_
-        change (W₂ : Set W).ncard ≤ (X : Set W).ncard
         exact hcardW
       exact Submodule.ext fun x => by
         show x ∈ (X : Set W) ↔ x ∈ (W₂ : Set W)
@@ -232,7 +237,7 @@ theorem PInvol.exists_irreducible_restriction (ρ : Representation (ZMod 2) G W)
           y * u = u * y) := by
   classical
   have hodd : Odd (Nat.card Q) := by
-    haveI : Fact p.Prime := ⟨h.prime⟩
+    have : Fact p.Prime := ⟨h.prime⟩
     have hQp : IsPGroup p Q := fun x =>
       ⟨1, by
         rw [pow_one]
@@ -277,7 +282,7 @@ theorem PInvol.exists_irreducible_restriction (ρ : Representation (ZMod 2) G W)
     exists_irreducible_le_commSpace ρ h.sq_eq_one h.mem_normalizer hgen hcomm_ne
   have hntQ : ∃ y ∈ Q, ∃ w ∈ W₂, ρ y w ≠ w := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hfix : W₂ ≤ fixSub ρ Q := by
       intro w hw
       rw [mem_fixSub]
@@ -347,7 +352,7 @@ theorem PInvol.exists_irreducible_restriction (ρ : Representation (ZMod 2) G W)
         hC v⁻¹ ((Subgroup.zpowers u).inv_mem hv)
       have hcomm1 : restrictRep ρ W₂ hW₂ ⁅a, v⁆ = 1 := by
         rw [commutatorElement_def, map_mul, map_mul, map_mul]
-        simp only [hv1, hv1', mul_one, one_mul]
+        simp only [hv1, hv1', mul_one]
         exact haa
       have h2 := congrArg (fun f : W₂ →ₗ[ZMod 2] W₂ => f ⟨w, hw⟩) hcomm1
       have h := congrArg (Subtype.val) h2

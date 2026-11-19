@@ -30,9 +30,9 @@ theorem E6QTwo.card_eq_of_weylOfType_E6_of_card_192 [Finite G] {Bs : Subgroup G}
   classical
   obtain ⟨V, hVadd, hVmod, ι, h, α, hα, β, hV, hmap, -, hP, hB, hx1⟩ :=
     E6QTwo.norm_eq_one_of_card_192 hBs hNT hcard hWcard hind hW le_sup_left hALcard hx hALx
-  letI := hVadd
-  letI := hVmod
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hV]; norm_num)
+  let := hVadd
+  let := hVmod
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hV]; norm_num)
   have hyx : ∀ a : ZMod 3, ι (Additive.ofMul y) ≠ a • ι (Additive.ofMul x) :=
     E6QTwo.ne_smul_of_not_mem_zpowers ι hy
   have h6' := E6QTwo.six_le_ncard_rootRefl_of_six_le (B := β) hP hV hB hα ι hmap

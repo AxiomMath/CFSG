@@ -131,7 +131,7 @@ theorem HH_normal (ρ : K →* MulAut S) : (HH ρ).Normal := by
     rw [← MulAut.mul_apply, ← map_mul, mul_inv_cancel, map_one]; rfl
   have h := congrArg (ρ k) (hn' (ρ k⁻¹ u) (ρ k⁻¹ v))
   rw [map_cm ρ k, ← map_cm ρ k⁻¹ u v] at h
-  simp only [MulAut.mul_apply, hk] at h
+  simp only [hk] at h
   have e1 : ρ (k * n * k⁻¹) u = ρ k (ρ n (ρ k⁻¹ u)) := by
     simp [map_mul, MulAut.mul_apply]
   have e2 : (k * n * k⁻¹)⁻¹ = k * n⁻¹ * k⁻¹ := by group
@@ -164,7 +164,7 @@ theorem PP_normal (ρ : K →* MulAut S) : (PP ρ).Normal := by
   show ρ (k * n * k⁻¹) (cm u v) = cm u v
   have h := congrArg (ρ k) (hn' (ρ k⁻¹ u) (ρ k⁻¹ v))
   rw [← map_cm ρ k⁻¹ u v] at h
-  simp only [MulAut.mul_apply, hk] at h
+  simp only [hk] at h
   simpa [map_mul, MulAut.mul_apply] using h
 
 end Subgroups
@@ -184,7 +184,7 @@ theorem comm_of_class_two [Finite S] [IsSimpleGroup K] (e : K ≃* A5) {ρ : K �
     have : (mk5 c[0, 1, 2]) = 1 := by simpa [y0] using h
     revert this; decide
   have hHH : HH ρ = ⊤ := by
-    haveI := HH_normal ρ
+    have := HH_normal ρ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (HH ρ) with h | h
     · exfalso
       have : y0 ∈ HH ρ := fun u v => cm_left hρ hcc hy0_3 hy0_1 u v
@@ -202,7 +202,7 @@ theorem comm_of_class_two [Finite S] [IsSimpleGroup K] (e : K ≃* A5) {ρ : K �
     rw [e3, map_mul, MulAut.mul_apply, hX]
     simp only [← MulAut.mul_apply, ← map_mul]
     have : g * g * g⁻¹ * g⁻¹ = 1 := by group
-    simp [this]
+    simp
   let g0 : K := e.symm z5
   have hg0 : g0 ^ 3 ≠ 1 := by
     intro h
@@ -211,7 +211,7 @@ theorem comm_of_class_two [Finite S] [IsSimpleGroup K] (e : K ≃* A5) {ρ : K �
       simpa [g0, map_pow] using this
     revert this; decide
   have hPP : PP ρ = ⊤ := by
-    haveI := PP_normal ρ
+    have := PP_normal ρ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (PP ρ) with h | h
     · exfalso
       have : g0 ^ 3 ∈ PP ρ := fun u v => hcube g0 u v

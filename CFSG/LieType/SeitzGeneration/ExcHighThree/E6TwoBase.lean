@@ -16,6 +16,7 @@ section Links
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem coe_evalG6 (w : List E6Bits.Letter) :
     ((E6Bits.evalG K w : adjointGroup Tag.E6 K) : ModGL Tag.E6 K) =
       (w.map fun l => ((l.elt K : adjointGroup Tag.E6 K) : ModGL Tag.E6 K)).prod := by
@@ -45,8 +46,7 @@ theorem embE6F4_xE_coe' (L : Type) [Field L] (j : Fin Tag.F4.rank) (c : L) :
       (((e6FixedF4EquivAll L).symm (xE Tag.F4 L j c) :
         twistedFixedGroup TwistTag.E6 L (RingHom.id L)) : ModGL TwistTag.E6.tag L) := by
     unfold embE6F4 isoE6F4
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply,
-      Subgroup.coe_subtype]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.coe_subtype]
     rfl
   rw [h1, hT]
   rfl
@@ -79,32 +79,32 @@ theorem embE6F4_yE_coe' (L : Type) [Field L] (j : Fin Tag.F4.rank) (c : L) :
       (((e6FixedF4EquivAll L).symm (yE Tag.F4 L j c) :
         twistedFixedGroup TwistTag.E6 L (RingHom.id L)) : ModGL TwistTag.E6.tag L) := by
     unfold embE6F4 isoE6F4
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply,
-      Subgroup.coe_subtype]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.coe_subtype]
     rfl
   rw [h1, hT]
   rfl
 
+omit [CharP K 2] in
 theorem iota_xE : ∀ j : Fin Tag.F4.rank, (embE6F4 K (xE Tag.F4 K j 1) : ModGL Tag.E6 K) =
     (E6Bits.evalG K (wordOfCodes6 (orbitNodes j)) : ModGL Tag.E6 K)
   | ⟨0, _⟩ => by
     rw [embE6F4_xE_coe', coe_evalG6]
-    simp only [f4OrbitXUnit, orbitWord_one, wordOfCodes6, orbitNodes, letterOfCode6, List.map,
+    simp only [f4OrbitXUnit, orbitWord_one, wordOfCodes6, orbitNodes, List.map,
       List.prod_cons, List.prod_nil]
     rfl
   | ⟨1, _⟩ => by
     rw [embE6F4_xE_coe', coe_evalG6]
-    simp only [f4OrbitXUnit, orbitWord_three, wordOfCodes6, orbitNodes, letterOfCode6, List.map,
+    simp only [f4OrbitXUnit, orbitWord_three, wordOfCodes6, orbitNodes, List.map,
       List.prod_cons, List.prod_nil]
     rfl
   | ⟨2, _⟩ => by
     rw [embE6F4_xE_coe', coe_evalG6]
-    simp only [f4OrbitXUnit, orbitWord_two_four, wordOfCodes6, orbitNodes, letterOfCode6, List.map,
+    simp only [f4OrbitXUnit, orbitWord_two_four, wordOfCodes6, orbitNodes, List.map,
       List.prod_cons, List.prod_nil]
     rfl
   | ⟨3, _⟩ => by
     rw [embE6F4_xE_coe', coe_evalG6]
-    simp only [f4OrbitXUnit, orbitWord_zero_five, wordOfCodes6, orbitNodes, letterOfCode6, List.map,
+    simp only [f4OrbitXUnit, orbitWord_zero_five, wordOfCodes6, orbitNodes, List.map,
       List.prod_cons, List.prod_nil]
     rfl
 
@@ -116,19 +116,23 @@ theorem coe_evalG6_xnx (i : Fin Tag.E6.rank) :
   rw [← mul_assoc]
   exact xUnit_weylElt_xUnit Tag.E6 i
 
+omit [CharP K 2] in
 theorem f4OrbitYUnit_one : f4OrbitYUnit K ⟨0, by decide⟩ 1 = yUnit Tag.E6 K ⟨1, by decide⟩ 1 := by
   simp only [f4OrbitYUnit, orbitWord_one, List.map, List.prod_cons, List.prod_nil, mul_one]
   rfl
 
+omit [CharP K 2] in
 theorem f4OrbitYUnit_three : f4OrbitYUnit K ⟨1, by decide⟩ 1 = yUnit Tag.E6 K ⟨3, by decide⟩ 1 := by
   simp only [f4OrbitYUnit, orbitWord_three, List.map, List.prod_cons, List.prod_nil, mul_one]
   rfl
 
+omit [CharP K 2] in
 theorem f4OrbitYUnit_two_four : f4OrbitYUnit K ⟨2, by decide⟩ 1 =
     yUnit Tag.E6 K ⟨2, by decide⟩ 1 * yUnit Tag.E6 K ⟨4, by decide⟩ 1 := by
   simp only [f4OrbitYUnit, orbitWord_two_four, List.map, List.prod_cons, List.prod_nil, mul_one]
   rfl
 
+omit [CharP K 2] in
 theorem f4OrbitYUnit_zero_five : f4OrbitYUnit K ⟨3, by decide⟩ 1 =
     yUnit Tag.E6 K ⟨0, by decide⟩ 1 * yUnit Tag.E6 K ⟨5, by decide⟩ 1 := by
   simp only [f4OrbitYUnit, orbitWord_zero_five, List.map, List.prod_cons, List.prod_nil, mul_one]
@@ -184,7 +188,7 @@ theorem iota_nE (j : Fin Tag.F4.rank) :
   have hl : f4ToE6Letter (4 + j.val) = orbitNodes j.val ++
       (orbitNodes j.val).flatMap (fun i => [i, 6 + i, i]) ++ orbitNodes j.val := by
     unfold f4ToE6Letter
-    rw [if_neg (by omega), Nat.add_sub_cancel_left]
+    rw [ite_eq_right (by omega), Nat.add_sub_cancel_left]
   rw [hl, wordOfCodes6, List.map_append, List.map_append]
   change _ = ((E6Bits.evalG K (wordOfCodes6 (orbitNodes j.val) ++
     wordOfCodes6 ((orbitNodes j.val).flatMap fun i => [i, 6 + i, i]) ++
@@ -198,16 +202,16 @@ theorem iota_letter {c : ℕ} (hc : c < 8) :
       E6Bits.evalG K (wordOfCodes6 (f4ToE6Letter c)) := by
   unfold CFSG.RankThree.PartOne.SEITZX.letterOfCode
   by_cases h : c < 4
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     apply Subtype.ext
     have := iota_xE (K := K) ⟨c, h⟩
     unfold f4ToE6Letter
-    rw [if_pos h]
+    rw [ite_eq_left h]
     exact this
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     have h2 : (c - 4) % 4 = c - 4 := Nat.mod_eq_of_lt (by omega)
     have hn := iota_nE (K := K) ⟨(c - 4) % 4, by simp only [Tag.rank]; omega⟩
-    simp only [Fin.val_mk] at hn
+    simp only at hn
     rw [show 4 + (c - 4) % 4 = c by omega] at hn
     exact hn
 
@@ -217,37 +221,40 @@ section Closing
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem xElement_weylElement_xElement (i : Fin Tag.E6.rank) :
     xElement (τ := Tag.E6) (K := K) i 1 * weylElement Tag.E6 K i * xElement i 1 =
       yElement i 1 :=
   Subtype.ext (xUnit_weylElt_xUnit Tag.E6 i)
 
+omit [Finite K] [CharP K 2] in
 theorem evalG6_x (i : Fin Tag.E6.rank) :
     E6Bits.evalG K (wordOfCodes6 [i.val]) = xElement i 1 := by
   have hi : i.val < 6 := i.2
   have : wordOfCodes6 [i.val] = [E6Bits.Letter.x i] := by
     show [letterOfCode6 i.val] = _
-    rw [letterOfCode6, dif_pos hi]
+    rw [letterOfCode6, dite_eq_left hi]
     rfl
   rw [this, E6Bits.evalG_singleton]
   rfl
 
+omit [Finite K] in
 theorem evalG6_xnx (i : Fin Tag.E6.rank) :
     E6Bits.evalG K (wordOfCodes6 [i.val, 6 + i.val, i.val]) = yElement i 1 := by
   have hi : i.val < 6 := i.2
   have hn : letterOfCode6 (6 + i.val) = E6Bits.Letter.n i := by
-    rw [letterOfCode6, dif_neg (by omega)]
-    exact congrArg E6Bits.Letter.n (Fin.ext (by simp only [Fin.val_mk]; omega))
+    rw [letterOfCode6, dite_eq_right (by omega)]
+    exact congrArg E6Bits.Letter.n (Fin.ext (by simp only; omega))
   have : wordOfCodes6 [i.val, 6 + i.val, i.val] =
       [E6Bits.Letter.x i, E6Bits.Letter.n i, E6Bits.Letter.x i] := by
     show [letterOfCode6 i.val, letterOfCode6 (6 + i.val), letterOfCode6 i.val] = _
-    rw [letterOfCode6, dif_pos hi, hn]
+    rw [letterOfCode6, dite_eq_left hi, hn]
     rfl
   rw [this]
   apply Subtype.ext
   exact coe_evalG6_xnx i
 
-@[expose] def E6CloseAtTwo : Prop :=
+def E6CloseAtTwo : Prop :=
   ∀ (K : Type) [Field K] [Finite K], Nat.card K = 2 →
     ∀ E₃ : Subgroup (adjointGroup .F4 K), (∀ x ∈ E₃, x ^ 3 = 1) → Nat.card E₃ = 3 ^ 2 →
       ∃ e ∈ E₃, e ≠ 1 ∧ Subgroup.closure (((embE6F4 K).range : Set (adjointGroup .E6 K)) ∪

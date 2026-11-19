@@ -88,8 +88,8 @@ theorem ff_not_isL29_X_of_solvable {C : Subgroup G} (hC : Group.IsSolvable ↥C)
     ¬ IsL29 (twoPrimeRes (twoRes C)) := by
   intro h
   refine ff_isL29_not_solvable h ?_
-  haveI := hC
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective (ff_twoPrimeRes_twoRes_le C))
+  have := hC
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (ff_twoPrimeRes_twoRes_le C))
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {L : Subgroup G}
@@ -128,11 +128,11 @@ theorem ff_layerCent_eq_of_central [Finite G] (hq : CFSG.IsQuasisimple ↥L)
     (hs : s ∈ centralizer (L : Set G)) : layerCent L s = L ∧ XOut L s = L := by
   have hC : L ⊓ centralizer ({s} : Set G) = L := inf_eq_left.mpr fun l hl =>
     Subgroup.mem_centralizer_singleton_iff.mpr (Subgroup.mem_centralizer_iff.mp hs l hl)
-  haveI := hq.2.1
-  haveI hsL : IsSimpleGroup ↥L :=
+  have := hq.2.1
+  have hsL : IsSimpleGroup ↥L :=
     MulEquiv.isSimpleGroup (QuotientGroup.quotientBot.symm.trans
       (QuotientGroup.quotientMulEquivOfEq hz.symm))
-  haveI hsT : IsSimpleGroup ↥(⊤ : Subgroup ↥L) := MulEquiv.isSimpleGroup Subgroup.topEquiv
+  have hsT : IsSimpleGroup ↥(⊤ : Subgroup ↥L) := MulEquiv.isSimpleGroup Subgroup.topEquiv
   have hnc : ∃ a b : ↥(⊤ : Subgroup ↥L), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hq.2.2
     obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a
@@ -141,7 +141,7 @@ theorem ff_layerCent_eq_of_central [Finite G] (hq : CFSG.IsQuasisimple ↥L)
     have h' : a' * b' = b' * a' := congrArg Subtype.val h
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, h']
   have hev' : 2 ∣ Nat.card ↥(⊤ : Subgroup ↥L) := by rwa [Subgroup.card_top]
-  haveI : Subsingleton (↥L ⧸ (⊤ : Subgroup ↥L)) := QuotientGroup.subsingleton_quotient_top
+  have : Subsingleton (↥L ⧸ (⊤ : Subgroup ↥L)) := QuotientGroup.subsingleton_quotient_top
   have h2 : IsPGroup 2 (↥L ⧸ (⊤ : Subgroup ↥L)) := fun g =>
     ⟨0, by rw [pow_zero, pow_one]; exact Subsingleton.elim _ _⟩
   obtain ⟨hl, hx⟩ := ff_layer_ffX_eq_of_normal_simple (⊤ : Subgroup ↥L) hsT hnc hev' h2

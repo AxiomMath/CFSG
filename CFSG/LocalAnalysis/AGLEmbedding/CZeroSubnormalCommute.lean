@@ -71,7 +71,7 @@ theorem commute_oUpperTwo_of_symThree {T B : Subgroup Y} (hT : IsSubnormal T ⊤
     (hS : Nonempty (↥T ≃* Equiv.Perm (Fin 3))) (hB : IsPGroup 3 B) (hBs : IsSubnormal B ⊤) :
     ∀ x ∈ CFSG.ComponentClassification.AS76b.oUpperTwo T, ∀ b ∈ B, b * x = x * b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hS
   obtain ⟨hc3, hc1, hs2, hsc, hcases⟩ := perm3_facts
   set a : Y := ((e.symm c3 : ↥T) : Y) with ha

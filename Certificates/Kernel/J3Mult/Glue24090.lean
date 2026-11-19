@@ -70,12 +70,12 @@ noncomputable abbrev σ : Fin 2 → J j3Data := ![a j3Data, b j3Data]
 theorem hA : MatP 80 SA.M = matOf (J j3Data).subtype (σ 0) := by
   have e : (σ 0 : J j3Data) = a j3Data := rfl
   rw [e, matOf, Subgroup.subtype_apply, CFSG.Sporadic.J3.coe_a, CFSG.Sporadic.J3.gA,
-    dif_pos dets.1, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_A]
+    dite_eq_left dets.1, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_A]
 
 theorem hB : MatP 80 SB.M = matOf (J j3Data).subtype (σ 1) := by
   have e : (σ 1 : J j3Data) = b j3Data := rfl
   rw [e, matOf, Subgroup.subtype_apply, CFSG.Sporadic.J3.coe_b, CFSG.Sporadic.J3.gB,
-    dif_pos dets.2, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_B]
+    dite_eq_left dets.2, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_B]
 
 theorem gen_words {w : List (Fin 2 × Bool)} (hw : w ∈ checkWords) :
     signedProd (fun i : Fin 2 => segVal σ genWords i.val) w = 1 := by

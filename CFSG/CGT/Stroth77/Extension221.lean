@@ -34,8 +34,7 @@ theorem u_apply_gens_t230 (s : ℕ) (hs : 1 ≤ s) (i j l : ℤ) :
     ring
   · congr 1
     simp
-  · congr 1
-    simp
+  · simp
 
 theorem rho_fixed_mod_two_t230 (s : ℕ) (hs : 1 ≤ s) {x z : Torus (StrothTypeIndex.t230 s hs).k}
     (h : (StrothTypeIndex.t230 s hs).action.φρ x - x = 2 • z) :
@@ -169,8 +168,7 @@ theorem u_apply_gens_t231 (s : ℕ) (hs : 1 ≤ s) (i j l : ℤ) :
     ring
   · congr 1
     simp
-  · congr 1
-    simp
+  · simp
 
 theorem rho_fixed_mod_two_t231 (s : ℕ) (hs : 1 ≤ s) {x z : Torus (StrothTypeIndex.t231 s hs).k}
     (h : (StrothTypeIndex.t231 s hs).action.φρ x - x = 2 • z) :
@@ -583,9 +581,9 @@ theorem parityTorus_t_t231 (s : ℕ) (hs : 1 ≤ s) (y : Torus (StrothTypeIndex.
   have h12 : (12 : ZMod 2) = 0 := by decide
   funext r
   fin_cases r
-  · simp [tBar230, hI2, hF2, hG2, h2, h4, h6, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
+  · simp [tBar230, hI2, hF2, hG2, h2, h4, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
   · simp [tBar230, hI2, h2, h4, h7, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
-  · simp [tBar230, hI2, h4, h7, h8, h12, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
+  · simp [tBar230, hI2, h4, h7, h8, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
 
 theorem fixed_rho_t_t231 {S : Type*} [Group S] [Finite S] {B : Subgroup S} {s : ℕ} {hs : 1 ≤ s}
     (D : StrothTypeData B (StrothTypeIndex.t231 s hs)) {y : B}

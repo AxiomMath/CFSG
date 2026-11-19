@@ -224,7 +224,7 @@ theorem central_quotient_action_inner
     rw [hRbar']
     exact Subgroup.map_mono hU'R'
   have hSbar : IsSylowTwoOf (Rbar : Subgroup (N ⧸ Z')) ⊤ :=
-    ⟨le_top, Rbar.isPGroup', by
+    ⟨le_top, Rbar.isPGroup, by
       have h : ((Rbar : Subgroup (N ⧸ Z')).subgroupOf ⊤).index = (Rbar : Subgroup (N ⧸ Z')).index :=
         Subgroup.relIndex_top_right _
       rw [h]

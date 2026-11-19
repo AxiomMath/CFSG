@@ -35,10 +35,12 @@ theorem Tfun_smul (b c : F) (r : F) (w : OW F) : Tfun b c (r • w) = r • Tfun
 
 variable [CharP F 2]
 
+omit [CharP F 2] in
 theorem cA2_spec (hb : b ≠ 0) (w : OW F) :
     b * cA2 b c w = w (Sum.inr (Sum.inl idx1)) + c * w (Sum.inl idx1) :=
   mul_div_cancel₀ _ hb
 
+omit [CharP F 2] in
 theorem cB1_spec (hb : b ≠ 0) (w : OW F) :
     b * cB1 b w = w (Sum.inr (Sum.inl idx0)) + w (Sum.inl idx0) :=
   mul_div_cancel₀ _ hb
@@ -63,17 +65,16 @@ theorem Tfun_Tinv (hb : b ≠ 0) (z : Fin 3 → QuadraticAlgebra F (-c) b) :
   have hq : cB1 b (Tinv b c z) = (z 0).im := by
     unfold cB1
     rw [div_eq_iff hb]
-    simp [Tinv, mkW, idx0, idx1]
+    simp [Tinv, mkW, idx0]
     linear_combination ((z 0).re + (z 1).re) * h2
   have hp : cA2 b c (Tinv b c z) = (z 1).re := by
     unfold cA2
     rw [div_eq_iff hb]
-    simp [Tinv, mkW, idx0, idx1]
+    simp [Tinv, mkW, idx1]
     linear_combination (c * ((z 0).im + (z 1).im)) * h2
   funext i
   fin_cases i <;> (apply QuadraticAlgebra.ext <;>
-    simp only [Tfun, hq, hp, Fin.zero_eta, Fin.mk_one, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val] <;> simp [Tinv, mkW, idx0, idx1] <;>
+    simp only [Tfun, hq, hp, Fin.zero_eta, Fin.mk_one, Matrix.cons_val_zero, Matrix.cons_val_one] <;> simp [Tinv, mkW]; try
     first | linear_combination (z 1).re * h2 | linear_combination (z 0).im * h2)
 
 @[expose] noncomputable def Tequiv (hb : b ≠ 0) :
@@ -95,7 +96,7 @@ theorem quadMinus_eq_norm_sum (hb : b ≠ 0) (w : OW F) :
   have hq := cB1_spec hb w
   rw [quadMinus_eq_det_add]
   simp only [Tfun, QuadraticAlgebra.norm_def, xM, nV, QN, Matrix.det_fin_two_of,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, Matrix.of_apply]
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val]
   linear_combination (-(w (Sum.inl idx0))) * hq + (-(w (Sum.inl idx1))) * hp +
     (-(w (Sum.inl idx1) * w (Sum.inr (Sum.inl idx1)) + w (Sum.inl idx0) ^ 2 +
       c * w (Sum.inl idx1) ^ 2 + w (Sum.inl idx0) * cA2 b c w + cA2 b c w ^ 2 +
@@ -103,7 +104,7 @@ theorem quadMinus_eq_norm_sum (hb : b ≠ 0) (w : OW F) :
 
 theorem ne_zero_of_irred [Finite F] (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) : b ≠ 0 := by
   intro hb0
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hF : ringChar F = 2 := ringChar.eq F 2
   obtain ⟨r, hr⟩ := FiniteField.isSquare_of_char_two hF c
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
@@ -139,14 +140,14 @@ abbrev QA (b c : F) : Type := QuadraticAlgebra F (-c) b
 
 @[expose] noncomputable def triMul (u₀ u₁ u₂ : (QA b c)ˣ) :
     (Fin 3 → QA b c) ≃ₗ[F] (Fin 3 → QA b c) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     { toFun := fun z => ![(u₀ : QA b c) * z 0, (u₁ : QA b c) * z 1, (u₂ : QA b c) * z 2]
       map_add' := fun z z' => by
         funext i
         fin_cases i <;> simp [mul_add]
       map_smul' := fun r z => by
         funext i
-        fin_cases i <;> simp [mul_smul_comm] }
+        fin_cases i <;> simp }
     { toFun := fun z => ![((u₀⁻¹ : (QA b c)ˣ) : QA b c) * z 0,
         ((u₁⁻¹ : (QA b c)ˣ) : QA b c) * z 1, ((u₂⁻¹ : (QA b c)ˣ) : QA b c) * z 2]
       map_add' := fun z z' => by
@@ -154,7 +155,7 @@ abbrev QA (b c : F) : Type := QuadraticAlgebra F (-c) b
         fin_cases i <;> simp [mul_add]
       map_smul' := fun r z => by
         funext i
-        fin_cases i <;> simp [mul_smul_comm] }
+        fin_cases i <;> simp }
     (LinearMap.ext fun z => by
       funext i
       fin_cases i <;> simp [← mul_assoc])
@@ -162,14 +163,17 @@ abbrev QA (b c : F) : Type := QuadraticAlgebra F (-c) b
       funext i
       fin_cases i <;> simp [← mul_assoc])
 
+omit [CharP F 2] in
 theorem triMul_apply (u₀ u₁ u₂ : (QA b c)ˣ) (z : Fin 3 → QA b c) :
     triMul u₀ u₁ u₂ z = ![(u₀ : QA b c) * z 0, (u₁ : QA b c) * z 1, (u₂ : QA b c) * z 2] := rfl
 
+omit [CharP F 2] in
 theorem triMul_mul_apply (u₀ u₁ u₂ v₀ v₁ v₂ : (QA b c)ˣ) (z : Fin 3 → QA b c) :
     triMul u₀ u₁ u₂ (triMul v₀ v₁ v₂ z) = triMul (u₀ * v₀) (u₁ * v₁) (u₂ * v₂) z := by
   funext i
   fin_cases i <;> simp [triMul_apply, mul_assoc]
 
+omit [CharP F 2] in
 theorem triMul_one_apply (z : Fin 3 → QA b c) : triMul 1 1 1 z = z := by
   funext i
   fin_cases i <;> simp [triMul_apply]
@@ -212,7 +216,7 @@ theorem Tau_injective (hb : b ≠ 0) : Function.Injective (Tau (c := c) hb) := b
   have e2 : (t.2.2 : (QA b c)ˣ) = 1 := Units.ext (by simpa [triMul_apply] using h0 2)
   exact Prod.ext (Subtype.ext e0) (Prod.ext (Subtype.ext e1) (Subtype.ext e2))
 
-variable [Finite F] [CharP F 2] [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)]
+variable [Finite F] [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)]
 
 theorem quad_Tau (hb : b ≠ 0) (t : ↥(Mu b c) × ↥(Mu b c) × ↥(Mu b c)) (w : OW F) :
     quadMinus 3 F b c (Tau hb t w) = quadMinus 3 F b c w := by
@@ -232,6 +236,8 @@ theorem quad_Tau (hb : b ≠ 0) (t : ↥(Mu b c) × ↥(Mu b c) × ↥(Mu b c)) 
     (↥(Mu b c) × ↥(Mu b c) × ↥(Mu b c)) →* GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F :=
   ((toLinEquiv (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F).symm.toMonoidHom).comp (Tau (c := c) hb)
 
+omit [Finite F] in
+omit [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)] in
 theorem tauGL_mulVec (hb : b ≠ 0) (t : ↥(Mu b c) × ↥(Mu b c) × ↥(Mu b c)) (x : OW F) :
     ((tauGL hb t : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) :
       Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ x =
@@ -245,12 +251,15 @@ theorem tauGL_mulVec (hb : b ≠ 0) (t : ↥(Mu b c) × ↥(Mu b c) × ↥(Mu b 
 @[expose] noncomputable def sigmaLin (b c : F) (hb : b ≠ 0) : OW F ≃ₗ[F] OW F :=
   ((Tequiv (c := c) hb).trans shiftE).trans (Tequiv (c := c) hb).symm
 
+omit [Finite F] in
+omit [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)] in
 theorem Tequiv_sigma (hb : b ≠ 0) (w : OW F) :
     Tequiv (c := c) hb (sigmaLin b c hb w) = shiftE (Tequiv (c := c) hb w) := by
   show Tequiv (c := c) hb (((Tequiv (c := c) hb).trans shiftE).trans
     (Tequiv (c := c) hb).symm w) = _
   simp
 
+omit [Finite F] [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)] in
 theorem sigmaLin_pow_three (hb : b ≠ 0) : sigmaLin b c hb ^ 3 = 1 := by
   refine LinearEquiv.ext fun w => ?_
   have h : ∀ z : Fin 3 → QA b c, shiftE (shiftE (shiftE z)) = z := by
@@ -265,6 +274,7 @@ theorem sigmaLin_pow_three (hb : b ≠ 0) : sigmaLin b c hb ^ 3 = 1 := by
     e3, e2, e1, h]
   rfl
 
+omit [Finite F] [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)] in
 theorem quad_sigma (hb : b ≠ 0) (w : OW F) :
     quadMinus 3 F b c (sigmaLin b c hb w) = quadMinus 3 F b c w := by
   rw [quadMinus_eq_norm_sum hb, quadMinus_eq_norm_sum hb w]
@@ -281,6 +291,8 @@ theorem quad_sigma (hb : b ≠ 0) (w : OW F) :
     GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F :=
   (toLinEquiv (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F).symm (sigmaLin b c hb)
 
+omit [Finite F] in
+omit [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)] in
 theorem sigmaGL_mulVec (hb : b ≠ 0) (x : OW F) :
     ((sigmaGL b c hb : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) :
       Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ x =
@@ -317,12 +329,12 @@ structure NormModel (F : Type) [Field F] [Finite F] (b c : F) where
 
 attribute [instance] NormModel.instField NormModel.instAlgebra NormModel.instFinite
 
-theorem nonempty_normModel [Finite F] [CharP F 2] {n : ℕ}
+theorem nonempty_normModel [Finite F] {n : ℕ}
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) :
     Nonempty (NormModel F b c) := by
   have hb : b ≠ 0 := ne_zero_of_irred hirr
-  haveI : Fact (∀ r : F, r ^ 2 ≠ -c + b * r) := factRoot hirr
-  haveI : Finite (QA b c) := Finite.of_equiv (F × F) (QuadraticAlgebra.equivProd (-c) b).symm
+  have : Fact (∀ r : F, r ^ 2 ≠ -c + b * r) := factRoot hirr
+  have : Finite (QA b c) := Finite.of_equiv (F × F) (QuadraticAlgebra.equivProd (-c) b).symm
   have hodd : Odd (Nat.card F + 1) := by
     rw [hF]
     exact Even.add_one (Nat.even_pow.mpr ⟨even_two, by omega⟩)

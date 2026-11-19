@@ -91,7 +91,7 @@ theorem caseA_p1_p2 (J Y₀ : Subgroup Y) (hJY : J ≤ Y₀) {t : Y} (htY : t �
       have hjF : (j : Y) ∈ F := j.2.2
       refine ⟨j, hjF, hj1', ?_⟩
       rw [hJ j hjJ (hF j hjF) hj1']
-    · obtain ⟨f, hfF, hfY⟩ := SetLike.not_le_iff_exists.1 hFY
+    · obtain ⟨f, hfF, hfY⟩ := IsConcreteLE.not_le_iff_exists.1 hFY
       have hf1 : f ≠ 1 := fun h => hfY (h ▸ Y₀.one_mem)
       exact ⟨f, hfF, hf1, by rw [hout f (hF f hfF) hfY]⟩
 

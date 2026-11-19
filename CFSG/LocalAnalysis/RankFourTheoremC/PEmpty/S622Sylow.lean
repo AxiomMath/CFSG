@@ -18,7 +18,7 @@ theorem s622_sylow_not_dvd_card_sup {G : Type} [Group G] [Finite G] {q r : ℕ} 
     (hr : r.Prime) (hqr : q ≠ r) {P K : Subgroup G} (hP : IsPGroup q P)
     (hPK : P ≤ normalizer (K : Set G)) (hK : ¬ r ∣ Nat.card K) :
     ¬ r ∣ Nat.card (P ⊔ K : Subgroup G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set A : Subgroup G := P ⊔ K with hA
   have hPA : P ≤ A := le_sup_left
   have hKA : K ≤ A := le_sup_right
@@ -69,7 +69,7 @@ theorem s622_le_sup_normalizer {G : Type} [Group G] [Finite G] {q : ℕ} (hq : q
     {H N W : Subgroup G} (hNH : N ≤ H) (hNn : (N.subgroupOf H).Normal)
     (hW : CFSG.ABGLocalTools.IsSylowOf q W N) :
     H ≤ N ⊔ (normalizer (W : Set G) ⊓ H) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hWH : W ≤ H := hW.le.trans hNH
   have hW' : CFSG.ABGLocalTools.IsSylowOf q (W.subgroupOf H) (N.subgroupOf H) := by
     rw [← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff H, Subgroup.subgroupOf_map_subtype,
@@ -101,7 +101,7 @@ theorem s622_exists_invariant_sylow_inf_ne_bot {G : Type} [Group G] [Finite G] {
       CFSG.ABGLocalTools.IsSylowOf f F D ∧ B ≤ normalizer (F : Set G) ∧ F ⊓ M ≠ ⊥ := by
   have hE1 : Nat.card (D ⊓ M : Subgroup G) ≠ 1 := fun h => hDM (Subgroup.card_eq_one.mp h)
   obtain ⟨f, hf, hfE⟩ := Nat.exists_prime_and_dvd hE1
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hfD : f ∣ Nat.card D := hfE.trans (Subgroup.card_dvd_of_le inf_le_left)
   have hpE : ¬ p ∣ Nat.card (D ⊓ M : Subgroup G) :=
     fun h => hpD (h.trans (Subgroup.card_dvd_of_le inf_le_left))

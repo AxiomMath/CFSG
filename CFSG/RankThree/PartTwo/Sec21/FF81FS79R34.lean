@@ -21,12 +21,15 @@ include S
 
 noncomputable def Dsub : Subgroup H := J6.D6.map S.ι
 
+omit [Finite H] in
 theorem ι_dp : S.ι J6.d' = b₁ * b₂⁻¹ := by
   unfold J6.d'
   rw [map_mul, map_inv, S.ι_c₁, S.ι_c₂]
 
+omit [Finite H] in
 theorem ι_dd : S.ι J6.d = b₁ * b₂ := S.ι_d
 
+omit [Finite H] in
 theorem mem_Dsub_iff {x : H} : x ∈ S.Dsub ↔ ∃ ρ ∈ J6.D6fin, x = S.ι ρ := by
   constructor
   · rintro ⟨ρ, hρ, rfl⟩
@@ -34,24 +37,30 @@ theorem mem_Dsub_iff {x : H} : x ∈ S.Dsub ↔ ∃ ρ ∈ J6.D6fin, x = S.ι ρ
   · rintro ⟨ρ, hρ, rfl⟩
     exact ⟨ρ, hρ, rfl⟩
 
+omit [Finite H] in
 theorem Dsub_le_J : S.Dsub ≤ J := by
   rintro _ ⟨ρ, -, rfl⟩
   exact S.ι_mem ρ
 
+omit [Finite H] in
 theorem Dsub_comm_beta {x : H} (hx : x ∈ S.Dsub) : x * (b₁ * b₂) = (b₁ * b₂) * x := by
   obtain ⟨ρ, hρ, rfl⟩ := S.mem_Dsub_iff.mp hx
   rw [← S.ι_dd, ← map_mul, ← map_mul, J6.D6fin_comm_d ρ hρ]
 
+omit [Finite H] in
 theorem c_mem_Dsub : b₁ * b₂⁻¹ ∈ S.Dsub := by
   rw [← S.ι_dp]
   exact ⟨J6.d', J6.d'_mem_D6, rfl⟩
 
+omit [Finite H] in
 theorem tau_mem_Dsub : S.ι J6.sg3 ∈ S.Dsub := ⟨J6.sg3, J6.sg3_mem_D6, rfl⟩
 
+omit [Finite H] in
 theorem Dsub_iso : Nonempty (↥S.Dsub ≃* Perm (Fin 3)) := by
   obtain ⟨e⟩ := J6.D6_iso
   exact ⟨(Subgroup.equivMapOfInjective J6.D6 S.ι S.ι_injective).symm.trans e⟩
 
+omit [Finite H] in
 theorem cen_J_decomp {j : H} (hj : j ∈ J) (hc : j * (b₁ * b₂) = (b₁ * b₂) * j) :
     ∃ x ∈ S.Dsub, ∃ z ∈ Subgroup.zpowers (b₁ * b₂), j = x * z := by
   obtain ⟨σ, rfl⟩ := S.exists_ι hj
@@ -63,22 +72,29 @@ theorem cen_J_decomp {j : H} (hj : j ∈ J) (hc : j * (b₁ * b₂) = (b₁ * b�
   refine ⟨S.ι ρ, ⟨ρ, hρ, rfl⟩, (b₁ * b₂) ^ k.val, Subgroup.pow_mem _ (Subgroup.mem_zpowers _) _, ?_⟩
   rw [map_mul, map_pow, S.ι_dd]
 
+omit [Finite H] in
 theorem beta_mem_J : b₁ * b₂ ∈ J := J.mul_mem S.hyp.b₁_mem S.hyp.b₂_mem
 
+omit [Finite H] in
 theorem Z_le_J : Subgroup.zpowers (b₁ * b₂) ≤ J := Subgroup.zpowers_le.mpr S.beta_mem_J
 
+omit [Finite H] in
 theorem beta_pow_three : (b₁ * b₂) ^ 3 = 1 := by
   have h : J6.d ^ 3 = 1 := J6.d_pow_three
   rw [← S.ι_dd, ← map_pow, h, map_one]
 
+omit [Finite H] in
 theorem beta_orderOf : orderOf (b₁ * b₂) = 3 := orderOf_eq_prime S.beta_pow_three S.d_ne_one
 
+omit [Finite H] in
 theorem card_Z : Nat.card (Subgroup.zpowers (b₁ * b₂)) = 3 := by
   rw [Nat.card_zpowers, S.beta_orderOf]
 
+omit [Finite H] in
 theorem beta_comm_b : (b₁ * b₂) * b = b * (b₁ * b₂) :=
   Subgroup.mem_centralizer_singleton_iff.mp (S.hyp.J_le_cen_b S.beta_mem_J)
 
+omit [Finite H] in
 theorem beta_comm_t : (b₁ * b₂) * t = t * (b₁ * b₂) := S.J_comm_t S.beta_mem_J
 
 theorem Dsub_inf_Z : S.Dsub ⊓ Subgroup.zpowers (b₁ * b₂) = ⊥ := by
@@ -104,11 +120,13 @@ theorem Dsub_inf_Z : S.Dsub ⊓ Subgroup.zpowers (b₁ * b₂) = ⊥ := by
       exact Subgroup.mem_zpowers _
     exact this.1
 
+omit [Finite H] in
 theorem c_ne_one : b₁ * b₂⁻¹ ≠ 1 := by
   rw [← S.ι_dp]
   intro h1
   exact J6.d'_ne_one (S.ι_injective (h1.trans (map_one S.ι).symm))
 
+omit [Finite H] in
 theorem c_pow_three : (b₁ * b₂⁻¹) ^ 3 = 1 := by
   rw [← S.ι_dp, ← map_pow, J6.d'_pow_three, map_one]
 
@@ -118,16 +136,19 @@ theorem c_not_mem_Z : b₁ * b₂⁻¹ ∉ Subgroup.zpowers (b₁ * b₂) := by
   rw [S.Dsub_inf_Z, Subgroup.mem_bot] at this
   exact S.c_ne_one this
 
+omit [Finite H] in
 theorem b₁_eq_cβ : b₁ = (b₁ * b₂⁻¹) * (b₁ * b₂⁻¹) * ((b₁ * b₂) * (b₁ * b₂)) := by
   have := congrArg S.ι J6.c₁_eq
   rw [S.ι_c₁, map_mul, map_mul, map_mul, S.ι_dp, S.ι_dd] at this
   exact this
 
+omit [Finite H] in
 theorem b₂_eq_cβ : b₂ = (b₁ * b₂⁻¹)⁻¹ * (b₁ * b₂⁻¹)⁻¹ * ((b₁ * b₂) * (b₁ * b₂)) := by
   have := congrArg S.ι J6.c₂_eq
   rw [S.ι_c₂, map_mul, map_mul, map_mul, map_inv, S.ι_dp, S.ι_dd] at this
   exact this
 
+omit [Finite H] in
 theorem zpowers_c_sup_Z : Subgroup.zpowers (b₁ * b₂⁻¹) ⊔ Subgroup.zpowers (b₁ * b₂) =
     Subgroup.closure ({b₁, b₂} : Set H) := by
   have e₁ := S.b₁_eq_cβ
@@ -135,9 +156,9 @@ theorem zpowers_c_sup_Z : Subgroup.zpowers (b₁ * b₂⁻¹) ⊔ Subgroup.zpowe
   apply le_antisymm
   · refine sup_le ?_ ?_
     · rw [Subgroup.zpowers_le]
-      exact Subgroup.mul_mem _ S.b₁_mem_B₁ (Subgroup.inv_mem _ S.b₂_mem_B₁)
+      exact Subgroup.mul_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ (Subgroup.inv_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁)
     · rw [Subgroup.zpowers_le]
-      exact S.d_mem_B₁
+      exact CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁
   · rw [Subgroup.closure_le]
     intro x hx
     have hc : b₁ * b₂⁻¹ ∈ Subgroup.zpowers (b₁ * b₂⁻¹) ⊔ Subgroup.zpowers (b₁ * b₂) :=
@@ -155,6 +176,7 @@ theorem zpowers_c_sup_Z : Subgroup.zpowers (b₁ * b₂⁻¹) ⊔ Subgroup.zpowe
       rw [hx]
       exact key
 
+omit [Finite H] in
 theorem isPGroup_E :
     IsPGroup 3 (Subgroup.zpowers b ⊔ Subgroup.zpowers (b₁ * b₂) : Subgroup H) := by
   have hb3 : b ^ 3 = 1 := by
@@ -173,6 +195,7 @@ theorem Nor_E_le_Nor {g : H}
   have hgb := (Subgroup.mem_normalizer_iff.mp hg b).mp hbE
   exact mem_Nor_zpowers_of_conj (S.hyp.conj_mem_zpowers_of_pgroup S.isPGroup_E hbE hgb)
 
+omit S [Finite H] in
 theorem mem_Nor_E_of_cen {g : H} (hg : g ∈ Nor (Subgroup.zpowers b))
     (hβ : g * (b₁ * b₂) = (b₁ * b₂) * g) :
     g ∈ Nor (Subgroup.zpowers b ⊔ Subgroup.zpowers (b₁ * b₂)) := by
@@ -205,6 +228,7 @@ theorem weak_E {h' : H}
   exact Subgroup.mem_sup_left this
 
 omit S in
+omit [Finite H] in
 theorem conj_commute_of_commute {g j x : H} (hg : g * x = x * g) (hj : j * x = x * j) :
     (g * j * g⁻¹) * x = x * (g * j * g⁻¹) := by
   have h1 : g⁻¹ * x = x * g⁻¹ := by
@@ -238,13 +262,13 @@ theorem struct_b_aux : ∃ W : Subgroup H,
     (∀ g ∈ Cen (b₁ * b₂) ⊓ Nor (Subgroup.zpowers b ⊔ Subgroup.zpowers (b₁ * b₂)),
       ∃ w ∈ W, ∃ y ∈ Subgroup.closure ({b, t} : Set H), ∃ j ∈ S.Dsub,
         ∃ z ∈ Subgroup.zpowers (b₁ * b₂), g = w * y * j * z) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   refine ⟨Opp 3 (Nor (Subgroup.zpowers b)), ?_, L14.Opp_coprime 3 _, ?_, ?_⟩
   · intro κ hκ
     have hκβ : κ * (b₁ * b₂) = (b₁ * b₂) * κ := h.K_comm_J hκ S.beta_mem_J
     exact ⟨Subgroup.mem_centralizer_singleton_iff.mpr hκβ,
-      S.mem_Nor_E_of_cen (L14.Opp_le 3 _ hκ) hκβ⟩
+      Std.mem_Nor_E_of_cen (L14.Opp_le 3 _ hκ) hκβ⟩
   · intro g hg w hw
     exact ⟨g * w * g⁻¹, L14.Opp_conj_mem (S.Nor_E_le_Nor hg.2) hw, 1, Subgroup.one_mem _,
       (mul_one _).symm⟩
@@ -326,12 +350,13 @@ theorem no2_aux {R : Subgroup H} (hRΓ : R ≤ Cen (b₁ * b₂))
   rw [hx, mul_one]
   exact hz
 
+omit [Finite H] in
 theorem mem_CenS_B₁_iff {u : H} :
     u ∈ CenS (Subgroup.closure ({b₁, b₂} : Set H)) ↔ u * b₁ = b₁ * u ∧ u * b₂ = b₂ * u := by
   constructor
   · intro hu
-    have h1 := Subgroup.mem_centralizer_iff.mp hu b₁ S.b₁_mem_B₁
-    have h2 := Subgroup.mem_centralizer_iff.mp hu b₂ S.b₂_mem_B₁
+    have h1 := Subgroup.mem_centralizer_iff.mp hu b₁ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁
+    have h2 := Subgroup.mem_centralizer_iff.mp hu b₂ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁
     exact ⟨h1.symm, h2.symm⟩
   · rintro ⟨h1, h2⟩
     have hle : Subgroup.closure ({b₁, b₂} : Set H) ≤ Cen u := by
@@ -343,11 +368,13 @@ theorem mem_CenS_B₁_iff {u : H} :
     refine Subgroup.mem_centralizer_iff.mpr fun y hy => ?_
     exact Subgroup.mem_centralizer_singleton_iff.mp (hle hy)
 
+omit [Finite H] S in
 theorem CenS_B₁_le_cen_beta {u : H} (hu : u ∈ CenS (Subgroup.closure ({b₁, b₂} : Set H))) :
     u ∈ Cen (b₁ * b₂) := by
-  have h := Subgroup.mem_centralizer_iff.mp hu (b₁ * b₂) S.d_mem_B₁
+  have h := Subgroup.mem_centralizer_iff.mp hu (b₁ * b₂) CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁
   exact Subgroup.mem_centralizer_singleton_iff.mpr h.symm
 
+omit [Finite H] S in
 theorem conj_mem_CenS_B₁ {g u : H} (hg : g ∈ Nor (Subgroup.closure ({b₁, b₂} : Set H)))
     (hu : u ∈ CenS (Subgroup.closure ({b₁, b₂} : Set H))) :
     g * u * g⁻¹ ∈ CenS (Subgroup.closure ({b₁, b₂} : Set H)) := by
@@ -359,16 +386,19 @@ theorem conj_mem_CenS_B₁ {g u : H} (hg : g ∈ Nor (Subgroup.closure ({b₁, b
     _ = g * (u * (g⁻¹ * y * g⁻¹⁻¹)) * g⁻¹ := by rw [h]
     _ = (g * u * g⁻¹) * y := by group
 
+omit [Finite H] in
 theorem tau_b₁ : S.ι J6.sg3 * b₁ * (S.ι J6.sg3)⁻¹ = b₂ := by
   have := S.ι_conj J6.sg3 J6.c₁
   rw [J6.sg3_c₁_conj, S.ι_c₂, S.ι_c₁] at this
   exact this.symm
 
+omit [Finite H] in
 theorem tau_b₂ : S.ι J6.sg3 * b₂ * (S.ι J6.sg3)⁻¹ = b₁ := by
   have := S.ι_conj J6.sg3 J6.c₂
   rw [J6.sg3_c₂_conj, S.ι_c₁, S.ι_c₂] at this
   exact this.symm
 
+omit [Finite H] in
 theorem tau_mem_Nor_B₁ : S.ι J6.sg3 ∈ Nor (Subgroup.closure ({b₁, b₂} : Set H)) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, MonoidHom.map_closure]
   have : ((MulAut.conj (S.ι J6.sg3) : MulAut H) : H →* H) '' ({b₁, b₂} : Set H) =
@@ -386,30 +416,33 @@ theorem tau_mem_Nor_B₁ : S.ι J6.sg3 ∈ Nor (Subgroup.closure ({b₁, b₂} :
       · exact ⟨b₂, Or.inr rfl, by simpa [MulAut.conj_apply] using S.tau_b₂⟩
   rw [this, Set.pair_comm]
 
+omit [Finite H] in
 theorem b₁_pow_three : b₁ ^ 3 = 1 := by
   calc b₁ ^ 3 = (S.ι J6.c₁) ^ 3 := by rw [S.ι_c₁]
     _ = S.ι (J6.c₁ ^ 3) := (map_pow S.ι _ 3).symm
     _ = 1 := by rw [J6.c₁_pow_three, map_one]
 
+omit [Finite H] in
 theorem b₂_pow_three : b₂ ^ 3 = 1 := by
   calc b₂ ^ 3 = (S.ι J6.c₂) ^ 3 := by rw [S.ι_c₂]
     _ = S.ι (J6.c₂ ^ 3) := (map_pow S.ι _ 3).symm
     _ = 1 := by rw [J6.c₂_pow_three, map_one]
 
 omit S in
+omit [Finite H] in
 theorem comm_of_conj_eq {g x : H} (h : g * x * g⁻¹ = x) : g * x = x * g := by
   calc g * x = (g * x * g⁻¹) * g := by group
     _ = x * g := by rw [h]
 
 theorem b₂_comm_b₁ : b₂ * b₁ = b₁ * b₂ :=
-  S.hyp.B_comm (FS79Hyp.B₁_le_B b b₁ b₂ S.b₂_mem_B₁) (FS79Hyp.B₁_le_B b b₁ b₂ S.b₁_mem_B₁)
+  S.hyp.B_comm (FS79Hyp.B₁_le_B b b₁ b₂ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁) (FS79Hyp.B₁_le_B b b₁ b₂ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁)
 
 theorem D0_decomp {u : H} (hu : u ∈ CenS (Subgroup.closure ({b₁, b₂} : Set H))) :
     ∃ q ∈ Opp 3 (CenS (Subgroup.closure ({b₁, b₂} : Set H))),
       ∃ m ∈ CenS (Subgroup.closure ({b₁, b₂} : Set H)) ⊓ Nor (Subgroup.zpowers b),
         u = q * m := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   obtain ⟨hu1, hu2⟩ := S.mem_CenS_B₁_iff.mp hu
   have hQ : Ctl b b₁ (Opp 3 (Nor (Subgroup.zpowers b₁))) :=
@@ -505,9 +538,9 @@ theorem fusion_cases {g : H} (hgΓ : g ∈ Cen (b₁ * b₂))
   have h := S.hyp
   have hβg : g * (b₁ * b₂) = (b₁ * b₂) * g := Subgroup.mem_centralizer_singleton_iff.mp hgΓ
   have h1B : g * b₁ * g⁻¹ ∈ Subgroup.closure ({b, b₁, b₂} : Set H) :=
-    FS79Hyp.B₁_le_B b b₁ b₂ ((Subgroup.mem_normalizer_iff.mp hg b₁).mp S.b₁_mem_B₁)
+    FS79Hyp.B₁_le_B b b₁ b₂ ((Subgroup.mem_normalizer_iff.mp hg b₁).mp CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁)
   have h2B : g * b₂ * g⁻¹ ∈ Subgroup.closure ({b, b₁, b₂} : Set H) :=
-    FS79Hyp.B₁_le_B b b₁ b₂ ((Subgroup.mem_normalizer_iff.mp hg b₂).mp S.b₂_mem_B₁)
+    FS79Hyp.B₁_le_B b b₁ b₂ ((Subgroup.mem_normalizer_iff.mp hg b₂).mp CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁)
   have f1 := h.fusion_b₁ h1B
   have f2 := h.fusion_b₂ h2B
   have hprod : (g * b₁ * g⁻¹) * (g * b₂ * g⁻¹) = b₁ * b₂ := by
@@ -531,6 +564,7 @@ theorem fusion_cases {g : H} (hgΓ : g ∈ Cen (b₁ * b₂))
   · right
     exact ⟨by rw [hx, h1, S.ι_c₂], by rw [hy, h2, S.ι_c₁]⟩
 
+omit [Finite H] in
 theorem tau_mul_mem_CenS {g : H} (h1 : g * b₁ * g⁻¹ = b₂) (h2 : g * b₂ * g⁻¹ = b₁) :
     S.ι J6.sg3 * g ∈ CenS (Subgroup.closure ({b₁, b₂} : Set H)) := by
   rw [S.mem_CenS_B₁_iff]
@@ -544,6 +578,7 @@ theorem tau_mul_mem_CenS {g : H} (h1 : g * b₁ * g⁻¹ = b₂) (h2 : g * b₂ 
         = S.ι J6.sg3 * (g * b₂ * g⁻¹) * (S.ι J6.sg3)⁻¹ := by group
       _ = b₂ := by rw [h2, S.tau_b₁]
 
+omit [Finite H] in
 theorem tau_mem_D : S.ι J6.sg3 ∈ Cen (b₁ * b₂) ⊓ Nor (Subgroup.closure ({b₁, b₂} : Set H)) :=
   ⟨Subgroup.mem_centralizer_singleton_iff.mpr (S.Dsub_comm_beta S.tau_mem_Dsub),
     S.tau_mem_Nor_B₁⟩
@@ -559,15 +594,15 @@ theorem struct_c_aux : ∃ Wc : Subgroup H,
           Nor (Subgroup.zpowers b ⊔ Subgroup.zpowers (b₁ * b₂)),
         ∃ z ∈ Subgroup.zpowers (b₁ * b₂), g = w * n * z) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB₁ := S.zpowers_c_sup_Z
   set B₁ : Subgroup H := Subgroup.closure ({b₁, b₂} : Set H) with hB₁def
   rw [hB₁]
   set D : Subgroup H := Cen (b₁ * b₂) ⊓ Nor B₁ with hD
   have hD0D : CenS B₁ ≤ D := fun u hu =>
-    ⟨S.CenS_B₁_le_cen_beta hu, Subgroup.centralizer_le_normalizer _ hu⟩
+    ⟨CFSG.RankThree.PartTwo.Sec21.FF81.Std.CenS_B₁_le_cen_beta hu, Subgroup.centralizer_le_normalizer _ hu⟩
   have hD0n : ∀ g ∈ D, ∀ c ∈ CenS B₁, g * c * g⁻¹ ∈ CenS B₁ := fun g hg c hc =>
-    S.conj_mem_CenS_B₁ hg.2 hc
+    Std.conj_mem_CenS_B₁ hg.2 hc
   have hOpp : Opp 3 (CenS B₁) ≤ Opp 3 D := L14.Opp_le_Opp_of_normalized hD0D hD0n
   refine ⟨Opp 3 D, L14.Opp_le 3 D, L14.Opp_coprime 3 D, ?_, ?_⟩
   · intro g hg w hw
@@ -577,9 +612,9 @@ theorem struct_c_aux : ∃ Wc : Subgroup H,
         m ∈ D ⊓ Nor (Subgroup.zpowers b ⊔ Subgroup.zpowers (b₁ * b₂)) := by
       intro m hm
       have hmβ : m * (b₁ * b₂) = (b₁ * b₂) * m := by
-        have := Subgroup.mem_centralizer_singleton_iff.mp (S.CenS_B₁_le_cen_beta hm.1)
+        have := Subgroup.mem_centralizer_singleton_iff.mp (CFSG.RankThree.PartTwo.Sec21.FF81.Std.CenS_B₁_le_cen_beta hm.1)
         exact this
-      exact ⟨hD0D hm.1, S.mem_Nor_E_of_cen hm.2 hmβ⟩
+      exact ⟨hD0D hm.1, Std.mem_Nor_E_of_cen hm.2 hmβ⟩
     rcases S.fusion_cases hg.1 hg.2 with ⟨h1, h2⟩ | ⟨h1, h2⟩
     ·
       have hgD0 : g ∈ CenS B₁ := S.mem_CenS_B₁_iff.mpr ⟨comm_of_conj_eq h1, comm_of_conj_eq h2⟩
@@ -599,7 +634,7 @@ theorem struct_c_aux : ∃ Wc : Subgroup H,
         Subgroup.one_mem _, ?_⟩
       · exact L14.Opp_conj_mem hτinv (hOpp hq)
       · exact D.mul_mem hτinv hmE.1
-      · exact (Nor _).mul_mem (S.mem_Nor_E_of_cen hτJ hτβ) hmE.2
+      · exact (Nor _).mul_mem (Std.mem_Nor_E_of_cen hτJ hτβ) hmE.2
       · have : g = (S.ι J6.sg3)⁻¹ * (S.ι J6.sg3 * g) := by group
         rw [this, hum]
         group
@@ -642,6 +677,7 @@ theorem qdata : QData (Cen (b₁ * b₂)) (Subgroup.zpowers (b₁ * b₂)) b t (
   no2 := fun R hRΓ hZR hR2 hb hc => S.no2_aux hRΓ hZR hR2 hb hc
   weak := fun h' _ hh => S.weak_E hh
 
+omit [Finite H] S in
 theorem Nor_beta_normalizes_cen {g c : H} (hg : g ∈ Nor (Subgroup.zpowers (b₁ * b₂)))
     (hc : c ∈ Cen (b₁ * b₂)) : g * c * g⁻¹ ∈ Cen (b₁ * b₂) := by
   have hβ' : g⁻¹ * (b₁ * b₂) * g⁻¹⁻¹ ∈ Subgroup.zpowers (b₁ * b₂) :=

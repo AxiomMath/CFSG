@@ -39,8 +39,8 @@ theorem model_descent {ψ : L' →* R} (hker : ψ.ker ≤ Subgroup.center L')
     GGE6ThreeWeylModel ψ.ker A := by
   classical
   let Z2 : Subgroup L' := twoSub ψ.ker hker
-  haveI : Z2.Normal := twoSub_normal hker
-  haveI : Finite (MulAut (L' ⧸ Z2)) :=
+  have : Z2.Normal := twoSub_normal hker
+  have : Finite (MulAut (L' ⧸ Z2)) :=
     Finite.of_injective (fun φ : MulAut (L' ⧸ Z2) => (φ : L' ⧸ Z2 → L' ⧸ Z2))
       DFunLike.coe_injective
   obtain ⟨Φb, Tb, wb, hBody, hTbodd⟩ := hbar

@@ -65,8 +65,8 @@ theorem K541Even_holds :
         hLs (by rw [hLA]; exact hLbot)
     let e0 : (↥Ls ⧸ Subgroup.center ↥Ls) ≃* ↥Ls :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-    haveI : IsSimpleGroup ↥Ls := by
-      haveI := hLs.2.2.2
+    have : IsSimpleGroup ↥Ls := by
+      have := hLs.2.2.2
       exact e0.symm.isSimpleGroup
     have hfinj : Function.Injective f := by
       rw [← MonoidHom.ker_eq_bot_iff]

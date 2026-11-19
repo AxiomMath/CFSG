@@ -218,9 +218,9 @@ private theorem sq_mem_of_mem_Q {ψ : ↥(H z) →* A45} {κ : G → V}
   have h := hκ.sq k (mem_Qsub.mp hk).1
   by_cases hq : q (κ k) = 0
   · left
-    rwa [if_pos hq] at h
+    rwa [ite_eq_left hq] at h
   · right
-    rwa [if_neg hq] at h
+    rwa [ite_eq_right hq] at h
 
 private theorem commutator_mem_of_mem_Q {ψ : ↥(H z) →* A45} {κ : G → V}
     (hκ : IsSpinCoord ψ κ) {k k' : G} (hk : k ∈ Qsub z j) (hk' : k' ∈ Qsub z j) :
@@ -228,9 +228,9 @@ private theorem commutator_mem_of_mem_Q {ψ : ↥(H z) →* A45} {κ : G → V}
   have h := hκ.comm k (mem_Qsub.mp hk).1 k' (mem_Qsub.mp hk').1
   by_cases hb : b (κ k) (κ k') = 0
   · left
-    rwa [if_pos hb] at h
+    rwa [ite_eq_left hb] at h
   · right
-    rwa [if_neg hb] at h
+    rwa [ite_eq_right hb] at h
 
 private theorem sq_mem_of_mem_N {ψ : ↥(H z) →* A45} {κ : G → V}
     (hκ : IsSpinCoord ψ κ) (hyz : y * z * y⁻¹ = z * j) {n : G}
@@ -354,13 +354,13 @@ private theorem comm_indicator_mul [Finite G] {ψ : ↥(H z) →* A45} {κ : G �
   have hcomm_u : ⁅u, j⁆ = 1 ∨ ⁅u, j⁆ = z := by
     have h := hκ.comm u hu j hj
     by_cases hv' : b (κ u) (κ j) = 0
-    · left; rwa [if_pos hv'] at h
-    · right; rwa [if_neg hv'] at h
+    · left; rwa [ite_eq_left hv'] at h
+    · right; rwa [ite_eq_right hv'] at h
   have hcomm_v : ⁅v, j⁆ = 1 ∨ ⁅v, j⁆ = z := by
     have h := hκ.comm v hv j hj
     by_cases hv' : b (κ v) (κ j) = 0
-    · left; rwa [if_pos hv'] at h
-    · right; rwa [if_neg hv'] at h
+    · left; rwa [ite_eq_left hv'] at h
+    · right; rwa [ite_eq_right hv'] at h
   have hcent : u * ⁅v, j⁆ * u⁻¹ = ⁅v, j⁆ := by
     rcases hcomm_v with h | h
     · rw [h, mul_one, mul_inv_cancel]
@@ -440,12 +440,12 @@ private theorem card_Q_sub [Finite G] (h : Tim79a.ParrottHypA z)
         ofAdd_eq_one.mp hk
       by_cases hkj : (k : G) * j = j * (k : G)
       · exact ⟨k.2, hkj⟩
-      · rw [if_neg hkj] at h1
+      · rw [ite_eq_right hkj] at h1
         norm_num at h1
     · rintro ⟨hkJ, hkj⟩
       change Multiplicative.ofAdd
         (if (k : G) * j = j * (k : G) then (0 : ZMod 2) else 1) = 1
-      rw [if_pos hkj]
+      rw [ite_eq_left hkj]
       exact ofAdd_zero
   have htop : φQ.range = ⊤ := by
     have hk0 : ∃ k : ↥(J z), φQ k ≠ 1 := by
@@ -462,7 +462,7 @@ private theorem card_Q_sub [Finite G] (h : Tim79a.ParrottHypA z)
         rw [hkκ, hjκ] at hb
         rw [spinB_comm v w₀]
         exact hb
-      · rw [if_neg hc] at hzero
+      · rw [ite_eq_right hc] at hzero
         norm_num at hzero
     obtain ⟨k0, hk0⟩ := hk0
     have hne : Nat.card φQ.range ≠ 1 := by

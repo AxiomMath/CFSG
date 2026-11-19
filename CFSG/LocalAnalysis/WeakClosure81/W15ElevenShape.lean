@@ -44,7 +44,7 @@ private theorem b15_exists_not_mem_v1Sub15 (c : Cfg1511 M V₀ V U S H P Q₀ p)
     intro hle
     have h1 : (v1Sub15 V₀ U).relIndex V₀ = 1 := Subgroup.relIndex_eq_one.2 hle
     omega
-  exact SetLike.not_le_iff_exists.1 hnot
+  exact IsConcreteLE.not_le_iff_exists.1 hnot
 
 private theorem b15_mul_mem_v1Sub15 (c : Cfg1511 M V₀ V U S H P Q₀ p) {v w : G}
     (hv : v ∈ V₀) (hw : w ∈ V₀) (hv1 : v ∉ v1Sub15 V₀ U) (hw1 : w ∉ v1Sub15 V₀ U) :
@@ -68,7 +68,7 @@ private theorem b15_exists_mul_of_mem_kHull15 (c : Cfg1511 M V₀ V U S H P Q₀
 
 theorem relIndex_eq (c : Cfg1511 M V₀ V U S H P Q₀ p) :
     (iHull15 V₀ U H).relIndex Q₀ = p ∨ (iHull15 V₀ U H).relIndex Q₀ = p ^ 3 := by
-  haveI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.odd.normal_subgroupOf c.hyp
+  have : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.odd.normal_subgroupOf c.hyp
   have hshape := c.shape
   simp only [OddCoreShape15] at hshape
   rcases hshape with h | ⟨h, -, -⟩

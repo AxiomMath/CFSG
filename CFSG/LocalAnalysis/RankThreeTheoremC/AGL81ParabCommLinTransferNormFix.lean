@@ -17,7 +17,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.LocalAnalysis.ComponentInitial LinearFlag 
 open scoped commutatorElement
 
 theorem odd_card_units (K : Type) [Field K] [Finite K] [CharP K 2] : Odd (Nat.card Kˣ) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hcard⟩ := FiniteField.card K 2
   rw [Nat.card_units, Nat.card_eq_fintype_card, hcard]
   exact Nat.Even.sub_odd Nat.one_le_two_pow ((Nat.even_pow' f.ne_zero).mpr even_two) odd_one
@@ -56,6 +56,7 @@ theorem three_le_of_two_le_linBlockLen {n : ℕ} {I : Set ℕ} (hI : ∀ i ∈ I
 variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {n : ℕ} {K : Type} [Field K]
   [Finite K] [CharP K 2] {I : Set ℕ} (C : LinCover Y P n K I)
 
+omit [Finite A] in
 theorem LinCover.toP_mem_pCore_of_mem_ker (hPY : P ≤ Y) (hn : 1 ≤ n)
     {u : ↥(flagStabilizer n K I)} (hu : u ∈ (linLeviHom K n I).ker) :
     C.toP u ∈ CFSG.pCore 2 ↥P := by
@@ -68,6 +69,7 @@ theorem LinCover.toP_mem_pCore_of_mem_ker (hPY : P ≤ Y) (hn : 1 ≤ n)
   exact hmap (Subgroup.mem_map_of_mem _ hu)
 
 include C in
+omit [Finite A] in
 theorem LinCover.exists_block (hPY : P ≤ Y) (hn : 1 ≤ n)
     (hna : ∃ x ∈ P, ∃ y ∈ P, x * y * x⁻¹ * y⁻¹ ∉ pCoreOf 2 P) :
     ∃ a : Fin n, 2 ≤ linBlockLen n I a := by
@@ -85,10 +87,11 @@ theorem LinCover.exists_block (hPY : P ≤ Y) (hn : 1 ≤ n)
   rw [map_commutatorElement, hx', hy'] at h3
   exact ⟨_, h3, rfl⟩
 
+omit [Finite A] in
 theorem LinCover.proj_mem_projUni (q : ↥(flagStabilizer n K I))
     (hq : C.toP q ∈ CFSG.pCore 2 ↥P) :
     proj n K (q : SpecialLinearGroup (Fin n) K) ∈ projUni K n I := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkerσ : ∀ z : ↥(flagStabilizer n K I), C.toP z = 1 →
       (z : SpecialLinearGroup (Fin n) K) ∈ scalars n K := by
     intro z hz
@@ -128,7 +131,7 @@ theorem LinCover.toHat_mem_wSup (hPY : P ≤ Y) (hn : 1 ≤ n) (a : Fin n)
       ∀ c : Fin n, c ≠ a → linBlockHom K n I c y = 1 := by
     intro y
     simp only [D, Subgroup.mem_iInf, MonoidHom.mem_ker, Subtype.forall]
-  haveI hDn : D.Normal := Subgroup.normal_iInf_normal fun c => MonoidHom.normal_ker _
+  have hDn : D.Normal := Subgroup.normal_iInf_normal fun c => MonoidHom.normal_ker _
   have hxD : x ∈ D := (hDmem x).mpr fun c hc => hx c hc
   have hdet : ∀ y : ↥D, linBlockHom K n I a (y : ↥(flagStabilizer n K I)) ∈
       linBlockSL K n I a := by

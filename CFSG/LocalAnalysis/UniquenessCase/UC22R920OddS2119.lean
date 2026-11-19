@@ -27,7 +27,7 @@ theorem false_of_isL2Odd_r920odd (D : Data G) (Ch : Choice2011 G) (h212 : S21_12
     (hD₃ : Nat.card D₃ = 3) (hD₃U : D₃ ∈ uniqueSet D.M) : False := by
   let c₀ : Ctx21 D Ch := { c with B := c.B0, hB := c.hB0, hle := le_rfl }
   have hp2 : p ≠ 2 := by omega
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hLp
   have hZc : Subgroup.center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hL.2.2
   obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 hZc
@@ -76,7 +76,7 @@ theorem s21_19_of_r920odd (hE : UC22P20gExcFacts) (D : Data G) (Ch : Choice2011 
     have hK3 := pRank_three_eq_one_and_thin8_or_isU3 hKs
     have h3L : 3 ∣ Nat.card L :=
       CFSG.GroupTheory.dvd_card_of_one_le_pRank Nat.prime_three (by rw [hL3.1])
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 3 h3L
     let D₃ : Subgroup G := Subgroup.zpowers ((x : ↥L) : G)
     have hxG : orderOf ((x : ↥L) : G) = 3 := by

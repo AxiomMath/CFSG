@@ -111,8 +111,8 @@ theorem tim79aIdentConnectedStatement_of_inputs (hL2 : CFSG.RankThree.GF2n.Tim81
   intro G _ _ M V Q P H hs hms hconn
   have hc : MinCex M V Q P H := hs.mc.toMinCex
   have hd : Sec23Data V H := hs.data
-  have hsimple : IsSimpleGroup (XbarZ V H) := hc.tilde_isSimple hd hs.degenerate hms
-  have hsetup := hc.tilde_setup hd hs.degenerate
+  have hsimple : IsSimpleGroup (XbarZ V H) := CFSG.RankThree.GF2n.Tim79a.MinCex.tilde_isSimple hd hs.degenerate hms
+  have hsetup := CFSG.RankThree.GF2n.Tim79a.MinCex.tilde_setup hd hs.degenerate
   have hnab : ∃ a b : XbarZ V H, a * b ≠ b * a := by
     by_contra hab
     push Not at hab
@@ -148,7 +148,7 @@ theorem tim79aIdentConnectedStatement_of_inputs (hL2 : CFSG.RankThree.GF2n.Tim81
     by_cases hvv : v = v₀
     · rw [hvv]
       exact Subgroup.subset_closure ⟨hv₀D, fun f _ => Iff.rfl⟩
-    have hvD : v ∈ Dtilde V H := hc.Vtilde_mem_Dtilde hv hv1
+    have hvD : v ∈ Dtilde V H := CFSG.RankThree.GF2n.Tim79a.MinCex.Vtilde_mem_Dtilde hv hv1
     have hcomm : Commute v₀ v := (hc.isElemAbelian_Vtilde.1.is_comm.comm ⟨v₀, hv₀V⟩ ⟨v, hv⟩ |>
       congrArg Subtype.val)
     have hw1 : v₀ * v ≠ 1 := by
@@ -161,7 +161,7 @@ theorem tim79aIdentConnectedStatement_of_inputs (hL2 : CFSG.RankThree.GF2n.Tim81
         rwa [hsetup.oddT.1 v₀ hv₀D, pow_two] at h0
       exact inv_eq_of_mul_eq_one_right hsq
     have hwV : v₀ * v ∈ VZ V H := (VZ V H).mul_mem hv₀V hv
-    have hwD : v₀ * v ∈ Dtilde V H := hc.Vtilde_mem_Dtilde hwV hw1
+    have hwD : v₀ * v ∈ Dtilde V H := CFSG.RankThree.GF2n.Tim79a.MinCex.Vtilde_mem_Dtilde hwV hw1
     exact Subgroup.subset_closure (mem_rootSet_of_mul_mem hsetup.oddT hv₀D hvD hcomm hwD)
   have hVEq : VZ V H = A₀ := hc.vtilde_eq_of_le hd hG hTor hΔ h4 hA₀ hVA
   have hcls : rootClassZ V H = Δ := by
@@ -188,7 +188,7 @@ theorem tim79aIdentConnectedStatement_of_inputs (hL2 : CFSG.RankThree.GF2n.Tim81
       refine ⟨x, ?_⟩
       rw [hVEq, hA₀def, conjSub_closure_rootSet hsetup v₀ x hv₀D, hx]
   have hqB : qBar V H = 2 ^ f := by
-    have h1 : Nat.card (VZ V H) = Nat.card (barOf V H V) := hc.card_Vtilde hd
+    have h1 : Nat.card (VZ V H) = Nat.card (barOf V H V) := CFSG.RankThree.GF2n.Tim79a.MinCex.card_Vtilde hd
     rw [qBar, ← h1, hVEq]
     exact (hcard A₀ hA₀)
   refine ⟨?_, ?_⟩

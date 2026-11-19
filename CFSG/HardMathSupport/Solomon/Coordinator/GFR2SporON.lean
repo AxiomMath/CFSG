@@ -32,7 +32,7 @@ theorem exists_conj_of_pow_three {X : Type*} [Group X]
     have hx' : x ∈ (MulAut.conj : X →* MulAut X).range := this ▸ Subgroup.mem_top x
     obtain ⟨g, hg⟩ := hx'
     exact ⟨g, hg⟩
-  · haveI : (MulAut.conj : X →* MulAut X).range.Normal := Subgroup.normal_of_index_eq_two h2
+  · have : (MulAut.conj : X →* MulAut X).range.Normal := Subgroup.normal_of_index_eq_two h2
     have hx2 : x ^ 2 ∈ (MulAut.conj : X →* MulAut X).range := by
       have := Subgroup.pow_index_mem (MulAut.conj : X →* MulAut X).range x
       rwa [h2] at this

@@ -47,25 +47,25 @@ private lemma not_isComponent_pPrimeCore {Y : Type} [Group Y] [Finite Y] {p : �
     (hS : CFSG.LocalAnalysis.ComponentInitial.SchreierFor CFSG.Assembly.InCatalog)
     (hrk : ∀ r : ℕ, r.Prime → r ≠ 2 → CFSG.Open.pRank r (CFSG.pPrimeCore p Y) ≤ 3)
     (J : Subgroup ↥(CFSG.pPrimeCore p Y)) (hJ : CFSG.IsComponent J) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let J' : Subgroup Y := J.map (CFSG.pPrimeCore p Y).subtype
   have hJ'normal : J'.Normal := normal_map_of_isComponent hrk hJ
-  letI : J'.Normal := hJ'normal
+  let : J'.Normal := hJ'normal
   let e : ↥J ≃* ↥J' :=
     J.equivMapOfInjective (CFSG.pPrimeCore p Y).subtype
       (CFSG.pPrimeCore p Y).subtype_injective
   have hJ' : CFSG.IsQuasisimple ↥J' := CFSG.IsQuasisimple.of_mulEquiv e.symm hJ.1
-  haveI : Group.IsPerfect ↥J' := hJ'.1
-  haveI : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJ'.2.1
+  have : Group.IsPerfect ↥J' := hJ'.1
+  have : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJ'.2.1
   have hcatOpen : CFSG.Open.IsCatalogGroup (↥J' ⧸ Subgroup.center ↥J') :=
     hK.isCatalogGroup_of_surjective J' hJ'.2.2
       (QuotientGroup.mk' (Subgroup.center ↥J'))
       (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
   have hcat : CFSG.Assembly.InCatalog (↥J' ⧸ Subgroup.center ↥J') := hcatOpen
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer
         (↥J' ⧸ Subgroup.center ↥J')) := hS _ hJ'.2.2 hcat
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥J') :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient _
   let α : Y →* MulAut ↥J' := MulAut.conjNormal

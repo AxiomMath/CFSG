@@ -178,15 +178,19 @@ theorem normal_sup_C : (H0 ⊔ C).Normal :=
 
 include hH0H
 
+omit [H0.Normal] in
 theorem commutator_H0_C : ⁅H0, C⁆ = ⊥ :=
   eq_bot_iff.mpr <| Subgroup.commutator_le.mpr fun _ hx _ hy =>
     Subgroup.mem_bot.mpr
       (commutatorElement_eq_one_iff_commute.mpr (h.commute_of_mem (hH0H hx) hy))
 
+omit [H0.Normal] in
 theorem disjoint_H0_C : Disjoint H0 C := h.disjoint_H_C.mono_left hH0H
 
+omit [H0.Normal] in
 theorem inf_H0_C : H0 ⊓ C = ⊥ := disjoint_iff.1 (h.disjoint_H0_C hH0H)
 
+omit [H0.Normal] in
 theorem coe_sup_C_eq_mul : ((H0 ⊔ C : Subgroup M) : Set M) = (H0 : Set M) * (C : Set M) :=
   coe_sup_eq_mul_of_commute fun _ hx _ hy => h.commute_of_mem (hH0H hx) hy
 
@@ -194,11 +198,13 @@ noncomputable def prodMulEquivSupC : (H0 × C) ≃* (H0 ⊔ C : Subgroup M) :=
   mulEquivProdOfCoeEqMul (h.coe_sup_C_eq_mul hH0H) (h.inf_H0_C hH0H)
     fun _ hx _ hy => h.commute_of_mem (hH0H hx) hy
 
+omit [H0.Normal] in
 @[simp]
 theorem coe_prodMulEquivSupC_apply (x : H0 × C) :
     ((h.prodMulEquivSupC hH0H x : (H0 ⊔ C : Subgroup M)) : M) = (x.1 : M) * (x.2 : M) :=
   coe_mulEquivProdOfCoeEqMul_apply _ _ _ x
 
+omit [H0.Normal] in
 theorem inf_sup_C_H : (H0 ⊔ C) ⊓ H = H0 := by
   refine le_antisymm (fun x hx => ?_) (le_inf le_sup_left hH0H)
   obtain ⟨hx1, hx2⟩ := Subgroup.mem_inf.1 hx
@@ -208,6 +214,7 @@ theorem inf_sup_C_H : (H0 ⊔ C) ⊓ H = H0 := by
   have : c = 1 := by simpa [h.inf_H_C] using Subgroup.mem_inf.2 ⟨hcH, hc⟩
   simpa [this] using ha
 
+omit [H0.Normal] in
 theorem sup_sup_C_H : (H0 ⊔ C) ⊔ H = F := by
   rw [sup_assoc, sup_comm C H, ← sup_assoc, sup_eq_right.2 hH0H, h.sup_C_eq_F]
 
@@ -221,7 +228,7 @@ theorem quotientSupCMulEquiv_mk (x : M) (hx : x ∈ H) :
     letI : ((H0 ⊔ C).subgroupOf F).Normal := (h.normal_sup_C (H0 := H0)).subgroupOf F
     h.quotientSupCMulEquiv hH0H (QuotientGroup.mk ⟨x, h.le_H_F hx⟩) =
       QuotientGroup.mk ⟨x, hx⟩ := by
-  letI := h.normal_sup_C (H0 := H0)
+  let := h.normal_sup_C (H0 := H0)
   exact quotientMulEquivOfSupOfInf_mk (h.inf_sup_C_H hH0H) (h.sup_sup_C_H hH0H) x hx
 
 end Core

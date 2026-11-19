@@ -65,7 +65,7 @@ theorem fiber_card (s t s' t' : Finset (Fin n)) (hs : s.card = s'.card) (ht : t.
     rw [e, e']
     exact hst
 
-theorem exists_perm_pair (α β δ : Finset (Fin n)) (hα : α.card = 4) (hβ : β.card = 4)
+theorem exists_perm_pair (α β δ : Finset (Fin n)) (_hα : α.card = 4) (hβ : β.card = 4)
     (hδ : δ.card = 4) (hi : (α ∩ β).card = (α ∩ δ).card) :
     ∃ p : Equiv.Perm (Fin n), (∀ x, p x ∈ α ↔ x ∈ α) ∧ (∀ x, p x ∈ δ ↔ x ∈ β) := by
   classical

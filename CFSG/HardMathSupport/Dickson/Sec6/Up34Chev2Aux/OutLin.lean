@@ -41,7 +41,7 @@ namespace Up34Chev2
 section Field
 
 
-theorem lieModel_psl_two_of_isLThreeFour {X : Type} [Group X] {n f : ℕ} (hn : 3 ≤ n)
+theorem lieModel_psl_two_of_isLThreeFour {X : Type} [Group X] {n f : ℕ} (_hn : 3 ≤ n)
     (hX : Blueprint.LieModel X .PSL n 2 f) (h : IsLThreeFour X) : n = 3 ∧ f = 2 := by
   have h34 : Blueprint.LieModel X .PSL 3 2 2 := isL34Type_of_isLThreeFour h
   obtain ⟨-, hn3, hf⟩ := CFSG.SeitzReduction.LinearPilot.lieModel_PSL_two_unique (by norm_num) h34 hX
@@ -55,7 +55,7 @@ theorem noL34Layer_fieldAut_psl {n : ℕ} (hn3 : 3 ≤ n) {K : Type} [Field K] [
   have hinj := linearSubfieldInclusion_injective (by omega : 0 < n) k
   let S : Subgroup (projectiveSL n K) := (linearSubfieldInclusion n k).range
   let eS : ↥S ≃* projectiveSL n ↥k := (MonoidHom.ofInjective hinj).symm
-  haveI : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn3
+  have : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn3
   have hnabk : ∃ a b : projectiveSL n ↥k, a * b ≠ b * a := by
     have h1 := KCLinearSubfield.not_commutative_projectiveSL (n := n) (K := ↥k) hn3
     push Not at h1
@@ -94,7 +94,7 @@ theorem up34C2Out_lin_model {n f : ℕ} (hn : 3 ≤ n) (hf : 1 ≤ f)
   have hC : StatedClassicalModel S .PSL n 2 f := (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨hadm, K, _, _, hK, ⟨e0⟩⟩ := hC
   let e : S ≃* projectiveSL n K := e0.trans (statedProjEquiv n K)
-  haveI : Finite (projectiveSL n K) := Finite.of_equiv S e.toEquiv
+  have : Finite (projectiveSL n K) := Finite.of_equiv S e.toEquiv
   have hψ3 : MulAut.congr e α ^ 3 = 1 := by rw [← map_pow, ((up34Pumpup_iff α).1 hp).1, map_one]
   have hψinn : MulAut.congr e α ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner (projectiveSL n K) := fun h =>
     hα ((congr_mem_inner_iff_of_equiv e α).mp h)

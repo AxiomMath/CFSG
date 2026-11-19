@@ -87,7 +87,7 @@ private theorem sSup_diff_le_centralizerMod {d : G}
     sSup (𝒳 \ {K}) ≤ CFSG.LocalAnalysis.EvenBN.Tits.N.centralizerMod (sSup 𝒳)
       (inSubgroup (aschbacherSolvableCore 3) (sSup 𝒳)) J := by
   refine sSup_le fun Y hY => ?_
-  simp only [Set.mem_diff, Set.mem_singleton_iff] at hY
+  simp only [Set.mem_sdiff, Set.mem_singleton_iff] at hY
   obtain ⟨hY𝒳, hYK⟩ := hY
   have hY : Y ∈ thetaComponentsAt 3 d := h𝒳 hY𝒳
   have hYX : Y ≤ sSup 𝒳 := le_sSup hY𝒳
@@ -99,6 +99,7 @@ private theorem sSup_diff_le_centralizerMod {d : G}
   refine ⟨hYX hg, (Sec6.le_normalizer_theta (sSup 𝒳)) (hYX hg), fun l hl => ?_⟩
   exact hθ (hcomm (Subgroup.commutator_mem_commutator hg (hJK hl)))
 
+omit [Finite G] in
 private theorem commutator_mul_mem_theta {X : Subgroup G} {t y l : G}
     (htθ : t ∈ inSubgroup (aschbacherSolvableCore 3) X)
     (hyl : ⁅y, l⁆ ∈ inSubgroup (aschbacherSolvableCore 3) X)
@@ -132,10 +133,10 @@ private theorem exists_decomp_of_mem {d : G}
     exact le_sup_left
   set X₁ := sSup (𝒳 \ {K}) with hX₁
   have hX₁X : X₁ ≤ sSup 𝒳 := by
-    refine sSup_le fun Y hY => le_sSup (Set.diff_subset hY)
+    refine sSup_le fun Y hY => le_sSup (Set.sdiff_subset hY)
   have hX₁N : X₁ ≤ Subgroup.normalizer (K : Set G) := by
     refine sSup_le fun Y hY => ?_
-    simp only [Set.mem_diff, Set.mem_singleton_iff] at hY
+    simp only [Set.mem_sdiff, Set.mem_singleton_iff] at hY
     exact (le_normalizer_and_commutator_le_of_ne (h𝒳 hY.1) hK hY.2).1
   have hXle : sSup 𝒳 ≤ K ⊔ X₁ := by
     refine sSup_le fun Y hY => ?_
@@ -191,7 +192,7 @@ theorem supplement_of_mem_thetaComponentsAt {d : G}
     refine ⟨j, hjJ, t * y, (sSup 𝒳).mul_mem htX hyX, hxjt, fun l hl => ?_⟩
     exact commutator_mul_mem_theta (theta_le_theta_sSup h𝒳 htypes hK𝒳 htθ)
       (hyl l hl) (htl l hl)
-  · have hdiff : 𝒳 \ {K} = 𝒳 := Set.diff_singleton_eq_self hK𝒳
+  · have hdiff : 𝒳 \ {K} = 𝒳 := Set.sdiff_singleton_eq_self hK𝒳
     have hTx : x ∈ CFSG.LocalAnalysis.EvenBN.Tits.N.centralizerMod (sSup 𝒳)
         (inSubgroup (aschbacherSolvableCore 3) (sSup 𝒳)) J :=
       (sSup_diff_le_centralizerMod h𝒳 htypes hK hJK) (by rwa [hdiff])
@@ -208,7 +209,7 @@ theorem mem_of_perfect_le_sSup {d : G} {𝒳 : Set (Subgroup G)}
     (hJp : Group.IsPerfect ↥J) (hJ1 : J ≠ ⊥) : K ∈ 𝒳 := by
   classical
   by_contra hK𝒳
-  have hdiff : 𝒳 \ {K} = 𝒳 := Set.diff_singleton_eq_self hK𝒳
+  have hdiff : 𝒳 \ {K} = 𝒳 := Set.sdiff_singleton_eq_self hK𝒳
   have hT := sSup_diff_le_centralizerMod h𝒳 htypes hK hJK
   rw [hdiff] at hT
   have hcomm : ⁅J, J⁆ ≤ inSubgroup (aschbacherSolvableCore 3) (sSup 𝒳) := by
@@ -223,7 +224,7 @@ theorem mem_of_perfect_le_sSup {d : G} {𝒳 : Set (Subgroup G)}
     rw [htop] at h
     exact h.symm
   have hJθ : J ≤ inSubgroup (aschbacherSolvableCore 3) (sSup 𝒳) := hJJ ▸ hcomm
-  haveI : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) (sSup 𝒳)) :=
+  have : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) (sSup 𝒳)) :=
     (Sec6.theta_solvable_and_not_dvd (sSup 𝒳)).1
   have hJsolv : Group.IsSolvable ↥J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJθ)
@@ -253,6 +254,7 @@ private theorem card_ON_dvd_of_map_eq_top {Q R : Type} [Group Q] [Group R] {V : 
   rw [← h1, h2]
   exact Subgroup.card_map_dvd V ψ
 
+omit [Finite G] in
 private theorem exists_thetaQuotMap {K X : Subgroup G} (hKX : K ≤ X)
     (hθ : inSubgroup (aschbacherSolvableCore 3) K ≤ inSubgroup (aschbacherSolvableCore 3) X) :
     ∃ φ : ↥K →* (↥X ⧸ aschbacherSolvableCore 3 ↥X),
@@ -325,7 +327,7 @@ private theorem eq_bot_of_range_le_center {d : G} {K X : Subgroup G} (hKX : K �
     rw [htop] at h
     exact h.symm
   have hKθ : K ≤ inSubgroup (aschbacherSolvableCore 3) X := hKK ▸ hcomm
-  haveI : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) X) :=
+  have : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) X) :=
     (Sec6.theta_solvable_and_not_dvd X).1
   have hKsolv : Group.IsSolvable ↥K :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKθ)
@@ -363,9 +365,9 @@ theorem not_isTripleCover_ON_of_mem {d : G}
   obtain ⟨e⟩ := hQ.2
   have hWn : (V.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
     hVn.map _ (QuotientGroup.mk'_surjective _)
-  haveI hW'n : ((V.map (QuotientGroup.mk' (Subgroup.center Q))).map e.toMonoidHom).Normal :=
+  have hW'n : ((V.map (QuotientGroup.mk' (Subgroup.center Q))).map e.toMonoidHom).Normal :=
     hWn.map _ e.surjective
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON := CFSG.Sporadic.ON.isSimpleGroup_ON
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON := CFSG.Sporadic.ON.isSimpleGroup_ON
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((V.map (QuotientGroup.mk' (Subgroup.center Q))).map e.toMonoidHom) with hbot | htop
   · have hVleC : V ≤ Subgroup.center Q := by

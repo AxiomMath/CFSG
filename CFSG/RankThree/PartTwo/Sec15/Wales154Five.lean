@@ -120,6 +120,7 @@ theorem not_mem_centralizer_of_inducesOuterTheta {H : Type} [Group H] [Finite H]
   rw [h1, map_one]
   exact ⟨1, map_one _⟩
 
+omit [Finite G] in
 theorem alpha148_mem_centralizer {A Z : Subgroup G} [(ker148 A Z).Normal] {c : G}
     (hcA : c ∈ A) (hAZ : A ≤ Subgroup.normalizer (Z : Set G))
     (htriv : ∀ z ∈ Z, c * z * c⁻¹ * z⁻¹ ∈ pPrimeCoreOf 3 Z) :

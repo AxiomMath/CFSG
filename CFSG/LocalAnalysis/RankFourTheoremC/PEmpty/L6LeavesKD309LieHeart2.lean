@@ -8,7 +8,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD309L
 
 theorem card_V3 : Nat.card V3 = 5 ^ 3 := by
   rw [Nat.card_eq_fintype_card]
-  simp [Fintype.card_fun]
+  simp
 
 theorem card_dichotomy (F : AddSubgroup V3) (h0 : F ≠ ⊥) (h1 : F ≠ ⊤) :
     Nat.card F = 5 ∨ Nat.card F = 25 := by
@@ -35,7 +35,7 @@ theorem line_of_card_five (F : AddSubgroup V3) (h : Nat.card F = 5) :
     rw [this]
     rw [ZMod.natCast_self, zero_smul]
   have hord : addOrderOf v = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact addOrderOf_eq_prime h5v hv0'
   have hle : AddSubgroup.zmultiples v ≤ F := (AddSubgroup.zmultiples_le).mpr hvF
   have hcard : Nat.card (AddSubgroup.zmultiples v) = 5 := by
@@ -71,8 +71,8 @@ theorem plane_of_card_25 (F : AddSubgroup V3) (h : Nat.card F = 25) :
     have := AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup F
     rw [card_V3, h] at this
     omega
-  haveI : IsAddCyclic (V3 ⧸ F) := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : IsAddCyclic (V3 ⧸ F) := by
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact isAddCyclic_of_prime_card hq
   let ψ : (V3 ⧸ F) ≃+ ZMod 5 :=
     (zmodAddCyclicAddEquiv (G := V3 ⧸ F) inferInstance).symm.trans

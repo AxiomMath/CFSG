@@ -51,7 +51,7 @@ theorem exists_torus_czLift (hRC : D1ReducedCentralizer 3 P' M z Pbar KC)
   set V : Subgroup (D1CzQuot 3 z) := (Pbar : Subgroup (D1CzQuot 3 z)) ⊓ KC with hV
   set Zc : Subgroup (D1CzQuot 3 z) := centerOf V with hZc
   set U : Subgroup C := (P' : Subgroup G).subgroupOf C with hU
-  have hUp : IsPGroup 3 U := P'.isPGroup'.comap_subtype
+  have hUp : IsPGroup 3 U := P'.isPGroup.comap_subtype
   have hVU : V ≤ U.map mk := hRC.sylow_eq ▸ inf_le_left
   have hZV : Zc ≤ V := inf_le_left
   obtain ⟨ψ, hψinj, hψrange, hc⟩ := hTF.torus
@@ -125,7 +125,7 @@ theorem exists_pair_czLift (hRC : D1ReducedCentralizer 3 P' M z Pbar KC)
   set V : Subgroup (D1CzQuot 3 z) := (Pbar : Subgroup (D1CzQuot 3 z)) ⊓ KC with hV
   set Zc : Subgroup (D1CzQuot 3 z) := centerOf V with hZc
   set U : Subgroup C := (P' : Subgroup G).subgroupOf C with hU
-  have hUp : IsPGroup 3 U := P'.isPGroup'.comap_subtype
+  have hUp : IsPGroup 3 U := P'.isPGroup.comap_subtype
   have hVU : V ≤ U.map mk := hRC.sylow_eq ▸ inf_le_left
   have hZV : Zc ≤ V := inf_le_left
   have hZcT : (centerOf (T₁ : Subgroup KC)).map KC.subtype = Zc := by

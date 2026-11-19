@@ -30,10 +30,12 @@ private theorem n3_P2_le_normalizer_u3H {L1 L2 S : Subgroup G} (hF : F112Hyp L1 
   D14.le_normalizer_sup (sup_le Subgroup.le_normalizer (n3_bigB_le_normalizer_L2 hF))
     (le_normalizer_pCoreOf 2 (P2 L1 L2 S))
 
+omit [Finite G] in
 private theorem n3_conj_sup_mul {g t : G} {A W : Subgroup G}
     (hA : A ⊔ conjSub t A = W) : conjSub g A ⊔ conjSub (g * t) A = conjSub g W := by
   rw [conjSub_mul, ← conjSub_sup, hA]
 
+omit [Finite G] in
 private theorem n3_conj_inf_mul {g t : G} {W Z : Subgroup G}
     (hW : W ⊓ conjSub t W = Z) : conjSub g W ⊓ conjSub (g * t) W = conjSub g Z := by
   rw [conjSub_mul, ← conjSub_inf, hW]

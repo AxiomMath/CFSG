@@ -197,7 +197,7 @@ theorem secOf_ne_one {Ω : Set (Subgroup Y)} {c : Y}
   intro h
   have hk : (⟨c, hc⟩ : ↥(rLayer Ω c)) ∈ (secOf hmap).ker := h
   rw [secOf_ker, Subgroup.mem_subgroupOf] at hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : orderOf c = 2 := orderOf_eq_prime (by rw [pow_two]; exact hc2) hc1
   have h3 : 2 ∣ Nat.card (oddCoreIn (rLayer Ω c)) := h2 ▸ Subgroup.orderOf_dvd_natCard _ hk
   exact (Nat.not_even_iff_odd.mpr (odd_card_oddCoreIn _)) (even_iff_two_dvd.mpr h3)
@@ -215,7 +215,7 @@ theorem ker_ne_bot_of_central {X : Type} [Group X] [Finite X] {Φ : Set (Subgrou
   exact hc1 (congrArg Subtype.val hk)
 
 theorem secAut_odd_of_twin {R : Subgroup Y} {t e : Y} (SD : SecData R e)
-    (g : ↥(Subgroup.centralizer ({e} : Set Y))) {J : Subgroup Y} (hJ : J ∈ tqMembers3 (Om R) e)
+    (g : ↥(Subgroup.centralizer ({e} : Set Y))) {J : Subgroup Y} (_hJ : J ∈ tqMembers3 (Om R) e)
     (hcomm : ∀ l ∈ J, (g : Y) * l * (g : Y)⁻¹ * l⁻¹ ∈
       oddCoreIn (Subgroup.centralizer ({t} : Set Y))) :
     ∀ y ∈ TwinDisc.secImg (Om R) e J,
@@ -225,7 +225,7 @@ theorem secAut_odd_of_twin {R : Subgroup Y} {t e : Y} (SD : SecData R e)
   intro y hy
   have hc2 : IsPGroup 2 (Subgroup.zpowers e) :=
     CFSG.ClassicalInvolution.Asc77.ExactLayer.isPGroup_zpowers_of_sq_eq_one SD.sq
-  haveI hHn := TwinExitPf6.normal_coreHull SD.hΩ hc2
+  have hHn := TwinExitPf6.normal_coreHull SD.hΩ hc2
   obtain ⟨h, hh, rfl⟩ := hy
   have hh' : (((h : ↥(coreHull (Om R) e)) : ↥(Subgroup.centralizer ({e} : Set Y))) : Y) ∈ J :=
     TwinADescent.coreAt_le_left e J (Subgroup.mem_subgroupOf.mp (Subgroup.mem_subgroupOf.mp hh))

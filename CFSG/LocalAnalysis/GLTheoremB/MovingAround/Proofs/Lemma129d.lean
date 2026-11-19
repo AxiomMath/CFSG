@@ -202,8 +202,8 @@ theorem exists_altData (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K
 
 theorem n_eq_of_alt_equiv {n n' : ℕ} (hn : 2 ≤ n) (hn' : 2 ≤ n')
     (e : alternatingGroup (Fin n) ≃* alternatingGroup (Fin n')) : n = n' := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
-  haveI : Nontrivial (Fin n') := Fin.nontrivial_iff_two_le.2 hn'
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n') := Fin.nontrivial_iff_two_le.2 hn'
   have h1 := Nat.card_congr e.toEquiv
   rw [nat_card_alternatingGroup, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
     Fintype.card_fin, Nat.card_eq_fintype_card, Fintype.card_fin] at h1
@@ -310,7 +310,7 @@ theorem alt_p_le_delta (h121 : Prop121_corStatement) (h : Cex127 G m p B M E A N
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) (hFA : F ≠ A) : p ≤ D'.δ := by
   have hp := prime_of h
   have hp2 := ne_two_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   push Not at hlt
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
@@ -385,7 +385,7 @@ theorem alt_p_le_delta (h121 : Prop121_corStatement) (h : Cex127 G m p B M E A N
     exact (AltWeakBalance.autPerm e h5 h6).injective (h7.trans (map_one _).symm)
   have hfix : {j : Fin D'.n | AltWeakBalance.autPerm e h5 h6 d j = j} = D'.Ω₀ := by
     ext j
-    simp only [Set.mem_setOf_eq, hΘd]
+    simp only [Set.mem_ofPred_eq, hΘd]
     constructor
     · intro hj
       by_contra hjΩ
@@ -427,7 +427,7 @@ theorem alt_centralizer_trivial (h : Cex127 G m p B M E A N D) (hs : Setup2 M A 
     ∀ x ∈ barX p N A, (∀ y ∈ barX p N K, x * y = y * x) → x = 1 := by
   subst hp3
   have hp := prime_of h
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hp2 := ne_two_of h
   have hAN := A_le_N h
   have hFA' := hs.F_le_A
@@ -556,7 +556,7 @@ theorem alt_le_K (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K)
   have hcen := alt_centralizer_trivial h hs D' hAK hFA hp3 hδ4
   subst hp3
   have hp := prime_of h
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hp2 := ne_two_of h
   have hAN := A_le_N h
   have hn11 := D'.hn11 (le_refl 3) hs.hr
@@ -607,6 +607,7 @@ theorem alt_le_K (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K)
     Subgroup (Equiv.Perm (Fin n)) :=
   (H.subgroupOf (barX p N K)).map ((alternatingGroup (Fin n)).subtype.comp ψ.toMonoidHom)
 
+omit [Finite G] in
 theorem mem_permImage {p : ℕ} {N K : Subgroup G} {n : ℕ}
     (ψ : ↥(barX p N K) ≃* alternatingGroup (Fin n)) {H : Subgroup (↥N ⧸ GLAPPrimeCore p ↥N)}
     {g : Equiv.Perm (Fin n)} :
@@ -616,6 +617,7 @@ theorem mem_permImage {p : ℕ} {N K : Subgroup G} {n : ℕ}
   simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_comp, Function.comp_apply,
     Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom]
 
+omit [Finite G] in
 theorem permImage_mono {p : ℕ} {N K : Subgroup G} {n : ℕ}
     (ψ : ↥(barX p N K) ≃* alternatingGroup (Fin n)) {H H' : Subgroup (↥N ⧸ GLAPPrimeCore p ↥N)}
     (hHH : H ≤ H') : permImage ψ H ≤ permImage ψ H' := by
@@ -623,6 +625,7 @@ theorem permImage_mono {p : ℕ} {N K : Subgroup G} {n : ℕ}
   obtain ⟨x, hx, hxg⟩ := (mem_permImage ψ).1 hg
   exact (mem_permImage ψ).2 ⟨x, hHH hx, hxg⟩
 
+omit [Finite G] in
 theorem permImage_le_alt {p : ℕ} {N K : Subgroup G} {n : ℕ}
     (ψ : ↥(barX p N K) ≃* alternatingGroup (Fin n)) {H : Subgroup (↥N ⧸ GLAPPrimeCore p ↥N)} :
     permImage ψ H ≤ alternatingGroup (Fin n) := by
@@ -630,6 +633,7 @@ theorem permImage_le_alt {p : ℕ} {N K : Subgroup G} {n : ℕ}
   obtain ⟨x, -, rfl⟩ := (mem_permImage ψ).1 hg
   exact (ψ x).2
 
+omit [Finite G] in
 theorem permImage_injective {p : ℕ} {N K : Subgroup G} {n : ℕ}
     (ψ : ↥(barX p N K) ≃* alternatingGroup (Fin n)) :
     Function.Injective ((alternatingGroup (Fin n)).subtype.comp ψ.toMonoidHom) := by
@@ -637,6 +641,7 @@ theorem permImage_injective {p : ℕ} {N K : Subgroup G} {n : ℕ}
   apply ψ.injective
   exact Subtype.ext hxy
 
+omit [Finite G] in
 theorem permImage_card {p : ℕ} {N K : Subgroup G} {n : ℕ}
     (ψ : ↥(barX p N K) ≃* alternatingGroup (Fin n)) {H : Subgroup (↥N ⧸ GLAPPrimeCore p ↥N)}
     (hHK : H ≤ barX p N K) : Nat.card (permImage ψ H) = Nat.card H := by
@@ -644,11 +649,13 @@ theorem permImage_card {p : ℕ} {N K : Subgroup G} {n : ℕ}
   rw [Subgroup.card_map_of_injective (permImage_injective ψ)]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHK).toEquiv
 
+omit [Finite G] in
 theorem permImage_elemAbelian {p : ℕ} {N K : Subgroup G} {n : ℕ}
     (ψ : ↥(barX p N K) ≃* alternatingGroup (Fin n)) {H : Subgroup (↥N ⧸ GLAPPrimeCore p ↥N)}
     (hH : IsElemAbelian p H) : IsElemAbelian p (permImage ψ H) :=
   (hH.subgroupOf _).map _
 
+omit [Finite G] in
 theorem permImage_zpowers {p : ℕ} {N K : Subgroup G} {n : ℕ}
     (ψ : ↥(barX p N K) ≃* alternatingGroup (Fin n)) (x : ↥(barX p N K)) :
     permImage ψ (Subgroup.zpowers (x : ↥N ⧸ GLAPPrimeCore p ↥N)) =
@@ -678,7 +685,7 @@ theorem alt_structure (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K)
   have hle := alt_le_K h hs D' hAK hFA hp3 hδ4
   subst hp3
   have hp := prime_of h
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hp2 := ne_two_of h
   have hAN := A_le_N h
   have hFA' := hs.F_le_A

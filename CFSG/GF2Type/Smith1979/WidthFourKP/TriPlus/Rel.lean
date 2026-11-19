@@ -70,7 +70,7 @@ theorem s2Rel_orbit (H : Hyp4 S g) (i0 : Fin 3) :
           group
         rw [hconji]
         exact Subgroup.subset_closure ⟨T.perm ⟨x, hx⟩ i, rfl⟩
-    | one => simpa using (Subgroup.closure (Set.range T.l)).one_mem
+    | one => simp
     | mul a b ha hb iha ihb =>
         have h : z * (a * b) * z⁻¹ =
             (z * a * z⁻¹) * (z * b * z⁻¹) := by group
@@ -133,7 +133,7 @@ theorem s2Rel_inv_conj (i0 : Fin 3)
 
 theorem s2Rel_index_le (i0 : Fin 3) :
     (S.Mbar ⊓ normalizer (zpowers (eb T.σ i0) : Set S.O)).relIndex S.Mbar ≤ 3 := by
-  letI : MulAction S.Mbar (Fin 3) := MulAction.compHom (Fin 3) T.perm
+  let : MulAction S.Mbar (Fin 3) := MulAction.compHom (Fin 3) T.perm
   have hstab : (S.Mbar ⊓ normalizer (zpowers (eb T.σ i0) : Set S.O)).subgroupOf
       S.Mbar = MulAction.stabilizer S.Mbar i0 := by
     ext x

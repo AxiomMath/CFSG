@@ -53,7 +53,7 @@ theorem testBit_e8PlaneMaskOf (p : ℕ → Bool) (k n : ℕ) :
       · by_cases h' : n = k
         · subst h'
           simp [hp]
-        · simp [h, h', show ¬ n < k + 1 by omega, show k ≠ n by omega]
+        · simp [h, show ¬ n < k + 1 by omega, show k ≠ n by omega]
     · have h1 : (if p k then 1 <<< k else 0) = 0 := by simp [hp]
       rw [h1, Nat.zero_testBit]
       by_cases h : n < k
@@ -79,7 +79,7 @@ theorem ncard_eq_length_filter (p : (Fin Tag.E8.rank → ℤ) → Prop) (q : ℕ
   have hset : {α | IsRoot Tag.E8 α ∧ p α} =
       ↑((((List.range 240).filter q).map e8Certificate.root).toFinset) := by
     ext α
-    simp only [Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset, List.mem_map, List.mem_filter,
+    simp only [Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset, List.mem_map, List.mem_filter,
       List.mem_range]
     constructor
     · rintro ⟨hα, hp⟩
@@ -220,7 +220,7 @@ theorem mem_e8PlaneSig {σ k : ℕ} : k ∈ e8PlaneSig σ ↔ k < 240 ∧ σ.tes
 
 theorem mem_sigSet {σ : ℕ} {α : Fin Tag.E8.rank → ℤ} :
     α ∈ sigSet σ ↔ ∃ k < 240, σ.testBit k = true ∧ e8Certificate.root k = α := by
-  simp only [sigSet, Set.mem_setOf_eq, mem_e8PlaneSig]
+  simp only [sigSet, Set.mem_ofPred_eq, mem_e8PlaneSig]
   constructor
   · rintro ⟨k, ⟨hk, hb⟩, rfl⟩
     exact ⟨k, hk, hb, rfl⟩
@@ -235,7 +235,7 @@ theorem sigSet_KM_and {n₀ n₁ : ℕ} (h0 : n₀ < 6561) (h1 : n₁ < 6561) :
   ext α
   rw [mem_sigSet]
   simp only [Nat.testBit_and, Bool.and_eq_true, testBit_e8PlaneKM h0, testBit_e8PlaneKM h1,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro ⟨k, hk, ⟨⟨-, hp0⟩, ⟨-, hp1⟩⟩, rfl⟩
     exact ⟨e8Certificate_isRoot hk, hp0, hp1⟩
@@ -246,7 +246,7 @@ theorem sigSet_KM_and {n₀ n₁ : ℕ} (h0 : n₀ < 6561) (h1 : n₁ < 6561) :
 theorem ncard_sigSet (σ : ℕ) : (sigSet σ).ncard = (e8PlaneSig σ).length := by
   have hset : sigSet σ = ↑(((e8PlaneSig σ).map e8Certificate.root).toFinset) := by
     ext α
-    simp only [sigSet, Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset, List.mem_map]
+    simp only [sigSet, Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset, List.mem_map]
   rw [hset, Set.ncard_coe_finset, List.toFinset_card_of_nodup, List.length_map]
   refine List.Nodup.map_on (fun a ha b hb hab => ?_) (List.nodup_range.filter _)
   exact e8Certificate_root_inj (mem_e8PlaneSig.1 ha).1 (mem_e8PlaneSig.1 hb).1 hab

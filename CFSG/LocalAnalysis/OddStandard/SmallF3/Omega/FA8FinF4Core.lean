@@ -20,7 +20,7 @@ theorem fa8fin_refl_cent (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
     {R : Subgroup (OGroup Q)} (hΩ : R ≤ omegaGroup hQ) (hcent : ∀ g ∈ R, g * s = s * g)
     (hsq : ∀ g ∈ R, g * g = 1 ∨ g * g = s)
     (hpartner : ∀ g ∈ R, g ≠ 1 → g ≠ s → ∃ h ∈ R, h * g * h⁻¹ = s * g)
-    {t₀ t₁ : OGroup Q} (h0 : t₀ * t₀ = 1) (h01 : invDim t₀ = 1) (h1 : t₁ * t₁ = 1)
+    {t₀ t₁ : OGroup Q} (h0 : t₀ * t₀ = 1) (h01 : invDim t₀ = 1) (_h1 : t₁ * t₁ = 1)
     (h11 : invDim t₁ = 1) (hcomm : toProj Q (t₀ * s) = toProj Q (s * t₀))
     (hprod : toProj Q t₁ = toProj Q (t₀ * s)) : ∀ g ∈ R, t₀ * g = g * t₀ := by
   have hs4 : invDim s = 4 := hW

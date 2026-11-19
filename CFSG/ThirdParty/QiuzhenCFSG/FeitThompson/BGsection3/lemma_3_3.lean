@@ -61,7 +61,7 @@ private theorem CFSG.sum_eq_one_part_add_ne_part_subgroup {G : Type*} [Group G] 
   let _ : Fintype R := Fintype.ofFinite R
   let _ : Fintype {r : R // r ≠ 1} := Fintype.ofFinite {r : R // r ≠ 1}
   let _ : Fintype {r : R // r = 1} := Fintype.ofFinite {r : R // r = 1}
-  letI : Unique {r : R // r = 1} :=
+  let : Unique {r : R // r = 1} :=
     ⟨⟨1, rfl⟩, by
       intro r
       apply Subtype.ext

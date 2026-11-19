@@ -27,12 +27,13 @@ def rootOmega (v : ℤ) : Subgroup G :=
 private def moveElt (t : Track L1 L2 S) (v : ℤ) : G :=
   if Even v then (t.x₂ * t.x₁) ^ (v / 2) else (t.x₂ * t.x₁) ^ (v / 2) * t.x₂
 
+omit [Finite G] in
 private theorem map_Gw_moveElt (t : Track L1 L2 S) (v : ℤ) :
     (t.Gw 0 1).map (MulAut.conj (moveElt t v)).toMonoidHom = t.Gw v (v + 1) := by
   obtain ⟨k, rfl | rfl⟩ := Int.even_or_odd' v
   · have hm : moveElt t (2 * k) = (t.x₂ * t.x₁) ^ k := by
       unfold moveElt
-      rw [if_pos (even_two_mul k), show 2 * k / 2 = k by omega]
+      rw [ite_eq_left (even_two_mul k), show 2 * k / 2 = k by omega]
     rw [hm]
     change (win (P1 L1 L2 S) (P2 L1 L2 S) t.x₁ t.x₂ 0 1).map
         (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom =
@@ -41,7 +42,7 @@ private theorem map_Gw_moveElt (t : Track L1 L2 S) (v : ℤ) :
     rw [show 0 + 2 * k = 2 * k by ring, show 1 + 2 * k = 2 * k + 1 by ring]
   · have hm : moveElt t (2 * k + 1) = (t.x₂ * t.x₁) ^ k * t.x₂ := by
       unfold moveElt
-      rw [if_neg (Int.not_even_two_mul_add_one k), show (2 * k + 1) / 2 = k by omega]
+      rw [ite_eq_right (Int.not_even_two_mul_add_one k), show (2 * k + 1) / 2 = k by omega]
     rw [hm, ← Subgroup.map_conj_map_conj (t.Gw 0 1) t.x₂ ((t.x₂ * t.x₁) ^ k)]
     rw [t.track.map_win_x₂ (Q₁ := P1 L1 L2 S) (Q₂ := P2 L1 L2 S)
       Subgroup.le_normalizer Subgroup.le_normalizer 0 1]
@@ -49,13 +50,14 @@ private theorem map_Gw_moveElt (t : Track L1 L2 S) (v : ℤ) :
     rw [map_win_tau_pow (Q₁ := P1 L1 L2 S) (Q₂ := P2 L1 L2 S) 1 2 k]
     rw [show 1 + 2 * k = 2 * k + 1 by ring, show 2 + 2 * k = 2 * k + 1 + 1 by ring]
 
+omit [Finite G] in
 private theorem map_Qv_zero_moveElt (t : Track L1 L2 S) {v : ℤ} (hv : Even v) :
     (t.Qv 0).map (MulAut.conj (moveElt t v)).toMonoidHom = t.Qv v := by
   obtain ⟨k, hk⟩ := hv
   rw [hk, show k + k = 2 * k by ring]
   have hm : moveElt t (2 * k) = (t.x₂ * t.x₁) ^ k := by
     unfold moveElt
-    rw [if_pos (even_two_mul k), show 2 * k / 2 = k by omega]
+    rw [ite_eq_left (even_two_mul k), show 2 * k / 2 = k by omega]
   rw [hm]
   change (qv (Q1 L1 L2 S) (Q2 L1 L2 S) t.x₁ t.x₂ 0).map
       (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom =
@@ -63,12 +65,13 @@ private theorem map_Qv_zero_moveElt (t : Track L1 L2 S) {v : ℤ} (hv : Even v) 
   rw [map_qv_tau_pow (Q₁ := Q1 L1 L2 S) (Q₂ := Q2 L1 L2 S) 0 k]
   rw [show 0 + 2 * k = 2 * k by ring]
 
+omit [Finite G] in
 private theorem map_Qv_one_moveElt (t : Track L1 L2 S) {v : ℤ} (hv : ¬ Even v) :
     (t.Qv 1).map (MulAut.conj (moveElt t v)).toMonoidHom = t.Qv v := by
   obtain ⟨k, rfl⟩ := Int.not_even_iff_odd.mp hv
   have hm : moveElt t (2 * k + 1) = (t.x₂ * t.x₁) ^ k * t.x₂ := by
     unfold moveElt
-    rw [if_neg (Int.not_even_two_mul_add_one k), show (2 * k + 1) / 2 = k by omega]
+    rw [ite_eq_right (Int.not_even_two_mul_add_one k), show (2 * k + 1) / 2 = k by omega]
   rw [hm, ← Subgroup.map_conj_map_conj (t.Qv 1) t.x₂ ((t.x₂ * t.x₁) ^ k)]
   rw [t.track.map_qv_x₂ (Q₁ := Q1 L1 L2 S) (Q₂ := Q2 L1 L2 S)
     (le_normalizer_pCoreOf 2 (P1 L1 L2 S)) (le_normalizer_pCoreOf 2 (P2 L1 L2 S)) 1]
@@ -76,6 +79,7 @@ private theorem map_Qv_one_moveElt (t : Track L1 L2 S) {v : ℤ} (hv : ¬ Even v
   rw [map_qv_tau_pow (Q₁ := Q1 L1 L2 S) (Q₂ := Q2 L1 L2 S) 1 k]
   rw [show 1 + 2 * k = 2 * k + 1 by ring]
 
+omit [Finite G] in
 private theorem rootOmega_eq_map_of (t : Track L1 L2 S) {v e : ℤ} {f : G}
     (hG : (t.Gw 0 1).map (MulAut.conj f).toMonoidHom = t.Gw v (v + 1))
     (hQ : (t.Qv e).map (MulAut.conj f).toMonoidHom = t.Qv v) :
@@ -87,7 +91,7 @@ private theorem rootOmega_eq_map_of (t : Track L1 L2 S) {v e : ℤ} {f : G}
   have hset : {x : G | x ∈ pCoreOf 2 (t.Gw v (v + 1)) ∧ x ^ 2 ∈ t.Qv v} =
       (MulAut.conj f) '' {y : G | y ∈ pCoreOf 2 (t.Gw 0 1) ∧ y ^ 2 ∈ t.Qv e} := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_image, MulAut.conj_apply]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, MulAut.conj_apply]
     constructor
     · rintro ⟨hxR, hxQ⟩
       have hyR : f⁻¹ * x * f ∈ pCoreOf 2 (t.Gw 0 1) := by
@@ -112,14 +116,15 @@ private theorem rootOmega_eq_map_of (t : Track L1 L2 S) {v e : ℤ} {f : G}
   rw [hset, MonoidHom.map_closure]
   simp only [MulEquiv.coe_toMonoidHom]
 
+omit [Finite G] in
 private theorem rootOmega_eq_map (t : Track L1 L2 S) (v : ℤ) :
     t.rootOmega v = (closure {y : G | y ∈ pCoreOf 2 (t.Gw 0 1) ∧
       y ^ 2 ∈ t.Qv (if Even v then 0 else 1)}).map
         (MulAut.conj (moveElt t v)).toMonoidHom := by
   by_cases hv : Even v
-  · rw [if_pos hv]
+  · rw [ite_eq_left hv]
     exact rootOmega_eq_map_of t (map_Gw_moveElt t v) (map_Qv_zero_moveElt t hv)
-  · rw [if_neg hv]
+  · rw [ite_eq_right hv]
     exact rootOmega_eq_map_of t (map_Gw_moveElt t v) (map_Qv_one_moveElt t hv)
 
 private noncomputable def szEquiv {a f : ℕ} (hfr : Frame L1 L2 S a f) :
@@ -325,6 +330,7 @@ private theorem S_commutator_le_Q2 {a f : ℕ}
   rw [hQ] at hcoe
   simpa [commutatorElement_def] using hcoe
 
+omit [Finite G] in
 private theorem mem_pCoreOf_Gw_move_iff (t : Track L1 L2 S) {v : ℤ} {f : G}
     (hG : (t.Gw 0 1).map (MulAut.conj f).toMonoidHom = t.Gw v (v + 1)) {x : G} :
     x ∈ pCoreOf 2 (t.Gw v (v + 1)) ↔ f⁻¹ * x * f ∈ pCoreOf 2 (t.Gw 0 1) := by
@@ -333,6 +339,7 @@ private theorem mem_pCoreOf_Gw_move_iff (t : Track L1 L2 S) {v : ℤ} {f : G}
     rw [← hG, pCoreOf_map_mulEquiv]
   rw [hP, mem_map_conj_iff]
 
+omit [Finite G] in
 private theorem mem_Qv_move_iff (t : Track L1 L2 S) {v e : ℤ} {f : G}
     (hQ : (t.Qv e).map (MulAut.conj f).toMonoidHom = t.Qv v) {x : G} :
     x ∈ t.Qv v ↔ f⁻¹ * x * f ∈ t.Qv e := by
@@ -365,7 +372,7 @@ theorem mem_rootOmega_iff {a f : ℕ} (hfr : Frame L1 L2 S a f)
   classical
   by_cases hv : Even v
   · obtain ⟨X0, hmem, -, -, -, -, hclos⟩ := baseSz_facts t hfr
-    rw [rootOmega_eq_map t v, if_pos hv, hclos, mem_map_conj_iff, hmem]
+    rw [rootOmega_eq_map t v, ite_eq_left hv, hclos, mem_map_conj_iff, hmem]
     constructor
     · rintro ⟨hyS, hyQ⟩
       refine ⟨(mem_pCoreOf_Gw_move_iff t (map_Gw_moveElt t v)).mpr ?_,
@@ -383,7 +390,7 @@ theorem mem_rootOmega_iff {a f : ℕ} (hfr : Frame L1 L2 S a f)
       · have h := (mem_Qv_move_iff t (map_Qv_zero_moveElt t hv) (x := x ^ 2)).mp hxQ
         rwa [t.Qv_zero, show (moveElt t v)⁻¹ * x ^ 2 * moveElt t v =
           ((moveElt t v)⁻¹ * x * moveElt t v) ^ 2 by rw [pow_two, pow_two]; group] at h
-  · rw [rootOmega_eq_map t v, if_neg hv, base_closure_one t hfr, mem_map_conj_iff]
+  · rw [rootOmega_eq_map t v, ite_eq_right hv, base_closure_one t hfr, mem_map_conj_iff]
     constructor
     · intro hyS
       refine ⟨(mem_pCoreOf_Gw_move_iff t (map_Gw_moveElt t v)).mpr ?_,
@@ -417,21 +424,21 @@ theorem relIndex_rootOmega {a f : ℕ} (hfr : Frame L1 L2 S a f)
   classical
   by_cases hv : Even v
   · obtain ⟨X0, -, -, hrel, -, -, hclos⟩ := baseSz_facts t hfr
-    rw [rootOmega_eq_map t v, if_pos hv, hclos,
+    rw [rootOmega_eq_map t v, ite_eq_left hv, hclos,
       show t.Qv v = (t.Qv 0).map (MulAut.conj (moveElt t v)).toMonoidHom
         from (map_Qv_zero_moveElt t hv).symm]
     rw [Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj _).injective]
-    rw [t.Qv_zero, hrel, if_pos hv]
-  · rw [rootOmega_eq_map t v, if_neg hv, base_closure_one t hfr,
+    rw [t.Qv_zero, hrel, ite_eq_left hv]
+  · rw [rootOmega_eq_map t v, ite_eq_right hv, base_closure_one t hfr,
       show t.Qv v = (t.Qv 1).map (MulAut.conj (moveElt t v)).toMonoidHom
         from (map_Qv_one_moveElt t hv).symm]
     rw [Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj _).injective]
     have hrelQ2 : (Q2 L1 L2 S).relIndex S = 2 ^ f := by
       have h := (t.relIndex_Qv_pCoreOf hfr 1).1
       rw [show (1 : ℤ) - 1 = 0 by norm_num, t.Qv_one, t.pCoreOf_Gw_zero_one hfr,
-        if_neg Int.not_even_one] at h
+        ite_eq_right Int.not_even_one] at h
       exact h
-    rw [t.Qv_one, if_neg hv]
+    rw [t.Qv_one, ite_eq_right hv]
     exact hrelQ2
 
 theorem commutator_rootOmega_le {a f : ℕ}
@@ -446,11 +453,11 @@ theorem commutator_rootOmega_le {a f : ℕ}
   by_cases hv : Even v
   · obtain ⟨X0, -, -, -, -, hcent, hclos⟩ := baseSz_facts t hfr
     have hQ := map_Qv_zero_moveElt t hv
-    rw [rootOmega_eq_map t v, if_pos hv, hclos, hP, ← hQ, t.Qv_zero]
+    rw [rootOmega_eq_map t v, ite_eq_left hv, hclos, hP, ← hQ, t.Qv_zero]
     rw [← Subgroup.map_commutator]
     exact Subgroup.map_mono hcent
   · have hQ := map_Qv_one_moveElt t hv
-    rw [rootOmega_eq_map t v, if_neg hv, base_closure_one t hfr, hP, ← hQ, t.Qv_one]
+    rw [rootOmega_eq_map t v, ite_eq_right hv, base_closure_one t hfr, hP, ← hQ, t.Qv_one]
     rw [← Subgroup.map_commutator]
     exact Subgroup.map_mono (S_commutator_le_Q2 hfr)
 
@@ -629,6 +636,7 @@ private theorem base_one_closure_le_sup {a f : ℕ}
   rw [hxy, t.Qv_one]
   exact (X ⊔ Q2 L1 L2 S).mul_mem (hX1le hykey) (Subgroup.mem_sup_right hq)
 
+omit [Finite G] in
 private theorem moveElt_mem_normalizer_K (t : Track L1 L2 S) (v : ℤ) :
     moveElt t v ∈ normalizer (t.K : Set G) := by
   unfold moveElt
@@ -713,13 +721,14 @@ theorem rootOmega_le_sup {a f : ℕ} (hfr : Frame L1 L2 S a f)
       _ = X := by
             rw [mul_inv_cancel]
             ext y
-            simp [MulAut.conj_apply]
+            simp
   rw [rootOmega_eq_map t v]
   change (closure {x : G | x ∈ pCoreOf 2 (t.Gw 0 1) ∧ x ^ 2 ∈ t.Qv e}).map
       (MulAut.conj f).toMonoidHom ≤ X ⊔ t.Qv v
   refine (Subgroup.map_mono (f := (MulAut.conj f).toMonoidHom) hbase).trans ?_
   rw [Subgroup.map_sup, hYX, hQ]
 
+omit [Finite G] in
 private theorem mem_pCoreOf_map_of {R0 Rv : Subgroup G} {f : G}
     (hG : R0.map (MulAut.conj f).toMonoidHom = Rv) {x : G}
     (hx : x ∈ pCoreOf 2 R0) : f * x * f⁻¹ ∈ pCoreOf 2 Rv := by
@@ -728,6 +737,7 @@ private theorem mem_pCoreOf_map_of {R0 Rv : Subgroup G} {f : G}
   rw [hP]
   exact Subgroup.mem_map_of_mem _ hx
 
+omit [Finite G] in
 private theorem sq_mem_Qv_map {v e : ℤ} {f : G} {x : G}
     (hQ : (t.Qv e).map (MulAut.conj f).toMonoidHom = t.Qv v)
     (hx : x ^ 2 ∈ t.Qv e) : (f * x * f⁻¹) ^ 2 ∈ t.Qv v := by
@@ -736,6 +746,7 @@ private theorem sq_mem_Qv_map {v e : ℤ} {f : G} {x : G}
   rw [hQ] at hmap
   simpa [MulAut.conj_apply, map_pow] using hmap
 
+omit [Finite G] in
 private theorem mem_sup_map_inv_of_mem {v e : ℤ} {f : G} {X : Subgroup G} {x : G}
     (hQ : (t.Qv e).map (MulAut.conj f).toMonoidHom = t.Qv v)
     (hx : f * x * f⁻¹ ∈ X ⊔ t.Qv v) :
@@ -789,7 +800,7 @@ private theorem exists_mul_of_mem_Gv_zero
   have hrel : (Q1 L1 L2 S).relIndex S = (2 ^ (2 * a + 1)) ^ 2 := by
     have h := (t.relIndex_Qv_pCoreOf hfr 0).2
     rw [show (0 : ℤ) + 1 = 1 by norm_num, t.Qv_zero, t.pCoreOf_Gw_zero_one hfr,
-      if_pos (show Even (0 : ℤ) from ⟨0, by norm_num⟩)] at h
+      ite_eq_left (show Even (0 : ℤ) from ⟨0, by norm_num⟩)] at h
     exact h
   have hne : S ≠ S.map (MulAut.conj t.x₁).toMonoidHom := by
     intro heq
@@ -901,7 +912,7 @@ private theorem exists_mul_of_mem_Gv_one
   have hrelQ2 : (Q2 L1 L2 S).relIndex S = 2 ^ f := by
     have h := (t.relIndex_Qv_pCoreOf hfr 1).1
     rw [show (1 : ℤ) - 1 = 0 by norm_num, t.Qv_one, t.pCoreOf_Gw_zero_one hfr,
-      if_neg Int.not_even_one] at h
+      ite_eq_right Int.not_even_one] at h
     exact h
   have hne : S.map (MulAut.conj t.x₂).toMonoidHom ≠ S := by
     intro heq
@@ -999,6 +1010,7 @@ private theorem exists_mul_of_mem_Gv_one
   · rw [hglb, hlqm]
     group
 
+omit [Finite G] in
 private theorem mem_Gv_map_inv_of_mem {v e : ℤ} {f : G}
     (hGv : (t.Gv e).map (MulAut.conj f).toMonoidHom = t.Gv v) {x : G}
     (hx : x ∈ t.Gv v) : f⁻¹ * x * f ∈ t.Gv e := by
@@ -1006,6 +1018,7 @@ private theorem mem_Gv_map_inv_of_mem {v e : ℤ} {f : G}
   have h := (mem_map_conj_iff (K := t.Gv e) (g := f)).mp hxmap
   simpa [MulAut.conj_apply] using h
 
+omit [Finite G] in
 private theorem transport_hyp {v e : ℤ} {R0 Rv : Subgroup G} {f : G} {X : Subgroup G}
     (hG : R0.map (MulAut.conj f).toMonoidHom = Rv)
     (hQ : (t.Qv e).map (MulAut.conj f).toMonoidHom = t.Qv v)
@@ -1034,10 +1047,10 @@ theorem exists_mul_of_mem_Gv
     have hrel := relIndex_rootOmega t hfr v
     rw [hrel1] at hrel
     by_cases hve : Even v
-    · rw [if_pos hve] at hrel
+    · rw [ite_eq_left hve] at hrel
       have hb : 1 < 2 ^ (2 * a + 1) := Nat.one_lt_two_pow (by omega)
       omega
-    · rw [if_neg hve] at hrel
+    · rw [ite_eq_right hve] at hrel
       have hb : 1 < 2 ^ f := Nat.one_lt_two_pow (by have := hfr.hf; omega)
       omega
   by_cases hv : Even v

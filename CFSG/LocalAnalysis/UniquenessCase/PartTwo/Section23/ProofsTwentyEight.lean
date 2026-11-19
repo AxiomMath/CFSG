@@ -34,9 +34,9 @@ private theorem two_pow_mul_ne {m : ℕ} (hm : 1 ≤ m) :
 theorem isL2_two_mul_of_isOmegaMinus_four {X : Type} [Group X] {m : ℕ} (hm : 1 ≤ m)
     (hO : IsOmegaMinus X 4 m) : IsL2 X (2 * m) := by
   obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, hirr, he⟩ := hO
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   obtain ⟨e⟩ := he
   let P : HypPair (quadMinus 2 K b c) := minusPair K b c (⟨0, by norm_num⟩ : Fin 1)
   have hv₀ : quadMinus 2 K b c (P.e + P.f) ≠ 0 := by
@@ -89,7 +89,7 @@ theorem orderOf_squarefree_of_mem_calB1 {T M L A : Subgroup G}
     (hA : A ∈ calB1 T M L) {x : G} (hx : x ∈ A) : Squarefree (orderOf x) := by
   obtain ⟨-, hAcomm, B, C, hBmem, hCcomm, -, hCsyl, hAeq, -, -, -⟩ := hA
   rw [hAeq] at hx hAcomm
-  haveI : IsMulCommutative ↥(B ⊔ C) := hAcomm
+  have : IsMulCommutative ↥(B ⊔ C) := hAcomm
   have hBcent : B ≤ Subgroup.centralizer (C : Set G) := by
     intro b hb
     rw [Subgroup.mem_centralizer_iff]

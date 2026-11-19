@@ -49,16 +49,16 @@ theorem exists_transvection_of_basis {m : ℕ} (b : Module.Basis (Fin m) E W) (h
     exact LinearMap.congr_fun e1 w
   have hN1 : N (b i1) = b i0 := by
     rw [hNdef, Matrix.toLin_self, Finset.sum_eq_single i0]
-    · rw [Matrix.single_apply, if_pos ⟨rfl, rfl⟩, one_smul]
+    · rw [Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, one_smul]
     · intro l _ hl
-      rw [Matrix.single_apply, if_neg (fun hc => hl hc.1.symm), zero_smul]
+      rw [Matrix.single_apply, ite_eq_right (fun hc => hl hc.1.symm), zero_smul]
     · intro hc
       exact absurd (Finset.mem_univ _) hc
   refine ⟨τ, N, hτ, hNN, fun c => ⟨b i1, fun hc => ?_⟩⟩
   rw [hτ, hN1] at hc
   have e1 := congrArg (fun w => b.repr w i0) hc
   simp only [map_add, map_smul, Module.Basis.repr_self, Finsupp.add_apply, Finsupp.smul_apply,
-    Finsupp.single_apply, if_neg h01.symm, if_pos rfl, smul_eq_mul, mul_zero, zero_add] at e1
+    Finsupp.single_apply, ite_eq_right h01.symm, smul_eq_mul, mul_zero, zero_add] at e1
   exact one_ne_zero e1
 
 end Transvection
@@ -78,7 +78,7 @@ theorem exists_quadratic_specialBlock_paired (H : UnitaryPrimaryData hK.bar B x)
         ((g : LinearMap.GeneralLinearGroup K V) : Module.End K V) (v : V) =
           ((c • v : primaryComponent (x : Module.End K V) (a : K[X])) : V) := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   set W := primaryComponent (x : Module.End K V) (a : K[X]) with hW
   let bW : Module.Basis (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X])))
       (AdjoinRoot (a : K[X])) W := Module.finBasisOfFinrankEq _ _ rfl
@@ -208,7 +208,7 @@ theorem exists_quadratic_specialBlock_selfDual (H : UnitaryPrimaryData hK.bar B 
         ((g : LinearMap.GeneralLinearGroup K V) : Module.End K V) (v : V) =
           ((c • v : primaryComponent (x : Module.End K V) (a : K[X])) : V) := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   obtain ⟨hE, -, -, Hf, hHf, -, -, ⟨e, he⟩, φ, hφ, -⟩ :=
     (selfDualPrimaryBlock H a hself).unitaryForm
   set W := primaryComponent (x : Module.End K V) (a : K[X]) with hW
@@ -230,7 +230,7 @@ theorem exists_quadratic_specialBlock_selfDual (H : UnitaryPrimaryData hK.bar B 
   have hv₀0 : Hf v₀ v₀ = 0 := by
     have e1 : μ * hE.bar μ = -1 := hμ
     simp only [hv₀, map_add, LinearMap.add_apply, LinearMap.map_smulₛₗ₂, map_smul, he,
-      if_neg h01, if_neg h01.symm, ↓reduceIte, smul_eq_mul, mul_zero, mul_one, add_zero, zero_add]
+      ite_eq_right h01, ite_eq_right h01.symm, ↓reduceIte, smul_eq_mul, mul_zero, mul_one, add_zero, zero_add]
     linear_combination e1
   set fl : Module.Dual (AdjoinRoot (a : K[X])) W := lam • Hf v₀ with hfl
   have hfv : fl v₀ = 0 := by rw [hfl, LinearMap.smul_apply, hv₀0, smul_zero]
@@ -303,11 +303,11 @@ theorem exists_quadratic_specialBlock_selfDual (H : UnitaryPrimaryData hK.bar B 
       exact hc (e i0)
     have hH0 : Hf v₀ (e i0) = 1 := by
       simp only [hv₀, map_add, LinearMap.add_apply, LinearMap.map_smulₛₗ₂, he, ↓reduceIte,
-        if_neg h01.symm, smul_eq_mul, mul_zero, add_zero]
+        ite_eq_right h01.symm, smul_eq_mul, mul_zero, add_zero]
     rw [hτapp, hH0, mul_one] at h1
     have e3 := congrArg (fun w => e.repr w i1) h1
     simp only [hv₀, map_add, map_smul, Module.Basis.repr_self, Finsupp.add_apply,
-      Finsupp.smul_apply, Finsupp.single_apply, if_neg h01, ↓reduceIte, smul_eq_mul, mul_zero,
+      Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right h01, ↓reduceIte, smul_eq_mul, mul_zero,
       mul_one, zero_add] at e3
     exact mul_ne_zero hlam0 hμ0 e3
 

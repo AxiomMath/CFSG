@@ -65,7 +65,7 @@ theorem exists_orderOf_eq_mem_centralizer {G : Type*} [Group G] [Finite G] {r : 
     {P H : Subgroup G} (hP : IsPGroup r P) (hPH : P ≤ Subgroup.normalizer (H : Set G))
     (hdiv : r ∣ Nat.card H) :
     ∃ h ∈ H, orderOf h = r ∧ ∀ x ∈ P, x * h = h * x := by
-  letI : MulAction P H :=
+  let : MulAction P H :=
     { smul := fun x h => ⟨(x : G) * (h : G) * (x : G)⁻¹,
         (Subgroup.mem_normalizer_iff.mp (hPH x.2) (h : G)).mp h.2⟩
       one_smul := fun h => Subtype.ext (by

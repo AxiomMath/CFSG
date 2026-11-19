@@ -158,17 +158,17 @@ theorem wEl_FF (f₁ f₂ g₁ g₂ : MulAut Alt6) :
 
 theorem wEl_FT (f₁ f₂ g₁ g₂ : MulAut Alt6) :
     wEl true (f₁ * g₁) (f₂ * g₂) = wEl false f₁ f₂ * wEl true g₁ g₂ := by
-  simp only [wEl, rho_mul, if_true, if_false, mul_one, Bool.false_eq_true]
+  simp only [wEl, rho_mul, ite_true, ite_false, mul_one, Bool.false_eq_true]
   rw [← mul_assoc, Equiv.Perm.sumCongr_mul]
 
 theorem wEl_TF (f₁ f₂ g₁ g₂ : MulAut Alt6) :
     wEl true (f₁ * g₂) (f₂ * g₁) = wEl true f₁ f₂ * wEl false g₁ g₂ := by
-  simp only [wEl, rho_mul, if_true, if_false, mul_one, Bool.false_eq_true]
+  simp only [wEl, rho_mul, ite_true, ite_false, mul_one, Bool.false_eq_true]
   rw [sumCongr_sw_sumCongr]
 
 theorem wEl_TT (f₁ f₂ g₁ g₂ : MulAut Alt6) :
     wEl false (f₁ * g₂) (f₂ * g₁) = wEl true f₁ f₂ * wEl true g₁ g₂ := by
-  simp only [wEl, rho_mul, if_true, if_false, mul_one, Bool.false_eq_true]
+  simp only [wEl, rho_mul, ite_true, ite_false, mul_one, Bool.false_eq_true]
   rw [← mul_assoc, sumCongr_sw_sumCongr, mul_assoc, sw_mul_sw, mul_one]
 
 theorem wEl_mul (ε ε' : Bool) (f₁ f₂ g₁ g₂ : MulAut Alt6) :
@@ -226,7 +226,7 @@ variable {X : Type*} [Group X]
   (MulAut.congr e0).toMonoidHom.comp MulAut.conjNormal
 
 @[expose] noncomputable def Phi (N : Subgroup X) [N.Normal] (e0 : ↥N ≃* (Alt6 × Alt6)) : X →* Wfull :=
-  MonoidHom.codRestrict (PsiHom.comp (kappa N e0)) Wfull fun x => Psi_mem _
+  MonoidHom.codRestrict (PsiHom.comp (kappa N e0)) Wfull fun _x => Psi_mem _
 
 theorem Phi_apply (N : Subgroup X) [N.Normal] (e0 : ↥N ≃* (Alt6 × Alt6)) (x : X) :
     ((Phi N e0 x : Wfull) : Pt) = Psi (kappa N e0 x) := rfl

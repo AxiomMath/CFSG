@@ -253,7 +253,7 @@ theorem exists_noncomm_of_simple_sq_dvd {G : Type} [Group G] [Finite G] [IsSimpl
     {p : ℕ} (hp : p.Prime) (h : p ^ 2 ∣ Nat.card G) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
   have hprime : (Nat.card G).Prime := Group.is_simple_iff_prime_card.mp inferInstance
   have hpd : p ∣ Nat.card G := (dvd_pow_self p (by norm_num)).trans h
   rcases (Nat.dvd_prime hprime).1 hpd with h1 | h1
@@ -281,7 +281,7 @@ theorem u43_central_ext {T : Type} [Group T] [Finite T] (z a b u v : T)
   classical
   set Z := Subgroup.zpowers z with hZdef
   have hZc : Z ≤ Subgroup.center T := by rw [hZdef, Subgroup.zpowers_le]; exact hz
-  haveI hZn : Z.Normal := Subgroup.normal_of_le_center hZc
+  have hZn : Z.Normal := Subgroup.normal_of_le_center hZc
   have hord : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have hZcard : Nat.card Z = 3 := by rw [hZdef, Nat.card_zpowers, hord]
   let π : T →* T ⧸ Z := QuotientGroup.mk' Z
@@ -328,7 +328,7 @@ theorem u43_central_ext {T : Type} [Group T] [Finite T] (z a b u v : T)
   have hP := IsPresentation.of_wordProd_of_card hgenG hrelG CFSG.LieType.Multipliers.U43.card_le
     (by rw [hGcard])
   obtain ⟨eG⟩ := nonempty_mulEquiv_of_isPresentation hP isPresentation_X₀
-  haveI hsimpleG : IsSimpleGroup (T ⧸ Z) := eG.isSimpleGroup_congr.2 isSimpleGroup_X₀'
+  have hsimpleG : IsSimpleGroup (T ⧸ Z) := eG.isSimpleGroup_congr.2 isSimpleGroup_X₀'
   have hnab : ∃ x y : T ⧸ Z, x * y ≠ y * x :=
     exists_noncomm_of_simple_sq_dvd Nat.prime_two (by rw [hGcard]; norm_num)
   have hcenG : Subgroup.center (T ⧸ Z) = ⊥ := by

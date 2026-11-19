@@ -37,7 +37,7 @@ open CFSG.Blueprint.Chevalley CFSG.Open
 theorem nonempty_adjointGroup_g2_mulEquiv_quasithinG2_charTwo
     (K : Type) [Field K] [Finite K] [CharP K 2] :
     Nonempty (adjointGroup .G2 K ≃* quasithinG2 K) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨f, hp, hcard⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   by_cases hf : (f : ℕ) = 1
@@ -65,7 +65,7 @@ theorem nonempty_adjointGroup_g2_mulEquiv_quasithinG2_charTwo
 theorem g2ThreeCentTwoExp_of_quasithin
     (h7 : QuasithinThreeCentTwoExp) : G2ThreeCentTwoExp := by
   intro K _ _ hK hK3 z hz3 hz1 y hy hy2
-  haveI : CharP K 2 := ringChar.of_eq hK
+  have : CharP K 2 := ringChar.of_eq hK
   obtain ⟨e⟩ := nonempty_adjointGroup_g2_mulEquiv_quasithinG2_charTwo K
   have hyz : y * z = z * y := Subgroup.mem_centralizer_singleton_iff.mp hy
   have h := h7 K hK3 (e z) (by rw [← map_pow, hz3, map_one])

@@ -57,7 +57,7 @@ include hK hfix
 theorem le_stabilizer_pinf_of_rootGroup_le (hq : 2 < q)
     {H : Subgroup (ProjectiveSpecialUnitaryMatrixGroup J)} (hRH : rootGroup J hJ ≤ H)
     (hH : H ≠ ⊤) : H ≤ MulAction.stabilizer (ProjectiveSpecialUnitaryMatrixGroup J) (pinf J hJ) := by
-  haveI := isSimpleGroup_psu J q hK hfix hq
+  have := isSimpleGroup_psu J q hK hfix hq
   refine le_stabilizer_of_isSimpleGroup ?_ (stabilizer_pinf_le_normalizer_rootGroup J hJ q hK hfix)
     (fun β γ hβ hγ => ?_) hRH hH
   · intro h0
@@ -87,7 +87,7 @@ theorem isSolvable_of_unitary_sylow_le {L : Type} [Group L] [Finite L] {p : ℕ}
       apply hH
       have := congrArg (Subgroup.comap e'.toMonoidHom) htop
       rwa [Subgroup.comap_map_eq_self_of_injective e'.injective, Subgroup.comap_top] at this
-  haveI := isSolvable_stabilizer_pinf J hJ hK hfix
+  have := isSolvable_stabilizer_pinf J hJ hK hfix
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.inclusion hle).comp
       (Subgroup.equivMapOfInjective H e'.toMonoidHom e'.injective).toMonoidHom)

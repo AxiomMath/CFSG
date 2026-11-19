@@ -28,6 +28,7 @@ section Torus
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem uc22s217u3b8_pow_of_dvd {w : K} (hw : w ^ 63 = 1) {m : ℕ} (h : 63 ∣ m) :
     w ^ m = 1 := by
   obtain ⟨c, rfl⟩ := h
@@ -40,6 +41,7 @@ private theorem uc22s217u3b8_d_unitary {w : K} (hw : w ^ 63 = 1) (s : Fin 3) :
   rw [unitaryInvolution_apply, uc22s217u3b8_d, uc22s217u3b8_d, ← pow_mul, ← pow_add]
   exact uc22s217u3b8_pow_of_dvd hw (uc22s217u3b8_e_rev s)
 
+omit [Finite K] [CharP K 2] in
 private theorem uc22s217u3b8_d_det {w : K} (hw : w ^ 63 = 1) :
     (diagonal (uc22s217u3b8_d w)).det = 1 := by
   rw [Matrix.det_diagonal, Fin.prod_univ_three, uc22s217u3b8_d, uc22s217u3b8_d, uc22s217u3b8_d,
@@ -129,14 +131,14 @@ theorem uc22s217u3b8_exists_fix
     {α : MulAut X} (hα7 : α ^ 7 = 1) (hα : α ∈ (MulAut.conj : X →* MulAut X).range) :
     ∃ u : X, α u = u ∧ u ^ 9 = 1 ∧ ∀ k : ℕ, u ^ k ∈ center X → 3 ∣ k := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨hq, hU3⟩ := hX
   have hXZ : Nat.card (X ⧸ center X) = 5515776 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_three_eight
       (CFSG.Blueprint.LieModel.statedClassicalModel hU3 (by decide))
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e₁⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel hU3 (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two (n := 6) (hK.trans (by norm_num))
+  have : CharP K 2 := uc22pwlie_charP_two (n := 6) (hK.trans (by norm_num))
   obtain ⟨β, hβ, hβc, -⟩ := uc22pwsu3_exists_cover (by norm_num) hK hq e₁
   have hSp : Group.IsPerfect (SU (unitaryInvolution K 2 3) 3) :=
     Group.isPerfect_def.2 (uc22pwsu3_commutator_eq_top (by norm_num) hK)
@@ -196,7 +198,7 @@ theorem uc22s217u3b8_fix_three
     (hCen : UCK.U3Center) (hX : IsSU3 X 3) {α : MulAut X}
     (hα7 : α ^ 7 = 1) (hα : α ∈ (MulAut.conj : X →* MulAut X).range) :
     ∃ z : X, orderOf z = 3 ∧ α z = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu, hu9, huZ⟩ := uc22s217u3b8_exists_fix hX (hCen X 3 hX) hα7 hα
   have hu1 : u ≠ 1 := fun h => by
     have := huZ 1 (by rw [pow_one, h]; exact (center X).one_mem)

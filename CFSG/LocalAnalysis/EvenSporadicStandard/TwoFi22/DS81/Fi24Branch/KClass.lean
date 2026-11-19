@@ -21,6 +21,7 @@ section Aut
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {t : G}
 
 
+omit [Finite G] in
 theorem exists_conj_piR (hH : centralizer ({t} : Set G) ≤ normalizer (L : Set G))
     (e e' : (L ⧸ center L) ≃* fi22P) :
     ∃ r : fi22R, ∀ g, piR hH e g = r * piR hH e' g * r⁻¹ := by

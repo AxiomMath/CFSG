@@ -119,7 +119,7 @@ private theorem largeEvenLabelAll_card_twDTwo {lab : LargeEvenLabel} (htag : lab
   subst htag
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_pos hr] at hQ ⊢
+  rw [ite_eq_left hr] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hq⟩ := hQ
   refine ⟨K, i1, i2, hK, hq, ?_⟩
   show Nat.card (LargeEvenProj (LargeEvenSLGroup (Fin 2) K)) = ordA 1 ((2 ^ g) ^ 2)

@@ -21,7 +21,7 @@ private theorem card_center_pQuot_facts
     (∃ n : ℕ, Nat.card (Subgroup.center (PQuot p L)) = p ^ n) ∧
       Nat.card (Subgroup.center (PQuot p L)) ∣
         CFSG.RankThree.PartTwo.Sec4.Census.sporadicMultiplierOrder s := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, hi, ⟨e⟩⟩ := hs
   have hi' : i = .sporadic s := hi
   subst hi'

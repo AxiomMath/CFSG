@@ -75,7 +75,7 @@ theorem GGConfig.false_of_twE6Dvd_aPermutationFull {G : Type} [Group G] [Finite 
     (hKmark : GGInnerDiagOnLabel (fun _ lab => lab = labK) p Bs K)
     (htag : labK.tag = .twE6) (hdiv : 3 ∣ 2 ^ labK.n - 1) : False := by
   subst hp3
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM := largeEvenMarking_and_labelAll_simple
     (S := fun lab => lab = labK)
     (P' := fun R _ I _ =>
@@ -290,7 +290,7 @@ private theorem permNbr_label_of_tagsMinus
 private theorem permNbr_label_of_a5
     {G : Type} [Group G] {p n : ℕ} {Bs : Subgroup G} {K : Subgroup G}
     {lab : LargeEvenLabel}
-    (hfin : ∀ S : ℕ → LargeEvenLabel → Prop, S p lab → GGInnerDiagOnLabel S p Bs K)
+    (_hfin : ∀ S : ℕ → LargeEvenLabel → Prop, S p lab → GGInnerDiagOnLabel S p Bs K)
     (hA : lab.tag = .A) (hr5 : lab.rank = 5) (hp5 : p = 5) (hn2 : lab.n = 2)
     (hcov : ¬ GGTBTorCov p lab) :
     GGInnerDiagOnLabel (fun p lab => GGSecFiveBPermLabel n p lab) p Bs K := by

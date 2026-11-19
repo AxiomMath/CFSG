@@ -268,7 +268,7 @@ theorem exists_mem_K_commute (h45 : Item4_5) (h : Config424 G A L a c K) :
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQN⟩ := KFacts.exists_sylow_le_normalizer h.isPGroup (h.le_normalizer_K h45)
   set Q' := (Q : Subgroup K).map K.subtype with hQ'
-  have hQ'3 : IsPGroup 3 Q' := Q.isPGroup'.map K.subtype
+  have hQ'3 : IsPGroup 3 Q' := Q.isPGroup.map K.subtype
   have hQ'K : Q' ≤ K := Subgroup.map_subtype_le _
   have hQ1 : (Q : Subgroup K) ≠ ⊥ := Q.ne_bot_of_dvd_card h.three_dvd_card_K
   have hQ'1 : Q' ≠ ⊥ := fun h0 => hQ1 ((Subgroup.map_eq_bot_iff_of_injective _

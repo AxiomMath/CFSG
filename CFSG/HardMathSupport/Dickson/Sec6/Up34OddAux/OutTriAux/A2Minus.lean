@@ -45,9 +45,9 @@ theorem noL34Layer_a2_minus {p f : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hf : 1 �
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (p ^ f))
     (s : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (hs : D4MinusToral p f hp K σ s) :
     NoL34Layer (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ) := by
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   obtain ⟨S, hSn, hsol, hsimple, hnab, hxS, -⟩ := simpleCore_a2_minus hp hp5 hf hq hK σ hσ s hs
-  haveI := hSn
+  have := hSn
   have hq5 : 5 ≤ p ^ f := le_trans hp5 (Nat.le_self_pow (by omega) p)
   refine noL34Layer_of_equiv_normal_simple _ (MulEquiv.refl _) S hsol hsimple hnab fun hT => ?_
   have h1 := card_eq_of_isLThreeFour hT

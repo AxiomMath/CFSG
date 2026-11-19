@@ -17,9 +17,9 @@ theorem exists_label {G : Type} [Group G] {K : Subgroup G} {S : Set G}
       (∀ x ∈ S, ∃ i, s i = x) ∧
       ∀ (l : ↥K) (i : Fin 5), (l : G) * s i * (l : G)⁻¹ = s (ρ l i) := by
   classical
-  haveI : Finite ↥S := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥S := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   let e : ↥S ≃ Fin 5 := (Finite.equivFin ↥S).trans (finCongr hcard)
-  letI : MulAction ↥K ↥S :=
+  let : MulAction ↥K ↥S :=
     { smul := fun l c => ⟨(l : G) * c * (l : G)⁻¹, hinv l l.2 c c.2⟩
       one_smul := fun c => Subtype.ext (by
         show ((1 : ↥K) : G) * (c : G) * ((1 : ↥K) : G)⁻¹ = c

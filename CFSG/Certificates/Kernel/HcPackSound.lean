@@ -108,9 +108,9 @@ theorem addOne_map (x g : α) (hx : S x) (hg : S g) (acc : List α × List α)
   unfold addOne mapSt
   rw [← hf x g hx hg, List.length_map, hc]
   by_cases h : acc.1.length < cap ∧ ¬ acc.1.contains (mul x g) = true
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     simp
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 include hS hf hi in
 theorem gensFold_map (x : α) (hx : S x) :

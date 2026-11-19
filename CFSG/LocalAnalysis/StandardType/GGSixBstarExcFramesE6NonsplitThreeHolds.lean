@@ -66,7 +66,7 @@ theorem e6ThreeRefFrame_holds :
   unfold E6ThreeRefFrame
   intro K _ _ _ h3
   obtain ⟨D⟩ := E6QPlusThree.nonempty_e6QPlusThreeFrame h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : 1 < Nat.card K := Finite.one_lt_card
   have h3' : ¬ 3 ∣ Nat.card K - 1 := by
     intro h
@@ -96,13 +96,13 @@ theorem e6ThreeRefFrame_holds :
 
 theorem e6ThreeSCReference_holds
     {K : Type} [Field K] [Finite K] [CharP K 2]
-    (h3 : 3 ∣ Nat.card K + 1) (D : E6QPlusThree.E6QPlusThreeFrame K)
+    (_h3 : 3 ∣ Nat.card K + 1) (D : E6QPlusThree.E6QPlusThreeFrame K)
     {A : Subgroup (adjointGroup .E6 K)}
     (hA : IsElemAbelian 3 A) (hA4 : 3 ^ 4 ≤ Nat.card A)
     (hASC : ∀ c ∈ Subgroup.centralizer (A : Set (adjointGroup .E6 K)), c ^ 3 = 1 → c ∈ A) :
     ∃ c : adjointGroup .E6 K, A = D.frame.range.map (MulAut.conj c).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
   obtain ⟨P, hP⟩ := D.exists_sylow_le
   obtain ⟨c, -, hc⟩ := CFSG.QuasiDihedralFusion.exists_conj_le_sylow (p := 3)
     (H := adjointGroup .E6 K) ⊤ P le_top A le_top (CFSG.Open.IsElemAbelian.isPGroup hA)
@@ -168,7 +168,7 @@ theorem e6ThreeSCUnique_holds :
   have hcomp : (MulAut.conj (c' * c⁻¹)).toMonoidHom.comp (MulAut.conj c).toMonoidHom =
       (MulAut.conj c').toMonoidHom := by
     ext x
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
   rw [hc', hc, Subgroup.map_map, hcomp]
 

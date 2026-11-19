@@ -48,8 +48,8 @@ theorem nar24_mat_holds : Nar24Mat := by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       have h1 := hcent (g : GL (Fin 6) (ZMod 2)) g.2 (by rw [mul_one, one_mul]) n hn
       simpa using h1
-    haveI := hs
-    haveI := hN
+    have := hs
+    have := hN
     rcases Subgroup.Normal.eq_bot_or_eq_top (D.subgroupOf H) with hb | ht
     · have hDb : D = ⊥ := by
         rw [Subgroup.eq_bot_iff_forall]
@@ -67,7 +67,7 @@ theorem nar24_mat_holds : Nar24Mat := by
       exact absurd (h64.trans h1) (by norm_num)
   ·
     have hτ1' : τ * τ = 1 := by rw [← pow_two]; exact hτ2
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := GL (Fin 3) (ZMod 2)) 7 (by
       rw [CFSG.ComponentClassification.GHarris.card_GL32_gh]
       norm_num)
@@ -110,7 +110,7 @@ theorem nar24_mat_holds : Nar24Mat := by
       rw [h1, hu, hw]
       have e : u * (g * x * g⁻¹) * u⁻¹ = u * g * x * (u * g)⁻¹ := by group
       rw [e]
-    haveI : IsSimpleGroup ↥H := hs
+    have : IsSimpleGroup ↥H := hs
     refine n24_excl (n24Conj6 w H) (n24Conj6Equiv w H).symm.isSimpleGroup ?_ ?_ ?_ ?_ ?_
     · intro hcomm
       apply hnc

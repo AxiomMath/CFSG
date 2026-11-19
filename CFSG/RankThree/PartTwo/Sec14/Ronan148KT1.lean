@@ -88,7 +88,6 @@ theorem ks143LBalComp2_of_rows
     obtain ⟨k, hk, hkd⟩ := hd
     obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective (y : ↥K ⧸ Subgroup.center ↥K)
     have hxfix : (x : ↥K ⧸ Subgroup.center ↥K) ∈ Sec4.autFix β := by
-      change QuotientGroup.mk x ∈ _
       rw [hx]
       exact y.2
     obtain ⟨z, hz, hxz⟩ := hfix x hxfix
@@ -130,7 +129,6 @@ theorem ks143LBalComp2_of_rows
         (y : ↥K ⧸ Subgroup.center ↥K) * (d : ↥K ⧸ Subgroup.center ↥K) *
           (y : ↥K ⧸ Subgroup.center ↥K)⁻¹
       rw [hkd]
-      change QuotientGroup.mk x * _ * (QuotientGroup.mk x)⁻¹ = _
       rw [hx]
   have hD3 : ∀ y ∈ Sec4.autFix β, ∃ n : ℕ, y ^ (3 ^ n) ∈ D := by
     intro y hy
@@ -200,7 +198,7 @@ theorem ks143LBalComp2_of_rows
       apply Subtype.ext
       simp
   have hPp' : Group.IsPerfect ↥ι.range := by
-    haveI := hPp
+    have := hPp
     exact Group.IsPerfect.range ι
   have hP3' : ¬ 3 ∣ Nat.card ↥ι.range := fun h =>
     hP3 (h.trans (Subgroup.card_range_dvd ι))

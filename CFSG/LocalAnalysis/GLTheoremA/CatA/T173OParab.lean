@@ -22,7 +22,7 @@ private theorem exists_conj_graphFixedRootBorel_le_map_conj {K : Type} [Field K]
       Subgroup.normalizer (R : Set ↥(graphFixedRootGroup t K σ.toRingHom)) ≤ P ∧
       (graphFixedRootBorel t K σ.toRingHom).subgroupOf (graphFixedRootGroup t K σ.toRingHom) ≤
         P.map (MulAut.conj g⁻¹).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, P, hPtop, hNR, -, -, hNS⟩ := hHolds R hR hR2
   let C : Subgroup (ModGL t.tag K) := graphFixedRootGroup t K σ.toRingHom
   let U : Subgroup C := (graphFixedPosUnipotent t K σ.toRingHom).subgroupOf C
@@ -110,9 +110,9 @@ theorem exists_conj_le_graphFixedParabolicLevi {K : Type} [Field K] [Finite K] [
     (hEp : IsPGroup p E) :
     ∃ y ∈ graphFixedParabolic t K σ.toRingHom J,
       E.map (MulAut.conj y).toMonoidHom ≤ graphFixedParabolicLevi t K σ.toRingHom J := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL t.tag K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL t.tag K) := finite_modGL
   obtain ⟨-, -, -, -, -, -, -, -, hQP, -, hLP, huniq, -, -, -, -, hQgrp, -⟩ :=
     diagram_fixed_parabolic_root_radical_Levi_factors t K σ J
   have hQ2 : IsPGroup 2 (graphFixedParabolicRadical t K σ.toRingHom J) := hQgrp 2
@@ -132,8 +132,8 @@ private theorem exists_conj_borelGroup_le_map_conj (τ : Tag) {K : Type} [Field 
       Subgroup.normalizer (R : Set ↥(adjointGroup τ K)) ≤ P ∧
       (borelGroup τ K).subgroupOf (adjointGroup τ K) ≤
         P.map (MulAut.conj g⁻¹).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨S, P, hPtop, hNR, -, -, hNS⟩ := holds_adjointGroup_tag τ K 2 R hR hR2
   have hBC : borelGroup τ K ≤ adjointGroup τ K :=
     CFSG.RankThree.PartOne.KFU.borelGroup_le_adjointGroup' τ
@@ -181,9 +181,9 @@ theorem exists_conj_le_parabolicLevi (τ : Tag) {K : Type} [Field K] [Finite K] 
     (J : Set (Fin τ.rank)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E : Subgroup (ModGL τ K)}
     (hE : E ≤ parabolicSubgroup τ K J) (hEp : IsPGroup p E) :
     ∃ y ∈ parabolicSubgroup τ K J, E.map (MulAut.conj y).toMonoidHom ≤ parabolicLevi τ K J := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨hQP, -, -, hLP, -, -, huniq, -, -, -, -, -, hQgrp⟩ :=
     parabolic_root_radical_Levi_factors τ K J
   have hQ2 : IsPGroup 2 (parabolicRadical τ K J) := (hQgrp 2).2.1

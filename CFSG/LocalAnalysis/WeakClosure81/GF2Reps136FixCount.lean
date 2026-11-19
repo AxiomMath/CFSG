@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊔ B) := by
   intro x hx u hu
@@ -27,10 +28,12 @@ private theorem w1369_stableUnder_sup {X : Subgroup (MulAut W)} {A B : Subgroup 
   · intro a b _ _ ha hb; rw [map_mul]; exact Subgroup.mul_mem _ ha hb
   · intro a _ ha; rw [map_inv]; exact Subgroup.inv_mem _ ha
 
+omit [Finite W] in
 private theorem w1369_stableUnder_inf {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder X A) (hB : StableUnder X B) : StableUnder X (A ⊓ B) :=
   fun x hx u hu => Subgroup.mem_inf.mpr ⟨hA x hx u hu.1, hB x hx u hu.2⟩
 
+omit [Finite W] in
 private theorem w1369_stableUnder_finsetSup {X : Subgroup (MulAut W)}
     {T : Finset (Subgroup W)} (h : ∀ M ∈ T, StableUnder X M) : StableUnder X (T.sup id) := by
   classical
@@ -47,6 +50,7 @@ private theorem w1369_stableUnder_finsetSup {X : Subgroup (MulAut W)}
       exact w1369_stableUnder_sup (h M (Finset.mem_insert_self M T))
         (ih fun P hP => h P (Finset.mem_insert_of_mem hP))
 
+omit [Finite W] in
 private lemma w1369_indep_insert {C X A B : Subgroup W}
     (hAB : A ⊓ (C ⊔ B) ≤ C) (hX : X ⊓ (C ⊔ A ⊔ B) ≤ C) :
     A ⊓ (C ⊔ (X ⊔ B)) ≤ C := by
@@ -69,6 +73,7 @@ private lemma w1369_indep_insert {C X A B : Subgroup W}
     exact (C ⊔ B).mul_mem (Subgroup.mem_sup_left hxC) htCB
   exact hAB (Subgroup.mem_inf.mpr ⟨hzA, hzCB⟩)
 
+omit [Finite W] in
 private lemma w1369_indep_insert_finset {C : Subgroup W} [DecidableEq (Subgroup W)]
     {T : Finset (Subgroup W)} {M : Subgroup W} (hM : M ∉ T)
     (hT : ∀ P ∈ T, P ⊓ (C ⊔ (T.erase P).sup id) ≤ C)
@@ -118,6 +123,7 @@ private lemma w1369_iSup_equivFin_erase {α : Type*} [CompleteLattice α] [Decid
       le_iSup_of_le j (le_iSup_of_le hjne le_rfl)
     simpa only [id_eq, ← hjsymm] using hle
 
+omit [Finite W] in
 theorem w1369_exists_indep_family {L : Subgroup (MulAut W)} {C : Subgroup W}
     (𝒮 : Set (Subgroup W)) (h𝒮 : 𝒮.Finite) (hC : ∀ M ∈ 𝒮, C ≤ M ∧ IsIrrOn L M C) :
     ∃ (r : ℕ) (J : Fin r → Subgroup W), (∀ i, J i ∈ 𝒮) ∧
@@ -187,12 +193,14 @@ theorem w1369_exists_indep_family {L : Subgroup (MulAut W)} {C : Subgroup W}
         exact le_iSup (fun i : Fin T.card => (T.equivFin.symm i : {x // x ∈ T}).val) i
     rw [hiSup, hspan]
 
+omit [Finite W] in
 private lemma w1369_mQuot_eq_rk_map_mk (C V : Subgroup W) :
     E3.mQuot V C = rk ↥(V.map (QuotientGroup.mk' C)) := by
   have h := Subgroup.relIndex_ker (QuotientGroup.mk' C : W →* W ⧸ C) (K := V)
   rw [QuotientGroup.ker_mk'] at h
   rw [E3.mQuot, rk, h]
 
+omit [Finite W] in
 private lemma w1369_map_mk_inf_le_map_inf {C X Y : Subgroup W} (hC : C ≤ X) :
     (X.map (QuotientGroup.mk' C)) ⊓ (Y.map (QuotientGroup.mk' C)) ≤
       (X ⊓ Y).map (QuotientGroup.mk' C) := by
@@ -209,6 +217,7 @@ private lemma w1369_map_mk_inf_le_map_inf {C X Y : Subgroup W} (hC : C ≤ X) :
   rw [show y = x * (x⁻¹ * y) by group]
   exact X.mul_mem hxX (hC hker)
 
+omit [Finite W] in
 private lemma w1369_iSupIndep_map_mk {C : Subgroup W} {ι : Type*} (B : ι → Subgroup W)
     (hCB : ∀ i, C ≤ B i) (hind : ∀ i, B i ⊓ (⨆ (j) (_ : j ≠ i), B j) ≤ C) :
     iSupIndep fun i => (B i).map (QuotientGroup.mk' C) := by
@@ -253,7 +262,7 @@ private lemma w1369_mQuot_iSup_eq_sum_of_indep (hw2 : ∀ w : W, w ^ 2 = 1)
   exact Finset.sum_congr rfl fun i _ => (w1369_mQuot_eq_rk_map_mk C (B i)).symm
 
 theorem w1369_tcost_sum_le (hw2 : ∀ w : W, w ^ 2 = 1) {t : MulAut W} {L : Subgroup (MulAut W)}
-    {r : ℕ} {J : Fin r → Subgroup W} (hCJ : ∀ i, Cd L ≤ J i) (hJW : ∀ i, J i ≤ Wd L)
+    {r : ℕ} {J : Fin r → Subgroup W} (hCJ : ∀ i, Cd L ≤ J i) (_hJW : ∀ i, J i ≤ Wd L)
     (hst : ∀ i, StableUnder (Subgroup.zpowers t) (J i))
     (hind : ∀ i, J i ⊓ (Cd L ⊔ ⨆ (j : Fin r) (_ : j ≠ i), J j) ≤ Cd L)
     (hcost : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3) :

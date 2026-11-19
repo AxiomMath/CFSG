@@ -597,7 +597,7 @@ public theorem CFSG.section10_sylow_le_of_quotient_coprime
   classical
   let q : H →* H ⧸ N := QuotientGroup.mk' N
   let Pbar : Subgroup (H ⧸ N) := (P : Subgroup H).map q
-  have hPbarp : IsPGroup p Pbar := P.isPGroup'.map q
+  have hPbarp : IsPGroup p Pbar := P.isPGroup.map q
   have hPbarcop : Nat.Coprime p (Nat.card Pbar) :=
     Nat.Coprime.of_dvd_right (Subgroup.card_subgroup_dvd_card Pbar) hcop
   have hPbar_card : Nat.card Pbar = 1 := by
@@ -991,7 +991,7 @@ public theorem CFSG.section10_sigma_ambient_sylow_eq_of_le_sylow
     intro hS_le_PG
     exact hne (le_antisymm hS_le_PG (by simpa [PG] using hPGS))
   rcases section10_exists_pSubgroup_gt_le_normalizer_of_lt_pgroup
-      (S := (S : Subgroup G)) (X := PG) (p := p.val) S.isPGroup' hPG_lt_S with
+      (S := (S : Subgroup G)) (X := PG) (p := p.val) S.isPGroup hPG_lt_S with
     ⟨Y, hPGY, _hYS, hYnorm, hYp⟩
   have hnorm_le_M :
       Subgroup.normalizer (PG : Set G) ≤ M := by
@@ -1012,7 +1012,7 @@ public theorem CFSG.section10_exists_conjBy_le_of_isPGroup_of_sigma
   have hPG₀p : IsPGroup p.val PG₀ := by
     change IsPGroup p.val ((P₀ : Subgroup M).map M.subtype)
     simpa using
-      (IsPGroup.map (p := p.val) (H := (P₀ : Subgroup M)) P₀.isPGroup' M.subtype)
+      (IsPGroup.map (p := p.val) (H := (P₀ : Subgroup M)) P₀.isPGroup M.subtype)
   have hPG₀_le_M : PG₀ ≤ M := by
     intro x hx
     change x ∈ section10AmbientSylowSubgroup M P₀ at hx
@@ -1068,7 +1068,7 @@ public theorem CFSG.section10_exists_pSubgroup_gt_le_normalizer_of_lt_sylow
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
     simpa using
-      (IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype)
+      (IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype)
   let XP : Subgroup PG := X.subgroupOf PG
   have hXP_lt_top : XP < ⊤ := by
     refine ⟨le_top, ?_⟩
@@ -1623,7 +1623,7 @@ public theorem CFSG.theorem_10_1_b
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup L).map L.subtype)
     simpa using
-      (IsPGroup.map (p := p.val) (H := (P : Subgroup L)) P.isPGroup' L.subtype)
+      (IsPGroup.map (p := p.val) (H := (P : Subgroup L)) P.isPGroup L.subtype)
   let Y₂L : Subgroup L := Y₂.subgroupOf L
   have hY₂Lp : IsPGroup p.val Y₂L :=
     hY₂p.of_equiv (Subgroup.subgroupOfEquivOfLe (H := Y₂) (K := L) hY₂NX).symm

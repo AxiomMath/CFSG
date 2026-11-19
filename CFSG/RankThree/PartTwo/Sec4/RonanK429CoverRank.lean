@@ -39,10 +39,10 @@ theorem three_le_twoRank_of_isoLThreePi {S : Type} [Group S]
 theorem twoRank_le_two_of_unitaryPSU {S : Type} [Group S] [Finite S] {p f : ℕ} {F : Type}
     [Field F] (h : UnitaryFieldData p f F) (hp2 : p ≠ 2) (e : S ≃* unitaryPSU h 3) :
     CFSG.Open.twoRank S ≤ 2 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Finite F := h.finite
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (GaloisField p (2 * f)) := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Finite F := h.finite
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (GaloisField p (2 * f)) := Fintype.ofFinite _
   have hcard : Fintype.card F = Fintype.card (GaloisField p (2 * f)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, h.card,
       GaloisField.card p (2 * f) (by have := h.one_le; omega)]

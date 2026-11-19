@@ -57,7 +57,7 @@ theorem le_of_three_pow_dvd {k m n : ℕ} (hm : ¬ 3 ∣ m) (h : 3 ^ n ∣ 3 ^ k
 
 theorem card_le_nine_M22 (H : Subgroup ↥NativeSporadic.M22)
     (hH : IsElemAbelian 3 H) : Nat.card H ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := (isPGroup_of_isElemAbelian hH).exists_card_eq
   have hc : Nat.card ↥NativeSporadic.M22 = 3 ^ 2 * 49280 := CFSG.Sporadic.Mathieu.card_M22
   have hd : 3 ^ m ∣ 3 ^ 2 * 49280 := by
@@ -70,7 +70,7 @@ theorem card_le_nine_M22 (H : Subgroup ↥NativeSporadic.M22)
 theorem card_le_nine_M12 (H : Subgroup ↥NativeSporadic.M12)
     (hH : IsElemAbelian 3 H) : Nat.card H ≤ 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := (isPGroup_of_isElemAbelian hH).exists_card_eq
   have hc : Nat.card (↥NativeSporadic.M12) = 3 ^ 3 * 3520 := CFSG.Sporadic.Mathieu.card_M12
   have hd : 3 ^ m ∣ 3 ^ 3 * 3520 := by
@@ -174,7 +174,7 @@ theorem kd1426SporS_of
   have hnc := CFSG.HardMathSupport.Dickson.Sec6.I1431.exists_not_comm_of_simple_not_prime hnp
   have hZ : Subgroup.center (Carrier s) = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnc
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := b.symm.isSimpleGroup
+  have : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := b.symm.isSimpleGroup
   have hncT : ∃ a c : (TauCeti.CFSGIndex.sporadic s).Group, a * c ≠ c * a := by
     obtain ⟨u1, u2, hu⟩ := hnc
     exact ⟨b u1, b u2, fun e => hu (b.injective (by rw [map_mul, map_mul, e]))⟩

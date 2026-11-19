@@ -17,7 +17,7 @@ theorem up34C2Inn_of_rank {F : TauCeti.LieTypeIndex → Prop}
       IsCharTwoLieIndex d.1 → Nonempty (S ≃* (TauCeti.CFSGIndex.lie d).Group) → RankLE2 3 S) :
     Up34Chev2Inn F := by
   intro S _ _ hs hnab d hd hc he x hx
-  haveI := hs
+  have := hs
   obtain ⟨E, hE, hlt⟩ := hx.exists_elemAbelian_gt_nine (up34_center_eq_bot_of_simple hnab)
   have := hrank S d hd hc he E hE
   omega

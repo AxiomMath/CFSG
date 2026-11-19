@@ -23,8 +23,8 @@ theorem three_thousand_eight_hundred_forty_dvd_card_matrixIsometryGroup_one
     3840 ∣ Nat.card (CFSG.LocalAnalysis.ComponentInitial.FourGroupEvenCanonical.matrixIsometryGroup
       (1 : Matrix (Fin 4) (Fin 4) K)) := by
   have hK2 : Nat.card K = 2 ^ 2 := by rw [hK]; norm_num
-  haveI : Finite K := finite_of_card_eq_two_pow hK2
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK2
+  have : Finite K := finite_of_card_eq_two_pow hK2
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK2
   have hev : Even (3 + 1) := ⟨2, rfl⟩
   have hdvd := card_radicalGroup_mul_dvd (F := K) (m := 3) hev
   rw [card_radicalGroup hev (Fin.last 3),
@@ -37,8 +37,8 @@ theorem three_thousand_eight_hundred_forty_le_card_fixedSubgroup (hK : Nat.card 
     {θ : MulAut (projectiveSL 4 K)} (hθ : θ * θ = 1) (hθE : θ ∉ semilinearAutGroup 4 K) :
     3840 ≤ Nat.card (fixedSubgroup θ) := by
   have hK2 : Nat.card K = 2 ^ 2 := by rw [hK]; norm_num
-  haveI : Finite K := finite_of_card_eq_two_pow hK2
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hK2
+  have : Finite K := finite_of_card_eq_two_pow hK2
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hK2
   obtain ⟨A, ρ, ε, hεle, hθeq⟩ :=
     (automorphism_generation (K := K) (n := 4) (by norm_num)).2 θ
   rcases (by omega : ε = 0 ∨ ε = 1) with hε0 | hε1

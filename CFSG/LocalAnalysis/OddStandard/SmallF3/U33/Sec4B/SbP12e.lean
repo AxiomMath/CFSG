@@ -131,8 +131,8 @@ theorem l12_comm_mem_V (hc : Ctx11 t L S x₁ x₂ lam rho tau) {a b : G}
 
 theorem l12_phi_R (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
     ctxPhi (ctxR t tau x₁ x₂) = fourGrp x₁ x₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥(ctxR t tau x₁ x₂)) := ⟨l12_isPGroup_R hc⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥(ctxR t tau x₁ x₂)) := ⟨l12_isPGroup_R hc⟩
   have hle : ctxPhi (ctxR t tau x₁ x₂) ≤ fourGrp x₁ x₂ := by
     rw [ctxPhi]
     refine Subgroup.map_le_iff_le_comap.mpr ?_

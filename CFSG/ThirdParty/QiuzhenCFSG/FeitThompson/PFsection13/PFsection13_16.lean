@@ -54,8 +54,8 @@ private theorem section13_theorem_13_16_Q_sup_W2_le_centralizer_W1_of_sourceCont
     ⟨_hQMF, _hW2cyc, _hW2ne, _hW2Hall, _hTcomp, _hVleDer, _hVnil, _hW2norm,
       _hDercomp, _hQnotcyc, _hsecond, _hfit, _hfitDer, hW1leQinf,
       _hW1cyc, _hW1ne, _hcent, _hnormType⟩
-  letI : IsElementaryAbelian q Q := hQelem
-  letI : IsMulCommutative Q := IsElementaryAbelian.toIsMulCommutative q
+  let : IsElementaryAbelian q Q := hQelem
+  let : IsMulCommutative Q := IsElementaryAbelian.toIsMulCommutative q
   have hW1leQ : W1 ≤ Q := hW1leQinf.trans inf_le_left
   have hQcentQ : Q ≤ Subgroup.centralizer (Q : Set G) :=
     (Subgroup.le_centralizer_iff_isMulCommutative (K := Q)).2 inferInstance
@@ -383,7 +383,7 @@ private theorem section13_theorem_13_16_K_subgroupOf_KW2_solvable_of_sourceConte
       _hDercomp, _hQnotcyc, _hsecond, _hfit, _hfitDer, _hW1leQinf,
       _hW1cyc, _hW1ne, _hcent, _hnormType⟩
   have hKsubV_nil : Group.IsNilpotent (K.subgroupOf V) := by
-    letI : Group.IsNilpotent V := hVnil
+    let : Group.IsNilpotent V := hVnil
     infer_instance
   have hKnil : Group.IsNilpotent K := by
     let e : K.subgroupOf V ≃* K :=
@@ -395,7 +395,7 @@ private theorem section13_theorem_13_16_K_subgroupOf_KW2_solvable_of_sourceConte
       Subgroup.subgroupOfEquivOfLe (H := K) (K := KW2) le_sup_left
     exact Group.nilpotent_of_mulEquiv (G := K) (G' := K.subgroupOf KW2)
       (_h := hKnil) e.symm
-  haveI : Group.IsNilpotent (K.subgroupOf KW2) := hKsubKW2_nil
+  have : Group.IsNilpotent (K.subgroupOf KW2) := hKsubKW2_nil
   simpa [K, KW2] using (inferInstance : Group.IsSolvable (K.subgroupOf KW2))
 
 private theorem section13_theorem_13_16_Q1_solvable_of_sourceContext
@@ -421,14 +421,14 @@ private theorem section13_theorem_13_16_Q1_solvable_of_sourceContext
   rcases hQprod with ⟨_hW1Q, hQ1Q, _hQ_eq, _hdisj, _hcent⟩
   rcases hQMF with ⟨⟨_hQT, _hQnormT, hQnil, _hQhallT⟩, _hmax⟩
   have hQ1subQ_nil : Group.IsNilpotent (Q1.subgroupOf Q) := by
-    letI : Group.IsNilpotent Q := hQnil
+    let : Group.IsNilpotent Q := hQnil
     infer_instance
   have hQ1nil : Group.IsNilpotent Q1 := by
     let e : Q1.subgroupOf Q ≃* Q1 :=
       Subgroup.subgroupOfEquivOfLe (H := Q1) (K := Q) hQ1Q
     exact Group.nilpotent_of_mulEquiv (G := Q1.subgroupOf Q) (G' := Q1)
       (_h := hQ1subQ_nil) e
-  haveI : Group.IsNilpotent Q1 := hQ1nil
+  have : Group.IsNilpotent Q1 := hQ1nil
   infer_instance
 
 private theorem section13_theorem_13_16_K_le_centralizer_W1_of_frobenius
@@ -491,7 +491,7 @@ private theorem section13_theorem_13_16_K_le_centralizer_W1_of_frobenius
       Subgroup.mem_subgroupOf.mpr hkK
     have hkCsub := hle hkSub
     simpa [C0, Subgroup.mem_subgroupOf] using hkCsub
-  haveI : (C0.subgroupOf E).Normal := hC0normIn.2
+  have : (C0.subgroupOf E).Normal := hC0normIn.2
   have hC0sub_le_Ksub :
       C0.subgroupOf E ≤ K.subgroupOf E := by
     simpa [K, E, C0] using
@@ -522,7 +522,7 @@ private theorem section13_isInvariant_subgroupOf_of_le_normalizer
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) :
     haveI : Subgroup.Normalizes A H := ⟨hAH⟩
     IsInvariant A H (K.subgroupOf H) := by
-  haveI : Subgroup.Normalizes A H := ⟨hAH⟩
+  have : Subgroup.Normalizes A H := ⟨hAH⟩
   refine ⟨?_⟩
   intro a x
   change ((x : H) : G) ∈ K ↔ ((a : G) * ((x : H) : G) * (a : G)⁻¹) ∈ K
@@ -575,7 +575,7 @@ private theorem section13_le_normalizer_map_of_isInvariant
     (hAQ : A ≤ Subgroup.normalizer (Q : Set G))
     [hCinv : letI : Subgroup.Normalizes A Q := ⟨hAQ⟩; IsInvariant A Q C] :
     A ≤ Subgroup.normalizer ((C.map Q.subtype : Subgroup G) : Set G) := by
-  letI : Subgroup.Normalizes A Q := ⟨hAQ⟩
+  let : Subgroup.Normalizes A Q := ⟨hAQ⟩
   intro a haA
   rw [Subgroup.mem_normalizer_iff]
   intro x
@@ -643,25 +643,25 @@ private theorem section13_theorem_13_16_MaschkeFrobeniusSourceData_of_inputs
   classical
   let K : Subgroup G := V ⊓ Subgroup.normalizer (W1 : Set G)
   let KW2 : Subgroup G := K ⊔ W2
-  letI : Subgroup.Normalizes KW2 Q := ⟨by simpa [K, KW2] using hKW2normQ⟩
+  let : Subgroup.Normalizes KW2 Q := ⟨by simpa [K, KW2] using hKW2normQ⟩
   have hW1inv : IsInvariant KW2 Q (W1.subgroupOf Q) := by
     exact section13_isInvariant_subgroupOf_of_le_normalizer
       (A := KW2) (H := Q) (K := W1)
       (by simpa [K, KW2] using hKW2normQ)
       (by simpa [K, KW2] using hKW2normW1)
-  letI : IsInvariant KW2 Q (W1.subgroupOf Q) := hW1inv
+  let : IsInvariant KW2 Q (W1.subgroupOf Q) := hW1inv
   rcases section12_exists_isCompl_isInvariant_of_elementaryAbelian_coprime
       (V := Q) (A := KW2) (p := q) (by simpa [K, KW2] using hcop)
       (W1.subgroupOf Q) with ⟨C, hcompl, hCinv⟩
   let Q1 : Subgroup G := C.map Q.subtype
   have hQcomm : Q ≤ Subgroup.centralizer (Q : Set G) := by
-    letI : IsMulCommutative Q := IsElementaryAbelian.toIsMulCommutative q
+    let : IsMulCommutative Q := IsElementaryAbelian.toIsMulCommutative q
     exact (Subgroup.le_centralizer_iff_isMulCommutative (K := Q)).2 inferInstance
   have hQprod : section12InternalDirectProduct W1 Q1 Q := by
     simpa [Q1] using
       section13_internalDirectProduct_of_subgroup_isCompl W1 Q C hW1Q hcompl hQcomm
   have hQ1Q : Q1 ≤ Q := hQprod.2.1
-  haveI : IsInvariant KW2 Q C := hCinv
+  have : IsInvariant KW2 Q C := hCinv
   refine ⟨Q1, hQprod, ?_⟩
   intro hKne
   refine ⟨by simpa [K] using hfrob hKne, ?_, ?_⟩
@@ -1138,8 +1138,8 @@ private theorem section13_theorem_13_16_MaschkeFrobeniusSourceData_of_sourceCont
   rcases section13_theorem_13_16_MaschkeFrobeniusInputSourceData_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
       p q u v c d hsourceOrig with ⟨hqprime, hcop, hfrob⟩
-  haveI : Fact q.Prime := ⟨hqprime⟩
-  letI : IsElementaryAbelian q Q := hQelem
+  have : Fact q.Prime := ⟨hqprime⟩
+  let : IsElementaryAbelian q Q := hQelem
   exact section13_theorem_13_16_MaschkeFrobeniusSourceData_of_inputs
     W1 W2 Q V q hW1Q hKW2normQ hKW2normW1 hcop hfrob
 

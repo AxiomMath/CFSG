@@ -48,7 +48,7 @@ theorem centralizer_eq_top_of_lemma44 (h : Tim79a.ParrottHyp z)
     have hz₁' : z₁ ∈ centerIn (H z) := hZ ▸ hz₁
     rw [mem_centralizer_singleton_iff]
     exact Subgroup.mem_centralizer_iff.mp hz₁'.2 x hx
-  obtain ⟨h₀, hh₀H, hh₀⟩ := SetLike.not_le_iff_exists.mp hHG₀
+  obtain ⟨h₀, hh₀H, hh₀⟩ := IsConcreteLE.not_le_iff_exists.mp hHG₀
   have hrel : G₀.relIndex (H z) = 2 := by
     have h1 : G₀.relIndex (H z) ≤ G₀.relIndex ⊤ :=
       Subgroup.relIndex_le_of_le_right le_top (by rw [Subgroup.relIndex_top_right, hG₀i]; omega)

@@ -36,7 +36,7 @@ theorem inverts_of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T)
     (h : ∀ A' : Subgroup (MulAut T), OuterKleinFour A' → InvertsOddElt A') :
     InvertsOddElt A := by
   obtain ⟨hAe, hcard, hAI⟩ := hA
-  haveI := hAe.1
+  have := hAe.1
   set φ : MulAut S ≃* MulAut T := MulAut.congr e with hφ
   have hinj : Function.Injective (φ.toMonoidHom : MulAut S →* MulAut T) := φ.injective
   have hmap : (inner S).map φ.toMonoidHom = inner T := inner_map_congr e
@@ -58,7 +58,7 @@ theorem inverts_of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T)
 theorem linear_family_inverts {S : Type} [Group S] (hlin : IsLinearTwoFamily S)
     {A : Subgroup (MulAut S)} (hA : OuterKleinFour A) : InvertsOddElt A := by
   obtain ⟨K, _, hfin, N, hchar, hN, ⟨e⟩⟩ := hlin
-  haveI := hchar
+  have := hchar
   exact inverts_of_mulEquiv e hA fun A' hA' =>
     linear_klein_inverts (K := K) hN A' hA'.1 hA'.2.1 hA'.2.2
 

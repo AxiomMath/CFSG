@@ -109,7 +109,7 @@ theorem lines_ok : linesOK3 3 9 4 11 m11S3QGens m11S3C0Base.toList
   exact linesOK3_of szOK' h1 h2 h3 (fun i hi => Orb.allN_iff.1 EQ.perm i
     (by rw [Nat.eq_of_beq_eq_true n0.1]; exact hi)) bindL hl
 
-theorem m11_check {D : Data} (hn : D.n = 11) (hA : D.A = m11S3A) (hB : D.B = m11S3B)
+theorem m11_check {D : Data} (hn : D.n = 11) (_hA : D.A = m11S3A) (_hB : D.B = m11S3B)
     (hQ : D.QGens = m11S3QGens) (hord : D.ord = 7920) (hk3 : D.k3 = 2) (hm3 : D.m3 = 880)
     (hN3 : D.N3 = 9) (hl : D.lines = m11S3Lines) (ht : D.trans = m11S3Trans)
     (hr : D.recs = m11S3Rec) (hx : D.caseX = m11S3CaseX) (hsz : D.cases.size = 1)

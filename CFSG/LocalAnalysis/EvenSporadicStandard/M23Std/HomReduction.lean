@@ -63,7 +63,7 @@ theorem false_of_hom [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a) (
     exact y.2
   have hzS : z ∈ S := ⟨zM, hS₀ (Subgroup.mem_zpowers zM), rfl⟩
   have hSp : IsPGroup 2 S :=
-    (S₀.isPGroup').of_equiv (Subgroup.equivMapOfInjective _ M.subtype M.subtype_injective)
+    (S₀.isPGroup).of_equiv (Subgroup.equivMapOfInjective _ M.subtype M.subtype_injective)
   have hSrel : S.relIndex M = (S₀ : Subgroup M).index := by
     rw [Subgroup.relIndex, show S.subgroupOf M = S₀ from
       Subgroup.comap_map_eq_self_of_injective M.subtype_injective _]

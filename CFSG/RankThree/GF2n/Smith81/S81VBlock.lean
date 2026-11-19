@@ -138,7 +138,7 @@ theorem Pstab_blocks (g : SUid σ 6) (hg : g ∈ Pstab σ (Wa a)) :
       = Matrix.fromBlocks 0 (cT σ A * D) (cT σ D * A) (cT σ D * B + cT σ B * D) := by
     rw [cT_fromBlocks, blk1_cT_zero]
     simp only [Jm, Matrix.fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one,
-      Matrix.one_mul, add_zero, zero_add]
+      add_zero, zero_add]
   have hJ := key.symm.trans hU
   rw [Jm] at hJ
   obtain ⟨-, h12, h21, h22⟩ := Matrix.fromBlocks_inj.mp hJ

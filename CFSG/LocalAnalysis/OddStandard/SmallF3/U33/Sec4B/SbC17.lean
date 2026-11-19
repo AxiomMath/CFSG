@@ -14,6 +14,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma isPGroup_of_isElemAbelian {p : ℕ} {A : Subgroup G}
     (hA : CFSG.Open.IsElemAbelian p A) : IsPGroup p A := by
   intro x
@@ -21,10 +22,11 @@ private lemma isPGroup_of_isElemAbelian {p : ℕ} {A : Subgroup G}
   rw [pow_one]
   exact Subtype.ext (by simpa using hA.2 (x : G) x.2)
 
+omit [Finite G] in
 private lemma isMulCommutative_map_of_injective {E : Subgroup G}
-    (hE : IsMulCommutative ↥E) (f : G →* G) (hf : Function.Injective f) :
+    (hE : IsMulCommutative ↥E) (f : G →* G) (_hf : Function.Injective f) :
     IsMulCommutative ↥(E.map f) := by
-  haveI : IsMulCommutative ↥E := hE
+  have : IsMulCommutative ↥E := hE
   refine IsMulCommutative.of_comm fun x y => Subtype.ext ?_
   obtain ⟨a, ha, hxa⟩ := Subgroup.mem_map.mp x.2
   obtain ⟨b, hb, hxb⟩ := Subgroup.mem_map.mp y.2
@@ -33,6 +35,7 @@ private lemma isMulCommutative_map_of_injective {E : Subgroup G}
   exact congrArg f (congrArg (Subtype.val : ↥E → G)
     (mul_comm' (⟨a, ha⟩ : ↥E) (⟨b, hb⟩ : ↥E)))
 
+omit [Finite G] in
 private lemma isElemAbelian_map_of_injective {p : ℕ} {E : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian p E) (f : G →* G) (hf : Function.Injective f) :
     CFSG.Open.IsElemAbelian p (E.map f) := by
@@ -42,12 +45,13 @@ private lemma isElemAbelian_map_of_injective {p : ℕ} {E : Subgroup G}
   rw [← hxa, ← map_pow]
   simpa using congrArg f (hE.2 a ha)
 
+omit [Finite G] in
 private lemma isElemAbelian_of_le {p : ℕ} {E E₀ : Subgroup G}
     (hE₀ : CFSG.Open.IsElemAbelian p E₀) (hEE₀ : E ≤ E₀) :
     CFSG.Open.IsElemAbelian p E := by
   refine ⟨IsMulCommutative.of_comm fun x y => Subtype.ext ?_,
     fun x hx => hE₀.2 x (hEE₀ hx)⟩
-  haveI : IsMulCommutative ↥E₀ := hE₀.1
+  have : IsMulCommutative ↥E₀ := hE₀.1
   exact congrArg (Subtype.val : ↥E₀ → G) (mul_comm' (⟨(x : G), hEE₀ x.2⟩ : ↥E₀)
     (⟨(y : G), hEE₀ y.2⟩ : ↥E₀))
 
@@ -83,7 +87,7 @@ theorem c17_card_elemAbelian_le (hc : Ctx10 t L S x₁ x₂ lam rho tau) {A : Su
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     have hyA : y ∈ A := hYA hy
-    haveI : IsMulCommutative ↥A := hA.1
+    have : IsMulCommutative ↥A := hA.1
     exact congrArg Subtype.val (mul_comm' (⟨y, hyA⟩ : ↥A) (⟨a, ha⟩ : ↥A))
   have hAle : A ≤ S ⊓ centralizer (Y : Set G) := le_inf hAS hAc
   have hcard := Subgroup.card_le_of_le hAle
@@ -204,7 +208,7 @@ theorem c17_card_abelian_ord_eight_le (hc : Ctx10 t L S x₁ x₂ lam rho tau) (
     rw [hw''8] at hdvd
     exact (by norm_num : ¬ (8 : ℕ) ∣ 4) hdvd
   have hm8 : orderOf m = 8 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hnot : ¬ m ^ 2 ^ 2 = 1 := fun h => hm4_ne (by simpa using h)
     have hfin : m ^ 2 ^ (2 + 1) = 1 := by simpa using hm8_1
     have horder := orderOf_eq_prime_pow (p := 2) (n := 2) hnot hfin
@@ -242,7 +246,7 @@ theorem c17_card_abelian_ord_eight_le (hc : Ctx10 t L S x₁ x₂ lam rho tau) (
   have hA''cent : A'' ≤ S ⊓ centralizer ({w''} : Set G) := by
     refine le_inf hA''S (fun s hs => ?_)
     rw [Subgroup.mem_centralizer_singleton_iff]
-    haveI : IsMulCommutative ↥A'' := hA''ab
+    have : IsMulCommutative ↥A'' := hA''ab
     exact congrArg Subtype.val (mul_comm' (⟨s, hs⟩ : ↥A'') (⟨w'', hw''⟩ : ↥A''))
   have hA''T : A'' ≤ zpowers t ⊔ zpowers m := hA''cent.trans hScent
   have hTcard : Nat.card (zpowers t ⊔ zpowers m : Subgroup G) ≤ 16 := by
@@ -293,7 +297,7 @@ theorem c17_tG_not_mem_normal (hc : Ctx10 t L S x₁ x₂ lam rho tau) {R A : Su
   have hQbound := S4A.card_le_of_isPGroup_le_centralizer_conj (S := S) (t := t)
     hc.le_invCent hc.isPGroup hc.relIndex_odd (Ctx4.card_S_seven hc.toCtx4) g hQp inf_le_right
   have hA1 : Nat.card A - 1 ≤ 15 := by
-    haveI : Nonempty A := ⟨⟨1, A.one_mem⟩⟩
+    have : Nonempty A := ⟨⟨1, A.one_mem⟩⟩
     have hpos : 0 < Nat.card A := Nat.card_pos
     omega
   have hRle : Nat.card R ≤ 15 * 2 ^ 7 := by

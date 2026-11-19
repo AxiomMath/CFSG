@@ -32,7 +32,7 @@ theorem isPGroup_three_of_normal_cyclic_sylow {Y : Type} [Group Y] [Finite Y]
   have hmem : ∀ d : D, Nat.Coprime 3 (orderOf d) → d ∈ K := by
     intro d hd
     rw [hK, MonoidHom.mem_ker]
-    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' (MonoidHom.transferSylow S hNC d)
+    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp S.isPGroup (MonoidHom.transferSylow S hNC d)
     have h1 : orderOf (MonoidHom.transferSylow S hNC d) ∣ orderOf d := orderOf_map_dvd _ d
     rw [hj] at h1
     have : 3 ^ j = 1 := Nat.Coprime.eq_one_of_dvd (Nat.Coprime.pow_left j hd) h1
@@ -55,7 +55,7 @@ theorem isPGroup_three_of_normal_cyclic_sylow {Y : Type} [Group Y] [Finite Y]
   have hK1 : K = ⊥ := (Subgroup.map_eq_bot_iff_of_injective K D.subtype_injective).mp hKbot
   have hcard := hcomp.card_mul_card
   rw [hK1, Subgroup.card_bot, one_mul] at hcard
-  obtain ⟨n, hn⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
   exact IsPGroup.of_card (n := n) (by rw [← hcard, hn])
 
 theorem m11_reducedCentralizer_sylow_cyclic (hS : Setting G) (hU0 : FullCoreLocal G)

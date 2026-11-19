@@ -88,8 +88,8 @@ theorem qsBRes_of_branches (hSp : QSBResSp10) (hOm : QSBResOm10m) (hU6 : QSBResU
     · exact (hW (fun h => absurd h.2 (by omega)) (exists_twoLocal_five_A hv hq hn)).elim
     · rcases hn.eq_or_lt with rfl | h6
       · exact hU6 Ω S B T x D K hN ⟨.lie ⟨.twistedA 5 q, hv⟩, hq, ⟨f⟩⟩ hK hB hc
-      · haveI := hsimp
-        haveI := f.injective.nontrivial
+      · have := hsimp
+        have := f.injective.nontrivial
         obtain ⟨eL⟩ := HStdList.centerQuot_equiv_of_pSimple hN.cfg.quasi f
         obtain ⟨E, hE, h5, hZ, hTL⟩ :=
           T171S.uniHighWit_of_griess cl_lit_griess_schur_multipliers_all_models_statement n q hv hq h6 _
@@ -102,9 +102,9 @@ theorem qsBRes_of_branches (hSp : QSBResSp10) (hOm : QSBResOm10m) (hU6 : QSBResU
     · rcases hn.eq_or_lt with rfl | h6
       · exact hOm Ω S B T x D K hN ⟨.lie ⟨.twistedD 5 q, hv⟩, hq, ⟨f⟩⟩ hK hB hc
       · exact (hW id (exists_twoLocal_five_twistedD hv hq h6)).elim
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group := Finite.of_equiv _ f.toEquiv
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group := Finite.of_equiv _ f.toEquiv
       exact (hW id (exists_twoLocal_five_exc.1 q hv hq)).elim
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group := Finite.of_equiv _ f.toEquiv
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group := Finite.of_equiv _ f.toEquiv
       exact (hW id (exists_twoLocal_five_exc.2 q hv hq)).elim
     · have hS : catalogIs (PSimple 3 S) S9.isTE6two := ⟨.lie ⟨.twistedE6 q, hv⟩, hq, ⟨f⟩⟩
       rcases hK with hK5 | hK6

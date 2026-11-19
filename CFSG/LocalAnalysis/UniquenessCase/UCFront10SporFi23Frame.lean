@@ -61,7 +61,7 @@ theorem exists_isSylowTwoOf_frameE_le :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE2 : IsPGroup 2 ↥frameE := IsPGroup.of_card (p := 2) (n := 11) frameE_card
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow hE2
-  refine ⟨(P : Subgroup J), ⟨le_top, P.isPGroup', ?_⟩, hEP⟩
+  refine ⟨(P : Subgroup J), ⟨le_top, P.isPGroup, ?_⟩, hEP⟩
   change ¬ 2 ∣ (P : Subgroup J).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact Sylow.not_dvd_index P

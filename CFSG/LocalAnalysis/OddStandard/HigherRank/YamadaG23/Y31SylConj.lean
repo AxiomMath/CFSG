@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_conj_le_isSylowIn {V P Q : Subgroup G} (hP : IsSylowIn 2 V P) (hQ : IsPGroup 2 Q)
     (hQV : Q ≤ V) : ∃ h ∈ V, conjSub h Q ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P' : Subgroup ↥V := P.subgroupOf V
   have hP'grp : IsPGroup 2 P' := hP.2.1.comap_subtype
   have hP'idx : ¬ 2 ∣ P'.index := by
@@ -25,8 +25,8 @@ theorem exists_conj_le_isSylowIn {V P Q : Subgroup G} (hP : IsSylowIn 2 V P) (hQ
     exact hP.2.2
   let P'' : Sylow 2 ↥V := hP'grp.toSylow hP'idx
   have hP''coe : (P'' : Subgroup ↥V) = P.subgroupOf V := IsPGroup.toSylow_coe _ _
-  haveI : P''.FiniteIndex := inferInstance
-  haveI : Finite (Sylow 2 ↥V) := Sylow.finite_of_finiteIndex P''
+  have : P''.FiniteIndex := inferInstance
+  have : Finite (Sylow 2 ↥V) := Sylow.finite_of_finiteIndex P''
   have hQ'grp : IsPGroup 2 (Q.subgroupOf V) := hQ.comap_subtype
   obtain ⟨P₁, hP₁⟩ := hQ'grp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥V) P₁ P''

@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma conj_sq_eq_one {y g : G} (hy : y ^ 2 = 1) : (g * y * g⁻¹) ^ 2 = 1 := by
   rw [pow_two] at hy ⊢
   calc (g * y * g⁻¹) * (g * y * g⁻¹) = g * (y * y) * g⁻¹ := by group
@@ -169,12 +170,11 @@ theorem y52_sec {c : Ctx5 G L} (hH : F33Hyp c.s c.e) (hd : c.d ∈ c.s.C₂) :
     rw [Subgroup.mem_center_iff]
     intro w
     exact Subtype.ext (hcent (w : G) w.2 (v : G) (Subgroup.mem_subgroupOf.mp hv))
-  haveI : (f3Vsub c.s).Normal := hNnormal
+  have : (f3Vsub c.s).Normal := hNnormal
   refine ⟨hNnormal, ?_⟩
   have hexp : ∀ q : ↥c.s.C₂ ⧸ f3Vsub c.s, q ^ 2 = 1 := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (f3Vsub c.s) q
-    change (QuotientGroup.mk' (f3Vsub c.s) y) ^ 2 = 1
     rw [← map_pow]
     show ((y ^ 2 : ↥c.s.C₂) : ↥c.s.C₂ ⧸ f3Vsub c.s) = 1
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -191,7 +191,7 @@ theorem y52_sec {c : Ctx5 G L} (hH : F33Hyp c.s c.e) (hd : c.d ∈ c.s.C₂) :
         have hh := hexp h
         rw [pow_two] at hg hh
         rw [inv_eq_of_mul_eq_one_right hg, inv_eq_of_mul_eq_one_right hh]
-  haveI : IsMulCommutative (↥c.s.C₂ ⧸ f3Vsub c.s) := hcomm
+  have : IsMulCommutative (↥c.s.C₂ ⧸ f3Vsub c.s) := hcomm
   refine ⟨?_, ?_⟩
   · refine IsMulCommutative.of_comm fun a b => ?_
     apply Subtype.ext

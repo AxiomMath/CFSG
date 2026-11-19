@@ -59,7 +59,7 @@ private theorem ncard_polar_eq_one (r : V8) (hr : r ≠ 0) :
   have h01 : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
   have hcompl_eq : (LinearMap.ker φ : Set V8)ᶜ = {a : V8 | polar Q a r = 1} := by
     ext a
-    simp only [Set.mem_compl_iff, LinearMap.mem_ker, Set.mem_setOf_eq]
+    simp only [Set.mem_compl_iff, Set.mem_ofPred_eq]
     constructor
     · intro h
       rcases h01 (φ a) with h0 | h1
@@ -106,7 +106,7 @@ private theorem ncard_quad_one_polar_eq_one (r : V8) (hrQ : Q r = 0) (hr : r ≠
     ncard_polar_eq_one r hr
   have hunion : ({a : V8 | polar Q a r = 1} : Set V8) = Z ∪ W := by
     ext a
-    simp only [Set.mem_setOf_eq, Set.mem_union, Z, W]
+    simp only [Set.mem_ofPred_eq, Set.mem_union, Z, W]
     constructor
     · intro h
       have h01 : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
@@ -128,7 +128,7 @@ private theorem ncard_quad_one_polar_eq_zero (r : V8) (hrQ : Q r = 0) (hr : r �
       {a : V8 | Q a = 1 ∧ polar Q a r = 0} ∪
         {a : V8 | Q a = 1 ∧ polar Q a r = 1} := by
     ext a
-    simp only [Set.mem_setOf_eq, Set.mem_union]
+    simp only [Set.mem_ofPred_eq, Set.mem_union]
     constructor
     · intro h
       have h01 : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
@@ -225,7 +225,7 @@ private theorem plane_lemma {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
     intro N hNM hNne hNinv
     have hle := Nat.find_le (p := P) (h := hP) ⟨N, hNM, hNne, hNinv, rfl⟩
     simpa [hM'dim] using hle
-  haveI : FiniteDimensional (ZMod 2) ↥M' := Submodule.finiteDimensional_of_le (le_top)
+  have : FiniteDimensional (ZMod 2) ↥M' := Submodule.finiteDimensional_of_le (le_top)
   let K : (V ≃ₗ[ZMod 2] V) → Submodule (ZMod 2) V := fun g =>
     M' ⊓ LinearMap.ker ((g : V →ₗ[ZMod 2] V) - 1)
   have hKinv : ∀ g ∈ G, ∀ h ∈ G, ∀ x ∈ K g, h x ∈ K g := by
@@ -238,13 +238,13 @@ private theorem plane_lemma {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
     have hgh : (g : V →ₗ[ZMod 2] V) (h x) = h ((g : V →ₗ[ZMod 2] V) x) := by
       have hc := congrArg (fun e : V ≃ₗ[ZMod 2] V => e x) (hcomm g hg h hh)
       simpa [LinearEquiv.mul_apply] using hc
-    simpa [LinearMap.sub_apply, hgh, hgx] using sub_self ((h : V ≃ₗ[ZMod 2] V) x)
+    simp [LinearMap.sub_apply, hgh, hgx]
   have hK : ∀ g ∈ G, K g = ⊥ ∨ K g = M' := by
     intro g hg
     by_cases hbot : K g = ⊥
     · exact Or.inl hbot
     · right
-      haveI : FiniteDimensional (ZMod 2) ↥(K g) :=
+      have : FiniteDimensional (ZMod 2) ↥(K g) :=
         Submodule.finiteDimensional_of_le (le_top)
       have hleM : K g ≤ M := inf_le_left.trans hM'M
       have hfin : Module.finrank (ZMod 2) M' ≤ Module.finrank (ZMod 2) (K g) :=
@@ -536,7 +536,7 @@ private theorem eichler_comm {x y : V8} (hx : Q x = 0) (hy : Q y = 0)
     (hxy : polar Q x y = 0) : eichler Q x y = eichler Q y x := by
   ext v
   rw [eichler_apply hx hxy, eichler_apply hy (by rwa [polar_comm])]
-  simp only [hx, hy, mul_zero, zero_add]
+  simp only [hx, hy]
   rw [sub_eq_add_V8, sub_eq_add_V8]
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   ring
@@ -565,7 +565,7 @@ theorem invCentOn_Om8_of (hT : OmTSFact) : InvCentOn ↥CFSG.AGLEmbedding.Om8 :=
     have hrQ : Q r = 0 := hRsing r hrR
     let Y : Set V8 := {a | Q a = 1 ∧ polar Q a r = 0}
     have hYcard : Y.ncard = 56 := ncard_quad_one_polar_eq_zero r hrQ hr0
-    letI : MulAction ↥E V8 := MulAction.compHom V8 (L.comp E.subtype)
+    let : MulAction ↥E V8 := MulAction.compHom V8 (L.comp E.subtype)
     have hsmul : ∀ (e : ↥E) (a : V8), e • a = L ((e : ↥E) : ↥CFSG.AGLEmbedding.Om8) a :=
       fun _ _ => rfl
     have hYinv : ∀ (e : ↥E) (a : V8), a ∈ Y → e • a ∈ Y := by
@@ -574,19 +574,17 @@ theorem invCentOn_Om8_of (hT : OmTSFact) : InvCentOn ↥CFSG.AGLEmbedding.Om8 :=
           TauCeti.QuadraticMap.orthogonalGroup Q :=
         isometry_of_mem_Om8 ((e : ↥E) : ↥CFSG.AGLEmbedding.Om8).2
       constructor
-      · change Q (e • a) = 1
-        rw [hsmul, map_of_mem hLeO, ha.1]
-      · change polar Q (e • a) r = 0
-        have hp := polar_map_of_mem (Q := Q) hLeO a r
+      · rw [hsmul, map_of_mem hLeO, ha.1]
+      · have hp := polar_map_of_mem (Q := Q) hLeO a r
         have hLr : L ((e : ↥E) : ↥CFSG.AGLEmbedding.Om8) r = r :=
           hrfix ((e : ↥E) : ↥CFSG.AGLEmbedding.Om8) (e : ↥E).2
         rw [hLr] at hp
         rw [hsmul, hp, ha.2]
-    letI : MulAction ↥E ↥Y :=
+    let : MulAction ↥E ↥Y :=
       { smul := fun e a => ⟨e • (a : V8), hYinv e (a : V8) a.2⟩
         one_smul := fun a => Subtype.ext (one_smul _ _)
         mul_smul := fun e f a => Subtype.ext (mul_smul _ _ _) }
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hE3 : IsPGroup 3 ↥E := IsPGroup.of_card (p := 3) (n := 3) hEcard
     have hYnotdvd : ¬ 3 ∣ Nat.card ↥Y := by
       have hcard : Nat.card ↥Y = 56 := by

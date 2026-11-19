@@ -212,7 +212,7 @@ theorem GGHalfJoin.innerPart {G : Type} [Group G] [Finite G] {B Bs : Subgroup G}
     rw [hbot]
     exact bot_le
   have hkx_order : orderOf kx = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hkx_pow hkx_ne
   have hkx_comm_J : ∀ j ∈ J, kx * j = j * kx := by
     intro j hj
@@ -284,7 +284,7 @@ theorem GGHalfJoin.innerPart {G : Type} [Group G] [Finite G] {B Bs : Subgroup G}
     exact Subgroup.mem_centralizer_iff.mpr (fun k hk =>
       Subgroup.mem_centralizer_singleton_iff.mp (hnbr'.1.2.2.2.1 hk))
   have hy'_ord : orderOf y' = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (hBs.2.1.2 y' (hBs.1 hnbr'.1.2.1)) hnbr'.1.2.2.1
   have hCge : 3 ≤ Nat.card ↥(Bs ⊓ Subgroup.centralizer (K' : Set G)) := by
     have hleC : Subgroup.zpowers y' ≤ Bs ⊓ Subgroup.centralizer (K' : Set G) := by
@@ -293,7 +293,7 @@ theorem GGHalfJoin.innerPart {G : Type} [Group G] [Finite G] {B Bs : Subgroup G}
         Nat.card ↥(Bs ⊓ Subgroup.centralizer (K' : Set G)) := Subgroup.card_dvd_of_le hleC
     have hcardZ : Nat.card ↥(Subgroup.zpowers y') = 3 := by rw [Nat.card_zpowers, hy'_ord]
     rw [hcardZ] at hdvd
-    haveI : Nonempty ↥(Bs ⊓ Subgroup.centralizer (K' : Set G)) := ⟨1⟩
+    have : Nonempty ↥(Bs ⊓ Subgroup.centralizer (K' : Set G)) := ⟨1⟩
     exact Nat.le_of_dvd (Nat.card_pos_iff.mpr ⟨inferInstance, inferInstance⟩) hdvd
   have hB1le : Nat.card ↥(Bs ⊓ K') ≤ 3 ^ (k' + 1) := by
     have hmul3 : Nat.card ↥(Bs ⊓ K') * 3 ≤ 3 ^ (k' + 1 + 1) := by

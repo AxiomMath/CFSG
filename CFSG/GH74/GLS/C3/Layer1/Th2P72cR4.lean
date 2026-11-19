@@ -29,8 +29,8 @@ theorem conj_swap_mul_swap_mem {e f g : Fin 7} (hef : e ≠ f) (heg : e ≠ g) (
   rcases he with h1 | h1 | h1 <;> rcases hf with h2 | h2 | h2 <;> rcases hg with h3 | h3 | h3 <;>
     first
       | (exfalso; grind)
-      | (rw [h1, h2, h3]; left; ext x; simp only [Perm.mul_apply, swap_apply_def] <;> grind)
-      | (rw [h1, h2, h3]; right; ext x; simp only [Perm.mul_apply, swap_apply_def] <;> grind)
+      | (rw [h1, h2, h3]; left; ext x; simp only [Perm.mul_apply, swap_apply_def]; all_goals grind)
+      | (rw [h1, h2, h3]; right; ext x; simp only [Perm.mul_apply, swap_apply_def]; all_goals grind)
 
 
 theorem exists_unique_fixed_of_ncard_six {F : Subgroup (Perm (Fin 7))}

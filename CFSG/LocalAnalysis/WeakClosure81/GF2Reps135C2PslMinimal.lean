@@ -30,7 +30,7 @@ theorem w135c2_minimal_of_hasTwistedLabel {m f : ℕ} {K : Type} [Field K] [Fint
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
   obtain ⟨k, _, _, _, _, y, χ, J, _, ht, hχ, _, _, _⟩ := hε
-  haveI : Finite ((CFSG.LieType.RootSystem.coxeterMatrix
+  have : Finite ((CFSG.LieType.RootSystem.coxeterMatrix
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A m)).Group) :=
     CFSG.LieType.RootSystem.finite_group
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A m)
@@ -46,7 +46,7 @@ theorem w135c2_minimal_of_hasTwistedLabel {m f : ℕ} {K : Type} [Field K] [Fint
     CFSG.HardMathSupport.GuralnickMalle.isCurtisType_fieldRange_eq_closure
       (ρ := ρ) (D := (coverId m K 2).datum) (k := k) hμ
   let C : Subfield k := TauCeti.frobeniusFixedSubfield k 2 p
-  haveI : Finite C := TauCeti.finite_frobeniusFixedSubfield k 2 p hp0.ne'
+  have : Finite C := TauCeti.finite_frobeniusFixedSubfield k 2 p hp0.ne'
   have hle : (algebraMap E k).fieldRange ≤ C := by
     rw [hrange]
     refine Subfield.closure_le.mpr ?_

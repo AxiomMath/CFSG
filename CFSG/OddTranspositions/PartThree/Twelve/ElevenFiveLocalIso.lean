@@ -47,7 +47,7 @@ variable {D : Set G} {u : G} {D' : Set G'} {u' : G'} (θ : LocalIso D u D' u')
 theorem app_of_mem {y : G} (hy : y ∈ Subgroup.closure (commSet D u)) :
     θ.app y = (θ.toMulEquiv ⟨y, hy⟩ : G') := by
   unfold LocalIso.app
-  rw [dif_pos hy]
+  rw [dite_eq_left hy]
 
 theorem app_mem {y : G} (hy : y ∈ Subgroup.closure (commSet D u)) :
     θ.app y ∈ Subgroup.closure (commSet D' u') := by

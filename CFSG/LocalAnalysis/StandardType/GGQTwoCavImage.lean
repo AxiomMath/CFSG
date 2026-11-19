@@ -48,6 +48,7 @@ theorem beta_card (hL : commutator L = ⊤) {R : Type} [Group R]
     Nat.card (ggBeta L θ hN).range = ((Subgroup.centralizer (L : Set G)).subgroupOf Bs).index := by
   rw [← Subgroup.index_ker, beta_ker hL θ hN]
 
+omit [Finite G] in
 theorem beta_image_of_index (hBs : IsElemAbelian p Bs) (hL : commutator L = ⊤)
     {R : Type} [Group R] (θ : L ⧸ Subgroup.center L ≃* R)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) {e : ℕ}

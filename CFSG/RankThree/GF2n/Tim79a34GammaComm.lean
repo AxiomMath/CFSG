@@ -263,7 +263,7 @@ theorem exists_mem_P_toVec_comm (h11a : Lemma11aStatement) (cfg : GCfg M V Q P H
   refine ⟨y, hyP, spForm e b, ?_⟩
   rw [hcomm, toVec_psi]
   have h1 := hgu b
-  simp only [hg, spTau_mulVec, hb, one_smul, zero_mul, zero_smul, add_zero, mul_one] at h1
+  simp only [hg, spTau_mulVec, hb, one_smul, zero_smul, add_zero, mul_one] at h1
   linear_combination (norm := module) h1.symm
 
 theorem exists_trans_elt (cfg : GCfg M V Q P H Φ ψ a T) {y : Fin n ⊕ Fin n → GaloisField 2 1}
@@ -285,6 +285,7 @@ theorem exists_trans_elt (cfg : GCfg M V Q P H Φ ψ a T) {y : Fin n ⊕ Fin n �
     exact mul_inv_eq_iff_eq_mul.mp h2
   · exact (xOf V H).mul_mem ((xOf V H).mul_mem h.2 (hVX hv₀)) ((xOf V H).inv_mem h.2)
 
+omit [Finite G] in
 theorem toVec_comm_conj_psi {y b : Fin n ⊕ Fin n → GaloisField 2 1} {x : G}
     (hx : ∀ v, x * ψG v * x⁻¹ = ψG (v + spForm y v • y)) (hyb : spForm y b = 0)
     {p : G} (hpb : ⁅p, ψG b⁆ ∈ wOf V H) :

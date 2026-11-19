@@ -65,7 +65,7 @@ theorem card_autImage_le_three_mul {X : Type} [Group X] [Finite X] {K B : Subgro
 
 theorem card_innerPart_ge {X : Type} [Group X] [Finite X] {K B : Subgroup X}
     (hperf : commutator ↥K = ⊤) (hBel : IsElemAbelian 3 B)
-    (hBN : B ≤ Subgroup.normalizer (K : Set X)) {x : X} (hx : x ∈ B) (hxI : ¬ InnerAt K x)
+    (hBN : B ≤ Subgroup.normalizer (K : Set X)) {x : X} (hx : x ∈ B) (_hxI : ¬ InnerAt K x)
     (hdec : ∀ b ∈ B, ∃ i : ℕ, InnerAt K (x ^ i * b)) {r : ℕ}
     (hr : CFSG.Open.pRank 3 (B ⊓ Subgroup.centralizer (K : Set X) : Subgroup X) + (r + 1) ≤
       CFSG.Open.pRank 3 B) :

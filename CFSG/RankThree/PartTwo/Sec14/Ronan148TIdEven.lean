@@ -26,13 +26,13 @@ theorem scalar_commutant_of_perfect_irred {F : Type} [Field F] [Finite F]
       (SubgroupLists.isIrreducibleOn_iff.mp hD) with h | ⟨hcyc, -, -⟩
   · exact h
   · exfalso
-    haveI : IsCyclic D := hcyc
+    have : IsCyclic D := hcyc
     have hD1 : ∀ g : D, g = 1 := by
       intro g
       have hc : commutator D = ⊥ := by
         rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
         intro x _ y _
-        exact (IsCyclic.commutative.is_comm.comm x y).symm
+        exact (_root_.IsCyclic.isMulCommutative.is_comm.comm x y).symm
       have hg : g ∈ commutator D := by
         rw [Group.IsPerfect.commutator_eq_top]
         exact Subgroup.mem_top g
@@ -62,11 +62,11 @@ theorem even_ident (hIrr : EvenSL3Irred) {X : Type} [Group X] [Finite X]
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := hF.finite
-  haveI hperf : Group.IsPerfect ↥K₀ := isPerfect_of_simple hKs hnab
+  have hperf : Group.IsPerfect ↥K₀ := isPerfect_of_simple hKs hnab
   have hK1 : K₀ ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K₀).mp hKs.toNontrivial
   obtain ⟨D, hDp, hirr, hDH, hDK, hKD⟩ := exists_irred_lift hF φ hy₁ hy₂ hy₁3 hy₂3 hζ1 hζ hact
     hP9 hinv hperf hK1
-  haveI := hDp
+  have := hDp
   have hcomm := scalar_commutant_of_perfect_irred hirr
   have hmem : ∀ d : D, pmk (d : GL (Fin 3) F) ∈ projImage (slPi π 3 (2 ^ f) F) :=
     fun d => ⟨d, hDH d.2, rfl⟩
@@ -136,7 +136,7 @@ theorem even_ident (hIrr : EvenSL3Irred) {X : Type} [Group X] [Finite X]
     (QuotientGroup.quotientMulEquivOfEq hker).trans
       (QuotientGroup.quotientKerEquivOfSurjective g hgs)
   have hDq : IsQuasisimple D := by
-    haveI := hKs
+    have := hKs
     refine ⟨inferInstance, MulEquiv.isSimpleGroup ψ, ?_⟩
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨ψ.symm a, ψ.symm b, fun h => hab (ψ.symm.injective (by rw [map_mul, map_mul, h]))⟩

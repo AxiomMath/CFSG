@@ -22,7 +22,7 @@ theorem sec63_om6p_false (h33 : Asc82Lemma33) (h35 : Asc82Lemma35) (h36 : Asc82L
     {G : Type} [Group G] [Finite G] {t : G} {L : Subgroup G} (hS : Sec3SettingLB G t L)
     (hHyp : Asc82Hyp62 G) {v x y : G} {V W Y : Subgroup G} (hVbad : Bad63 V v)
     (hWc : IsComponentIn W (centralizer ({v} : Set G))) (hWF : InFStar W) (hWne : W ≠ V)
-    (hx : orderOf x = 2) (hy : orderOf y = 2) (hxy : x * y = y * x)
+    (hx : orderOf x = 2) (hy : orderOf y = 2) (_hxy : x * y = y * x)
     (hVc : IsComponentIn V (centralizer ({x} : Set G)))
     (hYc : IsComponentIn Y (centralizer ({y} : Set G))) (hVY : V ≤ Y) (hcomm : ⁅Y, zpowers x⁆ = Y)
     (hVF : InFStar V) (hYF : InFStar Y) (hYC : InCStar Y) (hV29 : IsL29 V)

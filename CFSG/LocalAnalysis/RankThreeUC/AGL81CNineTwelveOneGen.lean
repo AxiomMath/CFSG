@@ -25,7 +25,7 @@ theorem isTwoPrimeComponentIn_of_not_autSection {p : ℕ} (hp : p.Prime) (hp2 : 
         Subgroup.center (↥L ⧸ CFSG.pPrimeCore p ↥L)),
       ¬ Function.Surjective φ) :
     IsTwoPrimeComponentIn L H := by
-  haveI : Group.IsPerfect ↥L := hLK.isPerfect hp
+  have : Group.IsPerfect ↥L := hLK.isPerfect hp
   by_cases hc : CFSG.pPrimeCore p (↥L ⧸ CFSG.pCore 2 ↥L) ≤
       center (↥L ⧸ CFSG.pCore 2 ↥L)
   · exact isTwoPrimeComponentIn_of_le_center hp hp2 hL hLK hc

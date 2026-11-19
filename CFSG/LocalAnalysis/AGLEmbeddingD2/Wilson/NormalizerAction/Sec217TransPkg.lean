@@ -51,7 +51,7 @@ theorem isTransvectionOn_of_action {A D E' : Subgroup G} [Finite A]
     (Subgroup.mem_normalizer_iff.1 htN y).1 hy
   let S : Subgroup G :=
     { carrier := {y | y ∈ A ∧ y⁻¹ * (t * y * t⁻¹) ∈ zpowers d}
-      one_mem' := ⟨A.one_mem, by simpa using Subgroup.one_mem _⟩
+      one_mem' := ⟨A.one_mem, by simp⟩
       mul_mem' := by
         rintro y z ⟨hy, hpy⟩ ⟨hz, hpz⟩
         refine ⟨A.mul_mem hy hz, ?_⟩
@@ -91,7 +91,7 @@ theorem isTransvectionOn_of_action {A D E' : Subgroup G} [Finite A]
     intro ε hε
     refine ⟨hEA hε, ?_⟩
     rw [hE ε hε]
-    simpa using Subgroup.one_mem _
+    simp
   have hAle : A ≤ S := by
     have hsup : D ⊔ E' ≤ A := sup_le hDA hEA
     have heq := Subgroup.eq_of_le_of_card_ge hsup hcard

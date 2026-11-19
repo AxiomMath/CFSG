@@ -46,16 +46,16 @@ theorem cfg4_facts :
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩, h11⟩, h12⟩ := h
   have k9 : ent nY1 0 ≠ 0 := by
     revert h9; generalize ent nY1 0 = k; intro hk
-    first | exact Nat.ne_of_beq_eq_false hk | exact ne_of_not_beq hk
+    exact ne_of_not_beq hk
   have k10 : ent nY2 0 ≠ 0 := by
     revert h10; generalize ent nY2 0 = k; intro hk
-    first | exact Nat.ne_of_beq_eq_false hk | exact ne_of_not_beq hk
+    exact ne_of_not_beq hk
   have k11 : ent nY3 0 ≠ 0 := by
     revert h11; generalize ent nY3 0 = k; intro hk
-    first | exact Nat.ne_of_beq_eq_false hk | exact ne_of_not_beq hk
+    exact ne_of_not_beq hk
   have k12 : ent nY4 0 ≠ 0 := by
     revert h12; generalize ent nY4 0 = k; intro hk
-    first | exact Nat.ne_of_beq_eq_false hk | exact ne_of_not_beq hk
+    exact ne_of_not_beq hk
   exact ⟨Nat.eq_of_beq_eq_true h1, Nat.eq_of_beq_eq_true h2, Nat.eq_of_beq_eq_true h3,
     Nat.eq_of_beq_eq_true h4, Nat.eq_of_beq_eq_true h5, Nat.eq_of_beq_eq_true h6,
     Nat.eq_of_beq_eq_true h7, Nat.eq_of_beq_eq_true h8, k9, k10, k11, k12⟩
@@ -96,7 +96,6 @@ theorem xs_comm : ∀ i j, xs i * xs j = xs j * xs i := by
   fin_cases i <;> fin_cases j <;>
     simp only [xs, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Matrix.cons_val] <;>
     first
-    | rfl
     | exact y12_comm | exact y12_comm.symm | exact y13_comm | exact y13_comm.symm
     | exact y23_comm | exact y23_comm.symm | exact y14_comm | exact y14_comm.symm
     | exact y24_comm | exact y24_comm.symm | exact y34_comm | exact y34_comm.symm
@@ -136,9 +135,9 @@ section Certs
 
 theorem cfgIRank_co1_three : CfgIRankRow 3 S8.Row.co1 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Suz.nonempty_mulEquiv
-  haveI hNat : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Suz :=
+  have hNat : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Suz :=
     CFSG.Sporadic.Suz.isSimpleGroup_Suz
-  haveI : IsSimpleGroup TauCeti.SporadicName.Suz.Group :=
+  have : IsSimpleGroup TauCeti.SporadicName.Suz.Group :=
     @MulEquiv.isSimpleGroup _ _ _ _ hNat b.symm
   obtain ⟨eX⟩ := nonempty_mulEquiv_suzX
   refine Triangular.cfgIRankRow_of_triangular' (M := suzX) ?_ rfl SuzFour.xs SuzFour.ns

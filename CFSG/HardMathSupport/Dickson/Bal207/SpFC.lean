@@ -63,9 +63,9 @@ theorem isLieQuot_of_isPspQuot {Y : Type} [Group Y] {J : Subgroup Y} (h : IsPspQ
     · exact ⟨CFSG.QuasithinUnique.SQTK.typeB2GroupEquivStatedProj q hv⟩
     · exact ⟨CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj s q hv rfl
         hs3⟩
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Fintype.card E = Fintype.card d.fixedField := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       TauCeti.ValidLieTypeIndex.card_fixedField, hE]

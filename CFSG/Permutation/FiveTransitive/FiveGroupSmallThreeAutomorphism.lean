@@ -91,7 +91,7 @@ theorem nine_not_dvd_card_mulAut
   classical
   let _ : Fact (Nat.Prime 3) := ⟨by decide⟩
   let S : Sylow 3 (MulAut Q) := default
-  have hS : Nat.card S ≤ 3 := card_le_three S.isPGroup' hQ hcard
+  have hS : Nat.card S ≤ 3 := card_le_three S.isPGroup hQ hcard
   have hcop : Nat.Coprime 9 (S : Subgroup (MulAut Q)).index := by
     exact Nat.Coprime.pow_left 2
       ((by decide : Nat.Prime 3).coprime_iff_not_dvd.mpr S.not_dvd_index)

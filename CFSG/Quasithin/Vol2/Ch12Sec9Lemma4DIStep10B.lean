@@ -18,6 +18,7 @@ section Env
 
 variable {T L V V₁ V₂ K₁ : Subgroup G} {g : G} {D : HatModelU (u128 V V₁)}
 
+omit [Finite G] in
 theorem conj_fix_V1 {V₁ : Subgroup G} (hV₁2 : Nat.card V₁ = 2) {k : G}
     (hk : k ∈ Subgroup.normalizer (V₁ : Set G)) {v : G} (hv : v ∈ V₁) : k * v * k⁻¹ = v := by
   by_cases hv1 : v = 1

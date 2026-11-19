@@ -30,7 +30,7 @@ theorem mem_commutator_of_coe_mem {K V : Type} [Field K] [AddCommGroup V] [Modul
 
 theorem not_dvd_index_commutator_of_sq {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {O : Type*} [Group O]
     [Finite O] (hsq : ∀ g : O, g ^ 2 ∈ commutator O) : ¬ p ∣ (commutator O).index := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hd
   rw [Subgroup.index] at hd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hd
@@ -45,7 +45,7 @@ theorem not_dvd_index_commutator_of_sq {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
 theorem not_dvd_card_ker_of_sq {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {G H : Type} [Group G]
     [Finite G] [Group H] (π : G →* H) (hker : ∀ x, π x = 1 → x ^ 2 = 1) :
     ¬ p ∣ Nat.card π.ker := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hd
   have hx2 : x ^ 2 = 1 := Subtype.ext (hker x.1 x.2)
@@ -66,7 +66,7 @@ theorem sylowDichotomyAt_projOmega {F : Type} [Field F] [Finite F] {ι : Type} [
   have hsq : ∀ g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q),
       g ^ 2 ∈ commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := fun g =>
     mem_commutator_of_coe_mem (by simpa using hsq' (g : (ι → F) ≃ₗ[F] (ι → F)) g.2)
-  haveI : Nontrivial (ι → F) := by
+  have : Nontrivial (ι → F) := by
     obtain ⟨T, hT3, -⟩ := hT
     refine Module.nontrivial_of_finrank_pos (R := F) ?_
     have := Submodule.finrank_le T
@@ -211,10 +211,10 @@ theorem sdLieCross_POmegaOdd : SDLieCrossAt .POmegaOdd := by
   have hℓ : ℓ.Prime := hadm.1
   have hℓ2 : ℓ ≠ 2 := hadm.2.2.2
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP F ℓ := charP_of_card_eq_prime_pow (p := ℓ) (f := f)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP F ℓ := charP_of_card_eq_prime_pow (p := ℓ) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hF)
   have h2 : ringChar F ≠ 2 := by rw [ringChar.eq F ℓ]; exact hℓ2
   have hpq : ¬ p ∣ Fintype.card F := not_dvd_card_of_card_eq_pow hp hℓ hpℓ hF
@@ -236,8 +236,8 @@ theorem sdLieCross_POmegaPlus : SDLieCrossAt .POmegaPlus := by
   have hn : 4 ≤ n := hadm.2.2
   have hℓ : ℓ.Prime := hadm.1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ p ∣ Fintype.card F := not_dvd_card_of_card_eq_pow hp hℓ hpℓ hF
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := F) (n := n)
     (by omega)
@@ -254,8 +254,8 @@ theorem sdLieCross_POmegaMinus : SDLieCrossAt .POmegaMinus := by
   have hn : 4 ≤ n := hadm.2.2
   have hℓ : ℓ.Prime := hadm.1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ p ∣ Fintype.card F := not_dvd_card_of_card_eq_pow hp hℓ hpℓ hF
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := F) (n := n) hn
     hirr

@@ -24,7 +24,7 @@ theorem Setting1417.kStar_normal (s : Setting1417 G M Q H F q)
 
 theorem Setting1417.isStronglyPEmbedded_starImg (s : Setting1417 G M Q H F q) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded q (AGL81C.starImg q H (H ⊓ M)) := by
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   have hdvd : q ∣ Nat.card (H ⊓ M : Subgroup G) := by
     obtain ⟨E, hEQ, hEea, hEcard⟩ :=
       CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := q) (k := 2)

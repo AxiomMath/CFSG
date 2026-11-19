@@ -18,9 +18,9 @@ open CFSG.AGLEmbeddingD2.Tits.GN516
 theorem normal_two_eq_bot_of_quasisimple {Λ : Type} [Group Λ] [Finite Λ]
     (hq : CFSG.Open.IsQuasisimple Λ) (hZ : ∀ z ∈ Subgroup.center Λ, ∃ m : ℕ, Odd m ∧ z ^ m = 1)
     (N : Subgroup Λ) [N.Normal] (hN2 : IsPGroup 2 N) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial (Λ ⧸ Subgroup.center Λ) := hq.2.toNontrivial
-  haveI : Nontrivial Λ :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial (Λ ⧸ Subgroup.center Λ) := hq.2.toNontrivial
+  have : Nontrivial Λ :=
     Function.Surjective.nontrivial (f := QuotientGroup.mk' (Subgroup.center Λ))
       (QuotientGroup.mk'_surjective _)
   rcases normal_le_center_or_eq_top hq N with hc | ht
@@ -64,7 +64,7 @@ variable {k : Type} [Field k] [Finite k] [CharP k 2]
 
 private theorem normal_two_eq_bot_sl2 (N : Subgroup (Matrix.SpecialLinearGroup (Fin 2) k)) [N.Normal]
     (hN2 : IsPGroup 2 N) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm1, hm⟩ := exists_card_eq_two_pow k
   by_cases h1 : m = 1
   · have h2 : Nat.card k = 2 := by rw [hm, h1, pow_one]

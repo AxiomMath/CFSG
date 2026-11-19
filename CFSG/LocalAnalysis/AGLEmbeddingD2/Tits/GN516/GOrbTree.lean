@@ -9,12 +9,14 @@ namespace CFSG.AGLEmbeddingD2.Tits.GN516.Tree
 
 variable {V : Type*} [Fintype V] [DecidableEq V] {T : SimpleGraph V} [DecidableRel T.Adj]
 
+omit [Fintype V] [DecidableEq V] [DecidableRel T.Adj] in
 private theorem dist_sum_eq_one_of_mem {u v w : V} (huv : T.Adj u v) (hw : w = u ∨ w = v) :
     T.dist w u + T.dist w v = 1 := by
   have h1 : T.dist u v = 1 := SimpleGraph.dist_eq_one_iff_adj.2 huv
   have h2 : T.dist v u = 1 := SimpleGraph.dist_eq_one_iff_adj.2 huv.symm
   rcases hw with rfl | rfl <;> simp only [SimpleGraph.dist_self] <;> omega
 
+omit [Fintype V] [DecidableRel T.Adj] in
 private theorem eq_of_dist_sum_eq_one (hT : T.IsTree) {u v w : V}
     (h : T.dist w u + T.dist w v = 1) : w = u ∨ w = v := by
   by_contra hne
@@ -23,6 +25,7 @@ private theorem eq_of_dist_sum_eq_one (hT : T.IsTree) {u v w : V}
   have h2 : T.dist w v ≠ 0 := fun h0 => hne.2 (hT.connected.dist_eq_zero_iff.1 h0)
   omega
 
+omit [Fintype V] [DecidableEq V] [DecidableRel T.Adj] in
 private theorem map_mem_edgeSet {G : Type*} [Group G] [MulAction G V]
     (hadj : ∀ (g : G) (u v : V), T.Adj (g • u) (g • v) ↔ T.Adj u v) (g : G) {e : Sym2 V}
     (he : e ∈ T.edgeSet) : Sym2.map (fun x : V => g • x) e ∈ T.edgeSet := by
@@ -48,6 +51,7 @@ private theorem map_mem_edgeSet {G : Type*} [Group G] [MulAction G V]
     funext x
     exact mul_smul g h x
 
+omit [Fintype V] [DecidableEq V] [DecidableRel T.Adj] in
 private theorem exists_adj_of_mem_edgeSet {e : Sym2 V} (he : e ∈ T.edgeSet) :
     ∃ u v, T.Adj u v ∧ e = s(u, v) := by
   induction e using Sym2.ind with
@@ -62,7 +66,7 @@ theorem orbit_subset_of_adj (hT : T.IsTree) {G : Type*} [Group G] [Finite G] [Mu
   have hcard : Nat.card V = Nat.card ↥T.edgeSet + 1 := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card]
     exact hT.card_edgeFinset.symm
-  letI : MulAction G ↥T.edgeSet := edgeAct hadj
+  let : MulAction G ↥T.edgeSet := edgeAct hadj
   by_cases hV : 2 ∣ Nat.card V
   ·
     have hE : ¬ 2 ∣ Nat.card ↥T.edgeSet := by omega

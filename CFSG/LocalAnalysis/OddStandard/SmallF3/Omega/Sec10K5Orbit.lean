@@ -49,7 +49,7 @@ theorem card_le_two_pow_of_supp {Ω : Type} [Fintype Ω] [DecidableEq Ω]
         rw [hm]
         simpa only [Nat.card_eq_fintype_card] using
           (MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥E) (X := Ω) x)
-      haveI : Nontrivial ↥(MulAction.orbit ↥E x) :=
+      have : Nontrivial ↥(MulAction.orbit ↥E x) :=
         ⟨⟨⟨x, MulAction.mem_orbit_self x⟩,
           ⟨eE • x, MulAction.mem_orbit x eE⟩,
           fun h => hxmove (Subtype.ext_iff.mp h).symm⟩⟩

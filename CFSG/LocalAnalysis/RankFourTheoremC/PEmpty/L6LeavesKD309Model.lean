@@ -20,7 +20,7 @@ theorem finrank_K16 : Module.finrank (ZMod 2) K16 = 4 :=
   GaloisField.finrank 2 (by norm_num)
 
 theorem exists_zeta : ∃ ζ : K16, orderOf ζ = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h : 5 ∣ Nat.card K16ˣ := by
     rw [Nat.card_units, card_K16]
     norm_num
@@ -112,7 +112,7 @@ instance : Group Wr where
 end Wr
 
 instance : Finite Wr :=
-  Finite.of_injective (fun w : Wr => (w.a, w.c)) (fun x y h => Wr.ext (congrArg Prod.fst h)
+  Finite.of_injective (fun w : Wr => (w.a, w.c)) (fun _x _y h => Wr.ext (congrArg Prod.fst h)
     (congrArg Prod.snd h))
 
 theorem card_Wr : Nat.card Wr = 5 ^ 6 := by
@@ -122,10 +122,10 @@ theorem card_Wr : Nat.card Wr = 5 ^ 6 := by
       left_inv := fun x => rfl
       right_inv := fun p => rfl }
   rw [Nat.card_congr e, Nat.card_prod]
-  simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card]
+  simp [Nat.card_eq_fintype_card, ZMod.card]
 
 theorem isPGroup_Wr : IsPGroup 5 Wr := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact IsPGroup.of_card card_Wr
 
 
@@ -142,7 +142,7 @@ theorem finrank_UU : Module.finrank (ZMod 2) UU = 20 := by
     simp [mul_add]
   map_smul' r v := by
     ext i
-    simp [mul_smul_comm]
+    simp
 
 theorem Tlin_apply (w : Wr) (v : UU) (i : ZMod 5) :
     Tlin w v i = chi (w.a i) * v (i - w.c) := rfl
@@ -190,7 +190,7 @@ theorem Trep_injective : Function.Injective Trep := by
 
 theorem finrank_ker_le_four {w : Wr} (hc : w.c ≠ 0) :
     Module.finrank (ZMod 2) (LinearMap.ker (T w - 1)) ≤ 4 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let f : LinearMap.ker (T w - 1) →ₗ[ZMod 2] K16 :=
     (LinearMap.proj (R := ZMod 2) (φ := fun _ : ZMod 5 => K16) 0).comp
       (LinearMap.ker (T w - 1)).subtype

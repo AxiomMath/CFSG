@@ -15,13 +15,15 @@ open QuadraticMap CFSG.ClassicalInvolution
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem coe_reflOf_apply (u : V) (hu : Q u ≠ 0) (x : V) :
     ((reflOf Q u hu : OGroup Q) : V ≃ₗ[ZMod 3] V) x =
       x - (QuadraticMap.polar Q u x / Q u) • u := by
-  letI : Invertible (Q u) := invertibleOfNonzero hu
+  let : Invertible (Q u) := invertibleOfNonzero hu
   rw [reflOf_eq u hu, TauCeti.QuadraticMap.coe_reflectionOrthogonal]
   exact TauCeti.QuadraticMap.reflection_apply_eq_sub_div Q u x
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockInr_reflOf {s : OGroup Q} (hs : s * s = 1) (u : commSp s)
     (hu : (Q.restrict (commSp s)) u ≠ 0) :
     blockInr hs (reflOf (Q.restrict (commSp s)) u hu) = reflOf Q (u : V) hu := by
@@ -47,8 +49,8 @@ theorem reflOf_mul_reflOf_mem_omegaGroup {W : Type} [AddCommGroup W] [Module (ZM
     [FiniteDimensional (ZMod 3) W] {R : QuadraticForm (ZMod 3) W} (hR : R.Nondegenerate)
     (u v : W) (hu : R u ≠ 0) (hv : R v ≠ 0) (huv : R u = R v) :
     reflOf R u hu * reflOf R v hv ∈ omegaGroup hR := by
-  letI : Invertible (R u) := invertibleOfNonzero hu
-  letI : Invertible (R v) := invertibleOfNonzero hv
+  let : Invertible (R u) := invertibleOfNonzero hu
+  let : Invertible (R v) := invertibleOfNonzero hv
   rw [reflOf_eq u hu, reflOf_eq v hv, mem_omegaGroup_iff, map_mul,
     detSpinorNorm_reflectionOrthogonal, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (R u) = unitOfInvertible (R v) :=
@@ -65,7 +67,7 @@ theorem reflOf_mul_reflOf_mem_omegaGroup {W : Type} [AddCommGroup W] [Module (ZM
     exact map_one _
 
 theorem reflOf_mul_reflOf_blockInr (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
-    (hU : 2 ≤ Module.finrank (ZMod 3) (commSp s)) (u v : V) (hu : u ∈ commSp s)
+    (_hU : 2 ≤ Module.finrank (ZMod 3) (commSp s)) (u v : V) (hu : u ∈ commSp s)
     (hv : v ∈ commSp s) (hQu : Q u ≠ 0) (hQv : Q v ≠ 0) (huv : Q u = Q v) :
     ∃ b : omegaGroup (nondegenerate_restrict_commSp hQ hs),
       blockInr hs (b : OGroup (Q.restrict (commSp s))) = reflOf Q u hQu * reflOf Q v hQv := by

@@ -82,7 +82,7 @@ theorem sec11_conj_mem_Q {K1 K2 : Subgroup G} {k q : G} (hk : k ∈ K1 ⊔ K2)
   conj_mem_twoCoreIn hk hq
 
 theorem sec11_Q_isPGroup [Finite G] (K1 K2 : Subgroup G) : IsPGroup 2 (secQ K1 K2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold secQ twoCoreIn CFSG.inSubgroup
   exact (CFSG.pCore_isPGroup (G := ↥(K1 ⊔ K2)) (p := 2)).map (K1 ⊔ K2).subtype
 

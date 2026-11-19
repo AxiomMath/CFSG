@@ -592,7 +592,7 @@ theorem sylow_geometry_three_a [Group.IsPerfect X] :
       (hTTH.trans (Subgroup.commutator_mono (hHT 0) le_rfl))
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTp : IsPGroup 2 T := by
-    have h := S₀.isPGroup'
+    have h := S₀.isPGroup
     rwa [hS₀] at h
   have : Fact (IsPGroup 2 T) := ⟨hTp⟩
   have hcommT : commutator T = center T := by

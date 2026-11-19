@@ -49,7 +49,7 @@ theorem ranges_disjoint_theta4 [CharP K 2] (a b : K) :
     exact hB c hc'
   · exact hA c hc
 
-theorem xuW_theta4_neg_ne_one [CharP K 2] {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) :
+theorem xuW_theta4_neg_ne_one [CharP K 2] {a b : K} (ha : a ≠ 0) (_hb : b ≠ 0) :
     xuWUnit theta4_mem_Perp a * xuWUnit (neg_mem_Perp theta4_mem_Perp) b ≠ 1 := by
   intro h
   obtain ⟨b2, hb2⟩ : ∃ b2 : Idx0, pr (b2 : Fin e7Data.d) theta4 = -1 := by
@@ -70,16 +70,16 @@ theorem xuW_theta4_neg_ne_one [CharP K 2] {a b : K} (ha : a ≠ 0) (hb : b ≠ 0
     norm_num
   have hY : (xuWUnit (neg_mem_Perp theta4_mem_Perp) b : Module.End K (W K))
       (Finsupp.single b2 1) = Finsupp.single b2 1 := by
-    rw [xuWUnit_apply, EW_single (neg_mem_Perp theta4_mem_Perp), if_neg hn, smul_zero, add_zero]
+    rw [xuWUnit_apply, EW_single (neg_mem_Perp theta4_mem_Perp), ite_eq_right hn, smul_zero, add_zero]
   have hX : (xuWUnit theta4_mem_Perp a : Module.End K (W K)) (Finsupp.single b2 1) =
       Finsupp.single b2 1 + a • Finsupp.single (shiftW theta4 b2) 1 := by
-    rw [xuWUnit_apply, EW_single theta4_mem_Perp, if_pos hb2]
+    rw [xuWUnit_apply, EW_single theta4_mem_Perp, ite_eq_left hb2]
   have hkey := congrArg (fun u : (Module.End K (W K))ˣ =>
     (u : Module.End K (W K)) (Finsupp.single b2 1)) h
   simp only [Units.val_mul, Module.End.mul_apply, Units.val_one, Module.End.one_apply] at hkey
   rw [hY, hX] at hkey
   have h3 := congrArg (fun f : W K => f (shiftW theta4 b2)) hkey
-  simp [Finsupp.single_apply, hne] at h3
+  simp [hne] at h3
   exact ha h3
 
 theorem xuW_theta4_neg_odd [Finite K] [CharP K 2] {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) :

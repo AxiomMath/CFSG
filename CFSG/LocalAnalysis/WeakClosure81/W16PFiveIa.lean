@@ -78,7 +78,8 @@ theorem Cex16.isElemAbelian_iSub16 (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V
     rw [conj_pow, hz1]
     group
 
-theorem Cex16.iSub16_le_pCoreOf (h : Cex16 M V₀ V U S) (hF : Fam16 M U S H) :
+omit [Finite G] in
+theorem Cex16.iSub16_le_pCoreOf (_h : Cex16 M V₀ V U S) (_hF : Fam16 M U S H) :
     iSub16 V H ≤ pCoreOf 2 H := by
   rw [iSub16]
   refine conjClosure_le fun k hk z hz => ?_
@@ -87,7 +88,7 @@ theorem Cex16.iSub16_le_pCoreOf (h : Cex16 M V₀ V U S) (hF : Fam16 M U S H) :
 
 theorem Cex16.V₀_le_pCoreOf (h5 : W16Five G) (hS : Std15 G) (h : Cex16 M V₀ V U S)
     (hF : Fam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H) : V₀ ≤ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV0H : V₀ ≤ H := h.hyp.h6.le.trans (h.V_le_S.trans hF.1)
   have hX2 : IsPGroup 2 ↥(V₀.subgroupOf H) :=
     (CFSG.Open.IsElemAbelian.isPGroup h.hyp.elemAbelian₀).of_equiv
@@ -148,6 +149,7 @@ theorem Cex16.V₀_le_pCoreOf (h5 : W16Five G) (hS : Std15 G) (h : Cex16 M V₀ 
     have h2Y : IsPGroup 2 ↥(Y.map H.subtype) := hmap ▸ h2G
     exact hg' (h2Y.of_equiv (Y.equivMapOfInjective H.subtype H.subtype_injective).symm)
 
+omit [Finite G] in
 private theorem exists_conj_not_comm_of_not_le_pCoreOf {V H : Subgroup G}
     (hVH : V ≤ H) (hVab : IsElemAbelian 2 V) (hV : ¬ V ≤ pCoreOf 2 H) :
     ∃ g ∈ H, ¬ ∀ x ∈ V, ∀ y ∈ conjSubgroup V g, x * y = y * x := by

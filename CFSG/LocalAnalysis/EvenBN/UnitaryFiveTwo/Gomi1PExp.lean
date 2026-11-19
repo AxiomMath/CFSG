@@ -22,8 +22,8 @@ theorem pow_card_eq_zero_of_isNilpotent {K n : Type*} [Field K] [Fintype n] [Dec
 theorem pow_four_eq_one_of_pow_two_pow_eq_one {K : Type} [Field K] [CharP K 2]
     {M : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K} {k : ℕ} (h : M ^ (2 ^ k) = 1) :
     M ^ 4 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) 2 := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) 2 := inferInstance
   have hc : Commute M 1 := Commute.one_right M
   have h1 : (M - 1) ^ (2 ^ k) = 0 := by
     rw [sub_pow_char_pow_of_commute (p := 2) (n := k) hc, h, one_pow, sub_self]
@@ -38,7 +38,7 @@ theorem pow_four_eq_one_of_lieModel {X : Type} [Group X] {Y : Subgroup X}
     (hk : y ^ (2 ^ k) = 1) : y ^ 4 = 1 := by
   obtain ⟨⟨-, hf1, -, -⟩, K, _, _, hKcard, ⟨θ⟩⟩ :=
     CFSG.GH74.statedClassicalModel_of_lieModel (by norm_num) hY
-  haveI hch : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf1 hKcard
+  have hch : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf1 hKcard
   set ψ : ↥Y ≃* StatedSp 2 K := θ.trans (projSpEquiv K).symm with hψ
   set g : StatedSp 2 K := ψ ⟨y, hy⟩ with hg
   have hg1 : g ^ (2 ^ k) = 1 := by
@@ -64,7 +64,7 @@ open CFSG.ABGLocalTools in
 theorem pow_four_eq_one_of_isSylowOf {X : Type} [Group X] [Finite X] {Y U L : Subgroup X}
     (hY : CFSG.Blueprint.LieModel ↥Y .PSp 2 2 2) (hUY : U ≤ Y) (hU : IsSylowOf 2 U L)
     {x : X} (hx : x ∈ L) {k : ℕ} (hk : x ^ (2 ^ k) = 1) : x ^ 4 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hU.exists_sylow_eq_subgroupOf
   set x' : L := ⟨x, hx⟩ with hx'
   have hx'pg : IsPGroup 2 (Subgroup.zpowers x') := by

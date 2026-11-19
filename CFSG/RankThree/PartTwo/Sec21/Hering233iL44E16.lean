@@ -80,7 +80,7 @@ theorem uHom_injective {a b c d : Fin 4} (hab : a ≠ b) (hbc : b ≠ c) (hda : 
     · exact h3 h1
     · exact h3 h2
   simp only [uMat, Matrix.add_apply, Matrix.one_apply_ne hab, Matrix.single_apply, and_self,
-    if_true, hne', if_false, add_zero, Matrix.one_apply_ne hcd, zero_add, hne''] at e1 e2
+    ite_true, hne', ite_false, add_zero, Matrix.one_apply_ne hcd, zero_add, hne''] at e1 e2
   apply Multiplicative.toAdd.injective
   exact Prod.ext e1 e2
 
@@ -122,7 +122,7 @@ theorem range_uHom_le_centralizer {a b c d : Fin 4} (hab : a ≠ b) (hbc : b ≠
   have h2 : ¬ (c = i ∧ d = j) := by
     rintro ⟨rfl, rfl⟩
     exact hij hv₂
-  simp [uMat, Matrix.single_apply, Matrix.one_apply_ne hij', h1, h2]
+  simp [uMat, Matrix.one_apply_ne hij', h1, h2]
 
 theorem exists_E16_std (i : Fin 3) (hi : i ≠ 0) :
     ∃ E₀ : Subgroup M, IsElemAbelian 2 E₀ ∧ Nat.card E₀ = 2 ^ 4 ∧
@@ -254,7 +254,7 @@ theorem terminalE16L44 : TerminalE16L44 := by
     obtain ⟨E₀, hE₀, hcardE₀, hE₀C⟩ := exists_E16_std i hi
     obtain ⟨E, hEH, hEab, hEcard⟩ := exists_E16_of_model Φ hΦH hE₀ hcardE₀ hE₀C
     have hYn : (X.map (thetaC hHI Φ hΦH).toMonoidHom).Normal := isComponent_normal_cv (hv0 i) hY
-    haveI hXN : X.Normal := by
+    have hXN : X.Normal := by
       have := hYn.comap (thetaC hHI Φ hΦH).toMonoidHom
       rwa [Subgroup.comap_map_eq_self_of_injective (thetaC hHI Φ hΦH).injective] at this
     exact ⟨E, fun g hg => (hEH hg).1, hEab, hEcard,

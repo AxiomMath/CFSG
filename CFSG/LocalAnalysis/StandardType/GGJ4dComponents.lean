@@ -84,7 +84,7 @@ private theorem FConn_neg
 private theorem mem_of_mem_of_FConn
     {F : Set (Fin τ.rank → ℤ)} {α : Fin τ.rank → ℤ}
     {S : Set (Fin τ.rank → ℤ)}
-    (hSsub : S ⊆ FComp F α)
+    (_hSsub : S ⊆ FComp F α)
     (horth : ∀ x ∈ S, ∀ y ∈ FComp F α, y ∉ S → iform x y = 0)
     {x y : Fin τ.rank → ℤ} (h : FConn F x y) (hx : x ∈ FComp F α) (hy : y ∈ S) : x ∈ S := by
   revert hx

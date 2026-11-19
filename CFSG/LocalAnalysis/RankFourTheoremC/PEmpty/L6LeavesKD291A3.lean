@@ -159,7 +159,7 @@ theorem kd291a3_of_data (hMult : KDMultP5) (hFld : KDFieldP5) (hZero : KD291LinU
     (hDef : KD291DefCharL) : KD291a3 := by
   intro X _ _ p P x z hpl L hL hLu
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp5 := hpl.five_le
   have hYD := I291.yData_of_plane63 hpl
   set D : Subgroup X := primeComplementCore (G := X) p with hD
@@ -169,7 +169,7 @@ theorem kd291a3_of_data (hMult : KDMultP5) (hFld : KDFieldP5) (hZero : KD291LinU
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective D
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup X) := hpl.plane.isIsolatedPlane.1
   have hxP : x ∈ (P : Subgroup X) := hBP (Subgroup.mem_sup_left (mem_zpowers x))
-  have hxp : IsPGroup p (zpowers x) := P.isPGroup'.to_le (zpowers_le.mpr hxP)
+  have hxp : IsPGroup p (zpowers x) := P.isPGroup.to_le (zpowers_le.mpr hxP)
   have hcfg := hYD.cfg
   have hcat : CatalogSimpleSections (X ⧸ D) := hcfg.catalog
   have hcore : primeComplementCore (G := X ⧸ D) p = ⊥ := hcfg.core
@@ -208,7 +208,7 @@ theorem kd291a3_of_data (hMult : KDMultP5) (hFld : KDFieldP5) (hZero : KD291LinU
           hxord with h | ⟨N, hNn, hNidx⟩
       · have := hYD.rank_cent
         omega
-      · haveI := hNn
+      · have := hNn
         have hN : N = ⊤ := hYD.perf N (IsPGroup.of_card (n := 1)
           ((Subgroup.index_eq_card N).symm.trans (hNidx.trans (pow_one p).symm)))
         rw [hN, Subgroup.index_top] at hNidx

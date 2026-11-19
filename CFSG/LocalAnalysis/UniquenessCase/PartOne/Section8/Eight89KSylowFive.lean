@@ -11,7 +11,7 @@ private theorem k91syl_zpowers_eq_sylow {K : Type*} [Group K] [Finite K] (hK : �
     {e : K} (he : orderOf e = 5) (P : Sylow 5 K) (hle : Subgroup.zpowers e ≤ (P : Subgroup K)) :
     Subgroup.zpowers e = P := by
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have h5 : 5 ≤ Nat.card (P : Subgroup K) := by
     simpa [Nat.card_zpowers, he] using Subgroup.card_le_of_le hle
   have hdvd : Nat.card (P : Subgroup K) ∣ Nat.card K := Subgroup.card_subgroup_dvd_card _

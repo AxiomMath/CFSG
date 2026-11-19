@@ -15,6 +15,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Quasithin C
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w183_sp_inj {J E : Subgroup G} (M : ModDataE J E) {S S' : Subgroup G}
     (h : M.sp S = M.sp S') : S ⊓ E = S' ⊓ E := by
   apply le_antisymm
@@ -52,7 +53,7 @@ theorem br1_vfix (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)) :
     ((E3.isElemAbelian_conjSubgroup x.hyp.setting.isElemAbelian g).comm
       (E3.conjSubgroup_mono_left g x.hyp.setting.pair.le hv) hd.1).symm
 
-theorem br1_delta_le (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)) :
+theorem br1_delta_le (_x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)) :
     ∀ A ∈ packFamilyU D V H i M, packDeltaU D V H i M A ≤ i := by
   rintro A ⟨g, hg, rfl⟩
   have hmem : E3.mQuot (conjSubgroup V g) (vInH V H g) ∈

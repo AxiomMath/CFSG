@@ -89,11 +89,11 @@ theorem false_of_lieModel_nongenuine (t : StatedLieTag)
   obtain ⟨hadm, hcard⟩ := card_of_lieModel_two hLie
   by_cases hpl : t = .G2 ∨ t = .trialityD4 ∨ t = .twistedB2 ∨ t = .twistedG2 ∨ t = .twistedF4 ∨
       t = .Tits
-  · haveI := subsingleton_ggU_K_of_placeholder t hpl n f
+  · have := subsingleton_ggU_K_of_placeholder t hpl n f
     subst hrange
-    haveI : Subsingleton ↥ψ.range :=
+    have : Subsingleton ↥ψ.range :=
       (MonoidHom.rangeRestrict_surjective ψ).subsingleton
-    haveI : Subsingleton (↥ψ.range ⧸ Subgroup.center ↥ψ.range) :=
+    have : Subsingleton (↥ψ.range ⧸ Subgroup.center ↥ψ.range) :=
       (QuotientGroup.mk_surjective (s := Subgroup.center ↥ψ.range)).subsingleton
     have h1 : Nat.card (↥ψ.range ⧸ Subgroup.center ↥ψ.range) = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩

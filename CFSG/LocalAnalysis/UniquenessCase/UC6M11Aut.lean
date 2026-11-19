@@ -78,7 +78,7 @@ theorem Eu_card : Nat.card Eu = 9 := by
     (fun b => by simp) |>.trans (by decide)
 
 theorem isElemAbelian_Eu : CFSG.Open.IsElemAbelian 3 Eu :=
-  ⟨⟨⟨fun a b => Subtype.ext (comm_of_mem_Eu a.2 b.2)⟩⟩, fun a ha => pow3_of_mem_Eu ha⟩
+  ⟨⟨⟨fun _a b => Subtype.ext (comm_of_mem_Eu _a.2 b.2)⟩⟩, fun _a ha => pow3_of_mem_Eu ha⟩
 
 theorem U_val : (U : Equiv.Perm (Fin 11)) = M11Sylow.pU () := rfl
 
@@ -201,7 +201,7 @@ theorem mem_normalizer_of_commute {e : S11} (he : e ∈ Eu) (he1 : e ≠ 1) {g :
     have h := Subgroup.card_mul_index (Eu.subgroupOf C)
     rw [hcardEC, hCcard] at h
     omega
-  haveI : (Eu.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hidx
+  have : (Eu.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hidx
   have hgC : g ∈ C := by
     rw [hC, Subgroup.mem_centralizer_singleton_iff]
     exact hg
@@ -243,7 +243,7 @@ theorem factorization_S11 : (Nat.card S11).factorization 3 = 2 := by
     Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
 
 theorem isSylowOf_Eu : IsSylowOf 3 Eu ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine isSylowOf_of_card le_top ?_
   rw [Eu_card, Subgroup.card_top, factorization_S11]
   norm_num

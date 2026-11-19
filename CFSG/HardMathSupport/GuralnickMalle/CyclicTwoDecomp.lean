@@ -139,7 +139,7 @@ theorem exists_decomposition_involution {V : Type*} [AddCommGroup V] [Module K V
   have hTv : T v = v + (T - 1) v := by
     have h : T = 1 + (T - 1) := by abel
     have := congrArg (fun f : V →ₗ[K] V => f v) h
-    simpa using this
+    simp
   rw [hTv, map_add, he v]
   refine Prod.ext ?_ ?_
   · simp
@@ -219,7 +219,7 @@ noncomputable def fixedSubmoduleEquiv (a b : ℕ) :
 theorem finrank_fixedSubmodule (a b : ℕ) :
     finrank K (fixedSubmodule (K := K) a b) = a + b := by
   rw [LinearEquiv.finrank_eq (fixedSubmoduleEquiv (K := K) a b)]
-  simp [Module.finrank_prod, Module.finrank_fin_fun]
+  simp [Module.finrank_prod]
 
 theorem finrank_fixed_eq {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
     (T : V →ₗ[K] V) {a b : ℕ} (e : V ≃ₗ[K] ((Fin a → K) × (Fin b → K × K)))
@@ -274,4 +274,4 @@ theorem finrank_eq_add_two_mul {V : Type*} [AddCommGroup V] [Module K V]
     finrank K V = a + 2 * b := by
   rw [LinearEquiv.finrank_eq e, Module.finrank_prod, Module.finrank_fin_fun,
     Module.finrank_pi_fintype]
-  simp [Module.finrank_prod, Module.finrank_fin_fun, Finset.sum_const, Nat.mul_comm]
+  simp [Module.finrank_prod, Finset.sum_const, Nat.mul_comm]

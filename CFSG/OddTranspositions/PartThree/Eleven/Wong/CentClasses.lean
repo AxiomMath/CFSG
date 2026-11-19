@@ -37,9 +37,9 @@ theorem exists_mem_A_conj_v_eq_v_mul_w : ∃ g ∈ D.A, g⁻¹ * D.v * g = D.v *
 
 theorem commutator_A_eq : (commutator D.A).map D.A.subtype = D.A := by
   obtain ⟨e⟩ := D.nonempty_A_mulEquiv_alt5
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (α := Fin 5) (by simp))
-  haveI : Group.IsPerfect D.A :=
+  have : Group.IsPerfect D.A :=
     Group.IsPerfect.ofSurjective (f := (e.symm : alternatingGroup (Fin 5) →* D.A))
       (MulEquiv.surjective e.symm)
   exact (Subgroup.map_subtype_commutator D.A).trans Subgroup.commutator_eq_self

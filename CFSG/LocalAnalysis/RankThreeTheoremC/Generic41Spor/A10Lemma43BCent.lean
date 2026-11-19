@@ -101,7 +101,7 @@ theorem W_centralizes (hJ₁ : IsComponentOf J₁ ⊤) (hJ₂ : IsComponentOf J�
   exact hdy'.symm
 
 theorem tbaux_conj_mem_sup_aux {Ja Jb : Subgroup Y} (hJa : IsComponentOf Ja ⊤)
-    (hJb : IsComponentOf Jb ⊤) (hne : Ja ≠ Jb) {ta tb : Y} (hta : ta ∈ Ja) (htb : tb ∈ Jb)
+    (hJb : IsComponentOf Jb ⊤) (_hne : Ja ≠ Jb) {ta tb : Y} (hta : ta ∈ Ja) (htb : tb ∈ Jb)
     {y : Y} (hy : y * (ta * tb) = (ta * tb) * y)
     (hnc : ∃ a ∈ Ja, a * (ta * tb) ≠ (ta * tb) * a) :
     y * ta * y⁻¹ ∈ Ja ⊔ Jb := by
@@ -194,6 +194,7 @@ theorem conj_mem_P (hJ₁ : IsComponentOf J₁ ⊤) (hJ₂ : IsComponentOf J₂ 
   exact ⟨five_elem_mem hc Q₁ Q₂ ht₁ ht₂ ho₁ ho₂ hz1 hz1d hz1_5,
     five_elem_mem hc Q₁ Q₂ ht₁ ht₂ ho₁ ho₂ hz2 hz2d hz2_5⟩
 
+omit [Finite Y] in
 theorem conj_mem_P_of_gens {y : Y} (h₁ : y * t₁ * y⁻¹ ∈ zpowers t₁ ⊔ zpowers t₂)
     (h₂ : y * t₂ * y⁻¹ ∈ zpowers t₁ ⊔ zpowers t₂) :
     ∀ k ∈ zpowers t₁ ⊔ zpowers t₂, y * k * y⁻¹ ∈ zpowers t₁ ⊔ zpowers t₂ := by

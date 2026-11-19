@@ -13,10 +13,10 @@ theorem ggTPRowData_twD {n : ℕ} {Y : Type} [Group Y] (hY : GGHasLabel ⟨.twD,
     GGTPRowDatum Y := by
   simp only [GGHasLabel, LargeEvenRawDatum, LargeEvenRecipeOmegaMinus] at hY
   obtain ⟨K, hField, hFinite, hK, b, c, _, ⟨e⟩⟩ := hY
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : Fintype K := Fintype.ofFinite K
-  letI : CharP K 2 := by
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : Fintype K := Fintype.ofFinite K
+  let : CharP K 2 := by
     refine charP_of_card_eq_prime_pow (p := 2) (f := n) ?_
     rwa [Nat.card_eq_fintype_card] at hK
   refine ⟨LargeEvenMinusIdx 6, inferInstance, inferInstance, K, hField, hFinite,

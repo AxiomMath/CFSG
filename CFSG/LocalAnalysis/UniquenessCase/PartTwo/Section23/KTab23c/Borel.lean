@@ -31,7 +31,7 @@ theorem BorelPositionTwo.of_mulEquiv {X Y : Type} [Group X] [Group Y] [Finite X]
   let A' : Subgroup Y := A.map e.toMonoidHom
   have hS' : (S' : Subgroup Y) = (S : Subgroup X).map e.toMonoidHom :=
     Sylow.coe_mapSurjective e.surjective S
-  haveI : IsMulCommutative A := hA
+  have : IsMulCommutative A := hA
   have hA' : IsMulCommutative A' := Subgroup.map_isMulCommutative (H := A) e.toMonoidHom
   have hodd' : Odd (Nat.card A') := by
     rw [Subgroup.card_map_of_injective (f := e.toMonoidHom) e.injective]
@@ -79,7 +79,7 @@ theorem BorelPositionTwo.prod {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
     Sylow.coe_mapSurjective _ _
   let A₁ : Subgroup X := A.map (MonoidHom.fst X Y)
   let A₂ : Subgroup Y := A.map (MonoidHom.snd X Y)
-  haveI : IsMulCommutative A := hA
+  have : IsMulCommutative A := hA
   have hA₁ : IsMulCommutative A₁ :=
     Subgroup.map_isMulCommutative (H := A) (MonoidHom.fst X Y)
   have hA₂ : IsMulCommutative A₂ :=
@@ -89,7 +89,7 @@ theorem BorelPositionTwo.prod {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
   have hodd₂ : Odd (Nat.card A₂) :=
     Odd.of_dvd_nat hodd (Subgroup.card_map_dvd A (MonoidHom.snd X Y))
   have hinf : (S : Subgroup (X × Y)) ⊓ A = ⊥ :=
-    CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd S.isPGroup' hodd
+    CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd S.isPGroup hodd
   have hprod : (((S : Subgroup (X × Y)) : Set (X × Y)) * (A : Set (X × Y))) =
       ((((S : Subgroup (X × Y)) ⊔ A : Subgroup (X × Y))) : Set (X × Y)) :=
     CFSG.Quasithin.H.L3Wr.coe_mul_eq_sup_of_card hinf (le_of_eq hcard)
@@ -113,13 +113,13 @@ theorem BorelPositionTwo.prod {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
     exact h
   have hcard₁ : Nat.card ↥((S₁ : Subgroup X) ⊔ A₁) = Nat.card S₁ * Nat.card A₁ :=
     card_sup_eq_mul_of_coe_mul_eq
-      (CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd S₁.isPGroup' hodd₁) himg₁
+      (CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd S₁.isPGroup hodd₁) himg₁
   have hcard₂ : Nat.card ↥((S₂ : Subgroup Y) ⊔ A₂) = Nat.card S₂ * Nat.card A₂ :=
     card_sup_eq_mul_of_coe_mul_eq
-      (CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd S₂.isPGroup' hodd₂) himg₂
+      (CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd S₂.isPGroup hodd₂) himg₂
   have hSprod : (S : Subgroup (X × Y)) = (S₁ : Subgroup X).prod (S₂ : Subgroup Y) := by
     refine S.maximal_isPGroup.eq_of_le ?_ ?_
-    · have hpg : IsPGroup 2 (↥S₁ × ↥S₂) := IsPGroup.prod S₁.isPGroup' S₂.isPGroup'
+    · have hpg : IsPGroup 2 (↥S₁ × ↥S₂) := IsPGroup.prod S₁.isPGroup S₂.isPGroup
       exact hpg.of_equiv (Subgroup.prodEquiv (S₁ : Subgroup X) (S₂ : Subgroup Y)).symm
     · intro x hx
       rw [Subgroup.mem_prod]
@@ -151,14 +151,14 @@ theorem BorelPositionTwo.prod {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
 theorem borelPositionTwo_of_isL2Square {X : Type} [Group X] [Finite X] {a : ℕ}
     (h : IsL2Square X a) : BorelPositionTwo X := by
   obtain ⟨A, B, hGA, hGB, ⟨e⟩, hA, hB⟩ := h
-  letI := hGA
-  letI := hGB
-  haveI : Finite A := Finite.of_injective (fun x : A => e.symm (x, 1)) (by
+  let := hGA
+  let := hGB
+  have : Finite A := Finite.of_injective (fun x : A => e.symm (x, 1)) (by
     intro x y hxy
     have h' := congrArg e hxy
     simp only [MulEquiv.apply_symm_apply] at h'
     simpa using congrArg Prod.fst h')
-  haveI : Finite B := Finite.of_injective (fun y : B => e.symm (1, y)) (by
+  have : Finite B := Finite.of_injective (fun y : B => e.symm (1, y)) (by
     intro x y hxy
     have h' := congrArg e hxy
     simp only [MulEquiv.apply_symm_apply] at h'
@@ -177,33 +177,33 @@ theorem borelPositionTwo_of_isOmegaPlus_four {X : Type} [Group X] [Finite X] {n 
 theorem subsingleton_of_isOmegaPlus_four_one {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} (h : IsOmegaPlus ↥H 4 1) (hperf : ⁅H, H⁆ = H) : Subsingleton ↥H := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨ε⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : Fintype ↥(orthGroup (StatedQuadPlus 2 K)) := Fintype.ofFinite _
+  have : Fintype ↥(orthGroup (StatedQuadPlus 2 K)) := Fintype.ofFinite _
   have hcard : Nat.card ↥(orthGroup (StatedQuadPlus 2 K)) = 2 ^ 3 * 3 ^ 2 := by
     rw [card_orthGroup_quadPlus_two, hK2]
     norm_num
   have hsolOrth : Group.IsSolvable ↥(orthGroup (StatedQuadPlus 2 K)) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
       Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard])
-  haveI := hsolOrth
+  have := hsolOrth
   have hsolOmega : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 K)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion (statedOmega_le_orthGroup (StatedQuadPlus 2 K)))
       (Subgroup.inclusion_injective _)
-  haveI := hsolOmega
+  have := hsolOmega
   have hsolProj : Group.IsSolvable (StatedProj (StatedOmega (StatedQuadPlus 2 K))) :=
     Group.isSolvable_of_surjective
       (QuotientGroup.mk'_surjective ((StatedScalars (Fin 2 ⊕ Fin 2) K).subgroupOf
         (StatedOmega (StatedQuadPlus 2 K))))
-  haveI := hsolProj
+  have := hsolProj
   have hsolH : Group.IsSolvable ↥H :=
     Group.isSolvable_of_isSolvable_injective (f := ε.toMonoidHom) ε.injective
   by_contra hns
   rw [not_subsingleton_iff_nontrivial] at hns
-  haveI : Nontrivial ↥H := hns
-  haveI : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.mpr hperf
+  have : Nontrivial ↥H := hns
+  have : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.mpr hperf
   exact (Group.IsPerfect.not_isSolvable (G := ↥H)) hsolH
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC

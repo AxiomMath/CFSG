@@ -33,7 +33,7 @@ theorem list_prod_mem_mul {A L : Subgroup G} (hAL : ∀ a ∈ A, ∀ l ∈ L, a 
       simpa using this
 
 theorem inf_eq_inf_normalizer_of_block {H L M Q : Subgroup G} [Finite G]
-    (hQH : IsSylowTwoOf Q H) (hQM : Q ≤ M) (hK : CharTwo H) (hL : IsBlock2 H L)
+    (hQH : IsSylowTwoOf Q H) (hQM : Q ≤ M) (_hK : CharTwo H) (hL : IsBlock2 H L)
     {k : ℕ} (hk : 1 < k) (hlin : IsLin2Type L k)
     (hBor : IsBorelOfBlock L (L ⊓ (H ⊓ M))) :
     ∃ S : Subgroup G, IsSylowTwoOf S L ∧ L ⊓ M = L ⊓ Subgroup.normalizer (S : Set G) := by

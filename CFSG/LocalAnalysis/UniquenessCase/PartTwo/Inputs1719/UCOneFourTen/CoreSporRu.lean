@@ -89,7 +89,7 @@ theorem false_of_mulEquiv_ru
   let RX : Subgroup X := (R : Subgroup ↥K).map K.subtype
   have hRXcard : Nat.card RX = Nat.card (R : Subgroup ↥K) :=
     Subgroup.card_map_of_injective K.subtype_injective
-  have hRXp : IsPGroup 5 RX := R.isPGroup'.map K.subtype
+  have hRXp : IsPGroup 5 RX := R.isPGroup.map K.subtype
   have hA_le_RX : A ≤ RX := by
     intro a ha
     have ha' : (⟨a, hAK ha⟩ : ↥K) ∈ A' := by

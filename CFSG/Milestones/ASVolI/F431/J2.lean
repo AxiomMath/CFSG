@@ -25,9 +25,9 @@ theorem burnsideF4j_F_4_38_inst {κ : GLKind} {f : ℕ} {E : Type} [Group E]
     {ε : Y →* M} {z : M} (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hodd : Odd Gp.index)
     (hgen : oPPrime 2 Gp = Gp) {T : Subgroup M} (hT : ChF.IsSylowOf 2 T (MiOne β ε ⊓ MiTwo β ε)) :
     T = SinM Gp β ε ∧ oPPrime 2 (⊤ : Subgroup E) = Gp ∧ Odd Gp.index := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set b := burnsideF4d_bOne β ε with hbdef
   have hb : Function.Injective b := burnsideF4j_bOne_injective hyp
@@ -65,8 +65,8 @@ open CFSG.Quasithin.H13.F431.TwoF4 CFSG.ComponentClassification.OuterAutomorphis
 
 theorem burnsideF4j_odd_index_F4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .F4tw 2 f Gp M₁ M₂) (hf : 3 ≤ f) : Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have hmodel := burnsideF4g_lieModel_F4tw hf hyp.model
   obtain ⟨a, K, _, _, _, ha, hfa, hK0, ⟨e⟩⟩ := f4_model_data hmodel
   have hK : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK0, hfa]
@@ -81,7 +81,7 @@ theorem burnsideF4j_odd_index_F4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     rintro _ ⟨d, rfl⟩
     refine ⟨(d : E), ?_⟩
     ext x
-    simp [burnsideF4d_rho_apply]
+    simp
   have h := odd_card_div_of_outer hm.2 (burnsideF4d_rho Gp).range hS hOut
   have hcard : Nat.card ↥(burnsideF4d_rho Gp).range = Nat.card E :=
     (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
@@ -102,8 +102,8 @@ section OddSp
 
 theorem burnsideF4j_odd_index_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (hf : 3 ≤ f) (hfo : Odd f) : Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have hyp4 := hyp.toHypF_4_4g
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .Sp4) hyp4
   obtain ⟨TD, hTD⟩ := burnsideF4g_yamSp4 (f := f) (by omega) marking

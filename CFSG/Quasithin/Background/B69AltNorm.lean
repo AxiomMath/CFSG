@@ -2,7 +2,7 @@ module
 
 public import CFSG.Quasithin.Background.G6Natural
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.GroupTheory.SpecificGroups.Alternating
 public import Mathlib.Tactic.Basify
 public import Mathlib.Tactic.ENatToNat

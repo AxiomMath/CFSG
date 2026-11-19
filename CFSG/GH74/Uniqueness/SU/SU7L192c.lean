@@ -173,7 +173,7 @@ theorem exists_three_elt (hKI3 : K.KI3) (hKI4 : K.KI4) (hc : Ctx19 S U M V x z A
     Nat.coprime_two_left.1 (CFSG.pPrimeCore_coprime_card (p := 2) (G := ↥C))
   set S₀ : Subgroup ↥C := (S : Subgroup G).subgroupOf C with hS₀
   set R₀ : Subgroup ↥C := R.subgroupOf C with hR₀
-  have hS₀p : IsPGroup 2 ↥S₀ := Bar.isPGroup_subgroupOf S.isPGroup' C
+  have hS₀p : IsPGroup 2 ↥S₀ := Bar.isPGroup_subgroupOf S.isPGroup C
   have hRS : R₀ ≤ S₀ := fun r hr => hc.c19.R_le hr
   have hS128 : Nat.card S₀ = 128 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSC).toEquiv]; exact hJ.card_S
@@ -283,7 +283,7 @@ theorem lemma192_c (hKI3 : K.KI3) (hKI4 : K.KI4) (hc : Ctx19 S U M V x z A B R) 
   set D : Subgroup G := T ⊔ centralizer (T : Set G) with hDdef
   have hTS : T ≤ (S : Subgroup G) := Base.T_le_S
   have hTM : T ≤ M := hTS.trans hconf.S_le
-  have hTp : IsPGroup 2 ↥T := S.isPGroup'.to_le hTS
+  have hTp : IsPGroup 2 ↥T := S.isPGroup.to_le hTS
   have hNM : N ≤ M := fun n hn => normalizer_T_le_M hc hn
   have hUT : U ≤ T := Base.U_le_T hH hconf hcl
   have hmemZ := Base.mem_Zc_iff hH hconf hcl

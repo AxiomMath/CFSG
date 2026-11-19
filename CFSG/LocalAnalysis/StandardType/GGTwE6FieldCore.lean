@@ -43,8 +43,8 @@ theorem exists_fixed_two_of_entrywise (hRK : RootKill) (h5 : SubfieldLangDatumFi
   have hm : 1 ≤ m := Nat.pos_of_ne_zero fun h => by simp [h] at hn
   set ι := (fixSubfield δ).subtype with hι
   have hσ₀ := fixSubfieldRestrict_eq_pow hK₀ hpo hσ
-  haveI : CharP K 2 := charP_two_of_card_sq hK
-  haveI : CharP (fixSubfield δ) 2 := charP_two_of_card_sq hK₀
+  have : CharP K 2 := charP_two_of_card_sq hK
+  have : CharP (fixSubfield δ) 2 := charP_two_of_card_sq hK₀
   have hpq₀ : p ∣ 2 ^ m + 1 := by
     have : Fact p.Prime := ⟨hp⟩
     have h := (ZMod.natCast_eq_zero_iff (2 ^ (m * p) + 1) p).mpr hpq

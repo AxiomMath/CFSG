@@ -41,7 +41,7 @@ theorem exists_inner_of_l227 (h : K37Setting X K E S) (hZ : Subgroup.center ↥K
       ∀ y ∈ K, e₀ * y * e₀⁻¹ = (u : X) * y * (u : X)⁻¹ := by
   obtain ⟨hK, hAK⟩ := CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs273.card_L227_and_aut eL
   have hconj := CFSG.RankThree.PartOne.HNB.conj_injective_of_center_eq_bot hZ
-  haveI : (MulAut.conj : ↥K →* MulAut ↥K).range.Normal := ⟨fun n hn α => by
+  have : (MulAut.conj : ↥K →* MulAut ↥K).range.Normal := ⟨fun n hn α => by
     obtain ⟨y, rfl⟩ := MonoidHom.mem_range.mp hn
     exact MonoidHom.mem_range.mpr ⟨α y, (mul_mulAutConj_mul_inv α y).symm⟩⟩
   have hidx : (MulAut.conj : ↥K →* MulAut ↥K).range.index = 6 := by
@@ -76,7 +76,7 @@ theorem false_of_defChar (hODC : K36OddDefChar) (h : K37Setting X K E S)
     (hZ : Subgroup.center ↥K = ⊥) (d : TauCeti.ValidLieTypeIndex) (hd3 : d.1.characteristic = 3)
     (ψ : ↥K ≃* CatGrp d) (hSC : ¬ S ≤ Subgroup.centralizer (K : Set X)) : False := by
   have hN : ∀ x : X, x ∈ Subgroup.normalizer (K : Set X) := fun x => by
-    haveI := h.normal
+    have := h.normal
     rw [Subgroup.normalizer_eq_top]
     exact Subgroup.mem_top x
   obtain ⟨Θ, hΘinj, hΘapp, hΘc⟩ : ∃ Θ : MulAut ↥K →* MulAut (CatGrp d), Function.Injective Θ ∧

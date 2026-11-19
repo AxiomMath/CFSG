@@ -64,7 +64,7 @@ theorem le_of_isPGroup_le_centralizer (P : Sylow p X) {A : Subgroup X}
   set C := centralizer (A : Set X)
   have hAP : A ≤ P := hcen ▸ inf_le_left
   have hAC : A ≤ C := hcen ▸ inf_le_right
-  have hAp : IsPGroup p A := P.isPGroup'.to_le hAP
+  have hAp : IsPGroup p A := P.isPGroup.to_le hAP
   have hPC := le_normalizer_centralizer hnorm
   have hidx : ¬ p ∣ A.relIndex C := by
     have h1 := CFSG.QuasithinUnique.C5.card_sup_mul_card_inf_of_le_normalizer hPC
@@ -121,7 +121,7 @@ theorem ft_lemma_7_4_a (P : Sylow p X) {A : Subgroup (P : Subgroup X)} (hA : A �
     (hAH : A.map (P : Subgroup X).subtype ⊓ H = ⊥) : Nat.Coprime p (Nat.card H) := by
   set A' := A.map (P : Subgroup X).subtype
   obtain ⟨hPA, hcen⟩ := SCN.map_props hA
-  have hA'p : IsPGroup p A' := P.isPGroup'.to_le (map_subtype_le A)
+  have hA'p : IsPGroup p A' := P.isPGroup.to_le (map_subtype_le A)
   refine CFSG.SignalizerFunctor.Helpers.coprime_of_centralizer_coprime p Fact.out A' H hA'p
     hnorm ((Nat.Prime.coprime_iff_not_dvd Fact.out).2 fun hdvd => ?_)
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(H ⊓ centralizer (A' : Set X))) p hdvd

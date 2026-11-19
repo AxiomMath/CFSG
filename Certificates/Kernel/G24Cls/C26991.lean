@@ -65,9 +65,9 @@ theorem isInv_get {h : Nat} (hh : h < 2) :
 
 theorem word_eq {wd : List Int} (hl : lettersOK 2 wd = true) :
     co1ArrWord wd = unpack 1365 11 (e8W wd) ∧ PP 1365 11 (e8W wd) :=
-  ⟨wordA_unpack hw (fun h hh => gen_get hh) (fun h hh => inv_get hh) (fun h hh => permB_S hh)
-    (fun h hh => permB_SI hh) hl,
-    pp_of_permB hw (permB_wordK hw (fun h hh => permB_S hh) (fun h hh => permB_SI hh) hl)⟩
+  ⟨wordA_unpack hw (fun _h hh => gen_get hh) (fun _h hh => inv_get hh) (fun _h hh => permB_S hh)
+    (fun _h hh => permB_SI hh) hl,
+    pp_of_permB hw (permB_wordK hw (fun _h hh => permB_S hh) (fun _h hh => permB_SI hh) hl)⟩
 
 theorem l1 : lettersOK 2 co1WordE1 = true := by decide
 

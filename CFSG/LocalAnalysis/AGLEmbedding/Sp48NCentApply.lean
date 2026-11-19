@@ -96,7 +96,7 @@ theorem d1Sp48NCentResidue_of_cm (hSch : KFactCatalogSchreier) (hAE : KFactCaseT
   have hYT : Y ≤ (T : Subgroup C).map C.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hYC']
     exact Subgroup.map_mono hT
-  have hT3 : IsPGroup 3 ((T : Subgroup C).map C.subtype) := T.isPGroup'.map _
+  have hT3 : IsPGroup 3 ((T : Subgroup C).map C.subtype) := T.isPGroup.map _
   have hR3 : 3 ≤ Open.pRank 3 R := hext.three_le_pRank
   have hYr : 3 ≤ Open.pRank 3 Y := hR3.trans (pRank_mono 3 Nat.prime_three hRY.le)
   have hPM : (P : Subgroup G) ≤ M := hext.sylow_le

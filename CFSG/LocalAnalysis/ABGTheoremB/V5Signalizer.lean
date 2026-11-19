@@ -106,7 +106,7 @@ theorem propV51 {σ : Setting G} (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) {J
   have hp := hσ.p_prime
   have hp2 := hσ.p_ne_two
   have : Fact σ.p.Prime := ⟨hp⟩
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hPp : IsPGroup σ.p P := hP.isPGroup
   have hPN : P ≤ σ.N := hP.le.trans σ.C_le_N
   have hPD : P ⊓ σ.D = ⊥ := inf_eq_bot_of_isPGroup_of_two hp hp2 hPp hD2

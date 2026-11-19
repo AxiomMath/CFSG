@@ -30,7 +30,7 @@ theorem r7_8p3_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
       ∀ W : Subgroup G, W ≤ P →
         CFSG.Open.rankThreeLayer H ⊓ normalizer (P : Set G) ≤ normalizer (W : Set G) →
           W = ⊥ ∨ W = P := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨hPHM, hPp, -⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hP
   have hPH : P ≤ H := hPHM.trans inf_le_left
   have h75 := step75_of_stronglyEmbeddedThree k hp3 hK3

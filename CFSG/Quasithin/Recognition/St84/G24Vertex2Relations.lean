@@ -101,8 +101,8 @@ private theorem conj_frame_congr_pow [Finite G] (F : G24Frame2 L1 L2 S)
       funext i
       by_cases hij : i = j
       · subst hij
-        simp [Matrix.one_apply, Pi.single]
-      · simp [Matrix.one_apply, Pi.single, hij]
+        simp [Pi.single]
+      · simp [Pi.single, hij]
     rw [hone]
     change v2Frame F.k u n j * (eElt (v2Frame F.k u n) (Pi.single j (1 : ZMod 2)))⁻¹ ∈
       centerOf (dsQ L2 L1 S)
@@ -337,8 +337,8 @@ theorem G24Frame2.exists_quad [Finite G] (F : G24Frame2 L1 L2 S)
         Pi.single t (1 : ZMod 2) from by
       funext s
       by_cases hst : s = t
-      · subst hst; simp [Matrix.one_apply, Pi.single]
-      · simp [Matrix.one_apply, Pi.single, hst]]
+      · subst hst; simp [Pi.single]
+      · simp [Pi.single, hst]]
     rw [eElt_single]
     exact hz.2.2.2.2 t
   have hzB : EBasis zb :=

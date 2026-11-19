@@ -51,7 +51,7 @@ theorem nineteen_twentysix (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : S
       intro a ha
       rw [@eq_powTorsionSubgroup_of_isElemAbelian_card G _ _ A E hAcomm
         (S17.nOf L) 3 h.ctx22.ctx.hAcard Nat.prime_three h3dvdA hEA hEel hEcard,
-        @mem_powTorsionSubgroup G _ _ A hAcomm 3 a]
+        @mem_powTorsionSubgroup G _ A hAcomm 3 a]
       refine ⟨h.ctx22.hA₀ ha, ?_⟩
       have hdvd : orderOf a ∣ 3 := by
         simpa [h.ctx22.hcard] using Subgroup.orderOf_dvd_natCard A₀ ha

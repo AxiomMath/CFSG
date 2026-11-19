@@ -14,6 +14,7 @@ open Subgroup Module QuadraticMap CFSG.LargeExtraspecial CFSG.RankThree.Orthogon
 
 variable {G : Type} [Group G] [Finite G] {S : Setting G}
 
+omit [Finite G] in
 theorem card_le_two_mul_card_inf {P : Subgroup G} {j z : G} (hzz : z * z = 1)
     (hz : ∀ p ∈ P, p * z = z * p) (hconj : ∀ p ∈ P, p * j * p⁻¹ = j ∨ p * j * p⁻¹ = j * z) :
     Nat.card P ≤ 2 * Nat.card (P ⊓ centralizer ({j} : Set G) : Subgroup G) := by
@@ -56,7 +57,7 @@ theorem exists_two_subgroup_centralizer (hw : S.width = 6)
     {j : G} (hj : j ∈ S.QG) (hj2 : j * j = 1) (hj1 : j ≠ 1) :
     ∃ P : Subgroup G, P ≤ Subgroup.centralizer ({j} : Set G) ∧ IsPGroup 2 P ∧
       2 ^ 20 ≤ Nat.card P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨v, hv0, hvq, hvj⟩ : ∃ v : S.Qt, v ≠ 0 ∧ S.q v = 0 ∧ (j ≠ S.z → v = S.cl j) := by
     by_cases hjz : j = S.z
     · exact ⟨v₀, hv₀, hv₀q, fun h => absurd hjz h⟩

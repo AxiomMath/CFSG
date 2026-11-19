@@ -15,7 +15,7 @@ theorem pRank_top_statedGU_eq {p : ℕ} [Fact p.Prime] (hp : Odd p) {L : Type} [
     [Finite L] {q n : ℕ} (hL : Nat.card L = q ^ 2) (hpq : ¬ p ∣ q) (hn : 1 ≤ n) :
     CFSG.Open.pRank p (⊤ : Subgroup (CFSG.Quasithin.StatedGU n q L)) =
       n / orderOf (-(q : ZMod p)) := by
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fintype L := Fintype.ofFinite L
   have hLc : Fintype.card L = q ^ 2 := by rwa [← Nat.card_eq_fintype_card]
   have hq2 : 2 ≤ q := by
     have h1 : 2 ≤ q ^ 2 := by rw [← hLc]; exact Fintype.one_lt_card
@@ -66,7 +66,7 @@ private theorem orderOf_neg_natCast_eq_two_of_dvd_sub_one {p q : ℕ} [Fact p.Pr
     exact (Nat.not_even_iff_odd.2 hp) even_two
   rw [h1]
   have := orderOf_neg_one (R := ZMod p)
-  rwa [if_neg hp2] at this
+  rwa [ite_eq_right hp2] at this
 
 theorem pRank_top_statedProj_statedSU_le_div_two {p : ℕ} [Fact p.Prime] (hp : Odd p)
     {L : Type} [Field L] [Finite L] {q n : ℕ} (hL : Nat.card L = q ^ 2) (hpn : ¬ p ∣ n)

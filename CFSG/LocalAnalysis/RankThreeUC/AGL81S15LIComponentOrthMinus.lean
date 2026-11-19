@@ -14,20 +14,20 @@ open CFSG.ClassicalGroups.Orthogonal
 open CFSG.LieType.Universal.Spin (quadMinus quadMinus_apply coe_quadMinus)
 
 theorem odd_centralizer_centralizes_of_component_orth_minus_of_card_ge_five
-    {L : Type} [Group L] [Finite L] (hL : CFSG.Open.IsQuasisimple L)
+    {L : Type} [Group L] [Finite L] (_hL : CFSG.Open.IsQuasisimple L)
     (m : ℕ) (hm : 4 ≤ m) (Q : TauCeti.PrimePower) (hQ : Q.p = 2)
     (hv : (TauCeti.LieTypeIndex.twistedD m Q).Valid)
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
         (⟨TauCeti.LieTypeIndex.twistedD m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
     {U : Subgroup L} (hU2 : IsPGroup 2 U) (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
     {x : L} (hxodd : Odd (orderOf x)) (hxc : x ∈ Subgroup.centralizer (U : Set L))
-    (hQcard : 5 ≤ Q.card) : ∀ l : L, x * l = l * x := by
+    (_hQcard : 5 ≤ Q.card) : ∀ l : L, x * l = l * x := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.twistedD m Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
     rw [TauCeti.PrimePower.card_def, hQ]
@@ -41,8 +41,8 @@ theorem odd_centralizer_centralizes_of_component_orth_minus_of_card_ge_five
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   obtain ⟨b, c, hirr, ⟨eD⟩⟩ :=

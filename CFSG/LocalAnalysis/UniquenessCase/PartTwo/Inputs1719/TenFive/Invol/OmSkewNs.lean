@@ -85,7 +85,7 @@ theorem exists_heis_inv_skewNonsquare [Finite K] (hK2 : ringChar K ≠ 2) (hd : 
     intro hle
     have h := Submodule.finrank_mono hle
     omega
-  obtain ⟨z, hzk, hzs⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨z, hzk, hzs⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hzm : polar Q u z = 0 ∧ polar Q (A.val *ᵥ u) z = 0 := by
     have h0 : f z = 0 := LinearMap.mem_ker.mp hzk
     rw [hfv z] at h0

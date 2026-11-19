@@ -95,7 +95,7 @@ theorem lie_or_spor {L : Type} [Group L] {p : ℕ} (hLK : CFSG.IsKGroup L)
         idx.1.characteristic = p) ∨
       ∃ name : TauCeti.SporadicName, IsSporType name (L ⧸ Subgroup.center L) := by
   have hK : CFSG.Open.IsKGroup L := CFSG.KCore.KGroupAllSimple.kGroupNonab hLK
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hLq.2
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hLq.2
   have hnab := CFSG.HardMathSupport.Solomon.Coordinator.exists_noncomm_of_isQuasisimple hLq
   have hcat : CFSG.Open.IsCatalogGroup (L ⧸ Subgroup.center L) :=
     CFSG.Open.IsKGroup.isCatalogGroup_of_surjective hK ⊤ hnab
@@ -118,6 +118,7 @@ section FirstParagraph
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem exists_glaPComponent_of_ne_bot {Y : Subgroup X} (h : GLAPLayer p Y ≠ ⊥) :
     ∃ J : Subgroup X, GLAPComponent p Y J := by
   by_contra hne
@@ -191,6 +192,7 @@ section Chev
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem conj_eq_of_inner {L : Subgroup X} {e k : X}
     (hc : k⁻¹ * e ∈ Subgroup.centralizer (L : Set X)) {y : X} (hy : y ∈ L) :
     e * y * e⁻¹ = k * y * k⁻¹ := by
@@ -200,6 +202,7 @@ theorem conj_eq_of_inner {L : Subgroup X} {e k : X}
     _ = k * (y * (k⁻¹ * e)) * (k⁻¹ * e)⁻¹ * k⁻¹ := by rw [hcy]
     _ = k * y * k⁻¹ := by group
 
+omit [Finite X] in
 theorem not_mem_center_of_inner {L : Subgroup X} {e k : X} (hk : k ∈ L)
     (hc : k⁻¹ * e ∈ Subgroup.centralizer (L : Set X)) (he : e ∉ Subgroup.centralizer (L : Set X)) :
     (⟨k, hk⟩ : ↥L) ∉ Subgroup.center ↥L := by
@@ -214,6 +217,7 @@ theorem not_mem_center_of_inner {L : Subgroup X} {e k : X} (hk : k ∈ L)
   rw [e1]
   exact Subgroup.mul_mem _ hkC hc
 
+omit [Finite X] in
 theorem pow_mem_center_of_inner {L : Subgroup X} {e k : X} (hep : e ^ p = 1) (hk : k ∈ L)
     (hc : k⁻¹ * e ∈ Subgroup.centralizer (L : Set X)) :
     (⟨k, hk⟩ : ↥L) ^ p ∈ Subgroup.center ↥L := by
@@ -256,13 +260,14 @@ section Inner
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem exists_inner_of_quot {L : Subgroup X} (hLq : CFSG.Open.IsQuasisimple ↥L) {b : X}
     (hbN : b ∈ Subgroup.normalizer (L : Set X))
     (h : CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥L
       (L.normalizerMonoidHom ⟨b, hbN⟩) ∈
         CFSG.ComponentClassification.OuterAutomorphisms.inner (↥L ⧸ Subgroup.center ↥L)) :
     ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X) := by
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLq.1
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLq.1
   set x : MulAut ↥L := L.normalizerMonoidHom ⟨b, hbN⟩ with hx
   have hin : x ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner ↥L := by
     refine CFSG.LocalAnalysis.GLTheoremA.chev_mem_inner_of_central_surjective
@@ -282,6 +287,7 @@ theorem exists_inner_of_quot {L : Subgroup X} (hLq : CFSG.Open.IsQuasisimple ↥
     _ = (l : X)⁻¹ * (b * y * b⁻¹) * b := by rw [h1]
     _ = (l : X)⁻¹ * b * y := by group
 
+omit [Finite X] in
 theorem normalizerMonoidHom_pow_eq_one {L : Subgroup X} {b : X}
     (hbN : b ∈ Subgroup.normalizer (L : Set X)) (hbp : b ^ p = 1) :
     L.normalizerMonoidHom ⟨b, hbN⟩ ^ p = 1 := by
@@ -297,7 +303,7 @@ theorem exists_inner_of_spor (hp : p.Prime) (hp2 : p ≠ 2)
     {b : X} (hbN : b ∈ Subgroup.normalizer (L : Set X)) (hbp : b ^ p = 1) :
     ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X) := by
   obtain ⟨name, ⟨f⟩⟩ := hS
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
   have hnab := CFSG.HardMathSupport.Solomon.Coordinator.exists_noncomm_of_isQuasisimple hLq
   have hcen : Subgroup.center (↥L ⧸ Subgroup.center ↥L) = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
@@ -320,10 +326,10 @@ theorem card_le_of_outer (hp : p.Prime) (hp2 : p ≠ 2)
       e ∈ Subgroup.centralizer (L : Set X)) :
     Nat.card E ≤ p ^ 2 * Nat.card ↥(B ⊓ Subgroup.centralizer (L : Set X)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨idx, ⟨f⟩, -⟩ := hLie
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLq.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLq.1
   have hnab := CFSG.HardMathSupport.Solomon.Coordinator.exists_noncomm_of_isQuasisimple hLq
   let ψ : ↥E →* MulAut (↥L ⧸ Subgroup.center ↥L) :=
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥L).comp
@@ -380,7 +386,7 @@ theorem card_le_of_outer (hp : p.Prime) (hp2 : p ≠ 2)
       rw [← map_pow]
       have : e ^ p = 1 := Subtype.ext (by simpa using hE.2 (e : X) e.2)
       rw [this, map_one]
-  haveI : Finite ↥ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite ↥ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have hrange : Nat.card ψ.range ≤ p ^ 2 := by
     by_contra hlt
     push Not at hlt

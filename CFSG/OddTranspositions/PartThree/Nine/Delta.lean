@@ -225,7 +225,7 @@ theorem sylow_inter_subset_sylow_map (hC : HypothesisC D) (h3 : Conclusion9_3 D 
         exact ⟨hxD, hc, hxu⟩
       exact Subgroup.subset_closure hx
   have hP : IsPGroup 2 ((S : Subgroup G).subgroupOf (Halpha D hC.alpha)) :=
-    S.isPGroup'.comap_subtype
+    S.isPGroup.comap_subtype
   have hTP : (T : Subgroup (Halpha D hC.alpha)) ≤ (S : Subgroup G).subgroupOf (Halpha D hC.alpha) :=
     fun t ht => hTS ⟨t, ht, rfl⟩
   have hx' : (⟨x, hxH⟩ : Halpha D hC.alpha) ∈ (S : Subgroup G).subgroupOf (Halpha D hC.alpha) :=
@@ -397,7 +397,7 @@ theorem exists_deltaSetup (hC : HypothesisC D)
       by_cases hxu : x = hC.d
       · exact ⟨1, U.one_mem, show hC.d * 1 = x by rw [mul_one, hxu]⟩
       · have hc : Commute x hC.d := hC.setup.oddT.commute_of_isPGroup
-          (T.isPGroup'.map (Halpha D hC.alpha).subtype) hxD hC.hd hxT huT
+          (T.isPGroup.map (Halpha D hC.alpha).subtype) hxD hC.hd hxT huT
         have hxL := mul_mem_of_mem_commSet hC h3 ⟨hxD, hc, hxu⟩
         have hx2 : x * x = 1 := hC.setup.oddT.mul_self_eq_one hxD
         have hord : orderOf (hC.d * x) = 2 := by
@@ -448,6 +448,7 @@ theorem ne_bot (hU : DeltaSetup hC T S U) : U ≠ ⊥ := by
   have : 2 ^ 2 ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he
   omega
 
+omit [Finite G] in
 theorem d_mem_centralizer (hU : DeltaSetup hC T S U) :
     hC.d ∈ Subgroup.centralizer (U : Set G) :=
   Subgroup.mem_centralizer_iff.mpr fun _ hx => Subgroup.mem_centralizer_singleton_iff.mp

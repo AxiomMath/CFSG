@@ -143,7 +143,7 @@ theorem not_dvd_card_center_of_not_sq_dvd {X : Type*} [Group X] [Finite X]
     intro y
     exact Subtype.ext (hxZ y)
   have hfp : IsPGroup p f.range :=
-    P.isPGroup'.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    P.isPGroup.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   obtain ⟨n, hn⟩ := hfp.exists_card_eq
   have hdvd : p ^ n ∣ Nat.card (X ⧸ Subgroup.center X) :=
     hn ▸ Subgroup.card_subgroup_dvd_card f.range

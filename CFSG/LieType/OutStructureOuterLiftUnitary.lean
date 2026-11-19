@@ -60,7 +60,7 @@ theorem outerPElementLifts_primeFormP_of_not_dvd {p₀ f N : ℕ} {K : Type} [Fi
   exact exists_lift_orderOf_eq_of_sylow_map
     (QuotientGroup.mk' (inner (primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K))))
     (QuotientGroup.mk'_surjective _) (primeFormFieldHom h hC1) hψ (S : Subgroup (K ≃+* K))
-    S.isPGroup' hidx hy
+    S.isPGroup hidx hy
 
 theorem exists_orderOf_eq_not_mem_of_primeFormP {X : Type} [Group X] [Finite X]
     {L : Subgroup X} [L.Normal] (hL : CFSG.IsComponent L) {p₀ f N : ℕ} {K : Type} [Field K]

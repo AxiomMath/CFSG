@@ -13,8 +13,8 @@ open CFSG CFSG.Assembly
 
 theorem ggSL9_card_le_seven_cube {E : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)}
     (hE : IsElemAbelian 7 E) : Nat.card E ≤ 7 ^ 3 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (GGSL9V ≃ₗ[ZMod 2] GGSL9V) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (GGSL9V ≃ₗ[ZMod 2] GGSL9V) :=
     Finite.of_equiv (GL (Fin 9) (ZMod 2)) ggSL9GLEquiv.toEquiv
   have hEp : IsPGroup 7 ↥E := by
     rw [isPGroup_iff_orderOf_dvd_pow]
@@ -44,7 +44,7 @@ theorem largeEvenLabelAll_card_le_a8Two :
   obtain ⟨K, i1, i2, hK, hq'⟩ := hQ
   refine ⟨K, i1, i2, hK, hq', ?_⟩
   intro E hEI hE
-  haveI : Finite (GGSL9V ≃ₗ[ZMod 2] GGSL9V) :=
+  have : Finite (GGSL9V ≃ₗ[ZMod 2] GGSL9V) :=
     Finite.of_equiv (GL (Fin 9) (ZMod 2)) ggSL9GLEquiv.toEquiv
   let e := ggSL9RecipeEquiv hK
   have hEmap : IsElemAbelian 7 (E.map (MulAut.congr e).toMonoidHom) :=
@@ -87,7 +87,7 @@ theorem ggA8Nbr_card_B {G : Type} [Group G] [Finite G] (hRig : GGLabelRigidInput
     (hKlab : GGHasLabel ⟨.A, 8, 1⟩ (K ⧸ Subgroup.center K)) :
     Nat.card B = 7 ^ 4 := by
   have hp : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp⟩
+  have : Fact (Nat.Prime 7) := ⟨hp⟩
   have hB : IsElemAbelian 7 B := hC.1.2.2.2.2.2.2.1.1.1
   have hBc : Nat.card B = 7 ^ LargeEvenTwoLocalRank 7 G := hC.1.2.2.2.2.2.2.1.1.2.1
   have h4 : 4 ≤ LargeEvenTwoLocalRank 7 G := hC.1.2.2.2.2.2.1.2.2.2

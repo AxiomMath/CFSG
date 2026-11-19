@@ -13,7 +13,7 @@ open CFSG.Blueprint (LieModel)
 theorem conjSub_eq_or_commute_of_isSubnormal {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (hs : IsSimpleGroup ↥L) (hnab : ∃ a b : ↥L, a * b ≠ b * a) (hsub : L.IsSubnormal) (g : G) :
     conjSub g L = L ∨ ∀ x ∈ L, ∀ y ∈ conjSub g L, x * y = y * x := by
-  haveI := hs
+  have := hs
   have hcomp : CFSG.IsComponent L :=
     ⟨(CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab).1, hsub⟩
   rcases CFSG.LocalCores.distinct_components_commute hcomp

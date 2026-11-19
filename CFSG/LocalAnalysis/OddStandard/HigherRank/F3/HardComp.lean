@@ -96,10 +96,10 @@ theorem eq_of_le_of_isSubnormal {G : Type} [Group G] [Finite G] {K A : Subgroup 
       Subgroup.commutator_top_right_eq_bot_iff_le_center.mp h
     have hunit : A.subgroupOf K ≤ Subgroup.centralizer (A.subgroupOf K : Set ↥K) :=
       hcenter.trans (Subgroup.center_le_centralizer _)
-    haveI : IsMulCommutative ↥(A.subgroupOf K) :=
+    have : IsMulCommutative ↥(A.subgroupOf K) :=
       Subgroup.le_centralizer_iff_isMulCommutative.mp hunit
-    haveI : Group.IsPerfect ↥(A.subgroupOf K) := hA'.1.1
-    haveI : Subsingleton ↥(A.subgroupOf K) := inferInstance
+    have : Group.IsPerfect ↥(A.subgroupOf K) := hA'.1.1
+    have : Subsingleton ↥(A.subgroupOf K) := inferInstance
     obtain ⟨a, b, hab⟩ := (CFSG.LocalCores.isQuasisimple_nontrivial hA'.1).exists_pair_ne
     exact hab (Subsingleton.elim a b)
 

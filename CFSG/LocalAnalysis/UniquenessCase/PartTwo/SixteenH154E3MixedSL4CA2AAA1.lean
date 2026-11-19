@@ -37,8 +37,8 @@ theorem s16h_sl4_mixed_cClos_false
     (hZ0 : wSub ⊥ V h.hyp151.isElemAbelian L ⊓
         conjSubgroup (wSub ⊥ V h.hyp151.isElemAbelian L) x =
       wSub ⊥ V h.hyp151.isElemAbelian L ⊓ Subgroup.centralizer (L : Set G))
-    {Y : Subgroup G} (hYM : Y ≤ D.M) (hY3 : IsPGroup 3 ↥Y) (hYcard : Nat.card ↥Y = 9)
-    (hYnc : ¬ IsCyclic ↥Y) (hperm : Permutes Y D.T)
+    {Y : Subgroup G} (hYM : Y ≤ D.M) (_hY3 : IsPGroup 3 ↥Y) (_hYcard : Nat.card ↥Y = 9)
+    (_hYnc : ¬ IsCyclic ↥Y) (_hperm : Permutes Y D.T)
     (hYL : barSub ⊥ V h.hyp151.isElemAbelian Y ≤ lBar ⊥ V h.hyp151.isElemAbelian L ⊔
       lBar ⊥ V h.hyp151.isElemAbelian (conjSubgroup L x)) :
     ∀ r ∈ (Y ⊔ D.T) ⊓ Subgroup.centralizer (E3.cClos V 1 D.T : Set G),

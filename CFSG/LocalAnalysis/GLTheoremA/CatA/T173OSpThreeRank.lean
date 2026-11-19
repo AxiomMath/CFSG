@@ -40,9 +40,9 @@ private theorem card_le_three_pow_of_le_normalizer [CharP F 2] (hF : Nat.card F 
 
 theorem twoLocalRank_three_statedSp (hF : Nat.card F = 2) (hℓ : 2 ≤ ℓ) :
     GLATwoLocalRank 3 ↥(StatedSp ℓ F) = ℓ - 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num)
   refine le_antisymm ?_ ?_

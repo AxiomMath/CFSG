@@ -32,7 +32,7 @@ theorem fr_exists_perfect_lift [Fact p.Prime] (hK : FrobKFacts) (hG : FrobGlobal
   obtain ⟨hKn, -, hxK, hKcyc, hUK, -⟩ := fr_MComp hK hG hl hxM hKb
   have hKperf : ⁅Kb, Kb⁆ = Kb := Subgroup.isPerfect_iff.mp ⟨hKb.2.2.1⟩
   have hUM : U ≤ M := frU_le_M hl
-  have hUp : IsPGroup p (U.subgroupOf M) := (P.isPGroup'.to_le inf_le_left).comap_subtype
+  have hUp : IsPGroup p (U.subgroupOf M) := (P.isPGroup.to_le inf_le_left).comap_subtype
   have hKC : Kb ≤ (centralizer ((U.subgroupOf M : Subgroup M) : Set M)).map
       (QuotientGroup.mk' O) := by
     have h1 : Kb ≤ centralizer (((U.subgroupOf M).map (QuotientGroup.mk' O) :

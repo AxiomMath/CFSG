@@ -40,7 +40,7 @@ theorem s3_prime {Q Q₀ R : Subgroup G} [hQn : Q.Normal] [hQ₀n : Q₀.Normal]
   let W := Q.map π
   let R' := R.map π
   let d' : Fin 3 → G ⧸ Q₀ := fun i => π (d i)
-  haveI : W.Normal := hQn.map π hπs
+  have : W.Normal := hQn.map π hπs
   have hπc : π c = d' 0 * d' 1 * d' 2 := by rw [hcdef]; simp only [map_mul, d']
   have hWab : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x := by
     rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩

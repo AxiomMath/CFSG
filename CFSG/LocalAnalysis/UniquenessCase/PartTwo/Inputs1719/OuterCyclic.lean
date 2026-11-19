@@ -24,8 +24,8 @@ theorem isCyclic_outer_of_lieModel_G2
 theorem isCyclic_outer_of_lieModel_PSU4 {Y : Type} [Group Y] {n : ℕ}
     (h : LieModel Y .PSU 4 2 n) : IsCyclic (Outer Y) := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := (h.statedClassicalModel (by decide)).2
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hn1 : 1 ≤ n := (h.admissible).2.1
   have hcard : Nat.card K = 2 ^ (2 * n) := by
     rw [hKcard, pow_two, ← pow_add]

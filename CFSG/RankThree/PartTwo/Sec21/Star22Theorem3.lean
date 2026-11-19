@@ -65,9 +65,7 @@ theorem mem_centralizer_of_fixes_four [Finite G] {V : Subgroup G} (hVe : IsElemA
           | exact absurd hij.symm hvx1 | exact absurd hij hvx1
           | exact absurd hij.symm hxv | exact absurd hij hxv
           | exact absurd hij.symm hyv | exact absurd hij hyv
-          | exact absurd hij.symm hvxv | exact absurd hij hvxv
           | exact absurd hij.symm hne | exact absurd hij hne
-          | exact absurd hij.symm hvxx | exact absurd hij hvxx
           | exact absurd hij.symm hyvx | exact absurd hij hyvx
       have hmem : ∀ i : Fin 5, ![(1 : G), v, x, y, v * x] i ∈ V := by
         intro i

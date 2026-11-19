@@ -237,7 +237,7 @@ theorem orb_of_split {pw : ℕ → ℕ → List Native.Gen}
   unfold orbSplitPr at h
   unfold WrhoBOf
   rw [hr, List.reverse_append, List.flatMap_append]
-  simp only [wordLin_append, mul_assoc] at h ⊢
+  simp only [wordLin_append] at h ⊢
   rw [← mul_assoc, h, mul_assoc, mul_assoc, hinv, mul_one]
 
 theorem agreeAll_of_rel {ps qs : Prs}

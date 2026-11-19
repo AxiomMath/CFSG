@@ -44,6 +44,7 @@ theorem c23ne_lt_rParam {M V₀ V N₁ N₂ Y : Subgroup G} {k : ℕ} (hk : k �
       exact hnot (by rw [hN]; exact hcent)
     exact_mod_cast hgoal
 
+omit [Finite G] in
 private theorem c23ne_commElt_ne_bot {V : Subgroup G} {t : G}
     (h : ¬ V ≤ centralizer ({t} : Set G)) : commElt V t ≠ ⊥ := by
   intro hb

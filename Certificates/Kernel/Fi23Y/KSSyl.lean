@@ -105,7 +105,7 @@ private theorem idx_val (g : Xc) {x : Nat} (hx : x < 31671) :
 
 private theorem gsY_val {j : Nat} (h : 2 * j < 42) :
     (gsY j : Equiv.Perm (Fin 31671)) = sig 31671 SL (2 * j) := by
-  simp only [gsY, dif_pos h]
+  simp only [gsY, dite_eq_left h]
 
 private theorem rep_gsY : ∀ j < SL.size / 2, CFSG.Sporadic.Th.Rep 31671 SL[2 * j]! (gsY j) := by
   intro j hj x hx

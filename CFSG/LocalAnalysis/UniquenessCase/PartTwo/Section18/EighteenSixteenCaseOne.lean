@@ -128,7 +128,7 @@ theorem false_of_rk_imgTil_eq_case1 (D : Data G) (h61 : UC6.R6_1 D)
     (hψ : NatCoordsSU4
       (barSub ⊥ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L)) f F ε ψ)
     (hcong : (2 : ℤ) ^ f ≡ -1 [ZMOD (p : ℤ)])
-    {U : Subgroup G} (hUV : U ≤ V) (hU : ¬ centralizer (U : Set G) ≤ D.M)
+    {U : Subgroup G} (_hUV : U ≤ V) (hU : ¬ centralizer (U : Set G) ≤ D.M)
     (hSing : ∀ y ∈ imgTil ⊥ V h.hyp125.isElemAbelian U,
       ∑ i, (Multiplicative.toAdd (ψ y)) i ^ (2 ^ f + 1) = 0)
     (hrk : rk ↥(imgTil ⊥ V h.hyp125.isElemAbelian U) = 4 * f) : False := by

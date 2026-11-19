@@ -154,7 +154,7 @@ private theorem card_plus_five {q : ℕ} (hq0 : 0 < q) {K : Type} [Field K] [Fin
   rw [Nat.card_congr e.toEquiv]
   exact Nat.cast_injective key
 
-theorem isSpModel_three_card {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 2 ≤ a ∧ q = 2 ^ a)
+theorem isSpModel_three_card {q : ℕ} {X : Type} [Group X] (_hq : ∃ a : ℕ, 2 ≤ a ∧ q = 2 ^ a)
     (h : IsSpModel 3 q X) :
     Nat.card X = q ^ 9 * ((q ^ 2 - 1) * (q ^ 4 - 1) * (q ^ 6 - 1)) := by
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := h
@@ -164,7 +164,7 @@ theorem isSpModel_three_card {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 2
   rw [hX, CFSG.RankThree.PartTwo.Sec19.SimsTheoremC.spOrder, prod_Icc_one_three]
   norm_num
 
-theorem isSpModel_four_card {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 2 ≤ a ∧ q = 2 ^ a)
+theorem isSpModel_four_card {q : ℕ} {X : Type} [Group X] (_hq : ∃ a : ℕ, 2 ≤ a ∧ q = 2 ^ a)
     (h : IsSpModel 4 q X) :
     Nat.card X = q ^ 16 * ((q ^ 2 - 1) * (q ^ 4 - 1) * (q ^ 6 - 1) * (q ^ 8 - 1)) := by
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := h
@@ -181,11 +181,11 @@ theorem isOmegaPlus_four_facts {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ,
   obtain ⟨a, ha, hqa⟩ := hq
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := h
   have hq0 : 0 < q := by rw [hqa]; positivity
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two (hK.trans hqa)
-  haveI hΩs : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 4 K)) :=
+  have hΩs : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 4 K)) :=
     isSimpleGroup_statedOmega_quadPlus_of_three_le (K := K) (k := 4) (by norm_num)
-  haveI hΩp : Group.IsPerfect ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 4 K)) :=
+  have hΩp : Group.IsPerfect ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 4 K)) :=
     CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus (K := K) (n := 4) (by norm_num)
   obtain ⟨iso⟩ := nonempty_omega_mulEquiv_proj
     (CFSG.LieType.Universal.Spin.coe_quadPlus 4 K) (exists_quadPlus_ne_zero 4 (le_refl 4) K)
@@ -202,11 +202,11 @@ theorem isOmegaMinus_four_facts {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ
   obtain ⟨a, ha, hqa⟩ := hq
   obtain ⟨K, hF, hfin, hK, b, c, hirr, ⟨e⟩⟩ := h
   have hq0 : 0 < q := by rw [hqa]; positivity
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two (hK.trans hqa)
-  haveI hΩs : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 4 K b c)) :=
+  have hΩs : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 4 K b c)) :=
     isSimpleGroup_statedOmega_quadMinus_of_two_le (m := 4) (by norm_num) hirr
-  haveI hΩp : Group.IsPerfect ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 4 K b c)) :=
+  have hΩp : Group.IsPerfect ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 4 K b c)) :=
     CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadMinus (n := 4) (by norm_num) hirr
   obtain ⟨iso⟩ := nonempty_omega_mulEquiv_proj
     (CFSG.LieType.Universal.Spin.coe_quadMinus 4 K b c)
@@ -225,7 +225,7 @@ theorem isOmegaPlus_five_card {q : ℕ} {X : Type} [Group X] (hq : ∃ a : ℕ, 
   obtain ⟨a, -, hqa⟩ := hq
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := h
   have hq0 : 0 < q := by rw [hqa]; positivity
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two (hK.trans hqa)
   obtain ⟨iso⟩ := nonempty_omega_mulEquiv_proj
     (CFSG.LieType.Universal.Spin.coe_quadPlus 5 K) (exists_quadPlus_ne_zero 5 (by norm_num) K)

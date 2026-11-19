@@ -123,9 +123,9 @@ theorem s1y_of (hA : InvPartA) (hK18 : KFacts.KS18M12) (h414 : Sec4.Item4_14_loc
       Sylow.coe_mapSurjective _ _
     have hS27 : Nat.card (S : Subgroup Y) = 27 := by
       have := (hSyl Qb).1
-      rw [hQb, card_map_eq_of_injOn _ (injOn_mk_of_isPGroup Nat.prime_three S.isPGroup')] at this
+      rw [hQb, card_map_eq_of_injOn _ (injOn_mk_of_isPGroup Nat.prime_three S.isPGroup)] at this
       exact this
-    refine ⟨(S : Subgroup Y).map Y.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_⟩
+    refine ⟨(S : Subgroup Y).map Y.subtype, Subgroup.map_subtype_le _, S.isPGroup.map _, ?_⟩
     rw [Subgroup.card_map_of_injective Y.subtype_injective, hS27]
   ·
     intro Q hQN hQ3 q hq

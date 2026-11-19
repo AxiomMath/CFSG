@@ -94,7 +94,7 @@ theorem f4_toralCentralizer_le_normalizer (hF : ringChar F ≠ 2)
 
 theorem f4LeviC3_eq_JF4 : f4LeviC3 = JF4 := by
   ext j
-  simp only [f4LeviC3, JF4, Set.mem_range, Set.mem_setOf_eq]
+  simp only [f4LeviC3, JF4, Set.mem_range, Set.mem_ofPred_eq]
   revert j
   decide
 

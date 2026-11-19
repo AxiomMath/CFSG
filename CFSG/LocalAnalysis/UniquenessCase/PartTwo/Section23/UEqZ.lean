@@ -140,7 +140,7 @@ theorem U_eq_Z_of_familyControlsFusion (D : Data G)
         refine ⟨K, hKn, hKle, ?_, ?_⟩
         · simpa [hCdef] using hTKC
         · exact isCyclic_quotient_of_cyclic_mod hH.2 hKle hKn hPCK hcyc
-    · haveI := D.standing.simple
+    · have := D.standing.simple
       exact CFSG.LocalAnalysis.RankThreeUC.commutator_eq_top_of_standing D.standing.nonab
   rw [hTcoe] at hTC
   have hUleM : D.U ≤ D.M :=

@@ -52,12 +52,12 @@ theorem comm_of_semilinear {X : Type*} [Group X] (V Y : Subgroup X) [Finite Y]
   exact mul_inv_eq_iff_eq_mul.mp (mul_inv_eq_one.mp hc1)
 
 theorem exists_conj_in_L_of_adjacent {X : Type*} [Group X] (V Y L NbY : Subgroup X) (y x : X)
-    (hYL : ∀ z ∈ Y, z ∈ L → z = 1) (hLab : ∀ a ∈ L, ∀ b ∈ L, a * b = b * a)
+    (hYL : ∀ z ∈ Y, z ∈ L → z = 1) (_hLab : ∀ a ∈ L, ∀ b ∈ L, a * b = b * a)
     (hyL : ∀ l ∈ L, y * l * y⁻¹ ∈ L)
-    (hti : ∀ g : X, ∀ z ∈ Y, z ≠ 1 → g * z * g⁻¹ ∈ Y → g ∈ Subgroup.normalizer (Y : Set X))
+    (_hti : ∀ g : X, ∀ z ∈ Y, z ≠ 1 → g * z * g⁻¹ ∈ Y → g ∈ Subgroup.normalizer (Y : Set X))
     (hsemi : ∀ z ∈ NbY, z ∉ Y → ∀ w ∈ Y, ∃ m ∈ NbY, m * z * m⁻¹ = w * z)
     (hVnot : ∀ n ∈ L, y * n * y⁻¹ * n⁻¹ ∈ V → y * n * y⁻¹ * n⁻¹ = 1)
-    (hyY : y ∈ Y) (hy1 : y ≠ 1) (hy2 : y * y = 1)
+    (hyY : y ∈ Y) (_hy1 : y ≠ 1) (hy2 : y * y = 1)
     (hyV : ∃ a ∈ V, a ≠ 1 ∧ ∃ h : X, y = h * a * h⁻¹)
     (hxL : x ∈ L) (hxy : x * y * x⁻¹ ≠ y) (hxN : x * y * x⁻¹ ∈ NbY) :
     ∃ s ∈ V, s ≠ 1 ∧ ∃ g : X, g * s * g⁻¹ ∈ L ∧ g * s * g⁻¹ ∉ V := by

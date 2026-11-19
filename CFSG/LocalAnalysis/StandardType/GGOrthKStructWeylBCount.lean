@@ -40,7 +40,7 @@ private noncomputable def okCnt_invEquiv {k : ℕ} (i : Fin k) :
     rintro ⟨⟨a, ha⟩, s⟩
     have hai : a i = 1 := okCnt_inv_eq_self (by
       have h := congrFun ha i
-      rwa [coordInv_apply, Function.update_apply, if_pos rfl] at h)
+      rwa [coordInv_apply, Function.update_apply, ite_eq_left rfl] at h)
     have hfirst : Function.update (Function.update a i s) i 1 = a := by
       rw [Function.update_idem, ← hai, Function.update_eq_self]
     have hsecond : (Function.update a i s) i = s := Function.update_self i s a

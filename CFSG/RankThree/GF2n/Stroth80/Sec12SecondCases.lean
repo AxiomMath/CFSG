@@ -43,7 +43,7 @@ private theorem card_UT3_eq (R : Type*) [CommRing R] :
 theorem secondCfg_cases {N : Subgroup X} {k : ℕ} (hk : k = 4 ∨ k = 8) (hS : ConfigSatz N)
     (hW : Width N (cen N) k) (hgen : k = 4 → StrothGenByBStatement)
     (hCi : k = 4 → Stroth4iStatement) :
-    ∃ B₂ : Subgroup X, ∃ hc : Ctx (Subgroup.normalizer ((cen N : Subgroup X) : Set X)) N
+    ∃ B₂ : Subgroup X, ∃ _hc : Ctx (Subgroup.normalizer ((cen N : Subgroup X) : Set X)) N
         (cen N) B₂,
       (k = 4 ∧ QuotSat (Lgen (Subgroup.normalizer ((cen N : Subgroup X) : Set X))
           (LB (Subgroup.normalizer ((cen N : Subgroup X) : Set X)) N B₂)) N
@@ -64,8 +64,8 @@ theorem secondCfg_cases {N : Subgroup X} {k : ℕ} (hk : k = 4 ∨ k = 8) (hS : 
       CaseVI (Subgroup.normalizer ((cen N : Subgroup X) : Set X)) N (cen N)
         (Lgen (Subgroup.normalizer ((cen N : Subgroup X) : Set X))
           (LB (Subgroup.normalizer ((cen N : Subgroup X) : Set X)) N B₂)) := by
-  obtain ⟨B₂, hc, hconc⟩ := hS.exists_ctx
-  refine ⟨B₂, hc, ?_⟩
+  obtain ⟨B₂, _hc, hconc⟩ := hS.exists_ctx
+  refine ⟨B₂, _hc, ?_⟩
   obtain ⟨hcases, -⟩ := hconc
   have hq : 2 ≤ Nat.card (cen N) := le_trans (by norm_num) hS.1.q4
   have hinj : ∀ a b : ℕ, Nat.card (cen N) ^ a = Nat.card (cen N) ^ b → a = b :=
@@ -115,9 +115,9 @@ theorem secondCfg_cases {N : Subgroup X} {k : ℕ} (hk : k = 4 ∨ k = 8) (hS : 
       have := hinj _ _ (hN.symm.trans hi.1)
       omega
     have hNoA2' : NoA2 N (cen N) (LB (Subgroup.normalizer ((cen N : Subgroup X) : Set X)) N B₂) :=
-      hNoA2 B₂ hc.conj hc.le hc.ne
-    have hgenB := hgen hk4 X _ N (cen N) B₂ hc k hW hk' hNoA2'
-    have hCii := hCi hk4 X _ N (cen N) B₂ hc k t ⟨hW, hk', hNoA2', hgenB, htL, htQ⟩ hi
+      hNoA2 B₂ _hc.conj _hc.le _hc.ne
+    have hgenB := hgen hk4 X _ N (cen N) B₂ _hc k hW hk' hNoA2'
+    have hCii := hCi hk4 X _ N (cen N) B₂ _hc k t ⟨hW, hk', hNoA2', hgenB, htL, htQ⟩ hi
     exact hii t hCii hCT
   · right
     left
@@ -138,10 +138,12 @@ section Bridge
 variable {G : Type} [Group G] [Finite G] {M Q Z S R : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem normal_bar_subgroupOf (hSn : (S.subgroupOf M).Normal) :
     ((bar M Q S).subgroupOf (bar M Q (H0 M Z))).Normal :=
   (bar_normal hSn).subgroupOf _
 
+omit [Finite G] in
 theorem centralizer_bar_trivial (hSM : S ≤ M) (hSH : S ≤ H0 M Z) (hCT : CentTrivial M Q Z S)
     (h : ↥(bar M Q (H0 M Z))) (hc : ∀ s ∈ (bar M Q S).subgroupOf (bar M Q (H0 M Z)),
       h * s = s * h) : h = 1 := by
@@ -173,6 +175,7 @@ theorem centralizer_bar_trivial (hSM : S ≤ M) (hSH : S ≤ H0 M Z) (hCT : Cent
   rw [← hhm]
   exact (QuotientGroup.eq_one_iff h').mpr (Subgroup.mem_subgroupOf.mpr hhQ)
 
+omit [Finite G] in
 theorem equiv_subgroupOf_bar (hQS : Q ≤ S) (hSM : S ≤ M) (hSH : S ≤ H0 M Z) :
     ∃ _ : (Q.subgroupOf S).Normal, Nonempty (↥S ⧸ Q.subgroupOf S ≃*
       ↥((bar M Q S).subgroupOf (bar M Q (H0 M Z)))) := by
@@ -180,6 +183,7 @@ theorem equiv_subgroupOf_bar (hQS : Q ≤ S) (hSM : S ≤ M) (hSH : S ≤ H0 M Z
   have hle : bar M Q S ≤ bar M Q (H0 M Z) := Subgroup.map_mono fun x hx => hSH hx
   exact ⟨hn, ⟨e.trans (Subgroup.subgroupOfEquivOfLe hle).symm⟩⟩
 
+omit [Finite G] in
 theorem perfect_bar_subgroupOf (hQR : Q ≤ R) (hRM : R ≤ M) (hRH : R ≤ H0 M Z)
     (hperf : QuotSat R Q (fun X _ => Group.IsPerfect X)) :
     ⁅(bar M Q R).subgroupOf (bar M Q (H0 M Z)), (bar M Q R).subgroupOf (bar M Q (H0 M Z))⁆ =
@@ -187,14 +191,15 @@ theorem perfect_bar_subgroupOf (hQR : Q ≤ R) (hRM : R ≤ M) (hRH : R ≤ H0 M
   obtain ⟨hn, hp⟩ := hperf
   obtain ⟨hn', ⟨e⟩⟩ := quotMulEquivBar (M := M) hQR hRM
   have hle : bar M Q R ≤ bar M Q (H0 M Z) := Subgroup.map_mono fun x hx => hRH hx
-  haveI : Group.IsPerfect ↥(bar M Q R) := Group.IsPerfect.ofSurjective
+  have : Group.IsPerfect ↥(bar M Q R) := Group.IsPerfect.ofSurjective
     (f := e.toMonoidHom) e.surjective
-  haveI : Group.IsPerfect ↥((bar M Q R).subgroupOf (bar M Q (H0 M Z))) :=
+  have : Group.IsPerfect ↥((bar M Q R).subgroupOf (bar M Q (H0 M Z))) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom)
       (MulEquiv.surjective _)
   exact Subgroup.isPerfect_iff.mp inferInstance
 
-theorem le_of_subgroupOf_bar_le (hQS : Q ≤ S) (hSM : S ≤ M) (hRM : R ≤ M)
+omit [Finite G] in
+theorem le_of_subgroupOf_bar_le (hQS : Q ≤ S) (_hSM : S ≤ M) (hRM : R ≤ M)
     (hRH : R ≤ H0 M Z)
     (h : (bar M Q R).subgroupOf (bar M Q (H0 M Z)) ≤ (bar M Q S).subgroupOf (bar M Q (H0 M Z))) :
     R ≤ S := by
@@ -219,6 +224,7 @@ theorem le_of_subgroupOf_bar_le (hQS : Q ≤ S) (hSM : S ≤ M) (hRM : R ≤ M)
     (∃ x y : C, x * y ≠ y * x) ∧ Group.IsSolvable (Outer A) ∧ Group.IsSolvable (Outer B) ∧
     Group.IsSolvable (Outer C) ∧ Nonempty (X ≃* A × (B × C))
 
+omit [Finite G] in
 theorem quotSat_mono {P P' : ∀ (X : Type) [Group X], Prop}
     (hP : ∀ (X : Type) [Group X], P X → P' X) {S N : Subgroup G} (h : QuotSat S N P) :
     QuotSat S N P' := by
@@ -244,7 +250,7 @@ theorem le_of_perfect_prod2 (hQS : Q ≤ S) (hSM : S ≤ M) (hSH : S ≤ H0 M Z)
     (hS : QuotSat S Q IsSimpleProd2) : R ≤ S := by
   obtain ⟨hn, A, B, _, _, hAs, hBs, hAn, hBn, hAo, hBo, ⟨e⟩⟩ := hS
   obtain ⟨hn', ⟨e'⟩⟩ := equiv_subgroupOf_bar (M := M) (Z := Z) hQS hSM hSH
-  haveI := normal_bar_subgroupOf (M := M) (Q := Q) (Z := Z) hSn
+  have := normal_bar_subgroupOf (M := M) (Q := Q) (Z := Z) hSn
   have hC := solvable_centralizer_of_centTrivial hSM hSH hCT
   have hRp := perfect_bar_subgroupOf (M := M) (Z := Z) hQR hRM hRH hperf
   exact le_of_subgroupOf_bar_le hQS hSM hRM hRH
@@ -256,7 +262,7 @@ theorem le_of_perfect_prod3 (hQS : Q ≤ S) (hSM : S ≤ M) (hSH : S ≤ H0 M Z)
     (hS : QuotSat S Q IsSimpleProd3) : R ≤ S := by
   obtain ⟨hn, A, B, C, _, _, _, hAs, hBs, hCs, hAn, hBn, hCn, hAo, hBo, hCo, ⟨e⟩⟩ := hS
   obtain ⟨hn', ⟨e'⟩⟩ := equiv_subgroupOf_bar (M := M) (Z := Z) hQS hSM hSH
-  haveI := normal_bar_subgroupOf (M := M) (Q := Q) (Z := Z) hSn
+  have := normal_bar_subgroupOf (M := M) (Q := Q) (Z := Z) hSn
   have hC := solvable_centralizer_of_centTrivial hSM hSH hCT
   have hRp := perfect_bar_subgroupOf (M := M) (Z := Z) hQR hRM hRH hperf
   exact le_of_subgroupOf_bar_le hQS hSM hRM hRH
@@ -271,13 +277,14 @@ theorem le_of_perfect_outer (hQS : Q ≤ S) (hSM : S ≤ M) (hSH : S ≤ H0 M Z)
     (hS : QuotSat S Q (fun X _ => Group.IsSolvable (Outer X))) : R ≤ S := by
   obtain ⟨hn, hO⟩ := hS
   obtain ⟨hn', ⟨e'⟩⟩ := equiv_subgroupOf_bar (M := M) (Z := Z) hQS hSM hSH
-  haveI := normal_bar_subgroupOf (M := M) (Q := Q) (Z := Z) hSn
-  haveI := hO
+  have := normal_bar_subgroupOf (M := M) (Q := Q) (Z := Z) hSn
+  have := hO
   have hRp := perfect_bar_subgroupOf (M := M) (Z := Z) hQR hRM hRH hperf
   have hO' : Group.IsSolvable (Outer ↥((bar M Q S).subgroupOf (bar M Q (H0 M Z)))) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e'
   exact le_of_subgroupOf_bar_le hQS hSM hRM hRH (perfect_le_of_outer _ _ hC hO' hRp)
 
+omit [Finite G] in
 theorem mk_comm_iff (a b : ↥M) :
     (QuotientGroup.mk' (Q.subgroupOf M) a * QuotientGroup.mk' (Q.subgroupOf M) b =
       QuotientGroup.mk' (Q.subgroupOf M) b * QuotientGroup.mk' (Q.subgroupOf M) a) ↔
@@ -380,7 +387,7 @@ theorem solvable_centralizer_of_centDvd (hSM : S ≤ M) (hSH : S ≤ H0 M Z)
 
 theorem outer_solvable_of_subsingleton (X : Type) [Group X] [Subsingleton X] :
     Group.IsSolvable (Outer X) := by
-  haveI : Subsingleton (MulAut X) := ⟨fun a b => MulEquiv.ext fun x => Subsingleton.elim _ _⟩
+  have : Subsingleton (MulAut X) := ⟨fun a b => MulEquiv.ext fun x => Subsingleton.elim _ _⟩
   exact Group.isSolvable_of_surjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
 
 theorem outer_solvable_statedSL {K : Type} [Field K] [Finite K]
@@ -388,10 +395,10 @@ theorem outer_solvable_statedSL {K : Type} [Field K] [Finite K]
     Group.IsSolvable (Outer (StatedSL n K)) := by
   rcases Nat.lt_or_ge n 3 with hn | hn
   · interval_cases n
-    · haveI : Subsingleton (StatedSL 0 K) :=
+    · have : Subsingleton (StatedSL 0 K) :=
         ⟨fun a b => Subtype.ext (Units.ext (Matrix.ext fun i => i.elim0))⟩
       exact outer_solvable_of_subsingleton _
-    · haveI : Subsingleton (SL(1, K)) := ⟨fun A B => by
+    · have : Subsingleton (SL(1, K)) := ⟨fun A B => by
         apply Subtype.ext
         ext i j
         have hi : i = 0 := Subsingleton.elim _ _
@@ -401,7 +408,7 @@ theorem outer_solvable_statedSL {K : Type} [Field K] [Finite K]
         have hB := B.det_coe
         rw [Matrix.det_unique] at hA hB
         exact hA.trans hB.symm⟩
-      haveI : Subsingleton (StatedSL 1 K) :=
+      have : Subsingleton (StatedSL 1 K) :=
         (specialLinearGroupEquivStatedSL 1 K).symm.injective.subsingleton
       exact outer_solvable_of_subsingleton _
     · exact (isSLModel_two_facts hq ⟨K, inferInstance, inferInstance, rfl,
@@ -423,10 +430,10 @@ theorem false_of_caseVI (hQS : Q ≤ S) (hSM : S ≤ M) (hSH : S ≤ H0 M Z)
   have hKq : ∃ a : ℕ, 2 ≤ a ∧ Nat.card K = 2 ^ a := by
     obtain ⟨a, ha, hZa⟩ := hq
     exact ⟨a, ha, hK.trans hZa⟩
-  haveI hn : (Q.subgroupOf S).Normal := hker ▸ φ.normal_ker
+  have hn : (Q.subgroupOf S).Normal := hker ▸ φ.normal_ker
   have hSout : QuotSat S Q (fun X _ => Group.IsSolvable (Outer X)) := by
     refine ⟨hn, ?_⟩
-    haveI := outer_solvable_statedSL hKq n
+    have := outer_solvable_statedSL hKq n
     exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv
       (((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
         (QuotientGroup.quotientKerEquivRange φ)).trans (MulEquiv.subgroupCongr hrange)).symm
@@ -496,6 +503,7 @@ section Master
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem ConfigSatz.card_cen {N : Subgroup X} (hS : ConfigSatz N) :
     ∃ a : ℕ, 2 ≤ a ∧ Nat.card (cen N) = 2 ^ a := by
   obtain ⟨a, -, ha, -⟩ := hS.1.cp
@@ -520,7 +528,7 @@ theorem secondCfg_le {N R : Subgroup X} {k : ℕ} (hk : k = 4 ∨ k = 8) (hS : C
             QuotSat S N (IsProdOf (IsSLModel 2 (Nat.card (cen N)))
               (IsOmegaMinus m (Nat.card (cen N)))))) := by
   obtain ⟨B₂, hc, hcases⟩ := secondCfg_cases hk hS hW hgen hCi
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   obtain ⟨a, ha2, haq⟩ := hS.card_cen
   have hQS : N ≤ Lgen (Subgroup.normalizer ((cen N : Subgroup X) : Set X))
       (LB (Subgroup.normalizer ((cen N : Subgroup X) : Set X)) N B₂) :=

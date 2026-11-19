@@ -173,6 +173,7 @@ theorem le_cgsIn (hCGT : CFSG.AGLEmbedding.AschbacherLocalCGTBlock) (hX : GNSett
       (CFSG.Quasithin.inf_normalizer_le_cgsIn (H := L) (S := T) hT)
   exact le_of_map_toStar_le hX hL hLC (CFSG.Quasithin.cgsIn_le L T) hTJ hLJstar
 
+omit [Finite X] in
 theorem cgsIn_le_threeNormalizerJoin {C₁ : Subgroup X}
     (h1 : C₁ ≤ CFSG.Quasithin.omegaOneCenterOf T) (hne : C₁ ≠ ⊥)
     (hc : (C₁.subgroupOf T).Characteristic)
@@ -233,8 +234,8 @@ theorem agl81FiveTwentySixAlt_of (hAF : CFSG.AGLEmbeddingD2.GN.GNAltFacts)
       intro x hx
       rw [MonoidHom.mem_ker]
       exact (QuotientGroup.eq_one_iff (N := gnC T) x).mpr (h hx)
-    haveI : Subsingleton ↥(L.map (toStar T)) := by rw [hbot]; infer_instance
-    haveI : Subsingleton (↥(L.map (toStar T)) ⧸
+    have : Subsingleton ↥(L.map (toStar T)) := by rw [hbot]; infer_instance
+    have : Subsingleton (↥(L.map (toStar T)) ⧸
         Subgroup.center ↥(L.map (toStar T))) :=
       ⟨fun a b => by
         obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a

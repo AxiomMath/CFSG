@@ -34,7 +34,7 @@ theorem c23a_false_of_inCalO2 {M V W W' V₀ : Subgroup G} {n : ℕ} {g : G} (hn
         (i := n) hI (g := 1) (by rw [conjSubgroup_one]; exact hIV)
       simpa [conjSubgroup_one] using h'
     exact hm.le
-  obtain ⟨b, hb_mem, hb_notC⟩ := SetLike.not_le_iff_exists.1 hIb
+  obtain ⟨b, hb_mem, hb_notC⟩ := IsConcreteLE.not_le_iff_exists.1 hIb
   obtain ⟨⟨hbVg, hbM⟩, hbCI⟩ := Subgroup.mem_inf.1 hb_mem
   have hb2 : b ^ 2 = 1 := hP'.elem.2 b hbVg
   have hbV : ¬ V ≤ centralizer ({b} : Set G) := c23a_o2_not_le_centralizer_singleton hb_notC
@@ -50,7 +50,7 @@ theorem c23a_false_of_inCalO2 {M V W W' V₀ : Subgroup G} {n : ℕ} {g : G} (hn
     c23a_step12 (M := M) (V := V) (W := W) (W' := W') (U := U)
       (D₀ := V ⊓ conjSubgroup V g) (I := I) (b := b) hn hP inf_le_left hI.1
       hbM hb2 hbV hIb' hmI hmU hcomm hD
-  obtain ⟨a, ha_mem, ha_notC⟩ := SetLike.not_le_iff_exists.1 hI'a
+  obtain ⟨a, ha_mem, ha_notC⟩ := IsConcreteLE.not_le_iff_exists.1 hI'a
   obtain ⟨haU, haCI'⟩ := Subgroup.mem_inf.1 ha_mem
   have haV : a ∈ V := (Subgroup.mem_inf.1 haU).1
   have haM : a ∈ conjSubgroup M g := (Subgroup.mem_inf.1 haU).2

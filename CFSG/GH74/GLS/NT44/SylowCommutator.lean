@@ -360,7 +360,7 @@ private theorem exists_involution_mem_zStar_sylow_commutator_closure_of_fixed
   have hqinj : ∀ x : ↥P, q (x : ↥L) = 1 → x = 1 := by
     intro x hx
     have hx2 : ∃ k : ℕ, (x : ↥L) ^ (2 ^ k) = 1 := by
-      obtain ⟨k, hk⟩ := P.isPGroup' x
+      obtain ⟨k, hk⟩ := P.isPGroup x
       exact ⟨k, by simpa using congrArg (fun z : ↥P => (z : ↥L)) hk⟩
     have hxL : (x : ↥L) = 1 :=
       CFSG.GH74.GLS.Stage1.Thm4.Alt51.eq_one_of_hat_eq_one

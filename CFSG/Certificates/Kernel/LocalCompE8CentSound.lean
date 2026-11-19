@@ -14,7 +14,7 @@ open CFSG.EvenSmallLie.OmegaEight CFSG.EvenSmallLie.OmegaEight.Weyl
 theorem bit_eq (x k : Nat) : (x >>> k &&& 1) = if x.testBit k then 1 else 0 := by
   rw [Nat.and_one_is_mod]
   rcases Nat.mod_two_eq_zero_or_one (x >>> k) with h | h <;>
-    simp [Nat.testBit, Nat.and_one_is_mod, Nat.one_and_eq_mod_two, h]
+    simp [Nat.testBit, Nat.one_and_eq_mod_two, h]
 
 theorem sumN_eq (n : Nat) (f : Nat → Nat) : sumN n f = ∑ j ∈ Finset.range n, f j := by
   induction n with
@@ -47,10 +47,9 @@ theorem pair2K_spec (h : pair2K = true) : ∀ a < 256, pop8 a = 2 → ∀ b < 25
   intro a ha hpa b hb hpb hpab
   have hpab' : pop8 (Nat.xor a b) = 2 := hpab
   have k := CFSG.KS.allN_spec h a ha
-  simp only [bIf_eq, Nat.beq_eq, hpa, if_true] at k
+  simp only [bIf_eq, Nat.beq_eq, hpa, ite_true] at k
   have k2 := CFSG.KS.allN_spec k b hb
-  simp only [bIf_eq, bAnd_eq, Nat.beq_eq, hpb, hpab', Bool.and_self, if_true, decide_true,
-    Nat.ble_eq] at k2
+  simp only [Nat.beq_eq, hpb, hpab', ite_true, Nat.ble_eq] at k2
   exact k2
 
 theorem triple_spec (h : tripleK = true) : ∀ a < 256, pop8 a = 2 → ∀ b < 256, pop8 b = 2 →
@@ -64,12 +63,12 @@ theorem triple_spec (h : tripleK = true) : ∀ a < 256, pop8 a = 2 → ∀ b < 2
     Bool.eq_false_iff.2 (fun e => hne (Nat.eq_of_beq_eq_true e))
   have hn : notB' false = true := rfl
   have k := CFSG.KS.allN_spec h a ha
-  simp only [bIf_eq, Nat.beq_eq, hpa, if_true] at k
+  simp only [bIf_eq, Nat.beq_eq, hpa, ite_true] at k
   have k2 := CFSG.KS.allN_spec k b hb
-  simp only [bIf_eq, bAnd_eq, Nat.beq_eq, hpb, hpab', Bool.and_self, if_true, decide_true] at k2
+  simp only [Nat.beq_eq, hpb, hpab', ite_true] at k2
   have k3 := CFSG.KS.allN_spec k2 c hc
-  simp only [bIf_eq, bAnd_eq, hpc, hpac', hpbc', hne', hn, Nat.beq_eq, Bool.and_self, if_true,
-    decide_true, Bool.true_and, Nat.blt_eq] at k3
+  simp only [hpc, hpac', hpbc', hne', hn, ite_true,
+    Nat.blt_eq] at k3
   exact k3
 
 theorem exists_common_bit {a b c : Nat} (ha : a < 256) (h : 0 < a &&& (b &&& c)) :
@@ -88,7 +87,7 @@ theorem exists_common_bit {a b c : Nat} (ha : a < 256) (h : 0 < a &&& (b &&& c))
 theorem tripleK_sound (h : tripleK = true) : tripleCheck = true := by
   have hs := triple_spec h
   simp only [tripleCheck, List.all_eq_true, List.mem_range, Bool.or_eq_true, Bool.not_eq_true',
-    Bool.and_eq_false_imp, beq_iff_eq, List.any_eq_true, Bool.and_eq_true, bne_iff_ne, ne_eq,
+    Bool.and_eq_false_imp, beq_iff_eq, List.any_eq_true, Bool.and_eq_true, ne_eq,
     beq_eq_false_iff_ne, bne_eq_false_iff_eq]
   intro a ha
   by_cases hpa : framePop a = 2

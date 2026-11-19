@@ -19,10 +19,10 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 
 theorem m6z_invType_of_q8_lift_six (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = -1)
-    {q r : OGroup Q} (hq : q ∈ omegaGroup hQ) (hr : r ∈ omegaGroup hQ)
+    {q r : OGroup Q} (hq : q ∈ omegaGroup hQ) (_hr : r ∈ omegaGroup hQ)
     (hyy : (q * q) * (q * q) = 1) (hy1 : q * q ≠ 1) (hyπ : q * q ≠ piOrth Q)
-    (hb : r * r = q * q ∨ r * r = piOrth Q * (q * q))
-    (hc : r * q = q⁻¹ * r ∨ r * q = piOrth Q * (q⁻¹ * r)) :
+    (_hb : r * r = q * q ∨ r * r = piOrth Q * (q * q))
+    (_hc : r * q = q⁻¹ * r ∨ r * q = piOrth Q * (q⁻¹ * r)) :
     invType (q * q) = (4, 1) ∨ invType (piOrth Q * (q * q)) = (4, 1) := by
   have hΩ : q * q ∈ omegaGroup hQ := mul_mem hq hq
   have homega := (involution_mem_omegaGroup_iff hQ hyy).mp hΩ
@@ -59,8 +59,8 @@ theorem m6z_exists_lift_of_pocket_omegaProj_six (hQ : Q.Nondegenerate)
       omegaToProj hQ y = x := by
   unfold IsI4PlusIn Sl23PocketIn at hx
   obtain ⟨hord, K, hxK, hKle, hKsub, hKsl⟩ := hx
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaProj hQ) := inferInstance
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaProj hQ) := inferInstance
   obtain ⟨f, hf, hfx, -⟩ := exists_quaternion_of_isSL23Mod hKsl hxK hord
   obtain ⟨q, r, hρ, hyy, hy1, hyπ, hb, hc⟩ := m6z_exists_q8_lift hQ hf
   have h12 := m6z_invType_of_q8_lift_six hQ hdim hs q.2 r.2 hyy hy1 hyπ hb hc

@@ -220,17 +220,19 @@ theorem isRoot_of_mem_c3RootSet
   obtain ⟨γ, hγ, rfl⟩ := hα
   exact isRoot_c3ToF4 hγ
 
+omit [CharP K 2] [Finite K] in
 theorem f4Par_coe_eq_pinnedX
     {α : Fin (Tag.rank .F4) → ℤ}
     (hα : CFSG.Blueprint.Chevalley.IsRoot .F4 α) (c : K) :
     ((Adjoint.f4Par K α c : ↥(adjointGroup .F4 K)) : ModGL .F4 K)
       = pinnedX .F4 K α (((rootOperatorFamily .F4).pinnedFamilySign α : K) * c) := by
   rw [show Adjoint.f4Par K α c = xPar (rootOperatorFamily .F4) α c from rfl,
-    xPar, dif_pos hα, RootOperatorFamily.coe_eltElement]
+    xPar, dite_eq_left hα, RootOperatorFamily.coe_eltElement]
   symm
   rw [(rootOperatorFamily .F4).pinnedX_eq_eltUnit K hα, ← mul_assoc,
     (rootOperatorFamily .F4).pinnedFamilySign_mul_self K α, one_mul]
 
+omit [CharP K 2] [Finite K] in
 theorem iota_x_eq_pinnedX
     (ι : ↥(StatedSp 3 K) →* ↥(adjointGroup .F4 K))
     (hι : ∀ γ c, ι (Sp.x 3 K γ c) = Adjoint.f4Par K (c3ToF4 γ) c)
@@ -243,6 +245,7 @@ theorem iota_x_eq_pinnedX
 def c3RootSubgroup (γ : Fin 3 → ℤ) : Subgroup (StatedSp 3 K) :=
   Subgroup.closure (Set.range (Sp.x 3 K γ))
 
+omit [CharP K 2] [Finite K] in
 theorem range_iota_x_eq_range_pinnedX
     (ι : ↥(StatedSp 3 K) →* ↥(adjointGroup .F4 K))
     (hι : ∀ γ c, ι (Sp.x 3 K γ c) = Adjoint.f4Par K (c3ToF4 γ) c)
@@ -263,6 +266,7 @@ theorem range_iota_x_eq_range_pinnedX
           * (((rootOperatorFamily .F4).pinnedFamilySign (c3ToF4 γ) : K) * c) = c from by
         rw [← mul_assoc, (rootOperatorFamily .F4).pinnedFamilySign_mul_self K (c3ToF4 γ), one_mul]]
 
+omit [CharP K 2] [Finite K] in
 theorem map_c3RootSubgroup_eq_rootSubgroup
     (ι : ↥(StatedSp 3 K) →* ↥(adjointGroup .F4 K))
     (hι : ∀ γ c, ι (Sp.x 3 K γ c) = Adjoint.f4Par K (c3ToF4 γ) c)

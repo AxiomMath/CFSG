@@ -111,7 +111,7 @@ theorem indClassFun_eq_sum_of_forall_conj_mem (H : Subgroup L) (θ : H → ℂ) 
   classical
   rw [indClassFun_apply]
   congr 1
-  exact Finset.sum_congr rfl fun x _ => dif_pos (hmem x)
+  exact Finset.sum_congr rfl fun x _ => dite_eq_left (hmem x)
 
 theorem indClassFun_apply_of_mem_center (H : Subgroup L) (θ : H → ℂ) {z : L} (hz : z ∈ H)
     (hc : z ∈ Subgroup.center L) : indClassFun H θ z = (H.index : ℂ) * θ ⟨z, hz⟩ := by
@@ -516,6 +516,7 @@ theorem dualChar_injective : Function.Injective (dualChar (p := p) (E := E)) :=
   fun l₁ l₂ h => LinearMap.ext fun v => zmodCharUnit_ofAdd_inj
     (by rw [← dualChar_apply l₁ v, ← dualChar_apply l₂ v, h])
 
+omit [NeZero p] in
 theorem eq_zero_of_comp_eq_of_fixedFree [Fact p.Prime] [FiniteDimensional (ZMod p) E]
     (d : E ≃ₗ[ZMod p] E) (hd : ∀ v : E, d v = v → v = 0) {l : E →ₗ[ZMod p] ZMod p}
     (hfix : ∀ v : E, l (d v) = l v) : l = 0 := by
@@ -533,6 +534,7 @@ theorem eq_zero_of_comp_eq_of_fixedFree [Fact p.Prime] [FiniteDimensional (ZMod 
     rw [map_sub, hfix v, sub_self]
   exact LinearMap.ext fun w => by obtain ⟨v, rfl⟩ := hsurj w; simpa using hlf v
 
+omit [NeZero p] in
 theorem mem_ker_of_dualChar_comp_eq [Fact p.Prime] [FiniteDimensional (ZMod p) E]
     (hD : ∀ d ∈ MonoidHom.range r, d ≠ 1 → ∀ v : E, d v = v → v = 0)
     {l : E →ₗ[ZMod p] ZMod p} (hl : l ≠ 0) {w : U} (hw : ∀ v : E, l (r w v) = l v) :
@@ -541,7 +543,7 @@ theorem mem_ker_of_dualChar_comp_eq [Fact p.Prime] [FiniteDimensional (ZMod p) E
   exact hl (eq_zero_of_comp_eq_of_fixedFree (r w)
     (hD (r w) ⟨w, rfl⟩ (fun h => hwc (MonoidHom.mem_ker.2 h))) hw)
 
-theorem inertiaGroup_kerPartChar_le [Fact p.Prime] [FiniteDimensional (ZMod p) E] [NeZero p]
+theorem inertiaGroup_kerPartChar_le [Fact p.Prime] [FiniteDimensional (ZMod p) E]
     (hD : ∀ d ∈ MonoidHom.range r, d ≠ 1 → ∀ v : E, d v = v → v = 0)
     {l : E →ₗ[ZMod p] ZMod p} (hl : l ≠ 0) (ν : MonoidHom.ker r →* ℂˣ) :
     inertiaGroup (kerPart r) (fun t => (kerPartChar r (dualChar l) ν t : ℂ)) ≤ kerPart r := by
@@ -574,9 +576,9 @@ open FixedFreeImage SemidirectProduct
 
 theorem exists_moving_character_pair {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q)
     {E : Type} [AddCommGroup E] [Module (ZMod p) E] [Fintype E] [Nontrivial E]
-    {U : Type} [CommGroup U] [Fintype U] (hqU : ¬ q ∣ Nat.card U)
+    {U : Type} [CommGroup U] [Fintype U] (_hqU : ¬ q ∣ Nat.card U)
     (b : E ≃ₗ[ZMod p] E) (hbq : b ^ q = 1) (s : E) (hs : s ≠ 0) (hbs : b s = s)
-    (σ : MulAut U) (hσq : σ ^ q = 1) (hσ1 : σ ≠ 1) (hσfix : ∀ w : U, σ w = w → w = 1)
+    (σ : MulAut U) (hσq : σ ^ q = 1) (_hσ1 : σ ≠ 1) (hσfix : ∀ w : U, σ w = w → w = 1)
     (r : U →* (E ≃ₗ[ZMod p] E)) (hr : ∀ w : U, r (σ w) = b * r w * b⁻¹)
     (hC : MonoidHom.ker r ≠ ⊥)
     (hD : ∀ d ∈ MonoidHom.range r, d ≠ 1 → ∀ v : E, d v = v → v = 0) :

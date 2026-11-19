@@ -48,7 +48,7 @@ theorem orth8_levi_res {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
   have hdle : ∀ i : Fin (s + 1), d i ≤ 2 := fun i => (hd.mono.monotone (Fin.le_last i)).trans ht
   have hlast1 : 1 ≤ d (Fin.last s) := by
     have h0 : (0 : Fin (s + 1)) < Fin.last s := by
-      simp only [Fin.lt_iff_val_lt_val, Fin.val_zero, Fin.val_last]
+      simp only [Fin.lt_def, Fin.val_zero, Fin.val_last]
       omega
     have h := hd.mono h0
     rw [hd.zero] at h
@@ -127,9 +127,9 @@ theorem orth8_levi_res {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
       obtain ⟨hq, hc, -, -⟩ :=
         orthMinus_res_block_data (m := 3 - d (Fin.last s)) hF hirr hp hp5 hpq hx hx1
       exact ⟨hq, hc⟩
-  haveI : Finite (((Fin 3 ⊕ Fin 3 → F) × (Fin 2 → F)) ≃ₗ[F]
+  have : Finite (((Fin 3 ⊕ Fin 3 → F) × (Fin 2 → F)) ≃ₗ[F]
       ((Fin 3 ⊕ Fin 3 → F) × (Fin 2 → F))) := finite_orthLinearEquiv
-  haveI : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm F b c))) := Subtype.finite
+  have : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm F b c))) := Subtype.finite
   obtain ⟨j₀, hu, hL⟩ := leviSurj_of_blocks_gen hp hp2 hzP hz hrk (orthLeviHom b c hd) hβ
     (orthLeviBlock F 3 d b c) hS hcomm hperf hpR hblk
   rcases j₀ with l | v

@@ -35,6 +35,7 @@ theorem Hyp21.sectionHull_u_ne_top (h : Hyp21 p f Ω K K' z u J t W) :
   obtain ⟨x, -, y, -, hxy⟩ := (hΩ.isQuatSub_of_mem_RSet hp hVR).exists_not_commute
   exact h.hu1 (T7A.eq_one_of_central ⟨x, y, hxy⟩ hcomm)
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.oddCore_rLayer_u_le (h : Hyp21 p f Ω K K' z u J t W) :
     oddCoreOf (rLayer Ω u) ≤ oddCoreOf (Subgroup.centralizer ({u} : Set G)) := by
   have h1 := oddCoreOf_sectionHull_le h.std.stand.hyp (Subgroup.zpowers u)

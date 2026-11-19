@@ -243,7 +243,7 @@ private theorem ovgPoints_toFinset_eq :
       ovgClass20bPts := by
   ext y
   simp [ovgPoints, ovgE2Pts, ovgNegE2Pts, ovgClass30Pts, ovgClass20aPts,
-    ovgClass20bPts, List.mem_append]
+    ovgClass20bPts]
 
 private theorem ovgE2Pts_subset {A : Finset (Fin Tag.E6.rank → ZMod 3)} (h : ovgE2 ∈ A) :
     ovgE2Pts ⊆ A := by
@@ -265,12 +265,12 @@ theorem ovg_eq_allPoints_or_subset {A : Finset (Fin Tag.E6.rank → ZMod 3)}
       Finset.inter_eq_right.mpr (ovgE2Pts_subset he2)]
   have hK1 : A ∩ ovgNegE2Pts = if -ovgE2 ∈ A then ovgNegE2Pts else ∅ := by
     by_cases h : -ovgE2 ∈ A
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       apply Finset.inter_eq_right.mpr
       intro y hy
       have hy' : y = -ovgE2 := by simpa [ovgNegE2Pts] using hy
       rwa [hy']
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       apply Finset.eq_empty_iff_forall_notMem.mpr
       intro y hy
       rw [Finset.mem_inter] at hy
@@ -279,32 +279,32 @@ theorem ovg_eq_allPoints_or_subset {A : Finset (Fin Tag.E6.rank → ZMod 3)}
       exact h hy.1
   have hK2 : A ∩ ovgClass30Pts = if (A ∩ ovgClass30Pts).Nonempty then ovgClass30Pts else ∅ := by
     by_cases h : (A ∩ ovgClass30Pts).Nonempty
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       apply Finset.inter_eq_right.mpr
       obtain ⟨y, hy⟩ := h
       exact ovgClassPts_subset_of_inter ovgClass30_acts ovgClass30_letters hcl
         ⟨y, Finset.mem_inter.mp hy⟩
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact Finset.not_nonempty_iff_eq_empty.mp h
   have hK3 : A ∩ ovgClass20aPts =
       if (A ∩ ovgClass20aPts).Nonempty then ovgClass20aPts else ∅ := by
     by_cases h : (A ∩ ovgClass20aPts).Nonempty
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       apply Finset.inter_eq_right.mpr
       obtain ⟨y, hy⟩ := h
       exact ovgClassPts_subset_of_inter ovgClass20a_acts ovgClass20a_letters hcl
         ⟨y, Finset.mem_inter.mp hy⟩
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact Finset.not_nonempty_iff_eq_empty.mp h
   have hK4 : A ∩ ovgClass20bPts =
       if (A ∩ ovgClass20bPts).Nonempty then ovgClass20bPts else ∅ := by
     by_cases h : (A ∩ ovgClass20bPts).Nonempty
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       apply Finset.inter_eq_right.mpr
       obtain ⟨y, hy⟩ := h
       exact ovgClassPts_subset_of_inter ovgClass20b_acts ovgClass20b_letters hcl
         ⟨y, Finset.mem_inter.mp hy⟩
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact Finset.not_nonempty_iff_eq_empty.mp h
   rw [hK1, hK2, hK3, hK4] at hAeq
   have hcard : A.card = 1 + (if -ovgE2 ∈ A then 1 else 0) +
@@ -322,7 +322,7 @@ theorem ovg_eq_allPoints_or_subset {A : Finset (Fin Tag.E6.rank → ZMod 3)}
       (A ∩ ovgClass20aPts).Nonempty → (A ∩ ovgClass20bPts).Nonempty →
       A = ovgPoints.toFinset := by
     intro h1 h2 h3 h4
-    rw [hAeq, if_pos h1, if_pos h2, if_pos h3, if_pos h4]
+    rw [hAeq, ite_eq_left h1, ite_eq_left h2, ite_eq_left h3, ite_eq_left h4]
     exact ovgPoints_toFinset_eq.symm
   have hsmall : ¬ (A ∩ ovgClass30Pts).Nonempty → ¬ (A ∩ ovgClass20aPts).Nonempty →
       ¬ (A ∩ ovgClass20bPts).Nonempty → A ⊆ {ovgE2, -ovgE2} := by

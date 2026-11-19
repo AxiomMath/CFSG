@@ -16,10 +16,10 @@ private theorem zmod2_eq_zero_or_one (c : ZMod 2) : c = 0 ∨ c = 1 := by
 
 private theorem elem_coe (i j : Fin 6) (h : i ≠ j) :
     ((elem i j : SL(6, ZMod 2)) : Matrix (Fin 6) (Fin 6) (ZMod 2)) = 1 + Matrix.single i j 1 := by
-  simp [elem, dif_neg h, Matrix.SpecialLinearGroup.transvection_coe]
+  simp [elem, dite_eq_right h, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem elem_inv_self (i j : Fin 6) (h : i ≠ j) : (elem i j)⁻¹ = elem i j := by
-  simp only [elem, dif_neg h]
+  simp only [elem, dite_eq_right h]
   rw [Matrix.SpecialLinearGroup.transvection_inv]
   congr 1
 
@@ -65,12 +65,12 @@ private theorem det_of_firstcol_lastrow {R : Type*} [CommRing R]
   rw [Matrix.det_succ_column_zero]
   rw [Finset.sum_eq_single (0 : Fin 6)]
   · rw [Fin.succAbove_zero]
-    rw [h0 0, if_pos rfl]
+    rw [h0 0, ite_eq_left rfl]
     rw [Matrix.det_succ_row (G.submatrix Fin.succ Fin.succ) 4]
     rw [Finset.sum_eq_single (4 : Fin 5)]
     · simp only [Fin.val_zero, pow_zero, one_mul]
       rw [Matrix.submatrix_apply]
-      rw [show (Fin.succ (4 : Fin 5) : Fin 6) = 5 from rfl, h5 5, if_pos rfl]
+      rw [show (Fin.succ (4 : Fin 5) : Fin 6) = 5 from rfl, h5 5, ite_eq_left rfl]
       rw [show (-1 : R) ^ ((4 : Fin 5).val + (4 : Fin 5).val) = 1 by norm_num]
       rw [Matrix.submatrix_submatrix, succ_succAbove_last]
       simp only [midBlock]
@@ -80,12 +80,12 @@ private theorem det_of_firstcol_lastrow {R : Type*} [CommRing R]
       have hj5 : (Fin.succ j : Fin 6) ≠ 5 := by
         intro h
         exact hj (Fin.ext (by simpa using congrArg Fin.val h))
-      rw [show (Fin.succ (4 : Fin 5) : Fin 6) = 5 from rfl, h5 (Fin.succ j), if_neg hj5]
+      rw [show (Fin.succ (4 : Fin 5) : Fin 6) = 5 from rfl, h5 (Fin.succ j), ite_eq_right hj5]
       simp
     · intro h
       exact absurd (Finset.mem_univ 4) h
   · intro i _ hi
-    rw [h0 i, if_neg hi]
+    rw [h0 i, ite_eq_right hi]
     simp
   · intro h
     exact absurd (Finset.mem_univ 0) h
@@ -184,11 +184,11 @@ private theorem mem_Jgrp_iff (g : SL(6, ZMod 2)) :
       · intro i
         by_cases hi : i = 0
         · subst hi; simpa using h00
-        · rw [hi0 i hi, if_neg hi]
+        · rw [hi0 i hi, ite_eq_right hi]
       · intro j
         by_cases hj : j = 5
         · subst hj; simpa using h55
-        · rw [h5j j hj, if_neg hj]
+        · rw [h5j j hj, ite_eq_right hj]
     · apply Subtype.ext
       ext i j
       change emb (midBlock g.1) i j = g.1 i j
@@ -213,8 +213,8 @@ private theorem det_of_firstcol {R : Type*} [CommRing R]
     G.det = l * (G.submatrix Fin.succ Fin.succ).det := by
   rw [Matrix.det_succ_column_zero]
   rw [Finset.sum_eq_single (0 : Fin 6)]
-  · rw [Fin.succAbove_zero, h0 0, if_pos rfl]; simp
-  · intro i _ hi; rw [h0 i, if_neg hi]; simp
+  · rw [Fin.succAbove_zero, h0 0, ite_eq_left rfl]; simp
+  · intro i _ hi; rw [h0 i, ite_eq_right hi]; simp
   · intro h; exact absurd (Finset.mem_univ 0) h
 
 private theorem mem_normalizer_closure_of_conj {G : Type*} [Group G] [Finite G] {X : Set G} {g : G}
@@ -277,13 +277,13 @@ private theorem mul_shape_of_shapes (G H : Matrix (Fin 6) (Fin 6) (ZMod 2))
   refine ⟨?_, ?_, ?_⟩
   · intro i
     rw [Matrix.mul_apply, Finset.sum_eq_single (0 : Fin 6)]
-    · rw [hH0 0, if_pos rfl, mul_one]; exact hG0 i
-    · intro k _ hk; rw [hH0 k, if_neg hk, mul_zero]
+    · rw [hH0 0, ite_eq_left rfl, mul_one]; exact hG0 i
+    · intro k _ hk; rw [hH0 k, ite_eq_right hk, mul_zero]
     · intro h; exact absurd (Finset.mem_univ 0) h
   · intro j
     rw [Matrix.mul_apply, Finset.sum_eq_single (5 : Fin 6)]
-    · rw [hG5 5, if_pos rfl, one_mul]; exact hH5 j
-    · intro k _ hk; rw [hG5 k, if_neg hk, zero_mul]
+    · rw [hG5 5, ite_eq_left rfl, one_mul]; exact hH5 j
+    · intro k _ hk; rw [hG5 k, ite_eq_right hk, zero_mul]
     · intro h; exact absurd (Finset.mem_univ 5) h
   · rw [midBlock_mul_of_left G H hG0 hH5, hmid]
 
@@ -462,15 +462,15 @@ theorem centralizer_stdTransvection_eq :
           by_cases hij : i = j
           · have hab : (⟨i.val - 1, by omega⟩ : Fin 4) = ⟨j.val - 1, by omega⟩ := by
               subst hij; rfl
-            rw [if_pos hab] at h; rw [if_pos hij]; exact h
+            rw [ite_eq_left hab] at h; rw [ite_eq_left hij]; exact h
           · have hab : (⟨i.val - 1, by omega⟩ : Fin 4) ≠ ⟨j.val - 1, by omega⟩ := by
               intro hh; exact hij (Fin.ext (by have := congrArg Fin.val hh; simp at this; omega))
-            rw [if_neg hab] at h; rw [if_neg hij]; exact h
+            rw [ite_eq_right hab] at h; rw [ite_eq_right hij]; exact h
         simpa [Matrix.SpecialLinearGroup.coe_mul] using hm
       · intro i hi
-        simpa [Matrix.SpecialLinearGroup.coe_mul, if_neg hi] using hshape.1 i
+        simpa [Matrix.SpecialLinearGroup.coe_mul, ite_eq_right hi] using hshape.1 i
       · intro j hj
-        simpa [Matrix.SpecialLinearGroup.coe_mul, if_neg hj] using hshape.2.1 j
+        simpa [Matrix.SpecialLinearGroup.coe_mul, ite_eq_right hj] using hshape.2.1 j
     have hg_eq : g = (g * H) * j0 := by
       rw [show H = j0⁻¹ from rfl, mul_assoc, inv_mul_cancel, mul_one]
     rw [hg_eq]

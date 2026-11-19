@@ -26,11 +26,11 @@ private theorem rckK1Ilns_allEven_stdVec_iff_longIdx {n : ℕ} (r : RootSubgroup
   cases r with
   | positiveLong i =>
     refine ⟨fun _ => Or.inl ⟨i, rfl⟩, fun _ a => ?_⟩
-    simp only [stdVec, Pi.smul_apply, smul_eq_mul, Pi.single_apply, mul_ite, mul_one, mul_zero]
+    simp only [stdVec, Pi.smul_apply, Pi.single_apply]
     split_ifs <;> simp
   | negativeLong i =>
     refine ⟨fun _ => Or.inr ⟨i, rfl⟩, fun _ a => ?_⟩
-    simp only [stdVec, Pi.smul_apply, smul_eq_mul, Pi.single_apply, Pi.neg_apply]
+    simp only [stdVec, Pi.smul_apply, Pi.single_apply, Pi.neg_apply]
     split_ifs <;> simp
   | difference i j hij =>
     refine ⟨fun h => ?_, fun h => ?_⟩
@@ -53,7 +53,7 @@ private theorem rckK1Ilns_allEven_stdVec_iff_longIdx {n : ℕ} (r : RootSubgroup
     · exfalso
       have h1 := h i
       simp only [stdVec, Pi.neg_apply, Pi.add_apply, Pi.single_eq_same,
-        Pi.single_eq_of_ne (ne_of_lt hij), add_zero, neg_one_mul, neg_eq_zero] at h1
+        Pi.single_eq_of_ne (ne_of_lt hij), add_zero] at h1
       norm_num at h1
     · rcases h with ⟨k, hk⟩ | ⟨k, hk⟩ <;> simp at hk
 
@@ -68,7 +68,7 @@ private theorem rckK1Ilns_ggLongRoot_iff_allEven {n : ℕ} (hn : 2 ≤ n) {F : T
   have hθe : AllEven (toStd n θ) := by
     rw [hθstd]
     intro a
-    simp only [stdVec, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
+    simp only [stdVec, Pi.smul_apply, Pi.single_apply]
     split_ifs <;> simp
   have hθso : ¬ AllEven (toStd n θs) := by
     rw [hθsstd]
@@ -79,7 +79,7 @@ private theorem rckK1Ilns_ggLongRoot_iff_allEven {n : ℕ} (hn : 2 ≤ n) {F : T
     norm_num at h1
   have hhtθ : 2 * ht θ = 2 * (2 * (n : ℤ) - 1) := by
     rw [two_mul_ht, hθstd, stdVec, map_nsmul, lv_single]
-    simp only [i0, Fin.val_mk, Fin.val_zero, nsmul_eq_mul, Nat.cast_ofNat]
+    simp only [i0, nsmul_eq_mul, Nat.cast_ofNat]
     ring
   have hmaxθ : ∀ δ ∈ (rootDatum n F).roots, ht δ ≤ ht θ := by
     intro δ hδ
@@ -159,25 +159,25 @@ private theorem rckK1Ilns_rank_E_short_ge_two {F : Type} [Field F] (r : RootSubg
     refine rckK1Ilns_rank_ge_two_of_det (M := E F (.difference i j hij))
       (r := ![Sum.inl i, Sum.inr j]) (c := ![Sum.inl j, Sum.inr i]) ?_
     rw [Matrix.det_fin_two]
-    simp [E, Matrix.sub_apply, Matrix.single_apply, hij, hij.symm]
+    simp [E, Matrix.sub_apply]
   | positiveSum i j hij =>
     refine rckK1Ilns_rank_ge_two_of_det (M := E F (.positiveSum i j hij))
       (r := ![Sum.inl i, Sum.inl j]) (c := ![Sum.inr j, Sum.inr i]) ?_
     rw [Matrix.det_fin_two]
-    simp [E, Matrix.add_apply, Matrix.single_apply, hij.ne, hij.ne']
+    simp [E, Matrix.add_apply, hij.ne, hij.ne']
   | negativeSum i j hij =>
     refine rckK1Ilns_rank_ge_two_of_det (M := E F (.negativeSum i j hij))
       (r := ![Sum.inr i, Sum.inr j]) (c := ![Sum.inl j, Sum.inl i]) ?_
     rw [Matrix.det_fin_two]
-    simp [E, Matrix.add_apply, Matrix.single_apply, hij.ne, hij.ne']
+    simp [E, Matrix.add_apply, hij.ne, hij.ne']
 
 private theorem rckK1Ilns_sp4
-    {f : ℕ} (hadm : StatedLieAdmissible .PSp 2 2 f)
+    {f : ℕ} (_hadm : StatedLieAdmissible .PSp 2 2 f)
     {β γ : Fin 2 → ℤ} (hβ : β ∈ (rootDatum 2 (GaloisField 2 f)).roots)
     (hlong : GGLongRoot (rootDatum 2 (GaloisField 2 f)) β)
     (hγ : γ ∈ (rootDatum 2 (GaloisField 2 f)).roots)
     (hshort : ¬ GGLongRoot (rootDatum 2 (GaloisField 2 f)) γ)
-    (h2γ : 2 • γ ∉ (rootDatum 2 (GaloisField 2 f)).roots)
+    (_h2γ : 2 • γ ∉ (rootDatum 2 (GaloisField 2 f)).roots)
     (u : StatedSp 2 (GaloisField 2 f)) :
     (rootDatum 2 (GaloisField 2 f)).rootGroup β ⊓
       ((rootDatum 2 (GaloisField 2 f)).rootGroup γ).map (MulAut.conj u).toMonoidHom = ⊥ := by

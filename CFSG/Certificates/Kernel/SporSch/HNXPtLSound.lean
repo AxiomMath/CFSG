@@ -47,8 +47,8 @@ theorem fldW_packF {f : Nat → Nat} {lo c : Nat} (h : ∀ k < c, f (lo + k) < 2
 theorem bCnt_eq (n b : Nat) : bCnt n b = if 64 * (b + 1) ≤ n then 64 else n - 64 * b := by
   change Bool.rec (motive := fun _ => Nat) (n - 64 * b) 64 (Nat.ble (64 * (b + 1)) n) = _
   cases h : Nat.ble (64 * (b + 1)) n
-  · rw [if_neg (fun hc => absurd (Nat.ble_eq.mpr hc) (by rw [h]; decide))]
-  · rw [if_pos (Nat.ble_eq.mp h)]
+  · rw [ite_eq_right (fun hc => absurd (Nat.ble_eq.mpr hc) (by rw [h]; decide))]
+  · rw [ite_eq_left (Nat.ble_eq.mp h)]
 
 theorem ptsFn_sound {T : Nat → Nat} {MS CM3 M W : Nat} {f g : Nat → Nat} {n : Nat}
     (hc : constsOK CM3 M = true) (hm : masksOK MS = true) (hv : Canon 5 133 13 W)

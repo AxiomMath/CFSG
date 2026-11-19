@@ -19,7 +19,7 @@ private lemma isQuasisimple_of_mulEquiv {G H : Type} [Group G] [Group H] (e : G 
   have hq : G ⧸ Subgroup.center G ≃* H ⧸ Subgroup.center H :=
     QuotientGroup.congr (Subgroup.center G) (Subgroup.center H) e he
   refine ⟨?_, ?_, ?_⟩
-  · haveI : Group.IsPerfect G := hG.1
+  · have : Group.IsPerfect G := hG.1
     exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   · exact (MulEquiv.isSimpleGroup_congr hq).mp hG.2.1
   · obtain ⟨a, b, hab⟩ := hG.2.2

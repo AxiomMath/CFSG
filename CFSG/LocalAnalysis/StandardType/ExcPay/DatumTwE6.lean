@@ -53,21 +53,21 @@ private noncomputable abbrev excPayQ6_muP (τ : Tag) (p : ℕ) :
   Subgroup.pi Set.univ fun _ => rootsOfUnity p GGL
 
 private def excPayQ6_muP_equiv (τ : Tag) (p : ℕ) :
-    ↥(excPayQ6_muP τ p) ≃ (∀ i : Fin τ.rank, rootsOfUnity p GGL) where
-  toFun a i :=
-    ⟨a.1 i, (Subgroup.mem_pi Set.univ).1 a.2 i (Set.mem_univ i)⟩
-  invFun f := ⟨fun i => (f i : GGLˣ), by
-    show (fun i => (f i : GGLˣ)) ∈ Subgroup.pi Set.univ
+    ↥(excPayQ6_muP τ p) ≃ (∀ _i : Fin τ.rank, rootsOfUnity p GGL) where
+  toFun a _i :=
+    ⟨a.1 _i, (Subgroup.mem_pi Set.univ).1 a.2 _i (Set.mem_univ _i)⟩
+  invFun f := ⟨fun _i => (f _i : GGLˣ), by
+    show (fun _i => (f _i : GGLˣ)) ∈ Subgroup.pi Set.univ
       (fun _ : Fin τ.rank => rootsOfUnity p GGL)
     rw [Subgroup.mem_pi]
-    intro i _
-    exact (f i).2⟩
-  left_inv a := by ext i; rfl
-  right_inv f := by ext i; rfl
+    intro _i _
+    exact (f _i).2⟩
+  left_inv a := by ext _i; rfl
+  right_inv f := by ext _i; rfl
 
 private theorem excPayQ6_card_rootsOfUnity {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     Nat.card (rootsOfUnity p GGL) = p := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   exact IsPrimitiveRoot.card_rootsOfUnity'
     (IsPrimitiveRoot.iff_orderOf.2 (ggZeta_order p hp hp2))
 
@@ -122,7 +122,7 @@ private theorem excPayQ6_card_Tp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
   rw [excPayQ6_card_muP (langTag .twistedE6) hp hp2,
     show (langTag .twistedE6).rank = 6 from rfl]
 
-private theorem excPayQ6_weylAct_inv_of_mem_torus {p f : ℕ} (hp : p.Prime)
+private theorem excPayQ6_weylAct_inv_of_mem_torus {p f : ℕ} (_hp : p.Prime)
     (hplus : p ∣ 2 ^ f + 1) {w : WeylGroup (langTag .twistedE6)}
     {A' : Subgroup (ModGL (langTag .twistedE6) GGL)}
     (hT : A' ≤ twistedTorusOf (canonicalRep (coxeterSystem (langTag .twistedE6)) GGL w)
@@ -161,8 +161,8 @@ private theorem excPayQ6_dvd_smul_of_dvd {τ : Tag} {p : ℕ} (w : WeylGroup τ)
   simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
   exact Finset.dvd_sum fun i _ => dvd_mul_of_dvd_left (hx i) _
 
-private theorem excPayQ6_coord_rootChar {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hplus : p ∣ 2 ^ f + 1) {w : WeylGroup (langTag .twistedE6)}
+private theorem excPayQ6_coord_rootChar {p f : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hplus : p ∣ 2 ^ f + 1) {w : WeylGroup (langTag .twistedE6)}
     (h : ∀ a : Fin (langTag .twistedE6).rank → GGLˣ, (∀ i, a i ^ p = 1) →
       weylAct w (fun i : Fin (langTag .twistedE6).rank =>
         (a ((TwistTag.perm .E6).symm i))⁻¹) = a)
@@ -191,7 +191,7 @@ private theorem excPayQ6_coord_rootChar {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 
       = rootChar (weylAct w b) e := (rootChar_weylAct w b e).symm
     _ = rootChar a e := by rw [h1]
     _ = (rootChar (fun i => b (ρ i)) e)⁻¹ := by
-          simp only [a, Pi.inv_apply, rootChar, Finset.prod_inv_distrib, inv_zpow]
+          simp only [a, rootChar, Finset.prod_inv_distrib, inv_zpow]
     _ = (rootChar b (permLattice ρ e))⁻¹ := by rw [rootChar_permLattice]
 
 private theorem excPayQ6_coord_mod_single {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -203,7 +203,7 @@ private theorem excPayQ6_coord_mod_single {p f : ℕ} (hp : p.Prime) (hp2 : p �
     (p : ℤ) ∣ (w⁻¹ • (Pi.single k 1 : Fin (langTag .twistedE6).rank → ℤ)) j +
       (permLattice (TwistTag.perm .E6)
         (Pi.single k 1 : Fin (langTag .twistedE6).rank → ℤ)) j := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let ρ : Equiv.Perm (Fin (langTag .twistedE6).rank) := TwistTag.perm .E6
   let ζ : GGLˣ := ggZeta p hp hp2
   have hζo : orderOf ζ = p := ggZeta_order p hp hp2
@@ -267,7 +267,7 @@ private theorem excPayQ6_coord_mod {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have h7 : (p : ℤ) ∣ (w • permLattice ρ e) j + e j := by
     simpa [Pi.add_apply, add_comm] using hw
   show (p : ℤ) ∣ (w • permLattice ρ e) j - (-1) * e j
-  convert h7 using 2 <;> ring
+  convert h7 using 2; ring
 
 private theorem excPayQ6_smul_neg_of_weylAct_inv {p f : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hp2 : p ≠ 2) (hplus : p ∣ 2 ^ f + 1) {w : WeylGroup (langTag .twistedE6)}
@@ -292,7 +292,6 @@ private theorem excPayQ6_smul_neg_of_weylAct_inv {p f : ℕ} (hp : p.Prime) (hp5
       have h2 := hmod k k
       rw [h'] at h2
       simp at h2
-      norm_num at h2
       have hdiv : p ∣ 2 := Int.natCast_dvd_natCast.mp h2
       have := Nat.le_of_dvd (by norm_num) hdiv
       omega
@@ -329,8 +328,6 @@ private theorem excPayQ6_weylLaw_of_smul_neg {p f : ℕ} {ht : GGExcFive .twiste
   have hperm : permLattice ((finCongr (rank_eq_langTag f ht)).permCongr
       (piB .twistedE6 p f)) u = u := by
     rw [piB_twistedE6_of_dvd f hplus]
-    change permLattice ((finCongr (rank_eq_langTag f ht)).permCongr
-      (1 : Equiv.Perm (Fin ((ggU (absTag .twistedE6) 6 f).D.rank)))) u = u
     change permLattice
       (Equiv.permCongr (finCongr (rank_eq_langTag f ht)) (Equiv.refl _)) u = u
     rw [Equiv.permCongr_refl]
@@ -365,7 +362,7 @@ private theorem excPayQ6_eq_Tp_of_torus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     exact Subgroup.subset_closure
       ⟨a, fun i => by simpa using congrFun ha1 i, rfl⟩
   have hA'eq : A' = excPayQ6_Tp p := by
-    haveI : Finite (excPayQ6_Tp p) :=
+    have : Finite (excPayQ6_Tp p) :=
       Nat.finite_of_card_ne_zero (by
         rw [excPayQ6_card_Tp hp hp2]
         exact pow_ne_zero 6 hp.ne_zero)

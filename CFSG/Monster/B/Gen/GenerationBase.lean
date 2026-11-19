@@ -16,7 +16,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.Griess CFSG.Monster.Visible CFSG.Monster.Generated CFSG.Monster.B.Short
   CFSG.Monster.VisQuot
 
-@[expose] noncomputable def psiImage (G : Subgroup Cbar) :
+noncomputable def psiImage (G : Subgroup Cbar) :
     Submodule (ZMod 2) (Wv (phi0 (coordOf rStar))) where
   carrier := {w | ∃ e : Ebar, (e : Cbar) ∈ G ∧ Multiplicative.toAdd (psiBar e) = w}
   add_mem' := by

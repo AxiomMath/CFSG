@@ -17,7 +17,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
 theorem spanOrLine_inter_neighborSet_left
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {A B a b : V} (hA : c A = 1) (hAa : Γ.Adj A a) (hB : c B = 1) (hBb : Γ.Adj B b)
+    {A B a b : V} (_hA : c A = 1) (hAa : Γ.Adj A a) (_hB : c B = 1) (hBb : Γ.Adj B b)
     (hAB : Γ.dist A B = 4) :
     spanOrLine hP a b ∩ Γ.neighborSet A ⊆ {a} := by
   classical
@@ -57,7 +57,7 @@ theorem spanOrLine_inter_neighborSet_left
       have htri := hP.connected.dist_triangle (u := A) (v := b) (w := B)
       omega
     · have hnil : spanOrLine hP a b = ∅ := by
-        rw [spanOrLine, if_neg h4, dif_neg h2]
+        rw [spanOrLine, ite_eq_right h4, dite_eq_right h2]
       rw [hnil] at huS
       exact huS.elim
 
@@ -69,6 +69,7 @@ theorem spanOrLine_inter_neighborSet_right
   have h := spanOrLine_inter_neighborSet_left hP hT c hB hBb hA hAa (by rwa [dist_comm])
   simpa [spanOrLine_comm hP a b] using h
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem existsUnique_adj_dist_two_of_mem_neighborSet
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {A B a : V} (hA : c A = 1) (hAa : Γ.Adj A a) (hB : c B = 1) (hAB : Γ.dist A B = 4) :
@@ -84,6 +85,7 @@ theorem existsUnique_adj_dist_two_of_mem_neighborSet
     dist_eq_three_of_not_adj_of_color_ne hP c hnot (by rw [ha0, hB]; decide)
   exact existsUnique_proj hP h3
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_four_of_mem_neighborSet_of_ne_proj
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {A B a b b0 : V} (hA : c A = 1) (hAa : Γ.Adj A a) (hB : c B = 1)
@@ -108,6 +110,7 @@ theorem dist_eq_four_of_mem_neighborSet_of_ne_proj
   have huniq := existsUnique_adj_dist_two_of_mem_neighborSet hP c hA hAa hB hAB
   exact hne (huniq.unique ⟨hbB, hd2⟩ ⟨hb0B, hb0⟩)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem ncard_spanOrLine_of_dist_four
     (hP : IsGeneralizedPolygon Γ 4) {c : Γ.Coloring (Fin 2)} {p : ℕ}
     (hp : ∀ x y : V, c x = 0 → Γ.dist x y = 4 → (spanSet Γ x y).ncard = p + 1)
@@ -124,9 +127,10 @@ theorem ncard_spanOrLine_of_dist_two
   rw [spanOrLine_of_dist_eq_two hP h2]
   have hW : c (commonNeighbor hP h2) = 1 :=
     color_eq_one_of_adj_of_color_eq_zero ha (commonNeighbor_adj_left hP h2)
-  rw [ncard_neighborSet, hdeg, if_neg (by rw [hW]; decide)]
+  rw [ncard_neighborSet, hdeg, ite_eq_right (by rw [hW]; decide)]
 
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem mem_spanOrLine_right (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {a b : V} (ha : c a = 0) (hb : c b = 0) (hne : a ≠ b) :
     b ∈ spanOrLine hP a b := by
@@ -144,6 +148,7 @@ private theorem mem_spanOrLine_right (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Co
   · rw [spanOrLine_of_dist_eq_four hP h4]
     exact right_mem_spanSet h4
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem mem_spanOrLine_left (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {a b : V} (ha : c a = 0) (hb : c b = 0) (hne : a ≠ b) :
     a ∈ spanOrLine hP a b := by
@@ -189,7 +194,7 @@ theorem card_fan
   have hBfcard : Bf.card = s + 1 := by
     rw [show Bf.card = Γ.degree B by
       rw [show Bf = Γ.neighborFinset B from rfl, card_neighborFinset_eq_degree]]
-    rw [hdeg B, if_neg (by rw [hB]; decide)]
+    rw [hdeg B, ite_eq_right (by rw [hB]; decide)]
   have hInter : ∀ b ∈ Bf, S b ∩ (Bf ∪ {a}) = {a, b} := by
     intro b hb
     have hbB : Γ.Adj B b := by simpa [Bf] using hb
@@ -223,12 +228,12 @@ theorem card_fan
     intro b hb
     have hbB : Γ.Adj B b := by simpa [Bf] using hb
     by_cases hb0 : b = b0
-    · rw [if_pos hb0]
+    · rw [ite_eq_left hb0]
       rw [show (S b).card = (spanOrLine hP a b).ncard by
         rw [Set.ncard_eq_toFinset_card']]
       rw [hb0]
       exact ncard_spanOrLine_of_dist_two hP hdeg hb0d ha0
-    · rw [if_neg hb0]
+    · rw [ite_eq_right hb0]
       have h4 : Γ.dist a b = 4 :=
         dist_eq_four_of_mem_neighborSet_of_ne_proj hP c hA hAa hB hAB hbB hb0B hb0d hb0
       rw [show (S b).card = (spanOrLine hP a b).ncard by
@@ -375,11 +380,11 @@ theorem ncard_spanUnion
   have hAfcard : Af.card = s + 1 := by
     rw [show Af.card = Γ.degree A by
       rw [show Af = Γ.neighborFinset A from rfl, card_neighborFinset_eq_degree]]
-    rw [hdeg A, if_neg (by rw [hA]; decide)]
+    rw [hdeg A, ite_eq_right (by rw [hA]; decide)]
   have hBfcard : Bf.card = s + 1 := by
     rw [show Bf.card = Γ.degree B by
       rw [show Bf = Γ.neighborFinset B from rfl, card_neighborFinset_eq_degree]]
-    rw [hdeg B, if_neg (by rw [hB]; decide)]
+    rw [hdeg B, ite_eq_right (by rw [hB]; decide)]
   have hane : ∀ a ∈ Af, a ∉ Bf := by
     intro a ha haB
     have haA : Γ.Adj A a := by simpa [Af] using ha
@@ -540,7 +545,7 @@ theorem neighborSet_subset_spanUnion_right
 
 theorem color_zero_of_mem_spanUnion
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {L M z : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
+    {L M z : V} (hL : c L = 1) (hM : c M = 1) (_hLM : Γ.dist L M = 4)
     (hz : z ∈ spanUnion hP L M) : c z = 0 := by
   obtain ⟨x, y, hxL, hyM, hz⟩ := hz
   have hx0 : c x = 0 := color_eq_zero_of_adj_of_color_eq_one hL hxL
@@ -554,7 +559,7 @@ theorem color_zero_of_mem_spanUnion
         color_eq_one_of_adj_of_color_eq_zero hx0 (commonNeighbor_adj_left hP h2)
       exact color_eq_zero_of_adj_of_color_eq_one hV hz
     · have hnil : spanOrLine hP x y = ∅ := by
-        rw [spanOrLine, if_neg h4, dif_neg h2]
+        rw [spanOrLine, ite_eq_right h4, dite_eq_right h2]
       rw [hnil] at hz
       exact hz.elim
 
@@ -603,6 +608,7 @@ theorem spanUnion_eq_of_block_symm
   exact h
 
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem eq_of_dist_two_of_mem_neighborSet
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2)) {L y z1 z2 : V}
     (hL : c L = 1) (hz1 : Γ.Adj L z1) (hyz1 : Γ.dist y z1 = 2)
@@ -616,6 +622,7 @@ theorem eq_of_dist_two_of_mem_neighborSet
   exact (existsUnique_proj hP hyL3).unique ⟨hz1, hyz1⟩ ⟨hz2, hyz2⟩
 
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_four_of_mem_two_lines
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {L W z z1 z2 : V} (hLW : L ≠ W) (hL : c L = 1) (hW : c W = 1)
@@ -651,6 +658,7 @@ theorem dist_eq_four_of_mem_two_lines
   · exact hz2 h
 
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem spanOrLine_subset_spanUnion (hP : IsGeneralizedPolygon Γ 4) {L M x y : V}
     (hx : Γ.Adj L x) (hy : Γ.Adj M y) : spanOrLine hP x y ⊆ spanUnion hP L M := by
   intro u hu
@@ -659,7 +667,7 @@ theorem spanOrLine_subset_spanUnion (hP : IsGeneralizedPolygon Γ 4) {L M x y : 
 theorem neighborSet_commonNeighbor_subset_spanUnion_of_span
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
     (hH : ∀ u : V, c u = 0 → HasPropertyH Γ u) {s t p : ℕ}
-    (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     (hp : ∀ x y : V, c x = 0 → Γ.dist x y = 4 → (spanSet Γ x y).ncard = p + 1)
     {L M x y y1 y2 : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
     (hxL : Γ.Adj L x) (hy1L : Γ.Adj L y1) (hy2M : Γ.Adj M y2)
@@ -829,7 +837,7 @@ theorem neighborSet_commonNeighbor_subset_spanUnion_of_mem_left
                 ⟨hW.1, hW.2.2⟩ ⟨hxL.symm, hy1L.symm⟩
             exact hyNotL (hWL ▸ hW.2.1).symm
     · have hnil : spanOrLine hP y1 y2 = ∅ := by
-        rw [spanOrLine, if_neg h4, dif_neg h2]
+        rw [spanOrLine, ite_eq_right h4, dite_eq_right h2]
       rw [hnil] at hyS
       exact hyS.elim
 

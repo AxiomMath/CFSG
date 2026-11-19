@@ -34,7 +34,7 @@ theorem eGenP_map_mulEquiv {G₁ G₂ : Type} [Group G₁] [Group G₂] [Finite 
 theorem inF_map_mulEquiv {G₁ G₂ : Type} [Group G₁] [Group G₂] [Finite G₁] [Finite G₂]
     (e : G₁ ≃* G₂) (j : ℕ) (H : Subgroup G₁) :
     InF j (H.map e.toMonoidHom) ↔ InF j H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ {A B : Type} [Group A] [Group B] [Finite A] [Finite B] (f : A ≃* B) (j : ℕ)
       (K : Subgroup A), InF j K → InF j (K.map f.toMonoidHom) := by
     intro A B _ _ _ _ f j K hf T' hT' Ω' hΩ' hne' hbot'

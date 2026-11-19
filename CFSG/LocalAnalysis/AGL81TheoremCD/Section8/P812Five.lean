@@ -24,7 +24,7 @@ theorem dvd_card_inf_centralizer_sup (h : P812Hyp G M p L₁ L₂)
     (h₁ : A₁ ≤ L₁) (h₂ : A₂ ≤ L₂) (hA₁ : Nat.card A₁ = 3) (hA₂ : Nat.card A₂ = 3)
     (hc : ∀ x ∈ A₁, ∀ y ∈ A₂, x * y = y * x) :
     p ∣ Nat.card ↥(M ⊓ Subgroup.centralizer ((A₁ ⊔ A₂ : Subgroup G) : Set G)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let C₁ : Subgroup G :=
     M ⊓ Subgroup.centralizer (A₁ : Set G) ⊓ Subgroup.normalizer (L₂ : Set G)
   let D : Subgroup G := L₂ ⊓ Subgroup.centralizer (A₁ : Set G)
@@ -71,7 +71,7 @@ theorem normalizer_sup_le (h : P812Hyp G M p L₁ L₂)
     (h₁ : A₁ ≤ L₁) (h₂ : A₂ ≤ L₂) (hA₁ : Nat.card A₁ = 3) (hA₂ : Nat.card A₂ = 3)
     (hc : ∀ x ∈ A₁, ∀ y ∈ A₂, x * y = y * x) :
     Subgroup.normalizer ((A₁ ⊔ A₂ : Subgroup G) : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hC : Subgroup.centralizer ((A₁ ⊔ A₂ : Subgroup G) : Set G) ≤ M := by
     rw [CFSG.centralizer_sup_eq]
     exact (inf_le_left.trans (Subgroup.centralizer_le_normalizer (A₁ : Set G))).trans
@@ -91,8 +91,8 @@ private theorem not_isPSolvable_inf_centralizer_sup_of_le₁ (h : P812Hyp G M p 
     ¬ CFSG.HallHigman.IsPSolvable p
       ↥(L₂.subgroupOf M ⊓ Subgroup.centralizer
         ((A₀.subgroupOf M ⊔ A.subgroupOf M : Subgroup ↥M) : Set ↥M)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAM : A ≤ M := hA₁.trans h.le₁
   have hK :=
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.distinct_p_components_core_commutation
@@ -137,8 +137,8 @@ private theorem not_isPSolvable_inf_centralizer_sup_of_le₂ (h : P812Hyp G M p 
     ¬ CFSG.HallHigman.IsPSolvable p
       ↥(L₁.subgroupOf M ⊓ Subgroup.centralizer
         ((A₀.subgroupOf M ⊔ A.subgroupOf M : Subgroup ↥M) : Set ↥M)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAM : A ≤ M := hA₂.trans h.le₂
   have hK :=
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.distinct_p_components_core_commutation
@@ -184,7 +184,7 @@ private theorem not_isPSolvable_inf_centralizer_sup_of_commutator_le (h : P812Hy
     (hc : ∀ x ∈ A₀, ∀ y ∈ A, x * y = y * x) :
     ¬ CFSG.HallHigman.IsPSolvable p
       ↥(M ⊓ Subgroup.centralizer ((A₀ ⊔ A : Subgroup G) : Set G)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hAM : A ≤ M := hA.elim (fun hA₁ => hA₁.trans h.le₁) (fun hA₂ => hA₂.trans h.le₂)
   have hsub : ((A₀ ⊔ A).subgroupOf M : Subgroup M) = A₀.subgroupOf M ⊔ A.subgroupOf M :=
     Subgroup.subgroupOf_sup hA₀ hAM
@@ -204,7 +204,7 @@ theorem dvd_card_inf_centralizer_sup_of_commutator_le (h : P812Hyp G M p L₁ L�
     (hA : A ≤ L₁ ∨ A ≤ L₂) (hA3' : Nat.card A = 3)
     (hc : ∀ x ∈ A₀, ∀ y ∈ A, x * y = y * x) :
     p ∣ Nat.card ↥(M ⊓ Subgroup.centralizer ((A₀ ⊔ A : Subgroup G) : Set G)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   by_contra hnd
   exact not_isPSolvable_inf_centralizer_sup_of_commutator_le h hSch hA₀ hA3 h₁ h₂ hA hA3' hc
     (CFSG.LocalAnalysis.UniquenessCase.UCK.isPSolvable_of_not_dvd_card hnd)

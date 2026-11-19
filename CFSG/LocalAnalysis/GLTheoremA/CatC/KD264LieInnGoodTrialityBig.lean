@@ -38,6 +38,7 @@ theorem rootChar_rho_iterate {b : Fin τ.rank → Lˣ} (hTb : rootDiagUnit τ b 
     rw [Function.iterate_succ_apply', S.frob.rootChar_eq b hTb _ (S.iterate_isRoot n hγ), ih,
       ← pow_mul, pow_succ]
 
+omit [IsAlgClosed L] in
 theorem rootChar_neg_eq_inv {b : Fin τ.rank → Lˣ} (x : Fin τ.rank → ℤ) :
     rootChar b (-x) = (rootChar b x)⁻¹ := by
   rw [← zero_sub, rootChar_sub, rootChar_zero, one_mul]
@@ -67,15 +68,15 @@ theorem rankOne_perfect_dvd_p {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
           ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom ta) i)])
       · unfold twistKind
-        rw [if_pos hin]
+        rw [ite_eq_left hin]
       · unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega), if_neg (fun h => by omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega), ite_eq_right (fun h => by omega)]
     exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hγroot : IsRoot τ γ := isRoot_of_mem_componentRoots hγ
   set ζ : Lˣ := rootChar tb γ with hζ
@@ -147,15 +148,15 @@ theorem rankOne_perfect_dvd_p {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
       ↥(componentRootSpan (fixSubfield σ) (rootCharHom ta) i) :=
     (MonoidHom.ofInjective (CFSG.RankThree.Chevalley.rootSL2_injective_of_field
       (K := ↥(fixSubfield σ)) β)).trans (MulEquiv.subgroupCongr hC.symm)
-  haveI : Finite ↥(fixSubfield σ) := hfinK
-  haveI : Finite ↥(componentRootSpan (fixSubfield σ) (rootCharHom ta) i) :=
+  have : Finite ↥(fixSubfield σ) := hfinK
+  have : Finite ↥(componentRootSpan (fixSubfield σ) (rootCharHom ta) i) :=
     Finite.of_equiv _ eSL.toEquiv
   have hcardC : p ∣ Nat.card ↥(componentRootSpan (fixSubfield σ) (rootCharHom ta) i) := by
     rw [← Nat.card_congr eSL.toEquiv,
       CFSG.OrderReductions.LinearOrders.card_specialLinear (fixSubfield σ) 2 (by norm_num)]
     have hFQ : Nat.card ↥(fixSubfield σ) = S.D.q ^ s := by rw [hKcard, hQe]
     rw [hFQ]
-    simp only [Nat.reduceMul, Nat.reduceDiv, Finset.Icc_self, Finset.prod_singleton, pow_one]
+    simp only [Finset.Icc_self, Finset.prod_singleton]
     refine Dvd.dvd.mul_left ?_ _
     have hsq : (S.D.q ^ s) ^ 2 - 1 = (S.D.q ^ s + 1) * (S.D.q ^ s - 1) := by
       simpa using Nat.sq_sub_sq (S.D.q ^ s) 1
@@ -179,14 +180,14 @@ theorem splitFrame_perfect_dvd_p {p : ℕ} (hp : p.Prime) {ta tb : Fin τ.rank �
     (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots (rootCharHom ta) i)] (σ a b) = σ (π a) (π b))
-    {x₀ y₀ : Fin ν} (hxy : x₀ ≠ y₀) (hχ : rootChar tb (σ x₀ y₀) ≠ 1) :
+    {x₀ y₀ : Fin ν} (_hxy : x₀ ≠ y₀) (hχ : rootChar tb (σ x₀ y₀) ≠ 1) :
     ⁅rationalComponent S.ρ S.Γ (rootCharHom ta) i, rationalComponent S.ρ S.Γ (rootCharHom ta) i⁆ =
       rationalComponent S.ρ S.Γ (rootCharHom ta) i ∧
     p ∣ Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) := by
   classical
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := split_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
@@ -201,14 +202,14 @@ theorem splitFrame_perfect_dvd_p {p : ℕ} (hp : p.Prime) {ta tb : Fin τ.rank �
   have hωp : ∀ x y, ω x y ^ p = 1 := fun x y =>
     CFSG.RankThree.PartOne.KE.CTTorus.rootChar_pow_eq_one hbp _
   have hωπ : ∀ x y, x ≠ y → ω (π x) (π y) = ω x y ^ ((S.D.q ^ s : ℕ) : ℤ) := by
-    intro x y hxy
+    intro x y _hxy
     simp only [hω]
-    rw [← hπ x y hxy, rootChar_rho_iterate S hTb s (hψ.isRoot x y hxy), zpow_natCast]
+    rw [← hπ x y _hxy, rootChar_rho_iterate S hTb s (hψ.isRoot x y _hxy), zpow_natCast]
   obtain ⟨m, hm2, hmν, hdvd⟩ :=
     exists_cycle_dvd hp π ((S.D.q ^ s : ℕ) : ℤ) ω hωp hcoc hωπ (x₀ := x₀) (y₀ := y₀) hχ
   obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := r) (n := e * s)
     (Nat.mul_pos he hs0) σQ hσc
-  haveI : Finite ↥(fixSubfield σQ) := hfinK
+  have : Finite ↥(fixSubfield σQ) := hfinK
   have hQe : S.D.q ^ s = r ^ (e * s) := by rw [hq, ← pow_mul]
   rw [hQe] at hdvd
   have hr1 : 1 ≤ r ^ (e * s) := Nat.one_le_pow _ _ hr.pos
@@ -237,8 +238,8 @@ theorem unitaryFrame_perfect_dvd_p {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {ta 
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
@@ -304,7 +305,7 @@ theorem unitaryFrame_perfect_dvd_p {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {ta 
     exact dvd_trans hdvd'
       (Finset.dvd_prod_of_mem (fun k => ((r ^ (e * s) : ℕ) : ℤ) ^ k - (-1) ^ k)
         (Finset.mem_Icc.2 ⟨hm2, hmν⟩))
-  haveI := hfin
+  have := hfin
   obtain ⟨hcomm, hdvd''⟩ := perfect_range_dvd_of_central f hCperf hfker hp hcardX
   rw [hRf] at hcomm hdvd''
   exact ⟨hcomm, hdvd''⟩

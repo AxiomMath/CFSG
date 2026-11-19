@@ -34,6 +34,7 @@ theorem Vv_le_stab_of_dist_le (hc : CritAmalgam G₀ G₁ G₂ T Z) {γ x : Cose
   rw [CosetGeom.dist_comm]
   exact (CosetGeom.dist_eq_one_iff_adj.mpr hμx).le
 
+omit [Finite G] in
 private theorem dist_vert_le (hG : G₀ = G₁ ⊔ G₂) {s : ℕ}
     (P : F6.GoldAmL3T.Arc (graph G₀ G₁ G₂) s) (j : ℕ) :
     ∀ i, j ≤ i → i ≤ s → CosetGeom.dist (P.vert j) (P.vert i) ≤ i - j := by
@@ -54,6 +55,7 @@ private theorem dist_vert_le (hG : G₀ = G₁ ⊔ G₂) {s : ℕ}
       have h3 := CosetGeom.dist_triangle hG (P.vert j) (P.vert k) (P.vert (k + 1))
       omega
 
+omit [Finite G] in
 private theorem dist_vert_five_le (hG : G₀ = G₁ ⊔ G₂)
     (P : F6.GoldAmL3T.Arc (graph G₀ G₁ G₂) 10) {i : ℕ} (hi : i ≤ 10) :
     CosetGeom.dist (P.vert 5) (P.vert i) ≤ 5 := by

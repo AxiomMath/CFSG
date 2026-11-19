@@ -42,7 +42,7 @@ theorem o2zIn17_eq_solvableRadical {M L : Subgroup G} (hL : L ∈ calC M) :
   classical
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
-  haveI : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   have h1 : (O2ZIn17 L).map π = Subgroup.center (Bar2 L) := by
     unfold O2ZIn17
     exact Subgroup.map_comap_eq_self_of_surjective hπ _
@@ -55,7 +55,7 @@ theorem o2zIn17_eq_solvableRadical {M L : Subgroup G} (hL : L ∈ calC M) :
     exact Subgroup.one_mem _
   have hkerB : π.ker ≤ CFSG.solvableRadical ↥L := by
     rw [show π.ker = CFSG.pCore 2 ↥L from QuotientGroup.ker_mk' _]
-    haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥L) :=
+    have : Group.IsSolvable ↥(CFSG.pCore 2 ↥L) :=
       @IsNilpotent.to_isSolvable _ _
         ((CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 ↥L)).isNilpotent)
     exact le_sSup ⟨inferInstance, inferInstance⟩
@@ -104,6 +104,6 @@ theorem exists_nontrivial_repr_dMinDeg (K : Type) [Group K] [Finite K] [Nontrivi
   have hmem := Nat.sInf_mem hne
   have hmem' : dMinDeg K ∈
       {m : ℕ | ∃ f : K →* Matrix.GeneralLinearGroup (Fin m) (ZMod 2), f ≠ 1} := hmem
-  exact (Set.mem_setOf_eq.mp hmem')
+  exact (Set.mem_ofPred_eq.mp hmem')
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17

@@ -32,8 +32,8 @@ theorem cfInner_sub_star_self_eq_two {a : G → ℂ} (ha : a ∈ Irr G) (hanr : 
   have has : star a ∈ Irr G := star_mem_Irr ha
   rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right,
     cfInner_eq_ite_of_mem_Irr ha ha, cfInner_eq_ite_of_mem_Irr ha has,
-    cfInner_eq_ite_of_mem_Irr has ha, cfInner_eq_ite_of_mem_Irr has has, if_pos rfl, if_pos rfl,
-    if_neg (fun h : a = star a => hanr h.symm), if_neg hanr]
+    cfInner_eq_ite_of_mem_Irr has ha, cfInner_eq_ite_of_mem_Irr has has, ite_eq_left rfl, ite_eq_left rfl,
+    ite_eq_right (fun h : a = star a => hanr h.symm), ite_eq_right hanr]
   norm_num
 
 theorem cfInner_eq_zero_of_cfInner_sub_star_eq_zero {a b : G → ℂ} (ha : a ∈ Irr G)
@@ -44,7 +44,7 @@ theorem cfInner_eq_zero_of_cfInner_sub_star_eq_zero {a b : G → ℂ} (ha : a �
     rintro rfl
     rw [cfInner_sub_star_self_eq_two ha hanr] at h
     norm_num at h
-  rw [cfInner_eq_ite_of_mem_Irr ha hb, if_neg hab]
+  rw [cfInner_eq_ite_of_mem_Irr ha hb, ite_eq_right hab]
 
 end Irreducibles
 

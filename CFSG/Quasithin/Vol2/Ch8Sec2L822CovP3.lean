@@ -21,7 +21,7 @@ theorem false_of_overgroup_transport_cv {Q C : Type} [Group Q] [Group C] (e : Q 
     (hC : Nat.card C = N)
     (hov : ∀ X S : Subgroup C, IsPGroup 2 S → Nat.card S = 1024 → S ≤ X →
       5 ∣ Nat.card X → ¬ 9 ∣ Nat.card X → X = ⊤)
-    (P S : Subgroup Q) (hS : IsPGroup 2 S) (hS1024 : Nat.card S = 1024) (hSP : S ≤ P)
+    (P S : Subgroup Q) (_hS : IsPGroup 2 S) (hS1024 : Nat.card S = 1024) (hSP : S ≤ P)
     (h5 : 5 ∣ Nat.card P) (h9 : ¬ 9 ∣ Nat.card P) : False := by
   let f : Q →* C := e.toMonoidHom
   have hf : Function.Injective f := e.injective

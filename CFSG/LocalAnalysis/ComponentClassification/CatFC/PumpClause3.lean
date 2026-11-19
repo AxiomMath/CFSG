@@ -19,7 +19,7 @@ theorem rows_hs_only_hn (s' : TauCeti.SporadicName) (h : sporOrder .HS ∣ AGLEm
   rw [sporOrder_eq_sporOrd] at h ⊢
   cases s' <;> first
     | exact absurd h (by simp only [AGLEmbedding.sporOrd]; decide)
-    | (simp only [SporadicInnerRow, SporadicOuterRow, AGLEmbedding.sporOrd] <;> decide)
+    | (simp only [SporadicInnerRow, SporadicOuterRow, AGLEmbedding.sporOrd]; decide)
 
 variable {S : Type} [Group S] [Finite S]
 

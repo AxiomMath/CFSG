@@ -68,14 +68,14 @@ theorem burnsideF429_U4_borel_entries {m : ℕ} {K : Type} [Field K] (h : Unitar
 
 theorem burnsideF429_c6_U4 {f : ℕ} (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) (hf : 2 ≤ f)
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C6 .U4 f Gp M₁ M₂ T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, e1, e2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
   obtain ⟨Φ, hΦ1, hΦ2⟩ := burnsideF4gU4_exists_equiv marking
   generalize burnsideF4gU4_fieldData marking = h at Φ hΦ1 hΦ2
-  haveI : Finite marking.field := h.finite
-  haveI : CharP marking.field 2 := h.charP
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Finite marking.field := h.finite
+  have : CharP marking.field 2 := h.charP
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hP₁ : M₁.subgroupOf Gp = (parP h).map Φ.toMonoidHom := e1.trans hΦ1
   have hP₂ : M₂.subgroupOf Gp = (parP2 h).map Φ.toMonoidHom := e2.trans hΦ2
   set φ : hypSU h 2 0 →* E := Gp.subtype.comp Φ.toMonoidHom with hφdef
@@ -153,7 +153,7 @@ theorem burnsideF429_c6_U4 {f : ℕ} (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) (hf :
       exact lt_of_le_of_lt (burnsideF429_U4_card_elemAb_le h hB'U hB'e hBQ) (lt_of_lt_of_le hq3 hq4)
   ·
     intro A hAT hAe hAS
-    obtain ⟨t, htA, htS⟩ := SetLike.not_le_iff_exists.mp hAS
+    obtain ⟨t, htA, htS⟩ := IsConcreteLE.not_le_iff_exists.mp hAS
     have htT := hAT htA
     have htt : t * t = 1 := by rw [← pow_two]; exact hAe.2 t htA
     have htG : t ∉ Gp := fun h' => htS (by rw [← hTG]; exact ⟨htT, h'⟩)

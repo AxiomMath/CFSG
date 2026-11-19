@@ -46,7 +46,7 @@ noncomputable def eichlerProj (h2 : (2 : K) ≠ 0) (u w : OmegaSevenIdx → K) :
   QuotientGroup.mk (eichlerOmega h2 u w)
 
 theorem eichlerProj_mul (h2 : (2 : K) ≠ 0) {u v w : OmegaSevenIdx → K}
-    (hu : quadOdd 3 K u = 0) (hv : polar (quadOdd 3 K) u v = 0)
+    (_hu : quadOdd 3 K u = 0) (hv : polar (quadOdd 3 K) u v = 0)
     (hw : polar (quadOdd 3 K) u w = 0) :
     eichlerProj h2 u v * eichlerProj h2 u w = eichlerProj h2 u (v + w) := by
   have hmul : eichlerOmega h2 u v * eichlerOmega h2 u w = eichlerOmega h2 u (v + w) := by
@@ -85,7 +85,7 @@ theorem orderOf_eichlerProj (hK : Nat.card K = 3) (h2 : (2 : K) ≠ 0) [Finite K
     {u w : OmegaSevenIdx → K} (hu : quadOdd 3 K u = 0) (hu0 : u ≠ 0)
     (hw : polar (quadOdd 3 K) u w = 0) (hQw : quadOdd 3 K w ≠ 0) :
     orderOf (eichlerProj h2 u w) = 3 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK

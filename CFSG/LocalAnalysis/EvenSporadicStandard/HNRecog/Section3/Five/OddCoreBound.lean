@@ -13,7 +13,7 @@ open Subgroup
 
 private lemma card_le_25_of_isPGroup_five_dvd_100 {L : Type*} [Group L] [Finite L]
     (h5 : IsPGroup 5 L) (hdvd : Nat.card L ∣ 100) : Nat.card L ≤ 25 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨j, hj⟩ := h5.exists_card_eq
   rw [hj]
   have hdvd' : 5 ^ j ∣ 100 := by rwa [hj] at hdvd
@@ -29,7 +29,7 @@ private lemma card_le_25_of_isPGroup_five_dvd_100 {L : Type*} [Group L] [Finite 
 
 private lemma card_le_25_of_isPGroup_five_dvd_card_z {L : Type*} [Group L] [Finite L]
     (h5 : IsPGroup 5 L) (hdvd : Nat.card L ∣ 2 ^ 14 * 3 ^ 2 * 5 ^ 2) : Nat.card L ≤ 25 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨j, hj⟩ := h5.exists_card_eq
   rw [hj]
   have hdvd' : 5 ^ j ∣ 2 ^ 14 * 3 ^ 2 * 5 ^ 2 := by rwa [hj] at hdvd
@@ -43,12 +43,12 @@ private lemma card_le_25_of_isPGroup_five_dvd_card_z {L : Type*} [Group L] [Fini
     exact hdvd'
   exact Nat.le_of_dvd (by norm_num) h25
 
-theorem five_odd_core_bound (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z z' : G}
+theorem five_odd_core_bound (_hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z z' : G}
     (h : IsF5Type a z) (hz' : IsConj z z') (haz' : IsConj z (a * z')) {ρ : G} (hρ : ρ ∈ Gx a)
     (h5 : orderOf ρ = 5) (hshape : IsShapeCentralizerFiveB ↥(Gxy a ρ)) (hz'ρ : z' ∈ Gxy a ρ)
     {N : Subgroup G} (hNK : N ≤ Gx ρ) (hNn : (N.subgroupOf (Gx ρ)).Normal) (hN5 : IsPGroup 5 ↥N)
     (hρN : ρ ∈ N) : Nat.card ↥N ≤ 5 ^ 4 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have haK : a ∈ Gx ρ := (mem_Gx (x := ρ) (g := a)).mpr (mem_Gx.mp hρ).symm
   have hz'K : z' ∈ Gx ρ := (mem_Gxy.mp hz'ρ).2
   have haz'_comm : a * z' = z' * a := mem_Gx.mp (mem_Gxy.mp hz'ρ).1

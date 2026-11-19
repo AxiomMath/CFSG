@@ -16,7 +16,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns (mem_gLAPPrimeCoreOf_i
 namespace Lemma136
 
 @[expose] def P1BarInput : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (h : Cex134 G m 3 B M E A D T L)
+  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (_h : Cex134 G m 3 B M E A D T L)
     (d : ↥M), (d : G) ∈ D → (d : G) ≠ 1 →
       (¬ (d : G) ∈ Subgroup.normalizer (L : Set G) ∨ (d : G) ∈ centBar 3 ⊤ L) →
       ∀ K : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M),
@@ -30,7 +30,7 @@ theorem l136_gamma (hP95 : Prop95) (h111 : Prop111Statement)
     {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T L : Subgroup G}
     (h : Cex134 G m p B M E A D T L) : Prop95Gamma p M D L := by
   have hS : GLStanding G m p := h.standing
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hp2 : p ≠ 2 := hS.ne_two
   have hD : IsEkIn p 2 A D := h.hD
   have hDA : D ≤ A := hD.1
@@ -102,7 +102,7 @@ theorem l136_centBar_of_centralizes {G : Type} [Group G] [Finite G] {p : ℕ} (h
     (hc : ∀ q ∈ barX p M L, QuotientGroup.mk' (GLAPPrimeCore p ↥M) (⟨d, hdM⟩ : ↥M) * q =
       q * QuotientGroup.mk' (GLAPPrimeCore p ↥M) (⟨d, hdM⟩ : ↥M)) :
     d ∈ centBar p ⊤ L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLM : L ≤ M := isSubnormal_le' hsn
   rw [Sec13d.mem_centBar_iff]
   refine ⟨Subgroup.mem_top _, ⟨d, hdN⟩, rfl, ?_⟩
@@ -186,7 +186,7 @@ theorem l136_centralizes_barX_of_centBar {G : Type} [Group G] [Finite G] {p : �
     (hx : x ∈ centBar p ⊤ L) :
     ∀ q ∈ barX p M L, QuotientGroup.mk' (GLAPPrimeCore p ↥M) (⟨x, hxM⟩ : ↥M) * q =
       q * QuotientGroup.mk' (GLAPPrimeCore p ↥M) (⟨x, hxM⟩ : ↥M) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro q hq
   obtain ⟨u, hu, rfl⟩ := (mem_barX_iff p q).1 hq
   obtain ⟨-, γ, hγ, hbar⟩ := Sec13d.mem_centBar_iff.1 hx
@@ -241,8 +241,8 @@ theorem l136_bar_normalizes {G : Type} [Group G] [Finite G] {p : ℕ} {M H Q : S
     exact h2
 
 @[expose] def IIHardInput : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (h : Cex134 G m 3 B M E A D T L)
-    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (hd1 : d ≠ 1),
+  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (_h : Cex134 G m 3 B M E A D T L)
+    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (_hd1 : d ≠ 1),
     pCoreOf 2 (fixSub (barAut 3 L ⟨d, hN hd⟩)) ≠ ⊥ →
       pCoreOf 2 (L ⊓ Subgroup.centralizer ({d} : Set G)) ≤
         GLAPPrimeCoreOf 3 (Subgroup.centralizer ({d} : Set G))
@@ -255,8 +255,8 @@ theorem l136_ii_easy (hO2 : Cex134_O2Statement) (h121c : Prop121_corStatement)
     (hfix : pCoreOf 2 (fixSub (barAut 3 L ⟨d, hN hd⟩)) = ⊥) :
     pCoreOf 2 (L ⊓ Subgroup.centralizer ({d} : Set G)) ≤
       GLAPPrimeCoreOf 3 (Subgroup.centralizer ({d} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : GLStanding G m 3 := h.standing
   have hDA : D ≤ A := h.hD.1
   have hdA : d ∈ A := hDA hd
@@ -385,24 +385,24 @@ theorem lemma136_i_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
     (h121 : Prop121_of_cexStatement) (hcomp : Sec13_compStatement) (hI22 : Input22_3_2)
     (hP1 : P1BarInput) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T L : Subgroup G}
-      (h : Cex134 G m p B M E A D T L),
+      (_h : Cex134 G m p B M E A D T L),
       D ≤ Subgroup.normalizer (L : Set G) ∧ ∀ x ∈ D, x ∈ centBar 3 ⊤ L → x = 1 := by
-  intro G _ _ m p B M E A D T L h
-  have hγ := l136_gamma hP95 h111 h121 hcomp h
+  intro G _ _ m p B M E A D T L _h
+  have hγ := l136_gamma hP95 h111 h121 hcomp _h
   unfold Prop95Gamma at hγ
   obtain ⟨hp3, e, -⟩ := hγ
   subst hp3
-  have hS : GLStanding G m 3 := h.standing
+  have hS : GLStanding G m 3 := _h.standing
   have hp : Nat.Prime 3 := hS.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  have hDA : D ≤ A := h.hD.1
-  have hAM : A ≤ M := h.pair.1.2.1.1.1.1
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have hDA : D ≤ A := _h.hD.1
+  have hAM : A ≤ M := _h.pair.1.2.1.1.1.1
   have hDM : D ≤ M := hDA.trans hAM
-  obtain ⟨hLc, hnc⟩ := hcomp h.toSec13 h.hL
+  obtain ⟨hLc, hnc⟩ := hcomp _h.toSec13 _h.hL
   have hLM : L ≤ M := hLc.1
   have hsub : IsSubnormal L M := hLc.2.1
-  have hDel : IsElemAbelian 3 D := h.hD.2.1
-  have hDcard : Nat.card D = 3 ^ 2 := h.hD.2.2
+  have hDel : IsElemAbelian 3 D := _h.hD.2.1
+  have hDcard : Nat.card D = 3 ^ 2 := _h.hD.2.2
   have hDcomm : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hDel.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hLcard : 3 ∣ Nat.card (barX 3 M L) := by
@@ -476,7 +476,7 @@ theorem lemma136_i_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
               Set (↥M ⧸ GLAPPrimeCore 3 ↥M)) := by
           refine sSup_le fun X hX w hw => ?_
           rw [Subgroup.mem_centralizer_iff]
-          intro h hh
+          intro _h hh
           rw [Set.mem_singleton_iff] at hh
           rw [hh]
           exact hcent X hX w hw
@@ -512,11 +512,11 @@ theorem lemma136_i_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
         · left
           intro hdN
           exact hN (l136_mk_mem_normalizer_barX hLM d.2 hdN)
-      exact hP1 G m h d hdD hd1 hJc K hK
+      exact hP1 G m _h d hdD hd1 hJc K hK
     set Q : Subgroup G := pCoreOf 2 (piStar 3 D) with hQdef
     have hQ2 : IsPGroup 2 ↥(barX 3 M Q) :=
       isPGroup_barX (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (piStar 3 D))
-    have hQn : ∀ h ∈ piStar 3 D, ∀ q ∈ Q, h * q * h⁻¹ ∈ Q := fun h hh q hq =>
+    have hQn : ∀ _h ∈ piStar 3 D, ∀ q ∈ Q, _h * q * _h⁻¹ ∈ Q := fun _h hh q hq =>
       (Subgroup.mem_normalizer_iff.1 (le_normalizer_pCoreOf 2 (piStar 3 D) hh) q).1 hq
     have hnormS : barX 3 M (piStar 3 D) ≤ Subgroup.normalizer
         ((barX 3 M Q : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) : Set (↥M ⧸ GLAPPrimeCore 3 ↥M)) :=
@@ -542,7 +542,7 @@ theorem lemma136_i_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
       have hC : sSup (l136Fam M L A0) ≤ Subgroup.centralizer ({s} : Set (↥M ⧸ GLAPPrimeCore 3 ↥M)) := by
         refine sSup_le fun X hX x hx => ?_
         rw [Subgroup.mem_centralizer_iff]
-        intro h hh
+        intro _h hh
         rw [Set.mem_singleton_iff] at hh
         rw [hh]
         exact hcentQ X hX s hs x hx

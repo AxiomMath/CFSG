@@ -466,10 +466,10 @@ theorem normalConj_C1 {A : Subgroup (Equiv.Perm (Fin 42))}
       · rintro ⟨a, ha, hax⟩
         have hax' : a = x := by
           rwa [show (MulAut.conj (1 : Equiv.Perm (Fin 42))).toMonoidHom a = a from by
-            simp [MulAut.conj_apply]] at hax
+            simp] at hax
         rwa [← hax']
       · intro hx
-        exact ⟨x, hx, by simp [MulAut.conj_apply]⟩
+        exact ⟨x, hx, by simp⟩
     refine ⟨1, S.one_mem, ?_, ?_⟩
     · rw [hmap]; exact hAC
     · rw [hmap, hAeq]

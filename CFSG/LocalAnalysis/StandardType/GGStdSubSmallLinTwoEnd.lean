@@ -83,6 +83,7 @@ theorem concl_of_root (hψ : Function.Injective ψ) (hζ : AdjoinRoot.root g ^ 3
     rw [mul_one] at h4
     exact h4
 
+omit [CharP K 2] in
 theorem exists_zsmul_of_fix (hι : Function.Injective (frameHom ψ A₀ ε hC hCp))
     (hconj : ∀ x y : L', MulAut.conj x = MulAut.conj y → x = y)
     (hAT : ∀ a : MulAut L', a ∈ A ↔ ∃ t : Fin s → ZMod 3,

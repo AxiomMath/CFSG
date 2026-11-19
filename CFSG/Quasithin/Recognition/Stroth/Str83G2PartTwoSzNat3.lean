@@ -42,10 +42,10 @@ theorem str83_partTwo_z1_irreducible
     {Y : Subgroup G} (hYZ : Y ≤ Z1 L1 L2 S)
     (hYN : L1 ⊔ S ≤ Subgroup.normalizer (Y : Set G)) :
     Y = ⊥ ∨ Y = Z1 L1 L2 S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Type := GaloisField 2 (2 * a + 1)
-  haveI : Field K := inferInstance
-  haveI : Finite K := inferInstance
+  have : Field K := inferInstance
+  have : Finite K := inferInstance
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
   obtain ⟨D⟩ := str83_partTwo_z1_main (K := K) hF hB ha hSz hL2 hII hZ2 hJ hK
   exact D.irreducible Y hYZ hYN
@@ -58,10 +58,10 @@ theorem str83_partTwo_card_z1
     (hZ2 : L2 ⊔ S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
     (hJ : ¬ jAtLeast (2 ^ pRank 2 S) (2 ^ (2 * a + 1)) S ≤ Q1 L1 L2 S) :
     Nat.card ↥(Z1 L1 L2 S) = 2 ^ (4 * (2 * a + 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Type := GaloisField 2 (2 * a + 1)
-  haveI : Field K := inferInstance
-  haveI : Finite K := inferInstance
+  have : Field K := inferInstance
+  have : Finite K := inferInstance
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
   obtain ⟨D⟩ := str83_partTwo_z1_main (K := K) hF hB ha hSz hL2 hII hZ2 hJ hK
   exact D.card

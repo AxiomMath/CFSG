@@ -54,6 +54,7 @@ private theorem not_isSolvable_of_quasisimple {G : Type*} [Group G] (hG : CFSG.I
       (QuotientGroup.mk'_surjective _)
   exact hab ((IsSimpleGroup.comm_iff_isSolvable (G := G ⧸ Subgroup.center G)).2 this a b)
 
+omit [Finite Y] in
 theorem false_of_isTypeL2_of_commuting_homs (h : IsTypeL2 r Y) {G₁ G₂ : Type*} [Group G₁]
     [Group G₂] (f₁ : G₁ →* Y) (f₂ : G₂ →* Y) (hf₁ : Function.Injective f₁)
     (hf₂ : Function.Injective f₂) (hG₁ : ¬ Group.IsSolvable G₁) (hG₂ : ¬ Group.IsSolvable G₂)
@@ -135,6 +136,7 @@ private def mapPair {V V' : Type*} [AddCommGroup V] [Module K V] [AddCommGroup V
     rw [this]
     exact P.polar_ef
 
+omit [Finite K] in
 private theorem mapPair_orth {V V' : Type*} [AddCommGroup V] [Module K V] [AddCommGroup V']
     [Module K V'] {Q : QuadraticForm K V} {Q' : QuadraticForm K V'} (ι : Q.IsometryEquiv Q')
     {P P' : HypPair Q} (h : P.Orth P') : (mapPair ι P).Orth (mapPair ι P') := by
@@ -148,10 +150,10 @@ theorem exists_orth_hypPairs_six (R : QuadraticForm K W) (hR : (polarBilin R).No
     (by norm_num) (by rw [hd]) with ⟨⟨e⟩⟩ | ⟨b, c, -, ⟨e⟩⟩
   · exact ⟨mapPair e.symm (plusPair K (⟨0, by norm_num⟩ : Fin 3)),
       mapPair e.symm (plusPair K (⟨1, by norm_num⟩ : Fin 3)),
-      mapPair_orth e.symm (plusPair_orth (by simp [Fin.ext_iff]))⟩
+      mapPair_orth e.symm (plusPair_orth (by simp))⟩
   · exact ⟨mapPair e.symm (minusPair K b c (⟨0, by norm_num⟩ : Fin (3 - 1))),
       mapPair e.symm (minusPair K b c (⟨1, by norm_num⟩ : Fin (3 - 1))),
-      mapPair_orth e.symm (minusPair_orth (by simp [Fin.ext_iff]))⟩
+      mapPair_orth e.symm (minusPair_orth (by simp))⟩
 
 end Pairs
 
@@ -163,13 +165,13 @@ open Module QuadraticMap CFSG.ClassicalGroups.Orthogonal CFSG.RankThree.PartOne.
 variable {K : Type} [Field K] [Finite K] {W : Type} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W] {R : QuadraticForm K W}
 
-theorem not_isTypeL2_orthDerived_of_pairs (hR : (polarBilin R).Nondegenerate)
+theorem not_isTypeL2_orthDerived_of_pairs (_hR : (polarBilin R).Nondegenerate)
     (hK2 : Nat.card K ≠ 2) (hK3 : Nat.card K ≠ 3) {P₁ P₂ : HypPair R} (h : P₁.Orth P₂)
     {r : ℕ} : ¬ IsTypeL2 r ↥(orthDerived R) := by
   intro hT
   classical
-  haveI : Finite W := Module.finite_of_finite K
-  haveI : Finite (W ≃ₗ[K] W) :=
+  have : Finite W := Module.finite_of_finite K
+  have : Finite (W ≃ₗ[K] W) :=
     Finite.of_injective (fun f : W ≃ₗ[K] W => (f : W → W)) fun f g hfg =>
       LinearEquiv.ext (congrFun hfg)
   have hinj := matrixToOriginal_injective P₁ P₂ h
@@ -234,9 +236,9 @@ theorem card_orthogonalGroup_le_of_card_two {K : Type} [Field K] [Finite K] (hK 
   have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   let σ : ZMod 2 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_two hcard
-  letI : Algebra (ZMod 2) K := σ.toRingHom.toAlgebra
-  letI : Module (ZMod 2) W := Module.compHom W (algebraMap (ZMod 2) K)
-  haveI : IsScalarTower (ZMod 2) K W := IsScalarTower.of_algebraMap_smul fun r x => rfl
+  let : Algebra (ZMod 2) K := σ.toRingHom.toAlgebra
+  let : Module (ZMod 2) W := Module.compHom W (algebraMap (ZMod 2) K)
+  have : IsScalarTower (ZMod 2) K W := IsScalarTower.of_algebraMap_smul fun r x => rfl
   let fE : K ≃ₗ[ZMod 2] ZMod 2 :=
     { toFun := σ.symm
       map_add' := map_add σ.symm
@@ -247,8 +249,8 @@ theorem card_orthogonalGroup_le_of_card_two {K : Type} [Field K] [Finite K] (hK 
       invFun := σ
       left_inv := σ.apply_symm_apply
       right_inv := σ.symm_apply_apply }
-  haveI : FiniteDimensional (ZMod 2) W := by
-    haveI : Finite W := Module.finite_of_finite K
+  have : FiniteDimensional (ZMod 2) W := by
+    have : Finite W := Module.finite_of_finite K
     exact Module.Finite.of_finite
   have hfin : finrank (ZMod 2) W = 6 := by
     rw [← Module.finrank_mul_finrank (ZMod 2) K W, hd, fE.finrank_eq, finrank_self]
@@ -274,8 +276,8 @@ theorem card_orthogonalGroup_le_of_card_two {K : Type} [Field K] [Finite K] (hK 
   have hΦ : Function.Injective Φ := fun a b hab =>
     Subtype.ext (LinearEquiv.ext fun x => congrArg
       (fun g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q') => (g : W ≃ₗ[ZMod 2] W) x) hab)
-  haveI : Finite W := Module.finite_of_finite K
-  haveI : Finite (W ≃ₗ[ZMod 2] W) := CFSG.LargeExtraspecial.O62.finite_linearEquiv
+  have : Finite W := Module.finite_of_finite K
+  have : Finite (W ≃ₗ[ZMod 2] W) := CFSG.LargeExtraspecial.O62.finite_linearEquiv
   have hcardQ' := CFSG.LargeExtraspecial.O62.card_orthogonalGroup hfin hQ'nd
   calc Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup R)
       ≤ Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup Q') := Nat.card_le_card_of_injective Φ hΦ
@@ -289,8 +291,8 @@ theorem not_isTypeL2_orthDerived_six {K : Type} [Field K] [Finite K] {W : Type} 
     (hK3 : ringChar K ≠ 3) {r : ℕ} (hr : 64 ≤ r) : ¬ IsTypeL2 r ↥(orthDerived R) := by
   by_cases hK2 : Nat.card K = 2
   · intro hT
-    haveI : Finite W := Module.finite_of_finite K
-    haveI : Finite (W ≃ₗ[K] W) :=
+    have : Finite W := Module.finite_of_finite K
+    have : Finite (W ≃ₗ[K] W) :=
       Finite.of_injective (fun f : W ≃ₗ[K] W => (f : W → W)) fun f g hfg =>
         LinearEquiv.ext (congrFun hfg)
     have h1 := card_orthogonalGroup_le_of_card_two hK2 R hR hd
@@ -302,9 +304,9 @@ theorem not_isTypeL2_orthDerived_six {K : Type} [Field K] [Finite K] {W : Type} 
   · have hK3' : Nat.card K ≠ 3 := by
       intro h3
       apply hK3
-      haveI := Fintype.ofFinite K
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-      haveI : CharP K 3 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact h3)
+      have := Fintype.ofFinite K
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : CharP K 3 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact h3)
       exact ringChar.eq K 3
     obtain ⟨P₁, P₂, h⟩ := exists_orth_hypPairs_six R hR hd
     exact not_isTypeL2_orthDerived_of_pairs hR hK2 hK3' h

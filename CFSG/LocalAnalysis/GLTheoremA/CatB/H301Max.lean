@@ -47,12 +47,12 @@ theorem exists_central_involution {G : Type*} [Group G] [Finite G] {S : Subgroup
     exact (congrArg (fun y : S => (y : G)) h1).symm
 
 theorem exists_central_mod {G : Type*} [Group G] [Finite G] {Y V : Subgroup G}
-    (hY : IsPGroup 2 Y) (hVY : V ≤ Y) (hVn : ∀ y ∈ Y, ∀ v ∈ V, y * v * y⁻¹ ∈ V)
+    (hY : IsPGroup 2 Y) (_hVY : V ≤ Y) (hVn : ∀ y ∈ Y, ∀ v ∈ V, y * v * y⁻¹ ∈ V)
     (hne : ¬ Y ≤ V) :
     ∃ g ∈ Y, g ∉ V ∧ g * g ∈ V ∧ ∀ y ∈ Y, g * y * g⁻¹ * y⁻¹ ∈ V := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W : Subgroup Y := V.subgroupOf Y
-  haveI hWn : W.Normal := ⟨fun w hw y => Subgroup.mem_subgroupOf.2 (by
+  have hWn : W.Normal := ⟨fun w hw y => Subgroup.mem_subgroupOf.2 (by
     simpa using hVn y y.2 w (Subgroup.mem_subgroupOf.1 hw))⟩
   have hQ : IsPGroup 2 (Y ⧸ W) := hY.to_quotient W
   have hQne : (⊤ : Subgroup (Y ⧸ W)) ≠ ⊥ := by

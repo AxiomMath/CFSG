@@ -16,7 +16,7 @@ open Subgroup CFSG.ComponentClassification.OuterAutomorphisms
 theorem u43OuterOdd : U43OuterOdd := by
   intro U _ _ hq htwo α hodd
   obtain ⟨-, hmodel⟩ := htwo
-  haveI : Group.IsPerfect U := hq.1
+  have : Group.IsPerfect U := hq.1
   have hSC : CFSG.Assembly.LowTwoRank.StatedClassicalModel
       (U ⧸ Subgroup.center U) .PSU 4 3 1 :=
     CFSG.LieType.Steinberg.statedClassicalModel_of_lieModel

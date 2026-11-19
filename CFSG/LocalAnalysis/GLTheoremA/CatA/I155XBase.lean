@@ -13,11 +13,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem zpow_eq_zpow_emod {x : G} {p : ℕ} (hx : x ^ p = 1) (k : ℤ) :
     x ^ k = x ^ (k % (p : ℤ)) := by
   conv_lhs => rw [← Int.emod_add_mul_ediv k p]
   rw [zpow_add, zpow_mul, zpow_natCast, hx, one_zpow, mul_one]
 
+omit [Finite G] in
 theorem exists_nat_pow_eq {x : G} {p : ℕ} (hp : 0 < p) (hx : x ^ p = 1) (k : ℤ) :
     ∃ n : ℕ, n < p ∧ x ^ k = x ^ n := by
   have hpz : (p : ℤ) ≠ 0 := by exact_mod_cast hp.ne'
@@ -26,6 +28,7 @@ theorem exists_nat_pow_eq {x : G} {p : ℕ} (hp : 0 < p) (hx : x ^ p = 1) (k : �
   refine ⟨(k % (p : ℤ)).toNat, by omega, ?_⟩
   rw [zpow_eq_zpow_emod hx k, ← zpow_natCast, Int.toNat_of_nonneg h0]
 
+omit [Finite G] in
 theorem zpow_not_mem_normalizer {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
     {K : Subgroup G} (hxK : x ∉ Subgroup.normalizer (K : Set G)) {k : ℤ}
     (hk : ¬ (p : ℤ) ∣ k) : x ^ k ∉ Subgroup.normalizer (K : Set G) := by
@@ -44,6 +47,7 @@ theorem zpow_not_mem_normalizer {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1
   rw [e]
   exact Subgroup.zpow_mem _ h v
 
+omit [Finite G] in
 theorem glbConj_zpow_eq_self {x : G} {p : ℕ} (hx : x ^ p = 1) (K : Subgroup G) {k : ℤ}
     (hk : (p : ℤ) ∣ k) : GLBConj (x ^ k) K = K := by
   obtain ⟨m, rfl⟩ := hk
@@ -51,6 +55,7 @@ theorem glbConj_zpow_eq_self {x : G} {p : ℕ} (hx : x ^ p = 1) (K : Subgroup G)
     rw [zpow_mul, zpow_natCast, hx, one_zpow]
   rw [this, gLBConj_one]
 
+omit [Finite G] in
 theorem glbConj_eq_self_of_mem {X : Subgroup G} {a : G} (ha : a ∈ X) :
     GLBConj a X = X := by
   ext y
@@ -62,11 +67,13 @@ theorem glbConj_eq_self_of_mem {X : Subgroup G} {a : G} (ha : a ∈ X) :
   · intro h
     exact X.mul_mem (X.mul_mem ha h) (X.inv_mem ha)
 
+omit [Finite G] in
 theorem glaPComponent_zpow {p : ℕ} {X K : Subgroup G} {x : G} (hx : x ∈ X)
     (hK : GLAPComponent p X K) (k : ℤ) : GLAPComponent p X (GLBConj (x ^ k) K) := by
   have h := glaPComponent_gLBConj hK (x ^ k)
   rwa [glbConj_eq_self_of_mem (X.zpow_mem hx k)] at h
 
+omit [Finite G] in
 theorem zpow_sub_mem_normalizer_of_glbConj_eq {x : G} (K : Subgroup G) {a b : ℤ}
     (h : GLBConj (x ^ a) K = GLBConj (x ^ b) K) :
     x ^ (a - b) ∈ Subgroup.normalizer (K : Set G) := by
@@ -76,6 +83,7 @@ theorem zpow_sub_mem_normalizer_of_glbConj_eq {x : G} (K : Subgroup G) {a b : �
   rw [gLBConj_gLBConj, gLBConj_gLBConj, mul_inv_cancel, gLBConj_one] at h1
   exact h1
 
+omit [Finite G] in
 theorem glbConj_zpow_ne_of_not_dvd {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
     {K : Subgroup G} (hxK : x ∉ Subgroup.normalizer (K : Set G)) {k : ℤ}
     (hk : ¬ (p : ℤ) ∣ k) : GLBConj (x ^ k) K ≠ K := by
@@ -84,6 +92,7 @@ theorem glbConj_zpow_ne_of_not_dvd {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p 
   rw [mem_normalizer_iff_gLBConj_eq]
   exact h
 
+omit [Finite G] in
 theorem glbConj_zpow_ne_of_not_dvd_sub {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
     {K : Subgroup G} (hxK : x ∉ Subgroup.normalizer (K : Set G)) {i j : ℤ}
     (hij : ¬ (p : ℤ) ∣ i - j) : GLBConj (x ^ i) K ≠ GLBConj (x ^ j) K := by
@@ -101,6 +110,7 @@ theorem glbConj_zpow_le_sup_centMod {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p
   · exact le_trans (le_centModSubgroup_of_ne hp (glaPComponent_zpow hxX hK k) hK
       (glbConj_zpow_ne_of_not_dvd hp hx hxK hd)) le_sup_right
 
+omit [Finite G] in
 theorem glbConj_zpow_le_closureIn (K : Subgroup G) (x : G) (k : ℤ) :
     GLBConj (x ^ k) K ≤ closureIn K (Subgroup.zpowers x) := by
   have hmem : (x ^ k)⁻¹ ∈ Subgroup.zpowers x := Subgroup.inv_mem _ (Subgroup.zpow_mem_zpowers x k)
@@ -108,6 +118,7 @@ theorem glbConj_zpow_le_closureIn (K : Subgroup G) (x : G) (k : ℤ) :
   rw [e]
   exact le_iSup₂_of_le ((x ^ k)⁻¹) hmem le_rfl
 
+omit [Finite G] in
 theorem closureIn_le_of_glbConj {K H : Subgroup G} {x : G}
     (h : ∀ k : ℤ, GLBConj (x ^ k) K ≤ H) : closureIn K (Subgroup.zpowers x) ≤ H := by
   refine iSup₂_le fun a ha => ?_
@@ -129,8 +140,9 @@ theorem closureIn_le_normalizer {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1
     (hxK : x ∉ Subgroup.normalizer (K : Set G)) :
     closureIn K (Subgroup.zpowers x) ≤ Subgroup.normalizer (K : Set G) :=
   (closureIn_le_sup_centMod hp hx hxX hK hxK).trans
-    (sup_le Subgroup.le_normalizer fun g hg => hg.1)
+    (sup_le Subgroup.le_normalizer fun _g hg => hg.1)
 
+omit [Finite G] in
 theorem le_glaPPrimeCoreOf_of_normal' {p : ℕ} {A N : Subgroup G} (hNA : N ≤ A)
     (hn : ∀ a ∈ A, ∀ n ∈ N, a * n * a⁻¹ ∈ N) (hc : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p A := by

@@ -34,7 +34,7 @@ theorem kdL64I246_genericOrders_G2 (p : ℕ) :
 theorem kdL64I246_exceptionalOrders_G2 (p : ℕ) (hp : 5 ≤ p) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .G2 0 p 1 = (1, 1) := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-  split <;> first | rfl | (exfalso; omega) | simp_all
+  split <;> first | rfl | (exfalso; omega)
 
 theorem kdL64I246_card_center_dvd_two {G X : Type} [Group G] [Finite G] [Group X]
     (hGA : CFSG.Open.GriessAllModelsStatement) (hq : CFSG.Open.IsQuasisimple G)
@@ -45,7 +45,7 @@ theorem kdL64I246_card_center_dvd_two {G X : Type} [Group G] [Finite G] [Group X
         ((CFSG.Blueprint.Multiplier.exceptionalOrders t n p f).1 *
           (CFSG.Blueprint.Multiplier.exceptionalOrders t n p f).2) ∣ 2) :
     Nat.card (Subgroup.center G) ∣ 2 := by
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hq.1
   have h1 := CFSG.ComponentClassification.CatFactsSp4.card_center_dvd_hopfMultiplier e
   rw [(CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.finite_and_card_hopf hGA hm).2] at h1
   exact h1.trans h2
@@ -96,7 +96,7 @@ theorem kdL64I246_nonempty_typeB2 {X : Type} [Group X] (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.B 2 q).Valid) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = q.card) (θ : X ≃* StatedProj (StatedSp 2 K)) :
     Nonempty (X ≃* TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩) := by
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩
   have hF : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩) =
       q.card := by
     rw [TauCeti.ValidLieTypeIndex.card_fixedField ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩]
@@ -118,7 +118,7 @@ theorem kdL64I246_le_of_catGroup
     {Y : Subgroup Z}
     (hY : ∀ S : Subgroup Z, S ≤ P → 2 ≤ CFSG.Open.pRank p S → normalizer (S : Set Z) ≤ Y) :
     L ≤ Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPsub : IsPGroup p ↥(P.subgroupOf L) :=
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPL).symm
   let Q : Sylow p ↥L := IsPGroup.toSylow hPsub hidx

@@ -11,6 +11,7 @@ open CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem S36_split_comm {Q₁ Q₂ : Subgroup G}
     (hc : ∀ x ∈ Q₁, ∀ y ∈ Q₂, x * y = y * x) {x x' y y' : G} (hx : x ∈ Q₁) (hx' : x' ∈ Q₁)
     (hy : y ∈ Q₂) (hy' : y' ∈ Q₂) :

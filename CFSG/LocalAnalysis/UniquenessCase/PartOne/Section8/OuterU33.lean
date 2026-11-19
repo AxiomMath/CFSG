@@ -14,9 +14,9 @@ theorem not_three_dvd_card_outer_psu3 :
       (CFSG.Open.PSU3 3 1)) := by
   have hX : Nat.card (CFSG.Open.PSU3 3 1) = 6048 :=
     CFSG.Quasithin.H13.Sec526.card_psu3_three_one
-  haveI : Finite (CFSG.Open.PSU3 3 1) :=
+  have : Finite (CFSG.Open.PSU3 3 1) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
-  haveI hsimple : IsSimpleGroup (CFSG.Open.PSU3 3 1) := by
+  have hsimple : IsSimpleGroup (CFSG.Open.PSU3 3 1) := by
     obtain ⟨e⟩ := CFSG.Quasithin.u33Pres_mulEquiv_PSU3
     exact e.isSimpleGroup_congr.mp CFSG.Quasithin.isSimpleGroup_u33Pres
   refine CFSG.Quasithin.H13.S126C.not_three_dvd_card_outer_of_le ?_ ?_

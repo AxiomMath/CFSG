@@ -84,7 +84,7 @@ theorem false_of_linear_section {r q : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hq :
     (hYodd : Odd (Nat.card Y)) (eX : L ⧸ Y ≃* X) {d : ℕ} (hd : d ≤ 4)
     (φ : L →* GL (Fin d) (ZMod q)) (hφ : φ.ker ≤ Y) : False := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hsX, horder⟩ := simple_card_of_list620 hX
   have hs : IsSimpleGroup (L ⧸ Y) := (MulEquiv.isSimpleGroup_congr eX).2 hsX
   have hnL : Nat.card (L ⧸ Y) = Nat.card X := Nat.card_congr eX.toEquiv
@@ -94,9 +94,9 @@ theorem false_of_linear_section {r q : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hq :
   | _ d ih =>
   by_cases hirr : IsIrreducibleMatrixRep φ
   · obtain ⟨hRn, ⟨e⟩⟩ := exists_range_quotient_equiv φ Y hφ
-    haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+    have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
     have hRs : Group.IsSolvable (Y.map φ.rangeRestrict) := by
-      haveI := hYs
+      have := hYs
       exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective φ.rangeRestrict Y)
     have hRodd : Odd (Nat.card (Y.map φ.rangeRestrict)) :=
       Odd.of_dvd_nat hYodd (Subgroup.card_map_dvd Y _)
@@ -127,7 +127,7 @@ open N588
 
 theorem c622_direct (m : Mz614 G) (_h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h619 : m.C619)
     (hL : m.L620) : m.C622 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hX : m.r = 3 ∧ IsAlt m.Lbar 6 ∨ K318.List620' m.r m.Lbar := by
     rcases hL.2 with h | h | h
     · by_cases hr3 : m.r = 3
@@ -145,7 +145,7 @@ theorem c622_direct (m : Mz614 G) (_h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h6
   rcases hdich with hq | hcent
   · exact Or.inl hq
   exfalso
-  haveI : Group.IsPerfect ↥m.L := ⟨hperf⟩
+  have : Group.IsPerfect ↥m.L := ⟨hperf⟩
   obtain ⟨q, hq, hqY, d, hd, φ, hφ⟩ := K318.exists_linear_section (CFSG.pPrimeCore m.r ↥m.L)
     m.isSolvable_pPrimeCore_L m.odd_card_pPrimeCore_L
     (fun p hp hp2 => m.pRank_pPrimeCore_L_le_three h619 hp hp2) hcent hs

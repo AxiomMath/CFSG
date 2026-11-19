@@ -17,9 +17,9 @@ theorem L143Row.of_isElemAbelian {S : Type*} [Group S] {x : S} {E : Subgroup S}
 theorem l143RowsT_ON (T : Type)
     [Group T] (hT : Nonempty (T ≃* CFSG.Blueprint.NativeSporadic.ON)) : L143Rows T := by
   obtain ⟨ψ⟩ := hT
-  haveI : Finite CFSG.Blueprint.NativeSporadic.ON :=
+  have : Finite CFSG.Blueprint.NativeSporadic.ON :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.ON.card_ON]; norm_num)
-  haveI : Finite T := Finite.of_equiv _ ψ.symm.toEquiv
+  have : Finite T := Finite.of_equiv _ ψ.symm.toEquiv
   intro x hx3 _
   have hP : IsPGroup 3 (Subgroup.zpowers x) :=
     IsPGroup.of_card_dvd_pow (n := 1) (by

@@ -257,7 +257,7 @@ theorem step148HJYBGen_holds :
       refine ⟨?_, Sec17.Proof171Steps.oPrimeResidual_eq_top_of_mulEquiv e' ?_⟩
       · rw [Nat.card_congr e'.toEquiv, card_alt_five]
         norm_num
-      · have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+      · have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
         exact Sec17.Proof171Steps.oPrimeResidual_eq_top_of_isSimpleGroup
           (by rw [card_alt_five]; norm_num)
     · have hT𝔍eq : T = 𝔍 := hTeq.trans h𝔍eq

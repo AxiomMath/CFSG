@@ -24,7 +24,7 @@ theorem card_centralizer_dvd_four_mul_of_cover {Y R : Type*} [Group Y] [Group R]
     (hZ2 : Nat.card Z = 2) (φ : Y' ⧸ Z.subgroupOf Y' ≃* R) {N : ℕ}
     (hR : ∀ s : R, orderOf s = 7 → Nat.card (centralizer ({s} : Set R)) ∣ N)
     {y : Y} (hy : orderOf y = 7) : Nat.card (centralizer ({y} : Set Y)) ∣ 4 * N := by
-  haveI : Y'.Normal := Subgroup.normal_of_index_eq_two hY'
+  have : Y'.Normal := Subgroup.normal_of_index_eq_two hY'
   have hyY' : y ∈ Y' := mem_of_index_two_of_odd hY' (by rw [hy]; decide)
   let q : Y' →* R := φ.toMonoidHom.comp (QuotientGroup.mk' (Z.subgroupOf Y'))
   have hker : ∀ g : Y', q g = 1 ↔ (g : Y) ∈ Z := by
@@ -84,7 +84,7 @@ section Baby
 theorem card_centralizer_seven_B_dvd
     (x : NativeSporadic.B) (hx : orderOf x = 7) :
     Nat.card (centralizer ({x} : Set NativeSporadic.B)) ∣ 564480 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have P := bSevenElem_parts
   have hα : BabyInv 0 alphaB :=
     babyInv_zero_of_rank_1860 (orderOf_eq_prime P.alpha_sq P.alpha_ne) P.alpha_rank
@@ -92,7 +92,7 @@ theorem card_centralizer_seven_B_dvd
   rw [CFSG.Monster.Existence.natCard_centralizer_eq_of_isConj
     (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.bSeven_isConj hx hxS)]
   obtain ⟨ψ⟩ := nonempty_centralizer_mulEquiv_Eam CFSG.Monster.Existence.babyTableIII hα
-  haveI : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
   obtain ⟨hidx, -, -, hcen', hZ2, ⟨φ⟩, -⟩ :=
     CFSG.Monster.B.TwoA.Amalgam.short_F4_derived_standard_perfect_cover
   have hZY : zpowers CFSG.Monster.B.TwoA.Amalgam.cE' ≤
@@ -106,7 +106,7 @@ theorem card_centralizer_seven_B_dvd
   have hR : ∀ s : Rgrp, orderOf s = 7 → Nat.card (centralizer ({s} : Set Rgrp)) ∣ 141120 := by
     intro s hs
     rcases CFSG.HardMathSupport.Dickson.I271.TabMFive.card_centralizer_seven_stdGroup s hs
-      with h | h <;> rw [h] <;> norm_num
+      with h | h <;> rw [h]; norm_num
   rw [@CFSG.HardMathSupport.Dickson.I271.TabMFive.card_centralizer_eq_of_mulEquiv
     NativeSporadic.B _ Units.instGroup _ _ ψ xSeven hxα centralizer_xSeven_le]
   exact (card_centralizer_dvd_four_mul_of_cover hidx hZY hZ2 φ hR hy).trans (by norm_num)
@@ -118,7 +118,7 @@ theorem census_B_seven
         (Subgroup.centralizer ({x} : Set (CFSG.Blueprint.NativeSporadic.Carrier .B))) J →
       Nat.card (CFSG.Yardstones.Md0ec50421ce4.PSimple 7 J) ∣ 80640 := by
   intro x hx J hJ
-  haveI : Finite (NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
+  have : Finite (NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
   have hc : Nat.card (Subgroup.centralizer ({x} : Set (NativeSporadic.Carrier .B))) ∣ 564480 :=
     card_centralizer_seven_B_dvd x hx
   have hd := CFSG.LocalAnalysis.GLTheoremA.I1416Rows.prime_mul_card_pSimple_dvd_cent

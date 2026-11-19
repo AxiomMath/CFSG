@@ -43,11 +43,11 @@ theorem tau_tab {c : Nat} (hc : c < 2) :
   rcases (by omega : c = 0 ∨ c = 1) with rfl | rfl
   · refine ⟨?_, base.2.2.2.1⟩
     unfold co3HeisTau co3ZTbl
-    rw [if_pos rfl, CertificateChecks.KernelSpor.Co3Single.z_eq]
+    rw [ite_eq_left rfl, CertificateChecks.KernelSpor.Co3Single.z_eq]
     rfl
   · refine ⟨?_, base.2.2.2.2.1⟩
     unfold co3HeisTau co3TtTbl
-    rw [if_neg (by decide), CertificateChecks.KernelSpor.Co3Single.tt_eq]
+    rw [ite_eq_right (by decide), CertificateChecks.KernelSpor.Co3Single.tt_eq]
     rfl
 
 theorem heis_class {c : Nat} (hc : c < 2) (h : heisK c = true) : co3HeisOK c = true := by

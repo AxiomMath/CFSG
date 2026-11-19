@@ -36,7 +36,7 @@ private lemma sec5pef_conj_data
   classical
   let _ : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
-  haveI : IsCyclic U := hUc
+  have : IsCyclic U := hUc
   have hCy : Subgroup.centralizer ({y} : Set (PGL2 K)) =
       (Subgroup.centralizer ({s} : Set (PGL2 K))).map
         (MulAut.conj g).toMonoidHom := by

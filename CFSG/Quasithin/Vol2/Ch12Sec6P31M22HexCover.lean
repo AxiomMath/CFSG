@@ -10,8 +10,8 @@ namespace CFSG.Quasithin.H13.P31Sec.M22Hex
 theorem allNS_of_surjective_of_comm_ker {S Q Q' : Type} [Group S] [Group Q] [Group Q']
     (f : Q →* Q') (hf : Function.Surjective f)
     (hker : ∀ a ∈ f.ker, ∀ b ∈ f.ker, a * b = b * a) (h : AllNS S Q') : AllNS S Q := by
-  haveI : Group.IsSolvable ↥f.ker :=
-    isSolvable_of_comm fun a b => Subtype.ext (hker a a.2 b b.2)
+  have : Group.IsSolvable ↥f.ker :=
+    _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (hker a a.2 b b.2)
   exact AllNS.of_split f.ker AllNS.of_solvable
     (AllNS.of_mulEquiv (QuotientGroup.quotientKerEquivOfSurjective f hf).symm h)
 

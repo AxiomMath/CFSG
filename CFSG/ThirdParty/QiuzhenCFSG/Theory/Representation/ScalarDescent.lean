@@ -129,7 +129,7 @@ public noncomputable def kerBaseChangeEquiv
     change T.ker.subtype.baseChange E x = T.ker.subtype.baseChange E y at hcoe
     have hsub : Function.Injective T.ker.subtype := fun u v huv => Subtype.ext huv
     apply Module.Flat.lTensor_preserves_injective_linearMap T.ker.subtype hsub
-    simpa only [LinearMap.baseChange_eq_ltensor] using hcoe
+    simpa only [LinearMap.baseChange_eq_lTensor] using hcoe
   let e0 : E ⊗[F] T.ker ≃ₗ[E] T.ker.baseChange E :=
     LinearEquiv.ofBijective f ⟨hf_inj, Submodule.toBaseChange_surjective E T.ker⟩
   exact e0.trans (LinearEquiv.ofEq _ _ (baseChange_ker_eq T))
@@ -232,10 +232,7 @@ public theorem baseChangedEnd_intertwiningConstraint
   apply LinearMap.ext
   intro f
   obtain ⟨t, rfl⟩ := e.surjective f
-  induction t using TensorProduct.induction_on with
-  | zero =>
-      simp [baseChangedEnd, intertwiningConstraint, e, sub_eq_add_neg]
-      abel
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
       simp only [map_add]
       rw [hx, hy]
@@ -384,8 +381,7 @@ public theorem finiteIntertwiningConstraint_baseChange
         (LinearMap.baseChangeLinearMapEquiv F E V W).toLinearMap := by
   apply LinearMap.ext
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
       simp only [map_add]
       rw [hx, hy]
@@ -605,10 +601,7 @@ public theorem baseChangeEquivFinCopies_map_extendScalars
     (rho : Representation F G V) (g : G) (z : S ⊗[F] V) :
     baseChangeEquivFinCopies (F := F) ((extendScalars S rho g) z) =
       fun i => rho g (baseChangeEquivFinCopies (F := F) z i) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      ext i
-      simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
       ext i
       simp only [Pi.add_apply, map_add]

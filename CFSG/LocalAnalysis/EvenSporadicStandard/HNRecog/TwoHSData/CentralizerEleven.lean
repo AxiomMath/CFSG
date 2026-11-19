@@ -55,7 +55,7 @@ theorem centralizer_eleven_of_data {G : Type} [Group G] [Finite G] (a : G)
     exact (hacen x).symm
   let aC : ↥C := ⟨a, haC⟩
   have hoa : orderOf a = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rwa [pow_two]) ha1
   have h2dvd : 2 ∣ Nat.card ↥C := by
     have h := Subgroup.orderOf_dvd_natCard C haC
@@ -71,7 +71,7 @@ theorem centralizer_eleven_of_data {G : Type} [Group G] [Finite G] (a : G)
     · exact Or.inl hp2
     · exfalso
       have h3dvd : 3 ∣ Nat.card ↥C := hp3 ▸ hpC
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨e, he⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) (p := 3) h3dvd
       have heG : orderOf (e : G) = 3 := by rw [Subgroup.orderOf_coe, he]
       have hcomm : x * (e : G) = (e : G) * x :=
@@ -79,7 +79,7 @@ theorem centralizer_eleven_of_data {G : Type} [Group G] [Finite G] (a : G)
       exact (h3 (e : G) heG) (eleven_dvd_centralizer_of_comm hx hcomm)
     · exfalso
       have h5dvd : 5 ∣ Nat.card ↥C := hp5 ▸ hpC
-      haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+      have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       obtain ⟨e, he⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) (p := 5) h5dvd
       have heG : orderOf (e : G) = 5 := by rw [Subgroup.orderOf_coe, he]
       have hcomm : x * (e : G) = (e : G) * x :=
@@ -87,7 +87,7 @@ theorem centralizer_eleven_of_data {G : Type} [Group G] [Finite G] (a : G)
       exact (h5 (e : G) heG) (eleven_dvd_centralizer_of_comm hx hcomm)
     · exfalso
       have h7dvd : 7 ∣ Nat.card ↥C := hp7 ▸ hpC
-      haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+      have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
       obtain ⟨e, he⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) (p := 7) h7dvd
       have heG : orderOf (e : G) = 7 := by rw [Subgroup.orderOf_coe, he]
       have hcomm : x * (e : G) = (e : G) * x :=
@@ -96,14 +96,14 @@ theorem centralizer_eleven_of_data {G : Type} [Group G] [Finite G] (a : G)
     · exact Or.inr hp11
   have h4not : ¬ 4 ∣ Nat.card ↥C := by
     intro h4dvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let P : Sylow 2 ↥C := default
     have hPsub_le : ∀ t : ↥(P : Subgroup ↥C), (t : ↥C) = 1 ∨ (t : ↥C) = aC := by
       intro t
       by_cases ht : (t : ↥C) = 1
       · exact Or.inl ht
       · right
-        obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).mp P.isPGroup' t
+        obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).mp P.isPGroup t
         have hk0 : k ≠ 0 := by
           intro hk0
           apply ht
@@ -134,7 +134,7 @@ theorem centralizer_eleven_of_data {G : Type} [Group G] [Finite G] (a : G)
             (Nat.pow_dvd_pow_iff_le_right (by norm_num : 1 < (2 : ℕ))).mp hdvd
           omega
         have hsorder : orderOf s = 2 := by
-          haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+          have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
           exact orderOf_eq_prime (by rwa [pow_two]) hs1
         have hsG_order : orderOf (s : G) = 2 := by
           rw [Subgroup.orderOf_coe, hsorder]
@@ -192,14 +192,14 @@ theorem centralizer_eleven_of_data {G : Type} [Group G] [Finite G] (a : G)
     have hPcard : Nat.card P = 2 ^ (Nat.card ↥C).factorization 2 := P.card_eq_multiplicity
     have hfac : 2 ≤ (Nat.card ↥C).factorization 2 := by
       have hC_ne : Nat.card ↥C ≠ 0 := by
-        haveI : Nonempty ↥C := ⟨1⟩
+        have : Nonempty ↥C := ⟨1⟩
         exact Nat.card_pos.ne'
       exact (Nat.prime_two.pow_dvd_iff_le_factorization hC_ne).mp (by simpa using h4dvd)
     have hP4 : 4 ∣ Nat.card P := by
       rw [hPcard]
       simpa using pow_dvd_pow (2 : ℕ) hfac
     have hle4 : 4 ≤ Nat.card P := by
-      haveI : Nonempty P := ⟨1⟩
+      have : Nonempty P := ⟨1⟩
       exact Nat.le_of_dvd Nat.card_pos hP4
     omega
   have h121G : ¬ 11 ^ 2 ∣ Nat.card G := by
@@ -262,8 +262,8 @@ theorem centralizer_eleven_of_data {G : Type} [Group G] [Finite G] (a : G)
   have hX : Nat.card ↥C = Nat.card ↥V * Nat.card ↥S := by
     rw [hVcard, hScard, hCcard]
   obtain ⟨eX⟩ := nonempty_mulEquiv_prod_of_central C V S hVX hSX hVcen hVS hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
   have eV : ↥V ≃* Multiplicative (ZMod 2) :=
     mulEquivOfPrimeCardEq hVcard (by simp [ZMod.card])
   have eS : ↥S ≃* Multiplicative (ZMod 11) :=

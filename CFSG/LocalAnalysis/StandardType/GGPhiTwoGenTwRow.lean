@@ -8,7 +8,7 @@ namespace CFSG.StandardType
 
 open CFSG.Assembly
 
-theorem exists_hyperplane_family_of_rootGenAvoidKG_central {p r : ℕ} (hp : p.Prime)
+theorem exists_hyperplane_family_of_rootGenAvoidKG_central {p r : ℕ} (_hp : p.Prime)
     {R : Type} [Group R] {I : Set (MulAut R)} (hrow : GGTorusRootGenAvoidKG p r R I)
     {X : Type} [Group X] [Finite X] (θ : X →* R) (hθ : Function.Surjective θ)
     (hker : θ.ker ≤ Subgroup.center X) (hX : commutator X = ⊤)
@@ -55,7 +55,7 @@ theorem exists_hyperplane_family_of_rootGenAvoidKG_central {p r : ℕ} (hp : p.P
       obtain ⟨y, hyb⟩ := MonoidHom.mem_range.mp b.2
       change (↑a : MulAut X) * ↑b = ↑b * ↑a
       rw [← hxa, ← hyb, ← map_mul, ← map_mul]
-      haveI : IsMulCommutative ↥E := hE.1
+      have : IsMulCommutative ↥E := hE.1
       rw [mul_comm' x y]
     · obtain ⟨x, hxa⟩ := MonoidHom.mem_range.mp ha
       have hxp : x ^ p = 1 := Subtype.ext (hE.2 x x.2)

@@ -15,6 +15,7 @@ open RootFusionLin CFSG.Open
 variable {G : Type} [Group G] [Finite G] {m : ℕ} {Y L R : Subgroup G} {b t : G}
   {φ : ↥Y ≃* GL (BlkIdx 1 m) (ZMod 2)}
 
+omit [Finite G] in
 theorem isTwoLocal_centralizer_of_mul_self {s : G} (hs1 : s ≠ 1) (hs2 : s * s = 1) :
     IsTwoLocal (Subgroup.centralizer ({s} : Set G)) := by
   have hpow : s ^ 2 = 1 := by rw [pow_two]; exact hs2
@@ -77,6 +78,7 @@ private theorem caO2_liftSub_zSub (hS : CentASetting m Y L R b t φ) :
   rw [liftSub, zSub_eq_zpowers, MonoidHom.map_zpowers, MonoidHom.map_zpowers, hsymm]
   rfl
 
+omit [Finite G] in
 private theorem caO2_commutator_mem_zSub {u v : G}
     (hu : u ∈ liftSub φ (uSub 1 m)) (hv : v ∈ liftSub φ (uSub 1 m)) :
     u * v * u⁻¹ * v⁻¹ ∈ liftSub φ (zSub 1 m) := by
@@ -149,6 +151,7 @@ private def caO2_commutatorSubgroup (H T Z : Subgroup G)
     rw [hgoal]
     exact Z.inv_mem hz
 
+omit [Finite G] in
 private theorem caO2_commutatorSubgroup_normal {H T Z : Subgroup G}
     (hTn : ∀ g ∈ H, ∀ x ∈ T, g * x * g⁻¹ ∈ T)
     (hZc : ∀ g ∈ H, ∀ z ∈ Z, g * z = z * g) :
@@ -170,6 +173,7 @@ private theorem caO2_commutatorSubgroup_normal {H T Z : Subgroup G}
   rw [hgz]
   exact hz
 
+omit [Finite G] in
 private theorem caO2_commutatorSubgroup_isPGroup {H T Z : Subgroup G}
     (hcharT : H ⊓ Subgroup.centralizer (T : Set G) ≤ T)
     (hT2 : IsPGroup 2 T)
@@ -220,6 +224,7 @@ private theorem caO2_commutatorSubgroup_isPGroup {H T Z : Subgroup G}
     _ = ((h : G) * (h : G)) ^ 2 ^ k := by rw [pow_two]
     _ = 1 := hk'
 
+omit [Finite G] in
 private theorem caO2_le_pCoreOf {H N : Subgroup G} (hNH : N ≤ H)
     (hNn : ∀ g ∈ H, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hN2 : IsPGroup 2 N) :
     N ≤ pCoreOf 2 H := by
@@ -235,15 +240,18 @@ private theorem caO2_le_pCoreOf {H N : Subgroup G} (hNH : N ≤ H)
     (Subgroup.mem_iSup_of_mem hnormal
       (Subgroup.mem_iSup_of_mem h2 (Subgroup.mem_subgroupOf.mpr hn)))
 
+omit [Finite G] in
 private theorem caO2_pCoreOf_le (p : ℕ) (H : Subgroup G) : pCoreOf p H ≤ H := by
   rw [pCoreOf]
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem caO2_pCoreOf_isPGroup (p : ℕ) (H : Subgroup G) :
     IsPGroup p (pCoreOf p H) := by
   rw [pCoreOf]
   exact (CFSG.pCore_isPGroup (p := p) (G := ↥H)).map H.subtype
 
+omit [Finite G] in
 private theorem caO2_pCoreOf_normal {p : ℕ} {H : Subgroup G} {g x : G} (hg : g ∈ H)
     (hx : x ∈ pCoreOf p H) : g * x * g⁻¹ ∈ pCoreOf p H := by
   rw [pCoreOf] at hx ⊢

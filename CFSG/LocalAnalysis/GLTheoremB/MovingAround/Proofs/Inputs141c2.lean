@@ -37,6 +37,7 @@ variable {n : ℕ} {k : Type} [Field k] [Finite k]
     (((slGL n k).comp (fixSubgroup (CatalogueBHigherLinearAction.slConjugation n k A)).subtype
       ).codRestrict (gl_centralizer (glA A)) fun g => mem_fixSubgroup_slConjugation_iff.1 g.2)
 
+omit [Finite k] in
 theorem blockPiHom_apply {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     (g : ↥(fixSubgroup (CatalogueBHigherLinearAction.slConjugation n k A))) :
@@ -44,6 +45,7 @@ theorem blockPiHom_apply {A : GL (Fin n) k}
       ⟨slGL n k (g : Matrix.SpecialLinearGroup (Fin n) k), mem_fixSubgroup_slConjugation_iff.1 g.2⟩ :=
   rfl
 
+omit [Finite k] in
 theorem blockPiHom_injective {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k)))) :
     Function.Injective (blockPiHom hsq) := by
@@ -52,6 +54,7 @@ theorem blockPiHom_injective {A : GL (Fin n) k}
   have h1 := congrArg Subtype.val ((glCentralizerEquivPi hsq).injective h)
   exact Subtype.ext (slGL_injective h1)
 
+omit [Finite k] in
 theorem blockPiHom_eq_one_of_mem {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     {b j : primaryFactors (glA A : Module.End k (Fin n → k))} (hjb : j ≠ b)
@@ -65,6 +68,7 @@ theorem blockPiHom_eq_one_of_mem {A : GL (Fin n) k}
   rw [blockPiHom_apply, blockApply_glCentralizerEquivPi]
   exact ht j j.2 hjb' w w.2
 
+omit [Finite k] in
 theorem blockPiHom_eq_mulSingle {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     [DecidableEq ↥(primaryFactors (glA A : Module.End k (Fin n → k)))]
@@ -78,6 +82,7 @@ theorem blockPiHom_eq_mulSingle {A : GL (Fin n) k}
     rw [Pi.mulSingle_eq_same]
   · rw [Pi.mulSingle_eq_of_ne hjb, blockPiHom_eq_one_of_mem hsq hjb g hg]
 
+omit [Finite k] in
 theorem specialFactor_comm {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     {b b' : primaryFactors (glA A : Module.End k (Fin n → k))} (hbb' : b ≠ b')
@@ -128,6 +133,7 @@ theorem eq_one_of_pow_two_pow_eq_one {E : Type*} [Field E] [CharP E 2] {u : E} {
   have h1 : (u - 1) ^ (2 ^ m) = 0 := by rw [sub_pow_char_pow, hu, one_pow, sub_self]
   exact sub_eq_zero.1 (pow_eq_zero_iff (pow_ne_zero m two_ne_zero) |>.1 h1)
 
+omit [Finite k] in
 theorem mem_iSup_specialFactor_of_two [CharP k 2] {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     (g : ↥(fixSubgroup (CatalogueBHigherLinearAction.slConjugation n k A))) {m : ℕ} (hgm : g ^ (2 ^ m) = 1) :
@@ -139,8 +145,8 @@ theorem mem_iSup_specialFactor_of_two [CharP k 2] {A : GL (Fin n) k}
         Module.End (AdjoinRoot (b : k[X]))
           (primaryComponent (glA A : Module.End k (Fin n → k)) (b : k[X]))) = 1 := by
     intro b
-    haveI : Fact (Irreducible (b : k[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
-    haveI : CharP (AdjoinRoot (b : k[X])) 2 :=
+    have : Fact (Irreducible (b : k[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
+    have : CharP (AdjoinRoot (b : k[X])) 2 :=
       charP_of_injective_algebraMap (algebraMap k (AdjoinRoot (b : k[X]))).injective 2
     have h1 : (blockPiHom hsq g b) ^ (2 ^ m) = 1 := by
       rw [← Pi.pow_apply, ← map_pow, hgm, map_one, Pi.one_apply]
@@ -176,7 +182,7 @@ variable {n : ℕ} {k : Type} [Field k] [Finite k] [CharP k 2]
 theorem coprime_two_card_ker_proj (hn : 1 ≤ n) : Nat.Coprime 2 (Nat.card (LinearFlag.proj n k).ker) := by
   rw [LinearFlag.ker_proj, Nat.Prime.coprime_iff_not_dvd Nat.prime_two]
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h
   have hz2 : z ^ 2 = 1 := hz ▸ pow_orderOf_eq_one z
   obtain ⟨c, -, hzc⟩ := z.2
@@ -196,10 +202,12 @@ theorem coprime_two_card_ker_proj (hn : 1 ≤ n) : Nat.Coprime 2 (Nat.card (Line
   rw [hz1, orderOf_one] at hz
   exact absurd hz (by norm_num)
 
+omit [Finite k] [CharP k 2] in
 theorem ker_proj_le_center : (LinearFlag.proj n k).ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin n) k) := by
   rw [LinearFlag.ker_proj]
   exact LinearFlag.scalars_le_center n k
 
+omit [Finite k] in
 theorem three_ne_zero_of_charTwo : ((3 : ℕ) : k) ≠ 0 := by
   have h2 : ((2 : ℕ) : k) = 0 := CharP.cast_eq_zero k 2
   have e : ((3 : ℕ) : k) = ((2 : ℕ) : k) + 1 := by push_cast; ring
@@ -240,7 +248,7 @@ theorem structAt_conjAut (hn : 1 ≤ n) {A : GL (Fin n) k} {c : kˣ}
 theorem false_of_glaPComponent_of_isSolvable {G : Type} [Group G] [Finite G] {C J : Subgroup G}
     (hC : Group.IsSolvable ↥C) (hJ : GLAPComponent 3 C J) : False := by
   have hJC : J ≤ C := hJ.1
-  haveI : Group.IsSolvable ↥J :=
+  have : Group.IsSolvable ↥J :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJC) (Subgroup.inclusion_injective hJC)
   have hperf : commutator ↥J = ⊤ := by
     have h1 : (commutator ↥J).map J.subtype = ⁅J, J⁆ := by
@@ -270,6 +278,7 @@ theorem false_of_glaPComponent_of_isSolvable {G : Type} [Group G] [Finite G] {C 
   exact Input183.glaPComponent_ne_bot' hJ hJbot
 
 open Matrix in
+omit [Finite k] [CharP k 2] in
 theorem injective_map_subtype' (k₀ : Subfield k) :
     Function.Injective (SpecialLinearGroup.map k₀.subtype :
       SpecialLinearGroup (Fin n) k₀ →* SpecialLinearGroup (Fin n) k) := by
@@ -280,6 +289,7 @@ theorem injective_map_subtype' (k₀ : Subfield k) :
   simpa [SpecialLinearGroup.map_apply_coe] using h1
 
 open Matrix in
+omit [Finite k] [CharP k 2] in
 theorem fixSubgroup_slFieldAut_eq_range' {k₀ : Subfield k} {σ : k ≃+* k}
     (hk : ∀ x, x ∈ k₀ ↔ σ x = x) :
     fixSubgroup (CatalogueBHigherLinearField.slFieldAut (Fin n) k σ) =
@@ -329,9 +339,9 @@ theorem structAt_fieldAut (hn : 2 ≤ n) (σ : k ≃+* k) {J : Subgroup (LinearF
         Nat.card (CFSG.GH74.GLS.IVK.fixedField σ) = 3 := by
       have : 1 < Nat.card (CFSG.GH74.GLS.IVK.fixedField σ) := Finite.one_lt_card
       omega
-    haveI : Group.IsSolvable (GL (Fin 2) (CFSG.GH74.GLS.IVK.fixedField σ)) :=
+    have : Group.IsSolvable (GL (Fin 2) (CFSG.GH74.GLS.IVK.fixedField σ)) :=
       CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable _ hcard
-    haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) (CFSG.GH74.GLS.IVK.fixedField σ)) :=
+    have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) (CFSG.GH74.GLS.IVK.fixedField σ)) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) _ →* _))
         Matrix.SpecialLinearGroup.toGL_injective
@@ -467,7 +477,7 @@ theorem input14_1StructFor_linear : Input14_1StructFor fun d => ∃ r q, d = Tau
   intro S _ _ _ _ d hd hchar he β hβ3 _ J hJ _
   obtain ⟨d, hv⟩ := d
   obtain ⟨r, q, rfl⟩ := hd
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hq2 : q.p = 2 := by
     have h1 : (TauCeti.LieTypeIndex.A r q).characteristic = q.p := TauCeti.LieTypeIndex.characteristic_A r q
     rw [← h1]
@@ -477,7 +487,7 @@ theorem input14_1StructFor_linear : Input14_1StructFor fun d => ∃ r q, d = Tau
   let e' : S ≃* LinearFlag.projectiveSL (r + 1) (GaloisField q.p q.exponent) :=
     e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL (r + 1) _))
-  haveI : CharP (GaloisField q.p q.exponent) 2 := by
+  have : CharP (GaloisField q.p q.exponent) 2 := by
     rw [← hq2]
     infer_instance
   refine structAt_of_congr e' (structAt_projectiveSL (by omega) _ ?_ (glaPComponent_congr e' hJ))
@@ -581,7 +591,7 @@ theorem structAt_fieldAut_reeGamma {a : ℕ} {K : Type} [Field K] [Finite K] [Ch
   · exfalso
     subst hb0
     have hk2 : Nat.card (fixSubfield σ) = 2 := by simpa using hkcard
-    haveI : Fact (Nat.card (fixSubfield σ) = 2) := ⟨hk2⟩
+    have : Fact (Nat.card (fixSubfield σ) = 2) := ⟨hk2⟩
     let E : fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ) ≃* reeFixed ReeTag.F4 (fixSubfield σ) 0 :=
       eC.trans (ReeTag.reeFixedEquivReeGamma (fixSubfield σ) 0).symm
     let φ : ↥J →* reeFixed ReeTag.F4 (fixSubfield σ) 0 := E.toMonoidHom.comp (Subgroup.inclusion hJ.1)
@@ -627,9 +637,9 @@ theorem structAt_reeGamma {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite 
     {J : Subgroup (ReeTag.F4.reeGamma K a)} (hJ : GLAPComponent 3 (fixSubgroup β) J)
     (hJ7 : 7 ∣ Nat.card ↥J) : StructAt β J := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hNF, ⟨Ψ, hΨ⟩, -⟩ :=
     CFSG.ComponentClassification.UnbalancedCatalog.large_Ree_full_inner_field_automorphism_normal_form a ha K hK
   obtain ⟨⟨x, σ⟩, hxσ, -⟩ := hNF β

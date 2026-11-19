@@ -23,8 +23,8 @@ theorem exists_centralizer_mul_of_caseA (hc : Ctx M Q Z B) {n : ℕ} {t : G}
   have h := hs.toSec5
   have ht : t ∈ LB M Q B := h.mem
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, -, hn, -, -⟩ := hs.plus4
-  haveI := hn
-  haveI : CharP K 2 := by
+  have := hn
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hq4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4

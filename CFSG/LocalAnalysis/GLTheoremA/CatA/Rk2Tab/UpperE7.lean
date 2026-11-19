@@ -49,8 +49,8 @@ open CFSG.LocalAnalysis.RankThreeUC.S15 in
 theorem pRank_perpLevi_E7_le_six {K : Type} [Field K] [Finite K] [CharP K 2]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hd : p ∣ Nat.card K + 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (CFSG.SeitzReduction.EPilot.perpLevi .E7 K)) ≤ 6 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hn, hK⟩ := FiniteField.card K 2
   have hn' : 1 ≤ (n : ℕ) := by
     have := n.pos
@@ -116,7 +116,7 @@ theorem card_le_pow_six_subsystemGroup_e7D6 {K : Type} [Field K] [Finite K] [Cha
     {E : Subgroup (ModGL Tag.E7 K)}
     (hE : E ≤ subsystemGroup Tag.E7 K {j | j ≠ (0 : Fin 7)})
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 6 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEadj : E ≤ adjointGroup Tag.E7 K :=
     hE.trans (CFSG.RankThree.Chevalley.subsystemGroup_le_adjointGroup_of_any _)
   set E' : Subgroup (adjointGroup Tag.E7 K) := E.subgroupOf (adjointGroup Tag.E7 K) with hE'def
@@ -149,7 +149,7 @@ theorem lieModel_e7LeviE6 {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
       (CFSG.ComponentClassification.Burgoyne.E2.e7LeviE6 K ⧸
         Subgroup.center (CFSG.ComponentClassification.Burgoyne.E2.e7LeviE6 K)) .E6 0 2 n := by
   have hn : 1 ≤ n := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .E6 0 2 n := ⟨Nat.prime_two, hn, rfl⟩
   obtain ⟨O, C, hE⟩ := CFSG.ComponentClassification.CatLeafProof.exists_e7_chevalleyExtras K
   obtain ⟨ρ, hρ, hcomm, hψ⟩ := CFSG.ComponentClassification.CatLeafProof.exists_levi_frame
@@ -162,7 +162,7 @@ theorem isQuasisimple_e7LeviE6_two {K : Type} [Field K] [Finite K] [CharP K 2] {
     (hK : Nat.card K = 2 ^ n) :
     CFSG.IsQuasisimple (CFSG.ComponentClassification.Burgoyne.E2.e7LeviE6 K) := by
   have hn : 1 ≤ n := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .E6 0 2 n := ⟨Nat.prime_two, hn, rfl⟩
   obtain ⟨O, C, hE⟩ := CFSG.ComponentClassification.CatLeafProof.exists_e7_chevalleyExtras K
   obtain ⟨ρ, hρ, hcomm, hψ⟩ := CFSG.ComponentClassification.CatLeafProof.exists_levi_frame
@@ -175,7 +175,7 @@ theorem pRank_e7LeviE6_le_four {K : Type} [Field K] [Finite K] [CharP K 2] {n : 
     (hK : Nat.card K = 2 ^ n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hd : p ∣ 2 ^ n + 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (CFSG.ComponentClassification.Burgoyne.E2.e7LeviE6 K)) ≤ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S := CFSG.ComponentClassification.Burgoyne.E2.e7LeviE6 K
   have hQs : CFSG.IsQuasisimple S := isQuasisimple_e7LeviE6_two hK
   have hZ : ¬ p ∣ Nat.card (Subgroup.center S) := by
@@ -189,7 +189,7 @@ theorem pRank_e7LeviE6_le_four {K : Type} [Field K] [Finite K] [CharP K 2] {n : 
       rw [Nat.card_congr eM.toEquiv,
         CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg, he]
       norm_num
-    haveI : Finite (CFSG.Open.griessHopfMultiplier (S ⧸ Subgroup.center S)) :=
+    have : Finite (CFSG.Open.griessHopfMultiplier (S ⧸ Subgroup.center S)) :=
       Nat.finite_of_card_ne_zero
         (by rw [hcard]; exact (Nat.gcd_pos_of_pos_left _ (by norm_num)).ne')
     have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQs
@@ -210,8 +210,8 @@ theorem pRank_e7LeviE6_le_four {K : Type} [Field K] [Finite K] [CharP K 2] {n : 
   have hq : CFSG.Open.pRank p (⊤ : Subgroup (S ⧸ Subgroup.center S)) ≤ 4 := by
     obtain ⟨-, F', hF', hFin', hFcard', ⟨φ⟩⟩ :=
       (lieModel_e7LeviE6 hK).chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
-    letI : Field F' := hF'
-    letI : Finite F' := hFin'
+    let : Field F' := hF'
+    let : Finite F' := hFin'
     let χ : AdjointQuotient .E6 F' ≃* adjointGroup .E6 F' :=
       (QuotientGroup.quotientMulEquivOfEq
         (center_adjointGroup_eq_bot (τ := Tag.E6) (K := F'))).trans QuotientGroup.quotientBot
@@ -249,7 +249,7 @@ theorem card_le_pow_four_subsystemGroup_e7E6 {K : Type} [Field K] [Finite K] [Ch
     (hd : p ∣ 2 ^ n + 1) {E : Subgroup (ModGL Tag.E7 K)}
     (hE : E ≤ subsystemGroup Tag.E7 K {j | j ≠ (6 : Fin 7)})
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hset : ({j : Fin Tag.E7.rank | j ≠ (6 : Fin 7)} : Set (Fin Tag.E7.rank)) =
       Set.range CFSG.ComponentClassification.Burgoyne.E2.e7LeviE6Node := by
     ext j
@@ -370,7 +370,7 @@ theorem card_le_pow_three_subsystemGroup_e7a5 {K : Type} [Field K] [Finite K] [C
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ Nat.card K - 1)
     {E : Subgroup (ModGL Tag.E7 K)} (hE : E ≤ subsystemGroup Tag.E7 K (a5Nodes Tag.E7))
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_charTwo (K := K) hp hp2
   have hpker : ¬ p ∣ Nat.card (CFSG.RankThree.PartOne.KA5L.a5Frame K).ker := by
     intro hd
@@ -425,7 +425,7 @@ theorem card_le_pow_one_subsystemGroup_e7a2_56 {K : Type} [Field K] [Finite K] [
       ({CFSG.RankThree.PartOne.KA5L.a5chain 3, CFSG.RankThree.PartOne.KA5L.a5chain 4} :
         Set (Fin Tag.E7.rank)))
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_charTwo (K := K) hp hp2
   let θ : SL(3, K) →* ModGL Tag.E7 K :=
     (CFSG.RankThree.PartOne.KA5L.a5Frame K).comp (CFSG.ClassicalInvolution.WeakCT.blockSL K 6 3 3 (by omega))

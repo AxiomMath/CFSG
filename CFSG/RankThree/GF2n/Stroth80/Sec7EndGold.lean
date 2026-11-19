@@ -32,7 +32,7 @@ theorem endg_gold_facts {L : Type} [Group L] [Finite L] [IsSimpleGroup L]
   · exact Or.inl (hbender (Or.inl ⟨f, by omega, ⟨e⟩⟩))
   · exact Or.inl (hbender (Or.inr (Or.inr ⟨n, hn, ⟨e⟩⟩)))
   · exact Or.inl (hbender (Or.inr (Or.inl ⟨f, hf, ⟨e⟩⟩)))
-  · haveI := hp
+  · have := hp
     refine Or.inr fun T => ?_
     have := (CFSG.Goldschmidt.GoldType.sylow_of_psl2_odd hpo hf h8 e T).1
     omega
@@ -63,6 +63,7 @@ theorem endg_goldschmidtSimpleType_congr {L L' : Type} [Group L] [Group L'] (e :
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem endg_isComponent_map_subtype {U : Subgroup X} (hU : U.Normal) {K : Subgroup ↥U}
     (hK : IsComponent K) : IsComponent (K.map U.subtype) := by
   refine ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv
@@ -86,7 +87,7 @@ theorem endg_gold_decomp (T : Sylow 2 X) {z : X} (hzT : z ∈ (T : Subgroup X))
         goldschmidtSimpleType (↥K ⧸ Subgroup.center ↥K) := by
   classical
   set U : Subgroup X := Subgroup.normalClosure ({z} : Set X) with hU
-  haveI hUn : U.Normal := Subgroup.normalClosure_normal
+  have hUn : U.Normal := Subgroup.normalClosure_normal
   obtain ⟨hWT, hcl⟩ := CFSG.LargeExtraspecial.S11.wcl_stronglyClosed T hzT hzc hab
   set W := CFSG.LargeExtraspecial.S11.wcl z with hW
   have hzU : z ∈ U := Subgroup.subset_normalClosure (Set.mem_singleton z)

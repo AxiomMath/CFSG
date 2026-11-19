@@ -29,14 +29,14 @@ private theorem center_SL_two_eq_bot_of_charTwo' {K : Type*} [Field K] [CharP K 
 theorem nonempty_mulEquiv_psl2GF_of_isSLModel {X : Type} [Group X] {m : ℕ} (hm : 1 ≤ m)
     (h : IsSLModel 2 (2 ^ m) X) : Nonempty (X ≃* CFSG.AGLEmbedding.PSL2GF 2 m) := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hm
       hKcard
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   have hcardF : Fintype.card K = Fintype.card (GaloisField 2 m) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKcard,
       GaloisField.card 2 m (by omega)]

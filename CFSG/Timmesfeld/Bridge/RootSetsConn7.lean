@@ -33,7 +33,7 @@ theorem bender_le_sylow {B : Type*} [Group B] [Finite B]
       have hdvd := orderOf_dvd_natCard (⟨t, htM⟩ : (N ⊓ N.map (MulAut.conj g).toMonoidHom :
         Subgroup B))
       rw [Subgroup.orderOf_mk] at hdvd
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨t, htS⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨t, htS⟩
       rw [Subgroup.orderOf_mk] at hk
       rcases k with _ | k
       · exact absurd (orderOf_eq_one_iff.1 (by simpa using hk)) ht1
@@ -68,7 +68,7 @@ theorem isPGroup_preimage (hC : ConnCex D)
   have hker : IsPGroup 2 (QuotientGroup.mk' (CFSG.pCore 2 (lsub D x P))).ker := by
     rw [QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup
-  exact ((S.isPGroup').comap_of_ker_isPGroup _ hker).map _
+  exact ((S.isPGroup).comap_of_ker_isPGroup _ hker).map _
 
 theorem mem_of_mem_sylow (hC : ConnCex D) (h : Step6 D a b c x z P)
     {S : Sylow 2 (lsub D x P ⧸ CFSG.pCore 2 (lsub D x P))}

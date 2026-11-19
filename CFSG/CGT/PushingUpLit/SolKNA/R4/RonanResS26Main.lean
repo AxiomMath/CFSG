@@ -259,7 +259,7 @@ theorem tightS26DichR_of_four_le {r n : ℕ} (hr : 4 ≤ r) (_hNo : NoQ16E4)
     exact hd.eq_of_orderOf_eq_two (A.pow_mem huA _) hord
   obtain ⟨L, hLn, hLq, hLC, hzn, hnt, hd', hc', hnO', hE', hTs, hab, hTC, hfamL⟩ :=
     layerIdent hr hA hB (smallListR_of_gh74 hG) (noDatumOtherR_holds r) h6 hn hd hc hnO hE
-  haveI := hLn
+  have := hLn
   rcases hfamL with hL2 | hL3 | hU3
   ·
     rw [hzu]

@@ -18,8 +18,8 @@ theorem s16c1610_card_GL_two (m : ℕ) :
 theorem s16c1610_card_SL_four (m : ℕ) (hm : 1 ≤ m) :
     3 * Nat.card (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2)) =
       ∏ i : Fin m, (4 ^ m - 4 ^ (i : ℕ)) := by
-  haveI : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 2 2) = 4 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
     norm_num
@@ -44,9 +44,9 @@ private theorem s16c1610_gltwo_succ (m : ℕ) :
         2 * (2 ^ m - 2 ^ (j : ℕ)) := by
     intro j
     have hj : ((Fin.succAbove (0 : Fin (m + 1)) j : Fin (m + 1)) : ℕ) = (j : ℕ) + 1 := by
-      simp [Fin.succAbove_zero]
+      simp
     rw [hj, pow_succ, pow_succ]
-    simp only [Nat.mul_sub, Nat.sub_mul]
+    simp only [Nat.mul_sub]
     ring
   simp only [hinner]
   rw [Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ, Fintype.card_fin]
@@ -140,9 +140,9 @@ private theorem s16c1610_slfour_succ (m : ℕ) :
         4 * (4 ^ m - 4 ^ (j : ℕ)) := by
     intro j
     have hj : ((Fin.succAbove (0 : Fin (m + 1)) j : Fin (m + 1)) : ℕ) = (j : ℕ) + 1 := by
-      simp [Fin.succAbove_zero]
+      simp
     rw [hj, pow_succ, pow_succ]
-    simp only [Nat.mul_sub, Nat.sub_mul]
+    simp only [Nat.mul_sub]
     ring
   simp only [hinner]
   rw [Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ, Fintype.card_fin]

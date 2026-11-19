@@ -45,12 +45,10 @@ def commutatorCentralizer {G : Type*} [Group G] (N : Subgroup G) [hN : N.Normal]
   one_mem' := by intro y; simp
   mul_mem' := by
     intro x y hx hy z
-    change ⁅x * y, z⁆ ∈ N
     rw [commutatorElement_mul_left_eq_conj_mul]
     exact N.mul_mem (hN.conj_mem _ (hy z) x) (hx z)
   inv_mem' := by
     intro x hx y
-    change ⁅x⁻¹, y⁆ ∈ N
     rw [commutatorElement_inv_left]
     simpa using hN.conj_mem _ (by simpa [commutatorElement_inv] using N.inv_mem (hx y)) x⁻¹
 
@@ -90,23 +88,24 @@ noncomputable def conjAutOfMemNormalizer (g : S) (hg : g ∈ Subgroup.normalizer
   invFun x := ⟨g⁻¹ * (x : S) * g, (Subgroup.mem_normalizer_iff''.mp hg (x : S)).mp x.2⟩
   left_inv x := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mk]
+    simp only
     group
   right_inv x := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mk]
+    simp only
     group
   map_mul' x y := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mk, Subgroup.coe_mul]
+    simp only [Subgroup.coe_mul]
     group
 
+omit [Finite S] in
 @[simp]
 theorem conjAutOfMemNormalizer_apply (g : S) (hg : g ∈ Subgroup.normalizer C) (x : C) :
     (conjAutOfMemNormalizer g hg x : S) = g * (x : S) * g⁻¹ := rfl
 
 theorem isMulCommutative_of_relIndex_four_of_not_cyclic
-    [hN : (B.subgroupOf C).Normal]
+    [_hN : (B.subgroupOf C).Normal]
     (hB : HasStrothType B (StrothTypeIndex.t100 m))
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 4 * Nat.card B)
@@ -118,7 +117,7 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic
   let Bc : Subgroup C := B.subgroupOf C
   have hBcCenter : Bc ≤ Subgroup.center C := by
     simpa [Bc] using subgroupOf_le_center hBC hC
-  haveI : Bc.Normal := Subgroup.normal_of_le_center hBcCenter
+  have : Bc.Normal := Subgroup.normal_of_le_center hBcCenter
   have hncyc' : ¬ IsCyclic (C ⧸ Bc) := by
     simpa [Bc] using hncyc
   have hcardQ : Nat.card (C ⧸ Bc) = 4 := by
@@ -135,7 +134,7 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic
     have h : (QuotientGroup.mk' Bc x) * (QuotientGroup.mk' Bc x) = 1 := hexpQ _
     have h' : QuotientGroup.mk' Bc (x * x) = 1 := by rwa [map_mul]
     exact (QuotientGroup.eq_one_iff (N := Bc) (x * x)).mp (by simpa using h')
-  haveI : Fintype (C ⧸ Bc) := Fintype.ofFinite _
+  have : Fintype (C ⧸ Bc) := Fintype.ofFinite _
   have hone_lt : 1 < Fintype.card (C ⧸ Bc) := by
     rw [Fintype.card_eq_nat_card, hcardQ]
     norm_num
@@ -157,8 +156,8 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic
     apply hq₂
     rw [← h]
     exact Subgroup.mem_zpowers q₁
-  haveI : Nontrivial (C ⧸ Bc) := Fintype.one_lt_card_iff_nontrivial.mp hone_lt
-  haveI : IsKleinFour (C ⧸ Bc) := by
+  have : Nontrivial (C ⧸ Bc) := Fintype.one_lt_card_iff_nontrivial.mp hone_lt
+  have : IsKleinFour (C ⧸ Bc) := by
     refine ⟨hcardQ, ?_⟩
     rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
     intro q hq
@@ -208,7 +207,7 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic
   have hzCenter : z ∈ Subgroup.center C := hBcCenter hzBc
   have hNleBc : N ≤ Bc := Subgroup.zpowers_le.mpr hzBc
   have hNcenter : N ≤ Subgroup.center C := hNleBc.trans hBcCenter
-  haveI : N.Normal := Subgroup.normal_of_le_center hNcenter
+  have : N.Normal := Subgroup.normal_of_le_center hNcenter
   have hz2 : z * z = 1 := by
     have hcomm_e_z : Commute e z := Subgroup.mem_center_iff.mp hzCenter e
     have hpow := hcomm_e_z.commutatorElement_pow_left 2
@@ -231,10 +230,10 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic
   have hE_le_Te : E ≤ Te := by
     change Subgroup.zpowers e ≤ Te
     rw [Subgroup.zpowers_le, mem_commutatorFiberLeft]
-    simpa using N.one_mem
+    simp
   have hfTe : f ∈ Te := by
     rw [mem_commutatorFiberLeft]
-    simpa [z, N] using Subgroup.mem_zpowers z
+    simp [z, N]
   have hTeTop : Te = ⊤ := by
     rw [eq_top_iff, ← hHtop]
     exact sup_le (sup_le hBc_le_Te hE_le_Te) (Subgroup.zpowers_le.mpr hfTe)
@@ -248,11 +247,11 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic
   have heTf : e ∈ Tf := by
     rw [mem_commutatorFiberLeft]
     rw [← commutatorElement_inv]
-    exact N.inv_mem (by simpa [z, N] using Subgroup.mem_zpowers z)
+    exact N.inv_mem (by simp [z, N])
   have hF_le_Tf : F ≤ Tf := by
     change Subgroup.zpowers f ≤ Tf
     rw [Subgroup.zpowers_le, mem_commutatorFiberLeft]
-    simpa using N.one_mem
+    simp
   have hTfTop : Tf = ⊤ := by
     rw [eq_top_iff, ← hHtop]
     exact sup_le (sup_le hBc_le_Tf (Subgroup.zpowers_le.mpr heTf)) hF_le_Tf
@@ -286,7 +285,7 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic
   let C' : Subgroup C := _root_.commutator C
   have hC'_le_N : C' ≤ N := hcomm_le_N
   have hC'_le_Bc : C' ≤ Bc := hC'_le_N.trans hNleBc
-  haveI : C'.Characteristic := by
+  have : C'.Characteristic := by
     change (_root_.commutator C).Characteristic
     infer_instance
   have hNcard : Nat.card N ≤ 2 := by
@@ -297,16 +296,16 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic
       simpa [pow_two] using hz2
     exact Nat.le_of_dvd (by norm_num) hdvd
   have hC'_card : Nat.card C' ≤ 2 := (Subgroup.card_le_of_le hC'_le_N).trans hNcard
-  haveI : IsCyclic N := by
+  have : IsCyclic N := by
     change IsCyclic (Subgroup.zpowers z)
     infer_instance
-  haveI : IsCyclic C' := Subgroup.isCyclic_of_le hC'_le_N
+  have : IsCyclic C' := Subgroup.isCyclic_of_le hC'_le_N
   have hAutcard : Nat.card (MulAut C') = 1 := by
     rw [IsCyclic.card_mulAut]
     rw [Nat.totient_eq_one_iff]
     have hpos : 0 < Nat.card C' := Nat.card_pos
     omega
-  haveI : Subsingleton (MulAut C') := (Nat.card_eq_one_iff_unique.mp hAutcard).1
+  have : Subsingleton (MulAut C') := (Nat.card_eq_one_iff_unique.mp hAutcard).1
   have hfixρ : ∀ x : C, x ∈ C' →
       D.ρ⁻¹ * (x : S) * D.ρ = (x : S) := by
     intro x hx

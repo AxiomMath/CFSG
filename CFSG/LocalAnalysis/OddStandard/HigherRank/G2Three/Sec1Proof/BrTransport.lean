@@ -10,6 +10,7 @@ open CFSG.OddStandard.HigherRank.G2Three.Sec1 Subgroup
 
 variable {G G' : Type} [Group G] [Finite G] [Group G'] [Finite G']
 
+omit [Finite G] [Finite G'] in
 private lemma centEl_map_equiv (e : G ≃* G') (V : Subgroup G) (y : G) :
     centEl (V.map e.toMonoidHom) (e y) = (centEl V y).map e.toMonoidHom := by
   ext x

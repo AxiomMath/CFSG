@@ -123,7 +123,7 @@ theorem input23_19ExcThreeRest5_holds : InputsSeitz11.Input23_19ExcThreeRest5 :=
     hO2 hT2 hG8 hU6 hO8 hD44 hF2 hE4 hF8 hD8 hOut hT8 hsix hO hT hC
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨e⟩ := hd
   obtain ⟨d0, hv⟩ := d
   obtain ⟨q, rfl, hq⟩ : ∃ q : TauCeti.PrimePower, d0 = .twistedE6 q ∧ IsTwoPow q 1 :=
@@ -136,7 +136,7 @@ theorem input23_19ExcThreeRest5_holds : InputsSeitz11.Input23_19ExcThreeRest5 :=
   obtain ⟨L, _, σ, hL, hσ, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
   have hq2 : q.p ^ q.exponent = 2 := by rw [hq.1, hq.2, pow_one]
   have hL4 : Nat.card L = 2 ^ 2 := by rw [hL, hq2]
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [hL4]; norm_num)
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [hL4]; norm_num)
   have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by rw [hσ, hq2]
   let θ : ↥K ≃* twistedE6RootGroup L σ := eK.trans eC
   obtain ⟨E₀, hE₀el, r, hr5, hE₀c⟩ := InputsSeitz11.exists_elemAbelian_five_twE6Two hL4 σ hσ2

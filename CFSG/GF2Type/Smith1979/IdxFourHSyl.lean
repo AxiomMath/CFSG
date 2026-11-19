@@ -25,6 +25,7 @@ theorem le_of_normal_isSylowTwoIn {P H N : Subgroup G} (hP : S5.IsSylowTwoIn P H
   have := (hc _).mp (hNT hy)
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_mul_self {x : G} (hxx : x * x = 1) : IsPGroup 2 (zpowers x) := by
   intro y
   refine ⟨1, ?_⟩
@@ -40,7 +41,7 @@ theorem mem_of_isSylowTwoIn_centralizer {P H : Subgroup G} {x : G} (hP : S5.IsSy
       ?_
     intro h hh n hn
     rcases (Setting.mem_zpowers_iff_of_mul_self hxx).mp hn with rfl | rfl
-    · simpa using one_mem _
+    · simp
     · have := hcomm h hh
       rw [this, mul_assoc, mul_inv_cancel, mul_one]
       exact mem_zpowers _
@@ -51,7 +52,7 @@ theorem exists_sylow_centralizer (hTI : WeaklyClosedTITransitive.{0}) (hw : S.wi
     (hirr : ¬ S.IsReducible) (hnoAll : S11.NoA2All S) {g : G} {K : Subgroup S.O}
     {θ xb : S.O} (hF : IdxFourFacts S g K θ xb) {x : G} (hxM : x ∈ S.M) (hxx : x * x = 1)
     (hρx : S.ρ ⟨x, hxM⟩ = xb) {U : Submodule (ZMod 2) S.Qt} (hU9 : 9 ≤ finrank (ZMod 2) U)
-    (hUF : U ≤ fixO S xb) (hUc : ∀ y ∈ S.clPre U, y * x = x * y)
+    (_hUF : U ≤ fixO S xb) (hUc : ∀ y ∈ S.clPre U, y * x = x * y)
     (hUW : ∀ y : S.Qt, (∀ v ∈ U, polar S.q y v = 0) → S.q y = 0 → y ∈ commO S xb) :
     ∃ T : Subgroup G, S5.IsSylowTwoIn T (centralizer ({x} : Set G)) ∧ Nat.card T ≤ 2 ^ 19 := by
   classical

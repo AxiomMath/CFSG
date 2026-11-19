@@ -22,7 +22,7 @@ theorem conj_inv_mem {Γ : Type*} [Group Γ] [Finite Γ] (E : Subgroup Γ) (n : 
   obtain ⟨y, hy⟩ := Finite.injective_iff_surjective.1 hf ⟨x, hx⟩
   have hy' : n * (y : Γ) * n⁻¹ = x := congrArg Subtype.val hy
   rw [← hy']
-  simpa [mul_assoc] using y.2
+  simp [mul_assoc]
 
 theorem normalizes_of_gens {Γ : Type*} [Group Γ] [Finite Γ] (E : Subgroup Γ) (gens : Set Γ)
     (h : ∀ g ∈ gens, ∀ x ∈ E, g * x * g⁻¹ ∈ E) :

@@ -16,7 +16,7 @@ omit [Finite G] in
 theorem eq_one_of_mem_pCore_two_of_mem_sylow_three {L : Subgroup G} {x : ↥L}
     (hx2 : x ∈ CFSG.pCore 2 ↥L) {S : Sylow 3 ↥L} (hx3 : x ∈ (S : Subgroup ↥L)) : x = 1 := by
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)) ⟨x, hx2⟩
-  obtain ⟨m, hm⟩ := (Sylow.isPGroup' S) ⟨x, hx3⟩
+  obtain ⟨m, hm⟩ := (Sylow.isPGroup S) ⟨x, hx3⟩
   have hk' : x ^ 2 ^ k = 1 := congrArg Subtype.val hk
   have hm' : x ^ 3 ^ m = 1 := congrArg Subtype.val hm
   have hcop23 : Nat.Coprime 2 3 := by norm_num

@@ -249,12 +249,14 @@ theorem exists_inner_lift [S.Normal] (hp : p.Prime) (hB : IsElemAbelian p B)
     exact h1
   · exact (huniq x 1 (one_pow p) (by rw [map_one, inv_one, one_mul]; exact h)).symm
 
+omit [Finite H] in
 theorem inner_lift_conj (φ : H →* Ω) (hφS : φ.range = S) {B₁ : Subgroup Ω} (θ : ↥B₁ →* H)
     (hθ : ∀ x, (φ (θ x))⁻¹ * (x : Ω) ∈ Subgroup.centralizer (S : Set Ω)) (x : ↥B₁) (h : H) :
     φ (θ x * h * (θ x)⁻¹) = (x : Ω) * φ h * (x : Ω)⁻¹ := by
   rw [map_mul, map_mul, map_inv]
   exact (conj_eq_of_inv_mul_mem_centralizer (hθ x) (hφS ▸ ⟨h, rfl⟩)).symm
 
+omit [Finite H] in
 theorem card_range_mul_card_inf {B₁ : Subgroup Ω} (θ : ↥B₁ →* H)
     (hθ : ∀ x, θ x = 1 ↔ (x : Ω) ∈ Subgroup.centralizer (S : Set Ω)) :
     Nat.card θ.range * Nat.card ↥(B₁ ⊓ Subgroup.centralizer (S : Set Ω)) = Nat.card B₁ := by
@@ -274,6 +276,7 @@ section CentMod
 
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
+omit [Finite Ω] in
 theorem inf_centMod_eq_inf_centralizer (hSn : S.Normal) (hcore : GLAPPrimeCore p ↥S = ⊥) :
     B ⊓ centModSubgroup p S = B ⊓ Subgroup.centralizer (S : Set Ω) := by
   ext x

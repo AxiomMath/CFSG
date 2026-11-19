@@ -145,7 +145,7 @@ private theorem false_of_card_eq_405 {Y : Type*} [Group Y] [Finite Y] (hY : Nat.
     have hnt : Nontrivial (Subgroup.center (T : Subgroup Y)) := by
       have : Nontrivial (T : Subgroup Y) :=
         Finite.one_lt_card_iff_nontrivial.mp (by rw [hT]; norm_num)
-      exact (T.isPGroup').center_nontrivial
+      exact (T.isPGroup).center_nontrivial
     have hc1 : Nat.card (Subgroup.center (T : Subgroup Y)) = 1 := by
       rwa [Subgroup.card_map_of_injective (T : Subgroup Y).subtype_injective] at h1
     exact (Finite.one_lt_card_iff_nontrivial.mpr hnt).ne' hc1
@@ -264,7 +264,7 @@ private theorem false_of_card_eq_810 {Y : Type*} [Group Y] [Finite Y] (hY : Nat.
   have hcompl := IsCyclic.isComplement' hmin hcyc
   set N := (MonoidHom.transferSylow P (hcyc.normalizer_le_centralizer hmin)).ker with hNdef
   have hNcard : Nat.card N = 405 := by
-    have h := hcompl.card_mul
+    have h := hcompl.card_mul_card
     rw [hP, hY] at h
     omega
   refine false_of_card_eq_405 (Y := ↥N) hNcard (fun b t hb ht hbt => ?_) (fun T hT => ?_)
@@ -517,6 +517,7 @@ private theorem commutator_P_H_J_le_J1sub (h : Tim79a.ParrottHyp z)
     ⟨Subgroup.mem_centralizer_singleton_iff.mpr (mem_centralizerJ_iff.mp hc), c.2⟩
   exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hxc (c : G) hcC)
 
+omit [Finite G] in
 private theorem card_P_H (h : Tim79a.ParrottHyp z) :
     Nat.card (P_H (z := z) D) = 2 ^ 10 * 25920 := by
   have hH : Nat.card ↥(H z) = 2 ^ 10 * 51840 := by

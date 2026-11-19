@@ -16,10 +16,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq_centralizer_singleton (w : G) :
     Subgroup.centralizer (Subgroup.zpowers w : Set G) = Subgroup.centralizer ({w} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
+omit [Finite G] in
 theorem commutator_mul_mem_abelian {A : Subgroup G}
     (hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) {x : G}
     (hxA : ∀ a ∈ A, x * a * x⁻¹ ∈ A) {a w : G} (ha : a ∈ A) (hw : w ∈ A) :
@@ -104,15 +106,17 @@ theorem blockU_comm {a b : G} (ha : a ∈ blockU L) (hb : b ∈ blockU L) : a * 
 
 theorem blockU_sq {v : G} (hv : v ∈ blockU L) : v ^ 2 = 1 := S.elemU.2 v hv
 
+omit [Finite G] S in
 theorem blockQ_isPGroup : IsPGroup 2 (blockQ L) :=
   CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 L
 
+omit [Finite G] S in
 theorem le_normalizer_blockQ : L ≤ Subgroup.normalizer (blockQ L : Set G) :=
   CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 L
 
 theorem commutator_blockU : ⁅blockU L, L⁆ = blockU L :=
   SimsTheoremC.commutator_commutator_eq_of_twoResidual S.short.eq_twoResidual
-    S.blockQ_isPGroup S.le_normalizer_blockQ
+    (CFSG.CGT.Hall82.Setting.blockQ_isPGroup (L := L)) Setting.le_normalizer_blockQ
 
 theorem exists_order_three_data :
     ∃ (α : ↥L →* alternatingGroup (Fin 6)) (z : ↥L),
@@ -126,7 +130,7 @@ theorem exists_order_three_data :
   have h3dvd : 3 ∣ Nat.card α.ker := by
     rw [hcardker]
     exact dvd_mul_right 3 _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
   set z : G := (((k : α.ker) : ↥L) : G) with hz
   have hzL : z ∈ L := ((k : α.ker) : ↥L).2
@@ -136,7 +140,7 @@ theorem exists_order_three_data :
     exact hk
   have hzP : z ∉ blockQ L := by
     intro hzQ
-    obtain ⟨n, hn⟩ := S.blockQ_isPGroup ⟨z, hzQ⟩
+    obtain ⟨n, hn⟩ := (CFSG.CGT.Hall82.Setting.blockQ_isPGroup (L := L)) ⟨z, hzQ⟩
     have hdvd : orderOf (⟨z, hzQ⟩ : blockQ L) ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hn
     have h3 : orderOf (⟨z, hzQ⟩ : blockQ L) = 3 := by
       rw [← Subgroup.orderOf_coe (⟨z, hzQ⟩ : blockQ L)]
@@ -249,7 +253,7 @@ theorem mem_blockU_of_conj {z : G} (hzL : z ∈ L) (hzord : orderOf z = 3)
         _ = v2⁻¹ * (v2 * v2) := by rw [hv2sq]
         _ = v2 := by group
     rwa [hv2inv] at h2
-  obtain ⟨n, hn⟩ := S.blockQ_isPGroup ⟨p, hpP⟩
+  obtain ⟨n, hn⟩ := (CFSG.CGT.Hall82.Setting.blockQ_isPGroup (L := L)) ⟨p, hpP⟩
   have hpn : p ^ 2 ^ n = 1 := congrArg Subtype.val hn
   have hdvd2 : orderOf p ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hpn
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd2
@@ -546,7 +550,7 @@ theorem exists_fpf :
   exact (blockFix_bot_and_fpf S z.2 hzord hzP hzW hzPcomm).2
 
 theorem card_blockU : Nat.card (blockU L) = 64 := by
-  haveI := isElementaryAbelian_tildeU S
+  have := isElementaryAbelian_tildeU S
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 (tildeU L)).exists_card_eq
   have hrank : CFSG.pRank 2 (tildeU L) = n := CFSG.pRank_eq_of_card_eq_pow (by norm_num) hn
@@ -685,7 +689,7 @@ theorem mem_blockQ_of_forall_conj_eq {y : G} (hy : y ∈ L)
       have h64 := card_blockU S
       rw [hbot, Subgroup.card_bot] at h64
       omega
-    haveI : Nontrivial ↥(blockU L) := (Subgroup.nontrivial_iff_ne_bot (blockU L)).mpr hVnt
+    have : Nontrivial ↥(blockU L) := (Subgroup.nontrivial_iff_ne_bot (blockU L)).mpr hVnt
     obtain ⟨v, hv, hv1⟩ := Subgroup.exists_ne_one_of_nontrivial (blockU L)
     exact hv1 (hfpf v hv (by rw [hzcent v hv]; group))
 
@@ -706,7 +710,7 @@ theorem exists_mul_of_mem_blockQ {p : G} (hp : p ∈ blockQ L) :
       map_mul' := by
         intro a b
         ext
-        simp only [Subgroup.coe_mul, zpow_neg_one]
+        simp only [Subgroup.coe_mul]
         group }
   let ψ : ↥(blockU L) → ↥(blockU L) := fun v => v⁻¹ * σ v
   have hψinj : Function.Injective ψ := by

@@ -11,18 +11,22 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem pCoreOf_two_le (N : Subgroup G) : CFSG.Open.pCoreOf 2 N ≤ N := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem pCoreOf_two_isPGroup (N : Subgroup G) : IsPGroup 2 (CFSG.Open.pCoreOf 2 N) := by
   rw [CFSG.Open.pCoreOf]
   exact CFSG.pCore_isPGroup.map _
 
+omit [Finite G] in
 theorem pCoreOf_two_conj_mem {N : Subgroup G} {g : G} (hg : g ∈ N) {q : G}
     (hq : q ∈ CFSG.Open.pCoreOf 2 N) : g * q * g⁻¹ ∈ CFSG.Open.pCoreOf 2 N := by
   rw [CFSG.Open.pCoreOf] at hq ⊢
   obtain ⟨o', ho', rfl⟩ := hq
   exact ⟨⟨g, hg⟩ * o' * ⟨g, hg⟩⁻¹, CFSG.pCore_normal.conj_mem o' ho' _, rfl⟩
 
+omit [Finite G] in
 theorem le_pCoreOf_two {N Q : Subgroup G} (hQN : Q ≤ N)
     (hnorm : ∀ n ∈ N, ∀ q ∈ Q, n * q * n⁻¹ ∈ Q) (hQ : IsPGroup 2 Q) :
     Q ≤ CFSG.Open.pCoreOf 2 N := by

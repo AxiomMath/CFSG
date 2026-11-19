@@ -225,7 +225,7 @@ theorem odd_group_generation {A G : Type*} [Group A] [Group G] [Finite G]
         (Nat.not_even_iff_odd.mpr hodd)) homomorphism
     let subgroup := (sylow : Subgroup G)
     let restriction := CoprimeInvariantSylow.restriction homomorphism subgroup hinvariant
-    let : Group.IsNilpotent subgroup := sylow.isPGroup'.isNilpotent
+    let : Group.IsNilpotent subgroup := sylow.isPGroup.isNilpotent
     have hsubgroupOdd : Odd (Nat.card subgroup) :=
       hodd.of_dvd_nat (Subgroup.card_subgroup_dvd_card subgroup)
     have hrestrictedCommutes : Commute (restriction firstActor) (restriction secondActor) := by

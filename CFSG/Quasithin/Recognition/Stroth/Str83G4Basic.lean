@@ -61,10 +61,10 @@ private theorem str83G4_commutator_z2_facts
     rw [hQ, show L2 ⊔ Q2 L1 L2 S = L2 ⊔ S from hsup2.symm] at h
     exact h
   let F := GaloisField 2 (2 * a + 1)
-  haveI : Fintype F := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite _
   let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hVH hVea.isPGroup
-  letI : CommGroup (Ch3z.chiefMod ⊥ V) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ V)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ V) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ V)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstep hVH hE e
   have hρeq : ρ0 = ρ := by
     refine MonoidHom.ext fun g' => LinearMap.ext fun w => ?_
@@ -183,8 +183,6 @@ private theorem str83G4_commutator_z2_facts
     have hfixmem0 : Additive.ofMul (chiefModBotMulEquiv V ⟨y, hyV⟩) ∈
         fixedSub ρ ((P.map q).map e.toMonoidHom) :=
       (mem_fixSub_chiefMod_bot_iff hstep hVH hE e P ⟨y, hyV⟩).mpr (by
-        change (⟨y, hyV⟩ : ↥V).1 ∈ Subgroup.centralizer
-          ((P.map (L2 ⊔ S).subtype : Subgroup G) : Set G)
         simpa [hPsub] using hPy)
     rw [hPimg] at hfixmem0
     have hfixmem : Additive.ofMul (chiefModBotMulEquiv V ⟨y, hyV⟩) ∈
@@ -337,7 +335,7 @@ theorem str83G4_commutator_z2_s
     exact le_sup_right
   have hQ1nQ2 : ¬ Q1 L1 L2 S ≤ Q2 L1 L2 S :=
     not_pCoreOf_le_pCoreOf hF hB hS1 (Or.inl ⟨a, ha, hSz⟩)
-  obtain ⟨x, hxQ1, hxQ2⟩ := SetLike.not_le_iff_exists.mp hQ1nQ2
+  obtain ⟨x, hxQ1, hxQ2⟩ := IsConcreteLE.not_le_iff_exists.mp hQ1nQ2
   have hxS : x ∈ S := hQ1S hxQ1
   refine le_antisymm hle ?_
   exact (hge x hxS hxQ2).trans

@@ -22,7 +22,7 @@ theorem cl24_orderOf_two {S : Type} [Group S] [Finite S] [IsSimpleGroup S] {σ :
       rw [eq_top_iff]
       intro x _
       rfl
-    haveI : IsSimpleGroup (fixedSubgroup (1 : MulAut S)) :=
+    have : IsSimpleGroup (fixedSubgroup (1 : MulAut S)) :=
       ((MulEquiv.subgroupCongr hFtop).trans Subgroup.topEquiv).isSimpleGroup
     have hcomp : IsComponent (P.subgroupOf (fixedSubgroup (1 : MulAut S))) := hP.2.2.2
     have htop : P.subgroupOf (fixedSubgroup (1 : MulAut S)) = ⊤ := by
@@ -85,7 +85,7 @@ theorem a2l_cl2_of_tracked (hO : LieOrderFormulasInput)
       LieModel G t n p f → IsSimpleGroup G)
     (hT : ∀ τ, Cl24TrackedFamily τ) (hU : Cl24FieldUnique3) : HypA2.ClosureFieldExp := by
   intro S _ _ σ P hP τ n c hτ τ' n' d hτ'
-  haveI : IsSimpleGroup S := hS S τ n 3 c hτ
+  have : IsSimpleGroup S := hS S τ n 3 c hτ
   have hσ2 : orderOf σ = 2 := cl24_orderOf_two hP
   let e := Subgroup.subgroupOfEquivOfLe hP.2.1
   rcases hT τ S n c hτ.admissible hτ σ hσ2 (P.subgroupOf (fixedSubgroup σ)) hP.2.2.2 with

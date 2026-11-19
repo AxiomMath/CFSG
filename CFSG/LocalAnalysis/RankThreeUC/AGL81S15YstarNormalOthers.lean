@@ -29,7 +29,7 @@ theorem exists_conj_eq_of_le_normalizer {T : Subgroup X} (hX : GNSetting X T)
     refine mem_normalizer_of_map_conj_eq_s15 ?_
     have hel : toStar T ((MulAut.conj m⁻¹).toMonoidHom t) =
         (toStar T m)⁻¹ * toStar T t * toStar T m := by
-      simp [MulAut.conj_apply]
+      simp
     rw [hel]
     calc Ls.map (MulAut.conj ((toStar T m)⁻¹ * toStar T t * toStar T m)).toMonoidHom
         = ((Ls.map (MulAut.conj (toStar T m)).toMonoidHom).map

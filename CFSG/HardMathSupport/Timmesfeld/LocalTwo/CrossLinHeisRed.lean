@@ -80,6 +80,7 @@ section GLRel
 
 variable [Finite F]
 
+omit [Finite F] in
 theorem scalar_eq_one_iff (hn : 0 < n) {u : Fˣ} :
     GeneralLinearGroup.scalar (Fin n) u = 1 ↔ u = 1 := by
   constructor
@@ -106,6 +107,7 @@ theorem exists_pow_scalar (hn : 3 ≤ n) {A : GL (Fin n) F} {p : ℕ} (hA : conj
   obtain ⟨a, ha⟩ := eq_scalar_of_conjAut_eq_one hn this
   exact ⟨a, ha.symm⟩
 
+omit [Finite F] in
 theorem comm_scalar_pow_eq_one (hn : 3 ≤ n) {A B : GL (Fin n) F} {z : Fˣ}
     (hAB : A * B = GeneralLinearGroup.scalar (Fin n) z * (B * A)) {p : ℕ} {b : Fˣ}
     (hb : B ^ p = GeneralLinearGroup.scalar (Fin n) b) : z ^ p = 1 := by
@@ -129,7 +131,7 @@ theorem comm_scalar_pow_eq_one (hn : 3 ≤ n) {A B : GL (Fin n) F} {z : Fˣ}
 
 theorem exists_pthpower_mul {p : ℕ} (hp : p.Prime) (a b : Fˣ) (ha : ¬ ∃ e : Fˣ, e ^ p = a) :
     ∃ (i : ℕ) (e : Fˣ), e ^ p = a ^ i * b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hnat : ∀ x : Fˣ, ∃ k : ℕ, g ^ k = x := fun x => by
     have := hg x

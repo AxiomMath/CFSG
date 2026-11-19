@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 theorem Ctx.comm_Vt_of_fix (hc : Ctx M Q Z B) (AM : Smith81.Smith23E1.ActionModel M Q Z) {d : G}
     (hd : d ∈ H0 M Z) (hfix : ∀ e ∈ AM.Vsp hc t, AM.φ ⟨d, hd⟩ e = e) :
-    ∀ v ∈ Vt M (LB M Q B) B Z t, ⁅d, v⁆ ∈ Z := fun v hv =>
+    ∀ _v ∈ Vt M (LB M Q B) B Z t, ⁅d, _v⁆ ∈ Z := fun _v hv =>
   (comm_mem_iff_fix (M₀ := AM.M₀) (T := AM.φ ⟨d, hd⟩) (hc.conj_mem_Q_of_mem_M hd.1).1
     (fun z hz => AM.φ_π ⟨d, hd⟩ z hz) (hc.Vt_le_Q t hv)).mpr
     (hfix _ (mem_imgSub.mpr (AM.M₀.pi_mem_img hv (hc.Vt_le_Q t hv))))
@@ -99,7 +99,8 @@ theorem Sec108Data.det_matV_eq_one (D : Sec108Data hc t Y)
     exact ⟨hxR, det_matV_eq_one_of_sq_mem_Q D AM hxR hx2⟩
   exact (hle hr).2
 
-private theorem commutator_Rt_le (D : Sec108Data hc t Y) :
+omit [Finite G] in
+private theorem commutator_Rt_le (_D : Sec108Data hc t Y) :
     ⁅Rt M (LB M Q B) t, Rt M (LB M Q B) t⁆ ≤ Rt M (LB M Q B) t := by
   refine Subgroup.commutator_le.mpr fun r hr s hs => ?_
   rw [commutatorElement_def]
@@ -114,7 +115,7 @@ private noncomputable def matVHom (D : Sec108Data hc t Y)
   toFun r := ⟨D.matV AM ⟨(r : G), D.Rt_le_H0 r.2⟩, D.det_matV_eq_one AM r.2⟩
   map_one' := Subtype.ext (D.matV_one AM)
   map_mul' r s := Subtype.ext (D.matV_mul AM (m := ⟨(r : G), D.Rt_le_H0 r.2⟩)
-    (m' := ⟨(s : G), D.Rt_le_H0 s.2⟩) fun e he => D.phi_mem_Vsp AM s.2 he)
+    (m' := ⟨(s : G), D.Rt_le_H0 s.2⟩) fun _e he => D.phi_mem_Vsp AM s.2 he)
 
 private theorem matVHom_coe (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) (r : ↥(Rt M (LB M Q B) t)) :

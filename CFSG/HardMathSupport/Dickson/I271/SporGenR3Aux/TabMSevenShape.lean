@@ -109,7 +109,7 @@ theorem mSevenShapeGmat_of_sevenB
       f * tG = tG * f ∧ ∃ S : Subgroup Gmat, S ≤ Subgroup.centralizer ({z} : Set Gmat) ∧
         Nonempty (↥S ≃* QuaternionGroup 4)) :
     MSevenShapeGmat := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   obtain ⟨hcls, h2A, h2B, hG5⟩ := gmat_seven_bounds
   obtain ⟨hHk, ⟨e⟩⟩ := tabMSeven_he_le_cent_dG
   have hE8 : HePE8 := hePE8
@@ -125,7 +125,7 @@ theorem mSevenShapeGmat_of_sevenB
       have h' := congrArg (fun x => g⁻¹ * x * g) h
       simpa [mul_assoc] using h'
     · have h1 : Nat.card ↥(Subgroup.centralizer ({zG} : Set Gmat)) = 7 * 4030387200 := by
-        haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
         rw [← card_centralizer_conj g zG, h, centralizer_pow_eq_of_prime orderOf_dG hm, hcard]
       have h6 := seven_pow_dvd_card_cent_zG
       rw [h1] at h6
@@ -166,7 +166,7 @@ theorem mSevenShapeGmat_of_sevenB
   have hzG : ShapeRkAt' 7 (GoodSpor 7 [.He]) (RkSpor 7 [.He]) zG :=
     tabMSeven_shape_of_not_conj_dG orderOf_zG hzd htA huB hQ
   intro k hk1 hk7
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hk : orderOf k = 7 := orderOf_eq_prime hk7 hk1
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → GoodSpor 7 [.He] T →
       GoodSpor 7 [.He] T' := fun _ _ _ _ f h => GoodSpor.of_equiv f h

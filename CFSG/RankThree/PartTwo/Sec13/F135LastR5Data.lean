@@ -107,7 +107,7 @@ theorem r5e_xV {M' : Type} [Group M'] [Finite M'] (J : Subgroup M') (hperf : Gro
       ∃ V : Subgroup (MulAut (J ⧸ Subgroup.center J)), V ≠ ⊥ ∧ IsPGroup 2 V ∧
         (∀ v ∈ V, actS J nf * v * (actS J nf)⁻¹ ∈ V) ∧
         ⁅V, Subgroup.zpowers (actS J nf)⁆ = V := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨u₀, hu₀, f, hf, hcf⟩ := r5e_exists_comm hcomm hŪne
   have hfĒ : f ∈ Ē := hEuĒ hf
   have hfN : f ∈ Subgroup.normalizer (J : Set M') := hĒN hfĒ
@@ -207,7 +207,7 @@ theorem r5e_xV {M' : Type} [Group M'] [Finite M'] (J : Subgroup M') (hperf : Gro
 theorem identified_of_kf135 (hKF : KF135) {M' : Type} [Group M'] [Finite M'] (J : Subgroup M')
     (hJq : CFSG.IsQuasisimple J) (hList : Sec4.Census.List42 (J ⧸ Subgroup.center J))
     {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) (Ē Eu Ū : Subgroup M') (ū : M')
-    (hĒp : IsPGroup p Ē) (hĒexp : ∀ e ∈ Ē, e ^ p = 1)
+    (_hĒp : IsPGroup p Ē) (hĒexp : ∀ e ∈ Ē, e ^ p = 1)
     (hĒN : Ē ≤ Subgroup.normalizer (J : Set M'))
     (hidx : p ^ 3 ≤ (Subgroup.centralizer (J : Set M') ⊓ Ē).relIndex Ē)
     (hūN : ū ∈ Subgroup.normalizer (J : Set M')) (hū2 : ū * ū = 1)
@@ -231,7 +231,7 @@ theorem identified_of_kf135 (hKF : KF135) {M' : Type} [Group M'] [Finite M'] (J 
   have hperf : Group.IsPerfect J := hJq.1
   have hSsimple : IsSimpleGroup (J ⧸ Subgroup.center J) := hJq.2.1
   have hSnonab : ∃ a b : J ⧸ Subgroup.center J, a * b ≠ b * a := hJq.2.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P0, hP0⟩ : ∃ P0 : Subgroup (MulAut (J ⧸ Subgroup.center J)),
       P0 = (Ē.subgroupOf (Subgroup.normalizer (J : Set M'))).map (actS J) := ⟨_, rfl⟩
   have hPexp : ∀ y ∈ P0, y ^ p = 1 := by

@@ -15,7 +15,7 @@ theorem card_center_eq_three_pow {K : Type} [Group K] [Finite K] (h : GLAPPrimeC
   refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' ?_⟩
   intro ℓ hℓ hdvd
   by_contra hne
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center K) ℓ hdvd
   have hz' : orderOf (z : K) = ℓ := by rw [Subgroup.orderOf_coe]; exact hz
   have hnorm : (Subgroup.zpowers (z : K)).Normal := by
@@ -93,8 +93,8 @@ theorem card_fixedField_eq (d : ValidLieTypeIndex) [Fintype d.fixedField] :
 
 theorem ringChar_fixedField_eq (d : ValidLieTypeIndex) [Fintype d.fixedField] :
     ringChar d.fixedField = d.characteristic := by
-  haveI : Fact d.characteristic.Prime := ⟨d.characteristic_prime⟩
-  haveI : CharP d.fixedField d.characteristic :=
+  have : Fact d.characteristic.Prime := ⟨d.characteristic_prime⟩
+  have : CharP d.fixedField d.characteristic :=
     charP_of_card_eq_prime_pow (f := d.fieldExponent)
       (by rw [card_fixedField_eq, ValidLieTypeIndex.fieldOrder_eq_characteristic_pow])
   exact ringChar.eq _ _
@@ -147,8 +147,8 @@ section Families
 theorem e6_liftDatum (q : PrimePower) (hv : (LieTypeIndex.E6 q).Valid) (hp3 : q.p ≠ 3) :
     LiftDatum (CFSGIndex.lie ⟨.E6 q, hv⟩).Group 3 := by
   set d : ValidLieTypeIndex := ⟨.E6 q, hv⟩ with hd
-  haveI := finite_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
+  have := finite_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
   have hchar : d.characteristic = q.p := LieTypeIndex.characteristic_E6 q
   by_cases h2 : q.p = 2
   · exact e6_liftDatum_even' q hv (by rw [ringChar_fixedField_eq, hchar]; exact h2)
@@ -159,8 +159,8 @@ theorem e6_liftDatum (q : PrimePower) (hv : (LieTypeIndex.E6 q).Valid) (hp3 : q.
 theorem e7_liftDatum (q : PrimePower) (hv : (LieTypeIndex.E7 q).Valid) (hp3 : q.p ≠ 3) :
     LiftDatum (CFSGIndex.lie ⟨.E7 q, hv⟩).Group 3 := by
   set d : ValidLieTypeIndex := ⟨.E7 q, hv⟩ with hd
-  haveI := finite_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
+  have := finite_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
   have hchar : d.characteristic = q.p := LieTypeIndex.characteristic_E7 q
   obtain ⟨φ, hinj, hcomm⟩ := e7_commuting_SL2' q hv
   by_cases h2 : q.p = 2
@@ -173,8 +173,8 @@ theorem e7_liftDatum (q : PrimePower) (hv : (LieTypeIndex.E7 q).Valid) (hp3 : q.
 theorem e8_liftDatum (q : PrimePower) (hv : (LieTypeIndex.E8 q).Valid) (hp3 : q.p ≠ 3) :
     LiftDatum (CFSGIndex.lie ⟨.E8 q, hv⟩).Group 3 := by
   set d : ValidLieTypeIndex := ⟨.E8 q, hv⟩ with hd
-  haveI := finite_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
+  have := finite_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
   have hchar : d.characteristic = q.p := LieTypeIndex.characteristic_E8 q
   obtain ⟨φ, hinj, hcomm⟩ := e8_commuting_SL2 q hv
   by_cases h2 : q.p = 2
@@ -187,8 +187,8 @@ theorem e8_liftDatum (q : PrimePower) (hv : (LieTypeIndex.E8 q).Valid) (hp3 : q.
 theorem f4_liftDatum (q : PrimePower) (hv : (LieTypeIndex.F4 q).Valid) (hp3 : q.p ≠ 3)
     (hq : ¬ (q.p = 2 ∧ Odd q.exponent)) : LiftDatum (CFSGIndex.lie ⟨.F4 q, hv⟩).Group 3 := by
   set d : ValidLieTypeIndex := ⟨.F4 q, hv⟩ with hd
-  haveI := finite_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
+  have := finite_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
   have hchar : d.characteristic = q.p := LieTypeIndex.characteristic_F4 q
   have hfo : d.fieldOrder = q.p ^ q.exponent :=
     (LieTypeIndex.fieldOrder_F4 q).trans (PrimePower.card_def q)
@@ -199,8 +199,8 @@ theorem f4_liftDatum (q : PrimePower) (hv : (LieTypeIndex.F4 q).Valid) (hp3 : q.
 theorem twistedE6_liftDatum (q : PrimePower) (hv : (LieTypeIndex.twistedE6 q).Valid)
     (hp3 : q.p ≠ 3) : LiftDatum (CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group 3 := by
   set d : ValidLieTypeIndex := ⟨.twistedE6 q, hv⟩ with hd
-  haveI := finite_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
+  have := finite_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
   have hchar : d.characteristic = q.p := LieTypeIndex.characteristic_twistedE6 q
   have hfo : d.fieldOrder = q.p ^ q.exponent :=
     (LieTypeIndex.fieldOrder_twistedE6 q).trans (PrimePower.card_def q)

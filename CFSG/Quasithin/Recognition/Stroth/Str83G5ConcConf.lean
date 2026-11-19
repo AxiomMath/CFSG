@@ -15,16 +15,19 @@ open CFSG.GH74.Uniqueness.Bender
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem qv_zero_eq' (Q₁ Q₂ : Subgroup G) (x₁ x₂ : G) : qv Q₁ Q₂ x₁ x₂ 0 = Q₁ := by
   ext y
   rw [mem_qv_iff]
   simp [trackElt, trackPar]
 
+omit [Finite G] in
 private theorem qv_one_eq' (Q₁ Q₂ : Subgroup G) (x₁ x₂ : G) : qv Q₁ Q₂ x₁ x₂ 1 = Q₂ := by
   ext y
   rw [mem_qv_iff]
   simp [trackElt, trackPar]
 
+omit [Finite G] in
 private theorem H_le_normalizer_win {P₁ P₂ H Q₁ Q₂ : Subgroup G} {x₁ x₂ : G}
     (T : TrackData P₁ P₂ H x₁ x₂) (hH₁ : H ≤ P₁) (hH₂ : H ≤ P₂)
     (hQ₁ : P₁ ≤ normalizer (Q₁ : Set G)) (hQ₂ : P₂ ≤ normalizer (Q₂ : Set G)) (a b : ℤ) :
@@ -32,10 +35,11 @@ private theorem H_le_normalizer_win {P₁ P₂ H Q₁ Q₂ : Subgroup G} {x₁ x
   intro h hh
   rw [mem_normalizer_iff]
   intro y
-  simp only [SetLike.mem_coe, mem_win_iff]
+  simp only [mem_win_iff]
   have hq := fun i => mem_normalizer_iff.mp (T.le_normalizer_qv hH₁ hH₂ hQ₁ hQ₂ i hh) y
   exact ⟨fun hy i h1 h2 => (hq i).mp (hy i h1 h2), fun hy i h1 h2 => (hq i).mpr (hy i h1 h2)⟩
 
+omit [Finite G] in
 private theorem not_mem_of_isPGroup {K : Subgroup G} (hK : IsPGroup 2 K) {d : G} {n : ℕ}
     (hd : orderOf d = 2 ^ n - 1) (hn : 2 ≤ n) : d ∉ K := by
   intro hdK
@@ -162,7 +166,7 @@ theorem exists_conf_of_emb {L1 L2 S : Subgroup G} {a : ℕ}
       fun s hs => htriv₁ s (hXS hs)
     have hl : cen (2 * a + 1) • (-1 : ZMod (2 ^ (2 * a + 1) - 1)) • psi m₀ =
         (-cen (2 * a + 1), m₀ * -cen (2 * a + 1)) := by
-      ext <;> simp [psi] <;> ring
+      ext <;> simp [psi]; ring
     rw [hl]
     exact h
   have eL : IsChiEmb ζ d₁ d₂ (pCoreOf 2 (L2 ⊔ bigB L1 L2 S)) S (chi k₀) β₂ := by

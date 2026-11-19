@@ -57,7 +57,7 @@ private theorem udf_delta_spec (h : UnitaryFieldData 2 1 K)
   have hxw := Classical.choose_spec hx
   refine ⟨Classical.choose hx, hxw.1, hxw.2, ?_⟩
   unfold udf_delta
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
 
 private theorem udf_delta_eq_iff (h : UnitaryFieldData 2 1 K)
     (ζ : Multiplicative (ZMod 3) →* Kˣ) (hK : Nat.card K = 4)

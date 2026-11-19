@@ -16,6 +16,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem mem_normalizer_of_normalIn {H K : Subgroup G} (hK : NormalIn H K) {g : G}
     (hg : g ∈ K) : g ∈ normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -25,6 +26,7 @@ private theorem mem_normalizer_of_normalIn {H K : Subgroup G} (hK : NormalIn H K
     have h2 : g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x := by group
     rwa [h2] at h1⟩
 
+omit [Finite G] in
 private theorem map_center_subtype (H : Subgroup G) :
     (Subgroup.center ↥H).map H.subtype = H ⊓ Subgroup.centralizer ((H : Subgroup G) : Set G) := by
   ext y
@@ -39,6 +41,7 @@ private theorem map_center_subtype (H : Subgroup G) :
     intro g
     exact Subtype.ext (hcent g g.2)
 
+omit [Finite G] in
 private theorem map_centralizer_subtype_singleton (H : Subgroup G) (x : G) (hx : x ∈ H) :
     (Subgroup.centralizer ({⟨x, hx⟩} : Set ↥H)).map H.subtype =
       H ⊓ Subgroup.centralizer ({x} : Set G) := by
@@ -53,8 +56,8 @@ private theorem map_centralizer_subtype_singleton (H : Subgroup G) (x : G) (hx :
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact Subtype.ext hcent
 
-private theorem exists_noncomm_of_not_mem_fourGrp (h : Q13Om t L S x₁ x₂ lam rho tau om)
-    {Q : Subgroup G} (hQ : Q = ctxQ t tau x₁ x₂ rho) {x : G} (hx : x ∈ Q)
+private theorem exists_noncomm_of_not_mem_fourGrp (_h : Q13Om t L S x₁ x₂ lam rho tau om)
+    {Q : Subgroup G} (_hQ : Q = ctxQ t tau x₁ x₂ rho) {x : G} (hx : x ∈ Q)
     (hxV : x ∉ fourGrp x₁ x₂) (hZ : Q ⊓ Subgroup.centralizer ((Q : Subgroup G) : Set G) =
       fourGrp x₁ x₂) :
     ∃ g : ↥Q, g * ⟨x, hx⟩ ≠ ⟨x, hx⟩ * g := by
@@ -175,7 +178,7 @@ theorem q13a_CQ_x₁ (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     intro a ha
     have hcent : a ∈ Subgroup.centralizer ({x₁} : Set G) := by
       rw [Subgroup.mem_centralizer_singleton_iff]
-      haveI : IsMulCommutative ↥(baseGrp x₁ x₂) := (h.c11.wreath.baseGrp_eq).1
+      have : IsMulCommutative ↥(baseGrp x₁ x₂) := (h.c11.wreath.baseGrp_eq).1
       exact congrArg Subtype.val
         (mul_comm' (⟨a, ha⟩ : ↥(baseGrp x₁ x₂)) (⟨x₁, hx₁base⟩ : ↥(baseGrp x₁ x₂)))
     exact ⟨h.c11.base_le_Q ha, hcent⟩

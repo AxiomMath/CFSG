@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Subgroup G} {k : ℕ}
 
+omit [Finite G] in
 theorem isPComponentIn_map_subtype {L : Subgroup ↥H} (hL : CFSG.IsPComponent p L) :
     IsPComponentIn p (L.map H.subtype) H := by
   refine ⟨?_, ?_⟩
@@ -25,11 +26,13 @@ theorem isPComponentIn_map_subtype {L : Subgroup ↥H} (hL : CFSG.IsPComponent p
     rw [this]
     exact hL
 
+omit [Finite G] in
 theorem le_pLayerIn {L : Subgroup G} (hL : IsPComponentIn p L H) : L ≤ pLayerIn p H := by
   have h1 : L.subgroupOf H ≤ CFSG.pLayer ↥H p := le_pLayer hL.2
   have h2 := Subgroup.map_mono (f := H.subtype) h1
   rwa [Subgroup.map_subgroupOf_eq_of_le hL.1] at h2
 
+omit [Finite G] in
 theorem isPComponentIn_conj {L : Subgroup G} (hL : IsPComponentIn p L H) {y : G} (hy : y ∈ H) :
     IsPComponentIn p (L.map (MulAut.conj y).toMonoidHom) H := by
   refine ⟨?_, ?_⟩
@@ -49,6 +52,7 @@ theorem isPComponentIn_conj {L : Subgroup G} (hL : IsPComponentIn p L H) {y : G}
     rw [h1]
     exact isPComponent_map p (MulAut.conj (⟨y, hy⟩ : ↥H)) hL.2
 
+omit [Finite G] in
 theorem conj_mem_sSup {S : Set (Subgroup G)} {y : G}
     (hS : ∀ Y ∈ S, Y.map (MulAut.conj y).toMonoidHom ∈ S) {x : G} (hx : x ∈ sSup S) :
     y * x * y⁻¹ ∈ sSup S := by
@@ -59,6 +63,7 @@ theorem conj_mem_sSup {S : Set (Subgroup G)} {y : G}
     exact le_sSup (hS Y hY)
   exact h (Subgroup.mem_map_of_mem _ hx)
 
+omit [Finite G] in
 theorem conj_mem_kSub {y : G} (hyH : y ∈ H) (hyM : y ∈ M) {x : G} (hx : x ∈ kSub p M H) :
     y * x * y⁻¹ ∈ kSub p M H := by
   unfold kSub at hx ⊢
@@ -87,6 +92,7 @@ private theorem comm_conj_aux {Γ : Type*} [Group Γ] (a b c : Γ)
     _ = a * (c * (a⁻¹ * b * a)) * a⁻¹ := by rw [h]
     _ = a * c * a⁻¹ * b := by group
 
+omit [Finite G] in
 theorem conj_mem_xSub {y : G} (hyH : y ∈ H) (hyM : y ∈ M) {x : G} (hx : x ∈ xSub p M H) :
     y * x * y⁻¹ ∈ xSub p M H := by
   obtain ⟨z, hz, rfl⟩ := hx
@@ -127,9 +133,11 @@ theorem relPPrimeCore_le_xSub (hp : p.Prime) (M H : Subgroup G) :
   rw [h1]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem starImg_mono {A B : Subgroup G} (hAB : A ≤ B) : starImg p H A ≤ starImg p H B :=
   Subgroup.map_mono (Subgroup.comap_mono hAB)
 
+omit [Finite G] in
 theorem starImg_le_centralizer_kStar {A : Subgroup G} (hA : A ≤ xSub p M H) :
     starImg p H A ≤ centralizer ((kStar p M H :
       Subgroup (↥H ⧸ primeComplementCore (G := ↥H) p)) :
@@ -153,7 +161,7 @@ theorem starImg_eq_bot (h : NineCore G M p Q H E k) {A : Subgroup G} (hAH : A �
           Subgroup (↥H ⧸ primeComplementCore (G := ↥H) p)) :
             Set (↥H ⧸ primeComplementCore (G := ↥H) p))) :
     starImg p H A = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hA' : IsPGroup 2 (A.subgroupOf H) := hA2.of_equiv (Subgroup.subgroupOfEquivOfLe hAH).symm
   refine map_eq_bot_of_pComponents_normalize h.ne_two hA' hP ?_
   intro L' hL'
@@ -251,7 +259,7 @@ theorem nineEight_three (h : NineCore G M p Q H E k) :
       have hnJ : ¬ pLayerIn p H ≤ M := fun hJ => hLM ((le_pLayerIn hL).trans hJ)
       have hLK : L ≤ kSub p M H := by
         unfold kSub
-        rw [if_neg hnJ]
+        rw [ite_eq_right hnJ]
         exact le_sSup ⟨hL, hLM⟩
       have hAc := starImg_le_centralizer_kStar (p := p) (M := M) (H := H)
         (inf_le_right : A ≤ xSub p M H)
@@ -268,7 +276,7 @@ theorem nineEight_three (h : NineCore G M p Q H E k) :
     have hoH : o ∈ H := (sSup_le fun _ hN => hN.1 : relPPrimeCore p H ≤ H) ho
     have hoY : o ∈ H ⊓ M := ⟨hoH, h.relPPrimeCore_le ho⟩
     exact ⟨hSn o hoY a ha.1, conj_mem_xSub hoY.1 hoY.2 ha.2⟩
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   refine le_antisymm (h.le_pCoreOf_of_le_relPPrimeCore hA2 hAO hAn)
     (le_inf h.pCoreOf_two_le_inf ?_)
   exact (CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.pCoreOf_two_le_relPPrimeCore

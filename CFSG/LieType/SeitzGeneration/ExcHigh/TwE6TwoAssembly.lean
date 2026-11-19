@@ -84,7 +84,7 @@ theorem twE6TwoNative_ge_seven (h1 : TwE6SU6Cover) (h2 : TwE6D4Cover) :
   refine twE6TwoNative_of_covers fun K _ _ σ ℓ f hℓ hf hK hσ p hpF hp5 hp7 hpq => ?_
   obtain ⟨H₁, _, _, ψ₁, hk₁, hH₁, hX₁⟩ := h1 K σ ℓ f hℓ hf hK hσ p hp7 hpq
   obtain ⟨H₂, _, _, ψ₂, hk₂, hH₂, hX₂⟩ := h2 K σ ℓ f hℓ hf hK hσ p hp7 hpq
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := hσ
   have hkcard : Nat.card (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) = ℓ ^ f :=
     CFSG.RankThree.Chevalley.card_eqLocusField_of_pow hℓ hf hK hσ'

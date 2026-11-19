@@ -70,8 +70,8 @@ theorem exists_conj_le_reeLocalParabolic (hK : Nat.card K = 2 ^ (2 * a + 1))
       ∀ x ∈ Subgroup.normalizer (T : Set ↥(F4.reeGamma K a)),
         ((g⁻¹ * x * g : ↥(F4.reeGamma K a)) : ModGL F4.tag K) ∈ F4.reeLocalParabolic K a j := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hfin : Finite (ModGL F4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfin : Finite (ModGL F4.tag K) := finite_modGL
   obtain ⟨S, P, hPtop, hNT, -, -, hNS⟩ := holds_reeGamma (K := K) (a := a) T hT hT2
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem F4.tag).length
   obtain ⟨S₀, hS₀⟩ := (large_Ree_Sylow_opposition F4 a K w₀ hw₀).1

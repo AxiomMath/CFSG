@@ -59,7 +59,7 @@ private theorem Good101.mem_img_centralizer_of_smul (h34 : Stroth34Statement)
     (hcY : Ctx (Subgroup.normalizer (Y : Set G)) (QB Y) Y B)
     {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
     {M₀ : Tim79.QuadModel (QB Y) Y K γ}
-    (hDY : GlobalModelData (Subgroup.normalizer (Y : Set G)) (QB Y) Y γ M₀) {c : G}
+    (_hDY : GlobalModelData (Subgroup.normalizer (Y : Set G)) (QB Y) Y γ M₀) {c : G}
     (hcQ : c ∈ Q) (hcW : c ∉ Wt Q (Vt M (LB M Q B) B Z t)) {s : K} {a : G}
     (haS : a ∈ Q ⊓ QB Y ⊓ Subgroup.centralizer ({c} : Set G))
     (hS₁ : ∀ (s : K) {e : M₀.E}, e ∈ M₀.img (QB Y ⊓ QB (conjSubgroup c Y) ⊓ QB B) →
@@ -194,7 +194,7 @@ private theorem Good101.false_of_exists_centralizer_mul (h34 : Stroth34Statement
     (hcQ : c ∈ Q) (hcW : c ∉ Wt Q (Vt M (LB M Q B) B Z t)) {h a : G}
     (hhw : h * (c * t * c⁻¹) * h⁻¹ = c * t * c⁻¹ * t)
     (ha : a ∈ Q ⊓ QB Y ⊓ Subgroup.centralizer ({c} : Set G))
-    (hha : ⁅h, a⁆ = t) (hr : h * (c * t * c⁻¹ * a) * h⁻¹ = c * t * c⁻¹ * a) : False := by
+    (_hha : ⁅h, a⁆ = t) (hr : h * (c * t * c⁻¹ * a) * h⁻¹ = c * t * c⁻¹ * a) : False := by
   have hwt : c * t * c⁻¹ * t = ⁅t, c⁆ := by
     rw [conj_eq_mul_comm_of_mul_self hs.x_sq c, mul_assoc, ht.comm_comm_self h34 H hs hcQ,
       ← mul_assoc, hs.x_sq, one_mul]

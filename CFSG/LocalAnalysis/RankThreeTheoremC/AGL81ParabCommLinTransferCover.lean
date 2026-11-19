@@ -16,7 +16,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.LocalAnalysis.ComponentInitial LinearFlag 
 
 theorem odd_card_center_of_pCore_eq_bot {X : Type} [Group X] [Finite X]
     (h : CFSG.pCore 2 X = ⊥) : Odd (Nat.card (Subgroup.center X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center X) 2
     (even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hne))
@@ -43,7 +43,7 @@ theorem exists_cover_of_isQuasisimple
       ρ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin n) K) ∧
       ∀ g, e (QuotientGroup.mk (ρ g)) = proj n K g := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hL : IsComponentOf (⊤ : Subgroup X) ⊤ :=
     CFSG.LocalAnalysis.GLTheoremA.isComponentOf_top_of_isQuasisimple hX
   let eT : ↥(⊤ : Subgroup X) ≃* X := Subgroup.topEquiv

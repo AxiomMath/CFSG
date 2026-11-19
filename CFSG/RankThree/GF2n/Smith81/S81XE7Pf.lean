@@ -144,7 +144,7 @@ theorem mem_UA_iff {a : Fin e7Data.d} {u : Gp K} :
       show ∃ c' : (Fin (Tag.rank .E7) → ℤ) → K, xE γ c = prodX (Phi a).toList c'
       refine ⟨fun δ => if δ = γ then c else 0, ?_⟩
       have h := prodX_eq_single (Finset.nodup_toList _) (Finset.mem_toList.2 hγ)
-        (c := fun δ => if δ = γ then c else 0) (fun δ _ hne => if_neg hne)
+        (c := fun δ => if δ = γ then c else 0) (fun δ _ hne => ite_eq_right hne)
       rw [h]
       simp
     obtain ⟨c, hc⟩ := hle hu
@@ -186,8 +186,8 @@ theorem coef_eq_zero_of_prodX_eq {a a' : Fin e7Data.d} {c c' : (Fin (Tag.rank .E
   obtain ⟨b, hb⟩ := exists_pr_eq_neg_one hroot
   have h1 := coef_prodX a c b hroot hb
   have h2 := coef_prodX a' c' b hroot hb
-  rw [h, if_pos hδ] at h1
-  rw [if_neg hδ'] at h2
+  rw [h, ite_eq_left hδ] at h1
+  rw [ite_eq_right hδ'] at h2
   exact h1.symm.trans h2
 
 theorem UA_inf_UA {a a' : Fin e7Data.d}
@@ -228,14 +228,14 @@ private theorem pf_coef_eq_self {a : Fin e7Data.d} {c c' : (Fin (Tag.rank .E7) �
   obtain ⟨b, hb⟩ := exists_pr_eq_neg_one hroot
   have h1 := coef_prodX a c b hroot hb
   have h2 := coef_prodX a c' b hroot hb
-  rw [h, if_pos hδ] at h1
-  rw [if_pos hδ] at h2
+  rw [h, ite_eq_left hδ] at h1
+  rw [ite_eq_left hδ] at h2
   exact h1.symm.trans h2
 
 theorem card_UA_ge [Finite K] (a : Fin e7Data.d) :
     Nat.card K ^ (Phi a).card ≤ Nat.card (UA K a) := by
-  haveI : Finite (Module.End K (V K)) := Module.finite_of_finite K
-  haveI : Finite (Gp K) := Finite.of_injective (e7Data_valid.endo K) (e7Data_valid.endo_injective K)
+  have : Finite (Module.End K (V K)) := Module.finite_of_finite K
+  have : Finite (Gp K) := Finite.of_injective (e7Data_valid.endo K) (e7Data_valid.endo_injective K)
   let F : (↥(Phi a) → K) → ↥(UA K a) := fun f =>
     ⟨prodX (Phi a).toList (fun γ => if h : γ ∈ Phi a then f ⟨γ, h⟩ else 0),
       mem_UA_iff.2 ⟨_, rfl⟩⟩

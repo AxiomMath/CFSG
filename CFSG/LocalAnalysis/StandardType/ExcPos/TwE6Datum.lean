@@ -16,13 +16,13 @@ private theorem lk0xttdat_finite_ggFixGp {f : ℕ} (hf : 1 ≤ f) :
     Finite ↥(ggFixGp .twistedE6 f) := by
   classical
   let K := GaloisField 2 (2 * f)
-  letI : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP GGL 2 := inferInstance
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : CharP K 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
@@ -56,7 +56,7 @@ theorem exists_twE6_datum {f : ℕ} (hf : 1 ≤ f) {w : WeylGroup (langTag .twis
     rfl
   have hFinModel : Finite Δ.model := by
     rw [hmodel]
-    haveI : Finite ↥(ggFixGp .twistedE6 f) := lk0xttdat_finite_ggFixGp hf
+    have : Finite ↥(ggFixGp .twistedE6 f) := lk0xttdat_finite_ggFixGp hf
     refine Finite.of_surjective
       (fun x : ↥(ggFixGp .twistedE6 f) =>
         (⟨(MulAut.conj g⁻¹).toMonoidHom x,

@@ -76,32 +76,32 @@ private theorem exists_adjointGroup_of_exceptional_lieModel
       Nonempty (R ≃* ↥(adjointGroup τ F)) := by
   rcases hτ with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
   · obtain ⟨-, F, hF, hFin, hcard, ⟨e⟩⟩ := hLM.chevalleyExceptionalModel ht
-    letI : Field F := hF
-    letI : Finite F := hFin
+    let : Field F := hF
+    let : Finite F := hFin
     let χ : AdjointQuotient .F4 F ≃* ↥(adjointGroup .F4 F) :=
       (QuotientGroup.quotientMulEquivOfEq
         (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .F4) (K := F))).trans
         QuotientGroup.quotientBot
     exact ⟨F, hF, hFin, hcard, ⟨e.trans χ⟩⟩
   · obtain ⟨-, F, hF, hFin, hcard, ⟨e⟩⟩ := hLM.chevalleyExceptionalModel ht
-    letI : Field F := hF
-    letI : Finite F := hFin
+    let : Field F := hF
+    let : Finite F := hFin
     let χ : AdjointQuotient .E6 F ≃* ↥(adjointGroup .E6 F) :=
       (QuotientGroup.quotientMulEquivOfEq
         (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .E6) (K := F))).trans
         QuotientGroup.quotientBot
     exact ⟨F, hF, hFin, hcard, ⟨e.trans χ⟩⟩
   · obtain ⟨-, F, hF, hFin, hcard, ⟨e⟩⟩ := hLM.chevalleyExceptionalModel ht
-    letI : Field F := hF
-    letI : Finite F := hFin
+    let : Field F := hF
+    let : Finite F := hFin
     let χ : AdjointQuotient .E7 F ≃* ↥(adjointGroup .E7 F) :=
       (QuotientGroup.quotientMulEquivOfEq
         (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .E7) (K := F))).trans
         QuotientGroup.quotientBot
     exact ⟨F, hF, hFin, hcard, ⟨e.trans χ⟩⟩
   · obtain ⟨-, F, hF, hFin, hcard, ⟨e⟩⟩ := hLM.chevalleyExceptionalModel ht
-    letI : Field F := hF
-    letI : Finite F := hFin
+    let : Field F := hF
+    let : Finite F := hFin
     let χ : AdjointQuotient .E8 F ≃* ↥(adjointGroup .E8 F) :=
       (QuotientGroup.quotientMulEquivOfEq
         (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .E8) (K := F))).trans
@@ -164,13 +164,13 @@ theorem exists_mulEquiv_statedSp_of_markedModel
   have hSC : StatedClassicalModel R .PSp r 2 n :=
     hM'.statedClassicalModel (by decide : StatedLieTag.PSp ∈ classicalTags)
   obtain ⟨hadm, F, hF, hFin, hcard, ⟨e⟩⟩ := hSC
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hn : 1 ≤ n := hadm.2.1
   have hchar : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn hcard
-  letI : CharP F 2 := hchar
+  let : CharP F 2 := hchar
   have hbot : (StatedScalars (Fin r ⊕ Fin r) F).subgroupOf (StatedSp r F) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot
   let eS : StatedProj (StatedSp r F) ≃* ↥(StatedSp r F) :=
@@ -363,7 +363,7 @@ private theorem mem_sup_centralizer_of_innerDiag_marking
   obtain ⟨R, _, I, F, hQ, hInn⟩ := rk2_rawDatum_exists hraw'
   obtain ⟨_hs, _hna, θ, hP⟩ := hQ
   obtain ⟨_, hN, hind⟩ := hP
-  haveI : Finite R := Finite.of_equiv _ θ.toEquiv
+  have : Finite R := Finite.of_equiv _ θ.toEquiv
   intro b hb
   obtain ⟨φ, hφI, hφ⟩ := hind b hb
   have hφp : φ ^ p = 1 := by
@@ -463,8 +463,8 @@ private theorem exists_model_exc_of_markedModel
     hcfg.prime hcfg.odd hE6
   obtain ⟨τ, F, hF, hFin, hτ, hcard, ⟨e⟩⟩ :=
     exists_mulEquiv_adjointGroup_of_markedModel_exceptional hM htag
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   obtain ⟨M⟩ := S172Model.nonempty_of_mem_sup hcfg.normal hBin e
   exact ⟨τ, F, hF, hFin, CFSG.LieType.Chevalley.generated_group_finite τ F, hτ, hcard,
     hcenter, ⟨M⟩⟩
@@ -507,8 +507,8 @@ private theorem exists_model_sp_of_markedModel
     · subst ht
       exact hM
   obtain ⟨F, hF, hFin, hcard, ⟨e⟩⟩ := exists_mulEquiv_statedSp_of_markedModel hMB
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   obtain ⟨M⟩ := S172Model.nonempty_of_mem_sup hcfg.normal hBin e
   exact ⟨F, hF, hFin, hcard, hcenter, ⟨M⟩⟩
 

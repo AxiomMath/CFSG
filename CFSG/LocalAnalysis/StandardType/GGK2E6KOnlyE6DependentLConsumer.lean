@@ -30,19 +30,19 @@ theorem ggIsWeylMatrix_card_five
     · exact Or.inr (Or.inr ⟨e, hD⟩)
   · exfalso
     have hc : Fintype.card (Fin 6) = Fintype.card ι := Fintype.card_congr e
-    simpa [hcard] using hc
+    simp [hcard] at hc
   · exfalso
     have hc : Fintype.card (Fin 7) = Fintype.card ι := Fintype.card_congr e
-    simpa [hcard] using hc
+    simp [hcard] at hc
   · exfalso
     have hc : Fintype.card (Fin 8) = Fintype.card ι := Fintype.card_congr e
-    simpa [hcard] using hc
+    simp [hcard] at hc
   · exfalso
     have hc : Fintype.card (Fin 4) = Fintype.card ι := Fintype.card_congr e
-    simpa [hcard] using hc
+    simp [hcard] at hc
   · exfalso
     have hc : Fintype.card (Fin 2) = Fintype.card ι := Fintype.card_congr e
-    simpa [hcard] using hc
+    simp [hcard] at hc
 
 theorem ggResLeviDatumExact2_any_of_dep
     {G : Type} [Group G] [Finite G]
@@ -103,9 +103,9 @@ theorem KOnlyE6_dependent_L_raw
       ∃ c : Fin 5 → ZMod 3,
         h (Sum.inl (e 0)) = ∑ i : Fin 5, c i • h (Sum.inl (e (d5Index i))) := by
   classical
-  letI := Fact.mk (by norm_num : Nat.Prime 3)
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := Fact.mk (by norm_num : Nat.Prime 3)
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hΛa1 : Nat.card Λa = 1 := by
     by_contra hne
     have h2 : 2 ≤ Nat.card Λa := by omega
@@ -229,12 +229,12 @@ theorem KOnlyE6_dependent_L_full
     hS, hA1, hA3, hMLW, hCLW, hMKW, hCKW, htyp, hlin, hrefl, hpair, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩ := hD
   obtain ⟨e, heML⟩ := htyp
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   have hraw := KOnlyE6_dependent_L_raw hH hcardBs hno
     hS hA1 hA3 hMLW hCLW hMKW hCKW e heML hlin hrefl hpair hpairK
     fL hfL fK hfK hclosL hclosK hconn hclosJ hsel

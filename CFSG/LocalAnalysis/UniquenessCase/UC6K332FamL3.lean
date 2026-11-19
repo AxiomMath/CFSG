@@ -31,7 +31,7 @@ theorem outerRow_projSL_three_pow_of_mod_one {p f : ℕ} [Fact p.Prime] (hf : 1 
   have hcard : Nat.card (GaloisField p f) = p ^ f := GaloisField.card p f (by omega)
   have hmod : Nat.card (GaloisField p f) % 3 = 1 := by rw [hcard]; exact hq
   by_cases h3 : 3 ∣ f
-  · haveI : Finite (projectiveSL 3 (GaloisField p f)) :=
+  · have : Finite (projectiveSL 3 (GaloisField p f)) :=
       Finite.of_equiv _ (projSLEquivProjectiveSL 3 (GaloisField p f)).toEquiv
     have hr : p ^ (f / 3) % 3 = 1 := (pow_div_three_mod_three h3).trans hq
     have h2 : 2 ≤ p ^ (f / 3) := hp.two_le.trans (Nat.le_self_pow (by omega) p)
@@ -59,7 +59,7 @@ theorem outerRow_projSU_three_pow_of_mod_two {p f : ℕ} [Fact p.Prime] (hf : 1 
 
 theorem goodRow_psl3_of_mod_one {S : Type} [Group S] [Finite S] {p f : ℕ}
     (h : LieModel S .PSL 3 p f) (hq : p ^ f % 3 = 1) : GoodRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   have hf : 1 ≤ f := h.admissible.2.1
   obtain ⟨e⟩ := nonempty_projSL_of_lieModel h
   exact GoodRow.of_mulEquiv e.symm
@@ -68,7 +68,7 @@ theorem goodRow_psl3_of_mod_one {S : Type} [Group S] [Finite S] {p f : ℕ}
 
 theorem goodRow_psu3_of_mod_two {S : Type} [Group S] [Finite S] {p f : ℕ}
     (h : LieModel S .PSU 3 p f) (hq : p ^ f % 3 = 2) : GoodRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   obtain ⟨-, hf, -, hne⟩ := h.admissible
   obtain ⟨e⟩ := nonempty_projSU_of_lieModel h
   exact GoodRow.of_mulEquiv e.symm
@@ -77,13 +77,13 @@ theorem goodRow_psu3_of_mod_two {S : Type} [Group S] [Finite S] {p f : ℕ}
 
 theorem goodRow_psl3_three_one {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) (h : LieModel S .PSL 3 3 1) : GoodRow S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := nonempty_projSL_of_lieModel h
   exact rowOf_nine_SL3_one S hs hna ⟨e⟩
 
 theorem goodRow_psu3_three_one {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) (h : LieModel S .PSU 3 3 1) : GoodRow S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := nonempty_projSU_of_lieModel h
   exact rowOf_nine_SU3_one S hs hna ⟨e⟩
 

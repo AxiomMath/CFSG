@@ -26,7 +26,7 @@ theorem seven_Sz : ∀ (m : ℕ) (hm : (TauCeti.LieTypeIndex.suzuki m).Valid),
   have h3 : ¬ 3 ∣ Nat.card S := by
     rw [Nat.card_congr (e.trans θ).toEquiv]
     exact not_three_dvd_card_suzukiGroup hK
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   obtain ⟨E, -, -, -, hE9, -⟩ := exists_e9_of_type429 hc.isType
   apply h3
   have h9 : 9 ∣ Nat.card S := hE9 ▸ Subgroup.card_subgroup_dvd_card E
@@ -40,7 +40,7 @@ section Tits
 theorem isInnerAut_of_not_three_dvd_outer {S : Type} [Group S] [Finite S]
     (hout : ¬ 3 ∣ Nat.card (Outer S)) {σ : MulAut S} (hσ3 : σ ^ 3 = 1) : IsInnerAut σ := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
+  have := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
   have := CFSG.RankThree.PartTwo.KFacts.OutFixCentralThree.finite_outer S
   set x : Outer S := QuotientGroup.mk' (inner S) σ with hx
   have h1 : x ^ 3 = 1 := by rw [hx, ← map_pow, hσ3, map_one]
@@ -58,7 +58,7 @@ theorem seven_Tits : ∀ ht : TauCeti.LieTypeIndex.tits.Valid,
   intro ht
   refine rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => ?_
   intro A σ K hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have hσ3 := cfgS429_pow_three hc
   obtain ⟨E, hEK, hEc, hE3, hE9, hEZ⟩ := exists_e9_of_type429 hc.isType
   have hfix : ∀ k ∈ K, σ k = k := fun k hk => Sec4.mem_autFix.mp (hc.le_autFix hk)

@@ -19,7 +19,7 @@ section Frame
 @[expose] def frameMat (c : F) : Matrix (Fin 3) (Fin 3) F :=
   !![1, c, 0; 0, 0, 1; (2 : F)⁻¹, -(c * (2 : F)⁻¹), 0]
 
-theorem conjTr_antidiag3 (hσ : ∀ x, σ (σ x) = x) : conjTr σ (antidiag 3 : Matrix (Fin 3) (Fin 3) F) =
+theorem conjTr_antidiag3 (_hσ : ∀ x, σ (σ x) = x) : conjTr σ (antidiag 3 : Matrix (Fin 3) (Fin 3) F) =
     antidiag 3 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [conjTr, antidiag]

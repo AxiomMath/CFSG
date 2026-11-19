@@ -23,6 +23,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x : G}
   {J : Subgroup G}
 
+omit [Finite G] in
 private theorem u3c_commutator_double_eq_self (P K : Subgroup G)
     (hPK : P ≤ Subgroup.normalizer (K : Set G))
     (hcop : Nat.Coprime (Nat.card P) (Nat.card (↥K))) :
@@ -75,6 +76,7 @@ private theorem u3c_mem_normalizer_commutator {A D : Subgroup G} {g : G}
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hA hD ⊢
   rw [Subgroup.map_commutator, hA, hD]
 
+omit [Finite G] in
 private theorem u3c_exists_mul_of_sup_eq {T Z S : Subgroup G}
     (hcomm : ∀ z ∈ Z, ∀ t ∈ T, z * t = t * z) (hsup : T ⊔ Z = S) :
     ∀ s ∈ S, ∃ t ∈ T, ∃ z ∈ Z, s = t * z := by
@@ -91,7 +93,7 @@ private theorem u3c_commutator_le_O (hc : U3Config G p P M x J) {D : Subgroup G}
     {t : G} (ht : t ∈ u3ZT P x J) (htD : t ∈ Subgroup.normalizer (D : Set G)) :
     ⁅D, Subgroup.zpowers t⁆ ≤ rankThreePrimeCore p J := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hTcard, hTexp, hTnab, hxJ⟩ := u3_T_structure hc
   obtain ⟨-, -, -, -, -, -, hZTJ⟩ := u3U0_facts hc
   have htT : t ∈ u3T P x J := ht.1
@@ -103,7 +105,7 @@ private theorem u3c_commutator_le_O (hc : U3Config G p P M x J) {D : Subgroup G}
   have htp : t ^ p = 1 := hTexp t htT
   have hto : orderOf t = p := orderOf_eq_prime htp ht1
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.u3
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hOcop : p.Coprime (Nat.card (rankThreePrimeCore p J)) := glbPrimeCore_coprime p J
   have hu1 : ψ ⟨t, htJ⟩ ≠ 1 := by
     intro h
@@ -191,7 +193,7 @@ private theorem u3c_le_M (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoc
     (hc : U3Config G p P M x J) {D : Subgroup G} (hDC : D ≤ Subgroup.centralizer ({x} : Set G))
     (hcomm : ∀ t ∈ u3ZT P x J, ∀ d ∈ D, d * t * d⁻¹ * t⁻¹ ∈ rankThreePrimeCore p J) : D ≤ M := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hU0el, hU0card, hU0S, hxU0, hU0cent, hZTcard, hZTJ⟩ := u3U0_facts hc
   have hJC : J ≤ Subgroup.centralizer ({x} : Set G) := hc.le_cent
   have hCJ : Subgroup.centralizer ({x} : Set G) ≤ Subgroup.normalizer (J : Set G) := hc.cent_le
@@ -288,7 +290,7 @@ theorem u3_cor46 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     ∀ F : Subgroup G, ¬ p ∣ Nat.card F → u3U0 P x J ≤ Subgroup.normalizer (F : Set G) → F ≤ M := by
   intro F hFp hFN
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hU0el, hU0card, hU0S, hxU0, hU0cent, hZTcard, hZTJ⟩ := u3U0_facts hc
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ p = 1 := hc.generic.2.1.2.2.1

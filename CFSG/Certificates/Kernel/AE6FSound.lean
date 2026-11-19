@@ -118,7 +118,7 @@ theorem fDiagChecks_eq (hG : Gens G) (hW : allTables (wQ ()) = WL.map (tabN 360 
   unfold fDiagChecks fDiagChecksN fCycTabs fCycTabsN fCycs diagWordTable z0
   simp only [hW, List.map_map, Function.comp_def,
     toTable_inv (by norm_num : (360 : Nat) < 2 ^ 32), toTable_aeWord hG.get, hG.get,
-    compT_tabN' dims, invT_tabN' dims, idT_tabN' dims, getD_map_pair, tableEval_tabN,
+    invT_tabN' dims, idT_tabN' dims, getD_map_pair, tableEval_tabN,
     memT_tabN, tblEq_tabN' dims]
 
 end CFSG.KC.AE6F

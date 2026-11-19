@@ -16,6 +16,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G}
   {S A B Aa D : Subgroup G} {z b : G}
 
+omit [Finite G] in
 private theorem conj_eq_self_of_mem_centralizer (hD : DHyp A Aa t D) {n v : G}
     (hn : n ∈ centralizer (omega1 D hD.comm : Set G)) (hv : v ∈ omega1 D hD.comm) :
     n * v * n⁻¹ = v := by
@@ -23,6 +24,7 @@ private theorem conj_eq_self_of_mem_centralizer (hD : DHyp A Aa t D) {n v : G}
   calc n * v * n⁻¹ = (v * n) * n⁻¹ := by rw [← h]
     _ = v := by group
 
+omit [Finite G] in
 private theorem vConj_eq_one_of_mem_centralizer (hD : DHyp A Aa t D) {n : G}
     (hn : n ∈ centralizer (omega1 D hD.comm : Set G)) : vConj hD n = 1 := by
   refine AbelianSub.end_ext fun v => ?_
@@ -81,6 +83,7 @@ private theorem pow_eight_mem_wreathP₁ (hD : DHyp A Aa t D) {Q : Subgroup G}
   rw [hk8]
   exact Subgroup.pow_mem (wreathP₁ hD Q w) (mem_wreathP₁_of_odd hD hoN₁ hoodd) 4
 
+omit [Finite G] in
 private theorem exists_pow_mul_eq_of_normal {N P : Subgroup G}
     (hNP : ∀ n ∈ N, ∀ y ∈ P, n * y * n⁻¹ ∈ P) {a b : G} (ha : a ∈ P) (hb : b ∈ N) (n : ℕ) :
     ∃ c ∈ P, (a * b) ^ n = c * b ^ n := by
@@ -97,6 +100,7 @@ private theorem exists_pow_mul_eq_of_normal {N P : Subgroup G}
               rw [pow_succ]
               group
 
+omit [Finite G] in
 private theorem mem_of_pow_eight_mem_of_odd {P : Subgroup G} {x : G} (h8 : x ^ 8 ∈ P)
     (hodd : Odd (orderOf x)) : x ∈ P := by
   have hcop : Nat.Coprime 8 (orderOf x) := by
@@ -238,7 +242,7 @@ theorem ThCyc.mem_sup_of_odd (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     · rintro z (hz | hz)
       · exact Subgroup.subset_closure (Or.inl (hP1normal n hn z hz))
       · exact Subgroup.subset_closure (Or.inr (hP2normal n hn z hz))
-    · simpa using (Subgroup.closure _).one_mem
+    · simp
     · intro a c _ _ ha hc
       rw [show n * (a * c) * n⁻¹ = (n * a * n⁻¹) * (n * c * n⁻¹) by group]
       exact (Subgroup.closure _).mul_mem ha hc
@@ -265,6 +269,7 @@ theorem ThCyc.mem_sup_of_odd (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     exact (wreathP₁ hD Q w ⊔ wreathP₁ hD Q (w + 1)).mul_mem hc hk8
   exact mem_of_pow_eight_mem_of_odd hx8 hodd
 
+omit [Finite G] in
 private theorem phiQ_eq_zero_or_eq_w_of_mem_wreathP₁ (hD : DHyp A Aa t D)
     {w : AddMonoid.End (VSub hD)} (hww : w * w = w) {Q : Subgroup G} (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
@@ -324,6 +329,7 @@ private theorem phiQ_eq_zero_or_eq_w_of_mem_wreathP₁ (hD : DHyp A Aa t D)
     rw [hb, Subgroup.card_bot] at hcard
     norm_num at hcard
 
+omit [Finite G] in
 private theorem phiQ_eq_zero_or_eq_add_one_of_mem_wreathP₂ (hD : DHyp A Aa t D)
     {w : AddMonoid.End (VSub hD)} (hww : w * w = w) {Q : Subgroup G} (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
@@ -381,6 +387,7 @@ private theorem phiQ_eq_zero_or_eq_add_one_of_mem_wreathP₂ (hD : DHyp A Aa t D
     norm_num at hcard
   · exact Or.inr hw1'
 
+omit [Finite G] in
 private theorem phiQ_pow_eq_nsmul (hD : DHyp A Aa t D) {Q : Subgroup G} (hQ : QHyp L A D t Q)
     (hq4 : ∀ q ∈ Q, q ^ 4 = 1) (hsq : ∀ v ∈ omega1 D hD.comm, ∃ q ∈ Q, q ^ 2 = v)
     {c : G} (hc : c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G))

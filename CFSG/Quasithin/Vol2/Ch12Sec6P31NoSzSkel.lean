@@ -21,7 +21,7 @@ variable {Y W : Type*} [Group Y] [CommGroup W]
 theorem fixed_inf_commutator_eq_bot [Finite W] (hW : ∀ w : W, w * w = 1) (ρ : Y →* MulAut W)
     (E : Subgroup Y) [Finite E] (hodd : Odd (Nat.card E)) {w : W} (hw : ∀ e ∈ E, ρ e w = w)
     (hD : w ∈ commW ρ E) : w = 1 := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   let Nm : W →* W :=
     { toFun := fun x => ∏ e : E, ρ e x
       map_one' := by simp
@@ -59,7 +59,7 @@ theorem commW_invariant (ρ : Y →* MulAut W) (E : Subgroup Y) [E.Normal] (y : 
     obtain ⟨e, he, v, rfl⟩ := hu
     refine Subgroup.subset_closure ⟨y * e * y⁻¹, (inferInstance : E.Normal).conj_mem e he y, ρ y v, ?_⟩
     simp [map_mul]
-  | one => simpa using (commW ρ E).one_mem
+  | one => simp
   | mul a b _ _ ha hb =>
     rw [map_mul]
     exact (commW ρ E).mul_mem ha hb
@@ -119,7 +119,7 @@ theorem fixed_eq_one_of_normal_odd [Finite W] (hW : ∀ w : W, w * w = 1) (ρ : 
       refine Subgroup.subset_closure ⟨s * e * s⁻¹, (inferInstance : E.Normal).conj_mem e he s, ρ s v,
         hSU s hs v hv, ?_⟩
       simp [map_mul]
-    | one => simpa using (commU ρ E U).one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
       rw [map_mul]
       exact (commU ρ E U).mul_mem ha hb
@@ -151,7 +151,7 @@ variable {Y W : Type*} [Group Y] [CommGroup W]
 
 theorem trivial_of_head (ρ : Y →* MulAut W) (K : Subgroup Y) (x : Y)
     (hxK : ∀ k ∈ K, x * k = k * x) (M C : Subgroup W)
-    (hMK : ∀ k ∈ K, ∀ m ∈ M, ρ k m ∈ M)
+    (_hMK : ∀ k ∈ K, ∀ m ∈ M, ρ k m ∈ M)
     (hMgen : M ≤ commU ρ K M) (hCfix : ∀ k ∈ K, ∀ c ∈ C, ρ k c = c)
     (hxC : ∀ m ∈ M, ρ x m * m⁻¹ ∈ C) : ∀ m ∈ M, ρ x m = m := by
   have hφ : ∀ m ∈ commU ρ K M, ρ x m * m⁻¹ = 1 := by

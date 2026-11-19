@@ -19,13 +19,13 @@ theorem perm_six_pow_nine : ∀ σ : Equiv.Perm (Fin 6), σ ^ 9 = 1 → σ ^ 3 =
 
 theorem pRank_three_alternating_six :
     CFSG.Open.pRank 3 (⊤ : Subgroup (alternatingGroup (Fin 6))) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     decide
   obtain ⟨E, hE⟩ := Sylow.exists_subgroup_card_pow_prime (G := alternatingGroup (Fin 6)) 3
     (n := 2) (by rw [hcard]; norm_num)
-  have hcomm : ∀ a b : E, a * b = b * a := IsPGroup.commutative_of_card_eq_prime_sq hE
+  have hcomm : ∀ a b : E, a * b = b * a := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hE).is_comm.comm
   have hE3 : ∀ x ∈ E, x ^ 3 = 1 := by
     intro x hx
     have h9 : (⟨x, hx⟩ : E) ^ 9 = 1 := by
@@ -54,7 +54,7 @@ end Alt6
 
 theorem lieModel_psl_two_five_two_two {G : Type} [Group G] {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 5) (e : G ≃* StatedProj (StatedSL 2 K)) : LieModel G .PSL 2 2 2 := by
-  haveI := CFSG.Adapters.certificate43_holds
+  have := CFSG.Adapters.certificate43_holds
   obtain ⟨e5⟩ := CFSG.ClassicalModels.nonempty_statedLinearModel_equiv_alternating_five K
     (Or.inr hK)
   have hK4 : Nat.card (GaloisField 2 2) = 2 ^ 2 := GaloisField.card 2 2 (by norm_num)

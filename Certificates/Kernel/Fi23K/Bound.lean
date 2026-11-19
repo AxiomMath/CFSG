@@ -158,23 +158,23 @@ theorem letters_mem_aux : ∀ j ≤ 12, ∀ l < 2 * j, ∃ p ∈ Xc, ActsAs p (L
         obtain ⟨hz0, hzj⟩ := hz z hzm
         unfold regZ
         by_cases h1 : z = 1 ∨ z = -1
-        · rw [if_pos h1]
+        · rw [ite_eq_left h1]
           exact atom_mem (Or.inl rfl)
-        rw [if_neg h1]
+        rw [ite_eq_right h1]
         by_cases h2 : z = 2
-        · rw [if_pos h2]
+        · rw [ite_eq_left h2]
           exact atom_mem (Or.inr (Or.inl rfl))
-        rw [if_neg h2]
+        rw [ite_eq_right h2]
         by_cases h3 : z = -2
-        · rw [if_pos h3]
+        · rw [ite_eq_left h3]
           exact atom_mem (Or.inr (Or.inr rfl))
-        rw [if_neg h3]
+        rw [ite_eq_right h3]
         have hj' : z.natAbs - 3 < j := by omega
         by_cases hp : 0 < z
-        · rw [if_pos hp]
+        · rw [ite_eq_left hp]
           obtain ⟨p, hp, hpa⟩ := ih (2 * (z.natAbs - 3)) (by omega)
           exact ⟨p, hp, hpa⟩
-        · rw [if_neg hp]
+        · rw [ite_eq_right hp]
           obtain ⟨p, hp, hpa⟩ := ih (2 * (z.natAbs - 3) + 1) (by omega)
           refine ⟨p, hp, fun x hx => ?_⟩
           rw [hpa x hx]

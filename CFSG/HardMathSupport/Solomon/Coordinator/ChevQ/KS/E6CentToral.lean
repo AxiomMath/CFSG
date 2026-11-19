@@ -21,11 +21,13 @@ section Toral
 
 variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 
+omit [CharP L 2] in
 theorem Std8.Γ_le_model (D : Std8 L) : D.S.Γ ≤ D.S.D.model :=
   commutator_le_self_of_subgroup D.S.D.model
 
+omit [CharP L 2] in
 theorem Std8.finite_Γ (D : Std8 L) : Finite ↥D.S.Γ := by
-  haveI : Finite ↥D.S.D.model := D.S.finite
+  have : Finite ↥D.S.D.model := D.S.finite
   exact Finite.of_injective (Subgroup.inclusion D.Γ_le_model) (Subgroup.inclusion_injective _)
 
 theorem Std8.exists_lift_list (D : Std8 L) (l : List (Fin Tag.E6.rank)) :
@@ -51,6 +53,7 @@ theorem Std8.exists_lift_list (D : Std8 L) (l : List (Fin Tag.E6.rank)) :
 noncomputable def Std8.E (D : Std8 L) {ω : Lˣ} (hω : ω ^ 3 = 1) : Subgroup ↥D.S.Γ :=
   (dVHom (τ := Tag.E6) hω).range.subgroupOf D.S.Γ
 
+omit [CharP L 2] in
 theorem Std8.mem_E (D : Std8 L) {ω : Lˣ} (hω : ω ^ 3 = 1) {g : ↥D.S.Γ} :
     g ∈ D.E hω ↔ ∃ x : Fin Tag.E6.rank → ZMod 3, (g : ModGL Tag.E6 L) = dV ω x := by
   rw [Std8.E, Subgroup.mem_subgroupOf, MonoidHom.mem_range]
@@ -70,6 +73,7 @@ theorem Std8.isPGroup_E (D : Std8 L) {ω : Lˣ} (hω : ω ^ 3 = 1) : IsPGroup 3 
   rw [hx, pow_one]
   exact dV_pow_three hω x
 
+omit [CharP L 2] in
 theorem Std8.conj_pow_dV (D : Std8 L) {ω : Lˣ} {n : ↥D.S.Γ}
     (hn : ∀ x : Fin Tag.E6.rank → ZMod 3, (n : ModGL Tag.E6 L) * dV ω x *
       (n : ModGL Tag.E6 L)⁻¹ = dV ω (gAct x)) (k : ℕ) (x : Fin Tag.E6.rank → ZMod 3) :
@@ -92,7 +96,7 @@ theorem Std8.exists_conj_dV_of_threeCentral (D : Std8 L)
     {ω : Lˣ} (hω : orderOf ω = 3) {z : ↥D.S.Γ} (hz : IsThreeCentral ↥D.S.Γ z) :
     ∃ (g : ↥D.S.Γ) (c : ZMod 3), c ≠ 0 ∧
       ((g * z * g⁻¹ : ↥D.S.Γ) : ModGL Tag.E6 L) = dV ω (c • x0) := by
-  haveI := D.finite_Γ
+  have := D.finite_Γ
   have hω3 : ω ^ 3 = 1 := by
     have := pow_orderOf_eq_one ω
     rwa [hω] at this

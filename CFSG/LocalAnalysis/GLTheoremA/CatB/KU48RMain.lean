@@ -23,7 +23,7 @@ variable {G : Type} [Group G]
 @[expose] def conjL (L : Subgroup G) (a : G) (ha : a ∈ Subgroup.normalizer (L : Set G)) : ↥L ≃* ↥L where
   toFun x := ⟨a * x * a⁻¹, (Subgroup.mem_normalizer_iff.1 ha x).1 x.2⟩
   invFun x := ⟨a⁻¹ * x * a, (Subgroup.mem_normalizer_iff.1 ha (a⁻¹ * x * a)).2
-    (by simpa [mul_assoc] using x.2)⟩
+    (by simp [mul_assoc])⟩
   left_inv x := Subtype.ext (by simp [mul_assoc])
   right_inv x := Subtype.ext (by simp [mul_assoc])
   map_mul' x y := Subtype.ext (by simp [mul_assoc])
@@ -197,8 +197,8 @@ theorem u48RootResidual_holds (G : Type) [Group G] [Finite G] :
   have hRtot := Rs_totIso (Wof (TT (T := T) e)) (Wof_unitary _)
   have hcard : Nat.card ↥(Om (Rs (Wof (TT (T := T) e)))) % 3 ≠ 0 := by
     rcases card_Om_mod _ hRtot hRs with h | h <;> rw [h] <;> norm_num
-  haveI : Finite ↥(Om (Rs (Wof (TT (T := T) e)))) := (Om_finite _).to_subtype
-  letI actA : MulAction ↥A ↥(Om (Rs (Wof (TT (T := T) e)))) :=
+  have : Finite ↥(Om (Rs (Wof (TT (T := T) e)))) := (Om_finite _).to_subtype
+  let actA : MulAction ↥A ↥(Om (Rs (Wof (TT (T := T) e)))) :=
     { smul := fun a Y => ⟨Y.1.map (alphaA e (a : G) (hAN a.2)).toMonoidHom,
         om_alphaA e (a : G) (hAN a.2) (hAT a.2) Y.2⟩
       one_smul := fun Y => Subtype.ext (map_alphaA_one e Y.1 (hAN (1 : ↥A).2) rfl)

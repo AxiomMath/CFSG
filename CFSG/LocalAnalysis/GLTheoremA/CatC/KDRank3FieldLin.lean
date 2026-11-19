@@ -19,7 +19,7 @@ theorem dvd_exponent_of_dvd_outer_projectiveSL {K : Type} [Field K] [Finite K] {
     (hn : 3 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f) (hK : Nat.card K = p ^ f)
     (h : p ∣ Nat.card (Outer (projectiveSL n K))) : p ∣ f := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hgen, -⟩ := automorphism_generation (K := K) hn
   obtain ⟨hID, -, hDnormR, -, -, -, -, hidx, -⟩ := standard_outer_quotients (n := n) (K := K)
   have hDN : (linearAutGroup n K).Normal :=
@@ -34,7 +34,7 @@ theorem dvd_exponent_of_dvd_outer_projectiveSL {K : Type} [Field K] [Finite K] {
       rw [hgen] at this
       change (semilinearAutGroup n K).relIndex ⊤ ≤ 2 at this
       rwa [Subgroup.relIndex_top_right] at this
-    haveI : Finite (MulAut (projectiveSL n K)) :=
+    have : Finite (MulAut (projectiveSL n K)) :=
       Finite.of_injective (fun α : MulAut (projectiveSL n K) => (α : projectiveSL n K → _))
         fun _ _ h => MulEquiv.ext (congrFun h)
     have h0 : (semilinearAutGroup n K).index ≠ 0 := Subgroup.index_ne_zero_of_finite
@@ -67,7 +67,7 @@ theorem dvd_exponent_of_dvd_outer_projectiveSL {K : Type} [Field K] [Finite K] {
   have hED : (linearAutGroup n K).relIndex (semilinearAutGroup n K) ∣ f := by
     set D := linearAutGroup n K
     set E := semilinearAutGroup n K
-    haveI : (D.subgroupOf E).Normal := inferInstance
+    have : (D.subgroupOf E).Normal := inferInstance
     let Φ : (K ≃+* K) →* ↥E ⧸ D.subgroupOf E :=
       (QuotientGroup.mk' (D.subgroupOf E)).comp
         ((fieldAut n K).codRestrict E fun σ => fieldAut_mem_semilinearAutGroup σ)

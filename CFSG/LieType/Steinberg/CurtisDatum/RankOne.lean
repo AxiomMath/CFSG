@@ -105,7 +105,7 @@ theorem rankOnePhi_mem (hct : IsCTGroupDatum cs ρ D.roots D.rootGroup n H)
     (hx : x ∈ D.rootGroup (Pi.single i 1)) (hx1 : x ≠ 1) :
     rankOnePhi hct hext hBU i x ∈ H i := by
   unfold rankOnePhi
-  rw [dif_pos ⟨hx, hx1⟩]
+  rw [dite_eq_left ⟨hx, hx1⟩]
   exact (Classical.choice (exists_rankOne_data hct hext hBU i ⟨hx, hx1⟩)).h_mem
 
 theorem rankOnePsi_mem (hct : IsCTGroupDatum cs ρ D.roots D.rootGroup n H)
@@ -120,7 +120,7 @@ theorem rankOnePhi_spec (hct : IsCTGroupDatum cs ρ D.roots D.rootGroup n H)
     ∃ l ∈ negUnipotent D, ∃ u ∈ posUnipotent D,
       x * n i = l * rankOnePhi hct hext hBU i x * u := by
   unfold rankOnePhi
-  rw [dif_pos ⟨hx, hx1⟩]
+  rw [dite_eq_left ⟨hx, hx1⟩]
   let d := Classical.choice (exists_rankOne_data hct hext hBU i ⟨hx, hx1⟩)
   refine ⟨(n i)⁻¹ * d.u * n i, ?_, d.v,
     rootGroup_le_posUnipotent ((Φ).single_mem i) (ht_single_pos i) d.v_mem, ?_⟩
@@ -136,7 +136,7 @@ theorem rankOnePsi_spec (hct : IsCTGroupDatum cs ρ D.roots D.rootGroup n H)
     ∃ a ∈ D.rootGroup (Pi.single i 1), ∃ u ∈ posUnipotent D,
       n i * x * n i = a * n i * rankOnePsi hct hext hBU i x * u := by
   unfold rankOnePsi rankOnePhi
-  rw [dif_pos ⟨hx, hx1⟩]
+  rw [dite_eq_left ⟨hx, hx1⟩]
   let d := Classical.choice (exists_rankOne_data hct hext hBU i ⟨hx, hx1⟩)
   exact ⟨d.u, d.u_mem, d.v,
     rootGroup_le_posUnipotent ((Φ).single_mem i) (ht_single_pos i) d.v_mem, d.eq⟩

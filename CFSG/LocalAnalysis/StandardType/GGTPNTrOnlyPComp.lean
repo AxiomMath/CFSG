@@ -25,7 +25,7 @@ theorem tpo_ggTPNOnlyAmb_le_of_pComp (hQ : GGPCompCentQuasisimple fun _ => True)
     (hS : LargeEvenPComponent p (Subgroup.centralizer (D : Set G)) S) (hSL : S ≤ L) : S = J := by
   have hp : p.Prime := hc.1.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hc.1.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSstar : LargeEvenSStar p B x L := hc.1.2.2.2.2.2.2.1
   have hDJ : LargeEvenStdSubPre p B x L D J := hc.2.2.1
   have hx1 : x ≠ 1 := hSstar.2.2.1
@@ -149,10 +149,10 @@ theorem tpo_ggTPNOnlyAmb_le_of_pComp (hQ : GGPCompCentQuasisimple fun _ => True)
       ⟨Group.isPerfect_def.mp hquasiS.1, hquasiS.2.1⟩
     have hSperf : ⁅S, S⁆ = S := commutator_self_eq_of_isQuasisimple hqAsm
     have hSbot : S = ⊥ := by rw [← hSperf, hSS]
-    haveI hsub : Subsingleton (↥S ⧸ Subgroup.center ↥S) := by
+    have hsub : Subsingleton (↥S ⧸ Subgroup.center ↥S) := by
       rw [hSbot]
       infer_instance
-    haveI hnt : Nontrivial (↥S ⧸ Subgroup.center ↥S) := hquasiS.2.1.toNontrivial
+    have hnt : Nontrivial (↥S ⧸ Subgroup.center ↥S) := hquasiS.2.1.toNontrivial
     exact (not_subsingleton_iff_nontrivial (α := ↥S ⧸ Subgroup.center ↥S)).mpr hnt hsub
 
 theorem ggTPNTrOnly_of_pComp

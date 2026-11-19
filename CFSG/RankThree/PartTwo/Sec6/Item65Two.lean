@@ -229,7 +229,7 @@ theorem rank3II_6_5_two (h45 : Sec4.Item4_5) (h48 : Sec4.Item4_8) (hG : PartTwoS
     have hP1 : (P : Subgroup X).map X.subtype ≠ ⊥ := by
       rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ X.subtype_injective]
       exact Sylow.ne_bot_of_dvd_card P h2X
-    exact hkey E hEab hE27 le_sup_left hEAL _ hP1 (P.isPGroup'.map X.subtype) hEP
+    exact hkey E hEab hE27 le_sup_left hEAL _ hP1 (P.isPGroup.map X.subtype) hEP
   ·
     obtain ⟨S, hAS⟩ :=
       CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
@@ -255,6 +255,6 @@ theorem rank3II_6_5_two (h45 : Sec4.Item4_5) (h48 : Sec4.Item4_8) (hG : PartTwoS
       (fun β hβ => hcommA β (hBA hβ) x hxA)
     exact hkey _ hEab (by rw [hEcard, hB9]) le_sup_left
       ((sup_le hBA (Subgroup.zpowers_le.mpr hxA)).trans le_sup_left) _ hS1
-      (S.isPGroup'.map L.subtype) ((sup_le hBA (Subgroup.zpowers_le.mpr hxA)).trans hAS)
+      (S.isPGroup.map L.subtype) ((sup_le hBA (Subgroup.zpowers_le.mpr hxA)).trans hAS)
 
 end CFSG.RankThree.PartTwo.Sec6

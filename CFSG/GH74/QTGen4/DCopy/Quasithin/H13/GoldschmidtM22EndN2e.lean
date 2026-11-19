@@ -83,7 +83,7 @@ theorem false_of_five_le_F4 (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h62
       have := CFSG.QuasithinUnique.C5.relIndex_conjSubgroup (V ⊓ CHU T L V) V (g : G)
       rw [CFSG.QuasithinUnique.C5.conjSubgroup_inf,
         CFSG.Quasithin.conjSubgroup_eq_iff_mem_normalizer.mpr
-          (HH_le_normalizer_CHU h hZ hgH)] at this
+          (HH_le_normalizer_CHU hZ hgH)] at this
       rw [this]
       exact relIndex_V_CHU_F4 h h6211
     refine relIndex_eq_two_of_lt (A := conjSubgroup V (g : G) ⊓ CHU T L V)

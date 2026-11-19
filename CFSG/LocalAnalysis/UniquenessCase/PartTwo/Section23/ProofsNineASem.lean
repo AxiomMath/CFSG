@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem centralizer_hyp_of_mem_B0 {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (h1930 : H1930 D) (h54 : S23_5_4 D Ch) (h6 : S23_6 D Ch)
     {b : G} (hb : b ∈ c.B0) (hbZ : b ∉ Subgroup.centralizer (D.Z : Set G))
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
+    {q : ℕ} (hq : q.Prime) (_hq2 : q ≠ 2) :
     ∀ X : Subgroup G, X ≠ ⊥ → IsPGroup q ↥X →
       X ≤ D.M ⊓ Subgroup.centralizer ({b} : Set G) → X ∉ uniqueSet D.M ∧ q ∉ D.sig := by
   intro X hXne hXq hXle
@@ -40,7 +40,7 @@ private theorem exists_mem_sup_commute_of_mem_centralizer {D : Data G} {Ch : Cho
       z * ⟨e, he⟩ = ⟨e, he⟩ * z ∧
       (z : G) ∈ CFSG.Open.pCoreOf 2 D.M ⊔ d.Q := by
   classical
-  haveI : Fact d.q.Prime := ⟨d.hq⟩
+  have : Fact d.q.Prime := ⟨d.hq⟩
   let eM : ↥D.M := ⟨e, he⟩
   let eBar : Bar2 D.M := QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) eM
   have heoddM : Odd (orderOf eM) := (Subgroup.orderOf_coe eM).symm ▸ heodd
@@ -68,7 +68,7 @@ private theorem exists_sylow_sup_mem {D : Data G} {Ch : Choice2011 G}
       D.M ≤ Subgroup.normalizer
         ((CFSG.Open.pCoreOf 2 D.M ⊔ Q₁ : Subgroup G) : Set G) := by
   classical
-  haveI : Fact d.q.Prime := ⟨d.hq⟩
+  have : Fact d.q.Prime := ⟨d.hq⟩
   let P : Subgroup G := CFSG.Open.pCoreOf 2 D.M ⊔ d.Q
   have hzP' : (z : G) ∈ P := hzP
   let X : Subgroup G := Subgroup.zpowers (z : G)
@@ -167,16 +167,16 @@ theorem S23_9_A0Data.fixV_zpowers_eq_bot_of_semireg_hyp {D : Data G} {Ch : Choic
   have hnotdvd : ¬ r ∣ Nat.card ↥(CFSG.pCore 2 ↥D.M) :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup CFSG.pCore_isPGroup hr hr2
   have heMr : orderOf eM = r := (Subgroup.orderOf_coe eM).symm.trans her
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hebar : orderOf eBar = r :=
     CFSG.GroupTheory.CoprimeTransport.orderOf_mk_eq_prime hnotdvd heMr
   have hEcent := E_inf_centralizer_eq_bot c d h1930 hSem he heodd hXhyp
   constructor
-  · letI : Fact d.q.Prime := ⟨d.hq⟩
-    letI : d.E.Normal := d.hEnorm
-    letI : IsPGroup d.q ↥d.E := d.hEp
-    letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-    letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  · let : Fact d.q.Prime := ⟨d.hq⟩
+    let : d.E.Normal := d.hEnorm
+    let : IsPGroup d.q ↥d.E := d.hEp
+    let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+    let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
     have heBarMem : eBar ∈ barImage D.M (Subgroup.zpowers e) :=
       Subgroup.mem_map.mpr
         ⟨eM, Subgroup.mem_subgroupOf.mpr (Subgroup.mem_zpowers e), rfl⟩
@@ -189,8 +189,8 @@ theorem S23_9_A0Data.fixV_zpowers_eq_bot_of_semireg_hyp {D : Data G} {Ch : Choic
     exact CFSG.GroupTheory.frattiniRep_conjNormal_eq_zero_of_inf_centralizer_eq_bot
       (P := d.E) d.hEp hr hebar hEcent v hv'
   · intro hrq
-    haveI : Fact d.q.Prime := ⟨d.hq⟩
-    haveI : d.E.Normal := d.hEnorm
+    have : Fact d.q.Prime := ⟨d.hq⟩
+    have : d.E.Normal := d.hEnorm
     have hord : orderOf eBar ≠ d.q :=
       CFSG.GroupTheory.orderOf_ne_of_inf_centralizer_eq_bot (P := d.E) d.hEp d.hEne
         (Subgroup.le_normalizer_of_normal (H := d.E) (Subgroup.mem_zpowers eBar)) hEcent

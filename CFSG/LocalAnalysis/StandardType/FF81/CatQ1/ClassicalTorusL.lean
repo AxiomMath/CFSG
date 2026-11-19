@@ -95,7 +95,7 @@ private lemma cq1_exists_diag_conj_of_pow_three {F : Type} [Field F] {n : ℕ} {
     funext j i
     rfl
   have hPmunit : IsUnit Pm :=
-    Matrix.linearIndependent_cols_iff_isUnit.mp (by rw [hPmcol]; exact bs.linearIndependent)
+    Matrix.linearIndependent_col_iff_isUnit.mp (by rw [hPmcol]; exact bs.linearIndependent)
   let P : GL (Fin n) F := hPmunit.unit
   have hPval : (P : Matrix (Fin n) (Fin n) F) = Pm := IsUnit.unit_spec hPmunit
   have hAPm : (A : Matrix (Fin n) (Fin n) F) * Pm = Pm * diagonal μ := by

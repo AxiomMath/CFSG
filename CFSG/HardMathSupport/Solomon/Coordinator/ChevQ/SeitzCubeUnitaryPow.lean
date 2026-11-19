@@ -57,8 +57,7 @@ theorem false_of_four_tvMap (hσ : ∀ c, σ (σ c) = c) {a b d u : Fin n → K}
     exact (mul_eq_zero.mp h1).resolve_left hγ
   have hda : herm σ d a = 0 := by rw [herm_conj σ hσ, had, map_zero]
   have e : tvMap σ d γ (tvMap σ b (-γ) (tvMap σ a γ (tvMap σ b (-γ) u))) = (1 : K) • u := hu'
-  simp only [tvMap_def, herm_add_right, herm_smul_right, hbb, hs, hba, hbd0, hdb, had,
-    hda] at e
+  simp only [tvMap_def, herm_add_right, herm_smul_right, hbb, hs, hba, hdb, hda] at e
   obtain ⟨-, -, h3⟩ := hindep (γ * herm σ a u) (-(2 * γ * herm σ b u)) (γ * herm σ d u)
     (by linear_combination (norm := module) e)
   exact hu ((mul_eq_zero.mp h3).resolve_left hγ)
@@ -104,6 +103,7 @@ variable {ℓ f n p : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [Cha
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Finite K] in
 theorem pow_fin_add_one [NeZero p] {ζ : K} (hζ : IsPrimitiveRoot ζ p) (j : Fin p) :
     ζ ^ ((j + 1 : Fin p) : ℕ) = ζ ^ (j : ℕ) * ζ := by
   rw [Fin.val_add, ← pow_eq_pow_mod hζ, pow_add]
@@ -588,7 +588,7 @@ theorem indep_three {r : SUid σ₀ n} (hp : p.Prime) (hp3 : 3 ≤ p) {α : K}
   have hci : ∀ i : Fin 3, c i = 0 := by
     intro i
     have := congrArg (fun r : Polynomial K => r.coeff (i : ℕ)) hq
-    simpa [Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow, Fin.val_inj] using this
+    simpa [Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow, Fin.val_inj] using this
   exact ⟨hci 0, hci 1, hci 2⟩
 
 theorem allCenters_eigen_pow [NeZero p] (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p ≠ 2)
@@ -911,7 +911,7 @@ theorem isCenter_sum_of_components (hσ : IsUnitaryInvolution σ) {H : Subgroup 
         simp [Finset.mem_insert, hik]
       have heq : (∑ i, if i ∈ insert k T then b i else a i) =
           g • (∑ i, if i ∈ T then b i else a i) := by
-        rw [hsplit, hsplit T, smul_add, hfix, if_neg hk, if_pos (Finset.mem_insert_self k T),
+        rw [hsplit, hsplit T, smul_add, hfix, ite_eq_right hk, ite_eq_left (Finset.mem_insert_self k T),
           ← hc, hgc, hc', hrest]
       rw [heq]
       exact ih.map hg
@@ -948,14 +948,14 @@ theorem exists_mix_of_center (hσ : IsUnitaryInvolution σ) {H : Subgroup (SUid 
     intro k
     by_cases hki : k = i
     · subst hki
-      simp only [hbdef, if_true]
+      simp only [hbdef, ite_true]
       exact ⟨ha'W, ha'0, ha'i⟩
     · by_cases hkj : k = j
       · subst hkj
-        simp only [hbdef, if_neg hki, if_true]
+        simp only [hbdef, ite_eq_right hki, ite_true]
         exact ⟨(W k).smul_mem _ (ha k).1, smul_ne_zero hlam0 (ha k).2.1,
           by rw [herm_smul_left, herm_smul_right, (ha k).2.2]; ring⟩
-      · simp only [hbdef, if_neg hki, if_neg hkj]
+      · simp only [hbdef, ite_eq_right hki, ite_eq_right hkj]
         exact ⟨(W k).neg_mem (ha k).1, neg_ne_zero.mpr (ha k).2.1,
           by rw [herm_neg_left, herm_neg_right, neg_neg, (ha k).2.2]⟩
   have hCb := isCenter_sum_of_components hσ W hON horth hA ha hb hC
@@ -970,7 +970,7 @@ theorem exists_mix_of_center (hσ : IsUnitaryInvolution σ) {H : Subgroup (SUid 
         simp [hbdef, hw₁, hij]
       · by_cases hkj : k = j
         · subst hkj
-          simp only [hbdef, if_neg hki, if_pos rfl, hw₂, add_smul, one_smul]
+          simp only [hbdef, ite_eq_right hki, hw₂, add_smul, one_smul]
           simp
         · simp [hbdef, hki, hkj]
     rw [Finset.sum_congr rfl fun k _ => hpt k, Finset.sum_add_distrib, Finset.sum_ite_eq',
@@ -1041,7 +1041,7 @@ theorem hyperGen_of_nonab_pow (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2
     HyperGen p (⊤ : Subgroup G) E := by
   classical
   have hfp : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hσ : IsUnitaryInvolution σ₀ := Nonsplit.isUnitaryInvolution h
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
@@ -1276,9 +1276,9 @@ theorem seitzGoodInnerUnitaryNonabRest : SeitzGoodInnerUnitaryNonabRest := by
   classical
   rintro d p hp hp2 hpd hlist E₀ hE hcard ⟨hrest, -, -, ℓ, f, n, K, _, h, π, hπ, hker,
     hpq, hq2, ⟨x, y, hxE, hyE, hxy⟩, -⟩
-  haveI : Finite K := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
+  have : Finite K := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
   obtain ⟨m, q, hd, -, -⟩ := hrest
   let ε : CFSG.LieType.Universal.Unitary.SUid (CFSG.LieType.BorelTits.unitaryInvolution K ℓ f)
       (n + 1) ≃* CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K (n + 1) :=
@@ -1292,7 +1292,7 @@ theorem seitzGoodInnerUnitaryNonabRest : SeitzGoodInnerUnitaryNonabRest := by
       πS (ε.symm z) = π z := fun z => by
     show π (ε (ε.symm z)) = π z
     rw [MulEquiv.apply_symm_apply]
-  haveI : Finite (Cat d) := Finite.of_surjective πS hπS
+  have : Finite (Cat d) := Finite.of_surjective πS hπS
   set a := ε.symm x with ha
   set b := ε.symm y with hb
   have haE : πS a ∈ E₀ := by rw [ha, hπSε]; exact hxE

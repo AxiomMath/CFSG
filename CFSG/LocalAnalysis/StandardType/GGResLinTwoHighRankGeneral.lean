@@ -100,7 +100,7 @@ theorem GGResHyp.linTwo_rank_ge_five_automizerL_card
     Nat.card ↥(ggAutomizer L Bs) =
       2 ^ ((lab.rank + 1) / 2) * ((lab.rank + 1) / 2).factorial := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨s, T, hTA, hZinj, hEq, hcardE, hsd, hcardBs⟩ :=
     GGResHyp.linTwo_stable_torus hH lab hlab hN hL
   obtain ⟨hperf, lab', hlab', hraw⟩ := hL
@@ -123,13 +123,13 @@ theorem GGResHyp.linTwo_rank_ge_five_automizerL_card
   dsimp only [LargeEvenRawDatumLegacy, LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hfield, hfinite, hK, hrawP⟩ := hraw
   obtain ⟨θ, hP⟩ := hrawP.2.2
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hK2 : Nat.card K = 2 := by simpa using hK
   have hCharP : CharP K 2 := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (R := K) (p := 2) (f := 1) (by simpa using hK)
-  letI : CharP K 2 := hCharP
+  let : CharP K 2 := hCharP
   let d : ℕ := l + 1
   have hsd' : s = (l + 1) / 2 := by simpa using hsd
   have hd : 2 * s ≤ d ∧ d ≤ 2 * s + 1 := by
@@ -144,16 +144,16 @@ theorem GGResHyp.linTwo_rank_ge_five_automizerL_card
     simpa [d] using hP.2.2
   have hBsN : Bs ≤ Subgroup.normalizer (L : Set G) := hP.2.1
   have hfacts := ggTwSL_facts_rec (K := K) (d := d) (r := s) hs3 hd (by
-    simpa [hK2])
+    simp [hK2])
   have hsigned : GGTorusSignedEltSC 3 (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
     ggKGLn_signedEltSC_linearNonsplit (p := 3) Nat.prime_three (by norm_num)
       ggTw_cast_three_ne_zero (by norm_num [hK2]) (by omega)
   have hrankle : GGElemAbelianRankLE (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) 3 s :=
     ggTwSL_rankLE_rec (K := K) (d := d) (r := s) hs3 hd (by
-      simpa [hK2])
+      simp [hK2])
   have hscRank : GGSelfCentRankGE 3 s (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
     ggTwSL_scRank_rec (K := K) (d := d) (r := s) hs3 hd (by
-      simpa [hK2])
+      simp [hK2])
   have hSC : GGTorusAutCardSC 3
       (LargeEvenProj (LargeEvenSLGroup (Fin d) K))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K)) Set.univ)
@@ -167,7 +167,7 @@ theorem GGResHyp.linTwo_rank_ge_five_automizerL_card
     apply hZinj z 1
     ext l
     have hcomm : z * l = l * z := (Subgroup.mem_center_iff.mp hz l).symm
-    simpa [MulAut.conj_apply, hcomm]
+    simp [MulAut.conj_apply, hcomm]
   have hInnL : ∀ b ∈ Bs, ∃ k ∈ L, ∀ l ∈ L, b * l * b⁻¹ = k * l * k⁻¹ := by
     intro b hb
     obtain ⟨v, hv⟩ := (hTA (ggGamma L hN ⟨b, hb⟩)).mp ⟨⟨b, hb⟩, rfl⟩

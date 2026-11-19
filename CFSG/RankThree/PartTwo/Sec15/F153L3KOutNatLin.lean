@@ -66,7 +66,7 @@ theorem exists_two_functionals {F : Type} [Field F] (v : Fin 3 → F) (hv : v �
       ∀ u : Fin 3 → F, φ₁ ⬝ᵥ u = 0 → φ₂ ⬝ᵥ u = 0 → ∃ c : F, u = c • v := by
   have hcase : v 0 ≠ 0 ∨ v 1 ≠ 0 ∨ v 2 ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hv
     funext i
     fin_cases i
@@ -223,7 +223,7 @@ theorem scalar_of_lines_fixed {F : Type} [Field F] (a : (Fin 3 → F) ≃+ (Fin 
     have h01 : lam = ν := indep _ _ _ _ he₀ hw1 hlam hν
     have h12 : ν = μ := indep _ _ _ _ he₁ hw2 hν hμ
     exact (h01.trans h12).symm
-  · push_neg at hc
+  · push Not at hc
     exact (indep _ _ _ _ he₀ hc hlam hμ).symm
 
 theorem eq_id_of_lines_fixed {F : Type} [Field F] [CharP F 2] (a : (Fin 3 → F) ≃+ (Fin 3 → F))
@@ -253,7 +253,7 @@ theorem exists_dot_eq {F : Type} [Field F] {φ : Fin 3 → F} (hφ : φ ≠ 0) (
     ∃ u : Fin 3 → F, φ ⬝ᵥ u = c := by
   obtain ⟨i, hi⟩ : ∃ i, φ i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hφ (funext h)
   refine ⟨Pi.single i (c / φ i), ?_⟩
   rw [dotProduct_single]
@@ -292,7 +292,7 @@ theorem pair_indep {F : Type} [Field F] {v v' : Fin 3 → F} (hv : v ≠ 0)
 
 theorem line_image_of_conj {F : Type} [Field F] [CharP F 2] {a : (Fin 3 → F) ≃+ (Fin 3 → F)}
     (ha : ∀ u, a (a u) = u) {v φ v' φ' : Fin 3 → F} (hv : v ≠ 0) (hφ : φ ≠ 0) (hv' : v' ≠ 0)
-    (hφ' : φ' ≠ 0) (hφv : φ ⬝ᵥ v = 0) (hφv' : φ' ⬝ᵥ v' = 0)
+    (hφ' : φ' ≠ 0) (_hφv : φ ⬝ᵥ v = 0) (_hφv' : φ' ⬝ᵥ v' = 0)
     (hconj : ∀ u, a (u + (φ ⬝ᵥ u) • v) = a u + (φ' ⬝ᵥ a u) • v') :
     (∀ c : F, ∃ c' : F, a (c • v) = c' • v') ∧ (∀ c : F, ∃ c' : F, a (c • v') = c' • v) ∧
       (∀ u, φ ⬝ᵥ u = 0 → φ' ⬝ᵥ a u = 0) ∧ (∀ u, φ' ⬝ᵥ u = 0 → φ ⬝ᵥ a u = 0) := by
@@ -308,7 +308,7 @@ theorem line_image_of_conj {F : Type} [Field F] [CharP F 2] {a : (Fin 3 → F) �
   exact ⟨c1, c2, c3, c4⟩
 
 theorem ncard_range_commutator_le {F : Type} [Field F] [Fintype F] [CharP F 2]
-    {a s : (Fin 3 → F) ≃+ (Fin 3 → F)} (ha : ∀ u, a (a u) = u) :
+    {a s : (Fin 3 → F) ≃+ (Fin 3 → F)} (_ha : ∀ u, a (a u) = u) :
     (Set.range fun u => a (s (a (s.symm u))) - u).ncard ≤
       (Set.range fun u => a u - u).ncard * (Set.range fun u => a u - u).ncard := by
   have hsub : (Set.range fun u => a (s (a (s.symm u))) - u) ⊆
@@ -331,12 +331,12 @@ theorem ncard_range_commutator_le {F : Type} [Field F] [Fintype F] [CharP F 2]
 theorem parallel_of_ncard_le {F : Type} [Field F] [Fintype F] [CharP F 2] (hF : 8 ≤ Fintype.card F)
     {a : (Fin 3 → F) ≃+ (Fin 3 → F)} (ha : ∀ u, a (a u) = u)
     (hrank : (Set.range fun u => a u - u).ncard ≤ 4)
-    {v φ v' φ' : Fin 3 → F} (hv : v ≠ 0) (hφ : φ ≠ 0) (hv' : v' ≠ 0) (hφ' : φ' ≠ 0)
-    (hφv : φ ⬝ᵥ v = 0) (hφv' : φ' ⬝ᵥ v' = 0)
+    {v φ v' φ' : Fin 3 → F} (hv : v ≠ 0) (hφ : φ ≠ 0) (_hv' : v' ≠ 0) (_hφ' : φ' ≠ 0)
+    (hφv : φ ⬝ᵥ v = 0) (_hφv' : φ' ⬝ᵥ v' = 0)
     (hconj : ∀ u, a (u + (φ ⬝ᵥ u) • v) = a u + (φ' ⬝ᵥ a u) • v') :
     (∃ c : F, v' = c • v) ∨ (∃ c : F, φ' = c • φ) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨H1, H2⟩ := hcon
   have hdouble : ∀ x : F, x + x = 0 := by
     intro x
@@ -383,11 +383,11 @@ theorem parallel_of_ncard_le {F : Type} [Field F] [Fintype F] [CharP F 2] (hF : 
       _ = (c - φ' ⬝ᵥ v) • φ := (sub_smul c (φ' ⬝ᵥ v) φ).symm
   obtain ⟨i, hi⟩ : ∃ i, φ i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hφ (funext h)
   obtain ⟨j, hj⟩ : ∃ j, φ i * ψ j - φ j * ψ i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hψnot (ψ i / φ i)
     funext k
     have hk := h k
@@ -471,7 +471,7 @@ theorem tvM_ne_one {F : Type} [Field F] {φ v : Fin 3 → F} (hφ : φ ≠ 0) (h
       _ = 0 := sub_self u
   obtain ⟨j, hj⟩ : ∃ j, φ j ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hφ (funext hcon)
   have h2 := key (Pi.single j 1)
   rw [dotProduct_single, mul_one] at h2
@@ -490,7 +490,7 @@ theorem sq_eq_one_of_conj {F : Type} [Field F] {a : (Fin 3 → F) ≃+ (Fin 3 �
     Matrix.one_mulVec, ha]
 
 theorem ne_one_of_conj {F : Type} [Field F] {a : (Fin 3 → F) ≃+ (Fin 3 → F)}
-    (ha : ∀ u, a (a u) = u) {M M' : Matrix (Fin 3) (Fin 3) F} (hM1 : M ≠ 1)
+    (_ha : ∀ u, a (a u) = u) {M M' : Matrix (Fin 3) (Fin 3) F} (hM1 : M ≠ 1)
     (h : ∀ u, a (M *ᵥ u) = M' *ᵥ a u) : M' ≠ 1 := by
   intro hM'
   apply hM1
@@ -506,7 +506,7 @@ theorem rankOne_of_sq_eq_zero {F : Type} [Field F] {n : Matrix (Fin 3) (Fin 3) F
     ∃ v φ : Fin 3 → F, v ≠ 0 ∧ φ ≠ 0 ∧ φ ⬝ᵥ v = 0 ∧ ∀ u, n *ᵥ u = (φ ⬝ᵥ u) • v := by
   obtain ⟨u0, hu0⟩ : ∃ u0 : Fin 3 → F, n *ᵥ u0 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hn0 (Matrix.ext_iff_mulVec.2 fun u => by rw [Matrix.zero_mulVec]; exact hcon u)
   have hle : LinearMap.range (Matrix.mulVecLin n) ≤ LinearMap.ker (Matrix.mulVecLin n) := by
     rintro x ⟨u, rfl⟩
@@ -556,7 +556,7 @@ theorem rankOne_of_sq_eq_zero {F : Type} [Field F] {n : Matrix (Fin 3) (Fin 3) F
   have hφv : φ ⬝ᵥ v = 0 := by
     obtain ⟨j, hj⟩ : ∃ j, φ j ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hφ0 (funext hcon)
     have hu : φ ⬝ᵥ Pi.single j (φ j)⁻¹ = 1 := by
       rw [dotProduct_single, mul_inv_cancel₀ hj]
@@ -603,7 +603,7 @@ theorem ncard_range_le_of_offender {U : Type} [AddCommGroup U] [Module (ZMod 2) 
       fun u => rfl⟩
   have hset : Set.range (fun u => a u - u) = (d.range : Set U) := by
     ext x
-    simp [hd, AddMonoidHom.mem_range]
+    simp [hd]
   have hU : Nat.card U = Nat.card ↥d.ker * Nat.card ↥d.range := by
     rw [← AddSubgroup.index_ker, AddSubgroup.card_mul_index]
   have hmem : ∀ u : {u : U // ∀ b ∈ A, b u = u}, u.1 ∈ d.ker := by

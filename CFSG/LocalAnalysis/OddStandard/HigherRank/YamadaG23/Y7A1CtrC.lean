@@ -121,7 +121,7 @@ private theorem y7a_mem_U_of_comm (hrel : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z 
     exact mul_mem hu hzU
 
 theorem y7a_cent_UV (hA : A = closure {a₁, b₁, a₂, b₂}) (hrel : Y6ARel a₁ b₁ a₂ b₂ z)
-    (hz : z ≠ 1) (hA32 : Nat.card ↥A = 32) (hVA : A ⊓ V = zpowers z)
+    (hz : z ≠ 1) (hA32 : Nat.card ↥A = 32) (_hVA : A ⊓ V = zpowers z)
     (hVc : ∀ a ∈ A, ∀ v ∈ V, a * v = v * a) (hVab : ∀ v ∈ V, ∀ v' ∈ V, v * v' = v' * v) :
     ∀ x ∈ A ⊔ V, ((∀ y ∈ (closure {a₁, b₁} : Subgroup G) ⊔ V, x * y = y * x) ↔
       x ∈ (closure {a₂, b₂} : Subgroup G) ⊔ V) := by
@@ -162,7 +162,7 @@ theorem y7a_cent_UV (hA : A = closure {a₁, b₁, a₂, b₂}) (hrel : Y6ARel a
     exact ((hwu.mul_right hwv').mul_left (hvu.mul_right hvv')).eq
 
 theorem y7a_cent_WV (hA : A = closure {a₁, b₁, a₂, b₂}) (hrel : Y6ARel a₁ b₁ a₂ b₂ z)
-    (hz : z ≠ 1) (hA32 : Nat.card ↥A = 32) (hVA : A ⊓ V = zpowers z)
+    (hz : z ≠ 1) (hA32 : Nat.card ↥A = 32) (_hVA : A ⊓ V = zpowers z)
     (hVc : ∀ a ∈ A, ∀ v ∈ V, a * v = v * a) (hVab : ∀ v ∈ V, ∀ v' ∈ V, v * v' = v' * v) :
     ∀ x ∈ A ⊔ V, ((∀ y ∈ (closure {a₂, b₂} : Subgroup G) ⊔ V, x * y = y * x) ↔
       x ∈ (closure {a₁, b₁} : Subgroup G) ⊔ V) := by

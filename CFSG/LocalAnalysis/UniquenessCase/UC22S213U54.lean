@@ -43,8 +43,8 @@ theorem uc22s213_le_centralizer_of_not_dvd_outer {L P : Subgroup G}
     (hout : ¬ r ∣ Nat.card (Outer (BarInf L))) (hPr : IsPGroup r P)
     (hPN : P ≤ normalizer (L : Set G)) (hQ : IsSylowOf r (P ⊓ L) L)
     (hQab : IsMulCommutative ↥(P ⊓ L)) : P ⊓ L ≤ centralizer (P : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hout2 := uc22s213_not_dvd_card_outer_bar2 hq hout
   have hPQ : P ≤ normalizer ((P ⊓ L : Subgroup G) : Set G) :=
     (le_inf le_normalizer hPN).trans inf_normalizer_le_normalizer_inf
@@ -70,7 +70,7 @@ theorem uc22s213_strong_of_not_three_dvd_outer (hS : Standing4 G) (hU : uniqueFo
     (h2 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (BarInf L)))
     (hp : CFSG.Open.pRank S.p L ≤ 1) : IsStronglyPEmbedded 3 S.M := by
   by_contra hnot
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLM : L ≤ S.M := CFSG.Quasithin.A3.subnormal_le hL.1
   have hL3 : 2 ≤ CFSG.Open.pRank 3 L := uc22s213_pRank_three_barInf hL.2.2 hZ ▸ h2
   have hMN : S.M ≤ normalizer (L : Set G) := by
@@ -87,7 +87,7 @@ theorem uc22s213_strong_of_not_three_dvd_outer (hS : Standing4 G) (hU : uniqueFo
     hnot (isStronglyPEmbedded_three_of_mem_uniqueFourBeta hU S hσ h)
   have hpp : S.p.Prime := S.hp.1.1
   have hp2 : S.p ≠ 2 := S.hp.1.2.1
-  haveI : Fact S.p.Prime := ⟨hpp⟩
+  have : Fact S.p.Prime := ⟨hpp⟩
   have hsp := PartOne.Section8.isStronglyPEmbedded_of_mem_sigma_of_calC hS hU S hL S.hp
   have h76 : Conclusion76 S.M S.p := UC6.conclusion76_dataOfSetup4 hSE hS hU S h3β S.hp hsp
   obtain ⟨B, hBM, hBel, hBc⟩ :=

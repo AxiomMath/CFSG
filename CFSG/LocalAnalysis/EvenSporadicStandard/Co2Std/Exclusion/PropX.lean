@@ -26,7 +26,7 @@ theorem XHyp.concl [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) (hKD : KDM22
   by_cases hII : ∃ K : Subgroup X, IsComponent K ∧ K ≤ centralizer ({z} : Set X)
   · obtain ⟨K, hK, hKz⟩ := hII
     exact h.concl_of_le_centralizer h0 hK hKz
-  push_neg at hI hII
+  push Not at hI hII
   exact (h.false_of_forall_isComponent h0 hKD hKg hE hI hII).elim
 
 end CFSG.EvenSporadicStandard.Co2Std.Exclusion

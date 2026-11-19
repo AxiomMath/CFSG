@@ -19,7 +19,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremA.KD264Lie CFSG.LocalAnalysis.Compone
       π.ker ≤ Subgroup.center E → ∃ s : StatedSU N (p ^ f) K →* E, ∀ g, π (s g) = g
 
 theorem not_three_two_of_valid (n : ℕ) (q : TauCeti.PrimePower) (hd : (TauCeti.LieTypeIndex.twistedA n q).Valid)
-    (hN : 3 ≤ n + 1) : ¬(n + 1 = 3 ∧ q.p ^ q.exponent = 2) := fun ⟨h1, h2⟩ => by
+    (_hN : 3 ≤ n + 1) : ¬(n + 1 = 3 ∧ q.p ^ q.exponent = 2) := fun ⟨h1, h2⟩ => by
   have hval := ((TauCeti.LieTypeIndex.valid_iff _).1 hd).1
   have h3 := ((TauCeti.LieTypeIndex.inStandardRange_iff _).1 hval).2 (by omega)
   have h4 : q.card = 2 := by rw [TauCeti.PrimePower.card_def]; exact h2

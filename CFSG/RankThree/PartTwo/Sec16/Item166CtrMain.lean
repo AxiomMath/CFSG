@@ -41,7 +41,7 @@ private theorem le_M_of_step13
   have hTQ : delta A (lB A) (pPrimeCoreOf 3 X) ∈ scriptQ A (lB A) :=
     mem_scriptQ_delta hM.conf h146
   have hTsol : Group.IsSolvable ↥(delta A (lB A) (pPrimeCoreOf 3 X)) := by
-    haveI := hM.conf.solvable_core
+    have := hM.conf.solvable_core
     exact Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion (Sec14.delta_le (pPrimeCoreOf 3 X)))
       (Subgroup.inclusion_injective _)

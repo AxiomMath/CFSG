@@ -86,8 +86,8 @@ theorem burnsideF429a_c2ab_of_borelAutData {E : Type} [Group E] [Finite E]
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     (∃ t ∈ T, T = Subgroup.zpowers t ⊔ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧
       ∃ Hc : Subgroup E, IsComplementIn Hc (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite C := Finite.of_injective _ (Gp.subtype_injective.comp Ψ.injective)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite C := Finite.of_injective _ (Gp.subtype_injective.comp Ψ.injective)
   obtain ⟨hSB, hTinf⟩ := burnsideF429a_T_inf_Gp hSG hT
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set φ : C →* E := Gp.subtype.comp Ψ.toMonoidHom with hφdef
@@ -143,7 +143,7 @@ theorem burnsideF429a_c2ab_of_borelAutData {E : Type} [Group E] [Finite E]
           (D.F_B σ⁻¹ (F.inv_mem hσ) g⁻¹).2 (Subgroup.inv_mem _ hg), ?_⟩
         rw [map_inv act t, e, burnsideF429a_conj_mul_inv] }
   have hSgF : Sg ≤ F := fun σ hσ => hσ.1
-  haveI : IsCyclic Sg := Subgroup.isCyclic_of_le hSgF
+  have : IsCyclic Sg := Subgroup.isCyclic_of_le hSgF
   obtain ⟨⟨σ₀, hσ₀⟩, hgen⟩ := IsCyclic.exists_generator (α := ↥Sg)
   have hpow : ∀ σ ∈ Sg, ∃ m : ℕ, σ₀ ^ m = σ := by
     intro σ hσ
@@ -224,18 +224,18 @@ theorem burnsideF429a_c2ab_U4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     (∃ t ∈ T, T = Subgroup.zpowers t ⊔ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧
       ∃ H : Subgroup E, IsComplementIn H (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
   obtain ⟨Φ, e1, e2⟩ := burnsideF4gU4_exists_equiv marking
   have hB : (M₁ ⊓ M₂).subgroupOf Gp =
       (parP (burnsideF4gU4_fieldData marking) ⊓ parP2 (burnsideF4gU4_fieldData marking)).map
         Φ.toMonoidHom := by
     rw [burnsideF429a_subgroupOf_inf, h1, h2, e1, e2, Subgroup.map_inf_eq _ _ _ Φ.injective]
-  haveI := (burnsideF4gU4_fieldData marking).finite
-  haveI : IsCyclic (marking.field ≃+* marking.field) :=
+  have := (burnsideF4gU4_fieldData marking).finite
+  have : IsCyclic (marking.field ≃+* marking.field) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic _
-  haveI : IsCyclic (MonoidHom.range (fieldAutHom (burnsideF4gU4_fieldData marking) 2 0)) :=
+  have : IsCyclic (MonoidHom.range (fieldAutHom (burnsideF4gU4_fieldData marking) 2 0)) :=
     isCyclic_of_surjective _ (fieldAutHom (burnsideF4gU4_fieldData marking) 2 0).rangeRestrict_surjective
   exact burnsideF429a_c2ab_of_borelAutData hyp.centralizer_trivial Φ
     (borelAutData_u4 (burnsideF4gU4_fieldData marking)) hB

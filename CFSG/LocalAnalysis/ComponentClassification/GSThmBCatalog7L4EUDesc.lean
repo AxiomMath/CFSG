@@ -77,7 +77,7 @@ theorem det_sq_of_split_descent (hp2 : p ≠ 2) {A : Matrix (Fin 4) (Fin 4) K} {
   have hli : LinearIndependent K (fun i => ((bk i : conjFixed h τ) : Fin 4 → K)) :=
     linearIndependent_conjFixed ht t.ne_zero h2 bk
   have hPu : IsUnit P := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.linearIndependent_col_iff_isUnit]
     exact hli
   have hP0 : P.det ≠ 0 := ((Matrix.isUnit_iff_isUnit_det P).mp hPu).ne_zero
   set G₀ : Matrix (Fin 4) (Fin 4) h.fixedField := LinearMap.BilinForm.toMatrix bk B' with hG₀

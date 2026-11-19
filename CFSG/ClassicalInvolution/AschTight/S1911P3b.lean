@@ -52,12 +52,12 @@ theorem exists_pGroup_bijective {H Q : Type} [Group H] [Group Q] [Finite H] (f :
     ∃ T : Subgroup H, IsPGroup 2 T ∧ Function.Bijective (f.comp T.subtype) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T⟩ : Nonempty (Sylow 2 H) := inferInstance
-  refine ⟨T, T.isPGroup', ⟨?_, ?_⟩⟩
+  refine ⟨T, T.isPGroup, ⟨?_, ?_⟩⟩
   · rw [injective_iff_map_eq_one]
     intro x hx
     apply Subtype.ext
     exact eq_one_of_isPGroup_of_mem_odd hker (show (x : H) ∈ f.ker from hx)
-      (T.isPGroup'.to_le (Subgroup.zpowers_le.mpr x.2))
+      (T.isPGroup.to_le (Subgroup.zpowers_le.mpr x.2))
   · intro q
     have htop : (T.mapSurjective hf : Subgroup Q) = ⊤ :=
       (T.mapSurjective hf).maximal_isPGroup.eq_of_le (hQ.to_subgroup ⊤) le_top

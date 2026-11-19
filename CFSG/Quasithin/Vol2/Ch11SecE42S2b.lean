@@ -107,7 +107,7 @@ theorem isSylowTwoOf_rOf_sup (h : Hyp11 G T L I n) {V₁ K : Subgroup G} (hLK : 
         Subtype.ext (by simp [← hro])
       rw [e]
       exact P.mul_mem (P.inv_mem hrP) hs
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨_, hoP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨_, hoP⟩
     have ho2 : o ^ 2 ^ k = 1 := by
       have := congrArg (fun x : ↥(P : Subgroup ↥(R ⊔ O)) => ((x : ↥(R ⊔ O)) : G)) hk
       simpa using this

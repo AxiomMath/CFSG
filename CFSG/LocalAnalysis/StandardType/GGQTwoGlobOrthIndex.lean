@@ -33,8 +33,8 @@ theorem qTwoGlobIdx_two_mul_card_le_card_of_ne {G : Type} [Group G] [Finite G]
     intro h
     exact hne (le_antisymm ((Subgroup.relIndex_eq_one).mp h) hHA)
   have h0 : H.relIndex A ≠ 0 := by
-    haveI : H.FiniteIndex := Subgroup.finiteIndex_of_finite
-    haveI : H.IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
+    have : H.FiniteIndex := Subgroup.finiteIndex_of_finite
+    have : H.IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
     exact Subgroup.relIndex_ne_zero
   have h2 : 2 ≤ H.relIndex A := by omega
   calc 2 * Nat.card H ≤ H.relIndex A * Nat.card H := Nat.mul_le_mul_right _ h2
@@ -86,8 +86,8 @@ theorem qTwoGlobIdx_orthogonal_le_two_mul_card {Q : QuadraticForm (ZMod 3) W}
     Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ 2 * Nat.card A := by
   classical
   let O : Subgroup (W ≃ₗ[ZMod 3] W) := TauCeti.QuadraticMap.orthogonalGroup Q
-  haveI : Finite W := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (W ≃ₗ[ZMod 3] W) :=
+  have : Finite W := Module.finite_of_finite (ZMod 3)
+  have : Finite (W ≃ₗ[ZMod 3] W) :=
     Finite.of_injective (fun g : W ≃ₗ[ZMod 3] W => (g : W → W))
       (fun g h hgh => LinearEquiv.ext (congrFun hgh))
   have hΩA : ⁅O, O⁆ ≤ A := by

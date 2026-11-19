@@ -20,11 +20,11 @@ theorem chevTwoPClosureOddFamily_suzuki :
     have hK : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK', hf]
     refine PClosureOdd.of_mulEquiv (e.trans θ).symm ?_
     intro d hd1 hdp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hodd : Odd (orderOf d) := by
       rw [orderOf_eq_prime hdp hd1]
       exact hp.odd_of_ne_two hp2
-    haveI : Finite (CFSG.Blueprint.suzukiGroup a K) := inferInstance
+    have : Finite (CFSG.Blueprint.suzukiGroup a K) := inferInstance
     have hC := ((CFSG.RankThree.Suzuki_involution_centralizers_and_inner_odd_centralizers ha
       hK).2 d hd1 hodd).1
     exact OddPCoreInClosure.of_odd_core fun N _ _ =>

@@ -41,7 +41,7 @@ theorem gd_conj (hcg : c * g = g * c) (hcd : c * d = d * c) (hdg : d * g = g * (
     _ = d * (g * c ^ 9 * g⁻¹) := by group
     _ = d * c ^ 9 := by rw [← (hcg'.pow_left 9).eq, mul_inv_cancel_right]
 
-theorem dg_conj (hcg : c * g = g * c) (hcd : c * d = d * c) (hdg : d * g = g * (d * c ^ 4)) :
+theorem dg_conj (_hcg : c * g = g * c) (hcd : c * d = d * c) (hdg : d * g = g * (d * c ^ 4)) :
     d * g * d⁻¹ = g * c ^ 4 := by
   have hcd' : Commute c d := hcd
   rw [hdg, ← (hcd'.pow_left 4).eq]

@@ -403,11 +403,8 @@ theorem cell87_FL2 (hF : Generic.GenericKnownFacts) : Cell87 FL2 := by
   rcases fl2_core hF hz2 hsig.A hsig.op hyp.1 hyp.2.1 hyp.2.2.1 hL2 with h | h
   · first
       | exact Or.inl h
-      | exact Or.inl ⟨h.1, h.2.1, h.2.2.1⟩
   · first
       | exact Or.inr (Or.inl h)
-      | (obtain ⟨n, h1, h2, h3, -⟩ := h
-         exact Or.inr (Or.inl ⟨n, h1, h2, h3⟩))
 
 
 end CFSG.GH74.GLS.Stage2.Signalizer.Odd87

@@ -197,7 +197,7 @@ theorem exists_conj_not_mem_of_isAlperin (hE : IsAlperinSubgroup 2 (D.T : Subgro
       rw [inv_mul_cancel_left]
       exact hc
     have hP : IsPGroup 2 (R ⧸ (centralizer (D.E : Set X)).subgroupOf R) :=
-      D.T.isPGroup'.of_surjective f hf
+      D.T.isPGroup.of_surjective f hf
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hP
     exact ⟨k, by rw [index_eq_card, hk]⟩
   have hReq := hrad R hQC hRN hRnorm hidx

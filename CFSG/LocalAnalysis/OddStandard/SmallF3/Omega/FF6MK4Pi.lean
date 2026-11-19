@@ -22,7 +22,7 @@ theorem ff6m_K4_pi_not_mem (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3
   intro h
   obtain ⟨hLie, -, -⟩ := ff6m_K4_core hQ hdim hρ hρρ
   obtain ⟨hs, a, b, hab⟩ := ff_simple_of_lieModel_psl2 hLie
-  haveI := hs
+  have := hs
   have hcent : (⟨piOrth Q, h⟩ : ↥⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆) ∈
       Subgroup.center ↥⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆ := by
     rw [Subgroup.mem_center_iff]

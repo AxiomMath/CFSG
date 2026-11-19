@@ -124,7 +124,7 @@ theorem propH_compType_of (hX : S_lemmaX) (hC : S_corX) (hZ : S_caseZ) (h1 : S_H
     exact hnoSE H (hX G hnab hIH S A U hAS hAab hAcl hUA hUel hU1 hUcl (Or.inl h8) H hHtop
       hNH hCH)
   ·
-    have hUp : IsPGroup 2 U := (S.isPGroup').to_le hUS
+    have hUp : IsPGroup 2 U := (S.isPGroup).to_le hUS
     have hcard : Nat.card U = 4 := by
       obtain ⟨e, he⟩ := hUp.exists_card_eq
       rw [he] at hU4 h8 ⊢
@@ -148,7 +148,7 @@ theorem propH_compType_of (hX : S_lemmaX) (hC : S_corX) (hZ : S_caseZ) (h1 : S_H
       · intro hu
         have := conj_mem_of_stronglyClosed hUS hUcl hs hu
         simpa [mul_assoc] using this
-    have hSC := le_centralizer_of_card_eq_four hcard hSN S.isPGroup' hidx
+    have hSC := le_centralizer_of_card_eq_four hcard hSN S.isPGroup hidx
     have hZS : U ≤ Subgroup.centralizer ((S : Subgroup G) : Set G) :=
       Subgroup.le_centralizer_iff.1 hSC
     obtain ⟨H, hHtop, hNH, hCH⟩ : ∃ H : Subgroup G, H ≠ ⊤ ∧

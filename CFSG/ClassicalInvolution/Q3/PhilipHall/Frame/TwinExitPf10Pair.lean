@@ -42,7 +42,7 @@ theorem exists_lifted_pair_Y {n : ℕ} (hcit : CIT3Below n) (hΦ : HypOmegaGen �
   have hm₂ := satU_mem_liftFam h₂ hL₂
   have hne' : (liftFam Φ).Nonempty := ⟨_, hm₁⟩
   set Y' : Subgroup X := omegaGen (liftFam Φ) with hY'
-  haveI hYn : Y'.Normal := omegaGen_normal (conjInvariant_liftFam hΦ.conjInvariant)
+  have hYn : Y'.Normal := omegaGen_normal (conjInvariant_liftFam hΦ.conjInvariant)
   have hYsub : IsSubnormal Y' ⊤ := isSubnormal_of_normal_subgroupOf le_top inferInstance
   have hL₁Y : L₁ ≤ Y' := le_satU.trans (le_omegaGen hm₁)
   have hL₂Y : L₂ ≤ Y' := le_satU.trans (le_omegaGen hm₂)

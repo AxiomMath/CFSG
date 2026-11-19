@@ -183,7 +183,7 @@ theorem sec5cn_exists_a1 {PP : Subgroup G} {z t : G} (h : Sec5CNHeart φ A)
   have key : ∀ u : G, u ∈ A ⊓ PP → u ≠ 1 → u ≠ z → (u = t ∨ u = t * z) := by
     intro u hu hu1 huz
     by_contra hn
-    push_neg at hn
+    push Not at hn
     exact hcon ⟨u, hu, hu1, huz, hn.1, hn.2⟩
   rcases sec5cn_mul_mem_pair ht2 hz2 htz
       (key _ ((hP _).mpr ⟨_, hC, rfl⟩) hu₁1 hu₁z) (key _ ((hP _).mpr ⟨_, hD, rfl⟩) hu₂1 hu₂z) with

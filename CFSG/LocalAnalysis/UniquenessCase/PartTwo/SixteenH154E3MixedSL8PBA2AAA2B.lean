@@ -16,10 +16,10 @@ theorem s16h_sl28_commSub_commSub_self [Finite W] {L : Subgroup (MulAut W)}
     (h : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 3) :
     commSub (commSub ⊤ L) L = commSub ⊤ L := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h.1
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-  haveI : Group.IsPerfect ↥(StatedSL 2 K) :=
+  have : Group.IsPerfect ↥(StatedSL 2 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
   have hperf : Group.IsPerfect ↥L :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective

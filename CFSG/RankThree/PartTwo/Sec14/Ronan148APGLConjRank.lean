@@ -114,12 +114,12 @@ theorem step148PGLConjOmega2_of_rank (hR : Ronan148W.Step148OmegaRankThree)
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hEq f hf h91 hpgl heΩ
     hLeA hX1 y hy D hDne hDC hAD heD hVc hVex a₀ ha₀ ha₀1 ha₀J
   exfalso
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := h.mem_partTwoF.1.2
   have hJY : J ≤ Y := le_of_mem_thetaComponentsIn hJ
   have hJM : J ≤ Y ⊔ A := hJY.trans le_sup_left
-  haveI : Group.IsPerfect ↥J := isPerfect_of_mem_thetaComponentsIn hJ
-  haveI hJp : Group.IsPerfect ↥(img148 A Y J) := isPerfect_img148 hJM
+  have : Group.IsPerfect ↥J := isPerfect_of_mem_thetaComponentsIn hJ
+  have hJp : Group.IsPerfect ↥(img148 A Y J) := isPerfect_img148 hJM
   have hJnt : Nontrivial ↥(img148 A Y J) := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot

@@ -10,9 +10,9 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.K330Cfg
 theorem noSevenCent_of_e9c7Free {J : Type} [Group J] [Finite J] (h : E9C7Free J) :
     NoSevenCent J := by
   intro X R hX hE hcard hR hRne hcent
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨hcomm, hpow⟩ := hE
-  haveI : IsMulCommutative X := hcomm
+  have : IsMulCommutative X := hcomm
   rcases Subgroup.bot_or_exists_ne_one X with hXbot | ⟨a, haX, ha1⟩
   · rw [hXbot, Subgroup.card_bot] at hcard
     exact absurd hcard (by norm_num)

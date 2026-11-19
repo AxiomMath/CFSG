@@ -43,12 +43,12 @@ theorem mletter_R {l : Int} (h0 : l ≠ 0) (h17 : l.natAbs ≤ 17) :
     mletter SA SIA l = rows5 (sr (ltR l)) := by
   rw [mletter_eq h0 h17, letK, ltR]
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_pos hp]
+  · rw [ite_eq_left hp, ite_eq_left hp]
     have := allN_spec eqS (l.toNat - 1) (by omega)
     refine rows5_congr fun i hi => ?_
     have e := Nat.eq_of_beq_eq_true (allN_spec this i hi)
     rw [e, Nat.add_eq, show 13 + (l.toNat - 1) = 12 + l.toNat by omega]
-  · rw [if_neg hp, if_neg hp]
+  · rw [ite_eq_right hp, ite_eq_right hp]
     have := allN_spec eqSi ((-l).toNat - 1) (by omega)
     refine rows5_congr fun i hi => ?_
     have e := Nat.eq_of_beq_eq_true (allN_spec this i hi)

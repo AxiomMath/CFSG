@@ -281,7 +281,7 @@ private theorem card_cl_v :
   · intro hv
     refine v_not_mem_Q ((Subgroup.closure_le (K := QP45.originalSubgroup)).mpr ?_ hv)
     intro x hx
-    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hx
+    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hx
     rcases hx with rfl | rfl | rfl | rfl | rfl
     · exact u_mem_Q
     · exact beta2_mem_Q
@@ -322,7 +322,7 @@ private theorem image_gens_eq :
         Set ↥QA45.originalSubgroup) = {x | x ∈ [v, u, beta2, alpha2, beta1, alpha1]} := by
   ext x
   simp only [Set.image_insert_eq, Set.image_singleton, Subgroup.coe_subtype, Set.mem_insert_iff,
-    Set.mem_singleton_iff, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq]
+    Set.mem_singleton_iff, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq]
   constructor
   · rintro (h | h | h | h | h | h)
     · exact Or.inr (Or.inl h)
@@ -373,6 +373,7 @@ variable (D : QuotientData (z := z) hN)
 @[expose] noncomputable def sylowTwoH : Subgroup ↥(H z) :=
   (J z).subgroupOf (H z) ⊔ Subgroup.closure {uH D, vH D, a1H D, b1H D, a2H D, b2H D}
 
+omit [Finite G] in
 theorem sylowTwoH_eq_comap : sylowTwoH D = sylowTwoQA45.comap (qH D) := by
   have hmap : (Subgroup.closure {uH D, vH D, a1H D, b1H D, a2H D, b2H D}).map (qH D) =
       sylowTwoQA45 := by
@@ -381,10 +382,12 @@ theorem sylowTwoH_eq_comap : sylowTwoH D = sylowTwoQA45.comap (qH D) := by
       qH_b2H]
   rw [sylowTwoH, ← hmap, Subgroup.comap_map_eq, ker_qH, sup_comm]
 
+omit [Finite G] in
 theorem index_sylowTwoH : (sylowTwoH D).index = 3 ^ 4 * 5 := by
   rw [sylowTwoH_eq_comap, Subgroup.index_comap_of_surjective _ (qH_surjective D),
     index_sylowTwoQA45]
 
+omit [Finite G] in
 theorem card_sylowTwoH (h : Tim79a.ParrottHyp z) : Nat.card ↥(sylowTwoH D) = 2 ^ 17 := by
   have hJ : Nat.card ↥(qH D).ker = 2 ^ 10 := by
     rw [ker_qH, Nat.card_congr (Subgroup.subgroupOfEquivOfLe (J_le_H (z := z))).toEquiv,
@@ -392,9 +395,11 @@ theorem card_sylowTwoH (h : Tim79a.ParrottHyp z) : Nat.card ↥(sylowTwoH D) = 2
   rw [sylowTwoH_eq_comap, card_comap_eq _ (qH_surjective D), hJ, card_sylowTwoQA45]
   norm_num
 
+omit [Finite G] in
 theorem isPGroup_sylowTwoH (h : Tim79a.ParrottHyp z) : IsPGroup 2 (sylowTwoH D) :=
   IsPGroup.of_card (card_sylowTwoH D h)
 
+omit [Finite G] in
 theorem isSylow_sylowTwoH (h : Tim79a.ParrottHyp z) :
     ∃ S : Sylow 2 ↥(H z), (S : Subgroup ↥(H z)) = sylowTwoH D :=
   ⟨(isPGroup_sylowTwoH D h).toSylow (by rw [index_sylowTwoH]; norm_num),

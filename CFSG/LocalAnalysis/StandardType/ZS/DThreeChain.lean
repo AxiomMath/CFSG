@@ -54,7 +54,7 @@ theorem exists_lt_bitVec_eq {n : ℕ} (v : Fin n → ZMod 2) : ∃ k < 2 ^ n, bi
           rw [Nat.testBit_two_pow_mul_add (a := k') (b := (v 0).val) (i := 1) hb'
             (j := (j : ℕ) + 1)]
           have hj : ¬ (j : ℕ) + 1 < 1 := by omega
-          rw [if_neg hj, show (j : ℕ) + 1 - 1 = (j : ℕ) by omega]
+          rw [ite_eq_right hj, show (j : ℕ) + 1 - 1 = (j : ℕ) by omega]
         simp only [hbit]
         exact congrFun hk'v j
 

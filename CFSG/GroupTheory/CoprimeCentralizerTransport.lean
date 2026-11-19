@@ -48,7 +48,7 @@ theorem card_eq_card_map_mk_mul_card_inf [Finite G] (C : Subgroup G) :
     rw [hg, MonoidHom.range_comp, Subgroup.range_subtype]
   have hker : g.ker = (C ⊓ N).subgroupOf C := by
     ext x
-    simp [hg, MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [hg, MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
   have h := Subgroup.card_ker_mul_card_range g
   rw [hker, hrange] at h
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv, mul_comm] at h
@@ -125,7 +125,7 @@ theorem le_pRank_centralizer_of_quotient [Finite G] [Fact p.Prime] (hN : ¬ p �
   have e : (QuotientGroup.mk' N '' {x} : Set (G ⧸ N)) = {QuotientGroup.mk' N x} :=
     Set.image_singleton
   rw [← e, pRank_centralizer_image_mk_eq (s := p) hN hN hE
-    (by simpa using Subgroup.mem_zpowers x)] at h1
+    (by simp)] at h1
   exact h1
 
 section Equiv

@@ -16,16 +16,19 @@ open CFSG CFSG.Open
 variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 
+omit hN [Finite G] in
 theorem autFixedSubgroup_eq_evenSource (h : Tim79a.ParrottHyp z) (x : ↥(H z)) :
     CFSG.autFixedSubgroup (conjV h x) =
       CFSG.Blueprint.EvenSource.autFixedSubgroup (conjV h x) := by
   ext v
   rw [CFSG.mem_autFixedSubgroup, CFSG.Blueprint.EvenSource.mem_autFixedSubgroup]
 
+omit hN [Finite G] in
 theorem conjV_conj_eq (h : Tim79a.ParrottHyp z) (g x : ↥(H z)) :
     conjV h (g * x * g⁻¹) = (MulAut.conj (conjV h g)) (conjV h x) := by
   rw [map_mul, map_mul, map_inv, MulAut.conj_apply]
 
+omit hN [Finite G] in
 theorem autFixedSubgroup_conj (h : Tim79a.ParrottHyp z) (g x : ↥(H z)) :
     (CFSG.autFixedSubgroup (conjV h x)).map
         (conjV h g : QuotientV.V z →* QuotientV.V z) =
@@ -39,6 +42,7 @@ theorem autFixedSubgroup_conj (h : Tim79a.ParrottHyp z) (g x : ↥(H z)) :
     rw [conjV_conj_eq, MulAut.conj_apply]
     simp
 
+omit hN in
 theorem fixDimV_conj (h : Tim79a.ParrottHyp z) {x y g : ↥(H z)}
     (hxy : g * x * g⁻¹ = y) :
     fixDimV h y = fixDimV h x := by

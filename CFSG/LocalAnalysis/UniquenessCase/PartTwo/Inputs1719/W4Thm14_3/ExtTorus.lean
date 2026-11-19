@@ -17,10 +17,12 @@ section Torus
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] {E : Type} [Field E] [Algebra F E]
   [CharP E 2]
 
+omit [Fintype F] [CharP F 2] in
 private theorem torus_diag_one : dElt (1 : Fˣ) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [dElt]
 
+omit [Fintype F] [CharP F 2] in
 private theorem torus_diag_mul (z w : Fˣ) : dElt z * dElt w = dElt (z * w) := by
   ext i j
   change (((dElt z : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) *
@@ -29,6 +31,7 @@ private theorem torus_diag_mul (z w : Fˣ) : dElt z * dElt w = dElt (z * w) := b
   fin_cases i <;> fin_cases j <;>
     simp [dElt, Matrix.mul_apply, Fin.sum_univ_two, mul_comm]
 
+omit [Fintype F] [CharP F 2] in
 private theorem torus_diag_mul_uElt (z : Fˣ) (t : F) :
     dElt z * uElt t = uElt ((z : F) ^ 2 * t) * dElt z := by
   ext i j
@@ -40,6 +43,7 @@ private theorem torus_diag_mul_uElt (z : Fˣ) (t : F) :
     simp [dElt, uElt, Matrix.mul_apply, Fin.sum_univ_two, pow_two]
   field_simp
 
+omit [Fintype F] [CharP F 2] in
 private theorem tmatE_dElt_apply (J : Finset ℕ) (z : Fˣ) (y x : J → Fin 2) :
     tmatE E (fun i : J => (i : ℕ)) (dElt z) y x =
       if y = x then algebraMap F E (z : F) ^ aexp (fun i : J => (i : ℕ)) (fun i => 1 - x i) *
@@ -53,7 +57,7 @@ private theorem tmatE_dElt_apply (J : Finset ℕ) (z : Fˣ) (y x : J → Fin 2) 
     rcases fin2_cases (x i) with h | h <;>
       simp [h, Units.val_inv_eq_inv_val, map_inv₀, inv_pow]
   by_cases h : y = x
-  · rw [if_pos h, h]
+  · rw [ite_eq_left h, h]
     calc ∏ i : J, twistMat E (i : ℕ) (dElt z) (x i) (x i)
         = ∏ i : J, ((algebraMap F E (z : F)) ^ (((1 - x i : Fin 2) : ℕ) * 2 ^ (i : ℕ)) *
             (((algebraMap F E (z : F)) ^ (2 ^ (i : ℕ)))⁻¹) ^ (x i : ℕ)) := by
@@ -84,7 +88,7 @@ private theorem tmatE_dElt_apply (J : Finset ℕ) (z : Fˣ) (y x : J → Fin 2) 
           rw [hp]
       _ = (algebraMap F E (z : F)) ^ aexp (fun i : J => (i : ℕ)) (fun i => 1 - x i) *
             ((algebraMap F E (z : F)) ^ aexp (fun i : J => (i : ℕ)) x)⁻¹ := rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     unfold tmatE
     obtain ⟨i, hi⟩ : ∃ i, y i ≠ x i := by
       by_contra hcon
@@ -96,24 +100,26 @@ private theorem tmatE_dElt_apply (J : Finset ℕ) (z : Fˣ) (y x : J → Fin 2) 
     rcases fin2_cases (y i) with hy | hy <;> rcases fin2_cases (x i) with hx | hx <;>
       simp_all
 
+omit [Fintype F] [CharP F 2] in
 theorem frobTensor_dElt_apply (J : Finset ℕ) (z : Fˣ) (w : (J → Fin 2) → E)
     (x : J → Fin 2) :
     frobTensor F E J (dElt z) w x =
       algebraMap F E (z : F) ^ aexp (fun i : J => (i : ℕ)) (fun i => 1 - x i) *
         ((algebraMap F E (z : F)) ^ aexp (fun i : J => (i : ℕ)) x)⁻¹ * w x := by
   rw [frobTensor, tensorRep_apply, Finset.sum_eq_single x]
-  · rw [tmatE_dElt_apply, if_pos rfl]
+  · rw [tmatE_dElt_apply, ite_eq_left rfl]
   · intro y _ hy
-    rw [tmatE_dElt_apply, if_neg (Ne.symm hy), zero_mul]
+    rw [tmatE_dElt_apply, ite_eq_right (Ne.symm hy), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
+omit [Fintype F] [CharP F 2] in
 private theorem frobTensor_dElt_apply_zero (J : Finset ℕ) (z : Fˣ)
     (v : (J → Fin 2) → E) :
     frobTensor F E J (dElt z) v (fun _ => 0) =
       (algebraMap F E z) ^ (∑ i ∈ J, 2 ^ i) * v (fun _ => 0) := by
   rw [frobTensor_dElt_apply]
-  simp only [Pi.zero_apply, sub_zero, aexp, Fin.val_one, Nat.one_mul, Fin.val_zero,
+  simp only [sub_zero, aexp, Fin.val_one, Nat.one_mul, Fin.val_zero,
     Nat.zero_mul, Finset.sum_const_zero, pow_zero, inv_one, mul_one]
   rw [Finset.univ_eq_attach, Finset.sum_attach]
 
@@ -129,6 +135,7 @@ private theorem frobTensor_dElt_apply_zero (J : Finset ℕ) (z : Fˣ)
     change frobTensor F E J (g * h) m x = frobTensor F E J g (frobTensor F E J h m) x
     rw [map_mul, Module.End.mul_apply]
 
+omit [Fintype F] [CharP F 2] in
 theorem frobTensor_cocycle_one_eq_zero (J : Finset ℕ)
     (c' : SL(2, F) → (J → Fin 2) → E)
     (hc' : ∀ g h, c' (g * h) = c' g + frobTensor F E J g (c' h)) : c' 1 = 0 := by
@@ -181,6 +188,7 @@ private theorem exists_torus_coboundary (J : Finset ℕ)
     rwa [coboundaryA_apply] at this
   exact hz.symm
 
+omit [Fintype F] [CharP F 2] in
 private theorem frobTensor_torus_base {J : Finset ℕ}
     (c' : SL(2, F) → (J → Fin 2) → E)
     (heq : ∀ (z : Fˣ) (t : F),
@@ -212,7 +220,7 @@ theorem exists_torus_equivariant (J : Finset ℕ) (c : SL(2, F) → (J → Fin 2
       (c g - (frobTensor F E J g v - v)) +
         frobTensor F E J g (c h - (frobTensor F E J h v - v))
     rw [hc g h, hδ]
-    simp only [map_sub, map_add]
+    simp only [map_sub]
     abel
   have hvan : ∀ z : Fˣ, c' (dElt z) = 0 := by
     intro z
@@ -230,6 +238,7 @@ theorem exists_torus_equivariant (J : Finset ℕ) (c : SL(2, F) → (J → Fin 2
       rw [torus_diag_mul_uElt, hc', hvan, map_zero, add_zero]
     rw [← h2, h1]
 
+omit [CharP F 2] in
 theorem cocycle_uElt_base {n : ℕ} (hF : Fintype.card F = 2 ^ n) {J : Finset ℕ}
     (hJ : J.Nonempty) (hJn : ∀ i ∈ J, i < n) (c' : SL(2, F) → (J → Fin 2) → E)
     (hc' : ∀ g h, c' (g * h) = c' g + frobTensor F E J g (c' h))

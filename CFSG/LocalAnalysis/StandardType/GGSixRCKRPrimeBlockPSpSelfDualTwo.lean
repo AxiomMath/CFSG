@@ -337,14 +337,14 @@ private theorem rckRPb2m_case_PSL
       y ∈ Subgroup.center (ggU .PSU 2 (max f 1)).K)
     (hrange : ι.range = J') :
     RCKRPModelII (RCKRPRootSubOf (ggU .PSp n f)) J' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := rckRP_nonempty_mulEquiv_PSL_two_PSU_two (g := max f 1) (by omega)
   exact rckRP_modelII_of_big _ (rckRP_modelBig_of_PSL (k := 1) hg2 (ι.comp e.toMonoidHom)
     ⟨Or.inl rfl, rckRPb2_admissible_PSL hg2⟩ (rckRPb2_range_comp e ι hrange)
     (rckRPb2_center_comp e ι hcent))
 
 theorem rckRP_modelII_PSp_selfDualTwo
-    (n f : ℕ) (hf : 1 ≤ f) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
+    (n f : ℕ) (_hf : 1 ≤ f) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
     (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}

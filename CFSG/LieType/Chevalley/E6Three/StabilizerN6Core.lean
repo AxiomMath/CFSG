@@ -60,8 +60,7 @@ theorem triReflect6_toFun (i : Fin 6) (b : N6) :
     triReflect6 i b.toFun = (b.tri i).toFun := by
   funext k
   fin_cases i <;> fin_cases k <;>
-    simp [triReflect6, N6.tri, N6.toFun, Tag.cartanE, ZMod.natCast_mod, sub_two_mul_self] <;>
-    ring
+    simp [triReflect6, N6.tri, N6.toFun, Tag.cartanE, ZMod.natCast_mod, sub_two_mul_self]
 
 theorem triAct_toFun (ω : List (Fin Tag.E6.rank)) (b : N6) :
     triAct ω b.toFun = (b.tact ω).toFun := by

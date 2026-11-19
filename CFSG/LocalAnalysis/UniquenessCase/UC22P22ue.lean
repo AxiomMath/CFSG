@@ -24,6 +24,7 @@ theorem uc22p22u_isComponent_map_subtype {Q : Type*} [Group Q] (N : Subgroup Q) 
     exact IsSubnormal.top_iff.2 h2
   · exact CFSG.Open.IsQuasisimple.of_mulEquiv (C.equivMapOfInjective N.subtype N.subtype_injective).symm hC.2.2
 
+omit [Finite G] in
 theorem uc22p22u_calC_of_le {X M K : Subgroup G} (hK : K ∈ calC M) (hKX : K ≤ X) (hXM : X ≤ M) :
     K ∈ calC X := by
   have h := hK.1.inf X
@@ -39,8 +40,8 @@ theorem uc22p22u_outAbelian_thin (hThin : ThinList13)
   have hnonab : ∃ x y : Bar2 L, x * y ≠ y * x := s13_nonabelian_bar hL
   have hsyl : ∀ P : Sylow 3 (Bar2 L), IsCyclic ↥(P : Subgroup (Bar2 L)) := by
     intro P
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    refine s13_Bridge13_isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) P.isPGroup' ?_
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    refine s13_Bridge13_isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) P.isPGroup ?_
     calc CFSG.pRank 3 ↥(P : Subgroup (Bar2 L))
         = CFSG.Open.pRank 3 (⊤ : Subgroup ↥(P : Subgroup (Bar2 L))) :=
           CFSG.SectionRank.pRank_eq_open_pRank_top 3 _
@@ -84,7 +85,7 @@ theorem uc22p22u_r118W (hThin : ThinList13)
   have hn : D.M ≤ normalizer (X : Set G) := by
     rw [hVc]
     exact uc22p22u_normalizes_cent hW.1.1.2.2.1
-  haveI hNn : (barImage D.M X).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M X).Normal := uc22p22u_barImage_normal hn
   refine uc22p22u_sub_le_cent_layer (barImage D.M X) _ h116V ?_
   intro C hC y hy
   obtain ⟨K, hK, hKbar⟩ := uc22p21c_exists_calC_of_component D.M (uc22p22u_isComponent_map_subtype _ hC)
@@ -95,7 +96,7 @@ theorem uc22p22u_r118W (hThin : ThinList13)
     refine uc22p22u_barPreimage_le hO hbarle (uc22p21c_mem_barPreimage.2 ⟨hKM hk, ?_⟩)
     exact uc22p21c_mem_barImage.2 ⟨⟨k, hKM hk⟩, hk, rfl⟩
   obtain ⟨hMK, hthin⟩ := h117V K (uc22p22u_calC_of_le hK hKX hXM)
-  haveI hKn : (barImage D.M K).Normal := uc22p22u_barImage_normal hMK
+  have hKn : (barImage D.M K).Normal := uc22p22u_barImage_normal hMK
   obtain ⟨c, hcK, hc⟩ := uc22p22u_acts_inner (barImage D.M K) ⊤
     (le_of_eq (Subgroup.normalizer_eq_top_iff.2 hKn).symm)
     (uc22p22u_outAbelian_thin hThin hCyc D hK hthin) y hy

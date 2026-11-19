@@ -942,17 +942,17 @@ private theorem d5n_frame_mem_crossAnchor (i : Fin 5) (s : Bool) (hi : i = 3 ∨
   rcases hi with rfl | rfl
   · rw [d5Frame_plusVec]
     cases s
-    · rw [if_neg (by decide)]
+    · rw [ite_eq_right (by decide)]
       exact Submodule.mem_sup_right (show d5FrameVecF E 3 ∈ hypH1 E from
         Submodule.subset_span (by simp [hypPairH1]))
-    · rw [if_pos (by decide)]
+    · rw [ite_eq_left (by decide)]
       exact Submodule.mem_sup_right (show d5FrameVecE E 3 ∈ hypH1 E from
         Submodule.subset_span (by simp [hypPairH1]))
   · rw [d5Frame_plusVec]
     cases s
-    · rw [if_neg (by decide)]
+    · rw [ite_eq_right (by decide)]
       exact Submodule.mem_sup_left (mem_coordAnchor.mpr ⟨(0, 1), rfl⟩)
-    · rw [if_pos (by decide)]
+    · rw [ite_eq_left (by decide)]
       exact Submodule.mem_sup_left (mem_coordAnchor.mpr ⟨(1, 0), rfl⟩)
 
 private theorem d5n_mem_range_d5EmbA {k : Fin 5} (hk : 2 ≤ k.val) :

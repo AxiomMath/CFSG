@@ -156,7 +156,7 @@ theorem mulVecI_matLit_ofFn (y : Fin Tag.E6.rank → ℤ) :
   rw [mulVecI_ofFn_map e6TwoMat Tag.E6.rank (by simpa [matLit_eq] using matLit_length) y]
   rw [e6Two_wordMat, List.ofFn_injective.eq_iff]
   funext i
-  simp [Matrix.mulVec, dotProduct, toMat, lget, List.getD_eq_getElem]
+  simp [Matrix.mulVec, dotProduct, toMat, lget]
 
 
 theorem e6RootVec_eq_cert {k : ℕ} (hk : k < 72) :

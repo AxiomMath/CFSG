@@ -45,7 +45,7 @@ theorem fixCntL_eq {n : ℕ} (σ : Perm (Fin n)) : fixCntL σ = fixCnt σ := by
     refine Finset.mem_filter.mpr ⟨Finset.mem_univ _, ?_⟩
     have hpred := (Finset.mem_filter.mp hi).2
     have hin : i < n := Finset.mem_range.mp (Finset.mem_filter.mp hi).1
-    rw [dif_pos hin] at hpred
+    rw [dite_eq_left hin] at hpred
     exact of_decide_eq_true hpred
   · intro i hi i' hi' h
     exact congrArg Fin.val h
@@ -53,7 +53,7 @@ theorem fixCntL_eq {n : ℕ} (σ : Perm (Fin n)) : fixCntL σ = fixCnt σ := by
     refine ⟨j.val, ?_, ?_⟩
     · refine Finset.mem_filter.mpr ⟨Finset.mem_range.mpr j.isLt, ?_⟩
       have hj' := (Finset.mem_filter.mp hj).2
-      rw [dif_pos j.isLt]
+      rw [dite_eq_left j.isLt]
       exact decide_eq_true hj'
     · exact Fin.ext rfl
 

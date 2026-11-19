@@ -26,7 +26,7 @@ open CFSG.StandardType.TwE6TwA2K
 theorem card_le_of_component_triD4
     (K : Type) [Field K] (σ : K ≃+* K) {n : ℕ} (hn : 1 ≤ n)
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n)) (h3n : 3 ∣ 2 ^ n + 1)
-    (h : ↥(twistedE6InndiagGL K σ)) (hh3 : h ^ 3 = 1) (hh1 : h ≠ 1)
+    (h : ↥(twistedE6InndiagGL K σ)) (_hh3 : h ^ 3 = 1) (hh1 : h ≠ 1)
     (J : Subgroup ↥(twistedE6RootGroup K σ))
     (hJ : CFSG.Open.IsComponentOf J
       (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (twistedE6InndiagConj K σ h)))

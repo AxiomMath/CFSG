@@ -13,7 +13,7 @@ theorem finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow {G : Type*} [
     {p q a b : ℕ}
     (hp : Nat.Prime p)
     (hq : Nat.Prime q)
-    (hpq : p ≠ q)
+    (_hpq : p ≠ q)
     (hcard : Fintype.card G = p ^ a * q ^ b) :
     Group.IsSolvable G := by
   have hsmall :

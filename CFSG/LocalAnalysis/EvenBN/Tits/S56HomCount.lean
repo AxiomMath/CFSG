@@ -52,7 +52,7 @@ theorem ind_mul_eq {E : Type*} [CommGroup E] [DecidableEq E] (hE : ∀ e : E, e 
       _ = x * y := by rw [hE z, one_mul]
   rw [map_mul]
   rcases hα a with ha | ha <;> rcases hα b with hb | hb <;> rw [ha, hb] <;>
-    simp only [hne, hne2, hne3, hsq, if_true, if_false, eq_self_iff_true, ↓reduceIte] <;>
+    simp only [hne, hne2, hne3, hsq, ↓reduceIte] <;>
     decide
 
 theorem ite_zmod_two_eq_iff {p q : Prop} [Decidable p] [Decidable q]
@@ -78,7 +78,7 @@ theorem card_mul_card_le_of_injective {K : Type*} [Field K] [Finite K] {V : Type
     rw [map_smul, hφt, smul_zero]
   let ψ : G → W.dualAnnihilator := fun g => ⟨φ g, hmem g⟩
   have hψ : Function.Injective ψ := fun g g' h => hφ (congrArg Subtype.val h)
-  haveI : Finite W.dualAnnihilator := Module.finite_of_finite (R := K)
+  have : Finite W.dualAnnihilator := Module.finite_of_finite (R := K)
   have h1 : Nat.card G ≤ Nat.card W.dualAnnihilator := Nat.card_le_card_of_injective ψ hψ
   have hA : Nat.card W.dualAnnihilator = Nat.card K ^ Module.finrank K W.dualAnnihilator :=
     Module.natCard_eq_pow_finrank (K := K) (V := W.dualAnnihilator)
@@ -98,7 +98,7 @@ theorem card_le_of_trivial_on_quotient {E : Type*} [CommGroup E] [Finite E]
     (S : Subgroup (MulAut E)) (hS : ∀ α ∈ S, ∀ e : E, α e * e⁻¹ ∈ Subgroup.zpowers z) :
     Nat.card S ≤ Nat.card E / 2 := by
   classical
-  letI : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule (n := 2) (fun v => by
+  let : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule (n := 2) (fun v => by
     rw [two_nsmul]
     exact hE (toMul v))
   have hne : ∀ x : E, z * x ≠ x := fun x h => hz (mul_eq_right.1 h)

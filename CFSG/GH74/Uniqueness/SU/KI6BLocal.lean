@@ -136,7 +136,7 @@ theorem normalizer_le_H₀ (F : KI6BFacts) (h : Cfg H T H₀)
   obtain ⟨x, hxT, hxC, -, hxt⟩ := exists_noncentral_cent F h hr htc ht2 hK
   have hdata := component_data F h htc ht2 hK (hr K hK)
   have hx2 : ∃ n : ℕ, x ^ (2 ^ n) = 1 := by
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨x, hxT⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨x, hxT⟩
     refine ⟨n, ?_⟩
     have : x ^ (2 ^ n) = 1 := by
       have h1 := (Subgroup.orderOf_coe (⟨x, hxT⟩ : ↥(T : Subgroup H))).trans hn
@@ -220,7 +220,7 @@ theorem component_sl25 (F : KI6BFacts) (h : Cfg H T H₀)
       have hWK : W ≤ K := by
         rintro _ ⟨w, hw, rfl⟩
         exact w.2
-      have hWp : IsPGroup 2 W := IsPGroup.to_le T.isPGroup' hWT
+      have hWp : IsPGroup 2 W := IsPGroup.to_le T.isPGroup hWT
       have hWcard : 4 ≤ Nat.card W := by
         rw [Subgroup.card_map_of_injective K.subtype_injective]; exact hW'4
       obtain ⟨y, hyW, hy4⟩ := exists_orderOf_four_of_card hWp hWcard (fun a ha b hb ha2 hb2 =>

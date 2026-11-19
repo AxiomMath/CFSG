@@ -184,7 +184,7 @@ theorem burnsideF429b_U5_field_part {e : MulAut (hypPSU hK 2 1)} (he : e ∈ Eex
     rw [map_one, mul_one] at h2 hno
     obtain ⟨u, -, hu⟩ := D.E_two e he 1 (by rw [pow_one, sq]; exact h2)
     exact hno ⟨u, hu.symm⟩
-  haveI := hK.finite
+  have := hK.finite
   have hf1 := hK.one_le
   obtain ⟨-, hc, hcard⟩ := CFSG.LieType.Chevalley.ringEquiv_sq_eq_one_facts Nat.prime_two
     (by omega) hK.card hσ2 hσ1
@@ -237,7 +237,7 @@ theorem burnsideF429b_U5_card_fixed_le {A : Matrix (Fin 2) (Fin 2) K} (hA : A.Is
     (hAdet : IsUnit A.det) (σ : K ≃+* K) (X : Set (hypSU hK 2 1)) (hX : X ⊆ Vsub hK)
     (hfix : ∀ v ∈ X, A * (Yof v).map σ * (A.map hK.bar)ᵀ = Yof v) :
     Nat.card X ≤ Nat.card {a : K // σ a = a} ^ 3 := by
-  haveI := hK.finite
+  have := hK.finite
   have hA10 : A 1 0 = 0 := hA (show (0 : Fin 2) < 1 by decide)
   have hdet : A.det = A 0 0 * A 1 1 := by rw [Matrix.det_fin_two, hA10, mul_zero, sub_zero]
   have h00 : A 0 0 ≠ 0 := fun h => hAdet.ne_zero (by rw [hdet, h, zero_mul])
@@ -264,7 +264,7 @@ theorem burnsideF429b_U5_card_fixed_le {A : Matrix (Fin 2) (Fin 2) K} (hA : A.Is
     have e01 := congrFun (congrFun e 0) 1
     have e00 := congrFun (congrFun e 0) 0
     simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.map_apply, Matrix.transpose_apply,
-      hA10, map_zero, zero_mul, mul_zero, zero_add, add_zero] at e11 e01 e00
+      hA10, map_zero, zero_mul, mul_zero, zero_add] at e11 e01 e00
     rw [hh.2.2] at e00
     refine ⟨?_, ?_, ?_⟩
     · show A 1 1 * hK.bar (A 1 1) * σ (Yof v 1 1) = Yof v 1 1
@@ -289,9 +289,8 @@ theorem burnsideF429b_U5_eq_one_of_fix_all {A : Matrix (Fin 2) (Fin 2) K}
       simp
     have e := congrFun (congrFun (hfix _ hY) 0) 1
     simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.map_apply, Matrix.transpose_apply,
-      hA10, map_zero, zero_mul, mul_zero, zero_add, add_zero, Matrix.of_apply, Matrix.cons_val',
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-      Matrix.head_cons, Matrix.head_fin_const] at e
+      hA10, map_zero, mul_zero, zero_add, add_zero, Matrix.of_apply, Matrix.cons_val',
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] at e
     linear_combination e
   have h1 : A 0 0 * hK.bar (A 1 1) = 1 := by simpa using key 1
   exact RingEquiv.ext fun c => by simpa [h1] using key c

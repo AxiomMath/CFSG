@@ -19,19 +19,19 @@ open CFSG.Open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Stei
 theorem exists_concl166S_twE6_of_center_eq_bot
     {X : Type} [Group X] [Finite X] {lab : GLALabel} {p : ℕ}
     (hX : HasLabel X (fun l => l = lab)) (ht : lab.tag = .twE6) (hn : 2 ≤ lab.n)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpdvd : p ∣ 2 ^ lab.n - 1)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpdvd : p ∣ 2 ^ lab.n - 1)
     (hZ : Subgroup.center X = ⊥) :
     ∃ (q : ℕ) (B' : Subgroup X) (x' : X) (J : Subgroup X), Concl166S X p q B' x' J := by
   classical
   obtain ⟨F, hField, hFin, hCharF, σ, hcard, hσ, ⟨eX⟩⟩ :=
     exists_mulEquiv_twE6C_of_isLabel hX ht hn hZ
-  letI : Field F := hField
-  letI : Finite F := hFin
-  letI : CharP F 2 := hCharF
+  let : Field F := hField
+  let : Finite F := hFin
+  let : CharP F 2 := hCharF
   let Ω := AlgebraicClosure F
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 lab.n
   let C : Subgroup (ModGL Tag.E6 Ω) := ⁅thetaFixed Fr, thetaFixed Fr⁆
-  haveI : Finite ↥C := Finite.of_surjective eX eX.surjective
+  have : Finite ↥C := Finite.of_surjective eX eX.surjective
   obtain ⟨q, ζ, i, hq, hq2, hqdvd, hq3, hζq, hζ1⟩ :=
     TwE6A.exists_rootOfUnity_kernelComponent F hcard hn
   obtain ⟨x, J, hxq, hx1, hJx, hJq, hcomp, hJlab, hZJ, hmult⟩ :=
@@ -59,7 +59,7 @@ theorem exists_concl166S_twE6_of_center_eq_bot
     rw [hEq]
     refine ⟨rfl, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
       (Or.inl ⟨ht, h3C, rfl, rfl⟩)))))))⟩
-  haveI hJs : IsSimpleGroup ↥J :=
+  have hJs : IsSimpleGroup ↥J :=
     (MulEquiv.isSimpleGroup_congr
       ((QuotientGroup.quotientMulEquivOfEq hZJ).trans QuotientGroup.quotientBot)).mp hJq.2.1
   have hm2low : twoRankLow107 (⟨.twD, 5, lab.n⟩ : GLALabel) = 8 * lab.n := by

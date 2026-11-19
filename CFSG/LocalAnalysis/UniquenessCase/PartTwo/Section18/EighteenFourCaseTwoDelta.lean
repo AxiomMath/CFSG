@@ -56,8 +56,9 @@ theorem normalizer_le_of_pRank (D : Data G) (h61 : UC6.R6_1 D) {U : Subgroup G}
     (hE.trans inf_le_right)
 
 
+omit [Finite G] in
 theorem mQuot_eq_rkIdx_imgTil {V : Subgroup G} (hV : IsElemAbelian 2 V) {U : Subgroup G}
-    (hUV : U ≤ V) :
+    (_hUV : U ≤ V) :
     E3.mQuot V U = rkIdx (imgTil (⊥ : Subgroup G) V hV U) := by
   have hker : (mkTil (⊥ : Subgroup G) V hV).ker = ⊥ := by
     change (QuotientGroup.mk' (modNull (⊥ : Subgroup G) V hV)).ker = ⊥
@@ -428,7 +429,7 @@ theorem A5Config18.exists_involution_mQuot_four_of_case_two (c : A5Config18 D V�
     by_contra hodd
     have h := c.numerics.1
     unfold mBar at h
-    rw [CFSG.Quasithin.E3.mParam, if_neg hodd, hrk] at h
+    rw [CFSG.Quasithin.E3.mParam, ite_eq_right hodd, hrk] at h
     norm_num at h
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : ({n : ℕ | ∃ t ∈ Mbar D.M (⊥ : Subgroup G) V hV, orderOf t = 2 ∧
@@ -437,7 +438,7 @@ theorem A5Config18.exists_involution_mQuot_four_of_case_two (c : A5Config18 D V�
       (G := ↥(Mbar D.M (⊥ : Subgroup G) V hV)) 2 (even_iff_two_dvd.mp heven)
     exact ⟨_, t, t.2, by simpa using hto, rfl⟩
   have hm : CFSG.Quasithin.E3.mParam (Mbar D.M (⊥ : Subgroup G) V hV) = 4 := c.numerics.1
-  rw [CFSG.Quasithin.E3.mParam, if_pos heven] at hm
+  rw [CFSG.Quasithin.E3.mParam, ite_eq_left heven] at hm
   have hmem := Nat.sInf_mem hS
   rw [hm] at hmem
   obtain ⟨t, ht, hto, hval⟩ := hmem

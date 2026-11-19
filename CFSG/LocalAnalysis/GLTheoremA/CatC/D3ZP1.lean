@@ -40,7 +40,7 @@ theorem levi_two_s (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.D4 K)
         (semiDirect_levi (K := K) ({2} : Set (Fin Tag.D4.rank))).bar (phiG g a σ ε) m = m →
         s₀⁻¹ * m * s₀ ∈ Subgroup.normalizer (Uk K 2 : Set (ModGL Tag.D4 K)) →
           s⁻¹ * m * s ∈ Subgroup.normalizer (Uk K 2 : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set J : Set (Fin Tag.D4.rank) := {2} with hJdef
   have hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank)) := Or.inl rfl
   have h2J : (2 : Fin Tag.D4.rank) ∈ J := rfl
@@ -101,7 +101,7 @@ theorem levi_two_s (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.D4 K)
       rw [e20] at h2
       exact hc h2
     refine ⟨1, one_mem _, ?_, fun m hmM hbm hm₀ => ?_⟩
-    · rw [hS.bar_one]; simpa using one_mem _
+    · rw [hS.bar_one]; simp
     · have hmP : m ∈ parabolicSubgroup Tag.D4 K J := hS.M_le hmM
       have hbar_conj : ∀ x ∈ parabolicLevi Tag.D4 K J,
           hS.bar (phiG g a σ ε) (x⁻¹ * m * x) =
@@ -137,7 +137,7 @@ theorem levi_three_s (hg : g ∈ borelGroup Tag.D4 K) (hε : ε = 1 ∨ ε = 2)
         t₀⁻¹ * m * t₀ ∈ Subgroup.normalizer (Uk K k₀ : Set (ModGL Tag.D4 K)) →
           ∀ j ∈ ({0, 1, 3} : Set (Fin Tag.D4.rank)),
             s⁻¹ * m * s ∈ Subgroup.normalizer (Uk K j : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set J : Set (Fin Tag.D4.rank) := {0, 1, 3} with hJdef
   have hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank)) := Or.inr rfl
   have hS := semiDirect_levi (K := K) J

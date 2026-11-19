@@ -60,9 +60,9 @@ theorem ggCoxeterMatrixD_label_two {k : ℕ} (hk : 4 ≤ k) {a b : Fin k} (hab :
       GGDDisjSupp k ((coxeterMatrix (isFiniteType_cartanD k)).simple a)
         ((coxeterMatrix (isFiniteType_cartanD k)).simple b) := by
   have hD : CartanMatrix.D k a b = 0 := by
-    rw [ggCoxeterMatrixD_apply, if_neg hab] at h2
+    rw [ggCoxeterMatrixD_apply, ite_eq_right hab] at h2
     by_contra hne
-    rw [if_neg hne] at h2
+    rw [ite_eq_right hne] at h2
     omega
   have hab' : a.val ≠ b.val := fun e => hab (Fin.ext e)
   have key : ¬(a.val + 1 = b.val ∧ b.val + 2 < k) ∧ ¬(b.val + 1 = a.val ∧ a.val + 2 < k) ∧

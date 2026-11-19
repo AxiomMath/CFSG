@@ -59,9 +59,9 @@ theorem moves_word {A B : Table} {a b : G} (hA : Moves S A a) (hB : Moves S B b)
     rw [List.foldr_cons, List.map_cons, List.prod_cons]
     refine moves_compT ?_ (moves_word hA hB w)
     by_cases hx : x = 0
-    · rw [if_pos hx, if_pos hx]
+    · rw [ite_eq_left hx, ite_eq_left hx]
       exact hA
-    · rw [if_neg hx, if_neg hx]
+    · rw [ite_eq_right hx, ite_eq_right hx]
       exact hB
 
 theorem trAct_conj {O : WOrbit} {o : TrOrb} {a b : G} (c : Nat → G)
@@ -93,23 +93,23 @@ theorem trAct_conj {O : WOrbit} {o : TrOrb} {a b : G} (c : Nat → G)
     unfold trAct
     rw [treeAct.eq_def, hc k]
     by_cases h : 0 < k ∧ ap O.par k < k
-    · rw [dite_eq_left h, if_pos h]
+    · rw [dite_eq_left h, ite_eq_left h]
       by_cases hl : ap O.lab k = 1
-      · rw [if_pos (beq_iff_eq.2 hl), if_pos hl]
+      · rw [ite_eq_left (beq_iff_eq.2 hl), ite_eq_left hl]
         obtain ⟨a1, a2⟩ := hA m hm
         obtain ⟨i1, i2⟩ := ih _ h.2 _ a1
         unfold trAct at i1 i2
         obtain ⟨b1, b2⟩ := hA _ i1
         refine ⟨b1, ?_⟩
         rw [b2, i2, a2, hai, ← mul_smul, ← mul_smul]
-      · rw [if_neg (fun e => hl (beq_iff_eq.1 e)), if_neg hl]
+      · rw [ite_eq_right (fun e => hl (beq_iff_eq.1 e)), ite_eq_right hl]
         obtain ⟨a1, a2⟩ := hbi m hm
         obtain ⟨i1, i2⟩ := ih _ h.2 _ a1
         unfold trAct at i1 i2
         obtain ⟨b1, b2⟩ := hB _ i1
         refine ⟨b1, ?_⟩
         rw [b2, i2, a2, ← mul_smul, ← mul_smul]
-    · rw [dite_eq_right h, if_neg h]
+    · rw [dite_eq_right h, ite_eq_right h]
       exact hD m hm
 
 end

@@ -50,16 +50,17 @@ theorem Chev204Hyp.autOrderIn_eq (hH : Chev204Hyp p K B) (hcyc : autOrderIn B K 
     have h2 : p ^ 2 ≤ p := h1.trans hcyc
     nlinarith [hH.prime.two_le]
 
+omit [Finite X] in
 theorem exists_pow_inv_mul_mem_centralizer (hp : p.Prime) (hel : IsElemAbelian p B)
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hcard : autOrderIn B K = p) {b₁ : X} (hb₁ : b₁ ∈ B)
     (hb₁C : b₁ ∉ Subgroup.centralizer (K : Set X)) {b : X} (hb : b ∈ B) :
     ∃ j : ℕ, (b₁ ^ j)⁻¹ * b ∈ Subgroup.centralizer (K : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup X := Subgroup.centralizer (K : Set X) with hC
   set N₀ : Subgroup ↥B := C.subgroupOf B with hN₀
-  haveI := hel.1
-  haveI : N₀.Normal := Subgroup.normal_of_comm N₀
+  have := hel.1
+  have : N₀.Normal := Subgroup.normal_of_isMulCommutative N₀
   have hidx : N₀.index = p := by
     have := hcard
     unfold autOrderIn at this
@@ -80,18 +81,21 @@ theorem exists_pow_inv_mul_mem_centralizer (hp : p.Prime) (hel : IsElemAbelian p
   have h3 := Subgroup.mem_subgroupOf.1 h2
   simpa using h3
 
+omit [Finite X] in
 theorem mem_center_of_mem_centralizer {y : ↥K} (h : (y : X) ∈ Subgroup.centralizer (K : Set X)) :
     y ∈ Subgroup.center ↥K := by
   rw [Subgroup.mem_center_iff]
   intro g
   exact Subtype.ext (Subgroup.mem_centralizer_iff.1 h g g.2)
 
+omit [Finite X] in
 theorem mem_centralizer_of_mem_center {y : ↥K} (h : y ∈ Subgroup.center ↥K) :
     (y : X) ∈ Subgroup.centralizer (K : Set X) := by
   rw [Subgroup.mem_centralizer_iff]
   intro g hg
   exact (congrArg Subtype.val (Subgroup.mem_center_iff.1 h ⟨g, hg⟩))
 
+omit [Finite X] in
 theorem normalizerMonoidHom_pow_eq_one {b : X} (hbN : b ∈ Subgroup.normalizer (K : Set X))
     {n : ℕ} (hb : b ^ n = 1) : (K.normalizerMonoidHom ⟨b, hbN⟩) ^ n = 1 := by
   rw [← map_pow]
@@ -103,7 +107,7 @@ theorem Chev204Hyp.inducesInnerIn_of_cyclic (hK65 : KD65 p) (hH : Chev204Hyp p K
     (hcyc : autOrderIn B K ≤ p) : InducesInnerIn B K := by
   classical
   have hp := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard := hH.autOrderIn_eq hcyc
   intro b hbBN
   have hbB : b ∈ B := hbBN.1
@@ -154,7 +158,7 @@ theorem Chev204Hyp.exists_gen (hH : Chev204Hyp p K B) (hcyc : autOrderIn B K ≤
       ∀ x : ↥K, x ^ p = 1 → x * k = k * x → x ∈ Subgroup.zpowers k ⊔ Subgroup.center ↥K := by
   classical
   have hp := hH.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard := hH.autOrderIn_eq hcyc
   obtain ⟨b₀, hb₀B, hb₀C⟩ : ∃ b ∈ B, b ∉ Subgroup.centralizer (K : Set X) := by
     by_contra h

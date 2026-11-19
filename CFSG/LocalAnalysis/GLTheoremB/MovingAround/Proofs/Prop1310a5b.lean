@@ -103,6 +103,7 @@ section Calculus
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem glaPLayer_gLBConj' (p : ℕ) (g : G) (X : Subgroup G) :
     GLAPLayer p (GLBConj g X) = GLBConj g (GLAPLayer p X) := by
   refine gLBConj_eq_of_forall_ge (F := GLAPLayer p) (fun g X => ?_) g X
@@ -112,6 +113,7 @@ theorem glaPLayer_gLBConj' (p : ℕ) (g : G) (X : Subgroup G) :
   rw [← Subgroup.map_le_iff_le_comap]
   exact le_sSup (glaPComponent_gLBConj hL g)
 
+omit [Finite G] in
 theorem mem_normalizer_hull {X H : Subgroup G} {c : G}
     (hcH : c ∈ Subgroup.normalizer (H : Set G)) (hcX : c ∈ Subgroup.normalizer (X : Set G)) :
     c ∈ Subgroup.normalizer ((⨆ g ∈ X, GLBConj g H : Subgroup G) : Set G) := by
@@ -142,6 +144,7 @@ theorem mem_normalizer_hull {X H : Subgroup G} {c : G}
   have h2 := gLBConj_mono c h1
   rwa [gLBConj_gLBConj_inv] at h2
 
+omit [Finite G] in
 theorem isSubnormal_barX_of {p : ℕ} {X J K : Subgroup G} (h : CFSG.Open.IsSubnormal J K) :
     CFSG.Open.IsSubnormal (barX p X J) (barX p X K) := by
   have h1 := isSubnormal_comap' X.subtype h
@@ -166,7 +169,7 @@ theorem mem_of_le_iSup_comp {Q : Type} [Group Q] [Finite Q] {X : Subgroup Q} {S 
 theorem exists_lift {L H : Subgroup G} (hHL : H ≤ L) {J' : Subgroup (barOf 3 L)}
     (hJ' : GLAPComponent 3 (barX 3 L H) J') :
     ∃ J : Subgroup G, GLAPComponent 3 H J ∧ barX 3 L J = J' ∧ Nonempty (barOf 3 J ≃* barOf 3 J') := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   set ψ₁ : ↥L →* barOf 3 L := QuotientGroup.mk' (GLAPPrimeCore 3 ↥L) with hψ₁
   have hker1 : ∀ S : Subgroup ↥L, Nat.Coprime 3 (Nat.card ↥(S ⊓ ψ₁.ker)) := by
@@ -196,7 +199,7 @@ theorem exists_lift {L H : Subgroup G} (hHL : H ≤ L) {J' : Subgroup (barOf 3 L
 
 theorem barOf_equiv_of_cover {p : ℕ} [Fact p.Prime] {Y L0 : Subgroup G} (hYL : Y ≤ L0)
     (hcov : ∀ x ∈ L0, ∃ y ∈ Y, ∃ n ∈ GLAPPrimeCoreOf p L0, x = y * n)
-    (hquasi : CFSG.Open.IsQuasisimple (barOf p L0)) : Nonempty (barOf p Y ≃* barOf p L0) := by
+    (_hquasi : CFSG.Open.IsQuasisimple (barOf p L0)) : Nonempty (barOf p Y ≃* barOf p L0) := by
   classical
   let f : ↥Y →* (↥L0 ⧸ GLAPPrimeCore p ↥L0) :=
     (QuotientGroup.mk' (GLAPPrimeCore p ↥L0)).comp (Subgroup.inclusion hYL)
@@ -212,7 +215,7 @@ theorem barOf_equiv_of_cover {p : ℕ} [Fact p.Prime] {Y L0 : Subgroup G} (hYL :
     obtain ⟨n', hn'mem, hn'eq⟩ := Subgroup.mem_map.1 hn'
     have key : (Subgroup.inclusion hYL ⟨y, hyY⟩ : ↥L0)⁻¹ * x = n' := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_inclusion, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_inclusion]
       have hn'val : (n' : G) = n := hn'eq
       rw [hxyn, hn'val]
       group
@@ -256,7 +259,7 @@ theorem mem_layer_of_three_element {L0 : Subgroup G} {b u0 : G} (hbord : orderOf
     (hquasi : CFSG.Open.IsQuasisimple (barOf 3 L0))
     (hu0 : u0 ∈ L0 ⊓ Subgroup.centralizer ({b} : Set G)) (hu0ord : orderOf u0 = 3) :
     u0 ∈ GLAPLayer 3 (L0 ⊓ Subgroup.centralizer ({b} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Y : Subgroup G := L0 ⊓ Subgroup.centralizer ({b} : Set G) with hY
   set Z : Subgroup G := GLAPLayer 3 Y with hZ
   have hZY : Z ≤ Y := by
@@ -269,7 +272,7 @@ theorem mem_layer_of_three_element {L0 : Subgroup G} {b u0 : G} (hbord : orderOf
   have hZn : ∀ y ∈ Y, GLBConj y Z = Z := by
     intro y hy
     rw [hZ, ← glaPLayer_gLBConj', gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hy)]
-  haveI hnormal : (Z.subgroupOf Y).Normal := by
+  have hnormal : (Z.subgroupOf Y).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h1 : (n : G) ∈ GLBConj (g : G) Z := by
@@ -304,7 +307,7 @@ theorem mem_layer_of_three_element {L0 : Subgroup G} {b u0 : G} (hbord : orderOf
     rw [hsplit, ← map_pow]
     have : (⟨n, hnY⟩ : ↥Y) ^ (orderOf n) = 1 := by
       apply Subtype.ext
-      simpa using pow_orderOf_eq_one n
+      simp
     rw [this, map_one]
   have hone : orderOf (π ⟨u0, hu0Y⟩) = 1 :=
     Nat.eq_one_of_dvd_coprimes hcopm (orderOf_dvd_of_pow_eq_one h3) (orderOf_dvd_of_pow_eq_one hm)
@@ -323,6 +326,7 @@ section LiftM
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_cg_of_mem {B : Subgroup G} {u : G} (hBel : IsElemAbelian 3 B) (huB : u ∈ B) : B ≤ Cg u :=
   fun x hx => Subgroup.mem_centralizer_iff.2 fun g hg => by
     rw [Set.mem_singleton_iff.1 hg]
@@ -337,7 +341,7 @@ theorem comp_le_M_of_gamma {B M : Subgroup G} {u : G} {Kc : Subgroup G}
     (le_cg_of_mem hBel huB) hKc.1 hnorm hcore hgam
 
 theorem center_eq_bot_of_standing {m p : ℕ} (hS : GLStanding G m p) : Subgroup.center G = ⊥ := by
-  haveI := hS.simple
+  have := hS.simple
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center G) with h1 | h1
   · exact h1
   · exfalso
@@ -372,6 +376,7 @@ namespace Cfg
 
 variable {m : ℕ} {B M L0 L L0b : Subgroup G} {d b u0 : G}
 
+omit [Finite G] in
 theorem normalizer_layer {c : G} (hc : d * c = c * d) :
     c ∈ Subgroup.normalizer (GLAPLayer 3 (Cg d) : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq, ← glaPLayer_gLBConj',
@@ -379,6 +384,7 @@ theorem normalizer_layer {c : G} (hc : d * c = c * d) :
 
 end Cfg
 
+omit [Finite G] in
 theorem barAut_inner {L : Subgroup G} {u : G} (huL : u ∈ L) (huN : u ∈ Subgroup.normalizer (L : Set G)) :
     barAut 3 L ⟨u, huN⟩ = MulAut.conj (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L) ⟨u, huL⟩) := by
   apply MulEquiv.ext
@@ -388,14 +394,13 @@ theorem barAut_inner {L : Subgroup G} {u : G} (huL : u ∈ L) (huN : u ∈ Subgr
     rw [barAut_mk, MulAut.conj_apply, QuotientGroup.mk'_apply, ← QuotientGroup.mk_mul,
       ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul]
     congr 1
-    all_goals (apply Subtype.ext; simp)
 
 theorem barAut_ne_one {L L0b : Subgroup G} {b : G} (hbN : b ∈ Subgroup.normalizer (L : Set G))
     (hb3 : b ^ 3 = 1) (hq : CFSG.Open.IsQuasisimple (barOf 3 L))
     (hL0bc : GLAPComponent 3 (L ⊓ Cg b) L0b) (h5 : IsAltType 5 (barOf 3 L0b))
     (hnotPi : ¬ IsPiGroup 3 (barOf 3 L)) : barAut 3 L ⟨b, hbN⟩ ≠ 1 := by
   intro h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   set Y : Subgroup G := L ⊓ Cg b with hY
   have hYL : Y ≤ L := inf_le_left
@@ -431,7 +436,7 @@ theorem exists_pComp_istar {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A 
     ∃ L' : Subgroup G, GLAPComponent p (Istar p M D) L' := by
   have hp : p.Prime := GLStanding.prime h.standing
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hempty : IsEmpty {L0 : Subgroup G // Lemma1311.SummandP p M D L0} :=
     ⟨fun x => hno _ (Lemma1311.summand_conj_pComp hp (one_mem M) x)⟩
   have hIof : Iof p M D = ⊥ := by

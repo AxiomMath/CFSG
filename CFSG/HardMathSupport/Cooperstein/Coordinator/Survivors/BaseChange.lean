@@ -61,8 +61,7 @@ theorem bc_fix_line (ρ : Representation K G V) (T : Set G) (y : V)
   let e := TensorProduct.equivFinsuppOfBasisLeft (R := K) (N := V) b
   have hcomp : ∀ (f : V →ₗ[K] V) (x : k ⊗[K] V) (i), e (f.baseChange k x) i = f (e x i) := by
     intro f x i
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
       simp only [LinearMap.baseChange_tmul, TensorProduct.equivFinsuppOfBasisLeft_apply_tmul_apply, e]
       exact (f.map_smul _ _).symm
@@ -98,8 +97,7 @@ theorem orbitSpan_bc (ρ : Representation K G V) (y : V) (h : orbitSpan ρ y = �
     | add a b _ _ ha hb => rw [bcVec_add]; exact add_mem ha hb
     | smul c a _ ha => rw [bcVec_smul]; exact Submodule.smul_mem _ _ ha
   refine (Submodule.eq_top_iff').2 fun w => ?_
-  induction w using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction w using TensorProduct.inductionOn with
   | tmul a v =>
     have : a ⊗ₜ[K] v = a • bcVec k v := by simp [bcVec, smul_tmul']
     rw [this]

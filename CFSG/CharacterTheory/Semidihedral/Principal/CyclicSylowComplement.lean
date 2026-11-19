@@ -19,7 +19,7 @@ variable {H : Type*} [Group H] [Finite H]
 
 theorem sylowTwo_eq_bot_of_not_two_dvd (P : Sylow 2 H) (hodd : ¬ 2 ∣ Nat.card H) :
     (P : Subgroup H) = ⊥ := by
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hdvd : 2 ^ k ∣ Nat.card H := hk ▸ Subgroup.card_subgroup_dvd_card (P : Subgroup H)
   have hk0 : k = 0 := by
     by_contra hne
@@ -60,9 +60,9 @@ theorem cyclicSylowTwo_normal_odd_complement (P : Sylow 2 H)
     · intro hx
       exact hodd.of_dvd_nat (N.orderOf_dvd_natCard hx)
     · intro hx
-      exact hom_eq_one_of_odd_orderOf P.isPGroup' (MonoidHom.transferSylow P hNC) x hx
+      exact hom_eq_one_of_odd_orderOf P.isPGroup (MonoidHom.transferSylow P hNC) x hx
   have hindex : N.index = Nat.card (P : Subgroup H) := hcomp.symm.index_eq_card
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   refine ⟨N, inferInstance, ⟨hodd, k, hindex.trans hk⟩, ?_, ?_, hmem,
     Subgroup.IsComplement.mul_eq hcomp, disjoint_iff.mp hcomp.disjoint, ?_⟩
   · intro N' hN' hN'odd ⟨k', hk'⟩

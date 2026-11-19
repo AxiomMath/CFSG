@@ -25,7 +25,7 @@ private theorem w183_mQuot_le_iStar (x : Ctx188 D V₀ V H i j) {h : G}
   unfold E3.mQuot
   rw [hrel]
   have h2 : padicValNat 2 2 = 1 := by
-    simpa using (padicValNat.prime_pow (p := 2) 1)
+    simp
   rw [h2]
   exact x.iStar_pos
 
@@ -92,7 +92,7 @@ theorem Hyp183.img_normalizer_of_mem_conj (h : Hyp183 D V₀ V H i)
 
 theorem Ctx188.mem_M_of_wClos_normalizes (x : Ctx188 D V₀ V H i j)
     (M : ModDataE H (eOmegaZ H D.T)) {g : G} (hg : Gam183 V H (eOmegaZ H D.T) i g)
-    (hgT : vInH V H g ≤ D.T)
+    (_hgT : vInH V H g ≤ D.T)
     (hW : ∀ (w : G) (hw : w ∈ H), w ∈ E3.wClos V i D.T →
       M.ρ ⟨w, hw⟩ ∈ Subgroup.normalizer
         ((M.img (vInH V H g) : Subgroup (LGL 2 M.W)) : Set (LGL 2 M.W))) :

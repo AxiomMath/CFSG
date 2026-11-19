@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem tr_exists_not_comm {S : Sylow p G} (h : IsM125 p (S : Subgroup G)) :
     ∃ a ∈ (S : Subgroup G), ∃ b ∈ (S : Subgroup G), a * b ≠ b * a := by
   by_contra hcon
@@ -18,6 +19,7 @@ private theorem tr_exists_not_comm {S : Sylow p G} (h : IsM125 p (S : Subgroup G
   apply h.nonab
   exact ⟨⟨fun x y => Subtype.ext (hcon x.1 x.2 y.1 y.2)⟩⟩
 
+omit [Fact (Nat.Prime p)] in
 private theorem tr_exists_E_not_Z {S : Sylow p G} (h : IsM125 p (S : Subgroup G)) :
     ∃ b ∈ h.E, b ∉ centralizer ((S : Subgroup G) : Set G) ⊓ (S : Subgroup G) := by
   by_contra hcon
@@ -76,6 +78,7 @@ private theorem tr_of_eq_one_of_mem_cent {S : Sylow p G} (h : IsM125 p (S : Subg
   have hwγ : w = γ ^ k := Subtype.ext (by rw [Subgroup.coe_zpow, hγc, hk])
   rw [hwγ, map_zpow, hγ1, one_zpow]
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem tr_mem_Z_of_of_eq_one {S : Sylow p G} (h : IsM125 p (S : Subgroup G))
     {w : (S : Subgroup G)} (hw : Abelianization.of w = 1) :
     (w : G) ∈ centralizer ((S : Subgroup G) : Set G) ⊓ (S : Subgroup G) := by
@@ -140,7 +143,7 @@ private theorem tr_transfer_eq {S : Sylow p G} (h : IsM125 p (S : Subgroup G)) {
     (hbE : b ∈ h.E) (hbZ : b ∉ centralizer ((S : Subgroup G) : Set G) ⊓ (S : Subgroup G)) :
     MonoidHom.transfer (Abelianization.of : (S : Subgroup G) →* Abelianization (S : Subgroup G)) b =
       Abelianization.of (⟨b, (h.mem_E.1 hbE).1⟩ : (S : Subgroup G)) ^ (S : Subgroup G).index := by
-  haveI : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers b) (G ⧸ (S : Subgroup G)))) :=
+  have : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers b) (G ⧸ (S : Subgroup G)))) :=
     Fintype.ofFinite _
   rw [MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot
       (Abelianization.of : (S : Subgroup G) →* Abelianization (S : Subgroup G)) b,
@@ -197,7 +200,7 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor
 theorem kFactNoM125Sylow'_holds : KFactNoM125Sylow' := by
   intro K _ _ hsimple _ _ S hS
   obtain ⟨hcard, hnc, hexp, hbig⟩ := hS
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h : NoM125.IsM125 5 (S : Subgroup K) :=
     { prime := Nat.prime_five
       odd := by norm_num

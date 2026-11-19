@@ -29,9 +29,9 @@ theorem commSpace_rhoLin_eq_sup_of_orderOf_mul_eq_three (S : Setting z E F) {β 
     (hβA2 : β ∈ A2set S) (hγA2 : γ ∈ A2set S) (hω : ω = β * γ)
     (h3 : orderOf (β * γ) = 3) :
     commSpace (rhoLin S ω) = commSpace (rhoLin S β) ⊔ commSpace (rhoLin S γ) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : Finite (Additive (QbarOf S)) := inferInstance
-  haveI : Module.Finite (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : Finite (Additive (QbarOf S)) := inferInstance
+  have : Module.Finite (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have h3ρ : orderOf (rhoLin S β * rhoLin S γ) = 3 := by
     rw [← rhoLin_mul]
     simpa [rhoLin, h3] using orderOf_rhoBar S (β * γ)
@@ -46,8 +46,8 @@ theorem commSpace_le_fixSpace_of_mem_kernelTwo (S : Setting z E F) (a : G) {β �
     (hβA2 : β ∈ A2set S) (hγcomp : γ ∈ ncComp (A2set S) β) (hω : ω = β * γ)
     (hγω : γ = ω * β * ω⁻¹) (h3 : orderOf (β * γ) = 3) :
     ∀ k ∈ kernelTwo S a β, commSpace (rhoLin S k) ≤ fixSpace (rhoLin S ω) := by
-  haveI : Finite (Additive (QbarOf S)) := inferInstance
-  haveI : Module.Finite (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : Finite (Additive (QbarOf S)) := inferInstance
+  have : Module.Finite (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hγA2 : γ ∈ A2set S := CFSG.Timmesfeld.ncComp_subset hβA2 hγcomp
   have hωeq : commSpace (rhoLin S ω) =
       commSpace (rhoLin S β) ⊔ commSpace (rhoLin S γ) :=

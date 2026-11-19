@@ -12,7 +12,7 @@ open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22 CFSG.Open CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem seventeen_twentysix_b_three_of_ne (D : Data G) (V₀ V : Subgroup G) (hV : Hyp125 D V₀ V)
+theorem seventeen_twentysix_b_three_of_ne (D : Data G) (V₀ V : Subgroup G) (_hV : Hyp125 D V₀ V)
     (h17_25 : R17_25At D V₀ V)
     (hx : DataExt D) (h61 : UC6.R6_1 D) (h127 : R127 D) (h1114 : R1114 D)
     (h162 : W3Thm162Gt2 G) (hV0 : V₀ ≠ ⊥) :

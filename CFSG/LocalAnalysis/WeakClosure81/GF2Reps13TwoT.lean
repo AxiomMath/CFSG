@@ -106,7 +106,7 @@ private theorem w16g_map_commSub_le {W : Type} [CommGroup W]
 private theorem w16g_isPOnePlusTwo_of_mulEquiv {p : ℕ} {X Y : Type} [Group X] [Group Y]
     (e : X ≃* Y) (h : IsPOnePlusTwo p X) : IsPOnePlusTwo p Y := by
   obtain ⟨hX, hc, hp⟩ := h
-  haveI : CFSG.IsExtraspecial p X := hX
+  have : CFSG.IsExtraspecial p X := hX
   refine ⟨isExtraspecial_of_mulEquiv e.symm, ?_, ?_⟩
   · rw [← Nat.card_congr e.toEquiv]; exact hc
   · intro y
@@ -116,7 +116,7 @@ private theorem w16g_isPOnePlusTwo_of_mulEquiv {p : ℕ} {X Y : Type} [Group X] 
 private theorem w16g_isZ3Times_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
     (h : IsZ3TimesPOnePlusTwo X) : IsZ3TimesPOnePlusTwo Y := by
   obtain ⟨H, hinstH, hP, ⟨f⟩⟩ := h
-  letI := hinstH
+  let := hinstH
   exact ⟨H, hinstH, hP, ⟨e.symm.trans f⟩⟩
 
 private theorem w16g_isZ3WrZ3_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)

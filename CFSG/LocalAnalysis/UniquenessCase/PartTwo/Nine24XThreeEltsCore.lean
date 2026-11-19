@@ -28,7 +28,7 @@ theorem mem_of_isPGroup_three_of_isL2_normal {Z : Type} [Group Z] [Finite Z] {X 
     {m : ℕ} (hXn : X.Normal) (hX : IsL2 ↥X m) (hZ : ¬ HasE9 Z) {z : Z}
     (hz : IsPGroup 3 (Subgroup.zpowers z)) : z ∈ X := by
   classical
-  haveI := hXn
+  have := hXn
   have hSC : CFSG.Blueprint.LieModel ↥X .PSL 2 2 m := hX
   have hmodel : StatedClassicalModel ↥X .PSL 2 2 m := hSC.statedClassicalModel (by decide)
   have hsimple : IsSimpleGroup ↥X :=
@@ -43,7 +43,7 @@ theorem mem_of_isPGroup_three_of_isL2_normal {Z : Type} [Group Z] [Finite Z] {X 
     omega
   have hnc : ¬ IsMulCommutative ↥X := by
     intro hcomm
-    haveI : IsMulCommutative ↥X := hcomm
+    have : IsMulCommutative ↥X := hcomm
     have hprime : (Nat.card ↥X).Prime := (Group.is_simple_iff_prime_card).mp hsimple
     rw [hcard] at hprime
     have h2m : 2 ≤ 2 ^ m := by
@@ -91,7 +91,7 @@ theorem mem_of_isPGroup_three_of_isL2_normal {Z : Type} [Group Z] [Finite Z] {X 
     exact congrArg Subtype.val (Subgroup.mem_bot.mp hmem)
   have hC3' : ¬ 3 ∣ Nat.card ρ.ker := by
     intro hdvd
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := ρ.ker) 3 hdvd
     obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 3 h3card
     have hcd : Commute (c : Z) (d : Z) :=

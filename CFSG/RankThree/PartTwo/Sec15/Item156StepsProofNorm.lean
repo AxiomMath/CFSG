@@ -70,7 +70,7 @@ theorem eq_bot_of_isPGroup_of_centralizer_le_normalizer
     obtain ⟨T⟩ : Nonempty (Sylow 2 ↥C) := inferInstance
     set T' : Subgroup Γ := (T : Subgroup ↥C).map C.subtype with hT'
     have hT'C : T' ≤ C := Subgroup.map_subtype_le _
-    have hT'2 : IsPGroup 2 T' := T.isPGroup'.map C.subtype
+    have hT'2 : IsPGroup 2 T' := T.isPGroup.map C.subtype
     have hT'8 : 8 ∣ Nat.card T' := by
       rw [hT', Subgroup.card_map_of_injective C.subtype_injective]
       have h1 := Sylow.card_eq_multiplicity T

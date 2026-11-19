@@ -20,7 +20,7 @@ theorem isComponent_iff_eq_of_two_le_pRank (h72 : KFactOmegaNotCentral)
     {J : Subgroup (StarGroup p H)} (hJ : CFSG.IsComponent J) :
     ∀ D : Subgroup (StarGroup p H), CFSG.IsComponent D ↔ D = J := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hAcentJ : ∀ C : Subgroup (StarGroup p H), CFSG.IsComponent C →
       CFSG.pCore p (StarGroup p H) ≤ centralizer (C : Set (StarGroup p H)) :=
     fun C hC => (pCore_le_centralizer_layer h.prime H).trans
@@ -51,7 +51,7 @@ theorem pRank_pCore_eq_two (h72 : KFactOmegaNotCentral) (h : NineSettingGen G M 
     (hR : 2 ≤ CFSG.Open.pRank p (CFSG.pCore p (StarGroup p H)))
     {J : Subgroup (StarGroup p H)} (hJ : CFSG.IsComponent J) :
     CFSG.Open.pRank p (CFSG.pCore p (StarGroup p H)) = 2 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨A, hAle, hAab, hAcard⟩ :=
     CFSG.SectionRank.exists_pRank h.prime.one_lt (CFSG.pCore p (StarGroup p H))
   have hAcent : A ≤ centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) :=
@@ -72,7 +72,7 @@ theorem pRank_component_of_two_le_pRank (h72 : KFactOmegaNotCentral) (h2 : KFact
     {J : Subgroup (StarGroup p H)} (hJ : CFSG.IsComponent J) :
     CFSG.Open.pRank p J = 1 ∨
       (CFSG.Open.pRank p J = 2 ∧ p ∣ Nat.card (center ↥J)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨A, hAle, hAab, hAcard⟩ :=
     CFSG.SectionRank.exists_pRank h.prime.one_lt (CFSG.pCore p (StarGroup p H))
   obtain ⟨B, hBle, hBab, hBcard⟩ := CFSG.SectionRank.exists_pRank h.prime.one_lt J

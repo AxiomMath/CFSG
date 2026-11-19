@@ -46,7 +46,7 @@ open Subgroup CFSG.Open TauCeti CFSG.Assembly.LowTwoRank KD291DC
 theorem kd291DefCharL_of_inputs
     (hI : DefCharInputs) : KD291DefCharL := by
   intro p hp hp5 L _ _ _ _ ⟨dv, hch, ⟨e⟩⟩ h3 y hyo hyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨d, hv⟩ := dv
   have hch' : d.characteristic = p := hch

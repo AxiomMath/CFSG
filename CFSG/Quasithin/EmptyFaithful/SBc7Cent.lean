@@ -43,7 +43,7 @@ private theorem isSylowTwoOf_unitriangular_three {F : Type} [Field F] [Finite F]
     IsSylowTwoOf (unitriangular 3 F) ⊤ := by
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := F) 2 (n := 3) (by norm_num)
   rw [← hP]
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   show ¬ 2 ∣ (P : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F)).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact P.not_dvd_index

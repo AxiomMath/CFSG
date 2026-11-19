@@ -415,8 +415,8 @@ theorem item137PGLSylow_of_not_mem (h131 : Item131) (hspor : SporadicModels131)
   have hZK : Subgroup.center (K ⧸ aschbacherSolvableCore 3 K) = ⊥ :=
     (facts_of_isZ3PGLThreePi hD hPGL).2.1
   have hq2 : 2 < p ^ f := Item138Proof.two_lt_of_mulEquiv hKq hPi hq ψ
-  haveI : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
-  haveI : Group.IsPerfect (projImage (slPi π 3 (p ^ f) Fld)) :=
+  have : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
+  have : Group.IsPerfect (projImage (slPi π 3 (p ^ f) Fld)) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
   have hKact : ∀ k ∈ K, ∃ s ∈ slPi π 3 (p ^ f) Fld, ActsPGL ψ k s := by
     intro k hk
@@ -546,12 +546,12 @@ theorem item137PGLSylow_of_not_mem (h131 : Item131) (hspor : SporadicModels131)
       refine le_antisymm (fun y hy => ?_) hPT
       have : (⟨y, hy⟩ : T) ∈ P.subgroupOf T := htop ▸ Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp this
-    haveI : Group.IsNilpotent ↥T := IsPGroup.isNilpotent hT3
+    have : Group.IsNilpotent ↥T := IsPGroup.isNilpotent hT3
     have hlt := Group.normalizerCondition_of_isNilpotent (G := ↥T) (P.subgroupOf T) hPT'
     obtain ⟨g₀, hg₀N, hg₀P⟩ :
         ∃ g₀ ∈ Subgroup.normalizer ((P.subgroupOf T : Subgroup T) : Set T),
           g₀ ∉ P.subgroupOf T :=
-      SetLike.not_le_iff_exists.mp (fun h => lt_irrefl _ (lt_of_lt_of_le hlt h))
+      IsConcreteLE.not_le_iff_exists.mp (fun h => lt_irrefl _ (lt_of_lt_of_le hlt h))
     set g : G := (g₀ : G) with hgdef
     have hgT : g ∈ T := g₀.2
     have hgP : g ∉ P := fun h' => hg₀P (Subgroup.mem_subgroupOf.mpr h')
@@ -709,7 +709,7 @@ theorem false_of_mem (h131 : Item131) (hspor : SporadicModels131) (h414 : Sec4.I
     {P E F : Subgroup G} {t : G} (hcfg : Config137 A c L P E F t) (hST : HypS E ∨ HypT E)
     (hU : Subgroup.normalizer (E : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
     {e : G} {K : Subgroup G} (heΩ : Subgroup.zpowers e ∈ omegaA E) (hK : K ∈ lA E e)
-    (heZ : e ∈ Subgroup.centralizer (P : Set G)) (hec : e ∉ Subgroup.zpowers c)
+    (heZ : e ∈ Subgroup.centralizer (P : Set G)) (_hec : e ∉ Subgroup.zpowers c)
     (hPGL : Sec8.IsZ3PGLThreePi (lBarA e K E)) (heL : e ∈ L) : False := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXE : E ∈ partTwoE G ∧ E ∉ partTwoT G := by

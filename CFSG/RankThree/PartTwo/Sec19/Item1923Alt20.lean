@@ -31,7 +31,7 @@ theorem step1923_normalizer_A_le (h : Hyp1921 G A M N L)
   have h1 : x ∈ A ↔ g * x * g⁻¹ ∈ A := hA' x
   have h2 : x ∈ K ↔ g * x * g⁻¹ ∈ K := hK' x
   rw [← hAK]
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr h1 h2
 
 end CFSG.RankThree.PartTwo.Late

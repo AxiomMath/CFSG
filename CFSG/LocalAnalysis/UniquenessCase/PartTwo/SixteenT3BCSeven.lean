@@ -24,8 +24,8 @@ theorem s16t_insp_of_case168_7 (D : Data G) (hSg : UC6S846.SigmaStd D) {V L : Su
   have h7σ : 7 ∈ D.sig := by
     rw [hsig]
     exact Set.mem_singleton 7
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (MulAut (Vtil ⊥ V hV)) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (MulAut (Vtil ⊥ V hV)) := MulEquiv.finite_left
   have hP := h.pairFacts
   have hMst : D.M ≤ stabTil ⊥ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
   obtain ⟨E, hEM, hEel, hEcard⟩ :=

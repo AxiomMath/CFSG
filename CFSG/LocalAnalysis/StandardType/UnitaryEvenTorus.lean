@@ -33,7 +33,7 @@ theorem diagUnits_mem_SU (σ : F ≃+* F) {n : ℕ} (d : Fin n → Fˣ)
   constructor
   · rw [coe_diagUnits, Matrix.det_diagonal]
     have hcoe : ((∏ j, d j : Fˣ) : F) = ∏ j, (d j : F) := by
-      simpa using map_prod (Units.coeHom F) d Finset.univ
+      simp
     rw [← hcoe, hdet, Units.val_one]
   · rw [coe_diagUnits, conjTr, Matrix.diagonal_map (map_zero σ), Matrix.diagonal_transpose]
     ext i j
@@ -41,20 +41,20 @@ theorem diagUnits_mem_SU (σ : F ≃+* F) {n : ℕ} (d : Fin n → Fˣ)
     by_cases h : j = Fin.rev i
     · subst h
       simpa [antidiag] using hd i
-    · simp [antidiag, h]
+    · simp [h]
 
 lemma diagonal_conj_single {n : ℕ} (d : Fin n → Fˣ) (i j : Fin n) (hij : i ≠ j) (c : F) :
     diagonal (fun k => (d k : F)) * (1 + single i j c) * diagonal (fun k => ((d k : F))⁻¹)
       = 1 + single i j ((d i : F) * c * ((d j : F))⁻¹) := by
   ext p q
   simp only [Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.add_apply, Matrix.one_apply,
-    Matrix.single_apply, Matrix.diagonal_apply]
+    Matrix.single_apply]
   by_cases h1 : i = p ∧ j = q
   · obtain ⟨rfl, rfl⟩ := h1
     simp [hij]
   · by_cases h2 : p = q
     · subst h2
-      simp [h1, hij, Units.ne_zero]
+      simp [h1, Units.ne_zero]
     · simp [h1, h2]
 
 section Even
@@ -88,6 +88,7 @@ theorem exists_subgroup_card_three (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ f
 
 variable {σ : F ≃+* F} {μ : Subgroup Fˣ} {n m : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem diagUnits_torusEntry_mem_SU (h2m : 2 * m ≤ n) (hσμ : ∀ x ∈ μ, σ (x : F) = x)
     (hμ3 : ∀ x ∈ μ, x ^ 3 = 1) (a : Fin m → μ) : diagUnits n (torusEntry μ a) ∈ SU σ n := by
   refine diagUnits_mem_SU σ (torusEntry μ a) (fun j => ?_) (prod_torusEntry μ h2m hμ3 a)
@@ -100,11 +101,13 @@ theorem diagUnits_torusEntry_mem_SU (h2m : 2 * m ≤ n) (hσμ : ∀ x ∈ μ, �
   ((diagUnits n).comp (entryHom n μ)).codRestrict (SU σ n)
     (fun a => diagUnits_torusEntry_mem_SU h2m hσμ hμ3 a)
 
+omit [Finite F] [CharP F 2] in
 theorem coe_torusHom (h2m : 2 * m ≤ n) (hσμ : ∀ x ∈ μ, σ (x : F) = x) (hμ3 : ∀ x ∈ μ, x ^ 3 = 1)
     (a : Fin m → μ) :
     ((torusHom h2m hσμ hμ3 a : SU σ n) : GL (Fin n) F) = diagUnits n (torusEntry μ a) :=
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem torusHom_injective (h2m : 2 * m ≤ n) (hσμ : ∀ x ∈ μ, σ (x : F) = x)
     (hμ3 : ∀ x ∈ μ, x ^ 3 = 1) : Function.Injective (torusHom h2m hσμ hμ3) := by
   intro a b h
@@ -123,6 +126,7 @@ theorem zero_ne_rev (hn : 2 ≤ n) : (⟨0, by omega⟩ : Fin n) ≠ Fin.rev ⟨
   simp at h'
   omega
 
+omit [Finite F] [CharP F 2] in
 theorem torusHom_conj_longRootHom_mem_range (hn : 2 ≤ n) (hm : 1 ≤ m) (h2m : 2 * m ≤ n)
     (hσμ : ∀ x ∈ μ, σ (x : F) = x) (hμ3 : ∀ x ∈ μ, x ^ 3 = 1) (a : Fin m → μ)
     (c : Multiplicative (traceZero σ)) :
@@ -187,6 +191,7 @@ theorem torusHom_conj_longRootHom_mem_range (hn : 2 ≤ n) (hm : 1 ≤ m) (h2m :
   rw [hval]
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem torusHom_range_le_normalizer (hn : 2 ≤ n) (hm : 1 ≤ m) (h2m : 2 * m ≤ n)
     (hσμ : ∀ x ∈ μ, σ (x : F) = x) (hμ3 : ∀ x ∈ μ, x ^ 3 = 1) :
     (torusHom h2m hσμ hμ3).range ≤
@@ -208,6 +213,7 @@ theorem torusHom_range_le_normalizer (hn : 2 ≤ n) (hm : 1 ≤ m) (h2m : 2 * m 
     convert hconj using 1
     group
 
+omit [Finite F] in
 theorem isPGroup_two_range_longRootHom (hn : 2 ≤ n) :
     IsPGroup 2 (longRootHom σ (zero_ne_rev hn)).range := by
   have hdom : IsPGroup 2 (Multiplicative (traceZero σ)) := by
@@ -221,6 +227,7 @@ theorem isPGroup_two_range_longRootHom (hn : 2 ≤ n) :
   exact hdom.of_surjective (longRootHom σ (zero_ne_rev hn)).rangeRestrict
     (MonoidHom.rangeRestrict_surjective _)
 
+omit [Finite F] in
 theorem range_longRootHom_ne_bot (hn : 2 ≤ n) :
     (longRootHom σ (zero_ne_rev hn)).range ≠ ⊥ := by
   intro hbot
@@ -235,7 +242,7 @@ theorem range_longRootHom_ne_bot (hn : 2 ≤ n) :
       (Fin.rev (⟨0, by omega⟩ : Fin n))) hmem
   rw [coe_longRootHom] at hentry
   rw [Subgroup.coe_one, Units.val_one, longRootMatrix] at hentry
-  simp [Matrix.one_apply, Matrix.single_apply, zero_ne_rev hn] at hentry
+  simp [zero_ne_rev hn] at hentry
 
 end Even
 

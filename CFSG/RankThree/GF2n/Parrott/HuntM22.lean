@@ -77,7 +77,7 @@ theorem center_facts_of_selfCentralizing {L : Subgroup G} {z : G}
         have hzcomm : (g⁻¹ * (l : G) * g) * z =
             z * (g⁻¹ * (l : G) * g) :=
           mem_centralizer_singleton_iff.mp hgl
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_mul]
         calc (l : G) * (g * z * g⁻¹) =
             g * ((g⁻¹ * (l : G) * g) * z) * g⁻¹ := by group
           _ = g * (z * (g⁻¹ * (l : G) * g)) * g⁻¹ := by rw [hzcomm]

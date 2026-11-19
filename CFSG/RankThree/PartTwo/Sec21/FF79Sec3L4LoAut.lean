@@ -23,12 +23,12 @@ theorem aut_cube_apply {H : Type} [Group H] {β : MulAut H} (h3 : β ^ 3 = 1) (h
 
 theorem exists_invariant_sylow3 {L : Type} [Group L] [Finite L] (x : MulAut L) (hx : x ^ 3 = 1) :
     ∃ P : Sylow 3 L, ∀ s ∈ (P : Subgroup L), x s ∈ (P : Subgroup L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf x ∣ 3 ^ 1 := by simpa using orderOf_dvd_of_pow_eq_one hx
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hord
   have hp : IsPGroup 3 (Subgroup.zpowers x) :=
     IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
-  haveI : Finite (Sylow 3 L) := inferInstance
+  have : Finite (Sylow 3 L) := inferInstance
   have h1 := hp.card_modEq_card_fixedPoints (Sylow 3 L)
   have h2 := card_sylow_modEq_one 3 L
   have h3 : Nat.card (fixedPoints (Subgroup.zpowers x) (Sylow 3 L)) ≡ 1 [MOD 3] :=

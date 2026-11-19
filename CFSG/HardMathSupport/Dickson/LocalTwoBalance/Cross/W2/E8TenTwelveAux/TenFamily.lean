@@ -91,9 +91,9 @@ theorem e8Ten_family {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     fun Y => ?_⟩, ?_⟩
   · rw [hP2, ← hh₀ J Y]
     exact ⟨_, hJ Y, rfl⟩
-  · haveI : Finite (P ()) := hP.1 ()
-    haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact (pow_pos hℓ.pos f).ne')
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  · have : Finite (P ()) := hP.1 ()
+    have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact (pow_pos hℓ.pos f).ne')
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     refine e8Ten_p_dvd_card_of_unitary_family (K := k) hf hk hpd (rhoSigmaE8A4 L v)
       (rhoSigmaE8A4_injective v) (P ()) H fun Z hZ => ?_
     rw [hP2]

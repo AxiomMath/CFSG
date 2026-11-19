@@ -69,6 +69,7 @@ theorem isNormalInducedSignedFamily_dadeMapFun (hD : IsDadeData L A R)
   root_mem_Irr := fun _ hχ => (hη _ hχ).1
   map_sub_star_eq := fun _ hχ => (hη _ hχ).2
 
+omit [Fintype ↥L] in
 theorem dadeRoot_mem_Irr_and_map_sub_star_eq (hD : IsDadeData L A R) (hodd : Odd (Nat.card ↥L))
     (hA : A = ambientCoreCentralizerSupport H) :
     ∀ χ ∈ irrDetect ℂ H, dadeRoot L A R χ ∈ Irr G ∧

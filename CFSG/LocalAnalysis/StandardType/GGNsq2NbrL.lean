@@ -88,12 +88,12 @@ theorem ggNsq2Nbr_L_of_cov
       Nat.card K = (2 ^ f) ^ 2 ∧ 2 ≤ f ∧ 3 ∣ 2 ^ f + 1 ∧ 2 ≤ a ∧
         Nonempty (↥J ⧸ Subgroup.center ↥J ≃* Su K 2 f a ⧸ Subgroup.center (Su K 2 f a)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hKf, hKfin, hKchar, f, n, ψ, hcard, hn, hker, hrange, hdvd, hacts, -⟩ :=
     ggNSLie_cover_of_esu hcov
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hloc : GGNSLocalHyp p B Bs K f n ψ :=
     ggNSLocalHyp_of_routeCfg hcfg (Or.inl rfl) hcard hn hker hrange hdvd hacts
   obtain ⟨c, hc⟩ := ggNSLocal_exists_diag ggSecFiveNSCornerInput_holds hloc

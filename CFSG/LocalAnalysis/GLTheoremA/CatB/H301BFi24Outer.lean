@@ -31,8 +31,8 @@ private theorem exists_outer_commute {G : Type*} [Group G] [Finite G] {N E T : S
     (hET : E ≤ Subgroup.normalizer (T : Set G)) {t₀ : G} (ht₀ : t₀ ∈ T) (ht₀N : t₀ ∉ N) :
     ∃ t ∈ T, t ∉ N ∧ ∀ e ∈ E, e * t = t * e := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Type _ := {x : G // x ∈ T ∧ x ∉ N}
   have hcl : ∀ (e : E) (x : S), (e : G) * x * (e : G)⁻¹ ∈ T ∧ (e : G) * x * (e : G)⁻¹ ∉ N :=
     fun e x => ⟨(Subgroup.mem_normalizer_iff.1 (hET e.2) x).1 x.2.1, fun h => x.2.2 (by

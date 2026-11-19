@@ -24,7 +24,7 @@ theorem l2aut_reduce {M : Type*} [Group M] {F : Type u} [Field F] [Finite F] (e 
   classical
   have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, hpr, hq⟩ := FiniteField.card F (ringChar F)
-  haveI : Fact (ringChar F).Prime := ⟨hpr⟩
+  have : Fact (ringChar F).Prime := ⟨hpr⟩
   have hcard : Nat.card F = ringChar F ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hq]
   have hodd : Odd (ringChar F) := by
     rcases hpr.eq_two_or_odd' with h2 | h2
@@ -71,7 +71,7 @@ theorem l2aut_gf_odd_eq_one
   obtain ⟨S, hS⟩ := hpg.exists_le_sylow
   have huS : u ∈ (S : Subgroup PSL(2, GaloisField p f)) := hS (Subgroup.mem_zpowers u)
   have hK := psl2_odd_sylow_two_isKleinFour hp hf h8 S
-  haveI : IsMulCommutative (S : Subgroup PSL(2, GaloisField p f)) := hK.isMulCommutative
+  have : IsMulCommutative (S : Subgroup PSL(2, GaloisField p f)) := hK.isMulCommutative
   have hSc : ∀ x ∈ (S : Subgroup PSL(2, GaloisField p f)),
       x ∈ Subgroup.centralizer ({u} : Set PSL(2, GaloisField p f)) := by
     intro x hx

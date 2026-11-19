@@ -99,7 +99,7 @@ theorem mem_H2StarFam_of_isMaxTwoLocal_of_ne (hC : CStarGen G) {M E H : Subgroup
     (hM : CFSG.Open.rankThreeIsMaxTwoLocal M) (hE : E ≠ ⊥)
     (hH : CFSG.Open.rankThreeIsMaxTwoLocal H) (hEH : E ≤ H) (hHM : H ≠ M) :
     H ∈ CFSG.LocalAnalysis.RankThreeUC.AGL81C.H2StarFam M E := by
-  haveI := hC.simple
+  have := hC.simple
   have hHmem : H ∈ CFSG.LocalAnalysis.RankThreeUC.AGL81C.H2Fam M E :=
     ⟨CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top hC.nonab H hH.1, hEH,
       fun hle => hHM (hH.2 M hM.1 hle).symm, hC.charTwo H hH.1⟩
@@ -175,7 +175,7 @@ theorem S14FactsAt.exists_l34Data
   have hdataA : HypCGen G M 3 A H := HypCGen.of_le h hAH hAM hAelem hAcard hAΓ
   obtain ⟨H', hdata', hAK', -, hmax'⟩ := HypCGen.exists_kSub_maximal hdataA hAK
   have hC3' : CaseThree M H' := hF.three H' hdata'.mem_H2StarAll
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAHM : A ≤ H' ⊓ M :=
     le_inf (hAK'.trans (kSub_le 3 M H')) hAM
   obtain ⟨P, hP, hAP⟩ := CFSG.RankThree.PartOne.exists_isSylowOf_ge hAHM hdata'.isPGroup

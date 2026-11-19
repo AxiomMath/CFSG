@@ -137,7 +137,7 @@ theorem exists_bsBasis : ∃ e : Fin 4 → ↥Bs,
           exact hxle (Subgroup.mem_zpowers x)
         · rw [hgv]; exact Subgroup.subset_closure ⟨0, he0⟩
         · rw [hgu]; exact Subgroup.subset_closure ⟨1, he1⟩
-      · simp only [zSet, Set.mem_setOf_eq] at hg
+      · simp only [zSet, Set.mem_ofPred_eq] at hg
         obtain ⟨k, hk2, hk4, rfl⟩ := hg
         refine Subgroup.subset_closure ⟨2, ?_⟩
         change (e 2 : G) = φ₁ (omegaBlock 5 k)
@@ -194,7 +194,7 @@ theorem exists_bsBasis : ∃ e : Fin 4 → ↥Bs,
       rw [Subgroup.disjoint_def] at hdisj
       exact hdisj hmem1 hmem2
     have hdvd : (3 : ℤ) ∣ d := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       have hw3 : wElt φ₂ ^ 3 = 1 := h.basic.2.1 _ h.wElt_mem
       have hwne : wElt φ₂ ≠ 1 := by
         intro hh

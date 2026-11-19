@@ -22,7 +22,7 @@ private theorem card_hypSU_three_one {f : ℕ} {L : Type} [Field L] (h : Unitary
     Nat.card (hypSU h 3 1) = (2 ^ f) ^ 21 *
       (((2 ^ f) ^ 2 - 1) * ((2 ^ f) ^ 4 - 1) * ((2 ^ f) ^ 6 - 1) *
         (((2 ^ f) ^ 3 + 1) * ((2 ^ f) ^ 5 + 1) * ((2 ^ f) ^ 7 + 1))) := by
-  haveI : Finite L := h.finite
+  have : Finite L := h.finite
   rw [CFSG.LocalAnalysis.RankFourTheoremC.CrossExcU.crossExcU_card_hypSU_nat h
     (ε := 1) (by norm_num) (by norm_num)]
   have hIcc : Finset.Icc 2 7 = {2, 3, 4, 5, 6, 7} := by decide
@@ -87,7 +87,7 @@ private theorem factorization_card_hypSU_three_one {f : ℕ} {L : Type} [Field L
   have p3 : (2 ^ f) ^ 3 + 1 ≠ 0 := by positivity
   have p5 : (2 ^ f) ^ 5 + 1 ≠ 0 := by positivity
   have p7 : (2 ^ f) ^ 7 + 1 ≠ 0 := by positivity
-  simp only [Nat.factorization_mul, Nat.factorization_mul (pow_ne_zero _ hq0)
+  simp only [Nat.factorization_mul (pow_ne_zero _ hq0)
       (mul_ne_zero (mul_ne_zero (mul_ne_zero n2 n4) n6) (mul_ne_zero (mul_ne_zero p3 p5) p7)),
     Nat.factorization_mul (mul_ne_zero (mul_ne_zero n2 n4) n6)
       (mul_ne_zero (mul_ne_zero p3 p5) p7),
@@ -129,7 +129,7 @@ private theorem factorization_card_cover_u7 {f : ℕ} {L : Type} [Field L] [Fini
 private theorem exists_split_torus_u7 {f r : ℕ} {L : Type} [Field L] [Finite L]
     (h : UnitaryFieldData 2 f L) (hf1 : 1 ≤ f) (hr : r.Prime) (hr5 : 5 ≤ r)
     (hrd : r ∣ 2 ^ f - 1) :
-    ∃ (μ : Subgroup Lˣ) (hμ : SplitInv h μ),
+    ∃ (μ : Subgroup Lˣ) (_hμ : SplitInv h μ),
       Nat.card μ = r ^ (2 ^ f - 1).factorization r ∧ Odd (Nat.card μ) := by
   have hr2 : r ≠ 2 := by omega
   have hq1 : 1 < 2 ^ f := by
@@ -176,9 +176,9 @@ private theorem exists_comm_subgroup_u7
   obtain ⟨L, hFld, hFin, h, ⟨e⟩⟩ :=
     uc22pwliu_exists_hypPSU (Y := K ⧸ Subgroup.center K) (n := f) (r := 3) (ε := 1)
       (by omega) (by norm_num) hL
-  letI : Field L := hFld
-  letI : Finite L := hFin
-  haveI : CharP L 2 := h.charP
+  let : Field L := hFld
+  let : Finite L := hFin
+  have : CharP L 2 := h.charP
   obtain ⟨α, hα, hker, -⟩ :=
     uc22pwliu_exists_cover (K := L) h (r := 3) (ε := 1) (by norm_num) (by norm_num) hf2 hqs e
   obtain ⟨μ, hμ, hcardμ, hoddμ⟩ := exists_split_torus_u7 h hf1 hr hr5 hrd
@@ -197,24 +197,24 @@ private theorem exists_comm_subgroup_u7
   have hfacK : (Nat.card K).factorization r = 3 * (2 ^ f - 1).factorization r :=
     factorization_card_cover_u7 (L := L) h hr hq1 hrd hr5 α hα hker
   refine ⟨D.map α, ?_, ?_⟩
-  · haveI : IsMulCommutative D := hDab
+  · have : IsMulCommutative D := hDab
     exact Subgroup.map_isMulCommutative (H := D) (f := α)
   · rw [hcardDmap, hfacK]
 
 theorem k_U7CartanSylowAbelian_holds :
     K_U7CartanSylowAbelian := by
   intro K _ _ f r hadm hL hqs _ hr hr7 hrd P
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨H, hHab, hHcard⟩ := exists_comm_subgroup_u7 hadm hL hqs hr (by omega) hrd
   let P0 : Sylow r K := Sylow.ofCard H hHcard
   have hP0 : (P0 : Subgroup K) = H := Sylow.coe_ofCard _ _
-  haveI : Finite (Sylow r K) :=
+  have : Finite (Sylow r K) :=
     Finite.of_injective (fun Q : Sylow r K => (Q : Subgroup K)) (fun Q R h => Sylow.ext h)
-  haveI : MulAction.IsPretransitive K (Sylow r K) := Sylow.isPretransitive_of_finite
+  have : MulAction.IsPretransitive K (Sylow r K) := Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq K P0 P
   rw [← hg, Sylow.coe_subgroup_smul, hP0]
   change IsMulCommutative (H.map (MulAut.conj g).toMonoidHom)
-  haveI : IsMulCommutative H := hHab
+  have : IsMulCommutative H := hHab
   exact Subgroup.map_isMulCommutative (H := H) (f := (MulAut.conj g).toMonoidHom)
 
 variable {f : ℕ} {L : Type} [Field L]
@@ -278,12 +278,12 @@ private theorem u7E_entries_eq_one (h : UnitaryFieldData 2 f L) {μ : Subgroup L
   · change torusEntries h
       (fun i => ((Function.ExtendByOne.hom μ (Fin.castSucc : Fin 2 → Fin 3)) x i : Lˣ))
       (1 : Fin 1 → Lˣ) (Sum.inl (2 : Fin 3)) = 1
-    simp [torusEntries, u7E_extend_apply_last]
+    simp [torusEntries]
   · exact k.elim0
   · change torusEntries h
       (fun i => ((Function.ExtendByOne.hom μ (Fin.castSucc : Fin 2 → Fin 3)) x i : Lˣ))
       (1 : Fin 1 → Lˣ) (Sum.inr (Sum.inr (2 : Fin 3))) = 1
-    simp [torusEntries, u7E_extend_apply_last]
+    simp [torusEntries]
 
 private theorem u7D_entries_eq_one (h : UnitaryFieldData 2 f L) (t : Lˣ) :
     ∀ k : HypIndex 1 0,
@@ -482,9 +482,9 @@ private theorem u7_exists_E (h : UnitaryFieldData 2 f L) {μ : Subgroup Lˣ}
     norm_num
 
 private theorem exists_order_p_elements_u7 (h : UnitaryFieldData 2 f L) [Finite L]
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpdvd : p ∣ 2 ^ f + 1) :
+    {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hpdvd : p ∣ 2 ^ f + 1) :
     ∃ (t₀ : Lˣ) (y₀ : hypSU h 1 0), orderOf t₀ = p ∧ orderOf y₀ = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpunits : p ∣ Nat.card Lˣ := by
     rw [Nat.card_units, h.card, show 2 * f = f * 2 by ring, pow_mul]
     have hsq : (2 ^ f) ^ 2 - 1 = (2 ^ f - 1) * (2 ^ f + 1) := by
@@ -500,7 +500,7 @@ private theorem exists_order_p_elements_u7 (h : UnitaryFieldData 2 f L) [Finite 
     have hoddprod : CFSG.LocalAnalysis.RankFourTheoremC.CrossExcU.crossExcUOddProd
         (2 ^ f) 2 = 1 := by
       simp [CFSG.LocalAnalysis.RankFourTheoremC.CrossExcU.crossExcUOddProd]
-    simp only [Nat.reduceMul, Nat.reduceAdd, Nat.reduceSub, Nat.reduceDiv, Finset.range_one,
+    simp only [Nat.reduceAdd, Nat.reduceSub, Nat.reduceDiv, Finset.range_one,
       Finset.prod_singleton, pow_one, mul_one]
     rw [hoddprod, mul_one, hsq]
     exact dvd_mul_of_dvd_right (dvd_mul_of_dvd_right hpdvd _) _
@@ -546,10 +546,10 @@ private theorem u7_pRank_centralizer (h : UnitaryFieldData 2 f L) [Finite L]
     {μ : Subgroup Lˣ} (hμ : SplitInv h μ) {K : Type} [Group K] [Finite K]
     {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpdvd : p ∣ 2 ^ f + 1)
     (α : hypSU h 3 1 →* K) (hker : ∀ s, α s = 1 → s ∈ hypScalars h 3 1)
-    (hcardμ : Nat.card μ = r) :
+    (_hcardμ : Nat.card μ = r) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (Subgroup.centralizer
       (((α.comp (u7E h μ hμ)).range : Subgroup K) : Set K))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨t₀, y₀, ht₀, hy₀⟩ := exists_order_p_elements_u7 h hp hp2 hpdvd
   let A : Subgroup (Lˣ × hypSU h 1 0) := (Subgroup.zpowers t₀).prod (Subgroup.zpowers y₀)
   have hA := card_comm_pow_prod_zpowers_u7 (h := h) ht₀ hy₀
@@ -582,9 +582,9 @@ theorem k_U7CentTorus_holds :
   obtain ⟨L, hFld, hFin, h, ⟨e⟩⟩ :=
     uc22pwliu_exists_hypPSU (Y := K ⧸ Subgroup.center K) (n := f) (r := 3) (ε := 1)
       (by omega) (by norm_num) hL
-  letI : Field L := hFld
-  letI : Finite L := hFin
-  haveI : CharP L 2 := h.charP
+  let : Field L := hFld
+  let : Finite L := hFin
+  have : CharP L 2 := h.charP
   obtain ⟨α, -, hker, -⟩ :=
     uc22pwliu_exists_cover (K := L) h (r := 3) (ε := 1) (by norm_num) (by norm_num) hf2 hqs e
   have hdvdq : r ∣ Nat.card L - 1 := by

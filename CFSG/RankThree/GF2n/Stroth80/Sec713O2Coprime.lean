@@ -141,7 +141,7 @@ theorem step713Coprime_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement
     intro h
     exact hyQ (by simpa using Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h))
   have hyord : orderOf yb = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hyb3 hyb1
   have hyDb : yb ∈ Subgroup.normalizer (Db : Set (Mbar M Q)) :=
     sec713_mem_normalizer_bar hyM fun a ha => conj_mem_O2NormPre hyN0 ha

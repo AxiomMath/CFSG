@@ -69,7 +69,7 @@ theorem false_of_involution_commutes_seven_sq (hE : Module.finrank (ZMod 2) E = 
       simpa only [Module.End.mul_apply, LinearEquiv.coe_toLinearMap] using h2
     simp only [LinearMap.sub_apply, Module.End.one_apply, map_sub]
     rw [hc]
-  letI : MulAction ↥R ↥K :=
+  let : MulAction ↥R ↥K :=
     { smul := fun g k => ⟨(g : E ≃ₗ[ZMod 2] E) k.1, by
         show (g : E ≃ₗ[ZMod 2] E) k.1 ∈ LinearMap.ker A
         refine LinearMap.mem_ker.mpr ?_
@@ -83,7 +83,7 @@ theorem false_of_involution_commutes_seven_sq (hE : Module.finrank (ZMod 2) E = 
         change ((g * hh : ↥R) : E ≃ₗ[ZMod 2] E) k.1 =
           (g : E ≃ₗ[ZMod 2] E) ((hh : E ≃ₗ[ZMod 2] E) k.1)
         rw [Subgroup.coe_mul, LinearEquiv.mul_apply]) }
-  haveI : Finite ↥K := Module.finite_of_finite (R := ZMod 2) (M := ↥K)
+  have : Finite ↥K := Module.finite_of_finite (R := ZMod 2) (M := ↥K)
   have hfixed_subsingleton : Subsingleton (MulAction.fixedPoints ↥R ↥K) := by
     constructor
     intro x y
@@ -109,7 +109,7 @@ theorem false_of_involution_commutes_seven_sq (hE : Module.finrank (ZMod 2) E = 
       simp)
   have hfixed_card : Nat.card (MulAction.fixedPoints ↥R ↥K) = 1 :=
     Nat.card_eq_one_iff_unique.mpr ⟨hfixed_subsingleton, hfixed_nonempty⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   have hIsP : IsPGroup 7 ↥R :=
     IsPGroup.of_card (p := 7) (n := 2) (by rw [hR]; norm_num)
   have hmodK : Nat.card ↥K ≡ 1 [MOD 7] := by

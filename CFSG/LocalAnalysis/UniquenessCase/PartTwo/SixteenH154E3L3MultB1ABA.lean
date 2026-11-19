@@ -141,7 +141,7 @@ private theorem s16h_l3MatImage_isMin {W : Type} [CommGroup W]
           refine ⟨u.2, ?_⟩
           have hsub : (⟨(u : W), u.2⟩ : ↥U) = u := Subtype.ext rfl
           rw [hsub, hψ]
-          simpa using hmK
+          simp
         have huIK : (u : W) ∈ IK := ⟨huI, huPre⟩
         rw [h] at huIK
         rw [Subgroup.mem_bot] at huIK

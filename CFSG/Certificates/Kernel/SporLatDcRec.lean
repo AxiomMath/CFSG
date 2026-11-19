@@ -67,7 +67,7 @@ private theorem headL_append {a b : List (List ℕ)} (ha : a ≠ []) : headL (a 
 
 private theorem sortedLt_append {a b : List (List ℕ)} (ha : sortedLt a = true)
     (hb : sortedLt b = true)
-    (hbne : b ≠ []) (h : lexLt (lastL a) (headL b) = true) : sortedLt (a ++ b) = true := by
+    (_hbne : b ≠ []) (h : lexLt (lastL a) (headL b) = true) : sortedLt (a ++ b) = true := by
   rw [sortedLt_iff_pairwise] at ha hb ⊢
   rw [List.pairwise_append]
   refine ⟨ha, hb, fun x hx y hy => ?_⟩
@@ -125,8 +125,7 @@ private theorem sortedLt_flatten_aux : ∀ (cs : List (List Rep)) (i : ℕ),
       simpa using this
     obtain ⟨-, hckeys⟩ := chunk_keys_data P hi hget0
     rcases cs with _ | ⟨c', cs'⟩
-    · simp only [List.flatten_cons, List.flatten_nil, List.append_nil, List.map_append,
-        List.map_nil, List.append_nil]
+    · simp only [List.flatten_cons, List.flatten_nil, List.append_nil, List.append_nil]
       exact hckeys
     · have hi' : i + 1 < P.D.Rc.length :=
         Nat.lt_of_lt_of_le
@@ -157,7 +156,7 @@ private theorem sortedLt_flatten_aux : ∀ (cs : List (List Rep)) (i : ℕ),
 private theorem sortedLt_recs_keys : sortedLt (P.recs.map Rep.key) = true := by
   have h := sortedLt_flatten_aux P P.D.Rc 0 (by simp) (by
     intro j hj
-    simpa using rfl)
+    simp)
   simpa [recs] using h
 
 private theorem key_eq_of_mem_recs {r r' : Rep} (hr : r ∈ P.recs) (hr' : r' ∈ P.recs)
@@ -302,7 +301,7 @@ theorem card_unionSx : P.unionSx.card = P.C.N := by
 theorem mem_GOrb {M : List ℕ} :
     M ∈ P.GOrb ↔ ∃ g : Γ, lab n ptLab P.C.Δ g = M := by
   classical
-  letI : Fintype Γ := Fintype.ofFinite Γ
+  let : Fintype Γ := Fintype.ofFinite Γ
   show M ∈ Finset.univ.image (fun g : Γ => lab n ptLab P.C.Δ g) ↔
     ∃ g : Γ, lab n ptLab P.C.Δ g = M
   rw [Finset.mem_image]

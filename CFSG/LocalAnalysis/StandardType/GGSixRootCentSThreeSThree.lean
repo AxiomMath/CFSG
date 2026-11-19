@@ -13,7 +13,7 @@ namespace CFSG.StandardType
 theorem ggSThree_pow_three_mem {X : Type*} [Group X] [Finite X] {S Q : Subgroup X}
     (hQS : Q ≤ S) (hQn : ∀ s ∈ S, ∀ q ∈ Q, s * q * s⁻¹ ∈ Q)
     (hcard : Nat.card S = 3 * Nat.card Q) {s : X} (hs : s ∈ S) : s ^ 3 ∈ Q := by
-  haveI hQn' : (Q.subgroupOf S).Normal :=
+  have hQn' : (Q.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff hQS).mpr fun q s' hq hs' => hQn s' hs' q hq
   have hcardQ' : Nat.card (Q.subgroupOf S) = Nat.card Q :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQS).toEquiv
@@ -21,7 +21,7 @@ theorem ggSThree_pow_three_mem {X : Type*} [Group X] [Finite X] {S Q : Subgroup 
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Q.subgroupOf S)
     rw [hcard, hcardQ'] at h
     have hQpos : 0 < Nat.card Q := by
-      haveI : Nonempty Q := ⟨1⟩
+      have : Nonempty Q := ⟨1⟩
       exact Nat.card_pos
     exact (Nat.eq_of_mul_eq_mul_right hQpos h).symm
   have hs3 : (QuotientGroup.mk ⟨s, hs⟩ : ↥S ⧸ Q.subgroupOf S) ^ 3 = 1 := by
@@ -41,7 +41,7 @@ theorem ggSThree_conj_mem {X : Type*} [Group X] [Finite X] {H S R₀ Q : Subgrou
   have hSH : S ≤ H := hSR₀.trans hR₀H
   have hQH : Q ≤ H := hQS.trans hSH
   have hQR₀ : Q ≤ R₀ := hQS.trans hSR₀
-  haveI hQR₀n : (Q.subgroupOf R₀).Normal :=
+  have hQR₀n : (Q.subgroupOf R₀).Normal :=
     (Subgroup.normal_subgroupOf_iff hQR₀).mpr fun q r hq hr =>
       (Subgroup.normal_subgroupOf_iff hQH).mp hQn q r hq (hR₀H hr)
   obtain ⟨φ⟩ := hiso
@@ -57,7 +57,7 @@ theorem ggSThree_conj_mem {X : Type*} [Group X] [Finite X] {H S R₀ Q : Subgrou
   have hcardS' : Nat.card (S.subgroupOf R₀) = Nat.card S :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSR₀).toEquiv
   have hQpos : 0 < Nat.card Q := by
-    haveI : Nonempty Q := ⟨1⟩
+    have : Nonempty Q := ⟨1⟩
     exact Nat.card_pos
   have hindex : (S.subgroupOf R₀).index = 2 := by
     have h := Subgroup.card_mul_index (S.subgroupOf R₀)
@@ -101,7 +101,7 @@ theorem ggSThree_card_map_dvd {X Z : Type*} [Group X] [Finite X] [Group Z] (π :
   have hcardQ' : Nat.card (Q.subgroupOf S) = Nat.card Q :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQS).toEquiv
   have hQpos : 0 < Nat.card Q := by
-    haveI : Nonempty Q := ⟨1⟩
+    have : Nonempty Q := ⟨1⟩
     exact Nat.card_pos
   obtain ⟨k, hk⟩ := hcardK
   have h3 : k * Nat.card f.range = 3 := by
@@ -113,7 +113,7 @@ theorem ggSThree_card_map_dvd {X Z : Type*} [Group X] [Finite X] [Group Z] (π :
 
 theorem ggSThree_isSolvable_of_card_dvd_three {Z : Type*} [Group Z] [Finite Z] (A : Subgroup Z)
     (h : Nat.card A ∣ 3) : Group.IsSolvable A := by
-  haveI : IsCyclic A := isCyclic_of_card_dvd_prime h
+  have : IsCyclic A := isCyclic_of_card_dvd_prime h
   infer_instance
 
 end CFSG.StandardType

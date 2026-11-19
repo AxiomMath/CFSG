@@ -29,7 +29,7 @@ theorem ggOrdPFieldConjAt_of_centRank {t : StatedLieTag} (h : GGExcFieldAutCentR
   intro G _ _ p Bs G₀ n f ψ hS _ y hyM hyp hdf hni
   obtain ⟨E₀, hE₀G, hE₀, hcomm, hcard⟩ := h G p Bs G₀ n f ψ hS y hyM hyp hdf hni
   have hpp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hyE : y ∉ E₀ := fun hy => hni (ggPsiInnerDiag_of_mem_range _ (by
     rw [hS.presents.2.1.1]
     exact hE₀G hy))

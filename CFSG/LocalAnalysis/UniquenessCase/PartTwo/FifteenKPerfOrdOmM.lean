@@ -12,12 +12,12 @@ open CFSG.Open
 theorem s15k_pord_omega_minus {X : Type} [Group X] {n : ℕ} (hn : 8 ≤ n)
     (h : IsOmegaMinus X n 1) : 2 ^ 7 ∣ Nat.card X := by
   obtain ⟨-, K, hF, hFin, b, c, hK, hirr, ⟨e⟩⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have hK2 : Nat.card K = 2 := by simpa using hK
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
       rw [← Nat.card_eq_fintype_card, hK2]; norm_num)
   have hm : 4 ≤ n / 2 := by omega

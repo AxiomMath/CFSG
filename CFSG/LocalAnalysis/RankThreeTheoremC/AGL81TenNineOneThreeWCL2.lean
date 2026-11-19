@@ -74,6 +74,7 @@ theorem conj_unip_eq {G : GL (Fin 2) F} {c b : F}
   apply Subtype.ext
   rw [hB, hr1, one_smul]
 
+omit [CharP F 3] in
 theorem cancel_right {G : GL (Fin 2) F} {X Y : Matrix (Fin 2) (Fin 2) F}
     (h : X * (G : Matrix (Fin 2) (Fin 2) F) = Y * (G : Matrix (Fin 2) (Fin 2) F)) : X = Y := by
   have := congrArg (· * ((G⁻¹ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F)) h
@@ -81,6 +82,7 @@ theorem cancel_right {G : GL (Fin 2) F} {X Y : Matrix (Fin 2) (Fin 2) F}
     Matrix.mul_one] at this
   exact this
 
+omit [CharP F 3] in
 theorem conjSL_eq_of_mul {G : GL (Fin 2) F} {A Y : SL(2, F)}
     (h : (Y : Matrix (Fin 2) (Fin 2) F) * (G : Matrix (Fin 2) (Fin 2) F) =
       (G : Matrix (Fin 2) (Fin 2) F) * A) : conjSL G A = Y := by
@@ -114,14 +116,14 @@ theorem inner_of_fix_unip [Finite F] (β : MulAut (PSL2 F))
     exact this
   have h11 : M 1 1 = M 0 0 := by
     have := congrFun (congrFun h1 0) 1
-    simp [sl2UpperUnipotent, Matrix.mul_apply, Fin.sum_univ_two, h10] at this
+    simp [sl2UpperUnipotent, Matrix.mul_apply, Fin.sum_univ_two] at this
     linear_combination this
   have hcomm : ∀ c : F, (sl2UpperUnipotent c : Matrix (Fin 2) (Fin 2) F) * M =
       M * sl2UpperUnipotent c := by
     intro c
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [sl2UpperUnipotent, Matrix.mul_apply, Fin.sum_univ_two, h10, h11] <;> ring
+      simp [sl2UpperUnipotent, Matrix.mul_apply, Fin.sum_univ_two, h10, h11]; ring
   have hconj : ∀ c : F, conjSL G (sl2UpperUnipotent c) = sl2UpperUnipotent c :=
     fun c => conjSL_eq_of_mul (hcomm c)
   have hσ : σ = 1 := by
@@ -139,7 +141,7 @@ theorem inner_of_fix_unip [Finite F] (β : MulAut (PSL2 F))
   set c₀ := M 0 1 / M 0 0
   have hGu : M = M 0 0 • (sl2UpperUnipotent c₀ : Matrix (Fin 2) (Fin 2) F) := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [sl2UpperUnipotent, h10, h11, c₀] <;> field_simp
+    fin_cases i <;> fin_cases j <;> simp [sl2UpperUnipotent, h10, h11, c₀]; field_simp
   refine ⟨psl2QuotientMap F (sl2UpperUnipotent c₀), fun x => ?_⟩
   obtain ⟨A, rfl⟩ := psl2QuotientMap_surjective x
   rw [hG, hσ, map_one, mul_one, pglAction_mk, ← map_inv, ← map_mul, ← map_mul]
@@ -155,6 +157,7 @@ theorem inner_of_fix_unip [Finite F] (β : MulAut (PSL2 F))
 noncomputable def dmat (l : F) (hl : l ≠ 0) : SL(2, F) :=
   ⟨!![l, 0; 0, l⁻¹], by simp [Matrix.det_fin_two_of, hl]⟩
 
+omit [CharP F 3] in
 theorem dmat_conj (l : F) (hl : l ≠ 0) (b : F) :
     dmat l hl * sl2UpperUnipotent b * (dmat l hl)⁻¹ = sl2UpperUnipotent (l ^ 2 * b) := by
   rw [mul_inv_eq_iff_eq_mul]
@@ -162,8 +165,9 @@ theorem dmat_conj (l : F) (hl : l ≠ 0) (b : F) :
   simp only [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dmat, sl2UpperUnipotent, Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp
+    simp [dmat, sl2UpperUnipotent, Matrix.mul_apply, Fin.sum_univ_two]; field_simp
 
+omit [CharP F 3] in
 theorem unip_inj {x y : F} (h : psl2QuotientMap F (sl2UpperUnipotent x) =
     psl2QuotientMap F (sl2UpperUnipotent y)) : x = y := by
   obtain ⟨r, -, hB⟩ := quot_eq h
@@ -172,6 +176,7 @@ theorem unip_inj {x y : F} (h : psl2QuotientMap F (sl2UpperUnipotent x) =
   simp [sl2UpperUnipotent] at h00 h01
   rw [h01, ← h00, one_mul]
 
+omit [CharP F 3] in
 theorem unip_zpow (b : F) (k : ℤ) :
     sl2UpperUnipotent b ^ k = sl2UpperUnipotent ((k : F) * b) := by
   have h := map_zpow (sl2UpperUnipotentHom F) (Multiplicative.ofAdd b) k
@@ -192,6 +197,7 @@ theorem intCast_trichotomy (k : ℤ) : (k : F) = 0 ∨ (k : F) = 1 ∨ (k : F) =
     have : (2 : F) = -1 := by linear_combination h3
     exact_mod_cast this
 
+omit [CharP F 3] in
 theorem exists_l [Finite F] (h9 : 9 ≤ Nat.card F) : ∃ l : F, l ≠ 0 ∧ l ^ 4 ≠ 1 := by
   obtain ⟨γ, hγ⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Fˣ)
   refine ⟨γ, γ.ne_zero, fun h => ?_⟩
@@ -203,8 +209,9 @@ theorem exists_l [Finite F] (h9 : 9 ≤ Nat.card F) : ∃ l : F, l ≠ 0 ∧ l ^
   have := Nat.le_of_dvd (by norm_num) hdvd
   omega
 
+omit [CharP F 3] in
 theorem center_psl2 [Finite F] (h9 : 9 ≤ Nat.card F) : Subgroup.center (PSL2 F) = ⊥ := by
-  haveI : IsSimpleGroup (PSL2 F) :=
+  have : IsSimpleGroup (PSL2 F) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (PSL2 F)) with h | h
   · exact h
@@ -230,7 +237,7 @@ theorem exists_equiv_psl2 {K : Type} [Group K] (d : TauCeti.ValidLieTypeIndex)
   obtain ⟨q, hqp, hqe, hd1⟩ := hd
   simp only at hd1
   subst hd1
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   refine ⟨GaloisField q.p q.exponent, inferInstance, inferInstance, hqp ▸ inferInstance, ?_,
     ⟨e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv)⟩⟩
   rw [GaloisField.card _ _ (by omega), hqp]

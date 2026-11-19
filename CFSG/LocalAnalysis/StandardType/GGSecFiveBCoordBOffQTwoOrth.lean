@@ -93,7 +93,7 @@ private theorem ggSecFiveData_of_ordinaryModel
       LineU.ActsDiagU ψ a t) :
     GGSecFiveData 3 B x L D J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcfg : GGConfig 3 B Bs x L D J := hR.1.1
   have hcard4 : Nat.card Fld = 4 := by
     rw [hM.field.card]
@@ -102,9 +102,9 @@ private theorem ggSecFiveData_of_ordinaryModel
     card_bstar_inf_centralizer_le_three_of_aPermutationFull eta' hAK'
   obtain ⟨-, -, -, F0, hFieldF0, hAlgF0K, E, hF0card, π, hπ, κ, χK, hκ⟩ :=
     exists_omKFrame_of_qTwoOrth_over (K := Fld) hcfg (by omega) eta' hAL' hLab hcard4
-  letI : Field F0 := hFieldF0
-  letI : Algebra F0 Fld := hAlgF0K
-  haveI : Finite F0 := Nat.finite_of_card_ne_zero (by rw [hF0card]; norm_num)
+  let : Field F0 := hFieldF0
+  let : Algebra F0 Fld := hAlgF0K
+  have : Finite F0 := Nat.finite_of_card_ne_zero (by rw [hF0card]; norm_num)
   obtain ⟨-, -, hxBs, -, -⟩ := hcfg.tableB_facts
   have hS : LargeEvenSStar 3 B x L := hcfg.1.2.2.2.2.2.2.1
   have hX : CFSG.Open.IsComponentOf L (Subgroup.centralizer ({x} : Set G)) := by
@@ -154,7 +154,7 @@ theorem GGSecFiveRouteCfg.ggSecFiveData_of_qTwoOrth_denseNbr_marking_ge_five
     (hBJ : BMaxJoinInput) :
     GGSecFiveData 3 B x L D J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcfg : GGConfig 3 B Bs x L D J := hR.1.1
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
   have hm : 4 ≤ m := by omega
@@ -178,11 +178,11 @@ theorem GGSecFiveRouteCfg.ggSecFiveData_of_qTwoOrth_denseNbr_marking_ge_five
       GGResHyp.u63_marking_of_cell hcell3
     obtain ⟨Fld, hFieldF, hFiniteF, hF4, θ, hN, hact⟩ :=
       GGResHyp.unitary_six_two_K_marking_data hH hcell
-    letI : Field Fld := hFieldF
-    letI : Finite Fld := hFiniteF
+    let : Field Fld := hFieldF
+    let : Finite Fld := hFiniteF
     have hCharF : CharP Fld 2 :=
       charP_two_of_card (by simpa using hF4 : Nat.card Fld = 2 ^ 2)
-    letI : CharP Fld 2 := hCharF
+    let : CharP Fld 2 := hCharF
     have hLp : commutator ↥K = ⊤ := hcell.1
     have hgamma : 3 ^ 4 ≤ Nat.card (ggGamma K hN).range :=
       GGResHyp.gamma_four_of_unitary_six_two_K hLB hStdP hH hN rfl hU63
@@ -231,9 +231,9 @@ theorem GGSecFiveRouteCfg.ggSecFiveData_of_qTwoOrth_denseNbr_marking_ge_five
     obtain ⟨Fld, hFieldF, hFiniteF, ψ, hM, hdiag⟩ :=
       GGResHyp.exists_unitaryModel_K_qTwo_of_marking_rank (r := m) hH hKU
         (by omega) (by omega)
-    letI : Field Fld := hFieldF
-    letI : Finite Fld := hFiniteF
-    letI : CharP Fld 2 := hM.field.charP
+    let : Field Fld := hFieldF
+    let : Finite Fld := hFiniteF
+    let : CharP Fld 2 := hM.field.charP
     have hN : Bs ≤ Subgroup.normalizer (K : Set G) :=
       (hH.2.2.1.2 y K hH.2.2.2.2.1).le_normalizer
     exact ggSecFiveData_of_ordinaryModel hR hm e hP eta i0 hLab hRM hK hBJ
@@ -391,11 +391,11 @@ theorem GGSecFiveRouteCfg.ggSecFiveData_of_qTwoOrth_bCoordSparse_ge_five
     π, κ₁, κ₂, χ, t, Ψ, hπlast, hπzero, hframe1, hframe2, ht1, ht2, hoverlap,
     hAct1, hAct2, hPsiInj, hPsiCast, hPsiPerm, hPsiRange⟩ :=
     exists_normOmega_hom_of_qTwoOrth hcfg hk eta hAL hLab hSigned hG0 hw hj hact
-  letI : Field F := hFieldF
-  letI : Field Kf := hFieldK
-  letI : Algebra F Kf := hAlgFK
-  letI : Finite Kf := hFinK
-  letI : CharP Kf 2 := hCharK
+  let : Field F := hFieldF
+  let : Field Kf := hFieldK
+  let : Algebra F Kf := hAlgFK
+  let : Finite Kf := hFinK
+  let : CharP Kf 2 := hCharK
   have hRange : ggG0 3 B x L D J = L ⊔ t.range :=
     ggG0_eq_sup_range_of_normPerm (k := k) (F := F) (Kf := Kf)
       hX hTCJ hRig hTPn hA8 hraw hiso hFC hR hB eta i0 hSigned hAL hSparse hRM
@@ -489,11 +489,11 @@ theorem GGSecFiveRouteCfg.ggSecFiveData_of_qTwoOrth_bCoordSparse_four
     hAct1, hAct2, hPsiInj, hPsiCast, hPsiPerm, hPsiRange⟩ :=
     hHom hX hTCJ hRig hTPn hA8 hraw hiso hFC hLB hR hB eta i0 hSigned hAL hLab hRM hG0
       hw hj hact
-  letI : Field F := hFieldF
-  letI : Field Kf := hFieldK
-  letI : Algebra F Kf := hAlgFK
-  letI : Finite Kf := hFinK
-  letI : CharP Kf 2 := hCharK
+  let : Field F := hFieldF
+  let : Field Kf := hFieldK
+  let : Algebra F Kf := hAlgFK
+  let : Finite Kf := hFinK
+  let : CharP Kf 2 := hCharK
   have hRange : ggG0 3 B x L D J = L ⊔ t.range :=
     ggG0_eq_sup_range_of_normPerm (k := 0) (F := F) (Kf := Kf)
       hX hTCJ hRig hTPn hA8 hraw hiso hFC hR hB eta i0 hSigned hAL hSparse hRM
@@ -503,8 +503,7 @@ theorem GGSecFiveRouteCfg.ggSecFiveData_of_qTwoOrth_bCoordSparse_four
 
 theorem ggSecFiveBCoordBOffQTwoOrthRouteInput_of_fourHom
     (hHom : GGQTwoOrthFourHomInput) : GGSecFiveBCoordBOffQTwoOrthRouteInput := by
-  intro hID hLB hStdP hX hTCJ hRig hTPn hA8 hraw hiso hFC hBJ hLJ hU62
-  intro G _ _ p B Bs x L D J 𝒦 hR hT1 n e hP hn eta i0 hSigned hAL hLab hB hRM hG0 hcell
+  intro hID hLB hStdP hX hTCJ hRig hTPn hA8 hraw hiso hFC hBJ hLJ hU62 G _ _ p B Bs x L D J 𝒦 hR hT1 n e hP hn eta i0 hSigned hAL hLab hB hRM hG0 hcell
   by_cases hn5 : 5 ≤ n
   · exact GGSecFiveRouteCfg.ggSecFiveData_of_qTwoOrth_ge_five
       hLB hStdP hX hTCJ hRig hTPn hA8 hraw hiso hFC hBJ hLJ hU62

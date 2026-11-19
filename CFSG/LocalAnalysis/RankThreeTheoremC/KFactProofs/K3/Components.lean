@@ -46,7 +46,7 @@ theorem three_dvd_card_component (hH : primeComplementCore (G := H) 3 = ⊥) {L 
     (hL : IsComponentOf L ⊤) : 3 ∣ Nat.card L := by
   by_contra hnd
   have hcop : Nat.Coprime 3 (Nat.card L) := (Nat.prime_three.coprime_iff_not_dvd).2 hnd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsub : L.IsSubnormal := CFSG.Open.IsSubnormal.top_iff.1 hL.2.1
   have hle : L ≤ CFSG.pPrimeCore 3 H :=
     CFSG.LocalAnalysis.RankThreeTheoremC.ths_le_pPrimeCore_of_isSubnormal hsub hcop
@@ -68,7 +68,7 @@ theorem three_dvd_card_component (hH : primeComplementCore (G := H) 3 = ⊥) {L 
 theorem exists_mem_sylow_component (hH : primeComplementCore (G := H) 3 = ⊥) {L : Subgroup H}
     (hL : IsComponentOf L ⊤) {T : Subgroup H} (hT : IsSylowOf 3 T L) :
     ∃ t ∈ T, orderOf t = 3 ∧ ∃ l ∈ L, l * t ≠ t * l := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ : ∃ Q : Sylow 3 ↥L, (Q : Subgroup ↥L).map L.subtype = T := hT
   have hdvd : 3 ∣ Nat.card (↥L ⧸ Subgroup.center ↥L) :=
     cp_three_dvd_quotient_center ↥L hL.2.2 (three_dvd_card_component hH hL)
@@ -81,7 +81,7 @@ theorem exists_mem_sylow_component (hH : primeComplementCore (G := H) 3 = ⊥) {
   · rw [Subgroup.orderOf_coe, hto]
   · obtain ⟨g, hg⟩ : ∃ g : L, g * t ≠ t * g := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact htc (Subgroup.mem_center_iff.2 fun g => hcon g)
     exact ⟨(g : H), g.2, fun h => hg (Subtype.ext h)⟩
 
@@ -95,7 +95,7 @@ theorem exists_order_three_component (hH : primeComplementCore (G := H) 3 = ⊥)
   · rw [Subgroup.orderOf_coe, hxo]
   · obtain ⟨g, hg⟩ : ∃ g : L, g * x ≠ x * g := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hxc (Subgroup.mem_center_iff.2 fun g => hcon g)
     exact ⟨(g : H), g.2, fun h => hg (Subtype.ext h)⟩
 
@@ -105,6 +105,7 @@ section Components
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem isComponentOf_map_conj {L : Subgroup H} (hL : IsComponentOf L ⊤) (g : H) :
     IsComponentOf (L.map (MulAut.conj g).toMonoidHom) ⊤ := by
   have hsurj : Function.Surjective (MulAut.conj g).toMonoidHom := (MulAut.conj g).surjective
@@ -124,7 +125,7 @@ theorem component_commute {L₁ L₂ : Subgroup H} (h₁ : IsComponentOf L₁ �
   exact commutatorElement_eq_one_iff_mul_comm.mp hmem
 
 theorem component_inf_le_center {L₁ L₂ : Subgroup H} (h₁ : IsComponentOf L₁ ⊤)
-    (h₂ : IsComponentOf L₂ ⊤) (h12 : L₁ ≠ L₂) {a : H} (ha₁ : a ∈ L₁) (ha₂ : a ∈ L₂) :
+    (h₂ : IsComponentOf L₂ ⊤) (h12 : L₁ ≠ L₂) {a : H} (_ha₁ : a ∈ L₁) (ha₂ : a ∈ L₂) :
     ∀ l ∈ L₁, l * a = a * l := by
   intro l hl
   exact component_commute h₁ h₂ h12 hl ha₂
@@ -135,6 +136,7 @@ section Components
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem cl_zpowers_le {S : Set H} {x : H} (hx : x ∈ S) : zpowers x ≤ closure S :=
   Subgroup.zpowers_le.mpr (Subgroup.subset_closure hx)
 
@@ -242,6 +244,7 @@ section Cards
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem nf_notMem_closure {L : Subgroup H} {S : Set H} {t l : H}
     (hS : ∀ s ∈ S, ∀ x ∈ L, s * x = x * s) (hl : l ∈ L) (hlt : l * t ≠ t * l) :
     t ∉ Subgroup.closure S := by

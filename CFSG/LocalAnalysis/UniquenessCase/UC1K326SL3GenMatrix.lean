@@ -66,7 +66,7 @@ private theorem cube_of_iterate_pow_eq_id {τ : Fin 3 → Fin 3} {n : ℕ}
     have : 3 ^ 2 ∣ 3 ^ j := pow_dvd_pow 3 hj2
     have h96 : 9 ∣ 6 := by
       have := this.trans (hej ▸ hord6)
-      simpa using this
+      simp at this
     omega
   have he3 : e ^ 3 = 1 := by
     interval_cases j
@@ -209,10 +209,10 @@ theorem plane_central {B : Matrix (Fin 3) (Fin 3) K} (hB : B.IsDiag) {a b : Fin 
         · rw [hab]; exact mul_comm _ _
         · exact absurd rfl hpq
       · have := hg p q (Or.inr ⟨fun h => hq (Or.inl h), fun h => hq (Or.inr h)⟩)
-        rw [this, if_neg hpq]
+        rw [this, ite_eq_right hpq]
         simp
     · have := hg p q (Or.inl ⟨fun h => hp (Or.inl h), fun h => hp (Or.inr h)⟩)
-      rw [this, if_neg hpq]
+      rw [this, ite_eq_right hpq]
       simp
 
 private theorem monomial_mul_entry {t : GL (Fin 3) K} {τ : Fin 3 → Fin 3}
@@ -269,9 +269,9 @@ private theorem isCoordBlockOn_conj {t : GL (Fin 3) K} {τ : Fin 3 → Fin 3}
   rw [hgij] at h
   by_cases hij' : i = j
   · subst hij'
-    simp only [if_true, one_mul] at h ⊢
+    simp only [ite_true, one_mul] at h ⊢
     exact mul_left_cancel₀ hti (by rw [h, mul_one])
-  · simp only [if_neg hij', zero_mul] at h ⊢
+  · simp only [ite_eq_right hij', zero_mul] at h ⊢
     exact (mul_eq_zero.mp h).resolve_left hti
 
 private theorem plane_cover : ∀ τ : Fin 3 → Fin 3, τ ∘ τ ∘ τ = id → τ ≠ id →
@@ -357,7 +357,7 @@ theorem center_of_scalar {G : Type*} [Group G] {ι : G →* GL (Fin 3) K}
   rw [map_mul, map_mul]
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, hg]
-  simp [Matrix.mul_smul, Matrix.smul_mul]
+  simp
 
 end Matrices
 
@@ -369,15 +369,15 @@ variable {G : Type*} [Group G] {K : Type} [Field K]
   carrier := {x | ((ι x : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).IsDiag}
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq, map_mul, Units.val_mul] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq, map_mul, Units.val_mul] at hx hy ⊢
     rw [← hx.diagonal_diag, ← hy.diagonal_diag, Matrix.diagonal_mul_diagonal]
     exact isDiag_diagonal _
   one_mem' := by
-    simp only [Set.mem_setOf_eq, map_one, Units.val_one]
+    simp only [Set.mem_ofPred_eq, map_one, Units.val_one]
     exact isDiag_one
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq, map_inv] at hx ⊢
+    simp only [Set.mem_ofPred_eq, map_inv] at hx ⊢
     rw [Matrix.coe_units_inv, ← hx.diagonal_diag, Matrix.inv_diagonal]
     exact isDiag_diagonal _
 

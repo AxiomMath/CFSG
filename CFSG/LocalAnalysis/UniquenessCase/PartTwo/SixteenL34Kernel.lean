@@ -90,8 +90,8 @@ theorem s168e3_kernel_of_l34_point_fixers
   obtain ⟨k, hfield, hfin, hk, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel
       (n := 3) (p := 2) (f := 2) hH
-  letI : Field k := hfield
-  letI : Finite k := hfin
+  let : Field k := hfield
+  let : Finite k := hfin
   have hk4 : Nat.card k = 4 := by
     rw [hk]
     norm_num
@@ -145,7 +145,7 @@ theorem s168e3_kernel_of_l34_point_fixers
       exact (e.apply_symm_apply c).symm
     rw [h2, show (⟨(a : MulAut T), hbH⟩ : ↥H) = 1 from Subtype.ext h1, map_one]
   have hborder : orderOf (a : MulAut T) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : (⟨(a : MulAut T), hbE⟩ : ↥E) ^ 3 = 1 := hEpow _
     have hne : (⟨(a : MulAut T), hbE⟩ : ↥E) ≠ 1 := by
       intro h

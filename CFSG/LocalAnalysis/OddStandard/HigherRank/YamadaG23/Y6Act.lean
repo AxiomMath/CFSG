@@ -25,7 +25,7 @@ theorem y6_lab_exists {G : Type} [Group G] [Finite G] {V : Subgroup G} {U : Set 
   have hcount := Subgroup.card_mul_eq_card_subgroup_mul_card_quotient V U
   rw [hmul] at hcount
   have hVpos : 0 < Nat.card ↥V := by
-    haveI : Nonempty ↥V := ⟨⟨1, V.one_mem⟩⟩
+    have : Nonempty ↥V := ⟨⟨1, V.one_mem⟩⟩
     exact Nat.card_pos
   have hS : Nat.card (U.image (↑) : Set (G ⧸ V)) = n := by
     have h : n * Nat.card ↥V =
@@ -41,7 +41,7 @@ theorem y6_lab_exists {G : Type} [Group G] [Finite G] {V : Subgroup G} {U : Set 
     have huS : (u : G ⧸ V) ∈ (U.image (↑) : Set (G ⧸ V)) := ⟨u, hu, rfl⟩
     have huS' : (u' : G ⧸ V) ∈ (U.image (↑) : Set (G ⧸ V)) := ⟨u', hu', rfl⟩
     dsimp only
-    rw [dif_pos huS, dif_pos huS']
+    rw [dite_eq_left huS, dite_eq_left huS']
     constructor
     · intro h
       exact QuotientGroup.eq.mp (congrArg Subtype.val (e.injective h))
@@ -55,7 +55,7 @@ theorem y6_lab_exists {G : Type} [Group G] [Finite G] {V : Subgroup G} {U : Set 
     have hq' : (⟨(u : G ⧸ V), huS⟩ : ↥(U.image (↑) : Set (G ⧸ V))) = q :=
       Subtype.ext hqu
     dsimp only
-    rw [dif_pos huS, hq']
+    rw [dite_eq_left huS, hq']
     exact hq
 
 theorem y6_act_exists {G : Type} [Group G] {n : ℕ} {X V : Subgroup G} {U : Set G}

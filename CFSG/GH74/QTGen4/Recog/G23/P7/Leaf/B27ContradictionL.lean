@@ -45,7 +45,7 @@ theorem B_eq_sup [Finite G] (B W₁ : Subgroup G) (hB : Nat.card ↥B = 9) (hW :
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [hB]; omega)
 
 theorem closing_contradiction [Finite G] {H H₁ H₂ Pb : Subgroup G} {e : Fin 6 → G}
-    (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (hF : HFacts H H₁ H₂ e)
+    (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (_hF : HFacts H H₁ H₂ e)
     (hL : PbarCore e Pb) (hPb : Nat.card Pb = 27)
     (B W₁ Mf Q : Subgroup G) (σ g : G)
     (hBeq : Subgroup.zpowers σ ⊔ W₁ = B)

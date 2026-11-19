@@ -127,7 +127,6 @@ theorem ggA6_sp_restr_equiv {F : Type} [Field F] {V : Type} [AddCommGroup V] [Mo
         hB.eq_iff.mpr ((LinearMap.BilinForm.mem_orthogonal_iff.mp x'.2.2) _ y'.1.2)
       rw [hgx, hgy, hx, hy]
       simp only [map_add, LinearMap.add_apply, hB1, hB2, hB3, hB4, hB5, add_zero, zero_add]
-      try abel
     refine ⟨⟨G, ?_⟩, ?_⟩
     · exact ⟨ext_mem, fun u hu => ext_right ⟨u, hu⟩⟩
     · refine Subtype.ext (LinearEquiv.ext fun u => Subtype.ext ?_)

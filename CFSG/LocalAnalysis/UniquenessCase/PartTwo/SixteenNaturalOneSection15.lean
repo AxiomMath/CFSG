@@ -20,7 +20,7 @@ theorem s168e3_shape_self_of_s15_eq_one
     {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (c : S168e3Ctx D V₀ V L hV)
     (hcomp : IsComponentOf (lBar V₀ V hV L) (Mbar D.M V₀ V hV))
-    (hs : s15 D.M V₀ V hV L = 1)
+    (_hs : s15 D.M V₀ V hV L = 1)
     (hperf : s15KNatPerf ↥(lBar V₀ V hV L)
       (lStar D.M V₀ V hV L) (wStar D.M V₀ V hV L)) :
     s15Shape D V₀ V hV L L := by

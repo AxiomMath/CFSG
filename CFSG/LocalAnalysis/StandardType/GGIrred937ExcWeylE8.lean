@@ -24,7 +24,7 @@ theorem exists_realization_E8
           ι₀ (Multiplicative.ofAdd (TableBExc.torusAct Tag.E8 p (simple Tag.E8 i) s)) := by
   classical
   obtain ⟨w, Fr, g0, ζ, hζ, ι₀, hFr, hg0C, hg0, hcent, _hζo, hι₀, hrange, hbase⟩ := hF
-  haveI hCharL : CharP (AlgebraicClosure K) 2 :=
+  have hCharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr_bij : Function.Bijective Fr :=
     frobenius_bijective (k := K) (L := AlgebraicClosure K) Fr hFr
@@ -90,7 +90,7 @@ theorem exists_realization_E8
           g0 * (canonicalRep (coxeterSystem Tag.E8) (AlgebraicClosure K) v *
             canonicalRep (coxeterSystem Tag.E8) (AlgebraicClosure K) v) * g0⁻¹ by group,
         ← sq, hn2, mul_one, mul_inv_cancel]
-    haveI : Finite (Subgroup.zpowers
+    have : Finite (Subgroup.zpowers
         (g0 * canonicalRep (coxeterSystem Tag.E8) (AlgebraicClosure K) v * g0⁻¹)) :=
       finite_zpowers.2 (isOfFinOrder_iff_pow_eq_one.2 ⟨2, by norm_num, hx2⟩)
     have hxC : g0 * canonicalRep (coxeterSystem Tag.E8) (AlgebraicClosure K) v * g0⁻¹ ∈

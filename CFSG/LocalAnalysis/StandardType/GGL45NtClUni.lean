@@ -201,12 +201,12 @@ theorem uni_commute_of_conj_commute {K : Type} [Field K] {n : ℕ} {d : ℕ} [Fi
       (g : GL (Fin d) K) * (e : GL (Fin d) K) * (g : GL (Fin d) K)⁻¹ *
         (e : GL (Fin d) K)⁻¹ := by
     rw [hMdef]
-    simp [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [Subgroup.coe_mul]
   have hGL : ((g * e * g⁻¹ : ↥(TableB.unitGroup (ι := Fin d) h.bar)) : GL (Fin d) K) =
       Matrix.GeneralLinearGroup.scalar (Fin d) κ * (e : GL (Fin d) K) := by
     have h1 : ((g * e * g⁻¹ : ↥(TableB.unitGroup (ι := Fin d) h.bar)) : GL (Fin d) K) =
         (g : GL (Fin d) K) * (e : GL (Fin d) K) * (g : GL (Fin d) K)⁻¹ := by
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     rw [h1, hκ, hMval]
     group
   have hmat : (((g * e * g⁻¹ : ↥(TableB.unitGroup (ι := Fin d) h.bar)) : GL (Fin d) K) :
@@ -254,7 +254,7 @@ private theorem cU5_exists_unitary_of_gu {K : Type} [Field K] {n : ℕ} {d : ℕ
     ∃ u : Kˣ, GeneralLinearGroup.scalar (Fin d) u * M ∈
       CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h
         (CFSG.RankThree.PartOne.KCUnitaryModel.idGram K d) := by
-  haveI : Finite K := Fintype.finite inferInstance
+  have : Finite K := Fintype.finite inferInstance
   obtain ⟨μ, hμ0, hμq, hμ⟩ := hM
   have hbar : h.bar μ = μ := by rw [UnitaryFieldData.bar_apply]; exact hμq
   have hK : Nat.card K = (2 ^ n) ^ 2 := by
@@ -289,7 +289,7 @@ private theorem cU5_mem_scalars_of_projConj_eq_one {K : Type} [Field K] {n : ℕ
     {M : Subgroup.normalizer (LargeEvenSUGroup (Fin d) K (2 ^ n) : Set (GL (Fin d) K))}
     (hM : TableB.projConj (LargeEvenSUGroup (Fin d) K (2 ^ n)) M = 1) :
     (M : GL (Fin d) K) ∈ LargeEvenScalars (Fin d) K := by
-  haveI : Finite K := Fintype.finite inferInstance
+  have : Finite K := Fintype.finite inferInstance
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf : Group.IsPerfect (LargeEvenSUGroup (Fin d) K (2 ^ n)) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hK hd hdq
@@ -358,9 +358,9 @@ private noncomputable def cU5_sigmaU {K : Type} [Field K] {n : ℕ} {d : ℕ} (h
     ↥(TableB.unitGroup (ι := Fin d) h.bar) →* ↥(TableB.unitGroup (ι := Fin d) h.bar) where
   toFun A := ⟨cU5_sigmaGL (d := d) σ₀ A, cU5_sigmaGL_mem_unit h σ₀ hσbar A.2⟩
   map_one' := Subtype.ext (by
-    simpa using map_one (cU5_sigmaGL (d := d) σ₀))
+    simp)
   map_mul' A B := Subtype.ext (by
-    simpa using map_mul (cU5_sigmaGL (d := d) σ₀) (A : GL (Fin d) K) (B : GL (Fin d) K))
+    simp)
 
 private theorem cU5_sigmaU_coe {K : Type} [Field K] {n : ℕ} {d : ℕ} (h : UnitaryFieldData 2 n K) (σ₀ : K ≃+* K)
     (hσbar : ∀ c, σ₀ (h.bar c) = h.bar (σ₀ c))
@@ -469,7 +469,7 @@ private theorem cU5_field_conj {K : Type} [Field K] {n : ℕ} {d : ℕ} [Fintype
   rw [hAconj2]
   apply congrArg (LargeEvenProjMk _)
   apply Subtype.ext
-  simp only [Subgroup.coe_mk]
+  simp only
   simp only [MulEquiv.map_mul, MulEquiv.map_inv, cU5_sigmaGL_apply_symm]
 
 private theorem cU5_guSet_of_unitGroup {K : Type} [Field K] {n : ℕ} {d : ℕ} (h : UnitaryFieldData 2 n K) {M : GL (Fin d) K}
@@ -491,7 +491,7 @@ private theorem cU5_scalar_mem_unit {K : Type} [Field K] {n : ℕ} {d : ℕ} (h 
   have hmap : ((μ : K) • (1 : Matrix (Fin d) (Fin d) K)).map h.bar =
       h.bar (μ : K) • 1 := by
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [hij]
   rw [hmap, Matrix.transpose_smul, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
   rw [h.bar_apply, mul_comm, ← pow_succ', hμ, one_smul, Matrix.transpose_one, Matrix.one_mul]
 private theorem cU5_sigma_inv_comm_bar {K : Type} [Field K] {n : ℕ} [Fintype K] [CharP K 2] (h : UnitaryFieldData 2 n K)
@@ -503,7 +503,7 @@ private theorem cU5_sigma_inv_comm_bar {K : Type} [Field K] {n : ℕ} [Fintype K
 
 private theorem cU5_lift_exists {K : Type} [Field K] {n : ℕ} {d : ℕ} [Fintype K] [CharP K 2] {p : ℕ}
     (h : UnitaryFieldData 2 n K) (hd : 3 ≤ d) (hdq : (d, 2 ^ n) ≠ (3, 2))
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpd : ¬ p ∣ d ∨ ¬ p ∣ 2 ^ n + 1)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpd : ¬ p ∣ d ∨ ¬ p ∣ 2 ^ n + 1)
     (σ₀ : K ≃+* K) (hσ₀ : orderOf σ₀ = p)
     (Ebar : Subgroup (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))))
     (hEab : IsElemAbelian p Ebar)
@@ -708,7 +708,7 @@ private theorem cU5_lift_commute {K : Type} [Field K] {n : ℕ} {d : ℕ} [Finty
     (hEab : IsElemAbelian p Ebar)
     {x y : ↥(TableB.unitGroup (ι := Fin d) h.bar)}
     (hx : uniConj h d x ∈ Ebar) (hy : uniConj h d y ∈ Ebar)
-    (hyp : y ^ p = 1) (hxp : x ^ p = 1) : x * y = y * x := by
+    (hyp : y ^ p = 1) (_hxp : x ^ p = 1) : x * y = y * x := by
   refine uni_commute_of_conj_commute h hd hdq hp hpd (Subgroup.zpowers y) ?_ x ?_
     y (Subgroup.mem_zpowers y)
   · rw [Subgroup.forall_mem_zpowers]
@@ -737,12 +737,12 @@ private theorem cU5_scalar_norm_of_mem {K : Type} [Field K] {n : ℕ} {d : ℕ} 
   have hmap : ((c : K) • (1 : Matrix (Fin d) (Fin d) K)).map h.bar =
       h.bar (c : K) • 1 := by
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [hij]
   rw [hmap, Matrix.transpose_smul, Matrix.smul_mul, Matrix.mul_smul, smul_smul,
     Matrix.transpose_one, Matrix.one_mul] at hm
   have h00 := congrArg (fun M : Matrix (Fin d) (Fin d) K =>
     M ⟨0, hd⟩ ⟨0, hd⟩) hm
-  simp only [Matrix.smul_apply, Matrix.one_apply_eq, mul_one] at h00
+  simp only [Matrix.smul_apply, Matrix.one_apply_eq] at h00
   rw [h.bar_apply, mul_comm, ← pow_succ'] at h00
   simpa using h00
 theorem uni_E0_lift {K : Type} [Field K] {n : ℕ} {d : ℕ} [Fintype K] [CharP K 2] {p : ℕ} (h : UnitaryFieldData 2 n K) (hd : 3 ≤ d)
@@ -932,7 +932,7 @@ theorem uni_sat_translate {K : Type} [Field K] {n : ℕ} {d : ℕ} [Fintype K] [
       ((y : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) ∈
         spanE K (E₀.map (TableB.unitGroup (ι := Fin d) h.bar).subtype) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   intro y hycomm hyp hyfix
   obtain ⟨μ, hσμ, hμp, hμK, hdet⟩ := uni_sl_adjust h hp hpd σ₀ y hyp hyfix
   have hσμ' : σ₀ (μ : K) = (μ : K) := hσμ

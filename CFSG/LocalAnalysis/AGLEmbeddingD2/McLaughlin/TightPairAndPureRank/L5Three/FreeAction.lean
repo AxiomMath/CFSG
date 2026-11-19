@@ -30,7 +30,7 @@ theorem prime_dvd_ncard_of_free {p : ℕ} [Fact p.Prime] {x : G} (hx : x ^ p = 1
     rfl
   have hfp : Function.fixedPoints f = ∅ := by
     ext t
-    simp only [Function.IsFixedPt, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_empty_iff_false, iff_false]
     intro ht
     exact hfree t t.2 (congrArg Subtype.val ht)
   have : Fintype T := Fintype.ofFinite T

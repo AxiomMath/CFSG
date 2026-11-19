@@ -10,6 +10,7 @@ open CFSG.Open CFSG.HardMathSupport.Timmesfeld.Proving
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_fixedPointFree_conj {N : Subgroup G} {y : G}
     (hyN : ∀ k ∈ N, y * k * y⁻¹ ∈ N) (hy2 : y ^ 2 = 1)
     (hfix : ∀ k ∈ N, k * y = y * k → k = 1) :
@@ -73,7 +74,7 @@ private theorem exists_odd_complement {H : Type*} [Group H] [Finite H] {α : H}
   have hαP : α ∈ P := hP (Subgroup.mem_zpowers α)
   have hPel : ∀ x ∈ P, x = 1 ∨ x = α := by
     have : Nontrivial P := ⟨⟨1, ⟨α, hαP⟩, fun h => hα1 (congrArg Subtype.val h).symm⟩⟩
-    have := P.isPGroup'.center_nontrivial
+    have := P.isPGroup.center_nontrivial
     obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center P)
     have hzα : ((z : P) : H) = α := by
       have hc := congrArg Subtype.val (Subgroup.mem_center_iff.mp z.2 ⟨α, hαP⟩)
@@ -91,7 +92,6 @@ private theorem exists_odd_complement {H : Type*} [Group H] [Finite H] {α : H}
     · exact one_mem _
     · exact Subgroup.mem_zpowers _
   have hcardP : Nat.card P = 2 := by
-    change Nat.card (P : Subgroup H) = 2
     rw [hPeq, Nat.card_zpowers, hαord]
   have hcyc : IsCyclic P := isCyclic_of_prime_card hcardP
   have hmin : (Nat.card H).minFac = 2 :=
@@ -111,7 +111,7 @@ private theorem exists_odd_complement {H : Type*} [Group H] [Finite H] {α : H}
     · exact h
     · exact absurd (even_iff_two_dvd.mpr (h ▸ h1)) (Nat.not_even_iff_odd.mpr hx)
 
-theorem card_le_two_of_normal_core {C N : Subgroup G} (hNC : N ≤ C)
+theorem card_le_two_of_normal_core {C N : Subgroup G} (_hNC : N ≤ C)
     (hNn : ∀ c ∈ C, ∀ n ∈ N, c * n * c⁻¹ ∈ N)
     (hodd : ∀ K : Subgroup G, K ≤ N → (∀ c ∈ C, ∀ k ∈ K, c * k * c⁻¹ ∈ K) →
       Odd (Nat.card K) → K = ⊥)

@@ -251,7 +251,7 @@ theorem isCyclic_inf_centralizer {L : Subgroup X} (hnle : ¬ L ≤ X₀) :
     IsCyclic ↥((R : Subgroup X) ⊓ centralizer (L : Set X)) := by
   have hp := h.red.prime
   by_contra hnc
-  have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup'.to_inf_left) hnc
+  have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup.to_inf_left) hnc
   have hN := h.normalizer_le inf_le_left h2
   exact hnle ((le_centralizer_iff.mpr (inf_le_right : (R : Subgroup X) ⊓ centralizer (L : Set X) ≤
     centralizer (L : Set X))).trans ((centralizer_le_normalizer _).trans hN))
@@ -357,7 +357,7 @@ theorem commutator_le_of_noncyclic {L : Subgroup X} (hL : IsComponentOf L ⊤) (
   have hLn : L.Normal := h.normal_of hL
   obtain ⟨hsimple, hnonab, hcat⟩ := h.simple_nonab_catalog hL hZ
   have hr2 : 2 ≤ CFSG.Open.pRank p ((R : Subgroup X) ⊓ L) :=
-    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup'.to_inf_left) hnc
+    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup.to_inf_left) hnc
   have hr : CFSG.Open.pRank p ((R : Subgroup X) ⊓ L) = 2 := le_antisymm (h.pRank_inf_le_two huL) hr2
   set E : Subgroup X := B ⊓ L with hE
   have hEB : E ≤ B := inf_le_left
@@ -410,7 +410,7 @@ theorem normalizer_le_of_ne_bot {Q : Subgroup X} (hQR : Q ≤ (R : Subgroup X)) 
     (huQ : u ∉ Q) : normalizer (Q : Set X) ≤ X₀ := by
   have hp := h.red.prime
   have : Fact p.Prime := ⟨hp⟩
-  obtain ⟨t, htQ, -, hto⟩ := exists_mem_centralizer_orderOf_eq (R.isPGroup'.to_le hQR) hQ1
+  obtain ⟨t, htQ, -, hto⟩ := exists_mem_centralizer_orderOf_eq (R.isPGroup.to_le hQR) hQ1
   set Q₁ : Subgroup X := omegaOneOf p Q with hQ₁
   have hQ₁B : Q₁ ≤ B := (closure_le _).2 fun x hx => h.omega x (hQR hx.1) hx.2
   have htQ₁ : t ∈ Q₁ := subset_closure ⟨htQ, hto ▸ pow_orderOf_eq_one t⟩
@@ -429,7 +429,7 @@ theorem inf_sup_eq {L C : Subgroup X} [L.Normal] [C.Normal] (hLC : Disjoint L C)
   have hp := h.red.prime
   have : Fact p.Prime := ⟨hp⟩
   have hRtop : CFSG.ABGLocalTools.IsSylowOf p (R : Subgroup X) ⊤ :=
-    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, R.isPGroup', by
+    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, R.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact R.not_dvd_index⟩
   have hsN : CFSG.ABGLocalTools.IsSylowOf p ((R : Subgroup X) ⊓ (L ⊔ C)) (L ⊔ C) :=
@@ -529,7 +529,7 @@ theorem exists_mem_not_mem_sup {L : Subgroup X} [L.Normal]
 
 theorem isSylowOf_top : CFSG.ABGLocalTools.IsSylowOf p (R : Subgroup X) ⊤ := by
   have : Fact p.Prime := ⟨h.red.prime⟩
-  exact CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, R.isPGroup', by
+  exact CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, R.isPGroup, by
     rw [Subgroup.relIndex_top_right]
     exact R.not_dvd_index⟩
 

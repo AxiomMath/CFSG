@@ -120,7 +120,7 @@ theorem odd_card_commutator_of_burnside {G : Type*} [Group G] [Finite G] {E : Su
   obtain ⟨P₀, hP₀⟩ := (isPGroup_zpowers_of_pow_two hs2').exists_le_sylow
   have hPE : (P₀ : Subgroup E).map E.subtype ≤ E := Subgroup.map_subtype_le _
   have hsP : s ∈ (P₀ : Subgroup E).map E.subtype := ⟨⟨s, hsE⟩, hP₀ (mem_zpowers _), rfl⟩
-  have hPp : IsPGroup 2 ((P₀ : Subgroup E).map E.subtype) := P₀.isPGroup'.map E.subtype
+  have hPp : IsPGroup 2 ((P₀ : Subgroup E).map E.subtype) := P₀.isPGroup.map E.subtype
   have hPidx : ¬ 2 ∣ ((P₀ : Subgroup E).map E.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h

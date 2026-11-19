@@ -25,7 +25,7 @@ theorem commutator_eq_one_of_fieldType {K : Type} [Field K]
       exact l.ne_zero hd.symm
     exact hl (Units.mk0 d hd0) (Units.ext (by rw [Units.val_pow_eq_pow_val, Units.val_mk0, hd]))
   set a : K[X] := X ^ 3 - C (l : K) with ha
-  haveI : Fact (Irreducible a) :=
+  have : Fact (Irreducible a) :=
     ⟨CFSG.StandardType.Line63.H5.irreducible_X_pow_three_sub_C_of_not_cube hc⟩
   set x : Module.End K (Fin 6 → K) := Matrix.toLin' (M : Matrix (Fin 6) (Fin 6) K) with hx
   have hM3' : (M : Matrix (Fin 6) (Fin 6) K) ^ 3 = Matrix.scalar (Fin 6) (l : K) := by
@@ -140,10 +140,10 @@ theorem commutator_eq_one_of_fieldType {K : Type} [Field K]
     rw [hTdef, hcomm]
     ext v i
     simp [Matrix.toLin'_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-      Matrix.smul_mulVec, Module.algebraMap_end_apply, Pi.single_apply]
+      Pi.single_apply]
   have hTmul : T = y.1 * z.1 * yi.1 * zi.1 := by
     rw [hTdef]
-    simp only [y, z, yi, zi, Units.val_mul, Units.val_inv_eq_inv_val, Matrix.toLin'_mul,
+    simp only [y, z, yi, zi, Units.val_mul, Matrix.toLin'_mul,
       Module.End.mul_eq_comp]
   have hTcomm : T ∈ commutant x := by
     rw [hTmul]
@@ -156,7 +156,7 @@ theorem commutator_eq_one_of_fieldType {K : Type} [Field K]
     ext v i
     simp only [coe_commutantRestrictHom]
     rw [hTscalar]
-    simp [LinearMap.smul_apply, Submodule.coe_smul]
+    simp [LinearMap.smul_apply]
   have hdet_comm : LinearMap.det (Ye * Ze * Yie * Zie) = 1 := by
     rw [map_mul, map_mul, map_mul]
     calc LinearMap.det Ye * LinearMap.det Ze * LinearMap.det Yie * LinearMap.det Zie

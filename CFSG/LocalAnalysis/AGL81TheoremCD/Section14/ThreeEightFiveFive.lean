@@ -38,11 +38,11 @@ theorem good_of_nineFourListGroup_of_five_le {q : ℕ} (hq : q.Prime) (hq5 : 5 �
     {N : Subgroup X} (hN : IsStronglyPEmbedded q N) :
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.SEFive.Good q N := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hKs, i, hi, ⟨e⟩⟩ := hF
   obtain ⟨-, -, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hq hO hN
-  haveI : (CFSG.generalizedFitting X).Normal := hKn
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting X) := hKs
+  have : (CFSG.generalizedFitting X).Normal := hKn
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting X) := hKs
   cases i with
   | cyclic _ _ => exact hi.elim
   | alternating n _ =>

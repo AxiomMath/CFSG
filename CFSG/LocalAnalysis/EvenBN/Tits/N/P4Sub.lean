@@ -14,7 +14,7 @@ variable {Λ : Type*} [Group Λ]
 
 @[expose] def resAut (M : Subgroup Λ) (φ : MulAut Λ) (hφ : ∀ n, n ∈ M ↔ φ n ∈ M) : MulAut ↥M where
   toFun m := ⟨φ m, (hφ m).1 m.2⟩
-  invFun m := ⟨φ⁻¹ m, (hφ (φ⁻¹ m)).2 (by simpa using m.2)⟩
+  invFun m := ⟨φ⁻¹ m, (hφ (φ⁻¹ m)).2 (by simp)⟩
   left_inv m := Subtype.ext (by simp)
   right_inv m := Subtype.ext (by simp)
   map_mul' a b := Subtype.ext (by simp)

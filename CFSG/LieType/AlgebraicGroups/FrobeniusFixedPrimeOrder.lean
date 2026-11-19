@@ -180,7 +180,7 @@ private noncomputable def sylowBase (X : ℕ → Subgroup (ModGL τ k))
   let Q : Sylow p (X 0) := Classical.choice Sylow.nonempty
   refine ⟨Subgroup.map (X 0).subtype (Q : Subgroup (X 0)), ?_, ?_, ?_⟩
   · exact Subgroup.map_subtype_le _
-  · exact IsPGroup.map Q.isPGroup' _
+  · exact IsPGroup.map Q.isPGroup _
   · rw [Subgroup.card_map_of_injective (X 0).subtype_injective]
     exact Q.card_eq_multiplicity
 
@@ -198,7 +198,7 @@ private noncomputable def sylowStep (X : ℕ → Subgroup (ModGL τ k))
   let Q : Sylow p (X (m + 1)) := Classical.choose hA.exists_le_sylow
   refine ⟨Subgroup.map (X (m + 1)).subtype (Q : Subgroup (X (m + 1))), ?_, ?_, ?_⟩
   · exact Subgroup.map_subtype_le _
-  · exact IsPGroup.map Q.isPGroup' _
+  · exact IsPGroup.map Q.isPGroup _
   · rw [Subgroup.card_map_of_injective (X (m + 1)).subtype_injective]
     exact Q.card_eq_multiplicity
 

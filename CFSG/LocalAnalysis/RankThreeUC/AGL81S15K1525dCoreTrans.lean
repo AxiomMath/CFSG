@@ -18,18 +18,21 @@ section Transport
 
 variable {L K : Type} [Group L] [Group K] [Finite L] [Finite K]
 
+omit [Finite L] [Finite K] in
 theorem map_map_symm (e : L ≃* K) (A : Subgroup L) :
     (A.map e.toMonoidHom).map e.symm.toMonoidHom = A := by
   rw [Subgroup.map_map]
   ext x
   simp
 
+omit [Finite L] [Finite K] in
 theorem map_symm_map (e : L ≃* K) (A : Subgroup K) :
     (A.map e.symm.toMonoidHom).map e.toMonoidHom = A := by
   rw [Subgroup.map_map]
   ext x
   simp
 
+omit [Finite L] [Finite K] in
 theorem pElementSubgroup_map_equiv_aux (e : L ≃* K) (A : Subgroup L) :
     (pElementSubgroup 2 A).map e.toMonoidHom = pElementSubgroup 2 (A.map e.toMonoidHom) := by
   rw [pElementSubgroup, pElementSubgroup, MonoidHom.map_closure]
@@ -42,6 +45,7 @@ theorem pElementSubgroup_map_equiv_aux (e : L ≃* K) (A : Subgroup L) :
     refine ⟨x, ⟨hxA, k, ?_⟩, rfl⟩
     rwa [MulEquiv.coe_toMonoidHom, MulEquiv.orderOf_eq] at hk
 
+omit [Finite L] [Finite K] in
 theorem sylowTwo_map (e : L ≃* K) {S₀ : Subgroup L}
     (h : CFSG.QuasithinUnique.IsSylowTwoOf S₀ ⊤) :
     CFSG.QuasithinUnique.IsSylowTwoOf (S₀.map e.toMonoidHom) ⊤ :=
@@ -67,6 +71,7 @@ theorem pRank_map_equiv (e : L ≃* K) (p : ℕ) (A : Subgroup L) :
     rwa [map_map_symm] at h'
   · exact key e A k
 
+omit [Finite L] [Finite K] in
 theorem cover_map (e : L ≃* K) {S₀ A₁ A₂ : Subgroup L}
     (h : ∀ P : Subgroup L, IsMinOverBorel ⊤ S₀ P →
       pElementSubgroup 2 P ≤ A₁ ∨ pElementSubgroup 2 P ≤ A₂) :
@@ -86,6 +91,7 @@ theorem cover_map (e : L ≃* K) {S₀ A₁ A₂ : Subgroup L}
   · exact Or.inl (hmap _ h1)
   · exact Or.inr (hmap _ h1)
 
+omit [Finite L] [Finite K] in
 theorem isL3TwoModO2_of_map (e : L ≃* K) {A : Subgroup L}
     (h : IsL3TwoModO2 (A.map e.toMonoidHom)) : IsL3TwoModO2 A := by
   let f : ↥A ≃* ↥(A.map e.toMonoidHom) := Subgroup.equivMapOfInjective A e.toMonoidHom e.injective

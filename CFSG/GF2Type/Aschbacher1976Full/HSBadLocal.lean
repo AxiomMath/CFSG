@@ -72,11 +72,13 @@ section Setting
 
 variable {G : Type} [Group G] [Finite G] {z : G} {Z A : Subgroup G} {T : Sylow 2 G} {k : G}
 
+omit [Finite G] in
 theorem conjugate_zpowers (x g : G) : conjugate (zpowers x) g = zpowers (g⁻¹ * x * g) := by
   show (zpowers x).map (MulAut.conj g⁻¹).toMonoidHom = zpowers (g⁻¹ * x * g)
   rw [MonoidHom.map_zpowers]
-  simp [MulAut.conj_apply]
+  simp
 
+omit [Finite G] in
 theorem commute_of_sq_eq_one {a b : G} (ha : a ^ 2 = 1) (hb : b ^ 2 = 1) (hab : (a * b) ^ 2 = 1) :
     a * b = b * a := by
   have h1 : a⁻¹ = a := inv_eq_of_mul_eq_one_right (by rwa [← sq])
@@ -85,6 +87,7 @@ theorem commute_of_sq_eq_one {a b : G} (ha : a ^ 2 = 1) (hb : b ^ 2 = 1) (hab : 
   calc a * b = (a * b)⁻¹ := h3.symm
     _ = b * a := by rw [mul_inv_rev, h1, h2]
 
+omit [Finite G] in
 theorem commute_k_of_mem_F (c : BL.Ctx z 2 Z A T) (hZk : Z = zpowers k) {x : G} (hx : x ∈ Fz z) :
     x * k = k * x :=
   (Width.Z_comm_F c.hD (hZk ▸ mem_zpowers k) hx).symm
@@ -94,7 +97,7 @@ theorem ZF_conj_eq_zpowers (c : BL.Ctx z 2 Z A T) (hZk : Z = zpowers k) (g : G) 
   rw [c.ZF_conj_eq g, hZk, conjugate_zpowers]
 
 theorem odd_relIndex (c : BL.Ctx z 2 Z A T) : Odd ((T : Subgroup G).relIndex (Hz z)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := relIndex_mul_index c.hTH
   have h2 : ¬ 2 ∣ (T : Subgroup G).index := T.not_dvd_index
   have h3 : ¬ 2 ∣ (T : Subgroup G).relIndex (Hz z) := fun h => h2 (h1 ▸ Dvd.dvd.mul_right h _)
@@ -164,7 +167,7 @@ theorem eight_le_card_orbit (c : BL.Ctx z 2 Z A T) (hti : HSTI z) (hZk : Z = zpo
 theorem four_dvd_card_orbit_of_ne (c : BL.Ctx z 2 Z A T) (hti : HSTI z) (hZk : Z = zpowers k)
     {u : G} (huT : u ∈ (T : Subgroup G)) (huz : IsConj z u) (huk : u * k ≠ k * u) :
     4 ∣ Nat.card (orbit (ConjAct (T : Subgroup G)) (⟨u, huT⟩ : (T : Subgroup G))) :=
-  four_dvd_card_orbit T.isPGroup' _ (eight_le_card_orbit c hti hZk huT huz huk)
+  four_dvd_card_orbit T.isPGroup _ (eight_le_card_orbit c hti hZk huT huz huk)
 
 end Setting
 

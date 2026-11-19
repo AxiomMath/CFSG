@@ -11,7 +11,7 @@ open exteriorPower
 
 variable {K : Type*} [Field K]
 
-private theorem replSet_replSet {i j : Fin 6} (hij : i ≠ j) (I : Set.powersetCard (Fin 6) 3)
+private theorem replSet_replSet {i j : Fin 6} (_hij : i ≠ j) (I : Set.powersetCard (Fin 6) 3)
     (hj : j ∈ I.val) (hi : i ∉ I.val)
     (hJ : i ∈ (replSet I i j hj hi).val ∧ j ∉ (replSet I i j hj hi).val) :
     replSet (replSet I i j hj hi) j i hJ.1 hJ.2 = I := by
@@ -27,7 +27,7 @@ theorem fixed_support [CharP K 2] (Pos : Fin 6 → Fin 6 → Prop) {ξ : Cube K}
   have hJ : i ∈ (replSet I i j hj hi).val ∧ j ∉ (replSet I i j hj hi).val :=
     replSet_eq_imp hij hj hi rfl
   have key := coord_rho_transvGL_gen i j hij (1 : K) ξ (replSet I i j hj hi)
-  rw [h i j hij hP, dif_pos hJ, replSet_replSet hij I hj hi hJ] at key
+  rw [h i j hij hP, dite_eq_left hJ, replSet_replSet hij I hj hi hJ] at key
   simpa using key
 
 theorem isPure_cubeBasis (I : Set.powersetCard (Fin 6) 3) : IsPure K (cubeBasis K I) :=

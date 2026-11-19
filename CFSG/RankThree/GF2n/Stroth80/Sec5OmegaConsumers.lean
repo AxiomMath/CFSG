@@ -69,10 +69,10 @@ theorem sec7AExists_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement
       exact hs7.notPlus4 ⟨K, fK, finK, hK, hnat⟩
     have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm3, hnat⟩⟩
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
     obtain ⟨r, hr, hplane, hgen⟩ := hc.exists_hypPlane_orth h34 hRoot hs hnatSO hK
@@ -83,10 +83,10 @@ theorem sec7AExists_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement
     exact ⟨r, ⟨hr, hplane, hc.Rt_eq_sup_of_51 h51 hs hnatSO hr hplane hgen⟩⟩
   · have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
         Fintype.card_fin, Fintype.card_fin]; omega
@@ -103,15 +103,15 @@ theorem sec5NatPointsOmega_of (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
   intro G _ _ M Q Z B hc n t hs hnat r hr hplane
   have hnatSO : SpNat hc t ∨ OmegaNat hc t := Or.inr hnat
   obtain ⟨K, fK, finK, hK, hcase⟩ := hnat
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   refine ⟨K, fK, finK, inferInstance, hK, ?_⟩
   rcases hcase with ⟨m, hm, hnat'⟩ | ⟨m, b, c, hm, hirr, hnat'⟩
-  · haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  · have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat'
     obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
     obtain ⟨u, hQu, hu0, -, -, hL, hr'⟩ := hc.omega_points_core h34 hRoot hs hnatSO hK
@@ -131,10 +131,10 @@ theorem sec5NatPointsOmega_of (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
       ⟨hnorm, hn, ψ, hψ⟩, ?_, ?_⟩
     · rw [← ElemMatrixIso.LomGL_plus hm]; exact hL
     · rw [← ElemMatrixIso.LomGL_plus hm]; exact h1.2
-  · haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  · have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat'
     obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
         Fintype.card_fin, Fintype.card_fin]; omega

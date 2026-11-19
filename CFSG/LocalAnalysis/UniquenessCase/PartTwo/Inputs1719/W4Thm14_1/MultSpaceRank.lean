@@ -316,7 +316,7 @@ theorem rk_eq_three_and_card_fixV_or [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
   let S0 : Set ℕ := {n | ∃ t ∈ Y, orderOf t = 2 ∧ n = rkIdx (fixV (Subgroup.zpowers t))}
   have hmParam : E3.mParam Y = sInf S0 := by
     unfold E3.mParam
-    rw [if_pos hEven]
+    rw [ite_eq_left hEven]
   have hsInf : sInf S0 = 4 := by rw [← hmParam, hm]
   have hS0_nonempty : S0.Nonempty := by
     refine ⟨rkIdx (fixV (Subgroup.zpowers a)), ?_⟩

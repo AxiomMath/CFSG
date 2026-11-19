@@ -63,7 +63,8 @@ theorem false_of_normalizing_move (hp : p.Prime) (hpK : p ∣ Nat.card K - 1) (h
     have := hEN g hx
     rwa [map_mul, map_mul, map_inv] at this
 
-theorem exists_comm_pow_of_mem (hp : p.Prime) (hp2 : p ≠ 2) (hd0 : 0 < d)
+omit [Finite L'] in
+theorem exists_comm_pow_of_mem (hp : p.Prime) (_hp2 : p ≠ 2) (hd0 : 0 < d)
     (hψ : Function.Surjective ψ) (hA : IsElemAbelian p A) {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ p)
     {x g : GL (Fin d) K} (hx : conjAut d K x ∈ inducedSub ψ A)
     (hg : conjAut d K g ∈ inducedSub ψ A) :

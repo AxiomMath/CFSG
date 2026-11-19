@@ -22,6 +22,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.RankThr
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem orderThreeSL_not_mem_center : orderThreeSL K ∉ Subgroup.center (SL2 K) := by
   intro h
   obtain ⟨r, -, hr⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 h

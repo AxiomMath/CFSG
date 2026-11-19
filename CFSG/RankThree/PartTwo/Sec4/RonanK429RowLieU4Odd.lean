@@ -22,7 +22,7 @@ section Inner
 theorem u4OddInner429 : U4OddInner429 := by
   intro n hn S _ _ hS σ hin hσ3 hσ1 K hKfix hKperf _hsub htype
   obtain ⟨eS⟩ := hS
-  haveI := hKperf
+  have := hKperf
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := hn.pos
   obtain ⟨x, rfl⟩ := hin
@@ -51,9 +51,9 @@ theorem u4OddInner429 : U4OddInner429 := by
   have hxKc : ∀ k ∈ K, Commute x k := hxK
   obtain ⟨E, hEK, hEc, hE3, hE9, hEZ⟩ := exists_e9_of_type429 htype
   have hNCP : NoCommNormalPair3 K := by
-    haveI : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
     obtain ⟨k₀, hk₀E, hk₀1, hk₀3⟩ := exists_ne_one_pow_three hE3 hE9
-    haveI : Nontrivial (K ⧸ CFSG.pCore 2 K) := by
+    have : Nontrivial (K ⧸ CFSG.pCore 2 K) := by
       refine ⟨⟨QuotientGroup.mk (⟨k₀, hEK hk₀E⟩ : K), 1, fun h => ?_⟩⟩
       rw [QuotientGroup.eq_one_iff] at h
       exact hk₀1 (congrArg Subtype.val (eq_one_of_isPGroup_two_of_pow_three CFSG.pCore_isPGroup h

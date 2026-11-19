@@ -115,7 +115,7 @@ theorem smallExit_of_D4At {P : TauCeti.LieTypeIndex → Prop} (hD4 : SmallExitD4
   refine (MI.indAut_mem_inner_iff hp hS.pcomp hS.b_norm).1 ?_
   by_cases h360 : Nat.card (PSimple p J) = 360
   · obtain ⟨hsimple, hnab⟩ := chev_pSimple_simple_nonabelian hp hS.pcomp
-    haveI := hsimple
+    have := hsimple
     exact CFSG.StandardType.RawAut.mem_inner_of_isPGroup_outer
       (isPGroup_outer_of_card_360 hnab hS.chevJ h360) hpOdd hpow
   · rcases hCatJ with hamb | hdt | h360'

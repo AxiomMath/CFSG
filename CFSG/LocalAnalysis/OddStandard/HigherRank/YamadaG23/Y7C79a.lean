@@ -92,7 +92,7 @@ theorem Gl3Pair.L2_le_normalizer_centIn (h : Gl3Pair M L1 L2) {D : Subgroup G} (
 
 theorem Gl3Pair.isElemAbelian_centIn (h : Gl3Pair M L1 L2) (D : Subgroup G) :
     IsElemAbelian 2 (centIn M D) := by
-  haveI := h.elem.1
+  have := h.elem.1
   exact ⟨isMulCommutative_anti (inf_le_left : centIn M D ≤ M),
     fun x hx => h.elem.2 x (Subgroup.mem_inf.mp hx).1⟩
 

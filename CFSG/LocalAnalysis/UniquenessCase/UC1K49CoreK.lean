@@ -31,6 +31,7 @@ private lemma Lc_comm_le_P {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x :
     ((Subgroup.commutator_le_sup I I).trans (le_of_eq (sup_idem I))))
     (commutator_conjugate_le h hxi hxj hne)
 
+omit [Finite G] in
 private lemma I_le_normalizer_K49P {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
     I ≤ Subgroup.normalizer (K49P I Q : Set G) := by
   have h1 : I ≤ Subgroup.normalizer (I : Set G) := Subgroup.le_normalizer
@@ -53,7 +54,7 @@ private lemma commutator_K49P_Lc_le_Q {H X L Q I : Subgroup G} (h : Setup49 H X 
 private lemma commutator_mem_Q_of_mem_sup {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {x : G} {i j k : ℕ} (hi : x ^ i ∈ X) (hj : x ^ j ∈ X) (hk : x ^ k ∈ X)
     (hij : Lc L x i ≠ Lc L x j) (hik : Lc L x i ≠ Lc L x k) (hjk : Lc L x j ≠ Lc L x k)
-    {u : G} (huLi : u ∈ Lc L x i) (huSup : u ∈ Lc L x j ⊔ Lc L x k ⊔ K49P I Q) :
+    {u : G} (_huLi : u ∈ Lc L x i) (huSup : u ∈ Lc L x j ⊔ Lc L x k ⊔ K49P I Q) :
     ∀ m ∈ Lc L x i, ⁅u, m⁆ ∈ Q := by
   have hQn : H ≤ Subgroup.normalizer (Q : Set G) := H_le_normalizer_Q h
   have hLjH : Lc L x j ≤ H := Lc_le_H h hj
@@ -218,11 +219,11 @@ private def fixedSubgroup {Γ : Type*} [Group Γ] (θ : MulAut Γ) : Subgroup Γ
   one_mem' := map_one θ
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 private noncomputable def thetaRestrict {Γ : Type*} [Group Γ] {M : Fin 3 → Subgroup Γ}
@@ -414,6 +415,7 @@ private noncomputable def K49Theta {H X L Q I : Subgroup G} (h : Setup49 H X L Q
   CFSG.RankThree.PartTwo.Sec19.Step1910Proof.quotAct
     ((h.X_le).trans (le_normalizer_I h)) ⟨x⁻¹, X.inv_mem hxX⟩
 
+omit [Finite G] in
 private lemma K49pow_mem_X {X : Subgroup G} {x : G} (hgen : X = Subgroup.zpowers x)
     (i : ℕ) : x ^ i ∈ X := by
   rw [hgen]
@@ -434,6 +436,7 @@ private lemma inf_I_Q_eq_pCoreOf {H X L Q I : Subgroup G} (h : Setup49 H X L Q I
       ((le_normalizer_I h).trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 I))
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 I)
 
+omit [Finite G] in
 private lemma K49Lc_ne {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
     (hxX : x ∈ X) (hgen : X = Subgroup.zpowers x) (hord : orderOf x = 3)
     {i j : Fin 3} (hij : i ≠ j) : Lc L x i.val ≠ Lc L x j.val := by
@@ -494,6 +497,7 @@ private lemma K49M_comm {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
     exact h1
   exact commutatorElement_eq_one_iff_mul_comm.mp h2
 
+omit [Finite G] in
 private lemma conj_inv_mem_Lc_succ {L : Subgroup G} {x : G} {i : ℕ} {l : G}
     (hl : l ∈ Lc L x i) : x⁻¹ * l * x ∈ Lc L x (i + 1) := by
   have hmap : (Lc L x i).map (MulAut.conj x⁻¹).toMonoidHom = Lc L x (i + 1) := by
@@ -504,6 +508,7 @@ private lemma conj_inv_mem_Lc_succ {L : Subgroup G} {x : G} {i : ℕ} {l : G}
     change (MulAut.conj x⁻¹) l = x⁻¹ * l * x
     rw [MulAut.conj_apply, inv_inv]⟩
 
+omit [Finite G] in
 private lemma exists_conj_inv_eq_of_mem_Lc_succ {L : Subgroup G} {x : G} {i : ℕ} {b : G}
     (hb : b ∈ Lc L x (i + 1)) : ∃ l ∈ Lc L x i, x⁻¹ * l * x = b := by
   have hmap : (Lc L x i).map (MulAut.conj x⁻¹).toMonoidHom = Lc L x (i + 1) := by
@@ -744,7 +749,7 @@ private lemma K49_fixed_lift_exists {H X L Q I : Subgroup G} (h : Setup49 H X L 
     (le_inf (sup_le Subgroup.le_normalizer ((h.X_le).trans (le_normalizer_I h)))
       ((sup_le (I_le_H h) h.X_le).trans (H_le_normalizer_Q h))).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := I) (K := Q))
-  haveI : ((I ⊓ Q).subgroupOf (I ⊔ X)).Normal :=
+  have : ((I ⊓ Q).subgroupOf (I ⊔ X)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hKn
   have hN2 : IsPGroup 2 ((I ⊓ Q).subgroupOf (I ⊔ X)) :=
     ((isPGroup_Q h).to_le inf_le_right).of_equiv (Subgroup.subgroupOfEquivOfLe hPK_le).symm
@@ -829,6 +834,7 @@ private lemma L_inf_Q_eq_pCoreOf {H X L Q I : Subgroup G} (h : Setup49 H X L Q I
   have h1 := conjugate_inf_pCoreOf_eq h (X.one_mem : (1 : G) ∈ X)
   simpa only [conjugate_one] using h1
 
+omit [Finite G] in
 private lemma K49M_zero_range {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) (x : G) :
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥I)).comp (Subgroup.inclusion (le_I h))).range =
       K49M L x I 0 := by
@@ -849,7 +855,7 @@ private lemma K49M_zero_range {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) (
       (QuotientGroup.mk' (CFSG.pCore 2 ↥I)) i
     rw [show (⟨(i : G), le_I h hi'⟩ : ↥I) = i from Subtype.ext rfl]
 
-private lemma K49M_zero_ker {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) (x : G) :
+private lemma K49M_zero_ker {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) (_x : G) :
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥I)).comp (Subgroup.inclusion (le_I h))).ker =
       CFSG.pCore 2 ↥L := by
   ext l
@@ -892,10 +898,10 @@ private lemma K49M_zero_isAlt {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) (
 private lemma eq_bot_of_isPGroup_normal {X : Type} [Group X] [Finite X] (hX : IsAlt X 5)
     (N : Subgroup X) [N.Normal] (hN : IsPGroup 2 N) : N = ⊥ := by
   obtain ⟨e⟩ := hX
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (α := Fin 5) (by simp [Nat.card_eq_fintype_card])
   have hmapbot : N.map e.toMonoidHom = ⊥ := by
-    haveI : (N.map e.toMonoidHom).Normal :=
+    have : (N.map e.toMonoidHom).Normal :=
       (show N.Normal from inferInstance).map e.toMonoidHom e.surjective
     have h2 : IsPGroup 2 (N.map e.toMonoidHom) := hN.map e.toMonoidHom
     rcases Subgroup.Normal.eq_bot_or_eq_top (N.map e.toMonoidHom) with hbot | htop
@@ -914,6 +920,7 @@ private lemma eq_bot_of_isPGroup_normal {X : Type} [Group X] [Finite X] (hX : Is
   exact (Subgroup.map_eq_bot_iff_of_injective (f := e.toMonoidHom) (H := N)
     e.injective).mp hmapbot
 
+omit [Finite G] in
 private lemma KI_eq_perfectCore (X I : Subgroup G) :
     KI X I = CFSG.Quasithin.perfectCore (Subgroup.centralizer (X : Set G) ⊓ I) := rfl
 
@@ -998,7 +1005,7 @@ private lemma K49Fixed_perfect {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) 
 private lemma K49CI_le_KI_sup_CP {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
     (hxX : x ∈ X) (hgen : X = Subgroup.zpowers x) (hord : orderOf x = 3) :
     K49CI X I ≤ KI X I ⊔ K49CP X I Q := by
-  haveI : Group.IsPerfect (fixedSubgroup (K49Theta h hxX)) := K49Fixed_perfect h hxX hgen hord
+  have : Group.IsPerfect (fixedSubgroup (K49Theta h hxX)) := K49Fixed_perfect h hxX hgen hord
   have hsurj := K49CItoFixed_surjective h hxX hgen hord
   have hmap : (CFSG.Quasithin.perfectCore (⊤ : Subgroup ↥(K49CI X I))).map
       (K49CItoFixed h hxX hgen hord) = ⊤ := by
@@ -1018,7 +1025,7 @@ private lemma K49CI_le_KI_sup_CP {H X L Q I : Subgroup G} (h : Setup49 H X L Q I
   have hck : c = (k : G) * ((k⁻¹ * c' : ↥(K49CI X I)) : G) := by
     have h1 : c' = k * (k⁻¹ * c') := by group
     have := congrArg (fun x : ↥(K49CI X I) => (x : G)) h1
-    simpa [c'] using this
+    simp [c']
   rw [hck]
   refine Subgroup.mul_mem_sup ?_ (Subgroup.mem_subgroupOf.mp hmem)
   have hk' : (k : G) ∈ (CFSG.Quasithin.perfectCore (⊤ : Subgroup ↥(K49CI X I))).map
@@ -1026,10 +1033,12 @@ private lemma K49CI_le_KI_sup_CP {H X L Q I : Subgroup G} (h : Setup49 H X L Q I
   rw [CFSG.Quasithin.map_perfectCore, Subgroup.map_top, Subgroup.range_subtype] at hk'
   rwa [KI_eq_perfectCore]
 
+omit [Finite G] in
 private lemma KI_le_I (X I : Subgroup G) : KI X I ≤ I := by
   rw [KI_eq_perfectCore]
   exact (CFSG.Quasithin.perfectCore_le _).trans inf_le_right
 
+omit [Finite G] in
 private lemma KI_le_centralizer (X I : Subgroup G) :
     KI X I ≤ Subgroup.centralizer (X : Set G) := by
   rw [KI_eq_perfectCore]
@@ -1039,7 +1048,8 @@ private lemma KI_perfect (X I : Subgroup G) : ⁅KI X I, KI X I⁆ = KI X I := b
   rw [KI_eq_perfectCore]
   exact CFSG.Quasithin.perfectCore_perfect _
 
-private lemma KI_inf_Q_le_centralizer {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
+omit [Finite G] in
+private lemma KI_inf_Q_le_centralizer {H X L Q I : Subgroup G} (_h : Setup49 H X L Q I) :
     KI X I ⊓ Q ≤ Subgroup.centralizer (X : Set G) :=
   inf_le_left.trans (KI_le_centralizer X I)
 
@@ -1081,6 +1091,7 @@ private lemma commutator_centralizer_Q_KI_le_inf {H X L Q I : Subgroup G}
     simpa only [commutatorElement_inv] using Q.inv_mem hkt
   exact le_inf hleKI hleQ
 
+omit [Finite G] in
 private lemma pCoreOf_subgroupOf_self (X I : Subgroup G) :
     (CFSG.Open.pCoreOf 2 (KI X I)).subgroupOf (KI X I) = CFSG.pCore 2 ↥(KI X I) := by
   rw [CFSG.Open.pCoreOf]
@@ -1144,10 +1155,10 @@ private lemma K49KI_pCore_le_ker {H X L Q I : Subgroup G} (h : Setup49 H X L Q I
     CFSG.pCore 2 ↥(KI X I) ≤ (K49KItoFixed h hxX hgen hord).ker := by
   have hmapbot : ((CFSG.Open.pCoreOf 2 (KI X I)).subgroupOf (KI X I)).map
       (K49KItoFixed h hxX hgen hord) = ⊥ := by
-    haveI : ((CFSG.Open.pCoreOf 2 (KI X I)).subgroupOf (KI X I)).Normal :=
+    have : ((CFSG.Open.pCoreOf 2 (KI X I)).subgroupOf (KI X I)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer
         (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (KI X I))
-    haveI : (((CFSG.Open.pCoreOf 2 (KI X I)).subgroupOf (KI X I)).map
+    have : (((CFSG.Open.pCoreOf 2 (KI X I)).subgroupOf (KI X I)).map
         (K49KItoFixed h hxX hgen hord)).Normal :=
       Subgroup.Normal.map inferInstance _ (K49KItoFixed_surjective h hxX hgen hord)
     refine eq_bot_of_isPGroup_normal (K49Fixed_isAlt h hxX hgen hord) _ ?_
@@ -1191,6 +1202,7 @@ private lemma Bar2KI_isAlt {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x :
     ((QuotientGroup.quotientKerEquivOfSurjective (K49KItoFixed h hxX hgen hord)
       (K49KItoFixed_surjective h hxX hgen hord)).trans eA5)⟩
 
+omit [Finite G] in
 private lemma KI_le_normalizer_CP {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
     KI X I ≤ Subgroup.normalizer ((K49CP X I Q : Subgroup G) : Set G) :=
   (le_inf (KI_le_centralizer X I) (KI_le_I X I)).trans
@@ -1198,7 +1210,8 @@ private lemma KI_le_normalizer_CP {H X L Q I : Subgroup G} (h : Setup49 H X L Q 
       ((inf_le_right.trans (I_le_H h)).trans (H_le_normalizer_Q h))).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := K49CI X I) (K := Q)))
 
-private lemma K49CI_subgroupOf_KI_normal {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
+omit [Finite G] in
+private lemma K49CI_subgroupOf_KI_normal {H X L Q I : Subgroup G} (_h : Setup49 H X L Q I) :
     ((KI X I).subgroupOf (K49CI X I)).Normal :=
   Subgroup.normal_subgroupOf_of_le_normalizer (by
     rw [KI_eq_perfectCore]
@@ -1239,10 +1252,10 @@ private lemma Z49_le_KI {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {A : Su
     (hA : XReg49 X A) (hAI : A ≤ I) : Z49 X A ≤ KI X I := by
   obtain ⟨x, hxX, hgen, -, -, -⟩ := exists_generator49 h
   have hord : orderOf x = 3 := orderOf_eq_three_of_zpowers hgen h.card_X
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZle : Z49 X A ≤ K49CI X I :=
     le_inf inf_le_right (inf_le_left.trans hAI)
-  haveI hN : ((KI X I).subgroupOf (K49CI X I)).Normal := K49CI_subgroupOf_KI_normal h
+  have hN : ((KI X I).subgroupOf (K49CI X I)).Normal := K49CI_subgroupOf_KI_normal h
   have hP : IsPGroup 2 (↥(K49CI X I) ⧸ (KI X I).subgroupOf (K49CI X I)) :=
     K49CI_quot_KI_isPGroup h hxX hgen hord
   intro z hz
@@ -1265,6 +1278,7 @@ private lemma Z49_le_KI {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {A : Su
   have h2dvd : 2 ∣ orderOf (π ⟨z, hzCI⟩) := hP.dvd_orderOf hgne
   exact absurd (Nat.dvd_trans h2dvd h3dvd) (by norm_num)
 
+omit [Finite G] in
 private lemma centralizer_sup_eq_inf (H K : Subgroup G) :
     Subgroup.centralizer ((H ⊔ K : Subgroup G) : Set G) =
       Subgroup.centralizer (H : Set G) ⊓ Subgroup.centralizer (K : Set G) := by

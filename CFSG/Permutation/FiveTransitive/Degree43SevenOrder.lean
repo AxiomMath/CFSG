@@ -28,7 +28,7 @@ theorem card_eq_seven
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite _
   let rho : N →* Equiv.Perm F := toPermHom N F
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm
@@ -55,7 +55,7 @@ theorem card_eq_seven
   have hQseven := Degree43SevenCentralizer.card_le_seven P hcard h5 hnotAlt Q hQ z.val
     ((Subgroup.orderOf_coe z).trans hz) hcomm
   rw [hQcard] at hQseven
-  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup
   have he1 : e ≤ 1 := by
     by_contra hn
     have hh := Nat.pow_le_pow_right (by norm_num : 0 < 7) (by omega : 2 ≤ e)

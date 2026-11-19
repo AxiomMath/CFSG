@@ -36,7 +36,7 @@ theorem nbr63_of_cover {n : ℕ} {K : Type} [Field K] [Finite K]
   obtain ⟨φ, hφs, hφker, hdiag⟩ :=
     Line63.exists_diagModel_of hK hn (by norm_num) Nat.prime_three hpq (by norm_num) hperfSU hψ
       hker hperf hA hAI hcard hcov'
-  haveI : Finite (MulAut L') :=
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) DFunLike.coe_injective
   have hM : Model φ := ⟨TableBU.unitaryFieldData_of_card hK hn, hφs, hφker⟩
   have hA1 : Nat.card A ≠ 1 := by

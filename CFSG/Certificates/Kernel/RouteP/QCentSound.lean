@@ -34,11 +34,11 @@ theorem memS_mk3 {a b c : Nat} (ha : Small a) (hb : Small b) {N : Nat} (hN : N <
   have h3 : N % 3 = 0 ∨ N % 3 = 1 ∨ N % 3 = 2 := by omega
   rcases h3 with h | h | h
   · have e : N % 3 * 524288 + N / 3 = N / 3 := by omega
-    rw [e, if_pos (by omega), if_pos h]
+    rw [e, ite_eq_left (by omega), ite_eq_left h]
   · have e : N % 3 * 524288 + N / 3 - 524288 = N / 3 := by omega
-    rw [if_neg (by omega), if_pos (by omega), e, if_neg (by omega), if_pos h]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega), e, ite_eq_right (by omega), ite_eq_left h]
   · have e : N % 3 * 524288 + N / 3 - 1048576 = N / 3 := by omega
-    rw [if_neg (by omega), if_neg (by omega), e, if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), e, ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem small_zero : Small 0 := fun q _ => Nat.zero_testBit q
 
@@ -62,10 +62,10 @@ theorem memS_sepS {k N : Nat} (hk : k < 21) (hN : N < 920808) :
         (idPlane (nat_lit 524288) k) := by
       unfold sepS
       rw [r19, Nat.blt_eq.mpr h]
-    rw [e, memS_mk3 (small_idPl h) (small_idPl h) hN, if_pos h, idPl_testBit h,
+    rw [e, memS_mk3 (small_idPl h) (small_idPl h) hN, ite_eq_left h, idPl_testBit h,
       decide_eq_true hp, Bool.true_and]
     split_ifs <;> rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     by_cases h19 : k = 19
     · subst h19
       have e : sepS 19 = mk3 full 0 0 := rfl
@@ -85,7 +85,7 @@ theorem eq_of_sepS {N M : Nat} (hN : N < 920808) (hM : M < 920808)
     have a := h 19 (by decide)
     have b := h 20 (by decide)
     rw [memS_sepS (by decide) hN, memS_sepS (by decide) hM] at a b
-    simp only [show ¬ (19 < 19) by decide, show ¬ (20 < 19) by decide, if_false] at a b
+    simp only [show ¬ (19 < 19) by decide, show ¬ (20 < 19) by decide, ite_false] at a b
     have h3 := Nat.mod_lt N (by decide : 3 > 0)
     have h4 := Nat.mod_lt M (by decide : 3 > 0)
     by_cases e0 : N % 3 = 0
@@ -104,7 +104,7 @@ theorem eq_of_sepS {N M : Nat} (hN : N < 920808) (hM : M < 920808)
     intro k
     by_cases hk : k < 19
     · have a := h k (by omega)
-      rw [memS_sepS (by omega) hN, memS_sepS (by omega) hM, if_pos hk, if_pos hk] at a
+      rw [memS_sepS (by omega) hN, memS_sepS (by omega) hM, ite_eq_left hk, ite_eq_left hk] at a
       exact a
     · have t1 : N / 3 < 2 ^ k :=
         lt_of_lt_of_le (by omega : N / 3 < 2 ^ 19) (Nat.pow_le_pow_right (by decide) (by omega))

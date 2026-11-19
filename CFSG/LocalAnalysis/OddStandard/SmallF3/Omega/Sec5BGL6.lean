@@ -53,7 +53,7 @@ theorem IsPerm6.ncard_conjClass_dvd (h : IsPerm6 φ A H) {x : G} (hx : x ∈ A) 
     (conjClassIn (normalizer (A : Set G)) x).ncard ∣ 20158709760 := by
   classical
   let M : Subgroup G := normalizer (A : Set G)
-  haveI hN : (A.subgroupOf M).Normal := Subgroup.normal_in_normalizer
+  have hN : (A.subgroupOf M).Normal := Subgroup.normal_in_normalizer
   let ρ : M →* MulAut A :=
     (MulAut.congr (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer (H := A)))).toMonoidHom.comp
       MulAut.conjNormal
@@ -64,7 +64,7 @@ theorem IsPerm6.ncard_conjClass_dvd (h : IsPerm6 φ A H) {x : G} (hx : x ∈ A) 
       (MulAut.conjNormal m)) a : G) = _
     exact sec5b6_conjNormal_congr_apply_coe (Subgroup.le_normalizer (H := A)) m a
   let P : Subgroup (MulAut A) := ρ.range
-  letI : MulAction P A := MulAction.compHom A P.subtype
+  let : MulAction P A := MulAction.compHom A P.subtype
   let a : A := ⟨x, hx⟩
   have hclass : (conjClassIn M x).ncard = (MulAction.orbit P a).ncard := by
     have himg : Subtype.val '' (MulAction.orbit P a) = conjClassIn M x := by

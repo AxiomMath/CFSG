@@ -14,7 +14,7 @@ variable {K : Type*} [Field K]
 theorem orderOf_mk_eq_three {x : SL(2, K)} (h3 : x ^ 3 ∈ Subgroup.center SL(2, K))
     (h1 : x ∉ Subgroup.center SL(2, K)) :
     orderOf (QuotientGroup.mk x : PSL(2, K)) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · rw [← QuotientGroup.mk_pow]; exact (QuotientGroup.eq_one_iff _).2 h3
   · intro h; exact h1 ((QuotientGroup.eq_one_iff _).1 h)
@@ -116,7 +116,7 @@ theorem exists_pair_unip {p : ℕ} [Fact p.Prime] [CharP K p] (hp2 : p ≠ 2) :
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [a, b, Matrix.mul_apply, Fin.sum_univ_two, SpecialLinearGroup.transvection_coe] <;>
-      field_simp <;> ring
+      field_simp; ring
   have ha3 : a ^ 3 = 1 := cube_eq_one_of_trace a (by simp [a])
   have hb3 : b ^ 3 ∈ Subgroup.center SL(2, K) :=
     cube_mem_center_of_trace_one b (by simp [b]; norm_num)
@@ -195,7 +195,7 @@ theorem exists_pair_torus (l : Kˣ) (hodd : Odd (orderOf l)) (hne : l ≠ 1) :
     simpa [b] using htrb
   have ha_nc : a ∉ Subgroup.center SL(2, K) := not_mem_center_of_entry01 (by simp [a])
   have hb_nc : b ∉ Subgroup.center SL(2, K) :=
-    not_mem_center_of_entry01 (by simpa [b] using hL0)
+    not_mem_center_of_entry01 (by simp [b])
   have hz : orderOf z = orderOf l := orderOf_injective _ (diag2Hom_injective) l
   refine ⟨QuotientGroup.mk a, QuotientGroup.mk b,
     orderOf_mk_eq_three (by rw [cube_eq_one_of_trace a hatr]; exact Subgroup.one_mem _) ha_nc,
@@ -238,7 +238,7 @@ theorem coe_transvection (c : K) :
       Matrix (Fin 2) (Fin 2) K) = !![1, c; 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [SpecialLinearGroup.transvection_coe]
 
 theorem conj_transvection (u : Kˣ) (c : K) :
     diag2Hom K u * SpecialLinearGroup.transvection (zero_ne_one : (0 : Fin 2) ≠ 1) c *
@@ -250,7 +250,7 @@ theorem conj_transvection (u : Kˣ) (c : K) :
     coe_diag2Hom, coe_transvection, coe_transvection, Matrix.mul_fin_two, Matrix.mul_fin_two]
   have hu : (u : K) ≠ 0 := u.ne_zero
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp; field_simp
 
 theorem conj_rootHom (u : Kˣ) (c : K) :
     (QuotientGroup.mk (diag2Hom K u) : PSL(2, K)) * rootHom K (Multiplicative.ofAdd c) *

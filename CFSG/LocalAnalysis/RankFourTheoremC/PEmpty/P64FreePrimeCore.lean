@@ -21,6 +21,7 @@ theorem one_le_pRank_zpowers (hp : p.Prime) {f : A} (hfp : f ^ p = 1) (hf1 : f �
   rw [Nat.card_zpowers, pow_one]
   exact orderOf_eq_prime hfp hf1
 
+omit [Finite A] in
 theorem mem_normalizer_zpowers_of_commute {f o : A} (h : o * f = f * o) :
     o ∈ normalizer ((zpowers f : Subgroup A) : Set A) := by
   refine centralizer_le_normalizer _ ?_
@@ -67,6 +68,7 @@ theorem rankThreePrimeCore_le_of_gammaOne_plane (hp : p.Prime) {X Y U : Subgroup
   rankThreePrimeCore_le_of_plane hp hUX hU hUcard fun f hf hf1 =>
     hΓ1 _ (zpowers_le.mpr hf) (one_le_pRank_zpowers hp (hU.2 f hf) hf1)
 
+omit [Finite A] in
 theorem mem_normalizer_of_mem_normalizer_subgroupOf {X K : Subgroup A} (hKX : K ≤ X) {y : X}
     (hy : y ∈ normalizer ((K.subgroupOf X : Subgroup X) : Set X)) :
     (y : A) ∈ normalizer (K : Set A) := by
@@ -85,7 +87,7 @@ theorem mem_normalizer_of_mem_normalizer_subgroupOf {X K : Subgroup A} (hKX : K 
     exact mem_subgroupOf.mp ((hy ⟨g, hgX⟩).mpr (mem_subgroupOf.mpr hg))
 
 theorem le_sup_of_normal_of_gammaTwo (hp : p.Prime) {X Y Q N : Subgroup A} (hNX : N ≤ X)
-    (hXN : X ≤ normalizer (N : Set A)) (hQX : Q ≤ X) (hQ : IsPGroup p Q)
+    (hXN : X ≤ normalizer (N : Set A)) (_hQX : Q ≤ X) (hQ : IsPGroup p Q)
     (hQsyl : ¬ p ∣ (Q.subgroupOf X).index) (h2 : 2 ≤ Open.pRank p (Q ⊓ N))
     (hΓ2 : ∀ S : Subgroup A, S ≤ Q → 2 ≤ Open.pRank p S → normalizer (S : Set A) ⊓ X ≤ Y) :
     X ≤ N ⊔ Y := by

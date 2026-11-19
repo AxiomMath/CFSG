@@ -31,7 +31,7 @@ theorem commutator_mem_inf_N_of_mem (hK32 : CFSG.LocalAnalysis.UniquenessCase.UC
     (hfK : ∀ k ∈ t.Ky, f * k * f⁻¹ * k⁻¹ ∈ F) :
     ∀ k ∈ t.Ky, f * k * f⁻¹ * k⁻¹ ∈ c.L ⊓ t.d.N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPi : ⁅F, t.Ky⁆ ≤ F ⊓ (c.L ⊓ t.d.N) :=
     t.commutator_Ky_le_inf_N hK32 hGA hSp hFM hKF h3
   let Fq : Subgroup ↥t.M := F.subgroupOf t.M
@@ -209,9 +209,9 @@ private noncomputable def fM {f : G} (hfM : f ∈ c.S.M) : ↥t.M := ⟨f, hfM�
 
 private noncomputable def fbar {f : G} (hfM : f ∈ c.S.M) : t.Mb := t.qmk (fM t hfM)
 
-private theorem fbar_commute_phiKy (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
-    (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
-    (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) {f : G}
+private theorem fbar_commute_phiKy (_hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
+    (_hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
+    (_hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) {f : G}
     (hfM : f ∈ c.S.M)
     (hfK : ∀ k ∈ t.Ky, f * k * f⁻¹ * k⁻¹ ∈ c.L ⊓ t.d.N) {z : t.Mb}
     (hz : z ∈ t.phiKy.range) : fbar t hfM * z * (fbar t hfM)⁻¹ = z := by
@@ -255,8 +255,6 @@ private theorem centralizes_Lhat_of_normalizes_of_centralizes_delta
       rw [t.muL_apply, t.delta_apply]
     have hconj : g * t.delta u * g⁻¹ = t.muL ((v0, v1), v2) := by
       rw [← hmu, t.muL_apply, t.muL_apply]
-      change g * ((u : t.Mb) * (u1 : t.Mb) * (u2 : t.Mb)) * g⁻¹ =
-        (v0 : t.Mb) * (v1 : t.Mb) * (v2 : t.Mb)
       simp only [v0, v1, v2]
       group
     have hfix : t.muL ((v0, v1), v2) = t.muL ((u, u1), u2) := by
@@ -309,7 +307,7 @@ theorem le_M_of_commutator_mem (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32
     (hfK : ∀ k ∈ t.Ky, f * k * f⁻¹ * k⁻¹ ∈ c.L ⊓ t.d.N) {H : Subgroup G}
     (hH : CFSG.Open.IsTwoLocal H) (hKH : t.Ky ≤ H) (hfH : f ∈ H) : H ≤ c.S.M := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := by omega
   have hcop : Nat.Coprime 6 (orderOf f) := by
     rw [hf, Nat.coprime_comm, hr.coprime_iff_not_dvd]

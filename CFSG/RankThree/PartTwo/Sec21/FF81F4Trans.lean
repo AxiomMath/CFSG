@@ -23,7 +23,7 @@ variable {X : Type} [Group X] {Y : Subgroup X} {C : Type} [Group C] (e : ↥Y �
 
 theorem ιY_apply (c : C) : ιY e c = (e.symm c : X) := rfl
 
-theorem ιY_injective : Function.Injective (ιY e) := fun a b h =>
+theorem ιY_injective : Function.Injective (ιY e) := fun _a _b h =>
   e.symm.injective (Subtype.ext h)
 
 theorem ιY_mem (c : C) : ιY e c ∈ Y := (e.symm c).2

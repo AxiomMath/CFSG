@@ -135,7 +135,7 @@ theorem zj_factorization (hp : p ≠ 2) (hcon : IsPConstrained p G) (hst : IsPSt
   have hN : (Z ⊔ pPrimeCore p G).Normal :=
     G_theorem_8_2_11 (G := G) (p := p) hp hst.1
       (isPConstrained_iff_pConstrainedGroup.mp hcon) hst.pStableGroup' P
-  have hZp : IsPGroup p Z := P.isPGroup'.to_le (thompsonCenter_le_self _)
+  have hZp : IsPGroup p Z := P.isPGroup.to_le (thompsonCenter_le_self _)
   have hM : (pPrimeCore p G ⊔ Z).Normal := by rwa [sup_comm]
   have hsyl : IsSylowOf p Z (pPrimeCore p G ⊔ Z) :=
     isSylowOf_sup_of_coprime pPrimeCore_coprime_card hZp

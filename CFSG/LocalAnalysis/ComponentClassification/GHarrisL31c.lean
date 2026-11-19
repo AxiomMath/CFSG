@@ -61,7 +61,7 @@ theorem exists_sylow_Ct {g : G} (hg : g⁻¹ * D.z * g = D.t) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := centralizer ({D.t} : Set G)
   have hP : IsPGroup 2 (D.Ct.subgroupOf C) :=
-    (D.S.isPGroup'.to_le inf_le_left).comap_subtype
+    (D.S.isPGroup.to_le inf_le_left).comap_subtype
   obtain ⟨R, hR⟩ := hP.exists_le_sylow
   have hT : IsSylowOf 2 ((R : Subgroup C).map C.subtype) C := ⟨R, rfl⟩
   refine ⟨(R : Subgroup C).map C.subtype, hT, fun p hp =>

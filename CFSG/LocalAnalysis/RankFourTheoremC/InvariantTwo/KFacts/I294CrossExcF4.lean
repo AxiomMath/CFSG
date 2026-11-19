@@ -24,8 +24,8 @@ section F4
 theorem crossSylowAbelianAt_F4 {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.F4 q).Valid) : CrossSylowAbelianAt ⟨.F4 q, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hdp' : q.p ≠ p := by simpa using hdp
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
@@ -46,7 +46,7 @@ theorem crossSylowAbelianAt_F4 {q : TauCeti.PrimePower}
 theorem crossSylowAbelianAt_reeF4 {m : ℕ} (hv : (TauCeti.LieTypeIndex.reeF4 m).Valid) :
     CrossSylowAbelianAt ⟨.reeF4 m, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp' : 2 ≠ p := by simpa using hdp
   obtain ⟨-, a, -, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.HardMathSupport.Cooperstein.Coordinator.reeTitsModel_reeF4_of_lie hv e

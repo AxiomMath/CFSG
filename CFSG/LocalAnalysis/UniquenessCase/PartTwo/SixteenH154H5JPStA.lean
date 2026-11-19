@@ -88,7 +88,7 @@ private def s16jp_gHom {V : Type} [CommGroup V] {L : Subgroup (MulAut V)} {U : S
     have h10 : (1 : ZMod 2) ≠ 0 := by decide
     rcases s16jp_zmod2_cases (Multiplicative.toAdd y) with hy | hy <;>
       rcases s16jp_zmod2_cases (Multiplicative.toAdd z) with hz | hz
-    · simp [toAdd_mul, hy, hz, h10]
+    · simp [toAdd_mul, hy, hz]
     · simp [toAdd_mul, hy, hz, h10]
     · simp [toAdd_mul, hy, hz, h10]
     · have h11 : (1 : ZMod 2) + 1 = 0 := by decide
@@ -165,7 +165,7 @@ theorem s16jp_eq_bot_of_regular_summand [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1)
       ρ (permModAct Γ Γ γ f) = actA γ (ρ f)) :
     Z = ⊥ := by
   classical
-  letI : Fintype Γ := Fintype.ofFinite Γ
+  let : Fintype Γ := Fintype.ofFinite Γ
   let δ₁ : Multiplicative (Γ → ZMod 2) :=
     Multiplicative.ofAdd (Pi.single (1 : Γ) (1 : ZMod 2))
   have hδ₁ : δ₁ = Multiplicative.ofAdd (Pi.single (1 : Γ) (1 : ZMod 2)) := rfl

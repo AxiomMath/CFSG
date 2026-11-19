@@ -37,7 +37,7 @@ theorem l3tor_mul_unipU (l : Kˣ) (a b c : K) :
   ext i j
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, l3tor_coe_tau,
     diagonal_mul, mul_diagonal, coe_unipU, coe_unipU]
-  fin_cases i <;> fin_cases j <;> simp <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp; field_simp
 
 theorem l3tor_conj_unipU (l : Kˣ) (a b c : K) :
     l3tor_tau K l * unipU K a b c * (l3tor_tau K l)⁻¹ =

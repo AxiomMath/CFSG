@@ -37,7 +37,7 @@ theorem quotient_pCore_mulEquiv_of_surjective {A B : Type*} [Group A] [Group B] 
 theorem quasithinIsSylowTwo_of_sylow {G : Type*} [Group G] [Finite G] (P : Sylow 2 G) :
     CFSG.Open.quasithinIsSylowTwo (P : Subgroup G) :=
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  ⟨P.isPGroup', P.not_dvd_index⟩
+  ⟨P.isPGroup, P.not_dvd_index⟩
 
 theorem isQuasisimple_quotient_pCore_of_isQuasisimple {B : Type*} [Group B] [Finite B]
     (hq : CFSG.IsQuasisimple B) : CFSG.IsQuasisimple (B ⧸ CFSG.pCore 2 B) := by

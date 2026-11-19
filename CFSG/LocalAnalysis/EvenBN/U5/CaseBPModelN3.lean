@@ -84,15 +84,15 @@ theorem exists_elemAb_fixed_of_outer {θ : MulAut (hypPSU h 2 1)} (hθ : θ * θ
     (hθP : θ ∉ Pi h) :
     ∃ E : Subgroup (hypPSU h 2 1), CFSG.IsElementaryAbelian 2 E ∧ (∀ x ∈ E, θ x = x) ∧
       (2 ^ f) ^ 3 ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_hypPSU h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_hypPSU h
   obtain ⟨σ, hσ, β, -, rfl⟩ := exists_eq_conj_fieldElt hθ hθP
   obtain ⟨ι, hinj, hιV, hιfix⟩ := exists_family_Vhat h
   set u := Phi h (fieldElt h σ) with hu
   set E₁ : Subgroup (hypPSU h 2 1) :=
     (Vsub h).map (hypProj h 2 1) ⊓ MonoidHom.eqLocus u.toMonoidHom (MonoidHom.id _) with hE₁
   have hmem : ∀ t, ι t ∈ E₁ := fun t => Subgroup.mem_inf.2 ⟨hιV t, hιfix σ hσ t⟩
-  haveI hE₁e : CFSG.IsElementaryAbelian 2 E₁ := isElementaryAbelian_of_forall
+  have hE₁e : CFSG.IsElementaryAbelian 2 E₁ := isElementaryAbelian_of_forall
     (fun x hx y hy => (Vhat_comm_sq h).1 x (Subgroup.mem_inf.1 hx).1 y (Subgroup.mem_inf.1 hy).1)
     (fun x hx => (Vhat_comm_sq h).2 x (Subgroup.mem_inf.1 hx).1)
   refine ⟨E₁.map β.toMonoidHom, CFSG.IsElementaryAbelian.map _, ?_, ?_⟩
@@ -109,11 +109,11 @@ theorem exists_elemAb_fixed_of_inner (hf : 2 ≤ f) (hZ : Subgroup.center (hypPS
     {z : hypPSU h 2 1} (hz : z * z = 1) :
     ∃ E : Subgroup (hypPSU h 2 1), CFSG.IsElementaryAbelian 2 E ∧
       (∀ x ∈ E, MulAut.conj z x = x) ∧ (2 ^ f) ^ 3 ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_hypPSU h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_hypPSU h
   obtain ⟨w, hw⟩ := involutionsConjIntoV h hf hZ z hz
   obtain ⟨ι, hinj, hιV, -⟩ := exists_family_Vhat h
-  haveI hÊe : CFSG.IsElementaryAbelian 2 ((Vsub h).map (hypProj h 2 1)) :=
+  have hÊe : CFSG.IsElementaryAbelian 2 ((Vsub h).map (hypProj h 2 1)) :=
     isElementaryAbelian_of_forall (Vhat_comm_sq h).1 (Vhat_comm_sq h).2
   refine ⟨((Vsub h).map (hypProj h 2 1)).map (MulAut.conj w).toMonoidHom,
     CFSG.IsElementaryAbelian.map _, ?_, ?_⟩

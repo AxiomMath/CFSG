@@ -124,7 +124,7 @@ private theorem qB_eq_polar (x y : Fin 6 → ZMod 2) :
     qB x y = qPlus6 (x + y) + qPlus6 x + qPlus6 y := by
   simp only [qB, LinearMap.mk₂_apply, qPlus6, Pi.add_apply]
   ring_nf
-  simp only [show (2 : ZMod 2) = 0 by decide, mul_zero, zero_mul, add_zero, zero_add]
+  simp only [show (2 : ZMod 2) = 0 by decide, mul_zero, add_zero]
 
 theorem exists_evPair_of_qPlus6 {x : Fin 6 → ZMod 2} (hx : qPlus6 x = 1) :
     ∃ p q : Fin 8, p ≠ q ∧ evPair p q = x := by
@@ -136,7 +136,7 @@ theorem card_le_eight_of_singular {I : Subgroup (Multiplicative (Fin 6 → ZMod 
     (h : ∀ x ∈ I, qPlus6 (Multiplicative.toAdd x) = 0) : Nat.card I ≤ 8 := by
   let W : Submodule (ZMod 2) (Fin 6 → ZMod 2) :=
     { carrier := {y | Multiplicative.ofAdd y ∈ I}
-      zero_mem' := by simpa using I.one_mem
+      zero_mem' := by simp
       add_mem' := by
         intro x y hx hy
         show Multiplicative.ofAdd x * Multiplicative.ofAdd y ∈ I
@@ -144,7 +144,7 @@ theorem card_le_eight_of_singular {I : Subgroup (Multiplicative (Fin 6 → ZMod 
       smul_mem' := by
         intro c x hx
         rcases zmod2_eq_zero_or_one c with rfl | rfl
-        · simpa using I.one_mem
+        · simp
         · simpa using hx }
   have hcardWI : Nat.card W = Nat.card I := by
     refine Nat.card_congr ?_
@@ -169,7 +169,7 @@ theorem card_le_eight_of_singular {I : Subgroup (Multiplicative (Fin 6 → ZMod 
     have hmono := Submodule.finrank_mono hle
     have horth := LinearMap.BilinForm.finrank_orthogonal (B := qB) qB_nondegenerate W
     have hdim : Module.finrank (ZMod 2) (Fin 6 → ZMod 2) = 6 := by
-      simp [Module.finrank_fin_fun]
+      simp
     rw [horth, hdim] at hmono
     omega
   have hZ2 : Nat.card (ZMod 2) = 2 := by
@@ -210,7 +210,7 @@ theorem rk_le_four_of_avoid_zero {I : Subgroup (Multiplicative (Fin 6 → ZMod 2
     card_eq_two_pow (V := Multiplicative (Fin 6 → ZMod 2)) mult_sq_one I
   have hVcard : Nat.card (Multiplicative (Fin 6 → ZMod 2)) = 64 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative]
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   have hge : 32 ≤ Nat.card I := by
     rw [hcardI]
     calc 32 = 2 ^ 5 := by norm_num

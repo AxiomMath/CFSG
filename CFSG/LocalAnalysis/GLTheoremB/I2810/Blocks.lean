@@ -66,8 +66,8 @@ theorem block_residual (h : Setup28 W K S) :
   have hKtop : ⁅(⊤ : Subgroup ↥K), (⊤ : Subgroup ↥K)⁆ = ⊤ := by
     apply Subgroup.map_injective (f := K.subtype) Subtype.val_injective
     rw [Subgroup.map_commutator, hLt, h.hK.2.1]
-  haveI : Finite (↥K ⧸ N) := inferInstance
-  haveI : Group.IsNilpotent (↥K ⧸ N) := hN.isNilpotent
+  have : Finite (↥K ⧸ N) := inferInstance
+  have : Group.IsNilpotent (↥K ⧸ N) := hN.isNilpotent
   have hsurj : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
   have hcomm : commutator (↥K ⧸ N) = ⊤ := by
     have h1 := Subgroup.map_commutator (⊤ : Subgroup ↥K) ⊤ (QuotientGroup.mk' N)
@@ -81,10 +81,11 @@ theorem block_residual (h : Setup28 W K S) :
   intro x _
   exact (QuotientGroup.eq_one_iff x).1 (Subsingleton.elim _ _)
 
-theorem block_simple (h : Setup28 W K S) (hR : Red28 W K S)
+omit [Finite X] in
+theorem block_simple (_h : Setup28 W K S) (hR : Red28 W K S)
     (hZ : Subgroup.center ↥(bar W K) = ⊥) : IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K) := by
-  haveI : IsSimpleGroup (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) := hR.quasi.2.1
-  haveI : IsSimpleGroup ↥(bar W K) :=
+  have : IsSimpleGroup (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) := hR.quasi.2.1
+  have : IsSimpleGroup ↥(bar W K) :=
     (isoOfCenterBot hZ (MulEquiv.refl (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)))).isSimpleGroup
   have hker : (toBar W K).ker = CFSG.pCore 2 ↥K := by
     ext k
@@ -95,6 +96,7 @@ theorem block_simple (h : Setup28 W K S) (hR : Red28 W K S)
       (QuotientGroup.quotientKerEquivOfSurjective (toBar W K) (toBar_surjective W K))
   exact e.isSimpleGroup
 
+omit [Finite X] in
 theorem block_commutator_le (h : Setup28 W K S) (hR : Red28 W K S)
     (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S) :
     ∀ x ∈ ⁅K, pCoreOf 2 K⁆, x ∈ pCoreOf 2 K ∧ x ^ 2 = 1 ∧ ∀ r ∈ pCoreOf 2 K, x * r = r * x := by
@@ -114,14 +116,15 @@ theorem block_commutator_le (h : Setup28 W K S) (hR : Red28 W K S)
     exact hle hx
   exact ⟨hxR, hxV.2.2, fun r hr => V_central hxV r (pCoreOf_le_w1 hR hr)⟩
 
+omit [Finite X] in
 theorem block_exists_noncentral (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
-    (sf : SingleFactor K (vOf W K S) U₁ U₂)
-    (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S) :
+    (_sf : SingleFactor K (vOf W K S) U₁ U₂)
+    (_hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S) :
     ∀ (n : ℕ) (T : Fin (n + 1) → Subgroup X), IsChiefSeriesIn K (pCoreOf 2 K) T →
       ∃ i : Fin n, ¬ ⁅T i.succ, K⁆ ≤ T i.castSucc := by
   intro n T hT
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hind : ∀ j : Fin (n + 1), ⁅T j, K⁆ = ⊥ := by
     intro j
     induction j using Fin.induction with
@@ -142,6 +145,7 @@ theorem block_exists_noncentral (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U�
   rw [← Subgroup.commutator_eq_bot_iff_le_centralizer, Subgroup.commutator_comm]
   exact hVK
 
+omit [Finite X] in
 theorem block_unique_noncentral (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
     (sf : SingleFactor K (vOf W K S) U₁ U₂)
     (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S) :
@@ -177,6 +181,7 @@ theorem block_unique_noncentral (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U�
   · exact hij
   · exact (key j i hij hj hi).elim
 
+omit [Finite X] in
 theorem chief_transfer (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
     (sf : SingleFactor K (vOf W K S) U₁ U₂)
     (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S)

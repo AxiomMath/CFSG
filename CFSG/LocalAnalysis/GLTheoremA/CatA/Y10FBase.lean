@@ -134,8 +134,7 @@ theorem map_normalizer_subtype {K : Subgroup G} (D' : Subgroup K) :
     (Subgroup.normalizer (D' : Set K)).map K.subtype =
       K ⊓ Subgroup.normalizer ((D'.map K.subtype : Subgroup G) : Set G) := by
   ext x
-  simp only [Subgroup.mem_map, Subgroup.mem_inf, Subgroup.mem_normalizer_iff, SetLike.mem_coe,
-    Subgroup.coe_subtype]
+  simp only [Subgroup.mem_map, Subgroup.mem_inf, Subgroup.mem_normalizer_iff, Subgroup.coe_subtype]
   constructor
   · rintro ⟨c, hc, rfl⟩
     refine ⟨c.2, fun h => ?_⟩

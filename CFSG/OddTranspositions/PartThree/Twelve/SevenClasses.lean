@@ -151,7 +151,7 @@ theorem SpChart.le_ncard {hC : HypothesisC D} {hα : hC.alpha = {hC.d}} {k : ℕ
     ext v
     simp
   calc Nat.card F ^ (2 * k) - 1 = {v : Fin k ⊕ Fin k → F | v ≠ 0}.ncard := by
-        rw [h0, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, natCard_vec]
+        rw [h0, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, natCard_vec]
     _ ≤ (c.vec '' commSet D hC.d).ncard := Set.ncard_le_ncard hsub (Set.toFinite _)
     _ ≤ (commSet D hC.d).ncard := Set.ncard_image_le (Set.toFinite _)
 

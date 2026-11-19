@@ -909,7 +909,7 @@ theorem gap17_6_O2RestChar_of_inputs (D : Data G) (V₀ V : Subgroup G)
   have hns : ¬ Group.IsSolvable ↥D.M := UC6S846.not_solvable_of_mem_calC hC.memL
   have hHM : H ≤ D.M := delta_le_M_mem D (fundPred q) hC hH
   have hH' := hH
-  rw [Delta17_12, dif_neg h1, dif_neg h2] at hH'
+  rw [Delta17_12, dite_eq_right h1, dite_eq_right h2] at hH'
   obtain ⟨x, hxM, X, hXLx, hO2, hHeq, hKb⟩ := hH'
   have hKb' : CFSG.LocalAnalysis.UniquenessCase.IsFundamentalOver q
       ((X.subgroupOf (L.map (MulAut.conj x).toMonoidHom)).map

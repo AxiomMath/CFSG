@@ -62,7 +62,7 @@ private theorem matrix_aux {F : Type*} [Field F] {q : ℕ} (hq : (q : F) ≠ 0) 
       | succ n ih =>
         rw [pow_succ, ih, hM']
         have : (1 + (n : F) • N) * (1 + N) = 1 + ((n : F) + 1) • N + (n : F) • (N * N) := by
-          simp only [mul_add, add_mul, one_mul, mul_one, smul_mul_assoc, mul_smul_comm, add_smul,
+          simp only [mul_add, add_mul, one_mul, mul_one, smul_mul_assoc, add_smul,
             one_smul]
           abel
         rw [this, hN2]
@@ -354,9 +354,9 @@ private theorem exists_pair [Finite Γ] (K L : Subgroup Γ) {p : ℕ} [hp : Fact
     (hK' : Nat.card (⁅K, K⁆ : Subgroup Γ) = p)
     (hfrat : ∀ H : Subgroup Γ, H ≤ K → H ⊔ ⁅K, K⁆ = K → H = K) :
     ∃ x ∈ L, Odd (orderOf x) ∧ ∃ k₀ ∈ K, K ≤ Subgroup.closure {x, k₀ * x * k₀⁻¹} := by
-  haveI : Module (ZMod p) (AbK K) := AddCommGroup.zmodModule (exponent_AbK K hexp)
+  have : Module (ZMod p) (AbK K) := AddCommGroup.zmodModule (exponent_AbK K hexp)
   have hcard : Nat.card (AbK K) = p ^ 2 := card_AbK K hK hK' hp.out.pos
-  haveI : Finite (AbK K) :=
+  have : Finite (AbK K) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.out.ne_zero)
   have hfr : Module.finrank (ZMod p) (AbK K) = 2 := finrank_AbK K hcard
   let ρL : ↥L →* (AbK K ≃ₗ[ZMod p] AbK K) := (rhoLin K p).comp (Subgroup.inclusion hLN)
@@ -385,14 +385,14 @@ private theorem exists_pair [Finite Γ] (K L : Subgroup Γ) {p : ℕ} [hp : Fact
     have h3 : p ^ 3 = p := by rw [← hK, ← hK', ← hKK]
     have h2 := hp.out.two_le
     nlinarith [pow_pos hp.out.pos 2]
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hperf
-  haveI : Group.IsPerfect ↥(ρL.range) := Group.IsPerfect.range ρL
-  haveI : Nontrivial ↥(ρL.range) := by
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥(ρL.range) := Group.IsPerfect.range ρL
+  have : Nontrivial ↥(ρL.range) := by
     obtain ⟨g, hg⟩ := hρnt
     exact ⟨⟨⟨ρL g, ⟨g, rfl⟩⟩, 1, fun h => hg (congrArg Subtype.val h)⟩⟩
   have hns : ¬ Group.IsSolvable ↥(ρL.range) := Group.IsPerfect.not_isSolvable _
   obtain ⟨q, hq, hqdvd, hq2, hqp⟩ := exists_prime_dvd_card_of_not_solvable hp.out hns
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' q hqdvd
   obtain ⟨ℓ, hℓ⟩ := y.2
   have hordy : orderOf (ρL ℓ) = q := by
@@ -488,7 +488,7 @@ private theorem exists_conj_eq_mul {K Φ : Subgroup Γ} {p : ℕ} (hp : p.Prime)
     have : (e⁻¹ * k⁻¹ * e * k) ∈ (⊥ : Subgroup Γ) := h ▸ hd0
     exact hd0ne (Subgroup.mem_bot.1 this)
   have hRdvd : Nat.card R ∣ p := hΦcard ▸ Subgroup.card_dvd_of_le hRΦ
-  haveI : Finite Φ := Nat.finite_of_card_ne_zero (by rw [hΦcard]; exact hp.ne_zero)
+  have : Finite Φ := Nat.finite_of_card_ne_zero (by rw [hΦcard]; exact hp.ne_zero)
   have hReq : R = Φ := by
     have hRp : Nat.card R = p := ((Nat.dvd_prime hp).1 hRdvd).resolve_left hRne
     exact Subgroup.eq_of_le_of_card_ge hRΦ (by rw [hΦcard, hRp])
@@ -505,6 +505,7 @@ variable {G L K : Subgroup (GLV V)} {s : GLV V} {p : ℕ}
 
 namespace Endgame
 
+omit [Finite V] in
 private theorem mem_fixedSpace_zpowers {g : GLV V} {v : V} :
     v ∈ fixedSpace (Subgroup.zpowers g) ↔ g v = v := by
   constructor
@@ -515,6 +516,7 @@ private theorem mem_fixedSpace_zpowers {g : GLV V} {v : V} :
       Subgroup.zpowers_le.2 (MulAction.mem_stabilizer_iff.2 h) ht
     exact MulAction.mem_stabilizer_iff.1 hst
 
+omit [Finite V] in
 private theorem fixedSpace_zpowers_conj (e k : GLV V) :
     fixedSpace (Subgroup.zpowers (k⁻¹ * e * k)) =
       conjSub k⁻¹ (fixedSpace (Subgroup.zpowers e)) := by
@@ -530,12 +532,14 @@ private theorem fixedSpace_zpowers_conj (e k : GLV V) :
     rw [h]
     simp
 
+omit [Finite V] in
 private theorem add_self_eq_zero' (v : V) : v + v = 0 := by
   have h2v : (2 : ZMod 2) • v = 0 := by
     have : (2 : ZMod 2) = 0 := rfl
     rw [this, zero_smul]
   rwa [two_smul] at h2v
 
+omit [Finite V] in
 private theorem odd_nsmul_eq (n : ℕ) (hn : Odd n) (v : V) : n • v = v := by
   obtain ⟨k, rfl⟩ := hn
   rw [add_nsmul, mul_nsmul, one_nsmul]
@@ -546,7 +550,7 @@ private theorem le_commSpace_of_inf_fixedSpace_eq_bot {B : Subgroup (GLV V)} (hB
     {U : Submodule (ZMod 2) V} (hU : Invariant B U) (h : U ⊓ fixedSpace B = ⊥) :
     U ≤ commSpace B ⊤ := by
   classical
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   intro u hu
   have hcU : (∑ b : B, (b : GLV V) u) ∈ U :=
     Submodule.sum_mem _ (fun b _ => hU b b.2 u hu)
@@ -578,6 +582,7 @@ private theorem finrank_map_add_finrank_inf_ker (f : V →ₗ[ZMod 2] V) (W : Su
   rw [← Submodule.finrank_map_subtype_eq W (Submodule.comap W.subtype (LinearMap.ker f)),
     Submodule.map_comap_subtype]
 
+omit [Finite V] in
 private theorem eq_one_or_eq_of_mem_zpowers {s t : GLV V} (hs : s ^ 2 = 1)
     (ht : t ∈ Subgroup.zpowers s) : t = 1 ∨ t = s := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 ht
@@ -592,13 +597,16 @@ private theorem eq_one_or_eq_of_mem_zpowers {s t : GLV V} (hs : s ^ 2 = 1)
 
 private def Nmap (s : GLV V) : V →ₗ[ZMod 2] V := (s : V →ₗ[ZMod 2] V) - LinearMap.id
 
+omit [Finite V] in
 private theorem Nmap_apply (s : GLV V) (v : V) : Nmap s v = s v - v := rfl
 
+omit [Finite V] in
 private theorem ker_Nmap (s : GLV V) :
     LinearMap.ker (Nmap s) = fixedSpace (Subgroup.zpowers s) := by
   ext v
   rw [LinearMap.mem_ker, Nmap_apply, sub_eq_zero, mem_fixedSpace_zpowers]
 
+omit [Finite V] in
 private theorem commSpace_zpowers_eq_map {s : GLV V} (hs : s ^ 2 = 1) (W : Submodule (ZMod 2) V) :
     commSpace (Subgroup.zpowers s) W = W.map (Nmap s) := by
   apply le_antisymm
@@ -609,6 +617,7 @@ private theorem commSpace_zpowers_eq_map {s : GLV V} (hs : s ^ 2 = 1) (W : Submo
   · rintro _ ⟨u, hu, rfl⟩
     exact sub_mem_commSpace (Subgroup.mem_zpowers s) hu
 
+omit [Finite V] in
 private theorem commSpace_zpowers_le_fixedSpace {s : GLV V} (hs : s ^ 2 = 1)
     (W : Submodule (ZMod 2) V) :
     commSpace (Subgroup.zpowers s) W ≤ fixedSpace (Subgroup.zpowers s) := by
@@ -625,6 +634,7 @@ private theorem commSpace_zpowers_le_fixedSpace {s : GLV V} (hs : s ^ 2 = 1)
 
 end Endgame
 
+omit [Finite V] in
 private theorem Core62.eg_p_odd (hc : Core62 G L K s p) : Odd p := hc.prime.odd_of_ne_two hc.p_ne
 
 private theorem Core62.eg_odd_zpowers (hc : Core62 G L K s p) {e : GLV V} (heK : e ∈ K) :
@@ -632,13 +642,14 @@ private theorem Core62.eg_odd_zpowers (hc : Core62 G L K s p) {e : GLV V} (heK :
   have hle : Subgroup.zpowers e ≤ K := Subgroup.zpowers_le.2 heK
   exact Odd.of_dvd_nat (hc.eg_p_odd.pow (n := 3)) (hc.card_eq ▸ Subgroup.card_dvd_of_le hle)
 
+omit [Finite V] in
 private theorem Core62.eg_frat_central (hc : Core62 G L K s p) :
-    ∀ d ∈ frat K, ∀ k ∈ K, k * d = d * k := fun d hd k hk =>
+    ∀ _d ∈ frat K, ∀ k ∈ K, k * _d = _d * k := fun _d hd k hk =>
   Subgroup.mem_centralizer_iff.1 (hc.frat_center hd) k hk
 
 private theorem Core62.eg_exists_e (hc : Core62 G L K s p) :
     ∃ e ∈ K, e ∉ frat K ∧ s * e * s⁻¹ = e⁻¹ := by
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   obtain ⟨k₁, hk₁K, hk₁Φ⟩ : ∃ k ∈ K, k ∉ frat K := by
     by_contra hcon
     have hle : K ≤ frat K := fun k hk => by
@@ -655,7 +666,7 @@ private theorem Core62.eg_exists_e (hc : Core62 G L K s p) :
 
 private theorem Core62.eg_conj_class (hc : Core62 G L K s p) {e : GLV V} (he : e ∈ K)
     (heΦ : e ∉ frat K) : ∀ d ∈ frat K, ∃ k ∈ K, k⁻¹ * e * k = e * d := by
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   refine Endgame.exists_conj_eq_mul hc.prime hc.eg_frat_central hc.card_frat ?_ (frat_le K) he ?_
   · intro a ha b hb
     rw [hc.frat_eq_commutator]
@@ -671,7 +682,7 @@ private theorem Core62.eg_exists_W (hc : Core62 G L K s p) :
     ∃ e ∈ K, e ∉ frat K ∧ s * e * s⁻¹ = e⁻¹ ∧
       Module.finrank (ZMod 2) V <
         2 * Module.finrank (ZMod 2) (commSpace (Subgroup.zpowers e) ⊤) := by
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   obtain ⟨e, heK, heΦ, hinv⟩ := hc.eg_exists_e
   refine ⟨e, heK, heΦ, hinv, ?_⟩
   have hBodd := hc.eg_odd_zpowers heK
@@ -719,9 +730,9 @@ private theorem Core62.eg_exists_W (hc : Core62 G L K s p) :
     · have := hdisj d hd 1 (frat K).one_mem hd1
       rwa [hVd1] at this
   obtain ⟨a, b, c, hab, hac, hbc⟩ : ∃ a b c : ↥(frat K), a ≠ b ∧ a ≠ c ∧ b ≠ c := by
-    haveI : Finite (frat K) :=
+    have : Finite (frat K) :=
       Nat.finite_of_card_ne_zero (by rw [hc.card_frat]; exact hc.prime.ne_zero)
-    haveI : Fintype (frat K) := Fintype.ofFinite _
+    have : Fintype (frat K) := Fintype.ofFinite _
     have h3 : 2 < Fintype.card (frat K) := by
       rw [← Nat.card_eq_fintype_card, hc.card_frat]
       have := hc.prime.two_le
@@ -767,7 +778,7 @@ private theorem Core62.eg_two_mul_finrank_lt (hc : Core62 G L K s p) {x : GLV V}
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hb
     have : s * e ^ n * s⁻¹ = (s * e * s⁻¹) ^ n := by
       have := map_zpow (MulAut.conj s) e n
-      simpa [MulAut.conj_apply] using this
+      simp
     rw [this, hinv, inv_zpow]
   have hab : ∀ a ∈ Subgroup.zpowers e, ∀ b ∈ Subgroup.zpowers e, a * b = b * a := by
     intro a ha b hb
@@ -846,7 +857,7 @@ private theorem Core62.eg_two_mul_finrank_lt (hc : Core62 G L K s p) {x : GLV V}
   omega
 
 theorem Core62.false (hc : Core62 G L K s p) : False := by
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   have hperf : ⁅L, L⁆ = L :=
     Subgroup.isPerfect_iff.1 (Group.isPerfect_def.2 hc.conf.setup.component.2.2.1)
   have hK' : Nat.card (⁅K, K⁆ : Subgroup (GLV V)) = p := by

@@ -46,7 +46,7 @@ theorem core_finrank_range_conj {K E : Type} [Field K] [AddCommGroup E] [Module 
       ((g⁻¹ : E ≃ₗ[K] E) : E →ₗ[K] E) ∘ₗ
         (((T : E →ₗ[K] E) - 1) ∘ₗ ((g : E ≃ₗ[K] E) : E →ₗ[K] E)) := by
     ext e
-    simp [LinearEquiv.mul_apply]
+    simp
   rw [e1, LinearMap.range_comp, LinearMap.range_comp,
     show ((g : E ≃ₗ[K] E) : E →ₗ[K] E).range = ⊤ from LinearMap.range_eq_top.mpr g.surjective,
     Submodule.map_top, LinearEquiv.finrank_map_eq]
@@ -56,8 +56,8 @@ theorem transfer_conj {Y : Type} [Group Y] [Finite Y] [Group.IsPerfect Y] {P T :
     (hcos : ∀ t ∈ P, t ∈ T ∨ u⁻¹ * t ∈ T) (huP : u ∈ P) (huT : u ∉ T) (hu2 : u * u = 1) :
     ∃ g : Y, g⁻¹ * u * g ∈ T := by
   rcases b7c_thompson hP hPidx hTP hcos huP huT hu2 with ⟨N, hN, hcyc, huN⟩ | ⟨g, hg⟩
-  · haveI := hN
-    haveI := hcyc
+  · have := hN
+    have := hcyc
     exact absurd (by rw [b7c_eq_top_of_cyclic N]; exact Subgroup.mem_top u) huN
   · exact ⟨g, hg⟩
 
@@ -79,7 +79,7 @@ theorem involution_rank_four {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup
           cV ⟨phiG AM c v, hw⟩ = (Θ c : Matrix ι ι AM.K) *ᵥ cV ⟨v, hv⟩)
     (hΘO : ∀ c : ↥(E1Ct hH.ctx t), Θ c ∈ CFSG.MatrixModel.isometryCore ⇑Qf)
     (hΘX : ∀ x ∈ E1Xpre M Q B t, ∃ hx : x ∈ E1Ct hH.ctx t, Θ ⟨x, hx⟩ ∈ StatedOmega ⇑Qf)
-    (hΘN : ∀ (n : G) (hn : n ∈ Nt M (LB M Q B) t) (hnC : n ∈ E1Ct hH.ctx t),
+    (hΘN : ∀ (n : G) (_hn : n ∈ Nt M (LB M Q B) t) (hnC : n ∈ E1Ct hH.ctx t),
       Θ ⟨n, hnC⟩ = 1)
     (hker : ∀ (c : G) (hc : c ∈ E1Ct hH.ctx t), Θ ⟨c, hc⟩ = 1 → c ∈ Nt M (LB M Q B) t)
     (hfin8 : Module.finrank AM.K AM.M₀.E = 8)
@@ -128,7 +128,7 @@ theorem involution_rank_four {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup
     ((Θ ⟨j, hjC⟩ : GL ι AM.K) : Matrix ι ι AM.K) (fun v hv => hΘ ⟨j, hjC⟩ v hv) hA1 hAeven
 
 theorem transfer_final {G : Type} [Group G] [Finite G] (D Q S R : Subgroup G)
-    (hQD : Q ≤ D) (hQnorm : (Q.subgroupOf D).Normal) (hQS : Q ≤ S) (hSD : S ≤ D) (hQR : Q ≤ R)
+    (_hQD : Q ≤ D) (hQnorm : (Q.subgroupOf D).Normal) (_hQS : Q ≤ S) (hSD : S ≤ D) (hQR : Q ≤ R)
     (hS2 : QuotSat S Q (fun W _ => IsPGroup 2 W)) (hodd : ¬ 2 ∣ S.relIndex D)
     (j : G) (hjS : j ∈ S) (hjR : j ∉ R) (hjj : j * j ∈ Q) (hidx : R.relIndex S ≤ 2)
     (hsimple : IsSimpleGroup (↥D ⧸ Q.subgroupOf D))
@@ -151,7 +151,7 @@ theorem transfer_final {G : Type} [Group G] [Finite G] (D Q S R : Subgroup G)
         exact commutatorElement_eq_one_iff_mul_comm.mp hmem
       · exact h
     exact Group.isPerfect_def.mpr (by rw [_root_.commutator_def]; exact hcomm)
-  haveI := hperf
+  have := hperf
   obtain ⟨_, hSP⟩ := hS2
   have hsurj :
       Function.Surjective (QuotientGroup.mk' (Q.subgroupOf D) : ↥D →* ↥D ⧸ Q.subgroupOf D) :=
@@ -243,7 +243,7 @@ theorem transfer_contra {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {
     {ι : Type} [Fintype ι] [DecidableEq ι] {Qf : QuadraticForm AM.K (ι → AM.K)}
     (hf : FormData ι AM.K Qf)
     (cV : (AM.Vsp hH.ctx t) ≃ₗ[AM.K] (ι → AM.K))
-    (hAN : ActsAsNatural AM.S (AM.Vsp hH.ctx t) (AM.actImage (E1Xpre M Q B t)) cV ⇑Qf)
+    (_hAN : ActsAsNatural AM.S (AM.Vsp hH.ctx t) (AM.actImage (E1Xpre M Q B t)) cV ⇑Qf)
     (Θ : ↥(E1Ct hH.ctx t) →* GL ι AM.K)
     (hΘ : ∀ (c : ↥(E1Ct hH.ctx t)) (v : AM.M₀.E) (hv : v ∈ AM.Vsp hH.ctx t),
         ∃ hw : phiG AM c v ∈ AM.Vsp hH.ctx t,
@@ -350,7 +350,7 @@ theorem transfer_contra {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {
   have hOc : Nat.card (CFSG.MatrixModel.isometryCore ⇑Qf) =
       2 * Nat.card (StatedOmega ⇑Qf) := hf.index
   obtain ⟨k, hk1, hkq⟩ := kfs_card_eq_two_pow AM.K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hmodd, hΩcard⟩ :
       ∃ m : ℕ, Odd m ∧ Nat.card (StatedOmega ⇑Qf) = Nat.card AM.K ^ 2 * m := by
     obtain ⟨P0⟩ := (Sylow.nonempty (p := 2) (G := ↥(StatedOmega ⇑Qf)))
@@ -662,14 +662,14 @@ theorem transfer_contra {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {
     show g * n * g⁻¹ ∈ H0 M Z
     exact (H0 M Z).mul_mem ((H0 M Z).mul_mem hgH (hRH0 (hNR hn))) ((H0 M Z).inv_mem hgH)
   have hDM : E1Dpre M Q B t ≤ M := fun d hd => (Subgroup.mem_inf.mp (hDH0 hd)).1
-  haveI hQDn : (Q.subgroupOf (E1Dpre M Q B t)).Normal :=
+  have hQDn : (Q.subgroupOf (E1Dpre M Q B t)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQD).mpr fun d hd =>
       hc.hyp.Q_normal.2 (hDM hd)
   obtain ⟨hYnorm, hYP⟩ := hA2 G M Q Z B t hH hCaseA
   have hYsimple := hYP.1
   have hΩnon : ∃ a ∈ StatedOmega ⇑Qf, ∃ b ∈ StatedOmega ⇑Qf, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : StatedOmega ⇑Qf = ⊥ := by
       have hcomm : ⁅StatedOmega ⇑Qf, StatedOmega ⇑Qf⁆ = ⊥ := by
         rw [eq_bot_iff, Subgroup.commutator_le]

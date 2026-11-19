@@ -43,10 +43,10 @@ theorem exists_data {G : Type} [Group G] [Finite G] {M T V₀ V : Subgroup G}
   have hp' : p ∈ CFSG.LocalAnalysis.RankThreeUC.SourceSetting.sigmaOf G M ∧ SigmaTwo G p := hp
   have hpA : p ∈ rankThreeSigmaA G := hp'.1.1
   have hprime : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hpA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPM : (P : Subgroup G) ≤ M := hw.sylow_le h.context.uc.standing hpA
   have hSylM : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup G) M := by
-    have h1 : IsPGroup p ((P : Subgroup G).subgroupOf M) := P.isPGroup'.comap_subtype
+    have h1 : IsPGroup p ((P : Subgroup G).subgroupOf M) := P.isPGroup.comap_subtype
     have h2 : ¬ p ∣ ((P : Subgroup G).subgroupOf M).index := by
       intro hd
       have h3 := (Subgroup.relIndex_dvd_index_of_le hPM)
@@ -67,7 +67,7 @@ theorem exists_data {G : Type} [Group G] [Finite G] {M T V₀ V : Subgroup G}
     CFSG.LocalAnalysis.RankThreeUC.ProofSupport.ClauseBLayerAction.layer_action hpA P hw hle hcard hweak hp5
       (by omega) ⟨e⟩
   have hXp : IsPGroup p ↥((P : Subgroup G) ⊓ rankThreeLayer (Subgroup.centralizer (P₀ : Set G))) :=
-    P.isPGroup'.to_le inf_le_left
+    P.isPGroup.to_le inf_le_left
   have hXM : (P : Subgroup G) ⊓ rankThreeLayer (Subgroup.centralizer (P₀ : Set G)) ≤ M :=
     inf_le_left.trans hPM
   refine ⟨P, P₀, hw, hB, hle, hcard, hweak, hH, hprime, hp5, hsolv, ⟨hF, n, hn, ⟨e⟩⟩, hnl, hfrob,

@@ -41,8 +41,8 @@ private lemma spForm_frame_f_e {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : Is
     (i j : Fin 4) : spForm (f i) (e j) = -(if i = j then 1 else 0) := by
   rw [spForm_swap, (hef j i).2.2]
   by_cases h : i = j
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg fun h' => h h'.symm]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right fun h' => h h'.symm]
 
 private lemma spN_mul_spN (a c a' c' : Fin r ⊕ Fin r → K) :
     spN a c * spN a' c' = spForm a' c • spT c' a + spForm c' c • spT a' a +
@@ -56,12 +56,12 @@ private lemma frame_spN_mul {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpF
   rw [spN_mul_spN, (hef k j).2.2, (hef l j).2.1, (hef k i).1, spForm_frame_f_e hef l i]
   have h : (if k = j then (1 : K) else 0) = if j = k then 1 else 0 := by
     by_cases hjk : j = k
-    · rw [if_pos hjk.symm, if_pos hjk]
-    · rw [if_neg fun h => hjk h.symm, if_neg hjk]
+    · rw [ite_eq_left hjk.symm, ite_eq_left hjk]
+    · rw [ite_eq_right fun h => hjk h.symm, ite_eq_right hjk]
   have h' : (if l = i then (1 : K) else 0) = if i = l then 1 else 0 := by
     by_cases hil : i = l
-    · rw [if_pos hil.symm, if_pos hil]
-    · rw [if_neg fun h => hil h.symm, if_neg hil]
+    · rw [ite_eq_left hil.symm, ite_eq_left hil]
+    · rw [ite_eq_right fun h => hil h.symm, ite_eq_right hil]
   rw [h, h', neg_smul, sub_eq_add_neg]
   simp
 
@@ -76,17 +76,17 @@ private lemma spT_mul_spN (c a a' c' : Fin r ⊕ Fin r → K) :
 private lemma frame_spN_mul_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpFrame e f)
     {i j k l : Fin 4} (hjk : j ≠ k) (hil : i ≠ l) :
     spN (e i) (f j) * spN (e k) (f l) = 0 := by
-  rw [frame_spN_mul hef, if_neg hjk, if_neg hil, zero_smul, zero_smul, sub_zero]
+  rw [frame_spN_mul hef, ite_eq_right hjk, ite_eq_right hil, zero_smul, zero_smul, sub_zero]
 
 private lemma frame_spN_mul_te {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpFrame e f)
     {i j l : Fin 4} (hil : i ≠ l) :
     spN (e i) (f j) * spN (e j) (f l) = spT (f l) (e i) := by
-  rw [frame_spN_mul hef, if_pos rfl, if_neg hil, one_smul, zero_smul, sub_zero]
+  rw [frame_spN_mul hef, ite_eq_left rfl, ite_eq_right hil, one_smul, zero_smul, sub_zero]
 
 private lemma frame_spN_mul_tn {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpFrame e f)
     {i j k : Fin 4} (hjk : j ≠ k) :
     spN (e i) (f j) * spN (e k) (f i) = -spT (e k) (f j) := by
-  rw [frame_spN_mul hef, if_neg hjk, if_pos rfl, zero_smul, one_smul, zero_sub]
+  rw [frame_spN_mul hef, ite_eq_right hjk, ite_eq_left rfl, zero_smul, one_smul, zero_sub]
 
 private lemma frame_T_fe_mul_N {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpFrame e f)
     (i j k l : Fin 4) :
@@ -116,14 +116,14 @@ private lemma frame_e_ne_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsS
     (i : Fin 4) : e i ≠ 0 := by
   intro h
   have h1 := (hef i i).2.2
-  rw [h, if_pos rfl] at h1
+  rw [h, ite_eq_left rfl] at h1
   simp [spForm] at h1
 
 private lemma frame_f_ne_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpFrame e f)
     (i : Fin 4) : f i ≠ 0 := by
   intro h
   have h1 := (hef i i).2.2
-  rw [h, if_pos rfl] at h1
+  rw [h, ite_eq_left rfl] at h1
   simp [spForm] at h1
 
 private lemma frame_T10_ne_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpFrame e f) :
@@ -131,7 +131,7 @@ private lemma frame_T10_ne_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : I
   intro h
   have h2 := congrArg (fun M => M *ᵥ e 1) h
   simp only [Matrix.zero_mulVec] at h2
-  rw [spT_mulVec, (hef 1 1).2.2, if_pos rfl, one_smul] at h2
+  rw [spT_mulVec, (hef 1 1).2.2, ite_eq_left rfl, one_smul] at h2
   exact frame_e_ne_zero hef 0 h2
 
 private lemma frame_T01_ne_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpFrame e f) :
@@ -139,7 +139,7 @@ private lemma frame_T01_ne_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : I
   intro h
   have h2 := congrArg (fun M => M *ᵥ f 0) h
   simp only [Matrix.zero_mulVec] at h2
-  rw [spT_mulVec, spForm_frame_f_e hef 0 0, if_pos rfl, neg_one_smul] at h2
+  rw [spT_mulVec, spForm_frame_f_e hef 0 0, ite_eq_left rfl, neg_one_smul] at h2
   exact frame_f_ne_zero hef 1 (neg_eq_zero.mp h2)
 
 private lemma frame_N01_ne_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : IsSpFrame e f) :
@@ -147,7 +147,7 @@ private lemma frame_N01_ne_zero {e f : Fin 4 → Fin r ⊕ Fin r → K} (hef : I
   intro h
   have h2 : spN (e 0) (f 1) *ᵥ f 0 = - f 1 := by
     rw [spN, Matrix.add_mulVec, spT_mulVec, spT_mulVec, (hef 0 1).2.1,
-      spForm_frame_f_e hef 0 0, if_pos rfl, zero_smul, zero_add, neg_one_smul]
+      spForm_frame_f_e hef 0 0, ite_eq_left rfl, zero_smul, zero_add, neg_one_smul]
   rw [h, Matrix.zero_mulVec] at h2
   exact frame_f_ne_zero hef 1 (neg_eq_zero.mp h2.symm)
 
@@ -314,10 +314,10 @@ theorem good_unipSp_frameN_three [Finite K] (hK : Nat.card K = 3) (hr : 1 ≤ r)
     have hval : frameN e f *ᵥ f 0 = - f 3 := by
       have hA : spN (e 0) (f 3) *ᵥ f 0 = - f 3 := by
         rw [spN, Matrix.add_mulVec, spT_mulVec, spT_mulVec, (hef 0 3).2.1,
-          spForm_frame_f_e hef 0 0, if_pos rfl, zero_smul, zero_add, neg_one_smul]
+          spForm_frame_f_e hef 0 0, ite_eq_left rfl, zero_smul, zero_add, neg_one_smul]
       have hM : spN (e 2) (f 1) *ᵥ f 0 = 0 := by
         rw [spN, Matrix.add_mulVec, spT_mulVec, spT_mulVec, (hef 0 1).2.1,
-          spForm_frame_f_e hef 0 2, if_neg (by decide), neg_zero, zero_smul, zero_smul,
+          spForm_frame_f_e hef 0 2, ite_eq_right (by decide), neg_zero, zero_smul, zero_smul,
           add_zero]
       rw [frameN, Matrix.sub_mulVec, hA, hM, sub_zero]
     rw [hN0, Matrix.zero_mulVec] at hval

@@ -49,7 +49,7 @@ private theorem s16h_orders_of_mulEquiv {R : Type*} [Group R]
 private theorem s16h_stabAct_pow_twelve {F : Type} [Field F] [Fintype F]
     (hF : Fintype.card F = 2) {w : Fin 3 → F} (hw : w ≠ 0) :
     ∀ g ∈ stabAct w, g ^ 12 = 1 := by
-  haveI : CharP F 2 := charP_of_card_eq_prime (p := 2) hF
+  have : CharP F 2 := charP_of_card_eq_prime (p := 2) hF
   intro g hg
   rcases s16h_orders_of_mulEquiv (glZ2 hF) g with h4 | h3 | h7
   · calc g ^ 12 = (g ^ 4) ^ 3 := by rw [show (12 : ℕ) = 4 * 3 by norm_num, pow_mul]
@@ -72,7 +72,7 @@ private theorem s16h_stabAct_pow_twelve {F : Type} [Field F] [Fintype F]
 theorem s16h_stabSL_pow_twelve {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     (m : Multiplicative (Fin 3 → K)) (hm : m ≠ 1) :
     ∀ γ ∈ s1611e3_stabSL m, γ ^ 12 = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf2 : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK]
   have hw : Multiplicative.toAdd m ≠ 0 := by
     intro h0
@@ -91,8 +91,8 @@ theorem s16h_stabSL_pow_twelve {K : Type} [Field K] [Finite K] (hK : Nat.card K 
 theorem s16h_e3_sl3_parabolic {X : Type} [Group X] (h : IsSLn X 3 1) :
     ∃ P : Subgroup X, Nat.card ↥P = 24 ∧ ∀ p ∈ P, p ^ 12 = 1 := by
   obtain ⟨K, hfield, hfin, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hfield
-  letI : Finite K := hfin
+  let : Field K := hfield
+  let : Finite K := hfin
   have hK : Nat.card K = 2 := by simpa using hcard
   let m : Multiplicative (Fin 3 → K) :=
     Multiplicative.ofAdd (fun i : Fin 3 => if i = 0 then (1 : K) else 0)

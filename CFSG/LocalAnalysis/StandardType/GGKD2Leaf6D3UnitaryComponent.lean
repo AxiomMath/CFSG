@@ -147,15 +147,14 @@ private theorem ltrd3j6_dualPoly_cubic {K : Type} [Field K] (σ : K →+* K) {c 
     · simp [Polynomial.revAt_le, Polynomial.coeff_X_pow, Polynomial.coeff_sub,
         Polynomial.coeff_one, Polynomial.coeff_C]
     · simp [Polynomial.revAt_le, Polynomial.coeff_X_pow, Polynomial.coeff_sub,
-        Polynomial.coeff_one, Polynomial.coeff_C]
+        Polynomial.coeff_one]
     · simp [Polynomial.revAt_le, Polynomial.coeff_X_pow, Polynomial.coeff_sub,
-        Polynomial.coeff_one, Polynomial.coeff_C]
+        Polynomial.coeff_one]
     · simp [Polynomial.revAt_le, Polynomial.coeff_X_pow, Polynomial.coeff_sub,
         Polynomial.coeff_one, Polynomial.coeff_C]
     · rw [Polynomial.revAt_eq_self_of_lt (by omega)]
       simp [Polynomial.coeff_X_pow, Polynomial.coeff_sub, Polynomial.coeff_one,
-        Polynomial.coeff_C, show n ≠ 0 by omega, show n ≠ 1 by omega,
-        show n ≠ 2 by omega, show n ≠ 3 by omega]
+        Polynomial.coeff_C, show n ≠ 0 by omega, show n ≠ 3 by omega]
   rw [dualPoly]
   have hmap : (X ^ 3 - C c).map σ = X ^ 3 - C (σ c) := by simp
   rw [hmap]
@@ -215,7 +214,7 @@ private theorem ltrd3j6_F_fix_le_unitaryCentralizer {K : Type} [Field K] {n : �
     (toLinU h0 d ⟨S, hS⟩) * (toLinU h0 d _)
   rw [← map_mul, ← map_mul, hPU]
 
-private theorem ltrd3j6_mem_fix_iff {K : Type} [Field K] {n : ℕ} (h0 : UnitaryFieldData 2 n K)
+private theorem ltrd3j6_mem_fix_iff {K : Type} [Field K] {n : ℕ} (_h0 : UnitaryFieldData 2 n K)
     {d : ℕ} {S : GL (Fin d) K}
     (hSnorm : S ∈ Subgroup.normalizer
       ((unitarySU 2 n K d : Subgroup (GL (Fin d) K)) : Set (GL (Fin d) K)))
@@ -341,7 +340,7 @@ private theorem ltrd3j6_component_tail {L Q U : Type*} [Group L] [Group Q] [Grou
 
 private theorem ltrd3j6_component_lift
     {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (h0 : UnitaryFieldData 2 n K)
-    {d : ℕ} (hd : 2 ≤ d) {S : GL (Fin d) K}
+    {d : ℕ} (_hd : 2 ≤ d) {S : GL (Fin d) K}
     (hS : S ∈ primeFormUnitary h0 (idGram K d))
     (hSnorm : S ∈ Subgroup.normalizer
       ((unitarySU 2 n K d : Subgroup (GL (Fin d) K)) : Set (GL (Fin d) K)))
@@ -366,7 +365,7 @@ private theorem ltrd3j6_component_lift
         (fixSubgroup ((unitarySU 2 n K d).normalizerMonoidHom ⟨S, hSnorm⟩)) ∧
       M.map (ltrd3j6_F h0 d) =
         specialBlock (idForm h0 d) (toLinU h0 d ⟨S, hS⟩) (a : K[X]) := by
-  haveI := h0.finite
+  have := h0.finite
   have hn1 : 1 ≤ n := h0.one_le
   have hq : 2 ≤ 2 ^ n := by
     calc (2 : ℕ) = 2 ^ 1 := by norm_num
@@ -430,31 +429,31 @@ private theorem ltrd3j6_component_lift
         unitaryCentralizer (idForm h0 d) (toLinU h0 d ⟨S, hS⟩) :=
       (Subgroup.map_mono hMcomp.1).trans (ltrd3j6_F_fix_le_unitaryCentralizer h0 hS hSnorm)
     have hperfM : commutator ↥(M.map (ltrd3j6_F h0 d)) = ⊤ := by
-      haveI : Group.IsPerfect ↥M := ⟨hMcomp.2.2.1⟩
+      have : Group.IsPerfect ↥M := ⟨hMcomp.2.2.1⟩
       exact (Group.IsPerfect.ofSurjective
         (f := (Subgroup.equivMapOfInjective M _ hF_inj).toMonoidHom)
         (Subgroup.equivMapOfInjective M _ hF_inj).surjective).commutator_eq_top
-    haveI : Group.IsPerfect ↥(M.map (ltrd3j6_F h0 d)) := ⟨hperfM⟩
-    haveI : IsMulCommutative ↥(M.map (ltrd3j6_F h0 d)) :=
+    have : Group.IsPerfect ↥(M.map (ltrd3j6_F h0 d)) := ⟨hperfM⟩
+    have : IsMulCommutative ↥(M.map (ltrd3j6_F h0 d)) :=
       IsMulCommutative.of_comm fun u v =>
         Subtype.ext (habelU u.1 (hMle u.2) v.1 (hMle v.2)).eq
-    haveI : Subsingleton ↥(M.map (ltrd3j6_F h0 d)) :=
+    have : Subsingleton ↥(M.map (ltrd3j6_F h0 d)) :=
       Group.IsPerfect.subsingleton_of_isMulCommutative
-    haveI : Nontrivial ↥M := by
-      haveI : Nontrivial (↥M ⧸ Subgroup.center ↥M) := hMcomp.2.2.2.toNontrivial
+    have : Nontrivial ↥M := by
+      have : Nontrivial (↥M ⧸ Subgroup.center ↥M) := hMcomp.2.2.2.toNontrivial
       exact (QuotientGroup.mk'_surjective (Subgroup.center ↥M)).nontrivial
-    haveI : Nontrivial ↥(M.map (ltrd3j6_F h0 d)) :=
+    have : Nontrivial ↥(M.map (ltrd3j6_F h0 d)) :=
       (Subgroup.equivMapOfInjective M _ hF_inj).symm.surjective.nontrivial
     exact (not_subsingleton ↥(M.map (ltrd3j6_F h0 d))) inferInstance
   have hMle := (Subgroup.map_mono hMcomp.1).trans (ltrd3j6_F_fix_le_unitaryCentralizer h0 hS hSnorm)
   have hperfM : commutator ↥(M.map (ltrd3j6_F h0 d)) = ⊤ := by
-    haveI : Group.IsPerfect ↥M := ⟨hMcomp.2.2.1⟩
+    have : Group.IsPerfect ↥M := ⟨hMcomp.2.2.1⟩
     exact (Group.IsPerfect.ofSurjective
       (f := (Subgroup.equivMapOfInjective M _ hF_inj).toMonoidHom)
       (Subgroup.equivMapOfInjective M _ hF_inj).surjective).commutator_eq_top
   have hMperf_sub : ⁅M.map (ltrd3j6_F h0 d), M.map (ltrd3j6_F h0 d)⁆ =
       M.map (ltrd3j6_F h0 d) := by
-    haveI : Group.IsPerfect ↥(M.map (ltrd3j6_F h0 d)) := ⟨hperfM⟩
+    have : Group.IsPerfect ↥(M.map (ltrd3j6_F h0 d)) := ⟨hperfM⟩
     exact CFSG.GroupTheory.commutator_eq_self_of_isPerfect_subgroup
   have hcommU : ⁅unitaryCentralizer (idForm h0 d) (toLinU h0 d ⟨S, hS⟩),
       unitaryCentralizer (idForm h0 d) (toLinU h0 d ⟨S, hS⟩)⁆ =
@@ -530,7 +529,7 @@ theorem unitaryComponent_of_block (h : UnitaryPrimaryBlockContract) :
   intro hJ
   obtain ⟨a, hapoly, _hatop, hdm, hSDB, huniq⟩ :=
     h K n h0 d hd ⟨S, hS⟩ κ hκ hS3
-  haveI := h0.finite
+  have := h0.finite
   have hscalar : Matrix.GeneralLinearGroup.scalar (Fin d) κ ∈ primeFormUnitary h0 (idGram K d) := by
     rw [← hS3]
     exact pow_mem hS 3
@@ -545,7 +544,7 @@ theorem unitaryComponent_of_block (h : UnitaryPrimaryBlockContract) :
   have hself : dualPoly h0.bar (a : K[X]) = a := by
     rw [hapoly]
     exact ltrd3j6_dualPoly_cubic h0.bar κ.ne_zero hσκ
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   have hnat : (a : K[X]).natDegree = 3 := by
     rw [hapoly]
     exact natDegree_X_pow_sub_C

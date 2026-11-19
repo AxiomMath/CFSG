@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open Subgroup
 variable {G : Type} [Group G] [Finite G]
 
-private theorem s16h_e3_two_mul_le_of_dvd_of_lt {d m : ℕ} (hd : 0 < d) (hdvd : d ∣ m)
+private theorem s16h_e3_two_mul_le_of_dvd_of_lt {d m : ℕ} (_hd : 0 < d) (hdvd : d ∣ m)
     (hlt : d < m) : 2 * d ≤ m := by
   by_contra h
   have hlt' : m < 2 * d := by omega

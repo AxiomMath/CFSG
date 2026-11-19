@@ -413,7 +413,7 @@ private theorem lt_inf_normalizer {G : Type*} [Group G] [Finite G] {p : ℕ} [Fa
     intro x hx
     have : (⟨x, hx⟩ : Q) ∈ R.subgroupOf Q := h ▸ Subgroup.mem_top _
     exact this
-  obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt (hnc (R.subgroupOf Q) hlt)
+  obtain ⟨x, hxN, hxR⟩ := _root_.IsConcreteLE.exists_of_lt (hnc (R.subgroupOf Q) hlt)
   refine lt_iff_le_and_ne.mpr ⟨le_inf hRQ Subgroup.le_normalizer, fun h => ?_⟩
   have hx' : (x : G) ∈ R := by
     have : (x : G) ∈ Q ⊓ Subgroup.normalizer (R : Set G) :=

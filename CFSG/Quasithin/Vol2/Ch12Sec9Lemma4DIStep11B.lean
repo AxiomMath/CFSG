@@ -95,7 +95,7 @@ theorem DIEnv.N0_ccF_mem (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2_
         _ = k' * i * k'⁻¹ * i⁻¹ := by group
     rw [e]
     exact Subgroup.mem_sup_left hd
-  haveI : ((E.I ⊓ wcSub T L V V₁ ⊔ V₁).subgroupOf (E.I ⊔ V₁)).Normal :=
+  have : ((E.I ⊓ wcSub T L V V₁ ⊔ V₁).subgroupOf (E.I ⊔ V₁)).Normal :=
     subgroupOf_normal_of_comm hcIV1
   have hcZ : ∀ k' ∈ E.N0G, ccF E.a k' ∈ E.I ⊔ V₁ := fun k' hk' =>
     E.ccF_mem_IV1 h1222 h12213 h1289 h12810 h12813 h12813f F2 F3 hpt hK₁C hK4 hG5 hK₁N

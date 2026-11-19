@@ -169,7 +169,7 @@ theorem ggResII_conic {n : ℕ} {C : Matrix (Fin n) (Fin n) ℤ} {ib ic : Fin n}
     simp only [hm, hadj, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
     rw [Finset.sum_eq_single i (fun m _ hm => by simp [Ne.symm hm])
       (fun hi => absurd (Finset.mem_univ i) hi)]
-    simp only [if_true, mul_one]
+    simp only [ite_true, mul_one]
     ring
   have key : ∑ i, row i * ∑ j, (adj i j : ZMod p) * col j = 2 * d := by
     simp only [hadj']

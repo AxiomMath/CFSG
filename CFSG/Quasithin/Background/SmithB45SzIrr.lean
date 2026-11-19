@@ -55,7 +55,7 @@ theorem szIncl_mem_upperUniSp (hK : Nat.card K = 2 ^ (2 * a + 1))
 omit [CharP K 2] in
 theorem isPGroup_suzukiU (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     IsPGroup 2 ↥(suzukiU a K) := by
-  have h := (CFSG.QuasithinUnique.Setup.Family.suzukiSylow (a := a) hK).isPGroup'
+  have h := (CFSG.QuasithinUnique.Setup.Family.suzukiSylow (a := a) hK).isPGroup
   rwa [CFSG.QuasithinUnique.Setup.Family.coe_suzukiSylow hK] at h
 
 omit [CharP K 2] in

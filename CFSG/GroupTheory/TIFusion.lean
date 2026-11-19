@@ -35,7 +35,7 @@ omit [Finite G] in
 @[expose] def cstar (E N : Subgroup G) (y : G)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hyE : ∀ e ∈ E, y * e * y⁻¹ ∈ E) : Subgroup G where
   carrier := {e | e ∈ E ∧ e⁻¹ * (y * e * y⁻¹) ∈ N}
-  one_mem' := ⟨E.one_mem, by simpa using N.one_mem⟩
+  one_mem' := ⟨E.one_mem, by simp⟩
   mul_mem' := by
     rintro a b ⟨ha, haN⟩ ⟨hb, hbN⟩
     exact ⟨E.mul_mem ha hb, by rw [delta_mul hEc hyE ha hb]; exact N.mul_mem haN hbN⟩
@@ -52,7 +52,7 @@ theorem card_mul_card_le_sq_aux {A : Type*} [Group A] [Finite A]
     (hcomm : ∀ a b : A, a * b = b * a) (δ : A →* A) (hδ : ∀ a, δ (δ a) = 1)
     (M : Subgroup A) (hM : ∀ m ∈ M, δ m ∈ M) :
     Nat.card A * Nat.card M ≤ Nat.card ↥(M.comap δ) ^ 2 := by
-  haveI : M.Normal :=
+  have : M.Normal :=
     ⟨fun n hn g => by rw [hcomm g n, mul_inv_cancel_right]; exact hn⟩
   have hD : δ.range ≤ M.comap δ := by
     rintro _ ⟨a, rfl⟩
@@ -154,7 +154,7 @@ theorem fusion_of_rank (X E N : Subgroup G) (hEX : E ≤ X) (hNE : N ≤ E)
     obtain ⟨c, hc, hcb⟩ := Subgroup.mem_map.mp hb
     refine ⟨c, hc, ?_⟩
     rw [← hcb]
-    simp [MulAut.conj_apply]
+    simp
   have hfacts : ∀ b ∈ B, ∃ c ∈ E, ∃ n ∈ N, b = g⁻¹ * c * g ∧ c * c = 1 ∧
       b * e * b⁻¹ = e * (g⁻¹ * n * g) := by
     intro b hb
@@ -251,7 +251,7 @@ theorem mul_pow_two_mul_add_one {x u r : G} (hr : r = x * u) (hx : x * x = 1)
 
 theorem le_normalizer_of_ti (X E N : Subgroup G) (hEX : E ≤ X) (hNE : N ≤ E)
     (hNX : ∀ g ∈ X, ∀ n ∈ N, g * n * g⁻¹ ∈ N)
-    (hE2 : ∀ e ∈ E, e * e = 1) (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
+    (hE2 : ∀ e ∈ E, e * e = 1) (_hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
     (hTI : ∀ g ∈ X, ∀ e ∈ E, e ∉ N → g * e * g⁻¹ ∈ E → g ∈ normalizer (E : Set G))
     {x f : G} (hxE : x ∈ E) (hxN : x ∉ N) (hfE : f ∈ E) (hfN : f ∉ N)
     (hfusx : ∀ g ∈ X, g * x * g⁻¹ ∈ normalizer (E : Set G) → g * x * g⁻¹ ∈ E)
@@ -259,7 +259,7 @@ theorem le_normalizer_of_ti (X E N : Subgroup G) (hEX : E ≤ X) (hNE : N ≤ E)
     (hsat : ∀ n ∈ N, ∃ y ∈ X ⊓ normalizer (E : Set G), y * x * y⁻¹ = x * n)
     (hdist : ∀ y ∈ X ⊓ normalizer (E : Set G), y * x * y⁻¹ ≠ f) :
     X ≤ normalizer (E : Set G) := by
-  clear hEc
+  clear _hEc
   by_contra hXN
   have hx2 : x * x = 1 := hE2 x hxE
   have hf2 : f * f = 1 := hE2 f hfE

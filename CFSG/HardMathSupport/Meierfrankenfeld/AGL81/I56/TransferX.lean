@@ -16,7 +16,7 @@ variable {X : Type*} [Group X]
 theorem exists_fixed_mem_comm_eq (V U K S : Subgroup X) [Finite K]
     (hVc : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hV2 : ∀ v ∈ V, v * v = 1) (hUV : U ≤ V)
     (hKU : ∀ k ∈ K, ∀ u ∈ U, k * u * k⁻¹ ∈ U) (hSK : S ≤ K)
-    (hSodd : ¬ 2 ∣ (S.subgroupOf K).index) (z : X) (hz : z ∈ V)
+    (hSodd : ¬ 2 ∣ (S.subgroupOf K).index) (z : X) (_hz : z ∈ V)
     (hzU : ∀ k ∈ K, k * z * k⁻¹ * z⁻¹ ∈ U) (hzS : ∀ s ∈ S, s * z * s⁻¹ = z) :
     ∃ m ∈ U, (∀ k ∈ K, k * z * k⁻¹ * z⁻¹ = k * m * k⁻¹ * m⁻¹) ∧
       ∀ s ∈ S, s * m * s⁻¹ = m := by
@@ -62,7 +62,7 @@ theorem exists_fixed_mem_comm_eq (V U K S : Subgroup X) [Finite K]
       ((g : X) * z * (g : X)⁻¹ * z⁻¹) *
         ((g : X) * ((h : X) * z * (h : X)⁻¹ * z⁻¹) * (g : X)⁻¹)
     have hcomm := hVc _ (hUV (hzU g g.2)) _ (hUV (hKU g g.2 _ (hzU h h.2)))
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, mul_inv_rev]
+    simp only [Subgroup.coe_mul, mul_inv_rev]
     rw [hcomm]
     group
   have hS0 : ∀ s ∈ S.subgroupOf K, c s = 0 := by

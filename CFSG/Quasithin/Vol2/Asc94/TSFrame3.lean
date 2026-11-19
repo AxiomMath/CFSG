@@ -39,7 +39,7 @@ theorem emb_mem_normalizer_tr {X : Subgroup L52.Hc} {x' : L52.Hc} :
       obtain ⟨-, hu, -⟩ := spec
       show (⋃ i, emb e '' (Classical.choose L52.A1_orbits i)) =
         ((tr e L52.A1 : Subgroup G) : Set G) \ {1}
-      rw [← Set.image_iUnion, hu, Set.image_diff (emb_injective e), Set.image_singleton, map_one]
+      rw [← Set.image_iUnion, hu, Set.image_sdiff (emb_injective e), Set.image_singleton, map_one]
       rfl
     Δ_inv := by
       obtain ⟨-, -, hinv, -⟩ := spec
@@ -71,7 +71,7 @@ theorem emb_mem_normalizer_tr {X : Subgroup L52.Hc} {x' : L52.Hc} :
       obtain ⟨-, -, -, -, -, -, h1, -⟩ := spec
       show emb e '' (Classical.choose L52.A1_orbits 1) =
         ((tr e L52.A1 ⊓ tr e L52.U1 : Subgroup G) : Set G) \ {1, z}
-      rw [h1, Set.image_diff (emb_injective e), Set.image_pair, map_one, emb_zt e hz, ← tr_inf]
+      rw [h1, Set.image_sdiff (emb_injective e), Set.image_pair, map_one, emb_zt e hz, ← tr_inf]
       rfl
     Δ2_sub := by
       obtain ⟨-, -, -, -, -, -, -, h2, -⟩ := spec

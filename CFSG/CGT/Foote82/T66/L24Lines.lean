@@ -152,7 +152,7 @@ open Classical in
   if h : σ ∈ alternatingGroup (Fin N) then el φ σ h else 1
 
 theorem pm_elt {σ : Perm (Fin N)} (h : σ ∈ alternatingGroup (Fin N)) : pm φ (elt φ σ) = σ := by
-  rw [elt, dif_pos h, pm_el]
+  rw [elt, dite_eq_left h, pm_el]
 
 theorem elt_conj (g : ↥G) {σ : Perm (Fin N)} (h : σ ∈ alternatingGroup (Fin N)) :
     elt φ (pm φ g * σ * (pm φ g)⁻¹) = g * elt φ σ * g⁻¹ := by
@@ -285,7 +285,7 @@ theorem HeartW.mem_T_or (h : HeartW φ F θ) {a b c d m : Fin N} (ha : a ∈ F) 
     · exact sub_eq_zero.1 h0
     · exfalso
       have h1 : z₁ m - z₂ m = jS F m := congrFun hj m
-      rw [hs₁ m hma hmb hmc, hs₂ m hma hmb hmd, sub_self, jS_apply, if_pos hm] at h1
+      rw [hs₁ m hma hmb hmc, hs₂ m hma hmb hmd, sub_self, jS_apply, ite_eq_left hm] at h1
       exact absurd h1 (by decide)
   have hsupp : ∀ k, k ≠ a → k ≠ b → z₁ k = 0 := by
     intro k hka hkb

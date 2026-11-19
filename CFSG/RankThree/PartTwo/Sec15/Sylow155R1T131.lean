@@ -24,7 +24,7 @@ theorem commutator_deltaZero_le_delta_of_le_normalizer {A : Subgroup G}
     {K V : Subgroup G} (hKΔ : K ≤ delta A LB K) (hV : V ∈ invariantPiSubgroups ⊤ A (piCompl 3))
     (hVK : V ≤ K) (hKV : K ≤ Subgroup.normalizer (V : Set G)) :
     ⁅deltaZero A LB K, V⁆ ≤ delta A LB V := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D := delta A LB V with hD
   have hKD : K ≤ Subgroup.normalizer (D : Set G) :=
     hKΔ.trans (delta_le_normalizer_delta (fun Z hZ => delta_mem_scriptQ hA h146 hZ) hV hKV)

@@ -82,9 +82,9 @@ theorem i165On_famBC_of_engine (hengine : SpModel165At) : I165On i165FamBC := by
       omega
   obtain ⟨F, hfield, hfinite, hchar, hcard, ⟨e⟩⟩ :=
     exists_mulEquiv_statedSp_of_isLabel (N := lab.rank) (n := lab.n) hKB hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   have hqdiv : q ∣ 2 ^ lab.n - 1 ∨ lab.n = 1 ∧ q = 3 := by
     have h3 : 3 ≤ GLATwoLocalRank q K := by omega
     obtain ⟨lab', hlab', hs⟩ :=

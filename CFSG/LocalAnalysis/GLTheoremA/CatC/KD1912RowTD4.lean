@@ -27,7 +27,7 @@ theorem pPrimeCore_centralizer_graphFixedRootGroup_triD4_two
     (y : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) (hy : orderOf y = 3) :
     GLAPPrimeCoreOf 3 (Subgroup.centralizer
       ({y} : Set ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom))) = ⊥ := by
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := inferInstance
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := inferInstance
   refine W2.core_eq_bot_of_noNormalPPrime Nat.prime_three ?_
   exact noNormalPPrime_centralizer_of_mulEquiv ψ
     (noNormalPPrime_centralizer_d4P (ψ y) (by rw [MulEquiv.orderOf_eq]; exact hy))
@@ -39,7 +39,7 @@ theorem pPrimeCore_fixSubgroup_graphFixedRootGroup_triD4_two_outer
     (hxout : x ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) :
     GLAPPrimeCoreOf 3 (fixSubgroup x) = ⊥ := by
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := inferInstance
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := inferInstance
   have h : NoNormalPPrime 3 (fixSub x) :=
     (coreFreeAt_three_D4_outer Nat.prime_two (by norm_num) le_rfl hK σ hσ x hx3 hxout).1
   exact W2.core_eq_bot_of_noNormalPPrime Nat.prime_three h

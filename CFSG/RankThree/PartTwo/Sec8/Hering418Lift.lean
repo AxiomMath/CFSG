@@ -55,12 +55,12 @@ theorem mem_closure_pair_iff {M : Type*} [Group M] {x y z : M} (hxy : Commute x 
 theorem exists_orderOf_three_commute {G : Type*} [Group G] [Finite G] {K : Subgroup G} {a : G}
     (ha : a ∈ Subgroup.normalizer (K : Set G)) (ha3 : a ^ 3 = 1) (hK : 3 ∣ Nat.card K) :
     ∃ x ∈ K, orderOf x = 3 ∧ a * x = x * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : Subgroup.zpowers a ≤ Subgroup.normalizer (K : Set G) :=
     Subgroup.zpowers_le.mpr ha
   let ψ : Subgroup.zpowers a →* MulAut K :=
     (Subgroup.normalizerMonoidHom K).comp (Subgroup.inclusion hle)
-  letI : MulAction (Subgroup.zpowers a) K := MulAction.compHom K ψ
+  let : MulAction (Subgroup.zpowers a) K := MulAction.compHom K ψ
   have hP : IsPGroup 3 (Subgroup.zpowers a) := isPGroup_zpowers_three ha3
   have hmod := hP.card_modEq_card_fixedPoints K
   have h3 : 3 ∣ Nat.card (MulAction.fixedPoints (Subgroup.zpowers a) K) := by
@@ -114,7 +114,7 @@ theorem isElemAbelian_closure_three {M : Type*} [Group M] [Finite M] {x y z : M}
     (hy : y ∉ Subgroup.zpowers x) (hz : z ∉ Subgroup.closure ({x, y} : Set M)) :
     IsElemAbelian 3 (Subgroup.closure ({x, y, z} : Set M)) ∧
       27 ≤ Nat.card (Subgroup.closure ({x, y, z} : Set M)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpair : ({x, y, z} : Set M).Pairwise Commute := by
     intro a ha b hb hab
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb

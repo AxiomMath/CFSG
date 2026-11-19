@@ -18,7 +18,7 @@ theorem sec12S8Mod_burn_conj (a c : Q) :
 
 theorem sec12S8Mod_burn_sylow [Finite Q] (hQ : Nat.card Q = 20160) (h : Q)
     (hh : orderOf h = 3) : ∃ P : Subgroup Q, h ∈ P ∧ Nat.card P = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac : (Nat.factorization 20160) 3 = 2 := by
     rw [show 20160 = 3 ^ 2 * 2240 by norm_num,
       Nat.factorization_mul_apply_of_coprime (by norm_num : Nat.Coprime (3 ^ 2) 2240),
@@ -36,8 +36,8 @@ theorem sec12S8Mod_burn_sylow [Finite Q] (hQ : Nat.card Q = 20160) (h : Q)
 theorem sec12S8Mod_burn_dvd [Finite Ω] (P : Subgroup Q) [Fintype P] :
     Nat.card P ∣ ∑ p : P, Nat.card (fixedBy Ω (p : Q)) := by
   classical
-  haveI : Fintype Ω := Fintype.ofFinite Ω
-  haveI : ∀ p : P, Fintype (fixedBy Ω (p : P)) := fun p => Fintype.ofFinite _
+  have : Fintype Ω := Fintype.ofFinite Ω
+  have : ∀ p : P, Fintype (fixedBy Ω (p : P)) := fun p => Fintype.ofFinite _
   have hburn := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group (G := P) (X := Ω)
   have hsum : (∑ p : P, Nat.card (fixedBy Ω (p : Q))) =
       ∑ p : P, Nat.card (fixedBy Ω (p : P)) := by
@@ -67,7 +67,7 @@ theorem sec12S8Mod_burn_sum (P : Type) [Group P] [Fintype P] (hP : Fintype.card 
   intro hdvd
   by_cases hB : ∃ p0 : P, orderOf p0 = 9
   · obtain ⟨p0, hp0⟩ := hB
-    haveI : IsCyclic P :=
+    have : IsCyclic P :=
       isCyclic_of_orderOf_eq_card p0 (by rw [hp0, Nat.card_eq_fintype_card, hP])
     obtain ⟨k, hk⟩ := hpow p0
     have hdvd3 : 3 ∣ Fintype.card P := by norm_num [hP]
@@ -144,7 +144,7 @@ theorem sec12S8Mod_burn [Finite Q] [Finite Ω] (hQ : Nat.card Q = 20160) (hΩ : 
     (hpow : ∀ q : Q, ∃ k : ℕ, Nat.card (fixedBy Ω q) = 2 ^ k) : False := by
   classical
   obtain ⟨P, _hhP, hPcard⟩ := sec12S8Mod_burn_sylow hQ h hh
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   let f : P → ℕ := fun p => Nat.card (fixedBy Ω (p : Q))
   have hf1 : f 1 = 256 := by
     change Nat.card (fixedBy Ω (((1 : P) : Q))) = 256

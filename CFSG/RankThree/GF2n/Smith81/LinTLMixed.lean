@@ -27,7 +27,7 @@ private def subOfSmul (S : AddSubgroup E) (hS : ∀ (c : K) {x : E}, x ∈ S →
 private theorem exists_perp_decomp (B : LinearMap.BilinForm K E)
     (hnd : ∀ e, (∀ f, B e f = 0) → e = 0) (hanti : ∀ x y, B x y = -B y x)
     (W₁ W₂ : Submodule K E) (hsum : ∀ e : E, ∃ w₁ ∈ W₁, ∃ w₂ ∈ W₂, e = w₁ + w₂)
-    (hW₁ : ∀ x ∈ W₁, ∀ y ∈ W₁, B x y = 0) (hW₂ : ∀ x ∈ W₂, ∀ y ∈ W₂, B x y = 0)
+    (_hW₁ : ∀ x ∈ W₁, ∀ y ∈ W₁, B x y = 0) (hW₂ : ∀ x ∈ W₂, ∀ y ∈ W₂, B x y = 0)
     {b₂ : E} (hb₂W : b₂ ∈ W₂) (hb₂ : b₂ ≠ 0) :
     ∃ e₀ ∈ W₁, ∀ e ∈ W₁, ∃ μ : K, B (e - μ • e₀) b₂ = 0 := by
   have he₀ : ∃ e₀ ∈ W₁, B e₀ b₂ ≠ 0 := by
@@ -48,7 +48,7 @@ private theorem exists_perp_decomp (B : LinearMap.BilinForm K E)
 private theorem scalar_of_perp (B : LinearMap.BilinForm K E)
     (hnd : ∀ e, (∀ f, B e f = 0) → e = 0) (hanti : ∀ x y, B x y = -B y x)
     (W₁ W₂ : Submodule K E) (hsum : ∀ e : E, ∃ w₁ ∈ W₁, ∃ w₂ ∈ W₂, e = w₁ + w₂)
-    (hW₁ : ∀ x ∈ W₁, ∀ y ∈ W₁, B x y = 0) (hW₂ : ∀ x ∈ W₂, ∀ y ∈ W₂, B x y = 0)
+    (hW₁ : ∀ x ∈ W₁, ∀ y ∈ W₁, B x y = 0) (_hW₂ : ∀ x ∈ W₂, ∀ y ∈ W₂, B x y = 0)
     {b₁ : E} (hb₁W : b₁ ∈ W₁) (hb₁ne : b₁ ≠ 0) {g : E} (hgW : g ∈ W₁)
     (hg : ∀ f ∈ W₂, B f b₁ = 0 → B g f = 0) : ∃ μ : K, g = μ • b₁ := by
   have hf₀ : ∃ f₀ ∈ W₂, B f₀ b₁ ≠ 0 := by
@@ -287,7 +287,7 @@ theorem LinSetup.not_mixed_of_index_le_two (hc : Ctx M Q Z B) (hS : LinSetup M Q
       intro e
       have h1 : Tₕ t⁻¹ * Tₕ t = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
       have h2 := congrArg (fun T : M₀.E ≃ₗ[K] M₀.E => T e) h1
-      simpa using h2
+      simp
     have hsx : ∀ x ∈ V₁, Tₕ (t⁻¹ * t') (M₀.π x) = M₀.π x := by
       intro x hx
       have hxe : M₀.π x ∈ W₁ := (hW₁mem _).mpr (M₀.pi_mem_img hx (hV₁Q hx))

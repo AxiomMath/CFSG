@@ -64,7 +64,7 @@ theorem y1431_noCfg_psuGoodHigh (hO : CFSG.ComponentClassification.CatLeaf.LieOr
   · rintro P _ _ t n p f hadm ht ⟨⟨rfl, hn3, hdiv, -⟩, hp3⟩ hm
     have hC : StatedClassicalModel P .PSU n p f := (lieModel_classical_iff (by decide)).mp hm
     obtain ⟨K, _, _, h, -, hq, ⟨e0⟩⟩ := CFSG.RankThree.PartOne.FOC.exists_psu_model hC
-    haveI : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+    have : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
       Finite.of_equiv P e0.toEquiv
     exact famOK_of_mulEquiv e0 (famOK_psu hO h hn3 hq hdiv)
 

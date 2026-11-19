@@ -65,8 +65,8 @@ theorem conj_mem_of_normalizer_map [Finite Y] (S : Sylow 2 Y) {ρ : Y →* X}
   have hz : s⁻¹ * (g * x * g⁻¹) ∈ ρ.ker := by
     rw [MonoidHom.mem_ker, map_mul, map_inv, hse, inv_mul_cancel]
   have hzc := hker hz
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
-  obtain ⟨r, hr⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
+  obtain ⟨r, hr⟩ := S.isPGroup ⟨s, hs⟩
   have hy2 : (g * x * g⁻¹) ^ 2 ^ k = 1 := by
     rw [conj_pow, show x ^ 2 ^ k = 1 from congrArg Subtype.val hk, mul_one, mul_inv_cancel]
   have hs2 : s ^ 2 ^ r = 1 := congrArg Subtype.val hr

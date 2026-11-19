@@ -50,7 +50,7 @@ theorem le_of_mem_conjIn_model {k : Fin 3} {J : Subgroup AE6Om} (hJ : J ∈ ae6C
 
 theorem mem_ae6ModelM_iff {x : AE6Om} : x ∈ ae6ModelM ↔ ∀ i : Fin 3, x ∈ ae6ModelV i := by
   unfold ae6ModelM
-  simp only [Subgroup.mem_inf, Fin.forall_fin_succ, Fin.forall_fin_zero_pi]
+  simp only [Subgroup.mem_inf, Fin.forall_fin_succ]
   simp [and_assoc]
 
 end CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerpV3.A6h2

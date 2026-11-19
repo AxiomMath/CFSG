@@ -79,7 +79,7 @@ theorem exists_isPGroup_map_mk_eq {H : Type*} [Group H] [Finite H] {p : ℕ} [Fa
     have h := (S.mapSurjective hg).maximal_isPGroup.eq_of_ge (hY.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
-  refine ⟨(S : Subgroup (Y.comap f)).map (Y.comap f).subtype, S.isPGroup'.map _, ?_⟩
+  refine ⟨(S : Subgroup (Y.comap f)).map (Y.comap f).subtype, S.isPGroup.map _, ?_⟩
   have hcomp : f.comp (Y.comap f).subtype = Y.subtype.comp g := rfl
   rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, htop, ← MonoidHom.range_eq_map,
     Subgroup.range_subtype]

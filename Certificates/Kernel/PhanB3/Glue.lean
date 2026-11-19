@@ -72,7 +72,7 @@ theorem commute_of_rel {a b : Fin 8}
     Commute (PresentedGroup.of a : PhanB3Group) (PresentedGroup.of b) := by
   have e := wordVal_rel h
   simp only [wordVal, letterVal, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    cond_true, cond_false, mul_one] at e
+    Bool.cond_true, Bool.cond_false, mul_one] at e
   change _ * _ = _ * _
   calc (PresentedGroup.of a : PhanB3Group) * PresentedGroup.of b
       = (PresentedGroup.of a * (PresentedGroup.of b * ((PresentedGroup.of a)⁻¹ *
@@ -143,7 +143,7 @@ theorem of_conj_b3w {a b : Fin 8}
     (PresentedGroup.of b : PhanB3Group) = b3w * PresentedGroup.of a * b3w⁻¹ := by
   have e := wordVal_rel h
   simp only [wordVal, letterVal, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    cond_true, cond_false, mul_one] at e
+    Bool.cond_true, Bool.cond_false, mul_one] at e
   rw [inv_mul_eq_one.1 e, b3w]
   group
 
@@ -253,7 +253,7 @@ theorem card_range_le : Nat.card a3Hom.range ≤ 13063680 := by
 theorem range_b3KerMap :
     Set.range b3KerMap = {x | x ∈ subsetOf 8 [0, 1, 2, 3, 6, 7]} := by
   ext x
-  simp only [Set.mem_range, Set.mem_setOf_eq]
+  simp only [Set.mem_range, Set.mem_ofPred_eq]
   revert x
   decide +kernel
 

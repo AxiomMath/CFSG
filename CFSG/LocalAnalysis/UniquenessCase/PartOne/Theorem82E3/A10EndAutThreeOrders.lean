@@ -52,7 +52,7 @@ private lemma three_dvd_sq_sub_one {q : ℕ} (h3 : ¬ 3 ∣ q) : 3 ∣ q ^ 2 - 1
     have h0 : q % 3 ≠ 0 := fun h0 => h3 (Nat.dvd_of_mod_eq_zero h0)
     omega
   have h1 : q ^ 2 % 3 = 1 := by
-    rcases hq3 with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hq3 with h | h <;> rw [Nat.pow_mod, h]
   have h2 : 1 ≤ q ^ 2 := Nat.one_le_pow 2 q (by omega)
   exact Nat.dvd_of_mod_eq_zero (by omega)
 
@@ -73,7 +73,7 @@ private lemma factorization_three_pow_add_one_eq_zero_of_even {q k : ℕ} (h3 : 
       have h := Nat.mod_lt q (by norm_num : 0 < 3)
       have h0 : q % 3 ≠ 0 := fun h0 => h3 (Nat.dvd_of_mod_eq_zero h0)
       omega
-    rcases hq3 with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hq3 with h | h <;> rw [Nat.pow_mod, h]
   have h := CFSG.GroupTheory.factorization_pow_add_one_eq_zero (q := q ^ 2) (r := 3) (k := m)
     Nat.prime_three (by norm_num) hmod
   have hmul : m + m = 2 * m := by omega
@@ -236,7 +236,7 @@ private lemma toNat_sq_sub_one (q : ℕ) (hq : 1 ≤ q) :
     ring
   rw [h1, Int.toNat_natCast]
 
-private lemma toNat_cube_add_one (q : ℕ) (hq : 1 ≤ q) :
+private lemma toNat_cube_add_one (q : ℕ) (_hq : 1 ≤ q) :
     (((q : ℤ) ^ 3 - (-1 : ℤ) ^ 3).toNat) = q ^ 3 + 1 := by
   have h1 : ((q : ℤ) ^ 3 - (-1 : ℤ) ^ 3) = ((q ^ 3 + 1 : ℕ) : ℤ) := by
     push_cast
@@ -251,7 +251,7 @@ private lemma toNat_four_sub_one (q : ℕ) (hq : 1 ≤ q) :
     ring
   rw [h1, Int.toNat_natCast]
 
-private lemma toNat_five_add_one (q : ℕ) (hq : 1 ≤ q) :
+private lemma toNat_five_add_one (q : ℕ) (_hq : 1 ≤ q) :
     (((q : ℤ) ^ 5 - (-1 : ℤ) ^ 5).toNat) = q ^ 5 + 1 := by
   have h1 : ((q : ℤ) ^ 5 - (-1 : ℤ) ^ 5) = ((q ^ 5 + 1 : ℕ) : ℤ) := by
     push_cast

@@ -44,10 +44,10 @@ private lemma ffOutFFE8Dim_mul_comm_three {hQ : Q.Nondegenerate} {E : Subgroup (
 theorem ffE8Dim_nu_comm_t (hQ : Q.Nondegenerate) {E : Subgroup (OGroup Q)} {t ν : OGroup Q}
     (h : FFE8VData hQ E t ν) : ν * t = t * ν := by
   classical
-  haveI hEfin : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [h.elemAb.2]; norm_num)
-  haveI hEft : Fintype ↥E := Fintype.ofFinite ↥E
+  have hEfin : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [h.elemAb.2]; norm_num)
+  have hEft : Fintype ↥E := Fintype.ofFinite ↥E
   let α := {x : ↥E // x ≠ 1}
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   have hcardα : Fintype.card α = 7 := by
     show Fintype.card {x : ↥E // x ≠ 1} = 7
     rw [Fintype.card_subtype_compl (fun x : ↥E => x = 1),

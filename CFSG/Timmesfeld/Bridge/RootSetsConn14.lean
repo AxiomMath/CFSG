@@ -126,7 +126,7 @@ theorem step6ThreeProduct (hB : OddTranspBender) (hT : OddTranspThirdKind) (hC :
     rw [this]
     exact SK.mul_mem (SK.mul_mem (SK.mul_mem (hmemS dX hdP) (hmemS eX heP)) (hmemS fX hfP))
       (SK.inv_mem hwS)
-  have huP : (u : G) ∈ P := h.mem_of_mem_isPGroup hC SK.isPGroup' hmemS huD' huS
+  have huP : (u : G) ∈ P := h.mem_of_mem_isPGroup hC SK.isPGroup hmemS huD' huS
   exact ⟨u, huD', huP, w, ⟨w, ⟨hw.2, hw.1⟩, rfl⟩, congrArg Subtype.val hdec⟩
 
 end Step6

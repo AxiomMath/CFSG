@@ -64,7 +64,7 @@ theorem glaPLayer_ne_bot_of_orth_three (hF : Nat.card F = 2) (hQ : (polarBilin Q
     (hdim : 6 ≤ finrank F ↥(fixedSpace (a : V ≃ₗ[F] V)) ∨
       finrank F ↥(fixedSpace (a : V ≃ₗ[F] V)) + 8 ≤ finrank F V) :
     GLAPLayer 3 (Subgroup.centralizer ({a} : Set ↥(orthDerived Q))) ≠ ⊥ := by
-  haveI := charP_two hF
+  have := charP_two hF
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have h3 : ((3 : ℕ) : F) ≠ 0 := by
     rw [show ((3 : ℕ) : F) = 2 + 1 by norm_num, h2, zero_add]
@@ -78,7 +78,7 @@ theorem glaPLayer_ne_bot_of_orth_three (hF : Nat.card F = 2) (hQ : (polarBilin Q
       (fun g hg f hf => hx.conj_mem_supportedFixedDerived hg hf)
       (isQuasisimple_supportedFixedDerived_of_six_le hx h2 h6)
       (noNormalPPrime_supportedFixedDerived hF hx hQ h6)
-  · haveI : Fact (Irreducible (cyc3 F)) := ⟨irreducible_cyc3 hF⟩
+  · have : Fact (Irreducible (cyc3 F)) := ⟨irreducible_cyc3 hF⟩
     have hc := Submodule.finrank_add_eq_of_isCompl (isCompl_fixedSpace_cyc3 hF hx)
     have hm := finrank_cyc3 (x := (a : V ≃ₗ[F] V)) hF
     have hm4 : 4 ≤ primaryMultiplicity (a : V ≃ₗ[F] V).toLinearMap (cyc3 F) := by omega

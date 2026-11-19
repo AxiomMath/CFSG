@@ -109,12 +109,12 @@ theorem orbit_eq_one {E U : Subgroup G} (hE : IsElemAbelian 3 E)
 theorem exists_gens [Finite G] {E C : Subgroup G} (hE : IsElemAbelian 3 E)
     (hEcard : Nat.card E = 3 ^ 3) (hCE : C ≤ E) (hC : Nat.card C ≤ 3) :
     ∃ a ∈ E, ∃ b ∈ E, a ∉ C ∧ b ∉ C ∧ a * b ∉ C ∧ a * b ^ 2 ∉ C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h27 : Nat.card E = 27 := by rw [hEcard]; norm_num
   have hEC : ¬ E ≤ C := fun h => by
     have := Subgroup.card_le_of_le h
     omega
-  obtain ⟨a, haE, haC⟩ := SetLike.not_le_iff_exists.1 hEC
+  obtain ⟨a, haE, haC⟩ := IsConcreteLE.not_le_iff_exists.1 hEC
   have ha3 : a ^ 3 = 1 := hE.2 a haE
   have ha1 : a ≠ 1 := fun h => haC (h ▸ C.one_mem)
   set Z : Subgroup G := Subgroup.zpowers a with hZdef
@@ -130,7 +130,7 @@ theorem exists_gens [Finite G] {E C : Subgroup G} (hE : IsElemAbelian 3 E)
   have hEZC : ¬ E ≤ Z ⊔ C := fun h => by
     have := Subgroup.card_le_of_le h
     omega
-  obtain ⟨b, hbE, hbZC⟩ := SetLike.not_le_iff_exists.1 hEZC
+  obtain ⟨b, hbE, hbZC⟩ := IsConcreteLE.not_le_iff_exists.1 hEZC
   have hb3 : b ^ 3 = 1 := hE.2 b hbE
   have hbC : b ∉ C := fun h => hbZC (Subgroup.mem_sup_right h)
   have haZ : a ∈ Z := Subgroup.mem_zpowers a
@@ -208,7 +208,7 @@ theorem identity_one {E U : Subgroup G} (hE : IsElemAbelian 3 E)
   have eP_ab2 : X0 * Xab2 * Xa2b = 1 := Subtype.ext hPab2
   have eO1 : Xb * Xab * Xa2b = 1 := Subtype.ext hO1
   have eO2 : Xb2 * Xab2 * Xa2b2 = 1 := Subtype.ext hO2
-  letI : CommGroup U := commGroupOfComm hcommU
+  let : CommGroup U := commGroupOfComm hcommU
   have h2 : ∀ y : Additive U, y + y = 0 := by
     intro y
     obtain ⟨x, rfl⟩ := Additive.ofMul.surjective y

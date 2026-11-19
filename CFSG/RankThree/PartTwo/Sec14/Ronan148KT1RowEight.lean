@@ -64,7 +64,7 @@ theorem card_outer_projSp_four_two_le_two :
 
 theorem card_outer_dvd_sixty_of_le_six {X : Type} [Group X] [Finite X]
     (h : Nat.card (Outer X) ≤ 6) : Nat.card (Outer X) ∣ 60 := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun φ : MulAut X => (φ : X → X)) DFunLike.coe_injective
   have hpos : 0 < Nat.card (Outer X) := Nat.card_pos
   have key : ∀ n : ℕ, n < 7 → 0 < n → n ∣ 60 := by decide
@@ -77,7 +77,7 @@ theorem card_outer_projOmegaPlus_four_two_dvd :
     ⟨⟨Nat.prime_two, le_rfl, le_refl 4⟩, GaloisField 2 1, inferInstance, inferInstance,
       GaloisField.card 2 1 one_ne_zero,
       ⟨CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIV.statedOmegaPlusEquiv.symm⟩⟩
-  haveI : Finite (projOmegaPlus 4 (GaloisField 2 1)) :=
+  have : Finite (projOmegaPlus 4 (GaloisField 2 1)) :=
     Nat.finite_of_card_ne_zero (by
       rw [CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projOmegaPlus_four_two_gf2]; norm_num)
   exact card_outer_dvd_sixty_of_le_six (CFSG.EvenSmallLie.OmegaEight.card_outer_le_six hmodel)
@@ -108,7 +108,7 @@ section Row143
 
 theorem rowOf143_eight_SL5 : RowOf143 (projSL 5 (GaloisField 2 1)) := by
   have hX := card_projSL_five_two_gf2
-  haveI : Finite (projSL 5 (GaloisField 2 1)) :=
+  have : Finite (projSL 5 (GaloisField 2 1)) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   refine rowOf143_of_outer_dvd (k := 2)
     (card_outer_projSL_gf2_dvd_two (n := 5) (by norm_num)) ?_
@@ -117,7 +117,7 @@ theorem rowOf143_eight_SL5 : RowOf143 (projSL 5 (GaloisField 2 1)) := by
 
 theorem rowOf143_eight_SU5 : RowOf143 (projSU 5 2 1) := by
   have hX := CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projSU_five_two_gf2
-  haveI : Finite (projSU 5 2 1) := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have : Finite (projSU 5 2 1) := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have hout : Nat.card (Outer (projSU 5 2 1)) ∣ 6 := by
     have h := CFSG.RankThree.PartTwo.Sec4.card_outer_projSU_dvd 5 2 1 le_rfl
       (by norm_num) (by norm_num)
@@ -130,7 +130,7 @@ theorem rowOf143_eight_SU5 : RowOf143 (projSU 5 2 1) := by
 
 theorem rowOf143_eight_SL6 : RowOf143 (projSL 6 (GaloisField 2 1)) := by
   have hX := CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projSL_six_two_gf2
-  haveI : Finite (projSL 6 (GaloisField 2 1)) :=
+  have : Finite (projSL 6 (GaloisField 2 1)) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   refine rowOf143_of_outer_dvd (k := 2)
     (card_outer_projSL_gf2_dvd_two (n := 6) (by norm_num)) ?_
@@ -139,7 +139,7 @@ theorem rowOf143_eight_SL6 : RowOf143 (projSL 6 (GaloisField 2 1)) := by
 
 theorem rowOf143_eight_SU6 : RowOf143 (projSU 6 2 1) := by
   have hX := CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projSU_six_two_gf2
-  haveI : Finite (projSU 6 2 1) := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have : Finite (projSU 6 2 1) := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have hout : Nat.card (Outer (projSU 6 2 1)) ∣ 6 := by
     have h := CFSG.RankThree.PartTwo.Sec4.card_outer_projSU_dvd 6 2 1 le_rfl
       (by norm_num) (by norm_num)
@@ -152,7 +152,7 @@ theorem rowOf143_eight_SU6 : RowOf143 (projSU 6 2 1) := by
 
 theorem rowOf143_eight_SL7 : RowOf143 (projSL 7 (GaloisField 2 1)) := by
   have hX := CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projSL_seven_two_gf2
-  haveI : Finite (projSL 7 (GaloisField 2 1)) :=
+  have : Finite (projSL 7 (GaloisField 2 1)) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   refine rowOf143_of_outer_dvd (k := 2)
     (card_outer_projSL_gf2_dvd_two (n := 7) (by norm_num)) ?_
@@ -161,7 +161,7 @@ theorem rowOf143_eight_SL7 : RowOf143 (projSL 7 (GaloisField 2 1)) := by
 
 theorem rowOf143_eight_Sp6 : RowOf143 (projSp 3 (GaloisField 2 1)) := by
   have hX := CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projSp_three_two_gf2
-  haveI : Finite (projSp 3 (GaloisField 2 1)) :=
+  have : Finite (projSp 3 (GaloisField 2 1)) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   refine rowOf143_of_outer_dvd (k := 1) (by simp [card_outer_projSp_three_two]) ?_
   rw [hX]
@@ -169,7 +169,7 @@ theorem rowOf143_eight_Sp6 : RowOf143 (projSp 3 (GaloisField 2 1)) := by
 
 theorem rowOf143_eight_Sp8 : RowOf143 (projSp 4 (GaloisField 2 1)) := by
   have hX := CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projSp_four_two_gf2
-  haveI : Finite (projSp 4 (GaloisField 2 1)) :=
+  have : Finite (projSp 4 (GaloisField 2 1)) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   refine rowOf143_of_outer_dvd (k := 2)
     (card_outer_dvd_two_of_le_two card_outer_projSp_four_two_le_two) ?_
@@ -178,7 +178,7 @@ theorem rowOf143_eight_Sp8 : RowOf143 (projSp 4 (GaloisField 2 1)) := by
 
 theorem rowOf143_eight_OmegaPlus : RowOf143 (projOmegaPlus 4 (GaloisField 2 1)) := by
   have hX := CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projOmegaPlus_four_two_gf2
-  haveI : Finite (projOmegaPlus 4 (GaloisField 2 1)) :=
+  have : Finite (projOmegaPlus 4 (GaloisField 2 1)) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   refine rowOf143_of_outer_dvd (k := 60) card_outer_projOmegaPlus_four_two_dvd ?_
   rw [hX]
@@ -188,7 +188,7 @@ theorem rowOf143_eight_OmegaMinus (b c : GaloisField 2 1)
     (hbc : ∀ s : GaloisField 2 1, s ^ 2 + b * s + c ≠ 0) :
     RowOf143 (projOmegaMinus 3 (GaloisField 2 1) b c) := by
   have hX := CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projOmegaMinus_four_two_gf2 hbc
-  haveI : Finite (projOmegaMinus 3 (GaloisField 2 1) b c) :=
+  have : Finite (projOmegaMinus 3 (GaloisField 2 1) b c) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   refine rowOf143_of_outer_dvd (k := 2)
     (card_outer_dvd_two_of_le_two (card_outer_projOmegaMinus_four_two_le_two hbc)) ?_
@@ -199,7 +199,7 @@ theorem rowOf143_eight_SL4 : RowOf143 (projSL 4 (GaloisField 2 2)) := by
   have hX : Nat.card (projSL 4 (GaloisField 2 2)) = 987033600 :=
     ((Nat.card_congr CFSG.RankThree.PartTwo.KFacts.KS21.L44.equivSL.toEquiv).trans
       CFSG.RankThree.PartTwo.KFacts.KS21.L44.card_M_eq).trans (by norm_num)
-  haveI : Finite (projSL 4 (GaloisField 2 2)) :=
+  have : Finite (projSL 4 (GaloisField 2 2)) :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   refine rowOf143_of_outer_dvd (k := 4) card_outer_projSL_gf4_dvd_four ?_
   rw [hX]
@@ -208,7 +208,7 @@ theorem rowOf143_eight_SL4 : RowOf143 (projSL 4 (GaloisField 2 2)) := by
 theorem rowOf143_eight_SU5_4 : RowOf143 (projSU 5 2 2) := by
   have hX : Nat.card (projSU 5 2 2) = 53443952640000 :=
     (CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoOther.U54.card_U54).trans (by norm_num)
-  haveI : Finite (projSU 5 2 2) := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have : Finite (projSU 5 2 2) := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have hout : Nat.card (Outer (projSU 5 2 2)) ∣ 20 := by
     have h := CFSG.RankThree.PartTwo.Sec4.card_outer_projSU_dvd 5 2 2
       (by norm_num) (by norm_num) (by norm_num)
@@ -227,7 +227,7 @@ theorem rowOf143_seven_Tits
   obtain ⟨e⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv _ 2 1 hm
   have hX : Nat.card (TauCeti.CFSGIndex.lie ⟨.tits, ht⟩).Group = 17971200 :=
     (Nat.card_congr e.toEquiv).trans CFSG.Sporadic.Schreier.Tits.card_titsD
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.tits, ht⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.tits, ht⟩).Group :=
     Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have hout : Nat.card (Outer (TauCeti.CFSGIndex.lie ⟨.tits, ht⟩).Group) = 2 :=
     (Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv).trans

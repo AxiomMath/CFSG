@@ -301,7 +301,7 @@ private theorem theorem_9_9_case_b_H0_isInvariant_U_MF_sec9
   dsimp only
   let hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     theorem_9_9_case_b_U_le_normalizer_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have h92 := case_9_7_b_hypothesis_9_2_sec9 hcase
   have hMFleM : MF ≤ M := case_9_7_b_MF_le_M_sec9 hcase
   have hH0normalM : (H0.subgroupOf M).Normal :=
@@ -556,7 +556,7 @@ private theorem theorem_9_9_MF_C_isComplement_HC_sec9
     rw [← Subgroup.subgroupOf_sup (A := MF) (A' := C) (B := MF ⊔ C)
       le_sup_left le_sup_right]
     exact Subgroup.subgroupOf_eq_top.2 le_rfl
-  letI : (MF.subgroupOf (MF ⊔ C)).Normal := hMFnormalHC
+  let : (MF.subgroupOf (MF ⊔ C)).Normal := hMFnormalHC
   exact isComplement'_of_disjoint_sup_eq_top_of_normal
     (MF.subgroupOf (MF ⊔ C)) (C.subgroupOf (MF ⊔ C)) hdisjMFC_sub hMF_C_supTop
 
@@ -723,7 +723,7 @@ private theorem theorem_9_9_MF_U_internalSemidirect_ambientDerived_sec9
   let D : Subgroup G := ambientDerivedSubgroup M
   let K : Subgroup (D.subgroupOf M) := (MF.subgroupOf M).subgroupOf (D.subgroupOf M)
   let W : Subgroup (D.subgroupOf M) := (U.subgroupOf M).subgroupOf (D.subgroupOf M)
-  letI : K.Normal := by
+  let : K.Normal := by
     simpa [D, K] using hKnormal
   rcases h92.typeP with ⟨_hMFtype, hcommon⟩
   rcases hcommon with
@@ -1018,8 +1018,8 @@ private theorem theorem_9_9_exists_HC_restriction_constituent_sec9
     intro x hx
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact (le_sup_left : MF ≤ MF ⊔ C) hx
-  letI : K.Normal := hKnormal
-  letI : B.Normal := hBnormal
+  let : K.Normal := hKnormal
+  let : B.Normal := hBnormal
   exact exists_restriction_constituent_kernelD_sec9 K A B hBK
     hθirr hθnotMF hθkerH0
 
@@ -1195,15 +1195,15 @@ private theorem theorem_9_9_HC_commutator_le_H0Cprime_subgroupOf_sec9
       dsimp [HC]
       exact sup_le hMF_norm_N (hC_le_U.trans hU_norm_N)
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hN_le_HC).2 hHC_norm_N
-  letI : (N.subgroupOf HC).Normal := hNnormalHC
+  let : (N.subgroupOf HC).Normal := hNnormalHC
   have hMFroot_le_H0sub : _root_.commutator MF ≤ H0.subgroupOf MF := by
     rcases case_9_7_b_hoReductionData_sec9 hcase with ⟨hp, _hpval, hpData⟩
     rcases hpData with
       ⟨_hH0MF, _hMFM, _hH0normalM, _hH0normalMF, _hH0ltMF, hElem,
         _hrest⟩
     rcases hElem with ⟨hnormal, hbarElem⟩
-    letI : (H0.subgroupOf MF).Normal := hnormal
-    letI : IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := hbarElem
+    let : (H0.subgroupOf MF).Normal := hnormal
+    let : IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := hbarElem
     rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
     infer_instance
   have hAA : ⁅MF, MF⁆ ≤ N := by
@@ -1289,8 +1289,8 @@ private theorem theorem_9_9_HC_MF_commutator_le_H0_sec9
       ⟨_hH0MF, _hMFM, _hH0normalM, _hH0normalMF, _hH0ltMF, hElem,
         _hrest⟩
     rcases hElem with ⟨hnormal, hbarElem⟩
-    letI : (H0.subgroupOf MF).Normal := hnormal
-    letI : IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := hbarElem
+    let : (H0.subgroupOf MF).Normal := hnormal
+    let : IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := hbarElem
     rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
     infer_instance
   have hAA : ⁅MF, MF⁆ ≤ H0 := by
@@ -1376,7 +1376,7 @@ private theorem representation_scalar_of_commutator_kernel_sec9
     (hcomm : ∀ l : L, ⁅l, b⁆ ∈ A) :
     ∃ a : ℂ, (ρ b : Module.End ℂ V) = a • (1 : Module.End ℂ V) := by
   classical
-  letI : Representation.IsIrreducible ρ := hρirr
+  let : Representation.IsIrreducible ρ := hρirr
   have hcommute : ∀ l : L, ρ b * ρ l = ρ l * ρ b := by
     intro l
     have hcommRep : ρ ⁅l, b⁆ = 1 := hker ⟨⁅l, b⁆, hcomm l⟩
@@ -1444,7 +1444,7 @@ private theorem exists_nonprincipal_quotient_linear_character_of_central_subgrou
     Classical.choose_spec
       (representation_scalar_of_commutator_kernel_sec9 ρ hρirr A hkerRep
         (b := (b : L)) (fun l => hcentral b l))
-  haveI : Nontrivial (Fin n → ℂ) :=
+  have : Nontrivial (Fin n → ℂ) :=
     Subrepresentation.irreducible_module_nontrivial ρ
   have hscalar_ne_zero : ∀ b : B, scalar b ≠ 0 := by
     intro b
@@ -1526,7 +1526,7 @@ private theorem linearCharacter_eq_one_of_fixed_by_fixedPointFree_sec9
     (hχfix : ∀ q : Q, χ (a • q) = χ q) :
     χ = 1 := by
   classical
-  letI : CommGroup Q := IsMulCommutative.instCommGroup
+  let : CommGroup Q := IsMulCommutative.instCommGroup
   let φ : Q → Q := fun q => (a • q) * q⁻¹
   have hφinj : Function.Injective φ := by
     intro x y hxy
@@ -1583,12 +1583,12 @@ private theorem theorem_9_9_nonprincipal_linear_character_fixed_U_mem_C_sec9
       _htypeData⟩
   rcases hElem with ⟨hnormalElem, hbarElemRaw⟩
   have hpprime : Nat.Prime p := case_9_7_b_p_prime_sec9 hcase
-  letI : Fact p.Prime := ⟨hpprime⟩
-  letI : IsElementaryAbelian p (MF ⧸ H0.subgroupOf MF) := by
+  let : Fact p.Prime := ⟨hpprime⟩
+  let : IsElementaryAbelian p (MF ⧸ H0.subgroupOf MF) := by
     simpa [hp_eq] using hbarElemRaw
-  letI : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := inferInstance
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
-  letI : MulDistribMulAction U (MF ⧸ H0.subgroupOf MF) :=
+  let : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := inferInstance
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : MulDistribMulAction U (MF ⧸ H0.subgroupOf MF) :=
     quotientMulDistribMulAction (A := U) (G := MF)
       (H0.subgroupOf MF) hH0invU
   have hfree : ∀ x : MF ⧸ H0.subgroupOf MF, w • x = x → x = 1 := by
@@ -1597,9 +1597,9 @@ private theorem theorem_9_9_nonprincipal_linear_character_fixed_U_mem_C_sec9
       ⟨_hnormalH0_field, hnormalC, _hW1normU, _hCinv, F, fieldInst,
         fintypeInst, Ustar, _hFcard, _hUstarcard, _hUstarcyc, _hspan,
         φH, φU, _φW, hactU, _hactW⟩
-    letI : Field F := fieldInst
-    letI : Fintype F := fintypeInst
-    letI : (C.subgroupOf U).Normal := hnormalC
+    let : Field F := fieldInst
+    let : Fintype F := fintypeInst
+    let : (C.subgroupOf U).Normal := hnormalC
     let CMU : Subgroup U := C.subgroupOf U
     let H0MF : Subgroup MF := H0.subgroupOf MF
     revert hx
@@ -1765,7 +1765,7 @@ private theorem theorem_9_9_fixed_nonMF_HC_constituent_U_component_mem_C_sec9
   have hKnormal : K.Normal := by
     dsimp [K, Dm, D]
     infer_instance
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   let B0 : Subgroup Dm := (MF.subgroupOf M).subgroupOf Dm
   let A0 : Subgroup Dm := (H0.subgroupOf M).subgroupOf Dm
   let B : Subgroup K := B0.subgroupOf K
@@ -1797,11 +1797,11 @@ private theorem theorem_9_9_fixed_nonMF_HC_constituent_U_component_mem_C_sec9
       (theorem_9_9_H0_normal_ambientDerived_subgroupOf_sec9
         M MF U W1 W2 H0 C p q u hcase)
       K
-  letI : A.Normal := hA_normal
+  let : A.Normal := hA_normal
   have hA_subgroupOf_B_normal : (A.subgroupOf B).Normal := by
     exact Subgroup.Normal.subgroupOf hA_normal B
-  letI : (A.subgroupOf B).Normal := hA_subgroupOf_B_normal
-  letI : Group (B ⧸ A.subgroupOf B) :=
+  let : (A.subgroupOf B).Normal := hA_subgroupOf_B_normal
+  let : Group (B ⧸ A.subgroupOf B) :=
     @QuotientGroup.Quotient.group B _ (A.subgroupOf B)
       hA_subgroupOf_B_normal
   have hcentral : ∀ b : B, ∀ l : K, ⁅l, (b : K)⁆ ∈ A := by
@@ -1840,10 +1840,10 @@ private theorem theorem_9_9_fixed_nonMF_HC_constituent_U_component_mem_C_sec9
       ((Subgroup.subgroupOfEquivOfLe hMFm_le_Dm).trans
         (Subgroup.subgroupOfEquivOfLe hMFleM))
   let H0MF : Subgroup MF := H0.subgroupOf MF
-  letI : H0MF.Normal := by
+  let : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : Group (MF ⧸ H0MF) :=
+  let : Group (MF ⧸ H0MF) :=
     @QuotientGroup.Quotient.group MF _ H0MF (inferInstance : H0MF.Normal)
   have hkerLamMF :
       H0MF ≤
@@ -1911,7 +1911,7 @@ private theorem theorem_9_9_fixed_nonMF_HC_constituent_U_component_mem_C_sec9
       have hM_norm_MF : M ≤ Subgroup.normalizer (MF : Set G) :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hMFleM').1 hMFnormalM
       exact hUleD.trans (section12_ambientDerivedSubgroup_le.trans hM_norm_MF)
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have hUleM : U ≤ M := by
     rcases h92.typePDefinitionData with
       ⟨_hMFsource, _hW1cyc, _hW1ne, _hW1hall, _hcompMW1, hUleD,
@@ -1922,7 +1922,7 @@ private theorem theorem_9_9_fixed_nonMF_HC_constituent_U_component_mem_C_sec9
     dsimp [H0MF]
     exact subgroupOf_MF_isInvariant_of_subgroupOf_M_normal_sec9 M MF U H0
       hMFleM hUleM hH0normalM hUnormMF
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF)
       H0MF hH0invU
   let wU : U := ⟨(((w : Dm) : M) : G), by
@@ -2020,7 +2020,7 @@ private theorem theorem_9_9_case_b_clifford_part_a_package_source_bridge_sec9
         ((ambientDerivedSubgroup M).subgroupOf M)).Normal :=
     theorem_9_9_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 C p q u hcase
-  letI :
+  let :
       (((MF ⊔ C).subgroupOf M).subgroupOf
         ((ambientDerivedSubgroup M).subgroupOf M)).Normal := hKnormal
   have hIeq :
@@ -2154,7 +2154,7 @@ private theorem theorem_9_9_inducedCF_HC_irreducible_of_kernel_H0_not_MF_sec9
     dsimp [K, HCm, Dm, D]
     exact theorem_9_9_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 C p q u hcase
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   have hIeq : Section1.inertiaSubgroup K ψD = K := by
     let B : Subgroup Dm := (MF.subgroupOf M).subgroupOf Dm
     let W : Subgroup Dm := (U.subgroupOf M).subgroupOf Dm
@@ -2265,7 +2265,7 @@ private theorem nonidentityOrbitQuotient_card_eq_div_sec9
       (Nat.card Q - 1) / Nat.card A := by
   classical
   let α := {q : Q // q ≠ 1}
-  letI : MulAction A α := nonidentitySubMulAction_sec9 A Q
+  let : MulAction A α := nonidentitySubMulAction_sec9 A Q
   have hstab : ∀ q : α, MulAction.stabilizer A q = ⊥ := by
     intro q
     rw [eq_bot_iff]
@@ -2280,11 +2280,11 @@ private theorem nonidentityOrbitQuotient_card_eq_div_sec9
     have hfix : a • (q : Q) = (q : Q) := congrArg Subtype.val haq
     exact q.2 (hfree a ha_ne (q : Q) hfix)
   let Ω := Quotient (MulAction.orbitRel A α)
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   have hcard_equiv := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
   have hcardα : Nat.card α = Nat.card Q - 1 := by
-    letI : Fintype Q := Fintype.ofFinite Q
-    letI : Fintype α := Fintype.ofFinite α
+    let : Fintype Q := Fintype.ofFinite Q
+    let : Fintype α := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     change Fintype.card {q : Q // q ≠ 1} = Fintype.card Q - 1
     simp
@@ -2322,16 +2322,16 @@ private theorem theorem_9_9_C_bot_nonprincipalLinearCharacter_orbit_count_sec9
   have hnormalH0 : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : H0MF.Normal := hnormalH0
+  let : H0MF.Normal := hnormalH0
   have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     theorem_9_9_case_b_U_le_normalizer_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have hH0invU : IsInvariant U MF H0MF := by
     simpa [H0MF] using
       theorem_9_9_case_b_H0_isInvariant_U_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) H0MF hH0invU
-  letI : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
+  let : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction_sec9 U (MF ⧸ H0MF)
   have hcomm : IsMulCommutative (MF ⧸ H0MF) := by
     rcases case_9_7_b_hoReductionData_sec9 hcase with ⟨hp, hp_eq, hpData⟩
@@ -2340,11 +2340,11 @@ private theorem theorem_9_9_C_bot_nonprincipalLinearCharacter_orbit_count_sec9
         _htypeData⟩
     rcases hElem with ⟨_hnormalElem, hbarElemRaw⟩
     have hpprime : Nat.Prime p := case_9_7_b_p_prime_sec9 hcase
-    letI : Fact p.Prime := ⟨hpprime⟩
-    letI : IsElementaryAbelian p (MF ⧸ H0MF) := by
+    let : Fact p.Prime := ⟨hpprime⟩
+    let : IsElementaryAbelian p (MF ⧸ H0MF) := by
       simpa [H0MF, hp_eq] using hbarElemRaw
     infer_instance
-  letI : IsMulCommutative (MF ⧸ H0MF) := hcomm
+  let : IsMulCommutative (MF ⧸ H0MF) := hcomm
   have hfree :
       ∀ a : U, a ≠ 1 → ∀ χ : (MF ⧸ H0MF) →* ℂˣ,
         a • χ = χ → χ = 1 := by
@@ -2376,8 +2376,8 @@ private theorem theorem_9_9_C_bot_nonprincipalLinearCharacter_orbit_count_sec9
     simpa [H0MF] using hcardQ
   have hcharCard : Nat.card ((MF ⧸ H0MF) →* ℂˣ) = p ^ q := by
     let Q := MF ⧸ H0MF
-    letI : CommGroup Q := IsMulCommutative.instCommGroup
-    haveI : HasEnoughRootsOfUnity ℂ (Monoid.exponent Q) :=
+    let : CommGroup Q := IsMulCommutative.instCommGroup
+    have : HasEnoughRootsOfUnity ℂ (Monoid.exponent Q) :=
       Section1.complex_hasEnoughRootsOfUnity (Monoid.exponent Q)
     have hchars : Nat.card (Q →* ℂˣ) = Nat.card Q :=
       CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity Q ℂ
@@ -2385,7 +2385,7 @@ private theorem theorem_9_9_C_bot_nonprincipalLinearCharacter_orbit_count_sec9
   have hUcard : Nat.card U = u := by
     rcases case_9_7_b_barU_cardinality_sec9 hcase with
       ⟨_hCU, hnormalC, hcardQuot⟩
-    letI : (C.subgroupOf U).Normal := hnormalC
+    let : (C.subgroupOf U).Normal := hnormalC
     have hCsub : C.subgroupOf U = ⊥ := by
       rw [hCbot]
       ext x
@@ -2478,8 +2478,8 @@ private theorem theorem_9_9_case_b_clifford_induction_package_source_bridge_sec9
       change ((x : Dm) : M) ∈ (H0 ⊔ Cprime).subgroupOf M at hx
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       exact hA_le_HC hx
-    letI : K.Normal := hKnormal
-    letI : A.Normal := hAnormal
+    let : K.Normal := hKnormal
+    let : A.Normal := hAnormal
     have hψDkerA : Section1.subgroupInKernel' ψD (A.subgroupOf K) :=
       subgroupInKernel'_of_inducedCF_eq_sec9 K A hAK hψDirr hθeq hθkerH0Cprime
     have hcomm_le :
@@ -3145,7 +3145,7 @@ private theorem theorem_9_9_nontrivial_C_exists_HC_character_source_bridge_sec9
   have hA_normal : A.Normal := by
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hA0_le_HCm).2
       (hHCm_le_Dm.trans hDm_norm_A0)
-  letI : A.Normal := hA_normal
+  let : A.Normal := hA_normal
   let qHC : HCm →* HCm ⧸ A := QuotientGroup.mk' A
   let MFHC : Subgroup HCm := (MF.subgroupOf M).subgroupOf HCm
   let H0CHC : Subgroup HCm := ((H0 ⊔ C).subgroupOf M).subgroupOf HCm
@@ -3173,7 +3173,7 @@ private theorem theorem_9_9_nontrivial_C_exists_HC_character_source_bridge_sec9
     simpa [A0, HCm, Dm, D, incl, Subgroup.mem_subgroupOf] using hmem
   have hQcomm : IsMulCommutative (HCm ⧸ A) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm_le_A
-  letI : IsMulCommutative (HCm ⧸ A) := hQcomm
+  let : IsMulCommutative (HCm ⧸ A) := hQcomm
   have hQprod :
       Section2.IsInternalDirectProduct
         (⊤ : Subgroup (HCm ⧸ A)) QMF QH0C := by
@@ -3248,7 +3248,7 @@ private theorem theorem_9_9_nontrivial_C_exists_HC_character_source_bridge_sec9
       let e : C.subgroupOf M ≃* C := Subgroup.subgroupOfEquivOfLe hC_le_M
       exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
     let _ : Group.IsSolvable C := hCsolv
-    letI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot (H := C)).2 hCne
+    let : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot (H := C)).2 hCne
     have hlt : ⁅C, C⁆ < C := commutator_lt_self_of_isSolvable_local C
     simpa [hCprimeEq, Subgroup.map_subtype_commutator] using hlt
   have hQH0Cne : QH0C ≠ ⊥ := by
@@ -3286,8 +3286,8 @@ private theorem theorem_9_9_nontrivial_C_exists_HC_character_source_bridge_sec9
     infer_instance
   let _ : Group.IsSolvable QMF := hQMFsolv
   let _ : Group.IsSolvable QH0C := hQH0Csolv
-  letI : Nontrivial QMF := (Subgroup.nontrivial_iff_ne_bot (H := QMF)).2 hQMFne
-  letI : Nontrivial QH0C :=
+  let : Nontrivial QMF := (Subgroup.nontrivial_iff_ne_bot (H := QMF)).2 hQMFne
+  let : Nontrivial QH0C :=
     (Subgroup.nontrivial_iff_ne_bot (H := QH0C)).2 hQH0Cne
   rcases Section6.exists_nontrivial_linear_character_of_solvable QMF with
     ⟨χMF, hχMFne⟩
@@ -3489,12 +3489,12 @@ private theorem theorem_9_9_nontrivial_C_outside_SH0C_source_bridge_sec9
     dsimp [Dm, D]
     exact theorem_9_9_MF_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 C p q u hcase
-  letI : K.Normal := hKnormal
-  letI : A.Normal := hAnormal
-  letI : B.Normal := hBnormal
-  letI : ((H0 ⊔ C).subgroupOf M).Normal := hH0CnormalM
-  letI : Dm.Normal := hDmnormal
-  letI : ((MF.subgroupOf M).subgroupOf Dm).Normal := hMFnormalDm
+  let : K.Normal := hKnormal
+  let : A.Normal := hAnormal
+  let : B.Normal := hBnormal
+  let : ((H0 ⊔ C).subgroupOf M).Normal := hH0CnormalM
+  let : Dm.Normal := hDmnormal
+  let : ((MF.subgroupOf M).subgroupOf Dm).Normal := hMFnormalDm
   have hAK : A ≤ K := by
     intro x hx
     change ((x : Dm) : M) ∈ HCm
@@ -3700,7 +3700,7 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_induced_mem_SH0C_sec9
   subst C
   have hnormalH0MF : (H0.subgroupOf MF).Normal :=
     case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : (H0.subgroupOf MF).Normal := hnormalH0MF
+  let : (H0.subgroupOf MF).Normal := hnormalH0MF
   dsimp only
   intro ψ hψne
   let ψG : Section1.ClassFunction MF :=
@@ -3721,7 +3721,7 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_induced_mem_SH0C_sec9
     dsimp [K, HCm, Dm]
     exact theorem_9_9_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   have hMFmDnormal : ((MF.subgroupOf M).subgroupOf Dm).Normal := by
     dsimp [Dm]
     exact theorem_9_9_MF_normal_ambientDerived_subgroupOf_sec9
@@ -3730,8 +3730,8 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_induced_mem_SH0C_sec9
     dsimp [Dm]
     exact theorem_9_9_H0_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : ((MF.subgroupOf M).subgroupOf Dm).Normal := hMFmDnormal
-  letI : ((H0.subgroupOf M).subgroupOf Dm).Normal := hH0mDnormal
+  let : ((MF.subgroupOf M).subgroupOf Dm).Normal := hMFmDnormal
+  let : ((H0.subgroupOf M).subgroupOf Dm).Normal := hH0mDnormal
   have hSH0 :
       kernelInducedFamily M (ambientDerivedSubgroup M) MF H0 SH0C := by
     simpa using hSH0C
@@ -3900,7 +3900,7 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_HCCharacter_data_sec9
   dsimp only
   have hnormalH0MF : (H0.subgroupOf MF).Normal :=
     case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : (H0.subgroupOf MF).Normal := hnormalH0MF
+  let : (H0.subgroupOf MF).Normal := hnormalH0MF
   let ψG : Section1.ClassFunction MF :=
     Section1.quotientCharacterInflation H0 MF ψ
   let ψMF : Section1.ClassFunction (MF.subgroupOf M) :=
@@ -4046,7 +4046,7 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_intermediate_isIrreduc
   subst C
   have hnormalH0MF : (H0.subgroupOf MF).Normal :=
     case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : (H0.subgroupOf MF).Normal := hnormalH0MF
+  let : (H0.subgroupOf MF).Normal := hnormalH0MF
   let ψHC : Section1.ClassFunction ((MF ⊔ (⊥ : Subgroup G)).subgroupOf M) :=
     theorem_9_9_C_bot_quotientLinearCharacter_HCCharacter_sec9
       M MF H0 (⊥ : Subgroup G) rfl ψ
@@ -4108,18 +4108,18 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_HCCharacter_smul_eq_co
   have hnormalH0 : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : H0MF.Normal := hnormalH0
+  let : H0MF.Normal := hnormalH0
   have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     theorem_9_9_case_b_U_le_normalizer_MF_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have hH0invU : IsInvariant U MF H0MF := by
     simpa [H0MF] using
       theorem_9_9_case_b_H0_isInvariant_U_MF_sec9
         M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) H0MF hH0invU
-  letI : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
+  let : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction_sec9 U (MF ⧸ H0MF)
   let ψG : Section1.ClassFunction MF :=
     Section1.quotientCharacterInflation H0 MF ψ
@@ -4142,7 +4142,7 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_HCCharacter_smul_eq_co
     dsimp [K, HCm, Dm]
     exact theorem_9_9_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   have hUleD : U ≤ ambientDerivedSubgroup M := by
     exact theorem_9_9_case_b_U_le_ambientDerived_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
@@ -4210,12 +4210,12 @@ private theorem theorem_9_9_C_bot_intermediate_eq_of_induced_eq_of_no_irreducibl
   have hnormalH0 : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : H0MF.Normal := hnormalH0
+  let : H0MF.Normal := hnormalH0
   intro ψ η hnoSH0C hIndFinal
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   have hDnormal : Dm.Normal := by
     simpa [Dm] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Dm.Normal := hDnormal
+  let : Dm.Normal := hDnormal
   let θψ : Section1.ClassFunction Dm :=
     theorem_9_9_C_bot_quotientLinearCharacter_intermediateCharacter_sec9
       M MF H0 C hCbot ψ.1
@@ -4299,20 +4299,20 @@ private theorem theorem_9_9_C_bot_orbitRel_of_intermediate_eq_sec9
   have hnormalH0 : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : H0MF.Normal := hnormalH0
+  let : H0MF.Normal := hnormalH0
   have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     theorem_9_9_case_b_U_le_normalizer_MF_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have hH0invU : IsInvariant U MF H0MF := by
     simpa [H0MF] using
       theorem_9_9_case_b_H0_isInvariant_U_MF_sec9
         M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) H0MF hH0invU
-  letI : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
+  let : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction_sec9 U (MF ⧸ H0MF)
-  letI : MulAction U {ψ : (MF ⧸ H0MF) →* ℂˣ // ψ ≠ 1} :=
+  let : MulAction U {ψ : (MF ⧸ H0MF) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction_sec9 U ((MF ⧸ H0MF) →* ℂˣ)
   intro ψ η hθeq
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
@@ -4322,7 +4322,7 @@ private theorem theorem_9_9_C_bot_orbitRel_of_intermediate_eq_sec9
     dsimp [K, HCm, Dm]
     exact theorem_9_9_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   let ψHC : Section1.ClassFunction HCm :=
     theorem_9_9_C_bot_quotientLinearCharacter_HCCharacter_sec9
       M MF H0 (⊥ : Subgroup G) rfl ψ.1
@@ -4477,18 +4477,18 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_inducedCharacter_smul_
   have hnormalH0 : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : H0MF.Normal := hnormalH0
+  let : H0MF.Normal := hnormalH0
   have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     theorem_9_9_case_b_U_le_normalizer_MF_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have hH0invU : IsInvariant U MF H0MF := by
     simpa [H0MF] using
       theorem_9_9_case_b_H0_isInvariant_U_MF_sec9
         M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) H0MF hH0invU
-  letI : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
+  let : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction_sec9 U (MF ⧸ H0MF)
   let ψG : Section1.ClassFunction MF :=
     Section1.quotientCharacterInflation H0 MF ψ
@@ -4511,7 +4511,7 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_inducedCharacter_smul_
     dsimp [K, HCm, Dm]
     exact theorem_9_9_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 (⊥ : Subgroup G) p q u hcase
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   have hUleD : U ≤ ambientDerivedSubgroup M := by
     rcases (case_9_7_b_hypothesis_9_2_sec9 hcase).typePDefinitionData with
       ⟨_hMFsource, _hW1cyc, _hW1ne, _hW1hall, _hcompMW1, hUleD,
@@ -4595,18 +4595,18 @@ private theorem theorem_9_9_C_bot_quotientLinearCharacter_induced_eq_of_orbitRel
   have hnormalH0 : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : H0MF.Normal := hnormalH0
+  let : H0MF.Normal := hnormalH0
   have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     theorem_9_9_case_b_U_le_normalizer_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have hH0invU : IsInvariant U MF H0MF := by
     simpa [H0MF] using
       theorem_9_9_case_b_H0_isInvariant_U_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) H0MF hH0invU
-  letI : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
+  let : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction_sec9 U (MF ⧸ H0MF)
-  letI : MulAction U {ψ : (MF ⧸ H0MF) →* ℂˣ // ψ ≠ 1} :=
+  let : MulAction U {ψ : (MF ⧸ H0MF) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction_sec9 U ((MF ⧸ H0MF) →* ℂˣ)
   intro ψ η hrel
   rw [MulAction.orbitRel_apply] at hrel
@@ -4651,18 +4651,18 @@ private theorem theorem_9_9_C_bot_orbitRel_of_quotientLinearCharacter_induced_eq
   have hnormalH0 : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : H0MF.Normal := hnormalH0
+  let : H0MF.Normal := hnormalH0
   have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     theorem_9_9_case_b_U_le_normalizer_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have hH0invU : IsInvariant U MF H0MF := by
     simpa [H0MF] using
       theorem_9_9_case_b_H0_isInvariant_U_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) H0MF hH0invU
-  letI : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
+  let : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction_sec9 U (MF ⧸ H0MF)
-  letI : MulAction U {ψ : (MF ⧸ H0MF) →* ℂˣ // ψ ≠ 1} :=
+  let : MulAction U {ψ : (MF ⧸ H0MF) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction_sec9 U ((MF ⧸ H0MF) →* ℂˣ)
   intro ψ η hnoSH0C hInd
   have hθeq :
@@ -4692,18 +4692,18 @@ private theorem theorem_9_9_C_bot_nonprincipalLinearCharacter_orbit_count_le_SH0
   have hnormalH0 : H0MF.Normal := by
     dsimp [H0MF]
     exact case_9_7_b_H0_normal_MF_sec9 hcase
-  letI : H0MF.Normal := hnormalH0
+  let : H0MF.Normal := hnormalH0
   have hUnormMF : U ≤ Subgroup.normalizer (MF : Set G) :=
     theorem_9_9_case_b_U_le_normalizer_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
+  let : Subgroup.Normalizes U MF := ⟨hUnormMF⟩
   have hH0invU : IsInvariant U MF H0MF := by
     simpa [H0MF] using
       theorem_9_9_case_b_H0_isInvariant_U_MF_sec9 M MF U W1 W2 H0 C p q u hcase
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) H0MF hH0invU
-  letI : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
+  let : MulDistribMulAction U ((MF ⧸ H0MF) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction_sec9 U (MF ⧸ H0MF)
-  letI : MulAction U {ψ : (MF ⧸ H0MF) →* ℂˣ // ψ ≠ 1} :=
+  let : MulAction U {ψ : (MF ⧸ H0MF) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction_sec9 U ((MF ⧸ H0MF) →* ℂˣ)
   let Ω := nonidentityOrbitQuotient_sec9 U ((MF ⧸ H0MF) →* ℂˣ)
   let β : Type u := {χ : Section1.ClassFunction M // χ ∈ SH0C}
@@ -4734,11 +4734,11 @@ private theorem theorem_9_9_C_bot_nonprincipalLinearCharacter_orbit_count_le_SH0
     · exact hnoSH0C
     exact congrArg Subtype.val hψη
   have hcard_le : Nat.card Ω ≤ Nat.card β := by
-    haveI : Finite Ω := by
+    have : Finite Ω := by
       dsimp [Ω, nonidentityOrbitQuotient_sec9]
       infer_instance
-    letI : Fintype Ω := Fintype.ofFinite Ω
-    letI : Fintype β := Fintype.ofFinite β
+    let : Fintype Ω := Fintype.ofFinite Ω
+    let : Fintype β := Fintype.ofFinite β
     simpa [Nat.card_eq_fintype_card] using
       (Fintype.card_le_of_injective f hf_inj)
   have hβcard : Nat.card β = SH0C.card := by

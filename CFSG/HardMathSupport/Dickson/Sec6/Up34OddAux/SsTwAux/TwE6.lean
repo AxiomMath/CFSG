@@ -65,7 +65,7 @@ theorem noL34Layer_inndiag_twE6 (hO : ComponentClassification.CatLeaf.LieOrderFo
     (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) (β : MulAut ↥(twistedE6RootGroup K σ))
     (hβ : β ∈ (twistedE6InndiagConj K σ).range) (hβ3 : β ^ 3 = 1) : NoL34Layer β := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hℓ2 : ℓ ≠ 2 := by omega
   have hℓ3 : ℓ ≠ 3 := by omega
   by_cases hβ1 : β = 1
@@ -81,9 +81,9 @@ theorem noL34Layer_inndiag_twE6 (hO : ComponentClassification.CatLeaf.LieOrderFo
   have hh1 : h ≠ 1 := fun h' => hβ1 (by
     have : g = 1 := Subtype.ext h'
     rw [this, map_one])
-  haveI : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (k := f * 2) (by omega) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   have hq4 : 5 ≤ 3 ∨ 4 ≤ ℓ ^ f :=
     Or.inr (le_trans (by omega : 4 ≤ ℓ) (Nat.le_self_pow (by omega) ℓ))
@@ -101,7 +101,7 @@ theorem noL34Layer_inndiag_twE6 (hO : ComponentClassification.CatLeaf.LieOrderFo
   have hTp : rootDiagUnit Tag.E6 a ^ 3 = 1 := rootDiagUnit_pow_eq_one_of_forall hap
   have hTame := langSetup_hTame_of_prime S Nat.prime_three hpL (fun h => absurd h (by decide)) hT
     hap h1
-  haveI : Finite ↥(twistedE6RootGroup K σ) :=
+  have : Finite ↥(twistedE6RootGroup K σ) :=
     Finite.of_injective (fun x => (x : ModGL TwistTag.E6.tag K)) Subtype.val_injective
   exact noL34Layer_of_langSetup S Nat.prime_three ι hinj hrange _ hconj hT hap h1 hTame
     (fun i hq => ssTw_not_L34_rational S h2 hT hTp h1 i hq)

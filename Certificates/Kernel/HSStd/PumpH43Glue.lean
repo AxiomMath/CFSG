@@ -90,7 +90,7 @@ theorem derOK_of {r : Row} {pairs : List (List Int × List Int)} {CG : ℕ → �
     have e : (derComms r pairs)[q]! = commutatorA 80
         (wordA 80 (cgArr r) (rawInvs 80 (cgArr r)) (pairs.getD q ([], [])).1)
         (wordA 80 (cgArr r) (rawInvs 80 (cgArr r)) (pairs.getD q ([], [])).2) := by
-      simp [derComms, getElem!_def, hq', List.getD_eq_getElem?_getD]
+      simp [derComms, hq', List.getD_eq_getElem?_getD]
     obtain ⟨⟨e1, -⟩, ⟨e2, -⟩, e3⟩ := hwq q hq
     rw [e, e1, e2, e3]
     exact (commutatorA_unpack (hwp q hq 0) (hwp q hq 1)).1
@@ -139,6 +139,7 @@ theorem headD_filter_ofFn {α : Type} {N : ℕ} (f : Fin N → α) (p : α → B
 
 theorem hps40 : ∀ p ∈ keys43, p < 40 := by decide
 
+set_option exponentiation.threshold 280 in
 theorem res40_unpack (p : ℕ) : res40 (unpack 80 7 p) = unpack 40 7 (lo40 p) := by
   unfold res40 unpack
   apply Array.ext
@@ -153,11 +154,10 @@ theorem res40_unpack (p : ℕ) : res40 (unpack 80 7 p) = unpack 40 7 (lo40 p) :=
     have em : mask 7 = 2 ^ 7 - 1 := rfl
     have ep : p.mod (Nat.pow 2 280) = p % 2 ^ 280 := rfl
     rw [em, ep]
-    simp only [Nat.testBit_land, Nat.testBit_shiftRight, Nat.testBit_mod_two_pow,
-      Nat.testBit_two_pow_sub_one, Nat.mul_eq]
+    simp only [Nat.mul_eq]
     by_cases hj : j < 7
     · have : 7 * i + j < 280 := by omega
-      simp [hj, this]
+      simp [this, -Nat.reducePow]
     · have h127 : Nat.testBit 127 j = false := Nat.testBit_eq_false_of_lt
         (lt_of_lt_of_le (by norm_num : 127 < 2 ^ 7) (Nat.pow_le_pow_right (by norm_num) (by omega)))
       simp [h127]

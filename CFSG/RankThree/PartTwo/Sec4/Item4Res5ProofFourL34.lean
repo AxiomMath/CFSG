@@ -423,7 +423,7 @@ theorem exists_central_of_three_dvd [IsAlgClosed K] [FiniteDimensional K V] (h3 
   set N := π.ker with hNdef
   obtain ⟨P⟩ : Nonempty (Sylow 3 N) := Sylow.nonempty
   set P₀ : Subgroup X := (P : Subgroup N).map N.subtype with hP₀
-  have hP₀p : IsPGroup 3 P₀ := P.isPGroup'.map N.subtype
+  have hP₀p : IsPGroup 3 P₀ := P.isPGroup.map N.subtype
   have hP₀n : P₀.Normal := by
     have hsup := Sylow.normalizer_sup_eq_top (p := 3) (N := N) P
     have hmap : (Subgroup.normalizer (P₀ : Set X)).map π = ⊤ := by
@@ -512,7 +512,7 @@ theorem exists_central_of_three_dvd [IsAlgClosed K] [FiniteDimensional K V] (h3 
     have hact : ∀ (s : S) (x : Z), ((s • x : Z) : X) = s * x * (s : X)⁻¹ := by
       intro s x
       exact MulAut.conjNormal_apply _ _
-    have hcong := IsPGroup.card_modEq_card_fixedPoints S.isPGroup' (p := 7) Z
+    have hcong := IsPGroup.card_modEq_card_fixedPoints S.isPGroup (p := 7) Z
     let Fx : Subgroup X := Z ⊓ Subgroup.centralizer (S : Set X)
     have hfix : Nat.card (MulAction.fixedPoints S Z) = Nat.card Fx := by
       refine Nat.card_congr
@@ -565,7 +565,7 @@ theorem exists_central_of_three_dvd [IsAlgClosed K] [FiniteDimensional K V] (h3 
         exact ⟨s, hSZ hs, rfl⟩
       have hdvd : Nat.card (S' : Subgroup Q) ∣ 4 := by
         rw [← hC.card_center]; exact Subgroup.card_dvd_of_le hS'Z
-      rcases S'.isPGroup'.card_eq_or_dvd with h1 | h1
+      rcases S'.isPGroup.card_eq_or_dvd with h1 | h1
       · exact hS' (Subgroup.eq_bot_of_card_eq _ h1)
       · have := h1.trans hdvd
         norm_num at this

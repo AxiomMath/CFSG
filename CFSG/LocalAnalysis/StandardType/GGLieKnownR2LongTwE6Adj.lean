@@ -179,9 +179,9 @@ private theorem parabolicDegree_orbitUnion_J0 (v : Fin TwistTag.E6.tag.rank → 
   rw [Finset.sum_eq_single (f := fun i : Fin TwistTag.E6.tag.rank =>
       if i ∈ TwistTag.E6.orbitUnion J0 then (0 : ℤ) else v i)
     (s := Finset.univ) (1 : Fin TwistTag.E6.tag.rank)
-    (fun b _ hb => by rw [if_pos (mem_orbitUnion_J0_of_ne_one hb)])
+    (fun b _ hb => by rw [ite_eq_left (mem_orbitUnion_J0_of_ne_one hb)])
     (fun h => absurd (Finset.mem_univ 1) h)]
-  rw [if_neg twE6Adj_one_notMem_orbitUnion_J0]
+  rw [ite_eq_right twE6Adj_one_notMem_orbitUnion_J0]
 
 private theorem e6_root_coord
     {α : Fin TwistTag.E6.tag.rank → ℤ} (hα : IsRoot TwistTag.E6.tag α) :
@@ -224,14 +224,14 @@ theorem coreFour_adjoint_twE6_highest
   have hQeq : Q = QA.subgroupOf G := by
     have hrad := radical_std_eq (K := k) σ
     rw [hσθ] at hrad
-    simp only [twE6LongRootRadical, twE6LongRootParabolic, pCoreOf] at hrad
+    simp only [twE6LongRootRadical, twE6LongRootParabolic] at hrad
     rw [ringChar.eq k 2] at hrad
     exact hrad
   rw [hQeq]
   let A : Set (Fin TwistTag.E6.tag.rank) := TwistTag.E6.orbitUnion J0
   have hroots2 : levelRoots TwistTag.E6.tag A 2 = {e6HighestRoot} := by
     ext α
-    simp only [levelRoots, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [levelRoots, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hroot, -, hdeg⟩
       rw [parabolicDegree_orbitUnion_J0] at hdeg
@@ -241,7 +241,7 @@ theorem coreFour_adjoint_twE6_highest
         by rw [parabolicDegree_orbitUnion_J0]; decide⟩
   have hroots3 : levelRoots TwistTag.E6.tag A 3 = ∅ := by
     ext α
-    simp only [levelRoots, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [levelRoots, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     rintro ⟨hroot, -, hdeg⟩
     rw [parabolicDegree_orbitUnion_J0] at hdeg
     have hle := (e6_root_coord hroot).1

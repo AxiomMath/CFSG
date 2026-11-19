@@ -38,7 +38,7 @@ open scoped commutatorElement
 
 theorem r3h_exists_order_mem {N : Type} [Group N] [Finite N] {p : ℕ} (hp : p.Prime)
     {J : Subgroup N} (hd : p ∣ Nat.card J) : ∃ w : N, w ∈ J ∧ orderOf w = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hd
   exact ⟨(x : N), x.2, by rw [Subgroup.orderOf_coe, hx]⟩
 
@@ -63,7 +63,7 @@ theorem r3_three_components {N : Type} [Group N] [Finite N] {p : ℕ} (hp : p.Pr
   obtain ⟨w₁, hw₁, ho₁⟩ := r3h_exists_order_mem hp (r3_p_dvd_component hp hno hF hF3 h₁)
   obtain ⟨Fh, hFh, hFh3, hFeq⟩ :=
     r3_elem3 hp hY hYc h₀ h₁ h01 (hmult J₀ h₀) (hmult J₁ h₁) hw₀ hw₁ ho₀ ho₁
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₂, hS₂⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 J₂
   have hS₂ne : S₂ ≠ ⊥ := r3_sylow_two_ne_bot h₂ hS₂
   have hS₂2 : IsPGroup 2 S₂ := hS₂.isPGroup

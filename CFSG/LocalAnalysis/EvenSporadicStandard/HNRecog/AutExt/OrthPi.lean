@@ -22,7 +22,7 @@ theorem exists_pi {G : Type} [Group G] {K M : Subgroup G}
       (∀ i, π (Pi.single i 1) = s i) ∧
       ∀ (l : ↥K) (f : Fv5), (l : G) * π f * (l : G)⁻¹ = π (fv5Act (ρ l) f) := by
   classical
-  letI : CommGroup ↥M :=
+  let : CommGroup ↥M :=
     { (inferInstance : Group ↥M) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   let x : Fin 5 → ↥M := fun i => ⟨s i, hs i⟩
   have hx : ∀ i, x i * x i = 1 := fun i => Subtype.ext (hsq (s i) (hs i))

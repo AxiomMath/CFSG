@@ -19,6 +19,7 @@ namespace KTCfg16
 
 variable {U V₀ V I K T Q : Subgroup G}
 
+omit [Finite G] in
 private lemma w16q_mem_sup_of_comm {A B : Subgroup G}
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {x : G} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
@@ -32,6 +33,7 @@ private lemma w16q_mem_sup_of_comm {A B : Subgroup G}
     exact hx
   exact Set.mem_mul.mp hx'
 
+omit [Finite G] in
 private lemma w16q_commutator_mem_centralizer (h : KTCfg16 U V₀ V I K T Q) {x y : G}
     (hx : x ∈ Q) (hy : y ∈ Q) :
     x * y * x⁻¹ * y⁻¹ ∈ Subgroup.centralizer (K : Set G) := by
@@ -54,6 +56,7 @@ private lemma w16q_commutator_mem_centralizer (h : KTCfg16 U V₀ V I K T Q) {x 
     hQQ_le (Subgroup.commutator_mem_commutator hx hy)
   simpa only [commutatorElement_def] using hmem
 
+omit [Finite G] in
 theorem comm_of_mem_inf (h : KTCfg16 U V₀ V I K T Q) {A : Subgroup G}
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) {x a v : G} (hx : x ∈ A ⊓ Q) (ha : a ∈ A)
     (hv : v ∈ V) (hva : v⁻¹ * a ∈ Q) : x * v = v * x := by
@@ -111,6 +114,7 @@ theorem comm_of_mem_inf (h : KTCfg16 U V₀ V I K T Q) {A : Subgroup G}
     x * v = (x * v * x⁻¹) * x := by group
     _ = v * x := by rw [hxv]
 
+omit [Finite G] in
 theorem card_mul_card_eq (h : KTCfg16 U V₀ V I K T Q) :
     Nat.card T * Nat.card ↥(U ⊔ V₀) = Nat.card V * Nat.card Q := by
   have hVnorm : V ≤ Subgroup.normalizer (Q : Set G) := h.V_le_T.trans h.T_le

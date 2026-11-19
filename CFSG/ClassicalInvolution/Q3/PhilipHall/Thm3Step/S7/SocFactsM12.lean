@@ -81,7 +81,7 @@ open SocM12 in
 theorem m12Q8Classes_proved :
     M12Q8Classes := by
   intro G _ _ N hN hC hS
-  haveI := hN
+  have := hN
   obtain ⟨eN⟩ := hS
   let θ' : ↥N ≃* ↥blockGroup := (show ↥N ≃* ↥CFSG.Blueprint.NativeSporadic.M12 from eN).trans
     m12EquivD

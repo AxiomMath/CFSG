@@ -68,9 +68,9 @@ theorem apL_eq (i : Fin 16) {j : Nat} (hj : j < 4) (p : Fin 1782) :
   unfold apL fac
   rw [bit_eq i i.isLt j hj]
   rcases Bool.eq_false_or_eq_true (i.val.testBit j) with h | h
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     exact hgL j hj p
-  · rw [h, if_neg (by simp)]
+  · rw [h, ite_eq_right (by simp)]
     rfl
 
 theorem l1E_eq (i : Fin 16) (p : Fin 1782) : l1E i p = (l1Elt i p : Nat) := by

@@ -193,7 +193,7 @@ theorem rootCoord_outer_orbit (j : Fin Tag.D4.rank) (a b c : K) :
   have h := rootCoord_single_list_prod (K := K) j [0, 1, 3]
     (fun i : Fin Tag.D4.rank => if i = 0 then a else if i = 1 then b else c)
   simp (config := { decide := true }) only [List.map_cons, List.map_nil, List.prod_cons,
-    List.prod_nil, List.sum_cons, List.sum_nil, mul_one, if_true, if_false] at h
+    List.prod_nil, List.sum_cons, List.sum_nil, mul_one, ite_true, ite_false] at h
   rw [mul_assoc, h]
   simp only [add_assoc, add_zero]
 
@@ -211,8 +211,7 @@ theorem exactNormalAut_zero_eq_one_of_forall_graphFixedRootGroup (σ : K ≃+* K
   show φ c = c
   have hc : c ∈ orbitField TwistTag.D4 K σ.toRingHom ⟨0, by decide⟩ := by
     rw [mem_orbitField, show (TwistTag.D4.orbit ⟨0, by decide⟩).card = 3 by decide]
-    simp only [pow_succ, pow_zero, one_mul, RingHom.mul_def, RingHom.id_apply,
-      RingEquiv.toRingHom_eq_coe, RingHom.coe_comp, Function.comp_apply, RingEquiv.coe_toRingHom]
+    simp only [pow_succ, pow_zero, one_mul, RingHom.mul_def, RingEquiv.toRingHom_eq_coe, RingHom.coe_comp, Function.comp_apply, RingEquiv.coe_toRingHom]
     exact hσ c
   set x : adjointGroup Tag.D4 K := orbitX TwistTag.D4 K σ.toRingHom ⟨0, by decide⟩ ⟨c, hc⟩ with hx
   have h1 : entrywiseAdjointAut Tag.D4 φ x = x :=

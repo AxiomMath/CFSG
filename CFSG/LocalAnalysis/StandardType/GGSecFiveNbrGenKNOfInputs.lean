@@ -198,9 +198,9 @@ theorem s2jn_exists_sl2_range_rankOne
 
 theorem s2jn_range_simple {G : Type} [Group G] [Finite G]
     {S : Type*} [Group S] [IsSimpleGroup S] (θ : S →* G)
-    (hθ : Function.Injective θ) (N : Subgroup G) (hN : N ≤ θ.range) (hN1 : N ≠ ⊥)
+    (_hθ : Function.Injective θ) (N : Subgroup G) (hN : N ≤ θ.range) (hN1 : N ≠ ⊥)
     (hnorm : ∀ a ∈ θ.range, ∀ b ∈ N, a * b * a⁻¹ ∈ N) : θ.range ≤ N := by
-  haveI hN' : (N.comap θ).Normal := ⟨fun n hn s => by
+  have hN' : (N.comap θ).Normal := ⟨fun n hn s => by
     change θ (s * n * s⁻¹) ∈ N
     rw [map_mul, map_mul, map_inv]
     exact hnorm _ ⟨s, rfl⟩ _ hn⟩
@@ -287,7 +287,7 @@ theorem s2jn_rankOne_simple_of_tableBPos {G : Type} [Group G] [Finite G]
     rw [GaloisField.card 2 f (by omega)]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
     CFSG.Quasithin.Vol2.Ch10.HeL.sl2_isSimpleGroup h4
   intro N hN hN1 hnorm
   rw [← hθrange] at hN hnorm ⊢

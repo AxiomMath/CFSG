@@ -16,7 +16,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 theorem omegaComm_ne_zero {F : Type} [Field F] {v : Fin 2 → F} (hv : v ≠ 0) :
     v 0 ≠ 0 ∨ v 1 ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hv
   ext i
   fin_cases i <;> simp [h.1, h.2]
@@ -133,7 +133,7 @@ theorem omegaComm_of_mulEquiv {H G : Type} [Group H] [Group G] {Ω : Subgroup H}
 
 theorem omegaComm_charP_two (F : Type) [Field F] [Finite F] {q : ℕ}
     (hq : Nat.card F = 2 ^ q) : CharP F 2 := by
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   obtain ⟨p, hc, n, hp, hcard⟩ := FiniteField.card' F
   rw [← Nat.card_eq_fintype_card, hq] at hcard
   have hdvd : p ∣ 2 ^ q := by
@@ -167,7 +167,7 @@ theorem omega_comm_minus {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
   obtain ⟨k, -, hk⟩ := kfs_card_eq_two_pow K
   have hcard2 : Nat.card F = 2 ^ (k * 2) := by
     rw [hcardF, hk, ← pow_mul]
-  haveI : CharP F 2 := omegaComm_charP_two F hcard2
+  have : CharP F 2 := omegaComm_charP_two F hcard2
   exact omegaComm_of_mulEquiv e (fun Q hQ => omegaComm_sl2_pgroup Q hQ) P hPΩ hP
 
 theorem isometry_index_plus (h4 : 4 ≤ Nat.card K) :

@@ -38,7 +38,7 @@ theorem sq_fix_of_fix3OK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {x : Equiv.Pe
       intro s hs
       rw [Nat.beq_eq, wapp_eq hL (hss s hs), hy s hs]
     have := hall y y.2
-    rw [bIf_eqC, if_pos hf, bIf_eqC, bIf_eqC] at this
+    rw [bIf_eqC, ite_eq_left hf, bIf_eqC, bIf_eqC] at this
     split_ifs at this with h1 h2
     · exact Or.inl (Nat.eq_of_beq_eq_true h1)
     · exact Or.inr (Or.inl (Nat.eq_of_beq_eq_true h2))

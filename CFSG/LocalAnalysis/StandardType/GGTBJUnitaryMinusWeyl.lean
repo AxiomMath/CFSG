@@ -79,11 +79,11 @@ theorem uniMinus_signed_of_frame
       intro i
       rw [hwval v i]
       by_cases hi : i ∈ T
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         have hσi : σ i = -1 := (hTmem i).mp hi
         rw [hσi, toAdd_inv]
         ring
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         have hσi : σ i = 1 := by
           rcases hσ i with h | h
           · exact h

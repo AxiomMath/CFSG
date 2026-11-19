@@ -58,7 +58,7 @@ theorem exists_lift_commute (h34a : E8.SmithE8E34a) (h34b : E8.SmithE8E34b)
     (hty : t * y₀ * t⁻¹ * y₀⁻¹ ∈ S.QG) (huy : u * y₀ * u⁻¹ * y₀⁻¹ ∈ S.QG) :
     ∃ y : G, IsConj S.z y ∧ y₀⁻¹ * y ∈ S.QG ∧ Commute y t ∧ Commute y u := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hti : t⁻¹ = t := SME.inv_eq_of_isConj S ht
   have hui : u⁻¹ = u := SME.inv_eq_of_isConj S hu
   obtain ⟨θ, hθ⟩ : ∃ θ, θ = t * u := ⟨_, rfl⟩
@@ -138,7 +138,7 @@ theorem exists_lift_commute (h34a : E8.SmithE8E34a) (h34b : E8.SmithE8E34b)
     rw [show Nat.card S.QG = Nat.card (S.Q.map S.M.subtype) from rfl, hn] at hdvd
     have h32 := (Nat.Prime.dvd_of_dvd_pow (by norm_num : Nat.Prime 3) (h3.trans hdvd))
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨y₁, hy₁⟩ := Equiv.Perm.exists_fixed_point_of_prime hY3 hσ3
   have hθy₁ : θ * y₁.1 * θ⁻¹ = y₁.1 := congrArg Subtype.val hy₁
   have hy₁M := hYM y₁
@@ -200,7 +200,7 @@ theorem exists_lift_commute (h34a : E8.SmithE8E34a) (h34b : E8.SmithE8E34b)
       rw [show (g⁻¹ * θ * g) ^ 3 = g⁻¹ * θ ^ 3 * g by rw [pow_three, pow_three]; group, hθ3]
       group
     have hord' : orderOf (g⁻¹ * θ * g) = 3 := by
-      rw [show g⁻¹ * θ * g = MulAut.conj g⁻¹ θ by simp [MulAut.conj_apply], MulEquiv.orderOf_eq]
+      rw [show g⁻¹ * θ * g = MulAut.conj g⁻¹ θ by simp, MulEquiv.orderOf_eq]
       exact htu
     have := orderOf_dvd_of_pow_eq_one hk'
     rw [hord'] at this

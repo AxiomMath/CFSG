@@ -19,7 +19,7 @@ theorem false_of_inner_and_outer_involutions (inp : Thm24ThreeSimpleInputs) (I :
     (hcov : OddCover s' A) (hAN : A ≤ N) {a b : H} (ha : a ∈ centralizer (A : Set H))
     (hb : b ∈ centralizer (A : Set H)) (ha2 : orderOf a = 2) (hb2 : orderOf b = 2) (haN : a ∈ N)
     (hbN : b ∉ N) : False := by
-  haveI := hN.isSimpleGroup
+  have := hN.isSimpleGroup
   have hna := hN.nonabelian
   have hcat : CFSG.Blueprint.Catalog ↥N :=
     CFSG.EvenSporadicStandard.Induction.Balance.catalog_of_index_two hN h2 hkp
@@ -34,7 +34,7 @@ theorem false_of_inner_and_outer_involutions (inp : Thm24ThreeSimpleInputs) (I :
   have hσbout : σb ∉ (MulAut.conj : ↥N →* MulAut ↥N).range := fun h => hbN (hinb.1 h)
   have hs'p : s' ∈ pinnedNames := List.mem_cons_of_mem _ hs'
   have hcard : Nat.card (↥A ⧸ center ↥A) = pinnedOrder s' := by
-    haveI : IsSimpleGroup (↥A ⧸ center ↥A) := hq.2.1
+    have : IsSimpleGroup (↥A ⧸ center ↥A) := hq.2.1
     exact inp.card_pinned s' hs'p _ hcov.2.2
   have hca : Nat.card (↥Da ⧸ center ↥Da) = pinnedOrder s' := by
     rw [Nat.card_congr (cqEquivOfMulEquiv ea).toEquiv]

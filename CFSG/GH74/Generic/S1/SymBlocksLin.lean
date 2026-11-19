@@ -309,7 +309,7 @@ theorem IsBlockAt.comm_diagonal {a b : Fin 4} {M : Matrix (Fin 4) (Fin 4) F} (hM
     exact mul_comm _ _
   · by_cases hin : (i = a ∨ i = b) ∧ (j = a ∨ j = b)
     · have : d i = d j := by
-        rcases hin with ⟨h1 | h1, h2 | h2⟩ <;> rw [h1, h2] <;> first | rfl | exact hd | exact hd.symm
+        rcases hin with ⟨h1 | h1, h2 | h2⟩ <;> rw [h1, h2] <;> first | exact hd | exact hd.symm
       rw [this, mul_comm]
     · rw [hM i j hin, Matrix.one_apply_ne hij, zero_mul, mul_zero]
 

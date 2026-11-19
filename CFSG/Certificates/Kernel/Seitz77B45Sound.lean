@@ -17,7 +17,7 @@ theorem foldl_push_toList {β : Type} (f : ℕ → β) (l : List ℕ) (r : Array
     (l.foldl (fun b a => b.push (f a)) r).toList = r.toList ++ l.map f := by
   induction l generalizing r with
   | nil => simp
-  | cons a l ih => simp [ih]
+  | cons a l ih => simp
 
 theorem mtArr_toList : mtArr.toList = (List.range 256).flatMap fun i =>
     (List.range 256).map fun j => posOf idxTL etl.tabs (comp 42 etl.tabs[i]! etl.tabs[j]!) := by
@@ -90,7 +90,7 @@ theorem inv2_eq (mt : Nat → Nat → Nat) (w : WEl) : inv2 mt w = (wOrd mt w ==
     simp
   · by_cases e2 : wmul mt w w = wone
     · simp [e1, e2]
-    · simp [e1, e2] <;> split_ifs <;> simp [e2]
+    · simp [e1, e2]; split_ifs <;> simp [e2]
 
 theorem o2F_eq (mt : Nat → Nat → Nat) (lab : Nat → Nat) (m a b : Nat) :
     o2F mt lab m a b = (ordStats mt (cenList mt lab m a b)).getD 0 0 := by

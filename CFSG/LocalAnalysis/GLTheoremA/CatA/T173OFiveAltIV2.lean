@@ -65,7 +65,7 @@ private lemma B_le_normalizer_K [Finite Ω] {p : ℕ} {N D K : Subgroup Ω} {x :
     intro d hd
     rw [isElemAbelian_commute hcfg.elem hb (hcfg.std.1 hd), mul_assoc, mul_inv_cancel, mul_one]
   have hSmap : S.map (MulAut.conj b).toMonoidHom = S := by
-    haveI : S.Normal := hcfg.normal
+    have : S.Normal := hcfg.normal
     exact Subgroup.mem_normalizer_iff_map_conj_eq.1
       (by rw [Subgroup.normalizer_eq_top]; exact Subgroup.mem_top b)
   have hCmap : (Subgroup.centralizer (D : Set Ω)).map (MulAut.conj b).toMonoidHom =
@@ -115,7 +115,7 @@ private lemma mapToPiImg_surjective (M : S172DModel S B G₀ Ghat) (X : Subgroup
     _ = (z : Γ) := hgΓ
 
 private lemma pi_conj_eq_of_mem_centralizer [Finite Ω] {p : ℕ} {N D K : Subgroup Ω} {x : Ω}
-    (hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat) (hKS : K ≤ S)
+    (_hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat) (hKS : K ≤ S)
     {c : Ω} (hcB : c ∈ B)
     (hcπ : ((M.β ⟨c, hcB⟩ : ↥Ghat) : Γ) ∈
       Subgroup.centralizer (M.piImg K : Set Γ))
@@ -149,7 +149,7 @@ private lemma centralizes_K_of_centralizes_piImg [Finite Ω] {p : ℕ} {N D K : 
       Subgroup.centralizer (M.piImg K : Set Γ)) :
     c ∈ Subgroup.centralizer (K : Set Ω) := by
   have hKS : K ≤ S := K_le_of_cfg173 hcfg
-  haveI : Group.IsPerfect ↥K := isPerfect_K hcfg
+  have : Group.IsPerfect ↥K := isPerfect_K hcfg
   have hcyK : ∀ y ∈ K, c * y * c⁻¹ ∈ K := fun y hy =>
     (Subgroup.mem_normalizer_iff.1 (hKnorm hcB) y).1 hy
   let φ : ↥K →* ↥S :=
@@ -176,7 +176,7 @@ private lemma centralizes_K_of_centralizes_piImg [Finite Ω] {p : ℕ} {N D K : 
     _ = c * y := by group
 
 private lemma mem_centralizer_of_mem_mapToPiImg_ker [Finite Ω] {p : ℕ} {N D K : Subgroup Ω} {x : Ω}
-    (hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat) {X : Subgroup Ω}
+    (_hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat) {X : Subgroup Ω}
     (hXS : X ≤ S) {u : ↥X} (hu : u ∈ (mapToPiImg M X hXS).ker) :
     ((u : Ω)) ∈ Subgroup.centralizer (S : Set Ω) := by
   have huπ : M.π ⟨(u : Ω), hXS u.2⟩ = 1 := by
@@ -196,7 +196,7 @@ private lemma not_dvd_card_ker_mapToPiImg [Finite Ω] {p : ℕ} {N D K : Subgrou
     (hKZ : ∀ k ∈ K, k ∈ Subgroup.centralizer (S : Set Ω) → k ^ p = 1 → k = 1) :
     ¬ p ∣ Nat.card ↥(mapToPiImg M K hKS).ker := by
   classical
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   intro hdiv
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' p hdiv
   have hyπ : (y : ↥K) ∈ (mapToPiImg M K hKS).ker := y.2
@@ -263,7 +263,7 @@ private lemma pow_eq_one_of_pLift [Finite Ω] {p : ℕ} {N D K : Subgroup Ω} {x
     (hpowe : ∃ a, orderOf k₁ = p ^ a) :
     ((k₁ : Ω) ^ p = 1) := by
   classical
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have hkp : ((⟨kbar, hkbar⟩ : ↥(M.piImg K)) ^ p = 1) := by
     apply Subtype.ext
     simpa using hpow
@@ -287,7 +287,7 @@ private lemma exists_pElement_lift_mem_K [Finite Ω] {p : ℕ} {N D K : Subgroup
     ∃ k : ↥K, ((M.π ⟨(k : Ω), hKS k.2⟩ : ↥G₀) : Γ) = kbar ∧
       ((k : Ω) ^ p = 1) := by
   classical
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   let πK : ↥K →* ↥(M.piImg K) := mapToPiImg M K hKS
   have hsurj : Function.Surjective πK := mapToPiImg_surjective M K hKS
   have hC : ¬ p ∣ Nat.card ↥πK.ker := not_dvd_card_ker_mapToPiImg hcfg M hKS hKZ
@@ -317,7 +317,7 @@ private lemma eq_of_pElement_of_mem_K [Finite Ω] {p : ℕ} {N D K : Subgroup Ω
       have e : (⟨(z : Ω), hKS z.2⟩ : ↥S) =
           (⟨(k₁ : Ω), hKS k₁.2⟩ : ↥S) * (⟨(k₂ : Ω), hKS k₂.2⟩ : ↥S)⁻¹ := by
         apply Subtype.ext
-        simp [hz, Subgroup.coe_mul, Subgroup.coe_inv]
+        simp [hz, Subgroup.coe_mul]
       have hπG : M.π ⟨(k₁ : Ω), hKS k₁.2⟩ = M.π ⟨(k₂ : Ω), hKS k₂.2⟩ := Subtype.ext hπ
       rw [e, map_mul, map_inv, hπG, mul_inv_cancel]
     exact congrArg G₀.subtype hzG
@@ -394,7 +394,7 @@ private lemma mem_B_of_pElement_commutes [Finite Ω] {p : ℕ} {N D K : Subgroup
     (hcfg : Cfg173 p S B N D K x) {k : ↥K} (hkp : ((k : Ω) ^ p = 1))
     (hcommB : ∀ b' ∈ B, b' * (k : Ω) = (k : Ω) * b') :
     (k : Ω) ∈ B := by
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have hkelem : (k : Ω) ∈ (B ⊔ Subgroup.zpowers (k : Ω) : Subgroup Ω) :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers (k : Ω))
   have hBelem : IsElemAbelian p (B ⊔ Subgroup.zpowers (k : Ω)) := by
@@ -483,7 +483,7 @@ theorem S172DModel.le_inf_sup_inf_centralizer_of_inner [Finite Ω] {p : ℕ}
       a * k⁻¹ ∈ Subgroup.centralizer (M.piImg K : Set Γ)) :
     B ≤ (B ⊓ K) ⊔ (B ⊓ Subgroup.centralizer (K : Set Ω)) := by
   classical
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have hKnorm : B ≤ Subgroup.normalizer (K : Set Ω) := B_le_normalizer_K hcfg
   intro b hb
   have hbbar : ((M.β ⟨b, hb⟩ : ↥Ghat) : Γ) ∈ M.barB :=
@@ -513,12 +513,12 @@ private lemma exists_twoElement_pow_of_even_order {G : Type*} [Group G] [Finite 
 
 theorem S172DModel.exists_twoGroup_le_of_two_dvd_card_piImg [Finite Ω] {p : ℕ}
     {N D K : Subgroup Ω} {x : Ω}
-    (hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat) (hKS : K ≤ S)
+    (_hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat) (hKS : K ≤ S)
     (hK2 : 2 ∣ Nat.card (M.piImg K)) :
     ∃ U : Subgroup Ω, U ≤ K ∧ U ≠ ⊥ ∧ IsPGroup 2 U := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(M.piImg K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(M.piImg K) :=
     Finite.of_surjective (mapToPiImg M K hKS) (mapToPiImg_surjective M K hKS)
   obtain ⟨r, hr2⟩ := exists_prime_orderOf_dvd_card' 2 hK2
   obtain ⟨g, hg, hgΓ⟩ := Subgroup.mem_map.1 r.2

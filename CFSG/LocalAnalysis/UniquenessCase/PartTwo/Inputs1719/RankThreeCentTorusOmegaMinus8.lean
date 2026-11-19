@@ -78,7 +78,7 @@ private theorem omD1_pow {F : Type} [Field F] {ζ : Fˣ} {r : ℕ} (hζ : ζ ^ r
   intro j
   by_cases hj : j = 2
   · simp [omD1, hj]
-  · simp only [omD1, if_neg hj]
+  · simp only [omD1, ite_eq_right hj]
     exact hζ
 
 private theorem omD2_pow {F : Type} [Field F] {ζ : Fˣ} {r : ℕ} (hζ : ζ ^ r = 1) :

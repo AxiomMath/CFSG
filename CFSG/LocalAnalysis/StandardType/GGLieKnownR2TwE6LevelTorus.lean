@@ -106,7 +106,7 @@ private theorem l10se2b1_chiS_eq
 private theorem l10se2b1_zpow_two_ne_one
     {k : Type} [Field k] [CharP k 2] (θ : k →+* k) {μ : (fixedSubfield θ)ˣ}
     (hμ : μ ≠ 1) : μ ^ (2 : ℤ) ≠ 1 := by
-  haveI : CharP ↥(fixedSubfield θ) 2 := CharP.subring k 2 (fixedSubfield θ).toSubring
+  have : CharP ↥(fixedSubfield θ) 2 := CharP.subring k 2 (fixedSubfield θ).toSubring
   intro h
   have hsq : ((μ : fixedSubfield θ)) ^ 2 = 1 := by
     have := congrArg (fun u : (fixedSubfield θ)ˣ => (u : fixedSubfield θ)) h

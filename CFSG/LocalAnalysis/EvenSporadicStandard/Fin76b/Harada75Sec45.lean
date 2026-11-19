@@ -54,7 +54,7 @@ theorem card_normalizer_le_32_aux (hS : IsPGroup 2 S) {A E : Subgroup S}
   obtain ⟨t, htNN, htN⟩ : ∃ t ∈ Subgroup.normalizer (N : Set S), t ∉ N := by
     have hlt : N < Subgroup.normalizer (N : Set S) :=
       Group.normalizerCondition_of_isNilpotent N (lt_top_iff_ne_top.mpr hNtop)
-    exact SetLike.exists_of_lt hlt
+    exact _root_.IsConcreteLE.exists_of_lt hlt
   have htN_conj : ∀ n, n ∈ N ↔ t * n * t⁻¹ ∈ N := Subgroup.mem_normalizer_iff.mp htNN
   have htN_conj' : ∀ n ∈ N, t⁻¹ * n * t ∈ N := by
     intro n hn

@@ -31,7 +31,7 @@ theorem ten_le_ncard_of_invariant {𝒦 : Set (Subgroup A4)} (hfin : 𝒦.Finite
 theorem eq_one_of_invariant (f : A4 →* Multiplicative (ZMod 3))
     (hf : ∀ k x, f (sg k x) = f x) : f = 1 := by
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard3 : Nat.card (Multiplicative (ZMod 3)) = 3 :=
     (Nat.card_congr Multiplicative.toAdd).trans (Nat.card_zmod 3)
   have hker : f.ker.index = 3 := by

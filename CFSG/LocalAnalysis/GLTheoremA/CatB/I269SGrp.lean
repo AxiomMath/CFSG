@@ -39,7 +39,7 @@ theorem i269s_prime_dvd_720 {r : ℕ} (hr : r.Prime) (h : r ∣ 720) : r = 2 ∨
   · exact Or.inr (Or.inr ((Nat.prime_dvd_prime_iff_eq hr (by norm_num)).1 h1))
 
 theorem i269s_fixed_sp4_solvable {G : Type} [Group G] [Finite G] (F D : Subgroup G)
-    (hF : Nat.card F = 720) (hDF : D ≤ F) (eD : ↥D ≃* alternatingGroup (Fin 6))
+    (hF : Nat.card F = 720) (_hDF : D ≤ F) (eD : ↥D ≃* alternatingGroup (Fin 6))
     (hD : ∀ w ∈ F, ∀ q : ℕ, q.Prime → q ≠ 2 → w ^ q = 1 → w ∈ D)
     (y : G) (hyF : y ∈ F) (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) :
     Group.IsSolvable ↥(Subgroup.centralizer ({y} : Set G) ⊓ F) := by
@@ -49,7 +49,7 @@ theorem i269s_fixed_sp4_solvable {G : Type} [Group G] [Finite G] (F D : Subgroup
   have hdvd720 : Nat.card ↥C ∣ 720 := hF ▸ Subgroup.card_dvd_of_le hCF
   have h5 : ¬ 5 ∣ Nat.card ↥C := by
     intro hdvd
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 5 hdvd
     have htC : (t : G) ∈ Subgroup.centralizer ({y} : Set G) := (t.2 : (t : G) ∈ C).1
     have htF : (t : G) ∈ F := (t.2 : (t : G) ∈ C).2

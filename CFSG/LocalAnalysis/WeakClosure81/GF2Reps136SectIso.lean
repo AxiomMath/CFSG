@@ -73,10 +73,12 @@ private noncomputable def w1369q_mkHom (U C M : Subgroup W) (hM : M ≤ U) :
   map_one' := Subtype.ext rfl
   map_mul' m n := Subtype.ext rfl
 
+omit [Finite W] in
 private theorem w1369q_mkHom_coe (U C M : Subgroup W) (hM : M ≤ U) (m : ↥M) :
     ((w1369q_mkHom U C M hM m : ↥(w1369_im U C M)) : Sect U C) =
       QuotientGroup.mk ⟨(m : W), hM m.2⟩ := rfl
 
+omit [Finite W] in
 private theorem w1369q_mkHom_surj (U C M : Subgroup W) (hM : M ≤ U) :
     Function.Surjective (w1369q_mkHom U C M hM) := by
   intro y
@@ -88,6 +90,7 @@ private theorem w1369q_mkHom_surj (U C M : Subgroup W) (hM : M ≤ U) :
   rw [w1369q_mkHom_coe]
   simpa using huy
 
+omit [Finite W] in
 private theorem w1369q_mkHom_ker (U C M : Subgroup W) (hM : M ≤ U) (m : ↥M) :
     w1369q_mkHom U C M hM m = 1 ↔ (m : W) ∈ C := by
   have hcoe : ((w1369q_mkHom U C M hM m : ↥(w1369_im U C M)) : Sect U C) =
@@ -107,6 +110,7 @@ private theorem w1369q_mkHom_ker (U C M : Subgroup W) (hM : M ≤ U) (m : ↥M) 
     rw [QuotientGroup.eq_one_iff]
     exact Subgroup.mem_subgroupOf.mpr hm
 
+omit [Finite W] in
 private theorem w1369q_mkHom_mem_bot_iff (U C M : Subgroup W) (hM : M ≤ U) (m : ↥M) :
     ((w1369q_mkHom U C M hM m : ↥(w1369_im U C M)) : Sect U C) ∈
       (⊥ : Subgroup (Sect U C)) ↔ (m : W) ∈ C := by
@@ -119,6 +123,7 @@ private theorem w1369q_mkHom_mem_bot_iff (U C M : Subgroup W) (hM : M ≤ U) (m 
       (w1369q_mkHom_ker U C M hM m).mpr h]
     rfl
 
+omit [Finite W] in
 private theorem w1369q_mem_im_iff {U C M : Subgroup W} (hM : M ≤ U) {x : Sect U C} :
     x ∈ w1369_im U C M ↔
       ∃ m : ↥M, (QuotientGroup.mk ⟨(m : W), hM m.2⟩ : Sect U C) = x := by
@@ -130,6 +135,7 @@ private theorem w1369q_mem_im_iff {U C M : Subgroup W} (hM : M ≤ U) {x : Sect 
   · rintro ⟨m, rfl⟩
     exact ⟨⟨(m : W), hM m.2⟩, Subgroup.mem_subgroupOf.mpr m.2, rfl⟩
 
+omit [Finite W] in
 private theorem w1369q_mk_mem_bot_iff {U C : Subgroup W} {u : ↥U} :
     (QuotientGroup.mk u : Sect U C) ∈ (⊥ : Subgroup (Sect U C)) ↔ (u : W) ∈ C := by
   rw [Subgroup.mem_bot, QuotientGroup.eq_one_iff]
@@ -137,6 +143,7 @@ private theorem w1369q_mk_mem_bot_iff {U C : Subgroup W} {u : ↥U} :
   · intro h; exact Subgroup.mem_subgroupOf.mp h
   · intro h; exact Subgroup.mem_subgroupOf.mpr h
 
+omit [Finite W] in
 private theorem w1369q_mk_mul_inv_mem_bot_iff {U C : Subgroup W} (u v : ↥U) :
     (QuotientGroup.mk u : Sect U C) * (QuotientGroup.mk v)⁻¹ ∈
         (⊥ : Subgroup (Sect U C)) ↔ (u : W) * (v : W)⁻¹ ∈ C := by
@@ -148,6 +155,7 @@ private theorem w1369q_mk_mul_inv_mem_bot_iff {U C : Subgroup W} (u v : ↥U) :
   · intro h
     exact Subgroup.mem_subgroupOf.mpr (by simpa using h)
 
+omit [Finite W] in
 private theorem w1369q_beta_congr {A C : Subgroup W} {β : ↥A →* W}
     (hβC : ∀ a : ↥A, β a ∈ C ↔ (a : W) ∈ C) {a a' : ↥A}
     (h : (a : W) * (a' : W)⁻¹ ∈ C) : β a * (β a')⁻¹ ∈ C := by

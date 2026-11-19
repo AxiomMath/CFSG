@@ -120,7 +120,7 @@ theorem chiHom_apply (χ : Fin Tag.E6.rank → ZMod 3) (v : Fin Tag.E6.rank → 
 
 theorem chiHom_single (χ : Fin Tag.E6.rank → ZMod 3) (j : Fin Tag.E6.rank) :
     chiHom χ (Pi.single j 1) = χ j := by
-  rw [chiHom_apply, Finset.sum_eq_single j (fun i _ hi => by simp [Pi.single_apply, hi])
+  rw [chiHom_apply, Finset.sum_eq_single j (fun i _ hi => by simp [hi])
     (by simp)]
   simp
 
@@ -136,7 +136,7 @@ theorem chiConj_apply (χ : Fin Tag.E6.rank → ZMod 3) (g : WeylGroup Tag.E6)
   rw [Finset.smul_sum, map_sum, chiHom_apply]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [smul_comm, map_zsmul]
-  simp only [chiConj, zsmul_eq_mul, smul_eq_mul]
+  simp only [chiConj]
   ring
 
 theorem tauChars_conj {g y : WeylGroup Tag.E6} (hg : g ∈ nodeSub) {γ : Fin Tag.E6.rank → ℤ}

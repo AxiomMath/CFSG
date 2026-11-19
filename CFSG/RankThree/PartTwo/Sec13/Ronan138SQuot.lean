@@ -30,7 +30,7 @@ theorem actsPGL_of_maximal {G : Type} [Group G] [Finite G] {K A : Subgroup G} {e
   obtain ⟨Φ₀, hΦ₀⟩ := Sec21.Item211Proof.exists_lEquiv hAN
   have hLq : CFSG.IsQuasisimple (Sec21.Item211Proof.lOne K A) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv Φ₀ hKq
-  haveI := Sec21.Item211Proof.normal_lOne hAN
+  have := Sec21.Item211Proof.normal_lOne hAN
   have hmax := Sec21.Item211Proof.maximal_aOne (L := K) hAe hAmax
   have hcard₁ : Nat.card (Sec21.Item211Proof.aOne K A) = 27 := by
     rw [← Nat.card_congr (Sec21.Item211Proof.aEquiv (L := K) hA3).toEquiv, hA27]

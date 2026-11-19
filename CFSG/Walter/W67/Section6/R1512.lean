@@ -81,7 +81,7 @@ theorem pPrimeCore_eq_bot_of_R3
     rw [eq_bot_iff]
     intro x hx
     have hxS : x ∈ (fr.S : Subgroup L) := hCS ▸ fr.E_le_CS hx
-    exact eq_one_of_odd_of_isPGroup fr.S.isPGroup' hxS (odd_orderOf_of_mem_oddPart hx)
+    exact eq_one_of_odd_of_isPGroup fr.S.isPGroup hxS (odd_orderOf_of_mem_oddPart hx)
   rw [eq_bot_iff, ← hE]
   exact hle
 
@@ -264,7 +264,7 @@ theorem exists_three_seven (hR : RFacts) (hL : JRGroup L) (hq : hL.q = 3) :
       intro s hs
       exact Subgroup.mem_centralizer_singleton_iff.mp (hle hs)
     rw [hCS] at hgC
-    have := eq_one_of_odd_of_isPGroup S₂.isPGroup' hgC hgodd
+    have := eq_one_of_odd_of_isPGroup S₂.isPGroup hgC hgodd
     rw [this, orderOf_one] at hg1
     exact hg1 rfl
   have hcard8 : ∀ g : L, Odd (orderOf g) → orderOf g ≠ 1 →

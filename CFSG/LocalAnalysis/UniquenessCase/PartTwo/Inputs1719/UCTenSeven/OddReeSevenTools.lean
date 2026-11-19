@@ -107,7 +107,7 @@ theorem normalizer_le_of_index_eq_twentyOne {X : Type} [Group X] [Finite X]
   have hcop : Nat.Coprime (Nat.card T) (Nat.card B) := by
     rw [hT8, hB7]
     norm_num
-  have hTB : T ⊓ B = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hTB : T ⊓ B = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hinj : Function.Injective φ := by
     intro x y hxy
     have hxy' : (QuotientGroup.mk' Tn) (x : N) = (QuotientGroup.mk' Tn) (y : N) := hxy

@@ -18,13 +18,13 @@ theorem a2div_of {α β : Fin Tag.E6.rank → ℤ} (ha : (3 : ℤ) ∣ α 3) (hb
     (hd : (3 : ℤ) ∣ (α + β) 3) : ∀ γ ∈ a2Roots α β, (3 : ℤ) ∣ γ 3 := by
   intro γ hγ
   simp only [a2Roots, Set.mem_insert_iff, Set.mem_singleton_iff] at hγ
-  rcases hγ with rfl | rfl | rfl | rfl | rfl | rfl <;> simp_all [Pi.neg_apply] <;> omega
+  rcases hγ with rfl | rfl | rfl | rfl | rfl | rfl <;> simp_all [Pi.neg_apply]; omega
 
 theorem a2none_of {α β : Fin Tag.E6.rank → ℤ} (ha : ¬ (3 : ℤ) ∣ α 3) (hb : ¬ (3 : ℤ) ∣ β 3)
     (hd : ¬ (3 : ℤ) ∣ (α + β) 3) : ∀ γ ∈ a2Roots α β, ¬ (3 : ℤ) ∣ γ 3 := by
   intro γ hγ
   simp only [a2Roots, Set.mem_insert_iff, Set.mem_singleton_iff] at hγ
-  rcases hγ with rfl | rfl | rfl | rfl | rfl | rfl <;> simp_all [Pi.neg_apply] <;> omega
+  rcases hγ with rfl | rfl | rfl | rfl | rfl | rfl <;> simp_all [Pi.neg_apply]; omega
 
 theorem sum_of_k2B {t : List ℕ} {a b d m : ℕ} (h : k2B t a b d m = true) :
     a < 72 ∧ b < 72 ∧ d < 72 ∧

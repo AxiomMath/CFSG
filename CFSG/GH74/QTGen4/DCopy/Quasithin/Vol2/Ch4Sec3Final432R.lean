@@ -37,7 +37,7 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin
 
 theorem stmt4_3_2_of_rest_F4
     (hC48 : ∀ (G : Type) [Group G] [CFSG.GH74.QTGen4.Finite4 G], ASC48Statement G) (hM2223 : Insp436M22M23)
-    (h134 : MS93.AS_C_1_34_corr_F4) (hZ : Gap437Sp4Z) : Stmt4_3_2_F4 := by
+    (h134 : MS93.AS_C_1_34_corr_F4) (_hZ : Gap437Sp4Z) : Stmt4_3_2_F4 := by
   have hR : L2RankOneSylowFact := NQCat.l2RankOneSylowFact_holds
   have hMult : Sp4MultTrivial :=
     sp4MultTrivial_of CFSG.Milestones.cl_lit_griess_schur_multipliers_all_models_statement

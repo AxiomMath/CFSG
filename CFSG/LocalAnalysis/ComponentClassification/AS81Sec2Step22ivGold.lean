@@ -221,7 +221,7 @@ theorem exists_sylow_eq : ∃ P : Sylow 2 G, (P : Subgroup G) = T₁ := by
     refine le_antisymm (fun y hy => ?_) hP
     have : (⟨y, hy⟩ : ↥(P : Subgroup G)) ∈ H := h ▸ mem_top _
     exact this
-  have : Group.IsNilpotent ↥(P : Subgroup G) := IsPGroup.isNilpotent P.isPGroup'
+  have : Group.IsNilpotent ↥(P : Subgroup G) := IsPGroup.isNilpotent P.isPGroup
   have hlt := Group.normalizerCondition_of_isNilpotent H (lt_top_iff_ne_top.mpr hHtop)
   obtain ⟨s, hsN, hsH⟩ := IsConcreteLE.exists_of_lt hlt
   have hsT : ∀ t ∈ T₁, (s : G) * t * (s : G)⁻¹ ∈ T₁ := by
@@ -240,7 +240,7 @@ theorem exists_sylow_eq : ∃ P : Sylow 2 G, (P : Subgroup G) = T₁ := by
     exact (normalizer (W : Set G)).inv_mem_iff.mp ((rightConjugate_eq_self_iff W _).mp h)
   have hle : T₁ ⊔ zpowers (s : G) ≤ (P : Subgroup G) := sup_le hP (zpowers_le.mpr s.2)
   have heq := hT₁.eq_of_le le_sup_left (sup_le hT₁.le (zpowers_le.mpr hsW))
-    (P.isPGroup'.to_le hle)
+    (P.isPGroup.to_le hle)
   have hsT₁ : (s : G) ∈ T₁ := heq ▸ mem_sup_right (mem_zpowers (s : G))
   exact hsH (mem_subgroupOf.mpr hsT₁)
 

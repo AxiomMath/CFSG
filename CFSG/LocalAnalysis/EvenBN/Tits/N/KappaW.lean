@@ -54,7 +54,7 @@ theorem mem_sup_zpowers_cases {G : Type*} [Group G] {F : Subgroup G} {t : G}
         _ = f * t := htF f hf
 
 theorem core {G : Type*} [Group G] (F : Subgroup G) (t v10 y g : G)
-    (hF2 : ∀ a ∈ F, a * a = 1) (hFc : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a)
+    (hF2 : ∀ a ∈ F, a * a = 1) (_hFc : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a)
     (ht2 : t * t = 1) (htF : ∀ a ∈ F, t * a = a * t)
     (hCB : ∀ h : G, (∀ a ∈ F, h * a = a * h) → h * t = t * h → h ∈ F ⊔ zpowers t)
     (hv10 : v10 ∈ F) (hyF : y ∈ normalizer (F : Set G)) (hyt : y * t = t * y)
@@ -172,8 +172,8 @@ theorem conj_eq_of_mul_eq' {a y y' : P} (h : a * y = y' * a) : a * y * a⁻¹ = 
 theorem kapS_conj {x1 x4 x7 x9 x10 x11 x12 : P}
     (s10 : x10 * x10 = 1) (s11 : x11 * x11 = 1) (s12 : x12 * x12 = 1)
     (z1 : x12 * x1 = x1 * x12) (z4 : x12 * x4 = x4 * x12) (z10 : x12 * x10 = x10 * x12)
-    (z11 : x12 * x11 = x11 * x12)
-    (c111 : x11 * x1 = x1 * x11) (c114 : x11 * x4 = x4 * x11) (c1110 : x11 * x10 = x10 * x11)
+    (_z11 : x12 * x11 = x11 * x12)
+    (c111 : x11 * x1 = x1 * x11) (c114 : x11 * x4 = x4 * x11) (_c1110 : x11 * x10 = x10 * x11)
     (c104 : x10 * x4 = x4 * x10 * x12) (c101 : x10 * x1 = x1 * x10 * x11)
     (c94 : x9 * x4 = x4 * x9) (c91 : x9 * x1 = x1 * x9 * (x10 * (x11 * x12)))
     (c74 : x7 * x4 = x4 * x7 * (x10 * (x11 * x12))) (c71 : x7 * x1 = x1 * x7) :
@@ -466,7 +466,7 @@ theorem kS_conj_U11 (d : Data G) {u : G} (hu : u ∈ d.s56U11) : d.kS * u * d.kS
 theorem E_ident {A : Subgroup G} (hc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x)
     {a v10 u v11 z : G} (ha : a ∈ A) (h10 : v10 ∈ A) (hu : u ∈ A) (h11 : v11 ∈ A) (hz : z ∈ A)
     (ha2 : a * a = 1) : (a * (v10 * u)) * (a * v11 * z) = (v10 * v11 * z) * u := by
-  haveI : IsMulCommutative A := ⟨⟨fun x y => Subtype.ext (hc x.1 x.2 y.1 y.2)⟩⟩
+  have : IsMulCommutative A := ⟨⟨fun x y => Subtype.ext (hc x.1 x.2 y.1 y.2)⟩⟩
   have key : ((⟨a, ha⟩ : A) * ((⟨v10, h10⟩ : A) * ⟨u, hu⟩)) * ((⟨a, ha⟩ : A) * ⟨v11, h11⟩ * ⟨z, hz⟩)
       = ((⟨v10, h10⟩ : A) * ⟨v11, h11⟩ * ⟨z, hz⟩) * ⟨u, hu⟩ := by
     have h2 : (⟨a, ha⟩ : A) * ⟨a, ha⟩ = 1 := Subtype.ext ha2

@@ -56,7 +56,7 @@ theorem q_ψV_symm (v : V12) :
     have hq0 : ∀ u : h.setting.Qt, h.setting.q u = 0 := fun u => by
       have := hall (D.ψV u)
       rwa [AddEquiv.symm_apply_apply] at this
-    haveI : Module.Finite (ZMod 2) h.setting.Qt := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) h.setting.Qt := Module.Finite.of_finite
     have hpos : 0 < finrank (ZMod 2) h.setting.Qt := by
       rw [h.setting.finrank_Qt_eq_two_mul_width, h.setting_width]
       norm_num

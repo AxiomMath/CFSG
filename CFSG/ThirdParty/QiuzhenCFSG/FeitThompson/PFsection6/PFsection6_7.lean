@@ -155,8 +155,8 @@ theorem theorem_6_7_character_one_ne_zero_of_irreducible
     (hψ : Section1.IsIrreducibleCharacterOnGroup ψ) :
     ψ 1 ≠ 0 := by
   rcases hψ with ⟨n, ρ, hρ, hψeq⟩
-  haveI : Representation.IsIrreducible ρ := hρ
-  haveI : Nontrivial (Fin n → ℂ) := Theory.Character.irreducible_nontrivial (ρ := ρ)
+  have : Representation.IsIrreducible ρ := hρ
+  have : Nontrivial (Fin n → ℂ) := Theory.Character.irreducible_nontrivial (ρ := ρ)
   have hdim_pos : 0 < Module.finrank ℂ (Fin n → ℂ) :=
     (Module.finrank_pos_iff (R := ℂ) (M := Fin n → ℂ)).2 inferInstance
   have hdim_ne : ((Module.finrank ℂ (Fin n → ℂ) : ℂ) ≠ 0) := by
@@ -179,7 +179,7 @@ theorem theorem_6_7_card_conjClass_one
     Nat.card (ConjClasses.mk (1 : G)).carrier = 1 := by
   classical
   let c : ConjClasses G := ConjClasses.mk (1 : G)
-  haveI : Unique c.carrier :=
+  have : Unique c.carrier :=
     { default := ⟨1, (ConjClasses.mem_carrier_iff_mk_eq).2 rfl⟩
       uniq := by
         intro x
@@ -212,7 +212,7 @@ theorem theorem_6_7_classSumScalar_one
     (ConjClasses.mem_carrier_iff_mk_eq).2 rfl
   have hscalar := Theory.Character.classSumScalar_eq_card_mul_character_div
     (ρ := ρ) (ConjClasses.mk (1 : G)) hmem
-  haveI : Nontrivial V := Theory.Character.irreducible_nontrivial (ρ := ρ)
+  have : Nontrivial V := Theory.Character.irreducible_nontrivial (ρ := ρ)
   have hdim_pos : 0 < Module.finrank ℂ V :=
     (Module.finrank_pos_iff (R := ℂ) (M := V)).2 inferInstance
   have hchar_ne : ρ.character 1 ≠ 0 := by
@@ -323,7 +323,7 @@ theorem theorem_6_7_value_rat_of_constant_on_nonidentity
   rcases theorem_6_7_degree_nat_of_irreducible hψ with ⟨n, hn⟩
   have hcard_pos : 0 < Nat.card Z := Nat.card_pos
   have hC_ne : (Nat.card Z : ℂ) ≠ 0 := by exact_mod_cast hcard_pos.ne'
-  haveI : Nontrivial Z := ⟨⟨z, 1, hz⟩⟩
+  have : Nontrivial Z := ⟨⟨z, 1, hz⟩⟩
   have hft_gt : 1 < @Fintype.card Z (Fintype.ofFinite Z) :=
     @Fintype.one_lt_card Z (Fintype.ofFinite Z) inferInstance
   have hcard_eq : Nat.card Z = @Fintype.card Z (Fintype.ofFinite Z) :=
@@ -714,7 +714,7 @@ theorem theorem_6_7_mem_sylow_of_mem_L_order
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPL).2 hLleNorm
   have hPLnormal : ((PL : Subgroup L).Normal) := by
     simpa [PL] using hPLnormal_sub
-  letI : Unique (Sylow p L) := Sylow.unique_of_normal PL hPLnormal
+  let : Unique (Sylow p L) := Sylow.unique_of_normal PL hPLnormal
   let yL : L := ⟨y, hyL⟩
   have hyorderL : ∃ k, orderOf yL = p ^ k := by
     rcases hyorder with ⟨k, hk⟩
@@ -755,7 +755,7 @@ theorem theorem_6_7_orderOf_eq_p_pow_of_class_meets
     (hZcent hzZ).1
   have hzP_order :=
     (IsPGroup.iff_orderOf (p := p) (G := (P : Subgroup G))).1
-      P.isPGroup' ⟨z, hzP⟩
+      P.isPGroup ⟨z, hzP⟩
   rcases hzP_order with ⟨k, hk⟩
   refine ⟨k, ?_⟩
   rw [horder_yz]
@@ -814,7 +814,7 @@ theorem theorem_6_7_1
   intro hbase hdata i j s hi hj hs
   classical
   let Ω := {uv : G × G // uv.1 ∈ i.carrier ∧ uv.2 ∈ j.carrier ∧ uv.1 * uv.2 ∈ s.carrier}
-  letI : MulAction (P : Subgroup G) Ω :=
+  let : MulAction (P : Subgroup G) Ω :=
     { smul := fun q w =>
         ⟨((q : G) * w.1.1 * (q : G)⁻¹, (q : G) * w.1.2 * (q : G)⁻¹), by
           rcases w.2 with ⟨hu, hv, hprod⟩
@@ -918,7 +918,7 @@ theorem theorem_6_7_disjoint_classSumScalar_term_congr_zero
   obtain ⟨x, hxmk⟩ := ConjClasses.exists_rep s
   have hxs : x ∈ s.carrier := (ConjClasses.mem_carrier_iff_mk_eq).2 hxmk
   have hscalar := Theory.Character.classSumScalar_eq_card_mul_character_div (ρ := ρ) s hxs
-  haveI : Nontrivial V := Theory.Character.irreducible_nontrivial (ρ := ρ)
+  have : Nontrivial V := Theory.Character.irreducible_nontrivial (ρ := ρ)
   have hdim_pos : 0 < Module.finrank ℂ V :=
     (Module.finrank_pos_iff (R := ℂ) (M := V)).2 inferInstance
   have hchar_ne : ρ.character 1 ≠ 0 := by
@@ -1257,7 +1257,7 @@ theorem theorem_6_7_2
   rcases h with ⟨hbase, hψ, _hconst⟩
   have hψIrred : Section1.IsIrreducibleCharacterOnGroup ψ := hψ
   rcases hψ with ⟨n, ρ, hρ, hψeq⟩
-  haveI : Representation.IsIrreducible ρ := hρ
+  have : Representation.IsIrreducible ρ := hρ
   let C : Finset (ConjClasses G) :=
     @Finset.univ (ConjClasses G) (Fintype.ofFinite (ConjClasses G))
   let c0 : ConjClasses G := ConjClasses.mk (1 : G)

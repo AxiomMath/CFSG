@@ -206,7 +206,7 @@ theorem card_le_and_normalizes_of_le_hatAut [Finite K] [CharP K 2] (h3 : 3 ∣ N
   have hQ : (Q₀ : Subgroup Y).map f = ⊤ := by
     exact ((Q₀.mapSurjective hfs).maximal_isPGroup.eq_of_ge hXp le_top).symm
   set P : Subgroup (hatGroup .E6 K) := (Q₀ : Subgroup Y).map Y.subtype with hP
-  have hP3 : IsPGroup 3 P := Q₀.isPGroup'.map _
+  have hP3 : IsPGroup 3 P := Q₀.isPGroup.map _
   have hPX : P.map κ = X := by
     have hcomp : κ.comp Y.subtype = X.subtype.comp f := MonoidHom.ext fun _ => rfl
     rw [hP, Subgroup.map_map, hcomp, ← Subgroup.map_map, hQ, ← MonoidHom.range_eq_map,

@@ -28,7 +28,7 @@ theorem clause_seven_of (h5 : L35OutSolvablePair)
     ∀ (s : Bool) (p : ℕ), p.Prime → p ≠ 2 → IsPSLEps3 s p 1 ↥(CFSG.generalizedFitting G) →
       E1.nParam (⊤ : Subgroup G) = 1 := by
   intro s p hp hp2 hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hT' := Seven.quasithinIsSylowTwo_of_isSylowIn_top hT
   have hmod : p % 4 = 1 ∨ p % 4 = 3 := by
     have h2 : p % 2 = 1 := Nat.odd_iff.mp (hp.odd_of_ne_two hp2)

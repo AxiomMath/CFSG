@@ -34,13 +34,13 @@ theorem shift_cube (x y z : K) :
     (!![0, x, 0; 0, 0, y; z, 0, 0] : Matrix (Fin 3) (Fin 3) K) ^ 3 = (x * y * z) • 1 := by
   rw [pow_succ, pow_succ, pow_one]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> first | ring1 | simp | grind
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> first | ring1
 
 theorem shift_cube' (x y z : K) :
     (!![0, 0, x; y, 0, 0; 0, z, 0] : Matrix (Fin 3) (Fin 3) K) ^ 3 = (x * y * z) • 1 := by
   rw [pow_succ, pow_succ, pow_one]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> first | ring1 | simp | grind
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> first | ring1 | grind
 
 section Torus
 
@@ -74,7 +74,7 @@ theorem torus_A (bar : K →+* K) (hbar : ∀ x, bar x = x ^ 8)
     by_contra hcon
     push Not at hcon
     have := congrFun (congrFun hst 0) 0
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hcon] at this
+    simp [Matrix.mul_apply, hcon] at this
   obtain ⟨j0, hj0⟩ := hrow
   have hl' : l = av ω j0 := by
     have h1 : av ω j0 - l * av ω 0 = 0 := (mul_eq_zero.1 (E 0 j0)).resolve_left hj0
@@ -115,7 +115,7 @@ theorem torus_A (bar : K →+* K) (hbar : ∀ x, bar x = x ^ 8)
       simp only [Matrix.diagonal_apply_eq, Matrix.one_apply_eq, Pi.pow_apply]
       rw [← this]
       ring
-    · simp [Matrix.diagonal_apply_ne _ hij, hij]
+    · simp [hij]
   ·
     have hl1 : l = ω := by simpa [av] using hl'
     have hsupp : ∀ i j, j ≠ i + 1 → s i j = 0 := fun i j hij =>

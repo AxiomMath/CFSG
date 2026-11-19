@@ -42,11 +42,11 @@ theorem wcgapsp_le_oTwoMod_of_isPGroup {K W : Subgroup G} (hWK : W ≤ K)
 
 theorem wcgapsp_le_of_surj_simple {K P Q R : Subgroup G} [Finite G]
     (hKP : K ≤ P) (hQn : (Q.subgroupOf P).Normal) (hQodd : Odd (Q.relIndex P))
-    (hRK : R ≤ K) (hR2 : IsPGroup 2 R)
+    (_hRK : R ≤ K) (hR2 : IsPGroup 2 R)
     {H : Type*} [Group H] (q : ↥K →* H) (hq : Function.Surjective q)
     (hqker : q.ker = R.subgroupOf K) (hHsimple : IsSimpleGroup H)
     (hHeven : Even (Nat.card H)) : K ≤ Q := by
-  haveI : (Q.subgroupOf P).Normal := hQn
+  have : (Q.subgroupOf P).Normal := hQn
   have hRn : (R.subgroupOf K).Normal := hqker ▸ MonoidHom.normal_ker q
   let ψ : ↥K →* (↥P ⧸ (Q.subgroupOf P)) :=
     (QuotientGroup.mk' (Q.subgroupOf P)).comp (Subgroup.inclusion hKP)

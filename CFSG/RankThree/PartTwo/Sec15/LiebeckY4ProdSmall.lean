@@ -57,7 +57,7 @@ private theorem fixA6Cover_core {X : Type} [Group X] (hperf : Group.IsPerfect X)
     (φ : X ⧸ Subgroup.center X ≃* alternatingGroup (Fin 6))
     (σ : MulAut X) (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (y : X)
     (hy : y⁻¹ * σ y ∈ Subgroup.center X) : y ^ 3 ∈ Subgroup.center X := by
-  haveI := hperf
+  have := hperf
   let Φ : MulAut X →* MulAut (alternatingGroup (Fin 6)) :=
     (MulAut.congr φ).toMonoidHom.comp
       (ComponentClassification.PerfectAutomorphisms.centerQuotientHom X)
@@ -168,7 +168,7 @@ end Bridge
 
 theorem step148ProdBridge_holds : Step148ProdBridge := by
   intro G _ _ A c L h M hM B hB
-  letI := ker148_normal hM.2
+  let := ker148_normal hM.2
   intro hY
   have hA := h.isE27
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := hA.1.2

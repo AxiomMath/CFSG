@@ -26,7 +26,7 @@ theorem ggTablePRow_fieldTwo {p : ℕ} {labJ labK : LargeEvenLabel} (hp : p.Prim
   have e2 : (nJ = 1) = False := eq_false (by omega)
   have e3 : (1 = 3 * nJ) = False := eq_false (by omega)
   simp only [GGTablePRow, LargeEvenLabel.mk.injEq, e1, e2, e3, and_false, false_and, false_or,
-    or_false, and_true, true_and, eq_self_iff_true] at hrow
+    or_false, and_true] at hrow
   have hpr3 : p ∣ 3 → p = 3 := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1
   rcases hrow with ⟨-, -, hrJ, ⟨-, rfl, rfl, -, hp1⟩ | ⟨rfl, hr, -, hp3⟩⟩ |
       ⟨⟨-, -, -⟩, rfl, rfl, rfl⟩ | ⟨⟨-, -, -⟩, -, -, -, h12⟩ | ⟨-, hp9, -, rfl, hn3⟩

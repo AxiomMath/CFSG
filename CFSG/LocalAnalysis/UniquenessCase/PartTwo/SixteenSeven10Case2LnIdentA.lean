@@ -116,12 +116,12 @@ theorem s16c1610_pi0_smul_b1_add_pi1_smul_b2 (x : ↥(CFSG.Quasithin.permCore 3)
   map_add' p q := by
     obtain ⟨x, y⟩ := p
     obtain ⟨x', y'⟩ := q
-    simp only [Prod.fst_add, Prod.snd_add, TensorProduct.tmul_add, TensorProduct.add_tmul]
+    simp only [Prod.fst_add, Prod.snd_add, TensorProduct.tmul_add]
     abel
   map_smul' c p := by
     obtain ⟨x, y⟩ := p
     simp only [Prod.smul_fst, Prod.smul_snd, TensorProduct.tmul_smul, smul_add,
-      TensorProduct.smul_tmul, RingHom.id_apply]
+      RingHom.id_apply]
   invFun z :=
     (TensorProduct.lid (ZMod 2) (Fin m → ZMod 2) (s16c1610_pi0.rTensor (Fin m → ZMod 2) z),
       TensorProduct.lid (ZMod 2) (Fin m → ZMod 2) (s16c1610_pi1.rTensor (Fin m → ZMod 2) z))
@@ -141,8 +141,7 @@ theorem s16c1610_pi0_smul_b1_add_pi1_smul_b2 (x : ↥(CFSG.Quasithin.permCore 3)
           (s16c1610_pi0.rTensor (Fin m → ZMod 2) z)) +
         s16c1610_b2 ⊗ₜ[ZMod 2] (TensorProduct.lid (ZMod 2) (Fin m → ZMod 2)
           (s16c1610_pi1.rTensor (Fin m → ZMod 2) z)) = z := by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a c =>
         simp only [LinearMap.rTensor_tmul, TensorProduct.lid_tmul, TensorProduct.tmul_smul,
           TensorProduct.smul_tmul']
@@ -429,8 +428,7 @@ theorem s16c1610_permAct_eq (σ : Equiv.Perm (Fin 3)) (a : ↥(CFSG.Quasithin.pe
     rw [Fin.sum_univ_three] at hsum
     exact s16c1610_zmod_two_sum_zero _ _ _ hsum
   rw [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
-  simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    s16c1610_pi0, s16c1610_pi1, s16c1610_permMat]
+  simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, s16c1610_pi0, s16c1610_pi1, s16c1610_permMat]
   rw [CFSG.Quasithin.permAct]
   have key : ∀ w : Fin 3, (a : Fin 3 → ZMod 2) w =
       ![1, 0, 1] w * (a : Fin 3 → ZMod 2) 0 +

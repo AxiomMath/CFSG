@@ -25,6 +25,7 @@ section Native
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] [CharP K 2] in
 theorem apply_eq_of_mem_specialBlock_of_fixed {p : ℕ} {s : V ≃ₗ[K] V}
     (hs : OddOrderIsometry Q p s) {h : K[X]} (hh : h ∈ primaryFactors s.toLinearMap)
     (hne : h ≠ X - 1) {g : V ≃ₗ[K] V} (hg : g ∈ specialBlock Q s h) :
@@ -42,6 +43,7 @@ theorem apply_eq_of_mem_specialBlock_of_fixed {p : ℕ} {s : V ≃ₗ[K] V}
     rw [hbot] at hv
     rw [(Submodule.mem_bot K).mp hv, map_zero]
 
+omit [Finite K] in
 theorem commute_of_sign_transp (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hK1 : ∀ c : K, c ^ p = 1 → c = 1) {a b s : V ≃ₗ[K] V}
     (ha : a ∈ orthDerived Q) (hb : b ∈ orthDerived Q) (hs : s ∈ orthDerived Q)
@@ -158,7 +160,7 @@ private theorem rankOne_commute_sign_transp {G : Type} [Group G] {p : ℕ} [Fact
           ↥(orthDerived Q)) : V ≃ₗ[K] V)) :
     ∀ a ∈ ggRankOneIn X Bs φ₁, ∀ b ∈ ggRankOneIn X Bs φ₂, a * b = b * a := by
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hcv₁₂ : ∀ b, cv (φ₁ (φ₂ b)) = cv (φ₂ (φ₁ b)) := fun b => by
     rw [← MulAut.mul_apply, hcomm, MulAut.mul_apply]
   have hnot : ∀ m m' : Fin 3, π₂ m = m' → m ≠ m' → i₀ ≠ m := by
@@ -248,7 +250,7 @@ theorem plusMember_rankOne_commute {G : Type} [Group G] [Finite G] {p : ℕ} {Bs
     ∀ a ∈ ggRankOneIn X Bs φ, ∀ b ∈ ggRankOneIn X Bs φ', a * b = b * a := by
   obtain ⟨V, _, _, _, Q, ψΩ, τ, cv, hQ, -, -, -, -, hcvsurj, hU2, hA, -, hper⟩ :=
     plusMember_native hp hBs hNT hf hpq hker hrange hℓ hkerℓ hZX hrankℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     have h2 : (2 : ℕ) ∣ 1 :=
@@ -320,7 +322,7 @@ theorem ggOppPlus_label2_commute_of_frame {G : Type} [Group G] [Finite G] {p : �
   classical
   have hc : GGConfig p B Bs x L D J := hcfg.1.1
   obtain ⟨hp, hBs, hxBs, -, -⟩ := hc.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     have h2 : (2 : ℕ) ∣ 1 :=
@@ -459,7 +461,7 @@ theorem ggOppPlus_label2_commute_of_frame {G : Type} [Group G] [Finite G] {p : �
   have hclsk : ∀ k k' : Fin 3, (k = 2 ↔ k' = 2) →
       R.cls (φ (M'.simple (σ k))) = R.cls (φ (M'.simple (σ k'))) := by
     intro k k' hkk
-    fin_cases k <;> fin_cases k' <;> simp at hkk ⊢ <;> first | rfl | exact hcls01 | exact hcls01.symm
+    fin_cases k <;> fin_cases k' <;> simp at hkk ⊢ <;> first | exact hcls01 | exact hcls01.symm
   have hrefl₁ := ggCoxRefl_isReflection hpres.2 ⟨w₀, i₀, rfl⟩
   have hrefl₂ := ggCoxRefl_isReflection hpres.2 ⟨w₀, j₀, rfl⟩
   obtain ⟨k₁, v₁, hv₁⟩ := hconj _ hi hrefl₁
@@ -471,7 +473,7 @@ theorem ggOppPlus_label2_commute_of_frame {G : Type} [Group G] [Finite G] {p : �
     intro heq
     rw [hv₁, hv₂, hcardconj, hcardconj, hcardk, hcardk] at heq
     have hkk : k₁ = 2 ↔ k₂ = 2 := by
-      by_cases h₁ : k₁ = 2 <;> by_cases h₂ : k₂ = 2 <;> simp only [h₁, h₂, if_true, if_false] at heq
+      by_cases h₁ : k₁ = 2 <;> by_cases h₂ : k₂ = 2 <;> simp only [h₁, h₂, ite_true, ite_false] at heq
       · exact iff_of_true h₁ h₂
       · exact absurd heq.symm hsb
       · exact absurd heq hsb
@@ -481,12 +483,12 @@ theorem ggOppPlus_label2_commute_of_frame {G : Type} [Group G] [Finite G] {p : �
     have hmix : (i₀.val < 2 ↔ ¬ j₀.val < 2) := rk1c_f4_label_two (i₀, j₀) hl
     by_cases h₁ : i₀.val < 2
     · have h₂ : ¬ j₀.val < 2 := hmix.mp h₁
-      simp only [h₁, h₂, if_true, if_false] at hcl
+      simp only [h₁, h₂, ite_true, ite_false] at hcl
       exact absurd hcl (by decide)
     · have h₂ : j₀.val < 2 := by
         by_contra h₂
         exact h₁ (hmix.mpr h₂)
-      simp only [h₁, h₂, if_true, if_false] at hcl
+      simp only [h₁, h₂, ite_true, ite_false] at hcl
       exact absurd hcl (by decide)
   have hsij : CoxeterMatrix.F₄.simple i₀ * CoxeterMatrix.F₄.simple j₀ =
       CoxeterMatrix.F₄.simple j₀ * CoxeterMatrix.F₄.simple i₀ := by

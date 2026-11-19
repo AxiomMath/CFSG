@@ -11,6 +11,7 @@ namespace CFSG.KS.HNLocal.TreePf
 
 open CFSG.KC.Ord CFSG.KC.HNLocal CFSG.KS.Ord CFSG.KS.HNLocal Matrix Finset
 
+set_option exponentiation.threshold 399 in
 private theorem cm_M {CM3 M : Nat} (hcm : cmOK CM3 M = true) : M = 2 ^ 399 - 1 := by
   unfold cmOK at hcm
   have h := Nat.eq_of_beq_eq_true (GatPf.bAnd_iff.1 hcm).2
@@ -45,7 +46,7 @@ private theorem reindex {S : Finset ℕ} {rk : ℕ → ℕ} {n : ℕ} (hmap : �
 
 private theorem fiber {S : Finset ℕ} {rk : ℕ → ℕ} (hinj : Set.InjOn rk S) {t0 : ℕ}
     (ht0 : t0 ∈ S) (f : ℕ → ℕ) : ∑ t ∈ S.filter (fun t => rk t = rk t0), f t = f t0 :=
-  sum_eq_single_of_mem t0 (mem_filter.2 ⟨ht0, rfl⟩) fun b hb hne =>
+  sum_eq_single_of_mem t0 (mem_filter.2 ⟨ht0, rfl⟩) fun _b hb hne =>
     absurd (hinj (mem_filter.1 hb).1 ht0 (mem_filter.1 hb).2) hne
 
 private theorem fiber_lt {S : Finset ℕ} {rk : ℕ → ℕ} (hinj : Set.InjOn rk S) {f : ℕ → ℕ} {B : ℕ}
@@ -78,6 +79,7 @@ private theorem rk_inj (h cnt ℓ : ℕ) :
   · have := rk_strict (P := fun t' => childF h t' % 2 = ℓ) hlt h2'
     omega
 
+set_option exponentiation.threshold 229957 in
 private theorem row_lemma {L H CM RM ONE LV HV CM3 M MS G n : Nat} {MSF : Nat → Nat}
     {a b : Nat → Nat}
     (hc : constsOK 5 13 1729 133 9 L H CM RM ONE LV HV = true) (hms : masksOK MS = true)
@@ -112,14 +114,14 @@ private theorem row_lemma {L H CM RM ONE LV HV CM3 M MS G n : Nat} {MSF : Nat �
     rfl
   by_cases h133 : q < 133
   · have h1 : spread MS (b q) = rowL RM (mulC L H CM3 RM (∑ q ∈ range n, a q * 2 ^ (1729 * q)) G) q := by
-      rw [hrow, he, hlane, if_pos h133]
+      rw [hrow, he, hlane, ite_eq_left h133]
     exact RowPf.spread_eq_rowL hc hms hcm rfl ha hG h133 hq (hb q hq) h1
   · have hcan := RowPf.mulC_canon hc hcm rfl ha hG
     have h0 : lane 1729 (mulC L H CM3 RM (∑ q ∈ range n, a q * 2 ^ (1729 * q)) G) q = 0 := by
       unfold lane
       rw [Nat.div_eq_of_lt (lt_of_lt_of_le hcan.1 (Nat.pow_le_pow_right (by norm_num)
         (by omega))), Nat.zero_mod]
-    rw [he, hlane, if_neg h133] at h0
+    rw [he, hlane, ite_eq_right h133] at h0
     omega
 
 private theorem label_abs {L H CM RM ONE LV HV CM3 M MS G n : Nat} {MSF : Nat → Nat}
@@ -134,7 +136,7 @@ private theorem label_abs {L H CM RM ONE LV HV CM3 M MS G n : Nat} {MSF : Nat �
   have h := row_lemma (a := fun q => ∑ t ∈ S.filter (fun t => rk t = q), p t)
     (b := fun q => ∑ t ∈ S.filter (fun t => rk t = q), x t) hc hms hmsf hcm hG
     (fun q _ => fiber_lt hinj hp q) (fun q _ => fiber_lt hinj hx q) he (hmap t ht)
-    (by beta_reduce; rw [fiber hinj ht]; exact hpos)
+    (by rw [fiber hinj ht]; exact hpos)
   beta_reduce at h
   rw [fiber hinj ht, fiber hinj ht] at h
   exact h
@@ -195,7 +197,7 @@ private theorem fix_iff {L H CM RM ONE LV HV CM3 M GFC C r : Nat}
       ((OM GFC)ᵀ *ᵥ cvec (recC M C r)) ⟨l, hl⟩ = 0 := by
   rw [RowPf.mulC_lane (a := recC M C) hc hcm (RowPf.leafA_eq hcm C 133)
     (fun r _ => RowPf.recC_lt hcm C r) hG hr hl, RowPf.mulVec_cvec]
-  simp only [hr, if_true]
+  simp only [hr, ite_true]
   exact (z5 (Nat.mod_lt _ (by norm_num))).symm
 
 private theorem fix1 {L H CM RM ONE LV HV CM3 M GFC C r : Nat}

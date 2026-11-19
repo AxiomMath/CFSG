@@ -44,10 +44,10 @@ theorem IsD4Type.exists_equiv {Y : Type} [Group Y] (hD : IsD4Type Y) :
 theorem ringChar_ne_three_of_card {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (hℓ : ℓ.Prime)
     (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f) (h3 : ℓ ≠ 3) : ringChar K ≠ 3 := by
   intro h
-  haveI : CharP K 3 := by
+  have : CharP K 3 := by
     have := ringChar.charP K
     rwa [h] at this
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 3
   have h1 : ℓ ∣ 3 ^ (n : ℕ) := by
     rw [← hn, ← Nat.card_eq_fintype_card, hK]
@@ -60,14 +60,14 @@ theorem Y1431Cfg.isInnerAut_of_d4 {V : InndiagVocab} {Y : Type}
   obtain ⟨q0, hq0, hqq⟩ := cfg_cube CFSG.HardMathSupport.Solomon.Proving.l2OrderUnique_holds
     CFSG.HardMathSupport.Solomon.Coordinator.l2FieldFixed_holds c
   obtain ⟨ℓ, f, hℓ, K, _, _, hf, hK, ⟨E⟩⟩ := hD.exists_equiv
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.finite_adjointD4 K
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.finite_adjointD4 K
   have hP : FamOK (adjointGroup Tag.D4 K) := fun ψ hψ3 hninn =>
     ⟨1, ψ, by simp, CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.noL2Layer_adjointD4_outer
       CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput
       CFSG.HardMathSupport.Dickson.Sec6.I923.triD4A2NoL2_holds
       CFSG.HardMathSupport.Dickson.Sec6.I923.triD4C3NoL2_holds hf K hK ψ hψ3 hninn⟩
   have hinn := c.inner_of_famOK hq0 hqq E hP
-  haveI : Group.IsPerfect Y := ⟨c.quasisimple.1⟩
+  have : Group.IsPerfect Y := ⟨c.quasisimple.1⟩
   exact isInnerAut_of_isInnerAut_centerDescend ((isInnerAut_congr E _).1 hinn)
 
 theorem Y1431Cfg.false_of_d4 (hNo : D4NoCfg) {V : InndiagVocab} {Y : Type} [Group Y] [Finite Y]
@@ -81,7 +81,7 @@ theorem Y1431Cfg.false_of_d4 (hNo : D4NoCfg) {V : InndiagVocab} {Y : Type} [Grou
   · subst h3
     exact c.false_of_char3 hm hξ
   obtain ⟨hℓ, K, _, _, hf, hK, ⟨E⟩⟩ := exists_equiv_of_model hm
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.finite_adjointD4 K
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.D4Aux.finite_adjointD4 K
   refine hNo K (ringChar_ne_three_of_card hℓ.out hf hK h3) (Â.map (descendHom E))
     (descendHom E ξ) (J.map (descendProj E)) q
     (c.descend E) ⟨q0, hq0, hqq⟩ (isInnerAut_congr_centerDescend E hξ) ?_
@@ -98,7 +98,7 @@ theorem y1431_D4_of_noCfg (hNo : D4NoCfg) : Y1431_D4 := by
   have hD : IsD4Type Y := ⟨p, f, (lieModel_classical_iff (by decide)).mp hm⟩
   have hξ : ξ ∈ innerAut Y := by
     have h := c.inn ξ c.mem
-    simp only [d4Vocab, if_pos hD] at h
+    simp only [d4Vocab, ite_eq_left hD] at h
     exact h
   exact c.false_of_d4 hNo (fun a ha => c.mem_innAutDerived ha) hD hξ
 

@@ -32,12 +32,13 @@ variable {hc : Ctx M Q Z B} {t r : G} {m : ℕ} {K : Type} [Field K] [Finite K]
   smul_zero ρ := Matrix.mulVec_zero _
   smul_add ρ a b := Matrix.mulVec_add _ _ _
 
+omit [Finite G] in
 theorem Sec8Pts.isSecMod [CharP K 2] (h : Sec8Pts hc t r m K φ u u') :
     ∃ κ : ↥(Vt M (LB M Q B) B Z t) →* Multiplicative (Fin m ⊕ Fin m → K),
       @IsSecMod G _ (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z (Fin m ⊕ Fin m → K) _
         h.vecAct κ := by
   obtain ⟨-, hN, ψ, hψ⟩ := h.act
-  haveI := hN
+  have := hN
   refine ⟨ψ.toMonoidHom.comp (QuotientGroup.mk' (Z.subgroupOf (Vt M (LB M Q B) B Z t))), ?_⟩
   refine @IsSecMod.mk G _ (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z (Fin m ⊕ Fin m → K) _
     h.vecAct _ ?_ ?_ ?_ ?_

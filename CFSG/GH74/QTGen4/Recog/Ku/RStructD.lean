@@ -172,6 +172,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem kuR_normalizer (h : KuHyp G T M H P z) {r : G} (hr : r ∈ kuR T M) :
     r ∈ Subgroup.normalizer (pCoreOf 2 M : Set G) :=
   h.oTwoUpper_le_normalizer_V (kuR_le hr)
@@ -245,9 +246,9 @@ theorem comm_mem_kuV2_of_V (h : KuHyp G T M H P z) {r : G} (hr : r ∈ kuR T M)
   have hvec : (A : Matrix (Fin 2) (Fin 2) h.mNat.data.K).mulVec x - x = t • w0 := by
     funext i
     fin_cases i
-    · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+    · simp
       linear_combination ht1
-    · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+    · simp
       linear_combination ht2
   rw [← hu]
   refine (h.mem_kuV2_iff_fix u).mpr ?_

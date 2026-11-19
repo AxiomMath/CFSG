@@ -60,7 +60,7 @@ theorem fRes {r N w k : Nat} {T G D S : Nat → Nat} (hr3 : r < 3) (hk : (onSeve
         (onSevenFArrs r).size fun l => G (k + 1 + l) := by
   have hA := cAll_get (r := r) (by omega)
   have hS := suffix_get hA
-  have e : (if r < 3 then onSevenFArrs r else #[]) = onSevenFArrs r := if_pos hr3
+  have e : (if r < 3 then onSevenFArrs r else #[]) = onSevenFArrs r := ite_eq_left hr3
   rw [e] at hS
   have hsz : ((onSevenCArrs r).push (onSevenRepArr r)).size = k + 1 := by simp [hk]
   rw [hsz] at hS

@@ -31,21 +31,21 @@ private theorem exists_extraspecial_char (hp : p.Prime) (hp2 : p ≠ 2) {R : Sub
     ∃ D : Subgroup R, ∃ _ : D.Characteristic, (∀ x ∈ D, x ^ p = 1) ∧ Nat.card D = p ^ 3 ∧
       (∃ a b : D, a * b ≠ b * a) ∧
         IsPGroup p (CFSG.SectionRank.Ccomm.frattiniAction D).ker := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 := hp.one_lt
   have hrkR : CFSG.Open.pRank p (⊤ : Subgroup R) = 2 := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup]
     exact hrk
   obtain ⟨E, -, hE, hEc⟩ := CFSG.SectionRank.exists_pRank hp1 (⊤ : Subgroup R)
   rw [hrkR] at hEc
-  haveI : Nontrivial R := by
+  have : Nontrivial R := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     calc 1 < p ^ 2 := Nat.one_lt_pow (by norm_num) hp1
       _ = Nat.card E := hEc.symm
       _ ≤ Nat.card R := Subgroup.card_le_card_group E
   obtain ⟨D, hDc, hDne, hDp, -, htors, hker⟩ :=
     CFSG.SectionRank.Ccomm.supercritical_witness hp2 hRp
-  haveI := hDc
+  have := hDc
   have hnc : ∃ a b : D, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -92,7 +92,7 @@ private theorem pRank_top_le_three (hp : p.Prime) {R : Subgroup X} [R.Normal]
     (hnc : ∃ a b : D, a * b ≠ b * a)
     (hker : IsPGroup p (CFSG.SectionRank.Ccomm.frattiniAction D).ker) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 := hp.one_lt
   obtain ⟨-, -, hVc, hVe, hVcard, -⟩ :=
     CFSG.SectionRank.Ccomm.nonabelian_prime_cube_central_structure hcard hnc
@@ -105,7 +105,7 @@ private theorem pRank_top_le_three (hp : p.Prime) {R : Subgroup X} [R.Normal]
   refine CFSG.SectionRank.pRank_le hp1 fun A _ hA => ?_
   have hAp : IsPGroup p A := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hA.2 x x.2)⟩
   let f : A →* MulAut (D ⧸ center D) := ρ.comp A.subtype
-  haveI : Finite f.range := Finite.of_surjective _ f.rangeRestrict_surjective
+  have : Finite f.range := Finite.of_surjective _ f.rangeRestrict_surjective
   have h1 : Nat.card f.range ≤ p :=
     CFSG.LocalAnalysis.RankThreeTheoremC.card_le_of_isPGroup_of_injective_mulAut hVc hVe
       hVcard.le (hAp.of_surjective f.rangeRestrict f.rangeRestrict_surjective) f.range.subtype
@@ -133,14 +133,14 @@ private theorem pRank_top_le_three (hp : p.Prime) {R : Subgroup X} [R.Normal]
     _ = p ^ 3 := by ring
 
 private theorem three_le_pRank_top (hp : p.Prime) (hp3 : 3 < p) {R : Subgroup X} [R.Normal]
-    (hRp : IsPGroup p R) (hRmax : ∀ N : Subgroup X, N.Normal → IsPGroup p N → N ≤ R)
-    (hcent : centralizer (R : Set X) ≤ R)
+    (hRp : IsPGroup p R) (_hRmax : ∀ N : Subgroup X, N.Normal → IsPGroup p N → N ≤ R)
+    (_hcent : centralizer (R : Set X) ≤ R)
     (D : Subgroup R) [D.Characteristic] (hDp : ∀ x ∈ D, x ^ p = 1)
     (hcard : Nat.card D = p ^ 3) (hnc : ∃ a b : D, a * b ≠ b * a)
-    (hker : IsPGroup p (CFSG.SectionRank.Ccomm.frattiniAction D).ker)
+    (_hker : IsPGroup p (CFSG.SectionRank.Ccomm.frattiniAction D).ker)
     {u : X} (hu : orderOf u = p) (huR : u ∉ R) :
     3 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 := hp.one_lt
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hcomm, hZcard, -, -, hVcard, -⟩ :=
@@ -164,7 +164,7 @@ private theorem three_le_pRank_top (hp : p.Prime) (hp3 : 3 < p) {R : Subgroup X}
   have hUp : IsPGroup p (zpowers u) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hu, pow_one])
   obtain ⟨e, he, hfix⟩ : ∃ e : D, e ∉ center D ∧ e⁻¹ * β e ∈ center D := by
-    letI : MulDistribMulAction (zpowers u) (D ⧸ center D) :=
+    let : MulDistribMulAction (zpowers u) (D ⧸ center D) :=
       MulDistribMulAction.compHom _ (ρ.comp (zpowers u).subtype)
     set F := FixedPoints.subgroup (zpowers u) (D ⧸ center D)
     have hpF : p ∣ Nat.card F :=
@@ -287,7 +287,7 @@ private theorem three_le_pRank_top (hp : p.Prime) (hp3 : 3 < p) {R : Subgroup X}
     rw [h2, hD'card, h1]
     calc p ^ 3 * D'.relIndex (zpowers u) ≤ p ^ 3 * p := Nat.mul_le_mul_left _ h3
       _ = p ^ 4 := by ring
-  haveI : Fact (IsPGroup p P) := ⟨hPp⟩
+  have : Fact (IsPGroup p P) := ⟨hPp⟩
   have hclass : CFSG.NilpotencyClassLe 3 P := CFSG.nilpotencyClassLe_of_card_le_p_four hPcard
   have huP : u ∈ P := mem_sup_left (mem_zpowers u)
   have hf₀P : ι f₀ ∈ P := mem_sup_right ⟨(f₀ : R), f₀.2, rfl⟩
@@ -346,12 +346,12 @@ private theorem three_le_pRank_top (hp : p.Prime) (hp3 : 3 < p) {R : Subgroup X}
 theorem sixSixOneRank_holds : SixSixOneRank := by
   intro p X _ _ hp hp3 hgen hcent hne hsymp hrk
   have hp2 : p ≠ 2 := by omega
-  haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore p X).Normal := CFSG.pCore_normal
   have hRp : IsPGroup p (CFSG.pCore p X) := CFSG.pCore_isPGroup
   have hRmax : ∀ N : Subgroup X, N.Normal → IsPGroup p N → N ≤ CFSG.pCore p X :=
     fun N hN hNp => le_sSup ⟨hN, hNp⟩
   obtain ⟨D, hDc, hDp, hcard, hnc, hker⟩ := exists_extraspecial_char hp hp2 hRp hsymp hrk
-  haveI := hDc
+  have := hDc
   obtain ⟨u, hu, huR⟩ : ∃ u : X, orderOf u = p ∧ u ∉ CFSG.pCore p X := by
     by_contra h
     push Not at h

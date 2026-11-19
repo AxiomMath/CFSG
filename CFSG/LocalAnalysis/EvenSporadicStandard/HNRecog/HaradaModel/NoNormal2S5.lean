@@ -32,12 +32,11 @@ theorem eq_bot_of_normal_isPGroup_perm5 (P : Subgroup (Equiv.Perm (Fin 5)))
       orderOf ((g * (σ : Equiv.Perm (Fin 5)) * g⁻¹) * (σ : Equiv.Perm (Fin 5))) ∣ 120 := by
     have h := orderOf_dvd_natCard ((g * (σ : Equiv.Perm (Fin 5)) * g⁻¹) * (σ : Equiv.Perm (Fin 5)))
     rw [Nat.card_perm, Nat.card_fin] at h
-    norm_num at h
     exact h
   obtain ⟨j, -, hjeq⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd2
   have hj3 : j ≤ 3 := by
     by_contra hj
-    push_neg at hj
+    push Not at hj
     have h16 : 2 ^ 4 ∣ 120 := by
       have h : 2 ^ 4 ∣ 2 ^ j := pow_dvd_pow 2 (by omega)
       rw [hjeq] at hdvd120

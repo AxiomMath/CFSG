@@ -45,7 +45,7 @@ theorem compAux_lt {b : ℕ} (hb : 0 < b) (t u : ℕ) : ∀ n, compAux b t u n <
     simp only [compAux]
     omega
 
-theorem dg_add_mul {b A d n i : ℕ} (hb : 0 < b) (hA : A < b ^ n) (hd : d < b) (hi : i < n) :
+theorem dg_add_mul {b A d n i : ℕ} (hb : 0 < b) (hA : A < b ^ n) (_hd : d < b) (hi : i < n) :
     dg b (A + d * b ^ n) i = dg b A i := by
   obtain ⟨k, rfl⟩ : ∃ k, n = i + 1 + k := ⟨n - i - 1, by omega⟩
   unfold dg
@@ -101,7 +101,7 @@ theorem dg_oneAux {b : ℕ} (hb : 0 < b) : ∀ n i, n ≤ b → i < n → dg b (
 @[expose] def Rep (b n p : ℕ) (g : Equiv.Perm (Fin n)) : Prop :=
   p < b ^ n ∧ ∀ i : Fin n, dg b p i = (g i : ℕ)
 
-theorem pack_inj {b : ℕ} (hb : 0 < b) {n : ℕ} :
+theorem pack_inj {b : ℕ} (_hb : 0 < b) {n : ℕ} :
     ∀ {x y : ℕ}, x < b ^ n → y < b ^ n → (∀ i < n, dg b x i = dg b y i) → x = y := by
   induction n with
   | zero => intro x y hx hy _; simp at hx hy; omega

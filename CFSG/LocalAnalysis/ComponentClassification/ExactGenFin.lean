@@ -67,7 +67,7 @@ theorem card_le_of_distinct_conjugates {P : Subgroup Γ} [Finite P] (ν : Γ) (L
     (hL : L.Nodup) (hconj : ∀ y ∈ L, ∃ g ∈ P, g * ν * g⁻¹ = y) :
     L.length * Nat.card ((centralizer ({ν} : Set Γ)).subgroupOf P) ≤ Nat.card P := by
   classical
-  letI := conjAction P
+  let := conjAction P
   have h1 := Subgroup.card_mul_index (MulAction.stabilizer P ν)
   rw [MulAction.index_stabilizer] at h1
   have hstab : MulAction.stabilizer P ν = (centralizer ({ν} : Set Γ)).subgroupOf P := by
@@ -196,7 +196,7 @@ theorem cover_of_sylow [Finite Γ] {N T K : Subgroup Γ} (hNK : N ≤ K) (hTN : 
     (hT : Nat.card T = 2 ^ (Nat.card N).factorization 2) (R : Set Γ)
     (hcov : ∀ t ∈ T, t * t = 1 → t = 1 ∨ ∃ μ ∈ K, ∃ ρ ∈ R, μ * t * μ⁻¹ = ρ) :
     ∀ x ∈ N, x * x = 1 → x = 1 ∨ ∃ μ ∈ K, ∃ ρ ∈ R, μ * x * μ⁻¹ = ρ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx hx2
   let T' : Subgroup N := T.subgroupOf N
   have hT' : Nat.card T' = 2 ^ (Nat.card N).factorization 2 := by
@@ -275,7 +275,7 @@ theorem map_val_filterMap (l : List ℕ) (hlt : ∀ b ∈ l, b < n) :
   | cons b bs ih =>
     have hb : b < n := hlt b List.mem_cons_self
     have ih' := ih (fun x hx => hlt x (List.mem_cons_of_mem b hx))
-    simp only [List.filterMap_cons, dif_pos hb, List.map_cons, ih']
+    simp only [List.filterMap_cons, dite_eq_left hb, List.map_cons, ih']
 
 theorem map_val_baseFin (hlt : ∀ b ∈ cd.base, b < n) : (cd.baseFin n).map Fin.val = cd.base :=
   map_val_filterMap n cd.base hlt
@@ -330,7 +330,7 @@ theorem check_sound (h : cd.check n = true) :
       have hk' : k < (rawLevels n cd.S cd.base.toArray).size := by simpa using h2
       simp only [List.getElem_map, List.getElem_finRange, Array.getElem_toList]
       rw [horb]
-      simp only [Fin.val_cast, Fin.val_mk]
+      simp only [Fin.val_cast]
       rw [getElem!_pos (rawLevels n cd.S cd.base.toArray) k hk']
 
 @[expose] noncomputable def val (w : List ℤ) : Equiv.Perm (Fin n) :=
@@ -344,10 +344,10 @@ theorem rep_wordArr (h : cd.check n = true) {w : List ℤ} (hw : lettersOK cd.S.
   exact rep_wordA (S := cd.S) (Sinv := rawInvs n cd.S) (gs := fun h => cd.gs n h)
     (j := cd.S.size) (fun h hh => (hrep h hh).1) (fun h hh => (hrep h hh).2) w hw
 
-theorem val_mem (h : cd.check n = true) (w : List ℤ) {H : Subgroup (Equiv.Perm (Fin n))}
+theorem val_mem (_h : cd.check n = true) (w : List ℤ) {H : Subgroup (Equiv.Perm (Fin n))}
     (hH : ∀ j < cd.S.size, cd.gs n j ∈ H) : cd.val n w ∈ H := by
   unfold val
-  have := Quiver.SchreierGraph.evalWord_mem_closure (fun h : Fin cd.S.size => cd.gs n h)
+  have := Quiver.SchreierGraph.evalWord_mem_closure (fun _h : Fin cd.S.size => cd.gs n _h)
     (toLetters cd.S.size w)
   refine (Subgroup.closure_le H).2 ?_ this
   rintro _ ⟨a, rfl⟩
@@ -371,7 +371,7 @@ theorem hashN_eq_hashP {n : ℕ} {t : Array ℕ} {g : Equiv.Perm (Fin n)} (h : R
   unfold hashN hashP
   refine List.foldl_ext _ _ _ fun acc i hi => ?_
   have hi' : i < n := List.mem_range.1 hi
-  rw [dif_pos hi', h ⟨i, hi'⟩]
+  rw [dite_eq_left hi', h ⟨i, hi'⟩]
 
 @[expose] def strictInc : List ℕ → Bool
   | [] => true

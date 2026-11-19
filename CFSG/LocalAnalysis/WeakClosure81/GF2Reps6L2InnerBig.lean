@@ -100,7 +100,7 @@ theorem l2InnerFacts_psl2_of_thirteen_le {K : Type} [Field K]
     [Finite K] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hKcard : Nat.card K = p ^ f)
     (hq : 13 ≤ p ^ f) : L2InnerFacts (PSL2 K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf0 : f ≠ 0 := by
     rintro rfl
     simp at hq

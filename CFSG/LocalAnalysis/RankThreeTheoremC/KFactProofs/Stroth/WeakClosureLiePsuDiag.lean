@@ -98,7 +98,7 @@ private theorem pdPerm_unitary {n q : ℕ} (L : Type) [Field L] (hq : q ≠ 0)
   ext i k
   simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, coe_pdPerm, ite_pow,
     one_pow, zero_pow hq, ite_mul, one_mul, zero_mul, Matrix.one_apply, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true, EmbeddingLike.apply_eq_iff_eq]
+    Finset.mem_univ, ite_true, EmbeddingLike.apply_eq_iff_eq]
 
 private theorem pdPerm_mem_GU {n q : ℕ} (L : Type) [Field L] (hq : q ≠ 0)
     (σ : Equiv.Perm (Fin n)) : pdPerm n L σ ∈ StatedGU n q L :=
@@ -204,7 +204,7 @@ private theorem pdCorr_comm {n : ℕ} (L : Type) [Field L] {G : Type} [CommGroup
 private theorem pdNegOne_pow {p f q : ℕ} {L : Type} [Field L] (h : UnitaryFieldData p f L)
     (hq : q = p ^ f) : ((-1 : Lˣ) : L) ^ (q + 1) = 1 := by
   rw [Units.val_neg, Units.val_one]
-  haveI := h.charP
+  have := h.charP
   rcases h.prime.eq_two_or_odd' with h2 | hodd
   · have h3 : ((2 : ℕ) : L) = 0 := by
       rw [← h2]
@@ -270,7 +270,7 @@ private theorem pdCard_range_dvd {p₀ f : ℕ} {L : Type} [Field L] [Finite L] 
   exact det_pow_card_add_one_of_mem_statedGU h hqf g.2
 
 private theorem pdDvd_units {p : ℕ} [Fact p.Prime] {L : Type} [Field L] {q : ℕ}
-    (hq : Nat.card L = q ^ 2) (hpq : p ∣ q + 1) :
+    (hq : Nat.card L = q ^ 2) (_hpq : p ∣ q + 1) :
     p ^ padicValNat p (q + 1) ∣ Nat.card L - 1 := by
   rw [hq]
   have h1 := Nat.sq_sub_sq q 1
@@ -291,10 +291,10 @@ private theorem pdCard_projSU {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {L : Type
     rw [hq] at hq1
     simp at hq1
   have hpq' : ¬ p ∣ q := fun h' => hp.not_dvd_one ((Nat.dvd_add_right h').1 hpq)
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fintype L := Fintype.ofFinite L
   have hqL : Fintype.card L = q ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hq
   obtain ⟨f, hqf, h⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData L hqL
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨k₀⟩ : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hord1 : orderOf (-(q : ZMod p)) = 1 := by
     have h1 : ((q + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hpq
@@ -517,14 +517,14 @@ private theorem pdNonscalar_of_frame {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {L
 
 private theorem pdWCOn_of_lt {p : ℕ} [Fact p.Prime] {L : Type} [Field L] [Finite L] {q n a : ℕ}
     (hq : Nat.card L = q ^ 2) (hq0 : q ≠ 0) (hn : 3 ≤ n) (hnp : n < p) (hpn : ¬ p ∣ n)
-    (ha : 1 ≤ a) (ρ : Multiplicative (ZMod (p ^ a)) →* Lˣ) (hρinj : Function.Injective ρ)
+    (_ha : 1 ≤ a) (ρ : Multiplicative (ZMod (p ^ a)) →* Lˣ) (hρinj : Function.Injective ρ)
     (hρq : ∀ x : Multiplicative (ZMod (p ^ a)), ρ x ^ (q + 1) = 1)
     (hord : padicValNat p (Nat.card (StatedProj (StatedSU n q L))) + a =
       a * n + padicValNat p n.factorial) :
     WCOn p (StatedProj (StatedSU n q L)) := by
   have hp : p.Prime := Fact.out
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Fintype L := Fintype.ofFinite L
+  have : NeZero n := ⟨by omega⟩
+  have : Fintype L := Fintype.ofFinite L
   have hqL : Fintype.card L = q ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hq
   obtain ⟨f, hqf, hU⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData L hqL
   obtain ⟨k₀⟩ : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
@@ -621,7 +621,7 @@ theorem wcOn_projSU_of_dvd_add_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {L :
     exact pdDvd_units hq hpq
   obtain ⟨ρ, hρinj⟩ : ∃ ρ : Multiplicative (ZMod (p ^ a)) →* Lˣ, Function.Injective ρ := by
     obtain ⟨ζ, hζ⟩ := CFSG.GroupTheory.WeirSylow.exists_units_orderOf_eq hdvdL
-    haveI : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
+    have : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
     obtain ⟨ρ₀, hρ₀⟩ := CFSG.GroupTheory.WeirSylow.exists_injective_hom_of_orderOf_eq
       (H := (⊤ : Subgroup Lˣ)) (Subgroup.mem_top ζ) hζ
     exact ⟨(⊤ : Subgroup Lˣ).subtype.comp ρ₀, Subtype.val_injective.comp hρ₀⟩

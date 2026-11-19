@@ -49,7 +49,7 @@ theorem exists_rhoSpec (I : AEIdent P 6) (C : Subgroup G) (hP : pSpan P ≤ C)
     exact ⟨x, fun y hy hy' => hx y hy hy'⟩
   let ρ : G → AE.AEQ 6 := fun g => if hg : g ∈ C then Classical.choose (hex g hg) else 1
   have hρ : ∀ g (hg : g ∈ C), IsConj I g (ρ g) := fun g hg => by
-    simp only [ρ, dif_pos hg]
+    simp only [ρ, dite_eq_left hg]
     exact Classical.choose_spec (hex g hg)
   have hmem : ∀ g ∈ C, ∀ y ∈ pSpan P, g * y * g⁻¹ ∈ pSpan P := fun g hg => conj_mem (hperm g hg)
   refine ⟨ρ, ⟨hρ, ?_, ?_, ?_⟩⟩

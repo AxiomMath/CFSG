@@ -168,13 +168,13 @@ theorem ggKGEl_transpose_mulVec {n : ℕ} (M : Matrix (Fin n) (Fin n) ℤ) (z : 
     M.transpose.mulVec z = fun i => (M.mulVec (Pi.single i 1)) ⬝ᵥ z := by
   funext i
   simp only [Matrix.mulVec, dotProduct, Matrix.transpose_apply, Pi.single_apply]
-  simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem ggKGEl_mulVec_single {n : ℕ} (M : Matrix (Fin n) (Fin n) ℤ) (j : Fin n) :
     M.mulVec (Pi.single j 1) = fun i => M i j := by
   funext i
   simp only [Matrix.mulVec, dotProduct, Pi.single_apply]
-  simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem ggKGEl_Q_invariant
     {τ : Tag} (v : WeylGroup τ) :
@@ -187,7 +187,7 @@ theorem ggKGEl_Q_invariant
     funext i
     rw [ggKGEl_qform_Q, ggKGEl_qF_dual, ← ggKGEl_qform_Q]
     simp only [Matrix.mulVec, dotProduct, Pi.single_apply, ite_mul, one_mul, zero_mul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ext i j
   have h := congrFun (hfun (Pi.single j 1)) i
   rwa [ggKGEl_mulVec_single, ggKGEl_mulVec_single] at h

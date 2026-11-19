@@ -48,7 +48,7 @@ private theorem ggKGOn_permAut_injective {d p : ℕ} {K : Type} [Field K] [Finit
     · exact mul_ne_zero hζ0 (inv_ne_zero hζ0)
     · simpa using hζ0
     · simpa using inv_ne_zero hζ0
-    · simpa using one_ne_zero
+    · simp
   let D : SpecialLinearGroup (Fin d) K :=
     ⟨diagonal v, by rw [det_diagonal, hv, prod_ggPairVec ζ hζ0]⟩
   have hDm : (D : Matrix (Fin d) (Fin d) K) = diagonal v := rfl
@@ -83,13 +83,13 @@ private theorem ggKGOn_isReflection_permSL {d p : ℕ} {K : Type} [Field K] [Fin
     (hM : IsDiagTorusModel p φ A) {i j : Fin d} (hij : i ≠ j) :
     GGIsReflection p (ggConjAut A (conj_permSL_mem_normalizer hM i j)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
       ext x
       exact congrFun h x
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hd0 : 0 < d := by omega
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot (K := K) hp hpK
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero
@@ -272,12 +272,12 @@ theorem ggKGSL_reflection {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
     (h₀ : φ₀ ∈ ggAutomizer (MulAut.conj : L' →* MulAut L').range A) (hrefl : GGIsReflection p φ₀) :
     ∃ i j : Fin d, i ≠ j ∧ φ₀ = ggConjAut A (conj_permSL_mem_normalizer hM i j) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
       ext x
       exact congrFun h x
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hdiag : ∀ a ∈ A, ∃ t : Fin d → K, TypeANbrDvd.ActsDiag φ a t := by
     intro a ha
     obtain ⟨D, ⟨t, hD⟩, -, rfl⟩ := (hM a).mp ha

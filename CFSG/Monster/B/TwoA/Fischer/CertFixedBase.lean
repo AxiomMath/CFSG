@@ -28,7 +28,7 @@ open CFSG.Monster.B.Fischer CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Sp
   CFSG.Sporadic.SmallF2.Native CFSG.Monster.B.Binary CFSG.Monster.B.Binary.Native
 open scoped Matrix
 
-@[expose] def fMat (k : ℕ) : Matrix (Fin 78) (Fin 78) (ZMod 2) := (rowsMatrix 78 (fColArr[k]!))ᵀ
+def fMat (k : ℕ) : Matrix (Fin 78) (Fin 78) (ZMod 2) := (rowsMatrix 78 (fColArr[k]!))ᵀ
 
 theorem mask_bits :
     (List.range 22).filter (fun c => (5461 : ℕ).testBit c) = [0, 2, 4, 6, 8, 10, 12] := by

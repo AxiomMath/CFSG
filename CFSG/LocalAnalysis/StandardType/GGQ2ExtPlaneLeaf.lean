@@ -107,7 +107,7 @@ theorem PlaneRaw.extKey_ne_zero {t : ℕ} {b : Fin t} {e' : V t} (he'b : e' b = 
     rw [h1, smul_eq_mul]
     exact mul_ne_zero hε hσ
   · have h1 : (e' + σ • unitVec t b) i = e' i := by
-      simp [unitVec, Pi.single_apply, hi, smul_eq_mul]
+      simp [unitVec, hi, smul_eq_mul]
     rw [h1, smul_eq_mul]
     exact mul_ne_zero hε (he'i i hi)
 
@@ -122,7 +122,7 @@ theorem PlaneRaw.extKey_sub_ne_zero {t : ℕ} {b : Fin t} {e' : V t} (he'b : e' 
     rw [h1, smul_eq_mul, mul_neg]
     exact neg_ne_zero.mpr (mul_ne_zero hε hσ)
   · have h1 : (e' - σ • unitVec t b) i = e' i := by
-      simp [unitVec, Pi.single_apply, hi, smul_eq_mul]
+      simp [unitVec, hi, smul_eq_mul]
     rw [h1, smul_eq_mul]
     exact mul_ne_zero hε (he'i i hi)
 
@@ -152,14 +152,14 @@ theorem PlaneRaw.normalizerOf_zero_erase_signed {kd : PlaneKind} (hkd : kd ≠ .
   cases kd with
   | linear ε => rfl
   | symplectic =>
-      rw [PlaneRaw.normalizerOf, if_neg hne2]
+      rw [PlaneRaw.normalizerOf, ite_eq_right hne2]
   | orthogonal δ =>
       have hδ : δ.val ≠ 0 := by
         intro h
         exact hkd (by
           apply congrArg PlaneKind.orthogonal
           exact Fin.ext (by simpa using h))
-      rw [PlaneRaw.normalizerOf, if_neg hδ]
+      rw [PlaneRaw.normalizerOf, ite_eq_right hδ]
 
 theorem PlaneRaw.normalizerOf_zero_even {t : ℕ} (S : Finset (Fin t)) :
     PlaneRaw.normalizerOf (.orthogonal 0) t (.zero S) = evenSignedPermGroupOn t S := by
@@ -264,8 +264,8 @@ theorem extLeaf_B2b (hLF : LeafModelFlip) (kd : PlaneKind) {t : ℕ} (ht : 4 ≤
       have hrb : (ε • (e' - σ • unitVec t b)) b = -(ε * σ) := by
         simp [unitVec, he'b, smul_eq_mul, mul_neg]
       rw [Function.update_self, hub, hrb]
-    · rw [Function.update_apply, if_neg hi]
-      simp [unitVec, Pi.single_apply, hi, smul_eq_mul]
+    · rw [Function.update_apply, ite_eq_right hi]
+      simp [unitVec, hi, smul_eq_mul]
   have hgroup : twistedPermGroupOn t (ε • (e' - σ • unitVec t b)) =
       twistedPermGroupOn t (ε' • (e' - σ • unitVec t b)) :=
     (twistedPermGroupOn_smul hw' hε).trans (twistedPermGroupOn_smul hw' hε').symm

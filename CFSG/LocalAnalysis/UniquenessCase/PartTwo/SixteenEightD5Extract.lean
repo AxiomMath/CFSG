@@ -21,7 +21,7 @@ private theorem s16e_d5_card_of_isElemAbelianOfRank {p n : ℕ} {X : Type*} [Gro
 private theorem s16e_d5_center_ne_top {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) :
     Subgroup.center Q ≠ ⊤ := by
   intro h
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   obtain ⟨p, q, hpq⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
   obtain ⟨p, rfl⟩ := QuotientGroup.mk_surjective p
   obtain ⟨q, rfl⟩ := QuotientGroup.mk_surjective q

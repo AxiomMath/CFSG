@@ -18,7 +18,7 @@ private lemma s16h_e3_gl2_inv :
       a * b * a⁻¹ = b ^ 2 := by
   decide
 
-private lemma s16h_e3_gl2_order_ne_six (y : GL (Fin 2) (ZMod 2)) (hy : y ≠ 1)
+private lemma s16h_e3_gl2_order_ne_six (y : GL (Fin 2) (ZMod 2)) (_hy : y ≠ 1)
     (h6 : orderOf y = 6) : False := by
   have hy6 : y ^ 6 = 1 := by
     have h := pow_orderOf_eq_one y

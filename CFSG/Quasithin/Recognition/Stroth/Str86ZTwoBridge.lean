@@ -27,8 +27,8 @@ theorem chiefModBot_commutator_eq {H U W : Subgroup G} {m : ℕ}
     Additive.ofMul (chiefModBotMulEquiv W x) =
       ((l2ChiefSectionRep hstep hUH hE e) (e (QuotientGroup.mk h)) - 1)
         (Additive.ofMul (chiefModBotMulEquiv W w)) := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let cw : ↥W :=
     ⟨(h : G) * (w : G) * (h : G)⁻¹,
       (Subgroup.mem_normalizer_iff.mp
@@ -178,7 +178,7 @@ theorem str86YCommBridge_of_caseI
   intro E hES hEsup
   obtain ⟨n, hL2⟩ := h2
   have hn : 2 ≤ n := CFSG.Quasithin.F112R.two_le_of_isL2Quot_of_vBig hF.1.h2.listed hB2 hL2
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have h1 : VU3Big L1 := ⟨k, hk, F, inferInstance, inferInstance, hFc, hU3⟩
   have h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2 :=
     str86_card_z2_le_sq hF hSB hk hFc hU3 hn hL2 hZQ hB2 hZI
@@ -190,8 +190,8 @@ theorem str86YCommBridge_of_caseI
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
   have hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W) :=
     isElemAbelian_chiefMod hstepW hUH (pCoreOf_isPGroup 2 (P2 L1 L2 S))
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   obtain ⟨e₀⟩ := str86_isL2Quot_u3H hF.toW hL2
   let e : oTwoQuot ↥H ≃* SL(2, GaloisField 2 n) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := GaloisField 2 n))
@@ -224,7 +224,7 @@ theorem str86YCommBridge_of_caseI
       _ = 2 ^ n := hTcard
   have hnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstepW hUH hE e hncW
   have hirr : ρ.IsIrreducible := l2ChiefSectionRep_irreducible hstepW hUH hE e
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   have hWcardEq : Nat.card W = Nat.card (Additive (Ch3z.chiefMod ⊥ W)) := by
     calc Nat.card W = Nat.card (Ch3z.chiefMod ⊥ W) :=
           Nat.card_congr (chiefModBotMulEquiv W).toEquiv

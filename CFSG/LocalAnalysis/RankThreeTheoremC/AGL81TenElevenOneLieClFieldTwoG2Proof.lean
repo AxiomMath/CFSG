@@ -22,10 +22,10 @@ theorem three_le_pRank_adjointG2 {X K : Type} [Group X] [Finite X] [Field K] {f 
     {E : Subgroup (MulAut X)} (hEH : E ≤ H) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9) :
     3 ≤ Open.pRank 3 (H ⊓ centralizer (E : Set (MulAut X))) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by omega) hK
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K hK).2
   obtain ⟨-, Θ, hΘ, -, hker, -⟩ :=
     CFSG.ComponentClassification.UnbalancedCatalog.even_G2_exact_automorphism_normal_form hf K hK

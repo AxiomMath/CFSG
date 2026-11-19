@@ -247,8 +247,8 @@ theorem indexNinePackage_of_quotient {Γ Δ : Type*} [Group Γ] [Finite Γ] [Gro
     (hΔ : InnerIndexNinePackage Δ) :
     IndexNinePackage Γ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Ubar, Pbar, Qbar, hUbar, hUbarP, hPbar, hNbar, hQbarP, hQbar, hQbar3⟩ := hΔ
   have hUleC : U ≤ C := fun u hu => hNC (Subgroup.le_normalizer hu)
   let UC : Subgroup ↥C := U.subgroupOf C
@@ -509,7 +509,7 @@ theorem exists_permutes_of_invariant_cover {Y : Type} [Group Y] [Finite Y] {K S 
     ∃ E : Subgroup Y, E ≤ K ∧ E ≠ ⊥ ∧ IsPGroup 3 ↥E ∧ (∀ x ∈ E, x ^ 3 = 1) ∧
       ¬ IsCyclic ↥E ∧ CFSG.LocalAnalysis.UniquenessCase.UC22.Permutes E S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSK : CFSG.QuasithinUnique.IsSylowTwoOf (S ⊓ K) K :=
     CFSG.Quasithin.B6.isSylowTwoOf_inf_normal hS le_top fun x _ => by
       rw [Subgroup.normalizer_eq_top_iff.mpr hK]; trivial
@@ -659,7 +659,7 @@ theorem exists_permutes_of_invariant_cover {Y : Type} [Group Y] [Finite Y] {K S 
         (9 * Nat.card S) * Nat.card ↥(S ⊓ K) := by
       rw [h]; ring
     exact Nat.eq_of_mul_eq_mul_right Nat.card_pos h2
-  letI : Fintype ↥(Subgroup.center ↥K) := Fintype.ofFinite _
+  let : Fintype ↥(Subgroup.center ↥K) := Fintype.ofFinite _
   have hZnt : 1 < Fintype.card ↥(Subgroup.center ↥K) := by
     rw [← Nat.card_eq_fintype_card, hZ]
     norm_num
@@ -780,7 +780,7 @@ theorem exists_permutes_of_indexThreePackage {Y : Type} [Group Y] [Finite Y] {K 
     (e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K)))
     (e.surjective.comp (QuotientGroup.mk'_surjective _)) ?_ hZ hS
   ext x
-  simp [MonoidHom.mem_ker]
+  simp
 
 theorem exists_permutes_of_indexNinePackage {Y : Type} [Group Y] [Finite Y] {K S : Subgroup Y}
     [K.Normal] {Γ : Type} [Group Γ] [Finite Γ] (hΓ : IndexNinePackage Γ) (e : ↥K ≃* Γ)
@@ -859,10 +859,10 @@ private lemma pspr_invariance_conj {Δ : Type*} [Group Δ] {U P : Subgroup Δ} {
   let A : MulAut Δ := MulAut.conj δ
   have hid : A.symm.toMonoidHom.comp A.toMonoidHom = MonoidHom.id Δ := by
     ext x
-    simp [A, MulAut.mul_apply]
+    simp [A]
   have hid' : A.toMonoidHom.comp A.symm.toMonoidHom = MonoidHom.id Δ := by
     ext x
-    simp [A, MulAut.mul_apply]
+    simp [A]
   have hγ' : U.map (A.symm * γ * A).toMonoidHom = U := by
     have h := congrArg (Subgroup.map A.symm.toMonoidHom) hγ
     simp only [Subgroup.map_map] at h
@@ -875,7 +875,7 @@ private lemma pspr_invariance_conj {Δ : Type*} [Group Δ] {U P : Subgroup Δ} {
   rw [show A.toMonoidHom.comp ((A.symm * γ * A).toMonoidHom) =
       γ.toMonoidHom.comp A.toMonoidHom from by
     ext x
-    simp [A, MulAut.mul_apply]
+    simp [A]
     group] at h
   dsimp only [A] at h ⊢
   rw [← Subgroup.map_map] at h
@@ -887,7 +887,7 @@ private lemma pspr_indexNineSylow {Γ Δ : Type*} [Group Γ] [Finite Γ] [Group 
     CFSG.QuasithinUnique.IsSylowTwoOf ((U.subgroupOf C).map π) ⊤ ∧
       Nat.card U = Nat.card π.ker * Nat.card ((U.subgroupOf C).map π) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUCsyl : CFSG.QuasithinUnique.IsSylowTwoOf (U.subgroupOf C) ⊤ := by
     refine ⟨le_top, hU.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hUC).symm, ?_⟩
     rw [show ((U.subgroupOf C).subgroupOf ⊤).index = (U.subgroupOf C).index from
@@ -1003,8 +1003,8 @@ private lemma pspr_indexNineQ {Γ Δ : Type*} [Group Γ] [Finite Γ] [Group Δ] 
     ∃ Q : Subgroup Γ, Q ≤ (Pbar.comap π).map C.subtype ∧ Nat.card Q = 9 ∧
       ∀ q ∈ Q, q ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQbar'grp : IsPGroup 3 Qbar := IsPGroup.of_card (n := 2) (by rw [hQbar]; norm_num)
   have h3ker : ¬ 3 ∣ Nat.card π.ker := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hker
@@ -1077,8 +1077,8 @@ theorem indexNinePackage_of_char_quotient {Γ Δ : Type*} [Group Γ] [Finite Γ]
         (π.ker.map C.subtype).map α.toMonoidHom = π.ker.map C.subtype)
     (hΔ : IndexNinePackage Δ) : IndexNinePackage Γ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨U', P', Q', hU', hU'P, hP', hinv', hQ'P, hQ', hQ'3⟩ := hΔ
   obtain ⟨hUπsyl, hUcard⟩ := pspr_indexNineSylow hU hUC π hπ hker
   obtain ⟨δ, -, hδ⟩ :=
@@ -1127,8 +1127,8 @@ private lemma pspr_indexThreeElements {Γ Δ : Type*} [Group Γ] [Finite Γ]
     ∃ a g : Γ, a ∈ (Pbar.comap π).map C.subtype ∧ a ≠ 1 ∧ a ^ 3 = 1 ∧
       g * a * g⁻¹ = a⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have habar_order : orderOf abar = 3 := orderOf_eq_prime habar3 habar1
   have hzp_card : Nat.card (Subgroup.zpowers abar) = 3 := by
     rw [Nat.card_zpowers, habar_order]
@@ -1224,7 +1224,7 @@ private lemma pspr_indexThreeElements {Γ Δ : Type*} [Group Γ] [Finite Γ]
     rw [hcomp, Subgroup.map_id] at h
     have hsymm : ((MulAut.conj gbar).symm : MulAut Δ) = MulAut.conj gbar⁻¹ := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [hsymm] at h
     exact h.symm
   have hK₀_map : K₀.map (MulAut.conj g₀).toMonoidHom = K₀ := by
@@ -1299,7 +1299,7 @@ private lemma pspr_indexThreeElements {Γ Δ : Type*} [Group Γ] [Finite Γ]
   have hk_eq : k = n * aC' := by
     dsimp only [n]
     group
-  haveI : IsCyclic ↥A_sub := isCyclic_of_prime_card (p := 3) hA_card
+  have : IsCyclic ↥A_sub := isCyclic_of_prime_card (p := 3) hA_card
   have hA_sub_comm : ∀ x ∈ A_sub, ∀ y ∈ A_sub, x * y = y * x := by
     intro x hx y hy
     exact congrArg Subtype.val (IsMulCommutative.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
@@ -1399,8 +1399,8 @@ theorem indexThreePackage_of_char_quotient {Γ Δ : Type*} [Group Γ] [Finite Γ
         (π.ker.map C.subtype).map α.toMonoidHom = π.ker.map C.subtype)
     (hΔ : IndexThreePackage Δ) : IndexThreePackage Γ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨U', P', a', g', hU', hU'P, hP', hinv', ha', ha1', ha3', hg'⟩ := hΔ
   obtain ⟨hUπsyl, hUcard⟩ := pspr_indexNineSylow hU hUC π hπ hker
   obtain ⟨δ, -, hδ⟩ :=

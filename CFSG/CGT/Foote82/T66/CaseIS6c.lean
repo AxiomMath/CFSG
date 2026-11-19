@@ -18,6 +18,7 @@ section Groups
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem map_center_subgroupOf {A B : Subgroup Γ} (hAB : A ≤ B) :
     ((Subgroup.center ↥(A.subgroupOf B)).map (A.subgroupOf B).subtype).map B.subtype =
       (Subgroup.center ↥A).map A.subtype := by
@@ -33,6 +34,7 @@ theorem map_center_subgroupOf {A B : Subgroup Γ} (hAB : A ≤ B) :
     exact mem_map_center_iff.2 ⟨Subgroup.mem_subgroupOf.2 hxA,
       fun a ha => Subtype.ext (hx a (Subgroup.mem_subgroupOf.1 ha))⟩
 
+omit [Finite Γ] in
 theorem map_center_conj (A : Subgroup Γ) (g : Γ) :
     (Subgroup.center ↥(A.map (MulAut.conj g).toMonoidHom)).map
         (A.map (MulAut.conj g).toMonoidHom).subtype =
@@ -62,8 +64,8 @@ variable {S : Subgroup (GLV V)}
 
 theorem card_sylow_eq (hm : m ≤ 1) (T₀ : Sylow 2 (Perm (Fin (m + 6 + 2)))) :
     Nat.card T₀ = 128 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 T₀.isPGroup'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 T₀.isPGroup
   have h1 := Subgroup.card_mul_index (T₀ : Subgroup (Perm (Fin (m + 6 + 2))))
   rw [Nat.card_eq_fintype_card (α := Perm (Fin (m + 6 + 2))), Fintype.card_perm,
     Fintype.card_fin] at h1
@@ -95,7 +97,7 @@ theorem card_sylow_eq (hm : m ≤ 1) (T₀ : Sylow 2 (Perm (Fin (m + 6 + 2)))) :
 
 theorem SBad.false_of_le7 (h : Hyp G L z v H₁ m ψ) (hS : SBad G L z ψ S) (hm : m ≤ 1)
     (hG10 : CaseIG10) (h511 : CaseILemma511) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hext := h.std.extremal
   have hz2 := h.std.orderOf_s
   have hz1 : z ≠ 1 := fun h1 => by rw [h1, orderOf_one] at hz2; exact absurd hz2 (by norm_num)
@@ -194,7 +196,7 @@ theorem SBad.false_of_le7 (h : Hyp G L z v H₁ m ψ) (hS : SBad G L z ψ S) (hm
   have hmax : ∀ Q₂ : Subgroup (GLV V), Q₂ ≤ G → IsPGroup 2 Q₂ → Pst ≤ Q₂ → Q₂ = Pst := by
     intro Q₂ hQ₂G hQ₂ hle
     by_contra hne
-    haveI : Group.IsNilpotent ↥Q₂ := hQ₂.isNilpotent
+    have : Group.IsNilpotent ↥Q₂ := hQ₂.isNilpotent
     set Pst' : Subgroup ↥Q₂ := Pst.subgroupOf Q₂ with hPst'
     have hlt : Pst' < ⊤ := by
       refine lt_of_le_of_ne le_top fun he => hne ?_
@@ -234,7 +236,7 @@ theorem SBad.false_of_le7 (h : Hyp G L z v H₁ m ψ) (hS : SBad G L z ψ S) (hm
     have hP' : IsPGroup 2 (Pst.subgroupOf G) := hPst2.comap_subtype
     obtain ⟨S', hS'⟩ := hP'.exists_le_sylow
     have hS'map : (S' : Subgroup ↥G).map G.subtype = Pst := by
-      refine hmax _ (Subgroup.map_subtype_le _) (S'.isPGroup'.map _) ?_
+      refine hmax _ (Subgroup.map_subtype_le _) (S'.isPGroup.map _) ?_
       intro x hx
       exact ⟨⟨x, hPstG hx⟩, hS' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
     have hS'eq : (S' : Subgroup ↥G) = Pst.subgroupOf G := by
@@ -281,8 +283,8 @@ theorem SBad.false_of_le7 (h : Hyp G L z v H₁ m ψ) (hS : SBad G L z ψ S) (hm
   have hsyl : ∃ (m' : ℕ) (P'' : Subgroup ↥G) (Q : Subgroup (Equiv.Perm (Fin m'))),
       (m' = 8 ∨ m' = 9) ∧ IsPGroup 2 P'' ∧ ¬ 2 ∣ P''.index ∧ IsPGroup 2 Q ∧ ¬ 2 ∣ Q.index ∧
         Nonempty (↥P'' ≃* ↥Q) :=
-    ⟨m + 6 + 2, T.subgroupOf G, T₀, by omega, (T₀.isPGroup'.map _).comap_subtype, hT_odd,
-      T₀.isPGroup', T₀.not_dvd_index,
+    ⟨m + 6 + 2, T.subgroupOf G, T₀, by omega, (T₀.isPGroup.map _).comap_subtype, hT_odd,
+      T₀.isPGroup, T₀.not_dvd_index,
       ⟨(Subgroup.subgroupOfEquivOfLe (h.T_le_G _)).trans
         ((T₀ : Subgroup (Perm (Fin (m + 6 + 2)))).equivMapOfInjective _ pe_injective).symm⟩⟩
   have hLG : L ≤ G := h.L_le_H.trans h.H_le_G

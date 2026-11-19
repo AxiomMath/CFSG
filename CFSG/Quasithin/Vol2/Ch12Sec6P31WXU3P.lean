@@ -70,7 +70,7 @@ theorem u3_conclude {n : ℕ} {Y : Type} [Group Y] [Finite Y] {X U : Subgroup Y}
     rw [bt_card_B hU e he, bt_card_U hU e he, hcardU, h4]
     exact hcardN
   · intro r hr
-    obtain ⟨α, hαU, hαx⟩ := bt_conj hU e he r hr
+    obtain ⟨α, hαU, hαx⟩ := bt_conj e he r hr
     obtain ⟨j, hj⟩ := haut α hαU
     refine ⟨j, fun b hb => ?_⟩
     have hbX : b ∈ X := (Subgroup.mem_inf.mp hb).1
@@ -88,9 +88,9 @@ theorem u3BorelFacts_holds :
   intro n hn Y _ _ X U hperf hX hU
   obtain ⟨⟨hp, hf1, -⟩, K, _, _, hK, ⟨e₀⟩⟩ := id hX
   have hu : UnitaryFieldData 2 n K := ⟨hp, hf1, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := hu.charP
-  haveI : Finite K := hu.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := hu.charP
+  have : Finite K := hu.finite
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := 1) (ε := 1) hu
   let eP : hypPSU hu 1 1 ≃* StatedProj (StatedSU 3 (2 ^ n) K) :=
     hypPSUEquivStatedProj hu hR (by norm_num)

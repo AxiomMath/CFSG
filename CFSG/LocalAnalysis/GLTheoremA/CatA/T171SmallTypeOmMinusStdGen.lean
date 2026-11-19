@@ -19,10 +19,12 @@ open scoped CFSG.LocalAnalysis.GLTheoremA.Y10F.HypBlocks
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_blockSet {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A] {D : Hyperplane A 3} :
     D ∈ blockSet A ↔ blockSpace A D.1 ≠ ⊥ :=
   mem_nonBotBlocks A 3
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem blockSpace_eq_bot_of_not_mem_blockSet {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     {D : Hyperplane A 3} (hD : D ∉ blockSet A) : blockSpace A D.1 = ⊥ := by
   by_contra hne
@@ -40,6 +42,7 @@ theorem finrank_eq_fixedSpaceOf_add_sum_blockSet {A : Subgroup (V ≃ₗ[ZMod 2]
   exact (Finset.sum_subset (Finset.subset_univ _) fun D _ hD => by
     simp [blockSpace_eq_bot_of_not_mem_blockSet hD]).symm
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem sum_projBlock_eq_self_of_fixedSpace_bot {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     (hp : Nat.Prime 3) (hpF : (3 : ZMod 2) ≠ 0) (hA : IsElemAbelian 3 A)
     (hC : fixedSpaceOf A = ⊥) (v : V) :
@@ -91,6 +94,7 @@ theorem sum_projBlock_eq_self_of_fixedSpace_bot {A : Subgroup (V ≃ₗ[ZMod 2] 
     LinearMap.sum_apply] at h
   exact (sub_eq_zero.mp h).symm
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_projBlock_ne_zero_of_fixedSpace_bot {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     (hp : Nat.Prime 3) (hpF : (3 : ZMod 2) ≠ 0) (hA : IsElemAbelian 3 A)
     (hC : fixedSpaceOf A = ⊥) {v : V} (hv : v ≠ 0) :
@@ -101,6 +105,7 @@ theorem exists_projBlock_ne_zero_of_fixedSpace_bot {A : Subgroup (V ≃ₗ[ZMod 
   rw [← sum_projBlock_eq_self_of_fixedSpace_bot hp hpF hA hC v]
   exact Finset.sum_eq_zero fun D hD => h D hD
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem projBlock_apply_mem_of_invariant {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     (hp : Nat.Prime 3) (hpF : (3 : ZMod 2) ≠ 0) (hA : IsElemAbelian 3 A)
     {R : Submodule (ZMod 2) V} (hR : ∀ a : ↥A, ∀ v ∈ R, (a : V ≃ₗ[ZMod 2] V) v ∈ R)
@@ -115,6 +120,7 @@ theorem projBlock_apply_mem_of_invariant {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fi
     rw [sumOp, LinearMap.sum_apply]
     exact Submodule.sum_mem _ fun a _ => hR a v hv
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem iInf_blockSet_eq_bot {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     (hp : Nat.Prime 3) (hpF : (3 : ZMod 2) ≠ 0) (hA : IsElemAbelian 3 A)
     (hfaith : ∀ a : ↥A, (∀ v : V, (a : V ≃ₗ[ZMod 2] V) v = v) → a = 1) :
@@ -148,6 +154,7 @@ theorem iInf_blockSet_eq_bot {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
   exact Subgroup.mem_bot.2 (hfaith a hfix)
 
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem index_iInf_erase_le {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     [DecidableEq (Hyperplane A 3)] {D0 : Hyperplane A 3} (hD0 : D0 ∈ blockSet A)
     (h4 : (blockSet A).card = 4) :
@@ -166,6 +173,7 @@ theorem index_iInf_erase_le {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
           rw [hc]
   rw [hprod]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_mem_iInf_erase_not_mem {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     [DecidableEq (Hyperplane A 3)] {D0 : Hyperplane A 3} (hcardA : Nat.card ↥A = 3 ^ 4)
     (h4 : (blockSet A).card = 4) (hD0 : D0 ∈ blockSet A)
@@ -215,9 +223,9 @@ theorem iInf_erase_eq_zpowers {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     (hy1 : y ≠ 1) :
     (⨅ D : {D // D ∈ (blockSet A).erase D0}, D.1.1) = Subgroup.zpowers y := by
   classical
-  haveI : IsMulCommutative ↥A := hA.1
-  letI : CommGroup ↥A := IsMulCommutative.instCommGroup
-  haveI : D0.1.Normal := Subgroup.normal_of_comm D0.1
+  have : IsMulCommutative ↥A := hA.1
+  let : CommGroup ↥A := IsMulCommutative.instCommGroup
+  have : D0.1.Normal := Subgroup.normal_of_isMulCommutative D0.1
   let S : Subgroup ↥A := ⨅ D : {D // D ∈ (blockSet A).erase D0}, D.1.1
   have hidx : S.index ≤ 3 ^ 3 := index_iInf_erase_le hD0 h4
   have hS3 : 3 ≤ Nat.card ↥S := by
@@ -353,6 +361,7 @@ theorem exists_plane_block_of_card_four {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fin
       _ ≤ ∑ D ∈ blockSet A, finrank (ZMod 2) (blockSpace A D.1) := Finset.sum_le_sum hfour
   omega
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_of_forall_mem_blockSpace {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     (hp : Nat.Prime 3) (hpF : (3 : ZMod 2) ≠ 0) (hA : IsElemAbelian 3 A)
     {D : Hyperplane A 3} (hD : D ∈ blockSet A) {a : ↥A}
@@ -365,7 +374,7 @@ theorem mem_of_forall_mem_blockSpace {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintyp
     { toFun := fun b => CFSG.LargeExtraspecial.S4.restrictEquiv (b : V ≃ₗ[ZMod 2] V) U
         (hU b) (fun u hu => by simpa using hU b⁻¹ u hu)
       map_one' := LinearEquiv.ext fun u => Subtype.ext (by simp)
-      map_mul' := fun b c => LinearEquiv.ext fun u => Subtype.ext (by simp [map_mul]) }
+      map_mul' := fun b c => LinearEquiv.ext fun u => Subtype.ext (by simp) }
   have hDle : D.1 ≤ φ.ker := by
     intro d hd
     rw [MonoidHom.mem_ker]

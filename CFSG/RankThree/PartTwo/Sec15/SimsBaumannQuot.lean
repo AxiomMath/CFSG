@@ -48,6 +48,7 @@ theorem nonempty_oResidual_quot_equiv :
   exact ⟨((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivRange φ)).trans (MulEquiv.subgroupCongr hrange)⟩
 
+omit [Finite X] in
 theorem nontrivial_of_isQuasisimple
     (hq : CFSG.IsQuasisimple ↥(oResidual 2 (X ⧸ CFSG.pCore 2 X))) : Nontrivial X := by
   set Y := oResidual 2 (X ⧸ CFSG.pCore 2 X)
@@ -60,6 +61,7 @@ private theorem sbquot_isSimpleGroup_alt {m : ℕ} (hm : 5 ≤ m) :
     IsSimpleGroup (alternatingGroup (Fin m)) :=
   alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hm)
 
+omit [Finite X] in
 theorem isQuasisimple_of_equiv_alt {m : ℕ} (hm : 5 ≤ m)
     (e : ↥(oResidual 2 (X ⧸ CFSG.pCore 2 X)) ≃* alternatingGroup (Fin m)) :
     CFSG.IsQuasisimple ↥(oResidual 2 (X ⧸ CFSG.pCore 2 X)) := by

@@ -174,7 +174,7 @@ theorem card_compl_lines : ∀ ℓ ∈ fanoLines, (ℓᶜ).card = 4 := by decide
 
 theorem allSet_iff (y : AEQ 7) :
     y ∈ allSet ↔ ∃ α' ∈ e64Sets, ∃ (h' : α'.card = 4) (b : Bool), y ∈ memBar α' h' b := by
-  rw [allSet, Set.mem_setOf_eq, ← allMembers_eq]
+  rw [allSet, Set.mem_ofPred_eq, ← allMembers_eq]
   constructor
   · rintro ⟨a, ha, rfl⟩
     obtain ⟨ℓ, hℓ, ha⟩ := List.mem_flatMap.1 ha

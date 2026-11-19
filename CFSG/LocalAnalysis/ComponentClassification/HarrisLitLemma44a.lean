@@ -54,7 +54,7 @@ theorem isPGroup_quot_of_isCyclic {Q : Type*} [Group Q] [Finite Q] (P : Sylow 2 
         pPrimeCore 2 Q := le_sSup ⟨MonoidHom.normal_ker _, hNodd⟩
     have hdvd := Subgroup.index_dvd_of_le hNle
     rw [hc.symm.index_eq_card] at hdvd
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     rw [hn] at hdvd
     obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
     exact IsPGroup.of_card hm
@@ -131,7 +131,7 @@ theorem isPGroup_quot_of_rho (h : Standing t L p f) {A : Subgroup X}
     refine isPGroup_quot_of_isCyclic P ?_
     have hPt : ∀ x ∈ (P : Subgroup ↥Q), (x : X) ∈ zpowers t := by
       intro x hx
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
       have hk2 : (x : X) ^ 2 ^ k = 1 := by
         have := congrArg (fun y : ↥(P : Subgroup ↥Q) => ((y : ↥Q) : X)) hk
         simpa using this

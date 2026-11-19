@@ -30,7 +30,7 @@ theorem sp62_mem_normalizer_of_component {X : Type} [Group X] [Finite X] {L A : 
     (hL : IsComponentOf L ⊤) (hZ : ¬ 3 ∣ Nat.card (Subgroup.center L)) (hAL : A ≤ L)
     (hA3 : IsPGroup 3 A) (hA1 : A ≠ ⊥) {g : X} (hg : g ∈ normalizer (A : Set X)) :
     g ∈ normalizer (L : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hgL
   set L' := L.map (MulAut.conj g).toMonoidHom with hL'
   have hL'c : IsComponentOf L' ⊤ := isComponentOf_map_conj hL g
@@ -91,7 +91,7 @@ theorem sp62_sylow_eq (hKA : KFactOmegaEightMinusAut) (hS : Setting G) {M : Subg
     (hR₀p : IsPGroup 3 R₀) (hR₀c : Nat.card R₀ = 3 ^ 4) (hJR : J₀ ≤ R₀)
     (hJe : IsElemAbelian 3 J₀) (hJc : Nat.card J₀ = 3 ^ 3) (hSp : IsPGroup 3 S) (hRS : R₀ ≤ S)
     (hSM : S ≤ M) : S = R₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρ := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hρ
   have hOcop2 := sp62Close_coprime_pCore_two M
   by_contra hne
@@ -215,7 +215,7 @@ theorem sp62_frame (hK1 : KFactSp62Frame) {M H : Subgroup G}
       (Subgroup.normalizer ((Subgroup.zpowers b : Subgroup G) : Set G)).relIndex
         (Subgroup.normalizer (J : Set G) ⊓ H) = 3 ∧
       ¬ Subgroup.centralizer ((Subgroup.zpowers b : Subgroup G) : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := primeComplementCore (G := H) 3 with hO
   set π := QuotientGroup.mk' O with hπ
   set Rbar : Sylow 3 (H ⧸ O) := hR.toSylow.mapSurjective (QuotientGroup.mk'_surjective O)
@@ -324,7 +324,7 @@ theorem sp62_normBound_section (hK2 : KFactOmega8Frame) {M L J : Subgroup G} {b 
           W ≤ Subgroup.centralizer ((Subgroup.zpowers b : Subgroup G) : Set G) ⊓ M ∧
           Function.Surjective φ ∧ IsSimpleGroup ↥Wb ∧ (∃ x y : Wb, x * y ≠ y * x) ∧
           3 ∣ Nat.card Wb) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρ := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hρ
   have hOcop2 := sp62Close_coprime_pCore_two M
   have hJ3 : IsPGroup 3 J := IsPGroup.of_card hJc
@@ -349,7 +349,7 @@ theorem sp62_normBound_section (hK2 : KFactOmega8Frame) {M L J : Subgroup G} {b 
   have hLNL : Lb ≤ NL := Subgroup.le_normalizer
   have hJNL : Jb ≤ NL := hJbL.trans hLNL
   set L' := Lb.subgroupOf NL with hL'
-  haveI hL'n : L'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLNL).mpr le_rfl
+  have hL'n : L'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLNL).mpr le_rfl
   have eL' : Nonempty (↥L' ≃* CatGroup d4) := by
     obtain ⟨e⟩ := eL
     exact ⟨(Subgroup.subgroupOfEquivOfLe hLNL).trans e⟩
@@ -451,11 +451,11 @@ theorem agl81TenThirteenSp62_of (hGL : GL83StronglyEmbeddedThreeSolvable)
     (h86 : Asc81bEightSix) (h93 : Asc81bNineThree) (hNX3 : D1NoXBlock3 G)
     (h98 : AGL81NineEightFour G) : AGL81TenThirteenSp62 G := by
   intro hS P M H Q K hd L hL I₀ hI₀ hI₀c hN q dK dJ hqp hqe hdK hdJ eK f hf hker
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD2 : CFSG.AGLEmbeddingD2.NoXBlockFor G := noXBlockFor_of_setting hNX3 hS
   have hdK' : IsSpSixTwoIndex dK := ⟨q, hqp, hqe, hdK⟩
   have hdJ' : IsUFourTwoIndex dJ := ⟨q, hqp, hqe, hdJ⟩
-  haveI := sp62_normal hd
+  have := sp62_normal hd
   obtain ⟨⟨d4, hd4, eL⟩, hZ⟩ := sp62_omegaEight hLoc hLevi hU hΩ h84 h85 h86 h93 hD2 h98 hS
     hd hL hI₀ hI₀c hN hdK' hdJ' eK f hf hker
   obtain ⟨H₁, R₁, he⟩ := hd.escape
@@ -478,13 +478,13 @@ theorem agl81TenThirteenSp62_of (hGL : GL83StronglyEmbeddedThreeSolvable)
   obtain ⟨c, hcM, hc⟩ := CFSG.LyonsUnitaryFour.exists_conj_le_sylow_of_le P he.sylow_le hR₀M hR₀p
   set P' := (P : Subgroup G).map (MulAut.conj c⁻¹).toMonoidHom with hP'
   have hRP' : R₀ ≤ P' := fun r hr =>
-    ⟨c * r * c⁻¹, hc r hr, by simp [MulAut.conj_apply, mul_assoc]⟩
+    ⟨c * r * c⁻¹, hc r hr, by simp [mul_assoc]⟩
   have hP'M : P' ≤ M := by
     rintro _ ⟨x, hx, rfl⟩
     have hxM := he.sylow_le hx
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     exact M.mul_mem (M.mul_mem (M.inv_mem hcM) hxM) hcM
-  have hP'p : IsPGroup 3 P' := P.isPGroup'.map _
+  have hP'p : IsPGroup 3 P' := P.isPGroup.map _
   have hP'eq : P' = R₀ := sp62_sylow_eq hKA hS hMloc hL.component hd4 eL hZ hR₀L hR₀M hR₀p hR₀c
     hJR hJe hJc hP'p hRP' hP'M
   have hW : GLBWeakCore 3 R₀ ≤ M := hP'eq ▸ sp62_weakCore_conj_le he.weakCore_le (M.inv_mem hcM)

@@ -15,7 +15,7 @@ theorem m11K_eq_closure :
   unfold m11K
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
     Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨w, (rfl | rfl), rfl⟩
@@ -38,8 +38,8 @@ theorem m11GroupOK_spec (h : m11GroupOK (subgroupList invCap [y0Word, vWord]) = 
       closure ({elemW y0Word, elemW i0Word} : Set (Equiv.Perm (Fin 1408))) = m11K := by
   simp only [m11GroupOK, Bool.and_eq_true, Bool.not_eq_true'] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, hpy⟩, hpv⟩, hnc⟩, hiy⟩, hiv⟩, hrel⟩, hord⟩, hwi⟩, hp2⟩, hmem⟩, h2⟩ := h
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hg, hws⟩ := enumW_gens_words h1
   obtain ⟨hcard, hL0⟩ := enumW_spec h1
   have hwy : wordOK y0Word = true := List.all_eq_true.1 hws y0Word (by simp)
@@ -54,7 +54,7 @@ theorem m11GroupOK_spec (h : m11GroupOK (subgroupList invCap [y0Word, vWord]) = 
     (hL0.memT_iff hri).1 (List.all_eq_true.1 hmem i0Word (by simp))
   obtain ⟨hcard2, -⟩ := enumW_spec h2
   have hcardK : Nat.card ↥m11K = 7920 := hcard
-  haveI : Finite ↥m11K := Nat.finite_of_card_ne_zero (by rw [hcardK]; norm_num)
+  have : Finite ↥m11K := Nat.finite_of_card_ne_zero (by rw [hcardK]; norm_num)
   refine ⟨hg, hcard, hL0, orderOf_eq_of_primeOrderOK hry hpy, orderOf_eq_of_primeOrderOK hrv hpv,
     fun hcon => ?_, fun w hw => ?_, (ordAllOK_iff hid hL0).1 hord,
     orderOf_eq_of_primeOrderOK hri hp2, hi0K, ?_⟩
@@ -66,7 +66,7 @@ theorem m11GroupOK_spec (h : m11GroupOK (subgroupList invCap [y0Word, vWord]) = 
   · have hle : closure (elemW '' {w | w ∈ [y0Word, i0Word]}) ≤ m11K := by
       rw [closure_le]
       rintro _ ⟨w, hw, rfl⟩
-      simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hw
+      simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hw
       rcases hw with rfl | rfl
       · exact subset_closure ⟨y0Word, by simp, rfl⟩
       · exact hi0K
@@ -75,7 +75,7 @@ theorem m11GroupOK_spec (h : m11GroupOK (subgroupList invCap [y0Word, vWord]) = 
     rw [← heq]
     congr 1
     ext g
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
       Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro (rfl | rfl)
@@ -111,7 +111,7 @@ theorem m11FiveOK_spec (hg : gensOK = true) {L0 : Array Table}
       elemW cBWord * elemW rho0Word * (elemW cBWord)⁻¹ = elemW fix5B.rep := by
   simp only [m11FiveOK, Bool.and_eq_true] at h
   obtain ⟨⟨⟨⟨⟨⟨hB, h5⟩, hin⟩, h2⟩, h3⟩, h4⟩, hcB⟩ := h
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hrr : Rep 1408 (tabW rho0Word) (elemW rho0Word) := rep_elemW_of_gensOK hg (by decide)
   have hrB : Rep 1408 (tabW fix5B.rep) (elemW fix5B.rep) := rep_elemW_of_gensOK hg hB
   have hmem : ∀ w ∈ [rho0Word, ck2Word, ck3Word, ck4Word], elemW w ∈ m11K := by

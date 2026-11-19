@@ -13,6 +13,7 @@ open Subgroup CFSG.EvenSporadicStandard.Solomon78
 
 variable {H : Type} [Group H] [Finite H] {N : Subgroup H}
 
+omit [Finite H] in
 theorem FStarSimple.eq_of_isComponent (hN : FStarSimple N) {M : Subgroup H}
     (hq : CFSG.IsQuasisimple ↥M) (hsub : M.IsSubnormal) : M = N := by
   have hMN : M ≤ N := by
@@ -44,7 +45,7 @@ theorem FStarSimple.oddCore_eq_bot (hN : FStarSimple N) : CFSG.oddCore H = ⊥ :
     obtain ⟨a, b, hab⟩ := hN.nonabelian
     exact hab ((IsSimpleGroup.comm_iff_isSolvable.mpr hsolv) a b)
   have hmeet : O ⊓ N = ⊥ := by
-    haveI : (O.subgroupOf N).Normal := hOn.subgroupOf N
+    have : (O.subgroupOf N).Normal := hOn.subgroupOf N
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.subgroupOf N) with h | h
     · rw [Subgroup.subgroupOf_eq_bot] at h
       exact disjoint_iff.1 h

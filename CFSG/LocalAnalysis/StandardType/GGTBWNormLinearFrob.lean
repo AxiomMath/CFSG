@@ -67,8 +67,8 @@ theorem exists_conj_eq_pow_card_largeEvenProj {K : Type} [Field K] [Finite K] [C
     {E : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin d) K))} (hE : IsElemAbelian p E) :
     ∃ z : LargeEvenProj (LargeEvenSLGroup (Fin d) K), ∀ x ∈ E, z * x * z⁻¹ = x ^ Nat.card K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   let H := LargeEvenSLGroup (Fin d) K
   obtain ⟨P, hPp, -, hPmap, hPker⟩ := CFSG.GroupTheory.exists_pSubgroup_map_eq_of_coprime_ker
     (LargeEvenProjMk H) (QuotientGroup.mk'_surjective _) (not_dvd_card_ker_largeEvenProjMk hp hp1)
@@ -90,7 +90,7 @@ theorem exists_conj_eq_pow_card_largeEvenProj {K : Type} [Field K] [Finite K] [C
     calc x * y = x * y * x⁻¹ * y⁻¹ * (y * x) := by group
       _ = y * x := by rw [hc, one_mul]
   let S : Subgroup (GL (Fin d) K) := P.map H.subtype
-  haveI : Finite S := inferInstanceAs (Finite ↥(H.subtype '' (P : Set H)))
+  have : Finite S := inferInstanceAs (Finite ↥(H.subtype '' (P : Set H)))
   have hScomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by
     rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
     exact congrArg Subtype.val (hPcomm x hx y hy)

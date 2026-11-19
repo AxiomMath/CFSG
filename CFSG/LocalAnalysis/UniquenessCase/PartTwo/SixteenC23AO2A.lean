@@ -26,15 +26,18 @@ theorem c23a_o2_mQuot_eq_rk_sub {V U : Subgroup G} (hUV : U ≤ V) :
   rw [h2, h3] at h1
   omega
 
+omit [Finite G] in
 private theorem c23a_o2_mQuot_inf_right (V U : Subgroup G) :
     E3.mQuot V (U ⊓ V) = E3.mQuot V U := by
   unfold E3.mQuot
   rw [Subgroup.inf_relIndex_right]
 
+omit [Finite G] in
 theorem c23a_o2_mQuot_inf_left (V U : Subgroup G) :
     E3.mQuot V (V ⊓ U) = E3.mQuot V U := by
   rw [inf_comm, c23a_o2_mQuot_inf_right]
 
+omit [Finite G] in
 private theorem c23a_o2_mem_sup_of_comm {H K : Subgroup G}
     (hcomm : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) (z : G) :
     z ∈ H ⊔ K ↔ ∃ a ∈ H, ∃ b ∈ K, a * b = z := by
@@ -57,6 +60,7 @@ private theorem c23a_o2_mem_sup_of_comm {H K : Subgroup G}
   · rintro ⟨y, hy, z, hz, rfl⟩
     exact Subgroup.mul_mem_sup hy hz
 
+omit [Finite G] in
 private theorem c23a_o2_card_sup_of_comm {H K : Subgroup G}
     (hcomm : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) (hinf : H ⊓ K = ⊥) :
     Nat.card ↥(H ⊔ K) = Nat.card ↥H * Nat.card ↥K := by
@@ -94,6 +98,7 @@ theorem c23a_o2_rk_sup_of_comm {H K : Subgroup G}
   unfold rk
   rw [c23a_o2_card_sup_of_comm hcomm hinf, padicValNat.mul Nat.card_pos.ne' Nat.card_pos.ne']
 
+omit [Finite G] in
 theorem c23a_o2_comm_mem_inf {M V W W' : Subgroup G} {g : G}
     (hP : C23APair M V W W')
     (hP' : C23APair (conjSubgroup M g) (conjSubgroup V g) (conjSubgroup W g)
@@ -115,6 +120,7 @@ theorem c23a_o2_comm_mem_inf {M V W W' : Subgroup G} {g : G}
       (Subgroup.mem_normalizer_iff.1 huN y).1 hyVg
     exact (conjSubgroup V g).mul_mem hmem ((conjSubgroup V g).inv_mem hyVg)
 
+omit [Finite G] in
 theorem c23a_o2_not_le_centralizer_singleton {X : Subgroup G} {t : G}
     (h : t ∉ centralizer (X : Set G)) : ¬ X ≤ centralizer ({t} : Set G) := by
   intro hle
@@ -125,6 +131,7 @@ theorem c23a_o2_not_le_centralizer_singleton {X : Subgroup G} {t : G}
   rw [Subgroup.mem_centralizer_iff] at hxt
   exact (hxt t rfl).symm
 
+omit [Finite G] in
 theorem c23a_o2_mem_centralizer_of_swap {V W W' X' Y' : Subgroup G} {a u : G}
     (hVcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x)
     (hsup : W ⊔ W' = V) (huax : u * a * u⁻¹ = a)

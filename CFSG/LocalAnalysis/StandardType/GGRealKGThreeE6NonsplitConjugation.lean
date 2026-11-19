@@ -78,7 +78,7 @@ theorem exists_conj_component_of_action
           Multiplicative.toAdd (Multiplicative.ofAdd (v (Multiplicative.toAdd x)))
         rw [toAdd_ofAdd]
         have hx' : u (Multiplicative.toAdd x) = Multiplicative.toAdd x := by
-          simpa only [Set.mem_setOf_eq] using hx
+          simpa only [Set.mem_ofPred_eq] using hx
         simp only [Equiv.Perm.mul_apply, Equiv.Perm.coe_inv]
         rw [Equiv.symm_apply_apply, hx']
       · change T (Multiplicative.ofAdd (v (Multiplicative.toAdd x))) =
@@ -95,7 +95,7 @@ theorem exists_conj_component_of_action
           apply v.injective
           have hzmem : (v * u * v⁻¹) (Multiplicative.toAdd z) =
               Multiplicative.toAdd z := by
-            simpa only [Set.mem_setOf_eq] using hz
+            simpa only [Set.mem_ofPred_eq] using hz
           calc
             v (u (v⁻¹ (Multiplicative.toAdd z))) = Multiplicative.toAdd z := by
               simpa only [Equiv.Perm.mul_apply, Equiv.Perm.coe_inv,

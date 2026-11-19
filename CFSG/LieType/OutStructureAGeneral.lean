@@ -69,9 +69,9 @@ theorem sylow_normal_of_normal_cyclic_of_card_lt_two_mul {G : Type} [Group G] [F
     (hCp : IsPGroup p C) (hidx : ¬ p ∣ C.index) :
     ∀ S : Sylow p G, (S : Subgroup G).Normal := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : D.Normal := hDn
-  haveI : IsCyclic ↥D := hDcyc
+  have : Fact p.Prime := ⟨hp⟩
+  have : D.Normal := hDn
+  have : IsCyclic ↥D := hDcyc
   have hAutD : ¬ p ∣ Nat.card (MulAut ↥D) := by
     rw [IsCyclic.card_mulAut]
     exact not_dvd_totient_of_lt_two_mul hp hp2 hDlt hpD
@@ -114,7 +114,7 @@ theorem sylow_normal_of_normal_cyclic_of_card_lt_two_mul {G : Type} [Group G] [F
       rw [← hmap']
       exact Subgroup.comap_map_eq_self (by rw [QuotientGroup.ker_mk']; exact le_sup_right)
     rw [← hpre]
-    haveI : IsMulCommutative (G ⧸ D) := IsMulCommutative.of_comm hab
+    have : IsMulCommutative (G ⧸ D) := IsMulCommutative.of_comm hab
     exact (inferInstance : (C.map mk).Normal).comap mk
   have hp_sub_C : ∀ {Q : Subgroup G}, Q ≤ C ⊔ D → IsPGroup p Q → Q ≤ C := by
     intro Q hQH hQ x hx
@@ -171,13 +171,13 @@ theorem sylow_normal_of_normal_cyclic_of_card_lt_two_mul {G : Type} [Group G] [F
     refine Subgroup.eq_of_le_of_card_ge hle ?_
     rw [Subgroup.card_map_of_injective φH.injective]
   have hCnorm : C.Normal := by
-    haveI hCDnormal : (C ⊔ D).Normal := hCDnorm
-    haveI : (C.subgroupOf (C ⊔ D)).Characteristic := hCcharH
-    haveI : ((C.subgroupOf (C ⊔ D)).map (C ⊔ D).subtype).Normal := inferInstance
+    have hCDnormal : (C ⊔ D).Normal := hCDnorm
+    have : (C.subgroupOf (C ⊔ D)).Characteristic := hCcharH
+    have : ((C.subgroupOf (C ⊔ D)).map (C ⊔ D).subtype).Normal := inferInstance
     rwa [Subgroup.map_subgroupOf_eq_of_le (le_sup_left : C ≤ C ⊔ D)] at this
   intro S'
   let PC : Sylow p G := hCp.toSylow hidx
-  haveI : Unique (Sylow p G) := Sylow.unique_of_normal PC hCnorm
+  have : Unique (Sylow p G) := Sylow.unique_of_normal PC hCnorm
   have hS' : S' = PC := Subsingleton.elim S' PC
   rw [hS']
   exact hCnorm
@@ -195,9 +195,9 @@ theorem pRank_projectiveSL_formula {N : ℕ} {K : Type} [Field K] [Finite K] {p 
     hp hp2 hN hpK hdiv
 
 theorem two_le_pRank_projectiveSL_of_charP {N : ℕ} {K : Type} [Field K] [Finite K] {p f : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hN : 3 ≤ N) (hf : 1 ≤ f) (hK : Nat.card K = p ^ f) :
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hN : 3 ≤ N) (hf : 1 ≤ f) (hK : Nat.card K = p ^ f) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (projectiveSL N K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let e : projectiveSL N K ≃* StatedProj (StatedSL N K) :=
     (LinearCover.projectiveSpecialLinearEquivProjectiveSL N K).symm.trans
       (projectiveSpecialLinearGroupEquivStatedProj N K)
@@ -230,7 +230,7 @@ theorem two_le_pRank_primeFormP_of_charP {p₀ f N : ℕ} {K : Type} [Field K] [
     (h : UnitaryFieldData p₀ f K) (hp2 : p₀ ≠ 2) (hN : 3 ≤ N) :
     2 ≤ CFSG.Open.pRank p₀ (⊤ : Subgroup (primeFormP h
         ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K))) := by
-  haveI : Fact p₀.Prime := ⟨h.prime⟩
+  have : Fact p₀.Prime := ⟨h.prime⟩
   let ePU : primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) ≃*
       unitaryPSU h N := Classical.choice (nonempty_primeFormP_mulEquiv h isPrimeFormGram_one)
   let ePS : unitaryPSU h N ≃*
@@ -253,21 +253,21 @@ theorem linear_outer_sylow_normal (N : ℕ) (K : Type) [Field K] [Finite K] {p :
     ∀ S : Sylow p (Outer (projectiveSL N K)),
       (S : Subgroup (Outer (projectiveSL N K))).Normal := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hgcd : ¬ p ∣ Nat.gcd N (Nat.card K - 1) := by
     intro hdvd
     have h2 := GL83.I713.two_le_pRank_projectiveSL_of_dvd (K := K) (n := N) hN hp hp2 hdvd
     omega
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨e, hp0, hKcard⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp0⟩
+  have : Fact (ringChar K).Prime := ⟨hp0⟩
   have hKcard' : Nat.card K = ringChar K ^ (e : ℕ) := by
     rw [Nat.card_eq_fintype_card]
     exact hKcard
   have hepos : 1 ≤ e := e.pos
   have hpchar : ringChar K ≠ p := by
     intro hchar
-    haveI : CharP K p := by
+    have : CharP K p := by
       rw [← hchar]
       exact ringChar.charP K
     have hKcardp : Nat.card K = p ^ (e : ℕ) := by rw [hKcard', hchar]
@@ -284,7 +284,7 @@ theorem linear_outer_sylow_normal (N : ℕ) (K : Type) [Field K] [Finite K] {p :
       (K := K) (n := N) hN hp hp2 h
     omega
   have hformula := pRank_projectiveSL_formula (N := N) (K := K) hp hp2 (by omega) hpK hgcd
-  rw [if_neg hq1] at hformula
+  rw [ite_eq_right hq1] at hformula
   set d := orderOf (Nat.card K : ZMod p) with hd
   have hqne : (Nat.card K : ZMod p) ≠ 0 := by
     intro h
@@ -300,16 +300,16 @@ theorem linear_outer_sylow_normal (N : ℕ) (K : Type) [Field K] [Finite K] {p :
   have hNltp : N < 2 * p := by omega
   obtain ⟨D, hDn, hDcyc, hDcard, hDcomm⟩ :=
     linear_outer_filtration (K := K) (n := N) hN
-  haveI : D.Normal := hDn
+  have : D.Normal := hDn
   have hDle : Nat.card D ≤ N := by
     refine Nat.le_of_dvd (by omega : 0 < N) ?_
     exact hDcard.trans (Nat.gcd_dvd_left N (Nat.card K - 1))
   have hDlt : Nat.card D < 2 * p := lt_of_le_of_lt hDle hNltp
   have hpD : ¬ p ∣ Nat.card D := fun h => hgcd (h.trans hDcard)
   have hfcard : Nat.card (K ≃+* K) = (e : ℕ) := fieldAut_card K hp0 hKcard'
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Nat.finite_of_card_ne_zero (by rw [hfcard]; exact e.pos.ne')
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   let S : Sylow p (K ≃+* K) := default
   let F : Subgroup (MulAut (projectiveSL N K)) :=
     (S : Subgroup (K ≃+* K)).map (fieldAut N K)
@@ -344,7 +344,7 @@ theorem linear_outer_sylow_normal (N : ℕ) (K : Type) [Field K] [Finite K] {p :
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner
       (projectiveSL N K))).comp (fieldAut N K)
   let C : Subgroup (Outer (projectiveSL N K)) := (S : Subgroup (K ≃+* K)).map φ
-  have hCp : IsPGroup p C := (S.isPGroup').map φ
+  have hCp : IsPGroup p C := (S.isPGroup).map φ
   have hFC : F.map (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner
       (projectiveSL N K))) = C := by
     dsimp [F, C, φ]
@@ -439,17 +439,17 @@ theorem exists_fieldPart_projectiveSL (N : ℕ) (K : Type) [Field K] [Finite K] 
       ∀ x : MulAut (projectiveSL N K), (∃ k : ℕ, x ^ (p ^ k) = 1) →
         x ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (projectiveSL N K) ⊔ F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨e, hp0, hKcard⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp0⟩
+  have : Fact (ringChar K).Prime := ⟨hp0⟩
   have hKcard' : Nat.card K = ringChar K ^ (e : ℕ) := by
     rw [Nat.card_eq_fintype_card]
     exact hKcard
   have hfcard : Nat.card (K ≃+* K) = (e : ℕ) := fieldAut_card K hp0 hKcard'
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Nat.finite_of_card_ne_zero (by rw [hfcard]; exact e.pos.ne')
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   let S : Sylow p (K ≃+* K) := default
   let F : Subgroup (MulAut (projectiveSL N K)) :=
     (S : Subgroup (K ≃+* K)).map (fieldAut N K)
@@ -480,7 +480,7 @@ theorem exists_fieldPart_projectiveSL (N : ℕ) (K : Type) [Field K] [Finite K] 
     have hScyc : IsCyclic ↥(S : Subgroup (K ≃+* K)) := Subgroup.isCyclic _
     exact (Subgroup.equivMapOfInjective (S : Subgroup (K ≃+* K)) (fieldAut N K)
       hfinj).isCyclic.mp hScyc
-  have hFp : IsPGroup p F := (S.isPGroup').map (fieldAut N K)
+  have hFp : IsPGroup p F := (S.isPGroup).map (fieldAut N K)
   have hgcd : ¬ p ∣ Nat.gcd N (Nat.card K - 1) := by
     intro hdvd
     have h2 := GL83.I713.two_le_pRank_projectiveSL_of_dvd (K := K) (n := N) hN hp hp2 hdvd
@@ -583,8 +583,8 @@ theorem unitary_outer_sylow_normal {p₀ f N : ℕ} {K : Type} [Field K] [Finite
       (S : Subgroup (Outer (primeFormP h
         ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)))).Normal := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := h.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
   let T := primeFormP h ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)
   have hC : IsPrimeFormGram (1 : GL (Fin N) K) := isPrimeFormGram_one
   have hgcd : ¬ p ∣ Nat.gcd N (p₀ ^ f + 1) := by
@@ -630,7 +630,7 @@ theorem unitary_outer_sylow_normal {p₀ f N : ℕ} {K : Type} [Field K] [Finite
     simpa [two_mul, mul_comm] using this
   have hNltp : N < 2 * p := by omega
   obtain ⟨D, hDn, hDcyc, hDcard, hDcycquot⟩ := unitary_outer_filtration h hN hq
-  haveI : D.Normal := hDn
+  have : D.Normal := hDn
   have hDle : Nat.card D ≤ N := by
     refine Nat.le_of_dvd (by omega : 0 < N) ?_
     exact hDcard.trans (Nat.gcd_dvd_left N (p₀ ^ f + 1))
@@ -638,8 +638,8 @@ theorem unitary_outer_sylow_normal {p₀ f N : ℕ} {K : Type} [Field K] [Finite
   have hpD : ¬ p ∣ Nat.card D := fun hh => hgcd (hh.trans hDcard)
   have hcardAut : Nat.card (K ≃+* K) = 2 * f := fieldAut_card K h.prime h.card
   have h2f : 0 < 2 * f := Nat.mul_pos (by norm_num) (Nat.lt_of_lt_of_le zero_lt_one h.one_le)
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; exact h2f.ne')
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; exact h2f.ne')
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   let S : Sylow p (K ≃+* K) := default
   let F : Subgroup (MulAut T) := (S : Subgroup (K ≃+* K)).map (primeFormFieldHom h hC)
   obtain ⟨-, -, -, -, -, hfac, -, hFker, -, hinn, -⟩ :=
@@ -679,7 +679,7 @@ theorem unitary_outer_sylow_normal {p₀ f N : ℕ} {K : Type} [Field K] [Finite
     have hScyc : IsCyclic ↥(S : Subgroup (K ≃+* K)) := Subgroup.isCyclic _
     exact (Subgroup.equivMapOfInjective (S : Subgroup (K ≃+* K))
       (primeFormFieldHom h hC) hfinj).isCyclic.mp hScyc
-  have hFp : IsPGroup p F := (S.isPGroup').map (primeFormFieldHom h hC)
+  have hFp : IsPGroup p F := (S.isPGroup).map (primeFormFieldHom h hC)
   let φ : (K ≃+* K) →* Outer T :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner T)).comp
       (primeFormFieldHom h hC)
@@ -722,7 +722,7 @@ theorem unitary_outer_sylow_normal {p₀ f N : ℕ} {K : Type} [Field K] [Finite
   have hScard : Nat.card ↥(S : Subgroup (K ≃+* K)) =
       p ^ Nat.factorization (2 * f) p := by
     rw [Sylow.card_eq_multiplicity, hcardAut]
-  have hCp : IsPGroup p C := (S.isPGroup').map φ
+  have hCp : IsPGroup p C := (S.isPGroup).map φ
   obtain ⟨-, -, -, hOut, -, -⟩ := unitary_full_diagonal_outer_order h hN hq
   have hTout : Nat.card (Outer T) = 2 * f * Nat.gcd N (p₀ ^ f + 1) := by
     simpa [T] using hOut
@@ -751,7 +751,7 @@ theorem unitary_outer_sylow_normal {p₀ f N : ℕ} {K : Type} [Field K] [Finite
     · exact hpm h1
     · exact hgcd h1
   have hcommD : ∀ x y : Outer T ⧸ D, x * y = y * x := by
-    haveI : IsCyclic (Outer T ⧸ D) := hDcycquot
+    have : IsCyclic (Outer T ⧸ D) := hDcycquot
     exact fun x y => mul_comm' x y
   exact sylow_normal_of_normal_cyclic_of_card_lt_two_mul hp hp2 D C hDn hDcyc hDlt hpD
     hcommD hCp hidxC'
@@ -760,7 +760,7 @@ theorem i713ClauseFor_lie_A (n : ℕ) (hn : 2 ≤ n) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A n q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.A n q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let Fq := GaloisField q.p q.exponent
   have hqcard : Nat.card Fq = q.p ^ q.exponent :=
     GaloisField.card q.p q.exponent q.exponent_pos.ne'
@@ -779,13 +779,13 @@ theorem i713ClauseFor_lie_twistedA (n : ℕ) (hn : 3 ≤ n) (q : TauCeti.PrimePo
     (hv : (TauCeti.LieTypeIndex.twistedA n q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.twistedA n q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨⟨hpq, hf, hN, h32⟩, L, _, _, hL, ⟨eL⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA n q hv
       (G := (TauCeti.CFSGIndex.lie ⟨.twistedA n q, hv⟩).Group) (MulEquiv.refl _)
   let hU : UnitaryFieldData q.p q.exponent L :=
     ⟨hpq, hf, by rw [hL, ← pow_mul, mul_comm]⟩
-  haveI : Finite L := hU.finite
+  have : Finite L := hU.finite
   have hq : ¬(n + 1 = 3 ∧ q.p ^ q.exponent = 2) := by
     rintro ⟨h1, h2⟩
     exact h32 (by rw [h1, h2])

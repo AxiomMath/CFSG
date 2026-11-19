@@ -13,7 +13,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem not_dvd_card_of_pRank_eq_zero {p : ℕ} (hp : p.Prime) {H : Subgroup G}
     (h : CFSG.Open.pRank p H = 0) : ¬ p ∣ Nat.card H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hdvd
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) p hdvd
   have hxordG : orderOf ((x : H) : G) = p := by
@@ -46,7 +46,7 @@ theorem factorization_eq_of_surjective_ker_not_dvd {p : ℕ} {A B : Type*} [Grou
 theorem factorization_eq_of_forall_isPGroup_zpowers_mem {p : ℕ} (hp : p.Prime) {H K : Subgroup G}
     (hHK : H ≤ K) (hmem : ∀ x ∈ K, IsPGroup p (Subgroup.zpowers x) → x ∈ H) :
     (Nat.card K).factorization p = (Nat.card H).factorization p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hS⟩ := CFSG.ABGLocalTools.exists_isSylowOf p K
   have hSK : S ≤ K := hS.le
   have hSH : S ≤ H := by
@@ -67,7 +67,7 @@ theorem mem_of_pow_two_pow_mem_of_orderOf_dvd_prime_pow {r : ℕ} (hr : r.Prime)
     (hψ : orderOf ψ ∣ r ^ m)
     {k : ℕ} (h : ψ ^ (2 ^ k) ∈ I) : ψ ∈ I := by
   by_cases hψ1 : ψ = 1
-  · simpa [hψ1] using I.one_mem
+  · simp [hψ1]
   have hord1 : 1 < orderOf ψ := by
     have hpos : 0 < orderOf ψ := orderOf_pos ψ
     have hne : orderOf ψ ≠ 1 := fun h1 => hψ1 (orderOf_eq_one_iff.mp h1)

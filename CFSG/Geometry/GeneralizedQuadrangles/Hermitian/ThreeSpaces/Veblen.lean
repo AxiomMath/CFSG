@@ -10,12 +10,14 @@ open SimpleGraph CFSG.Geometry.GeneralizedPolygons
 universe u
 variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   {c : Γ.Coloring (Fin 2)} {q : ℕ}
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem isThreespace_of_mem_isThreeBundle {β : Set (Set V)}
     (hβ : IsThreeBundle Γ c q β) {E : Set V} (hE : E ∈ β) : IsThreespace Γ c q E := by
   rcases hβ with ⟨T, -, rfl⟩ | ⟨L, hL, rfl⟩
   · exact hE.1
   · obtain ⟨x, hxL, rfl⟩ := hE
     exact Or.inl ⟨x, color_eq_zero_of_adj_of_color_eq_one hL hxL, rfl⟩
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem mem_ptPerp_self {x : V} (hx : c x = 0) : x ∈ ptPerp Γ c {x} := by
   rw [mem_ptPerp]
   exact ⟨hx, fun a ha => by
@@ -251,10 +253,10 @@ private theorem exists_mem_traceSet_adj (hΓ : IsThasQuadrangle Γ c q) {x z s N
     intro u hu v hv heq
     by_contra huv
     have hu' : Γ.Adj u (f u) := by
-      simp only [f, dif_pos hu]
+      simp only [f, dite_eq_left hu]
       exact commonNeighbor_adj_left hP (hd u hu)
     have hv' : Γ.Adj v (f v) := by
-      simp only [f, dif_pos hv]
+      simp only [f, dite_eq_left hv]
       exact commonNeighbor_adj_left hP (hd v hv)
     have h4 : Γ.dist u v = 4 := dist_eq_four_of_mem_trace hP hxz hu hv huv
     have h2 : Γ.dist u v = 2 := by
@@ -264,12 +266,12 @@ private theorem exists_mem_traceSet_adj (hΓ : IsThasQuadrangle Γ c q) {x z s N
     omega
   have himage : f '' traceSet Γ x z ⊆ Γ.neighborSet s := by
     rintro y ⟨w, hw, rfl⟩
-    simp only [f, dif_pos hw]
+    simp only [f, dite_eq_left hw]
     exact commonNeighbor_adj_right hP (hd w hw)
   have hTcard : (traceSet Γ x z).ncard = q ^ 3 + 1 := by
-    rw [ncard_trace hP hxz, hΓ.deg x, if_pos hx]
+    rw [ncard_trace hP hxz, hΓ.deg x, ite_eq_left hx]
   have hNcard : (Γ.neighborSet s).ncard = q ^ 3 + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hΓ.deg s, if_pos hs0]
+    rw [SimpleGraph.ncard_neighborSet, hΓ.deg s, ite_eq_left hs0]
   have hcard : (f '' traceSet Γ x z).ncard = (Γ.neighborSet s).ncard := by
     rw [hfinj.ncard_image, hTcard, hNcard]
   have hset : f '' traceSet Γ x z = Γ.neighborSet s :=
@@ -278,7 +280,7 @@ private theorem exists_mem_traceSet_adj (hΓ : IsThasQuadrangle Γ c q) {x z s N
   obtain ⟨w, hw, hfw⟩ := hNmem
   refine ⟨w, hw, ?_⟩
   have hwadj : Γ.Adj w (f w) := by
-    simp only [f, dif_pos hw]
+    simp only [f, dite_eq_left hw]
     exact commonNeighbor_adj_left hP (hd w hw)
   rw [hfw] at hwadj
   exact hwadj.symm
@@ -296,7 +298,7 @@ private theorem inter_nonempty_traceSet_traceSet (hΓ : IsThasQuadrangle Γ c q)
     omega
   have htrace : (traceSet Γ x z).Nonempty := by
     have hcard : (traceSet Γ x z).ncard = q ^ 3 + 1 := by
-      rw [ncard_trace hP hxz, hΓ.deg x, if_pos hx]
+      rw [ncard_trace hP hxz, hΓ.deg x, ite_eq_left hx]
     have hpos : 0 < (traceSet Γ x z).ncard := by rw [hcard]; omega
     exact (Set.ncard_pos (s := traceSet Γ x z)).mp hpos
   rcases eq_or_ne z z' with rfl | hzz'
@@ -406,7 +408,7 @@ private theorem inter_nonempty_of_traceSet_conePlane (hΓ : IsThasQuadrangle Γ 
     · rw [hpx₀]; simp
     · exact le_of_eq (dist_eq_two_of_adj_of_adj_of_ne hP hNp.symm hNx₀.symm hpx₀)
 private theorem inter_nonempty_of_traceSet_neighborSet (hΓ : IsThasQuadrangle Γ c q)
-    {x z L : V} (hx : c x = 0) (hxz : Γ.dist x z = 4) (hL1 : c L = 1)
+    {x z L : V} (_hx : c x = 0) (hxz : Γ.dist x z = 4) (hL1 : c L = 1)
     (hLx : Γ.Adj L x) : (traceSet Γ x z ∩ Γ.neighborSet L).Nonempty := by
   have hP : IsGeneralizedPolygon Γ 4 := hΓ.gp
   obtain ⟨p, hLp, hzp⟩ := exists_mem_neighborSet_dist_eq_two hΓ hxz hL1 hLx

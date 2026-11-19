@@ -12,7 +12,7 @@ theorem aut_eq_one_of_central {M : Type} [Group M] (hM : commutator M = ⊤) {Z�
     (hZ : Z₀ ≤ Subgroup.center M) (α : MulAut M) (h : ∀ m : M, m⁻¹ * α m ∈ Z₀) : α = 1 := by
   have hcen : ∀ y ∈ Z₀, ∀ g : M, g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZ hy) g
-  letI : CommGroup Z₀ :=
+  let : CommGroup Z₀ :=
     { (inferInstance : Group Z₀) with mul_comm := fun x y => Subtype.ext (hcen y y.2 x) }
   let f : M →* Z₀ :=
     { toFun := fun m => ⟨m⁻¹ * α m, h m⟩

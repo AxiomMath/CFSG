@@ -16,13 +16,13 @@ theorem exists_normalizer_not_mem_of_not_isSylow {D : Type*} [Group D] [Finite D
   have hp : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hSQ⟩ := hS.exists_le_sylow
   have hlt : S < Q := lt_of_le_of_ne hSQ fun h => hns ⟨Q, h.symm⟩
-  have := Q.isPGroup'.isNilpotent
+  have := Q.isPGroup.isNilpotent
   have htop : S.subgroupOf Q < ⊤ :=
     lt_top_iff_ne_top.mpr fun h => hlt.ne (le_antisymm hlt.le (subgroupOf_eq_top.mp h))
   obtain ⟨z, hz, hzS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ htop)
   refine ⟨z, mem_normalizer_of_forall_inv_mul_mul_mem fun x hx => ?_,
-    fun h => hzS (mem_subgroupOf.mpr h), Q, Q.isPGroup', hSQ, z.2⟩
+    fun h => hzS (mem_subgroupOf.mpr h), Q, Q.isPGroup, hSQ, z.2⟩
   have h1 := (mem_normalizer_iff''.mp hz ⟨x, hSQ hx⟩).mp (mem_subgroupOf.mpr hx)
   rw [mem_subgroupOf] at h1
   simpa using h1

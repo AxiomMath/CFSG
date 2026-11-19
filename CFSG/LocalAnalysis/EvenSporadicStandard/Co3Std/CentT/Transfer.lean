@@ -24,7 +24,7 @@ theorem transferWitness_of_normal {X : Type} [Group X] [Finite X] {a : X} {Fus :
       rw [inf_comm]
       exact Subgroup.inf_relIndex_right N (S : Subgroup X)
     rw [hrel]
-    obtain ⟨n, hn⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
     have hdvd_idx : N.relIndex (S : Subgroup X) ∣ N.index :=
       relIndex_dvd_index_of_normal N (S : Subgroup X)
     have hdvd_card : N.relIndex (S : Subgroup X) ∣ Nat.card (S : Subgroup X) :=

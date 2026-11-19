@@ -85,7 +85,7 @@ theorem card_quotient_center_mulEquiv' {A B : Type*} [Group A] [Group B] (e : A 
 theorem exists_ringEquiv_zmod2 (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) :
     Nonempty (K ≃+* ZMod 2) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K
   have hcard' : p ^ (n : ℕ) = 2 := by
     rw [← hcard, ← Nat.card_eq_fintype_card, hK]

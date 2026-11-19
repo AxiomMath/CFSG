@@ -73,8 +73,8 @@ theorem QSCfg.false_of_lieWit (hGA : GriessAllModelsStatement) {Ω : Type} [Grou
     (hW : ∃ E : Subgroup (TauCeti.CFSGIndex.lie d).Group,
       IsElemAbelian 3 E ∧ 3 ^ 5 ≤ Nat.card E ∧ T171S.TwoLocal E) : False := by
   obtain ⟨E, hE, h5, P, hP2, hP1, hEP⟩ := hW
-  haveI := (chev_pSimple_simple_nonabelian Nat.prime_three hc.comp).1
-  haveI := f.injective.nontrivial
+  have := (chev_pSimple_simple_nonabelian Nat.prime_three hc.comp).1
+  have := f.injective.nontrivial
   obtain ⟨eL⟩ := HStdList.centerQuot_equiv_of_pSimple hc.quasi f
   have hcop := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2
     (I1431C2.cl_not_three_dvd_center hGA hc.quasi hd eL)
@@ -92,13 +92,13 @@ private theorem lieQuot_of_twE6 {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup
     (hcomp : GLAPComponent 3 (⊤ : Subgroup Ω) S) (hS : CFSG.Open.IsQuasisimple ↥S)
     (h : catalogIs (PSimple 3 S) S9.isTE6two) : IsLieQuot ↥S Bal209TwoIndex := by
   obtain ⟨i, hi, ⟨f⟩⟩ := h
-  haveI := (chev_pSimple_simple_nonabelian Nat.prime_three hcomp).1
+  have := (chev_pSimple_simple_nonabelian Nat.prime_three hcomp).1
   cases i with
   | lie idx =>
     obtain ⟨d, hv⟩ := idx
     cases d with
     | twistedE6 q =>
-      haveI := f.injective.nontrivial
+      have := f.injective.nontrivial
       obtain ⟨e⟩ := HStdList.centerQuot_equiv_of_pSimple hS f
       exact ⟨⟨.twistedE6 q, hv⟩, I1431C2.cl_primePower_card_two (q := q) hi, ⟨e⟩⟩
     | _ => exact hi.elim
@@ -121,7 +121,7 @@ theorem QSNL.false_of_twE6_u5two (hBal : Bal209TwoInnerCompType) (hLOB : LieOrde
     obtain ⟨⟨e, hv⟩, he, ⟨g⟩⟩ := hBal Ω S d₀ hc.quasi (lieQuot_of_twE6 hc.comp hc.quasi hS)
       hd3 hdS hin K hKc
     have h13 := CatDistinct.card_isU5two hLOB hK
-    haveI : Nontrivial (PSimple 3 K) :=
+    have : Nontrivial (PSimple 3 K) :=
       Finite.one_lt_card_iff_nontrivial.1 (by rw [h13]; norm_num)
     obtain ⟨φ⟩ := HStdList.centerQuot_equiv_of_pSimple hKcomp.2.2 (MulEquiv.refl (PSimple 3 K))
     have hord : Nat.card (PSimple 3 K) = lieOrderFormula e :=

@@ -14,7 +14,7 @@ private theorem commute_of_mem_preimage {E : Type} [Group E] (πb : E →* A5 ×
     (hsurj : Function.Surjective πb) (hcenter : πb.ker ≤ Subgroup.center E)
     {e₁ e₂ : E} (h₁ : (πb e₁).2 = 1) (h₂ : (πb e₂).1 = 1) : e₁ * e₂ = e₂ * e₁ := by
   classical
-  haveI : Group.IsPerfect A5 :=
+  have : Group.IsPerfect A5 :=
     ⟨commutator_alternatingGroup_eq_top (α := Fin 5) (by simp)⟩
   let S : Subgroup E := ((MonoidHom.snd A5 A5).comp πb).ker
   let φ : S →* A5 × A5 := πb.comp S.subtype
@@ -38,7 +38,7 @@ private theorem commute_of_mem_preimage {E : Type} [Group E] (πb : E →* A5 ×
     rw [show (⁅(⊤ : Subgroup A5), (⊤ : Subgroup A5)⁆) = ⊤ from by
       rw [← commutator_def]
       exact Group.IsPerfect.commutator_eq_top]
-    simp [Subgroup.commutator_bot_left]
+    simp
   have hmap_comm : Subgroup.map φ (commutator S) = φ.range := by
     rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top]
     exact Subgroup.isPerfect_iff.mp hperf

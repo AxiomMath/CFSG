@@ -26,8 +26,8 @@ private theorem ggF4N2_five_dvd_card_J
     5 ∣ Nat.card J := by
   obtain ⟨-, ⟨F0, hField0, hFinite0, hChar0, hF0, ⟨eJ⟩⟩, -⟩ :=
     ggF4N2J_original_mixed_recognition hR hNbr hL hK
-  letI : Field F0 := hField0
-  letI : Finite F0 := hFinite0
+  let : Field F0 := hField0
+  let : Finite F0 := hFinite0
   have hcardJ : Nat.card J = Nat.card (Matrix.SpecialLinearGroup (Fin 4) F0) :=
     Nat.card_congr eJ.toEquiv
   rw [hcardJ, CFSG.OrderReductions.LinearOrders.card_specialLinear F0 4 (by norm_num), hF0]
@@ -57,8 +57,8 @@ theorem ggF4N2_nbr_centralImage (hLB : GGLBalanceInput)
   have hhJ : GGHasLabel ⟨.A, 3, 2⟩ (J ⧸ Subgroup.center J) := by
     obtain ⟨-, ⟨F0, hField0, hFinite0, hChar0, hF0, ⟨eJ⟩⟩, -⟩ :=
       ggF4N2J_original_mixed_recognition hR hNbr hL hK
-    letI : Field F0 := hField0
-    letI : Finite F0 := hFinite0
+    let : Field F0 := hField0
+    let : Finite F0 := hFinite0
     exact ggHasLabel_of_mulEquiv_specialLinear (k := 4) (f := 2) (by norm_num)
       (by rw [hF0]; norm_num) (by decide) (by decide) eJ.symm
   obtain ⟨labY, hlabY, -, hhY⟩ :=

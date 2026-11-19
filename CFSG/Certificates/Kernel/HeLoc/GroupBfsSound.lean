@@ -48,7 +48,7 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.RankThree.Native
 variable {n : Nat}
 
 theorem enumOK_of_reach {gs : Array (Array Nat)} {ps : List Nat} {fuel N : Nat}
-    {U : Nat → Array Nat} (hN : 0 < N)
+    {U : Nat → Array Nat} (_hN : 0 < N)
     (hval : ∀ i < N, validA n (U i) = true) (h0 : ∃ i < N, U i = idA n)
     (hclos : ∀ i < N, ∀ k < gs.size, ∃ j < N, compA n gs[k]! (U i) = U j)
     (hkey : ∀ a < N, ∀ b < N, keyA n ps (U a) = keyA n ps (U b) → a = b)

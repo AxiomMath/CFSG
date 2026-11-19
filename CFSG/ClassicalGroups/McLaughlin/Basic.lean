@@ -33,7 +33,7 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 private theorem smulRight_mul_smulRight (φ ψ : Dual K V) (v w : V) :
     φ.smulRight v * ψ.smulRight w = φ w • ψ.smulRight v := by
   ext z
-  simp only [Module.End.mul_apply, LinearMap.smulRight_apply, map_smul, smul_eq_mul, smul_smul,
+  simp only [Module.End.mul_apply, LinearMap.smulRight_apply, map_smul, smul_smul,
     LinearMap.smul_apply]
   module
 
@@ -110,7 +110,7 @@ theorem isRootElt_conj {X : Subgroup (LinearMap.GeneralLinearGroup K V)} {v : V}
       ext z
       simp [LinearMap.smulRight_apply]
     rw [Units.val_mul, Units.val_mul, hhv, ← hA]
-    simp only [mul_add, add_mul, mul_one, one_mul, mul_smul_comm, smul_mul_assoc, Units.mul_inv]
+    simp only [mul_add, add_mul, mul_one, mul_smul_comm, smul_mul_assoc, Units.mul_inv]
 
 private theorem commutator_rankOne {μ ν : Dual K V} {a b : V} (hμa : μ a = 0) (hνa : ν a = 0)
     (hνb : ν b = 0) (s t : K) :
@@ -156,9 +156,8 @@ private theorem torus_apply (U L : K → LinearMap.GeneralLinearGroup K V) {v w 
       ((U t * L (-t⁻¹) * U t * U (-1) * L 1 * U (-1) : LinearMap.GeneralLinearGroup K V) :
         V →ₗ[K] V) w = t⁻¹ • w := by
   constructor
-  · simp [Units.val_mul, Module.End.mul_apply, hUv, hUw, hLv, hLw, ht, mul_inv_cancel₀ ht]
-  · simp [Units.val_mul, Module.End.mul_apply, hUv, hUw, hLv, hLw, ht, mul_inv_cancel₀ ht,
-      inv_mul_cancel₀ ht]
+  · simp [Units.val_mul, Module.End.mul_apply, hUv, hUw, hLv, hLw, ht]
+  · simp [Units.val_mul, Module.End.mul_apply, hUv, hUw, hLv, hLw, ht]
 
 theorem opposite_sl2 {X : Subgroup (LinearMap.GeneralLinearGroup K V)} {v w : V} {φ ψ : Dual K V}
     (hx : IsRootElt X v φ) (hy : IsRootElt X w ψ) (hφw : φ w ≠ 0) (hψv : ψ v ≠ 0) :
@@ -246,7 +245,7 @@ theorem iInf_axisSpace_eq_bot {X : Subgroup (LinearMap.GeneralLinearGroup K V)}
   have hinv : ∀ g ∈ X, ∀ w ∈ (⨅ v ∈ {v : V | IsCentre X v}, axisSpace X v),
       (g : V →ₗ[K] V) w ∈ (⨅ v ∈ {v : V | IsCentre X v}, axisSpace X v) := by
     intro g hg w hw
-    simp only [Submodule.mem_iInf, Set.mem_setOf_eq] at hw ⊢
+    simp only [Submodule.mem_iInf, Set.mem_ofPred_eq] at hw ⊢
     intro u hu
     rw [mem_axisSpace_iff]
     intro φ' hφ'
@@ -261,7 +260,7 @@ theorem iInf_axisSpace_eq_bot {X : Subgroup (LinearMap.GeneralLinearGroup K V)}
     have hy : y ∈ (⨅ v ∈ {v : V | IsCentre X v}, axisSpace X v) := by
       rw [h]
       exact Submodule.mem_top
-    simp only [Submodule.mem_iInf, Set.mem_setOf_eq] at hy
+    simp only [Submodule.mem_iInf, Set.mem_ofPred_eq] at hy
     exact (mem_axisSpace_iff.mp (hy v0 hv0)) φ hφ
 
 end Irreducible

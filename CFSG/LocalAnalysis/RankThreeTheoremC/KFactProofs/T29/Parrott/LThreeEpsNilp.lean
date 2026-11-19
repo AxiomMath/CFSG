@@ -20,7 +20,7 @@ theorem hasNormalPComplement_of_pair {x v : X} (hrank : CFSG.Open.pRank 3
     (hvx : v * x = x * v) (hxv : x ∉ zpowers v) (hN : ∀ g ∈ centralizer ({x} : Set X),
       g ∈ normalizer ((zpowers v ⊔ zpowers x : Subgroup X) : Set X) → g * v * g⁻¹ = v) :
     CFSG.HasNormalPComplement 3 ↥(centralizer ({x} : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := centralizer ({x} : Set X) with hCdef
   set Q : Subgroup X := zpowers v ⊔ zpowers x with hQdef
   have hel : ∀ c : X, c ^ 3 = 1 → IsElemAbelian 3 (zpowers c) := fun c hc => by
@@ -135,7 +135,7 @@ theorem IsTypeThree.not_forall_conj_mem (hK : PiField π p f K) (hq : ModThree �
     subst h; exact hK.unitary
   have := hK.finite
   set C := slPi π 3 (p ^ f) K ⊓ centralizer ({y} : Set (GL (Fin 3) K))
-  haveI := hT.cyclic
+  have := hT.cyclic
   obtain ⟨t₀, ht₀⟩ := IsCyclic.exists_generator (α := ↥C)
   have hord : orderOf t₀ = Nat.card C := orderOf_eq_card_of_forall_mem_zpowers ht₀
   obtain ⟨m, hm, hm1, -⟩ := hT.card_eq hK hq h2

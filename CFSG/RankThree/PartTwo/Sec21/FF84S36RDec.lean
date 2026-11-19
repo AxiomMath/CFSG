@@ -12,12 +12,12 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem R_isPGroup_of_no_odd {K : Subgroup G}
     (h : ∀ x ∈ K, ∀ q : ℕ, q.Prime → q ≠ 2 → orderOf x ≠ q) : IsPGroup 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_card]
   refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' ?_⟩
   intro q hq hqd
   by_contra hq2
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := K) q hqd
   exact h x x.2 q hq hq2 (by rw [← hx]; exact Subgroup.orderOf_coe x)
 
@@ -37,9 +37,9 @@ theorem R_cen_le_op2 {b t b₁ b₂ : G} {L B : Subgroup G} (hchar : CFSG.Assemb
 
 theorem R_zt_le {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ b₂ t) :
     Subgroup.zpowers t ≤ Op 2 (Cen t) :=
-  S36_zpowers_op2 d.ht (S36_mem_cen_of rfl) (fun g hg => (S36_comm_of_cen hg).symm)
+  S36_zpowers_op2 d.ht (S36_mem_cen_of rfl) (fun _g hg => (S36_comm_of_cen hg).symm)
 
-theorem R_zt_norm {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ b₂ t) :
+theorem R_zt_norm {b t b₁ b₂ : G} {L B : Subgroup G} (_d : F6Data b L B b₁ b₂ t) :
     ((Subgroup.zpowers t).subgroupOf (Op 2 (Cen t))).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -54,7 +54,7 @@ theorem R_zt_norm {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ 
 
 theorem R_d_facts {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ b₂ t) :
     b₁ * b₂ ^ 2 ∈ L ∧ b₁ * b₂ ^ 2 ∈ Cen t ∧ orderOf (b₁ * b₂ ^ 2) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb1B : b₁ ∈ B := (Subgroup.mem_inf.1 d.sec.hb₁).1
   have hb2B : b₂ ∈ B := (Subgroup.mem_inf.1 d.sec.hb₂).1
   have hb1L : b₁ ∈ L := (Subgroup.mem_inf.1 d.sec.hb₁).2
@@ -76,7 +76,7 @@ theorem R_fpf {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ b₂
     (h31 : FF84_3_1) (h33 : FF84_3_3) :
     ∀ u ∈ Op 2 (Cen t), (∃ n ∈ Subgroup.zpowers t,
       (b₁ * b₂ ^ 2) * u * (b₁ * b₂ ^ 2)⁻¹ = u * n) → u ∈ Subgroup.zpowers t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hdCt, hd3⟩ := R_d_facts d
   have hCT := (F6_CT_c d h31 h33).2
   rintro u hu ⟨n, hn, hconj⟩
@@ -96,7 +96,7 @@ theorem R_decomp {b t b₁ b₂ : G} {L B : Subgroup G} (hchar : CFSG.Assembly.I
   have hZ : Subgroup.center L = ⊥ := (h31 G b L B b₁ b₂ d.sec).2
   have hsimple : IsSimpleGroup ↥L := by
     have hq : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := d.sec.hyp.quasi.2.1
-    haveI := hq
+    have := hq
     exact (M0_quotIso hZ).symm.isSimpleGroup
   obtain ⟨e, -⟩ := M0_model d.sec hZ
   have hLcard : Nat.card L = 20160 := by
@@ -185,7 +185,7 @@ theorem R_decomp {b t b₁ b₂ : G} {L B : Subgroup G} (hchar : CFSG.Assembly.I
       intro h2d
       rw [hord] at h2d
       exact hq2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hq).1 h2d).symm
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hcs := B_stability 2 (Op 2 (Cen t)) (Subgroup.zpowers t) (y : G) (S36_op2_isPGroup _)
       hNT hNn (hXN y.2) hyodd h1 h2
     have hyT : (y : G) ∈ Op 2 (Cen t) := R_cen_le_op2 hchar d (Subgroup.mem_inf.2 ⟨y.2, hcs⟩)

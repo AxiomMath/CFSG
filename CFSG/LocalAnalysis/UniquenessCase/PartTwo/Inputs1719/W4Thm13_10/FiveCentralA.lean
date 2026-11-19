@@ -73,7 +73,7 @@ theorem eq_one_of_commute_of_isAlt_five {W : Type} [CommGroup W] [Finite W]
     omega
   by_contra hd1
   have hord : orderOf d = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime hd5 hd1
   have hdP : ∀ p ∈ P, d * p = p * d := fun p hp => hdN p (hPN hp)
   have hPz : ∀ p ∈ P, ∀ x ∈ Subgroup.zpowers d, p * x * p⁻¹ ∈ Subgroup.zpowers d := by

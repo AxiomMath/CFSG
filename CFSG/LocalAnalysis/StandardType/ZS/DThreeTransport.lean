@@ -158,7 +158,7 @@ private lemma commute_swap_of_coxeterA_eq_two {n : ℕ} {i j : Fin n}
     Commute (Equiv.swap i.castSucc i.succ) (Equiv.swap j.castSucc j.succ) := by
   have hnot : ¬ ((j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)) := by
     intro hc
-    rw [TauCeti.coxeterMatrixA_apply, if_neg hij, if_pos hc] at hM
+    rw [TauCeti.coxeterMatrixA_apply, ite_eq_right hij, ite_eq_left hc] at hM
     exact absurd hM (by norm_num)
   push Not at hnot
   have hval : (i : ℕ) ≠ (j : ℕ) := fun h => hij (Fin.ext h)
@@ -207,12 +207,12 @@ theorem coxeterConfig_swap (l : ℕ) :
   · intro i j hM
     rw [TauCeti.coxeterMatrixA_apply] at hM
     by_cases hij : i = j
-    · rw [if_pos hij] at hM
+    · rw [ite_eq_left hij] at hM
       exact absurd hM (by norm_num)
-    · rw [if_neg hij] at hM
+    · rw [ite_eq_right hij] at hM
       by_cases hadj : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)
       · exact orderOf_swap_mul_swap_of_val_succ hadj
-      · rw [if_neg hadj] at hM
+      · rw [ite_eq_right hadj] at hM
         exact absurd hM (by norm_num)
   · intro i j hij hM
     exact commute_swap_of_coxeterA_eq_two hij hM

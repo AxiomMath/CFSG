@@ -28,7 +28,7 @@ theorem sylow_of_center {G : Type*} [Group G] [Finite G] {S T : Subgroup G} {t�
     (ht₀T : t₀ ∈ T) (ht₀1 : t₀ ≠ 1)
     (hcen : ∀ x ∈ T, (∀ y ∈ T, x * y = y * x) → x = 1 ∨ x = t₀) :
     IsSylow2In S T := by
-  haveI : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
+  have : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
   let Y : Subgroup G := S ⊓ Subgroup.centralizer ({t₀} : Set G)
   have hYcard' : Nat.card ↥Y = 240 := hYcard
   have hTY' : T ≤ Y := hTY
@@ -46,7 +46,7 @@ theorem sylow_of_center {G : Type*} [Group G] [Finite G] {S T : Subgroup G} {t�
     let H : Subgroup ↥P := T'.subgroupOf (P : Subgroup ↥S)
     have hHtop : H ≠ ⊤ := fun h => hnotle (Subgroup.subgroupOf_eq_top.mp h)
     have hHlt : H < ⊤ := lt_of_le_of_ne le_top hHtop
-    haveI : Group.IsNilpotent ↥P := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥P := P.isPGroup.isNilpotent
     have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent
     have hproper : H < Subgroup.normalizer H := hnc H hHlt
     obtain ⟨n, hnmem, hnnot⟩ : ∃ n : ↥P, n ∈ Subgroup.normalizer H ∧ n ∉ H := by
@@ -132,7 +132,7 @@ theorem sylow_of_center {G : Type*} [Group G] [Finite G] {S T : Subgroup G} {t�
       · rw [Set.mem_singleton_iff] at hz
         rw [hz]
         exact hn0_Q
-    have hT₂p : IsPGroup 2 T₂ := (P.isPGroup'.map S.subtype).to_le hT₂Q
+    have hT₂p : IsPGroup 2 T₂ := (P.isPGroup.map S.subtype).to_le hT₂Q
     have hlt : T < T₂ := lt_of_le_of_ne hTT₂ (fun h => hn0_notT (h ▸ hn0_T₂))
     have hcardlt : Nat.card ↥T < Nat.card ↥T₂ := Subgroup.card_lt_of_lt hlt
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hT₂p
@@ -155,7 +155,7 @@ theorem sylow_of_center {G : Type*} [Group G] [Finite G] {S T : Subgroup G} {t�
 theorem IsSylow2In.card_le_of_pGroup {G : Type*} [Group G] [Finite G] {S T R : Subgroup G}
     (h : IsSylow2In S T) (hT : Nat.card ↥T = 16) (hRS : R ≤ S) (hR : IsPGroup 2 ↥R) :
     Nat.card ↥R ≤ 16 := by
-  haveI : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
+  have : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hR
   have hcardS : Nat.card ↥S = 16 * (T.subgroupOf S).index := by
     have hc : Nat.card ↥(T.subgroupOf S) = 16 := by

@@ -240,11 +240,11 @@ theorem coprime_subgroup_le_of_elementary_in_containing_sylow
       exact Subgroup.map_mono hnormalizedSylow
     have helementaryMap := elementary_abelian_map prime helementary equivalence.toMonoidHom
     have hotherGroup : IsPGroup otherPrime conjugatedGroup :=
-      (otherSylow.isPGroup'.map source.subtype).map equivalence.toMonoidHom
+      (otherSylow.isPGroup.map source.subtype).map equivalence.toMonoidHom
     have hconjugatedContained : conjugatedGroup ≤ overgroup := by
       by_cases hequal : prime = otherPrime
       · have hcardOne : Nat.card (otherSylow : Subgroup source) = 1 := by
-          rcases otherSylow.isPGroup'.card_eq_or_dvd with hcardOne | hdivides
+          rcases otherSylow.isPGroup.card_eq_or_dvd with hcardOne | hdivides
           · exact hcardOne
           · exact False.elim (hcoprime (hequal ▸
               hdivides.trans (otherSylow : Subgroup source).card_subgroup_dvd_card))
@@ -351,7 +351,7 @@ theorem normal_subgroup_sylow_rank_forces_containment
   have hnormalizer : Subgroup.normalizer
       (liftedSylow.map localGroup.subtype : Set ambient) ≤ overgroup :=
     normalizer_le_of_rank_in_containing_sylow prime hprime sylow hsylow hcore
-      hliftedContained ((normalSylow.isPGroup'.map normalGroup.subtype).map
+      hliftedContained ((normalSylow.isPGroup.map normalGroup.subtype).map
         localGroup.subtype) hliftedRank
   have hnormalizerInLocal : Subgroup.normalizer (liftedSylow : Set localGroup) ≤
       overgroup.subgroupOf localGroup := by
@@ -496,7 +496,7 @@ theorem normal_subgroup_centralizer_rank_forces_containment
       (liftedSylow.map localGroup.subtype : Set ambient) ≤ overgroup :=
     normalizer_le_of_centralizer_rank_in_containing_sylow prime hprime sylow hsylow hcore
       (hliftedNormal.trans hcontained)
-      ((normalSylow.isPGroup'.map normalGroup.subtype).map localGroup.subtype)
+      ((normalSylow.isPGroup.map normalGroup.subtype).map localGroup.subtype)
       hliftedRank hliftedCentralRank
   have hnormalizerInLocal : Subgroup.normalizer (liftedSylow : Set localGroup) ≤
       overgroup.subgroupOf localGroup := by
@@ -552,7 +552,7 @@ theorem fullCore_escape_with_overgroup_centralizer_bound
   by_contra hcentralRank
   apply hnormalizer
   exact normalizer_le_of_centralizer_rank_in_containing_sylow prime hprime
-    sylow hsylow hcore (hcontained.trans hsylow) (sylow.isPGroup'.to_le hcontained)
+    sylow hsylow hcore (hcontained.trans hsylow) (sylow.isPGroup.to_le hcontained)
     (by omega) (by omega)
 
 theorem normal_subgroup_prime_quotient_forces_containment
@@ -596,7 +596,7 @@ theorem normal_subgroup_prime_quotient_forces_containment
       ⟨elementary, le_inf helementarySylow
         (helementaryContained.trans inf_le_right), helementary, hcard⟩
   have hlocalSylowContained := intersecting_pSubgroup_le prime hprime sylow hsylow hcore
-    (localSylow.isPGroup'.map localGroup.subtype) hintersectionRank
+    (localSylow.isPGroup.map localGroup.subtype) hintersectionRank
   have htop : (⊤ : Subgroup localGroup).map localGroup.subtype ≤ overgroup := by
     rw [← hgenerates, Subgroup.map_sup]
     exact sup_le hlocalSylowContained hcontained
@@ -664,13 +664,13 @@ theorem intersecting_local_has_contained_sylow
       ⟨elementary, le_inf helementarySylow
         (helementaryContained.trans inf_le_right), helementary, hcard⟩
   have hcontained := intersecting_pSubgroup_le prime hprime sylow hsylow hcore
-    (localSylow.isPGroup'.map localGroup.subtype) hintersectionRank
+    (localSylow.isPGroup.map localGroup.subtype) hintersectionRank
   have hlocalRank : 3 ≤ pRank prime
       ((localSylow : Subgroup localGroup).map localGroup.subtype) :=
     hintersectionRank.trans (pRank_mono prime hprime inf_le_left)
   exact ⟨localSylow, hcontained, hlocalRank,
     normalizer_le_of_rank_in_containing_sylow prime hprime sylow hsylow hcore
-      hcontained (localSylow.isPGroup'.map localGroup.subtype) hlocalRank⟩
+      hcontained (localSylow.isPGroup.map localGroup.subtype) hlocalRank⟩
 
 theorem intersecting_local_primeCore_rank_obstruction
     {ambient : Type u} [Group ambient] [Finite ambient]
@@ -865,7 +865,7 @@ theorem conjugated_sylow_le_iff_mem_of_normalizer_le
   constructor
   · intro hcontained
     obtain ⟨adjustment, hadjustment⟩ := exists_conjugate_le_sylow_of_le prime sylow
-      hsylow hcontained (conjugator • sylow).isPGroup'
+      hsylow hcontained (conjugator • sylow).isPGroup
     have hmap : ((conjugator • sylow : Sylow prime ambient) : Subgroup ambient).map
         (MulAut.conj (adjustment : ambient)).toMonoidHom =
         (((adjustment : ambient) * conjugator) • sylow : Sylow prime ambient) := by
@@ -887,7 +887,7 @@ theorem conjugated_sylow_le_iff_mem_of_normalizer_le
     rw [hmap] at hadjustment
     have hequal : ((adjustment : ambient) * conjugator) • sylow = sylow :=
       Sylow.ext ((((adjustment : ambient) * conjugator) • sylow).maximal_isPGroup.eq_of_ge
-        sylow.isPGroup' hadjustment).symm
+        sylow.isPGroup hadjustment).symm
     have hproduct : (adjustment : ambient) * conjugator ∈ overgroup :=
       hnormalizer (Sylow.smul_eq_iff_mem_normalizer.mp hequal)
     simpa only [inv_mul_cancel_left] using
@@ -908,7 +908,7 @@ theorem escaping_conjugated_sylow_intersection_rank_le_two
   let : Fact prime.Prime := ⟨hprime⟩
   by_contra hlarge
   have hcontained := intersecting_pSubgroup_le prime hprime sylow hsylow hcore
-    (conjugator • sylow).isPGroup' (by omega)
+    (conjugator • sylow).isPGroup (by omega)
   have hnormalizer : Subgroup.normalizer (sylow : Set ambient) ≤ overgroup :=
     (normalizer_le_weakCore_of_rank prime hprime (sylow : Subgroup ambient) hrank).trans hcore
   exact hescape ((conjugated_sylow_le_iff_mem_of_normalizer_le prime sylow

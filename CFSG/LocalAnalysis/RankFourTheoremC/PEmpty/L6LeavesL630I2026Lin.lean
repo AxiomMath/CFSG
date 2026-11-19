@@ -239,7 +239,7 @@ theorem fixed_decomp (h2 : (2 : K) ≠ 0) {u : V} (hζ : ζ u = -u) (hd : d u = 
 theorem commutant_scalar (h2 : (2 : K) ≠ 0) (hV : finrank K V = 4) (G : Module.End K V)
     (hGa : G * a = a * G) (hGb : G * b = b * G) (hGc : G * c = c * G) (hGd : G * d = d * G) :
     ζ = -1 ∧ ∃ k : K, G = k • (1 : Module.End K V) := by
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
   obtain ⟨u, hζ, hd, hin⟩ := h.exists_u h2
   have hu0 : u ≠ 0 := by
     intro h0

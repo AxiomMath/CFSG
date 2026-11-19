@@ -16,8 +16,8 @@ variable {Y : Type} [Group Y] {τ : Y}
 theorem pgl2_five_exists_orderOf_four {F₀ : Type} [Field F₀] [Fintype F₀]
     (hF : Fintype.card F₀ = 5) : ∃ x : Matrix.ProjGenLinGroup (Fin 2) F₀, orderOf x = 4 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : CharP F₀ 5 := charP_of_card_eq_prime hF
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : CharP F₀ 5 := charP_of_card_eq_prime hF
   have h5 : (5 : F₀) = 0 := CharP.cast_eq_zero F₀ 5
   have h2ne : (2 : F₀) ≠ 0 :=
     CharP.cast_ne_zero_of_ne_of_prime (R := F₀) Nat.prime_two (by norm_num)
@@ -41,7 +41,7 @@ theorem pgl2_five_exists_orderOf_four {F₀ : Type} [Field F₀] [Fintype F₀]
     congr 1
     funext i
     change (![2, 1] : Fin 2 → F₀) i ^ 2 = ![4, 1] i
-    fin_cases i <;> simp <;> norm_num
+    fin_cases i <;> simp; norm_num
   have hA4 : A ^ 4 = 1 := by
     rw [hA, Matrix.diagonal_pow]
     have hv : (![2, 1] : Fin 2 → F₀) ^ 4 = 1 := by
@@ -72,7 +72,7 @@ theorem pgl2_five_exists_orderOf_four {F₀ : Type} [Field F₀] [Fintype F₀]
     rw [show (2 : ℕ) ^ 1 = 2 by norm_num, ← map_pow, Matrix.ProjGenLinGroup.mk_eq_one]
     exact hδ2center
   refine ⟨Matrix.ProjGenLinGroup.mk δ, ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfin : (Matrix.ProjGenLinGroup.mk δ) ^ (2 ^ (1 + 1)) = 1 := by
     rw [show (2 : ℕ) ^ (1 + 1) = 4 by norm_num, ← map_pow]
     simp [hδ4]
@@ -84,7 +84,7 @@ theorem pgl2_five_exists_orderOf_four {F₀ : Type} [Field F₀] [Fintype F₀]
 theorem z2a5_not_L225 [Finite Y] (h : Z2A5Hyp Y τ) {S : Subgroup Y} (hS : FixedData Y S) :
     ¬ LieModel ↥S .PSL 2 5 2 := by
   intro hL
-  haveI := hS.normal
+  have := hS.normal
   obtain ⟨k, _, _, d⟩ := z2a5_datum h hS
   have hM := OddClassicalRankOne.statedClassicalModel_of_lieModel (by decide) hL
   obtain ⟨-, -, -, -, F₀, _, _, hF₀, ⟨ψ⟩⟩ :=

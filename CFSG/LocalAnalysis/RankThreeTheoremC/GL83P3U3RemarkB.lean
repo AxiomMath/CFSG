@@ -26,7 +26,7 @@ private theorem exists_elemAbelian_of_not_isCyclic' {p : ℕ} [Fact p.Prime] (ho
     (hnc : ¬ IsCyclic (P : Subgroup K)) :
     ∃ B : Subgroup Y, B ≤ K ∧ IsElemAbelian p B ∧ Nat.card B = p ^ 2 := by
   obtain ⟨B₀, hB₀, hB₀c⟩ :=
-    CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two hodd P.isPGroup' hnc
+    CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two hodd P.isPGroup hnc
   have hB₁ : CFSG.IsElementaryAbelian p (B₀.map (P : Subgroup K).subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   have hB₂ : CFSG.IsElementaryAbelian p ((B₀.map (P : Subgroup K).subtype).map K.subtype) :=
@@ -72,11 +72,13 @@ namespace Case2Data3
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y}
 
 
+omit [Finite Y] in
 private theorem mem_map_conj_iff (L : Subgroup Y) (g y : Y) :
     y ∈ L.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * y * g ∈ L := by
   rw [Subgroup.mem_map_equiv]
   simp [MulAut.conj_symm_apply]
 
+omit [Finite Y] in
 private theorem center_map_conj_ne_bot {L : Subgroup Y} (g : Y) (hc : center L ≠ ⊥) :
     center (L.map (MulAut.conj g).toMonoidHom) ≠ ⊥ := by
   obtain ⟨⟨⟨a, haL⟩, hac⟩, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hc
@@ -104,7 +106,7 @@ private theorem center_map_conj_ne_bot {L : Subgroup Y} (g : Y) (hc : center L �
 theorem mem_of_cyclic_sylow (h : Case2Data3 p P T D F x) (hInn : KFactInnerAction)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) (hZ : center L = ⊥)
     (hcyc : ∀ S : Sylow p L, IsCyclic (S : Subgroup L)) : x ∈ L := by
-  haveI := h.fact
+  have := h.fact
   have hp2 : p ≠ 2 := by have := h.three; omega
   have hxP : x ∈ P := h.pdata.D_le h.pdata.x_mem
   have hxN : x ∈ normalizer (L : Set Y) := h.P_le_normalizer hL hxP
@@ -124,7 +126,7 @@ theorem mem_of_cyclic_sylow (h : Case2Data3 p P T D F x) (hInn : KFactInnerActio
   have hPsyl : CFSG.ABGLocalTools.IsSylowOf p P ⊤ := by
     obtain ⟨S, hS⟩ := h.sylow
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, hS ▸ S.isPGroup', ?_⟩
+    refine ⟨le_top, hS ▸ S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right, ← hS]
     exact S.not_dvd_index
   have hPL : CFSG.ABGLocalTools.IsSylowOf p (P ⊓ L) L :=
@@ -161,7 +163,7 @@ theorem mem_of_cyclic_sylow (h : Case2Data3 p P T D F x) (hInn : KFactInnerActio
   have hr'P : r' ∈ (PK : Subgroup L) := (hmem r').mpr hrQK.1
   obtain ⟨g, hgN, a, haP, hap, hga⟩ :=
     CFSG.RankThree.PartOne.D4RC.rcb_exists_normalizer_elt_perfect
-      hL.2.2.1 PK.isPGroup' PK.not_dvd_index hPc hP1
+      hL.2.2.1 PK.isPGroup PK.not_dvd_index hPc hP1
   have ha1 : a ≠ 1 := fun ha => hga (by rw [ha, mul_one, mul_inv_cancel])
   obtain ⟨j, rfl⟩ : ∃ j : ℤ, r' ^ j = a := by
     have hr'p : (⟨r', hr'P⟩ : (PK : Subgroup L)) ^ p = 1 :=
@@ -208,7 +210,7 @@ theorem isCyclic_sylow_of_moved (h : Case2Data3 p P T D F x) {L : Subgroup Y}
     (hL : IsComponentOf L ⊤) (hZ : center L = ⊥) {f : Y} (hfN : f ∉ normalizer (L : Set Y))
     (S : Sylow p L) : IsCyclic (S : Subgroup L) := by
   by_contra hnc
-  haveI := h.fact
+  have := h.fact
   have hodd : Odd p := by rw [h.three]; decide
   obtain ⟨B, hBL, hBel, hBc⟩ := exists_elemAbelian_of_not_isCyclic' hodd S hnc
   have hL₂ : IsComponentOf (L.map (MulAut.conj f).toMonoidHom) ⊤ :=
@@ -255,7 +257,7 @@ theorem F_mem_normalizer (h : Case2Data3 p P T D F x) (hInn : KFactInnerAction)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) {f : Y} (hf : f ∈ F) :
     f ∈ normalizer (L : Set Y) := by
   classical
-  haveI := h.fact
+  have := h.fact
   by_contra hfN
   set L' : Subgroup Y := L.map (MulAut.conj f).toMonoidHom with hL'def
   have hL' : IsComponentOf L' ⊤ :=
@@ -319,7 +321,7 @@ private theorem false_x_pow_p (h : Case2Data3 p P T D F x) : x ^ p = 1 := by
 
 private theorem false_D_comm (h : Case2Data3 p P T D F x) {d d' : Y} (hd : d ∈ D) (hd' : d' ∈ D) :
     d * d' = d' * d := by
-  haveI := h.pdata.D_cyc
+  have := h.pdata.D_cyc
   exact congrArg Subtype.val (mul_comm' (⟨d, hd⟩ : D) ⟨d', hd'⟩)
 
 private theorem false_P_commutator_mem (h : Case2Data3 p P T D F x) {a b : Y} (ha : a ∈ P)
@@ -363,7 +365,7 @@ private theorem false_exists_psi (h : Case2Data3 p P T D F x) {L : Subgroup Y}
           (Q : Subgroup X) →
         (zpowers (ψ ⟨x, h.false_x_mem_P⟩)).map (MulAut.conj g).toMonoidHom =
           zpowers (ψ ⟨x, h.false_x_mem_P⟩) := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨X, hG, hF, π, K, Q, hπ⟩ :=
     exists_almostSimple h.core h.catalog hL h.sylow (h.P_le_normalizer hL)
   have hPL : P ≤ L ⊔ P := le_sup_right
@@ -403,7 +405,7 @@ private theorem false_exists_psi (h : Case2Data3 p P T D F x) {L : Subgroup Y}
 theorem false_of_abelian (h : Case2Data3 p P T D F x) (hK : KFactWeakClosureRank2)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤)
     (hC : P ⊓ centralizer (L : Set Y) = zOf T) : False := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨X, _, _, K, Q, ψ, hKn, hKs, hKnab, hKcat, hKc, hKdvd, hKsup, hker, hrange, hwc⟩ :=
     h.false_exists_psi hL
   have hker' : ∀ a : ↥P, ψ a = 1 ↔ (a : Y) ∈ zOf T := by
@@ -480,7 +482,7 @@ theorem false_of_abelian (h : Case2Data3 p P T D F x) (hK : KFactWeakClosureRank
 
 theorem false_of_faithful (h : Case2Data3 p P T D F x) (h123 : KFactWeakClosureHeisThree)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) (hC : P ⊓ centralizer (L : Set Y) = ⊥) : False := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨X, _, _, K, Q, ψ, hKn, hKs, hKnab, hKcat, hKc, hKdvd, hKsup, hker, hrange, hwc⟩ :=
     h.false_exists_psi hL
   have hinj : Function.Injective ψ := by
@@ -508,8 +510,8 @@ theorem false_of_faithful (h : Case2Data3 p P T D F x) (h123 : KFactWeakClosureH
     intro q
     simp only [hQ₁, Subgroup.mem_map, Subgroup.mem_subgroupOf]
   have hcyc : IsCyclic ↥Q₀ := by
-    haveI := h.pdata.D_cyc
-    haveI : IsCyclic ↥(D.subgroupOf P) :=
+    have := h.pdata.D_cyc
+    have : IsCyclic ↥(D.subgroupOf P) :=
       isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe h.pdata.D_le).symm
         (Subgroup.subgroupOfEquivOfLe h.pdata.D_le).symm.surjective
     exact isCyclic_of_surjective (ψ.subgroupMap (D.subgroupOf P))
@@ -621,7 +623,7 @@ private theorem comm_T_zpowers (h : Case2Data3 p P T D F x) :
   exact (Commute.zpow_right (show Commute t x from h.pdata.comm t ht x h.pdata.x_mem) j).eq
 
 private theorem commutator_T_eq (h : Case2Data3 p P T D F x) : ⁅T, T⁆ = zOf T := by
-  haveI := h.fact
+  have := h.fact
   have hle : ⁅T, T⁆ ≤ zOf T :=
     Subgroup.commutator_le.2 (fun a ha b hb => h.commutator_mem a ha b hb)
   have hne : ⁅T, T⁆ ≠ ⊥ := by
@@ -650,7 +652,7 @@ private theorem V_le_P (h : Case2Data3 p P T D F x) : T ⊔ zpowers x ≤ P :=
   sup_le h.pdata.T_le ((Subgroup.zpowers_le).2 (h.pdata.D_le h.pdata.x_mem))
 
 private theorem pCore_le_P (h : Case2Data3 p P T D F x) : CFSG.pCore p Y ≤ P := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨S, hS⟩ := h.sylow
   rw [← hS]
   exact (CFSG.pCore_isPGroup (p := p) (G := Y)).le_sylow_of_normal S
@@ -659,7 +661,7 @@ theorem eq_of_complements (h : Case2Data3 p P T D F x) {T' : Subgroup Y}
     (hT'V : T' ≤ T ⊔ zpowers x) (hZT' : zOf T ≤ T') (hT'Λ : T' ⊓ zpowers x = ⊥)
     (hT'Λ' : T' ⊔ zpowers x = T ⊔ zpowers x) (hF : ∀ f ∈ F, ∀ a ∈ T', f * a * f⁻¹ ∈ T') :
     T' = T := by
-  haveI := h.fact
+  have := h.fact
   have hcommV : ∀ v ∈ T ⊔ zpowers x, ∀ c ∈ zpowers x, v * c = c * v := by
     intro v hv c hc
     obtain ⟨t, ht, c', hc', rfl⟩ := exists_mul_of_mem_sup T (zpowers x) h.comm_T_zpowers v hv
@@ -728,7 +730,7 @@ theorem eq_of_complements (h : Case2Data3 p P T D F x) {T' : Subgroup Y}
 
 theorem V_normal (h : Case2Data3 p P T D F x) (hT : T ≤ CFSG.pCore p Y) (hx : x ∈ CFSG.pCore p Y) :
     ∀ y : Y, ∀ v ∈ T ⊔ zpowers x, y * v * y⁻¹ ∈ T ⊔ zpowers x := by
-  haveI := h.fact
+  have := h.fact
   have key : ∀ v : Y, v ∈ T ⊔ zpowers x ↔ v ∈ CFSG.pCore p Y ∧ v ^ p = 1 := by
     intro v
     constructor
@@ -760,7 +762,7 @@ theorem zpowers_normal (h : Case2Data3 p P T D F x)
 theorem zOf_normal (h : Case2Data3 p P T D F x)
     (hV : ∀ y : Y, ∀ v ∈ T ⊔ zpowers x, y * v * y⁻¹ ∈ T ⊔ zpowers x) :
     ∀ y : Y, ∀ z ∈ zOf T, y * z * y⁻¹ ∈ zOf T := by
-  haveI : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
+  have : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
   have hVV : ⁅T ⊔ zpowers x, T ⊔ zpowers x⁆ = zOf T := by
     apply le_antisymm
     · exact Subgroup.commutator_le.2
@@ -774,16 +776,16 @@ theorem zOf_normal (h : Case2Data3 p P T D F x)
 
 theorem normal_of_le_pCore (h : Case2Data3 p P T D F x) (hT : T ≤ CFSG.pCore p Y) :
     ∀ y : Y, ∀ t ∈ T, y * t * y⁻¹ ∈ T := by
-  haveI := h.fact
+  have := h.fact
   by_cases hx : x ∈ CFSG.pCore p Y
   ·
     obtain ⟨S, hS⟩ := h.sylow
     have hV := h.V_normal hT hx
     have hΛ := h.zpowers_normal hV
     have hZ := h.zOf_normal hV
-    haveI hVn : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
-    haveI hΛn : (zpowers x).Normal := ⟨fun v hv y => hΛ y v hv⟩
-    haveI hZn : (zOf T).Normal := ⟨fun v hv y => hZ y v hv⟩
+    have hVn : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
+    have hΛn : (zpowers x).Normal := ⟨fun v hv y => hΛ y v hv⟩
+    have hZn : (zOf T).Normal := ⟨fun v hv y => hZ y v hv⟩
     obtain ⟨T', hT'n, hZT', hT'V, hT'Λ, hT'sup⟩ :=
       exists_normal_complement h.prime S (T ⊔ zpowers x) (zpowers x) (zOf T) hVn hΛn hZn
         le_sup_right (h.zOf_le.trans le_sup_left)
@@ -825,11 +827,13 @@ namespace Case2Data3
 
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y}
 
+omit [Finite Y] in
 private theorem cc_mem_zOf {z : Y} : z ∈ zOf T ↔ z ∈ T ∧ ∀ g ∈ T, g * z = z * g := by
   unfold zOf
   rw [Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
   rfl
 
+omit [Finite Y] in
 private theorem cc_conj_mem_centralizer {L : Subgroup Y} {g c : Y}
     (hg : g ∈ normalizer (L : Set Y)) (hc : c ∈ centralizer (L : Set Y)) :
     g * c * g⁻¹ ∈ centralizer (L : Set Y) := by
@@ -859,9 +863,9 @@ private theorem cc_aux (h : Case2Data3 p P T D F x) {C : Subgroup Y} (hCle : C �
     by_cases hA0 : C ⊓ T = ⊥
     · exact Or.inl hA0
     · right
-      haveI := h.fact
-      haveI : Group.IsNilpotent (↥T) := (IsPGroup.of_card (p := p) h.pdata.T_card).isNilpotent
-      haveI : ((C ⊓ T).subgroupOf T).Normal := ⟨fun n hn g => by
+      have := h.fact
+      have : Group.IsNilpotent (↥T) := (IsPGroup.of_card (p := p) h.pdata.T_card).isNilpotent
+      have : ((C ⊓ T).subgroupOf T).Normal := ⟨fun n hn g => by
         rw [Subgroup.mem_subgroupOf] at hn ⊢
         simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         exact hnorm _ g.2 _ hn⟩

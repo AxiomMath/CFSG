@@ -134,7 +134,7 @@ variable (hk : 1 ≤ k)
 theorem fourClass_liftSub (hk2 : 2 ≤ k) (i : ZMod (2 ^ k)) :
     fourClass e hk (liftSub e (dihFour k i)) = zpar k hk i := by
   have hex : ∃ j, liftSub e (dihFour k i) = liftSub e (dihFour k j) := ⟨i, rfl⟩
-  rw [fourClass, dif_pos hex]
+  rw [fourClass, dite_eq_left hex]
   have hspec := hex.choose_spec
   generalize hex.choose = j at hspec ⊢
   rw [liftSub_inj, dihFour_eq_iff hk] at hspec
@@ -180,8 +180,8 @@ theorem exists_conj_four_rep (hk2 : 2 ≤ k) {V : Subgroup G} (hV : IsFourIn H V
   rw [fourClass_liftSub e hk hk2]
   have h01 : ∀ u : ZMod 2, u = 0 ∨ u = 1 := by decide
   rcases h01 (fourClass e hk V) with h | h
-  · rw [h, if_pos rfl, map_zero]
-  · rw [h, if_neg (by decide), map_one]
+  · rw [h, ite_eq_left rfl, map_zero]
+  · rw [h, ite_eq_right (by decide), map_one]
 
 end Classes
 

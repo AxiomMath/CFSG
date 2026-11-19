@@ -95,7 +95,7 @@ theorem quasisimple_involution_centralizer_order_two_standard [Finite F] {J : Su
   obtain ⟨Sa, hSa⟩ := hzB'.exists_le_sylow
   have hSaeq : (Sa : Subgroup B).map B.subtype = zpowers a := by
     apply stepA
-    · exact Sa.isPGroup'.map B.subtype
+    · exact Sa.isPGroup.map B.subtype
     · intro x hx
       exact ⟨⟨x, hzB hx⟩, hSa (by rw [mem_subgroupOf]; exact hx), rfl⟩
     · exact map_subtype_le _

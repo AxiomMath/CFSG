@@ -27,7 +27,7 @@ theorem distinct4_spec {a b c d : ℕ} (h : distinct4 a b c d = true) :
   exact ⟨ne_of_notB h1, ne_of_notB h2, ne_of_notB h3, ne_of_notB h4, ne_of_notB h5,
     ne_of_notB h6⟩
 
-theorem card_inf_centralizer_le {T : Subgroup G} (hT : Nat.card T = 729) {x : G} (hx : x ∈ T)
+theorem card_inf_centralizer_le {T : Subgroup G} (hT : Nat.card T = 729) {x : G} (_hx : x ∈ T)
     (h : Fin 4 → G) (hh : ∀ t, h t ∈ T)
     (hd : ∀ s t, h s * x * (h s)⁻¹ = h t * x * (h t)⁻¹ → s = t) :
     Nat.card ↥(T ⊓ centralizer ({x} : Set G)) ≤ 81 := by
@@ -106,7 +106,7 @@ theorem card_lt_of_checks [Finite G] (hR : KeyRep R mm ONE) (hg : ∀ j < m, R (
     have h := hk a ha
     unfold killC at h
     have hb0 : (Nat.beq a 0 = true) = False := by simp only [Nat.beq_eq, ha0]
-    rw [bRec_eq, if_neg (by rw [hb0]; exact id), sB_eq, sB_eq, bRec_eq] at h
+    rw [bRec_eq, ite_eq_right (by rw [hb0]; exact id), sB_eq, sB_eq, bRec_eq] at h
     split_ifs at h with h1
     rw [bRec_eq] at h
     split_ifs at h with h2
@@ -116,7 +116,7 @@ theorem card_lt_of_checks [Finite G] (hR : KeyRep R mm ONE) (hg : ∀ j < m, R (
     set c := CI a with hc
     have hrc := hsm c hci
     unfold smallC at hrc
-    rw [bRec_eq, if_pos (by rw [hsa]; rfl), sB_eq] at hrc
+    rw [bRec_eq, ite_eq_left (by rw [hsa]; rfl), sB_eq] at hrc
     obtain ⟨hr, hrc⟩ := (bAnd_iff _ _).1 hrc
     obtain ⟨hd4, hall⟩ := (bAnd_iff _ _).1 hrc
     obtain ⟨h01, h02, h03, h12, h13, h23⟩ := distinct4_spec hd4
@@ -137,20 +137,20 @@ theorem card_lt_of_checks [Finite G] (hR : KeyRep R mm ONE) (hg : ∀ j < m, R (
     have hyf : ∀ t, yf t < n ∧ hf t * E (REP c) * (hf t)⁻¹ = E (yf t) := by
       intro t
       by_cases ht0 : t.val = 0
-      · have e1 : hf t = 1 := by simp only [hf, dif_pos ht0]
-        have e2 : yf t = REP c := by simp only [yf, if_pos ht0]
+      · have e1 : hf t = 1 := by simp only [hf, dite_eq_left ht0]
+        have e2 : yf t = REP c := by simp only [yf, ite_eq_left ht0]
         rw [e1, e2, one_mul, inv_one, mul_one]
         exact ⟨hr', rfl⟩
-      · have e1 : hf t = E (H c (t.val - 1)) := by simp only [hf, dif_neg ht0]
-        have e2 : yf t = Y c (t.val - 1) := by simp only [yf, if_neg ht0]
+      · have e1 : hf t = E (H c (t.val - 1)) := by simp only [hf, dite_eq_right ht0]
+        have e2 : yf t = Y c (t.val - 1) := by simp only [yf, ite_eq_right ht0]
         obtain ⟨-, hy, e⟩ := hall' (t.val - 1) (by omega)
         rw [e1, e2]
         exact ⟨hy, by rw [e, mul_inv_cancel_right]⟩
     refine card_inf_centralizer_le hcT (hET _ hr') hf (fun t => ?_) (fun s t e => ?_)
     · by_cases ht0 : t.val = 0
-      · simp only [hf, dif_pos ht0]
+      · simp only [hf, dite_eq_left ht0]
         exact T.one_mem
-      · simp only [hf, dif_neg ht0]
+      · simp only [hf, dite_eq_right ht0]
         exact hET _ (hall' (t.val - 1) (by omega)).1
     · rw [(hyf s).2, (hyf t).2] at e
       have e' := hT.inj _ (hyf s).1 _ (hyf t).1 e

@@ -93,7 +93,7 @@ theorem mem_of_fixed_productAlternative {M : Type} [Group M] {A : Subgroup M} {k
 
 theorem inf_centralizer_eq_of_productAlternative {G : Type} [Group G] {X N KK : Subgroup G}
     {t : G} {k : Type} [Field k] {α : ↥(barSub X KK) ≃* SL(2, k)}
-    (hNn : N ≤ normalizer (X : Set G)) (hXN : X ≤ N) (hKN : KK ≤ N)
+    (hNn : N ≤ normalizer (X : Set G)) (_hXN : X ≤ N) (hKN : KK ≤ N)
     (ht : t ∈ normalizer (X : Set G))
     (hbar : barSub X N = normalClosure (barSub X KK : Set (BarM X)))
     (hP : ProductAlternative (barSub X KK) α (barMap X ⟨t, ht⟩))
@@ -138,6 +138,7 @@ variable
   [CharP K 2]
 
 
+omit [Finite G] in
 private theorem S_le_yamadaK₁ (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) : d.S ≤ yamadaK₁ d := by
   obtain ⟨-, -, -, -, -, hFD, -, -, -, -⟩ := d.inclusions
   obtain ⟨-, -, -, -, -, hM, -, -, hS⟩ := d.yamada_defs

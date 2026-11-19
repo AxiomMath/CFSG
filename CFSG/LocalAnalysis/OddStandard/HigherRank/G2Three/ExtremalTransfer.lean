@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
     ∀ y ∈ P, IsConj t y →
       Nat.card ↥(P ⊓ centralizer ({y} : Set G)) ≤ Nat.card ↥(P ⊓ centralizer ({x} : Set G))
 
+omit [Finite G] in
 private lemma orderOf_eq_of_isConj {a b : G} (h : IsConj a b) : orderOf b = orderOf a := by
   obtain ⟨c, hc⟩ := isConj_iff.mp h
   rw [← hc]
@@ -24,12 +25,12 @@ private lemma orderOf_eq_of_isConj {a b : G} (h : IsConj a b) : orderOf b = orde
 theorem exists_isExtremalConj (P : Sylow 2 G) {t : G} (ht : orderOf t = 2) :
     ∃ x, IsExtremalConj (P : Subgroup G) t x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpt : IsPGroup 2 (Subgroup.zpowers t) := by
     apply IsPGroup.of_card (n := 1)
     rw [Nat.card_zpowers, ht, pow_one]
   obtain ⟨Q, hQ⟩ := hpt.exists_le_sylow
-  haveI : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex P
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (M := G) Q P
   have hcQ : MulAut.conj c • (Q : Subgroup G) = (P : Subgroup G) := by
     have h := congrArg (fun R : Sylow 2 G => (R : Subgroup G)) hc
@@ -54,12 +55,12 @@ theorem exists_isExtremalConj (P : Sylow 2 G) {t : G} (ht : orderOf t = 2) :
     hxmax y (hSfin.mem_toFinset.mpr ⟨hyP, hyconj⟩)⟩
 
 theorem commutator_ne_top_of_extremalConj (P : Sylow 2 G) {N : Subgroup G}
-    (hNP : N ≤ (P : Subgroup G)) [(N.subgroupOf (P : Subgroup G)).Normal]
+    (_hNP : N ≤ (P : Subgroup G)) [(N.subgroupOf (P : Subgroup G)).Normal]
     (hcyc : IsCyclic ((P : Subgroup G) ⧸ N.subgroupOf (P : Subgroup G))) {t : G}
     (ht : orderOf t = 2) (hext : ∀ x : G, IsExtremalConj (P : Subgroup G) t x → x ∉ N) :
     commutator G ≠ ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_isExtremalConj P ht
   have hxN : x ∉ N := hext x hx
   have hxord : orderOf x = 2 := (orderOf_eq_of_isConj hx.2.1).trans ht
@@ -70,10 +71,10 @@ theorem commutator_ne_top_of_extremalConj (P : Sylow 2 G) {N : Subgroup G}
   have hUn : U.Normal := by
     change (N.subgroupOf (P : Subgroup G)).Normal
     infer_instance
-  haveI : U.Normal := hUn
+  have : U.Normal := hUn
   let Q : Type := (P : Subgroup G) ⧸ U
-  haveI : IsCyclic Q := hcyc
-  letI : CommGroup Q := IsCyclic.commGroup
+  have : IsCyclic Q := hcyc
+  let : CommGroup Q := IsCyclic.commGroup
   have habel : ∀ y ∈ (P : Subgroup G), ∀ z ∈ (P : Subgroup G),
       y * z * y⁻¹ * z⁻¹ ∈ N := by
     intro y hy z hz
@@ -120,7 +121,7 @@ theorem commutator_ne_top_of_extremalConj (P : Sylow 2 G) {N : Subgroup G}
         _ = Subgroup.centralizer ({x'} : Set G) := by
             congr 1
             ext z
-            simp [f, x', MulAut.conj_apply]
+            simp [f, x']
     have hcardD : Nat.card ↥D' =
         Nat.card ↥((P : Subgroup G) ⊓ Subgroup.centralizer ({x} : Set G)) :=
       (Nat.card_congr (Subgroup.equivSMul (MulAut.conj g⁻¹) _).toEquiv).symm
@@ -168,7 +169,7 @@ theorem commutator_ne_top_of_extremalConj (P : Sylow 2 G) {N : Subgroup G}
         ((QuotientGroup.eq_one_iff (⟨x', hx'P⟩ : (P : Subgroup G))).mp h'))
     have haord : orderOf a = 2 := orderOf_eq_prime ha2 ha_ne
     have hbord : orderOf b = 2 := orderOf_eq_prime hb2 hb_ne
-    haveI : Fintype Q := Fintype.ofFinite Q
+    have : Fintype Q := Fintype.ofFinite Q
     have h2dvd : 2 ∣ Fintype.card Q := by
       rw [← haord]
       exact orderOf_dvd_card
@@ -200,7 +201,7 @@ theorem transfer_extremal_cyclic [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b 
     (hcyc : IsCyclic ((P : Subgroup G) ⧸ N.subgroupOf (P : Subgroup G))) {t : G}
     (ht : orderOf t = 2) (hext : ∀ x : G, IsExtremalConj (P : Subgroup G) t x → x ∉ N) :
     False := by
-  haveI : (commutator G).Normal := by
+  have : (commutator G).Normal := by
     rw [show commutator G = ⁅(⊤ : Subgroup G), ⊤⁆ from rfl]
     infer_instance
   rcases Subgroup.Normal.eq_bot_or_eq_top (commutator G) with hbot | htop

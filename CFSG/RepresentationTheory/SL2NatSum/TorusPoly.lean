@@ -26,7 +26,7 @@ private lemma torus_factor_map (t : K) (i : ℕ) :
     Polynomial.map (frobenius K 2)
         ((X - C (t ^ 2 ^ i)) * (X - C (t⁻¹ ^ 2 ^ i))) =
       (X - C (t ^ 2 ^ (i + 1))) * (X - C (t⁻¹ ^ 2 ^ (i + 1))) := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   have hpow : ∀ a : K, (a ^ 2 ^ i) ^ 2 = a ^ 2 ^ (i + 1) := by
     intro a
     rw [← pow_mul, pow_succ]
@@ -39,7 +39,7 @@ private lemma map_frobenius_torusProd [Fintype K] {n : ℕ}
     Polynomial.map (frobenius K 2)
         (∏ i ∈ Finset.range n, (X - C (t ^ 2 ^ i)) * (X - C (t⁻¹ ^ 2 ^ i))) =
       ∏ i ∈ Finset.range n, (X - C (t ^ 2 ^ i)) * (X - C (t⁻¹ ^ 2 ^ i)) := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   have hpow : ∀ a : K, a ^ 2 ^ n = a := by
     intro a
     rw [← hn, FiniteField.pow_card]
@@ -93,11 +93,12 @@ private lemma algebraMap_zmod_two_eq_castHom [Algebra (ZMod 2) K] (a : ZMod 2) :
 private lemma AmatK_hMat (i : ℕ) (t : Kˣ) :
     AmatK i (hMat t) =
       !![((t : K) ^ 2 ^ i), 0; 0, (((t : K)⁻¹) ^ 2 ^ i)] := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   ext x y
   fin_cases x <;> fin_cases y <;>
     simp [AmatK, iterateFrobenius_def, coe_hMat]
 
+omit [CharP K 2] in
 private lemma diag_mulVec (α β : K) (w : Fin 2 → K) :
     (!![α, 0; 0, β] : Matrix (Fin 2) (Fin 2) K) *ᵥ w = ![α * w 0, β * w 1] := by
   ext j
@@ -112,6 +113,7 @@ private def diagLin [Algebra (ZMod 2) K] (α β : K) :
   map_smul' c w := by
     rcases zmod_two_eq_zero_or_one c with rfl | rfl <;> simp
 
+omit [CharP K 2] in
 private lemma diagLin_pow_apply [Algebra (ZMod 2) K] (α β : K) (n : ℕ)
     (w : Fin 2 → K) :
     ((diagLin α β) ^ n) w = ![α ^ n * w 0, β ^ n * w 1] := by
@@ -122,7 +124,7 @@ private lemma diagLin_pow_apply [Algebra (ZMod 2) K] (α β : K) (n : ℕ)
       simp only [Module.End.mul_apply]
       rw [ih]
       ext j
-      fin_cases j <;> simp [diagLin, pow_succ, mul_assoc, mul_left_comm, mul_comm]
+      fin_cases j <;> simp [diagLin, pow_succ, mul_assoc, mul_comm]
 
 private lemma aeval_diagLin_apply [Algebra (ZMod 2) K] (p : (ZMod 2)[X]) (α β : K)
     (w : Fin 2 → K) :
@@ -171,7 +173,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 private lemma exists_atom_subrepresentation {A G V : Type*} [Semiring A] [Monoid G]
     [AddCommMonoid V] [Module A V] [Finite V] [Nontrivial V]
     (ρ : Representation A G V) : ∃ N : Subrepresentation ρ, IsAtom N := by
-  haveI : Finite (Subrepresentation ρ) :=
+  have : Finite (Subrepresentation ρ) :=
     Finite.of_injective (fun N : Subrepresentation ρ => (N.toSubmodule : Set V))
       (fun N M h => Subrepresentation.toSubmodule_injective (SetLike.coe_injective h))
   have htop : (⊤ : Subrepresentation ρ) ≠ ⊥ := by
@@ -186,6 +188,7 @@ private lemma exists_atom_subrepresentation {A G V : Type*} [Semiring A] [Monoid
     (IsAtomic.eq_bot_or_exists_atom_le (⊤ : Subrepresentation ρ)).resolve_left htop
   exact ⟨N, hNat⟩
 
+omit [Finite K] [CharP K 2] in
 private lemma simple_toRepresentation {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (ρ : Representation (ZMod 2) SL(2, K) V) (N : Subrepresentation ρ) (hNat : IsAtom N) :
     ∀ W : Submodule (ZMod 2) N.toSubmodule,
@@ -235,8 +238,8 @@ private lemma aeval_zero_on_atom {n : ℕ}
     (N : Subrepresentation ρ) (hNat : IsAtom N) (hNne : N.toSubmodule ≠ ⊥) :
     aeval (N.toRepresentation (hMat t)) p₀ = 0 := by
   classical
-  haveI : Nontrivial N.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hNne
-  letI : Algebra (ZMod 2) K := ZMod.algebra' K 2 (dvd_refl 2)
+  have : Nontrivial N.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hNne
+  let : Algebra (ZMod 2) K := ZMod.algebra' K 2 (dvd_refl 2)
   have hdN : ∀ v : N.toSubmodule,
       N.toRepresentation d (N.toRepresentation d v) + N.toRepresentation d v + v = 0 := by
     intro v
@@ -265,6 +268,7 @@ private lemma aeval_zero_on_atom {n : ℕ}
   rw [hBzero, LinearMap.zero_apply] at hx
   exact ψl.injective (by simpa using hx)
 
+omit [Finite K] [CharP K 2] in
 private lemma quotient_d_condition {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (ρ : Representation (ZMod 2) SL(2, K) V) (d : SL(2, K))
     (hdV : ∀ v : V, ρ d (ρ d v) + ρ d v + v = 0) (N : Subrepresentation ρ) :
@@ -282,6 +286,7 @@ private lemma quotient_d_condition {V : Type} [AddCommGroup V] [Module (ZMod 2) 
   rw [h1, h2, ← Submodule.Quotient.mk_add, ← Submodule.Quotient.mk_add, hdV v,
     Submodule.Quotient.mk_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma aeval_pow_succ_eq_zero {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (ρ : Representation (ZMod 2) SL(2, K) V) (t : Kˣ) (p₀ : (ZMod 2)[X])
     (N : Subrepresentation ρ) (k' : ℕ)
@@ -336,7 +341,7 @@ theorem exists_pow_aeval_eq_zero {n : ℕ}
         rw [pow_one]
         ext v
         exact Subsingleton.elim _ _
-      · haveI : Nontrivial V := not_subsingleton_iff_nontrivial.mp hsub
+      · have : Nontrivial V := not_subsingleton_iff_nontrivial.mp hsub
         obtain ⟨N, hNat⟩ := exists_atom_subrepresentation ρ
         have hNne : N.toSubmodule ≠ ⊥ := by
           intro h
@@ -344,14 +349,14 @@ theorem exists_pow_aeval_eq_zero {n : ℕ}
           refine Subrepresentation.toSubmodule_injective ?_
           rw [h]
           rfl
-        haveI : Nontrivial N.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hNne
+        have : Nontrivial N.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hNne
         have hNzero : aeval (N.toRepresentation (hMat t)) p₀ = 0 :=
           aeval_zero_on_atom hn t p₀ hp₀ d hd3 hd1 ρ hdVV N hNat hNne
         have hcardV : Nat.card V =
             Nat.card N.toSubmodule * Nat.card (V ⧸ N.toSubmodule) :=
           Submodule.card_eq_card_quotient_mul_card N.toSubmodule
         let Q := V ⧸ N.toSubmodule
-        haveI : Finite Q :=
+        have : Finite Q :=
           Finite.of_surjective N.toSubmodule.mkQ (Submodule.mkQ_surjective N.toSubmodule)
         have hQlt : Nat.card Q < m := by
           have hQpos : 0 < Nat.card Q := Nat.card_pos

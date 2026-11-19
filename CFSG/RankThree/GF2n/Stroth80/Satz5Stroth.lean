@@ -76,7 +76,7 @@ theorem BeisiegelSatz5Stroth (H : StrothHyp M Q Z) {K : Type} [Field K] {γ : G 
     rw [h.card]
     have := H.q4
     omega
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
   have hdim : Module.finrank K M₀.E = 2 * w := h.finrank_E hw (by omega)
   have h2 : (2 : K) = 0 := by
     obtain ⟨n, k, -, hcp⟩ := H.cp
@@ -85,7 +85,7 @@ theorem BeisiegelSatz5Stroth (H : StrothHyp M Q Z) {K : Type} [Field K] {γ : G 
     have := h.reg.add z hz z hz
     rw [hz2, h.reg.one, hγz] at this
     linear_combination -this
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   obtain ⟨hnorm, hcent, hfaith⟩ := H.satz5_conditions (M₀ := M₀) h.reg hX
   exact beisiegel_satz5 M₀ h.reg hcard h.hyperbolic (by omega) hnorm hcent hfaith hΩ
 

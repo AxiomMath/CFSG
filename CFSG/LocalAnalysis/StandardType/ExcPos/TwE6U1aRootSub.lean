@@ -78,12 +78,12 @@ theorem exists_native_factor_of_twisted_fixed (n f : ℕ) (hf : 1 ≤ f)
     ∃ k : (ggU .twistedE6 n f).K, ∃ t ∈ torusGroup (langTag .twistedE6) GGL,
       y = ggIotaK .twistedE6 n f hf k * t := by
   let K := GaloisField 2 (2 * f)
-  letI : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic K GGL :=
+  have : Algebra.IsAlgebraic K GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) (A := GGL)
-  haveI : IsAlgClosure K GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
+  have : IsAlgClosure K GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
   have hmul := (CFSG.RankThree.Classical2.twisted_E6_full_rational_fixed_group_order
     Nat.prime_two hf K (card_galoisField_two_mul 2 f hf) (frobQ 2 f)
     (frobQ_apply 2 f) GGL (ggFrobT f) (ggFrobT_apply f)).2.1

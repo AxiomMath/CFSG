@@ -40,7 +40,7 @@ theorem orth_core (hQ : (QuadraticMap.polarBilin Qf).Nondegenerate)
     ∃ xl : ↥(orthDerived Qf), QuotientGroup.mk xl = φ x ∧ Nat.card F = 2 ∧ finrank F V = 12 ∧
       finrank F (fixedSpace (xl : V ≃ₗ[F] V)) = 4 := by
   classical
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by omega)
   have hpℓ : (5 : ℕ) ≠ ringChar F := fun h => hℓ5 h.symm
   have ha5 : (φ x) ^ 5 = 1 := by rw [← map_pow, D.pow_five, map_one]
   have ha1 : φ x ≠ 1 := fun h => D.ne_one (φ.injective (h.trans (map_one φ).symm))
@@ -101,8 +101,8 @@ theorem core_model (hcoe : ⇑Qf = Q₀) (hQ : (QuadraticMap.polarBilin Qf).Nond
   set φ : K ≃* ProjOrthDerived Qf := eK.trans (projOrthEquiv hcoe) with hφ
   obtain ⟨xl, hmk, hF2, hι, hfixd⟩ := orth_core hQ hT hℓ5 (by rw [hdim]; exact hN7) φ D hlayer
   refine ⟨hF2, by rw [← hdim]; exact hι, ?_⟩
-  haveI := charP_two_of_card_two hF2
-  haveI : Nontrivial (ι → F) := Module.nontrivial_of_finrank_pos (R := F) (by omega)
+  have := charP_two_of_card_two hF2
+  have : Nontrivial (ι → F) := Module.nontrivial_of_finrank_pos (R := F) (by omega)
   set ρ : ↥(orthDerived Qf) →* ProjOrthDerived Qf :=
     QuotientGroup.mk' ((scalars F (ι → F)).subgroupOf (orthDerived Qf)) with hρ
   have hρinj : Function.Injective ρ := by
@@ -222,7 +222,7 @@ theorem i1434Cl_POmega {K : Type} [Group K] [Finite K] {t : StatedLieTag} {n ℓ
     obtain ⟨rfl, rfl⟩ := prime_pow_eq_two hadm.1 hadm.2.1 (hcard.symm.trans hF2)
     have hn6 : n = 6 := by omega
     subst hn6
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     refine ⟨rfl, rfl, rfl, rfl, F, hF, this, Classical.decEq F, b, c, ?_, hirr,
       e', e' x, rfl, h5, hne, hker⟩
     rw [Fintype.card_eq_nat_card]

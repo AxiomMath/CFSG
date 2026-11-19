@@ -29,8 +29,8 @@ theorem actM_unpackL_xor : ∀ (n u v m : ℕ), actM (unpackL n (u ^^^ v)) m =
     intro u v m
     rw [unpackL, unpackL, unpackL, actM, actM, actM, xor_mod_16, xor_div_16, ih]
     by_cases h : m % 2 = 1
-    · simp only [h, if_true]; ac_rfl
-    · simp only [h, if_false, Nat.zero_xor]
+    · simp only [h, ite_true]; ac_rfl
+    · simp only [h, ite_false, Nat.zero_xor]
 
 theorem xorLin_evalU (c : ℕ) : XorLin (fun u => evalU u c) := by
   intro a b
@@ -80,9 +80,8 @@ theorem unpackL_pack {a b c d e f : ℕ} (ha : a < 16) (hb : b < 16) (hc : c < 1
     (he : e < 16) (hf : f < 16) :
     unpackL 6 (a + 16 * (b + 16 * (c + 16 * (d + 16 * (e + 16 * f))))) = [a, b, c, d, e, f] := by
   simp only [unpackL, add16_mod, add16_div, Nat.div_eq_of_lt ha, Nat.div_eq_of_lt hb,
-    Nat.div_eq_of_lt hc, Nat.div_eq_of_lt hd, Nat.div_eq_of_lt he, Nat.div_eq_of_lt hf,
-    Nat.mod_eq_of_lt ha, Nat.mod_eq_of_lt hb, Nat.mod_eq_of_lt hc, Nat.mod_eq_of_lt hd,
-    Nat.mod_eq_of_lt he, Nat.mod_eq_of_lt hf, Nat.zero_add, Nat.add_zero]
+    Nat.div_eq_of_lt hc, Nat.div_eq_of_lt hd, Nat.div_eq_of_lt he, Nat.mod_eq_of_lt ha, Nat.mod_eq_of_lt hb, Nat.mod_eq_of_lt hc, Nat.mod_eq_of_lt hd,
+    Nat.mod_eq_of_lt he, Nat.mod_eq_of_lt hf, Nat.zero_add]
 
 theorem pack_lt {a b c d e f : ℕ} (ha : a < 16) (hb : b < 16) (hc : c < 16) (hd : d < 16)
     (he : e < 16) (hf : f < 16) :

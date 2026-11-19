@@ -41,7 +41,7 @@ theorem ob5_main (c : S828Ctx T L I H h k)
   have hKle : K ≤ Subgroup.normalizer (ch82U (fsuV T I) h : Set G) :=
     le_of_mem_cComp (mem_cComp_iff.mpr hK)
   have hperf : ⁅K, K⁆ = K := hK.2.1
-  haveI := ob5_centralAbelian c
+  have := ob5_centralAbelian c
   have S := ob5_setup_of_c c
   obtain ⟨y, hyI, -, hyf, hfixy, hKP, hcommy⟩ :=
     ob5_K_normalizes_P c e hkerI hLUK hKle hKn hS hperf hq hLUC
@@ -86,8 +86,8 @@ theorem ob5_main (c : S828Ctx T L I H h k)
   have hU16 : Nat.card ↥(ch82U (fsuV T I) h) = 16 := ob5_card_U_sixteen hU2 hrkU
   have hQB16 := ob5_card_QB c hB256 hU16
   have hM256 : Nat.card (ob5MM T I h) = 2 ^ 8 := ob5_card_M c hQB16
-  haveI : Finite (ob5MM T I h) := Nat.finite_of_card_ne_zero (by rw [hM256]; norm_num)
-  letI := ob5QBModule c
+  have : Finite (ob5MM T I h) := Nat.finite_of_card_ne_zero (by rw [hM256]; norm_num)
+  let := ob5QBModule c
   have hyN : y ∈ ob5N0 T I h := s828_I_norm_PU c hyI
   have hvN : v ∈ ob5N0 T I h := s828_I_norm_PU c hvI
   have hy5I : y ^ 5 ∈ ch82I (fsuV T I) h := Subgroup.pow_mem _ hyI 5
@@ -107,9 +107,9 @@ theorem ob5_main (c : S828Ctx T L I H h k)
     fun m hm => ob5_fix_M c y hyN hfixy m hm
   have hσL : aeval (ob5L (ob5rho c ⟨y, hyN⟩)) (cyclotomic 5 (ZMod 2)) = 0 :=
     ob5_aeval_cyc5_zero _ hσ5L hfixσ
-  letI : Module (GaloisField 2 4) (ob5MM T I h) :=
+  let : Module (GaloisField 2 4) (ob5MM T I h) :=
     Module.compHom _ (ob5_f16Hom (ob5L (ob5rho c ⟨y, hyN⟩)) hσL)
-  haveI : Module.Finite (GaloisField 2 4) (ob5MM T I h) :=
+  have : Module.Finite (GaloisField 2 4) (ob5MM T I h) :=
     Module.finite_iff_finite.mpr inferInstance
   have hF : ∀ (a : GaloisField 2 4) (m : ob5MM T I h),
       a • m = ob5_f16Hom (ob5L (ob5rho c ⟨y, hyN⟩)) hσL a m := fun _ _ => rfl
@@ -118,7 +118,7 @@ theorem ob5_main (c : S828Ctx T L I H h k)
   let R : ↥K →* AddMonoid.End (ob5MM T I h) := (ob5rho c).comp (Subgroup.inclusion hKN0)
   have hcomm : ∀ κ : ↥K, R κ * ob5rho c ⟨y, hyN⟩ = ob5rho c ⟨y, hyN⟩ * R κ := fun κ =>
     ob5_comm_of_commutator_mem_P c y κ hyN (hKN0 κ.2) (hcommy κ κ.2)
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hperf
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hperf
   obtain ⟨φ, θ, hθ, hφ⟩ := ob5_rep_of_module (ob5rho c ⟨y, hyN⟩) hσL hF hfin R hcomm
   have hθ_one : ∀ x : ↥K, θ x = 1 → ob5rho c ⟨(x : G), hKN0 x.2⟩ = 1 := by
     intro x hx
@@ -153,7 +153,7 @@ theorem ob5_main (c : S828Ctx T L I H h k)
     rw [hbot, Subgroup.mem_bot] at hmem
     rw [MonoidHom.comp_apply, hmem]
     exact Subgroup.one_mem _
-  haveI : Group.IsPerfect θ.range := Group.IsPerfect.range θ
+  have : Group.IsPerfect θ.range := Group.IsPerfect.range θ
   have hD := ob5_perfect_SL_card θ.range hθbot
   rcases hD with h60 | h4080
   ·

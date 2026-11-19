@@ -177,12 +177,12 @@ theorem exists_dFrames (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (
     rw [LevisSpin.cartanD_apply]
     by_cases hcd : c = d
     · subst hcd
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact CFSG.LieType.Chevalley.EvenOddRadical.iform_self_eq_two hτ (K.isRoot_extRoot _)
-    · rw [if_neg hcd]
+    · rw [ite_eq_right hcd]
       by_cases hedge : (c.val + 1 = d.val ∧ d.val + 1 < n') ∨ (d.val + 1 = c.val ∧ c.val + 1 < n') ∨
           (c.val + 3 = n' ∧ d.val + 1 = n') ∨ (d.val + 3 = n' ∧ c.val + 1 = n')
-      · rw [if_pos hedge]
+      · rw [ite_eq_left hedge]
         rcases hedge with h | h | h | h
         · exact hadjiform c d (hE c d (Or.inl h))
         · rw [iform_comm]
@@ -190,7 +190,7 @@ theorem exists_dFrames (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (
         · exact hadjiform c d (hE c d (Or.inr h))
         · rw [iform_comm]
           exact hadjiform d c (hE d c (Or.inr h))
-      · rw [if_neg hedge]
+      · rw [ite_eq_right hedge]
         refine hnon c d hcd (fun h => hedge ?_) (fun h => hedge ?_)
         · rcases h with h | h
           · exact Or.inl h
@@ -212,7 +212,7 @@ theorem exists_dFrames (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (
     simp
   have hoff : ∀ j k : Fin n', j ≠ k → CFSG.LieType.Universal.Spin.cartanD n' j k ≠ 2 := by
     intro j k hjk
-    rw [LevisSpin.cartanD_apply, if_neg hjk]
+    rw [LevisSpin.cartanD_apply, ite_eq_right hjk]
     split_ifs <;> omega
   obtain ⟨u, -, π, hπM, hu⟩ := CompsPTwoDBase.exists_weyl_base_transport hΨ ε hsl hε hdiag hoff
     b' hb'Ψ hbM
@@ -222,9 +222,9 @@ theorem exists_dFrames (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (
   have hmem : (nodeIdx (l (π.symm j)), nodeIdx (l (π.symm k))) ∈ E := by
     rw [LevisSpin.cartanD_apply] at hadjc
     by_cases hcd : π.symm j = π.symm k
-    · rw [if_pos hcd] at hadjc
+    · rw [ite_eq_left hcd] at hadjc
       omega
-    · rw [if_neg hcd] at hadjc
+    · rw [ite_eq_right hcd] at hadjc
       by_cases hedge : ((π.symm j).val + 1 = (π.symm k).val ∧ (π.symm k).val + 1 < n') ∨
           ((π.symm k).val + 1 = (π.symm j).val ∧ (π.symm j).val + 1 < n') ∨
           ((π.symm j).val + 3 = n' ∧ (π.symm k).val + 1 = n') ∨
@@ -234,7 +234,7 @@ theorem exists_dFrames (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (
         · exact hEsymm _ _ (hE _ _ (Or.inl h))
         · exact hE _ _ (Or.inr h)
         · exact hEsymm _ _ (hE _ _ (Or.inr h))
-      · rw [if_neg hedge] at hadjc
+      · rw [ite_eq_right hedge] at hadjc
         omega
   obtain ⟨θ, h0, h1⟩ := treeFrames K hframes (u * v) l
     (fun c d => (nodeIdx (l c), nodeIdx (l d)) ∈ E) (fun c d h => h) (F := F) (π.symm j)

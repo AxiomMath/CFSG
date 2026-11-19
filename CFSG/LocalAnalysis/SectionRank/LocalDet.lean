@@ -208,7 +208,7 @@ theorem sylow_kernel_eq_bot_of_det (π : E →* K) (hπ : Function.Surjective π
   have hkP : (k : E) ∈ (P : Subgroup E) := central_pSubgroup_le_sylow P
     ((Cp : Subgroup π.ker).map π.ker.subtype)
     ((Subgroup.map_subtype_le (Cp : Subgroup π.ker)).trans hC)
-    (Cp.isPGroup'.map π.ker.subtype) (Subgroup.mem_map.2 ⟨k, hk, rfl⟩)
+    (Cp.isPGroup.map π.ker.subtype) (Subgroup.mem_map.2 ⟨k, hk, rfl⟩)
   have hker : (⟨(k : E), hkP⟩ : (P : Subgroup E)) ∈ (π.subgroupMap (P : Subgroup E)).ker :=
     Subtype.ext k.2
   have h1 := Subgroup.mem_bot.1 (hle hker)

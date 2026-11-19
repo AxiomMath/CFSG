@@ -118,10 +118,10 @@ theorem map_conj_stabilizer_fixedPoint_eq {W : Type} [CommGroup W] (H : Subgroup
     let ℓ : Subgroup W := CFSG.fixedPointSubgroup ↥S W
     let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
     ∀ t ∈ Tstar, (Pℓ.map H.subtype).map (MulAut.conj t).toMonoidHom = Pℓ.map H.subtype := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   intro ℓ Pℓ t ht
   have key : ∀ {s : MulAut W}, s ∈ Tstar → ∀ w ∈ ℓ, s w ∈ ℓ := by
@@ -147,7 +147,7 @@ theorem map_conj_stabilizer_fixedPoint_eq {W : Type} [CommGroup W] (H : Subgroup
     · rintro _ ⟨w, hw, rfl⟩
       exact key ht w hw
     · intro w hw
-      exact ⟨t⁻¹ w, key (Tstar.inv_mem ht) w hw, by simp [MulAut.apply_inv_self]⟩
+      exact ⟨t⁻¹ w, key (Tstar.inv_mem ht) w hw, by simp⟩
   have hstab := map_subtype_stabilizer_conj_normalizer t (hTH ht) ℓ
   rw [hℓ] at hstab
   exact hstab

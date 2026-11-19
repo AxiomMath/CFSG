@@ -304,7 +304,7 @@ private theorem exists_conjAction_data {G : Type} [Group G] {L T D' : Subgroup G
         (g : G) ∈ Subgroup.normalizer (T : Set G) →
         ∀ x, ρ g x ∈ utri (GaloisField 2 n) ↔ x ∈ utri (GaloisField 2 n)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F := GaloisField 2 n
   let N : Subgroup G := Subgroup.normalizer (L : Set G)
   obtain ⟨γ, hγsurj, hγker, hTγ, hD'γ⟩ :=
@@ -379,7 +379,7 @@ private theorem relIndex_trivOTwoQuot_eq_card_map {G : Type} [Group G] {L : Subg
     _ = ρ.ker.relIndex XN := by rw [hK]
     _ = Nat.card ↥(XN.map ρ) := Subgroup.relIndex_ker XN ρ
 
-private theorem exists_outerTorus_image {G : Type} [Group G] {L T D D' : Subgroup G}
+private theorem exists_outerTorus_image {G : Type} [Group G] {L T _D D' : Subgroup G}
     [Finite ↥L] {F : Type} [Field F] [Finite F] [CharP F 2]
     (hF4 : 4 ≤ Nat.card F) (γ : ↥L →* SL(2, F)) (hγ : Function.Surjective γ)
     (hγker : γ.ker = (pCoreOf 2 L).subgroupOf L)
@@ -390,23 +390,23 @@ private theorem exists_outerTorus_image {G : Type} [Group G] {L T D D' : Subgrou
       ρ g (γ l) = γ ⟨(g : G) * (l : G) * (g : G)⁻¹,
         (Subgroup.mem_normalizer_iff.mp g.2 (l : G)).mp l.2⟩)
     (hρker : ρ.ker.map (Subgroup.normalizer (L : Set G)).subtype = trivOTwoQuot L)
-    {D : Subgroup G} (hDL : D ≤ Subgroup.normalizer (L : Set G))
-    (hDT : D ≤ Subgroup.normalizer (T : Set G)) (hD'leL : D' ≤ L)
-    (hDD' : ∀ d ∈ D, ∀ t ∈ D', d * t = t * d) :
+    {_D : Subgroup G} (hDL : _D ≤ Subgroup.normalizer (L : Set G))
+    (hDT : _D ≤ Subgroup.normalizer (T : Set G)) (hD'leL : D' ≤ L)
+    (hDD' : ∀ d ∈ _D, ∀ t ∈ D', d * t = t * d) :
     ∃ A : Subgroup Fˣ,
-      Nat.card A = Nat.card ((D.subgroupOf (Subgroup.normalizer (L : Set G))).map ρ) ∧
+      Nat.card A = Nat.card ((_D.subgroupOf (Subgroup.normalizer (L : Set G))).map ρ) ∧
       (∀ a ∈ A, MulAut.conj (torusElt a) ∈
-        (D.subgroupOf (Subgroup.normalizer (L : Set G))).map ρ) ∧
-      (∀ d : ↥(D.subgroupOf (Subgroup.normalizer (L : Set G))), ∃ a ∈ A,
+        (_D.subgroupOf (Subgroup.normalizer (L : Set G))).map ρ) ∧
+      (∀ d : ↥(_D.subgroupOf (Subgroup.normalizer (L : Set G))), ∃ a ∈ A,
         ρ d = MulAut.conj (torusElt a)) := by
   classical
   let N : Subgroup G := Subgroup.normalizer (L : Set G)
-  let K : Subgroup (MulAut (SL(2, F))) := (D.subgroupOf N).map ρ
+  let K : Subgroup (MulAut (SL(2, F))) := (_D.subgroupOf N).map ρ
   let f : Fˣ →* MulAut (SL(2, F)) := torusAutHom F
   let A : Subgroup Fˣ := K.comap f
   have hKle : K ≤ f.range := by
     rintro _ ⟨d, hd, rfl⟩
-    have hdD : (d : G) ∈ D := Subgroup.mem_subgroupOf.mp hd
+    have hdD : (d : G) ∈ _D := Subgroup.mem_subgroupOf.mp hd
     have hdN : (d : G) ∈ N := d.2
     have hQ : (d : G) ∈ Subgroup.normalizer (pCoreOf 2 L : Set G) :=
       CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 L (hDL hdD)
@@ -478,8 +478,7 @@ private theorem eq_one_of_conj_torus_pow_two {F : Type} [Field F] [Finite F] [Ch
   rw [center_sl2_eq_bot, Subgroup.mem_bot] at hcentral
   have hbpow : b ^ (2 ^ m) = 1 := by
     have h1 : torusElt (b ^ (2 ^ m)) = (torusElt b) ^ (2 ^ m) := by
-      simpa [torusElt] using
-        map_pow (CFSG.Glauberman.Dickson.splitTorusSLHom F) b (2 ^ m)
+      simp [torusElt]
     refine torusElt_injective ?_
     rw [h1, hcentral, torusElt_one]
   have hdvd : orderOf b ∣ 2 ^ m := orderOf_dvd_iff_pow_eq_one.mpr hbpow
@@ -500,13 +499,13 @@ private theorem pow_two_mul_eq_self {F : Type} [Field F] [Fintype F] {N m : ℕ}
       rw [Nat.mul_succ, pow_add, pow_mul, ih, hbase]
 
 private theorem fieldAut_pow_r_eq_one {F : Type} [Field F] [Finite F] [CharP F 2]
-    {r e : ℕ} (he : 2 ≤ e) (hr : 1 ≤ r) (hFcard : Nat.card F = 2 ^ (r * e))
+    {r e : ℕ} (_he : 2 ≤ e) (_hr : 1 ≤ r) (hFcard : Nat.card F = 2 ^ (r * e))
     (A : Subgroup Fˣ) (hAcard : Nat.card A = 2 ^ e - 1)
     (σ : F ≃+* F) (hfix : ∀ a ∈ A, σ (a : F) = a) : σ ^ r = 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨j, hσ⟩ := CFSG.Quasithin.R3c18.exists_frob_pow σ
-  haveI : IsCyclic ↥A := isCyclic_subgroup_units A
+  have : IsCyclic ↥A := isCyclic_subgroup_units A
   obtain ⟨g, hgord⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥A)
   have horder : orderOf g = 2 ^ e - 1 := by rw [hgord, hAcard]
   let gu : Fˣ := (g : Fˣ)
@@ -548,14 +547,14 @@ private theorem fieldAut_pow_r_eq_one {F : Type} [Field F] [Finite F] [CharP F 2
 private theorem exists_ne_one_of_card_units {F : Type} [Field F] [Finite F]
     (A : Subgroup Fˣ) {e : ℕ} (he : 2 ≤ e) (hcard : Nat.card A = 2 ^ e - 1) :
     ∃ a ∈ A, a ≠ 1 := by
-  haveI : Finite ↥A := inferInstance
+  have : Finite ↥A := inferInstance
   have hgt : 1 < Nat.card A := by
     rw [hcard]
     have h4 : 4 ≤ 2 ^ e := by
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he
     omega
-  haveI : Nontrivial ↥A := Finite.one_lt_card_iff_nontrivial.mp hgt
+  have : Nontrivial ↥A := Finite.one_lt_card_iff_nontrivial.mp hgt
   obtain ⟨a, ha⟩ := exists_ne (1 : ↥A)
   exact ⟨a, a.2, fun h => ha (Subtype.ext h)⟩
 
@@ -633,7 +632,7 @@ private theorem exists_torus_pair_data {G : Type} [Group G] {L T D P : Subgroup 
   exact ⟨pairOf, fun c a ha => (pair_spec c).1 a ha, fun c x => (pair_spec c).2 x,
     pair_one⟩
 
-private theorem exists_sigmaOf_of_pair_data {G : Type} [Group G] {L T D P : Subgroup G}
+private theorem exists_sigmaOf_of_pair_data {G : Type} [Group G] {L _T _D P : Subgroup G}
     {F : Type} [Field F] [CharP F 2]
     (ρ : ↥(Subgroup.normalizer (L : Set G)) →* MulAut (SL(2, F)))
     (pairOf : ↥(P.subgroupOf (Subgroup.normalizer (L : Set G))) → Fˣ × (F ≃+* F))
@@ -706,10 +705,10 @@ private theorem exists_sigmaOf {G : Type} [Group G] {L T D P : Subgroup G}
         (torusElt (pairOf c).1)⁻¹) := by
   obtain ⟨pairOf, hfix, hpair, pair_one⟩ :=
     exists_torus_pair_data (T := T) (D := D) (A := A) he ρ hUρ hAcard hAmem hPT hPD
-  obtain ⟨σOf, hσ⟩ := exists_sigmaOf_of_pair_data (T := T) (D := D) ρ pairOf hpair pair_one
+  obtain ⟨σOf, hσ⟩ := exists_sigmaOf_of_pair_data (_T := T) (_D := D) ρ pairOf hpair pair_one
   exact ⟨pairOf, σOf, hσ, hfix, hpair⟩
 
-private theorem sigmaOf_ker_eq {G : Type} [Group G] {L T D P : Subgroup G}
+private theorem sigmaOf_ker_eq {G : Type} [Group G] {L T _D P : Subgroup G}
     {F : Type} [Field F] [Finite F] [CharP F 2]
     (ρ : ↥(Subgroup.normalizer (L : Set G)) →* MulAut (SL(2, F)))
     (pairOf : ↥(P.subgroupOf (Subgroup.normalizer (L : Set G))) → Fˣ × (F ≃+* F))
@@ -717,7 +716,7 @@ private theorem sigmaOf_ker_eq {G : Type} [Group G] {L T D P : Subgroup G}
     (hσ : ∀ c, σOf c = (pairOf c).2)
     (hspec : ∀ c x, ρ c.1 x = torusElt (pairOf c).1 * sl2FieldAut (pairOf c).2 x *
       (torusElt (pairOf c).1)⁻¹)
-    (hP : IsPGroup 2 P) (hPT : P ≤ Subgroup.normalizer (T : Set G))
+    (hP : IsPGroup 2 P) (_hPT : P ≤ Subgroup.normalizer (T : Set G))
     (hoddUnits : Odd (Nat.card Fˣ)) :
     σOf.ker = (ρ.ker).subgroupOf (P.subgroupOf (Subgroup.normalizer (L : Set G))) := by
   ext c
@@ -769,12 +768,12 @@ private theorem sigmaOf_ker_eq {G : Type} [Group G] {L T D P : Subgroup G}
 private theorem exists_fieldAutHom_of_torus_action {G : Type} [Group G]
     {L T D D' P : Subgroup G} [Finite ↥L] {F : Type} [Field F] [Finite F] [CharP F 2]
     {e r : ℕ} (he : 2 ≤ e) (hr1 : 1 ≤ r) (hFcard : Nat.card F = 2 ^ (r * e))
-    (γ : ↥L →* SL(2, F)) (hγ : Function.Surjective γ)
-    (hγker : γ.ker = (pCoreOf 2 L).subgroupOf L)
-    (hTγ : (T.subgroupOf L).map γ = utri F)
-    (hD'γ : (D'.subgroupOf L).map γ = torus F)
+    (γ : ↥L →* SL(2, F)) (_hγ : Function.Surjective γ)
+    (_hγker : γ.ker = (pCoreOf 2 L).subgroupOf L)
+    (_hTγ : (T.subgroupOf L).map γ = utri F)
+    (_hD'γ : (D'.subgroupOf L).map γ = torus F)
     (ρ : ↥(Subgroup.normalizer (L : Set G)) →* MulAut (SL(2, F)))
-    (hρker  : ρ.ker.map (Subgroup.normalizer (L : Set G)).subtype = trivOTwoQuot L)
+    (_hρker  : ρ.ker.map (Subgroup.normalizer (L : Set G)).subtype = trivOTwoQuot L)
     (hUρ : ∀ g : ↥(Subgroup.normalizer (L : Set G)),
       (g : G) ∈ Subgroup.normalizer (T : Set G) →
       ∀ x, ρ g x ∈ utri F ↔ x ∈ utri F)
@@ -801,7 +800,7 @@ private theorem exists_fieldAutHom_of_torus_action {G : Type} [Group G]
   obtain ⟨pairOf, σOf, hσ, hpairfix, hspec⟩ :=
     exists_sigmaOf (D := D) (A := A) he ρ hUρ hAcard hAmem hPT hPD
   have hker : σOf.ker = (ρ.ker).subgroupOf P_N :=
-    sigmaOf_ker_eq (D := D) ρ pairOf σOf hσ hspec hP hPT hoddUnits
+    sigmaOf_ker_eq (_D := D) ρ pairOf σOf hσ hspec hP hPT hoddUnits
   refine ⟨σOf, fun c a ha => by rw [hσ c]; exact hpairfix c a ha, hker, ?_⟩
   let ρP : ↥P_N →* MulAut (SL(2, F)) := ρ.comp P_N.subtype
   have hkerρP : ρP.ker = (ρ.ker).subgroupOf P_N := by
@@ -835,12 +834,12 @@ private theorem card_image_dvd_of_torus_action {G : Type} [Group G]
   obtain ⟨σOf, hfix, hker, hcard⟩ :=
     exists_fieldAutHom_of_torus_action he hr1 hFcard γ hγ hγker hTγ hD'γ ρ hρker hUρ
       hAcard hAmem hP hPT hPD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc : IsCyclic (F ≃+* F) :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic
       Nat.prime_two F hFcard).2
-  letI : IsCyclic (F ≃+* F) := hcyc
-  haveI : IsCyclic ↥σOf.range := Subgroup.isCyclic _
+  let : IsCyclic (F ≃+* F) := hcyc
+  have : IsCyclic ↥σOf.range := Subgroup.isCyclic _
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥σOf.range)
   have hgr : g ^ r = 1 := by
     obtain ⟨c, hc⟩ := MonoidHom.mem_range.mp g.2
@@ -868,7 +867,7 @@ theorem relIndex_trivOTwoQuot_dvd_of_commute_outer_torus {G : Type} [Group G]
     exact dvd_zero _
   have hr1 : 1 ≤ r := Nat.pos_of_ne_zero hr0
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F := GaloisField 2 (r * e)
   have hre1 : 1 ≤ r * e := by
     calc 1 = 1 * 1 := by norm_num
@@ -887,7 +886,7 @@ theorem relIndex_trivOTwoQuot_dvd_of_commute_outer_torus {G : Type} [Group G]
     exists_conjAction_data (n := r * e) hre1 hq hT hD' hD'card
   have hD'leL : D' ≤ L := fun x hx => (Subgroup.mem_inf.mp (hD' hx)).1
   obtain ⟨A, hAcardK, hAmem, -⟩ :=
-    exists_outerTorus_image (F := F) (T := T) (D := D) (D' := D')
+    exists_outerTorus_image (F := F) (T := T) (_D := D) (D' := D')
       hF4 γ hγ hγker hTγ hD'γ ρ hρ hρker hDL hDT hD'leL hDD'
   have hDcardρ : Nat.card ((D.subgroupOf N).map ρ) = 2 ^ e - 1 := by
     rw [← relIndex_trivOTwoQuot_eq_card_map ρ hρker hDL, hDidx]
@@ -914,7 +913,7 @@ theorem le_trivOTwoQuot_of_commute_outer_torus {G : Type} [Group G]
   have hdvd := relIndex_trivOTwoQuot_dvd_of_commute_outer_torus he hq hT hD' hD'card hDL hDT
     hDD' hDidx hP hPL hPT hPD
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F := GaloisField 2 (r * e)
   have hre1 : 1 ≤ r * e := by
     calc 1 = 1 * 1 := by norm_num
@@ -926,7 +925,7 @@ theorem le_trivOTwoQuot_of_commute_outer_torus {G : Type} [Group G]
   have hPN : IsPGroup 2 ↥P_N :=
     IsPGroup.of_equiv hP (Subgroup.subgroupOfEquivOfLe hPL).symm
   have hImg : IsPGroup 2 ↥(P_N.map ρ) := hPN.map ρ
-  haveI : Finite ↥(P_N.map ρ) := inferInstance
+  have : Finite ↥(P_N.map ρ) := inferInstance
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(P_N.map ρ))).mp hImg
   have hrel : (trivOTwoQuot L).relIndex P = Nat.card ↥(P_N.map ρ) :=
     relIndex_trivOTwoQuot_eq_card_map ρ hρker hPL

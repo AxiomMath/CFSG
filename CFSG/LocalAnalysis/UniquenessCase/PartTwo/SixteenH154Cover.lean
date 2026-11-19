@@ -19,14 +19,14 @@ private theorem s16h_not_forall_comm_of_isQuasisimple {A : Type} [Group A] [Fini
     (hA : CFSG.Open.IsQuasisimple A) : ¬ ∀ a b : A, a * b = b * a := by
   rintro hc
   obtain ⟨-, hsimple⟩ := hA
-  haveI := hsimple
+  have := hsimple
   have hcenter : Subgroup.center A = ⊤ := by
     rw [eq_top_iff]
     intro z _
     rw [Subgroup.mem_center_iff]
     intro y
     exact (hc z y).symm
-  haveI : Subsingleton (A ⧸ Subgroup.center A) := QuotientGroup.subsingleton_iff.mpr hcenter
+  have : Subsingleton (A ⧸ Subgroup.center A) := QuotientGroup.subsingleton_iff.mpr hcenter
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (A ⧸ Subgroup.center A)).exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
@@ -124,7 +124,7 @@ private theorem s16h_map_component_of_not_le_ker {Q A : Type} [Group Q] [Finite 
       rintro ⟨z, hz⟩
       obtain ⟨c, hc, rfl⟩ := Subgroup.mem_map.1 hz
       exact ⟨⟨c, hc⟩, rfl⟩
-    haveI : Nontrivial ↥(C.map ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hCbot
+    have : Nontrivial ↥(C.map ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hCbot
     exact uc22br4_isQuasisimple_of_surjective hC.2.2 f hf
 
 private theorem s16h_iSup_subgroupOf {A : Type} [Group A] {S : Subgroup A}
@@ -235,6 +235,7 @@ private theorem s16h_layer_subgroupOf {A : Type} [Group A] {S H : Subgroup A} (h
     exact le_iSup (fun K : {K : Subgroup ↥S // CFSG.Open.IsComponentOf K (H.subgroupOf S)} =>
       K.1) ⟨L.1.subgroupOf S, hL⟩
 
+omit [Finite G] in
 private theorem s16h_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -251,6 +252,7 @@ private theorem s16h_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) 
   rw [hcomap, Subgroup.map_top_of_surjective _ hπ] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem s16h_barLift_exists {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {Y : Subgroup G}
     (hY : Y ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 Y) = ⊥) :
     ∃ ψ : Bar2 Y →* MulAut (Vtil V₀ V hV),
@@ -268,6 +270,7 @@ private theorem s16h_barLift_exists {V₀ V : Subgroup G} (hV : IsElemAbelian 2 
   intro y
   rfl
 
+omit [Finite G] in
 private theorem s16h_barSub_comap_map {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {Y : Subgroup G}
     (hY : Y ≤ stabTil V₀ V) (ψ : Bar2 Y →* MulAut (Vtil V₀ V hV))
     (hψ : ∀ y : ↥Y, ψ (QuotientGroup.mk y) = actTil V₀ V hV ⟨y, hY y.2⟩)
@@ -291,8 +294,7 @@ private theorem s16h_barSub_comap_map {V₀ V : Subgroup G} (hV : IsElemAbelian 
     · refine Subgroup.mem_map.2 ⟨y, ?_, rfl⟩
       rw [Subgroup.mem_comap, hy]
       exact hc
-    · change actTil V₀ V hV ⟨(y : G), hY y.2⟩ = ψ c
-      rw [← hy]
+    · rw [← hy]
       change actTil V₀ V hV ⟨(y : G), hY y.2⟩ = ψ (QuotientGroup.mk y)
       rw [hψ y]
 
@@ -338,7 +340,7 @@ theorem s16h_exists_Y_layer (D : Data G) (h127 : R127 D) (h119 : F11.R119 D) {V�
   let hV := h.isElemAbelian
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   set Xbar : Subgroup (F11.MBar11 D.M V₀ V) :=
     rankThreeLayer (⊤ : Subgroup (F11.MBar11 D.M V₀ V)) with hXbardef
   have hXbarN : Xbar.Normal := CFSG.ComponentClassification.Layer.normal (F11.MBar11 D.M V₀ V)
@@ -474,7 +476,6 @@ theorem s16h_exists_cover (D : Data G) (h127 : R127 D) (h119 : F11.R119 D) {V₀
       obtain ⟨y, hy, hyc⟩ := Subgroup.mem_map.1 hc
       have hyK : (y : G) ∈ K := (Subgroup.mem_subgroupOf).1 hy
       refine (mem_barSub V₀ V hV K (ψ c)).2 ⟨⟨(y : G), hYs y.2⟩, hyK, ?_⟩
-      change actTil V₀ V hV ⟨(y : G), hYs y.2⟩ = ψ c
       rw [← hyc]
       change actTil V₀ V hV ⟨(y : G), hYs y.2⟩ = ψ (QuotientGroup.mk y)
       rw [hψ y]

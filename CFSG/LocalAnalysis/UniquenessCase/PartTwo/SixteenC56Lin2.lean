@@ -117,8 +117,8 @@ theorem linear_of_mem_aSet_two {X : Subgroup (MulAut W)}
     ⟨fun a ha b hb => hA.2.2.1.1 a (hB'le ha) b (hB'le hb),
       fun a ha => hA.2.2.1.2 a (hB'le ha)⟩
   have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact S.mul_self_eq_one w
-  haveI : Finite W := Finite.of_injective S.vec S.vec_injective
-  haveI : Nontrivial W := ⟨⟨1, S.ofVec (Pi.single (Sum.inl 0) 1), fun h => by
+  have : Finite W := Finite.of_injective S.vec S.vec_injective
+  have : Nontrivial W := ⟨⟨1, S.ofVec (Pi.single (Sum.inl 0) 1), fun h => by
     have h1 := congrArg S.vec h
     rw [S.vec_one, S.vec_ofVec] at h1
     have h2 := congrFun h1 (Sum.inl 0)

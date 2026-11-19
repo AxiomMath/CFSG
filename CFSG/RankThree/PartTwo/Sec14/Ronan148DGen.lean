@@ -64,7 +64,7 @@ theorem iSup_K_eq_top {j : ℕ} (hj : j < 2) : ⨆ l : Fin 4, KL j l = ⊤ := by
             split_ifs
             · exact k1_mem
             · exact k2_mem
-          · simp [MulAut.conj_apply]
+          · simp
         have hS' : KL j (k / 2) ≤ S := le_iSup (fun l : Fin 4 => KL j l) ⟨k / 2, by omega⟩
         exact ⟨_, hS' hkK, rfl⟩
       · simp only [hk8, ↓reduceIte]
@@ -87,7 +87,7 @@ theorem iSup_K_eq_top {j : ℕ} (hj : j < 2) : ⨆ l : Fin 4, KL j l = ⊤ := by
       · exact Kp.inv_mem (hinit _)
     · have e7 : k = 7 := Fin.ext (by have := k.isLt; omega)
       have h8 := hinit 8
-      rw [e27InitG_getD j (by norm_num), if_neg (by norm_num), zM_eq] at h8
+      rw [e27InitG_getD j (by norm_num), ite_eq_right (by norm_num), zM_eq] at h8
       rw [e7]
       exact h8
   have hM : M ≤ Kp := by
@@ -115,7 +115,7 @@ theorem mL_not_mem_zpowers (j l : ℕ) : mL j l ∉ zpowers zG := by
     simp at this
   have h := conj_not_mem_zpowers hx0 (nL j l)⁻¹
   have e : (MulAut.conj (nL j l)⁻¹).toMonoidHom (xG 0) = mL j l := by
-    simp [mL, MulAut.conj_apply]
+    simp [mL]
   rwa [e] at h
 
 theorem eq_K_of_le_centralizer (j l : ℕ) {J : Subgroup GM}
@@ -162,7 +162,7 @@ theorem onTripleGenE27 : ONTripleGenE27 := by
       show φ k * φ v = φ v * φ k
       rw [← map_mul, ← map_mul, h1]
     have : Group.IsPerfect ↥(K.map φ.toMonoidHom) := by
-      haveI := hKperf
+      have := hKperf
       exact Group.IsPerfect.map φ.toMonoidHom
     have hcard : 1080 ≤ Nat.card ↥(K.map φ.toMonoidHom) := by
       rw [Subgroup.card_map_of_injective φ.injective]

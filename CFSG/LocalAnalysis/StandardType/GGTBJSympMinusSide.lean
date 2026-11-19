@@ -19,6 +19,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem tbFacts_of_marking {p : ℕ} {Bs X : Subgroup G} (hBs : IsElemAbelian p Bs)
     (hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs)
     (hX : commutator ↥X = ⊤) {R : Type} [Group R] (θ : ↥X ⧸ Subgroup.center ↥X ≃* R)

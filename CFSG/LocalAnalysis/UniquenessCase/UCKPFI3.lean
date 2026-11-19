@@ -69,7 +69,7 @@ theorem exists_prime_order_lift {X : Type*} [Group X] (hZ3 : ∀ z ∈ center X,
     (hq : q.Prime) (hq3 : 3 < q) {zb : X ⧸ center X} (hzb : orderOf zb = q) :
     ∃ z : X, orderOf z = q ∧ (QuotientGroup.mk z : X ⧸ center X) = zb := by
   obtain ⟨z₀, rfl⟩ := QuotientGroup.mk_surjective zb
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hz₀q : z₀ ^ q ∈ center X := by
     rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_pow, ← hzb]
     exact pow_orderOf_eq_one _

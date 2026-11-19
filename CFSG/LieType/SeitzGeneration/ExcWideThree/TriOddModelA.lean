@@ -19,17 +19,17 @@ section Model
 
 variable {X : Type} [Field X] [Finite X] (σ : X ≃+* X)
 
-theorem triOdd_fieldActor_fix_A {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3)
+theorem triOdd_fieldActor_fix_A {ℓ f : ℕ} (hℓ : ℓ.Prime) (_hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3)
     (hf : 1 ≤ f) (hX : Nat.card X = (ℓ ^ f) ^ 3) (hσ : ∀ c : X, σ c = c ^ (ℓ ^ f))
     (u : C0 σ) (δ : X ≃+* X) (hδ : δ ^ 3 = 1)
     (hfix : ∀ a ∈ Asub σ, (MulAut.conj u * fieldActor (t := TwistTag.D4) σ δ) a = a) :
     δ = 1 := by
   classical
   obtain ⟨-, -, ⟨Θ, hΘ, hker⟩, -⟩ := KS11Lie5Proof.triality_normal_form hℓ hf X hX σ hσ
-  haveI : Finite (C0 σ) := by
+  have : Finite (C0 σ) := by
     have : Finite (ModGL TwistTag.D4.tag X) := finite_modGL
     exact Finite.of_injective (fun x : C0 σ => (x : ModGL TwistTag.D4.tag X)) Subtype.val_injective
-  haveI : Finite (MulAut (C0 σ)) := inferInstance
+  have : Finite (MulAut (C0 σ)) := inferInstance
   set ζ : MulAut (C0 σ) := MulAut.conj u * fieldActor (t := TwistTag.D4) σ δ with hζ
   have hΘζ : Θ ζ = δ := hΘ ζ u δ rfl
   have hpos : 0 < orderOf ζ := orderOf_pos ζ
@@ -59,7 +59,7 @@ theorem triOdd_fieldActor_fix_A {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ �
     rw [Nat.gcd_comm]; exact this
   rwa [hcop, pow_one] at hg
 
-theorem triOdd_asub_chart {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3) (hf : 1 ≤ f)
+theorem triOdd_asub_chart {ℓ f : ℕ} (_hℓ : ℓ.Prime) (_hℓ2 : ℓ ≠ 2) (_hℓ3 : ℓ ≠ 3) (_hf : 1 ≤ f)
     (hX : Nat.card X = (ℓ ^ f) ^ 3) (hσ : ∀ c : X, σ c = c ^ (ℓ ^ f)) :
     ∃ ι : Matrix.SpecialLinearGroup (Fin 2) X →* C0 σ, Function.Injective ι ∧
       (∀ x : C0 σ, x ∈ Asub σ ↔ ∃ M, ι M = x) ∧

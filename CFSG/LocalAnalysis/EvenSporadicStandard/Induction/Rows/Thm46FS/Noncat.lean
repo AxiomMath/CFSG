@@ -80,7 +80,7 @@ theorem isCyclic_sylow_of_noncat (hRK : Outer.RankTwoStdRec) (thm24_1 : Sol78Thm
   · have hrS : CFSG.pRank 2 ↥(S : Subgroup ↥(centralizer (P : Set G))) ≤ 1 :=
       (pRank_two_le_of_injective (S : Subgroup ↥(centralizer (P : Set G))).subtype
         (S : Subgroup ↥(centralizer (P : Set G))).subtype_injective).trans hrk
-    rcases isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup' hrS with hc | hq
+    rcases isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup hrS with hc | hq
     · exact hc
     · exact (hnc (catalog_of_genQuaternion thm24_1 hna hord hP S hq)).elim
   · exact (hnc (catalog_of_rankTwo hRK hna hkp hP hPq hrk)).elim

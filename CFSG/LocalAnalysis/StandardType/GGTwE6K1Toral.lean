@@ -101,8 +101,8 @@ theorem e6AdToral_of_conn_line (hS : E6LeviThreeToralBar) {K : Type} [Field K] [
         baseChangeGL (τ := Tag.E6) (algebraMap K (AlgebraicClosure K))
           (h : ModGL TwistTag.E6.tag K) * x) :
     E6AdToral X := by
-  haveI : Fact (ringChar K).Prime := ⟨D.hℓ⟩
-  haveI := D.hchar
+  have : Fact (ringChar K).Prime := ⟨D.hℓ⟩
+  have := D.hchar
   have hg0 : D.S.D.g0 * rootDiagUnit Tag.E6 D.a * D.S.D.g0⁻¹ =
       baseChangeGL (τ := Tag.E6) (algebraMap K (AlgebraicClosure K))
         (h : ModGL TwistTag.E6.tag K) := D.hg0

@@ -31,19 +31,26 @@ variable {n q : ℕ} {F : Type} [Field F] [Finite F]
 @[expose] noncomputable def twA5Vec (c : Fin 4 → F) : Fin 6 → F :=
   ![c 0, c 0, c 1, c 2, c 3, (c 0 ^ 2 * c 1 * c 2 * c 3)⁻¹]
 
+omit [Finite F] in
 @[simp] theorem twA5Vec_zero (c : Fin 4 → F) : twA5Vec c 0 = c 0 := rfl
 
+omit [Finite F] in
 @[simp] theorem twA5Vec_one (c : Fin 4 → F) : twA5Vec c 1 = c 0 := rfl
 
+omit [Finite F] in
 @[simp] theorem twA5Vec_two (c : Fin 4 → F) : twA5Vec c 2 = c 1 := rfl
 
+omit [Finite F] in
 @[simp] theorem twA5Vec_three (c : Fin 4 → F) : twA5Vec c 3 = c 2 := rfl
 
+omit [Finite F] in
 @[simp] theorem twA5Vec_four (c : Fin 4 → F) : twA5Vec c 4 = c 3 := rfl
 
+omit [Finite F] in
 @[simp] theorem twA5Vec_five (c : Fin 4 → F) :
     twA5Vec c 5 = (c 0 ^ 2 * c 1 * c 2 * c 3)⁻¹ := rfl
 
+omit [Finite F] in
 theorem twA5Vec_mul (c c' : Fin 4 → F) : twA5Vec (c * c') = twA5Vec c * twA5Vec c' := by
   have h5 : (c 0 * c' 0) ^ 2 * (c 1 * c' 1) * (c 2 * c' 2) * (c 3 * c' 3) =
       (c 0 ^ 2 * c 1 * c 2 * c 3) * (c' 0 ^ 2 * c' 1 * c' 2 * c' 3) := by ring
@@ -57,6 +64,7 @@ theorem twA5Vec_mul (c c' : Fin 4 → F) : twA5Vec (c * c') = twA5Vec c * twA5Ve
   · show twA5Vec (c * c') 5 = twA5Vec c 5 * twA5Vec c' 5
     simp only [twA5Vec_five, Pi.mul_apply, h5, mul_inv]
 
+omit [Finite F] in
 theorem twA5Vec_injective : Function.Injective (twA5Vec (F := F)) := by
   intro c c' h
   have h0 : c 0 = c' 0 := by simpa using congrFun h 0
@@ -66,10 +74,12 @@ theorem twA5Vec_injective : Function.Injective (twA5Vec (F := F)) := by
   funext i
   fin_cases i <;> assumption
 
+omit [Finite F] in
 theorem twA5Vec_one_fun : twA5Vec (1 : Fin 4 → F) = 1 := by
   funext i
   fin_cases i <;> simp [twA5Vec]
 
+omit [Finite F] in
 theorem twA5Vec_norm (h : UnitaryFieldData 2 n F) {c : Fin 4 → F}
     (hc : ∀ i, h.norm (c i) = 1) : ∀ i, h.norm (twA5Vec c i) = 1 := by
   have hne : ∀ i, c i ≠ 0 := fun i =>
@@ -83,8 +93,9 @@ theorem twA5Vec_norm (h : UnitaryFieldData 2 n F) {c : Fin 4 → F}
   · simpa using hc 3
   · show h.norm (twA5Vec c 5) = 1
     simp only [twA5Vec_five, norm_inv_eq h, norm_mul_eq h, pow_two, hc 0, hc 1, hc 2, hc 3,
-      mul_one, one_mul, inv_one]
+      mul_one, inv_one]
 
+omit [Finite F] in
 theorem twA5Vec_prod (h : UnitaryFieldData 2 n F) {c : Fin 4 → F}
     (hc : ∀ i, h.norm (c i) = 1) : ∏ i, twA5Vec c i = 1 := by
   have hne : ∀ i, c i ≠ 0 := fun i =>
@@ -95,6 +106,7 @@ theorem twA5Vec_prod (h : UnitaryFieldData 2 n F) {c : Fin 4 → F}
   exact mul_inv_cancel₀ (mul_ne_zero (mul_ne_zero (mul_ne_zero (pow_ne_zero 2 (hne 0)) (hne 1))
     (hne 2)) (hne 3))
 
+omit [Finite F] in
 theorem norm_eq_one_of_mem_zpowers (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) {x : Fˣ} (hx : x ∈ Subgroup.zpowers ζu) :
     h.norm (x : F) = 1 := by
@@ -110,11 +122,13 @@ theorem norm_eq_one_of_mem_zpowers (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (twA5Vec_norm h fun i => norm_eq_one_of_mem_zpowers h hζ (c i).2)
     (twA5Vec_prod h fun i => norm_eq_one_of_mem_zpowers h hζ (c i).2)
 
+omit [Finite F] in
 theorem coe_twA5Diag (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1)
     (c : Fin 4 → Subgroup.zpowers ζu) :
     (((twA5Diag h hζ c : unitarySU 2 n F 6) : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) =
       diagonal (twA5Vec fun i => ((c i : Fˣ) : F)) := rfl
 
+omit [Finite F] in
 theorem twA5Diag_mul (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1)
     (c c' : Fin 4 → Subgroup.zpowers ζu) :
     twA5Diag h hζ (c * c') = twA5Diag h hζ c * twA5Diag h hζ c' := by
@@ -128,6 +142,7 @@ theorem twA5Diag_mul (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu
   rw [h1, twA5Vec_mul, diagonal_mul_diagonal]
   rfl
 
+omit [Finite F] in
 theorem twA5Diag_one (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1) :
     twA5Diag h hζ 1 = 1 := by
   apply Subtype.ext
@@ -150,10 +165,12 @@ theorem twA5Diag_one (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu
     (hζ : h.norm (ζu : F) = 1) : Subgroup (unitarySU 2 n F 6) :=
   (twA5TorusHom h hζ).range
 
+omit [Finite F] in
 theorem twA5TorusHom_apply (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (c : Fin 4 → Subgroup.zpowers ζu) :
     twA5TorusHom h hζ c = twA5Diag h hζ c := rfl
 
+omit [Finite F] in
 theorem twA5TorusHom_injective (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) : Function.Injective (twA5TorusHom h hζ) := by
   intro c c' hcc
@@ -167,6 +184,7 @@ theorem twA5TorusHom_injective (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
   funext i
   exact Subtype.ext (Units.ext (congrFun h1 i))
 
+omit [Finite F] in
 theorem card_twA5Torus (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1)
     (hζo : orderOf ζu = q) : Nat.card (twA5Torus h hζ) = q ^ 4 := by
   have hdom : Nat.card (Fin 4 → Subgroup.zpowers ζu) = q ^ 4 := by
@@ -179,12 +197,14 @@ theorem card_twA5Torus (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (�
     (hζ : h.norm (ζu : F) = 1) : Subgroup (unitaryPSU h 6) :=
   ((unitaryProj h 6).comp (twA5TorusHom h hζ)).range
 
+omit [Finite F] in
 theorem mem_twA5B {h : UnitaryFieldData 2 n F} {ζu : Fˣ} {hζ : h.norm (ζu : F) = 1}
     {x : unitaryPSU h 6} :
     x ∈ twA5B h hζ ↔
       ∃ c : Fin 4 → Subgroup.zpowers ζu, unitaryProj h 6 (twA5TorusHom h hζ c) = x :=
   Iff.rfl
 
+omit [Finite F] in
 theorem exists_twA5Vec_of_mem_twA5Torus (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) {A : unitarySU 2 n F 6} (hA : A ∈ twA5Torus h hζ) :
     ∃ c : Fin 4 → Fˣ, (∀ i, c i ∈ Subgroup.zpowers ζu) ∧
@@ -193,6 +213,7 @@ theorem exists_twA5Vec_of_mem_twA5Torus (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
   obtain ⟨c, rfl⟩ := hA
   exact ⟨fun i => (c i : Fˣ), fun i => (c i).2, coe_twA5Diag h hζ c⟩
 
+omit [Finite F] in
 theorem unitaryProj_injective_on_twA5Torus (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) (hq : q.Prime) (hq6 : ¬ q ∣ 6) :
     ∀ A ∈ twA5Torus h hζ, ∀ B ∈ twA5Torus h hζ,
@@ -239,6 +260,7 @@ theorem unitaryProj_injective_on_twA5Torus (h : UnitaryFieldData 2 n F) {ζu : F
     exact Subtype.ext (by simpa using h)
   exact mul_inv_eq_one.1 hone
 
+omit [Finite F] in
 theorem twA5B_hom_injective (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) (hq : q.Prime) (hq6 : ¬ q ∣ 6) :
     Function.Injective ((unitaryProj h 6).comp (twA5TorusHom h hζ)) := by
@@ -247,6 +269,7 @@ theorem twA5B_hom_injective (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     unitaryProj_injective_on_twA5Torus h hζ hζo hq hq6 _ ⟨c, rfl⟩ _ ⟨c', rfl⟩ hcc
   exact twA5TorusHom_injective h hζ h1
 
+omit [Finite F] in
 theorem card_twA5B (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1)
     (hζo : orderOf ζu = q) (hq : q.Prime) (hq6 : ¬ q ∣ 6) : Nat.card (twA5B h hζ) = q ^ 4 := by
   have hdom : Nat.card (Fin 4 → Subgroup.zpowers ζu) = q ^ 4 := by
@@ -255,6 +278,7 @@ theorem card_twA5B (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu :
   rw [twA5B, MonoidHom.range_eq_map,
     Subgroup.card_map_of_injective (twA5B_hom_injective h hζ hζo hq hq6), Subgroup.card_top, hdom]
 
+omit [Finite F] in
 theorem twA5Torus_isElemAbelian (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) :
     IsElemAbelian q (twA5Torus h hζ) := by
@@ -280,6 +304,7 @@ theorem twA5Torus_isElemAbelian (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
       exact congrArg (fun u : Fˣ => (u : F)) h2
     rw [h1, map_one]
 
+omit [Finite F] in
 theorem twA5B_isElemAbelian (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) :
     IsElemAbelian q (twA5B h hζ) := by
@@ -296,6 +321,7 @@ theorem twA5B_isElemAbelian (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     show unitaryProj h 6 (twA5TorusHom h hζ (c ^ q)) = 1
     rw [map_pow, hpow (twA5TorusHom h hζ c) ⟨c, rfl⟩, map_one]
 
+omit [Finite F] in
 theorem diagFiveLast_mem_twA5B (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) :
     unitaryProj h 6 (diagFiveLast h (ζu : F) hζ) ∈ twA5B h hζ := by

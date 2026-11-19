@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_centralizer (V : Subgroup G) :
     normalizer (V : Set G) ≤ normalizer (centralizer (V : Set G) : Set G) := by
   intro g hg
@@ -33,6 +34,7 @@ private theorem normalizer_le_normalizer_centralizer (V : Subgroup G) :
       _ = g⁻¹ * ((g * x * g⁻¹) * (g * v * g⁻¹)) * g := by rw [h1]
       _ = x * v := by group
 
+omit [Finite G] in
 private theorem le_normalizer_inf {H K L : Subgroup G} (hH : L ≤ normalizer (H : Set G))
     (hK : L ≤ normalizer (K : Set G)) : L ≤ normalizer ((H ⊓ K : Subgroup G) : Set G) := by
   intro g hg
@@ -53,6 +55,7 @@ private theorem card_le_of_isCyclic_of_isElemAbelian {H : Type*} [Group H] [Fini
   rw [← h1]
   exact Nat.le_of_dvd hp h2
 
+omit [Finite G] in
 private theorem mem_normalizer_iff_conjSubgroup_eq {T : Subgroup G} {g : G} :
     g ∈ normalizer (T : Set G) ↔ CFSG.CGT.Timmesfeld75.conjSubgroup g T = T := by
   constructor
@@ -71,7 +74,7 @@ private theorem mem_normalizer_iff_conjSubgroup_eq {T : Subgroup G} {g : G} :
     exact h2.symm
 
 theorem s15_13A_le_T {D : Data G} {V₀ V : Subgroup G} (h : Hyp125 D V₀ V) : V ≤ D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : CFSG.Quasithin.IsSylowIn 2 D.T D.M :=
     CFSG.ABGLocalTools.isSylowOf_iff.1 D.sylowM
   have hN : (V.subgroupOf D.M).Normal :=
@@ -91,7 +94,7 @@ theorem s15_13A_isSylowOf_inf_centralizer (D : Data G) {V₀ V : Subgroup G}
     (h : Hyp125 D V₀ V) :
     CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ centralizer (V : Set G))
       (D.M ⊓ centralizer (V : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCM : centralizer (V : Set G) ≤ D.M := centralizer_le_of_inCalV D h.inCalV
   have hMN : D.M ≤ normalizer (centralizer (V : Set G) : Set G) :=
     h.pairFacts.le_normalizer.trans (normalizer_le_normalizer_centralizer V)
@@ -102,7 +105,7 @@ theorem s15_13A_normalizer_le_normalizer_wClos (D : Data G) {V₀ V : Subgroup G
     (h : Hyp125 D V₀ V) (hW : E3.wClos V 0 D.T ≤ centralizer (V : Set G)) :
     normalizer ((D.T ⊓ centralizer (V : Set G) : Subgroup G) : Set G) ≤
       normalizer (E3.wClos V 0 D.T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : CFSG.Quasithin.IsSylowIn 2 D.T D.M :=
     CFSG.ABGLocalTools.isSylowOf_iff.1 D.sylowM
   have hYH : D.T ⊓ centralizer (V : Set G) ≤ D.M :=
@@ -175,7 +178,7 @@ theorem s15_13A_not_cyclic_of_card {Q C E R : Subgroup G} {p : ℕ} (hp : p.Prim
   set CQ : Subgroup Q := C.subgroupOf Q with hCQdef
   set EQ : Subgroup Q := E.subgroupOf Q with hEQdef
   set RQ : Subgroup Q := R.subgroupOf Q with hRQdef
-  haveI hCQn : CQ.Normal := by
+  have hCQn : CQ.Normal := by
     rw [hCQdef]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hCQ).mpr hn
   set π : Q →* Q ⧸ CQ := QuotientGroup.mk' CQ with hπdef
@@ -183,7 +186,7 @@ theorem s15_13A_not_cyclic_of_card {Q C E R : Subgroup G} {p : ℕ} (hp : p.Prim
     rw [hπdef, Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk']
   have hRQcyc : IsCyclic RQ := by
     have e := Subgroup.subgroupOfEquivOfLe hRQ
-    haveI : IsCyclic R := hRcyc
+    have : IsCyclic R := hRcyc
     exact isCyclic_of_surjective (e.symm : R →* RQ) e.symm.surjective
   have hRQmap : IsCyclic (RQ.map π) :=
     isCyclic_of_surjective (π.subgroupMap RQ) (π.subgroupMap_surjective RQ)
@@ -196,7 +199,7 @@ theorem s15_13A_not_cyclic_of_card {Q C E R : Subgroup G} {p : ℕ} (hp : p.Prim
       _ = ⊥ ⊔ RQ.map π := by rw [hCQmap]
       _ = RQ.map π := bot_sup_eq _
   have hEQmapcyc : IsCyclic (EQ.map π) := by
-    haveI : IsCyclic (RQ.map π) := hRQmap
+    have : IsCyclic (RQ.map π) := hRQmap
     exact Subgroup.isCyclic_of_le hmap_le
   have hEQmapel : IsElemAbelian p (EQ.map π) := by
     rw [hEQdef]
@@ -246,6 +249,7 @@ theorem s15_13A_not_cyclic_of_card {Q C E R : Subgroup G} {p : ℕ} (hp : p.Prim
   have hp2le : 2 ≤ p := hp.two_le
   omega
 
+omit [Finite G] in
 theorem s15_13A_relIndex_sup {C E : Subgroup G} (hn : E ≤ normalizer (C : Set G)) :
     C.relIndex (C ⊔ E) = (E ⊓ C).relIndex E := by
   have hCE : C ≤ C ⊔ E := le_sup_left
@@ -253,7 +257,7 @@ theorem s15_13A_relIndex_sup {C E : Subgroup G} (hn : E ≤ normalizer (C : Set 
   have hCX : (C.subgroupOf (C ⊔ E)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCE).mpr
       (sup_le Subgroup.le_normalizer hn)
-  haveI := hCX
+  have := hCX
   have hsup : E.subgroupOf (C ⊔ E) ⊔ C.subgroupOf (C ⊔ E) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hEE hCE, sup_comm, Subgroup.subgroupOf_self]
   calc C.relIndex (C ⊔ E)
@@ -272,7 +276,7 @@ theorem s15_13A_le_sup_inf_normalizer {C Q S : Subgroup G}
     (hCQ : C ≤ Q) (hn : Q ≤ normalizer (C : Set G))
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 S C) :
     Q ≤ C ⊔ (Q ⊓ normalizer (S : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro q hq
   have hqN : q ∈ normalizer (C : Set G) := hn hq
   have hS'le : CFSG.Quasithin.conjSubgroup S q ≤ C := by
@@ -310,7 +314,7 @@ theorem s15_13A_le_sup_of_isSylowOf {C Y Q R : Subgroup G} {p : ℕ} (hp : p.Pri
     (hCQ : C ≤ Q) (hn : Q ≤ normalizer (C : Set G)) (hYQ : Y ≤ Q) (hQ : Q ≤ C ⊔ Y)
     (hidx : ∃ k : ℕ, C.relIndex Q = p ^ k) (hR : CFSG.ABGLocalTools.IsSylowOf p R Y) :
     Q ≤ C ⊔ R := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQeq : Q = C ⊔ Y := le_antisymm hQ (sup_le hCQ hYQ)
   obtain ⟨k, hk⟩ := hidx
   have hCY : (Y ⊓ C).relIndex Y = p ^ k := by
@@ -355,7 +359,7 @@ theorem s15_13A_exists_noncyclic (D : Data G) (h129 : R129_1 D) (h61 : UC6.R6_1 
       ¬ IsCyclic R := by
   obtain ⟨p, hp⟩ := hne
   have hp2 : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp2⟩
+  have : Fact p.Prime := ⟨hp2⟩
   set C : Subgroup G := D.M ⊓ centralizer (V : Set G) with hCdef
   have hCM : C ≤ D.M := inf_le_left
   have hCCV : C ≤ centralizer (V : Set G) := inf_le_right
@@ -402,7 +406,7 @@ theorem fifteen_thirteen_a (D : Data G) (h129 : R129_1 D) (h61 : UC6.R6_1 D)
     (hne : D.sig.Nonempty) (hrk : ∀ p ∈ D.sig, 3 ≤ pRank p D.M) {V₀ V : Subgroup G}
     (h : Hyp125 D V₀ V) (hW : E3.wClos V 0 D.T ≤ centralizer (V : Set G)) :
     normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVX : V ≤ E3.wClos V 0 D.T := s15_13A_le_wClos h
   have hXne : E3.wClos V 0 D.T ≠ ⊥ := fun hbot =>
     h.pairFacts.ne_bot (le_bot_iff.1 (hVX.trans_eq hbot))

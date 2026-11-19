@@ -187,7 +187,7 @@ theorem outTowerAt_three_of_rankLE2 (hT : ExceptionalTowers) (d : TauCeti.ValidL
 theorem sylow_normal_outer_three_of_simple (hT : ExceptionalTowers) {S : Type} [Group S]
     [Finite S] [IsSimpleGroup S] (hnab : ∃ a b : S, a * b ≠ b * a) (hcat : IsCatalogGroup S)
     (hrk : RankLE2 3 S) : ∀ P : Sylow 3 (Outer S), (P : Subgroup (Outer S)).Normal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, b, hab⟩ := hnab
   have hZ : Subgroup.center S = ⊥ :=
     CFSG.Sporadic.Schreier.center_eq_bot_of_simple inferInstance hab
@@ -196,14 +196,14 @@ theorem sylow_normal_outer_three_of_simple (hT : ExceptionalTowers) {S : Type} [
   | cyclic r hr =>
     exact (hab (e.injective (by rw [map_mul, map_mul]; exact mul_comm _ _))).elim
   | alternating n hn =>
-    haveI := Hyp111.finite_outer (alternatingGroup (Fin n))
+    have := Hyp111.finite_outer (alternatingGroup (Fin n))
     exact Hyp111.sylow_normal_outer_of_mulEquiv e (Hyp111.sylow_normal_of_not_dvd
       (not_dvd_card_outer_alternatingGroup n hn 3 Nat.prime_three (by norm_num)))
   | sporadic s =>
     exact sylow_normal_outer_of_outTowerAt hZ
       (OutTowerAt.of_mulEquiv e (hT.sporadic s 3 Nat.prime_three (by norm_num)))
   | lie d =>
-    haveI : Finite (Cat d) := Finite.of_equiv S e.toEquiv
+    have : Finite (Cat d) := Finite.of_equiv S e.toEquiv
     exact sylow_normal_outer_of_outTowerAt hZ
       (OutTowerAt.of_mulEquiv e (outTowerAt_three_of_rankLE2 hT d (RankLE2.of_mulEquiv e hrk)))
 

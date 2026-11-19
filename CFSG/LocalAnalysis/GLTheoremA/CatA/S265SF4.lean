@@ -114,7 +114,7 @@ private theorem card_le_of_diag_nl (hn : 2 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
       ((A₀ : Matrix (Fin n) (Fin n) F) * (g : Matrix (Fin n) (Fin n) F) *
         ((A₀⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) i j = 0) :
     Nat.card X ≤ p := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set G := X.comap (conjAut n F) with hGdef
   obtain ⟨i, j, hij⟩ : ∃ i j : Fin n, i ≠ j := ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩
   obtain ⟨e, he⟩ : ∃ e : GL (Fin n) F → Fin n → F, ∀ g k,

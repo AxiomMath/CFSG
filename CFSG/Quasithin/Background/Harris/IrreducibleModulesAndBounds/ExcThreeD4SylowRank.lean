@@ -13,7 +13,7 @@ variable {K : Type} [Field K] {σ : K ≃+* K} {k : Subfield K} {P : Type} [Grou
 
 include D in
 theorem card_elemAbelian_le (hK3 : Nat.card K = Nat.card k ^ 3) (E : Subgroup P)
-    (hc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (h2 : ∀ x ∈ E, x * x = 1) :
+    (hc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (_h2 : ∀ x ∈ E, x * x = 1) :
     Nat.card E ≤ 2 * Nat.card k ^ 5 := by
   classical
   let φ : E →* Multiplicative K := D.π1hom.comp E.subtype

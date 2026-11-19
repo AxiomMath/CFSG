@@ -134,7 +134,7 @@ theorem simple_noncommutative_sylow_not_normal (group : Type*) [Group group]
       intro element
       exact ⟨⟨element, by rw [sylow_top]; trivial⟩, rfl⟩
     have p_group : IsPGroup prime group :=
-      sylow.isPGroup'.of_surjective (sylow : Subgroup group).subtype surjective
+      sylow.isPGroup.of_surjective (sylow : Subgroup group).subtype surjective
     let := p_group.isNilpotent
     exact noncommutative (CFSG.OrderReductions.Helpers.simple_solvable_isMulCommutative group)
 

@@ -63,7 +63,7 @@ theorem nt_field (f : ℕ) (hf : 2 ≤ f) (N : ℕ)
   omega
 
 theorem nt_dual (f : ℕ) (hf : 1 ≤ f) (N : ℕ) (hv : N.factorization 2 = 3 * f)
-    (hN0 : N ≠ 0) (hd : N ∣ 2 ^ (2 * f) * ((2 ^ (2 * f)) ^ 2 - 1)) : False := by
+    (_hN0 : N ≠ 0) (hd : N ∣ 2 ^ (2 * f) * ((2 ^ (2 * f)) ^ 2 - 1)) : False := by
   have h1 : 2 ^ (3 * f) ∣ N := by
     have := Nat.ordProj_dvd N 2
     rwa [hv] at this
@@ -89,7 +89,7 @@ theorem tmat_mul (h2 : (2 : K) = 0) (t s : K) : tmat t * tmat s = tmat (t + s) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [tmat, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | rfl | (linear_combination (t * s) * h2) | skip
+    (linear_combination (t * s) * h2)
 
 theorem tmat_zero : tmat (0 : K) = 1 := by
   ext i j
@@ -145,7 +145,7 @@ theorem proj_tSL_ne_one {t : K} (ht : t ≠ 0) : proj 3 K (tSL t) ≠ 1 := by
   rw [proj_eq_one_iff, mem_scalars] at h
   obtain ⟨c, -, hc⟩ := h
   have := congrFun (congrFun hc 0) 1
-  simp [coe_tSL, tmat, scalar_apply, diagonal_apply] at this
+  simp [coe_tSL, tmat, scalar_apply] at this
   exact ht this
 
 theorem fieldAut_dualAut_proj_tSL (σ : K ≃+* K) (t : K) :
@@ -162,7 +162,7 @@ theorem dihedral_in_P (h : UnitaryFieldData 2 f K) (σ : K ≃+* K) (hσ : ∀ x
     ∃ u : projectiveSL 3 K, u * u = 1 ∧ u * (fieldAut 3 K σ * dualAut 3 K) u ≠ 1 ∧
       (u * (fieldAut 3 K σ * dualAut 3 K) u) * (u * (fieldAut 3 K σ * dualAut 3 K) u) = 1 ∧
       u * (fieldAut 3 K σ * dualAut 3 K) u ∈ unitaryCore 2 f K 3 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨c, hc⟩ := h.exists_bar_ne
   have ht0 : c + σ c ≠ 0 := by
     intro h0
@@ -249,14 +249,14 @@ theorem dual_false [Finite K] [CharP K 2] (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ 
     refine (Subgroup.card_dvd_of_le hle).trans ?_
     rw [Nat.card_congr (MonoidHom.ofInjective hj).symm.toEquiv]
   rw [CFSG.LocalAnalysis.SymplecticFourStandard.LinearUnitaryThree.card_SL_two, hK] at h1
-  haveI := CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_PSU3 hB
+  have := CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_PSU3 hB
   exact nt_dual f hf (Nat.card B)
     (CFSG.LocalAnalysis.EvenBN.GMSK.factorization_two_card_of_lieModel_PSU3 hB)
     Nat.card_pos.ne' h1
 
 theorem lieModel_unitaryPSU (h : UnitaryFieldData 2 f K) (hadm : CFSG.Open.StatedLieAdmissible .PSU 3 2 f) :
     LieModel (unitaryPSU h 3) .PSU 3 2 f := by
-  haveI := h.finite
+  have := h.finite
   refine Or.inl ⟨by decide, hadm, ?_⟩
   exact ⟨K, inferInstance, h.finite, by rw [h.card, ← pow_mul, mul_comm],
     ⟨unitaryPSUEquiv h (by norm_num)⟩⟩
@@ -304,7 +304,7 @@ theorem canonical_form (hf : 2 ≤ f) {X : Type} [Group X] {A : Subgroup X}
   obtain ⟨K, hF, hfin, hK, ⟨e₀⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hX
   have h : UnitaryFieldData 2 f K := ⟨Nat.prime_two, by omega, hK⟩
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hy2 : (MulAut.congr e₀ τ) ^ 2 = 1 := by
     have : τ ^ 2 = 1 := by rw [← hτ]; exact pow_orderOf_eq_one τ
     rw [← map_pow, this, map_one]

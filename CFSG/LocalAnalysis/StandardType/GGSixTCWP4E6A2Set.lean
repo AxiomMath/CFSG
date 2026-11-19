@@ -26,7 +26,7 @@ theorem a2Set_eq_of_mem {α β α' β' : Fin Tag.E6.rank → ℤ}
     first
     | (exfalso
        simp only [iform_add_left_E6, iform_add_right_E6, iform_neg_left_E6,
-         iform_right_neg_E6, n1, n2, hab, hba] at h' <;> omega)
+         iform_right_neg_E6, n1, n2, hab, hba] at h'; omega)
     | (ext x
        simp only [tcA2Set, Set.mem_insert_iff, Set.mem_singleton_iff]
        constructor <;> intro h <;> rcases h with h | h | h | h | h | h <;> rw [h] <;>

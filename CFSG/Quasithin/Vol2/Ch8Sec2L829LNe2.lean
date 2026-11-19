@@ -21,12 +21,15 @@ private abbrev toM2_LNe2 (a : Multiplicative M) : M := Additive.ofMul a
 
 private abbrev toW2_LNe2 (a : Multiplicative W) : W := Additive.ofMul a
 
+omit [Module (ZMod 2) M] in
 private lemma toM2_mul_LNe2 (a b : Multiplicative M) :
     toM2_LNe2 (a * b) = toM2_LNe2 a + toM2_LNe2 b := rfl
 
+omit [Module (ZMod 2) W] in
 private lemma toW2_mul_LNe2 (a b : Multiplicative W) :
     toW2_LNe2 (a * b) = toW2_LNe2 a + toW2_LNe2 b := rfl
 
+omit [Module (ZMod 2) W] in
 private lemma toW2_one_LNe2 : toW2_LNe2 (1 : Multiplicative W) = 0 := rfl
 
 private def psiLNe2 (SM : SectionModule Lu ⊥ V M) {K : Subgroup G} (hK : K ≤ V) :
@@ -145,7 +148,7 @@ private lemma normalizer_inf_LNe2 {Lu V W₁ : Subgroup G}
   intro h
   have e1 := Subgroup.mem_normalizer_iff.mp (h1 hs) h
   have e2 := Subgroup.mem_normalizer_iff.mp (h2 hs) h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr e1 e2
 
 end Kappa

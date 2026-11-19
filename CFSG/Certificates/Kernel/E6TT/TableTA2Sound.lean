@@ -70,7 +70,7 @@ theorem repZ0_eigenvalue (ρ : Equiv.Perm V6) (r : ZMod 3) (hadd : ∀ x y, ρ (
       rw [hmap x, Finset.sum_apply, Int.cast_sum]
       apply Finset.sum_eq_zero
       intro i _
-      simp only [Pi.smul_apply, smul_eq_mul, Int.cast_mul, hcoeff i, zero_mul, mul_zero]
+      simp only [Pi.smul_apply, smul_eq_mul, Int.cast_mul, hcoeff i, mul_zero]
     have hsing : ((((φ (ρ.symm (Pi.single (3 : Fin Tag.E6.rank) 1))) 3 : ℤ)) : ZMod 3) = 0 :=
       hcoord (ρ.symm (Pi.single (3 : Fin Tag.E6.rank) 1))
     change ((((ρ (ρ.symm (Pi.single (3 : Fin Tag.E6.rank) 1))) 3 : ℤ)) : ZMod 3) = 0 at hsing

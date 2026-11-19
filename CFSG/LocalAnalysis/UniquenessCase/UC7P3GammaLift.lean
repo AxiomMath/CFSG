@@ -59,7 +59,7 @@ theorem gammaCore_eq_top_of_central_cover (p : ℕ) [Fact p.Prime] (hJ : Group.I
         obtain ⟨r, hr, hrx⟩ := hXR hx
         exact ⟨r, ⟨hr, Subgroup.mem_comap.mpr (hrx ▸ hx)⟩, hrx⟩
     have hS1 : S ≠ ⊥ := fun h => hX1 (by rw [← hSmap, h, Subgroup.map_bot])
-    have hSp : IsPGroup p S := R.isPGroup'.to_inf_left
+    have hSp : IsPGroup p S := R.isPGroup.to_inf_left
     have hSrk : 1 ≤ CFSG.Open.pRank p S := one_le_pRank_of_isPGroup_ne_bot hSp hS1
     have hker : φ.ker ≤ X.comap φ := fun x hx => by
       rw [Subgroup.mem_comap, MonoidHom.mem_ker.mp hx]

@@ -233,7 +233,7 @@ theorem N24_of (h11a : S_N11a) : S_N24 := by
       _ = (S : Subgroup G) ⊓ commutator G := hfocal.symm
       _ ≤ K := inf_le_right.trans hG'K
   have hC2 : IsPGroup 2 ((S : Subgroup G) ⊓ Subgroup.centralizer (H : Set G) : Subgroup G) :=
-    S.isPGroup'.to_le inf_le_left
+    S.isPGroup.to_le inf_le_left
   have hdvd : 2 ∣ Nat.card ((S : Subgroup G) ⊓ Subgroup.centralizer (H : Set G) : Subgroup G) :=
     hC2.card_eq_or_dvd.resolve_left fun h => hne (Subgroup.card_eq_one.mp h)
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 2 hdvd

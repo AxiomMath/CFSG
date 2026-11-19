@@ -28,6 +28,7 @@ local notation "𝕍" => (Fin r ⊕ Fin r → K) × (Fin 2 → K)
     (∀ v : 𝕍, IsResPerp hd.last (F v) ↔ IsResPerp hd.last v) ∧
     ∀ x y : ↥B, n * (x : A) * n⁻¹ = (y : A) → fl y = semilinConj F σ hF (fl x)
 
+omit [Finite K] [CharP K 2] in
 theorem trivial_sections_of_irred {A : Type} [Group A] [Finite A] {B N : Subgroup A}
     (hcyc : ¬ IsCyclic ↥B) (hirrN : IrredOn N B) (hNB : N ≤ Subgroup.normalizer (B : Set A))
     (hd : OrthCuts r d) (fl : ↥B →* (𝕍 ≃ₗ[K] 𝕍)) (hfl : ∀ x, GoodIso b c hd (fl x))
@@ -79,7 +80,7 @@ theorem trivRes_of_irred {A : Type} [Group A] [Finite A] {B N : Subgroup A} {p :
       rw [← map_pow, hj, map_one]
     let θ : ↥B →* ↥(omegaRotations b c) := θ0.codRestrict _ hθω
     have hθcyc : IsCyclic ↥θ.range := by
-      haveI := isCyclic_omegaRotations hirr
+      have := isCyclic_omegaRotations hirr
       infer_instance
     have hθval : ∀ y, ((θ y : ↥(omegaRotations b c)) : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) = θ0 y :=
       fun y => rfl

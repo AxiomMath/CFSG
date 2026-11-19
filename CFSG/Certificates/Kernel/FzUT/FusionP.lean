@@ -196,6 +196,7 @@ theorem f0_code {GS TS : Nat} (hts : treeSOK T S L XT GS TS = true) (f : Nat →
     rw [hb j (by omega)]
     simp [hj]
 
+omit htI hxt in
 theorem f1_code {GK RK TK a : Nat} (htk : treeKOK T S L XT GK RK TK a = true) (f : Nat → Bool)
     (hf : ∀ x y, x < 512 → y < 512 → inK XT a x = true → inK XT a y = true →
       f (P.e x y) = xor (f x) (f y)) :
@@ -239,13 +240,13 @@ theorem histN_eq (f : Nat → Bool) (ky : Nat → Nat) :
         (Nat.add (R n) (Nat.shiftLeft 1 (Nat.mul 10 (ky n)))) (f n) := rfl
     rw [e, Finset.range_add_one, Finset.filter_insert]
     cases h : f n
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       exact ih
     · have e2 : Nat.shiftLeft 1 (Nat.mul 10 (ky n)) = 2 ^ (10 * ky n) := by
         have := Nat.shiftLeft_eq 1 (10 * ky n)
         rw [one_mul] at this
         exact this
-      rw [if_pos rfl, Finset.sum_insert (by simp), ← ih]
+      rw [ite_eq_left rfl, Finset.sum_insert (by simp), ← ih]
       change Nat.add (R n) (Nat.shiftLeft 1 (Nat.mul 10 (ky n))) = _
       rw [e2, Nat.add_eq, add_comm]
 
@@ -334,7 +335,7 @@ theorem killC_sound {FP FV : Nat} (hc : coverL T S L FR IN FP FV = true) : False
     simp only [funOK, band_iff] at hfun
     rw [hP.tI]
     exact hfun.2.2.2
-  obtain ⟨x, hx, hθx, hfx⟩ := hR.cover _ (fun x y hx hy => fE_add hP hR hfun hx hy) ht
+  obtain ⟨x, hx, hθx, hfx⟩ := hR.cover _ (fun x y hx hy => fE_add hP hfun hx hy) ht
   obtain ⟨-, hx0, hxx⟩ := hR.th_inv x hθx
   have hinv : invB T S L x = true := by
     rw [invB_iff, ← hP.e x x hx hx]
@@ -362,7 +363,7 @@ theorem killP_sound {GS TS GK RK TK u : Nat} (hts : treeSOK T S L XT GS TS = tru
     rw [Finset.mem_range] at hx
     rw [cmN_iff, hE x u hx hu5, hE u x hu5 hx]
   obtain ⟨f₀, f₁, hf0, hf1, h0t, h1t, -, hkey⟩ :=
-    hR.prof u hθu (by rw [cent_card hP hR hu5]; exact hcnt)
+    hR.prof u hθu (by rw [cent_card hP hu5]; exact hcnt)
   obtain ⟨a, ha16, ha⟩ := f0_code hE htI hxt hts f₀ hf0
   have h64 : (64 : Nat) < 512 := by omega
   have hS64 : xS XT 64 = true := (xS_iff hxt h64).2 rfl
@@ -384,7 +385,7 @@ theorem killP_sound {GS TS GK RK TK u : Nat} (hts : treeSOK T S L XT GS TS = tru
       exact ⟨⟨hx, h1⟩, by rw [ha x hx h1]; exact h2⟩
     · rintro ⟨⟨-, h1⟩, h2⟩
       exact ⟨h1, by rw [← ha x hx h1]; exact h2⟩
-  obtain ⟨b, hb32, hb, hbf⟩ := f1_code hE htI hxt htk' f₁ fun x y hx hy h1 h2 =>
+  obtain ⟨b, hb32, hb, hbf⟩ := f1_code hE htk' f₁ fun x y hx hy h1 h2 =>
     hf1 x y ((hK x hx).1 h1).1 ((hK x hx).1 h1).2 ((hK y hy).1 h2).1 ((hK y hy).1 h2).2
   have hK64 : inK XT a 64 = true :=
     (hK 64 h64).2 ⟨(fzrS_iff hE htI hxt).2 ⟨h64, hS64⟩, by rw [← htI]; exact h0t⟩
@@ -408,9 +409,9 @@ theorem killP_sound {GS TS GK RK TK u : Nat} (hts : treeSOK T S L XT GS TS = tru
     unfold fzrKey keyN
     rw [kord_eq hP hR hx, ← xk_eq hxt hx]
     by_cases hθ : θ x
-    · rw [if_pos hθ, (hth x hx).1 hθ]
+    · rw [ite_eq_left hθ, (hth x hx).1 hθ]
       rfl
-    · rw [if_neg hθ]
+    · rw [ite_eq_right hθ]
       cases h : thB XT FR IN x
       · rfl
       · exact absurd ((hth x hx).2 h) hθ

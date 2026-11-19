@@ -29,11 +29,11 @@ theorem commute_left_zpowers (𝔖 : Sec3Setting G) {z : G} (hzS₂ : z ∈ 𝔖
   rw [← hk]
   exact (Commute.zpow_right (Subgroup.mem_centralizer_iff.mp (𝔖.decomp.commute hzS₂) u hu) k).eq
 
-theorem center_S_eq (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) {z : G} (hzS₂ : z ∈ 𝔖.S₂)
+theorem center_S_eq (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) {z : G} (_hzS₂ : z ∈ 𝔖.S₂)
     (hZ₂ : 𝔖.S₂ ⊓ Subgroup.centralizer (𝔖.S₂ : Set G) = Subgroup.zpowers z) :
     (𝔖.S : Subgroup G) ⊓ Subgroup.centralizer (𝔖.S : Set G) =
       𝔖.S₁ ⊔ Subgroup.zpowers z := by
-  haveI : IsMulCommutative ↥𝔖.S₁ := h₁.isMulCommutative
+  have : IsMulCommutative ↥𝔖.S₁ := h₁.isMulCommutative
   have hS₁ : 𝔖.S₁ ⊓ Subgroup.centralizer (𝔖.S₁ : Set G) = 𝔖.S₁ :=
     inf_of_le_left (Subgroup.le_centralizer_iff_isMulCommutative.mpr inferInstance)
   calc (𝔖.S : Subgroup G) ⊓ Subgroup.centralizer (𝔖.S : Set G)
@@ -123,7 +123,7 @@ theorem center_S_card (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) {z :
 
 theorem commutator_S_eq (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) :
     ⁅(𝔖.S : Subgroup G), (𝔖.S : Subgroup G)⁆ = ⁅𝔖.S₂, 𝔖.S₂⁆ := by
-  haveI : IsMulCommutative ↥𝔖.S₁ := h₁.isMulCommutative
+  have : IsMulCommutative ↥𝔖.S₁ := h₁.isMulCommutative
   calc ⁅(𝔖.S : Subgroup G), (𝔖.S : Subgroup G)⁆
       = ⁅𝔖.S₁ ⊔ 𝔖.S₂, 𝔖.S₁ ⊔ 𝔖.S₂⁆ := by rw [𝔖.decomp.sup_eq]
     _ = ⁅𝔖.S₁, 𝔖.S₁⁆ ⊔ ⁅𝔖.S₂, 𝔖.S₂⁆ :=
@@ -145,7 +145,7 @@ theorem z_mem_commutator (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) {
   exact Subgroup.mem_centralizer_iff.mp hzC g hg
 
 theorem eq_one_or_eq_z_of_mem_commutator (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) {z : G}
-    (hzS₂ : z ∈ 𝔖.S₂) (hzord : orderOf z = 2)
+    (_hzS₂ : z ∈ 𝔖.S₂) (hzord : orderOf z = 2)
     (hZ₂ : 𝔖.S₂ ⊓ Subgroup.centralizer (𝔖.S₂ : Set G) = Subgroup.zpowers z) {w : G}
     (hw : w ∈ ⁅(𝔖.S : Subgroup G), (𝔖.S : Subgroup G)⁆) (hw2 : w * w = 1) :
     w = 1 ∨ w = z := by
@@ -187,7 +187,7 @@ theorem normalizer_fixes_z (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
     simpa [mul_assoc] using this
   · exact h
 
-theorem center_S_inf_S₂ (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) {z : G}
+theorem center_S_inf_S₂ (𝔖 : Sec3Setting G) (_h₁ : IsKleinFour 𝔖.S₁) {z : G}
     (hzS₂ : z ∈ 𝔖.S₂)
     (hZ₂ : 𝔖.S₂ ⊓ Subgroup.centralizer (𝔖.S₂ : Set G) = Subgroup.zpowers z) :
     ((𝔖.S : Subgroup G) ⊓ Subgroup.centralizer (𝔖.S : Set G)) ⊓ 𝔖.S₂ =
@@ -219,7 +219,7 @@ theorem center_S_inf_S₂ (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) 
       Subgroup.centralizer (𝔖.S : Set G)
 
 theorem lemma_3_4_of_oddInput (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
-    (h₂ : ∀ x ∈ 𝔖.S₂, ∀ y ∈ 𝔖.S₂, orderOf x = 2 → orderOf y = 2 → IsConj x y)
+    (_h₂ : ∀ x ∈ 𝔖.S₂, ∀ y ∈ 𝔖.S₂, orderOf x = 2 → orderOf y = 2 → IsConj x y)
     (hIn : Lemma34OddInput 𝔖) :
     ∃ S₁' : Subgroup G, DDDecomp (𝔖.S : Subgroup G) S₁' 𝔖.S₂ ∧
       ∃ n : ℕ, ∃ u ∈ Subgroup.normalizer ((𝔖.S : Subgroup G) : Set G),
@@ -265,8 +265,8 @@ theorem lemma_3_4_of_oddInput (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S�
     have hSCW : (𝔖.S : Subgroup G) ≤ Subgroup.centralizer (W : Set G) :=
       Subgroup.le_centralizer_iff.mpr hWcS
     exact fun x hx => hSCW (𝔖.decomp.le_right hx)
-  haveI hKW : IsKleinFour ↥W := by
-    haveI hWnt : Nontrivial ↥W := by
+  have hKW : IsKleinFour ↥W := by
+    have hWnt : Nontrivial ↥W := by
       rw [← Finite.one_lt_card_iff_nontrivial, hWcard]
       norm_num
     refine ⟨hWcard, ?_⟩
@@ -327,7 +327,7 @@ theorem lemma_3_4_of_oddInput (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S�
   have hvNW : u ^ m ∈ Subgroup.normalizer (W : Set G) := Subgroup.pow_mem _ huNW m
   have hvC : u ^ m ∉ Subgroup.centralizer (W : Set G) := by
     intro hC
-    haveI hWnt : Nontrivial ↥W := by
+    have hWnt : Nontrivial ↥W := by
       rw [← Finite.one_lt_card_iff_nontrivial, hWcard]
       norm_num
     obtain ⟨a, ha⟩ := exists_ne (1 : ↥W)

@@ -66,7 +66,7 @@ theorem ggQ2s08_center_three_mem {G : Type} [Group G] [Finite G] {B Bs : Subgrou
       have hab : Commute a b := hEc a ha b hb
       rw [hab.mul_pow, iha, ihb, one_mul]
     | inv a ha iha => rw [inv_pow, iha, inv_one]
-  haveI : IsMulCommutative ↥E := ⟨⟨fun a b => Subtype.ext (hEc a.1 a.2 b.1 b.2)⟩⟩
+  have : IsMulCommutative ↥E := ⟨⟨fun a b => Subtype.ext (hEc a.1 a.2 b.1 b.2)⟩⟩
   have hEel : CFSG.Open.IsElemAbelian 3 E := ⟨this, hE3⟩
   have hxE : x ∈ E := Subgroup.subset_closure (Set.mem_insert _ _)
   have hcE : (c : G) ∈ E := Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)

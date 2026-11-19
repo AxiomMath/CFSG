@@ -40,7 +40,7 @@ theorem exists_data_thompson_at (hΩ : HypOmegaGen Ω) {K K' J : Subgroup G} {z 
   have hzK' : IsUniqueInvolution K' z := isUniqueInvolution_of_mem_twinSet hz hK'
   obtain ⟨S, R, R', T, hRsyl, hR'syl, hTsyl, hRS, hR'S, hTS, -, -, -⟩ :=
     Hat2A7S.exists_twinSylow hΩ hK hz hK' hne hJ
-  obtain ⟨W, hW, hWD⟩ := Q3T8.Asc77.exists_W_of_isPGroup hΩ S.isPGroup'
+  obtain ⟨W, hW, hWD⟩ := Q3T8.Asc77.exists_W_of_isPGroup hΩ S.isPGroup
   have hcW := Q3CL.Thompson.commutes_of_mem_WSet hΩ hW
   obtain ⟨ρa, hρaK, -⟩ := Q3T8.Asc77.T7D.exists_rep hΩ hW hK hRsyl
     (hWD R (mem_RSet_of_isSylow2In hK hRsyl) hRS)

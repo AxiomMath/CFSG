@@ -75,6 +75,7 @@ section Cent
 
 variable {G : Type} [Group G] [Finite G] (X : Subgroup G)
 
+omit [Finite G] in
 theorem map_inf_cent (M D : Subgroup X) :
     (M ⊓ Subgroup.centralizer (D : Set X)).map X.subtype =
       M.map X.subtype ⊓ Subgroup.centralizer ((D.map X.subtype : Subgroup G) : Set G) :=
@@ -86,6 +87,7 @@ section Std
 
 variable {G : Type} [Group G] [Finite G] (X : Subgroup G)
 
+omit [Finite G] in
 theorem glaStdSubPre_map_iff {p : ℕ} (B L D K : Subgroup X) (x : X) :
     CFSG.Open.GLAStdSubPre p (B.map X.subtype) (x : G) (L.map X.subtype) (D.map X.subtype) (K.map X.subtype) ↔
       CFSG.Open.GLAStdSubPre p B x L D K := by

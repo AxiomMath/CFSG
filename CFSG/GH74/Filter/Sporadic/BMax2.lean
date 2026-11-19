@@ -112,7 +112,7 @@ theorem exists_max2_involutions :
       op ((((List.ofFn fun k => eE (max2Five k) ^ (a k : ℕ)).reverse.prod : Ebar)) : Cbar) := by
     intro a
     rw [Subgroup.val_list_prod, MulOpposite.op_list_prod]
-    simp only [List.map_reverse, List.reverse_reverse, List.map_map, List.map_ofFn]
+    simp only [List.map_reverse, List.reverse_reverse, List.map_ofFn]
     refine congrArg List.prod (congrArg List.ofFn (funext fun k => ?_))
     simp only [Function.comp_apply, Subgroup.coe_pow, op_pow, he]
     rfl

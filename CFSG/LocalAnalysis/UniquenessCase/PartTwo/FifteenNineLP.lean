@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 theorem s15_LP_vtil_sq_eq_one (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (w : Vtil V₀ V hV) : w ^ 2 = 1 := by
   induction w using QuotientGroup.induction_on with
@@ -85,6 +86,7 @@ theorem s15_LP_isPGroup_barSub {V₀ V B : Subgroup G} (hV : IsElemAbelian 2 V)
   exact IsPGroup.of_card_dvd_pow (hsub.exists_card_eq.choose_spec ▸
     Subgroup.card_map_dvd (H := B.subgroupOf (stabTil V₀ V)) (f := actTil V₀ V hV))
 
+omit [Finite G] in
 private theorem mQuot_barSub_preBarSub_private {V₀ V B : Subgroup G}
     (hV : IsElemAbelian 2 V) (hB : B ≤ stabTil V₀ V)
     {C : Subgroup (MulAut (Vtil V₀ V hV))} (hC : C ≤ barSub V₀ V hV B) :
@@ -140,6 +142,7 @@ private theorem mQuot_barSub_preBarSub_private {V₀ V B : Subgroup G}
   rw [hr]
   rfl
 
+omit [Finite G] in
 theorem s15_LP_mQuot_barSub_preBarSub {V₀ V B : Subgroup G} (hV : IsElemAbelian 2 V)
     (hB : B ≤ stabTil V₀ V) {C : Subgroup (MulAut (Vtil V₀ V hV))}
     (hC : C ≤ barSub V₀ V hV B) :
@@ -374,9 +377,9 @@ theorem s15_LP_mul_inv_mem_of_mQuot_le_one {W : Type*} [CommGroup W] [Finite W]
 
 theorem s15_LP_mQuot_inf_centSub_zpowers_le {W : Type*} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)} (hA : IsPGroup 2 A)
-    {U U₀ : Subgroup W} (hU₀U : U₀ ≤ U) (hAq : ∀ a ∈ A, ∀ u ∈ U, a u * u⁻¹ ∈ U₀) {u : W}
+    {U U₀ : Subgroup W} (_hU₀U : U₀ ≤ U) (hAq : ∀ a ∈ A, ∀ u ∈ U, a u * u⁻¹ ∈ U₀) {u : W}
     (hu : u ∈ U) : E3.mQuot A (A ⊓ centSub (Subgroup.zpowers u)) ≤ rk ↥U₀ := by
-  letI : MulAction ↥A W := MulAction.compHom (α := W) A.subtype
+  let : MulAction ↥A W := MulAction.compHom (α := W) A.subtype
   have hstab : MulAction.stabilizer ↥A u =
       (A ⊓ centSub (Subgroup.zpowers u)).subgroupOf A := by
     ext a
@@ -419,7 +422,7 @@ theorem s15_LP_mQuot_inf_centSub_zpowers_le {W : Type*} [CommGroup W] [Finite W]
 
 theorem s15_LP_rk_autSub_le_rk_of_trivial {W : Type*} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)} {U N : Subgroup W} (hNU : N ≤ U)
-    (hA : A ≤ stabSub U) (hAN : A ≤ centSub N) (hAq : ∀ a ∈ A, ∀ u ∈ U, a u * u⁻¹ ∈ N)
+    (_hA : A ≤ stabSub U) (hAN : A ≤ centSub N) (hAq : ∀ a ∈ A, ∀ u ∈ U, a u * u⁻¹ ∈ N)
     (hq : E3.mQuot U N ≤ 1) : rk ↥(autSub A U) ≤ rk ↥N := by
   by_cases hNUeq : N = U
   · rw [hNUeq] at hAN ⊢
@@ -516,6 +519,7 @@ theorem s15_LP_rk_autSub_le_rk_of_trivial {W : Type*} [CommGroup W] [Finite W]
     rw [card_eq_two_pow hW N] at hcard'
     exact (Nat.pow_le_pow_iff_right (by norm_num)).1 hcard' 
 
+omit [Finite G] in
 theorem s15_LP_preTil_mono {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {S T : Subgroup (Vtil V₀ V hV)} (h : S ≤ T) :
     preTil V₀ V hV S ≤ preTil V₀ V hV T := by
@@ -523,13 +527,15 @@ theorem s15_LP_preTil_mono {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
   obtain ⟨x, rfl, hx⟩ := (mem_preTil V₀ V hV S).1 hg
   exact (mem_preTil V₀ V hV T).2 ⟨x, rfl, h hx⟩
 
+omit [Finite G] in
 theorem s15_LP_imgTil_mono {V₀ V N U : Subgroup G} (hV : IsElemAbelian 2 V) (h : N ≤ U) :
     imgTil V₀ V hV N ≤ imgTil V₀ V hV U := by
   intro q hq
   obtain ⟨x, hx, rfl⟩ := (mem_imgTil V₀ V hV N q).1 hq
   exact (mem_imgTil V₀ V hV U _).2 ⟨x, h hx, rfl⟩
 
-theorem s15_LP_imgTil_inf_preTil {V₀ V W : Subgroup G} (hV : IsElemAbelian 2 V) (hW : W ≤ V)
+omit [Finite G] in
+theorem s15_LP_imgTil_inf_preTil {V₀ V W : Subgroup G} (hV : IsElemAbelian 2 V) (_hW : W ≤ V)
     {S : Subgroup (Vtil V₀ V hV)} (hS : S ≤ imgTil V₀ V hV W) :
     imgTil V₀ V hV (W ⊓ preTil V₀ V hV S) = S := by
   ext q
@@ -567,8 +573,9 @@ theorem s15_LP_mQuot_imgTil_le {V₀ V N U : Subgroup G} (hV : IsElemAbelian 2 V
   exact padicValNat_two_le_of_dvd (E3.relIndex_ne_zero' U' N')
     (Subgroup.relIndex_dvd_of_le_left (H := N') (K := N' ⊔ f.ker) (L := U') le_sup_left)
 
+omit [Finite G] in
 theorem s15_LP_barSub_le_centSub_imgTil {V₀ V B N : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hB : B ≤ stabTil V₀ V) (hBN : B ≤ centralizer (N : Set G)) :
+    (_hB : B ≤ stabTil V₀ V) (hBN : B ≤ centralizer (N : Set G)) :
     barSub V₀ V hV B ≤ centSub (imgTil V₀ V hV N) := by
   intro φ hφ
   obtain ⟨b, hb, rfl⟩ := (mem_barSub V₀ V hV B φ).1 hφ
@@ -582,8 +589,9 @@ theorem s15_LP_barSub_le_centSub_imgTil {V₀ V B N : Subgroup G} (hV : IsElemAb
     group
   rw [show actStab V₀ V hV b x = x from IntMod.val_injective hval]
 
+omit [Finite G] in
 theorem s15_LP_barSub_le_stabSub_imgTil {V₀ V B U : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hB : B ≤ stabTil V₀ V) (hBU : B ≤ normalizer (U : Set G)) :
+    (_hB : B ≤ stabTil V₀ V) (hBU : B ≤ normalizer (U : Set G)) :
     barSub V₀ V hV B ≤ stabSub (imgTil V₀ V hV U) := by
   have hfwd : ∀ (b : stabTil V₀ V), (b : G) ∈ B → ∀ q : Vtil V₀ V hV,
       q ∈ imgTil V₀ V hV U → actTil V₀ V hV b q ∈ imgTil V₀ V hV U := by
@@ -608,6 +616,7 @@ theorem s15_LP_barSub_le_stabSub_imgTil {V₀ V B U : Subgroup G} (hV : IsElemAb
     rwa [h2] at h1
   · exact hfwd b hb q hq
 
+omit [Finite G] in
 theorem s15_LP_le_normalizer_of_stable {V₀ V B W : Subgroup G} (hV : IsElemAbelian 2 V)
     (hW : W ≤ V) (hB : B ≤ stabTil V₀ V) (hBW : B ≤ normalizer (W : Set G))
     {S : Subgroup (Vtil V₀ V hV)} (hBS : barSub V₀ V hV B ≤ stabSub S) :

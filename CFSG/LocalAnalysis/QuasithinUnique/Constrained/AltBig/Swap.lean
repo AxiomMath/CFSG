@@ -28,12 +28,14 @@ theorem mem_cls {R : Subgroup (Perm β)} {x y : β} : y ∈ cls R x ↔ y = x �
   classical
   simp [cls]
 
+omit [Fintype β] in
 theorem swapClos_le (R : Subgroup (Perm β)) : swapClos R ≤ R := by
   unfold swapClos
   rw [Subgroup.closure_le]
   intro σ hσ
   exact hσ.1
 
+omit [Fintype β] in
 theorem swapClos_normal (R : Subgroup (Perm β)) : ((swapClos R).subgroupOf R).Normal := by
   rw [Subgroup.normal_subgroupOf_iff (swapClos_le R)]
   intro h k hh hk
@@ -177,7 +179,7 @@ theorem altOn_simple {C : Finset β} (h : 5 ≤ C.card) : IsSimpleGroup ↥(altO
   have hcard : 5 ≤ Nat.card ↥C := by
     rw [Nat.card_eq_finsetCard]
     exact h
-  haveI := alternatingGroup.isSimpleGroup hcard
+  have := alternatingGroup.isSimpleGroup hcard
   exact e.isSimpleGroup
 
 theorem altOn_solvable {C : Finset β} (h : C.card ≤ 4) : Group.IsSolvable ↥(altOn C) := by
@@ -185,7 +187,7 @@ theorem altOn_solvable {C : Finset β} (h : C.card ≤ 4) : Group.IsSolvable ↥
   have hcard : Nat.card ↥C ≤ 4 := by
     rw [Nat.card_eq_finsetCard]
     exact h
-  haveI := alternatingGroup.isSolvable hcard
+  have := alternatingGroup.isSolvable hcard
   exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 theorem altOn_le_swapClos (R : Subgroup (Perm β)) (x : β) : altOn (cls R x) ≤ swapClos R := by
@@ -202,12 +204,14 @@ theorem altOn_le_swapClos (R : Subgroup (Perm β)) (x : β) : altOn (cls R x) �
   intro τ _
   exact hclos (Subgroup.mem_top τ)
 
+omit [Fintype β] [DecidableEq β] in
 theorem ftc7_comm_apply {σ c : Perm β} (h : σ * c = c * σ) (x : β) :
     σ (c x) = c (σ x) := by
   have := congrArg (fun π : Perm β => π x) h
   simpa only [Perm.mul_apply] using this
 
-theorem ftc7_mem_of_comm {a b d : β} (hab : a ≠ b) (had : a ≠ d) (hbd : b ≠ d) {σ : Perm β}
+omit [Fintype β] in
+theorem ftc7_mem_of_comm {a b d : β} (_hab : a ≠ b) (had : a ≠ d) (hbd : b ≠ d) {σ : Perm β}
     (hσ : σ * (swap a b * swap a d) = (swap a b * swap a d) * σ) :
     σ a = a ∨ σ a = b ∨ σ a = d := by
   by_contra hne
@@ -221,6 +225,7 @@ theorem ftc7_mem_of_comm {a b d : β} (hab : a ≠ b) (had : a ≠ d) (hbd : b �
   rw [hca, hfix] at h4
   exact had (σ.injective h4).symm
 
+omit [Fintype β] in
 theorem ftc7_three_cases {a b d : β} (hab : a ≠ b) (had : a ≠ d) (hbd : b ≠ d) {σ : Perm β}
     (hσ : σ * (swap a b * swap a d) = (swap a b * swap a d) * σ) :
     (σ a = a ∧ σ b = b ∧ σ d = d) ∨ (σ a = d ∧ σ b = a ∧ σ d = b) ∨
@@ -230,7 +235,7 @@ theorem ftc7_three_cases {a b d : β} (hab : a ≠ b) (had : a ≠ d) (hbd : b �
   have hcb : (swap a b * swap a d) b = a := by
     simp [Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, hab.symm, hbd]
   have hcd : (swap a b * swap a d) d = b := by
-    simp [Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, had, hbd]
+    simp [Perm.mul_apply]
   have e1 : σ d = (swap a b * swap a d) (σ a) := by
     have h := ftc7_comm_apply hσ a
     rwa [hca] at h
@@ -258,7 +263,7 @@ theorem ftc7_comm_swap3 {R : Subgroup (Perm β)} {E : Subgroup (Perm β)}
     refine ⟨?_, fun z hz => ?_⟩
     · rw [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap hab,
         Equiv.Perm.sign_swap had]
-      all_goals first | exact Int.units_mul_self _ | decide | norm_num
+      all_goals first | exact Int.units_mul_self _
     · have hza : z ≠ a := by
         rintro rfl
         exact hz ha
@@ -274,7 +279,8 @@ theorem ftc7_comm_swap3 {R : Subgroup (Perm β)} {E : Subgroup (Perm β)}
   rw [h x hcard, Subgroup.mem_bot] at hmem
   exact commutatorElement_eq_one_iff_mul_comm.mp hmem
 
-theorem ftc7_eq_of_three {s y b d g : β} (hby : b ≠ y) (hdy : d ≠ y) (hgy : g ≠ y)
+omit [Fintype β] in
+theorem ftc7_eq_of_three {s y b d g : β} (hby : b ≠ y) (hdy : d ≠ y) (_hgy : g ≠ y)
     (hbd : b ≠ d) (hbg : b ≠ g) (hdg : d ≠ g)
     (k1 : s = y ∨ s = b ∨ s = d) (k2 : s = y ∨ s = b ∨ s = g) (k3 : s = y ∨ s = d ∨ s = g) :
     s = y := by
@@ -303,6 +309,7 @@ theorem ftc7_fix_of_card_ge_four {R : Subgroup (Perm β)} {E : Subgroup (Perm β
     (ftc7_comm_swap3 h hy hd hg hy2 hy3 hdg (by omega) he)
   exact ftc7_eq_of_three hby hdy hgy hbd hbg hdg k1 k2 k3
 
+omit [Fintype β] [DecidableEq β] in
 theorem ftc7_perm_pair {p q : β} (hpq : p ≠ q) {σ : Perm β} (hp : σ p = p ∨ σ p = q)
     (hq : σ q = p ∨ σ q = q) : (σ p = p ∧ σ q = q) ∨ (σ p = q ∧ σ q = p) := by
   rcases hp with h1 | h1 <;> rcases hq with h2 | h2
@@ -311,6 +318,7 @@ theorem ftc7_perm_pair {p q : β} (hpq : p ≠ q) {σ : Perm β} (hp : σ p = p 
   · exact Or.inr ⟨h1, h2⟩
   · exact absurd (σ.injective (h1.trans h2.symm)) hpq
 
+omit [Fintype β] [DecidableEq β] in
 theorem ftc7_comm_on_pair {p q : β} {σ τ : Perm β}
     (hσ : (σ p = p ∧ σ q = q) ∨ (σ p = q ∧ σ q = p))
     (hτ : (τ p = p ∧ τ q = q) ∨ (τ p = q ∧ τ q = p)) :
@@ -473,7 +481,7 @@ theorem tc (q : FpfInv β) {R : Subgroup (Perm β)} (hq : ∀ x, swap x (q.μ x)
       have hsolv : Group.IsSolvable ↥(altOn (cls R x0)) := altOn_solvable (by omega)
       have hsolvE : Group.IsSolvable ↥E :=
         Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hx0E)
-      haveI : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).2 hne
+      have : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).2 hne
       have hlt' := Group.IsSolvable.commutator_lt_top_of_nontrivial ↥E
       rw [hcT] at hlt'
       exact lt_irrefl _ hlt'

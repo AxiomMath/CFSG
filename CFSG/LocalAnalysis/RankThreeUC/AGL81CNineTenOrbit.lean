@@ -101,8 +101,8 @@ theorem conj_pow_injective {X : Type*} [Group X] {p : ℕ} (hp : p.Prime) {q : X
           rw [orderOf_pow' q (Nat.pos_iff_ne_zero.mp hd), hcop'.gcd_eq_one, Nat.div_one]
         have hle : Subgroup.zpowers (q ^ ((b : ℕ) - (a : ℕ))) ≤ Subgroup.zpowers q :=
           Subgroup.zpowers_le.mpr (by
-            simpa using Subgroup.zpow_mem_zpowers q (((b : ℕ) - (a : ℕ) : ℕ) : ℤ))
-        haveI : Finite ↥(Subgroup.zpowers q) :=
+            simp)
+        have : Finite ↥(Subgroup.zpowers q) :=
           (orderOf_pos_iff.mp (by rw [hq]; exact pow_pos hp.pos n)).finite_zpowers
         have hcard : Nat.card (Subgroup.zpowers (q ^ ((b : ℕ) - (a : ℕ)))) =
             Nat.card (Subgroup.zpowers q) := by

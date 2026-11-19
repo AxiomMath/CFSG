@@ -14,7 +14,7 @@ variable {T : Type} [Group T] [Finite T]
 theorem sylow7_facts_168 [IsSimpleGroup T] (hT : Nat.card T = 168) :
     Nat.card (Sylow 7 T) = 8 ∧ ∀ P : Sylow 7 T, Nat.card (P : Subgroup T) = 7 ∧
       Subgroup.normalizer ((P : Subgroup T) : Set T) ≠ ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcardP : ∀ P : Sylow 7 T, Nat.card (P : Subgroup T) = 7 := by
     intro P
     rw [P.card_eq_multiplicity, hT, show (168 : ℕ) = 7 ^ 1 * 24 by norm_num,
@@ -57,14 +57,14 @@ theorem sylow7_facts_168 [IsSimpleGroup T] (hT : Nat.card T = 168) :
 theorem not_sq_three_dvd_card_mulAut_of_card_168 [IsSimpleGroup T]
     (hnab : ∃ a b : T, a * b ≠ b * a) (hT : Nat.card T = 168) :
     ¬ 3 ^ 2 ∣ Nat.card (MulAut T) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   classical
   obtain ⟨h8, hP⟩ := sylow7_facts_168 hT
   obtain ⟨P⟩ : Nonempty (Sylow 7 T) := inferInstance
   obtain ⟨hP7, hPn⟩ := hP P
   have hinj := toPermHom_mulAut_injective hPn
   have hPcomm : ∀ g ∈ (P : Subgroup T), ∀ h ∈ (P : Subgroup T), g * h = h * g := by
-    haveI : IsCyclic (P : Subgroup T) := isCyclic_of_prime_card hP7
+    have : IsCyclic (P : Subgroup T) := isCyclic_of_prime_card hP7
     intro g hg h hh
     have := (IsCyclic.commGroup (α := (P : Subgroup T))).mul_comm ⟨g, hg⟩ ⟨h, hh⟩
     exact congrArg Subtype.val this
@@ -133,7 +133,7 @@ theorem not_sq_three_dvd_card_mulAut_of_card_168 [IsSimpleGroup T]
       exact h2.symm
     have hset : {Q : Sylow 7 T | Q ≠ P}.ncard = 7 := by
       have : {Q : Sylow 7 T | Q ≠ P} = Set.univ \ {P} := by ext; simp
-      rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, h8]
+      rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, h8]
     have heq : O = {Q | Q ≠ P} :=
       Set.eq_of_subset_of_ncard_le hOsub (by rw [hset, hOcard])
     intro Q hQ
@@ -188,7 +188,7 @@ theorem not_sq_three_dvd_card_mulAut_of_card_168 [IsSimpleGroup T]
     have hcomm : ∀ g : T, α * MulAut.conj g = MulAut.conj (α g) * α := by
       intro g
       ext x
-      simp only [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv, MulAut.apply_inv_self]
+      simp only [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv]
     have hagree : ∀ Q : Sylow 7 T, α • Q = MulAut.conj h • Q := by
       intro Q
       by_cases hQ : Q = P
@@ -242,7 +242,7 @@ theorem not_sq_three_dvd_card_mulAut_of_card_168 [IsSimpleGroup T]
     have hcard : (((P : Subgroup T) : Set T) \ {1}).ncard = 6 := by
       have h7 : ((P : Subgroup T) : Set T).ncard = 7 := by
         rw [← Nat.card_coe_set_eq]; exact hP7
-      rw [Set.ncard_diff_singleton_of_mem (P : Subgroup T).one_mem, h7]
+      rw [Set.ncard_sdiff_singleton_of_mem (P : Subgroup T).one_mem, h7]
     exact hcard ▸ Set.ncard_le_ncard hsub
   have hS2card : Nat.card S2 ∣ 7 := by
     have hle : S2.map S.subtype ≤ M := by

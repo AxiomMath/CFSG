@@ -175,7 +175,7 @@ private lemma frameQP_card_iff {G : Type} [Group G] {A : Subgroup G} {d : ℕ}
       Nat.card {f : ↥S // permAut σ (f : Fin d → Multiplicative (ZMod 3)) =
         (f : Fin d → Multiplicative (ZMod 3))} * 3 = Nat.card ↥S := by
   classical
-  haveI : Finite ↥A := Finite.of_surjective Θ hΘ
+  have : Finite ↥A := Finite.of_surjective Θ hΘ
   have hmemT : ∀ f : ↥S, f ∈ frameQP_fixSubgroup S σ ↔
       permAut σ (f : Fin d → Multiplicative (ZMod 3)) =
         (f : Fin d → Multiplicative (ZMod 3)) := fun f => Iff.rfl
@@ -209,8 +209,8 @@ private lemma frameQP_card_iff {G : Type} [Group G] {A : Subgroup G} {d : ℕ}
       (frameQP_fixSubgroupA Φ σ).index = Nat.card ↥A := Subgroup.card_mul_index _
   have hcardT : Nat.card ↥(frameQP_fixSubgroup S σ) *
       (frameQP_fixSubgroup S σ).index = Nat.card ↥S := Subgroup.card_mul_index _
-  haveI : Nonempty ↥(frameQP_fixSubgroupA Φ σ) := ⟨⟨1, Subgroup.one_mem _⟩⟩
-  haveI : Nonempty ↥(frameQP_fixSubgroup S σ) := ⟨⟨1, Subgroup.one_mem _⟩⟩
+  have : Nonempty ↥(frameQP_fixSubgroupA Φ σ) := ⟨⟨1, Subgroup.one_mem _⟩⟩
+  have : Nonempty ↥(frameQP_fixSubgroup S σ) := ⟨⟨1, Subgroup.one_mem _⟩⟩
   have hposF : 0 < Nat.card ↥(frameQP_fixSubgroupA Φ σ) := Nat.card_pos
   have hposT : 0 < Nat.card ↥(frameQP_fixSubgroup S σ) := Nat.card_pos
   have hFcard : Nat.card {b : ↥A // Φ σ b = b} = Nat.card ↥(frameQP_fixSubgroupA Φ σ) :=
@@ -247,8 +247,8 @@ private theorem frameQP_card_range_coordDiffHom {d : ℕ} {i j : Fin d} (hij : i
     show Multiplicative.ofAdd (toAdd (w i) - toAdd (w j)) = Multiplicative.ofAdd 2
     congr 1
     rw [hw]
-    simp [Pi.mul_apply, toAdd_mul, SpCoord.toAdd_mulSingle, Pi.mulSingle_eq_same,
-      Pi.mulSingle_eq_of_ne (Ne.symm hij), Pi.mulSingle_eq_of_ne hij, toAdd_one, toAdd_ofAdd]
+    simp [Pi.mul_apply, Pi.mulSingle_eq_same,
+      Pi.mulSingle_eq_of_ne (Ne.symm hij), Pi.mulSingle_eq_of_ne hij, toAdd_ofAdd]
     decide
   have hne : δ w ≠ 1 := by
     rw [h2]

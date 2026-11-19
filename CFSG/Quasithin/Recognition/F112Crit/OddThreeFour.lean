@@ -93,6 +93,7 @@ theorem exists_mem_not_mem_of_card_lt {α : Type*} {s : Set α} (t : Finset α)
 
 variable [Finite G] {G₀ G₁ G₂ T Z : Subgroup G}
 
+omit [Finite G] in
 theorem card_Vv_eq_of_vtype (hc : CritAmalgam G₀ G₁ G₂ T Z) {ε : CosetGeom G₀ G₁ G₂}
     (hε : vtype ε = true) : Nat.card (Vv Z ε) = Nat.card (Vv Z (γ₁ G₀ G₁ G₂)) := by
   obtain ⟨g, rfl⟩ := CosetGeom.exists_smul_eq_γ₁ hε
@@ -101,7 +102,7 @@ theorem card_Vv_eq_of_vtype (hc : CritAmalgam G₀ G₁ G₂ T Z) {ε : CosetGeo
 theorem Vv_le_ballStab_self (hc : CritAmalgam G₀ G₁ G₂ T Z) {ε : CosetGeom G₀ G₁ G₂}
     (hε : vtype ε = true) : Vv Z ε ≤ ballStab 1 ε := fun v hv => by
   have h2 := lemma63_2' hc hε
-  haveI : IsMulCommutative ↥(Vv Z ε) := h2.1.1
+  have : IsMulCommutative ↥(Vv Z ε) := h2.1.1
   refine mem_ballStab_of_centralizes hc hε ((pCoreOf_le 2 _) (h2.2.1 hv)) ?_
   rw [Subgroup.mem_centralizer_iff]
   intro w hw
@@ -132,6 +133,7 @@ theorem not_mem_ballStab_of_four (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : cri
     Subgroup.eq_of_le_of_card_ge hZK (by rw [h2]; exact hK2)
   exact hvZ (hZeq ▸ ⟨hv, hvB⟩)
 
+omit [Finite G] in
 theorem mem_ballStab_mul_iff (hG : G₀ = G₁ ⊔ G₂) {θ μ : CosetGeom G₀ G₁ G₂} {X : Subgroup G}
     (hX : IsLocalReg θ 3 X) (hμ : μ ∈ nbrs θ) {g h : G} (hg : g ∈ stab θ ⊓ stab μ)
     (hh : h ∈ stab θ ⊓ stab μ) :
@@ -152,6 +154,7 @@ theorem mem_ballStab_mul_iff (hG : G₀ = G₁ ⊔ G₂) {θ μ : CosetGeom G₀
   · exact iff_of_true (hX.mul_mem_ker hG hμ hg hh (hsq g hg) (hsq h hh) hgB hhB)
       (iff_of_false hgB hhB)
 
+omit [Finite G] in
 theorem conj_mem_ballStab_iff (a : ↥G₀) (θ : CosetGeom G₀ G₁ G₂) (g : G) :
     (a : G) * g * (a : G)⁻¹ ∈ ballStab 1 θ ↔ g ∈ ballStab 1 (a⁻¹ • θ) := by
   rw [CosetGeom.ballStab_smul, mem_conjSub]
@@ -236,7 +239,7 @@ theorem comm_mem_of_mem_Wv (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : critB G�
     CosetGeom.ballStab_le_stab 1 μ (Vv_le_ballStab_of_three hc hb hμ hε' hv')
   by_cases hee : ε = ε'
   · subst hee
-    haveI : IsMulCommutative ↥(Vv Z ε) :=
+    have : IsMulCommutative ↥(Vv Z ε) :=
       (lemma63_2' hc (vtype_eq_true_of_mem_nbrs hμ hε)).1.1
     exact hcomm1 (setLike_mul_comm hv hv')
   · by_cases hvZ : v ∈ Vv Z μ
@@ -295,7 +298,7 @@ theorem fix_or_fix_or_fix (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : critB G₀
     · rintro rfl
       exact Vv_le_ballStab_self hc (vtype_eq_true_of_mem_nbrs hμ₁t hθ) hx
   have hexV : ∀ ε ∈ nbrs μ₁, ∃ x ∈ Vv Z ε, x ∉ Vv Z μ₁ := fun ε hε =>
-    SetLike.not_le_iff_exists.mp fun hle => by
+    IsConcreteLE.not_le_iff_exists.mp fun hle => by
       have := Subgroup.card_le_of_le hle
       rw [h4' (vtype_eq_true_of_mem_nbrs hμ₁t hε), h2₁] at this
       omega
@@ -475,7 +478,7 @@ theorem card_Vv_ne_four_of_three (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : cri
       cls g = cls h → g⁻¹ * h ∈ ballStab 1 η := by
     intro g hg h hh e
     by_cases hgη : g ∈ stab η <;> by_cases hhη : h ∈ stab η <;>
-      simp only [cls, hgη, hhη, ↓reduceIte, Prod.mk.injEq, eq_self_iff_true, Bool.true_eq_false,
+      simp only [cls, hgη, hhη, ↓reduceIte, Prod.mk.injEq, Bool.true_eq_false,
         Bool.false_eq_true, false_and, true_and, decide_eq_decide] at e
     · exact hpar g ⟨hgη, hAμ₁ g hg⟩ h ⟨hhη, hAμ₁ h hh⟩ e
     · have hcη' := hcη g hg hgη
@@ -490,7 +493,7 @@ theorem card_Vv_ne_four_of_three (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : cri
     intro ε
     by_cases hε : ε ∈ nbrs μ₂
     · obtain ⟨x, hx, hxZ⟩ : ∃ x ∈ Vv Z ε, x ∉ Vv Z μ₂ :=
-        SetLike.not_le_iff_exists.mp fun hle => by
+        IsConcreteLE.not_le_iff_exists.mp fun hle => by
           have := Subgroup.card_le_of_le hle
           rw [h4' (vtype_eq_true_of_mem_nbrs hμ₂t hε), h2₂] at this
           omega
@@ -562,7 +565,7 @@ theorem false_of_three (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : critB G₀ G�
   obtain ⟨x, hx, hxN⟩ := hbase.exists_not_mem
   have hxV : x ∈ Subgroup.normalizer (Vv Z (γ₁ G₀ G₁ G₂) : Set G) :=
     (lemma63_2' hc hδ).2.2.2.2 (hbase.le_stab hx)
-  haveI : IsMulCommutative ↥(Vv Z (γ₁ G₀ G₁ G₂)) := (lemma63_2' hc hδ).1.1
+  have : IsMulCommutative ↥(Vv Z (γ₁ G₀ G₁ G₂)) := (lemma63_2' hc hδ).1.1
   have h4le : 4 ≤ Nat.card (Vv Z (γ₁ G₀ G₁ G₂)) := by
     rw [← hcomm X₀ hbase x hx hxN]
     exact Subgroup.card_le_of_le (ConjAut.commSubgroup_le _ x hxV)

@@ -110,7 +110,7 @@ open P614K292L
 theorem kD292ThreeFrameLin3_holds : KD292ThreeFrameLin3 := by
   intro p f K _ y hK hq _ hT
   refine ⟨fun E hE => eq_threeFrame_of_mem_frameCands hK hq hT hE, ?_⟩
-  letI : MulAction ↥(slPi true 3 (p ^ f) K ⊓ centralizer {y}) (Subgroup (GL (Fin 3) K)) :=
+  let : MulAction ↥(slPi true 3 (p ^ f) K ⊓ centralizer {y}) (Subgroup (GL (Fin 3) K)) :=
     MulAction.compHom _ (MulAut.conj.comp (slPi true 3 (p ^ f) K ⊓ centralizer {y}).subtype)
   have hv₀ : (Pi.single 0 1 : Fin 3 → K) ≠ 0 := by
     intro h

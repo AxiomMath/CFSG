@@ -16,8 +16,8 @@ private theorem exists_invariant_sylow_five [Finite G] {O V : Subgroup G} (hV : 
     ∃ S : Subgroup G, S ≤ O ∧ IsPGroup 5 S ∧ Nat.card S = 5 ^ (Nat.card O).factorization 5 ∧
       V ≤ normalizer (S : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φ : ↥V →* MulAut ↥O := O.normalizerMonoidHom.comp (Subgroup.inclusion hVO)
   let _ : MulDistribMulAction ↥V ↥O := MulDistribMulAction.compHom ↥O φ
   let _ : MulAction ↥V (Sylow 5 ↥O) := Sylow.pointwiseMulAction
@@ -27,7 +27,7 @@ private theorem exists_invariant_sylow_five [Finite G] {O V : Subgroup G} (hV : 
     have h1 := (Sylow.card_dvd_index P).trans (Subgroup.index_dvd_card (P : Subgroup O))
     exact (Nat.not_even_iff_odd.2 hO) (even_iff_two_dvd.2 (h.trans h1))
   obtain ⟨Q₀, hQ₀⟩ := hV.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 5 ↥O) hcard
-  refine ⟨(Q₀ : Subgroup O).map O.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(Q₀ : Subgroup O).map O.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup.map _, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective O.subtype_injective, Sylow.card_eq_multiplicity]
   · rw [Subgroup.le_normalizer_iff]
     rintro v hv _ ⟨y, hy, rfl⟩
@@ -42,7 +42,7 @@ private theorem exists_invariant_sylow_five [Finite G] {O V : Subgroup G} (hV : 
 
 private theorem exists_order_five [Finite G] {C : Subgroup G} (hC : IsPGroup 5 C) (hne : C ≠ ⊥) :
     ∃ h ∈ C, orderOf h = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rcases hC.card_eq_or_dvd with h1 | h5
   · exact absurd (Subgroup.card_eq_one.mp h1) hne
   · obtain ⟨⟨h, hh⟩, ho⟩ := exists_prime_orderOf_dvd_card' (G := C) 5 h5
@@ -53,7 +53,7 @@ theorem exists_fixed_five [Finite G] (O V : Subgroup G) (z d : G) (hV : IsPGroup
     (hz2 : z * z = 1) (hd2 : d * d = 1) (hC : ∀ x ∈ O, z * x = x * z → x ^ 3 = 1)
     (h5 : 5 ∣ Nat.card O) :
     ∃ e, (e = d ∨ e = z * d) ∧ ∃ h ∈ O, orderOf h = 5 ∧ e * h = h * e := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨S, hSO, hSp, hScard, hVS⟩ := exists_invariant_sylow_five hV hVO hO
   have hSne : S ≠ ⊥ := by
     intro hS

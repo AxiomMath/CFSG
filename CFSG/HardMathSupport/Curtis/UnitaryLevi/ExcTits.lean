@@ -89,7 +89,7 @@ theorem Z0_conj_gen (j : Fin τ.rank) {z : ↥(monomialSub τ K)} (hz : z ∈ Z0
     | mem y hy =>
       obtain ⟨i, rfl⟩ := hy
       exact weylRep_conj_sq τ K j i
-    | one => simpa using one_mem (Z0 τ K)
+    | one => simp
     | mul a b _ _ ha hb =>
       rw [conj_mul_aux]
       exact mul_mem ha hb
@@ -161,7 +161,7 @@ theorem What_ker_le_Z0 {x : ↥(monomialSub τ K)} (hx : x ∈ What τ K)
   classical
   let f : Fin τ.rank → ↥(What τ K) := fun i => ⟨weylRep τ K i, weylRep_mem_What τ K i⟩
   let Z : Subgroup ↥(What τ K) := (Z0 τ K).subgroupOf (What τ K)
-  haveI : Z.Normal := ⟨fun n hn g => by
+  have : Z.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := Z0_conj_What τ K g.2 hn
     simpa using this⟩
@@ -216,6 +216,7 @@ section Lift
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem What_surj (w : WeylGroup τ) : ∃ a ∈ What τ K, monomialSubHom (τ := τ) (K := K) a = w := by
   have : (⊤ : Subgroup (WeylGroup τ)) ≤ (What τ K).map (monomialSubHom (τ := τ) (K := K)) := by
     rw [← (coxeterSystem τ).subgroup_closure_range_simple]
@@ -227,14 +228,14 @@ theorem What_surj (w : WeylGroup τ) : ∃ a ∈ What τ K, monomialSubHom (τ :
 
 theorem exists_lift (Q : Subgroup (WeylGroup τ)) (hQ : IsPGroup 3 Q) :
     ∃ C : Subgroup ↥(monomialSub τ K), C ≤ What τ K ∧
-      (∀ x ∈ C, ∀ y ∈ C, monomialSubHom (τ := τ) (K := K) x = monomialSubHom (τ := τ) (K := K) y →
-        x = y) ∧
+      (∀ _x ∈ C, ∀ y ∈ C, monomialSubHom (τ := τ) (K := K) _x = monomialSubHom (τ := τ) (K := K) y →
+        _x = y) ∧
       (∀ q ∈ Q, ∃ c ∈ C, monomialSubHom (τ := τ) (K := K) c = q) ∧
       ∀ c ∈ C, monomialSubHom (τ := τ) (K := K) c ∈ Q :=
   exists_lift_of_ker_two (monomialSubHom (τ := τ) (K := K)) (What τ K) (Z0 τ K)
-    (Z0_le_What τ K) (fun z hz => Z0_sq τ K hz)
-    (fun x hx h => What_ker_le_Z0 τ K hx h) (Z0_le_ker τ K)
-    (fun g hg z hz => Z0_conj_What τ K hg hz) Q hQ (fun q _ => What_surj τ K q)
+    (Z0_le_What τ K) (fun _z hz => Z0_sq τ K hz)
+    (fun _x hx h => What_ker_le_Z0 τ K hx h) (Z0_le_ker τ K)
+    (fun _g hg _z hz => Z0_conj_What τ K hg hz) Q hQ (fun q _ => What_surj τ K q)
 
 end Lift
 

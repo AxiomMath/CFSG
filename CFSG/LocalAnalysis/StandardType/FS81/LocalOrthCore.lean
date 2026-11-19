@@ -427,8 +427,8 @@ private theorem spMat_one_ite_neg_not_mem_evenFix0 {n : ℕ} (i : Fin n) :
     change (if j = i.succ then (-1 : ZMod 3) else 1) = 1 ∨
       (if j = i.succ then (-1 : ZMod 3) else 1) = -1
     by_cases h : j = i.succ
-    · rw [if_pos h]; exact Or.inr rfl
-    · rw [if_neg h]; exact Or.inl rfl
+    · rw [ite_eq_left h]; exact Or.inr rfl
+    · rw [ite_eq_right h]; exact Or.inl rfl
   have hst : (fun j : Fin (n + 1) => if j = i.succ then (-1 : ZMod 3) else 1) = t :=
     (spMat_inj_of_isSign hexp ht hEq).2
   have hprod : (∏ j : Fin n, t j.succ) = -1 := by
@@ -584,8 +584,8 @@ theorem exists_basis_not_mem_evenFix0_of_not_le [Finite G] [FiniteDimensional (Z
     change (if j = i.succ then (-1 : ZMod 3) else 1) = 1 ∨
       (if j = i.succ then (-1 : ZMod 3) else 1) = -1
     by_cases h : j = i.succ
-    · rw [if_pos h]; exact Or.inr rfl
-    · rw [if_neg h]; exact Or.inl rfl
+    · rw [ite_eq_left h]; exact Or.inr rfl
+    · rw [ite_eq_right h]; exact Or.inl rfl
   have hB0 : B.b 0 = b₀ := torusBasis_b_zero φ hτ'inj hb₀ hKC hdisj
   have hBsucc : ∀ m : Fin n, B.b m.succ = (φ.symm (τ' (Pi.mulSingle m (ofAdd 1))) : G) :=
     fun m => torusBasis_b_succ φ hτ'inj hb₀ hKC hdisj m
@@ -597,7 +597,7 @@ theorem exists_basis_not_mem_evenFix0_of_not_le [Finite G] [FiniteDimensional (Z
       have hcomm : c' * b₀ = b₀ * c' := Subgroup.mem_centralizer_singleton_iff.mp hc'C
       have hs0 : s 0 = 1 := by
         dsimp only [s]
-        rw [if_neg (Ne.symm (Fin.succ_ne_zero i))]
+        rw [ite_eq_right (Ne.symm (Fin.succ_ne_zero i))]
       rw [Equiv.Perm.one_apply, hB0, hs0, show ((1 : ZMod 3)).val = 1 from rfl, pow_one]
       rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
     | succ m =>
@@ -611,13 +611,13 @@ theorem exists_basis_not_mem_evenFix0_of_not_le [Finite G] [FiniteDimensional (Z
         rw [sgnAut_mulSingle_self, map_inv, map_inv]
         have hsval : s i.succ = -1 := by
           dsimp only [s]
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
         rw [hsval, show ((-1 : ZMod 3)).val = 2 from rfl]
         exact inv_eq_pow_two_of_orderOf_eq_three hord
       · have hne : m.succ ≠ i.succ := fun hh => hm (Fin.succ_injective n hh)
         have hsval : s m.succ = 1 := by
           dsimp only [s]
-          rw [if_neg hne]
+          rw [ite_eq_right hne]
         rw [sgnAut_mulSingle_of_ne hm, hsval, show ((1 : ZMod 3)).val = 1 from rfl, pow_one]
   exact ⟨B, hadapted, (fun M hM => realized_mono B hKC (heven hM)),
     spMat (1 : Equiv.Perm (Fin (n + 1))) s, ⟨c', hc'C, hActs⟩,

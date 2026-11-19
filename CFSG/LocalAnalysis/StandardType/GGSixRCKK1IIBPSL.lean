@@ -72,11 +72,11 @@ theorem rckIIPair_PSL
     have h1 : (Matrix.SpecialLinearGroup.transvection h0last (1 : F) :
         Matrix (Fin (m + 1)) (Fin (m + 1)) F) 0 (Fin.last m) = 1 := by
       rw [Matrix.SpecialLinearGroup.transvection_coe]
-      simp [Matrix.add_apply, Matrix.one_apply_ne h0last, Matrix.single_apply]
+      simp [Matrix.add_apply, Matrix.one_apply_ne h0last]
     have h2 : (Matrix.SpecialLinearGroup.transvection h01 (1 : F) :
         Matrix (Fin (m + 1)) (Fin (m + 1)) F) 0 (Fin.last m) = 0 := by
       rw [Matrix.SpecialLinearGroup.transvection_coe]
-      simp [Matrix.add_apply, Matrix.one_apply_ne h0last, Matrix.single_apply, hlast1.symm]
+      simp [Matrix.add_apply, Matrix.one_apply_ne h0last, hlast1.symm]
     rw [h] at h1
     rw [h2] at h1
     exact zero_ne_one h1
@@ -283,7 +283,7 @@ theorem rckIIPair_PSL
       rw [Finset.sum_eq_single 0]
       · simp [ha]
       · intro l _ hl
-        rw [hninv_col l, if_neg hl, mul_zero]
+        rw [hninv_col l, ite_eq_right hl, mul_zero]
       · intro h; exact absurd (Finset.mem_univ 0) h
     refine ⟨a', ha'0, ?_⟩
     have hMconj : n.1 * rckPSL_row a * (n⁻¹).1 = rckPSL_row a' := by

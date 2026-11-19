@@ -66,8 +66,8 @@ theorem sec_natural [Finite G] [Finite V]
   classical
   have hLH : L ≤ L ⊔ D := le_sup_left
   have hDH : D ≤ L ⊔ D := le_sup_right
-  haveI : IsSimpleGroup (antiSp K) := isSimpleGroup_antiSp_of_four_le (four_le_card hn hK)
-  haveI : Finite (SecQ Y Z) := Module.finite_of_finite (ZMod 2)
+  have : IsSimpleGroup (antiSp K) := isSimpleGroup_antiSp_of_four_le (four_le_card hn hK)
+  have : Finite (SecQ Y Z) := Module.finite_of_finite (ZMod 2)
   let π : antiSp K →* (SecQ Y Z ≃ₗ[ZMod 2] SecQ Y Z) :=
     (secHom hY hZ).comp ((Subgroup.inclusion hLH).comp e.symm.toMonoidHom)
   have hπx : ∀ x, π x = secHom hY hZ (Subgroup.inclusion hLH (e.symm x)) := fun x => rfl
@@ -151,8 +151,8 @@ theorem factor_lemma [Finite G] [Finite V]
       2 ^ (finrank (ZMod 2) ↥(Y ⊓ P22x.modFix ρ Z (Subgroup.zpowers (l : G))) - finrank (ZMod 2) ↥Z) =
         Nat.card {v : Fin 4 → K // glMat ((minorAut K ^ i) (e l)) *ᵥ v = v} := by
   classical
-  haveI : IsSimpleGroup (antiSp K) := isSimpleGroup_antiSp_of_four_le (four_le_card hn hK)
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup (antiSp K) := isSimpleGroup_antiSp_of_four_le (four_le_card hn hK)
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   obtain ⟨hBc, hB2⟩ := elemAb_facts hBe
   have hLB : L ≤ L ⊔ B := le_sup_left
   have hBLB : B ≤ L ⊔ B := le_sup_right

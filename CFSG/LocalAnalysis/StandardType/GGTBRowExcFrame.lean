@@ -26,8 +26,8 @@ private theorem ggE6Row_frame_of_model {τ : Tag} {p : ℕ} (hp : p.Prime) (hp2 
     (he : ∀ i, e (M.simple i) = simple τ i) (h : GGExcPlusWeylModel τ p A)
     (hsc : GGTorusSelfCent p A) : GGWeylFrame p A M := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨Φ, w, hw, hact, hnorm⟩ := h
   have hn : ∀ i, MulAut.conj (w i) ∈ Subgroup.normalizer (A : Set (MulAut L')) :=
     fun i => conj_mem_normalizer_of_torusWeylElt hsc (hw i)

@@ -233,7 +233,7 @@ theorem exists_sylow_cen [Finite G] (hs : SPLSetup D.toSPLNot0) (h3 : SPL3X D)
   obtain ⟨S, hS⟩ := hYp.exists_le_sylow
   have hz'S : z' ∈ (S : Subgroup ↥D.C₂) := hS (Subgroup.mem_zpowers z')
   refine ⟨S, hz'S, ?_⟩
-  have hSp : IsPGroup 2 ↥(S : Subgroup ↥D.C₂) := S.isPGroup'
+  have hSp : IsPGroup 2 ↥(S : Subgroup ↥D.C₂) := S.isPGroup
   have : Nontrivial ↥(S : Subgroup ↥D.C₂) :=
     ⟨⟨⟨z', hz'S⟩, 1, fun h => hz'1 (congrArg Subtype.val h)⟩⟩
   have : Nontrivial ↥(center ↥(S : Subgroup ↥D.C₂)) := hSp.center_nontrivial

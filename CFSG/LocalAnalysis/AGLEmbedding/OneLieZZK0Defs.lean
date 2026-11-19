@@ -110,7 +110,7 @@ theorem d1OneLieZZbSlice_of (hK : KFactOneLie) (h84 : Asc81bEightFour)
         Subgroup.comap_map_eq_self_of_injective (d1PlusCore p H K).subtype_injective]
       exact T₀.not_dvd_index
     exact hd.false_of_kMax_self hK h84 hD2 hCGT hY hWK hU3 (R₁ := ⊥)
-      (Subgroup.map_subtype_le _) (T₀.isPGroup'.map _) hTidx bot_le
+      (Subgroup.map_subtype_le _) (T₀.isPGroup.map _) hTidx bot_le
       fun H₂ h1 h2 h3 _ => (hmax H₂ ⟨h1, h2, h3⟩).trans hle
 
 theorem d1OneLieZZbBig_of_slice (h : D1OneLieZZbSlice) : D1OneLieZZbBig := by

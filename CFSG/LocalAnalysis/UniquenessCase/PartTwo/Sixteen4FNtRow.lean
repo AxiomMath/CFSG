@@ -37,7 +37,7 @@ private theorem w183_rk_eq_of_realizes [Finite W] {D : FFModel} {d : ℕ}
   have h1 : Nat.card ↥I = Nat.card D.Mod * Nat.card ↥Z :=
     CFSG.Quasithin.G64.RealizesVia.card_eq hπ
   have hcard : Nat.card ↥I = 2 ^ d * Nat.card ↥Z := by rw [h1, hmod]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpow : (2 : ℕ) ^ d ≠ 0 := pow_ne_zero _ (by norm_num)
   have hZne : Nat.card ↥Z ≠ 0 := Nat.card_pos.ne'
   calc rk ↥I = padicValNat 2 (Nat.card ↥I) := rfl

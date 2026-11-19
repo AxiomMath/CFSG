@@ -235,7 +235,7 @@ theorem tModel4 : TModel (SpecialLinearGroup (Fin 4) (ZMod 2)) (R sA4 sB4) :=
     (hconj_of_trace normData4.toE9Data (fun g => (g : Matrix (Fin 4) (Fin 4) (ZMod 2)).trace)
       trace_conj_sl trace4' trace4)
     cent4_sl (deltaS (Or.inl rfl))
-    (fun x hx => deltaS_apply _ (sym_R normData4.toE9Data sym4 (inv_mem hx)))
+    (fun _x hx => deltaS_apply _ (sym_R normData4.toE9Data sym4 (inv_mem hx)))
     (autForm (Or.inl rfl))
 
 theorem tModel5 : TModel (SpecialLinearGroup (Fin 5) (ZMod 2)) (R sA5 sB5) :=
@@ -243,7 +243,7 @@ theorem tModel5 : TModel (SpecialLinearGroup (Fin 5) (ZMod 2)) (R sA5 sB5) :=
     (hconj_of_trace normData5.toE9Data (fun g => (g : Matrix (Fin 5) (Fin 5) (ZMod 2)).trace)
       trace_conj_sl trace5' trace5)
     cent5_sl (deltaS (Or.inr rfl))
-    (fun x hx => deltaS_apply _ (sym_R normData5.toE9Data sym5 (inv_mem hx)))
+    (fun _x hx => deltaS_apply _ (sym_R normData5.toE9Data sym5 (inv_mem hx)))
     (autForm (Or.inr rfl))
 
 theorem card_R_sylow4 : Nat.card (R sA4 sB4) =

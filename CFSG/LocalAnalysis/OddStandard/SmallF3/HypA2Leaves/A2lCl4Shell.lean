@@ -44,7 +44,7 @@ private lemma cl24PlusVec_ne_zero {K : Type} [Field K] (a : K) (p : Kˣ × K × 
   intro h
   have h2 : (p.1 : K) = 0 := by
     have := congrFun h (Sum.inl 2)
-    simpa [cl24PlusVec] using this
+    simp [cl24PlusVec] at this
   exact p.1.ne_zero h2
 
 private lemma cl24PlusVec_quad {K : Type} [Field K] (a : K) (p : Kˣ × K × K × K × K) :
@@ -110,7 +110,7 @@ private lemma cl24MinusVec_ne_zero {K : Type} [Field K] (b c a : K) (p : Kˣ × 
   intro h
   have h2 : (p.1 : K) = 0 := by
     have := congrFun h (Sum.inl 2)
-    simpa [cl24MinusVec] using this
+    simp [cl24MinusVec] at this
   exact p.1.ne_zero h2
 
 private lemma cl24MinusVec_quad {K : Type} [Field K] (b c a : K) (p : Kˣ × K × K × K × K) :

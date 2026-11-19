@@ -42,7 +42,7 @@ private theorem pointStabilizerCore_le_pPrimeCore_two
     (hA1 : HypothesisA1 G Ω H D Q t) :
     pointStabilizerCore G Ω ≤ (pPrimeCore 2 G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := pointStabilizerCore G Ω
   obtain ⟨α, hH⟩ := hA1.point_stabilizer
   have hKleD : K ≤ D := by
@@ -104,7 +104,7 @@ private theorem exists_rank_two_subgroup_le_Q
     (h2rank : TwoRankAtLeastTwo G) :
     ∃ A : Subgroup G, A ≤ Q ∧ Nat.card A = 4 ∧ ∀ x : A, x ^ 2 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E₀, hE₀card, hE₀sq⟩ := TwoRankAtLeastTwo.exists_subgroup h2rank
   have hE₀p : IsPGroup 2 E₀ := by
     refine IsPGroup.of_card (p := 2) (G := E₀) (n := 2) ?_
@@ -207,16 +207,16 @@ private theorem pPrimeCore_two_le_pointStabilizerCore
     (h2rank : TwoRankAtLeastTwo G) :
     (pPrimeCore 2 G) ≤ pointStabilizerCore G Ω := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hAQ, hAcard, hAsq⟩ :=
     exists_rank_two_subgroup_le_Q H D Q t hA1 h2rank
   let O : Subgroup G := (pPrimeCore 2 G)
-  letI : O.Normal := by
+  let : O.Normal := by
     simpa [O] using (pPrimeCore_normal (p := 2) (G := G))
   have hAcomm : IsMulCommutative A := isMulCommutative_of_forall_sq_one hAsq
-  letI : IsMulCommutative A := hAcomm
-  letI : CommGroup A := IsMulCommutative.instCommGroup
-  haveI : Fact (IsPGroup 2 A) := by
+  let : IsMulCommutative A := hAcomm
+  let : CommGroup A := IsMulCommutative.instCommGroup
+  have : Fact (IsPGroup 2 A) := by
     refine ⟨IsPGroup.of_card (p := 2) (G := A) (n := 2) ?_⟩
     norm_num [hAcard]
   have hncyc : ¬ IsCyclic A :=
@@ -242,7 +242,7 @@ private theorem pPrimeCore_two_le_pointStabilizerCore
       exact hsup_le (by simp [hgen])
     exact hxComap
   obtain ⟨α, hH⟩ := hA1.point_stabilizer
-  haveI : MulAction.IsMultiplyPretransitive G Ω 2 := hA1.two_transitive
+  have : MulAction.IsMultiplyPretransitive G Ω 2 := hA1.two_transitive
   have htrans : MulAction.IsPretransitive G Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hO_le_stab : (pPrimeCore 2 G) ≤ MulAction.stabilizer G α := by

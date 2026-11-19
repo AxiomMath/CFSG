@@ -10,16 +10,16 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open Subgroup
 
 theorem s16c1_G47_quot_action {Γ : Type} [Group Γ] {H E Z : Subgroup Γ}
-    (hHE : H ≤ normalizer (E : Set Γ)) (hZE : Z ≤ E)
+    (hHE : H ≤ normalizer (E : Set Γ)) (_hZE : Z ≤ E)
     (hZc : ∀ h ∈ H, ∀ z ∈ Z, h * z = z * h) [(Z.subgroupOf E).Normal]
     (hQ : ∀ q : ↥H, q ∈ CFSG.pCore 2 ↥H → ∀ e ∈ E, (q : Γ) * e * (q : Γ)⁻¹ * e⁻¹ ∈ Z) :
     ∃ ρ : (↥H ⧸ CFSG.pCore 2 ↥H) →* MulAut (↥E ⧸ Z.subgroupOf E),
       ∀ (h : ↥H) (e e' : ↥E), (e' : Γ) = (h : Γ) * (e : Γ) * (h : Γ)⁻¹ →
         ρ (QuotientGroup.mk' (CFSG.pCore 2 ↥H) h) (QuotientGroup.mk e) = QuotientGroup.mk e' := by
   classical
-  haveI : Subgroup.Normalizes H E := ⟨hHE⟩
+  have : Subgroup.Normalizes H E := ⟨hHE⟩
   let K : Subgroup ↥E := Z.subgroupOf E
-  haveI hKnormal : K.Normal := by
+  have hKnormal : K.Normal := by
     change (Z.subgroupOf E).Normal
     infer_instance
   let ρH : ↥H →* MulAut ↥E := MulDistribMulAction.toMulAut ↥H ↥E

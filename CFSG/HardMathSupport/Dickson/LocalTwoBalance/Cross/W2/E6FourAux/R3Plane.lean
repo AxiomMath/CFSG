@@ -29,11 +29,11 @@ theorem innerPlaneBalance_adjointE6_four_R3 (K : Type) [Field K] [Finite K] {p :
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ℓ, f, hℓ, hcharK, hf, hK⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.exists_char_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hcharK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hcharK
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + 1 := by exact_mod_cast hpd
   obtain ⟨-, hordq, hΦ, -⟩ := e6Four_data hp hp3 hpq
   set n : ModGL Tag.E6 L := canonicalRep (coxeterSystem Tag.E6) L e6F4U with hn

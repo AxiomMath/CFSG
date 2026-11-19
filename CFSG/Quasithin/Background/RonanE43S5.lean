@@ -53,7 +53,7 @@ theorem card_le_four_of_A5 {K : Type} [Group K] [Finite K] (N : Subgroup K) [hN 
     (hO2 : CFSG.pCore 2 K = ⊥) {E : Subgroup K} (hE : CFSG.Open.IsElemAbelian 2 E) :
     Nat.card E ≤ 4 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center ↥N = ⊥ := center_eq_bot_of_A5 e
   let ψ : K →* MulAut ↥N := MulAut.conjNormal
   have hψapp : ∀ (k : K) (n : ↥N), ((ψ k n : ↥N) : K) = k * (n : K) * k⁻¹ :=

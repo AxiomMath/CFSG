@@ -54,12 +54,12 @@ theorem oddPCoreInClosure_E6_four (K : Type) [Field K] [Finite K] {f : ℕ} [Cha
     (hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + 1) {x : adjointGroup .E6 K} (hx : orderOf x = p) :
     OddPCoreInClosure p ↥(Subgroup.centralizer ({x} : Set (adjointGroup .E6 K))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hcm := canonicalRep_mem_monomialSubgroup L e6F4U
   have hπ : weylQuotientHom .E6 L ⟨canonicalRep (coxeterSystem .E6) L e6F4U, hcm⟩ = e6F4U :=
     weylQuotientHom_eq (mapsRootLines_canonicalRep e6F4U)
@@ -110,7 +110,7 @@ theorem oddPCoreInClosure_E6_four (K : Type) [Field K] [Finite K] {f : ℕ} [Cha
         exact hY₀o
       rw [← h1]
       exact orderOf_dvd_natCard _
-    haveI : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+    have : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
     have hfinW : Finite (ψ.range ⊓ torusGroup .E6 L : Subgroup (ModGL .E6 L)) :=
       Finite.of_injective (Subgroup.inclusion (inf_le_left : ψ.range ⊓ torusGroup .E6 L ≤ ψ.range))
         (Subgroup.inclusion_injective _)
@@ -144,7 +144,7 @@ theorem chevTwoPClosureOddE6Four_holds : ChevTwoPClosureOddE6Four := by
     have hq2 : q.p = 2 := hdi
     have hord : orderOf ((q.card : ℕ) : ZMod p) = 4 := hF
     have hp3 : 3 < p := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hne : ((q.card : ℕ) : ZMod p) ≠ 0 := by
         intro h0
         rw [h0, orderOf_zero] at hord
@@ -155,7 +155,7 @@ theorem chevTwoPClosureOddE6Four_holds : ChevTwoPClosureOddE6Four := by
       omega
     obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hv
-    haveI : CharP K 2 := hq2 ▸ hchK
+    have : CharP K 2 := hq2 ▸ hchK
     have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]
     have hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + 1 := by
       have h1 : p ∣ Nat.card K ^ 2 + 1 := by
@@ -167,7 +167,7 @@ theorem chevTwoPClosureOddE6Four_holds : ChevTwoPClosureOddE6Four := by
     let θ : L ≃* adjointGroup Tag.E6 K := e.trans eK
     refine PClosureOdd.of_mulEquiv θ.symm ?_
     intro d hd1 hdp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact oddPCoreInClosure_E6_four K q.exponent_pos hK2 hp hp3 hpq (orderOf_eq_prime hdp hd1)
   | A _ _ => exact absurd hF (by simp [LieFamilyE6Four])
   | twistedA _ _ => exact absurd hF (by simp [LieFamilyE6Four])

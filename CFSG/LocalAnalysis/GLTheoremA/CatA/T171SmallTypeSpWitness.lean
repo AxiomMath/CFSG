@@ -19,13 +19,13 @@ private abbrev c3 : GL (Fin 2) (ZMod 2) := @tGL (ZMod 2) _ (ZMod.charP 2)
 private def sGLMat : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![1, 1; 0, 1]
 
 private theorem sGLMat_mul_self : sGLMat * sGLMat = 1 := by
-  ext i j <;> fin_cases i <;> fin_cases j <;> decide
+  ext i j; fin_cases i <;> fin_cases j <;> decide
 
 private def sGL : GL (Fin 2) (ZMod 2) := ⟨sGLMat, sGLMat, sGLMat_mul_self, sGLMat_mul_self⟩
 
 private theorem sGL_pow_two : sGL ^ 2 = 1 := by
   apply Units.ext
-  ext i j <;> fin_cases i <;> fin_cases j <;> decide
+  ext i j; fin_cases i <;> fin_cases j <;> decide
 
 private theorem sGL_ne_one : sGL ≠ 1 := by
   intro h
@@ -33,7 +33,7 @@ private theorem sGL_ne_one : sGL ≠ 1 := by
     (g : Matrix (Fin 2) (Fin 2) (ZMod 2)) 0 1) h
   simp [sGL, sGLMat] at h10
 
-private def extendCoords (n m : ℕ) (hm : m ≤ n) :
+private def extendCoords (n m : ℕ) (_hm : m ≤ n) :
     (Fin m → GL (Fin 2) (ZMod 2)) →* (Fin n → GL (Fin 2) (ZMod 2)) where
   toFun x j := if h : (j : ℕ) < m then x ⟨j, h⟩ else 1
   map_one' := by
@@ -48,13 +48,13 @@ private lemma extendCoords_apply_of_lt {n m : ℕ} (hm : m ≤ n) (x : Fin m →
     {j : Fin n} (h : (j : ℕ) < m) :
     extendCoords n m hm x j = x ⟨j, h⟩ := by
   show (if h' : (j : ℕ) < m then x ⟨j, h'⟩ else 1) = x ⟨j, h⟩
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 private lemma extendCoords_apply_of_not_lt {n m : ℕ} (hm : m ≤ n) (x : Fin m → GL (Fin 2) (ZMod 2))
     {j : Fin n} (h : ¬ (j : ℕ) < m) :
     extendCoords n m hm x j = 1 := by
   show (if h' : (j : ℕ) < m then x ⟨j, h'⟩ else 1) = 1
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 private def lastCoords (n : ℕ) (hn : 1 ≤ n) :
     GL (Fin 2) (ZMod 2) →* (Fin n → GL (Fin 2) (ZMod 2)) where
@@ -91,9 +91,9 @@ private noncomputable def lastGL (n : ℕ) (hn : 1 ≤ n) :
       rw [show ((lastCoords n hn) g j) =
         (if j = ⟨n - 1, by omega⟩ then g else 1 : GL (Fin 2) (ZMod 2)) from rfl]
       by_cases h : j = ⟨n - 1, by omega⟩
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact det_eq_one_of_GL_two g
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact det_eq_one_of_GL_two 1)
 
 private theorem lastGL_ne_one (n : ℕ) (hn : 1 ≤ n) :
@@ -143,7 +143,7 @@ private theorem coordTorus_injective (n m : ℕ) (hm : m ≤ n) :
   have h2 := congrFun (planeHom_injective h1)
   funext j
   have h3 := h2 ⟨j, lt_of_lt_of_le j.isLt hm⟩
-  simpa [dif_pos j.isLt] using h3
+  simpa [dite_eq_left j.isLt] using h3
 
 private theorem card_coordTorus_range (n m : ℕ) (hm : m ≤ n) :
     Nat.card (coordTorus n m hm).range = 3 ^ m := by
@@ -163,7 +163,7 @@ private theorem isElemAbelian_coordTorus_range (n m : ℕ) (hm : m ≤ n) :
     rw [show Nat.card ↥(Subgroup.zpowers c3) = 3 by
       rw [Nat.card_zpowers, orderOf_tGL]] at h
     exact h
-  haveI : IsElementaryAbelian 3 (coordTorus n m hm).range :=
+  have : IsElementaryAbelian 3 (coordTorus n m hm).range :=
     isElementaryAbelian_range (coordTorus n m hm) hcomm hexp
   exact isElemAbelian_of_isElementaryAbelian
 
@@ -181,12 +181,12 @@ private theorem coordTorus_commute_lastGL (n m : ℕ) (hm : m < n)
         intro hjeq
         have : (j : ℕ) = n - 1 := by rw [hjeq]
         omega
-      simp only [dif_pos h, if_neg hj, mul_one, one_mul]
+      simp only [dite_eq_left h, ite_eq_right hj, mul_one, one_mul]
     · by_cases hj : j = ⟨n - 1, by omega⟩
       · have h' : ¬ (⟨n - 1, by omega⟩ : Fin n).val < m := by simpa [hj] using h
         rw [hj]
-        simp only [dif_neg h', if_pos rfl, mul_one, one_mul]
-      · simp only [dif_neg h, if_neg hj, mul_one, one_mul]
+        simp only [dite_eq_right h', mul_one, one_mul]
+      · simp only [dite_eq_right h, ite_eq_right hj, mul_one]
   apply Subtype.ext
   show (planeHom (K := ZMod 2) (n := n) (fun j =>
       if h : (j : ℕ) < m then (x ⟨j, h⟩ : GL (Fin 2) (ZMod 2)) else 1) :

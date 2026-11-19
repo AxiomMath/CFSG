@@ -15,7 +15,7 @@ theorem isSylow2In_inf_of_le_normalizer (S : Sylow 2 G) {H : Subgroup G}
     (hSH : (S : Subgroup G) ≤ Subgroup.normalizer (H : Set G)) :
     IsSylow2In ((S : Subgroup G) ⊓ H) H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨inf_le_right, S.isPGroup'.to_inf_left, fun T hTH hT2 hle => ?_⟩
+  refine ⟨inf_le_right, S.isPGroup.to_inf_left, fun T hTH hT2 hle => ?_⟩
   obtain ⟨c, hc, hcT⟩ := exists_conj_le_of_sylow_le S
     (le_sup_right : (S : Subgroup G) ≤ H ⊔ (S : Subgroup G)) (hTH.trans le_sup_left) hT2
   have hcinv : c⁻¹ ∈ ((H ⊔ (S : Subgroup G) : Subgroup G) : Set G) := Subgroup.inv_mem _ hc

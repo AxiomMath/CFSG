@@ -75,7 +75,7 @@ theorem hdRo7SUReduceUAux_finrank_aug {p : ℕ} [Fact p.Prime] {V : Type} [AddCo
     [Module (ZMod p) V] {m : ℕ} [NeZero m] (b : Module.Basis (Fin m) (ZMod p) V)
     (hm : (m : ZMod p) ≠ 0) :
     Module.finrank (ZMod p) (SUAug p b) = m - 1 := by
-  haveI : FiniteDimensional (ZMod p) V := Module.Finite.of_basis b
+  have : FiniteDimensional (ZMod p) V := Module.Finite.of_basis b
   have hsup := hdRo7SUReduceUAux_sup_span_ones_eq_top b hm
   have hinf := hdRo7SUReduceUAux_inf_span_ones_eq_bot b hm
   have hx0 := hdRo7SUReduceUAux_ones_ne_zero b hm
@@ -148,7 +148,7 @@ theorem hdRo7SUReduceUAux_restrict_apply {p : ℕ} {V : Type} [AddCommGroup V]
 theorem hdRo7SUReduceUAux_move_eq_span {p : ℕ} [Fact p.Prime] {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {m : ℕ} [NeZero m]
     (b : Module.Basis (Fin m) (ZMod p) V) (hm : (m : ZMod p) ≠ 0)
-    (g : V ≃ₗ[ZMod p] V) (hg : g ∈ hdRo7SUReduceUAux_kerAug p (SUAug p b))
+    (g : V ≃ₗ[ZMod p] V) (_hg : g ∈ hdRo7SUReduceUAux_kerAug p (SUAug p b))
     (hfix : ∀ u ∈ SUAug p b, g u = u) :
     ggLinMove g = Submodule.span (ZMod p) {g (SUOnes p b) - SUOnes p b} := by
   have hsup := hdRo7SUReduceUAux_sup_span_ones_eq_top b hm

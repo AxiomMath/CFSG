@@ -81,6 +81,7 @@ theorem sec122_Yc_le_normalizer_Y (F : Sec12Frame t L S)
     (secM t S L ⊓ L) ⊔ S ≤ normalizer ((secM t S L ⊓ L : Subgroup G) : Set G) := by
   exact sup_le Subgroup.le_normalizer (sec122_S_le_normalizer_inf F hSc)
 
+omit [Finite G] in
 theorem sec122_A_le_Yc (htS : t ∈ S) : secA t S L ≤ (secM t S L ⊓ L) ⊔ S := by
   exact sup_le ((secB_le_S S L).trans le_sup_right)
     ((Subgroup.zpowers_le.mpr htS).trans le_sup_right)
@@ -96,6 +97,7 @@ theorem sec122_centralizer_inf_S (F : Sec12Frame t L S)
     simpa using congrArg Subtype.val hk
   · exact le_inf (Subgroup.zpowers_le.mpr F.htC) (Subgroup.zpowers_le.mpr htS)
 
+omit [Finite G] in
 private theorem sec122_B_le_centralizer_cent :
     secB S L ≤ centralizer (centralizer (L : Set G) : Set G) := by
   intro b hb
@@ -103,6 +105,7 @@ private theorem sec122_B_le_centralizer_cent :
   intro c hc
   exact ((Subgroup.mem_centralizer_iff.mp hc) b (secB_le_L S L hb)).symm
 
+omit [Finite G] in
 private theorem sec122_B_le_normalizer_cent :
     secB S L ≤ normalizer (centralizer (L : Set G) : Set G) :=
   (sec122_B_le_centralizer_cent).trans
@@ -145,7 +148,7 @@ theorem sec122_Yc_inf_centralizer (F : Sec12Frame t L S)
   exact F.two c hcL hct ⟨k, by rw [← hc_eq, hy'eq, hsk', mul_one, hy'1]⟩
 
 theorem sec122_ker (F : Sec12Frame t L S) (hS : IsSylow2Of S (centralizer ({t} : Set G)))
-    (htS : t ∈ S) {X : Subgroup G} (hXYc : X ≤ (secM t S L ⊓ L) ⊔ S)
+    (_htS : t ∈ S) {X : Subgroup G} (hXYc : X ≤ (secM t S L ⊓ L) ⊔ S)
     (hXA : X ⊓ secA t S L = ⊥) {x : G} (hx : x ∈ X)
     (hcent : ∀ b ∈ secB S L, x * b = b * x) : x = 1 := by
   have hxYc : x ∈ (secM t S L ⊓ L) ⊔ S := hXYc hx

@@ -30,7 +30,7 @@ theorem cfInner_self_sum_intCast_smul {G : Type*} [Group G] [Fintype G] {S : Fin
     intro ψ hψ
     rw [cfInner_smul_right, cfInner_eq_ite_of_mem_Irr (hS hχ) (hS hψ)]
     simp
-  rw [Finset.sum_congr rfl key, Finset.sum_ite_eq _ _ (fun ψ => (b ψ : ℂ)), if_pos hχ]
+  rw [Finset.sum_congr rfl key, Finset.sum_ite_eq _ _ (fun ψ => (b ψ : ℂ)), ite_eq_left hχ]
   ring
 
 theorem span_irrTrivialOn_le_virtualChars {G : Type*} [Group G] (P : Subgroup G) :

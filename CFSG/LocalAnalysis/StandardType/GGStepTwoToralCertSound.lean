@@ -44,10 +44,10 @@ theorem tcOrbVerified_sound (L : List (Array ℤ)) (gens : Array (List ℕ)) {T 
     tcOrbOK (tcEnv τ p L gens) T = true := by
   unfold tcOrbVerified at h
   by_cases hT : tcOrbOK (tcEnv τ p L gens) (tcOrbBuild (tcEnv τ p L gens)) = true
-  · rw [if_pos hT] at h
+  · rw [ite_eq_left hT] at h
     cases h
     exact hT
-  · rw [if_neg hT] at h
+  · rw [ite_eq_right hT] at h
     cases h
 
 section Split

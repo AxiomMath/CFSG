@@ -87,25 +87,28 @@ theorem monoD_map_orbit {σ : Equiv.Perm (Fin 6)} (hσ : σ ∈ monoD) :
     rw [Finset.mem_map_equiv]
     simpa only [Finset.mem_insert, Finset.mem_singleton] using hpre i
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem NFrame.permOrth_mul_signChange_basis {c : ZMod 3}
     (fr : NFrame Q (Fin 6) c) (σ : Equiv.Perm (Fin 6)) (J : Finset (Fin 6)) (i : Fin 6) :
     (((fr.permOrth σ * fr.signChange J : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b i)) =
       (if i ∈ J then (-1 : ZMod 3) else 1) • fr.b (σ i) := by
   rw [Submonoid.coe_mul, LinearEquiv.mul_apply, fr.signChange_basis J i]
   by_cases hi : i ∈ J
-  · rw [if_pos hi, map_neg, fr.permOrth_basis]
+  · rw [ite_eq_left hi, map_neg, fr.permOrth_basis]
     simp [hi]
-  · rw [if_neg hi, fr.permOrth_basis]
+  · rw [ite_eq_right hi, fr.permOrth_basis]
     simp [hi]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem NFrame.eq_of_smul_basis_eq_smul_basis {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
     {i j : Fin 6} {a d : ZMod 3} (ha : a ≠ 0)
     (h : a • fr.b i = d • fr.b j) : i = j := by
   by_contra hij
   have hc := congrArg (fun x : V => fr.b.repr x i) h
-  simp [Module.Basis.repr_self, Finsupp.smul_apply, hij] at hc
+  simp [Module.Basis.repr_self, hij] at hc
   exact ha hc
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem NFrame.permOrth_symm_inv {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
     (σ : Equiv.Perm (Fin 6)) :
     (fr.permOrth σ)⁻¹ = fr.permOrth σ.symm := by
@@ -117,6 +120,7 @@ private theorem NFrame.permOrth_symm_inv {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
   rw [hmul, fr.permOrth_one] at h
   exact inv_eq_of_mul_eq_one_right h.symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem NFrame.signChange_mul_permOrth {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
     (σ : Equiv.Perm (Fin 6)) (J : Finset (Fin 6)) :
     fr.signChange J * fr.permOrth σ =

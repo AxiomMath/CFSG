@@ -22,14 +22,14 @@ private noncomputable def patchValue {B S : Set Ω} (θ : H ≃* H') (f₀ ψ : 
 private lemma patchValue_of_mem {B S : Set Ω} (θ : H ≃* H') (f₀ ψ : Ω → Ω')
     (hcov : ∀ x ∉ B, ∃ h : H, ∃ s ∈ S, h • s = x) {x : Ω} (hx : x ∈ B) :
     patchValue θ f₀ ψ hcov x = f₀ x := by
-  rw [patchValue, dif_pos hx]
+  rw [patchValue, dite_eq_left hx]
 
 private lemma patchValue_of_notMem {B S : Set Ω} (θ : H ≃* H') (f₀ ψ : Ω → Ω')
     (hcov : ∀ x ∉ B, ∃ h : H, ∃ s ∈ S, h • s = x) {x : Ω} (hx : x ∉ B) :
     patchValue θ f₀ ψ hcov x =
       θ (Classical.choose (hcov x hx)) •
         ψ (Classical.choose (Classical.choose_spec (hcov x hx))) := by
-  rw [patchValue, dif_neg hx]
+  rw [patchValue, dite_eq_right hx]
 
 private lemma smul_psi_eq_of_smul_eq (θ : H ≃* H') (R : Subgroup H)
     {S : Set Ω} {ψ : Ω → Ω'}

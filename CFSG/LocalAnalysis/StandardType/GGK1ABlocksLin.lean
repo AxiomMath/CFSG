@@ -138,9 +138,9 @@ private theorem ggK1Abl_linearSpecialBlock_commute {N : ℕ} {K : Type} [Field K
     {x : LinearMap.GeneralLinearGroup K (Fin N → K)}
     (hsq : Squarefree (minpoly K ((x : LinearMap.GeneralLinearGroup K (Fin N → K)) :
       Module.End K (Fin N → K))))
-    {h h' : K[X]} (hh : h ∈ primaryFactors ((x : LinearMap.GeneralLinearGroup K (Fin N → K)) :
+    {h h' : K[X]} (_hh : h ∈ primaryFactors ((x : LinearMap.GeneralLinearGroup K (Fin N → K)) :
       Module.End K (Fin N → K)))
-    (hh' : h' ∈ primaryFactors ((x : LinearMap.GeneralLinearGroup K (Fin N → K)) :
+    (_hh' : h' ∈ primaryFactors ((x : LinearMap.GeneralLinearGroup K (Fin N → K)) :
       Module.End K (Fin N → K))) (hne : h ≠ h') :
     ∀ a ∈ linearSpecialBlock x h, ∀ b ∈ linearSpecialBlock x h', Commute a b := by
   intro a ha b hb
@@ -258,8 +258,8 @@ private theorem ggK1Abl_A_model {N nf : ℕ} {K : Type} [Field K] [Finite K]
     (hh : h ∈ primaryFactors ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K (Fin N → K)) :
       Module.End K (Fin N → K))) (hK : Nat.card K = 2 ^ nf) :
     ggK1ACo_Kind.Model nf K (ggK1Abl_kind xhat h) (ggK1Abl_A xhat h) := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite (AdjoinRoot h)
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fintype (AdjoinRoot h) := Fintype.ofFinite (AdjoinRoot h)
   obtain ⟨e⟩ := ggK1Abl_A_equiv_SL xhat hsq hh
   refine ⟨AdjoinRoot h, inferInstance, inferInstance, ?_, ⟨?iso⟩⟩
   · rw [← Nat.card_eq_fintype_card,
@@ -292,10 +292,10 @@ private theorem ggK1Abl_SL_solvable_of_not_good {E : Type} [Field E] [Finite E] 
 
 private theorem ggK1Abl_not_isQuasisimple_of_isSolvable {G : Type} [Group G] {A : Subgroup G}
     (h : Group.IsSolvable ↥A) : ¬ CFSG.IsQuasisimple ↥A := by
-  haveI := h
+  have := h
   intro hq
-  haveI : Group.IsPerfect ↥A := hq.1
-  haveI : Nontrivial ↥A := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have : Group.IsPerfect ↥A := hq.1
+  have : Nontrivial ↥A := CFSG.LocalCores.isQuasisimple_nontrivial hq
   exact Group.IsPerfect.not_isSolvable ↥A inferInstance
 
 private theorem ggK1Abl_linearSpecialBlock_isQuasisimple_iff {N : ℕ} {K : Type} [Field K]
@@ -305,13 +305,13 @@ private theorem ggK1Abl_linearSpecialBlock_isQuasisimple_iff {N : ℕ} {K : Type
     (hh : h ∈ primaryFactors ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K (Fin N → K)) :
       Module.End K (Fin N → K))) :
     CFSG.IsQuasisimple ↥(linearSpecialBlock (ggK1Abl_x xhat) h) ↔ ggK1Abl_good xhat h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   constructor
   · intro hq
     by_contra hbad
     have hm : 1 ≤ primaryMultiplicity ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K
         (Fin N → K)) : Module.End K (Fin N → K)) h := by
-      haveI : Nontrivial (primaryComponent ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K
+      have : Nontrivial (primaryComponent ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K
           (Fin N → K)) : Module.End K (Fin N → K)) h) :=
         Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
       exact Module.finrank_pos
@@ -320,7 +320,7 @@ private theorem ggK1Abl_linearSpecialBlock_isQuasisimple_iff {N : ℕ} {K : Type
         (2 ≤ primaryMultiplicity ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K (Fin N → K)) :
           Module.End K (Fin N → K)) h ∧ 4 ≤ Nat.card (AdjoinRoot h))) := hbad
     have hsolvSL := ggK1Abl_SL_solvable_of_not_good (E := AdjoinRoot h) hm hbad'
-    haveI := hsolvSL
+    have := hsolvSL
     have hsolv : Group.IsSolvable ↥(linearSpecialBlock (ggK1Abl_x xhat) h) :=
       Group.isSolvable_of_surjective
         (f := (ggK1Abl_blockEquiv xhat hsq hh).symm.toMonoidHom)
@@ -360,14 +360,14 @@ private theorem ggK1Abl_orbit_sl_qs {nf m e : ℕ} (hm : 1 ≤ m) (he : 1 ≤ e)
       | succ m' => cases m' with
         | zero => omega
         | succ m' => rfl
-    rw [horb, ggMultBlockA, if_pos rfl, decide_eq_true_eq]
+    rw [horb, ggMultBlockA, ite_eq_left rfl, decide_eq_true_eq]
     have hep : 1 ≤ e * nf := by
       have := Nat.mul_pos (by omega : 0 < e) (by omega : 0 < nf)
       omega
     omega
 
 private theorem ggK1Abl_four_le_card_adjoinRoot_iff {nf e : ℕ} {K : Type} [Field K] [Finite K]
-    {h : K[X]} [Fact (Irreducible h)] (he : 1 ≤ e) (hnf : 1 ≤ nf)
+    {h : K[X]} [Fact (Irreducible h)] (_he : 1 ≤ e) (_hnf : 1 ≤ nf)
     (hK : Nat.card K = 2 ^ nf) (hdeg : h.natDegree = e) :
     4 ≤ Nat.card (AdjoinRoot h) ↔ 2 ≤ e * nf := by
   rw [CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot h, hK, hdeg]
@@ -390,9 +390,9 @@ private theorem ggK1Abl_good_iff_orbit_qs {N nf : ℕ} {K : Type} [Field K] [Fin
     (hsq : Squarefree (minpoly K (ggK1A_glEnd xhat.1)))
     (hh : h ∈ primaryFactors (ggK1A_glEnd xhat.1)) :
     ggK1Abl_good xhat h ↔ (ggK1ACo_kindOrbit nf (ggK1Abl_kind xhat h)).qs = true := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hm : 1 ≤ primaryMultiplicity (ggK1A_glEnd xhat.1) h := by
-    haveI : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) h) :=
+    have : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) h) :=
       Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
     exact Module.finrank_pos
   have he : 1 ≤ h.natDegree := (Fact.out : Irreducible h).natDegree_pos
@@ -412,7 +412,7 @@ private theorem ggK1Abl_good_iff_orbit_qs {N nf : ℕ} {K : Type} [Field K] [Fin
 
 private theorem ggK1Abl_ringChar_two {nf : ℕ} {K : Type} [Field K] [Finite K]
     (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) : ringChar K = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [FiniteField.even_card_iff_char_two]
   rw [← Nat.card_eq_fintype_card, hK]
   exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega : nf ≠ 0))
@@ -507,7 +507,7 @@ private theorem ggK1Abl_hasOrbit_sl_iff (m e : ℕ) :
     | succ m => simp [ggK1ACo_Kind.hasOrbit]
 
 private theorem ggK1Abl_hsolv {p nf N : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
     (xhat : ↥(LargeEvenSLGroup (Fin N) K)) {h : K[X]}
     (hsq : Squarefree (minpoly K (ggK1A_glEnd xhat.1)))
@@ -517,9 +517,9 @@ private theorem ggK1Abl_hsolv {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     ∃ t ∈ ggK1Abl_A xhat h, t ^ p = 1 ∧
       ∃ a ∈ ggK1Abl_A xhat h, a * t ≠ t * a := by
   intro hhas hqs
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hm1 : 1 ≤ primaryMultiplicity (ggK1A_glEnd xhat.1) h := by
-    haveI : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) h) :=
+    have : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) h) :=
       Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
     exact Module.finrank_pos
   have hmne : primaryMultiplicity (ggK1A_glEnd xhat.1) h ≠ 1 :=
@@ -536,7 +536,7 @@ private theorem ggK1Abl_hsolv {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   have hcard_le : Nat.card (AdjoinRoot h) ≤ 3 := by
     unfold ggK1Abl_good at hnotgood
     omega
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have he1 : h.natDegree = 1 := by
     by_contra hne
     have he2 : 2 ≤ h.natDegree := by
@@ -569,10 +569,10 @@ private theorem ggK1Abl_hsolv {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     · rw [hnf1] at hd
       exact (Nat.prime_dvd_prime_iff_eq hp (by norm_num)).mp (by simpa using hd)
   let E := AdjoinRoot h
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hEcard : Fintype.card E = 2 := by
     rw [← Nat.card_eq_fintype_card, hcard_eq]
-  haveI : CharP E 2 :=
+  have : CharP E 2 :=
     charP_of_card_eq_prime_pow (R := E) (p := 2) (f := 1) (by simpa using hEcard)
   have hdet_t : (!![0,1;1,1] : Matrix (Fin 2) (Fin 2) E).det = 1 := by
     rw [Matrix.det_fin_two]
@@ -589,8 +589,7 @@ private theorem ggK1Abl_hsolv {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     change (t : Matrix (Fin 2) (Fin 2) E) ^ 3 = 1
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [t, Matrix.mul_apply, Fin.sum_univ_two, pow_succ, Matrix.one_apply,
-        CharTwo.add_self_eq_zero]
+      simp [t, Matrix.mul_apply, Fin.sum_univ_two, pow_succ, CharTwo.add_self_eq_zero]
   have hat_ne : a * t ≠ t * a := by
     intro hcon
     have h01 := congrArg (fun x : Matrix.SpecialLinearGroup (Fin 2) E =>
@@ -631,7 +630,7 @@ private theorem ggK1Abl_orderOf_eq_ggMultOrd {p nf : ℕ} (hp : p.Prime) (hp2 : 
     orderOf (((2 ^ nf : ℕ) : ZMod p)) = ggMultOrd p nf := by
   unfold ggMultOrd
   by_cases h1 : p ∣ 2 ^ nf - 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     have h0 : ((2 ^ nf - 1 : ℕ) : ZMod p) = 0 :=
       (CharP.cast_eq_zero_iff (ZMod p) p (2 ^ nf - 1)).mpr h1
     have hcast : ((2 ^ nf : ℕ) : ZMod p) = 1 := by
@@ -639,20 +638,20 @@ private theorem ggK1Abl_orderOf_eq_ggMultOrd {p nf : ℕ} (hp : p.Prime) (hp2 : 
       rw [Nat.cast_sub h1le, Nat.cast_one, sub_eq_zero] at h0
       exact h0
     exact orderOf_eq_one_iff.mpr hcast
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     rcases hdvd with h | h
     · exact absurd h h1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have h0 : ((2 ^ nf + 1 : ℕ) : ZMod p) = 0 :=
         (CharP.cast_eq_zero_iff (ZMod p) p (2 ^ nf + 1)).mpr h
       have hcast : ((2 ^ nf : ℕ) : ZMod p) = -1 := by
         rw [Nat.cast_add, Nat.cast_one] at h0
         exact eq_neg_of_add_eq_zero_left h0
-      haveI : Fact (1 < p) := ⟨hp.one_lt⟩
-      haveI : Nontrivial (ZMod p) := ZMod.nontrivial p
+      have : Fact (1 < p) := ⟨hp.one_lt⟩
+      have : Nontrivial (ZMod p) := ZMod.nontrivial p
       rw [hcast, orderOf_neg_one]
       have hchar : ringChar (ZMod p) = p := ZMod.ringChar_zmod_n p
-      rw [hchar, if_neg hp2]
+      rw [hchar, ite_eq_right hp2]
 
 private theorem ggK1Abl_natDegree_eq_ggMultOrd {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
@@ -660,7 +659,7 @@ private theorem ggK1Abl_natDegree_eq_ggMultOrd {p nf N : ℕ} {K : Type} [Field 
     (xhat : ↥(LargeEvenSLGroup (Fin N) K)) (hxp : xhat ^ p = 1)
     {h : K[X]} (hh : h ∈ primaryFactors (ggK1A_glEnd xhat.1)) (hne : h ≠ X - 1) :
     h.natDegree = ggMultOrd p nf := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hirr : Irreducible h := irreducible_of_mem_primaryFactors hh
   have hmon : h.Monic := monic_of_mem_primaryFactors hh
   have hdvdh : h ∣ X ^ p - 1 := by
@@ -676,7 +675,7 @@ private theorem ggK1Abl_natDegree_eq_ggMultOrd {p nf N : ℕ} {K : Type} [Field 
 private theorem ggK1Abl_primaryMultiplicity_X_sub_C {K V : Type} [Field K] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] (x : Module.End K V) (μ : K) :
     primaryMultiplicity x (X - C μ) = Module.finrank K (primaryComponent x (X - C μ)) := by
-  haveI : Fact (Irreducible (X - C μ : K[X])) := ⟨irreducible_X_sub_C μ⟩
+  have : Fact (Irreducible (X - C μ : K[X])) := ⟨irreducible_X_sub_C μ⟩
   have h := finrank_primaryComponent x (X - C μ)
   rw [natDegree_X_sub_C, one_mul] at h
   exact h.symm
@@ -686,7 +685,7 @@ private theorem ggK1Abl_X_sub_one_not_mem_mult {N : ℕ} {K : Type} [Field K] [F
     (hsq : Squarefree (minpoly K (ggK1A_glEnd xhat.1)))
     (hmem : (X - 1) ∉ primaryFactors (ggK1A_glEnd xhat.1)) :
     primaryMultiplicity (ggK1A_glEnd xhat.1) (X - 1) = 0 := by
-  haveI : Fact (Irreducible (X - 1 : K[X])) :=
+  have : Fact (Irreducible (X - 1 : K[X])) :=
     ⟨show Irreducible (X - 1 : K[X]) from irreducible_X_sub_C (1 : K)⟩
   have hcop : IsCoprime (X - 1 : K[X]) (minpoly K (ggK1A_glEnd xhat.1)) := by
     rw [← prod_primaryFactors hsq]
@@ -716,7 +715,7 @@ private theorem ggK1Abl_X_sub_one_not_mem_mult {N : ℕ} {K : Type} [Field K] [F
     change LinearMap.ker (aeval (ggK1A_glEnd xhat.1) (X - 1 : K[X])) = ⊥
     rw [LinearMap.ker_eq_bot]
     exact hinj
-  haveI : Subsingleton ↥(primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) :=
+  have : Subsingleton ↥(primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) :=
     ⟨fun a b => Subtype.ext (by
       have ha : (a : Fin N → K) = 0 := by
         simpa using (show (a : Fin N → K) ∈ (⊥ : Submodule K (Fin N → K)) from hker ▸ a.2)
@@ -730,11 +729,11 @@ private theorem ggK1Abl_X_sub_one_mem_iff {N : ℕ} {K : Type} [Field K] [Finite
     (hsq : Squarefree (minpoly K (ggK1A_glEnd xhat.1))) :
     (X - 1 : K[X]) ∈ primaryFactors (ggK1A_glEnd xhat.1) ↔
       0 < primaryMultiplicity (ggK1A_glEnd xhat.1) (X - 1) := by
-  haveI : Fact (Irreducible (X - 1 : K[X])) :=
+  have : Fact (Irreducible (X - 1 : K[X])) :=
     ⟨show Irreducible (X - 1 : K[X]) from irreducible_X_sub_C (1 : K)⟩
   constructor
   · intro hmem
-    haveI : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) :=
+    have : Nontrivial (primaryComponent (ggK1A_glEnd xhat.1) (X - 1)) :=
       Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hmem)
     exact Module.finrank_pos
   · intro hpos
@@ -770,7 +769,7 @@ private theorem ggK1Abl_expected_trivial {p nf : ℕ} {m : List ℕ} (hd : ggMul
     intro k _
     simp [Nat.pos_iff_ne_zero]
   unfold ggK1ACo_expectedKinds ggK1ACo_expectedKindList
-  simp only [hd, if_true, if_false, Bool.false_eq_true, false_and, true_and, or_false]
+  simp only [hd, ite_true, ite_false, Bool.false_eq_true, false_and, true_and, or_false]
   rw [hlist]
 
 private noncomputable def ggK1Abl_blockDet {N : ℕ} {K : Type} [Field K]
@@ -873,14 +872,14 @@ private theorem ggK1Abl_range_filter_sl (m : List ℕ) (e : ℕ) :
       (fun x => ggK1ACo_Kind.sl x 2) := by
   rw [List.range_succ_eq_map, List.filter_cons]
   have h0 : ¬ (((fun j => decide (1 ≤ j ∧ 0 < m.getD j 0)) 0) = true) := by simp
-  rw [if_neg h0]
+  rw [ite_eq_right h0]
   rw [ggK1CBl_map_filter_eq]
   conv_rhs => rw [ggK1CBl_map_filter_eq]
   rw [List.map_map, List.map_map]
   congr 1
   apply List.filter_congr
   intro k _
-  simp only [Function.comp_apply, Nat.succ_eq_add_one]
+  simp only [Nat.succ_eq_add_one]
   rw [decide_eq_decide]
   omega
 
@@ -898,24 +897,24 @@ private theorem ggK1Abl_expected_nontrivial {p nf : ℕ} {m : List ℕ}
         (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0))).map
           (fun j => ggK1ACo_Kind.sl (m.getD j 0) 2) := by
     unfold ggK1ACo_expectedKindList
-    rw [if_neg (by rw [hd]; decide)]
-    simp only [Bool.false_eq_true, if_false]
+    rw [ite_eq_right (by rw [hd]; decide)]
+    simp only [Bool.false_eq_true, ite_false]
   rw [ggK1ACo_expectedKinds, hlist, ← Multiset.coe_add]
   congr 1
   by_cases h0 : 0 < m.headD 0
-  · rw [if_pos h0, if_pos h0]; rfl
-  · rw [if_neg h0, if_neg h0]; rfl
+  · rw [ite_eq_left h0, ite_eq_left h0]; rfl
+  · rw [ite_eq_right h0, ite_eq_right h0]; rfl
 
 private theorem ggK1Abl_multOrd_eq_one_or_two {p nf : ℕ}
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) :
     ggMultOrd p nf = 1 ∨ ggMultOrd p nf = 2 := by
   unfold ggMultOrd
   by_cases h1 : p ∣ 2 ^ nf - 1
-  · left; rw [if_pos h1]
-  · right; rw [if_neg h1]
+  · left; rw [ite_eq_left h1]
+  · right; rw [ite_eq_right h1]
     rcases hdvd with h | h
     · exact absurd h h1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
 
 private theorem ggK1Abl_kind_multiset_d1 {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
@@ -973,7 +972,7 @@ private theorem ggK1Abl_kind_multiset_d1 {p nf N : ℕ} {K : Type} [Field K] [Fi
         if 0 < m.getD 0 0 then {m.getD 0 0} else 0 := by
       by_cases hX : (X - 1 : K[X]) ∈ primaryFactors (ggK1A_glEnd xhat.1)
       · have hpos : 0 < m.getD 0 0 := hmemX.mp hX
-        rw [if_pos hpos]
+        rw [ite_eq_left hpos]
         have hsing :
             (primaryFactors (ggK1A_glEnd xhat.1)).filter (fun h => h = X - 1) = {X - 1} := by
           refine Finset.eq_singleton_iff_unique_mem.mpr ⟨?_, ?_⟩
@@ -985,7 +984,7 @@ private theorem ggK1Abl_kind_multiset_d1 {p nf N : ℕ} {K : Type} [Field K] [Fi
           ggK1Abl_primaryMultiplicity_X_sub_one xhat]
         exact congrArg (fun x => ({x} : Multiset ℕ)) hhead.symm
       · have hneg : ¬ 0 < m.getD 0 0 := fun h => hX (hmemX.mpr h)
-        rw [if_neg hneg]
+        rw [ite_eq_right hneg]
         have hempty : (primaryFactors (ggK1A_glEnd xhat.1)).filter (fun h => h = X - 1) = ∅ := by
           rw [Finset.filter_eq_empty_iff]
           intro h hh heq
@@ -998,10 +997,10 @@ private theorem ggK1Abl_kind_multiset_d1 {p nf N : ℕ} {K : Type} [Field K] [Fi
     rw [hsplit, Multiset.map_add, hX1, hSDF]
     rw [ggK1Abl_filter_cons m]
     by_cases h0 : m.getD 0 0 = 0
-    · rw [if_neg (by omega : ¬ 0 < m.getD 0 0),
-        if_neg (by omega : ¬ m.getD 0 0 ≠ 0)]
-    · rw [if_pos (by omega : 0 < m.getD 0 0),
-        if_pos (by omega : m.getD 0 0 ≠ 0)]
+    · rw [ite_eq_right (by omega : ¬ 0 < m.getD 0 0),
+        ite_eq_right (by omega : ¬ m.getD 0 0 ≠ 0)]
+    · rw [ite_eq_left (by omega : 0 < m.getD 0 0),
+        ite_eq_left (by omega : m.getD 0 0 ≠ 0)]
   rw [hpmult]
   rw [Multiset.map_coe]
 
@@ -1063,7 +1062,7 @@ private theorem ggK1Abl_kind_multiset_d2 {p nf N : ℕ} {K : Type} [Field K] [Fi
         else 0 := by
     by_cases hX : (X - 1 : K[X]) ∈ pf
     · have hpos : 0 < m.getD 0 0 := hmemX.mp hX
-      rw [if_pos hpos]
+      rw [ite_eq_left hpos]
       have hsing : pf.filter (fun h => h = X - 1) = {X - 1} := by
         refine Finset.eq_singleton_iff_unique_mem.mpr ⟨?_, ?_⟩
         · rw [Finset.mem_filter]; exact ⟨hX, rfl⟩
@@ -1074,7 +1073,7 @@ private theorem ggK1Abl_kind_multiset_d2 {p nf N : ℕ} {K : Type} [Field K] [Fi
         ggK1Abl_primaryMultiplicity_X_sub_one xhat]
       exact congrArg (fun x => ggK1ACo_Kind.sl x 1) hhead.symm
     · have hneg : ¬ 0 < m.getD 0 0 := fun h => hX (hmemX.mpr h)
-      rw [if_neg hneg]
+      rw [ite_eq_right hneg]
       have hempty : pf.filter (fun h => h = X - 1) = ∅ := by
         rw [Finset.filter_eq_empty_iff]
         intro h hh heq; exact hX (heq ▸ hh)
@@ -1175,16 +1174,16 @@ private theorem ggK1Abl_component_eq_A {N : ℕ} {K : Type} [Field K] [Finite K]
       intro hg
       exact hq ((ggK1Abl_linearSpecialBlock_isQuasisimple_iff xhat hsq b₀.2).mpr hg)
     have hsolv : Group.IsSolvable ↥(linearSpecialBlock (ggK1Abl_x xhat) b₀) := by
-      haveI : Fact (Irreducible (b₀ : K[X])) := ⟨irreducible_of_mem_primaryFactors b₀.2⟩
+      have : Fact (Irreducible (b₀ : K[X])) := ⟨irreducible_of_mem_primaryFactors b₀.2⟩
       have hm : 1 ≤ primaryMultiplicity ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K
           (Fin N → K)) : Module.End K (Fin N → K)) (b₀ : K[X]) := by
-        haveI : Nontrivial (primaryComponent ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K
+        have : Nontrivial (primaryComponent ((ggK1Abl_x xhat : LinearMap.GeneralLinearGroup K
             (Fin N → K)) : Module.End K (Fin N → K)) (b₀ : K[X])) :=
           Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq b₀.2)
         exact Module.finrank_pos
       have hsolvSL := ggK1Abl_SL_solvable_of_not_good (E := AdjoinRoot (b₀ : K[X])) hm
         (by simpa only [ggK1Abl_good, ggK1Abl_x_coe] using hnotgood)
-      haveI := hsolvSL
+      have := hsolvSL
       exact Group.isSolvable_of_surjective
         (f := (ggK1Abl_blockEquiv xhat hsq b₀.2).symm.toMonoidHom)
         (by simpa using (ggK1Abl_blockEquiv xhat hsq b₀.2).symm.surjective)
@@ -1208,7 +1207,7 @@ private theorem ggK1Abl_component_eq_A {N : ℕ} {K : Type} [Field K] [Finite K]
     have hFq_open : CFSG.Open.IsQuasisimple ↥(linearSpecialBlock (ggK1Abl_x xhat) b₀) :=
       (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_open _).mp
         ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mpr hFq)
-    haveI : Group.IsPerfect ↥(J'.subgroupOf (linearSpecialBlock (ggK1Abl_x xhat) b₀)) := hqF.1
+    have : Group.IsPerfect ↥(J'.subgroupOf (linearSpecialBlock (ggK1Abl_x xhat) b₀)) := hqF.1
     rcases Quasisimple.perfect_subnormal_eq_bot_or_eq_top hFq_open
       (J'.subgroupOf (linearSpecialBlock (ggK1Abl_x xhat) b₀))
       (CFSG.Open.IsSubnormal.of_mathlib hsub) with hbot | htop
@@ -1216,7 +1215,7 @@ private theorem ggK1Abl_component_eq_A {N : ℕ} {K : Type} [Field K] [Finite K]
       have hbot' : J' = ⊥ := by
         have hmap := congrArg (Subgroup.map (linearSpecialBlock (ggK1Abl_x xhat) b₀).subtype) hbot
         simpa [Subgroup.map_subgroupOf_eq_of_le hJ'F, Subgroup.map_bot] using hmap
-      haveI : Nontrivial ↥J' := CFSG.LocalCores.isQuasisimple_nontrivial
+      have : Nontrivial ↥J' := CFSG.LocalCores.isQuasisimple_nontrivial
         ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥J').mp hJ'q)
       have hsub' : Subsingleton ↥J' := by rw [hbot']; infer_instance
       exact (not_subsingleton_iff_nontrivial.mpr inferInstance) hsub'

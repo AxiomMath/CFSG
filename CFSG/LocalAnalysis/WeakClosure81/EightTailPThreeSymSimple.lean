@@ -16,12 +16,12 @@ open CFSG.Open CFSG.Quasithin Subgroup
 theorem isSimpleGroup_of_isSpGp {L : Type} [Group L] {m n : ℕ} (h : IsSpGp L m n) (hm : 2 ≤ m)
     (hn : 2 ≤ n ∨ 6 ≤ m) : IsSimpleGroup L := by
   obtain ⟨k, hmk, F, hFld, hFin, hFcard, ⟨e⟩⟩ := h
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
     (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   have hk : 1 ≤ k := by omega
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   have hn1 : 1 ≤ n := by
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     rw [hFcard] at h1
@@ -64,7 +64,7 @@ theorem false_of_isSimpleGroup_center_quot_symGp {Y : Type} [Group Y] [Finite Y]
   let Z := Subgroup.center Y
   let O := fusionOddCore Y
   have hZO : Z ≤ O := CFSG.EvenSporadicStandard.Fin76b.le_fusionOddCore hodd
-  haveI : (O.map (QuotientGroup.mk' Z)).Normal :=
+  have : (O.map (QuotientGroup.mk' Z)).Normal :=
     Subgroup.Normal.map inferInstance (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.map (QuotientGroup.mk' Z)) with hbot | htop
   · have hOZ : O ≤ Z := by
@@ -72,8 +72,8 @@ theorem false_of_isSimpleGroup_center_quot_symGp {Y : Type} [Group Y] [Finite Y]
       rwa [QuotientGroup.ker_mk'] at h'
     have hOeqZ : O = Z := le_antisymm hOZ hZO
     obtain ⟨e⟩ := h
-    haveI : IsSimpleGroup (Y ⧸ Z) := hsimple
-    haveI : IsSimpleGroup (Y ⧸ O) :=
+    have : IsSimpleGroup (Y ⧸ Z) := hsimple
+    have : IsSimpleGroup (Y ⧸ O) :=
       (QuotientGroup.quotientMulEquivOfEq hOeqZ).isSimpleGroup
     exact CFSG.ComponentClassification.Sol78.not_isSimpleGroup_perm_fin (by omega)
       (e.symm.isSimpleGroup)
@@ -83,9 +83,9 @@ theorem false_of_isSimpleGroup_center_quot_symGp {Y : Type} [Group Y] [Finite Y]
       rw [QuotientGroup.comap_map_mk'] at h1
       rwa [sup_eq_right.mpr hZO] at h1
     obtain ⟨e⟩ := h
-    haveI : Subsingleton (Y ⧸ O) := by
+    have : Subsingleton (Y ⧸ O) := by
       rw [hOtop]; exact QuotientGroup.subsingleton_quotient_top
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hsub : Subsingleton (Equiv.Perm (Fin m)) := e.toEquiv.symm.subsingleton
     exact not_subsingleton_iff_nontrivial.mpr inferInstance hsub
 

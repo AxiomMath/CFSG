@@ -26,14 +26,14 @@ abbrev SL33 : Type := Matrix.SpecialLinearGroup (Fin 3) (ZMod 3)
   !![1, x, z; 0, 1, y; 0, 0, 1]
 
 theorem det_uniM (x y z : ZMod 3) : (uniM x y z).det = 1 := by
-  rw [uniM, Matrix.det_fin_three]; simp <;> decide
+  rw [uniM, Matrix.det_fin_three]; simp
 
 @[expose] def uni (x y z : ZMod 3) : SL33 := ⟨uniM x y z, det_uniM x y z⟩
 
 theorem uniM_mul (x y z x' y' z' : ZMod 3) :
     uniM x y z * uniM x' y' z' = uniM (x + x') (y + y') (z + z' + x * y') := by
   simp only [uniM, Matrix.mul_fin_three]
-  congr 1 <;> ring_nf
+  congr 1; ring_nf
 
 theorem uni_mul (x y z x' y' z' : ZMod 3) :
     uni x y z * uni x' y' z' = uni (x + x') (y + y') (z + z' + x * y') :=
@@ -94,7 +94,7 @@ theorem card_unitri : Nat.card unitri = 27 := by
     obtain ⟨h1, h2, h3⟩ := uni_injective (congrArg Subtype.val h)
     exact Prod.ext h1 (Prod.ext h2 h3)
   rw [← Nat.card_congr (Equiv.ofBijective _ hbij)]
-  simp [Nat.card_prod, Nat.card_zmod]
+  simp
 
 theorem not_three_dvd_index_unitri : ¬ 3 ∣ unitri.index := by
   have h := unitri.card_mul_index
@@ -111,7 +111,7 @@ theorem det_wM : wM.det = 1 := by decide
 
 theorem wM_mul (z : ZMod 3) : wM * uniM 0 0 z = uniM z 0 0 * wM := by
   simp only [wM, uniM, Matrix.mul_fin_three]
-  congr 1 <;> first | rfl | ring | (ring_nf; done) | simp
+  congr 1; ring
 
 theorem wmat_conj (z : ZMod 3) : wmat * uni 0 0 z * wmat⁻¹ = uni z 0 0 := by
   rw [mul_inv_eq_iff_eq_mul]
@@ -120,7 +120,7 @@ theorem wmat_conj (z : ZMod 3) : wmat * uni 0 0 z * wmat⁻¹ = uni z 0 0 := by
 theorem nonempty_equiv_sl33 {K : Type} [Group K] (d : TauCeti.ValidLieTypeIndex)
     (hd : ∃ q : TauCeti.PrimePower, q.p = 3 ∧ q.exponent = 1 ∧ d.1 = .A 2 q)
     (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) : Nonempty (K ≃* SL33) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d1, hv⟩ := d
   obtain ⟨q, hqp, hqe, hd1⟩ := hd
   simp only at hd1

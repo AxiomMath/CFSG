@@ -80,9 +80,9 @@ private theorem false_of_commute {S : Type*} [Group S]
 
 theorem res3NoDatumU43_holds : Res3NoDatumU43 := by
   rintro J _ _ _ hq ⟨e⟩ c g V U hd
-  haveI : Group.IsPerfect J := hq.1
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hq.2.1
-  haveI : IsSimpleGroup (projSU 4 3 1) := e.symm.isSimpleGroup
+  have : Group.IsPerfect J := hq.1
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hq.2.1
+  have : IsSimpleGroup (projSU 4 3 1) := e.symm.isSimpleGroup
   obtain ⟨a, b, hab⟩ := hq.2.2
   have hinj : Function.Injective (MulAut.conj : projSU 4 3 1 →* MulAut (projSU 4 3 1)) :=
     injective_conj_of_simple (a := e a) (b := e b) fun h =>

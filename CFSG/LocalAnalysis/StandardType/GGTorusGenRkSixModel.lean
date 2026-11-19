@@ -17,7 +17,7 @@ private theorem ggS8a_eq_of_forall_inv_mul_mem_of_perfect {L' : Type} [Group L']
     (h : ∀ l, (φ₁ l)⁻¹ * φ₂ l ∈ Z) : φ₁ = φ₂ := by
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZ hy) g
-  letI : CommGroup Z :=
+  let : CommGroup Z :=
     { (inferInstance : Group Z) with mul_comm := fun x y => Subtype.ext (hcen y y.2 x) }
   let f : L' →* Z :=
     { toFun := fun l => ⟨(φ₁ l)⁻¹ * φ₂ l, h l⟩
@@ -70,7 +70,7 @@ private theorem ggS8a_map_Z_eq {L' : Type} [Group L'] (Z : Subgroup L')
 
 theorem exists_model_quotient_six_one
     {p : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ 1) ^ 2)
-    (hp : p.Prime) (hpq : p ∣ 2 ^ 1 + 1) (hpd : p ∣ 6)
+    (hp : p.Prime) (hpq : p ∣ 2 ^ 1 + 1) (_hpd : p ∣ 6)
     {M : Type} [Group M] [Finite M] {L' E : Subgroup M}
     {θ : L' ⧸ Subgroup.center L' ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))}
     {hE : E ≤ Subgroup.normalizer (L' : Set M)}

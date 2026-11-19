@@ -3,7 +3,7 @@ module
 public import CFSG.ClassicalInvolution.LBalance.Glauberman.PartBCore
 public import CFSG.ClassicalInvolution.LBalance.Glauberman.OddActionLemma
 public import CFSG.FeitThompson.OddOrderTheorem
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -50,7 +50,7 @@ theorem mem_sylow_of_mem_normalizer_of_orderOf (P : Sylow 2 X) {a : X}
   set M : Subgroup X := Subgroup.normalizer ((P : Subgroup X) : Set X) with hM
   have hPM : IsSylowOf 2 (P : Subgroup X) M := by
     rw [isSylowOf_iff]
-    refine ⟨Subgroup.le_normalizer, P.isPGroup', fun hd => P.not_dvd_index ?_⟩
+    refine ⟨Subgroup.le_normalizer, P.isPGroup, fun hd => P.not_dvd_index ?_⟩
     exact hd.trans (Subgroup.relIndex_dvd_index_of_le Subgroup.le_normalizer)
   have hZp : IsPGroup 2 (Subgroup.zpowers a) :=
     IsPGroup.iff_card.2 ⟨k, by rw [Nat.card_zpowers, hk]⟩
@@ -75,7 +75,7 @@ theorem sylow_comm (hG : ∀ N : Subgroup G, N.Normal → Odd (Nat.card N) → N
   have hfix : ∀ α ∈ A₀, ∀ s ∈ S, α s = s := by
     rintro _ ⟨p, -, rfl⟩ s hs
     exact mem_sylowFixingAut.1 p.2 s hs
-  have hAp : IsPGroup 2 A₀ := P.isPGroup'.map (sylowFixingAut S).subtype
+  have hAp : IsPGroup 2 A₀ := P.isPGroup.map (sylowFixingAut S).subtype
   intro x y
   have h0 := isMulCommutative_of_isPGroup_two hG hSp hSi hfix hAp ⟨x.1.1, ⟨x.1, x.2, rfl⟩⟩
     ⟨y.1.1, ⟨y.1, y.2, rfl⟩⟩
@@ -97,7 +97,7 @@ theorem odd_mem_centralizer (hG : ∀ N : Subgroup G, N.Normal → Odd (Nat.card
     rintro _ ⟨p, hp, rfl⟩ _ ⟨q, hq, rfl⟩
     show (p : MulAut G) * (q : MulAut G) = (q : MulAut G) * (p : MulAut G)
     exact congrArg (fun t : P => ((t : sylowFixingAut S) : MulAut G)) (hcomm ⟨p, hp⟩ ⟨q, hq⟩)
-  have hp0 : IsPGroup 2 A₀ := P.isPGroup'.map (sylowFixingAut S).subtype
+  have hp0 : IsPGroup 2 A₀ := P.isPGroup.map (sylowFixingAut S).subtype
   set x : MulAut G := (b : MulAut G) with hx
   have hxA : ∀ a ∈ A₀, x * a * x⁻¹ ∈ A₀ := by
     rintro _ ⟨p, hp, rfl⟩
@@ -162,7 +162,7 @@ theorem exists_normal_two_complement
   · exact Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 (MonoidHom.not_dvd_card_ker_transferSylow P hP))
   · have hcompl := MonoidHom.ker_transferSylow_isComplement' P hP
     have h1 : (MonoidHom.transferSylow P hP).ker.index = Nat.card P := hcompl.symm.index_eq_card
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup
     exact IsPGroup.iff_card.2 ⟨k, by rw [← Subgroup.index_eq_card, h1]; exact hk⟩
 
 theorem isSolvable_sylowFixingAut

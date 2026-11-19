@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 theorem exists_mul_of_relIndex_dvd [Finite G] {Y D E : Subgroup G} (hEY : E ≤ Y)
     (hD : ∀ y ∈ Y, ∀ d ∈ D, y * d * y⁻¹ ∈ D) (hdvd : D.relIndex Y ∣ 8)
     (hE : 8 ≤ D.relIndex E) : ∀ y ∈ Y, ∃ e ∈ E, y * e⁻¹ ∈ D := by
-  haveI hDnorm : (D.subgroupOf Y).Normal :=
+  have hDnorm : (D.subgroupOf Y).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hD (g : G) g.2 (n : G) hn⟩

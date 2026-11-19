@@ -62,7 +62,7 @@ theorem not_exists_normal_two_three_of_mulEquiv_perm {X : Type} [Group X] [Finit
     alternatingGroup_le_of_normal_perm (Or.inr hk) hNnorm hNne
   have h5Nn : 5 ∣ Nat.card Nn := by
     have h5A : 5 ∣ Nat.card (alternatingGroup (Fin k)) := by
-      haveI : Nontrivial (Fin k) :=
+      have : Nontrivial (Fin k) :=
         Fintype.one_lt_card_iff_nontrivial.mp (by rw [Fintype.card_fin]; omega)
       rw [nat_card_alternatingGroup, Nat.card_fin]
       exact five_dvd_factorial_div_two hk
@@ -77,8 +77,8 @@ theorem not_exists_normal_two_three_of_isSimpleGroup {X : Type} [Group X] [Finit
     ¬ ∃ Nn : Subgroup X, Nn ≤ Y ∧ (Nn.subgroupOf Y).Normal ∧ 3 ∣ Nat.card Nn ∧
       ∀ q : ℕ, q.Prime → q ∣ Nat.card Nn → q = 2 ∨ q = 3 := by
   rintro ⟨Nn, hNnY, hNorm, h3dvd, hprime⟩
-  haveI : IsSimpleGroup ↥Y := hY
-  haveI : (Nn.subgroupOf Y).Normal := hNorm
+  have : IsSimpleGroup ↥Y := hY
+  have : (Nn.subgroupOf Y).Normal := hNorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Nn.subgroupOf Y) with hbot | htop
   · have h1 : Nat.card (Nn.subgroupOf Y) = 1 := by rw [hbot]; simp
     have hcard : Nat.card (Nn.subgroupOf Y) = Nat.card Nn :=

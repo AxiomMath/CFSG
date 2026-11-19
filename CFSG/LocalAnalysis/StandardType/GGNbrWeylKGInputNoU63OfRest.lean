@@ -18,7 +18,7 @@ namespace CFSG.StandardType
 theorem ggNbrKGE6ThreeDvd_holds
     : GGNbrKGE6ThreeDvd := by
   intro K _ _ _ h3
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   have hKf : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]
   rw [hKf] at h3
@@ -46,7 +46,7 @@ theorem ggNbrKGTwE6ThreeDvd_of_scWeylIrred
 theorem ggNbrKGTwE6AddLarge_holds
     : GGNbrKGTwE6AddLarge := by
   intro K _ _ n p hn hK hp hp5 hpn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact ggTorusNoLineComp_of_ggTorusNoLine (ggTorusNoLine_of_noInvariantLineSCr hp
     (TwE6TB.ggNoInvariantLineSCr_of_irredSCr hp (TwE6TB.ggTorusIrredSCr_of_modelSCr hp5
       (ggTwE6TorusModelInput_holds K n p hn hK hp hpn hp5))))
@@ -57,7 +57,7 @@ theorem ggNbrKGE7SmallAdd_of_scWeylIrred
   intro p hp35 K _ _ _ hpq
   have hp : p.Prime := by rcases hp35 with rfl | rfl <;> norm_num
   have hp2 : p ≠ 2 := by omega
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   have hKf : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]
   exact ggTorusNoLineComp_of_ggTorusNoLine

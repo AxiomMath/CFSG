@@ -30,6 +30,7 @@ theorem graph_mul (H : Subgroup M) (π : H →* R) (act : S → M → M)
     rw [(hrel _ _ _).1 hh', hactmul])
   rw [MulAut.mul_apply, e1, e2, e3]
 
+omit [Group S] in
 theorem graph_unique (H : Subgroup M) (π : H →* R) (hπ : Function.Surjective π) (act : S → M → M)
     (hstab : ∀ a (h : H), act a h ∈ H) (rel : S → H → H → Prop)
     (hrel : ∀ a h h', rel a h h' ↔ (h' : M) = act a h) {a : S} {f g : MulAut R}
@@ -94,8 +95,8 @@ theorem matField_cyclic {ι K R : Type} [Fintype ι] [DecidableEq ι] [Field K] 
     (hH : ∀ σ : K ≃+* K, ∀ h ∈ H, Matrix.GeneralLinearGroup.map σ.toRingHom h ∈ H)
     (π : H →* R) (hπ : Function.Surjective π) :
     ∃ f₀ : MulAut R, ∀ f ∈ LargeEvenMatFieldImage π, f ∈ Subgroup.zpowers f₀ := by
-  haveI := isCyclic_ringEquiv K
-  haveI := finite_ringEquiv K
+  have := isCyclic_ringEquiv K
+  have := finite_ringEquiv K
   obtain ⟨f₀, hf₀⟩ := graph_cyclic (S := K ≃+* K) H π hπ
     (fun τ g => Matrix.GeneralLinearGroup.map τ.toRingHom g) glMap_one glMap_mul
     (fun τ h => hH τ h h.2)
@@ -107,8 +108,8 @@ theorem chevField_cyclic {r : ℕ} (A : Matrix (Fin r) (Fin r) ℤ) (K : Type) [
     (H : Subgroup (LargeEvenChevGL A K)) (hH : ∀ σ : K ≃+* K, ∀ h ∈ H, chevAct A K σ h ∈ H) :
     ∃ f₀ : MulAut (LargeEvenCenterQuot H), ∀ f ∈ LargeEvenChevFieldImage A K H,
       f ∈ Subgroup.zpowers f₀ := by
-  haveI := isCyclic_ringEquiv K
-  haveI := finite_ringEquiv K
+  have := isCyclic_ringEquiv K
+  have := finite_ringEquiv K
   obtain ⟨f₀, hf₀⟩ := graph_cyclic (S := K ≃+* K) H (LargeEvenCenterMk H)
     (QuotientGroup.mk'_surjective _) (fun τ g => chevAct A K τ g) (chevAct_one A K)
     (fun a b x => chevAct_mul A K a b x) (fun τ h => hH τ h h.2)
@@ -183,7 +184,7 @@ theorem recOmegaMinus_cyc {n j : ℕ} (hn4 : 4 ≤ n) (Q : LargeEvenRawCont)
     (h : LargeEvenRecipeOmegaMinus (n - 1) (2 ^ j) Q) :
     LargeEvenRecipeOmegaMinus (n - 1) (2 ^ j) (CycCont Q) := by
   obtain ⟨K, hF, hfin, hK, b, c, hirr, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK
+  have : CharP K 2 := charP_two_of_card_two_pow hK
   exact ⟨K, hF, hfin, hK, b, c, hirr, ⟨hQ, phiQ_cyclic hn4 hirr⟩⟩
 
 theorem recChevalley_cyc {r : ℕ} (A : Matrix (Fin r) (Fin r) ℤ) {q : ℕ} (derived : Bool)

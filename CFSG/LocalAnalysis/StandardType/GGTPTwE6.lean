@@ -35,7 +35,7 @@ private theorem ggTP_card_twA {n : ℕ} {R : Type} [Group R]
     push Not at h
     have hn0 : n = 0 := by omega
     have h2 : 2 ≤ Nat.card K := by
-      haveI : Nontrivial K := inferInstance
+      have : Nontrivial K := inferInstance
       have := Finite.one_lt_card (α := K)
       omega
     rw [hn0] at hK
@@ -63,7 +63,7 @@ private theorem ggTP_card_twE6
     push Not at h
     have hn0 : n = 0 := by omega
     have h2 : 2 ≤ Nat.card K := by
-      haveI : Nontrivial K := inferInstance
+      have : Nontrivial K := inferInstance
       have := Finite.one_lt_card (α := K)
       omega
     rw [hn0] at hK
@@ -81,7 +81,7 @@ private theorem ggTP_card_centerQuot_le {G : Type} [Group G] [Finite G] {J K' : 
     Nat.card (↥J ⧸ Subgroup.center ↥J) ≤ Nat.card (↥K' ⧸ Subgroup.center ↥K') := by
   let ZK : Subgroup ↥K' := Subgroup.center ↥K'
   let A : Subgroup ↥J := ZK.comap (Subgroup.inclusion hJK)
-  haveI hAn : A.Normal := Subgroup.Normal.comap (inferInstance : ZK.Normal) (Subgroup.inclusion hJK)
+  have hAn : A.Normal := Subgroup.Normal.comap (inferInstance : ZK.Normal) (Subgroup.inclusion hJK)
   have hAZ : A ≤ Subgroup.center ↥J := by
     intro x hx
     rw [Subgroup.mem_center_iff]
@@ -91,7 +91,7 @@ private theorem ggTP_card_centerQuot_le {G : Type} [Group G] [Finite G] {J K' : 
     rw [Subgroup.mem_center_iff] at hx'
     simpa only [Subgroup.coe_mul, Subgroup.coe_inclusion] using
       congrArg (Subtype.val : ↥K' → G) (hx' (Subgroup.inclusion hJK y))
-  haveI : Finite (↥J ⧸ A) :=
+  have : Finite (↥J ⧸ A) :=
     Finite.of_surjective (QuotientGroup.mk : ↥J → ↥J ⧸ A) QuotientGroup.mk_surjective
   have h1 : Nat.card (↥J ⧸ Subgroup.center ↥J) ≤ Nat.card (↥J ⧸ A) := by
     refine Nat.card_le_card_of_surjective
@@ -103,7 +103,7 @@ private theorem ggTP_card_centerQuot_le {G : Type} [Group G] [Finite G] {J K' : 
   have hφker : φ.ker = A := by
     rw [show φ = (QuotientGroup.mk' ZK).comp (Subgroup.inclusion hJK) from rfl,
       ← MonoidHom.comap_ker, QuotientGroup.ker_mk']
-  haveI : Finite (↥K' ⧸ ZK) :=
+  have : Finite (↥K' ⧸ ZK) :=
     Finite.of_surjective (QuotientGroup.mk : ↥K' → ↥K' ⧸ ZK) QuotientGroup.mk_surjective
   have h2 : Nat.card (↥J ⧸ A) ≤ Nat.card (↥K' ⧸ ZK) := by
     rw [← hφker]

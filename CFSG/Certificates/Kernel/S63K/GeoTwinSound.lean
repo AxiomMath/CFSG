@@ -74,10 +74,10 @@ theorem hexActS_of (hP : ∀ i, pts[i]! = P i)
   unfold hexActS
   unfold actSOKF at h
   by_cases hx : x < 819
-  · rw [if_pos hx] at h ⊢
+  · rw [ite_eq_left hx] at h ⊢
     rw [hg]
     exact beq_iff_eq.1 h
-  · rw [if_neg hx] at h ⊢
+  · rw [ite_eq_right hx] at h ⊢
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at h
     obtain ⟨⟨h1, h2⟩, h3⟩ := h
     have hinj' : ∀ a < 2457, ∀ b < 2457, lineKey pts a = lineKey pts b → a = b := by

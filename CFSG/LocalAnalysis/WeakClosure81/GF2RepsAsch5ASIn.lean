@@ -26,7 +26,7 @@ private theorem conjSub_ne_bot_of_ne_bot {G : Type} [Group G] {A : Subgroup G} (
 
 theorem inE_of_inEP {G : Type} [Group G] [Finite G] {j : ℕ} {H : Subgroup G}
     (h : CFSG.LocalAnalysis.UniquenessCase.UC22.F12.InEP j H) : E1.InE j H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro T hT Ω hΩ
   have hT' : CFSG.ABGLocalTools.IsSylowOf 2 T H := CFSG.ABGLocalTools.isSylowOf_iff.mpr hT
   by_cases hex : ∃ A ∈ Ω, A ≠ ⊥

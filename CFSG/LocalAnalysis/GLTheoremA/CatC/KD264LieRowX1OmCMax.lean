@@ -28,7 +28,7 @@ theorem exists_minusPair (Q : QuadraticForm (ZMod 2) X)
     have : ∀ x : X, x = 0 := fun x => hnd1 x (fun y => by
       rw [polar_eq Q, hQ0, hQ0, hQ0]; simp)
     have h1 : finrank (ZMod 2) X = 0 := by
-      haveI : Subsingleton X := ⟨fun x y => by rw [this x, this y]⟩
+      have : Subsingleton X := ⟨fun x y => by rw [this x, this y]⟩
       exact finrank_zero_of_subsingleton
     omega
   have ha0 : a ≠ 0 := by
@@ -104,6 +104,7 @@ section MaxFrame
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem nondeg_polar (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) :
     ∀ x : V, (∀ y, polar Q x y = 0) → x = 0 := fun x hx =>
   hQ.1 x (fun y => by rw [QuadraticMap.polarBilin_apply_apply]; exact hx y)
@@ -119,6 +120,7 @@ theorem exists_frame_top (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
   rw [this]
   exact ht
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem IsFrame.perpL_nondeg (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : List (V × V)}
     (hl : IsFrame Q l) : ∀ x ∈ perpL Q l, (∀ y ∈ perpL Q l, polar Q x y = 0) → x = 0 := by
   intro x hx hxy

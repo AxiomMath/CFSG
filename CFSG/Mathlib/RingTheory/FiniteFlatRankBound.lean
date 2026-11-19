@@ -74,7 +74,7 @@ theorem exists_finrank_le_of_algHom (A : Type u) (P : Type v) [CommRing A] [IsDo
     exact ⟨fun h => hAV (by rw [map_zero]; exact h), fun h => by rw [h, map_zero]⟩
   have hψ : Function.Injective ψ := by
     rw [RingHom.injective_iff_ker_eq_bot]
-    exact Ideal.eq_bot_of_comap_eq_bot (R := A) (S := B) (I := RingHom.ker ψ) hcomap
+    exact Ideal.eq_bot_of_under_eq_bot (R := A) (S := B) (I := RingHom.ker ψ) hcomap
   exact finrank_le_finrank_of_injective_of_isFractionRing K ψ.toLinearMap hψ
 
 theorem finrank_tensorProduct_eq_finrank_of_flat

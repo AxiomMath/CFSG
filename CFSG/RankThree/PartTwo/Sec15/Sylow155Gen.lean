@@ -50,7 +50,7 @@ theorem mem_of_mul_pow_two {U U₀ : Subgroup G} (hUU₀ : U ≤ Subgroup.normal
   obtain ⟨m', hm'⟩ := hrc2
   obtain ⟨ρ, rfl⟩ : ∃ ρ : ↥U, (ρ : G) = r := ⟨⟨r, hr⟩, rfl⟩
   obtain ⟨γ, rfl⟩ : ∃ γ : ↥U, (γ : G) = c := ⟨⟨c, hc⟩, rfl⟩
-  haveI : (U₀.subgroupOf U).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hUU₀
+  have : (U₀.subgroupOf U).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hUU₀
   let π : ↥U →* ↥U ⧸ U₀.subgroupOf U := QuotientGroup.mk' (U₀.subgroupOf U)
   have hπ : ∀ x : ↥U, π x = 1 ↔ (x : G) ∈ U₀ := fun x =>
     (QuotientGroup.eq_one_iff x).trans Subgroup.mem_subgroupOf

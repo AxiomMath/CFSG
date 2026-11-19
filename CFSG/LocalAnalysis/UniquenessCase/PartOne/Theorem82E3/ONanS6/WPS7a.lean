@@ -61,7 +61,7 @@ theorem center_isPGroup_two_of_quasisimple_isKGroup {K : Type} [Group K] [Finite
   let O : Subgroup K := CFSG.Open.pCoreOf 2 (Subgroup.center K)
   have hOle : O ≤ Subgroup.center K := CFSG.ClassicalGroups.PCoreSection.pCoreOf_le 2 _
   have hOn : O.Normal := Subgroup.normal_of_le_center hOle
-  letI : O.Normal := hOn
+  let : O.Normal := hOn
   have hqN : CFSG.Open.IsQuasisimple (K ⧸ O) :=
     CFSG.GroupTheory.isQuasisimple_quotient_pCoreOf_center hq
   have hKN : CFSG.Open.IsKGroup (K ⧸ O) := CFSG.Open.IsKGroup.quotient hK O
@@ -102,7 +102,7 @@ theorem suzukiModel_centerQuotient_of_quasisimple_isKGroup {K : Type} [Group K] 
   let O : Subgroup K := CFSG.Open.pCoreOf 2 (Subgroup.center K)
   have hOle : O ≤ Subgroup.center K := CFSG.ClassicalGroups.PCoreSection.pCoreOf_le 2 _
   have hOn : O.Normal := Subgroup.normal_of_le_center hOle
-  letI : O.Normal := hOn
+  let : O.Normal := hOn
   have hqN : CFSG.Open.IsQuasisimple (K ⧸ O) :=
     CFSG.GroupTheory.isQuasisimple_quotient_pCoreOf_center hq
   have hKN : CFSG.Open.IsKGroup (K ⧸ O) := CFSG.Open.IsKGroup.quotient hK O
@@ -118,7 +118,7 @@ theorem suzukiModel_centerQuotient_of_quasisimple_isKGroup {K : Type} [Group K] 
   exact ⟨f, CFSG.CGT.Timmesfeld75.suzukiModel_of_mulEquiv e hf⟩
 
 theorem exists_borel_lift_of_suzuki_quotient {K : Type} [Group K] [Finite K]
-    (hq : CFSG.Open.IsQuasisimple K) (hZ2 : IsPGroup 2 (Subgroup.center K)) {f : ℕ}
+    (_hq : CFSG.Open.IsQuasisimple K) (hZ2 : IsPGroup 2 (Subgroup.center K)) {f : ℕ}
     (hSz : CFSG.Blueprint.SuzukiModel (K ⧸ Subgroup.center K) 2 f) :
     ∃ (T : Sylow 2 K) (y : K) (r : ℕ),
       r.Prime ∧ r ≠ 2 ∧ orderOf y = r ∧
@@ -140,7 +140,7 @@ theorem exists_borel_lift_of_suzuki_quotient {K : Type} [Group K] [Finite K]
     have h1 : 2 ^ 2 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
   obtain ⟨r, hrprime, hrdvd⟩ := Nat.exists_prime_and_dvd hDgt
-  haveI : Fact r.Prime := ⟨hrprime⟩
+  have : Fact r.Prime := ⟨hrprime⟩
   have hr2 : r ≠ 2 := by
     intro h2
     have hoddD : Odd (Nat.card D) := by

@@ -20,9 +20,9 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData (gnV gnC gnImg)
 variable {G : Type} [Group G] [Finite G]
 
 theorem CaseOneCtx.fitting_threeStar_eq_bot {M H E Q J R T : Subgroup G}
-    (c : CaseOneCtx G M H E Q J R T)
+    (_c : CaseOneCtx G M H E Q J R T)
     (h2 : CFSG.pCore 3 (threeStar M) = ⊥) : CFSG.fittingSubgroup (threeStar M) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.Fitting_eq_pcore (threeStar M) 3
     (CFSG.pPrimeCore_quotient_eq_bot Nat.prime_three)]
   exact h2
@@ -69,7 +69,7 @@ theorem CaseOneCtx.component_facts {M H E Q J R T : Subgroup G}
     (h2 : CFSG.pCore 3 (threeStar M) = ⊥) {K : Subgroup (threeStar M)}
     (hK : CFSG.IsComponent K) :
     IsSimpleGroup K ∧ (∃ a b : K, a * b ≠ b * a) ∧ 3 ∣ Nat.card K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfit := c.fitting_threeStar_eq_bot h2
   obtain ⟨hsimple, hnonab⟩ :=
     CFSG.RankThree.GF2n.Tim81.component_isSimple hfit hK
@@ -81,8 +81,8 @@ theorem CaseOneCtx.component_facts {M H E Q J R T : Subgroup G}
     CFSG.Quasithin.le_pPrimeCore_of_isSubnormal_of_coprime152 3 hK.2 hcop
   rw [CFSG.pPrimeCore_quotient_eq_bot Nat.prime_three] at hKle
   have hbot : K = ⊥ := le_bot_iff.mp hKle
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-  haveI : Subsingleton K := by rw [hbot]; infer_instance
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Subsingleton K := by rw [hbot]; infer_instance
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial K).exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
@@ -94,7 +94,7 @@ theorem CaseOneCtx.centerImg_le_of_normalizes
     (hQK : threeStarImg M Q ≤ Subgroup.normalizer (K : Set (threeStar M))) :
     threeStarImg M ((Subgroup.center ↥Q).map Q.subtype) ≤ K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQM : Q ≤ M := c.choice.Q_le_M c.nine
   obtain ⟨-, -, h3K⟩ := c.component_facts h2 hK
   have hQ3 : IsPGroup 3 ↥Q := c.choice.sylow.isPGroup
@@ -340,7 +340,7 @@ private theorem exists_elemAbelian_sup_two_zpowers {X : Type} [Group X] [Finite 
     ∃ B : Subgroup X, IsElemAbelian 3 B ∧ Nat.card ↥B = 9 ∧ z1 ∈ B ∧ z2 ∈ B ∧
       B = Subgroup.zpowers z1 ⊔ Subgroup.zpowers z2 ∧ B ≤ K1 ⊔ K2 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm12 : ∀ a ∈ K1, ∀ b ∈ K2, a * b = b * a :=
     (CFSG.RankThree.GF2n.Tim81.components_commute_inf hfit hK1 hK2 h12).1
   let B1 : Subgroup X := Subgroup.zpowers z1
@@ -381,7 +381,7 @@ private theorem exists_elemAbelian_sup_three_zpowers {X : Type} [Group X] [Finit
     ∃ B : Subgroup X, IsElemAbelian 3 B ∧ Nat.card ↥B = 27 ∧ z1 ∈ B ∧ z2 ∈ B ∧ z3 ∈ B ∧
       B = (Subgroup.zpowers z1 ⊔ Subgroup.zpowers z2) ⊔ Subgroup.zpowers z3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨B2, hB2ea, hB2card, hz1B2, hz2B2, hB2gen, hB2leK12⟩ :=
     exists_elemAbelian_sup_two_zpowers hfit hK1 hK2 h12 hz1K1 hz2K2 hz1ord hz2ord
   have hcomm13 : ∀ a ∈ K1, ∀ b ∈ K3, a * b = b * a :=
@@ -455,11 +455,11 @@ private theorem le_centralizer_of_sup_three_zpowers {X : Type} [Group X]
 
 private theorem le_of_exponent_three_of_rank_le_three {X : Type} [Group X] [Finite X]
     {B Nim : Subgroup X} (hB : IsElemAbelian 3 B) (hBcard : Nat.card ↥B = 27)
-    (hNim : IsPGroup 3 Nim) (hexp : ∀ y ∈ Nim, y ^ 3 = 1)
+    (_hNim : IsPGroup 3 Nim) (hexp : ∀ y ∈ Nim, y ^ 3 = 1)
     (hcent : ∀ z ∈ B, ∀ y ∈ Nim, z * y = y * z)
     (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 3) : Nim ≤ B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro y hy
   by_contra hyB
   have hyne : y ≠ 1 := by
@@ -485,7 +485,7 @@ private theorem threeStar_Q_data
       IsPGroup 3 ↥(threeStarImg M Q) ∧
       Nat.card ↥(threeStarImg M Q) = 3 ^ 5 ∧
       (∀ y ∈ threeStarImg M Q, y ^ 3 = 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQM : Q ≤ M := c.choice.Q_le_M c.nine
   have hQ3 : IsPGroup 3 ↥Q := c.choice.sylow.isPGroup
   have hQb3 : IsPGroup 3 ↥(threeStarImg M Q) := IsPGroup.map hQ3.comap_subtype _
@@ -515,7 +515,7 @@ private theorem exists_span_of_three_orbit_components {X : Type} [Group X] [Fini
     ∃ B : Subgroup X, IsElemAbelian 3 B ∧ Nat.card ↥B = 27 ∧
       ∀ z ∈ B, ∀ y ∈ Nim, z * y = y * z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K1, K2, K3, hK1o, hK2o, hK3o, h12, h13, h23⟩ :=
     exists_three_distinct_of_orbit_ncard_three horb
   have hcomp1 : CFSG.IsComponent K1 := isComponent_of_mem_orbit hsmul hK hK1o
@@ -551,15 +551,15 @@ theorem CaseOneCtx.threeStarImg_le_normalizer_component
     {K : Subgroup (threeStar M)} (hK : CFSG.IsComponent K) :
     threeStarImg M Q ≤ Subgroup.normalizer (K : Set (threeStar M)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X := threeStar M
   let Qb : Subgroup X := threeStarImg M Q
   obtain ⟨hfit, hQb3, hQbcard, hexpQb⟩ := threeStar_Q_data c h142 h2
   by_contra hnot
-  letI : MulAction (MulAut X) (Subgroup X) := Subgroup.pointwiseMulAction
+  let : MulAction (MulAut X) (Subgroup X) := Subgroup.pointwiseMulAction
   let act : MulAction ↥Qb (Subgroup X) :=
     MulAction.compHom (Subgroup X) ((MulAut.conj : X →* MulAut X).comp Qb.subtype)
-  letI := act
+  let := act
   have hsmul : ∀ (q : ↥Qb) (C : Subgroup X),
       q • C = C.map (MulAut.conj (q : X)).toMonoidHom := fun q C => rfl
   have h3K : 3 ∣ Nat.card K := (c.component_facts h2 hK).2.2
@@ -629,7 +629,7 @@ theorem CaseOneCtx.exists_unique_component
       (∀ K' : Subgroup (threeStar M), CFSG.IsComponent K' → K' = K) ∧
       Subgroup.centralizer (K : Set (threeStar M)) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X := threeStar M
   obtain ⟨K, hK⟩ := c.exists_isComponent_threeStar h2
   have hfit : CFSG.fittingSubgroup X = ⊥ := c.fitting_threeStar_eq_bot h2

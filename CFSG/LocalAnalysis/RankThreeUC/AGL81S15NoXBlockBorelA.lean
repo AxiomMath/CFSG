@@ -24,7 +24,7 @@ theorem noXBlock_borelPre_done_A
     (hsub : CFSG.Open.IsSubnormal Y (borelPre T Ls))
     (hblock : CFSG.AGLEmbedding.InClassXBlock Y) : False := by
   classical
-  haveI : Finite (X ⧸ gnC T) :=
+  have : Finite (X ⧸ gnC T) :=
     Finite.of_surjective (QuotientGroup.mk' (gnC T)) (QuotientGroup.mk'_surjective (gnC T))
   refine noXBlock_borelPre_done hX hLs hinv ?_ Y hY hsub hblock
   intro x hx hxodd l hl

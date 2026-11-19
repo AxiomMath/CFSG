@@ -54,7 +54,7 @@ theorem slChiEps_hdiag (φ : F →+* k) (ε : Fin f → Finset (Fin (m + 1)))
       simp [Ne.symm hpq]
     · intro a _ ha
       simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at ha
-      rw [if_neg ha.1, if_neg ha.2, one_pow]
+      rw [ite_eq_right ha.1, ite_eq_right ha.2, one_pow]
   have hcombine : (u : F) ^ bExp ε s.castSucc *
       (((u⁻¹ : Fˣ) : F)) ^ bExp ε s.succ = (u : F) ^ bDigit ε s.succ := by
     have hu : (u : F) ≠ 0 := u.ne_zero

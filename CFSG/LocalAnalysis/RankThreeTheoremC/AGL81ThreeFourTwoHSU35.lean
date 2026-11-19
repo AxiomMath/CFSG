@@ -84,7 +84,7 @@ private theorem hsU35_label_facts :
 theorem nonempty_hsOUA_mulEquiv_catU35 :
     Nonempty (↥hsOUA ≃* (TauCeti.CFSGIndex.lie threeFourTwoU35Index).Group) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hι, hact⟩ := hsU35_label_facts
   obtain ⟨σ, hσ, hσgen⟩ := CFSG.EvenSporadicStandard.HNRecog.Simple2S5.exists_gens_i50
   have hgσ : ∀ (k : Fin 6) (i : Fin 50), hsU35Gen k (hsU35Label i) = hsU35Label (σ k i) := by

@@ -156,7 +156,7 @@ private lemma exists_good_prime (n : ℕ) (hn : 2 ≤ n) :
         hp.dvd_sub_one_iff hp3n (2 * n)]
       exact fun h => absurd (Nat.le_of_dvd (by omega : 0 < 2 * n) h) (by omega)
     have hp3n' : ¬ p ∣ 3 * n := by
-      haveI : Fact p.Prime := ⟨hp.prime⟩
+      have : Fact p.Prime := ⟨hp.prime⟩
       have hpow : (2 : ZMod p) ^ (3 * n) = 1 :=
         (CFSG.Timmesfeld.Bang.dvd_two_pow_sub_one_iff (3 * n)).mp hp.dvd
       have hdvd : orderOf (2 : ZMod p) ∣ 3 * n := orderOf_dvd_of_pow_eq_one hpow
@@ -184,16 +184,16 @@ theorem triD4Line_conj_z0_of_torus_C0
     (hTiso : Nonempty (T ≃* Multiplicative (ZMod ((2 ^ n) ^ 2 + 2 ^ n + 1)) ×
       Multiplicative (ZMod ((2 ^ n) ^ 2 + 2 ^ n + 1)))) :
     ∃ g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom, g * e * g⁻¹ = z₀ := by
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite (d4Root K σ.toRingHom) := Subtype.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (d4Root K σ.toRingHom) := Subtype.finite
+  have : Fintype K := Fintype.ofFinite K
   set q : ℕ := 2 ^ n with hq
   have h3q : ¬ 3 ∣ q := by
     rw [hq]
     exact fun h => absurd (Nat.prime_three.dvd_of_dvd_pow h) (by norm_num)
   have hF : Nat.card K = 2 ^ (3 * n) := by
     rw [hK, hq, ← pow_mul, show n * 3 = 3 * n by ring]
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     apply charP_of_card_eq_prime_pow (p := 2) (f := 3 * n)
     rw [← Nat.card_eq_fintype_card, hF]
   have h3K : (3 : K) ≠ 0 := fun h =>
@@ -301,7 +301,7 @@ theorem triD4Line_conj_z0_of_torus_C0
       obtain ⟨E, hEA, hEel, hEcard⟩ :=
         CFSG.GroupTheory.exists_isElemAbelian_card_prime_sq_of_mulEquiv_zmod_sq eA hr hrm
       have hEC : E ≤ C := hEA.trans hA_le
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       have hexpE : ∀ x : E, x ^ r = 1 := fun x => Subtype.ext (by
         rw [Subgroup.coe_pow, Subgroup.coe_one]; exact hEel.2 x x.2)
       obtain ⟨eE⟩ := CFSG.Quasithin.Vol2.Ch10.CW.nonempty_mulEquiv_zmod_prod hEcard hexpE

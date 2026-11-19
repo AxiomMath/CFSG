@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_barSub_eq_relIndex {M V₀ V B : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G)) (hBM : B ≤ M) :
     Nat.card (barSub V₀ V hV B) = (B ⊓ F11.CTilde M V₀ V).relIndex B := by
@@ -33,6 +34,7 @@ theorem card_barSub_eq_relIndex {M V₀ V B : Subgroup G} (hV : IsElemAbelian 2 
   rw [← hrange, ← Subgroup.index_ker, hker]
   rfl
 
+omit [Finite G] in
 theorem imgTil_sup_V₀ {V₀ V N : Subgroup G} (hV : IsElemAbelian 2 V) (hN : N ≤ V)
     (hV₀ : V₀ ≤ V) : imgTil V₀ V hV (N ⊔ V₀) = imgTil V₀ V hV N := by
   have h1 : intSub V hV (N ⊔ V₀) = intSub V hV N ⊔ intSub V hV V₀ :=

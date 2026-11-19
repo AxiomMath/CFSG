@@ -44,9 +44,9 @@ private theorem pglSylow_le_stab (hk : Nat.card k = 4) :
 private theorem factorization_card_stab (hk : Nat.card k = 4) (hu : u ≠ 1) :
     (Nat.card ↥(Subgroup.centralizer
       ({MulAut.conj (aP u)} : Set (MulAut (projectiveSL 3 k))))).factorization 3 = 3 := by
-  haveI : Finite (MulAut (projectiveSL 3 k)) :=
+  have : Finite (MulAut (projectiveSL 3 k)) :=
     Nat.finite_of_card_ne_zero (by rw [card_mulAut hk]; norm_num)
-  haveI := LinearFieldFour.charP_two_of_card_eq_four hk
+  have := LinearFieldFour.charP_two_of_card_eq_four hk
   set Stab := Subgroup.centralizer ({MulAut.conj (aP u)} : Set (MulAut (projectiveSL 3 k)))
   have h27 : 27 ∣ Nat.card ↥Stab := by
     rw [← (pglSylow_transposition hk hu).1]
@@ -75,10 +75,10 @@ private theorem exists_conj_pglSylowMax_of_stab (hk : Nat.card k = 4) (hu : u �
     ∃ (ψ : MulAut (projectiveSL 3 k)) (i : Fin 4),
       ψ ∈ Subgroup.centralizer ({MulAut.conj (aP u)} : Set (MulAut (projectiveSL 3 k))) ∧
       M.map (MulAut.conj ψ).toMonoidHom = pglSylowMax u i := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut (projectiveSL 3 k)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut (projectiveSL 3 k)) :=
     Nat.finite_of_card_ne_zero (by rw [card_mulAut hk]; norm_num)
-  haveI := LinearFieldFour.charP_two_of_card_eq_four hk
+  have := LinearFieldFour.charP_two_of_card_eq_four hk
   set Stab := Subgroup.centralizer ({MulAut.conj (aP u)} : Set (MulAut (projectiveSL 3 k)))
   have hPcard : Nat.card ↥((pglSylow (k := k) u).subgroupOf Stab) =
       3 ^ (Nat.card ↥Stab).factorization 3 := by
@@ -188,7 +188,7 @@ private theorem singer_case (hk : Nat.card k = 4)
     ∃ ε ∈ M, ε ∉ (MulAut.conj : projectiveSL 3 k →* MulAut (projectiveSL 3 k)).range ∧
       ∃ s ∈ inSubgroup (aschbacherSolvableCore 3) (GL3TwoFixedModel.autFixed ε),
         aP u * s * (aP u)⁻¹ ≠ s := by
-  haveI : Finite (projectiveSL 3 k) :=
+  have : Finite (projectiveSL 3 k) :=
     Nat.finite_of_card_ne_zero (by rw [card_projectiveSL hk]; norm_num)
   obtain ⟨ε₀, hε₀M', hε₀out, s₀, hs₀, hs₀neq⟩ := hsinger i hi23
   have hfixψ : ψ (aP u) = aP u := eq_aP_of_mem_centralizer hk hψ
@@ -213,7 +213,7 @@ private theorem singer_case (hk : Nat.card k = 4)
     obtain ⟨s, hs, hseq⟩ := Subgroup.mem_map.mp hs₀
     have hseq' : s = ψ⁻¹ s₀ := by
       rw [← hseq]
-      simpa using (MulEquiv.symm_apply_apply ψ s).symm
+      simp
     rw [← hseq']
     exact hs
   · intro h
@@ -267,12 +267,12 @@ private theorem outer_dichotomy_of (hk : Nat.card k = 4)
           b * s * b⁻¹ ≠ s) ∨
       (∃ ε ∈ M, ε ∉ (MulAut.conj : X →* MulAut X).range ∧
         ∃ t : X, ε t = t ∧ t * b * t⁻¹ = b⁻¹) := by
-  haveI : Finite k := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
-  haveI : Finite (projectiveSL 3 k) :=
+  have : Finite k := LinearFieldFour.finite_of_card_eq_four hk
+  have : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : Finite (projectiveSL 3 k) :=
     Nat.finite_of_card_ne_zero (by rw [card_projectiveSL hk]; norm_num)
-  haveI : Finite X := Finite.of_injective (χ : X → projectiveSL 3 k) χ.injective
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite X := Finite.of_injective (χ : X → projectiveSL 3 k) χ.injective
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu⟩ := exists_units_ne_one hk
   have hb3 : orderOf (χ b) = 3 := by
     rw [MulEquiv.orderOf_eq, hb]
@@ -366,7 +366,7 @@ private theorem outer_dichotomy_of (hk : Nat.card k = 4)
       obtain ⟨s, hs, hseq⟩ := Subgroup.mem_map.mp hs'
       have hseq' : s = Φ.symm s' := by
         rw [← hseq]
-        simpa using (MulEquiv.symm_apply_apply Φ s).symm
+        simp
       rw [← hseq']
       exact hs
     · intro h

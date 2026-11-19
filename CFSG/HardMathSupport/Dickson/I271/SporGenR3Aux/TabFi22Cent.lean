@@ -62,7 +62,7 @@ theorem xPerm_one_ne_one : xPerm 1 ≠ 1 := cent_facts.2.2.2.2.2.2.2.2.2.2.1
 theorem mem_lev2_iff (g : Equiv.Perm (Fin 3510)) :
     g ∈ fi22Chain.levelSubgroup 2 ↔ g ∈ fi22P ∧ g 0 = 0 ∧ g 1 = 1 := by
   rw [RawSchreierDatum.mem_levelSubgroup_iff _ fi22_hQ 2 (by decide), base_take_two]
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, forall_eq_or_imp,
+  simp only [List.mem_cons, List.not_mem_nil, or_false, forall_eq_or_imp,
     forall_eq]
   rfl
 

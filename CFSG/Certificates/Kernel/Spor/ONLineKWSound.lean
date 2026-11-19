@@ -47,7 +47,7 @@ theorem nz_half {x : Nat} (hx : x < 2 ^ 256) :
   have hP : 0 < 2 ^ 256 := Nat.two_pow_pos 256
   by_cases h : x = 0
   · subst h
-    rw [Nat.zero_add, Nat.div_eq_of_lt (Nat.sub_lt hP Nat.one_pos), if_pos rfl]
+    rw [Nat.zero_add, Nat.div_eq_of_lt (Nat.sub_lt hP Nat.one_pos), ite_eq_left rfl]
     rfl
   · have e : (x + (2 ^ 256 - 1)) / 2 ^ 256 = 1 := by
       apply Nat.div_eq_of_lt_le
@@ -55,7 +55,7 @@ theorem nz_half {x : Nat} (hx : x < 2 ^ 256) :
         omega
       · generalize 2 ^ 256 = P at *
         omega
-    rw [e, if_neg h]
+    rw [e, ite_eq_right h]
     rfl
 
 noncomputable def nzF (x : Nat) : Nat :=
@@ -79,8 +79,8 @@ theorem nzF_spec {x : Nat} (hx : x < 2 ^ 512) : (nzF x = 0 → x = 0) ∧ (nzF x
     Nat.div_lt_of_lt_mul (by rw [← Nat.pow_add]; exact hx)
   have ex : x = 2 ^ 256 * (x / 2 ^ 256) + x % 2 ^ 256 := (Nat.div_add_mod x _).symm
   rw [lo_part, lo_part, PackFld.shr_eq, Nat.mod_eq_of_lt hdiv]
-  by_cases h1 : x % 2 ^ 256 = 0 <;> by_cases h2 : x / 2 ^ 256 = 0 <;> simp only [h1, h2, if_true,
-    if_false] <;> refine ⟨fun h => ?_, by decide⟩
+  by_cases h1 : x % 2 ^ 256 = 0 <;> by_cases h2 : x / 2 ^ 256 = 0 <;> simp only [h1, h2, ite_true,
+    ite_false] <;> refine ⟨fun h => ?_, by decide⟩
   · rw [ex, h1, h2]
   all_goals exact absurd h (by decide)
 
@@ -278,7 +278,7 @@ theorem lineRangeW_imp {KL LP : Nat → Nat} {LA LB : List Nat} {AL BL : Nat →
   obtain ⟨eA, eB⟩ := hf l hl'
   have hle : lead1 (key KL (lo + l)) (tab LP (lo + l)) = true := hl l hl'
   unfold lineAt
-  simp only [PackFld.strictB_eqP, Nat.add_eq]
+  simp only [PackFld.strictB_eqP]
   rw [hc, hle, Nat.blt_eq.mpr ha, Nat.blt_eq.mpr hb, eA, eB]
 
 end CFSG.KS.ONW

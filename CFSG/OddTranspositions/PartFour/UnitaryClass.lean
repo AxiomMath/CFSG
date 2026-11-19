@@ -52,10 +52,10 @@ private theorem unitaryClass_suTv_mul_smul_apply (hF : Nat.card F = (2 ^ n) ^ 2)
   constructor
   · rw [mul_smul, suTv_smul (isUnitaryInvolution_unitaryInvolution hF) hc hs,
       suTv_smul (isUnitaryInvolution_unitaryInvolution hF) ha ht]
-    simp only [herm_add_right, herm_smul_right, hc, mul_zero, zero_smul, add_zero]
+    simp only [hc, mul_zero, zero_smul, add_zero]
   · rw [mul_smul, suTv_smul (isUnitaryInvolution_unitaryInvolution hF) ha ht,
       suTv_smul (isUnitaryInvolution_unitaryInvolution hF) hc hs]
-    simp only [herm_add_right, herm_smul_right, hc, mul_zero, zero_smul, add_zero]
+    simp only [herm_add_right, herm_smul_right, hc]
     module
 
 private theorem unitaryClass_coeff_contradiction (hF : Nat.card F = (2 ^ n) ^ 2) {m : ℕ}
@@ -150,8 +150,8 @@ theorem setOf_isConj_kFactsSuProjTv (hF : Nat.card F = (2 ^ n) ^ 2) {m : ℕ} (h
     rw [kFacts_suProj_conj_suProjTv hF t he₀i h1, ht]
 
 theorem commute_kFactsSuProjTv_iff (hF : Nat.card F = (2 ^ n) ^ 2) {m : ℕ}
-    {c a : Fin m → F} (hc0 : c ≠ 0) (hc : herm (unitaryInvolution F 2 n) c c = 0)
-    (ha0 : a ≠ 0) (ha : herm (unitaryInvolution F 2 n) a a = 0) {s t : F} (hs0 : s ≠ 0)
+    {c a : Fin m → F} (_hc0 : c ≠ 0) (hc : herm (unitaryInvolution F 2 n) c c = 0)
+    (_ha0 : a ≠ 0) (ha : herm (unitaryInvolution F 2 n) a a = 0) {s t : F} (hs0 : s ≠ 0)
     (hs : s + unitaryInvolution F 2 n s = 0) (ht0 : t ≠ 0)
     (ht : t + unitaryInvolution F 2 n t = 0) :
     Commute (kFactsSuProjTv hF m c s) (kFactsSuProjTv hF m a t) ↔

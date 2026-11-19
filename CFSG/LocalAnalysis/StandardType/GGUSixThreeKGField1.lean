@@ -24,12 +24,12 @@ private theorem irreducible_X_pow_three_sub_C {K : Type*} [Field K] {c : K}
 private theorem natDegree_dvd_finrank_of_aeval_eq_zero {K M : Type*} [Field K] [AddCommGroup M]
     [Module K M] {f : K[X]} (hf : Irreducible f) (T : Module.End K M)
     (hT : aeval T f = 0) : f.natDegree ∣ Module.finrank K M := by
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   let φ : AdjoinRoot f →ₐ[K] Module.End K M :=
     Ideal.Quotient.liftₐ (Ideal.span {f}) (aeval T) fun a ha => by
       obtain ⟨b, rfl⟩ := Ideal.mem_span_singleton'.1 ha
       rw [map_mul, hT, mul_zero]
-  letI : Module (AdjoinRoot f) M := Module.compHom M φ.toRingHom
+  let : Module (AdjoinRoot f) M := Module.compHom M φ.toRingHom
   have : IsScalarTower K (AdjoinRoot f) M := ⟨fun c a m => by
     change φ (c • a) m = c • φ a m
     rw [map_smul]
@@ -56,6 +56,7 @@ section Invariant
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem three_dvd_finrank_of_invariant {M : Module.End K V} {l : K} (hl : ∀ c : K, c ^ 3 ≠ l)
     (hM : M ^ 3 = algebraMap K (Module.End K V) l) (W : Submodule K V)
     (hW : ∀ w ∈ W, M w ∈ W) : 3 ∣ Module.finrank K W := by
@@ -216,7 +217,7 @@ theorem false_of_cyclic_partner {M g X : GL (Fin 6) K} {l ζ : Kˣ} (hl : ∀ c 
         Polynomial.X ^ 3 - Polynomial.C (1 + (ζ : K) + (ζ : K) ^ 2) * Polynomial.X ^ 2 +
           Polynomial.C ((ζ : K) + (ζ : K) ^ 2 + (ζ : K) ^ 3) * Polynomial.X -
           Polynomial.C ((ζ : K) ^ 3) := by
-      simp only [Polynomial.C_add, Polynomial.C_mul, Polynomial.C_pow, Polynomial.C_1]
+      simp only [Polynomial.C_add, Polynomial.C_pow, Polynomial.C_1]
       ring
     rw [h]
     have h1 : 1 + (ζ : K) + (ζ : K) ^ 2 = 0 := by linear_combination hsum

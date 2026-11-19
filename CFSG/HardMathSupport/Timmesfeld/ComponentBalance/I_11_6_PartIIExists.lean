@@ -356,7 +356,7 @@ theorem i116e_stepT {X : Type} [Group X] [Finite X] (hT : KernelT) (hX : CFSG.Op
       rw [e] at h1
       rw [h1]
       exact hy
-    · obtain ⟨n, hn⟩ := (Classical.arbitrary (Sylow p ↥L)).isPGroup' ⟨x', hx'Q⟩
+    · obtain ⟨n, hn⟩ := (Classical.arbitrary (Sylow p ↥L)).isPGroup ⟨x', hx'Q⟩
       exact ⟨n, congrArg Subtype.val (congrArg Subtype.val hn)⟩
     · by_contra hcon
       push Not at hcon

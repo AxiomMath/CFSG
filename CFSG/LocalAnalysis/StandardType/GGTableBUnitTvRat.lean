@@ -24,7 +24,7 @@ theorem dlog_zpow [NeZero p] {ζ : K} (hζ : IsPrimitiveRoot ζ p) (m : ℤ) :
   classical
   have h : ∃ n : ℤ, ζ ^ n = ζ ^ m := ⟨m, rfl⟩
   unfold dlog
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   have hn : ζ ^ (Classical.choose h) = ζ ^ m := Classical.choose_spec h
   have hζ0 : ζ ≠ 0 := hζ.ne_zero (NeZero.ne p)
   have h1 : ζ ^ (m - Classical.choose h) = 1 := by
@@ -72,7 +72,7 @@ theorem ratU_eq (hM : Model φ) (hd : 3 ≤ d) {a : MulAut L'} {t : Fin d → K}
   classical
   have h : ∃ t : Fin d → K, ActsDiagU φ a t := ⟨t, ha⟩
   unfold ratU
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact (Classical.choose_spec h).ratio_eq hM.field hd hM.ker ha k l
 
 theorem ratU_mul (hM : Model φ) (hd : 3 ≤ d) {a b : MulAut L'} {t u : Fin d → K}
@@ -146,7 +146,7 @@ theorem dlog_ratU_heart (hM : Model φ) (hd : 3 ≤ d) {p : ℕ} (hp : p.Prime) 
     (hζ : IsPrimitiveRoot ζ p) {h : MulAut L'} (i j : Fin d)
     (hh : ActsDiagU φ h (TypeA.ggPairVec i j ζ)) (k l : Fin d) :
     dlog p ζ (ratU φ h k l) = LinTvA.pairVec p i j k - LinTvA.pairVec p i j l := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero
   rw [ratU_eq hM hd hh, ggPairVec_eq_zpow hζ0, ggPairVec_eq_zpow hζ0, ← _root_.zpow_neg,
     ← zpow_add₀ hζ0, dlog_zpow hζ, Int.cast_add, Int.cast_neg, pairZ_cast, pairZ_cast]

@@ -34,7 +34,7 @@ theorem caseA_transpose_conj (hp : 2 ≤ p) {ζ : F} (hζ : IsPrimitiveRoot ζ p
   simp only [Matrix.mul_diagonal, Matrix.of_apply, heisFourierMat]
   rw [← Equiv.sum_comp (Equiv.neg (Fin p))]
   refine Finset.sum_congr rfl fun k _ => ?_
-  simp only [Equiv.neg_apply, neg_neg, caseA_pow_mul_neg hζ.pow_eq_one,
+  simp only [Equiv.neg_apply, caseA_pow_mul_neg hζ.pow_eq_one,
     caseA_pow_neg_mul hζ.pow_eq_one, inv_inv]
   ring_nf
 
@@ -87,7 +87,7 @@ theorem caseA_birefl_mul_inv {ζ : F} (hζ : IsPrimitiveRoot ζ p) {ν : F} (hν
 theorem caseA_birefl_ne_zero (hp : 2 ≤ p) {ζ : F} (hζ : IsPrimitiveRoot ζ p) {ν : F}
     (hν0 : ν ≠ 0) (hν1 : ν ≠ 1) (hνp : ν ^ p ≠ 1) {a b : Fin p} (hab : a ≠ b) :
     fourierBirefl ζ ν a b ≠ 0 := by
-  rw [fourierBirefl_apply hp hζ hν0, if_neg hab, zero_add]
+  rw [fourierBirefl_apply hp hζ hν0, ite_eq_right hab, zero_add]
   have hp0 : (p : F) ≠ 0 := heis_natCast_ne_zero hζ hp
   have hu : (ζ ^ (a : ℕ) * (ζ ^ (b : ℕ))⁻¹) ^ p = 1 := by
     rw [mul_pow, inv_pow, ← pow_mul, ← pow_mul, mul_comm (a : ℕ) p, mul_comm (b : ℕ) p, pow_mul,
@@ -133,7 +133,7 @@ theorem caseA_exists_sigma [NeZero p] (hp : 2 ≤ p) {ζ : F} (hζ : IsPrimitive
     rw [Equiv.neg_apply, hN, hD]
     by_cases hj : j = 0
     · simp [hj]
-    · rw [if_neg (neg_ne_zero.mpr hj), if_neg hj]
+    · rw [ite_eq_right (neg_ne_zero.mpr hj), ite_eq_right hj]
       exact caseA_birefl_zero_neg hp hζ hν0 j
   refine ⟨fun j => N j / D j, fun j => div_ne_zero (hNne j) (hDne j), ?_, fun j => ?_⟩
   · rw [Finset.prod_div_distrib, hND, div_self (Finset.prod_ne_zero_iff.mpr fun j _ => hDne j)]
@@ -142,7 +142,7 @@ theorem caseA_exists_sigma [NeZero p] (hp : 2 ≤ p) {ζ : F} (hζ : IsPrimitive
     by_cases hj : j = 0
     · subst hj
       simp
-    · rw [if_neg hj, if_neg hj]
+    · rw [ite_eq_right hj, ite_eq_right hj]
       exact div_mul_cancel₀ _ (caseA_birefl_ne_zero hp hζ hν0 hν1 hνp hj)
 
 theorem caseA_coe_inv (A : SpecialLinearGroup (Fin p) F) :
@@ -191,9 +191,9 @@ theorem caseA_birefl_entries [NeZero p] (hp : 2 ≤ p) {ζ : F} (hζ : IsPrimiti
     rw [hv1, Fin.val_zero] at h'
     exact one_ne_zero h'
   constructor
-  · rw [fourierBirefl_apply hp hζ hν, if_neg h10.symm, hv1, Fin.val_zero]
+  · rw [fourierBirefl_apply hp hζ hν, ite_eq_right h10.symm, hv1, Fin.val_zero]
     simp
-  · rw [fourierBirefl_apply hp hζ hν, if_neg h10, hv1, Fin.val_zero]
+  · rw [fourierBirefl_apply hp hζ hν, ite_eq_right h10, hv1, Fin.val_zero]
     simp
 
 theorem caseA_claim2 [NeZero p] (hp : 5 ≤ p) {ζ : F} (hζ : IsPrimitiveRoot ζ p) {ν : F}

@@ -146,8 +146,8 @@ theorem frameId_ν (m : ℕ) (k : Fin m) : (frameId m).ν k = k.castSucc := rfl
   dg := by
     intro k
     by_cases hk : k.val + 1 < m
-    · have := Dgamma_inl_succ (n := m + 1) k.castSucc (by simp [hk])
-      simp only [hk, if_true]
+    · have := Dgamma_inl_succ (n := m + 1) k.castSucc (by simp)
+      simp only [hk, ite_true]
       have e1 : (k.castSucc : Fin (m + 1)).val < m := by simp
       have e2 : (k.succ : Fin (m + 1)).val < m := by simp [hk]
       simp only [e1, e2, dite_true]
@@ -155,7 +155,7 @@ theorem frameId_ν (m : ℕ) (k : Fin m) : (frameId m).ν k = k.castSucc := rfl
     · have hk2 : k.val + 1 = m := by have := k.isLt; omega
       have e1 : (k.castSucc : Fin (m + 1)).val < m := by simp
       have e2 : ¬ (k.succ : Fin (m + 1)).val < m := by simp; omega
-      simp only [hk, if_false, e1, e2, dite_true, dite_false]
+      simp only [hk, ite_false, e1, e2, dite_true, dite_false]
       have := Dgamma_flag (n := m + 1) (by omega)
       convert this using 3 <;> first | rfl | (apply Fin.ext; simp; omega)
 
@@ -292,7 +292,7 @@ theorem Dgamma_self (x : Fin n ⊕ Fin n) : Dgamma x x = 0 := by
     intro u v k hk
     have hk' : k ≠ i := hk
     have h0 : (Pi.single i 1 : Fin n → ℤ) k = 0 := Pi.single_eq_of_ne hk' _
-    cases u <;> cases v <;> simp only [Bool.false_eq_true, if_true, if_false]
+    cases u <;> cases v <;> simp only [Bool.false_eq_true, ite_true, ite_false]
     · rw [Dgamma_self]; rfl
     · have := Dgamma_neg x y
       rw [this, hd]; simpa using h0
@@ -326,19 +326,19 @@ theorem comb_noFork (m : ℕ) (hm : 3 ≤ m) (I : Set (Fin (m + 1)))
     by_cases hl : i = Fin.last m
     · refine ⟨⟨m - 1, by omega⟩, ?_⟩
       simp only [frameTau]
-      rw [if_neg (by simp; omega)]
+      rw [ite_eq_right (by simp; omega)]
       exact hl.symm
     · have hne : i ≠ Fin.last m := hl
       have hk : (i.castPred hne).val + 1 < m := by
         have h3 := i.castPred hne |>.isLt
         by_contra hcon
         apply h2
-        have : (i.castPred hne) = ⟨m - 1, by omega⟩ := Fin.ext (by simp only [Fin.val_mk]; omega)
+        have : (i.castPred hne) = ⟨m - 1, by omega⟩ := Fin.ext (by simp only; omega)
         rw [← this, Fin.castSucc_castPred]
         exact hi
       refine ⟨i.castPred hne, ?_⟩
       simp only [frameTau]
-      rw [if_pos hk]
+      rw [ite_eq_left hk]
       exact Fin.castSucc_castPred i hne
 
 
@@ -580,7 +580,7 @@ theorem comb_fork (m : ℕ) (hm : 3 ≤ m) (I : Set (Fin (m + 1))) (h1 : Fin.las
             rw [hc0, Fin.val_last] at this
             omega) (Fin.last m) (by
             have := Dgamma_flag (n := m + 1) (by omega)
-            convert this using 3 <;> first | rfl | (apply Fin.ext; simp; omega))
+            convert this using 3 <;> first | rfl)
       · have hc1 : c0.val + 1 < m + 1 := by rw [hc0]; omega
         exact twoBlock_isABlock (Sum.inl c0) (Sum.inl ⟨c0.val + 1, hc1⟩) (by simp [Fin.ext_iff])
           (by simp) c0 (Dgamma_inl_succ c0 hc1)

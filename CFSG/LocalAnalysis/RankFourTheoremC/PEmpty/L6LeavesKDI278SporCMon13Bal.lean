@@ -19,7 +19,7 @@ theorem inf_centralizer_eq_bot_of_conj {G : Type*} [Group G] [Finite G] {z : G}
     (hY : ¬ 13 ∣ Nat.card Y) (hRY : R ≤ normalizer (Y : Set G))
     {a m : G} (ha : a ∈ R) {k : ℕ} (hk : k % 13 ≠ 0) (hmk : m * a * m⁻¹ = z ^ k) :
     Y ⊓ centralizer ({a} : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hcop : Nat.Coprime k 13 :=
     ((Nat.Prime.coprime_iff_not_dvd (by norm_num : Nat.Prime 13)).2
       fun h => hk (Nat.mod_eq_zero_of_dvd h)).symm
@@ -104,8 +104,8 @@ theorem balance_of_census_local {G : Type*} [Group G] [Finite G] {c x : G}
     ∀ R Y : Subgroup G, CFSG.Open.IsElemAbelian 13 R → Nat.card R = 13 ^ 2 →
       ¬ 13 ∣ Nat.card Y → R ≤ normalizer (Y : Set G) → Y = ⊥ := by
   intro R Y hR hR2 hY hRY
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : CFSG.IsElementaryAbelian 13 R := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hR
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : CFSG.IsElementaryAbelian 13 R := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hR
   have hcov := le_iSup_centralizer_of_coprime
     (p := 13) (A := R) (U := Y) hR2.symm.le hY hRY
   refine eq_bot_iff.2 (hcov.trans (iSup_le fun a => iSup_le fun ha => iSup_le fun hne => ?_))

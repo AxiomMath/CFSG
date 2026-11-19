@@ -55,10 +55,10 @@ private theorem swap01_comm {σ : Perm (Fin 10)} (h0 : σ 0 = 0) (h1 : σ 1 = 1)
   ext i
   by_cases hi0 : i = 0
   · subst hi0
-    simp [Equiv.Perm.mul_apply, Equiv.swap_apply_left, Equiv.swap_apply_right, h0, h1]
+    simp [Equiv.Perm.mul_apply, Equiv.swap_apply_left, h0, h1]
   by_cases hi1 : i = 1
   · subst hi1
-    simp [Equiv.Perm.mul_apply, Equiv.swap_apply_left, Equiv.swap_apply_right, h0, h1]
+    simp [Equiv.Perm.mul_apply, Equiv.swap_apply_right, h0, h1]
   · have hs0 : σ i ≠ 0 := fun h => hi0 (σ.injective (h.trans h0.symm))
     have hs1 : σ i ≠ 1 := fun h => hi1 (σ.injective (h.trans h1.symm))
     rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply,
@@ -90,7 +90,7 @@ private theorem comm_pow_mul {G : Type} [Group G] {a b : G} (h : a * b = b * a) 
   | succ n ih => rw [pow_succ, mul_assoc, h, ← mul_assoc, ih, mul_assoc, ← pow_succ]
 
 private theorem pi_data {G : Type} [Group G] [Finite G] {z : G} {ι : Perm (Fin 10) →* G} {g : G}
-    (hC : CentData z ι) (hg : GElt z ι g) (hg1 : g * g = 1)
+    (_hC : CentData z ι) (hg : GElt z ι g) (hg1 : g * g = 1)
     {d : G} {κ : Perm (Fin 10) →* G} (hκ : CentData d κ)
     (hgd : g * d = d * g) (hSig : ∀ ρ : Perm (Fin 8), g * ι (liftS8 ρ) = ι (liftS8 ρ) * g)
     (hτ : κ τ₀ = z) {s : Perm (Fin 10)} (hs : κ s = ι τ₀)

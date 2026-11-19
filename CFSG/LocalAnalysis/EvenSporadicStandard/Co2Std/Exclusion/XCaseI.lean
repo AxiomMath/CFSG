@@ -23,7 +23,7 @@ private lemma map_map_conj (K : Subgroup X) (x y : X) :
 
 private lemma map_conj_apply_apply {x k : X} {v : V} :
     ρ (x * k * x⁻¹) (ρ x v) = ρ x (ρ k v) := by
-  simp [map_mul, MulAut.mul_apply, MulAut.inv_apply_self]
+  simp [map_mul, MulAut.mul_apply]
 
 private lemma apply_mem_map_conj {L M : Subgroup X} {x : X} {v : V}
     (hLM : L.map (MulAut.conj x).toMonoidHom = M) (hv : ∀ k ∈ L, ρ k v = v) :
@@ -160,8 +160,7 @@ private lemma action_on_fixed_K' [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁
     simp only [MulAut.mul_apply]
     rw [hv (z * k * z⁻¹) hkz]
   have h2 : ρ x (ρ k v) = ρ k₁ (ρ x v) := by
-    simpa [hk₁def] using
-      (map_conj_apply_apply (ρ := ρ) (x := x) (k := k) (v := v)).symm
+    simp [hk₁def]
   have h3 : ρ (k₁ * (z * k₁ * z⁻¹)) (ρ x v) = ρ k₁ (ρ x v) := by
     rw [map_mul]
     simp only [MulAut.mul_apply]
@@ -203,8 +202,7 @@ private lemma action_on_fixed_K [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁)
     simp only [MulAut.mul_apply]
     rw [hv k hk]
   have h2 : ρ x (ρ k' v) = ρ k₁ (ρ x v) := by
-    simpa [hk₁def] using
-      (map_conj_apply_apply (ρ := ρ) (x := x) (k := k') (v := v)).symm
+    simp [hk₁def]
   have h3 : ρ (k₂ * (z * k₂ * z⁻¹)) (ρ x v) = ρ k₁ (ρ x v) := by
     rw [congrArg ρ hcomm₂, map_mul]
     simp only [MulAut.mul_apply]

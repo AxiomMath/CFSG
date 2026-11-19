@@ -42,7 +42,7 @@ theorem ggTBJ_twE6_stdModel
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   obtain ⟨hψ0, hker0, hperf0, hAe, hAI, hr, h3, hsc⟩ := hA
-  haveI : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
+  have : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
   have hZ : Subgroup.center (TwE6Delta.RecipeR K n) = ⊥ := TwE6Delta.center_recipeR_eq_bot hn hK
   have hIp := TwE6Delta.ggOutdiagPrime_twE6 hn hK hp hp3
   have hcpL := TwE6Delta.ggCenterPrime_twE6 hn hK hp hp2 hp3 L' ψ₀ hψ0 hker0 hperf0
@@ -95,11 +95,11 @@ theorem ggTBJ_twE6_stdModel
     have h1 := hsc x hfix hxp
     rw [← hΛn, hx] at h1
     exact h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n
   have hσ : ∀ c, σ c = c ^ (2 ^ n) := fun c => iterateFrobeniusEquiv_def K 2 n c
   obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup hn hK σ.toRingHom hσ
@@ -118,9 +118,9 @@ theorem ggTBJ_twE6_stdModel
   have h5E : p ^ 5 ≤ Nat.card E := hcardE ▸ hr
   obtain ⟨F, -, hv⟩ := ExcTwE6Nons.twE6SCTorusInput_nonsplit σ hp hp5 hK hσ hpq E hEab h3E h5E hscE
   have hv' : ExcIsLongest TwistTag.E6.tag F.v := hv hpq
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   obtain ⟨ζ, hζp⟩ := CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units
     (L := AlgebraicClosure K) (ℓ := 2) Nat.prime_two hp hp2
   have hζ : ζ ^ p = 1 := hζp.pow_eq_one

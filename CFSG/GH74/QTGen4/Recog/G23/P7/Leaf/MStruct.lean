@@ -67,7 +67,7 @@ open CFSG.Quasithin.G23Type
 
 variable {H H₁ H₂ : Subgroup G} {e : Fin 6 → G}
 
-theorem letters_mem_H₁ (hone : G23One H H₁ H₂) (hlets : HLetters H H₁ H₂ e) :
+theorem letters_mem_H₁ (_hone : G23One H H₁ H₂) (hlets : HLetters H H₁ H₂ e) :
     e 0 ∈ H₁ ∧ e 1 ∈ H₁ := by
   have h0 : e 0 ∈ Subgroup.closure ({e 0, e 1} : Set G) := Subgroup.subset_closure (by simp)
   have h1 : e 1 ∈ Subgroup.closure ({e 0, e 1} : Set G) := Subgroup.subset_closure (by simp)
@@ -118,8 +118,8 @@ theorem pow3_of_mul3 {x : G} (h : x * x * x = 1) : x ^ 3 = 1 := by
   rw [pow_three, ← mul_assoc]; exact h
 
 theorem letters_comm02 (hF : HFacts H H₁ H₂ e) : e 0 * e 2 = e 2 * e 0 := by
-  have h0 : e 0 ∈ Psub e := Subgroup.subset_closure (by simp [Psub])
-  have h2 : e 2 ∈ Psub e := Subgroup.subset_closure (by simp [Psub])
+  have h0 : e 0 ∈ Psub e := Subgroup.subset_closure (by simp)
+  have h2 : e 2 ∈ Psub e := Subgroup.subset_closure (by simp)
   have := hF.elem_P.1.is_comm.comm ⟨e 0, h0⟩ ⟨e 2, h2⟩
   exact congrArg Subtype.val this
 
@@ -355,9 +355,9 @@ theorem P_comm_gen [Finite G] (hF : HFacts H H₁ H₂ e) :
 
 theorem P_pow3_gen (hF : HFacts H H₁ H₂ e) : ∀ p ∈ Psub e, p ^ 3 = 1 := hF.elem_P.2
 
-theorem e0_mem_P : e 0 ∈ Psub e := Subgroup.subset_closure (by simp [Psub])
+theorem e0_mem_P : e 0 ∈ Psub e := Subgroup.subset_closure (by simp)
 
-theorem e2_mem_P : e 2 ∈ Psub e := Subgroup.subset_closure (by simp [Psub])
+theorem e2_mem_P : e 2 ∈ Psub e := Subgroup.subset_closure (by simp)
 
 theorem Pgen_02 (hF : HFacts H H₁ H₂ e) : ∀ p ∈ Psub e, ∃ i j : ℤ, e 0 ^ i * e 2 ^ j = p :=
   letters_P_gen hF
@@ -399,7 +399,7 @@ theorem zC_fact [Finite G] (hone : G23One H H₁ H₂) (hlets : HLetters H H₁ 
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   exact ((show Commute g (zOf e) from hg).zpow_right k).eq.symm
 
-theorem zH_fact [Finite G] (hone : G23One H H₁ H₂) (hlets : HLetters H H₁ H₂ e)
+theorem zH_fact [Finite G] (hone : G23One H H₁ H₂) (_hlets : HLetters H H₁ H₂ e)
     (hF : HFacts H H₁ H₂ e) : ∀ h ∈ H, h * zOf e = zOf e * h := by
   intro h hh
   have hC : h ∈ Subgroup.centralizer ((H₁ ⊓ H₂ : Subgroup G) : Set G) := by

@@ -65,7 +65,7 @@ theorem four_le_pRank_comap_of_central_sylow_alt {J : Type*} [Group J] [Finite J
       have h1 := Subgroup.orderOf_dvd_natCard φ.ker hy
       exact ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 fun h3 => hO3 (h3.trans h1)).symm
     · intro hy
-      obtain ⟨k, hk⟩ := U.isPGroup' (φ y)
+      obtain ⟨k, hk⟩ := U.isPGroup (φ y)
       have h1 : orderOf (φ y) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
       have h2 : orderOf (φ y) ∣ orderOf y :=
         orderOf_dvd_of_pow_eq_one (by rw [← map_pow, pow_orderOf_eq_one, map_one])
@@ -120,7 +120,7 @@ theorem four_le_pRank_comap_of_central_sylow_alt {J : Type*} [Group J] [Finite J
   have hp : IsPGroup 3 ψ'.ker := by
     intro q
     obtain ⟨u, hu, hq⟩ := hform q q.2
-    obtain ⟨k, hk⟩ := U.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := U.isPGroup ⟨u, hu⟩
     refine ⟨k, Subtype.ext ?_⟩
     have h1 : (u : J) ^ 3 ^ k = 1 := congrArg (fun z : U => ((z : ψ.ker) : J)) hk
     change (q : J ⧸ O) ^ 3 ^ k = 1
@@ -205,7 +205,7 @@ theorem exists_central_sylow_cover_centralizer {W : Type*} [Group W] [Finite W] 
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set T' : Subgroup W := (T : Subgroup N).map N.subtype with hT'
-  have hT3 : IsPGroup 3 T' := T.isPGroup'.map N.subtype
+  have hT3 : IsPGroup 3 T' := T.isPGroup.map N.subtype
   set J : Subgroup W := Subgroup.normalizer (T' : Set W) with hJ
   have hJmap : J.map (QuotientGroup.mk' N) = ⊤ := by
     refine eq_top_iff.2 fun y _ => ?_
@@ -251,7 +251,7 @@ theorem exists_central_sylow_cover_centralizer {W : Type*} [Group W] [Finite W] 
   refine ⟨L, ψ, hψ, fun x => ⟨⟨QuotientGroup.mk' N (x : W), hLK x⟩, rfl, rfl⟩,
     inf_le_left.trans hJ₇C, U, ?_⟩
   let ε : ψ.ker →* N := (L.subtype.comp ψ.ker.subtype).codRestrict N hker
-  have hU3 : IsPGroup 3 ((U : Subgroup ψ.ker).map ε) := U.isPGroup'.map ε
+  have hU3 : IsPGroup 3 ((U : Subgroup ψ.ker).map ε) := U.isPGroup.map ε
   have hnorm : (U : Subgroup ψ.ker).map ε ≤ Subgroup.normalizer (T : Set N) := by
     rintro _ ⟨v, hv, rfl⟩
     refine Subgroup.centralizer_le_normalizer _ ?_

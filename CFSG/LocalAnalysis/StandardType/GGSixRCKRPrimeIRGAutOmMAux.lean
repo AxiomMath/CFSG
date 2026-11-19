@@ -62,7 +62,7 @@ theorem irgOM_model_preserve (β : MulAut (matrixDerived (Qm n hn4 b c))) :
         ∃ z ∈ (minusDatum n hirr).rootGroup γ,
           g⁻¹ * β (AutOm.spinModelMinus hn4 hirr z) * g = AutOm.spinModelMinus hn4 hirr z') := by
   obtain ⟨_, ⟨h, rfl⟩, k, rfl⟩ := AutOm.exists_inner_mul_frobAut_pow hn4 hirr hcard β
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hf1 : 1 ≤ f := by
     by_contra h
     have hf0 : f = 0 := by omega
@@ -141,7 +141,7 @@ theorem irgOM_pairAut_minus {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ
     (θ : MulAut (spinGroup (quadMinus n K b c) ⧸
       Subgroup.center (spinGroup (quadMinus n K b c))))
     {β' : Fin (minusDatum n hirr).rank → ℤ} (hβ' : β' ∈ (minusDatum n hirr).roots)
-    (hlong : GGLongRoot (minusDatum n hirr) β') (u' : spinGroup (quadMinus n K b c)) :
+    (_hlong : GGLongRoot (minusDatum n hirr) β') (u' : spinGroup (quadMinus n K b c)) :
     ∃ u : spinGroup (quadMinus n K b c),
       (ggRootSub (minusDatum n hirr)
           (QuotientGroup.mk' (Subgroup.center (spinGroup (quadMinus n K b c)))) β' u').map

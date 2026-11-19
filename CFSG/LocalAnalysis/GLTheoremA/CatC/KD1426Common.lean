@@ -23,7 +23,7 @@ theorem isQuasisimple_of_mulEquiv {G G' : Type} [Group G] [Group G'] (e : G ≃*
   · let eq : G ⧸ Subgroup.center G ≃* G' ⧸ Subgroup.center G' :=
       QuotientGroup.congr (Subgroup.center G) (Subgroup.center G') e
         (Subgroup.map_center_eq e)
-    haveI : IsSimpleGroup (G ⧸ Subgroup.center G) := hG.2
+    have : IsSimpleGroup (G ⧸ Subgroup.center G) := hG.2
     exact eq.symm.isSimpleGroup
 
 theorem glaPPrimeCoreOf_eq_bot_of {Y : Type} [Group Y] {K : Subgroup Y}

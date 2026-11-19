@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 
 theorem pi_surj {K M : Subgroup G} (hM : IsElemTwo 4 M)
     {S : Fin 2 → Set G} (hS : IsOrbitPartition K {x | x ∈ M ∧ x ≠ 1} S)
-    (h0 : Nat.card ↥(S 0) = 5) (h1 : Nat.card ↥(S 1) = 10)
+    (h0 : Nat.card ↥(S 0) = 5) (_h1 : Nat.card ↥(S 1) = 10)
     {s : Fin 5 → G} (hs' : ∀ x ∈ S 0, ∃ i, s i = x)
     {ρ : ↥K →* Perm (Fin 5)} {π : Fv5 → G} (hπM : ∀ f, π f ∈ M)
     (hπadd : ∀ f g, π (f + g) = π f * π g) (hπs : ∀ i, π (Pi.single i 1) = s i)
@@ -113,12 +113,12 @@ theorem pi_one_vec {K M : Subgroup G}
     rw [hkc] at hk'
     exact hk'.symm
   have hcard1 : Nat.card ↥(S i) = 1 := by
-    haveI : Subsingleton ↥(S i) := ⟨fun a b => by
+    have : Subsingleton ↥(S i) := ⟨fun a b => by
       apply Subtype.ext
       have ha : (a : G) = π fv5One := by simpa [hSsing] using a.2
       have hb : (b : G) = π fv5One := by simpa [hSsing] using b.2
       rw [ha, hb]⟩
-    haveI : Nonempty ↥(S i) := ⟨⟨π fv5One, hi⟩⟩
+    have : Nonempty ↥(S i) := ⟨⟨π fv5One, hi⟩⟩
     exact Nat.card_unique
   by_cases hi0 : i = 0
   · rw [hi0] at hcard1

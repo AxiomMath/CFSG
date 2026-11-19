@@ -45,7 +45,7 @@ include D in
 theorem exists_not_comm_of_fourGroup {J : Finset (Fin 6)} (hJ : J.card = 4)
     {F : Subgroup (Perm (Fin 6))} (hF : FourGroup J F) {N : Subgroup G}
     (hQN : ∀ q ∈ CFSG.Open.pCoreOf 2 M, ∀ u ∈ N, q * u * q⁻¹ ∈ N) {p p' : ↥M}
-    (hp : (p : G) ∈ N) (hp' : (p' : G) ∈ N) (hσ : C.θ p ∈ F) (hσ1 : C.θ p ≠ 1)
+    (_hp : (p : G) ∈ N) (hp' : (p' : G) ∈ N) (hσ : C.θ p ∈ F) (hσ1 : C.θ p ≠ 1)
     (hτ : C.θ p' ∈ F) (hτ1 : C.θ p' ≠ 1) (hne : C.θ p ≠ C.θ p') :
     ∃ d ∈ N, (p : G) * d ≠ d * p := by
   classical
@@ -143,8 +143,8 @@ theorem pCore_facts_of_not_le (hR : Nat.card ↥(Rc X) ≤ 2)
       exact Subgroup.mem_inf.2 ⟨hconjH k hkM hkK u huH,
         M.mul_mem (M.mul_mem hkM huM) (M.inv_mem hkM)⟩
   have hHN : H ≤ N₀ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥H := hH2.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥H := hH2.isNilpotent
     have hself : Subgroup.normalizer ((N₀.subgroupOf H : Subgroup ↥H) : Set ↥H) =
         N₀.subgroupOf H := by
       refine le_antisymm (fun h hh => ?_) Subgroup.le_normalizer

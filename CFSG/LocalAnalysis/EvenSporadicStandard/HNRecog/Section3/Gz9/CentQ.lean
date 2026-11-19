@@ -134,7 +134,7 @@ theorem gz9_card_inf_centralizer_le {G : Type} [Group G] [Finite G] {a z : G}
   obtain ⟨k, hk⟩ := Subgroup.card_dvd_of_le hRP
   have hk2 : 2 ≤ k := by
     by_contra h
-    push_neg at h
+    push Not at h
     interval_cases k
     · rw [hk, mul_zero] at hle
       omega

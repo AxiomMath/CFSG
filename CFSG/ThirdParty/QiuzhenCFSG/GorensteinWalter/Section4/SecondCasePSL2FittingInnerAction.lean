@@ -379,7 +379,7 @@ public theorem secondCase_psl2_fitting_innerAction_of_actionData
   have hNker : N ≤ pGammaL2LinearKernel K A := by
     by_contra hnle
     have hproj : ∃ n : N, SemidirectProduct.rightHom (n : PGammaL2 K) ≠ 1 := by
-      rcases SetLike.not_le_iff_exists.mp hnle with ⟨n, hnN, hnker⟩
+      rcases IsConcreteLE.not_le_iff_exists.mp hnle with ⟨n, hnN, hnker⟩
       refine ⟨⟨n, hnN⟩, ?_⟩
       intro hright
       apply hnker

@@ -10,10 +10,12 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ctxCQ_le_ctxNQ (t tau x₁ x₂ rho : G) :
     ctxCQ t tau x₁ x₂ rho ≤ ctxNQ t tau x₁ x₂ rho :=
   centralizer_le_normalizer _
 
+omit [Finite G] in
 theorem conj_mem_ctxCQ {t tau x₁ x₂ rho k c : G} (hk : k ∈ ctxNQ t tau x₁ x₂ rho)
     (hc : c ∈ ctxCQ t tau x₁ x₂ rho) : k * c * k⁻¹ ∈ ctxCQ t tau x₁ x₂ rho := by
   rw [ctxCQ, mem_centralizer_iff]

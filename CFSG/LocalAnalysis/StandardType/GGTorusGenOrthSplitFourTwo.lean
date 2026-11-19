@@ -82,7 +82,7 @@ theorem exists_pow_mul_pow_mem_of_sl2 {W : Type} [AddCommGroup W] [Module K W]
     (hind : ∀ a b : ℕ, u ^ a * v ^ b = 1 → u ^ a = 1) :
     ∃ a b : ℕ, u ^ a * v ^ b ∈ T ∧ orderOf (u ^ a * v ^ b) = p ^ e := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨φ, hφ⟩ := exists_proj_of_isCompl hT'D hsup hinf hcommT
   let u' : ↥D := ⟨u, huD⟩
   let v' : ↥D := ⟨v, hvD⟩

@@ -41,7 +41,7 @@ theorem conc_finrank_famSpace_plane (hπ : IsPlane BN π) :
   obtain ⟨p, hp0, hpP⟩ := exists_ne_zero_span_eq_of_finrank_eq_one hP1
   have hW0 : ∀ w ∈ famSpace hBN ρ π, Qf w = 0 :=
     hE.qf_eq_zero_of_mem_commutatorSpace hs.nondeg
-  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes hs.nondeg
+  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes
   have hPW : concPt hBN ρ π ≤ famSpace hBN ρ π :=
     (axisInf_le hA₀).trans (le_commutatorSpace_of_mem_axes hA₀)
   obtain ⟨s, ⟨g, hg, rfl⟩, hs1, -⟩ := hA₀
@@ -65,7 +65,7 @@ theorem conc_finrank_famSpace_plane (hπ : IsPlane BN π) :
         (concPt_le_famSpace hs hconc i.2.1 i.2.2)]
       exact Subgroup.map_mono (planeGroup_mono hBN i.2.2)
     · have h2 : planeFamily hBN ρ π ≤ piGroup Qf (concPt hBN ρ π) (famSpace hBN ρ π) :=
-        hE.le_piGroup_axisInf hs.nondeg
+        hE.le_piGroup_axisInf
       rwa [hpP] at h2
   have hcard := natCard_piGroup hs.nondeg hW0 hP1 hPW
   rw [hpP] at hcard

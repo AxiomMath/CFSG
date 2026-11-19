@@ -33,14 +33,14 @@ public theorem proposition102_pSubgroup_le_mapped_pCore_of_nilpotent
     (hBH : B ≤ H) (hBp : IsPGroup r B)
     (hnil : Group.IsNilpotent H) :
     B ≤ (pCore r H).map H.subtype := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   have hBHp : IsPGroup r (B.subgroupOf H) := by
     exact hBp.of_equiv (Subgroup.subgroupOfEquivOfLe hBH).symm
   obtain ⟨S, hBS⟩ := hBHp.exists_le_sylow
   have hSnormal : (S : Subgroup H).Normal :=
     hnil.sylow_normal r S
   have hScore : (S : Subgroup H) ≤ pCore r H :=
-    le_sSup ⟨hSnormal, S.isPGroup'⟩
+    le_sSup ⟨hSnormal, S.isPGroup⟩
   intro x hx
   let xH : H := ⟨x, hBH hx⟩
   have hxBH : xH ∈ B.subgroupOf H := by
@@ -198,7 +198,7 @@ public theorem proposition102_exponent_data_of_prime_dvd
     have hcl : Subgroup.closure Kset ≤ lemma106H d := le_sup_left
     have hxH : x ∈ lemma106H d := hcl hxK
     simpa [H, h.derived_eq_H] using hxH
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   let HV : Subgroup X := H ⊓ V
   change r ∣ Nat.card HV at hrdvd
   let T : Sylow r HV := default
@@ -219,7 +219,7 @@ public theorem proposition102_exponent_data_of_prime_dvd
     intro x hx
     exact Subgroup.map_subtype_le (T : Subgroup HV) hx
   have hBp : IsPGroup r B := by
-    simpa [B] using T.isPGroup'.map HV.subtype
+    simpa [B] using T.isPGroup.map HV.subtype
   have hBS1 : B ≤ (pCore r H).map H.subtype := by
     exact proposition102_pSubgroup_le_mapped_pCore_of_nilpotent hr
       (hBHV.trans inf_le_left) hBp hnil
@@ -406,7 +406,7 @@ public theorem proposition102_exponent_data_of_prime_dvd
   have hZleS1 : Z ≤ S1 := by
     simpa [Z] using Subgroup.map_subtype_le (Subgroup.center S1)
   have hS1ne : S1 ≠ ⊥ := ne_bot_of_le_ne_bot hRne hRleS1
-  haveI : Nontrivial S1 := (Subgroup.nontrivial_iff_ne_bot S1).mpr hS1ne
+  have : Nontrivial S1 := (Subgroup.nontrivial_iff_ne_bot S1).mpr hS1ne
   have hZcenterNe : Subgroup.center S1 ≠ ⊥ := by
     exact (Subgroup.nontrivial_iff_ne_bot (Subgroup.center S1)).mp
       hS1p.center_nontrivial
@@ -478,7 +478,7 @@ public theorem proposition102_exponent_data_of_prime_dvd
   have hRp : IsPGroup r R := by
     exact (hS1p.to_subgroup (R.subgroupOf S1)).of_equiv
       (Subgroup.subgroupOfEquivOfLe hRleS1)
-  haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).mpr hRne
+  have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).mpr hRne
   obtain ⟨n, hn_pos, hRcard⟩ :=
     (IsPGroup.nontrivial_iff_card (p := r) (G := R) hRp).mp inferInstance
   have hrdvdR : r ∣ Nat.card R := by
@@ -486,7 +486,7 @@ public theorem proposition102_exponent_data_of_prime_dvd
     exact dvd_pow_self r hn_pos.ne'
   have hrdvdA1 : r ∣ Nat.card A1 :=
     hrdvdR.trans (Subgroup.card_dvd_of_le hRleA1)
-  letI : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
+  let : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
   have hcardA1 : Nat.card A1 = Nat.card (pPrimeCore d.choice.p V) := by
     change Nat.card d.choice.initial.A1 =
       Nat.card (pPrimeCore d.choice.p V)
@@ -597,7 +597,7 @@ public theorem proposition102_derived_inf_isPGroup
     (e : Proposition102ExponentConclusion M W D E t d) :
     IsPGroup e.r
       ((derivedSubgroup E).map E.subtype ⊓ peterfalviV D t : Subgroup X) := by
-  letI : Fact e.r.Prime := ⟨e.r_prime⟩
+  let : Fact e.r.Prime := ⟨e.r_prime⟩
   let H : Subgroup X := (derivedSubgroup E).map E.subtype
   let V : Subgroup X := peterfalviV D t
   refine (IsPGroup.iff_card (p := e.r) (G := ↥(H ⊓ V))).2 ?_
@@ -708,7 +708,7 @@ public theorem proposition102_exponent_R_sylow_V_of_hall_D
   have hRV : e.R ≤ V := by
     rw [hEq]
     exact inf_le_right
-  letI : Fact e.r.Prime := ⟨e.r_prime⟩
+  let : Fact e.r.Prime := ⟨e.r_prime⟩
   let RV : Subgroup V := e.R.subgroupOf V
   have hRVp : IsPGroup e.r RV := by
     exact e.R_isPGroup.of_equiv
@@ -736,7 +736,7 @@ public theorem proposition102_exponent_R_sylow_V_of_hall_D
         (H := H ⊓ V) (K := V) (L := D) (hKL := hVD)
       rw [hsubInf] at hrel
       simpa [VD] using hrel.symm
-    haveI : HD.Normal := by simpa [HD, H] using hHnormalD
+    have : HD.Normal := by simpa [HD, H] using hHnormalD
     have hrelSup : (HD ⊓ VD).relIndex VD = HD.relIndex (HD ⊔ VD) := by
       calc
         (HD ⊓ VD).relIndex VD = HD.relIndex VD := by

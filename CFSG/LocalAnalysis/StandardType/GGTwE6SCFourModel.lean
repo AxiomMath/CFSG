@@ -20,7 +20,7 @@ theorem e6AdLangToral_of_toral {Ω' : Type} [Field Ω'] [IsAlgClosed Ω'] [CharP
     (hn : 1 ≤ n) (Fr' : Ω' →+* Ω') (hFr' : ∀ c, Fr' c = c ^ 2 ^ n)
     {X : Subgroup (ModGL Tag.E6 Ω')} (hXR : X ≤ TwistedDiag.Rgrp Ω' Fr') (h : E6AdToral X) :
     E6AdLangToral Fr' X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain rfl : Fr' = iterateFrobenius Ω' 2 n := RingHom.ext fun c => by
     rw [hFr', iterateFrobenius_def]
   obtain ⟨C, hC, hCX⟩ := h

@@ -111,7 +111,7 @@ theorem rkBM_comm_of_inv (hZ3 : ∀ z ∈ Subgroup.center T, z ^ 3 = 1) {s x : T
   calc s * x = s * x * s * s := by rw [mul_assoc (s * x), hs', mul_one]
     _ = x * s := by rw [h1]
 
-theorem rkBM_inv_lift (hZ3 : ∀ z ∈ Subgroup.center T, z ^ 3 = 1) {s x : T} (hs : s ^ 2 = 1)
+theorem rkBM_inv_lift (hZ3 : ∀ z ∈ Subgroup.center T, z ^ 3 = 1) {s x : T} (_hs : s ^ 2 = 1)
     (hi : (s : T ⧸ Subgroup.center T) * x * s = (x : T ⧸ Subgroup.center T)⁻¹) :
     ∃ x' : T, (x' : T ⧸ Subgroup.center T) = x ∧ s * x' * s = x'⁻¹ := by
   obtain ⟨c, hcdef⟩ : ∃ c : T, c = s * x * s * x := ⟨_, rfl⟩
@@ -337,12 +337,12 @@ theorem rkBM_inner (hT : commutator T = ⊤)
   let H : Subgroup T :=
     { carrier := {x | β x = g * x * g⁻¹}
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [map_mul, hx, hy]
         group
       one_mem' := by simp
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rw [map_inv, hx]
         group }
   have hcomm : ∀ x y : T, ⁅x, y⁆ ∈ H := fun x y => by
@@ -397,7 +397,7 @@ theorem rkAut_three_of_sporadic_cover (hOut : SporadicOuterLeTwo) (hBr : Sporadi
     (hX : ∃ x : NativeSporadic.Carrier X, x ≠ 1 ∧ x ^ 3 = 1) (hq : CFSG.Open.IsQuasisimple T)
     (hZ3 : ∀ z ∈ Subgroup.center T, z ^ 3 = 1)
     (e : T ⧸ Subgroup.center T ≃* (TauCeti.CFSGIndex.sporadic X).Group) : RkAut 3 T := by
-  haveI hsimple : IsSimpleGroup (T ⧸ Subgroup.center T) := hq.2
+  have hsimple : IsSimpleGroup (T ⧸ Subgroup.center T) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian T hq
   have hZF : Subgroup.center (T ⧸ Subgroup.center T) = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have ho := hOut (T ⧸ Subgroup.center T) hq.2 hnab X ⟨e⟩
@@ -408,8 +408,9 @@ theorem rkAut_three_of_sporadic_cover (hOut : SporadicOuterLeTwo) (hBr : Sporadi
   refine ⟨e'.symm x, fun h => hx1 ?_, by rw [← map_pow, hx3, map_one]⟩
   rw [← e'.apply_symm_apply x, h, map_one]
 
+omit [Finite T] in
 theorem rkBM_pow_three_of_card_dvd (h : Nat.card (Subgroup.center T) ∣ 3) :
-    ∀ z ∈ Subgroup.center T, z ^ 3 = 1 := fun z hz =>
+    ∀ _z ∈ Subgroup.center T, _z ^ 3 = 1 := fun _z hz =>
   orderOf_dvd_iff_pow_eq_one.1 ((Subgroup.orderOf_dvd_natCard _ hz).trans h)
 
 end Inner
@@ -423,7 +424,7 @@ theorem rkAut_Fi22_cover (hOut : SporadicOuterLeTwo) (hSpM : SporadicMultipliers
     (e : T ⧸ Subgroup.center T ≃* (TauCeti.CFSGIndex.sporadic .Fi22).Group) : RkAut 3 T := by
   have hd : Nat.card (Subgroup.center T) ∣ 6 := card_center_dvd_multiplier hSpM hq .Fi22 e
   have h3 : Nat.card (Subgroup.center T) ∣ 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hZ
     rw [hn] at hd ⊢
     have hn1 : n ≤ 1 := by
@@ -434,7 +435,7 @@ theorem rkAut_Fi22_cover (hOut : SporadicOuterLeTwo) (hSpM : SporadicMultipliers
     interval_cases n <;> norm_num
   obtain ⟨E, hE, hc⟩ := CFSG.SectionRank.Fi22_elementary_three_rank_four
   have hX : ∃ x : NativeSporadic.Carrier .Fi22, x ≠ 1 ∧ x ^ 3 = 1 := by
-    haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hc]; norm_num)
+    have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hc]; norm_num)
     obtain ⟨x, hx⟩ := exists_ne (1 : E)
     exact ⟨(x : NativeSporadic.Fi22), fun h => hx (Subtype.ext h), hE.2 _ x.2⟩
   exact rkAut_three_of_sporadic_cover (X := .Fi22) hOut hBr hD hX hq
@@ -452,7 +453,7 @@ theorem rkAut_Fi24Prime_cover (hOut : SporadicOuterLeTwo) (hSpM : SporadicMultip
   have hd : Nat.card (Subgroup.center T) ∣ 3 := card_center_dvd_multiplier hSpM hq .Fi24Prime e
   obtain ⟨E, hE, hc⟩ := CFSG.SectionRank.Fi24prime_elementary_three_rank_four
   have hX : ∃ x : NativeSporadic.Carrier .Fi24Prime, x ≠ 1 ∧ x ^ 3 = 1 := by
-    haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hc]; norm_num)
+    have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hc]; norm_num)
     obtain ⟨x, hx⟩ := exists_ne (1 : E)
     exact ⟨(x : NativeSporadic.Fi24prime), fun h => hx (Subtype.ext h), hE.2 _ x.2⟩
   exact rkAut_three_of_sporadic_cover (X := .Fi24Prime) hOut hBr hD hX hq

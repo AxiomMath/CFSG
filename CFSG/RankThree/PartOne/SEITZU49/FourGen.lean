@@ -199,6 +199,7 @@ theorem mat_P2el (hω : ω ^ 4 + ω ^ 3 + ω ^ 2 + ω + 1 = 0) :
 
 @[expose] def Yk (ω : K) : Fin 5 → K := fun i => val ω (Yg i)
 
+omit [Finite K] in
 theorem Yk_eq (ω : K) :
     Yk ω = ![0, val ω ![1, 0, 1, 1], val ω ![1, 0, 1, 1], 1, 1] := by
   funext i
@@ -236,13 +237,14 @@ theorem tv_mem_of_mat (hω : ω ^ 4 + ω ^ 3 + ω ^ 2 + ω + 1 = 0) {M : Subgrou
   rw [this]
   exact hg
 
-theorem norm_val_one (hω : ω ^ 4 + ω ^ 3 + ω ^ 2 + ω + 1 = 0) :
+theorem norm_val_one (_hω : ω ^ 4 + ω ^ 3 + ω ^ 2 + ω + 1 = 0) :
     val ω ![1, 0, 0, 0] + σ₄ (val ω ![1, 0, 0, 0]) = 0 := by
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have e : val ω ![1, 0, 0, 0] = 1 := by simp [val_eq]
   rw [e, map_one]
   linear_combination h2
 
+omit [Finite K] in
 theorem val_c1_sq (hω : ω ^ 4 + ω ^ 3 + ω ^ 2 + ω + 1 = 0) :
     val ω ![1, 0, 1, 1] ^ 2 + val ω ![1, 0, 1, 1] + 1 = 0 := by
   have h := congrArg (val ω) check_c1_sq

@@ -33,7 +33,7 @@ private theorem mem_imSubOne {A : GL (Fin n) (ZMod 2)} {x : Fin n → ZMod 2} :
     x ∈ imSubOne A ↔ ∃ y, (A : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ y - y = x := by
   unfold imSubOne
   rw [LinearMap.mem_range]
-  simp [Matrix.sub_mulVec]
+  simp
 
 private def trivOnQuot (U : Submodule (ZMod 2) (Fin n → ZMod 2)) :
     Subgroup (GL (Fin n) (ZMod 2)) where

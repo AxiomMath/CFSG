@@ -46,7 +46,7 @@ theorem step7HypSub_of_parts (h34 : Stroth34Statement) (h311a : Stroth311aStatem
   have hQCN : Q ≤ hc.CN t := hc.Q_le_CN' ht
   have hCNR : hc.CN t ≤ Rt M (LB M Q B) t := fun x hx => (Ctx.mem_CN.mp hx).1
   have hCNH0 : hc.CN t ≤ H0 M Z := hCNR.trans (hc.Rt_le_H0 t)
-  haveI hN' : (Q.subgroupOf (H0 M Z)).Normal := normal_subgroupOf_of_le hQH hH0M
+  have hN' : (Q.subgroupOf (H0 M Z)).Normal := normal_subgroupOf_of_le hQH hH0M
   have hconf := hc.tiConfig hs hZ0 hZt hZcard (sec7_CN_pgroup_bar h34 h311a hc hs) hMA hTI hF
   have hinj := embBar_injective hH0M hQH
   have hrange := embBar_range hH0M hQH

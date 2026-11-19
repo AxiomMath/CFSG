@@ -96,7 +96,7 @@ theorem y7a_orbit_sub {S : Set G} (hzD : z ∈ D) (hP3z : ∀ k ∈ P3, k * z * 
   rw [hy_eq]
   exact D.mul_mem (hDinv k hk x hxD) hzD'
 
-theorem y7a_inv_W (hrel : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1) (hP3z : ∀ k ∈ P3, k * z * k⁻¹ = z)
+theorem y7a_inv_W (_hrel : Y6ARel a₁ b₁ a₂ b₂ z) (_hz : z ≠ 1) (hP3z : ∀ k ∈ P3, k * z * k⁻¹ = z)
     (hW : IsOrbitMod P3 (zpowers z) ((closure {a₂, b₂} : Set G) \ (zpowers z : Set G)))
     (hzV : z ∈ V) (hVD : V ≤ D) (hDinv : ∀ k ∈ P3, ∀ x ∈ D, k * x * k⁻¹ ∈ D)
     (hVc : ∀ w ∈ (closure {a₂, b₂} : Subgroup G), ∀ v ∈ V, w * v = v * w)
@@ -124,7 +124,7 @@ theorem y7a_inv_W (hrel : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1) (hP3z : �
   · exact (Subgroup.zpowers_le.mpr (hVD hzV)) hyZ
   · exact horb y ⟨hyW, hyZ⟩
 
-theorem y7a_inv_U (hrel : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1) (hP3z : ∀ k ∈ P3, k * z * k⁻¹ = z)
+theorem y7a_inv_U (_hrel : Y6ARel a₁ b₁ a₂ b₂ z) (_hz : z ≠ 1) (hP3z : ∀ k ∈ P3, k * z * k⁻¹ = z)
     (hU : IsOrbitMod P3 (zpowers z) ((closure {a₁, b₁} : Set G) \ (zpowers z : Set G)))
     (hzV : z ∈ V) (hVD : V ≤ D) (hDinv : ∀ k ∈ P3, ∀ x ∈ D, k * x * k⁻¹ ∈ D)
     (hVc : ∀ w ∈ (closure {a₁, b₁} : Subgroup G), ∀ v ∈ V, w * v = v * w)

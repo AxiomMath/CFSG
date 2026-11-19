@@ -44,10 +44,10 @@ theorem u4q_ident_psu {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f 
   obtain ⟨Y, _, hY, T, M1, M2, hpair, ⟨iso⟩⟩ := hA
   have hY' : CFSG.Blueprint.LieModel Y .PSU 4 2 f := hY
   obtain ⟨K, _, h, ⟨e⟩⟩ := exists_hypSU_equiv_of_lieModel hY'
-  haveI hSU : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have hSU : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   obtain ⟨hsolv, -, -⟩ := isSolvable_inf_and_vFact_of_isYAmalgamPair hY' hf hpair
-  haveI : Group.IsSolvable (RankTwoAmalgam.ofSubgroups M1 M2).G12 := hsolv
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable (RankTwoAmalgam.ofSubgroups M1 M2).G12 := hsolv
+  have : Group.IsSolvable
       ↥((L1 ⊔ bigB L1 L2 S) ⊓ (L2 ⊔ bigB L1 L2 S)) :=
     Group.isSolvable_of_isSolvable_injective (f := iso.φ12.toMonoidHom) iso.φ12.injective
   have hB : Group.IsSolvable ↥(bigB L1 L2 S) :=

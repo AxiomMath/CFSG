@@ -170,7 +170,7 @@ theorem not_secOnto_of_sylow {X : Type} [Group X] [Finite X] {W D : Subgroup X}
   let ι : ↥Q →* X := Y.subtype.comp Q.subtype
   have hι : Injective ι := Y.subtype_injective.comp Q.subtype_injective
   let R : Subgroup X := (P₀ : Subgroup ↥Q).map ι
-  have hR : IsPGroup 2 R := P₀.isPGroup'.map ι
+  have hR : IsPGroup 2 R := P₀.isPGroup.map ι
   obtain ⟨P, hRP⟩ := hR.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X (hW.toSylow hWi) P
   let c : X →* X := (MulAut.conj g⁻¹).toMonoidHom

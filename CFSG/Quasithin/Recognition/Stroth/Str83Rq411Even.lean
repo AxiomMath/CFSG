@@ -84,7 +84,7 @@ private theorem r6g_core_even {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (h : t.IsMaxArc (-2) 4) (h₀ : t.IsFixRadius (-2) 2) (h₁ : t.IsFixRadius (-1) 1) :
     ⁅t.Zv (-1), t.Zv 0⁆ = ⊥ := by
   have hc := r6g_card_le t hfr h h₀
-  rw [if_pos ⟨-1, by norm_num⟩, show (-2 : ℤ) + 2 = 0 by norm_num] at hc
+  rw [ite_eq_left ⟨-1, by norm_num⟩, show (-2 : ℤ) + 2 = 0 by norm_num] at hc
   have hXG : t.Zv (-1) ≤ t.Gv 0 := h₁.le_Gw.trans (win_le_qv (by omega) (by omega))
   exact r6g_comm_sz t hfr hc (t.isPGroup_Zv _) hXG
 
@@ -92,7 +92,7 @@ private theorem r6g_core_odd {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (h : t.IsMaxArc (-1) 4) (h₀ : t.IsFixRadius (-1) 2) (h₁ : t.IsFixRadius 0 1) :
     ⁅t.Zv 0, t.Zv 1⁆ = ⊥ := by
   have hc := r6g_card_le t hfr h h₀
-  rw [if_neg (by decide), show (-1 : ℤ) + 2 = 1 by norm_num] at hc
+  rw [ite_eq_right (by decide), show (-1 : ℤ) + 2 = 1 by norm_num] at hc
   have hXG : t.Zv 0 ≤ t.Gv 1 := h₁.le_Gw.trans (win_le_qv (by omega) (by omega))
   exact r6g_comm_l2 t hfr hc (t.isPGroup_Zv _) hXG
 
@@ -126,35 +126,42 @@ theorem IsMaxArc.commutator_eq_bot_of_eq_four {a f : ℕ}
 private theorem r6h_relIndex_ne_zero (H K : Subgroup G) : H.relIndex K ≠ 0 :=
   Subgroup.index_ne_zero_of_finite (G := ↥K) (H := H.subgroupOf K)
 
+omit [Finite G] in
 private theorem r6h_sq_eq_one (i : ℤ) {e : G} (he : e ∈ t.Zv i) : e ^ 2 = 1 := by
   rw [t.Zv_eq i] at he
   exact A4.sq_eq_one_of_mem_omegaOneCenterOf he
 
+omit [Finite G] in
 private theorem r6h_map_Zv_tau (i k : ℤ) :
     (t.Zv i).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = t.Zv (i + 2 * k) :=
   map_qv_tau_pow i k
 
+omit [Finite G] in
 private theorem r6h_map_Zv_x₁ (i : ℤ) :
     (t.Zv i).map (MulAut.conj t.x₁).toMonoidHom = t.Zv (-i) :=
   t.track.map_qv_x₁
     ((le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _))
     ((le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)) i
 
+omit [Finite G] in
 private theorem r6h_map_Zv_x₂ (i : ℤ) :
     (t.Zv i).map (MulAut.conj t.x₂).toMonoidHom = t.Zv (2 - i) :=
   t.track.map_qv_x₂
     ((le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _))
     ((le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)) i
 
+omit [Finite G] in
 private theorem r6h_map_Qv_x₂ (i : ℤ) :
     (t.Qv i).map (MulAut.conj t.x₂).toMonoidHom = t.Qv (2 - i) :=
   t.track.map_qv_x₂ (le_normalizer_pCoreOf 2 _) (le_normalizer_pCoreOf 2 _) i
 
+omit [Finite G] in
 private theorem r6h_shift_commutator {u w : ℤ} (h : ⁅t.Zv u, t.Zv w⁆ = ⊥) (k : ℤ) :
     ⁅t.Zv (u + 2 * k), t.Zv (w + 2 * k)⁆ = ⊥ := by
   have h2 := congrArg (Subgroup.map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom) h
   rwa [Subgroup.map_commutator, Subgroup.map_bot, t.r6h_map_Zv_tau, t.r6h_map_Zv_tau] at h2
 
+omit [Finite G] in
 private theorem r6h_all {v : ℤ} (h₀ : t.IsFixRadius v 1) (h₁ : t.IsFixRadius (v + 1) 1) (w : ℤ) :
     t.IsFixRadius w 1 := by
   obtain ⟨j, hj | hj⟩ := Int.even_or_odd' (w - v)
@@ -163,15 +170,19 @@ private theorem r6h_all {v : ℤ} (h₀ : t.IsFixRadius v 1) (h₁ : t.IsFixRadi
   · have := Track.IsFixRadius.shift t h₁ j
     rwa [show v + 1 + 2 * j = w by omega] at this
 
+omit [Finite G] in
 private theorem r6h_Zv_zero_le (h₀ : t.IsFixRadius 0 1) : t.Zv 0 ≤ t.Gw (-1) 1 := by
   simpa using h₀.le_Gw
 
+omit [Finite G] in
 private theorem r6h_Zv_one_le (h₁ : t.IsFixRadius 1 1) : t.Zv 1 ≤ t.Gw 0 2 := by
   simpa using h₁.le_Gw
 
+omit [Finite G] in
 private theorem r6h_not_Zv_zero_le_Gv_two (h₀ : t.IsFixRadius 0 1) : ¬ t.Zv 0 ≤ t.Gv 2 := by
   simpa using h₀.not_le_Gv
 
+omit [Finite G] in
 private theorem r6h_not_Zv_one_le_Gv_neg_one (h₁ : t.IsFixRadius 1 1) : ¬ t.Zv 1 ≤ t.Gv (-1) := by
   simpa using h₁.not_le_Gv_sub t
 
@@ -190,7 +201,7 @@ private theorem r6h_relIndex_Qv_zero_Zv_one {a f : ℕ}
     rw [t.mem_rootOmega_iff hfr 0, zero_add, t.pCoreOf_Gw_zero_one hfr]
     exact ⟨hZS hx, by rw [t.r6h_sq_eq_one 1 hx]; exact one_mem _⟩
   have h := t.relIndex_rootOmega hfr 0
-  rw [if_pos (by decide : Even (0 : ℤ))] at h
+  rw [ite_eq_left (by decide : Even (0 : ℤ))] at h
   exact (Subgroup.relIndex_le_of_le_right hle (r6h_relIndex_ne_zero _ _)).trans h.le
 
 private theorem r6h_relIndex_Qv_two_Zv_one {a f : ℕ}
@@ -201,6 +212,7 @@ private theorem r6h_relIndex_Qv_two_Zv_one {a f : ℕ}
     (t.Zv 1) (MulAut.conj _).injective, t.r6h_map_Qv_x₂, t.r6h_map_Zv_x₂] at h
   simpa using h
 
+omit [Finite G] in
 private theorem r6h_x₂_mem_normalizer_C :
     t.x₂ ∈ normalizer ((t.Zv 1 ⊓ (t.Qv 0 ⊓ t.Qv 2) : Subgroup G) : Set G) := by
   refine Subgroup.mem_normalizer_iff_map_conj_eq.mpr ?_
@@ -247,7 +259,7 @@ private theorem r6h_relIndex_Qv_one_Zv_zero {a f : ℕ}
     rw [sub_self]
     exact (t.r6h_Zv_zero_le h₀).trans (win_mono (by norm_num) le_rfl)
   have h := t.relIndex_Qv_le hfr 1 (t.isPGroup_Zv 0) (Or.inl hw)
-  rwa [if_neg Int.not_even_one] at h
+  rwa [ite_eq_right Int.not_even_one] at h
 
 private theorem r6h_relIndex_Qv_neg_one_Zv_zero {a f : ℕ}
     (hfr : Frame L1 L2 S a f) (h₀ : t.IsFixRadius 0 1) :
@@ -256,7 +268,7 @@ private theorem r6h_relIndex_Qv_neg_one_Zv_zero {a f : ℕ}
     rw [neg_add_cancel]
     exact (t.r6h_Zv_zero_le h₀).trans (win_mono le_rfl (by norm_num))
   have h := t.relIndex_Qv_le hfr (-1) (t.isPGroup_Zv 0) (Or.inr hw)
-  rwa [if_neg (by decide : ¬ Even (-1 : ℤ))] at h
+  rwa [ite_eq_right (by decide : ¬ Even (-1 : ℤ))] at h
 
 private theorem r6h_C_le_centralizer_L1 {a f : ℕ}
     (hfr : Frame L1 L2 S a f) (h₁ : t.IsFixRadius 1 1) :
@@ -377,10 +389,12 @@ theorem IsFixRadius.commutator_eq_bot_of_one {a f : ℕ}
     rwa [show (1 : ℤ) + 2 * k = 2 * k + 1 by ring,
       show (2 : ℤ) + 2 * k = 2 * k + 1 + 1 by ring] at this
 
+omit [Finite G] in
 private theorem r6f_map_Gw_x₂ (a b : ℤ) :
     (t.Gw a b).map (MulAut.conj t.x₂).toMonoidHom = t.Gw (2 - b) (2 - a) :=
   t.track.map_win_x₂ Subgroup.le_normalizer Subgroup.le_normalizer a b
 
+omit [Finite G] in
 private theorem r6f_Zv_comm (i : ℤ) {x y : G} (hx : x ∈ t.Zv i) (hy : y ∈ t.Zv i) :
     x * y = y * x :=
   (mem_centralizer_iff.mp (t.Zv_le_centralizer i hx) y (t.Zv_le_Qv i hy)).symm
@@ -391,14 +405,17 @@ private theorem r6f_pCoreOf_le_Qv_one (hF : Hyp111 L1 L2 S) : pCoreOf 2 L2 ≤ t
   rw [t.Qv_one]
   exact h
 
+omit [Finite G] in
 private theorem r6f_Zv_le_Gv {v : ℤ} {b : ℕ} (h : t.IsFixRadius v b) {i : ℤ}
     (h1 : v - b ≤ i) (h2 : i ≤ v + b) : t.Zv v ≤ t.Gv i :=
   h.le_Gw.trans (win_le_qv h1 h2)
 
+omit [Finite G] in
 private theorem r6f_Zv_le_Gw {v : ℤ} {b : ℕ} (h : t.IsFixRadius v b) {u w : ℤ}
     (h1 : v - b ≤ u) (h2 : w ≤ v + b) : t.Zv v ≤ t.Gw u w :=
   h.le_Gw.trans (win_mono h1 h2)
 
+omit [Finite G] in
 private theorem r6f_le_normalizer_commutator {H A B : Subgroup G}
     (hA : H ≤ normalizer (A : Set G)) (hB : H ≤ normalizer (B : Set G)) :
     H ≤ normalizer ((⁅A, B⁆ : Subgroup G) : Set G) := by
@@ -411,6 +428,7 @@ private theorem r6f_le_normalizer_commutator {H A B : Subgroup G}
   change (⁅A, B⁆ : Subgroup G).map (MulAut.conj h).toMonoidHom = ⁅A, B⁆
   rw [Subgroup.map_commutator, hA', hB']
 
+omit [Finite G] in
 private theorem r6f_commutator_sup {A Q Z : Subgroup G} (hA : A ≤ normalizer (Q : Set G))
     (hQ : Q ≤ centralizer (Z : Set G)) : ⁅A ⊔ Q, Z⁆ = ⁅A, Z⁆ := by
   refine le_antisymm (Subgroup.commutator_le.mpr fun g hg z hz => ?_)
@@ -479,6 +497,7 @@ private theorem r6f_partA {a f : ℕ} (hfr : Frame L1 L2 S a f)
     _ = ⁅t.Zv (ε + 2) ⊔ t.Qv (ε + 4), t.Zv (ε + 4)⁆ := by rw [hsup]
     _ = ⁅t.Zv (ε + 2), t.Zv (ε + 4)⁆ := r6f_commutator_sup hN2 hQC
 
+omit [Finite G] in
 private theorem r6f_R_le (hm1 : t.IsFixRadius (-1) 2) :
     ⁅t.Zv 1, t.Zv (-1)⁆ ≤ t.Zv 1 ∧ ⁅t.Zv 1, t.Zv (-1)⁆ ≤ t.Zv (-1) := by
   have h1 : t.IsFixRadius 1 2 := by
@@ -653,11 +672,13 @@ private theorem r6f_base {a f : ℕ} (hfr : Frame L1 L2 S a f)
     exact hst.symm
   exact hne (t.r6f_comm_eq_bot hfr h3 (t.r6f_L2_le_centralizer hfr hm1 hx₂))
 
+omit [Finite G] in
 private theorem r6f_map_commutator (k u v : ℤ) :
     (⁅t.Zv u, t.Zv v⁆ : Subgroup G).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom =
       ⁅t.Zv (u + 2 * k), t.Zv (v + 2 * k)⁆ := by
   rw [Subgroup.map_commutator, t.r6h_map_Zv_tau, t.r6h_map_Zv_tau]
 
+omit [Finite G] in
 private theorem r6f_map_inf (k u v : ℤ) :
     (t.Zv u ⊓ t.Zv v).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom =
       t.Zv (u + 2 * k) ⊓ t.Zv (v + 2 * k) := by

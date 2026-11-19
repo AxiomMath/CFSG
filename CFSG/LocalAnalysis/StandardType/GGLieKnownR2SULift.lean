@@ -162,7 +162,7 @@ private theorem l10sU3_one_le_of_card_eq_sq {F : Type} [Field F] [Finite F] {f :
   rw [hf0] at hF
   have h1 : Nat.card F = 1 := by simpa using hF
   have h2 : 2 ≤ Nat.card F := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hc : 1 < Fintype.card F := Fintype.one_lt_card
     rw [Nat.card_eq_fintype_card]
     omega
@@ -302,7 +302,7 @@ private theorem l10sU3_exists_lift {F : Type} [Field F] [Finite F] [CharP F 2] {
     exact hker
   have hperf : Group.IsPerfect K :=
     isPerfect_SU_ctua hF hn (l10sU3_not_and_of_not hnf)
-  haveI hQperf : Group.IsPerfect Q := hperf.ofSurjective hq
+  have hQperf : Group.IsPerfect Q := hperf.ofSurjective hq
   have hcomm : commutator K = ⊤ := hperf.commutator_eq_top
   let e0 : K ⧸ Subgroup.center K ≃* Q ⧸ Subgroup.center Q :=
     l10sU3_centralQuotEquiv hcomm q hq hkerq
@@ -427,7 +427,7 @@ private theorem l10sU3_lift_unique {F : Type} [Field F] [Finite F] [CharP F 2] {
     (hker : φ.ker ≤ Subgroup.center ↥(Unitary.SU (unitaryInvolution F 2 f) n))
     {y₁ y₂ : MulAut ↥(Unitary.SU (unitaryInvolution F 2 f) n)}
     (h : ∀ s, φ.rangeRestrict (y₁ s) = φ.rangeRestrict (y₂ s)) : y₁ = y₂ := by
-  haveI : Group.IsPerfect ↥(Unitary.SU (unitaryInvolution F 2 f) n) :=
+  have : Group.IsPerfect ↥(Unitary.SU (unitaryInvolution F 2 f) n) :=
     isPerfect_SU_ctua hF hn (l10sU3_not_and_of_not hnf)
   let δ : MulAut ↥(Unitary.SU (unitaryInvolution F 2 f) n) := y₁ * y₂⁻¹
   have hδ : δ = 1 := by
@@ -504,7 +504,7 @@ private theorem l10sU3_lift_map_eq {F : Type} [Field F] [Finite F] [CharP F 2] {
     rw [hrw]
     simpa [sup_comm] using Subgroup.mul_mem_sup hker_mem hr'R
   have hS : IsPGroup 2 (R.map ŷ.toMonoidHom) := hR.map ŷ.toMonoidHom
-  haveI : (φ.ker).Normal := φ.normal_ker
+  have : (φ.ker).Normal := φ.normal_ker
   have hle' : R.map ŷ.toMonoidHom ≤ R :=
     l10sU3_le_of_isPGroup_le_sup_of_odd_central hker hodd hR hS hle
   have hcard : Nat.card (R.map ŷ.toMonoidHom) = Nat.card R :=

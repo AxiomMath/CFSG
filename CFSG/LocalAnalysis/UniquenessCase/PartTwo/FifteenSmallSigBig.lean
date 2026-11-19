@@ -31,7 +31,7 @@ theorem s15Small_dvd_of_rs_two (D : Data G) (hAut : RAutRank153) (hAbs : RAbsIrr
   have hqodd : Odd q := hqprime.odd_of_ne_two hq2
   have hpf := h.hyp125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
   have hrk : 1 ≤ CFSG.Open.pRank q (Mbar D.M V₀ V hV) := by
     have h1 := h1111 V₀ V hH11 q hq
@@ -74,7 +74,7 @@ theorem s15Small_sig_big (hAut : RAutRank153) (hAbs : RAbsIrr153) (hSimple : RSi
       D.sig = {p} ∧ CFSG.Open.pRank p D.M = 3 := by
   have hpf := h.hyp125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
   have hcard4 : Nat.card V₀ ≤ 4 := by
     rw [card_eq_two_pow_mSub hpf.elemAbelian₀.isPGroup]

@@ -49,7 +49,7 @@ theorem hessZMat_cube (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : F) ≠ 0) :
     hessZMat ω * (hessZMat ω * hessZMat ω) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessZMat, Matrix.one_apply] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hessZMat] <;>
     field_simp <;>
     grind
 
@@ -102,7 +102,7 @@ theorem hessCMat_mul_transpose : hessCMat (F := F) * hessCMatᵀ = 1 := by
 
 theorem hessCMat_transpose_mul : hessCMatᵀ * hessCMat (F := F) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, hessCMat]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, hessCMat]
 
 @[expose] def hessC : GL (Fin 3) F :=
   ⟨hessCMat, hessCMatᵀ, hessCMat_mul_transpose, hessCMat_transpose_mul⟩

@@ -136,7 +136,7 @@ private theorem exists_altHeart_cobound {N : ℕ} (k : Fin N) (x : Fin N → ZMo
   have hz : z ∈ evenWeight N := by
     show (∑ i, z i) = 0
     simp only [hzdef, Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ,
-      Fintype.card_fin, Finset.sum_ite_eq', Finset.mem_univ, if_true, nsmul_eq_mul, ht]
+      Fintype.card_fin, Finset.sum_ite_eq', Finset.mem_univ, ite_true, nsmul_eq_mul, ht]
     have h2 : ∀ a b : ZMod 2, a + b + (a + b) = 0 := by decide
     exact h2 _ _
   refine ⟨((⟨z, hz⟩ : evenWeight N) : altHeart N), fun g hgk i => ?_⟩
@@ -150,10 +150,10 @@ private theorem exists_altHeart_cobound {N : ℕ} (k : Fin N) (x : Fin N → ZMo
       rw [h, Perm.inv_eq_iff_eq, hgk]
   have hzk : z k = t := by
     show x k + x k + (if k = k then t else 0) = t
-    rw [if_pos rfl, zmod2_add_self', zero_add]
+    rw [ite_eq_left rfl, zmod2_add_self', zero_add]
   have hzj : ∀ j, j ≠ k → z j = x j + x k := fun j hj => by
     show x j + x k + (if j = k then t else 0) = x j + x k
-    rw [if_neg hj, add_zero]
+    rw [ite_eq_right hj, add_zero]
   show z (g⁻¹ i) - z k + (z i - z k) = x (g⁻¹ i) + x i
   by_cases hik : i = k
   · have hik' : g⁻¹ i = k := hgi.2 hik
@@ -244,7 +244,7 @@ theorem faithfulTildeV_of_alt [Finite V] {L : Subgroup (GLV V)}
           d (σ * τ) i = d σ i + d τ (σ⁻¹ i) := by
       intro σ hσ hσk τ hτ _ i
       have hστ : σ * τ ∈ alternatingGroup (Fin (m + 2)) := mul_mem hσ hτ
-      simp only [d, dif_pos hστ, dif_pos hσ, dif_pos hτ]
+      simp only [d, dite_eq_left hστ, dite_eq_left hσ, dite_eq_left hτ]
       have e : α (s ⟨σ * τ, hστ⟩) = α (s ⟨σ, hσ⟩ * s ⟨τ, hτ⟩) := by
         rw [hs, map_mul, hs, hs]
         rfl
@@ -261,7 +261,7 @@ theorem faithfulTildeV_of_alt [Finite V] {L : Subgroup (GLV V)}
     apply altHeartCoord_injective k
     funext i
     have h1 := hx _ (α ℓ).2 hℓk i
-    simp only [d, dif_pos (α ℓ).2] at h1
+    simp only [d, dite_eq_left (α ℓ).2] at h1
     rw [h1, map_sub, Pi.sub_apply, hactdef]
     dsimp only
     rw [altHeartCoord_altAct hℓk, ← ha _ hℓk i]
@@ -305,7 +305,7 @@ theorem faithfulTildeV_of_alt [Finite V] {L : Subgroup (GLV V)}
       simp only [hkdef, ne_eq, Fin.ext_iff, Fin.val_last, Fin.val_one]
       omega
     have hki : k ≠ i.addNat 2 := by
-      simp only [hkdef, ne_eq, Fin.ext_iff, Fin.val_last, Fin.coe_addNat]
+      simp only [hkdef, ne_eq, Fin.ext_iff, Fin.val_last, Fin.val_addNat]
       omega
     rw [swap_apply_of_ne_of_ne hk0 hk1, swap_apply_of_ne_of_ne hk0 hki]
   obtain ⟨y₀, hy₀H, hy₀α, hy₀3⟩ :=
@@ -384,7 +384,7 @@ theorem isAltNaturalModule_of_omegaPlus_three {L : Subgroup (GLV V)}
       AddEquiv.coe_toAddMonoidHom, AddEquiv.map_eq_zero_iff]
   · have h1 := hR ℓ w w' hw
     simp only [AddMonoidHom.coe_comp, Function.comp_apply, AddEquiv.coe_toAddMonoidHom,
-      MonoidHom.coe_comp, MonoidHom.coe_coe] at hx ⊢
+      MonoidHom.coe_comp, _root_.MonoidHom.coe_ofClass] at hx ⊢
     rw [h1]
     exact hψ (α ℓ) (β w) x hx
 

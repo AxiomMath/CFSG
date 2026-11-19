@@ -49,9 +49,9 @@ theorem commutator_conj_mem_of_quotMod {H K W : Subgroup G} (hs : QuotMod.Hyp H 
 theorem IsL2Gen.exists_orderOf_eq_three {A B : Subgroup G} (h : IsL2Gen A B) :
     ∃ a ∈ A, ∃ b ∈ B, orderOf (a * b) = 3 := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   have hu : utriElt (1 : F) ∈ (A.subgroupOf (A ⊔ B)).map φ.toMonoidHom := by
     rw [hA]
     exact utriElt_mem_utri 1

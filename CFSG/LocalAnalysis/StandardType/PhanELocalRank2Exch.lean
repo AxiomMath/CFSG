@@ -18,18 +18,18 @@ private def plex_vec (K : Type) [Field K] (a : K) : Fin 2 → K :=
 private theorem plex_vec_apply_zero (K : Type) [Field K] (a : K) :
     plex_vec K a 0 = 1 := by
   show (if (0 : Fin 2) = 0 then (1 : K) else a) = 1
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem plex_vec_apply_one (K : Type) [Field K] (a : K) :
     plex_vec K a 1 = a := by
   show (if (1 : Fin 2) = 0 then (1 : K) else a) = a
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
 
 private theorem plex_vec_ne_zero (K : Type) [Field K] (a : K) : plex_vec K a ≠ 0 := by
   intro h
   have h0 := congrFun h 0
   rw [plex_vec_apply_zero] at h0
-  exact (one_ne_zero (α := K)) (by simpa using h0)
+  exact (one_ne_zero (α := K)) (by simp at h0)
 
 private abbrev plex_pt (K : Type) [Field K] (a : K) : Submodule K (Fin 2 → K) :=
   Submodule.span K {plex_vec K a}
@@ -59,7 +59,7 @@ private noncomputable def plex_rep (K : Type) [Field K]
 private theorem plex_rep_spec (K : Type) [Field K] {V : Submodule K (Fin 2 → K)}
     (h : ∃ a : K, plex_pt K a = V) : plex_pt K (plex_rep K V) = V := by
   unfold plex_rep
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 private theorem plex_eq_rep (K : Type) [Field K] {V : Submodule K (Fin 2 → K)} {a : K}
@@ -87,20 +87,20 @@ private noncomputable def plex_flag (K : Type) [Field K] (a : K) : FlagK K 2 whe
       have h2 : ¬ (k + 2 + 1 = 0) := by omega
       have h3 : ¬ (k + 2 = 1) := by omega
       have h4 : ¬ (k + 2 + 1 = 1) := by omega
-      simp only [if_neg h1, if_neg h2, if_neg h3, if_neg h4]
+      simp only [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, ite_eq_right h4]
       exact le_top
   dim := by
     intro j hj
-    interval_cases j <;> simp [plex_pt_finrank, Module.finrank_fin_fun, finrank_top]
+    interval_cases j <;> simp [plex_pt_finrank, finrank_top]
   top := by
     intro j hj
-    rw [if_neg (by omega : ¬ j = 0), if_neg (by omega : ¬ j = 1)]
+    rw [ite_eq_right (by omega : ¬ j = 0), ite_eq_right (by omega : ¬ j = 1)]
 
 private theorem plex_flag_E_one (K : Type) [Field K] (a : K) :
     (plex_flag K a).E 1 = plex_pt K a := by
   show (if (1 : ℕ) = 0 then ⊥ else if (1 : ℕ) = 1 then plex_pt K a else ⊤) =
     plex_pt K a
-  rw [if_neg (by norm_num : ¬ (1 : ℕ) = 0), if_pos rfl]
+  rw [ite_eq_right (by norm_num : ¬ (1 : ℕ) = 0), ite_eq_left rfl]
 
 theorem exchA1A1_connected (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
     ((PhanCode.exchA1A1.sys K).restrict (PhanCode.exchA1A1.set K f)).Connected := by

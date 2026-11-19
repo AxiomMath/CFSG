@@ -88,7 +88,7 @@ theorem not_nine_dvd (S : Subgroup (p2 i)) {θ' : p2 i} (hθ' : (θ' : V12 ≃�
   have hθT : θ' ∉ T' := fun h => hθS (hTS h)
   have hcommT : ∀ a ∈ T', ∀ b ∈ T', a * b = b * a := by
     intro a ha b hb
-    have := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := T') (by rw [hT']; norm_num)
+    have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := T') (by rw [hT']; norm_num)).is_comm.comm
       ⟨a, ha⟩ ⟨b, hb⟩
     exact congrArg Subtype.val this
   have hTp : IsPGroup 3 T' := IsPGroup.of_card (n := 2) (by rw [hT']; norm_num)
@@ -108,7 +108,7 @@ theorem not_nine_dvd (S : Subgroup (p2 i)) {θ' : p2 i} (hθ' : (θ' : V12 ≃�
     exact hn⟩
   have hZp : IsPGroup 3 (zpowers θ') := IsPGroup.of_card (n := 1) (by
     rw [Nat.card_zpowers, hθord, pow_one])
-  haveI := hZnorm
+  have := hZnorm
   have hθT3 : θ' ∈ (T3 : Subgroup (p2 i)) := hZp.le_sylow_of_normal T3 (mem_zpowers θ')
   set A : Subgroup (p2 i) := T' ⊔ zpowers θ' with hA
   have hAT3 : A ≤ T3 := sup_le hT3 (zpowers_le.2 hθT3)

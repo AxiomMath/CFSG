@@ -136,7 +136,7 @@ theorem fieldIndexOnPW_of_outPNice {p : ℕ} [Fact p.Prime] {C : (X : Type) → 
       OutPNice p (↥L ⧸ Subgroup.center ↥L))
     (hL : LeviInnOnPW p C) : FieldIndexOnPW p C := by
   intro Y _ _ L P hCP hC hLn hrank h3 hrk a ha3 haN hout
-  haveI := hLn
+  have := hLn
   exact fieldIndexW_of_outPNiceP hCP (hT Y L P hCP hC hrank) (hL Y L P hCP hC hLn hrank h3 hrk)
     ha3 haN hout
 

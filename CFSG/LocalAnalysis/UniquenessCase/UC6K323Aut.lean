@@ -108,8 +108,7 @@ theorem false_of_gl32 (hp2 : p ≠ 2) {G H X : Subgroup (GL (Fin 3) (ZMod p))} (
     push Not at h
     have : 26 ^ 2 ≤ p ^ 2 := Nat.pow_le_pow_left h 2
     omega
-  interval_cases p <;> first | omega | exact absurd hp (by norm_num) | skip
-  all_goals omega
+  interval_cases p <;> first | omega | exact absurd hp (by norm_num)
 
 section InnerTwelve
 
@@ -119,7 +118,7 @@ theorem exists_pow_twelve_mem_inner {S : Type*} [Group S] [Finite S]
     ∃ s : S, MulAut.conj s = a ^ 12 := by
   classical
   set Inn : Subgroup (MulAut S) := (MulAut.conj : S →* MulAut S).range with hInn
-  haveI : Inn.Normal := ⟨by
+  have : Inn.Normal := ⟨by
     rintro _ ⟨s, rfl⟩ φ
     refine ⟨φ s, MulEquiv.ext fun x => ?_⟩
     simp [MulAut.conj_apply]⟩
@@ -239,14 +238,14 @@ theorem card_alt6 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
   rfl
 
-theorem false_of_threeCoverA6 (hp2 : p ≠ 2)
+theorem false_of_threeCoverA6 (_hp2 : p ≠ 2)
     {G H X : Subgroup (GL (Fin 3) (ZMod p))} (hXG : X ≤ G)
     (hnorm : ∀ g ∈ G, ∀ h ∈ H, g * h * g⁻¹ ∈ H) (hirr : IsIrreducibleMatrixRep H.subtype)
     (hperf : Group.IsPerfect H) (e6 : (H ⧸ Subgroup.center H) ≃* alternatingGroup (Fin 6))
     (h30 : p % 30 = 1 ∨ p % 30 = 19) {z : Fin 3 → ZMod p} (hz0 : z ≠ 0)
     (hXz : ∀ y ∈ X, (y : Matrix (Fin 3) (Fin 3) (ZMod p)) *ᵥ z = z) (hXcyc : IsCyclic X)
     (hXcard : Nat.card X = (p ^ 2 - 1) / 2) : False := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hq : CFSG.Open.IsQuasisimple ↥H := ⟨hperf.commutator_eq_top, e6.isSimpleGroup⟩
   have hnc : ∃ a ∈ H, ∃ b ∈ H, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := K322Rows.not_comm_of_isQuasisimple_k322 hq

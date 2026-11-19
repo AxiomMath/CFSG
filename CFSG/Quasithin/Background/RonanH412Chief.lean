@@ -58,8 +58,8 @@ theorem hasChiefCount_extend {acts : Set (G → G)} {Y' Y : Subgroup G} {c : ℕ
     (HasChiefCount acts Y c ∧ ¬ ∃ f ∈ acts, ∃ u ∈ Y, f u * u⁻¹ ∉ Y') := by
   obtain ⟨k, S, h0, hk, hS, hc⟩ := h
   let S' : ℕ → Subgroup G := fun i => if i ≤ k then S i else Y
-  have hS'le : ∀ i ≤ k, S' i = S i := fun i hi => if_pos hi
-  have hS'k1 : S' (k + 1) = Y := if_neg (by omega)
+  have hS'le : ∀ i ≤ k, S' i = S i := fun i hi => ite_eq_left hi
+  have hS'k1 : S' (k + 1) = Y := ite_eq_right (by omega)
   have h0' : S' 0 = ⊥ := by rw [hS'le 0 (Nat.zero_le _), h0]
   have hchief : ∀ i < k + 1, ChiefFactor acts (S' i) (S' (i + 1)) := by
     intro i hi
@@ -72,7 +72,7 @@ theorem hasChiefCount_extend {acts : Set (G → G)} {Y' Y : Subgroup G} {c : ℕ
       {i : ℕ | i < k ∧ ∃ f ∈ acts, ∃ u ∈ S (i + 1), f u * u⁻¹ ∉ S i} ∪
         {i : ℕ | i = k ∧ ∃ f ∈ acts, ∃ u ∈ Y, f u * u⁻¹ ∉ Y'} := by
     ext i
-    simp only [Set.mem_setOf_eq, Set.mem_union]
+    simp only [Set.mem_ofPred_eq, Set.mem_union]
     constructor
     · rintro ⟨hi, hex⟩
       rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi' | rfl
@@ -102,7 +102,7 @@ theorem hasChiefCount_extend {acts : Set (G → G)} {Y' Y : Subgroup G} {c : ℕ
       exact lt_irrefl _ hi
     have hsing : {i : ℕ | i = k ∧ ∃ f ∈ acts, ∃ u ∈ Y, f u * u⁻¹ ∉ Y'} = {k} := by
       ext i
-      simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
       exact ⟨fun h => h.1, fun h => ⟨h, hnc⟩⟩
     rw [Set.ncard_union_eq hdisj hfin (by rw [hsing]; exact Set.finite_singleton _), hc, hsing,
       Set.ncard_singleton]
@@ -111,7 +111,7 @@ theorem hasChiefCount_extend {acts : Set (G → G)} {Y' Y : Subgroup G} {c : ℕ
     rw [hnew]
     have hempty : {i : ℕ | i = k ∧ ∃ f ∈ acts, ∃ u ∈ Y, f u * u⁻¹ ∉ Y'} = ∅ := by
       ext i
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact fun h => hnc h.2
     rw [hempty, Set.union_empty, hc]
 
@@ -163,7 +163,7 @@ theorem hasChiefCount_map {A : Type*} [Group A] {ι : A →* G} (hι : Function.
   · have hset : {i : ℕ | i < k ∧ ∃ f ∈ powMaps φ, ∃ u ∈ (S (i + 1)).map ι, f u * u⁻¹ ∉ (S i).map ι} =
         {i : ℕ | i < k ∧ ∃ f ∈ powMaps ψ, ∃ u ∈ S (i + 1), f u * u⁻¹ ∉ S i} := by
       ext i
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       refine and_congr_right fun _ => ?_
       constructor
       · rintro ⟨f, hf, _, ⟨a, ha, rfl⟩, hn⟩
@@ -208,12 +208,12 @@ variable {A : Type*} [CommGroup A]
       rw [e]
       exact X.mul_mem hz hw
     · right
-      have e : z * w * u = (z * u) * w := by simp [mul_assoc, mul_comm, mul_left_comm]
+      have e : z * w * u = (z * u) * w := by simp [mul_comm, mul_left_comm]
       rw [e]
       exact X.mul_mem hz hw
     · left
       have e : z * w = (z * u) * (w * u) := by
-        simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+        simp [mul_comm, mul_left_comm, sc]
       rw [e]
       exact X.mul_mem hz hw
   one_mem' := Or.inl X.one_mem
@@ -273,7 +273,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
   have sc : ∀ a b : A, a * (a * b) = b := fun a b => by rw [← mul_assoc, hsq, one_mul]
   have hinv : ∀ a : A, a⁻¹ = a := fun a => inv_eq_of_mul_eq_one_right (hsq a)
   have hXY' : X ≤ Y := hXY.le
-  obtain ⟨u, huY, huX⟩ := SetLike.exists_of_lt hXY
+  obtain ⟨u, huY, huX⟩ := _root_.IsConcreteLE.exists_of_lt hXY
   have hvY : ψ u ∈ Y := hYψ u huY
   have hwY : ψ (ψ u) ∈ Y := hYψ _ hvY
   by_cases hc : ψ u * u ∈ X
@@ -284,7 +284,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
       · refine Or.inr ?_
         have e : ψ w * u = ψ (w * u) * (ψ u * u) := by
           rw [map_mul]
-          simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+          simp [mul_comm, mul_left_comm, sc]
         rw [e]
         exact X.mul_mem (hXψ _ hw) hc
     have hWY : adjA hsq X u ≤ Y := by
@@ -303,7 +303,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
       · exact X.mul_mem (hXψ y h) h
       · have e : ψ y * y = ψ (y * u) * (y * u) * (ψ u * u) := by
           rw [map_mul]
-          simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+          simp [mul_assoc, mul_comm, mul_left_comm, sc]
         rw [e]
         exact X.mul_mem (X.mul_mem (hXψ _ h) h) hc
     · rw [← hWeq]
@@ -311,7 +311,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
     · obtain ⟨u', hu'⟩ : ∃ u' : A, u' = u * ψ u * ψ (ψ u) := ⟨_, rfl⟩
       have hu'fix : ψ u' = u' := by
         rw [hu', map_mul, map_mul, hψ]
-        simp [mul_assoc, mul_comm, mul_left_comm]
+        simp [mul_comm, mul_left_comm]
       have hu'Y : u' ∈ Y := by
         rw [hu']
         exact Y.mul_mem (Y.mul_mem huY hvY) hwY
@@ -320,13 +320,13 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
         rwa [map_mul] at this
       have h1 : ψ (ψ u) * u ∈ X := by
         have e : ψ (ψ u) * u = (ψ (ψ u) * ψ u) * (ψ u * u) := by
-          simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+          simp [mul_comm, mul_left_comm, sc]
         rw [e]
         exact X.mul_mem hψψ hc
       have hu'u : u' * u ∈ X := by
         have e : u' * u = (ψ u * u) * (ψ (ψ u) * u) := by
           rw [hu']
-          simp [mul_assoc, mul_comm, mul_left_comm]
+          simp [mul_comm, mul_left_comm]
         rw [e]
         exact X.mul_mem hc h1
       have hu'X : u' ∉ X := fun h => huX (by
@@ -367,7 +367,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
     obtain ⟨n, hn⟩ : ∃ n : A, n = u * ψ u * ψ (ψ u) := ⟨_, rfl⟩
     have hnfix : ψ n = n := by
       rw [hn, map_mul, map_mul, hψ]
-      simp [mul_assoc, mul_comm, mul_left_comm]
+      simp [mul_comm, mul_left_comm]
     have hnY : n ∈ Y := by
       rw [hn]
       exact Y.mul_mem (Y.mul_mem huY hvY) hwY
@@ -395,12 +395,12 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
             have := hXψ _ h1
             rwa [map_mul, hnfix] at this
           have e : ψ u * u = (ψ u * n) * (u * n) := by
-            simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+            simp [mul_assoc, mul_comm, mul_left_comm, sc]
           rw [e]
           exact X.mul_mem hψun h1
     have hww : ψ (ψ u) = n * u * ψ u := by
       rw [hn]
-      simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+      simp [mul_comm, mul_left_comm, sc]
     have hW₂ψ : ∀ z ∈ adjA hsq (adjA hsq X u) (ψ u), ψ z ∈ adjA hsq (adjA hsq X u) (ψ u) := by
       rintro z ((hz | hz) | (hz | hz))
       · exact Or.inl (Or.inl (hXψ z hz))
@@ -413,7 +413,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
           rwa [map_mul] at this
         have e : ψ z * ψ u * u = n * (ψ z * ψ (ψ u)) := by
           rw [hww]
-          simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+          simp [mul_assoc, mul_comm, mul_left_comm, sc]
         rw [e]
         exact X.mul_mem hnX h1
       · refine Or.inl (Or.inr ?_)
@@ -422,7 +422,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
           rwa [map_mul, map_mul] at this
         have e : ψ z * u = n * (ψ z * ψ (ψ u) * ψ u) := by
           rw [hww]
-          simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+          simp [mul_assoc, mul_comm, mul_left_comm, sc]
         rw [e]
         exact X.mul_mem hnX h1
     have hW₂Y : adjA hsq (adjA hsq X u) (ψ u) ≤ Y := by
@@ -434,7 +434,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
       · have e : z = (z * ψ u) * ψ u := by simp [mul_assoc, hsq]
         rw [e]
         exact Y.mul_mem (hXY' hz) hvY
-      · have e : z = (z * ψ u * u) * u * ψ u := by simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+      · have e : z = (z * ψ u * u) * u * ψ u := by simp [mul_comm, mul_left_comm, sc, hsq]
         rw [e]
         exact Y.mul_mem (Y.mul_mem (hXY' hz) huY) hvY
     have huW₂ : u ∈ adjA hsq (adjA hsq X u) (ψ u) := Or.inl (self_mem_adjA hsq X u)
@@ -460,7 +460,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
             have := hXψ _ hy
             rwa [map_mul, hyf] at this
           have e : ψ u * u = (y * ψ u) * (y * u) := by
-            simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+            simp [mul_assoc, mul_comm, mul_left_comm, sc]
           rw [e]
           exact X.mul_mem h1 hy
         · exfalso
@@ -470,7 +470,7 @@ theorem chief_step (hsq : ∀ a : A, a * a = 1) {ψ : A →* A} (hψ : ∀ a, ψ
           have h2 : n * u ∈ X := by
             have e : n * u = (y * ψ (ψ u)) * (y * ψ u) := by
               rw [hww]
-              simp [mul_assoc, mul_comm, mul_left_comm, sc, hsq]
+              simp [mul_assoc, mul_comm, mul_left_comm, hsq]
             rw [e]
             exact X.mul_mem h1 hy
           apply huX

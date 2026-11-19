@@ -116,6 +116,7 @@ theorem fixL_iff {H : ℕ → ℕ} {n p : ℕ} {R : List (ℕ × List ℕ)} :
     rw [CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, ih, allL_iff]
     simp [Nat.beq_eq]
 
+omit [Group G] in
 theorem chainP_of {H : ℕ → ℕ} {n : ℕ} {act : G → ℕ → ℕ} {E : ℕ → G}
     (hW : ∀ v, vecOK n v = true → ∀ x < 31671, imgV H n v x = act (E v) x) :
     ∀ Ls : List (ℕ × List ℕ), chainB H n Ls = true →

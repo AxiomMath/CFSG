@@ -32,7 +32,7 @@ theorem hidc : canonK 24 5 (mask 5) (24 * 5) (pidn 24 5) = true := base.2.1
 theorem hid : idT 24 = tabT (unpack 24 5 (pidn 24 5)) := by
   rw [idT_tabT, idK_sound base.2.2.1]
 
-theorem x_tab {j : Nat} (hj : j < 3) {x : Table}
+theorem x_tab {j : Nat} (_hj : j < 3) {x : Table}
     (hx : natArr x = unpack 24 5 (M12X j)) : x = tabT (unpack 24 5 (M12X j)) := by
   rw [← hx, tabT_natArr]
 
@@ -59,7 +59,7 @@ theorem s_hs : ∀ i < Q2.cnt, hsortPtK 24 5 (mask 5) Q2.cnt Q2.T Q2.HS Q2.HSI i
 theorem s_cl : ∀ c < Q2.cnt * (5 + 5), findPtK Q2.cnt Q2.T
     (prodQK 24 5 (mask 5) (5 + 5) Q2.T (bothK 5 Q2.GI Q2I)) Q2Cl c = true :=
   fun c hc => slK_spec sCl c (Nat.zero_le _) (by change c < Nat.mul Q2.cnt 10; omega)
-    (by change c < Nat.mul Q2.cnt 10; omega)
+    (by omega)
 
 theorem enum_ok : enumOK 24 cap m12Q2Gens 384 = true := by
   refine KernelSpor.M12Syl.evEnum_of (enumOK_of base.1 base.2.2.2.2.2.2.2.1 g_tabs g_invs

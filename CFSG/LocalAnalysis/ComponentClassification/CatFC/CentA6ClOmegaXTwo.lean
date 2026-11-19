@@ -41,7 +41,7 @@ theorem omega_linear_core_two (hK : Nat.card K = 3) (hO : LieOrderFormulasInput)
   · obtain ⟨r, hr⟩ := hsqc
     have hr0 : r ≠ 0 := by
       rintro rfl
-      exact c.ne_zero (by simpa using hr)
+      exact c.ne_zero (by simp at hr)
     let b : Kˣ := Units.mk0 r hr0
     have hb : (c : K) = (b : K) ^ 2 := by rw [hr, sq]; rfl
     rcases hsign with hpos | hneg

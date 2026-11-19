@@ -48,6 +48,7 @@ theorem isPGroup_of_special {Y : Type} [Group Y] [Finite Y] {a b : ℕ}
 theorem isPGroup_of_z4 {Y : Type} [Group Y] [Finite Y] (h : IsZ4Cubed Y) : IsPGroup 2 Y :=
   IsPGroup.iff_card.mpr ⟨6, by rw [C489.card_of_isZ4Cubed h]; norm_num⟩
 
+omit [Finite G] in
 theorem card_V_of_natural {A V : Subgroup G} {N : Subgroup ↥A} {j : ℕ}
     (h : IsNaturalSection A V ⊥ N (CFSG.Assembly.LowTwoRank.StatedSL j (ZMod 2))) :
     Nat.card V = 2 ^ j := by
@@ -75,6 +76,7 @@ theorem false_of_div_pow_two {y s e c q : ℕ} (hy : y = s * 2 ^ e) (hc : y = s 
   have h3 : q ∣ 2 ^ e := h2 ▸ hqc
   exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).mp (hq.dvd_of_dvd_pow h3))
 
+omit [Finite G] in
 theorem case1_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
     (C : LHCtx K LH V) (h : C31Case1 H R M LH V K) : False := by
   obtain ⟨n, -, -, -, hpsl, -⟩ := h
@@ -95,8 +97,9 @@ theorem case1_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
     have h5 : 32 * 1023 ≤ 2 ^ n * ((2 ^ n) ^ 2 - 1) := Nat.mul_le_mul h2 h4
     generalize 2 ^ n * ((2 ^ n) ^ 2 - 1) = P at hcard h5
     omega
-  interval_cases n <;> norm_num at hcard <;> omega
+  interval_cases n <;> norm_num at hcard
 
+omit [Finite G] in
 theorem case2_false (H R M LH V K : Subgroup G) (C : LHCtx K LH V)
     (h : C31Case2 H R M LH V K) : False := by
   obtain ⟨n, hn, -, -, -, hdisj⟩ := h
@@ -113,20 +116,20 @@ theorem case3_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   rw [hcc] at h
   obtain ⟨-, hext | hext | hext⟩ := h
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl2_4 hQ
     obtain ⟨e, he⟩ := ratio_I K LH C.le_K C.pgroup_Z N (isPGroup_of_isE2 hN)
     rw [hy] at he
     exact false_of_not_dvd C.card_s he (by norm_num) (by norm_num)
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := C489.card_of_isAlt hQ
     rw [C489.card_alt6] at hy
     obtain ⟨e, he⟩ := ratio_I K LH C.le_K C.pgroup_Z N (isPGroup_of_isE2 hN)
     rw [hy] at he
     exact false_of_not_dvd C.card_s he (by norm_num) (by norm_num)
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl3 hQ
     rcases C.card_s with hs | hs
     · have hsurv := card_V_le_I K LH V C.le_K C.pgroup_Z C.V_inf C.V_le C.V_pCore N
@@ -145,13 +148,13 @@ theorem case4_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   rw [hcc] at h
   obtain ⟨-, hext | hext | hext⟩ := h
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl2_4 hQ
     obtain ⟨e, he⟩ := ratio_D LH N (isPGroup_of_isE2 hN)
     rw [hy] at he
     exact false_of_not_dvd C.card_s he (by norm_num) (by norm_num)
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := C489.card_of_isAlt hQ
     rw [C489.card_alt7] at hy
     obtain ⟨e, he⟩ := ratio_D LH N (isPGroup_of_isE2 hN)
@@ -163,7 +166,7 @@ theorem case4_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
     · rw [hs] at he
       exact false_of_lt he (by norm_num)
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl3 hQ
     rcases C.card_s with hs | hs
     · have hsurv := card_V_le_D C.V_le C.V_pCore N (isPGroup_of_isE2 hN) (by rw [hy, hs])
@@ -181,13 +184,13 @@ theorem case5_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   rw [hcc] at h
   obtain ⟨-, hext | hext | hext⟩ := h
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := C489.card_of_isHat_alt6 hQ
     obtain ⟨e, he⟩ := ratio_D LH N (isPGroup_of_isE2 hN)
     rw [hy] at he
     exact false_of_not_dvd C.card_s he (by norm_num) (by norm_num)
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl4 hQ
     obtain ⟨e, he⟩ := ratio_D LH N (isPGroup_of_isE2 hN)
     rw [hy] at he
@@ -201,7 +204,7 @@ theorem case5_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
       norm_num at hsurv
       omega
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl3 hQ
     rcases C.card_s with hs | hs
     · have hsurv := card_V_le_D C.V_le C.V_pCore N (isPGroup_of_isE2 hN) (by rw [hy, hs])
@@ -220,7 +223,7 @@ theorem case6_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   · unfold C31Case6M24 at hext
     rw [hcc] at hext
     obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     obtain ⟨e⟩ := hQ
     have h23 : 23 ∣ Nat.card (↥LH ⧸ N) := by
       rw [Nat.card_congr e.toEquiv]
@@ -232,7 +235,7 @@ theorem case6_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   · unfold C31Case6L3 at hext
     rw [hcc] at hext
     obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl3 hQ
     rcases C.card_s with hs | hs
     · have hsurv := card_V_le_center_D C.V_le C.V_pCore C.V_cent N (isPGroup_of_special hN)
@@ -247,7 +250,7 @@ theorem case6_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   · unfold C31Case6L5 at hext
     rw [hcc] at hext
     obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have h31 : 31 ∣ Nat.card (↥LH ⧸ N) := by
       rw [C489.card_of_isPSL_two hQ]
       decide
@@ -262,7 +265,7 @@ theorem case7_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   rw [hcc] at h
   obtain ⟨-, hext | hext⟩ := h
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl3 hQ
     obtain ⟨e, he⟩ := ratio_I K LH C.le_K C.pgroup_Z N (isPGroup_of_z4 hN)
     rw [hy] at he
@@ -275,7 +278,7 @@ theorem case7_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
     · rw [hs] at he
       exact false_of_lt he (by norm_num)
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := C489.card_of_isAlt hQ
     rw [C489.card_alt6] at hy
     obtain ⟨e, he⟩ := ratio_I K LH C.le_K C.pgroup_Z N (isPGroup_of_isE2 hN)
@@ -288,7 +291,7 @@ theorem case8_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   rw [hcc] at h
   obtain ⟨-, hext⟩ := h
   obtain ⟨N, hNn, hN, hQ⟩ := hext
-  haveI := hNn
+  have := hNn
   have hy := C489.card_of_isHat_alt6 hQ
   obtain ⟨e, he⟩ := ratio_D LH N (isPGroup_of_isE2 hN)
   rw [hy] at he
@@ -300,7 +303,7 @@ theorem case9_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
   rw [hcc] at h
   obtain ⟨-, hext | hext⟩ := h
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := card_psl3 hQ
     obtain ⟨e, he⟩ := ratio_I K LH C.le_K C.pgroup_Z N (isPGroup_of_special hN)
     rw [hy] at he
@@ -314,7 +317,7 @@ theorem case9_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
     · rw [hs] at he
       exact false_of_lt he (by norm_num)
   · obtain ⟨N, hNn, hN, hQ⟩ := hext
-    haveI := hNn
+    have := hNn
     have hy := CFSG.Quasithin.SBc11.card_of_isPSU_three_three hQ
     obtain ⟨e, he⟩ := ratio_I K LH C.le_K C.pgroup_Z N (isPGroup_of_isE2 hN)
     rw [hy] at he
@@ -325,6 +328,7 @@ theorem case9_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
     · rw [hs] at he
       exact false_of_lt he (by norm_num)
 
+omit [Finite G] in
 theorem case10_false (H R M LH V K : Subgroup G) (hcc : conjClosure LH M = LH)
     (C : LHCtx K LH V) (h : C31Case10 H R M LH V K) : False := by
   obtain ⟨-, -, hB⟩ := h

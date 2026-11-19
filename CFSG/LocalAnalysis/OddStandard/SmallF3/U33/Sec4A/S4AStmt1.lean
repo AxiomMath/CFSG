@@ -15,12 +15,12 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 @[expose] def Lemma4_1Stmt : Prop :=
   ∀ {G : Type} [Group G] [Finite G]
     {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
-    (hI : Sec4Inputs) (hG : Sec4Glob G) (h0 : Ctx0 t L S x₁ x₂ lam rho), Lemma4_1Concl t L
+    (_hI : Sec4Inputs) (_hG : Sec4Glob G) (_h0 : Ctx0 t L S x₁ x₂ lam rho), Lemma4_1Concl t L
 
 @[expose] def CtxOfLemma4_1Stmt : Prop :=
   ∀ {G : Type} [Group G] [Finite G]
     {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
-    (h0 : Ctx0 t L S x₁ x₂ lam rho) (h1 : Lemma4_1Concl t L),
+    (_h0 : Ctx0 t L S x₁ x₂ lam rho) (_h1 : Lemma4_1Concl t L),
     ∃ tau : G, Ctx t L S x₁ x₂ lam rho tau
 
 theorem exists_ctx (h41 : Lemma4_1Stmt) (h41c : CtxOfLemma4_1Stmt) (hI : Sec4Inputs)

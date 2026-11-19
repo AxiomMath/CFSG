@@ -46,7 +46,7 @@ theorem alt7_noncomm : ∃ a c : ↥(alternatingGroup (Fin 7)), a * c ≠ c * a 
 theorem alt7_subgroup_data {G : Type} [Group G] {L : Subgroup G}
     (e : ↥(alternatingGroup (Fin 7)) ≃* ↥L) :
     IsSimpleGroup ↥L ∧ (∃ a b : ↥L, a * b ≠ b * a) ∧ Nat.card ↥L = 2520 := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   refine ⟨e.symm.isSimpleGroup, ?_, ?_⟩
   · obtain ⟨a, c, hac⟩ := alt7_noncomm
     exact ⟨e a, e c, fun h => hac (e.injective (by rw [map_mul, map_mul]; exact h))⟩
@@ -81,7 +81,7 @@ theorem fi24Seven_parts : ∃ y ∈ CFSG.Sporadic.Fi24.J, ∃ e ∈ CFSG.Sporadi
 
 theorem levelOK_C7 :
     LevelOK 7 (CFSG.HardMathSupport.Dickson.I271.Fi7.C7) := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   intro I hI
   refine (false_of_glaPComponent_of_solvable (by norm_num) ?_ hI).elim
   exact isSolvable_of_card_two_mul (p := 3) (q := 7) (a := 1) (b := 3) (by norm_num) (by norm_num)
@@ -91,7 +91,7 @@ theorem levelOK_C7 :
 theorem exists_levelOK_conj_Y7 :
     ∃ y : CFSG.Sporadic.Fi24.J, (∃ g : CFSG.Sporadic.Fi24.J, g * y * g⁻¹ = CFSG.HardMathSupport.Dickson.I271.Fi7.Y7) ∧
       LevelOK 7 y := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨y0, hy0, e0, he0, hy7, hy1, he5, he1, hey, hM⟩ := fi24Seven_parts
   obtain ⟨y, hyv⟩ : ∃ y : J, (y : GL (Fin 781) (ZMod 3)) = y0 := ⟨⟨y0, hy0⟩, rfl⟩
   obtain ⟨e, hev⟩ : ∃ e : J, (e : GL (Fin 781) (ZMod 3)) = e0 := ⟨⟨e0, he0⟩, rfl⟩
@@ -127,7 +127,7 @@ theorem exists_levelOK_conj_Y7 :
     (by norm_num) m hmoore).2.2.2.2.2 (by norm_num) ⟨1, ⟨le_rfl, by norm_num⟩, hm1⟩
   set L : Subgroup J := Subgroup.closure (m '' Set.Icc 1 (7 - 2)) with hL
   obtain ⟨hs, hnab, hcardL⟩ := alt7_subgroup_data eL
-  haveI : Finite ↥(⊤ : Subgroup J) := inferInstance
+  have : Finite ↥(⊤ : Subgroup J) := inferInstance
   have hLC : L ≤ Subgroup.centralizer ({((⟨y, Subgroup.mem_top y⟩ : ↥(⊤ : Subgroup J)) : J)} :
       Set J) ⊓ ⊤ := by
     refine le_inf ((Subgroup.closure_le _).2 ?_) le_top
@@ -141,7 +141,7 @@ theorem exists_levelOK_conj_Y7 :
   exact LevelOK.of_mulEquiv (by norm_num) Subgroup.topEquiv hlev
 
 theorem levelOK_seven (k : CFSG.Sporadic.Fi24.J) (hk : orderOf k = 7) : LevelOK 7 k := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨y, ⟨g, hgy⟩, hy⟩ := exists_levelOK_conj_Y7
   have hY : LevelOK 7 CFSG.HardMathSupport.Dickson.I271.Fi7.Y7 := by
     have h := LevelOK.of_mulEquiv (by norm_num) (MulAut.conj g) hy

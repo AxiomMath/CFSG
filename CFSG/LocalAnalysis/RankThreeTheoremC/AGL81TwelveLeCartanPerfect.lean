@@ -27,7 +27,7 @@ theorem exists_component_of_perfect {A : Type} [Group A] [Finite A] {Y P : Subgr
     ∃ D : Subgroup A, Open.IsComponentOf D (Y ⊓ centralizer ({β} : Set A)) ∧
       3 ∣ Nat.card D := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, hDP, hDc, hDperf, hD3⟩ :=
     exists_perfect_le_centralizer_of_perfect hβ3 hβP hW hodd hJP hJ hJ3
   have hDY : D ≤ Y := hDP.trans hPY

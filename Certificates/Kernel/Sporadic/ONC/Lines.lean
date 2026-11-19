@@ -103,14 +103,14 @@ theorem foldl_push_if {q : ℕ → Prop} [DecidablePred q] {f : ℕ → UInt32} 
   | k :: l, acc => by
     rw [List.foldl_cons, foldl_push_if l]
     by_cases h : q k
-    · simp [h, List.filter_cons]
-    · simp [h, List.filter_cons]
+    · simp [h]
+    · simp [h]
 
 theorem lineReps_eq (N : Table) : lineReps N =
     (((List.range' 0 nPts).filter fun k => decide (k < ap N k)).map UInt32.ofNat).toArray := by
   unfold lineReps
-  simp only [Id.run_bind, Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
-    CFSG.KS.ONOut.InvV.ite_pure_yield, List.forIn_pure_yield_eq_foldl, pure_bind, bind_pure,
+  simp only [Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
+    CFSG.KS.ONOut.InvV.ite_pure_yield, List.forIn_pure_yield_eq_foldl, bind_pure,
     Std.Legacy.Range.size, Nat.add_sub_cancel, Nat.div_one]
   rw [Nat.sub_zero, foldl_push_if (q := fun k => k < ap N k) (f := UInt32.ofNat)]
   simp
@@ -191,9 +191,9 @@ theorem set2_loop {N : Nat} {D₁ D₂ : ℕ → ℕ} {v : ℕ → UInt32} :
       getElem!_set!' _ _ _ _ (by rw [hs]; exact (hD j hj).2.1)]
     rcases Nat.lt_succ_iff_lt_or_eq.1 hj with hj' | rfl
     · obtain ⟨a, b, c, d⟩ := hd m (by omega) j hj'
-      rw [if_neg (Ne.symm b), if_neg (Ne.symm a), if_neg (Ne.symm d), if_neg (Ne.symm c)]
+      rw [ite_eq_right (Ne.symm b), ite_eq_right (Ne.symm a), ite_eq_right (Ne.symm d), ite_eq_right (Ne.symm c)]
       exact hv j hj'
-    · rw [if_neg (Ne.symm h12), if_pos rfl, if_pos rfl]
+    · rw [ite_eq_right (Ne.symm h12), ite_eq_left rfl, ite_eq_left rfl]
       exact ⟨rfl, rfl⟩
 
 theorem lineOfT_eq (N R : Table) : lineOfT N R = (List.range' 0 R.size).foldl

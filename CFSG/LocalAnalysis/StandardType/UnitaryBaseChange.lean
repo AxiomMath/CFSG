@@ -33,6 +33,7 @@ theorem baseChangeHom_eq_one_iff (ρ : Γ →* Matrix ι ι F) (g : Γ) :
   · intro h
     rw [h, Matrix.map_one (algebraMap F (AlgebraicClosure F)) (map_zero _) (map_one _)]
 
+omit [DecidableEq ι] in
 theorem map_form {σ : F ≃+* F} {σ' : AlgebraicClosure F ≃+* AlgebraicClosure F}
     (hσ' : ∀ x : F, σ' (algebraMap F (AlgebraicClosure F) x) =
       algebraMap F (AlgebraicClosure F) (σ x))
@@ -56,6 +57,7 @@ theorem baseChangeHom_form {σ : F ≃+* F} {σ' : AlgebraicClosure F ≃+* Alge
   rw [baseChangeHom_apply]
   rw [map_form hσ' (ρ g) G, hρ g]
 
+omit [Fintype ι] in
 theorem map_ne_smul_one {M : Matrix ι ι F} (hM : ∀ c : F, M ≠ c • 1) (e : AlgebraicClosure F) :
     M.map (algebraMap F (AlgebraicClosure F)) ≠ e • 1 := by
   intro h
@@ -68,7 +70,7 @@ theorem map_ne_smul_one {M : Matrix ι ι F} (hM : ∀ c : F, M ≠ c • 1) (e 
       apply hinj
       have hh : (M.map (algebraMap F (AlgebraicClosure F))) i j =
           (e • (1 : Matrix ι ι (AlgebraicClosure F))) i j := by rw [h]
-      rw [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, if_neg hij] at hh
+      rw [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, ite_eq_right hij] at hh
       simpa using hh
     have hdiag : ∀ i : ι, M i i = M i₀ i₀ := by
       intro i
@@ -77,16 +79,16 @@ theorem map_ne_smul_one {M : Matrix ι ι F} (hM : ∀ c : F, M ≠ c • 1) (e 
           (e • (1 : Matrix ι ι (AlgebraicClosure F))) i i := by rw [h]
       have h0 : (M.map (algebraMap F (AlgebraicClosure F))) i₀ i₀ =
           (e • (1 : Matrix ι ι (AlgebraicClosure F))) i₀ i₀ := by rw [h]
-      rw [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, if_pos rfl] at hi
-      rw [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, if_pos rfl] at h0
+      rw [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, ite_eq_left rfl] at hi
+      rw [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, ite_eq_left rfl] at h0
       rw [hi, h0]
     have hMscal : M = (M i₀ i₀) • 1 := by
       ext i j
       by_cases hij : i = j
       · subst hij
-        rw [Matrix.smul_apply, Matrix.one_apply, if_pos rfl, smul_eq_mul, mul_one]
+        rw [Matrix.smul_apply, Matrix.one_apply, ite_eq_left rfl, smul_eq_mul, mul_one]
         exact hdiag i
-      · rw [Matrix.smul_apply, Matrix.one_apply, if_neg hij, smul_zero]
+      · rw [Matrix.smul_apply, Matrix.one_apply, ite_eq_right hij, smul_zero]
         exact hoff i j hij
     exact hM (M i₀ i₀) hMscal
   · have hMone : M = 1 := by

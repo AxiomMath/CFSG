@@ -11,7 +11,7 @@ open CFSG CFSG.StandardType CFSG.Assembly CFSG.ComponentClassification.OuterAuto
 theorem ggSporKRest_index_fstar_le {W : Type} [Group W] [Finite W] :
     (CFSG.generalizedFitting W).index ≤ Nat.card (Outer ↥(CFSG.generalizedFitting W)) := by
   let F : Subgroup W := CFSG.generalizedFitting W
-  haveI hFnormal : F.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := W)).2
+  have hFnormal : F.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := W)).2
   let φ : W →* MulAut ↥F := MulAut.conjNormal
   let ψ : W →* Outer ↥F := (QuotientGroup.mk' (inner ↥F)).comp φ
   have hker : ψ.ker = F := by
@@ -62,9 +62,9 @@ theorem ggSporKRest_mem_fstar_of_pow_eq_one {W : Type} [Group W] [Finite W] {m :
     (hOut : Nat.card (Outer ↥(CFSG.generalizedFitting W)) ≤ 2) {x : W} (hx : x ^ m = 1) :
     x ∈ CFSG.generalizedFitting W := by
   let F : Subgroup W := CFSG.generalizedFitting W
-  haveI hFnormal : F.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := W)).2
+  have hFnormal : F.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := W)).2
   have hindex : F.index ≤ 2 := le_trans (ggSporKRest_index_fstar_le (W := W)) hOut
-  letI : Fintype (W ⧸ F) := Fintype.ofFinite (W ⧸ F)
+  let : Fintype (W ⧸ F) := Fintype.ofFinite (W ⧸ F)
   have hcard : Fintype.card (W ⧸ F) ≤ 2 := by
     rw [← Nat.card_eq_fintype_card, (Subgroup.index_eq_card F).symm]
     exact hindex

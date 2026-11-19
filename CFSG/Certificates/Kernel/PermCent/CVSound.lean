@@ -23,10 +23,10 @@ theorem ev_cOf (σ : Equiv.Perm (Fin n)) : ev (cOf σ) = σ := by
   ext i
   rw [ev_apply]
   have hf : ∀ x < n, (if h : x < n then (σ ⟨x, h⟩ : Nat) else 0) < 2 ^ wC n := fun x hx => by
-    rw [dif_pos hx]
+    rw [dite_eq_left hx]
     exact (σ _).2.trans (by have := lt_wC n; omega)
   change pg (wC n) (CFSG.KS.mask (wC n)) (cOf σ).1 i = _
-  rw [cOf, pg_pmk hs.lt hf i.2, dif_pos i.2]
+  rw [cOf, pg_pmk hs.lt hf i.2, dite_eq_left i.2]
 
 theorem productsC_map (Ts : List (List (VP n))) :
     (productsC (Ts.map (List.map toCV))).map ev = (productsV Ts).map pkp := by
@@ -126,6 +126,7 @@ theorem orderIs_eq_orderIsP {M : Type*} [Monoid M] [DecidableEq M] (g : M) {m : 
   · rintro ⟨h1, h2⟩
     exact orderOf_eq_of_pow_and_pow_div_prime hm h1 fun p hp hpd => h2 p (hps p hp hpd)
 
+omit hs in
 theorem beq_cv (a b : CV n) : (a == b) = decide (a = b) := by
   rw [Bool.eq_iff_iff, beq_iff_eq, decide_eq_true_iff]
 
@@ -135,6 +136,7 @@ theorem contains_map_ev (L : List (CV n)) (a : CV n) [BEq (Equiv.Perm (Fin n))]
     [LawfulBEq (Equiv.Perm (Fin n))] : (L.map ev).contains (ev a) = decide (a ∈ L) := by
   rw [Bool.eq_iff_iff, List.contains_iff_mem, mem_map_ev, decide_eq_true_iff]
 
+omit hs in
 theorem contains_cv (L : List (CV n)) (a : CV n) : L.contains a = decide (a ∈ L) := by
   rw [Bool.eq_iff_iff, List.contains_iff_mem, decide_eq_true_iff]
 

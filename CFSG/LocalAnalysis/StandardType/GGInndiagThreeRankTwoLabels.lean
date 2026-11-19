@@ -124,7 +124,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Uni
 private theorem isQuasisimple_and_center_eq_bot_of_simple {R : Type} [Group R]
     (hs : IsSimpleGroup R) (hna : ∃ a b : R, a * b ≠ b * a) :
     CFSG.Open.IsQuasisimple R ∧ Subgroup.center R = ⊥ := by
-  haveI := hs
+  have := hs
   obtain ⟨a, b, hab⟩ := hna
   have hZ : Subgroup.center R = ⊥ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R)).resolve_right fun h =>
@@ -165,7 +165,7 @@ private theorem card_le_nine_of_le_primeFormD_one {K : Type} [Field K] {n : ℕ}
     (hD : CFSG.Open.IsElemAbelian 3 D)
     (hDle : D ≤ primeFormD h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :
     Nat.card D ≤ 9 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hker : ∀ A : primeFormUnitary h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K),
       primeFormConjHom h _ A = 1 ↔ (A : GL (Fin 3) K) ∈ Subgroup.center (GL (Fin 3) K) := by
     intro A

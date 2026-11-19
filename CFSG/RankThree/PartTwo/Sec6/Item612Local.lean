@@ -98,7 +98,7 @@ theorem exists_invariant_two_subgroup_not_le_theta [Finite G] {L E V : Subgroup 
   obtain ⟨R⟩ : Nonempty (Sylow 2 Y) := inferInstance
   set RG := (R : Subgroup Y).map Y.subtype with hRG
   have hRGY : RG ≤ Y := Subgroup.map_subtype_le _
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map Y.subtype
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map Y.subtype
   have hYRZ : Y ≤ RG ⊔ Z := le_sylow_sup_of_forall_pow_mem hZY hYZ hYpow R
   set W := RG ⊔ θL with hW
   have hWL : W ≤ L := sup_le (hRGY.trans hYL) (theta_le L)
@@ -154,7 +154,7 @@ theorem exists_invariant_two_subgroup_not_le_theta [Finite G] {L E V : Subgroup 
       3 Nat.prime_three E W hE3 hW3 hEW 2 Nat.prime_two
   set U := (Q : Subgroup W).map W.subtype with hU
   have hUW : U ≤ W := Subgroup.map_subtype_le _
-  have hU2 : IsPGroup 2 U := Q.isPGroup'.map W.subtype
+  have hU2 : IsPGroup 2 U := Q.isPGroup.map W.subtype
   refine ⟨U, (mem_invariantPiSubgroups_piOf_iff Nat.prime_two).mpr ⟨hUW.trans hWL, hU2, hEQ⟩,
     fun hUE => hVC ?_⟩
   have hWpow : ∀ w ∈ W, ∃ k : ℕ, w ^ (2 ^ k) ∈ θL := fun w hw =>
@@ -222,7 +222,7 @@ theorem inf_thetaQuotCentralizer_le_of_invariant [Finite G] (he : CFSG.Assembly.
     CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
       3 Nat.prime_three F M hF3 hM3 hFM 2 Nat.prime_two
   set RG := (R : Subgroup M).map M.subtype with hRG
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map M.subtype
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map M.subtype
   have hRG1 : RG ≠ ⊥ := by
     intro hbot
     obtain ⟨y, -, hle⟩ := exists_le_conj_sylow R (le_sup_left : U ≤ M) hU2

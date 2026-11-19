@@ -33,8 +33,8 @@ theorem inf_S₁_eq (hyp : T7F25.Asc77.Hyp25 (CoreAssembly.conjClass (tightCore 
     T7F25.Asc77.T7C.isSylow2In_of_mem_RSet_of_le hΩ hK hyp.hR.1 hyp.hR.2.1
   have hR₂ : IsSylow2In R₂ K' :=
     T7F25.Asc77.T7C.isSylow2In_of_mem_RSet_of_le hΩ hK'Ω hyp.hR'.1 hyp.hR'.2.1
-  exact ⟨hR₁.2.2 _ inf_le_left (S₁.isPGroup'.to_le inf_le_right) (le_inf hR₁.1 hyp.hR.2.2),
-    hR₂.2.2 _ inf_le_left (S₁.isPGroup'.to_le inf_le_right) (le_inf hR₂.1 hyp.hR'.2.2)⟩
+  exact ⟨hR₁.2.2 _ inf_le_left (S₁.isPGroup.to_le inf_le_right) (le_inf hR₁.1 hyp.hR.2.2),
+    hR₂.2.2 _ inf_le_left (S₁.isPGroup.to_le inf_le_right) (le_inf hR₂.1 hyp.hR'.2.2)⟩
 
 theorem comm_of_mem_tq {J P : Subgroup Y} (hP2 : IsPGroup 2 ↥P) (hPJ : P ≤ J) {s : Y}
     (hs : s ∈ trivialOnQuot J) (hsP : conjSub s P = P) : ∀ p ∈ P, s * p = p * s := by

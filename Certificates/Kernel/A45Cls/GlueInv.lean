@@ -254,7 +254,7 @@ theorem card_D :
       rw [Subgroup.mem_subgroupOf]
       exact ⟨fun hx => (mem_inf.1 hx).1, fun hx => mem_inf.2 ⟨hx, (mem_inf.1 x.2).2⟩⟩
     rw [hmem, hmem]
-    change Xor' ((b : P45) * r4 () ∈ QP45.originalSubgroup) ((b : P45) ∈ QP45.originalSubgroup)
+    change Xor ((b : P45) * r4 () ∈ QP45.originalSubgroup) ((b : P45) ∈ QP45.originalSubgroup)
     by_cases hb : (b : P45) ∈ QP45.originalSubgroup
     · refine Or.inr ⟨hb, fun h => hr4P ?_⟩
       have := mul_mem (inv_mem hb) h

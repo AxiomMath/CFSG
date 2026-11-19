@@ -57,7 +57,7 @@ section Patterns
 private theorem exists_conj_iota {E : Subgroup (Equiv.Perm (Fin 504))} (hEK : E ≤ fi24K)
     (hE : IsElemAbelian 3 E) (hc : Nat.card E = 243) :
     ∃ g ∈ fi24K, ∀ y, y ∈ E ↔ ∃ i < 243, g⁻¹ * y * g = ιA i := by
-  haveI : Finite fi24K := Nat.finite_of_card_ne_zero (by rw [card_fi24K]; norm_num)
+  have : Finite fi24K := Nat.finite_of_card_ne_zero (by rw [card_fi24K]; norm_num)
   have hc' : Nat.card (E.subgroupOf fi24K) = 3 ^ 5 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEK).toEquiv, hc]
     norm_num

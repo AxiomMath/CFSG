@@ -177,7 +177,7 @@ private theorem e6A2_g_injective
     simpa only [e6A2_g] using hp
   obtain ⟨ha, hb⟩ := e6A2_pair_eq_coeff hαα hββ hαβ (e6A2_coeffA i) (e6A2_coeffB i)
     (e6A2_coeffA j) (e6A2_coeffB j) hpair
-  fin_cases i <;> fin_cases j <;> simp [e6A2_coeffA, e6A2_coeffB] at ha hb ⊢ <;> omega
+  fin_cases i <;> fin_cases j <;> simp [e6A2_coeffA, e6A2_coeffB] at ha hb ⊢
 
 private theorem e6_component_A2_case
     {C : Set (Fin Tag.E6.rank → ℤ)} (hC : IsRootComponent C)
@@ -205,7 +205,7 @@ private theorem e6_component_A2_case
   have hg3 : e6A2_g α β 3 = -α := by simp [e6A2_g, e6A2_coeffA, e6A2_coeffB]
   have hg4 : e6A2_g α β 4 = -β := by simp [e6A2_g, e6A2_coeffA, e6A2_coeffB]
   have hg5 : e6A2_g α β 5 = -(α + β) := by
-    simp [e6A2_g, e6A2_coeffA, e6A2_coeffB] <;> abel
+    simp [e6A2_g, e6A2_coeffA, e6A2_coeffB]; abel
   have hαT : α ∈ T := ⟨0, hg0⟩
   have hβT : β ∈ T := ⟨1, hg1⟩
   have hαβT : α + β ∈ T := ⟨2, hg2⟩

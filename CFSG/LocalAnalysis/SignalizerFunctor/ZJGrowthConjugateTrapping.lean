@@ -72,7 +72,7 @@ theorem zj_growth_closure_le_thompson_center (prime : ℕ) (prime_prime : prime.
     ((internalSylow : Subgroup actionCore).map actionCore.subtype : Set GroupType) = ⊤ at frattini
   rw [embedded_intersection] at frattini
   have fixed_le : fixed ≤ closure := subgroup_le_normalized_conjugate_hull ⊤ fixed
-  have properties := zj_growth_fixed_subgroup_properties prime prime_prime base kernel sylow.isPGroup' proper
+  have properties := zj_growth_fixed_subgroup_properties prime prime_prime base kernel sylow.isPGroup proper
   have fixed_center_le : fixed ≤ embeddedOrderThompsonCenter intersection := properties.2.1.trans center_le
   have normalized := (embedded_order_thompson_center_properties intersection
     (Subgroup.normalizer (intersection : Set GroupType)) le_rfl).2.2

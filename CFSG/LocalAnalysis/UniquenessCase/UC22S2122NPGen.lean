@@ -15,6 +15,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22s2122np_eq_sup_of_mul {E A B : Subgroup G}
     (hAE : A ≤ E) (hBE : B ≤ E) (hmul : (E : Set G) = (A : Set G) * (B : Set G)) :
     E = A ⊔ B := by
@@ -71,7 +72,7 @@ theorem uc22s2122np_eq_or_eq_of_mul {p : ℕ} (hp : p.Prime) {E A B : Subgroup G
     (hmul : (E : Set G) = (A : Set G) * (B : Set G)) {b : G} (hbA : b ∈ A) (hbB : b ∈ B)
     (hb1 : b ≠ 1) : A = E ∨ B = E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEsup : E = A ⊔ B := uc22s2122np_eq_sup_of_mul hAE hBE hmul
   obtain ⟨i, hi2, hcard⟩ := (Nat.dvd_prime_pow hp).1 hEc
   have hi0 : i ≠ 0 := by
@@ -101,7 +102,7 @@ theorem uc22s2122np_eq_or_eq_of_mul {p : ℕ} (hp : p.Prime) {E A B : Subgroup G
 private theorem uc22s2122np_card_coprime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E T : Subgroup G} (hEp : IsPGroup p E) (hT : IsPGroup 2 T) :
     Nat.Coprime (Nat.card E) (Nat.card T) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := hEp.exists_card_eq
   obtain ⟨k, hk⟩ := hT.exists_card_eq
   rw [ha, hk]
@@ -111,7 +112,7 @@ private theorem uc22s2122np_solvable_of_mul {p : ℕ} (hp : p.Prime) (hp2 : p �
     {E T : Subgroup G} (hEp : IsPGroup p E) (hT : IsPGroup 2 T)
     (hcard : Nat.card ↥(E ⊔ T : Subgroup G) = Nat.card E * Nat.card T) :
     Group.IsSolvable ↥(E ⊔ T : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsupp : ∀ ℓ : ℕ, ℓ.Prime →
       ℓ ∣ Nat.card ↥(E ⊔ T : Subgroup G) → ℓ = p ∨ ℓ = 2 := by
     intro ℓ hℓ hdvd
@@ -129,9 +130,9 @@ private theorem uc22s2122np_setup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E T : Subgroup G} (hEp : IsPGroup p E) (hT : IsPGroup 2 T)
     (hET : ((E ⊔ T : Subgroup G) : Set G) = (E : Set G) * (T : Set G)) :
     E ⊓ T = ⊥ ∧ Group.IsSolvable ↥(E ⊔ T : Subgroup G) ∧ Odd (Nat.card E) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTE : E ⊓ T = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime (uc22s2122np_card_coprime hp hp2 hEp hT)
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (uc22s2122np_card_coprime hp hp2 hEp hT)))
   have hcard : Nat.card ↥(E ⊔ T : Subgroup G) = Nat.card E * Nat.card T :=
     CFSG.Quasithin.H23P4.card_eq_mul_of_coe_eq_mul hET hTE
   refine ⟨hTE, uc22s2122np_solvable_of_mul hp hp2 hEp hT hcard, ?_⟩
@@ -139,6 +140,7 @@ private theorem uc22s2122np_setup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   rw [ha]
   exact (hp.odd_of_ne_two hp2).pow
 
+omit [Finite G] in
 private theorem uc22s2122np_inter_mul {E X T : Subgroup G}
     (hET : ((E ⊔ T : Subgroup G) : Set G) = (E : Set G) * (T : Set G))
     (hZY : (X ⊔ T : Subgroup G) ≤ E ⊔ T) :
@@ -157,7 +159,7 @@ private theorem uc22s2122np_isHall_inter {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (hAZ : ((X ⊔ T : Subgroup G) : Set G) = ((E ⊓ (X ⊔ T) : Subgroup G) : Set G) * (T : Set G))
     (hAT : (E ⊓ (X ⊔ T) : Subgroup G) ⊓ T = ⊥) :
     IsHallOddIn (E ⊓ (X ⊔ T)) (X ⊔ T) ∧ IsMulCommutative ↥(E ⊓ (X ⊔ T)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAdvd : Nat.card (E ⊓ (X ⊔ T) : Subgroup G) ∣ p ^ 2 :=
     (Subgroup.card_dvd_of_le inf_le_left).trans hEc
   obtain ⟨a, ha⟩ := (hEp.to_le inf_le_left : IsPGroup p (E ⊓ (X ⊔ T) : Subgroup G)).exists_card_eq
@@ -180,7 +182,7 @@ private theorem uc22s2122np_pRank_le_two_of_mul {p : ℕ} (hp : p.Prime) (hp2 : 
     (hAZ : (Z : Set G) = (A : Set G) * (T : Set G)) (hAT : A ⊓ T = ⊥)
     (hT : IsPGroup 2 T) :
     ∀ r ∈ piSet Z, r ≠ 2 → CFSG.Open.pRank r Z ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := hAp.exists_card_eq
   obtain ⟨t, ht⟩ := hT.exists_card_eq
   intro r hr hr2
@@ -218,10 +220,9 @@ private theorem uc22s2122np_uniqueMax {D : Data G} {Ch : Choice2011 G}
     (hXc : Nat.card X = p) (hXU : X ∈ uniqueSet D.M) :
     UniqueMax D.M (X ⊔ D.T) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTE : E ⊓ D.T = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime
-      (uc22s2122np_card_coprime hp hp2 hEp D.sylowM.isPGroup)
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (uc22s2122np_card_coprime hp hp2 hEp D.sylowM.isPGroup)))
   have hZY : (X ⊔ D.T : Subgroup G) ≤ E ⊔ D.T := sup_le (hXE.trans le_sup_left) le_sup_right
   have hAZ := uc22s2122np_inter_mul hET hZY
   have hAT : (E ⊓ (X ⊔ D.T) : Subgroup G) ⊓ D.T = ⊥ := by
@@ -263,7 +264,7 @@ theorem uc22s2122np_false_of_permutes {D : Data G} {Ch : Choice2011 G}
     {b : G} (hbE : b ∈ E) (hbL0 : b ∈ c.L0) (hb1 : b ≠ 1)
     (hXE : X ≤ E) (hXc : Nat.card X = p) (hXU : X ∈ uniqueSet D.M) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hTE, hYs, hoddE⟩ := uc22s2122np_setup hp hp2 hEp D.sylowM.isPGroup hET
   have hTY : D.T ≤ E ⊔ D.T := le_sup_right
   have hYM : E ⊔ D.T ≤ D.M := sup_le hEM D.sylowM.le

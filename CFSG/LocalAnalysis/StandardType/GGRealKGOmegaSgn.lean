@@ -130,6 +130,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p k : ℕ} {U : Fin k → Submodule F V}
   {e : Fin k → ↥(orthDerived Q)} {E : Subgroup ↥(orthDerived Q)} {u : Fin k → V} {c t : F}
 
+omit [Finite F] [CharP F 2] in
 private theorem finrank_perp_eq_two {ℓ : ℕ} (hdim : finrank F V = 2 * ℓ) (hkℓ : k + 1 = ℓ)
     (hS : IsPlaneSystem Q U) : finrank F (polarPerp Q (⨆ j, U j)) = 2 := by
   have hsum : finrank F ↥(⨆ j, U j) = 2 * k := by
@@ -181,11 +182,11 @@ private theorem sign_model (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (h
     constructor
     · intro v hv
       have h := hact sv a v hv
-      rw [show sv a = 1 from if_pos rfl] at h
+      rw [show sv a = 1 from ite_eq_left rfl] at h
       simpa using h
     · intro j hja v hv
       have h := hact sv j v hv
-      rw [show sv j = ofAdd 1 from if_neg hja, toAdd_ofAdd, ZMod.val_one p, pow_one] at h
+      rw [show sv j = ofAdd 1 from ite_eq_right hja, toAdd_ofAdd, ZMod.val_one p, pow_one] at h
       simpa using h
   have hc0 : Q (u a) ≠ 0 := by rw [hF.quad_eq a]; exact hF.c_ne_zero
   refine ⟨⟨signChange Q u (f + f') a, signChange_mem_orthDerived hQ hF hQv0⟩,

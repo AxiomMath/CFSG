@@ -32,6 +32,7 @@ private lemma y7a_M6_comm_mem_V1 (c : Ctx7 G L) (hH : F33Hyp c.s c.e)
   intro x hx y hy
   exact y7a_M6_comm_le_V1 c hH hF (Subgroup.commutator_mem_commutator hx hy)
 
+omit [Finite G] in
 private lemma y7a_V_sq_one (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
     ∀ v ∈ V, v ^ 2 = 1 := by
   intro v hv

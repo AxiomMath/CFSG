@@ -45,7 +45,7 @@ theorem kgNotC_adjointE
   classical
   obtain ⟨h, _hh, hβh, hp1, hh1⟩ :=
     exists_inndiag_of_mem_innAutDerived_E hτ hp β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]; exact hcardK
@@ -103,7 +103,7 @@ theorem kgNotC_of_adjointEquiv
     (hJ : CFSG.Open.IsComponentOf J (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup β)) :
     CFSG.StandardType.KG.KGNotCLieType 2 ↥J := by
   have hK2 : ringChar K = 2 := by
-    haveI := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+    have := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
     exact ringChar.eq K 2
   have hβ'mem : MulAut.congr ψ β ∈ innAutDerived _ := (mem_innAutDerived_congr ψ).2 hβmem
   have hβ'p : (MulAut.congr ψ β) ^ p = 1 := by rw [← map_pow, hβp, map_one]

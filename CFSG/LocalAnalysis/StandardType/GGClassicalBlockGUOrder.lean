@@ -23,7 +23,7 @@ private lemma ggJSf3_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m p f Q : 
   apply le_antisymm
   · rw [GUFull, Subgroup.closure_le]
     intro A hA
-    rw [Set.mem_setOf_eq] at hA
+    rw [Set.mem_ofPred_eq] at hA
     change A ∈ primeFormUnitary h (idGram E m)
     rw [mem_primeFormUnitary]
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
@@ -34,7 +34,7 @@ private lemma ggJSf3_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m p f Q : 
     simpa only [idGram, Units.val_one, Matrix.mul_one] using hA
   · intro A hA
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     have hA' := (mem_primeFormUnitary.mp hA)
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
         (A : Matrix (Fin m) (Fin m) E).map (· ^ Q) := by
@@ -110,7 +110,7 @@ theorem factorization_two_card_GUFull {E : Type} [Field E] [Fintype E] {m g : �
     (Nat.card ↥(GUFull m (2 ^ g) E)).factorization 2 = g * (m * (m - 1) / 2) := by
   rcases Nat.eq_zero_or_pos m with hm0 | hm
   · subst hm0
-    haveI : Subsingleton (GL (Fin 0) E) := inferInstance
+    have : Subsingleton (GL (Fin 0) E) := inferInstance
     have hcard : Nat.card ↥(GUFull 0 (2 ^ g) E) = 1 :=
       Nat.card_of_subsingleton ⟨1, (GUFull 0 (2 ^ g) E).one_mem⟩
     rw [hcard]
@@ -155,7 +155,7 @@ theorem factorization_two_card_GUFull {E : Type} [Field E] [Fintype E] {m g : �
     have hprod : (∏ i ∈ Finset.Icc 1 m, uFactor (2 ^ g) i) ≠ 0 :=
       ggJSf3_prod_uFactor_ne_zero hg
     rw [Nat.factorization_mul hpow hprod, Finsupp.add_apply,
-      Nat.factorization_prod hne, Finsupp.coe_finset_sum, Finset.sum_apply]
+      Nat.factorization_prod hne, _root_.Finsupp.coe_finsetSum, Finset.sum_apply]
     rw [ggJSf3_factorization_two_pow, ggJSf3_sum_uFactor_factorization hg]
     simp
 

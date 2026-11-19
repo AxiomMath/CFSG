@@ -102,7 +102,7 @@ theorem sec4FClXt_isComponentIn (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t *
 
 theorem sec4FClXt_oddCore (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t * t = 1)
     (ht6 : invType t = (6, 1)) : oddCore ↥(sec4FClXt hQ htt) = ⊥ := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have hq : CFSG.IsQuasisimple (sec4FClXt hQ htt) := sec4FClXt_isQuasisimple hQ htt ht6
   have hne : oddCore (sec4FClXt hQ htt) ≠ ⊤ := by
     intro htop

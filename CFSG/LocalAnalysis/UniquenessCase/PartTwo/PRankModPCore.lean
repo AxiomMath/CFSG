@@ -75,7 +75,7 @@ theorem two_le_pRank_of_centralizing_mod_pCore {L H : Subgroup G} {p : ℕ} (hp 
     (hyH : y ∈ H) (hzH : z ∈ H) (hyL : y ∈ L) (hy : orderOf y = p) (hz : orderOf z = p)
     (hzc : ∀ l ∈ L, z * l * z⁻¹ * l⁻¹ ∈ pCoreOf 2 L) : 2 ≤ pRank p H := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconj : Function.Injective (MulAut.conj : Bar2 L →* MulAut (Bar2 L)) :=
     CFSG.HardMathSupport.Lang.Triality.conj_injective_of_center_eq_bot hZ
   have hrhz : rhoL L ⟨z, hHN hzH⟩ = 1 := by
@@ -126,7 +126,7 @@ theorem two_le_pRank_of_centralizing_mod_pCore {L H : Subgroup G} {p : ℕ} (hp 
       hKH.trans (hHN.trans (normalizer_le_normalizer_pCoreOf L))
     exact (le_inf (Subgroup.le_normalizer) hKp).trans
       Subgroup.inf_normalizer_le_normalizer_inf
-  haveI : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNleK).mpr hNnorm
+  have : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNleK).mpr hNnorm
   have hNcard : Nat.card N' = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNleK).toEquiv
   have hNp : IsPGroup 2 N := (isPGroup_pCoreOf L).to_le inf_le_right

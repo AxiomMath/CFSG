@@ -13,7 +13,7 @@ open scoped commutatorElement
 
 namespace WMod
 
-private def decEqWMod : DecidableEq WMod := WMod.equivProd.decidableEq
+@[instance_reducible] private def decEqWMod : DecidableEq WMod := WMod.equivProd.decidableEq
 attribute [local instance 2000] decEqWMod
 private instance : Fintype WMod := Fintype.ofEquiv (Fin 4 × Fin 4 × Fin 2) WMod.equivProd.symm
 private instance (B : Subgroup WMod) : Finite B :=
@@ -371,7 +371,7 @@ theorem WreathRel.center_eq (h : WreathRel x₁ x₂ lam) :
     · have hcr : (wreathGrp x₁ x₂ lam).comap φ = ⊤ := by
         rw [← hrange]
         ext m
-        simp [Subgroup.mem_comap]
+        simp
       rw [Subgroup.comap_inf, hcr, ← hrange, ← Subgroup.map_top (f := φ),
         comap_centralizer_map φ hinj (⊤ : Subgroup WMod), Subgroup.coe_top,
         Subgroup.centralizer_univ, WMod.center_eq_zpowers, ← hzp,

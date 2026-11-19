@@ -12,6 +12,7 @@ namespace CFSG.RepresentationTheory.SzMartineau
 variable {K : Type*} [Field K] [Fintype K] [CharP K 2] {M : Type*} [AddCommGroup M]
   [Module K M]
 
+omit [CharP K 2] in
 private lemma sum_pow_smul_eq_sum_choose (x y : K) (c : ℕ → M) :
     (∑ j ∈ Finset.range (Fintype.card K), (x + y) ^ j • c j) =
       ∑ i ∈ Finset.range (Fintype.card K), ∑ k ∈ Finset.range (Fintype.card K),
@@ -66,12 +67,13 @@ private lemma sum_pow_smul_eq_sum_choose (x y : K) (c : ℕ → M) :
               rw [Nat.lt_sub_iff_add_lt]
               omega
             by_cases hk : k < Fintype.card K - i
-            · rw [if_pos hk, if_pos (hiff.mp hk)]
+            · rw [ite_eq_left hk, ite_eq_left (hiff.mp hk)]
               simp only [f, Nat.add_sub_cancel_left]
-            · rw [if_neg hk, if_neg (hiff.not.mp hk)]
+            · rw [ite_eq_right hk, ite_eq_right (hiff.not.mp hk)]
               simp
   rw [step1, step2, step3, step4]
 
+omit [CharP K 2] in
 private lemma sum_smul_ite_eq_zero_right (c : ℕ → M) (x y : K) :
     (∑ i ∈ Finset.range (Fintype.card K), ∑ k ∈ Finset.range (Fintype.card K),
         x ^ i • y ^ k • (if k = 0 then c i else 0)) =
@@ -82,6 +84,7 @@ private lemma sum_smul_ite_eq_zero_right (c : ℕ → M) (x y : K) :
     (fun h => absurd (Finset.mem_range.mpr hq0) h)]
   simp
 
+omit [CharP K 2] in
 private lemma sum_smul_ite_eq_zero_left (c : ℕ → M) (x y : K) :
     (∑ i ∈ Finset.range (Fintype.card K), ∑ k ∈ Finset.range (Fintype.card K),
         x ^ i • y ^ k • (if i = 0 then c k else 0)) =
@@ -91,9 +94,10 @@ private lemma sum_smul_ite_eq_zero_left (c : ℕ → M) (x y : K) :
     (fun h => absurd (Finset.mem_range.mpr hq0) h)]
   simp
 
+omit [CharP K 2] in
 private lemma additive_coeff_two_var (f : K →+ M) (c : ℕ → M)
     (hc : ∀ x : K, f x = ∑ j ∈ Finset.range (Fintype.card K), x ^ j • c j)
-    (hc0 : c 0 = 0) :
+    (_hc0 : c 0 = 0) :
     ∀ i < Fintype.card K, ∀ k < Fintype.card K,
       (if i + k < Fintype.card K then ((i + k).choose i : K) • c (i + k) else 0)
         - (if k = 0 then c i else 0) - (if i = 0 then c k else 0) = 0 := by
@@ -184,16 +188,17 @@ private lemma coeff_eq_zero_of_not_two_pow {n : ℕ} (hq : Fintype.card K = 2 ^ 
           ((2 ^ b + k).choose (2 ^ b) : K) • c (2 ^ b + k) else 0)
           - (if k = 0 then c (2 ^ b) else 0) - (if 2 ^ b = 0 then c k else 0)
           = ((j.choose (2 ^ b) : K) • c j) := by
-      rw [if_pos (by rwa [hjsum]), if_neg hk_pos.ne', if_neg h2b_pos.ne', hjsum]
+      rw [ite_eq_left (by rwa [hjsum]), ite_eq_right hk_pos.ne', ite_eq_right h2b_pos.ne', hjsum]
       simp
     rwa [hif] at he'
   have hodd : Odd (j.choose (2 ^ b)) := by
     rw [← hjsum]
     exact (CFSG.RepresentationTheory.SL2NatSum.odd_choose_add_iff (2 ^ b) k).mpr hand
   have hcoef : ((j.choose (2 ^ b) : K) = 1) := by
-    rw [CharTwo.natCast_eq_ite, if_neg (Nat.not_even_iff_odd.mpr hodd)]
+    rw [CharTwo.natCast_eq_ite, ite_eq_right (Nat.not_even_iff_odd.mpr hodd)]
   simpa only [hcoef, one_smul] using hdec
 
+omit [CharP K 2] in
 private lemma sum_range_eq_sum_pow_range {n : ℕ} (hq : Fintype.card K = 2 ^ n)
     (c : ℕ → M) (hc0 : c 0 = 0)
     (hnot : ∀ j < 2 ^ n, 0 < j → (¬ ∃ b, j = 2 ^ b) → c j = 0) (x : K) :
@@ -234,6 +239,7 @@ theorem exists_linearized {n : ℕ} (hq : Fintype.card K = 2 ^ n) (f : K →+ M)
   exact (hc x).trans (sum_range_eq_sum_pow_range hq c hc0
     (coeff_eq_zero_of_not_two_pow hq f c hc hc0) x)
 
+omit [CharP K 2] in
 theorem linearized_coeff_eq_zero {n : ℕ} (hq : Fintype.card K = 2 ^ n) (a : ℕ → M)
     (h : ∀ x : K, ∑ b ∈ Finset.range n, x ^ 2 ^ b • a b = 0) :
     ∀ b < n, a b = 0 := by
@@ -241,7 +247,7 @@ theorem linearized_coeff_eq_zero {n : ℕ} (hq : Fintype.card K = 2 ^ n) (a : �
   let c : ℕ → M := fun j => ∑ b ∈ Finset.range n, if j = 2 ^ b then a b else 0
   have hc0 : c 0 = 0 := by
     refine Finset.sum_eq_zero fun b _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     exact fun h => (Nat.pow_pos (by norm_num : 0 < 2)).ne' h.symm
   have hsum : ∀ x : K,
       ∑ j ∈ Finset.range (Fintype.card K), x ^ j • c j = 0 := by
@@ -254,7 +260,7 @@ theorem linearized_coeff_eq_zero {n : ℕ} (hq : Fintype.card K = 2 ^ n) (a : �
       rw [Finset.sum_eq_single (2 ^ b)]
       · simp
       · intro j _ hjne
-        rw [if_neg]
+        rw [ite_eq_right]
         · simp
         · exact hjne
       · intro hnot
@@ -273,7 +279,7 @@ theorem linearized_coeff_eq_zero {n : ℕ} (hq : Fintype.card K = 2 ^ n) (a : �
     rw [Finset.sum_eq_single b]
     · simp
     · intro b' _ hbne
-      rw [if_neg]
+      rw [ite_eq_right]
       exact fun h => hbne (Nat.pow_right_injective (le_refl 2) h).symm
     · intro hnot
       exact absurd (Finset.mem_range.mpr hb) hnot
@@ -323,6 +329,7 @@ theorem exists_frobenius_decomp {n m : ℕ} (hq : Fintype.card K = 2 ^ n)
             refine Finset.sum_congr rfl fun j _ => ?_
             rw [smul_eq_mul, mul_comm]
 
+omit [CharP K 2] in
 theorem frobenius_decomp_eq_zero {n m : ℕ} (hq : Fintype.card K = 2 ^ n)
     (A : ℕ → Matrix (Fin m) (Fin m) K)
     (h : ∀ v : Fin m → K, ∑ c ∈ Finset.range n, A c *ᵥ (fun i => v i ^ 2 ^ c) = 0) :
@@ -343,7 +350,7 @@ theorem frobenius_decomp_eq_zero {n m : ℕ} (hq : Fintype.card K = 2 ^ n)
       · rw [Pi.single_eq_same, smul_eq_mul, mul_comm]
       · intro j' _ hjne
         have hval : (Pi.single j x : Fin m → K) j' = 0 := by
-          rw [Pi.single_apply, if_neg]
+          rw [Pi.single_apply, ite_eq_right]
           exact hjne
         rw [hval, zero_pow (Nat.two_pow_pos b).ne', mul_zero]
       · intro hnot
@@ -351,6 +358,7 @@ theorem frobenius_decomp_eq_zero {n m : ℕ} (hq : Fintype.card K = 2 ^ n)
     simpa [hterm] using hv
   exact linearized_coeff_eq_zero hq (fun b => A b i j) hcol c hc
 
+omit [Fintype K] [CharP K 2] in
 private lemma zpow_eq_pow_val {m : ℕ} [NeZero m]
     (hm : ∀ x : K, x ≠ 0 → x ^ m = 1) (w : ℤ) {x : K} (hx : x ≠ 0) :
     x ^ w = x ^ (w : ZMod m).val := by
@@ -371,6 +379,7 @@ private lemma zpow_eq_pow_val {m : ℕ} [NeZero m]
     _ = ((u : K) ^ (w : ZMod m).val) := zpow_natCast (u : K) _
     _ = x ^ (w : ZMod m).val := by rw [hu]
 
+omit [Fintype K] in
 private lemma eq_one_of_one_add_eq_zero {y : K} (h : (1 : K) + y = 0) : y = 1 :=
   (CharTwo.add_eq_zero.mp h).symm
 
@@ -393,7 +402,7 @@ theorem exists_two_pow_of_zpow_add {n : ℕ} (hq : Fintype.card K = 2 ^ n) (w : 
       have hpow : 0 < 2 ^ n := Nat.pow_pos (by norm_num)
       change 0 < 2 ^ n - 1
       omega
-    haveI : NeZero m := ⟨hmpos.ne'⟩
+    have : NeZero m := ⟨hmpos.ne'⟩
     have hmq : ∀ x : K, x ≠ 0 → x ^ m = 1 := by
       intro x hx
       have hmcard : Fintype.card K - 1 = m := by
@@ -465,9 +474,9 @@ theorem exists_two_pow_of_zpow_add {n : ℕ} (hq : Fintype.card K = 2 ^ n) (w : 
           ∑ j ∈ Finset.range (Fintype.card K), x ^ j • c j = x ^ r := by
         intro x
         rw [Finset.sum_eq_single r]
-        · simp only [c, if_pos rfl, smul_eq_mul, mul_one]
+        · simp only [c, ite_eq_left rfl, smul_eq_mul, mul_one]
         · intro j _ hjr
-          simp only [c, if_neg hjr, smul_zero]
+          simp only [c, ite_eq_right hjr, smul_zero]
         · intro hnot
           exact absurd (Finset.mem_range.mpr hr_lt_card) hnot
       have hdsum : ∀ x : K,
@@ -480,7 +489,7 @@ theorem exists_two_pow_of_zpow_add {n : ℕ} (hq : Fintype.card K = 2 ^ n) (w : 
         rw [Finset.sum_eq_single (2 ^ b)]
         · simp
         · intro j _ hjne
-          rw [if_neg]
+          rw [ite_eq_right]
           · simp
           · exact fun h => hjne h.symm
         · intro hnot
@@ -504,7 +513,7 @@ theorem exists_two_pow_of_zpow_add {n : ℕ} (hq : Fintype.card K = 2 ^ n) (w : 
         (fun j => c j - d j) hdiff
       have hcr : c r - d r = 0 := huniq r hr_lt_card
       have hdr : d r = 1 := by
-        rw [show c r = 1 by simp only [c, if_pos rfl]] at hcr
+        rw [show c r = 1 by simp only [c, ite_eq_left rfl]] at hcr
         exact (sub_eq_zero.mp hcr).symm
       by_contra hno
       have hzero : d r = 0 := by
@@ -517,13 +526,13 @@ theorem exists_two_pow_of_zpow_add {n : ℕ} (hq : Fintype.card K = 2 ^ n) (w : 
           change (r : ZMod m) = 2 ^ b
           rw [← hbr, Nat.cast_pow]
           norm_num
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
       rw [hzero] at hdr
       exact zero_ne_one hdr
   ·
     have hn1 : n = 1 := by omega
     subst n
-    haveI : Subsingleton (ZMod (2 ^ 1 - 1)) := by
+    have : Subsingleton (ZMod (2 ^ 1 - 1)) := by
       rw [show 2 ^ 1 - 1 = 1 by norm_num]
       exact ZMod.subsingleton_iff.mpr rfl
     exact ⟨0, Subsingleton.elim _ _⟩

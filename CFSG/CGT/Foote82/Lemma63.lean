@@ -33,6 +33,7 @@ section Sections
 
 variable {H : Subgroup (GLV V)} {W₀ W₁ : Submodule (ZMod 2) V}
 
+omit [Finite V] in
 private theorem mk_eq_mk_iff {v v' : V} (hv : v ∈ W₁) (hv' : v' ∈ W₁) :
     (Submodule.Quotient.mk ⟨v, hv⟩ : Sect W₀ W₁) = Submodule.Quotient.mk ⟨v', hv'⟩ ↔
       v - v' ∈ W₀ := by
@@ -43,6 +44,7 @@ private def pull (W₀ W₁ : Submodule (ZMod 2) V) (J : Submodule (ZMod 2) (Sec
     Submodule (ZMod 2) V :=
   (J.comap (W₀.comap W₁.subtype).mkQ).map W₁.subtype
 
+omit [Finite V] in
 private theorem mem_pull {J : Submodule (ZMod 2) (Sect W₀ W₁)} {v : V} :
     v ∈ pull W₀ W₁ J ↔ ∃ hv : v ∈ W₁, (Submodule.Quotient.mk ⟨v, hv⟩ : Sect W₀ W₁) ∈ J := by
   constructor
@@ -51,9 +53,11 @@ private theorem mem_pull {J : Submodule (ZMod 2) (Sect W₀ W₁)} {v : V} :
   · rintro ⟨hv, h⟩
     exact ⟨⟨v, hv⟩, h, rfl⟩
 
+omit [Finite V] in
 private theorem pull_le (J : Submodule (ZMod 2) (Sect W₀ W₁)) : pull W₀ W₁ J ≤ W₁ :=
   fun _ hv => (mem_pull.1 hv).1
 
+omit [Finite V] in
 private theorem pull_bot (h : W₀ ≤ W₁) : pull W₀ W₁ ⊥ = W₀ := by
   ext v
   rw [mem_pull]
@@ -66,11 +70,13 @@ private theorem pull_bot (h : W₀ ≤ W₁) : pull W₀ W₁ ⊥ = W₀ := by
     rw [Submodule.mem_bot, Submodule.Quotient.mk_eq_zero]
     exact hv
 
+omit [Finite V] in
 private theorem pull_top : pull W₀ W₁ ⊤ = W₁ := by
   ext v
   rw [mem_pull]
   exact ⟨fun h => h.1, fun hv => ⟨hv, Submodule.mem_top⟩⟩
 
+omit [Finite V] in
 private theorem pull_le_pull_iff {J J' : Submodule (ZMod 2) (Sect W₀ W₁)} :
     pull W₀ W₁ J ≤ pull W₀ W₁ J' ↔ J ≤ J' := by
   constructor
@@ -83,10 +89,12 @@ private theorem pull_le_pull_iff {J J' : Submodule (ZMod 2) (Sect W₀ W₁)} :
     obtain ⟨hv, hq⟩ := mem_pull.1 hv
     exact mem_pull.2 ⟨hv, h hq⟩
 
+omit [Finite V] in
 private theorem pull_injective :
-    Function.Injective (pull W₀ W₁) := fun J J' h =>
+    Function.Injective (pull W₀ W₁) := fun _J _J' h =>
   le_antisymm (pull_le_pull_iff.1 h.le) (pull_le_pull_iff.1 h.ge)
 
+omit [Finite V] in
 private theorem sectHom_eq_one_iff (h₀ : Invariant H W₀) (h₁ : Invariant H W₁) (y : ↥H) :
     sectHom H h₀ h₁ y = 1 ↔ ∀ w ∈ W₁, (y : GLV V) w - w ∈ W₀ := by
   constructor
@@ -100,6 +108,7 @@ private theorem sectHom_eq_one_iff (h₀ : Invariant H W₀) (h₁ : Invariant H
     simp only [sectHom_mk]
     exact (mk_eq_mk_iff (h₁ y y.2 w w.2) w.2).2 (h w w.2)
 
+omit [Finite V] in
 private theorem invariant_pull (h₀ : Invariant H W₀) (h₁ : Invariant H W₁)
     {J : Submodule (ZMod 2) (Sect W₀ W₁)} (hJ : Invariant (sectHom H h₀ h₁).range J) :
     Invariant H (pull W₀ W₁ J) := by
@@ -109,10 +118,11 @@ private theorem invariant_pull (h₀ : Invariant H W₀) (h₁ : Invariant H W�
   have := hJ (sectHom H h₀ h₁ ⟨x, hx⟩) ⟨⟨x, hx⟩, rfl⟩ _ hvJ
   rwa [sectHom_mk] at this
 
+omit [Finite V] in
 theorem isIrr_range_sectHom (h₀ : Invariant H W₀) (h₁ : Invariant H W₁)
     (hirr : IrrSec H W₀ W₁) : IsIrr (sectHom H h₀ h₁).range ⊤ := by
   refine ⟨invariant_top _, ?_, ?_⟩
-  · obtain ⟨w, hw₁, hw₀⟩ := SetLike.exists_of_lt hirr.1
+  · obtain ⟨w, hw₁, hw₀⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     refine lt_of_le_of_ne bot_le fun h => hw₀ ?_
     have hmem : (Submodule.Quotient.mk ⟨w, hw₁⟩ : Sect W₀ W₁) ∈
         (⊥ : Submodule (ZMod 2) (Sect W₀ W₁)) := by
@@ -135,8 +145,8 @@ private theorem false_of_isPGroup (h₀ : Invariant H W₀) (h₁ : Invariant H 
     {T : Subgroup ↥H} (hT : IsPGroup 2 T)
     (hTr : ∀ y : ↥H, ∃ t ∈ T, sectHom H h₀ h₁ y = sectHom H h₀ h₁ t) : False := by
   set φ := sectHom H h₀ h₁ with hφ
-  haveI : Nontrivial (Sect W₀ W₁) := by
-    obtain ⟨w, hw₁, hw₀⟩ := SetLike.exists_of_lt hirr.1
+  have : Nontrivial (Sect W₀ W₁) := by
+    obtain ⟨w, hw₁, hw₀⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     refine ⟨⟨Submodule.Quotient.mk ⟨w, hw₁⟩, 0, fun h => hw₀ ?_⟩⟩
     have h' : (Submodule.Quotient.mk ⟨w, hw₁⟩ : Sect W₀ W₁) = 0 := h
     rwa [Submodule.Quotient.mk_eq_zero] at h'
@@ -170,6 +180,7 @@ private theorem false_of_isPGroup (h₀ : Invariant H W₀) (h₁ : Invariant H 
     rw [hφ, sectHom_mk] at hfix
     exact (mk_eq_mk_iff (h₁ x hx w hw) hw).1 hfix
 
+omit [Finite V] in
 private theorem mem_map_subgroupOf_sectHom (h₀ : Invariant H W₀) (h₁ : Invariant H W₁)
     {L : Subgroup (GLV V)} (hLH : L ≤ H) {x : GLV (Sect W₀ W₁)} :
     x ∈ (L.subgroupOf H).map (sectHom H h₀ h₁) ↔
@@ -180,6 +191,7 @@ private theorem mem_map_subgroupOf_sectHom (h₀ : Invariant H W₀) (h₁ : Inv
   · rintro ⟨l, hl, rfl⟩
     exact ⟨⟨l, hLH hl⟩, hl, rfl⟩
 
+omit [Finite V] in
 private theorem commSpace_sectHom (h₀ : Invariant H W₀) (h₁ : Invariant H W₁)
     {L : Subgroup (GLV V)} (hLH : L ≤ H) :
     commSpace ((L.subgroupOf H).map (sectHom H h₀ h₁)) ⊤ =
@@ -219,11 +231,13 @@ private theorem commSpace_sectHom (h₀ : Invariant H W₀) (h₁ : Invariant H 
     rw [← this]
     exact hz
 
+omit [Finite V] in
 private theorem commutator_subgroupOf_self {H L : Subgroup (GLV V)} (hLH : L ≤ H)
     (hL : ⁅L, L⁆ = L) : ⁅L.subgroupOf H, L.subgroupOf H⁆ = L.subgroupOf H := by
   apply Subgroup.map_injective H.subtype_injective
   rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hLH, hL]
 
+omit [Finite V] in
 private theorem subgroupOf_ne_bot {H L : Subgroup (GLV V)} (hLH : L ≤ H) (hL : L ≠ ⊥) :
     L.subgroupOf H ≠ ⊥ := by
   intro h'
@@ -231,6 +245,7 @@ private theorem subgroupOf_ne_bot {H L : Subgroup (GLV V)} (hLH : L ≤ H) (hL :
   have := congrArg (Subgroup.map H.subtype) h'
   rwa [Subgroup.map_subgroupOf_eq_of_le hLH, Subgroup.map_bot] at this
 
+omit [Finite V] in
 theorem hasIrrTildeV_sectHom (h₀ : Invariant H W₀) (h₁ : Invariant H W₁)
     {L : Subgroup (GLV V)} (hLH : L ≤ H) (hperf : ⁅L, L⁆ = L) (hirr : HasIrrTildeV L)
     (hnt : ∃ l ∈ L, ∃ w ∈ W₁, l w - w ∉ W₀) :
@@ -326,6 +341,7 @@ instance instNormalLayer (Y : Type*) [Group Y] : (CFSG.layer Y).Normal :=
   haveI := CFSG.LocalCores.layer_characteristic (G := Y)
   inferInstance
 
+omit [Finite Y] in
 private theorem mem_conjugate_iff {K : Subgroup Y} {g x : Y} :
     x ∈ CFSG.conjugate K g ↔ g * x * g⁻¹ ∈ K := by
   unfold CFSG.conjugate
@@ -337,10 +353,12 @@ private theorem mem_conjugate_iff {K : Subgroup Y} {g x : Y} :
   · intro h
     exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
+omit [Finite Y] in
 private theorem isComponent_conjugate {K : Subgroup Y} (hK : CFSG.IsComponent K) (g : Y) :
     CFSG.IsComponent (CFSG.conjugate K g) :=
   CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj g⁻¹) hK
 
+omit [Finite Y] in
 private theorem conjugate_le_of_normal {K N : Subgroup Y} [N.Normal] (hK : K ≤ N) (g : Y) :
     CFSG.conjugate K g ≤ N := by
   intro x hx
@@ -348,6 +366,7 @@ private theorem conjugate_le_of_normal {K N : Subgroup Y} [N.Normal] (hK : K ≤
   have h2 := Subgroup.Normal.conj_mem ‹N.Normal› _ (hK hx) g⁻¹
   simpa [mul_assoc] using h2
 
+omit [Finite Y] in
 private theorem le_of_conjugate_le {K N : Subgroup Y} [N.Normal] {g : Y}
     (h : CFSG.conjugate K g ≤ N) : K ≤ N := by
   intro k hk
@@ -357,6 +376,7 @@ private theorem le_of_conjugate_le {K N : Subgroup Y} [N.Normal] {g : Y}
   have h2 := Subgroup.Normal.conj_mem ‹N.Normal› _ (h hk') g
   simpa [mul_assoc] using h2
 
+omit [Finite Y] in
 private theorem perfect_le_of_solvable_quotient {P N : Subgroup Y} [N.Normal]
     (hP : ⁅P, P⁆ = P) (hN : Group.IsSolvable (Y ⧸ N)) : P ≤ N := by
   by_contra hPN
@@ -367,9 +387,9 @@ private theorem perfect_le_of_solvable_quotient {P N : Subgroup Y} [N.Normal]
     apply hPN
     rw [hQ, Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at h
     exact h
-  haveI : Group.IsSolvable ↥Q := inferInstance
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
-  haveI : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.2 hQperf
+  have : Group.IsSolvable ↥Q := inferInstance
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
+  have : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.2 hQperf
   exact Group.IsPerfect.not_isSolvable ↥Q inferInstance
 
 structure OrbitData (A S K : Subgroup Y) : Prop where
@@ -383,6 +403,7 @@ structure OrbitData (A S K : Subgroup Y) : Prop where
 variable {A S K : Subgroup Y} (hO : OrbitData A S K)
 
 include hO in
+omit [Finite Y] in
 theorem OrbitData.A_le_layer : A ≤ CFSG.layer Y := by
   refine hO.A_le.trans (iSup₂_le fun s _ => ?_)
   exact CFSG.LocalCores.component_le_layer (isComponent_conjugate hO.comp s)
@@ -390,7 +411,7 @@ theorem OrbitData.A_le_layer : A ≤ CFSG.layer Y := by
 include hO in
 theorem OrbitData.isSolvable_quotient {N : Subgroup Y} [N.Normal] (hAN : A ≤ N) :
     Group.IsSolvable (Y ⧸ N) := by
-  haveI := hO.normal
+  have := hO.normal
   have hsurj : Function.Surjective ((QuotientGroup.mk' N).comp S.subtype) := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective q
@@ -399,12 +420,12 @@ theorem OrbitData.isSolvable_quotient {N : Subgroup Y} [N.Normal] (hAN : A ≤ N
     refine ⟨⟨s, hs⟩, ?_⟩
     change QuotientGroup.mk s = QuotientGroup.mk (a * s)
     rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff a).2 (hAN ha), one_mul]
-  haveI := (hO.isPGroup.of_surjective _ hsurj).isNilpotent
+  have := (hO.isPGroup.of_surjective _ hsurj).isNilpotent
   infer_instance
 
 include hO in
 theorem OrbitData.layer_eq : CFSG.layer Y = A := by
-  haveI := hO.normal
+  have := hO.normal
   refine le_antisymm (sSup_le fun J hJ => ?_) hO.A_le_layer
   exact perfect_le_of_solvable_quotient (Subgroup.isPerfect_iff.1 hJ.1.1)
     (hO.isSolvable_quotient le_rfl)
@@ -425,7 +446,7 @@ theorem OrbitData.exists_conjugate_eq {J : Subgroup Y} (hJ : CFSG.IsComponent J)
   have hJJ : ⁅J, J⁆ = ⊥ := Subgroup.commutator_eq_bot_iff_le_centralizer.2 (hJA.trans hAc)
   have hperf := Subgroup.isPerfect_iff.1 hJ.1.1
   rw [hJJ] at hperf
-  haveI := CFSG.LocalCores.isQuasisimple_nontrivial hJ.1
+  have := CFSG.LocalCores.isQuasisimple_nontrivial hJ.1
   exact (Subgroup.nontrivial_iff_ne_bot J).1 inferInstance hperf.symm
 
 include hO in
@@ -464,7 +485,7 @@ include hO in
 theorem OrbitData.commutator_ker_eq_bot {Y' : Type*} [Group Y'] {L : Subgroup Y}
     (hLperf : ⁅L, L⁆ = L) (hLA : L ≤ A) (φ : Y →* Y') (hnA : ¬ A ≤ φ.ker) :
     ⁅L, φ.ker⁆ = ⊥ := by
-  haveI := hO.normal
+  have := hO.normal
   have hcen := (hO.dichotomy (N := φ.ker)).resolve_left hnA
   refine CFSG.LocalAnalysis.ComponentInitial.perfect_double_commutator hLperf ?_
   refine Subgroup.commutator_eq_bot_iff_le_centralizer.2 fun x hx => ?_
@@ -474,10 +495,11 @@ theorem OrbitData.commutator_ker_eq_bot {Y' : Type*} [Group Y'] {L : Subgroup Y}
     hcen ⟨hx1.2, hO.layer_eq ▸ hx1.1⟩
   exact Subgroup.centralizer_le (hO.layer_eq ▸ hLA) hx2
 
+omit [Finite Y] in
 theorem map_layer_eq {Y' : Type*} [Group Y'] [Finite Y'] (f : Y →* Y')
     (hf : Function.Surjective f) (hsolv : Group.IsSolvable (Y ⧸ CFSG.layer Y)) :
     (CFSG.layer Y).map f = CFSG.layer Y' := by
-  haveI hM : ((CFSG.layer Y).map f).Normal := Subgroup.Normal.map inferInstance f hf
+  have hM : ((CFSG.layer Y).map f).Normal := Subgroup.Normal.map inferInstance f hf
   refine le_antisymm (Subgroup.map_le_iff_le_comap.2 (sSup_le fun K hK => ?_))
     (sSup_le fun J hJ => ?_)
   · refine Subgroup.map_le_iff_le_comap.1 ?_
@@ -500,6 +522,7 @@ end Orbit
 
 section Ambient
 
+omit [Finite V] in
 private theorem mem_layerIn_iff {H : Subgroup (GLV V)} {x : GLV V} :
     x ∈ layerIn H ↔ ∃ hx : x ∈ H, (⟨x, hx⟩ : ↥H) ∈ CFSG.layer ↥H := by
   constructor
@@ -508,8 +531,10 @@ private theorem mem_layerIn_iff {H : Subgroup (GLV V)} {x : GLV V} :
   · rintro ⟨hx, hx'⟩
     exact ⟨⟨x, hx⟩, hx', rfl⟩
 
+omit [Finite V] in
 private theorem layerIn_le (H : Subgroup (GLV V)) : layerIn H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite V] in
 private theorem conj_mem_layerIn {H : Subgroup (GLV V)} {g x : GLV V} (hg : g ∈ H)
     (hx : x ∈ layerIn H) : g * x * g⁻¹ ∈ layerIn H := by
   obtain ⟨hxH, hx'⟩ := mem_layerIn_iff.1 hx
@@ -533,6 +558,7 @@ private theorem layerIn_le_normalizer {H K : Subgroup (GLV V)} (hKH : K ≤ H)
       rwa [show x⁻¹ * (x * h * x⁻¹) * x = h by group] at this
     exact (hn ⟨h, hhH⟩).2 hh
 
+omit [Finite V] in
 private theorem conjugate_le_of_mem {H K : Subgroup (GLV V)} (hKH : K ≤ H) {p : GLV V}
     (hp : p ∈ H) : CFSG.conjugate K p ≤ H := by
   intro x hx
@@ -540,6 +566,7 @@ private theorem conjugate_le_of_mem {H K : Subgroup (GLV V)} (hKH : K ≤ H) {p 
   have := H.mul_mem (H.mul_mem (H.inv_mem hp) (hKH hx)) hp
   rwa [show p⁻¹ * (p * x * p⁻¹) * p = x by group] at this
 
+omit [Finite V] in
 private theorem isComponent_conjugate_subgroupOf {H K : Subgroup (GLV V)}
     (hK : CFSG.IsComponent (K.subgroupOf H)) {p : GLV V} (hp : p ∈ H) :
     CFSG.IsComponent ((CFSG.conjugate K p).subgroupOf H) := by
@@ -549,6 +576,7 @@ private theorem isComponent_conjugate_subgroupOf {H K : Subgroup (GLV V)}
   simp only [Subgroup.mem_subgroupOf, mem_conjugate_iff]
   rfl
 
+omit [Finite V] in
 private theorem le_normalizer_map_subtype {H : Subgroup (GLV V)} (N : Subgroup ↥H) [N.Normal] :
     H ≤ Subgroup.normalizer ((N.map H.subtype : Subgroup (GLV V)) : Set (GLV V)) := by
   intro h hh
@@ -578,12 +606,14 @@ private theorem nontrivial_of_isQuasisimple_open {Q : Type*} [Group Q]
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y
   exact ⟨a, b, fun hab => hxy (by rw [hab])⟩
 
+omit [Finite V] in
 private theorem perfect_ne_bot_of_isQuasisimple {L : Subgroup (GLV V)}
     (hq : CFSG.Open.IsQuasisimple ↥L) : ⁅L, L⁆ = L ∧ L ≠ ⊥ := by
-  haveI : Nontrivial ↥L := nontrivial_of_isQuasisimple_open hq
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
+  have : Nontrivial ↥L := nontrivial_of_isQuasisimple_open hq
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
   exact ⟨Subgroup.isPerfect_iff.1 inferInstance, (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance⟩
 
+omit [Finite V] in
 private theorem conj_mem_normalClosure_of_centralizes {E L : Subgroup (GLV V)} {s : GLV V}
     (hs : ∀ x ∈ E, s * x * s⁻¹ ∈ E) (hsL : ∀ l ∈ L, s * l * s⁻¹ = l) {a : GLV V}
     (ha : a ∈ normalClosure E L) : s * a * s⁻¹ ∈ normalClosure E L := by
@@ -595,7 +625,7 @@ private theorem conj_mem_normalClosure_of_centralizes {E L : Subgroup (GLV V)} {
     have e : s * (x * l * x⁻¹) * s⁻¹ = (s * x * s⁻¹) * (s * l * s⁻¹) * (s * x * s⁻¹)⁻¹ := by
       group
     rw [e, hsL l hl]
-  | one => simpa using (normalClosure E L).one_mem
+  | one => simp
   | mul y z _ _ hy hz =>
     have := (normalClosure E L).mul_mem hy hz
     convert this using 1
@@ -618,8 +648,8 @@ theorem exists_orbit_aux {S L H₀ : Subgroup (GLV V)} (h0 : Setup6 H₀ S L) :
   obtain ⟨hLperf, hLne⟩ := perfect_ne_bot_of_isQuasisimple hq
   have heven : 2 ∣ Nat.card L := by
     by_contra h2
-    haveI : Nontrivial ↥L := nontrivial_of_isQuasisimple_open hq
-    haveI : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
+    have : Nontrivial ↥L := nontrivial_of_isQuasisimple_open hq
+    have : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
     exact Group.IsPerfect.not_isSolvable ↥L
       (CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 h2)))
   have hLcomp : CFSG.QuasithinUnique.IsComponentIn L
@@ -703,6 +733,7 @@ theorem exists_orbit_aux {S L H₀ : Subgroup (GLV V)} (h0 : Setup6 H₀ S L) :
     rw [hLL] at hLperf
     exact hLne hLperf.symm
 
+omit [Finite V] in
 private theorem conj_mem_normalClosure_layerIn {S L H₀ : Subgroup (GLV V)} (h0 : Setup6 H₀ S L)
     {s : GLV V} (hs : s ∈ S) {a : GLV V} (ha : a ∈ normalClosure (layerIn H₀) L) :
     s * a * s⁻¹ ∈ normalClosure (layerIn H₀) L := by
@@ -713,12 +744,14 @@ private theorem conj_mem_normalClosure_layerIn {S L H₀ : Subgroup (GLV V)} (h0
   rw [this]
   group
 
+omit [Finite V] in
 private theorem normalClosure_layerIn_le {L H₀ : Subgroup (GLV V)} (hL : L ≤ H₀) :
     normalClosure (layerIn H₀) L ≤ H₀ := by
   refine (Subgroup.closure_le _).2 ?_
   rintro _ ⟨x, hx, l, hl, rfl⟩
   exact H₀.mul_mem (H₀.mul_mem (layerIn_le _ hx) (hL hl)) (H₀.inv_mem (layerIn_le _ hx))
 
+omit [Finite V] in
 theorem orbitData_subgroupOf {H A S K : Subgroup (GLV V)} (hAH : A ≤ H) (hSH : S ≤ H)
     (hAn : H ≤ Subgroup.normalizer (A : Set (GLV V))) (hS : IsPGroup 2 S) (hsup : A ⊔ S = H)
     (hKc : CFSG.IsComponent (K.subgroupOf H)) (hKA : K ≤ A)
@@ -742,6 +775,7 @@ theorem orbitData_subgroupOf {H A S K : Subgroup (GLV V)} (hAH : A ≤ H) (hSH :
     exact ⟨⟨x, hxH⟩, (mem_conjugate_iff).2 hx, rfl⟩
 
 
+omit [Finite V] in
 theorem setup6_of_le {G S L H₀ : Subgroup (GLV V)} (h : Setup6 G S L) (hH₀ : H₀ ≤ G)
     (hLS : L ⊔ S ≤ H₀) : Setup6 H₀ S L := by
   have hLX : L ≤ G ⊓ Subgroup.centralizer (S : Set (GLV V)) := h.component.1
@@ -795,6 +829,7 @@ private theorem isQuasisimple_open {Q : Type*} [Group Q] (h : CFSG.IsQuasisimple
     CFSG.Open.IsQuasisimple Q :=
   ⟨h.1.commutator_eq_top, h.2.1⟩
 
+omit [Finite V] in
 private theorem map_mem_normalClosure {H L : Subgroup (GLV V)} (hLH : L ≤ H)
     (φ : ↥H →* GLV V') :
     ∀ g : GLV V, g ∈ normalClosure H L → ∀ hg : g ∈ H,
@@ -832,7 +867,7 @@ theorem not_le_ker {H : Subgroup (GLV V)} {W₀ W₁ : Submodule (ZMod 2) V}
     (hnt : ¬ ∀ x ∈ H, ∀ w ∈ W₁, x w - w ∈ W₀) {A S K : Subgroup ↥H} (hO : OrbitData A S K) :
     ¬ A ≤ (sectHom H h₀ h₁).ker := by
   intro hA
-  haveI := hO.normal
+  have := hO.normal
   refine false_of_isPGroup h₀ h₁ hirr hnt hO.isPGroup fun y => ?_
   have hy : y ∈ A ⊔ S := by
     rw [hO.sup_eq]
@@ -854,7 +889,7 @@ theorem mem_centralizer_of_ker {H : Subgroup (GLV V)} {A S K : Subgroup ↥H}
 theorem map_layerIn_eq [Finite V'] {H : Subgroup (GLV V)} {A S K : Subgroup ↥H}
     (hO : OrbitData A S K) (φ : ↥H →* GLV V') :
     ((layerIn H).subgroupOf H).map φ = layerIn φ.range := by
-  haveI : Finite ↥φ.range := inferInstance
+  have : Finite ↥φ.range := inferInstance
   have h1 : (layerIn H).subgroupOf H = CFSG.layer ↥H :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
   have h2 := map_layer_eq φ.rangeRestrict φ.rangeRestrict_surjective
@@ -874,7 +909,7 @@ theorem gen_map {H : Subgroup (GLV V)} {A S K : Subgroup ↥H} (hO : OrbitData A
   have hrange : φ.range = A.map φ ⊔ S.map φ := by
     rw [MonoidHom.range_eq_map, ← hO.sup_eq, Subgroup.map_sup]
   refine hrange.le.trans (sup_le_sup_right ?_ _)
-  haveI hMn : ((normalClosure H L).subgroupOf H).Normal := by
+  have hMn : ((normalClosure H L).subgroupOf H).Normal := by
     refine (Subgroup.normal_subgroupOf_iff_le_normalizer (normalClosure_le hLH)).2 fun g hg => ?_
     rw [Subgroup.mem_normalizer_iff]
     intro a
@@ -887,6 +922,7 @@ theorem gen_map {H : Subgroup (GLV V)} {A S K : Subgroup ↥H} (hO : OrbitData A
   rintro _ ⟨a, ha, rfl⟩
   exact map_mem_normalClosure hLH φ a (hAM ha) a.2
 
+omit [Finite V] in
 theorem component_map {H S L : Subgroup (GLV V)} (hSH : S ≤ H)
     (hcomp : IsComponentOf L (H ⊓ Subgroup.centralizer (S : Set (GLV V))))
     (φ : ↥H →* GLV V') (hLN : ¬ L.subgroupOf H ≤ φ.ker)
@@ -899,7 +935,7 @@ theorem component_map {H S L : Subgroup (GLV V)} (hSH : S ≤ H)
     (Subgroup.mem_centralizer_iff.1 (hLX hl).2) s hs
   have hLsub : CFSG.Open.IsSubnormal (L.subgroupOf H)
       ((H ⊓ Subgroup.centralizer (S : Set (GLV V))).subgroupOf H) := hcomp.2.1.comap H.subtype
-  haveI hKerN : (φ.ker).Normal := MonoidHom.normal_ker φ
+  have hKerN : (φ.ker).Normal := MonoidHom.normal_ker φ
   let N : Subgroup ↥H := φ.ker
   let Y₂ : Subgroup ↥H := Subgroup.centralizer ((S.subgroupOf H : Subgroup ↥H) : Set ↥H) ⊓
     Subgroup.centralizer (N : Set ↥H)
@@ -1011,7 +1047,7 @@ theorem lemma63 {G S L H₀ H : Subgroup (GLV V)} (h : Setup6 G S L) (hH₀ : H�
     hnA (hO.le_of_normal hLyperf hLyne hLyA hle)
   have hNL := hO.commutator_ker_eq_bot hLyperf hLyA φ hnA
   have hnt' : ∃ l ∈ L, ∃ w ∈ W₁, l w - w ∉ W₀ := by
-    obtain ⟨y, hyL, hy⟩ := SetLike.not_le_iff_exists.1 hLyN
+    obtain ⟨y, hyL, hy⟩ := IsConcreteLE.not_le_iff_exists.1 hLyN
     refine ⟨y, hyL, ?_⟩
     by_contra hcon
     push Not at hcon

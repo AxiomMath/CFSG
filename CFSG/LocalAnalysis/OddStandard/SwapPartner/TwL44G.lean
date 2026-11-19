@@ -116,9 +116,9 @@ theorem seven_dvd_card_inf_of_lieModel_l44 {G : Type} [Group G] [Finite G] {x : 
   have hdC : d ∈ C := hd
   have hAC : A ≤ C := le_trans hAN hNx
   let N' : Subgroup C := N.subgroupOf C
-  haveI hN'norm : N'.Normal := hNn
+  have hN'norm : N'.Normal := hNn
   let D₀ : Subgroup C := Subgroup.centralizer (N' : Set C)
-  haveI hD₀norm : D₀.Normal := Subgroup.normal_centralizer
+  have hD₀norm : D₀.Normal := Subgroup.normal_centralizer
   have hN' : ⁅N', N'⁆ = N' := by
     apply Subgroup.map_injective C.subtype_injective
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hNx, hN]

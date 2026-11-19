@@ -36,7 +36,7 @@ theorem center_bar2_eq_bot_of_isCyclic_sylow {M L : Subgroup G} (hL : L ∈ calC
   have hZodd : ∀ p : ℕ, p.Prime → p ≠ 2 →
       ¬ p ∣ Nat.card (Subgroup.center (Bar2 L)) := by
     intro p hp hp2
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact CFSG.LocalAnalysis.UniquenessCase.UCK.M591D.not_dvd_card_center
       hL.2.2.1 (hcyc p hp hp2)
   by_contra hZ
@@ -47,7 +47,7 @@ theorem center_bar2_eq_bot_of_isCyclic_sylow {M L : Subgroup G} (hL : L ∈ calC
     by_contra hne
     exact hZodd p hp hne hpdvd
   have h2dvd : 2 ∣ Nat.card (Subgroup.center (Bar2 L)) := hp2 ▸ hpdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card'
     (G := Subgroup.center (Bar2 L)) 2 h2dvd
   let w : Bar2 L := (z : Subgroup.center (Bar2 L))
@@ -81,7 +81,7 @@ theorem bar2_shape_of_isCyclic_sylow (D : Data G) {L : Subgroup G} (hL : L ∈ c
       ∀ P : Sylow p (Bar2 L), IsCyclic ↥(P : Subgroup (Bar2 L))) :
     (∃ n : ℕ, IsL2 (Bar2 L) n) ∨ (∃ n : ℕ, IsSz (Bar2 L) n) ∨
       (∃ q : ℕ, q.Prime ∧ 5 ≤ q ∧ IsL2Odd (Bar2 L) q) ∨ IsJ1 (Bar2 L) := by
-  haveI hsimple : IsSimpleGroup (Bar2 L) :=
+  have hsimple : IsSimpleGroup (Bar2 L) :=
     bar2_isSimpleGroup_of_isCyclic_sylow hL hcyc
   have hK : CFSG.IsKGroup (Bar2 L) :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.s13_isKGroup_bar D
@@ -93,6 +93,7 @@ theorem bar2_shape_of_isCyclic_sylow (D : Data G) {L : Subgroup G} (hL : L ∈ c
     simpa only [isMulCommutative_iff, not_forall] using hnc
   exact hKThin (Bar2 L) hK hsimple hnab hcyc
 
+omit [Finite G] in
 private theorem mem_calC_of_le_of_normalizer {M L X : Subgroup G} (hL : L ∈ calC M)
     (hLX : L ≤ X) (hXN : X ≤ Subgroup.normalizer (L : Set G)) : L ∈ calC X :=
   ⟨CFSG.Quasithin.A3.subnormal_of_normal hLX
@@ -102,7 +103,7 @@ private theorem mem_calC_of_le_of_normalizer {M L X : Subgroup G} (hL : L ∈ ca
 private theorem exists_elemAbelian_subgroupOf_of_dvd {X L : Subgroup G} {p : ℕ}
     (hLX : L ≤ X) (hp : p.Prime) (hdvd : p ∣ Nat.card (Bar2 L)) :
     ∃ E : Subgroup ↥X, E ≤ L.subgroupOf X ∧ IsElemAbelian p E ∧ Nat.card E = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvdL : p ∣ Nat.card ↥L :=
     hdvd.trans (Subgroup.card_quotient_dvd_card (CFSG.pCore 2 ↥L))
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) p hdvdL
@@ -176,7 +177,7 @@ private theorem exists_elemAbelian_card_pow_three_of_family {X : Subgroup G}
       ¬ p ∣ Nat.card (Subgroup.center (Bar2 (Lf i)))) :
     ∃ W : Subgroup ↥X, IsElemAbelian p W ∧ Nat.card W = p ^ 3 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let A : Fin 3 → Subgroup ↥X := fun i => (Lf i).subgroupOf X
   have hex : ∀ i, ∃ E : Subgroup ↥X, E ≤ A i ∧ IsElemAbelian p E ∧ Nat.card E = p :=
     fun i => exists_elemAbelian_subgroupOf_of_dvd
@@ -208,7 +209,7 @@ theorem two_lt_pRank_sup_sup_of_dvd {M L₁ L₂ L₃ : Subgroup G}
       p ∣ Nat.card (Bar2 K) ∧ ¬ p ∣ Nat.card (Subgroup.center (Bar2 K))) :
     2 < CFSG.Open.pRank p (L₁ ⊔ L₂ ⊔ L₃ : Subgroup G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let X : Subgroup G := L₁ ⊔ L₂ ⊔ L₃
   obtain ⟨Lf, hcal, hinj, hLf_set⟩ := family_data_of_three h₁ h₂ h₃ h12 h13 h23
   have hdvdLf : ∀ i, p ∣ Nat.card (Bar2 (Lf i)) ∧
@@ -375,7 +376,7 @@ private theorem conjugatePower_three_injective (e : Ctx215 D Ch)
 private theorem not_three_dvd_center_of_cyclic_sylow (e : Ctx215 D Ch)
     (hcyc3 : ∀ P : Sylow 3 (Bar2 e.L), IsCyclic ↥(P : Subgroup (Bar2 e.L))) :
     ¬ 3 ∣ Nat.card (Subgroup.center (Bar2 e.L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.LocalAnalysis.UniquenessCase.UCK.M591D.not_dvd_card_center
     e.hL.2.2.1 hcyc3
 

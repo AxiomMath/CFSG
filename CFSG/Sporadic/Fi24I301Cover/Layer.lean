@@ -130,7 +130,7 @@ theorem glaPLayer_eq_of_isSimple_normal_commutator_le_sup {p : ℕ} (hp : p.Prim
     {H S A : Subgroup E} (hSH : S ≤ H) (hSn : ∀ g ∈ H, ∀ s ∈ S, g * s * g⁻¹ ∈ S)
     (hS : IsSimpleGroup ↥S) (hnab : ∃ a b : ↥S, a * b ≠ b * a) (hpS : p ∣ Nat.card ↥S)
     (hA : A ≤ Subgroup.center E) (hc : ⁅H, H⁆ ≤ S ⊔ A) : GLAPLayer p H = S := by
-  haveI := hS
+  have := hS
   have hn : (S.subgroupOf H).Normal :=
     ⟨fun x hx g => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -160,12 +160,12 @@ theorem glaPLayer_centralizer_eq_range_of_section {G : Type*} [Group G] {p : ℕ
     (hL : IsSimpleGroup ↥L) (hnab : ∃ a b : ↥L, a * b ≠ b * a) (hpL : p ∣ Nat.card ↥L)
     (σ : ↥L →* E) (hσ : ∀ g, π (σ g) = g) {ŝ : E} (hs : π ŝ = s) :
     GLAPLayer p (Subgroup.centralizer ({ŝ} : Set E)) = σ.range := by
-  haveI := hL
+  have := hL
   have hσinj : Function.Injective σ := fun a b h =>
     Subtype.ext ((hσ a).symm.trans ((congrArg π h).trans (hσ b)))
   let eS : ↥L ≃* ↥σ.range := MonoidHom.ofInjective hσinj
-  haveI : Group.IsPerfect ↥L := isPerfect_of_isSimpleGroup hnab
-  haveI : Group.IsPerfect ↥σ.range := Group.IsPerfect.range σ
+  have : Group.IsPerfect ↥L := isPerfect_of_isSimpleGroup hnab
+  have : Group.IsPerfect ↥σ.range := Group.IsPerfect.range σ
   have hperf : ⁅σ.range, σ.range⁆ = σ.range := Subgroup.commutator_eq_self
   have hHs : ∀ h ∈ Subgroup.centralizer ({ŝ} : Set E),
       π h ∈ Subgroup.centralizer ({s} : Set G) := by
@@ -270,23 +270,23 @@ theorem normal_commutator_le_of_isSimple_index_sq {p : ℕ} (hp : p.Prime) {C L 
     (hLC : L ≤ C) (hs : IsSimpleGroup ↥L) (hk : Nat.card ↥C = Nat.card ↥L * p ^ 2)
     (hfac : (p ^ 2).factorial < Nat.card ↥C) :
     (∀ g ∈ C, ∀ x ∈ L, g * x * g⁻¹ ∈ L) ∧ ⁅C, C⁆ ≤ L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let E : Subgroup ↥C := L.subgroupOf C
   have eL : ↥E ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLC
-  haveI : IsSimpleGroup ↥E := eL.isSimpleGroup_congr.2 hs
+  have : IsSimpleGroup ↥E := eL.isSimpleGroup_congr.2 hs
   have hpos : 0 < Nat.card ↥L := Nat.card_pos
   have hidx : E.index = p ^ 2 := by
     have h1 : E.index * Nat.card ↥E = Nat.card ↥C := Subgroup.index_mul_card E
     rw [Nat.card_congr eL.toEquiv, hk] at h1
     exact Nat.eq_of_mul_eq_mul_right hpos (by rw [h1, mul_comm])
-  haveI hEn : E.Normal := CFSG.HardMathSupport.Dickson.I271.normal_of_isSimple_of_index E hidx
+  have hEn : E.Normal := CFSG.HardMathSupport.Dickson.I271.normal_of_isSimple_of_index E hidx
     (pow_ne_zero 2 hp.ne_zero) hfac
   refine ⟨fun g hg x hx => Subgroup.mem_subgroupOf.1
     (hEn.conj_mem ⟨x, hLC hx⟩ (Subgroup.mem_subgroupOf.2 hx) ⟨g, hg⟩), ?_⟩
   have hq : Nat.card (↥C ⧸ E) = p ^ 2 := by
     rw [← Subgroup.index_eq_card]
     exact hidx
-  have hab := IsPGroup.commutative_of_card_eq_prime_sq hq
+  have hab := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hq).is_comm.comm
   rw [Subgroup.commutator_le]
   intro a ha b hb
   rw [commutatorElement_def]
@@ -322,7 +322,7 @@ theorem statedClassicalModel_d4Group {Y : Type} [Group Y] (x y : Fin 4 → Y)
       ∀ a ∈ (U i).subgroupOf N, ∀ b ∈ (U j).subgroupOf N, a * b = b * a := by
     intro i j hij h1 h2 a ha b hb
     exact Subtype.ext (d4_closure_commute (hcomm i j hij h1 h2) a.1 ha b.1 hb)
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e3⟩ := d4_ringEq
   have hpair : ∀ i j : Fin 4, edgeD 4 i j → ∃ W, LinearBlockStandardPair (GaloisField 3 1) W
       ((U i).subgroupOf N) ((U j).subgroupOf N) := by

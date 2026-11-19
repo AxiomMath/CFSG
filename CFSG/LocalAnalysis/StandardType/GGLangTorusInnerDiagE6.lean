@@ -34,7 +34,7 @@ theorem langModel_le_familyGroup_E6_centerPrime
     E ≤ familyGroup (fun _ : Unit => b) := by
   have hker : familyKernel (fun _ : Unit => b) = rootCharKernel b := by
     ext α
-    simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq]
+    simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq]
     exact ⟨fun h => ⟨h.1, h.2 ()⟩, fun h => ⟨h.1, fun _ => h.2⟩⟩
   intro y hy
   have hyC : y ∈ toralCentralizer .E6 L b := ⟨(hE hy).1, hEC hy⟩

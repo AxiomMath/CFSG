@@ -11,12 +11,14 @@ open Subgroup
 
 variable {F : Type} [Group F] [Finite F] (Φ : F →* Z2S6)
 
+omit [Finite F] in
 theorem dvd_natCard_of_a6Factor_le_range (hA : a6Factor ≤ Φ.range) : 360 ∣ Nat.card F := by
   have h1 : Nat.card a6Factor ∣ Nat.card Φ.range := Subgroup.card_dvd_of_le hA
   rw [card_a6Factor] at h1
   rw [← Subgroup.card_ker_mul_card_range Φ]
   exact dvd_mul_of_dvd_right h1 _
 
+omit [Finite F] in
 theorem not_two_pow_six_dvd_natCard (hodd : Odd (Nat.card Φ.ker)) : ¬ 2 ^ 6 ∣ Nat.card F := by
   intro h
   rw [← Subgroup.card_ker_mul_card_range Φ] at h
@@ -28,6 +30,7 @@ theorem not_two_pow_six_dvd_natCard (hodd : Odd (Nat.card Φ.ker)) : ¬ 2 ^ 6 �
     exact hrange.trans (Subgroup.card_subgroup_dvd_card Φ.range)
   norm_num at h1440
 
+omit [Finite F] in
 theorem orderOf_ne_eight_of_odd_ker (hodd : Odd (Nat.card Φ.ker)) (x : F) : orderOf x ≠ 8 := by
   intro hx
   have hne : orderOf (Φ x) ≠ 8 := z2s6_orderOf_ne_eight (Φ x)
@@ -52,6 +55,7 @@ theorem orderOf_ne_eight_of_odd_ker (hodd : Odd (Nat.card Φ.ker)) (x : F) : ord
   rw [hord] at hodd2
   exact Nat.not_odd_iff_even.mpr even_two hodd2
 
+omit [Finite F] in
 theorem natCard_quotient_ker_dvd : Nat.card (F ⧸ Φ.ker) ∣ 1440 := by
   have h : Nat.card (F ⧸ Φ.ker) = Nat.card Φ.range :=
     Nat.card_congr (QuotientGroup.quotientKerEquivRange Φ).toEquiv

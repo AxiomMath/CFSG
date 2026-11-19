@@ -59,7 +59,7 @@ theorem subsingleton_sylow_two_of_card_twelve {X : Type*} [Group X] [Finite X]
     norm_num at this
   have h2dvd : 2 ∣ Nat.card ((T₁ : Subgroup X) ⊓ T₂ : Subgroup X) := by
     have hp : IsPGroup 2 ((T₁ : Subgroup X) ⊓ T₂ : Subgroup X) :=
-      T₁.isPGroup'.to_le inf_le_left
+      T₁.isPGroup.to_le inf_le_left
     rcases hp.card_eq_or_dvd with h1 | h2
     · exact absurd (Subgroup.card_eq_one.mp h1) hne
     · exact h2

@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem Ctx.conj_Z_B_of_swap_Q (hc : Ctx M Q Z B) {g n : G}
     (hg : B = conjSubgroup g Z) (h1 : conjSubgroup n Q = conjSubgroup g Q)
     (h2 : conjSubgroup n (conjSubgroup g Q) = Q) :

@@ -61,7 +61,7 @@ theorem nt1_even_contra {p n m : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hn : Even 
 
 theorem not_dvd_of_even_odd {n m p : ℕ} (hn : Even n) (hm : Odd m) (hp : p.Prime) (hp2 : p ≠ 2)
     (h : p ∣ 2 ^ n + 1) : ¬ p ∣ (2 ^ (2 * m) - 1) * (2 ^ (3 * m) - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   intro h2
   have hneg := nt1_pow_eq_neg_one h
   have h3m : Odd (3 * m) := Odd.mul ⟨1, by norm_num⟩ hm
@@ -71,7 +71,7 @@ theorem not_dvd_of_even_odd {n m p : ℕ} (hn : Even n) (hm : Odd m) (hp : p.Pri
 
 theorem dvd_two_pow_add_one_of {n m p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ∣ 2 ^ n + 1)
     (hm : Odd m) (h2 : p ∣ (2 ^ (2 * m) - 1) * (2 ^ (3 * m) - 1)) : p ∣ 2 ^ m + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hneg := nt1_pow_eq_neg_one h
   have h3m : Odd (3 * m) := Odd.mul ⟨1, by norm_num⟩ hm
   rcases (Nat.Prime.dvd_mul hp).mp h2 with h4 | h4

@@ -31,9 +31,9 @@ private theorem zM_comm_e₁ : zM * e₁ = e₁ * zM :=
 private theorem zM_comm_tLetter : zM * tLetter = tLetter * zM :=
   Subtype.ext (Max3.commute_z_of_mem_M tLetter.2).eq
 
-private theorem mem_E₀_z : zM ∈ E₀ := Subgroup.subset_closure (by simp [E₀])
-private theorem mem_E₀_e₀ : e₀ ∈ E₀ := Subgroup.subset_closure (by simp [E₀])
-private theorem mem_E₀_e₁ : e₁ ∈ E₀ := Subgroup.subset_closure (by simp [E₀])
+private theorem mem_E₀_z : zM ∈ E₀ := Subgroup.subset_closure (by simp)
+private theorem mem_E₀_e₀ : e₀ ∈ E₀ := Subgroup.subset_closure (by simp)
+private theorem mem_E₀_e₁ : e₁ ∈ E₀ := Subgroup.subset_closure (by simp)
 
 private theorem e8_mem_E₀ (l : Fin 8) : e8 l ∈ E₀ := by
   rw [e8]
@@ -66,8 +66,8 @@ private theorem zpowers_le_centralizer_zpowers {x y : ↥Max3.M} (h : x * y = y 
 
 private theorem elem_ab_sup : IsElementaryAbelian 2
     ↥(Subgroup.zpowers zM ⊔ Subgroup.zpowers e₀) := by
-  haveI := elem_ab_z
-  haveI := elem_ab_e₀
+  have := elem_ab_z
+  have := elem_ab_e₀
   exact IsElementaryAbelian.sup_of_le_centralizer (p := 2) (G := ↥Max3.M)
     (E := Subgroup.zpowers zM) (C := Subgroup.zpowers e₀)
     (zpowers_le_centralizer_zpowers (x := e₀) (y := zM) zM_comm_e₀.symm)
@@ -82,8 +82,8 @@ private theorem E₀_eq_sup : E₀ = (Subgroup.zpowers zM ⊔ Subgroup.zpowers e
 
 private theorem elem_ab_sup₂ (hcomm : e₀ * e₁ = e₁ * e₀) : IsElementaryAbelian 2
     ↥((Subgroup.zpowers zM ⊔ Subgroup.zpowers e₀) ⊔ Subgroup.zpowers e₁) := by
-  haveI := elem_ab_sup
-  haveI := elem_ab_e₁
+  have := elem_ab_sup
+  have := elem_ab_e₁
   refine IsElementaryAbelian.sup_of_le_centralizer (p := 2) (G := ↥Max3.M)
     (E := Subgroup.zpowers zM ⊔ Subgroup.zpowers e₀) (C := Subgroup.zpowers e₁) ?_
   rw [Subgroup.le_centralizer_iff]
@@ -134,8 +134,8 @@ private theorem rank_E₀_le (hinj : Function.Injective e8) : generatorRank ↥E
 
 private theorem card_E₀_le (hcomm : e₀ * e₁ = e₁ * e₀) (hinj : Function.Injective e8) :
     Nat.card E₀ ≤ 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI hAb : IsElementaryAbelian 2 ↥E₀ := elem_ab_E₀ hcomm
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have hAb : IsElementaryAbelian 2 ↥E₀ := elem_ab_E₀ hcomm
   have hcard := elementaryAbelian_card_eq_pow_generatorRank (p := 2) ↥E₀
   have hrank := rank_E₀_le hinj
   calc Nat.card E₀ = 2 ^ generatorRank ↥E₀ := hcard
@@ -169,7 +169,6 @@ private theorem E₀_eq_range (hcomm : e₀ * e₁ = e₁ * e₀) (hinj : Functi
     exact h
   have hEq : Set.range e8 = (E₀ : Set ↥Max3.M) := by
     refine Set.eq_of_subset_of_ncard_le range_e8_subset ?_
-    change (E₀ : Set ↥Max3.M).ncard ≤ (Set.range e8).ncard
     rw [hE, hR]
   exact hEq.symm
 
@@ -186,12 +185,12 @@ private theorem mem_E₀_iff (hcomm : e₀ * e₁ = e₁ * e₀) (hinj : Functio
 
 private theorem E₀_comm (hcomm : e₀ * e₁ = e₁ * e₀) :
     ∀ x ∈ E₀, ∀ y ∈ E₀, x * y = y * x := by
-  haveI : IsMulCommutative ↥E₀ := (elem_ab_E₀ hcomm).toIsMulCommutative
+  have : IsMulCommutative ↥E₀ := (elem_ab_E₀ hcomm).toIsMulCommutative
   intro x hx y hy
   simpa using congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥E₀) (⟨y, hy⟩ : ↥E₀))
 
 private theorem E₀_sq (hcomm : e₀ * e₁ = e₁ * e₀) : ∀ x ∈ E₀, x * x = 1 := by
-  haveI : IsElementaryAbelian 2 ↥E₀ := elem_ab_E₀ hcomm
+  have : IsElementaryAbelian 2 ↥E₀ := elem_ab_E₀ hcomm
   intro x hx
   have h := elemPow_eq_one_of_isElementaryAbelian (p := 2) (G := ↥Max3.M) (A := E₀) x hx
   simpa [pow_two] using h
@@ -281,7 +280,7 @@ private theorem E₀_cent (hce : ∀ {q : ↥Max3.M}, (q : J) ∈ Max3.Q →
   · rw [hql]
     exact e8_mem_E₀ l
   · rw [hmq, ha0]
-    simp only [pre, Fin.val_zero, Nat.zero_div, Nat.zero_mod, pow_zero, one_mul, mul_one]
+    simp only [pre, Fin.val_zero, Nat.zero_div, Nat.zero_mod, pow_zero, mul_one]
     rw [hql]
     have hpow : ∀ n : ℕ, tLetter ^ n * q = q * tLetter ^ n := by
       intro n
@@ -382,7 +381,7 @@ private theorem card_centralizer_e₀ :
 private theorem mem_A_of_lt_four {A : Subgroup ↥Max3.M} (hzA : zM ∈ A) (he₀A : e₀ ∈ A)
     {l : Fin 8} (hl : l.val < 4) : e8 l ∈ A := by
   fin_cases l
-  · simpa [e8] using A.one_mem
+  · simp [e8]
   · simpa [e8_one] using hzA
   · simpa [e8_two] using he₀A
   · simpa [e8] using A.mul_mem hzA he₀A
@@ -411,12 +410,12 @@ private theorem card_e8_four (hinj : Function.Injective e8) :
 
 private theorem le_card_four_of_all_lt_four {A : Subgroup ↥Max3.M}
     (hinj : Function.Injective e8) (hzA : zM ∈ A) (he₀A : e₀ ∈ A)
-    (hall : ∀ x ∈ A, ∃ l : Fin 8, l.val < 4 ∧ x = e8 l) : 4 ≤ Nat.card A := by
+    (_hall : ∀ x ∈ A, ∃ l : Fin 8, l.val < 4 ∧ x = e8 l) : 4 ≤ Nat.card A := by
   have hsub : ({e8 0, e8 1, e8 2, e8 3} : Set ↥Max3.M) ⊆ (A : Set ↥Max3.M) := by
     intro x hx
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with rfl | rfl | rfl | rfl
-    · simpa [e8] using A.one_mem
+    · simp [e8]
     · simpa [e8_one] using hzA
     · simpa [e8_two] using he₀A
     · simpa [e8] using A.mul_mem hzA he₀A

@@ -62,7 +62,7 @@ theorem p23_e_not_zstar (hT : Thm4RTwinBelow 3 n) (hTwo : P23Two n) (hα : P23Al
   have hd := hc.data
   have hC := CoreData.of_S hc.std.perp.core
   have hΩ : HypOmegaGen (Om R) := hC.hyp
-  haveI := hc.std.perp.core.simple
+  have := hc.std.perp.core.simple
   have hz : IsUniqueInvolution (tightCore R) t := Inner.isUniqueInvolution_core hC.datum
   have ht2 : t * t = 1 := hz.sq
   have ht1 : t ≠ 1 := hz.ne_one

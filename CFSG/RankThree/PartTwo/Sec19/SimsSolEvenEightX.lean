@@ -221,6 +221,7 @@ theorem mem_of_K_normalized (hR : Nat.card ↥(Rc X) ≤ 2) {x : G}
     ∃ p' ∈ CFSG.Open.pCoreOf 2 (CGOf x), c = p * p' * p⁻¹ * p'⁻¹} ∪
     {c | ∃ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), c = p * p})
 
+omit [Finite G] in
 theorem commSq_normalized {x k : G} (hk : k ∈ CGOf x) {y : G} (hy : y ∈ commSq x) :
     k * y * k⁻¹ ∈ commSq x := by
   have hPn : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), k * p * k⁻¹ ∈ CFSG.Open.pCoreOf 2 (CGOf x) :=
@@ -232,7 +233,7 @@ theorem commSq_normalized {x k : G} (hk : k ∈ CGOf x) {y : G} (hy : y ∈ comm
       group
     · refine Subgroup.subset_closure (Or.inr ⟨k * p * k⁻¹, hPn p hp, ?_⟩)
       group
-  | one => simpa using (commSq x).one_mem
+  | one => simp
   | mul a b _ _ ha hb =>
     have : k * (a * b) * k⁻¹ = (k * a * k⁻¹) * (k * b * k⁻¹) := by group
     rw [this]
@@ -279,7 +280,7 @@ theorem comm_mem_of_not_le (hR : Nat.card ↥(Rc X) ≤ 2) {x : G}
     (hp : p ∈ CFSG.Open.pCoreOf 2 (CGOf x)) (hp' : p' ∈ CFSG.Open.pCoreOf 2 (CGOf x)) :
     p * p' * p⁻¹ * p'⁻¹ = 1 ∨ p * p' * p⁻¹ * p'⁻¹ = x :=
   mem_of_K_normalized D hR hx hI hπ hKM (commSq_le_Q D hR hx hI hπ)
-    (fun k hk y hy => commSq_normalized hk hy) _
+    (fun _k hk _y hy => commSq_normalized hk hy) _
     (Subgroup.subset_closure (Or.inl ⟨p, hp, p', hp', rfl⟩))
 
 theorem sq_mem_of_not_le (hR : Nat.card ↥(Rc X) ≤ 2) {x : G}
@@ -287,7 +288,7 @@ theorem sq_mem_of_not_le (hR : Nat.card ↥(Rc X) ≤ 2) {x : G}
     (hπ : Multiplicative.toAdd (D.piQ ⟨x, hx⟩) = barInd I) (hKM : ¬ CGOf x ≤ M) {p : G}
     (hp : p ∈ CFSG.Open.pCoreOf 2 (CGOf x)) : p * p = 1 ∨ p * p = x :=
   mem_of_K_normalized D hR hx hI hπ hKM (commSq_le_Q D hR hx hI hπ)
-    (fun k hk y hy => commSq_normalized hk hy) _
+    (fun _k hk _y hy => commSq_normalized hk hy) _
     (Subgroup.subset_closure (Or.inr ⟨p, hp, rfl⟩))
 
 theorem P_inf_Q_le_Q0 (hR : Nat.card ↥(Rc X) ≤ 2) {x : G} (hx : x ∈ CFSG.Open.pCoreOf 2 M)

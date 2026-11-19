@@ -122,14 +122,14 @@ theorem dotB_eq_zero_of_mem_Rs (h : UnitaryFieldData 2 3 K) {W : Subgroup (GL (F
   | smul c a _ ha => rw [dotB_smul_right, ha, mul_zero]
 
 theorem Rs_ne_bot (h : UnitaryFieldData 2 3 K) {W : Subgroup (GL (Fin 4) K)} (hW2 : IsPGroup 2 W)
-    (hW1 : W ≠ ⊥) (hWu : ∀ w ∈ W, ((w : Matrix (Fin 4) (Fin 4) K).map h.bar)ᵀ * (w : Matrix (Fin 4) (Fin 4) K) = 1) :
+    (hW1 : W ≠ ⊥) (_hWu : ∀ w ∈ W, ((w : Matrix (Fin 4) (Fin 4) K).map h.bar)ᵀ * (w : Matrix (Fin 4) (Fin 4) K) = 1) :
     Rs W ≠ ⊥ := by
   classical
   have : Finite K := h.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hstab : ∀ w : ↥W, ∀ v ∈ Xs W, act (w : GL (Fin 4) K) v ∈ Xs W := fun w v hv =>
     Xs_stable (g := (w : GL (Fin 4) K)) (fun w' hw' => W.mul_mem (W.mul_mem w.2 hw') (W.inv_mem w.2)) v hv
-  letI : MulAction ↥W ↥(Xs W) :=
+  let : MulAction ↥W ↥(Xs W) :=
     { smul := fun w x => ⟨act (w : GL (Fin 4) K) x.1, hstab w x.1 x.2⟩
       one_smul := fun x => Subtype.ext (by
         show act ((1 : ↥W) : GL (Fin 4) K) x.1 = x.1

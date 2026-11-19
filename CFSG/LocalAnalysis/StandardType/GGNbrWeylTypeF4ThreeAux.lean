@@ -28,8 +28,7 @@ private theorem ggWTF4_congr_trans {G H I : Type} [Group G] [Group H] [Group I]
 private theorem ggWTF4_congr_congr_symm {G H : Type} [Group G] [Group H] (e : G ≃* H)
     (f : MulAut H) : MulAut.congr e (MulAut.congr e.symm f) = f := by
   ext x
-  simp only [ggMulAut_congr_apply, MulEquiv.symm_symm, MulEquiv.symm_apply_apply,
-    MulEquiv.apply_symm_apply]
+  simp only [ggMulAut_congr_apply, MulEquiv.symm_symm, MulEquiv.apply_symm_apply]
 
 private theorem ggWTF4_induced_eq_automizer
     {p : ℕ} {R : Type} [Group R] {k : ℕ}
@@ -92,10 +91,10 @@ theorem ggWTF4_coordFrameElt_adjointF4
     show p ^ k = p ^ 4
     rw [← CFSG.RankThree.CentralCover.card_multiplicative_fin_zmod k, hcardτ, hcardE])
   subst hk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let L := FiniteField.Extension K 2 2
   have hLK : Nat.card L = Nat.card K ^ 2 := FiniteField.natCard_extension K 2 2
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have hpL : p ∣ Nat.card L - 1 :=
     hLK ▸ F4AutWeyl.dvd_card_sq_sub_one_of_card_F4 hp hp2 hE hcardE
   obtain ⟨ψ, hψinj, hEV, hcos⟩ := F4AutWeyl.exists_descent_F4 hp hp2 hE hcardE

@@ -54,7 +54,7 @@ theorem ρ_stdIota (i : Fin D.rank) (A : Su Kf 2 f 2) :
 
 theorem ρ_stdTheta {i j : Fin D.rank} (hij : i < j) (h3 : coxeterMatrix D.isFiniteType i j = 3)
     (A : Su Kf 2 f 3) : ρ (stdTheta L hρ hρr κ hκ i j A) = L.ε₂ i j (suToSL κ 3 A) := by
-  rw [stdTheta, dif_pos ⟨hij, h3⟩]
+  rw [stdTheta, dite_eq_left ⟨hij, h3⟩]
   rw [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MonoidHom.codRestrict_apply]
   rw [← coe_fixEquiv hρ hρr]
   exact congrArg Subtype.val (MulEquiv.apply_symm_apply (fixEquiv hρ hρr) _)
@@ -288,11 +288,13 @@ private theorem hmbFam_theta_map_mul (u : normOne (unitaryInvolution Kf 2 f)) :
         rw [map_mul]
     _ = 1 := by rw [hu, map_one]
 
+omit [Finite Kf] [CharP Kf 2] in
 private theorem hmbFam_units_map_symm_apply (a : L.Fldˣ) :
     Units.map κ.toMonoidHom (Units.map κ.symm.toMonoidHom a) = a := by
   ext
   simp
 
+omit [Finite Kf] [CharP Kf 2] in
 private theorem hmbFam_kappa_units_map_symm (a : L.Fldˣ) :
     κ (κ.symm (a : L.Fld)) = (a : L.Fld) := by
   simp

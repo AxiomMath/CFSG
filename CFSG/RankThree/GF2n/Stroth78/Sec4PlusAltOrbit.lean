@@ -27,7 +27,7 @@ theorem relIndex_centralizer_H_eq (S : Setting z E F) (y : G) :
       (Q z ⊓ Subgroup.centralizer ({y} : Set G)).relIndex (Q z) *
         (((H z ⊓ Subgroup.centralizer ({y} : Set G)).subgroupOf (H z)).map
           (QuotientGroup.mk' ((Q z).subgroupOf (H z)))).index := by
-  haveI := instNormalQH z
+  have := instNormalQH z
   have h := CFSG.GroupTheory.index_eq_relIndex_mul_index_map ((Q z).subgroupOf (H z))
     ((H z ⊓ Subgroup.centralizer ({y} : Set G)).subgroupOf (H z))
   have hrel : ((Q z).subgroupOf (H z) ⊓
@@ -111,7 +111,7 @@ theorem four_dvd_relIndex_H_of_mem_Xsub (S : Setting z E F) (a : G)
     (hyX : (QuotientGroup.mk (⟨y, hy⟩ : ↥(H z)) : Hbar z) ∈ Xsub S a)
     (hy1 : (QuotientGroup.mk (⟨y, hy⟩ : ↥(H z)) : Hbar z) ≠ 1) :
     4 ∣ (H z ⊓ Subgroup.centralizer ({y} : Set G)).relIndex (H z) := by
-  haveI : Finite (Additive (QbarOf S)) := inferInstance
+  have : Finite (Additive (QbarOf S)) := inferInstance
   obtain ⟨g, hg⟩ := hΨs ⟨_, hyX⟩
   have hg1 : g ≠ 1 := by
     rintro rfl
@@ -190,8 +190,8 @@ theorem exists_mem_Xsub_apply_aVec_eq (S : Setting z E F) {a : G} {w : ℕ} (h :
     (hy4 : ¬ 4 ∣ (H z ⊓ Subgroup.centralizer ({y} : Set G)).relIndex (H z)) :
     ∃ x ∈ Xsub S a, rhoLin S x (aVec S h.mem_Q) = Additive.ofMul (mkQbar S ⟨y, hyQ⟩) := by
   classical
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   have hdim : finrank (ZMod 2) (Additive (QbarOf S)) < 16 := by
     rw [finrank_QbarOf_eq_two_mul S h.card_F, hw]
     norm_num

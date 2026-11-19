@@ -108,10 +108,10 @@ theorem card_le_three_of_isCyclic_sylow {X : Type*} [Group X] [Finite X]
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := fun x => ⟨1, Subtype.ext (by simpa using hE3 _ x.2)⟩
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
-  haveI := hcyc Q
-  haveI : IsCyclic (E.subgroupOf (Q : Subgroup X)) := Subgroup.isCyclic _
+  have := hcyc Q
+  have : IsCyclic (E.subgroupOf (Q : Subgroup X)) := Subgroup.isCyclic _
   have heq : E.subgroupOf (Q : Subgroup X) ≃* E := Subgroup.subgroupOfEquivOfLe hQ
-  haveI : IsCyclic E := isCyclic_of_surjective heq.toMonoidHom heq.surjective
+  have : IsCyclic E := isCyclic_of_surjective heq.toMonoidHom heq.surjective
   exact CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.T29.Parrott.card_le_three_of_isCyclic
     fun w => Subtype.ext (by simpa using hE3 _ w.2)
 

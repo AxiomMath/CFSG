@@ -33,7 +33,7 @@ private theorem card_eq_three_of_cyclic (h : EightSetting P d W) (D : Sylow 3 G)
     have hd : d * w = w * d := commute_of_mem_zpowers hyc (Subgroup.mem_zpowers_iff.2 ⟨k, hdy⟩)
     exact hw1 (Subtype.ext (h.free w hwW (by rw [hd, mul_inv_cancel_right])))
   have hyG : IsPGroup 3 (Subgroup.zpowers (y : G)) :=
-    D.isPGroup'.to_le (Subgroup.zpowers_le.2 y.2)
+    D.isPGroup.to_le (Subgroup.zpowers_le.2 y.2)
   have hy3 : (y : G) ^ 3 = 1 := (h.star hyG ⟨w, hwW, hyw⟩).2.2
   have hdvd : Nat.card (D : Subgroup G) ∣ 3 := by
     rw [← orderOf_eq_card_of_forall_mem_zpowers hy]

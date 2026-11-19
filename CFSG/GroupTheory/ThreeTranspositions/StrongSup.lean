@@ -37,7 +37,7 @@ private theorem relIndex_sup_mul_card_inf {Y N : Subgroup G} [N.Normal] :
       _ = N.relIndex Y * Nat.card N := by rw [hD]
   exact mul_left_cancel₀ hNrel hcomb
 
-private theorem not_dvd_relIndex_sup (hp : p.Prime) {Y N : Subgroup G} [N.Normal]
+private theorem not_dvd_relIndex_sup (_hp : p.Prime) {Y N : Subgroup G} [N.Normal]
     (hN : ¬ p ∣ Nat.card N) : ¬ p ∣ Y.relIndex (Y ⊔ N) := by
   intro hdiv
   exact hN (relIndex_sup_mul_card_inf (Y := Y) (N := N) ▸
@@ -46,12 +46,12 @@ private theorem not_dvd_relIndex_sup (hp : p.Prime) {Y N : Subgroup G} [N.Normal
 theorem exists_mem_conj_le_of_isPGroup_of_le_sup (hp : p.Prime) {Y N R : Subgroup G}
     [N.Normal] (hN : ¬ p ∣ Nat.card N) (hR : IsPGroup p R) (hRle : R ≤ Y ⊔ N) :
     ∃ n ∈ N, ∀ x ∈ R, n⁻¹ * x * n ∈ Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let M : Subgroup G := Y ⊔ N
   let S : Sylow p ↥Y := Classical.arbitrary _
   let SY : Subgroup G := (S : Subgroup Y).map Y.subtype
   have hSYle : SY ≤ Y := Subgroup.map_subtype_le _
-  have hSYp : IsPGroup p SY := S.isPGroup'.map Y.subtype
+  have hSYp : IsPGroup p SY := S.isPGroup.map Y.subtype
   have hSYrelY : SY.relIndex Y = S.index := by
     have hsub : SY.subgroupOf Y = (S : Subgroup Y) := by
       rw [← Subgroup.comap_subtype]
@@ -102,7 +102,7 @@ theorem exists_mem_conj_le_of_isPGroup_of_le_sup (hp : p.Prime) {Y N R : Subgrou
 theorem isStronglyPEmbedded_sup_of_normal (hp : p.Prime) {Y : Subgroup G}
     (hY : IsStronglyPEmbedded p Y) {N : Subgroup G} [N.Normal] (hN : ¬ p ∣ Nat.card N)
     (hne : Y ⊔ N ≠ ⊤) : IsStronglyPEmbedded p (Y ⊔ N) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨hne, hY.2.1.trans (Subgroup.card_dvd_of_le le_sup_left), ?_⟩
   intro g hg hpdiv
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hpdiv
@@ -157,7 +157,7 @@ theorem isStronglyPEmbedded_sup_of_normal (hp : p.Prime) {Y : Subgroup G}
 theorem isStronglyPEmbedded_map_mk_of_sup_ne_top (hp : p.Prime) {Y : Subgroup G}
     (hY : IsStronglyPEmbedded p Y) {N : Subgroup G} [N.Normal] (hN : ¬ p ∣ Nat.card N)
     (hne : Y ⊔ N ≠ ⊤) : IsStronglyPEmbedded p (Y.map (QuotientGroup.mk' N)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsup := isStronglyPEmbedded_sup_of_normal hp hY hN hne
   have h := IsStronglyPEmbedded.map_quotient (H := G) (Y := Y ⊔ N) (N := N) hsup
     le_sup_right hN

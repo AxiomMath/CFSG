@@ -185,7 +185,7 @@ public theorem lemma_11_2
     apply hDodd.of_dvd_nat
     rw [← d.P_card]
     exact Subgroup.card_dvd_of_le hPD
-  letI : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
+  let : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
   obtain ⟨PD, hPDmap⟩ := d.P_sylow_D
   obtain ⟨PM, hPMmap⟩ := exists_sylow_of_two_factor
     hpodd (show D ≤ M from inf_le_left) hPD hDodd
@@ -195,8 +195,8 @@ public theorem lemma_11_2
   have hPsylM : theorem4bIsSylowSubgroupOf d.choice.p P M :=
     ⟨PM, hPMmap.symm⟩
   have hPcomm : P ≤ Subgroup.centralizer (P : Set X) := by
-    letI : IsMulCommutative P :=
-      (isCyclic_of_prime_card (by simpa [P] using d.P_card)).commutative
+    let : IsMulCommutative P :=
+      (isCyclic_of_prime_card (by simpa [P] using d.P_card)).isMulCommutative
     intro x hx
     rw [Subgroup.mem_centralizer_iff]
     intro y hy

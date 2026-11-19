@@ -17,7 +17,7 @@ theorem eq_one_of_fix_join' (hTBF : GGTBFixInput) (hWI : GGNbrInnerWeylInput) {G
     {K : Subgroup G} (hN : GGNbr p B x D J y K) (b : Bs)
     (hb : ∀ φ ∈ ggAutomizer L Bs ⊔ ggAutomizer K Bs, φ b = b) : b = 1 := by
   have hc := hR.1
-  haveI : Fact p.Prime := ⟨hc.1.2.2.2.2.2.1.1⟩
+  have : Fact p.Prime := ⟨hc.1.2.2.2.2.2.1.1⟩
   have hS : LargeEvenSStar p B x L := hc.1.2.2.2.2.2.2.1
   have hxBs : x ∈ Bs := hc.2.1.1 hS.2.1
   have hpow : ∀ g ∈ Bs, g ^ p = 1 := hc.2.1.2.1.2

@@ -21,7 +21,7 @@ theorem exists_sylow_three_of_card_six_ch615 {F : Subgroup Γ} (h6 : Nat.card F 
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 3 ↥F) := Sylow.nonempty
   have hQ : Nat.card Q = 3 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have hdvd : 3 ^ k ∣ 6 := hk ▸ h6 ▸ Subgroup.card_subgroup_dvd_card (Q : Subgroup ↥F)
     have hk1 : k ≤ 1 := by
       by_contra h

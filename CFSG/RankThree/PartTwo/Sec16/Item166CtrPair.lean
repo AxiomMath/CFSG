@@ -284,19 +284,19 @@ theorem conf_xc
     intro hs
     have hA5ns : ¬ Group.IsSolvable ↥(alternatingGroup (Fin 5)) := by
       intro hsA
-      haveI : Group.IsPerfect ↥(alternatingGroup (Fin 5)) :=
+      have : Group.IsPerfect ↥(alternatingGroup (Fin 5)) :=
         ⟨commutator_alternatingGroup_eq_top (α := Fin 5) (by simp)⟩
       exact Group.IsPerfect.not_isSolvable (alternatingGroup (Fin 5)) hsA
-    haveI : Group.IsSolvable ↥J := hs
+    have : Group.IsSolvable ↥J := hs
     obtain ⟨e⟩ := hM.conf.quot_a5
     have hq : Group.IsSolvable (↥J ⧸ CFSG.pCore 2 ↥J) :=
       Group.isSolvable_of_surjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥J))
         (QuotientGroup.mk'_surjective _)
-    haveI : Group.IsSolvable (↥J ⧸ CFSG.pCore 2 ↥J) := hq
+    have : Group.IsSolvable (↥J ⧸ CFSG.pCore 2 ↥J) := hq
     exact hA5ns (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
   have hXns : ¬ Group.IsSolvable ↥XC := by
     intro hs
-    haveI : Group.IsSolvable ↥XC := hs
+    have : Group.IsSolvable ↥XC := hs
     exact hJns (Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective hJXC))
   have hJne : J ≠ ⊥ := Sec15.ne_bot_of_mem_scriptY4 hM.conf.mem_y0.1
@@ -351,7 +351,7 @@ theorem spade
       IsPGroup 2 U → U ≤ Subgroup.normalizer (J : Set G) ∧
         (⁅U, J⁆ ≤ CFSG.Open.pCoreOf 2 J → U ≤ S) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro U hUNS hUQ hU2
   have hconfC : Conf166A5 A c L Y₀ XC J :=
     conf_xc hM hRead hMem h1523 hK hQ0 hsol hΩ hOmg h152 h155

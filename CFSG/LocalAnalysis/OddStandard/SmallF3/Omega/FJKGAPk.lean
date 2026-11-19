@@ -17,7 +17,7 @@ theorem fj_central_not_mem_pocket {A : Type} [Group A] [Finite A] {y z : A} {B :
     (hyz : y ≠ z) (hyB : y ∈ B) (hSL : IsSL23Mod ↥B) : z ∉ B := by
   intro hzB
   obtain ⟨e⟩ := hSL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoddcard : Odd (Nat.card (CFSG.oddCore ↥B)) := by
     rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := ↥B)]
     exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := ↥B))

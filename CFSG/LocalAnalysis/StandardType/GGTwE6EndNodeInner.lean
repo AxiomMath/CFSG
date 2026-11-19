@@ -28,7 +28,7 @@ theorem ggTwE6EndNodeInnerInput_of_core (hRK : TwE6RootKill.RootKill)
     have := hp.two_le
     omega
   have h2 : ringChar K = 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     refine FiniteField.even_card_iff_char_two.2 ?_
     rw [← Nat.card_eq_fintype_card, hK]
     exact Nat.even_iff.1 (Nat.even_pow.2 ⟨Nat.even_pow.2 ⟨even_two, by omega⟩, two_ne_zero⟩)

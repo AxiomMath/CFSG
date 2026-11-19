@@ -170,22 +170,22 @@ private theorem pair_c2'6' (s : ℤ) (hs : Even s) (t u : c.K) :
     rw [commutatorElement_def, c'.c2'6' s hs (θ t) (θ u)]
     group
 
-private theorem pair_r2 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
+private theorem pair_r2 (_hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     (s : ℤ) (hs : Even s) (t u : c.K) :
     ⁅gpX c c' θ (1 + s) t, gpX c c' θ (4 + s) u⁆ =
       gpX' c c' θ (2 + s) (t * u) := by
   apply Prod.ext
   · simpa [gpX, gpX', commutatorElement_def] using c.r2 s hs t u
-  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, hθ] using
+  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, _hθ] using
       c'.r2 s hs (θ t) (θ u)
 
-private theorem pair_r3 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
+private theorem pair_r3 (_hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     (s : ℤ) (hs : Even s) (t u : c.K) :
     ⁅gpX c c' θ (1 + s) t, gpX' c c' θ (6 + s) u⁆ =
       gpX' c c' θ (4 + s) (t * u) := by
   apply Prod.ext
   · simpa [gpX, gpX', commutatorElement_def] using c.r3 s hs t u
-  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, hθ] using
+  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, _hθ] using
       c'.r3 s hs (θ t) (θ u)
 
 private theorem pair_r4 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
@@ -231,31 +231,31 @@ private theorem pair_r7 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
   · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, hθ] using
       c'.r7 s hs (θ t) (θ u)
 
-private theorem pair_r8 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
+private theorem pair_r8 (_hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     (s : ℤ) (hs : Even s) (t u : c.K) :
     ⁅gpX c c' θ (2 + s) t, gpX c c' θ (4 + s) u⁆ =
       gpX c c' θ (3 + s) (t * u) := by
   apply Prod.ext
   · simpa [gpX, gpX', commutatorElement_def] using c.r8 s hs t u
-  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, hθ] using
+  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, _hθ] using
       c'.r8 s hs (θ t) (θ u)
 
-private theorem pair_r9 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
+private theorem pair_r9 (_hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     (s : ℤ) (hs : Even s) (t u : c.K) :
     ⁅gpX c c' θ (2 + s) t, gpX c c' θ (5 + s) u⁆ =
       gpX' c c' θ (4 + s) (t * u) := by
   apply Prod.ext
   · simpa [gpX, gpX', commutatorElement_def] using c.r9 s hs t u
-  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, hθ] using
+  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, _hθ] using
       c'.r9 s hs (θ t) (θ u)
 
-private theorem pair_r10 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
+private theorem pair_r10 (_hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))
     (s : ℤ) (hs : Even s) (t u : c.K) :
     ⁅gpX' c c' θ (2 + s) t, gpX c c' θ (7 + s) u⁆ =
       gpX' c c' θ (4 + s) (t * u) := by
   apply Prod.ext
   · simpa [gpX, gpX', commutatorElement_def] using c.r10 s hs t u
-  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, hθ] using
+  · simpa [gpX, gpX', commutatorElement_def, map_mul, map_pow, _hθ] using
       c'.r10 s hs (θ t) (θ u)
 
 private theorem pair_r11 (hθ : ∀ t, θ (c.σ t) = c'.σ (θ t))

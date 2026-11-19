@@ -25,13 +25,13 @@ theorem derInf_isPerfect (P : Subgroup G) : ⁅F07.DerInf P, F07.DerInf P⁆ = F
 
 theorem opp3_eq_self_of_isL2 {X : Subgroup G} {m : ℕ} (hperf : ⁅X, X⁆ = X)
     (hL2 : IsL2 (Bar2 X) m) : Opp 3 X = X := by
-  haveI hsimple : IsSimpleGroup (Bar2 X) :=
+  have hsimple : IsSimpleGroup (Bar2 X) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   exact s16c6_opp3_eq_self hperf hsimple (three_dvd_card_of_isL2 hL2)
 
 theorem exists_card_eq_three_of_isL2 {X : Subgroup G} {m : ℕ} (hL2 : IsL2 (Bar2 X) m) :
     ∃ D₃ : Subgroup G, D₃ ≤ X ∧ Nat.card D₃ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3bar : 3 ∣ Nat.card (Bar2 X) := three_dvd_card_of_isL2 hL2
   have h3X : 3 ∣ Nat.card ↥X :=
     h3bar.trans (Subgroup.card_quotient_dvd_card (CFSG.pCore 2 ↥X))
@@ -42,13 +42,13 @@ theorem exists_card_eq_three_of_isL2 {X : Subgroup G} {m : ℕ} (hL2 : IsL2 (Bar
 theorem eq_of_normal_of_isL2 {X B D₃ : Subgroup G} {m : ℕ} (hperf : ⁅X, X⁆ = X)
     (hL2 : IsL2 (Bar2 X) m) (hBX : B ≤ X) (hXB : X ≤ normalizer (B : Set G)) (hD₃B : D₃ ≤ B)
     (hD₃ : Nat.card D₃ = 3) : B = X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hXperf : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hperf
-  haveI h2core : IsPGroup 2 ↥(CFSG.pCore 2 ↥X) := CFSG.pCore_isPGroup
-  haveI hsimple : IsSimpleGroup (Bar2 X) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hXperf : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hperf
+  have h2core : IsPGroup 2 ↥(CFSG.pCore 2 ↥X) := CFSG.pCore_isPGroup
+  have hsimple : IsSimpleGroup (Bar2 X) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
-  haveI hBn : (B.subgroupOf X).Normal :=
+  have hBn : (B.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hBX).mpr hXB
   let π : ↥X →* Bar2 X := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
   have hmap_ne : (B.subgroupOf X).map π ≠ ⊥ := by
@@ -74,15 +74,15 @@ theorem eq_of_normal_of_isL2 {X B D₃ : Subgroup G} {m : ℕ} (hperf : ⁅X, X�
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hxne hmem
   have hmap_top : (B.subgroupOf X).map π = ⊤ := by
-    haveI : ((B.subgroupOf X).map π).Normal := hBn.map π (QuotientGroup.mk'_surjective _)
+    have : ((B.subgroupOf X).map π).Normal := hBn.map π (QuotientGroup.mk'_surjective _)
     exact (Subgroup.Normal.eq_bot_or_eq_top _).resolve_left hmap_ne
   have htop : (B.subgroupOf X) ⊔ (CFSG.pCore 2 ↥X) = ⊤ := by
     have h := Subgroup.comap_map_eq π (B.subgroupOf X)
     rw [hmap_top, Subgroup.comap_top, QuotientGroup.ker_mk'] at h
     exact h.symm
   have hBtop : B.subgroupOf X = ⊤ := by
-    haveI hsub : Subsingleton (↥X ⧸ B.subgroupOf X) := by
-      haveI : Group.IsPerfect (↥X ⧸ B.subgroupOf X) := Group.IsPerfect.instQuotientSubgroup
+    have hsub : Subsingleton (↥X ⧸ B.subgroupOf X) := by
+      have : Group.IsPerfect (↥X ⧸ B.subgroupOf X) := Group.IsPerfect.instQuotientSubgroup
       have h2group : IsPGroup 2 (↥X ⧸ B.subgroupOf X) := by
         let f : ↥(CFSG.pCore 2 ↥X) →* (↥X ⧸ B.subgroupOf X) :=
           (QuotientGroup.mk' (B.subgroupOf X)).comp (CFSG.pCore 2 ↥X).subtype
@@ -109,7 +109,7 @@ theorem eq_of_normal_of_isL2 {X B D₃ : Subgroup G} {m : ℕ} (hperf : ⁅X, X�
 
 theorem ne_top_of_hyp97 (D : Data G) {Y H D₃ S : Subgroup G} (hyp : F09.Hyp97 D Y H D₃ S) :
     H ≠ ⊤ := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   obtain ⟨⟨-, ⟨-, hHM, -⟩, -, -⟩, -, ⟨-, hF⟩, -⟩ := hyp
   have hHne : H ≠ ⊥ := fun h => hHM (h ▸ bot_le)
   obtain ⟨N, hN, hHN⟩ := PartTwo.exists_isMaxTwoLocal_ge_of_fstar (G := G) hF hHne

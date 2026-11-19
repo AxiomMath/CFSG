@@ -63,7 +63,7 @@ theorem ln_slot {P i e : ℕ} (he : e < 36) : ln (slot P i) e = ln P (36 * i + e
 theorem size_decM (P : ℕ) : (decM P).size = 36 := by simp [decM]
 
 theorem getD_decM {P e : ℕ} (he : e < 36) : (decM P).getD e 0 = ((ln P e : ℕ) : ℤ) - 100 := by
-  rw [decM, Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dif_pos he, Option.getD_some]
+  rw [decM, Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dite_eq_left he, Option.getD_some]
 
 theorem arr_eq_of_getD {a b : Array ℤ} (ha : a.size = 36) (hb : b.size = 36)
     (h : ∀ e < 36, a.getD e 0 = b.getD e 0) : a = b := by
@@ -83,7 +83,7 @@ theorem mulArr_of_prodOK {A B C : ℕ} (h : prodOK A B C = true) :
   simp only [dotS, rowS, colS, Nat.add_eq, Nat.mul_eq, Nat.beq_eq] at hrc
   have he' : 6 * (e / 6) + e % 6 = e := Nat.div_add_mod e 6
   rw [he'] at hrc
-  rw [syl3MulArr, Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dif_pos he, Option.getD_some,
+  rw [syl3MulArr, Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dite_eq_left he, Option.getD_some,
     getD_decM he]
   simp only []
   rw [getD_decM (by omega), getD_decM (by omega), getD_decM (by omega), getD_decM (by omega),
@@ -165,7 +165,7 @@ theorem land_one_eq (x n : ℕ) : Nat.land (Nat.shiftRight x n) 1 = if x.testBit
   | false =>
     rw [ht] at h
     have := Nat.ne_of_beq_eq_false h
-    simp only [Bool.false_eq_true, if_false]
+    simp only [Bool.false_eq_true, ite_false]
     omega
 
 theorem length_filter_testBit (x m : ℕ) :

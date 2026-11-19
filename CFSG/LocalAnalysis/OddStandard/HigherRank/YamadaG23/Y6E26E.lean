@@ -18,7 +18,7 @@ theorem y6e_B_mod_F (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
       (∀ x ∈ c.s.fr.B, ∀ y ∈ c.s.fr.B, ⁅x, y⁆ ∈ c.s.fr.F) := by
   obtain ⟨hn, hmax⟩ := hH.hLF.fact14.2.2.2.2.1.1
   have hn' : (c.s.fr.F.subgroupOf c.s.fr.S).Normal := hn
-  haveI := hn'
+  have := hn'
   have hmax' : maxElemAbelian (⊤ : Subgroup (↥c.s.fr.S ⧸ c.s.fr.F.subgroupOf c.s.fr.S)) =
       {(c.s.fr.A.subgroupOf c.s.fr.S).map (QuotientGroup.mk' (c.s.fr.F.subgroupOf c.s.fr.S)),
         (c.s.fr.B.subgroupOf c.s.fr.S).map
@@ -36,7 +36,7 @@ theorem y6e_psi (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
       ∀ n ∈ normIn c.s.H c.s.fr.F, ∀ m m' : ↥(M3 c.s), (m' : G) = n * m * n⁻¹ →
         ((ψ m' : ↥c.s.fr.F) : G) = n * (ψ m : G) * n⁻¹ := by
   obtain ⟨hn, φ, hφ⟩ := y54_secProp c hH
-  haveI := hn
+  have := hn
   refine ⟨φ.toMonoidHom.comp (QuotientGroup.mk' (c.s.fr.F.subgroupOf (M3 c.s))),
     φ.surjective.comp (QuotientGroup.mk'_surjective _), fun m => ?_,
     fun n hn' m m' h => hφ n hn' m m' h⟩
@@ -49,7 +49,7 @@ theorem y6e_exists_W (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5) :
       (∀ x ∈ W, x ^ 2 ∈ c.s.fr.F) ∧ (∀ x ∈ W, ∀ y ∈ W, ⁅x, y⁆ ∈ c.s.fr.F) ∧
       (∀ x ∈ c.s.fr.B, ∀ y ∈ W, ⁅x, y⁆ ∈ c.s.fr.F) := by
   obtain ⟨ψ, hsurj, hker, hequi⟩ := y6e_psi c hH
-  haveI := y6e_M3_comm c hF
+  have := y6e_M3_comm c hF
   have hFM : c.s.fr.F ≤ M3 c.s := le_sup_right
   have hVF : cen c.s.fr.B ≤ c.s.fr.F := y54_V_le_F hH
   let K : Subgroup ↥c.s.fr.F := (cen c.s.fr.B).subgroupOf c.s.fr.F
@@ -119,7 +119,7 @@ theorem y6e_false_of_hsec (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
     (hQ : HRG23 (↥L ⧸ Subgroup.center ↥L))
     (hsec : SecProp (⊤ : Subgroup ↥(S3 c.s)) (c.s.fr.F.subgroupOf (S3 c.s))
       (fun Y _ _ _ => Sec2.IsG23Type Y)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W, hWM, hFW, hcW, hWsq, hWc, hBWc⟩ := y6e_exists_W c hH hF
   obtain ⟨hBsq, hBc⟩ := y6e_B_mod_F c hH
   have hZ : Subgroup.center ↥L = ⊥ := by

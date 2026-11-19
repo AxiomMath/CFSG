@@ -33,7 +33,7 @@ private theorem actsDiag_comp_ggQuotHom
     {d : ℕ} {K : Type} [Field K] [Finite K]
     {M : Type} [Group M] [Finite M] {L' E : Subgroup M}
     {θ : L' ⧸ Subgroup.center L' ≃* projectiveSL d K}
-    {hE : E ≤ Subgroup.normalizer (L' : Set M)}
+    {_hE : E ≤ Subgroup.normalizer (L' : Set M)}
     {φ' : SpecialLinearGroup (Fin d) K →* L'}
     {a : Subgroup.normalizer (L' : Set M)} {t : Fin d → K}
     (h : TypeANbrDvd.ActsDiag φ' (L'.normalizerMonoidHom a) t) :
@@ -83,6 +83,6 @@ theorem exists_model_of_position_PSL_gamma
     obtain ⟨t, ht⟩ := hdiag (ggGamma L' hE e) ⟨e, rfl⟩
     have hgg : ggGamma L' hE e = L'.normalizerMonoidHom ⟨e, hE e.2⟩ := rfl
     have ht' : TypeANbrDvd.ActsDiag φ' (L'.normalizerMonoidHom ⟨e, hE e.2⟩) t := hgg ▸ ht
-    exact ⟨t, actsDiag_comp_ggQuotHom (θ := θ) (hE := hE) ht'⟩
+    exact ⟨t, actsDiag_comp_ggQuotHom (θ := θ) (_hE := hE) ht'⟩
 
 end CFSG.StandardType

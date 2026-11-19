@@ -125,8 +125,8 @@ theorem rationalComponent_sp3_model (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) .PSp 3 2 3 := by
   classical
   obtain ⟨σ, hfin, hcard, f, hf1, hker, hf2⟩ := exists_inner_cover S hTor i hinner
-  haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
-  haveI : CharP ↥(fixSubfield σ) 2 := ((fixSubfield σ).subtype.charP_iff (fixSubfield σ).subtype_injective 2).2 inferInstance
+  have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
+  have : CharP ↥(fixSubfield σ) 2 := ((fixSubfield σ).subtype.charP_iff (fixSubfield σ).subtype_injective 2).2 inferInstance
   have hKcard : Nat.card ↥(fixSubfield σ) = 2 ^ 3 := by rw [hcard, hQ]; norm_num
   have hK4 : 4 ≤ Nat.card ↥(fixSubfield σ) := by rw [hKcard]; norm_num
   obtain ⟨Ψ, hΨk, hΨr⟩ : ∃ Ψ : StatedSp 3 ↥(fixSubfield σ) →* ModGL Tag.F4 ↥(fixSubfield σ),
@@ -156,7 +156,7 @@ theorem rationalComponent_sp3_model (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F
     rw [hroots]
   rw [← hcomp] at hΨr
   have hperfSp : commutator (StatedSp 3 ↥(fixSubfield σ)) = ⊤ :=
-    (spFactorFacts_holds ↥(fixSubfield σ) 3 (by norm_num) (by simp [← Nat.card_eq_fintype_card, hKcard])).perfect
+    (spFactorFacts_holds ↥(fixSubfield σ) 3 (by norm_num) (by simp [← Nat.card_eq_fintype_card])).perfect
   have hCperf : ⁅componentRootSpan (fixSubfield σ) (rootCharHom a) i, componentRootSpan (fixSubfield σ) (rootCharHom a) i⁆ =
       componentRootSpan (fixSubfield σ) (rootCharHom a) i := by
     rw [← hΨr, MonoidHom.range_eq_map, ← Subgroup.map_commutator, ← commutator_def, hperfSp]

@@ -284,6 +284,7 @@ section Norms
 
 variable {G : Type u} [Group G] [Fintype G]
 
+omit [Group G] in
 /-- `star (φ, ψ₁ - ψ₂) = ...`: the scalar product is additive in the second
 argument. -/
 public lemma scalarProduct_sub_right [Group G] (φ ψ₁ ψ₂ : ClassFunction G) :
@@ -297,6 +298,7 @@ public lemma scalarProduct_sub_right [Group G] (φ ψ₁ ψ₂ : ClassFunction G
       simp
       ring
 
+omit [Fintype G] in
 /-- The character of a direct product representation is the sum of the
 characters. -/
 public theorem char_prod [Fintype G] {V W : Type v} [AddCommGroup V] [Module ℂ V]
@@ -323,6 +325,7 @@ public theorem isCharacter_add {φ ψ : ClassFunction G} (hφ : IsCharacter φ)
   refine ⟨n + m, charTrans e (ρ.prod σ), ?_⟩
   rw [← Representation.char_iso (equiv_charTrans e (ρ.prod σ)), char_prod, hφeq, hψeq]
 
+omit [Fintype G] in
 /-- An irreducible character is a character. -/
 public theorem isCharacter_of_isIrreducibleCharacter [Fintype G] {χ : ClassFunction G}
     (hχ : IsIrreducibleCharacter χ) : IsCharacter χ := by
@@ -370,6 +373,7 @@ public theorem scalarProduct_irreducible_orthogonal {χ ψ : ClassFunction G}
   have hinv : scalarProductInv G χ ψ = 0 := isIrreducible_orthogonal_inv hχ hψ hne
   exact star_inj.mp (by simpa using hb.trans hinv)
 
+omit [Group G] in
 /-- `|φ|²` is a nonnegative real number. -/
 public lemma normSq_nonneg [Group G] (φ : ClassFunction G) : 0 ≤ (normSq G φ).re := by
   classical
@@ -480,6 +484,7 @@ public theorem scalarProduct_irreducible_char_nonneg {G : Type u} [Group G] [Fin
       _ = (Module.finrank ℂ (Representation.IntertwiningMap ρψ ρχ) : ℂ) := by simp
       _ = ((Module.finrank ℂ (Representation.IntertwiningMap ρψ ρχ) : ℝ) : ℂ) := by norm_num
 
+omit [Fintype G] in
 /-- The degree of an irreducible character is nonzero. -/
 public lemma irreducible_char_one_ne_zero [Fintype G] {χ : ClassFunction G}
     (hχ : IsIrreducibleCharacter χ) :
@@ -508,6 +513,7 @@ section DecompScalar
 
 variable {G : Type u} [Group G] [Fintype G]
 
+omit [Group G] in
 /-- The scalar product is additive in the first argument. -/
 public lemma scalarProduct_sum_left [Group G] {ι : Type*} [Fintype ι]
     (f : ι → ClassFunction G)
@@ -527,6 +533,7 @@ public lemma scalarProduct_sum_left [Group G] {ι : Type*} [Fintype ι]
       exact Finset.sum_comm (s := Finset.univ) (t := Finset.univ)
         (f := fun g i => f i g * star (ψ g))
 
+omit [Group G] in
 /-- The scalar product is additive in the second argument. -/
 public lemma scalarProduct_sum_right [Group G] (φ : ClassFunction G) {ι : Type*} [Fintype ι]
     (g : ι → ClassFunction G) :
@@ -560,6 +567,7 @@ public theorem scalarProduct_irr_ite {χ ψ : ClassFunction G}
   · simp [h]
     exact scalarProduct_irreducible_orthogonal hχ hψ h
 
+omit [Group G] in
 /-- Expansion of the scalar product of two two-term sums. -/
 public theorem scalarProduct_expand_four [Group G] (a b c d : ℂ)
     (χ₁ χ₂ ψ₁ ψ₂ : ClassFunction G) :
@@ -666,7 +674,7 @@ public theorem isIrreducible_equiv {V : Type v} {W : Type w} [AddCommGroup V] [M
     induction a using MonoidAlgebra.induction_linear with
     | zero =>
         exact add_right_cancel (a := φ 0) (b := φ 0) (c := 0)
-          (by simpa using (φ.map_add' 0 0).symm)
+          (by simp)
     | add x y hx hy =>
         rw [add_smul]
         have hsplit : φ (x • v + y • v) = φ (x • v) + φ (y • v) := by
@@ -689,7 +697,7 @@ public theorem isIrreducible_equiv {V : Type v} {W : Type w} [AddCommGroup V] [M
         have hleft : (c • (φ ((ρ g) (ρ.asModuleEquiv v)) : σ.asModule)) = z := by
           exact congrArg (fun z : W => (c • z : σ.asModule)) hφ
         have hright : z = MonoidAlgebra.single g c • wv := by
-          convert hσ.symm using 1 <;> rfl
+          convert hσ.symm using 1; rfl
         exact hleft.trans hright
   rw [Representation.irreducible_iff_isSimpleModule_asModule,
     Representation.irreducible_iff_isSimpleModule_asModule]
@@ -786,6 +794,7 @@ public noncomputable def addPair [DecidableEq (ClassFunction G)] (χ : ClassFunc
   | [] => [(χ, m)]
   | (p, k) :: rest => if p = χ then (p, k + m) :: rest else (p, k) :: addPair χ m rest
 
+omit [Group G] in
 /-- The sum over a catalog is increased by `m • χ` after adding `(χ, m)`. -/
 public lemma addPair_sum [Group G] [DecidableEq (ClassFunction G)]
     (χ : ClassFunction G) (m : ℕ)
@@ -802,6 +811,7 @@ public lemma addPair_sum [Group G] [DecidableEq (ClassFunction G)]
       · simp [addPair, hp, ih]
         ring
 
+omit [Group G] in
 /-- Membership in the first components of `addPair`: the element is either the
 merged character or already present. -/
 public lemma mem_map_addPair_fst [Group G] [DecidableEq (ClassFunction G)]
@@ -907,6 +917,7 @@ public lemma mergeCats_nodup [DecidableEq (ClassFunction G)]
       rw [mergeCats, List.foldl_cons]
       exact ih (addPair q.1 q.2 A) (addPair_nodup q.1 q.2 A hA) hB.tail
 
+omit [Group G] in
 /-- The character `χ` itself appears among the first components after adding a pair. -/
 public lemma mem_map_addPair_fst_self [Group G] [DecidableEq (ClassFunction G)]
     (χ : ClassFunction G)
@@ -919,6 +930,7 @@ public lemma mem_map_addPair_fst_self [Group G] [DecidableEq (ClassFunction G)]
       · simp [addPair, hp]
       · simpa [addPair, hp] using (Or.inr ih)
 
+omit [Group G] in
 /-- The first components of `A` are contained in those of the merge. -/
 public lemma mergeCats_fst_subset [Group G] [DecidableEq (ClassFunction G)]
     (A B : List (ClassFunction G × ℕ)) :
@@ -962,6 +974,7 @@ public noncomputable def mult [DecidableEq (ClassFunction G)]
     (l : List (ClassFunction G × ℕ)) (χ : ClassFunction G) : ℤ :=
   ((l.filter (fun p => p.1 = χ)).map (fun p => (p.2 : ℤ))).sum
 
+omit [Group G] in
 /-- The multiplicity of a character absent from the catalog is zero. -/
 public lemma mult_eq_zero [Group G] [DecidableEq (ClassFunction G)]
     {l : List (ClassFunction G × ℕ)}
@@ -975,6 +988,7 @@ public lemma mult_eq_zero [Group G] [DecidableEq (ClassFunction G)]
     exact h (List.mem_map.mpr ⟨p, (List.mem_filter.mp hp).1, hpc⟩)
   simp [hf]
 
+omit [Group G] in
 /-- Reindexing: the sum over a catalog equals the sum over its distinct
 characters of (multiplicity · character). -/
 public lemma sum_pairs_reindex [Group G] [DecidableEq (ClassFunction G)]
@@ -1710,6 +1724,7 @@ public theorem char_eq_irreducible_of_scalarProduct_one_and_degree {G : Type u}
   rw [hsum_one, hχs, hms1]
   simp
 
+omit [Group G] in
 /-- The scalar product is anti-linear in the first argument. -/
 public lemma scalarProduct_neg_left [Group G] (φ ψ : ClassFunction G) :
     scalarProduct G (-φ) ψ = -scalarProduct G φ ψ := by
@@ -1718,6 +1733,7 @@ public lemma scalarProduct_neg_left [Group G] (φ ψ : ClassFunction G) :
     _ = (-1 : ℂ) * scalarProduct G φ ψ := scalarProduct_smul_left (-1 : ℂ) φ ψ
     _ = -scalarProduct G φ ψ := by simp
 
+omit [Group G] in
 /-- The scalar product is conjugate-linear in the second argument. -/
 public lemma scalarProduct_neg_right [Group G] (φ ψ : ClassFunction G) :
     scalarProduct G φ (-ψ) = -scalarProduct G φ ψ := by
@@ -1741,7 +1757,7 @@ private theorem linearChar_finrank_one {G : Type u} [Group G] {lam : ClassFuncti
   rcases hlam.1 with ⟨n, ρ, hρ, hlameq⟩
   have hn : n = 1 := by
     have htr : (LinearMap.trace ℂ (Fin n → ℂ)) (ρ 1) = (n : ℂ) := by
-      simpa using (LinearMap.trace_id ℂ (Fin n → ℂ))
+      simp
     have htr' : (LinearMap.trace ℂ (Fin n → ℂ)) (ρ 1) = (1 : ℂ) := by
       change ρ.character 1 = (1 : ℂ)
       rw [← hlameq]
@@ -1802,7 +1818,7 @@ private theorem linearChar_scalar {G : Type u} [Group G] {lam : ClassFunction G}
       rw [map_smul]
       have ht : (LinearMap.trace ℂ (Fin 1 → ℂ)) (1 : (Fin 1 → ℂ) →ₗ[ℂ] (Fin 1 → ℂ)) =
           (1 : ℂ) := by
-        simpa using (LinearMap.trace_id ℂ (Fin 1 → ℂ))
+        simp
       rw [ht]
       simp
     have htr' : (LinearMap.trace ℂ (Fin 1 → ℂ)) (ρ x) = (ρ x (fun _ : Fin 1 => (1 : ℂ))) 0 := by
@@ -1930,7 +1946,7 @@ public theorem isLinearCharacter_of_hom {G : Type u} [Group G] [Fintype G]
         (1 : (Fin 1 → ℂ) →ₗ[ℂ] (Fin 1 → ℂ)))
     rw [map_smul]
     have ht : (LinearMap.trace ℂ (Fin 1 → ℂ)) (1 : (Fin 1 → ℂ) →ₗ[ℂ] (Fin 1 → ℂ)) = (1 : ℂ) := by
-      simpa using (LinearMap.trace_id ℂ (Fin 1 → ℂ))
+      simp
     rw [ht]
     simp
   · calc
@@ -1977,7 +1993,7 @@ public theorem isLinearCharacter_one {G : Type u} [Group G] [Fintype G] :
     change (1 : ℂ) =
       (LinearMap.trace ℂ (Fin 1 → ℂ)) (1 : (Fin 1 → ℂ) →ₗ[ℂ] (Fin 1 → ℂ))
     have ht : (LinearMap.trace ℂ (Fin 1 → ℂ)) (1 : (Fin 1 → ℂ) →ₗ[ℂ] (Fin 1 → ℂ)) = (1 : ℂ) := by
-      simpa using (LinearMap.trace_id ℂ (Fin 1 → ℂ))
+      simp
     rw [ht]
   · simp [scalarProductInv]
 
@@ -2523,8 +2539,7 @@ public theorem frobenius_reciprocity {G : Type u} [Group G] [Fintype G] (H : Sub
                       · apply Finset.mem_filter.mpr
                         constructor
                         · exact Finset.mem_univ _
-                        · change x⁻¹ * (x * (h : G) * x⁻¹) * x ∈ H
-                          rw [show x⁻¹ * (x * (h : G) * x⁻¹) * x = (h : G) by group]
+                        · rw [show x⁻¹ * (x * (h : G) * x⁻¹) * x = (h : G) by group]
                           exact h.property
                       · apply Subtype.ext
                         group

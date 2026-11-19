@@ -17,7 +17,7 @@ theorem exists_eq_inv_mul_finiteReeAut_of_eq_inv {m : ℕ}
     ∃ u : adjointGroup ReeTag.F4.tag K, h = u⁻¹ * ReeTag.F4.finiteReeAut K m u := by
   classical
   let L := AlgebraicClosure K
-  haveI : IsAlgClosure K L := inferInstance
+  have : IsAlgClosure K L := inferInstance
   obtain ⟨S₀, hLang, hS₀, -, Frq, hFrq, hsq⟩ :=
     CFSG.RankThree.PartOne.RF4.reeF4_lang_data (K := K) L (a := m) (b := m) (p := 1) hK
       (by omega)

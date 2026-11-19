@@ -109,7 +109,7 @@ theorem m12QuotHom_surjective : Function.Surjective m12QuotHom := by
   intro w
   obtain ⟨u, hu, hMu⟩ := Case0M12.m12M_surjective (Multiplicative.toAdd w)
   refine ⟨⟨Multiplicative.ofAdd u, G6.mem_coreMod.2 hu⟩, ?_⟩
-  simp only [m12QuotHom_apply, Subgroup.coe_mk, toAdd_ofAdd, hMu, ofAdd_toAdd]
+  simp only [m12QuotHom_apply, toAdd_ofAdd, hMu, ofAdd_toAdd]
 
 theorem m12QuotHom_ker :
     (Subgroup.zpowers (G6.allOnes 12)).subgroupOf (G6.coreMod 12) = m12QuotHom.ker := by

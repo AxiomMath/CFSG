@@ -17,7 +17,7 @@ variable {X : Type} [Group X] [Finite X] {T L : Subgroup X}
 theorem le_threeNormalizerJoin_of_le_gnC (hX : GNSetting X T) (hLC : L ≤ gnC T)
     (h3 : 3 ∣ Nat.card L) : L ≤ threeNormalizerJoin T L := by
   by_cases hT : T = ⊥
-  · haveI : Subsingleton X := hX.subsingleton_of_eq_bot hT
+  · have : Subsingleton X := hX.subsingleton_of_eq_bot hT
     have hLbot : L = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
       intro x _

@@ -18,8 +18,8 @@ variable {G : Type*} [Group G] {K : Subgroup G} {t : G}
 theorem orderOf_eq_four (h8 : Nat.card K = 8) (hnc : ∃ x ∈ K, ∃ y ∈ K, x * y ≠ y * x)
     (hun : ∀ x ∈ K, x * x = 1 → x = 1 ∨ x = t) {b : G} (hb : b ∈ K) (hb1 : b ≠ 1) (hbt : b ≠ t) :
     orderOf b = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥K := Nat.finite_of_card_ne_zero (by rw [h8]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥K := Nat.finite_of_card_ne_zero (by rw [h8]; norm_num)
   set b' : ↥K := ⟨b, hb⟩ with hb'
   have hord : orderOf b' = orderOf b := Subgroup.orderOf_mk b hb
   have hdvd : orderOf b' ∣ 2 ^ 3 := by
@@ -38,8 +38,8 @@ theorem orderOf_eq_four (h8 : Nat.card K = 8) (hnc : ∃ x ∈ K, ∃ y ∈ K, x
   · simpa [hord] using hk'
   · exfalso
     have hcard : orderOf b' = Nat.card ↥K := by rw [h8]; simpa using hk'
-    haveI := isCyclic_of_orderOf_eq_card b' hcard
-    letI := IsCyclic.commGroup (α := ↥K)
+    have := isCyclic_of_orderOf_eq_card b' hcard
+    let := IsCyclic.commGroup (α := ↥K)
     obtain ⟨x, hx, y, hy, hxy⟩ := hnc
     exact hxy (congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥K) ⟨y, hy⟩))
 
@@ -48,7 +48,7 @@ theorem eq_one_or_eq_of_central (h8 : Nat.card K = 8) (hnc : ∃ x ∈ K, ∃ y 
     z = 1 ∨ z = t := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : orderOf z = 4 := orderOf_eq_four h8 hnc hun hz hcon.1 hcon.2
   set z' : ↥K := ⟨z, hz⟩ with hz'
   set N : Subgroup ↥K := Subgroup.zpowers z' with hN
@@ -59,7 +59,7 @@ theorem eq_one_or_eq_of_central (h8 : Nat.card K = 8) (hnc : ∃ x ∈ K, ∃ y 
     intro g
     exact Subtype.ext (hc g g.2).symm
   have hNle : N ≤ Subgroup.center ↥K := Subgroup.zpowers_le.mpr hcent
-  haveI hNnormal : N.Normal := by
+  have hNnormal : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have h := Subgroup.mem_center_iff.mp (hNle hn) g
     rwa [h, mul_inv_cancel_right]
@@ -67,8 +67,8 @@ theorem eq_one_or_eq_of_central (h8 : Nat.card K = 8) (hnc : ∃ x ∈ K, ∃ y 
     have := Subgroup.card_eq_card_quotient_mul_card_subgroup N
     rw [h8, hNcard] at this
     omega
-  haveI : IsCyclic (↥K ⧸ N) := isCyclic_of_prime_card hquot
-  letI := commGroupOfCyclicCenterQuotient (QuotientGroup.mk' N) (by rw [QuotientGroup.ker_mk']; exact hNle)
+  have : IsCyclic (↥K ⧸ N) := isCyclic_of_prime_card hquot
+  let := commGroupOfCyclicCenterQuotient (QuotientGroup.mk' N) (by rw [QuotientGroup.ker_mk']; exact hNle)
   obtain ⟨x, hx, y, hy, hxy⟩ := hnc
   exact hxy (congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥K) ⟨y, hy⟩))
 
@@ -89,7 +89,7 @@ theorem commute_of_fix (h8 : Nat.card K = 8) {b : G} (hb : b ∈ K) (h4 : orderO
     (hN : Odd N) (haN : a ^ N = 1) (haK : ∀ x ∈ K, a * x * a⁻¹ ∈ K) (hab : a * b = b * a) {c : G}
     (hc : c ∈ K) : a * c = c * a := by
   classical
-  haveI : Finite ↥K := Nat.finite_of_card_ne_zero (by rw [h8]; norm_num)
+  have : Finite ↥K := Nat.finite_of_card_ne_zero (by rw [h8]; norm_num)
   set b' : ↥K := ⟨b, hb⟩ with hb'
   set T : Subgroup ↥K := Subgroup.zpowers b' with hT
   have hTcard : Nat.card T = 4 := by

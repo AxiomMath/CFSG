@@ -79,7 +79,7 @@ theorem exists_twoLocal_five_exc :
       fun i j hij A B => by simp only [MonoidHom.comp_apply, ← map_mul, hcomm i j hij A B]
     exact wit_of_liftDatum (G := (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group) hL
   · let d : ValidLieTypeIndex := ⟨.E8 q, hv⟩
-    haveI := ExcRank.finite_fixedField d
+    have := ExcRank.finite_fixedField d
     have hq' : d.fieldOrder = 2 := by
       change (LieTypeIndex.E8 q).fieldOrder = 2
       rw [LieTypeIndex.fieldOrder_E8]

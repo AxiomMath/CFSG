@@ -59,7 +59,7 @@ theorem charP_three_of_card {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.
 
 theorem d3TrialityCentRank_holds : D3TrialityCentRank := by
   intro K _ _ n hK t ht3 htE A hA hfix
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   let φ : D4Model K ≃* ↥(adjointGroup Tag.D4 K) :=
     (coordinatePlusWitnessEquiv K (isoAdj K).symm).symm
   set α : MulAut ↥(adjointGroup Tag.D4 K) := MulAut.congr φ t with hα

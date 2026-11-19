@@ -198,7 +198,7 @@ theorem exists_sylow_le_centralizer_of_not_dvd {A K : Subgroup G}
       _ ≤ 3 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega)
   obtain ⟨S, hQS⟩ := hQ3.exists_le_sylow
   have hS27 : Nat.card (S : Subgroup K) ≤ 27 := by
-    have hinj := injOn_mk_of_isPGroup Nat.prime_three S.isPGroup'
+    have hinj := injOn_mk_of_isPGroup Nat.prime_three S.isPGroup
     have hcard : Nat.card ((S : Subgroup K).map
         (QuotientGroup.mk' (aschbacherSolvableCore 3 K))) = Nat.card (S : Subgroup K) := by
       change Nat.card (↑((S : Subgroup K).map (QuotientGroup.mk' (aschbacherSolvableCore 3 K))) :
@@ -207,7 +207,7 @@ theorem exists_sylow_le_centralizer_of_not_dvd {A K : Subgroup G}
     have hdvd : Nat.card (S : Subgroup K) ∣ Nat.card (K ⧸ aschbacherSolvableCore 3 K) := by
       rw [← hcard]
       exact Subgroup.card_subgroup_dvd_card _
-    obtain ⟨i, hi⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨i, hi⟩ := IsPGroup.iff_card.mp S.isPGroup
     rw [hi] at hdvd ⊢
     by_contra hlt
     push Not at hlt

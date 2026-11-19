@@ -70,12 +70,14 @@ theorem conj_mem_map_fix_uni {w : primeFormP h (idGram K d)}
   calc g * s * c₀ * (g * s)⁻¹ = g * (s * c₀ * s⁻¹) * g⁻¹ := by group
     _ = g * c₀ * g⁻¹ := by rw [hsc]
 
+omit [Finite K] in
 theorem isQuasisimple_unitaryPreimageBlock (H : UnitaryPrimaryData h.bar (idForm h d) 𝒜) (hq : 2 ≤ 2 ^ n)
     (a : primaryFactors 𝒳) (ha : IsGoodBlock h 𝒜 a) :
     CFSG.IsQuasisimple ↥(KD264Lie.unitaryPreimageBlock h (x := 𝒜) (a : K[X])) :=
   CFSG.LocalCores.isQuasisimple_of_mulEquiv (KD264Lie.specialBlockEquiv h H a hq ha).symm
     ((specialBlockFacts_of_good H hq a ha).quasisimple ha.1)
 
+omit [Finite K] in
 theorem isQuasisimple_unitaryBlockComponent (H : UnitaryPrimaryData h.bar (idForm h d) 𝒜) (hq : 2 ≤ 2 ^ n)
     (a : primaryFactors 𝒳) (ha : IsGoodBlock h 𝒜 a) :
     CFSG.IsQuasisimple ↥(KD264Lie.unitaryBlockComponent h (x := 𝒜) (a : K[X])) := by
@@ -99,6 +101,7 @@ theorem isQuasisimple_unitaryBlockComponent (H : UnitaryPrimaryData h.bar (idFor
       rw [(QuotientGroup.eq_one_iff u).mpr (by rw [hZF]; exact Subgroup.mem_top u),
         (QuotientGroup.eq_one_iff w).mpr (by rw [hZF]; exact Subgroup.mem_top w)]
 
+omit [Finite K] in
 theorem isComponentOf_unitaryBlockComponent (H : UnitaryPrimaryData h.bar (idForm h d) 𝒜) (hq : 2 ≤ 2 ^ n)
     (a : primaryFactors 𝒳) (ha : IsGoodBlock h 𝒜 a) :
     CFSG.Open.IsComponentOf (KD264Lie.unitaryBlockComponent h (x := 𝒜) (a : K[X]))

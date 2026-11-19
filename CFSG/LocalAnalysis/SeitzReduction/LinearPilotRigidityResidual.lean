@@ -180,7 +180,7 @@ theorem exists_conj_eq_mul_transvection_of_innerGraphFieldRigid (hset : SeitzSet
   rcases exists_conj_eq_mul_transvection_or_residual hset hn hK e hAutU hU ht hKt with h | h
   · exact hno h
   obtain ⟨S, hSt, hcomm⟩ := h
-  have hS := exists_fieldComponent_ne_one_of_commutator_not_mem hn3 e ht hKt hCN S.isPGroup' hSt
+  have hS := exists_fieldComponent_ne_one_of_commutator_not_mem hn3 e ht hKt hCN S.isPGroup hSt
     hcomm
   refine false_of_innerGraphFieldRigid hset hn3 e ht hKt hFR (fun g hg hgN => ?_) S hSt hS
   by_contra hne

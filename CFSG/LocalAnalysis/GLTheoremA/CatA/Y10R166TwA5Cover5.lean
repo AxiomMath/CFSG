@@ -40,9 +40,9 @@ theorem concl166S_twA5Cover_of_transport
   obtain ⟨F, hFld, hFin, hChar, hFcard, ⟨e⟩⟩ :=
     exists_mulEquiv_statedSU_of_label_center_three hK
       (⟨rfl, rfl, hn2, hdvd⟩ : i166FamTwA5 ⟨.twA, 5, n⟩ p (Subgroup.center K = ⊥)) h3
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
+  let : Field F := hFld
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
   have heR : 4 ≤ evenRank (StatedSU 6 (2 ^ n) F) := by
     rwa [evenRank_eq_of_mulEquiv e] at he
   have hrR : GLATwoLocalRank p (StatedSU 6 (2 ^ n) F) + 1 =

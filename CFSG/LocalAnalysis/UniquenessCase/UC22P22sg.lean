@@ -24,14 +24,15 @@ section NotAlt
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem uc22p22sg_not_alt {n : ℕ} (hn : 3 ≤ n) (hshape : IsSz Y n ∨ IsL2 Y n ∨ IsSU3 Y n ∨ IsSL3 Y n ∨ IsSp4 Y n)
     {m : ℕ} (hm : 5 ≤ m) (ψ : Y →* alternatingGroup (Fin m)) (hψ : Function.Surjective ψ) : False := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hA : Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
   have hdvd : Nat.card (alternatingGroup (Fin m)) ∣ Nat.card Y := Subgroup.card_dvd_of_surjective (f := ψ) hψ
   have hAnt : Nontrivial (alternatingGroup (Fin m)) := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin m)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin m)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; omega)
     infer_instance
   have hiso : IsSimpleGroup Y → Nat.card Y = m.factorial / 2 := by
@@ -99,6 +100,7 @@ namespace P22s
     rw [CFSG.Quasithin.GE23.ker_starHom]
     exact Subgroup.mem_subgroupOf.2 ⟨x.2, hO ⟨x, hx, rfl⟩⟩
 
+omit [Finite G] in
 theorem barStar_surjective (hLN : L ≤ normalizer (V : Set G))
     (hO : pCoreOf 2 L ≤ centralizer (V : Set G)) : Function.Surjective (barStar hV hLN hO) := by
   intro y
@@ -109,12 +111,14 @@ end P22s
 
 open P22s
 
+omit [Finite G] in
 theorem uc22p22sg_autI_perfect (hLN : L ≤ normalizer (V : Set G)) (hLp : ⁅L, L⁆ = L) :
     ⁅autI hV L, autI hV L⁆ = autI hV L := by
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hLp
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hLp
   rw [← CFSG.Quasithin.range_convHom hV L hLN]
   exact Subgroup.isPerfect_iff.1 (Group.IsPerfect.range _)
 
+omit [Finite G] in
 theorem uc22p22sg_isQuasisimple_autI (hLN : L ≤ normalizer (V : Set G))
     (hO : pCoreOf 2 L ≤ centralizer (V : Set G)) (hq : CFSG.Open.IsQuasisimple (Bar2 L))
     (hne : autI hV L ≠ ⊥) : CFSG.Open.IsQuasisimple ↥(autI hV L) := by
@@ -140,7 +144,7 @@ theorem uc22p22sg_normal_of_isQuasisimple {X : Type} [Group X] {K : Subgroup X}
     (hq : CFSG.Open.IsQuasisimple ↥K) :
     ∀ N : Subgroup X, N ≤ K → K ≤ normalizer (N : Set X) → N = K ∨ K ≤ centralizer (N : Set X) := by
   intro N hNK hKN
-  haveI : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
+  have : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
   rcases CFSG.LocalCores.quasisimple_normal_subgroups (CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hq)
       (N := N.subgroupOf K) inferInstance with h | h
   · left
@@ -152,6 +156,7 @@ theorem uc22p22sg_normal_of_isQuasisimple {X : Type} [Group X] {K : Subgroup X}
     have := Subgroup.mem_center_iff.1 (h (show (⟨n, hNK hn⟩ : ↥K) ∈ N.subgroupOf K from hn)) ⟨k, hk⟩
     exact (congrArg Subtype.val this).symm
 
+omit [Finite G] in
 theorem uc22p22sg_not_alt_autI (hLN : L ≤ normalizer (V : Set G))
     (hO : pCoreOf 2 L ≤ centralizer (V : Set G)) {n : ℕ} (hn : 3 ≤ n)
     (hshape : IsSz (Bar2 L) n ∨ IsL2 (Bar2 L) n ∨ IsSU3 (Bar2 L) n ∨ IsSL3 (Bar2 L) n ∨ IsSp4 (Bar2 L) n)
@@ -166,8 +171,8 @@ theorem uc22p22sg_isQuasisimple_bar2_of_shape {G : Type} [Group G] [Finite G] {L
   have hsimple : IsSimpleGroup (Bar2 L) → CFSG.Open.IsQuasisimple (Bar2 L) := by
     intro hs
     refine CFSG.Holt.PointHull.isQuasisimple_of_isSimpleGroup ?_
-    haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hLp
-    haveI : Group.IsPerfect (Bar2 L) :=
+    have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hLp
+    have : Group.IsPerfect (Bar2 L) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥L)) (QuotientGroup.mk'_surjective _)
     by_contra hcomm
     push Not at hcomm

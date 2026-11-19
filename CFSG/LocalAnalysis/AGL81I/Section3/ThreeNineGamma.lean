@@ -39,7 +39,7 @@ theorem gammaOver_mono_right {k p : ℕ} {R T T' : Subgroup G} (hT : T ≤ T') :
   iSup₂_mono fun _ _ => iSup_mono fun _ => inf_le_inf_left _ hT
 
 theorem threeNine_not_le_gammaOver {X : Type} [Group X] [Finite X]
-    (K E D X₁ : Subgroup X) (p d : ℕ) (hp : p.Prime) (hdp : d.Prime)
+    (K E D X₁ : Subgroup X) (p d : ℕ) (_hp : p.Prime) (hdp : d.Prime)
     (hDsyl : CFSG.ABGLocalTools.IsSylowOf d D ⊤) (hDne : D ≠ ⊥) (hX1 : X₁ < K ⊔ D)
     (hΓE : gammaOver 1 p E (K ⊔ D) ≤ X₁) (hΓD : gammaIn 1 d D (K ⊔ D) ≤ X₁) :
     ¬ K ≤ gammaOver 1 p E K := by

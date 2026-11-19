@@ -121,7 +121,7 @@ theorem testBit_mul_rep {v : ℕ} (hv : v < 2 ^ 256) :
       have h4 : p / 256 < n + 1 := by omega
       simp [h1, h3, h4]
     · by_cases h2 : p / 256 = n
-      · simp [h1, h2]
+      · simp [h2]
       · have h3 : ¬ p / 256 < n + 1 := by omega
         simp [h1, h2, h3]
 
@@ -198,7 +198,7 @@ theorem testBit_vecTerm (v M m j : ℕ) :
   rw [h1]
   cases hb : v.testBit m
   · simp
-  · simp only [if_true, Nat.one_mul, Bool.true_and]
+  · simp only [ite_true, Nat.one_mul, Bool.true_and]
     rw [Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one, Nat.mul_comm m 256,
       Nat.add_comm (256 * m)]
 
@@ -234,7 +234,7 @@ theorem row_mulB {n r : ℕ} (hr : r < n) (A B : ℕ) :
     simp only [hj, hr, and_self, decide_true, Bool.true_and, Bool.and_true]
     refine xsB_congr 248 fun k hk => ?_
     rw [Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one]
-    simp [hk, Nat.add_comm k]
+    simp [hk]
   · simp [hj]
 
 theorem mulB_lt (n A B : ℕ) : mulB (rep 1 256 n) (2 ^ 248 - 1) A B < 2 ^ (256 * n) := by

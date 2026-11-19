@@ -78,12 +78,12 @@ theorem good429_P6 (α : MulAut P6) (h3 : α ^ 3 = 1) (h1 : α ≠ 1) : Good429 
   have hns : ∀ d : F4c, matC (A : GL (Fin 6) F4) ≠ Matrix.scalar (Fin 6) d :=
     fun d h => h1 (conj6_eq_one_of_matC h)
   intro K hKC hKp hKs hT
-  haveI := hKp
-  haveI := nontrivial_of_isType429 hT
+  have := hKp
+  have := nontrivial_of_isType429 hT
   have hel : ∀ r : ℕ, r.Prime → r ∣ Nat.card (K ⧸ CFSG.pCore 2 K) →
       ∃ g : P6, conj6 A g = g ∧ orderOf g = r := by
     intro r hr hdvd
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := K ⧸ CFSG.pCore 2 K) r hdvd
     obtain ⟨g, hg, hgo⟩ := exists_fix_orderOf hKC x
     exact ⟨g, hg, hgo.trans hx⟩

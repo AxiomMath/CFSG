@@ -34,26 +34,26 @@ theorem UFourTwoLike.of_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃* B)
     (h : UFourTwoLike A) : UFourTwoLike B := by
   rcases h with h | ⟨hs, hl⟩
   · exact Or.inl (SylowOvergroup.isSolvable_of_mulEquiv e.symm h)
-  · haveI := hs
+  · have := hs
     let c := SylowOvergroup.commutatorEquiv e
     exact Or.inr ⟨c.symm.isSimpleGroup, LieModel.of_mulEquiv c hl⟩
 
 theorem uFourTwoLike_of_commutator_equiv
     {A : Type} [Group A] (c : ↥(commutator A) ≃* ↥V0) : UFourTwoLike A := by
   obtain ⟨e⟩ := nonempty_V0_mulEquiv_catGroup
-  haveI := isSimpleGroup_V0
+  have := isSimpleGroup_V0
   exact Or.inr ⟨c.isSimpleGroup, LieModel.of_mulEquiv (c.trans e).symm lieModel_u42⟩
 
 theorem commutator_W0_eq :
     commutator ↥W0 = V0.subgroupOf W0 := by
-  haveI : (V0.subgroupOf W0).Normal :=
+  have : (V0.subgroupOf W0).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer V0_le_W0).2 W0_le_normalizer_V0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · have hcard : Nat.card (↥W0 ⧸ V0.subgroupOf W0) = 2 := by
       rw [← Subgroup.index_eq_card]
       exact relIndex_V0_W0
-    haveI : IsCyclic (↥W0 ⧸ V0.subgroupOf W0) := isCyclic_of_prime_card hcard
+    have : IsCyclic (↥W0 ⧸ V0.subgroupOf W0) := isCyclic_of_prime_card hcard
     have h := Abelianization.commutator_subset_ker (QuotientGroup.mk' (V0.subgroupOf W0))
     rwa [QuotientGroup.ker_mk'] at h
   · have h1 : (commutator ↥V0).map (Subgroup.inclusion V0_le_W0) ≤ commutator ↥W0 := by
@@ -98,16 +98,16 @@ theorem uFourTwoLike_of_le_W0
       rw [hY]
       exact uFourTwoLike_W0
   · left
-    haveI : (V0.subgroupOf W0).Normal :=
+    have : (V0.subgroupOf W0).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer V0_le_W0).2 W0_le_normalizer_V0
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI hN : Group.IsSolvable ↥(Y ⊓ V0) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have hN : Group.IsSolvable ↥(Y ⊓ V0) :=
       isSolvable_of_le_V0 (le_inf hT T0_le_V0) inf_le_right fun h =>
         hV (h.symm.le.trans inf_le_left)
     have hcard : Nat.card (↥W0 ⧸ V0.subgroupOf W0) = 2 := by
       rw [← Subgroup.index_eq_card]
       exact relIndex_V0_W0
-    haveI : IsCyclic (↥W0 ⧸ V0.subgroupOf W0) := isCyclic_of_prime_card hcard
+    have : IsCyclic (↥W0 ⧸ V0.subgroupOf W0) := isCyclic_of_prime_card hcard
     let f : ↥(Y ⊓ V0) →* ↥Y := Subgroup.inclusion inf_le_left
     let g : ↥Y →* ↥W0 ⧸ V0.subgroupOf W0 :=
       (QuotientGroup.mk' (V0.subgroupOf W0)).comp (Subgroup.inclusion hYW)
@@ -120,7 +120,7 @@ theorem uFourTwoLike_of_le_W0
 theorem uFourTwoLike_of_not_dvd_index
     {Y : Subgroup H6}
     (hY : Y ≠ ⊤) (h3 : ¬ 3 ∣ Y.index) : UFourTwoLike ↥Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine SylowOvergroup.forall_of_sylow_le T0S (fun Y => UFourTwoLike ↥Y)
     (fun g Y h => UFourTwoLike.of_mulEquiv
       (Subgroup.equivMapOfInjective Y (MulAut.conj g).toMonoidHom (MulAut.conj g).injective).symm h)

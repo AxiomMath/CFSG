@@ -18,7 +18,7 @@ variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [F
 theorem exists_fixed_vector_of_isPGroup (ρ : G →* LGL 2 V) {P : Subgroup G} (hP : IsPGroup 2 P)
     {W : Submodule (ZMod 2) V} (hW : ∀ g ∈ P, ∀ w ∈ W, ρ g w ∈ W) (hW0 : W ≠ ⊥) :
     ∃ w ∈ W, w ≠ 0 ∧ ∀ g ∈ P, ρ g w = w := by
-  letI : MulAction ↥P ↥W :=
+  let : MulAction ↥P ↥W :=
     { smul := fun g w => ⟨ρ g.1 w.1, hW g.1 g.2 w.1 w.2⟩
       one_smul := fun w => Subtype.ext (by
         show ρ (1 : G) w.1 = w.1
@@ -54,7 +54,7 @@ theorem exists_eq_commutator_of_fpf [Finite G] {S : Subgroup G} {x : G}
     (hx : x ∈ normalizer (S : Set G)) (hfpf : ∀ s ∈ S, s * x = x * s → s = 1) {s : G}
     (hs : s ∈ S) : ∃ s' ∈ S, s = s'⁻¹ * (x * s' * x⁻¹) := by
   classical
-  haveI : Finite ↥S := inferInstance
+  have : Finite ↥S := inferInstance
   let φ : ↥S → ↥S := fun s' =>
     ⟨s'.1⁻¹ * (x * s'.1 * x⁻¹),
       S.mul_mem (S.inv_mem s'.2) ((Subgroup.mem_normalizer_iff.mp hx s'.1).mp s'.2)⟩
@@ -121,8 +121,8 @@ theorem card_add_one_le_card_of_free (ρ : G →* LGL 2 V) {T : Subgroup G}
     have hne' : (x : G)⁻¹ * (x' : G) ≠ 1 := fun h => hne (Subtype.ext (inv_mul_eq_one.mp h))
     exact hy₀0 (hfree ((x : G)⁻¹ * (x' : G)) hmem hne' y₀ hy₀Y hfix)
   have hcard : Nat.card {y : ↥Y // y ≠ 0} + 1 = Nat.card ↥Y := by
-    haveI : Fintype ↥Y := Fintype.ofFinite _
-    haveI : Fintype {y : ↥Y // y ≠ 0} := Fintype.ofFinite _
+    have : Fintype ↥Y := Fintype.ofFinite _
+    have : Fintype {y : ↥Y // y ≠ 0} := Fintype.ofFinite _
     have h : Fintype.card {y : ↥Y // y ≠ 0} = Fintype.card ↥Y - 1 := by
       rw [Fintype.card_subtype_compl (p := fun y : ↥Y => y = 0),
         Fintype.card_subtype_eq (0 : ↥Y)]
@@ -139,7 +139,7 @@ theorem card_add_one_le_card_of_free (ρ : G →* LGL 2 V) {T : Subgroup G}
     ∀ z ∈ Z, z ≠ 0 → ∀ z' ∈ Z, z' ≠ 0 → ∃ x ∈ T, ρ x z = z'
 
 theorem regularOnNonzero_of_card (ρ : G →* LGL 2 V) {T : Subgroup G}
-    {Z : Submodule (ZMod 2) V} (hZ : ∀ x ∈ T, ∀ z ∈ Z, ρ x z ∈ Z) (hZ0 : Z ≠ ⊥)
+    {Z : Submodule (ZMod 2) V} (hZ : ∀ x ∈ T, ∀ z ∈ Z, ρ x z ∈ Z) (_hZ0 : Z ≠ ⊥)
     (hfree : ∀ x ∈ T, x ≠ 1 → ∀ z ∈ Z, ρ x z = z → z = 0)
     (hcard : Nat.card T + 1 = Nat.card Z) : RegularOnNonzero ρ T Z := by
   classical
@@ -167,8 +167,8 @@ theorem regularOnNonzero_of_card (ρ : G →* LGL 2 V) {T : Subgroup G}
     have hne' : (x : G)⁻¹ * (x' : G) ≠ 1 := fun h => hne (Subtype.ext (inv_mul_eq_one.mp h))
     exact hz0 (hfree ((x : G)⁻¹ * (x' : G)) hmem hne' z hz hfix)
   have hcardβ : Nat.card {y : ↥Z // y ≠ 0} = Nat.card T := by
-    haveI : Fintype ↥Z := Fintype.ofFinite _
-    haveI : Fintype {y : ↥Z // y ≠ 0} := Fintype.ofFinite _
+    have : Fintype ↥Z := Fintype.ofFinite _
+    have : Fintype {y : ↥Z // y ≠ 0} := Fintype.ofFinite _
     have h : Fintype.card {y : ↥Z // y ≠ 0} = Fintype.card ↥Z - 1 := by
       rw [Fintype.card_subtype_compl (p := fun y : ↥Z => y = 0),
         Fintype.card_subtype_eq (0 : ↥Z)]
@@ -184,6 +184,7 @@ theorem regularOnNonzero_of_card (ρ : G →* LGL 2 V) {T : Subgroup G}
     have := congrArg (fun w : {y : ↥Z // y ≠ 0} => ((w.1 : ↥Z) : V)) hx
     simpa [f] using this⟩
 
+omit [Finite V] in
 theorem eq_zero_of_mem_commSpace_of_fixed (ρ : G →* LGL 2 V) {T : Subgroup G}
     (hT : Odd (Nat.card T)) (W : Submodule (ZMod 2) V) {y : V}
     (hy : y ∈ commSpace (T.map ρ) W) (hfix : ∀ x ∈ T, ρ x y = y) : y = 0 := by
@@ -191,8 +192,8 @@ theorem eq_zero_of_mem_commSpace_of_fixed (ρ : G →* LGL 2 V) {T : Subgroup G}
   have hT0 : Nat.card T ≠ 0 := by
     obtain ⟨k, hk⟩ := hT
     omega
-  haveI : Finite ↥T := Nat.finite_of_card_ne_zero hT0
-  haveI : Fintype ↥T := Fintype.ofFinite ↥T
+  have : Finite ↥T := Nat.finite_of_card_ne_zero hT0
+  have : Fintype ↥T := Fintype.ofFinite ↥T
   let e : V →ₗ[ZMod 2] V := ∑ x : ↥T, ((ρ x.1 : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V)
   have hS : ∀ v : V, e v = ∑ x : ↥T, (ρ x.1 : V ≃ₗ[ZMod 2] V) v := fun v => by
     simp [e, LinearMap.sum_apply]
@@ -219,6 +220,7 @@ theorem eq_zero_of_mem_commSpace_of_fixed (ρ : G →* LGL 2 V) {T : Subgroup G}
       one_smul]
   exact hfix_e.symm.trans hy0
 
+omit [Finite V] in
 theorem map_mem_commSpace_map (ρ : G →* LGL 2 V) {T : Subgroup G} {W : Submodule (ZMod 2) V}
     (hW : ∀ x ∈ T, ∀ w ∈ W, ρ x w ∈ W) {x : G} (hx : x ∈ T) {y : V}
     (hy : y ∈ commSpace (T.map ρ) W) : ρ x y ∈ commSpace (T.map ρ) W := by

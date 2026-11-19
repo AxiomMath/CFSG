@@ -135,7 +135,7 @@ theorem s_r : ∀ i < J3BA.cnt, CFSG.KS.PEnumR.penumPtR 6156 13 (mask 13) J3BA.G
 
 theorem s_pe : ∀ i < J3BA.cnt, penumPtK 6156 13 (mask 13) (6156 * 13) true J3BA.G J3BA.GI 2
     J3BA.cnt J3BA.T J3BA.PL J3BA.POS J3BA.SRT J3BA.SRI i = true :=
-  CFSG.KS.PEnumR.penumPtK_of_R base.1 (fun j hj => (gen hj).1) (fun j hj => (gen hj).2.2.2.2.1)
+  CFSG.KS.PEnumR.penumPtK_of_R base.1 (fun _j hj => (gen hj).1) (fun _j hj => (gen hj).2.2.2.2.1)
     base.2.2.2.2.2.2.2.2.2.2.1 s_r
 
 theorem s_hs : ∀ i < J3BA.cnt,
@@ -148,7 +148,7 @@ theorem mul_eq : mulClosureH 6156 gensK 100 = hRec 6156 13 J3BA.cnt J3BA.T J3BA.
       (hRec 6156 13 J3BA.cnt J3BA.T J3BA.PL).2.1 (hRec 6156 13 J3BA.cnt J3BA.T J3BA.PL).2.2 =
         true ∧
     hkeysDistinct 6156 (hRec 6156 13 J3BA.cnt J3BA.T J3BA.PL).1.toList = true :=
-  mulH_sound base.1 (fun j hj => (gen hj).2.2.2.2.1) s_tabs base.2.2.2.2.2.2.2.2.2.2.1 s_pe s_hs
+  mulH_sound base.1 (fun _j hj => (gen hj).2.2.2.2.1) s_tabs base.2.2.2.2.2.2.2.2.2.2.1 s_pe s_hs
 
 theorem hT {i : ℕ} (hi : i < 60) : canonK 6156 13 (mask 13) (6156 * 13) (J3BA.T i) = true :=
   penumPt_canon (s_pe i (by rw [hcnt]; exact hi))

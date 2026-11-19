@@ -67,7 +67,7 @@ theorem model_embedding {Y : Type} [Group Y] [Finite Y]
     ∃ f : Y →* P45, Function.Injective f ∧ (∀ y, f y ∈ QA45.originalSubgroup) ∧
       (∀ y, y ∈ genFittingFStar Y ↔ f y ∈ QP45.originalSubgroup) ∧
       ∀ p ∈ QP45.originalSubgroup, ∃ y, f y = p := by
-  haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   obtain ⟨e⟩ := PSp43.equiv_of_lieModel hF
   obtain ⟨M, hMP, hMA⟩ := PSp43.exists_model e
   have hPA : M.P ≤ M.A := by rw [hMP, hMA]; exact L0_le_A0

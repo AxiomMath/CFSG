@@ -179,8 +179,8 @@ theorem kdSporRow_of_centShapeRk' {name : TauCeti.SporadicName} {p : ℕ} {Q : T
       Nat.card T ∣ Nat.card (Subgroup.centralizer ({k} : Set Q)) → kLevel p T ≤ 2) :
     KDSporRow name p := by
   set G := (TauCeti.CFSGIndex.sporadic name).Group
-  haveI : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 inferInstance
-  haveI : Finite G := Finite.of_equiv _ b.toEquiv
+  have : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 inferInstance
+  have : Finite G := Finite.of_equiv _ b.toEquiv
   have hncG : ∃ a c : G, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨b a, b c, fun h' => hac ?_⟩

@@ -16,6 +16,7 @@ section Operators
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {A0 A1 A2 X Xi S Si : Module.End (ZMod 2) V}
 
+omit [Finite V] in
 theorem caseI_pair0_apply_cube (T : Module.End (ZMod 2) V) (hT : T ^ 3 = 1) (u : V) :
     T (T (T u)) = u := by
   have h := congrArg (fun f : Module.End (ZMod 2) V => f u) hT
@@ -33,6 +34,7 @@ theorem caseI_pair0_e2_sq {T : Module.End (ZMod 2) V} (hT : T ^ 3 = 1) :
   rw [h4]
   abel
 
+omit [Finite V] in
 theorem caseI_pair0_preserves_ker (T U : Module.End (ZMod 2) V) (hT : T * U = U * T) :
     ∀ v ∈ LinearMap.ker (e2 U), T v ∈ LinearMap.ker (e2 U) := by
   intro v hv
@@ -40,6 +42,7 @@ theorem caseI_pair0_preserves_ker (T U : Module.End (ZMod 2) V) (hT : T * U = U 
   rw [← Module.End.mul_apply, ← mul_e2_comm_of_comm T U hT, Module.End.mul_apply, hv,
     map_zero]
 
+omit [Finite V] in
 theorem caseI_pair0_preserves_ker_of_e2 (T U : Module.End (ZMod 2) V)
     (hT : T * e2 U = e2 U * T) :
     ∀ v ∈ LinearMap.ker (e2 U), T v ∈ LinearMap.ker (e2 U) := by
@@ -47,17 +50,20 @@ theorem caseI_pair0_preserves_ker_of_e2 (T U : Module.End (ZMod 2) V)
   rw [LinearMap.mem_ker] at hv ⊢
   rw [← Module.End.mul_apply, ← hT, Module.End.mul_apply, hv, map_zero]
 
+omit [Finite V] in
 theorem caseI_pair0_e2_preserves_ker (T U : Module.End (ZMod 2) V) (hT : T * U = U * T) :
     ∀ v ∈ LinearMap.ker (e2 U), e2 T v ∈ LinearMap.ker (e2 U) := by
   intro v hv
   rw [LinearMap.mem_ker] at hv ⊢
   rw [← Module.End.mul_apply, ← e2_end_comm hT, Module.End.mul_apply, hv, map_zero]
 
+omit [Finite V] in
 theorem caseI_pair0_e2_preserves_range (T U : Module.End (ZMod 2) V) (hT : T * U = U * T) :
     ∀ w ∈ LinearMap.range (e2 U), e2 T w ∈ LinearMap.range (e2 U) := by
   rintro w ⟨w', rfl⟩
   exact ⟨e2 T w', by rw [← Module.End.mul_apply, ← e2_end_comm hT, Module.End.mul_apply]⟩
 
+omit [Finite V] in
 theorem caseI_pair0_fpf_ker (h0 : A0 ^ 3 = 1) :
     ∀ v ∈ LinearMap.ker (e2 A0), A0 v = v → v = 0 := by
   intro v hv hfix
@@ -81,15 +87,18 @@ theorem caseI_pair0_conj_e2_comm (C Ci : Module.End (ZMod 2) V) (hCiC : Ci * C =
       _ = (Ci * e2 A0 * C) * Ci := by noncomm_ring
       _ = e2 A0 * Ci := by rw [h1]
 
+omit [Finite V] in
 theorem caseI_pair0_comm_A0_A0C2 (C : Module.End (ZMod 2) V) (hA0C : A0 * C = C * A0) :
     A0 * (A0 * C ^ 2) = (A0 * C ^ 2) * A0 := by
   rw [mul_assoc, (Commute.pow_right hA0C 2).eq.symm]
 
+omit [Finite V] in
 theorem caseI_pair0_comm_B_A0C2 (B C : Module.End (ZMod 2) V)
     (hA0B : A0 * B = B * A0) (hBC : B * C = C * B) :
     B * (A0 * C ^ 2) = (A0 * C ^ 2) * B := by
   rw [← mul_assoc, hA0B.symm, mul_assoc, (Commute.pow_right hBC 2).eq, ← mul_assoc]
 
+omit [Finite V] in
 theorem caseI_pair0_comm_C_A0C2 (C : Module.End (ZMod 2) V) (hA0C : A0 * C = C * A0)
     (hC : C ^ 3 = 1) : C * (A0 * C ^ 2) = (A0 * C ^ 2) * C := by
   calc C * (A0 * C ^ 2) = (C * A0) * C ^ 2 := by rw [mul_assoc]
@@ -99,12 +108,14 @@ theorem caseI_pair0_comm_C_A0C2 (C : Module.End (ZMod 2) V) (hA0C : A0 * C = C *
     _ = A0 := by rw [hC, mul_one]
     _ = (A0 * C ^ 2) * C := by rw [mul_assoc, ← pow_succ, hC, mul_one]
 
+omit [Finite V] in
 theorem caseI_pair0_cube_prod (B C : Module.End (ZMod 2) V) (hA0 : A0 ^ 3 = 1)
     (hB : B ^ 3 = 1) (hC : C ^ 3 = 1) (hA0B : A0 * B = B * A0)
     (hA0C : A0 * C = C * A0) (hBC : B * C = C * B) : (A0 * B * C) ^ 3 = 1 := by
   have hABC : Commute (A0 * B) C := Commute.mul_left hA0C hBC
   rw [Commute.mul_pow hABC 3, Commute.mul_pow hA0B 3, hA0, hB, hC, one_mul, one_mul]
 
+omit [Finite V] in
 theorem caseI_pair0_preserves_Y (B C T : Module.End (ZMod 2) V)
     (hT0 : T * A0 = A0 * T) (hTB : T * B = B * T) (hTC : T * C = C * T) :
     ∀ v ∈ LinearMap.ker (e2 A0) ⊓ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 C),
@@ -115,6 +126,7 @@ theorem caseI_pair0_preserves_Y (B C T : Module.End (ZMod 2) V)
     range_e2_invariant_of_comm T B hTB v hvB⟩,
     caseI_pair0_preserves_ker T C hTC v hvC⟩
 
+omit [Finite V] in
 theorem caseI_pair0_preserves_Y_of_e2 (B C T : Module.End (ZMod 2) V)
     (hT0 : T * e2 A0 = e2 A0 * T) (hTB : T * B = B * T) (hTC : T * C = C * T) :
     ∀ v ∈ LinearMap.ker (e2 A0) ⊓ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 C),
@@ -125,6 +137,7 @@ theorem caseI_pair0_preserves_Y_of_e2 (B C T : Module.End (ZMod 2) V)
     range_e2_invariant_of_comm T B hTB v hvB⟩,
     caseI_pair0_preserves_ker T C hTC v hvC⟩
 
+omit [Finite V] in
 theorem caseI_pair0_e2_preserves_Y (B C T : Module.End (ZMod 2) V)
     (hT0 : T * A0 = A0 * T) (hTB : T * B = B * T) (hTC : T * C = C * T) :
     ∀ v ∈ LinearMap.ker (e2 A0) ⊓ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 C),
@@ -136,6 +149,7 @@ theorem caseI_pair0_e2_preserves_Y (B C T : Module.End (ZMod 2) V)
     caseI_pair0_e2_preserves_ker T C hTC v hvC⟩
 
 
+omit [Finite V] in
 private theorem caseI_pair0_second_piece_fpf (B C : Module.End (ZMod 2) V)
     (hA0 : A0 ^ 3 = 1) (hB3 : B ^ 3 = 1) (hC : C ^ 3 = 1)
     (hA0B : A0 * B = B * A0) (hA0C : A0 * C = C * A0)
@@ -164,6 +178,7 @@ private theorem caseI_pair0_second_piece_fpf (B C : Module.End (ZMod 2) V)
     exact h3.symm
   exact caseI_pair0_fpf_ker hA0 u huK hA0u
 
+omit [Finite V] in
 private theorem caseI_pair0_second_piece_D_invariant (B C : Module.End (ZMod 2) V)
     (hA0B : A0 * B = B * A0) (hA0C : A0 * C = C * A0) (hBC : B * C = C * B)
     (hC : C ^ 3 = 1) :
@@ -211,8 +226,8 @@ private theorem caseI_pair0_second_piece_D_invariant (B C : Module.End (ZMod 2) 
 theorem caseI_pair0_second_piece_eq_bot (B C : Module.End (ZMod 2) V)
     (hA0 : A0 ^ 3 = 1) (hB : B ^ 3 = 1) (hC : C ^ 3 = 1)
     (hA0B : A0 * B = B * A0) (hA0C : A0 * C = C * A0) (hBC : B * C = C * B)
-    (hSiS : Si * S = 1) (hSSi : S * Si = 1) (hSiA0 : Si * A0 * S = A0 ^ 2)
-    (hSiB : Si * B * S = B) (hSiC : Si * C * S = C)
+    (_hSiS : Si * S = 1) (_hSSi : S * Si = 1) (_hSiA0 : Si * A0 * S = A0 ^ 2)
+    (_hSiB : Si * B * S = B) (_hSiC : Si * C * S = C)
     (htriv : ∀ u, u ∈ LinearMap.range (e2 (A0 * C ^ 2)) →
       u ∈ LinearMap.ker (e2 (A0 * B * C)) → A0 u = u) :
     (LinearMap.ker (e2 A0) ⊓ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 C)) ⊓
@@ -238,6 +253,7 @@ theorem caseI_pair0_second_piece_eq_bot (B C : Module.End (ZMod 2) V)
   exact caseI_pair0_fpf_ker hA0 u huK (htriv u huW (hDker ⟨huY, huW⟩))
 
 
+omit [Finite V] in
 private theorem caseI_pair0_mul_eq_of_conj_mul (M N : Module.End (ZMod 2) V)
     (hSSi : S * Si = 1) (h : Si * M * S = N) : Si * M = N * Si := by
   calc Si * M = Si * M * (S * Si) := by rw [hSSi, mul_one]
@@ -265,6 +281,7 @@ private theorem caseI_pair0_conj_e2_AC (C : Module.End (ZMod 2) V) (h0 : A0 ^ 3 
   rw [Commute.mul_pow (Commute.pow_left hA0C 2) 2, ← pow_mul,
     show 2 * 2 = 3 + 1 by norm_num, pow_add, h0, one_mul, pow_one]
 
+omit [Finite V] in
 private theorem caseI_pair0_Y_e2_AC2_eq_zero (B C : Module.End (ZMod 2) V)
     (h2 : (LinearMap.ker (e2 A0) ⊓ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 C)) ⊓
       LinearMap.range (e2 (A0 * C ^ 2)) = ⊥)
@@ -281,6 +298,7 @@ private theorem caseI_pair0_Y_e2_AC2_eq_zero (B C : Module.End (ZMod 2) V)
   rw [h2] at hmem
   exact hmem
 
+omit [Finite V] in
 private theorem caseI_pair0_Y_e2_AC_eq_zero (B C : Module.End (ZMod 2) V)
     (h2 : (LinearMap.ker (e2 A0) ⊓ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 C)) ⊓
       LinearMap.range (e2 (A0 * C ^ 2)) = ⊥)
@@ -370,6 +388,7 @@ private def caseI_endSubring (D : Submodule (ZMod 2) V) : Subring (Module.End (Z
     rw [LinearMap.neg_apply]
     exact D.neg_mem (ha v hv)
 
+omit [Finite V] in
 theorem caseI_pair0_preserves_D (hW : Wt49 A0 A1 A2 X Xi S Si) :
     ∀ T ∈ Subring.closure ({A0, A1, A2} : Set (Module.End (ZMod 2) V)),
       ∀ v ∈ LinearMap.ker (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2)),
@@ -438,6 +457,7 @@ private theorem caseI_pair0_D_e2_mem (hW : Wt49 A0 A1 A2 X Xi S Si) :
       (Subring.pow_mem _ hbzmem 2)
   exact ⟨hpres _ he2bmem, hpres _ he2bzmem⟩
 
+omit [Finite V] in
 private theorem caseI_pair0_D_fpf (hW : Wt49 A0 A1 A2 X Xi S Si) :
     ∀ w ∈ LinearMap.ker (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2)),
       (A0 * A1 * A2) w = w → w = 0 := by
@@ -606,6 +626,7 @@ theorem caseI_pair0_triv_A1_on_K_range_A2 (hW : Wt49 A0 A1 A2 X Xi S Si)
     _ = v := hv_eq.symm
 
 
+omit [Finite V] in
 private theorem caseI_pair0_rotate_S1_comm (hW : Wt49 A0 A1 A2 X Xi S Si) :
     (Xi * Si * X) * A0 = A0 * (Xi * Si * X) ∧
       A1 * (Xi * S * X) = (Xi * S * X) * A1 ^ 2 ∧
@@ -690,6 +711,7 @@ theorem caseI_pair0_triv_on_D' (hW : Wt49 A0 A1 A2 X Xi S Si) (hP : PatI A0 A1 A
       _ = w := hSw
 
 
+omit [Finite V] in
 private theorem caseI_pair0_comm_A0_prods (hW : Wt49 A0 A1 A2 X Xi S Si) :
     (A1 * A2) * A0 = A0 * (A1 * A2) ∧ (A1 * A2 ^ 2) * A0 = A0 * (A1 * A2 ^ 2) := by
   constructor
@@ -812,10 +834,12 @@ theorem caseI_trivial_on_ker (hP : PatI (c.opA 0) (c.opA 1) (c.opA 2)) {i j : �
     {v | ∃ g : ↥H, (g : G) ∈ Lc L x i ∧ ∃ w ∈ LinearMap.ker (e2 (c.opA i)),
       op49 c.chief g w = v}
 
+omit [Finite G] in
 theorem caseI_L_trivial_op_mul (g g' : ↥H) :
     op49 c.chief (g * g') = op49 c.chief g * op49 c.chief g' := by
   simp [op49]
 
+omit [Finite G] in
 theorem caseI_L_trivial_op_one : op49 c.chief (1 : ↥H) = 1 := by
   simp [op49]
 
@@ -826,11 +850,13 @@ theorem caseI_L_trivial_cube {i : ℕ} (hi : i < 3) : (c.opA i) ^ 3 = 1 := by
   · exact hW.cube1
   · exact hW.cube2
 
+omit [Finite G] in
 theorem caseI_L_trivial_ker_le_W' (i : ℕ) :
     LinearMap.ker (e2 (c.opA i)) ≤ caseI_L_trivial_W' c i := by
   intro w hw
   exact Submodule.subset_span ⟨(1 : ↥H), (Lc L x i).one_mem, w, hw, by simp [op49]⟩
 
+omit [Finite G] in
 theorem caseI_L_trivial_W'_inv (i : ℕ) {g : ↥H} (hg : (g : G) ∈ Lc L x i)
     {w : Additive (N ⧸ M.subgroupOf N)} (hw : w ∈ caseI_L_trivial_W' c i) :
     op49 c.chief g w ∈ caseI_L_trivial_W' c i := by
@@ -895,6 +921,7 @@ theorem caseI_L_trivial_W'_fixed (hP : PatI (c.opA 0) (c.opA 1) (c.opA 2)) {i j 
       simpa only [neg_sub] using Submodule.neg_mem _ hmem
     simpa only [LinearMap.sub_apply, Module.End.one_apply] using hneg
 
+omit [Finite G] in
 theorem caseI_L_trivial_T_normal (i : ℕ) : (caseI_L_trivial_T c i).Normal := by
   refine ⟨fun g hg h => ?_⟩
   intro v
@@ -917,7 +944,7 @@ theorem caseI_L_trivial_T_normal (i : ℕ) : (caseI_L_trivial_T c i).Normal := b
   simp only [LinearMap.sub_apply, Module.End.mul_apply, Module.End.one_apply]
   simpa only [LinearMap.sub_apply, map_sub, Module.End.one_apply, hval] using hfix
 
-theorem caseI_L_trivial_T_eq_top (hP : PatI (c.opA 0) (c.opA 1) (c.opA 2)) {i : ℕ}
+theorem caseI_L_trivial_T_eq_top (_hP : PatI (c.opA 0) (c.opA 1) (c.opA 2)) {i : ℕ}
     (hi : i < 3) : caseI_L_trivial_T c i = ⊤ := by
   let K : Subgroup G := (caseI_L_trivial_T c i).map (Lc L x i).subtype
   have hKL : K ≤ Lc L x i := Subgroup.map_subtype_le _
@@ -975,6 +1002,7 @@ theorem caseI_L_trivial_diff_mem (hP : PatI (c.opA 0) (c.opA 1) (c.opA 2)) {i : 
     rw [Subgroup.coe_inclusion]
   simpa only [he] using hmem v
 
+omit [Finite G] in
 theorem caseI_L_trivial_fix_iff (h : ↥H) (y : ↥N) :
     op49 c.chief h (Additive.ofMul (QuotientGroup.mk y)) =
       Additive.ofMul (QuotientGroup.mk y) ↔ ⁅(y : G), (h : G)⁆ ∈ M := by
@@ -1049,6 +1077,7 @@ theorem caseI_L_trivial_commutator_le_F (hP : PatI (c.opA 0) (c.opA 1) (c.opA 2)
   show ((g * n * g⁻¹ * n⁻¹ : G))⁻¹ = n * g * n⁻¹ * g⁻¹
   group
 
+omit [Finite G] in
 theorem caseI_L_trivial_M_le_F (j : ℕ) : M ≤ (caseI_L_trivial_F c j).map N.subtype := by
   intro m hm
   refine Subgroup.mem_map.mpr ⟨⟨m, le_of_lt c.chief.1 hm⟩, ?_, rfl⟩

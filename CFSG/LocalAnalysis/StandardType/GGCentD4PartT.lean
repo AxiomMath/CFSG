@@ -49,14 +49,14 @@ theorem ntpD4_part_tw
     (K : Subgroup (ModGL .E6 L))
     (hRnorm : (rationalComponent S.ρ S.Γ (rootCharHom a) i).map (MulAut.conj n).toMonoidHom =
       rationalComponent S.ρ S.Γ (rootCharHom a) i)
-    (hRqs : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
+    (_hRqs : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
     (hKcomp : IsComponentOf K (rationalComponent S.ρ S.Γ (rootCharHom a) i ⊓
       Subgroup.centralizer ({n} : Set (ModGL .E6 L))))
     (Y : Subgroup (ModGL .E6 L)) (hY : Y = rootSpan Tag.E6 L (rootCharKernel a))
     (hstepY : ∀ y ∈ Y, S.D.step y ∈ Y)
     (Ξ : ↥Y ≃* ↥(adjointGroup Tag.D4 L)) (g' : ↥(adjointGroup Tag.D4 L)) (ε : ℕ)
     (hε : ε = 1 ∨ ε = 2)
-    {f : ℕ} (hf : 1 ≤ f) (hq : S.D.q = 2 ^ f) (Fr : L →+* L)
+    {f : ℕ} (hf : 1 ≤ f) (_hq : S.D.q = 2 ^ f) (Fr : L →+* L)
     (hFr : ∀ c, Fr c = c ^ ((2 : ℕ) ^ f))
     (r : ℕ) (hr : r = 1 ∨ r = 2)
     (hΞstep : ∀ (y : ModGL .E6 L) (hy : y ∈ Y) (hy' : S.D.step y ∈ Y),
@@ -71,19 +71,19 @@ theorem ntpD4_part_tw
         (d4P L ^ r)⁻¹) * (d4P L ^ ε)⁻¹) * (g' : ModGL Tag.D4 L)⁻¹) :
     NTPD4Labels (2 ^ f) K := by
   classical
-  haveI hFact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hFact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K₃ : Subfield L := frobeniusFixedField L 2 (3 * f)
   have hK₃two : ((2 : ℕ) : K₃) = 0 := by
     apply (algebraMap K₃ L).injective
     push_cast
     exact CharP.cast_eq_zero L 2
-  haveI hcharK₃ : CharP K₃ 2 :=
+  have hcharK₃ : CharP K₃ 2 :=
     (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 hK₃two
   have hK₃ : Nat.card K₃ = (2 ^ f) ^ 3 := by
     change Nat.card (frobeniusFixedField L 2 (3 * f)) = (2 ^ f) ^ 3
     rw [card_frobeniusFixedField (k := L) (p := 2) (n := 3 * f) (by omega),
       show 2 ^ (3 * f) = (2 ^ f) ^ 3 by rw [mul_comm 3 f, pow_mul]]
-  haveI hfinK₃ : Finite K₃ :=
+  have hfinK₃ : Finite K₃ :=
     Nat.finite_of_card_ne_zero (by rw [hK₃]; exact pow_ne_zero _ (pow_ne_zero _ (by norm_num)))
   let σ : K₃ ≃+* K₃ := d4pt_frobPowEquiv (K := K₃) (f * r)
   have hσ : ∀ c : K₃, σ c = c ^ (((2 : ℕ) ^ f) ^ r) := by
@@ -108,7 +108,7 @@ theorem ntpD4_part_tw
   have hperfH : Group.IsPerfect ↥H₀ := by
     rw [Group.isPerfect_def]
     obtain ⟨hsimp, hnab⟩ := hsimple
-    haveI : IsSimpleGroup ↥H₀ := hsimp
+    have : IsSimpleGroup ↥H₀ := hsimp
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator ↥H₀) with h | h
     · exfalso
       obtain ⟨x, y, hxy⟩ := hnab
@@ -116,7 +116,7 @@ theorem ntpD4_part_tw
       exact hxy (Subgroup.mem_centralizer_iff.mp (hle (Subgroup.mem_top x)) y
         (Subgroup.mem_top y)).symm
     · exact h
-  haveI : Group.IsPerfect ↥H₀ := hperfH
+  have : Group.IsPerfect ↥H₀ := hperfH
   have hperfG : Group.IsPerfect ↥G₀ :=
     Group.IsPerfect.ofSurjective (f := eG0'.toMonoidHom) eG0'.surjective
   let R : Subgroup (ModGL .E6 L) := rationalComponent S.ρ S.Γ (rootCharHom a) i

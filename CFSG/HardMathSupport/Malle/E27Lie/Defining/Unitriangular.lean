@@ -201,7 +201,7 @@ theorem dvd81_card_projUnitriangular_inf_centralizer_of_le [Finite K] [CharP K 3
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := K) 3 (n := n) hn
   have hp : IsPGroup 3
       (projUnitriangular n K ⊓ Subgroup.centralizer ({t} : Set _) : Subgroup _) :=
-    (hP ▸ P.isPGroup').to_le inf_le_left
+    (hP ▸ P.isPGroup).to_le inf_le_left
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hp
   rw [hk] at h ⊢
   have h81 : 3 ^ 4 ≤ 3 ^ k := le_trans (by norm_num) h

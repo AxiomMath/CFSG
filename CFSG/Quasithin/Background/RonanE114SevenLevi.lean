@@ -104,7 +104,7 @@ theorem nParam_centralizer_le_one_L3
     (hAS : SecE3.AlmostSimple L) (e : ↥L ≃* PSL3 p) :
     ∀ x ∈ L, orderOf x = 2 → E1.nParam (Subgroup.centralizer ({x} : Set G)) ≤ 1 := by
   intro x hxL hx2
-  haveI := hAS.normal
+  have := hAS.normal
   obtain ⟨Y, -, hYC, hYn, ⟨eY⟩, hCs⟩ := exists_levi_data_L3_core (by omega) e hxL hx2
   exact nParam_centralizer_le_one_of_sl2 hAS hp7 hYC hYn eY hCs
 

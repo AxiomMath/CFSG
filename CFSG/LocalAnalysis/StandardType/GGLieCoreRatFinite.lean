@@ -42,7 +42,7 @@ private theorem ggLieRatFin_exists_pow_eq_one
   · subst τ
     refine ⟨t.order, ?_, ?_⟩
     · cases t <;> decide
-    · simp only [eqRec_eq_cast, cast_eq]
+    · simp only
       rw [← zpow_natCast, ← zpow_mul, zpow_mul', zpow_natCast, diagramMap_pow_order t L,
         one_zpow]
 
@@ -89,7 +89,7 @@ theorem finite_ratPoints
         rw [show q ^ m = (q ^ m - 1) + 1 by omega, pow_succ] at hc
         simpa using hc
       exact mul_right_cancel₀ h0 (by rw [one_mul]; exact h1)
-  haveI : Finite R := hRfin
+  have : Finite R := hRfin
   let f : ↥(ratPoints Φ) → Label τ → Label τ → R := fun g a b =>
     ⟨((g : ModGL τ L) : Module.End L (RootModule τ L)) (Finsupp.single b (1 : L)) a, by
       have hgΦ : Φ (g : ModGL τ L) = (g : ModGL τ L) := by

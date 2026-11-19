@@ -66,7 +66,7 @@ theorem closure_threeCycles_eq_alternating {n : ℕ} (hn : 5 ≤ n) (c : Fin n)
     rw [← hx]
     simp [Perm.mul_apply, hy]
   have hprim : MulAction.IsPreprimitive G (Fin n) := by
-    haveI := hpre
+    have := hpre
     refine MulAction.IsPreprimitive.of_isTrivialBlock_base (G := G) (X := Fin n) c ?_
     intro B hcB hB
     rw [MulAction.isBlock_iff_smul_eq_of_mem] at hB
@@ -108,7 +108,7 @@ theorem closure_threeCycles_eq_alternating {n : ℕ} (hn : 5 ≤ n) (c : Fin n)
       · rw [hz]; exact hcB
       · obtain ⟨p, hp, hzp⟩ := hcover z hz
         exact claim2 hp z hzp
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   obtain ⟨x, hx⟩ := exists_ne c
   obtain ⟨p, hp, y, hy, hxp, hxy⟩ := hpartner hx
   have hge : alternatingGroup (Fin n) ≤ G :=
@@ -121,7 +121,7 @@ variable {n : ℕ} {T : Subgroup (Perm (Fin n))}
 
 private theorem card_eq_two_pow_padicValNat (hT2 : IsPGroup 2 T) (hTidx : ¬ 2 ∣ T.index) :
     Nat.card T = 2 ^ padicValNat 2 n.factorial := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := (hT2.toSylow hTidx).card_eq_multiplicity
   rw [IsPGroup.toSylow_coe] at h
   rw [h, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin,
@@ -170,7 +170,7 @@ private theorem card_stabilizer_dvd_factorial {c x : Fin n} (hcx : c ≠ x)
 
 private theorem padicValNat_factorial_eq (hn : Odd n) (hn2 : 2 ≤ n) :
     padicValNat 2 n.factorial = padicValNat 2 (n - 2).factorial + padicValNat 2 (n - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, rfl⟩ : ∃ j, n = j + 2 := ⟨n - 2, by omega⟩
   have h2 : ¬ 2 ∣ j + 2 := by
     rcases hn with ⟨k, hk⟩
@@ -188,7 +188,7 @@ theorem existsUnique_fixed_of_sylowTwo (hn : Odd n) (hT2 : IsPGroup 2 T) (hTidx 
 theorem two_pow_padicValNat_le_ncard_orbit (hn : Odd n) (hT2 : IsPGroup 2 T)
     (hTidx : ¬ 2 ∣ T.index) {c x : Fin n} (hc : ∀ t ∈ T, t c = c) (hx : x ≠ c) :
     2 ^ padicValNat 2 (n - 1) ≤ (MulAction.orbit T x).ncard := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 : 2 ≤ n := by
     have h1 := Fin.val_ne_of_ne hx
     have h2 := x.isLt
@@ -232,7 +232,7 @@ theorem exists_apply_eq_of_sylowTwo_two_pow_succ {m : ℕ} (hm : 1 ≤ m)
     apply t.injective
     rw [h, hc t ht]
   have hcard : ({z : Fin (2 ^ m + 1) | z ≠ c} : Set (Fin (2 ^ m + 1))).ncard = 2 ^ m := by
-    have h2 := Set.ncard_diff_singleton_add_one (s := (Set.univ : Set (Fin (2 ^ m + 1))))
+    have h2 := Set.ncard_sdiff_singleton_add_one (s := (Set.univ : Set (Fin (2 ^ m + 1))))
       (Set.mem_univ c)
     rw [Set.ncard_univ, Nat.card_eq_fintype_card, Fintype.card_fin] at h2
     have h3 : ({z : Fin (2 ^ m + 1) | z ≠ c} : Set (Fin (2 ^ m + 1))) = Set.univ \ {c} := by

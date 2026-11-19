@@ -12,7 +12,7 @@ open Multiplicative
 
 private theorem rankTwo_val_eq_zero {p : ℕ} [hp : Fact p.Prime] {G : Type*} [Group G] {g : G}
     (hg : orderOf g = p) {i : ZMod p} (h : g ^ i.val = 1) : i = 0 := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hdvd : orderOf g ∣ i.val := orderOf_dvd_of_pow_eq_one h
   rw [hg] at hdvd
   have h0 : i.val = 0 := Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt i)
@@ -21,7 +21,7 @@ private theorem rankTwo_val_eq_zero {p : ℕ} [hp : Fact p.Prime] {G : Type*} [G
 private theorem rankTwo_commute_of_pow_val {p : ℕ} [hp : Fact p.Prime] {G : Type*} [Group G]
     {g u : G} (hg : g ^ p = 1) {j : ZMod p} (hj : j ≠ 0) (h : Commute (g ^ j.val) u) :
     Commute g u := by
-  haveI : Fact (1 < p) := ⟨hp.out.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.out.one_lt⟩
   have hmul : (j.val * (j⁻¹).val) % p = 1 := by
     rw [← ZMod.val_mul, mul_inv_cancel₀ hj, ZMod.val_one]
   have hg' : g ^ (j.val * (j⁻¹).val) = g := by
@@ -33,7 +33,7 @@ private theorem rankTwo_commute_of_pow_val {p : ℕ} [hp : Fact p.Prime] {G : Ty
 private theorem rankTwo_pow_val_add {p : ℕ} [hp : Fact p.Prime] {G : Type*} [Group G] {g : G}
     (hg : g ^ p = 1) (i i' : ZMod p) :
     g ^ (i + i').val = g ^ i.val * g ^ i'.val := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   rw [ZMod.val_add, ← pow_eq_pow_mod (i.val + i'.val) hg, pow_add]
 
 private theorem rankTwo_reorder {M : Type*} [Monoid M] {a b c a' b' c' : M}
@@ -74,13 +74,13 @@ private theorem rankTwo_quot_comm {p : ℕ} [hp : Fact p.Prime] {Q : Type*} [Gro
     {j : ℕ} (hQ : Nat.card Q = p ^ j) (hj : j ≤ 2) (a b : Q) : a * b = b * a := by
   interval_cases j
   · rw [pow_zero] at hQ
-    haveI : Subsingleton Q := (Nat.card_eq_one_iff_unique.1 hQ).1
+    have : Subsingleton Q := (Nat.card_eq_one_iff_unique.1 hQ).1
     exact Subsingleton.elim _ _
   · rw [pow_one] at hQ
-    haveI : IsCyclic Q := isCyclic_of_prime_card hQ
-    haveI : IsMulCommutative Q := inferInstance
+    have : IsCyclic Q := isCyclic_of_prime_card hQ
+    have : IsMulCommutative Q := inferInstance
     exact mul_comm' a b
-  · haveI : IsMulCommutative Q := IsPGroup.isMulCommutative_of_card_eq_prime_sq hQ
+  · have : IsMulCommutative Q := IsPGroup.isMulCommutative_of_card_eq_prime_sq hQ
     exact mul_comm' a b
 
 private theorem rankTwo_center_comm {p : ℕ} [hp : Fact p.Prime] {K : Type*} [Group K] [Finite K]
@@ -120,7 +120,7 @@ private theorem rankTwo_central_T {p : ℕ} [hp : Fact p.Prime] {G : Type*} [Gro
 private theorem rankTwo_pow_card_le {H : Type*} [Group H] [Finite H] [IsCyclic H] {q : ℕ}
     (hq : 0 < q) : Nat.card {y : H // y ^ q = 1} ≤ q := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   exact IsCyclic.card_pow_eq_one_le hq
 
@@ -194,7 +194,7 @@ private theorem rankTwo_F_mul {p : ℕ} [hp : Fact p.Prime] {G : Type*} [Group G
     ((show Commute z s from hzs.symm).pow_pow k.val j'.val)).symm
 
 private theorem rankTwo_indep {p : ℕ} [hp : Fact p.Prime] {G : Type*} [Group G]
-    {T C : Subgroup G} (hTexp : ∀ t ∈ T, t ^ p = 1) (hTC : ∀ t ∈ T, ∀ c ∈ C, t * c = c * t)
+    {T C : Subgroup G} (hTexp : ∀ t ∈ T, t ^ p = 1) (_hTC : ∀ t ∈ T, ∀ c ∈ C, t * c = c * t)
     (hTCbot : T ⊓ C = ⊥) {x : G} (hxC : x ∈ C) (hx1 : x ≠ 1) (hxp : x ^ p = 1)
     {s : G} (hsT : s ∈ T) (hsnc : ∃ t ∈ T, s * t ≠ t * s)
     {z : G} (hzT : z ∈ T) (hzc : ∀ t ∈ T, t * z = z * t) (hz1 : z ≠ 1)
@@ -257,7 +257,7 @@ private theorem rankTwo_key {p : ℕ} [hp : Fact p.Prime] {G : Type*} [Group G] 
     rw [Subgroup.mem_bot, ← toAdd_eq_zero]
     exact Prod.ext hi (Prod.ext hj hk)
   have hA : Nat.card (Multiplicative (ZMod p × ZMod p × ZMod p)) = p ^ 3 := by
-    haveI : NeZero p := ⟨hp.out.ne_zero⟩
+    have : NeZero p := ⟨hp.out.ne_zero⟩
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_prod, Nat.card_prod, Nat.card_zmod]
     ring
   have hpow : ∀ a : Multiplicative (ZMod p × ZMod p × ZMod p), a ^ p = 1 := by
@@ -306,16 +306,16 @@ private theorem rankTwo_case {p : ℕ} [hp : Fact p.Prime] {G : Type*} [Group G]
     exact mul_right_cancel h2
   exact rankTwo_key hTexp hTC hTCbot hxC hx1 hxp hxR hsT hsR hsnc hzT hzR hzc hz1 hrk
 
-theorem rank_two_abelian {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {G : Type*} [Group G] [Finite G]
+theorem rank_two_abelian {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {G : Type*} [Group G] [Finite G]
     {T C R : Subgroup G} (hT : Nat.card T = p ^ 3) (hTexp : ∀ t ∈ T, t ^ p = 1)
-    (hTnc : ¬ IsMulCommutative T) (hCcyc : IsCyclic C) (hCp : IsPGroup p C)
+    (_hTnc : ¬ IsMulCommutative T) (hCcyc : IsCyclic C) (hCp : IsPGroup p C)
     (hTC : ∀ t ∈ T, ∀ c ∈ C, t * c = c * t) (hTCbot : T ⊓ C = ⊥)
     {x : G} (hxC : x ∈ C) (hx1 : x ≠ 1) (hxp : x ^ p = 1)
     (hRS : R ≤ T ⊔ C) (hxR : x ∈ R) (hrk : CFSG.Open.pRank p R ≤ 2) : IsMulCommutative R := by
   by_contra hnot
   have hex : ∃ a ∈ R, ∃ b ∈ R, a * b ≠ b * a := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hnot ⟨⟨fun a b => Subtype.ext (hne a.1 a.2 b.1 b.2)⟩⟩
   obtain ⟨a, ha, b, hb, hab⟩ := hex
   obtain ⟨t₁, ht₁, c₁, hc₁, h₁⟩ := rankTwo_decomp hTC (hRS ha)

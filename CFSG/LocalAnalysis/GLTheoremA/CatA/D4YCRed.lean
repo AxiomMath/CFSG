@@ -80,7 +80,7 @@ theorem noTrialityBigAt_of_core (hcore : D4BigCoreAt) (h112 : D4BigNormalizes G)
   classical
   intro B x L hS hKG hchev hD4 hnD4 b hb
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hC
   have hBel : IsElemAbelian 3 B := hS.1.1
   have hBcard : Nat.card B = 3 ^ GLATwoLocalRank 3 G := hS.1.2.1
@@ -104,7 +104,7 @@ theorem noTrialityBigAt_of_core (hcore : D4BigCoreAt) (h112 : D4BigNormalizes G)
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   have hcatK : catalogIs ↥Kb isD4any := (catalogIs_congr (e0.trans e)).1 hD4
   have hnotK : ¬ catalogIs ↥Kb S9.isD4two := fun h => hnD4 ((catalogIs_congr (e0.trans e)).2 h)
-  haveI : Finite ↥Kb := inferInstance
+  have : Finite ↥Kb := inferInstance
   have hKc : ∀ k ∈ Kb, (∀ y ∈ Kb, y * k = k * y) → k = 1 := by
     intro k hk hcomm
     obtain ⟨q, hq⟩ := e.surjective ⟨k, hk⟩

@@ -52,7 +52,7 @@ theorem pinnedX_rootVec_of_not_add_root {δ μ : Fin Tag.E6.rank → ℤ} (hδ :
   have hx : (xOp Tag.E6 K j (((pinnedData Tag.E6 δ).2.2 • c : K)))
       (rootVec Tag.E6 K μ') = rootVec Tag.E6 K μ' := by
     rw [C2E6Std.xOp_rootVec_E6 j _ hμ'r hne₁ hne₂,
-      show rootVec Tag.E6 K (μ' + Pi.single j 1) = 0 from dif_neg hroot, smul_zero, add_zero]
+      show rootVec Tag.E6 K (μ' + Pi.single j 1) = 0 from dite_eq_right hroot, smul_zero, add_zero]
   have hpin : (pinnedX Tag.E6 K δ c : Module.End K (RootModule Tag.E6 K)) =
       (pinnedWeyl Tag.E6 K δ : Module.End K (RootModule Tag.E6 K)) *
         xOp Tag.E6 K j (((pinnedData Tag.E6 δ).2.2 • c : K)) *
@@ -68,12 +68,12 @@ theorem e6LineFactor_fix_rootVec {i j : Fin 3} (hij : i ≠ j) {μ : Fin Tag.E6.
     { carrier := {g | (g : Module.End K (RootModule Tag.E6 K)) (rootVec Tag.E6 K μ) =
         rootVec Tag.E6 K μ}
       one_mem' := by
-        simp only [Set.mem_setOf_eq, Units.val_one, Module.End.one_apply]
+        simp only [Set.mem_ofPred_eq, Units.val_one, Module.End.one_apply]
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, Units.val_mul, Module.End.mul_apply] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, Units.val_mul, Module.End.mul_apply] at ha hb ⊢
         rw [hb, ha]
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         conv_lhs => rw [← ha]
         rw [← Module.End.mul_apply, ← Units.val_mul, inv_mul_cancel, Units.val_one,
           Module.End.one_apply] }
@@ -98,7 +98,7 @@ private theorem hVec_fix_of_commute (i : Fin Tag.E6.rank) {u : ModGL Tag.E6 K}
   have h := congrArg (fun g : ModGL Tag.E6 K =>
     (g : Module.End K (RootModule Tag.E6 K)) (rootVec Tag.E6 K (-Pi.single i 1))) hc
   simp only [Units.val_mul, Module.End.mul_apply, coe_xUnit, hn,
-    CFSG.Blueprint.Chevalley.xOp_apply_rootVec_neg_single, map_add, map_smul, hp, one_smul,
+    CFSG.Blueprint.Chevalley.xOp_apply_rootVec_neg_single, map_add, hp, one_smul,
     one_pow] at h
   exact add_left_cancel (add_right_cancel h)
 

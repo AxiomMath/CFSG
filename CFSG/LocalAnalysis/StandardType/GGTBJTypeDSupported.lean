@@ -39,7 +39,7 @@ theorem tbD_map_conj_evenSignedSupportedAut {m p : ℕ} [Fact p.Prime]
   rw [Set.image_union]
   congr 1
   · ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨y, ⟨a, ha, b, hb, hab, rfl⟩, rfl⟩
       refine ⟨τ a, Finset.mem_image.mpr ⟨a, ha, rfl⟩, τ b,
@@ -56,7 +56,7 @@ theorem tbD_map_conj_evenSignedSupportedAut {m p : ℕ} [Fact p.Prime]
           (permAut (p := p) τ)⁻¹ = permAut (p := p) (Equiv.swap (τ a') (τ b'))
         rw [permAut_conj_swap]
   · ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨y, ⟨a, ha, b, hb, hab, rfl⟩, rfl⟩
       refine ⟨τ a, Finset.mem_image.mpr ⟨a, ha, rfl⟩, τ b,
@@ -166,7 +166,7 @@ private theorem tbD_permAut_fixingSubgroup_le {p m k : ℕ} (hk : 1 ≤ k) (hkm 
   have hif : typeDSimple m p hm2 j'.1 =
       permAut (p := p) (Equiv.swap j'.1 ⟨j'.1.val + 1, hlt⟩) := by
     unfold typeDSimple
-    rw [dif_pos hlt]
+    rw [dite_eq_left hlt]
   rw [hif] at hQj
   have hb'eq : (⟨a'.val + 1, hlt⟩ : Fin m) = b' := by
     apply Fin.ext
@@ -179,7 +179,7 @@ private theorem tbD_permAut_swap_mem {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m
     {Q : Subgroup (MulAut (Fin m → Multiplicative (ZMod p)))}
     (hQ : ∀ j : {j : Fin m // m - k ≤ j.val},
       typeDSimple m p hm2 j.1 ∈ Q)
-    {a b : Fin m} (ha : m - k ≤ a.val) (hb : m - k ≤ b.val) (hab : a ≠ b) :
+    {a b : Fin m} (ha : m - k ≤ a.val) (hb : m - k ≤ b.val) (_hab : a ≠ b) :
     permAut (p := p) (Equiv.swap a b) ∈ Q := by
   classical
   let Tl := Finset.univ.filter (fun i : Fin m => m - k ≤ i.val)
@@ -198,7 +198,7 @@ private theorem tbD_permAut_swap_mem {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m
     exact Equiv.swap_apply_of_ne_of_ne hya hyb
   exact tbD_permAut_fixingSubgroup_le hk hkm hm2 hQ (Subgroup.mem_map_of_mem (tbD_permAutHom p m) hmem)
 
-private theorem tbD_closure_last_le_evenSignedSupported {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m)
+private theorem tbD_closure_last_le_evenSignedSupported {p m k : ℕ} (_hk : 1 ≤ k) (hkm : k ≤ m)
     (hm2 : 2 ≤ m) (hk3 : 3 ≤ k) :
     Subgroup.closure (Set.range fun j :
         {j : Fin m // m - k ≤ j.val} => typeDSimple m p hm2 j) ≤
@@ -212,7 +212,7 @@ private theorem tbD_closure_last_le_evenSignedSupported {p m k : ℕ} (hk : 1 �
     exact j.2
   by_cases hlt : j.1.val + 1 < m
   · simp only [typeDSimple]
-    rw [dif_pos hlt]
+    rw [dite_eq_left hlt]
     have hsuccTl : (⟨j.1.val + 1, hlt⟩ : Fin m) ∈ Tl := by
       simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and]
       have hj : m - k ≤ j.1.val := j.2
@@ -223,7 +223,7 @@ private theorem tbD_closure_last_le_evenSignedSupported {p m k : ℕ} (hk : 1 �
       rw [show (⟨j.1.val + 1, hlt⟩ : Fin m).val = j.1.val + 1 from rfl] at hh
       omega, rfl⟩)
   · simp only [typeDSimple]
-    rw [dif_neg hlt]
+    rw [dite_eq_right hlt]
     have hk2 : 2 ≤ k := by omega
     have hm2Tl : (⟨m - 2, by omega⟩ : Fin m) ∈ Tl := by
       simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and]
@@ -235,20 +235,20 @@ private theorem tbD_closure_last_le_evenSignedSupported {p m k : ℕ} (hk : 1 �
       Subgroup.subset_closure (Or.inl ⟨⟨m - 2, by omega⟩, hm2Tl, ⟨m - 1, by omega⟩, hm1Tl, by
         intro h
         have hh := congrArg Fin.val h
-        simp only [Fin.val_mk] at hh
+        simp only at hh
         omega, rfl⟩)
     have hsgn : sgnAut (p := p) (⟨m - 2, by omega⟩ : Fin m) * sgnAut (p := p) (⟨m - 1, by omega⟩ : Fin m) ∈ evenSignedSupportedAut m p Tl :=
       Subgroup.subset_closure (Or.inr ⟨⟨m - 2, by omega⟩, hm2Tl, ⟨m - 1, by omega⟩, hm1Tl, by
         intro h
         have hh := congrArg Fin.val h
-        simp only [Fin.val_mk] at hh
+        simp only at hh
         omega, rfl⟩)
     exact Subgroup.mul_mem _ hperm hsgn
 
 private theorem tbD_dinv_mem_of_hcan {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m) (hm2 : 2 ≤ m)
     {Q : Subgroup (MulAut (Fin m → Multiplicative (ZMod p)))}
     (hQ : ∀ j : {j : Fin m // m - k ≤ j.val}, typeDSimple m p hm2 j.1 ∈ Q)
-    {x2 x1 : Fin m} (hx2 : m - k ≤ x2.val) (hx1 : m - k ≤ x1.val) (hx21 : x2 ≠ x1)
+    {x2 x1 : Fin m} (hx2 : m - k ≤ x2.val) (_hx1 : m - k ≤ x1.val) (hx21 : x2 ≠ x1)
     (hcan : sgnAut (p := p) x2 * sgnAut (p := p) x1 ∈ Q)
     {a b : Fin m} (ha : m - k ≤ a.val) (hb : m - k ≤ b.val) (hab : a ≠ b) :
     sgnAut (p := p) a * sgnAut (p := p) b ∈ Q := by
@@ -315,21 +315,21 @@ private theorem tbD_evenSignedSupported_last_le_closure {p m k : ℕ} (hk : 1 �
   · rcases hσ with ⟨a, haTl, b, hbTl, hab, rfl⟩
     have haTl' : m - k ≤ a.val := by
       have h := haTl
-      simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] at h
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at h
       exact h
     have hbTl' : m - k ≤ b.val := by
       have h := hbTl
-      simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] at h
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at h
       exact h
     exact tbD_permAut_swap_mem hk hkm hm2 hQ haTl' hbTl' hab
   · rcases hσ with ⟨a, haTl, b, hbTl, hab, rfl⟩
     have haTl' : m - k ≤ a.val := by
       have h := haTl
-      simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] at h
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at h
       exact h
     have hbTl' : m - k ≤ b.val := by
       have h := hbTl
-      simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] at h
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at h
       exact h
     have hm2Tl : (⟨m - 2, by omega⟩ : Fin m) ∈ Tl := by
       simp only [Tl, Finset.mem_filter, Finset.mem_univ, true_and]; omega
@@ -339,16 +339,16 @@ private theorem tbD_evenSignedSupported_last_le_closure {p m k : ℕ} (hk : 1 �
       have hds : typeDSimple m p hm2 (⟨m - 2, by omega⟩ : Fin m) =
           permAut (p := p) (Equiv.swap (⟨m - 2, by omega⟩ : Fin m) (⟨m - 1, by omega⟩ : Fin m)) := by
         unfold typeDSimple
-        rw [dif_pos (by simp only [Fin.val_mk]; omega : (⟨m - 2, by omega⟩ : Fin m).val + 1 < m)]
+        rw [dite_eq_left (by simp only; omega : (⟨m - 2, by omega⟩ : Fin m).val + 1 < m)]
         congr 2
         apply Fin.ext
-        simp only [Fin.val_mk]
+        simp only
         omega
       have hds2 : typeDSimple m p hm2 (⟨m - 1, by omega⟩ : Fin m) =
           permAut (p := p) (Equiv.swap (⟨m - 2, by omega⟩ : Fin m) (⟨m - 1, by omega⟩ : Fin m)) *
             (sgnAut (p := p) (⟨m - 2, by omega⟩ : Fin m) * sgnAut (p := p) (⟨m - 1, by omega⟩ : Fin m)) := by
         unfold typeDSimple
-        rw [dif_neg (by simp only [Fin.val_mk]; omega : ¬ (⟨m - 1, by omega⟩ : Fin m).val + 1 < m)]
+        rw [dite_eq_right (by simp only; omega : ¬ (⟨m - 1, by omega⟩ : Fin m).val + 1 < m)]
       have hsq : permAut (p := p) (Equiv.swap (⟨m - 2, by omega⟩ : Fin m) (⟨m - 1, by omega⟩ : Fin m)) *
           permAut (p := p) (Equiv.swap (⟨m - 2, by omega⟩ : Fin m) (⟨m - 1, by omega⟩ : Fin m)) = 1 := by
         have h := permAut_swap_sq (p := p) (⟨m - 2, by omega⟩ : Fin m) (⟨m - 1, by omega⟩ : Fin m)
@@ -362,8 +362,8 @@ private theorem tbD_evenSignedSupported_last_le_closure {p m k : ℕ} (hk : 1 �
         (hQ ⟨⟨m - 2, by omega⟩, by simpa only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] using hm2Tl⟩)
         (hQ ⟨⟨m - 1, by omega⟩, by simpa only [Tl, Finset.mem_filter, Finset.mem_univ, true_and] using hm1Tl⟩)
     exact tbD_dinv_mem_of_hcan hk hkm hm2 hQ (x2 := ⟨m - 2, by omega⟩) (x1 := ⟨m - 1, by omega⟩)
-      (by simp only [Fin.val_mk]; omega) (by simp only [Fin.val_mk]; omega)
-      (by intro h; have hh := congrArg Fin.val h; simp only [Fin.val_mk] at hh; omega)
+      (by simp only; omega) (by simp only; omega)
+      (by intro h; have hh := congrArg Fin.val h; simp only at hh; omega)
       hcan haTl' hbTl' hab
 
 private theorem tbD_evenSignedSupported_eq_closure_last {p m k : ℕ} (hk : 1 ≤ k) (hkm : k ≤ m)
@@ -433,8 +433,8 @@ theorem ggTBJTypeD_sideDatum_evenSupported {G : Type} [Group G] [Finite G] {p m 
     rw [hliftΘ', ← Subgroup.map_map, tbD_map_conj_evenSignedSupportedAut, hτ, hJ]
   obtain ⟨V, hV, hVmod, ι, φ, h, α, hlin, hrefl, hpair, ⟨f, hf⟩, hclos, hφ⟩ :=
     exists_typeD_datum_of_evenSignedAut hp2 hm hBs Θ' hX'
-  letI : AddCommGroup V := hV
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hV
+  let : Module (ZMod p) V := hVmod
   have hJcl : ggAutomizer J Bs =
       Subgroup.closure (Set.range fun j : {j : Fin m // m - S.card ≤ j.val} => φ j.1) := by
     rw [hJ', tbD_evenSignedSupported_eq_closure_last (by omega) hkm hm2 hS,
@@ -514,7 +514,7 @@ theorem exists_signed_on_castSucc_of_mem_evenSignedSupportedAut
       rfl
     have h := hact f j₀
     rw [show σ₀ j₀ = last from Equiv.apply_symm_apply σ₀ last, hfixf] at h
-    have h1 : (1 : ZMod p) = 0 := by simpa [hf_last, hf_j₀] using h
+    have h1 : (1 : ZMod p) = 0 := by simp [hf_last, hf_j₀] at h
     exact one_ne_zero h1
   have hclast : c last = 1 := by
     have h := hact f last

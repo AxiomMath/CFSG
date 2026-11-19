@@ -67,7 +67,7 @@ private theorem caCore_conj_le_uOne_or_uTwo {G : Type} [Group G] [Finite G] {m :
   obtain ⟨u, hu, rfl⟩ := hx
   by_cases hu1 : u = 1
   · left
-    simpa [hu1] using (liftSub φ (uOne m)).one_mem
+    simp [hu1]
   · obtain ⟨y, hyY, rfl⟩ := hconj u hu hu1
     change h * (y * t * y⁻¹) * h⁻¹ ∈
       (liftSub φ (uOne m) : Set G) ∪ (liftSub φ (uTwo m) : Set G)

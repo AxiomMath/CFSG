@@ -52,13 +52,13 @@ theorem eq_of_sub_star_eq_sub_star [Finite G] {η ρ : G → ℂ} (hη : η ∈ 
   have key : cfInner (η - star η) η = cfInner (ρ - star ρ) η := by rw [h]
   rw [cfInner_sub_left, cfInner_sub_left, cfInner_self_of_mem_Irr hη,
     cfInner_eq_ite_of_mem_Irr (star_mem_Irr hη) hη, cfInner_eq_ite_of_mem_Irr hρ hη,
-    cfInner_eq_ite_of_mem_Irr (star_mem_Irr hρ) hη, if_neg hnr] at key
+    cfInner_eq_ite_of_mem_Irr (star_mem_Irr hρ) hη, ite_eq_right hnr] at key
   by_cases h1 : ρ = η
   · exact h1
-  rw [if_neg h1] at key
+  rw [ite_eq_right h1] at key
   by_cases h2 : star ρ = η
-  · rw [if_pos h2] at key; norm_num at key
-  · rw [if_neg h2] at key; norm_num at key
+  · rw [ite_eq_left h2] at key; norm_num at key
+  · rw [ite_eq_right h2] at key; norm_num at key
 
 theorem exists_sub_star_Irr_of_cfInner_self_eq_two [Fintype G] {z : G → ℂ}
     (hz : z ∈ Submodule.span ℤ (Irr G)) (hnorm : cfInner z z = 2) (hz1 : z 1 = 0)
@@ -70,17 +70,17 @@ theorem exists_sub_star_Irr_of_cfInner_self_eq_two [Fintype G] {z : G → ℂ}
   have hpair : cfInner (ρ + star ρ) ρ = cfInner (σ + star σ) ρ := by rw [hkey]
   rw [cfInner_add_left, cfInner_add_left, cfInner_self_of_mem_Irr hρ,
     cfInner_eq_ite_of_mem_Irr (star_mem_Irr hρ) hρ, cfInner_eq_ite_of_mem_Irr hσ hρ,
-    cfInner_eq_ite_of_mem_Irr (star_mem_Irr hσ) hρ, if_neg (Ne.symm hne)] at hpair
+    cfInner_eq_ite_of_mem_Irr (star_mem_Irr hσ) hρ, ite_eq_right (Ne.symm hne)] at hpair
   have hρnr : star ρ ≠ ρ := by
     intro h
-    rw [if_pos h] at hpair
+    rw [ite_eq_left h] at hpair
     by_cases h2 : star σ = ρ
-    · rw [if_pos h2] at hpair; norm_num at hpair
-    · rw [if_neg h2] at hpair; norm_num at hpair
-  rw [if_neg hρnr] at hpair
+    · rw [ite_eq_left h2] at hpair; norm_num at hpair
+    · rw [ite_eq_right h2] at hpair; norm_num at hpair
+  rw [ite_eq_right hρnr] at hpair
   have hσρ : star σ = ρ := by
     by_contra h2
-    rw [if_neg h2] at hpair
+    rw [ite_eq_right h2] at hpair
     norm_num at hpair
   exact ⟨ρ, hρ, hρnr, by rw [← hσρ, star_star]⟩
 
@@ -119,7 +119,7 @@ theorem antirealRoot_spec (h : ∃ η ∈ Irr G, star η ≠ η ∧ z = η - sta
     antirealRoot z ∈ Irr G ∧ star (antirealRoot z) ≠ antirealRoot z ∧
       z = antirealRoot z - star (antirealRoot z) := by
   classical
-  rw [antirealRoot, dif_pos h]
+  rw [antirealRoot, dite_eq_left h]
   exact h.choose_spec
 
 theorem antirealRoot_mem_Irr (h : ∃ η ∈ Irr G, star η ≠ η ∧ z = η - star η) :

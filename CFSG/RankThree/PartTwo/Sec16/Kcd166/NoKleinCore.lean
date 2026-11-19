@@ -24,7 +24,7 @@ private theorem card_le_two_of_isElementaryAbelian_two_of_noKlein
   classical
   by_contra hle
   have h3 : 3 ≤ Nat.card E := by omega
-  haveI : Fintype ↥E := Fintype.ofFinite _
+  have : Fintype ↥E := Fintype.ofFinite _
   have h2E : 2 < Fintype.card ↥E := by
     rw [← Nat.card_eq_fintype_card]
     omega
@@ -158,7 +158,7 @@ private theorem exists_card_two_lift_of_elementary_abelian {Γ : Type*} [Group �
     have h1 : 1 < Nat.card S := (Subgroup.one_lt_card_iff_ne_bot S).mpr hSne
     omega
   have hScard : Nat.card S = 2 := le_antisymm hSle2 hSge2
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
   obtain ⟨m, hmS, hm1⟩ := Subgroup.exists_ne_one_of_nontrivial S
   exact ⟨S, hSelem', hSmap, hScard, m, hmS, hm1⟩
 
@@ -276,7 +276,7 @@ private theorem exists_odd_normal_core {Γ : Type*} [Group Γ] [Finite Γ]
     ∃ O : Subgroup Γ, O.Normal ∧ O ≤ K ∧ Odd (Nat.card O) ∧ z ∉ O ∧
       (∀ N : Subgroup Γ, N.Normal → N ≤ K → Odd (Nat.card N) → N ≤ O) ∧ O < K := by
   classical
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   let O : Subgroup Γ := K ⊓ CFSG.oddCore Γ
   have hOn : O.Normal := Subgroup.normal_inf_normal K (CFSG.oddCore Γ)
   have hO_le_K : O ≤ K := inf_le_left
@@ -452,7 +452,7 @@ private theorem relIndex_sup_zpowers_dvd_three {Γ : Type*} [Group Γ] [Finite �
   let D : Subgroup Γ := R ⊔ P
   let Rc : Subgroup ↥C := R.subgroupOf C
   let Pc : Subgroup ↥C := P.subgroupOf C
-  haveI : Rc.Normal := hRc_normal
+  have : Rc.Normal := hRc_normal
   have hPleC : P ≤ C := Subgroup.zpowers_le.mpr hdC
   have hDleC : D ≤ C := sup_le hRle hPleC
   have hsupc : Pc ⊔ Rc = D.subgroupOf C := by
@@ -491,9 +491,9 @@ private theorem exists_elementary_abelian_quotient_of_minimal_normal
     fun N hON hNn hNM => hMmin N hON hNn (hNM.trans hMK) hNM
   have hQmin : IsMinimalNormal Q := isMinimalNormal_map_mk_of_minimal hOn hMn hOM hMmin'
   have hQsolv : Group.IsSolvable ↥Q := isSolvable_map_mk_quotient hOn hMsolv
-  haveI : Q.Normal := hQn
-  haveI : IsMinimalNormal Q := hQmin
-  haveI : Group.IsSolvable ↥Q := hQsolv
+  have : Q.Normal := hQn
+  have : IsMinimalNormal Q := hQmin
+  have : Group.IsSolvable ↥Q := hQsolv
   obtain ⟨r, hr, hQelem⟩ := CFSG.minimalNormal_solvable_exists_isElementaryAbelian Q
   have hMQ : Nat.card M = Nat.card Q * Nat.card O := card_eq_card_map_mk'_mul hOn hOM.le
   exact ⟨Q, r, hr, hQelem, hQne, rfl, hMQ⟩
@@ -504,7 +504,7 @@ private theorem eq_two_of_elementary_abelian_of_not_odd {r : ℕ} (hr : r.Prime)
   by_contra hr2
   have hrodd : Odd r := hr.odd_of_ne_two hr2
   have hQodd : Odd (Nat.card Q) := by
-    haveI : Fact (Nat.Prime r) := ⟨hr⟩
+    have : Fact (Nat.Prime r) := ⟨hr⟩
     obtain ⟨n, hn⟩ := hQelem.isPGroup.exists_card_eq
     rw [hn]
     exact hrodd.pow
@@ -517,16 +517,16 @@ theorem exists_odd_normal_centralizer_sup_eq_top {Γ : Type*} [Group Γ] [Finite
     ∃ O : Subgroup Γ, O.Normal ∧ O ≤ K ∧ Odd (Nat.card O) ∧
       (∀ g : Γ, g * z * g⁻¹ * z⁻¹ ∈ O) ∧ Subgroup.centralizer ({z} : Set Γ) ⊔ O = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : K.Normal := hKn
-  haveI : Group.IsSolvable ↥K := hKs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : K.Normal := hKn
+  have : Group.IsSolvable ↥K := hKs
   obtain ⟨O, hOn, hO_le_K, hOodd, hz_notin_O, hO_max, hOK⟩ :=
     exists_odd_normal_core hKn hzK hz2 hz1
   obtain ⟨M, hOM, hMn, hMK, hMmin⟩ := exists_minimal_normal_above hKn hOK
   have hMsolv : Group.IsSolvable ↥M :=
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hMK) (Subgroup.inclusion_injective hMK)
-  haveI : O.Normal := hOn
+  have : O.Normal := hOn
   obtain ⟨Q, r, hr, hQelem, hQne, hQeq, hMQ⟩ :=
     exists_elementary_abelian_quotient_of_minimal_normal hOM hMn hMK hMmin hMsolv
   have hQn : Q.Normal := by
@@ -628,7 +628,7 @@ private theorem false_of_mulEquiv_alternating_five_noKlein {Γ : Type*} [Group �
 private theorem exists_involution_of_nontrivial_two_group {Γ : Type*} [Group Γ] [Finite Γ]
     {P : Subgroup Γ} (hP2 : IsPGroup 2 P) (hPne : P ≠ ⊥) :
     ∃ z ∈ P, z ^ 2 = 1 ∧ z ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard_ne_one : Nat.card ↥P ≠ 1 := by
     intro h1
     exact hPne (Subgroup.card_eq_one.mp h1)
@@ -701,7 +701,7 @@ private theorem perfectResidual_sup_odd_eq_top {Γ : Type*} [Group Γ] [Finite �
     (hperf : Group.IsPerfect Γ) {C O : Subgroup Γ} [hO : O.Normal] (hCO : C ⊔ O = ⊤) :
     CFSG.inSubgroup CFSG.perfectResidual C ⊔ O = ⊤ := by
   classical
-  haveI : Group.IsPerfect Γ := hperf
+  have : Group.IsPerfect Γ := hperf
   let R : Subgroup Γ := CFSG.inSubgroup CFSG.perfectResidual C
   have hCmap : C.map (QuotientGroup.mk' O) = ⊤ := by
     have h := congrArg (Subgroup.map (QuotientGroup.mk' O)) hCO
@@ -761,7 +761,7 @@ theorem mem_perfectResidual_of_sup_eq_top {Γ : Type*} [Group Γ] [Finite Γ]
     (hO3 : Nat.Coprime (Nat.card O) 3) :
     CFSG.inSubgroup CFSG.perfectResidual C ⊔ O = ⊤ ∧
       ∀ d ∈ C, d ^ 3 = 1 → d ∈ CFSG.inSubgroup CFSG.perfectResidual C := by
-  haveI : O.Normal := hO
+  have : O.Normal := hO
   refine ⟨perfectResidual_sup_odd_eq_top hperf hCO, fun d hdC hd3 => ?_⟩
   exact mem_perfectResidual_of_pow_three (perfectResidual_sup_odd_eq_top hperf hCO) hO3 hdC hd3
 

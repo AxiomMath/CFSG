@@ -79,7 +79,7 @@ theorem exists_conj_le_sylow_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime] (T 
   obtain ⟨P₁, hP₁⟩ := hp1.exists_le_sylow
   obtain ⟨P₂, hP₂⟩ := hp2.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq N P₁ P₂
-  have hP₁G : IsPGroup p ((P₁ : Subgroup N).map N.subtype) := P₁.isPGroup'.map _
+  have hP₁G : IsPGroup p ((P₁ : Subgroup N).map N.subtype) := P₁.isPGroup.map _
   obtain ⟨T', hT'⟩ := hP₁G.exists_le_sylow
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq G T T'
   have key : ∀ z : G, z ∈ (T' : Subgroup G) → y⁻¹ * z * y ∈ (T : Subgroup G) := by
@@ -127,7 +127,7 @@ theorem burnside_fusion_lemma [Finite G] {p : ℕ} [Fact p.Prime] (T : Sylow p G
     rw [← conjSet_eq_iff_mem_normalizer, ← hg, conjSet_conjSet]
     have : g * x = (g * x * g⁻¹) * g := by group
     rw [this, ← conjSet_conjSet, hA _ hx]
-  have hWp : IsPGroup p W := T.isPGroup'.to_le hWT
+  have hWp : IsPGroup p W := T.isPGroup.to_le hWT
   have hW'p : IsPGroup p (conjSubgroup W g) := hWp.map _
   obtain ⟨c, hcN, y, hy1, hy2⟩ := exists_conj_le_sylow_of_isPGroup T hWN hW'N hWp hW'p
   have h1 : conjSubgroup W y = W := hW y hy1
@@ -336,7 +336,7 @@ theorem exists_normal_isComplement'_of_isCyclic_sylow [Finite G] {p : ℕ} [Fact
       exact hmin _ (Nat.minFac_prime hne) (Nat.minFac_dvd _)
     exact ⟨_, MonoidHom.normal_ker _, IsCyclic.isComplement' hminfac hP⟩
   · have hbot : (P : Subgroup G) = ⊥ := by
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
       have hk' : Nat.card (P : Subgroup G) ∣ Nat.card G := Subgroup.card_subgroup_dvd_card _
       rw [← Subgroup.card_eq_one]
       rcases k with _ | k

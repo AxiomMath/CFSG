@@ -63,7 +63,7 @@ theorem fzrAMu_inTL (S : FzR10ASet t tau lam rho Z E W Q R T P a b)
     (hM : FzR10AMats t tau lam a b Mt Ms Ml) {x : ℕ} (hx : x < 512)
     (h : (parOfA Mt Ms Ml).inTL x = true) {L₀ : Subgroup G} (hE : E ≤ L₀) (hlam : lam ∈ L₀) :
     fzrAMu a b t tau lam x ∈ L₀ := by
-  simp only [parOfA, Bool.and_eq_true, beq_iff_eq, decide_eq_true_iff] at h
+  simp only [parOfA, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨hfix, hv4⟩ := h
   have hp : x % 64 < 64 := Nat.mod_lt _ (by norm_num)
   have hv : x / 64 < 8 := by omega
@@ -81,7 +81,7 @@ theorem fzrAMu_inTL (S : FzR10ASet t tau lam rho Z E W Q R T P a b)
 theorem fzrAMu_inTZ (S : FzR10ASet t tau lam rho Z E W Q R T P a b) (htP : t ∉ P)
     {z : G} (hz : z ∈ Z) {x : ℕ} (hx : x < 512) (h : fzrAMu a b t tau lam x = t * z) :
     (parOfA Mt Ms Ml).inTZ x = true := by
-  simp only [parOfA, Bool.and_eq_true, beq_iff_eq, decide_eq_true_iff]
+  simp only [parOfA, Bool.and_eq_true, beq_iff_eq]
   have hp : x % 64 < 64 := Nat.mod_lt _ (by norm_num)
   have hv : x / 64 < 8 := by omega
   have hv8 : x / 64 % 8 = x / 64 := Nat.mod_eq_of_lt (by omega)

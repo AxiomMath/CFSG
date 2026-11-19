@@ -42,7 +42,7 @@ theorem D1OneSmallData.false_of_outer_rbar (hGen : KFactL34OuterGen)
     rw [hmem, orderOf_one] at hz₀p
     norm_num at hz₀p
   obtain ⟨z', ⟨hz'R, hz'C⟩, hz'cen, hz'p⟩ :=
-    exists_central_order_three_of_le_normalizer Rbar.isPGroup' inf_le_left hNR hYne
+    exists_central_order_three_of_le_normalizer Rbar.isPGroup inf_le_left hNR hYne
   have hz'K : z' ∉ K := by
     intro hz'K
     have hmem : (⟨z', hz'K⟩ : K) ∈ Subgroup.center K := Subgroup.mem_center_iff.mpr fun k =>

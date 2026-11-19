@@ -57,7 +57,7 @@ theorem exists_commutator_beta (hYW : Y ≤ Subgroup.normalizer (W : Set Ω)) (h
   · rw [map_mul, toAdd_mul, D.beta_comm hYW, D.beta_comm hYW, hv₁, hv₂, ha₁, ha₂,
       CFSG.Quasithin.SL2Model.e12_coe, CFSG.Quasithin.SL2Model.e21_coe, toAdd_ofAdd, toAdd_ofAdd]
     funext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.vecHead, Matrix.vecTail]
+    fin_cases i <;> simp [Matrix.vecHead, Matrix.vecTail]
 
 end burnsideC121_NatD
 

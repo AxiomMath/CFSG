@@ -10,7 +10,7 @@ namespace CFSG.Quasithin.H13
 open scoped IsMulCommutative commutatorElement
 
 theorem central_pow_index_eq_one_klu {E : Type} [Group E] [Finite E] [Group.IsPerfect E]
-    (A : Subgroup E) [IsMulCommutative A] {z : E} (hz : ∀ g : E, g * z = z * g) (hzA : z ∈ A) :
+    (A : Subgroup E) [IsMulCommutative A] {z : E} (hz : ∀ g : E, g * z = z * g) (_hzA : z ∈ A) :
     z ^ A.index = 1 := by
   classical
   have hT : ∀ g : E, MonoidHom.transfer (MonoidHom.id A) g = 1 := by
@@ -89,7 +89,7 @@ theorem map_two_trivial_klu {Γ : Type} [Group Γ] [Finite Γ] (P : Subgroup Γ)
     (hP : IsPGroup 2 P) {Hs : Type} [Group Hs] [Finite Hs] [IsSimpleGroup Hs]
     (hHs : Nat.card Hs = 60) (Φ : Γ →* Hs) (hΦ : Function.Surjective Φ) :
     ∀ y ∈ P, Φ y = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card Hs := by
     rw [hHs]
     norm_num
@@ -137,7 +137,7 @@ theorem eq_one_of_perfect_ext_klu {Γ : Type} [Group Γ] [Finite Γ] [Group.IsPe
     rcases hp with rfl | rfl
     · exact Nat.prime_three
     · exact Nat.prime_five
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   have hpdvd : p ∣ Nat.card Hs := by
     rw [hHs]
     rcases hp with rfl | rfl <;> norm_num

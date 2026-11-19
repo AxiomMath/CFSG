@@ -21,7 +21,7 @@ theorem d4OuterExport_ne3 {G : Type} [Group G] [Finite G] {ℓ f : ℕ} (hℓ3 :
     (hβ : β ^ 3 = 1) (hout : ∀ a : G, MulAut.conj a ≠ β) : LieCompExport ℓ β := by
   have hG' := hG
   obtain ⟨⟨hℓ, hf, -⟩, F, _, _, hF, ⟨eG⟩⟩ := hG'
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨eC⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup F
   let e₂ : G ≃* ↥(adjointGroup Tag.D4 F) := eG.trans eC
   refine lieCompExport_of_compsFine (perfectInLayer_omega_D4_three hG hℓ3 β hβ) ?_
@@ -140,13 +140,13 @@ theorem congr_self_eq {P : Type} [Group P] (ϕ x : MulAut P) :
   rfl
 
 theorem lieCompCase_linear_ne3
-    (hb : LieOrderBridge) (hQ : YS08.LieQ.LieQConstrainedInner 3)
+    (hb : LieOrderBridge) (_hQ : YS08.LieQ.LieQConstrainedInner 3)
     (hSL : SLFactorFacts) (hA6 : SLAltSixFacts) {S : Type} [Group S] [Finite S]
     (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a) (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A r q).Valid)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group))
     (β : MulAut S) (hβ : β ^ 3 = 1) (hc3 : q.p ≠ 3) : LieCompExport q.p β := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact (lieCompExport_one hna ⟨.A r q, hv⟩ he (isEmpty_mulEquiv_alternating_six hb _ he))
@@ -193,13 +193,13 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.LocalB
 open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher
   CFSG.ClassicalGroups.UnitaryFlag CFSG.RankThree.PartOne.KCUnitaryModel
 
-theorem lieCompCase_unitary_ne3 (hb : LieOrderBridge) (hQ : YS08.LieQ.LieQConstrainedInner 3)
+theorem lieCompCase_unitary_ne3 (hb : LieOrderBridge) (_hQ : YS08.LieQ.LieQConstrainedInner 3)
     (hSL : SLFactorFacts) (hA6 : SLAltSixFacts) (hSU : SUFactorFacts) (hSU6 : SUAltSixFacts)
     {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a)
     (r : ℕ) (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.twistedA r q).Valid)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.twistedA r q, hv⟩).Group))
     (β : MulAut S) (hβ : β ^ 3 = 1) (hc3 : q.p ≠ 3) : LieCompExport q.p β := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact (lieCompExport_one hna ⟨.twistedA r q, hv⟩ he
@@ -280,19 +280,19 @@ theorem exists_statedClassicalModel_psp {S : Type} [Group S]
 
 theorem ringChar_eq_of_card {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (hℓ : ℓ.Prime)
     (hK : Nat.card K = ℓ ^ f) : ringChar K = ℓ := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
   exact ringChar.eq K ℓ
 
 theorem lieCompCase_symplectic_ne3
-    (hb : LieOrderBridge) (hQ : YS08.LieQ.LieQConstrainedInner 3)
+    (hb : LieOrderBridge) (_hQ : YS08.LieQ.LieQConstrainedInner 3)
     {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a)
     (idx : TauCeti.ValidLieTypeIndex)
     (hsp : (∃ r q, idx.1 = .B r q ∧ (q.p = 2 ∨ r = 2)) ∨ ∃ r q, idx.1 = .C r q)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group)) (β : MulAut S) (hβ : β ^ 3 = 1) (hc3 : lieIndexChar idx.1 ≠ 3) :
     LieCompExport (lieIndexChar idx.1) β := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact (lieCompExport_one hna idx he (isEmpty_mulEquiv_alternating_six hb _ he))
@@ -385,14 +385,14 @@ theorem exists_statedClassicalModel_orth {S : Type} [Group S]
     exact ⟨.POmegaMinus, r, q.exponent, Or.inr (Or.inr rfl),
       CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD r q hv e⟩
 
-theorem lieCompCase_orthogonal_ne3 (hb : LieOrderBridge) (hQ : YS08.LieQ.LieQConstrainedInner 3)
+theorem lieCompCase_orthogonal_ne3 (hb : LieOrderBridge) (_hQ : YS08.LieQ.LieQConstrainedInner 3)
     {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) (idx : TauCeti.ValidLieTypeIndex)
     (hor : (∃ r q, idx.1 = .B r q ∧ q.p ≠ 2 ∧ 3 ≤ r) ∨ (∃ r q, idx.1 = .D r q) ∨
       ∃ r q, idx.1 = .twistedD r q)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group)) (β : MulAut S) (hβ : β ^ 3 = 1) (hc3 : lieIndexChar idx.1 ≠ 3) :
     LieCompExport (lieIndexChar idx.1) β := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact (lieCompExport_one hna idx he (isEmpty_mulEquiv_alternating_six hb _ he))
@@ -446,7 +446,7 @@ theorem lieCompExport_exceptional_ne3 {S : Type} [Group S] [Finite S] (hs : IsSi
   by_cases hβ1 : β = 1
   · subst hβ1
     obtain ⟨e⟩ := he
-    haveI := hs
+    have := hs
     exact (lieCompExport_one hna idx ⟨e⟩
       ⟨fun f => (isEmpty_cat_alt6 idx (Or.inl hF)).false (e.symm.trans f)⟩)
   obtain ⟨e⟩ := he
@@ -526,7 +526,7 @@ theorem lieCompExport_srt_ne3 {S : Type} [Group S] [Finite S] (hs : IsSimpleGrou
   by_cases hβ1 : β = 1
   · subst hβ1
     obtain ⟨e⟩ := he
-    haveI := hs
+    have := hs
     refine (lieCompExport_one hna idx ⟨e⟩ ⟨fun f => ?_⟩)
     obtain ⟨d, hv⟩ := idx
     cases d with
@@ -539,7 +539,7 @@ theorem lieCompExport_srt_ne3 {S : Type} [Group S] [Finite S] (hs : IsSimpleGrou
   | suzuki m =>
     exact (srtOut_suzuki m hv he Nat.prime_three (by norm_num) hβ hβ1).full lieOrderBridge_holds
   | tits =>
-    haveI := hs
+    have := hs
     exact (srtOut_tits hv hna he Nat.prime_three (by norm_num) hβ hβ1).full lieOrderBridge_holds
   | reeF4 m =>
     exact lieCompExport_reeF4 m hv he hβ hβ1
@@ -581,7 +581,7 @@ theorem lieCompExportNe3_holds :
     | B r q =>
       by_cases hsp : q.p = 2 ∨ r = 2
       · exact lieCompCase_symplectic_ne3 hb hQ hs hna ⟨_, hv⟩ (Or.inl ⟨r, q, rfl, hsp⟩) he β hβ h3
-      · push_neg at hsp
+      · push Not at hsp
         exact lieCompCase_orthogonal_ne3 hb hQ hs hna ⟨_, hv⟩
           (Or.inl ⟨r, q, rfl, hsp.1, by simp only at hr; omega⟩) he β hβ h3
     | C r q => exact lieCompCase_symplectic_ne3 hb hQ hs hna ⟨_, hv⟩ (Or.inr ⟨r, q, rfl⟩) he β hβ h3

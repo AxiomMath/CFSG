@@ -35,7 +35,7 @@ theorem blockLine_eq_insert_orbit_of_ncard_le (h89 : PartThree.Lemma8_9)
     ncard_blockLine_diff_eq h113 hC hrad hn3 hHns hβ
   have hαℓ : hC.alpha ∈ blockLine D hC.alpha β := left_mem_blockLine hC.isBlock_alpha.subset
   have hℓ : (blockLine D hC.alpha β).ncard = Δ.ncard + 1 :=
-    (Set.ncard_diff_singleton_add_one hαℓ (Set.toFinite _)).symm
+    (Set.ncard_sdiff_singleton_add_one hαℓ (Set.toFinite _)).symm
   have hβΔ : β ∈ Δ :=
     ⟨right_mem_blockLine hβ.1 hβ.2.1, fun h => hβ.2.2.1 (Set.mem_singleton_iff.mp h)⟩
   have hr : 0 < (blockImage hC '' Δ).ncard :=
@@ -56,6 +56,6 @@ theorem blockLine_eq_insert_orbit_of_ncard_le (h89 : PartThree.Lemma8_9)
     rw [hT, Set.mem_singleton_iff] at hmem
     rw [hT, hmem]
   have hΔO : Δ = O := blockLine_diff_eq_orbit_of_singleton h113 hC hrad hn3 hHns hβ hP
-  rw [← hΔO, hΔdef, Set.insert_diff_singleton, Set.insert_eq_of_mem hαℓ]
+  rw [← hΔO, hΔdef, Set.insert_sdiff_singleton, Set.insert_eq_of_mem hαℓ]
 
 end CFSG.OddTranspositions.PartFour

@@ -47,7 +47,7 @@ structure TwLangData (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (q : ℕ)
     ∀ E : Subgroup (MulAut (twistedE6RootGroup K σ)),
       E ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ → CFSG.IsElementaryAbelian 3 E → Nat.card E = 3 ^ 2 →
       ¬ E ≤ innerAut (twistedE6RootGroup K σ) →
-      (∃ D : TwLangData K σ q (twPlanePre K σ E), ∃ x ∈ twPlanePre K σ E,
+      (∃ _D : TwLangData K σ q (twPlanePre K σ E), ∃ x ∈ twPlanePre K σ E,
           x ∉ twistedE6RootGroup K σ) ∨ TwE6NormalizesR K σ E
 
 @[expose] def TwE6DiagRegularGen : Prop :=
@@ -83,7 +83,7 @@ structure TwLangData (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (q : ℕ)
       ¬ E ≤ innerAut (twistedE6RootGroup K σ) → TwE6NormalizesR K σ E →
       Subgroup.closure (fixUnion E) = ⊤
 
-theorem ringChar_eq_of_card_pow {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : Type) [Field K] [Finite K]
+theorem ringChar_eq_of_card_pow {ℓ f : ℕ} (hℓ : ℓ.Prime) (_hf : 1 ≤ f) (K : Type) [Field K] [Finite K]
     (hK : Nat.card K = ℓ ^ (2 * f)) : ringChar K = ℓ := by
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
   have hp : (ringChar K).Prime := CharP.char_is_prime K (ringChar K)

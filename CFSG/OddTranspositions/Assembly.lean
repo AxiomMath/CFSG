@@ -72,7 +72,7 @@ theorem ascNoSqDichotomy_of_inputs
     have hinv : ∀ d ∈ D, orderOf d = 2 := fun d hd => hoddT.1 d hd
     have hcenter : Subgroup.center G = ⊥ := by
       have hsolv' : Group.IsSolvable (Subgroup.center G) :=
-        isSolvable_of_comm fun a b =>
+        _root_.Group.isSolvable_of_comm fun a b =>
           Subtype.ext (Subgroup.mem_center_iff.mp a.2 b).symm
       exact hsolv (Subgroup.center G) inferInstance hsolv'
     have hpair : CFSG.Blueprint.Fischer.Pair G D :=

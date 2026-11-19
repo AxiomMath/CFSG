@@ -67,8 +67,8 @@ theorem nsQFourInputOf_of_frame {T T' T'' : ∀ {ι : Type}, CoxeterMatrix ι �
       hGenF.baseRefl hD hPE hRk hU62 hFix hWA hLB hSP hWI hTCJ G p B Bs x L D J 𝒦 hcfg hns ι M e hpres h3 hbig
     obtain ⟨F, hFfield, hFfin, θ, hchar, hinj, hrange, -, -, -, -, lab, hΛ, hhas, hFcard⟩ :=
       hRk1F.rk1ConclEx_base hRig hRk hU62 hFix hWA hLB hSP hWI hTCJ hcfg hns hpres h3 hU r₀ hA hC
-    letI : Field F := hFfield
-    letI : Finite F := hFfin
+    let : Field F := hFfield
+    let : Finite F := hFfin
     have hcard : Nat.card ↥(ggRankOneIn L Bs r₀) = Nat.card F * (Nat.card F ^ 2 - 1) := by
       rw [← hrange, ← ggSL2_card F]
       exact Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm

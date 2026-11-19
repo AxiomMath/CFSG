@@ -50,8 +50,8 @@ theorem exists_delta_of_goodPathSystem {X : Type} [Group X] {P1 P2 : Subgroup X}
   have hgirth' : ((2 * n + 2 : ℕ) : ℕ∞) ≤ c.graph.egirth := hgirth.le
   have hdeg : ∀ v w : c.Γ, c.graph.Adj v w → ∃ u, c.graph.Adj v u ∧ u ≠ w :=
     exists_adj_ne c hc hv1 hv2
-  haveI hfin : Fintype ↥(edgeBall (n - 1) c) := Fintype.ofFinite _
-  haveI hdec : DecidableRel (delta c Good n).Adj := Classical.decRel _
+  have hfin : Fintype ↥(edgeBall (n - 1) c) := Fintype.ofFinite _
+  have hdec : DecidableRel (delta c Good n).Adj := Classical.decRel _
   have hthree : ∀ v w w' : c.Γ, c.graph.Adj v w → c.graph.Adj v w' →
       ∃ u, c.graph.Adj v u ∧ u ≠ w ∧ u ≠ w' := by
     intro v w w' _ _
@@ -77,7 +77,7 @@ theorem exists_delta_of_goodPathSystem {X : Type} [Group X] {P1 P2 : Subgroup X}
   have hT : IsThick (delta c Good n) := isThick_delta hn hgirth' hG hthree
   have hbase : (delta c Good n).Adj (deltaXv c n) (deltaLv c n) :=
     delta_adj_deltaXv_deltaLv hn
-  haveI hGA : GraphAction ↥(deltaGroup hn hgirth' hG hdeg) (delta c Good n) :=
+  have hGA : GraphAction ↥(deltaGroup hn hgirth' hG hdeg) (delta c Good n) :=
     graphAction_deltaGroup hn hgirth' hG hdeg
   have hMΔ : MoufangCondition ↥(deltaGroup hn hgirth' hG hdeg) (delta c Good n) n :=
     moufangCondition_delta hn hgirth' hG hdeg hM
@@ -91,7 +91,7 @@ theorem exists_delta_of_goodPathSystem {X : Type} [Group X] {P1 P2 : Subgroup X}
     fun w => if h : w ∈ edgeBall (n - 1) c then ⟨w, h⟩ else deltaXv c n
   have hiota_of_mem : ∀ {w : c.Γ} (hw : w ∈ edgeBall (n - 1) c), iota w = ⟨w, hw⟩ := by
     intro w hw
-    simpa using dif_pos hw
+    simpa using dite_eq_left hw
   have hxv : c.xv ∈ edgeBall (n - 1) c := Or.inl (by simp)
   have hlv : c.lv ∈ edgeBall (n - 1) c := Or.inr (by simp)
   have hE0x : iota c.xv = deltaXv c n := by

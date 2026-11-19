@@ -97,7 +97,7 @@ theorem s16nt_su_base_two {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.
   have hui : (u i : K) = a i * s16ntSuSigma K (a j) := by
     simp [u, hij, ui]
   have huj : (u j : K) = a j * s16ntSuSigma K (a i) := by
-    simp [u, hij, uj]
+    simp [u, uj]
   have hu : ∏ k, u k = 1 := by
     have h2 : ∀ x, x ≠ i ∧ x ≠ j → u x = 1 := by
       intro x hx

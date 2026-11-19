@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem m6e8_cyclic_unique_involution {H : Type*} [Group H] [Finite H] [IsCyclic H]
     {x y : H} (hx : orderOf x = 2) (hy : orderOf y = 2) : x = y := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   have hle := IsCyclic.card_pow_eq_one_le (α := H) (n := 2) (by norm_num)
   by_contra hne
   have hx1 : x ≠ 1 := fun h => by rw [h, orderOf_one] at hx; omega
@@ -34,7 +34,7 @@ private theorem m6e8_cyclic_unique_involution {H : Type*} [Group H] [Finite H] [
 
 private theorem m6e8_unique_involution {A : Subgroup G} (hAcyc : IsCyclic A) {u v : G}
     (hu : u ∈ A) (hv : v ∈ A) (hu2 : orderOf u = 2) (hv2 : orderOf v = 2) : u = v := by
-  haveI : IsCyclic ↥A := hAcyc
+  have : IsCyclic ↥A := hAcyc
   have hu2' : orderOf (⟨u, hu⟩ : ↥A) = 2 := by
     rw [← Subgroup.orderOf_coe (⟨u, hu⟩ : ↥A)]; exact hu2
   have hv2' : orderOf (⟨v, hv⟩ : ↥A) = 2 := by
@@ -45,8 +45,8 @@ private theorem m6e8_unique_involution {A : Subgroup G} (hAcyc : IsCyclic A) {u 
 
 private theorem m6e8_exists_orderOf_four {A : Subgroup G} (hAcyc : IsCyclic A)
     (h4 : 4 ∣ Nat.card A) : ∃ ζ ∈ A, orderOf ζ = 4 := by
-  haveI : IsCyclic ↥A := hAcyc
-  haveI : Fintype ↥A := Fintype.ofFinite _
+  have : IsCyclic ↥A := hAcyc
+  have : Fintype ↥A := Fintype.ofFinite _
   obtain ⟨x, hx⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥A)
   have h4' : 4 ∣ orderOf x := by rw [hx]; exact h4
   have hx0 : orderOf x ≠ 0 := (orderOf_pos x).ne'
@@ -54,10 +54,11 @@ private theorem m6e8_exists_orderOf_four {A : Subgroup G} (hAcyc : IsCyclic A)
   rw [Subgroup.orderOf_coe]
   exact orderOf_pow_orderOf_div hx0 h4'
 
+omit [Finite G] in
 private theorem m6e8_normalizer_of_index_two {C K : Subgroup G} (hKC : K ≤ C)
     (hKi : K.relIndex C = 2) {c : G} (hcC : c ∈ C) : c ∈ normalizer (K : Set G) := by
   have hKi' : (K.subgroupOf C).index = 2 := hKi
-  haveI : (K.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hKi'
+  have : (K.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hKi'
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hKC).mp inferInstance hcC
 
 theorem m6e8_central_mem {K A : Subgroup G} {r : G} (hAK : A ≤ K) (hAcyc : IsCyclic A)
@@ -65,7 +66,7 @@ theorem m6e8_central_mem {K A : Subgroup G} {r : G} (hAK : A ≤ K) (hAcyc : IsC
     (hrK : r ∈ K) (hr2 : orderOf r = 2) (hrZ : ∀ k ∈ K, k * r = r * k) : r ∈ A := by
   classical
   by_contra hrA
-  haveI : IsCyclic ↥A := hAcyc
+  have : IsCyclic ↥A := hAcyc
   obtain ⟨ρ, hρgen⟩ := IsCyclic.exists_generator (α := ↥A)
   have hρA : (ρ : G) ∈ A := ρ.2
   have hordρ : orderOf (ρ : G) = Nat.card A := by
@@ -105,11 +106,12 @@ theorem m6e8_central_mem {K A : Subgroup G} {r : G} (hAK : A ≤ K) (hAcyc : IsC
     rw [hρm, hrm] at hmem
     exact hrA hmem
 
+omit [Finite G] in
 theorem m6e8_normalizer_mem {K A : Subgroup G} {c : G} (hAK : A ≤ K) (hAcyc : IsCyclic A)
     (hAord : ∀ k ∈ K, k ∉ A → orderOf k < Nat.card A) (hcK : c ∈ normalizer (K : Set G)) :
     c ∈ normalizer (A : Set G) := by
   classical
-  haveI : IsCyclic ↥A := hAcyc
+  have : IsCyclic ↥A := hAcyc
   obtain ⟨ρ, hρgen⟩ := IsCyclic.exists_generator (α := ↥A)
   have hρA : (ρ : G) ∈ A := ρ.2
   have hordρ : orderOf (ρ : G) = Nat.card A := by
@@ -145,15 +147,16 @@ theorem m6e8_normalizer_mem {K A : Subgroup G} {c : G} (hAK : A ≤ K) (hAcyc : 
     have heq : c⁻¹ * (c * h * c⁻¹) * (c⁻¹)⁻¹ = h := by group
     rwa [heq] at hmem
 
-theorem m6e8_sq_mem {C K A : Subgroup G} {c : G} (hKC : K ≤ C) (hKi : K.relIndex C = 2)
-    (hAK : A ≤ K) (hAi : A.relIndex K = 2) (hcC : c ∈ C) (hcK : c ∉ K) (hc2 : c * c = 1)
+omit [Finite G] in
+theorem m6e8_sq_mem {C K A : Subgroup G} {c : G} (_hKC : K ≤ C) (hKi : K.relIndex C = 2)
+    (_hAK : A ≤ K) (hAi : A.relIndex K = 2) (hcC : c ∈ C) (hcK : c ∉ K) (hc2 : c * c = 1)
     (hcKn : c ∈ normalizer (K : Set G)) (hcAn : c ∈ normalizer (A : Set G)) :
     ∀ x ∈ C, x ^ 2 ∈ A := by
   intro x hxC
   have hKi' : (K.subgroupOf C).index = 2 := hKi
-  haveI : (K.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hKi'
+  have : (K.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hKi'
   have hAi' : (A.subgroupOf K).index = 2 := hAi
-  haveI : (A.subgroupOf K).Normal := Subgroup.normal_of_index_eq_two hAi'
+  have : (A.subgroupOf K).Normal := Subgroup.normal_of_index_eq_two hAi'
   by_cases hxK : x ∈ K
   · have h := Subgroup.pow_index_mem (A.subgroupOf K) (⟨x, hxK⟩ : ↥K)
     rw [hAi'] at h

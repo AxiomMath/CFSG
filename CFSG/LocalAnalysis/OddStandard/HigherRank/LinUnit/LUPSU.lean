@@ -30,7 +30,7 @@ open CFSG.RankThree.PartOne.KCUnitaryModel (idGram idForm idForm_isSymm idForm_s
     (toLin_mem_sesqUnitaryGroup_iff _).mpr ((mem_gramSU_iff_unitary h).mp g.2).1
 
 theorem luSUHom_injective {n : ℕ} {K : Type} [Field K] {p f : ℕ} (h : UnitaryFieldData p f K) :
-    Function.Injective (luSUHom (n := n) h) := fun x y hxy =>
+    Function.Injective (luSUHom (n := n) h) := fun _x _y hxy =>
   Subtype.ext (Matrix.GeneralLinearGroup.toLin.injective (congrArg Subtype.val hxy))
 
 theorem exists_sesqComponent_of_SU {n : ℕ} {K : Type} [Field K] {p f : ℕ}

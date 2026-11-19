@@ -83,7 +83,7 @@ theorem exists_noLift_pZ (hP : Nat.card ↥P1408 = 177408000) (hlift : liftOK = 
       simpa [pow_two] using this
     · right
       have := congrArg Subtype.val hx
-      simp only [Subgroup.coe_pow, pow_two] at this
+      simp only [pow_two] at this
       exact this
   refine hno g hgN h hhN ?_ ?_ ?_
   · rw [← hug]

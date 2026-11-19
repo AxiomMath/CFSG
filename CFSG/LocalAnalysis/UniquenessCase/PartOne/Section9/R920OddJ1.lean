@@ -88,7 +88,7 @@ theorem not_isSpor_J1_Lbar9 (S : Slice D L D₃ Y H q)
   have hmod : ∀ p : ℕ, p.Prime → 3 < p → p ∣ 660 → ¬ p * p ∣ 175560 →
       (wbar9 D Y H).index ≡ 1 [MOD p] := by
     intro p hp hp3 hp660 hpp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := xbar9 Y H) p (hp660.trans hX)
     have hAq : Nat.card (zpowers (x : F09.Lbar9 Y H)) = p := by
       rw [Nat.card_zpowers, Subgroup.orderOf_coe, hx]

@@ -276,7 +276,7 @@ theorem e6_seven_le_finrank_outer_frame [Module.Finite k V]
         List (Fin Tag.E6.rank → ℤ)).map fun β => pinnedX .E6 K β (c β)).prod := by
     simp only [c, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
     rw [hz]
-    simp only [if_true, if_neg hne]
+    simp only [ite_true, ite_eq_right hne]
     rfl
   obtain ⟨w, hw⟩ := e6_pairs_outer s
   exact e6_le_finrank_range_frame_sub_one_cover hρ ht hv hF horth c z hz' w hw

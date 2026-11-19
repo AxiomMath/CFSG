@@ -163,7 +163,7 @@ theorem ggCQ_notExcThree_of_d4_not_inner_E6
         (componentRoots (rootCharHom a) i)])) :
     GGNotExcThreeOrder (ggCQ (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have h3L : ((3 : ℕ) : L) ≠ 0 := by
     rw [show ((3 : ℕ) : L) = 1 + 2 by norm_num, CharTwo.two_eq_zero, add_zero]
     exact one_ne_zero
@@ -186,11 +186,11 @@ theorem ggCQ_notExcThree_of_d4_not_inner_E6
     rw [hs, Function.iterate_one] at hinner
     have hsub : kernelRoots (rootCharHom a) ⊆ componentRoots (rootCharHom a) i :=
       (componentRoots_eq_kernelRoots_of_ncard_24 h3L hap i hcard).ge
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq21 : S.D.q = 2 ^ 1 := by rw [hq2, pow_one]
     obtain ⟨⟨e⟩, hZ⟩ := d4t2out_rationalComponent_equiv (ℓ := 2) (f := 1) S
       ⟨t, ht, Fr, hFr, hΦ⟩ (by norm_num) hq21 (by norm_num) hT hap i v hv hsub hρ' hinner
-    haveI := finite_rationalComponent S a i
+    have := finite_rationalComponent S a i
     have hcardR : Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) =
         CFSG.Open.orderTrialityD4 (2 ^ 1) := by
       have h := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds _ _ ⟨e⟩

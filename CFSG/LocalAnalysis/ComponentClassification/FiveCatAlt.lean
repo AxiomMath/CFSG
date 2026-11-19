@@ -78,7 +78,7 @@ private theorem false_of_alt_six {S : Type} [Group S] [Finite S] [IsSimpleGroup 
   have hP60 : 60 ≤ Nat.card P := sixty_le_card eP
   have hPfix : ∀ p ∈ P, σ p = p := fun p hp =>
     LocalAnalysis.ComponentInitial.mem_fixedSubgroup_iff.mp (hPF hp)
-  letI : Fintype (S ⧸ P) := Fintype.ofFinite _
+  let : Fintype (S ⧸ P) := Fintype.ofFinite _
   let ρ : S →* Perm (S ⧸ P) := MulAction.toPermHom S (S ⧸ P)
   have hρinj : Function.Injective ρ := by
     rw [← MonoidHom.ker_eq_bot_iff, ← Subgroup.normalCore_eq_ker]
@@ -212,7 +212,7 @@ private theorem alt_five_layer {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6)
 
 theorem fivePump_alt : FivePumpAltClause := by
   intro S _ _ hs _ ⟨n, hn, ⟨θ⟩⟩ σ P hP _ ⟨eP⟩ _
-  haveI := hs
+  have := hs
   by_cases hn6 : n = 6
   · subst hn6
     exact (false_of_alt_six θ hP eP).elim
@@ -222,7 +222,7 @@ theorem fivePump_alt : FivePumpAltClause := by
 
 theorem fiveTwoLayer_alt : FiveTwoLayerAltClause := by
   intro S _ _ hs _ ⟨n, hn, ⟨θ⟩⟩ σ P₁ P₂ h₁ h₂ hne _ _ ⟨e₁⟩ ⟨e₂⟩ _
-  haveI := hs
+  have := hs
   by_cases hn6 : n = 6
   · subst hn6
     exact (false_of_alt_six θ h₁ e₁).elim

@@ -64,7 +64,7 @@ private theorem i1412L_kLevel_le_four (p : ℕ) (S : Type) [Group S] : kLevel p 
 private theorem i1412L_kLevel_eq_one {p : ℕ} {S : Type} [Group S] (h : IsChevSimple p S) :
     kLevel p S = 1 := by
   unfold kLevel
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem i1412L_kLevel_le_one {p : ℕ} {S : Type} [Group S] (h : IsChevSimple p S) :
     kLevel p S ≤ 1 :=
@@ -74,18 +74,18 @@ private theorem i1412L_isChev_of_kLevel_le_one {p : ℕ} {S : Type} [Group S]
     (h : kLevel p S ≤ 1) : IsChevSimple p S := by
   by_contra hne
   unfold kLevel at h
-  rw [if_neg hne] at h
+  rw [ite_eq_right hne] at h
   split_ifs at h <;> omega
 
 private theorem i1412L_kLevel_le_two {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k2 p)) :
     kLevel p S ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 private theorem i1412L_kLevel_le_three {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k3 p)) :
     kLevel p S ≤ 3 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 private theorem i1412L_fixSubgroup_one {K : Type*} [Group K] :
     fixSubgroup (1 : MulAut K) = ⊤ := by
@@ -120,7 +120,7 @@ private theorem i1412L_isSubnormal_top {T : Type} [Group T] [IsSimpleGroup T] {H
     rcases ih hK with hM | hM
     · exact Or.inl (le_bot_iff.1 (hM ▸ hle))
     · subst hM
-      haveI : H.Normal :=
+      have : H.Normal :=
         ⟨fun n hn' g => (Subgroup.normal_subgroupOf_iff le_top).1 hn n g hn' (Subgroup.mem_top g)⟩
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
@@ -135,13 +135,13 @@ private theorem i1412L_pSimple_top_equiv {p : ℕ} (hp : p.Prime) {T : Type} [Gr
   have hq : CFSG.Open.IsQuasisimple (PQuot p (⊤ : Subgroup T)) :=
     isQuasisimple_pQuot_of_glaPComponent hp hI
   have hnt : Nontrivial (↥(⊤ : Subgroup T) ⧸ GLAPPrimeCore p ↥(⊤ : Subgroup T)) := by
-    haveI : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
+    have : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
       hq.2.toNontrivial
     exact (QuotientGroup.mk'_surjective
       (Subgroup.center (PQuot p (⊤ : Subgroup T)))).nontrivial
   have hOb : GLAPPrimeCore p ↥(⊤ : Subgroup T) = ⊥ := by
     let ψ : ↥(⊤ : Subgroup T) ≃* T := Subgroup.topEquiv
-    haveI : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
+    have : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
       Subgroup.Normal.map (GLAPPrimeCore.normal p _) ψ.toMonoidHom ψ.surjective
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom) with h | h
@@ -174,7 +174,7 @@ private theorem i1412L_downLe_one_lie {p : ℕ} (hp : p.Prime) (hC : KDCharP p) 
     [IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group] [Finite (TauCeti.CFSGIndex.lie d).Group]
     (hnc : ∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a) :
     DownLe p 1 (TauCeti.CFSGIndex.lie d).Group := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro β hβ J hJ
   by_cases hβ1 : β = 1
   · subst hβ1
@@ -289,7 +289,7 @@ theorem kdLevel_of {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h1 : KDChevDown p)
   · intro α _ I _
     exact i1412L_kLevel_le_four p _
 
-theorem kdChevDown_of {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hC : KDCharP p) (hO : KDOutChev p)
+theorem kdChevDown_of {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hC : KDCharP p) (hO : KDOutChev p)
     (hamb : ∀ i : TauCeti.CFSGIndex, ambiguousChev p i → DownLe p 1 i.Group) :
     KDChevDown p := by
   intro S _ _ hS hnc hCS α hα I hI
@@ -301,8 +301,8 @@ theorem kdChevDown_of {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hC : KDCharP p) 
       | sporadic s => exact (show False from hi).elim
       | lie d =>
         have hd : d.1.characteristic = p := hi
-        haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := e.symm.isSimpleGroup
-        haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
+        have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := e.symm.isSimpleGroup
+        have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
         exact downLe_of_mulEquiv e.symm
           (i1412L_downLe_one_lie hp hC hO d hd (i1412L_nonab_of_mulEquiv e hnc))
     · exact downLe_of_mulEquiv e.symm (hamb i hi)
@@ -317,8 +317,8 @@ theorem kdLevelTwo_of {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hF : KDRankTwoDo
   | cyclic q hq => exact (show False from hi).elim
   | alternating n hn =>
     have hk : (p = 3 ∧ (n = 5 ∨ n = 9)) ∨ (p = 7 ∧ n = 7) := hi
-    haveI : IsSimpleGroup (alternatingGroup (Fin n)) := e.symm.isSimpleGroup
-    haveI : Finite (alternatingGroup (Fin n)) := Finite.of_equiv S e.toEquiv
+    have : IsSimpleGroup (alternatingGroup (Fin n)) := e.symm.isSimpleGroup
+    have : Finite (alternatingGroup (Fin n)) := Finite.of_equiv S e.toEquiv
     have hkn : kLevel p (alternatingGroup (Fin n)) ≤ 2 :=
       i1412L_kLevel_le_two ⟨TauCeti.CFSGIndex.alternating n hn, hi, ⟨MulEquiv.refl _⟩⟩
     refine i1412L_downLe_alt hp hp2 hA (i1412L_nonab_of_mulEquiv e hnc) hn hkn ?_
@@ -345,13 +345,13 @@ theorem kdLevelTwo_of {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hF : KDRankTwoDo
         rcases (show (p = 3 ∧ q.p = 2 ∧ Even q.exponent) ∨ (p = 13 ∧ q.card = 3) from hi) with
           ⟨rfl, hq2, hev⟩ | ⟨rfl, hc⟩
         · have h := hF.2.1 q hv (i1412L_card_mod_three_even hq2 hev)
-          rwa [if_pos hq2] at h
+          rwa [ite_eq_left hq2] at h
         · exact (hfin (TauCeti.CFSGIndex.lie ⟨.A 2 q, hv⟩)
             (fun h3 => by norm_num at h3) (fun n h h' => by cases h')).1 hi
       · subst hq
         obtain ⟨rfl, hq2, hodd, -⟩ : p = 3 ∧ q.p = 2 ∧ Odd q.exponent ∧ 1 < q.exponent := hi
         have h := hF.2.2 q hv (i1412L_card_mod_three_odd hq2 hodd)
-        rwa [if_pos hq2] at h
+        rwa [ite_eq_left hq2] at h
     · exact (hfin (TauCeti.CFSGIndex.lie ⟨ld, hv⟩)
         (fun _ d' q h => by
           cases h
@@ -372,8 +372,8 @@ theorem kdLevelThree_of (hF : KDRankTwoDown) (hA : KDAltDown) (hfin : KDLevelFin
   | cyclic q hq => exact (show False from hi).elim
   | alternating n hn =>
     have hk : n = 7 ∨ n = 10 := hi.2
-    haveI : IsSimpleGroup (alternatingGroup (Fin n)) := e.symm.isSimpleGroup
-    haveI : Finite (alternatingGroup (Fin n)) := Finite.of_equiv S e.toEquiv
+    have : IsSimpleGroup (alternatingGroup (Fin n)) := e.symm.isSimpleGroup
+    have : Finite (alternatingGroup (Fin n)) := Finite.of_equiv S e.toEquiv
     have hkn : kLevel 3 (alternatingGroup (Fin n)) ≤ 3 :=
       i1412L_kLevel_le_three ⟨TauCeti.CFSGIndex.alternating n hn, hi, ⟨MulEquiv.refl _⟩⟩
     refine i1412L_downLe_alt hp3 (by norm_num) hA (i1412L_nonab_of_mulEquiv e hnc) hn hkn ?_
@@ -397,10 +397,10 @@ theorem kdLevelThree_of (hF : KDRankTwoDown) (hA : KDAltDown) (hfin : KDLevelFin
     rcases i1412L_k3Lie_cases hk with ⟨q, rfl, hq⟩ | ⟨q, rfl, hq⟩
     · have hq2 : q.p ≠ 2 := i1412L_p_ne_two_of_card_mod_two (by omega)
       have h := hF.2.1 q hv (by omega)
-      rwa [if_neg hq2] at h
+      rwa [ite_eq_right hq2] at h
     · have hq2 : q.p ≠ 2 := i1412L_p_ne_two_of_card_mod_two (by omega)
       have h := hF.2.2 q hv (by omega)
-      rwa [if_neg hq2] at h
+      rwa [ite_eq_right hq2] at h
   | sporadic s =>
     exact (hfin (TauCeti.CFSGIndex.sporadic s) (fun _ d' q h => by cases h)
       (fun n h h' => by cases h')).2 hi

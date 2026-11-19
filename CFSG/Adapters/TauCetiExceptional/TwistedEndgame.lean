@@ -206,7 +206,7 @@ theorem cartan_perm (z' : B.C) (π' : Equiv.Perm (Fin τ.rank)) (a : Fin τ.rank
     exact (sub_eq_zero.1 ((mul_eq_zero.1 h4).resolve_left (ha j))).symm
   have hne : π' i ≠ π' j := π'.injective.ne hij
   rcases B.cartan_off _ _ hne with h1 | h1 <;> rcases B.cartan_off _ _ hij with h2 | h2 <;>
-    rw [h1, h2] at hcast ⊢ <;> first | rfl | (exfalso; norm_num at hcast)
+    rw [h1, h2] at hcast ⊢ <;> (exfalso; norm_num at hcast)
 
 theorem perm_eq_one (h2 : (2 : L) ≠ 0) (z' : B.C) (π' : Equiv.Perm (Fin τ.rank))
     (hcart : ∀ i j, τ.cartan (π' i) (π' j) = τ.cartan i j)

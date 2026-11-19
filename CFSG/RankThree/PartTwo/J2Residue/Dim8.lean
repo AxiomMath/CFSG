@@ -27,7 +27,7 @@ private theorem finrank_ker_restrict [FiniteDimensional K V] {f : V →ₗ[K] V}
     exact Submodule.sub_mem W (hf x hx) hx
   have hsub : (f.restrict hf) - 1 = (f - 1).restrict hf' := by
     ext x
-    simp only [LinearMap.sub_apply, LinearMap.restrict_coe_apply, Module.End.one_apply,
+    simp only [LinearMap.sub_apply, _root_.LinearMap.coe_restrict_apply, Module.End.one_apply,
       Submodule.coe_sub]
   rw [hsub, LinearMap.ker_restrict (hf := hf')]
   rw [← Submodule.map_comap_subtype (p := W) (p' := LinearMap.ker (f - 1))]
@@ -68,12 +68,12 @@ private theorem fixSpace_closure_pair {ρ : Representation K Γ V} {d s : Γ} (h
       { carrier := {x | ρ x v = v}
         mul_mem' := by
           intro x y hx hy
-          simp only [Set.mem_setOf_eq] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq] at hx hy ⊢
           rw [map_mul, Module.End.mul_apply, hy, hx]
         one_mem' := by simp
         inv_mem' := by
           intro x hx
-          simp only [Set.mem_setOf_eq] at hx ⊢
+          simp only [Set.mem_ofPred_eq] at hx ⊢
           calc ρ x⁻¹ v = ρ x⁻¹ (ρ x v) := by rw [hx]
             _ = v := Representation.inv_self_apply ρ x v }
     have hle : Subgroup.closure ({d, s} : Set Γ) ≤ H := by
@@ -103,12 +103,12 @@ private theorem fixSpace_closure_triple {ρ : Representation K Γ V} {d s t : Γ
       { carrier := {x | ρ x v = v}
         mul_mem' := by
           intro x y hx hy
-          simp only [Set.mem_setOf_eq] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq] at hx hy ⊢
           rw [map_mul, Module.End.mul_apply, hy, hx]
         one_mem' := by simp
         inv_mem' := by
           intro x hx
-          simp only [Set.mem_setOf_eq] at hx ⊢
+          simp only [Set.mem_ofPred_eq] at hx ⊢
           calc ρ x⁻¹ v = ρ x⁻¹ (ρ x v) := by rw [hx]
             _ = v := Representation.inv_self_apply ρ x v }
     have hle : Subgroup.closure ({d, s, t} : Set Γ) ≤ H := by
@@ -175,8 +175,8 @@ theorem eight_le_finrank (h3 : (3 : K) ≠ 0) [FiniteDimensional K V] (ρ : Repr
     have h := Subgroup.card_mul_index (D.subgroupOf S)
     rw [hDScard, hS27, Subgroup.index_eq_card] at h
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hQfin : Finite (S ⧸ (D.subgroupOf S)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hQfin : Finite (S ⧸ (D.subgroupOf S)) :=
     Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
   have hQcomm : ∀ a b : S ⧸ (D.subgroupOf S), a * b = b * a :=
     (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := S ⧸ (D.subgroupOf S))
@@ -504,7 +504,7 @@ theorem eight_le_finrank (h3 : (3 : K) ≠ 0) [FiniteDimensional K V] (ρ : Repr
     simp [Subgroup.coe_mul, map_mul]
   have ha2b : a ^ 2 * b = ρ ((σ₁ ^ 2 * σ₂ : S) : Γ) := by
     rw [hadef, hbdef]
-    simp [Subgroup.coe_mul, Subgroup.coe_pow, map_mul, map_pow]
+    simp [Subgroup.coe_mul, map_mul, map_pow]
   have hker3 : LinearMap.ker (a * b - 1) = fixSpace ρ T₃ := by
     rw [hab, ← hfix₃]
   have hker4 : LinearMap.ker (a ^ 2 * b - 1) = fixSpace ρ T₄ := by
@@ -626,7 +626,7 @@ theorem eight_le_finrank (h3 : (3 : K) ≠ 0) [FiniteDimensional K V] (ρ : Repr
     have hx' : (x : V) = 0 := by
       have h1 : ρ n (x : V) = 0 := by
         have h := congrArg Subtype.val hx
-        simpa [hhdef, LinearMap.restrict_coe_apply] using h
+        simpa [hhdef, _root_.LinearMap.coe_restrict_apply] using h
       calc (x : V) = ρ (n⁻¹) (ρ n (x : V)) := (Representation.inv_self_apply ρ n (x : V)).symm
         _ = ρ (n⁻¹) 0 := by rw [h1]
         _ = 0 := map_zero _

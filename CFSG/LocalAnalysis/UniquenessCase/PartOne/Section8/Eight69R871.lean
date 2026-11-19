@@ -636,8 +636,8 @@ private theorem r871shp_card_filter_of_sum {ι : Type} (t : Finset ι) (f : ι �
   refine Finset.sum_le_sum fun A hA => ?_
   have := hf A hA
   by_cases h : 1 ≤ f A
-  · rw [if_pos h]; omega
-  · rw [if_neg h]; omega
+  · rw [ite_eq_left h]; omega
+  · rw [ite_eq_right h]; omega
 
 private theorem r871shp_card_filter_eq_one {ι : Type} (t : Finset ι) (f : ι → ℕ)
     (hf : ∀ A ∈ t, f A ≤ 1) (h1 : ∑ A ∈ t, f A = 1) :
@@ -650,8 +650,8 @@ private theorem r871shp_card_filter_eq_one {ι : Type} (t : Finset ι) (f : ι �
   · refine Finset.sum_congr rfl fun A hA => ?_
     have := hf A hA
     by_cases h : 1 ≤ f A
-    · rw [if_pos h]; omega
-    · rw [if_neg h]; omega
+    · rw [ite_eq_left h]; omega
+    · rw [ite_eq_right h]; omega
   · exact h1
 
 private theorem r871shp_pRank_sum {G : Type} [Group G] [Finite G] {M L : Subgroup G} {k : ℕ}
@@ -876,8 +876,8 @@ private theorem r871shp_filter_two {ι : Type} [DecidableEq ι] (t : Finset ι) 
     refine Finset.sum_congr rfl fun A hA => ?_
     have := hf A hA
     by_cases h : 1 ≤ f A
-    · rw [if_pos h]; omega
-    · rw [if_neg h]; omega
+    · rw [ite_eq_left h]; omega
+    · rw [ite_eq_right h]; omega
   have hcard : (t.filter fun C => 1 ≤ f C).card = 2 := by rw [← hsum]; exact h2
   obtain ⟨A, B, hAB, hABeq⟩ := Finset.card_eq_two.mp hcard
   have hA' : A ∈ t.filter (fun C => 1 ≤ f C) := by rw [hABeq]; simp

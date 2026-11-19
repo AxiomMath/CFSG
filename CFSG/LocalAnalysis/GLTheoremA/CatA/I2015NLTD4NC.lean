@@ -195,7 +195,7 @@ theorem td4n_noSL2_of_psl3_card {E : Type} [Group E] [Finite E]
     (hc : c = (2 ^ f) ^ 3 - 1 ∨ c = (2 ^ f) ^ 3 + 1)
     (hcard : Nat.card E * 3 = (2 ^ f) ^ 3 * ((2 ^ f) ^ 2 - 1) * c) (N : ℕ) :
     TD4NoSL2 N E := by
-  haveI := hs
+  have := hs
   intro F _ _ _ _ ι hι
   have hns : ¬ Group.IsSolvable E := fun h => by
     obtain ⟨x, y, hxy⟩ := hna

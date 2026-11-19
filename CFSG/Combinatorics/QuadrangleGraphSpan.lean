@@ -77,7 +77,7 @@ theorem card_far (h : IsQuadrangleOfOrder adj s t) (ht : 1 ≤ t) {x y : α}
     O.card + (t + 1) + (p + 1) * ((t + 1) * s + 1) =
       (s + 1) * (s * t + 1) + (p + 1) * (t + 1) := by
   classical
-  haveI : Nonempty α := ⟨x⟩
+  have : Nonempty α := ⟨x⟩
   have hVne : (span2 adj x y).Nonempty := ⟨x, h.toIsQuadrangle.left_mem_span2 x y⟩
   have hC : ∀ u ∈ span2 adj x y, perp2 adj x y ⊆ nbhd adj u := by
     intro u hu z hz

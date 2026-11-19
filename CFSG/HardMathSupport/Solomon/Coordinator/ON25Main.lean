@@ -98,7 +98,7 @@ theorem on25_core {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsQuasisimple 
       sup_le (fun h hh => Subgroup.le_normalizer hh)
         (fun a ha => hnormH _ (hAB ⟨a, ha, rfl⟩))
     exact hle hm
-  haveI hnormal : H.Normal :=
+  have hnormal : H.Normal :=
     ⟨fun n hn g => (Subgroup.mem_normalizer_iff.1 (hNtop ▸ Subgroup.mem_top g) n).1 hn⟩
   rcases on25_normal_le_center_or_top hY H with hle | htop'
   · exfalso

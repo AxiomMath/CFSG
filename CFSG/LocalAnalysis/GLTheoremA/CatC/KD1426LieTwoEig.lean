@@ -20,8 +20,8 @@ open CFSG.HardMathSupport.Solomon.Coordinator
 namespace CFSG.LocalAnalysis.GLTheoremA.KD1426Lie
 
 theorem exists_piField_true_of_card_mod_six {F : Type} [Field F] [Finite F]
-    (hF : Nat.card F % 6 = 1) : ∃ p f : ℕ, PiField true p f F := by
-  haveI : Fintype F := Fintype.ofFinite F
+    (_hF : Nat.card F % 6 = 1) : ∃ p f : ℕ, PiField true p f F := by
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, _hc, n, hp, hcard⟩ := FiniteField.card' F
   refine ⟨p, (n : ℕ), hp, n.2, ?_⟩
   rw [piCard, Bool.cond_true, ← hcard, Nat.card_eq_fintype_card]
@@ -30,7 +30,7 @@ section Block
 
 variable {K : Type} [Field K] {p f : ℕ} {π : Bool}
 
-@[expose] noncomputable def blockSL2 (hK : PiField π p f K) : Subgroup (GL (Fin 3) K) :=
+@[expose] noncomputable def blockSL2 (_hK : PiField π p f K) : Subgroup (GL (Fin 3) K) :=
   (slPi π 2 (p ^ f) K).map blockHom
 
 theorem mem_blockSL2 {hK : PiField π p f K} {g : GL (Fin 3) K} :
@@ -71,7 +71,7 @@ theorem primeFormUnitary_idGram_eq_glPi {p f : ℕ}
         (CFSG.RankThree.PartOne.KCUnitaryModel.idGram K n) = glPi false n (p ^ f) K := by
   ext A
   rw [CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.mem_primeFormUnitary, mem_glPi_false h]
-  simp [CFSG.RankThree.PartOne.KCUnitaryModel.idGram, Matrix.mul_one]
+  simp [CFSG.RankThree.PartOne.KCUnitaryModel.idGram]
 
 theorem conj_mem_slPi_two (hK : PiField π p f K) {A B : GL (Fin 2) K}
     (hA : A ∈ glPi π 2 (p ^ f) K) (hB : B ∈ slPi π 2 (p ^ f) K) :
@@ -196,7 +196,7 @@ theorem blockSL2_le_glaPLayer (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     (hq2 : 2 < p ^ f) {e : Kˣ} (he3 : (e : K) ^ 3 = 1) (he1 : e ≠ 1) :
     blockSL2 hK ≤ GLAPLayer 3 (slPi π 3 (p ^ f) K ⊓
       Subgroup.centralizer ({diagE e} : Set (GL (Fin 3) K))) := by
-  haveI := hK.finite
+  have := hK.finite
   exact le_sSup (CFSG.HardMathSupport.Dickson.I271.glaPComponent_of_normal Nat.prime_three
     (blockSL2_quasisimple hK hq hq2) (three_dvd_card_blockSL2 hK hq he3 he1)
     (le_inf (blockSL2_le_slPi hK) (blockSL2_le_centralizer hK e)) (blockSL2_normal hK he1))
@@ -330,14 +330,14 @@ theorem diagE_mem_unitaryIsom3 (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryF
       omega) he3
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal, Matrix.mul_apply, Matrix.transpose_apply, Fin.sum_univ_three, hebar]
+    simp [Matrix.diagonal, Matrix.mul_apply, Matrix.transpose_apply, hebar]
 
 theorem glaPLayer_fixSubgroup_psuConj_diagE_ne_bot
     (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K)
     (hq6 : p ^ f % 6 = 5) {e : Kˣ} (he3 : (e : K) ^ 3 = 1) (he1 : e ≠ 1)
     (hA : diagE e ∈ unitaryIsom3 h) :
     GLAPLayer 3 (fixSubgroup (psuConj h ⟨diagE e, hA⟩)) ≠ ⊥ := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hK : PiField false p f K :=
     ⟨h.prime, h.one_le, by rw [h.card, piCard, Bool.cond_false, ← pow_mul, mul_comm]⟩
   have hq : ModThree false (p ^ f) :=

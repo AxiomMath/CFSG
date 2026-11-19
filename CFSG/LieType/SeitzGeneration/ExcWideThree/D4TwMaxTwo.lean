@@ -23,7 +23,7 @@ theorem twF2_comm_t21_t13 {K : Type} [Field K] (a b : K) :
   rw [t21_coe, t13_coe, t21_coe, t13_coe, t23_coe]
   simp only [Matrix.mul_fin_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem twF2_comm_t13_t32 {K : Type} [Field K] (a b : K) :
     ⁅t13 a, t32 b⁆ = t12 (a * b) := by
@@ -33,7 +33,7 @@ theorem twF2_comm_t13_t32 {K : Type} [Field K] (a b : K) :
   rw [t13_coe, t32_coe, t13_coe, t32_coe, t12_coe]
   simp only [Matrix.mul_fin_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem twF2_comm_mem {K : Type} [Field K] {H₁ : Subgroup SL(3, K)} {x y : SL(3, K)}
     (hx : x ∈ H₁) (hy : y ∈ H₁) : ⁅x, y⁆ ∈ H₁ := by
@@ -257,9 +257,9 @@ theorem twF2_maximal (hE : D4TwF2EntryProp) : D4TwistedF2Case := by
     · exfalso
       have : (1 : K) = 0 := by
         have := congrArg (fun x => x - 1) h
-        simpa using this
+        simp at this
       exact one_ne_zero this
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have hK : Nat.card K = Nat.card (fixSubfield σ) ^ 3 :=
     (CFSG.RankThree.PartOne.SEITZ6.card_eq_card_fixSubfield_pow σ).trans (by rw [hσ])
   have hne0 : entry (r * g * r') (negLabel d4F2_theta_isMax.1)

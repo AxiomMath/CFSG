@@ -88,7 +88,7 @@ private theorem minimal_normal_map {Y : Type} [Group Y] {M N : Subgroup Y} [M.No
     rcases hmax (W.comap ι) (hWn.comap ι) hWN hMW with h | h
     · rw [← Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective M) W, h,
         Subgroup.map_eq_bot_iff]
-      simpa [ι] using QuotientGroup.ker_mk' M
+      simp
     · exact absurd h hWeq
 
 theorem eq_bot_of_quotient_psl2 {Y : Type} [Group Y] [Finite Y]
@@ -113,11 +113,11 @@ theorem eq_bot_of_quotient_psl2 {Y : Type} [Group Y] [Finite Y]
     (p := fun M => M.Normal ∧ M < N) (a := ⊥) ⟨inferInstance, bot_lt_iff_ne_bot.2 hNne⟩
   have hMn : M.Normal := hMax.prop.1
   have hMN : M < N := hMax.prop.2
-  letI : M.Normal := hMn
+  let : M.Normal := hMn
   set ι := QuotientGroup.mk' M with hι
   set V : Subgroup (Y ⧸ M) := N.map ι with hV
   have hVn : V.Normal := (inferInstance : N.Normal).map ι (QuotientGroup.mk'_surjective M)
-  haveI : V.Normal := hVn
+  have : V.Normal := hVn
   have hmax : ∀ W : Subgroup Y, W.Normal → W ≤ N → M ≤ W → W = M ∨ W = N := by
     intro W hWn hWN hMW
     by_cases hWeq : W = N

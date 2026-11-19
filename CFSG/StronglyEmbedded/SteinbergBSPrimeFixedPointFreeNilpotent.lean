@@ -200,12 +200,12 @@ theorem prime_order_fixed_point_free_automorphism_nilpotent_aux {r : ℕ} (hr : 
   have hJα : J.map α.toMonoidHom = J := map_map_subtype_eq_of_characteristic α hP _
   have hZ1 : Z ≠ ⊥ := by
     have : Nontrivial (P : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).2 hP1
-    have := P.isPGroup'.center_nontrivial
+    have := P.isPGroup.center_nontrivial
     rw [hZdef, Ne, Subgroup.map_eq_bot_iff_of_injective _ (P : Subgroup G).subtype_injective]
     exact (Subgroup.nontrivial_iff_ne_bot _).1 this
-  have hJ1 : J ≠ ⊥ := CFSG.RankThree.Coprime.map_elemThompson_ne_bot P.isPGroup' hP1
-  have hZp : IsPGroup p Z := P.isPGroup'.to_le (map_subtype_le _)
-  have hJp : IsPGroup p J := P.isPGroup'.to_le (map_subtype_le _)
+  have hJ1 : J ≠ ⊥ := CFSG.RankThree.Coprime.map_elemThompson_ne_bot P.isPGroup hP1
+  have hZp : IsPGroup p Z := P.isPGroup.to_le (map_subtype_le _)
+  have hJp : IsPGroup p J := P.isPGroup.to_le (map_subtype_le _)
   have hZC : Z ≤ centralizer (Z : Set G) := by
     rintro _ ⟨a, ha, rfl⟩
     rw [mem_centralizer_iff]

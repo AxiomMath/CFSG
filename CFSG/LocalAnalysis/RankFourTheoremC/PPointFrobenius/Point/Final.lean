@@ -10,7 +10,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 
 theorem ptConclusion_of_kfacts (hk : PtKFacts) (hs : PtSchurBound) (hG : FrobGlobal G)
     (hl : PtLocal p P M x) : PtConclusion p P M x := by
-  haveI : Fact p.Prime := ⟨hl.loc.beta.1⟩
+  have : Fact p.Prime := ⟨hl.loc.beta.1⟩
   exact ⟨pt_structure hk hs hG hl.toPtPoint, pt_norm hk hs hG hl⟩
 
 theorem ysPPointCentralizers_of_kfacts (hk : PtKFacts) (hs : PtSchurBound) :

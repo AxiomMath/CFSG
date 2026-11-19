@@ -24,7 +24,7 @@ theorem plusFieldPart_eq_one_of_card {X : Type*} [Group X] [Finite X] {F : Subgr
     (hA : ∀ a ∈ A, a ^ 2 = 1) (hcard : 2 ^ (13 * f + 1) < Nat.card A) {a : X} (ha : a ∈ A) :
     plusFieldPart hf hK (by norm_num) (MulAut.congr e (MulAut.conjNormal a)) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR := plusRealization (K := K) (n := 6) hf hK (by norm_num)
   have hE := plusImage_eq_top (K := K) (n := 6) (by norm_num)
   set fp := plusFieldPart (K := K) (n := 6) hf hK (by norm_num) with hfp

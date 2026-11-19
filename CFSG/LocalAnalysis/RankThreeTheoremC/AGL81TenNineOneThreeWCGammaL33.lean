@@ -31,7 +31,7 @@ theorem kFactTenNineWCGammaL33 :
         GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y →
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ ⟨e⟩ S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZK : ∀ k : K, (∀ x : K, k * x = x * k) → k = 1 := by
     intro k hk
     have hc : e k ∈ Subgroup.center SL33 := by

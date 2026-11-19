@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix MatrixGroups
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem tensorModel_of_left {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} (hD : GlobalModelData M Q Z γ M₀)
     {φS : ↥(Lgen M (LB M Q B)) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -60,20 +61,21 @@ private theorem tensorModel_of_left {K : Type} [Field K] [Finite K] [CharP K 2] 
 private theorem surjective_of_ker_eq {K : Type} [Field K] [Finite K] {S : Type} [Group S]
     [Finite S] {ψ p : S →* SL(2, K)} (hψs : Function.Surjective ψ) (hk : ψ.ker = p.ker) :
     Function.Surjective p := by
-  haveI : Finite SL(2, K) :=
+  have : Finite SL(2, K) :=
     Finite.of_injective (fun g : SL(2, K) => (g : Mat2 K)) Subtype.val_injective
   have htop : p.range = ⊤ := by
     have h1 := Subgroup.card_ker_mul_card_range p
     have h2 := Subgroup.card_ker_mul_card_range ψ
     rw [← hk] at h1
     have hpos : 0 < Nat.card ↥ψ.ker := by
-      haveI : Nonempty ↥ψ.ker := ⟨1⟩
+      have : Nonempty ↥ψ.ker := ⟨1⟩
       exact Nat.card_pos
     have hc := Nat.eq_of_mul_eq_mul_left hpos (h1.trans h2.symm)
     rw [MonoidHom.range_eq_top.mpr hψs, Subgroup.card_top] at hc
     exact Subgroup.eq_top_of_card_eq (H := p.range) hc
   exact MonoidHom.range_eq_top.mp htop
 
+omit [Finite G] in
 private theorem exists_line_of_isA2 (hc : Ctx M Q Z B) {K : Type} [Field K] [Finite K]
     [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hD : GlobalModelData M Q Z γ M₀)
@@ -143,6 +145,7 @@ private theorem exists_line_of_isA2 (hc : Ctx M Q Z B) {K : Type} [Field K] [Fin
   rw [hμ]
   exact Submodule.smul_mem _ μ (Submodule.mem_span_singleton_self v₀)
 
+omit [Finite G] in
 private theorem false_of_both_faithful (hc : Ctx M Q Z B) {K : Type} [Field K] [Finite K]
     [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hD : GlobalModelData M Q Z γ M₀)
@@ -151,7 +154,7 @@ private theorem false_of_both_faithful (hc : Ctx M Q Z B) {K : Type} [Field K] [
       M₀.π ((m : G) * x * (m : G)⁻¹) = φS m (M₀.π x))
     (hφker : ∀ m : ↥(Lgen M (LB M Q B)), φS m = 1 ↔ (m : G) ∈ Q)
     (D : D2Data Q Z M₀ φS) (hno : ¬ NoA2 Q Z (LB M Q B)) : False := by
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   obtain ⟨a, haL, hA2⟩ : ∃ a ∈ LB M Q B, IsA2 Q Z a := by
     by_contra h
     exact hno fun a ha ha2 => h ⟨a, ha, ha2⟩
@@ -234,8 +237,7 @@ private theorem tensorModel_of_pair (hc : Ctx M Q Z B) {K : Type} [Field K] [Fin
     have hp' : ∀ m e, Θ' (φS m e) = (p₂ m : Mat2 K) * Θ' e := fun m e => by
       show (Θ₀ (φS m e))ᵀ = (p₂ m : Mat2 K) * (Θ₀ e)ᵀ
       rw [hp m e, h1 m]
-      simp only [Matrix.SpecialLinearGroup.coe_one, Matrix.one_mul, Matrix.mul_one,
-        Matrix.transpose_mul, Matrix.transpose_one, Matrix.transpose_transpose]
+      simp only [Matrix.SpecialLinearGroup.coe_one, Matrix.one_mul, Matrix.transpose_mul, Matrix.transpose_transpose]
     refine tensorModel_of_left hD hφπ Θ' hΘ' p₂ hp'
       (surjective_of_ker_eq hψs hk₂) (fun m => ?_)
     exact ⟨fun hm => (hψk m).mp (h2 m hm), fun hm => (hQ1 m hm).2⟩

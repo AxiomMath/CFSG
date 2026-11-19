@@ -536,8 +536,8 @@ private lemma fpf_branch {X : Type} [Group X] [Finite X] {V : Type} [AddCommGrou
 
 private lemma one_branch {X : Type} [Group X] [Finite X] {V : Type} [AddCommGroup V]
     [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V] [Nontrivial V]
-    (ρ : Representation (ZMod 2) X V) (β : Module.End (ZMod 2) V) (a b : X)
-    (hnontriv : ∃ x v, ρ x v ≠ v) (hβ1 : β = 1)
+    (ρ : Representation (ZMod 2) X V) (β : Module.End (ZMod 2) V) (_a _b : X)
+    (hnontriv : ∃ x v, ρ x v ≠ v) (_hβ1 : β = 1)
     (t s n cL : ℕ) (hst : s = t)
     (htriv_one : n = 1 → ∀ x : X, ρ x = 1)
     (hI : 4 * t = n + 3 * cL) (hpar : Even (n - t))

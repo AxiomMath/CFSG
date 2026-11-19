@@ -16,7 +16,7 @@ theorem three_dvd_four_pow_sub_one (k : ℕ) : 3 ∣ 4 ^ k - 1 := by
 
 theorem exists_ord3_of_card_four_pow (E : Type) [Field E] [Finite E] {k : ℕ}
     (hk : Nat.card E = 4 ^ k) : ∃ ω : E, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hdvd : 3 ∣ Nat.card Eˣ := by
     rw [Nat.card_units, hk]
     exact three_dvd_four_pow_sub_one k
@@ -160,7 +160,7 @@ theorem three_dvd_card_heldSU_quot {a : ℕ} (ha : 2 ≤ a) {E : Type} [Field E]
     {τ : E ≃+* E} (hτ : ∀ x, τ (τ x) = x) (hτdd : ∀ x : E, τ x = x ^ (2 ^ dd)) (hdd : Odd dd)
     (hcard : Nat.card E = (2 ^ dd) ^ 2) :
     3 ∣ Nat.card (heldSU a E τ hτ ⧸ Subgroup.center (heldSU a E τ hτ)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨ω, hω3, hω1⟩ := exists_ord3_of_card_four_pow E (k := dd)
     (by rw [hcard, ← pow_mul, mul_comm, pow_mul]; norm_num)
   have h2 : (2 : E) = 0 := two_eq_zero_of_card_eq_two_pow E (k := dd * 2)
@@ -191,8 +191,7 @@ theorem three_dvd_card_heldSU_quot {a : ℕ} (ha : 2 ≤ a) {E : Type} [Field E]
       ↥(heldSU (m + 2) E τ hτ) → GL (Fin (m + 2)) E) hcomm
     have hm := congrArg (fun A : GL (Fin (m + 2)) E => (A : Matrix (Fin (m + 2)) (Fin (m + 2)) E)) hval
     have hentry := congrFun (congrFun hm 0) 1
-    simp only [Subgroup.coe_mul, Units.val_mul, Matrix.mul_diagonal, Matrix.diagonal_mul,
-      permUnit_val] at hentry
+    simp only [Subgroup.coe_mul, Units.val_mul, permUnit_val] at hentry
     have hgdiag : ((g' : GL (Fin (m + 2)) E) : Matrix (Fin (m + 2)) (Fin (m + 2)) E) =
         diagonal (ord3Diag m ω) := rfl
     rw [hgdiag, Matrix.mul_diagonal, Matrix.diagonal_mul] at hentry
@@ -207,7 +206,6 @@ theorem three_dvd_card_heldSU_quot {a : ℕ} (ha : 2 ≤ a) {E : Type} [Field E]
       simp [ord3Diag] at hentry
       first
         | linear_combination hentry
-        | linear_combination (-1 : E) * hentry
     have hfac : ω * (ω - 1) = 0 := by linear_combination h01
     rcases mul_eq_zero.mp hfac with h | h
     · exact hω0 h
@@ -235,7 +233,7 @@ theorem diagUnit_ord3_pow {m : ℕ} {E : Type} [Field E] {ω : E} (hω3 : ω ^ 3
 
 theorem three_dvd_card_statedProj_statedSL {b : ℕ} (hb : 2 ≤ b) {E : Type} [Field E] [Finite E] {k : ℕ}
     (hk : Nat.card E = 4 ^ k) : 3 ∣ Nat.card (StatedProj (StatedSL b E)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨ω, hω3, hω1⟩ := exists_ord3_of_card_four_pow E hk
   obtain ⟨m, rfl⟩ : ∃ m, b = m + 2 := ⟨b - 2, by omega⟩
   have hgmem : diagUnit (ord3Diag m ω) (ord3Diag_ne_zero hω3) ∈ StatedSL (m + 2) E := by
@@ -260,9 +258,6 @@ theorem three_dvd_card_statedProj_statedSL {b : ℕ} (hb : 2 ≤ b) {E : Type} [
     have key : ω ^ 2 = ω := by
       first
         | linear_combination h00 - h11
-        | linear_combination h11 - h00
-        | linear_combination (-1 : E) * (h00 - h11)
-        | linear_combination h00 + h11
     have hfac : ω * (ω - 1) = 0 := by linear_combination key
     rcases mul_eq_zero.mp hfac with h | h
     · exact hω0 h

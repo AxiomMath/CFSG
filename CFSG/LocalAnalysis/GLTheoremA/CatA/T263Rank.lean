@@ -65,7 +65,7 @@ theorem lift_normalizing {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgroup 
     (hE : CFSG.Open.IsElemAbelian p Eb) (hEN : Eb ≤ Subgroup.normalizer (Pb : Set (A ⧸ N))) :
     ∃ T E : Subgroup A, T ≠ ⊥ ∧ IsPGroup 2 T ∧ CFSG.Open.IsElemAbelian p E ∧ Nat.card E = Nat.card Eb ∧
       E ≤ Subgroup.normalizer (T : Set A) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hSel, hSmap, hScard⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_elemAbelian_lift N hN hE
   have hEN' : S.map (QuotientGroup.mk' N) ≤ Subgroup.normalizer (Pb : Set (A ⧸ N)) := by
     rw [hSmap]
@@ -86,7 +86,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem twoLocalPrimeRank_quot_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : Subgroup G) (N : Subgroup ↥H)
     [N.Normal] (hN : ¬ p ∣ Nat.card N) :
     CFSG.Open.twoLocalPrimeRank p (↥H ⧸ N) ≤ CFSG.Open.twoLocalPrimeRank p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   unfold twoLocalPrimeRank
   apply csSup_le'
   rintro k ⟨K, ⟨Pb, hP, hP2, rfl⟩, rfl⟩

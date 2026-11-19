@@ -28,7 +28,7 @@ theorem hasKind_of_inducesStdKind_lThree {G : Type} [Group G]
       (KFacts.stdPinnedPSL 3 (GaloisField 2 j)).HasKind
         (KFacts.inducedAutHom L (φ.trans (Sec4.projSLEquivProjectiveSL 3 (GaloisField 2 j)))
           ⟨x, hx⟩) k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := Item82Proof.kF82LThreeModel_holds G L x j k he hj ⟨φ⟩ h
   exact (KFacts.inducesKindPSL_iff L le_rfl (φ.trans (Sec4.projSLEquivProjectiveSL 3 _)) x k).mp h1
 
@@ -43,7 +43,7 @@ theorem dichotomy_lThreeSixEven {G : Type} [Group G] [Finite G]
           (rho L ⟨x, hx⟩ ∉ N ∧ (KFacts.InducesStdKind L x .field ∨
             KFacts.InducesStdKind L x .graphField)) := by
   obtain ⟨k, hk, ⟨m, rfl⟩, he, ⟨φ⟩⟩ := hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm3 : 1 ≤ 3 * m := by omega
   set F := GaloisField 2 (3 * m) with hFdef
   have hFcard : Nat.card F = 2 ^ (3 * m) := GaloisField.card 2 (3 * m) (by omega)
@@ -92,7 +92,7 @@ theorem exists_fixed_order_four_of_hasKind_field {F : Type} [Field F] [Finite F]
 
 theorem kF418OuterOn_lThreeSixEven :
     KF418OuterOn (fun X _ => IsLThreeSixEven X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro G _ _ L hL hl a b ha3 hb3 hab hb1 habz haN hbN hbC haC K hK n hn htype hKa hbk
   obtain ⟨k, hk, ⟨m, rfl⟩, he, ⟨φ⟩⟩ := hl
   have c := Cfg.of_model hK ha3 hb3 hab haN hbN hbC haC hKa

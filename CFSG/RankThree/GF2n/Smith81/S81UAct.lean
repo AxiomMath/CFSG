@@ -21,10 +21,13 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 @[expose] def ActsOnQtAsU (ψ : M₀.E ≃ₗ[K] V) (m : G) (T : V ≃ₗ[K] V) : Prop :=
   ∀ x ∈ Q, T (ψ (M₀.π x)) = ψ (M₀.π (m * x * m⁻¹))
 
+omit [Finite G] [Finite K] in
 theorem ActsOnQtAsU.one (ψ : M₀.E ≃ₗ[K] V) : ActsOnQtAsU ψ (1 : G) 1 := by
   intro x hx
   simp
 
+omit [Finite K] in
+omit [Finite G] in
 theorem ActsOnQtAsU.mul (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] V} {m m' : G}
     {T T' : V ≃ₗ[K] V} (hm' : m' ∈ M) (h : ActsOnQtAsU ψ m T) (h' : ActsOnQtAsU ψ m' T') :
     ActsOnQtAsU ψ (m * m') (T * T') := by
@@ -37,6 +40,7 @@ theorem ActsOnQtAsU.mul (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] V} {m m' : 
     _ = ψ (M₀.π (m * m' * x * (m * m')⁻¹)) := by
       rw [show m * (m' * x * m'⁻¹) * m⁻¹ = m * m' * x * (m * m')⁻¹ by group]
 
+omit [Finite G] [Finite K] in
 theorem ActsOnQtAsU.unique (ψ : M₀.E ≃ₗ[K] V) {m : G} {T T' : V ≃ₗ[K] V}
     (h : ActsOnQtAsU ψ m T) (h' : ActsOnQtAsU ψ m T') : T = T' := by
   refine LinearEquiv.ext fun v => ?_
@@ -44,6 +48,8 @@ theorem ActsOnQtAsU.unique (ψ : M₀.E ≃ₗ[K] V) {m : G} {T T' : V ≃ₗ[K]
   have hv : ψ (M₀.π x) = v := by rw [hxv]; simp
   rw [← hv, h x hx, h' x hx]
 
+omit [Finite K] in
+omit [Finite G] in
 theorem ActsOnQtAsU.pow (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] V} {m : G}
     {T : V ≃ₗ[K] V} (hm : m ∈ M) (h : ActsOnQtAsU ψ m T) (j : ℕ) :
     ActsOnQtAsU ψ (m ^ j) (T ^ j) := by
@@ -53,6 +59,8 @@ theorem ActsOnQtAsU.pow (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] V} {m : G}
     rw [pow_succ, pow_succ]
     exact ih.mul H hm h
 
+omit [Finite K] in
+omit [Finite G] in
 theorem ActsOnQtAsU.pow_eq_one (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] V} {m : G}
     {T : V ≃ₗ[K] V} (hm : m ∈ M) (h : ActsOnQtAsU ψ m T) {n : ℕ} (hn : m ^ n = 1) :
     T ^ n = 1 := by
@@ -60,6 +68,7 @@ theorem ActsOnQtAsU.pow_eq_one (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] V} {
   rw [hn] at h1
   exact h1.unique ψ (ActsOnQtAsU.one ψ)
 
+omit [Finite G] [Finite K] in
 theorem exists_actsOnQtAsU (hg : GlobalModelData M Q Z γ M₀) (ψ : M₀.E ≃ₗ[K] V) {m : G}
     (hm : m ∈ H0 M Z) : ∃ T : V ≃ₗ[K] V, ActsOnQtAsU ψ m T := by
   obtain ⟨hmM, hmC⟩ := Subgroup.mem_inf.mp hm
@@ -71,6 +80,7 @@ theorem exists_actsOnQtAsU (hg : GlobalModelData M Q Z γ M₀) (ψ : M₀.E ≃
   refine ⟨ψ.symm.trans (T'.trans ψ), fun x hx => ?_⟩
   simp [LinearEquiv.trans_apply, hT' x hx]
 
+omit [Finite K] in
 theorem ActsOnQtAsU.mem_Q (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] V} {m : G} (hm : m ∈ M)
     (h : ActsOnQtAsU ψ m 1) : m ∈ Q := by
   refine H.centralizer_Qt m hm fun y hy => ?_
@@ -86,12 +96,14 @@ theorem ActsOnQtAsU.mem_Q (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] V} {m : G
 
 section Uniform
 
+omit [Finite G] in
 private theorem q_le_lgen (M Q B : Subgroup G) : Q ≤ Lgen M (LB M Q B) := by
   calc Q ≤ LB M Q B := le_sup_left
     _ = conjSubgroup 1 (LB M Q B) := (conjSubgroup_one _).symm
     _ ≤ Lgen M (LB M Q B) :=
         le_iSup₂ (f := fun m (_ : m ∈ M) => conjSubgroup m (LB M Q B)) 1 M.one_mem
 
+omit [Finite G] in
 private theorem lgen_le_M (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ M := by
   refine iSup₂_le fun m hm => ?_
   calc conjSubgroup m (LB M Q B) ≤ conjSubgroup m M := Subgroup.map_mono hc.LB_le_M
@@ -100,10 +112,12 @@ private theorem lgen_le_M (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ M := by
 variable {ψ : M₀.E ≃ₗ[K] V} {φ : Lgen M (LB M Q B) →* (V ≃ₗ[K] V)}
   {Γ : Subgroup (V ≃ₗ[K] V)} {p₀ : V} {U₀ : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite G] [Finite K] in
 theorem actsOnQtAsU_phi (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀)
     (s : Lgen M (LB M Q B)) : ActsOnQtAsU ψ (s : G) (φ s) :=
   fun x hx => (d.equivariant s x hx).symm
 
+omit [Finite K] in
 theorem ActsOnQtAsU.mem_Lgen (hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {m : G} {T : V ≃ₗ[K] V}
     (hm : m ∈ M) (h : ActsOnQtAsU ψ m T) (hT : T ∈ Γ) : m ∈ Lgen M (LB M Q B) := by
@@ -120,6 +134,7 @@ theorem ActsOnQtAsU.mem_Lgen (hc : Ctx M Q Z B)
   rw [e]
   exact mul_mem s.2 (q_le_lgen M Q B hq)
 
+omit [Finite K] in
 theorem ActsOnQtAsU.normalizesGamma (hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {m : G} {T : V ≃ₗ[K] V}
     (hm : m ∈ M) (h : ActsOnQtAsU ψ m T) : ∀ g ∈ Γ, ∃ g' ∈ Γ, T * g = g' * T := by

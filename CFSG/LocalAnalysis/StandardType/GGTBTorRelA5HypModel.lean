@@ -245,7 +245,7 @@ theorem exists_hypWeyl :
         by_cases hi : i = 2
         · subst hi
           rfl
-        · rw [if_neg hi]
+        · rw [ite_eq_right hi]
           simp [swapSet, hi, lineCoord]
       have hσr : ∀ i : Fin 3, weylPerm (ε := 0) (swapSet ({2} : Finset (Fin 3))) (.inr (.inr i)) =
           if i = 2 then .inl 2 else .inr (.inr i) := by
@@ -254,7 +254,7 @@ theorem exists_hypWeyl :
         by_cases hi : i = 2
         · subst hi
           rfl
-        · rw [if_neg hi]
+        · rw [ite_eq_right hi]
           simp [swapSet, hi, lineCoord]
       rcases x with i | kk | i
       · fin_cases i <;> simp [torusEntries, hσl, hzf, bar_eq_of_mem_muSplit h (z 2).2]
@@ -304,7 +304,7 @@ theorem mem_hypTorus_of_commute {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : 
     intro i j
     show (((if j = i then ζm else 1 : muSplit n K)) : Kˣ) = _
     by_cases hj : j = i
-    · rw [if_pos hj, if_pos hj]
+    · rw [ite_eq_left hj, ite_eq_left hj]
     · simp [hj]
   have hzt : ∀ (i : Fin 3), ∀ j : Fin 3, zt i j ^ p = 1 := by
     intro i j
@@ -354,29 +354,29 @@ theorem mem_hypTorus_of_commute {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : 
     · rcases b with j | ll | j
       · have hij : i ≠ j := fun hh => hab (by rw [hh])
         refine key i ?_
-        rw [hDval_inl i i, hDval_inl i j, if_pos rfl, if_neg (Ne.symm hij)]
+        rw [hDval_inl i i, hDval_inl i j, ite_eq_left rfl, ite_eq_right (Ne.symm hij)]
         exact hζ1
       · exact ll.elim0
       · refine key i ?_
-        rw [hDval_inl i i, hDval_inr i j, if_pos rfl]
+        rw [hDval_inl i i, hDval_inr i j, ite_eq_left rfl]
         by_cases hj : j = i
-        · rw [if_pos hj]
+        · rw [ite_eq_left hj]
           exact hζ_invK
-        · rw [if_neg hj]
+        · rw [ite_eq_right hj]
           exact hζ1
     · exact kk.elim0
     · rcases b with j | ll | j
       · refine key i ?_
-        rw [hDval_inr i i, hDval_inl i j, if_pos rfl]
+        rw [hDval_inr i i, hDval_inl i j, ite_eq_left rfl]
         by_cases hj : j = i
-        · rw [if_pos hj]
+        · rw [ite_eq_left hj]
           exact fun hh => hζ_invK hh.symm
-        · rw [if_neg hj]
+        · rw [ite_eq_right hj]
           exact hζinv1
       · exact ll.elim0
       · have hij : i ≠ j := fun hh => hab (by rw [hh])
         refine key i ?_
-        rw [hDval_inr i i, hDval_inr i j, if_pos rfl, if_neg (Ne.symm hij)]
+        rw [hDval_inr i i, hDval_inr i j, ite_eq_left rfl, ite_eq_right (Ne.symm hij)]
         exact hζinv1
   let gv : HypIndex 3 0 → K := fun a => G a a
   have hdiagmat : G = diagonal gv := by

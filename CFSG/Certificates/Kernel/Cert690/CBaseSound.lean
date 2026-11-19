@@ -46,7 +46,7 @@ include R
 theorem isA2Of_eq (minus : Bool) (i : ℕ) : isA2Of D minus i = isA2K G minus i := by
   unfold isA2Of isA2K
   simp only [R.size, R.get, act_eq_actF, mul_eq_mulF, one_eq_oneF, card_hashSet,
-    ← Array.all_toList, List.toList_toArray]
+    ← Array.all_toList]
 
 theorem a2FixOf_eq (minus : Bool) (b : ℕ) : a2FixOf D minus b = (a2FixK G minus b).toArray := by
   unfold a2FixOf a2FixK
@@ -80,8 +80,8 @@ theorem l2OK_eq (minus : Bool) (b : ℕ) (Llist : Array (Array ℕ)) (a2 : List 
 theorem l3OK_eq (b : ℕ) (Llist : Array (Array ℕ)) (tasks wit : Array (ℕ × ℕ)) :
     l3OK D b Llist tasks wit = l3OKK G b Llist tasks wit := by
   unfold l3OK l3OKK isInvCode
-  simp only [card_hashSet, ← Array.all_toList, ← Array.any_toList, ← Array.contains_toList]
-  simp only [R.size, R.get, R.idx, R.inv, act_eq_actF, mul_eq_mulF, one_eq_oneF,
+  simp only [card_hashSet, ← Array.all_toList, ← Array.contains_toList]
+  simp only [R.size, R.get, R.idx, act_eq_actF, mul_eq_mulF, one_eq_oneF,
     conjIdxOf_eq R, Array.toList_append, Array.toList_map, Array.size_append, Array.size_map,
     List.length_append, List.length_map, Array.length_toList]
 

@@ -289,7 +289,7 @@ theorem ncard_conj_Rstar_le :
     obtain ⟨r, hr, hUr⟩ := complete hid hc _ hS48
     have hrU := rowsOf_eq (enumGrp_sound Two.gensOK_stab48 r hr).1 hUr
     have hkap : D.kap (a : MulAut ↥D.E) = Two.mk7 (Two.lam6 (D.kap (a : MulAut ↥D.E))) (Two.res6 r) := by
-      have := D.kap_toMb hOut hTw hm13
+      have := D.kap_toMb hm13
       rw [show D.toMb ⟨m, D.G13_le_N hm13⟩ = a from hma] at this
       rw [← hrU]
       exact this

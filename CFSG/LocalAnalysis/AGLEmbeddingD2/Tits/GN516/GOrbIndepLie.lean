@@ -21,14 +21,17 @@ open CFSG.Open CFSG.LieType.Universal CFSG.LieType.CurtisTits CFSG.LieType.RootS
 variable {K S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* S} {M : ℕ}
 
+omit [Finite K] in
 theorem rootGroup_single_le_posUnipotent (k : Fin D.rank) :
     D.rootGroup (Pi.single k 1) ≤ posUnipotent D :=
   rootGroup_le_posUnipotent ((RootSystem.ofCartan D.isFiniteType D.divisible).single_mem k)
     (ht_single_pos k)
 
+omit [Finite K] [Finite S] in
 theorem isPGroup_posUnipotent (h : BorelQuotient D n H π M) : IsPGroup 2 ↥(posUnipotent D) :=
   isPGroup_iSup_pos h.extras h.pGroup
 
+omit [Finite K] [Finite S] in
 theorem map_unipJ_le_normalizer_map_unipRad (h : BorelQuotient D n H π M)
     (J : Set (Fin D.rank)) :
     (unipJ D J).map π ≤ Subgroup.normalizer (((unipRad D J).map π : Subgroup S) : Set S) := by
@@ -38,12 +41,14 @@ theorem map_unipJ_le_normalizer_map_unipRad (h : BorelQuotient D n H π M)
   exact (Subgroup.map_mono (h1.trans (parJ_le_normalizer_unipRad h.ct h.extras J))).trans
     (Subgroup.le_normalizer_map π)
 
+omit [Finite K] [Finite S] in
 theorem map_unipJ_eq_sup (h : BorelQuotient D n H π M) (J : Set (Fin D.rank)) :
     (unipJ D J).map π =
       (unipRad D J).map π ⊔ ⨆ j ∈ J, (rankOne D.rootGroup j).map π := by
-  rw [unipJ_eq_sup h.ct h.extras J, Subgroup.map_sup]
+  rw [unipJ_eq_sup h.ct J, Subgroup.map_sup]
   simp only [Subgroup.map_iSup]
 
+omit [Finite K] [Finite S] in
 theorem map_rankOne_le_centralizer (h : BorelQuotient D n H π M) {j k : Fin D.rank}
     (hjk : j ≠ k) (hc : D.cartan j k = 0) :
     (rankOne D.rootGroup j).map π ≤
@@ -51,8 +56,9 @@ theorem map_rankOne_le_centralizer (h : BorelQuotient D n H π M) {j k : Fin D.r
   rintro _ ⟨x, hx, rfl⟩
   rw [Subgroup.mem_centralizer_iff]
   rintro _ ⟨y, hy, rfl⟩
-  rw [← map_mul, ← map_mul, rankOne_commute h.ct h.extras hjk hc hx hy]
+  rw [← map_mul, ← map_mul, rankOne_commute h.extras hjk hc hx hy]
 
+omit [Finite K] [Finite S] in
 theorem map_rankOne_le_pElementSubgroup_two (h : BorelQuotient D n H π M) (j : Fin D.rank)
     {X : Subgroup S} (hX : (rankOne D.rootGroup j).map π ≤ X) :
     (rankOne D.rootGroup j).map π ≤ pElementSubgroup 2 X := by
@@ -69,6 +75,7 @@ theorem map_rankOne_le_pElementSubgroup_two (h : BorelQuotient D n H π M) (j : 
   · exact le_pElementSubgroup_two_of_isPGroup ((le_sup_right.trans e.ge).trans hX)
       ((h.pGroup _ hα').map π)
 
+omit [Finite K] in
 theorem perfRad_map_unipJ_singleton_le (h : BorelQuotient D n H π M) {J : Set (Fin D.rank)}
     (hJ : ∀ j ∈ J, ∀ k ∈ J, j ≠ k → D.cartan j k = 0) {j : Fin D.rank} (hj : j ∈ J) :
     perfRad ((unipJ D {j}).map π) ≤
@@ -79,7 +86,7 @@ theorem perfRad_map_unipJ_singleton_le (h : BorelQuotient D n H π M) {J : Set (
   refine perfRad_le_of_le_sup (p := 2) (N := Xj.map π) ?_ ?_ ?_
   · rw [unipJ_singleton h j, Subgroup.map_sup]
     refine sup_le (le_sup_of_le_left le_sup_right) ?_
-    have hle := posUnipotentExcept_le_of_independent h.ct h.extras hj hJ
+    have hle := posUnipotentExcept_le_of_independent h.extras hj hJ
     calc (posUnipotentExcept D j).map π ≤ (unipRad D J ⊔ Xj).map π := Subgroup.map_mono hle
       _ = (unipRad D J).map π ⊔ Xj.map π := Subgroup.map_sup _ _ _
       _ ≤ _ := sup_le_sup_right le_sup_left _
@@ -94,10 +101,11 @@ theorem perfRad_map_unipJ_singleton_le (h : BorelQuotient D n H π M) {J : Set (
         (map_rankOne_le_centralizer h hkj (hJ k hk.1 j hj hkj)))
   · exact ((isPGroup_posUnipotent h).to_le hXU).map π
 
+omit [Finite K] [Finite S] in
 theorem isSolvable_of_map (h : BorelQuotient D n H π M) {X : Subgroup K}
     (hs : Group.IsSolvable ↥(X.map π)) : Group.IsSolvable ↥X := by
   let g : ↥X →* ↥(X.map π) := π.subgroupMap X
-  haveI : Group.IsSolvable ↥g.ker := by
+  have : Group.IsSolvable ↥g.ker := by
     refine Group.isSolvable_of_comm fun a b => ?_
     have hcent : ∀ c : ↥g.ker, ∀ x : K, x * (c.1 : K) = (c.1 : K) * x := by
       intro c x
@@ -106,11 +114,12 @@ theorem isSolvable_of_map (h : BorelQuotient D n H π M) {X : Subgroup K}
     exact Subtype.ext (Subtype.ext (hcent a b.1.1).symm)
   exact Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
 
+omit [Finite S] in
 theorem isSolvable_map_unipJ_singleton (h : BorelQuotient D n H π M) {j : Fin D.rank}
     (hs : Group.IsSolvable ↥(rankOne D.rootGroup j)) :
     Group.IsSolvable ↥((unipJ D {j}).map π) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI h1 : Group.IsSolvable ↥(unipJ D {j}) := by
+  have h1 : Group.IsSolvable ↥(unipJ D {j}) := by
     rw [unipJ_singleton h j, sup_comm]
     have hU : Group.IsSolvable ↥(posUnipotentExcept D j) := by
       have := (isPGroup_posUnipotentExcept h j).isNilpotent

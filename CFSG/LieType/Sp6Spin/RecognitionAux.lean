@@ -55,8 +55,8 @@ private theorem exists_short_mem {R : S.SpinRoots} (Fr : SpinFrame R)
   refine mulVec_eq_of_frame Fr e _ _ fun σ => ?_
   rw [spinMat_mk, hev σ, hγ _ σ, R.short_apply r hr c (Fr.v σ), map_add, map_smul, hev σ]
   by_cases hs : IsSrc (stdVec r) σ
-  · rw [if_pos hs, hlam σ, if_pos hs, map_smul, hev (flipAt (stdVec r) σ), mul_smul]
-  · rw [if_neg hs, hlam σ, if_neg hs, map_zero, smul_zero, add_zero]
+  · rw [ite_eq_left hs, hlam σ, ite_eq_left hs, map_smul, hev (flipAt (stdVec r) σ), mul_smul]
+  · rw [ite_eq_right hs, hlam σ, ite_eq_right hs, map_zero, smul_zero, add_zero]
 
 private theorem exists_long_mem {R : S.SpinRoots} (Fr : SpinFrame R)
     (e : V ≃ₗ[K] (Fin (2 * 4) → K)) (hev : ∀ σ, e (Fr.v σ) = pv K σ) (c : K) :
@@ -66,9 +66,9 @@ private theorem exists_long_mem {R : S.SpinRoots} (Fr : SpinFrame R)
   refine mulVec_eq_of_frame Fr e _ _ fun σ => ?_
   rw [spinMat_mk, hev σ, theta_Y_mulVec, R.long_apply c (Fr.v σ), map_add, map_smul, hev σ]
   by_cases hs : σ 2 = false
-  · rw [if_pos hs, Fr.long_eq σ hs, hev (Function.update σ 2 true)]
+  · rw [ite_eq_left hs, Fr.long_eq σ hs, hev (Function.update σ 2 true)]
   · have h2 : σ 2 = true := by revert hs; cases σ 2 <;> simp
-    rw [if_neg hs, R.long_not_src σ h2 (Fr.v σ) (Fr.mem σ), map_zero, smul_zero, add_zero]
+    rw [ite_eq_right hs, R.long_not_src σ h2 (Fr.v σ) (Fr.mem σ), map_zero, smul_zero, add_zero]
 
 private noncomputable def spinImage (e : V ≃ₗ[K] (Fin (2 * 4) → K)) :
     Subgroup (StatedSp 3 K) where

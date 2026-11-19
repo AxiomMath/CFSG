@@ -157,8 +157,8 @@ private theorem pullback_stab_T1J7 {W : Type} [CommGroup W] [Finite W] {F : Type
 theorem k_K_SU4Nat_totallySingular_holds : K_SU4Nat_totallySingular := by
   intro W _ _ H p n hn2 _hSUn _hNat hp hcong F _ _ hF ε ψ hψ E hrk hsing
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
   let σ : F ≃+* F := CFSG.LieType.BorelTits.unitaryInvolution F 2 n
   have hσ : IsUnitaryInvolution σ :=
     isUnitaryInvolution_unitaryInvolution (p := 2) (f := n) hF

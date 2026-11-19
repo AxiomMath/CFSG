@@ -48,7 +48,7 @@ private lemma not_three_dvd_fixed_of_S0 {x : Equiv.Perm (Fin 45)} (hxS : x ∈ S
     have h := List.all_eq_true.1 invFixB_check t ht
     have hne' : (t == tid) = false := beq_eq_false_iff_ne.2 hne
     have htab' : (tmul t t == tid) = true := by rw [htab]; rfl
-    simp only [invFixB, hne', htab', Bool.not_true, Bool.false_or, bne_iff_ne] at h
+    simp only [hne', htab', Bool.not_true, Bool.false_or, bne_iff_ne] at h
     exact h
   rw [← fixCount_eq hr]
   intro h
@@ -65,7 +65,7 @@ private lemma card_fixed_conj (x g : Equiv.Perm (Fin 45)) :
 
 private lemma exists_conj_mem_S0 {x : Equiv.Perm (Fin 45)} (hxP : x ∈ P) (hx2 : x ^ 2 = 1)
     (hx1 : x ≠ 1) : ∃ g ∈ P, g⁻¹ * x * g ∈ S0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let xP : ↥P := ⟨x, hxP⟩
   have hxP2 : xP ^ 2 = 1 := Subtype.ext hx2
   have hxP1 : xP ≠ 1 := fun h => hx1 (congrArg Subtype.val h)
@@ -134,13 +134,13 @@ theorem u42InvFact_holds : U42InvFact := by
       _ = (f * φ z) j.1 := by rw [hc]
       _ = f (φ z j.1) := rfl
       _ = f j.1 := by rw [j.2]
-  letI : MulAction ↥F1 Fix :=
+  let : MulAction ↥F1 Fix :=
     { smul := fun f j => ⟨f.1 j.1, hFix f.1 f.2 j⟩
       one_smul := fun j => Subtype.ext rfl
       mul_smul := fun f g j => Subtype.ext (Equiv.Perm.mul_apply f.1 g.1 j.1) }
   have hF13 : IsPGroup 3 ↥F1 :=
     IsPGroup.of_card (n := 2) (by rw [hF1card]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, hj⟩ := IsPGroup.nonempty_fixed_point_of_prime_not_dvd_card hF13 Fix hFixn
   rw [MulAction.mem_fixedPoints] at hj
   have hfixj : ∀ f ∈ F1, f j.1 = j.1 := by

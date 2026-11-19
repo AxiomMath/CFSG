@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G]
     ↥(ggAutomizer ⊤ B.span) →* Matrix (Fin 8) (Fin 8) (ZMod 3) :=
   B.matHom.comp (ggAutomizer ⊤ B.span).subtype
 
+omit [Finite G] in
 theorem autMat_injective (B : Basis3 G 8) : Function.Injective B.autMat :=
   fun _ _ h => Subtype.ext (B.matOf_injective h)
 

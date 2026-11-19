@@ -35,7 +35,7 @@ theorem inner_natural_semilinear
       (∀ g u, E (ρ g u) = ((ψ g : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) *ᵥ E u) ∧
       ∀ a ∈ A, ∃ μ : F ≃+* F, ∀ (c : F) (y : Y),
         E (a (E.symm (c • E y))) = μ c • E (a y) := by
-  haveI : CFSG.IsElementaryAbelian 2 ↥A := CFSG.IsElementaryAbelian.two_of_forall_mul_self hc h2
+  have : CFSG.IsElementaryAbelian 2 ↥A := CFSG.IsElementaryAbelian.two_of_forall_mul_self hc h2
   obtain ⟨ψ, hψ, E, hE⟩ := CFSG.Quasithin.H13.L32A.C.SL3N.natural_of_offender' ρ hker A hA hn hF
     hirr hA1 hquad hoff
   have hsurj : ∀ x, ∃ g, ψ g = x := by
@@ -73,7 +73,7 @@ theorem inner_eq_rep_of_offender
     rw [(Nat.card_congr E.toEquiv).trans InnerCount.card_fin3_fun] at hoff
     exact absurd hoff (not_le.mpr hlt)
   intro a ha
-  obtain ⟨g, hg⟩ := exists_matrix_of_linear hn hF E A h2 hc hsemi a ha (hlin a ha)
+  obtain ⟨g, hg⟩ := exists_matrix_of_linear E A h2 a ha (hlin a ha)
   obtain ⟨x, hx⟩ := hsurj g
   refine ⟨x, fun y => E.injective ?_⟩
   rw [hg y, hE x y, hx]
@@ -87,8 +87,8 @@ theorem inner_false_of_two (h4 : 4 ≤ Nat.card Y)
     nlinarith
   obtain ⟨ψ, -, E, -, hsemi⟩ :=
     inner_natural_semilinear hn hF ρ hirr hker A hA h2 hc hquad hA1 hoff1
-  have hAcard := card_le_two_mul_sq hn hF E A h2 hc hsemi
-  have hfix := card_fix_le_sq hn hF E A h2 hc hsemi hA1
+  have hAcard := card_le_two_mul_sq E A h2 hc hsemi
+  have hfix := card_fix_le_sq E A h2 hsemi hA1
   have hYcard : Nat.card Y = Fintype.card F ^ 3 :=
     (Nat.card_congr E.toEquiv).trans InnerCount.card_fin3_fun
   have hAF := Nat.mul_le_mul hAcard hfix
@@ -116,8 +116,8 @@ theorem inner_four_lt_card {K : Type*} [Group K] {Z : Type*} [AddCommGroup Z]
     4 < Nat.card ↥Y := by
   by_contra hle
   push Not at hle
-  haveI : Group.IsSolvable (Equiv.Perm ↥Y) := Equiv.Perm.isSolvable hle
-  haveI : Group.IsPerfect ↥L := ⟨hperf⟩
+  have : Group.IsSolvable (Equiv.Perm ↥Y) := Equiv.Perm.isSolvable hle
+  have : Group.IsPerfect ↥L := ⟨hperf⟩
   let φ : ↥L →* Equiv.Perm ↥Y :=
     (MulAction.toPermHom (↥Y ≃ₗ[ZMod 2] ↥Y) ↥Y).comp
       (repGL (⟨Y, fun g _ hv => hY g g.2 _ hv⟩ :
@@ -146,9 +146,9 @@ theorem core_inner {K : Type} [Group K] [Finite K] {L B : Subgroup K} (h : Inner
     {κ : Representation (ZMod 2) K Z} (hd : ChiefData L B κ) :
     ∀ b ∈ B, ∃ l ∈ L, ConjAgree L b l := by
   classical
-  haveI := hd.nontrivial
+  have := hd.nontrivial
   have hNatF : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hNatF
   have hperf : commutator ↥L = ⊤ := h.quasi.1

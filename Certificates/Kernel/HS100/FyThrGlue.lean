@@ -144,7 +144,7 @@ theorem fyCent : fyThrCentOK = true := by
     rw [fyX]
     exact CFSG.KC.BfsPin.validA_unpack (allN_spec Fy.perm 0 (by norm_num))
   have h0 : (fyThrX[0]! == 0) = true := by
-    rw [fyX, CFSG.KC.BfsPin.unpack_getElem!, if_pos (by norm_num), beq_iff_eq]
+    rw [fyX, CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left (by norm_num), beq_iff_eq]
     exact Nat.eq_of_beq_eq_true Fy.fix0
   have hf : (fixLevCount 100 fyThrLevels fyThrX 0 == 10) = true := by
     rw [fyLev, fyX, fixLevCount_eq binds HC.perm HC.hl (i := 0) (by norm_num) (FT.F 0), beq_iff_eq]

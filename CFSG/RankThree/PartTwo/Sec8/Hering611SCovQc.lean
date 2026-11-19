@@ -10,6 +10,7 @@ namespace CFSG.RankThree.PartTwo.Sec8.Hering611
 
 variable {P : Type*} [Group P] [Finite P] {σ : MulAut P} {Zh : Subgroup P}
 
+omit [Finite P] in
 private theorem qc_comm_left {z x y : P} (hz : ∀ g : P, z * g = g * z) :
     (z * x) * y * (z * x)⁻¹ * y⁻¹ = x * y * x⁻¹ * y⁻¹ := by
   have hzi : z⁻¹ * y⁻¹ = y⁻¹ * z⁻¹ := Commute.inv_inv (show Commute z y from hz y)
@@ -20,6 +21,7 @@ private theorem qc_comm_left {z x y : P} (hz : ∀ g : P, z * g = g * z) :
     _ = (x * y * x⁻¹ * y⁻¹) * z * z⁻¹ := by rw [hc]
     _ = x * y * x⁻¹ * y⁻¹ := by group
 
+omit [Finite P] in
 private theorem qc_comm_right {z x y : P} (hz : ∀ g : P, z * g = g * z) :
     x * (z * y) * x⁻¹ * (z * y)⁻¹ = x * y * x⁻¹ * y⁻¹ := by
   have hxz : x * z = z * x := (hz x).symm
@@ -30,6 +32,7 @@ private theorem qc_comm_right {z x y : P} (hz : ∀ g : P, z * g = g * z) :
     _ = (x * y * x⁻¹ * y⁻¹) * z * z⁻¹ := by rw [hc]
     _ = x * y * x⁻¹ * y⁻¹ := by group
 
+omit [Finite P] in
 private theorem qc_comm_both {z z' x y : P} (hz : ∀ g : P, z * g = g * z)
     (hz' : ∀ g : P, z' * g = g * z') :
     (z * x) * (z' * y) * (z * x)⁻¹ * (z' * y)⁻¹ = x * y * x⁻¹ * y⁻¹ :=
@@ -38,7 +41,7 @@ private theorem qc_comm_both {z z' x y : P} (hz : ∀ g : P, z * g = g * z)
 private theorem qc_exists_gen (h : CoverP P σ Zh) :
     ∃ u v : P, ∀ p : P, ∃ a ∈ Subgroup.closure ({u, v} : Set P), ∃ w ∈ covW Zh h.central,
       p = a * w := by
-  haveI hWn : (covW Zh h.central).Normal := ⟨fun n hn g => conj_mem_covW h hn g⟩
+  have hWn : (covW Zh h.central).Normal := ⟨fun n hn g => conj_mem_covW h hn g⟩
   have hQ : Nat.card (P ⧸ covW Zh h.central) = 9 := by
     have h1 := Subgroup.card_mul_index (covW Zh h.central)
     rw [covW_card h, h.card_P] at h1
@@ -49,8 +52,8 @@ private theorem qc_exists_gen (h : CoverP P σ Zh) :
     obtain ⟨p, rfl⟩ := QuotientGroup.mk_surjective q
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact pow_three_mem_covW h p
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nontrivial (P ⧸ covW Zh h.central) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nontrivial (P ⧸ covW Zh h.central) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hQ]; norm_num)
   obtain ⟨ub, hub⟩ := exists_ne (1 : P ⧸ covW Zh h.central)
   obtain ⟨u, rfl⟩ := QuotientGroup.mk_surjective ub
@@ -176,7 +179,7 @@ theorem commutator_facts (h : CoverP P σ Zh) :
     rw [commutator_def]
     exact Subgroup.commutator_le.mpr (fun x _ y _ => commutator_mem_covW h x y)
   have hsupW : Zh ⊔ commutator P ≤ covW Zh h.central := sup_le (Zh_le_covW h) hPW
-  haveI : Zh.Normal := Subgroup.normal_of_le_center h.central
+  have : Zh.Normal := Subgroup.normal_of_le_center h.central
   have hnorm : commutator P ≤ Subgroup.normalizer (Zh : Set P) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top

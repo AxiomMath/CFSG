@@ -36,7 +36,7 @@ open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.
 
 namespace SporAutHS
 
-@[expose] def CntPr (g : Equiv.Perm (Fin 3850)) : Prop :=
+def CntPr (g : Equiv.Perm (Fin 3850)) : Prop :=
   g * hsLtr 0 = wordElt yWord * g ∧ orderOf g = 15 ∧ orderOf (wordElt l1Word * g) = 5 ∧
     orderOf (wordElt l2Word * g) = 12
 
@@ -45,10 +45,10 @@ theorem s0Strong_zero : s0Strong[0]! = hsStrongArrs[0]! := by
   simp only [List.getElem_toArray, List.getElem_cons_zero]
 
 theorem ltr_zero : hsLtr 0 = hsGen 0 := by
-  rw [hsLtr, if_pos (by norm_num : (0 : ℕ) < 4), hsGen, hsStrongPerm, s0Strong_zero]
+  rw [hsLtr, ite_eq_left (by norm_num : (0 : ℕ) < 4), hsGen, hsStrongPerm, s0Strong_zero]
 
 theorem ltr_lt {k : ℕ} (hk : k < 4) : hsLtr k = permOfArr 3850 s0Strong[k]! := by
-  rw [hsLtr, if_pos hk]
+  rw [hsLtr, ite_eq_left hk]
 
 theorem ltr_memS0 {k : ℕ} (hk : k < 4) : hsLtr k ∈ s0Chain.originalSubgroup := by
   rw [s0Chain, CFSG.Sporadic.Schreier.Co3.ofArrays_originalSubgroup]
@@ -71,9 +71,9 @@ theorem wordElt_memS0 : ∀ {w : List ℕ}, (∀ k ∈ w, k < 4) →
     exact Subgroup.mul_mem _ (ltr_memS0 (h k List.mem_cons_self))
       (wordElt_memS0 fun j hj => h j (List.mem_cons_of_mem k hj))
 
-@[expose] def A0 : hsChain.originalSubgroup := ⟨hsGen 0, hsGen_mem 0 (by norm_num)⟩
+def A0 : hsChain.originalSubgroup := ⟨hsGen 0, hsGen_mem 0 (by norm_num)⟩
 
-@[expose] def A1 : hsChain.originalSubgroup := ⟨hsGen 1, hsGen_mem 1 (by norm_num)⟩
+def A1 : hsChain.originalSubgroup := ⟨hsGen 1, hsGen_mem 1 (by norm_num)⟩
 
 theorem order_A1 : orderOf (A1 : Equiv.Perm (Fin 3850)) = 5 := hs_word_orders.2.1
 

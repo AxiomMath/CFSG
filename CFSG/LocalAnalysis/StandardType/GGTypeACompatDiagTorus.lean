@@ -17,14 +17,14 @@ private theorem exists_compl_zpowers_of_elemAbelian {G : Type} [Group G] {p : �
     ∃ E : Subgroup G, E ≤ Bs ∧ IsElemAbelian p E ∧
       Subgroup.zpowers z ⊓ E = ⊥ ∧ Subgroup.zpowers z ⊔ E = Bs ∧
       (∀ b ∈ Bs, ∃ y ∈ Subgroup.zpowers z, ∃ e ∈ E, y * e = b) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsElementaryAbelian p ↥Bs :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsElementaryAbelian p ↥Bs :=
     { toIsMulCommutative := hBs.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr
         (fun x => Subtype.ext (hBs.2 x x.2)) }
   obtain ⟨C, hC⟩ :=
     IsElementaryAbelian.exists_isCompl p ↥Bs (Subgroup.zpowers (⟨z, hz⟩ : ↥Bs))
-  haveI : IsElementaryAbelian p C :=
+  have : IsElementaryAbelian p C :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr (fun x => by
         apply Subtype.ext
@@ -32,7 +32,7 @@ private theorem exists_compl_zpowers_of_elemAbelian {G : Type} [Group G] {p : �
           (IsElementaryAbelian.exponent_dvd_p p ↥Bs) (x : ↥Bs)
         simpa using this) }
   let E : Subgroup G := C.map Bs.subtype
-  haveI hEinst : IsElementaryAbelian p E :=
+  have hEinst : IsElementaryAbelian p E :=
     IsElementaryAbelian.map_subtype (p := p) (K := Bs) (H := C)
   have hmap : (Subgroup.zpowers (⟨z, hz⟩ : ↥Bs)).map Bs.subtype = Subgroup.zpowers z :=
     MonoidHom.map_zpowers Bs.subtype ⟨z, hz⟩
@@ -53,7 +53,7 @@ private theorem exists_compl_zpowers_of_elemAbelian {G : Type} [Group G] {p : �
   · have hsup := congrArg (Subgroup.map Bs.subtype) hC.sup_eq_top
     rw [Subgroup.map_sup, hmap, Subgroup.map_top, Subgroup.range_subtype] at hsup
     exact hsup
-  · haveI : IsMulCommutative ↥Bs := hBs.1
+  · have : IsMulCommutative ↥Bs := hBs.1
     let _ : CommGroup ↥Bs :=
       { (inferInstance : Group ↥Bs) with mul_comm := fun a b => mul_comm' a b }
     intro b hb
@@ -79,7 +79,7 @@ theorem exists_lift_actsDiag_of_bstar {p n f : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     ∃ φ' : SpecialLinearGroup (Fin (n + 1)) (GaloisField 2 f) →* G, φ'.range = M ∧
       φ'.ker ≤ Subgroup.center (SpecialLinearGroup (Fin (n + 1)) (GaloisField 2 f)) ∧
       ∀ b ∈ Bs, GGActsDiag φ' b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hpF : p ∣ Nat.card (GaloisField 2 f) - 1 := by rw [hF]; exact hpf
   have hz_mem : z ∈ Bs ⊓ Subgroup.centralizer (M : Set G) := by

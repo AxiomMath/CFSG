@@ -428,7 +428,7 @@ theorem beq_false_of {b : Bool} (h : Bool.rec (motive := fun _ => Bool) true fal
 
 theorem chain_ok (ℓ : Nat) (hl : ℓ < 16) (hLK : Nat.beq (lget E3.LK ℓ) 0 = false)
     (hi : lget E3.LI ℓ < 4608)
-    (hHI : invCand 276 (unpack 276 9 (HR.E (lget E3.LI ℓ))) =
+    (_hHI : invCand 276 (unpack 276 9 (HR.E (lget E3.LI ℓ))) =
       unpack 276 9 (pinvS 276 9 (mask 9) (HR.E (lget E3.LI ℓ))))
     (k : Nat) (hk : k < 4608) (hck : commutesA 276 hList[k]! yArr = true) :
     CFSG.EvenSmallLie.SympSix.Co3Ident.anyLt 4608 (fun j₀ => commutesA 276 hList[j₀]! yArr &&
@@ -454,7 +454,7 @@ theorem chain_ok (ℓ : Nat) (hl : ℓ < 16) (hLK : Nat.beq (lget E3.LK ℓ) 0 =
   generalize E3.LW (Nat.add (Nat.mul 6 y) 3) = w2 at hC
   generalize E3.LW (Nat.add (Nat.mul 6 y) 4) = w2' at hC
   generalize E3.LW (Nat.add (Nat.mul 6 y) 5) = w3 at hC
-  generalize HR.E (lget E3.LI ℓ) = H at hC cH cHI hHI ⊢
+  generalize HR.E (lget E3.LI ℓ) = H at hC cH cHI _hHI ⊢
   obtain ⟨hj0, hC⟩ := (bAnd_iff _ _).1 hC
   obtain ⟨hw1, hC⟩ := (bAnd_iff _ _).1 hC
   obtain ⟨hw1', hC⟩ := (bAnd_iff _ _).1 hC

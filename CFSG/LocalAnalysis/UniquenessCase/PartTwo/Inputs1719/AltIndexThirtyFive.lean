@@ -362,7 +362,7 @@ private theorem exists_conj_map_eq_stabSub (Y' : Subgroup K5Alt) (hY' : Y'.index
     intro x hx
     obtain ⟨q, -, rfl⟩ := Subgroup.mem_map.mp hx
     exact q.2
-  have hP2 : IsPGroup 2 P := Q.isPGroup'.map Y'.subtype
+  have hP2 : IsPGroup 2 P := Q.isPGroup.map Y'.subtype
   have hPcard : Nat.card P = Nat.card (Q : Subgroup ↥Y') :=
     Subgroup.card_map_of_injective Y'.subtype_injective
   have hPindex : ¬ 2 ∣ P.index := by

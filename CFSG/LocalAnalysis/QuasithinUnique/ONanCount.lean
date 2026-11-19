@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.QuasithinUnique.ONanBasic
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.ReduceModChar

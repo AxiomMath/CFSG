@@ -21,7 +21,7 @@ theorem noPsp45Factor_sl2 (hO : LieOrderFormulasInput) {F : Type} [Field F] [Fin
     (hF : Nat.card F = 2 ^ n) :
     NoPsp45Factor (Matrix.SpecialLinearGroup (Fin 2) F) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) =
       lieOrderNumerator .PSL 2 (2 ^ n) := by
     rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_SL_eq (by norm_num), hF]
@@ -39,7 +39,7 @@ theorem noPsp45Factor_sl2 (hO : LieOrderFormulasInput) {F : Type} [Field F] [Fin
       rw [hF]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+    have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
       CFSG.RankThree.PartOne.KCRootAxis.sl2_isSimpleGroup h4
     refine NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
     have hadm : StatedLieAdmissible .PSL 2 2 n :=
@@ -60,7 +60,7 @@ theorem noPsp45Factor_sl2 (hO : LieOrderFormulasInput) {F : Type} [Field F] [Fin
 theorem noPsp45Factor_statedSp (hO : LieOrderFormulasInput) (k : ℕ) {F : Type} [Field F]
     [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) : NoPsp45Factor ↥(StatedSp k F) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   rcases (by omega : k = 0 ∨ k = 1 ∨ 2 ≤ k) with rfl | rfl | hk
   · refine NoPsp45Factor.of_commute hO fun a b => ?_
     exact Subtype.ext (Units.ext (Matrix.ext fun i => isEmptyElim i))
@@ -83,9 +83,9 @@ theorem noPsp45Factor_statedSp (hO : LieOrderFormulasInput) (k : ℕ) {F : Type}
         exact Nat.pow_right_injective le_rfl this
       have hmodel : StatedClassicalModel (StatedProj (StatedSp k F)) .PSp k 2 n :=
         ⟨hadm, F, inferInstance, inferInstance, hF, ⟨MulEquiv.refl _⟩⟩
-      haveI : IsSimpleGroup (StatedProj (StatedSp k F)) :=
+      have : IsSimpleGroup (StatedProj (StatedSp k F)) :=
         CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp _ k 2 n hmodel
-      haveI : IsSimpleGroup ↥(StatedSp k F) :=
+      have : IsSimpleGroup ↥(StatedSp k F) :=
         (CFSG.SeitzReduction.OmegaPilot.spProjEquivCharTwo F k).symm.isSimpleGroup
       refine NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
       have hM : Nat.card T * lieOrderDivisor .PSp k (2 ^ n) = lieOrderNumerator .PSp k (2 ^ n) := by
@@ -105,7 +105,7 @@ theorem noPsp45Factor_of_isPSUGp (hO : LieOrderFormulasInput)
     NoPsp45Factor Y := by
   have hadm : StatedLieAdmissible .PSU m 2 n := h.admissible
   have hcl : StatedClassicalModel Y .PSU m 2 n := h.statedClassicalModel (by decide)
-  haveI : IsSimpleGroup Y := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity Y m 2 n hcl).2
+  have : IsSimpleGroup Y := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity Y m 2 n hcl).2
   refine NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
   have hT' : CFSG.Blueprint.LieModel T .PSU m 2 n := h.of_mulEquiv e
   obtain ⟨-, hM, -⟩ := hO T .PSU m 2 n hadm hT'
@@ -130,10 +130,10 @@ theorem noPsp45Factor_perm (hO : LieOrderFormulasInput) (n : ℕ) :
       exact (Nat.factorial_dvd_factorial hn : Nat.factorial n ∣ Nat.factorial 6)
     exact (hT.card_facts hO).2.1 (hd.trans h720)
   · have h7 : 7 ≤ n := by omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     refine NoPsp45Factor.of_index_two hO (alternatingGroup (Fin n))
       alternatingGroup.index_eq_two ?_
-    haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
     refine NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
     obtain ⟨t, m, p, f, hp, hp2, hadm, hY⟩ := hT.oddLieType

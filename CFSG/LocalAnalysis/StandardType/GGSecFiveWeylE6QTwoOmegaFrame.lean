@@ -31,6 +31,7 @@ theorem stdRefl_involutive {r : Fin 5 → ZMod 3} (hr : r ⬝ᵥ r = 2) (x : Fin
 
 variable {B : LinearMap.BilinForm (ZMod 3) V} {f : Fin 5 → V}
 
+omit [Finite V] in
 theorem frame_linearIndependent
     (hf : ∀ i j, B (f i) (f j) = if i = j then 1 else 0) : LinearIndependent (ZMod 3) f := by
   rw [Fintype.linearIndependent_iff]
@@ -39,9 +40,9 @@ theorem frame_linearIndependent
   simp only [map_zero, map_sum, map_smul, smul_eq_mul] at h
   have h2 : ∑ i, c i * B (f j) (f i) = c j := by
     rw [Finset.sum_eq_single j]
-    · rw [hf j j, if_pos rfl, mul_one]
+    · rw [hf j j, ite_eq_left rfl, mul_one]
     · intro b _ hbj
-      rw [hf j b, if_neg (Ne.symm hbj), mul_zero]
+      rw [hf j b, ite_eq_right (Ne.symm hbj), mul_zero]
     · intro hj
       exact absurd (Finset.mem_univ j) hj
   rwa [h2] at h
@@ -115,8 +116,8 @@ theorem frameCoord_frame (hV : Nat.card V = 3 ^ 5) {f : Fin 5 → V}
   funext j
   rw [frameCoord_apply, hf, Pi.single_apply]
   by_cases hij : i = j
-  · rw [if_pos hij, if_pos hij.symm]
-  · rw [if_neg hij, if_neg (Ne.symm hij)]
+  · rw [ite_eq_left hij, ite_eq_left hij.symm]
+  · rw [ite_eq_right hij, ite_eq_right (Ne.symm hij)]
 
 theorem frameCoord_rootRefl (hV : Nat.card V = 3 ^ 5) {f : Fin 5 → V}
     (hf : ∀ i j, B (f i) (f j) = if i = j then 1 else 0) {v : V} (hv : B v v = 2) (u : V) :

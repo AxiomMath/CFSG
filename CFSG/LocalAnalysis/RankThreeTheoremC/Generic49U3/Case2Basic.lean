@@ -63,14 +63,14 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y
 theorem fact (h : Case2Data p P T D F x) : Fact p.Prime := ⟨h.prime⟩
 
 theorem zOf_card (h : Case2Data p P T D F x) : Nat.card (zOf T) = p := by
-  haveI := h.fact
+  have := h.fact
   exact card_inf_centralizer_of_nonabelian_card_p_cube h.pdata.T_card h.pdata.T_nonab
 
-theorem zOf_le (h : Case2Data p P T D F x) : zOf T ≤ T := inf_le_left
+theorem zOf_le (_h : Case2Data p P T D F x) : zOf T ≤ T := inf_le_left
 
 theorem commutator_mem (h : Case2Data p P T D F x) :
     ∀ a ∈ T, ∀ b ∈ T, a * b * a⁻¹ * b⁻¹ ∈ zOf T := by
-  haveI := h.fact
+  have := h.fact
   have hZ : Nat.card (center T) = p :=
     card_center_of_nonabelian_card_p_cube h.pdata.T_card h.pdata.T_nonab
   have hQ : Nat.card (T ⧸ center T) = p ^ 2 := by
@@ -127,7 +127,7 @@ theorem exists_mul (h : Case2Data p P T D F x) : ∀ a ∈ P, ∃ t ∈ T, ∃ d
 private theorem isPGroup_P (h : Case2Data p P T D F x) : IsPGroup p P := by
   obtain ⟨S, hS⟩ := h.sylow
   subst hS
-  exact S.isPGroup'
+  exact S.isPGroup
 
 theorem exists_pow_eq_one (h : Case2Data p P T D F x) : ∀ a ∈ P, ∃ k : ℕ, a ^ (p ^ k) = 1 := by
   intro a ha
@@ -146,9 +146,9 @@ theorem x_ne_one (h : Case2Data p P T D F x) : x ≠ 1 := by
 private theorem mem_zpowers_aux (h : Case2Data p P T D F x) :
     ∀ d ∈ D, d ^ p = 1 → d ∈ zpowers x := by
   classical
-  haveI := h.fact
-  haveI : IsCyclic D := h.pdata.D_cyc
-  haveI : Fintype D := Fintype.ofFinite D
+  have := h.fact
+  have : IsCyclic D := h.pdata.D_cyc
+  have : Fintype D := Fintype.ofFinite D
   intro d hd hdp
   obtain ⟨x', hx'⟩ : ∃ x' : D, (x' : Y) = x := ⟨⟨x, h.pdata.x_mem⟩, rfl⟩
   have hx'ord : orderOf x' = p := by
@@ -191,12 +191,12 @@ private theorem mem_zpowers_aux (h : Case2Data p P T D F x) :
 
 theorem x_mem_of_ne_bot (h : Case2Data p P T D F x) :
     ∀ C : Subgroup Y, C ≤ D → C ≠ ⊥ → x ∈ C := by
-  haveI := h.fact
+  have := h.fact
   intro C hCD hC
   have hCP : C ≤ P := hCD.trans h.pdata.D_le
   have hCp : IsPGroup p C :=
     (isPGroup_P h).of_injective (Subgroup.inclusion hCP) (Subgroup.inclusion_injective hCP)
-  haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hC
+  have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hC
   obtain ⟨n, hn, hcard⟩ := hCp.nontrivial_iff_card.mp inferInstance
   have hdvd : p ∣ Nat.card C := by
     rw [hcard]

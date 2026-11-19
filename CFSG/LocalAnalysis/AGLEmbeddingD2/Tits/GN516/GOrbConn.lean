@@ -14,6 +14,7 @@ open CFSG.LieType.Universal CFSG.LieType.CurtisTits CFSG.LieType.RootSystem
 variable {K S : Type*} [Group K] [Finite K] [Group S] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* S} {M : ℕ}
 
+omit [Finite K] in
 theorem diagram_connected (h : BorelQuotient D n H π M) [IsSimpleGroup S]
     (hnc : ∃ a b : S, a * b ≠ b * a) : (TauCeti.diagramGraph D.cartan).Connected := by
   have hZ : Subgroup.center S = ⊥ := by
@@ -53,6 +54,7 @@ theorem diagram_connected (h : BorelQuotient D n H π M) [IsSimpleGroup S]
     D.isFiniteType.diagramGraph_adj_iff.2 ⟨fun e => hb (e ▸ ha), hab⟩
   exact hb (ha'.trans hadj.reachable)
 
+omit [Finite K] in
 theorem diagram_isTree (h : BorelQuotient D n H π M) [IsSimpleGroup S]
     (hnc : ∃ a b : S, a * b ≠ b * a) : (TauCeti.diagramGraph D.cartan).IsTree :=
   D.isFiniteType.isTree_diagramGraph (diagram_connected h hnc)

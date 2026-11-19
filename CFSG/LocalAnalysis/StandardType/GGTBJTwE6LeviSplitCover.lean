@@ -24,7 +24,7 @@ theorem ggTBJTwE6LeviK_foldCover
     exact hnc (Or.inr h)
   obtain ⟨hp5, hpn, h3⟩ := hP
   have hp : p.Prime := hFact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by omega
   have hn1 : 1 ≤ n := hΛ.1
   have hn2 : 2 ≤ n := by

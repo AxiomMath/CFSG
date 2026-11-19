@@ -31,15 +31,15 @@ theorem letP_icode {l : ℤ} (hl : l = 1 ∨ l = -1 ∨ l = 2 ∨ l = -2) (p : �
   · change xi p = _
     rw [hxi p hp]
     unfold pairG
-    rw [if_neg (by decide), if_pos rfl]
+    rw [ite_eq_right (by decide), ite_eq_left rfl]
   · change f p = _
     rw [hf p hp]
     unfold pairG
-    rw [if_neg (by decide), if_neg (by decide), if_pos rfl]
+    rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl]
   · change g p = _
     rw [hg p hp]
     unfold pairG
-    rw [if_neg (by decide), if_neg (by decide), if_neg (by decide)]
+    rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide)]
 
 theorem wP_eq : ∀ wd : List ℤ, (∀ l ∈ wd, l = 1 ∨ l = -1 ∨ l = 2 ∨ l = -2) →
     ∀ p (hp : p < n), wP x xi f g wd p = (wordG (pairG α β) wd ⟨p, hp⟩ : ℕ)

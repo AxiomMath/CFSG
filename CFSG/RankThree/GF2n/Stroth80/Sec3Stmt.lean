@@ -12,7 +12,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 @[expose] def Stroth34Statement : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (hc : Ctx M Q Z B) (n : ℕ),
+  ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (_hc : Ctx M Q Z B) (n : ℕ),
     Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B → Conc34 M Q Z B
 
 theorem stroth_3_5 (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n)
@@ -34,7 +34,7 @@ theorem stroth_3_6 (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} (hw : 
 
 @[expose] def Stroth37Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
     IsTIMod M Q (LB M Q B) →
     n = 4 ∧ bar M Q (Lgen M (LB M Q B)) = layer (Mbar M Q) ∧
       IsSLModel 2 (Nat.card Z ^ 3) ↥(layer (Mbar M Q))

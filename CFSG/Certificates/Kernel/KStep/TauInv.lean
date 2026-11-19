@@ -93,7 +93,7 @@ theorem nlo_res {p : ℕ} (hp : p < 65536) : resPN np SX (nlo O (rowF g 2048) x)
     if (rowF g 2048).testBit p then -resPN np SX x p else resPN np SX x p := by
   unfold nlo
   rw [hO.neg_res (rowF_lt hg) (bdL hx) (by rw [SX_v]; omega),
-    res_land_rep' hO lo16_lt (by rw [SX_v]; omega), lo16_bit, decide_eq_true hp, if_pos rfl]
+    res_land_rep' hO lo16_lt (by rw [SX_v]; omega), lo16_bit, decide_eq_true hp, ite_eq_left rfl]
 
 theorem nlo_zero {p : ℕ} (hp : p < SX) (hp' : 65536 ≤ p) : Zero np SX (nlo O (rowF g 2048) x) p :=
   hO.neg_zero (rowF_lt hg) (bdL hx) hp (rowF_hi hg hp')
@@ -109,7 +109,7 @@ theorem nhi_res {p : ℕ} (hp : p < 65536) : resPN np SX (nhi O (rowF g 2048) x)
   rw [hO.neg_res (rowF_lt hg) (bdL hs) (by rw [SX_v]; omega)]
   have e := res_shr_land hO (o := 65536) (m := lo16) (x := x) (S := SX) (by rw [SX_v]; omega)
     lo16_lt' hx (p := p) (by rw [SX_v]; omega)
-  rw [lo16_bit, decide_eq_true hp, if_pos rfl] at e
+  rw [lo16_bit, decide_eq_true hp, ite_eq_left rfl] at e
   change resPN np SX ((x >>> 65536) &&& O.rep SX lo16) p = _ at e
   rw [show Nat.land (Nat.shiftRight x (nat_lit 65536)) (O.rep SX lo16) =
     (x >>> 65536) &&& O.rep SX lo16 from rfl, e]
@@ -179,17 +179,17 @@ theorem T4i_bd : Bd np SX (T4i O X A) := hO.expand_bd (by decide) (I4i_bd hO hA)
 theorem T3i_res {p : ℕ} (h1 : 114688 ≤ p) (h2 : p < 115712) (hu : upA.testBit (p - 114688) = true) :
     resPN np SX (T3i O X A) p = resPN np SA A (p - 114688) + resPN np SA (dd2i O X) (p - 114688) := by
   unfold T3i
-  rw [hO.expand_res (by decide) (I3i_bd hO hA) (by rw [SX_v]; omega), if_pos (by rw [SA_v]; omega),
-    res_land_rep' hO upA_lt (by rw [SA_v]; omega), hu, if_pos rfl,
+  rw [hO.expand_res (by decide) (I3i_bd hO hA) (by rw [SX_v]; omega), ite_eq_left (by rw [SA_v]; omega),
+    res_land_rep' hO upA_lt (by rw [SA_v]; omega), hu, ite_eq_left rfl,
     hO.add_res hA (dd2i_bd hO) (by rw [SA_v]; omega)]
 
 theorem T4i_res {p : ℕ} (h1 : 115712 ≤ p) (h2 : p < 116736) (hu : upA.testBit (p - 115712) = true) :
     resPN np SX (T4i O X A) p = resPN np SA A (p - 115712) - resPN np SA (dd2i O X) (p - 115712) := by
   unfold T4i
-  rw [hO.expand_res (by decide) (I4i_bd hO hA) (by rw [SX_v]; omega), if_pos (by rw [SA_v]; omega),
-    res_land_rep' hO upA_lt (by rw [SA_v]; omega), hu, if_pos rfl,
+  rw [hO.expand_res (by decide) (I4i_bd hO hA) (by rw [SX_v]; omega), ite_eq_left (by rw [SA_v]; omega),
+    res_land_rep' hO upA_lt (by rw [SA_v]; omega), hu, ite_eq_left rfl,
     hO.add_res hA (hO.neg_bd upA_lt (dd2i_bd hO)) (by rw [SA_v]; omega),
-    hO.neg_res upA_lt (dd2i_bd hO) (by rw [SA_v]; omega), hu, if_pos rfl, sub_eq_add_neg]
+    hO.neg_res upA_lt (dd2i_bd hO) (by rw [SA_v]; omega), hu, ite_eq_left rfl, sub_eq_add_neg]
 
 theorem T3i_zero {p : ℕ} (hp : p < SX)
     (h : ¬ (114688 ≤ p ∧ p < 115712 ∧ upA.testBit (p - 114688) = true)) :
@@ -232,6 +232,7 @@ theorem octI_bd : Bd np SX (octI O F X) := by
   exact bdL (hO.half_bd (by decide) (by decide) (Hn_bd hO 6 le_rfl _
     (hO.net_bd (k := 17) SX_eq hk (hO.neg_bd doct_lt hX))))
 
+omit h6 hm hX in
 theorem octI_zero {p : ℕ} (hp : p < SX) (hr : ¬ (65536 ≤ p ∧ p < 114112)) :
     Zero np SX (octI O F X) p := by
   have hro : regOct.testBit p = false := by
@@ -248,7 +249,7 @@ theorem octI_res {B q : ℕ} (hB1 : 1024 ≤ B) (hB2 : B < 1783) (hq : q < 64) :
   have hy := hO.net_bd (k := 17) SX_eq hk (hO.neg_bd doct_lt hX)
   unfold octI
   rw [(masks_spec hm).1, res_land_rep' hO regOct_lt hpS,
-    (CFSG.KC.KDense.InitAux.testBit_regOct _).mpr ⟨by omega, by omega⟩, if_pos rfl, wht6G_eq,
+    (CFSG.KC.KDense.InitAux.testBit_regOct _).mpr ⟨by omega, by omega⟩, ite_eq_left rfl, wht6G_eq,
     hO.half_res (by decide) (by decide) (Hn_bd hO 6 le_rfl _ hy) hpS,
     Hn_res hO 6 le_rfl _ hy B hB1 hB2 q hq]
   congr 1
@@ -319,9 +320,11 @@ variable (hO : PLaw np O) {A U : ℕ} (hA : Bd np SA A) (hU : Bd np SA U)
   (hUz : ∀ q < SA, upA.testBit q = false → Zero np SA U q)
 include hO hA hU hUz
 
+omit hUz in
 theorem ANg_bd : Bd np SA (ANg O A U) :=
   bd_lor (bdL hA) (bd_lor hU (by rw [transpG_eq]; exact Tn_bd hO 5 le_rfl _ hU))
 
+omit hA hU in
 theorem ANg_diag {i : ℕ} (hi : i < 24) :
     resPN np SA (ANg O A U) (32 * i + i) = resPN np SA A (32 * i + i) := by
   have hq : 32 * i + i < SA := by rw [SA_v]; omega
@@ -338,8 +341,9 @@ theorem ANg_diag {i : ℕ} (hi : i < 24) :
   unfold ANg
   rw [res_lor_l hq (zero_lor (hUz _ hq hu) (transp_zero hO (by omega) (by
     rw [e1, e2]
-    exact hUz _ hq hu))), res_land_rep' hO diagA_lt hq, hd, if_pos rfl]
+    exact hUz _ hq hu))), res_land_rep' hO diagA_lt hq, hd, ite_eq_left rfl]
 
+omit hA hU in
 theorem ANg_up {i j : ℕ} (hij : i < j) (hj : j < 24) :
     resPN np SA (ANg O A U) (32 * i + j) = resPN np SA U (32 * i + j) := by
   have hq : 32 * i + j < SA := by rw [SA_v]; omega
@@ -360,6 +364,7 @@ theorem ANg_up {i j : ℕ} (hij : i < j) (hj : j < 24) :
   rw [res_lor_r hq (zero_land_rep hO diagA_lt hq hd),
     res_lor_l hq (transp_zero hO (by omega) (by rw [e1, e2]; exact hUz _ hq' hu))]
 
+omit hA hU in
 theorem ANg_low {i j : ℕ} (hij : j < i) (hi : i < 24) :
     resPN np SA (ANg O A U) (32 * i + j) = resPN np SA U (32 * j + i) := by
   have hq : 32 * i + j < SA := by rw [SA_v]; omega
@@ -377,6 +382,7 @@ theorem ANg_low {i j : ℕ} (hij : j < i) (hi : i < 24) :
   rw [res_lor_r hq (zero_land_rep hO diagA_lt hq hd),
     res_lor_r hq (hUz _ hq hu), transp_res hO (by omega), e1, e2]
 
+omit hA hU in
 theorem ANg_zero {p : ℕ} (hp : p < SA) (h : 24 ≤ p % 32 ∨ 24 ≤ p / 32) :
     resPN np SA (ANg O A U) p = 0 := by
   have hpS := hp
@@ -433,49 +439,57 @@ local notation "XI" => Nat.lor (nhi O (rowF gU 2048) W) (Nat.lor (octI O F X)
 theorem XI_bd : Bd np SX XI :=
   bd_lor (nhi_bd hO gU_lt' hW) (bd_lor (octI_bd hO h6 hm hX) (bd_lor (T3i_bd hO hA) (T4i_bd hO hA)))
 
+omit hW h6 hm hX in
 theorem XI_lo {p : ℕ} (hp : p < 65536) : resPN np SX XI p = resPN np SX (nhi O (rowF gU 2048) W) p := by
   have hpS : p < SX := by rw [SX_v]; omega
-  exact res_lor_l hpS (zero_lor (octI_zero hO h6 hm hX hpS (by omega))
+  exact res_lor_l hpS (zero_lor (octI_zero hO hpS (by omega))
     (zero_lor (T3i_zero hO hA hpS (by omega)) (T4i_zero hO hA hpS (by omega))))
 
+omit h6 hm hX in
 theorem XI_oct {p : ℕ} (h1 : 65536 ≤ p) (h2 : p < 114112) :
     resPN np SX XI p = resPN np SX (octI O F X) p := by
   have hpS : p < SX := by rw [SX_v]; omega
   rw [res_lor_r hpS (nhi_zero hO gU_lt' hW hpS h1)]
   exact res_lor_l hpS (zero_lor (T3i_zero hO hA hpS (by omega)) (T4i_zero hO hA hpS (by omega)))
 
+omit h6 hm hX in
 theorem XI_B {p : ℕ} (h1 : 114688 ≤ p) (h2 : p < 115712) :
     resPN np SX XI p = resPN np SX (T3i O X A) p := by
   have hpS : p < SX := by rw [SX_v]; omega
   rw [res_lor_r hpS (nhi_zero hO gU_lt' hW hpS (by omega)),
-    res_lor_r hpS (octI_zero hO h6 hm hX hpS (by omega))]
+    res_lor_r hpS (octI_zero hO hpS (by omega))]
   exact res_lor_l hpS (T4i_zero hO hA hpS (by omega))
 
+omit h6 hm hX in
 theorem XI_C {p : ℕ} (h1 : 115712 ≤ p) (h2 : p < 116736) :
     resPN np SX XI p = resPN np SX (T4i O X A) p := by
   have hpS : p < SX := by rw [SX_v]; omega
   rw [res_lor_r hpS (nhi_zero hO gU_lt' hW hpS (by omega)),
-    res_lor_r hpS (octI_zero hO h6 hm hX hpS (by omega))]
+    res_lor_r hpS (octI_zero hO hpS (by omega))]
   exact res_lor_r hpS (T3i_zero hO hA hpS (by omega))
 
+omit h6 hm hX in
 theorem XI_zero {p : ℕ} (hp : p < SX) (h0 : 65536 ≤ p) (h1 : ¬ (65536 ≤ p ∧ p < 114112))
     (h3 : ¬ (114688 ≤ p ∧ p < 115712 ∧ upA.testBit (p - 114688) = true))
     (h4 : ¬ (115712 ≤ p ∧ p < 116736 ∧ upA.testBit (p - 115712) = true)) :
     resPN np SX XI p = 0 :=
-  res_of_zero (zero_lor (nhi_zero hO gU_lt' hW hp h0) (zero_lor (octI_zero hO h6 hm hX hp h1)
+  res_of_zero (zero_lor (nhi_zero hO gU_lt' hW hp h0) (zero_lor (octI_zero hO hp h1)
     (zero_lor (T3i_zero hO hA hp h3) (T4i_zero hO hA hp h4))))
 
 local notation "WI" => Nat.lor (nlo O (rowF gL 2048) X)
   (Nat.shiftLeft (nlo O (rowF gH 2048) W) (nat_lit 65536))
 
+omit h6 hm hA in
 theorem WI_bd : Bd np SX WI := bd_lor (nlo_bd hO gL_lt' hX) (nloS_bd hO gH_lt' hW)
 
+omit h6 hm hX hA in
 theorem WI_lo {p : ℕ} (hp : p < 65536) : resPN np SX WI p = resPN np SX (nlo O (rowF gL 2048) X) p :=
   res_lor_l (by rw [SX_v]; omega) (nloS_zero hO gH_lt' hW hp)
 
+omit h6 hm hA in
 theorem WI_hi {p : ℕ} (hp : p < SX) (h : 65536 ≤ p) :
     resPN np SX WI p = resPN np SX (nlo O (rowF gH 2048) W) (p - 65536) := by
-  rw [res_lor_r hp (nlo_zero hO gL_lt' hX hp h), nloS_res hO gH_lt' hW hp, if_pos h]
+  rw [res_lor_r hp (nlo_zero hO gL_lt' hX hp h), nloS_res hO gH_lt' hW hp, ite_eq_left h]
 
 end NewI
 
@@ -507,8 +521,8 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
   have hUz : ∀ q < SA, upA.testBit q = false → Zero np SA (UUi O X) q := fun q hq hu => UUi_zero hO hq hu
   rw [tauInvG_eq, (masks_spec hm).2.1, (masks_spec hm).2.2.1, (masks_spec hm).2.2.2]
   refine ⟨fun q hq => ?_, fun p hp hq => ?_, XI_bd hO h6 hm hXb hAb hWb, fun i hi j hj => ?_,
-    fun p hp hq => ANg_zero hO hAb hU hUz hp hq, ANg_bd hO hAb hU hUz, fun r hr j hj => ?_,
-    fun p hp hq => ?_, WI_bd hO h6 hm hXb hAb hWb⟩
+    fun p hp hq => ANg_zero hO hUz hp hq, ANg_bd hO hAb hU, fun r hr j hj => ?_,
+    fun p hp hq => ?_, WI_bd hO hXb hWb⟩
   ·
     rw [hnat2 _ (by omega)]
     rcases Nat.lt_or_ge q 552 with h1 | h1
@@ -544,13 +558,13 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
           rw [Nat.add_assoc, Nat.add_sub_cancel_left]
         have hua3 : upA.testBit (114688 + 32 * i + j - 114688) = true := by rw [s3]; exact hua
         have hua4 : upA.testBit (115712 + 32 * i + j - 115712) = true := by rw [s4]; exact hua
-      · rw [ex, XI_B hO h6 hm hXb hAb hWb (by omega) (by omega),
+      · rw [ex, XI_B hO hAb hWb (by omega) (by omega),
           T3i_res hO hAb (by omega) (by omega) hua3, s3, haa, hd, tsum_pairX _ htp,
           hnat1 (24 + tp) (by omega), hnat1 (300 + 2 * tp) (by omega),
           hnat1 (300 + 2 * tp + 1) (by omega), tsum_pairA _ htp, tsum_pairX _ htp, tsum_pairX1 _ htp]
         linear_combination (-(resN np v (24 + tp))) * c64 -
           (resN np v (300 + 2 * tp) + resN np v (300 + 2 * tp + 1)) * c32
-      · rw [ex1, XI_C hO h6 hm hXb hAb hWb (by omega) (by omega),
+      · rw [ex1, XI_C hO hAb hWb (by omega) (by omega),
           T4i_res hO hAb (by omega) (by omega) hua4, s4, haa, hd,
           show 300 + (2 * tp + 1) = 300 + 2 * tp + 1 by omega, tsum_pairX1 _ htp,
           hnat1 (24 + tp) (by omega), hnat1 (300 + 2 * tp) (by omega),
@@ -560,24 +574,24 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
     rcases Nat.lt_or_ge q 49704 with h2' | h2'
     · obtain ⟨t, i, ht, hi, rfl⟩ : ∃ t i, t < 2048 ∧ i < 24 ∧ q = 552 + 24 * t + i :=
         ⟨(q - 552) / 24, (q - 552) % 24, by omega, by omega, by omega⟩
-      rw [xposK_oddc ht hi, XI_lo hO h6 hm hXb hAb hWb (by omega), nhi_res hO gU_lt' hWb (by omega),
+      rw [xposK_oddc ht hi, XI_lo hO hAb (by omega), nhi_res hO gU_lt' hWb (by omega),
         rowF_lo (g := gU) gU_lt' ht hi, gU_bit ht i,
         show 32 * t + i + 65536 = 32 * (2048 + t) + i by omega, hW1 (2048 + t) (by omega) i hi,
         show 300 + (552 + 24 * t + i) = 852 + 24 * t + i by omega, tsum_odd _ ht hi,
         hnat1 (98580 + 24 * t + i) (by omega), tsum_Wlo _ ht hi, tb_w ht, tb_pb ht]
       push_cast [sgn_cast]
       cases (wordN (2 * t)).testBit i <;> cases pN (2 * t)
-      · simp only [Bool.false_eq_true, if_false]
+      · simp only [Bool.false_eq_true, ite_false]
         linear_combination (-(resN np v (98580 + 24 * (2048 + t) + i))) * c64
-      · simp only [Bool.false_eq_true, if_false, if_true]
+      · simp only [Bool.false_eq_true, ite_false, ite_true]
         linear_combination (-(resN np v (98580 + 24 * (2048 + t) + i))) * c64
-      · simp only [Bool.false_eq_true, if_false, if_true]
+      · simp only [Bool.false_eq_true, ite_false, ite_true]
         linear_combination (resN np v (98580 + 24 * (2048 + t) + i)) * c64
-      · simp only [if_true]
+      · simp only [ite_true]
         linear_combination (resN np v (98580 + 24 * (2048 + t) + i)) * c64
     · obtain ⟨o, n, ho, hn, rfl⟩ : ∃ o n, o < 759 ∧ n < 64 ∧ q = 49704 + 64 * o + n :=
         ⟨(q - 49704) / 64, (q - 49704) % 64, by omega, by omega, by omega⟩
-      rw [xposK_oct ho hn, XI_oct hO h6 hm hXb hAb hWb (by omega) (by omega),
+      rw [xposK_oct ho hn, XI_oct hO hAb hWb (by omega) (by omega),
         octI_res hO h6 hm hXb (by omega) (by omega) hn,
         show 300 + (49704 + 64 * o + n) = 50004 + 64 * o + n by omega, tsum_oct _ ho hn]
       have hL : ∀ c ∈ Finset.range 64, ((if POCT.testBit c then -Kz 6 (phi6 c) n else Kz 6 (phi6 c) n : ℤ) :
@@ -613,10 +627,10 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
     rw [hv] at hvx
     simp only [Bool.false_eq_true, false_iff] at hvx
     rcases Nat.lt_or_ge p 65536 with h1 | h1
-    · rw [XI_lo hO h6 hm hXb hAb hWb h1, nhi_res hO gU_lt' hWb h1,
+    · rw [XI_lo hO hAb h1, nhi_res hO gU_lt' hWb h1,
         hW2 (p + 65536) (by rw [SX_v]; omega) (by omega)]
       split_ifs <;> simp
-    · refine XI_zero hO h6 hm hXb hAb hWb hp h1 (fun h => hvx (Or.inr (Or.inl h))) ?_ ?_
+    · refine XI_zero hO hAb hWb hp h1 (fun h => hvx (Or.inr (Or.inl h))) ?_ ?_
       · rintro ⟨a, b, c⟩
         rw [upA_bits _ (by omega)] at c
         simp only [decide_eq_true_eq] at c
@@ -639,7 +653,7 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
         rw [upA_bits _ (by omega), e1, e2]
         simp only [decide_eq_true_eq]
         omega
-      rw [ANg_up hO hAb hU hUz hij hj, UUi_res hO hXb (by rw [SA_v]; omega), hua, if_pos rfl,
+      rw [ANg_up hO hUz hij hj, UUi_res hO hXb (by rw [SA_v]; omega), hua, ite_eq_left rfl,
         ← Nat.add_assoc, ← Nat.add_assoc, ← ex, ← ex1, hX1 _ (by omega), hX1 _ (by omega),
         aIdx_pair hij, tsum_pairA _ htp, show 300 + (2 * Native.pairIdx i j + 1) =
           300 + 2 * Native.pairIdx i j + 1 by omega,
@@ -647,7 +661,7 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
         hnat1 (300 + 2 * Native.pairIdx i j + 1) (by omega), tsum_pairX _ htp, tsum_pairX1 _ htp]
       linear_combination (-(resN np v (300 + 2 * Native.pairIdx i j) -
         resN np v (300 + 2 * Native.pairIdx i j + 1))) * c32
-    · rw [ANg_diag hO hAb hU hUz hi, hA1 i hi i hi, show Native.aIdx i i = i by simp [Native.aIdx],
+    · rw [ANg_diag hO hUz hi, hA1 i hi i hi, show Native.aIdx i i = i by simp [Native.aIdx],
         tsum_diag _ hi, hnat1 i (by omega), tsum_diag _ hi]
       linear_combination (-(resN np v i)) * c64
     · obtain ⟨htp, hpt⟩ := pairTab_idx j hj i hi hij
@@ -661,7 +675,7 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
         rw [upA_bits _ (by omega), e1, e2]
         simp only [decide_eq_true_eq]
         omega
-      rw [ANg_low hO hAb hU hUz hij hi, UUi_res hO hXb (by rw [SA_v]; omega), hua, if_pos rfl,
+      rw [ANg_low hO hUz hij hi, UUi_res hO hXb (by rw [SA_v]; omega), hua, ite_eq_left rfl,
         ← Nat.add_assoc, ← Nat.add_assoc, ← ex, ← ex1, hX1 _ (by omega), hX1 _ (by omega),
         CFSG.KC.KDenseP.ListAux.aIdx_comm i hi j hj, aIdx_pair hij, tsum_pairA _ htp,
         show 300 + (2 * Native.pairIdx j i + 1) = 300 + 2 * Native.pairIdx j i + 1 by omega,
@@ -674,34 +688,34 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
     rcases Nat.lt_or_ge r 2048 with hr' | hr'
     · have hx := hX1 (552 + 24 * r + j) (by omega)
       rw [xposK_oddc hr' hj, show 300 + (552 + 24 * r + j) = 852 + 24 * r + j by omega] at hx
-      rw [WI_lo hO h6 hm hXb hAb hWb (by omega), nlo_res hO gL_lt' hXb (by omega),
+      rw [WI_lo hO hWb (by omega), nlo_res hO gL_lt' hXb (by omega),
         rowF_lo (g := gL) gL_lt' hr' hj, gL_bit hr' hj, hx,
         tsum_Wlo _ hr' hj, hnat1 (98580 + 24 * (2048 + r) + j) (by omega), tsum_Whi _ hr' hj,
         tb_w hr', tb_pb hr']
       push_cast [sgn_cast]
       cases (wordN (2 * r)).testBit j <;> cases pN (2 * r)
-      · simp only [Bool.false_eq_true, if_false]
+      · simp only [Bool.false_eq_true, ite_false]
         linear_combination (-(resN np v (852 + 24 * r + j))) * c64
-      · simp only [Bool.false_eq_true, if_false, if_true]
+      · simp only [Bool.false_eq_true, ite_false, ite_true]
         linear_combination (resN np v (852 + 24 * r + j)) * c64
-      · simp only [Bool.false_eq_true, if_false, if_true]
+      · simp only [Bool.false_eq_true, ite_false, ite_true]
         linear_combination (-(resN np v (852 + 24 * r + j))) * c64
-      · simp only [if_true]
+      · simp only [ite_true]
         linear_combination (resN np v (852 + 24 * r + j)) * c64
     · obtain ⟨t, ht, rfl⟩ : ∃ t, t < 2048 ∧ r = 2048 + t := ⟨r - 2048, by omega, by omega⟩
-      rw [WI_hi hO h6 hm hXb hAb hWb (by rw [SX_v]; omega) (by omega),
+      rw [WI_hi hO hXb hWb (by rw [SX_v]; omega) (by omega),
         show 32 * (2048 + t) + j - 65536 = 32 * t + j by omega, nlo_res hO gH_lt' hWb (by omega),
         rowF_lo (g := gH) gH_lt' ht hj, gH_bit ht hj, hW1 t (by omega) j hj,
         tsum_Whi _ ht hj, hnat1 (852 + 24 * t + j) (by omega), tsum_odd _ ht hj, tb_w ht, tb_pb ht]
       push_cast [sgn_cast]
       cases (wordN (2 * t)).testBit j <;> cases pN (2 * t)
-      · simp only [Bool.false_eq_true, if_false, Bool.xor_false]
+      · simp only [Bool.false_eq_true, ite_false, Bool.xor_false]
         linear_combination (-(resN np v (98580 + 24 * t + j))) * c64
-      · simp only [Bool.false_eq_true, if_false, if_true, Bool.false_xor]
+      · simp only [Bool.false_eq_true, ite_false, ite_true, Bool.false_xor]
         linear_combination (resN np v (98580 + 24 * t + j)) * c64
-      · simp only [Bool.false_eq_true, if_false, if_true, Bool.xor_false]
+      · simp only [Bool.false_eq_true, ite_false, ite_true, Bool.xor_false]
         linear_combination (resN np v (98580 + 24 * t + j)) * c64
-      · simp only [if_true, Bool.xor_self, Bool.false_eq_true, if_false]
+      · simp only [ite_true, Bool.xor_self, Bool.false_eq_true, ite_false]
         linear_combination (-(resN np v (98580 + 24 * t + j))) * c64
   ·
     rcases Nat.lt_or_ge p 65536 with h1 | h1
@@ -710,10 +724,10 @@ theorem tauInv_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F 
         · rfl
         · rw [testBit_validX] at h
           omega
-      rw [WI_lo hO h6 hm hXb hAb hWb h1, nlo_res hO gL_lt' hXb h1,
+      rw [WI_lo hO hWb h1, nlo_res hO gL_lt' hXb h1,
         hX2 p (by rw [SX_v]; omega) (not_xpos hv)]
       split_ifs <;> simp
-    · rw [WI_hi hO h6 hm hXb hAb hWb hp h1, nlo_res hO gH_lt' hWb (by rw [SX_v] at hp; omega),
+    · rw [WI_hi hO hXb hWb hp h1, nlo_res hO gH_lt' hWb (by rw [SX_v] at hp; omega),
         hW2 (p - 65536) (by rw [SX_v] at hp ⊢; omega) (by omega)]
       split_ifs <;> simp
 

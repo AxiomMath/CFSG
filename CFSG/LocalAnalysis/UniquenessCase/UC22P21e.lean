@@ -34,7 +34,7 @@ theorem uc22p21e_s21_1_notN_of (D : Data G) (h640 : UC6.R6_40_2 D) (X : Subgroup
   exact uc22p20a_M_ne_top D (top_le_iff.mp (h640.1 ▸ hcalC))
 
 @[expose] def S21_1Hyp (D : Data G) (X : Subgroup G) : Prop :=
-  (Nat.card X).Prime ∧ Nat.card X ≠ 2 ∧ IsSolvable ↥(X ⊔ D.T) ∧
+  (Nat.card X).Prime ∧ Nat.card X ≠ 2 ∧ Group.IsSolvable ↥(X ⊔ D.T) ∧
     (∃ A : Subgroup G, IsHallOddIn A (X ⊔ D.T) ∧ IsMulCommutative A) ∧
     (∀ p ∈ piSet (X ⊔ D.T), p ≠ 2 → CFSG.Open.pRank p (X ⊔ D.T) ≤ 2) ∧ X ∈ uniqueSet D.M
 
@@ -55,7 +55,7 @@ theorem uc22p21e_core211_of_core211L (D : Data G) (Ch : Choice2011 G) (h204 : S2
     have hset : H ∈ hSet D.T D.M := ⟨hTH, hHM, D.standing.charTwo H hH.1.1⟩
     have hex : ∃ L, L ∈ calLOf D.T D.M H := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       have h := h204 h1930 H hset
       have hbot : (⨆ L ∈ calLOf D.T D.M H, L : Subgroup G) = ⊥ := by simp [hno]
       rw [hbot] at h

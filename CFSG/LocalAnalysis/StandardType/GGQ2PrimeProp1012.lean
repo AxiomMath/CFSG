@@ -151,8 +151,8 @@ theorem o1pp_X_equiv {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} 
   obtain ⟨hXs, -, h3⟩ := o1pp_X_facts u52SimpleSix h
   have hXO : X ≤ normalizer (O : Set G) := le_trans h.X_le hHO
   have hXObot : X ⊓ O = ⊥ := by
-    haveI := hXs
-    haveI := normal_subgroupOf_of_le_normalizer hXO
+    have := hXs
+    have := normal_subgroupOf_of_le_normalizer hXO
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.subgroupOf X) with h' | h'
     · rw [subgroupOf_eq_bot] at h'
       exact disjoint_iff.1 h'.symm
@@ -192,7 +192,7 @@ theorem o1pp_X_comp_cent {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup
     exact Subtype.ext (mem_centralizer_singleton_iff.1 (hXx (mem_subgroupOf.1 ha)))
   have hx3 : ∃ n : ℕ, (⟨x, hxH⟩ : H) ^ 3 ^ n = 1 :=
     ⟨1, Subtype.ext (by simpa using hBab.2 x hxB)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hC := CFSG.ComponentClassification.LBalance.Quot.map_centralizer_eq (p := 3) hx3
   have hN : centralizer ({o1ppMk x zn x} : Set (O1ppBar x zn)) ≤
       normalizer ((O1ppXBar x zn X : Subgroup (O1ppBar x zn)) : Set (O1ppBar x zn)) := by
@@ -215,10 +215,10 @@ theorem o1pp_X_comp_cent {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup
     ?_⟩
   obtain ⟨e⟩ := o1pp_X_equiv h.toO1ppData
   obtain ⟨hXs, h2, h3⟩ := o1pp_X_facts u52SimpleSix h.toO1ppData
-  haveI := hXs
+  have := hXs
   have hnc : ∃ a b : X, a * b ≠ b * a := exists_noncomm_of_simple Nat.prime_three h3
     (fun h' => by rw [h'] at h2; omega)
-  haveI : IsSimpleGroup (O1ppXBar x zn X) := (MulEquiv.isSimpleGroup_congr e).1 hXs
+  have : IsSimpleGroup (O1ppXBar x zn X) := (MulEquiv.isSimpleGroup_congr e).1 hXs
   refine CFSG.GH74.GLS.PU3.Thm5.isQuasisimple_of_simple ?_
   obtain ⟨a, b, hab⟩ := hnc
   exact ⟨e a, e b, fun h' => hab (e.injective (by simpa [map_mul] using h'))⟩
@@ -228,7 +228,7 @@ theorem le_normalizer_of_commute {Y : Type*} [Group Y] {A C : Subgroup Y}
   fun a ha => centralizer_le_normalizer _ (mem_centralizer_iff.2 fun c hc => (h a ha c hc).symm)
 
 theorem o1pp_d_center {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} {x zn : G}
-    (h : O1ppData B x zn L X Xk Tk) :
+    (_h : O1ppData B x zn L X Xk Tk) :
     o1ppMk x zn (x * zn⁻¹) ∈ center (O1ppBar x zn) := by
   have hdH : x * zn⁻¹ ∈ centralizer ({x * zn⁻¹} : Set G) := mem_centralizer_singleton_iff.2 rfl
   rw [o1ppMk_of_mem hdH, mem_center_iff]
@@ -254,7 +254,7 @@ theorem o1pp_d_facts {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} 
   rw [o1ppMk_of_mem hdH]
   refine ⟨by rw [← QuotientGroup.mk_pow, hd3, QuotientGroup.mk_one], fun h1 => ?_⟩
   rw [QuotientGroup.eq_one_iff] at h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf (⟨x * zn⁻¹, hdH⟩ : H) = 3 := orderOf_eq_prime hd3 hd1
   have hdvd := Subgroup.orderOf_dvd_natCard _ h1
   rw [hord] at hdvd
@@ -275,7 +275,7 @@ theorem o1pp_rank {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} {x 
       (fun a _ b hb => mem_center_iff.1 ((zpowers_le (H := center _)).2 hdc hb) a)
   have hFdN : F ⊔ zpowers d ≤ normalizer (P : Set (O1ppBar x zn)) :=
     sup_le hFP ((zpowers_le).2 (center_le_normalizer _ hdc))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN3 : ¬ 3 ∣ Nat.card (LargeEvenPPrimeCore 3 H) := fun h3 => by
     have := Nat.Coprime.eq_one_of_dvd (CFSG.pPrimeCore_coprime_card (p := 3) (G := H)) h3
     omega

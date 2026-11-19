@@ -15,12 +15,14 @@ section Generic
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_mul_mul_inv_aux {g a z : G} (ha : a * g = g * a) :
     g * (a * z) * g⁻¹ * (a * z)⁻¹ = a * (g * z * g⁻¹ * z⁻¹) * a⁻¹ := by
   calc g * (a * z) * g⁻¹ * (a * z)⁻¹ = (g * a) * z * g⁻¹ * z⁻¹ * a⁻¹ := by group
     _ = (a * g) * z * g⁻¹ * z⁻¹ * a⁻¹ := by rw [ha]
     _ = a * (g * z * g⁻¹ * z⁻¹) * a⁻¹ := by group
 
+omit [Finite G] in
 private theorem conj_mul_mul_inv_aux' {g n b : G} (hb : b * g = g * b) :
     g * (n * b) * g⁻¹ * (n * b)⁻¹ = g * n * g⁻¹ * n⁻¹ := by
   have hb' : b * g⁻¹ * b⁻¹ = g⁻¹ := by
@@ -28,6 +30,7 @@ private theorem conj_mul_mul_inv_aux' {g n b : G} (hb : b * g = g * b) :
   calc g * (n * b) * g⁻¹ * (n * b)⁻¹ = g * n * (b * g⁻¹ * b⁻¹) * n⁻¹ := by group
     _ = g * n * g⁻¹ * n⁻¹ := by rw [hb']
 
+omit [Finite G] in
 private theorem mem_centralizerModNC9_iff {Z : Subgroup G} {K : Set G} {x : G} :
     x ∈ centralizerModNC9 Z K ↔ x ∈ normalizer (Z : Set G) ∧ ∀ a ∈ K, x * a * x⁻¹ * a⁻¹ ∈ Z :=
   Iff.rfl

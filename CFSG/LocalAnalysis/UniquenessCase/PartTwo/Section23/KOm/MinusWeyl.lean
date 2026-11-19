@@ -89,7 +89,7 @@ theorem exists_mem_statedOmega_fix_planeVec [Finite K] [CharP K 2] {b c : K}
       MulEquiv.apply_symm_apply]
     exact eichler_mem_rootGroup (Q := quadMinus 2 K b c) (polar_yVec_planeVec b c a)
   · rw [hhmat, eichler_apply (quadMinus_yVec b c) (polar_yVec_planeVec b c a)]
-    simp only [polar_planeVec_yVec, polar_planeVec_self, mul_zero, zero_mul, zero_add, zero_smul,
+    simp only [polar_planeVec_yVec, polar_planeVec_self, mul_zero, zero_smul,
       add_zero, sub_zero]
   · intro s hs
     have hcoord : ∀ k : Fin 2, a k = 0 := by

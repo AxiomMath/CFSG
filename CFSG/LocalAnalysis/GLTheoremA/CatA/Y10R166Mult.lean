@@ -197,7 +197,7 @@ theorem center_eq_bot_and_trivialMultiplierT_of_quotient_center {X : Type} [Grou
 private theorem twoRank_eq_pRank_centerQuot_of_odd {J : Type} [Group J] [Finite J]
     (hodd : Odd (Nat.card (Subgroup.center J))) :
     twoRank J = CFSG.Open.pRank 2 (⊤ : Subgroup (J ⧸ Subgroup.center J)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : ¬ 2 ∣ Nat.card (Subgroup.center J) := fun h =>
     (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h)
   exact (CFSG.SectionRank.pRank_quotient_eq (Subgroup.center J) h2).symm
@@ -215,7 +215,7 @@ theorem odd_card_center_of_lieModel_multiplier (hGA : CFSG.Open.GriessAllModelsS
     rw [Nat.card_congr (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess
       (G ⧸ Subgroup.center G)).toEquiv,
       (CFSG.RankThree.PartOne.card_hopfMultiplier_of_model hGA hm).2]
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (G ⧸ Subgroup.center G)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (G ⧸ Subgroup.center G)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact hodd.pos.ne')
   have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ
     (MulEquiv.refl (G ⧸ Subgroup.center G))
@@ -257,12 +257,12 @@ theorem symplectic_six {J : Type} [Group J] [Finite J] {m n : ℕ} (hm : 3 ≤ m
       exact hodd
     simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
       CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-      Nat.card_prod, ZMod.card, hn1, hgcd]
+      hn1, hgcd]
   exact center_eq_bot_and_trivialMultiplierT_of_quotient_center hQ.1.commutator_eq_top
     (trivialMultiplierT_of_lieModel hGA hmM h1)
 
 theorem symplectic_twoRank {J : Type} [Group J] [Finite J] {m n : ℕ}
-    (hm : 3 ≤ m) (hn : 1 ≤ n) (hodd : Odd (Nat.card (Subgroup.center J)))
+    (hm : 3 ≤ m) (_hn : 1 ≤ n) (hodd : Odd (Nat.card (Subgroup.center J)))
     (h : HasLabel J (· = ⟨.B, m, n⟩)) :
     n * (m * (m + 1) / 2) ≤ twoRank J := by
   have hraw := rk2IsLabel_rawDatum h
@@ -270,7 +270,7 @@ theorem symplectic_twoRank {J : Type} [Group J] [Finite J] {m n : ℕ}
     CFSG.Assembly.LargeEvenRecipeSymplectic] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenSpGroup K m)) := Finite.of_equiv _ θ.toEquiv
+  have : Finite (LargeEvenProj (LargeEvenSpGroup K m)) := Finite.of_equiv _ θ.toEquiv
   rw [twoRank_eq_pRank_centerQuot_of_odd hodd, ← pRank_top_congr θ]
   have h' := CFSG.GH74.Filter.le_pRank_Sp_sym (K := K) (n := m) (by omega) (p := 2) (f := n) hK
   rw [I107L.choose_succ_two] at h'
@@ -282,11 +282,11 @@ theorem omegaPlus_twoRank {J : Type} [Group J] [Finite J] {m n : ℕ}
     n * (m * (m - 1) / 2) ≤ twoRank J := by
   have hraw := rk2IsLabel_rawDatum h
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-  rw [if_neg (by omega : ¬ m = 3)] at hraw
+  rw [ite_eq_right (by omega : ¬ m = 3)] at hraw
   dsimp only [CFSG.Assembly.LargeEvenRecipeOmegaPlus] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) :=
+  have : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) :=
     Finite.of_equiv _ θ.toEquiv
   rw [twoRank_eq_pRank_centerQuot_of_odd hodd, ← pRank_top_congr θ]
   have h' := pRank_alt_plus_ge (m := m) (n := n) hn (by omega) hK
@@ -305,7 +305,7 @@ theorem symplectic_dvd {J : Type} [Group J] [Finite J] {m n : ℕ} (hm : 1 ≤ m
     CFSG.Assembly.LargeEvenRecipeSymplectic] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card_eq hK
+  have : CharP K 2 := charP_two_of_card_eq hK
   rw [Nat.card_congr θ.toEquiv]
   change r ∣ Nat.card (StatedProj (StatedSp m K))
   rw [card_statedProj_statedSp_of_charTwo (K := K) m, hK]
@@ -338,22 +338,22 @@ theorem omegaPlus_six {J : Type} [Group J] [Finite J] {m n : ℕ} (hm : 4 ≤ m)
       CFSG.Blueprint.Multiplier.exceptional .POmegaPlus m 2 n) = 1 := by
     simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
       CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-      Nat.card_prod, ZMod.card, hn1, hq]
+      hn1, hq]
   exact center_eq_bot_and_trivialMultiplierT_of_quotient_center hQ.1.commutator_eq_top
     (trivialMultiplierT_of_lieModel hGA hmM h1)
 
-theorem omegaPlus_dvd {J : Type} [Group J] [Finite J] {m n : ℕ} (hm : 4 ≤ m) (hn : 2 ≤ n)
+theorem omegaPlus_dvd {J : Type} [Group J] [Finite J] {m n : ℕ} (hm : 4 ≤ m) (_hn : 2 ≤ n)
     (h : HasLabel J (· = ⟨.D, m, n⟩)) :
     ∀ r : ℕ, r.Prime → r ≠ 2 → r ∣ 2 ^ (2 * n) - 1 →
       r ∣ Nat.card (J ⧸ Subgroup.center J) := by
   intro r hr hr2 hdvd
   have hraw := rk2IsLabel_rawDatum h
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-  rw [if_neg (by omega : ¬ m = 3)] at hraw
+  rw [ite_eq_right (by omega : ¬ m = 3)] at hraw
   dsimp only [CFSG.Assembly.LargeEvenRecipeOmegaPlus] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card_eq hK
+  have : CharP K 2 := charP_two_of_card_eq hK
   rw [Nat.card_congr θ.toEquiv]
   change r ∣ Nat.card (StatedProj (StatedOmega (StatedQuadPlus m K)))
   have hfac : (r : ℤ) ∣ ((2 : ℤ) ^ (2 * n) - 1) := by
@@ -439,7 +439,7 @@ theorem unitaryFive_six {J : Type} [Group J] [Finite J] {n : ℕ} (hn : 2 ≤ n)
       CFSG.Blueprint.Multiplier.exceptional .PSU 5 2 n) = 1 := by
     simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
       CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-      Nat.card_prod, ZMod.card, hgcd, hn1]
+      hgcd]
   exact center_eq_bot_and_trivialMultiplierT_of_quotient_center hQ.1.commutator_eq_top
     (trivialMultiplierT_of_lieModel hGA hmM h1)
 
@@ -466,9 +466,9 @@ theorem unitaryFive_odd_center {J : Type} [Group J] [Finite J] {n : ℕ} (hn : 2
         rcases (Nat.dvd_prime Nat.prime_five).1 (Nat.gcd_dvd_left 5 (2 ^ n + 1)) with h' | h'
         · exact h'
         · exact absurd (h' ▸ Nat.gcd_dvd_right 5 (2 ^ n + 1)) h5
-      simpa [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
+      simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
         CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-        Nat.card_prod, ZMod.card, hn1, hg1] using (show Odd 1 by decide)
+        hg1]
   exact odd_card_center_of_lieModel_multiplier hGA hQ hm hoddProd
 
 theorem unitaryFive_twoRank {J : Type} [Group J] [Finite J] {n : ℕ} (hn : 2 ≤ n)
@@ -480,7 +480,7 @@ theorem unitaryFive_twoRank {J : Type} [Group J] [Finite J] {n : ℕ} (hn : 2 �
     CFSG.Assembly.LargeEvenRecipeUnitary] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenSUGroup (Fin 5) K (2 ^ n))) :=
+  have : Finite (LargeEvenProj (LargeEvenSUGroup (Fin 5) K (2 ^ n))) :=
     Finite.of_equiv _ θ.toEquiv
   rw [twoRank_eq_pRank_centerQuot_of_odd hodd, ← pRank_top_congr θ]
   have h' := pRank_herm_ge (d := 5) (k := 2) (n := n) (by omega) (by norm_num) (by omega) hK
@@ -619,12 +619,10 @@ theorem unitarySix_odd_exponent_and_odd_center {J : Type} [Group J] [Finite J] {
     have hg1 := hgcd_of_not_three h3'
     have hprod1 : Nat.card (CFSG.Blueprint.Multiplier.generic .PSU 6 2 n ×
         CFSG.Blueprint.Multiplier.exceptional .PSU 6 2 n) = 1 := by
-      simpa [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
+      simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
         CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-        Nat.card_prod, ZMod.card, hn1, hg1] using
-        (show Nat.card (Multiplicative (ZMod 1) × Multiplicative (ZMod 1) ×
-          (Multiplicative (ZMod 1) × Multiplicative (ZMod 1))) = 1 by simp)
-    haveI : Finite (CFSG.Open.griessHopfMultiplier (J ⧸ Subgroup.center J)) :=
+        hn1, hg1]
+    have : Finite (CFSG.Open.griessHopfMultiplier (J ⧸ Subgroup.center J)) :=
       Nat.finite_of_card_ne_zero (by rw [hcard, hprod1]; norm_num)
     have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ
       (MulEquiv.refl (J ⧸ Subgroup.center J))
@@ -649,7 +647,7 @@ theorem unitarySix_twoRank {J : Type} [Group J] [Finite J] {n : ℕ} (hn : 2 ≤
     CFSG.Assembly.LargeEvenRecipeUnitary] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ n))) :=
+  have : Finite (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ n))) :=
     Finite.of_equiv _ θ.toEquiv
   rw [twoRank_eq_pRank_centerQuot_of_odd hodd, ← pRank_top_congr θ]
   have h' := pRank_herm_ge (d := 6) (k := 3) (n := n) (by omega) (by norm_num) (by omega) hK
@@ -760,7 +758,7 @@ theorem linear_twoRank {J : Type} [Group J] [Finite J] {r n : ℕ}
     CFSG.Assembly.LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenSLGroup (Fin (r + 1)) K)) :=
+  have : Finite (LargeEvenProj (LargeEvenSLGroup (Fin (r + 1)) K)) :=
     Finite.of_equiv _ θ.toEquiv
   rw [twoRank_eq_pRank_centerQuot_of_odd hodd, ← pRank_top_congr θ]
   have h' := pRank_unipProj_ge (K := K) (d := r + 1) (k := (r + 1) / 2) (n := n)
@@ -782,8 +780,7 @@ theorem linearFourFour_six {J : Type} [Group J] [Finite J]
   have h1 : Nat.card (CFSG.Blueprint.Multiplier.generic .PSL 4 2 2 ×
       CFSG.Blueprint.Multiplier.exceptional .PSL 4 2 2) = 1 := by
     simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
-      CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-      Nat.card_prod, ZMod.card]
+      CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders]
   exact center_eq_bot_and_trivialMultiplierT_of_quotient_center hQ.1.commutator_eq_top
     (trivialMultiplierT_of_lieModel hGA hm h1)
 
@@ -801,8 +798,7 @@ theorem linearSevenTwo_six {J : Type} [Group J] [Finite J]
   have h1 : Nat.card (CFSG.Blueprint.Multiplier.generic .PSL 7 2 1 ×
       CFSG.Blueprint.Multiplier.exceptional .PSL 7 2 1) = 1 := by
     simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
-      CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-      Nat.card_prod, ZMod.card]
+      CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders]
   exact center_eq_bot_and_trivialMultiplierT_of_quotient_center hQ.1.commutator_eq_top
     (trivialMultiplierT_of_lieModel hGA hm h1)
 
@@ -973,18 +969,18 @@ theorem linearDThree_mult {J : Type} [Group J] [Finite J] {n : ℕ} (hn : 2 ≤ 
       CFSG.Blueprint.Multiplier.exceptional .PSL 4 2 n) = 1 := by
     simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
       CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-      Nat.card_prod, ZMod.card, hn1, hgcd]
+      hn1, hgcd]
   have hsix := center_eq_bot_and_trivialMultiplierT_of_quotient_center hQ.1.commutator_eq_top
     (trivialMultiplierT_of_lieModel hGA hm h1)
   have hodd : Odd (Nat.card (Subgroup.center J)) := by rw [hsix.1]; simp
   have hm2 : 4 * n ≤ twoRank J := by
     have hraw := rk2IsLabel_rawDatum h
     dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-    rw [if_pos rfl] at hraw
+    rw [ite_eq_left rfl] at hraw
     dsimp only [CFSG.Assembly.LargeEvenRecipeLinear] at hraw
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hraw
     obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ'
-    haveI : Finite (LargeEvenProj (LargeEvenSLGroup (Fin 4) K)) :=
+    have : Finite (LargeEvenProj (LargeEvenSLGroup (Fin 4) K)) :=
       Finite.of_equiv _ θ.toEquiv
     rw [twoRank_eq_pRank_centerQuot_of_odd hodd, ← pRank_top_congr θ]
     have h' := pRank_unipProj_ge (K := K) (d := 4) (k := 2) (n := n)
@@ -995,7 +991,7 @@ theorem linearDThree_mult {J : Type} [Group J] [Finite J] {n : ℕ} (hn : 2 ≤ 
     intro r hr hr2 hdvd
     have hraw := rk2IsLabel_rawDatum h
     dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-    rw [if_pos rfl] at hraw
+    rw [ite_eq_left rfl] at hraw
     dsimp only [CFSG.Assembly.LargeEvenRecipeLinear] at hraw
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hraw
     obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ'

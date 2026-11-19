@@ -94,7 +94,7 @@ theorem genericOrders_psp_eq_one {m f : ℕ} (hf : 1 ≤ f) : genericOrders .PSp
 theorem exceptionalOrders_psp_eq_one {m f : ℕ} (hf : 2 ≤ f) :
     exceptionalOrders .PSp m 2 f = (1, 1) := by
   unfold exceptionalOrders
-  split <;> simp_all <;> omega
+  split <;> simp_all
 
 theorem genericOrders_omegaPlus_eq_one {m f : ℕ} (hf : 1 ≤ f) :
     genericOrders .POmegaPlus m 2 f = (1, 1) := by
@@ -104,7 +104,7 @@ theorem genericOrders_omegaPlus_eq_one {m f : ℕ} (hf : 1 ≤ f) :
 theorem exceptionalOrders_omegaPlus_eq_one {m f : ℕ} (hf : 2 ≤ f) :
     exceptionalOrders .POmegaPlus m 2 f = (1, 1) := by
   unfold exceptionalOrders
-  split <;> simp_all <;> omega
+  split <;> simp_all
 
 theorem genericOrders_omegaMinus_eq_one {m f : ℕ} (hm : 1 ≤ m) (hf : 1 ≤ f) :
     genericOrders .POmegaMinus m 2 f = (1, 1) := by
@@ -124,7 +124,7 @@ theorem exceptionalOrders_omegaMinus_eq_one {m f : ℕ} :
 theorem exceptionalOrders_psl_eq_one {m f : ℕ} (hf : 2 ≤ f) (h2 : ¬ (m = 2 ∧ f = 2))
     (h3 : ¬ (m = 3 ∧ f = 2)) : exceptionalOrders .PSL m 2 f = (1, 1) := by
   unfold exceptionalOrders
-  split <;> simp_all <;> omega
+  split <;> simp_all
 
 end Orders
 

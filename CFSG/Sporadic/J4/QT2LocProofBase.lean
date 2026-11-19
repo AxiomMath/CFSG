@@ -49,7 +49,7 @@ theorem subReps_get {ℓ : ℕ} (hℓ : ℓ < 7) : subReps[ℓ]! = subReps[ℓ]?
 theorem subReps_lt {ℓ : ℕ} (hℓ : ℓ < 7) : subReps[ℓ]?.getD 0 < nPts := by
   interval_cases ℓ <;> decide
 
-@[expose] def tSet : Set J := {x | ∃ c ∈ tMasks, x = eta uJ 11 c}
+def tSet : Set J := {x | ∃ c ∈ tMasks, x = eta uJ 11 c}
 
 theorem mem_tMasks_act {ℓ : ℤ} (hℓ : ℓ ∈ letters) {c : ℕ} (hc : c ∈ tMasks) :
     act ℓ c ∈ tMasks := by

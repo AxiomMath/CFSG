@@ -137,8 +137,8 @@ theorem reflect_o8mVec {K : Type*} [Field K] [CharP K 2] {v : ℕ} (hv : o8mNorm
     (x := o8mVec x) hQne, hQ, polar_quadMinus_o8mVec]
   rw [div_one]
   by_cases hp : o8mPolarBit x v = true
-  · rw [if_pos hp, one_smul, CharTwo.sub_eq_add, ← o8mVec_xor, o8mReflBit, if_pos hp]
-  · rw [if_neg hp, o8mReflBit, if_neg hp]
+  · rw [ite_eq_left hp, one_smul, CharTwo.sub_eq_add, ← o8mVec_xor, o8mReflBit, ite_eq_left hp]
+  · rw [ite_eq_right hp, o8mReflBit, ite_eq_right hp]
     rw [zero_smul, sub_zero]
 
 theorem o8mWordBit_append (w w' : List ℕ) (x : ℕ) :

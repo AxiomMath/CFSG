@@ -137,7 +137,7 @@ theorem nbrpmmx_ne_dual {X : Type} [Group X] (n f : ℕ) (ψ : UK n f →* X)
   have hSe' : (Subgroup.centralizer S).comap (ρm n f) ≤
       (Subgroup.centralizer S').comap (ρm n f) :=
     Subgroup.comap_mono (Subgroup.centralizer_le hSe)
-  haveI : Finite (UK n f) :=
+  have : Finite (UK n f) :=
     Finite.of_injective (ρm n f) (nbrpom_spinMatrix_injective n f)
   have hK'compS : IsComponentOf K' ((Subgroup.centralizer S).comap (ρm n f)) :=
     IsComponentOf.of_le_of_le hK'comp hK'H hSe'

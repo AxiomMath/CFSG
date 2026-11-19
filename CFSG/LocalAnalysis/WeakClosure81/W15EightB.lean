@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_pCoreOf_iff {H : Subgroup G} {g : G} (hg : g ∈ H) (y : G) :
     g * y * g⁻¹ ∈ pCoreOf 2 H ↔ y ∈ pCoreOf 2 H :=
   (Subgroup.mem_normalizer_iff.1 (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H hg) y).symm
@@ -22,7 +23,7 @@ namespace Cex15
 variable {M V₀ V U S : Subgroup G}
 
 theorem pCoreOf_le_S (h : Cex15 M V₀ V U S) : pCoreOf 2 (centralizer (U : Set G)) ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine h.isSylowIn_centralizer.le_of_normal (CFSG.LieType.BorelTits.pCoreOf_le 2 _) ?_
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _)
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer (CFSG.LieType.BorelTits.pCoreOf_le 2 _)]

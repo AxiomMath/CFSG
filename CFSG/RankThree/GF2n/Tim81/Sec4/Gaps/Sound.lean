@@ -223,10 +223,10 @@ theorem exists_alt5_quotient {X S : Type} [Group X] [Finite X] [Fintype S] {a : 
   let eR : φ.range ≃* Psub :=
     Subgroup.equivMapOfInjective φ.range e.permCongrHom.toMonoidHom
       e.permCongrHom.injective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsPGroup 2 φ.ker := IsPGroup.of_card hker
-  haveI : Group.IsNilpotent φ.ker := (IsPGroup.of_card hker).isNilpotent
-  haveI : Group.IsSolvable φ.ker := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsPGroup 2 φ.ker := IsPGroup.of_card hker
+  have : Group.IsNilpotent φ.ker := (IsPGroup.of_card hker).isNilpotent
+  have : Group.IsSolvable φ.ker := inferInstance
   exact ⟨φ.ker, inferInstance, inferInstance,
     ⟨(QuotientGroup.quotientKerEquivRange φ).trans (eR.trans (MulEquiv.subgroupCongr hP_eq))⟩⟩
 
@@ -253,7 +253,7 @@ private theorem witness_of_le (hn : P.D.n < 2 ^ 32)
 theorem subpairWitness_of_masks (hgen : ∀ l, Rep P.D.n (P.D.gens l) (genG l))
     (hinv : ∀ l, genG (-l) = (genG l)⁻¹)
     (hM : ∃ m : ℕ, Odd m ∧ Nat.card M = 2 ^ P.D.pc.length * m)
-    (hn : P.D.n < 2 ^ 32) (hnpos : 0 < P.D.n) (hbase : baseCheck P.D = true)
+    (hn : P.D.n < 2 ^ 32) (_hnpos : 0 < P.D.n) (hbase : baseCheck P.D = true)
     (hv : ∀ J ∈ allMasks P.D.cls.length, ∀ T : Subgroup M, MaskFacts P M genG T J → IsWC T →
       4 ≤ Nat.card T → ∃ g : M, SubpairWitnessAt M T g) : SubpairWitness M := by
   intro T hT h4

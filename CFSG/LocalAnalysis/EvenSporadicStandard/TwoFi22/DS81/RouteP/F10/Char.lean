@@ -18,7 +18,7 @@ theorem π_map_eq_one_of_eq_one [IsSimpleGroup Q] (hnc : ∃ a b : Q, a * b ≠ 
     rw [hNdef]
     exact (inferInstance : (X.π.ker).Normal).map (X.π.comp γ.toMonoidHom)
       (X.π_surjective.comp γ.surjective)
-  haveI := hN
+  have := hN
   rcases Subgroup.Normal.eq_bot_or_eq_top N with hNbot | hNtop
   ·
     have hmem : X.π (γ b) ∈ N := by

@@ -429,7 +429,7 @@ theorem Rep.ext (G : Good d n pts) {M : Nat} {T T' : Table} (h : Rep d n pts M T
   rw [getElem!_pos T i h1, getElem!_pos T' i h2] at e
   exact UInt32.toNat_inj.1 e
 
-theorem Rep.cons (G : Good d n pts) {M N : Nat} {T L : Table} (hT : Rep d n pts M T)
+theorem Rep.cons (_G : Good d n pts) {M N : Nat} {T L : Table} (hT : Rep d n pts M T)
     (hL : Rep d n pts N L) :
     Rep d n pts (mulF d N M) (T.map fun t => L[t.toNat]!) := by
   refine ⟨by simp [hT.1], fun i hi => ?_⟩
@@ -478,7 +478,7 @@ theorem Rep.inv (G : Good d n pts) {M N : Nat} {T : Table} (hT : Rep d n pts M T
   have hg1 : ∀ j < n, g j < n ∧ ap T (g j) = j := by
     intro j hj
     have hex := hsurj j hj
-    simp only [g, dif_pos hex]
+    simp only [g, dite_eq_left hex]
     exact Classical.choose_spec hex
   have hg : ∀ j < n, g j < n ∧ ap T (g j) = j ∧ g (ap T j) = j := by
     intro j hj
@@ -519,15 +519,15 @@ theorem orbStep_facts {d n A B v0 : Nat} {PT PA LB AP BP SO SOI : Nat → Nat} {
       SO k < n ∧ SOI k < n ∧ SO (SOI k) = k ∧
       (k + 1 < n → PT (SO k) < PT (SO (k + 1))) := by
   unfold orbStep at h
-  simp only [strictB_id, rec_and, rec_ifB, rec_ifN, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq,
-    cond_eq_if, Nat.shiftLeft_eq, Nat.one_mul, beq_iff_eq] at h
+  simp only [strictB_id, rec_ifB, rec_ifN, Nat.blt_eq, Nat.beq_eq,
+    Bool.cond_eq_ite] at h
   simp [Nat.beq_eq, Nat.blt_eq, Nat.succ_eq_add_one] at h
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h11⟩ := h
   rw [Nat.one_shiftLeft] at h1
   refine ⟨h1, fun hk => ?_, fun hk => ?_, h3, h4, h5, h6, h7, h8, h9, fun hk => ?_⟩
-  · rw [if_pos hk] at h2
+  · rw [ite_eq_left hk] at h2
     exact h2
-  · rw [if_neg hk] at h2
+  · rw [ite_eq_right hk] at h2
     exact ⟨h2.1, by omega, h2.2.2⟩
   · rcases h11 with h | h
     · omega
@@ -607,13 +607,13 @@ theorem checks_of {D : VecData} {S : Spec} {A B AI BI : Nat} {Ims ImsI : List Na
     intro z hz0 hzm
     unfold imgF imgLetter
     have hb : Nat.blt 0 z.natAbs = true := by simp [Nat.blt_eq]; omega
-    simp only [rec_ifN, hb, cond_true]
+    simp only [rec_ifN, hb]
     by_cases h : 0 < z
     · have e : (z - 1).toNat = z.natAbs - 1 := by omega
-      simp only [h, decide_true, cond_true, if_true, e]
+      simp only [h, decide_true, _root_.Bool.cond_true, ite_true, e]
       exact hRI _ (by omega)
     · have e : (-z - 1).toNat = z.natAbs - 1 := by omega
-      simp only [h, decide_false, cond_false, if_false, e]
+      simp only [h, decide_false, Bool.cond_false, ite_false, e]
       exact (hIv _ (by omega)).1
   have hrels : ∀ r ∈ S.rels, (∀ l ∈ r, l.1 < S.m) ∧
       matW D.d (imgF Ims ImsI) (r.map letterOf) = idF D.d := by
@@ -766,8 +766,8 @@ theorem seed_checks {D : VecData} {S : Spec} {csA csB : List Char} {A B AI BI : 
           rw [h3]
           have hc := hcl _ this
           by_cases hl : LB k = 0
-          · rw [if_pos hl, ← hcA]; exact hc.1
-          · rw [if_neg hl, ← hcB]; exact hc.2
+          · rw [ite_eq_left hl, ← hcA]; exact hc.1
+          · rw [ite_eq_right hl, ← hcB]; exact hc.2
     exact key k0 (Finset.mem_range.1 hk0)
   obtain ⟨hsz, hasz, hbsz, h0, hmem, hinj, hao, hbo⟩ :=
     CFSG.KC.SurjSeed.vOrbitBFS_full (d := D.d) (cA := D.colsA) (cB := D.colsB) hR hn32 hRlt hv0

@@ -7,11 +7,13 @@ open Subgroup
 section
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mul_sq_eq_one {a b : G} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * a) :
     (a * b) * (a * b) = 1 := by
   rw [show a * b * (a * b) = a * (b * a) * b by group, ← hab,
     show a * (a * b) * b = (a * a) * (b * b) by group, ha, hb, one_mul]
 
+omit [Finite G] in
 theorem fix_pow {W : Set G} {a : G} (ha : ∀ w ∈ W, a * w * a⁻¹ = w) (k : ℕ) :
     ∀ w ∈ W, a ^ k * w * (a ^ k)⁻¹ = w := by
   induction k with
@@ -21,6 +23,7 @@ theorem fix_pow {W : Set G} {a : G} (ha : ∀ w ∈ W, a * w * a⁻¹ = w) (k : 
     rw [pow_succ, show a ^ k * a * w * (a ^ k * a)⁻¹ = a ^ k * (a * w * a⁻¹) * (a ^ k)⁻¹ by group,
       ha w hw, ih w hw]
 
+omit [Finite G] in
 theorem pm_decomp {W : Subgroup G} (hWab : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x) {n : ℕ}
     (hn : Nat.card W = 2 * n + 1) {u : G} (hu : u * u = 1) (huW : ∀ w ∈ W, u * w * u⁻¹ ∈ W)
     {w : G} (hw : w ∈ W) :
@@ -51,6 +54,7 @@ theorem pm_decomp {W : Subgroup G} (hWab : ∀ x ∈ W, ∀ y ∈ W, x * y = y *
   · rw [← conj_pow, show u * (w * (u * w * u⁻¹)⁻¹) * u⁻¹ =
       (u * w * u⁻¹) * (u * (u * w * u⁻¹) * u⁻¹)⁻¹ by group, huu, ← inv_pow, mul_inv_rev, inv_inv]
 
+omit [Finite G] in
 theorem pm_inv {W : Subgroup G} (hWab : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x) {n : ℕ} {u e : G}
     (huW : ∀ w ∈ W, u * w * u⁻¹ ∈ W) (heu : e * u = u * e) {w : G} (hw : w ∈ W)
     (hew : e * w * e⁻¹ = w⁻¹) :

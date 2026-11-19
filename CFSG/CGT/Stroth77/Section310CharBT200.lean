@@ -13,6 +13,7 @@ open Stroth47Core
 variable {G : Type} [Group G] [Finite G] {F : StrothFrame G} {D : Subgroup G} {m : ℕ}
   {dD : StrothWeakTypeData D (.t200 m)}
 
+omit [Finite G] in
 theorem StrothWeakTypeData.a_pow_two_pow_n {τ : StrothTypeIndex} (dD : StrothWeakTypeData D τ) :
     (dD.a : G) ^ 2 ^ τ.n = 1 := by
   rw [dD.a_eq, ← dD.ofTorus_nsmul]
@@ -22,6 +23,7 @@ theorem StrothWeakTypeData.a_pow_two_pow_n {τ : StrothTypeIndex} (dD : StrothWe
     exact addOrderOf_nsmul_eq_zero _
   rw [h, dD.ofTorus_zero]
 
+omit [Finite G] in
 theorem StrothWeakTypeData.b_pow_two_pow_n {τ : StrothTypeIndex} (dD : StrothWeakTypeData D τ) :
     (dD.b : G) ^ 2 ^ τ.n = 1 := by
   rw [dD.b_eq, ← dD.ofTorus_nsmul]
@@ -38,6 +40,7 @@ theorem two_le_k (hm : 2 ≤ m) (i : Fin 3) : 2 ≤ (StrothTypeIndex.t200 m).k i
   · show 2 ≤ m + 2; omega
   · show 2 ≤ m + 2; omega
 
+omit [Finite G] in
 theorem card_D (dD : StrothWeakTypeData D (.t200 m)) : Nat.card D = 2 ^ (3 * m + 4) := by
   rw [dD.card]
   change 2 ^ (m + (m + 2) + (m + 2)) = 2 ^ (3 * m + 4)
@@ -48,25 +51,29 @@ theorem φuv_om_ne (hm : 1 ≤ m) :
   rw [t200_φuv_om hm]
   intro h
   have h1 := (om200_eq_iff hm _ _).mp h 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h1
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h1
   norm_num [Int.ModEq] at h1
 
+omit [Finite G] in
 theorem uv_not_mem (dD : StrothWeakTypeData D (.t200 m)) (hm : 1 ≤ m) :
     ¬ ∀ w ∈ omegaIn 1 D, w * dD.uv = dD.uv * w :=
   dD.not_forall_commute_uv_of_torus (by rw [two_nsmul]; exact om200_add_self hm _) (φuv_om_ne hm)
 
+omit [Finite G] in
 theorem c_pow_mem (dD : StrothWeakTypeData D (.t200 m)) (hm : 1 ≤ m) :
     (dD.c : G) ^ 2 ^ (m - 1) ∈ omegaIn 1 D := by
   rw [dD.t200_c_pow]
   exact mem_omegaIn_one_of_mul_self (dD.ofTorus_mem _)
     (by rw [← dD.ofTorus_add, om200_add_self hm, dD.ofTorus_zero])
 
+omit [Finite G] in
 theorem c_pow_not_commute (dD : StrothWeakTypeData D (.t200 m)) (hm : 1 ≤ m) :
     ¬ (dD.c : G) ^ 2 ^ (m - 1) * dD.uv = dD.uv * (dD.c : G) ^ 2 ^ (m - 1) := by
   rw [dD.t200_c_pow, dD.uv_mul_ofTorus]
   intro h
   exact φuv_om_ne hm (dD.ofTorus_inj (mul_right_cancel h).symm)
 
+omit [Finite G] in
 theorem a₁_b₁ (dD : StrothWeakTypeData D (.t200 m)) (hm : 1 ≤ m) :
     (dD.a : G) ^ 2 ^ (m + 1) ≠ 1 ∧ (dD.b : G) ^ 2 ^ (m + 1) ≠ 1 ∧
       (dD.a : G) ^ 2 ^ (m + 1) ≠ (dD.b : G) ^ 2 ^ (m + 1) := by
@@ -74,13 +81,13 @@ theorem a₁_b₁ (dD : StrothWeakTypeData D (.t200 m)) (hm : 1 ≤ m) :
     dD.ofTorus_inj.eq_iff, ← om200_zero (m := m)]
   refine ⟨fun h0 => ?_, fun h0 => ?_, fun h0 => ?_⟩
   · have h1 := (om200_eq_iff hm _ _).mp h0 1
-    simp only [Matrix.cons_val_one, Matrix.head_cons, Pi.zero_apply] at h1
+    simp only [Matrix.cons_val_one, Pi.zero_apply] at h1
     norm_num [Int.ModEq] at h1
   · have h1 := (om200_eq_iff hm _ _).mp h0 2
     simp only [Matrix.cons_val_two, Matrix.tail_cons, Matrix.head_cons, Pi.zero_apply] at h1
     norm_num [Int.ModEq] at h1
   · have h1 := (om200_eq_iff hm _ _).mp h0 1
-    simp only [Matrix.cons_val_one, Matrix.head_cons] at h1
+    simp only [Matrix.cons_val_one] at h1
     norm_num [Int.ModEq] at h1
 
 theorem hA (h : F.IsD D dD) (hm : 2 ≤ m) :
@@ -97,19 +104,19 @@ theorem hA (h : F.IsD D dD) (hm : 2 ≤ m) :
   · rw [← natCast_zsmul, ← Torus.ofInt_zsmul, om200]
     congr 1
     funext i
-    fin_cases i <;> simp [StrothTypeIndex.k, Type200.k] <;> ring
+    fin_cases i <;> simp [StrothTypeIndex.k, Type200.k]; ring
   · intro h0
     have h1 := (om200_eq_iff hm1 _ _).mp h0 1
-    simp only [Matrix.cons_val_one, Matrix.head_cons] at h1
+    simp only [Matrix.cons_val_one] at h1
     norm_num [Int.ModEq] at h1
   · rw [t200_φu_om]
     congr 1
   · rw [t200_φuv_om hm1]
     refine (om200_eq_iff hm1 _ _).mpr fun i => ?_
-    fin_cases i <;> simp [Int.ModEq] <;> decide
+    fin_cases i <;> simp [Int.ModEq]
   · rw [t200_φt_om hm1]
     refine (om200_eq_iff hm1 _ _).mpr fun i => ?_
-    fin_cases i <;> simp [Int.ModEq] <;> decide
+    fin_cases i <;> simp [Int.ModEq]
 
 theorem bound_i (dD : StrothWeakTypeData D (.t200 m)) (hm : 2 ≤ m) {e : G}
     (heN : e ∈ Subgroup.normalizer (D : Set G)) (hc : e⁻¹ * (dD.c : G) * e = dD.c)
@@ -150,6 +157,7 @@ theorem card_le_eight_of_inv (dD : StrothWeakTypeData D (.t200 m)) (hm : 1 ≤ m
   exact (Subgroup.card_le_of_le hle).trans h8.le
 
 
+omit [Finite G] in
 theorem f_sq_conj (hm : 2 ≤ m) {f x : G} (hx : x ^ 2 ^ (m + 2) = 1)
     (hfx : f⁻¹ * x * f = x * x ^ 2 ^ m) : (f * f)⁻¹ * x * (f * f) = x * x ^ 2 ^ (m + 1) := by
   have hcp : ∀ (y : G) (k : ℕ), f⁻¹ * y ^ k * f = (f⁻¹ * y * f) ^ k := fun y k => by

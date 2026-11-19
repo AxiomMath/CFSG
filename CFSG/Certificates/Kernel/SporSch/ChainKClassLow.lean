@@ -163,7 +163,7 @@ theorem repK_of_conjLowK (hk64 : k ≤ 64) {XL CL : List Nat} {CJ : List (List (
         obtain ⟨y, py, hyG⟩ := memG_of_siftK hQ hn hbs hy1 hy2
         have hex : ∃ y, PRep n w p.2 y := ⟨y, py⟩
         have hfy : f p.2 = y := by
-          simp only [f, dif_pos hex]
+          simp only [f, dite_eq_left hex]
           exact prep_perm_eq hex.choose_spec py
         rw [Finset.mem_coe, hfy]
         have e1 := prep_pcomp h32 pg' (hxs i hi).1
@@ -183,10 +183,10 @@ theorem repK_of_conjLowK (hk64 : k ≤ 64) {XL CL : List Nat} {CJ : List (List (
         have hex : ∃ y, PRep n w p.2 y := ⟨y, py⟩
         have hex' : ∃ y, PRep n w p'.2 y := ⟨y', py'⟩
         have hfy : f p.2 = y := by
-          simp only [f, dif_pos hex]
+          simp only [f, dite_eq_left hex]
           exact prep_perm_eq hex.choose_spec py
         have hfy' : f p'.2 = y' := by
-          simp only [f, dif_pos hex']
+          simp only [f, dite_eq_left hex']
           exact prep_perm_eq hex'.choose_spec py'
         rw [hfy, hfy'] at e
         rw [e] at py

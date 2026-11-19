@@ -18,7 +18,7 @@ set_option maxRecDepth 4000
 theorem wcOn_Th_seven_of_check_aux
     [Finite CFSG.Blueprint.NativeSporadic.Th]
     (h : (ops2 248).squareCheck thSevenRot = true) : WCOn 7 CFSG.Blueprint.NativeSporadic.Th := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, y, g, hx, hy, hxy, hQ, hgx, hgy⟩ := (spec2 248).square_of_check thSevenRot h
   have hcard : Nat.card CFSG.Blueprint.NativeSporadic.Th = 90745943887872000 :=
     (Nat.card_congr CFSG.Sporadic.Th.thEquivJ.toEquiv).trans CFSG.Sporadic.Th.Max3.natCard_J
@@ -33,7 +33,7 @@ theorem wcOn_Th_seven_of_check
 theorem wcOn_Suz_five_of_check_aux
     [Finite CFSG.Blueprint.NativeSporadic.Suz]
     (h : (ops3 64).squareCheck suzFiveRot = true) : WCOn 5 CFSG.Blueprint.NativeSporadic.Suz := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, y, g, hx, hy, hxy, hQ, hgx, hgy⟩ := (spec3 64).square_of_check suzFiveRot h
   have hcard : Nat.card CFSG.Blueprint.NativeSporadic.Suz = 448345497600 :=
     CFSG.Sporadic.Suz.card_Suz
@@ -49,7 +49,7 @@ theorem wcOn_B_seven_of_check_aux
     (h : ∃ x y h k : CFSG.Blueprint.NativeSporadic.B,
       CFSG.HardMathSupport.Timmesfeld.SporadicBalance.RotSevenData x y h k) :
     WCOn 7 CFSG.Blueprint.NativeSporadic.B := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, y, h3, g, D⟩ := h
   have hy : y ^ 7 = 1 := by rw [← D.hx, conj_pow, D.pow_x, mul_one, mul_inv_cancel]
   have hcard : Nat.card CFSG.Blueprint.NativeSporadic.B = 4154781481226426191177580544000000 := by

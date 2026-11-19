@@ -16,7 +16,7 @@ theorem eq_one_of_mem_center_of_abelian_sylow {p : ℕ} [Fact p.Prime] {L : Type
     [Finite L] (hL : Group.IsPerfect L) (P : Sylow p L)
     (hP : ∀ a b : L, a ∈ (P : Subgroup L) → b ∈ (P : Subgroup L) → a * b = b * a)
     {z : L} (hz : z ∈ Subgroup.center L) (hzP : z ∈ (P : Subgroup L)) : z = 1 := by
-  haveI : IsMulCommutative (P : Subgroup L) := ⟨⟨fun a b => Subtype.ext (hP a b a.2 b.2)⟩⟩
+  have : IsMulCommutative (P : Subgroup L) := ⟨⟨fun a b => Subtype.ext (hP a b a.2 b.2)⟩⟩
   have hT1 : ∀ g : L, MonoidHom.transfer (MonoidHom.id (P : Subgroup L)) g = 1 := by
     intro g
     have hg : g ∈ commutator L := by
@@ -35,7 +35,7 @@ theorem eq_one_of_mem_center_of_abelian_sylow {p : ℕ} [Fact p.Prime] {L : Type
     have := congrArg Subtype.val h1
     simpa using this.symm
   have hcop : Nat.Coprime (orderOf z) (P : Subgroup L).index := by
-    obtain ⟨k, hk⟩ := P.isPGroup' (⟨z, hzP⟩ : (P : Subgroup L))
+    obtain ⟨k, hk⟩ := P.isPGroup (⟨z, hzP⟩ : (P : Subgroup L))
     have hzk : z ^ p ^ k = 1 := by
       have := congrArg Subtype.val hk
       simpa using this
@@ -80,11 +80,11 @@ theorem two_le_pRank_of_injective {X A : Type} [Group X] [Finite X] [Group A]
 theorem isCyclic_of_pRank_le_one {X : Type} [Group X] [Finite X]
     (hr : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 1) {R : Subgroup X} (hR : IsPGroup 3 R) :
     IsCyclic ↥R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 ↥R) := ⟨hR⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 ↥R) := ⟨hR⟩
   by_contra hnc
   obtain ⟨E, -, hcard, hel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
-  haveI := hel.toIsMulCommutative
+  have := hel.toIsMulCommutative
   have hpow : ∀ a : ↥E, a ^ 3 = 1 :=
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp (CFSG.IsElementaryAbelian.exponent_dvd_p 3 ↥E)
   have hle := two_le_pRank_of_injective (fun a b => mul_comm' a b) hpow hcard
@@ -109,12 +109,12 @@ theorem center_eq_bot_of_pRank_quot_le_one {L : Type} [Group L] [Finite L]
     (hL : Group.IsPerfect L) (hZ : IsPGroup 3 (Subgroup.center L))
     (hr : CFSG.Open.pRank 3 (⊤ : Subgroup (L ⧸ Subgroup.center L)) ≤ 1) :
     Subgroup.center L = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hZP⟩ := IsPGroup.exists_le_sylow hZ
-  haveI : IsCyclic ↥(imageModCenter (P : Subgroup L)).range :=
+  have : IsCyclic ↥(imageModCenter (P : Subgroup L)).range :=
     Helpers.isCyclic_of_pRank_le_one hr
-      (Helpers.isPGroup_imageModCenter (P : Subgroup L) P.isPGroup')
-  haveI : IsMulCommutative (P : Subgroup L) :=
+      (Helpers.isPGroup_imageModCenter (P : Subgroup L) P.isPGroup)
+  have : IsMulCommutative (P : Subgroup L) :=
     Helpers.isMulCommutative_of_isCyclic_range (P : Subgroup L)
   have hPab : ∀ a b : L, a ∈ (P : Subgroup L) → b ∈ (P : Subgroup L) → a * b = b * a :=
     fun a b ha hb => congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : (P : Subgroup L)) ⟨b, hb⟩)
@@ -124,7 +124,7 @@ theorem center_eq_bot_of_pRank_quot_le_one {L : Type} [Group L] [Finite L]
 
 theorem three_dvd_card_quot_center {L : Type} [Group L] [Finite L] (hL : Group.IsPerfect L)
     (h3 : 3 ∣ Nat.card L) : 3 ∣ Nat.card (L ⧸ Subgroup.center L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hnd
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hzp : IsPGroup 3 (Subgroup.zpowers g) :=
@@ -133,7 +133,7 @@ theorem three_dvd_card_quot_center {L : Type} [Group L] [Finite L] (hL : Group.I
   have hPZ : ∀ x ∈ (P : Subgroup L), x ∈ Subgroup.center L := by
     intro x hx
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp
-      (Helpers.isPGroup_imageModCenter (P : Subgroup L) P.isPGroup')
+      (Helpers.isPGroup_imageModCenter (P : Subgroup L) P.isPGroup)
     have hdvd := Subgroup.card_subgroup_dvd_card (imageModCenter (P : Subgroup L)).range
     rw [hn] at hdvd
     have hn0 : n = 0 := by

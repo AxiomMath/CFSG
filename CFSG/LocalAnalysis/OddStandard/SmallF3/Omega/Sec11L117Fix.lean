@@ -15,8 +15,8 @@ theorem sec11_exists_fixed_class [Finite G] {z : G} {T Q : Subgroup G} (hT : IsP
     (hQn : ∀ g ∈ T, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q) (hnt : ∃ q ∈ Q, q ∉ zpowers z) :
     ∃ p ∈ Q, p ∉ zpowers z ∧ ∀ g ∈ T, g * p * g⁻¹ * p⁻¹ ∈ zpowers z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   let Z' : Subgroup T := (zpowers z).subgroupOf T
   have hZ'le : zpowers z ≤ T := Subgroup.zpowers_le.mpr hzT
   have hZ'normal : Z'.Normal := by
@@ -28,7 +28,7 @@ theorem sec11_exists_fixed_class [Finite G] {z : G} {T Q : Subgroup G} (hT : IsP
       rw [hzc k hk, mul_assoc, mul_inv_cancel, mul_one]
     rw [← hn, ← conj_zpow, hkz]
     exact Subgroup.zpow_mem_zpowers z n
-  haveI : Z'.Normal := hZ'normal
+  have : Z'.Normal := hZ'normal
   let π : T →* T ⧸ Z' := QuotientGroup.mk' Z'
   let Q' : Subgroup T := Q.subgroupOf T
   have hQ'normal : Q'.Normal := by
@@ -36,10 +36,10 @@ theorem sec11_exists_fixed_class [Finite G] {z : G} {T Q : Subgroup G} (hT : IsP
     rw [Subgroup.normal_subgroupOf_iff hQT]
     intro h k hh hk
     exact hQn k hk h hh
-  haveI : Q'.Normal := hQ'normal
+  have : Q'.Normal := hQ'normal
   let Q'' : Subgroup (T ⧸ Z') := Q'.map π
   have hQ''normal : Q''.Normal := hQ'normal.map π (QuotientGroup.mk'_surjective Z')
-  haveI : Q''.Normal := hQ''normal
+  have : Q''.Normal := hQ''normal
   have hQ''ne : Q'' ≠ ⊥ := by
     obtain ⟨q, hqQ, hqnot⟩ := hnt
     intro hbot

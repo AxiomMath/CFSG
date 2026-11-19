@@ -25,14 +25,13 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem stepNineFPF3_of (hI : KFactI2026) (hL613 : L613f3E3) (hS6 : SigmaSixSectionFact)
     (hPC : PConstrainedFivePart) : StepNineFPF3 := by
-  intro G _ _ P M x z T₀ f hL
-  intro g hgN hgp hgC a ha ha1 hfix
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  intro G _ _ P M x z T₀ f hL g hgN hgp hgC a ha ha1 hfix
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hf5 : Nat.Prime 5 := by norm_num
   have hf : f.Prime := hL.prime
   have hf2 : f ≠ 2 := hL.ne_two
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hFe : IsElemAbelian f (smallRankF 5 f x) := hL.lemma629.2.2.2.1
   have hFc : Nat.card (smallRankF 5 f x) = f ^ 4 := hL.lemma629.2.2.2.2.1
   have hloc : rankThreeLocalRank f G ≤ 3 := hL.lemma629.2.2.1
@@ -51,7 +50,7 @@ theorem stepNineFPF3_of (hI : KFactI2026) (hL613 : L613f3E3) (hS6 : SigmaSixSect
     central_mem_normalizer_smallRankF hf5 hf hL.point.mem hL.central.centralizes
   have hodd : Odd (Nat.card (centralizer ((smallRankF 5 f x : Subgroup G) : Set G))) :=
     odd_card_centralizer_of_rank hf hFe hFc hloc
-  haveI : Finite (MulAut (smallRankF 5 f x)) :=
+  have : Finite (MulAut (smallRankF 5 f x)) :=
     Finite.of_injective (fun e : MulAut (smallRankF 5 f x) => e.toEquiv)
       (fun a b h => MulEquiv.ext fun y =>
         congrArg (fun e : smallRankF 5 f x ≃ smallRankF 5 f x => e y) h)
@@ -104,7 +103,7 @@ theorem stepNineFPF3_of (hI : KFactI2026) (hL613 : L613f3E3) (hS6 : SigmaSixSect
   have hK0n : (((rankThreePrimeCore 2 Γ) ⊔ pCoreOf 2 Γ).subgroupOf Γ).Normal :=
     sup_subgroupOf_normal Γ _ _ hOX hQX hOn hQn
   set K0 : Subgroup Γ := ((rankThreePrimeCore 2 Γ) ⊔ pCoreOf 2 Γ).subgroupOf Γ with hK0def
-  haveI hK0 : K0.Normal := hK0n
+  have hK0 : K0.Normal := hK0n
   set Φ : N →* Γ ⧸ K0 := (QuotientGroup.mk' K0).comp ψ.rangeRestrict with hΦdef
   have hΦsurj : Function.Surjective Φ :=
     (QuotientGroup.mk'_surjective K0).comp ψ.rangeRestrict_surjective
@@ -202,7 +201,7 @@ theorem stepNineFPF3_of (hI : KFactI2026) (hL613 : L613f3E3) (hS6 : SigmaSixSect
     refine Subgroup.mem_map.mpr ⟨e ^ 4, ?_, rfl⟩
     rw [Subgroup.mem_subgroupOf, Subgroup.coe_pow]
     exact Subgroup.mem_inf.mpr ⟨M.pow_mem (hC_c hec) 4, pow_four_mem_centralizer hx5 henorm⟩
-  haveI hLn' : L.Normal := hLn
+  have hLn' : L.Normal := hLn
   have hψg1 : ψ ⟨g, hgN⟩ ≠ 1 := fun h => hgC ((hker ⟨g, hgN⟩).mp h)
   have hψg3 : ψ ⟨g, hgN⟩ ^ 3 = 1 := by
     rw [← map_pow]
@@ -291,8 +290,8 @@ theorem stepNineFPF3_of (hI : KFactI2026) (hL613 : L613f3E3) (hS6 : SigmaSixSect
       norm_num at this
       exact this
     obtain ⟨S6, hS6n, hS6idx, hS6simple, h2S, h15S, hnab⟩ := hS6 (Γ ⧸ K0) (hinv hK0n) h15
-    haveI := hS6n
-    haveI := hS6simple
+    have := hS6n
+    have := hS6simple
     have h3S6 : 3 ∣ Nat.card S6 := (by norm_num : (3 : ℕ) ∣ 15).trans h15S
     have h5S6 : 5 ∣ Nat.card S6 := (by norm_num : (5 : ℕ) ∣ 15).trans h15S
     have hSL : S6 ≤ L := simple_le_of_pow_four_mem h3S6 hLpow

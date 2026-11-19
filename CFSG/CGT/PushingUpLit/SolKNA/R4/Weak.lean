@@ -38,7 +38,7 @@ include hd
 
 theorem mem_W_z : z ∈ W := by
   have hI := hd.tight.isUniqueInvolution
-  have h2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup'.to_le (inf_le_right.trans hd.hWS)
+  have h2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup.to_le (inf_le_right.trans hd.hWS)
   have hz := S1911.mem_of_le_member hI inf_le_left h2
     (by rw [hd.card_inf_eq_card]; have := hd.four_le_card_V; omega)
   exact hz.2
@@ -98,7 +98,7 @@ theorem le_normalizer_W : (S : Subgroup G) ≤ Subgroup.normalizer (W : Set G) :
 theorem exists_normalizer_conj_eq {x g : G} (hx : x ∈ Subgroup.centralizer (W : Set G))
     (hgx : g * x * g⁻¹ ∈ Subgroup.centralizer (W : Set G)) :
     ∃ n ∈ Subgroup.normalizer (W : Set G), n * x * n⁻¹ = g * x * g⁻¹ :=
-  Sec7.control_centralizer_of_weaklyClosed (S.isPGroup'.to_le hd.hWS) hd.weaklyClosedIn_W hx hgx
+  Sec7.control_centralizer_of_weaklyClosed (S.isPGroup.to_le hd.hWS) hd.weaklyClosedIn_W hx hgx
 
 end TightSylowDataTR
 
@@ -114,7 +114,7 @@ theorem mem_centralizerModOdd_K {x : G} (hxS : x ∈ (S : Subgroup G))
   refine ⟨Subgroup.mem_top x, hxN, mem_normalizer_oddCoreOf_of_mem_normalizer hxN,
     fun k hk => ?_⟩
   exact Sec6Gen.centSylow hd.tight.hypGen (CoreAssembly.mem_conjClass_self K) hd.isSylow2In_inf
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS))
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS))
     (fun y hy => mem_normalizer_iff_conjSub_eq.mp ((Subgroup.zpowers_le.mpr hxN) hy))
     (fun r hr v hv => Subgroup.mem_centralizer_iff.mp ((Subgroup.zpowers_le.mpr hxR) hv) r hr)
     k hk x (Subgroup.mem_zpowers x)

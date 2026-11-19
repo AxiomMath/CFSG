@@ -28,19 +28,19 @@ private theorem conjugacy_orbit_overfills_four_tuple_burnside
     False := by
   classical
   let A := MulAction.orbit (ConjAct P) u
-  letI : Fintype A := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
   let val : A → P := fun a => a.1
   have hvalInjective : Function.Injective val :=
     Subtype.val_injective
   let T := Fin 4 ↪ X
-  letI : MulAction.IsPretransitive P T := by
+  let : MulAction.IsPretransitive P T := by
     change MulAction.IsMultiplyPretransitive P X 4
     exact hP4
-  letI : Nonempty T := Fintype.card_pos_iff.mp (by
+  let : Nonempty T := Fintype.card_pos_iff.mp (by
     change 0 < Fintype.card (Fin 4 ↪ X)
     rw [Fintype.card_embedding_eq, Fintype.card_fin, hcard]
     norm_num)
-  letI : Unique (MulAction.orbitRel.Quotient P T) :=
+  let : Unique (MulAction.orbitRel.Quotient P T) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty
         P T).mp hP4)
@@ -126,7 +126,7 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_seventeen
     rw [hindex] at hindexCard
     rw [← hindexCard]
     exact dvd_mul_of_dvd_left (by norm_num) _
-  letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨u, huorder⟩ :=
     exists_prime_orderOf_dvd_card' 13 h13dvd
   by_contra hnotAlt
@@ -135,7 +135,7 @@ theorem alternatingGroup_le_of_five_transitive_of_card_eq_seventeen
     centralizer_card_eq_thirteen_of_not_alternating
       X P hcard h5 hnotAlt u huorder
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]

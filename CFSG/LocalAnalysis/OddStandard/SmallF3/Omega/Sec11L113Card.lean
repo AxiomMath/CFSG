@@ -53,7 +53,7 @@ theorem sec113_card_A (hm : Sec11Model t L S z K1 K2 T Alt φ) : Nat.card (secA 
   have hc : Nat.card (Multiplicative (Fin 6 → ZMod 2)) = 64 := by
     rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin 6 → ZMod 2) ≃ _),
       Nat.card_eq_fintype_card]
-    simp [Fintype.card_fun]
+    simp
   rw [sec113_card_ker_phi hm, hr, hc] at h
   omega
 

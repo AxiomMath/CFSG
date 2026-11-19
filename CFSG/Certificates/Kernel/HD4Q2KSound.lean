@@ -137,11 +137,11 @@ theorem blt_decide (a b : Nat) : Nat.blt a b = decide (a < b) := by
 theorem beq_of_nbeq {a b : Nat} (h : Nat.beq a b = true) : (a == b) = true :=
   beq_iff_eq.2 (Nat.eq_of_beq_eq_true h)
 
-theorem cube1P_eq {x : Pr} (hx : x.1.size = 64) : cube1P x = cubeQ (encQ x) := by
+theorem cube1P_eq {x : Pr} (_hx : x.1.size = 64) : cube1P x = cubeQ (encQ x) := by
   unfold cube1P cubeQ
   rw [← encQ_mulP, ← encQ_mulP, ← encQ_oneP, eqQ_enc (size_mulP _ _) size_oneP]
 
-theorem commP_eq {x y : Pr} (hx : x.1.size = 64) (hy : y.1.size = 64) :
+theorem commP_eq {x y : Pr} (_hx : x.1.size = 64) (_hy : y.1.size = 64) :
     commP x y = eqQ (mulQ (encQ x) (encQ y)) (mulQ (encQ y) (encQ x)) := by
   unfold commP
   rw [← encQ_mulP, ← encQ_mulP, eqQ_enc (size_mulP _ _) (size_mulP _ _)]
@@ -151,7 +151,7 @@ theorem map_powsP (x : Pr) : (powsP x).map encQ = powsQ (encQ x) := by
 
 theorem map_planeP (u v : Pr) : (planeP u v).map encQ = planeQ9 (encQ u) (encQ v) := by
   simp only [planeP, planeQ9, powsP, powsQ, List.flatMap_cons, List.flatMap_nil, List.map_cons,
-    List.map_nil, List.map_append, List.append_nil, List.cons_append, List.nil_append, encQ_mulP,
+    List.map_nil, List.append_nil, List.cons_append, List.nil_append, encQ_mulP,
     encQ_oneQ]
 
 theorem isPairP_eq {x y : Pr} (hx : x.1.size = 64) (hy : y.1.size = 64) :
@@ -213,7 +213,7 @@ theorem sElems_enc {es : List (Nat × Nat)} (hE : enumQ ls es = true) :
       omega
     have := hk _ (List.getElem_mem hz)
     simp only [List.getElem_zipIdx, List.getElem_zip, List.getElem_tail, Nat.zero_add,
-      Bool.and_eq_true, Nat.ble_eq] at this
+      Nat.ble_eq] at this
     exact ⟨by omega, eq_of_eqQ this.2⟩
   have key : ∀ n, n ≤ sBfs.length →
       ((sBfs.take n).foldl (sStep (sGenP ())) [ChevOuter.oneP]).map encQ = es.take (n + 1) := by
@@ -221,17 +221,17 @@ theorem sElems_enc {es : List (Nat × Nat)} (hE : enumQ ls es = true) :
     induction n with
     | zero =>
       intro _
-      rw [List.take_zero, List.foldl_nil, List.map_cons, List.map_nil, encQ_oneQ, List.take_succ,
+      rw [List.take_zero, List.foldl_nil, List.map_cons, List.map_nil, encQ_oneQ, List.take_add_one,
         List.take_zero, List.nil_append, List.getElem?_eq_getElem (by omega), Option.toList_some,
         ← eq_of_eqQ h0, atQ, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by omega),
         Option.getD_some]
     | succ n ih =>
       intro hn
       obtain ⟨hp, he⟩ := hstep n (by omega)
-      rw [List.take_succ, List.foldl_append, List.getElem?_eq_getElem (by omega), Option.toList_some,
+      rw [List.take_add_one, List.foldl_append, List.getElem?_eq_getElem (by omega), Option.toList_some,
         List.foldl_cons, List.foldl_nil, sStep, List.map_append, List.map_cons, List.map_nil,
         encQ_mulP, ← atQ_map, ← atQ_map, ih (by omega), gens_enc hL,
-        List.take_succ (l := es) (i := n + 1), List.getElem?_eq_getElem (by omega),
+        List.take_add_one (l := es) (i := n + 1), List.getElem?_eq_getElem (by omega),
         Option.toList_some, he, atQ, atQ, D4PlaneP.getD_take _ _ _ _ (by omega)]
       rfl
   have e := key sBfs.length le_rfl
@@ -273,8 +273,8 @@ theorem size_classR1P : ∀ x ∈ classR1P (), x.1.size = 64 := size_mapWordP cl
 omit hL in
 theorem size_classR2P : ∀ x ∈ classR2P (), x.1.size = 64 := size_mapWordP classR2
 
-theorem rowOK_eq (E R1 R2 : List Pr) (hgE : ∀ x ∈ E, x.1.size = 64) (hg1 : ∀ x ∈ R1, x.1.size = 64)
-    (hg2 : ∀ x ∈ R2, x.1.size = 64) (row : Nat × Nat × Nat × List Nat) :
+theorem rowOK_eq (E R1 R2 : List Pr) (hgE : ∀ x ∈ E, x.1.size = 64) (_hg1 : ∀ x ∈ R1, x.1.size = 64)
+    (_hg2 : ∀ x ∈ R2, x.1.size = 64) (row : Nat × Nat × Nat × List Nat) :
     rowOK E R1 R2 row = rowQ ls (E.map encQ) (R1.map encQ) (R2.map encQ) row
       (planeQ9 (atQ (E.map encQ) row.1) (atQ (E.map encQ) row.2.1)) := by
   unfold rowOK rowQ
@@ -379,7 +379,7 @@ theorem recs_spec {es : List (Nat × Nat)} {prs : List (List (Nat × Nat))} {rec
     rw [List.length_zipIdx]
     exact hk
   have := h2 _ (List.getElem_mem hz)
-  simp only [List.getElem_zipIdx, Nat.zero_add, Bool.and_eq_true] at this
+  simp only [List.getElem_zipIdx, Nat.zero_add] at this
   obtain ⟨hb, hr⟩ := this
   refine ⟨?_, hr⟩
   rw [Nat.eq_of_beq_eq_true hb, ← hmap, atQ, List.getD_eq_getElem?_getD, List.getElem?_map,

@@ -82,12 +82,14 @@ theorem f4a_sq (i : Fin 10) : f4a K i ^ 2 = 1 := by
   rw [pow_two]
   exact mul_eq_one_iff_eq_inv.2 (f4a_inv i).symm
 
+omit [CharP K 2] in
 theorem pinnedX_one_pow (α : Fin Tag.F4.rank → ℤ) (n : ℕ) :
     pinnedX .F4 K α 1 ^ n = pinnedX .F4 K α (n : K) := by
   induction n with
   | zero => rw [pow_zero, Nat.cast_zero, pinnedX_zero]
   | succ n ih => rw [pow_succ, ih, Nat.cast_succ, pinnedX_add]
 
+omit [CharP K 2] in
 theorem hasBits_pow_val {g : adjointGroup .F4 K} {P : ℕ} (hg : HasBits K g P) (e : ZMod 2) :
     HasBits K (g ^ e.val) (selBits P e) := by
   have h : e.val < 2 := ZMod.val_lt e

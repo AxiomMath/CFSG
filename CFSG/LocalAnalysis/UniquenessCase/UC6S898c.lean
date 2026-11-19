@@ -11,10 +11,11 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22 CFSG.LocalAnalysi
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_of_card_prime {X : Subgroup G} {r : ℕ} (hr : r.Prime) (hX : Nat.card X = r) :
     IsElemAbelian r X := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : IsCyclic ↥X := isCyclic_of_prime_card (p := r) hX
+  have : Fact r.Prime := ⟨hr⟩
+  have : IsCyclic ↥X := isCyclic_of_prime_card (p := r) hX
   refine ⟨inferInstance, fun x hx => ?_⟩
   have : (⟨x, hx⟩ : ↥X) ^ Nat.card ↥X = 1 := pow_card_eq_one'
   rw [hX] at this

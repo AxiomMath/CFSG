@@ -22,6 +22,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T E : Subgr
 
 include c
 
+omit [Finite G] c in
 theorem s16Gen_inv_mul {s : G} (hS : S16Gen S s z t) : S16Gen S s (s⁻¹ * z) t := by
   have hzs' : z * s⁻¹ * z⁻¹ = s := by
     calc z * s⁻¹ * z⁻¹ = (z * s * z⁻¹)⁻¹ := by group
@@ -56,7 +57,7 @@ theorem exists_R {s σ v ξ : G} (hS : S16Gen S s z t) (hD : S16LData G L z t β
   have ht1 : t ≠ 1 := hcfg.t_ne
   obtain ⟨C, hCle, hCξ, htC, hξC, hCcard, hCsq, hCcomm⟩ := hD.rank5
   set A : Subgroup G := L ⊓ centralizer ({t} : Set G) with hA
-  have hS' : S16Gen S s (s⁻¹ * z) t := c.s16Gen_inv_mul hS
+  have hS' : S16Gen S s (s⁻¹ * z) t := OuterS16Ctx.s16Gen_inv_mul hS
   set z' : G := s⁻¹ * z with hz'
   set D' : Subgroup G := Dsub s z' with hD'
   have hD'card : Nat.card ↥D' = 8 :=

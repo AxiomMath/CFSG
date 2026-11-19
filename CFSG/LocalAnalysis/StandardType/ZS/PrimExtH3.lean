@@ -129,7 +129,7 @@ private theorem toMatrix_unitsSMul_mul_diagonal {m : ℕ} (f : Module.Basis (Fin
   rw [map_sum]
   simp only [map_smul]
   rw [map_sum]
-  simp only [map_smul, Finsupp.coe_finset_sum, Finset.sum_apply]
+  simp only [map_smul, _root_.Finsupp.coe_finsetSum, Finset.sum_apply]
   apply Finset.sum_congr rfl
   intro x _
   simp [Pi.smul_apply, smul_eq_mul, mul_comm]
@@ -188,7 +188,7 @@ private theorem unitsSMul_blockSucc_set_eq {m : ℕ} (f : Module.Basis (Fin (m +
         (g : V →ₗ[K] V) ∈ Matrix.blockSucc '' T} =
       {g : V ≃ₗ[K] V | LinearMap.toMatrix f f (g : V →ₗ[K] V) ∈ Matrix.blockSucc '' T} := by
   ext g
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨M, hM, hM'⟩
     refine ⟨M, hM, ?_⟩
@@ -924,7 +924,7 @@ private theorem diagonal_conj_one_sub_vecMulVec {n : ℕ} (a : Fin n → (ZMod p
   by_cases h : i = j
   · subst h
     field_simp
-  · rw [if_neg h]; ring
+  · rw [ite_eq_right h]; ring
 
 private theorem h4Cand_conj_rho {α : ZMod p} (k : Fin 3) (w : Fin 4 → (ZMod p)ˣ)
     {ρ κ : Fin 4 → ZMod p} (hρ0 : ρ 0 = 0) (hκ1 : κ 1 ≠ 0) (hρ3 : ρ 3 ≠ 0)
@@ -1158,7 +1158,7 @@ theorem basisClosure_h4BlockMats_le {α : ZMod p} (hα : α ^ 2 = α + 1)
   rw [basisClosure]
   apply (Subgroup.closure_le G).mpr
   intro g hg
-  simp only [Set.mem_setOf_eq] at hg ⊢
+  simp only [Set.mem_ofPred_eq] at hg ⊢
   rw [h4BlockMats] at hg
   simp only [Set.mem_insert_iff] at hg
   rcases hg with hg | ⟨M, hM, hMg⟩
@@ -1199,7 +1199,7 @@ private theorem h3Refl_mem_ne_reflection {α : ZMod p} (f : Module.Basis (Fin 4)
   have h33 := congrFun (congrFun hmat (3 : Fin 4)) (3 : Fin 4)
   rw [h3ReflMat_apply_last α j] at h33
   simp only [Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply] at h33
-  simp only [if_true] at h33
+  simp only [ite_true] at h33
   exact (mul_ne_zero hw3 hψ3) (by linear_combination h33)
 
 private theorem h4_psi_sum (f : Module.Basis (Fin 4) (ZMod p) U) {w : U}

@@ -385,19 +385,19 @@ theorem exists_basis_act [Finite G] {M : Subgroup G} (hM : G23Two M) {z : G}
   have h3z : (m : G) ^ 3 * z = z * (m : G) ^ 3 := by
     have e : (m : G) ^ 3 * z * ((m : G) ^ 3)⁻¹ =
         (m : G) * ((m : G) * ((m : G) * z * (m : G)⁻¹) * (m : G)⁻¹) * (m : G)⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc, inv_one, mul_one]
+      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc]
     rw [hmz, hmz, hmz] at e
     exact (mul_inv_eq_iff_eq_mul.mp e)
   have h3a : (m : G) ^ 3 * a = a * (m : G) ^ 3 := by
     have e : (m : G) ^ 3 * a * ((m : G) ^ 3)⁻¹ =
         (m : G) * ((m : G) * ((m : G) * a * (m : G)⁻¹) * (m : G)⁻¹) * (m : G)⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc, inv_one, mul_one]
+      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc]
     rw [hma, hmb, hmab] at e
     exact (mul_inv_eq_iff_eq_mul.mp e)
   have h3b : (m : G) ^ 3 * b = b * (m : G) ^ 3 := by
     have e : (m : G) ^ 3 * b * ((m : G) ^ 3)⁻¹ =
         (m : G) * ((m : G) * ((m : G) * b * (m : G)⁻¹) * (m : G)⁻¹) * (m : G)⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc, inv_one, mul_one]
+      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc]
     rw [hmb, hmab, hma] at e
     exact (mul_inv_eq_iff_eq_mul.mp e)
   have hcen : (m : G) ^ 3 ∈ Subgroup.centralizer (quasithinGenFitting M : Set G) := by
@@ -424,19 +424,19 @@ theorem exists_basis_act [Finite G] {M : Subgroup G} (hM : G23Two M) {z : G}
     have e : (m : G) ^ 4 * z * ((m : G) ^ 4)⁻¹ =
         (m : G) * ((m : G) * ((m : G) * ((m : G) * z * (m : G)⁻¹) * (m : G)⁻¹) * (m : G)⁻¹) *
           (m : G)⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc, inv_one, mul_one]
+      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc]
     rw [e, hmz, hmz, hmz, hmz]
   have e4a : (m : G) ^ 4 * a * ((m : G) ^ 4)⁻¹ = b := by
     have e : (m : G) ^ 4 * a * ((m : G) ^ 4)⁻¹ =
         (m : G) * ((m : G) * ((m : G) * ((m : G) * a * (m : G)⁻¹) * (m : G)⁻¹) * (m : G)⁻¹) *
           (m : G)⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc, inv_one, mul_one]
+      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc]
     rw [e, hma, hmb, hmab, hma]
   have e4b : (m : G) ^ 4 * b * ((m : G) ^ 4)⁻¹ = a * b := by
     have e : (m : G) ^ 4 * b * ((m : G) ^ 4)⁻¹ =
         (m : G) * ((m : G) * ((m : G) * ((m : G) * b * (m : G)⁻¹) * (m : G)⁻¹) * (m : G)⁻¹) *
           (m : G)⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc, inv_one, mul_one]
+      simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc]
     rw [e, hmb, hmab, hma, hmb]
   have hy3 : ((m : G) ^ 4) ^ 3 = 1 := by
     have e : ((m : G) ^ 4) ^ 3 = ((m : G) ^ 3 * (m : G) ^ 3) * ((m : G) ^ 3 * (m : G) ^ 3) := by

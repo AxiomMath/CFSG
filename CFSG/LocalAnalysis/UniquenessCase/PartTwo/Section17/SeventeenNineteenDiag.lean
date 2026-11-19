@@ -43,6 +43,7 @@ theorem pCoreOf_eq_inf_pCoreOf_of_mem_calC {M L : Subgroup G} (hL : L ∈ calC M
     CFSG.Open.pCoreOf 2 L = L ⊓ CFSG.Open.pCoreOf 2 M :=
   pCoreOf_eq_inf_pCoreOf_of_isSubnormal hL.1
 
+omit [Finite G] in
 theorem le_normalizer_perfDelta_of_le_normalizer {L M : Subgroup G}
     (hM : M ≤ Subgroup.normalizer (L : Set G)) (A : Subgroup (Bar2 L))
     (hA : ∀ s ∈ (CFSG.GroupTheory.conjModPCore 2 L M hM).range, A.map s.toMonoidHom = A) :
@@ -85,6 +86,7 @@ theorem L_le_iSup_perfDelta_sup_T (D : Data G) {L : Subgroup G} (hL : L ∈ calC
         (eq_iSup_perfDelta_sup_pCore L Δ A hAlt hgen).symm
     _ ≤ (⨆ i ∈ Δ, perfDelta L (A i)) ⊔ D.T := sup_le_sup_left (hO2L.trans hO2M) _
 
+omit [Finite G] in
 theorem imageBar2_orbitClosure_sup_eq_top {H Q T : Subgroup G} (hQH : Q ≤ H) (hTH : T ≤ H)
     (hH : H = Q ⊔ T) :
     orbitClosure (imageBar2 H Q) (imageBar2 H T) ⊔ imageBar2 H T = ⊤ := by
@@ -327,6 +329,7 @@ theorem hasComponentShapes_of_normal_direct {Q : Type} [Group Q] [Finite Q]
   exact hLB ▸ hBshape B hB
 
 
+omit [Finite G] in
 theorem preDeltaMap_ker_eq_pCore (L : Subgroup G) (A : Subgroup (Bar2 L)) :
     (preDeltaMap L A).ker =
       (CFSG.Open.pCoreOf 2 L).subgroupOf (preDelta L A) := by
@@ -562,7 +565,7 @@ theorem isQuasisimple_imageBar2_perfDelta (D : Data G) {L : Subgroup G}
 
 
 theorem commute_imageBar2_perfDelta_conj (D : Data G) {L : Subgroup G} (hL : L ∈ calC D.M)
-    (A : Subgroup (Bar2 L)) (hAlt : IsAlt ↥A 5)
+    (A : Subgroup (Bar2 L)) (_hAlt : IsAlt ↥A 5)
     (hInv : ∀ s ∈ (CFSG.GroupTheory.conjModPCore 2 L
         (D.T ⊓ Subgroup.normalizer (L : Set G)) inf_le_right).range,
       A.map s.toMonoidHom = A)
@@ -781,7 +784,7 @@ theorem gap17_19_A5Members (D : Data G) (V₀ V : Subgroup G) :
     have h5 : IsMulCommutative ↥(alternatingGroup (Fin 5)) :=
       (isMulCommutative_congr eK).mp h
     rw [alternatingGroup.isMulCommutative_iff_card_le_three] at h5
-    simpa using h5
+    simp at h5
   have hKL2 : IsL2 ↥K 2 := by
     obtain ⟨eK⟩ := isAlt_imageBar2_perfDelta D hL A hAlt
     exact CFSG.Quasithin.H13.A5.lieModel_of_alternating_five eK

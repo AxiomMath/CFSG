@@ -24,7 +24,7 @@ open CFSG.Assembly
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem hdRo7CKCoordAux_spLift
-    (hRig : GGLabelRigidInput)
+    (_hRig : GGLabelRigidInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hrow : GGResRowAt ggRowCorank2C p J K) :
@@ -49,7 +49,7 @@ private theorem hdRo7CKCoordAux_three_dvd_quotient {X : Type} [Group X] [Finite 
     (tag : LargeEvenLieTag) (r n : ℕ)
     (h : CFSG.Assembly.LargeEvenRawDatum ⟨tag, r, n⟩
       (fun R _ _ _ => Nonempty (X ≃* R)))
-    (htag : tag = .B ∨ tag = .C) (hn : n = 1) (hr : 1 ≤ r) :
+    (htag : tag = .B ∨ tag = .C) (_hn : n = 1) (hr : 1 ≤ r) :
     3 ∣ Nat.card X := by
   rcases htag with hB | hC
   · subst hB
@@ -79,7 +79,7 @@ theorem hdRo7CKCoordAux_x_decomp
     ∃ (c : ℕ) (z : G), z ∈ Bs ⊓ K ∧ x = y ^ c * z := by
   obtain ⟨R, hRgrp, I, θ, hBsN, -, -, -, -, hI, hBs3⟩ :=
     hdRo7CKCoordAux_torus_data hRig hH hrow
-  letI : Group R := hRgrp
+  let : Group R := hRgrp
   have hZK : Subgroup.center ↥K = ⊥ := hdRo7CKCoordAux_center_K_eq_bot hH hrow
   have hinner : ∀ b ∈ Bs, ∃ x ∈ K, ∀ y ∈ K, b * y * b⁻¹ = x * y * x⁻¹ :=
     hdRo7CKCoordAux_hinner p B Bs x L D J y K hH R I θ hI hZK hBsN hBs3
@@ -111,7 +111,7 @@ theorem hdRo7CKCoordAux_x_decomp
 theorem hdRo7CKCoordAux_component_K_z (hLB : GGLBalanceInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
-    (hrow : GGResRowAt ggRowCorank2C p J K) (z : G) (hz : z ∈ Bs ⊓ K) (c : ℕ)
+    (hrow : GGResRowAt ggRowCorank2C p J K) (z : G) (_hz : z ∈ Bs ⊓ K) (c : ℕ)
     (hxz : x = y ^ c * z) :
     CFSG.Assembly.IsComponentOf J (K ⊓ Subgroup.centralizer ({z} : Set G)) := by
   obtain ⟨labJ, labK, hΛJ, -, hJlab, -, hp3, hBCJ, hnJ, -, -, hrankKJ⟩ := hrow
@@ -195,7 +195,7 @@ theorem hdRo7CKCoordAux_support_of_statedSp
     hdRo7CKCoordAux_E_selfCentralizing hH hRig hrow hp3 n hy τ h0 hmodel φ hinj hrange
   obtain ⟨L, hLf, hAlg, hMF, ζ, hdim, hζ, F, hFs, c, hc⟩ :=
     hdRo7CKCoordAux_frame_of_K (m := m) φ hEab hEsc t htE
-  haveI : Module.Finite (GaloisField 2 1) L := hMF
+  have : Module.Finite (GaloisField 2 1) L := hMF
   obtain ⟨labJ, labK, hΛJ, hΛK, hJlab, hKlab, hrowBC, hrankK, hrankJ⟩ :=
     hdRo7CKCoordAux_rank_K_eq_m hH hrow φ hinj hrange
   have hnJ : labJ.n = 1 := hrowBC.2.2.1
@@ -239,7 +239,7 @@ theorem hdRo7CKCoordAux_support_transfer {G : Type} [Group G] {p : ℕ}
     simpa only [map_mul, map_pow] using h
   intro l hl
   have hsingle : (τ.symm ⟨y, hy⟩) l = 1 := by
-    rw [hsym, Pi.mulSingle_apply, if_neg hl]
+    rw [hsym, Pi.mulSingle_apply, ite_eq_right hl]
   have key : Multiplicative.toAdd (τ.symm ⟨x, hx⟩ l) =
       Multiplicative.toAdd (τ.symm ⟨z, hz⟩ l) := by
     have h1 : τ.symm ⟨x, hx⟩ l = ((τ.symm ⟨y, hy⟩) l) ^ c * (τ.symm ⟨z, hz⟩ l) :=

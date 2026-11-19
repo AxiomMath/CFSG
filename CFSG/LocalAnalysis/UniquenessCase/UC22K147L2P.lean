@@ -18,7 +18,7 @@ theorem k147L2P_holds : K147L2P := by
   obtain ⟨hn2, hL2, -⟩ := hcase
   have hn : 3 ≤ n := hn2
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := P22y.exists_equiv_sl2 (P22fin.isL2Ev_of_isL2 hL2).1
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hF' : Fintype.card F = 2 ^ n := by
     rw [Fintype.card_eq_nat_card]
     exact hF

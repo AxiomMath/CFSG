@@ -18,8 +18,8 @@ theorem ggQ2s08_big_irr (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup V
     (hb : 8 * Nat.card R < 3 ^ (n * (n - 1) / 2))
     (hirr : ∀ S : Submodule (ZMod 3) V, (∀ a ∈ R, ∀ u ∈ S, a u ∈ S) → S = ⊥ ∨ S = ⊤) :
     False := by
-  haveI : Module.Finite (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) := by
+  have : Module.Finite (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
+  have : Finite (V ≃ₗ[ZMod 3] V) := by
     have : Finite V := Module.finite_of_finite (ZMod 3)
     exact Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       fun _ _ h => LinearEquiv.ext (congrFun h)

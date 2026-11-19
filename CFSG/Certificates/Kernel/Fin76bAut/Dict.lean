@@ -37,7 +37,7 @@ theorem foldl_cnt (f : ℕ → Bool) : ∀ (l : List ℕ) (s : ℕ),
   | [], s => by simp
   | i :: l, s => by
     rw [List.foldl_cons, foldl_cnt f l, List.filter_cons]
-    cases f i <;> simp <;> omega
+    cases f i <;> simp; omega
 
 theorem eCnt_eq_length (n : ℕ) (f : ℕ → Bool) : eCnt n f = ((List.range n).filter f).length := by
   rw [eCnt, foldUp_eq]
@@ -55,22 +55,22 @@ theorem eKind_iff {ET : ℕ → ℕ} {s k : ℕ} :
   unfold eKind
   rw [bAnd_eq, Bool.and_eq_true, beq_t, bIf_eq, bIf_eq]
   by_cases h0 : k = 0
-  · rw [if_pos (beq_t.2 h0)]
+  · rw [ite_eq_left (beq_t.2 h0)]
     simp [h0]
-  · rw [if_neg (by rw [beq_t]; exact h0)]
+  · rw [ite_eq_right (by rw [beq_t]; exact h0)]
     by_cases h21 : k = 21
-    · rw [if_pos (beq_t.2 h21)]
+    · rw [ite_eq_left (beq_t.2 h21)]
       simp [h21]
-    · rw [if_neg (by rw [beq_t]; exact h21)]
+    · rw [ite_eq_right (by rw [beq_t]; exact h21)]
       simp [h0, h21]
 
 theorem eNcm_iff {ET : ℕ → ℕ} {y x : ℕ} : eNcm ET y x = true ↔ eMul ET y x ≠ eMul ET x y := by
   unfold eNcm
   rw [bIf_eq]
   by_cases hc : eCm ET y x = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     simp [eCm_iff.1 hc]
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     simpa [eCm_iff] using hc
 
 theorem eAnti_iff {ET : ℕ → ℕ} {a b : ℕ} :
@@ -78,9 +78,9 @@ theorem eAnti_iff {ET : ℕ → ℕ} {a b : ℕ} :
   unfold eAnti
   rw [bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true, bIf_eq]
   by_cases hc : Nat.beq (eMul ET a b) (eMul ET b a) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     simp [beq_t.1 hc]
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     have hc' : eMul ET a b ≠ eMul ET b a := fun e => hc (beq_t.2 e)
     simp [hc']
 
@@ -96,7 +96,7 @@ theorem e69TabK_spec {ET : ℕ → ℕ} (h : e69TabK ET = true) :
   obtain ⟨hz, h10, h20, hx⟩ := h
   refine ⟨hz, h10, h20, fun x hx32 hk => ?_⟩
   have h1 := hx x hx32
-  rw [bIf_eq, if_pos hk, bAnd_eq, Bool.and_eq_true, beq_t, beq_t] at h1
+  rw [bIf_eq, ite_eq_left hk, bAnd_eq, Bool.and_eq_true, beq_t, beq_t] at h1
   simpa only [bAnd_eq] using h1
 
 section Sq
@@ -133,7 +133,7 @@ theorem root_of_eSqK {s c : ℕ} {W : ℕ → ℕ} (hsq : eSqK ET cnt T s c W = 
   rw [allN_iff] at hw
   intro k hk hkind
   have h1 := hw k hk
-  rw [bIf_eq, if_pos hkind, strictB_eq, bAnd_eq, Bool.and_eq_true] at h1
+  rw [bIf_eq, ite_eq_left hkind, strictB_eq, bAnd_eq, Bool.and_eq_true] at h1
   obtain ⟨hlt, hhit⟩ := h1
   obtain ⟨ψ, hψ⟩ := (hrec H M elt R hM).2.1 (W k) (Nat.le_of_ble_eq_true hlt)
   exact ⟨ψ * ψ, mul_self_mem_of_index_le_two hA ψ, sq_hit R hψ hc hhit⟩
@@ -151,7 +151,7 @@ theorem ePairK_spec {np : ℕ} {PA PB PI : ℕ → ℕ} (h : ePairK ET cnt T np 
   refine ⟨Nat.le_of_ble_eq_true ha, Nat.le_of_ble_eq_true hb, hab, fun hq1 => ?_,
     Nat.le_of_ble_eq_true hi, h1, h2⟩
   have hq1' : Nat.blt (Nat.succ q) np = true := Nat.blt_eq.mpr hq1
-  rw [bIf_eq, if_pos hq1'] at hord
+  rw [bIf_eq, ite_eq_left hq1'] at hord
   exact Nat.blt_eq.mp hord
 
 theorem shr5 {a b : ℕ} (hb : b < 32) : Nat.shiftRight (32 * a + b) 5 = a := by

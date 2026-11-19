@@ -38,7 +38,6 @@ private lemma irgE7_map_rootGroup_eq
       rw [φ.apply_symm_apply, mul_inv_cancel_left₀ ha]
     change α (x γ (φ.symm ((a : F)⁻¹ * c))) = y
     rw [hx, hφ]
-    change g0 * x γ c * g0⁻¹ = y
     exact hzy
 
 theorem irgRootPairAut_E7

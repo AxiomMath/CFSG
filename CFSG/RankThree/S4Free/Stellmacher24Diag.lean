@@ -16,6 +16,7 @@ section ElemAbelian
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem exists_union_mul {A X : Subgroup H} (hA : CFSG.Open.IsElemAbelian 2 A) (hXA : X ≤ A)
     {x : H} (hx : x ∈ A) : ∃ X' : Subgroup H, X' ≤ A ∧ ∀ y, y ∈ X' ↔ y ∈ X ∨ x * y ∈ X := by
   have hxx : x * x = 1 := by rw [← pow_two]; exact hA.2 x hx
@@ -51,7 +52,7 @@ theorem exists_union_mul {A X : Subgroup H} (hA : CFSG.Open.IsElemAbelian 2 A) (
       rwa [← mul_assoc, hxx, one_mul] at this
 
 theorem exists_compl_of_isElemAbelian {A B : Subgroup H} (hA : CFSG.Open.IsElemAbelian 2 A)
-    (hBA : B ≤ A) : ∃ C : Subgroup H, C ≤ A ∧ C ⊓ B = ⊥ ∧ ∀ x ∈ A, ∃ y ∈ C, ∃ z ∈ B, x = y * z := by
+    (_hBA : B ≤ A) : ∃ C : Subgroup H, C ≤ A ∧ C ⊓ B = ⊥ ∧ ∀ x ∈ A, ∃ y ∈ C, ∃ z ∈ B, x = y * z := by
   classical
   obtain ⟨C, ⟨hCA, hCB⟩, hmax⟩ := (Set.toFinite {C : Subgroup H | C ≤ A ∧ C ⊓ B = ⊥}).exists_maximal
     ⟨⊥, bot_le, bot_inf_eq _⟩
@@ -146,16 +147,16 @@ theorem coord_of_mem {i j : Fin r} {x : H} (hx : x ∈ E i) :
   rw [coord_apply, C.symm_of_mem hx]
   by_cases hji : j = i
   · subst hji
-    rw [Pi.mulSingle_eq_same, if_pos rfl]
-  · rw [Pi.mulSingle_eq_of_ne hji, if_neg hji, OneMemClass.coe_one]
+    rw [Pi.mulSingle_eq_same, ite_eq_left rfl]
+  · rw [Pi.mulSingle_eq_of_ne hji, ite_eq_right hji, OneMemClass.coe_one]
 
 theorem coord_of_mem_self {j : Fin r} {x : H} (hx : x ∈ E j) :
     (C.coord j ⟨x, C.le j hx⟩ : H) = x := by
-  rw [C.coord_of_mem hx, if_pos rfl]
+  rw [C.coord_of_mem hx, ite_eq_left rfl]
 
 theorem coord_of_mem_ne {i j : Fin r} {x : H} (hx : x ∈ E i) (hij : i ≠ j) :
     (C.coord j ⟨x, C.le i hx⟩ : H) = 1 := by
-  rw [C.coord_of_mem hx, if_neg (Ne.symm hij)]
+  rw [C.coord_of_mem hx, ite_eq_right (Ne.symm hij)]
 
 theorem ext_coord {n m : ↥N} (h : ∀ j, C.coord j n = C.coord j m) : n = m :=
   C.e.symm.injective (funext h)
@@ -337,13 +338,13 @@ theorem diagFun_of_mem {A₁ : Subgroup H} {i₀ j : Fin r} (h : InOrbit E A₁ 
     (diagFun E A₁ i₀ x j : H) = h.choose * x * h.choose⁻¹ := by
   classical
   unfold diagFun
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem diagFun_of_not_mem {A₁ : Subgroup H} {i₀ j : Fin r} (h : ¬ InOrbit E A₁ i₀ j)
     (x : E i₀) : diagFun E A₁ i₀ x j = 1 := by
   classical
   unfold diagFun
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 noncomputable def diag (C : Comps N r E) (A₁ : Subgroup H) (i₀ : Fin r) : E i₀ →* N where
   toFun x := C.e (diagFun E A₁ i₀ x)
@@ -399,7 +400,7 @@ theorem conj_mem_of_map_eq {K : Subgroup H} {b : H}
 
 theorem map_conj_one' (K : Subgroup H) : K.map (MulAut.conj (1 : H)).toMonoidHom = K := by
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 theorem map_conj_mul (K : Subgroup H) (b c : H) :
     (K.map (MulAut.conj c).toMonoidHom).map (MulAut.conj b).toMonoidHom =
@@ -452,6 +453,7 @@ variable {H : Type*} [Group H] [Finite H] {S M A N : Subgroup H} {r : ℕ}
   {E : Fin r → Subgroup H} (Q : SzConfig S M A N r E)
 
 include Q in
+omit [Finite H] in
 theorem center_eq (k : Fin r) (z : H) (hz : z ∈ E k)
     (hzc : ∀ x ∈ E k, z * x = x * z) : z = 1 := by
   obtain ⟨a, ha, K, _, _, hK, ⟨eK⟩⟩ := Q.sz k
@@ -459,6 +461,7 @@ theorem center_eq (k : Fin r) (z : H) (hz : z ∈ E k)
   exact congrArg Subtype.val this
 
 include Q in
+omit [Finite H] in
 theorem exists_map_conj_eq (b : H) (i : Fin r) :
     ∃ k, (E i).map (MulAut.conj b).toMonoidHom = E k := by
   have := Q.normal
@@ -526,7 +529,7 @@ theorem mem_iff_coord (n : ↥N) : (n : H) ∈ S ↔ ∀ j, (Q.coord j n : H) �
     rw [hk] at h1
     have h2 := congrArg Subtype.val h1
     simp only [SubmonoidClass.coe_pow, OneMemClass.coe_one] at h2
-    simp only [Subgroup.coe_pow, map_pow, map_one, SubmonoidClass.coe_pow, OneMemClass.coe_one]
+    simp only [map_pow, map_one, SubmonoidClass.coe_pow, OneMemClass.coe_one]
     exact h2
   have hle : (SN : Subgroup N) ≤ Y := by
     rw [hSNc]
@@ -550,16 +553,19 @@ theorem sylowE_ne_bot (j : Fin r) :
   omega
 
 include Q in
+omit [Finite H] in
 theorem not_le : ¬ N ≤ M := fun hle => Q.ne_bot (by
   have := Q.normal
   rw [eq_bot_iff, ← Q.core_eq]
   exact normal_le_normalCore.mpr hle)
 
 include Q in
+omit [Finite H] in
 theorem sup_eq_top : M ⊔ N = ⊤ :=
   Q.hyp.isCoatom.2 _ (lt_of_le_of_ne le_sup_left fun heq => Q.not_le (heq ▸ le_sup_right))
 
 include Q in
+omit [Finite H] in
 theorem not_le_factor (j : Fin r) : ¬ E j ≤ M := by
   intro hle
   apply Q.not_le
@@ -680,6 +686,7 @@ theorem mem_of_coord (n : ↥N)
   have := Q.conj_mem_of_coord n⁻¹ hinv hq
   simpa [mul_assoc] using this
 
+omit [Finite H] in
 theorem coord_conjNormal (b : H) {j k : Fin r}
     (hjk : (E j).map (MulAut.conj b).toMonoidHom = E k) (n : ↥N) :
     haveI := Q.normal
@@ -688,6 +695,7 @@ theorem coord_conjNormal (b : H) {j k : Fin r}
   Q.toComps.coord_conj Q.simple b (Q.exists_map_conj_eq b) hjk n
 
 include Q in
+omit [Finite H] in
 theorem exists_map_conj_eq_symm (b : H) (k : Fin r) :
     ∃ j, (E j).map (MulAut.conj b).toMonoidHom = E k := by
   obtain ⟨j, hj⟩ := Q.exists_map_conj_eq b⁻¹ k
@@ -696,6 +704,7 @@ theorem exists_map_conj_eq_symm (b : H) (k : Fin r) :
 
 variable (A₁ : Subgroup H) (i₀ : Fin r)
 
+omit [Finite H] in
 theorem coord_diag_self
     (hstab : ∀ c ∈ A₁, (E i₀).map (MulAut.conj c).toMonoidHom = E i₀ → ∀ y ∈ E i₀, c * y * c⁻¹ = y)
     (x : E i₀) : (Q.coord i₀ (diag Q.toComps A₁ i₀ x) : H) = x := by
@@ -703,12 +712,13 @@ theorem coord_diag_self
   rw [coord_diag, diagFun_of_mem h]
   exact hstab _ h.choose_spec.1 h.choose_spec.2 x x.2
 
+omit [Finite H] in
 theorem conj_diag_of_mem
     (hstab : ∀ c ∈ A₁, (E i₀).map (MulAut.conj c).toMonoidHom = E i₀ → ∀ y ∈ E i₀, c * y * c⁻¹ = y)
     {b : H} (hb : b ∈ A₁) (x : E i₀) :
     haveI := Q.normal
     MulAut.conjNormal b (diag Q.toComps A₁ i₀ x) = diag Q.toComps A₁ i₀ x := by
-  haveI := Q.normal
+  have := Q.normal
   refine Q.ext_coord fun k => Subtype.ext ?_
   obtain ⟨j, hjk⟩ := Q.exists_map_conj_eq_symm b k
   rw [Q.coord_conjNormal b hjk, coord_diag, coord_diag]
@@ -741,13 +751,14 @@ theorem conj_diag_of_mem
     rw [diagFun_of_not_mem hj, diagFun_of_not_mem hk]
     simp
 
+omit [Finite H] in
 theorem conj_diag_of_normalizes {b : H}
     (hbE : (E i₀).map (MulAut.conj b).toMonoidHom = E i₀) (hbc : ∀ c ∈ A₁, b * c = c * b)
     (x : E i₀) :
     haveI := Q.normal
     MulAut.conjNormal b (diag Q.toComps A₁ i₀ x) =
       diag Q.toComps A₁ i₀ ⟨b * x * b⁻¹, conj_mem_of_map_eq hbE x.2⟩ := by
-  haveI := Q.normal
+  have := Q.normal
   refine Q.ext_coord fun k => Subtype.ext ?_
   obtain ⟨j, hjk⟩ := Q.exists_map_conj_eq_symm b k
   rw [Q.coord_conjNormal b hjk, coord_diag, coord_diag]
@@ -777,13 +788,14 @@ theorem conj_diag_of_normalizes {b : H}
     rw [diagFun_of_not_mem hj, diagFun_of_not_mem hk]
     simp
 
+omit [Finite H] in
 theorem coord_conj_diag_eq_one {a : H} (haA : a ∈ A) (haA₁ : a ∉ A₁)
-    (hA₁A : A₁ ≤ A) (hcomm : ∀ c ∈ A, ∀ d ∈ A, c * d = d * c)
+    (hA₁A : A₁ ≤ A) (_hcomm : ∀ c ∈ A, ∀ d ∈ A, c * d = d * c)
     (hN₀ : ∀ c ∈ A, (E i₀).map (MulAut.conj c).toMonoidHom = E i₀ → c ∈ A₁) (x : E i₀)
     {k : Fin r} (hk : InOrbit E A₁ i₀ k) :
     haveI := Q.normal
     Q.coord k (MulAut.conjNormal a (diag Q.toComps A₁ i₀ x)) = 1 := by
-  haveI := Q.normal
+  have := Q.normal
   obtain ⟨j, hjk⟩ := Q.exists_map_conj_eq_symm a k
   refine Subtype.ext ?_
   rw [Q.coord_conjNormal a hjk, coord_diag]
@@ -880,7 +892,7 @@ theorem exists_isL24_of_hyperplane (i₀ : Fin r)
     (hN₀ : ∀ c ∈ A, (E i₀).map (MulAut.conj c).toMonoidHom = E i₀ → c ∈ A₁)
     (hC₀ : ∀ c ∈ A, (E i₀).map (MulAut.conj c).toMonoidHom = E i₀ → ∀ y ∈ E i₀, c * y * c⁻¹ = y) :
     ∃ L, IsL24 S M A L := by
-  haveI := Q.normal
+  have := Q.normal
   have hcomm : ∀ c ∈ A, ∀ d ∈ A, c * d = d * c := fun c hc d hd =>
     isElemAbelian_comm Q.hyp.elemAb hc hd
   have hstab : ∀ c ∈ A₁, (E i₀).map (MulAut.conj c).toMonoidHom = E i₀ →
@@ -958,7 +970,7 @@ theorem exists_of_compl
     (hnc : ∃ n ∈ A, (E i₀).map (MulAut.conj n).toMonoidHom = E i₀ ∧
       ∃ w ∈ E i₀, n * w * n⁻¹ ≠ w) :
     ∃ L, IsL24 S M A L ∨ IsL24Sz S M A L := by
-  haveI := Q.normal
+  have := Q.normal
   have hcomm : ∀ c ∈ A, ∀ d ∈ A, c * d = d * c := fun c hc d hd =>
     isElemAbelian_comm Q.hyp.elemAb hc hd
   have hstab : ∀ c ∈ A₁, (E i₀).map (MulAut.conj c).toMonoidHom = E i₀ →
@@ -1080,7 +1092,7 @@ theorem exists_isL24_or_isL24Sz_of_nonsolvable
     have : ∀ n m : N, n * m = m * n := fun n m => C.ext_coord fun j => Subtype.ext (by
       rw [map_mul, map_mul, Subgroup.coe_mul, Subgroup.coe_mul]
       exact hcomm j _ _ (C.coord j n).2 (C.coord j m).2)
-    exact isSolvable_of_comm this
+    exact _root_.Group.isSolvable_of_comm this
   set Q : SzConfig S M A N r E :=
     SzConfig.mk C h hO hD hNn hEs (fun i => hSz _ (hEs i) (hEna i)) hnin hconj' hN1 with hQdef
   obtain ⟨i₀, hi₀⟩ : ∃ i₀, ¬ A ≤ centralizer (E i₀ : Set H) := by
@@ -1137,7 +1149,7 @@ theorem step24_szSections
   intro H _ _ S M A hP h hO hD N hNn hN1 hmin hNs
   refine exists_isL24_or_isL24Sz_of_nonsolvable hSub (fun E hE hna => ?_) h hO hD N hNn hN1 hmin
     hNs
-  haveI := hE
+  have := hE
   exact hP.isSzGroup E (MonoidHom.id E) Function.surjective_id hna
 
 theorem exists_isL24_or_isL24Sz_of_szSections

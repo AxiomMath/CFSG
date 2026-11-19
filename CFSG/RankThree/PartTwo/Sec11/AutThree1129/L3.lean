@@ -48,12 +48,12 @@ theorem card_le_27_of_model {π : Bool} {p f : ℕ} {K : Type} [Field K]
     apply h9
     have hd := CFSG.RankThree.PartTwo.Sec15.Proof158Cartan.modNine_of_three_dvd hq hf
     cases π
-    · exact hd.resolve_left (fun h1 => by simp only [Sec4.ModThree, cond_false] at hq; omega)
-    · exact hd.resolve_right (fun h8 => by simp only [Sec4.ModThree, cond_true] at hq; omega)
+    · exact hd.resolve_left (fun h1 => by simp only [Sec4.ModThree, Bool.cond_false] at hq; omega)
+    · exact hd.resolve_right (fun h8 => by simp only [Sec4.ModThree, _root_.Bool.cond_true] at hq; omega)
   have := hK.finite
   have : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
-  haveI : Finite (MulAut (projImage (Sec4.slPi π 3 (p ^ f) K))) :=
+  have : Finite (MulAut (projImage (Sec4.slPi π 3 (p ^ f) K))) :=
     Finite.of_injective (fun σ => (σ : projImage (Sec4.slPi π 3 (p ^ f) K) →
       projImage (Sec4.slPi π 3 (p ^ f) K))) fun σ τ h => MulEquiv.ext (congrFun h)
   let Φ : ↥(projImage (Sec4.glPi π 3 (p ^ f) K)) →*
@@ -152,7 +152,7 @@ theorem thetaComponentsIn_map_of_injective {G G' : Type} [Group G] [Group G'] [F
   exact Set.mem_image_of_mem (fun L : Subgroup (H.map f) => L.map (H.map f).subtype) hL''
 
 theorem finite_mulAut_of_finite (Z : Type) [Group Z] [Finite Z] : Finite (MulAut Z) :=
-  Finite.of_injective (fun σ : MulAut Z => (σ : Z → Z)) fun σ τ h => MulEquiv.ext (congrFun h)
+  Finite.of_injective (fun _σ : MulAut Z => (_σ : Z → Z)) fun _σ _τ h => MulEquiv.ext (congrFun h)
 
 abbrev AutSemi (Z : Type) [Group Z] (α : MulAut Z) : Type :=
   SemidirectProduct Z (Subgroup.zpowers α) (Subgroup.zpowers α).subtype
@@ -165,7 +165,7 @@ abbrev autBase {Z : Type} [Group Z] (α : MulAut Z) : Subgroup (AutSemi Z α) :=
 
 theorem finite_autSemi {Z : Type} [Group Z] [Finite Z] (α : MulAut Z) :
     Finite (AutSemi Z α) := by
-  haveI := finite_mulAut_of_finite Z
+  have := finite_mulAut_of_finite Z
   exact Finite.of_injective (fun x : AutSemi Z α => (x.left, x.right)) fun x y h => by
     cases x
     cases y
@@ -275,7 +275,7 @@ theorem aschbacherSolvableCore_eq_bot_of_simple_L3 {X : Type} [Group X] [IsSimpl
 theorem not_isSolvable_of_perfect_simple_L3 {X : Type} [Group X] [IsSimpleGroup X]
     (hX : Group.IsPerfect X) : ¬ Group.IsSolvable X := by
   intro hs
-  haveI := subsingleton_of_perfect_solvable X
+  have := subsingleton_of_perfect_solvable X
   exact (not_nontrivial_iff_subsingleton.mpr this) inferInstance
 
 theorem isType424_map_inl {Z : Type} [Group Z] [Finite Z] (α : MulAut Z) (J : Subgroup Z)
@@ -297,14 +297,14 @@ theorem card_le_27_of_gt_two {π : Bool} {p f : ℕ} {K : Type} [Field K]
     (P : Subgroup (MulAut Z)) (hP : IsPGroup 3 P) : Nat.card P ≤ 27 := by
   by_cases h9 : Sec4.ModNine π (p ^ f)
   · exfalso
-    haveI := finite_autSemi α
-    haveI : IsSimpleGroup (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
+    have := finite_autSemi α
+    have : IsSimpleGroup (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
       CFSG.RankThree.PartTwo.Sec4.Res4Seven.isSimpleGroup_projImage_slPi hK hq2
     have hWperf : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
       CFSG.RankThree.PartTwo.Sec13.isPerfect_projImage_slPi hK hq2
     let e1 : ↥(autBase α) ≃* projImage (Sec4.slPi π 3 (p ^ f) K) :=
       (MonoidHom.ofInjective (autInl_injective α)).symm.trans g
-    haveI : IsSimpleGroup ↥(autBase α) := e1.isSimpleGroup
+    have : IsSimpleGroup ↥(autBase α) := e1.isSimpleGroup
     have hY : Group.IsPerfect ↥(autBase α) := isPerfect_of_mulEquiv hWperf e1
     have hcore : aschbacherSolvableCore 3 ↥(autBase α) = ⊥ :=
       aschbacherSolvableCore_eq_bot_of_simple_L3 (not_isSolvable_of_perfect_simple_L3 hY)
@@ -347,17 +347,17 @@ theorem autThreeAut_l3 : AutThreeAut Sec13.IsLThreePi := by
       · rw [h2] at hq
         simp [Sec4.ModThree] at hq
     subst hπ
-    haveI : Group.IsSolvable (projImage (Sec4.slPi false 3 (p ^ e') K)) :=
+    have : Group.IsSolvable (projImage (Sec4.slPi false 3 (p ^ e') K)) :=
       CFSG.RankThree.PartTwo.Sec13.isSolvable_projImage_slPi_two hK h2
-    haveI : Group.IsSolvable X :=
+    have : Group.IsSolvable X :=
       Group.isSolvable_of_surjective (f := f.symm.toMonoidHom) f.symm.surjective
-    haveI : Group.IsSolvable Z :=
+    have : Group.IsSolvable Z :=
       Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-    haveI : Group.IsPerfect ↥J :=
+    have : Group.IsPerfect ↥J :=
       CFSG.RankThree.PartTwo.isPerfect_of_mem_thetaComponentsIn hJ
-    haveI := subsingleton_of_perfect_solvable ↥J
+    have := subsingleton_of_perfect_solvable ↥J
     have hc : Nat.card J = 1 := Nat.card_of_subsingleton (1 : ↥J)
-    simp [hc] at hJ3
+    simp at hJ3
 
 end CFSG.RankThree.PartTwo.Sec11.AutThree1129
 

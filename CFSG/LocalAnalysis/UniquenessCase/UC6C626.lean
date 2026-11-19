@@ -26,7 +26,7 @@ theorem ne_bot_of_one_le_pRank_uc6 {p : ℕ} (hp : p.Prime) {Q : Subgroup G}
 theorem c626_of_kernels (hgen : m.C626gen) (h619 : m.C619) : m.C626 := by
   intro p hp hdvd
   have hpp : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨P, hP⟩ := exists_isSylowOf p (m.M ⊓ normalizer (m.Z : Set G))
   have hPne : P ≠ ⊥ := by
     intro hbot

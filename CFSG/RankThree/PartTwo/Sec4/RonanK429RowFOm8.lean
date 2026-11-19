@@ -115,7 +115,7 @@ theorem matO_y7 : matO y7 = emb Sp6.y0M := by
   rw [h]
   show emb ((⁅Yg, Zg⁆ : GL ι6 (ZMod 2)) : Matrix ι6 ι6 (ZMod 2)) = emb Sp6.y0M
   congr 1
-  simp only [commutatorElement_def, Yg, Zg, Units.val_mul, Units.inv_mk, Units.val_mk]
+  simp only [commutatorElement_def, Yg, Zg, Units.val_mul, Units.inv_mk]
   exact comm_Y6_Z6
 
 theorem emb_y0M_pow_seven : emb Sp6.y0M ^ 7 = 1 := by
@@ -128,7 +128,7 @@ theorem emb_y0M_ne_one : emb Sp6.y0M ≠ 1 := by
   rw [h, emb_one]
 
 theorem orderOf_y7 : orderOf y7 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine orderOf_eq_prime (matO_injective ?_) fun h => emb_y0M_ne_one ?_
   · rw [map_pow, matO_y7, emb_y0M_pow_seven, map_one]
   · rw [← matO_y7, h, map_one]
@@ -445,7 +445,7 @@ noncomputable def ED : psiD.range ≃* ↥(alternatingGroup (Fin 8)) :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.statedOmega_quadPlus_three_mulEquiv_alt8
 
 theorem D_simple : IsSimpleGroup psiD.range := by
-  haveI := CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.isSimpleGroup_statedOmega_quadPlus_three
+  have := CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.isSimpleGroup_statedOmega_quadPlus_three
   exact (MonoidHom.ofInjective psiD_injective).symm.isSimpleGroup
 
 theorem D_nonab : ∃ a b : psiD.range, a * b ≠ b * a := by
@@ -469,8 +469,8 @@ theorem good429_t {t : Om8} (ht : IsTForm t) :
   have hDC : psiD.range ≤ Cen t := by
     rintro _ ⟨P, rfl⟩
     exact psiD_mem_cent ht P
-  haveI := D_simple
-  haveI : Group.IsPerfect psiD.range := isPerfect_of_simple D_nonab
+  have := D_simple
+  have : Group.IsPerfect psiD.range := isPerfect_of_simple D_nonab
   have hGood : Good429 psiD.range :=
     good429_self card_D (B := 28) (by norm_num) (by norm_num) (by decide +kernel)
       (not_isType429_quot_of_simple_20160 card_D D_order6)
@@ -548,7 +548,7 @@ theorem eight_OmegaMinus :
       RowSOf429 (projOmegaMinus 3 (GaloisField 2 1) b c) := by
   intro b c hbc
   exact rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     exact noCfgS429_om8 hna hbc e
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429F

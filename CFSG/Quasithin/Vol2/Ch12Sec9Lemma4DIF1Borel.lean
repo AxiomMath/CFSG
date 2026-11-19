@@ -38,7 +38,7 @@ namespace CFSG.Quasithin.H13.C1294
         ((g⁻¹ : Matrix.SpecialLinearGroup (Fin (3 + 1)) (ZMod 2)) :
           Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)) = 1 := by
       rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]
-    letI : Invertible (g : Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)) :=
+    let : Invertible (g : Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)) :=
       ⟨((g⁻¹ : Matrix.SpecialLinearGroup (Fin (3 + 1)) (ZMod 2)) :
         Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)), h1, h2⟩
     have hinv := Matrix.blockTriangular_inv_of_blockTriangular (b := id) hut
@@ -152,7 +152,7 @@ private theorem ub_coe_X (a b c : ZMod 2) :
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_ubElem]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.single_apply, Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.single_apply, Matrix.one_apply]
 
 private theorem ub_coe_Y (d e f : ZMod 2) :
     ((ubElem 1 2 (by decide) d * ubElem 1 3 (by decide) e * ubElem 2 3 (by decide) f :
@@ -162,7 +162,7 @@ private theorem ub_coe_Y (d e f : ZMod 2) :
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_ubElem]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.single_apply, Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.single_apply, Matrix.one_apply]; ring
 
 private theorem ub_RN (a b c d e f : ZMod 2) :
     (!![1, a, b, c; 0, 1, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1] :
@@ -171,7 +171,7 @@ private theorem ub_RN (a b c d e f : ZMod 2) :
       !![1, a, a * d + b, a * (e + d * f) + b * f + c; 0, 1, d, e + d * f; 0, 0, 1, f;
         0, 0, 0, 1] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_four]
 
 private theorem ub_coe_XY (a b c d e f : ZMod 2) :
     (((ubElem 0 1 (by decide) a * ubElem 0 2 (by decide) b * ubElem 0 3 (by decide) c) *
@@ -194,7 +194,7 @@ private theorem ub_exists_param (U : Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)
     U 1 2, U 1 3 - U 1 2 * U 2 3, U 2 3, ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [h00, h11, h22, h33, h10, h20, h30, h21, h31, h32] <;> ring
+    simp [h00, h11, h22, h33, h10, h20, h30, h21, h31, h32]
 
 private theorem ub_unit_eq_one : ∀ x : ZMod 2, x ≠ 0 → x = 1 := by
   decide

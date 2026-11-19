@@ -64,7 +64,7 @@ theorem d4_selected_pin_of_prime
     refine ⟨v, ?_⟩
     rw [hi, hC, kacE6.rootsOf_eq_parabolicRoots (by decide)]
     congr 2
-    exact Set.ext fun k => by simp only [d4Nodes, Set.mem_setOf_eq]; revert k; decide
+    exact Set.ext fun k => by simp only [d4Nodes, Set.mem_ofPred_eq]; revert k; decide
   · obtain ⟨v, μ, -, hpinned⟩ :=
       exists_pinnedT_of_pos (a := b) hN.pos hNL facts_E7 hbN
     obtain ⟨x, C, -, -, hi, hrank, hcard⟩ := hpinned j
@@ -73,7 +73,7 @@ theorem d4_selected_pin_of_prime
     refine ⟨v, ?_⟩
     rw [hi, hC, kacE7.rootsOf_eq_parabolicRoots (by decide)]
     congr 2
-    exact Set.ext fun k => by simp only [d4Nodes, Set.mem_setOf_eq]; revert k; decide
+    exact Set.ext fun k => by simp only [d4Nodes, Set.mem_ofPred_eq]; revert k; decide
   · obtain ⟨v, μ, -, hpinned⟩ :=
       exists_pinnedT_of_pos (a := b) hN.pos hNL facts_E8 hbN
     obtain ⟨x, C, -, -, hi, hrank, hcard⟩ := hpinned j
@@ -82,6 +82,6 @@ theorem d4_selected_pin_of_prime
     refine ⟨v, ?_⟩
     rw [hi, hC, kacE8.rootsOf_eq_parabolicRoots (by decide)]
     congr 2
-    exact Set.ext fun k => by simp only [d4Nodes, Set.mem_setOf_eq]; revert k; decide
+    exact Set.ext fun k => by simp only [d4Nodes, Set.mem_ofPred_eq]; revert k; decide
 
 end CFSG.StandardType.TableCRes

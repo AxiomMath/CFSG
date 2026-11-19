@@ -83,7 +83,7 @@ theorem cSide_cent_isExtraspecial [Finite Q] (hE : IsExtraspecialPGroup 2 Q) {ρ
       have hmemQ : ((⟨(q : C), q.2.1⟩ : ↥Q) ^ 2) ∈ Subgroup.center ↥Q :=
         sq_mem_center hE ⟨(q : C), q.2.1⟩
       have hcoe : (((⟨(q : C), q.2.1⟩ : ↥Q) ^ 2 : ↥Q) : C) = ((q * q : ↥R) : C) := by
-        simp [Subgroup.coe_pow, pow_two]
+        simp [pow_two]
       rw [← hcoe]
       exact (mem_centerOf_iff _).mpr hmemQ
     by_cases h1 : ((q * q : ↥R) : C) = 1
@@ -99,7 +99,7 @@ theorem cSide_cent_isExtraspecial [Finite Q] (hE : IsExtraspecialPGroup 2 Q) {ρ
         congrArg (fun S : Subgroup C => Nat.card ↥S) h
       rw [hcardZ, hcardR] at hh
       norm_num at hh
-    obtain ⟨-, q, hqR, hqZ⟩ := SetLike.lt_iff_le_and_exists.mp hlt
+    obtain ⟨-, q, hqR, hqZ⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hlt
     refine ⟨⟨q, hqR⟩, ?_, ?_⟩
     · intro h
       apply hqZ

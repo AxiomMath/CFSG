@@ -19,7 +19,7 @@ theorem weakBlockSet_nonempty
     (h25 : CFSG.CGT.PushingUpLit.SolomonAlternatingBlockK)
     (h84 : CFSG.AGLEmbedding.Asc81bEightFour)
     (h : TwelveCtx G M p Q H) : (weakBlockSet M H).Nonempty := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hmaxH : GLBIsMaxTwoLocal H := by
     refine ⟨h.H_twoLocal, fun K hK hHK => h.H_mem_H2Star.2 K ?_ hHK⟩
     refine ⟨twoLocal_ne_top h.cstar.nonab K hK, h.Q_le_H.trans hHK, ?_, ?_⟩

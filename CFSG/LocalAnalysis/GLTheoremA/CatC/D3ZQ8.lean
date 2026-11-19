@@ -19,7 +19,7 @@ variable {τ : Tag} {K : Type} [Field K] {J : Set (Fin τ.rank)}
 @[expose] def NormAll (J : Set (Fin τ.rank)) (g : ModGL τ K) : Prop :=
   ∀ d : ℤ, g ∈ Subgroup.normalizer (degSeries τ K J d : Set (ModGL τ K))
 
-theorem NormAll.one : NormAll (K := K) J 1 := fun d => Subgroup.one_mem _
+theorem NormAll.one : NormAll (K := K) J 1 := fun _d => Subgroup.one_mem _
 
 theorem NormAll.mul {g g' : ModGL τ K} (hg : NormAll J g) (hg' : NormAll J g') :
     NormAll J (g * g') := fun d => Subgroup.mul_mem _ (hg d) (hg' d)
@@ -169,7 +169,7 @@ theorem lmap_cube {φ : ModGL τ K →* ModGL τ K}
     (h3 : ∀ x ∈ degSeries τ K J d, φ (φ (φ x)) = x) :
     Lyr (isLayer_degSeries (K := K) (J := J) hd) ≃ₗ[ZMod 3]
       Lyr (isLayer_degSeries (K := K) (J := J) hd) :=
-  LinearEquiv.ofLinear (lmap φ hφ hd) ((lmap φ hφ hd).comp (lmap φ hφ hd))
+  LinearEquiv.ofLinearMap (lmap φ hφ hd) ((lmap φ hφ hd).comp (lmap φ hφ hd))
     (LinearMap.ext fun z => lmap_cube hφ hd h3 z)
     (LinearMap.ext fun z => lmap_cube hφ hd h3 z)
 

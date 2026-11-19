@@ -25,7 +25,7 @@ private theorem psi_chk : (List.range e7R.length).all (fun i =>
 
 theorem getD_ofFn_six (γ : Fin Tag.E7.rank → ℤ) : (List.ofFn γ).getD 6 0 = γ node7 := by
   simp only [List.getD_eq_getElem?_getD, List.getElem?_ofFn]
-  rw [dif_pos (show 6 < Tag.E7.rank by decide)]
+  rw [dite_eq_left (show 6 < Tag.E7.rank by decide)]
   rfl
 
 theorem node7_eq_one_of_abelian (X : Finset (Fin Tag.E7.rank → ℤ))

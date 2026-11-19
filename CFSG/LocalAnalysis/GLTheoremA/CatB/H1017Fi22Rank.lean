@@ -20,7 +20,7 @@ theorem card_lt_of_comm_le_Q2
 theorem card_le_of_le_centralizer (t : fi22P) (ht : orderOf t = 2) (F : Subgroup fi22P)
     (hFt : F ≤ Subgroup.centralizer ({t} : Set fi22P)) (hF : IsElemAbelian 3 F) :
     Nat.card F ≤ 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk, g, hg⟩ := exists_conj_ext t ht
   have htk : fi22ExtRep k ∈ fi22P := CTUC_Fi22_all_extension_involutions_covered.1 k hk
   set tk : fi22P := ⟨fi22ExtRep k, htk⟩
@@ -71,8 +71,8 @@ theorem card_le_of_le_centralizer (t : fi22P) (ht : orderOf t = 2) (F : Subgroup
 
 theorem twoLocalBoundPow_fi22P :
     TwoLocalBoundPow 4 fi22P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro R E hR hR2 hEN hE
   by_contra hlt
   push Not at hlt
@@ -87,7 +87,7 @@ theorem twoLocalBoundPow_fi22P :
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := R) 2 (by rw [hm]; exact dvd_pow_self 2 hm0)
   have hu2 : orderOf (u : fi22P) = 2 := by rw [Subgroup.orderOf_coe, hu]
   have hEu : E ≤ Subgroup.centralizer ({(u : fi22P)} : Set fi22P) := fun e he =>
-    Subgroup.mem_centralizer_singleton_iff.2 (by first | exact hcomm e he u u.2 | exact (hcomm e he u u.2).symm)
+    Subgroup.mem_centralizer_singleton_iff.2 (by first | exact hcomm e he u u.2)
   exact absurd (card_le_of_le_centralizer u hu2 E hEu hE) (not_le.2 hlt)
 
 end CFSG.LocalAnalysis.GLTheoremA.H1017.Fi22Rank

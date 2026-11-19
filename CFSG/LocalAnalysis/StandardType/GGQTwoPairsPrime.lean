@@ -97,7 +97,7 @@ private theorem ggQ2nP_nbr_basic {G : Type} [Group G] [Finite G] (hLB : GGLBalan
   obtain ⟨hcfg, -, hIDAll, -, -⟩ := hHyp
   obtain ⟨hI, hBstar, hStdSub⟩ := hcfg
   have hp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsabel : IsElemAbelian p Bs := hBstar.2.1
   have hpJ : p ∣ Nat.card J := hP G p B x L D J hI hStdSub
   have hJq : CFSG.Assembly.IsQuasisimple ↥J := hStdSub.1.2.2.2.2.2.1.2.2
@@ -142,7 +142,7 @@ theorem ggStdPair'_L {G : Type} [Group G] [Finite G] (hP : GGStdSubPrimeInput) {
   obtain ⟨hcfg, -, -, -, -⟩ := hHyp
   obtain ⟨hI, hBstar, hStdSub⟩ := hcfg
   have hp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpJ : p ∣ Nat.card J := hP G p B x L D J hI hStdSub
   obtain ⟨hJL, -, -⟩ := eq_of_le_of_stdSub hI hStdSub hpJ
   have hxp : x ^ p = 1 := hBstar.2.1.2 x hP'.1
@@ -188,7 +188,7 @@ theorem ggStdPair'_nbr {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInput)
   obtain ⟨hcfg, -, -, -, -⟩ := hHyp
   obtain ⟨hI, hBstar, hStdSub⟩ := hcfg
   have hp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpJ : p ∣ Nat.card J := hP G p B x L D J hI hStdSub
   let O : Subgroup G := LargeEvenPPrimeCoreOf p K
   let Z : Subgroup G :=
@@ -196,7 +196,7 @@ theorem ggStdPair'_nbr {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInput)
       one_mem' := by
         refine ⟨Bs.one_mem, ?_⟩
         intro x hx
-        simpa using O.one_mem
+        simp
       mul_mem' := by
         rintro a b ⟨haBs, ha⟩ ⟨hbBs, hb⟩
         refine ⟨Bs.mul_mem haBs hbBs, ?_⟩
@@ -251,7 +251,7 @@ theorem ggStdPair'_nbr {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInput)
           intro z
           apply Subtype.ext
           rfl }
-  haveI : Nonempty ↥B := ⟨1⟩
+  have : Nonempty ↥B := ⟨1⟩
   have hyB : y ∈ B := hnbr.1.2.1
   have hyBs' : y ∈ Bs := hBstar.1 hyB
   have hyp : y ^ p = 1 := hBstar.2.1.2 y hyBs'
@@ -265,7 +265,7 @@ theorem ggStdPair'_nbr {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInput)
     have h := Subgroup.relIndex_mul_card (H := B) (K := Bs)
     have hinf : B ⊓ Bs = B := le_antisymm inf_le_left (fun z hz => ⟨hz, hBstar.1 hz⟩)
     rwa [hinf] at h
-  haveI : Nonempty ↥Bs := ⟨1⟩
+  have : Nonempty ↥Bs := ⟨1⟩
   have hrelB_ne : B.relIndex Bs ≠ 0 := by
     intro h0
     rw [h0, Nat.zero_mul] at hrelBs

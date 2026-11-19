@@ -86,7 +86,7 @@ theorem card_fixed_frattini_quotient_le_three {Y : Type*} [Group Y] [Finite Y] {
     Nat.card {w : D ⧸ frattini D //
       (frattiniAction D).comp (MulAut.conjNormal (H := P)) t w = w} ≤ 3 ^ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set α : Y →* MulAut (D ⧸ frattini D) := (frattiniAction D).comp (MulAut.conjNormal (H := P))
     with hα
   set g : D →* Y := P.subtype.comp D.subtype with hg
@@ -190,7 +190,7 @@ theorem exists_critical_action {Y : Type*} [Group Y] [Finite Y] (Q : Subgroup Y)
     ∃ (D : Subgroup Q) (_ : D.Characteristic), D ≠ ⊥ ∧ (∀ x ∈ D, x ^ 3 = 1) ∧
       ⁅D, (⊤ : Subgroup Q)⁆ ≤ D ⊓ Subgroup.centralizer (D : Set Q) ∧
       (frattiniAction D).comp ((MulAut.conjNormal (H := Q)).comp Xb.subtype) ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ1 : Q ≠ ⊥ := by
     intro h0
     apply hact
@@ -199,7 +199,7 @@ theorem exists_critical_action {Y : Type*} [Group Y] [Finite Y] (Q : Subgroup Y)
     intro h hh
     rw [h0, SetLike.mem_coe, Subgroup.mem_bot] at hh
     rw [hh, one_mul, mul_one]
-  haveI : Nontrivial Q := (nontrivial_iff_ne_bot Q).2 hQ1
+  have : Nontrivial Q := (nontrivial_iff_ne_bot Q).2 hQ1
   obtain ⟨D, hDc, hD1, hDexp, hDZ, -, hker⟩ :=
     supercritical_witness (p := 3) (by norm_num) hQ
   refine ⟨D, hDc, hD1, hDexp, hDZ, ?_⟩
@@ -251,7 +251,7 @@ theorem sf2_core {Y : Type*} [Group Y] [Finite Y] (Q : Subgroup Y) [Q.Normal] (h
           Matrix (Fin n) (Fin n) (ZMod 3)) v = v} ≤ 3 ^ 4 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, hDchar, hD1, hDexp, hDcl, hα⟩ := exists_critical_action Q hQ Xb hact
-  haveI := hDchar
+  have := hDchar
   set α : Xb →* MulAut (D ⧸ frattini D) :=
     (frattiniAction D).comp ((MulAut.conjNormal (H := Q)).comp Xb.subtype) with hαdef
   have hDp : IsPGroup 3 D := hQ.to_subgroup D

@@ -17,6 +17,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} [Fact p.Prime]
   {A : Subgroup (V ≃ₗ[K] V)} {r : ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cO5s_isCompl_orthogonal {W : Submodule K V}
     (hW : ∀ w ∈ W, (∀ v ∈ W, polar Q v w = 0) → w = 0) :
     IsCompl W (LinearMap.BilinForm.orthogonal (QuadraticMap.polarBilin Q) W) := by
@@ -29,6 +30,7 @@ private theorem q2cO5s_isCompl_orthogonal {W : Submodule K V}
     intro w hw hw'
     exact hW w hw fun v hv => LinearMap.BilinForm.mem_orthogonal_iff.mp hw' v hv
 
+omit [Finite K] [FiniteDimensional K V] [Fact (Nat.Prime p)] in
 theorem TBJOmData.component_eq_zero_of_orthogonal (Δ : TBJOmData Q p A r)
     {x : V} {j : Fin r} {v : Fin r → V} (hv : ∀ k, v k ∈ Δ.F.U k)
     (hx : x = ∑ k, v k) (horth : ∀ w ∈ Δ.F.U j, polar Q w x = 0) : v j = 0 := by
@@ -43,6 +45,7 @@ theorem TBJOmData.component_eq_zero_of_orthogonal (Δ : TBJOmData Q p A r)
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
+omit [Finite K] [FiniteDimensional K V] [Fact p.Prime] in
 private theorem q2cO5s_iSup_pieces_nondegenerate (Δ : TBJOmData Q p A r) :
     ∀ w ∈ (⨆ k, Δ.F.U k : Submodule K V),
       (∀ v ∈ (⨆ k, Δ.F.U k), polar Q v w = 0) → w = 0 := by
@@ -60,6 +63,7 @@ private theorem q2cO5s_iSup_pieces_nondegenerate (Δ : TBJOmData Q p A r) :
   exact TBJOmData.component_eq_zero_of_orthogonal Δ hf hw'
     (fun u hu => horth u (Submodule.mem_iSup_of_mem j hu))
 
+omit [Finite K] [Fact p.Prime] in
 theorem TBJOmData.exists_sum_pieces (Δ : TBJOmData Q p A r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) (v : V) :
     ∃ u : Fin r → V, (∀ k, u k ∈ Δ.F.U k) ∧ ∑ k, u k = v := by
@@ -88,6 +92,7 @@ theorem TBJOmData.exists_sum_pieces (Δ : TBJOmData Q p A r)
   rw [Finsupp.sum_fintype f (fun _ xi => xi) (by simp)] at hfv
   exact hfv
 
+omit [Finite K] [Fact p.Prime] in
 private theorem q2cO5s_mapsTo_sup_of_fixes (Δ : TBJOmData Q p A r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) {S : Finset (Fin r)} {g : V ≃ₗ[K] V}
     (hg : g ∈ orthDerived Q) (hgS : ∀ k, k ∉ S → ∀ u ∈ Δ.F.U k, g u = u) :
@@ -115,6 +120,7 @@ private theorem q2cO5s_mapsTo_sup_of_fixes (Δ : TBJOmData Q p A r)
   exact Submodule.sum_mem (p := ⨆ l ∈ S, Δ.F.U l) (t := S) (f := v)
     (fun l hl => Submodule.mem_iSup_of_mem l (Submodule.mem_iSup_of_mem hl (hv l)))
 
+omit [Finite K] [FiniteDimensional K V] [Fact (Nat.Prime p)] in
 private theorem q2cO5s_fixes_sup (Δ : TBJOmData Q p A r) {S : Finset (Fin r)}
     {g : V ≃ₗ[K] V} (hg : ∀ k ∈ S, ∀ u ∈ Δ.F.U k, g u = u) :
     ∀ v ∈ (⨆ l ∈ S, Δ.F.U l), g v = v := by
@@ -133,6 +139,7 @@ private theorem q2cO5s_fixes_sup (Δ : TBJOmData Q p A r) {S : Finset (Fin r)}
   · intro a b ha hb
     rw [map_add, ha, hb]
 
+omit [Finite K] [Fact p.Prime] in
 theorem TBJOmData.commute_of_fixes_outside (Δ : TBJOmData Q p A r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) {S S' : Finset (Fin r)} (hSS' : Disjoint S S')
     {g g' : V ≃ₗ[K] V} (hg : g ∈ orthDerived Q) (hg' : g' ∈ orthDerived Q)
@@ -165,6 +172,7 @@ theorem TBJOmData.commute_of_fixes_outside (Δ : TBJOmData Q p A r)
       have h2 : g' (u k) = u k := hg'S' k hkS' (u k) (hu k)
       simp only [h1, h2]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.reflFixed_comm_index (Δ : TBJOmData Q p A r) (i j : Fin r) :
     Δ.reflFixed i j = Δ.reflFixed j i := by
   have h : reflFixedCoord p r i j = reflFixedCoord p r j i := by
@@ -172,6 +180,7 @@ theorem TBJOmData.reflFixed_comm_index (Δ : TBJOmData Q p A r) (i j : Fin r) :
     simp [reflFixedCoord, MonoidHom.mem_ker, div_eq_one, eq_comm]
   exact congrArg (fun H => H.map Δ.τ) h
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.reflFixedPos_comm_index (Δ : TBJOmData Q p A r) (i j : Fin r) :
     Δ.reflFixedPos i j = Δ.reflFixedPos j i := by
   have h : reflFixedCoordPos p r i j = reflFixedCoordPos p r j i := by
@@ -179,20 +188,24 @@ theorem TBJOmData.reflFixedPos_comm_index (Δ : TBJOmData Q p A r) (i j : Fin r)
     simp [reflFixedCoordPos, MonoidHom.mem_ker, mul_comm]
   exact congrArg (fun H => H.map Δ.τ) h
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.rankOne_comm_index (Δ : TBJOmData Q p A r) (i j : Fin r) :
     Δ.rankOne i j = Δ.rankOne j i := by
   unfold TBJOmData.rankOne
   rw [Δ.reflFixed_comm_index i j]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.rankOnePos_comm_index (Δ : TBJOmData Q p A r) (i j : Fin r) :
     Δ.rankOnePos i j = Δ.rankOnePos j i := by
   unfold TBJOmData.rankOnePos
   rw [Δ.reflFixedPos_comm_index i j]
 
+omit [Finite K] [FiniteDimensional K V] [Fact (Nat.Prime p)] in
 theorem TBJOmData.rankOne_le (Δ : TBJOmData Q p A r) (i j : Fin r) :
     Δ.rankOne i j ≤ orthDerived Q := by
   exact (ggOTwoPrime_le _).trans inf_le_right
 
+omit [Finite K] [FiniteDimensional K V] [Fact (Nat.Prime p)] in
 theorem TBJOmData.rankOnePos_le (Δ : TBJOmData Q p A r) (i j : Fin r) :
     Δ.rankOnePos i j ≤ orthDerived Q := by
   exact (ggOTwoPrime_le _).trans inf_le_right

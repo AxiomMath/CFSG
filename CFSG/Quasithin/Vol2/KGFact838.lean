@@ -242,7 +242,7 @@ theorem kg838Par_holds :
   have hX3 : ¬ 3 ∣ Nat.card ↥(Y ⊔ (S : Subgroup K)) := by
     intro h
     have hprod := CFSG.RankThree.PartOne.K1214.card_sup_mul_card_inf_of_le_normalizer hSY
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
     have h1 : 3 ∣ Nat.card Y * Nat.card (S : Subgroup K) := hprod ▸ dvd_mul_of_dvd_left h _
     rcases Nat.prime_three.dvd_mul.mp h1 with h2 | h2
     · exact h3 h2

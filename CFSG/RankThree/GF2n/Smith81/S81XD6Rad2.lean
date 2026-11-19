@@ -14,6 +14,7 @@ open CFSG.LieType.Steinberg.Minuscule CFSG.Blueprint.Chevalley CFSG.LieType.Stei
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 private theorem d6rad2_prodX_cons (γ : Fin (Tag.rank .E7) → ℤ) (L : List (Fin (Tag.rank .E7) → ℤ))
     (c : (Fin (Tag.rank .E7) → ℤ) → K) : prodX (γ :: L) c = xE γ (c γ) * prodX L c := by
   simp only [prodX, List.map_cons, List.prod_cons]
@@ -92,14 +93,14 @@ private theorem d6rad2_coord (P : Finset (Fin (Tag.rank .E7) → ℤ))
     mem_Phi.1 (hP γ (Finset.mem_toList.1 hγ)).1
   have hδP : IsRoot .E7 δ ∧ MinData.toWeight δ ⬝ᵥ theta = 0 := (hP δ hδ).2
   have hc := coef_prod b0 P.toList hL (Finset.nodup_toList P) c b δ hδP.1 hb
-  rw [if_pos (Finset.mem_toList.2 hδ)] at hc
+  rw [ite_eq_left (Finset.mem_toList.2 hδ)] at hc
   rw [hx (Finsupp.single b' 1), emb_single, hb', endoE_prodX, hc]
 
 private theorem d6rad2_card_aux [Finite K] (P : Finset (Fin (Tag.rank .E7) → ℤ))
     (hP : ∀ γ ∈ P, γ ∈ Phi b0 ∧ γ ∈ Perp) :
     Nat.card K ^ P.card ≤ Nat.card ↥(rootRad0 K) := by
-  haveI : Finite (W K) := Finite.of_equiv (Idx0 → K) Finsupp.equivFunOnFinite.symm
-  haveI : Finite (W K ≃ₗ[K] W K) :=
+  have : Finite (W K) := Finite.of_equiv (Idx0 → K) Finsupp.equivFunOnFinite.symm
+  have : Finite (W K ≃ₗ[K] W K) :=
     Finite.of_injective (fun e : W K ≃ₗ[K] W K => (e : W K → W K)) LinearEquiv.coe_injective
   have hX : ∀ f : ↥P → K, ∃ x ∈ rootRad0 K,
       IndW (prodX P.toList (fun γ => if h : γ ∈ P then f ⟨γ, h⟩ else 0)) x := by
@@ -111,7 +112,7 @@ private theorem d6rad2_card_aux [Finite K] (P : Finset (Fin (Tag.rank .E7) → �
   choose X hX1 hX2 using hX
   have hcf : ∀ (f : ↥P → K) (δ : ↥P),
       (fun γ : Fin (Tag.rank .E7) → ℤ => if h : γ ∈ P then f ⟨γ, h⟩ else 0) δ.1 = f δ :=
-    fun f δ => dif_pos δ.2
+    fun f δ => dite_eq_left δ.2
   let F : (↥P → K) → ↥(rootRad0 K) := fun f => ⟨X f, hX1 f⟩
   have hF : Function.Injective F := by
     intro f g hfg

@@ -32,7 +32,7 @@ private theorem alternatingGroup_le_of_elevenCycle_mem
     ext i
     exact congrArg Fin.val (hq i)
   have hP2 : MulAction.IsMultiplyPretransitive P (Fin 24) 2 := by
-    letI : MulAction.IsMultiplyPretransitive P (Fin 24) 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P (Fin 24) 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := Fin 24) (m := 2) (n := 5)
         (by omega) (by norm_num)
@@ -67,7 +67,7 @@ private theorem alternatingGroup_le_of_elevenCycle_mem
       MulAction.IsPreprimitive
         (fixingSubgroup P s)
         (SubMulAction.ofFixingSubgroup P s) := by
-    letI :
+    let :
         MulAction.IsPretransitive
           (fixingSubgroup P s)
           (SubMulAction.ofFixingSubgroup P s) :=
@@ -87,7 +87,7 @@ private theorem alternatingGroup_le_of_elevenCycle_mem
     hP14Primitive.isMultiplyPretransitive
   have hP10 :
       MulAction.IsMultiplyPretransitive P (Fin 24) 10 := by
-    letI : MulAction.IsMultiplyPretransitive P (Fin 24) 14 := hP14
+    let : MulAction.IsMultiplyPretransitive P (Fin 24) 14 := hP14
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := Fin 24) (m := 10) (n := 14)
         (by omega) (by norm_num)

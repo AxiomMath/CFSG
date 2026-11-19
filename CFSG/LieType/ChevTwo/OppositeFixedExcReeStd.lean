@@ -41,6 +41,7 @@ theorem holds_reeGamma (t : ReeTag) (K : Type) [Field K] [Finite K] [CharP K t.p
 
 variable {t : ReeTag} {K : Type} [Field K] [Finite K] [CharP K t.prime] {a : ℕ}
 
+omit [Finite K] [CharP K t.prime] in
 theorem reeStd_posUnipotent_le_parabolicRadical_empty :
     posUnipotent t.tag K ≤ parabolicRadical t.tag K (∅ : Set (Fin t.tag.rank)) := by
   refine rootSpan_mono fun α hα => ?_
@@ -51,6 +52,7 @@ theorem reeStd_posUnipotent_le_parabolicRadical_empty :
     exact h ⟨i, Set.notMem_empty i, hi⟩
   exact absurd hα.2 (by omega)
 
+omit [Finite K] [CharP K t.prime] in
 theorem reeStd_mem_parabolicRadical_of_conj_mem (j : Fin t.fixedOrbitCount) {x : ModGL t.tag K}
     (hx : x ∈ posUnipotent t.tag K)
     (hnx : canonicalRep (coxeterSystem t.tag) K (t.fixedOrbitElement j) * x *
@@ -95,7 +97,7 @@ theorem pCoreOf_le_reeFixedPosUnipotent {P' : Subgroup ↥(t.reeGamma K a)}
 
 theorem pCoreOf_le_reeQJ_none {P' : Subgroup ↥(t.reeGamma K a)}
     (hU : (t.reeFixedPosUnipotent K a).subgroupOf (t.reeGamma K a) ≤ P') :
-    pCoreOf t.prime P' ≤ reeQJ t K a none := fun x hx =>
+    pCoreOf t.prime P' ≤ reeQJ t K a none := fun _x hx =>
   Subgroup.mem_subgroupOf.2 (reeStd_posUnipotent_le_parabolicRadical_empty
     (Subgroup.mem_inf.1 (Subgroup.mem_subgroupOf.1 (pCoreOf_le_reeFixedPosUnipotent hU hx))).1)
 
@@ -235,12 +237,12 @@ theorem ree_standard_position (Q : Subgroup ↥(t.reeGamma K a)) (hQ : Q ≠ ⊥
     intro x hx
     rw [hP']
     refine ⟨x, hNQ hx, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
   have hQP' : ∀ q ∈ Q, c⁻¹ * q * c ∈ pCoreOf t.prime P' := by
     intro q hq
     rw [hP', pCoreOf_map_mulEquiv t.prime (MulAut.conj c⁻¹) P]
     refine ⟨q, hQP hq, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
   by_cases hJe : J₀ = ∅
   ·
     have hAB : A = t.reeFixedBorel K a := by rw [hAJ, hJe, ReeTag.reeParabolic_empty]

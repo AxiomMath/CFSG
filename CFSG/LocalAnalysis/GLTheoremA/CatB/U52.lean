@@ -237,7 +237,7 @@ theorem card_ZA : Nat.card ZA = 2 := by
   rw [ZA, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv, card_ZX₄sub]
 
 theorem isExtraspecial_A₁ : CFSG.IsExtraspecialPGroup 2 ↥A₁sub := by
-  haveI : Finite ↥A₁sub := inferInstance
+  have : Finite ↥A₁sub := inferInstance
   have hP : IsPGroup 2 ↥A₁sub := IsPGroup.of_card (n := 7) card_A₁sub
   have hZc : ZA ≤ Subgroup.center ↥A₁sub := fun z hz =>
     Subgroup.mem_center_iff.2 fun g => A₁_zA_central hz g
@@ -386,7 +386,7 @@ theorem center_pQuot_eq_bot_u5two (hGA : CFSG.Open.GriessAllModelsStatement) {J 
   have hdvd := card_center_dvd_of_table hGA hq hm (a := 1) (b := 1) (c := 1) (d := 1)
     (by decide) (by decide) (by norm_num)
   by_contra hne
-  haveI : Nontrivial (Subgroup.center (PQuot 3 J)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center (PQuot 3 J)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   exact false_of_pGroup_dvd Nat.prime_three
     (CFSG.LocalAnalysis.GLTheoremA.I2611.isPGroup_center_pQuot' Nat.prime_three J) hdvd
     (by norm_num)
@@ -421,16 +421,16 @@ theorem extraspecialU5D4At_of_halves {G : Type} [Group G] [Finite G]
   fun X L hX hL hodd => ⟨hU5 X L hX hL hodd, hTD4 X L hX hL hodd⟩
 
 theorem exists_component_of_layer_lift {G : Type} [Group G] [Finite G] {X L : Subgroup G}
-    (hL : GLAPComponent 3 X L) {M : Type} [Group M] (π : ↥L →* M)
+    (_hL : GLAPComponent 3 X L) {M : Type} [Group M] (π : ↥L →* M)
     (hπ : Function.Surjective π) (hker : π.ker = GLAPPrimeCore 3 ↥L) {y : ↥L} (hy3 : y ^ 3 = 1)
     {Kb : Subgroup M} (hKc : Kb ≤ Subgroup.centralizer ({π y} : Set M))
     (hKC : Subgroup.centralizer ({π y} : Set M) = Kb ⊔ Subgroup.zpowers (π y))
-    (hKz : Kb ⊓ Subgroup.zpowers (π y) = ⊥) (hKs : IsSimpleGroup ↥Kb)
+    (_hKz : Kb ⊓ Subgroup.zpowers (π y) = ⊥) (hKs : IsSimpleGroup ↥Kb)
     (hKn : ¬ IsMulCommutative ↥Kb) (hK3 : 3 ∣ Nat.card Kb) :
     ∃ J : Subgroup G, GLAPComponent 3 (L ⊓ S9.cx (y : G)) J ∧ Nonempty (PSimple 3 J ≃* Kb) ∧
       GLAPPrimeCoreOf 3 J ≤ GLAPPrimeCoreOf 3 L := by
   classical
-  haveI : Finite M := Finite.of_surjective π hπ
+  have : Finite M := Finite.of_surjective π hπ
   have hk3 : ¬ 3 ∣ Nat.card π.ker := by
     rw [hker]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 CFSG.pPrimeCore_coprime_card

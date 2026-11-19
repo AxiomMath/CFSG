@@ -187,12 +187,12 @@ theorem isL2Square_Kbar_of_Omega (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (isL2Square_KstarBar_of_Omega c hV ha hd h4 h1930 h3 hnat hline)
 
 private theorem isPerfect_of_normal_sup_eq_top {P : Type*} [Group P]
-    {F₁ F₂ : Subgroup P} (h₁ : F₁.Normal) (h₂ : F₂.Normal)
+    {F₁ F₂ : Subgroup P} (_h₁ : F₁.Normal) (h₂ : F₂.Normal)
     (hsup : F₁ ⊔ F₂ = ⊤) (hinf : F₁ ⊓ F₂ = ⊥)
     (hP : Group.IsPerfect P) : Group.IsPerfect ↥F₁ := by
-  haveI : F₂.Normal := h₂
-  haveI : Group.IsPerfect P := hP
-  haveI : Group.IsPerfect (P ⧸ F₂) := inferInstance
+  have : F₂.Normal := h₂
+  have : Group.IsPerfect P := hP
+  have : Group.IsPerfect (P ⧸ F₂) := inferInstance
   let φ : ↥F₁ →* P ⧸ F₂ := (QuotientGroup.mk' F₂).comp F₁.subtype
   have hφsurj : Function.Surjective φ := by
     intro q
@@ -225,16 +225,16 @@ private theorem isPerfect_of_normal_sup_eq_top {P : Type*} [Group P]
 private theorem image_eq_bot_or_image_eq_bot_of_surjective {P Q : Type*} [Group P] [Group Q]
     [Finite Q] (σ : P →* Q) (hσ : Function.Surjective σ) (hQ : IsSimpleGroup Q)
     (hP : Group.IsPerfect P) {F₁ F₂ : Subgroup P} (h₁ : F₁.Normal) (h₂ : F₂.Normal)
-    (hsup : F₁ ⊔ F₂ = ⊤)
+    (_hsup : F₁ ⊔ F₂ = ⊤)
     (hcomm : ∀ x ∈ F₁, ∀ y ∈ F₂, Commute x y) :
     F₁.map σ = ⊥ ∨ F₂.map σ = ⊥ := by
   by_contra h
   push Not at h
   obtain ⟨hne₁, hne₂⟩ := h
-  haveI : Group.IsPerfect P := hP
-  haveI : Group.IsPerfect Q := Group.IsPerfect.ofSurjective (f := σ) hσ
-  haveI : (F₁.map σ).Normal := h₁.map σ hσ
-  haveI : (F₂.map σ).Normal := h₂.map σ hσ
+  have : Group.IsPerfect P := hP
+  have : Group.IsPerfect Q := Group.IsPerfect.ofSurjective (f := σ) hσ
+  have : (F₁.map σ).Normal := h₁.map σ hσ
+  have : (F₂.map σ).Normal := h₂.map σ hσ
   have hI₁ : F₁.map σ = ⊤ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal (F₁.map σ)).resolve_left hne₁
   have hI₂ : F₂.map σ = ⊤ :=
@@ -257,7 +257,7 @@ private theorem eq_one_of_map_eq_bot_of_sup_eq_top {P Q : Type*} [Group P] [Grou
     (σ : P →* Q) (hσ : Function.Surjective σ) {F₁ F₂ : Subgroup P}
     (h₂ : F₂.Normal) (hsup : F₁ ⊔ F₂ = ⊤)
     (hb₁ : F₁.map σ = ⊥) (hb₂ : F₂.map σ = ⊥) : ∀ z : Q, z = 1 := by
-  haveI : F₂.Normal := h₂
+  have : F₂.Normal := h₂
   intro z
   obtain ⟨y, rfl⟩ := hσ z
   have hy : y ∈ F₁ ⊔ F₂ := by rw [hsup]; exact Subgroup.mem_top y
@@ -330,11 +330,11 @@ private structure FactorPair (c : Ctx23L D Ch) {A : Type} [Group A] [Finite A]
   simpleFirst : IsSimpleGroup ↥(prodFirstFactor e)
   simpleSecond : IsSimpleGroup ↥(prodSecondFactor e)
 
-private def factorPair (c : Ctx23L D Ch) {A : Type} [Group A] [Finite A]
+private theorem factorPair (c : Ctx23L D Ch) {A : Type} [Group A] [Finite A]
     (e : ↥(Kbar c) ≃* A × A) (hL2A : IsL2 A (CFSG.Open.pRank 2 D.Z))
     (hYp : ⁅Kbar c, Kbar c⁆ = Kbar c) : FactorPair c e := by
-  haveI : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
-  haveI : IsSimpleGroup A := isSimpleGroup_of_isL2 hL2A
+  have : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
+  have : IsSimpleGroup A := isSimpleGroup_of_isL2 hL2A
   have h₁ := prodFirstFactor_normal e
   have h₂ := prodSecondFactor_normal e
   have hsup := prodFirstFactor_sup_prodSecondFactor e
@@ -376,8 +376,8 @@ private theorem componentProjection_range_perfect (c : Ctx23L D Ch)
     (hYp : ⁅Kbar c, Kbar c⁆ = Kbar c) :
     ⁅(componentProjection hC hY hZ).range, (componentProjection hC hY hZ).range⁆ =
       (componentProjection hC hY hZ).range := by
-  haveI : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
-  haveI : Group.IsPerfect ↥(componentProjection hC hY hZ).range :=
+  have : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
+  have : Group.IsPerfect ↥(componentProjection hC hY hZ).range :=
     Group.IsPerfect.range (componentProjection hC hY hZ)
   exact Subgroup.isPerfect_iff.mp inferInstance
 
@@ -462,7 +462,7 @@ private theorem exists_sylow_le_normalizer_factors (c : Ctx23L D Ch) (h8 : S23_8
   have hZ : Subgroup.center C = ⊥ := center_component_eq_bot c h8 h1930 hC
   have hY : Kbar c ≤ CFSG.layer (Bar2 D.M) := c.barImage_Hinf_inf_L_le_layer hB1 h1930 h3
   have hYp : ⁅Kbar c, Kbar c⁆ = Kbar c := c.barImage_Hinf_inf_L_perfect
-  haveI : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
+  have : Group.IsPerfect ↥(Kbar c) := Subgroup.isPerfect_iff.mpr hYp
   obtain ⟨hF₁n, hF₂n, hsup, -, hcomm, -, -, -, -⟩ := factorPair c e hL2A hYp
   let ρ := componentProjection hC hY hZ
   let ρr := componentProjectionRange c hC hY hZ
@@ -501,7 +501,7 @@ private theorem exists_sylow_le_normalizer_factors (c : Ctx23L D Ch) (h8 : S23_8
     exact ⟨hnorm hpres.1, hnorm hpres.2⟩
 
 private theorem exists_component_eq_of_isL2_factor (c : Ctx23L D Ch) (h8 : S23_8 D Ch)
-    (hS : KSub23) (h1930 : H1930 D) (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z)
+    (hS : KSub23) (h1930 : H1930 D) (_h3 : 3 ≤ CFSG.Open.pRank 2 D.Z)
     {Y : Subgroup (Bar2 D.M)} (hY : Y ≤ CFSG.layer (Bar2 D.M)) (hYp : ⁅Y, Y⁆ = Y)
     (hsimple : IsSimpleGroup ↥Y) (hne : Y ≠ ⊥) {m : ℕ} (hm : 3 ≤ m) (hL2 : IsL2 ↥Y m)
     (hT : ∀ C : Subgroup (Bar2 D.M), CFSG.IsComponent C → ∃ T : Sylow 2 ↥C,
@@ -510,7 +510,7 @@ private theorem exists_component_eq_of_isL2_factor (c : Ctx23L D Ch) (h8 : S23_8
   have hRmax : ∀ N : Subgroup ↥Y, (⊥ : Subgroup (Bar2 D.M)).subgroupOf Y ≤ N → N.Normal →
       N = (⊥ : Subgroup (Bar2 D.M)).subgroupOf Y ∨ N = ⊤ := by
     intro N _ hN
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact Or.inl (by rw [h]; simp)
     · exact Or.inr h
@@ -563,11 +563,11 @@ private structure FactorImageBasic (c : Ctx23L D Ch) {A : Type} [Group A] [Finit
   first_layer : barImageFirst c e ≤ CFSG.layer (Bar2 D.M)
   second_layer : barImageSecond c e ≤ CFSG.layer (Bar2 D.M)
 
-private def factorImageBasic (c : Ctx23L D Ch) {A : Type} [Group A] [Finite A]
+private theorem factorImageBasic (c : Ctx23L D Ch) {A : Type} [Group A] [Finite A]
     (e : ↥(Kbar c) ≃* A × A) (hY : Kbar c ≤ CFSG.layer (Bar2 D.M))
     (FP : FactorPair c e) : FactorImageBasic c e := by
-  haveI : IsSimpleGroup ↥(prodFirstFactor e) := FP.simpleFirst
-  haveI : IsSimpleGroup ↥(prodSecondFactor e) := FP.simpleSecond
+  have : IsSimpleGroup ↥(prodFirstFactor e) := FP.simpleFirst
+  have : IsSimpleGroup ↥(prodSecondFactor e) := FP.simpleSecond
   have hF₁ne : prodFirstFactor e ≠ ⊥ :=
     (Subgroup.nontrivial_iff_ne_bot (prodFirstFactor e)).mp inferInstance
   have hF₂ne : prodSecondFactor e ≠ ⊥ :=
@@ -613,13 +613,13 @@ private structure FactorImageFacts (c : Ctx23L D Ch) {A : Type} [Group A] [Finit
   first_L2 : IsL2 ↥(barImageFirst c e) (CFSG.Open.pRank 2 D.Z)
   second_L2 : IsL2 ↥(barImageSecond c e) (CFSG.Open.pRank 2 D.Z)
 
-private def factorImageFacts (c : Ctx23L D Ch) {A : Type} [Group A] [Finite A]
+private theorem factorImageFacts (c : Ctx23L D Ch) {A : Type} [Group A] [Finite A]
     (e : ↥(Kbar c) ≃* A × A) (hY : Kbar c ≤ CFSG.layer (Bar2 D.M))
     (FP : FactorPair c e) (hL2A : IsL2 A (CFSG.Open.pRank 2 D.Z)) :
     FactorImageFacts c e := by
-  haveI : Group.IsPerfect ↥(prodFirstFactor e) := FP.perfectFirst
-  haveI : Group.IsPerfect ↥(prodSecondFactor e) := FP.perfectSecond
-  haveI : IsSimpleGroup A := isSimpleGroup_of_isL2 hL2A
+  have : Group.IsPerfect ↥(prodFirstFactor e) := FP.perfectFirst
+  have : Group.IsPerfect ↥(prodSecondFactor e) := FP.perfectSecond
+  have : IsSimpleGroup A := isSimpleGroup_of_isL2 hL2A
   let e₁ : ↥(prodFirstFactor e) ≃* ↥(barImageFirst c e) :=
     Subgroup.equivMapOfInjective _ (Kbar c).subtype (Kbar c).subtype_injective
   let e₂ : ↥(prodSecondFactor e) ≃* ↥(barImageSecond c e) :=
@@ -641,7 +641,7 @@ private def factorImageFacts (c : Ctx23L D Ch) {A : Type} [Group A] [Finite A]
 
 private theorem exists_two_components_of_Omega (c : Ctx23L D Ch) (h8 : S23_8 D Ch)
     (hB1 : S23_9_B1 D Ch) (hS : KSub23) (hSS : KSub23Simple) (h1930 : H1930 D)
-    (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) (hKbar : Kbar c ≠ ⊥)
+    (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) (_hKbar : Kbar c ≠ ⊥)
     {A : Type} [Group A] [Finite A] (e : ↥(Kbar c) ≃* A × A)
     (hL2A : IsL2 A (CFSG.Open.pRank 2 D.Z))
     (hsimpleA : ∀ N : Subgroup A, N.Normal → N = ⊥ ∨ N = ⊤)
@@ -701,19 +701,19 @@ theorem s23_9_B23Omega_of (D : Data G) (Ch : Choice2011 G) (h2 : S23_2_natural D
   · exact Or.inl (Ctx23L.Hinf_inf_L_eq_bot_of_Kbar_eq_bot c hKbar)
   · refine Or.inr (Or.inr ?_)
     obtain ⟨A, B, gA, gB, ⟨e₀⟩, hL2A, hL2B⟩ := hsq
-    letI := gA
-    letI := gB
+    let := gA
+    let := gB
     have hSCA := hL2A.statedClassicalModel (by decide)
     have hSCB := hL2B.statedClassicalModel (by decide)
     obtain ⟨eBA⟩ := CFSG.Blueprint.EvenSource.nonempty_mulEquiv_of_statedClassicalModel hSCB hSCA
     let e : ↥(Ctx23L.Kbar c) ≃* A × A := e₀.trans (MulEquiv.prodCongr (MulEquiv.refl A) eBA)
-    haveI : Finite (A × A) := Finite.of_equiv ↥(Ctx23L.Kbar c) e.toEquiv
-    haveI : Finite A := Finite.of_injective (fun a : A => (a, (1 : A)))
+    have : Finite (A × A) := Finite.of_equiv ↥(Ctx23L.Kbar c) e.toEquiv
+    have : Finite A := Finite.of_injective (fun a : A => (a, (1 : A)))
       (fun a b h => by simpa using h)
-    haveI : IsSimpleGroup A := isSimpleGroup_of_isL2 hL2A
+    have : IsSimpleGroup A := isSimpleGroup_of_isL2 hL2A
     have hsimple : ∀ N : Subgroup A, N.Normal → N = ⊥ ∨ N = ⊤ := by
       intro N hN
-      haveI : N.Normal := hN
+      have : N.Normal := hN
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N
     have hcenter : Subgroup.center A = ⊥ :=
       CFSG.Quasithin.F420.center_eq_bot_of_statedPSL hSCA

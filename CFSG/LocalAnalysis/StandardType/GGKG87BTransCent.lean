@@ -91,11 +91,11 @@ private theorem zpow_eq_one_iff_three {Ω : Type} [Field Ω] {ω : Ωˣ} (hω : 
 private def fixTwo : Subgroup (WeylGroup Tag.E6) where
   carrier := {w | ∀ v : Fin Tag.E6.rank → ℤ, (w • v) 1 = v 1}
   mul_mem' {w w'} hw hw' v := by
-    simp only [Set.mem_setOf_eq] at hw hw'
+    simp only [Set.mem_ofPred_eq] at hw hw'
     rw [mul_smul, hw, hw']
   one_mem' v := by rw [one_smul]
   inv_mem' {w} hw v := by
-    simp only [Set.mem_setOf_eq] at hw
+    simp only [Set.mem_ofPred_eq] at hw
     rw [← hw (w⁻¹ • v), smul_inv_smul]
 
 private theorem fixTwo_of_stab
@@ -113,7 +113,7 @@ private theorem fixTwo_of_stab
       ↑((rootFinset Tag.E6).filter fun α => α 1 = 0) := by
     rw [kernelRoots_rootCharHom]
     ext α
-    simp only [Set.mem_setOf_eq, Finset.coe_filter, mem_rootFinset, rootChar_mulSingle,
+    simp only [Set.mem_ofPred_eq, Finset.coe_filter, mem_rootFinset, rootChar_mulSingle,
       zpow_eq_one_iff_three hω]
     exact ⟨fun h => ⟨h.1, coeff_one_eq_zero h.1 h.2⟩, fun h => ⟨h.1, h.2 ▸ dvd_zero 3⟩⟩
   have hk : (kernelRoots (rootCharHom (Pi.mulSingle 1 ω : Fin Tag.E6.rank → Ωˣ))).ncard ∈

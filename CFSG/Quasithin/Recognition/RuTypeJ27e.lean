@@ -83,7 +83,7 @@ theorem comm_of_normal_coprime (P R : Subgroup X) (hPn : P.Normal) (hRn : R.Norm
 
 theorem card_sylow_of_sq_not_dvd {p : ℕ} [hp : Fact p.Prime] (P : Sylow p X)
     (h1 : p ∣ Nat.card X) (h2 : ¬ p ^ 2 ∣ Nat.card X) : Nat.card P = p := by
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hdvd : Nat.card P ∣ Nat.card X := Subgroup.card_subgroup_dvd_card _
   rw [hk] at hdvd ⊢
   rcases Nat.lt_or_ge k 2 with h | h
@@ -225,7 +225,6 @@ theorem isKleinFour_fourSub {a b : G} (ha : a * a = 1) (hb : b * b = 1) (hab : a
       intro i j h
       fin_cases i <;> fin_cases j <;> simp only [g] at h ⊢ <;>
         first
-        | rfl
         | (exfalso; simp at h; first
             | exact ha1 h | exact ha1 h.symm | exact hb1 h | exact hb1 h.symm
             | exact hne h | exact hne h.symm | exact hab1 h | exact hab1 h.symm)

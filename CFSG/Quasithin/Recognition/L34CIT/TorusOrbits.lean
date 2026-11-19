@@ -29,7 +29,7 @@ private def oppSet (C : Config A) : Set (Sylow 2 A) :=
 private def jSet (C : Config A) (k : A) : Set (Sylow 2 A) :=
   {P | (C.T : Subgroup A) ⊓ (P : Subgroup A) = ⊥ ∧ k • P = P}
 
-private def fixSet (C : Config A) (k : A) : Set (Sylow 2 A) := {P | k • P = P}
+private def fixSet (_C : Config A) (k : A) : Set (Sylow 2 A) := {P | k • P = P}
 
 private theorem card_K {k : A} (hk : orderOf k = 3) : Nat.card (K k) = 3 := by
   rw [Nat.card_zpowers, hk]
@@ -69,7 +69,7 @@ private theorem exists_conj_eq_of_card_three (C : Config A) [Finite A] {H K' : S
   let Q : Sylow 3 C.B := C.sylowThreeOfSubgroup K' hK hKcard
   have hQ : (Q : Subgroup C.B) = K'.subgroupOf C.B :=
     C.coe_sylowThreeOfSubgroup K' hK hKcard
-  haveI : Finite (Sylow 3 C.B) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 3 C.B) := Sylow.finite_of_finiteIndex P
   obtain ⟨b, hb⟩ := MulAction.exists_smul_eq C.B P Q
   refine ⟨b, ?_⟩
   have hcoe : (MulAut.conj (b : A) • H).subgroupOf C.B = K'.subgroupOf C.B := by
@@ -80,7 +80,7 @@ private theorem exists_conj_eq_of_card_three (C : Config A) [Finite A] {H K' : S
 
 private theorem smul_mem_oppSet (C : Config A) [Finite A] {P : Sylow 2 A}
     (hP : P ∈ C.oppSet) (b : C.B) : b • P ∈ C.oppSet := by
-  rw [oppSet, Set.mem_setOf_eq] at hP ⊢
+  rw [oppSet, Set.mem_ofPred_eq] at hP ⊢
   have hbT : MulAut.conj (b : A) • (C.T : Subgroup A) = (C.T : Subgroup A) :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp b.2
   calc (C.T : Subgroup A) ⊓ ((b • P : Sylow 2 A) : Subgroup A)
@@ -124,7 +124,7 @@ private theorem eq_of_smul_eq_of_mem_jSet (C : Config A) [Finite A] {k : A}
     rw [show MulAut.conj ((b : A)⁻¹) • K k =
         (K k).map (MulAut.conj ((b : A)⁻¹)).toMonoidHom from rfl, MonoidHom.map_zpowers]
     congr 1
-    simp [MulAut.conj_apply]
+    simp
   have hconjle : MulAut.conj ((b : A)⁻¹) • K k ≤ K k := by
     rw [hconjK]
     exact Subgroup.zpowers_le.mpr hxKP
@@ -191,7 +191,7 @@ private theorem exists_mem_jSet_smul_eq (C : Config A) [Finite A] {k : A}
     _ = (b : A) • Q := by rw [hxQ]
 
 private noncomputable def actionMap (C : Config A) [Finite A] {k : A}
-    (hkB : k ∈ C.B) :
+    (_hkB : k ∈ C.B) :
     {P : Sylow 2 A // P ∈ C.jSet k} × C.B → {Q : Sylow 2 A // Q ∈ C.oppSet} :=
   fun x => ⟨x.2 • x.1.1, C.smul_mem_oppSet x.1.2.1 x.2⟩
 
@@ -306,9 +306,9 @@ theorem ncard_opposite_eq_mul (C : Config A) [Finite A] {k : A}
   let Jt : Type := {P : Sylow 2 A // P ∈ C.jSet k}
   let Ot : Type := {Q : Sylow 2 A // Q ∈ C.oppSet}
   let f : Jt × C.B → Ot := C.actionMap hkB
-  haveI : Fintype Jt := Fintype.ofFinite _
-  haveI : Fintype Ot := Fintype.ofFinite _
-  haveI : Fintype C.B := Fintype.ofFinite _
+  have : Fintype Jt := Fintype.ofFinite _
+  have : Fintype Ot := Fintype.ofFinite _
+  have : Fintype C.B := Fintype.ofFinite _
   have hsum : Fintype.card (Jt × C.B) =
       ∑ Q : Ot, Fintype.card {x : Jt × C.B // f x = Q} := by
     let s : Finset (Jt × C.B) := Finset.univ
@@ -344,7 +344,7 @@ theorem ncard_opposite_eq_mul (C : Config A) [Finite A] {k : A}
 
 private abbrev Nrm (k : A) : Subgroup A := normalizer (K k : Set A)
 
-private def invN (C : Config A) (k : A) : Set A :=
+private def invN (_C : Config A) (k : A) : Set A :=
   {u | u ∈ Nrm k ∧ u * u = 1 ∧ u ≠ 1}
 
 private theorem eq_k_or_inv_of_mem_K_of_order_three {k x : A} (hk : orderOf k = 3)
@@ -378,7 +378,7 @@ private theorem ncard_fixSet_le (C : Config A) [Finite A] {k : A}
     (hkB : k ∈ C.B) (hk : orderOf k = 3) :
     (C.fixSet k).ncard ≤ 5 + (C.jSet k).ncard := by
   classical
-  haveI : Finite (Sylow 2 A) :=
+  have : Finite (Sylow 2 A) :=
     Finite.of_surjective (fun a : A => a • C.T) fun P => MulAction.exists_smul_eq A C.T P
   let A1 : Set (Sylow 2 A) :=
     {P | (C.T : Subgroup A) ⊓ (P : Subgroup A) ≠ ⊥ ∧ k • P = P}
@@ -397,7 +397,7 @@ private theorem ncard_fixSet_le (C : Config A) [Finite A] {k : A}
 
 private theorem smul_mem_fixSet (C : Config A) [Finite A] {k : A} (n : Nrm k)
     {P : Sylow 2 A} (hP : P ∈ C.fixSet k) : n • P ∈ C.fixSet k := by
-  rw [fixSet, Set.mem_setOf_eq] at hP ⊢
+  rw [fixSet, Set.mem_ofPred_eq] at hP ⊢
   have hnk : ((n : A)⁻¹ * k * (n : A)) ∈ K k := by
     exact (Subgroup.mem_normalizer_iff''.mp n.2 k).mp (Subgroup.mem_zpowers k)
   have hfixK : ((n : A)⁻¹ * k * (n : A)) • P = P := by
@@ -416,7 +416,7 @@ private theorem smul_mem_fixSet (C : Config A) [Finite A] {k : A} (n : Nrm k)
 private noncomputable def fixMap (C : Config A) [Finite A] {k : A} (hkB : k ∈ C.B) :
     Nrm k → C.fixSet k :=
   fun n => ⟨n • C.T, C.smul_mem_fixSet n (by
-    rw [fixSet, Set.mem_setOf_eq]
+    rw [fixSet, Set.mem_ofPred_eq]
     exact (Sylow.smul_eq_iff_mem_normalizer).mpr hkB)⟩
 
 private theorem ncard_fiber_fixMap_le (C : Config A) [Finite A] {k : A}
@@ -471,7 +471,7 @@ private theorem ncard_fiber_fixMap_le (C : Config A) [Finite A] {k : A}
       apply Subtype.ext
       change (n₀ : Nrm k)⁻¹ * ((n₀ : Nrm k) * s.1) = s.1
       group
-  · haveI : IsEmpty {n : Nrm k // C.fixMap hkB n = P} := not_nonempty_iff.mp hne
+  · have : IsEmpty {n : Nrm k // C.fixMap hkB n = P} := not_nonempty_iff.mp hne
     rw [Nat.card_of_isEmpty]
     exact Nat.zero_le 3
 
@@ -479,8 +479,8 @@ private theorem ncard_Nrm_le (C : Config A) [Finite A] {k : A}
     (hkB : k ∈ C.B) (hk : orderOf k = 3) :
     Nat.card (Nrm k) ≤ 3 * (C.fixSet k).ncard := by
   classical
-  haveI : Fintype (Nrm k) := Fintype.ofFinite _
-  haveI : Fintype (C.fixSet k) := Fintype.ofFinite _
+  have : Fintype (Nrm k) := Fintype.ofFinite _
+  have : Fintype (C.fixSet k) := Fintype.ofFinite _
   let f : Nrm k → C.fixSet k := C.fixMap hkB
   have hsum : Fintype.card (Nrm k) =
       ∑ P : C.fixSet k, Fintype.card {n : Nrm k // f n = P} := by
@@ -512,8 +512,8 @@ private theorem three_mul_jSet_le_invN (C : Config A) [Finite A] {k : A}
     (hkB : k ∈ C.B) (hk : orderOf k = 3) :
     3 * (C.jSet k).ncard ≤ (C.invN k).ncard := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : Fintype (Sylow 2 A) := Fintype.ofFinite _
+  have : Fintype A := Fintype.ofFinite A
+  have : Fintype (Sylow 2 A) := Fintype.ofFinite _
   have hfin : (C.jSet k).Finite := Set.toFinite _
   set S : Finset (Sylow 2 A) := hfin.toFinset with hS
   have hSmem : ∀ P : Sylow 2 A, P ∈ S ↔ P ∈ C.jSet k := fun P =>
@@ -566,10 +566,10 @@ private noncomputable def invNEquiv (C : Config A) (k : A) :
   right_inv _ := rfl
 
 private theorem two_mul_invN_le_Nrm (C : Config A) [Finite A] {k : A}
-    (hkB : k ∈ C.B) (hk : orderOf k = 3) :
+    (_hkB : k ∈ C.B) (hk : orderOf k = 3) :
     2 * (C.invN k).ncard ≤ Nat.card (Nrm k) := by
   classical
-  haveI : Fintype (Nrm k) := Fintype.ofFinite _
+  have : Fintype (Nrm k) := Fintype.ofFinite _
   let X : Set (Nrm k) := {n | (n : A) * k * (n : A)⁻¹ = k⁻¹}
   let Y : Set (Nrm k) := {n | (n : A) * k * (n : A)⁻¹ = k}
   have hxK : ∀ n : Nrm k, ((n : A) * k * (n : A)⁻¹) ∈ K k := by
@@ -681,7 +681,7 @@ private theorem two_mul_invN_le_Nrm (C : Config A) [Finite A] {k : A}
             rw [← Nat.card_congr (C.invNEquiv k)]
       _ ≤ 2 * Nat.card X := by omega
       _ = Nat.card (Nrm k) := hN2.symm
-  · haveI : IsEmpty {u : Nrm k // (u : A) * u = 1 ∧ (u : A) ≠ 1} :=
+  · have : IsEmpty {u : Nrm k // (u : A) * u = 1 ∧ (u : A) ≠ 1} :=
       not_nonempty_iff.mp hne
     have hzero : (C.invN k).ncard = 0 := by
       rw [← Nat.card_coe_set_eq]

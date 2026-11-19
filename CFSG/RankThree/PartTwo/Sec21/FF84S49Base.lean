@@ -14,10 +14,12 @@ open CFSG.RankThree.PartTwo.Sec21.FF84.S3 (P8 A8s card_inf_of_cycleType3 cycleTy
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
+omit [Finite G] in
 theorem piStar_of_le {X A A' U : Subgroup G} {q : ℕ} (hA' : A' ≤ A) (hAU : A ≤ Nor U)
     (h : U ∈ PiStar X A' q) : U ∈ PiStar X A q :=
   ⟨h.1, h.2.1, hAU, fun V hUV hVX hVq hAV => h.2.2.2 V hUV hVX hVq (hA'.trans hAV)⟩
 
+omit [Finite G] in
 theorem conj_piStar {X A U : Subgroup G} {q : ℕ} (g : G) (hU : U ∈ PiStar X A q) :
     conjBy g U ∈ PiStar (conjBy g X) (conjBy g A) q := by
   obtain ⟨hUX, hUq, hAU, hmax⟩ := hU
@@ -60,6 +62,7 @@ theorem conj_piStar {X A U : Subgroup G} {q : ℕ} (g : G) (hU : U ∈ PiStar X 
     have h5 := hmax _ h1 h2 h3 h4
     rw [← conjBy_conjBy_inv g V, h5]
 
+omit [Finite G] in
 theorem cen_zpow_of {z : G} (hz : z ^ 3 = 1) {k : ℤ} (hk : ¬ (3 : ℤ) ∣ k) :
     Cen (z ^ k) = Cen z := by
   ext x
@@ -86,10 +89,11 @@ theorem card_le_four_of_dvd_180 {V : Subgroup G} (hV : IsPGroup 2 V) {M : Subgro
   have := h8.trans hd
   omega
 
+omit [Finite G] in
 theorem op2_cen_eq (hchar : CFSG.Assembly.IsCharTwoType G) {S E : Subgroup G} {x : G}
     (hS : EA2 S) (hEN : E ≤ Nor S) (hmax : S ∈ PiStar ⊤ E 2) (hx : x ∈ S) (hx1 : x ≠ 1)
     (hEx : E ≤ Cen x) : Op 2 (Cen x) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSx : S ≤ Cen x := fun s hs => Subgroup.mem_centralizer_singleton_iff.2 (hS.1 s hs x hx)
   have hQN : Cen x ≤ Nor (Op 2 (Cen x)) := le_nor_op2 _
   have hSQ : S ≤ Nor (Op 2 (Cen x)) := hSx.trans hQN
@@ -103,9 +107,11 @@ theorem op2_cen_eq (hchar : CFSG.Assembly.IsCharTwoType G) {S E : Subgroup G} {x
     le_inf hSx fun s hs => Subgroup.mem_centralizer_iff.2 fun q hq => hS.1 q (hQS hq) s hs
   exact le_antisymm hQS (hSQc.trans (B_charTwo_cen hchar hx2))
 
+omit [Finite G] in
 theorem le_cen_of_mem_cenS {E : Subgroup G} {x : G} (hx : x ∈ CenS E) : E ≤ Cen x := fun e he =>
   Subgroup.mem_centralizer_singleton_iff.2 (Subgroup.mem_centralizer_iff.1 hx e he)
 
+omit [Finite G] in
 theorem conjBy_top (g : G) : conjBy g (⊤ : Subgroup G) = ⊤ := by
   ext x
   rw [mem_conjBy_iff]
@@ -129,7 +135,7 @@ theorem E_isEA : IsElementaryAbelian 3 (Subgroup.closure ({b, b₁} : Set G)) :=
   isEA_of 3 (E_comm c) (E_cube c)
 
 theorem E_card : 9 ≤ Nat.card (Subgroup.closure ({b, b₁} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set E := Subgroup.closure ({b, b₁} : Set G) with hE
   have hbE : b ∈ E := Subgroup.subset_closure (by simp)
   have hb₁E : b₁ ∈ E := Subgroup.subset_closure (by simp)
@@ -206,7 +212,7 @@ include hU
 
 theorem S_core {cc : G} (hcc : cc = b₁ ∨ cc = b₂) :
     ∃ n, CoreData b cc n B (Op 2 (Nor U)) U :=
-  c.core_ex hU (op2_isPGroup _) (B_le_nor_S c hU) (S48_CSb c hU) hcc
+  c.core_ex hU (op2_isPGroup _) (B_le_nor_S hU) (S48_CSb c hU) hcc
 
 theorem U_piStar_E : U ∈ PiStar (Cen b) (Subgroup.closure ({b, b₁} : Set G)) 2 := by
   obtain ⟨U₁, U₂, -, -, -, h⟩ := c.f47
@@ -232,7 +238,7 @@ theorem W_piStar_E :
   rw [e3, e1, e2] at h7
   refine piStar_of_le (A' := Subgroup.zpowers b) ((Subgroup.zpowers_le).2
     (Subgroup.subset_closure (by simp))) ?_ h7
-  exact (B_nor_inf_cen c hU (mem_b₁ c.sec) (B_le_nor_S c hU)).trans' (E_le_B c)
+  exact (B_nor_inf_cen c (mem_b₁ c.sec) (B_le_nor_S hU)).trans' (E_le_B c)
 
 theorem UW_piStar_E (h180 : Nat.card ↥(L ⊓ Cen b₁) = 180) {c' : G} (hc' : c' = b₁ ∨ c' = b₁⁻¹) :
     U ⊓ Cen b₁ ∈ PiStar (Cen (b * c')) (Subgroup.closure ({b, b₁} : Set G)) 2 := by
@@ -269,7 +275,7 @@ theorem UW_piStar_E (h180 : Nat.card ↥(L ⊓ Cen b₁) = 180) {c' : G} (hc' : 
       _ = b * (x * c') := by rw [mul_assoc]
       _ = b * (c' * x) := by rw [h3]
       _ = b * c' * x := by rw [mul_assoc]
-  have hBn : B ≤ Nor (U ⊓ Cen b₁) := B_nor_inf_cen c hU (mem_b₁ c.sec) hU.2.2.1
+  have hBn : B ≤ Nor (U ⊓ Cen b₁) := B_nor_inf_cen c (mem_b₁ c.sec) hU.2.2.1
   refine ⟨hle, hU.2.1.to_inf_left, hBn.trans' (E_le_B c), ?_⟩
   intro V hUV hVD hV2 hEV
   have hbV : b ∈ Nor V := hEV (Subgroup.subset_closure (by simp))
@@ -283,9 +289,9 @@ theorem UW_piStar_E (h180 : Nat.card ↥(L ⊓ Cen b₁) = 180) {c' : G} (hc' : 
 
 theorem S_piStar_E (h180 : Nat.card ↥(L ⊓ Cen b₁) = 180) :
     Op 2 (Nor U) ∈ PiStar ⊤ (Subgroup.closure ({b, b₁} : Set G)) 2 := by
-  haveI := E_isEA c
+  have := E_isEA c
   refine B_max_of_centralizers (E := Subgroup.closure ({b, b₁} : Set G)) (E_card c)
-    ⟨le_top, op2_isPGroup _, (B_le_nor_S c hU).trans' (E_le_B c)⟩ ?_
+    ⟨le_top, op2_isPGroup _, (B_le_nor_S hU).trans' (E_le_B c)⟩ ?_
   intro e he he1
   rw [top_inf_eq]
   rcases E_cen_cases c he he1 with h | h | h | h
@@ -322,7 +328,7 @@ theorem cycle : ∃ n ∈ Nor (Op 2 (Nor U)) ⊓ Nor B, n * b * n⁻¹ = b₁ �
     · exact k1
     · exfalso
       have h3 : conjBy (n * (n * n)) (Op 2 (Nor U)) = Op 2 (Nor U) :=
-        mem_nor_iff_conjBy.1 (B_le_nor_S c hU hn3B)
+        mem_nor_iff_conjBy.1 (B_le_nor_S hU hn3B)
       rw [conjBy_mul, conjBy_mul, k1, k2, k1] at h3
       exact S_inj c hU' hU hne h3
   exact ⟨n, ⟨hnS, hn⟩, hn1, hn2, hn3⟩
@@ -340,7 +346,7 @@ theorem S_iso :
   obtain ⟨hb2, hb1, hC⟩ := c.S48_b2 hU
   have h₀ : Nat.card ↥(Op 2 (Nor U) ⊓ Cen b) = 16 := by
     rw [c.S48_CSb hU]; exact c.piU_card hU
-  exact B_isotypic hEA6 c.sec.mono.1 (c.B_le_nor_S hU) c.sec.mono.2.1 h₀ hb1 hb2 hC
+  exact B_isotypic hEA6 c.sec.mono.1 (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU) c.sec.mono.2.1 h₀ hb1 hb2 hC
 
 theorem S_piStar_E₁ (h180 : Nat.card ↥(L ⊓ Cen b₁) = 180) :
     Op 2 (Nor U) ∈ PiStar ⊤ (Subgroup.closure ({b₁, b₂} : Set G)) 2 := by
@@ -360,13 +366,13 @@ theorem S_ea2 : EA2 (Op 2 (Nor U)) := EA2.of_isElemAb (c.S48_elemab hU).1
 
 theorem comm_le_S {z : G} (hz : z ∈ B) : ⁅Op 2 (Nor U), Subgroup.zpowers z⁆ ≤ Op 2 (Nor U) := by
   have hSEA := c.S_ea2 hU
-  exact IsoAux.W_le_S hSEA.1 hSEA.2 (c.B_le_nor_S hU hz) (c.hB3 z hz)
+  exact IsoAux.W_le_S hSEA.1 hSEA.2 (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU hz) (c.hB3 z hz)
 
 theorem S49_one_comp₂ (h180 : Nat.card ↥(L ⊓ Cen b₁) = 180) {x : G}
     (hx : x ∈ ⁅Op 2 (Nor U), Subgroup.zpowers b₂⁆) (hx1 : x ≠ 1) :
     Op 2 (Cen x) = Op 2 (Nor U) := by
   have hE : Subgroup.closure ({b, b₁} : Set G) ≤ Nor (Op 2 (Nor U)) :=
-    (c.B_le_nor_S hU).trans' (c.E_le_B)
+    (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU).trans' (c.E_le_B)
   exact op2_cen_eq c.sec.hyp.char2 (c.S_ea2 hU) hE (c.S_piStar_E hU h180)
     (c.comm_le_S hU (mem_b₂ c.sec) hx) hx1 (le_cen_of_mem_cenS ((c.S_iso hU).2.2.2.2.2.2 hx))
 
@@ -377,8 +383,8 @@ theorem S49_one_comp₀ (h180 : Nat.card ↥(L ⊓ Cen b₁) = 180) {x : G}
     refine (Subgroup.closure_le _).2 ?_
     intro z hz
     rcases hz with rfl | hz
-    · exact c.B_le_nor_S hU (mem_b₁ c.sec)
-    · rw [Set.mem_singleton_iff.1 hz]; exact c.B_le_nor_S hU (mem_b₂ c.sec)
+    · exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b₁ c.sec)
+    · rw [Set.mem_singleton_iff.1 hz]; exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b₂ c.sec)
   exact op2_cen_eq c.sec.hyp.char2 (c.S_ea2 hU) hE (c.S_piStar_E₁ hU h180)
     (c.comm_le_S hU (mem_b c.sec) hx) hx1 (le_cen_of_mem_cenS ((c.S_iso hU).2.2.2.2.1 hx))
 
@@ -389,8 +395,8 @@ theorem S49_one_comp₁ (h180 : Nat.card ↥(L ⊓ Cen b₁) = 180) {x : G}
     refine (Subgroup.closure_le _).2 ?_
     intro z hz
     rcases hz with rfl | hz
-    · exact c.B_le_nor_S hU (mem_b₂ c.sec)
-    · rw [Set.mem_singleton_iff.1 hz]; exact c.B_le_nor_S hU (mem_b c.sec)
+    · exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b₂ c.sec)
+    · rw [Set.mem_singleton_iff.1 hz]; exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b c.sec)
   have hcen : Subgroup.closure ({b₂, b} : Set G) ≤ Cen x := by
     refine le_cen_of_mem_cenS ?_
     have := (c.S_iso hU).2.2.2.2.2.1 hx

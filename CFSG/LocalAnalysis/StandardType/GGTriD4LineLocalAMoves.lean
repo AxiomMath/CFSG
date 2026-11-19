@@ -18,8 +18,7 @@ private lemma triD4Line_cyc3_mul_diagonal (k : Type) [Field k] (f : Fin 3 → k)
         (CFSG.Open.StatedCenterThree.cyc3 (K := k)) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [CFSG.Open.StatedCenterThree.cyc3, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+    simp [CFSG.Open.StatedCenterThree.cyc3, Matrix.mul_apply, Matrix.diagonal_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
       Matrix.cons_val_two, Matrix.tail_cons, Fin.zero_eta, Fin.isValue, Fin.mk_one,
       Fin.reduceFinMk]
 
@@ -161,7 +160,7 @@ theorem triD4LineX_moves_line_of_le_N0 (k K : Type) [Field k] [Field K] [Algebra
     obtain ⟨i, j, rfl⟩ := hgen e he
     have hs1 : s ≠ 1 := fun h => hsz (by rw [h]; exact Subgroup.one_mem _)
     have hsord : orderOf s = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact orderOf_eq_prime (hE.2 s hsE) hs1
     have hj : j % 3 ≠ 0 := by
       intro h0
@@ -268,7 +267,7 @@ theorem triD4LineX_moves_line_of_le_N0 (k K : Type) [Field k] [Field K] [Algebra
     change (α (![1, 2, 0] 0) / α 0) * (α (![1, 2, 0] 1) / α 1) *
       (α (![1, 2, 0] 2) / α 2) = 1
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two,
-      Matrix.tail_cons, Fin.zero_eta, Fin.isValue, Fin.mk_one, Fin.reduceFinMk]
+      Matrix.tail_cons, Fin.isValue]
     field_simp [hα_ne 0, hα_ne 1, hα_ne 2]
   obtain ⟨a, b, hab⟩ := triD4Line_diagonal_eq_scalar_mul_pow k ω hω3 hω1 t ht3 hprod
   have hPdiag : P * Matrix.diagonal α =

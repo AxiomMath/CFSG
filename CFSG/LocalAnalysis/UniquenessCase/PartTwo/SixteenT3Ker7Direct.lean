@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {T : Type} [CommGroup T] [Finite T]
 
+omit [Finite T] in
 private theorem s16t_eq_one_of_fix_summands {ι : Type} {Y : ι → Subgroup T}
     (hsup : ⨆ i, Y i = ⊤) {x : MulAut T} (h : ∀ i, ∀ v ∈ Y i, x v = v) : x = 1 := by
   have hle : (⨆ i, Y i) ≤ fixV (Subgroup.zpowers x) :=
@@ -27,7 +28,7 @@ theorem s16t_stab_trivial_seven (hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup (Mul
       ∀ φ ∈ X, φ ^ 2 = 1 → ∀ i, (Y i).map φ.toMonoidHom = Y i → ∀ y ∈ Y i, φ y = y := by
   classical
   obtain ⟨ι, hι, Y, hY⟩ := s16c1610_symSumFamily_of_symSumOfConj hS
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   obtain ⟨Q, hQX, hQp, hQne, hnorm, hQY⟩ :=
     s16t_ker7_exists_Q hT hr hA hAP hY.indep hY.inj hY.sup hY.card hY.rank hY.perm hY.surj
   refine ⟨ι, hι, Y, hY, ?_⟩
@@ -35,7 +36,7 @@ theorem s16t_stab_trivial_seven (hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup (Mul
   by_contra hne
   have hφne : φ ≠ 1 := fun h => hne (by simp [h])
   have horder2 : orderOf φ = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hφ2 hφne
   have hrki : rk ↥(Y i) = 3 := by rw [hY.rank i, s16c1610_dParam_seven]
   have hQi := s16n9b_case4_aut_norm7 hT hrki hQp (fun q hq => hQY q hq i)
@@ -68,7 +69,7 @@ theorem s16t_false_of_direct_seven (hT : ∀ t : T, t ^ 2 = 1) {X A B : Subgroup
     (hA4 : ∀ b ∈ B, b ≠ 1 → ∀ w, w ∈ Ut ↔ w * (b w)⁻¹ ∈ fixV B) : False := by
   classical
   obtain ⟨ι, hι, Y, hY, hstab⟩ := s16t_stab_trivial_seven hT hr hA hAP hS
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   obtain ⟨i, hi⟩ : ∃ i, ¬ Y i ≤ Ut := by
     by_contra hcon
     exact hUt (eq_top_iff.mpr (by
@@ -189,7 +190,7 @@ theorem s16t_two_lt_mParam_of_case4_seven (hT : ∀ t : T, t ^ 2 = 1)
   split_ifs with hev
   · set S : Set ℕ := {n | ∃ t ∈ X, orderOf t = 2 ∧ n = rkIdx (fixV (Subgroup.zpowers t))} with hS'
     have hne : S.Nonempty := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 2 (even_iff_two_dvd.1 hev)
       exact ⟨_, (x : MulAut T), x.2, by rw [Subgroup.orderOf_coe]; exact hx, rfl⟩
     obtain ⟨t, htX, ht2, hn⟩ := Nat.sInf_mem hne

@@ -77,7 +77,7 @@ theorem card_sylow_eq_two_of_standard {L : Subgroup G} (hset : StandardSetting G
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS := hset.isCyclic_sylow S
   have h2 : 2 ∣ Nat.card S := S.dvd_card_of_dvd_card (even_iff_two_dvd.mp hset.standard.2.1)
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   by_contra hne
   have hS4 : 4 ≤ Nat.card S := by
     rw [hn] at h2 hne ⊢

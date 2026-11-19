@@ -51,7 +51,7 @@ theorem sylow_card_le_two_fifty_six
   have hfixed : Nat.card (fixedPoints Q X) = 6 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact (Degree54TwoEntrance.fixed_six_and_image P hcard h5 hnotAlt s hs S).1
-  have hb := card_le_two_fifty_six P hcard h5 hnotAlt Q (S.isPGroup'.map _) hfixed
+  have hb := card_le_two_fifty_six P hcard h5 hnotAlt Q (S.isPGroup.map _) hfixed
     ⟨x,hx⟩ hsizes himages hno32
   rwa [Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective] at hb
 

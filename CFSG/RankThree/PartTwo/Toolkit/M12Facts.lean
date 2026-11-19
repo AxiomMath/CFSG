@@ -234,8 +234,8 @@ theorem card_QP :
 
 theorem isElementaryAbelian_QP :
     IsElementaryAbelian 2 QP where
-  is_comm := ⟨IsPGroup.commutative_of_card_eq_prime_sq (p := 2) (G := QP)
-    (by rw [card_QP]; norm_num)⟩
+  is_comm := ⟨(IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (G := QP)
+    (by rw [card_QP]; norm_num)).is_comm.comm⟩
   exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun q => by
     induction q using QuotientGroup.induction_on with
     | H g =>

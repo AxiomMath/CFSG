@@ -45,7 +45,7 @@ theorem rckK2NbrCollinear_of_rest
         exact rckCollinearVia_POmegaPlus_three hg hβ hl
       · exfalso
         have e : ggU .POmegaPlus m g = trivialUniversal := by
-          simp only [ggU, lieUniversal, dif_neg h3]
+          simp only [ggU, lieUniversal, dite_eq_right h3]
         have hrank : (ggU .POmegaPlus m g).D.rank = 0 :=
           (congrArg (fun L : LieUniversal => L.D.rank) e).trans rfl
         exact UniversalRootDatum.not_mem_roots_of_rank_eq_zero _ hrank hβ

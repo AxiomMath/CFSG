@@ -43,7 +43,7 @@ theorem uc22r3g_exists_fixed_sz {M L : Subgroup G}
   have hq' : CFSG.Open.IsQuasisimple (Bar2 L) := hL.2.2
   obtain ⟨-, a, ha, K, _, _, hf, hKc, ⟨φ⟩⟩ := (CFSG.Blueprint.LieModel.twistedB2_iff.1
     (lieModel_xbar_of_lieModel_bar2 hq' (center_eq_bot_of_isSz hq' hSz) hSz)).2
-  haveI : Finite (CFSG.Blueprint.suzukiGroup a K) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (CFSG.Blueprint.suzukiGroup a K) := Finite.of_equiv _ φ.toEquiv
   have hθo : orderOf (inducedQuotInfAut L b hbL) = q := by
     have hd : orderOf (inducedQuotInfAut L b hbL) ∣ q := by
       rw [← hbo]
@@ -69,11 +69,11 @@ theorem uc22r3g_exists_fixed_sz {M L : Subgroup G}
   have h4 : 4 ≤ 2 ^ (2 * b' + 1) :=
     le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num : 0 < 2) (by omega : 2 ≤ 2 * b' + 1))
   obtain ⟨r, hr, hrs⟩ := Nat.exists_prime_and_dvd (show 2 ^ (2 * b' + 1) - 1 ≠ 1 by omega)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hSzk : IsSz (CFSG.Blueprint.suzukiGroup b' k) (2 * b' + 1) :=
     CFSG.Blueprint.LieModel.twistedB2_iff.2
       ⟨rfl, rfl, b', hb'1, k, inferInstance, inferInstance, rfl, hk, ⟨MulEquiv.refl _⟩⟩
-  haveI : Finite (CFSG.Blueprint.suzukiGroup b' k) := Finite.of_equiv _ eF.toEquiv
+  have : Finite (CFSG.Blueprint.suzukiGroup b' k) := Finite.of_equiv _ eF.toEquiv
   obtain ⟨z₀, hz₀⟩ :=
     exists_prime_orderOf_dvd_card' r (hrs.trans (uc22ine229_dvd_card_of_isSz hSzk))
   obtain ⟨z, hzfix, hzo⟩ : ∃ z : CFSG.Blueprint.suzukiGroup a K,

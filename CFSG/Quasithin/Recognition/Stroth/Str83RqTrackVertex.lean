@@ -106,12 +106,14 @@ private theorem tv_Gw_neg_one_zero :
 
 variable [Finite G]
 
+omit [Finite G] in
 private theorem tv_P1_le_normalizer (hF : F112HypW L1 L2 S) :
     P1 L1 L2 S ≤ Subgroup.normalizer ((L1 ⊔ Q1 L1 L2 S : Subgroup G) : Set G) :=
   F1.le_normalizer_sup
     (sup_le Subgroup.le_normalizer (bigB_le_normalizer_of_hyp111 hF.1))
     (le_normalizer_pCoreOf 2 (P1 L1 L2 S))
 
+omit [Finite G] in
 private theorem tv_P2_le_normalizer (hF : F112HypW L1 L2 S) :
     P2 L1 L2 S ≤ Subgroup.normalizer ((L2 ⊔ Q2 L1 L2 S : Subgroup G) : Set G) := by
   have hB : bigB L1 L2 S ≤ Subgroup.normalizer (L2 : Set G) := by
@@ -125,6 +127,7 @@ private theorem tv_pCoreOf_sup_pCoreOf_right (hF : Hyp111 L1 L2 S) :
   have h := pCoreOf_sup_pCoreOf (L1 := L2) (L2 := L1) (S := S) hF.symm
   simpa [Q1, Q2, P1, P2, bigB_comm] using h
 
+omit [Finite G] in
 private theorem tv_Gv_even (k : ℤ) :
     t.Gv (2 * k) = (P1 L1 L2 S).map
       (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom := by
@@ -132,6 +135,7 @@ private theorem tv_Gv_even (k : ℤ) :
     (x₁ := t.x₁) (x₂ := t.x₂) 0 k).symm
   simpa [t.Gv_zero, show (0 : ℤ) + 2 * k = 2 * k by simp] using h
 
+omit [Finite G] in
 private theorem tv_Gv_odd (k : ℤ) :
     t.Gv (2 * k + 1) = (P2 L1 L2 S).map
       (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom := by
@@ -139,6 +143,7 @@ private theorem tv_Gv_odd (k : ℤ) :
     (x₁ := t.x₁) (x₂ := t.x₂) 1 k).symm
   simpa [t.Gv_one, show (1 : ℤ) + 2 * k = 2 * k + 1 by rw [add_comm]] using h
 
+omit [Finite G] in
 theorem Gv_le_normalizer_Lv {a f : ℕ} (hfr : Frame L1 L2 S a f) (i : ℤ) :
     t.Gv i ≤ normalizer (t.Lv i : Set G) := by
   show (trackPar (P1 L1 L2 S) (P2 L1 L2 S) i).map

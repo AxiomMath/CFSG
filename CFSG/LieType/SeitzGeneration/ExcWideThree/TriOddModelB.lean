@@ -43,6 +43,7 @@ theorem triOdd_diagramMap_comm_thetaHom (L : Type) [Field L] (Y : Matrix.Special
 
 variable {X : Type} [Field X] [Finite X] (σ : X ≃+* X)
 
+omit [Finite X] in
 theorem triOdd_charP_closure {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hX : Nat.card X = (ℓ ^ f) ^ 3) :
     CharP (AlgebraicClosure X) ℓ :=
   haveI : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
@@ -55,12 +56,12 @@ theorem triOdd_exists_thetaHom_of_mem_bsub {ℓ f : ℕ} (hℓ : ℓ.Prime) (h�
     ∃ Y : Matrix.SpecialLinearGroup (Fin 2) (AlgebraicClosure X),
       KS11Lie6Proof.thetaHom (AlgebraicClosure X) Y =
         CFSG.RankThree.PartOne.KGD.triEmb X σ (AlgebraicClosure X) b := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP (AlgebraicClosure X) ℓ := triOdd_charP_closure hℓ hf hX
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP (AlgebraicClosure X) ℓ := triOdd_charP_closure hℓ hf hX
   exact KS11Lie6Proof.exists_thetaHom_of_mem_centralizer hf hℓ3 hX hσ (AlgebraicClosure X)
     (Fr := iterateFrobenius (AlgebraicClosure X) ℓ f) (fun c => iterateFrobenius_def ℓ f c) hb
 
-theorem triOdd_bsub_tau {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3) (hf : 1 ≤ f)
+theorem triOdd_bsub_tau {ℓ f : ℕ} (hℓ : ℓ.Prime) (_hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3) (hf : 1 ≤ f)
     (hX : Nat.card X = (ℓ ^ f) ^ 3) (hσ : ∀ c : X, σ c = c ^ (ℓ ^ f)) :
     ∀ b ∈ Bsub σ, tauAut σ b = b := by
   intro b hb
@@ -86,12 +87,12 @@ theorem triOdd_bsub_tau {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (h�
     rw [htw, hPb, mul_inv_cancel_right]
   exact mul_left_cancel (mul_right_cancel h2)
 
-theorem triOdd_bsub_zpowers {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3) (hf : 1 ≤ f)
+theorem triOdd_bsub_zpowers {ℓ f : ℕ} (hℓ : ℓ.Prime) (_hℓ2 : ℓ ≠ 2) (hℓ3 : ℓ ≠ 3) (hf : 1 ≤ f)
     (hX : Nat.card X = (ℓ ^ f) ^ 3) (hσ : ∀ c : X, σ c = c ^ (ℓ ^ f)) :
     ∀ u ∈ Bsub σ, ∀ v ∈ Bsub σ, u ^ 3 = 1 → u ≠ 1 → v ^ 3 = 1 → u * v = v * u →
       v ∈ Subgroup.zpowers u := by
   intro u hu v hv hu3 hu1 hv3 huv
-  haveI : CharP (AlgebraicClosure X) ℓ := triOdd_charP_closure hℓ hf hX
+  have : CharP (AlgebraicClosure X) ℓ := triOdd_charP_closure hℓ hf hX
   have h3L : (3 : AlgebraicClosure X) ≠ 0 := by
     intro h
     have h' : ((3 : ℕ) : AlgebraicClosure X) = 0 := by exact_mod_cast h

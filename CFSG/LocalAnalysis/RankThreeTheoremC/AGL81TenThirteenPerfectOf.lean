@@ -72,8 +72,8 @@ theorem agl81TenThirteenPerfect_of (h31 : KFactThreeOne) (hSch : KFactCatalogSch
     obtain ⟨e⟩ := eK
     obtain ⟨hsimple, horder, hcenter, hndvd⟩ := hPair.2.2.1 q dK dJ hqp hqe hdK hdJ
     have hN := le_normalizer_of_mulEquiv h31 hSch hS hd hL hI₀ hI e hcenter f hf hfX hndvd
-    haveI : Finite (CatGroup dJ) := Finite.of_surjective f hf
-    haveI : IsSimpleGroup (CatGroup dJ) := hsimple
+    have : Finite (CatGroup dJ) := Finite.of_surjective f hf
+    have : IsSimpleGroup (CatGroup dJ) := hsimple
     exact false_of_l33u35l37he h85 h93 hD2 h984 hB hS hd hL hI₀ hI hN f hf horder
   ·
     subst iK
@@ -86,8 +86,8 @@ theorem agl81TenThirteenPerfect_of (h31 : KFactThreeOne) (hSch : KFactCatalogSch
     obtain ⟨e⟩ := eK
     obtain ⟨hsimple, horder, hcenter, hndvd⟩ := hPair.2.2.2.1 q dJ hqp hqe hdJ
     have hN := le_normalizer_of_mulEquiv h31 hSch hS hd hL hI₀ hI e hcenter f hf hfX hndvd
-    haveI : Finite (CatGroup dJ) := Finite.of_surjective f hf
-    haveI : IsSimpleGroup (CatGroup dJ) := hsimple
+    have : Finite (CatGroup dJ) := Finite.of_surjective f hf
+    have : IsSimpleGroup (CatGroup dJ) := hsimple
     exact false_of_l33u35l37he h85 h93 hD2 h984 hB hS hd hL hI₀ hI hN f hf horder
   ·
     subst iK
@@ -95,8 +95,8 @@ theorem agl81TenThirteenPerfect_of (h31 : KFactThreeOne) (hSch : KFactCatalogSch
     obtain ⟨e⟩ := eK
     obtain ⟨hsimple, horder, hcenter, hndvd⟩ := hPair.2.2.2.2.1 q dJ hqp hqe hdJ
     have hN := le_normalizer_of_mulEquiv h31 hSch hS hd hL hI₀ hI e hcenter f hf hfX hndvd
-    haveI : Finite (CatGroup dJ) := Finite.of_surjective f hf
-    haveI : IsSimpleGroup (CatGroup dJ) := hsimple
+    have : Finite (CatGroup dJ) := Finite.of_surjective f hf
+    have : IsSimpleGroup (CatGroup dJ) := hsimple
     exact false_of_l33u35l37he h85 h93 hD2 h984 hB hS hd hL hI₀ hI hN f hf horder
   ·
     subst iK
@@ -104,8 +104,8 @@ theorem agl81TenThirteenPerfect_of (h31 : KFactThreeOne) (hSch : KFactCatalogSch
     obtain ⟨e⟩ := eK
     obtain ⟨hsimple, horder, hcenter, hndvd⟩ := hPair.2.2.2.2.2
     have hN := le_normalizer_of_mulEquiv h31 hSch hS hd hL hI₀ hI e hcenter f hf hfX hndvd
-    haveI : Finite (TauCeti.CFSGIndex.sporadic .He).Group := Finite.of_surjective f hf
-    haveI : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .He).Group := hsimple
+    have : Finite (TauCeti.CFSGIndex.sporadic .He).Group := Finite.of_surjective f hf
+    have : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .He).Group := hsimple
     exact false_of_l33u35l37he h85 h93 hD2 h984 hB hS hd hL hI₀ hI hN f hf horder
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen

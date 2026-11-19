@@ -71,7 +71,7 @@ theorem mul_mul_inv_eq_inv_of_forall_eq_one {Q : Type*} [Group Q] {N : Subgroup 
   have := hσinv ⟨n, hn⟩
   simpa [σ] using congrArg Subtype.val this
 
-theorem nine_two_relIndex (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X p)
+theorem nine_two_relIndex (hV : Hyp7 V) (_hm : 2 < rk ↥V) (h : Nine2Hyp V K S X p)
     {A : Subgroup G} (hA : A ∈ nineOmegaIn V K S) : (pCoreOf 2 K).relIndex A = 2 := by
   have hbase : TwoPTwo K S X p := h.base.toTwoPTwoIrred.toTwoPTwo
   have hAK : A ≤ K := hA.2.trans h.base.sylowTwo.le
@@ -84,7 +84,7 @@ theorem nine_two_relIndex (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X
     rw [hinf, Subgroup.card_bot, mul_one] at h
     exact h
   have hoddX : Odd (Nat.card X) := by
-    haveI : Fact p.Prime := ⟨h.base.prime⟩
+    have : Fact p.Prime := ⟨h.base.prime⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := p) (G := ↥X)).mp h.base.sylowP.isPGroup
     rw [hn]
     exact (Nat.Prime.odd_of_ne_two h.base.prime h.base.odd).pow
@@ -96,7 +96,7 @@ theorem nine_two_relIndex (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X
         (pCoreOf 2 K).subgroupOf K ⊔ X.subgroupOf K :=
       Subgroup.subgroupOf_sup (CFSG.LieType.BorelTits.pCoreOf_le 2 K) h.base.sylowP.le
     rw [hsup']
-    haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
     have hRq : (pCoreOf 2 K).subgroupOf K = CFSG.pCore 2 ↥K :=
       CFSG.openPCoreOf_subgroupOf 2 K
     rw [hRq, Subgroup.relIndex_sup_left]
@@ -130,7 +130,7 @@ theorem nine_two_relIndex (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X
     le_rfl hJnorm (fun W _ => inf_le_right) le_sup_left hsupK hAK hAX hXodd hfaith
     ⟨hA.1, hAK⟩ le_rfl
 
-theorem nine_two_centralizer (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X p)
+theorem nine_two_centralizer (hV : Hyp7 V) (_hm : 2 < rk ↥V) (h : Nine2Hyp V K S X p)
     {A : Subgroup G} (hA : A ∈ nineOmegaIn V K S) {x : G} (hx : x ∈ pCoreOf 2 K ⊔ X)
     (hc : ∀ a ∈ A, ⁅x, a⁆ ∈ pCoreOf 2 K) : x ∈ pCoreOf 2 K := by
   have hbase : TwoPTwo K S X p := h.base.toTwoPTwoIrred.toTwoPTwo
@@ -173,7 +173,7 @@ theorem nine_two_centralizer (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K 
   have hxnorm : x ∈ Subgroup.normalizer ((A ⊔ pCoreOf 2 K : Subgroup G) : Set G) :=
     CFSG.Quasithin.conjSubgroup_eq_iff_mem_normalizer.mp
       (Subgroup.eq_of_le_of_card_ge hHle (le_of_eq hHcard.symm))
-  obtain ⟨m, hm, j, hj, heq⟩ := seven_three_four_normalizer_in (V := V) (H := K)
+  obtain ⟨m, _hm, j, hj, heq⟩ := seven_three_four_normalizer_in (V := V) (H := K)
     (E := nineE V K) (J := pCoreOf 2 K) (U := A) hV.1 hV.2.2
     (isElemAbelian_nineE V K).1
     ((nineE_le_pCoreOf V K).trans (CFSG.LieType.BorelTits.pCoreOf_le 2 K))
@@ -185,7 +185,7 @@ theorem nine_two_centralizer (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K 
     have hm_eq : m = x * j⁻¹ := by rw [heq]; group
     rw [hm_eq]
     exact (pCoreOf 2 K ⊔ X).mul_mem hx (Subgroup.mem_sup_left (Subgroup.inv_mem _ hj))
-  obtain ⟨n, hn⟩ := isPGroup_normalizer_inf hV h hA ⟨m, hm⟩
+  obtain ⟨n, hn⟩ := isPGroup_normalizer_inf hV h hA ⟨m, _hm⟩
   have hm2 : m ^ 2 ^ n = 1 := by
     have := congrArg Subtype.val hn
     simpa using this

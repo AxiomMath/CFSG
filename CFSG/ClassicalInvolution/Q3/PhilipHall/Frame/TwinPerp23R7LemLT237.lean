@@ -23,7 +23,7 @@ section T237
 variable {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2 R} {t : Y}
   {K' W : Subgroup Y} {u e g : Y} {Z V : Subgroup Y}
 
-theorem modS3O_rLayer_orb (hZ : P23ZData t u e Z) {f : Y} (hf : f ∈ p23Orb Z t e)
+theorem modS3O_rLayer_orb (_hZ : P23ZData t u e Z) {f : Y} (hf : f ∈ p23Orb Z t e)
     (h : ModS3O ↥(rLayer (Om R) e)) : ModS3O ↥(rLayer (Om R) f) := by
   obtain ⟨m, -, rfl⟩ := hf
   rw [rLayer_conj]

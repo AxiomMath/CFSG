@@ -80,6 +80,7 @@ private def w183_l34Aux2_matOf (X : ↥(FFModel.twistTensor 1 (StatedSL 3 K)).se
     Matrix (Fin 3) (Fin 3) K :=
   Multiplicative.toAdd (X.1 : Multiplicative (Matrix (Fin 3) (Fin 3) K))
 
+omit [Finite K] in
 private theorem w183_l34Aux2_matOf_actSec (γ : ↥(StatedSL 3 K))
     (m : ↥(FFModel.twistTensor 1 (StatedSL 3 K)).sec) :
     w183_l34Aux2_matOf (K := K) (hD.actSec γ m) =

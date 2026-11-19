@@ -16,7 +16,7 @@ theorem odd_card_center_of_pCore_eq_bot {Y : Type} [Group Y] [Finite Y]
     rcases Nat.even_or_odd (Nat.card (Subgroup.center Y)) with he | ho
     · exact even_iff_two_dvd.mp he
     · exact absurd ho hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center Y) 2 h2
   have hzo : orderOf (x : Y) = 2 := by rw [Subgroup.orderOf_coe]; exact hx
   have hnorm : (Subgroup.zpowers (x : Y)).Normal :=

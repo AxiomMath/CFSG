@@ -117,22 +117,22 @@ theorem omMove_chain (hr : 4 ≤ r) {x y z : OmPlusIdx r}
     rw [omSupp_omPerm, hybc]; simp [hσb, hσc]
   have hz1 : omSupp (omPerm σ z) = {i2, i3} := by
     rw [omSupp_omPerm, hzcd]; simp [hσc, hσd]
-  have hlt0 : i0.val + 1 < r := by simp only [i0, Fin.val_mk]; omega
-  have hlt1 : i1.val + 1 < r := by simp only [i1, Fin.val_mk]; omega
-  have hlt2 : i2.val + 1 < r := by simp only [i2, Fin.val_mk]; omega
+  have hlt0 : i0.val + 1 < r := by simp only [i0]; omega
+  have hlt1 : i1.val + 1 < r := by simp only [i1]; omega
+  have hlt2 : i2.val + 1 < r := by simp only [i2]; omega
   have hstd0 : omSupp (omStd r (by omega) i0) = {i0, i1} :=
     (omSupp_omStd_chain (hr := by omega) (k := i0) (h := hlt0)).trans
-      (by simp [i0, i1, Fin.ext_iff])
+      (by simp [i0, i1])
   have hstd0s : (omStd r (by omega) i0).2 = false :=
     omStd_sign_chain (hr := by omega) (k := i0) (h := hlt0)
   have hstd1 : omSupp (omStd r (by omega) i1) = {i1, i2} :=
     (omSupp_omStd_chain (hr := by omega) (k := i1) (h := hlt1)).trans
-      (by simp [i1, i2, Fin.ext_iff])
+      (by simp [i1, i2])
   have hstd1s : (omStd r (by omega) i1).2 = false :=
     omStd_sign_chain (hr := by omega) (k := i1) (h := hlt1)
   have hstd2 : omSupp (omStd r (by omega) i2) = {i2, i3} :=
     (omSupp_omStd_chain (hr := by omega) (k := i2) (h := hlt2)).trans
-      (by simp [i2, i3, Fin.ext_iff])
+      (by simp [i2, i3])
   have hstd2s : (omStd r (by omega) i2).2 = false :=
     omStd_sign_chain (hr := by omega) (k := i2) (h := hlt2)
   refine ⟨(OmMove.togIf y.2 i0).comp ((OmMove.togIf y.2 i1).comp
@@ -153,7 +153,7 @@ theorem omMove_chain (hr : 4 ≤ r) {x y z : OmPlusIdx r}
         plh_togIf_sign_mem (h := by rw [hx1]; simp),
         omPerm_sign σ x]
       rw [show (omStd r (by omega) ⟨0, by omega⟩).2 = false from hstd0s]
-      simp [Bool.xor_self, Bool.false_xor, Bool.xor_false]
+      simp
   · apply omPlusIdx_ext
     · rw [OmMove.comp_f, OmMove.comp_f, OmMove.comp_f, OmMove.comp_f, OmMove.perm_f,
         OmMove.omSupp_togIf_f, OmMove.omSupp_togIf_f, OmMove.omSupp_togIf_f,
@@ -170,7 +170,7 @@ theorem omMove_chain (hr : 4 ≤ r) {x y z : OmPlusIdx r}
         plh_togIf_sign_not_mem (h := by rw [hy1]; simp [i0, i1, i2, Fin.ext_iff]),
         omPerm_sign σ y]
       rw [show (omStd r (by omega) ⟨1, by omega⟩).2 = false from hstd1s]
-      simp [Bool.xor_self, Bool.false_xor, Bool.xor_false]
+      simp
   · apply omPlusIdx_ext
     · rw [OmMove.comp_f, OmMove.comp_f, OmMove.comp_f, OmMove.comp_f, OmMove.perm_f,
         OmMove.omSupp_togIf_f, OmMove.omSupp_togIf_f, OmMove.omSupp_togIf_f,
@@ -187,7 +187,7 @@ theorem omMove_chain (hr : 4 ≤ r) {x y z : OmPlusIdx r}
         plh_togIf_sign_not_mem (h := by rw [hz1]; simp [i0, i2, i3, Fin.ext_iff]),
         omPerm_sign σ z]
       rw [show (omStd r (by omega) ⟨2, by omega⟩).2 = false from hstd2s]
-      simp [Bool.xor_self, Bool.false_xor, Bool.xor_false]
+      simp
 
 theorem omMove_fork (hr : 4 ≤ r) {x y z : OmPlusIdx r} (hxz : omSupp x = omSupp z) (hne : x ≠ z)
     (hxy : omSupp x ≠ omSupp y) (hnd : ¬ Disjoint (omSupp x) (omSupp y)) :
@@ -203,17 +203,17 @@ theorem omMove_fork (hr : 4 ≤ r) {x y z : OmPlusIdx r} (hxz : omSupp x = omSup
   have hj32 : j3 ≠ j2 := by
     intro h
     have h' : j3.val = j2.val := congrArg Fin.val h
-    simp only [j3, j2, Fin.val_mk] at h'
+    simp only [j3, j2] at h'
     omega
   have hj31 : j3 ≠ j1 := by
     intro h
     have h' : j3.val = j1.val := congrArg Fin.val h
-    simp only [j3, j1, Fin.val_mk] at h'
+    simp only [j3, j1] at h'
     omega
   have hj21 : j2 ≠ j1 := by
     intro h
     have h' : j2.val = j1.val := congrArg Fin.val h
-    simp only [j2, j1, Fin.val_mk] at h'
+    simp only [j2, j1] at h'
     omega
   have hg : Function.Injective ![j3, j2, j1] := plh_injective_vec3 hj32 hj31 hj21
   obtain ⟨σ, hσ⟩ := Equiv.Perm.exists_extending_pair (α := Fin 3) (β := Fin r)
@@ -230,20 +230,20 @@ theorem omMove_fork (hr : 4 ≤ r) {x y z : OmPlusIdx r} (hxz : omSupp x = omSup
   have hsu : x.2 ≠ z.2 := by
     intro h
     exact hne (omPlusIdx_ext hxz h)
-  have hltj1 : ¬ j1.val + 1 < r := by simp only [j1, Fin.val_mk]; omega
-  have hltj2 : j2.val + 1 < r := by simp only [j2, Fin.val_mk]; omega
-  have hltj3 : j3.val + 1 < r := by simp only [j3, Fin.val_mk]; omega
+  have hltj1 : ¬ j1.val + 1 < r := by simp only [j1]; omega
+  have hltj2 : j2.val + 1 < r := by simp only [j2]; omega
+  have hltj3 : j3.val + 1 < r := by simp only [j3]; omega
   have hstdj2 : omSupp (omStd r (by omega) j2) = {j1, j2} := by
     rw [omSupp_omStd_chain (hr := by omega) (k := j2) (h := hltj2)]
     rw [show (⟨j2.val + 1, hltj2⟩ : Fin r) = j1 from
-      Fin.ext (by simp only [j2, j1, Fin.val_mk]; omega)]
+      Fin.ext (by simp only [j2, j1]; omega)]
     exact Finset.pair_comm _ _
   have hstdj2s : (omStd r (by omega) j2).2 = false :=
     omStd_sign_chain (hr := by omega) (k := j2) (h := hltj2)
   have hstdj3 : omSupp (omStd r (by omega) j3) = {j2, j3} := by
     rw [omSupp_omStd_chain (hr := by omega) (k := j3) (h := hltj3)]
     rw [show (⟨j3.val + 1, hltj3⟩ : Fin r) = j2 from
-      Fin.ext (by simp only [j3, j2, Fin.val_mk]; omega)]
+      Fin.ext (by simp only [j3, j2]; omega)]
     exact Finset.pair_comm _ _
   have hstdj3s : (omStd r (by omega) j3).2 = false :=
     omStd_sign_chain (hr := by omega) (k := j3) (h := hltj3)
@@ -263,7 +263,7 @@ theorem omMove_fork (hr : 4 ≤ r) {x y z : OmPlusIdx r} (hxz : omSupp x = omSup
         plh_togIf_sign_not_mem (h := by rw [hx1]; simp [j1, j2, j3, Fin.ext_iff]; omega),
         omPerm_sign σ x]
       rw [show (omStd r (by omega) ⟨r - 2, by omega⟩).2 = false from hstdj2s]
-      simp [Bool.xor_self]
+      simp
   · apply omPlusIdx_ext
     · rw [OmMove.comp_f, OmMove.comp_f, OmMove.perm_f, OmMove.omSupp_togIf_f,
         OmMove.omSupp_togIf_f, hy1]
@@ -274,7 +274,7 @@ theorem omMove_fork (hr : 4 ≤ r) {x y z : OmPlusIdx r} (hxz : omSupp x = omSup
         plh_togIf_sign_mem (h := by rw [hy1]; simp),
         omPerm_sign σ y]
       rw [show (omStd r (by omega) ⟨r - 3, by omega⟩).2 = false from hstdj3s]
-      simp [Bool.xor_self]
+      simp
   · apply omPlusIdx_ext
     · rw [OmMove.comp_f, OmMove.comp_f, OmMove.perm_f, OmMove.omSupp_togIf_f,
         OmMove.omSupp_togIf_f, hz1]

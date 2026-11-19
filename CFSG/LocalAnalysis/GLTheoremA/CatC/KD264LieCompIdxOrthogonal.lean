@@ -38,7 +38,7 @@ private theorem catalogueOver_projOrthDerived_odd {K : Type} [Field K] [Fintype 
     CFSG.ClassicalGroups.Orthogonal.regular_quadOdd (K := K) (n := n) (Ring.two_ne_zero h2) hn
   obtain ⟨-, -, -, hsimple, hnonab, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hreg hregT
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (ProjOrthDerived (quadOdd n K)) = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnonab
   refine ⟨.lie ⟨.B n q, hv⟩, ⟨⟨?e⟩, ?h⟩⟩
@@ -60,7 +60,7 @@ private theorem catalogueOver_projOrthDerived_plus {K : Type} [Field K] [Fintype
     CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := K) (n := n) (by omega)
   obtain ⟨-, -, -, hsimple, hnonab, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hreg hregT
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (ProjOrthDerived (quadPlus n K)) = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnonab
   refine ⟨.lie ⟨.D n q, hv⟩, ⟨⟨?e⟩, ?h⟩⟩
@@ -82,7 +82,7 @@ private theorem catalogueOver_projOrthDerived_minus {K : Type} [Field K] [Fintyp
     CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := K) (n := n) hn hirr
   obtain ⟨-, -, -, hsimple, hnonab, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hreg hregT
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (ProjOrthDerived (quadMinus n K b c)) = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnonab
   refine ⟨.lie ⟨.twistedD n q, hv⟩, ⟨⟨?e⟩, ?h⟩⟩
@@ -116,7 +116,7 @@ private theorem catalogueOver_projOrthDerived_large {K : Type} [Field K] [Fintyp
   · have hn3 : 3 ≤ n := by omega
     have h2 : ringChar K ≠ 2 := by
       intro h2
-      haveI : CharP K 2 := ringChar.of_eq h2
+      have : CharP K 2 := ringChar.of_eq h2
       obtain ⟨m, hm⟩ :=
         CFSG.ComponentClassification.UnbalancedCatalog.even_finrank_of_charTwo Q hQ
       omega
@@ -134,7 +134,7 @@ private theorem catalogueOver_orthDerived_large {K : Type} [Field K] [Fintype K]
     CatalogueOver (ringChar K) (Nat.card K) ↥(orthDerived Q) := by
   obtain ⟨-, hcenter, -, hsimple, hnonab, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (ProjOrthDerived Q) = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnonab
   obtain ⟨i, ⟨eP⟩, hidx⟩ := catalogueOver_projOrthDerived_large hQ hd hT
@@ -148,20 +148,20 @@ theorem catalogueOver_of_orthFactorOver {ℓ q : ℕ} {X : Type} [Group X]
     | ⟨m, j, q', E, hfield, hfinite, hm, hj, hchar, hq', hcard, hne, ⟨e⟩⟩
     | ⟨K', hfield, hfinite, hK, hchar, s, hs, hne, ⟨e⟩⟩
     | ⟨K', hfield, hfinite, V, hAdd, hMod, hFin, Q, hK, hchar, hQ, hd, hT, ⟨e⟩⟩
-  · letI := hfield
-    letI := hfinite
+  · let := hfield
+    let := hfinite
     have hc := catalogueOver_sl E m hm h4
     rw [hchar, hcard] at hc
     exact ⟨j, hj, hc.of_mulEquiv e.symm⟩
-  · letI := hfield
-    letI := hfinite
+  · let := hfield
+    let := hfinite
     have hc := catalogueOver_su E m q' hcard hm hne
     rw [hchar] at hc
     refine ⟨j, hj, ?_⟩
     rw [← hq']
     exact hc.of_mulEquiv e.symm
-  · letI := hfield
-    letI := hfinite
+  · let := hfield
+    let := hfinite
     have hne' : (s, Fintype.card K') ≠ (2, 2) := by
       simpa [Nat.card_eq_fintype_card] using hne
     have hc := catalogueOver_sp K' s hs hne'
@@ -169,11 +169,11 @@ theorem catalogueOver_of_orthFactorOver {ℓ q : ℕ} {X : Type} [Group X]
     rw [hchar, hcard'] at hc
     refine ⟨1, le_rfl, ?_⟩
     simpa [pow_one] using hc.of_mulEquiv e.symm
-  · letI := hfield
-    letI := hfinite
-    letI := hAdd
-    letI := hMod
-    letI := hFin
+  · let := hfield
+    let := hfinite
+    let := hAdd
+    let := hMod
+    let := hFin
     have hc := catalogueOver_orthDerived_large (K := K') (V := V) (Q := Q) hQ hd hT
     rw [hchar, hK] at hc
     refine ⟨1, le_rfl, ?_⟩
@@ -304,14 +304,14 @@ theorem compIdxAt_pomegaOdd {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     CompIdxAt p (.B n q) G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn : 3 ≤ n := hadm.2.2.1
   have hℓ2 : ℓ ≠ 2 := hadm.2.2.2
   have hchar : ringChar K = ℓ :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm.1 hadm.2.1 hK
   have h2 : ringChar K ≠ 2 := by rw [hchar]; exact hℓ2
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
     Finite.of_equiv G (coordinateOddWitnessEquiv K e).toEquiv
   have hcoord : CompIdxAt p (.B n q) (matrixProjectiveDerived (coordinateQuadOdd n K)) := by
     intro β hβmem hβp hβ1 J hJ
@@ -340,12 +340,12 @@ theorem compIdxAt_pomegaPlus {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     CompIdxAt p (.D n q) G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn4 : 4 ≤ n := hadm.2.2
   have hchar : ringChar K = ℓ :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm.1 hadm.2.1 hK
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv G (coordinatePlusWitnessEquiv K e).toEquiv
   have hcoord : CompIdxAt p (.D n q) (matrixProjectiveDerived (coordinateQuadPlus n K)) := by
     intro β hβmem hβp hβ1 J hJ
@@ -375,13 +375,13 @@ theorem compIdxAt_pomegaMinus {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     CompIdxAt p (.twistedD n q) G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, b, c, hirr, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn4 : 4 ≤ n := hadm.2.2
   have hn1 : 1 ≤ n := by omega
   have hchar : ringChar K = ℓ :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm.1 hadm.2.1 hK
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
     Finite.of_equiv G (coordinateMinusWitnessEquiv K hn1 b c e).toEquiv
   have hcoord : CompIdxAt p (.twistedD n q)
       (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) := by

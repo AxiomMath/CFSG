@@ -71,7 +71,7 @@ private lemma y4_conj_prod {Γ : Type*} [Group Γ] {x₁ x₂ x₃ j₀ d₁ d�
 theorem y4_core_comp {Γ : Type*} [Group Γ] {J V : Subgroup Γ} {α x k j₀ j₁ : Γ}
     (hVJ : V ≤ J) (hJc : ∀ a ∈ J, ∀ b ∈ J, a * b = b * a)
     (hVsq : ∀ v ∈ V, v * v = 1) (hJsq : ∀ j ∈ J, j * j ∈ V) (hJ1 : ∀ j ∈ J, j * j = 1 → j ∈ V)
-    (hα2 : α * α = 1) (hαJ : ∀ j ∈ J, α * j * α⁻¹ = j⁻¹)
+    (_hα2 : α * α = 1) (hαJ : ∀ j ∈ J, α * j * α⁻¹ = j⁻¹)
     (hx2 : x * x = 1) (hxJ : ∀ j ∈ J, x * j * x⁻¹ ∈ J) (hxV : ∀ v ∈ V, x * v * x⁻¹ = v)
     (hj₀ : j₀ ∈ J) (hj₀V : j₀ ∉ V) (hxα : x * α * x⁻¹ = j₀ * α)
     (hj₁ : j₁ ∈ J) (hj₁V : j₁ ∉ V) (hxj₁ : x * j₁ * x⁻¹ = j₁)

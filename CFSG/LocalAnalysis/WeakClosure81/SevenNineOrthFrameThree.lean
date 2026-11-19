@@ -108,11 +108,11 @@ private lemma exists_hyperbolic_pair_a (f : LinearMap.BilinForm (ZMod 3) (Fin 6 
       (fun x i => by
         fin_cases i
         simp only [v1, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-          smul_eq_mul, ha1]
+          ha1]
         ring)
       (fun x => by
         simp only [LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-          smul_eq_mul, has0]
+          has0]
         ring)
   exact ⟨s, s', hss, hss', hs's', has0, (hf a s').trans (hs'a 0)⟩
 
@@ -135,17 +135,17 @@ private lemma exists_hyperbolic_pair_t (f : LinearMap.BilinForm (ZMod 3) (Fin 6 
       (fun x i => by
         fin_cases i
         · simp only [v3, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-            smul_eq_mul, hf s' s, hss', hss, has]
+            hf s' s, hss', hss, has]
           ring
         · simp only [v3, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-            smul_eq_mul, hss', hs's', has']
+            hss', hs's', has']
           ring
         · simp only [v3, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-            smul_eq_mul, hf s a, hf s' a, has, has', ha1]
+            hf s a, hf s' a, has, has', ha1]
           ring)
       (fun x => by
         simp only [LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-          smul_eq_mul, hf s t, hf s' t, hf a t, hts, hts', hta]
+          hf s t, hf s' t, hf a t, hts, hts', hta]
         ring)
   exact ⟨t, t', htt, htt', ht't', hts, hts', hta, ht'v 0, ht'v 1, ht'v 2⟩
 
@@ -178,30 +178,24 @@ private lemma seedProj_orth {f : LinearMap.BilinForm (ZMod 3) (Fin 6 → ZMod 3)
       f D.c₀ (seedProj D y) = f D.c₀ y := by
   have ha1 : f D.a D.a = 1 := by rw [D.norm_a]; decide
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-      smul_eq_mul]
+  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left]
     rw [hf D.s' D.s, D.pair, D.isotropic_s, D.a_orth_s, D.t_orth_s, D.t'_orth_s]
     ring
-  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-      smul_eq_mul]
+  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left]
     rw [D.pair, D.isotropic_s', D.a_orth_s', D.t_orth_s', D.t'_orth_s']
     ring
-  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-      smul_eq_mul]
+  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left]
     rw [hf D.s D.a, hf D.s' D.a, D.a_orth_s, D.a_orth_s', D.t_orth_a, D.t'_orth_a, ha1]
     ring
-  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-      smul_eq_mul]
+  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left]
     rw [hf D.s D.t, hf D.s' D.t, hf D.a D.t, hf D.t' D.t, D.t_orth_s, D.t_orth_s',
       D.t_orth_a, D.isotropic_t, D.pair_t]
     ring
-  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-      smul_eq_mul]
+  · simp only [seedProj, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left]
     rw [hf D.s D.t', hf D.s' D.t', hf D.a D.t', D.t'_orth_s, D.t'_orth_s', D.t'_orth_a,
       D.pair_t, D.isotropic_t']
     ring
-  · simp only [seedProj, LinearMap.BilinForm.sub_right, LinearMap.BilinForm.smul_right,
-      smul_eq_mul]
+  · simp only [seedProj, LinearMap.BilinForm.sub_right, LinearMap.BilinForm.smul_right]
     rw [D.c₀_orth_s, D.c₀_orth_s', D.c₀_orth_a, D.c₀_orth_t, D.c₀_orth_t']
     ring
 
@@ -255,11 +249,11 @@ private lemma seed_dual_pairing {f : LinearMap.BilinForm (ZMod 3) (Fin 6 → ZMo
   have h15 : f D.s' D.t' = 0 := (hf D.s' D.t').trans D.t'_orth_s'
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp only [v6, LinearMap.BilinForm.smul_left, smul_eq_mul, D.isotropic_s, D.pair,
+    simp only [v6, LinearMap.BilinForm.smul_left, D.isotropic_s, D.pair,
       D.isotropic_s', ha1, D.a_orth_s, D.a_orth_s', D.t_orth_s, D.t_orth_s', D.t_orth_a,
       D.isotropic_t, D.t'_orth_s, D.t'_orth_s', D.t'_orth_a, D.isotropic_t', D.pair_t,
       hcs, hcs', hca, hct, hct', hcc, hγsq, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10,
-      h11, h12, h13, h14, h15, mul_zero, if_true, if_false]
+      h11, h12, h13, h14, h15, mul_zero, ite_true]
   all_goals decide
 
 private lemma seed_orth_dual {f : LinearMap.BilinForm (ZMod 3) (Fin 6 → ZMod 3)}
@@ -280,10 +274,10 @@ private lemma seed_orth_dual {f : LinearMap.BilinForm (ZMod 3) (Fin 6 → ZMod 3
   intro i
   fin_cases i <;>
     simp only [v6, LinearMap.BilinForm.sub_left, LinearMap.BilinForm.add_left,
-      LinearMap.BilinForm.smul_left, smul_eq_mul, hws, hws', ha1, D.a_orth_s,
+      LinearMap.BilinForm.smul_left, hws, hws', ha1, D.a_orth_s,
       D.a_orth_s', D.t_orth_s, D.t_orth_s', D.t_orth_a, D.t'_orth_s, D.t'_orth_s',
       D.t'_orth_a, D.isotropic_t, D.isotropic_t', D.pair_t, h6, h7, h9, h12, h13, h14,
-      hcs, hcs', hca, hct, hct', hcc, hγsq, mul_zero]
+      hcs, hcs', hca, hct, hct', hcc, mul_zero]
   all_goals
     try rw [mul_assoc, mul_comm (f w c) γ, ← mul_assoc, hγsq, one_mul]
     ring

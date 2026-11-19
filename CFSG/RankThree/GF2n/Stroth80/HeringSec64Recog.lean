@@ -21,7 +21,7 @@ namespace HS6
 theorem stroth64_of_recog_of_corBHyp (hA : Stroth64CorBHypStatement) (hB : CorollaryBStmt)
     (hR : Stroth64RecogStatement) : Stroth64Statement := by
   intro G _ _ M Q Z B hc n t hs m hm hΩ
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   exact hR G M Q Z B hc n t hs m hm hΩ (hA G M Q Z B hc n t hs m hm hΩ) hB
 
 end HS6

@@ -44,13 +44,13 @@ private theorem m4_g_aG :
     m4_g aG = a := by
   change m4_g (PresentedGroup.of ga) = a
   rw [m4_g_of]
-  simp [img2, ga]
+  simp [img2]
 
 private theorem m4_g_bG :
     m4_g bG = b := by
   change m4_g (PresentedGroup.of gb) = b
   rw [m4_g_of]
-  simp [img2, gb]
+  simp [img2]
 
 private theorem m4_g_xG (k : ℕ) :
     m4_g (xG k) = (b ^ k)⁻¹ * a * b ^ k := by
@@ -63,11 +63,11 @@ private theorem m4_g_surjective :
   rintro g (h | h)
   · exact ⟨PresentedGroup.of ga, by
       rw [m4_g_of, h]
-      simp [img2, ga]⟩
+      simp [img2]⟩
   · rw [Set.mem_singleton_iff] at h
     exact ⟨PresentedGroup.of gb, by
       rw [m4_g_of, h]
-      simp [img2, gb]⟩
+      simp [img2]⟩
 
 private theorem m4_closure_xG :
     Subgroup.closure (Set.range fun l : Fin 6 => xG l.val) = ⊤ := by

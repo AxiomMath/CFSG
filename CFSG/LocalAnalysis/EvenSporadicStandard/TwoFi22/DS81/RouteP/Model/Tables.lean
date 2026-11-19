@@ -76,13 +76,13 @@ theorem rep_letterTab {G : Type*} [Group G] [MulAction G (Fin n)] (hn : n < 2 ^ 
     Rep n (letterTab n gs (gs.map (invT n)) l) (letterPerm π gs.size l) := by
   unfold letterTab letterPerm
   by_cases h1 : 0 < l ∧ (l - 1).toNat < gs.size
-  · rw [if_pos h1, if_pos h1]
+  · rw [ite_eq_left h1, ite_eq_left h1]
     exact hrep _ h1.2
-  · rw [if_neg h1, if_neg h1]
+  · rw [ite_eq_right h1, ite_eq_right h1]
     by_cases h2 : l < 0 ∧ (-l - 1).toNat < gs.size
     · have h2' : l < 0 ∧ (-l - 1).toNat < (gs.map (invT n)).size := by
         simpa [Array.size_map] using h2
-      rw [if_pos h2', if_pos h2]
+      rw [ite_eq_left h2', ite_eq_left h2]
       have hk : (-l - 1).toNat < gs.size := h2.2
       have e : (gs.map (invT n))[(-l - 1).toNat]! = invT n (gs[(-l - 1).toNat]!) := by
         rw [getElem!_pos _ _ (by rw [Array.size_map]; exact hk), Array.getElem_map,
@@ -91,7 +91,7 @@ theorem rep_letterTab {G : Type*} [Group G] [MulAction G (Fin n)] (hn : n < 2 ^ 
       exact Rep.inv_of_invOK (hrep _ hk) (hinv _ hk)
     · have h2' : ¬(l < 0 ∧ (-l - 1).toNat < (gs.map (invT n)).size) := by
         simpa [Array.size_map] using h2
-      rw [if_neg h2', if_neg h2]
+      rw [ite_eq_right h2', ite_eq_right h2]
       exact Rep.idT hn
 
 theorem rep_wordT_letters {G : Type*} [Group G] [MulAction G (Fin n)] (hn : n < 2 ^ 32)
@@ -143,9 +143,9 @@ theorem slpOK_spec {G : Type*} [Group G] [MulAction G (Fin n)] (hn : n < 2 ^ 32)
   have hrepr : ∀ r < regs.size, Rep n regs[r]! (if r < 11 then xg r else 1) := by
     intro r hr
     by_cases hr11 : r < 11
-    · rw [if_pos hr11, hget1 r hr11]
+    · rw [ite_eq_left hr11, hget1 r hr11]
       exact hx r hr11
-    · rw [if_neg hr11, hget2 r (by omega) hr]
+    · rw [ite_eq_right hr11, hget2 r (by omega) hr]
       exact Rep.idT hn
   have hprog' : ∀ ins ∈ compileSLP 11 ls, instrRegsLt regs.size ins := by
     intro ins hins

@@ -123,7 +123,7 @@ theorem exists_sylow_map_subtype_eq {U X : Subgroup G} {p : ℕ} [Fact p.Prime] 
   refine le_antisymm ?_ hP
   by_contra hlt
   have hlt' : U.subgroupOf X < P := lt_of_le_of_ne hP fun h => hlt h.symm.le
-  obtain ⟨m, hm⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨m, hm⟩ := P.isPGroup.exists_card_eq
   obtain ⟨n, hn⟩ := hU'.exists_card_eq
   have hcardlt : Nat.card (U.subgroupOf X) < Nat.card P := Subgroup.card_lt_of_lt hlt'
   have hnm : n < m := by

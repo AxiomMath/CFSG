@@ -176,13 +176,13 @@ private lemma frame_fix_roots [NeZero n] {φ : ↥L ≃* SL(n + 1, ZMod 2)} {τ 
       (MulAut.conj j⁻¹).toMonoidHom.comp (MulAut.conj τ).toMonoidHom := by
     ext x
     simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_comp, Function.comp_apply,
-      MonoidHom.coe_coe, MulAut.conj_apply]
+      _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
   have hid : (MulAut.conj j⁻¹).toMonoidHom.comp (MulAut.conj j).toMonoidHom =
       MonoidHom.id G := by
     ext x
     simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_comp, Function.comp_apply,
-      MonoidHom.coe_coe, MulAut.conj_apply, MonoidHom.id_apply]
+      _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, MonoidHom.id_apply]
     group
   calc
     (pullSL φ (blockSL2 (ZMod 2) n i).range).map
@@ -295,7 +295,7 @@ private lemma frame_odd_core [NeZero n] (hG : IsCharTwoType G) (hA : HypA G n b 
     exact tOne_mem_range_blockSL_three n hn2
   have hbA : b ∈ A := by
     have hbz : b = (MulAut.conj τ).toMonoidHom (z 0 : G) := by
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       exact hτz.symm
     rw [hbz]
     exact Subgroup.mem_map_of_mem _ hz0P
@@ -366,7 +366,7 @@ private lemma frame_setup [NeZero n] (hA : HypA G n b L) {z : Fin 3 → ↥L}
         (MulAut.conj j⁻¹).toMonoidHom.comp (MulAut.conj τ).toMonoidHom := by
       ext x
       simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_comp, Function.comp_apply,
-        MonoidHom.coe_coe, MulAut.conj_apply]
+        _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       group
     rw [hcomp, ← Subgroup.map_map]
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mp

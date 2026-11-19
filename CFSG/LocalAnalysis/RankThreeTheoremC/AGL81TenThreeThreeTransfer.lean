@@ -18,10 +18,12 @@ variable {G : Type} [Group G] [Finite G]
   ((QuotientGroup.mk' (CFSG.pCore 2 ↥M)).comp (inclusion hX)).codRestrict (barM M X)
     (fun x => ⟨inclusion hX x, x.2, rfl⟩)
 
+omit [Finite G] in
 @[simp] theorem coe_barHom (M X : Subgroup G) (hX : X ≤ M) (x : ↥X) :
     ((barHom M X hX x : ↥(barM M X)) : ↥M ⧸ CFSG.pCore 2 ↥M) =
       QuotientGroup.mk' (CFSG.pCore 2 ↥M) (inclusion hX x) := rfl
 
+omit [Finite G] in
 theorem barHom_surjective (M X : Subgroup G) (hX : X ≤ M) :
     Function.Surjective (barHom M X hX) := by
   rintro ⟨y, m, hm, rfl⟩
@@ -29,6 +31,7 @@ theorem barHom_surjective (M X : Subgroup G) (hX : X ≤ M) :
   rw [coe_barHom]
   rfl
 
+omit [Finite G] in
 theorem mem_ker_barHom {M X : Subgroup G} {hX : X ≤ M} {x : ↥X} :
     x ∈ (barHom M X hX).ker ↔ (x : G) ∈ pCoreOf 2 M := by
   rw [MonoidHom.mem_ker, Subtype.ext_iff, coe_barHom, OneMemClass.coe_one,
@@ -40,9 +43,10 @@ theorem mem_ker_barHom {M X : Subgroup G} {hX : X ≤ M} {x : ↥X} :
     have : y = inclusion hX x := Subtype.ext hyx
     rwa [← this]
 
+omit [Finite G] in
 theorem isPGroup_ker_barHom (M X : Subgroup G) (hX : X ≤ M) :
     IsPGroup 2 (barHom M X hX).ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : (barHom M X hX).ker = (CFSG.pCore 2 ↥M).comap (inclusion hX) := by
     ext x
     rw [mem_ker_barHom, mem_comap]
@@ -59,16 +63,19 @@ theorem isPGroup_ker_barHom (M X : Subgroup G) (hX : X ≤ M) :
     ↥X →* ↥(barM M X) ⧸ CFSG.pCore 2 ↥(barM M X) :=
   (QuotientGroup.mk' (CFSG.pCore 2 ↥(barM M X))).comp (barHom M X hX)
 
+omit [Finite G] in
 theorem hatHom_surjective (M X : Subgroup G) (hX : X ≤ M) :
     Function.Surjective (hatHom M X hX) :=
   (QuotientGroup.mk'_surjective _).comp (barHom_surjective M X hX)
 
+omit [Finite G] in
 theorem isPGroup_ker_hatHom (M X : Subgroup G) (hX : X ≤ M) :
     IsPGroup 2 (hatHom M X hX).ker := by
   rw [hatHom, ← MonoidHom.comap_ker, QuotientGroup.ker_mk']
   exact IsPGroup.comap_of_ker_isPGroup (CFSG.pCore_isPGroup (p := 2) (G := ↥(barM M X))) _
     (isPGroup_ker_barHom M X hX)
 
+omit [Finite G] in
 theorem pCore_hat_eq_bot (M X : Subgroup G) :
     CFSG.pCore 2 (↥(barM M X) ⧸ CFSG.pCore 2 ↥(barM M X)) = ⊥ :=
   pCore_quotient_pCore_eq_bot' 2
@@ -94,6 +101,7 @@ theorem wSup_le_map_jZero (M H L : Subgroup G) (hX : H ⊓ L ≤ M) :
   rw [mem_subgroupOf] at hx ⊢
   exact (le_iSup₂ (f := fun I (_ : I ∈ cZero (H ⊓ L)) => I) I hI) hx
 
+omit [Finite G] in
 theorem map_barHom_subgroupOf {M X L : Subgroup G} (hXL : X ≤ L) (hL : L ≤ M) :
     (X.subgroupOf L).map (barHom M L hL) = (barM M X).subgroupOf (barM M L) := by
   ext y
@@ -106,6 +114,7 @@ theorem map_barHom_subgroupOf {M X L : Subgroup G} (hXL : X ≤ L) (hL : L ≤ M
     rw [coe_barHom, ← hmy]
     rfl
 
+omit [Finite G] in
 theorem relIndex_eq_relIndex_barM {M X L : Subgroup G} (hXL : X ≤ L) (hL : L ≤ M)
     (hk : L ⊓ pCoreOf 2 M ≤ X) : X.relIndex L = (barM M X).relIndex (barM M L) := by
   rw [relIndex, relIndex, ← map_barHom_subgroupOf hXL hL]
@@ -144,6 +153,7 @@ theorem not_two_dvd_relIndex_jZero {M H L : Subgroup G} (hL : L ≤ M)
   · exact h2 (h'.trans hdvd)
   · exact h1 h'
 
+omit [Finite G] in
 theorem conj_mem_barM {M X : Subgroup G} {g : G} (hg : g ∈ M)
     (hgX : g ∈ normalizer (X : Set G)) {y : ↥M ⧸ CFSG.pCore 2 ↥M} (hy : y ∈ barM M X) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨g, hg⟩ * y *
@@ -154,6 +164,7 @@ theorem conj_mem_barM {M X : Subgroup G} {g : G} (hg : g ∈ M)
   show ((⟨g, hg⟩ * m * ⟨g, hg⟩⁻¹ : ↥M) : G) ∈ X
   simpa using (mem_normalizer_iff.mp hgX m).mp hm'
 
+omit [Finite G] in
 theorem mem_normalizer_barM {M X : Subgroup G} {g : G} (hg : g ∈ M)
     (hgX : g ∈ normalizer (X : Set G)) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨g, hg⟩ ∈ normalizer (barM M X : Set _) := by
@@ -168,9 +179,10 @@ theorem mem_normalizer_barM {M X : Subgroup G} {g : G} (hg : g ∈ M)
   rw [e] at h
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem barHom_mem_pCoreOf {M X : Subgroup G} (hX : X ≤ M) {x : ↥X} (hx : (x : G) ∈ pCoreOf 2 X) :
     ((barHom M X hX x : ↥(barM M X)) : ↥M ⧸ CFSG.pCore 2 ↥M) ∈ pCoreOf 2 (barM M X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : (CFSG.pCore 2 ↥X).map (barHom M X hX) ≤ CFSG.pCore 2 ↥(barM M X) :=
     le_sSup ⟨(CFSG.pCore_normal (p := 2) (G := ↥X)).map _ (barHom_surjective M X hX),
       (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).map _⟩
@@ -180,7 +192,7 @@ theorem barHom_mem_pCoreOf {M X : Subgroup G} (hX : X ≤ M) {x : ↥X} (hx : (x
   exact ⟨_, hle ⟨x', hx', rfl⟩, rfl⟩
 
 theorem pCoreOf_jZero_le (H L : Subgroup G) : pCoreOf 2 (jZero H L) ≤ pCoreOf 2 (H ⊓ L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
     ((CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans (jZero_le H L)) (fun x hx => ?_)
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _)
@@ -195,7 +207,7 @@ theorem commutator_mem_of_wSup {M H L : Subgroup G} (hX : H ⊓ L ≤ M) {b : G}
       wSup (↥(barM M (H ⊓ L)) ⧸ CFSG.pCore 2 ↥(barM M (H ⊓ L)))) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩ * w *
         (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩)⁻¹ * w⁻¹ ∈ pCoreOf 2 (barM M (H ⊓ L)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := barM M (H ⊓ L) with hP
   set bb := QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩ with hbb
   have hbP := mem_normalizer_barM (X := H ⊓ L) hb hbX
@@ -236,6 +248,7 @@ theorem commutator_mem_of_wSup {M H L : Subgroup G} (hX : H ⊓ L ≤ M) {b : G}
   rw [e]
   exact mul_mem h1 h3
 
+omit [Finite G] in
 theorem commutator_mem_pCoreOf_of_centralizes {M L : Subgroup G} (hL : L ≤ M) {b : G}
     (hb : b ∈ M) (hc : ∀ y ∈ barM M L, QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩ * y =
       y * QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩) :

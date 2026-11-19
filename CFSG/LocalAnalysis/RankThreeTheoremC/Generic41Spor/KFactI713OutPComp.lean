@@ -15,7 +15,7 @@ theorem exists_normal_pComplement_of_pGoodOut {p : ℕ} (hp : p.Prime) {X : Type
     [Finite X] (h : PGoodOut p X) :
     ∃ N : Subgroup (Outer X), N.Normal ∧ ¬ p ∣ Nat.card N ∧ ∃ k : ℕ, N.index = p ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, hDn, hID, hD2, hD3⟩ := h
   let π : MulAut X →* MulAut X ⧸ D := QuotientGroup.mk' D
   have hπ : ∀ a : MulAut X, π a = (a : MulAut X ⧸ D) := fun a => rfl
@@ -33,10 +33,10 @@ theorem exists_normal_pComplement_of_pGoodOut {p : ℕ} (hp : p.Prime) {X : Type
     rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm] at h2
     exact h2
   obtain ⟨P⟩ : Nonempty (Sylow p (MulAut X ⧸ D)) := inferInstance
-  haveI : Finite (Sylow p (MulAut X ⧸ D)) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow p (MulAut X ⧸ D)) := Sylow.finite_of_finiteIndex P
   have hPc : ∀ g ∈ (P : Subgroup (MulAut X ⧸ D)), g ∈ Subgroup.center _ := by
     intro g hg
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨g, hg⟩
     exact hcent g ⟨m, congrArg Subtype.val hm⟩
   have hN : Subgroup.normalizer (P : Set (MulAut X ⧸ D)) ≤
       Subgroup.centralizer (P : Set (MulAut X ⧸ D)) :=
@@ -92,7 +92,7 @@ theorem exists_normal_pComplement_of_pGoodOut {p : ℕ} (hp : p.Prime) {X : Type
     exact hp.one_lt.ne hnord
   ·
     have hidx : θ.ker.index = Nat.card θ.range := Subgroup.index_ker θ
-    obtain ⟨m, hm⟩ := IsPGroup.exists_card_eq P.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.exists_card_eq P.isPGroup
     have hdvd : Nat.card θ.range ∣ p ^ m := by
       rw [← hm]
       exact Subgroup.card_subgroup_dvd_card _

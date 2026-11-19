@@ -70,6 +70,7 @@ theorem reindex_JF : Matrix.reindex kapIdx kapIdx (JF F) =
     · simp [Matrix.reindex_apply, JF, bc, JI, kapIdx, Jm, h]
   · simp [Matrix.reindex_apply, JF, bc, JI, kapIdx, Jm]
 
+omit [CharP F 2] in
 theorem statedSp_eq_gramIsometry : CFSG.Open.StatedSp 3 F = CFSG.Open.StatedAPI.gramIsometry
     (Matrix.fromBlocks 0 1 (-1) 0 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F) := by
   ext A

@@ -99,9 +99,9 @@ theorem ggMaxRankE8_exists_actual_rationalComponent
           J.map ι = rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
   classical
   let L := AlgebraicClosure K
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : Fintype K := Fintype.ofFinite K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨Fr, hFr, D, hΦ, hqK, ⟨w, hw, _hshape, hsign1, hsign2⟩, _hmem, hiff, _hcardA⟩ :=
     ExcMaxToral.adjointMaxElemToral_E8_three (K := K) n hK A hA hAcard
   have hFr' : ∀ c : L, Fr c = c ^ (2 ^ n) := by
@@ -144,7 +144,7 @@ theorem ggMaxRankE8_exists_actual_rationalComponent
   have hι_apply : ∀ x : adjointGroup .E8 K,
       ι x = D.g0⁻¹ * baseChangeGL (algebraMap K L) (x : ModGL .E8 K) * D.g0 := by
     intro x
-    simp [ι, ι₀, MulAut.conj_apply]
+    simp [ι, ι₀]
   have hι_range : ι.range = D.Γ := by
     rw [hd.Γ_eq]
     ext y
@@ -299,22 +299,22 @@ private theorem componentLabel_eq_A_imp {r N e n : ℕ} {k : TwistKind}
   | inner =>
     dsimp only [componentLabel] at h
     by_cases hN : N = r * (r + 1)
-    · rw [if_pos hN] at h
+    · rw [ite_eq_left hN] at h
       cases h
       exact ⟨rfl, by omega⟩
-    · rw [if_neg hN] at h
+    · rw [ite_eq_right hN] at h
       by_cases hD : N = 2 * r * (r - 1)
-      · rw [if_pos hD] at h
+      · rw [ite_eq_left hD] at h
         cases h
-      · rw [if_neg hD] at h
+      · rw [ite_eq_right hD] at h
         by_cases h6 : r = 6
-        · rw [if_pos h6] at h
+        · rw [ite_eq_left h6] at h
           cases h
-        · rw [if_neg h6] at h
+        · rw [ite_eq_right h6] at h
           by_cases h7 : r = 7
-          · rw [if_pos h7] at h
+          · rw [ite_eq_left h7] at h
             cases h
-          · rw [if_neg h7] at h
+          · rw [ite_eq_right h7] at h
             cases h
   | suN =>
     dsimp only [componentLabel] at h
@@ -350,24 +350,24 @@ private theorem twistKindOf_eq_suN_imp {τ : Tag} (ρ : Equiv.Perm (Fin τ.rank 
   unfold twistKindOf at h
   by_cases h1 : twistInner Ψ
       ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[componentOrbitLength ρ Ψ])
-  · rw [if_pos h1] at h
+  · rw [ite_eq_left h1] at h
     cases h
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     by_cases h2 : (compRank Ψ = 6 ∧ Ψ.ncard = 72) ∨
         (compRank Ψ = 4 ∧ Ψ.ncard = 24 ∧
           ¬ twistInner Ψ
             ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[2 * componentOrbitLength ρ Ψ]))
-    · rw [if_pos h2] at h
+    · rw [ite_eq_left h2] at h
       cases h
-    · rw [if_neg h2] at h
+    · rw [ite_eq_right h2] at h
       by_cases h3 : 4 ≤ compRank Ψ ∧ Ψ.ncard = 2 * compRank Ψ * (compRank Ψ - 1)
-      · rw [if_pos h3] at h
+      · rw [ite_eq_left h3] at h
         cases h
-      · rw [if_neg h3] at h
+      · rw [ite_eq_right h3] at h
         by_cases h4 : 2 ≤ compRank Ψ ∧ Ψ.ncard = compRank Ψ * (compRank Ψ + 1)
-        · rw [if_pos h4] at h
+        · rw [ite_eq_left h4] at h
           exact h4
-        · rw [if_neg h4] at h
+        · rw [ite_eq_right h4] at h
           cases h
 
 private theorem labelIso_A_eq {r N e n : ℕ} {k : TwistKind}
@@ -444,7 +444,7 @@ theorem compRank_eq_eight_ncard_eq_72_of_label
     {a : Fin Tag.E8.rank → Lˣ}
     (hT : rootDiagUnit .E8 a ∈ S.D.torus)
     (h3 : ∀ j, a j ^ 3 = 1)
-    (h1 : rootDiagUnit .E8 a ≠ 1)
+    (_h1 : rootDiagUnit .E8 a ≠ 1)
     (i : KernelComponent (rootCharHom a))
     (hQS : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
     {n : ℕ} (hn : 1 ≤ n)
@@ -476,7 +476,7 @@ theorem compRank_eq_eight_ncard_eq_72_of_label
       rootSpan .E8 L (famOrbit S.ρ a' i') := by
     have hforb : famOrbit S.ρ a' i' = rationalRoots S.ρ (rootCharHom a) i := by
       ext γ
-      simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+      simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
       rw [hi']
     rw [hforb]
     exact (Subgroup.commutator_le_self _).trans inf_le_left
@@ -542,7 +542,7 @@ theorem frame_ker_ne_top {τ : Tag} {L : Type} [Field L] {ν : ℕ} (hν : 2 ≤
 
 theorem odd_card_ker_of_frame {τ : Tag} {L : Type} [Field L] [CharP L 2] {ν : ℕ} (hν : 3 ≤ ν)
     {ψ : SL(ν, L) →* ModGL τ L} {σ : Fin ν → Fin ν → Fin τ.rank → ℤ}
-    (hψ : IsSLFrame ψ σ) (hker : ψ.ker ≠ ⊤) : Odd (Nat.card ψ.ker) := by
+    (_hψ : IsSLFrame ψ σ) (hker : ψ.ker ≠ ⊤) : Odd (Nat.card ψ.ker) := by
   have hle : ψ.ker ≤ Subgroup.center SL(ν, L) := by
     intro X hX
     refine mem_center_SL_of_commute hν ψ hker (fun Y => ?_)
@@ -615,7 +615,7 @@ theorem exists_split_source_perfect
       (∀ X, S.D.step (ψ X) = ψ (F' X)) ∧
         Group.IsPerfect (F'.eqLocus (MonoidHom.id _)) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨σQ, hσQ⟩ := exists_ringEquiv_frob (L := L) r e
   have hσc : ∀ c, σQ c = c ^ (r ^ e) := fun c => by
     have h1 : σQ c = iterateFrobenius L r e c := by
@@ -676,7 +676,7 @@ theorem exists_unitary_source_perfect
       (∀ X, S.D.step (ψ X) = ψ (F' X)) ∧
         Group.IsPerfect (F'.eqLocus (MonoidHom.id _)) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨σQ, hσQ⟩ := exists_ringEquiv_frob (L := L) r e
   have hσc : ∀ c, σQ c = c ^ (r ^ e) := fun c => by
     have h1 : σQ c = iterateFrobenius L r e c := by
@@ -858,10 +858,10 @@ private theorem frame_iform_orth (hψ : IsSLFrame ψ σ) {i j : Fin 8}
   omega
 
 private theorem isAChain_beta (hψ : IsSLFrame ψ σ) :
-    IsAChain (fun i : Fin 8 => σ i.castSucc i.succ) where
-  isRoot i := hψ.isRoot i.castSucc i.succ (Fin.castSucc_lt_succ.ne)
-  adj i j hij := frame_iform_adj hψ i j hij
-  orth i j hij := frame_iform_orth hψ hij
+    IsAChain (fun _i : Fin 8 => σ _i.castSucc _i.succ) where
+  isRoot _i := hψ.isRoot _i.castSucc _i.succ (Fin.castSucc_lt_succ.ne)
+  adj _i _j hij := frame_iform_adj hψ _i _j hij
+  orth _i _j hij := frame_iform_orth hψ hij
 
 private theorem rootReflection_mem_closure_of_chain (hψ : IsSLFrame ψ σ) :
     ∀ a b : Fin 9, a ≠ b →
@@ -995,11 +995,11 @@ private theorem isCoxeterA_rootReflection_chain {β : Fin 8 → Fin Tag.E8.rank 
     IsCoxeterA 8 (fun i : ℕ => if h : i < 8 then rootReflection (β ⟨i, h⟩) else 1) := by
   refine ⟨?_, ?_, ?_⟩
   · intro i hi
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     exact rootReflection_mul_self (hβ.isRoot _)
   · intro i hi
     have hi' : i < 8 := by omega
-    rw [dif_pos hi', dif_pos hi]
+    rw [dite_eq_left hi', dite_eq_left hi]
     have hA2 : IsA2Pair (β ⟨i, hi'⟩) (β ⟨i + 1, hi⟩) :=
       ⟨hβ.isRoot _, hβ.isRoot _, by
         exact SimplyLacedCover.isRoot_add e8_symmetrizer_self (hβ.isRoot _) (hβ.isRoot _)
@@ -1010,7 +1010,7 @@ private theorem isCoxeterA_rootReflection_chain {β : Fin 8 → Fin Tag.E8.rank 
     exact hA2.rootReflection_fst_snd_fst.trans hA2.rootReflection_snd_fst_snd.symm
   · intro i j hij hj
     have hi' : i < 8 := by omega
-    rw [dif_pos hi', dif_pos hj]
+    rw [dite_eq_left hi', dite_eq_left hj]
     exact (rootReflection_commute (hβ.isRoot ⟨i, hi'⟩) (hβ.isRoot ⟨j, hj⟩)
       (hβ.orth ⟨i, hi'⟩ ⟨j, hj⟩ hij)).eq
 
@@ -1031,12 +1031,12 @@ theorem exists_coxeterA8_equiv_kernelWeylGroup
   have h01 : r 0 ≠ r 1 := by
     change (if h : 0 < 8 then rootReflection (β ⟨0, h⟩) else 1) ≠
       (if h : 1 < 8 then rootReflection (β ⟨1, h⟩) else 1)
-    rw [dif_pos (by norm_num : 0 < 8), dif_pos (by norm_num : 1 < 8)]
+    rw [dite_eq_left (by norm_num : 0 < 8), dite_eq_left (by norm_num : 1 < 8)]
     exact rootReflection_adj_ne hβ (i := ⟨0, by norm_num⟩) (j := ⟨1, by norm_num⟩) rfl
   have h02 : r 0 ≠ r 2 := by
     change (if h : 0 < 8 then rootReflection (β ⟨0, h⟩) else 1) ≠
       (if h : 2 < 8 then rootReflection (β ⟨2, h⟩) else 1)
-    rw [dif_pos (by norm_num : 0 < 8), dif_pos (by norm_num : 2 < 8)]
+    rw [dite_eq_left (by norm_num : 0 < 8), dite_eq_left (by norm_num : 2 < 8)]
     exact rootReflection_orth_ne hβ (i := ⟨0, by norm_num⟩) (j := ⟨2, by norm_num⟩) (by norm_num)
   obtain ⟨eK, heK⟩ := CFSG.CGT.PushingUpLit.BHSSym.exists_mulEquiv_closure
     (n := 8) (by norm_num) (x := r) hcox h01 (fun _ => h02)
@@ -1046,12 +1046,10 @@ theorem exists_coxeterA8_equiv_kernelWeylGroup
     · rintro ⟨i, hi, rfl⟩
       have hi' : i < 8 := hi
       refine ⟨β ⟨i, hi'⟩, ⟨⟨i, hi'⟩, rfl⟩, ?_⟩
-      change rootReflection (β ⟨i, hi'⟩) = r i
-      simp only [r, dif_pos hi']
+      simp only [r, dite_eq_left hi']
     · rintro ⟨x, ⟨i, rfl⟩, rfl⟩
       refine ⟨i.val, i.2, ?_⟩
-      change r i.val = rootReflection (β i)
-      simp only [r, dif_pos i.2]
+      simp only [r, dite_eq_left i.2]
   have hclosureFrame : Subgroup.closure (rootReflection '' Set.range β) =
       Subgroup.closure (rootReflection '' frameRoots σ) :=
     (closure_rootReflection_frameRoots_eq_adjacent hψ).symm
@@ -1076,7 +1074,7 @@ theorem exists_coxeterA8_equiv_kernelWeylGroup
       ((eK (Equiv.swap i.castSucc i.succ) :
         ↥(Subgroup.closure (r '' Set.Iio 8))) : WeylGroup .E8) from rfl]
   rw [hval]
-  simp only [r, dif_pos i.2]
+  simp only [r, dite_eq_left i.2]
   congr 1
 
 end MaxRankE8Weyl
@@ -1136,7 +1134,7 @@ theorem ggMaxRankE8_exists_actual_frame_nine
       ((∀ γ, IsRoot .E8 γ → S.ρ γ = γ) ∨
         (∀ γ, IsRoot .E8 γ → S.ρ γ = -γ)) := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨S, Fr, ι, w, a, hFr, hΦ, hq, hn, hsign1, hsign2, hι,
       hrange, hconj, hAimage, hs, ha3, i, hqs, hJi⟩ :=
@@ -1149,7 +1147,7 @@ theorem ggMaxRankE8_exists_actual_frame_nine
     intro h
     exact hs1 (hι (h.trans (map_one ι).symm))
   have hn1 : 1 ≤ n := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have ht : 1 < Nat.card K := by
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
@@ -1229,13 +1227,13 @@ theorem ggMaxRankE8_exists_actual_frame_involutions
       kernelRoots (rootCharHom a) = frameRoots σ ∧
       (∀ α ∈ frameRoots σ, rootSL2 .E8 (AlgebraicClosure K) α WSL ∈ J.map ι) := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨S, ι, a, i, ψ, σ, hq, hι, hrange, hAimage, hs, hJi, hψ, hΨ, hkernel, hsign⟩ :=
     ggMaxRankE8_exists_actual_frame_nine K n hK A J s hA hcard hsA hs1 hJ hLab
   have hn1 : 0 < n := by
     have ht : 1 < Nat.card K := by
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     by_contra h
@@ -1304,7 +1302,7 @@ theorem isUnit_det_symmetrizedCartan_E8_zmod_three :
 
 theorem frameDiagHom_injective {L : Type} [Field L] {ζ : Lˣ} (hζ : ζ ^ 3 = 1)
     (hζo : orderOf ζ = 3) : Function.Injective (frameDiagHom ζ hζ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x y hxy
   exact toAdd.injective
     (frameDiag_injective (τ := .E8) hζo hζ isUnit_det_symmetrizedCartan_E8_zmod_three hxy)
@@ -1312,7 +1310,7 @@ theorem frameDiagHom_injective {L : Type} [Field L] {ζ : Lˣ} (hζ : ζ ^ 3 = 1
 theorem range_frameDiagHom {L : Type} [Field L] [IsAlgClosed L] {ζ : Lˣ} (hζ : ζ ^ 3 = 1)
     (hζo : orderOf ζ = 3) :
     Set.range (frameDiagHom (L := L) ζ hζ) = splitPow .E8 L 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   ext y
   constructor
   · rintro ⟨x, rfl⟩
@@ -1347,7 +1345,7 @@ theorem frameDiagMapToMap_injective :
 include hζo in
 theorem frameDiagMapToMap_surjective :
     Function.Surjective (frameDiagMapToMap hAimage hζ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro y
   have hy : (y : ModGL .E8 L) ∈ torusGroup .E8 L ∧ (y : ModGL .E8 L) ^ 3 = 1 :=
     (hAimage (y : ModGL .E8 L)).mp y.2
@@ -1524,13 +1522,13 @@ theorem exists_eJ_of_injective_range {G : Type} [Group G] {A J : Subgroup G} {p 
 
 theorem ggAutomizer_le_range_of_forall_conjAut {G : Type} [Group G] {A J : Subgroup G}
     {W : Subgroup (WeylGroup .E8)} (ρ : W →* MulAut ↥A)
-    (h : ∀ (g : G) (hgJ : g ∈ J) (hgN : g ∈ Subgroup.normalizer (A : Set G)),
+    (h : ∀ (g : G) (_hgJ : g ∈ J) (hgN : g ∈ Subgroup.normalizer (A : Set G)),
       ∃ w : W, ggConjAut A hgN = ρ w) :
     ggAutomizer J A ≤ ρ.range := by
   change Subgroup.closure (ggInduced J A) ≤ ρ.range
   refine (Subgroup.closure_le (ρ.range)).mpr ?_
-  rintro φ ⟨g, hgJ, hgN, hφ⟩
-  obtain ⟨w, hw⟩ := h g hgJ hgN
+  rintro φ ⟨g, _hgJ, hgN, hφ⟩
+  obtain ⟨w, hw⟩ := h g _hgJ hgN
   have hφ' : φ = ggConjAut A hgN := MulEquiv.ext fun b => Subtype.ext (hφ b)
   rw [hφ', hw]
   exact MonoidHom.mem_range.mpr ⟨w, rfl⟩
@@ -1543,9 +1541,9 @@ theorem exists_actual_action {G H : Type} [Group G] [Group H]
     {V : Type} [Group V] (Θ : V ≃* A) (ρ : MulAut V)
     (m : H) (hm : m ∈ J.map ι)
     (hact : ∀ v, m * ι (Θ v) * m⁻¹ = ι (Θ (ρ v))) :
-    ∃ (g : G) (hgJ : g ∈ J) (hgN : g ∈ Subgroup.normalizer (A : Set G)),
+    ∃ (g : G) (_hgJ : g ∈ J) (hgN : g ∈ Subgroup.normalizer (A : Set G)),
       ggConjAut A hgN = MulAut.congr Θ ρ := by
-  obtain ⟨g, hgJ, rfl⟩ := hm
+  obtain ⟨g, _hgJ, rfl⟩ := hm
   have hgact : ∀ v, g * (Θ v : G) * g⁻¹ = (Θ (ρ v) : G) := by
     intro v
     apply hι
@@ -1568,7 +1566,7 @@ theorem exists_actual_action {G H : Type} [Group G] [Group H]
         exact mul_left_cancel (mul_right_cancel h)
       rw [← he']
       exact (Θ v).property
-  refine ⟨g, hgJ, hgN, ?_⟩
+  refine ⟨g, _hgJ, hgN, ?_⟩
   apply MulEquiv.ext
   intro b
   apply Subtype.ext
@@ -1594,7 +1592,7 @@ theorem map_eq_range_of_card {G H V : Type} [Group G] [Group H] [Group V] [Finit
     (χ : V →* H) (hχ : Function.Injective χ)
     (hle : A.map ι ≤ χ.range) (hcard : Nat.card V ≤ Nat.card A) :
     A.map ι = χ.range := by
-  haveI : Finite χ.range := Finite.of_equiv V (MonoidHom.ofInjective hχ).toEquiv
+  have : Finite χ.range := Finite.of_equiv V (MonoidHom.ofInjective hχ).toEquiv
   apply Subgroup.eq_of_le_of_card_ge hle
   rw [← Nat.card_congr (MonoidHom.ofInjective hχ).toEquiv,
     Subgroup.card_map_of_injective hι]
@@ -1607,7 +1605,7 @@ open MaxRankE8Action MaxRankE8Automizer MaxRankE8Weyl
 theorem ggMaxRankE8Core_holds : GGMaxRankE8Core := by
   classical
   intro K _ _ _ n hK A J s hA hcard hsA hs1 hJ hLab
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨S, ι, a, i, ψ, σ, hq, hι, hrange, hAimage, hs, hJi, hψ, hΨ, hkernel, hinvol⟩ :=
     ggMaxRankE8_exists_actual_frame_involutions K n hK A J s hA hcard hsA hs1 hJ

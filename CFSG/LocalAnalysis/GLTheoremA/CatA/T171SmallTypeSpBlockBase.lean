@@ -318,8 +318,7 @@ theorem sum_projBlock_eq_self {n : ℕ} (A : Subgroup (SpV n ≃ₗ[ZMod 2] SpV 
       subst hc0
       simp [L]
     · apply iSup_le
-      intro D
-      intro w hw
+      intro D w hw
       rw [LinearMap.mem_ker]
       have hsum : ∑ E : SpNonzeroBlock A, P E w = P D w := by
         refine Finset.sum_eq_single D ?_ ?_
@@ -497,7 +496,7 @@ theorem exists_plane_block_of_smallModel {n : ℕ} (hn4 : 4 ≤ n) (hn5 : n ≤ 
         Nat.card (SpNonzeroBlock (Bb.map (linHom n))) = n - 1 := by
   classical
   let A : Subgroup (SpV n ≃ₗ[ZMod 2] SpV n) := Bb.map (linHom n)
-  haveI : Fintype A := ‹Fintype (Bb.map (linHom n))›
+  have : Fintype A := ‹Fintype (Bb.map (linHom n))›
   have hAe : IsElemAbelian 3 A := h.elem.map (linHom n)
   have hAinv : InvariantBilin A (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)) :=
     invariantBilin_map Bb
@@ -505,11 +504,11 @@ theorem exists_plane_block_of_smallModel {n : ℕ} (hn4 : 4 ≤ n) (hn5 : n ≤ 
     fun x => CFSG.LargeExtraspecial.DW.spB_self x
   have hBn : (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)).Nondegenerate :=
     CFSG.LocalAnalysis.GLTheoremA.CatB.spB_nondegenerate n
-  haveI : Finite (SpV n) := inferInstance
-  haveI : Finite (SpV n ≃ₗ[ZMod 2] SpV n) :=
+  have : Finite (SpV n) := inferInstance
+  have : Finite (SpV n ≃ₗ[ZMod 2] SpV n) :=
     CFSG.LargeExtraspecial.O62.finite_linearEquiv
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : Fintype (SpNonzeroBlock A) := Fintype.ofFinite _
+  have : Fintype A := Fintype.ofFinite A
+  have : Fintype (SpNonzeroBlock A) := Fintype.ofFinite _
   let r : ℕ := Nat.card (SpNonzeroBlock A)
   let c : ℕ := Module.finrank (ZMod 2) (fixedSpaceOf A)
   let d : SpNonzeroBlock A → ℕ := fun D =>
@@ -555,8 +554,8 @@ theorem exists_plane_block_of_smallModel {n : ℕ} (hn4 : 4 ≤ n) (hn5 : n ≤ 
   have hc_even : Even c := by
     rcases hsum_even with ⟨k, hk⟩
     exact ⟨n - k, by omega⟩
-  haveI : IsMulCommutative A := hAe.1
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  have : IsMulCommutative A := hAe.1
+  let : CommGroup A := IsMulCommutative.instCommGroup
   let f : A →* ((D : SpNonzeroBlock A) → A ⧸ D.1.1) :=
     { toFun := fun a D => QuotientGroup.mk' D.1.1 a
       map_one' := by ext D; rfl
@@ -705,7 +704,7 @@ theorem exists_plane_block_of_smallModel {n : ℕ} (hn4 : 4 ≤ n) (hn5 : n ≤ 
           ring
         omega
       have hpos : 0 < r := by omega
-      haveI : Nonempty (SpNonzeroBlock A) := by
+      have : Nonempty (SpNonzeroBlock A) := by
         apply Fintype.card_pos_iff.mp
         rwa [← Nat.card_eq_fintype_card]
       exact ⟨Classical.choice inferInstance, hd2 (Classical.choice inferInstance), hrN1⟩
@@ -721,8 +720,8 @@ theorem exists_coordinate_element {n : ℕ}
     ∃ y : A, y ∉ D0.1.1 ∧ (∀ D : SpNonzeroBlock A, D ≠ D0 → y ∈ D.1.1) ∧
       (y : SpV n ≃ₗ[ZMod 2] SpV n) ^ 3 = 1 := by
   classical
-  haveI : IsMulCommutative A := hAe.1
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  have : IsMulCommutative A := hAe.1
+  let : CommGroup A := IsMulCommutative.instCommGroup
   let f : A →* ((D : SpNonzeroBlock A) → A ⧸ D.1.1) :=
     { toFun := fun a D => QuotientGroup.mk' D.1.1 a
       map_one' := by ext D; rfl

@@ -69,20 +69,20 @@ private theorem ggK1Rk_primaryComponent_ne_bot {K V : Type} [Field K] [AddCommGr
 private theorem ggK1Rk_primaryMultiplicity_pos {K V : Type} [Field K] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {x : Module.End K V} {h : K[X]}
     (hh : h ∈ primaryFactors x) : 0 < primaryMultiplicity x h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Nontrivial (primaryComponent x h) :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Nontrivial (primaryComponent x h) :=
     Submodule.nontrivial_iff_ne_bot.mpr (ggK1Rk_primaryComponent_ne_bot hh)
   exact Module.finrank_pos
 
 private theorem ggK1Rk_dvd_cyclotomic {K : Type} [Field K] {p : ℕ} {h : K[X]}
     {r : ℕ} {x : ↥(StatedSp r K)}
-    (hh : h ∈ primaryFactors (spEnd x)) (hne : h ≠ X - 1)
+    (hh : h ∈ primaryFactors (spEnd x)) (_hne : h ≠ X - 1)
     (hord : orderOf (AdjoinRoot.root h) = p) (hp0 : 0 < p) :
     h ∣ cyclotomic p K := by
   classical
   have hirr := irreducible_of_mem_primaryFactors hh
   have hmon := monic_of_mem_primaryFactors hh
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   have hmin : minpoly K (AdjoinRoot.root h) = h := by
     rw [AdjoinRoot.minpoly_root hirr.ne_zero, hmon.leadingCoeff, inv_one, C_1, mul_one]
   have hprim : IsPrimitiveRoot (AdjoinRoot.root h) p := by
@@ -102,7 +102,7 @@ private theorem ggK1Rk_natDegree_eq_orderOf {K : Type} [Field K] [Finite K]
     (hord : orderOf (AdjoinRoot.root h) = p) :
     h.natDegree = orderOf ((Nat.card K : ℕ) : ZMod p) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = 2 ^ nf := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hirr := irreducible_of_mem_primaryFactors hh
   have hdvdΦ : h ∣ cyclotomic p K := ggK1Rk_dvd_cyclotomic hh hne hord hp0
@@ -119,7 +119,7 @@ private theorem ggK1Rk_coeff_zero_ne_zero {K : Type} [Field K] {p : ℕ}
   intro h0
   have hirr := irreducible_of_mem_primaryFactors hh
   have hmon := monic_of_mem_primaryFactors hh
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   have hmin : minpoly K (AdjoinRoot.root h) = h := by
     rw [AdjoinRoot.minpoly_root hirr.ne_zero, hmon.leadingCoeff, inv_one, C_1, mul_one]
   have hdvd : h ∣ (X ^ p - 1 : K[X]) := by
@@ -131,21 +131,21 @@ private theorem ggK1Rk_coeff_zero_ne_zero {K : Type} [Field K] {p : ℕ}
   have hthis : (X ^ p - 1 : K[X]).coeff 0 = 0 := X_dvd_iff.mp hX'
   have hcoeff : (X ^ p - 1 : K[X]).coeff 0 = -1 := by
     rw [coeff_sub, coeff_X_pow, coeff_one]
-    simp [hp0.ne', Ne.symm hp0.ne']
+    simp [Ne.symm hp0.ne']
   rw [hcoeff] at hthis
   exact one_ne_zero (neg_eq_zero.mp hthis)
 
 private theorem ggK1Rk_selfDual_of_dvd_add {K : Type} [Field K] [Finite K]
     {p nf : ℕ} {r : ℕ} {x : ↥(StatedSp r K)} {h : K[X]}
     (hp0 : 0 < p) (hK : Nat.card K = 2 ^ nf) (hpq : p ∣ 2 ^ nf + 1)
-    (hh : h ∈ primaryFactors (spEnd x)) (hne : h ≠ X - 1)
+    (hh : h ∈ primaryFactors (spEnd x)) (_hne : h ≠ X - 1)
     (hord : orderOf (AdjoinRoot.root h) = p) :
     reciprocalPolynomial h = h := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hmon := monic_of_mem_primaryFactors hh
   have hirr := irreducible_of_mem_primaryFactors hh
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   have h0 : h.coeff 0 ≠ 0 := ggK1Rk_coeff_zero_ne_zero hp0 hh hord
   let E := AdjoinRoot h
   let lam : E := AdjoinRoot.root h
@@ -232,8 +232,8 @@ theorem ggK1CBl_rank_d1 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
   rw [hcombine] at hEq
   have hzero : (∑ h ∈ P, (h.natDegree - 1) * M h) +
       ∑ h ∈ SD, h.natDegree / 2 * M h = 0 := by omega
-  have hA : (∑ h ∈ P, (h.natDegree - 1) * M h) = 0 := (Nat.add_eq_zero.mp hzero).1
-  have hB : (∑ h ∈ SD, h.natDegree / 2 * M h) = 0 := (Nat.add_eq_zero.mp hzero).2
+  have hA : (∑ h ∈ P, (h.natDegree - 1) * M h) = 0 := (_root_.Nat.add_eq_zero_iff.mp hzero).1
+  have hB : (∑ h ∈ SD, h.natDegree / 2 * M h) = 0 := (_root_.Nat.add_eq_zero_iff.mp hzero).2
   have hdegP : ∀ h ∈ P, h.natDegree = 1 := by
     intro h hh
     have hterm : (h.natDegree - 1) * M h = 0 := by
@@ -278,7 +278,7 @@ theorem ggK1CBl_rank_d2 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
       (∀ h ∈ primaryFactors (spEnd x), h ≠ X - 1 → reciprocalPolynomial h = h) ∧
       (∀ h ∈ primaryFactors (spEnd x), h ≠ X - 1 → h.natDegree = 2) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard1 : 1 < Nat.card K := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -326,7 +326,7 @@ theorem ggK1CBl_rank_d2 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
       have hroot : AdjoinRoot.root h = 1 := orderOf_eq_one_iff.mp hord
       have hirr := irreducible_of_mem_primaryFactors hh
       have hmon := monic_of_mem_primaryFactors hh
-      haveI : Fact (Irreducible h) := ⟨hirr⟩
+      have : Fact (Irreducible h) := ⟨hirr⟩
       have hmin : minpoly K (AdjoinRoot.root h) = h := by
         rw [AdjoinRoot.minpoly_root hirr.ne_zero, hmon.leadingCoeff, inv_one, C_1, mul_one]
       have hdvdX : h ∣ (X - 1 : K[X]) := by
@@ -503,13 +503,13 @@ theorem ggK1CBl_rank_d2 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
         exact ggK1Rk_selfDual_of_dvd_add hp0 hK hadd hh hne (hblocks.nontrivial h hh hne)
       have hdeg : ∀ h ∈ primaryFactors (spEnd x), h ≠ X - 1 → h.natDegree = 2 := by
         intro h hh hne
-        haveI : Fact (1 < p) := ⟨by omega⟩
+        have : Fact (1 < p) := ⟨by omega⟩
         have hrc : ringChar (ZMod p) ≠ 2 := by
           rw [ZMod.ringChar_zmod_n]
           intro h2
           exact h2p (by rw [h2])
         rw [ggK1Rk_natDegree_eq_orderOf hK hp0 hpodd hh hne (hblocks.nontrivial h hh hne),
-          hqc, orderOf_neg_one, if_neg hrc]
+          hqc, orderOf_neg_one, ite_eq_right hrc]
       refine ⟨?_, hself, hdeg⟩
       intro P hP
       rw [← Finset.not_nonempty_iff_eq_empty]

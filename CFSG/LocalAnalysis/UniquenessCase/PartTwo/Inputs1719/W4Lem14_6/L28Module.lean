@@ -15,9 +15,9 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 
 theorem center_eq_bot_of_isL2_three {S : Type} [Group S] (h : UC22.IsL2 S 3) :
     Subgroup.center S = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.SeitzReduction.RankOne.nonempty_mulEquiv_psl2_of_lieModel h
-  haveI : IsSimpleGroup S := CFSG.GF2Type.Smith1979.OmegaPlus.isSimpleGroup_of_mulEquiv_psl28 e
+  have : IsSimpleGroup S := CFSG.GF2Type.Smith1979.OmegaPlus.isSimpleGroup_of_mulEquiv_psl28 e
   obtain ⟨a, b, hab⟩ := CFSG.GF2Type.Smith1979.OmegaPlus.exists_ne_comm_of_mulEquiv_psl28 e
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center S) with hZ | hZ
   · exact hZ
@@ -27,7 +27,7 @@ theorem center_eq_bot_of_isL2_three {S : Type} [Group S] (h : UC22.IsL2 S 3) :
 
 theorem odd_card_outer_of_isL2_three {S : Type} [Group S] [Finite S] (h : UC22.IsL2 S 3) :
     Odd (Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer S)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.SeitzReduction.RankOne.nonempty_mulEquiv_psl2_of_lieModel h
   have hAut : Nat.card (MulAut S) = 3 * Nat.card S :=
     CFSG.GF2Type.Smith1979.OmegaPlus.card_mulAut_of_mulEquiv_psl28 e
@@ -57,7 +57,7 @@ theorem odd_card_outer_of_isL2_three {S : Type} [Group S] [Finite S] (h : UC22.I
 
 theorem six_le_rk_of_isL2_three {U : Type} [CommGroup U] [Finite U] (hU : ∀ u : U, u ^ 2 = 1)
     {S : Subgroup (MulAut U)} (h3 : UC22.IsL2 ↥S 3) : 6 ≤ rk U := by
-  haveI : IsSimpleGroup ↥S :=
+  have : IsSimpleGroup ↥S :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h3
   have hne : S.subtype ≠ 1 := by
     intro h1
@@ -78,9 +78,9 @@ theorem nonempty_mulEquiv_sl2_of_isL2_three {S : Type} [Group S] (h : UC22.IsL2 
 theorem isIrreducible_autRepOfG {U : Type} [CommGroup U] [Finite U] (hU : ∀ u : U, u ^ 2 = 1)
     {S : Subgroup (MulAut U)} {Γ : Type} [Group Γ] (θ : ↥S ≃* Γ) (hirr : IsIrrOn S ⊤ ⊥) :
     (CFSG.Quasithin.B45Mat.Ind.autRepOfG hU θ).IsIrreducible := by
-  obtain ⟨x0, -, hx0⟩ := SetLike.exists_of_lt hirr.1
-  haveI : Nontrivial U := ⟨⟨x0, 1, fun h => hx0 (h ▸ Subgroup.one_mem _)⟩⟩
-  haveI : Nontrivial (CFSG.Quasithin.F2Vec U hU) := inferInstanceAs (Nontrivial (Additive U))
+  obtain ⟨x0, -, hx0⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
+  have : Nontrivial U := ⟨⟨x0, 1, fun h => hx0 (h ▸ Subgroup.one_mem _)⟩⟩
+  have : Nontrivial (CFSG.Quasithin.F2Vec U hU) := inferInstanceAs (Nontrivial (Additive U))
   exact CFSG.Quasithin.H13.A6.G52.isIrreducible_of_forall_submodule _
     (CFSG.Quasithin.B45Mat.Ind.irr_autRepOfG hU θ (fun V hV => hirr.2.2.2 V hV bot_le le_top))
 
@@ -98,7 +98,7 @@ theorem autRepOfG_injective {U : Type} [CommGroup U] (hU : ∀ u : U, u ^ 2 = 1)
 
 theorem finrank_f2Vec_eq_rk {U : Type} [CommGroup U] [Finite U] (hU : ∀ u : U, u ^ 2 = 1) :
     Module.finrank (ZMod 2) (CFSG.Quasithin.F2Vec U hU) = rk U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Nat.card (CFSG.Quasithin.F2Vec U hU) =
       2 ^ Module.finrank (ZMod 2) (CFSG.Quasithin.F2Vec U hU) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
@@ -141,7 +141,7 @@ theorem two_mul_rkIdx_fixV_eq_rk_of_isL2_three {U : Type} [CommGroup U] [Finite 
     (hirr : IsIrrOn S ⊤ ⊥) {t : MulAut U} (htS : t ∈ S) (ht : orderOf t = 2) :
     2 * rkIdx (fixV (Subgroup.zpowers t)) = rk U := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ⟩ := nonempty_mulEquiv_sl2_of_isL2_three h3
   set ρ := CFSG.Quasithin.B45Mat.Ind.autRepOfG hU θ with hρ
   have hirrρ := isIrreducible_autRepOfG hU θ hirr
@@ -173,7 +173,7 @@ theorem two_mul_rkIdx_fixV_eq_rk_of_isL2_three {U : Type} [CommGroup U] [Finite 
     have ht1 : t = 1 := congrArg Subtype.val hcen
     rw [ht1, orderOf_one] at ht
     exact absurd ht (by norm_num)
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 3) = 2 ^ 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 3 (by norm_num)
@@ -217,15 +217,15 @@ theorem rk_eq_six_or_eight_of_isL2_three {U : Type} [CommGroup U] [Finite U]
     (hU : ∀ u : U, u ^ 2 = 1) {S : Subgroup (MulAut U)} (h3 : UC22.IsL2 ↥S 3)
     (hirr : IsIrrOn S ⊤ ⊥) (hrk : rk U ≤ 10) : rk U = 6 ∨ rk U = 8 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ⟩ := nonempty_mulEquiv_sl2_of_isL2_three h3
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 3) = 2 ^ 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 3 (by norm_num)
-  haveI : Fact (CFSG.Quasithin.B45Mat.Ind.autRepOfG hU θ).IsIrreducible :=
+  have : Fact (CFSG.Quasithin.B45Mat.Ind.autRepOfG hU θ).IsIrreducible :=
     ⟨isIrreducible_autRepOfG hU θ hirr⟩
-  haveI : IsSimpleGroup ↥S :=
+  have : IsSimpleGroup ↥S :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h3
   have hnt : ∃ g, CFSG.Quasithin.B45Mat.Ind.autRepOfG hU θ g ≠ 1 := by
     obtain ⟨s, hs⟩ := exists_ne (1 : ↥S)
@@ -266,18 +266,18 @@ theorem exists_card_fixV_eq_two_of_isL2_three {U : Type} [CommGroup U] [Finite U
     ∃ P : Subgroup (MulAut U), A ≤ P ∧ P ≤ S ∧ IsElemAbelian2 P ∧ Nat.card P = 8 ∧
       Nat.card (fixV P) = 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut U) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut U) :=
     Finite.of_injective (fun φ : MulAut U => (φ : U → U)) DFunLike.coe_injective
   obtain ⟨θ⟩ := nonempty_mulEquiv_sl2_of_isL2_three h3
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have hGF : Nat.card (GaloisField 2 3) = 2 ^ 3 := GaloisField.card 2 3 (by norm_num)
   have hF : Fintype.card (GaloisField 2 3) = 2 ^ 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact hGF
-  haveI : Fact (CFSG.Quasithin.B45Mat.Ind.autRepOfG hU θ).IsIrreducible :=
+  have : Fact (CFSG.Quasithin.B45Mat.Ind.autRepOfG hU θ).IsIrreducible :=
     ⟨isIrreducible_autRepOfG hU θ hirr⟩
-  haveI : IsSimpleGroup ↥S :=
+  have : IsSimpleGroup ↥S :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h3
   have hnt : ∃ g, CFSG.Quasithin.B45Mat.Ind.autRepOfG hU θ g ≠ 1 := by
     obtain ⟨s, hs⟩ := exists_ne (1 : ↥S)

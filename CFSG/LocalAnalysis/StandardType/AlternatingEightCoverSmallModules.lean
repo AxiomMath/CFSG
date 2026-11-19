@@ -12,6 +12,7 @@ open Matrix
 variable {J : Type*} [Group J] [Finite J] {E : Type*} [Field E] [IsAlgClosed E] [CharP E 2]
   {ι : Type*} [Fintype ι] [DecidableEq ι]
 
+omit [Finite J] in
 theorem map_conj_sq_aux {M : Type*} [Monoid M] (ρ : J →* M) {x y : J} (hxy : y * x * y⁻¹ = x ^ 2) :
     ρ y * ρ x = ρ x ^ 2 * ρ y := by
   have h : y * x = x ^ 2 * y := by

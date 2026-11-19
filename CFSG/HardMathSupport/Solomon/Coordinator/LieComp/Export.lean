@@ -233,7 +233,7 @@ private theorem eq_bot_or_top_of_isSubnormal {S : Type*} [Group S] [IsSimpleGrou
       have hN : H.Normal := by
         rw [Subgroup.normal_subgroupOf_iff hle] at hnormal
         exact ⟨fun x hx g => hnormal x g hx (Subgroup.mem_top g)⟩
-      haveI := hN
+      have := hN
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
 theorem lieCompExport_one {S : Type} [Group S] [Finite S] [IsSimpleGroup S]

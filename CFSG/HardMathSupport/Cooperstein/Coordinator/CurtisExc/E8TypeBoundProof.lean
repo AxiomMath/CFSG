@@ -90,7 +90,7 @@ theorem no_J_univ {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
       fun h hh => ?_, fun i => ?_⟩
     · simp [hρ0def, hχ1 h hh]
     · refine ⟨fun _ => ⟨hχi i, ?_⟩, fun _ => hJ ▸ Finset.mem_univ i⟩
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       rw [heckeT_chevDatum]
       simp only [hρ0def, Representation.trivial_apply, Finset.sum_const, Finset.card_univ]
       rw [← Nat.card_eq_fintype_card, hK, ← Nat.cast_smul_eq_nsmul k]

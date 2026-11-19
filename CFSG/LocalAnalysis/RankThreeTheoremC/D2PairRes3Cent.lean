@@ -71,7 +71,7 @@ theorem commutative_of_central_by_three [Finite Y] {D N₀ : Subgroup Y} (hN₀D
   have htop : (P : Subgroup D) ⊔ N' = ⊤ := Subgroup.index_eq_one.mp hidx
   have hP : ∀ p p' : D, p ∈ P → p' ∈ P → (p : Y) * p' = p' * p := by
     intro p p' hp hp'
-    refine hab ((P : Subgroup D).map D.subtype) ?_ (P.isPGroup'.map D.subtype) (p : Y)
+    refine hab ((P : Subgroup D).map D.subtype) ?_ (P.isPGroup.map D.subtype) (p : Y)
       ⟨p, hp, rfl⟩ (p' : Y) ⟨p', hp', rfl⟩
     rintro _ ⟨x, -, rfl⟩
     exact x.2

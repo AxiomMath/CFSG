@@ -39,7 +39,7 @@ private theorem s15k_tor_factorization {N k e : ℕ} (hN : N ≠ 0) (h1 : 3 ^ e 
 
 theorem rTorus3_153_holds : RTorus3_153 := by
   intro S H _ _ _ _ f hf hn hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hodd : Odd 3 := by decide
   refine ⟨fun hS => ?_, fun hΩ => ?_⟩
   · have hex : s15ExcList S := by

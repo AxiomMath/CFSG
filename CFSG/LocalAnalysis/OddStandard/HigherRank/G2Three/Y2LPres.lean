@@ -17,7 +17,7 @@ theorem y2l_rels26_eq (n : ℕ) (e : Bool) :
   have hid : (FreeGroup.mk ∘ FreeGroup.toWord : FreeGroup (Fin 5) → FreeGroup (Fin 5)) = id :=
     funext fun _ => FreeGroup.mk_toWord
   ext x
-  rw [Set.mem_setOf_eq, y2l_ws26, List.map_map, hid, List.map_id]
+  rw [Set.mem_ofPred_eq, y2l_ws26, List.map_map, hid, List.map_id]
   rfl
 
 theorem y2l_card_P26_le_of_check {n : ℕ} {e : Bool} {N : ℕ}
@@ -71,7 +71,7 @@ theorem y2l_lift_ws7_word (f : Fin 5 → G) (k1 k2 k3 : ℕ) :
     FreeGroup.lift f (FreeGroup.mk (List.replicate k1 (0, true) ++ List.replicate k2 (1, true) ++
       List.replicate k3 (2, true))) = f 0 ^ k1 * f 1 ^ k2 * f 2 ^ k3 := by
   simp only [FreeGroup.lift_mk, List.map_append, List.map_replicate, List.prod_append,
-    List.prod_replicate, cond_true]
+    List.prod_replicate, _root_.Bool.cond_true]
 
 theorem y2l_mem_ws7 {k : ℕ} {t : ℕ × ℕ × ℕ}
     (ht : t ∈ ([(1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 1, 0), (1, 0, 1), (0, 1, 1), (1, 1, 1)] :

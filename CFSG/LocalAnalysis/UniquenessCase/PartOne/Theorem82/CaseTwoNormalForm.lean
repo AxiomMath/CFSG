@@ -126,7 +126,7 @@ theorem permHom_pow_three_eq_one (hinj : Function.Injective d.Lf)
     {g : G} (hg : g ∈ d.M) (hg3 : IsPGroup 3 (Subgroup.zpowers g)) :
     d.permHom hinj hperm ⟨g, hg⟩ ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hg3.exists_card_eq
   have hord : orderOf g = 3 ^ k := by
     rw [← Nat.card_zpowers, hk]
@@ -220,7 +220,7 @@ theorem base_eq : CFSG.GroupTheory.WreathThree.base (t.d.H 0) t.y = t.d.S := by
     ⟨Subgroup.le_normalizer t.hyP, c.le_normalizer_L (t.hP.le t.hyP)⟩
 
 theorem orderOf_y : orderOf t.y = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime t.hy3 ?_
   intro h1
   have h0 := t.hyL 0
@@ -286,7 +286,7 @@ theorem exists_caseTwoTransitive (c : Ctx812E G) (hK8 : OuterThreeSplit)
     (hII : ¬ ∀ i, P ≤ Subgroup.normalizer (d.Lf i : Set G)) :
     ∃ t : CaseTwoTransitive c, t.d = d ∧ t.P = P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPM : P ≤ d.M := by rw [hdM]; exact hP.le
   have hperm' : ∀ m ∈ d.M, ∀ i, ∃ j,
       (d.Lf i).map (MulAut.conj m).toMonoidHom = d.Lf j := by
@@ -352,7 +352,6 @@ theorem exists_caseTwoTransitive (c : Ctx812E G) (hK8 : OuterThreeSplit)
       refine ⟨y₀⁻¹, P.inv_mem hy₀P, pow3_mem_S (P.inv_mem hy₀P) hy₁M hσinv3, ?_⟩
       intro i
       rw [d.map_conj_Lf_eq hinj hperm' ⟨y₀⁻¹, hy₁M⟩ i, hσinv]
-      change d.Lf (σ⁻¹ i) = d.Lf (i + 1)
       rw [show σ⁻¹ = finRotate 3 by rw [hσeq, inv_inv], finRotate_apply]
   have hy₁M : y₁ ∈ d.M := hPM hy₁P
   have hbase₁ : CFSG.GroupTheory.WreathThree.base (d.H 0) y₁ = d.S :=

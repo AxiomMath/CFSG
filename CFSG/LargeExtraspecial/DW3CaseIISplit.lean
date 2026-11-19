@@ -36,7 +36,7 @@ theorem exists_split_of_isCompl (hA : MaxEA S A) (hw : S.width = 3)
       omega
     rw [S.card_clPre, S.card_submodule, hfin, hw]
     norm_num
-  haveI : IsElementaryAbelian 2 (S.clPre B) := W4.isElementaryAbelian_clPre hBq
+  have : IsElementaryAbelian 2 (S.clPre B) := W4.isElementaryAbelian_clPre hBq
   have hBM : S.M ≤ normalizer (S.clPre B : Set G) := M_le_normalizer_clPre hBinv
   have hx1 : h * S.z * h⁻¹ ≠ 1 := by
     intro h1

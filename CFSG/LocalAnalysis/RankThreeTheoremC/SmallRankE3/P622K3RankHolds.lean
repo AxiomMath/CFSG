@@ -22,7 +22,7 @@ theorem two_le_pRank_of_lieChar (hB : ChevalleyBridges) (hR : ReeG2Bridge) {p : 
     (hchar : d.1.characteristic = p) : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup S) := by
   by_contra hlt
   have hrk : CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 1 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hv⟩ := d
   have hrange := (LieTypeIndex.inStandardRange_iff _).1 ((LieTypeIndex.valid_iff _).1 hv).1
   cases d with

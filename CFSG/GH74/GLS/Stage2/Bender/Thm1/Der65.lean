@@ -37,7 +37,7 @@ theorem Ep_ne_bot {M : Subgroup G} {r b : ℕ} (hr : r.Prime) (hb : b.Prime) (hb
   have hQn : (Q : Subgroup ↥(Fm M)).Normal := Group.IsNilpotent.sylow_normal (Fm_nilpotent M) b Q
   have hQne : (Q : Subgroup ↥(Fm M)) ≠ ⊥ := Sylow.ne_bot_of_dvd_card Q hdvd
   have hcop : Nat.Coprime r (Nat.card ↥(Q : Subgroup ↥(Fm M))) := by
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp Q.isPGroup'
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp Q.isPGroup
     rw [hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hr hb).mpr (Ne.symm hbr))
   have hQle : (Q : Subgroup ↥(Fm M)) ≤ pPrimeCore r ↥(Fm M) := le_sSup ⟨hQn, hcop⟩

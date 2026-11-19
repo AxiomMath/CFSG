@@ -17,8 +17,8 @@ theorem rk_le_four_mul_of_natSUn {W : Type} [CommGroup W] [Finite W]
     {H A : Subgroup (MulAut W)} {n : ℕ} (hn : 1 ≤ n) (hNat : NatSUn H ⊤ ⊥ 4 n)
     (hAH : A ≤ H) (hA : IsElemAbelian2 A) : rk ↥A ≤ 4 * n := by
   obtain ⟨F, hFld, hFfin, hF, ε, ψ, hψ⟩ := exists_natCoords_of_natSUn hNat
-  letI := hFld
-  letI := hFfin
+  let := hFld
+  let := hFfin
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF

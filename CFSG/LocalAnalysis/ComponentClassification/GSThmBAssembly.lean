@@ -59,7 +59,7 @@ theorem exists_sylow_mem {H : Subgroup X} {x : X} (hxH : x ∈ H) (hx : orderOf 
   obtain ⟨P, hP⟩ := hp.exists_le_sylow
   refine ⟨(P : Subgroup H).map H.subtype, map_subtype_le _, ⟨P, ?_⟩, ⟨_, hP (mem_zpowers _), rfl⟩⟩
   ext y
-  simp [mem_subgroupOf]
+  simp
 
 theorem gilman_solomon_theorem_B_iso_of_inputs
     (hS : SchreierFor Blueprint.Catalog)

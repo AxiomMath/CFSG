@@ -9,7 +9,7 @@ namespace CFSG.Quasithin.H13.C1294
 open CFSG.Open CFSG.Quasithin
 
 @[expose] def omegaE : (Fin 2 → ZMod 2) ≃ₗ[ZMod 2] (Fin 2 → ZMod 2) :=
-  LinearEquiv.ofLinear (Matrix.toLin' !![0, 1; 1, 1]) (Matrix.toLin' !![1, 1; 1, 0])
+  LinearEquiv.ofLinearMap (Matrix.toLin' !![0, 1; 1, 1]) (Matrix.toLin' !![1, 1; 1, 0])
     (by
       rw [← Matrix.toLin'_mul, show (!![0, 1; 1, 1] * !![1, 1; 1, 0] : Matrix (Fin 2) (Fin 2) (ZMod 2))
         = 1 by decide, Matrix.toLin'_one])
@@ -44,7 +44,7 @@ theorem exists_order_three_fix {M : Type} [AddCommGroup M] [Module (ZMod 2) M]
     [Module.Finite (ZMod 2) M] (hM : Module.finrank (ZMod 2) M = 4)
     (ℓ : Submodule (ZMod 2) M) (hℓ : Module.finrank (ZMod 2) ℓ = 2) :
     ∃ γ : M ≃ₗ[ZMod 2] M, γ ^ 3 = 1 ∧ γ ≠ 1 ∧ ∀ v ∈ ℓ, γ v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W, hW⟩ := Submodule.exists_isCompl ℓ
   have hWr : Module.finrank (ZMod 2) W = 2 := by
     have := Submodule.finrank_add_eq_of_isCompl hW

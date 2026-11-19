@@ -10,7 +10,7 @@ namespace CFSG.CGT.Stroth77
 open Matrix
 
 theorem t121_k_pos {m : ℕ} (hm : 3 ≤ m) (i : Fin 3) : 1 ≤ Type121.k m i := by
-  fin_cases i <;> simp [Type121.k] <;> omega
+  fin_cases i <;> simp [Type121.k]; omega
 
 theorem torus_c_eq_ofInt_t121 (k : Fin 3 → ℕ) :
     (Torus.c : Torus k) = Torus.ofInt k ![1, 0, 0] := by
@@ -36,8 +36,7 @@ theorem parityTorus_rho_t121 {m : ℕ} (hm : 3 ≤ m) (y : Torus (StrothTypeInde
   rw [← hv, matAct_ofInt, parityTorus_ofInt_t121, parityTorus_ofInt_t121]
   have h2 : (2 : ZMod 2) = 0 := by decide
   funext r
-  fin_cases r <;> simp [rhoBar300, Type121.ρM, ofCols_mulVec, h2, sub_eq_add_neg,
-    ZMod.neg_eq_self_mod_two]
+  fin_cases r <;> simp [rhoBar300, Type121.ρM, ofCols_mulVec, h2, ZMod.neg_eq_self_mod_two]
 
 theorem parityTorus_uv_a_t121 {m : ℕ} (hm : 3 ≤ m) :
     parityTorus _ (t121_k_pos hm) ((StrothTypeIndex.t121 m hm).action.φuv Torus.a) =
@@ -74,7 +73,7 @@ theorem parityTorus_uv_a_t121 {m : ℕ} (hm : 3 ≤ m) :
     Matrix.tail_cons]
   rw [e0, e1, e2]
   funext t
-  fin_cases t <;> simp [Pi.single_apply]
+  fin_cases t <;> simp
 
 theorem t121_fixed_rho_t {m : ℕ} (hm : 3 ≤ m) (y : Torus (StrothTypeIndex.t121 m hm).k)
     (hρ : (StrothTypeIndex.t121 m hm).action.φρ y = y)
@@ -157,19 +156,19 @@ theorem no_cocycle_index_two_t121 {m : ℕ} (hm : 3 ≤ m) {i F G N K : ℤ}
   rw [hφ] at h1 h3 h4
   rw [hψ] at h2 h4
   have hk : ∀ r, 1 ≤ Type121.k m r := by
-    intro r; fin_cases r <;> simp [Type121.k] <;> omega
+    intro r; fin_cases r <;> simp [Type121.k]; omega
   set v₀ : Fin 3 → ℤ := ![-4 * G - 10, 1, -1] with hv₀
   set v₁ : Fin 3 → ℤ := ![-4 * G - 8, 1, 2] with hv₁
   have hw₀ : (2 : ℤ) • (zuv - Torus.ofInt (Type121.k m) v₀) = 0 := by
     rw [smul_sub, two_zsmul, ← two_nsmul, h1, torus_c_eq_ofInt_t121, matAct_ofInt,
       ← Torus.ofInt_zsmul, ← Torus.ofInt_sub, ← Torus.ofInt_sub, Torus.ofInt_eq_zero_iff]
     intro r
-    fin_cases r <;> simp [hv₀, Type121.uvM, Type121.uvA, ofCols_mulVec] <;> exact ⟨0, by ring⟩
+    fin_cases r <;> simp [hv₀, Type121.uvM, Type121.uvA, ofCols_mulVec]; exact ⟨0, by ring⟩
   have hw₁ : (2 : ℤ) • (zt - Torus.ofInt (Type121.k m) v₁) = 0 := by
     rw [smul_sub, two_zsmul, ← two_nsmul, h2, torus_c_eq_ofInt_t121, matAct_ofInt,
       ← Torus.ofInt_zsmul, ← Torus.ofInt_sub, ← Torus.ofInt_sub, Torus.ofInt_eq_zero_iff]
     intro r
-    fin_cases r <;> simp [hv₁, Type121.tM, Type121.uvA, Type121.ρM, ofCols_mulVec] <;>
+    fin_cases r <;> simp [hv₁, Type121.tM, Type121.uvA, Type121.ρM, ofCols_mulVec];
       exact ⟨0, by ring⟩
   obtain ⟨e, -, he⟩ := (Torus.two_zsmul_eq_zero_iff hk _).mp hw₀
   obtain ⟨f, -, hf⟩ := (Torus.two_zsmul_eq_zero_iff hk _).mp hw₁
@@ -231,7 +230,7 @@ theorem no_cocycle_index_four_t121 {m : ℕ} (hm : 3 ≤ m) {i F G N K : ℤ}
       (Type121.uvM (8 * G + 19) (4 * G + 9) G (2 * K)) (Type121.compat_uv h) := rfl
   rw [hφ] at h1 h2
   have hk : ∀ r, 1 ≤ Type121.k m r := by
-    intro r; fin_cases r <;> simp [Type121.k] <;> omega
+    intro r; fin_cases r <;> simp [Type121.k]; omega
   set v₀ : Fin 3 → ℤ := ![(4 * G + 9) * (8 * G + 19), -20 * G - 48, 8 * G + 19 + K] with hv₀
   have hw : (2 : ℤ) • (z - Torus.ofInt (Type121.k m) v₀) = 0 := by
     rw [smul_sub, two_zsmul, ← two_nsmul, h1, torus_a_eq_ofInt_t121, matAct_ofInt,

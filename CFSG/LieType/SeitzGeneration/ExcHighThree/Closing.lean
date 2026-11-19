@@ -104,8 +104,8 @@ theorem map_conj_eq_iff_mem_normalizer (R : Subgroup G) (g : G) :
 
 theorem isSolvable_iff_of_mulEquiv {A B : Type*} [Group A] [Group B] (e : A ≃* B) :
     Group.IsSolvable A ↔ Group.IsSolvable B :=
-  ⟨fun h => by haveI := h; exact solvable_of_surjective (f := e.toMonoidHom) e.surjective,
-   fun h => by haveI := h; exact solvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective⟩
+  ⟨fun h => by have := h; exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective,
+   fun h => by have := h; exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective⟩
 
 theorem isSolvable_map_iff {H : Type*} [Group H] (f : G →* H) (hf : Function.Injective f)
     (X : Subgroup G) : Group.IsSolvable ↥(X.map f) ↔ Group.IsSolvable ↥X :=
@@ -190,8 +190,8 @@ theorem not_le_normalizer_of_solvable_centralizer {a b : G} {X Y : Subgroup G}
     rintro y (rfl | rfl)
     · exact (Subgroup.mem_centralizer_singleton_iff.1 (hXa hx.2)).symm
     · exact (Subgroup.mem_centralizer_singleton_iff.1 (hYb hx.1)).symm
-  haveI := hC
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+  have := hC
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 theorem planeCl_eq_top_of_closingFrames {E : Subgroup G} {a b : G} (ha : a ∈ E) (hb : b ∈ E)
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hgen : E ≤ Subgroup.closure {a, b}) {X Y : Subgroup G}
@@ -210,8 +210,8 @@ theorem planeCl_eq_top_of_closingFrames {E : Subgroup G} {a b : G} (ha : a ∈ E
       · exact Subgroup.mem_centralizer_singleton_iff.2 (hx _ (by simp))
       · exact Subgroup.mem_centralizer_singleton_iff.2 (hx _ (by simp))
     exact Subgroup.mem_centralizer_singleton_iff.1 (hcl (hgen hh))
-  haveI := hCE
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+  have := hCE
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 theorem planeCl_eq_top_of_embedding {F : Type*} [Group F] (ι : F →* G)
     (hι : Function.Injective ι) {E₃ : Subgroup F} (h3 : planeCl E₃ = ⊤) {e : F} (he : e ∈ E₃)
@@ -248,7 +248,7 @@ theorem exists_gens_of_plane {p : ℕ} [hp : Fact p.Prime] {E : Subgroup G}
   have hZE : Subgroup.zpowers a ≤ E := (Subgroup.zpowers_le).2 haE
   have hex : ∃ b ∈ E, b ∉ Subgroup.zpowers a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have heq : E ≤ Subgroup.zpowers a := fun x hx => hcon x hx
     have := Subgroup.card_le_of_le heq
     rw [hcard, hZa] at this

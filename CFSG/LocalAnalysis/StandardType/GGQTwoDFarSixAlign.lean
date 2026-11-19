@@ -28,11 +28,13 @@ private noncomputable def torusEquiv {Bs X : Subgroup G} (Φ : OrthFrameCore 3 B
     (Fin Φ.r → Multiplicative (ZMod 3)) ≃* ↥Φ.A :=
   (MonoidHom.ofInjective Φ.Δ.τ_inj).trans (MulEquiv.subgroupCongr Φ.Δ.τ_range)
 
+omit [Finite G] in
 private theorem torusEquiv_apply {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (f : Fin Φ.r → Multiplicative (ZMod 3)) :
     ((torusEquiv Φ f : ↥Φ.A) : Φ.V ≃ₗ[Φ.F] Φ.V) = Φ.Δ.τ f := by
   simp [torusEquiv, MonoidHom.ofInjective_apply, MulEquiv.subgroupCongr_apply]
 
+omit [Finite G] in
 private theorem torusEquiv_symm_apply {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (a : ↥Φ.A) :
     Φ.Δ.τ ((torusEquiv Φ).symm a) = (a : Φ.V ≃ₗ[Φ.F] Φ.V) := by
@@ -43,7 +45,7 @@ private noncomputable def bOf {Bs : Subgroup G} (β : Additive ↥Bs ≃+ DVec 6
   Additive.toMul (β.symm v)
 
 private noncomputable def betaA {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
-    (β : Additive ↥Bs ≃+ DVec 6) : ↥Bs →* ↥Φ.A where
+    (_β : Additive ↥Bs ≃+ DVec 6) : ↥Bs →* ↥Φ.A where
   toFun b := ⟨(Φ.β b : Φ.V ≃ₗ[Φ.F] Φ.V), Φ.hβA b⟩
   map_one' := Subtype.ext (by simp)
   map_mul' b c := Subtype.ext (by simp)
@@ -63,24 +65,29 @@ private noncomputable def coordHom {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs 
       simp [bOf, map_add, toMul_add]
     simp only [Pi.add_apply, hb, map_mul, Pi.mul_apply, toAdd_mul]
 
+omit [Finite G] in
 private theorem bOf_add {Bs : Subgroup G} (β : Additive ↥Bs ≃+ DVec 6) (v w : DVec 6) :
     bOf β (v + w) = bOf β v * bOf β w := by
   simp [bOf, map_add, toMul_add]
 
+omit [Finite G] in
 private theorem bOf_zero {Bs : Subgroup G} (β : Additive ↥Bs ≃+ DVec 6) :
     bOf β 0 = 1 := by
   simp [bOf]
 
+omit [Finite G] in
 private theorem bOf_neg {Bs : Subgroup G} (β : Additive ↥Bs ≃+ DVec 6) (v : DVec 6) :
     bOf β (-v) = (bOf β v)⁻¹ := by
   have h : bOf β v * bOf β (-v) = 1 := by
     rw [← bOf_add, add_neg_cancel, bOf_zero]
   exact eq_inv_of_mul_eq_one_right h
 
+omit [Finite G] in
 private theorem bOf_sub {Bs : Subgroup G} (β : Additive ↥Bs ≃+ DVec 6) (v w : DVec 6) :
     bOf β (v - w) = bOf β v * (bOf β w)⁻¹ := by
   rw [sub_eq_add_neg, bOf_add, bOf_neg]
 
+omit [Finite G] in
 private theorem beta_ofMul_bOf {Bs : Subgroup G} (β : Additive ↥Bs ≃+ DVec 6)
     (v : DVec 6) : β (Additive.ofMul (bOf β v)) = v := by
   simp [bOf]
@@ -112,6 +119,7 @@ private theorem zmod3_eq_zero_of_eq_neg (x : ZMod 3) (h : x = -x) : x = 0 := by
     exact neg_add_cancel x
   exact (mul_eq_zero.mp h2).resolve_left (by decide)
 
+omit [Finite G] in
 private theorem coordHom_spec {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6) (v : DVec 6) :
     Φ.Δ.τ (fun i => Multiplicative.ofAdd (coordHom Φ β v i)) =
@@ -121,6 +129,7 @@ private theorem coordHom_spec {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
         congr 1
     _ = (Φ.β (bOf β v) : Φ.V ≃ₗ[Φ.F] Φ.V) := torusEquiv_symm_apply Φ _
 
+omit [Finite G] in
 private theorem ofAddFun_coordHom {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6) (v : DVec 6) :
     (fun i => Multiplicative.ofAdd (coordHom Φ β v i)) =
@@ -128,6 +137,7 @@ private theorem ofAddFun_coordHom {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X
   funext i
   simp [coordHom, ofAdd_toAdd]
 
+omit [Finite G] in
 private theorem center_orthDerived_eq_bot_of_center {Bs X : Subgroup G}
     (Φ : OrthFrameCore 3 Bs X) (hZ : Subgroup.center ↥X = ⊥) :
     Subgroup.center ↥(orthDerived Φ.Q) = ⊥ := by
@@ -152,6 +162,7 @@ private theorem center_orthDerived_eq_bot_of_center {Bs X : Subgroup G}
   apply Φ.hinj
   simpa using hz1
 
+omit [Finite G] in
 private theorem psi_beta_of_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (hZΩ : Subgroup.center ↥(orthDerived Φ.Q) = ⊥) {b : ↥Bs} (hb : (b : G) ∈ X) :
     Φ.ψ (Φ.β b) = (b : G) := by
@@ -181,6 +192,7 @@ private theorem psi_beta_of_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X
   rw [hbw]
   exact hw
 
+omit [Finite G] in
 private theorem beta_x_eq_one {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (hZΩ : Subgroup.center ↥(orthDerived Φ.Q) = ⊥) {x : G} (hx : x ∈ Bs)
     (hxX : X ≤ Subgroup.centralizer ({x} : Set G)) : Φ.β ⟨x, hx⟩ = 1 := by
@@ -204,6 +216,7 @@ private theorem beta_x_eq_one {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     exact hcenter
   simpa using hmem
 
+omit [Finite G] in
 private theorem conj_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X) (b : ↥Bs)
     {y : G} (hy : y ∈ X) : (b : G) * y * (b : G)⁻¹ ∈ X := by
   obtain ⟨w, hw⟩ := MonoidHom.mem_range.mp (Φ.hrange.symm.le hy)
@@ -211,6 +224,7 @@ private theorem conj_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X) (b : 
   exact Φ.hrange.le
     (MonoidHom.mem_range.mpr ⟨Φ.β b * w * (Φ.β b)⁻¹, rfl⟩)
 
+omit [Finite G] in
 private theorem mem_normalizer_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X) (b : ↥Bs) :
     (b : G) ∈ Subgroup.normalizer (X : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -223,6 +237,7 @@ private theorem mem_normalizer_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
       simpa using h
     rwa [show (b : G)⁻¹ * ((b : G) * y * (b : G)⁻¹) * ((b : G)⁻¹)⁻¹ = y by group] at h'
 
+omit [Finite G] in
 private theorem ggLin_dSign_bOf_single {Bs : Subgroup G}
     (β : Additive ↥Bs ≃+ DVec 6) {a k : Fin 6} {ρ : MulAut ↥Bs}
     (hρlin : ggLin (p := 3) β ρ = dSign 6 a k) :
@@ -238,13 +253,14 @@ private theorem ggLin_dSign_bOf_single {Bs : Subgroup G}
     have h2 : dSign 6 a k (Pi.single a (1 : ZMod 3)) = -Pi.single a 1 := by
       rw [show Pi.single a (1 : ZMod 3) = dBasis 6 a from
         (Pi.basisFun_apply (ZMod 3) (Fin 6) a).symm, dSign_apply,
-        if_pos (Or.inl rfl), neg_one_smul]
+        ite_eq_left (Or.inl rfl), neg_one_smul]
     have h3 : β (Additive.ofMul ((bOf β (Pi.single a (1 : ZMod 3)))⁻¹)) =
         -Pi.single a 1 := by
       rw [ofMul_inv, map_neg, beta_ofMul_bOf]
     rw [h1, h2, h3]
   exact Additive.ofMul.injective hba'
 
+omit [Finite G] in
 private theorem exists_mem_X_conj_bOf_single_eq_inv {Bs X : Subgroup G}
     (β : Additive ↥Bs ≃+ DVec 6) {i₀ a : Fin 6} (ha : a ≠ i₀)
     (hAe : dEvenStab 6 (Pi.single i₀ 1) ≤
@@ -259,7 +275,7 @@ private theorem exists_mem_X_conj_bOf_single_eq_inv {Bs X : Subgroup G}
       Pi.single i₀ (1 : ZMod 3) := by
     rw [show Pi.single i₀ (1 : ZMod 3) = dBasis 6 i₀ from
       (Pi.basisFun_apply (ZMod 3) (Fin 6) i₀).symm, dSign_apply]
-    rw [if_neg (by rintro (h | h); exacts [ha h.symm, hki h.symm]), one_smul]
+    rw [ite_eq_right (by rintro (h | h); exacts [ha h.symm, hki h.symm]), one_smul]
   have hmem : dSign 6 a k ∈ dEvenStab 6 (Pi.single i₀ 1) :=
     ⟨dSign_mem_dEven hak, hfix⟩
   have hmem' : dSign 6 a k ∈ (ggAutomizer X Bs).map (ggLin (p := 3) β) :=
@@ -272,6 +288,7 @@ private theorem exists_mem_X_conj_bOf_single_eq_inv {Bs X : Subgroup G}
   rw [hba] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem bOf_single_pow_three {Bs : Subgroup G}
     (β : Additive ↥Bs ≃+ DVec 6) (a : Fin 6) :
     (bOf β (Pi.single a (1 : ZMod 3))) ^ 3 = 1 := by
@@ -287,6 +304,7 @@ private theorem bOf_single_pow_three {Bs : Subgroup G}
     _ = Additive.toMul (β.symm 0) := by rw [h3]
     _ = 1 := by simp
 
+omit [Finite G] in
 private theorem bOf_single_inv_mul_inv {Bs : Subgroup G}
     (β : Additive ↥Bs ≃+ DVec 6) (a : Fin 6) :
     (bOf β (Pi.single a (1 : ZMod 3)))⁻¹ * (bOf β (Pi.single a (1 : ZMod 3)))⁻¹ =
@@ -311,6 +329,7 @@ private theorem bOf_single_inv_mul_inv {Bs : Subgroup G}
       rw [show (bOf β (Pi.single a 1)) ^ 4 =
         (bOf β (Pi.single a 1)) ^ 3 * bOf β (Pi.single a 1) by group, hb3, one_mul]
 
+omit [Finite G] in
 private theorem bOf_single_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6) {i₀ a : Fin 6} (ha : a ≠ i₀)
     (hAe : dEvenStab 6 (Pi.single i₀ 1) ≤ (ggAutomizer X Bs).map (ggLin (p := 3) β)) :
@@ -338,6 +357,7 @@ private theorem bOf_single_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
   rw [hcalc]
   simpa [bG] using hprodX
 
+omit [Finite G] in
 private theorem bOf_dRootAB_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6) {i₀ : Fin 6}
     (hAe : dEvenStab 6 (Pi.single i₀ 1) ≤ (ggAutomizer X Bs).map (ggLin (p := 3) β))
@@ -356,6 +376,7 @@ private theorem bOf_dRootAB_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X
   · rw [htrue, bOf_add]
     exact X.mul_mem (bOf_single_mem_X Φ β ha hAe) (bOf_single_mem_X Φ β hb hAe)
 
+omit [Finite G] in
 private theorem coordHom_ne_zero_of_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6)
     (hZΩ : Subgroup.center ↥(orthDerived Φ.Q) = ⊥) {v : DVec 6}
@@ -378,6 +399,7 @@ private theorem coordHom_ne_zero_of_mem_X {Bs X : Subgroup G} (Φ : OrthFrameCor
     _ = β (Additive.ofMul 1) := by rw [hb1]
     _ = 0 := by simp
 
+omit [Finite G] in
 private theorem coordHom_single_i₀_eq_zero {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6)
     (hZΩ : Subgroup.center ↥(orthDerived Φ.Q) = ⊥) {i₀ : Fin 6} {c : ZMod 3}
@@ -413,6 +435,7 @@ private theorem coordHom_single_i₀_eq_zero {Bs X : Subgroup G} (Φ : OrthFrame
   · rw [h1, neg_one_smul, map_neg] at hc0
     exact neg_eq_zero.mp hc0
 
+omit [Finite G] in
 private theorem coordHom_surjective {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6) : Function.Surjective (coordHom Φ β) := by
   intro w
@@ -428,6 +451,7 @@ private theorem coordHom_surjective {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs
   funext i
   exact Multiplicative.ofAdd.injective (congrFun hfun i)
 
+omit [Finite G] in
 private theorem rank_le_five {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6) {i₀ : Fin 6}
     (hMe : coordHom Φ β (Pi.single i₀ (1 : ZMod 3)) = 0) : Φ.r ≤ 5 := by
@@ -560,20 +584,21 @@ private theorem isDRootVec_of_neg_eigen {r : ℕ} {x : OmPlusIdx r} {w : Fin r �
   have hzero : ∀ k, k ≠ i → k ≠ j → w k = 0 := by
     intro k hki hkj
     have hk := hcoord k
-    rw [omPlusRefl_apply_coord, if_neg hki, if_neg hkj] at hk
+    rw [omPlusRefl_apply_coord, ite_eq_right hki, ite_eq_right hkj] at hk
     exact zmod3_eq_zero_of_eq_neg (w k) (by simpa using hk.symm)
   cases s
   · have hwj : w j = -w i := by
       have hk := hcoord i
-      rw [omPlusRefl_apply_coord, if_pos rfl] at hk
+      rw [omPlusRefl_apply_coord, ite_eq_left rfl] at hk
       exact (by simpa using hk.symm)
     exact isDRootVec_of_neg_eigen_false hij' hzero hwj hw
   · have hwj : w j = w i := by
       have hk := hcoord i
-      rw [omPlusRefl_apply_coord, if_pos rfl] at hk
+      rw [omPlusRefl_apply_coord, ite_eq_left rfl] at hk
       exact (neg_injective (by simpa using hk)).symm
     exact isDRootVec_of_neg_eigen_true hij' hzero hwj hw
 
+omit [Finite G] in
 private theorem coordHom_dTau {Bs X : Subgroup G} (Φ : OrthFrameCore 3 Bs X)
     (β : Additive ↥Bs ≃+ DVec 6) {ε : Bool} {a b : Fin 6}
     {ρ : MulAut ↥Bs} (hlin : ggLin (p := 3) β ρ = dTau 6 ε a b)

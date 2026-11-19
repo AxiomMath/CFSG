@@ -58,13 +58,13 @@ private lemma comap_quotient_linearChar_summand_eq
     simp [map_mul, map_inv]
   by_cases hxH : x * g * x⁻¹ ∈ H
   · have hxQ : π x * π g * (π x)⁻¹ ∈ Q := hiff.mpr hxH
-    rw [dif_pos hxQ, dif_pos hxH]
+    rw [dite_eq_left hxQ, dite_eq_left hxH]
     change (ψ_Q ⟨π x * π g * (π x)⁻¹, hxQ⟩ : k) = (ψ_Q (π_res ⟨x * g * x⁻¹, hxH⟩) : k)
     congr 2
   · have hxQ : ¬ π x * π g * (π x)⁻¹ ∈ Q := by
       intro hxQ
       exact hxH (hiff.mp hxQ)
-    rw [dif_neg hxQ, dif_neg hxH]
+    rw [dite_eq_right hxQ, dite_eq_right hxH]
 
 open Classical in
 /--
@@ -105,7 +105,7 @@ private lemma rightRel_conj_linearChar_summand_eq
       exact S.mul_mem (S.mul_mem s.2 hy) (S.inv_mem s.2)
   by_cases hy : y * g * y⁻¹ ∈ S
   · have hx : x * g * x⁻¹ ∈ S := hmem_iff.mpr hy
-    rw [dif_pos hx, dif_pos hy]
+    rw [dite_eq_left hx, dite_eq_left hy]
     have hsub :
         (⟨x * g * x⁻¹, hx⟩ : S) =
           s * ⟨y * g * y⁻¹, hy⟩ * s⁻¹ := by
@@ -116,7 +116,7 @@ private lemma rightRel_conj_linearChar_summand_eq
   · have hx : ¬ x * g * x⁻¹ ∈ S := by
       intro hx
       exact hy (hmem_iff.mp hx)
-    rw [dif_neg hx, dif_neg hy]
+    rw [dite_eq_right hx, dite_eq_right hy]
 
 /--
 Coinduced linear characters commute with pullback along a quotient map. For

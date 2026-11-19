@@ -20,7 +20,7 @@ private theorem false_of_type {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [F
   have hle := hc.finrank_commSpace_z_le_one
     (fun d hd hd2 hrank => h19 V L htype hc.faithful hc.irrTilde d hd hd2 hrank) hbig
   have hpos : 0 < Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers z) ⊤) := by
-    haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
     rw [Module.finrank_pos_iff_exists_ne_zero]
     obtain ⟨x, hx, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hc.commSpace_z_ne_bot
     exact ⟨⟨x, hx⟩, fun h => hx0 (congrArg Subtype.val h)⟩

@@ -29,10 +29,12 @@ variable {F : Type} [Field F] [Finite F] {ℓ : ℕ}
 
 local notation "V" => (Fin ℓ ⊕ Fin ℓ → F)
 
+omit [Finite F] in
 private theorem commute_spEnd_of_mul_commute {g d : ↥(StatedSp ℓ F)} (h : g * d = d * g) :
     Commute (spEnd g) (spEnd d) :=
   show spEnd g * spEnd d = spEnd d * spEnd g by rw [← spEnd_mul, ← spEnd_mul, h]
 
+omit [Finite F] in
 private theorem eq_zero_of_mem_quad_of_fixed [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {v : V} (hv : v ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hdv : spEnd d v = v) : v = 0 := by
@@ -99,7 +101,7 @@ private theorem inf_zpowers_fixed_eq_bot [CharP F 2] (hF : Nat.card F = 2)
     exact absurd hd2F (pow_two_not_mem_fixed hF hd3 hd1 hne)
 
 private theorem inf_A_fixed_eq_bot [CharP F 2] (hF : Nat.card F = 2)
-    {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)} (hA : GLAIsBmax 3 A)
+    {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)} (_hA : GLAIsBmax 3 A)
     (hd : IsStdElt 3 A d) (hK : stdLayer d = ⁅spSupported d {X ^ 2 + X + 1},
       spSupported d {X ^ 2 + X + 1}⁆)
     (hne : primaryComponent (spEnd d) (X ^ 2 + X + 1) ≠ ⊥) :
@@ -174,7 +176,7 @@ private theorem finrank_fixed_le_two [CharP F 2] (hF : Nat.card F = 2) (hℓ : 3
   omega
 
 private theorem exists_W_of_not_vanishes [CharP F 2]
-    {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)} (hA : GLAIsBmax 3 A)
+    {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)} (_hA : GLAIsBmax 3 A)
     (hd : IsStdElt 3 A d) (hv : ¬ StdVanishes A d) :
     ∃ W : Submodule F V, W ≠ ⊥ ∧
       (∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0) ∧
@@ -194,7 +196,7 @@ private theorem exists_W_of_not_vanishes [CharP F 2]
     exact hWE g (Subgroup.mem_sup_right hg) w hw
 
 private theorem inf_quad_eq_bot_of_isotropic [CharP F 2] (hF : Nat.card F = 2)
-    {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)} (hA : GLAIsBmax 3 A)
+    {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)} (_hA : GLAIsBmax 3 A)
     (hd : IsStdElt 3 A d)
     (hK : stdLayer d = ⁅spSupported d {X ^ 2 + X + 1}, spSupported d {X ^ 2 + X + 1}⁆)
     {W : Submodule F V} (hWiso : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0)
@@ -211,7 +213,7 @@ private theorem inf_quad_eq_bot_of_isotropic [CharP F 2] (hF : Nat.card F = 2)
   have hr'0 : r' ≠ 0 := by
     intro h
     rw [h] at hrr'
-    have hzero : (0 : F) = 1 := by simpa using hrr'
+    have hzero : (0 : F) = 1 := by simp at hrr'
     exact one_ne_zero hzero.symm
   have ht := unitTransv_mem hF hd.2.2.1 hr'3 hQ'
   have htK : unitTransv d r' ∈ stdLayer d := by
@@ -223,6 +225,7 @@ private theorem inf_quad_eq_bot_of_isotropic [CharP F 2] (hF : Nat.card F = 2)
   rw [hrr'] at hzero
   exact one_ne_zero hzero
 
+omit [Finite F] in
 private theorem le_fixed_of_inf_quad_bot [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {W : Submodule F V} (hWd : ∀ w ∈ W, spEnd d w ∈ W)
     (hbot : W ⊓ primaryComponent (spEnd d) (X ^ 2 + X + 1) = ⊥) :
@@ -241,8 +244,9 @@ private theorem le_fixed_of_inf_quad_bot [CharP F 2] {d : ↥(StatedSp ℓ F)} (
   rw [h.2.2, h3zero, add_zero]
   exact h.1
 
+omit [Finite F] in
 private theorem finrank_fixed_eq_two [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
-    {W : Submodule F V} (hW0 : W ≠ ⊥) (hWiso : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0)
+    {W : Submodule F V} (hW0 : W ≠ ⊥) (_hWiso : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0)
     (hle : W ≤ primaryComponent (spEnd d) (X - 1))
     (hle2 : Module.finrank F (primaryComponent (spEnd d) (X - 1)) ≤ 2) :
     Module.finrank F (primaryComponent (spEnd d) (X - 1)) = 2 := by
@@ -359,7 +363,7 @@ private theorem exists_y_hyperbolic [CharP F 2] (hF : Nat.card F = 2)
     have hv0 : v = 0 := by
       have h' : r + v = r + 0 := by simpa using hyr.symm
       exact add_left_cancel h'
-    have hzero : (0 : F) = 1 := by simpa [hv0] using hrv
+    have hzero : (0 : F) = 1 := by simp [hv0] at hrv
     exact one_ne_zero hzero.symm
   refine ⟨y, ?_, ?_, hy3, ?_⟩
   · rw [Subgroup.mem_centralizer_iff]
@@ -389,7 +393,7 @@ private theorem exists_two_subgroup_le_layer [CharP F 2] (hF : Nat.card F = 2)
   have htK : unitTransv d w ∈ ⁅spSupported d {X ^ 2 + X + 1},
       spSupported d {X ^ 2 + X + 1}⁆ :=
     mem_commutator_of_sq_eq_one hF hd3 hd1 hQ ht.1 ht.2.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htne : unitTransv d w ≠ 1 := ht.2.2 hw0
   have hord : orderOf (unitTransv d w) = 2 := orderOf_eq_prime ht.2.1 htne
   refine ⟨Subgroup.zpowers (unitTransv d w), ?_, ?_, Subgroup.zpowers_le.mpr htK⟩
@@ -450,7 +454,7 @@ private theorem exists_T_normalizing_x_of_eigenvector [CharP F 2] (hF : Nat.card
     exact mem_commutator_of_sq_eq_one hF hd.2.2.1 hd.2.1 hQ ht.1 ht.2.1
   have hxt : x * unitTransv d u = unitTransv d u * x :=
     commute_unitTransv hd.2.2.1 huW hQu hxd hxu
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htne : unitTransv d u ≠ 1 := ht.2.2 hu0
   have hord : orderOf (unitTransv d u) = 2 := orderOf_eq_prime ht.2.1 htne
   have hTle : Subgroup.zpowers (unitTransv d u) ≤ stdLayer d :=
@@ -469,11 +473,11 @@ private theorem exists_T_normalizing_x_of_eigenvector [CharP F 2] (hF : Nat.card
     exact ((Commute.zpow_right hxt n).eq).symm
   exact ⟨Subgroup.zpowers (unitTransv d u), hTne, hT2, hTle, hxN⟩
 
-private theorem exists_T_of_not_le_layer [CharP F 2] (hF : Nat.card F = 2) (hℓ : 3 ≤ ℓ)
+private theorem exists_T_of_not_le_layer [CharP F 2] (hF : Nat.card F = 2) (_hℓ : 3 ≤ ℓ)
     {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)} (hA : GLAIsBmax 3 A)
     (hd : IsStdElt 3 A d)
     (hK : stdLayer d = ⁅spSupported d {X ^ 2 + X + 1}, spSupported d {X ^ 2 + X + 1}⁆)
-    (hne : primaryComponent (spEnd d) (X ^ 2 + X + 1) ≠ ⊥)
+    (_hne : primaryComponent (spEnd d) (X ^ 2 + X + 1) ≠ ⊥)
     (hAq : A ≤ spSupported d {X ^ 2 + X + 1}) (hnot : ¬ A ≤ stdLayer d) :
     ∃ T : Subgroup ↥(StatedSp ℓ F), T ≠ ⊥ ∧ IsPGroup 2 T ∧ T ≤ stdLayer d ∧
       A = (A ⊓ stdLayer d) ⊔ (A ⊓ Subgroup.normalizer (T : Set ↥(StatedSp ℓ F))) := by
@@ -506,8 +510,8 @@ theorem stdOutcome_unitary (hF : Nat.card F = 2) (hℓ : 3 ≤ ℓ)
     (hd : IsStdElt 3 A d)
     (hK : stdLayer d = ⁅spSupported d {X ^ 2 + X + 1}, spSupported d {X ^ 2 + X + 1}⁆) :
     StdVanishes A d ∨ StdExtendsN 3 A d := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num)
   by_cases hv : StdVanishes A d

@@ -14,7 +14,7 @@ open CFSG.Open CFSG.Assembly.LowTwoRank CFSG.LieType.Universal CFSG.LieType.Stei
 theorem hasParGen_statedProj {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
     [Finite F] (H : Subgroup (GL ι F)) (h2 : 2 ∣ Nat.card F) (h : HasParGen ↥H) :
     HasParGen (StatedProj H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine hasParGen_of_surjective (QuotientGroup.mk' ((StatedScalars ι F).subgroupOf H))
     (QuotientGroup.mk'_surjective _) ?_ ?_ h
   · rw [QuotientGroup.ker_mk']
@@ -46,8 +46,8 @@ open CFSG.LieType.Universal.Symplectic CFSG.LieType.Universal.Symplectic.SpExtra
 theorem parGen_sp {d f : ℕ} (hd : 2 ≤ d) (hf : 0 < f) (F : Type) [Field F] [Finite F]
     (hF : Nat.card F = 2 ^ f) :
     HasParGen ↥(StatedSp d F) ∧ ∀ x ∈ center ↥(StatedSp d F), Odd (orderOf x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hF
   refine parGen_of_datum_pkg (D := Symplectic.rootDatum d F) (n := Symplectic.weylRep d F)
     (H := Symplectic.torus d F) (Symplectic.isCTGroupDatum d F) (Symplectic.steinbergExtras d F)
     CFSG.StandardType.GGRootSp.bruhatExtras ?_ ?_ hd
@@ -81,8 +81,8 @@ theorem parGen_sl {m f : ℕ} (hm : 2 ≤ m) (hf : 0 < f) (F : Type) [Field F] [
     (hF : Nat.card F = 2 ^ f) :
     HasParGen (SpecialLinearGroup (Fin (m + 1)) F) ∧
       ∀ x ∈ center (SpecialLinearGroup (Fin (m + 1)) F), Odd (orderOf x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hF
   exact parGen_of_datum_pkg (D := SpecialLinear.rootDatum m F) (n := SpecialLinear.weylRep m F)
     (H := SpecialLinear.torus m F) (SpecialLinear.isCTGroupDatum m F)
     (SpecialLinear.steinbergExtras m F) CFSG.StandardType.GGRootSL.bruhatExtras
@@ -158,11 +158,11 @@ theorem parGen_spinPlus {n f : ℕ} (hn : 4 ≤ n) (hf : 0 < f) (K : Type) [Fiel
     (hK : Nat.card K = 2 ^ f) :
     HasParGen ↥(spinGroup (quadPlus n K)) ∧
       ∀ x ∈ center ↥(spinGroup (quadPlus n K)), Odd (orderOf x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hK
   have hn3 : 3 ≤ n := by omega
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Finite (spinGroup (quadPlus n K)) :=
+  have : NeZero n := ⟨by omega⟩
+  have : Finite (spinGroup (quadPlus n K)) :=
     finite_spinGroup_of_ker _ (coe_ker_spinMatrix_quadPlus (n := n) (K := K))
   have hext := plusDatum_steinbergExtras (K := K) hn3
   refine parGen_of_datum_pkg (D := plusDatum n K hn3) (n := weylD K hn3)
@@ -181,9 +181,9 @@ theorem parGen_spinMinus {n f : ℕ} (hn : 4 ≤ n) (hf : 0 < f) (K : Type) [Fie
     (hK : Nat.card K = 2 ^ f) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     HasParGen ↥(spinGroup (quadMinus n K b c)) ∧
       ∀ x ∈ center ↥(spinGroup (quadMinus n K b c)), Odd (orderOf x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hK
-  haveI : Finite (spinGroup (quadMinus n K b c)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hK
+  have : Finite (spinGroup (quadMinus n K b c)) :=
     finite_spinGroup_of_ker _ (coe_ker_spinMatrix_quadMinus hirr)
   have hext := minusDatum_steinbergExtras n hirr
   refine parGen_of_datum_pkg (D := minusDatum n hirr) (n := minusWeyl n hirr)
@@ -225,7 +225,7 @@ theorem hasParGen_PSL {G : Type} [Group G] [Finite G] {n f : ℕ} (hn : 3 ≤ n)
 theorem hasParGen_PSU {G : Type} [Group G] [Finite G] {n f : ℕ} (hn : 4 ≤ n)
     (h : StatedClassicalModel G .PSU n 2 f) : HasParGen G := by
   obtain ⟨⟨-, hf, -⟩, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two (f := f * 2) (by omega)
+  have : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two (f := f * 2) (by omega)
     (by rw [hK, pow_mul])
   obtain ⟨hpg, -⟩ := parGen_su (d := n) hn hf K hK
   have h2 : 2 ∣ Nat.card K := hK ▸ dvd_pow (dvd_pow_self 2 (by omega)) two_ne_zero
@@ -244,9 +244,9 @@ theorem hasParGen_POmegaPlus {G : Type} [Group G] [Finite G] {n f : ℕ} (hn : 4
     (h : StatedClassicalModel G .POmegaPlus n 2 f) : HasParGen G := by
   obtain ⟨⟨-, hf, -⟩, K, _, _, hK, ⟨e⟩⟩ := h
   have hn3 : 3 ≤ n := by omega
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hK
-  haveI : Finite (spinGroup (quadPlus n K)) :=
+  have : NeZero n := ⟨by omega⟩
+  have : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hK
+  have : Finite (spinGroup (quadPlus n K)) :=
     finite_spinGroup_of_ker _ (coe_ker_spinMatrix_quadPlus (n := n) (K := K))
   obtain ⟨hpg, hodd⟩ := parGen_spinPlus hn hf K hK
   have hq := hasParGen_of_surjective (QuotientGroup.mk' (center (spinGroup (quadPlus n K))))
@@ -257,8 +257,8 @@ theorem hasParGen_POmegaPlus {G : Type} [Group G] [Finite G] {n f : ℕ} (hn : 4
 theorem hasParGen_POmegaMinus {G : Type} [Group G] [Finite G] {n f : ℕ} (hn : 4 ≤ n)
     (h : StatedClassicalModel G .POmegaMinus n 2 f) : HasParGen G := by
   obtain ⟨⟨-, hf, -⟩, K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := h
-  haveI : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hK
-  haveI : Finite (spinGroup (quadMinus n K b c)) :=
+  have : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two hf hK
+  have : Finite (spinGroup (quadMinus n K b c)) :=
     finite_spinGroup_of_ker _ (coe_ker_spinMatrix_quadMinus hirr)
   obtain ⟨hpg, hodd⟩ := parGen_spinMinus hn hf K hK hirr
   have hq := hasParGen_of_surjective

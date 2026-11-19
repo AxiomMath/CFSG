@@ -338,7 +338,6 @@ theorem scan_fibre
   rw [← hyt]
   obtain ⟨-, hgood⟩ := goodLK_sound hgd
   refine hconcl_of_goodK hτP hτ hytP (fun x => ?_) (hgood t ht)
-  change evK 14 (mask 14) gs (evK 14 (mask 14) (stkK KTs (FT.getD t [])) x) = _
   rw [evK_rep hktS, evK_rep hgsR, List.prod_cons]
   rfl
 

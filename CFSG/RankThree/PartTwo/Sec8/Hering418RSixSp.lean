@@ -41,7 +41,7 @@ theorem exists_mul_pow_inn_sp4 {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
 
 theorem isSimpleGroup_projSp_two {j : ℕ} (hj : 2 ≤ j) :
     IsSimpleGroup (projSp 2 (GaloisField 2 j)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 j) = 2 ^ j := GaloisField.card 2 j (by omega)
   have hq : 4 ≤ 2 ^ j := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -55,7 +55,7 @@ theorem kF418OuterOn_SpFourSix : KF418OuterOn (fun X _ => IsSpFourSix X) := by
   intro G _ _ L hL hl a b ha3 hb3 hab hb1 habz haN hbN hbC haC K hK n hn htype hKa hbk
   obtain ⟨k, hk1, ⟨m, rfl⟩, ⟨φ⟩⟩ := hl
   have hm1 : 1 ≤ m := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have c := Cfg.of_model hK ha3 hb3 hab haN hbN hbC haC hKa
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsIn hK
   have hβ : Sec4.InducesOuterTheta b L := by
@@ -63,9 +63,9 @@ theorem kF418OuterOn_SpFourSix : KF418OuterOn (fun X _ => IsSpFourSix X) := by
     · exact KFacts.InducesStdKind.inducesOuterTheta (k := .field) L h (by decide)
     · exact KFacts.InducesStdKind.inducesOuterTheta (k := .graphField) L h (by decide)
   obtain ⟨-, ⟨eC⟩⟩ := KFacts.barCentralizer_mulEquiv_projSp (n := m) (by omega) hb3 hβ ⟨φ⟩
-  haveI hF3 : IsSimpleGroup (projSp 2 (GaloisField 2 (3 * m))) :=
+  have hF3 : IsSimpleGroup (projSp 2 (GaloisField 2 (3 * m))) :=
     isSimpleGroup_projSp_two (by omega)
-  haveI : IsSimpleGroup (L ⧸ aschbacherSolvableCore 3 L) := φ.isSimpleGroup
+  have : IsSimpleGroup (L ⧸ aschbacherSolvableCore 3 L) := φ.isSimpleGroup
   have hZ : Subgroup.center (L ⧸ aschbacherSolvableCore 3 L) = ⊥ :=
     center_eq_bot_of_isQuasisimple_of_isSimpleGroup hL.2.2
   by_cases hm : m = 1
@@ -83,8 +83,8 @@ theorem kF418OuterOn_SpFourSix : KF418OuterOn (fun X _ => IsSpFourSix X) := by
     omega
   ·
     have hm2 : 2 ≤ m := by omega
-    haveI := isSimpleGroup_projSp_two hm2
-    haveI : IsSimpleGroup ↥(Sec8.barCentralizer (Subgroup.zpowers b) L) := eC.isSimpleGroup
+    have := isSimpleGroup_projSp_two hm2
+    have : IsSimpleGroup ↥(Sec8.barCentralizer (Subgroup.zpowers b) L) := eC.isSimpleGroup
     have hC := barCentralizer_le_imageModTheta_of_simple c.hbL hb3 hK inferInstance
       (imageModTheta_ne_bot c.hKL hKq)
     have hinn : ∃ j : ℕ, c.alpha * c.beta ^ j ∈ innBar L := by

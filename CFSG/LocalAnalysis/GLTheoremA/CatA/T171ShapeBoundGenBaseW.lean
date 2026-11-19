@@ -22,6 +22,7 @@ variable {hS : S ⊆ Subgroup.normalizer (H : Set (GL (Fin N) K))}
 theorem LiftMap.d_pow_eq_one_of_wSetup (hw : WSetup p L J A d b) : d ^ p = 1 :=
   (WSetup.elem hw).2 d hw.d_mem
 
+omit [Finite K] in
 theorem LiftMap.automorphisms_commute_of_wSetup (M : LiftMap (L := L) (A := A) θ hact hS)
     (hw : WSetup p L J A d b) (a : ↥A) :
     TableB.projConj H ⟨M.mat a, hS (M.mem a)⟩ *
@@ -46,6 +47,7 @@ theorem LiftMap.automorphisms_commute_of_wSetup (M : LiftMap (L := L) (A := A) �
   exact largeEvenInduces_unique h1 h2
     (conjRel_total (hAnorm (by exact A.mul_mem hw.d_mem a.2)))
 
+omit [Finite K] in
 theorem LiftMap.commutator_mem_scalars_of_wSetup (M : LiftMap (L := L) (A := A) θ hact hS)
     (hw : WSetup p L J A d b) (a : ↥A)
     (hker : ∀ (X : Subgroup.normalizer (H : Set (GL (Fin N) K))),
@@ -68,6 +70,7 @@ theorem LiftMap.commutator_mem_scalars_of_wSetup (M : LiftMap (L := L) (A := A) 
   have h := hker (X * Y * X⁻¹ * Y⁻¹) hcone
   simpa [X, Y] using h
 
+omit [Finite K] in
 theorem LiftMap.dpow_mem_scalars_of_wSetup (M : LiftMap (L := L) (A := A) θ hact hS)
     (hw : WSetup p L J A d b)
     (hker : ∀ (X : Subgroup.normalizer (H : Set (GL (Fin N) K))),

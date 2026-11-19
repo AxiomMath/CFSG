@@ -24,7 +24,7 @@ private theorem card_le_of_equiv (hInn : KDChevInner 3) (hN : BD4FieldNormalForm
     (e : PSimple 3 K ≃* ↥(adjointGroup Tag.D4 F)) :
     Nat.card B ≤ 3 ^ 9 * Nat.card ↥(B ⊓ centModSubgroup 3 K) := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI := finite_modGL (τ := Tag.D4) (K := F)
+  have := finite_modGL (τ := Tag.D4) (K := F)
   obtain ⟨hq, -, hyN, hy3, hIc, -⟩ := id hM
   have hyp := ClsRed.isPGroup_zpowers_three hy3
   have hJ := glaPComponent_chevTransfer hp hyN hyp hIc

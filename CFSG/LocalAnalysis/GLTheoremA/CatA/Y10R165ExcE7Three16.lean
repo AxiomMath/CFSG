@@ -167,10 +167,10 @@ private theorem extJ'_single {τ : Tag} {J : Set (Fin τ.rank)} [Fintype J] [Dec
     by_cases h : (⟨a, ha⟩ : J) = i
     · subst h; simp
     · have hv : a ≠ (i : Fin τ.rank) := fun hh => h (Subtype.ext hh)
-      simp [Pi.single_apply, h, hv]
+      simp [h, hv]
   · rw [extJ'_apply_notMem _ ha]
     have hv : a ≠ (i : Fin τ.rank) := fun hh => ha (hh ▸ i.2)
-    simp [Pi.single_apply, hv]
+    simp [hv]
 
 private theorem e7T3A5Transport_block_one :
     blockP (e7T3A5Transport⁻¹ * e7T3Elt 1 * e7T3A5Transport)
@@ -206,6 +206,7 @@ private theorem e7T3A5Transport_block_neg :
   · rw [extJ'_single]
     funext a; fin_cases a <;> decide +kernel
 
+omit [CharP K ℓ] in
 theorem dvd_card_A5SubA2_inf_twistedFixedPoints (F : E7ThreeFrame K L ℓ f p ε)
     (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f) (hp : p.Prime) (hp3 : 3 < p)
     (hε : ε = 1 ∨ ε = -1)
@@ -213,7 +214,7 @@ theorem dvd_card_A5SubA2_inf_twistedFixedPoints (F : E7ThreeFrame K L ℓ f p ε
     p ∣ Nat.card ↥(rootSpan Tag.E7 L e7T3A5SubA2 ⊓
       twistedFixedPoints F.n (Units.map (entrywiseHom (iterateFrobenius L ℓ f)))) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hnW : weylQuotientHom Tag.E7 L ⟨F.n, F.hnm⟩ = e7T3Elt ε := by
     apply weylMatrix_injective
     have hE := weylMatrix_e7T3Elt hε

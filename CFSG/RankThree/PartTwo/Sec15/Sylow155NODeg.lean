@@ -145,9 +145,9 @@ private theorem exists_equiv_commutator {J : Subgroup Q}
     ⁅J, J⁆ ⊓ Sec14.Item148PtRes.centerIn J = ⊥ ∧
       Nonempty (↥(⁅J, J⁆ : Subgroup Q) ≃* alternatingGroup (Fin 6)) := by
   have hDeq := Subgroup.map_subtype_commutator J
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
-  haveI : Group.IsPerfect (↥J ⧸ Subgroup.center ↥J) :=
+  have : Group.IsPerfect (↥J ⧸ Subgroup.center ↥J) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   set π := QuotientGroup.mk' (Subgroup.center ↥J) with hπ
   have hsurj : ∀ y : ↥J ⧸ Subgroup.center ↥J, ∃ d ∈ commutator ↥J, π d = y := by
@@ -162,7 +162,7 @@ private theorem exists_equiv_commutator {J : Subgroup Q}
   set Z := Sec14.Item148PtRes.centerIn J with hZdef
   have hZcard : Nat.card Z = 3 := by
     rw [hZdef, Sec14.Item148PtRes.centerIn, Subgroup.card_map_of_injective J.subtype_injective, hZ]
-  haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
+  have : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
   have hDJ : (⁅J, J⁆ : Subgroup Q) ≤ J := Subgroup.commutator_le_self J
   have hmemD : ∀ d : ↥J, d ∈ commutator ↥J → (d : Q) ∈ (⁅J, J⁆ : Subgroup Q) := fun d hd =>
     hDeq ▸ Subgroup.mem_map_of_mem _ hd
@@ -313,7 +313,7 @@ end Commutator
 variable {Q : Type} [Group Q] [Finite Q]
 
 theorem commutator_eq_top_of_elemAbelian {Ā J₁ J₂ : Subgroup Q}
-    (hĀc : ∀ a ∈ Ā, ∀ b ∈ Ā, a * b = b * a) (hĀ3 : ∀ a ∈ Ā, a ^ 3 = 1)
+    (_hĀc : ∀ a ∈ Ā, ∀ b ∈ Ā, a * b = b * a) (hĀ3 : ∀ a ∈ Ā, a ^ 3 = 1)
     (hĀ27 : Nat.card Ā = 27)
     (hĀC : ∀ q ∈ Subgroup.centralizer (Ā : Set Q), q ^ 3 = 1 → q ∈ Ā)
     (hĀJ₁ : Ā ≤ Subgroup.normalizer (J₁ : Set Q)) (hĀJ₂ : Ā ≤ Subgroup.normalizer (J₂ : Set Q))

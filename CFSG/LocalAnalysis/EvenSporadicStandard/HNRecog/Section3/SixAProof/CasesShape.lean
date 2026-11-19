@@ -51,7 +51,7 @@ private theorem sixA_t_mul_comm_iff (ψ : SixAIso a x) {g t : G}
   rw [mem_Gx, ← ψ.f_mul hty hgy, ← ψ.f_mul hgy hty]
   exact ψ.f_inj (mul_mem hty hgy) (mul_mem hgy hty)
 
-theorem sixA_Gxyz_mul_b (h : IsF5Type a z) (hx : x ∈ orb6A a a) (t : G) :
+theorem sixA_Gxyz_mul_b (_h : IsF5Type a z) (_hx : x ∈ orb6A a a) (t : G) :
     Gxyz a t x = Gxyz a (t * (a * x) ^ 3) x := by
   ext g
   rw [mem_Gxyz, mem_Gxyz]

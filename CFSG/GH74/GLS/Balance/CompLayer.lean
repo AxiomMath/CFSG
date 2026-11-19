@@ -21,7 +21,7 @@ theorem exists_sylow_pack (H : Subgroup X) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := (Sylow.nonempty : Nonempty (Sylow 2 ↥H))
   refine ⟨(S : Subgroup ↥H).map H.subtype, Subgroup.map_subtype_le _,
-    S.isPGroup'.map H.subtype, fun T hTH hT2 => ?_⟩
+    S.isPGroup.map H.subtype, fun T hTH hT2 => ?_⟩
   have hT' : IsPGroup 2 (T.subgroupOf H) := hT2.comap_of_injective H.subtype H.subtype_injective
   obtain ⟨S', hS'⟩ := hT'.exists_le_sylow
   have e1 : Nat.card T = Nat.card (T.subgroupOf H) :=

@@ -20,7 +20,7 @@ theorem t158Norm_of_tables (T : Tables112) (TL : TableL2) (TT : Tables112Types)
   obtain ⟨⟨hKG, hKcomp, hBel, -, hrank, -, -, -, -, -, -, -, -⟩, -, -⟩ := hH.hyp
   have hp : p.Prime := hH.prime
   have hp2 : p ≠ 2 := hH.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let B' : Subgroup ↥(⊤ : Subgroup X) := B.subgroupOf ⊤
   let K' : Subgroup ↥(⊤ : Subgroup X) := K.subgroupOf ⊤
   have hBpg : IsPGroup p B := hBel.isPGroup

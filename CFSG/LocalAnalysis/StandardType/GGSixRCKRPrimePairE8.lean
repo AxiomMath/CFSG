@@ -112,7 +112,7 @@ theorem rckPairE8_holds :
   refine rckFrameCoverPair_of_rootSpanCover S a hT i h hq hinner
     (ggU .E8 0 (h * s)) rfl (Or.inl ⟨.E8, 0, by simp, hadm, rfl⟩) hfin hperf hsplit ?_
   intro σ _ hKcard
-  haveI : CharP ↥(fixSubfield σ) 2 := Subfield.charP _ 2
+  have : CharP ↥(fixSubfield σ) 2 := Subfield.charP _ 2
   obtain ⟨Ψ0, hsurj0, hker0, hpair0⟩ :=
     exists_cover_rootSpan_e8 hτ' (g := h * s) (Nat.mul_pos hpos hs0) hKcard β hroot l hgram
       hframe

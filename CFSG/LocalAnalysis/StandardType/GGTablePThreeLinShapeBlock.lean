@@ -114,7 +114,7 @@ private lemma scalar_eq_one_of_mem_scalars_of_card_two
   obtain ⟨c, -, hc⟩ := LinearFlag.mem_scalars.mp hscal
   have hcard : Nat.card Kˣ = 1 := by
     rw [Nat.card_units K, hK2]
-  haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hcard).1
+  have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hcard).1
   have hc1 : c = 1 := Subsingleton.elim c 1
   apply Subtype.ext
   show (s : Matrix (Fin N) (Fin N) K) = 1
@@ -160,14 +160,14 @@ theorem linShape_block
     {d : GL (Fin N) K} (hd3 : d ^ 3 ∈ LargeEvenScalars (Fin N) K)
     (hdns : d ∉ LargeEvenScalars (Fin N) K)
     {h : Polynomial K} (hh : h ∈ primaryFactors (glA d : Module.End K (Fin N → K)))
-    (hgood : IsGoodFactor d h)
+    (_hgood : IsGoodFactor d h)
     {e : PSLg N K ≃* LinearFlag.projectiveSL N K}
     (heJ : J' = Subgroup.comap e.toMonoidHom ((specialFactor d h).map (LinearFlag.proj N K)))
     {E : Type} [Field E] [Finite E] {m j : ℕ}
     (hm : m = primaryMultiplicity (glA d : Module.End K (Fin N → K)) h) (hj : j = h.natDegree)
     (hcardE : Nat.card E = Nat.card K ^ j) (hj2 : j = 2 → Nat.card K = 2)
     {f : Matrix.SpecialLinearGroup (Fin m) E →* ↥J'} (hf : Function.Surjective f)
-    (hker : f.ker ≤ Subgroup.center _) :
+    (_hker : f.ker ≤ Subgroup.center _) :
     m = 3 → (j = 1 ∧ 3 ∣ Nat.card K - 1 ∨ j = 2) →
       ∃ z : Matrix.SpecialLinearGroup (Fin m) E, z ∈ Subgroup.center _ ∧ f z ≠ 1 := by
   intro hm3 hjcase
@@ -196,8 +196,8 @@ theorem linShape_block
       Nat.card ↥(specialFactor d h) :=
     card_map_specialFactor_proj_of_inj (K := K) (N := N) (d := d) (h := h) hinj
   have hIrr : Irreducible h := irreducible_of_mem_primaryFactors hh
-  haveI : Fact (Irreducible h) := ⟨hIrr⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Fact (Irreducible h) := ⟨hIrr⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have hcard_adj : Nat.card (AdjoinRoot h) = Nat.card E := by
     rw [CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot h, ← hj, ← hcardE]
   have hmpos : 1 ≤ m := by omega
@@ -253,7 +253,7 @@ theorem linShape_block
     · rw [hcardE, hj2', hj2 hj2']; norm_num
   have h3units : 3 ∣ Nat.card Eˣ := by
     rw [Nat.card_units E]; exact h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ : ∃ ω : Eˣ, orderOf ω = 3 := exists_prime_orderOf_dvd_card' 3 h3units
   have hω3 : ω ^ 3 = 1 := by rw [← hω]; exact pow_orderOf_eq_one ω
   have hωE3 : (ω : E) ^ 3 = 1 := by

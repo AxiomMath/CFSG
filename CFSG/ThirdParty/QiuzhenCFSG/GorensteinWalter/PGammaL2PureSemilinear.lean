@@ -128,7 +128,7 @@ private theorem exists_semilinear_fixed_basis
   have hv0_ne : v0 ≠ 0 := by
     intro h
     have h0 := congrFun h 0
-    simpa [v0] using h0
+    simp [v0] at h0
   let s0 : Fin 2 → K := v0 + T v0
   have hTs0 : T s0 = s0 := by
     dsimp [s0]
@@ -140,9 +140,9 @@ private theorem exists_semilinear_fixed_basis
     split_ifs with hs0
     · have hTv0 : T v0 = -v0 := by
         apply add_left_cancel (a := v0)
-        simpa [s0, hs0]
+        simp [s0, hs0]
       rw [hTsmul, hsigma_a, hTv0]
-      simp [smul_smul]
+      simp
     · exact hTs0
   have hw0_ne : w0 ≠ 0 := by
     dsimp [w0]
@@ -165,7 +165,7 @@ private theorem exists_semilinear_fixed_basis
       simp [z, hw00, Pi.smul_apply, hw01] at hc1 hc0
     · have hc0 := congrFun hc 0
       have hc1 := congrFun hc 1
-      simp [z, hw00, Pi.smul_apply, hw00] at hc0 hc1
+      simp [z, Pi.smul_apply, hw00] at hc0 hc1
       rw [hc0, zero_mul] at hc1
       exact zero_ne_one hc1
   let s1 : Fin 2 → K := z + T z
@@ -212,7 +212,7 @@ private theorem exists_semilinear_fixed_basis
     dsimp [w1]
     split_ifs with hs1span
     · rw [hTsmul, hsigma_a, hTz' hs1span]
-      simp [smul_smul]
+      simp
     · exact hTs1
   have hw1_not_span : w1 ∉ K ∙ w0 := by
     dsimp [w1]
@@ -396,7 +396,7 @@ private theorem isSquare_neg_one_of_involutive_ringEquiv
     exact_mod_cast hFodd
   have hmodInt : (Fintype.card K : ℤ) % 4 = 1 := by
     rw [hcardSquare, Nat.cast_pow]
-    exact Int.sq_mod_four_eq_one_of_odd hFoddInt
+    exact Int.sq_emod_four_eq_one_of_odd hFoddInt
   have hmodNat : Fintype.card K % 4 = 1 := by
     exact_mod_cast hmodInt
   exact FiniteField.isSquare_neg_one_iff.mpr (by omega)
@@ -817,14 +817,12 @@ public theorem pure_field_involution_fixed_psl_generators
     apply Matrix.GeneralLinearGroup.ext
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [A, pgl2DiagNegOneGL, Matrix.GeneralLinearGroup.coe_mul,
-        Matrix.mul_apply, Fin.sum_univ_two]
+      simp [A, pgl2DiagNegOneGL, Matrix.mul_apply, Fin.sum_univ_two]
   have hB_sq : B * B = 1 := by
     apply Matrix.GeneralLinearGroup.ext
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [B, pgl2SwapGL, Matrix.GeneralLinearGroup.coe_mul,
-        Matrix.mul_apply, Fin.sum_univ_two]
+      simp [B, pgl2SwapGL, Matrix.mul_apply, Fin.sum_univ_two]
   have ha_sq : a * a = 1 := by
     dsimp [a]
     rw [← map_mul, hA_sq, map_one]
@@ -863,8 +861,8 @@ public theorem pure_field_involution_fixed_psl_generators
     have h01 := congrArg (fun X : GL (Fin 2) K ↦
       (X : Matrix (Fin 2) (Fin 2) K) 0 1) hr
     have : (0 : K) = 1 := by
-      simpa [B, pgl2SwapGL,
-        Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] using h01
+      simp [B, pgl2SwapGL,
+        Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h01
     exact zero_ne_one this
   have hab_ne : a ≠ b := by
     intro hab
@@ -874,10 +872,9 @@ public theorem pure_field_involution_fixed_psl_generators
     have h01 := congrArg (fun X : GL (Fin 2) K ↦
       (X : Matrix (Fin 2) (Fin 2) K) 0 1) hr
     have : (0 : K) = 1 := by
-      simpa [A, B, pgl2DiagNegOneGL, pgl2SwapGL,
-        Matrix.GeneralLinearGroup.coe_mul,
+      simp [A, B, pgl2DiagNegOneGL, pgl2SwapGL,
         Matrix.GeneralLinearGroup.coe_scalar, Matrix.mul_apply,
-        Matrix.scalar_apply, Fin.sum_univ_two] using h01
+        Matrix.scalar_apply, Fin.sum_univ_two] at h01
     exact zero_ne_one this
   have hab : Commute a b := by
     show a * b = b * a
@@ -890,7 +887,6 @@ public theorem pure_field_involution_fixed_psl_generators
     intro i j
     fin_cases i <;> fin_cases j <;>
       simp [A, B, mone, pgl2DiagNegOneGL, pgl2SwapGL,
-        Matrix.GeneralLinearGroup.coe_mul,
         Matrix.GeneralLinearGroup.coe_scalar, Matrix.mul_apply,
         Matrix.scalar_apply, Fin.sum_univ_two]
   have ha_fixed : pgl2RingEquiv sigma a = a := by

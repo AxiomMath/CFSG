@@ -52,8 +52,8 @@ theorem cube_comap_of_le_range {φ : G →* H} (hφ : Function.Injective φ) {r 
 
 private theorem exists_relIndex_three_of_card {E : Subgroup G} (hc : Nat.card E = 3 ^ 3) :
     ∃ F ≤ E, F.relIndex E = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   obtain ⟨F, hF⟩ := Sylow.exists_subgroup_card_pow_prime 3
     (show 3 ^ 2 ∣ Nat.card E by rw [hc]; norm_num)
   refine ⟨F.map E.subtype, Subgroup.map_subtype_le F, ?_⟩
@@ -67,7 +67,7 @@ private theorem exists_fixed_subfield_of_sq (q : ℕ) (K : Type) [Field K] [Fini
     (σ : K ≃+* K) (hK : Nat.card K = q ^ 2) (hσ : ∀ c : K, σ c = c ^ q) (hq2 : 2 ≤ q) :
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (_ : Algebra k K), Nat.card k = q ∧
       ringChar k = ringChar K ∧ ∀ c : k, σ (algebraMap k K c) = algebraMap k K c := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpr, hKcard⟩ := FiniteField.card K (ringChar K)
   have hpr' : Fact (ringChar K).Prime := ⟨hpr⟩
   have hdvd : q ∣ ringChar K ^ (n : ℕ) := by
@@ -82,14 +82,14 @@ private theorem exists_fixed_subfield_of_sq (q : ℕ) (K : Type) [Field K] [Fini
     rw [GaloisField.card (ringChar K) i hi, hqi]
   obtain ⟨ιk⟩ := nonempty_ringHom_of_card_sq (ℓ := ringChar K) (f := i) (hkcard.trans hqi)
     (by rw [hqi] at hK; exact hK)
-  letI : Algebra (GaloisField (ringChar K) i) K := ιk.toAlgebra
+  let : Algebra (GaloisField (ringChar K) i) K := ιk.toAlgebra
   refine ⟨GaloisField (ringChar K) i, inferInstance, inferInstance, inferInstance, hkcard, ?_, ?_⟩
   · exact ringChar.eq _ _
   · intro c
     rw [hσ]
     have hc : c ^ q = c := by
       rw [← hkcard]
-      haveI : Fintype (GaloisField (ringChar K) i) := Fintype.ofFinite _
+      have : Fintype (GaloisField (ringChar K) i) := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card]
       exact FiniteField.pow_card c
     rw [← map_pow, hc]
@@ -119,7 +119,7 @@ private theorem conj_le_fixE6_of_mod_two (K : Type) [Field K] [Finite K]
     (hK : Nat.card K % 3 = 2) {E₀ : Subgroup (adjointGroup .E6 K)}
     (hexp : ∀ x ∈ E₀, x ^ 3 = 1) :
     ∃ g : adjointGroup .E6 K, E₀.map (MulAut.conj g).toMonoidHom ≤ fixE6 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 E₀ := fun x => ⟨1, by
     rw [pow_one]
     apply Subtype.ext

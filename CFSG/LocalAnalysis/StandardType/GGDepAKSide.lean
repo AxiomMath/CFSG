@@ -78,24 +78,24 @@ theorem l05nDK1_first_step {Λ : Type} {R : Option Λ → Option Λ → Prop}
   · exact hex
 
 private theorem l05nDK_alpha
-    (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) (hOrb : GGResCentBoundInput)
-    {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B Bs : Subgroup G}
-    {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
+    (_hFix : GGTBFixInput) (_hFixK : GGTBFixNbrInput) (_hOrb : GGResCentBoundInput)
+    {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {B Bs : Subgroup G}
+    {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G} (_hH : GGResHyp p B Bs x L D J y K)
     (hx : x ∈ Bs) {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} {ML : CoxeterMatrix Λ}
     {CL : Matrix Λ Λ ℤ} {MK : CoxeterMatrix (Option {i : Λ // i ≠ b})}
     {CK : Matrix (Option {i : Λ // i ≠ b}) (Option {i : Λ // i ≠ b}) ℤ} {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {ι : Additive ↥Bs ≃+ V} {φ : Option Λ → MulAut ↥Bs}
-    {h : Option Λ → V} {α : Option Λ → Module.Dual (ZMod p) V} (hWL : GGIsWeylMatrix ML)
-    (hCL : GGIntCartan ML CL) (hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
-    (hφ : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
-    (hL : ∀ i j : Λ, α (some i) (h (some j)) = (CL i j : ZMod p))
+    {h : Option Λ → V} {α : Option Λ → Module.Dual (ZMod p) V} (_hWL : GGIsWeylMatrix ML)
+    (_hCL : GGIntCartan ML CL) (_hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    (_hφ : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
+    (_hL : ∀ i j : Λ, α (some i) (h (some j)) = (CL i j : ZMod p))
     (hK : ∀ o o' : Option {i : Λ // i ≠ b},
       α (o.map Subtype.val) (h (o'.map Subtype.val)) = (CK o o' : ZMod p))
-    (hAL : ggAutomizer L Bs = Subgroup.closure (Set.range fun i : Λ => φ (some i)))
-    (hAK : ggAutomizer K Bs = Subgroup.closure
+    (_hAL : ggAutomizer L Bs = Subgroup.closure (Set.range fun i : Λ => φ (some i)))
+    (_hAK : ggAutomizer K Bs = Subgroup.closure
       (Set.range (fun j : {j : Λ // j ≠ b} => φ (some j)) ∪ {φ none}))
-    {N : ℕ} (e : Fin (N - 1) ≃ Λ) (hN : 5 ≤ N)
-    (F : GGDepAFrame p N (fun i => h (some (e i))) (fun i => α (some (e i)))
+    {N : ℕ} (e : Fin (N - 1) ≃ Λ) (_hN : 5 ≤ N)
+    (_F : GGDepAFrame p N (fun i => h (some (e i))) (fun i => α (some (e i)))
       (ι (Additive.ofMul ⟨x, hx⟩))) :
     α none (h none) = 2 := by
   have h1 := hK none none
@@ -103,23 +103,23 @@ private theorem l05nDK_alpha
   simpa using h1
 
 private theorem l05nDK_hw
-    (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) (hOrb : GGResCentBoundInput)
-    {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B Bs : Subgroup G}
+    (_hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) (_hOrb : GGResCentBoundInput)
+    {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {B Bs : Subgroup G}
     {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hx : x ∈ Bs) {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} {ML : CoxeterMatrix Λ}
     {CL : Matrix Λ Λ ℤ} {MK : CoxeterMatrix (Option {i : Λ // i ≠ b})}
     {CK : Matrix (Option {i : Λ // i ≠ b}) (Option {i : Λ // i ≠ b}) ℤ} {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {ι : Additive ↥Bs ≃+ V} {φ : Option Λ → MulAut ↥Bs}
-    {h : Option Λ → V} {α : Option Λ → Module.Dual (ZMod p) V} (hWL : GGIsWeylMatrix ML)
-    (hCL : GGIntCartan ML CL) (hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    {h : Option Λ → V} {α : Option Λ → Module.Dual (ZMod p) V} (_hWL : GGIsWeylMatrix ML)
+    (_hCL : GGIntCartan ML CL) (_hWK : GGIsWeylMatrix MK) (_hCK : GGIntCartan MK CK)
     (hφ : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
-    (hL : ∀ i j : Λ, α (some i) (h (some j)) = (CL i j : ZMod p))
-    (hK : ∀ o o' : Option {i : Λ // i ≠ b},
+    (_hL : ∀ i j : Λ, α (some i) (h (some j)) = (CL i j : ZMod p))
+    (_hK : ∀ o o' : Option {i : Λ // i ≠ b},
       α (o.map Subtype.val) (h (o'.map Subtype.val)) = (CK o o' : ZMod p))
-    (hAL : ggAutomizer L Bs = Subgroup.closure (Set.range fun i : Λ => φ (some i)))
+    (_hAL : ggAutomizer L Bs = Subgroup.closure (Set.range fun i : Λ => φ (some i)))
     (hAK : ggAutomizer K Bs = Subgroup.closure
       (Set.range (fun j : {j : Λ // j ≠ b} => φ (some j)) ∪ {φ none}))
-    {N : ℕ} (e : Fin (N - 1) ≃ Λ) (hN : 5 ≤ N)
+    {N : ℕ} (e : Fin (N - 1) ≃ Λ) (_hN : 5 ≤ N)
     (F : GGDepAFrame p N (fun i => h (some (e i))) (fun i => α (some (e i)))
       (ι (Additive.ofMul ⟨x, hx⟩))) :
     α none (ι (Additive.ofMul ⟨x, hx⟩)) ≠ 0 := by
@@ -171,7 +171,7 @@ private theorem l05nDK_hw
   exact l05nDK1_x_ne_one hH hx1
 
 private theorem l05nDK_join
-    (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) (hOrb : GGResCentBoundInput)
+    (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) (_hOrb : GGResCentBoundInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B Bs : Subgroup G}
     {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hx : x ∈ Bs) {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} {ML : CoxeterMatrix Λ}
@@ -188,7 +188,7 @@ private theorem l05nDK_join
     (hAK : ggAutomizer K Bs = Subgroup.closure
       (Set.range (fun j : {j : Λ // j ≠ b} => φ (some j)) ∪ {φ none}))
     {N : ℕ} (e : Fin (N - 1) ≃ Λ) (hN : 5 ≤ N)
-    (F : GGDepAFrame p N (fun i => h (some (e i))) (fun i => α (some (e i)))
+    (_F : GGDepAFrame p N (fun i => h (some (e i))) (fun i => α (some (e i)))
       (ι (Additive.ofMul ⟨x, hx⟩))) :
     ∃ c : Fin (N - 1), α none (h (some (e c))) ≠ 0 := by
   have hcardΛ : Fintype.card Λ = N - 1 := by
@@ -197,7 +197,7 @@ private theorem l05nDK_join
   let R : Option Λ → Option Λ → Prop := fun a c => α a (h c) ≠ 0 ∧ α c (h a) ≠ 0
   have hconn : ∀ o o', Relation.ReflTransGen R o o' :=
     (ggRC_kone_ker_conn hFix hFixK hp2 hH hWL hCL hWK hCK hrk hφ hL hK hAL hAK).2
-  haveI : Nonempty Λ := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty Λ := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨j₀⟩ := (inferInstance : Nonempty Λ)
   have hpath : Relation.ReflTransGen R none (some j₀) := hconn none (some j₀)
   have hsymm : ∀ a c, R a c → R c a := fun a c h => ⟨h.2, h.1⟩
@@ -256,24 +256,24 @@ theorem l05nDK2_mem_ggInduced_top_of_mem_sup {G : Type} [Group G] {L Bs K : Subg
   exact hsub h
 
 private theorem l05nDK_nt
-    (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) (hOrb : GGResCentBoundInput)
-    {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B Bs : Subgroup G}
+    (_hFix : GGTBFixInput) (_hFixK : GGTBFixNbrInput) (_hOrb : GGResCentBoundInput)
+    {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {B Bs : Subgroup G}
     {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hx : x ∈ Bs) {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} {ML : CoxeterMatrix Λ}
     {CL : Matrix Λ Λ ℤ} {MK : CoxeterMatrix (Option {i : Λ // i ≠ b})}
     {CK : Matrix (Option {i : Λ // i ≠ b}) (Option {i : Λ // i ≠ b}) ℤ} {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {ι : Additive ↥Bs ≃+ V} {φ : Option Λ → MulAut ↥Bs}
-    {h : Option Λ → V} {α : Option Λ → Module.Dual (ZMod p) V} (hWL : GGIsWeylMatrix ML)
-    (hCL : GGIntCartan ML CL) (hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
-    (hφ : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
-    (hL : ∀ i j : Λ, α (some i) (h (some j)) = (CL i j : ZMod p))
-    (hK : ∀ o o' : Option {i : Λ // i ≠ b},
+    {h : Option Λ → V} {α : Option Λ → Module.Dual (ZMod p) V} (_hWL : GGIsWeylMatrix ML)
+    (_hCL : GGIntCartan ML CL) (_hWK : GGIsWeylMatrix MK) (_hCK : GGIntCartan MK CK)
+    (_hφ : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
+    (_hL : ∀ i j : Λ, α (some i) (h (some j)) = (CL i j : ZMod p))
+    (_hK : ∀ o o' : Option {i : Λ // i ≠ b},
       α (o.map Subtype.val) (h (o'.map Subtype.val)) = (CK o o' : ZMod p))
     (hAL : ggAutomizer L Bs = Subgroup.closure (Set.range fun i : Λ => φ (some i)))
     (hAK : ggAutomizer K Bs = Subgroup.closure
       (Set.range (fun j : {j : Λ // j ≠ b} => φ (some j)) ∪ {φ none}))
-    {N : ℕ} (e : Fin (N - 1) ≃ Λ) (hN : 5 ≤ N)
-    (F : GGDepAFrame p N (fun i => h (some (e i))) (fun i => α (some (e i)))
+    {N : ℕ} (e : Fin (N - 1) ≃ Λ) (_hN : 5 ≤ N)
+    (_F : GGDepAFrame p N (fun i => h (some (e i))) (fun i => α (some (e i)))
       (ι (Additive.ofMul ⟨x, hx⟩))) :
     ∀ g ∈ Subgroup.closure (Set.range (fun i : Fin (N - 1) =>
           ggLin (p := p) ι (φ (some (e i)))) ∪ {ggLin (p := p) ι (φ none)}),
@@ -404,7 +404,7 @@ private theorem l05nDK3_moves {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Fin
     intro w
     show ggLin (p := p) ι (1 : MulAut ↥Bs) w - w ∈ U
     rw [map_one]
-    simpa using (Submodule.zero_mem U : (0 : V) ∈ U)
+    simp
   have hmulQ : ∀ a b : MulAut ↥Bs, Q a → Q b → Q (a * b) := by
     intro a b ha hb w
     have h1 : ggLin (p := p) ι b w - w ∈ U := hb w
@@ -454,18 +454,18 @@ private theorem l05nDK3_cardS {p : ℕ} [Fact p.Prime] {G : Type} [Group G] {Bs 
     have hval : ι (Additive.ofMul (Additive.toMul (ι.symm ((u : V) + x')))) =
         (u : V) + x' := by simp
     rw [hval]
-    simpa using u.2
+    simp
   · intro bb
     apply Subtype.ext
     have hval : ι (Additive.ofMul (Additive.toMul
         (ι.symm (ι (Additive.ofMul (bb : ↥Bs)) - x' + x')))) =
         ι (Additive.ofMul (bb : ↥Bs)) := by simp
-    simpa using hval
+    simp
   · intro u
     apply Subtype.ext
     have hval : ι (Additive.ofMul (Additive.toMul (ι.symm ((u : V) + x')))) - x' = (u : V) := by
       simp
-    simpa using hval
+    simp
 
 private theorem l05nDK3_card_Al {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 ≤ N)
     {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {V : Type} [AddCommGroup V]
@@ -522,18 +522,18 @@ private theorem l05nDK3_card_Al {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN :
     _ = Nat.factorial N := by rw [Nat.card_perm, Nat.card_fin]
 
 private theorem l05nDK_card
-    (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) (hOrb : GGResCentBoundInput)
+    (_hFix : GGTBFixInput) (_hFixK : GGTBFixNbrInput) (hOrb : GGResCentBoundInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B Bs : Subgroup G}
     {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hx : x ∈ Bs) {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} {ML : CoxeterMatrix Λ}
     {CL : Matrix Λ Λ ℤ} {MK : CoxeterMatrix (Option {i : Λ // i ≠ b})}
     {CK : Matrix (Option {i : Λ // i ≠ b}) (Option {i : Λ // i ≠ b}) ℤ} {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {ι : Additive ↥Bs ≃+ V} {φ : Option Λ → MulAut ↥Bs}
-    {h : Option Λ → V} {α : Option Λ → Module.Dual (ZMod p) V} (hWL : GGIsWeylMatrix ML)
-    (hCL : GGIntCartan ML CL) (hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    {h : Option Λ → V} {α : Option Λ → Module.Dual (ZMod p) V} (_hWL : GGIsWeylMatrix ML)
+    (_hCL : GGIntCartan ML CL) (_hWK : GGIsWeylMatrix MK) (_hCK : GGIntCartan MK CK)
     (hφ : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
-    (hL : ∀ i j : Λ, α (some i) (h (some j)) = (CL i j : ZMod p))
-    (hK : ∀ o o' : Option {i : Λ // i ≠ b},
+    (_hL : ∀ i j : Λ, α (some i) (h (some j)) = (CL i j : ZMod p))
+    (_hK : ∀ o o' : Option {i : Λ // i ≠ b},
       α (o.map Subtype.val) (h (o'.map Subtype.val)) = (CK o o' : ZMod p))
     (hAL : ggAutomizer L Bs = Subgroup.closure (Set.range fun i : Λ => φ (some i)))
     (hAK : ggAutomizer K Bs = Subgroup.closure
@@ -545,8 +545,8 @@ private theorem l05nDK_card
           ggLin (p := p) ι (φ (some (e i)))) ∪ {ggLin (p := p) ι (φ none)})) ≤
         p ^ N * (6 * (p - 1) * Nat.factorial N) := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let h' : Fin (N - 1) → V := fun i => h (some (e i))
   let U : Submodule (ZMod p) V := Submodule.span (ZMod p) (Set.range h') ⊔
       Submodule.span (ZMod p) ({h none} : Set V)
@@ -593,7 +593,7 @@ private theorem l05nDK_card
   have hSU : Nat.card S = Nat.card U := by
     dsimp only [S]
     exact l05nDK3_cardS ι x' U
-  haveI : Finite U :=
+  have : Finite U :=
     Finite.of_injective (fun u : U => (u : V)) (fun a b hab => Subtype.ext hab)
   have hSpow : Nat.card S = p ^ Module.finrank (ZMod p) ↥U := by
     rw [hSU]

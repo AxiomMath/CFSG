@@ -191,8 +191,8 @@ theorem ggExcPlusModel_exists_conj_of_isReflection
     (haR' : GGIsReflection p a') :
     ∃ v ∈ ggAutomizer (MulAut.conj : L' →* MulAut L').range A, a' = v * a * v⁻¹ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨Φ, w, hw, hact, hnorm⟩ := hM
   have hN : ∀ i, MulAut.conj (w i) ∈ Subgroup.normalizer (A : Set (MulAut L')) :=
     fun i => conj_mem_normalizer_of_torusWeylElt hsc (hw i)
@@ -381,7 +381,7 @@ theorem largeEvenLabelAll_excPlusModel_ETwE6 {p : ℕ} (hp : p.Prime) (hp5 : 5 �
   have hp3 : p ≠ 3 := by omega
   have hW : LargeEvenLabelAll lab fun R _ I _ => GGExcPlusWeylModelSCr .E6 p 5 R I :=
     TwE6Delta.labelAll htag fun K _ _ hK => by
-      haveI : CharP K 2 := charP_two_of_card (K := K) (m := 2 * lab.n)
+      have : CharP K 2 := charP_two_of_card (K := K) (m := 2 * lab.n)
         (by rw [hK, ← pow_mul, mul_comm])
       obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup hlab.1 hK (iterateFrobenius K 2 lab.n)
         (fun c => iterateFrobenius_def 2 lab.n c)

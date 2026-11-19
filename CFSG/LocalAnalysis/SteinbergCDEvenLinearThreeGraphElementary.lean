@@ -176,7 +176,7 @@ theorem projective_elementary (Ebar : Subgroup (projectiveSL 3 K))
     exact a.2
   obtain ⟨S₀⟩ : Nonempty (Sylow 2 P) := inferInstance
   set E := (S₀ : Subgroup P).map P.subtype with hEdef
-  have hE2 : IsPGroup 2 E := S₀.isPGroup'.map _
+  have hE2 : IsPGroup 2 E := S₀.isPGroup.map _
   have hZ2 : ∀ z ∈ scalars 3 K, ∀ k : ℕ, z ^ 2 ^ k = 1 → z = 1 := fun z hz k hk => by
     have hcop : Nat.Coprime (2 ^ k) 3 := Nat.Coprime.pow_left k (by norm_num)
     exact orderOf_eq_one_iff.1 (Nat.eq_one_of_dvd_coprimes hcop (orderOf_dvd_of_pow_eq_one hk)
@@ -230,7 +230,7 @@ theorem projective_elementary (Ebar : Subgroup (projectiveSL 3 K))
   refine ⟨E, fun S => ?_, hEmap, hinjE, h2el⟩
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · rintro _ ⟨x, hx, rfl⟩
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     exact h2el _ x.2 ⟨k, by simpa using congrArg (fun y : (S : Subgroup P) => ((y : P) :
       SpecialLinearGroup (Fin 3) K)) hk⟩
   · rw [hEdef, Subgroup.card_map_of_injective P.subtype_injective,

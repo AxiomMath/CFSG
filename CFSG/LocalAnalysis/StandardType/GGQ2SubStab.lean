@@ -104,7 +104,7 @@ private theorem ggQ2Sub_exists_refl_moves (A : Subgroup (V ≃ₗ[ZMod 3] V)) (x
         exact Submodule.sub_mem _ (Submodule.mem_span_singleton_self x)
           (Submodule.smul_mem _ _ hc'x)
       · exact absurd ⟨c', φ', h', htA, hφ'x, hc'x⟩ hcon
-  · simpa using Submodule.mem_span_singleton_self x
+  · simp
   · intro a b _ _ iha ihb
     obtain ⟨μ, hμ⟩ := Submodule.mem_span_singleton.mp ihb
     rw [LinearEquiv.mul_apply, ← hμ, map_smul]
@@ -130,7 +130,7 @@ private theorem ggQ2Sub_commutator_apply (c : ι → V) (α : ι → Module.Dual
     (hgc : g (c i) = c i) (v : V) :
     (s i * g * s i * g.symm) v = v - α i (g (g.symm v) - g.symm v) • c i := by
   simp only [LinearEquiv.mul_apply, hs, map_sub, map_smul, hgc,
-    LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply, hαc i]
+    LinearEquiv.apply_symm_apply, hαc i]
   module
 
 private theorem ggQ2Sub_commutator_apply_smul (c : ι → V) (α : ι → Module.Dual (ZMod 3) V)
@@ -139,7 +139,7 @@ private theorem ggQ2Sub_commutator_apply_smul (c : ι → V) (α : ι → Module
     (hgc : g (c i) = ε • c i) (v : V) :
     (s i * g * s i * g.symm) v - v = (ε * α i (g.symm v) - α i v) • c i := by
   simp only [LinearEquiv.mul_apply, hs, map_sub, map_smul, hgc,
-    LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply, hαc i]
+    LinearEquiv.apply_symm_apply, hαc i]
   module
 
 theorem ggQ2Sub_refl_centre (A : Subgroup (V ≃ₗ[ZMod 3] V)) (hTF : TransvectionFree A)
@@ -206,7 +206,7 @@ theorem ggQ2Sub_R_move (A : Subgroup (V ≃ₗ[ZMod 3] V)) (hTF : TransvectionFr
     rw [hsub]
     exact U.neg_mem (U.smul_mem _ hc₀U)
   · intro w
-    simpa using U.zero_mem
+    simp
   · intro a b _ _ iha ihb w
     have hxy : (a * b) w - w = (a (b w) - b w) + (b w - w) := by
       rw [LinearEquiv.mul_apply]
@@ -246,7 +246,7 @@ theorem ggQ2Sub_eq_one (A : Subgroup (V ≃ₗ[ZMod 3] V)) (hTF : TransvectionFr
     have hψc : ψ (c i) = 0 := by
       have hgic : g.symm (c i) = c i := by
         apply g.injective
-        simpa [hgc]
+        simp [hgc]
       simp [ψ, hgic, f, hgc]
     have hci0 : c i ≠ 0 := by
       intro h0
@@ -470,7 +470,7 @@ theorem ggQ2Sub_not_neg (A : Subgroup (V ≃ₗ[ZMod 3] V)) (hTF : TransvectionF
         rw [hbot]
         simp
       omega
-    obtain ⟨v, -, hvU⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hUtop)
+    obtain ⟨v, -, hvU⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hUtop)
     let w : V := r₀ v - v
     have hwU : w ∈ U :=
       ggQ2Sub_R_move A hTF c α hαc s hs hsR x hfix U hHU hRU hRx r₀ hr₀ v

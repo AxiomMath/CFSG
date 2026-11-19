@@ -538,7 +538,6 @@ theorem ks1522HessSub_of (hOut : KS1522OutThree) : KS1522HessSub := by
     have hxm : (x : X) * (m₀ : X) ∈ C := by
       refine ⟨mul_mem x.2 m₀.2, Subgroup.mem_centralizer_singleton_iff.mpr ?_⟩
       first
-        | exact hcomm
         | exact hcomm.symm
     refine ⟨⟨(x : X) * (m₀ : X), hxm⟩, ?_⟩
     rw [hχ, MonoidHom.comp_apply, QuotientGroup.mk'_apply]

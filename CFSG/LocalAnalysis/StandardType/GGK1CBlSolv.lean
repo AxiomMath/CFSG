@@ -74,7 +74,7 @@ private theorem ggK1Bv_bar_apply_two {E : Type} [Field E]
 
 private theorem ggK1Bv_omega {E : Type} [Field E]
     (hE : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 E)
-    (τ : E ≃+* E) (hτ : ∀ x, τ (τ x) = x) (hτ2 : ∀ x, τ x = x ^ 2) :
+    (τ : E ≃+* E) (_hτ : ∀ x, τ (τ x) = x) (hτ2 : ∀ x, τ x = x ^ 2) :
     ∃ c : E, c ≠ 0 ∧ c ≠ 1 ∧ c ^ 3 = 1 ∧ τ c * c = 1 := by
   obtain ⟨c, hc⟩ := hE.exists_bar_ne
   have hτc : τ c ≠ c := by
@@ -85,8 +85,8 @@ private theorem ggK1Bv_omega {E : Type} [Field E]
     intro h; apply hτc; rw [h]; simp
   have hc1 : c ≠ 1 := by
     intro h; apply hτc; rw [h]; simp
-  haveI : Finite E := hE.finite
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := hE.finite
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Fintype.card E = 4 := by
     rw [← Nat.card_eq_fintype_card]; simpa using hE.card
   have hc3 : c ^ 3 = 1 := by
@@ -238,7 +238,7 @@ theorem ggK1CBl_solvable_witness {nf p : ℕ} {K : Type} [Field K] [Finite K]
     (hw : ggK1CBl_KindWitness nf K kind A) (hh : kind.hasOrbit = true)
     (hqs : (ggK1CCo_kindOrbit nf kind).qs = false) :
     ∃ t ∈ A, t ^ p = 1 ∧ ∃ a ∈ A, a * t ≠ t * a := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hnf1 : nf = 1 := ggK1Bv_nf_eq_one hw hh hqs
   subst hnf1
   have hK2 : Nat.card K = 2 := by simpa using hK
@@ -249,9 +249,9 @@ theorem ggK1CBl_solvable_witness {nf p : ℕ} {K : Type} [Field K] [Finite K]
   rcases kind with s | m | m
   ·
     rcases hw with ⟨hs, W, hWac, hWmod, hWfd, B, hBalt, hBnon, hdim, ⟨e⟩⟩
-    letI : AddCommGroup W := hWac
-    letI : Module K W := hWmod
-    haveI : FiniteDimensional K W := hWfd
+    let : AddCommGroup W := hWac
+    let : Module K W := hWmod
+    have : FiniteDimensional K W := hWfd
     have hs1 : s = 1 := by
       by_contra hs1
       have htrue : (ggK1CCo_kindOrbit 1 (ggK1CCo_Kind.sp s)).qs = true := by
@@ -295,11 +295,11 @@ theorem ggK1CBl_solvable_witness {nf p : ℕ} {K : Type} [Field K] [Finite K]
   ·
     rcases hw with ⟨hm, E, hEfield, hEfin, hE, V, hVadd, hVmod, hVfd, Hf,
       hHfsymm, hHfsep, ⟨b, hb⟩, ⟨e⟩⟩
-    letI : Field E := hEfield
-    letI : Fintype E := hEfin
-    letI : AddCommGroup V := hVadd
-    letI : Module E V := hVmod
-    haveI : FiniteDimensional E V := hVfd
+    let : Field E := hEfield
+    let : Fintype E := hEfin
+    let : AddCommGroup V := hVadd
+    let : Module E V := hVmod
+    have : FiniteDimensional E V := hVfd
     have hm23 : m = 2 ∨ m = 3 := by
       have hm1 : m ≠ 1 := by
         intro h; subst h; simp [ggK1CCo_Kind.hasOrbit] at hh

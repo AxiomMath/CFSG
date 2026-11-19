@@ -55,6 +55,7 @@ section Socle
 
 variable {Y I : Type} [Group Y] [Group I] [Finite I] {ρ : Y →* MulAut I}
 
+omit [Finite I] in
 theorem center_eq_bot_of_min (hnonab : ∃ x y : I, x * y ≠ y * x)
     (hmin : ∀ K : Subgroup I, K.Normal → ActInv ρ K → K = ⊥ ∨ K = ⊤) :
     Subgroup.center I = ⊥ := by
@@ -104,7 +105,7 @@ theorem isCatalogGroup_of_simple_subgroup {I : Type} [Group I] (hK : CFSG.Open.I
     CFSG.Open.IsCatalogGroup S := by
   have hbot : (⊥ : Subgroup I).subgroupOf S = ⊥ := by
     ext x
-    simp [Subgroup.mem_subgroupOf]
+    simp
   let e : (↥S ⧸ (⊥ : Subgroup I).subgroupOf S) ≃* ↥S :=
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
   have hN : ((⊥ : Subgroup I).subgroupOf S).Normal := by rw [hbot]; infer_instance
@@ -131,7 +132,7 @@ theorem nonab_base (hCat : CFSG.AGLEmbedding.CatalogOuterSolvable)
     (J : Subgroup I) (hJ : ActInv ρ J) (hC : ∀ x : I, ρ a₀ x = x → x ∈ J) : J = ⊤ := by
   have hcenter := center_eq_bot_of_min hnonab hmin
   have hsocle := socle_eq_top_of_min hnonab hmin
-  haveI : Finite (I ⋊[ρ] Y) := Finite.of_equiv (I × Y) equivProd.symm
+  have : Finite (I ⋊[ρ] Y) := Finite.of_equiv (I × Y) equivProd.symm
   have hsimple : ∀ S : Subgroup I, minimalNormalEligible S → IsSimpleGroup ↥S := fun S hS =>
     socle_top_minimal_normal_simple hsocle S hS
   have hnonabS : ∀ S : Subgroup I, minimalNormalEligible S → ∃ x y : ↥S, x * y ≠ y * x :=
@@ -152,7 +153,7 @@ theorem nonab_base (hCat : CFSG.AGLEmbedding.CatalogOuterSolvable)
     by_contra hno
     push Not at hno
     set T : Subgroup I := ⨆ y : Y, S.map (ρ y).toMonoidHom with hT
-    haveI : ∀ y : Y, (S.map (ρ y).toMonoidHom).Normal := fun y => (hauto S hS y).prop.1
+    have : ∀ y : Y, (S.map (ρ y).toMonoidHom).Normal := fun y => (hauto S hS y).prop.1
     have hTn : T.Normal := Subgroup.iSup_normal _
     have hTinv : ActInv ρ T := by
       intro z x hx

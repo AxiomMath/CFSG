@@ -53,9 +53,9 @@ theorem dvd_card_of_hasLabel_twD_five {J : Type} [Group J] [Finite J] {n r : ℕ
     r ∣ Nat.card J := by
   obtain ⟨F, hfield, hfinite, hchar, hF, b, c, hirr, ⟨e⟩⟩ :=
     exists_mulEquiv_matrixProjectiveDerived_of_isLabel_twD hn hJ hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   have hF' : Nat.card F = 2 ^ n := hF
   have hQ' : ∃ v, OmegaMinusLD.Qc F b c v ≠ 0 :=
     (isHypCoord_coordinateQuadMinus (K := F) (n := 5) (by norm_num) (b := b) (c := c)

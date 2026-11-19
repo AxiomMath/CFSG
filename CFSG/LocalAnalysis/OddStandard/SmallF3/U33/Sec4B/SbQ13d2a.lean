@@ -11,7 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
-theorem q13d_gam_cent_A (h : Q13Om t L S x₁ x₂ lam rho tau om)
+theorem q13d_gam_cent_A (_h : Q13Om t L S x₁ x₂ lam rho tau om)
     (hII : closure ({t, om} : Set G) ⊓
       centralizer ((q13A t tau x₁ x₂ rho : Subgroup G) : Set G) = zpowers (t * om)) :
     ∀ a ∈ q13A t tau x₁ x₂ rho, (t * om) * a = a * (t * om) := by
@@ -42,7 +42,7 @@ theorem q13d_gam_mem_P (_h : Q13Om t L S x₁ x₂ lam rho tau om) :
 theorem q13d_tau_mem_P (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     tau ∈ q13P t tau x₁ x₂ rho om := by
   rw [← q13d_gam_sq h]
-  exact Subgroup.mem_sup_right (by simpa using Subgroup.zpow_mem_zpowers (t * om) 2)
+  exact Subgroup.mem_sup_right (by simp)
 
 theorem q13d_N_le_P (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     ctxN tau x₁ x₂ ≤ q13P t tau x₁ x₂ rho om := by
@@ -54,7 +54,7 @@ theorem q13d_N_le_P (h : Q13Om t L S x₁ x₂ lam rho tau om) :
   · exact q13d_A_le_P h (q13a_V_le_A h (Subgroup.subset_closure (by simp)))
   · exact q13d_A_le_P h (q13a_V_le_A h (Subgroup.subset_closure (by simp)))
 
-theorem q13d_mem_P (h : Q13Om t L S x₁ x₂ lam rho tau om)
+theorem q13d_mem_P (_h : Q13Om t L S x₁ x₂ lam rho tau om)
     (hII : closure ({t, om} : Set G) ⊓
       centralizer ((q13A t tau x₁ x₂ rho : Subgroup G) : Set G) = zpowers (t * om)) {p : G} :
     p ∈ q13P t tau x₁ x₂ rho om ↔ ∃ a ∈ q13A t tau x₁ x₂ rho, ∃ k : ℤ, p = a * (t * om) ^ k := by

@@ -118,7 +118,7 @@ theorem IsW.exists_sylow_two_normalizer
   have hQcard : Nat.card Q = 8 := by
     rw [hQ, Subgroup.card_map_of_injective N'.subtype_injective, Q₀.card_eq_multiplicity, hf2]
     norm_num
-  have hQp : IsPGroup 2 Q := Q₀.isPGroup'.map _
+  have hQp : IsPGroup 2 Q := Q₀.isPGroup.map _
   have hQle : Q ≤ N' := Subgroup.map_subtype_le _
   have hQne : Q ≠ ⊥ := by
     intro h

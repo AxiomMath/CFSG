@@ -202,6 +202,7 @@ theorem eq_one_of_mem_inf_centralizer {H : Subgroup G} (hiso : ∀ t, ¬ IsIsola
   obtain ⟨t, ht⟩ := exists_isIsolatedIn_of_normal_le_centralizer hΩn hΩ2 hΩC hΩne
   exact hiso t ht
 
+omit [Finite G] in
 theorem bar_inf_le_bar_inf {H P J : Subgroup G} (hOJ : O H ≤ J) :
     bar H P ⊓ bar H J ≤ bar H (P ⊓ J) := by
   rintro _ ⟨⟨⟨p, hpH⟩, hp, rfl⟩, ⟨⟨j, hjH⟩, hj, hjp⟩⟩
@@ -270,7 +271,7 @@ theorem prop_4_4_of
   have hTS : (𝔖.S₁ ⊓ J) ⊔ (𝔖.S₂ ⊓ J) ≤ 𝔖.S :=
     sup_le (inf_le_left.trans hd.le_left) (inf_le_left.trans hd.le_right)
   have hTH : (𝔖.S₁ ⊓ J) ⊔ (𝔖.S₂ ⊓ J) ≤ H := hsylJ.le.trans hJ₂
-  have hTp : IsPGroup 2 ((𝔖.S₁ ⊓ J) ⊔ (𝔖.S₂ ⊓ J) : Subgroup G) := 𝔖.S.isPGroup'.to_le hTS
+  have hTp : IsPGroup 2 ((𝔖.S₁ ⊓ J) ⊔ (𝔖.S₂ ⊓ J) : Subgroup G) := 𝔖.S.isPGroup.to_le hTS
   have h₁H : 𝔖.S₁ ⊓ J ≤ H := inf_le_right.trans hJ₂
   have h₂H : 𝔖.S₂ ⊓ J ≤ H := inf_le_right.trans hJ₂
   have hT₀ : IsSylowOf 2 (((𝔖.S₁ ⊓ J) ⊔ (𝔖.S₂ ⊓ J)) ⊓ twoResidualOf H) (twoResidualOf H) :=
@@ -328,8 +329,8 @@ theorem prop_4_4_of
         (isPGroup_bar (hP.to_le inf_le_left)).to_inf_left
     rw [heq]
     exact hF
-  have hS₁p : IsPGroup 2 𝔖.S₁ := 𝔖.S.isPGroup'.to_le hd.le_left
-  have hS₂p : IsPGroup 2 𝔖.S₂ := 𝔖.S.isPGroup'.to_le hd.le_right
+  have hS₁p : IsPGroup 2 𝔖.S₁ := 𝔖.S.isPGroup.to_le hd.le_left
+  have hS₂p : IsPGroup 2 𝔖.S₂ := 𝔖.S.isPGroup.to_le hd.le_right
   obtain ⟨L₁, L₂, hTL₁, hTL₂, hL₁J, hL₂J, hJL₁, hJL₂, hinf, hcomm, hJA, hL₁t, hL₂t, hL₁syl,
     hL₂syl⟩ := exists_normal_factors_of (oddCore_quotient_oddCore_eq_bot H) hKJ hTbar hinfb hcommb
       (hdih₁.bar h₁H) (hdih₂.bar h₂H) hfus hF₁K hF₂K hn₁ hn₂ hi ho hA₁ hA₂
@@ -388,7 +389,7 @@ theorem prop_4_4_J_of
   have hT₀L : T₀ ≤ twoResidualOf H := inf_le_right
   have hAN : T₀ ⊔ A ≤ normalizer (twoResidualOf H : Set G) :=
     (sup_le (hT₀L.trans hLH) hAH).trans (le_normalizer_twoResidualOf H)
-  have hT₀Ap : IsPGroup 2 (T₀ ⊔ A : Subgroup G) := 𝔖.S.isPGroup'.to_le (sup_le hT₀S hAS)
+  have hT₀Ap : IsPGroup 2 (T₀ ⊔ A : Subgroup G) := 𝔖.S.isPGroup.to_le (sup_le hT₀S hAS)
   have hinf : (T₀ ⊔ A) ⊓ twoResidualOf H = T₀ :=
     hT₀.eq_of_le (le_inf le_sup_left hT₀L) inf_le_right (hT₀Ap.to_le inf_le_left)
   have hsylX : IsSylowOf 2 (T₀ ⊔ A) (twoResidualOf H ⊔ (T₀ ⊔ A)) :=
@@ -397,7 +398,7 @@ theorem prop_4_4_J_of
   have hQX : (𝔖.S₁ ⊓ (O2 H ⊔ A)) ⊔ (𝔖.S₂ ⊓ (O2 H ⊔ A)) ≤ O2 H ⊔ A :=
     sup_le inf_le_right inf_le_right
   have hQp : IsPGroup 2 ((𝔖.S₁ ⊓ (O2 H ⊔ A)) ⊔ (𝔖.S₂ ⊓ (O2 H ⊔ A)) : Subgroup G) :=
-    𝔖.S.isPGroup'.to_le (sup_le (inf_le_left.trans hd.le_left) (inf_le_left.trans hd.le_right))
+    𝔖.S.isPGroup.to_le (sup_le (inf_le_left.trans hd.le_left) (inf_le_left.trans hd.le_right))
   have hle : T₀ ⊔ A ≤ (𝔖.S₁ ⊓ (O2 H ⊔ A)) ⊔ (𝔖.S₂ ⊓ (O2 H ⊔ A)) := by
     obtain ⟨hAsplit, -, -⟩ := hd.e16_split hAS hA
     refine sup_le (hsplit.le.trans (sup_le_sup ?_ ?_)) (hAsplit.le.trans (sup_le_sup ?_ ?_))

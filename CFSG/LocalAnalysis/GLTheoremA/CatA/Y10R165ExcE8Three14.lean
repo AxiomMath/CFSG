@@ -20,6 +20,7 @@ section Certs
 variable {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fact ℓ.Prime] [CharP K ℓ]
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ]
 
+omit [CharP K ℓ] in
 theorem concl165_of_e8T3_model (hE6 : E6Layer Tag.E8) {ε : ℤ} (hε : ε = 1 ∨ ε = -1)
     (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f) (hp : p.Prime) (hp3 : 3 < p)
     (hpf : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + ε * (Nat.card K : ℤ) + 1)
@@ -39,7 +40,7 @@ theorem concl165_of_e8T3_model (hE6 : E6Layer Tag.E8) {ε : ℤ} (hε : ε = 1 �
     (hΩ : ∀ g ∈ Subgroup.centralizer (A : Set (adjointGroup Tag.E8 K)),
       orderOf g = p → g ∈ A)
     {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p)
-    {q : ℕ} (hq : q.Prime) (hq2' : q ≠ 2) (hqp : q ≠ p)
+    {q : ℕ} (_hq : q.Prime) (_hq2' : q ≠ 2) (_hqp : q ≠ p)
     (hJQ : ∀ (x z c : adjointGroup Tag.E8 K), Commute x z → orderOf x = p →
       adjEmb Tag.E8 K L (c * x * c⁻¹) = g0 *
         rootDiagUnit Tag.E8 (fun i => ζ ^ (e8T3XColumn ε (Nat.card K : ZMod p) i).val) *
@@ -72,8 +73,8 @@ theorem concl165_of_e8T3_model (hE6 : E6Layer Tag.E8) {ε : ℤ} (hε : ε = 1 �
         IsElemAbelian q F ∧ 3 ≤ CFSG.Open.pRank q F) :
     Concl165 (adjointGroup Tag.E8 K) p q A := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨x, z, c, x₀, z₀, hxA, hzA, hxord, hzord, hzx, hcx, hcz, hxframe, hzframe⟩ :=
     exists_selection_pair hE6 hε hf hK hp hp3 hpf hq2 n hnm hnW g0 hg0C hg0 hperf hconj hAe hΩ hζ
   have hxframe' : adjEmb Tag.E8 K L (c * x * c⁻¹) = g0 *

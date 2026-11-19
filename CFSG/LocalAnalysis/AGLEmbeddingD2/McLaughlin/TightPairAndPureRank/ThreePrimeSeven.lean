@@ -142,7 +142,7 @@ theorem seven_dvd_ncard_of_free {x : G} (hx : x ^ 7 = 1) (T : Set G)
     rfl
   have hfp : Function.fixedPoints f = ∅ := by
     ext t
-    simp only [Function.mem_fixedPoints, Function.IsFixedPt, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_empty_iff_false, iff_false]
     intro ht
     exact hfree t t.2 (congrArg Subtype.val ht)
   have : Fintype T := Fintype.ofFinite T

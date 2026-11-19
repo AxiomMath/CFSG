@@ -26,25 +26,23 @@ theorem weiss80OctagonAssembly :
       MoufangLittleNormal 8 → StabilizersOfPolygon 8 → ExtensionOfStabilizers →
       BorelResidualSplitTransport → OctBorelResidualSplit → OctLieModel →
       Weiss80OctagonOfLeaves := by
-  intro hEmb hRGR hRTS hMLN hStab hExt hBRST hOctBRS hOctLie
-  intro hPoly hT8 hT8Ord hSubNat
-  intro X _ _ P1 P2 a m ha hm hMouf hK1 hK2 hSzN hL2N hV1 hV2
+  intro hEmb hRGR hRTS hMLN hStab hExt hBRST hOctBRS hOctLie hPoly hT8 hT8Ord hSubNat X _ _ P1 P2 a m ha hm hMouf hK1 hK2 hSzN hL2N hV1 hV2
   obtain ⟨Y, hY, hFinY, c, hcFaith, hcProj, hcMouf, hcWf, hcGirth⟩ :=
     ofSubgroups_exists_faithful_finite_completion_weiss P1 P2 (n := 8) (by norm_num)
       hMouf (2 * 8 + 2)
-  letI : Group Y := hY
-  letI : Finite Y := hFinY
+  let : Group Y := hY
+  let : Finite Y := hFinY
   obtain ⟨V, hFinV, Δ, hDecΔ, D, hD, hFinD, hAct, hFaith, hGraphAct, u, v, ψ1, ψ2, ι,
     hGP, hThick, huv, hMoufΔ, hψ1u0, hψ2v0, hWEmb, huVal, hvVal⟩ :=
     hPoly X P1 P2 a m ha hm hK1 hK2 hSzN hL2N hV1 hV2 Y c hcFaith hcMouf hcWf
       (show ((2 * 8 + 2 : ℕ) : ℕ∞) < c.graph.egirth by simpa using hcGirth)
-  letI : Fintype V := hFinV
-  letI : DecidableRel Δ.Adj := hDecΔ
-  letI : Group D := hD
-  letI : Finite D := hFinD
-  letI : MulAction D V := hAct
-  letI : FaithfulSMul D V := hFaith
-  letI : GraphAction D Δ := hGraphAct
+  let : Fintype V := hFinV
+  let : DecidableRel Δ.Adj := hDecΔ
+  let : Group D := hD
+  let : Finite D := hFinD
+  let : MulAction D V := hAct
+  let : FaithfulSMul D V := hFaith
+  let : GraphAction D Δ := hGraphAct
   have hApt : ∃ t : ZMod (2 * 8) → V, IsPolygonApartment Δ 8 t ∧ t 8 = v ∧ t 9 = u :=
     exists_polygonApartment_through_edge (Γ := Δ) (n := 8) (by norm_num) hGP hThick
       (v := v) (u := u) huv.symm
@@ -183,18 +181,18 @@ theorem weiss80OctagonAssembly :
       (pathRootGroup D Δ p) hroot_le hreg huv.symm hpowV hL2N
     simpa [nbrs, Nat.card_eq_fintype_card] using h
   let K := GaloisField 2 (2 * a + 1)
-  haveI : Field K := inferInstance
-  haveI : Finite K := inferInstance
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : NeZero (2 * a + 1) := ⟨by omega⟩
+  have : Field K := inferInstance
+  have : Finite K := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero (2 * a + 1) := ⟨by omega⟩
   have hKcard : Nat.card K = 2 ^ (2 * a + 1) :=
     GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = 2 ^ (2 * a + 1) := by
     rw [← Nat.card_eq_fintype_card, hKcard]
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) hKf
-  haveI : CharP K F4.prime := ‹CharP K 2›
-  haveI : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hKcard
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) hKf
+  have : CharP K F4.prime := ‹CharP K 2›
+  have : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hKcard
   let hR : RGD2 8 (octH K a) (octR1 K a) (octR2 K a) (Ug K a) (octRoot K a) := octRGD2 hKcard
   have hdu : Nat.card {w : V // Δ.Adj u w} = Δ.degree u := by
     rw [Nat.card_eq_fintype_card]

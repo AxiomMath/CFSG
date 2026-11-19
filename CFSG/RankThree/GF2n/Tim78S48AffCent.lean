@@ -123,6 +123,7 @@ theorem exists_comm_eq_T (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
   exact ⟨t, t.2, congrArg Subtype.val ht⟩
 
 
+omit [Finite G] in
 theorem conj_B_ne_bot (g : G) : conjSubgroup g B ≠ ⊥ := by
   intro h
   apply H.B_ne_bot
@@ -306,7 +307,7 @@ theorem aC_conj_cent (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
 theorem aC_le_normalizer_K (h48 : Hyp48 M B T g)
     (htrans : ∀ U ∈ classIn B (B ⊔ conjSubgroup g B),
       ∃ h ∈ T ⊔ conjSubgroup g T, U = conjSubgroup h B) :
-    H.aC g ≤ Subgroup.normalizer (kernel48 B T g : Set G) := fun c hc =>
+    H.aC g ≤ Subgroup.normalizer (kernel48 B T g : Set G) := fun _c hc =>
   mem_normalizer_inf (H.aC_le_normalizer_X h48 htrans hc)
     (mem_normalizer_centralizer (H.aC_le_normalizer_W h48 hc))
 

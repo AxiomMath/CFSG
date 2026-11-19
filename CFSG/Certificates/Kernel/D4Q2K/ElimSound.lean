@@ -153,7 +153,7 @@ theorem el_bits : ∀ ys : List Nat, ys.Pairwise (· < ·) →
     rw [hQ, ← Nat.add_zero (2 ^ (y + 1) * Q),
       Nat.testBit_two_pow_mul_add _ (Nat.two_pow_pos _), Nat.zero_testBit] at ih
     by_cases hj : j < y + 1
-    · rw [if_pos hj] at ih ⊢
+    · rw [ite_eq_left hj] at ih ⊢
       have hm : j ∉ ys := fun hm => by
         have := h.1 j hm
         omega
@@ -164,7 +164,7 @@ theorem el_bits : ∀ ys : List Nat, ys.Pairwise (· < ·) →
         rintro (e | e)
         · exact he e.symm
         · exact hm e
-    · rw [if_neg hj] at ih ⊢
+    · rw [ite_eq_right hj] at ih ⊢
       rw [ih]
       have he : j ≠ y := by omega
       simp [he]
@@ -202,21 +202,21 @@ theorem el_rowbit {A S M TF : Nat → Nat} {F : Array (Array Nat)}
     Nat.testBit (rowOf A S M TF x) y = adjT (mkTabs (ptCodes ()) F) x y := by
   unfold adjT
   by_cases hx1 : x < 2240
-  · rw [el_rowOf_pt hx1, if_pos hx1, Nat.testBit_or, Nat.testBit_shiftLeft]
+  · rw [el_rowOf_pt hx1, ite_eq_left hx1, Nat.testBit_or, Nat.testBit_shiftLeft]
     by_cases hy1 : y < 2240
     · have e : decide (y ≥ 2240) = false := decide_eq_false (by omega)
-      rw [if_pos hy1, (hA x hx1).2 y hy1, e, Bool.false_and, Bool.or_false, el_pts]
+      rw [ite_eq_left hy1, (hA x hx1).2 y hy1, e, Bool.false_and, Bool.or_false, el_pts]
     · have hyle : 2240 ≤ y := Nat.le_of_not_lt hy1
       have hy3 : y - 2240 < 6720 - 2240 := Nat.sub_lt_sub_right hyle hy
       have hy2 : y - 2240 < 4480 := hy3
       have e : decide (y ≥ 2240) = true := decide_eq_true hyle
-      rw [if_neg hy1, el_tb_false (m := 2240) (hA x hx1).1 hyle,
+      rw [ite_eq_right hy1, el_tb_false (m := 2240) (hA x hx1).1 hyle,
         (hS x hx1).2 (y - 2240) hy2, e, Bool.true_and, Bool.false_or]
   · have hj : x - 2240 < 4480 := by omega
-    rw [el_rowOf_sol hx1, if_neg hx1, Nat.testBit_or, Nat.testBit_shiftLeft]
+    rw [el_rowOf_sol hx1, ite_eq_right hx1, Nat.testBit_or, Nat.testBit_shiftLeft]
     by_cases hy1 : y < 2240
     · have e : decide (y ≥ 2240) = false := decide_eq_false (by omega)
-      rw [if_pos hy1, (hM _ hj).2 y hy1, e]
+      rw [ite_eq_left hy1, (hM _ hj).2 y hy1, e]
       simp only [Bool.false_and, Bool.or_false]
     · have hxle : 2240 ≤ x := Nat.le_of_not_lt hx1
       have hyle : 2240 ≤ y := Nat.le_of_not_lt hy1
@@ -230,7 +230,7 @@ theorem el_rowbit {A S M TF : Nat → Nat} {F : Array (Array Nat)}
         · have e4 : x - 2240 ≠ y - 2240 := fun h => e3 (by
             rw [← Nat.sub_add_cancel hxle, h, Nat.sub_add_cancel hyle])
           rw [bne_iff_ne.mpr e3, bne_iff_ne.mpr e4]
-      rw [if_neg hy1, el_tb_false (m := 2240) (hM _ hj).1 hyle,
+      rw [ite_eq_right hy1, el_tb_false (m := 2240) (hM _ hj).1 hyle,
         (hT _ hj).2 (y - 2240) hy2, e, Bool.true_and, Bool.false_or, e2]
 
 theorem el_row {A S M TF NL : Nat → Nat} {F : Array (Array Nat)}

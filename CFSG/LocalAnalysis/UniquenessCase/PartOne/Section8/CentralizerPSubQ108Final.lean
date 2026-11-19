@@ -25,6 +25,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_center_map_of_mem_normalizer {R : Subgroup G} {a z : G}
     (han : a ∈ Subgroup.normalizer (R : Set G))
     (hz : z ∈ (Subgroup.center ↥R).map R.subtype) :
@@ -50,12 +51,14 @@ theorem conj_mem_center_map_of_mem_normalizer {R : Subgroup G} {a z : G}
     _ = a * ((c : G) * (a⁻¹ * (s : G) * a)) * a⁻¹ := by rw [h2]
     _ = (a * (c : G) * a⁻¹) * (s : G) := by group
 
+omit [Finite G] in
 theorem le_normalizer_center_map (R : Subgroup G) :
     R ≤ Subgroup.normalizer ((Subgroup.center ↥R).map R.subtype : Set G) := by
   rw [Subgroup.le_normalizer_iff]
   intro r hr k hk
   exact conj_mem_center_map_of_mem_normalizer (Subgroup.le_normalizer hr) hk
 
+omit [Finite G] in
 theorem le_normalizer_center_map_of_le_normalizer {R A : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (R : Set G)) :
     A ≤ Subgroup.normalizer ((Subgroup.center ↥R).map R.subtype : Set G) := by
@@ -80,7 +83,7 @@ theorem exists_elemAbelian_27_and_nine_le_centralizer_of_two_extraspecial_order_
       (∀ a ∈ A, ∀ z ∈ (Subgroup.center ↥R).map R.subtype, a * z = z * a) ∧
       (∀ a ∈ A, ∀ b ∈ B, ⁅a, b⁆ ∈ (Subgroup.center ↥R).map R.subtype) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z : Subgroup G := (Subgroup.center ↥R).map R.subtype with hZdef
   have hZ' : Z = (Subgroup.center ↥R').map R'.subtype := hZdef.trans hZeq
   have hZcard : Nat.card Z = 3 := by
@@ -231,13 +234,13 @@ theorem exists_elemAbelian_27_and_nine_le_centralizer_of_two_extraspecial_order_
     intro a ha z hz
     have hcomm_sup : IsMulCommutative ↥(Z ⊔ A) := by
       rcases hcardAZ_cases with h3 | h9
-      · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact (isCyclic_of_card_dvd_prime (p := 3) (by rw [h3])).isMulCommutative
       · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [h9]; norm_num)
     exact congrArg Subtype.val (hcomm_sup.is_comm.comm
       ⟨a, Subgroup.mem_sup_right ha⟩ ⟨z, Subgroup.mem_sup_left hz⟩)
   have hAne : ∃ a ∈ A, a ≠ 1 := by
-    haveI : Nontrivial ↥A := Finite.one_lt_card_iff_nontrivial.mp (by rw [hAcard]; norm_num)
+    have : Nontrivial ↥A := Finite.one_lt_card_iff_nontrivial.mp (by rw [hAcard]; norm_num)
     obtain ⟨⟨a, ha⟩, hane⟩ := exists_ne (1 : ↥A)
     exact ⟨a, ha, fun h => hane (Subtype.ext h)⟩
   obtain ⟨a, ha, ha1⟩ := hAne
@@ -379,7 +382,7 @@ theorem exists_elemAbelian_27_and_nine_le_centralizer_of_two_extraspecial_order_
     · exact hB_ea.2 (u : G) (hKleB hu)
   have hKcard_ge : 9 ≤ Nat.card K := by rw [hKcard]; exact hker_ge
   have hKne : ∃ y ∈ K, y ≠ 1 := by
-    haveI : Nontrivial ↥K := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial ↥K := Finite.one_lt_card_iff_nontrivial.mp (by omega)
     obtain ⟨⟨y, hy⟩, hy1⟩ := exists_ne (1 : ↥K)
     exact ⟨y, hy, fun h => hy1 (Subtype.ext h)⟩
   obtain ⟨y, hyK, hy1⟩ := hKne
@@ -438,7 +441,7 @@ theorem exists_two_extraspecial_and_abelian_data
       E ≤ conjClosure S.M L ∧
       CFSG.Open.rankThreeGamma 1 3 E ≤ S.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R : Subgroup G := P ⊓ L with hRdef
   set R' : Subgroup G := P ⊓ L' with hR'def
   set Q : Subgroup G := R ⊔ R' with hQdef
@@ -521,11 +524,11 @@ theorem exists_two_extraspecial_and_abelian_data
     have h' := congrArg (Subgroup.subgroupOfEquivOfLe hPB_le) h
     simpa using h'
   have hPA_ext' : CFSG.IsExtraspecial 3 ↥PA := by
-    haveI : CFSG.IsExtraspecial 3 ↥(PA.subgroupOf A_bar) := hPA_ext
+    have : CFSG.IsExtraspecial 3 ↥(PA.subgroupOf A_bar) := hPA_ext
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hPA_le).symm
   have hPB_ext' : CFSG.IsExtraspecial 3 ↥PB := by
-    haveI : CFSG.IsExtraspecial 3 ↥(PB.subgroupOf B_bar) := hPB_ext
+    have : CFSG.IsExtraspecial 3 ↥(PB.subgroupOf B_bar) := hPB_ext
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hPB_le).symm
   have hPA_card' : Nat.card PA = 27 := by
@@ -537,10 +540,10 @@ theorem exists_two_extraspecial_and_abelian_data
   have hR'_iso : ↥R' ≃* ↥PB :=
     equiv_barImage_of_isPGroup (hR'P.trans hP.le) hR'_sylow.isPGroup
   have hR_ext : CFSG.IsExtraspecial 3 R := by
-    haveI : CFSG.IsExtraspecial 3 ↥PA := hPA_ext'
+    have : CFSG.IsExtraspecial 3 ↥PA := hPA_ext'
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv hR_iso
   have hR'_ext : CFSG.IsExtraspecial 3 R' := by
-    haveI : CFSG.IsExtraspecial 3 ↥PB := hPB_ext'
+    have : CFSG.IsExtraspecial 3 ↥PB := hPB_ext'
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv hR'_iso
   have hRcard : Nat.card R = 27 := by
     rw [Nat.card_congr hR_iso.toEquiv, hPA_card']
@@ -734,7 +737,7 @@ theorem centralizer_le_of_order_three_of_P_sub_Q_of_ne
     (hLL' : L ≠ L') :
     Subgroup.centralizer (A : Set G) ≤ S.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, R', B, E, hRdef, hR'def, hBle, hBea, hBcard, hZleB, hEleB, hEea, hEcard,
     hEcent, hAZ_comm, hABZ, hEX, hΓ⟩ :=
     exists_two_extraspecial_and_abelian_data hS hU S hMS hC hnot hSE hL hset hSL hP hAP hAcard hAQ hLL'

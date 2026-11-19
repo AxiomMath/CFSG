@@ -375,7 +375,7 @@ theorem step204Normal_core {G : Type} [Group G] [Finite G] {A M L N : Subgroup G
     (hB3 : IsPGroup 3 (A ⊓ L : Subgroup G))
     (hQ : ∃ Q : Subgroup (MulAut ↥(A ⊓ L)), Q ≤ Sec4.autIn M (A ⊓ L) ∧
       Nonempty (↥Q ≃* QuaternionGroup 2))
-    (hc1 : c ≠ 1) (hAeq : A = Subgroup.zpowers c ⊔ (A ⊓ L))
+    (_hc1 : c ≠ 1) (hAeq : A = Subgroup.zpowers c ⊔ (A ⊓ L))
     (hBn : M ≤ Subgroup.normalizer (((A ⊓ L) ⊔ CFSG.Open.pCoreOf 2 M : Subgroup G) : Set G)) :
       ∃ i j : Fin 4, i ≠ j ∧ i ≠ 3 ∧ j ≠ 3 ∧
         Sec18.fourChar (CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T)) i ≠ ⊥ ∧
@@ -418,8 +418,7 @@ theorem step204Normal_core {G : Type} [Group G] [Finite G] {A M L N : Subgroup G
   obtain ⟨Q0, hQ0M, ⟨eQ0⟩⟩ := hQ
   have hQ0c : IsPGroup 2 Q0 := by
     have hcard : Nat.card Q0 = 8 := by
-      rw [Nat.card_congr eQ0.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card] <;>
-        norm_num
+      rw [Nat.card_congr eQ0.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
     exact IsPGroup.of_card (n := 3) (by norm_num [hcard])
   obtain ⟨D, hD2, hDM, -, hQ0D⟩ := Res6.exists_two_subgroup_of_le_autIn hQ0M hQ0c
   obtain ⟨Q1, hQ1T, ⟨eQ1⟩⟩ := Res6.exists_le_autIn_sylow hT.sylow hB3 hBM hBn hD2 hDM Q0 hQ0D

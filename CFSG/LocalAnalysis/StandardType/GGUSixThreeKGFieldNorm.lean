@@ -15,7 +15,7 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInit
 
 variable {K : Type} [Field K]
 
-theorem exists_cube_class [Finite K] (h3 : 3 ∣ Nat.card K - 1) {l : Kˣ}
+theorem exists_cube_class [Finite K] (_h3 : 3 ∣ Nat.card K - 1) {l : Kˣ}
     (hl : ∀ c : Kˣ, c ^ 3 ≠ l) (s : Kˣ) : ∃ (e : ℕ) (t : Kˣ), e < 3 ∧ s = l ^ e * t ^ 3 := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_monoid_generator (α := Kˣ)
   obtain ⟨m, hm⟩ := (Submonoid.mem_powers_iff l g).mp (hg l)
@@ -35,7 +35,7 @@ theorem exists_cube_class [Finite K] (h3 : 3 ∣ Nat.card K - 1) {l : Kˣ}
       simpa using ZMod.pow_card_sub_one_eq_one (p := 3) hmne
     have he : ((e : ℕ) : ZMod 3) = (r : ZMod 3) * (m : ZMod 3) := by
       have := ZMod.natCast_mod (r * m) 3
-      simpa [e, Nat.cast_mul] using this
+      simp [e, Nat.cast_mul]
     push_cast
     rw [he]
     have hmul : (m : ZMod 3) * ((r : ZMod 3) * (m : ZMod 3)) =
@@ -79,7 +79,7 @@ theorem exists_normalized {n : ℕ} (hKd : UnitaryFieldData 2 n K) (hpq : 3 ∣ 
     ∃ (j : ℕ) (t : Kˣ), j < 3 ∧
       GeneralLinearGroup.scalar (Fin 6) t ∈ primeFormUnitary hKd (idGram K 6) ∧
       (GeneralLinearGroup.scalar (Fin 6) t⁻¹ * N * M ^ j) ^ 3 = 1 := by
-  haveI : Finite K := hKd.finite
+  have : Finite K := hKd.finite
   have h3 : 3 ∣ Nat.card K - 1 := by
     rw [hKd.card]
     have hfac : 2 ^ (2 * n) - 1 = (2 ^ n + 1) * (2 ^ n - 1) := by

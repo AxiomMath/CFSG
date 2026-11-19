@@ -72,7 +72,7 @@ private theorem fixedSolvable_of_inner_isomorphism
     have h := CFSG.hasNormalPComplement_of_equiv p
       ((_root_.commutator ↥C).equivMapOfInjective C.subtype C.subtype_injective) hNPCC
     rwa [Subgroup.map_subtype_commutator C] at h
-  haveI : Group.IsSolvable ↥C := hcent A hA hNPCamb
+  have : Group.IsSolvable ↥C := hcent A hA hNPCamb
   have hsolv0 : Group.IsSolvable ↥C0 :=
     Group.isSolvable_of_isSolvable_injective (f := eC.toMonoidHom) eC.injective
   change Group.IsSolvable ↥(Subgroup.centralizer (A0 : Set R)) at hsolv0
@@ -91,7 +91,7 @@ theorem ggFixedSubgroup_isSolvable_of_recipe_omegaPlus
   obtain ⟨hbij, hZ⟩ := OrthRest.spinPlus_bij (K := K) hn
   let e : spinGroup (quadPlus n K) ≃*
       LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K n)) := MulEquiv.ofBijective π hbij
-  letI : Finite (spinGroup (quadPlus n K)) := Finite.of_injective e e.injective
+  let : Finite (spinGroup (quadPlus n K)) := Finite.of_injective e e.injective
   refine fixedSolvable_of_inner_isomorphism e hZ ?_ E hEI hE hNPC
   intro A hA hNPCA
   let πS : spinGroup (quadPlus n K) →* spinGroup (quadPlus n K) := MonoidHom.id _
@@ -131,7 +131,7 @@ theorem ggFixedSubgroup_isSolvable_of_recipe_omegaMinus
       LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)) :=
     (eSpin.trans (LayerCyc.largeEvenOmegaMinusEquiv m K b c).symm).trans
       (TableBOrth.projMkEquiv (TableBOrth.scalars_subgroupOf_omegaMinus_eq_bot b c))
-  letI : Finite (spinGroup (quadMinus (m + 1) K b c)) := Finite.of_injective e e.injective
+  let : Finite (spinGroup (quadMinus (m + 1) K b c)) := Finite.of_injective e e.injective
   have hZ := (OrthRest.spinMinus_bij (K := K) hn hirr).2
   refine fixedSolvable_of_inner_isomorphism e hZ ?_ E hEI hE hNPC
   intro A hA hNPCA
@@ -176,13 +176,13 @@ theorem largeEvenLabelAll_orthogonal_fullFixedSolvable
       simpa [LargeEvenRawDatum, htag, h3] using hres
     have hr4 : 4 ≤ lab.rank := by omega
     have hrecipe : LargeEvenRecipeOmegaPlus lab.rank (2 ^ lab.n) Q := by
-      simpa only [LargeEvenRawDatum, htag, if_neg (by omega : lab.rank ≠ 3)] using hQ
+      simpa only [LargeEvenRawDatum, htag, ite_eq_right (by omega : lab.rank ≠ 3)] using hQ
     obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hrecipe
-    letI := fieldK
-    letI := finiteK
-    letI : Fintype K := Fintype.ofFinite K
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+    let := fieldK
+    let := finiteK
+    let : Fintype K := Fintype.ofFinite K
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
     have hres : LargeEvenRecipeOmegaPlus lab.rank (2 ^ lab.n)
         (fun R _ I F => Q R I F ∧
           ∀ E : Subgroup (MulAut R), (E : Set (MulAut R)) ⊆ I → IsElemAbelian p E →
@@ -192,19 +192,19 @@ theorem largeEvenLabelAll_orthogonal_fullFixedSolvable
       intro E hEI hE hNPC
       exact ggFixedSubgroup_isSolvable_of_recipe_omegaPlus (by omega) hp hp2
         (by rwa [hK]) E hEI hE hNPC
-    simpa only [LargeEvenRawDatum, htag, if_neg (by omega : lab.rank ≠ 3)] using hres
+    simpa only [LargeEvenRawDatum, htag, ite_eq_right (by omega : lab.rank ≠ 3)] using hres
   · by_cases h3 : lab.rank = 3
     · exact largeEvenLabelAll_unitary_fullFixedSolvable (Or.inr ⟨htag, h3⟩) hp hp2 hpq Q hQ
     have hr4 : 4 ≤ lab.rank := by omega
     have hrecipe : LargeEvenRecipeOmegaMinus (lab.rank - 1) (2 ^ lab.n) Q := by
-      simpa only [LargeEvenRawDatum, htag, if_neg (by omega : lab.rank ≠ 2),
-        if_neg (by omega : lab.rank ≠ 3)] using hQ
+      simpa only [LargeEvenRawDatum, htag, ite_eq_right (by omega : lab.rank ≠ 2),
+        ite_eq_right (by omega : lab.rank ≠ 3)] using hQ
     obtain ⟨K, fieldK, finiteK, hK, b, c, hirr, hQK⟩ := hrecipe
-    letI := fieldK
-    letI := finiteK
-    letI : Fintype K := Fintype.ofFinite K
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+    let := fieldK
+    let := finiteK
+    let : Fintype K := Fintype.ofFinite K
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
     have hres : LargeEvenRecipeOmegaMinus (lab.rank - 1) (2 ^ lab.n)
         (fun R _ I F => Q R I F ∧
           ∀ E : Subgroup (MulAut R), (E : Set (MulAut R)) ⊆ I → IsElemAbelian p E →
@@ -214,8 +214,8 @@ theorem largeEvenLabelAll_orthogonal_fullFixedSolvable
       intro E hEI hE hNPC
       exact ggFixedSubgroup_isSolvable_of_recipe_omegaMinus (by omega) hirr hp hp2
         (by rwa [hK]) E hEI hE hNPC
-    simpa only [LargeEvenRawDatum, htag, if_neg (by omega : lab.rank ≠ 2),
-      if_neg (by omega : lab.rank ≠ 3)] using hres
+    simpa only [LargeEvenRawDatum, htag, ite_eq_right (by omega : lab.rank ≠ 2),
+      ite_eq_right (by omega : lab.rank ≠ 3)] using hres
 
 theorem isSolvable_inf_centralizer_of_orthogonal_marking
     {G : Type} [Group G] [Finite G] {p : ℕ}

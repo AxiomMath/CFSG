@@ -19,7 +19,7 @@ theorem pRank_chev_twistedA_dvd_not_dvd_m (hG : CFSG.Open.GriessAllModelsStateme
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hc1 : r ∣ Q.card + 1) (hc2 : ¬ r ∣ l + 1) :
     CFSG.Open.pRank r (⊤ : Subgroup K) =
       rkLin (l + 1) false Q.card r (Nat.card (Subgroup.center K)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨F, instF, instFin, hF, hrank⟩ := chevU_reduce_to_SU hG hq hv hQ e hr hr2
     (fun h => hc2 (h.trans (Nat.gcd_dvd_left _ _)))
   have hQc : Q.card = 2 ^ Q.exponent := by rw [TauCeti.PrimePower.card_def, hQ]
@@ -28,7 +28,7 @@ theorem pRank_chev_twistedA_dvd_not_dvd_m (hG : CFSG.Open.GriessAllModelsStateme
   have hrF : (r : F) ≠ 0 := cast_ne_zero_of_card_two_pow hr hr2 hFn2
   rw [hrank, pRank_top_statedSU_eq_pred (by omega) hrF hFn hc1]
   have h1 : eM Q.card r = 1 := eM_eq_one_iff.2 hc1
-  rw [rkLin, if_pos (by simpa using h1), if_neg (fun h => hc2 h.2.1)]
+  rw [rkLin, ite_eq_left (by simpa using h1), ite_eq_right (fun h => hc2 h.2.1)]
   rfl
 
 open CFSG.Open in

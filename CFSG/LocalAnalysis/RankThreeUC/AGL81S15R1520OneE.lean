@@ -44,7 +44,7 @@ theorem pRank_quotient_pPrimeCore_le_one
     {A : Subgroup M} [A.Normal] (hWA : CFSG.pPrimeCore p M ≤ A)
     (h3 : ¬ 3 ∣ (CFSG.pPrimeCore p M).relIndex A) :
     Open.pRank p (A.map (QuotientGroup.mk' (CFSG.pPrimeCore p M))) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
   have hrkA : 1 < Open.pRank p (A.map (QuotientGroup.mk' (CFSG.pPrimeCore p M))) := not_le.1 hcon
   have hOW : pCoreOf 2 (⊤ : Subgroup M) ≤ CFSG.pPrimeCore p M := by

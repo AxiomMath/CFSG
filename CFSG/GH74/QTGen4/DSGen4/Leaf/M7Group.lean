@@ -217,7 +217,7 @@ theorem pow_four_of_pow_three {G : Type*} [Group G] {g : G} (h : g ^ 3 = 1) : g 
 
 theorem zpow_cases_of_pow_three {G : Type*} [Group G] {g : G} (hg : g ^ 3 = 1) (hg1 : g ≠ 1) (k : ℤ) :
     g ^ k = 1 ∨ g ^ k = g ∨ g ^ k = g ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hord : orderOf g = 3 := orderOf_eq_prime hg hg1
   have hk : g ^ (k % 3) = g ^ k := by
     have h0 : g ^ (k % (orderOf g : ℤ)) = g ^ k := by
@@ -239,7 +239,7 @@ theorem zpow_cases_of_pow_three {G : Type*} [Group G] {g : G} (hg : g ^ 3 = 1) (
 theorem nine_dvd_card {H : Type*} [Group H] [Finite H] (a b : H) (ha : a ^ 3 = 1) (hb : b ^ 3 = 1)
     (hab : a * b = b * a) (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hba : b ≠ a) (hba2 : b ≠ a ^ 2) :
     9 ∣ Nat.card H := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hordA : orderOf a = 3 := orderOf_eq_prime ha ha1
   have hordB : orderOf b = 3 := orderOf_eq_prime hb hb1
   have hA : Nat.card (Subgroup.zpowers a) = 3 := by
@@ -253,7 +253,6 @@ theorem nine_dvd_card {H : Type*} [Group H] [Finite H] (a b : H) (ha : a ^ 3 = 1
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     first
       | exact ((hcom.zpow_left m).zpow_right n).eq
-      | exact (hcom.zpow_zpow m n).eq
   have hA3 := zpow_cases_of_pow_three ha ha1
   have hB3 := zpow_cases_of_pow_three hb hb1
   have hinf : Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥ := by
@@ -380,8 +379,8 @@ theorem ne_and_ne_sq_of_inverts {Γ : Type*} [Group Γ] {a b c : Γ} (ha3 : a ^ 
     exact (mul_right_cancel (e1.symm.trans hbc)).symm
 
 theorem finite_mulAut_of_finite {W : Type*} [Group W] [Finite W] : Finite (MulAut W) :=
-  Finite.of_injective (fun f : MulAut W => (f : W → W))
-    (fun f g hfg => MulEquiv.ext (fun x => congrFun hfg x))
+  Finite.of_injective (fun _f : MulAut W => (_f : W → W))
+    (fun _f _g hfg => MulEquiv.ext (fun x => congrFun hfg x))
 
 theorem Ctx.relIndex_sixteen [Finite4 G] [DSLeaf LeafFrattiniFaithful] [DSLeaf LeafRankBounds]
     (h : Ctx L P d k t) : (dsFrattini (pCoreOf 2 P)).relIndex (pCoreOf 2 P) = 16 := by
@@ -392,7 +391,7 @@ theorem Ctx.relIndex_sixteen [Finite4 G] [DSLeaf LeafFrattiniFaithful] [DSLeaf L
     fun g hg => frattiniChief_mem_normalizer (pCoreOf 2 P) (hPQ hg)
   have hsec : IsElemSec (dsFrattini (pCoreOf 2 P)) (pCoreOf 2 P) :=
     frattiniChief_isElemSec (pCoreOf 2 P) hQ
-  haveI : ((dsFrattini (pCoreOf 2 P)).subgroupOf (pCoreOf 2 P)).Normal :=
+  have : ((dsFrattini (pCoreOf 2 P)).subgroupOf (pCoreOf 2 P)).Normal :=
     hsec.normal_subgroupOf
   have hle : (dsFrattini (pCoreOf 2 P)).relIndex (pCoreOf 2 P) ≤ 16 :=
     (rank_bounds (G := G)).1 _ hQ
@@ -447,7 +446,7 @@ theorem Ctx.relIndex_sixteen [Finite4 G] [DSLeaf LeafFrattiniFaithful] [DSLeaf L
       fun hp q hq => frattiniChief_comm_mem (pCoreOf 2 P) hQ hp hq⟩
   obtain ⟨ha3, ha1, hb3, hb1, -, hca, hba, hbc, -, -⟩ := h.rel (actHom hPQ hPΦ) hker
   obtain ⟨hne1, hne2⟩ := ne_and_ne_sq_of_inverts ha3 ha1 hca hbc
-  haveI : Finite (MulAut (↥(pCoreOf 2 P) ⧸
+  have : Finite (MulAut (↥(pCoreOf 2 P) ⧸
       (dsFrattini (pCoreOf 2 P)).subgroupOf (pCoreOf 2 P))) :=
     finite_mulAut_of_finite
   have hdiv : 9 ∣ Nat.card (MulAut (↥(pCoreOf 2 P) ⧸

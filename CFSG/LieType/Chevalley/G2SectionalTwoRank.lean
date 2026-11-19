@@ -34,7 +34,7 @@ theorem sectionalTwoRankLE_rootSpan
     have h := SectionalTwoRankLE.prod (SectionalTwoRankLE.specialLinearGroup K h2)
       (SectionalTwoRankLE.specialLinearGroup K h2)
     simpa [SL2] using h
-  haveI : Finite (SL2 K × SL2 K) := inferInstance
+  have : Finite (SL2 K × SL2 K) := inferInstance
   let f : SL2 K × SL2 K →* ↥(CFSG.RankThree.PartOne.g2Mul h K).range :=
     (CFSG.RankThree.PartOne.g2Mul h K).codRestrict (CFSG.RankThree.PartOne.g2Mul h K).range fun x => MonoidHom.mem_range.mpr ⟨x, rfl⟩
   have hf : Function.Surjective f := by
@@ -56,7 +56,7 @@ theorem sectionalTwoRankLE_toralCentralizer
   set T : Subgroup (ModGL .G2 K) := torusGroup .G2 K with hT
   have hSle : S ≤ X := rootSpan_rootCharKernel_le_toralCentralizer a
   have hTle : T ≤ X := torusGroup_le_toralCentralizer a
-  haveI : (S.subgroupOf X).Normal := rootSpan_rootCharKernel_normal a
+  have : (S.subgroupOf X).Normal := rootSpan_rootCharKernel_normal a
   have hS4 : SectionalTwoRankLE S 4 := sectionalTwoRankLE_rootSpan hK ha ha1
   have hN4 : SectionalTwoRankLE (S.subgroupOf X) 4 :=
     SectionalTwoRankLE.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hSle).symm hS4
@@ -80,13 +80,13 @@ theorem sectionalTwoRankLE_adjointGroup_G2
     {K : Type} [Field K] [Finite K] (hK : Odd (Nat.card K)) :
     SectionalTwoRankLE (adjointGroup .G2 K) 8 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P hP
   by_cases hbot : P = ⊥
   · subst hbot
     exact ⟨∅, by simp, by simp⟩
   ·
-    haveI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hbot
+    have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hbot
     have hCenter : IsPGroup 2 (Subgroup.center P) := hP.to_subgroup (Subgroup.center P)
     have hCenterNt : Nontrivial (Subgroup.center P) := IsPGroup.center_nontrivial hP
     obtain ⟨n, hn0, hn⟩ := (IsPGroup.nontrivial_iff_card hCenter).mp hCenterNt
@@ -96,7 +96,7 @@ theorem sectionalTwoRankLE_adjointGroup_G2
     obtain ⟨z0, hz0⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center P) 2 hdiv
     set t : ModGL .G2 K := (z0 : ModGL .G2 K) with ht_def
     have ht_mem : t ∈ adjointGroup .G2 K := by
-      simpa [ht_def] using (z0 : P).2
+      simp [ht_def]
     have ht2 : t ^ 2 = 1 := by
       have h : z0 ^ 2 = 1 := by rw [← hz0]; exact pow_orderOf_eq_one z0
       have hmap := congrArg (fun w : Subgroup.center P => (w : ModGL .G2 K)) h
@@ -112,7 +112,7 @@ theorem sectionalTwoRankLE_adjointGroup_G2
       simp at hz0
     obtain ⟨b, L, hLf, ψ, ι, hb, hb1, hψ, hι, himg, -⟩ :=
       CFSG.RankThree.PartOne.exists_involution_transport (K := K) hK ht_mem ht2 ht1
-    letI : Field L := hLf
+    let : Field L := hLf
     have hZ6 : SectionalTwoRankLE (toralCentralizer .G2 K b) 6 :=
       sectionalTwoRankLE_toralCentralizer hK hb hb1
     set Y : Subgroup (ModGL .G2 K) := adjointGroup .G2 K ⊓ Subgroup.centralizer {t} with hY
@@ -148,8 +148,8 @@ theorem sectionalTwoRankLE_of_chevalleyExceptionalModel_G2
     SectionalTwoRankLE S 8 := by
   obtain ⟨hadm, hun⟩ := h
   obtain ⟨K, hfield, hfin, hcard, ⟨e⟩⟩ := hun
-  letI : Field K := hfield
-  letI : Finite K := hfin
+  let : Field K := hfield
+  let : Finite K := hfin
   have hodd : Odd (Nat.card K) := by
     rw [hcard]
     exact (hadm.1.odd_of_ne_two hp2).pow

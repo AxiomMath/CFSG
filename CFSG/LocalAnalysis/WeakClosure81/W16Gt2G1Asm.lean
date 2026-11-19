@@ -14,6 +14,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conjSubgroup_le_of_le_of_mem {A H : Subgroup G} {h : G} (hA : A ≤ H)
     (hh : h ∈ H) : conjSubgroup A h ≤ H := by
   intro x hx
@@ -25,6 +26,7 @@ namespace ModDataE
 
 variable {J E : Subgroup G} (M : ModDataE J E)
 
+omit [Finite G] in
 private theorem sp_inj_of_le {S T : Subgroup G} (hS : S ≤ E) (hT : T ≤ E)
     (h : M.sp S = M.sp T) : S = T := by
   refine le_antisymm ?_ ?_
@@ -49,7 +51,8 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
-theorem img_mem_hatGamma (c : Cfg1620 M V₀ V U S R H g B)
+omit [Finite G] in
+theorem img_mem_hatGamma (_c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) : Mo.img V ∈ hatGamma Mo V :=
   ⟨1, H.one_mem, by rw [conjSubgroup_one]⟩
 
@@ -58,7 +61,7 @@ private theorem hat_inf_pCore (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     ∀ A ∈ hatGamma Mo V, A ⊓ pCoreOf 2 (Mo.img H) = ⊥ := by
   rintro A ⟨h, hh, rfl⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPle : pCoreOf 2 (Mo.img H) ≤ Mo.img H :=
     CFSG.LieType.BorelTits.pCoreOf_le 2 (Mo.img H)
   have hPn : ((pCoreOf 2 (Mo.img H)).subgroupOf (Mo.img H)).Normal :=
@@ -178,7 +181,7 @@ private theorem hat_cond2 (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G)
     _ = hatVA Mo V₀ V (Mo.img (conjSubgroup V x)) :=
         (hatVA_img_conj h1 h5 h15 hS c Mo hx).symm
 
-private theorem hat_quadratic (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G)
+private theorem hat_quadratic (h1 : W16One G) (_h5 : W16Five G) (_h15 : W16Fifteen G)
     (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     ∀ A ∈ hatGamma Mo V,

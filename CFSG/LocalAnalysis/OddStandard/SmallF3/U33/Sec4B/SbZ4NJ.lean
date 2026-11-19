@@ -140,7 +140,7 @@ theorem lam_not_mem_E0 : lam ∉ ctxE0N t tau x₁ x₂ rho := by
   intro hl
   have hlE : lam ∈ closure ({t, tau, lam} : Set G) := Subgroup.subset_closure (by simp)
   have hzpt := hz.E8_inf_E0 lam hlE hl
-  have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y hz.y_mem_V
+  have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
   have h1 : lam * x₁ ^ 2 * lam⁻¹ = x₁ ^ 2 := by
     rw [hz.zpowers_tau_cent_Y hzpt hy, mul_assoc, mul_inv_cancel, mul_one]
   rw [hz.nGood.lam_conj_y] at h1
@@ -152,7 +152,7 @@ theorem tlam_not_mem_E0 : t * lam ∉ ctxE0N t tau x₁ x₂ rho := by
   have hlE : lam ∈ closure ({t, tau, lam} : Set G) := Subgroup.subset_closure (by simp)
   have htlamE : t * lam ∈ closure ({t, tau, lam} : Set G) := Subgroup.mul_mem _ htE hlE
   have hzpt := hz.E8_inf_E0 (t * lam) htlamE hl
-  have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y hz.y_mem_V
+  have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hz.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
   have h1 : (t * lam) * x₁ ^ 2 * (t * lam)⁻¹ = x₁ ^ 2 := by
     rw [hz.zpowers_tau_cent_Y hzpt hy, mul_assoc, mul_inv_cancel, mul_one]
   have h2 : (t * lam) * x₁ ^ 2 * (t * lam)⁻¹ = x₂ ^ 2 := by

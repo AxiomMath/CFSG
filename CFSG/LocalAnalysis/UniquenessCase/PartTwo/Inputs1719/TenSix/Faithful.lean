@@ -261,7 +261,7 @@ theorem exists_faithful_pSubgroup {G : Type} [Group G] [Finite G] {L A X : Subgr
       obtain ⟨Q, hQ⟩ := (CFSG.pCore_isPGroup (p := p) (G := ↥Rhat)).exists_le_sylow
       have hQe : Q = R₀syl := Subsingleton.elim Q R₀syl
       rwa [hQe] at hQ
-    exact le_antisymm h1 (CFSG.LieType.BorelTits.le_pCore p hR₀normal R₀syl.isPGroup')
+    exact le_antisymm h1 (CFSG.LieType.BorelTits.le_pCore p hR₀normal R₀syl.isPGroup)
   have hKchar : K = (R₀syl : Subgroup ↥Rhat).map Rhat.subtype := by
     show pCoreOf p Rhat = _
     rw [show pCoreOf p Rhat = (CFSG.pCore p ↥Rhat).map Rhat.subtype from rfl, hpCoreEq]

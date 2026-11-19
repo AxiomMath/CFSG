@@ -138,6 +138,7 @@ theorem oddCore_eq_bot_of_mulEquiv {A B : Type*} [Group A] [Group B] (e : A ≃*
   rw [mem_bot]
   exact hx1
 
+omit [Finite G] in
 theorem oddCore_centralizer_conj_eq_bot {θ : L ≃* alternatingGroup (Fin n)}
     (hbal : FourPointBalance L θ) {w : G} (hw : w ∈ L)
     (hct : ((θ ⟨w, hw⟩ : alternatingGroup (Fin n)) : Perm (Fin n)).cycleType = {2, 2}) (g : G) :

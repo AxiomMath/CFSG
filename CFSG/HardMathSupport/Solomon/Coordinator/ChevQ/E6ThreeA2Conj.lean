@@ -41,22 +41,22 @@ theorem exists_conj_e6Line_of_finrank {ω : Kˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω 
     {x : ModGL .E6 K} (hx : x ∈ adjointGroup .E6 K) (hx3 : x ^ 3 = 1)
     (hdim : Module.finrank K (LinearMap.ker ((x : Module.End K (RootModule .E6 K)) - 1)) = 24) :
     ∃ g ∈ adjointGroup .E6 K, g * x * g⁻¹ = rootDiagUnit .E6 (e6LineChar ω) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3q : 3 ∣ Nat.card K - 1 := three_dvd_natCard_sub_one hω3 hω1
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpn, hcard⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hpn⟩
+  have : Fact (ringChar K).Prime := ⟨hpn⟩
   obtain ⟨p, hp⟩ : ∃ p, p = ringChar K := ⟨_, rfl⟩
   rw [← hp] at hpn hcard
-  haveI : Fact p.Prime := ⟨hpn⟩
-  haveI : CharP K p := hp ▸ ringChar.charP K
+  have : Fact p.Prime := ⟨hpn⟩
+  have : CharP K p := hp ▸ ringChar.charP K
   obtain ⟨e, he⟩ : ∃ e : ℕ, e = (n : ℕ) := ⟨_, rfl⟩
   have hK : Nat.card K = p ^ e := by rw [Nat.card_eq_fintype_card, hcard, he]
   have he1 : 1 ≤ e := by
     rw [he]
     exact n.pos
   have hp3 : p ≠ 3 := ne_three_of_cube_root hω3 hω1
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   obtain ⟨sL, hsL⟩ : ∃ g, g = baseChangeGL (algebraMap K (AlgebraicClosure K)) x := ⟨_, rfl⟩
   have hsLG : sL ∈ adjointGroup Tag.E6 (AlgebraicClosure K) := by

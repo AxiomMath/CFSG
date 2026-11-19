@@ -32,7 +32,7 @@ theorem exists_involution_of_isTwoComponentIn {K X : Subgroup G}
   have hodd : Odd (Nat.card ↥K) := by
     by_contra hev
     rw [Nat.not_odd_iff_even] at hev
-    haveI : Fintype ↥K := Fintype.ofFinite ↥K
+    have : Fintype ↥K := Fintype.ofFinite ↥K
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card (G := ↥K) 2
       (by rw [← Nat.card_eq_fintype_card]; exact even_iff_two_dvd.mp hev)
     exact hno x x.2 (by rw [orderOf_coe]; exact hx)
@@ -42,7 +42,7 @@ theorem exists_involution_of_isTwoComponentIn {K X : Subgroup G}
   have hq : IsQuasisimple (↥K ⧸ pPrimeCore 2 ↥K) :=
     FooteLit.isQuasisimple_quotient_of_isPComponent hK.1 hK.2
   have hnt : Nontrivial (↥K ⧸ pPrimeCore 2 ↥K) := LocalCores.isQuasisimple_nontrivial hq
-  haveI : Subsingleton (↥K ⧸ pPrimeCore 2 ↥K) := QuotientGroup.subsingleton_iff.mpr htop
+  have : Subsingleton (↥K ⧸ pPrimeCore 2 ↥K) := QuotientGroup.subsingleton_iff.mpr htop
   obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
@@ -74,7 +74,7 @@ theorem le_centralizer_of_isTwoComponentIn {A J X : Subgroup G}
 
 theorem isTwoComponentIn_of_le_normalizer {A D H : Subgroup G} (hAD : A ≤ D) (hDH : D ≤ H)
     (hDA : D ≤ normalizer (A : Set G)) (hHD : H ≤ normalizer (D : Set G))
-    (hA : CFSG.IsQuasisimple ↥A) (hAO : Nontrivial (↥A ⧸ pPrimeCore 2 ↥A)) :
+    (hA : CFSG.IsQuasisimple ↥A) (_hAO : Nontrivial (↥A ⧸ pPrimeCore 2 ↥A)) :
     FooteLit.IsTwoComponentIn A H := by
   have hAH : A ≤ H := hAD.trans hDH
   have hADn : (A.subgroupOf D).Normal :=
@@ -87,6 +87,7 @@ theorem isTwoComponentIn_of_le_normalizer {A D H : Subgroup G} (hAD : A ≤ D) (
   exact ⟨hAH,
     CFSG.OddStandard.Solomon75.isPComponent_two_of_isQuasisimple_of_subnormal hA hAH hsn⟩
 
+omit [Finite G] in
 private theorem normalizer_subgroupOf_map_le {K N : Subgroup G} (hK : K ≤ N) :
     ((Subgroup.normalizer (K.subgroupOf N : Set ↥N)).map N.subtype) ≤
       Subgroup.normalizer (K : Set G) := by
@@ -128,8 +129,8 @@ theorem base_le_normalizer_of_isTwoComponentIn {K N : Subgroup G}
 
 theorem ne_top_of_balanced (hsimp : IsSimpleGroup G) {S : Set (Subgroup G)} {T : Type*}
     [Group T] {N : Subgroup G} (hN : Balanced S T N) : N ≠ ⊤ := by
-  haveI : IsSimpleGroup G := hsimp
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup G) := Subgroup.topEquiv.isSimpleGroup
+  have : IsSimpleGroup G := hsimp
+  have : IsSimpleGroup ↥(⊤ : Subgroup G) := Subgroup.topEquiv.isSimpleGroup
   rintro rfl
   have hle : markedCount S T ⊤ ≤ 1 := by
     rw [markedCount]

@@ -25,8 +25,8 @@ theorem modA_finite (B : A6Base J a) : Module.Finite (ZMod 2) V :=
   Module.finite_of_finrank_pos (by rw [B.dim]; norm_num)
 
 theorem modA_finite_GL (B : A6Base J a) : Finite (V ≃ₗ[ZMod 2] V) := by
-  haveI := modA_finite B
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have := modA_finite B
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   exact Finite.of_injective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V)) DFunLike.coe_injective
 
 theorem modA_pow_five (B : A6Base J a) : a ^ 5 = 1 := by
@@ -36,7 +36,7 @@ theorem modA_pow_five (B : A6Base J a) : a ^ 5 = 1 := by
 theorem modA_stable_dim (B : A6Base J a) {U : Submodule (ZMod 2) V}
     (hU : ∀ g ∈ J, Stable g U) :
     finrank (ZMod 2) U = 0 ∨ finrank (ZMod 2) U = 4 ∨ finrank (ZMod 2) U = 8 := by
-  haveI := modA_finite B
+  have := modA_finite B
   have hdvd := four_dvd_finrank_of_stable (modA_pow_five B) (hU a B.mem)
     (fun u _ hu => B.fix u hu)
   have hle := Submodule.finrank_le U
@@ -46,7 +46,7 @@ theorem modA_stable_dim (B : A6Base J a) {U : Submodule (ZMod 2) V}
 
 theorem modA_stable_le_four (B : A6Base J a) {M U : Submodule (ZMod 2) V}
     (hM : finrank (ZMod 2) M = 4) (hU : ∀ g ∈ J, Stable g U) (hUM : U ≤ M) : U = ⊥ ∨ U = M := by
-  haveI := modA_finite B
+  have := modA_finite B
   have hle : finrank (ZMod 2) U ≤ 4 := hM ▸ Submodule.finrank_mono hUM
   rcases modA_stable_dim B hU with h0 | h4 | h8
   · exact Or.inl (Submodule.finrank_eq_zero.mp h0)
@@ -57,13 +57,13 @@ theorem modA_exists_four (B : A6Base J a) :
     ∃ M : Submodule (ZMod 2) V, finrank (ZMod 2) M = 4 ∧ ∀ g ∈ J, Stable g M := by
   by_contra hno
   obtain ⟨e⟩ := B.iso
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by rw [B.dim]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by rw [B.dim]; norm_num)
   let φ : alternatingGroup (Fin 6) →* (V ≃ₗ[ZMod 2] V) := J.subtype.comp e.symm.toMonoidHom
   have hirr : ∀ U : Submodule (ZMod 2) V, (∀ g, ∀ u ∈ U, φ g u ∈ U) → U = ⊥ ∨ U = ⊤ := by
     intro U hU
     have hJU : ∀ g ∈ J, Stable g U := fun g hg u hu => by
       simpa [φ] using hU (e ⟨g, hg⟩) u hu
-    haveI := modA_finite B
+    have := modA_finite B
     rcases modA_stable_dim B hJU with h0 | h4 | h8
     · exact Or.inl (Submodule.finrank_eq_zero.mp h0)
     · exact absurd ⟨U, h4, hJU⟩ hno
@@ -83,8 +83,8 @@ theorem modA_resJ_injective (B : A6Base J a) {M : Submodule (ZMod 2) V}
     (hM : finrank (ZMod 2) M = 4) (sM : ∀ g ∈ J, Stable g M) :
     Function.Injective (modA_resJ J M sM) := by
   obtain ⟨e⟩ := B.iso
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup J := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup J := e.isSimpleGroup
   rw [← MonoidHom.ker_eq_bot_iff]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (MonoidHom.ker (modA_resJ J M sM)) with h | h
   · exact h
@@ -127,7 +127,7 @@ theorem modA_end (B : A6Base J a) {M : Submodule (ZMod 2) V}
     (hf : ∀ (g : J) (u : M), f (modA_resJ J M sM g u) = modA_resJ J M sM g (f u)) :
     f = 0 ∨ f = 1 := by
   obtain ⟨e⟩ := B.iso
-  haveI : Nontrivial M := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Nontrivial M := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   let φ : alternatingGroup (Fin 6) →* (M ≃ₗ[ZMod 2] M) :=
     (modA_resJ J M sM).comp e.symm.toMonoidHom
   have hirr : ∀ U : Submodule (ZMod 2) M, (∀ g, ∀ u ∈ U, φ g u ∈ U) → U = ⊥ ∨ U = ⊤ :=
@@ -215,9 +215,9 @@ theorem modA_twist_zero (B : A6Base J a) (Tw : A6Twist J a T)
     (ψ : M →ₗ[ZMod 2] M)
     (hψ : ∀ (g : J) (u : M),
       ψ (modA_resJ J M sM g u) = modA_resJ J M sM (modA_cT Tw g) (ψ u)) : ψ = 0 := by
-  haveI := modA_finite B
-  haveI := modA_finite_GL B
-  haveI : Finite J := Finite.of_injective (Subtype.val : J → V ≃ₗ[ZMod 2] V) Subtype.val_injective
+  have := modA_finite B
+  have := modA_finite_GL B
+  have : Finite J := Finite.of_injective (Subtype.val : J → V ≃ₗ[ZMod 2] V) Subtype.val_injective
   have hker : ∀ g : J, ∀ u ∈ LinearMap.ker ψ, modA_resJ J M sM g u ∈ LinearMap.ker ψ := by
     intro g u hu
     rw [LinearMap.mem_ker] at hu ⊢
@@ -327,7 +327,7 @@ theorem modA_inf_eq_bot (B : A6Base J a) (Tw : A6Twist J a T)
 theorem modA_isCompl (B : A6Base J a) (Tw : A6Twist J a T)
     {M : Submodule (ZMod 2) V} (hM : finrank (ZMod 2) M = 4) (sM : ∀ g ∈ J, Stable g M) :
     IsCompl M (M.map (T : V →ₗ[ZMod 2] V)) := by
-  haveI := modA_finite B
+  have := modA_finite B
   have hinf := modA_inf_eq_bot B Tw hM sM
   have hd := modA_finrank_map hM T
   have hsup : M ⊔ M.map (T : V →ₗ[ZMod 2] V) = ⊤ := by
@@ -352,13 +352,13 @@ theorem modA_exists_proj {M N : Submodule (ZMod 2) V} (hc : IsCompl M N) :
   have e2 : M.projection N hc (g n) = 0 := hpn _ (hgN n hn)
   have e3 := hpm m hm
   have e4 := hpn n hn
-  simp only [map_add, e1, e2, e3, e4, map_zero, add_zero]
+  simp only [map_add, e1, e2, e3, e4, add_zero]
 
 theorem modA_four_eq (B : A6Base J a) (Tw : A6Twist J a T)
     {M : Submodule (ZMod 2) V} (hM : finrank (ZMod 2) M = 4) (sM : ∀ g ∈ J, Stable g M)
     {U : Submodule (ZMod 2) V} (hU : ∀ g ∈ J, Stable g U) (hd : finrank (ZMod 2) U = 4) :
     U = M ∨ U = M.map (T : V →ₗ[ZMod 2] V) := by
-  haveI := modA_finite B
+  have := modA_finite B
   by_contra hcon
   push Not at hcon
   obtain ⟨hne1, hne2⟩ := hcon
@@ -389,7 +389,7 @@ theorem modA_classify (B : A6Base J a) (Tw : A6Twist J a T)
     {M : Submodule (ZMod 2) V} (hM : finrank (ZMod 2) M = 4) (sM : ∀ g ∈ J, Stable g M)
     {U : Submodule (ZMod 2) V} (hU : ∀ g ∈ J, Stable g U) :
     U = ⊥ ∨ U = M ∨ U = M.map (T : V →ₗ[ZMod 2] V) ∨ U = ⊤ := by
-  haveI := modA_finite B
+  have := modA_finite B
   rcases modA_stable_dim B hU with h0 | h4 | h8
   · exact Or.inl (Submodule.finrank_eq_zero.mp h0)
   · rcases modA_four_eq B Tw hM sM hU h4 with h | h

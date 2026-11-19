@@ -183,8 +183,8 @@ private theorem u4Coord_range_eq_ker (hq2 : 2 ≤ u4q n) :
 private theorem card_hypTorus_two (hq2 : 2 ≤ u4q n) :
     Nat.card (hypTorus h 2 0) = (u4q n - 1) * (u4q n ^ 2 - 1) := by
   classical
-  haveI := h.finite
-  letI := Fintype.ofFinite K
+  have := h.finite
+  let := Fintype.ofFinite K
   have hcoordcard : Nat.card (hypTorus h 2 0) = Nat.card (u4Phi (n := n) (K := K)).ker := by
     rw [← u4Coord_range_eq_ker h hq2]
     exact Nat.card_congr (MonoidHom.ofInjective (u4Coord_injective h)).toEquiv
@@ -213,8 +213,8 @@ theorem k_U4CartanRank_holds : K_U4CartanRank := by
   intro Y _ _ n hY hq S hS r hr hr2 hdvd
   classical
   obtain ⟨K, _, h, ⟨e⟩⟩ := CFSG.Quasithin.H13.U4Par.exists_hypSU_equiv_of_lieModel hY
-  haveI := h.finite
-  letI := Fintype.ofFinite K
+  have := h.finite
+  let := Fintype.ofFinite K
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with hn | hn
     · subst hn; simp at hq

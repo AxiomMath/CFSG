@@ -15,22 +15,26 @@ variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 @[expose] noncomputable def restrictHom (s : Set Ω) : stabilizer (Perm Ω) s →* Perm s :=
   MulAction.toPermHom (stabilizer (Perm Ω) s) s
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem restrictHom_apply (s : Set Ω) (g : stabilizer (Perm Ω) s) (x : s) :
     ((restrictHom s g x : s) : Ω) = (g : Perm Ω) x := rfl
 
 @[expose] noncomputable def restr (R : Subgroup (Perm Ω)) (s : Set Ω) : Subgroup (Perm s) :=
   (R.subgroupOf (stabilizer (Perm Ω) s)).map (restrictHom s)
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem mem_restr {R : Subgroup (Perm Ω)} {s : Set Ω} {τ : Perm s} :
     τ ∈ restr R s ↔ ∃ g : stabilizer (Perm Ω) s, (g : Perm Ω) ∈ R ∧ restrictHom s g = τ := by
   rw [restr, Subgroup.mem_map]
   exact ⟨fun ⟨g, hg, h⟩ => ⟨g, Subgroup.mem_subgroupOf.mp hg, h⟩,
     fun ⟨g, hg, h⟩ => ⟨g, Subgroup.mem_subgroupOf.mpr hg, h⟩⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem isPGroup_restr {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R) (s : Set Ω) :
     IsPGroup 2 (restr R s) :=
   (IsPGroup.comap_subtype hR).map (restrictHom s)
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem eq_one_of_restrictHom_eq_one {s : Set Ω} {g : Perm Ω} (hg : g ∈ stabilizer (Perm Ω) s)
     (hg' : g ∈ stabilizer (Perm Ω) sᶜ) (h1 : restrictHom s ⟨g, hg⟩ = 1)
     (h2 : restrictHom sᶜ ⟨g, hg'⟩ = 1) : g = 1 := by
@@ -46,6 +50,7 @@ theorem eq_one_of_restrictHom_eq_one {s : Set Ω} {g : Perm Ω} (hg : g ∈ stab
     (hRs : R ≤ stabilizer (Perm Ω) s) (g : R) : restr R s :=
   ⟨restrictHom s ⟨g, hRs g.2⟩, mem_restr.mpr ⟨⟨g, hRs g.2⟩, g.2, rfl⟩⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem le_stabilizer_compl {R : Subgroup (Perm Ω)} {s : Set Ω}
     (hRs : R ≤ stabilizer (Perm Ω) s) : R ≤ stabilizer (Perm Ω) sᶜ :=
   hRs.trans (le_of_eq (stabilizer_compl (G := Perm Ω) (α := Ω) (s := s)).symm)
@@ -69,10 +74,12 @@ theorem le_stabilizer_compl {R : Subgroup (Perm Ω)} {s : Set Ω}
       rw [← map_mul]
       congr 1
 
+omit [Fintype Ω] [DecidableEq Ω] in
 @[simp] theorem restrProdHom_apply {R : Subgroup (Perm Ω)} {s : Set Ω}
     (hRs : R ≤ stabilizer (Perm Ω) s) (g : R) :
     restrProdHom hRs g = (restrOfMem hRs g, restrOfMem (le_stabilizer_compl hRs) g) := rfl
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem restrProdHom_injective {R : Subgroup (Perm Ω)} {s : Set Ω}
     (hRs : R ≤ stabilizer (Perm Ω) s) : Function.Injective (restrProdHom hRs) := by
   have hRs' := le_stabilizer_compl hRs
@@ -89,12 +96,14 @@ theorem restrProdHom_injective {R : Subgroup (Perm Ω)} {s : Set Ω}
   have h : a * b⁻¹ = 1 := Subtype.ext (by simpa using hg)
   exact mul_inv_eq_one.mp h
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem card_dvd_card_restr_mul {R : Subgroup (Perm Ω)} {s : Set Ω}
     (hRs : R ≤ stabilizer (Perm Ω) s) :
     Nat.card R ∣ Nat.card (restr R s) * Nat.card (restr R sᶜ) := by
   have h := Subgroup.card_dvd_of_injective (restrProdHom hRs) (restrProdHom_injective hRs)
   rwa [Nat.card_prod] at h
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem mem_normalizer_subgroupOf {R : Subgroup (Perm Ω)} {s : Set Ω} {σ : Perm Ω}
     (hσ : σ ∈ stabilizer (Perm Ω) s) (hσR : σ ∈ normalizer (R : Set (Perm Ω))) :
     (⟨σ, hσ⟩ : stabilizer (Perm Ω) s) ∈
@@ -110,6 +119,7 @@ theorem mem_normalizer_subgroupOf {R : Subgroup (Perm Ω)} {s : Set Ω} {σ : Pe
     refine (Subgroup.mem_normalizer_iff.mp hσR (↑h : Perm Ω)).mpr ?_
     simpa using Subgroup.mem_subgroupOf.mp hh
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem restrictHom_mem_normalizer {R : Subgroup (Perm Ω)} {s : Set Ω} {σ : Perm Ω}
     (hσ : σ ∈ stabilizer (Perm Ω) s) (hσR : σ ∈ normalizer (R : Set (Perm Ω))) :
     restrictHom s ⟨σ, hσ⟩ ∈ normalizer ((restr R s : Subgroup (Perm s)) : Set (Perm s)) := by
@@ -117,6 +127,7 @@ theorem restrictHom_mem_normalizer {R : Subgroup (Perm Ω)} {s : Set Ω} {σ : P
   have hle := Subgroup.le_normalizer_map (H := R.subgroupOf (stabilizer (Perm Ω) s)) (restrictHom s)
   exact hle (Subgroup.mem_map.mpr ⟨⟨σ, hσ⟩, hmem, rfl⟩)
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem odd_orderOf_restrictHom {s : Set Ω} {σ : Perm Ω} (hσ : σ ∈ stabilizer (Perm Ω) s)
     (ho : Odd (orderOf σ)) : Odd (orderOf (restrictHom s ⟨σ, hσ⟩)) := by
   have h1 : orderOf (restrictHom s ⟨σ, hσ⟩) ∣ orderOf (⟨σ, hσ⟩ : stabilizer (Perm Ω) s) :=
@@ -126,14 +137,15 @@ theorem odd_orderOf_restrictHom {s : Set Ω} {σ : Perm Ω} (hσ : σ ∈ stabil
   rw [h2] at h1
   exact Odd.of_dvd_nat ho h1
 
+omit [DecidableEq Ω] in
 theorem not_two_dvd_index_restr {R : Subgroup (Perm Ω)} {s : Set Ω} (hR : IsPGroup 2 R)
     (hRs : R ≤ stabilizer (Perm Ω) s)
     (hc : 2 ^ (padicValNat 2 (Nat.card s).factorial + padicValNat 2 (Nat.card ↥sᶜ).factorial) ∣
       Nat.card R) :
     ¬ 2 ∣ (restr R s).index ∧ ¬ 2 ∣ (restr R sᶜ).index := by
   classical
-  haveI : Fintype ↥s := Fintype.ofFinite _
-  haveI : Fintype ↥sᶜ := Fintype.ofFinite _
+  have : Fintype ↥s := Fintype.ofFinite _
+  have : Fintype ↥sᶜ := Fintype.ofFinite _
   have h1 : Nat.card (restr R s) ∣ 2 ^ padicValNat 2 (Nat.card ↥s).factorial :=
     card_dvd_of_isPGroup (isPGroup_restr hR s)
   have h2 : Nat.card (restr R sᶜ) ∣ 2 ^ padicValNat 2 (Nat.card ↥sᶜ).factorial :=
@@ -179,7 +191,7 @@ theorem false_of_card_eq_mul {R : Subgroup (Perm Ω)} {s : Set Ω} (hRA : R ≤ 
     (hsyl : ¬ 2 ∣ (restr R sᶜ).index)
     (hcard : Nat.card R = Nat.card (restr R s) * Nat.card (restr R sᶜ)) : False := by
   classical
-  haveI : Fintype ↥sᶜ := Fintype.ofFinite _
+  have : Fintype ↥sᶜ := Fintype.ofFinite _
   obtain ⟨τ, hτ, hτA⟩ :=
     exists_not_mem_alternatingGroup_of_not_two_dvd_index (isPGroup_restr hR sᶜ) h2 hsyl
   have hτsign : Equiv.Perm.sign τ = -1 := by
@@ -229,7 +241,7 @@ theorem false_of_card_eq_mul' {R : Subgroup (Perm Ω)} {s : Set Ω} (hRA : R ≤
     exact hcard
 
 theorem restr_le_alternatingGroup {R : Subgroup (Perm Ω)} {s : Set Ω} [DecidablePred (· ∈ s)]
-    (hRA : R ≤ alternatingGroup Ω) (hRs : R ≤ stabilizer (Perm Ω) s) (h1 : Nat.card ↥sᶜ ≤ 1) :
+    (hRA : R ≤ alternatingGroup Ω) (_hRs : R ≤ stabilizer (Perm Ω) s) (h1 : Nat.card ↥sᶜ ≤ 1) :
     restr R s ≤ alternatingGroup s := by
   classical
   intro τ hτ
@@ -247,8 +259,8 @@ theorem restr_le_alternatingGroup {R : Subgroup (Perm Ω)} {s : Set Ω} [Decidab
       obtain ⟨y, hy, hgy⟩ := Set.mem_smul_set.mp h
       have hyx : y = x := (g : Perm Ω).injective hgy
       rwa [hyx] at hy
-  haveI hsub : Subsingleton ↥sᶜ := by
-    haveI : Fintype ↥sᶜ := Fintype.ofFinite _
+  have hsub : Subsingleton ↥sᶜ := by
+    have : Fintype ↥sᶜ := Fintype.ofFinite _
     exact Finite.card_le_one_iff_subsingleton.mp h1
   have hfix : ∀ x : Ω, x ∉ s → (g : Perm Ω) x = x := by
     intro x hx

@@ -138,7 +138,7 @@ private theorem card_pSimple_of_pair_diag (X Y : PU) {d₁ : Fin 6 → F4}
       intro hzero
       have h3 := hd₁3 0
       rw [hzero] at h3
-      simpa using h3
+      simp at h3
     refine ⟨Units.mk0 (d₁ 0) h0, ?_⟩
     apply Units.ext
     rw [hX, Matrix.GeneralLinearGroup.coe_scalar, Units.val_mk0, Matrix.scalar_apply]
@@ -165,7 +165,7 @@ private theorem card_pSimple_of_pair_diag (X Y : PU) {d₁ : Fin 6 → F4}
     intro hzero
     have h3 := hd₁3 i.1
     rw [hzero] at h3
-    simpa using h3
+    simp at h3
   have hJK : J ≤ (embSU d₁ c).range :=
     le_range_embSU d₁ c hX (fun c' hc' => by have := hsmall c' hc'; omega)
       (hJ.1.trans inf_le_left) hperf
@@ -297,7 +297,7 @@ private theorem card_pSimple_of_pair_diag (X Y : PU) {d₁ : Fin 6 → F4}
         intro hzero
         have h3 := he₁3 0
         rw [hzero] at h3
-        simpa using h3
+        simp at h3
       refine ⟨Units.mk0 (e₁ 0) h0, ?_⟩
       change D₁ = Matrix.GeneralLinearGroup.scalar (Fin 6) (Units.mk0 (e₁ 0) h0)
       apply Units.ext
@@ -316,7 +316,7 @@ private theorem card_pSimple_of_pair_diag (X Y : PU) {d₁ : Fin 6 → F4}
         rw [hzero, zero_mul] at h1
         have h2 := he₂3 0
         rw [h1] at h2
-        simpa using h2
+        simp at h2
       refine h₂.indep k (Units.mk0 c hc) ?_
       change D₂ = Matrix.GeneralLinearGroup.scalar (Fin 6) (Units.mk0 c hc) * D₁ ^ k
       apply Units.ext
@@ -372,7 +372,7 @@ private theorem card_pSimple_of_pair_diag (X Y : PU) {d₁ : Fin 6 → F4}
           rw [← hA]
           exact mM6_embSU (d := d₁) (c := c) A
         rw [h1, extMat_apply]
-        simp only [dif_neg hij]
+        simp only [dite_eq_right hij]
       have hgM : ((u : GL6) : Mat6) * ((Y : GL6) : Mat6) =
           ((Y : GL6) : Mat6) * ((u : GL6) : Mat6) := by
         have hmem : u ∈ CenD (Y : GL6) := (Subgroup.mem_inf.1 (hJ.1 hu)).2

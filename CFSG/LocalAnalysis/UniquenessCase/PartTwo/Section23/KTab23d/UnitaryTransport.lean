@@ -44,7 +44,7 @@ theorem exists_isHypTransport_four {a : ℕ} {K : Type} [Field K] (h : UnitaryFi
     exact one_ne_zero h1
   have ha : stdHermForm h (2 * 2 + 0) (Pi.single 0 1 + Pi.single 1 1 : Fin 4 → K)
       (Pi.single 0 1 + Pi.single 1 1 : Fin 4 → K) = 0 := by
-    haveI := h.charP
+    have := h.charP
     have hsplit : stdHermForm h (2 * 2 + 0) (Pi.single 0 1 + Pi.single 1 1 : Fin 4 → K) =
         stdHermForm h (2 * 2 + 0) (Pi.single 0 1 : Fin 4 → K) +
           stdHermForm h (2 * 2 + 0) (Pi.single 1 1 : Fin 4 → K) :=

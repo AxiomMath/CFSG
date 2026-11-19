@@ -28,7 +28,7 @@ theorem nontrivial_pSimple_of_smallType {G : Type} [Group G] [Finite G] {K : Sub
     have h42 : CFSG.Assembly.LargeEvenIsU42 (PSimple 3 K) :=
       isU42_of_catalogIs (S := PSimple 3 K) ⟨i, hi, ⟨e⟩⟩
     have hc : Nat.card (PSimple 3 K) = 25920 := CFSG.StandardType.IOneOrthEnd.card_of_isU42 h42
-    haveI : Finite (PSimple 3 K) := inferInstance
+    have : Finite (PSimple 3 K) := inferInstance
     exact Finite.one_lt_card_iff_nontrivial.1 (by rw [hc]; norm_num)
   · obtain ⟨i, hi, ⟨e⟩⟩ := ha
     cases i with
@@ -46,11 +46,11 @@ theorem toSimple_bijective_of_center_bot {G : Type} [Group G] [Finite G] {K : Su
   refine ⟨?_, CatB.toSimple_surjective 3 K⟩
   have hne : GLAPPrimeCore 3 ↥K ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (PQuot 3 K) := by
+    have : Subsingleton (PQuot 3 K) := by
       show Subsingleton (↥K ⧸ GLAPPrimeCore 3 ↥K)
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI : Subsingleton (PSimple 3 K) :=
+    have : Subsingleton (PSimple 3 K) :=
       Function.Surjective.subsingleton (QuotientGroup.mk'_surjective (Subgroup.center (PQuot 3 K)))
     exact not_subsingleton _ ‹_›
   have hO : GLAPPrimeCore 3 ↥K ≤ Subgroup.center ↥K :=

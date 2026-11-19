@@ -23,8 +23,8 @@ theorem psu_graph_card_fixed_le {K : Type} [Field K] (h : UnitaryFieldData 3 2 K
     (hA : orderOf (primeFormPsi h isPrimeFormGram_one ⟨A, φ⟩) = 2) :
     Nat.card ↥(fixedSubgroup (primeFormPsi h isPrimeFormGram_one ⟨A, φ⟩)) ≤ 720 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   let τ₀ : (Fin 3 → K) →ₛₗ[h.bar] (Fin 3 → K) :=
     semilinearMatrixMap h ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)
   let Cτ : Subgroup (LinearMap.GeneralLinearGroup K (Fin 3 → K)) :=
@@ -197,7 +197,7 @@ theorem harrisOddSharp_PSU_three_two (hO : LieOrderFormulasInput) : HarrisOddSha
     ⟨Nat.prime_three, by norm_num, by norm_num, by decide⟩
   obtain ⟨K, _, h, ⟨ψ⟩⟩ :=
     CFSG.ComponentClassification.CatLeafProof.nonempty_mulEquiv_primeFormP_of_lieModel' hadm hm
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   refine ⟨primeFormP h (idGram K 3), inferInstance, inferInstance, ψ, ?_⟩
   intro σ hσ D hD
   have hC : IsPrimeFormGram (1 : GL (Fin 3) K) := isPrimeFormGram_one

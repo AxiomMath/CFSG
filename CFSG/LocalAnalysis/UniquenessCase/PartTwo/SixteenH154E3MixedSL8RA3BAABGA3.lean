@@ -21,7 +21,7 @@ private theorem s16h_sup_zpowers_noncyclic_of_prime {X : Type} [Group X] [Finite
     (hdisj : Subgroup.zpowers u ⊓ Subgroup.zpowers v = ⊥) :
     IsPGroup p ↥(Subgroup.zpowers u ⊔ Subgroup.zpowers v) ∧
       ¬ IsCyclic ↥(Subgroup.zpowers u ⊔ Subgroup.zpowers v) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : Nat.card (Subgroup.zpowers u) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hu hu1]
   have hT : Nat.card (Subgroup.zpowers v) = p := by
@@ -110,7 +110,7 @@ theorem s16h_sl28_seven_of_C_TZ_eq_top
       E ≤ Subgroup.normalizer ((T ⊓ centSub (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) : Subgroup _) : Set _) := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let hV := h.hyp151.isElemAbelian
   let W := Vtil ⊥ V hV
   let Mb : Subgroup (MulAut W) := Mbar D.M ⊥ V hV

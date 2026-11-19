@@ -15,6 +15,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem bar_injective_of_ge {S T : Subgroup G} (hQS : Q ≤ S) (hQT : Q ≤ T) (hSM : S ≤ M)
     (hTM : T ≤ M) (h : bar M Q S = bar M Q T) : S = T := by
   ext x
@@ -28,6 +29,7 @@ theorem bar_injective_of_ge {S T : Subgroup G} (hQS : Q ≤ S) (hQT : Q ≤ T) (
     rw [← h] at h1
     exact (mk_mem_bar_iff_sec4 hQS _).mp h1
 
+omit [Finite G] in
 theorem Q_le_conjSubgroup {S : Subgroup G} (hQS : Q ≤ S) (hQM : Q ≤ M) (g : M) :
     Q ≤ conjSubgroup (g : G) S := by
   intro y hy
@@ -36,6 +38,7 @@ theorem Q_le_conjSubgroup {S : Subgroup G} (hQS : Q ≤ S) (hQM : Q ≤ M) (g : 
     Subgroup.Normal.conj_mem inferInstance _ (Subgroup.mem_subgroupOf.mpr hy) g⁻¹
   exact hQS (by simpa using Subgroup.mem_subgroupOf.mp h1)
 
+omit [Finite G] in
 theorem conjSubgroup_bar {S : Subgroup G} (hQS : Q ≤ S) (hQM : Q ≤ M) (g : M) :
     conjSubgroup (QuotientGroup.mk' (Q.subgroupOf M) g) (bar M Q S) =
       bar M Q (conjSubgroup (g : G) S) := by
@@ -58,6 +61,7 @@ theorem pCore_hat_eq_bot (hc : Ctx M Q Z B) [(Q.subgroupOf (H0 M Z)).Normal] :
   rw [pCore_two_bar_H0_eq_bot hc] at h
   exact (Subgroup.map_eq_bot_iff_of_injective _ iso.injective).mp h
 
+omit [(Q.subgroupOf M).Normal] in
 theorem sq_eq_one_hat (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t)
     (hZc : Sec7CentreMpStatement) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) [(Q.subgroupOf (H0 M Z)).Normal] :
@@ -70,6 +74,7 @@ theorem sq_eq_one_hat (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t)
   rw [← map_pow]
   exact (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr (by simpa using hsq))
 
+omit [(Q.subgroupOf M).Normal] in
 theorem ne_hat (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t)
     (hZcard : Sec7ZCardStatement) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) [(Q.subgroupOf (H0 M Z)).Normal] :
@@ -97,7 +102,7 @@ theorem exists_Hconj_of_conj (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp 
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hZ0M : Z0 ≤ M := hc.centre_le_M t hZ0
   have hQM : Q ≤ M := hc.hyp.Q_normal.1
-  haveI hnormH := hc.normal_bar_H0
+  have hnormH := hc.normal_bar_H0
   have hHn : ∀ x : Mbar M Q, x ∈ Subgroup.normalizer
       ((bar M Q (H0 M Z) : Subgroup (Mbar M Q)) : Set (Mbar M Q)) := fun x => by
     rw [Subgroup.normalizer_eq_top]
@@ -125,9 +130,10 @@ theorem conjSubgroup_comap {X Y : Type*} [Group X] [Group Y] (e : Y →* X) (g :
   ext x
   simp only [mem_conjSubgroup, Subgroup.mem_comap, map_mul, map_inv]
 
+omit [Finite G] in
 theorem exists_hat_conj {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M)
     [(Q.subgroupOf S).Normal] {V N : Subgroup (Mbar M Q)}
-    (hV : V ≤ bar M Q S) (hN : N ≤ bar M Q S)
+    (hV : V ≤ bar M Q S) (_hN : N ≤ bar M Q S)
     (h : ∃ h ∈ bar M Q S, conjSubgroup h V ≤ N ∧ conjSubgroup h V ≠ V) :
     ∃ g' : (↥S ⧸ Q.subgroupOf S), conjSubgroup g' (V.comap (embBar M Q hSM hQS)) ≤
         N.comap (embBar M Q hSM hQS) ∧

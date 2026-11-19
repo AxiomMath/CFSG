@@ -42,9 +42,11 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffTs_mul_self (fr : PFrame Q (Option (Fin 5)) ffC) : ffTs fr * ffTs fr = 1 := by
   rw [ffTs, ← map_mul, ← map_mul, fr.signChange_mul_self, map_one, map_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffTs_ne_one (fr : PFrame Q (Option (Fin 5)) ffC) : ffTs fr ≠ 1 := by
   intro h
   have h1 : toProj Q (fr.signChange {none}) = toProj Q (fr.signChange ∅) := by
@@ -71,7 +73,7 @@ theorem ffP1p_le_normalizer (hQ : Q.Nondegenerate) (hπ : piOrth Q ∉ omegaGrou
   (Subgroup.normal_subgroupOf_iff_le_normalizer (ffB1p_le_ffP1p hQ fr)).mp
     (ffB1p_normalE16 hQ hπ fr).2.2
 
-theorem ff6p_mem_normalizer_of_N0 (hQ : Q.Nondegenerate) (hπ : piOrth Q ∉ omegaGroup hQ)
+theorem ff6p_mem_normalizer_of_N0 (hQ : Q.Nondegenerate) (_hπ : piOrth Q ∉ omegaGroup hQ)
     (fr : PFrame Q (Option (Fin 5)) ffC) {g : ↥(omegaGroup hQ)}
     (hg : (g : OGroup Q) ∈ ffN0p hQ fr) :
     omegaToProj hQ g ∈ Subgroup.normalizer
@@ -148,13 +150,13 @@ theorem ff6p_cent_sim_cases (hQ : Q.Nondegenerate) (h2 : 2 ≤ Module.finrank (Z
     have hKc : projOrthToProjSim Q (toProj Q (fr.signChange K)) =
         projOrthToProjSim Q (toProj Q (fr.signChange (if none ∈ K then Kᶜ else K))) := by
       by_cases h : none ∈ K
-      · rw [if_pos h, ← ff6p_toProj_signChange_compl fr K]
-      · rw [if_neg h]
+      · rw [ite_eq_left h, ← ff6p_toProj_signChange_compl fr K]
+      · rw [ite_eq_right h]
     rw [hKc]
     have hnone : none ∉ (if none ∈ K then Kᶜ else K) := by
       by_cases h : none ∈ K
-      · rw [if_pos h]; simp [h]
-      · rw [if_neg h]; exact h
+      · rw [ite_eq_left h]; simp [h]
+      · rw [ite_eq_right h]; exact h
     obtain ⟨J, hJ⟩ := exists_ffOpt_of_none_notMem (K := if none ∈ K then Kᶜ else K) hnone
     rw [hJ]
     by_cases hJe : Even J.card

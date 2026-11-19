@@ -21,7 +21,7 @@ theorem s828_autOn_pCore_le {L V : Subgroup G} :
     (CFSG.Quasithin.AutOn.autOn_le_normalizer_autOn (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L))
     (CFSG.Quasithin.AutOn.isPGroup_autOn (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L))
 
-theorem s828_lu_centralizes_B {T L I H : Subgroup G} {h : G} {k : ℕ}
+theorem s828_lu_centralizes_B {T L I _H : Subgroup G} {h : G} {k : ℕ}
     [IsMulCommutative ↥(fsuV T I)] (hMB3 : MB3_828) (hcard : Mathieu.StmtH13Card)
     (hV : IsElemAbelian 2 (fsuV T I)) (hL0 : fsuL0 T L = L) (hC5 : Concl825 T L I h k)
     (hLN : L ≤ Subgroup.normalizer (fsuV T I : Set G))
@@ -79,7 +79,7 @@ theorem s828_lu_centralizes_B {T L I H : Subgroup G} {h : G} {k : ℕ}
   obtain ⟨bm, hbm, hbeq⟩ := Subgroup.mem_map.mp hbB'
   have hbm_eq : bm = ⟨b, hbV⟩ := Subtype.ext hbeq
   have hy := Subgroup.mem_map_of_mem (fsuV T I).subtype (hm3 _ hx bm hbm)
-  rw [s828_fixV_map (L := L) hAN] at hy
+  rw [s828_fixV_map (_L := L) hAN] at hy
   have e : ((CFSG.Quasithin.conjAct (fsuV T I) ⟨w, hwV⟩ bm * bm⁻¹ : ↥(fsuV T I)) : G) =
       ⁅w, b⁆ := by
     rw [hbm_eq, Subgroup.coe_mul, Subgroup.coe_inv, CFSG.Quasithin.AutOn.coe_conjAct_apply,
@@ -101,7 +101,7 @@ theorem s828_lu_centralizes_A {T L I H : Subgroup G} {h : G} {k : ℕ}
     (hcen : ∀ u ∈ ch82U (fsuV T I) h, ∀ i ∈ ch82I (fsuV T I) h, i * u * i⁻¹ = u) :
     ∀ w ∈ pCoreOf 2 (ch82LU L (ch82U (fsuV T I) h)), ∀ a ∈ ch82A (fsuV T I) h,
       ⁅w, a⁆ ∈ ch82U (fsuV T I) h := by
-  have hB' := s828_lu_centralizes_B (H := H) hMB3 hcard hV hL0 hC5 hLN hAN hAL hAe hB hrow
+  have hB' := s828_lu_centralizes_B (_H := H) hMB3 hcard hV hL0 hC5 hLN hAN hAL hAe hB hrow
   intro w hw a ha
   have ha' : a ∈ B6.conjSub h (fsuV T I) ⊓ pCoreOf 2 (ch82I (fsuV T I) h) := ha
   have hhN : h⁻¹ ∈ Subgroup.normalizer (pCoreOf 2 (ch82LU L (ch82U (fsuV T I) h)) : Set G) :=
@@ -141,11 +141,11 @@ theorem s828_lu_centralizes_P {T L I H : Subgroup G} {h : G} {k : ℕ}
   intro w hw
   have hA := s828_lu_centralizes_A (H := H) hMB3 hcard hV hL0 hC5 hLN hAN hAL hAe hB hrow hhI hIN
     hcen w hw
-  have hB' := s828_lu_centralizes_B (H := H) hMB3 hcard hV hL0 hC5 hLN hAN hAL hAe hB hrow w hw
+  have hB' := s828_lu_centralizes_B (_H := H) hMB3 hcard hV hL0 hC5 hLN hAN hAL hAe hB hrow w hw
   let S : Subgroup G :=
     { carrier := {p | p ∈ ch82I (fsuV T I) h ∧ ⁅w, p⁆ ∈ ch82U (fsuV T I) h}
       one_mem' := ⟨(ch82I (fsuV T I) h).one_mem, by
-        simpa [commutatorElement_def] using (ch82U (fsuV T I) h).one_mem⟩
+        simp [commutatorElement_def]⟩
       mul_mem' := by
         rintro p q ⟨hp, hpz⟩ ⟨hq, hqz⟩
         refine ⟨(ch82I (fsuV T I) h).mul_mem hp hq, ?_⟩

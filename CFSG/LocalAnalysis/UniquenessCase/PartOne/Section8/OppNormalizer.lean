@@ -38,7 +38,7 @@ theorem mem_normalizer_of_ncard_conjSetOf_le_two_of_odd_order
       have hx2x : x⁻¹ * x ^ 2 = x := by group
       rw [hxx, hx2x] at h'
       have h1 : L.map (MulAut.conj (1 : G)).toMonoidHom = L := by
-        rw [show MulAut.conj (1 : G) = 1 by ext y; simp [MulAut.conj_apply]]
+        rw [show MulAut.conj (1 : G) = 1 by ext y; simp]
         change L.map (MonoidHom.id G) = L
         exact Subgroup.map_id L
       rw [h1] at h'

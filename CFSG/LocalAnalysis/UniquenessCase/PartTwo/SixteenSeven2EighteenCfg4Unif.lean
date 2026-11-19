@@ -35,6 +35,7 @@ private theorem s16c167_cfg4_mul_three_eq_one {X : Type} [Group X]
   have : a + a + a = (3 : ZMod 3) * a := by ring
   rw [this, h3, zero_mul]
 
+omit [Finite W] in
 private theorem s16c167_cfg4_map_eq_of_mem_stabSub {Y : Subgroup W} {g : MulAut W}
     (hg : g ∈ stabSub Y) : Y.map g.toMonoidHom = Y := by
   have hginv : ∀ u : W, g (g⁻¹ u) = u := by
@@ -77,7 +78,7 @@ theorem s16c167_cfg4_block (hW : ∀ w : W, w ^ 2 = 1) {Y : Subgroup W} (hY : rk
   have hYcard : Nat.card ↥Y = 4 := by
     rw [card_eq_two_pow hW Y, hY]
     norm_num
-  haveI : IsKleinFour ↥Y := by
+  have : IsKleinFour ↥Y := by
     refine ⟨hYcard, ?_⟩
     have hdvd : Monoid.exponent ↥Y ∣ 2 :=
       Monoid.exponent_dvd_of_forall_pow_eq_one fun g => by

@@ -157,7 +157,7 @@ theorem witness_Z0 :
             w183finL34_repConjN (repN_wN yW) (repN_wN w) (repN_wN yW)
         have heq' : wordPerm yW * wordPerm w * (wordPerm yW)⁻¹ = wordPerm w' := by
           rw [hw'eq]
-          simp [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+          simp [MulAut.conj_apply]
         exact (RepN.eq_iff hrep (repN_wN w')).2 heq'
       rw [hne] at hmem
       exact Bool.false_ne_true hmem
@@ -170,7 +170,7 @@ theorem witness_Z0 :
       obtain ⟨w', hw', rfl⟩ := List.mem_map.1 hzN
       refine ⟨wordPerm gSW * wordPerm w' * (wordPerm gSW)⁻¹, ?_, ?_⟩
       · exact Subgroup.mem_map.2 ⟨wordPerm w', ⟨w', hw', rfl⟩, by
-          simp [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]⟩
+          simp [MulAut.conj_apply]⟩
       · have hrepL : RepN (conjN (wN yW) (wN yW) (wN w))
             (wordPerm yW * wordPerm w * (wordPerm yW)⁻¹) := by
           exact congrArg (fun z => wordPerm yW * wordPerm w * z) hyinv ▸
@@ -288,7 +288,7 @@ theorem finG1Syl_holds :
   have hφinj : Function.Injective φ := (MulAut.conj k⁻¹).injective.comp hι
   have hf_apply : ∀ x : Equiv.Perm (Fin 42), f x = k⁻¹ * x * k := by
     intro x
-    simp [f, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp [f]
   have hφA : A₀.map φ = Z0 := by
     change A₀.map (f.comp ι) = Z0
     rw [← Subgroup.map_map A₀ f ι]

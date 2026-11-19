@@ -108,7 +108,7 @@ theorem subgroupOf_gLAPPrimeCoreOf_centralizer_le (hp : p.Prime) {M : Subgroup Y
       (Subgroup.card_dvd_of_le inf_le_left)
 
 theorem commute_of_faithful_p (hH1 : H1Stmt.{u}) (hp : p.Prime) {k : ℕ} {L : Subgroup Y}
-    (hL : IsComponent L) {F : Subgroup Y} (hFel : IsElemAbelian p F)
+    (_hL : IsComponent L) {F : Subgroup Y} (hFel : IsElemAbelian p F)
     (hFcard : Nat.card F = p ^ k) (hFL : ∀ f ∈ F, conjSub f L = L)
     (hFfaith : ∀ f ∈ F, f ≠ 1 → ¬ ∀ x ∈ L, f * x = x * f)
     (hbal : IsLocallyBalanced p k (fImage F L)) {D : Subgroup Y}

@@ -178,8 +178,8 @@ structure L34VertexData (E : Subgroup H) : Prop where
 
 theorem transferVertexData_of_l34VertexData {E : Subgroup H} (h : L34VertexData E) :
     TransferVertexData E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hQfin : Finite ↥(pCoreOf 2 E) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hQfin : Finite ↥(pCoreOf 2 E) :=
     Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
   have hL3 : ∃ x ∈ oTwoPrime E, orderOf x = 3 :=
     exists_orderOf_eq_three_of_isL2Quot h.quot
@@ -262,6 +262,7 @@ theorem f112sa_exists_cartan_X2 {L1 L2 S : Subgroup H}
 
 end Vertex
 
+omit [Finite H] in
 private theorem sup_eq_sup_of_eq_sup_inf {A B S D1 D2 K T : Subgroup H}
     (hK : K = A ⊔ B) (hT : T = S ⊓ K) (hA : A = (A ⊓ S) ⊔ D1)
     (hB : B = (B ⊓ S) ⊔ D2) (hAT : A ⊓ S ≤ T) (hBT : B ⊓ S ≤ T)
@@ -281,14 +282,17 @@ private theorem sup_eq_sup_of_eq_sup_inf {A B S D1 D2 K T : Subgroup H}
     · exact hT.le.trans (inf_le_right.trans hK.le)
     · exact hD2.trans le_sup_right
 
+omit [Finite H] in
 theorem f112saX1_inf_S_le_T (L1 L2 S : Subgroup H) :
     f112saX1 L1 L2 S ⊓ S ≤ S ⊓ f112saK L1 L2 S :=
   le_inf inf_le_right (inf_le_left.trans (le_sup_left : f112saX1 L1 L2 S ≤ f112saK L1 L2 S))
 
+omit [Finite H] in
 theorem f112saX2_inf_S_le_T (L1 L2 S : Subgroup H) :
     f112saX2 L1 L2 S ⊓ S ≤ S ⊓ f112saK L1 L2 S :=
   le_inf inf_le_right (inf_le_left.trans (le_sup_right : f112saX2 L1 L2 S ≤ f112saK L1 L2 S))
 
+omit [Finite H] in
 private theorem sup_eq_sup_of_eq_sup_of_le {A X Y D L E : Subgroup H}
     (hE : E = A ⊔ X) (hX : X = Y ⊔ D) (hA : A ≤ L) (hY : Y ≤ L)
     (hD : D ≤ E) (hL : L ≤ E) : E = L ⊔ D := by
@@ -317,6 +321,7 @@ theorem f112saP2'_eq_oTwoPrime_sup_cartan
     ((f112saX1_inf_S_le_T L1 L2 S).trans (f112sa_T_le_oTwoPrime_P2' hF))
     (hD1X.trans le_sup_right) (oTwoPrime_le _)
 
+omit [Finite H] in
 theorem f112saK_eq_T_sup_cartan {L1 L2 S D1 D2 : Subgroup H}
     (hD1X : D1 ≤ f112saX1 L1 L2 S) (hD2X : D2 ≤ f112saX2 L1 L2 S)
     (hX1eq : f112saX1 L1 L2 S = (f112saX1 L1 L2 S ⊓ S) ⊔ D1)
@@ -327,6 +332,7 @@ theorem f112saK_eq_T_sup_cartan {L1 L2 S D1 D2 : Subgroup H}
     (T := S ⊓ f112saK L1 L2 S) rfl rfl hX1eq hX2eq
     (f112saX1_inf_S_le_T L1 L2 S) (f112saX2_inf_S_le_T L1 L2 S) hD1X hD2X
 
+omit [Finite H] in
 theorem f112sa_T_normal_K {L1 L2 S : Subgroup H}
     (hT : S ⊓ f112saK L1 L2 S =
       pCoreOf 2 (f112saP1' L1 L2 S) ⊔ pCoreOf 2 (f112saP2' L1 L2 S)) :
@@ -369,6 +375,7 @@ theorem f112sa_exists_cartan_decomposition
     f112saP2'_eq_oTwoPrime_sup_cartan hF h2 hD1X hX1eq,
     f112saK_eq_T_sup_cartan hD1X hD2X hX1eq hX2eq⟩
 
+omit [Finite H] in
 theorem f112sa_S_le_centralizer_A1 {L1 L2 S : Subgroup H}
     (hD1 : L34VertexData (f112saP1' L1 L2 S))
     (hD2 : L34VertexData (f112saP2' L1 L2 S))
@@ -402,6 +409,7 @@ theorem f112sa_S_le_centralizer_A1 {L1 L2 S : Subgroup H}
   rw [hT']
   exact sup_le hQαC hQβC
 
+omit [Finite H] in
 theorem f112sa_K_le_normalizer_A1 (L1 L2 S : Subgroup H) :
     f112saK L1 L2 S ≤
       Subgroup.normalizer
@@ -493,7 +501,7 @@ theorem f112sa_card_S_eq_sixtyfour {L1 L2 S : Subgroup H}
     (hS : S ≤ f112saK L1 L2 S) :
     Nat.card S = 64 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Eα := f112saP1' L1 L2 S
   have hV1' : TransferVertexData Eα := transferVertexData_of_l34VertexData hD1
   have hA1 := f112sa_S_le_L1_and_eq_oTwoPrime_of_transferVertexData hF h1 hS hV1'
@@ -548,7 +556,7 @@ theorem f112sa_card_inf_pCoreOf_eq_four {L1 L2 S : Subgroup H}
     (hS : S ≤ f112saK L1 L2 S) :
     Nat.card ↥(pCoreOf 2 (f112saP1' L1 L2 S) ⊓ pCoreOf 2 (f112saP2' L1 L2 S)) = 4 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Eα := f112saP1' L1 L2 S
   let Eβ := f112saP2' L1 L2 S
   let Qα := pCoreOf 2 Eα
@@ -791,6 +799,7 @@ private theorem sup_S_D1_eq_sup_S_D2_of_le {S D1 D2 : Subgroup H}
     exact h.symm
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [hcard2, hcard1])
 
+omit [Finite H] in
 private theorem mem_sup_of_quotient_mem_zpowers {K S : Subgroup H}
     [(S.subgroupOf K).Normal] {x : H} {y : ↥K}
     (hxK : x ∈ K)
@@ -817,9 +826,9 @@ private noncomputable def ralphaData (c : L34Setup H) :
   classical
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let k2D : ↥c.D2 :=
-    Classical.choose (exists_prime_orderOf_dvd_card' (G := ↥c.D2) 3 (by simpa [c.hD23]))
+    Classical.choose (exists_prime_orderOf_dvd_card' (G := ↥c.D2) 3 (by simp [c.hD23]))
   have hk2ordD : orderOf k2D = 3 :=
-    Classical.choose_spec (exists_prime_orderOf_dvd_card' (G := ↥c.D2) 3 (by simpa [c.hD23]))
+    Classical.choose_spec (exists_prime_orderOf_dvd_card' (G := ↥c.D2) 3 (by simp [c.hD23]))
   let k2 : H := (k2D : H)
   have hk2D2 : k2 ∈ c.D2 := k2D.2
   have hk23 : orderOf k2 = 3 := by
@@ -876,9 +885,9 @@ private noncomputable def rbetaData (c : L34Setup H) :
   classical
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let k1D : ↥c.D1 :=
-    Classical.choose (exists_prime_orderOf_dvd_card' (G := ↥c.D1) 3 (by simpa [c.hD13]))
+    Classical.choose (exists_prime_orderOf_dvd_card' (G := ↥c.D1) 3 (by simp [c.hD13]))
   have hk1ordD : orderOf k1D = 3 :=
-    Classical.choose_spec (exists_prime_orderOf_dvd_card' (G := ↥c.D1) 3 (by simpa [c.hD13]))
+    Classical.choose_spec (exists_prime_orderOf_dvd_card' (G := ↥c.D1) 3 (by simp [c.hD13]))
   let k1 : H := (k1D : H)
   have hk1D1 : k1 ∈ c.D1 := k1D.2
   have hk13 : orderOf k1 = 3 := by
@@ -1104,9 +1113,9 @@ private noncomputable def fourLines (c : L34Setup H) :
   classical
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let k1D : ↥c.D1 :=
-    Classical.choose (exists_prime_orderOf_dvd_card' (G := ↥c.D1) 3 (by simpa [c.hD13]))
+    Classical.choose (exists_prime_orderOf_dvd_card' (G := ↥c.D1) 3 (by simp [c.hD13]))
   have hk1ordD : orderOf k1D = 3 :=
-    Classical.choose_spec (exists_prime_orderOf_dvd_card' (G := ↥c.D1) 3 (by simpa [c.hD13]))
+    Classical.choose_spec (exists_prime_orderOf_dvd_card' (G := ↥c.D1) 3 (by simp [c.hD13]))
   let k1 : H := (k1D : H)
   have hk1D1 : k1 ∈ c.D1 := k1D.2
   have hk13 : orderOf k1 = 3 := by
@@ -1128,9 +1137,9 @@ private noncomputable def fourLines (c : L34Setup H) :
       exact h.1
     exact fixedPointFree_of_natSec c.hnat1 hk1L1 hk13 q hqQ hfix
   let k2D : ↥c.D2 :=
-    Classical.choose (exists_prime_orderOf_dvd_card' (G := ↥c.D2) 3 (by simpa [c.hD23]))
+    Classical.choose (exists_prime_orderOf_dvd_card' (G := ↥c.D2) 3 (by simp [c.hD23]))
   have hk2ordD : orderOf k2D = 3 :=
-    Classical.choose_spec (exists_prime_orderOf_dvd_card' (G := ↥c.D2) 3 (by simpa [c.hD23]))
+    Classical.choose_spec (exists_prime_orderOf_dvd_card' (G := ↥c.D2) 3 (by simp [c.hD23]))
   let k2 : H := (k2D : H)
   have hk2D2 : k2 ∈ c.D2 := k2D.2
   have hk23 : orderOf k2 = 3 := by
@@ -1166,9 +1175,9 @@ private noncomputable def fourLines (c : L34Setup H) :
 
 private theorem false_of_fourLines (c : L34Setup H) (f : FourLines c) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N := c.S.subgroupOf c.K
-  haveI : N.Normal := c.hSnormK
+  have : N.Normal := c.hSnormK
   let Qk := ↥c.K ⧸ N
   let πK : ↥c.K →* Qk := QuotientGroup.mk' N
   let a1 : Qk := πK ⟨f.k1, f.hk1K⟩
@@ -1254,7 +1263,7 @@ private theorem false_of_fourLines (c : L34Setup H) (f : FourLines c) : False :=
     have hdvd : 3 ∣ Nat.card c.Qα := by
       have h := orderOf_dvd_natCard (⟨f.rα, hrαQ⟩ : ↥c.Qα)
       rw [Subgroup.orderOf_mk, f.hrα3, c.hcardQα] at h
-      simpa [c.hcardQα] using h
+      simp at h
     rw [c.hcardQα] at hdvd
     norm_num at hdvd
   have h14 : H1 ≠ H4 := by
@@ -1342,7 +1351,7 @@ private theorem false_of_fourLines (c : L34Setup H) (f : FourLines c) : False :=
     have hdvd : 3 ∣ Nat.card c.Qβ := by
       have h := orderOf_dvd_natCard (⟨f.rβ, hrβQ⟩ : ↥c.Qβ)
       rw [Subgroup.orderOf_mk, f.hrβ3, c.hcardQβ] at h
-      simpa [c.hcardQβ] using h
+      simp at h
     rw [c.hcardQβ] at hdvd
     norm_num at hdvd
   have h34 : H3 ≠ H4 := by
@@ -1433,14 +1442,14 @@ private theorem false_of_fourLines (c : L34Setup H) (f : FourLines c) : False :=
     omega
   have hnotle : ¬ φ.ker ≤ c.S.subgroupOf c.K :=
     fun hle => hker_ne (le_antisymm hle hSker)
-  obtain ⟨y, hyker, hyS⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨y, hyker, hyS⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hyK : (y : H) ∈ c.K := y.2
   have hyNotS : (y : H) ∉ c.S := fun h => hyS (Subgroup.mem_subgroupOf.mpr h)
   have hyTriv : φ y = 1 := MonoidHom.mem_ker.mp hyker
   have hyact : ∀ a : ↥c.A1, (y : H) * (a : H) * (y : H)⁻¹ = (a : H) :=
     action_triv hyK hyTriv
-  haveI : Finite ↥c.A1 := Nat.finite_of_card_ne_zero (by rw [c.hA1card]; norm_num)
-  haveI : Nontrivial ↥c.A1 :=
+  have : Finite ↥c.A1 := Nat.finite_of_card_ne_zero (by rw [c.hA1card]; norm_num)
+  have : Nontrivial ↥c.A1 :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [c.hA1card]; norm_num)
   have contradiction_of_triv : ∀ {x : H} (hxK : x ∈ c.K)
       (hfree : ∀ q ∈ c.A1, x * q * x⁻¹ = q → q = 1), φ ⟨x, hxK⟩ = 1 → False := by

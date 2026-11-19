@@ -47,6 +47,7 @@ theorem centRankAt_of_aut {d : ValidLieTypeIndex}
     (CFSG.SectionRank.isElemAbelian_map hE _) ?_
   rw [Subgroup.card_map_of_injective hinj, hE27]
 
+omit [Finite X] in
 theorem mem_of_not_three_dvd_outer {L : Subgroup X} [L.Normal]
     (hC : centralizer (L : Set X) = ⊥) (hO : ¬ 3 ∣ Nat.card (Outer ↥L)) {g : X}
     (hg : g ^ 3 = 1) : g ∈ L := by

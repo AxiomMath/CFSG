@@ -122,7 +122,7 @@ theorem ggResF4_innerOnL_of_label
       have hαl : (α l : ↥L) = ⟨b⁻¹ * (l : G) * b, hmem⟩ := by
         apply Subtype.ext
         change (L.normalizerMonoidHom ⟨b⁻¹, hbNi⟩ l : G) = b⁻¹ * (l : G) * b
-        simpa using Subgroup.normalizerMonoidHom_apply_apply_coe L ⟨b⁻¹, hbNi⟩ l
+        simp
       rw [hαl]
       have h := hφ l ⟨b⁻¹ * (l : G) * b, hmem⟩ rfl
       rw [hr] at h
@@ -134,7 +134,7 @@ theorem ggResF4_innerOnL_of_label
       rw [show (QuotientGroup.mk (β l) : ↥L ⧸ Subgroup.center ↥L) =
           QuotientGroup.mk v * QuotientGroup.mk l * (QuotientGroup.mk v)⁻¹ by
         rw [hβl]
-        simp [map_mul]]
+        simp]
       simp only [map_mul, map_inv, hvθ]
     rw [h1, h2]
   have hαβeq : α = β :=
@@ -145,10 +145,10 @@ theorem ggResF4_innerOnL_of_label
     have h := congrArg (fun f : MulAut ↥L => (f l : G)) hαβeq
     have hαlcoe : (α l : G) = b⁻¹ * (l : G) * b := by
       change (L.normalizerMonoidHom ⟨b⁻¹, hbNi⟩ l : G) = b⁻¹ * (l : G) * b
-      simpa using Subgroup.normalizerMonoidHom_apply_apply_coe L ⟨b⁻¹, hbNi⟩ l
+      simp
     have hβlcoe : (β l : G) = v * (l : G) * v⁻¹ := by
       change ((MulAut.conj v) l : G) = (v : G) * (l : G) * (v : G)⁻¹
-      simpa using congrArg (fun x : ↥L => (x : G)) (MulAut.conj_apply v l)
+      simp
     rw [hαlcoe, hβlcoe] at h
     exact h
   refine ⟨v⁻¹, Subgroup.inv_mem _ v.2, ?_⟩
@@ -159,7 +159,7 @@ theorem ggResF4_innerOnL_of_label
     simpa [mul_assoc] using h
   have hX : b * l * b⁻¹ = v⁻¹ * l * v := by
     calc b * l * b⁻¹ = v⁻¹ * (v * (b * l * b⁻¹) * v⁻¹) * v := by
-          simp only [Subgroup.coe_inv, Subgroup.coe_mul]
+          simp only [Subgroup.coe_inv]
           group
       _ = v⁻¹ * l * v := by rw [← h']
   simpa [Subgroup.coe_inv] using hX
@@ -183,8 +183,8 @@ theorem ggResF4_automizerJ_card_ge_48
     (hZL : ∀ g ∈ Subgroup.center ↥L, Nat.Coprime 3 (orderOf g))
     (hInnL : ∀ b ∈ Bs, ∃ k ∈ L, ∀ l ∈ L, b * l * b⁻¹ = k * l * k⁻¹) :
     48 ≤ Nat.card ↥(ggAutomizer J Bs) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
   obtain ⟨hJL, z, hz1, hz3, hJlayer, hJcomp, hEcz, hEea, hEcard⟩ :=
     ggR4Meet_data hCfg hCard hZL hInnL
   let eJ : ↥(J.subgroupOf L) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJL
@@ -239,7 +239,7 @@ lemma range_ggGamma_eq_map
     (hInnL : ∀ b ∈ Bs, ∃ k ∈ L, ∀ l ∈ L, b * l * b⁻¹ = k * l * k⁻¹)
     (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) :
     (ggGamma L hBsN).range = Subgroup.map MulAut.conj ((Bs ⊓ L).subgroupOf L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨hCfg.tableB_facts.1⟩
+  have : Fact (Nat.Prime 3) := ⟨hCfg.tableB_facts.1⟩
   have hBsEA : CFSG.Open.IsElemAbelian 3 Bs := hCfg.tableB_facts.2.1
   have hSC := hCfg.2.1.2.2.2
   obtain ⟨hsplit, -, -, -, -⟩ := ggLemma47c hBsEA hSC hZL hInnL
@@ -317,8 +317,8 @@ theorem ggResF4_automizerL_card_eq_1152
     (hInnL : ∀ b ∈ Bs, ∃ k ∈ L, ∀ l ∈ L, b * l * b⁻¹ = k * l * k⁻¹) :
     Nat.card ↥(ggAutomizer L Bs) = 1152 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨hCfg.tableB_facts.1⟩
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
+  have : Fact (Nat.Prime 3) := ⟨hCfg.tableB_facts.1⟩
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
   have hF4mark := hF4
   obtain ⟨-, lab, -, hraw⟩ := hF4
   obtain ⟨tag, rank, n⟩ := lab
@@ -428,7 +428,7 @@ lemma ggResF4_card_Bs_le_five_of_label
     {fld : ℕ} (hLabel : GGHasLabel ⟨.F4, 0, fld⟩ (↥L ⧸ Subgroup.center ↥L)) :
     Nat.card Bs ≤ 3 ^ 5 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨hCfg.tableB_facts.1⟩
+  have : Fact (Nat.Prime 3) := ⟨hCfg.tableB_facts.1⟩
   have hBsEA : CFSG.Open.IsElemAbelian 3 Bs := hCfg.tableB_facts.2.1
   let ρ : ↥Bs →* MulAut ↥L :=
     (L.normalizerMonoidHom).comp (Subgroup.inclusion hBsN)
@@ -511,21 +511,21 @@ lemma ggResF4_card_Bs_le_five_of_label
   have hLabel0 := hLabel
   unfold GGHasLabel LargeEvenRawDatum LargeEvenRecipeChevalley at hLabel
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨eR⟩⟩ := hLabel
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) := by
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) := by
     have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_f4 (K := K)
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .F4 K) := hq.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .F4 K) := hq.2.1
     obtain ⟨eR'⟩ := centerQuot_chevGroup_equiv K .F4
     exact eR'.isSimpleGroup
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := eR.isSimpleGroup
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
-  haveI : Group.IsPerfect (↥L ⧸ Subgroup.center ↥L) :=
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := eR.isSimpleGroup
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
+  have : Group.IsPerfect (↥L ⧸ Subgroup.center ↥L) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center ↥L))
       (QuotientGroup.mk'_surjective _)
   have hnoncommQ : ¬ IsMulCommutative (↥L ⧸ Subgroup.center ↥L) := by
     intro hcomm
-    haveI : IsMulCommutative (↥L ⧸ Subgroup.center ↥L) := hcomm
+    have : IsMulCommutative (↥L ⧸ Subgroup.center ↥L) := hcomm
     have hbot : commutator (↥L ⧸ Subgroup.center ↥L) = ⊥ :=
       commutator_eq_bot (G := ↥L ⧸ Subgroup.center ↥L)
     have htop : commutator (↥L ⧸ Subgroup.center ↥L) = ⊤ := Group.isPerfect_def.mp inferInstance
@@ -601,10 +601,10 @@ theorem ggResF4_exactTwo_false_of_card
   have hCfg : GGConfig 3 B Bs x L D J := hH.1
   have hS : LargeEvenSStar 3 B x L := hCfg.1.2.2.2.2.2.2.1
   have hLperf : commutator ↥L = ⊤ := hS.2.2.2.1.2.2.1
-  haveI : Finite ↥L := Finite.of_injective (Subgroup.subtype L) Subtype.coe_injective
-  haveI : Fintype ↥L := Fintype.ofFinite _
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
-  haveI : Fintype ↥(Subgroup.center ↥L) := Fintype.ofFinite _
+  have : Finite ↥L := Finite.of_injective (Subgroup.subtype L) Subtype.coe_injective
+  have : Fintype ↥L := Fintype.ofFinite _
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
+  have : Fintype ↥(Subgroup.center ↥L) := Fintype.ofFinite _
   have hLabel : GGHasLabel ⟨.F4, 0, 1⟩ (↥L ⧸ Subgroup.center ↥L) :=
     ggResF4_hasLabel_F4 hF4
   have hZcard : ¬ 3 ∣ Nat.card ↥(Subgroup.center ↥L) :=
@@ -625,7 +625,7 @@ theorem ggResF4_exactTwo_false_of_card
   have hJ : ggAutomizer J Bs ≠ ⊥ := by
     intro hbot
     rw [hbot] at h48
-    simpa using h48
+    simp at h48
   have h1152 := ggResF4_automizerL_card_eq_1152 hCfg hCard hF4 hLperf hZL hInnL
   have h12 := ggResF4_exactTwo_parabolic_card_le_twelve h2 hJ h1152
   omega
@@ -762,10 +762,10 @@ theorem ggResF4ExactTwo_K_base_false
     ggResF4_marking_normalizer hF4
   have hCard : Nat.card Bs = 3 ^ 5 :=
     ggResF4_card_Bs_eq_five hCfg hLperf hBsN hInnL hF4
-  haveI : Finite ↥L := Finite.of_injective (Subgroup.subtype L) Subtype.coe_injective
-  haveI : Fintype ↥L := Fintype.ofFinite _
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
-  haveI : Fintype ↥(Subgroup.center ↥L) := Fintype.ofFinite _
+  have : Finite ↥L := Finite.of_injective (Subgroup.subtype L) Subtype.coe_injective
+  have : Fintype ↥L := Fintype.ofFinite _
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hLperf
+  have : Fintype ↥(Subgroup.center ↥L) := Fintype.ofFinite _
   have hLabel : GGHasLabel ⟨.F4, 0, 1⟩ (↥L ⧸ Subgroup.center ↥L) :=
     ggResF4_hasLabel_F4 hF4
   have hZcard : ¬ 3 ∣ Nat.card ↥(Subgroup.center ↥L) :=
@@ -784,17 +784,17 @@ theorem ggResF4ExactTwo_K_base_false
   have hJ : ggAutomizer J Bs ≠ ⊥ := by
     intro hbot
     rw [hbot] at hAJ48
-    simpa using hAJ48
+    simp at hAJ48
   have h2D := h2
   rcases h2 with ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hΛa1, hΛa3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK, hsel,
     fL, fK, hclosL, hclosK, hconn, hclosJ⟩
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   let : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hcardV : Nat.card V = 3 ^ 5 := by
     rw [← card_eq_of_ggLin ι]
@@ -887,13 +887,13 @@ theorem GGResHyp.false_of_F4_L_label_of_A3
     (hLab : GGHasLabel labL (↥L ⧸ Subgroup.center ↥L))
     (htag : labL.tag = .F4) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨tag, rank, n⟩ := labL
   cases htag
   have hrank : rank = 0 := by simpa [LargeEvenInLambda2] using hΛL.2
   subst hrank
   have hLperf : commutator ↥L = ⊤ := (GGConfig.data_L hH.1).2.2.2
-  haveI : Group.IsPerfect ↥L := Group.IsPerfect.mk hLperf
+  have : Group.IsPerfect ↥L := Group.IsPerfect.mk hLperf
   have hRig : GGLabelRigidInput := ggLabelRigidInput_holds
   have hInn : GGInnerDiagOn Bs L := hH.2.2.1.1
   have hBsN : Bs ≤ Subgroup.normalizer (L : Set G) := ggInnerDiagOn_le_normalizer hInn
@@ -909,7 +909,7 @@ theorem GGResHyp.false_of_F4_L_label_of_A3
     rw [Nat.Prime.coprime_iff_not_dvd (by norm_num : Nat.Prime 3)]
     intro h3
     apply hZcard
-    haveI : Fintype ↥(Subgroup.center ↥L) := Fintype.ofFinite _
+    have : Fintype ↥(Subgroup.center ↥L) := Fintype.ofFinite _
     have hdvd : orderOf g ∣ Nat.card (Subgroup.center ↥L) := by
       rw [Nat.card_eq_fintype_card]
       have h := orderOf_dvd_card (x := (⟨g, hg⟩ : Subgroup.center ↥L))
@@ -972,7 +972,7 @@ theorem GGResHyp.false_of_F4_L_label_of_A3
     rw [Nat.Prime.coprime_iff_not_dvd (by norm_num : Nat.Prime 3)]
     intro h3
     apply hZ3
-    haveI : Fintype ↥(Subgroup.center ↥J) := Fintype.ofFinite _
+    have : Fintype ↥(Subgroup.center ↥J) := Fintype.ofFinite _
     have hdvd : orderOf g ∣ Nat.card (Subgroup.center ↥J) := by
       rw [Nat.card_eq_fintype_card]
       have h := orderOf_dvd_card (x := (⟨g, hg⟩ : Subgroup.center ↥J))
@@ -1001,9 +1001,9 @@ private theorem rawDatumLegacy_torusLift_F4
       (fun R _ I F => Q R I F ∧ GGTorusLift 3 4 R) := by
   dsimp only [LargeEvenRawDatumLegacy, LargeEvenRecipeChevalley] at h ⊢
   obtain ⟨K, hField, hFinite, hKcard, hQ⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have hpq : 3 ∣ Nat.card K - 1 := by rw [hKcard]; exact hminus
   exact ⟨K, hField, hFinite, hKcard, hQ,
     TableBF4.ggTorusLift_F4 Nat.prime_three (by norm_num) hpq⟩
@@ -1023,8 +1023,8 @@ private theorem rawDatumLegacy_exists_F4
     ∃ (R : Type) (_ : Group R) (I F : Set (MulAut R)), Q R I F := by
   dsimp only [LargeEvenRawDatumLegacy, LargeEvenRecipeChevalley] at h
   obtain ⟨K, hField, hFinite, hKcard, hQ⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   exact ⟨_, inferInstance, _, _, hQ⟩
 
 theorem GGResHyp.actual_J_card_eq_1152_of_split_F4
@@ -1036,7 +1036,7 @@ theorem GGResHyp.actual_J_card_eq_1152_of_split_F4
     (hplus : ¬ 3 ∣ 2 ^ n + 1) :
     Nat.card ↥(ggAutomizer J Bs) = 1152 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJperf, lab, hΛ, hraw⟩ := hmark
   obtain ⟨tag, rank, n'⟩ := lab
   obtain ⟨R₀, _, I₀, F₀, hQR₀⟩ := largeEvenRawDatum_exists hraw
@@ -1105,7 +1105,7 @@ theorem GGResHyp.exists_F4_framePair_of_marking_nonsplit
     ∃ c₁ ∈ ggAutomizer J Bs, ∃ c₂ ∈ ggAutomizer J Bs,
       GGIsReflection 3 c₁ ∧ GGIsReflection 3 c₂ ∧ 4 ∣ orderOf (c₁ * c₂) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmark3 : GGF4ThreeMarking Bs J :=
     largeEvenMarking_mono (fun lab R _ I F θ hP =>
       ⟨⟨hP.1.1, rfl, by rw [hP.1.2]; exact hplus⟩, hP.2.1, hP.2.2⟩) hmark
@@ -1125,7 +1125,7 @@ theorem GGResHyp.actual_J_automizer_card_lower_of_marking_nonsplit
     (hplus : 3 ∣ 2 ^ n + 1) :
     2 ^ 4 * Nat.factorial 4 ≤ Nat.card ↥(ggAutomizer J Bs) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmark3 : GGF4ThreeMarking Bs J :=
     largeEvenMarking_mono (fun lab R _ I F θ hP =>
       ⟨⟨hP.1.1, rfl, by rw [hP.1.2]; exact hplus⟩, hP.2.1, hP.2.2⟩) hmark
@@ -1143,7 +1143,7 @@ theorem GGResHyp.actual_J_not_F4_for_A3
     (hD : GGResLineJDatum 3 Bs J .A3)
     (hmark : GGInnerDiagOnLabel (fun _ lab => lab.tag = .F4) 3 Bs J) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJperf, lab, hΛ, hraw⟩ := hmark
   obtain ⟨tag, rank, n⟩ := lab
   have htag : tag = .F4 := by
@@ -1176,7 +1176,7 @@ theorem GGResHyp.actual_J_not_F4_for_A2
     (hD : GGResLineJDatum 3 Bs J .A2)
     (hmark : GGInnerDiagOnLabel (fun _ lab => lab.tag = .F4) 3 Bs J) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJperf, lab, hΛ, hraw⟩ := hmark
   obtain ⟨tag, rank, n⟩ := lab
   have htag : tag = .F4 := by
@@ -1214,7 +1214,7 @@ theorem GGResHyp.actual_J_not_F4_for_all_lines
     (hD : GGResLineJDatum 3 Bs J T)
     (hmark : GGInnerDiagOnLabel (fun _ lab => lab.tag = .F4) 3 Bs J) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJperf, lab, hΛ, hraw⟩ := hmark
   obtain ⟨tag, rank, n⟩ := lab
   have htag : tag = .F4 := by

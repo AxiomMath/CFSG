@@ -18,11 +18,11 @@ lemma ggTWPat2_A_apply (n : ℕ) (u v : Fin n) :
   show (if u = v then 1 else if (v.val + 1 = u.val ∨ u.val + 1 = v.val) then 3 else 2) =
        (if u = v then 1 else if (u.val + 1 = v.val ∨ v.val + 1 = u.val) then 3 else 2)
   by_cases huv : u = v
-  · rw [if_pos huv, if_pos huv]
-  · rw [if_neg huv, if_neg huv]
+  · rw [ite_eq_left huv, ite_eq_left huv]
+  · rw [ite_eq_right huv, ite_eq_right huv]
     by_cases h : (v.val + 1 = u.val ∨ u.val + 1 = v.val)
-    · rw [if_pos h, if_pos (h.elim Or.inr Or.inl)]
-    · rw [if_neg h, if_neg (fun hh => h (hh.elim Or.inr Or.inl))]
+    · rw [ite_eq_left h, ite_eq_left (h.elim Or.inr Or.inl)]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h (hh.elim Or.inr Or.inl))]
 
 lemma ggTWPat2_cartanA_apply (n : ℕ) (u v : Fin n) :
     CartanMatrix.A n u v =
@@ -79,7 +79,7 @@ lemma ggTWPat2_path_embed {L n : ℕ} (hL : 2 ≤ L) (f : Fin L → Fin n)
       apply Fin.ext
       omega
     have hne : (⟨k + 1 + 1, hk⟩ : Fin L) ≠ ⟨k, Nat.lt_of_succ_lt (Nat.lt_of_succ_lt hk)⟩ := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     exact hne (hf heq)
   have hup_all : (f ⟨0, h0L⟩).val + 1 = (f ⟨1, h1L⟩).val →
       ∀ (k : ℕ) (hk : k + 1 < L),
@@ -114,7 +114,7 @@ lemma ggTWPat2_path_embed {L n : ℕ} (hL : 2 ≤ L) (f : Fin L → Fin n)
       apply Fin.ext
       omega
     have hne : (⟨k + 1 + 1, hk⟩ : Fin L) ≠ ⟨k, Nat.lt_of_succ_lt (Nat.lt_of_succ_lt hk)⟩ := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     exact hne (hf heq)
   have hdown_all : (f ⟨1, h1L⟩).val + 1 = (f ⟨0, h0L⟩).val →
       ∀ (k : ℕ) (hk : k + 1 < L),
@@ -156,7 +156,7 @@ noncomputable def ggTWPat2_xiE (N : ℕ) :
     apply Fin.ext
     have hj : 1 ≤ j.val.val := by
       have := j.2; simp only [ggTWInJ] at this; exact this.1
-    simp only [Fin.val_mk]
+    simp only
     omega
 
 @[expose]
@@ -169,14 +169,14 @@ noncomputable def ggTWPat2_xiA (N : ℕ) :
   right_inv j := by
     apply Subtype.ext
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
 
 lemma ggTWPat2_two_preimages {Λa β : Type} [Fintype Λa] [DecidableEq Λa] [DecidableEq β]
     (hΛa : Nat.card Λa = 2) (p : Λa → β) (hp_inj : Function.Injective p)
-    {u v : β} (huv : u ≠ v) (hmem : ∀ a, p a = u ∨ p a = v) :
+    {u v : β} (_huv : u ≠ v) (hmem : ∀ a, p a = u ∨ p a = v) :
     ∃ a₁ a₂ : Λa, a₁ ≠ a₂ ∧ p a₁ = u ∧ p a₂ = v := by
   have hcard : Fintype.card Λa = 2 := by simpa using hΛa
-  haveI : Nonempty Λa := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty Λa := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨b, hb⟩ := Fintype.exists_ne_of_one_lt_card (by omega : 1 < Fintype.card Λa)
     (Classical.arbitrary Λa)
   have hab : Classical.arbitrary Λa ≠ b := Ne.symm hb
@@ -222,18 +222,18 @@ lemma ggTWPat2_cross {N : ℕ} {Λa : Type} [Fintype Λa] [DecidableEq Λa]
     rw [hgm]; exact hadj m
   have hA : CoxeterMatrix.A (N - 1) (e.symm (Sum.inr a)) (e.symm (Sum.inl j)) =
       (if j.1 = c then 3 else 2) := by
-    rw [ggTWPat2_A_apply, if_neg hpe]
+    rw [ggTWPat2_A_apply, ite_eq_right hpe]
     by_cases h : ((e.symm (Sum.inr a)).val + 1 = (e.symm (Sum.inl j)).val ∨
         (e.symm (Sum.inl j)).val + 1 = (e.symm (Sum.inr a)).val)
-    · rw [if_pos h, if_pos (hje.mpr (hadj'.mp h))]
-    · rw [if_neg h, if_neg (fun hjc => h (hadj'.mpr (hje.mp hjc)))]
+    · rw [ite_eq_left h, ite_eq_left (hje.mpr (hadj'.mp h))]
+    · rw [ite_eq_right h, ite_eq_right (fun hjc => h (hadj'.mpr (hje.mp hjc)))]
   have hA' : CoxeterMatrix.A (N - 1) (e.symm (Sum.inl j)) (e.symm (Sum.inr a)) =
       (if j.1 = c then 3 else 2) := by
-    rw [ggTWPat2_A_apply, if_neg (Ne.symm hpe)]
+    rw [ggTWPat2_A_apply, ite_eq_right (Ne.symm hpe)]
     by_cases h : ((e.symm (Sum.inl j)).val + 1 = (e.symm (Sum.inr a)).val ∨
         (e.symm (Sum.inr a)).val + 1 = (e.symm (Sum.inl j)).val)
-    · rw [if_pos h, if_pos (hje.mpr (hadj'.mp (Or.symm h)))]
-    · rw [if_neg h, if_neg (fun hjc => h (Or.symm (hadj'.mpr (hje.mp hjc))))]
+    · rw [ite_eq_left h, ite_eq_left (hje.mpr (hadj'.mp (Or.symm h)))]
+    · rw [ite_eq_right h, ite_eq_right (fun hjc => h (Or.symm (hadj'.mpr (hje.mp hjc))))]
   have hMK : MK (Sum.inr a) (Sum.inl j) =
       CoxeterMatrix.A (N - 1) (e.symm (Sum.inr a)) (e.symm (Sum.inl j)) := by
     rw [he, CoxeterMatrix.reindex_apply]
@@ -244,22 +244,22 @@ lemma ggTWPat2_cross {N : ℕ} {Λa : Type} [Fintype Λa] [DecidableEq Λa]
   have hne' : (Sum.inl j : {c : Fin (N - 1) // Q c} ⊕ Λa) ≠ Sum.inr a := Sum.inl_ne_inr
   constructor
   · by_cases hjc : j.1 = c
-    · rw [if_pos hjc]
+    · rw [ite_eq_left hjc]
       exact ggTWPat2_ck_three hCK hne (by
-        have h3 : MK (Sum.inr a) (Sum.inl j) = 3 := by rw [hMK, hA, if_pos hjc]
+        have h3 : MK (Sum.inr a) (Sum.inl j) = 3 := by rw [hMK, hA, ite_eq_left hjc]
         exact h3)
-    · rw [if_neg hjc]
+    · rw [ite_eq_right hjc]
       exact ggTWPat2_ck_zero hCK hne (by
-        have h2 : MK (Sum.inr a) (Sum.inl j) = 2 := by rw [hMK, hA, if_neg hjc]
+        have h2 : MK (Sum.inr a) (Sum.inl j) = 2 := by rw [hMK, hA, ite_eq_right hjc]
         exact h2)
   · by_cases hjc : j.1 = c
-    · rw [if_pos hjc]
+    · rw [ite_eq_left hjc]
       exact ggTWPat2_ck_three hCK hne' (by
-        have h3 : MK (Sum.inl j) (Sum.inr a) = 3 := by rw [hMK', hA', if_pos hjc]
+        have h3 : MK (Sum.inl j) (Sum.inr a) = 3 := by rw [hMK', hA', ite_eq_left hjc]
         exact h3)
-    · rw [if_neg hjc]
+    · rw [ite_eq_right hjc]
       exact ggTWPat2_ck_zero hCK hne' (by
-        have h2 : MK (Sum.inl j) (Sum.inr a) = 2 := by rw [hMK', hA', if_neg hjc]
+        have h2 : MK (Sum.inl j) (Sum.inr a) = 2 := by rw [hMK', hA', ite_eq_right hjc]
         exact h2)
 
 lemma ggTWPat2_cross_zero {N : ℕ} {Λa : Type} [Fintype Λa] [DecidableEq Λa]
@@ -283,11 +283,11 @@ lemma ggTWPat2_cross_zero {N : ℕ} {Λa : Type} [Fintype Λa] [DecidableEq Λa]
     intro h
     exact Sum.inr_ne_inl (e.symm.injective h)
   have hA : CoxeterMatrix.A (N - 1) (e.symm (Sum.inr a)) (e.symm (Sum.inl j)) = 2 := by
-    rw [ggTWPat2_A_apply, if_neg hpe, if_neg]
+    rw [ggTWPat2_A_apply, ite_eq_right hpe, ite_eq_right]
     intro h
     exact hno m (by simpa [hgm] using h)
   have hA' : CoxeterMatrix.A (N - 1) (e.symm (Sum.inl j)) (e.symm (Sum.inr a)) = 2 := by
-    rw [ggTWPat2_A_apply, if_neg (Ne.symm hpe), if_neg]
+    rw [ggTWPat2_A_apply, ite_eq_right (Ne.symm hpe), ite_eq_right]
     intro h
     exact hno m (by simpa [hgm] using Or.symm h)
   have hMK : MK (Sum.inr a) (Sum.inl j) =
@@ -313,9 +313,9 @@ lemma ggTWPat2_inr_adj {N : ℕ} {Λa : Type} [Fintype Λa] [DecidableEq Λa]
   have hpe : e.symm (Sum.inr a) ≠ e.symm (Sum.inr b) := by
     intro h; exact hne (Sum.inr.inj (e.symm.injective h))
   have hA : CoxeterMatrix.A (N - 1) (e.symm (Sum.inr a)) (e.symm (Sum.inr b)) = 3 := by
-    rw [ggTWPat2_A_apply, if_neg hpe, if_pos hadj]
+    rw [ggTWPat2_A_apply, ite_eq_right hpe, ite_eq_left hadj]
   have hA' : CoxeterMatrix.A (N - 1) (e.symm (Sum.inr b)) (e.symm (Sum.inr a)) = 3 := by
-    rw [ggTWPat2_A_apply, if_neg (Ne.symm hpe), if_pos (Or.symm hadj)]
+    rw [ggTWPat2_A_apply, ite_eq_right (Ne.symm hpe), ite_eq_left (Or.symm hadj)]
   have hMK : MK (Sum.inr a) (Sum.inr b) =
       CoxeterMatrix.A (N - 1) (e.symm (Sum.inr a)) (e.symm (Sum.inr b)) := by
     rw [he, CoxeterMatrix.reindex_apply]
@@ -339,9 +339,9 @@ lemma ggTWPat2_inr_nonadj {N : ℕ} {Λa : Type} [Fintype Λa] [DecidableEq Λa]
   have hpe : e.symm (Sum.inr a) ≠ e.symm (Sum.inr b) := by
     intro h; exact hne (Sum.inr.inj (e.symm.injective h))
   have hA : CoxeterMatrix.A (N - 1) (e.symm (Sum.inr a)) (e.symm (Sum.inr b)) = 2 := by
-    rw [ggTWPat2_A_apply, if_neg hpe, if_neg hnadj]
+    rw [ggTWPat2_A_apply, ite_eq_right hpe, ite_eq_right hnadj]
   have hA' : CoxeterMatrix.A (N - 1) (e.symm (Sum.inr b)) (e.symm (Sum.inr a)) = 2 := by
-    rw [ggTWPat2_A_apply, if_neg (Ne.symm hpe), if_neg (fun h => hnadj (Or.symm h))]
+    rw [ggTWPat2_A_apply, ite_eq_right (Ne.symm hpe), ite_eq_right (fun h => hnadj (Or.symm h))]
   have hMK : MK (Sum.inr a) (Sum.inr b) =
       CoxeterMatrix.A (N - 1) (e.symm (Sum.inr a)) (e.symm (Sum.inr b)) := by
     rw [he, CoxeterMatrix.reindex_apply]
@@ -391,23 +391,23 @@ lemma ggTWPat2_path {N : ℕ} {Λa : Type} [Fintype Λa] [DecidableEq Λa]
         rw [hJ (ξ i) (ξ j)]; exact hCA
       have h23 : MK (Sum.inl (ξ i)) (Sum.inl (ξ j)) = 2 ∨
           MK (Sum.inl (ξ i)) (Sum.inl (ξ j)) = 3 := by
-        rw [hMKval, ggTWPat2_A_apply, if_neg hgi]
+        rw [hMKval, ggTWPat2_A_apply, ite_eq_right hgi]
         by_cases h : ((g i).val + 1 = (g j).val ∨ (g j).val + 1 = (g i).val)
-        · right; rw [if_pos h]
-        · left; rw [if_neg h]
+        · right; rw [ite_eq_left h]
+        · left; rw [ite_eq_right h]
       have hMK3 := ggTWPat2_mk_three_of_ck_neg hCK hne h23 hC
       rw [hMKval] at hMK3
       exact hMK3
   have hA3iff : ((g i).val + 1 = (g j).val ∨ (g j).val + 1 = (g i).val) ↔
       CoxeterMatrix.A (N - 1) (g i) (g j) = 3 := by
-    rw [ggTWPat2_A_apply, if_neg hgi]
+    rw [ggTWPat2_A_apply, ite_eq_right hgi]
     by_cases h : ((g i).val + 1 = (g j).val ∨ (g j).val + 1 = (g i).val)
-    · rw [if_pos h]; exact iff_of_true h rfl
-    · rw [if_neg h]; exact iff_of_false h (by norm_num)
+    · rw [ite_eq_left h]; exact iff_of_true h rfl
+    · rw [ite_eq_right h]; exact iff_of_false h (by norm_num)
   have hCA3iff : CartanMatrix.A (N - 1) (ξ i).val (ξ j).val = -1 ↔
       (i.val + 1 = j.val ∨ j.val + 1 = i.val) := by
     have hξne : (ξ i).val ≠ (ξ j).val := fun h => hξij (Subtype.ext h)
-    rw [ggTWPat2_cartanA_apply, if_neg hξne]
+    rw [ggTWPat2_cartanA_apply, ite_eq_right hξne]
     have hcond : (((ξ i).val).val + 1 = ((ξ j).val).val ∨
         ((ξ j).val).val + 1 = ((ξ i).val).val) ↔
         (i.val + 1 = j.val ∨ j.val + 1 = i.val) := by
@@ -416,8 +416,8 @@ lemma ggTWPat2_path {N : ℕ} {Λa : Type} [Fintype Λa] [DecidableEq Λa]
       omega
     by_cases h : (((ξ i).val).val + 1 = ((ξ j).val).val ∨
         ((ξ j).val).val + 1 = ((ξ i).val).val)
-    · rw [if_pos h]; exact iff_of_true rfl (hcond.mp h)
-    · rw [if_neg h]; exact iff_of_false (by norm_num) (fun hh => h (hcond.mpr hh))
+    · rw [ite_eq_left h]; exact iff_of_true rfl (hcond.mp h)
+    · rw [ite_eq_right h]; exact iff_of_false (by norm_num) (fun hh => h (hcond.mpr hh))
   exact hA3iff.trans (hA3.trans hCA3iff)
 
 end CFSG.StandardType

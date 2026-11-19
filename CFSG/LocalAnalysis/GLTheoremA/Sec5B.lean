@@ -193,7 +193,7 @@ theorem exists_normalized_two_subgroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hEp : IsPGroup p (B ⊔ D : Subgroup G) := hBp.to_sup_of_normal_right' hDp hBD
   obtain ⟨S2, hS2⟩ := exists_sylow_normalized (r := 2) hEH hEp hHp
   set U := (S2 : Subgroup H).map H.subtype with hU
-  have hUp : IsPGroup 2 U := S2.isPGroup'.map H.subtype
+  have hUp : IsPGroup 2 U := S2.isPGroup.map H.subtype
   have h2H : 2 ∣ Nat.card H := by
     obtain ⟨n, hn⟩ := hT2.exists_card_eq
     have hn0 : n ≠ 0 := by

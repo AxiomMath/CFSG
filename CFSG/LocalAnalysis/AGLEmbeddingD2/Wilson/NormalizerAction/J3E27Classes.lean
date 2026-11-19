@@ -249,7 +249,7 @@ theorem j3P_e27_split :
       rw [h0', Eel_zero] at hy1
       exact hy1 rfl
     rw [fixN_Eel (by omega) hm]
-    simp only [if_pos (by omega : (9 * (Multiplicative.toAdd a 0).val +
+    simp only [ite_eq_left (by omega : (9 * (Multiplicative.toAdd a 0).val +
       3 * (Multiplicative.toAdd a 1).val) % 3 = 0)]
   · intro y hy hyB
     obtain ⟨a, rfl⟩ := exists_basisProd xe_pow xe_comm hy
@@ -269,7 +269,7 @@ theorem j3P_e27_split :
       rw [this]
       exact basisProd_mem_closure xe2_pow xe2_comm _
     have hm : 9 * (a 0).val + 3 * (a 1).val + (a 2).val ≠ 0 := fun h => hm3 (by rw [h])
-    rw [fixN_Eel (by omega) hm, if_neg hm3]
+    rw [fixN_Eel (by omega) hm, ite_eq_right hm3]
 
 theorem card_cent_j3P_of_fix {y : Equiv.Perm (Fin 6156)} (hy : y ∈ j3P) (hy3 : orderOf y = 3) :
     (fixN y = 36 → Nat.card (centralizer ({y} : Set (Equiv.Perm (Fin 6156))) ⊓ j3P :

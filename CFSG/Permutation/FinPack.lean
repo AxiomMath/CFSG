@@ -70,7 +70,7 @@ variable {n : ℕ}
 @[expose] noncomputable def mulK (n c d : ℕ) : ℕ := encF (fun i => rd c (rd d i)) n
 
 theorem rd_enc (hn : n ≤ 16) (σ : Perm (Fin n)) (i : Fin n) : rd (enc σ) i = σ i := by
-  rw [enc, rd_encF (fun j hj => by rw [dif_pos hj]; exact lt_of_lt_of_le (Fin.isLt _) hn) i.isLt]
+  rw [enc, rd_encF (fun j hj => by rw [dite_eq_left hj]; exact lt_of_lt_of_le (Fin.isLt _) hn) i.isLt]
   simp
 
 theorem enc_mul (hn : n ≤ 16) (σ τ : Perm (Fin n)) : enc (σ * τ) = mulK n (enc σ) (enc τ) := by
@@ -78,7 +78,7 @@ theorem enc_mul (hn : n ≤ 16) (σ τ : Perm (Fin n)) : enc (σ * τ) = mulK n 
   conv_lhs => rw [enc]
   refine encF_congr fun i hi => ?_
   have h1 : rd (enc τ) i = τ ⟨i, hi⟩ := rd_enc hn τ ⟨i, hi⟩
-  rw [dif_pos hi, Perm.mul_apply, h1, rd_enc hn σ]
+  rw [dite_eq_left hi, Perm.mul_apply, h1, rd_enc hn σ]
 
 theorem enc_inj (hn : n ≤ 16) {σ τ : Perm (Fin n)} (h : enc σ = enc τ) : σ = τ :=
   Equiv.ext fun i => Fin.ext (by rw [← rd_enc hn σ i, ← rd_enc hn τ i, h])

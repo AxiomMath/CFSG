@@ -14,18 +14,18 @@ theorem endIsField_one_of_prime_finrank {H : Subgroup (GLV V)} (hH : IsIrr H ⊤
     (hp : (Module.finrank (ZMod 2) V).Prime) (hnc : ∃ a ∈ H, ∃ b ∈ H, a * b ≠ b * a) :
     EndIsField H 1 := by
   classical
-  haveI := endCommutant_nontrivial hH
-  haveI := endCommutant_noZeroDivisors hH
-  haveI : IsDomain (endCommutant H) := NoZeroDivisors.to_isDomain _
-  haveI : Finite (Module.End (ZMod 2) V) :=
+  have := endCommutant_nontrivial hH
+  have := endCommutant_noZeroDivisors hH
+  have : IsDomain (endCommutant H) := NoZeroDivisors.to_isDomain _
+  have : Finite (Module.End (ZMod 2) V) :=
     Finite.of_injective (fun f : Module.End (ZMod 2) V => (f : V → V)) LinearMap.coe_injective
-  haveI : Finite (endCommutant H) := Subtype.finite
+  have : Finite (endCommutant H) := Subtype.finite
   have hVnt : Nontrivial V := by
     obtain ⟨v, -, hv⟩ := (Submodule.ne_bot_iff _).mp (ne_of_lt hH.2.1).symm
     exact ⟨v, 0, hv⟩
-  letI : Field (endCommutant H) := (Finite.isDomain_to_isField _).toField
-  letI : Module (endCommutant H) V := Module.compHom V (Subalgebra.val (endCommutant H)).toRingHom
-  haveI : Module.Finite (endCommutant H) V := inferInstance
+  let : Field (endCommutant H) := (Finite.isDomain_to_isField _).toField
+  let : Module (endCommutant H) V := Module.compHom V (Subalgebra.val (endCommutant H)).toRingHom
+  have : Module.Finite (endCommutant H) V := inferInstance
   have hcardV : Nat.card V = Nat.card (endCommutant H) ^ Module.finrank (endCommutant H) V :=
     Module.natCard_eq_pow_finrank
   have hcardK : Nat.card (endCommutant H) = 2 ^ Module.finrank (ZMod 2) (endCommutant H) := by

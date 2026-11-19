@@ -15,7 +15,7 @@ private theorem five_mul_left_eq {E : Subgroup G} (hEc : ∀ a ∈ E, ∀ b ∈ 
     {z a b c d g : G} (hz : z ∈ E) (hzz : z * z = 1) (ha : a ∈ E) (hb : b ∈ E) (hc : c ∈ E)
     (hd : d ∈ E) (hg : g ∈ E) :
     (z * a) * (z * b) * (z * c) * (z * d) * (z * g) = z * (a * b * c * d * g) := by
-  haveI : IsMulCommutative E := IsMulCommutative.of_comm fun p q => Subtype.ext (hEc p p.2 q q.2)
+  have : IsMulCommutative E := IsMulCommutative.of_comm fun p q => Subtype.ext (hEc p p.2 q q.2)
   have hZ : (⟨z, hz⟩ : E) * ⟨z, hz⟩ = 1 := Subtype.ext hzz
   have h : ((⟨z, hz⟩ : E) * ⟨a, ha⟩) * (⟨z, hz⟩ * ⟨b, hb⟩) * (⟨z, hz⟩ * ⟨c, hc⟩) *
       (⟨z, hz⟩ * ⟨d, hd⟩) * (⟨z, hz⟩ * ⟨g, hg⟩) =
@@ -32,7 +32,7 @@ theorem exists_conj_comm_of_five {E : Subgroup G} {x v z : G}
     (hv : ∀ e ∈ E, v * e * v⁻¹ = e ∨ v * e * v⁻¹ = z * e) {e : G} (he : e ∈ E) :
     ∃ i : ℕ, i < 5 ∧ v * ((x ^ i)⁻¹ * e * x ^ i) = ((x ^ i)⁻¹ * e * x ^ i) * v := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨f, hf⟩ : ∃ f : ℕ → G, ∀ i, f i = (x ^ i)⁻¹ * e * x ^ i := ⟨_, fun _ => rfl⟩
   have hfE : ∀ i, f i ∈ E := by
     intro i

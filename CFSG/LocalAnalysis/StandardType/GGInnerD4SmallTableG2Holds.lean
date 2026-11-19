@@ -114,7 +114,7 @@ private theorem ltrsm6_map_centralizer_singleton {A B : Type*} [Group A] [Group 
 
 private theorem ltrsm6_ringChar_eq_two {K : Type} [Field K] [Finite K] {N : ℕ}
     (hK : Nat.card K = 2 ^ N) : ringChar K = 2 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hp, hm⟩ := FiniteField.card K (ringChar K)
   rw [← Nat.card_eq_fintype_card, hK] at hm
   have hd : ringChar K ∣ 2 ^ N := by
@@ -128,20 +128,20 @@ private theorem ltrsm6_two_pow_mod_three (N : ℕ) :
   | zero => norm_num
   | succ n ih =>
     rcases Nat.even_or_odd n with hn | hn
-    · have h1 : (2 ^ n) % 3 = 1 := by rw [ih, if_pos hn]
+    · have h1 : (2 ^ n) % 3 = 1 := by rw [ih, ite_eq_left hn]
       have h2 : ¬ Even (n + 1) := by
         rw [Nat.even_iff] at hn ⊢; omega
-      rw [if_neg h2, pow_succ, Nat.mul_mod, h1]
+      rw [ite_eq_right h2, pow_succ, Nat.mul_mod, h1]
     · have hne : ¬ Even n := by
         rw [Nat.even_iff]
         rw [Nat.odd_iff] at hn
         omega
-      have h1 : (2 ^ n) % 3 = 2 := by rw [ih, if_neg hne]
+      have h1 : (2 ^ n) % 3 = 2 := by rw [ih, ite_eq_right hne]
       have h2 : Even (n + 1) := by
         rw [Nat.even_iff]
         rw [Nat.odd_iff] at hn
         omega
-      rw [if_pos h2, pow_succ, Nat.mul_mod, h1]
+      rw [ite_eq_left h2, pow_succ, Nat.mul_mod, h1]
 
 private theorem ltrsm6_center_statedSL (d : ℕ) (K : Type) [Field K] :
     Subgroup.center (CFSG.Open.StatedSL d K) =
@@ -253,13 +253,13 @@ private theorem ltrsm6_adjoint_short
       rw [ltrsm6_two_pow_mod_three N] at h2
       by_cases hE : Even N
       · exact hE
-      · rw [if_neg hE] at h2; omega
+      · rw [ite_eq_right hE] at h2; omega
     have hcard2 : Nat.card K' = 2 ^ N := hcard'.trans hK
     refine ⟨S2MathAs51600Small.A2Label N, ?_, Or.inr rfl, ?_⟩
-    · rw [S2MathAs51600Small.A2Label, if_pos hEven]
+    · rw [S2MathAs51600Small.A2Label, ite_eq_left hEven]
       dsimp only [LargeEvenInLambda2]
       omega
-    · rw [S2MathAs51600Small.A2Label, if_pos hEven]
+    · rw [S2MathAs51600Small.A2Label, ite_eq_left hEven]
       exact ltrsm6_ggHasLabel_typeA_proj (r := 2) (by norm_num) hN hcard2
         (ltrsm6_quot_center_statedSL eSL)
   · have hcard' : Nat.card K' = (Nat.card K) ^ 2 := hcase.1
@@ -269,13 +269,13 @@ private theorem ltrsm6_adjoint_short
       have h2 : 2 ^ N % 3 = 2 := by rw [← hK]; exact hmod
       rw [ltrsm6_two_pow_mod_three N] at h2
       by_cases hE : Even N
-      · rw [if_pos hE] at h2; omega
+      · rw [ite_eq_left hE] at h2; omega
       · exact Nat.not_even_iff_odd.mp hE
     refine ⟨S2MathAs51600Small.A2Label N, ?_, Or.inr rfl, ?_⟩
-    · rw [S2MathAs51600Small.A2Label, if_neg (Nat.not_even_iff_odd.mpr hOdd)]
+    · rw [S2MathAs51600Small.A2Label, ite_eq_right (Nat.not_even_iff_odd.mpr hOdd)]
       dsimp only [LargeEvenInLambda2]
       omega
-    · rw [S2MathAs51600Small.A2Label, if_neg (Nat.not_even_iff_odd.mpr hOdd)]
+    · rw [S2MathAs51600Small.A2Label, ite_eq_right (Nat.not_even_iff_odd.mpr hOdd)]
       exact ltrsm6_ggHasLabel_twA_proj hcard' hK
         (ltrsm6_quot_center_statedSU3 hcard' eSU)
 
@@ -390,7 +390,7 @@ private theorem ltrsm6_markedModel_component
     (hlab : LargeEvenInLambda2 lab) (htag : lab.tag = .G2)
     {R : Type} [Group R] (hsimple : IsSimpleGroup R)
     (hna : ∃ a b : R, a * b ≠ b * a) (hM : MarkedModel lab R)
-    (I F : Set (MulAut R)) (hI : I ⊆ LargeEvenInnSet R) :
+    (I _F : Set (MulAut R)) (hI : I ⊆ LargeEvenInnSet R) :
     ∀ τ : MulAut R, τ ∈ I → τ ^ 3 = 1 → τ ≠ 1 →
       ∀ L : Subgroup R, IsComponentOf L (ggAutFixedSubgroup τ) →
         ∃ out : LargeEvenLabel, LargeEvenInLambda2 out ∧

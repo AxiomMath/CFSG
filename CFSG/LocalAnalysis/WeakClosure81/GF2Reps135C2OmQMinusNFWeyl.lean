@@ -86,7 +86,7 @@ theorem omqnfRealizes_unique {m : ℕ} {w : (coxeterMatrix (isFiniteType_cartanB
     · exfalso
       have hz : s a = 0 := by
         have hsingle : (Pi.single a (1 : ℤ) : Fin m → ℤ) (π'.symm (π a)) = 0 := by
-          rw [Pi.single_apply, if_neg hd]
+          rw [Pi.single_apply, ite_eq_right hd]
         rw [hsingle] at heq
         simp only [mul_zero] at heq
         omega

@@ -16,7 +16,7 @@ variable {W : Type} [CommGroup W] (S : OmegaModel W)
 private theorem exists_ne_zero_one_add_mul_ne_zero (K : Type*) [Field K] [Finite K] [CharP K 2]
     (h : 4 ≤ Nat.card K) (a : K) : ∃ c : K, c ≠ 0 ∧ 1 + c * a ≠ 0 := by
   classical
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : 4 ≤ Fintype.card K := by simpa [Nat.card_eq_fintype_card] using h
   have hbad : ({0, a⁻¹} : Finset K).card ≤ 2 := by
     calc ({0, a⁻¹} : Finset K).card
@@ -54,7 +54,7 @@ theorem card_fixed_le_of_isometry {g : MulAut W}
   have hLapply : ∀ x : OmI → S.K,
       L x = (γ : Matrix OmI OmI S.K) *ᵥ x - x := by
     intro x
-    simp [L, Matrix.mulVecLin_apply]
+    simp [L]
   let u : OmI → S.K := S.vec U
   have hu_ne : u ≠ 0 := by
     intro h
@@ -84,7 +84,7 @@ theorem card_fixed_le_of_isometry {g : MulAut W}
       right_inv := fun Y => Subtype.ext (S.vec_ofVec Y.1) }
   have hcard : Nat.card {v : W // g v = v}
       = Nat.card S.K ^ Module.finrank S.K L.ker := by
-    haveI : Module.Finite S.K L.ker := inferInstance
+    have : Module.Finite S.K L.ker := inferInstance
     calc Nat.card {v : W // g v = v} = Nat.card L.ker := Nat.card_congr fixEquiv
       _ = Nat.card S.K ^ Module.finrank S.K L.ker :=
             Module.natCard_eq_pow_finrank (K := S.K) (V := L.ker)

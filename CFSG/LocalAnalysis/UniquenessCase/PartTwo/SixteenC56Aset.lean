@@ -16,7 +16,7 @@ variable {W : Type} [CommGroup W] (S : OmegaModel W)
 theorem aSet_succ_eq_empty {m : ℕ} (hSK : Nat.card S.K = 2 ^ m) {X : Subgroup (MulAut W)}
     (hX : X ≤ Subgroup.normalizer (S.omega : Set (MulAut W))) : E3.aSet (m + 1) X = ∅ := by
   classical
-  haveI : Finite W := Finite.of_injective S.vec S.vec_injective
+  have : Finite W := Finite.of_injective S.vec S.vec_injective
   refine Set.eq_empty_iff_forall_notMem.2 fun A hA => ?_
   have hm2 : 2 ≤ m := by
     have h := S.four_le

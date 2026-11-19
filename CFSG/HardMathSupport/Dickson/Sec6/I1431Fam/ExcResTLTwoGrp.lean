@@ -65,7 +65,7 @@ theorem excTL_comm_mul_commute {G : Type*} [Group G] {x y w : G} (h : Commute y 
 theorem excTL_false_of_A3 {G : Type*} [Group G] {F : Type} [Field F]
     (φ : (G ⧸ Subgroup.center G) ≃* StatedProj (StatedSL 2 F)) {u₁ u₂ u₃ z : G}
     (hz : z ∉ Subgroup.center G) (h₁ : Commute u₁ z) (h₂ : Commute u₂ z) (h₃ : Commute u₃ z)
-    (h₁₂ : Commute ⁅u₁, u₂⁆ z) (h₂₃ : Commute ⁅u₂, u₃⁆ z)
+    (_h₁₂ : Commute ⁅u₁, u₂⁆ z) (_h₂₃ : Commute ⁅u₂, u₃⁆ z)
     (r₁ : ⁅u₁, ⁅u₂, u₃⁆⁆ = z) (r₂ : ⁅⁅u₁, u₂⁆, u₃⁆ = z) (h₃' : Commute u₃ ⁅u₂, u₃⁆) : False := by
   set Hc : Subgroup G := Subgroup.centralizer {z} with hHc
   have memH : ∀ x : G, Commute x z → x ∈ Hc := fun x hx =>

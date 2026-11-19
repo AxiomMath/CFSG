@@ -186,7 +186,7 @@ theorem gen_mem (z : Int) : ∃ σ ∈ HG, TR 22880 (genTables orbLit z) (actN �
   · simp only [h1, ↓reduceIte] at ht ⊢
     exact ⟨sA, sA_mem, TR_congr' ht fun x hx => (act_sA hx).symm⟩
   by_cases h2 : z = 2
-  · simp only [h1, h2, ↓reduceIte] at ht ⊢
+  · simp only [h2, ↓reduceIte] at ht ⊢
     exact ⟨sB, sB_mem, TR_congr' ht fun x hx => (act_sB hx).symm⟩
   · simp only [h1, h2, ↓reduceIte] at ht ⊢
     exact ⟨sB⁻¹, Subgroup.inv_mem _ sB_mem, TR_congr' ht fun x hx => (act_sBi hx).symm⟩

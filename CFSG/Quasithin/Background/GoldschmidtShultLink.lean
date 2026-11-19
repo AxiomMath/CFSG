@@ -69,7 +69,7 @@ theorem card_eq_of_omegaOne {X : Type} [Group X] [Finite X] {Z : Subgroup X} [Z.
       have hp2 : p ^ 2 = 1 := by
         have hmem : p ^ 2 ∈ Z :=
           (QuotientGroup.eq_one_iff _).1 (by rw [QuotientGroup.mk_pow]; exact hy2)
-        obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hpP⟩
+        obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hpP⟩
         have hpk : p ^ 2 ^ k = 1 := by
           have := congrArg (fun z : ↥(P : Subgroup X) => (z : X)) hk
           simpa using this

@@ -10,7 +10,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem odd_prime_dvd_card_oUpperTwo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {H : Subgroup G}
     (hdvd : p ∣ Nat.card H) : p ∣ Nat.card (oddOrderClosure H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) p hdvd
   have hodd : Odd (orderOf (x : G)) := by
     rw [Subgroup.orderOf_coe, hx]

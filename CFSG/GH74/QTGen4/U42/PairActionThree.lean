@@ -36,7 +36,7 @@ theorem three_part_normal (P : Subgroup (MulAut U0)) (hP : Nat.card P = 9) :
 theorem three_part_comap_normal {K : Type*} [Group K]
     (f : K →* MulAut U0) (P : Subgroup (MulAut U0)) (hP : Nat.card P = 9) :
     ((P ⊔ Inn0).comap f).Normal := by
-  letI : (P ⊔ Inn0).Normal := three_part_normal P hP
+  let : (P ⊔ Inn0).Normal := three_part_normal P hP
   infer_instance
 
 theorem three_part_comap_cube {K : Type*} [Group K]

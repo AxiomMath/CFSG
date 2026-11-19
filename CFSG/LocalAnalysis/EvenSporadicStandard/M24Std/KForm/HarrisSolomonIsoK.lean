@@ -24,7 +24,7 @@ theorem harrisSolomonZ2S6IsoK_of_cat (hcat : CatZ2S6) : HarrisSolomonZ2S6IsoK :=
     h1 | h2 | ⟨S, hSn, hSs, hSc, hSe⟩
   · exact Or.inl h1
   · exact Or.inr (Or.inl h2)
-  · haveI : IsSimpleGroup ↥S := hSs
+  · have : IsSimpleGroup ↥S := hSs
     have hC : Catalog ↥S :=
       CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hK' S (MonoidHom.id ↥S)
         Function.surjective_id

@@ -324,7 +324,7 @@ private theorem l10st6i_radical_eq
         (twistedE6RootGroup K σ) := by
   have hrad := CFSG.LieType.SeitzGeneration.ExcWideThree.TwE6LongRoot.radical_std_eq
     (K := K) σ
-  simp only [twE6LongRootRadical, twE6LongRootParabolic, pCoreOf] at hrad
+  simp only [twE6LongRootRadical, twE6LongRootParabolic] at hrad
   rw [ringChar.eq K 2] at hrad
   exact hrad
 
@@ -616,7 +616,7 @@ private theorem l10st6i_beta_fixes_A_one
     rintro y ⟨a, rfl⟩
     have ha : a = 1 := by
       have hc : Nat.card (fixSubfield σ)ˣ = 1 := by rw [Nat.card_units, hk1]
-      haveI : Subsingleton (fixSubfield σ)ˣ := (Nat.card_eq_one_iff_unique.1 hc).1
+      have : Subsingleton (fixSubfield σ)ˣ := (Nat.card_eq_one_iff_unique.1 hc).1
       exact Subsingleton.elim a 1
     rw [ha]; simp
   have hmSu : (m : ModGL TwistTag.E6.tag K) ∈ su6Levi σ.toRingHom := by

@@ -20,7 +20,7 @@ private lemma l05nK42d_cartanD_ne_zero_iff {n : ℕ} (hn : 4 ≤ n) {i j : Fin n
   rw [CartanMatrix.D]
   simp only [Matrix.of_apply]
   have h2 : ¬ n ≤ 2 := by omega
-  split_ifs with hd h1 h2' h3 h4 <;> simp_all <;> omega
+  split_ifs with hd h1 h2' h3 h4 <;> simp_all
 
 private lemma l05nK42d_diagMap_apply
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -33,13 +33,13 @@ private lemma l05nK42d_diagMap_apply
     funext j
     rw [Module.Basis.equivFun_self, Pi.single_apply]
     by_cases h : k = j
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
   rw [hk]
   funext j
   by_cases h : j = k
   · subst h; rfl
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private lemma l05nK42d_ext_basis
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -140,17 +140,17 @@ private lemma l05nK42d_swap3 {α : Type} [DecidableEq α] {i j k : α}
   by_cases hmi : m = i
   · subst hmi
     simp [Equiv.swap_apply_left, Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne,
-      hij, hjk, hik, Ne.symm hij, Ne.symm hjk, Ne.symm hik]
+      hij, hik, Ne.symm hjk, Ne.symm hik]
   by_cases hmj : m = j
   · subst hmj
     simp [Equiv.swap_apply_left, Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne,
-      hij, hjk, hik, Ne.symm hij, Ne.symm hjk, Ne.symm hik]
+      hij, hik, Ne.symm hjk, Ne.symm hik]
   by_cases hmk : m = k
   · subst hmk
     simp [Equiv.swap_apply_left, Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne,
-      hij, hjk, hik, Ne.symm hij, Ne.symm hjk, Ne.symm hik]
-  · simp [Equiv.swap_apply_left, Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne,
-      hmi, hmj, hmk, hij, hjk, hik, Ne.symm hij, Ne.symm hjk, Ne.symm hik]
+      hij, hik, Ne.symm hjk, Ne.symm hik]
+  · simp [Equiv.swap_apply_of_ne_of_ne,
+      hmi, hmj, hmk]
 
 private lemma l05nK42d_Tp_Tp_cube
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -313,7 +313,7 @@ private lemma l05nK42d_g_mem
     refine l05nK42d_Tm_mem b A hA ?_
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   · rw [l05nK42d_g_adj hn b hk]
     exact l05nK42d_Tp_mem b A hA k ⟨k.val + 1, by omega⟩
@@ -325,7 +325,7 @@ private lemma l05nK42d_basis_sub_ne_zero
   intro h
   have hc := congrArg (fun v => b.equivFun v i) h
   simp only [map_sub, Pi.sub_apply, Module.Basis.equivFun_self, map_zero, Pi.zero_apply,
-    if_pos rfl, if_neg (Ne.symm hij), sub_zero] at hc
+    ite_eq_right (Ne.symm hij), sub_zero] at hc
   exact one_ne_zero hc
 
 private lemma l05nK42d_basis_add_ne_zero
@@ -335,7 +335,7 @@ private lemma l05nK42d_basis_add_ne_zero
   intro h
   have hc := congrArg (fun v => b.equivFun v i) h
   simp only [map_add, Pi.add_apply, Module.Basis.equivFun_self, map_zero, Pi.zero_apply,
-    if_pos rfl, if_neg (Ne.symm hij), add_zero] at hc
+    ite_eq_right (Ne.symm hij), add_zero] at hc
   exact one_ne_zero hc
 
 private lemma l05nK42d_delta_Tp
@@ -345,13 +345,12 @@ private lemma l05nK42d_delta_Tp
       (if k = i then -(b i - b j) else if k = j then (b i - b j) else 0) := by
   change l05nK42d_Tp b i j (b k) - b k = _
   by_cases hki : k = i
-  · rw [hki, l05nK42d_Tp_apply, Equiv.swap_apply_left, if_pos rfl]
+  · rw [hki, l05nK42d_Tp_apply, Equiv.swap_apply_left, ite_eq_left rfl]
     try abel
   · by_cases hkj : k = j
     · rw [hkj, l05nK42d_Tp_apply, Equiv.swap_apply_right,
-        if_neg (fun h => hki (hkj.trans h)), if_pos rfl]
-      try abel
-    · rw [l05nK42d_Tp_apply, Equiv.swap_apply_of_ne_of_ne hki hkj, if_neg hki, if_neg hkj]
+        ite_eq_right (fun h => hki (hkj.trans h)), ite_eq_left rfl]
+    · rw [l05nK42d_Tp_apply, Equiv.swap_apply_of_ne_of_ne hki hkj, ite_eq_right hki, ite_eq_right hkj]
       simp
 
 private lemma l05nK42d_delta_Tm
@@ -362,15 +361,15 @@ private lemma l05nK42d_delta_Tm
   change l05nK42d_Tm b i j (b k) - b k = _
   rw [l05nK42d_Tm_apply]
   by_cases hki : k = i
-  · rw [hki, Equiv.swap_apply_left, if_pos (by left; rfl), if_pos rfl]
+  · rw [hki, Equiv.swap_apply_left, ite_eq_left (by left; rfl), ite_eq_left rfl]
     simp only [neg_smul, one_smul]
     try abel
   · by_cases hkj : k = j
-    · rw [hkj, Equiv.swap_apply_right, if_pos (by right; rfl),
-        if_neg (fun h => hki (hkj.trans h)), if_pos rfl]
+    · rw [hkj, Equiv.swap_apply_right, ite_eq_left (by right; rfl),
+        ite_eq_right (fun h => hki (hkj.trans h)), ite_eq_left rfl]
       simp only [neg_smul, one_smul]
       try abel
-    · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, if_neg hki, if_neg hkj]
+    · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, ite_eq_right hki, ite_eq_right hkj]
       simp [hki, hkj]
 
 private lemma l05nK42d_range_Tp
@@ -458,7 +457,7 @@ private lemma l05nK42d_permMap_mul_diagMap
   change (ZS.permMap p b σ) (ZS.diagMap p b d (b k)) =
       (ZS.diagMap p b (fun k => d (σ.symm k))) ((ZS.permMap p b σ) (b k))
   rw [l05nK42d_diagMap_apply, map_smul, l05nK42d_permMap_apply]
-  simp only [l05nK42d_permMap_apply, l05nK42d_diagMap_apply]
+  simp only [l05nK42d_diagMap_apply]
   congr 1
   simp
 
@@ -478,11 +477,9 @@ private lemma l05nK42d_pairIndicator_eq
   by_cases hka : k = a
   · subst hka
     rw [Equiv.swap_apply_of_ne_of_ne hac had]
-    try simp
   by_cases hkb : k = b
   · subst hkb
     rw [Equiv.swap_apply_of_ne_of_ne hbc hbd]
-    try simp
   · have h1 : (Equiv.swap c d) k ≠ a := by
       intro hh
       have hh2 := congrArg (Equiv.swap c d) hh
@@ -525,8 +522,8 @@ private lemma l05nK42d_Tp_Tm_sq
   rw [LinearEquiv.mul_apply, l05nK42d_diagMap_apply, map_smul, l05nK42d_diagMap_apply,
     smul_smul]
   by_cases h : k = i ∨ k = j
-  · rw [if_pos h]; simp
-  · rw [if_neg h]
+  · rw [ite_eq_left h]; simp
+  · rw [ite_eq_right h]
     simp only [Units.val_one, one_mul, one_smul]
     rfl
 
@@ -538,7 +535,7 @@ private lemma l05nK42d_Tp_Tm_comm
   set D : V ≃ₗ[ZMod p] V :=
     ZS.diagMap p b (fun k => if k = a ∨ k = b' then (-1 : (ZMod p)ˣ) else 1) with hDdef
   have hTm : l05nK42d_Tm b a b' = l05nK42d_Tp b a b' * D := by
-    simp only [l05nK42d_Tm, l05nK42d_Tp, l05nK42d_permHom, hDdef]
+    simp only [l05nK42d_Tm, l05nK42d_Tp, hDdef]
   have hD : ZS.diagMap p b (fun k =>
         (fun j => if j = a ∨ j = b' then (-1 : (ZMod p)ˣ) else 1)
           ((Equiv.swap c d).symm k)) = D := by
@@ -591,7 +588,7 @@ private lemma l05nK42d_cartanD_ne_zero_last_right
   have hne : i ≠ (⟨n - 1, by omega⟩ : Fin n) := by
     intro h; exact hi (by rw [h])
   rw [l05nK42d_cartanD_ne_zero_iff hn hne]
-  simp only [Fin.val_mk] at *
+  simp only at *
   constructor
   · rintro (⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩)
     · omega
@@ -609,7 +606,7 @@ private lemma l05nK42d_cartanD_ne_zero_last_left
   have hne : (⟨n - 1, by omega⟩ : Fin n) ≠ j := by
     intro h; exact hj (by rw [← h])
   rw [l05nK42d_cartanD_ne_zero_iff hn hne]
-  simp only [Fin.val_mk] at *
+  simp only at *
   constructor
   · rintro (⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩)
     · omega
@@ -690,14 +687,14 @@ private lemma l05nK42d_h_last
     (hk : k.val = n - 1) :
     l05nK42d_h hn b k =
       b (⟨n - 2, l05nK42d_sub_two_lt hn⟩ : Fin n) + b (⟨n - 1, by omega⟩ : Fin n) := by
-  rw [l05nK42d_h, dif_pos hk]
+  rw [l05nK42d_h, dite_eq_left hk]
 
 private lemma l05nK42d_h_adj
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {n : ℕ} (hn : 2 ≤ n) (b : Module.Basis (Fin n) (ZMod p) V) {k : Fin n}
     (hk : k.val ≠ n - 1) :
     l05nK42d_h hn b k = b k - b (l05nK42d_next k hk) := by
-  rw [l05nK42d_h, dif_neg hk]
+  rw [l05nK42d_h, dite_eq_right hk]
 
 private lemma l05nK42d_alpha_last
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -706,7 +703,7 @@ private lemma l05nK42d_alpha_last
     l05nK42d_alpha hn b k (b m) =
       (if m = (⟨n - 2, l05nK42d_sub_two_lt hn⟩ : Fin n) then 1
         else if m = (⟨n - 1, by omega⟩ : Fin n) then 1 else 0) := by
-  rw [l05nK42d_alpha, dif_pos hk, Module.Basis.constr_basis]
+  rw [l05nK42d_alpha, dite_eq_left hk, Module.Basis.constr_basis]
 
 private lemma l05nK42d_alpha_adj
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -714,7 +711,7 @@ private lemma l05nK42d_alpha_adj
     (hk : k.val ≠ n - 1) (m : Fin n) :
     l05nK42d_alpha hn b k (b m) =
       (if m = k then 1 else if m = l05nK42d_next k hk then -1 else 0) := by
-  rw [l05nK42d_alpha, dif_neg hk, Module.Basis.constr_basis]
+  rw [l05nK42d_alpha, dite_eq_right hk, Module.Basis.constr_basis]
 
 
 private lemma l05nK42d_halpha
@@ -725,7 +722,7 @@ private lemma l05nK42d_halpha
   · rw [l05nK42d_h_last hn b hk, map_add, l05nK42d_alpha_last hn b hk,
       l05nK42d_alpha_last hn b hk]
     have hne : (⟨n - 1, by omega⟩ : Fin n) ≠ (⟨n - 2, l05nK42d_sub_two_lt hn⟩ : Fin n) := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     simp [hne]
     norm_num
   · have hnk : l05nK42d_next k hk ≠ k := by
@@ -755,12 +752,12 @@ private lemma l05nK42d_rel_adj_three
   have hgj : l05nK42d_g hn b j = l05nK42d_Tp b j (l05nK42d_next j hj) :=
     l05nK42d_g_adj hn b hj
   have hib : l05nK42d_next i hi = j :=
-    Fin.ext (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
+    Fin.ext (by first | (simp only [l05nK42d_next_val]; omega))
   rw [hgi, hgj, hib]
   exact l05nK42d_Tp_Tp_cube b
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
+    (l05nK42d_fin_ne (by first | omega))
+    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega)))
+    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega)))
 
 private lemma l05nK42d_rel_adj_three_rev
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -784,12 +781,12 @@ private lemma l05nK42d_rel_disj_two
   refine l05nK42d_sq_of_comm (l05nK42d_Tp_mul_self b i (l05nK42d_next i hi))
     (l05nK42d_Tp_mul_self b j (l05nK42d_next j hj)) ?_
   refine l05nK42d_Tp_Tp_comm (b := b) ?_ ?_ ?_ ?_ ?_ ?_
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
+  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega))
+  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega))
   · exact hij
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
+  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega))
+  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega))
+  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega))
 
 private lemma l05nK42d_rel_n3_three
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -801,12 +798,12 @@ private lemma l05nK42d_rel_n3_three
   have hgj : l05nK42d_g hn b j = l05nK42d_Tp b j (l05nK42d_next j hj) :=
     l05nK42d_g_adj hn b hj
   have hib : l05nK42d_next i hi = j :=
-    Fin.ext (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
+    Fin.ext (by first | (simp only [l05nK42d_next_val]; omega))
   rw [hgi, hgj, hib]
   exact l05nK42d_Tp_Tp_cube b
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
+    (l05nK42d_fin_ne (by first | omega))
+    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega)))
+    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega)))
 
 private lemma l05nK42d_rel_fork_three
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -821,12 +818,12 @@ private lemma l05nK42d_rel_fork_three
     l05nK42d_g_last hn b hj
   rw [hgi, hgj,
     show l05nK42d_next i hi = (⟨n - 2, l05nK42d_sub_two_lt hn⟩ : Fin n) from
-      Fin.ext (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega),
+      Fin.ext (by first | (simp only [l05nK42d_next_val]; omega)),
     show i = (⟨n - 3, l05nK42d_sub_three_lt hn⟩ : Fin n) from Fin.ext hi3]
   exact l05nK42d_Tp_Tm_cube b
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
-    (l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega))
+    (l05nK42d_fin_ne (by first | (simp only; omega)))
+    (l05nK42d_fin_ne (by first | (simp only; omega)))
+    (l05nK42d_fin_ne (by first | (simp only; omega)))
 
 private lemma l05nK42d_rel_fork_three_rev
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -855,7 +852,7 @@ private lemma l05nK42d_rel_pn_sq
     l05nK42d_g_last hn b hj
   rw [hgi, hgj,
     show l05nK42d_next i hi = (⟨n - 1, l05nK42d_sub_one_lt hn⟩ : Fin n) from
-      Fin.ext (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega),
+      Fin.ext (by first | (simp only [l05nK42d_next_val]; omega)),
     show i = (⟨n - 2, l05nK42d_sub_two_lt hn⟩ : Fin n) from Fin.ext hi2]
   exact l05nK42d_Tp_Tm_sq b (⟨n - 2, l05nK42d_sub_two_lt hn⟩ : Fin n)
     (⟨n - 1, l05nK42d_sub_one_lt hn⟩ : Fin n)
@@ -883,12 +880,12 @@ private lemma l05nK42d_rel_last_far_sq
   refine l05nK42d_sq_of_comm (l05nK42d_Tp_mul_self b i (l05nK42d_next i hi))
     (l05nK42d_Tm_mul_self b _ _) ?_
   refine l05nK42d_Tp_Tm_comm (b := b) ?_ ?_ ?_ ?_ ?_ ?_
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
-  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val, Fin.val_mk]; omega) | omega)
+  · exact l05nK42d_fin_ne (by first | (simp only; omega))
+  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega))
+  · exact l05nK42d_fin_ne (by first | (simp only; omega))
+  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega))
+  · exact l05nK42d_fin_ne (by first | (simp only; omega))
+  · exact l05nK42d_fin_ne (by first | (simp only [l05nK42d_next_val]; omega))
 
 private lemma l05nK42d_rel_last_far_sq_rev
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -907,9 +904,9 @@ private lemma l05nK42d_isLiftable
   rcases eq_or_ne i j with rfl | hij
   · rw [(ggCoxeterMatrixD n).diagonal i, pow_one]
     exact l05nK42d_g_mul_self hn2 b i
-  · rw [ggCoxeterMatrixD_apply, if_neg hij]
+  · rw [ggCoxeterMatrixD_apply, ite_eq_right hij]
     by_cases hD : CartanMatrix.D n i j = 0
-    · rw [if_pos hD]
+    · rw [ite_eq_left hD]
       by_cases hi : i.val = n - 1
       · by_cases hj : j.val = n - 1
         · exact absurd (Fin.ext (by omega)) hij
@@ -932,7 +929,7 @@ private lemma l05nK42d_isLiftable
             ((l05nK42d_cartanD_ne_zero_small hn hi hj hij).mpr h) hD
           exact l05nK42d_rel_disj_two hn2 b hij hi hj
             (fun h => hna (Or.inl h)) (fun h => hna (Or.inr h))
-    · rw [if_neg hD]
+    · rw [ite_eq_right hD]
       rcases (l05nK42d_cartanD_ne_zero_iff hn hij).mp hD with
         ⟨h1a, h1b⟩ | ⟨h2a, h2b⟩ | ⟨h3a, h3b⟩ | ⟨h4a, h4b⟩
       · exact l05nK42d_rel_adj_three hn2 b (by omega) (by omega) h1a
@@ -1019,7 +1016,7 @@ private lemma l05nK42d_permHom_mem_closure
     have hgi : l05nK42d_g (by omega) b ⟨i.val, by omega⟩ =
         l05nK42d_permHom b (Equiv.swap i.castSucc i.succ) := by
       rw [l05nK42d_g_adj (by omega) b
-        (by simp only [Fin.val_mk]; omega : (⟨i.val, by omega⟩ : Fin (m + 1)).val ≠ (m + 1) - 1),
+        (by simp only; omega : (⟨i.val, by omega⟩ : Fin (m + 1)).val ≠ (m + 1) - 1),
         l05nK42d_Tp_eq]
       rfl
     rw [← hgi]
@@ -1093,9 +1090,9 @@ private lemma l05nK42d_conj_Dpair
       (if k = σ x ∨ k = σ y then -1 else 1) := by
     by_cases h : σ⁻¹ k = x ∨ σ⁻¹ k = y
     · have h' : k = σ x ∨ k = σ y := hiff.mp h
-      simp only [h, h', if_true]
+      simp only [h, h', ite_true]
     · have h' : ¬(k = σ x ∨ k = σ y) := fun hh => h (hiff.mpr hh)
-      simp only [h, h', if_false]
+      simp only [h, h', ite_false]
   simp only [l05nK42d_units_ite_val]
   rw [hcoef]
   congr 1
@@ -1109,7 +1106,7 @@ private lemma l05nK42d_Dpair_mem_closure
   have hn2 : 2 ≤ n := by omega
   obtain ⟨σ, hσx, hσy⟩ := l05nK42d_exists_perm_pair (⟨n - 2, l05nK42d_sub_two_lt hn2⟩ : Fin n)
     (⟨n - 1, l05nK42d_sub_one_lt hn2⟩ : Fin n) x y
-    (l05nK42d_fin_ne (by simp only [Fin.val_mk]; omega)) hxy
+    (l05nK42d_fin_ne (by simp only; omega)) hxy
   have hbase : l05nK42d_Dpair b (⟨n - 2, l05nK42d_sub_two_lt hn2⟩ : Fin n)
       (⟨n - 1, l05nK42d_sub_one_lt hn2⟩ : Fin n) ∈
       Subgroup.closure (Set.range (l05nK42d_g (by omega) b)) := by
@@ -1151,8 +1148,8 @@ private lemma l05nK42d_even_card_of_prod {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
     apply Finset.prod_congr rfl
     intro i _
     by_cases h : i ∈ Finset.univ.filter (fun i => c i = -1)
-    · rw [if_pos h]; exact (Finset.mem_filter.mp h).2
-    · rw [if_neg h]
+    · rw [ite_eq_left h]; exact (Finset.mem_filter.mp h).2
+    · rw [ite_eq_right h]
       rcases hc i with hh | hh
       · exact hh
       · exact absurd (by simp [hh]) h
@@ -1179,7 +1176,7 @@ private lemma l05nK42d_prod_dpairFun {p : ℕ} [Fact p.Prime] {n : ℕ} {x y : F
     by_cases hix : i = x
     · subst hix; simp [hxy]
     · by_cases hiy : i = y
-      · subst hiy; simp [hxy, Ne.symm hxy]
+      · subst hiy; simp [Ne.symm hxy]
       · simp [hix, hiy]
   rw [hpoint, Finset.prod_mul_distrib, hx, hy]; simp
 
@@ -1194,26 +1191,26 @@ private lemma l05nK42d_diagMap_one
   rw [l05nK42d_diagMap_apply, Units.val_one, one_smul]
   rfl
 
-private lemma l05nK42d_sign_identity {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {n : ℕ}
-    {s : Finset (Fin n)} {a b : Fin n} (ha : a ∈ s) (hb : b ∈ s) (hab : a ≠ b) (k : Fin n) :
+private lemma l05nK42d_sign_identity {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {n : ℕ}
+    {s : Finset (Fin n)} {a b : Fin n} (ha : a ∈ s) (hb : b ∈ s) (_hab : a ≠ b) (k : Fin n) :
     (if k = a ∨ k = b then (-1 : ZMod p) else 1) *
       (if k ∈ (s.erase a).erase b then -1 else 1) =
       (if k ∈ s then -1 else 1) := by
   by_cases hka : k = a
   · rw [hka]
     have hna : a ∉ (s.erase a).erase b := by simp [Finset.mem_erase]
-    rw [if_pos (Or.inl rfl), if_neg hna, if_pos ha, mul_one]
+    rw [ite_eq_left (Or.inl rfl), ite_eq_right hna, ite_eq_left ha, mul_one]
   · by_cases hkb : k = b
     · rw [hkb]
       have hnb : b ∉ (s.erase a).erase b := by simp [Finset.mem_erase]
-      rw [if_pos (Or.inr rfl), if_neg hnb, if_pos hb, mul_one]
+      rw [ite_eq_left (Or.inr rfl), ite_eq_right hnb, ite_eq_left hb, mul_one]
     · have hmem : k ∈ (s.erase a).erase b ↔ k ∈ s := by
         simp only [Finset.mem_erase]
         exact ⟨fun h => h.2.2, fun h => ⟨hkb, hka, h⟩⟩
-      rw [if_neg (fun h => h.elim hka hkb), one_mul]
+      rw [ite_eq_right (fun h => h.elim hka hkb), one_mul]
       by_cases hk : k ∈ s
-      · rw [if_pos (hmem.mpr hk), if_pos hk]
-      · rw [if_neg (fun h => hk (hmem.mp h)), if_neg hk]
+      · rw [ite_eq_left (hmem.mpr hk), ite_eq_left hk]
+      · rw [ite_eq_right (fun h => hk (hmem.mp h)), ite_eq_right hk]
 
 private lemma l05nK42d_even_diag_mem_closure
     {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -1299,10 +1296,10 @@ private lemma l05nK42d_A_le_closure
         (-1 : (ZMod p)ˣ) else 1) = fun i => if c i = -1 then (-1 : (ZMod p)ˣ) else 1 := by
     funext i
     by_cases h : i ∈ Finset.univ.filter (fun i => c i = -1)
-    · rw [if_pos h, if_pos (Finset.mem_filter.mp h).2]
-    · rw [if_neg h]
+    · rw [ite_eq_left h, ite_eq_left (Finset.mem_filter.mp h).2]
+    · rw [ite_eq_right h]
       rcases hc i with hh | hh
-      · rw [hh, if_neg (Ne.symm (l05nK42d_neg_one_ne_one hp2))]
+      · rw [hh, ite_eq_right (Ne.symm (l05nK42d_neg_one_ne_one hp2))]
       · exact absurd (by simp [hh]) h
   rw [hsgn] at hdiag
   have hdecomp : a = l05nK42d_permHom b σ *
@@ -1310,16 +1307,16 @@ private lemma l05nK42d_A_le_closure
     apply l05nK42d_ext_basis (b := b)
     intro k
     simp only [LinearEquiv.mul_apply, l05nK42d_diagMap_apply, map_smul,
-      l05nK42d_permHom_apply, smul_smul]
+      l05nK42d_permHom_apply]
     rw [ha' k]
     congr 1
     by_cases hneg : c k = -1
-    · simp [hneg, l05nK42d_units_ite_val]
+    · simp [hneg]
     · have h1 : c k = 1 := by
         rcases hc k with h1 | h1
         · exact h1
         · exact absurd h1 hneg
-      simp [h1, l05nK42d_units_ite_val, Ne.symm (l05nK42d_neg_one_ne_one hp2)]
+      simp [h1, Ne.symm (l05nK42d_neg_one_ne_one hp2)]
   rw [hdecomp]
   exact Subgroup.mul_mem _ hperm hdiag
 
@@ -1407,7 +1404,7 @@ private lemma l05nK42d_evenSign_eq_pm_one
       (fun i => by by_cases hi : v i <;> simp [hi]) with h | h <;> rw [h] <;> simp
 
 private lemma l05nK42d_evenSign_ne_zero
-    {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {m : ℕ} (v : Fin m → Bool) (i : Fin (m + 1)) :
+    {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {m : ℕ} (v : Fin m → Bool) (i : Fin (m + 1)) :
     (l05nK42d_evenSign (p := p) v i : ZMod p) ≠ (0 : ZMod p) := by
   rcases l05nK42d_evenSign_eq_pm_one (p := p) v i with h | h <;> rw [h] <;> norm_num
 
@@ -1426,7 +1423,7 @@ private lemma l05nK42d_evenElem_apply
     l05nK42d_permHom_apply]
 
 private lemma l05nK42d_evenElem_mem
-    {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
+    {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {m : ℕ} (b : Module.Basis (Fin (m + 1)) (ZMod p) V)
     (A : Subgroup (V ≃ₗ[ZMod p] V))
     (hA : ∀ a : V ≃ₗ[ZMod p] V, a ∈ A ↔ ∃ (σ : Equiv.Perm (Fin (m + 1))) (c : Fin (m + 1) → ZMod p),
@@ -1451,8 +1448,8 @@ private lemma l05nK42d_equivFun_b
   funext j
   rw [Module.Basis.equivFun_self, Pi.single_apply]
   by_cases h : k = j
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
 
 private lemma l05nK42d_bool_sign_inj {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {a b : Bool}
     (h : (if a then (-1 : ZMod p) else 1) = (if b then (-1 : ZMod p) else 1)) : a = b := by
@@ -1480,7 +1477,7 @@ private lemma l05nK42d_evenElem_injective
     by_cases hne : σ i = σ' i
     · exact hne
     · exfalso
-      rw [if_neg hne, mul_zero] at h2
+      rw [ite_eq_right hne, mul_zero] at h2
       exact (l05nK42d_evenSign_ne_zero (p := p) hp2 v i) h2
   have hv : v = v' := by
     funext i
@@ -1488,7 +1485,7 @@ private lemma l05nK42d_evenElem_injective
     rw [l05nK42d_evenElem_apply, l05nK42d_evenElem_apply, hσ, map_smul, map_smul] at hw
     have h2 := congrFun hw (σ' (Fin.castSucc i))
     simp only [Pi.smul_apply, smul_eq_mul, l05nK42d_equivFun_b, Pi.single_eq_same,
-      Pi.single_apply, mul_one, l05nK42d_evenSign_castSucc, l05nK42d_units_ite_val] at h2
+      mul_one, l05nK42d_evenSign_castSucc, l05nK42d_units_ite_val] at h2
     exact l05nK42d_bool_sign_inj (p := p) hp2 h2
   exact Prod.ext hσ hv
 
@@ -1501,14 +1498,14 @@ private lemma l05nK42d_card_le
     2 ^ (n - 1) * n.factorial ≤ Nat.card A := by
   obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : n ≠ 0)
   simp only [Nat.succ_eq_add_one, Nat.add_sub_cancel]
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_basis b
-  haveI : Fintype V := Module.fintypeOfFintype b
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Finite (V → V) := inferInstance
-  haveI : Finite (V ≃ₗ[ZMod p] V) :=
+  have : Module.Finite (ZMod p) V := Module.Finite.of_basis b
+  have : Fintype V := Module.fintypeOfFintype b
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Finite (V → V) := inferInstance
+  have : Finite (V ≃ₗ[ZMod p] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (fun v => congrFun h v))
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hcard : Nat.card (Equiv.Perm (Fin (m + 1)) × (Fin m → Bool)) =
       2 ^ m * (m + 1).factorial := by
     rw [Nat.card_prod, Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_perm,
@@ -1537,9 +1534,9 @@ private theorem l05nK42d_coxeterMatrixD_eq (r : ℕ) :
   simp only [coxeterMatrix, TauCeti.coxeterMatrixOfCartanMatrix_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp [cartanD, TauCeti.coxeterOrder_four]
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     have hsymm : cartanD r j i = cartanD r i j := by
       rw [cartanD_eq]
       exact (CartanMatrix.D_isSymm r).apply i j
@@ -1613,7 +1610,7 @@ private lemma l05nK42d_g_isRefl
     ZS.IsRefl p (l05nK42d_g hn b i) := by
   by_cases hi : i.val = n - 1
   · rw [l05nK42d_g_last hn b hi]
-    exact l05nK42d_Tm_isRefl b (l05nK42d_fin_ne (by simp only [Fin.val_mk]; omega))
+    exact l05nK42d_Tm_isRefl b (l05nK42d_fin_ne (by simp only; omega))
   · rw [l05nK42d_g_adj hn b hi]
     exact l05nK42d_Tp_isRefl b (by
       intro h
@@ -1635,7 +1632,7 @@ theorem ggRC_coxeterD_equiv_evenSigned {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
               if k = (⟨n - 2, by omega⟩ : Fin n) ∨ k = ⟨n - 1, by omega⟩ then -1 else 1)
         else ZS.permMap p b (Equiv.swap i ⟨i.val + 1, by have := i.isLt; omega⟩) := by
   have hsurj := l05nK42d_F'_surjective hp2 hn b A hA
-  haveI : Finite (ggCoxeterMatrixD n).Group := l05nK42d_finite_coxeterD n (by omega)
+  have : Finite (ggCoxeterMatrixD n).Group := l05nK42d_finite_coxeterD n (by omega)
   have hcard := l05nK42d_card_coxeterD_le_A hp2 hn b A hA
   have hbij : Function.Bijective (l05nK42d_F' hn b A hA) :=
     Function.Surjective.bijective_of_nat_card_le hsurj hcard

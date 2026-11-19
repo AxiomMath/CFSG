@@ -49,10 +49,10 @@ theorem exists_eq_of_cocycle_of_odd_relIndex {V M H : Subgroup G}
       conv_lhs => rw [← Quotient.out_eq q]
       rfl
     rw [hq, hk, hζH _ _ (Subgroup.mem_subgroupOf.mp k.2), hζ]
-  haveI : IsMulCommutative ↥V := ⟨⟨fun a b => Subtype.ext (hVc _ a.2 _ b.2)⟩⟩
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
-  haveI : Finite (↥M ⧸ H.subgroupOf M) := Nat.finite_of_card_ne_zero hodd.pos.ne'
-  letI : Fintype (↥M ⧸ H.subgroupOf M) := Fintype.ofFinite _
+  have : IsMulCommutative ↥V := ⟨⟨fun a b => Subtype.ext (hVc _ a.2 _ b.2)⟩⟩
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
+  have : Finite (↥M ⧸ H.subgroupOf M) := Nat.finite_of_card_ne_zero hodd.pos.ne'
+  let : Fintype (↥M ⧸ H.subgroupOf M) := Fintype.ofFinite _
   set w : ↥V := ∏ q : ↥M ⧸ H.subgroupOf M, ζ (Quotient.out q) with hw
   have hcard : Fintype.card (↥M ⧸ H.subgroupOf M) = H.relIndex M := by
     rw [Subgroup.relIndex, Subgroup.index, Nat.card_eq_fintype_card]

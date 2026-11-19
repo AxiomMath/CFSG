@@ -86,7 +86,7 @@ theorem exists_both_ne_one {R : Type*} [Group R]
     · exact hYY a b ha hb hab h (fun h' => h (hiff.2 h'))
   classical
   have hfin : Finite A := Nat.finite_of_card_ne_zero (by omega)
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   have hcardF : Fintype.card A = 4 := by rw [← Nat.card_eq_fintype_card, hcard]
   have hs : 2 < ((Finset.univ : Finset A).erase 1).card := by
     have h1 := Finset.card_erase_of_mem (Finset.mem_univ (1 : A))

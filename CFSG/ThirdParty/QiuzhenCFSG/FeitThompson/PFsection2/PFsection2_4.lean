@@ -324,7 +324,7 @@ private theorem hFactor_conjugate_eq {G : Type u} [Group G] [Finite G]
         (L := L) (a := a) (x := x) (H := H a)
         (h.centralizer_eq_product ha) hx
     simpa [C', a'] using hprod.left_le
-  haveI : ((H a').subgroupOf C').Normal := by
+  have : ((H a').subgroupOf C').Normal := by
     simpa [C', a'] using internalSemidirectProduct_left_normal hprod'
   have hHallH : IsHallSubgroup (dadePiCompl A L) ((H a').subgroupOf C') := by
     simpa [C', a'] using hFactor_isHall h ha'
@@ -458,7 +458,7 @@ private theorem conjBy_mem_H_of_mem_elementCentralizer {G : Type u} [Group G] [F
     conjBy g u ∈ H a := by
   let C := elementCentralizer a
   have hprod := h.centralizer_eq_product ha
-  haveI : ((H a).subgroupOf C).Normal := by
+  have : ((H a).subgroupOf C).Normal := by
     simpa [C] using internalSemidirectProduct_left_normal hprod
   have hmem :=
     Subgroup.Normal.conj_mem (show ((H a).subgroupOf C).Normal from inferInstance)

@@ -43,7 +43,7 @@ theorem largeEvenMarking_slConjSet {m : ℕ} {F : Type} [Field F] [Finite F] {f 
     {X : Type} [Group X] (φ : Matrix.SpecialLinearGroup (Fin (m + 1)) F →* X)
     (hφ : Function.Surjective φ)
     (hker : φ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin (m + 1)) F)) :
-    LargeEvenMarking X (fun lab R _ I _ θ => GGChevStTag lab ∧
+    LargeEvenMarking X (fun lab _R _ I _ θ => GGChevStTag lab ∧
       ∀ α ∈ slConjSet φ, ∃ ψ ∈ I, ∀ y : X,
         ψ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))) := by
   classical
@@ -61,11 +61,11 @@ theorem largeEvenMarking_slConjSet {m : ℕ} {F : Type} [Field F] [Finite F] {f 
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
   have hperf : commutator (Matrix.SpecialLinearGroup (Fin (m + 1)) F) = ⊤ := by
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (m + 1)) F) := by
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (m + 1)) F) := by
       refine CFSG.LinearGroups.special_linear_isPerfect (by omega) ?_
       rcases Nat.lt_or_ge m 2 with hlt | hge
       · right
-        haveI : Fintype F := Fintype.ofFinite F
+        have : Fintype F := Fintype.ofFinite F
         have hcard : 4 ≤ (Finset.univ : Finset F).card := by
           rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
           exact h4of (by omega)

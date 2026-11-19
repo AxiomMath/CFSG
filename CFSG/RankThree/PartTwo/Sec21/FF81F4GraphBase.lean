@@ -52,9 +52,9 @@ section Transport
 
 variable {X : Type} [Group X] {Y : Subgroup X} {C : Type} [Group C] (e : ↥Y ≃* C)
 
-@[expose] def fixSub (α : MulAut C) : Subgroup C := α.toMonoidHom.eqLocus (MonoidHom.id C)
+def fixSub (α : MulAut C) : Subgroup C := α.toMonoidHom.eqLocus (MonoidHom.id C)
 
-@[expose] def embedY (ψ : MulAut C) : C →* X :=
+def embedY (ψ : MulAut C) : C →* X :=
   (Y.subtype.comp e.symm.toMonoidHom).comp ψ.symm.toMonoidHom
 
 theorem embedY_injective (ψ : MulAut C) : Function.Injective (embedY e ψ) := by
@@ -110,7 +110,7 @@ theorem exists_fixSub_map_eq (hK : Nat.card K = 2) {α : MulAut (adjointGroup Re
   refine ⟨ψ, hfix.trans ?_⟩
   ext g
   rw [mem_reeFixed, ← ReeTag.finiteReeAut_eq_reeAut, finiteReeAut_zero_F4]
-  simp [MonoidHom.eqLocus, pow_one]
+  simp [pow_one]
 
 theorem factorization_two_card_Gamma : (35942400 : ℕ).factorization 2 = 12 := by
   have h : (35942400 : ℕ) = 2 ^ 12 * 8775 := by norm_num

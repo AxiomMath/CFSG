@@ -35,7 +35,7 @@ theorem r16_3FComp_of_fix_half (D : Data G) (S : s16h_Std D) (hK : K_NonthinFixH
     (h1217 : R1217 D) (h153 : R15_3Small D) (h15_13 : R15_13Small D) : R16_3FComp D := by
   intro V₀ V L hV hS hc hs hcomp hnt
   have hL : barSub V₀ V hV L ≠ ⊥ := by
-    haveI := hcomp.2.2.2
+    have := hcomp.2.2.2
     have hnt' : Nontrivial ↥(lBar V₀ V hV L) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(lBar V₀ V hV L))).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).mp hnt'

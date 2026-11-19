@@ -108,7 +108,7 @@ theorem G24Vertex1.isSimpleGroup_inter_centralizer_L1 [Finite G]
   have hbij : Function.Bijective φ :=
     (Nat.bijective_iff_injective_and_card φ).mpr ⟨hinj, by rw [hBcard, hquotcard]⟩
   let e : ↥B ≃* oTwoQuot ↥L1 := MulEquiv.ofBijective φ hbij
-  haveI : IsSimpleGroup (oTwoQuot ↥L1) := by
+  have : IsSimpleGroup (oTwoQuot ↥L1) := by
     obtain ⟨e5⟩ := CFSG.Quasithin.S1421QA17.nonempty_mulEquiv_alt5_of_isL2Quot_two h1
     exact e5.isSimpleGroup
   exact e.isSimpleGroup
@@ -161,7 +161,7 @@ private theorem closure_pair_eq_inter [Finite G]
     have : aO * bO = 1 := by rw [← hMab, h1]; rfl
     exact (by decide : aO * bO ≠ 1) this
   have hord_b : orderOf b = 3 := orderOf_eq_prime hb3 hb_ne
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hord_ab : orderOf (a * b) = 5 := orderOf_eq_prime hab5 hab_ne
   have h3dvd : 3 ∣ Nat.card ↥C := by
     have h := orderOf_dvd_natCard (⟨b, hbC⟩ : ↥C)
@@ -182,7 +182,7 @@ private theorem closure_pair_eq_inter [Finite G]
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hCB).toEquiv
   have h15 : 15 ∣ Nat.card ↥(C.subgroupOf B) := by
     rwa [hXcard]
-  haveI : IsSimpleGroup ↥B := G24Vertex1.isSimpleGroup_inter_centralizer_L1 hF h1 hD hinf hBcard
+  have : IsSimpleGroup ↥B := G24Vertex1.isSimpleGroup_inter_centralizer_L1 hF h1 hD hinf hBcard
   have htop : C.subgroupOf B = ⊤ := subgroup_eq_top_of_fifteen_dvd hBcard h15
   have hCB_eq : C = B := le_antisymm hCB (Subgroup.subgroupOf_eq_top.mp htop)
   exact hCB_eq

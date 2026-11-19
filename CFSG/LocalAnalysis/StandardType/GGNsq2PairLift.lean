@@ -75,6 +75,7 @@ private noncomputable def pairIso_lft {D : Subgroup G}
       obtain ⟨u, hu, huq⟩ := mem_img.1 q.2
       exact ⟨⟨u, Subgroup.mem_subgroupOf.mpr hu⟩, Subtype.ext huq⟩⟩
 
+omit [Finite G] in
 private theorem img_subgroupOf_map_equiv_lft {D : Subgroup G} (hDN : D ≤ N)
     (e : ↥(D.subgroupOf N) ≃* ↥(img N f D))
     (he : ∀ u : ↥(D.subgroupOf N), ((e u : ↥(img N f D)) : Q) = f (u : ↥N))

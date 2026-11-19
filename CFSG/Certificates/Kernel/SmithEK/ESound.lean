@@ -36,7 +36,7 @@ theorem arr_contains (a : Array Nat) (s : Nat) : a.contains s = a.toList.contain
 
 theorem commuteB_toArray (A B : List Nat) : commuteB A.toArray B.toArray = c8comm A B := by
   unfold commuteB c8comm
-  simp only [getElem!_toArray, applyCols_arr, List.toList_toArray]
+  simp only [getElem!_toArray, applyCols_arr]
 
 theorem zip_map_self (f : Nat → List Nat) :
     ∀ l : List Nat, l.zip (l.map f) = l.map fun r => (r, f r)

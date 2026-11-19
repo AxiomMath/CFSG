@@ -21,6 +21,7 @@ section Hyperbolic
 
 variable {G : Type} [Group G] {Q Z : Subgroup G} {K : Type} [Field K] [Finite K] {γ : G → K}
 
+omit [Finite K] in
 theorem orth_polar_eq_dotProduct_gram {ι : Type} [Fintype ι] [DecidableEq ι]
     (qU : QuadraticForm K (ι → K)) (u v : ι → K) :
     polar qU u v = u ⬝ᵥ (LinearMap.BilinForm.toMatrix' (polarBilin qU)).mulVec v := by
@@ -28,6 +29,7 @@ theorem orth_polar_eq_dotProduct_gram {ι : Type} [Fintype ι] [DecidableEq ι]
   rw [Matrix.toBilin'_toMatrix'] at h
   simpa [QuadraticMap.polarBilin_apply_apply] using h
 
+omit [Finite K] in
 theorem orth_exists_gram_equiv {ι : Type} [Fintype ι] [DecidableEq ι] (qU : QuadraticForm K (ι → K))
     (hnd : ∀ u : ι → K, (∀ v : ι → K, polar qU u v = 0) → u = 0) :
     ∃ T : (ι → K) ≃ₗ[K] (ι → K), ∀ u y, polar qU u (T y) = u ⬝ᵥ y := by
@@ -85,6 +87,7 @@ structure TensorCoreHyp (Qf : E → K) (B : E →ₗ[K] E →ₗ[K] K) (qU : Qua
   a_nonabelian : ∃ a ∈ GA, ∃ b ∈ GA, a * b ≠ b * a
   a_card : Nat.card GA = Nat.card K * (Nat.card K ^ 2 - 1)
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem orthTensor_id_mul (g g' : Matrix (Fin 2) (Fin 2) K) (p : (ι → K) × (ι → K)) :
     orthTensor g (fun v => v) (orthTensor g' (fun v => v) p) =
       orthTensor (g * g') (fun v => v) p := by
@@ -94,10 +97,12 @@ theorem orthTensor_id_mul (g g' : Matrix (Fin 2) (Fin 2) K) (p : (ι → K) × (
   · simp only [orthTensor, Matrix.mul_apply, Fin.sum_univ_two]
     module
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem orthTensor_id_one (p : (ι → K) × (ι → K)) :
     orthTensor (1 : Matrix (Fin 2) (Fin 2) K) (fun v => v) p = p := by
   ext <;> simp [orthTensor]
 
+omit [Finite K] [CharP K 2] [Fintype ι] in
 theorem orthTensor_id_inj {g g' : Matrix (Fin 2) (Fin 2) K}
     (h : ∀ p : (ι → K) × (ι → K), orthTensor g (fun v => v) p = orthTensor g' (fun v => v) p) :
     g = g' := by
@@ -130,16 +135,19 @@ theorem orthTensor_id_inj {g g' : Matrix (Fin 2) (Fin 2) K}
     Prop :=
   ∀ e, φ (a e) = orthTensor g (fun v => v) (φ e)
 
+omit [Module.Finite K E] [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem TensorActsAs.mul {φ : E ≃ₗ[K] (ι → K) × (ι → K)} {a b : E ≃ₗ[K] E}
     {g g' : Matrix (Fin 2) (Fin 2) K} (ha : TensorActsAs φ a g) (hb : TensorActsAs φ b g') :
     TensorActsAs φ (a * b) (g * g') := by
   intro e
   rw [LinearEquiv.mul_apply, ha, hb, orthTensor_id_mul]
 
+omit [Module.Finite K E] [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem TensorActsAs.one (φ : E ≃ₗ[K] (ι → K) × (ι → K)) : TensorActsAs φ 1 1 := by
   intro e
   rw [orthTensor_id_one]; rfl
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] in
 theorem TensorActsAs.unique {φ : E ≃ₗ[K] (ι → K) × (ι → K)} {a : E ≃ₗ[K] E}
     {g g' : Matrix (Fin 2) (Fin 2) K} (ha : TensorActsAs φ a g) (ha' : TensorActsAs φ a g') : g = g' := by
   refine orthTensor_id_inj (ι := ι) fun p => ?_
@@ -148,6 +156,7 @@ theorem TensorActsAs.unique {φ : E ≃ₗ[K] (ι → K) × (ι → K)} {a : E �
   rw [LinearEquiv.apply_symm_apply] at h1 h2
   rw [← h1, ← h2]
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] in
 theorem TensorActsAs.mul_inv {φ : E ≃ₗ[K] (ι → K) × (ι → K)} {a : E ≃ₗ[K] E}
     {g g' : Matrix (Fin 2) (Fin 2) K} (ha : TensorActsAs φ a g) (ha' : TensorActsAs φ a⁻¹ g') :
     g * g' = 1 := by
@@ -166,16 +175,20 @@ variable {Qf : E → K} {B : E →ₗ[K] E →ₗ[K] K} {qU : QuadraticForm K (�
 
 include h
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem B_eq (e f : E) : B e f = Qf (e + f) - Qf e - Qf f := by
   rw [h.qadd]; ring
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem x_B {x : E ≃ₗ[K] E} (hx : x ∈ GX) (e f : E) : B (x e) (x f) = B e f := by
   rw [h.B_eq, h.B_eq e f, ← map_add, h.x_isom x hx, h.x_isom x hx, h.x_isom x hx]
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem omega_polar {o : (ι → K) ≃ₗ[K] (ι → K)} (ho : o ∈ Ω) (u v : ι → K) :
     polar qU (o u) (o v) = polar qU u v := by
   simp only [QuadraticMap.polar, ← map_add, h.omega_isom o ho]
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem scalar_on_W (f : E →ₗ[K] E) (hcomm : ∀ x ∈ GX, ∀ e, x (f e) = f (x e))
     (hW : ∀ u, f (ν u) ∈ LinearMap.range ν) : ∃ c : K, ∀ u, f (ν u) = c • ν u := by
   let e : (ι → K) ≃ₗ[K] LinearMap.range ν := LinearEquiv.ofInjective ν h.nu_inj
@@ -196,17 +209,20 @@ theorem scalar_on_W (f : E →ₗ[K] E) (hcomm : ∀ x ∈ GX, ∀ e, x (f e) = 
     rw [hf', ← hxo, ← hcomm x hx, ← hf', hxo])
   exact ⟨c, fun u => by rw [← hf', hc, map_smul]⟩
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem finrank_E : Module.finrank K E = 2 * Module.finrank K (LinearMap.range ν) := by
   have := LinearMap.finrank_range_add_finrank_ker ψ
   rw [h.psi_range, h.psi_ker] at this
   omega
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem range_inv {x : E ≃ₗ[K] E} (hx : x ∈ GX) {v : E} (hv : v ∈ LinearMap.range ν) :
     x v ∈ LinearMap.range ν := by
   obtain ⟨u, rfl⟩ := hv
   obtain ⟨o, -, ho⟩ := h.x_inv x hx
   exact ⟨_, (ho u).symm⟩
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem quot_simple (T : Submodule K E) (hWT : LinearMap.range ν ≤ T)
     (hT : ∀ x ∈ GX, ∀ v ∈ T, x v ∈ T) : T = LinearMap.range ν ∨ T = ⊤ := by
   have hS : T.map ψ ≤ LinearMap.range ν := by
@@ -237,6 +253,7 @@ theorem quot_simple (T : Submodule K E) (hWT : LinearMap.range ν ≤ T)
     have := T.add_mem (hWT this) ht
     simpa using this
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem le_or_hasInvCompl (S : Submodule K E) (hS : ∀ x ∈ GX, ∀ v ∈ S, x v ∈ S)
     (hfr : Module.finrank K S ≤ Module.finrank K (LinearMap.range ν)) :
     S ≤ LinearMap.range ν ∨ OrthHasInvCompl GX ν := by
@@ -261,6 +278,7 @@ theorem le_or_hasInvCompl (S : Submodule K E) (hS : ∀ x ∈ GX, ∀ v ∈ S, x
       have := Submodule.eq_of_le_of_finrank_le hle hfr
       rw [this]
 
+omit [Finite K] [CharP K 2] [DecidableEq ι] [Nonempty ι] in
 theorem endo_decomp (hns : ¬ OrthHasInvCompl GX ν) (f : E →ₗ[K] E)
     (hf : ∀ x ∈ GX, ∀ e, x (f e) = f (x e)) :
     ∃ c : K, (∀ u, f (ν u) = c • ν u) ∧
@@ -299,6 +317,7 @@ theorem endo_decomp (hns : ¬ OrthHasInvCompl GX ν) (f : E →ₗ[K] E)
   have : g e ∈ LinearMap.range ν := hrange ⟨e, rfl⟩
   simpa [hg] using this
 
+omit [Finite K] [CharP K 2] [DecidableEq ι] [Nonempty ι] in
 theorem exists_hasInvCompl : OrthHasInvCompl GX ν := by
   by_contra hns
   obtain ⟨a, ha, b, hb, hab⟩ := h.a_nonabelian
@@ -337,6 +356,7 @@ theorem exists_hasInvCompl : OrthHasInvCompl GX ν := by
     exact (congrArg (fun φ : E ≃ₗ[K] E => φ e) this).symm
   exact hcomm (a : E →ₗ[K] E) (b : E →ₗ[K] E) hax hbx e
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem exists_nu' {W' : Submodule K E} (hc : IsCompl (LinearMap.range ν) W')
     (hinv : ∀ x ∈ GX, ∀ v ∈ W', x v ∈ W') :
     ∃ ν' : (ι → K) →ₗ[K] E, Function.Injective ν' ∧ LinearMap.range ν' = W' ∧
@@ -370,7 +390,7 @@ theorem exists_nu' {W' : Submodule K E} (hc : IsCompl (LinearMap.range ν) W')
     have hψa : ψ a = 0 := by
       rw [← LinearMap.mem_ker, h.psi_ker]; exact ha
     refine ⟨⟨b, hb⟩, Subtype.ext ?_⟩
-    simp only [ψ', LinearMap.codRestrict_apply, LinearMap.comp_apply, Submodule.subtype_apply]
+    simp only [ψ']
     rw [map_add, hψa, zero_add] at he
     exact he
   let ψe : W' ≃ₗ[K] LinearMap.range ν := LinearEquiv.ofBijective ψ' ⟨hψ'inj, hψ'surj⟩
@@ -405,9 +425,11 @@ theorem exists_nu' {W' : Submodule K E} (hc : IsCompl (LinearMap.range ν) W')
     rw [hc.inf_eq_bot, Submodule.mem_bot] at this
     exact sub_eq_zero.mp this
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem B_nu_nu (u₁ u₂ : ι → K) : B (ν u₁) (ν u₂) = 0 := by
   rw [h.B_eq, ← map_add, h.w_sing, h.w_sing, h.w_sing]; ring
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] in
 theorem exists_scalar {W' : Submodule K E} (hc : IsCompl (LinearMap.range ν) W')
     {ν' : (ι → K) →ₗ[K] E} (hν'r : LinearMap.range ν' = W')
     (hx' : ∀ x ∈ GX, ∀ o : (ι → K) ≃ₗ[K] (ι → K), (∀ u, x (ν u) = ν (o u)) →
@@ -465,6 +487,7 @@ theorem exists_scalar {W' : Submodule K E} (hc : IsCompl (LinearMap.range ν) W'
     simp at h2
   · rw [← hf, hc', QuadraticMap.polar_smul_right]; rfl
 
+omit [Finite K] [CharP K 2] in
 theorem exists_coordinates :
     ∃ (ν₂ : (ι → K) →ₗ[K] E) (φ : E ≃ₗ[K] (ι → K) × (ι → K)),
       (∀ u₁ u₂, φ.symm (u₁, u₂) = ν u₁ + ν₂ u₂) ∧
@@ -520,6 +543,7 @@ theorem exists_coordinates :
   · show x (c⁻¹ • ν' u) = c⁻¹ • ν' (o u)
     rw [map_smul, hν'x x hx o hxo u]
 
+omit [Finite K] [CharP K 2] [Module.Finite K E] [Fintype ι] [DecidableEq ι] [Nonempty ι] in
 theorem exists_orthTensor_of_comm (F : (ι → K) × (ι → K) →ₗ[K] (ι → K) × (ι → K))
     (hF : ∀ o ∈ Ω, ∀ p : (ι → K) × (ι → K), F (o p.1, o p.2) = (o (F p).1, o (F p).2)) :
     ∃ g : Matrix (Fin 2) (Fin 2) K, ∀ p, F p = orthTensor g (fun v => v) p := by
@@ -780,11 +804,13 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 theorem orthLinAct_apply (hS : IsTensorSetup hc n M₀ ρ b) (g : ↥(bar M Q (H0 M Z))) (e : M₀.E) :
     orthLinAct hS g e = (ρ g).toAdd e := rfl
 
+omit [Finite G] in
 theorem orth_exists_mk_of_mem_bar {S : Subgroup G} {ℓ : Mbar M Q} (hℓ : ℓ ∈ bar M Q S) :
     ∃ t : ↥M, (t : G) ∈ S ∧ (QuotientGroup.mk t : Mbar M Q) = ℓ := by
   obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hℓ
   exact ⟨x, Subgroup.mem_subgroupOf.mp hx, rfl⟩
 
+omit [Finite G] in
 theorem orth_conj_of_mem_H0 {t : G} (ht : t ∈ H0 M Z) : ∀ z ∈ Z, t * z * t⁻¹ = z := by
   intro z hz
   have hm : t ∈ M ⊓ Subgroup.centralizer (Z : Set G) := ht
@@ -843,18 +869,23 @@ theorem thetaGL_mulVec (A : GL ι K) (v : ι → K) :
   funext i
   simp [thetaGL_coe, Matrix.mulVec, dotProduct, thetaVec, map_sum]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaVec_add (u v : ι → K) : thetaVec θ (u + v) = thetaVec θ u + thetaVec θ v := by
   funext i; simp [thetaVec]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaVec_smul (c : K) (v : ι → K) : thetaVec θ (c • v) = θ c • thetaVec θ v := by
   funext i; simp [thetaVec]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaVec_zero : thetaVec θ (0 : ι → K) = 0 := by
   funext i; simp [thetaVec]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaVec_surjective : Function.Surjective (thetaVec θ : (ι → K) → ι → K') := fun w =>
   ⟨fun i => θ.symm (w i), by funext i; simp [thetaVec]⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaVec_injective : Function.Injective (thetaVec θ : (ι → K) → ι → K') := by
   intro u v h
   funext i
@@ -875,17 +906,21 @@ theorem thetaVec_injective : Function.Injective (thetaVec θ : (ι → K) → ι
     · simp only [thetaVec_add, LinearMap.mk₂_apply]
       rw [QuadraticMap.map_add qF (thetaVec θ x) (thetaVec θ y), map_add, map_add]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem qTransport_apply (qF : QuadraticForm K' (ι → K')) (v : ι → K) :
     qTransport θ qF v = θ.symm (qF (thetaVec θ v)) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem theta_qTransport (qF : QuadraticForm K' (ι → K')) (v : ι → K) :
     θ (qTransport θ qF v) = qF (thetaVec θ v) := by
   rw [qTransport_apply, RingEquiv.apply_symm_apply]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem theta_polar_qTransport (qF : QuadraticForm K' (ι → K')) (x y : ι → K) :
     θ (polar (qTransport θ qF) x y) = polar qF (thetaVec θ x) (thetaVec θ y) := by
   simp only [polar, map_sub, theta_qTransport, thetaVec_add]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem qTransport_nondeg (qF : QuadraticForm K' (ι → K'))
     (hnd : ∀ u : ι → K', (∀ v : ι → K', polar qF u v = 0) → u = 0) :
     ∀ u : ι → K, (∀ v : ι → K, polar (qTransport θ qF) u v = 0) → u = 0 := by
@@ -950,9 +985,11 @@ theorem omegaK_comm {Xcl : Subgroup (GL ι K')} (hX : CFSG.RankThree.GF2n.Stroth
   show thetaVec θ (f u) = thetaVec θ (f (thetaVec θ.symm (thetaVec θ u)))
   rw [hvv]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaVec_sub (u v : ι → K) : thetaVec θ (u - v) = thetaVec θ u - thetaVec θ v := by
   funext i; simp [thetaVec]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaVec_eichler (qF : QuadraticForm K' (ι → K')) {a w : ι → K}
     (ha : qTransport θ qF a = 0) (hw : polar (qTransport θ qF) a w = 0) (u : ι → K) :
     thetaVec θ (eichler (qTransport θ qF) a w u) =
@@ -994,6 +1031,7 @@ noncomputable def embProjFst (ψ : A × B →* Γ) (hψ : Function.Injective ψ)
   (MonoidHom.fst A B).comp ((MonoidHom.ofInjective hψ).symm.toMonoidHom.comp
     (Subgroup.inclusion hRS))
 
+omit [Finite Γ] in
 theorem mem_ker_embProjFst (ψ : A × B →* Γ) (hψ : Function.Injective ψ) (R : Subgroup Γ)
     (hRS : R ≤ ψ.range) (r : ↥R) : r ∈ (embProjFst ψ hψ R hRS).ker ↔ (r : Γ) ∈ embProdSnd ψ := by
   constructor
@@ -1024,10 +1062,10 @@ theorem orthClaimA (ψ : A × B →* Γ) (hψ : Function.Injective ψ) (R N : Su
     (hcardB : Nat.card B = Nat.card Y) (hbig : Nat.card A < Nat.card Y) :
     embProdSnd ψ ≤ R ∧ embProdSnd ψ ⊓ N = ⊥ ∧ ∀ r ∈ R, ∃ n ∈ N, ∃ x ∈ embProdSnd ψ, r = n * x := by
   classical
-  haveI : Finite Y := Finite.of_surjective π hπs
-  haveI : Finite A :=
+  have : Finite Y := Finite.of_surjective π hπs
+  have : Finite A :=
     Finite.of_injective (fun a : A => ψ (a, 1)) (fun a b h => congrArg Prod.fst (hψ h))
-  haveI : Finite B :=
+  have : Finite B :=
     Finite.of_injective (fun b : B => ψ (1, b)) (fun a b h => congrArg Prod.snd (hψ h))
   set p := embProjFst ψ hψ R hRS with hp
   set D : Subgroup ↥R := (embProdSnd ψ).subgroupOf R with hD
@@ -1133,6 +1171,7 @@ variable {K F E : Type} [Field K] [Field F] [AddCommGroup E] [Module K E] (θ : 
 
 include hΨ
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orth_psi_symm_smul (c : K) (y : ι → F) : Ψ.symm (θ c • y) = c • Ψ.symm y := by
   apply Ψ.injective
   rw [AddEquiv.apply_symm_apply, hΨ, AddEquiv.apply_symm_apply]
@@ -1147,16 +1186,20 @@ theorem orth_psi_symm_smul (c : K) (y : ι → F) : Ψ.symm (θ c • y) = c •
     show ((Ψ.symm (thetaVec θ (c • u)) : ↥W) : E) = c • ((Ψ.symm (thetaVec θ u) : ↥W) : E)
     rw [thetaVec_smul, orth_psi_symm_smul θ W Ψ hΨ, Submodule.coe_smul]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthNuMap_apply (u : ι → K) : orthNuMap θ W Ψ hΨ u = (Ψ.symm (thetaVec θ u) : E) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthNuMap_mem (u : ι → K) : orthNuMap θ W Ψ hΨ u ∈ W := (Ψ.symm (thetaVec θ u)).2
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthNuMap_injective : Function.Injective (orthNuMap θ W Ψ hΨ) := by
   intro u v h
   apply thetaVec_injective θ
   apply Ψ.symm.injective
   exact Subtype.ext h
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem range_nuMap : LinearMap.range (orthNuMap θ W Ψ hΨ) = W := by
   apply le_antisymm
   · rintro _ ⟨u, rfl⟩; exact orthNuMap_mem θ W Ψ hΨ u
@@ -1191,7 +1234,7 @@ theorem orth_singular_of_transport [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) 
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hBV : B ≤ Vt M (LB M Q B) B Z t := hc.B_le_Vt ht
-  haveI hZn : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have hZn : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hx))
   have hπV : ∀ v : ↥(Vt M (LB M Q B) B Z t), M₀.π v ∈ hc.VtSub hS.model t := fun v =>
@@ -1327,7 +1370,7 @@ theorem orth_tensor_glue [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ}
           (Stroth310RootStatement → qTransport θ qF u = 0)) := by
   classical
   obtain ⟨hN', A, B', _, _, hA, hB', ⟨e⟩⟩ := hprod
-  haveI := hN'
+  have := hN'
   have hLM : Lgen M (LB M Q B) ≤ M := Lgen_le hc.LB_le_M
   let e₃ : (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B))) ≃*
       ↥(bar M Q (Lgen M (LB M Q B))) :=
@@ -1347,7 +1390,7 @@ theorem orth_tensor_glue [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ}
       exact ⟨eS ⟨x, hx⟩, by simp [ψ₀]⟩
   obtain ⟨K, hK, hKfin, γ, M₀, ρ, b, hS⟩ := tensorSetup_of_34 h34 G M Q Z B hc n hw hn hno hgen
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
   have h35 := (stroth_3_5 h34 hc hw hn hno hgen).2.1
   obtain ⟨θ, Ψ, π, hπr, hπk, hΨθ, hΨπ⟩ := hc.natural_transport hS ht hFZ hscal hnat
   have hRS : bar M Q (Rt M (LB M Q B) t) ≤ ψ₀.range := by
@@ -1369,7 +1412,7 @@ theorem orth_tensor_glue [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ}
   obtain ⟨F₂, hF₂, hF₂fin, hF₂card, ⟨eA⟩⟩ := hA
   have hcardA : Nat.card A = Nat.card Z * (Nat.card Z ^ 2 - 1) := by
     rw [Nat.card_congr eA.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hF₂card]
-  haveI := hsimple
+  have := hsimple
   obtain ⟨hXR, hXN, hRX⟩ := orthClaimA ψ₀ hψ₀ _ _ hRS hNR π' hπ's hkerπ'
     (hP₂ B' hB') (by rw [hcardA]; exact hbig)
   have hXH0 : embProdSnd ψ₀ ≤ bar M Q (H0 M Z) := by
@@ -1501,8 +1544,8 @@ theorem orth_tensor_glue [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ}
     have h3 := hS.dim
     omega
   have hq := statedSL_quasisimple_of_card 2 F₂ le_rfl (by rw [hF₂card]; exact hc.hyp.q4)
-  haveI hSLperf : Group.IsPerfect ↥(StatedSL 2 F₂) := hq.1
-  haveI hApf : Group.IsPerfect A := Group.IsPerfect.ofSurjective (f := eA.symm.toMonoidHom)
+  have hSLperf : Group.IsPerfect ↥(StatedSL 2 F₂) := hq.1
+  have hApf : Group.IsPerfect A := Group.IsPerfect.ofSurjective (f := eA.symm.toMonoidHom)
     eA.symm.surjective
   have hAnonab : ∃ a b : A, a * b ≠ b * a := by
     obtain ⟨a', b', hab⟩ := hq.2.2
@@ -1715,7 +1758,7 @@ theorem smith24E2Plus_tensorB (h34 : Stroth34Statement)
         OrthPreFrame Q Z M₀ qU φ ∧ OrthAct Q Z M₀ qU φ (Lgen M (LB M Q B)) ∧
           OrthBLine M₀ qU φ B := by
   have hc : Ctx M Q Z B := hcfg.ctx
-  haveI : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
+  have : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
   have hw : Width Q Z (2 * m) := by
     unfold Width
     rw [hE.2.1]
@@ -1726,11 +1769,11 @@ theorem smith24E2Plus_tensorB (h34 : Stroth34Statement)
   have htQ : t ∉ Q := ht.2.2.1
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
   obtain ⟨K', hF', hFin', hK'card, hnat⟩ := hNat
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'card.trans hZ2)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'card.trans hZ2)
   have hq4 : 4 ≤ Nat.card K' := by rw [hK'card]; exact hc.hyp.q4
   have hcoe : ⇑(quadPlus m K') = StatedQuadPlus m K' :=
     CFSG.LieType.Universal.Spin.coe_quadPlus m K'
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hVU := (stroth310Chi_of_34 h34 G M Q Z B hc (2 * m) t ⟨hw, hn, hno, hgen, htLB, htQ⟩
     (Or.inr ⟨K', hF', hFin', hK'card, Or.inl ⟨m, hm, hnat⟩⟩)).1
   have hnat' : NaturalRep (ι := Fin m ⊕ Fin m) K' (StatedOmega ⇑(quadPlus m K'))
@@ -1758,7 +1801,7 @@ theorem smith24E2Plus_tensorB (h34 : Stroth34Statement)
     (by rw [hcoe, ← hK'card]; exact card_statedSL_two_lt_omega_plus hm hq4)
     hnat' hsing
     (P₂ := IsOmegaPlus m (Nat.card Z)) (fun X _ ⟨K'', hK''f, hK''fin, hK''card, ⟨e⟩⟩ => by
-      haveI : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''card.trans hZ2)
+      have : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''card.trans hZ2)
       have h1 := card_statedOmega_plus_eq (K := K'') hm
       have h2 := card_statedOmega_plus_eq (K := K') hm
       rw [hK''card] at h1
@@ -1873,7 +1916,7 @@ theorem smith24E2Minus_tensorB (h34 : Stroth34Statement)
         OrthPreFrame Q Z M₀ qU φ ∧ OrthAct Q Z M₀ qU φ (Lgen M (LB M Q B)) ∧
           OrthBLine M₀ qU φ B := by
   have hc : Ctx M Q Z B := hcfg.ctx
-  haveI : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
+  have : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
   have hw : Width Q Z (2 * m) := by
     unfold Width
     rw [hE.2.1]
@@ -1884,11 +1927,11 @@ theorem smith24E2Minus_tensorB (h34 : Stroth34Statement)
   have htQ : t ∉ Q := ht.2.2.1
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
   obtain ⟨K', hF', hFin', hK'card, b, c, hirr, hnat⟩ := hNat
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'card.trans hZ2)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'card.trans hZ2)
   have hq4 : 4 ≤ Nat.card K' := by rw [hK'card]; exact hc.hyp.q4
   have hcoe : ⇑(quadMinus m K' b c) = StatedQuadMinus m K' b c :=
     CFSG.LieType.Universal.Spin.coe_quadMinus m K' b c
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hVU := (stroth310Chi_of_34 h34 G M Q Z B hc (2 * m) t ⟨hw, hn, hno, hgen, htLB, htQ⟩
     (Or.inr ⟨K', hF', hFin', hK'card, Or.inr ⟨m, b, c, by omega, hirr, hnat⟩⟩)).1
   have hnat' : NaturalRep (ι := Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K'
@@ -1923,7 +1966,7 @@ theorem smith24E2Minus_tensorB (h34 : Stroth34Statement)
     hnat' hsing
     (P₂ := IsOmegaMinus m (Nat.card Z))
     (fun X _ ⟨K'', hK''f, hK''fin, hK''card, b'', c'', hirr'', ⟨e⟩⟩ => by
-      haveI : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''card.trans hZ2)
+      have : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''card.trans hZ2)
       have h1 := card_statedOmega_minus_eq (K := K'') hm hirr''
       have h2 := card_statedOmega_minus_eq (K := K') hm hirr
       rw [hK''card] at h1

@@ -12,6 +12,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {L A T : Subgroup G} {z t : G}
   {W W₁ W₂ : Subgroup G}
 
+omit [Finite G] in
 theorem card_sup_zpowers_of_mem_normalizer {H : Subgroup G} {z : G}
     (hzN : z ∈ normalizer (H : Set G)) (hz2 : z * z = 1) (hzH : z ∉ H) :
     Nat.card ↥(H ⊔ zpowers z) = 2 * Nat.card H := by
@@ -59,6 +60,7 @@ theorem card_sup_zpowers_of_mem_normalizer {H : Subgroup G} {z : G}
         rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact hz2) hz1]
     _ = 2 * Nat.card H := Nat.mul_comm _ _
 
+omit [Finite G] in
 theorem relIndex_eq_two_of_card_eq {H K : Subgroup G} (hHK : H ≤ K) {n : ℕ}
     (hH : Nat.card H = 2 ^ n) (hK : Nat.card K = 2 ^ (n + 1)) : H.relIndex K = 2 := by
   have h := Subgroup.relIndex_mul_card (H := H) (K := K)
@@ -69,7 +71,7 @@ theorem exists_conj_le_sylow_of_isPGroup {X : Type*} [Group X] [Finite X] {p : �
     (S : Sylow p X) {V : Subgroup X} (hV : IsPGroup p V) :
     ∃ x : X, ∀ v ∈ V, x * v * x⁻¹ ∈ (S : Subgroup X) := by
   obtain ⟨Q, hVQ⟩ := hV.exists_le_sylow
-  haveI : Finite (Sylow p X) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow p X) := Sylow.finite_of_finiteIndex Q
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq X Q S
   refine ⟨x, fun v hv => ?_⟩
   have hxQ : v ∈ (Q : Subgroup X) := hVQ hv
@@ -130,7 +132,7 @@ theorem WHyp.mul_mem_A_of_mul_self (h : WHyp G L A T z t W W₁ W₂) {r : G} (h
     exact hrW (by rw [← hwb, hb1, mul_one]; exact hwW)
   · have hrwz : r = w * z := by rw [← hwb, hbz]
     have hw2 : w * w = 1 := by
-      letI : IsElementaryAbelian 2 ↥W := h.elemAb
+      let : IsElementaryAbelian 2 ↥W := h.elemAb
       simpa [pow_two] using elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := W) w hwW
     have hzw : z * w = w * z := by
       have h1 : w * (z * w) * z = 1 := by
@@ -195,7 +197,7 @@ theorem WHyp.eq_of_le_R₀ (h : WHyp G L A T z t W W₁ W₂) {Y : Subgroup G} (
     have hxW : x ∈ W := hx.2
     by_cases hzY : z ∈ Y
     · exact (hcomm x hxY z hzY).symm
-    · rw [SetLike.le_def] at hWnotle
+    · rw [_root_.IsConcreteLE.le_iff] at hWnotle
       push Not at hWnotle
       obtain ⟨w, hwW, hwY⟩ := hWnotle
       have hwR : w ∈ R₀ A z := h.e3.le_R₀ hwW
@@ -215,7 +217,7 @@ theorem WHyp.eq_of_le_R₀ (h : WHyp G L A T z t W W₁ W₂) {Y : Subgroup G} (
         simpa [w', z', Subgroup.mem_subgroupOf] using hmem
       have hzdec : z = w * (w⁻¹ * z) := by group
       have hxw : x * w = w * x := by
-        haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+        have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
         exact setLike_mul_comm hxW hwW
       have hxy : x * (w⁻¹ * z) = (w⁻¹ * z) * x := hcomm x hxY _ hyY
       calc z * x = (w * (w⁻¹ * z)) * x := congrArg (fun y => y * x) hzdec
@@ -229,7 +231,7 @@ theorem WHyp.eq_of_le_R₀ (h : WHyp G L A T z t W W₁ W₂) {Y : Subgroup G} (
   let Y' : Subgroup ↥(R₀ A z) := Y.subgroupOf (R₀ A z)
   have hY'index : Y'.index = 2 := hYrel
   have hY'norm : Y'.Normal := Subgroup.normal_of_index_eq_two hY'index
-  letI : Y'.Normal := hY'norm
+  let : Y'.Normal := hY'norm
   let q : ↥W →* ↥(R₀ A z) ⧸ Y' :=
     (QuotientGroup.mk' Y').comp (Subgroup.inclusion h.e3.le_R₀)
   have hker : q.ker = (Y ⊓ W).subgroupOf W := by
@@ -284,7 +286,7 @@ private theorem map_conj_eq_W_of_mem_normalizer (h : WHyp G L A T z t W W₁ W�
     have he : IsElementaryAbelian 2 ↥W' := by
       rw [hW'def]
       exact h.elemAb.subgroup_map (MulAut.conj n).toMonoidHom
-    haveI : IsMulCommutative ↥W' := he.toIsMulCommutative
+    have : IsMulCommutative ↥W' := he.toIsMulCommutative
     intro a ha b hb
     exact setLike_mul_comm ha hb
   exact h.eq_of_le_R₀ hW'le hW'comm hW'card
@@ -330,7 +332,7 @@ private theorem conj_za_mul_mem_A (h : WHyp G L A T z t W W₁ W₂) {n : G}
   have hza2 : (z * a) * (z * a) = 1 := by
     have haz : a * z = z * a := h.hyp.commute_of_mem (h.hyp.jc.le ha)
     have ha2 : a * a = 1 := by
-      letI : IsElementaryAbelian 2 ↥A := h.hyp.jc.module.elemAb
+      let : IsElementaryAbelian 2 ↥A := h.hyp.jc.module.elemAb
       simpa [pow_two] using
         elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := A) a ha
     calc (z * a) * (z * a) = z * (a * z) * a := by group
@@ -402,7 +404,7 @@ theorem WHyp.exists_conj_le_R₀_of_le (h : WHyp G L A T z t W W₁ W₂) {H P :
     (hRH : R₀ A z ≤ H) (hHC : H ≤ centralizer (A : Set G)) (hP : IsPGroup 2 P) (hPH : P ≤ H) :
     ∃ c ∈ H, ∀ p ∈ P, c * p * c⁻¹ ∈ R₀ A z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR₀p : IsPGroup 2 (R₀ A z) := IsPGroup.of_card h.e2.card_R₀
   have hR'p : IsPGroup 2 ((R₀ A z).subgroupOf H) := hR₀p.comap_subtype
   let S : Sylow 2 ↥H :=
@@ -428,7 +430,7 @@ theorem WHyp.exists_conj_le_R₀_of_le (h : WHyp G L A T z t W W₁ W₂) {H P :
       exact hnR (by simpa [Subgroup.mem_subgroupOf] using hnR₀)⟩
   have hP'p : IsPGroup 2 (P.subgroupOf H) := hP.comap_subtype
   obtain ⟨Q, hPQ⟩ := IsPGroup.exists_le_sylow hP'p
-  haveI : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex S
+  have : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex S
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq ↥H Q S
   refine ⟨(c : G), c.2, fun p hp => ?_⟩
   have hpQ : (⟨p, hPH hp⟩ : ↥H) ∈ (Q : Subgroup ↥H) :=
@@ -454,7 +456,7 @@ theorem WHyp.exists_conj_le_R₀ (h : WHyp G L A T z t W W₁ W₂) {P : Subgrou
 theorem WHyp.eq_of_le_centralizer (h : WHyp G L A T z t W W₁ W₂) {P : Subgroup G}
     (hP : IsPGroup 2 P) (hWP : W ≤ P) (hPC : P ≤ centralizer (W : Set G)) : P = W := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hPW : P = W
   · exact hPW
   have hlt : W < P := lt_of_le_of_ne hWP (fun h => hPW h.symm)
@@ -491,7 +493,7 @@ theorem WHyp.eq_of_le_centralizer (h : WHyp G L A T z t W W₁ W₂) {P : Subgro
   have hWc_comm : ∀ a ∈ Wc, ∀ b ∈ Wc, a * b = b * a := by
     have he : IsElementaryAbelian 2 ↥Wc := by
       simpa [Wc] using h.elemAb.subgroup_map (MulAut.conj c).toMonoidHom
-    haveI : IsMulCommutative ↥Wc := he.toIsMulCommutative
+    have : IsMulCommutative ↥Wc := he.toIsMulCommutative
     intro a ha b hb
     exact setLike_mul_comm ha hb
   have hWc_eq : Wc = W := h.eq_of_le_R₀ hWcR hWc_comm hWc_card
@@ -549,7 +551,7 @@ private noncomputable def sylowT (h : Hyp G L A T z t) : Sylow 2 ↥L where
 theorem Hyp.card_le_of_le_L (h : Hyp G L A T z t) {U : Subgroup G}
     (hU : IsElementaryAbelian 2 ↥U) (hUL : U ≤ L) : Nat.card U ≤ 2 ^ 10 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUp : IsPGroup 2 (U.subgroupOf L) :=
     (hU.isPGroup 2 ↥U).of_equiv (Subgroup.subgroupOfEquivOfLe hUL).symm
   obtain ⟨l, hl⟩ := exists_conj_le_sylow_of_isPGroup (sylowT h) hUp
@@ -576,7 +578,7 @@ theorem Hyp.exists_conj_eq_A (h : Hyp G L A T z t) {U : Subgroup G}
     (hU : IsElementaryAbelian 2 ↥U) (hUL : U ≤ L) (hcard : Nat.card U = 2 ^ 10) :
     ∃ l ∈ L, ∀ x : G, x ∈ U ↔ l * x * l⁻¹ ∈ A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUp : IsPGroup 2 (U.subgroupOf L) :=
     (hU.isPGroup 2 ↥U).of_equiv (Subgroup.subgroupOfEquivOfLe hUL).symm
   obtain ⟨l, hl⟩ := exists_conj_le_sylow_of_isPGroup (sylowT h) hUp
@@ -618,7 +620,7 @@ theorem Hyp.card_le_of_isConj (h : Hyp G L A T z t) {u : G} (hu : IsConj z u) {U
     (hU : IsElementaryAbelian 2 ↥U) (hUC : U ≤ centralizer ({u} : Set G)) :
     Nat.card U ≤ 2 ^ 11 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := isConj_iff.1 hu
   set V : Subgroup G := U.map (MulAut.conj g⁻¹).toMonoidHom with hVdef
   have hVcard : Nat.card V = Nat.card U := by
@@ -659,7 +661,7 @@ theorem Hyp.card_le_of_isConj (h : Hyp G L A T z t) {u : G} (hu : IsConj z u) {U
   let L' : Subgroup ↥K := L.subgroupOf K
   have hL'index : L'.index = 2 := hLrel
   have hL'norm : L'.Normal := Subgroup.normal_of_index_eq_two hL'index
-  letI : L'.Normal := hL'norm
+  let : L'.Normal := hL'norm
   let q : ↥V →* ↥K ⧸ L' := (QuotientGroup.mk' L').comp (Subgroup.inclusion hVK)
   have hker : q.ker = (V ⊓ L).subgroupOf V := by
     rw [show q = (QuotientGroup.mk' L').comp (Subgroup.inclusion hVK) from rfl,
@@ -693,7 +695,7 @@ theorem WHyp.not_isConj (h : WHyp G L A T z t W W₁ W₂) {w : G} (hw : w ∈ W
   have hWc : W ≤ centralizer ({w} : Set G) := by
     intro x hx
     rw [mem_centralizer_singleton_iff]
-    haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+    have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
     exact setLike_mul_comm hx hw
   have hle := h.hyp.card_le_of_isConj hconj h.elemAb hWc
   rw [h.e3.card] at hle

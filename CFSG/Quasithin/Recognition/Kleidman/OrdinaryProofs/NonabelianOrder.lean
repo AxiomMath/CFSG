@@ -22,7 +22,7 @@ theorem commute_of_natCard_le_three {G : Type*} [Group G] [Finite G] (h : Nat.ca
       · rw [h]; exact Nat.prime_two
       · rw [h]; exact Nat.prime_three
     have : Fact (Nat.card G).Prime := ⟨hp⟩
-    haveI hnt : Nontrivial G := Finite.one_lt_card_iff_nontrivial.mp hp.one_lt
+    have hnt : Nontrivial G := Finite.one_lt_card_iff_nontrivial.mp hp.one_lt
     obtain ⟨g, hg⟩ : ∃ g : G, g ≠ 1 := exists_ne 1
     have htop : Subgroup.zpowers g = ⊤ := by
       have hdvd : Nat.card ↥(Subgroup.zpowers g) ∣ Nat.card G :=

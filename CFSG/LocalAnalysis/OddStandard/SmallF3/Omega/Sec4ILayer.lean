@@ -42,7 +42,7 @@ theorem sec4I_exists_layer_involution (Y : Subgroup G) {P : Type} [Group P] (ρ 
     have hu2 : ((û : ↥Y) : G) ^ 2 = 1 := by
       rw [pow_two, ← Subgroup.coe_mul, hûû']
       rfl
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hu2 hu1'
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]

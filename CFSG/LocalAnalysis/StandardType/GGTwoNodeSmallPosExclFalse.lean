@@ -49,8 +49,8 @@ lemma pxe_model_false (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
       rw [List.mem_map] at hx
       obtain ⟨k, _, rfl⟩ := hx
       by_cases hk : k < p - 1
-      · simp only [g, dif_pos hk]; exact ZMod.val_lt _
-      · simp only [g, dif_neg hk]; omega
+      · simp only [g, dite_eq_left hk]; exact ZMod.val_lt _
+      · simp only [g, dite_eq_right hk]; omega
     have hc : cvec ∈ allVecsP p (p - 1) := by
       rw [pxe_mem_allVecsP p (p - 1)]
       refine ⟨by simp [cvec, List.length_ofFn], ?_⟩
@@ -70,7 +70,7 @@ lemma pxe_model_false (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
             (if outs.head? = some k.val then fr.getD 0 0 else fr.getD 1 0) := by
           simp [vv, hb]
         rw [hv, pxe_vv_out p s hp hs g k.val k.isLt hout]
-        simp only [g, dif_pos k.isLt, ZMod.natCast_zmod_val]
+        simp only [g, dite_eq_left k.isLt, ZMod.natCast_zmod_val]
       · have hik : s ≤ k.val ∧ k.val < s + (p - 3) := by
           simpa only [inJ, Bool.and_eq_true, decide_eq_true_eq] using hb
         have hv : vv k.val = (if k.val - s = o.1 then o.2.2 else 0) := by
@@ -99,19 +99,19 @@ lemma pxe_model_false (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
       intro j hj
       rw [List.mem_range] at hj
       cases hb : inJ j
-      · simp only [hb, Bool.not_false, Bool.true_or]
+      · simp only [Bool.not_false, Bool.true_or]
       · have hik : s ≤ j ∧ j < s + (p - 3) := by
           simpa only [inJ, Bool.and_eq_true, decide_eq_true_eq] using hb
         have hpin_lt : (if j - s = o.1 then o.2.1 else 0) < p := by
           by_cases hsub : j - s = o.1
-          · simp only [if_pos hsub]; exact pxe_opt_lt1 p p hp rfl o ho
-          · simp only [if_neg hsub]; omega
+          · simp only [ite_eq_left hsub]; exact pxe_opt_lt1 p p hp rfl o ho
+          · simp only [ite_eq_right hsub]; omega
         have heq : dotP p (cartanRowP p p j) cvec =
             (if j - s = o.1 then o.2.1 else 0) :=
           pxe_nat_eq_of_cast_eq p _ _ hpin_lt (by
             conv_lhs => rw [← ZMod.natCast_mod]
             exact (hdot_alpha ⟨j, hj⟩).trans (hH ⟨j, hj⟩ hik.1 hik.2))
-        simp only [hb, Bool.not_true, Bool.false_or, beq_iff_eq]
+        simp only [Bool.not_true, Bool.false_or, beq_iff_eq]
         exact heq
     have hget_frame : ∀ i : Fin (p - 1),
         (⟨p, p - 1, p - 1, gens, x', posBound p p⟩ : Pt).gens.getD i ⟨[], []⟩ =

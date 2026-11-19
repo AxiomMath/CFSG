@@ -31,7 +31,7 @@ theorem conj_V_of_mem_LO {x : G} (hx : x ∈ ctxLO t tau x₁ x₂) {v : G} (hv 
     _ = x * (v * (x⁻¹ * b * x)) * x⁻¹ := by rw [hcomm]
     _ = (x * v * x⁻¹) * b := by group
 
-theorem acts_mul {x y : G} (hx : x ∈ ctxLO t tau x₁ x₂) (hy : y ∈ ctxLO t tau x₁ x₂)
+theorem acts_mul {x y : G} (hx : x ∈ ctxLO t tau x₁ x₂) (_hy : y ∈ ctxLO t tau x₁ x₂)
     (hxa : ∀ o ∈ ctxO t tau x₁ x₂, x * o * x⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂)
     (hya : ∀ o ∈ ctxO t tau x₁ x₂, y * o * y⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂) :
     ∀ o ∈ ctxO t tau x₁ x₂, (x * y) * o * (x * y)⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂ := by
@@ -44,6 +44,7 @@ theorem acts_mul {x y : G} (hx : x ∈ ctxLO t tau x₁ x₂) (hy : y ∈ ctxLO 
   rw [heq]
   exact mul_mem h2 h3
 
+omit [Finite G] hc hs in
 theorem acts_inv {x : G} (hx : x ∈ ctxLO t tau x₁ x₂)
     (hxa : ∀ o ∈ ctxO t tau x₁ x₂, x * o * x⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂) :
     ∀ o ∈ ctxO t tau x₁ x₂, x⁻¹ * o * (x⁻¹)⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂ := by
@@ -72,7 +73,7 @@ theorem acts_conj {x y : G} (hy : y ∈ ctxLO t tau x₁ x₂)
 private theorem rho_acts_of_sq
     (h2 : ∀ o ∈ ctxO t tau x₁ x₂, rho ^ 2 * o * (rho ^ 2)⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂) :
     ∀ o ∈ ctxO t tau x₁ x₂, rho * o * rho⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂ := by
-  have hρLO : rho ∈ ctxLO t tau x₁ x₂ := M_le_LO hc hs hc.rho_mem_M
+  have hρLO : rho ∈ ctxLO t tau x₁ x₂ := M_le_LO hc.rho_mem_M
   have hρ2LO : rho ^ 2 ∈ ctxLO t tau x₁ x₂ := pow_mem hρLO 2
   have h3 : rho ^ 3 = 1 := by
     have := pow_orderOf_eq_one rho
@@ -90,47 +91,48 @@ private theorem rho_acts_of_acts_of_mem {k : G}
     (hk : k = rho ∨ k = rho⁻¹ ∨ k = lam ∨ k = rho * lam ∨ k = rho⁻¹ * lam)
     (hkP : ∀ o ∈ ctxO t tau x₁ x₂, k * o * k⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂) :
     ∀ o ∈ ctxO t tau x₁ x₂, rho * o * rho⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂ := by
-  have hρLO : rho ∈ ctxLO t tau x₁ x₂ := M_le_LO hc hs hc.rho_mem_M
-  have hlamLO : lam ∈ ctxLO t tau x₁ x₂ := M_le_LO hc hs hc.lam_mem_M
+  have hρLO : rho ∈ ctxLO t tau x₁ x₂ := M_le_LO hc.rho_mem_M
+  have hlamLO : lam ∈ ctxLO t tau x₁ x₂ := M_le_LO hc.lam_mem_M
   rcases hk with hk | hk | hk | hk | hk
   · rw [hk] at hkP
     exact hkP
   · rw [hk] at hkP
-    simpa using acts_inv hc hs (inv_mem hρLO) hkP
+    simpa using acts_inv (inv_mem hρLO) hkP
   · rw [hk] at hkP
     have hconjP := acts_conj hc hs (x := lam) (y := rho) hρLO hkP
-    have hkinvP := acts_inv hc hs hlamLO hkP
+    have hkinvP := acts_inv hlamLO hkP
     have hmulP := acts_mul hc hs (mul_mem (mul_mem hρLO hlamLO) (inv_mem hρLO))
       (inv_mem hlamLO) hconjP hkinvP
     have heq : rho * lam * rho⁻¹ * lam⁻¹ = rho ^ 2 :=
-      rho_conj_inv_lam_types (k := lam) hc hs (Or.inl rfl)
+      rho_conj_inv_lam_types (k := lam) hc (Or.inl rfl)
     exact rho_acts_of_sq hc hs (fun o ho => by
       have := hmulP o ho
       rwa [heq] at this)
   · rw [hk] at hkP
     have hkLO : rho * lam ∈ ctxLO t tau x₁ x₂ := mul_mem hρLO hlamLO
     have hconjP := acts_conj hc hs (x := rho * lam) (y := rho) hρLO hkP
-    have hkinvP := acts_inv hc hs hkLO hkP
+    have hkinvP := acts_inv hkLO hkP
     have hmulP := acts_mul hc hs (mul_mem (mul_mem hρLO hkLO) (inv_mem hρLO))
       (inv_mem hkLO) hconjP hkinvP
     have heq : rho * (rho * lam) * rho⁻¹ * (rho * lam)⁻¹ = rho ^ 2 :=
-      rho_conj_inv_lam_types (k := rho * lam) hc hs (Or.inr (Or.inl rfl))
+      rho_conj_inv_lam_types (k := rho * lam) hc (Or.inr (Or.inl rfl))
     exact rho_acts_of_sq hc hs (fun o ho => by
       have := hmulP o ho
       rwa [heq] at this)
   · rw [hk] at hkP
     have hkLO : rho⁻¹ * lam ∈ ctxLO t tau x₁ x₂ := mul_mem (inv_mem hρLO) hlamLO
     have hconjP := acts_conj hc hs (x := rho⁻¹ * lam) (y := rho) hρLO hkP
-    have hkinvP := acts_inv hc hs hkLO hkP
+    have hkinvP := acts_inv hkLO hkP
     have hmulP := acts_mul hc hs (mul_mem (mul_mem hρLO hkLO) (inv_mem hρLO))
       (inv_mem hkLO) hconjP hkinvP
     have heq : rho * (rho⁻¹ * lam) * rho⁻¹ * (rho⁻¹ * lam)⁻¹ = rho ^ 2 :=
-      rho_conj_inv_lam_types (k := rho⁻¹ * lam) hc hs (Or.inr (Or.inr rfl))
+      rho_conj_inv_lam_types (k := rho⁻¹ * lam) hc (Or.inr (Or.inr rfl))
     exact rho_acts_of_sq hc hs (fun o ho => by
       have := hmulP o ho
       rwa [heq] at this)
 
-private theorem conj_mem_X_of_acts {x : G} (hx : x ∈ ctxLO t tau x₁ x₂)
+omit hs in
+private theorem conj_mem_X_of_acts {x : G} (_hx : x ∈ ctxLO t tau x₁ x₂)
     (hxP : ∀ o ∈ ctxO t tau x₁ x₂, x * o * x⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂) :
     ∀ h ∈ ctxX t tau x₁ x₂, x * h * x⁻¹ ∈ ctxX t tau x₁ x₂ := by
   have hVX : fourGrp x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
@@ -159,7 +161,7 @@ private theorem conj_mem_X_of_acts {x : G} (hx : x ∈ ctxLO t tau x₁ x₂)
 theorem rho_acts_nontrivially :
     ¬ ∀ o ∈ ctxO t tau x₁ x₂, rho * o * rho⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂ := by
   intro hρ
-  have hρLO : rho ∈ ctxLO t tau x₁ x₂ := M_le_LO hc hs hc.rho_mem_M
+  have hρLO : rho ∈ ctxLO t tau x₁ x₂ := M_le_LO hc.rho_mem_M
   let Psub : Subgroup G :=
     { carrier := {x : G | x ∈ ctxLO t tau x₁ x₂ ∧
         ∀ o ∈ ctxO t tau x₁ x₂, x * o * x⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂}
@@ -169,7 +171,7 @@ theorem rho_acts_nontrivially :
         exact ⟨mul_mem hx hy, acts_mul hc hs hx hy hxP hyP⟩
       inv_mem' := by
         rintro x ⟨hx, hxP⟩
-        exact ⟨inv_mem hx, acts_inv hc hs hx hxP⟩ }
+        exact ⟨inv_mem hx, acts_inv hx hxP⟩ }
   have hzpow : zpowers rho ≤ Psub := Subgroup.zpowers_le.mpr ⟨hρLO, hρ⟩
   have hQle : ctxQ t tau x₁ x₂ rho ≤ fourGrp x₁ x₂ := by
     rw [ctxQ, Subgroup.commutator_le]
@@ -183,11 +185,12 @@ theorem rho_acts_nontrivially :
   rw [hc.card_Q, card_fourGrp hc] at hcard
   norm_num at hcard
 
+omit hs in
 theorem mem_M_of_acts {g : G} (hg : g ∈ ctxLO t tau x₁ x₂)
     (h : ∀ o ∈ ctxO t tau x₁ x₂, g * o * g⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂) : g ∈ ctxM t tau x₁ x₂ := by
-  have hfor := conj_mem_X_of_acts hc hs hg h
+  have hfor := conj_mem_X_of_acts hc hg h
   have hback : ∀ h' ∈ ctxX t tau x₁ x₂, g⁻¹ * h' * (g⁻¹)⁻¹ ∈ ctxX t tau x₁ x₂ :=
-    conj_mem_X_of_acts hc hs (inv_mem hg) (acts_inv hc hs hg h)
+    conj_mem_X_of_acts hc (inv_mem hg) (acts_inv hg h)
   rw [ctxM, Subgroup.mem_normalizer_iff]
   intro h'
   exact ⟨hfor h', fun hh => by
@@ -198,12 +201,12 @@ theorem mem_M_of_acts {g : G} (hg : g ∈ ctxLO t tau x₁ x₂)
 theorem CL_Obar_holds : ∀ g ∈ ctxLO t tau x₁ x₂,
     (∀ o ∈ ctxO t tau x₁ x₂, g * o * g⁻¹ * o⁻¹ ∈ fourGrp x₁ x₂) → g ∈ ctxO t tau x₁ x₂ := by
   intro g hg hgP
-  have hgM : g ∈ ctxM t tau x₁ x₂ := mem_M_of_acts hc hs hg hgP
+  have hgM : g ∈ ctxM t tau x₁ x₂ := mem_M_of_acts hc hg hgP
   obtain ⟨o, ho, k, hkS, hgk⟩ := decomp_M hc hs hgM
-  have hoLO : o ∈ ctxLO t tau x₁ x₂ := M_le_LO hc hs (hc.O_le_M ho)
+  have hoLO : o ∈ ctxLO t tau x₁ x₂ := M_le_LO (hc.O_le_M ho)
   have hkP : ∀ o' ∈ ctxO t tau x₁ x₂, k * o' * k⁻¹ * o'⁻¹ ∈ fourGrp x₁ x₂ := by
     have hoinvP : ∀ o' ∈ ctxO t tau x₁ x₂, o⁻¹ * o' * (o⁻¹)⁻¹ * o'⁻¹ ∈ fourGrp x₁ x₂ :=
-      acts_inv hc hs hoLO (fun o' ho' => O_comm_le hc ho ho')
+      acts_inv hoLO (fun o' ho' => O_comm_le hc ho ho')
     have hk_eq : k = o⁻¹ * g := by rw [hgk]; group
     rw [hk_eq]
     exact acts_mul hc hs (inv_mem hoLO) hg hoinvP hgP

@@ -111,7 +111,7 @@ theorem triD4Rank_holds : TriD4Rank := by
       _ ≤ 3 ^ 3 * Nat.card ↥(B ⊓ Subgroup.centralizer (J : Set Γ)) := Nat.mul_le_mul_right _ h3
   ·
     have hZR : Subgroup.center (GGTriD4R lab.n K) = ⊥ := by
-      haveI := hs
+      have := hs
       rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center (GGTriD4R lab.n K)) with h1 | h1
       · exact h1
       · exfalso

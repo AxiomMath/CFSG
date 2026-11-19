@@ -69,7 +69,7 @@ theorem commutator_mem_theta_sSup {d : G} {𝒳 : Set (Subgroup G)}
   have hdivel : ((⟨k, hkH⟩ * ⟨x, hxH⟩) / (⟨x, hxH⟩ * ⟨k, hkH⟩) : ↥H) =
       (⟨k * x * k⁻¹ * x⁻¹, hxHmem⟩ : ↥H) := by
     ext
-    simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv,
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv,
       mul_inv_rev]
     group
   have hθmem : (⟨k * x * k⁻¹ * x⁻¹, hxHmem⟩ : ↥H) ∈ θH := hdivel ▸ hdiv
@@ -334,7 +334,7 @@ theorem false_of_normal_subgroup {Q : Type} [Group Q] [Finite Q] {Nbar : Subgrou
     (hsimple : IsSimpleGroup (Q ⧸ Subgroup.center Q))
     (h27 : 27 ∣ Nat.card Nbar) (h81 : ¬ 81 ∣ Nat.card Nbar)
     (hQcard : Nat.card Q = 3 * 460815505920) : False := by
-  haveI hmapnormal : (Nbar.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
+  have hmapnormal : (Nbar.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
     hNbarNormal.map _ (QuotientGroup.mk'_surjective _)
   rcases hsimple.eq_bot_or_eq_top_of_normal
     (Nbar.map (QuotientGroup.mk' (Subgroup.center Q))) with hbot | htop
@@ -396,10 +396,10 @@ theorem false_of_mem {d : G} {𝒳 : Set (Subgroup G)}
   have h81Nbar' : ¬ 81 ∣ Nat.card Nbar := by
     rw [hNbar]
     simpa only [hθXc, hmk] using h81Nbar
-  haveI hONsimple : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
+  have hONsimple : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
     CFSG.Sporadic.ON.isSimpleGroup_ON
   obtain ⟨eON⟩ := hON.2
-  haveI hsimple : IsSimpleGroup (Q ⧸ Subgroup.center Q) :=
+  have hsimple : IsSimpleGroup (Q ⧸ Subgroup.center Q) :=
     (MulEquiv.isSimpleGroup_congr eON).mpr hONsimple
   have hZcard : Nat.card (Subgroup.center Q) = 3 := hON.1
   exact false_of_normal_subgroup hNbarNormal hZcard hsimple h27Nbar' h81Nbar'

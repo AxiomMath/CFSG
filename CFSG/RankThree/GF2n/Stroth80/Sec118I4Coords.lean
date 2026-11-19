@@ -67,6 +67,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal] {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem Ctx.conj_mem_XbarH (hc : Ctx M Q Z B) {l s : ↥(H0 M Z)} (hs : s ∈ XbarH M Q Z B) :
     l * s * l⁻¹ ∈ XbarH M Q Z B := by
   unfold XbarH at hs ⊢

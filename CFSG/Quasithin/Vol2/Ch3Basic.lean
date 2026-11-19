@@ -22,7 +22,7 @@ theorem inH_of_le (T : Sylow 2 G) {Y H : Subgroup G} (hTY : (T : Subgroup G) ≤
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hTY, fun h => hH.2 (le_bot_iff.mp ?_)⟩
   rw [← h]
-  refine pCoreOf_le_pCoreOf_of_sylow hYH T.isPGroup' hTY ?_
+  refine pCoreOf_le_pCoreOf_of_sylow hYH T.isPGroup hTY ?_
   intro h2
   apply T.not_dvd_index
   have := Subgroup.relIndex_dvd_index_of_le (hTY.trans hYH)

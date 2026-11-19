@@ -20,6 +20,7 @@ open Polynomial Module QuadraticMap CFSG.ClassicalGroups.Orthogonal CFSG.LieType
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem polarNondegOn_of_nondegenerate {W : Submodule F V}
     (h : (QuadraticMap.polarBilin (Q.comp W.subtype)).Nondegenerate) : PolarNondegOn Q W := by
   intro x hx hperp
@@ -27,6 +28,7 @@ theorem polarNondegOn_of_nondegenerate {W : Submodule F V}
     simpa [QuadraticMap.polarBilin_apply_apply, polar_comp_subtype_cent] using hperp y y.2)
   exact congrArg Subtype.val this
 
+omit [Finite F] [CharP F 2] in
 theorem polarNondegOn_polarPerp (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {W : Submodule F V}
     (hW : PolarNondegOn Q W) : PolarNondegOn Q (polarPerp Q W) := by
   intro x hx hxx
@@ -39,6 +41,7 @@ theorem polarNondegOn_polarPerp (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     exact mem_polarPerp_iff.1 hx a ha
   rw [h1, hxx b hb, add_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem perp_polarPerp_le (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {W : Submodule F V}
     (hW : PolarNondegOn Q W) : perp Q (polarPerp Q W) ≤ W := by
   intro x hx
@@ -57,6 +60,7 @@ theorem perp_polarPerp_le (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {W : 
   rw [hc0]
   exact zero_mem _
 
+omit [CharP F 2] in
 theorem exists_hypPair_polarPerp_pair (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) {U : Fin (n - 1) → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin (n - 1)} (hab : a ≠ b) :
@@ -121,19 +125,19 @@ theorem eichlerGroupOn_fixedSpace_le_supportedFixedDerived {x : V ≃ₗ[F] V} (
     exact Subgroup.one_mem _
 
 theorem eq_bot_of_normal_isPGroup_orthDerived (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
-    (hT : ∃ T : Submodule F V, Module.finrank F T = 3 ∧ ∀ x ∈ T, Q x = 0) (hne : ∃ v, Q v ≠ 0)
+    (hT : ∃ T : Submodule F V, Module.finrank F T = 3 ∧ ∀ x ∈ T, Q x = 0) (_hne : ∃ v, Q v ≠ 0)
     {T : Subgroup ↥(orthDerived Q)} (hTp : IsPGroup 2 T)
     (hTn : (⊤ : Subgroup ↥(orthDerived Q)) ≤ Subgroup.normalizer (T : Set ↥(orthDerived Q))) : T = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     obtain ⟨T₀, hT₀3, -⟩ := hT
-    haveI : Nontrivial T₀ := Module.nontrivial_of_finrank_pos (by rw [hT₀3]; norm_num)
+    have : Nontrivial T₀ := Module.nontrivial_of_finrank_pos (by rw [hT₀3]; norm_num)
     exact (Submodule.subtype_injective T₀).nontrivial
-  haveI hTnormal : T.Normal := Subgroup.normalizer_eq_top_iff.1 (top_le_iff.1 hTn)
+  have hTnormal : T.Normal := Subgroup.normalizer_eq_top_iff.1 (top_le_iff.1 hTn)
   have hq : CFSG.IsQuasisimple ↥(orthDerived Q) := isQuasisimple_orthDerived hQ hT
   have hqOpen : CFSG.Open.IsQuasisimple ↥(orthDerived Q) :=
     ⟨Group.isPerfect_def.mp hq.1, hq.2.1⟩
@@ -186,8 +190,8 @@ private theorem closureIn_layer_eq_top_of_weight_one_part1
     ∀ e ∈ polarPerp Q (U j), ∀ w ∈ polarPerp Q (U j),
       ∃ k ∈ GLALayer (Subgroup.centralizer {d}), (k : V ≃ₗ[F] V) = eichler Q e w := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=
     oddOrderIsometry_of_orthDerived hp (by rw [ringChar.eq F 2]; exact hp2) hQ d hord
@@ -211,11 +215,11 @@ private theorem closureIn_layer_eq_top_of_weight_one_part2
     elementaryGroup Q ≤ (closureIn (GLALayer (Subgroup.centralizer {d}))
       (Subgroup.normalizer (Bb : Set ↥(orthDerived Q)))).map (orthDerived Q).subtype := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Nontrivial (Fin (n - 1)) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin (n - 1)) := Fin.nontrivial_iff_two_le.2 (by omega)
   obtain ⟨b, hbj⟩ := exists_ne j
   have hΩO : ∀ g : ↥(orthDerived Q), (g : V ≃ₗ[F] V) ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
     fun g => orthDerived_le_orthogonalGroup g.2

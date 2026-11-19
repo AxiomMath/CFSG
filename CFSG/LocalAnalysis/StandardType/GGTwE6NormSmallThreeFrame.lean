@@ -53,18 +53,18 @@ theorem exists_endNode_frame {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 �
           u * h = h * u) →
         3 ^ 3 ≤ Nat.card ↥(H ⊓ Subgroup.centralizer {u}) := by
   classical
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨fun h => absurd
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨fun h => absurd
     ((CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 3).1 h) (by norm_num)⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 3
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 3
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (AlgebraicClosure K)ˣ, IsPrimitiveRoot ζ 3 :=
     ⟨_, IsPrimitiveRoot.isUnit_unit (by norm_num) hζ0⟩
   obtain ⟨U, hU, hU2, hUX⟩ := hXU
   obtain ⟨σ, hσ, ε, hε⟩ := TwE6Transport.exists_recipeConj hn hK
-  haveI : Finite (TwE6Delta.RecipeR K n) := Finite.of_equiv _ ε.toEquiv
+  have : Finite (TwE6Delta.RecipeR K n) := Finite.of_equiv _ ε.toEquiv
   have hXr : X ≤ (TwE6Transport.recipeConj σ ε).range := fun φ hφ => (hε φ).2 (hXI hφ)
   have hAI := TwE6Transport.recipeMat_le σ ε X
   have hA := TwE6Transport.isElemAbelian_recipeMat σ ε hn hK hσ hX
@@ -75,12 +75,12 @@ theorem exists_endNode_frame {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 �
   obtain ⟨α, hα, hαD⟩ := TwE6RootKill.rootKill_of_ennolaKill_weylKill
       (TwE6RootKill.ennolaKill_of_steps TwE6RootKill.leviSplitStep_holds
           TwE6RootKill.ennolaSplitStep_holds) TwE6RootKill.weylKill_holds K σ (2 ^ n) hK hσ (ringChar.eq K 2) 3
-    Nat.prime_three h3 _ hAI hA (by rw [if_pos rfl]; exact hA4) hAU D
+    Nat.prime_three h3 _ hAI hA (by rw [ite_eq_left rfl]; exact hA4) hAU D
   obtain ⟨f, hf, hfi⟩ : ∃ f : ModGL TwistTag.E6.tag K →* ModGL TwistTag.E6.tag (AlgebraicClosure K),
       (∀ y, f y = D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) y * D.g0) ∧
         Function.Injective f :=
     ⟨(MulAut.conj D.g0⁻¹).toMonoidHom.comp (baseChangeGL (algebraMap K (AlgebraicClosure K))),
-      fun y => by simp [MulAut.conj_apply],
+      fun y => by simp,
       (MulAut.conj D.g0⁻¹).injective.comp (baseChangeGL_injective _)⟩
   have hkill : ∀ y ∈ TwE6Transport.recipeMat σ ε X, ∃ a, rootDiagUnit TwistTag.E6.tag a = f y ∧
       rootChar a α = 1 := fun y hy => by
@@ -97,7 +97,7 @@ theorem exists_endNode_frame {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 �
     rw [Subgroup.map_equiv_eq_comap_symm']
     ext r
     rw [mem_ggFix, Subgroup.mem_comap, CFSG.HardMathSupport.Solomon.Coordinator.mem_fixSubgroup,
-      TwE6Transport.recipeConj_apply, MulEquiv.apply_eq_iff_symm_apply]
+      TwE6Transport.recipeConj_apply, ← _root_.MulEquiv.eq_symm_apply]
     rfl
   set J := CFSG.Assembly.LargeEvenLayer (ggFix (TwE6Transport.recipeConj σ ε w)) with hJ
   have hcomp' : CFSG.Assembly.IsComponentOf J ((CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup

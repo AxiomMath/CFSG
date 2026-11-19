@@ -265,8 +265,8 @@ theorem canon167_of_trivial (hRig : GGLabelRigidInput) {S : Type} [Group S] [Fin
     (hJ : GLAPComponent 3 (fixSubgroup (1 : MulAut S)) Jb)
     (hcat : Type167Grp 3 (PSimple 3 Jb)) : Type167Canon (canonLabel labK) := by
   have hq : CFSG.Open.IsQuasisimple S := Y10F.hasLabel_isQuasisimple hlab
-  haveI : IsSimpleGroup (S ⧸ Subgroup.center S) := hq.2
-  haveI : IsSimpleGroup S := (CanonInn.quotCenterEquivOfBot hcen).symm.isSimpleGroup
+  have : IsSimpleGroup (S ⧸ Subgroup.center S) := hq.2
+  have : IsSimpleGroup S := (CanonInn.quotCenterEquivOfBot hcen).symm.isSimpleGroup
   have hfix : fixSubgroup (1 : MulAut S) = ⊤ := by
     ext x
     simp [mem_fixSubgroup]
@@ -313,10 +313,10 @@ private lemma exists_label_component_167_aux1 {S : Type} [Group S] [Finite S] {�
       _ < Nat.card ↥(⊤ : Subgroup S) :=
           Subgroup.card_lt_of_lt (lt_top_iff_ne_top.2 hfix)
       _ = Nat.card S := Subgroup.card_top
-  haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+  have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
   have hQs := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
-  haveI := hQs.2
-  haveI : Nontrivial (PQuot 3 Jb) :=
+  have := hQs.2
+  have : Nontrivial (PQuot 3 Jb) :=
     (QuotientGroup.mk'_surjective (Subgroup.center (PQuot 3 Jb))).nontrivial
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (PQuot 3 Jb)).ne hQs.1
 

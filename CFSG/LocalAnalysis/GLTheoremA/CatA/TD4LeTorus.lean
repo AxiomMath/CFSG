@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley CFSG.Timmesfeld.Exce
 
 variable {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {e : ℕ}
 
+omit [Finite K] in
 theorem exists_rootDiagUnit_of_mem_torus (hσs : Function.Surjective σ.toRingHom)
     {x : ModGL TwistTag.D4.tag K} (hx : x ∈ graphFixedRootTorus TwistTag.D4 K σ.toRingHom) :
     ∃ a : Fin TwistTag.D4.tag.rank → Kˣ, x = rootDiagUnit TwistTag.D4.tag a ∧
@@ -25,6 +26,7 @@ theorem exists_rootDiagUnit_of_mem_torus (hσs : Function.Surjective σ.toRingHo
   rw [coe_torusCoordHom, List.ofFn_eq_map]
   exact list_prod_torusElt_eq_rootDiagUnit c
 
+omit [Finite K] in
 theorem exists_cube_root_diag (h : Std e K σ) (hQ : 2 ^ e % 3 = 1)
     {x : ModGL TwistTag.D4.tag K} (hx : x ∈ graphFixedRootTorus TwistTag.D4 K σ.toRingHom)
     (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :

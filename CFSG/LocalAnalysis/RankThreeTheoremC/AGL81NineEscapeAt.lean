@@ -21,7 +21,7 @@ theorem exists_d1Escape_of_three_le {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Sub
     ∃ P' : Sylow p G, D1Escape p P' M N R := by
   classical
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPM : (P : Subgroup G) ≤ M := he.sylow_le
   obtain ⟨S, hS⟩ := (hR.isPGroup.comap_subtype (K := M)).exists_le_sylow
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq M (P.subtype hPM) S

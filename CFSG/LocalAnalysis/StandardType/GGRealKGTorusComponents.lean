@@ -20,7 +20,7 @@ theorem ggReflRealizedIn_of_torusComponents {G : Type} [Group G] [Finite G] {p r
     (hBsI : ∀ (b : G) (hb : b ∈ Bs), ggLAut X θ ⟨b, hBsN hb⟩ ∈ I)
     (hr : p ^ r ≤ Nat.card (ggGamma X hBsN).range) (h3 : p ^ 3 ≤ Nat.card (ggGamma X hBsN).range)
     (hT : GGTorusComponents p r R I) : GGReflRealizedIn p Bs X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro t htA ht
   have htI : t ∈ ggInduced X Bs := by
     rw [ggAutomizer_eq] at htA
@@ -68,7 +68,7 @@ theorem ggReflRealizedIn_of_torusComponents {G : Type} [Group G] [Finite G] {p r
     ⟨hJc.1, isPComponent_subgroupOf_of_isComponentOf_of_dvd hJc hpJ⟩
 
 theorem ggKGComponentDatumAt_of_componentCover {R : Type} [Group R] [Finite R]
-    {p : ℕ} {E : Subgroup R} (hE : IsElemAbelian p E)
+    {p : ℕ} {E : Subgroup R} (_hE : IsElemAbelian p E)
     {ι : Type} (m : ι → R) (J : ι → Subgroup R)
     (hmJ : ∀ i, m i ∈ J i)
     (hJcomp : ∀ i, CFSG.Assembly.IsComponentOf (J i)
@@ -113,13 +113,13 @@ theorem ggKGComponentDatumAt_of_componentCover {R : Type} [Group R] [Finite R]
     exact hdvd i
 
 theorem ggTorusComponents_of_componentDatum {p r : ℕ} {R : Type} [Group R] [Finite R]
-    {I : Set (MulAut R)} (hp : p.Prime)
+    {I : Set (MulAut R)} (_hp : p.Prime)
     (hI : I ⊆ Set.range (MulAut.conj : R →* MulAut R))
     (hZ : Subgroup.center R = ⊥)
     (hclosed : GGCentrallyClosed R) (h : GGKGComponentDatum p r R) :
     GGTorusComponents p r R I := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   intro L' _ _ ψ A hTB φ hφauto hφrefl
   obtain ⟨hψ, hker, hperf, hA, hAI, hr, h3, hsc⟩ := hTB
   have hψinj : Function.Injective ψ := hclosed L' ψ hψ hker hperf

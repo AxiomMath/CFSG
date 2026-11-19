@@ -17,6 +17,7 @@ section Normalizer
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem mem_normalizer_of_map_conj_eq {H : Subgroup X} {g : X}
     (h : H.map (MulAut.conj g).toMonoidHom = H) : g ∈ Subgroup.normalizer (H : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -31,11 +32,13 @@ theorem mem_normalizer_of_map_conj_eq {H : Subgroup X} {g : X}
     have hzy' : z = y := (MulAut.conj g).injective (hzy.trans (MulAut.conj_apply g y).symm)
     rwa [← hzy']
 
+omit [Finite X] in
 theorem map_conj_sup_zpowers (g a b : X) :
     (Subgroup.zpowers a ⊔ Subgroup.zpowers b).map (MulAut.conj g).toMonoidHom =
       Subgroup.zpowers (g * a * g⁻¹) ⊔ Subgroup.zpowers (g * b * g⁻¹) := by
   rw [Subgroup.map_sup, map_conj_zpowers, map_conj_zpowers]
 
+omit [Finite X] in
 theorem isPGroup_two_zpowers {t : X} (ht : t * t = 1) : IsPGroup 2 (Subgroup.zpowers t) := by
   rintro ⟨g, hg⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
@@ -185,7 +188,7 @@ theorem hessPair_of_hessPhiMemClosure (hF : HessPhiMemClosure) {X : Type} [Group
   obtain ⟨b₀, hb₀E, hb₀1, hWb₀⟩ := hessU_exists he hp2 hiso hEe hE9 htr hW2 hEW
   have hdb₀ : d ∈ Subgroup.zpowers b₀ := by
     by_contra hdb
-    refine hF5 (hessU_fixed he hp2 hiso hEe hE9 htr hb₀E hb₀1 hdE hdb (t 0)
+    refine hF5 (hessU_fixed he hiso hEe hE9 htr hb₀E hb₀1 hdE hdb (t 0)
       (hWb₀ (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))) ?_)
     rw [← hF1, mul_assoc, mul_inv_cancel, mul_one]
   have hzb₀ : Subgroup.zpowers d = Subgroup.zpowers b₀ :=

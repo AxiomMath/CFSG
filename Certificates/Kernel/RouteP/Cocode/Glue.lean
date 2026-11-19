@@ -57,8 +57,8 @@ theorem cwT_letters : ∀ i < 29, ∀ l ∈ cwT i, 1 ≤ l.natAbs ∧ l.natAbs �
 theorem ρc_eq_cG {l : ℤ} (hl : -2 ≤ l) : ρc l = cG l := by
   unfold ρc
   by_cases h : 0 ≤ l
-  · rw [if_pos h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]
+  · rw [ite_eq_right h]
     rcases (by omega : l = -1 ∨ l = -2) with rfl | rfl
     · simp [cG]
     · simp [cG]
@@ -66,11 +66,11 @@ theorem ρc_eq_cG {l : ℤ} (hl : -2 ≤ l) : ρc l = cG l := by
 theorem ρc_neg (l : ℤ) : ρc (-l) = (ρc l)⁻¹ := by
   unfold ρc
   by_cases h : 0 < l
-  · rw [if_neg (by omega), if_pos (by omega), neg_neg]
+  · rw [ite_eq_right (by omega), ite_eq_left (by omega), neg_neg]
   · by_cases h0 : l = 0
     · subst h0
       simp [cG]
-    · rw [if_pos (by omega), if_neg (by omega), inv_inv]
+    · rw [ite_eq_left (by omega), ite_eq_right (by omega), inv_inv]
 
 theorem cG_act {l : ℤ} (h1 : 1 ≤ l) (h2 : l ≤ 13) (y : Pt) :
     (cG l y).val = eL NWO KAO KBO (cl l) y.val := by
@@ -78,8 +78,8 @@ theorem cG_act {l : ℤ} (h1 : 1 ≤ l) (h2 : l ≤ 13) (y : Pt) :
   rcases (by omega : l = 1 ∨ l = 2 ∨ 3 ≤ l) with rfl | rfl | h3
   · exact gT_apply (lokO (by decide)) y
   · exact gT_apply (lokO (by decide)) y
-  · rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos ⟨h3, by omega⟩]
-    rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos h3]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left ⟨h3, by omega⟩]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h3]
     have e : -(2 * l + 26) = Int.negSucc (31 + 2 * (l - 3).toNat) := by
       rw [Int.negSucc_eq]
       omega
@@ -94,29 +94,29 @@ theorem ρc_act {l : ℤ} (hl : 1 ≤ l.natAbs ∧ l.natAbs ≤ 13) (y : Pt) :
   · have hn : 1 ≤ -l ∧ -l ≤ 13 := by omega
     have e : ρc l = (cG (-l))⁻¹ := by
       unfold ρc
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     rw [e]
     unfold cG
     rcases (by omega : -l = 1 ∨ -l = 2 ∨ 3 ≤ -l) with h | h | h3
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have e2 : cl l = Int.ofNat (53 + 1) := by
         unfold cl
-        rw [if_neg (by omega), if_pos (by omega)]
+        rw [ite_eq_right (by omega), ite_eq_left (by omega)]
         rfl
       rw [e2]
       exact gT_inv_apply (lokO (by decide)) y
-    · rw [if_neg (by omega), if_neg (by omega), if_pos h]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h]
       have e2 : cl l = Int.ofNat (57 + 1) := by
         unfold cl
-        rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos (by omega)]
+        rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega)]
         rfl
       rw [e2]
       exact gT_inv_apply (lokO (by decide)) y
-    · rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos ⟨h3, by omega⟩]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left ⟨h3, by omega⟩]
       have e2 : cl l = Int.ofNat (31 + 2 * (-l - 3).toNat + 1) := by
         unfold cl
-        rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega),
-          Int.ofNat_eq_coe]
+        rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega),
+          Int.ofNat_eq_natCast]
         omega
       rw [e2]
       exact gT_inv_apply (lokO (by simp; omega)) y
@@ -198,7 +198,7 @@ theorem cocodeOKAt_of {tabs : Array Table} (hR : ∀ r < 58, Rep 920808 tabs[r]!
     have hj' := List.mem_range.1 hj
     refine eqTab_words hR (by intro l hl; simp at hl; omega) (epsWord_ge _) (wordG_eq_cw (i := j) (by omega) ?_)
     unfold cwT
-    rw [if_pos hj']
+    rw [ite_eq_left hj']
   · unfold conjOK
     rw [List.all_eq_true]
     intro j hj
@@ -206,14 +206,14 @@ theorem cocodeOKAt_of {tabs : Array Table} (hR : ∀ r < 58, Rep 920808 tabs[r]!
     refine eqTab_words hR (by intro l hl; simp at hl; omega) (epsWord_ge _)
       (wordG_eq_cw (i := 11 + j) (by omega) ?_)
     unfold cwT
-    rw [if_neg (by omega), if_pos (by omega), show 11 + j - 11 = j by omega]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega), show 11 + j - 11 = j by omega]
   · unfold relOK
     rw [List.all_eq_true]
     intro i hi
     have hi' := List.mem_range.1 hi
     refine eqTab_words hR (relLetters_ge i hi') (epsWord_ge _) (wordG_eq_cw (i := 22 + i) (by omega) ?_)
     unfold cwT
-    rw [if_neg (by omega), if_neg (by omega), show 22 + i - 22 = i by omega]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), show 22 + i - 22 = i by omega]
 
 end CertificateChecks.KernelRouteP
 

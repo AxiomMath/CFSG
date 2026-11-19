@@ -78,7 +78,7 @@ theorem weak_core_sylow_saturation_and_locality [Finite G] {p : ℕ} (hp : p.Pri
         rw [← hgW]
         exact map_mono hPW
       obtain ⟨w, hw⟩ := sylow_contains_conjugate_inside hp P _
-        ((P : Subgroup G).map (MulAut.conj g).toMonoidHom) hPW hle (P.isPGroup'.map _)
+        ((P : Subgroup G).map (MulAut.conj g).toMonoidHom) hPW hle (P.isPGroup.map _)
       have heq : ((P : Subgroup G).map (MulAut.conj g).toMonoidHom).map
           (MulAut.conj (w : G)).toMonoidHom = P := by
         apply eq_of_le_of_card_ge hw

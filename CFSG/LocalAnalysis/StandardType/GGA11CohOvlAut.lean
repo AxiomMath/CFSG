@@ -54,7 +54,7 @@ private def Qfun (l m : Fin 4) (h : l ≠ m) (p : Fin 6) : Fin 9 :=
 private def Q'fun (l m : Fin 4) (h : l ≠ m) (q : Fin 3) : Fin 9 :=
   to9 (swapBlocks l (pos m q)) (swapBlocks_pos_lt9 l m (Ne.symm h) q)
 
-private def einv (l m : Fin 4) (h : l ≠ m) (x : Fin 9) : Fin 6 ⊕ Fin 3 :=
+private def einv (l m : Fin 4) (_h : l ≠ m) (x : Fin 9) : Fin 6 ⊕ Fin 3 :=
   if blk (Fin.castLE (by omega : 9 ≤ 12) x) = Equiv.swap l 3 (blkI l m) then
     Sum.inl ⟨(idxIn (Fin.castLE (by omega : 9 ≤ 12) x)).val, by omega⟩
   else if blk (Fin.castLE (by omega : 9 ≤ 12) x) = Equiv.swap l 3 (blkJ l m) then
@@ -67,7 +67,7 @@ private noncomputable def eEquiv (l m : Fin 4) (h : l ≠ m) : Fin 6 ⊕ Fin 3 �
     (fun x => match x with | Sum.inl p => Qfun l m h p | Sum.inr q => Q'fun l m h q)
     (einv l m h)
     (by rintro (p | q) <;> decide +revert)
-    (by intro x <;> decide +revert)
+    (by intro x; decide +revert)
 
 @[simp] private lemma eEquiv_inl (l m : Fin 4) (h : l ≠ m) (p : Fin 6) :
     eEquiv l m h (Sum.inl p) = Qfun l m h p := rfl
@@ -120,14 +120,14 @@ private lemma blockEmb_transvection (e : Fin 6 ⊕ Fin 3 ≃ Fin 9)
   show blockMat e (SpecialLinearGroup.transvection hpq c) = _
   rw [blockMat, fromBlocks_transvection, reindex_transvection]
 
-private lemma posOf_injective : ∀ (l m : Fin 4) (h : l ≠ m), Function.Injective (posOf l m) := by
+private lemma posOf_injective : ∀ (l m : Fin 4) (_h : l ≠ m), Function.Injective (posOf l m) := by
   decide
 
 private lemma tv9_eq_to9 (a b : Fin 12) (ha : a.val < 9) (hb : b.val < 9) (hab : a ≠ b) :
     tv9 a b = SpecialLinearGroup.transvection
       (i := to9 a ha) (j := to9 b hb) (fun hh => hab (to9_inj a b ha hb hh)) 1 := by
   unfold tv9
-  rw [dif_pos ⟨ha, hb, hab⟩]
+  rw [dite_eq_left ⟨ha, hb, hab⟩]
   rfl
 
 private noncomputable def psiFun {G : Type} [Group G] (l m : Fin 4) (h : l ≠ m)
@@ -139,7 +139,7 @@ private lemma psiFun_transvection {G : Type} [Group G] (l m : Fin 4) (h : l ≠ 
     psiFun l m h φ₃ n (SpecialLinearGroup.transvection hpq 1) =
       Xe φ₃ n l (posOf l m p) (posOf l m q) := by
   rw [psiFun, MonoidHom.comp_apply, MonoidHom.comp_apply, blockEmb_transvection]
-  simp only [MulAut.conj_apply, eEquiv_inl, Qfun]
+  simp only [eEquiv_inl, Qfun]
   rw [← tv9_eq_to9 (swapBlocks l (posOf l m p)) (swapBlocks l (posOf l m q))
       (swapBlocks_posOf_lt9 l m h p) (swapBlocks_posOf_lt9 l m h q) (by
         intro hh
@@ -187,14 +187,14 @@ private lemma map_T6matZ (b : Fin 2) :
     Matrix.map (T6matZ b) (e2 : ZMod 2 →+* F2) = T6mat b := by
   ext a c
   fin_cases a <;> fin_cases c <;>
-    simp [T6matZ, T6mat, Matrix.map_apply, Matrix.of_apply, e2_ite, OmZ, Om, map_zero, map_one]
+    simp [T6matZ, T6mat, Matrix.map_apply, Matrix.of_apply, OmZ, Om, map_zero]
 
 private lemma map_T9matZ (k : Fin 3) :
     Matrix.map (T9matZ k) (e2 : ZMod 2 →+* F2) = T9mat k := by
   ext a c
   fin_cases a <;> fin_cases c <;>
-    simp [T9matZ, T9mat, Matrix.map_apply, Matrix.of_apply, e2_ite, OmZ, Om, idxIn, blk,
-      map_zero, map_one]
+    simp [T9matZ, T9mat, Matrix.map_apply, Matrix.of_apply, OmZ, Om, idxIn, blk,
+      map_zero]
 
 private lemma map_blockMatZ (e : Fin 6 ⊕ Fin 3 ≃ Fin 9)
     (A : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
@@ -203,10 +203,9 @@ private lemma map_blockMatZ (e : Fin 6 ⊕ Fin 3 ≃ Fin 9)
   rw [blockMatZ, blockMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
   ext i c
   rcases hi : e.symm i with a | q <;> rcases hc : e.symm c with d | r <;>
-    simp [Matrix.map_apply, Matrix.submatrix_apply, Matrix.reindex_apply, hi, hc,
+    simp [Matrix.map_apply, Matrix.submatrix_apply, hi, hc,
       Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
-      Matrix.fromBlocks_apply₂₂, Matrix.one_apply, Matrix.zero_apply, e2_ite, OmZ, Om,
-      map_zero, map_one]
+      Matrix.fromBlocks_apply₂₂, Matrix.one_apply, Matrix.zero_apply, map_zero]
 
 private lemma blockMat_T6 (l m : Fin 4) (h : l ≠ m) (b : Fin 2) :
     blockMat (eEquiv l m h) (T6mat b) =
@@ -278,7 +277,7 @@ private lemma pidx_ne : ∀ (l m : Fin 4), l ≠ m → ∀ a b : Fin 12,
 
 private lemma F2_eq_zero_or_one (c : F2) : c = 0 ∨ c = 1 := by
   classical
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Fintype F2 := Fintype.ofFinite F2
   have hcard : Fintype.card F2 ≤ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact le_of_eq (GaloisField.card 2 1 (by omega))
@@ -288,7 +287,7 @@ private lemma F2_eq_zero_or_one (c : F2) : c = 0 ∨ c = 1 := by
   simpa [Finset.mem_insert, Finset.mem_singleton] using hc
 
 private lemma psiFun_range {G : Type} [Group G] (l m : Fin 4) (h : l ≠ m)
-    (φ₃ : SL 9 →* G) (f n : Fin 4 → G) (hglue : A11GlueHyp φ₃ f n) :
+    (φ₃ : SL 9 →* G) (f n : Fin 4 → G) (_hglue : A11GlueHyp φ₃ f n) :
     (psiFun l m h φ₃ n).range = Ovl φ₃ n l m := by
   apply le_antisymm
   · rw [MonoidHom.range_eq_map,
@@ -301,7 +300,7 @@ private lemma psiFun_range {G : Type} [Group G] (l m : Fin 4) (h : l ≠ m)
     rcases F2_eq_zero_or_one c with hc | hc
     · subst hc
       rw [show SpecialLinearGroup.transvection hpq (0 : F2) = 1 from by
-        ext i j; simp [SpecialLinearGroup.transvection_coe], map_one]
+        ext i j; simp, map_one]
       exact Subgroup.one_mem (Ovl φ₃ n l m)
     · subst hc
       rw [psiFun_transvection l m h φ₃ n hpq]
@@ -321,7 +320,7 @@ private lemma blkI_comm : ∀ l m : Fin 4, blkI l m = blkI m l := by decide
 private lemma blkJ_comm : ∀ l m : Fin 4, blkJ l m = blkJ m l := by decide
 
 private lemma pidx_comm : ∀ (l m : Fin 4), l ≠ m → ∀ a : Fin 12, pidx l m a = pidx m l a := by
-  intro l m h a; simp [pidx, blkI_comm, blkJ_comm]
+  intro l m h a; simp [pidx, blkI_comm]
 
 private lemma blockEmb_injective (e : Fin 6 ⊕ Fin 3 ≃ Fin 9) : Function.Injective (blockEmb e) := by
   intro A B hAB

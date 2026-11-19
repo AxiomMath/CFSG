@@ -65,6 +65,7 @@ private theorem irgOP_plusRefl_longRoot (hn : 3 ≤ n) {i j : Fin n} (hij : i �
   simp only [coordinateSemilinearMap_inclusion, Matrix.mulVec_smul,
     irgOP_reflMat_pvec (by omega : 1 ≤ n) j t, irgOP_reflMat_pvec (by omega : 1 ≤ n) i s]
 
+omit [Finite K] [CharP K 2] in
 private theorem irgOP_fieldAutP_rootGroup (hn : 3 ≤ n) (σ : K ≃+* K)
     {γ : Fin n → ℤ} {i j : Fin n} (hij : i ≠ j) (s t : Bool)
     (hstd : toStdD n γ = Pi.single i (boolSign s) + Pi.single j (boolSign t)) :

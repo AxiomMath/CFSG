@@ -33,15 +33,17 @@ private theorem plh_sgS_le_Vtail {Y : Submodule K (Fin 4 → K)} (hY : Y ≤ Vta
   intro v hv
   have h0 : sg K f (v 0) = 0 := by
     have hmem := hY hv
-    simp only [Vtail, Set.mem_setOf_eq] at hmem
+    simp only [Vtail] at hmem
     simpa [sgv] using hmem
   exact (sg K f).map_eq_zero_iff.mp h0
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_map_tailProj_le_Vtail (A : Submodule K (Fin 4 → K)) :
     A.map tailProj ≤ Vtail := by
   rintro w ⟨a, -, rfl⟩
   exact tailProj_mem a
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_comap_eq_Vsub_iff {Z : Submodule K (Fin 4 → K)} (hZ : Z ≤ Vtail) :
     Z.comap tailProj = Vsub 4 1 ↔ Z = ⊥ := by
   constructor
@@ -72,8 +74,8 @@ private theorem plh_key {A B : Submodule K (Fin 4 → K)} :
     ← hcomap]
   exact plh_comap_eq_Vsub_iff hZle
 
-theorem adm13c_iff_admT (hK : Nat.card K = (2 ^ f) ^ 2) {p L H : Submodule K (Fin 4 → K)}
-    (hf : IsFlag p L H) : Adm13c f p L H ↔ AdmT (D13c (K := K) f) p L H := by
+theorem adm13c_iff_admT (_hK : Nat.card K = (2 ^ f) ^ 2) {p L H : Submodule K (Fin 4 → K)}
+    (_hf : IsFlag p L H) : Adm13c f p L H ↔ AdmT (D13c (K := K) f) p L H := by
   have h1 := plh_key (K := K) f (A := p) (B := L)
   have h2 := plh_key (K := K) f (A := L) (B := p)
   simp only [Adm13c, AdmT, D13c]
@@ -82,7 +84,7 @@ theorem adm13c_iff_admT (hK : Nat.card K = (2 ^ f) ^ 2) {p L H : Submodule K (Fi
 theorem admSet_a3_13c_eq (hK : Nat.card K = (2 ^ f) ^ 2) :
     admSet (Adm13c (K := K) f) = admSet (AdmT (D13c (K := K) f)) := by
   ext x
-  simp only [admSet, Set.mem_setOf_eq]
+  simp only [admSet, Set.mem_ofPred_eq]
   exact adm13c_iff_admT f hK
     ⟨FlagK.finrank_E_one x, FlagK.finrank_E_two x, FlagK.finrank_E_three x,
       FlagK.E_one_le_two x, FlagK.E_two_le_three x⟩

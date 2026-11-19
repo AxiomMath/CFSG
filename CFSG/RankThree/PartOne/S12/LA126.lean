@@ -256,7 +256,7 @@ theorem false_of_finrank_two (hD : ExtDickson) (hJP : ExtJonesParshall) (hp5 : 5
   have hcoreG := pCore_range_eq_bot θ hinv hfaith hcore
   rcases hD p _ hpG with ⟨P, hPn, hPcard⟩ | hSL
   · have hle : (P : Subgroup (coordRestrict θ hinv).range) ≤
-        CFSG.pCore p (coordRestrict θ hinv).range := le_sSup ⟨hPn, P.isPGroup'⟩
+        CFSG.pCore p (coordRestrict θ hinv).range := le_sSup ⟨hPn, P.isPGroup⟩
     rw [hcoreG, le_bot_iff] at hle
     have h1 : Nat.card (P : Subgroup (coordRestrict θ hinv).range) = 1 := by
       rw [hle]

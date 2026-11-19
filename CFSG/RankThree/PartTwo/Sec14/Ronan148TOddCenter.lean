@@ -22,7 +22,7 @@ theorem exists_eq_smul_add_smul_of_commute {K : Type*} [Field K] {s z : Matrix (
   have e01 := congrFun (congrFun hz 0) 1
   have e10 := congrFun (congrFun hz 1) 0
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at e00 e01 e10
+    Matrix.empty_val', Matrix.cons_val_fin_one] at e00 e01 e10
   have f1 : z₂ * c = b * z₃ := by linear_combination e00
   have f2 : b * (z₁ - z₄) = (a - d) * z₂ := by linear_combination e01
   have f3 : c * (z₁ - z₄) = (a - d) * z₃ := by linear_combination -e10
@@ -131,11 +131,11 @@ theorem oddCenterFree : OddCenterFree := by
       | H b =>
         exact ⟨a, b, fun h => hab (by rw [← QuotientGroup.mk_mul, h, QuotientGroup.mk_mul])⟩
   set K₁ : Subgroup (H ⧸ N) := K.map φ.toMonoidHom with hK₁
-  haveI : Group.IsPerfect K := hKq.1
-  haveI : Group.IsPerfect K₁ := Group.IsPerfect.map φ.toMonoidHom
+  have : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K₁ := Group.IsPerfect.map φ.toMonoidHom
   set M : Subgroup H := K₁.comap (QuotientGroup.mk' N) with hM
   set D : Subgroup H := ⁅M, M⁆ with hD
-  haveI hDp : Group.IsPerfect D := SubgroupLists.isPerfect_commutator_comap le_rfl K₁
+  have hDp : Group.IsPerfect D := SubgroupLists.isPerfect_commutator_comap le_rfl K₁
   have hDK : D.map (QuotientGroup.mk' N) = K₁ := SubgroupLists.map_commutator_comap K₁
   have hmemK : ∀ d ∈ D, QuotientGroup.mk' N d ∈ K₁ := fun d hd => hDK ▸ ⟨d, hd, rfl⟩
   have hDnc : ¬ ∀ d₁ ∈ D, ∀ d₂ ∈ D, d₁ * d₂ = d₂ * d₁ := by

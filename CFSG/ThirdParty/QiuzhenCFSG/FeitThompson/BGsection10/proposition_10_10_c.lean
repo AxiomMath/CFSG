@@ -255,6 +255,6 @@ public theorem CFSG.proposition_10_10_c
             ⟨B, hB.1, hB.2⟩
   exact ⟨P, hAP,
     section10_le_centralizer_of_le_derived_normalizer_of_narrow
-      (G := G) hpq P.isPGroup' hPder hQq hQnarrow⟩
+      (G := G) hpq P.isPGroup hPder hQq hQnarrow⟩
 
 end Section10

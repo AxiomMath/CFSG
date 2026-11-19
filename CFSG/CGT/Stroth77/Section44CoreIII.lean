@@ -249,12 +249,12 @@ theorem t201_hC13 (hm : 1 ≤ m) : ∀ E : Subgroup G, E ≤ D ⊔ Subgroup.zpow
             rw [om201, ← Torus.ofInt_zero]; congr 1; funext i; simp, dD.ofTorus_zero]
       · right
         simp only [hδ]
-        rw [if_pos (by simpa using hd)]
+        rw [ite_eq_left (by simpa using hd)]
         simp
       · exact absurd (by simpa using hd) hc₁
       · right
         simp only [hδ]
-        rw [if_neg (fun h' => hc₁ (by rw [← hprod]; exact mul_mem (by simpa using hd) h'))]
+        rw [ite_eq_right (fun h' => hc₁ (by rw [← hprod]; exact mul_mem (by simpa using hd) h'))]
         simp
     let f : Bool × Bool → G := fun w => (if w.1 then δ else 1) * (if w.2 then e₀ else 1)
     have hcov : ∀ y ∈ E, ∃ w, f w = y := by
@@ -815,7 +815,7 @@ theorem t201_cls_uv (hm : 1 ≤ m) (x : Fin 3 → ℤ)
   t201_nf at h
   have hc := (ofTorus_ofInt_eq_one_iff dD _).mp h
   obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le' hm
-  simp only [Pi.add_apply, Pi.neg_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+  simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
     Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons] at hc
   obtain ⟨⟨c0, hc0⟩, ⟨c1, hc1⟩, ⟨c2, hc2⟩⟩ := hc
   have h4P : (4 * 2 ^ k : ℤ) ≠ 0 := by positivity
@@ -833,7 +833,7 @@ theorem t201_cls_uv (hm : 1 ≤ m) (x : Fin 3 → ℤ)
       -((3 + 4 * 2 ^ k) * b - c1 + c2) * (1 - 6 * 2 ^ k)]), dD.ofTorus_mem _, Or.inl ?_⟩
     apply t201_eq_of_nf dD
     t201_nf
-    t201_coord <;> (try simp only [Nat.add_sub_cancel])
+    t201_coord
     · exact ⟨-13 * b + 4 * c1 - 3 * c2 - 16 * (2 ^ k) * b, by ring⟩
     · exact ⟨-21 * (2 ^ k) * b + 7 * (2 ^ k) * c1 - 7 * (2 ^ k) * c2 - 64 * (2 ^ k) ^ 2 * b +
         12 * (2 ^ k) ^ 2 * c1 - 12 * (2 ^ k) ^ 2 * c2 - 48 * (2 ^ k) ^ 3 * b, by ring⟩
@@ -860,7 +860,7 @@ theorem t201_cls_u (hm : 1 ≤ m) (x : Fin 3 → ℤ)
   t201_nf at h
   have hc := (ofTorus_ofInt_eq_one_iff dD _).mp h
   obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le' hm
-  simp only [Pi.add_apply, Pi.neg_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+  simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
     Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons] at hc
   obtain ⟨⟨c0, hc0⟩, ⟨c1, hc1⟩, -⟩ := hc
   obtain rfl : x0 = 2 ^ k * c0 := by
@@ -871,7 +871,7 @@ theorem t201_cls_u (hm : 1 ≤ m) (x : Fin 3 → ℤ)
   · refine ⟨dD.ofTorus (Torus.ofInt _ ![0, x1, 0]), dD.ofTorus_mem _, Or.inl ?_⟩
     apply t201_eq_of_nf dD
     t201_nf
-    t201_coord <;> (try simp only [Nat.add_sub_cancel])
+    t201_coord
     · exact ⟨-j, by ring⟩
     · exact ⟨0, by ring⟩
     · exact ⟨-c1, by ring⟩
@@ -1046,8 +1046,8 @@ theorem t201_iii_h9 (hm : 1 ≤ m) (hφe : hE.φe = torusDiag _ ![-1, -1, -1]) :
   have hDcard : Nat.card D = 2 ^ (m + (m + 2) + (m + 2)) := dD.card
   have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
   have hnf : ∀ y ∈ X, ∃ (v : Torus (StrothTypeIndex.t201 m).k) (l k : Bool),
       y = dD.ofTorus v * dD.d8 false false l * bpow e k := by
     intro y hy
@@ -1072,7 +1072,7 @@ theorem t201_iii_h9 (hm : 1 ≤ m) (hφe : hE.φe = torusDiag _ ![-1, -1, -1]) :
     · exact h.choose_spec.1
     · exact X.one_mem
   by_cases hD : ∀ x ∈ X, x ∈ D
-  · haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+  · have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge hD hcard.ge
   exfalso
   push Not at hD
@@ -1177,7 +1177,7 @@ theorem t201_iii_conj_c₁ (hm : 2 ≤ m) (hφe : hE.φe = torusDiag _ ![-1, -1,
       AddMonoidHom.comp_apply, AddMonoidHom.id_apply] <;> (try rw [t201_φu]) <;>
     · congr 1
       funext i
-      fin_cases i <;> simp [pow_succ] <;> ring
+      fin_cases i <;> simp [pow_succ]; ring
   rw [ofTorus_conj_nfe dD hE hq hw, c_pow_om]
   have h := (t201_e_comm_iff dD hE v (om201 m ![1, 0, 0]) l true).mpr (by simpa using hw)
   simpa [bpow] using h.symm

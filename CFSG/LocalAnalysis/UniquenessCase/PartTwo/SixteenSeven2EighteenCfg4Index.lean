@@ -11,7 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 variable {W : Type} [CommGroup W] [Finite W]
 
 theorem s16c167_cfg4_card_aut_dvd {Y : Type} [Group Y] [Finite Y] (hc : Nat.card Y = 4)
-    (hY : ∀ y : Y, y ^ 2 = 1) : Nat.card (MulAut Y) ∣ 6 := by
+    (_hY : ∀ y : Y, y ^ 2 = 1) : Nat.card (MulAut Y) ∣ 6 := by
   classical
   have := Fintype.ofFinite Y
   let res : MulAut Y →* Equiv.Perm {y : Y // y ≠ 1} :=

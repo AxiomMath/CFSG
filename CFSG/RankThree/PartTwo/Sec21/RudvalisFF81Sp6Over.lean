@@ -221,8 +221,8 @@ theorem exists_mul_mem_cen {C T : Subgroup X} (hTn : ∀ g ∈ C, ∀ u ∈ T, g
     rw [pow_succ, pow_succ, pow_one, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply,
       Equiv.Perm.one_apply]
     exact hτ3 t
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype ↥T := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype ↥T := Fintype.ofFinite _
   obtain ⟨t, ht⟩ := Equiv.Perm.exists_fixed_point_of_prime (p := 3) (n := 1)
     (by rwa [← Nat.card_eq_fintype_card]) hτp
   refine ⟨t, t.2, ?_⟩
@@ -430,7 +430,7 @@ theorem kf_sp6Overgroup : KF_Sp6Overgroup := by
   rcases hover with hYS | h32
   ·
     ext g
-    simp only [setMul, Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [setMul, Set.mem_ofPred_eq, SetLike.mem_coe]
     constructor
     · rintro ⟨t, ht, l, hl, rfl⟩
       exact C.mul_mem (hTC ht) (hLC hl)

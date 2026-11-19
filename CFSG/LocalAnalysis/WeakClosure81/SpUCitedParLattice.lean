@@ -18,7 +18,7 @@ private lemma spUCited_map_map_inv {G : Type} [Group G] (α : MulAut G) (H : Sub
   rw [Subgroup.map_map]
   have h : (α⁻¹).toMonoidHom.comp α.toMonoidHom = MonoidHom.id G := by
     ext x
-    simpa using α.inv_apply_self x
+    simp
   rw [h, Subgroup.map_id]
 
 private lemma spUCited_map_inv_map {G : Type} [Group G] (α : MulAut G) (H : Subgroup G) :

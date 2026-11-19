@@ -35,7 +35,7 @@ theorem exists_isSylowIn (hM : LieModel ↥L .PSL 2 p e) : ∃ E : Subgroup G, I
   have hle : P.toSubgroup.map L.subtype ≤ L := by
     rintro x ⟨y, -, rfl⟩
     exact y.2
-  refine ⟨P.toSubgroup.map L.subtype, hle, P.isPGroup'.map L.subtype, ?_⟩
+  refine ⟨P.toSubgroup.map L.subtype, hle, P.isPGroup.map L.subtype, ?_⟩
   have hidx : (P.toSubgroup.map L.subtype).index = P.toSubgroup.index * L.index :=
     Subgroup.index_map_subtype (H := L) P.toSubgroup
   have hrel :
@@ -74,7 +74,7 @@ private theorem exists_conj_sylow_image {F : Type} [Field F] [Finite F] {p n : �
       Subgroup.map (φ : ↥L →* CFSG.GorensteinWalter.PSL2 F) (hE.toSylow : Subgroup ↥L) =
         Subgroup.map (MulAut.conj c).toMonoidHom (CFSG.PSL2Table.unipotent F) := by
   have hWpg : IsPGroup p (Subgroup.map (φ : ↥L →* CFSG.GorensteinWalter.PSL2 F)
-      (hE.toSylow : Subgroup ↥L)) := (hE.toSylow).isPGroup'.map _
+      (hE.toSylow : Subgroup ↥L)) := (hE.toSylow).isPGroup.map _
   have hidx : ¬ p ∣ (Subgroup.map (φ : ↥L →* CFSG.GorensteinWalter.PSL2 F)
       (hE.toSylow : Subgroup ↥L)).index := by
     rw [Subgroup.index_map_equiv]
@@ -119,7 +119,7 @@ theorem isElemAbelian_of_isSylowIn (hM : LieModel ↥L .PSL 2 p e) (hp2 : p ≠ 
     exact Subgroup.map_subgroupOf_eq_of_le hE.le
   let Wsub : Subgroup (CFSG.GorensteinWalter.PSL2 F) :=
     (P : Subgroup ↥L).map (φ : ↥L →* CFSG.GorensteinWalter.PSL2 F)
-  have hWpg : IsPGroup p Wsub := P.isPGroup'.map (φ : ↥L →* CFSG.GorensteinWalter.PSL2 F)
+  have hWpg : IsPGroup p Wsub := P.isPGroup.map (φ : ↥L →* CFSG.GorensteinWalter.PSL2 F)
   have hWidx : ¬ p ∣ Wsub.index := by
     show ¬ p ∣ (Subgroup.map (φ : ↥L →* CFSG.GorensteinWalter.PSL2 F)
       (P : Subgroup ↥L)).index
@@ -442,14 +442,14 @@ theorem orbLen_le_ncard_hypOrbit (hM : LieModel ↥L .PSL 2 p e) (hp2 : p ≠ 2)
     rw [hunits] at h
     exact Nat.div_le_of_le_mul h
   rcases Nat.even_or_odd e with he | he
-  · rw [orbLen, if_pos he]
+  · rw [orbLen, ite_eq_left he]
     exact hmain (2 * (p - 1)) (le_trans hstab
       (CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.card_sq_pow_char_le (K := F) (p := p)))
   · have hne : ¬ Even e := by
       rintro ⟨k, hk⟩
       obtain ⟨j, hj⟩ := he
       omega
-    rw [orbLen, if_neg hne]
+    rw [orbLen, ite_eq_right hne]
     exact hmain (p - 1) (le_trans (hstab_odd he)
       (CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.card_pow_char_units_le (K := F) (p := p)))
 
@@ -586,7 +586,7 @@ theorem exists_inverted_isSylowIn (hM : LieModel ↥L .PSL 2 p e) (hp2 : p ≠ 2
     CFSG.GH74.GLS.IVK.L2Borel.exists_sylow_unipotent (F := F) (p := p) (n := e) hcard
   have hUpg : IsPGroup p (CFSG.PSL2Table.unipotent F) := by
     rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   have hUidx : ¬ p ∣ (CFSG.PSL2Table.unipotent F).index := by
     rw [← hQ]
     exact Sylow.not_dvd_index Q

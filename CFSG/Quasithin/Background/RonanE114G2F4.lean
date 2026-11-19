@@ -20,8 +20,8 @@ section G2
 
 
 theorem clause_one_G2_le
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     ∀ n : ℕ, 1 ≤ n → IsG2 2 n ↥(CFSG.generalizedFitting G) →
       E1.nParam (⊤ : Subgroup G) ≤ (n : ℕ∞) :=
@@ -43,8 +43,8 @@ section F4
 
 
 theorem clause_one_2F4_le
-    (G : Type) [Group G] [Finite G] (T : Subgroup G) (hSQ : SQTKGroup G)
-    (hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
+    (G : Type) [Group G] [Finite G] (T : Subgroup G) (_hSQ : SQTKGroup G)
+    (_hFs : IsSimpleGroup ↥(CFSG.generalizedFitting G)) (hT : IsSylowIn 2 T ⊤)
     (hFT : CFSG.generalizedFitting G ⊔ T = ⊤) :
     ∀ n : ℕ, 1 ≤ n → Is2F4 n ↥(CFSG.generalizedFitting G) →
       E1.nParam (⊤ : Subgroup G) ≤ (n : ℕ∞) :=

@@ -19,7 +19,7 @@ private theorem bit_testBit_xor (u w r : ℕ) :
         (if w.testBit r then (1 : ZMod 2) else 0) := by
   rw [Nat.testBit_xor]
   cases hu : u.testBit r <;> cases hw : w.testBit r <;>
-    simp [hu, hw, show (1 : ZMod 2) + 1 = 0 from by decide]
+    simp [show (1 : ZMod 2) + 1 = 0 from by decide]
 
 private theorem list_sum_map_range (n : ℕ) (f : ℕ → ZMod 2) :
     ((List.range n).map f).sum = ∑ i ∈ Finset.range n, f i := by
@@ -39,11 +39,11 @@ private theorem bsum_foldr_list (n : ℕ) (c : ℕ → ℕ) (x : ℕ) (v : ℕ �
     rw [List.foldr_cons, List.map_cons, List.sum_cons]
     obtain h | h : x.testBit a = true ∨ x.testBit a = false := by cases x.testBit a <;> simp
     · rw [h]
-      simp only [if_true]
+      simp only [ite_true]
       rw [bsum_xor, ih (init := init)]
       abel
     · rw [h]
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       rw [ih (init := init)]
       simp
 
@@ -60,11 +60,11 @@ private theorem bit_foldr_list (c : ℕ → ℕ) (x r : ℕ) (l : List ℕ) (ini
     rw [List.foldr_cons, List.map_cons, List.sum_cons]
     obtain h | h : x.testBit a = true ∨ x.testBit a = false := by cases x.testBit a <;> simp
     · rw [h]
-      simp only [if_true]
+      simp only [ite_true]
       rw [bit_testBit_xor, ih (init := init)]
       abel
     · rw [h]
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       rw [ih (init := init)]
       simp
 
@@ -154,7 +154,7 @@ private theorem wedgeCheck_spec (h : Native.wedgeCheck = true) :
   have hj' := hall i (List.mem_range.2 hi)
   rw [List.all_eq_true] at hj'
   have hr' := hj' j (List.mem_range.2 hj)
-  rw [if_pos hij, List.all_eq_true] at hr'
+  rw [ite_eq_left hij, List.all_eq_true] at hr'
   simpa [Nat.one_shiftLeft] using hr' r (List.mem_range.2 hr)
 
 private theorem mem_bilinEqs {m : ℕ} (hm : m ∈ Native.bilinEqsList) :
@@ -166,17 +166,17 @@ private theorem mem_wedEqs {m : ℕ} (hm : m ∈ Native.wedEqsList) :
     ∃ k, (k = 0 ∨ k = 2) ∧ ∃ i < 10, ∃ j < 10, i < j ∧ ∃ r < 10,
       Native.wedEq k i j r = m := by
   simp only [Native.wedEqsList, List.mem_flatMap, List.mem_cons, List.mem_range,
-    List.mem_map, List.not_mem_nil, or_false] at hm
+    List.not_mem_nil, or_false] at hm
   obtain ⟨k, hk, i, hi, j, hj, hm⟩ := hm
   refine ⟨k, hk, i, hi, j, hj, ?_, ?_⟩
   · by_contra h
-    rw [if_neg h] at hm
+    rw [ite_eq_right h] at hm
     exact List.not_mem_nil hm
   · by_cases hij : i < j
-    · rw [if_pos hij] at hm
+    · rw [ite_eq_left hij] at hm
       obtain ⟨r, hr, rfl⟩ := List.mem_map.1 hm
       exact ⟨r, List.mem_range.1 hr, rfl⟩
-    · rw [if_neg hij] at hm
+    · rw [ite_eq_right hij] at hm
       exact absurd hm List.not_mem_nil
 
 private theorem bilinEqs_zero (β : ↥Jc → ↥Jc → ZMod 2)
@@ -304,7 +304,7 @@ private theorem wedge_rhs_bit (β : ↥Jc → ↥Jc → ↥Jc) {k i j r : ℕ} (
 private theorem wed_eq_zero (β : ↥Jc → ↥Jc → ↥Jc)
     (h1 : ∀ a b c, β (a * b) c = β a c * β b c) (h2 : ∀ a b c, β a (b * c) = β a b * β a c)
     (h3 : ∀ a, β a a = 1) (hQ : ∀ g ∈ Qj, ∀ a b, β (g a) (g b) = g (β a b))
-    {k i j r : ℕ} (hk : k = 0 ∨ k = 2) (hi : i < 10) (hj : j < 10) (hij : i < j) (hr : r < 10)
+    {k i j r : ℕ} (hk : k = 0 ∨ k = 2) (_hi : i < 10) (hj : j < 10) (hij : i < j) (hr : r < 10)
     (v : ℕ → ZMod 2)
     (hv : ∀ p q s, p < q → q < 10 → s < 10 →
       v (10 * (10 * p + q) + s) =
@@ -325,8 +325,8 @@ private theorem wed_eq_zero (β : ↥Jc → ↥Jc → ↥Jc)
     apply bsum_congr_of
     intro q hq
     by_cases hpq : p = q
-    · rw [hpq, if_pos rfl, bsum_zero, if_pos rfl]
-    · rw [if_neg hpq, if_neg hpq, Native.uWedge]
+    · rw [hpq, ite_eq_left rfl, bsum_zero, ite_eq_left rfl]
+    · rw [ite_eq_right hpq, ite_eq_right hpq, Native.uWedge]
       by_cases hlt : p < q
       · rw [min_eq_left (le_of_lt hlt), max_eq_right (le_of_lt hlt),
           Nat.one_shiftLeft, bsum_two_pow (by omega)]
@@ -346,8 +346,8 @@ private theorem wed_eq_zero (β : ↥Jc → ↥Jc → ↥Jc)
     apply bsum_congr_of
     intro q hq
     by_cases hpq : p = q
-    · rw [hpq, if_pos rfl, wedge_diag_bit h3 q r]
-    · rw [if_neg hpq]
+    · rw [hpq, ite_eq_left rfl, wedge_diag_bit h3 q r]
+    · rw [ite_eq_right hpq]
   have hR : bsum 1000 (Native.wedRhs k i j r) v =
       ((List.range 10).map fun s =>
         if (Co2Smith.Native.glNJT k (2 ^ s)).testBit r then
@@ -361,13 +361,13 @@ private theorem wed_eq_zero (β : ↥Jc → ↥Jc → ↥Jc)
     simp only [Function.comp_apply]
     obtain hg | hg := bool_cases ((Co2Smith.Native.glNJT k (2 ^ s)).testBit r)
     · rw [hg]
-      simp only [if_true]
+      simp only [ite_true]
       change bsum 1000 (1 <<< (10 * (10 * i + j) + s)) v =
         (if (coord (β (jcA (2 ^ i)) (jcA (2 ^ j)))).testBit s then (1 : ZMod 2) else 0)
       rw [Nat.one_shiftLeft, bsum_two_pow (n := 1000) (by omega) v]
       exact hv i j s hij hj (List.mem_range.1 hs)
     · rw [hg]
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       change bsum 1000 0 v = 0
       rw [bsum_zero]
   have hLabs : (if (coord (β (qA k (jcA (2 ^ i))) (qA k (jcA (2 ^ j))))).testBit r

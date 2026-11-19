@@ -11,6 +11,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Open Subgro
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem w183_commSpace_le_of_simple {L X : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L]
     (hXL : X ≤ L) (hX : X ≠ ⊥) {P : Submodule (ZMod 2) V}
     (hP : ∀ l ∈ L, ∀ p ∈ P, l p ∈ P) (hcomm : commSpace X ⊤ ≤ P) : commSpace L ⊤ ≤ P := by
@@ -51,7 +52,7 @@ theorem w183_commSpace_le_of_simple {L X : Subgroup (LGL 2 V)} [IsSimpleGroup �
       rw [hgw]
     rw [he]
     exact hP (g : LGL 2 V) g.2 _ hn'⟩
-  haveI := hNnormal
+  have := hNnormal
   have hXN : X.subgroupOf L ≤ N := fun x hx => by
     rw [Subgroup.mem_subgroupOf] at hx
     intro v
@@ -72,6 +73,7 @@ theorem w183_commSpace_le_of_simple {L X : Subgroup (LGL 2 V)} [IsSimpleGroup �
     have hlN : (⟨l, hl⟩ : ↥L) ∈ N := by rw [htop]; trivial
     exact hlN v
 
+omit [Finite V] in
 theorem w183_inf_eq_bot_of_commute {L₁ L₂ : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L₁]
     (hnab : ∃ a ∈ L₁, ∃ b ∈ L₁, a * b ≠ b * a) (hcomm : ∀ a ∈ L₁, ∀ b ∈ L₂, a * b = b * a) :
     L₁ ⊓ L₂ = ⊥ := by
@@ -86,7 +88,7 @@ theorem w183_inf_eq_bot_of_commute {L₁ L₂ : Subgroup (LGL 2 V)} [IsSimpleGro
         simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [hgn]; group
       rw [he]; exact hn.2⟩
-  haveI := hNnormal
+  have := hNnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hbot | htop
   · rw [eq_bot_iff]
     intro x hx
@@ -180,7 +182,7 @@ theorem w183_exists_klein_basis {Q : Type*} [Group Q] {X : Subgroup Q} (hX : Nat
     · exact ha
     · exact hb
     · exact X.mul_mem ha hb
-  haveI hfinX : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have hfinX : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have hXcard : (X : Set Q).ncard = 4 := hX
   have hTX : (T : Set Q) = (X : Set Q) :=
     Set.eq_of_subset_of_ncard_le hTsub (by rw [hXcard, Set.ncard_coe_finset, hTcard])
@@ -217,6 +219,7 @@ namespace Assumption131
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem exists_three_members (h : Assumption131 G Γ VA i)
     {L₁ L₂ X₁ X₂ D₀ : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L₁]
     (hnab₁ : ∃ a ∈ L₁, ∃ b ∈ L₁, a * b ≠ b * a) (hL₁G : L₁ ≤ G)
@@ -585,6 +588,7 @@ theorem exists_three_members (h : Assumption131 G Γ VA i)
       (mem_D k _).mpr ⟨x, rfl⟩⟩
   exact ⟨D, hDΓ, hDr, hDne, hDcomm, hgen, hcover, hcover'⟩
 
+omit [Finite V] in
 theorem false_of_three_members (h : Assumption131 G Γ VA i)
     (hVfix : ∀ A ∈ Γ, VA A ≤ fixSub A)
     {L₁ L₂ X₁ X₂ : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L₁] [IsSimpleGroup ↥L₂]
@@ -721,6 +725,7 @@ theorem false_of_three_members (h : Assumption131 G Γ VA i)
   obtain ⟨a, ha, b, hb, hab⟩ := hnab₂
   exact hab (w183_mul_comm_of_comp_eq (N := L₂) hmul a ha b hb)
 
+omit [Finite V] in
 theorem false_of_diagonal_member (h : Assumption131 G Γ VA i)
     (hVfix : ∀ A ∈ Γ, VA A ≤ fixSub A)
     {L₁ L₂ X₁ X₂ D₀ : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L₁] [IsSimpleGroup ↥L₂]

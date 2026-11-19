@@ -189,7 +189,7 @@ theorem ks18GL33 : KS18GL33 := by
   set S' := (S : Subgroup X).map X.subtype with hS'def
   have hS'27 : Nat.card S' = 27 := by
     rw [hS'def, Subgroup.card_map_of_injective (Subgroup.subtype_injective _), hS27]
-  have hS'3 : IsPGroup 3 S' := (S.isPGroup').map _
+  have hS'3 : IsPGroup 3 S' := (S.isPGroup).map _
   have hS'X : S' ≤ X := Subgroup.map_subtype_le _
   set T := transvectionGroup F with hTdef
   have hT3 : IsPGroup 3 T := transvectionGroup_isPGroup fun f _ => hpow f

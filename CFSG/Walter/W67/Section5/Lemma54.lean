@@ -26,7 +26,7 @@ theorem card_le_two {X : Subgroup G} {J : G} (hJX : J ∈ X) (hoJ : orderOf J = 
   obtain ⟨S₂, hS₂⟩ := hJ'p.exists_le_sylow
   have hS₂card : Nat.card S₂ ≤ 2 := by
     have hle := h ((S₂ : Subgroup X).map X.subtype) (Subgroup.map_subtype_le _)
-      ⟨J', hS₂ (Subgroup.mem_zpowers J'), rfl⟩ (S₂.isPGroup'.map _)
+      ⟨J', hS₂ (Subgroup.mem_zpowers J'), rfl⟩ (S₂.isPGroup.map _)
     have := Subgroup.card_le_of_le hle
     rwa [Subgroup.card_map_of_injective X.subtype_injective, Nat.card_zpowers, hoJ] at this
   have hW' : IsPGroup 2 (W.subgroupOf X) :=
@@ -58,7 +58,7 @@ theorem exists_conj {D : Subgroup G} {J x : G} (hJD : J ∈ D) (hoJ : orderOf J 
     symm
     apply Subgroup.eq_of_le_of_card_ge hSle
     rw [Nat.card_zpowers, hy]
-    have := hD ((S : Subgroup D).map D.subtype) (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+    have := hD ((S : Subgroup D).map D.subtype) (Subgroup.map_subtype_le _) (S.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective D.subtype_injective] at this
   obtain ⟨S₁, hS₁⟩ := hS J₁ hoJ₁
   obtain ⟨S₂, hS₂⟩ := hS J₂ hoJ₂

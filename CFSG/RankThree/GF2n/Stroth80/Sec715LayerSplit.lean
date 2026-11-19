@@ -79,7 +79,7 @@ theorem sec715LayerSplit_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
   intro G _ _ M Q Z B _ hc n t hs hp hn Z0 hZ0 hZN K _ _ γ M₀ ρ b hS φ₈ hφ hφker e he
   obtain ⟨r, hr⟩ := hA G M Q Z B hc n t hs
   obtain ⟨k, -, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
   have hq : 4 ≤ Nat.card K := by
     rw [hS.card]
     exact hc.hyp.q4

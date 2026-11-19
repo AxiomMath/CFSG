@@ -52,7 +52,7 @@ theorem exists_modelB_projectiveSp (hK2 : ringChar K ≠ 2)
 
 theorem card_le_nine_projectiveSp (hK3 : ¬ 3 ∣ Nat.card K)
     (F : Subgroup (StatedProj (StatedSp 2 K))) (hF : IsElemAbelian 3 F) : Nat.card F ≤ 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card K ^ 2 - 1 := by
     rw [show Nat.card K ^ 2 - 1 = (Nat.card K + 1) * (Nat.card K - 1) by
       rw [← Nat.sq_sub_sq, one_pow]]
@@ -78,7 +78,7 @@ theorem p3At_B_two_of_field
   have hQq : Q.p = q := by
     change (TauCeti.LieTypeIndex.B 2 Q).characteristic = q at hchar
     rwa [TauCeti.LieTypeIndex.characteristic_B] at hchar
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B 2 Q, hv⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B 2 Q, hv⟩
   set K := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 2 Q, hv⟩) with hKdef
   have hKcard : Nat.card K = Q.p ^ Q.exponent := by
     rw [hKdef, TauCeti.ValidLieTypeIndex.card_fixedField,
@@ -87,7 +87,7 @@ theorem p3At_B_two_of_field
         TauCeti.LieTypeIndex.characteristic_B 2 Q,
       show TauCeti.ValidLieTypeIndex.fieldExponent ⟨.B 2 Q, hv⟩ = Q.exponent from
         TauCeti.LieTypeIndex.fieldExponent_B 2 Q]
-  haveI : CharP K Q.p := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K Q.p := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Q.prime_p Q.exponent_pos hKcard
   have hchK : ringChar K = q := by rw [ringChar.eq K Q.p, hQq]
   have hK3 : ¬ 3 ∣ Nat.card K := by
@@ -118,7 +118,7 @@ theorem p3At_B_two_of_field
 
 theorem p3At_B_two {Q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.B 2 Q).Valid) :
     P3At ⟨_, hv⟩ :=
-  p3At_B_two_of_field (fun K _ _ hK2 hK3 σ hσ => Field.modelB_psp4 hK2 hK3 hσ) hv
+  p3At_B_two_of_field (fun _K _ _ hK2 hK3 _σ hσ => Field.modelB_psp4 hK2 hK3 hσ) hv
 
 end CFSG.LocalAnalysis.GLTheoremA.S267.P3
 

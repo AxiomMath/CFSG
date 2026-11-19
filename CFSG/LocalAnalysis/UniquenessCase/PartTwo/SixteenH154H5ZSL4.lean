@@ -16,7 +16,7 @@ private theorem s16h_eq_of_ne_one_of_card_le_two {H : Type*} [Group H] [Finite H
   have hpos : 0 < Nat.card H := Nat.card_pos
   have hcase : Nat.card H = 1 ∨ Nat.card H = 2 := by omega
   rcases hcase with h1 | h2
-  · haveI : Subsingleton H := (Finite.card_le_one_iff_subsingleton (α := H)).mp (le_of_eq h1)
+  · have : Subsingleton H := (Finite.card_le_one_iff_subsingleton (α := H)).mp (le_of_eq h1)
     exact absurd (Subsingleton.elim a 1) ha
   · obtain ⟨y, _, huniq⟩ := (Nat.card_eq_two_iff' (1 : H)).mp h2
     exact (huniq a ha).trans (huniq b hb).symm
@@ -30,7 +30,7 @@ private theorem s16h_normal_two_subgroup_perm_fin3_eq_bot {G : Type*} [Group G] 
     (hodd : ∃ u : G, orderOf u = 3) {T : Subgroup G} [T.Normal]
     (hT2 : ∀ x ∈ T, ∃ n : ℕ, x ^ 2 ^ n = 1) : T = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard6 : Nat.card (Equiv.Perm (Fin 3)) = 6 := by
     rw [Nat.card_eq_fintype_card]
     decide +kernel
@@ -177,7 +177,7 @@ private theorem s16h_mulAutPermNeOneHom_injective (G : Type*) [Group G] :
 private theorem s16h_mulAut_embeds_perm_fin3 {G : Type*} [Group G] [Finite G]
     (h : Nat.card G ≤ 4) : ∃ ψ : MulAut G →* Equiv.Perm (Fin 3), Function.Injective ψ := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   have hcardNe : Fintype.card {x : G // x ≠ 1} ≤ 3 := by
     rw [Fintype.card_subtype_compl (fun x : G => x = 1), Fintype.card_subtype_eq (1 : G)]
     have hfc : Fintype.card G = Nat.card G := Fintype.card_eq_nat_card
@@ -257,8 +257,8 @@ theorem s16h_H5_zcond_SL4 [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     exact ⟨n, Subtype.ext hn⟩
   obtain ⟨ψ, hψ⟩ := s16h_H5_zcond_SL4_induced_embed hc hZ
   set T' : Subgroup ↥(autSub N Z) := (T.subgroupOf N).map ρ with hT'def
-  haveI hT'norm : T'.Normal := by
-    haveI hTNnorm : (T.subgroupOf N).Normal :=
+  have hT'norm : T'.Normal := by
+    have hTNnorm : (T.subgroupOf N).Normal :=
       (Subgroup.normal_subgroupOf_iff hTN').mpr (fun h k hh hk => hTnorm k hk h hh)
     rw [hT'def]
     exact hTNnorm.map ρ hρsurj
@@ -276,7 +276,7 @@ theorem s16h_H5_zcond_SL4 [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
   have hfqρ : (ρ ⟨f, hfN⟩) ^ q = 1 := by
     rw [← map_pow, hker_ρ]
     simpa using hfq
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hord : orderOf (ρ ⟨f, hfN⟩) = q := orderOf_eq_prime hfqρ hfρ
   have hq_dvd : q ∣ 6 := by
     have hψq : (ψ (ρ ⟨f, hfN⟩)) ^ q = 1 := by rw [← map_pow, hfqρ, map_one]

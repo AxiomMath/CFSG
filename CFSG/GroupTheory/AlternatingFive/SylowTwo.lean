@@ -43,14 +43,14 @@ private def V (i : Fin 5) : Subgroup A₅ where
   mul_mem' := by
     intro x y hx hy
     fin_cases i <;>
-      simp only [Set.mem_setOf_eq, memV] at hx hy ⊢ <;>
+      simp only [Set.mem_ofPred_eq, memV] at hx hy ⊢ <;>
       rcases hx with rfl | rfl | rfl | rfl <;>
       rcases hy with rfl | rfl | rfl | rfl <;>
       decide
   inv_mem' := by
     intro x hx
     fin_cases i <;>
-      simp only [Set.mem_setOf_eq, memV] at hx ⊢ <;>
+      simp only [Set.mem_ofPred_eq, memV] at hx ⊢ <;>
       rcases hx with rfl | rfl | rfl | rfl <;>
       decide
 
@@ -163,13 +163,13 @@ private lemma finite_sylow_two : Finite (Sylow 2 A₅) := by
   exact Sylow.finite_of_finiteIndex P
 
 private lemma exists_sylowV_eq (P : Sylow 2 A₅) : ∃ i : Fin 5, sylowV i = P := by
-  haveI : Finite (Sylow 2 A₅) := finite_sylow_two
+  have : Finite (Sylow 2 A₅) := finite_sylow_two
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq A₅ (sylowV (0 : Fin 5)) P
   refine ⟨g • (0 : Fin 5), ?_⟩
   rw [← hg, sylowV_smul]
 
 theorem card_sylowTwo : Nat.card (Sylow 2 A₅) = 5 := by
-  haveI : Finite (Sylow 2 A₅) := finite_sylow_two
+  have : Finite (Sylow 2 A₅) := finite_sylow_two
   have hle : 5 ≤ Nat.card (Sylow 2 A₅) := by
     have := Nat.card_le_card_of_injective sylowV sylowV_injective
     simpa using this
@@ -180,7 +180,6 @@ theorem card_sylowTwo : Nat.card (Sylow 2 A₅) = 5 := by
 
 theorem card_sylow_two_eq (P : Sylow 2 A₅) : Nat.card P = 4 := by
   obtain ⟨i, rfl⟩ := exists_sylowV_eq P
-  change Nat.card ((sylowV i : Subgroup A₅)) = 4
   rw [coe_sylowV]
   exact card_V i
 
@@ -217,7 +216,7 @@ theorem inf_eq_bot_of_ne {P P' : Sylow 2 A₅} (h : P ≠ P') :
 
 theorem card_normalizer_sylow_two (P : Sylow 2 A₅) :
     Nat.card (Subgroup.normalizer (P : Set A₅)) = 12 := by
-  haveI : Finite (Sylow 2 A₅) := finite_sylow_two
+  have : Finite (Sylow 2 A₅) := finite_sylow_two
   have hindex : (Subgroup.normalizer (P : Set A₅)).index = 5 := by
     rw [← Sylow.card_eq_index_normalizer P, card_sylowTwo]
   have hmul := Subgroup.card_mul_index (Subgroup.normalizer (P : Set A₅))
@@ -230,7 +229,7 @@ theorem card_ne_twenty (H : Subgroup A₅) : Nat.card H ≠ 20 := by
     have hmul := Subgroup.card_mul_index H
     rw [hH, card_A5] at hmul
     omega
-  haveI : IsSimpleGroup A₅ := alternatingGroup.isSimpleGroup (by norm_num)
+  have : IsSimpleGroup A₅ := alternatingGroup.isSimpleGroup (by norm_num)
   exact CFSG.Quasithin.S153N.index_ne_three_of_isSimpleGroup
     (by rw [card_A5]; norm_num) H hindex
 

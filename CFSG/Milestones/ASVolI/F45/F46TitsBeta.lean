@@ -162,6 +162,7 @@ theorem mem_geods {a : c.Γ} {p : GPath c.graph 8} (hp : p ∈ GPath.nbPaths c.g
   rw [hp.1]
   exact D.dist_m hp
 
+omit D in
 theorem nbPaths_of_geods {a b : c.Γ} {t : GPath c.graph 8} (ht : t ∈ c.geods 8 a b) :
     t ∈ GPath.nbPaths c.graph a 8 :=
   ⟨ht.1, GPath.noBack_of_dist_eq (connected_graph c) t ht.2.2⟩
@@ -418,12 +419,13 @@ theorem trans_nbrs {a : c.Γ} {p : GPath c.graph 8} (hp : p ∈ GPath.nbPaths c.
   obtain ⟨z, hz, hz1, -⟩ := D.hval a (p 1) (p 1)
   obtain ⟨q, hq, hq1⟩ := hb.2.2 (show z ∈ CosetGeom.nbrs a from hz)
   have hq1' : q 1 = z := hq1
-  have hqnb := D.nbPaths_of_geods hq
+  have hqnb := burnsideF46_Data.nbPaths_of_geods hq
   obtain ⟨g, hg, hgy⟩ := D.hyp.pair a p hp q hqnb (by rw [hq1']; exact Ne.symm hz1) y y' hy hy'
   have hle : (p.stabPath : Subgroup c.G0) ⊔ q.stabPath ≤ stv c a ⊓ stv c (p 8) :=
     sup_le (stabPath_le_stab_ends hp.1 rfl) (stabPath_le_stab_ends hq.1 hq.2.1)
   exact ⟨g, hle hg, hgy⟩
 
+omit D in
 theorem smul_geods {a b : c.Γ} {g : c.G0} (hg : g ∈ stv c a ⊓ stv c b) {t : GPath c.graph 8}
     (ht : t ∈ c.geods 8 a b) : g • t ∈ c.geods 8 a b := by
   refine ⟨?_, ?_, ht.2.2.smul (connected_graph c) g⟩
@@ -438,7 +440,7 @@ theorem trans_geods {a : c.Γ} {p : GPath c.graph 8} (hp : p ∈ GPath.nbPaths c
     (hb : BijFirst c 8 a (p 8)) {q₁ q₂ : GPath c.graph 8} (h₁ : q₁ ∈ c.geods 8 a (p 8))
     (h₂ : q₂ ∈ c.geods 8 a (p 8)) : ∃ g ∈ stv c a ⊓ stv c (p 8), g • q₁ = q₂ := by
   obtain ⟨g, hg, hg1⟩ := D.trans_nbrs hp hb (hb.1 h₁) (hb.1 h₂)
-  exact ⟨g, hg, hb.2.1 (D.smul_geods hg h₁) h₂ (by simpa using hg1)⟩
+  exact ⟨g, hg, hb.2.1 (burnsideF46_Data.smul_geods hg h₁) h₂ (by simpa using hg1)⟩
 
 theorem two_trans_line {a : c.Γ} (ha : CosetGeom.vtype a = true) {u₁ u₂ u₁' u₂' : c.Γ}
     (h1 : c.graph.Adj a u₁) (h2 : c.graph.Adj a u₂) (h12 : u₁ ≠ u₂) (h1' : c.graph.Adj a u₁')
@@ -533,8 +535,8 @@ theorem eight_line [Finite α.G1] [Finite α.G2] {a : c.Γ} (ha : CosetGeom.vtyp
       rw [hh', mul_smul, hg1, hxfix _ (hb.1 hr₁)]
     have e2 : h • q₂ 1 = r₂ 1 := by
       rw [hh', mul_smul, hg2, hxfix _ (hb.1 hr₂)]
-    exact ⟨h, hh, hb.2.1 (D.smul_geods hh hq₁) hr₁ (by simpa using e1),
-      hb.2.1 (D.smul_geods hh hq₂) hr₂ (by simpa using e2)⟩
+    exact ⟨h, hh, hb.2.1 (burnsideF46_Data.smul_geods hh hq₁) hr₁ (by simpa using e1),
+      hb.2.1 (burnsideF46_Data.smul_geods hh hq₂) hr₂ (by simpa using e2)⟩
   · rw [Nat.card_congr (hb.equiv _), D.card_nbrs a]
 
 theorem eight_point [Finite α.G1] [Finite α.G2] {a : c.Γ} (ha : CosetGeom.vtype a = false)

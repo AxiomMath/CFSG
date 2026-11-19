@@ -42,7 +42,7 @@ theorem barSub_jOf_commute_of_isSU3
       (H₁ := barSub ⊥ V hV (F12.jOf D.T)) (H₂ := Lbar)).2 hJle)
   obtain ⟨A, hAoff, hAL⟩ := hmove
   have hA_le : A ≤ Mbar D.M ⊥ V hV := hAoff.1
-  letI : Module (ZMod 2) (Additive (Vtil ⊥ V hV)) :=
+  let : Module (ZMod 2) (Additive (Vtil ⊥ V hV)) :=
     CFSG.GroupTheory.elemModule 2 (s15_Infra_vtil_sq_eq_one ⊥ V hV)
   let ρ : Representation (ZMod 2) ↥(Mbar D.M ⊥ V hV) (Additive (Vtil ⊥ V hV)) :=
     (CFSG.RankThree.FFModules.autRep (Vtil ⊥ V hV)).comp

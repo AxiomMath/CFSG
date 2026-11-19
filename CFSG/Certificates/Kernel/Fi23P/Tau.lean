@@ -99,14 +99,13 @@ theorem beta_sel_right (c : Bool) (a v : Nat) : beta v (if c then a else 0) = (c
 theorem tauV_conj (a b x : Nat) : tauV a (tauV b (tauV a x)) = tauV (tauV a b) x := by
   unfold tauV
   simp only [beta_xor_right, beta_xor_left, beta_sel_right, beta_sel_left, beta_self,
-    beta_comm b a, beta_comm x a, beta_comm x b, Bool.and_false, Bool.xor_false]
+    beta_comm b a, Bool.and_false, Bool.xor_false]
   cases beta a x <;> cases beta a b <;> cases beta b x
   all_goals
     apply Nat.eq_of_testBit_eq
     intro j
-    simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.xor_true, Bool.not_true,
-      Bool.not_false, Bool.and_true, Bool.and_false, Bool.true_and, Bool.false_and,
-      Bool.false_eq_true, ite_true, ite_false, Nat.testBit_xor, Nat.zero_testBit]
+    simp only [Bool.xor_false, Bool.xor_true, Bool.not_true,
+      Bool.not_false, Bool.and_true, Bool.and_false, Bool.false_eq_true, ite_true, ite_false, Nat.testBit_xor, Nat.zero_testBit]
     all_goals cases x.testBit j <;> cases a.testBit j <;> cases b.testBit j <;> rfl
 
 end CFSG.KC.Fi23P

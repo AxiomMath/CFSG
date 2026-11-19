@@ -91,7 +91,7 @@ theorem s16c11_big_modelb_three_mem_of_centralizer {U : Type*} [Group U]
   exact Subgroup.mem_map.mpr ⟨⟨κ, hκ⟩, Subgroup.mem_comap.mpr hsκA, rfl⟩
 
 theorem s16c11_big_modelb_three_pow_three {U : Type*} [Group U]
-    {K : Subgroup U} (s : ↥K ≃* Equiv.Perm (Fin 3)) {κ : U} (hκ : κ ∈ K)
+    {K : Subgroup U} (s : ↥K ≃* Equiv.Perm (Fin 3)) {κ : U} (_hκ : κ ∈ K)
     (hY : κ ∈ ((alternatingGroup (Fin 3)).comap s.toMonoidHom).map K.subtype) :
     κ ^ 3 = 1 := by
   obtain ⟨k', hk', hk'eq⟩ := Subgroup.mem_map.mp hY

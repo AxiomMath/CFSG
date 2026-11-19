@@ -505,7 +505,7 @@ theorem e8D8Chain_zero_eq : e8D8Chain K 0 = rootPairE8 K e8D8Root := by
 
 theorem e8D8Chain_ne_zero_eq {k : Fin 8} (hk : k ≠ 0) :
     e8D8Chain K k = rootPairE8 K (Pi.single (e8D8Node k) 1) := by
-  simp only [e8D8Chain, hk, if_false]
+  simp only [e8D8Chain, hk, ite_false]
   rfl
 
 theorem rootPairE8_le_frame (i : Fin 8) : rootPairE8 K (frameE8Root i) ≤ e8FrameGroup K :=
@@ -665,9 +665,9 @@ variable {K : Type} [Field K] [Finite K]
 theorem not_dvd_card_center_spinPlus {n : ℕ} (hn3 : 3 ≤ n) {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     (hpq1 : ¬ p ∣ Nat.card K - 1) :
     ¬ p ∣ Nat.card (Subgroup.center (spinGroup (Spin.quadPlus n K))) := by
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
-  haveI : Finite (spinGroup (Spin.quadPlus n K)) :=
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Finite (spinGroup (Spin.quadPlus n K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   obtain ⟨hπsurj, hcomap, hZ⟩ := spinToStatedProj_quadPlus (n := n) (K := K) hn3
   exact not_dvd_card_center_spin_of_not_dvd_pred (Spin.quadPlus n K)
@@ -773,7 +773,7 @@ theorem e8_conj_into_frame_seven (hpq : 7 ∣ Nat.card K + 1)
     (hE₀c : Nat.card E₀ = 7 ^ 2) (hN : ¬ NormalizesRGroup (ringChar K) E₀) :
     ∃ g : adjointGroup .E8 K, E₀.map (MulAut.conj g).toMonoidHom ≤ e8FrameGroup K := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hp7 : (7 : ℕ).Prime := by norm_num
   have hodd := odd_card_of_seven_dvd_add_one hpq
   have hord := orderOf_eq_two_of_dvd_add_one hp7 (by norm_num) hpq
@@ -802,8 +802,8 @@ theorem e8_conj_into_frame_seven (hpq : 7 ∣ Nat.card K + 1)
     intro a ha b hb
     let _ : CommGroup E := IsPGroup.commGroupOfCardEqPrimeSq hEc
     exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : E) ⟨b, hb⟩)
-  haveI : Nonempty (Fin 8 ⊕ Fin 8) := ⟨Sum.inl 0⟩
-  haveI : Finite (spinGroup (Spin.quadPlus 8 K)) :=
+  have : Nonempty (Fin 8 ⊕ Fin 8) := ⟨Sum.inl 0⟩
+  have : Finite (spinGroup (Spin.quadPlus 8 K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   have hcen7 := not_dvd_card_center_spinPlus (K := K) hn3 (p := 7) (by norm_num) hpq1
   have hΨcop : ¬ 7 ∣ Nat.card Ψ.ker := fun hd => hcen7 (hd.trans (Subgroup.card_dvd_of_le hker))
@@ -836,7 +836,7 @@ theorem e8_conj_into_frame_seven (hpq : 7 ∣ Nat.card K + 1)
     by_contra hT0
     obtain ⟨U, hU0, hUp, hUn⟩ :=
       exists_rGroup_normalized_of_invariant_singular hodd hn3 E' T hT0 hTs hTi
-    haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+    have : Fact (ringChar K).Prime := ⟨hℓ⟩
     have hr2 : ringChar K ≠ 2 := by
       intro h2
       have : Even (Nat.card K) := by
@@ -898,7 +898,7 @@ section Glue
       ¬ NormalizesRGroup (ringChar K) E₀ →
         ∃ g : adjointGroup .E8 K, E₀.map (MulAut.conj g).toMonoidHom ≤ e8FrameGroup K
 
-theorem e8TwoSylowSeven : E8TwoSylowSeven := fun K _ _ hpq E₀ hE₀p hE₀c hN =>
+theorem e8TwoSylowSeven : E8TwoSylowSeven := fun _K _ _ hpq E₀ hE₀p hE₀c hN =>
   e8_conj_into_frame_seven hpq E₀ hE₀p hE₀c hN
 
 @[expose] def E8TwoNativeSeven : Prop :=
@@ -909,7 +909,7 @@ theorem e8TwoSylowSeven : E8TwoSylowSeven := fun K _ _ hpq E₀ hE₀p hE₀c hN
 
 theorem e8TwoNativeSeven_of_sylow (h : E8TwoSylowSeven) : E8TwoNativeSeven := by
   intro K _ _ hpq E₀ hE₀p hE₀c hN
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := h K hpq E₀ hE₀p hE₀c hN
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   exact closure_centralizers_eq_top_of_two_conj (p := 7) (⨆ k, e8D8Chain K k) (e8FrameGroup K)

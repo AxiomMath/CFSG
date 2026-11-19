@@ -32,7 +32,7 @@ theorem not_type167Canon_of_triJLabel {l : GLALabel} (h : TriJLabel l) : ¬ Type
   intro hc
   unfold TriJLabel at h
   unfold Type167Canon at hc
-  rcases h with h | ⟨h | h, h2⟩ | h <;> rcases hc with ⟨h', h''⟩ | ⟨h', h''⟩ | ⟨h', h''⟩ <;> simp_all <;> omega
+  rcases h with h | ⟨h | h, h2⟩ | h <;> rcases hc with ⟨h', h''⟩ | ⟨h', h''⟩ | ⟨h', h''⟩ <;> simp_all
 
 end CFSG.LocalAnalysis.GLTheoremA.I167
 

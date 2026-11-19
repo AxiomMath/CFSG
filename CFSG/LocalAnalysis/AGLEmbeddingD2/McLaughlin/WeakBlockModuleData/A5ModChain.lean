@@ -38,12 +38,14 @@ theorem Wle_invariant (y : Fin 15 → W) (hR1 : ∀ g k, g • y k = ∑ l, Mt g
   | add a b _ _ ha hb => rw [smul_add]; exact Submodule.add_mem _ ha hb
   | smul c a _ ha => rw [smul_comm]; exact Submodule.smul_mem _ _ ha
 
+omit [DistribMulAction A5 W] [SMulCommClass A5 (ZMod 2) W] in
 theorem Wle_zero (y : Fin 15 → W) : Wle y 0 = ⊥ := by
   unfold Wle
   rw [Submodule.span_eq_bot]
   rintro z ⟨k, hk, -⟩
   omega
 
+omit [DistribMulAction A5 W] [SMulCommClass A5 (ZMod 2) W] in
 theorem Wle_six (y : Fin 15 → W) (hR2 : Submodule.span (ZMod 2) (Set.range y) = ⊤) :
     Wle y 6 = ⊤ := by
   rw [eq_top_iff, ← hR2]

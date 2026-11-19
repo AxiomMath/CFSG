@@ -24,10 +24,12 @@ section Bookkeeping
 
 variable (M V : Subgroup G) (g : G) [((KOf M V g).subgroupOf (LOf V g)).Normal]
 
+omit [Finite G] in
 theorem mk_eq_one_iff_mem_K (y : ↥(LOf V g)) :
     QuotientGroup.mk' ((KOf M V g).subgroupOf (LOf V g)) y = 1 ↔ (y : G) ∈ KOf M V g := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem imgK_conj (u : ↥(LOf V g)) (A : Subgroup G) :
     CFSG.CGT.Timmesfeld75.conjSubgroup
         (QuotientGroup.mk' ((KOf M V g).subgroupOf (LOf V g)) u) (imgK M V g A) =
@@ -38,6 +40,7 @@ theorem imgK_conj (u : ↥(LOf V g)) (A : Subgroup G) :
     (A.subgroupOf (LOf V g)) u⁻¹, conjSubgroup_subgroupOf]
   rfl
 
+omit [Finite G] in
 theorem exists_lift_of_mem_imgK {A : Subgroup G}
     {x : ↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)} (hx : x ∈ imgK M V g A) (hx1 : x ≠ 1) :
     ∃ y : ↥(LOf V g), (y : G) ∈ A ∧ (y : G) ∉ KOf M V g ∧
@@ -49,10 +52,12 @@ theorem exists_lift_of_mem_imgK {A : Subgroup G}
   intro hyK
   exact hx1 (by rw [← hyx, mk_eq_one_iff_mem_K M V g y]; exact hyK)
 
+omit [Finite G] in
 theorem imgK_isElemAbelian {A : Subgroup G} (hA : IsElemAbelian 2 A) :
     IsElemAbelian 2 (imgK M V g A) :=
   IsElemAbelian.map (hA.subgroupOf (LOf V g)) _
 
+omit [Finite G] in
 theorem imgK_sup :
     imgK M V g V ⊔ imgK M V g (conjSubgroup V g) = ⊤ := by
   unfold imgK
@@ -96,6 +101,7 @@ private theorem s65_SixFiveG_eq_of_comm (h : Hyp65 n M V₀ V g) {A A' : Subgrou
     simpa only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv] using hmem
   exact Hyp65.eq_of_comm_mod_C h hA hA' hy hyC hy' hy'C hcommG
 
+omit [Finite G] in
 theorem imgK_V_ne_bot (h : Hyp65 n M V₀ V g) : imgK M V g V ≠ ⊥ := by
   intro hbot
   have hbot' : (V.subgroupOf (LOf V g)).map
@@ -114,6 +120,7 @@ theorem imgK_V_ne_bot (h : Hyp65 n M V₀ V g) : imgK M V g V ≠ ⊥ := by
     exact le_antisymm (le_inf le_rfl hVK) inf_le_left
   exact h.not_V_le_conjM (by rw [hVeq]; exact inf_le_right)
 
+omit [Finite G] in
 theorem imgK_conjV_ne_bot (h : Hyp65 n M V₀ V g) : imgK M V g (conjSubgroup V g) ≠ ⊥ := by
   intro hbot
   have hbot' : ((conjSubgroup V g).subgroupOf (LOf V g)).map
@@ -176,7 +183,7 @@ theorem not_le_K_of_mem_pairConjOf (h : Hyp65 n M V₀ V g) {A : Subgroup G}
 theorem eq_of_imgK_eq (h : Hyp65 n M V₀ V g) {A A' : Subgroup G} (hA : A ∈ pairConjOf V g)
     (hA' : A' ∈ pairConjOf V g) (he : imgK M V g A = imgK M V g A') : A = A' := by
   have hnotle : ¬ A ≤ KOf M V g := not_le_K_of_mem_pairConjOf h hA
-  rw [SetLike.not_le_iff_exists] at hnotle
+  rw [IsConcreteLE.not_le_iff_exists] at hnotle
   obtain ⟨a, haA, haK⟩ := hnotle
   have haL : a ∈ LOf V g := le_LOf_of_mem_pairConjOf hA haA
   let y : ↥(LOf V g) := ⟨a, haL⟩
@@ -206,6 +213,7 @@ theorem imgK_ne (h : Hyp65 n M V₀ V g) : imgK M V g V ≠ imgK M V g (conjSubg
   rw [← hVeq]
   exact h.le_M
 
+omit [Finite G] in
 private theorem s65_SixFiveG_pairConj {U : Subgroup (↥(LOf V g) ⧸
       (KOf M V g).subgroupOf (LOf V g))}
     (hU : U ∈ CFSG.RankThree.GF2n.pairConj (imgK M V g V)
@@ -234,6 +242,7 @@ theorem quotPair (h : Hyp65 n M V₀ V g) :
   obtain ⟨A', hA', rfl⟩ := s65_SixFiveG_pairConj hW
   exact imgK_closed h hA hA' hu hu1 hv hv1 hcomm
 
+omit [Finite G] in
 theorem card_imgK (h : Hyp65 n M V₀ V g) :
     Nat.card (imgK M V g V) = (conjSubgroup M g).relIndex V := by
   let L := LOf V g

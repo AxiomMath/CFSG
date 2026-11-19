@@ -51,7 +51,7 @@ theorem incomplete_abelian_hall_product_kernel_intersection (fixedActor kernel :
     abelian fixedActor_le selected_global selected_member.1 common_le_parent localFactor_nontrivial kernel_le
     kernel_nontrivial kernel_normal kernel_normalized common_normalized kernelPrime kernelPrime_prime kernelPrime_spectrum
     kernelPrime_distinct kernel_coprime sylow normalized
-  have witness_pgroup : IsPGroup kernelPrime witness := sylow.isPGroup'.map localCore.subtype
+  have witness_pgroup : IsPGroup kernelPrime witness := sylow.isPGroup.map localCore.subtype
   exact incomplete_abelian_hall_product_surviving_kernel_le_intersection fixedActor witness kernel datum abelian
     fixedActor_le fixedActor_large common_le_parent complement_eq kernelPrime kernelPrime_prime witness_pgroup
     (Subgroup.map_subtype_le _) normalized factor_normalized localFactor_nontrivial witness_nontrivial

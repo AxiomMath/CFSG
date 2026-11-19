@@ -27,7 +27,7 @@ theorem le_of_section_three (hL613 : P622L613) (hp3 : p ≠ 3) (h2401 : KFact240
       catalogIs ↥L (onLie IsRankTwoOddIndex))
     {H N : Subgroup G} (hHL : H ≤ L) (hHM : H ≤ M) (hs : S622IsSimpleSection H N)
     (hzH : z ∈ H) (hzN : z ∉ N) (h3 : 3 ∣ N.relIndex H) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsE : GLBStronglyEmbedded 3 M :=
     c.stronglyEmbedded hL613 hp3 hHL hHM hs hzH hzN Nat.prime_three (by norm_num) (by omega) h3
   have h3H : 3 ∣ Nat.card H := h3.trans (Subgroup.index_dvd_card (N.subgroupOf H))
@@ -55,7 +55,7 @@ theorem le_of_section_three (hL613 : P622L613) (hp3 : p ≠ 3) (h2401 : KFact240
 
 theorem commutator_commutator_eq (c : P622KxCfg p P M x z T S L) :
     ⁅(⁅zpowers z, S⁆ : Subgroup G), zpowers z⁆ = ⁅zpowers z, S⁆ := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hXP : zpowers z ≤ normalizer (S : Set G) := c.conf.z_le_normalizer
   have hcop : Nat.Coprime (Nat.card (zpowers z)) (Nat.card S) := by
     obtain ⟨k, hk⟩ := c.conf.S_isPGroup.exists_card_eq
@@ -91,7 +91,7 @@ theorem false_of_alt (hL613 : P622L613) (hp3 : p ≠ 3) (h2024 : KFact2024)
   exact c.le_of_section_three hL613 hp3 h2401 (Or.inl ⟨n, hn, e⟩) (hH.trans inf_le_right)
     (hH.trans hNM) hs hzH hzN h3
 
-theorem false_of_lieOdd (hL613 : P622L613) (hp3 : p ≠ 3) (h2314 : KFact2314)
+theorem false_of_lieOdd (hL613 : P622L613) (hp3 : p ≠ 3) (_h2314 : KFact2314)
     (h1019 : KFact1019) (h2025 : KFact2025) (h2401 : KFact2401Three)
     (c : P622KxCfg p P M x z T S L)
     (d : TauCeti.ValidLieTypeIndex) (hd2 : d.1.characteristic ≠ 2)

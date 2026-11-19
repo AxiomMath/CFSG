@@ -20,7 +20,7 @@ theorem step94Point_holds (h34 : Stroth34Statement) : Step94PointStatement := by
   have hs5 := hs.toSec5
   have ht : t ∈ LB M Q B := hs5.mem
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   have hq4 : 4 ≤ Nat.card K := by
     rw [P.card]
     exact hc.hyp.q4

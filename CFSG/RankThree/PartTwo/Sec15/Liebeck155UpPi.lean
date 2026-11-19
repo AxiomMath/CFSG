@@ -72,7 +72,7 @@ theorem exists_section_of_le {X J : Subgroup G} (hXJ : X ≤ J) (Ker : Subgroup 
     apply hKer
     rw [Subgroup.mem_subgroupOf]
     exact ⟨x.2, h3⟩
-  haveI hNorm : (Ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hsurj
+  have hNorm : (Ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hsurj
   refine ⟨φ.range, Ker.map ψ, hNorm, ⟨?_⟩⟩
   set χ : ↥X →* ↥φ.range ⧸ Ker.map ψ := (QuotientGroup.mk' (Ker.map ψ)).comp ψ with hχ
   have hχs : Function.Surjective χ :=

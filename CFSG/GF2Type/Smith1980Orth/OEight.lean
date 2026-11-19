@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G]
   h₁ * S.z * h₁⁻¹ * (h₂ * S.z * h₂⁻¹) = h₂ * S.z * h₂⁻¹ * (h₁ * S.z * h₁⁻¹) →
   8 ≤ Nat.card (S.Qa h₁ ⊓ S.Qa h₂ : Subgroup G)
 
+omit [Finite G] in
 theorem card_Qa_mul_inf_Qa_mul (S : Setting G) (g h₁ h₂ : G) :
     Nat.card (S.Qa (g * h₁) ⊓ S.Qa (g * h₂) : Subgroup G) =
       Nat.card (S.Qa h₁ ⊓ S.Qa h₂ : Subgroup G) := by

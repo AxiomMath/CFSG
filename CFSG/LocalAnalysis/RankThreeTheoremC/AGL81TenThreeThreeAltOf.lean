@@ -30,7 +30,7 @@ theorem asc81bAltBlockAutNX_of_eightTen (h810 : Asc81bEightTen) :
   have hq : CFSG.Open.IsQuasisimple ↥(barM M L) := hL.component.2.2
   rcases h678 with h6 | h7 | h8
   · obtain ⟨-, n, ⟨e⟩, ⟨eQ⟩⟩ := h6
-    haveI : IsSimpleGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hq.2
+    have : IsSimpleGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hq.2
     have h5 : 5 ≤ 2 * n :=
       CFSG.HardMathSupport.RichardWeiss.Proving.five_le_of_isSimpleGroup_alt
         (exists_noncomm_quotient_center hq) e

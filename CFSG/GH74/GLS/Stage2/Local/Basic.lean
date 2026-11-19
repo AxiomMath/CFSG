@@ -65,7 +65,7 @@ theorem Stage2Ctx.sylow_top (h : Stage2Ctx G z k S) : CFSG.ABGLocalTools.IsSylow
     Subgroup.mem_centralizer_singleton_iff.mpr (hzc s hs)
   have hS'G : CFSG.ABGLocalTools.IsSylowOf 2 (S' : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S'.isPGroup', ?_⟩
+    refine ⟨le_top, S'.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S'.not_dvd_index
   have hS'C := hS'G.of_le hS'le le_top

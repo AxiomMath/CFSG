@@ -31,8 +31,8 @@ theorem eq_zero_of_isolated_char {V : Type*} [AddCommGroup V] [Module K V] (χ �
     simp only [map_add, map_smul, map_zero, smul_eq_mul] at hκ
     rw [Finset.sum_apply, Pi.zero_apply]
     simp only [Pi.smul_apply, smul_eq_mul, g, add_mul, ite_mul, zero_mul, Finset.sum_add_distrib,
-      Finset.sum_ite_eq', Finset.mem_insert, Finset.mem_singleton, eq_self_iff_true, true_or,
-      or_true, if_true]
+      Finset.sum_ite_eq', Finset.mem_insert, Finset.mem_singleton, true_or,
+      or_true, ite_true]
     linear_combination hκ
   have hg := hli _ g hsum χ (by simp)
   simpa [g, Ne.symm h₁, Ne.symm h₂, Ne.symm h₃] using hg
@@ -54,7 +54,7 @@ theorem toMonoidHom_ne_id {σ : K ≃+* K} (h : ¬ ∀ κ, σ κ = κ) : σ.toMo
 
 theorem exists_ne_zero_ne_one [Finite K] (hK : 2 < Nat.card K) : ∃ κ : K, κ ≠ 0 ∧ κ ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_contra hcon
   push Not at hcon
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1} := fun κ _ => by
@@ -218,7 +218,7 @@ theorem IsPairing.tau_eq_id (P : IsPairing φ actV actM actN e β)
           (b := β (actM r₀ m - m) f + β m (actN r₀ f - f)) (c := (0 : V)) (d := 0) fun κ => ?_)
         have h3 := P.root_identity_all hφ huw hr₀ hσ hτ hm hf κ
         rw [hc m hm f hf, hστ' κ] at h3
-        simp only [map_zero, LinearMap.zero_apply, smul_zero, zero_add, add_zero,
+        simp only [smul_zero, add_zero,
           ringEquiv_toMonoidHom_apply, MonoidHom.id_apply] at h3 ⊢
         linear_combination (norm := module) h3
       have hinv : IsInvSub actV (Submodule.map₂ β Mi Y) := by
@@ -251,7 +251,7 @@ theorem IsPairing.tau_eq_id (P : IsPairing φ actV actM actN e β)
         (c := -(actV r₀ (β m f) - β m f)) (d := 0) fun κ => ?_
       have h3 := P.root_identity_all hφ huw hr₀ hσ hτ hm hf κ
       rw [hc m hm f hf] at h3
-      simp only [map_zero, LinearMap.zero_apply, smul_zero, zero_add, add_zero,
+      simp only [smul_zero, add_zero,
         ringEquiv_toMonoidHom_apply, MonoidHom.id_apply] at h3 ⊢
       linear_combination (norm := module) h3
   obtain ⟨f, hf, hf0⟩ := hY0

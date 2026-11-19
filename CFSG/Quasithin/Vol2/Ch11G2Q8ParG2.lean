@@ -337,7 +337,7 @@ theorem factParG2_holds : Ch11.SecB.FactParG2 := by
     rw [hh₀1, map_one] at h1
     have h2 := congrFun h1 (.inl 0)
     simp [eu, AddMonoid.End.coe_one] at h2
-    first | exact eq_one_of_pow_two_pow h2 | exact eq_one_of_pow_two_pow h2.symm
+    exact eq_one_of_pow_two_pow h2.symm
   have hh₀S : h₀ ∈ stabV0 K := by
     rw [mem_stabV0, hh₀, hlam1, one_smul]
   have hsL : s ∈ perfectCore (H ⊓ Ch11.SecA.stabW (hf.pre (gmapG g (stdF K 1)).toAddSubgroup)) := by

@@ -114,7 +114,7 @@ theorem exists_frame_of_card (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n
     (hbound : ∀ E : Subgroup ↥(orthDerived Q), CFSG.Open.IsElemAbelian 3 E → Nat.card E ≤ 3 ^ (n - 1))
     {Bb : Subgroup ↥(orthDerived Q)} (hBb : CFSG.Open.IsElemAbelian 3 Bb)
     (hcard : Nat.card Bb = 3 ^ (n - 1)) : ∃ l : List (V × V), FrameOf Q Bb (n - 1) l := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have hE : CFSG.Open.IsElemAbelian 3 (Bb.map (orthDerived Q).subtype) :=
     (CFSG.LocalAnalysis.GLTheoremA.Y10F.isElemAbelian_map_subtype_iff Bb).2 hBb
   have hEΩ : Bb.map (orthDerived Q).subtype ≤ orthDerived Q :=
@@ -144,6 +144,7 @@ theorem finrank_perpPlane (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : 
     (hp : MinusPair Q p.1 p.2) : finrank (ZMod 2) (perpPlane Q p) = finrank (ZMod 2) V - 2 := by
   rw [perpPlane, LinearMap.BilinForm.finrank_orthogonal hQ, hp.finrank_planeSpan]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem torus_apply_planeSpan_cases_aux1 {l : List (V × V)} (hl : IsFrame Q l)
     {p : V × V} (hp : p ∈ l) : ∀ t ∈ torus Q l, ∀ x ∈ planeSpan p, t x ∈ planeSpan p := by
   intro t ht
@@ -185,6 +186,7 @@ private theorem torus_apply_planeSpan_cases_aux1 {l : List (V × V)} (hl : IsFra
       rw [hsymm]
       exact iht (t x) (iht x hx)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem torus_apply_planeSpan_cases_aux2 {l : List (V × V)} (hl : IsFrame Q l)
     {p : V × V} (hp : p ∈ l) :
     ∀ t ∈ torus Q l, ∃ k : ℕ, ∀ x ∈ planeSpan p, t x = (rot Q p.1 p.2 ^ k) x := by
@@ -230,6 +232,7 @@ private theorem torus_apply_planeSpan_cases_aux2 {l : List (V × V)} (hl : IsFra
         rw [hk (t x) htx, hk x hx]
       rw [h1, ← LinearEquiv.mul_apply, ← pow_add]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem torus_apply_planeSpan_cases_aux3 {p : V × V} (h : MinusPair Q p.1 p.2) :
     ∀ x ∈ planeSpan p, rot Q p.1 p.2 (rot Q p.1 p.2 x) + rot Q p.1 p.2 x + x = 0 := by
   intro x hx
@@ -243,6 +246,7 @@ private theorem torus_apply_planeSpan_cases_aux3 {p : V × V} (h : MinusPair Q p
   rw [hpow]
   abel
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem torus_apply_planeSpan_cases_aux4 {p : V × V} (h : MinusPair Q p.1 p.2) :
     ∀ x ∈ planeSpan p, rot Q p.1 p.2 x = x → x = 0 := by
   intro x hx hfix
@@ -252,6 +256,7 @@ private theorem torus_apply_planeSpan_cases_aux4 {p : V × V} (h : MinusPair Q p
   calc x = (x + x + x) - (x + x) := by abel
     _ = 0 := by rw [h1, h2, sub_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem torus_apply_planeSpan_cases_aux5 {p : V × V} (h : MinusPair Q p.1 p.2) :
     (rot Q p.1 p.2 ^ 2) p.1 ≠ p.1 := by
   intro hcon
@@ -261,6 +266,7 @@ private theorem torus_apply_planeSpan_cases_aux5 {p : V × V} (h : MinusPair Q p
   rw [hz, QuadraticMap.map_zero] at hq
   exact zero_ne_one hq
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem torus_apply_planeSpan_cases_aux6 {l : List (V × V)} (hl : IsFrame Q l) {p : V × V}
     (hp : p ∈ l) {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) {ρ : V ≃ₗ[ZMod 2] V}
     (hρ : ρ = rot Q p.1 p.2) (ht_eq : ∀ x ∈ planeSpan p, t x = ρ x) :
@@ -281,6 +287,7 @@ private theorem torus_apply_planeSpan_cases_aux6 {l : List (V × V)} (hl : IsFra
   · intro x hx hx'
     exact hzero x hx (by rw [← ht_eq x hx]; exact hx')
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem torus_apply_planeSpan_cases_aux7 {l : List (V × V)} (hl : IsFrame Q l) {p : V × V}
     (hp : p ∈ l) {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) {ρ : V ≃ₗ[ZMod 2] V}
     (hρ : ρ = rot Q p.1 p.2) (hρ3 : ρ ^ 3 = 1) (ht_eq : ∀ x ∈ planeSpan p, t x = (ρ ^ 2) x) :
@@ -318,6 +325,7 @@ private theorem torus_apply_planeSpan_cases_aux7 {l : List (V × V)} (hl : IsFra
       exact h.symm
     exact hzero x hx hρx
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem torus_apply_planeSpan_cases {l : List (V × V)} (hl : IsFrame Q l) {p : V × V} (hp : p ∈ l)
     {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) :
     (∀ x ∈ planeSpan p, t x = x) ∨
@@ -341,12 +349,14 @@ theorem torus_apply_planeSpan_cases {l : List (V × V)} (hl : IsFrame Q l) {p : 
     refine torus_apply_planeSpan_cases_aux7 hl hp ht hρ hρ3 ?_
     intro x hx; rw [hkmod x hx, h2]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem fixes_planeSpan_of_apply_left {l : List (V × V)} (hl : IsFrame Q l) {p : V × V} (hp : p ∈ l)
     {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) (h1 : t p.1 = p.1) : ∀ x ∈ planeSpan p, t x = x := by
   rcases torus_apply_planeSpan_cases hl hp ht with h | h
   · exact h
   · exact absurd h1 h.1
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem apply_sq_add_apply_add_self_of_apply_left_ne {l : List (V × V)} (hl : IsFrame Q l) {p : V × V}
     (hp : p ∈ l) {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) (h1 : t p.1 ≠ p.1) :
     ∀ x ∈ planeSpan p, t (t x) + t x + x = 0 := by
@@ -354,6 +364,7 @@ theorem apply_sq_add_apply_add_self_of_apply_left_ne {l : List (V × V)} (hl : I
   · exact absurd (h p.1 (left_mem_planeSpan p)) h1
   · exact h.2.1
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem eq_zero_of_apply_eq_of_apply_left_ne {l : List (V × V)} (hl : IsFrame Q l) {p : V × V}
     (hp : p ∈ l) {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) (h1 : t p.1 ≠ p.1) :
     ∀ x ∈ planeSpan p, t x = x → x = 0 := by
@@ -361,6 +372,7 @@ theorem eq_zero_of_apply_eq_of_apply_left_ne {l : List (V × V)} (hl : IsFrame Q
   · exact absurd (h p.1 (left_mem_planeSpan p)) h1
   · exact h.2.2
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem eq_one_of_forall_apply_left_aux1 {l : List (V × V)} (hl : IsFrame Q l)
     {t : V ≃ₗ[ZMod 2] V} (h : ∀ p ∈ l, ∀ x ∈ planeSpan p, t x = x) :
     ∀ x ∈ Wspan l, t x = x := by
@@ -378,6 +390,7 @@ private theorem eq_one_of_forall_apply_left_aux1 {l : List (V × V)} (hl : IsFra
     rw [map_add, h p (List.mem_cons_self) u hu,
       ih hl' (fun q hq => h q (List.mem_cons_of_mem _ hq)) w hw]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem eq_one_of_forall_apply_left {l : List (V × V)} (hl : IsFrame Q l) {t : V ≃ₗ[ZMod 2] V}
     (ht : t ∈ torus Q l) (h : ∀ p ∈ l, t p.1 = p.1) : t = 1 := by
   have hW : ∀ x ∈ Wspan l, t x = x :=
@@ -400,6 +413,7 @@ theorem eq_one_of_forall_apply_left {l : List (V × V)} (hl : IsFrame Q l) {t : 
     _ = w + v' := by rw [hW w hw, hP v' hv']
     _ = (1 : V ≃ₗ[ZMod 2] V) (w + v') := rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem fixedSpace_eq_perpL {l : List (V × V)} (hl : IsFrame Q l) {t : V ≃ₗ[ZMod 2] V}
     (ht : t ∈ torus Q l) (h : ∀ p ∈ l, t p.1 ≠ p.1) : fixedSpace t = perpL Q l := by
   apply le_antisymm
@@ -434,6 +448,7 @@ theorem fixedSpace_eq_perpL {l : List (V × V)} (hl : IsFrame Q l) {t : V ≃ₗ
       obtain ⟨e1, e2⟩ := (mem_perpL_iff l v).1 hv p hp
       exact ⟨(polar_comm Q v p.1).trans e1, (polar_comm Q v p.2).trans e2⟩) t ht
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux1 {l₁ l₂ : List (V × V)} (h : l₁.Sublist l₂) :
     Wspan l₁ ≤ Wspan l₂ := by
   induction h with
@@ -443,6 +458,7 @@ private theorem fixedSpace_eq_perpPlane_aux1 {l₁ l₂ : List (V × V)} (h : l�
       rw [Wspan_cons, Wspan_cons]
       exact sup_le le_sup_left (ih.trans le_sup_right)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux2 [DecidableEq V] (p : V × V) (l : List (V × V)) :
     Wspan l ≤ planeSpan p ⊔ Wspan (l.filter (fun r => decide (r ≠ p))) := by
   induction l with
@@ -466,12 +482,14 @@ private theorem fixedSpace_eq_perpPlane_aux2 [DecidableEq V] (p : V × V) (l : L
         subst hqp
         exact sup_le le_sup_left ih
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux3 [DecidableEq V] (p : V × V) {l : List (V × V)}
     (hp : p ∈ l) :
     Wspan l = planeSpan p ⊔ Wspan (l.filter (fun q => decide (q ≠ p))) := by
   refine le_antisymm (fixedSpace_eq_perpPlane_aux2 p l) ?_
   exact sup_le (planeSpan_le_Wspan hp) (fixedSpace_eq_perpPlane_aux1 List.filter_sublist)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux4 [DecidableEq V] {l : List (V × V)} {p : V × V}
     (hl : IsFrame Q l) (hp : p ∈ l) :
     ∀ q ∈ l.filter (fun r => decide (r ≠ p)), PairPerp Q p q := by
@@ -480,6 +498,7 @@ private theorem fixedSpace_eq_perpPlane_aux4 [DecidableEq V] {l : List (V × V)}
   obtain ⟨hql, hqne⟩ := hq
   exact hl.perp_of_mem_of_ne hp hql (fun heq => (of_decide_eq_true hqne) heq.symm)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux5 [DecidableEq V] {l : List (V × V)} {p : V × V}
     (hl : IsFrame Q l) (hp : p ∈ l) :
     Wspan (l.filter (fun r => decide (r ≠ p))) ≤ perpPlane Q p := by
@@ -488,11 +507,13 @@ private theorem fixedSpace_eq_perpPlane_aux5 [DecidableEq V] {l : List (V × V)}
     (p := p) (fixedSpace_eq_perpPlane_aux4 hl hp) hw
   exact (mem_perpPlane_iff p w).2 ⟨h1, h2⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux6 {l : List (V × V)} {p : V × V} (hp : p ∈ l) :
     perpL Q l ≤ perpPlane Q p := by
   intro x hx
   exact (mem_perpPlane_iff p x).2 ((mem_perpL_iff l x).1 hx p hp)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux7 {l : List (V × V)} {t : V ≃ₗ[ZMod 2] V} :
     (∀ q ∈ l, ∀ x ∈ planeSpan q, t x = x) → ∀ w ∈ Wspan l, t w = w := by
   induction l with
@@ -507,6 +528,7 @@ private theorem fixedSpace_eq_perpPlane_aux7 {l : List (V × V)} {t : V ≃ₗ[Z
       rw [map_add, h q List.mem_cons_self u hu,
         ih (fun r hr => h r (List.mem_cons_of_mem _ hr)) w' hw']
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux8 [DecidableEq V] {l : List (V × V)} {p₀ : V × V}
     {t : V ≃ₗ[ZMod 2] V} (hl : IsFrame Q l) (ht : t ∈ torus Q l)
     (h : ∀ p ∈ l, p ≠ p₀ → t p.1 = p.1) :
@@ -515,12 +537,14 @@ private theorem fixedSpace_eq_perpPlane_aux8 [DecidableEq V] {l : List (V × V)}
   rw [List.mem_filter] at hq
   exact fixes_planeSpan_of_apply_left hl hq.1 ht (h q hq.1 (of_decide_eq_true hq.2)) x hx
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux9 {l : List (V × V)} {t : V ≃ₗ[ZMod 2] V}
     (hl : IsFrame Q l) (ht : t ∈ torus Q l) : ∀ x ∈ perpL Q l, t x = x := by
   intro x hx
   exact torus_fixes hl
     (fun p hp => (mem_perpPlane_iff' p x).1 (fixedSpace_eq_perpPlane_aux6 hp hx)) t ht
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux10 [DecidableEq V] {l : List (V × V)} {p : V × V}
     (hl : IsFrame Q l) (hp : p ∈ l) (x : V) :
     ∃ xp ∈ planeSpan p,
@@ -532,6 +556,7 @@ private theorem fixedSpace_eq_perpPlane_aux10 [DecidableEq V] {l : List (V × V)
   obtain ⟨xp, hxp, y, hy, rfl⟩ := Submodule.mem_sup.1 hw'
   exact ⟨xp, hxp, y + v', Submodule.add_mem_sup hy hv', by abel⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux11 [DecidableEq V] {l : List (V × V)} {p : V × V}
     (hl : IsFrame Q l) (hp : p ∈ l) {x' : V}
     (hx' : x' ∈ Wspan (l.filter (fun q => decide (q ≠ p))) ⊔ perpL Q l) :
@@ -540,6 +565,7 @@ private theorem fixedSpace_eq_perpPlane_aux11 [DecidableEq V] {l : List (V × V)
   exact Submodule.add_mem _ (fixedSpace_eq_perpPlane_aux5 hl hp ha)
     (fixedSpace_eq_perpPlane_aux6 hp hb)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixedSpace_eq_perpPlane_aux12 [DecidableEq V] {l : List (V × V)} {p₀ : V × V}
     {t : V ≃ₗ[ZMod 2] V} (hl : IsFrame Q l) (ht : t ∈ torus Q l)
     (h : ∀ p ∈ l, p ≠ p₀ → t p.1 = p.1) {x' : V}
@@ -547,6 +573,7 @@ private theorem fixedSpace_eq_perpPlane_aux12 [DecidableEq V] {l : List (V × V)
   obtain ⟨a, ha, b, hb, rfl⟩ := Submodule.mem_sup.1 hx'
   rw [map_add, fixedSpace_eq_perpPlane_aux8 hl ht h a ha, fixedSpace_eq_perpPlane_aux9 hl ht b hb]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem fixedSpace_eq_perpPlane {l : List (V × V)} (hl : IsFrame Q l) {p₀ : V × V} (hp₀ : p₀ ∈ l)
     {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) (h0 : t p₀.1 ≠ p₀.1)
     (h : ∀ p ∈ l, p ≠ p₀ → t p.1 = p.1) : fixedSpace t = perpPlane Q p₀ := by

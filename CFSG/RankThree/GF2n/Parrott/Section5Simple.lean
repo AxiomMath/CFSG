@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem z_ne_one_of_parrottHyp (h : Tim79a.ParrottHyp z) : z ≠ 1 := by
   intro hz
   have hordz : orderOf z = 2 := h.1
@@ -51,7 +52,7 @@ private theorem centralizer_le_of_normal (h : Tim79a.ParrottHyp z) {z₁ : G}
     change z ∈ Subgroup.centralizer ({z₁} : Set G)
     exact Subgroup.mem_centralizer_singleton_iff.mpr
       (Subgroup.mem_centralizer_iff.mp hz₁.2 z (z_mem_J h))
-  haveI : (N.subgroupOf C).Normal := hN.subgroupOf C
+  have : (N.subgroupOf C).Normal := hN.subgroupOf C
   rcases CFSG.LieType.CurtisTits.le_center_or_eq_top_of_isQuasisimple hQ (N.subgroupOf C)
     with hle | htop
   · exfalso
@@ -124,7 +125,7 @@ theorem isSimpleGroup_of_lemma57 (h : Tim79a.ParrottHyp z)
   by_cases hNbot : N = ⊥
   · exact Or.inl hNbot
   · right
-    haveI hN' : N.Normal := hN
+    have hN' : N.Normal := hN
     have h2dvd : 2 ∣ Nat.card N := by
       by_contra h2dvd
       have hcop : Nat.Coprime 2 (Nat.card N) :=
@@ -162,12 +163,12 @@ theorem fi22_of_lemma57
     CFSG.Blueprint.NativeSporadic.IsSporadic G .Fi22 := by
   have hU' := hU
   obtain ⟨hN, X, hXgrp, hX, ⟨e⟩⟩ := hU'
-  letI : Group X := hXgrp
-  haveI : ((Subgroup.zpowers z₁).subgroupOf (centralizer ({z₁} : Set G))).Normal := hN
+  let : Group X := hXgrp
+  have : ((Subgroup.zpowers z₁).subgroupOf (centralizer ({z₁} : Set G))).Normal := hN
   have hq := quasisimple_centralizer_of_quotient_psu_six (z₁ := z₁) hord hX e hder
   have hsimple : IsSimpleGroup G :=
     isSimpleGroup_of_lemma57 h hZ hz₁ hz₁z hord hO hq.1 hq.2.1 hyH hyz₁ huy
-  haveI : IsSimpleGroup G := hsimple
+  have : IsSimpleGroup G := hsimple
   have hnonab : ∃ a b : G, a * b ≠ b * a :=
     ⟨y, z₁, fun hcomm => hyz₁ (Subgroup.mem_centralizer_singleton_iff.mpr hcomm)⟩
   exact fi22_of_centralizer_quotient_psu_six hnonab hord hU hder

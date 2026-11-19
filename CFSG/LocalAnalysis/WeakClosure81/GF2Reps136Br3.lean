@@ -25,7 +25,7 @@ private theorem w1369_natural_scalar_unit {L : Subgroup (MulAut W)} {ι K : Type
     (hreal : (FFModel.nat Γ).Realizes L ⊤ ⊥) {c : K} (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) :
     ∃ ψ : ↥(LEnd L), ψ ^ 3 = 1 ∧ ψ ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [FFModel.Realizes] at hreal
   obtain ⟨π, hπ⟩ := hreal
   rw [FFModel.RealizesVia] at hπ
@@ -172,7 +172,7 @@ private theorem w1369_natural_scalar_unit {L : Subgroup (MulAut W)} {ι K : Type
     have hneι : Nonempty ι := by
       by_contra h
       rw [not_nonempty_iff] at h
-      haveI : IsEmpty ι := h
+      have : IsEmpty ι := h
       have hzero : Fintype.card ι = 0 := Fintype.card_eq_zero_iff.mpr h
       have h1 : Nat.card W = 1 := by rw [hcardW, hzero, pow_zero]
       exact absurd hWlt (not_lt_of_ge (le_of_eq h1))
@@ -217,16 +217,17 @@ private theorem w1369_natural_scalar_unit {L : Subgroup (MulAut W)} {ι K : Type
       rw [hΦc, Φ_one]
     exact hc1 (hφinj h1)
 
+omit [Finite W] in
 private theorem w1369_three_dvd_lend_aux {L : Subgroup (MulAut W)} (hfield : IsField ↥(LEnd L))
     {φ : ↥(LEnd L)} (hφ3 : φ ^ 3 = 1) (hφ1 : φ ≠ 1) {k : ℕ}
     (hk : Nat.card ↥(LEnd L) = 2 ^ k) : 3 ∣ 2 ^ k - 1 := by
-  letI : Field ↥(LEnd L) := hfield.toField
+  let : Field ↥(LEnd L) := hfield.toField
   have hφ0 : φ ≠ 0 := by
     intro h0
     have h1 : (0 : ↥(LEnd L)) = 1 := by
       have h2 := hφ3
       rw [h0] at h2
-      simpa using h2
+      simp at h2
     exact zero_ne_one h1
   let u := Units.mk0 φ hφ0
   have hu3 : u ^ 3 = 1 := by
@@ -245,6 +246,7 @@ private theorem w1369_three_dvd_lend_aux {L : Subgroup (MulAut W)} (hfield : IsF
   rw [hcardU, hk] at hdiv
   exact hdiv
 
+omit [Finite W] in
 private theorem w1369_mQuot_eq_rk_map_mk_aux (C V : Subgroup W) :
     E3.mQuot V C = rk ↥(V.map (QuotientGroup.mk' C)) := by
   have h := Subgroup.relIndex_ker (QuotientGroup.mk' C : W →* W ⧸ C) (K := V)
@@ -399,7 +401,7 @@ theorem row1_exact (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : M
       rw [eq_top_iff]
       intro x _
       exact Subgroup.mem_center_iff.mpr fun b => Subtype.ext (hcon x x.2 b b.2).symm
-    haveI : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
+    have : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
       rw [hcenter]
       refine ⟨fun a b => ?_⟩
       induction a using QuotientGroup.induction_on with
@@ -408,7 +410,7 @@ theorem row1_exact (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : M
         | H y =>
           rw [QuotientGroup.eq]
           exact Subgroup.mem_top _
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := c.comp.2.2.2
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := c.comp.2.2.2
     exact (not_subsingleton_iff_nontrivial.mpr
       (inferInstance : Nontrivial (↥L ⧸ Subgroup.center ↥L))) inferInstance
   have hnab : ∃ a ∈ Lb, ∃ b ∈ Lb, a * b ≠ b * a := by
@@ -436,7 +438,7 @@ theorem row1_exact (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : M
       a ≤ k ∧ rk (Sect (Wd L) (Cd L)) = a * Fintype.card ι ∧
         (a = 2 → 3 ∣ 2 ^ k - 1) := by
     intro K _ _ ι _ _ Γ hK hreal
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨hKE, hcardW⟩ :=
       w135c2_natural_data (W := Sect (Wd L) (Cd L)) (L := Lb) hirrM hreal
     refine ⟨?_, ?_, ?_⟩
@@ -450,7 +452,7 @@ theorem row1_exact (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : M
       obtain ⟨c, hc3, hc1⟩ : ∃ c : K, c ^ 3 = 1 ∧ c ≠ 1 := by
         have hcardU : Nat.card Kˣ = 3 := by
           rw [Nat.card_units, hcardK]
-        haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+        have : Fintype Kˣ := Fintype.ofFinite Kˣ
         have hcardF : 1 < Fintype.card Kˣ := by
           rw [← Nat.card_eq_fintype_card, hcardU]; norm_num
         obtain ⟨u, hu⟩ := Fintype.exists_ne_of_one_lt_card hcardF (1 : Kˣ)

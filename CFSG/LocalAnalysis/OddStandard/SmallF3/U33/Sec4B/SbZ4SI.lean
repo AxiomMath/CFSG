@@ -40,7 +40,7 @@ theorem not_comm_tau_Q : ¬ ∀ q ∈ ctxQ t tau x₁ x₂ rho, tau * q = q * ta
       (mem_centralizer_iff.mp (hMle hgM) tau (Set.mem_singleton tau)).symm
     rw [hgc]; group
   have hmem : tau * x₁ ^ 2 ∈ tau • (fourGrp x₁ x₂ : Set G) :=
-    Set.mem_smul_set.mpr ⟨x₁ ^ 2, hp.y_mem_V, rfl⟩
+    Set.mem_smul_set.mpr ⟨x₁ ^ 2, CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V, rfl⟩
   rw [← hp.tauM] at hmem
   obtain ⟨g, hgM, hgconj⟩ := hmem
   rw [hC g hgM] at hgconj
@@ -64,9 +64,9 @@ theorem comm_tau_eq_of_sq_eq {a b : G} (ha : a ∈ ctxQ t tau x₁ x₂ rho)
     rw [Commute.mul_pow hcomm 2, inv_pow, ← h, mul_inv_cancel]
   have hdY : a * b⁻¹ ∈ ctxYq t tau x₁ x₂ rho := (hg.mem_Y_iff _).mpr ⟨hd, hd2⟩
   have hcent : tau * (a * b⁻¹) = (a * b⁻¹) * tau := hg.tau_cent _ hdY
-  have h1 : z4Comm tau (a * b⁻¹) = 1 := hg.comm_eq_one_iff.mpr hcent
+  have h1 : z4Comm tau (a * b⁻¹) = 1 := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_eq_one_iff.mpr hcent
   have h2 : z4Comm tau (a * b⁻¹) = z4Comm tau a * (z4Comm tau b)⁻¹ := by
-    rw [hg.comm_mul hg.tau_mem_X ha (inv_mem hb), hg.comm_inv hg.tau_mem_X hb]
+    rw [hg.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X ha (inv_mem hb), hg.comm_inv CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X hb]
   rw [h2] at h1
   exact mul_inv_eq_one.mp h1
 
@@ -77,9 +77,9 @@ theorem comm_tau_trivial_or_sq {V' : Subgroup G} {v₁ v₂ : G}
   have hx₁Q : x₁ ∈ ctxQ t tau x₁ x₂ rho := hg.x₁_mem_Q
   have hx₂Q : x₂ ∈ ctxQ t tau x₁ x₂ rho := hg.x₂_mem_Q
   have ha₁ : z4Comm tau x₁ ∈ fourGrp x₁ x₂ :=
-    hg.comm_mem hg.tau_mem_X (hg.Q_le_O hx₁Q)
+    hg.comm_mem CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hg.Q_le_O hx₁Q)
   have ha₂ : z4Comm tau x₂ ∈ fourGrp x₁ x₂ :=
-    hg.comm_mem hg.tau_mem_X (hg.Q_le_O hx₂Q)
+    hg.comm_mem CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hg.Q_le_O hx₂Q)
   have hσx₁mem : (lam * t) * x₁ * (lam * t)⁻¹ ∈ ctxQ t tau x₁ x₂ rho :=
     hg.normal_Q.2 (lam * t) hg.sigma_mem_M x₁ hx₁Q
   have hσx₁sq : ((lam * t) * x₁ * (lam * t)⁻¹) ^ 2 = x₂ ^ 2 := by
@@ -89,7 +89,7 @@ theorem comm_tau_trivial_or_sq {V' : Subgroup G} {v₁ v₂ : G}
       hg.comm_tau_eq_of_sq_eq hσx₁mem hx₂Q hσx₁sq
     have h2 : z4Comm tau ((lam * t) * x₁ * (lam * t)⁻¹) =
         (lam * t) * z4Comm tau x₁ * (lam * t)⁻¹ :=
-      hg.comm_conj (g := tau) (c := lam * t) hg.sigma_comm_tau.symm x₁
+      CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_conj (g := tau) (c := lam * t) hg.sigma_comm_tau.symm x₁
     exact h1.symm.trans h2
   have hρbig :
       (rho * x₁ ^ 2 * rho⁻¹ = x₂ ^ 2 ∧ rho * x₂ ^ 2 * rho⁻¹ = (x₁ * x₂) ^ 2 ∧
@@ -107,7 +107,7 @@ theorem comm_tau_trivial_or_sq {V' : Subgroup G} {v₁ v₂ : G}
       have h4 : z4Comm tau (rho * x₁ * rho⁻¹) = z4Comm tau x₂ :=
         hg.comm_tau_eq_of_sq_eq hρx₁mem hx₂Q hρx₁sq
       have h5 : z4Comm tau (rho * x₁ * rho⁻¹) = rho * z4Comm tau x₁ * rho⁻¹ :=
-        hg.comm_conj (g := tau) (c := rho) hg.rho_comm_tau.symm x₁
+        CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_conj (g := tau) (c := rho) hg.rho_comm_tau.symm x₁
       exact h4.symm.trans h5
     · right
       refine ⟨h1, h2, h3, ?_⟩
@@ -118,9 +118,9 @@ theorem comm_tau_trivial_or_sq {V' : Subgroup G} {v₁ v₂ : G}
       have h4 : z4Comm tau (rho * x₁ * rho⁻¹) = z4Comm tau (x₁ * x₂) :=
         hg.comm_tau_eq_of_sq_eq hρx₁mem hx₁x₂Q hρx₁sq
       have h5 : z4Comm tau (x₁ * x₂) = z4Comm tau x₁ * z4Comm tau x₂ :=
-        hg.comm_mul hg.tau_mem_X hx₁Q hx₂Q
+        hg.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X hx₁Q hx₂Q
       have h6 : z4Comm tau (rho * x₁ * rho⁻¹) = rho * z4Comm tau x₁ * rho⁻¹ :=
-        hg.comm_conj (g := tau) (c := rho) hg.rho_comm_tau.symm x₁
+        CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_conj (g := tau) (c := rho) hg.rho_comm_tau.symm x₁
       calc z4Comm tau x₁ * z4Comm tau x₂ = z4Comm tau (x₁ * x₂) := h5.symm
         _ = z4Comm tau (rho * x₁ * rho⁻¹) := h4.symm
         _ = rho * z4Comm tau x₁ * rho⁻¹ := h6
@@ -136,7 +136,7 @@ theorem comm_tau_trivial_or_sq {V' : Subgroup G} {v₁ v₂ : G}
     hg.sigma_y hg.sigma_z hg.sigma_w
     hb hρbig
   have hVcomm : ∀ v ∈ V', z4Comm tau v = 1 := fun v hv =>
-    hg.comm_eq_one_iff.mpr (hg.tau_cent v (hV.V'_le_Y hv))
+    CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_eq_one_iff.mpr (hg.tau_cent v (hV.V'_le_Y hv))
   rcases hschur with ⟨h1, h2⟩ | ⟨h1, h2⟩
   · left
     have hB : ∀ b ∈ baseGrp x₁ x₂, z4Comm tau b = 1 := by
@@ -149,13 +149,13 @@ theorem comm_tau_trivial_or_sq {V' : Subgroup G} {v₁ v₂ : G}
           · exact h2
       | one => simp [z4Comm]
       | mul x y hx hy ihx ihy =>
-          rw [hg.comm_mul hg.tau_mem_X (hg.base_le_Q hx) (hg.base_le_Q hy), ihx, ihy,
+          rw [hg.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hg.base_le_Q hx) (hg.base_le_Q hy), ihx, ihy,
             mul_one]
       | inv x hx ihx =>
-          rw [hg.comm_inv hg.tau_mem_X (hg.base_le_Q hx), ihx, inv_one]
+          rw [hg.comm_inv CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hg.base_le_Q hx), ihx, inv_one]
     intro q hq
     obtain ⟨b, hbB, v, hvV, rfl⟩ := hV.mem_Q_decomp hg.toZ4Pre hq
-    rw [hg.comm_mul hg.tau_mem_X (hg.base_le_Q hbB) (hV.V'_le_Q hg.toZ4Pre hvV),
+    rw [hg.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hg.base_le_Q hbB) (hV.V'_le_Q hg.toZ4Pre hvV),
       hB b hbB, hVcomm v hvV, mul_one]
   · right
     have hB : ∀ b ∈ baseGrp x₁ x₂, z4Comm tau b = b ^ 2 := by
@@ -169,14 +169,14 @@ theorem comm_tau_trivial_or_sq {V' : Subgroup G} {v₁ v₂ : G}
       | one => simp [z4Comm]
       | mul x y hx hy ihx ihy =>
           have hxy : x * y = y * x := hg.Q_comm x (hg.base_le_Q hx) y (hg.base_le_Q hy)
-          rw [hg.comm_mul hg.tau_mem_X (hg.base_le_Q hx) (hg.base_le_Q hy), ihx, ihy,
+          rw [hg.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hg.base_le_Q hx) (hg.base_le_Q hy), ihx, ihy,
             Commute.mul_pow hxy 2]
       | inv x hx ihx =>
-          rw [hg.comm_inv hg.tau_mem_X (hg.base_le_Q hx), ihx, inv_pow]
+          rw [hg.comm_inv CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hg.base_le_Q hx), ihx, inv_pow]
     intro q hq
     obtain ⟨b, hbB, v, hvV, rfl⟩ := hV.mem_Q_decomp hg.toZ4Pre hq
     have hv2 : v ^ 2 = 1 := by rw [pow_two]; exact hV.sq_eq_one hvV
-    rw [hg.comm_mul hg.tau_mem_X (hg.base_le_Q hbB) (hV.V'_le_Q hg.toZ4Pre hvV),
+    rw [hg.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X (hg.base_le_Q hbB) (hV.V'_le_Q hg.toZ4Pre hvV),
       hB b hbB, hVcomm v hvV, mul_one]
     have hbv : b * v = v * b := hg.Q_comm b (hg.base_le_Q hbB) v (hV.V'_le_Q hg.toZ4Pre hvV)
     rw [Commute.mul_pow hbv 2, hv2, mul_one]
@@ -187,7 +187,7 @@ theorem tau_inv_Q {V' : Subgroup G} {v₁ v₂ : G} (hV : Z4VBase t tau x₁ x�
   · exfalso
     apply hg.not_comm_tau_Q
     intro q hq
-    exact hg.comm_eq_one_iff.mp (h q hq)
+    exact CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_eq_one_iff.mp (h q hq)
   · intro a ha
     have h1 : tau * a * tau⁻¹ * a⁻¹ = a ^ 2 := h a ha
     have h2 : tau * a * tau⁻¹ = a ^ 2 * a := by

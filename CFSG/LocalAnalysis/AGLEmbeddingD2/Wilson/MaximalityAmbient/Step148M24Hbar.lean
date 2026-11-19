@@ -83,7 +83,7 @@ theorem le_normalizer_inf_of_le {A N J : Subgroup G} (hN : A ≤ Subgroup.normal
   intro h
   have h1 := (Subgroup.mem_normalizer_iff.mp (hN hx) h)
   have h2 := (Subgroup.mem_normalizer_iff.mp (hJ hx) h)
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr h1 h2
 
 theorem exists_mem_inf_centralizer_of_mem_sectionCentralizer {A Y J : Subgroup G}
@@ -261,7 +261,7 @@ theorem step148HJM24Cent_of_hbar (hΩ : Sec13HJPointOmega) (hS : Sec13HJPointSec
     intro x hx
     rw [Subgroup.mem_normalizer_iff]
     intro h
-    simp only [hCja, SetLike.mem_coe, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
+    simp only [hCja, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
     exact and_congr (Subgroup.mem_normalizer_iff.mp (hAJ hx) h)
       (Iff.symm (conj_mul_comm_iff (hcomm x hx a haA)))
   have hAP : A ≤ Subgroup.normalizer (P : Set G) :=
@@ -278,7 +278,7 @@ theorem step148HJM24Cent_of_hbar (hΩ : Sec13HJPointOmega) (hS : Sec13HJPointSec
     (solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three).1
   have hTchar : T.Characteristic :=
     (solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three).2.1
-  haveI : T.Normal := inferInstance
+  have : T.Normal := inferInstance
   obtain ⟨L', hL', hLaeq0⟩ := hLa.1
   have hLaeq : L'.map C.subtype = La := hLaeq0
   set K : Subgroup ↥L' := aschbacherSolvableCore 3 ↥L' with hK
@@ -287,7 +287,7 @@ theorem step148HJM24Cent_of_hbar (hΩ : Sec13HJPointOmega) (hS : Sec13HJPointSec
     rintro _ ⟨k, hk, rfl⟩
     rw [hK, h] at hk
     exact Subgroup.mem_subgroupOf.mp hk
-  haveI : IsSimpleGroup NativeSporadic.M24 := (CFSG.Sporadic.Mathieu.fam_m24_simplicity).2.2
+  have : IsSimpleGroup NativeSporadic.M24 := (CFSG.Sporadic.Mathieu.fam_m24_simplicity).2.2
   have hM24ns : ¬ Group.IsSolvable NativeSporadic.M24 := by
     intro hsol
     have hc := (IsSimpleGroup.comm_iff_isSolvable (G := NativeSporadic.M24)).2 hsol

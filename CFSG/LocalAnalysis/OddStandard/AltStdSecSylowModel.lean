@@ -173,7 +173,7 @@ theorem oddRootCount_of_le (n : ℕ) (hn : 8 ≤ n) : OddRootCount n := by
       ← Nat.card_congr (MonoidHom.ofInjective hf).toEquiv]
   let M : Sylow 2 (Equiv.Perm (Fin n)) := Sylow.ofCard f.range hcard
   obtain ⟨S, hSP⟩ := hP.exists_le_sylow
-  have hSP' : (S : Subgroup (Equiv.Perm (Fin n))) = P := hmax _ S.isPGroup' hSP
+  have hSP' : (S : Subgroup (Equiv.Perm (Fin n))) = P := hmax _ S.isPGroup hSP
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (Equiv.Perm (Fin n)) M S
   let ι : Gam l →* Equiv.Perm (Fin n) := (MulAut.conj g).toMonoidHom.comp f
   have hPmem : ∀ x, x ∈ P ↔ ∃ γ, ι γ = x := by

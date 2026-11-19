@@ -32,7 +32,7 @@ theorem exists_lift_normalizing (φ : T →* Y) (hφ : Function.Surjective φ)
   set S' := (S : Subgroup M).map M.subtype with hS'
   have hAS' : A ≤ S' := fun a ha => ⟨⟨a, hAM ha⟩, hAS (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
   have hS'M : S' ≤ M := Subgroup.map_subtype_le _
-  have hS'p : IsPGroup 3 S' := S.isPGroup'.map M.subtype
+  have hS'p : IsPGroup 3 S' := S.isPGroup.map M.subtype
   have hinj := CFSG.RankThreeCoreUniqueness.Helpers.coprime_kernel_injective_on_pGroup 3
     Nat.prime_three φ hker S' hS'p
   have hinj' : ∀ x ∈ S', ∀ y ∈ S', φ x = φ y → x = y := fun x hx y hy h =>

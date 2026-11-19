@@ -59,7 +59,7 @@ private theorem closure_transvections {a b : Fin 6} (hab : a ≠ b) :
     rcases hc with rfl | rfl
     · have : Matrix.SpecialLinearGroup.transvection hij (0 : ZMod 2) = 1 := by
         ext k l
-        simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.transvection_zero]
+        simp
       rw [this]
       exact one_mem _
     · simp only [Finset.mem_insert, Finset.mem_singleton] at hi hj

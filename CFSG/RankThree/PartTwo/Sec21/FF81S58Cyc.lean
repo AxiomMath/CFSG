@@ -57,14 +57,14 @@ theorem ffCentCyclicSylow_M
       Nat.card E ≤ 27)
     (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀) (h526 : FF81Conc5_2_6 b b₁ b₂ b₃ s₀)
     (hM7 : FF81Conc5_7 b b₁ b₂ b₃ s₀ M) : FFCentCyclicSylow M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro P
   have hB := h5.basis
   have h0 : Opp 3 (Cen b) = ⊥ := h526.1
   have hCL : CenS M ≤ L := cenS_M_le_L h5 h526 hM7
   set P' : Subgroup G := (P : Subgroup ↥(CenS M)).map (CenS M).subtype with hP'def
   have hP'C : P' ≤ CenS M := Subgroup.map_subtype_le _
-  have hP'3 : IsPGroup 3 P' := P.isPGroup'.map _
+  have hP'3 : IsPGroup 3 P' := P.isPGroup.map _
   have hP'L : P' ≤ L := hP'C.trans hCL
   have hAM : Subgroup.closure ({b, b₁, b₂ * b₃} : Set G) ≤ M := A₁_le_M h526 hM7
   have hAel := isElemAb_A₁ h5
@@ -103,7 +103,7 @@ theorem ffCentCyclicSylow_M
     omega
   have hcardP : Nat.card ↥(P : Subgroup ↥(CenS M)) = Nat.card P' :=
     (Subgroup.card_map_of_injective (CenS M).subtype_injective).symm
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   by_contra hncyc
   have hk2 : k = 2 := by
     by_contra hne
@@ -118,7 +118,7 @@ theorem ffCentCyclicSylow_M
     exact (pow_dvd_pow 3 hk1).trans (by simp)
   subst hk2
   have hPcomm : ∀ x y : ↥(P : Subgroup ↥(CenS M)), x * y = y * x :=
-    IsPGroup.commutative_of_card_eq_prime_sq (p := 3) hk
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hk).is_comm.comm
   have hexp : ∀ x : ↥(P : Subgroup ↥(CenS M)), x ^ 3 = 1 := by
     intro x
     have hd : orderOf x ∣ 3 ^ 2 := hk ▸ orderOf_dvd_natCard x

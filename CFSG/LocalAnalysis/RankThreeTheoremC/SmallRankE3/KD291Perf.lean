@@ -17,7 +17,7 @@ theorem gammaStructureP_of_tables (hΔ : KDInndiagP5)
     (hGA : CFSG.Open.GriessAllModelsStatement)
     (hSp : CFSG.RankThree.PartTwo.Sec4.Census.SporadicMultipliers) : GammaStructureP := by
   intro p hp hp5 X _ _ P x hcat hxP hx1 hx5 hP hC hperf hcomp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxo : orderOf x = p := orderOf_eq_prime hx5 hx1
   obtain ⟨L, hLn, hq, hZp, hZ, hsimple, hnab, hLcat, hcen, hzcl⟩ :=
     kd291_comp_data hp hp5 hGA hSp P hcat hxP hx1 hx5 hP hC hcomp

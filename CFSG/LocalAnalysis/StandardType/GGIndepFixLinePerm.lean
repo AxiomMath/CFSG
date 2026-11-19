@@ -35,11 +35,11 @@ private lemma l6kp_perm_normal_abelian_bot {N : ℕ} (hN : 5 ≤ N)
     (H : Subgroup (Equiv.Perm (Fin N))) [H.Normal]
     (hab : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a) : H = ⊥ := by
   by_contra hne
-  haveI hnt : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
+  have hnt : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
   have hle : alternatingGroup (Fin N) ≤ H :=
     Equiv.Perm.alternatingGroup_le_of_normal (α := Fin N) (N := H) (by simpa using hN)
       (inferInstance : Nontrivial ↥H)
-  haveI : Nontrivial (Fin N) := ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩
+  have : Nontrivial (Fin N) := ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩
   have hcomm : ⁅alternatingGroup (Fin N), alternatingGroup (Fin N)⁆ = ⊥ := by
     rw [Subgroup.commutator_self_eq_bot_iff]
     exact isMulCommutative_iff.mpr (fun (a b : ↥(alternatingGroup (Fin N))) =>
@@ -89,7 +89,7 @@ theorem ggFixLine_P_abelian_normal_trivial {p N : ℕ} [Fact p.Prime] {V : Type}
     obtain ⟨g, hg⟩ := MonoidHom.mem_range.mp hy'
     exact ⟨g, Subtype.ext hg⟩
   let K' : Subgroup ↥P := K.subgroupOf P
-  haveI hK'norm : K'.Normal := ⟨fun k hk g => by
+  have hK'norm : K'.Normal := ⟨fun k hk g => by
     rw [Subgroup.mem_subgroupOf] at hk ⊢
     exact hKn g.1 g.2 k.1 hk⟩
   let K3 : Subgroup Rg := Subgroup.map η' K'
@@ -102,7 +102,7 @@ theorem ggFixLine_P_abelian_normal_trivial {p N : ℕ} [Fact p.Prime] {V : Type}
     exact congrArg η' (Subtype.ext (hKab k.1 (Subgroup.mem_subgroupOf.mp hk) l.1
       (Subgroup.mem_subgroupOf.mp hl)))
   let K2 : Subgroup (Equiv.Perm (Fin (N - 1 + 1))) := Subgroup.comap ρ' K3
-  haveI hK2norm : K2.Normal := Subgroup.Normal.comap hK3normal ρ'
+  have hK2norm : K2.Normal := Subgroup.Normal.comap hK3normal ρ'
   have hρ'inj : Function.Injective ρ' := by
     intro a b hab
     apply l6kp_rho_inj (p := p) (N := N) hN2 hp

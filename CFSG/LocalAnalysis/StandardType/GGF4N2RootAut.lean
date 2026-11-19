@@ -142,7 +142,7 @@ private theorem pCoreOf_fixAut_conj_le_inner
       change ψ0 p = (x : MulAut (SL4 F))
       rw [← hs]
       dsimp [ψ0, p]
-      simp only [MulEquiv.apply_symm_apply, MulAut.conj_apply]
+      simp only [MulEquiv.apply_symm_apply]
       group
   have hC : Subgroup.centralizer (ψ.range : Set T) = ⊥ := by
     rw [eq_bot_iff]
@@ -158,7 +158,7 @@ private theorem pCoreOf_fixAut_conj_le_inner
         apply Subtype.ext
         change ψ0 p = MulAut.conj s
         dsimp [ψ0, p]
-        simp only [MulEquiv.apply_symm_apply, MulAut.conj_apply]
+        simp only [MulEquiv.apply_symm_apply]
         group
       have hcomm : ψ p * x = x * ψ p :=
         Subgroup.mem_centralizer_iff.mp hx (ψ p) ⟨p, rfl⟩
@@ -230,6 +230,7 @@ private theorem pCoreOf_fixAut_conj_le_inner
     hψrange, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hInn] at h2
   exact h2
 
+omit [CharP F 2] [Finite F] in
 private theorem conj_tv03_eq_of_conj_tv03_eq {t u : F} (ht : t ≠ 0)
     {s : SL4 F} (h : MulAut.conj s (tv03 t) = tv03 t) :
     MulAut.conj s (tv03 u) = tv03 u := by
@@ -362,7 +363,7 @@ theorem rootAut_pCoreOf_fixes_rootR
     apply Subtype.ext
     have hmat := congrArg (fun z : SL4 F => (z : Matrix (Fin 4) (Fin 4) F)) hfixu
     rw [MulAut.conj_apply]
-    simp only [Matrix.SpecialLinearGroup.coe_mul, coe_tv03]
+    simp only [Matrix.SpecialLinearGroup.coe_mul]
     simpa [MulAut.conj_apply, Matrix.SpecialLinearGroup.coe_mul, coe_tv03,
       Matrix.SpecialLinearGroup.transvection_coe] using hmat
   rw [← hs]
@@ -420,7 +421,6 @@ private theorem psl6_pCoreOf_fixAut_conj_le_inner
       apply Subtype.ext
       change ψ0 ((MulAut.conj g).symm s) = (x : MulAut (PSL6 F))
       rw [← hs]
-      change ψ0 ((MulAut.conj g).symm s) = MulAut.conj s
       dsimp [ψ0]
       congr 1
       group
@@ -523,6 +523,7 @@ open Matrix CFSG.ClassicalGroups.SpecialLinear
 
 variable {F : Type} [Field F] [CharP F 2] [Finite F]
 
+omit [CharP F 2] [Finite F] in
 private theorem conj_transvection_eq_of_conj_transvection_eq
     {i j : Fin 6} (hij : i ≠ j) {t u : F} (ht : t ≠ 0)
     {s : SpecialLinearGroup (Fin 6) F}
@@ -967,7 +968,7 @@ theorem ggF4N2RootAction_sl4
         ∀ x : ggPComponentRootQuotient p A,
           x ∈ ggPComponentRootImage p A R →
           (f : MulAut (ggPComponentRootQuotient p A)) x = x := by
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2) (by rw [hF]; norm_num)
   let rq : ggPComponentRootQuotient p A :=
     ggPComponentRootInvolutionImage p A (r := r) (hRA hrR)
@@ -1000,7 +1001,7 @@ theorem ggF4N2RootAction_psl6
         ∀ x : ggPComponentRootQuotient p A,
           x ∈ ggPComponentRootImage p A R →
           (f : MulAut (ggPComponentRootQuotient p A)) x = x := by
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2) (by rw [hF]; norm_num)
   let rq : ggPComponentRootQuotient p A :=
     ggPComponentRootInvolutionImage p A (r := r) (hRA hrR)
@@ -1035,7 +1036,7 @@ theorem ggF4N2RootAction_minus
         ∀ x : ggPComponentRootQuotient p A,
           x ∈ ggPComponentRootImage p A R →
           (f : MulAut (ggPComponentRootQuotient p A)) x = x := by
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2) (by rw [hF]; norm_num)
   let rq : ggPComponentRootQuotient p A :=
     ggPComponentRootInvolutionImage p A (r := r) (hRA hrR)
@@ -1236,16 +1237,16 @@ theorem ggPComponentRoot_inclusion_injective_sl4
       ((QuotientGroup.mk' (ggPComponentRootKernelInA 5 A)).comp
         (Subgroup.inclusion hJA)) := by
   classical
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2) (by rw [hF]; norm_num)
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 4) F) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 4) F) :=
     (CFSG.RankThree.PartOne.K159.Klein.sl4_isSimpleGroup_and_perfect (K := F)).1
-  haveI : IsSimpleGroup J := eJ.isSimpleGroup
+  have : IsSimpleGroup J := eJ.isSimpleGroup
   have hpJ : 5 ∣ Nat.card J := by
     have hcard : Nat.card J = Nat.card (Matrix.SpecialLinearGroup (Fin 4) F) :=
       Nat.card_congr eJ.toEquiv
     rw [hcard]
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hF' : Fintype.card F = 4 := by
       rw [← Nat.card_eq_fintype_card]
       exact hF
@@ -1267,16 +1268,16 @@ theorem ggPComponentRoot_not_psl216_of_sl4
     IsEmpty (ggPComponentRootQuotient 5 A ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 4)) := by
   classical
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2) (by rw [hF]; norm_num)
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 4) F) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 4) F) :=
     (CFSG.RankThree.PartOne.K159.Klein.sl4_isSimpleGroup_and_perfect (K := F)).1
-  haveI : IsSimpleGroup J := eJ.isSimpleGroup
+  have : IsSimpleGroup J := eJ.isSimpleGroup
   have h7J : 7 ∣ Nat.card J := by
     have hcard : Nat.card J = Nat.card (Matrix.SpecialLinearGroup (Fin 4) F) :=
       Nat.card_congr eJ.toEquiv
     rw [hcard]
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hF' : Fintype.card F = 4 := by
       rw [← Nat.card_eq_fintype_card]
       exact hF
@@ -1316,7 +1317,7 @@ open Matrix CFSG.Assembly CFSG.ClassicalGroups.SpecialLinear
 theorem exists_pComponentRootQuotientEquiv_of_sup_of_dvd
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {X A J : Subgroup G}
-    (hA : LargeEvenPComponent p X A) (hJA : J ≤ A)
+    (_hA : LargeEvenPComponent p X A) (hJA : J ≤ A)
     (hAeq : A = J ⊔ LargeEvenPPrimeCoreOf p A)
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     (eJ : J ≃* SpecialLinearGroup (Fin 4) F)
@@ -1325,7 +1326,7 @@ theorem exists_pComponentRootQuotientEquiv_of_sup_of_dvd
       (∀ j : J,
         e (QuotientGroup.mk' (ggPComponentRootKernelInA p A) ⟨j, hJA j.2⟩) = eJ j) ∧
       ggPComponentRootKernelInA p A = CFSG.pPrimeCore p A := by
-  haveI : CharP F 2 := CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2) (by rw [hF]; norm_num)
+  have : CharP F 2 := CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2) (by rw [hF]; norm_num)
   let Q : Subgroup ↥A := CFSG.pPrimeCore p A
   let QG : Subgroup G := LargeEvenPPrimeCoreOf p A
   have hQGA : QG ≤ A := by
@@ -1340,9 +1341,9 @@ theorem exists_pComponentRootQuotientEquiv_of_sup_of_dvd
     change Nat.Coprime p (Nat.card ((CFSG.pPrimeCore p A).map A.subtype))
     rw [Subgroup.card_map_of_injective A.subtype_injective]
     exact CFSG.pPrimeCore_coprime_card
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 4) F) :=
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 4) F) :=
     (CFSG.RankThree.PartOne.K159.Klein.sl4_isSimpleGroup_and_perfect (K := F)).1
-  haveI : IsSimpleGroup J := eJ.isSimpleGroup
+  have : IsSimpleGroup J := eJ.isSimpleGroup
   have hZJ : Subgroup.center J = ⊥ := by
     have hmap := Subgroup.map_center_eq eJ
     rw [CFSG.RankThree.PartOne.K159.Klein.center_sl4_eq_bot] at hmap
@@ -1443,7 +1444,7 @@ theorem exists_pComponentRootQuotientEquiv_of_sup_five
   have h5J : 5 ∣ Nat.card J := by
     have hcard : Nat.card J = Nat.card (SpecialLinearGroup (Fin 4) F) := Nat.card_congr eJ.toEquiv
     rw [hcard]
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hF' : Fintype.card F = 4 := by
       rw [← Nat.card_eq_fintype_card]
       exact hF
@@ -1666,8 +1667,8 @@ theorem rootR_marking_invariant (F : Type) [Field F] [Finite F]
       (rootR F).map α.toMonoidHom =
         (rootR F).map (MulAut.conj g).toMonoidHom := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := by
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := by
     apply charP_of_card_eq_prime_pow (p := 2) (f := 2)
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num
@@ -1802,7 +1803,7 @@ private theorem blockFour_stdAut_apply (A : GL (Fin 4) F) (σ : F ≃+* F) (ε :
       blockFour_slGraphAut_apply]
 
 theorem sl4_exists_blockFour_extension (F : Type) [Field F] [Finite F]
-    (hF : Nat.card F = 4) (α : MulAut (Matrix.SpecialLinearGroup (Fin 4) F)) :
+    (_hF : Nat.card F = 4) (α : MulAut (Matrix.SpecialLinearGroup (Fin 4) F)) :
     ∃ β : MulAut (Matrix.SpecialLinearGroup (Fin 6) F),
       β.toMonoidHom.comp (blockFour (K := F)) =
         (blockFour (K := F)).comp α.toMonoidHom := by
@@ -1834,7 +1835,7 @@ variable {F : Type} [Field F] [Finite F]
 
 theorem sl6_ker_map_eq_of_le_center [CharP F 2] (hF : Nat.card F = 4)
     {Q : Type} [Group Q] (ψ : Matrix.SpecialLinearGroup (Fin 6) F →* Q)
-    (hψ : Function.Surjective ψ)
+    (_hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin 6) F))
     (β : MulAut (Matrix.SpecialLinearGroup (Fin 6) F)) :
     ψ.ker.map β.toMonoidHom = ψ.ker := by
@@ -1859,7 +1860,7 @@ theorem sl6_ker_map_eq_of_le_center [CharP F 2] (hF : Nat.card F = 4)
       rw [hcardC, h3]
   have hcenter_map : C.map β.toMonoidHom = C := by
     dsimp [C]
-    simpa using (Subgroup.map_center_eq β)
+    simp
   rcases hker_bot_or_top with hbot | htop
   · rw [hbot, Subgroup.map_bot]
   · rw [htop, hcenter_map]
@@ -1934,7 +1935,7 @@ theorem sl4_pointwiseCentralizer_coordSL3_solvable
     have hcomm : j * (g : S) = (g : S) * j :=
       Subgroup.mem_centralizer_iff.mp g.2 j hj
     exact congrArg (fun z : S => (z : Matrix (Fin 4) (Fin 4) F)) hcomm.symm
-  letI : Group.IsSolvable C := Group.isSolvable_of_comm (by
+  let : Group.IsSolvable C := Group.isSolvable_of_comm (by
     intro g h
     apply Subtype.ext
     apply Subtype.ext
@@ -1948,9 +1949,9 @@ theorem sl4_pointwiseCentralizer_coordSL3_solvable
   let P := CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 4 F
   have hOutPcard : Nat.card (Outer P) ≤ 4 := Nat.le_of_dvd (by norm_num)
     (CFSG.OddStandard.AltStdSec.card_outer_dvd_four hF)
-  letI : Group.IsSolvable (Outer P) :=
+  let : Group.IsSolvable (Outer P) :=
     CFSG.ComponentClassification.CatalogueSchreierAlternating.solvable_of_card_le_four hOutPcard
-  letI : Group.IsSolvable (Outer S) :=
+  let : Group.IsSolvable (Outer S) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSLFourEquivSL F)
   exact pointwiseCentralizer_solvable_of_centralizer_and_outer M
@@ -1964,7 +1965,7 @@ theorem sl4_perfect_action_fixing_coordSL3_eq_one
       ({i₀}ᶜ : Finset (Fin 4)), α g x = x) (g : P) : α g = 1 := by
   let M := CFSG.RankThree.CALinearPlane.coordBlockSL F ({i₀}ᶜ : Finset (Fin 4))
   let C := pointwiseCentralizer M
-  letI : Group.IsSolvable C := sl4_pointwiseCentralizer_coordSL3_solvable F hF i₀
+  let : Group.IsSolvable C := sl4_pointwiseCentralizer_coordSL3_solvable F hF i₀
   let f : P →* C := α.codRestrict C (fun g => CFSG.Glauberman.mem_pointwiseCentralizer.mpr (hfix g))
   exact congrArg Subtype.val
     (CFSG.LocalAnalysis.GLTheoremA.T123CB.eq_one_of_perfect_of_isSolvable f g)
@@ -1979,7 +1980,7 @@ theorem sl4_pointwiseCentralizer_actualSL3_solvable
   let M := CFSG.RankThree.CALinearPlane.coordBlockSL F ({i₀}ᶜ : Finset (Fin 4))
   let A := pointwiseCentralizer (M.map e.toMonoidHom)
   let C := pointwiseCentralizer M
-  letI : Group.IsSolvable C := sl4_pointwiseCentralizer_coordSL3_solvable F hF i₀
+  let : Group.IsSolvable C := sl4_pointwiseCentralizer_coordSL3_solvable F hF i₀
   let f : A →* C := ((MulAut.congr e.symm).toMonoidHom.comp A.subtype).codRestrict C (by
     intro a
     apply CFSG.Glauberman.mem_pointwiseCentralizer.mpr
@@ -2239,11 +2240,11 @@ private lemma fieldAut_transvection (σ : F4 ≃+* F4) {i j : Fin 6} (hij : i �
   rw [SpecialLinearGroup.transvection_coe]
   by_cases h : a = i ∧ b = j
   · rcases h with ⟨rfl, rfl⟩
-    simp [Matrix.smul_apply, Matrix.single, Matrix.one_apply]
+    simp [Matrix.single, Matrix.one_apply]
   · have h' : ¬ (i = a ∧ j = b) := by
       intro hh
       exact h ⟨hh.1.symm, hh.2.symm⟩
-    simp [Matrix.smul_apply, Matrix.single, Matrix.one_apply, h, h']
+    simp [Matrix.single, Matrix.one_apply, h']
 
 private lemma graphAut_transvection (t : F4) :
     ((slGraphAut6 (rootTransvection t) : SL6F4) : Matrix (Fin 6) (Fin 6) F4) =
@@ -2257,7 +2258,7 @@ private lemma graphAut_transvection (t : F4) :
   rw [SpecialLinearGroup.transvection_coe]
   rw [Matrix.transpose_add, Matrix.transpose_one, Matrix.transpose_single]
   ext a b
-  simp [Matrix.smul_apply, Matrix.single, Matrix.one_apply]
+  simp [Matrix.single, Matrix.one_apply]
 
 set_option maxHeartbeats 1000000 in
 private lemma conjugation_transvection (A : GL6F4) {i j : Fin 6} (hij : i ≠ j) (t : F4) :
@@ -2452,9 +2453,10 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
 abbrev SL6F (F : Type) [Field F] : Type := Matrix.SpecialLinearGroup (Fin 6) F
 abbrev PSL6F (F : Type) [Field F] : Type := projectiveSL 6 F
 
+omit [CharP F 2] in
 private theorem ker_eq_bot_or_center
     (hF : Nat.card F = 4) {Q : Type} [Group Q]
-    (ψ : SL6F F →* Q) (hψ : Function.Surjective ψ)
+    (ψ : SL6F F →* Q) (_hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center (SL6F F)) :
     ψ.ker = ⊥ ∨ ψ.ker = Subgroup.center (SL6F F) := by
   classical
@@ -2474,6 +2476,7 @@ private theorem ker_eq_bot_or_center
     apply Subgroup.eq_of_le_of_card_ge hker
     rw [hcardC, h3]
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_quotient_equiv_projective
     {Q : Type} [Group Q] (ψ : SL6F F →* Q) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = Subgroup.center (SL6F F)) :
@@ -2505,6 +2508,7 @@ private theorem exists_quotient_equiv_projective
   rw [hψg, hc, hπg]
 
 
+omit [CharP F 2] in
 private theorem exists_std_lift_of_ker_bot
     {Q : Type} [Group Q] (ψ : SL6F F →* Q) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = ⊥) (αQ : MulAut Q) :
@@ -2541,6 +2545,7 @@ private theorem exists_std_lift_of_ker_bot
     _ = ψ (std g) := rfl
 
 
+omit [CharP F 2] in
 private theorem exists_std_lift_of_ker_center
     {Q : Type} [Group Q] (ψ : SL6F F →* Q) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = Subgroup.center (SL6F F)) (αQ : MulAut Q) :
@@ -2580,6 +2585,7 @@ private theorem exists_std_lift_of_ker_center
     _ = e (ψ (std g)) := by rw [he (std g)]
 
 
+omit [CharP F 2] in
 theorem exists_std_lift_of_central_kernel
     (hF : Nat.card F = 4) {Q : Type} [Group Q]
     (ψ : SL6F F →* Q) (hψ : Function.Surjective ψ)
@@ -2626,13 +2632,12 @@ private theorem blockFourMat_affine (t : F4) (M : Matrix (Fin 4) (Fin 4) F4) :
   rw [blockFourMat_apply, Matrix.add_apply, Matrix.smul_apply, Matrix.sub_apply]
   rw [blockFourMat_apply]
   rcases i' with i' | i' <;> rcases j' with j' | j' <;>
-    simp [Matrix.fromBlocks, Matrix.one_apply, Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply]
-  all_goals ring
+    simp [Matrix.fromBlocks, Matrix.one_apply, Matrix.add_apply, Matrix.smul_apply]
 
 theorem sigma_eq_refl_of_block_eq
     {Q : Type} [Group Q]
     (psi : SL6F4 →* Q)
-    (hpsi_surj : Function.Surjective psi)
+    (_hpsi_surj : Function.Surjective psi)
     (hpsi_ker : psi.ker ≤ Subgroup.center SL6F4)
     (A : GL6F4)
     (sigma : F4 ≃+* F4)
@@ -2643,7 +2648,7 @@ theorem sigma_eq_refl_of_block_eq
       psi ((fieldDetectionBeta A sigma epsilon) (blockFour g)) =
         psi (blockFour ((blockGamma C delta) g))) :
     sigma = RingEquiv.refl F4 := by
-  haveI hperf : Group.IsPerfect SL4F4 :=
+  have hperf : Group.IsPerfect SL4F4 :=
     CFSG.LinearGroups.special_linear_isPerfect (by omega) (Or.inl (by omega))
   have hcomp : ∀ g : SL4F4,
       psi ((fieldDetectionBeta A sigma epsilon).toMonoidHom.comp blockFour g) =

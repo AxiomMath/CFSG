@@ -79,10 +79,10 @@ theorem fixK_sound {H : List (List Nat)} {F : List Nat} (h : fixK X Y Xi Yi H F 
     · exact fixL_sound h1 f hf
     · exact ih h2 w hw f hf
 
-theorem nthW_mem : ∀ {H : List (List Nat)} {g : Nat}, g < lenW H → nthW H g ∈ H
+theorem nthW_mem : ∀ {H : List (List Nat)} {_g : Nat}, _g < lenW H → nthW H _g ∈ H
   | [], _, h => absurd h (Nat.not_lt_zero _)
-  | w :: _, 0, _ => List.mem_cons_self
-  | _ :: H, g + 1, h => List.mem_cons_of_mem _ (nthW_mem (H := H) (Nat.lt_of_succ_lt_succ h))
+  | _w :: _, 0, _ => List.mem_cons_self
+  | _ :: H, _g + 1, h => List.mem_cons_of_mem _ (nthW_mem (H := H) (Nat.lt_of_succ_lt_succ h))
 
 theorem land_fld (R o : Nat) :
     Nat.land (Nat.land (Nat.shiftRight R o) (nat_lit 4294967295)) (nat_lit 2047) =

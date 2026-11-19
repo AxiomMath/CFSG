@@ -26,7 +26,7 @@ theorem modelData_SL22 : ModelData SL22.K :=
     SL22.X_incomparable.1, SL22.X_incomparable.2⟩⟩
 
 theorem modelData_S6 : ModelData (Perm (Fin 6)) := by
-  refine ⟨⟨D6sub, P1sub, P2sub, D6syl.isPGroup', ?_, overgroups_D6,
+  refine ⟨⟨D6sub, P1sub, P2sub, D6syl.isPGroup, ?_, overgroups_D6,
     fun σ hσ => (D6sub_le hσ).1, fun σ hσ => (D6sub_le hσ).2, P1_not_le_P2.1, P1_not_le_P2.2⟩⟩
   have := D6syl.not_dvd_index
   exact this

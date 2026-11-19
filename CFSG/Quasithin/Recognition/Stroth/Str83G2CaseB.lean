@@ -19,7 +19,7 @@ variable {L1 L2 S : Subgroup G} {a : ℕ}
 private theorem not_ffInt_z1_of_caseII
     (hF : F112HypW L1 L2 S) (hB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (ha : 1 ≤ a) (hSz : Nonempty (oTwoQuot ↥L1 ≃* Sz a))
-    (hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
+    (_hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
     (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hV : IsElemAbelian 2 (Z1 L1 L2 S)) :
     ¬ IsFFInt (L1 ⊔ S) (Z1 L1 L2 S) hV ∧
@@ -118,6 +118,7 @@ private theorem relIndex_centralizer_cjSub {G : Type} [Group G] (g : G) (X U : S
     (f := (MulAut.conj g).toMonoidHom) (Subgroup.centralizer (X : Set G)) U
     (MulAut.conj g).injective
 
+omit [Finite G] in
 private theorem sup_eq_of_normal_not_le_pCoreOf {H K : Subgroup G}
     (hsim : IsSimpleGroup (oTwoQuot ↥H)) (hKH : K ≤ H)
     (hKn : H ≤ Subgroup.normalizer (K : Set G)) (hnot : ¬ K ≤ pCoreOf 2 H) :
@@ -163,7 +164,7 @@ theorem str83_partTwo_caseB_steps123
     (hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
     (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZ2 : L2 ⊔ S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
-    (hJ : ¬ jAtLeast (2 ^ pRank 2 S) (2 ^ (2 * a + 1)) S ≤ Q1 L1 L2 S)
+    (_hJ : ¬ jAtLeast (2 ^ pRank 2 S) (2 ^ (2 * a + 1)) S ≤ Q1 L1 L2 S)
     (hBc : Z1 L1 L2 S ≤ Q2 L1 L2 S) :
     IsElemAbelian 2 (conjClosure (Z1 L1 L2 S) (L2 ⊔ S)) ∧
       conjClosure (Z1 L1 L2 S) (L2 ⊔ S) ≤ Q1 L1 L2 S ⊓ Q2 L1 L2 S ∧
@@ -531,8 +532,8 @@ theorem str83_partTwo_caseB_steps123
   let e : oTwoQuot ↥H ≃* SL(2, GaloisField 2 (2 * a + 1)) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := GaloisField 2 (2 * a + 1)))
   refine ⟨e, ?_⟩
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstep hUH hE e
   change CFSG.QuasithinUnique.Setup.SL2Modules.IsNaturalModule ρ
   obtain ⟨c, hser⟩ := D15Proof.exists_isChiefSeriesFrom (H := H) (U := X) X hXNormalIn
@@ -565,7 +566,7 @@ theorem str83_partTwo_caseB_steps123
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hXH).trans hHL
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   let a' : SL(2, GaloisField 2 (2 * a + 1)) := e (QuotientGroup.mk ⟨t, htH⟩)
   have hsqfix : Nat.card (CFSG.RankThree.FFModules.fixSub ρ
@@ -642,7 +643,7 @@ theorem str83_partTwo_caseB_steps123
           rw [← hfixcard]
       _ = (centralizerMod L N (Subgroup.zpowers t)).relIndex N ^ 2 := by rw [← hd_eq]
       _ = (2 ^ (2 * a + 1)) ^ 2 := by rw [hd]
-  haveI : Fintype (GaloisField 2 (2 * a + 1)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * a + 1)) := Fintype.ofFinite _
   have hm : 1 ≤ 2 * a + 1 := by omega
   have hcardGF : Fintype.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1) := by
     rw [Fintype.card_eq_nat_card]
@@ -651,7 +652,7 @@ theorem str83_partTwo_caseB_steps123
     rw [hWcard, ← pow_mul]
     exact Nat.pow_lt_pow_right (by norm_num) (by omega)
   have hnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstep hUH hE e hnc
-  haveI : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
+  have : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
   have hA2 : ∀ x ∈ CFSG.CGT.Timmesfeld75.utri (GaloisField 2 (2 * a + 1)), x * x = 1 := by
     intro x hx
     obtain ⟨s, rfl⟩ := CFSG.CGT.Timmesfeld75.mem_utri_iff.mp hx

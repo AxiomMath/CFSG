@@ -29,7 +29,7 @@ private def a9ThreeOnSeven : alternatingGroup (Fin 9) :=
   ⟨a9ThreeOnSevenPerm, Equiv.Perm.mem_alternatingGroup.mpr (by decide +kernel)⟩
 
 private theorem orderOf_a9SevenCycle : orderOf a9SevenCycle = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · apply Subtype.ext
     show a9SevenCyclePerm ^ 7 = 1
@@ -48,7 +48,7 @@ theorem not_ker_le_of_ne_seven {p : ℕ} [Fact p.Prime] (hp7 : p ≠ 7) {n : ℕ
     {Y : Type*} [Group Y] [Finite Y] (ρ : Y →* GL (Fin 4) (ZMod p))
     (φ : Y →* alternatingGroup (Fin n)) (hφ : Function.Surjective φ) : ¬ ρ.ker ≤ φ.ker := by
   intro hker
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let ι := altEmbed hn
   set y : alternatingGroup (Fin n) := ι a9SevenCycle with hydef
   set g : alternatingGroup (Fin n) := ι a9ThreeOnSeven with hgdef
@@ -111,8 +111,8 @@ theorem kFactA9NotInvolvedGL4_of_glFourSeven
       ¬ Function.Surjective ψ) :
     KFactA9NotInvolvedGL4 := by
   intro p hp hp5 V _ _ hcomm hpow hcard n hn Y _ _ ρ φ hφ hker
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative V := hcomm
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative V := hcomm
   obtain ⟨ρ', hρ'⟩ :=
     CFSG.LinearAlgebra.ElementaryAutGLFour.exists_hom_glFour_ker_le (p := p) hpow hcard ρ
   have hρφ : ρ'.ker ≤ φ.ker := hρ'.trans hker
@@ -138,7 +138,7 @@ theorem kFactA9NotInvolvedGL4_holds : KFactA9NotInvolvedGL4 := by
   refine CFSG.GroupTheory.AlternatingNineFiveCentralizer.not_surjective_of_isCyclic_centralizer
     (fun s hs => ?_) ψ
   have hs' : orderOf (s : GL (Fin 4) (ZMod 7)) = 5 := by rwa [Subgroup.orderOf_coe]
-  haveI :=
+  have :=
     CFSG.LinearAlgebra.PrimeOrderCyclotomicCentralizer.isCyclic_centralizer_of_orderOf_eq_five hs'
   exact isCyclic_centralizer_subgroup s
 

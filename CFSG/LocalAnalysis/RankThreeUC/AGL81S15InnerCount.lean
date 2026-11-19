@@ -82,7 +82,7 @@ theorem mem_ker_muHom_iff (hsemi : AllSemilin E A) (a : A) :
 theorem card_le_two_of_forall_eq {G : Type*} [Group G] [Finite G]
     (h : ∀ x y : G, x ≠ 1 → y ≠ 1 → x = y) : Nat.card G ≤ 2 := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   rw [Nat.card_eq_fintype_card]
   by_cases hall : ∀ x : G, x = 1
   · have : Fintype.card G ≤ 1 :=
@@ -110,7 +110,7 @@ theorem exists_ne_of_ne_one (θ : F ≃+* F) (h : θ ≠ 1) : ∃ x, θ x ≠ x 
 
 theorem card_range_muHom_le_two [Finite F] (hsemi : AllSemilin E A)
     (h2 : ∀ a ∈ A, a * a = 1) : Nat.card (muHom hsemi).range ≤ 2 := by
-  haveI : Finite (F ≃+* F) :=
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun θ : F ≃+* F => (θ : F → F)) DFunLike.coe_injective
   refine card_le_two_of_forall_eq ?_
   rintro ⟨_, a, rfl⟩ ⟨_, b, rfl⟩ ha hb
@@ -234,6 +234,7 @@ theorem hat_hat {a : Y ≃ₗ[ZMod 2] Y} (haa : a * a = 1) (v : Fin 3 → F) :
   show E (a (E.symm (E (a (E.symm v))))) = v
   rw [AddEquiv.symm_apply_apply, apply_apply_of_mul_self haa, AddEquiv.apply_symm_apply]
 
+omit [Field F] in
 theorem card_fin3_fun [Fintype F] : Nat.card (Fin 3 → F) = Fintype.card F ^ 3 := by
   rw [Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_fin]
 
@@ -306,14 +307,16 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2] {n : ℕ} (hn : 2 ≤ n)
 
 include hn hF h2 hc hsemi
 
+omit hn hF in
 theorem card_le_two_mul_sq : Nat.card A ≤ 2 * Fintype.card F ^ 2 := by
   have h1 := InnerCount.card_le_two_mul_card_ker hsemi h2
   have h3 := InnerCount.card_ker_muHom_le_sq hsemi h2 hc
   omega
 
+omit hn hF hc in
 theorem card_fix_le_sq (hA : A ≠ ⊥) :
     Nat.card {y : Y // ∀ a ∈ A, a y = y} ≤ Fintype.card F ^ 2 := by
-  haveI : Finite Y := Finite.of_equiv (Fin 3 → F) E.symm.toEquiv
+  have : Finite Y := Finite.of_equiv (Fin 3 → F) E.symm.toEquiv
   obtain ⟨a, ha1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hA
   have hle : Nat.card {y : Y // ∀ a ∈ A, a y = y} ≤ Nat.card {y : Y // a.1 y = y} :=
     Nat.card_le_card_of_injective (fun y => ⟨y.1, y.2 a.1 a.2⟩) fun x y hxy => by
@@ -321,6 +324,7 @@ theorem card_fix_le_sq (hA : A ≠ ⊥) :
       exact congrArg (Subtype.val : {y : Y // a.1 y = y} → Y) hxy
   exact hle.trans (InnerCount.card_fix_le_sq_aux hsemi h2 a ha1)
 
+omit [Fintype F] hn hF hc hsemi in
 theorem exists_matrix_of_linear (a : Y ≃ₗ[ZMod 2] Y) (ha : a ∈ A)
     (hlin : ∀ (c : F) (y : Y), E (a (E.symm (c • E y))) = c • E (a y)) :
     ∃ g : SL(3, F), ∀ y : Y, E (a y) = (g : Matrix (Fin 3) (Fin 3) F) *ᵥ E y :=

@@ -28,8 +28,8 @@ theorem outCyc_of_sylow {L : Type} [Group L]
 theorem outCyc_of_card_dvd {L : Type} [Group L] {m : ℕ} (hm : Odd m)
     (h : Nat.card (Outer L) ∣ 2 * m) : OutCyc L := by
   intro P hP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Outer L) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Outer L) :=
     Nat.finite_of_card_ne_zero (Nat.pos_of_dvd_of_pos h (by have := hm.pos; omega)).ne'
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hdvd : Nat.card ↥P ∣ Nat.card (Outer L) := Subgroup.card_subgroup_dvd_card P
@@ -46,7 +46,7 @@ theorem outCyc_of_card_dvd {L : Type} [Group L] {m : ℕ} (hm : Odd m)
   exact (pow_dvd_pow 2 hn1).trans (by simp)
 
 theorem finite_outer (L : Type) [Group L] [Finite L] : Finite (Outer L) := by
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun f : MulAut L => (f : L → L)) DFunLike.coe_injective
   infer_instance
 

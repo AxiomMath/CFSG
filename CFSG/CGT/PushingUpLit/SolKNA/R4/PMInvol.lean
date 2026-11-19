@@ -29,7 +29,7 @@ theorem exists_mem_centralizer_not_actsPM (hr : 4 ≤ r)
     (hS : ¬ (S : Subgroup G) ≤ pmSubgroup (K ⊓ W)) :
     ∃ a ∈ (S : Subgroup G), a ∈ Subgroup.centralizer ({t} : Set G) ∧
       ¬ ActsPM (K ⊓ W) a := by
-  obtain ⟨g, hgS, hg⟩ := SetLike.not_le_iff_exists.mp hS
+  obtain ⟨g, hgS, hg⟩ := IsConcreteLE.not_le_iff_exists.mp hS
   obtain ⟨r₀, hr₀, hr₀t⟩ := hd.exists_conj_eq_mul
   rcases hd.conj_t_eq_or_of_le_normalizer hd.le_normalizer_W hgS with h | h
   · refine ⟨g, hgS, ?_, hg⟩
@@ -58,7 +58,7 @@ theorem exists_exponent_of_sq_mem (hr : 4 ≤ r) {a : G} (haS : a ∈ (S : Subgr
   obtain ⟨α, hα⟩ := hd.exists_scalar (hd.hSz haS) hat (hd.le_normalizer_W haS)
   refine ⟨α, hα, ?_⟩
   obtain ⟨u, hUz⟩ : ∃ u : G, Subgroup.zpowers u = K ⊓ W := by
-    haveI := hd.isCyclic_inf
+    have := hd.isCyclic_inf
     obtain ⟨g, hg⟩ : ∃ g : ↥(K ⊓ W), ∀ x : ↥(K ⊓ W), x ∈ Subgroup.zpowers g :=
       IsCyclic.exists_generator
     refine ⟨(g : G), le_antisymm (Subgroup.zpowers_le.mpr g.2) ?_⟩
@@ -174,7 +174,7 @@ theorem exists_involution (hB : TightBPrimeBot K S W L) (hr : 4 ≤ r)
     (hS : ¬ (S : Subgroup G) ≤ pmSubgroup (K ⊓ W)) :
     ∃ x ∈ (S : Subgroup G), x * x = 1 ∧ x ∉ pmSubgroup (K ⊓ W) := by
   obtain ⟨a₁, ha₁S, ha₁t, ha₁⟩ := hd.exists_mem_centralizer_not_actsPM hr hS
-  obtain ⟨m, hm⟩ := (S.isPGroup' ⟨a₁, ha₁S⟩)
+  obtain ⟨m, hm⟩ := (S.isPGroup ⟨a₁, ha₁S⟩)
   have hm' : a₁ ^ 2 ^ m = 1 := by
     have := congrArg Subtype.val hm
     simpa using this

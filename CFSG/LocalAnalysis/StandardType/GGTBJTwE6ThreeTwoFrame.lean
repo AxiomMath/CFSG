@@ -85,9 +85,9 @@ theorem tw1f_ker_pow_three
     {ψ : L' →* ↥(twistedE6RootGroup K σ)} (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
     (hodd : Odd (Nat.card ψ.ker)) : ∀ z ∈ ψ.ker, z ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * 1)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
   obtain ⟨φ, hφs, hφ, -⟩ := TBE6IndTwist.exists_cover_fixed_of_odd (f := 1) le_rfl hK
     σ (fun c => hσ c) ψ hψ hker hperf hodd

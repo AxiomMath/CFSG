@@ -30,7 +30,7 @@ theorem innerPart_spec {G : Type} [Group G] {B X : Subgroup G}
         innerPart (B := B) (X := X) b * y * (innerPart (B := B) (X := X) b)⁻¹ := by
   have hb' : b ∈ B ∧ ∃ k ∈ X, ∀ y ∈ X, b * y * b⁻¹ = k * y * k⁻¹ := ⟨hb, hinn b hb⟩
   unfold innerPart
-  rw [dif_pos hb']
+  rw [dite_eq_left hb']
   exact hb'.2.choose_spec
 
 theorem innerPart_eq {G : Type} [Group G] {B X : Subgroup G}
@@ -148,7 +148,7 @@ theorem decomp {G : Type} [Group G] {B X T : Subgroup G}
     (hrank : twoLocalPrimeRank 3 G ≤ 6) (hcard : Nat.card B = 3 ^ 6) {b : G} (hb : b ∈ B) :
     innerPart (B := B) (X := X) b ∈ B ⊓ X ∧
       centPart (B := B) (X := X) b ∈ B ⊓ centralizer (X : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set φ := decompHom hZX hinn hBab with hφ
   have hcomm : ∀ q r : B × B, q * r = r * q := fun q r =>
     Prod.ext (Subtype.ext (elemAbelian_comm' hBab q.1.2 r.1.2))

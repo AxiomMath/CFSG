@@ -79,7 +79,7 @@ theorem card_eq_sum {Y : Subgroup W11}
       · simp [hb]
     rw [hcongr]
     by_cases hr : toW 11 (latRoots.getD i 0) ∈ Y
-    · simp only [hr, decide_true, Bool.true_and, if_true]
+    · simp only [hr, decide_true, Bool.true_and, ite_true]
       exact hsize i hi7
     · rw [decide_eq_false hr]
       simp

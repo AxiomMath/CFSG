@@ -141,6 +141,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
     Subgroup (MulAut K) :=
   (K.normalizerMonoidHom.comp (Subgroup.inclusion h)).range
 
+omit [Finite G] in
 theorem mem_ggL45KgE {K B₁ : Subgroup G} {h : B₁ ≤ Subgroup.normalizer (K : Set G)}
     {e : MulAut K} : e ∈ ggL45KgE K B₁ h ↔ ∃ b ∈ B₁, ∃ hb : b ∈ Subgroup.normalizer (K : Set G),
       K.normalizerMonoidHom ⟨b, hb⟩ = e := by
@@ -150,6 +151,7 @@ theorem mem_ggL45KgE {K B₁ : Subgroup G} {h : B₁ ≤ Subgroup.normalizer (K 
   · rintro ⟨b, hb, hbN, rfl⟩
     exact ⟨⟨b, hb⟩, rfl⟩
 
+omit [Finite G] in
 theorem card_ggL45KgE_mul (K B₁ : Subgroup G) (h : B₁ ≤ Subgroup.normalizer (K : Set G)) :
     Nat.card (ggL45KgE K B₁ h) * Nat.card (B₁ ⊓ Subgroup.centralizer (K : Set G) : Subgroup G) =
       Nat.card B₁ := by
@@ -241,6 +243,7 @@ theorem GGL45Config.kg_sq_le_card_E (hcfg : GGL45Config p B Bs x L D J X B₂ d 
   have e : p ^ 2 * p = p ^ 3 := by ring
   omega
 
+omit [Finite G] in
 theorem psi_fix_iff {x : G} (hxN : x ∈ Subgroup.normalizer (K : Set G)) (k : K) :
     K.normalizerMonoidHom ⟨x⁻¹, inv_mem hxN⟩ k = k ↔ (k : G) * x = x * k := by
   constructor
@@ -257,6 +260,7 @@ theorem psi_fix_iff {x : G} (hxN : x ∈ Subgroup.normalizer (K : Set G)) (k : K
     rw [mul_assoc, h]
     group
 
+omit [Finite G] in
 theorem ggL45_rhoK_fix_iff {b : G} (hbN : b ∈ Subgroup.normalizer (K : Set G)) (k : K) :
     K.normalizerMonoidHom ⟨b, hbN⟩ k = k ↔ b * k = (k : G) * b := by
   constructor
@@ -495,6 +499,7 @@ theorem ggL45_card_mul_le_card_sup [Finite G] {A C : Subgroup G} (hinf : A ⊓ C
   have hc : c = c' := Subtype.ext (mul_left_cancel h')
   rw [hc]
 
+omit [Finite G] in
 theorem ggLAut_eq_one_of_cent {R : Type} [Group R] (θ : K ⧸ Subgroup.center K ≃* R) {v : G}
     (hv : v ∈ Subgroup.centralizer (K : Set G)) :
     ggLAut K θ ⟨v, Subgroup.centralizer_le_normalizer _ hv⟩ = 1 := by
@@ -561,7 +566,7 @@ theorem GGL45Config.kg_rk
   have hQx : ∀ q ∈ Q', x⁻¹ * q * x ∈ Q' := by
     rintro _ ⟨q, hq, rfl⟩
     refine ⟨_, hQψ q hq, ?_⟩
-    simp [ggL45_rhoK_coe]
+    simp
   have hQxn : ∀ n : ℕ, ∀ q ∈ Q', x⁻¹ ^ n * q * x ^ n ∈ Q' := by
     intro n
     induction n with

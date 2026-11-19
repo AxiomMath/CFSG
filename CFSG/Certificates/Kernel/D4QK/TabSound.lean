@@ -70,7 +70,7 @@ theorem pin_tree (h : gtPinK GM ng cap N P PAR LAB W S = true) :
     rw [getElem!_pos _ c (by simp [bfsTree, hcN])]
     simp [bfsTree]
   have egs : (gensArr ng GM).size = ng := by simp [gensArr]
-  rw [hne, if_neg (by simp), epar, elb, egs] at hp
+  rw [hne, ite_eq_right (by simp), epar, elb, egs] at hp
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hp
   obtain ⟨-, ⟨h1, h2⟩, h3⟩ := hp
   refine ⟨h1, h2, ?_⟩
@@ -119,7 +119,7 @@ theorem ofFn_push (f : Nat → Array ℕ) (k : Nat) :
     · rw [Array.getElem_push_lt (by simpa using hi), Array.getElem_ofFn]
     · have e : i = k + 1 := by simp at h1; omega
       subst e
-      rw [Array.getElem_push, dif_neg (by simp)]
+      rw [Array.getElem_push, dite_eq_right (by simp)]
 
 theorem buildTabR_eq {gs : Array (Array ℕ)} (hP0 : unpackR 24 (P 0) = oneR) (hgs : gs.size = ng)
     (hg : ∀ l < ng, gs[l]! = unpackR 24 (GM l))

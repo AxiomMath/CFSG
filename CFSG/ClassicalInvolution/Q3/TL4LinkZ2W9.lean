@@ -66,7 +66,7 @@ theorem false_of_transfer_1515 [Finite X] {P Q R₀ : Subgroup X} {u : X}
     intro x
     obtain ⟨hyP, hyext⟩ := extremal_of_fixed hP hDC hDsyl huD x.2
     have hxout : valF P Q u x.1 = phiQ P Q ⟨x.1.out⁻¹ * u * x.1.out, hyP⟩ := by
-      rw [valF_eq P Q u x.1 x.1.out (QuotientGroup.out_eq' _), dif_pos hyP]
+      rw [valF_eq P Q u x.1 x.1.out (QuotientGroup.out_eq' _), dite_eq_left hyP]
     rw [hxout]
     rcases hc x.1.out hyP hyext with hyQ | hyQ
     · exact absurd ⟨x.1.out, hyQ, hyext⟩ hex

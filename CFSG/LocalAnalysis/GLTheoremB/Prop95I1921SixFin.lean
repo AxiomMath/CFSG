@@ -293,8 +293,8 @@ theorem five_facts {σ : P10} (hσ : σ ∈ A6Models.psl29) (hσ5 : σ ^ 5 = 1) 
     have e3 : commC (code (g * τ * g⁻¹)) x5C = true := by
       rw [← hx5code, commC_iff]; exact hcomm τ hτσ
     rw [e1, e2, e3] at hc
-    simp only [Bool.not_true, Bool.false_or, Bool.not_eq_true', List.contains_iff_mem,
-      List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hc
+    simp only [Bool.not_true, Bool.false_or, List.contains_iff_mem,
+      List.mem_cons, List.not_mem_nil, or_false] at hc
     have hpow : ∀ k : ℕ, code (x5 ^ k) = Core.cpow x5C k := fun k => by
       rw [code_pow, hx5code]
     have hback : ∀ j : ℕ, g * τ * g⁻¹ = x5 ^ j → τ = σ ^ j := by
@@ -323,7 +323,7 @@ theorem odd5_check : Core.autL.all (fun b => !(Core.cpow b 5 == Core.cid) ||
 theorem mem_psl29_of_prime_pow {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {b : P10}
     (hb : b ∈ A6Models.autA6) (hbp : b ^ p = 1) (hb1 : b ≠ 1) :
     b ∈ A6Models.psl29 ∧ (p = 3 ∨ p = 5) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf b = p := orderOf_eq_prime hbp hb1
   have hdvd : p ∣ 1440 := by
     have h := orderOf_dvd_natCard (⟨b, hb⟩ : ↥A6Models.autA6)

@@ -15,21 +15,21 @@ private theorem irgA1_transvection_up_eq_utriElt (F : Type) [Field F] (c : F) :
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, utriElt]
+    simp [Matrix.SpecialLinearGroup.transvection_coe, utriElt]
 
 private theorem irgA1_transvection_low_eq_ltriElt (F : Type) [Field F] (c : F) :
     Matrix.SpecialLinearGroup.transvection (show (1 : Fin 2) ≠ 0 by decide) c = ltriElt c := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, ltriElt]
+    simp [Matrix.SpecialLinearGroup.transvection_coe, ltriElt]
 
 private theorem irgA1_rootGroup_single (F : Type) [Field F] :
     SpecialLinear.rootGroup 1 F (Pi.single (0 : Fin 1) 1) = utri F := by
   have hγ : SpecialLinear.toStd 1 (Pi.single (0 : Fin 1) 1) =
       Pi.single (0 : Fin 2) 1 - Pi.single (1 : Fin 2) 1 := by
     funext a
-    fin_cases a <;> simp [SpecialLinear.toStd, Pi.single_apply]
+    fin_cases a <;> simp [SpecialLinear.toStd]
   have hroot : SpecialLinear.rootGroup 1 F (Pi.single (0 : Fin 1) 1) =
       SpecialLinear.rootSubgroup 1 F (show (0 : Fin 2) ≠ 1 by decide) :=
     SpecialLinear.rootGroup_eq 1 F (show (0 : Fin 2) ≠ 1 by decide) hγ
@@ -47,7 +47,7 @@ private theorem irgA1_rootGroup_neg_single (F : Type) [Field F] :
   have hγ : SpecialLinear.toStd 1 (-(Pi.single (0 : Fin 1) 1)) =
       Pi.single (1 : Fin 2) 1 - Pi.single (0 : Fin 2) 1 := by
     funext a
-    fin_cases a <;> simp [SpecialLinear.toStd, Pi.single_apply]
+    fin_cases a <;> simp [SpecialLinear.toStd]
   have hroot : SpecialLinear.rootGroup 1 F (-(Pi.single (0 : Fin 1) 1)) =
       SpecialLinear.rootSubgroup 1 F (show (1 : Fin 2) ≠ 0 by decide) :=
     SpecialLinear.rootGroup_eq 1 F (show (1 : Fin 2) ≠ 0 by decide) hγ

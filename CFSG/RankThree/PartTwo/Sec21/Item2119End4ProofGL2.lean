@@ -202,7 +202,7 @@ theorem isCyclic_of_le_commutator_starOf {G : Type} [Group G] [Finite G] {A P W�
     exact Subgroup.commutator_mono le_top le_top h2
   have hg3 : IsPGroup 3 g.range := by
     rw [MonoidHom.range_eq_map]
-    exact (S.isPGroup'.to_subgroup ⊤).map g
+    exact (S.isPGroup.to_subgroup ⊤).map g
   have hgc := isCyclic_of_le_commutator_GL hp3 g.range hg3 hgcomm
   have hgker : g.ker ≤ (f.comp (S : Subgroup K).subtype).ker := by
     intro s hs

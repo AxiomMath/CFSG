@@ -22,7 +22,7 @@ private theorem p65g_exists_sylow_chain {f : ℕ} {F : Subgroup G} (hf : f.Prime
       ∃ F₀ : Sylow f G, Fh ≤ (F₀ : Subgroup G) := by
   obtain ⟨Fh, hFFh, hFhM, hFh, hidx⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.exists_sylow_le_of_isPGroup hf hFM hF
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨F₀, hle⟩ := hFh.exists_le_sylow
   exact ⟨Fh, hFFh, hFhM, hFh,
     CFSG.LocalAnalysis.RankThreeTheoremC.pRank_eq_of_sylow hf hFhM hFh hidx, F₀, hle⟩
@@ -74,8 +74,8 @@ theorem p65_f_lt_p (hS : Situation G p P M) {f : ℕ} (hf : f.Prime) (hf2 : f �
   · have hfF : f ∣ Nat.card F := hyo ▸ Subgroup.orderOf_dvd_natCard F hy
     exact hHM (CFSG.LocalAnalysis.RankFourTheoremC.normalizer_le_of_stronglyEmbedded
       ⟨hMtop, hdvd, hall⟩ hFM hfF)
-  · haveI : Fact f.Prime := ⟨hf⟩
-    haveI := p65g_isMulCommutative_of_sylow F₀ P' hcomm
+  · have : Fact f.Prime := ⟨hf⟩
+    have := p65g_isMulCommutative_of_sylow F₀ P' hcomm
     have hle : (F₀ : Subgroup G) ≤ centralizer ({y} : Set G) := by
       intro a ha
       rw [mem_centralizer_singleton_iff]
@@ -83,6 +83,7 @@ theorem p65_f_lt_p (hS : Situation G p P M) {f : ℕ} (hf : f.Prime) (hf2 : f �
     have := CFSG.SectionRank.pRank_mono hf.one_lt hle
     omega
 
+omit [Finite G] in
 private theorem p65g_mem_normalizer_centralizer {F : Subgroup G} {b : G}
     (hb : b ∈ normalizer (F : Set G)) :
     b ∈ normalizer ((centralizer (F : Set G) : Subgroup G) : Set G) := by
@@ -116,7 +117,7 @@ theorem p65_final_contradiction (hKF : P65CoprimeRankTwo) {f : ℕ} (hp : p.Prim
     (hRFs : R ≤ normalizer (Fs : Set G))
     (hrk : Open.pRank f (centralizer ({y} : Set G)) ≤ 2)
     (hcycR : IsCyclic (R ⊓ centralizer (Fs : Set G) : Subgroup G)) : False := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hBp : IsPGroup p B := IsPGroup.of_card hBc
   have hF₀p : IsPGroup f (Fs ⊓ centralizer (F : Set G) : Subgroup G) := hFs.to_le inf_le_left
   have hBF₀ : B ≤ normalizer ((Fs ⊓ centralizer (F : Set G) : Subgroup G) : Set G) := by

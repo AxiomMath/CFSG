@@ -100,7 +100,7 @@ theorem s16c167_oddCore_of_family {Y : Type} [Group Y]
 theorem s16c167_oddBar_case2 (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (h2 : Case168_2 D V₀ V hV L) :
     oddBar D.M V₀ V hV ≤ kBar D.M V₀ V hV L ∧ Nat.card ↥(oddBar D.M V₀ V hV) = 3 := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   obtain ⟨hK, ⟨L₀, hdir, hfam⟩, -⟩ := h2
   have hL : CFSG.oddCore ↥L₀ = ⊥ := by
     refine s16c167_oddCore_of_family ?_

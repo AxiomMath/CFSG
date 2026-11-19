@@ -11,9 +11,9 @@ namespace CFSG.StandardType
 
 private lemma ggF4H4Psl64_two_eq_zero {F : Type*} [Field F] [Finite F]
     (hF : Nat.card F = 4) : (2 : F) = 0 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 4 := by rwa [Nat.card_eq_fintype_card] at hF
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by simpa using hcard)
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by simpa using hcard)
   exact CharP.cast_eq_zero F 2
 
 private lemma ggF4H4Psl64_cube_eq_zero_or_one {F : Type*} [Field F] [Finite F]
@@ -33,7 +33,7 @@ private lemma ggF4H4Psl64_exists_omega {F : Type*} [Field F] [Finite F]
     (hF : Nat.card F = 4) :
     ∃ ω : F, ω ≠ 1 ∧ ω ^ 3 = 1 ∧ 1 + ω + ω ^ 2 = 0 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 4 := by rwa [Nat.card_eq_fintype_card] at hF
   have hunits : Fintype.card Fˣ = 3 := by
     rw [Fintype.card_units, hcard]
@@ -61,7 +61,7 @@ theorem ggF4H4Psl64_cube_two_dim {F U : Type*} [Field F] [Finite F] (hF : Nat.ca
   · exact Or.inr hc1
   exfalso
   have hpos : 0 < Module.finrank F U := by rw [hU]; norm_num
-  haveI : Nontrivial U := Module.finrank_pos_iff.mp hpos
+  have : Nontrivial U := Module.finrank_pos_iff.mp hpos
   obtain ⟨w, hw⟩ := exists_ne (0 : U)
   by_cases heig : ∃ t : F, y w = t • w
   · obtain ⟨t, ht⟩ := heig
@@ -153,7 +153,7 @@ theorem ggF4H4Psl64_scalar_of_commute {F V : Type*} [Field F] [Finite F] (hF : N
     ∃ c : F, ∀ v, z v = c • v := by
   obtain ⟨c, hc⟩ := hz3
   have htwo : (2 : F) = 0 := ggF4H4Psl64_two_eq_zero hF
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     rw [← Module.finrank_pos_iff (R := F) (M := V)]
     rw [hV]; norm_num
   obtain ⟨v₀, hv₀⟩ := exists_ne (0 : V)
@@ -179,7 +179,7 @@ theorem ggF4H4Psl64_scalar_of_commute {F V : Type*} [Field F] [Finite F] (hF : N
       ext v
       simp only [Module.End.mul_apply, LinearMap.sub_apply, LinearMap.smul_apply,
         Module.End.one_apply, Module.End.pow_apply, Function.iterate_succ,
-        Function.iterate_zero, Function.comp_apply, id_eq, smul_sub, smul_add, smul_smul,
+        Function.iterate_zero, Function.comp_apply, id_eq, smul_sub, smul_smul,
         map_sub, map_smul]
       have hω21 : ω ^ 2 * ω = 1 := by rw [show ω ^ 2 * ω = ω ^ 3 by ring, hω3]
       have hneg : (-1 : F) - ω - ω ^ 2 = 0 := by

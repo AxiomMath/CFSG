@@ -18,6 +18,7 @@ namespace Stellmacher.PU.L3YC
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem transfer4 {K B : Subgroup Y} (hBK : B ≤ K)
     (Θ : ↥K ≃* SpecialLinearGroup (Fin 4) (ZMod 2))
     (B₀ : Subgroup (SpecialLinearGroup (Fin 4) (ZMod 2)))
@@ -78,7 +79,7 @@ theorem transfer4 {K B : Subgroup Y} (hBK : B ≤ K)
     by_cases hXB : X ≤ B
     · exact Or.inl (le_antisymm hXB hBX)
     · right
-      obtain ⟨x, hxX, hxB⟩ := SetLike.not_le_iff_exists.mp hXB
+      obtain ⟨x, hxX, hxB⟩ := IsConcreteLE.not_le_iff_exists.mp hXB
       refine le_antisymm hXK fun h hhK => ?_
       rcases hdouble' x (hXK hxX) hxB h hhK with hh | ⟨a, ha, b, hb, rfl⟩
       · exact hBX hh

@@ -104,13 +104,10 @@ theorem natCard_eq_thirtyTwo {R : Type} [Group R] {A B : Subgroup R}
     exact (Nat.card_congr e).trans hAB
   have hA8 : Nat.card ↥A = 8 := by
     rw [Nat.card_congr eA.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
-    all_goals norm_num
   have hB8 : Nat.card ↥B = 8 := by
     rw [Nat.card_congr eB.toEquiv, Nat.card_eq_fintype_card, DihedralGroup.card]
-    all_goals norm_num
   have hprod : Nat.card (↥A × ↥B) = 64 := by
     rw [Nat.card_prod, hA8, hB8]
-    all_goals norm_num
   have hquot : Nat.card ((↥A × ↥B) ⧸ φ.ker) = Nat.card R :=
     Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective φ hsurj).toEquiv
   have hsplit := Subgroup.card_eq_card_quotient_mul_card_subgroup φ.ker

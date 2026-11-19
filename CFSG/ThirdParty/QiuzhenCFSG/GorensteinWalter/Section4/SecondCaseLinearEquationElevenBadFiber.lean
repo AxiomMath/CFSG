@@ -731,7 +731,7 @@ public theorem secondCase_linearEquation11_badFiber_count
       exact le_trans (Nat.card_le_card_of_injective _ hinj) hSle
     · have : IsEmpty Fib := ⟨fun Y => hFib ⟨Y⟩⟩
       have hz : Nat.card Fib = 0 := Nat.card_eq_zero.mpr (Or.inl inferInstance)
-      simpa [Fib, hz]
+      simp [Fib]
   -- the union bound
   change Nat.card {Y : Subgroup G // Y ∈ A} ≤ ((q - 1) / p) * q
   exact le_trans (natCard_le_mul_of_fiber_le f hfiber) (Nat.mul_le_mul_right q (hWcount x))

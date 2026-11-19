@@ -54,7 +54,7 @@ theorem V6_fixed_zv_perp {g : Equiv.Perm V6} (hg : IsAddPerm g) (h5 : g ^ 5 = 1)
         exact hx' }
   have hcardV : Nat.card V6 = 64 := by
     rw [Nat.card_eq_fintype_card]
-    simp [V6, Fintype.card_fun, ZMod.card]
+    simp [V6, ZMod.card]
   have hcardVf : Fintype.card V6 = 64 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcardV
@@ -64,7 +64,7 @@ theorem V6_fixed_zv_perp {g : Equiv.Perm V6} (hg : IsAddPerm g) (h5 : g ^ 5 = 1)
     change (g : V6 → V6) ^[5] = id
     have h := congrArg (fun p : Equiv.Perm V6 => (p : V6 → V6)) h5
     rwa [Equiv.Perm.coe_pow, Equiv.Perm.coe_one] at h
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (f := f) (p := 5) (n := 1) hf5
   have hfixed : Nat.card S = Fintype.card f.fixedPoints := by
     have he : S ≃ f.fixedPoints :=

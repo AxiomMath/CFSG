@@ -21,7 +21,7 @@ private theorem l10sbsp_inner_range
     {β : Fin (ggU .PSp n f).D.rank → ℤ} (hβ : β ∈ (ggU .PSp n f).D.roots)
     (u : (ggU .PSp n f).K) :
     GGRootNormInner ((ggRootSub (ggU .PSp n f).D φ β u).subgroupOf φ.range) := by
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hZ : Subgroup.center (ggU .PSp n f).K = ⊥ :=
     CFSG.SeitzReduction.SymplecticPilot.center_statedSp_eq_bot (K := GaloisField 2 f) n
   have hkerbot : φ.ker = ⊥ := le_bot_iff.mp (hker.trans (le_of_eq hZ))
@@ -84,7 +84,7 @@ theorem ggRootNoCentralAt_ggU_psp
     (u : (ggU .PSp n f).K) :
     GGRootNoCentralAt φ.range (ggRootSub (ggU .PSp n f).D φ β u) := by
   have hn : 2 ≤ n := hadm.2.2.1
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hZ : Subgroup.center (ggU .PSp n f).K = ⊥ :=
     CFSG.SeitzReduction.SymplecticPilot.center_statedSp_eq_bot (K := GaloisField 2 f) n
   have hkerbot : φ.ker = ⊥ := le_bot_iff.mp (hker.trans (le_of_eq hZ))
@@ -124,7 +124,7 @@ theorem ggSixLieKnown_of_pos_PSp
   intro X _ _ n f ψ p G₀ B₁ D J L x hψ hker hmodel hoddG0 hp hp2 hB₁G₀ hinner hab hcardB hDB
     hcardD hB₁J hB₁centJ hJcomp hoddJ hxD hxne hLG₀ hLcomp hJL hDnotCL hLEM1 hB₁L hLEM2 hA3
     hE6c hA6 hField hN hE
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hZ : Subgroup.center (ggU .PSp n f).K = ⊥ :=
     CFSG.SeitzReduction.SymplecticPilot.center_statedSp_eq_bot (K := GaloisField 2 f) n
   have hkerbot : ψ.ker = ⊥ := le_bot_iff.mp (hker.trans (le_of_eq hZ))

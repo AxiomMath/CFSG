@@ -97,7 +97,7 @@ theorem local_centralizer_sylow_involution_normalizer
     exact finish s hsclass hsQ
   · let := pointInvariantSetInverseRightAction H F Delta hstable
     let QF := QG.subgroupOf F
-    have hQp : IsPGroup p QG := Q.isPGroup'.map C.subtype
+    have hQp : IsPGroup p QG := Q.isPGroup.map C.subtype
     have hQFp : IsPGroup p QF := hQp.comap_subtype
     have hQimage : QF.map F.subtype = QG := Subgroup.map_subgroupOf_eq_of_le hQF
     obtain ⟨T, hTp, hQT, hTjoin, _hjoin, hintersection⟩ :=

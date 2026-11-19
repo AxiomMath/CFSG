@@ -13,7 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] {z : G} {ι ιd : Perm (Fin 10) →* G} {Kh : Subgroup G}
 
-private theorem u_y_sq (F : UFrame z ι ιd) : yElt ιd * yElt ιd = 1 := by
+private theorem u_y_sq (_F : UFrame z ι ιd) : yElt ιd * yElt ιd = 1 := by
   rw [yElt, ← map_mul, ← map_one ιd]
   congr 1
   decide

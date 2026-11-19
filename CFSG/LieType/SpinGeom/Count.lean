@@ -53,7 +53,7 @@ omit [Finite K] [CharP K 2] in
 theorem xvec_frameE_zero : xvec K (frameE K 0) = 0 := by
   ext j
   unfold xvec
-  rw [coordX_frameE, if_neg (Fin.succ_ne_zero j).symm]
+  rw [coordX_frameE, ite_eq_right (Fin.succ_ne_zero j).symm]
   rfl
 
 omit [Finite K] [CharP K 2] in
@@ -69,7 +69,7 @@ theorem spinElt_frameE_zero (c m : Fin 3 → K) (g : Matrix (Fin 3) (Fin 3) K) :
     · rw [coordX_spinElt_zero, xvec_frameE_zero, yvec_frameE, coordY_frameE_zero]
       simp
     · rw [coordX_spinElt_succ, xvec_frameE_zero, coordY_frameE_zero, coordX_frameE,
-        if_neg (Fin.succ_ne_zero l).symm]
+        ite_eq_right (Fin.succ_ne_zero l).symm]
       simp
   · intro k
     refine Fin.cases ?_ (fun l => ?_) k

@@ -62,7 +62,6 @@ theorem exists_traceHom_ne_zero (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1) (hσ1 : σ 
       | exact hσ1 hσij
       | exact hσ2 hσij
       | exact hσ2 hσij.symm
-      | exact hσ1 (by simpa using hσij)
       | exact h12 hσij
       | exact h12 hσij.symm
   have hli := (linearIndependent_monoidHom Kˣ K).comp g hgi

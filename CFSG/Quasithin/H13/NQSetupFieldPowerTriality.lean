@@ -51,7 +51,7 @@ theorem even_triality_field_power_of_posUnipotent
   obtain ⟨⟨P, hP⟩, -⟩ := exceptional_fixed_Sylow_opposition TwistTag.D4 k 2 σ w₀ hw₀
   have hU'2 : IsPGroup 2 U' := by
     rw [hU', ← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   obtain ⟨m, hm⟩ := hU'2.exists_card_eq
   have hcop : Nat.Coprime (Nat.card A) (Nat.card U') := by
     rw [hm]

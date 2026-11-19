@@ -18,11 +18,11 @@ theorem exists_comp_of_record {n p : ℕ} (hp : p.Prime) {P D : Subgroup (Equiv.
     (hC : Nat.card ↥(Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ P) ≤ N)
     (hN : N ≤ 2 * (p * Nat.card ↥D)) :
     ∃ J : Subgroup ↥P, GLAPComponent p (Subgroup.centralizer ({⟨x, hxP⟩} : Set ↥P)) J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x' : ↥P := ⟨x, hxP⟩
   set L : Subgroup ↥P := D.subgroupOf P with hL
   have eL : ↥L ≃* ↥D := Subgroup.subgroupOfEquivOfLe hDP
-  haveI : IsSimpleGroup ↥D := hs
+  have : IsSimpleGroup ↥D := hs
   have hsL : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hs
   have hnabL : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨g, hg, h, hh, hgh⟩ := hnab
@@ -66,7 +66,7 @@ theorem kd264RowData_of_lines {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.
       ∃ J₀ : Subgroup T, GLAPComponent p (Subgroup.centralizer ({line j} : Set T)) J₀) :
     KD264RowData p T := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro A hA hAmax k hk1 hk2 hAk
   have hAp : IsPGroup p A := isPGroup_of_isElemAbelian hA
   obtain ⟨S, hAS⟩ := hAp.exists_le_sylow
@@ -115,14 +115,14 @@ theorem kd264RowData_of_lines {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.
       simp only [Nat.card_zpowers, hao] at this
       rw [← this] at hAk'
       nlinarith
-    obtain ⟨b, hbA, hbz⟩ := SetLike.exists_of_lt hzA
+    obtain ⟨b, hbA, hbz⟩ := _root_.IsConcreteLE.exists_of_lt hzA
     have hb1 : b ≠ 1 := fun h => hbz (h ▸ Subgroup.one_mem _)
     have hbo : orderOf b = p := orderOf_eq_prime (hA.2 b hbA) hb1
     have hline : ∀ c ∈ A, orderOf c = p → ∃ j, Subgroup.zpowers (g⁻¹ * c * g) =
         Subgroup.zpowers (line j) := by
       intro c hc hco
       refine hlines _ (Subgroup.zpowers_le.2 (hmemS c (hAS hc))) ?_
-      rw [Nat.card_zpowers, show g⁻¹ * c * g = MulAut.conj g⁻¹ c by simp [MulAut.conj_apply],
+      rw [Nat.card_zpowers, show g⁻¹ * c * g = MulAut.conj g⁻¹ c by simp,
         MulEquiv.orderOf_eq, hco]
     obtain ⟨ja, hja⟩ := hline a haA hao
     obtain ⟨jb, hjb⟩ := hline b hbA hbo

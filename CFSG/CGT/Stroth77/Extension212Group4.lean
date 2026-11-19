@@ -23,7 +23,7 @@ theorem not_isCyclic_quotient_of_data [hN : (B.subgroupOf C).Normal] (hBC : B �
   classical
   have hcomm : ∀ x y : C, x * y = y * x :=
     comm_of_le_centralizer_of_cyclic_quotient hBC hC hcycQ
-  letI : CommGroup C := { mul_comm := hcomm }
+  let : CommGroup C := { mul_comm := hcomm }
   obtain ⟨q₀, hq₀⟩ := hcycQ.exists_generator
   obtain ⟨z, hzq⟩ := QuotientGroup.mk'_surjective (B.subgroupOf C) q₀
   let q : C ⧸ B.subgroupOf C := QuotientGroup.mk' (B.subgroupOf C) z
@@ -172,6 +172,7 @@ section Basis
 
 variable (D : StrothTypeData B τ)
 
+omit [Finite S] in
 theorem fix_of_torus (hfix : ∀ v : Torus τ.k, τ.action.φρ v = v → τ.action.φt v = v → v = 0) :
     ∀ y : B, conjBy D.ρ_mem y = y → conjBy D.t_mem y = y → y = 1 := by
   intro y hρ ht
@@ -180,6 +181,7 @@ theorem fix_of_torus (hfix : ∀ v : Torus τ.k, τ.action.φρ v = v → τ.act
   · rw [← ec_conj_ρ_data D, hρ]
   · rw [← ec_conj_t_data D, ht]
 
+omit [Finite S] in
 theorem fix4_of_torus (hfix4 : ∀ v : Torus τ.k, (∃ z, 4 • z = τ.action.φρ v - v) →
       (∃ z, 4 • z = τ.action.φt v - v) → ∃ z, 2 • z = v) :
     ∀ y : B, conjBy D.ρ_mem y * y⁻¹ ∈ fourB D → conjBy D.t_mem y * y⁻¹ ∈ fourB D →
@@ -190,6 +192,7 @@ theorem fix4_of_torus (hfix4 : ∀ v : Torus τ.k, (∃ z, 4 • z = τ.action.�
   obtain ⟨z, hz⟩ := hfix4 _ hρ ht
   exact exists_mul_self_eq_of_two_nsmul D y hz
 
+omit [Finite S] in
 theorem conjBy_ρ_a_of_data (hρa : τ.action.φρ (gen τ.k 1) = gen τ.k 2) :
     conjBy D.ρ_mem D.a = D.b := by
   apply D.ec_injective
@@ -200,8 +203,8 @@ variable [hN : (B.subgroupOf C).Normal]
 
 theorem exists_torusBasis_idx4_of_data (hk : ∀ i, 1 ≤ τ.k i) (hBC : B ≤ C)
     (hC : C ≤ Subgroup.centralizer (B : Set S)) (hrel : Nat.card C = 4 * Nat.card B)
-    (hL : D.L ≤ Subgroup.normalizer C) (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S')
-    (hρpar : ∀ v, parityTorus _ hk (τ.action.φρ v) = rhoBar300 (parityTorus _ hk v))
+    (hL : D.L ≤ Subgroup.normalizer C) (_hH : NoInvolutionsCentralizing S' B) (_hcS : C ≤ S')
+    (_hρpar : ∀ v, parityTorus _ hk (τ.action.φρ v) = rhoBar300 (parityTorus _ hk v))
     (hρa : τ.action.φρ (gen τ.k 1) = gen τ.k 2)
     (hfix : ∀ y : B, conjBy D.ρ_mem y = y → conjBy D.t_mem y = y → y = 1)
     (hncyc : ¬ IsCyclic (C ⧸ B.subgroupOf C)) {K : Fin 3 → ℕ} (hK0 : K 0 = τ.k 0)
@@ -295,6 +298,7 @@ theorem exists_torusBasis_idx4_of_data (hk : ∀ i, 1 ≤ τ.k i) (hBC : B ≤ C
   obtain ⟨E, hE⟩ := exists_torusEquiv_Idx4 hcomm x hx hgen hcard
   exact ⟨E, hE 0, hE 1, hE 2⟩
 
+omit hN [Finite S] in
 theorem E_incl4 (hBC : B ≤ C) {K : Fin 3 → ℕ} (hK0 : K 0 = τ.k 0) (hK1 : K 1 = τ.k 1 + 1)
     (hK2 : K 2 = τ.k 2 + 1) {g h : C} (hg : g * g = ⟨D.a, hBC D.a.2⟩)
     (hh : h * h = ⟨D.b, hBC D.b.2⟩) (E : Torus K ≃+ Additive C)

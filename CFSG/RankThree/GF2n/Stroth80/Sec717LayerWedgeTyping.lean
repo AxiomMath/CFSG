@@ -42,7 +42,7 @@ theorem Ctx.sec717_typing_T (hZcard : Sec7ZCardStatement) (hZc : Sec7CentreMpSta
   have hQCN : Q ≤ hc.CN t := hc.Q_le_CN' ht
   obtain ⟨K', fK', finK', hK'Z, ρΩ, hρr, hρker, hsec⟩ := id hp3
   obtain ⟨k, -, hk, -⟩ := hc.hyp.cp
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'Z.trans hk)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'Z.trans hk)
   obtain ⟨η₀, hη₀s, hη₀k, hη₀ρ⟩ := exists_sl4_of_omegaPlus_three ρΩ hρr
   have hmemN : ∀ h : ↥(Rt M (LB M Q B) t), η₀ h = 1 ↔ (h : G) ∈ hc.CN t := by
     intro h
@@ -87,7 +87,7 @@ theorem Ctx.sec717_typing_T (hZcard : Sec7ZCardStatement) (hZc : Sec7CentreMpSta
       by_cases hij : i = j
       · subst hij
         simp
-      · simp [Matrix.one_apply, hij]
+      · simp [hij]
     · intro h1
       rw [h1, map_one]
   have he_symm : ∀ (x : ↥(Rt M (LB M Q B) t)) (w : ↥T) (hw : φ (π' x) w ∈ T),

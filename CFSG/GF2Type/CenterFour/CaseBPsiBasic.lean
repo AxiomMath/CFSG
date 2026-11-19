@@ -13,12 +13,14 @@ variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
 @[expose] def psi (z₁ q : G) : G := z₁ * (q * z₁ * q⁻¹)
 
+omit [Finite G] in
 private theorem comm_of_conj_eq {z₁ y : G} (hz₁ : z₁ * z₁ = 1) (h : z₁ * y * z₁ = y) :
     y * z₁ = z₁ * y := by
   calc y * z₁ = (z₁ * z₁) * y * z₁ := by rw [hz₁, one_mul]
     _ = z₁ * (z₁ * y * z₁) := by simp only [mul_assoc]
     _ = z₁ * y := by rw [h]
 
+omit [Finite G] in
 private theorem mem_inf_of_conj_inv {z₁ y : G} (hz₁ : z₁ * z₁ = 1) (hy : y ∈ coreAt z)
     (hinv : z₁ * y * z₁ = y⁻¹) (hy2 : y ^ 2 = 1) :
     y ∈ coreAt z ⊓ centralizer ({z₁} : Set G) := by
@@ -26,18 +28,21 @@ private theorem mem_inf_of_conj_inv {z₁ y : G} (hz₁ : z₁ * z₁ = 1) (hy :
   rw [hyinv] at hinv
   exact ⟨hy, Subgroup.mem_centralizer_singleton_iff.mpr (comm_of_conj_eq hz₁ hinv)⟩
 
+omit [Finite G] in
 private theorem mul_self_eq_one_of_config (hC : Config z n) : z * z = 1 := by
   have h := pow_orderOf_eq_one z
   rw [hC.orderOf_eq] at h
   rw [← sq]
   exact h
 
+omit [Finite G] in
 private theorem conj_mul_self_eq_one (hC : Config z n) (g : G) :
     (g⁻¹ * z * g) * (g⁻¹ * z * g) = 1 := by
   have hz2 := mul_self_eq_one_of_config hC
   calc (g⁻¹ * z * g) * (g⁻¹ * z * g) = g⁻¹ * (z * z) * g := by group
     _ = 1 := by rw [hz2]; group
 
+omit [Finite G] in
 private theorem mem_sup_decompose {F E : Subgroup G} {x : G} (hx : x ∈ F ⊔ E)
     (hE : E ≤ centralizer (F : Set G)) :
     ∃ f ∈ F, ∃ e ∈ E, x = f * e := by
@@ -62,6 +67,7 @@ private theorem mem_sup_decompose {F E : Subgroup G} {x : G} (hx : x ∈ F ⊔ E
       _ = f * (f' * e) * e' := by rw [hcomm]
       _ = f * f' * (e * e') := by simp only [mul_assoc]
 
+omit [Finite G] in
 theorem psi_mem_core (hC : Config z n) {z₁ : G} (hz₁ : z₁ * z₁ = 1)
     (hH : z₁ ∈ centralizer ({z} : Set G)) {q : G} (hq : q ∈ coreAt z) :
     psi z₁ q ∈ coreAt z := by
@@ -73,6 +79,7 @@ theorem psi_mem_core (hC : Config z n) {z₁ : G} (hz₁ : z₁ * z₁ = 1)
   rw [e]
   exact Subgroup.mul_mem _ (hC.conj_mem_core hH hq) (inv_mem hq)
 
+omit [Finite G] in
 theorem psi_conj {z₁ q : G} (hz₁ : z₁ * z₁ = 1) : z₁ * psi z₁ q * z₁ = (psi z₁ q)⁻¹ := by
   have hzinv : z₁⁻¹ = z₁ := inv_eq_of_mul_eq_one_right hz₁
   unfold psi
@@ -82,6 +89,7 @@ theorem psi_conj {z₁ q : G} (hz₁ : z₁ * z₁ = 1) : z₁ * psi z₁ q * z�
     _ = (z₁ * (q * z₁ * q⁻¹))⁻¹ := by
         simp only [mul_inv_rev, inv_inv, hzinv, mul_assoc]
 
+omit [Finite G] in
 theorem psi_mem_iff_sq_eq_one (hC : Config z n) {z₁ : G} (hz₁ : z₁ * z₁ = 1)
     (hH : z₁ ∈ centralizer ({z} : Set G)) {q : G} (hq : q ∈ coreAt z) :
     psi z₁ q ∈ coreAt z ⊓ centralizer ({z₁} : Set G) ↔ psi z₁ q ^ 2 = 1 := by
@@ -138,7 +146,8 @@ theorem CaseB.psi_mem (hC : Config z n) {g : G}
     psi (g⁻¹ * z * g) q ∈ (coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G)) ⊔ centerAt z :=
   psi_mem_sup hC (conj_mul_self_eq_one hC g) hH hK hq
 
-theorem CaseB.psi_eq_psi_iff (hC : Config z n) {z₁ : G} {q q' : G}
+omit [Finite G] in
+theorem CaseB.psi_eq_psi_iff (_hC : Config z n) {z₁ : G} {q q' : G}
     (hq : q ∈ coreAt z) (hq' : q' ∈ coreAt z) :
     psi z₁ q = psi z₁ q' ↔ q'⁻¹ * q ∈ coreAt z ⊓ centralizer ({z₁} : Set G) := by
   have key : psi z₁ q = psi z₁ q' ↔ q'⁻¹ * q * z₁ = z₁ * (q'⁻¹ * q) := by

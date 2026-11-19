@@ -34,8 +34,8 @@ theorem exists_coroot_data_of_datum (hGen : TwE6CorootCoreGen) {n : ℕ} (hn : 1
       CFSG.IsQuasisimple D' ∧ 7 ∣ Nat.card D' ∧
       ∀ y ∈ Y, (∀ d ∈ D', y d = d) → ∃ d ∈ X, y = MulAut.conj d := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hb1 : corootTuple γ ζ ≠ 1 := by
     intro h
     obtain ⟨j, hj⟩ := CFSG.LieType.Steinberg.Adjoint.iform_self_of_isRoot hγ

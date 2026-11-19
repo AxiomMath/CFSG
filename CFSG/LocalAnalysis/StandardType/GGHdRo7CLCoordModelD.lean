@@ -18,6 +18,7 @@ open CFSG.StandardType CFSG.Open CFSG.Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma hdRo7CLCoordAux_eq_one_of_mem_centralizer_of_center_eq_bot {X : Subgroup G}
     (hX : Subgroup.center X = ⊥) {z : G} (hzX : z ∈ X)
     (hzC : z ∈ Subgroup.centralizer (X : Set G)) : z = 1 := by
@@ -45,6 +46,7 @@ private def hdRo7CLCoordAux_prodHom (Bs X : Subgroup G) :
       _ = (q.1 : G) * ((q.2 : G) * (r.1 : G)) * (r.2 : G) := by rw [h]
       _ = ((q.1 : G) * (q.2 : G)) * ((r.1 : G) * (r.2 : G)) := by group
 
+omit [Finite G] in
 private lemma hdRo7CLCoordAux_prodHom_bijective {p : ℕ} {B Bs X : Subgroup G}
     (hBs : GGBstar p B Bs) (hZ : Subgroup.center X = ⊥)
     (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
@@ -86,7 +88,7 @@ private noncomputable def hdRo7CLCoordAux_prodEquiv {p : ℕ} {B Bs X : Subgroup
     (hdRo7CLCoordAux_prodHom_bijective hBs hZ hnorm hinner)
 
 theorem hdRo7CLCoordAux_ggGamma_mem_conj_range (p : ℕ) (B Bs : Subgroup G) (x : G)
-    (L D J : Subgroup G) (y : G) (K : Subgroup G) (hH : GGResHyp p B Bs x L D J y K)
+    (L D J : Subgroup G) (y : G) (K : Subgroup G) (_hH : GGResHyp p B Bs x L D J y K)
     (R : Type) [Group R] (I : Set (MulAut R)) (θ : ↥L ⧸ Subgroup.center ↥L ≃* R)
     (hI : I ⊆ Set.range (MulAut.conj : R →* MulAut R)) (hZL : Subgroup.center ↥L = ⊥)
     (hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -172,6 +174,7 @@ theorem hdRo7CLCoordAux_split_equiv_apply (p : ℕ) (B Bs : Subgroup G) (x : G)
   apply Subtype.ext
   rfl
 
+omit [Finite G] in
 theorem hdRo7CLCoordAux_ker_conj_eq_center (L : Subgroup G) :
     (MulAut.conj : ↥L →* MulAut ↥L).ker = Subgroup.center ↥L := by
   ext x
@@ -256,7 +259,7 @@ theorem hdRo7CLCoordAux_hinner_of_coprime
       LargeEvenInduces θ (fun l l' : ↥L => (l' : G) = b⁻¹ * (l : G) * b) φ) :
     ∀ b ∈ Bs, ∃ l ∈ L, ∀ z ∈ L, b * z * b⁻¹ = l * z * l⁻¹ := by
   classical
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
   have hψ : Function.Surjective (ggQuotHom θ) := ggQuotHom_surjective θ
   intro b hb
   obtain ⟨φ, hφI, hφind⟩ := hBs3 b hb

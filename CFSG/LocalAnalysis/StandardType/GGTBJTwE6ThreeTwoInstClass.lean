@@ -32,7 +32,7 @@ theorem tw1i_weylLift
       GGTorusWeylElt 3 A m ∧ ∀ a : ↥A, Multiplicative.toAdd (Fm.κ (ggConjAut A hN a)) =
         adAct Tag.E6 3 (rootReflection c) (Multiplicative.toAdd (Fm.κ a)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let V : Set (Fin Tag.E6.rank → ZMod 3) := {x | Multiplicative.ofAdd x ∈ Fm.κ.range}
   have hκV : ∀ x, Multiplicative.ofAdd x ∈ Fm.κ.range ↔ x ∈ V := fun _ => Iff.rfl
   have hV : V = Set.univ ∨ V = (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)) :=
@@ -111,11 +111,11 @@ theorem tw1i_d4Label
         (fun α => v • α) '' parabolicRoots Tag.E6 {j | j ∉ ({0, 5} : Finset (Fin 6))}) :
     GGTwE6D4Label J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hap : ∀ j, (TableBExc.E6Three.zetaVec Fm.ζ Fm.hζ t₀ j) ^ 3
       = 1 := by
@@ -164,7 +164,7 @@ theorem tw1i_classA
     (hJ : IsComponentOf J (fixSubgroup (y : MulAut L'))) :
     GGE6ThreeClassA A Fm.κ y J (GGTwE6D4Label J) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd1 := ggTwE6Three_ne_one hker hperf Fm hy1
   obtain ⟨S, e, i, he, hρ, hSq, -, hdT, hqi, hmap⟩ :=
     tw1i_class_setup Nat.prime_five (Or.inl le_rfl) (by norm_num) le_rfl hK hσ (by norm_num)
@@ -174,11 +174,11 @@ theorem tw1i_classA
   have hfix := tw1i_class_kernel Fm.F Fm.hζ ψ₀ hker (Multiplicative.toAdd (Fm.κ y)) hJp S e i he
     hρ hmap
   have hq2 : S.D.q = 2 := by rw [hSq]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * 1)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hAlg : S.IsAlgebraic := S.isAlgebraic_of_algebraic K 2 (by rw [hK, hSq])
   have hap : ∀ j, (TableBExc.E6Three.zetaVec Fm.ζ Fm.hζ (Multiplicative.toAdd (Fm.κ y)) j) ^ 3
@@ -199,7 +199,7 @@ theorem tw1i_classA
     exact ⟨m, hN, hmJ, hWeyl, hcoord⟩
   ·
     intro hD4
-    haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+    have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
     exact tw1i_d4Label hK hker Fm (Multiplicative.toAdd (Fm.κ y)) inferInstance S e i hρ hdT hqi
       hmap hD4
 
@@ -212,7 +212,7 @@ theorem tw1i_comp_invariant
     {J : Subgroup L'} (hJ : IsComponentOf J (fixSubgroup (y : MulAut L'))) :
     ∀ a ∈ A, ∀ x ∈ J, a x ∈ J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd1 := ggTwE6Three_ne_one hker hperf Fm hy1
   obtain ⟨S, e, i, he, hρ, hSq, htor, hdT, hqi, hmap⟩ :=
     tw1i_class_setup Nat.prime_five (Or.inl le_rfl) (by norm_num) le_rfl hK hσ (by norm_num)

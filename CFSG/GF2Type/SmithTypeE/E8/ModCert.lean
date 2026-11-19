@@ -10,12 +10,12 @@ namespace CFSG.GF2Type.SmithTypeE.E8
 
 
 theorem e8ModelFacts : E8ModelFacts where
-  wt_ne_zero w hw := F.wt_ne_zero_core hw
-  exists_adj w hw := F.exists_adj_core hw
-  wt_ne_add w hw w' hw' h := F.wt_ne_add_core hw hw' h
-  tv_wt r hr w hw := F.tv_wt_core hr hw
-  pair_rel_sym r r' hr hr' hne := F.pair_rel_sym_core hr hr' hne
-  int_rel_sym r r' hr hr' hne c c' h := F.int_rel_sym_core hr hr' hne c c' h
+  wt_ne_zero _w hw := F.wt_ne_zero_core hw
+  exists_adj _w hw := F.exists_adj_core hw
+  wt_ne_add _w hw _w' hw' h := F.wt_ne_add_core hw hw' h
+  tv_wt _r hr _w hw := F.tv_wt_core hr hw
+  pair_rel_sym _r _r' hr hr' hne := F.pair_rel_sym_core hr hr' hne
+  int_rel_sym _r _r' hr hr' hne c c' h := F.int_rel_sym_core hr hr' hne c c' h
 
 theorem smithE8E34Q_of_module (hM : SmithE8Module) : SmithE8E34Q :=
   smithE8E34Q_of e8ModelFacts hM

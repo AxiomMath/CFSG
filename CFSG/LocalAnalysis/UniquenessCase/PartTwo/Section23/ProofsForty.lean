@@ -75,7 +75,7 @@ private theorem two_pow_add_two_le_card_V
 
 private theorem exists_sigma_hyperplane_large_centralizer
     (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
-    (h4 : S23_4 D Ch) (h39 : S23_39 D Ch) (h61 : UC6.R6_1 D)
+    (h4 : S23_4 D Ch) (h39 : S23_39 D Ch) (_h61 : UC6.R6_1 D)
     (hZc : SigmaCentZ D Ch) (hrk : ∀ p ∈ D.sig, 3 ≤ CFSG.Open.pRank p D.M)
     (hsig : D.sig.Nonempty) (h1930 : H1930 D) (n : ℕ) (hn : 2 ≤ n)
     (hZcard : Nat.card D.Z = 2 ^ n) :
@@ -84,7 +84,7 @@ private theorem exists_sigma_hyperplane_large_centralizer
   classical
   obtain ⟨p, hpσ⟩ := hsig
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hprank3 : 3 ≤ CFSG.Open.pRank p D.M := hrk p hpσ
   have hEel : IsElemAbelian 2 c.E := c.isElemAbelian_E h4 h39 h1930
   have hEisp : IsPGroup 2 c.E := hEel.isPGroup

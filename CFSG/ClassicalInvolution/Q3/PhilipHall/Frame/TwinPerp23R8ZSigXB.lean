@@ -23,9 +23,9 @@ theorem exists_normal_two_of_inO2 {Y : Type} [Group Y] [Finite Y] {N : Subgroup 
   obtain ⟨Pb, hPbn, hPb2, htPb⟩ := hO2
   set f := QuotientGroup.mk' (classicalInvolutionOddCore ↥N)
   set P : Subgroup ↥N := Pb.comap f
-  haveI : P.Normal := hPbn.comap f
-  haveI : Group.IsNilpotent ↥P := by
-    haveI : Group.IsNilpotent ↥Pb := hPb2.isNilpotent
+  have : P.Normal := hPbn.comap f
+  have : Group.IsNilpotent ↥P := by
+    have : Group.IsNilpotent ↥Pb := hPb2.isNilpotent
     refine Subgroup.isNilpotent_of_ker_le_center (f.subgroupComap Pb) fun m hm => ?_
     have hm1 : f (m : ↥N) = 1 := congrArg Subtype.val (MonoidHom.mem_ker.mp hm)
     have hmO : ((m : ↥N) : Y) ∈ oddCoreOf N :=
@@ -41,9 +41,9 @@ theorem exists_normal_two_of_inO2 {Y : Type} [Group Y] [Finite Y] {N : Subgroup 
       rw [Nat.card_zpowers, pow_one]
       exact orderOf_dvd_of_pow_eq_one hxx)
   obtain ⟨Q, hQ⟩ := hx2.exists_le_sylow
-  haveI : (Q : Subgroup ↥P).Characteristic := Sylow.characteristic_of_normal Q inferInstance
+  have : (Q : Subgroup ↥P).Characteristic := Sylow.characteristic_of_normal Q inferInstance
   have hQN : ((Q : Subgroup ↥P).map P.subtype).Normal := inferInstance
-  refine ⟨((Q : Subgroup ↥P).map P.subtype).map N.subtype, (Q.isPGroup'.map _).map _,
+  refine ⟨((Q : Subgroup ↥P).map P.subtype).map N.subtype, (Q.isPGroup.map _).map _,
     ⟨_, ⟨x, hQ (Subgroup.mem_zpowers x), rfl⟩, rfl⟩, ?_⟩
   rintro y hy _ ⟨w, hw, rfl⟩
   exact ⟨_, hQN.conj_mem w hw ⟨y, hy⟩, rfl⟩

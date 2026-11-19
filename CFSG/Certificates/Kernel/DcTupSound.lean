@@ -53,7 +53,7 @@ theorem foldl_step {α : Type*} (P : ℕ → α → Prop) [∀ a e, Decidable (P
   | e :: l, acc, h => by
     rw [List.foldl_cons] at h ⊢
     by_cases hP : P acc e
-    · rw [hf, if_pos hP] at h ⊢
+    · rw [hf, ite_eq_left hP] at h ⊢
       obtain ⟨h1, h2⟩ := foldl_step P f hf l (acc + 1) h
       refine ⟨by rw [h1, List.length_cons]; omega, fun k hk => ?_⟩
       cases k with
@@ -62,7 +62,7 @@ theorem foldl_step {α : Type*} (P : ℕ → α → Prop) [∀ a e, Decidable (P
         have e1 : acc + (k + 1) = acc + 1 + k := by omega
         rw [e1, List.getElem_cons_succ]
         exact h2 k (by simpa using hk)
-    · rw [hf, if_neg hP] at h
+    · rw [hf, ite_eq_right hP] at h
       exact absurd h (Nat.not_lt.mpr (foldl_ge f (fun a e ha => by
         rw [hf]; split_ifs <;> omega) l 16384 le_rfl))
 
@@ -133,8 +133,8 @@ theorem ordF_eq (N C Q2 RW ya yb : ℕ) (ys : List ℕ) (acc : ℕ) :
   unfold ordF
   rw [beq_eq_decide, beq_eq_decide, ← Bool.decide_and]
   by_cases h : idx N C Q2 ya yb = acc ∧ pk ys = row RW acc
-  · rw [decide_eq_true h, if_pos h]
-  · rw [decide_eq_false h, if_neg h]
+  · rw [decide_eq_true h, ite_eq_left h]
+  · rw [decide_eq_false h, ite_eq_right h]
 
 theorem hitN_eq_ite (N C Q2 RW za zb : ℕ) (zs : List ℕ) :
     hitN N C Q2 RW za zb zs =
@@ -144,9 +144,9 @@ theorem hitN_eq_ite (N C Q2 RW za zb : ℕ) (zs : List ℕ) :
   by_cases h1 : idx N C Q2 za zb < N
   · rw [decide_eq_true h1]
     by_cases h2 : pk zs = row RW (idx N C Q2 za zb)
-    · rw [decide_eq_true h2, if_pos ⟨h1, h2⟩]
-    · rw [decide_eq_false h2, if_neg fun h => h2 h.2]
-  · rw [decide_eq_false h1, if_neg fun h => h1 h.1]
+    · rw [decide_eq_true h2, ite_eq_left ⟨h1, h2⟩]
+    · rw [decide_eq_false h2, ite_eq_right fun h => h2 h.2]
+  · rw [decide_eq_false h1, ite_eq_right fun h => h1 h.1]
 
 theorem ordT_sound {N C Q2 RW q1 q2 : ℕ} {B : List ℕ} {Ls : List (List ℕ)}
     {Gs : List (List Γ)} (hLG : List.Forall₂ (List.Forall₂ (CodeOf n)) Ls Gs) (hq1 : q1 < n)
@@ -181,10 +181,10 @@ theorem hitN_eq [DecidableEq Γ] {N C Q2 RW q1 q2 : ℕ} {B : List ℕ} {Ls : Li
   · obtain ⟨k, hk', rfl⟩ := List.getElem_of_mem hg
     have := hk k (hlen ▸ hk')
     rw [List.getD_eq_getElem _ _ hk'] at this
-    rw [if_pos hg, if_pos]
+    rw [ite_eq_left hg, ite_eq_left]
     rw [this.1]
     exact ⟨hlen ▸ hk', this.2⟩
-  · rw [if_neg hg, if_neg]
+  · rw [ite_eq_right hg, ite_eq_right]
     rintro ⟨hlt, hpk⟩
     obtain ⟨-, hrow⟩ := hk _ hlt
     have hk' : idx N C Q2 (act n g q1) (act n g q2) < (prods Gs).length := hlen ▸ hlt
@@ -387,7 +387,7 @@ theorem invK_aux (LB : ℕ) (sel : List ℕ) (X : ℕ) :
     rw [forceN_eq, invK_aux LB sel X k, Finset.sum_range_succ]
     cases memN (im LB k) sel
     · simp
-    · simp only [if_true]
+    · simp only [ite_true]
       change s + _ + _ = _
       omega
 

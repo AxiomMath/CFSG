@@ -373,7 +373,7 @@ theorem aStar_max_of_R {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Su
   have hSylowCard : ∀ T : Sylow 3 G, Nat.card T = Nat.card S := by
     intro T
     obtain ⟨U, hSU⟩ := hS.isP.exists_le_sylow
-    have hUS : (U : Subgroup G) = S := hS.max U U.isPGroup' hSU
+    have hUS : (U : Subgroup G) = S := hS.max U U.isPGroup hSU
     calc Nat.card T = Nat.card U := by
           rw [Sylow.card_eq_multiplicity T, Sylow.card_eq_multiplicity U]
       _ = Nat.card S := by rw [hUS]

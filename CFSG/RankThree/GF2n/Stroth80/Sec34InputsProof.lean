@@ -30,9 +30,9 @@ theorem sl2ModuleDimStatement_holds : SL2ModuleDimStatement := by
   intro k hk V _ _ _ _ ρ hirr hnt
   have hk0 : k ≠ 0 := by omega
   have hk2 : 2 * k ≠ 0 := by omega
-  letI : Fintype (GaloisField 2 k) := Fintype.ofFinite _
-  letI : Fintype (GaloisField 2 (2 * k)) := Fintype.ofFinite _
-  haveI : Finite V := Module.finite_of_finite (GaloisField 2 k)
+  let : Fintype (GaloisField 2 k) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 (2 * k)) := Fintype.ofFinite _
+  have : Finite V := Module.finite_of_finite (GaloisField 2 k)
   have hK : Fintype.card (GaloisField 2 k) = 2 ^ k := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 k hk0]
   have hF : Fintype.card (GaloisField 2 (2 * k)) = 2 ^ (2 * k) := by
@@ -44,7 +44,7 @@ theorem sl2ModuleDimStatement_holds : SL2ModuleDimStatement := by
     LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp ρ
   have hirr' : ρ'.IsIrreducible := by
     refine (isIrreducible_iff ρ').mpr ⟨inferInstance, fun W hW => hirr W fun g v hv => hW g v hv⟩
-  haveI : Fact ρ'.IsIrreducible := ⟨hirr'⟩
+  have : Fact ρ'.IsIrreducible := ⟨hirr'⟩
   have hnt' : ∃ g, ρ' g ≠ 1 := by
     obtain ⟨g, hg⟩ := hnt
     refine ⟨g, fun h => hg ?_⟩

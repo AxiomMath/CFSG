@@ -15,7 +15,7 @@ section ClassTwo
 
 variable {G : Type*} [Group G]
 
-private theorem class_two_pow_aux (x y : G) (hx : Commute ⁅y, x⁆ x) (hy : Commute ⁅y, x⁆ y)
+private theorem class_two_pow_aux (x y : G) (_hx : Commute ⁅y, x⁆ x) (hy : Commute ⁅y, x⁆ y)
     (n : ℕ) : y ^ n * x = ⁅y, x⁆ ^ n * (x * y ^ n) := by
   have hc : y * x = ⁅y, x⁆ * (x * y) := by
     rw [commutatorElement_def]; group
@@ -77,9 +77,9 @@ end ClassTwo
 theorem dichThreeAt_of_M
     {K : Type} [Group K] [Finite K] [IsSimpleGroup K] (e : K ≃* NativeSporadic.Carrier .M) :
     DichThreeAt K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e'⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple e
-  haveI : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K e'.toEquiv
+  have : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K e'.toEquiv
   have hD := CFSG.AGLEmbedding.Norton.MON5_7.tbCommData
   set U : Subgroup CFSG.Monster.Generated.Gmat :=
     Subgroup.closure (Set.range CFSG.AGLEmbedding.Norton.MON5_7.tbq) with hUdef

@@ -90,7 +90,7 @@ public theorem CFSG.szModel_eq_suzukiMatrixGroup (n : ℕ) :
   ext A
   simp only [SzGenerators,
     BenderSuzuki.MatrixGroups.SuzukiMatrixGeneratorSet,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro (⟨a, b, hA⟩ | ⟨x, hA⟩ | hA)
     · left
@@ -191,8 +191,8 @@ public theorem CFSG.projectiveSpecialUnitary_equiv_psu3Model
           (A : Matrix (Fin 3) (Fin 3) K) j i ^ (2 ^ n)) *
           S_K * (A : Matrix (Fin 3) (Fin 3) K) = S_K ∧
         Matrix.GeneralLinearGroup.det A = 1}
-  letI : Fintype E := Fintype.ofFinite E
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype E := Fintype.ofFinite E
+  let : Fintype K := Fintype.ofFinite K
   have hKcard : Nat.card K = (2 ^ n) ^ 2 := by
     calc
       Nat.card K = 2 ^ (2 * n) := by
@@ -297,8 +297,8 @@ public theorem CFSG.bender_suzuki {X : Type u} [Group X] [Finite X] [IsSimpleGro
     exact IsSimpleBenderGroup.isSuzuki n hn
       (e.trans (MulEquiv.subgroupCongr
         (szModel_eq_suzukiMatrixGroup n)).symm)
-  · letI : Field E := hEfield
-    letI : Finite E := hEfinite
+  · let : Field E := hEfield
+    let : Finite E := hEfinite
     rcases hmodel with ⟨e⟩
     rcases projectiveSpecialUnitary_equiv_psu3Model
         J n hn hJ hEcard hfixedCard with ⟨ePSU⟩

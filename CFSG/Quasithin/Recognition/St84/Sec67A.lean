@@ -164,9 +164,9 @@ theorem Z_one_le_E (hGT : Even (Nat.card X.GT))
     le_inf hZ1L (hZ1C.trans (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hpL)))
   exact (hmem.trans hchar).trans hpL
 
-theorem Z_zero_le_Etau_one_iff (hb : ¬ X.Z 0 ≤ X.Gi 3) (hGT : Even (Nat.card X.GT))
-    (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
-    (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
+theorem Z_zero_le_Etau_one_iff (_hb : ¬ X.Z 0 ≤ X.Gi 3) (_hGT : Even (Nat.card X.GT))
+    (_hs : IsSingularity Γ G s) (_hodd : Odd s) (_h5 : 5 ≤ s)
+    (_hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
     X.Z 0 ≤ X.Etau 1 ↔ X.Z 0 ≤ X.Gi 3 :=
   X.Z_zero_le_Etau_one_iff'
 
@@ -200,7 +200,7 @@ theorem commutator_Lst_E_le (hb : ¬ X.Z 0 ≤ X.Gi 3) (hGT : Even (Nat.card X.G
   have hcommE : ∀ a ∈ X.Z 0, ∀ b ∈ X.ZM, a * b = b * a := by
     have hEA := X.isElemAbelian_E_QT hGT hs hodd h5 hX
     intro a ha b hbm
-    haveI : IsMulCommutative ↥(X.E X.QT 0) := hEA.1
+    have : IsMulCommutative ↥(X.E X.QT 0) := hEA.1
     have ha' : a ∈ X.E X.QT 0 := X.Z_zero_le_E ha
     have hb' : b ∈ X.E X.QT 0 := X.ZM_le_E_QT hGT hs hodd h5 hX hbm
     exact congrArg Subtype.val (mul_comm' ⟨a, ha'⟩ ⟨b, hb'⟩)
@@ -237,7 +237,7 @@ private theorem Lst_conj_mem_Z_sup (hb : ¬ X.Z 0 ≤ X.Gi 3)
   have hcomm : ∀ a ∈ X.Z 1, ∀ b ∈ X.Z 0, a * b = b * a := by
     have hEA := X.isElemAbelian_E_QT hGT hs hodd h5 hX
     intro a ha b hbm
-    haveI : IsMulCommutative ↥(X.E X.QT 0) := hEA.1
+    have : IsMulCommutative ↥(X.E X.QT 0) := hEA.1
     have ha' : a ∈ X.E X.QT 0 := X.Z_one_le_E hGT hs hodd h5 hX ha
     have hb' : b ∈ X.E X.QT 0 := X.Z_zero_le_E hbm
     exact congrArg Subtype.val (mul_comm' ⟨a, ha'⟩ ⟨b, hb'⟩)
@@ -303,14 +303,14 @@ private theorem Z_zero_le_Q_one_aux (hGT : Even (Nat.card X.GT))
     (hZ0E.trans fun _ hx => (X.E_QT_le_Gi_two hGT hs hodd h5 hX hx).1)
     (Or.inr ⟨by norm_num, by norm_num⟩)
 
-theorem Z_zero_le_Q_one (hb : ¬ X.Z 0 ≤ X.Gi 3) (hGT : Even (Nat.card X.GT))
+theorem Z_zero_le_Q_one (_hb : ¬ X.Z 0 ≤ X.Gi 3) (hGT : Even (Nat.card X.GT))
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s)
-    (hn0 : X.n 0 = 1 ∨ X.n 0 = 2) (hn1 : X.n 1 = 1 ∨ X.n 1 = 2) :
+    (_hn0 : X.n 0 = 1 ∨ X.n 0 = 2) (_hn1 : X.n 1 = 1 ∨ X.n 1 = 2) :
     X.Z 0 ≤ X.Q 1 :=
   X.Z_zero_le_Q_one_aux hGT hs hodd h5 hX
 
-theorem Z_zero_le_Q_neg_one (hb : ¬ X.Z 0 ≤ X.Gi 3) (hGT : Even (Nat.card X.GT))
+theorem Z_zero_le_Q_neg_one (_hb : ¬ X.Z 0 ≤ X.Gi 3) (hGT : Even (Nat.card X.GT))
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
     X.Z 0 ≤ X.Q (-1) := by
@@ -334,9 +334,9 @@ theorem not_Z_zero_le_Gi_neg_three (hb : ¬ X.Z 0 ≤ X.Gi 3)
     norm_num
   exact hb (by rwa [← Setup.Gi] at hfix3)
 
-theorem Z_two_not_le_Q_zero (hb : ¬ X.Z 0 ≤ X.Gi 3) (hGT : Even (Nat.card X.GT))
-    (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
-    (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
+theorem Z_two_not_le_Q_zero (hb : ¬ X.Z 0 ≤ X.Gi 3) (_hGT : Even (Nat.card X.GT))
+    (hs : IsSingularity Γ G s) (_hodd : Odd s) (h5 : 5 ≤ s)
+    (_hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
     ¬ X.Z 2 ≤ X.Q 0 := by
   intro h
   have hZ0Q : X.Z 0 ≤ X.Q (-2) := by
@@ -349,7 +349,7 @@ theorem Z_two_not_le_Q_zero (hb : ¬ X.Z 0 ≤ X.Gi 3) (hGT : Even (Nat.card X.G
 private theorem Q_zero_le_L_one : X.Q 0 ≤ X.L 1 :=
   (X.Q_le_edgeSylow_left 0).trans (X.isSylowTwoOf_edgeSylow_L_succ 0).1
 
-private theorem Q_zero_inf_one_eq_centralizer (hb : ¬ X.Z 0 ≤ X.Gi 3)
+private theorem Q_zero_inf_one_eq_centralizer (_hb : ¬ X.Z 0 ≤ X.Gi 3)
     (hGT : Even (Nat.card X.GT)) (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s)
 
@@ -361,7 +361,7 @@ private theorem Q_zero_inf_one_eq_centralizer (hb : ¬ X.Z 0 ≤ X.Gi 3)
   have hZ1E : X.Z 1 ≤ X.E X.QT 0 := X.Z_one_le_E hGT hs hodd h5 hX
   have hcomm01 : ∀ a ∈ X.Z 1, ∀ b ∈ X.Z 0, a * b = b * a := by
     intro a ha b hbm
-    haveI : IsMulCommutative ↥(X.E X.QT 0) := hEA.1
+    have : IsMulCommutative ↥(X.E X.QT 0) := hEA.1
     exact congrArg Subtype.val (mul_comm' ⟨a, hZ1E ha⟩ ⟨b, hZ0E hbm⟩)
   refine le_antisymm ?_ ?_
   · refine le_inf inf_le_left ?_
@@ -475,7 +475,7 @@ private theorem arcStab_neg_one_two_eq_sup :
   exact sup_le le_sup_left (hR.trans le_sup_right)
 
 theorem centralizer_L_one_Z_one_ne_Q_one (hb : ¬ X.Z 0 ≤ X.Gi 3)
-    (hc : CharTwoStab (V := V) (G := G)) (hGT : Even (Nat.card X.GT))
+    (_hc : CharTwoStab (V := V) (G := G)) (hGT : Even (Nat.card X.GT))
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
     X.L 1 ⊓ Subgroup.centralizer (X.Z 1 : Set G) ≠ X.Q 1 := by
@@ -525,7 +525,7 @@ private theorem perm3_normal_index_le_two {N : Subgroup (Equiv.Perm (Fin 3))} [N
 private theorem isL2Quot_one_normal_index_le_two {H : Type*} [Group H] [Finite H]
     (hH : IsL2Quot 1 H) {N : Subgroup H} [N.Normal] (hN : N ≠ ⊥) : N.index ≤ 2 := by
   obtain ⟨e⟩ := CFSG.Quasithin.isL2Quot_one_iff_perm3.mp hH
-  haveI hN'map : (N.map (e : H →* Equiv.Perm (Fin 3))).Normal :=
+  have hN'map : (N.map (e : H →* Equiv.Perm (Fin 3))).Normal :=
     Subgroup.Normal.map (inferInstance : N.Normal) (e : H →* Equiv.Perm (Fin 3)) e.surjective
   have hN' : N.map (e : H →* Equiv.Perm (Fin 3)) ≠ ⊥ := fun hbot =>
     hN ((Subgroup.map_eq_bot_iff_of_injective (H := N)
@@ -561,7 +561,7 @@ private theorem eq_or_relIndex_eq_two_of_le_normalizer {v : V} {n : ℕ} {L C : 
     [Finite ↥L] (hN : IsLocL2 Γ G v n L) (hn : 1 ≤ n) (hCL : C ≤ L)
     (hLC : L ≤ Subgroup.normalizer (C : Set G)) (hPC : pCoreOf 2 L ≤ C)
     (hne : C ≠ pCoreOf 2 L) : C = L ∨ C.relIndex L = 2 := by
-  haveI : Finite (↥L ⧸ CFSG.pCore 2 ↥L) :=
+  have : Finite (↥L ⧸ CFSG.pCore 2 ↥L) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hCsub_normal : (C.subgroupOf L).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hLC
@@ -572,7 +572,7 @@ private theorem eq_or_relIndex_eq_two_of_le_normalizer {v : V} {n : ℕ} {L C : 
     exact Subgroup.subgroupOf_mono L hPC
   set Nim : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L) :=
     (C.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) with hNimdef
-  haveI hNim_normal : Nim.Normal :=
+  have hNim_normal : Nim.Normal :=
     hCsub_normal.map _ (QuotientGroup.mk'_surjective _)
   have hNim_ne : Nim ≠ ⊥ := by
     intro hbot
@@ -626,9 +626,9 @@ private theorem eq_or_relIndex_eq_two_of_le_normalizer {v : V} {n : ℕ} {L C : 
       rw [GaloisField.card (p := 2) (n := n) (by omega)]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcardF
-    haveI : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L) := e.isSimpleGroup
+    have : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L) := e.isSimpleGroup
     have htop : Nim = ⊤ := by
       rcases Subgroup.Normal.eq_bot_or_eq_top Nim with h | h
       · exact absurd h hNim_ne
@@ -640,7 +640,7 @@ theorem centralizer_eq_top_or_index_two_of_ne
     X.L 1 ⊓ Subgroup.centralizer (X.Z 1 : Set G) = X.L 1 ∨
       (X.L 1 ⊓ Subgroup.centralizer (X.Z 1 : Set G)).relIndex (X.L 1) = 2 := by
   have hN : IsLocL2 Γ G (X.vert 1) (X.n 1) (X.L 1) := X.hyp.isLocL2_oTwoPrime (X.vert 1)
-  haveI : Finite ↥(X.L 1) := finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
+  have : Finite ↥(X.L 1) := finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
   have hne' : X.L 1 ⊓ Subgroup.centralizer (X.Z 1 : Set G) ≠ pCoreOf 2 (X.L 1) := by
     rw [X.pCoreOf_L_eq_Q 1]
     exact hne
@@ -799,8 +799,8 @@ private theorem centerOf_L_zero_le_Z_zero : centerOf (X.L 0) ≤ X.Z 0 := by
     X.le_Z_of_le_centerOf_sylow 0 hS_syl inf_le_left inf_le_right
   exact hle (Subgroup.mem_inf.mpr ⟨hzcent, hzQ⟩)
 
-private theorem centerOf_L_zero_le_Z_one (hb : ¬ X.Z 0 ≤ X.Gi 3)
-    (hc : CharTwoStab (V := V) (G := G)) (hGT : Even (Nat.card X.GT))
+private theorem centerOf_L_zero_le_Z_one (_hb : ¬ X.Z 0 ≤ X.Gi 3)
+    (_hc : CharTwoStab (V := V) (G := G)) (hGT : Even (Nat.card X.GT))
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
     centerOf (X.L 0) ≤ X.Z 1 := by
@@ -865,7 +865,7 @@ theorem centerOf_L_zero_eq_bot (hb : ¬ X.Z 0 ≤ X.Gi 3)
     (hc : CharTwoStab (V := V) (G := G)) (hGT : Even (Nat.card X.GT))
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s)
-    (hn0 : X.n 0 = 1 ∨ X.n 0 = 2) (hn1 : X.n 1 = 1 ∨ X.n 1 = 2) :
+    (_hn0 : X.n 0 = 1 ∨ X.n 0 = 2) (_hn1 : X.n 1 = 1 ∨ X.n 1 = 2) :
     centerOf (X.L 0) = ⊥ :=
   X.centerOf_L_zero_eq_bot_aux hb hc hGT hs hodd h5 hX
 
@@ -874,7 +874,7 @@ theorem natQuot_Z_zero (hb : ¬ X.Z 0 ≤ X.Gi 3)
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
     NatQuot (X.L 0) (X.Z 0) ⊥ (X.n 0) := by
-  haveI hfinL : Finite ↥(X.L 0) :=
+  have hfinL : Finite ↥(X.L 0) :=
     finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
   have hLst : X.Lst X.QT 0 ≤ Subgroup.normalizer (X.Q 0 : Set G) :=
     (oTwoPrime_le (X.normGi X.QT 0)).trans
@@ -989,7 +989,7 @@ private theorem conjSub_relCent (g : G) {E Z A : Subgroup G}
     · intro a ha
       have ha' : g * a * g⁻¹ ∈ conjSub g A := by
         rw [mem_conjSub]
-        convert ha using 1 <;> group
+        convert ha using 1; group
       have h := hc (g * a * g⁻¹) ha'
       rw [mem_conjSub] at h
       convert h using 1
@@ -1116,7 +1116,7 @@ private theorem not_S_le_Gi_neg_one :
         _ < 2 ^ X.n 0 := Nat.pow_lt_pow_right (by norm_num) hn0pos
     omega
   have hlt : X.Q 0 < X.S := lt_of_le_of_ne hQ0S hne
-  obtain ⟨-, x, hxS, hxQ⟩ := SetLike.lt_iff_le_and_exists.mp hlt
+  obtain ⟨-, x, hxS, hxQ⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hlt
   have hx1 : x ∈ X.Gi 1 := (inf_le_right : X.Gi 0 ⊓ X.Gi 1 ≤ X.Gi 1) (hSedge hxS)
   have hxm1 : x ∈ X.Gi (-1) := hSS' hxS
   have hxQ' : x ∉ pCoreOf 2 (X.Gi 0) := by
@@ -1185,7 +1185,7 @@ theorem Z_zero_eq_Z_one_sup_Z_neg_one (hb : ¬ X.Z 0 ≤ X.Gi 3)
   have hS'Gm1 : conjSub g0 X.S ≤ X.Gi (-1) := by
     rw [← hG1conj]
     exact conjSub_mono g0 (hSedge.trans inf_le_right)
-  haveI hfinL0 : Finite ↥(X.L 0) :=
+  have hfinL0 : Finite ↥(X.L 0) :=
     finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
   have hQ0S' : X.Q 0 ≤ conjSub g0 X.S :=
     (X.pCoreOf_L_eq_Q 0).ge.trans (pCoreOf_le_of_isSylowTwoOf hS')
@@ -1411,7 +1411,7 @@ theorem commutator_Vone_Q_one (hb : ¬ X.Z 0 ≤ X.Gi 3)
   exact Subgroup.commutator_mono X.Z_zero_le_Vone (le_refl (X.Q 1))
 
 theorem S_eq_Vone_sup_Q_zero (hb : ¬ X.Z 0 ≤ X.Gi 3)
-    (hc : CharTwoStab (V := V) (G := G)) (hGT : Even (Nat.card X.GT))
+    (_hc : CharTwoStab (V := V) (G := G)) (hGT : Even (Nat.card X.GT))
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
     X.S = X.Vone ⊔ X.Q 0 := by
@@ -1727,9 +1727,9 @@ theorem commutator_Q_inf_one_S (hb : ¬ X.Z 0 ≤ X.Gi 3)
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) :
     ⁅X.Q 0 ⊓ X.Q 1, X.S⁆ ≤ X.Q 1 ⊓ X.Q (-1) := by
-  haveI hHfin : Finite ↥(X.Q 0 ⊓ X.Q 1) :=
+  have hHfin : Finite ↥(X.Q 0 ⊓ X.Q 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 0 ⊓ X.Q 1) (inf_le_left.trans (X.Q_le_Gi 0))
-  haveI hCfin : Finite ↥(X.Q 0 ⊓ X.Q (-1)) :=
+  have hCfin : Finite ↥(X.Q 0 ⊓ X.Q (-1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 0 ⊓ X.Q (-1)) (inf_le_left.trans (X.Q_le_Gi 0))
   have hNnorm : X.Gi 0 ≤ Subgroup.normalizer ((X.Q 1 ⊓ X.Q (-1) : Subgroup G) : Set G) :=
     X.Q_one_inf_neg_one_normal hb hc hGT hs hodd h5 hX
@@ -1838,7 +1838,7 @@ private theorem two_pow_le_relIndex_Q_one_inf_Q_neg_one (hb : ¬ X.Z 0 ≤ X.Gi 
     2 ^ (2 * X.n 0) ≤
       ((X.Q 1 ⊓ X.Q (-1)).subgroupOf (X.L 0)).relIndex ((X.Q 0).subgroupOf (X.L 0)) := by
   classical
-  haveI : Finite ↥(X.L 0) :=
+  have : Finite ↥(X.L 0) :=
     finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
   let H : Subgroup G := X.L 0
   let V' : Subgroup ↥H := (X.Q 0).subgroupOf H
@@ -1937,7 +1937,7 @@ theorem not_Z_le_Gi_three_of_not_le_ZM (hZ : ¬ X.Z 0 ≤ X.ZM)
   have hcard : Nat.card ↥(X.E X.QT 0) = Nat.card ↥(X.Etau 1) := by
     rw [X.Etau_eq, show (2 * (1 : ℤ)) = 2 by norm_num, X.E_two_eq]
     exact (card_conjSub X.τ (X.E X.QT 0)).symm
-  haveI : Finite ↥(X.Etau 1) := by
+  have : Finite ↥(X.Etau 1) := by
     rw [X.Etau_eq]
     exact finite_of_le_stabilizer X.hyp (H := X.E X.QT (2 * 1))
       (inf_le_left.trans (X.Q_le_Gi (2 * 1)))

@@ -85,7 +85,7 @@ theorem psuNineEmb_map (f : K → K) (h0 : f 0 = 0) (h1 : f 1 = 1) (A : Matrix (
     Matrix.map_zero _ h0, Matrix.map_one _ h0 h1]
 
 theorem psuNineEmb_det (A : Matrix (Fin 4) (Fin 4) K) : (psuNineEmb m K A).det = A.det := by
-  simp [psuNineEmb, Matrix.det_fromBlocks_zero₂₁]
+  simp [psuNineEmb]
 
 end Embed
 

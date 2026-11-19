@@ -220,13 +220,13 @@ theorem ug88_diag_mulVec_eq {ζ : K} {i j : Fin 5} (hij : i ≠ j) (w : Fin 5 �
   funext k
   by_cases hki : k = i
   · subst hki
-    simp [ug88_ent, mulVec_diagonal, Pi.single_apply, hij]
+    simp [ug88_ent, mulVec_diagonal, hij]
     ring
   · by_cases hkj : k = j
     · subst hkj
-      simp [ug88_ent, mulVec_diagonal, Pi.single_apply, hki, hij.symm]
+      simp [ug88_ent, mulVec_diagonal, hki]
       ring
-    · simp [ug88_ent, mulVec_diagonal, Pi.single_apply, hki, hkj]
+    · simp [ug88_ent, mulVec_diagonal, hki, hkj]
 
 theorem ug88_Bm_mulVec {ζ : K} (hζ : IsPrimitiveRoot ζ 5) (h2 : (2 : K) = 0) {i j : Fin 5}
     (hij : i ≠ j) (v : Fin 5 → K) :
@@ -475,7 +475,7 @@ theorem exists_fixer_five_four (h : UnitaryFieldData 2 2 K) {ζ : K} (hζ : IsPr
         heisFourierMat ζ * diagonal t) → g ∈ H) :
     ∃ g ∈ H, (∀ i, i ≠ 0 → (g : Matrix (Fin 5) (Fin 5) K) i 0 = 0) ∧
       ¬ IsMonomialMat (g : Matrix (Fin 5) (Fin 5) K) := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   have hζ5 : ζ ^ 5 = 1 := hζ.pow_eq_one
   have hΦ : 1 + ζ + ζ ^ 2 + ζ ^ 3 + ζ ^ 4 = 0 := by

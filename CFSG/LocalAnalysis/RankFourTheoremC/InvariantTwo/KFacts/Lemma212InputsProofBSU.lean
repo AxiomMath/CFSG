@@ -33,6 +33,7 @@ theorem l212in_glAut_mem_Uid (σ : K ≃+* K) {B : GL (Fin n) K}
   rw [coe_glAut, l212in_conjTr_map, ← Matrix.map_mul, hB, Matrix.map_one σ (map_zero σ)
     (map_one σ)]
 
+omit [Finite K] in
 theorem l212in_det_glAut (σ : K ≃+* K) (M : GL (Fin n) K) :
     GeneralLinearGroup.det (glAut σ M) = Units.map (σ : K →+* K) (GeneralLinearGroup.det M) := by
   refine Units.ext ?_
@@ -40,6 +41,7 @@ theorem l212in_det_glAut (σ : K ≃+* K) (M : GL (Fin n) K) :
     coe_glAut]
   exact (RingHom.map_det (σ : K →+* K) (M : Matrix (Fin n) (Fin n) K)).symm
 
+omit [Finite K] in
 theorem l212in_glAut_scalar (σ : K ≃+* K) (c : Kˣ) :
     glAut σ (GeneralLinearGroup.scalar (Fin n) c) =
       GeneralLinearGroup.scalar (Fin n) (Units.map (σ : K →+* K) c) := by

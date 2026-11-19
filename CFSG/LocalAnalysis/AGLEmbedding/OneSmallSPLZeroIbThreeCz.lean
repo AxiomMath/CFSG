@@ -71,7 +71,7 @@ theorem D1OneSmallData.exists_cover_cz (hSch : KFactCatalogSchreier)
   obtain ⟨T₁, hT₁, -, -, -, hT₁nc, -⟩ := hd.exists_sylow
   obtain ⟨x₁, hx₁⟩ : ∃ x : (T₁ : Subgroup K), x ≠ 1 :=
     (Subgroup.ne_bot_iff_exists_ne_one).mp fun h => hT₁nc (h ▸ inferInstance)
-  obtain ⟨k₁, hk₁⟩ := T₁.isPGroup' x₁
+  obtain ⟨k₁, hk₁⟩ := T₁.isPGroup x₁
   have hx₁' : (x₁ : K) ≠ 1 := fun h1 => hx₁ (Subtype.ext h1)
   have hx₁k : (x₁ : K) ^ 3 ^ k₁ = 1 := by rw [← Subgroup.coe_pow, hk₁, Subgroup.coe_one]
   set D₀ : Subgroup W₀ := perfectCore (⊤ : Subgroup W₀) with hD₀

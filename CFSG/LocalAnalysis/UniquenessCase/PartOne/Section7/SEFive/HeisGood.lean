@@ -118,8 +118,8 @@ theorem good_of_heis (hp : p = 5 ∨ p = 11) {i : TauCeti.CFSGIndex}
   set K : Subgroup X := CFSG.generalizedFitting X with hKdef
   obtain ⟨hKs, hKnab, hKn, hKC⟩ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar (p := p) Fact.out hO hN
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   obtain ⟨P, hP, hPN⟩ := hN.exists_isSylowOf_le
   let R : Sylow p X := hP.2.1.toSylow (by simpa [Subgroup.relIndex_top_right] using hP.2.2)
   have hRcoe : (R : Subgroup X) = P :=
@@ -136,18 +136,18 @@ theorem good_of_heis (hp : p = 5 ∨ p = 11) {i : TauCeti.CFSGIndex}
       calc 8 = 2 ^ 3 := by norm_num
         _ ≤ p ^ 3 := Nat.pow_le_pow_left (Fact.out : p.Prime).two_le 3
     omega
-  have hMleN : M ≤ N := hN.normalizer_le hRne R.isPGroup' hRN
+  have hMleN : M ≤ N := hN.normalizer_le hRne R.isPGroup hRN
   have hNM : N = M := by
     rcases hmax N hMleN with h | h
     · exact h
     · exact absurd h hN.1
   have hNnorm : N ≤ Subgroup.normalizer ((R : Subgroup X) : Set X) := hNM.le
   constructor
-  · exact pPrimeCore_eq_bot_of_centralizer_le hRN R.isPGroup' hNnorm hC
+  · exact pPrimeCore_eq_bot_of_centralizer_le hRN R.isPGroup hNnorm hC
   · intro x y hxN hyN hx1 hxp hyprime hy2 hyp hxy
     set r : ℕ := orderOf y with hrdef
     have hry : orderOf y = r := rfl
-    haveI : Fact r.Prime := ⟨hyprime⟩
+    have : Fact r.Prime := ⟨hyprime⟩
     have hrN : r ∣ Nat.card N := by
       have h := orderOf_dvd_natCard (⟨y, hyN⟩ : ↥N)
       rw [← Subgroup.orderOf_coe] at h
@@ -299,7 +299,7 @@ theorem good_of_heis (hp : p = 5 ∨ p = 11) {i : TauCeti.CFSGIndex}
         have hZxp : IsPGroup 11 (Subgroup.zpowers (⟨x, hxN⟩ : ↥N)) := by
           rw [← hcomap]
           exact hxp.comap_of_injective N.subtype N.subtype_injective
-        haveI : (R.subgroupOf N).Normal :=
+        have : (R.subgroupOf N).Normal :=
           (Subgroup.normal_subgroupOf_iff_le_normalizer hRN).mpr hNnorm
         have hnotdvd : ¬ 11 ∣ Nat.card (↥N ⧸ R.subgroupOf N) := by
           rw [← Subgroup.index_eq_card]
@@ -309,7 +309,7 @@ theorem good_of_heis (hp : p = 5 ∨ p = 11) {i : TauCeti.CFSGIndex}
         exact Subgroup.mem_subgroupOf.mp (hle (Subgroup.mem_zpowers _))
       have hlam0 : lam ≠ 0 := by
         intro h0
-        have h : (lam : ZMod 11) = 0 := by simpa [h0]
+        have h : (lam : ZMod 11) = 0 := by simp [h0]
         rw [h] at hlam
         norm_num at hlam
       have h5dvd : 5 ∣ orderOf u := by

@@ -17,6 +17,7 @@ variable {K : Type} [Field K] [Finite K]
 noncomputable abbrev psl2Equiv (K : Type) [Field K] : PSL2 K ≃* LinearFlag.projectiveSL 2 K :=
   LinearCover.projectiveSpecialLinearEquivProjectiveSL 2 K
 
+omit [Finite K] in
 theorem congr_pglAction_mk (A : GL (Fin 2) K) :
     MulAut.congr (psl2Equiv K) (pglAction K (QuotientGroup.mk A)) = LinearFlag.conjAut 2 K A := by
   change MulAut.congr (psl2Equiv K) (pglAction K (Matrix.ProjGenLinGroup.mk A)) = _
@@ -40,6 +41,7 @@ theorem congr_pglAction_mk (A : GL (Fin 2) K) :
   rw [MulEquiv.symm_apply_apply, h1]
   exact (LinearFlag.conjAut_proj A g).symm
 
+omit [Finite K] in
 theorem congr_psl2FieldAut (σ : K ≃+* K) :
     MulAut.congr (psl2Equiv K) (psl2FieldAut K σ) = LinearFlag.fieldAut 2 K σ := by
   ext y
@@ -51,6 +53,7 @@ theorem congr_psl2FieldAut (σ : K ≃+* K) :
   exact (LinearFlag.fieldAut_proj σ g).symm
 
 open Matrix in
+omit [Finite K] in
 private theorem injective_map_subtype (k : Subfield K) :
     Function.Injective (SpecialLinearGroup.map k.subtype :
       SpecialLinearGroup (Fin 2) k →* SpecialLinearGroup (Fin 2) K) := by
@@ -61,6 +64,7 @@ private theorem injective_map_subtype (k : Subfield K) :
   simpa [SpecialLinearGroup.map_apply_coe] using h1
 
 open Matrix in
+omit [Finite K] in
 private theorem fixSubgroup_slFieldAut_eq_range {k : Subfield K} {σ : K ≃+* K}
     (hk : ∀ x, x ∈ k ↔ σ x = x) :
     fixSubgroup (CFSG.ComponentClassification.CatalogueBHigherLinearField.slFieldAut (Fin 2) K σ) =
@@ -114,9 +118,9 @@ theorem perfectInLayer_fieldAut_two (σ : K ≃+* K) :
   · have hcard : Nat.card k = 2 ∨ Nat.card k = 3 := by
       have : 1 < Nat.card k := Finite.one_lt_card
       omega
-    haveI : Group.IsSolvable (GL (Fin 2) k) :=
+    have : Group.IsSolvable (GL (Fin 2) k) :=
       CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable k hcard
-    haveI : Group.IsSolvable ↥(fixSubgroup α) :=
+    have : Group.IsSolvable ↥(fixSubgroup α) :=
       Group.isSolvable_of_isSolvable_injective
         (f := Matrix.SpecialLinearGroup.toGL.comp e.symm.toMonoidHom)
         (Matrix.SpecialLinearGroup.toGL_injective.comp e.symm.injective)

@@ -51,7 +51,7 @@ theorem thompsonJ_le_centralizer
     (hSM : ¬ IsSylowOf 2 S D.M) (hSH : IsSylowOf 2 S H)
     (hLie : LieModel (Lbar9 Y H) .PSL 3 5 1) : thompsonJ S ≤ centralizer (V₀ : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine iSup₂_le fun A hA => ?_
   have hYH : Y ≤ H := hY.1.2.1.1
   have hG₀H : L9 Y H ⊔ S ≤ H := sup_le (L9_le_of_le hYH) hSH.le
@@ -69,7 +69,7 @@ theorem thompsonJ_le_centralizer
   set Γ := autOn (L9 Y H ⊔ S) V₀ with hΓ
   set f := L34FF.conjOnto V₀ (L9 Y H ⊔ S) hG₀V with hf
   set Ls : Subgroup ↥Γ := ((L9 Y H).subgroupOf (L9 Y H ⊔ S)).map f with hLs
-  haveI hLn : Ls.Normal := (normal_subgroupOf_of_le_normalizer
+  have hLn : Ls.Normal := (normal_subgroupOf_of_le_normalizer
     (hG₀H.trans (le_normalizer_L9 Y H))).map f (L34FF.conjOnto_surjective hG₀V)
   have hO2 : CFSG.pCore 2 ↥Γ = ⊥ := by
     have h := CFSG.QuasithinUnique.Setup.pCoreOf_autOn_eq_bot hred
@@ -124,7 +124,7 @@ theorem thompsonJ_le_centralizer
       Subtype.ext (by simpa using hs0)
     rw [hk', map_one, QuotientGroup.mk_one]
   have hCnil : Group.IsNilpotent ↥(centralizer (Ls : Set ↥Γ)) := by
-    haveI : Group.IsNilpotent (↥Γ ⧸ Ls) := hq2.isNilpotent
+    have : Group.IsNilpotent (↥Γ ⧸ Ls) := hq2.isNilpotent
     refine Subgroup.isNilpotent_of_ker_le_center
       ((QuotientGroup.mk' Ls).comp (centralizer _).subtype) ?_
     intro c hc
@@ -146,7 +146,7 @@ theorem eq_sup_I9_of_lie
     (hR : pCoreOf 2 Y ≠ ⊥) (hSM : ¬ IsSylowOf 2 S D.M) (hSH : IsSylowOf 2 S H)
     (hLie : LieModel (Lbar9 Y H) .PSL 3 5 1) : H = (H ⊓ D.M) ⊔ I9 H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYH : Y ≤ H := hY.1.2.1.1
   have hLH : L9 Y H ≤ H := L9_le_of_le hYH
   have hG₀H : L9 Y H ⊔ S ≤ H := sup_le hLH hSH.le

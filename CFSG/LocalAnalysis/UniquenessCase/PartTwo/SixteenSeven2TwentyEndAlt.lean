@@ -174,7 +174,7 @@ theorem s16c167_endUnits_alt {W : Type} [CommGroup W] [Finite W] {H : Subgroup (
     have h3 := Multiplicative.toAdd.injective h2
     have h4 := ψ.injective h3
     exact c.symm.injective (Multiplicative.ofAdd.injective h4)
-  haveI : Nontrivial (CFSG.RankThree.PartTwo.altHeart n) :=
+  have : Nontrivial (CFSG.RankThree.PartTwo.altHeart n) :=
     CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.altHeart_nontrivial (by omega : 3 ≤ n)
   have hgnz : g ≠ 0 := by
     intro h0

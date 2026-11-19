@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_top_of_conjProd_mem {a b g : G} (hgen : closure {a, b} = ⊤) (ha : a ^ 2 = 1)
     (hb : b ^ 3 = 1) {N : Subgroup G} [N.Normal] (hx : a * (g⁻¹ * b * g) ∈ N) : N = ⊤ := by
   let f := QuotientGroup.mk' N
@@ -58,7 +59,7 @@ theorem mem_of_dvd_card {q : ℕ} [hq : Fact q.Prime] {x : G} (hx : orderOf x = 
     intro S z hz hS
     symm
     apply Subgroup.eq_of_le_of_card_ge hS
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have h1 : q ∣ q ^ k := by
       have := Subgroup.card_dvd_of_le hS
       rwa [hcz z hz, hk] at this
@@ -96,7 +97,7 @@ theorem le_centralizer_of_not_dvd_card {q : ℕ} [hq : Fact q.Prime] {x : G} (hx
       rw [Nat.factorization_eq_zero_of_not_dvd hNq, pow_zero]
       exact one_dvd _
     let φ : zpowers x →* MulAut N := (MulAut.conjNormal (H := N)).comp (zpowers x).subtype
-    letI : MulDistribMulAction (zpowers x) N := MulDistribMulAction.compHom N φ
+    let : MulDistribMulAction (zpowers x) N := MulDistribMulAction.compHom N φ
     have hZ : IsPGroup q (zpowers x) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
     obtain ⟨P0⟩ : Nonempty (Sylow p N) := inferInstance
@@ -154,7 +155,7 @@ theorem le_centralizer_of_not_dvd_card {q : ℕ} [hq : Fact q.Prime] {x : G} (hx
     have hle : (Nat.card N).factorization p ≤ (Nat.card G).factorization p :=
       (Nat.factorization_le_iff_dvd Nat.card_pos.ne' Nat.card_pos.ne').2 hNG p
     have hψ1 : ψ = 1 :=
-      eq_one_of_pow_eq_one hq.out (Ne.symm hpq) P.isPGroup'
+      eq_one_of_pow_eq_one hq.out (Ne.symm hpq) P.isPGroup
         (hPcard ▸ pow_dvd_pow p hle)
         (hGL p _ hp hpq (Nat.ordProj_dvd _ _)) hψq
     have hPC : (P : Subgroup N) ≤ C := by
@@ -210,7 +211,7 @@ theorem isSimpleGroup_of_conjProd {a b g : G} {q : ℕ} (hq : q.Prime)
     have := (mem_centralizer_iff.1 (hCN ▸ mem_top y : y ∈ centralizer (N : Set G))) n hn
     exact this.symm
 
-theorem pow_le_of_dvd_hn {p e m : ℕ} (hp : 1 < p) (hd : p ^ e ∣ 273030912000000)
+theorem pow_le_of_dvd_hn {p e m : ℕ} (_hp : 1 < p) (hd : p ^ e ∣ 273030912000000)
     (hm : ¬ p ^ (m + 1) ∣ 273030912000000) : e ≤ m := by
   by_contra h
   exact hm ((pow_dvd_pow p (by omega)).trans hd)
@@ -239,10 +240,10 @@ theorem hn_GL_condition : ∀ p e : ℕ, p.Prime → p ≠ 19 → p ^ e ∣ 2730
           interval_cases k <;> norm_num
       · obtain rfl := hpl 7 (by norm_num) h7
         have : k ≤ 1 := le_trans hkr <| le_trans hr <| pow_le_of_dvd_hn (m := 1) (by norm_num) hd (by norm_num)
-        interval_cases k <;> norm_num
+        interval_cases k; norm_num
     · obtain rfl := hpl 11 (by norm_num) h11
       have : k ≤ 1 := le_trans hkr <| le_trans hr <| pow_le_of_dvd_hn (m := 1) (by norm_num) hd (by norm_num)
-      interval_cases k <;> norm_num
+      interval_cases k; norm_num
   · exact absurd (hpl 19 (by norm_num) h19) hpq
 
 end CFSG.Sporadic.HN

@@ -36,15 +36,19 @@ variable {n q : ℕ} {F : Type} [Field F] [Finite F]
         push_cast
         ring
 
+omit [Finite F] in
 @[simp] theorem twA5EParam_apply_zero {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5EParam c 0 = c 0 * c 1 * c 2 := by simp [twA5EParam]
 
+omit [Finite F] in
 @[simp] theorem twA5EParam_apply_one {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5EParam c 1 = c 0 * c 1 * (c 2 ^ 2)⁻¹ := by simp [twA5EParam]
 
+omit [Finite F] in
 @[simp] theorem twA5EParam_apply_two {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5EParam c 2 = c 0 * c 1 * (c 2 ^ 2)⁻¹ := by simp [twA5EParam]
 
+omit [Finite F] in
 @[simp] theorem twA5EParam_apply_three {ζu : Fˣ} (c : Fin 3 → Subgroup.zpowers ζu) :
     twA5EParam c 3 = c 0 * (c 1 ^ 2)⁻¹ * c 2 := by simp [twA5EParam]
 
@@ -52,11 +56,13 @@ variable {n q : ℕ} {F : Type} [Field F] [Finite F]
     (hζ : h.norm (ζu : F) = 1) : Subgroup (unitaryPSU h 6) :=
   ((unitaryProj h 6).comp ((twA5TorusHom h hζ).comp twA5EParam)).range
 
+omit [Finite F] in
 theorem twA5E_le (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1) :
     twA5E h hζ ≤ twA5B h hζ := by
   rintro x ⟨c, rfl⟩
   exact ⟨twA5EParam c, rfl⟩
 
+omit [Finite F] in
 private theorem pow_three_injective {ζu : Fˣ} (hζo : orderOf ζu = q) (hq : q.Prime)
     (hq3 : ¬ q ∣ 3) : Function.Injective (fun x : Subgroup.zpowers ζu => x ^ 3) := by
   have hcop : (Nat.card (Subgroup.zpowers ζu)).Coprime 3 := by
@@ -64,15 +70,18 @@ private theorem pow_three_injective {ζu : Fˣ} (hζo : orderOf ζu = q) (hq : q
     exact (Nat.Prime.coprime_iff_not_dvd hq).2 hq3
   exact (Nat.Coprime.pow_left_bijective hcop).1
 
+omit [Finite F] in
 private theorem mul_rotate {ζu : Fˣ} (a b c : Subgroup.zpowers ζu) : a * b * c = a * c * b := by
   rw [mul_assoc, mul_assoc, mul_comm b c]
 
+omit [Finite F] in
 private theorem mul_cube_lemma {ζu : Fˣ} (a b c : Subgroup.zpowers ζu) :
     a * b * c = (a * b * (c ^ 2)⁻¹) * c ^ 3 := by
   apply Subtype.ext
   show (a : Fˣ) * b * c = ((a : Fˣ) * b * ((c : Fˣ) ^ 2)⁻¹) * (c : Fˣ) ^ 3
   group
 
+omit [Finite F] in
 private theorem mul_cube_lemma' {ζu : Fˣ} (a b c : Subgroup.zpowers ζu) :
     a * b * c = (a * (b ^ 2)⁻¹ * c) * b ^ 3 := by
   have h := mul_cube_lemma a c b
@@ -81,6 +90,7 @@ private theorem mul_cube_lemma' {ζu : Fˣ} (a b c : Subgroup.zpowers ζu) :
     _ = (a * (b ^ 2)⁻¹ * c) * b ^ 3 := by
         rw [mul_rotate a c ((b ^ 2)⁻¹)]
 
+omit [Finite F] in
 theorem twA5EParam_injective {ζu : Fˣ} (hζo : orderOf ζu = q) (hq : q.Prime) (hq3 : ¬ q ∣ 3) :
     Function.Injective (twA5EParam (ζu := ζu)) := by
   intro c c' hcc
@@ -110,6 +120,7 @@ theorem twA5EParam_injective {ζu : Fˣ} (hζo : orderOf ζu = q) (hq : q.Prime)
   funext i
   fin_cases i <;> assumption
 
+omit [Finite F] in
 theorem card_twA5E (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1)
     (hζo : orderOf ζu = q) (hq : q.Prime) (hq3 : ¬ q ∣ 3) (hq6 : ¬ q ∣ 6) :
     Nat.card (twA5E h hζ) = q ^ 3 := by
@@ -123,6 +134,7 @@ theorem card_twA5E (h : UnitaryFieldData 2 n F) {ζu : Fˣ} (hζ : h.norm (ζu :
     exact twA5EParam_injective hζo hq hq3 (twA5TorusHom_injective h hζ h1)
   rw [twA5E, MonoidHom.range_eq_map, Subgroup.card_map_of_injective hinj, Subgroup.card_top, hdom]
 
+omit [Finite F] in
 theorem twA5E_isElemAbelian (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) :
     IsElemAbelian q (twA5E h hζ) := by
@@ -148,6 +160,7 @@ theorem twA5E_isElemAbelian (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
       exact congrArg (fun u : Fˣ => (u : F)) h2
     rw [h1, map_one]
 
+omit [Finite F] in
 theorem diagFiveLast_mem_twA5E (h : UnitaryFieldData 2 n F) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) :
     unitaryProj h 6 (diagFiveLast h (ζu : F) hζ) ∈ twA5E h hζ := by

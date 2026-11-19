@@ -73,8 +73,7 @@ theorem splitVectorEquiv_tmul (a : k) (v : ι → K) (j : Fin m) (i : ι) :
   Representation.Equiv.mk (splitVectorEquiv e) fun g => by
     apply LinearMap.ext
     intro u
-    induction u using TensorProduct.induction_on with
-    | zero => simp
+    induction u using TensorProduct.inductionOn with
     | tmul a v =>
       ext j i
       change splitVectorEquiv e

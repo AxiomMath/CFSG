@@ -28,8 +28,8 @@ private theorem w16c_odd_card_fusionOddCore (H : Type) [Group H] [Finite H] :
 private theorem w16c_pow_mem_center_of_isExtraspecial {Y : Type} [Group Y] {N : Subgroup Y}
     {q : ℕ} (hN : CFSG.IsExtraspecial q ↥N) {x : Y} (hx : x ∈ N) :
     x ^ q ∈ (Subgroup.center ↥N).map N.subtype := by
-  haveI := hN
-  haveI : CFSG.IsElementaryAbelian q (↥N ⧸ Subgroup.center ↥N) :=
+  have := hN
+  have : CFSG.IsElementaryAbelian q (↥N ⧸ Subgroup.center ↥N) :=
     CFSG.IsExtraspecial.quotient_elementary_abelian q ↥N
   have h1 : ((⟨x, hx⟩ : ↥N) : ↥N ⧸ Subgroup.center ↥N) ^ q = 1 :=
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -38,6 +38,7 @@ private theorem w16c_pow_mem_center_of_isExtraspecial {Y : Type} [Group Y] {N : 
   rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff] at h1
   exact Subgroup.mem_map.mpr ⟨(⟨x, hx⟩ : ↥N) ^ q, h1, by simp⟩
 
+omit [Finite G] in
 private theorem w16c_mem_map_comap_subtype_iff {K : Subgroup G} {Y : Type} [Group Y]
     {N : Subgroup Y} (φ : ↥K →* Y) {k : ↥K} :
     (k : G) ∈ Subgroup.map K.subtype (Subgroup.comap φ N) ↔ φ k ∈ N := by
@@ -63,8 +64,8 @@ theorem false_of_kernel (c : ExCfg M V₀ V U S H φ p)
       φ q ∈ (Subgroup.center ↥(fusionOddCore X)).map (fusionOddCore X).subtype) :
     False := by
   classical
-  haveI : Finite ↥(conjClosure V H) := Subtype.finite
-  haveI : Finite X := Finite.of_surjective φ c.bar.surjective
+  have : Finite ↥(conjClosure V H) := Subtype.finite
+  have : Finite X := Finite.of_surjective φ c.bar.surjective
   let K : Subgroup G := conjClosure V H
   let N : Subgroup X := fusionOddCore X
   let Z : Subgroup X := (Subgroup.center ↥N).map N.subtype

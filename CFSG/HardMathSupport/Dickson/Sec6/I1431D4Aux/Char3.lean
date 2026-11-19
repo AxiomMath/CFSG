@@ -27,7 +27,7 @@ theorem d4_fixSub_conj_eq_centralizer {T : Type*} [Group T] (u : T) :
 
 theorem center_quotient_center_eq_bot {Y : Type} [Group Y] (hq : CFSG.Open.IsQuasisimple Y) :
     Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := by
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (Subgroup.center (Y ⧸ Subgroup.center Y)) with h | h
   · exact h
@@ -40,7 +40,7 @@ theorem exists_order_three_of_inner {Y : Type} [Group Y] (hq : CFSG.Open.IsQuasi
     {ξ : MulAut Y} (hξ : IsInnerAut ξ) (hξ3 : ξ ^ 3 = 1) (hξ1 : ξ ≠ 1) :
     ∃ u : Y ⧸ Subgroup.center Y, orderOf u = 3 ∧
       centerDescend Y ξ = MulAut.conj u := by
-  haveI : Group.IsPerfect Y := ⟨hq.1⟩
+  have : Group.IsPerfect Y := ⟨hq.1⟩
   obtain ⟨x, hx⟩ := hξ
   have hψ : centerDescend Y ξ = MulAut.conj (x : Y ⧸ Subgroup.center Y) := by
     rw [← hx, CFSG.RankThree.PartTwo.KFacts.centerDescend_conj]

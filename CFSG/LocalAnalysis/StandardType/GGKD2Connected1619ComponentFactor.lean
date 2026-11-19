@@ -74,8 +74,8 @@ theorem component_le_factor {H : Type} [Group H] [Finite H] {A₁ A₂ Y : Subgr
     have hconj : (a * b) * h * (a * b)⁻¹ = a * (b * h * b⁻¹) * a⁻¹ := by group
     rw [hconj, hay]
     exact hmem
-  letI : (A₁.subgroupOf Y).Normal := hn₁
-  letI : (A₂.subgroupOf Y).Normal := hn₂
+  let : (A₁.subgroupOf Y).Normal := hn₁
+  let : (A₂.subgroupOf Y).Normal := hn₂
   rcases CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes
       (C.subgroupOf Y) (A₁.subgroupOf Y) hcomp with hle₁ | hcomm₁
   · left

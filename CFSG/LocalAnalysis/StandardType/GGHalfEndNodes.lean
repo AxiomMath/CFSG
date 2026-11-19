@@ -30,6 +30,7 @@ private theorem map_conj_map' {N : ℕ} {G : Type} [Group G]
 
 include h
 
+omit [Finite G] h in
 private theorem endT_involutions :
     endT₁ φ₂ * endT₁ φ₂ = 1 ∧ endT₂ φ₂ * endT₂ φ₂ = 1 := by
   constructor
@@ -38,6 +39,7 @@ private theorem endT_involutions :
   · rw [endT₂, ← map_mul,
       weylRep_mul_self (F := F2) (m := m + 1 + 1) gf2_two (⟨m + 1, by omega⟩), map_one]
 
+omit [Finite G] h in
 private theorem endT₁_mul_endT₂_cube : (endT₁ φ₂ * endT₂ φ₂) ^ 3 = 1 := by
   rw [endT₁, endT₂, ← map_mul, ← map_pow,
     weylRep_cube (m + 1 + 1) (⟨m, by omega⟩) (⟨m + 1, by omega⟩) (by simp), map_one]
@@ -49,7 +51,7 @@ private theorem endT₁_cube_weylRep_last :
       weylRep (m + 1 + 1) F2 ⟨m + 1, by omega⟩ := by
     rw [slLower2Hom_weylRep]
     congr 1
-    exact Fin.ext (by simp only [Fin.val_succ, Fin.val_mk]; omega)
+    exact Fin.ext (by simp only; omega)
   have hup : slUpper2Hom m (weylRep m F2 ⟨m - 1, by omega⟩) =
       weylRep (m + 1 + 1) F2 ⟨m - 1, by omega⟩ := by
     rw [slUpper2Hom_weylRep]
@@ -62,7 +64,7 @@ private theorem endT₁_cube_weylRep_last :
   have hcube : (weylRep (m + 1 + 1) F2 ⟨m - 1, by omega⟩ *
       weylRep (m + 1 + 1) F2 ⟨m, by omega⟩) ^ 3 = 1 :=
     weylRep_cube (m + 1 + 1) (⟨m - 1, by omega⟩) (⟨m, by omega⟩)
-      (by simp only [Fin.val_mk]; omega)
+      (by simp only; omega)
   have hc := typeASpecial₂_cube_of_cube_swap (a := weylRep (m + 1 + 1) F2 ⟨m, by omega⟩)
     (b := weylRep (m + 1 + 1) F2 ⟨m - 1, by omega⟩) hcube
   rw [hc, map_one]
@@ -135,10 +137,10 @@ private theorem endT₁_centralize_slOn_lt (hK1 : GGHalfNormSL014 φ₁ φ₂) :
           (fun j : Fin (m + 1) => j.succ.succ) '' {j : Fin (m + 1) | j.val < m} := by
         ext i; constructor
         · rintro ⟨h2, hlt⟩
-          exact ⟨⟨i.val - 2, by omega⟩, by simp only [Set.mem_setOf_eq]; omega,
-            Fin.ext (by simp only [Fin.val_succ, Fin.val_mk]; omega)⟩
+          exact ⟨⟨i.val - 2, by omega⟩, by simp only [Set.mem_ofPred_eq]; omega,
+            Fin.ext (by simp only [Fin.val_succ]; omega)⟩
         · rintro ⟨j, hj, rfl⟩
-          simp only [Set.mem_setOf_eq, Fin.val_succ] at hj ⊢
+          simp only [Set.mem_ofPred_eq, Fin.val_succ] at hj ⊢
           omega
       rw [hset, ← slLower2Hom_map_slOn m (S := {j : Fin (m + 1) | j.val < m})] at hy
       obtain ⟨y', hy', rfl⟩ := hy
@@ -149,11 +151,11 @@ private theorem endT₁_centralize_slOn_lt (hK1 : GGHalfNormSL014 φ₁ φ₂) :
           (fun j : Fin (m + 1) => j.castSucc.castSucc) '' {j : Fin (m + 1) | j.val < m} := by
         ext i; constructor
         · intro hi
-          simp only [Set.mem_setOf_eq] at hi
+          simp only [Set.mem_ofPred_eq] at hi
           exact ⟨⟨i.val, by omega⟩, hi,
-            Fin.ext (by simp only [Fin.val_castSucc, Fin.val_mk])⟩
+            Fin.ext (by simp only [Fin.val_castSucc])⟩
         · rintro ⟨j, hj, rfl⟩
-          simp only [Set.mem_setOf_eq, Fin.val_castSucc] at hj ⊢
+          simp only [Set.mem_ofPred_eq, Fin.val_castSucc] at hj ⊢
           omega
       have hmem : slUpper2Hom m y' ∈ slOn (m + 1 + 1 + 1) {i | i.val < m} := by
         rw [hset2, ← slUpper2Hom_map_slOn m (S := {j : Fin (m + 1) | j.val < m})]
@@ -161,10 +163,10 @@ private theorem endT₁_centralize_slOn_lt (hK1 : GGHalfNormSL014 φ₁ φ₂) :
       have hfix : ∀ i ∈ ({i : Fin (m + 1 + 1 + 1) | i.val < m} : Set (Fin (m + 1 + 1 + 1))),
           (Equiv.swap (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) ⟨m + 1, by omega⟩) i = i := by
         intro i hi
-        simp only [Set.mem_setOf_eq] at hi
+        simp only [Set.mem_ofPred_eq] at hi
         exact Equiv.swap_apply_of_ne_of_ne
-          (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
-          (by intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+          (by intro h; have := congrArg Fin.val h; simp only at this; omega)
+          (by intro h; have := congrArg Fin.val h; simp only at this; omega)
       have hcomm := commute_slPerm_slOn (N := m + 1 + 1 + 1)
         (π := Equiv.swap (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) ⟨m + 1, by omega⟩)
         (S := {i | i.val < m}) hfix hmem
@@ -178,29 +180,29 @@ private theorem endT₁_centralize_slOn_lt (hK1 : GGHalfNormSL014 φ₁ φ₂) :
         rw [show (Equiv.swap (Fin.last (m + 1 + 1)) 1) (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) =
             ⟨m, by omega⟩ from Equiv.swap_apply_of_ne_of_ne
               (by intro h; have := congrArg Fin.val h
-                  simp only [Fin.val_mk, Fin.val_last] at this; omega)
+                  simp only [Fin.val_last] at this; omega)
               (by intro h; have := congrArg Fin.val h
-                  simp only [Fin.val_mk, Fin.val_one] at this; omega)]
+                  simp only [Fin.val_one] at this; omega)]
         rw [show (Equiv.swap (Fin.last (m + 1)).castSucc 0) (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) =
             ⟨m, by omega⟩ from Equiv.swap_apply_of_ne_of_ne
               (by intro h; have := congrArg Fin.val h
-                  simp only [Fin.val_mk, Fin.val_last, Fin.val_castSucc] at this; omega)
+                  simp only [Fin.val_last, Fin.val_castSucc] at this; omega)
               (by intro h; have := congrArg Fin.val h
-                  simp only [Fin.val_mk, Fin.val_zero] at this; omega)]
+                  simp only [Fin.val_zero] at this; omega)]
       have hτm1_apply : tauPerm m (⟨0, by omega⟩ : Fin (m + 1 + 1 + 1)) = ⟨m + 1, by omega⟩ := by
         rw [tauPerm, Equiv.Perm.mul_apply]
         rw [show (Equiv.swap (Fin.last (m + 1 + 1)) 1) (⟨0, by omega⟩ : Fin (m + 1 + 1 + 1)) =
             ⟨0, by omega⟩ from Equiv.swap_apply_of_ne_of_ne
               (by intro h; have := congrArg Fin.val h
-                  simp only [Fin.val_mk, Fin.val_last] at this; omega)
+                  simp only [Fin.val_last] at this; omega)
               (by intro h; have := congrArg Fin.val h
-                  simp only [Fin.val_mk, Fin.val_one] at this; omega)]
+                  simp only [Fin.val_one] at this; omega)]
         change (Equiv.swap (Fin.last (m + 1)).castSucc 0)
             (0 : Fin (m + 1 + 1 + 1)) = ⟨m + 1, by omega⟩
         rw [show (Equiv.swap (Fin.last (m + 1)).castSucc 0) (0 : Fin (m + 1 + 1 + 1)) =
             (Fin.last (m + 1)).castSucc from
               Equiv.swap_apply_right (Fin.last (m + 1)).castSucc (0 : Fin (m + 1 + 1 + 1))]
-        exact Fin.ext (by simp only [Fin.val_last, Fin.val_castSucc, Fin.val_mk])
+        exact Fin.ext (by simp only [Fin.val_last, Fin.val_castSucc])
       have hτm : (tauPerm m)⁻¹ (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) = ⟨m, by omega⟩ :=
         (Equiv.symm_apply_eq (tauPerm m)).mpr hτm_apply.symm
       have hτm1 : (tauPerm m)⁻¹ (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) = ⟨0, by omega⟩ :=
@@ -258,8 +260,7 @@ private theorem endT₁_centralize_slOn_lt (hK1 : GGHalfNormSL014 φ₁ φ₂) :
           change 4 % (m + 1 + 1 + 1) = 4
           exact Nat.mod_eq_of_lt (by omega)
         intro i hi
-        simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false,
-          or_false] at hi
+        simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hi
         rcases hi with rfl | rfl | rfl
         · exact Equiv.swap_apply_of_ne_of_ne
             (Fin.ne_of_val_ne (by rw [h0, Fin.val_mk]; omega))
@@ -304,7 +305,7 @@ theorem twoEndNodes (hK1 : GGHalfNormSL014 φ₁ φ₂) :
   refine ⟨?_, ?_⟩
   · refine ⟨?_, ?_, ?_, ?_⟩
     · refine ⟨?_, ?_, ?_⟩
-      · exact endT_involutions (h := h).1
+      · exact endT_involutions.1
       · intro j hj
         have hj' : j = (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)) := Fin.ext (by simp; omega)
         rw [hj']
@@ -312,8 +313,8 @@ theorem twoEndNodes (hK1 : GGHalfNormSL014 φ₁ φ₂) :
       · intro a b hab ha hb c
         exact endT₁_centralize_slOn_lt (h := h) hK1 (SpecialLinearGroup.transvection hab c)
           (transvection_mem_slOn hab c (by simp [ha]) (by simp [hb]))
-    · exact endT_involutions (h := h).2
-    · exact endT₁_mul_endT₂_cube (h := h)
+    · exact endT_involutions.2
+    · exact endT₁_mul_endT₂_cube
     · exact endT₂_centralize_φ₁ (h := h)
   · exact hKle.trans (le_sup_of_le_left le_rfl)
 

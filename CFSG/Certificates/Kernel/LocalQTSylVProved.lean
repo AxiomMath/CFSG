@@ -145,7 +145,7 @@ private theorem cntWith_eq (w : ℕ) (E : ℕ → ℕ) (P : List ℕ) (a : ℕ) 
     change strictN (Bool.rec (motive := fun _ => ℕ) c (Nat.succ c) (commP w (E a) (E b) P))
       (fun c => cntWithSV w E P a L c) = _
     rw [strictN_eq', cntWith_eq w E P a L, List.countP_cons]
-    cases commP w (E a) (E b) P <;> simp <;> omega
+    cases commP w (E a) (E b) P <;> simp; omega
 
 private theorem cnt_eq (w : ℕ) (E : ℕ → ℕ) (P : List ℕ) : ∀ (L : List ℕ) (c : ℕ),
     cntSV w E P L c = c + cntP (fun a b => commP w (E a) (E b) P) L
@@ -199,7 +199,7 @@ private theorem length_OP {R : ℕ → ℕ → Bool} (hR : ∀ a b, R a b = R b 
       rw [List.length_map, List.countP_eq_length_filter]
     have h1 : (a :: l).countP (fun j => a != j && R a j) = l.countP (R a) := by
       rw [List.countP_cons]
-      simp only [bne_self_eq_false, Bool.false_and, Bool.false_eq_true, if_false, add_zero]
+      simp only [bne_self_eq_false, Bool.false_and, Bool.false_eq_true, ite_false, add_zero]
       refine List.countP_congr fun j hj => ?_
       have : a ≠ j := fun e => ha (e ▸ hj)
       simp [this]
@@ -394,10 +394,10 @@ theorem sylSV_sound' (hg : gens.map Prod.fst = G.map (unpack n w))
       congr 1
       by_cases hm0 : m = 0
       · subst hm0
-        rw [if_pos rfl, he0]
+        rw [ite_eq_left rfl, he0]
         exact arr_ext (size_idA n) (size_unpack n w _) rep_idA
           (CFSG.KS.Raw.Orb.rep_unpack (rp_idn hid))
-      · rw [if_neg hm0]
+      · rw [ite_eq_right hm0]
         obtain ⟨hpk, hlk, hek'⟩ := hek m hm hm0
         rw [hp m hm, hl m hm, hval _ (by rw [hsz] at *; exact hpk), hgA _ hlk, hek']
         obtain ⟨σ, hσ⟩ := hperm _ (by omega : PT m < N)

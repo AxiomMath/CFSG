@@ -41,7 +41,7 @@ theorem le_bar_H0_of_perfect [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
     (QuotientGroup.mk'_surjective _) hP
   have hD' : ⁅D.map M.subtype, D.map M.subtype⁆ = D.map M.subtype := by
     rw [← Subgroup.map_commutator, hD]
-  haveI : Group.IsPerfect ↥(D.map M.subtype) := Subgroup.isPerfect_iff.mpr hD'
+  have : Group.IsPerfect ↥(D.map M.subtype) := Subgroup.isPerfect_iff.mpr hD'
   have hcomm := Smith81.perfect_centralizes_of_semilinAct (Smith81.semilinAct_Z hc.hyp)
     (P := D.map M.subtype) (fun x hx => by obtain ⟨y, -, rfl⟩ := hx; exact y.2) inferInstance
   rw [← hDP]
@@ -105,23 +105,23 @@ theorem nonabelian_of_simple_of_perfect {X : Type} [Group X] [IsSimpleGroup X]
     [Group.IsPerfect X] : ∃ a b : X, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative X := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative X := ⟨⟨fun a b => hcon a b⟩⟩
   exact Group.IsPerfect.not_isMulCommutative X inferInstance
 
 theorem isSimpleGroup_of_isPSLModel {q : ℕ} {X : Type} [Group X] (h : IsPSLModel 6 q X) :
     IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
   obtain ⟨K, _, _, -, ⟨e⟩⟩ := h
-  haveI hs : IsSimpleGroup (StatedProj (StatedSL 6 K)) :=
+  have hs : IsSimpleGroup (StatedProj (StatedSL 6 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
-  haveI : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 6) K) :=
+  have : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 6) K) :=
     CFSG.LinearGroups.linear_projective_perfect (by norm_num) (Or.inl (by norm_num))
-  haveI hp : Group.IsPerfect (StatedProj (StatedSL 6 K)) :=
+  have hp : Group.IsPerfect (StatedProj (StatedSL 6 K)) :=
     Group.IsPerfect.ofSurjective
       (f := (projectiveSpecialLinearGroupEquivStatedProj 6 K).toMonoidHom)
       (MulEquiv.surjective _)
-  haveI : IsSimpleGroup X := e.isSimpleGroup
-  haveI : Group.IsPerfect X :=
+  have : IsSimpleGroup X := e.isSimpleGroup
+  have : Group.IsPerfect X :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact ⟨inferInstance, nonabelian_of_simple_of_perfect⟩
 
@@ -130,14 +130,14 @@ theorem isSimpleGroup_of_isPSUModel {n : ℕ} {X : Type} [Group X] (h : IsPSUMod
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h
   have hK' : Nat.card K = (2 ^ n) ^ 2 := hK
   have hnq : ((6 : ℕ), 2 ^ n) ≠ (3, 2) := by simp
-  haveI hs : IsSimpleGroup (StatedProj (StatedSU 6 (2 ^ n) K)) :=
+  have hs : IsSimpleGroup (StatedProj (StatedSU 6 (2 ^ n) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 n hK' 6 (by norm_num) hnq
-  haveI : Group.IsPerfect (StatedSU 6 (2 ^ n) K) :=
+  have : Group.IsPerfect (StatedSU 6 (2 ^ n) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := n) hK' (n := 6)
       (by norm_num) hnq
-  haveI hp : Group.IsPerfect (StatedProj (StatedSU 6 (2 ^ n) K)) := inferInstance
-  haveI : IsSimpleGroup X := e.isSimpleGroup
-  haveI : Group.IsPerfect X :=
+  have hp : Group.IsPerfect (StatedProj (StatedSU 6 (2 ^ n) K)) := inferInstance
+  have : IsSimpleGroup X := e.isSimpleGroup
+  have : Group.IsPerfect X :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact ⟨inferInstance, nonabelian_of_simple_of_perfect⟩
 
@@ -169,8 +169,8 @@ theorem stroth12FStarIii_of_lb (h : Stroth12FStarLBStatement) : Stroth12FStarIii
       exact isSimpleGroup_of_isPSUModel hU
     · exact isSimpleGroup_of_isPSLModel hL
   obtain ⟨hs, hna⟩ := hsn
-  haveI : IsSimpleGroup ↥(generalizedFitting ↥(bar M Q (H0 M Z))) := hs
-  haveI hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
+  have : IsSimpleGroup ↥(generalizedFitting ↥(bar M Q (H0 M Z))) := hs
+  have hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
   have hXn : (inSubgroup generalizedFitting (bar M Q (H0 M Z))).Normal :=
     normal_inSubgroup_fstar _
   have hlayer : layer (Mbar M Q) = inSubgroup generalizedFitting (bar M Q (H0 M Z)) :=
@@ -179,7 +179,7 @@ theorem stroth12FStarIii_of_lb (h : Stroth12FStarLBStatement) : Stroth12FStarIii
       ↥(inSubgroup generalizedFitting (bar M Q (H0 M Z))) :=
     (generalizedFitting ↥(bar M Q (H0 M Z))).equivMapOfInjective (bar M Q (H0 M Z)).subtype
       (bar M Q (H0 M Z)).subtype_injective
-  haveI : IsSimpleGroup ↥(inSubgroup generalizedFitting (bar M Q (H0 M Z))) :=
+  have : IsSimpleGroup ↥(inSubgroup generalizedFitting (bar M Q (H0 M Z))) :=
     eX.symm.isSimpleGroup
   have hSX : bar M Q (Lgen M (LB M Q B)) =
       inSubgroup generalizedFitting (bar M Q (H0 M Z)) := by
@@ -190,7 +190,7 @@ theorem stroth12FStarIii_of_lb (h : Stroth12FStarLBStatement) : Stroth12FStarIii
     have hSn : (bar M Q (Lgen M (LB M Q B))).Normal := bar_normal (Lgen_normal hc.LB_le_M)
     have hsub : ((bar M Q (Lgen M (LB M Q B))).subgroupOf
         (inSubgroup generalizedFitting (bar M Q (H0 M Z)))).Normal := hSn.subgroupOf _
-    haveI := hsub
+    have := hsub
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((bar M Q (Lgen M (LB M Q B))).subgroupOf
         (inSubgroup generalizedFitting (bar M Q (H0 M Z)))) with hb | ht'

@@ -55,7 +55,7 @@ private theorem k330c_sp_torusBig_of_abelian_card {G : Type} [Group G] [Finite G
     (hcard : L ≤ Nat.card H) : TorusBig G L := by
   by_cases hsep : ∃ Z : Subgroup G, IsSylowOf 3 Z ⊤ ∧ Nat.card Z = 9
   · obtain ⟨Z₀, hZ₀, hZ₀9⟩ := hsep
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hG3 : (Nat.card G).factorization 3 = 2 := by
       have h1 : Nat.card Z₀ = 3 ^ (Nat.card (⊤ : Subgroup G)).factorization 3 := hZ₀.card_eq
       rw [hZ₀9, Subgroup.card_top] at h1
@@ -301,7 +301,7 @@ private theorem k330c_sp_nonsplit_abelian (K : Type) [Field K] [Finite K] (p : �
       IsMulCommutative H ∧ 9 ∣ Nat.card H ∧
       ((Nat.card K - 1) ^ 2) / 2 ≤ Nat.card H := by
   let E := FiniteField.Extension K p 2
-  haveI hquad : Algebra.IsQuadraticExtension K E :=
+  have hquad : Algebra.IsQuadraticExtension K E :=
     { finrank_eq_two' := FiniteField.finrank_extension K p 2 }
   let N1 : Subgroup Eˣ := (TauCeti.Algebra.normUnits K : Eˣ →* Kˣ).ker
   have hfun : (TauCeti.Algebra.normUnits K : Eˣ →* Kˣ) =
@@ -370,7 +370,7 @@ private theorem k330c_sp_nonsplit_abelian (K : Type) [Field K] [Finite K] (p : �
 private theorem k330c_torusBig_of_mulEquiv {J T : Type} [Group J] [Finite J] [Group T] [Finite T]
     (e : J ≃* T) {L : ℕ} (h : TorusBig T L) : TorusBig J L := by
   intro Z hZ hZ9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ' : IsSylowOf 3 (Z.map e.toMonoidHom) ⊤ := by
     refine CFSG.ABGLocalTools.isSylowOf_of_card le_top ?_
     rw [Subgroup.card_map_of_injective e.injective, hZ.card_eq, Subgroup.card_top,
@@ -387,12 +387,12 @@ theorem torusBig_PSp4 {J : Type} [Group J] [Finite J] {p f : ℕ} (e : LieModel 
     TorusBig J (spTorusLow (p ^ f)) := by
   have hC : StatedClassicalModel J .PSp 2 p f := e.statedClassicalModel (by decide)
   obtain ⟨hadm, K, hfield, hfinite, hKcard, ⟨eK⟩⟩ := hC
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   obtain ⟨hp, hf, -⟩ := hadm
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K p := charP_of_card_eq_prime_pow (by rw [Fintype.card_eq_nat_card, hKcard])
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K p := charP_of_card_eq_prime_pow (by rw [Fintype.card_eq_nat_card, hKcard])
   have hmain : TorusBig (StatedProj (StatedSp 2 K)) (((p ^ f - 1) ^ 2) / 2) := by
     have hmod : Nat.card K % 3 = 0 ∨ Nat.card K % 3 = 1 ∨ Nat.card K % 3 = 2 := by
       have := Nat.mod_lt (Nat.card K) (by norm_num : 0 < 3)

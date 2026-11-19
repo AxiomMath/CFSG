@@ -27,7 +27,7 @@ theorem card_centralizer : Nat.card (Subgroup.centralizer (L : Set (QuasiQuotien
     obtain ⟨t, htT, rfl⟩ := Subgroup.mem_map.mp (d.centralizer_le_sylow hk)
     exact Subgroup.mem_map_of_mem _ ⟨htT, hk⟩
   have hinj : Set.InjOn (quasiMk u) (R : Set (quasiNormalizer u)) := fun a ha b hb hab =>
-    quasiMk_injOn_twoGroup u T.isPGroup' ha.1 hb.1 hab
+    quasiMk_injOn_twoGroup u T.isPGroup ha.1 hb.1 hab
   have h1 : Nat.card (R.map (quasiMk u)) = Nat.card R := by
     refine (Nat.card_congr (Equiv.ofBijective
       (fun r : R => (⟨quasiMk u r, Subgroup.mem_map_of_mem _ r.2⟩ : R.map (quasiMk u)))

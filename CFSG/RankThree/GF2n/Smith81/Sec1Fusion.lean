@@ -43,12 +43,14 @@ section Conj
 
 variable [Finite G] {M Q Z X : Subgroup G} {x : G}
 
+omit [Finite G] in
 private theorem normalizer_conj_aux (g : G) (T : Subgroup G) :
     Subgroup.normalizer (conjSubgroup g T : Set G) =
       conjSubgroup g (Subgroup.normalizer (T : Set G)) :=
   (Subgroup.map_normalizer_eq_of_bijective (f := (MulAut.conj g).toMonoidHom) T
     (MulAut.conj g).bijective).symm
 
+omit [Finite G] in
 private theorem inSubgroup_gF_conj (N : Subgroup G) (g : G) :
     inSubgroup generalizedFitting (conjSubgroup g N) =
       conjSubgroup g (inSubgroup generalizedFitting N) := by
@@ -57,12 +59,14 @@ private theorem inSubgroup_gF_conj (N : Subgroup G) (g : G) :
   show (generalizedFitting ↥(conjSubgroup g N)).map (conjSubgroup g N).subtype =
     ((generalizedFitting ↥N).map N.subtype).map (MulAut.conj g).toMonoidHom
   rw [← key, Subgroup.map_map, Subgroup.map_map]
-  congr 1 <;> ext x <;> rfl
+  congr 1
 
+omit [Finite G] in
 theorem normalizer_conj_eq (H : StrothHyp M Q Z) (g : G) :
     Subgroup.normalizer ((conjSubgroup g Z : Subgroup G) : Set G) = conjSubgroup g M := by
   rw [normalizer_conj_aux, H.normalizer_Z.1]
 
+omit [Finite G] in
 theorem QB_conj_eq (H : StrothHyp M Q Z) (g : G) :
     QB (conjSubgroup g Z) = conjSubgroup g Q := by
   unfold QB
@@ -99,6 +103,7 @@ section Facts
 
 variable [Finite G] {M Q Z X : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem Sit.X_ne_Z (hs : Sit M Q Z X x) : X ≠ Z := by
   intro h
   exact hs.notQ (hs.hyp.Z_normal.1 (h ▸ hs.mem))
@@ -108,11 +113,13 @@ theorem Sit.Z_inf_X (hs : Sit M Q Z X x) : Z ⊓ X = ⊥ := by
   rw [hg]
   exact inf_conjSubgroup_eq_bot_of_isTI hs.hyp.ti (hg ▸ hs.X_ne_Z)
 
+omit [Finite G] in
 theorem Sit.X_isTI (hs : Sit M Q Z X x) : IsTI X := by
   obtain ⟨g, hg⟩ := hs.conj
   rw [hg]
   exact isTI_conjSubgroup hs.hyp.ti g
 
+omit [Finite G] in
 theorem Sit.QB_eq (hs : Sit M Q Z X x) : ∃ g : G, X = conjSubgroup g Z ∧
     QB X = conjSubgroup g Q ∧ Subgroup.normalizer (X : Set G) = conjSubgroup g M := by
   obtain ⟨g, hg⟩ := hs.conj
@@ -137,6 +144,7 @@ theorem Sit.X_comm (hs : Sit M Q Z X x) : ∀ a ∈ X, ∀ b ∈ X, a * b = b * 
   have e2 : b * a = g * ((g⁻¹ * b * g) * (g⁻¹ * a * g)) * g⁻¹ := by group
   rw [e1, e2, h1]
 
+omit [Finite G] in
 theorem Sit.normalizer_QB (hs : Sit M Q Z X x) {k : G} (hk : k ∈ Subgroup.normalizer (X : Set G))
     {y : G} (hy : y ∈ QB X) : k * y * k⁻¹ ∈ QB X := by
   obtain ⟨g, -, hQB, hN⟩ := hs.QB_eq
@@ -146,7 +154,8 @@ theorem Sit.normalizer_QB (hs : Sit M Q Z X x) {k : G} (hk : k ∈ Subgroup.norm
   have : g⁻¹ * k * g * (g⁻¹ * y * g) * (g⁻¹ * k * g)⁻¹ = g⁻¹ * (k * y * k⁻¹) * g := by group
   rwa [this] at h1
 
-theorem Sit.QB_le_normalizer (hs : Sit M Q Z X x) : QB X ≤ Subgroup.normalizer (X : Set G) := by
+omit [Finite G] in
+theorem Sit.QB_le_normalizer (_hs : Sit M Q Z X x) : QB X ≤ Subgroup.normalizer (X : Set G) := by
   unfold QB
   exact Subgroup.map_subtype_le _
 
@@ -223,8 +232,9 @@ section Smith113
 
 variable [Finite G] {M Q Z X : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem Z_le_normalizer_X (h12 : Post12 M Q Z X) : Z ≤ Subgroup.normalizer (X : Set G) :=
-  le_normalizer_of_comm fun z hz w hw => Subgroup.mem_centralizer_iff.mp (h12.1 hw).2 z hz
+  le_normalizer_of_comm fun z hz _w hw => Subgroup.mem_centralizer_iff.mp (h12.1 hw).2 z hz
 
 theorem Lx_le_H0 (hs : Sit M Q Z X x) (h12 : Post12 M Q Z X) :
     Lx M X ≤ H0 M Z := by
@@ -245,6 +255,7 @@ theorem Lx_le_H0 (hs : Sit M Q Z X x) (h12 : Post12 M Q Z X) :
   rw [Z_inf_QB_eq_bot hs h12, Subgroup.mem_bot] at h3
   exact (commutatorElement_eq_one_iff_mul_comm.mp h3).symm
 
+omit [Finite G] in
 theorem Kx_le_centralizer_X (hs : Sit M Q Z X x) (h12 : Post12 M Q Z X) :
     Kx Q X ≤ Subgroup.centralizer (X : Set G) := by
   intro k hk
@@ -274,6 +285,7 @@ theorem Kx_eq (hs : Sit M Q Z X x) (h12 : Post12 M Q Z X) :
     have hcomm : y * x = x * y := Subgroup.mem_centralizer_singleton_iff.mp hyC
     exact ⟨hyQ, Tim77.mem_normalizer_of_commute_of_isTI hs.X_isTI hs.mem hs.ne_one hcomm⟩
 
+omit [Finite G] in
 theorem Kx_inf_Lx (hs : Sit M Q Z X x) : Kx Q X ⊓ Lx M X = Q ⊓ QB X := by
   apply le_antisymm
   · intro y hy
@@ -345,6 +357,7 @@ theorem Sit.x_sq (hs : Sit M Q Z X x) : x * x = 1 := by
   have e : x * x = g * ((g⁻¹ * x * g) ^ 2) * g⁻¹ := by rw [pow_two]; group
   rw [e, h1]; group
 
+omit [Finite G] in
 theorem Sit.x_cent (hs : Sit M Q Z X x) (h12 : Post12 M Q Z X) : ∀ z ∈ Z, x * z * x⁻¹ = z := by
   intro z hz
   have := Subgroup.mem_centralizer_iff.mp (h12.1 hs.mem).2 z hz

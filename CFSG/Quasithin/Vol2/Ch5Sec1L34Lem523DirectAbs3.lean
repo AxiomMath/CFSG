@@ -27,6 +27,7 @@ theorem exists_kmin (𝒦V : Subgroup (MulAut V)) (hV : (⊤ : Subgroup V) ≠ �
   by_contra hne
   exact hmin W ⟨hW0, hWk⟩ (lt_of_le_of_ne hWY hne)
 
+omit [Finite V] in
 theorem fixK_eq_bot {𝒦V : Subgroup (MulAut V)} {vV : MulAut V}
     (hvN : vV ∈ Subgroup.normalizer (𝒦V : Set (MulAut V)))
     (hirr : ∀ W : Subgroup V, (∀ k ∈ 𝒦V, ∀ w ∈ W, k w ∈ W) → (∀ w ∈ W, vV w ∈ W) →

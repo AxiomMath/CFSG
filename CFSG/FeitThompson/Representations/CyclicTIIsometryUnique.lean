@@ -112,14 +112,14 @@ variable {σ τ : classFun ↥W →ₗ[ℂ] classFun G}
 theorem cfInner_prodCharEta_of_ne (h : IsCyclicTIPair W W1 W2)
     (hσ : IsCyclicTIIsometry W W1 W2 σ) {p q : Irr ↥W1 × Irr ↥W2} (hpq : p ≠ q) :
     cfInner (h.prodCharEta σ p.1 p.2) (h.prodCharEta σ q.1 q.2) = 0 := by
-  rw [h.cfInner_prodCharEta hσ, if_neg]
+  rw [h.cfInner_prodCharEta hσ, ite_eq_right]
   rintro ⟨h1, h2⟩
   exact hpq (Prod.ext h1 h2)
 
 theorem cfInner_prodCharEta_self (h : IsCyclicTIPair W W1 W2)
     (hσ : IsCyclicTIIsometry W W1 W2 σ) (i : Irr ↥W1) (j : Irr ↥W2) :
     cfInner (h.prodCharEta σ i j) (h.prodCharEta σ i j) = 1 := by
-  rw [h.cfInner_prodCharEta hσ, if_pos ⟨rfl, rfl⟩]
+  rw [h.cfInner_prodCharEta hσ, ite_eq_left ⟨rfl, rfl⟩]
 
 theorem prodCharEta_mem_signedIrr (h : IsCyclicTIPair W W1 W2)
     (hσ : IsCyclicTIIsometry W W1 W2 σ) (i : Irr ↥W1) (j : Irr ↥W2) :

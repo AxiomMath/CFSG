@@ -34,7 +34,7 @@ theorem le_of_perfect_of_eq_mul_solvable {G : Type*} [Group G] {S M R : Subgroup
     have h2 := hn.conj_mem _ h1 (⟨r, hrS⟩ : S)⁻¹
     convert h2 using 1
     apply Subtype.ext
-    simp only [coe_mul, coe_inv, Subgroup.coe_inclusion, InvMemClass.coe_inv, inv_inv]
+    simp only [coe_mul, Subgroup.coe_inclusion, InvMemClass.coe_inv, inv_inv]
     rw [← hmr]
     group
   have hsolQ : Group.IsSolvable (S ⧸ M') := Group.isSolvable_of_surjective hf
@@ -196,7 +196,7 @@ theorem le_normalizer_of_perfect_isSubnormal_of_solvable_inf_aux (n : ℕ) :
       intro x
       have hr' := hR₁ (hRN r hr)
       rw [mem_normalizer_iff] at hr'
-      simp only [SetLike.mem_coe, hmemSq]
+      simp only [hmemSq]
       have := hr' (q'⁻¹ * x * q')
       have e : (q'⁻¹ * r * q') * (q'⁻¹ * x * q') * (q'⁻¹ * r * q')⁻¹ =
           q'⁻¹ * (r * x * r⁻¹) * q' := by group

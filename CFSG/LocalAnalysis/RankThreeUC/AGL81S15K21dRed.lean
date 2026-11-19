@@ -152,11 +152,11 @@ theorem exists_central_inversion {E : Type} [Group E] [Finite E] (hV : ∀ x y :
   let F : Subgroup E :=
     { carrier := {x | (z : MulAut E) x = x}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by simp
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hF : ∀ a ∈ Q, ∀ x ∈ F, a x ∈ F := by
     intro a ha x hx
@@ -225,7 +225,7 @@ theorem q8_transitive {E : Type} [Group E] [Finite E] (hV : ∀ x y : E, x * y =
     exact hx ((MulEquiv.map_eq_one_iff (q : MulAut E)).mp h)
   have hcard : ({y : E | y ≠ 1} : Set E).ncard = 8 := by
     have h1 : ({y : E | y ≠ 1} : Set E) = Set.univ \ {1} := by ext y; simp
-    rw [h1, Set.ncard_diff_singleton_of_mem (Set.mem_univ 1), Set.ncard_univ, hc]
+    rw [h1, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ 1), Set.ncard_univ, hc]
   have hrange : (Set.range f).ncard = 8 := by
     rw [← Nat.card_coe_set_eq, Nat.card_range_of_injective hinj, hQ8]
   have heq : Set.range f = {y : E | y ≠ 1} :=
@@ -271,7 +271,7 @@ theorem card_stab_eq_of_hasQ8 {G : Type} [Group G] (T Inn E : Subgroup G) [Inn.N
     Nat.card ↥(T ⊓ Inn ⊓ Subgroup.normalizer (E : Set G) ⊓ Subgroup.centralizer ({x} : Set G)) =
       Nat.card ↥(T ⊓ Inn ⊓ Subgroup.normalizer (E : Set G) ⊓
         Subgroup.centralizer ({y} : Set G)) := by
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
   obtain ⟨Q, hQA, ⟨e⟩⟩ := hQ8
   obtain ⟨q, hqQ, hqxy⟩ := q8_transitive (fun a b => hE.1.is_comm.comm a b)
     (fun a => Subtype.ext (by simpa using hE.2 a.1 a.2)) hE9 e (x := ⟨x, hx⟩) (y := ⟨y, hy⟩)
@@ -288,7 +288,7 @@ theorem exists_inverting {G : Type} [Group G] (T Inn E : Subgroup G)
     (hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (hQ8 : HasQ8 (autInduced T E))
     (hcomm : ∀ s ∈ T, ∀ t ∈ T, ⁅s, t⁆ ∈ Inn) :
     ∃ u ∈ T ⊓ Inn ⊓ Subgroup.normalizer (E : Set G), ∀ e ∈ E, u * e * u⁻¹ = e⁻¹ := by
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
   obtain ⟨Q, hQA, ⟨e⟩⟩ := hQ8
   obtain ⟨z, hzQ, hz1, hzz, hzc, hzq, hinv, hcommz⟩ :=
     exists_central_inversion (fun a b => hE.1.is_comm.comm a b)
@@ -362,10 +362,10 @@ end K21dRedProof
 theorem K21d_of_K420 (hK420 : K420) (hRes : K21dRes) : K21d := by
   obtain ⟨hSimple, hGeom⟩ := hRes
   intro S _ _ hS N T' R E hInnN hT'N hT'p hSyl hRT' hT'R hRcore hsolv hEN hE hE9 hQ8
-  haveI := K21bRedProof.finite_mulAut S
-  haveI := K21bRedProof.innAut_normal S
+  have := K21bRedProof.finite_mulAut S
+  have := K21bRedProof.innAut_normal S
   obtain ⟨hsimp, hnc⟩ := hSimple S hS
-  haveI : IsSimpleGroup S := hsimp
+  have : IsSimpleGroup S := hsimp
   have hZ : Subgroup.center S = ⊥ := K21dRedProof.center_eq_bot_of_simple hnc
   have hq : CFSG.Open.IsQuasisimple S := K21dRedProof.isQuasisimple_of_simple hnc
   have hcl : CFSG.AGLEmbedding.IsClassicalTwoOrG2 (S ⧸ Subgroup.center S) :=
@@ -415,10 +415,10 @@ theorem K21d_of_K420 (hK420 : K420) (hRes : K21dRes) : K21d := by
     have hEE : E.subgroupOf (innAut S) ≤
         (N ⊓ Subgroup.normalizer (R : Set (MulAut S))).subgroupOf (innAut S) :=
       fun g hg => hEN (Subgroup.mem_subgroupOf.mp hg)
-    haveI := hsolv
+    have := hsolv
     have hDsolv : Group.IsSolvable
         ↥((N ⊓ Subgroup.normalizer (R : Set (MulAut S))).subgroupOf (innAut S)) := by
-      refine solvable_of_solvable_injective
+      refine Group.isSolvable_of_isSolvable_injective
         (f := MonoidHom.codRestrict
           ((innAut S).subtype.comp
             ((N ⊓ Subgroup.normalizer (R : Set (MulAut S))).subgroupOf (innAut S)).subtype)

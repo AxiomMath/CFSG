@@ -18,7 +18,7 @@ private theorem triple_family_card
     (hS : Nat.card S ≠ 1) : Nat.card (Family (X := X) (sylowImage X P s S) 3) = 21 := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 6 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact Degree69ThreeSix.fixed_card_eq_six P hcard h5 hnotAlt s hs S hS
@@ -54,7 +54,7 @@ private theorem sylow_card_le_three_pow_ten
   · rw [hS]
     norm_num
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 6 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact Degree69ThreeSix.fixed_card_eq_six P hcard h5 hnotAlt s hs S hS

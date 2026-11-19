@@ -22,7 +22,7 @@ theorem glaPComponent_self_of_dvd_card {Y : Type*} [Group Y] [Finite Y] {p : ℕ
     have hc := CFSG.HardMathSupport.Solomon.LocalBalance.coprime_card_gLAPPrimeCore_aux p ↥K
     rw [← hO, htop, Subgroup.card_top] at hc
     exact absurd (Nat.eq_one_of_dvd_coprimes hc (dvd_refl p) hdvd) hp.ne_one
-  haveI hnt : Nontrivial (↥K ⧸ O) := by
+  have hnt : Nontrivial (↥K ⧸ O) := by
     rw [QuotientGroup.nontrivial_iff]
     exact hOtop
   have hqq : CFSG.Open.IsQuasisimple (↥K ⧸ O) :=

@@ -460,7 +460,7 @@ theorem a9_P_le (hfr : A3Frame 3 9 θ z) (K : Subgroup (V ≃ₗ[ZMod 3] V))
       have hone : a = 1 := by
         refine a3P_ext hfr (σ := 1) ha haz ?_ (by simp)
         intro u _
-        simp [Equiv.Perm.one_symm]
+        simp [← Equiv.Perm.inv_def 1, inv_one]
       rw [hone]
       exact K.one_mem
     · intro x y hx hy a ha haz

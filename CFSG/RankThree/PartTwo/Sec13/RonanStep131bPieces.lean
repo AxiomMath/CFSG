@@ -31,7 +31,7 @@ theorem pieceL3_holds : PieceL3 := by
   unfold PieceL3
   intro G _ _ A c L E F a b R Y hY h
   obtain ⟨p, e, hp, hp3, he1, he2, hiso⟩ := h
-  haveI := hp
+  have := hp
   rcases hiso with ⟨hq, ⟨eq⟩⟩ | ⟨hq, ⟨eq⟩⟩
   · exact false_of_norm2e hY (X := projSL 3 (GaloisField p e)) (norm2e_projSL p e hp3 he1 he2 hq)
       ⟨eq⟩

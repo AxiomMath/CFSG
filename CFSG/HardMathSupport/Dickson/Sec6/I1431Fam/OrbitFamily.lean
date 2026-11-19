@@ -137,6 +137,7 @@ section Blocks
 
 variable {Xs : Type} [Group Xs] [Finite Xs]
 
+omit [Finite Xs] in
 theorem lift_blocks_of_orbit_family (q : ℕ) (a : Xs) {ι : Type} [Finite ι] (F : ι → Subgroup Xs)
     (hc : ∀ i j, i ≠ j → ∀ x ∈ F i, ∀ y ∈ F j, Commute x y)
     (hjoin : ⨆ i, F i = Subgroup.centralizer ({a} : Set Xs))

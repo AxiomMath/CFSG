@@ -24,7 +24,7 @@ private theorem card_sup_mul_card_inf_of_le_centralizer {X : Type*} [Group X]
     exact ⟨fun hh => hn x hx h hh, fun hh => by
       have hh' := hn x⁻¹ (A.inv_mem hx) (x * h * x⁻¹) hh
       simpa [mul_assoc] using hh'⟩
-  haveI : (B.subgroupOf (A ⊔ B)).Normal :=
+  have : (B.subgroupOf (A ⊔ B)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hA
   have h1 := Subgroup.relIndex_sup_right (A.subgroupOf (A ⊔ B)) (B.subgroupOf (A ⊔ B))
   rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self,
@@ -141,8 +141,8 @@ theorem exists_sylow_split {X : Type} [Group X] [Finite X] {a b : X} {E Y : Subg
   let TE' : Subgroup X := (TE : Subgroup ↥E).map E.subtype
   have hTE'_le_E : TE' ≤ E := by rintro x ⟨y, -, rfl⟩; exact y.2
   have hbTE' : b ∈ TE' := ⟨bE, hTE_cont (Subgroup.mem_zpowers bE), rfl⟩
-  have hTE'_pgroup : IsPGroup 2 TE' := IsPGroup.map TE.isPGroup' E.subtype
-  have hTY_pgroup : IsPGroup 2 TY := IsPGroup.map Q.isPGroup' Y.subtype
+  have hTE'_pgroup : IsPGroup 2 TE' := IsPGroup.map TE.isPGroup E.subtype
+  have hTY_pgroup : IsPGroup 2 TY := IsPGroup.map Q.isPGroup Y.subtype
   have hfact : Nat.factorization (Nat.card ↥E) 2 = 10 := by
     rw [hEm, Nat.factorization_mul (by positivity) hm_ne, Finsupp.add_apply,
       Nat.factorization_pow_self Nat.prime_two, Nat.factorization_eq_zero_of_not_dvd h2m,

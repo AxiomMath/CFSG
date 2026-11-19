@@ -25,6 +25,7 @@ theorem phi_mk (L : Subgroup Γ) (n : ↥(Subgroup.normalizer (L : Set Γ))) (l 
         ↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
   rfl
 
+omit [Finite Γ] in
 theorem mem_core_of_coe_mem {L : Subgroup Γ} {y : ↥L} (h : (y : Γ) ∈ thL L) :
     y ∈ aschbacherSolvableCore 3 ↥L := by
   obtain ⟨y', hy', hyy'⟩ := h
@@ -48,6 +49,7 @@ structure LRData (L R : Subgroup Γ) : Prop where
   inf_le : L ⊓ R ≤ thL L
   center : Subgroup.center (↥L ⧸ aschbacherSolvableCore 3 ↥L) = ⊥
 
+omit [Finite Γ] in
 theorem inf_le_thL_of {L R : Subgroup Γ} (hR : Nat.Coprime 3 (Nat.card R))
     (hLR : L ≤ Subgroup.normalizer (R : Set Γ))
     (hX : ∀ N : Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L), N.Normal → ¬ 3 ∣ Nat.card N →
@@ -94,9 +96,11 @@ namespace LRData
 variable {L R : Subgroup Γ} (d : LRData L R)
 include d
 
+omit [Finite Γ] in
 theorem sup_le_normalizer : L ⊔ R ≤ Subgroup.normalizer (L : Set Γ) :=
   sup_le Subgroup.le_normalizer d.normL_R
 
+omit [Finite Γ] in
 theorem exists_mul {g : Γ} (hg : g ∈ L ⊔ R) : ∃ l ∈ L, ∃ r ∈ R, g = l * r := by
   have hconj : ∀ r ∈ R, ∀ l ∈ L, r * l * r⁻¹ ∈ L := fun r hr l hl =>
     (Subgroup.mem_normalizer_iff.mp (d.normL_R hr) l).mp hl
@@ -165,7 +169,6 @@ theorem phi_eq_one_iff {l : Γ} (hl : l ∈ L) (hlN : l ∈ Subgroup.normalizer 
     rw [d.center, Subgroup.mem_bot] at hc
     exact hc
   · intro h
-    change MulAut.conj ((⟨l, hl⟩ : ↥L) : ↥L ⧸ aschbacherSolvableCore 3 ↥L) = 1
     rw [show ((⟨l, hl⟩ : ↥L) : ↥L ⧸ aschbacherSolvableCore 3 ↥L) = 1 from h, map_one]
 
 theorem eq_one_of_phi_one {g : Γ} (hg : g ∈ L ⊔ R) (hgN : g ∈ Subgroup.normalizer (L : Set Γ))
@@ -203,6 +206,7 @@ theorem eq_one_of_phi_one {g : Γ} (hg : g ∈ L ⊔ R) (hgN : g ∈ Subgroup.no
   rw [hcop] at this
   exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp this)
 
+omit [Finite Γ] in
 theorem mem_L_of_pow_three_pow {g : Γ} (hg : g ∈ L ⊔ R) {k : ℕ} (hk : g ^ 3 ^ k = 1) :
     g ∈ L := by
   obtain ⟨l, hl, r, hr, rfl⟩ := d.exists_mul hg

@@ -24,14 +24,14 @@ private theorem exists_e6LinearModel' {G : Type} [Group G] [Finite G] {Bs : Subg
         (∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3)) ∧
         (∀ i v, β (h i) v = α i v) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := CFSG.StandardType.exists_ggLinData (p := 3) hBs
-  letI := hVadd
-  letI := hVmod
+  let := hVadd
+  let := hVmod
   have hVcard : Nat.card V = 3 ^ 5 := by
     rw [← CFSG.StandardType.card_eq_of_ggLin ι]
     exact hcard
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
   obtain ⟨e, h, α, hα, he, hP⟩ := exists_cartan_pairing_E6 hNT hW hA ι
   obtain ⟨β, hβ⟩ := exists_bilinForm hP hVcard
   have hmapA : A.map (ggLin (p := 3) ι) = e6Weyl hα :=
@@ -61,10 +61,10 @@ theorem norm_eq_one_of_card_192
   classical
   obtain ⟨V, hVadd, hVmod, ι, h, α, hα, β, hVcard, hmapA, hWcard', hP, hB⟩ :=
     exists_e6LinearModel' hBs hcard hNT hW hind hWcard
-  letI := hVadd
-  letI := hVmod
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  let := hVadd
+  let := hVmod
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective ((↑) : (V ≃ₗ[ZMod 3] V) → V → V) DFunLike.coe_injective
   set vx : V := ι (Additive.ofMul x) with hvxdef
   have hvx : vx ≠ 0 := by

@@ -18,7 +18,7 @@ theorem a6fus_le_centralizer_of_wc {P : Sylow 3 G} {x : G} (hxP : x ∈ (P : Sub
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Q : Subgroup G := (P : Subgroup G) ⊓ centralizer ({x} : Set G)
   by_contra hPC
-  have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup.isNilpotent
   have hlt : Q.subgroupOf (P : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun htop => hPC ?_
     rw [subgroupOf_eq_top] at htop
@@ -38,7 +38,7 @@ theorem a6fus_le_centralizer_of_wc {P : Sylow 3 G} {x : G} (hxP : x ∈ (P : Sub
     rw [MonoidHom.map_zpowers] at h
     rw [← h]
     simp
-  obtain ⟨k, hk⟩ := P.isPGroup' n
+  obtain ⟨k, hk⟩ := P.isPGroup n
   have hk' : (n : G) ^ (3 ^ k) = 1 := by
     simpa using congrArg Subtype.val hk
   have heq := p34_conj_eq_of_pow hx1 hx3 hk' hmem

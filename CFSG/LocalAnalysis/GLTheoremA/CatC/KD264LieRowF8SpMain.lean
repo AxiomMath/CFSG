@@ -22,7 +22,7 @@ theorem kerSp_model {K : Type} [Field K] [Finite K] (hK : Nat.card K = 8)
     (hnot : ¬ A ≤ innAutDerived (StatedProj (StatedSp 3 K))) :
     KD264F8Datum (StatedProj (StatedSp 3 K)) A := by
   classical
-  haveI hchar : CharP K 2 := charP_two_of_card_eight hK
+  have hchar : CharP K 2 := charP_two_of_card_eight hK
   have h3 : 3 ≤ 3 := le_rfl
   obtain ⟨stdIso⟩ := exists_stdIso 3
   obtain ⟨E0S, -, hE0S, hE0Scard⟩ := CFSG.GH74.Uniqueness.SU.SU1.exists_isElemAbelian_of_le_pRank
@@ -44,7 +44,7 @@ theorem kerSp_model {K : Type} [Field K] [Finite K] (hK : Nat.card K = 8)
     refine ⟨ι, hιinj, hιfix, fun x hx v => ?_, fun x hx _ => hιrange x hx⟩
     exact ι.range.mul_mem (ι.range.mul_mem (hιrange x hx) ⟨v, rfl⟩) (ι.range.inv_mem (hιrange x hx))
   · intro E hE hcard
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     have := sp_core_c (stdForm 3) (stdForm_isAlt 3) (stdForm_nondeg 3) (stdForm_finrank 3) E hE
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
     obtain ⟨c, hcE, hc1, L, hLc, hLs, hLq, hLd⟩ := this
@@ -68,7 +68,7 @@ theorem KD264F8KerSp_holds : KD264F8KerSp := by
         exact dvd_pow_self q.p (Nat.pos_iff_ne_zero.1 q.exponent_pos)
       exact (Nat.prime_dvd_prime_iff_eq q.prime_p Nat.prime_two).1
         (q.prime_p.dvd_of_dvd_pow hdvd)
-    haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField
+    have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField
       (⟨TauCeti.LieTypeIndex.B 3 q, hd1⟩ : TauCeti.ValidLieTypeIndex)
     let e := typeBGroupEquivStatedProj 3 q hd1 hp2 le_rfl
     have hcardK : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField

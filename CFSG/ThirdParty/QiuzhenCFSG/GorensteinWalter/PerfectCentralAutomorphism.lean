@@ -68,7 +68,7 @@ public theorem perfect_central_automorphism_eq
           rw [(Subgroup.mem_center_iff.mp hz ⁅x, y⁆).symm]
           simp
         rw [hxy]
-        simpa [mul_assoc] using hzc
+        simp [mul_assoc]
       rw [hleft za (β a) (zb * β b) hza_center]
       rw [show zb * β b = β b * zb by
         exact (Subgroup.mem_center_iff.mp hzb_center (β b)).symm]

@@ -84,7 +84,7 @@ theorem ggF4Ends_exists_orderOf_three_slThree
     rw [← map_pow, show (finRotate 3 : Equiv.Perm (Fin 3)) ^ 3 = 1 by decide, map_one]
   refine ⟨(ρ (finRotate 3) : MulAut Bs), (ρ (finRotate 3)).2, ?_⟩
   rw [Subgroup.orderOf_coe]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime hpow hne
 
 end CFSG.StandardType.ResJCubicBlock

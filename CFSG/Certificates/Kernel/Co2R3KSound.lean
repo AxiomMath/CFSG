@@ -16,7 +16,7 @@ open CFSG.KC.Enum CFSG.KC.N3153 CFSG.KS.Raw CFSG.Certificates.Native CFSG.Monste
 open CFSG.Sporadic.Co2Rank3 CFSG.Sporadic.Co2Rank3.Native CFSG.Sporadic.FischerOddCore.Native
 
 theorem orbReplay_sound {n m : Nat} {gens : Array (Array Nat)} {G : Nat → Nat}
-    {L D P V O Q : Nat} (hn : n < 4096) (hgs : gens.size = m)
+    {L D P V O Q : Nat} (_hn : n < 4096) (hgs : gens.size = m)
     (hG : ∀ k < m, gens[k]! = unpack n 12 (G k)) (h : orbReplayK n m G L D P V O Q = true) :
     orbitSearch n gens = (unpack n 12 L, unpack n 12 D, unpack n 12 P, unpack n 12 V) := by
   exact Snd.orbitSearch_eq_unpack hgs hG h
@@ -40,8 +40,8 @@ theorem common_sound {d a b c : Nat} {R M S : Nat → Nat}
   exact Snd.commonCount_of_ccK hra hrb ha hb h
 
 theorem colourLabel_sound {n d k T L : Nat} {nbr : Array (List Nat)} {t : Array Nat}
-    {R M S : Nat → Nat} {pre roots : List Nat} (hn0 : 0 < n) (hn : n < 4096) (hd : 0 < d)
-    (hd' : d < 65536) (hnbr : nbr = rowsArr n d R) (hrow : ∀ x < n, rowOK n d R M S x = true)
+    {R M S : Nat → Nat} {pre roots : List Nat} (_hn0 : 0 < n) (hn : n < 4096) (_hd : 0 < d)
+    (_hd' : d < 65536) (hnbr : nbr = rowsArr n d R) (hrow : ∀ x < n, rowOK n d R M S x = true)
     (hsym : ∀ x < n, ∀ y ∈ nbr[x]!, x ∈ nbr[y]!) (ht : t = unpack n 12 T)
     (hpre : pre.length < 65536) (h : clabK n S T pre k L roots = true) :
     colourLabelOK n (colourT n nbr t pre k) (unpack n 12 L) roots = true := by

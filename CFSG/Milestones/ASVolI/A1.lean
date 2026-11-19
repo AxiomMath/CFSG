@@ -453,7 +453,7 @@ private theorem burnside_oddCoreIn_le_relPPrimeCore {G : Type} [Group G] (H : Su
 end BurnsideA1b8
 
 theorem as_A_1_3 : A_1_3 := by
-  haveI := burnside_certificate43
+  have := burnside_certificate43
   exact CFSG.Quasithin.F6.dicksonPSL2_holds
 
 @[expose] def A_1_4 : Prop :=
@@ -467,7 +467,7 @@ private theorem burnside_pResidual_le_oResidual_singleton (p : ℕ) (K : Type) [
     CFSG.Quasithin.pResidual p K ≤ ChA.oResidual {p} (⊤ : Subgroup K) := by
   refine le_iInf fun N => le_iInf fun hN => ?_
   obtain ⟨-, hNn, hN⟩ := hN
-  haveI : N.Normal :=
+  have : N.Normal :=
     Subgroup.normalizer_eq_top_iff.mp
       (top_le_iff.mp ((Subgroup.normal_subgroupOf_iff_le_normalizer le_top).mp hNn))
   refine CFSG.Quasithin.pResidual_le fun x => ?_
@@ -478,7 +478,7 @@ private theorem burnside_pResidual_le_oResidual_singleton (p : ℕ) (K : Type) [
 
 theorem as_A_1_4 : A_1_4 := by
   intro K _ _ hsolv h
-  haveI : Group.IsSolvable K := hsolv
+  have : Group.IsSolvable K := hsolv
   have h' : ∀ p : ℕ, p.Prime → p ∣ Nat.card (genFittingFitting K) →
       CFSG.Quasithin.pResidual p K ≤ Subgroup.centralizer (CFSG.Open.pCore p K : Set K) := by
     intro p hp hpF
@@ -566,7 +566,7 @@ theorem as_A_1_7 : A_1_7 := by
 
 theorem as_A_1_8 : A_1_8 := by
   intro G _ _ p hp X _ hX hF
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : (⊤ : Subgroup G) ⊓ Subgroup.centralizer (pCoreOf p (⊤ : Subgroup G) : Set G) ≤
       pCoreOf p (⊤ : Subgroup G) :=
     (CFSG.Quasithin.quasithinGenFitting_eq_pCoreOf_iff (⊤ : Subgroup G) p).mp
@@ -699,8 +699,8 @@ theorem as_A_1_11 : A_1_11 := by
 
 theorem as_A_1_12 : A_1_12 := by
   intro V _ _ _ X Y hX hreg hXY hodd
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI := hX
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have := hX
   have hreg' : ∀ v w : V, v ≠ 0 → w ≠ 0 → ∃ x ∈ X, x v = w := fun v w hv hw => by
     obtain ⟨x, hx, -⟩ := hreg v w hv hw
     exact ⟨x, x.2, hx⟩
@@ -840,7 +840,7 @@ private theorem a119_twoReducedProduct_top_eq {G : Type} [Group G] :
 
 private theorem a118_oResidual_singleton_eq {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp : p.Prime)
     (A : Subgroup Γ) : ChA.oResidual {p} A = CFSG.Quasithin.opResidual p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine iInf₂_le_of_le (CFSG.Quasithin.opResidual p A)
       ⟨CFSG.Quasithin.opResidual_le p A, CFSG.Quasithin.opResidual_normal p A, fun x hx => ?_⟩
@@ -911,7 +911,7 @@ private theorem a117_fixed_map {Γ : Type} [Group Γ] {A G : Subgroup Γ}
     haveI : Subgroup.Normalizes A G := ⟨hAG⟩
     (CFSG.fixedPointSubgroup ↥B ↥G).map G.subtype =
       G ⊓ Subgroup.centralizer ((B.map A.subtype : Subgroup Γ) : Set Γ) := by
-  haveI : Subgroup.Normalizes A G := ⟨hAG⟩
+  have : Subgroup.Normalizes A G := ⟨hAG⟩
   ext x
   constructor
   · rintro ⟨y, hy, rfl⟩
@@ -943,7 +943,7 @@ private theorem a117_mem_fam {Γ : Type} [Group Γ] {A G : Subgroup Γ} [IsMulCo
     haveI : Subgroup.Normalizes A G := ⟨hAG⟩
     (IsCyclic (↥A ⧸ B) ∧ CFSG.fixedPointSubgroup ↥B ↥G ≠ ⊥) ↔
       B.map A.subtype ∈ ChA.cyclicQuotientCentralizerFamily A G := by
-  haveI : Subgroup.Normalizes A G := ⟨hAG⟩
+  have : Subgroup.Normalizes A G := ⟨hAG⟩
   have hmap := a117_fixed_map hAG B
   have hne : CFSG.fixedPointSubgroup ↥B ↥G ≠ ⊥ ↔
       G ⊓ ChA.centralizerOf (B.map A.subtype) ≠ ⊥ := by
@@ -988,7 +988,7 @@ private theorem a117_generation_le {Γ : Type} [Group Γ] [Finite Γ] {r : ℕ} 
     {A G : Subgroup Γ} (hA : IsPGroup r A) [IsMulCommutative A]
     (hAG : A ≤ Subgroup.normalizer (G : Set Γ)) (hG : ¬ r ∣ Nat.card G) :
     G ≤ ⨆ B ∈ ChA.cyclicQuotientCentralizerFamily A G, G ⊓ ChA.centralizerOf B := by
-  haveI : Subgroup.Normalizes A G := ⟨hAG⟩
+  have : Subgroup.Normalizes A G := ⟨hAG⟩
   have h := CFSG.Quasithin.a117_generation (r := r) (A := ↥A) hA (G := ↥G) hG
   have h2 : (⊤ : Subgroup ↥G).map G.subtype ≤
       ⨆ B ∈ ChA.cyclicQuotientCentralizerFamily A G, G ⊓ ChA.centralizerOf B := by
@@ -1123,14 +1123,14 @@ theorem as_A_1_16 : A_1_16 := by
 open scoped IsMulCommutative in
 theorem as_A_1_17 : A_1_17 := by
   intro Γ _ _ r hr A G hAp hAc hAG hcop
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hAc
-  haveI : Subgroup.Normalizes A G := ⟨hAG⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have := hAc
+  have : Subgroup.Normalizes A G := ⟨hAG⟩
   have hG : ¬ r ∣ Nat.card G := (Nat.Prime.coprime_iff_not_dvd hr).1 hcop
   have hgen : G = ⨆ B ∈ ChA.cyclicQuotientCentralizerFamily A G, G ⊓ ChA.centralizerOf B :=
     le_antisymm (a117_generation_le hAp hAG hG) (iSup₂_le fun B _ => inf_le_left)
   refine ⟨hgen, fun hAel hGc hGA => ⟨?_, hgen.symm⟩⟩
-  haveI := hGc
+  have := hGc
   have hA' : ∀ a : ↥A, a ^ r = 1 := fun a => Subtype.ext (hAel.2 a a.2)
   have hGA' : CFSG.commutatorAction (A := ↥A) (G := ↥G) = ⊤ := by
     have h := CFSG.commutatorAction_subgroup_conj_map_eq_commutator G A hAG
@@ -1168,7 +1168,7 @@ theorem as_A_1_17 : A_1_17 := by
 
 theorem as_A_1_18 : A_1_18 := by
   intro Γ _ _ p hp A B G hG hAG hBG hAB hBp hA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨fun h1 => ?_, fun hf hO => ?_⟩
   ·
     have hres : CFSG.Quasithin.opResidual p A = A := by
@@ -1243,8 +1243,8 @@ theorem as_A_1_18 : A_1_18 := by
 
 theorem as_A_1_19 : A_1_19 := by
   intro G _ _ K U hK hU hUel hCU
-  haveI := hK
-  haveI := hU
+  have := hK
+  have := hU
   rw [a119_twoReducedProduct_top_eq]
   exact CFSG.Quasithin.centralizer_twoReducedProduct_eq (K := ⊤) (L := K) (U := U) le_top
     Subgroup.le_normalizer_of_normal le_top Subgroup.le_normalizer_of_normal hUel hCU
@@ -1260,7 +1260,7 @@ theorem as_A_1_19 : A_1_19 := by
 
 theorem as_A_1_21_selectedWitness : A_1_21_selectedWitness := by
   intro G _ _ p hp hp2 P hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨?_, fun X hX => ⟨?_, fun hrk => ?_⟩⟩
   ·
     obtain ⟨X', hX', hfaith⟩ := CFSG.Quasithin.exists_isSupercritical_faithful (P := ↥P) hp2 hP
@@ -1306,7 +1306,7 @@ private theorem burnsideA121_faithful_aux {P : Type*} [Group P] [Finite P] {p : 
     (hp2 : p ≠ 2) (hP : IsPGroup p P) {X : Subgroup P}
     (hX : CFSG.Quasithin.IsSupercritical p X) (α : MulAut P) (hα : (orderOf α).Coprime p)
     (hfix : ∀ x ∈ X, x⁻¹ * α x ∈ CFSG.Quasithin.frattiniIn X) : α = 1 := by
-  haveI : X.Characteristic := hX.characteristic
+  have : X.Characteristic := hX.characteristic
   have hX1 : ∀ x ∈ X, α x = x := by
     set β : MulAut ↥X := MulAut.characteristic X α with hβdef
     have hβ : β ∈ (CFSG.SectionRank.Ccomm.autQuotient (frattini ↥X)).ker := by
@@ -1326,7 +1326,7 @@ private theorem burnsideA121_faithful_aux {P : Type*} [Group P] [Finite P] {p : 
     intro x hx
     have := congrArg (fun γ : MulAut ↥X => ((γ ⟨x, hx⟩ : ↥X) : P)) hβ1
     simpa [hβdef] using this
-  haveI : (Subgroup.centralizer (X : Set P)).Characteristic :=
+  have : (Subgroup.centralizer (X : Set P)).Characteristic :=
     Subgroup.characteristic_centralizer
   have hC1 : ∀ c ∈ Subgroup.centralizer (X : Set P), α c = c := by
     set γ : MulAut ↥(Subgroup.centralizer (X : Set P)) :=
@@ -1380,7 +1380,7 @@ end BurnsideA121
 
 theorem as_A_1_21 : A_1_21 := by
   intro G _ _ p hp hp2 P hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hex, hall⟩ := as_A_1_21_selectedWitness G p hp hp2 P hP
   refine ⟨hex, fun X hX => ?_⟩
   obtain ⟨h2, h4⟩ := hall X hX
@@ -1730,7 +1730,7 @@ private theorem a1b4_closure_coprime_eq_of_oResidual_eq {G : Type} [Group G] [Fi
     · intro y hy
       refine Subgroup.subset_closure ⟨X.mul_mem (X.mul_mem hg hy.1) (X.inv_mem hg), ?_⟩
       have := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective y
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] at this
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] at this
       rw [this]
       exact hy.2
     · simp
@@ -1804,7 +1804,7 @@ end BurnsideA1b4
 
 theorem as_A_1_23 : A_1_23 := by
   intro p hp P _ _ _ α
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [CFSG.Quasithin.range_conj_eq_ker_autQuotient_frattini (p := p),
     CFSG.SectionRank.Ccomm.mem_ker_autQuotient]
   constructor
@@ -1823,7 +1823,7 @@ theorem as_A_1_23 : A_1_23 := by
 
 theorem as_A_1_24 : A_1_24 := by
   intro p hp hp2 P _ _ hP hΩ hrank hcl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hΩ' : Subgroup.closure {x : P | x ^ p = 1} = ⊤ := by
     rw [← hΩ]
     unfold ChA.omegaOne
@@ -1848,13 +1848,13 @@ theorem as_A_1_24 : A_1_24 := by
 
 theorem as_A_1_25 : A_1_25 := by
   intro G _ _ p hp hp2 P hP hPr
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hr : CFSG.Open.pRank p (⊤ : Subgroup ↥P) ≤ 2 := by
     rw [← CFSG.SectionRank.pRank_eq_open_pRank_top]
     exact hPr
   refine ⟨fun hPne X hX => ?_, CFSG.Quasithin.exists_hom_ker_eq_pCore_aut hp2 hP hr,
     fun h3 => ?_⟩
-  · haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+  · have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
     have hXP : X ≤ P := hX.1
     have hsc := a1b4_isSupercritical_subgroupOf hX
     let e : ↥(X.subgroupOf P) ≃* ↥X := Subgroup.subgroupOfEquivOfLe hXP
@@ -1920,7 +1920,7 @@ theorem as_A_1_26 : A_1_26 := by
 
 theorem as_A_1_27 : A_1_27 := by
   intro X _ _ hX p hp hp2 P hP hPcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hX' : ∀ q : ℕ, q.Prime → q ≠ 2 → CFSG.Open.pRank q (⊤ : Subgroup X) ≤ 2 :=
     CFSG.SectionRank.isStronglyQuasithin_iff.1 hX
   refine ⟨fun H hPH hdisj => ?_, fun U hU hPU hfaith => ?_⟩
@@ -2066,7 +2066,7 @@ theorem le_ker_of_odd_card {X : Type*} [Group X] [Finite X] {q : ℕ} (hq : q.Pr
 theorem injective_of_surjective_sl2 {Q : Type} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) {q : ℕ} (hq : q.Prime) (hq5 : 5 ≤ q)
     (τ : Q →* SL(2, ZMod q)) (hτ : Function.Surjective τ) : Function.Injective τ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by omega
   have hcen : Nat.card (Subgroup.center SL(2, ZMod q)) = 2 :=
     CFSG.Quasithin.A36B.card_center_sl2 hq hq2
@@ -2102,7 +2102,7 @@ theorem injective_of_surjective_sl2 {Q : Type} [Group Q] [Finite Q]
     exact ⟨x, rfl⟩
   have hτ'inj : Function.Injective τ' := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI := τ'.normal_ker
+    have := τ'.normal_ker
     rcases (hQ.2).eq_bot_or_eq_top_of_normal τ'.ker with h | h
     · exact h
     · exfalso
@@ -2155,7 +2155,7 @@ theorem pRank_two_eq_one_of_surjective_sl2 {X : Type*} [Group X] [Finite X] {q :
     (hq : q.Prime) (hq2 : q ≠ 2) (σ : X →* SL(2, ZMod q)) (hσ : Function.Surjective σ)
     (hodd : Odd (Nat.card σ.ker)) : CFSG.pRank 2 X = 1 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   rw [CFSG.SectionRank.pRank_eq_open_pRank_top]
   have hp1 : 1 < 2 := by norm_num
   apply le_antisymm
@@ -2215,12 +2215,12 @@ end A129Aux
 
 theorem as_A_1_29 : A_1_29 := by
   intro G _ _ p hp hp2 P H hPn hPp hΩ hcl hrank hHperf hPH
-  haveI := hPn
+  have := hPn
   have hrank' : CFSG.Open.pRank p P = 2 := by
     rwa [CFSG.SectionRank.pRank_coe_eq_openPRank] at hrank
   obtain ⟨C, hCn, hCmem, hSL⟩ :=
     CFSG.Quasithin.a129One p hp hp2 G P H hPn hPp hΩ hcl hrank' hHperf hPH
-  haveI := hCn
+  have := hCn
   have hker : ∀ g : ↥H, g ∈ C ↔ ∀ x ∈ P, ⁅(g : G), x⁆ ∈ frattiniOf P := fun g =>
     (hCmem g).trans (A129Aux.actsTrivially_iff_commutator_mem P (g : G))
   have hHperf' : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.2 hHperf
@@ -2230,7 +2230,7 @@ theorem as_A_1_29 : A_1_29 := by
     · obtain ⟨σ, hσ, hσk⟩ := A129Aux.exists_surjective_ker_eq_of_isSL2 C h
       have hp3 : p ≠ 3 := by
         rintro rfl
-        haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+        have : Fact (Nat.Prime 3) := ⟨hp⟩
         have h1 : σ.range = ⊤ := MonoidHom.range_eq_top.2 hσ
         have h2 : σ.range = ⊥ := CFSG.Quasithin.Dickson.sl2_three_perfect_eq_bot _
           (Subgroup.isPerfect_iff.1 (Group.IsPerfect.range σ))
@@ -2258,8 +2258,8 @@ theorem as_A_1_29 : A_1_29 := by
   ·
     rintro ⟨Q, _, π, hπ, hπker, hQ⟩
     obtain ⟨q, hq, hq5, σ, hσ, hσk⟩ := main
-    haveI : Finite Q := Finite.of_surjective π hπ
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite Q := Finite.of_surjective π hπ
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq2 : q ≠ 2 := by omega
     have hπk : π.ker = CFSG.pPrimeCore 2 ↥H := by
       rw [hπker]
@@ -2328,7 +2328,7 @@ end A130Aux
 
 theorem as_A_1_30 : A_1_30 := by
   intro p hp hp3 P _ hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hP
   obtain ⟨e'⟩ := A130Aux.nonempty_mulEquiv_prod_fin_two (p ^ 2)
   have hP' : Nonempty (P ≃* Multiplicative (Fin 2 → ZMod (p ^ 2))) := ⟨e.trans e'⟩
@@ -2349,7 +2349,7 @@ theorem as_A_1_30 : A_1_30 := by
 
 theorem as_A_1_31 : A_1_31 := by
   intro G _ _ p hp hp2 hrk H _ hF
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hC : Subgroup.centralizer (pCore p (G ⧸ H) : Set (G ⧸ H)) ≤ pCore p (G ⧸ H) := by
     have h1 : quasithinGenFitting (⊤ : Subgroup (G ⧸ H)) = pCoreOf p (⊤ : Subgroup (G ⧸ H)) := by
       rw [hF, CFSG.Quasithin.pCoreOf_top]
@@ -2407,9 +2407,9 @@ end A132Aux
 
 theorem as_A_1_32 : A_1_32 := by
   intro G _ _ r p hr hp hr2 hp2 R P hRn hRr hRΩ hRcl hRrk hPp hPΩ hPcl hPrk hirr
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hRn
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have := hRn
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at hRrk hPrk
   have hirr' := A132Aux.isNormalizerIrreducible_of_forall hp2 hPp hPΩ hPcl hPrk hirr
   refine ⟨CFSG.Quasithin.A1c.commutator_eq_bot_or_isPOnePlusTwo hr2 hp2 hRr hRΩ hRcl hRrk hPp hPΩ
@@ -2438,8 +2438,8 @@ theorem as_A_1_32 : A_1_32 := by
 
 theorem as_A_1_33 : A_1_33 := by
   intro L _ _ p hp hp2 P hPn hP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hPn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hPn
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
   refine ⟨?_, ?_, ?_⟩
   · rintro ⟨t, ht, y, hyt, hyp, x, hx, hxc⟩
@@ -2491,7 +2491,7 @@ private theorem burnsideA134_isComponent_subgroupOf {G : Type} [Group G] {H L : 
 
 private theorem burnsideA134_components_commute {H : Type} [Group H] [Finite H] {L₁ L₂ : Subgroup H}
     (h₁ : CFSG.IsComponent L₁) (h₂ : CFSG.IsComponent L₂) (hne : L₁ ≠ L₂) :
-    ∀ a ∈ L₁, ∀ b ∈ L₂, Commute a b := fun a ha b hb =>
+    ∀ _a ∈ L₁, ∀ _b ∈ L₂, Commute _a _b := fun _a ha _b hb =>
   commutatorElement_eq_one_iff_commute.1 (Subgroup.mem_bot.1
     (((CFSG.LocalCores.distinct_components_commute h₁ h₂).resolve_left hne) ▸
       Subgroup.commutator_mem_commutator ha hb))
@@ -2720,7 +2720,7 @@ private theorem burnsideA134_rElement_mem_sup {X : Type} [Group X] [Finite X]
     (hcr : orderOf c = r) {y : X} (hy : ∃ k : ℕ, y ^ r ^ k = 1)
     (hfac : ∃ a₀ ∈ A, ∃ b₀ ∈ B, ∃ z ∈ Subgroup.centralizer ((A ⊔ B : Subgroup X) : Set X),
       y = a₀ * b₀ * z) : y ∈ A ⊔ B := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨a₀, ha₀, b₀, hb₀, z, hz, rfl⟩ := hfac
   set C : Subgroup X := Subgroup.centralizer ((A ⊔ B : Subgroup X) : Set X) with hC
   have hCr : ¬ r ∣ Nat.card C := by
@@ -2952,7 +2952,7 @@ private theorem burnsideA134_part1_X {X : Type} [Group X] [Finite X]
     (ha : orderOf a = r) (hfac : burnsideA134_FAC A B r) :
     (A ⊔ B).Normal ∧ ∀ x : X, ∃ m : ℕ, 0 < m ∧ (∀ q : ℕ, q.Prime → q ∣ m → q ≠ r) ∧
       x ^ m ∈ A ⊔ B := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hc := burnsideA134_components_commute hA hB hne
   let c : X := (e ⟨a, haA⟩ : ↥B)
   have hcB : c ∈ B := (e ⟨a, haA⟩).2
@@ -2995,7 +2995,7 @@ private theorem burnsideA134_part1_X {X : Type} [Group X] [Finite X]
     intro h
     let Q : Sylow r X := default
     have hQle : (Q : Subgroup X) ≤ A ⊔ B := fun q hq => hrel q (by
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨q, hq⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨q, hq⟩
       refine ⟨k, ?_⟩
       have := pow_orderOf_eq_one (⟨q, hq⟩ : ↥(Q : Subgroup X))
       rw [hk] at this
@@ -3020,7 +3020,7 @@ private theorem burnsideA134_lift_twoLocal {X : Type} [Group X] (A : Subgroup X)
     (hrN : r ∣ Nat.card N) :
     ∃ S : Subgroup X, S ≠ ⊥ ∧ IsPGroup 2 S ∧ S ≤ A ∧
       ∃ a ∈ A, a ∈ Subgroup.normalizer (S : Set X) ∧ orderOf a = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨R, hR1, hR2, rfl⟩ := hN
   let π := QuotientGroup.mk' (Subgroup.center ↥A)
   let S : Subgroup X := (R.comap π).map A.subtype
@@ -3207,8 +3207,8 @@ private theorem burnsideA134_noOuter_psl2 {K : Type} [Field K] [Finite K] {p k r
 private theorem burnsideA134_famFAC_of_bender
     (hB : burnsideA134_FamBender) : burnsideA134_FamFAC := by
   intro X _ _ he A B hAq hBq hc ⟨eA⟩ hT hZA hZB r hr hr2 hN
-  haveI : Group.IsPerfect ↥A := hAq.1
-  haveI : Group.IsPerfect ↥B := hBq.1
+  have : Group.IsPerfect ↥A := hAq.1
+  have : Group.IsPerfect ↥B := hBq.1
   obtain ⟨cAB⟩ := burnsideA134_centerQuotient_nonempty eA.symm
   rcases hT with ⟨n, hn⟩ | ⟨n, hn⟩ | ⟨hn⟩ | ⟨p, k, hp, hp3, hk1, hk2, hn⟩
   · exact hB X he A B hAq hBq hc ⟨eA⟩ (Or.inl ⟨n, hn⟩) hZA hZB r hr hr2 hN
@@ -3327,9 +3327,9 @@ private theorem burnsideA134_fixes_conj {Y : Type*} [Group Y] {T : Subgroup Y} {
 
 private theorem burnsideA134_exists_zT {Y : Type*} [Group Y] [Finite Y] {T : Subgroup Y}
     (h2 : IsPGroup 2 T) (hne : T ≠ ⊥) : ∃ v ∈ burnsideA134_zT T, v ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hne
-  haveI := h2.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hne
+  have := h2.center_nontrivial
   obtain ⟨c, hc⟩ := exists_ne (1 : ↥(Subgroup.center ↥T))
   refine ⟨((c : ↥T) : Y), ⟨c, c.2, rfl⟩, fun h => hc ?_⟩
   apply Subtype.ext
@@ -3447,7 +3447,7 @@ private theorem burnsideA134_exists_commuting {X : Type} [Group X] [Finite X] {P
     {y : X}
     (hy : y ∈ Subgroup.normalizer (P : Set X)) {r k : ℕ} (hr : r.Prime) (hyk : y ^ r ^ k = 1)
     (hrP : r ∣ Nat.card P) : ∃ a ∈ P, orderOf a = r ∧ y * a = a * y := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let z₀ : Subgroup.normalizer (P : Set X) := ⟨y, hy⟩
   let H₀ : Subgroup (Subgroup.normalizer (P : Set X)) := Subgroup.zpowers z₀
   have hH₀ : IsPGroup r H₀ := by
@@ -3669,7 +3669,7 @@ private theorem burnsideA134_fac_of_benderFix {X : Type} [Group X] [Finite X]
       burnsideA134_BenderFix r (↥A ⧸ Subgroup.center ↥A) (burnsideA134_theta A ⟨y, hyA⟩) ∧
       burnsideA134_BenderFix r (↥B ⧸ Subgroup.center ↥B) (burnsideA134_theta B ⟨y, hyB⟩)) :
     burnsideA134_FAC A B r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let c : X := (e ⟨a, haA⟩ : ↥B)
   have hcB : c ∈ B := (e ⟨a, haA⟩).2
   have hcr : orderOf c = r := by
@@ -3860,8 +3860,8 @@ private theorem burnsideA134_benderFix_of_borel {Y : Type} [Group Y] [Finite Y] 
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hN : ∃ N : Subgroup Y, CFSG.Open.IsTwoLocal N ∧ r ∣ Nat.card N)
     (φ : MulAut Y) (hφ : ∃ k : ℕ, φ ^ r ^ k = 1) : burnsideA134_BenderFix r Y φ := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hφ
   obtain ⟨N, ⟨R₀, hR₀1, hR₀2, rfl⟩, hrN⟩ := hN
   obtain ⟨T₀, hT₀⟩ := hR₀2.exists_le_sylow
@@ -3904,7 +3904,7 @@ private theorem burnsideA134_benderFix_of_borel {Y : Type} [Group Y] [Finite Y] 
     have h1 : r ∣ Nat.card (Subgroup.normalizer ((T : Subgroup Y) : Set Y)) :=
       (hNcard T) ▸ hrNT₀
     rw [burnsideA134_card_normalizer_borel hB] at h1
-    obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp T.isPGroup'
+    obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp T.isPGroup
     have hcop : Nat.Coprime r (Nat.card (T : Subgroup Y)) := by
       rw [ha]
       exact Nat.Coprime.pow_right a ((Nat.coprime_primes hr Nat.prime_two).2 hr2)
@@ -3948,7 +3948,7 @@ private theorem burnsideA134_benderFix_of_borel {Y : Type} [Group Y] [Finite Y] 
     rw [h1] at h2
     rw [h2]
     simp
-  haveI := Finite.one_lt_card_iff_nontrivial.mp hfp
+  have := Finite.one_lt_card_iff_nontrivial.mp hfp
   obtain ⟨⟨T₁, hT₁fp⟩, ⟨T₂, hT₂fp⟩, hne12⟩ := exists_pair_ne
     ↥(MulAction.fixedPoints H₀ (Sylow 2 Y))
   have hne12' : T₂ ≠ T₁ := fun h => hne12 (Subtype.ext h.symm)
@@ -4006,7 +4006,7 @@ private theorem burnsideA134_benderFix_of_borel {Y : Type} [Group Y] [Finite Y] 
                  _ = x := by group,
       by calc t * x * t⁻¹ = (x * t) * t⁻¹ := by rw [h]
                  _ = x := by group⟩
-  refine ⟨(T₁ : Subgroup Y), (T₂ : Subgroup Y), T₁.isPGroup', hB.ne_bot, hfix T₁ hT₁fp,
+  refine ⟨(T₁ : Subgroup Y), (T₂ : Subgroup Y), T₁.isPGroup, hB.ne_bot, hfix T₁ hT₁fp,
     hfix T₂ hT₂fp, ?_, ?_⟩
   · have hmap : Subgroup.normalizer ((T₁ : Subgroup Y) : Set Y) ⊓
         Subgroup.normalizer ((T₂ : Subgroup Y) : Set Y) = D.map (MulAut.conj t).toMonoidHom := by
@@ -4093,7 +4093,7 @@ private theorem burnsideA134_benderModel_of_stated {Y : Type} [Group Y]
       have h3 : n = 1 := by omega
       subst h3
       exact h2 (by simp)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact Or.inl ⟨n, hn2, ⟨e.trans
       (CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL K 2 2 n h1 hK)⟩⟩
   · obtain ⟨-, a, ha, K, _, _, rfl, hcard, ⟨e⟩⟩ := hn
@@ -4104,10 +4104,10 @@ private theorem burnsideA134_benderModel_of_stated {Y : Type} [Group Y]
 private theorem burnsideA134_famBender :
     burnsideA134_FamBender := by
   intro X _ _ he A B hAq hBq hc ⟨eAB⟩ hT hZA hZB r hr hr2 hN
-  haveI : Group.IsPerfect ↥A := hAq.1
-  haveI : Group.IsPerfect ↥B := hBq.1
-  haveI : IsSimpleGroup (↥A ⧸ Subgroup.center ↥A) := hAq.2.1
-  haveI : IsSimpleGroup (↥B ⧸ Subgroup.center ↥B) := hBq.2.1
+  have : Group.IsPerfect ↥A := hAq.1
+  have : Group.IsPerfect ↥B := hBq.1
+  have : IsSimpleGroup (↥A ⧸ Subgroup.center ↥A) := hAq.2.1
+  have : IsSimpleGroup (↥B ⧸ Subgroup.center ↥B) := hBq.2.1
   obtain ⟨cAB⟩ := burnsideA134_centerQuotient_nonempty eAB
   have hmA : burnsideA134_BenderModel (↥A ⧸ Subgroup.center ↥A) :=
     burnsideA134_benderModel_of_stated hT
@@ -4141,7 +4141,7 @@ private theorem burnsideA134_eq_oResidual {G : Type} [Group G] {H L₁ L₂ : Su
   apply le_antisymm
   · refine le_iInf₂ fun N hN => ?_
     obtain ⟨hNH, hNn, hNm⟩ := hN
-    haveI := hNn
+    have := hNn
     obtain ⟨h1, h2⟩ := hP3 (N.subgroupOf H) hNn (fun x => by
       obtain ⟨m, hm0, hmq, hmN⟩ := hNm x x.2
       refine ⟨m, hm0, fun q hq hqm hqr => hmq q hq hqm hqr, ?_⟩
@@ -4170,7 +4170,7 @@ private theorem burnsideA134_part1 (hF : CFSG.Quasithin.A134Fact) (hM : CFSG.Qua
           L₁ ⊔ L₂ = ChA.oResidual {q : ℕ | q ≠ r} H := by
   refine ⟨?_, ?_⟩
   · have hq := h₁.2.2
-    haveI : IsSimpleGroup (↥L₁ ⧸ Subgroup.center ↥L₁) := hq.2
+    have : IsSimpleGroup (↥L₁ ⧸ Subgroup.center ↥L₁) := hq.2
     obtain ⟨r, hr, hr2, R, hR1, hR2, x, hx, hxo⟩ :=
       CFSG.SectionRank.QTK.exists_odd_prime_mem_normalizer
         (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥L₁ hq)
@@ -4179,7 +4179,7 @@ private theorem burnsideA134_part1 (hF : CFSG.Quasithin.A134Fact) (hM : CFSG.Qua
     rwa [Subgroup.orderOf_mk, hxo] at this
   · intro r hr hr2 hN
     obtain ⟨N, hNl, hrN⟩ := hN
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨hA2, hA3⟩ := burnsideA134_X hF hG hK h₁ h₂ hne e
     have h₁' := burnsideA134_isComponent_subgroupOf h₁
     have h₂' := burnsideA134_isComponent_subgroupOf h₂
@@ -4211,7 +4211,7 @@ private theorem burnsideA134_part1 (hF : CFSG.Quasithin.A134Fact) (hM : CFSG.Qua
     refine burnsideA134_eq_oResidual h₁.1 h₂.1 (by rw [hsup]; exact hnorm)
       (fun x => by rw [hsup]; exact hP1 x) ?_
     intro N' hN'n hN'm
-    haveI := hN'n
+    have := hN'n
     obtain ⟨nn, hnn⟩ := exists_prime_orderOf_dvd_card' (G := ↥(N.map cL.toMonoidHom)) r hrN'
     have haq : orderOf (nn : ↥(L₁.subgroupOf H) ⧸ Subgroup.center ↥(L₁.subgroupOf H)) = r := by
       rw [Subgroup.orderOf_coe]
@@ -4255,7 +4255,7 @@ end
 private theorem a135_exists_sylow_of_isSylowIn {G : Type} [Group G] [Finite G] {p : ℕ} (hp :
     p.Prime)
     {T : Subgroup G} (hT : IsSylowIn p T ⊤) : ∃ S : Sylow p G, (S : Subgroup G) = T := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hidx : ¬ p ∣ T.index := by
     rw [← Subgroup.relIndex_top_right]
     exact hT.2.2
@@ -4273,7 +4273,7 @@ private theorem a136_oResidual_singleton_le_pResidual {p : ℕ} (hp : p.Prime) (
 
 theorem as_A_1_35 : A_1_35 := by
   intro G _ _ p hp T W hT hWT hW
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, rfl⟩ := a135_exists_sylow_of_isSylowIn hp hT
   refine ⟨fun X Y g hX hY hg => ?_, fun x y hx hy hxy => ?_⟩
   · exact CFSG.Quasithin.burnside_fusion_lemma S hWT hW hX hY hg
@@ -4288,7 +4288,7 @@ theorem as_A_1_35 : A_1_35 := by
 
 theorem as_A_1_36 : A_1_36 := by
   intro X _ _ P Q u hP hQP hQ hu1 hu2 hQu hmem
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, rfl⟩ := a135_exists_sylow_of_isSylowIn Nat.prime_two hP
   exact CFSG.Quasithin.thompson_transfer_lemma S hQP hQ (orderOf_eq_prime hu2 hu1) hQu
     (a136_oResidual_singleton_le_pResidual Nat.prime_two X hmem)
@@ -4321,7 +4321,7 @@ theorem as_A_1_37 : A_1_37 := by
 
 theorem as_A_1_38 : A_1_38 := by
   intro G _ _ p hp _ hmin hcyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Sylow p G := default
   obtain ⟨N, hN, hcomp⟩ :=
     CFSG.Quasithin.exists_normal_isComplement'_of_isCyclic_sylow hmin P (hcyc P)
@@ -4329,7 +4329,7 @@ theorem as_A_1_38 : A_1_38 := by
   · have h1 : (P : Subgroup G).index = Nat.card N := hcomp.index_eq_card
     rw [← h1]
     exact P.not_dvd_index
-  · obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+  · obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
     exact ⟨k, hcomp.symm.index_eq_card.trans hk⟩
 
 @[expose] def A_1_39 : Prop :=

@@ -252,7 +252,7 @@ theorem wcore_exists_W (hΩ : HypOmegaGen Ω) (hQ8 : Sec13.Q8Omega Ω) {K : Subg
   have hηG : η ∈ etaG Ω := ⟨S₁, hη, hinv⟩
   set W : Subgroup Y := ⨆ V ∈ η, V with hWdef
   have hWS : W ≤ (S₁ : Subgroup Y) := iSup₂_le fun V hV => (hη.1 hV).2
-  have hS₁2 : IsPGroup 2 ↥(S₁ : Subgroup Y) := S₁.isPGroup'
+  have hS₁2 : IsPGroup 2 ↥(S₁ : Subgroup Y) := S₁.isPGroup
   have hW2 : IsPGroup 2 W := hS₁2.to_le hWS
   have hcomm : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x := hQ8.W_comm hηG
   have hKtw : K ∈ twinSet Ω K := mem_twinSet_self hK hz
@@ -376,7 +376,7 @@ theorem v3WCore_proved (n : ℕ) : V3WCore n := by
     intro i
     have hKΩ : Ks i ∈ Ω := (hKs i).1
     refine ⟨(hQ8.mem_RSet_iff).mpr hKΩ, ?_⟩
-    exact hQ8.le_normalizer_W_of_le hηG S₁.isPGroup' hWS hKΩ
+    exact hQ8.le_normalizer_W_of_le hηG S₁.isPGroup hWS hKΩ
       ((le_iSup₂_of_le (Ks i) (hKs i) le_rfl).trans hPS)
   let ρ : Fin 4 → Thompson.Rep Ω W := fun i =>
     Q3CL.T8.mkRep hP hWΩ (hKs i).1 (hKsD i)

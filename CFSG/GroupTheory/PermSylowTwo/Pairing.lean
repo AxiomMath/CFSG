@@ -28,29 +28,35 @@ variable (β γ : Type) [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq 
 
 variable {β γ}
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairInv_apply_inl_false (b : β) :
     pairInv β γ (Sum.inl (b, false)) = Sum.inl (b, true) := by
   simp [pairInv]
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairInv_apply_inl_true (b : β) :
     pairInv β γ (Sum.inl (b, true)) = Sum.inl (b, false) := by
   simp [pairInv]
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairInv_apply_inl (b : β) (c : Bool) :
     pairInv β γ (Sum.inl (b, c)) = Sum.inl (b, !c) := by
   cases c
   · simpa using pairInv_apply_inl_false (β := β) (γ := γ) b
   · simpa using pairInv_apply_inl_true (β := β) (γ := γ) b
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairInv_apply_inr (x : γ) : pairInv β γ (Sum.inr x) = Sum.inr x := by
   simp [pairInv]
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairInv_involutive (z : (β × Bool) ⊕ γ) :
     pairInv β γ (pairInv β γ z) = z := by
   rcases z with ⟨b, c⟩ | x
   · cases c <;> simp [pairInv_apply_inl_false, pairInv_apply_inl_true]
   · simp [pairInv_apply_inr]
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairInv_commute_of_mem_pairCent {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCent β γ)
     (z : (β × Bool) ⊕ γ) : pairInv β γ (g z) = g (pairInv β γ z) := by
   have h : pairInv β γ * g = g * pairInv β γ :=
@@ -59,6 +65,7 @@ theorem pairInv_commute_of_mem_pairCent {g : Perm ((β × Bool) ⊕ γ)} (hg : g
     _ = (g * pairInv β γ) z := by rw [h]
     _ = g (pairInv β γ z) := rfl
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairCent_apply_inl_false {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCent β γ) (b : β) :
     ∃ (b' : β) (c' : Bool), g (Sum.inl (b, false)) = Sum.inl (b', c') := by
   rcases h : g (Sum.inl (b, false)) with ⟨b', c'⟩ | y
@@ -73,6 +80,7 @@ theorem pairCent_apply_inl_false {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pa
       exact h.symm
     simp at heq
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairCent_apply_inl {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCent β γ) (b : β)
     (c : Bool) : ∃ c' : Bool, g (Sum.inl (b, c)) = Sum.inl (pairFun β γ g b, c') := by
   obtain ⟨b', c₀, hb⟩ := pairCent_apply_inl_false hg b
@@ -87,6 +95,7 @@ theorem pairCent_apply_inl {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCent
     rw [hμ, ← pairInv_commute_of_mem_pairCent hg (Sum.inl (b, false)), hb, pairInv_apply_inl,
       hfun]
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairCent_apply_inr {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCent β γ) (x : γ) :
     ∃ y : γ, g (Sum.inr x) = Sum.inr y := by
   rcases h : g (Sum.inr x) with ⟨b, c⟩ | y
@@ -97,6 +106,7 @@ theorem pairCent_apply_inr {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCent
     cases c <;> simp [pairInv_apply_inl_false, pairInv_apply_inl_true] at h2
   · exact ⟨y, rfl⟩
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairFun_inv_pairFun {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCent β γ) (b : β) :
     pairFun β γ g⁻¹ (pairFun β γ g b) = b := by
   obtain ⟨b', c₀, hb⟩ := pairCent_apply_inl_false hg b
@@ -112,6 +122,7 @@ theorem pairFun_inv_pairFun {g : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCen
   rw [hfun]
   exact (congrArg Prod.fst hfirst).symm
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairFun_mul_pairFun {g h : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairCent β γ)
     (hh : h ∈ pairCent β γ) (b : β) :
     pairFun β γ (g * h) b = pairFun β γ g (pairFun β γ h b) := by
@@ -124,10 +135,12 @@ theorem pairFun_mul_pairFun {g h : Perm ((β × Bool) ⊕ γ)} (hg : g ∈ pairC
 
 variable (β γ)
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem sumCongr_prodCongr_apply_inl (σ : Perm β) (b : β) (c : Bool) :
     (Equiv.sumCongr (Equiv.prodCongr σ (Equiv.refl Bool)) (Equiv.refl γ) :
       Perm ((β × Bool) ⊕ γ)) (Sum.inl (b, c)) = Sum.inl (σ b, c) := rfl
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem sumCongr_prodCongr_apply_inr (σ : Perm β) (x : γ) :
     (Equiv.sumCongr (Equiv.prodCongr σ (Equiv.refl Bool)) (Equiv.refl γ) :
       Perm ((β × Bool) ⊕ γ)) (Sum.inr x) = Sum.inr x := rfl
@@ -194,14 +207,17 @@ theorem sumCongr_prodCongr_apply_inr (σ : Perm β) (x : γ) :
 
 variable {β γ}
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairLift_apply_inl (σ : Perm β) (b : β) (c : Bool) :
     ((pairLift β γ σ : ↥(pairCent β γ)) : Perm ((β × Bool) ⊕ γ)) (Sum.inl (b, c)) =
       Sum.inl (σ b, c) := rfl
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairHom_apply (g : ↥(pairCent β γ)) (b : β) :
     pairHom β γ g b = pairFun β γ (g : Perm ((β × Bool) ⊕ γ)) b :=
   rfl
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairHom_pairLift (σ : Perm β) : pairHom β γ (pairLift β γ σ) = σ := by
   ext b
   rw [pairHom_apply, pairFun, pairLift_apply_inl]
@@ -221,6 +237,7 @@ theorem pairLift_mem_alternatingGroup (σ : Perm β) :
     rfl
   rw [hprod, Equiv.Perm.sign_prodCongrLeft, Fintype.prod_bool, Int.units_mul_self]
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem sq_eq_one_of_pairHom_eq_one [Subsingleton γ] {g : ↥(pairCent β γ)}
     (hg : pairHom β γ g = 1) : g ^ 2 = 1 := by
   have hb : ∀ b, pairFun β γ (g : Perm ((β × Bool) ⊕ γ)) b = b := by
@@ -249,6 +266,7 @@ theorem sq_eq_one_of_pairHom_eq_one [Subsingleton γ] {g : ↥(pairCent β γ)}
       exact congrArg Sum.inr (Subsingleton.elim y' x)
   simpa [pow_two] using hgg
 
+omit [Fintype β] [Fintype γ] in
 theorem pairSwap_mem_pairSwaps (b : β) : pairSwap β γ b ∈ pairSwaps β γ :=
   Subgroup.subset_closure (Set.mem_range_self b)
 
@@ -272,6 +290,7 @@ theorem pairSwap_mem_pairSwaps (b : β) : pairSwap β γ b ∈ pairSwaps β γ :
     · have hz : z = pairInv β γ (a⁻¹ z) := h1.symm.trans h
       exact Or.inr ((congrArg (pairInv β γ) hz).trans (pairInv_involutive _)).symm
 
+omit [Fintype β] [DecidableEq β] [Fintype γ] [DecidableEq γ] in
 theorem pairPreserve_mul_self {σ : Perm ((β × Bool) ⊕ γ)}
     (hσ : σ ∈ pairPreserve (β := β) (γ := γ)) :
     σ * σ = 1 := by
@@ -286,6 +305,7 @@ theorem pairPreserve_mul_self {σ : Perm ((β × Bool) ⊕ γ)}
       rw [h', hz]
     · rw [h', pairInv_involutive]
 
+omit [Fintype β] [Fintype γ] in
 theorem pairSwap_mem_pairPreserve (b : β) : pairSwap β γ b ∈ pairPreserve (β := β) (γ := γ) := by
   intro z
   by_cases h₁ : z = Sum.inl (b, false)
@@ -296,12 +316,14 @@ theorem pairSwap_mem_pairPreserve (b : β) : pairSwap β γ b ∈ pairPreserve (
       exact Or.inr (by rw [pairSwap, Equiv.swap_apply_right, pairInv_apply_inl_true])
     · exact Or.inl (by rw [pairSwap]; exact Equiv.swap_apply_of_ne_of_ne h₁ h₂)
 
+omit [Fintype β] [Fintype γ] in
 theorem pairSwaps_le_pairPreserve : pairSwaps β γ ≤ pairPreserve (β := β) (γ := γ) := by
   change Subgroup.closure (Set.range (pairSwap β γ)) ≤ pairPreserve (β := β) (γ := γ)
   rw [Subgroup.closure_le]
   rintro _ ⟨b, rfl⟩
   exact pairSwap_mem_pairPreserve b
 
+omit [Fintype β] [Fintype γ] in
 theorem isPGroup_two_pairSwaps : IsPGroup 2 ↥(pairSwaps β γ) := by
   intro g
   refine ⟨1, ?_⟩
@@ -310,6 +332,7 @@ theorem isPGroup_two_pairSwaps : IsPGroup 2 ↥(pairSwaps β γ) := by
     pairPreserve_mul_self (pairSwaps_le_pairPreserve g.2)
   simpa [pow_two] using hg
 
+omit [Fintype β] [Fintype γ] in
 theorem pairLift_conj_pairSwap (σ : Perm β) (b : β) :
     (pairLift β γ σ : Perm ((β × Bool) ⊕ γ)) * pairSwap β γ b *
       (pairLift β γ σ : Perm ((β × Bool) ⊕ γ))⁻¹ = pairSwap β γ (σ b) := by
@@ -317,6 +340,7 @@ theorem pairLift_conj_pairSwap (σ : Perm β) (b : β) :
     (Sum.inl (b, false)) (Sum.inl (b, true)), pairLift_apply_inl, pairLift_apply_inl]
   rfl
 
+omit [Fintype β] [Fintype γ] in
 theorem pairLift_conj_mem_pairSwaps (σ : Perm β) {n : Perm ((β × Bool) ⊕ γ)}
     (hn : n ∈ pairSwaps β γ) :
     (pairLift β γ σ : Perm ((β × Bool) ⊕ γ)) * n * (pairLift β γ σ : Perm _)⁻¹ ∈
@@ -333,6 +357,7 @@ theorem pairLift_conj_mem_pairSwaps (σ : Perm β) {n : Perm ((β × Bool) ⊕ �
     hle (Subgroup.mem_map_of_mem _ hn)
   simpa [MulAut.conj_apply] using hmem
 
+omit [Fintype β] [Fintype γ] in
 theorem pairLift_mem_normalizer_pairSwaps (σ : Perm β) :
     ((pairLift β γ σ : ↥(pairCent β γ)) : Perm ((β × Bool) ⊕ γ)) ∈
       Subgroup.normalizer (pairSwaps β γ : Set (Perm ((β × Bool) ⊕ γ))) := by
@@ -350,7 +375,7 @@ theorem pairLift_mem_normalizer_pairSwaps (σ : Perm β) :
     have hval : ((pairLift β γ σ⁻¹ : ↥(pairCent β γ)) : Perm ((β × Bool) ⊕ γ)) =
         (pairLift β γ σ : Perm ((β × Bool) ⊕ γ))⁻¹ := by
       have h := congrArg (fun x : ↥(pairCent β γ) => (x : Perm ((β × Bool) ⊕ γ))) hinv
-      simpa using h.symm
+      simp
     rw [hval, inv_inv] at hconj
     have heq : (pairLift β γ σ : Perm _)⁻¹ *
         ((pairLift β γ σ : Perm _) * n * (pairLift β γ σ : Perm _)⁻¹) *
@@ -359,7 +384,7 @@ theorem pairLift_mem_normalizer_pairSwaps (σ : Perm β) :
     exact hconj
 
 theorem three_dvd_orderOf_mul {α : Type*} {x y : Perm α} {a b e : α} (hab : a ≠ b)
-    (hae : a ≠ e) (hbe : b ≠ e) (hxa : x a = b) (hxb : x b = a) (hxe : x e = e) (hya : y a = e)
+    (hae : a ≠ e) (_hbe : b ≠ e) (hxa : x a = b) (hxb : x b = a) (hxe : x e = e) (hya : y a = e)
     (hye : y e = a) (hyb : y b = b) : 3 ∣ orderOf (x * y) := by
   obtain ⟨z, hz⟩ : ∃ z : Perm α, x * y = z := ⟨x * y, rfl⟩
   rw [hz]

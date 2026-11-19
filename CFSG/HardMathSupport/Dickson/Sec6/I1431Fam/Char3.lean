@@ -29,7 +29,7 @@ theorem s1431_false_of_char3_inner_of_index (hKD : KDCharP 3) {P : Type} [Group 
     (hZ : Subgroup.center P = ⊥) (hinn : IsInnerAut ψ) (d : TauCeti.ValidLieTypeIndex)
     (hd : d.1.characteristic = 3) (e : P ≃* (TauCeti.CFSGIndex.lie d).Group) : False := by
   obtain ⟨x, rfl⟩ := hinn
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv P e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv P e.toEquiv
   have h3 : MulAut.conj x ^ 3 = (1 : MulAut P) := c.elemAbelian.2 _ c.mem
   have hx3 : x ^ 3 = 1 := by
     have hc : x ^ 3 ∈ Subgroup.center P := by
@@ -134,7 +134,7 @@ theorem s1431_false_of_char3_inner_of_bridges (hKD : KDCharP 3) {P : Type} [Grou
 
 theorem t6char3_center_quotient_eq_bot {Y : Type} [Group Y] (hY : CFSG.Open.IsQuasisimple Y) :
     Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := by
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
   obtain ⟨a, b, hab⟩ := CFSG.HardMathSupport.Dickson.Sec6.I923.exists_not_comm_of_quasisimple hY
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (Y ⧸ Subgroup.center Y))
     with h | h
@@ -147,7 +147,7 @@ theorem y1431_false_of_char3_of_bridges (hKD : KDCharP 3) {V : InndiagVocab} {Y 
     (e : (Y ⧸ Subgroup.center Y) ≃* P) (hξ : IsInnerAut (MulAut.congr e (centerDescend Y ξ)))
     {t : StatedLieTag} {n f : ℕ} (hB : t ∈ classicalTags ∨ CFSG.TauCetiBridge.TypewiseBridges)
     (hm : CFSG.Blueprint.LieModel P t n 3 f) : False := by
-  haveI : Finite P := Finite.of_equiv _ e.toEquiv
+  have : Finite P := Finite.of_equiv _ e.toEquiv
   have hq : 64 ≤ q := by
     rw [hqq]
     calc 64 = 4 ^ 3 := by norm_num

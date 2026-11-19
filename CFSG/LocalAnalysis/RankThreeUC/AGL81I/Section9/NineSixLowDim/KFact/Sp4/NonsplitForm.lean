@@ -463,7 +463,7 @@ private theorem isPGroup_zpowers_SL {a : SL(2, K)} (ha : a ^ p = 1) (ha1 : a ≠
 private theorem exists_central_of_sylow_SL (S : Sylow p SL(2, K)) {a : SL(2, K)} (haS : a ∈ S)
     (ha1 : a ≠ 1) : ∃ z : SL(2, K), z ^ p = 1 ∧ z ≠ 1 ∧ ∀ y ∈ S, Commute y z := by
   have : Nontrivial S := ⟨⟨⟨a, haS⟩, 1, fun h => ha1 (congrArg Subtype.val h)⟩⟩
-  have hpS : IsPGroup p S := S.isPGroup'
+  have hpS : IsPGroup p S := S.isPGroup
   have := hpS.center_nontrivial
   obtain ⟨n, hn, hcard⟩ := ((hpS.to_subgroup (Subgroup.center S)).nontrivial_iff_card).1 ‹_›
   have : Fintype (Subgroup.center S) := Fintype.ofFinite _

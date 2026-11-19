@@ -81,7 +81,7 @@ private theorem ltqOm8_selfCent_RPlus {n : ℕ} (K : Type) [Field K] [Finite K] 
     rintro a ⟨e, he, rfl⟩
     rw [← map_pow f, hE.2 e he, map_one]
   have hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
-    haveI : IsMulCommutative E := hE.1
+    have : IsMulCommutative E := hE.1
     rintro a ⟨e, he, rfl⟩ b ⟨e', he', rfl⟩
     rw [← map_mul f, ← map_mul f]
     exact congrArg f (setLike_mul_comm (s := E) he he')
@@ -123,7 +123,7 @@ private theorem ltqOm8_selfCent_RPlus {n : ℕ} (K : Type) [Field K] [Finite K] 
       change f e = f 1
       rw [hfe1, map_one]
     exact φ.injective hφ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hpq : 3 ∣ Nat.card K - 1 ∨ 3 ∣ Nat.card K + 1 := by
     rw [hKcard]
     exact ltqOm8_three_dvd n
@@ -171,13 +171,13 @@ theorem d4_selfCent_elemAbelian_three {n : ℕ} (hn : 1 ≤ n) :
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   by_cases h3 : (4 : ℕ) = 3
   · exact absurd h3 (by norm_num)
-  · simp only [if_neg h3] at hQ ⊢
+  · simp only [ite_eq_right h3] at hQ ⊢
     dsimp only [LargeEvenRecipeOmegaPlus] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ, ?_⟩
-    haveI : Finite K := hfin
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := by
+    have : Finite K := hfin
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := by
       have hmod : Fintype.card K % 2 = 0 := by
         rw [← Nat.card_eq_fintype_card, hK]
         exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))

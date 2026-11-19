@@ -16,16 +16,16 @@ private lemma lr7p_A_symm (n : ℕ) (i j : Fin n) : CartanMatrix.A n i j = Carta
   simp only [CartanMatrix.A, Matrix.of_apply]
   by_cases hij : i = j
   · subst hij; rfl
-  · rw [if_neg hij, if_neg (Ne.symm hij)]
+  · rw [ite_eq_right hij, ite_eq_right (Ne.symm hij)]
     by_cases h : (i.val + 1 = j.val ∨ j.val + 1 = i.val)
-    · rw [if_pos h, if_pos (h.elim Or.inr Or.inl)]
-    · rw [if_neg h, if_neg (fun hh => h (hh.elim Or.inr Or.inl))]
+    · rw [ite_eq_left h, ite_eq_left (h.elim Or.inr Or.inl)]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h (hh.elim Or.inr Or.inl))]
 
 private lemma lr7p_cartanA_eq_two {n : ℕ} {i j : Fin n}
     (h : CartanMatrix.A n i j = 2) : i = j := by
   by_contra hij
   simp only [CartanMatrix.A, Matrix.of_apply, hij, ite_false] at h
-  split_ifs at h <;> omega
+  split_ifs at h; omega
 
 private lemma lr7p_cartanA_mem (n : ℕ) (i j : Fin n) :
     CartanMatrix.A n i j = 2 ∨ CartanMatrix.A n i j = -1 ∨ CartanMatrix.A n i j = 0 := by
@@ -90,17 +90,17 @@ private lemma lr7p_cartanA_emb {N : ℕ} (hN : N = 6 ∨ N = 9)
         (if b'.val = 0 then ⟨j.val + 1, by omega⟩ else ⟨j.val, by omega⟩) =
       CartanMatrix.A (N - 2) i j := by
   rcases hN with rfl | rfl <;> rcases hb with h0 | hl
-  · simp only [if_pos h0]
+  · simp only [ite_eq_left h0]
     simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
     split_ifs <;> omega
   · have h0' : ¬ b'.val = 0 := by omega
-    simp only [if_neg h0']
+    simp only [ite_eq_right h0']
     simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
-  · simp only [if_pos h0]
+  · simp only [ite_eq_left h0]
     simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
     split_ifs <;> omega
   · have h0' : ¬ b'.val = 0 := by omega
-    simp only [if_neg h0']
+    simp only [ite_eq_right h0']
     simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
 
 private theorem lr7p_dispatch {L : ℕ} (hL : L = 4 ∨ L = 7)
@@ -170,22 +170,22 @@ private theorem lr7p_pattern_abs {L : ℕ} (hL : L = 4 ∨ L = 7)
       · exact Or.inr (Or.inr ⟨hL7, hk24, rfl, rfl⟩)
     · intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 3 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 3 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, -⟩ | ⟨hm, h1, h2⟩ |
           ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_left hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ |
           ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
   ·
-    have hkM : M none (some k) = 4 := by rw [hrow k, if_pos rfl]
+    have hkM : M none (some k) = 4 := by rw [hrow k, ite_eq_left rfl]
     have hprod : C none (some k) * C (some k) none = 2 ∧ C none (some k) < 0 ∧
         C (some k) none < 0 := by
       rcases hC.2 none (some k) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, h1, h2, h3⟩ |
@@ -204,34 +204,34 @@ private theorem lr7p_pattern_abs {L : ℕ} (hL : L = 4 ∨ L = 7)
     · refine ⟨k, -1, -2, Or.inl ⟨hend, Or.inr (Or.inl ⟨rfl, rfl⟩)⟩, ?_⟩
       intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 4 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 4 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; rw [← hik] at hm1 hn2; exact ⟨hm1, hn2⟩
+        · simp only [ite_eq_left hik]; rw [← hik] at hm1 hn2; exact ⟨hm1, hn2⟩
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
     · refine ⟨k, -2, -1, Or.inl ⟨hend, Or.inr (Or.inr ⟨rfl, rfl⟩)⟩, ?_⟩
       intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 4 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 4 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; rw [← hik] at hm2 hn1; exact ⟨hm2, hn1⟩
+        · simp only [ite_eq_left hik]; rw [← hik] at hm2 hn1; exact ⟨hm2, hn1⟩
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
@@ -253,15 +253,15 @@ theorem ggDepAThree_pattern {N : ℕ} (hN : N = 6 ∨ N = 9) {Λ : Type} [Fintyp
   have hemb_val : ∀ k : Fin (N - 2), (emb k).val = if b'.val = 0 then k.val + 1 else k.val := by
     intro k
     by_cases h : b'.val = 0
-    · simp only [emb, if_pos h]
-    · simp only [emb, if_neg h]
+    · simp only [emb, ite_eq_left h]
+    · simp only [emb, ite_eq_right h]
   have hemb_ne : ∀ k : Fin (N - 2), emb k ≠ b' := by
     intro k hh
     have hhv : (emb k).val = b'.val := congrArg Fin.val hh
     rw [hemb_val k] at hhv
     rcases hb with h0 | hl
-    · rw [if_pos h0] at hhv; omega
-    · rw [if_neg (by omega : ¬ b'.val = 0)] at hhv; omega
+    · rw [ite_eq_left h0] at hhv; omega
+    · rw [ite_eq_right (by omega : ¬ b'.val = 0)] at hhv; omega
   let toJ : Fin (N - 2) → {i : Λ // i ≠ b} := fun k => ⟨e (emb k), by
     intro hh
     exact hemb_ne k (by
@@ -296,9 +296,9 @@ theorem ggDepAThree_pattern {N : ℕ} (hN : N = 6 ∨ N = 9) {Λ : Type} [Fintyp
     intro k
     apply Fin.ext
     by_cases h0 : b'.val = 0
-    · simp only [posFun, toJ, dif_pos h0, hemb_val k, if_pos h0, Equiv.symm_apply_apply]
+    · simp only [posFun, toJ, dite_eq_left h0, hemb_val k, ite_eq_left h0, Equiv.symm_apply_apply]
       omega
-    · simp only [posFun, toJ, dif_neg h0, hemb_val k, if_neg h0, Equiv.symm_apply_apply]
+    · simp only [posFun, toJ, dite_eq_right h0, hemb_val k, ite_eq_right h0, Equiv.symm_apply_apply]
   have hpos_right : ∀ i : {i : Λ // i ≠ b}, toJ (posFun i) = i := by
     intro i
     apply Subtype.ext
@@ -311,9 +311,9 @@ theorem ggDepAThree_pattern {N : ℕ} (hN : N = 6 ∨ N = 9) {Λ : Type} [Fintyp
         have hv : (e.symm i.val).val ≠ 0 := by
           intro hv0
           exact hi (Fin.ext (by rw [hv0, h0]))
-        simp only [posFun, dif_pos h0, emb, if_pos h0, hemb_val, if_pos h0]
+        simp only [posFun, dite_eq_left h0, emb, ite_eq_left h0]
         omega
-      · simp only [posFun, dif_neg h0, emb, if_neg h0, hemb_val, if_neg h0]
+      · simp only [posFun, dite_eq_right h0, emb, ite_eq_right h0]
     show e (emb (posFun i)) = i.val
     rw [hemb, Equiv.apply_symm_apply]
   let posEquiv : Fin (N - 2) ≃ {i : Λ // i ≠ b} :=
@@ -365,8 +365,8 @@ theorem ggDepAThree_pattern {N : ℕ} (hN : N = 6 ∨ N = 9) {Λ : Type} [Fintyp
   obtain ⟨k, m, n, hpat, hrow⟩ := lr7p_pattern_abs (L := N - 2) hL4 hM₀ hC₀ hJ₀
   have hposeq : (if b'.val = 0 then (emb k).val - 1 else (emb k).val) = k.val := by
     by_cases h0 : b'.val = 0
-    · rw [if_pos h0, hemb_val k, if_pos h0]; omega
-    · rw [if_neg h0, hemb_val k, if_neg h0]
+    · rw [ite_eq_left h0, hemb_val k, ite_eq_left h0]; omega
+    · rw [ite_eq_right h0, hemb_val k, ite_eq_right h0]
   have hiff : ∀ i : {i : Λ // i ≠ b}, posEquiv.symm i = k ↔ e.symm i.val = emb k := by
     intro i
     constructor
@@ -397,21 +397,21 @@ theorem ggDepAThree_pattern {N : ℕ} (hN : N = 6 ∨ N = 9) {Λ : Type} [Fintyp
     refine ⟨?_, ?_⟩
     · by_cases hik : e.symm i = emb k
       · have h2 : posEquiv.symm i = k := (hiff i).2 hik
-        rw [if_pos h2] at hr1
-        rw [if_pos hik]
+        rw [ite_eq_left h2] at hr1
+        rw [ite_eq_left hik]
         exact hr1
       · have h2 : posEquiv.symm i ≠ k := fun hh => hik ((hiff i).1 hh)
-        rw [if_neg h2] at hr1
-        rw [if_neg hik]
+        rw [ite_eq_right h2] at hr1
+        rw [ite_eq_right hik]
         exact hr1
     · by_cases hik : e.symm i = emb k
       · have h2 : posEquiv.symm i = k := (hiff i).2 hik
-        rw [if_pos h2] at hr2
-        rw [if_pos hik]
+        rw [ite_eq_left h2] at hr2
+        rw [ite_eq_left hik]
         exact hr2
       · have h2 : posEquiv.symm i ≠ k := fun hh => hik ((hiff i).1 hh)
-        rw [if_neg h2] at hr2
-        rw [if_neg hik]
+        rw [ite_eq_right h2] at hr2
+        rw [ite_eq_right hik]
         exact hr2
   refine ⟨emb k, m, n, ?_, fun i => hrow' i⟩
   unfold GGDepAPatE

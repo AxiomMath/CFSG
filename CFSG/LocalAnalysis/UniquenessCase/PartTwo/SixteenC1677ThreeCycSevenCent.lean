@@ -13,7 +13,7 @@ variable {W : Type} [CommGroup W]
 
 theorem s168e3_cyc7_card_autSub_dvd [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {Y : Subgroup W}
     (hY : Nat.card ↥Y = 8) {x : MulAut W} (hxY : x ∈ stabSub Y) (hx7 : x ^ 7 = 1)
-    (hxn : ∃ y ∈ Y, x y ≠ y) {H : Subgroup (MulAut W)} (hH : H ≤ stabSub Y)
+    (hxn : ∃ y ∈ Y, x y ≠ y) {H : Subgroup (MulAut W)} (_hH : H ≤ stabSub Y)
     (hHx : ∀ h ∈ H, h * x = x * h) : Nat.card ↥(autSub H Y) ∣ 7 := by
   have h2Y : ∀ v : ↥Y, v ^ 2 = 1 := fun v => Subtype.ext (by simpa using hW (v : W))
   let xb : MulAut ↥Y := resHom Y ⟨x, hxY⟩
@@ -31,7 +31,7 @@ theorem s168e3_cyc7_card_autSub_dvd [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {Y : 
     rw [resHom_apply] at h2
     exact hxy (by simpa using h2)
   have hxb_order : orderOf xb = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact orderOf_eq_prime hxb7 hxb1
   let Q : Subgroup (MulAut ↥Y) := Subgroup.zpowers xb
   have hQ : Nat.card Q = 7 := by
@@ -62,7 +62,7 @@ theorem s168e3_cyc7_card_autSub_dvd [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {Y : 
     s16e_d3_card_dvd_of_le_normalizer (Y := ↥Y) h2Y hY hQ hle
   have h3not : ¬ 3 ∣ Nat.card (autSub H Y) := by
     intro h3dvd
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨φ, hφord⟩ := exists_prime_orderOf_dvd_card' (G := ↥(autSub H Y)) 3 h3dvd
     have hcommφ : Commute (φ : MulAut ↥Y) xb := hcomm_of (φ : MulAut ↥Y) φ.2
     have hφ3 : (φ : MulAut ↥Y) ^ 3 = 1 := by

@@ -165,8 +165,9 @@ theorem not_conj_tT_x1T_of_central (hn : 3 ≤ n) {ι : L4Model n →* G}
   ι.codRestrict _ fun t => Subgroup.mem_centralizer_singleton_iff.2 (by
     rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.1 (zT_mem_center hn) t])
 
+omit [Finite G] in
 theorem restrictCentralizer_injective {ι : L4Model n →* G} (hι : Function.Injective ι)
-    (hn : 2 ≤ n) : Function.Injective (restrictCentralizer ι hn) := fun a b h =>
+    (hn : 2 ≤ n) : Function.Injective (restrictCentralizer ι hn) := fun _a _b h =>
   hι (congrArg Subtype.val h)
 
 theorem isSylowOf_restrictCentralizer (hn : 2 ≤ n) {ι : L4Model n →* G}

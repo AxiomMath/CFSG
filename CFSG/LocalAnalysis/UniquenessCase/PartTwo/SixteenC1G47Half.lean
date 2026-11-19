@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_G47_conj_mem_pCoreOf {K : Subgroup G} {k : G} (hk : k ∈ K) {o : G}
     (ho : o ∈ pCoreOf 2 K) : k * o * k⁻¹ ∈ pCoreOf 2 K := by
   have h := s16c1_conjSubgroup_pCoreOf_self K (K.inv_mem hk)
@@ -24,6 +25,7 @@ theorem s16c1_G47_conj_mem_pCoreOf {K : Subgroup G} {k : G} (hk : k ∈ K) {o : 
   rw [e]
   exact ho
 
+omit [Finite G] in
 theorem s16c1_G47_le_centralizer {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V) :
     V ≤ centralizer ({z} : Set G) := by
   intro v hv
@@ -32,6 +34,7 @@ theorem s16c1_G47_le_centralizer {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 
   rw [Set.mem_singleton_iff.1 hy]
   exact IsElemAbelian.comm hV hz hv
 
+omit [Finite G] in
 theorem s16c1_G47_comm_mem_uOne {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V)
     {r : G} (hrQ : r ∈ pCoreOf 2 (centralizer ({z} : Set G)))
     (hrN : r ∈ normalizer (V : Set G)) {w : G} (hw : w ∈ V) :

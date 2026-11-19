@@ -68,7 +68,7 @@ theorem BenderType.centralizer_involution_isPGroup
   have hyQ : y ∈ (Q : Subgroup K) := hQ (mem_zpowers y)
   have hyroot : y ∈ rootCenter (Q : Subgroup K) := hc.mem_rootCenter_of_mul_self hyQ hy
   rw [hc.centralizer_eq_of_e_one hyroot hy1]
-  exact Q.isPGroup'
+  exact Q.isPGroup
 
 end Prelim
 
@@ -136,7 +136,7 @@ theorem BenderCore.exists_conj_cartan_of_prime_dvd {n : ℕ} {Q : Sylow 2 K}
   have hAodd : Odd (Nat.card (zpowers y)) := by
     rw [Nat.card_zpowers, hyord]
     exact hpodd
-  obtain ⟨q', hq', hq'conj⟩ := hc.exists_conj_cartan_of_odd Q.isPGroup' hAM hAodd
+  obtain ⟨q', hq', hq'conj⟩ := hc.exists_conj_cartan_of_odd Q.isPGroup hAM hAodd
   have hyD : q' * y * q'⁻¹ ∈ cartan (Q : Subgroup K) t := hq'conj y (mem_zpowers y)
   set u := q' * g⁻¹ with hu
   have huD : u * x₁ * u⁻¹ ∈ cartan (Q : Subgroup K) t := by
@@ -149,7 +149,7 @@ theorem BenderCore.exists_conj_cartan_of_prime_dvd {n : ℕ} {Q : Sylow 2 K}
     have : x₁ = u⁻¹ * (u * x₁ * u⁻¹) * u := by group
     rw [this, h1]
     group
-  have hcen := hc.centralizer_cartan_eq Q.isPGroup' huD hux1
+  have hcen := hc.centralizer_cartan_eq Q.isPGroup huD hux1
   refine ⟨u, ?_⟩
   rw [← hcen]
   apply Subgroup.mem_centralizer_singleton_iff.mpr
@@ -264,7 +264,7 @@ theorem BenderType.suzuki_odd_centralizer
       rw [this, h1]
       group
     have hCD : centralizer ({g * x * g⁻¹} : Set K) = D :=
-      hc.centralizer_cartan_eq Q.isPGroup' hg hx'1
+      hc.centralizer_cartan_eq Q.isPGroup hg hx'1
     have hmap : (centralizer ({x} : Set K)).map (MulAut.conj g).toMonoidHom = D := by
       rw [map_centralizer_singleton (MulAut.conj g) x]
       simpa [MulAut.conj_apply] using hCD
@@ -284,7 +284,7 @@ theorem BenderType.suzuki_odd_centralizer
           Nat.card (normalizer (D : Set K)) := by
         rw [← hNmap, Subgroup.card_map_of_injective (MulAut.conj g).injective]
       rw [h5, hcardC]
-      exact hc.card_normalizer_cartan Q.isPGroup' hg hx'1
+      exact hc.card_normalizer_cartan Q.isPGroup hg hx'1
   · obtain ⟨hcyc, hodd', ⟨a, hn, hcard⟩, hN⟩ := h.suzuki_derangement_type hx1 hdiv
     exact ⟨hcyc, hodd', Or.inr ⟨a, hn, hcard⟩, Or.inr hN⟩
 

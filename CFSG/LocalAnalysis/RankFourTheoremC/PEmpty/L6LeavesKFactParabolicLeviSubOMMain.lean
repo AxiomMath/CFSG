@@ -44,7 +44,7 @@ theorem leviSubAt_orthMinus {r f : ℕ} (hr : 3 ≤ r) (hK : Nat.card K = 2 ^ f)
 theorem leviSubAt_of_pomegaMinus {S : Type} [Group S] [Finite S] {n f : ℕ}
     (h : StatedClassicalModel S .POmegaMinus n 2 f) : LeviSubAt S := by
   obtain ⟨⟨-, -, hn⟩, K, hKf, hKfin, hcard, b, c, hirr, ⟨e⟩⟩ := h
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hcard
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hcard
   exact LeviSubAt.of_mulEquiv (e.trans ((orthMinusStatedProjEquiv (by omega)).trans
     (tailOmegaEquiv (minusTailIsometry n K b c) (coe_quadMinus n K b c)
       (commutator_orthogonalGroup_quadMinus hn hirr))))

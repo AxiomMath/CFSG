@@ -71,7 +71,7 @@ theorem wGroup_eq_wGroup_zGammaThree (hB : GWTwoBalanced G) {t : G} (ht : orderO
     have h2 : (zpowers t).map (MulAut.conj g) = zpowers t := by
       rw [MonoidHom.map_zpowers]
       congr 1
-      simp only [MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [_root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       rw [mem_centralizer_singleton_iff.mp hgt, mul_inv_cancel_right]
     exact mem_normalizer_iff_map_conj_eq.mpr (by rw [hFdef, Subgroup.map_sup, h1, h2])
   have hSF : D ⊔ X ≤ normalizer (F : Set G) :=

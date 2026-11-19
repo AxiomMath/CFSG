@@ -47,7 +47,7 @@ variable {K : Type*} [Field K] [Finite K]
 
 theorem pow_two_pow_card {n : ℕ} (hK : Nat.card K = 2 ^ n) (x : K) : x ^ 2 ^ n = x := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have := FiniteField.pow_card x
   rwa [← Nat.card_eq_fintype_card, hK] at this
 
@@ -56,6 +56,7 @@ theorem lt_two_pow_of_three_le {n : ℕ} (hn : 3 ≤ n) : n + 2 < 2 ^ n := by
   | base => norm_num
   | succ n hn ih => rw [pow_succ]; omega
 
+omit [Finite K] in
 theorem orderOf_pow_two_pow {n i : ℕ} {a : K} (hn : 1 ≤ n) (ha : orderOf a = 2 ^ n - 1) :
     orderOf (a ^ 2 ^ i) = 2 ^ n - 1 := by
   have hodd : Odd (2 ^ n - 1) :=
@@ -67,6 +68,7 @@ theorem orderOf_pow_two_pow {n i : ℕ} {a : K} (hn : 1 ≤ n) (ha : orderOf a =
 
 
 
+omit [Finite K] in
 theorem pow_eq_pow_iff_modEq_field {a : K} (ha0 : a ≠ 0) {m m' : ℕ} :
     a ^ m = a ^ m' ↔ m ≡ m' [MOD orderOf a] := by
   have hu : orderOf (Units.mk0 a ha0) = orderOf a :=
@@ -78,6 +80,7 @@ theorem pow_eq_pow_iff_modEq_field {a : K} (ha0 : a ≠ 0) {m m' : ℕ} :
   · intro h
     simpa using congrArg Units.val h
 
+omit [Finite K] in
 theorem orderOf_inv_field (a : K) : orderOf a⁻¹ = orderOf a :=
   orderOf_eq_orderOf_iff.mpr fun m => by rw [inv_pow, inv_eq_one]
 
@@ -92,7 +95,7 @@ theorem no_coset_of_closed {n : ℕ} (hn : 3 ≤ n) (hK : Nat.card K = 2 ^ n) {a
     (hdN : d ∣ 2 ^ n - 1) {μ : K} (hμ0 : μ ≠ 0) (hμ : ∀ ζ : K, ζ ^ d = 1 → μ * ζ ∈ S) :
     False := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hlt := lt_two_pow_of_three_le hn
   have hNpos : 0 < 2 ^ n - 1 := by omega
   have ha0 : a ≠ 0 := by
@@ -221,16 +224,18 @@ theorem no_coset_of_closed {n : ℕ} (hn : 3 ≤ n) (hK : Nat.card K = 2 ^ n) {a
 
 variable [CharP K 2]
 
+omit [Finite K] in
 theorem eval₂_sq (g : ℕ[X]) (x : K) :
     g.eval₂ (Nat.castRingHom K) (x ^ 2) = (g.eval₂ (Nat.castRingHom K) x) ^ 2 := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   have h := Polynomial.hom_eval₂ g (Nat.castRingHom K) (frobenius K 2) x
   have hc : (frobenius K 2).comp (Nat.castRingHom K) = Nat.castRingHom K :=
     Subsingleton.elim _ _
   rw [hc] at h
   simpa [frobenius_def] using h.symm
 
-theorem root_eq_pow_of_eval {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) {a : K}
+omit [Finite K] in
+theorem root_eq_pow_of_eval {n : ℕ} (hn : 1 ≤ n) (_hK : Nat.card K = 2 ^ n) {a : K}
     (ha : orderOf a = 2 ^ n - 1) (g : ℕ[X]) (hmon : g.Monic) (hdeg : g.natDegree ≤ n)
     (hga : g.eval₂ (Nat.castRingHom K) a = 0) {x : K} (hx : g.eval₂ (Nat.castRingHom K) x = 0) :
     ∃ i < n, x = a ^ 2 ^ i := by
@@ -407,7 +412,7 @@ theorem eigen_coset {F : Type*} [AddCommGroup F] [Module K F] (T : F →ₗ[K] F
     (hf : ∀ w ∈ W, Polynomial.aeval T f w = 0) :
     ∃ μ : K, μ ≠ 0 ∧ ∀ ζ : K, ζ ^ d = 1 → f.eval (μ * ζ) = 0 := by
   classical
-  haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hW
+  have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hW
   let S : W →ₗ[K] W := (T ^ d).restrict hTW
   have hSpow : ∀ k : ℕ, ∀ w : W, ((S ^ k) w : F) = (T ^ (d * k)) w := by
     intro k
@@ -557,10 +562,10 @@ theorem eq_one_of_conj {a : K} (hK3 : 3 ≤ Nat.card K) (ha : orderOf a = Nat.ca
     (h : ∀ x, θ (a * x) = c * σ (θ x)) : σ = 1 := by
   classical
   by_contra hσ
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (RingAut K) :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun f : RingAut K => (f : K → K)) DFunLike.coe_injective
-  haveI : Fintype (RingAut K) := Fintype.ofFinite _
+  have : Fintype (RingAut K) := Fintype.ofFinite _
   have hm0 : 0 < orderOf σ := orderOf_pos σ
   have hm2 : 2 ≤ orderOf σ := by
     have : orderOf σ ≠ 1 := fun h1 => hσ (orderOf_eq_one_iff.mp h1)
@@ -624,8 +629,8 @@ theorem eq_one_of_conj {a : K} (hK3 : 3 ≤ Nat.card K) (ha : orderOf a = Nat.ca
       Subgroup.zpowers_le.mpr hstab
     intro g
     exact MulAction.mem_stabilizer_iff.mp (hle g.2)
-  haveI : Fintype (FixedPoints.subfield (Subgroup.zpowers σ) K) := Fintype.ofFinite _
-  haveI : Fintype (Subgroup.zpowers σ) := Fintype.ofFinite _
+  have : Fintype (FixedPoints.subfield (Subgroup.zpowers σ) K) := Fintype.ofFinite _
+  have : Fintype (Subgroup.zpowers σ) := Fintype.ofFinite _
   have hfr : Module.finrank (FixedPoints.subfield (Subgroup.zpowers σ) K) K = m := by
     have := FixedPoints.finrank_eq_card (Subgroup.zpowers σ) K
     have h2 : Fintype.card (Subgroup.zpowers σ) = m := by
@@ -706,8 +711,8 @@ theorem semilinear_of_conj {a : K} (hK3 : 3 ≤ Nat.card K) (ha : orderOf a = Na
 theorem semilinear_of_card_four [CharP K 2] [PerfectRing K 2] (hK : Nat.card K = 4) (θ : K →+ K)
     (hθ : Function.Bijective θ) : ∃ σ' : K ≃+* K, ∀ x, θ x = θ 1 * σ' x := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : Fintype K := Fintype.ofFinite K
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   have hK' : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hθ1 : θ 1 ≠ 0 := fun h0 => one_ne_zero (hθ.1 (by rw [h0, map_zero]))
   have hadd : ∀ x : K, x + x = 0 := fun x => CharTwo.add_self_eq_zero x

@@ -23,7 +23,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup iInf_fixSubgroup_clos
 theorem i2610FactTE6_holds : I2610FactTE6 := by
   intro Γ _ _ K W hK hcat hWN hW hW27 hWK J hJ hJc
   obtain ⟨F, _, _, σ, hF, hσ, ⟨eS⟩⟩ := exists_twistedE6RootGroup_of_catalogIs_isTE6two hcat
-  haveI : Finite (CFSG.LieType.Chevalley.twistedE6RootGroup F σ) := Subtype.finite
+  have : Finite (CFSG.LieType.Chevalley.twistedE6RootGroup F σ) := Subtype.finite
   obtain ⟨A, hA, h9, I, hI, ⟨e₁⟩⟩ := exists_quot_component hK hWN hW hW27 hWK eS hJ
   have hIc : catalogIs (PSimple 3 I) isL2prime := I2018.catalogIs_congr' e₁ hJc
   obtain ⟨s, hs, b, hbA, hgen⟩ := exists_conj_gen_of_elemAbelian_nine hF σ hσ hA h9

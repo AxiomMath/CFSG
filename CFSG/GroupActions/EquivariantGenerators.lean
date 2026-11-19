@@ -16,10 +16,10 @@ theorem injective_of_equivariant_on_generators {G H α β : Type*} [Group G] [Gr
     { carrier := {g | ∀ x, τ (φ g) (e x) = e (σ g x)}
       one_mem' := fun x => by simp
       mul_mem' := fun {g h} hg hh x => by
-        simp only [Set.mem_setOf_eq, map_mul, Equiv.Perm.mul_apply] at hg hh ⊢
+        simp only [Set.mem_ofPred_eq, map_mul, Equiv.Perm.mul_apply] at hg hh ⊢
         rw [hh x, hg]
       inv_mem' := fun {g} hg x => by
-        simp only [Set.mem_setOf_eq, map_inv] at hg ⊢
+        simp only [Set.mem_ofPred_eq, map_inv] at hg ⊢
         have h := hg ((σ g)⁻¹ x)
         rw [← Equiv.Perm.mul_apply, mul_inv_cancel, Equiv.Perm.one_apply] at h
         rw [Equiv.Perm.inv_eq_iff_eq, h] }

@@ -20,7 +20,7 @@ theorem uc22s21rq_exists_conj_le_of_not_dvd_index {p : ℕ} [Fact p.Prime] {H : 
     ∃ w : W, ∀ x ∈ E, w⁻¹ * x * w ∈ H := by
   classical
   obtain ⟨S₀⟩ : Nonempty (Sylow p H) := inferInstance
-  have hSp : IsPGroup p ((S₀ : Subgroup H).map H.subtype) := S₀.isPGroup'.map H.subtype
+  have hSp : IsPGroup p ((S₀ : Subgroup H).map H.subtype) := S₀.isPGroup.map H.subtype
   have hSH : (S₀ : Subgroup H).map H.subtype ≤ H := Subgroup.map_subtype_le _
   have hSidx : ¬ p ∣ ((S₀ : Subgroup H).map H.subtype).index := by
     rw [← Subgroup.relIndex_mul_index hSH]
@@ -99,10 +99,11 @@ theorem uc22s21rq_map_sylow_comap (π : W →* V) (hπ : Function.Surjective π)
     obtain ⟨s, hs, hsy⟩ := hmem
     exact ⟨s, ⟨s, hs, rfl⟩, congrArg Subtype.val hsy⟩
 
+omit [Finite W] in
 theorem uc22s21rq_disjoint_ker (π : W →* V) (hker : IsPGroup 2 π.ker) {q : ℕ} [Fact q.Prime]
     (hq2 : q ≠ 2) {R : Subgroup V} (S : Sylow q (R.comap π)) :
     Disjoint ((S : Subgroup (R.comap π)).map (R.comap π).subtype) π.ker :=
-  IsPGroup.disjoint_of_ne q 2 hq2 _ _ (S.isPGroup'.map _) hker
+  IsPGroup.disjoint_of_ne q 2 hq2 _ _ (S.isPGroup.map _) hker
 
 theorem uc22s21rq_not_dvd_card_comap (π : W →* V) (hker : IsPGroup 2 π.ker) {p q : ℕ}
     [Fact p.Prime] [Fact q.Prime] (hp2 : p ≠ 2) (hpq : p ≠ q) {R : Subgroup V}
@@ -151,7 +152,7 @@ theorem uc22s21rq_barImage_sylow (M : Subgroup G) {q : ℕ} (hq : q.Prime) (hq2 
     (hQ : IsSylowOf q Q (barPreimage M R)) :
     Q ≤ M ∧ barImage M Q = R ∧
       Disjoint (Q.subgroupOf M) (QuotientGroup.mk' (CFSG.pCore 2 ↥M)).ker := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨hQM, S, hS⟩ := uc22s21rq_exists_sylow M hQ
   have hπs : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) :=
     QuotientGroup.mk'_surjective _
@@ -170,13 +171,13 @@ theorem uc22s21rq_pRank_le (M : Subgroup G) {p q : ℕ} (hp : p.Prime) (hp2 : p 
     (hq : q.Prime) (hpq : p ≠ q) {R : Subgroup (Bar2 M)} [R.Normal] (hR : IsPGroup q R)
     {Q : Subgroup G} (hQ : IsSylowOf q Q (barPreimage M R)) :
     Open.pRank p M ≤ Open.pRank p (M ⊓ normalizer (Q : Set G)) := by
-  haveI := Fact.mk hp
-  haveI := Fact.mk hq
+  have := Fact.mk hp
+  have := Fact.mk hq
   obtain ⟨hQM, S, hS⟩ := uc22s21rq_exists_sylow M hQ
   have hker : IsPGroup 2 (QuotientGroup.mk' (CFSG.pCore 2 ↥M)).ker := by
     rw [QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup
-  haveI : (R.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥M))).Normal :=
+  have : (R.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥M))).Normal :=
     Subgroup.Normal.comap inferInstance _
   have h1 := uc22s21rq_pRank_le_normalizer (p := p) _
     (uc22s21rq_not_dvd_card_comap _ hker hp2 hpq hR) S
@@ -210,7 +211,7 @@ theorem uc22s21rq_gamma_le (D : Data G) (hr77 : F07.R77E4 D) (hσ1 : D.sig ⊆ D
     {X : Subgroup (Bar2 D.M)} [X.Normal] (hXq : IsPGroup q X) (hXnc : ¬ IsCyclic X)
     (hXexp : ∀ x ∈ X, x ^ q = 1) (hXcl : ⁅⁅X, X⁆, X⁆ = ⊥) {Q : Subgroup G}
     (hQ : IsSylowOf q Q (barPreimage D.M X)) : rankThreeGamma 1 q Q ≤ D.M := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨hQM, hXQ, hdisj⟩ := uc22s21rq_barImage_sylow D.M hq hq2 hXq hQ
   have hrank : 3 < Open.pRank p (D.M ⊓ normalizer (Q : Set G)) :=
     lt_of_lt_of_le hrk (uc22s21rq_pRank_le D.M hp hp2 hq hpq hXq hQ)

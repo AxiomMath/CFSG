@@ -60,8 +60,8 @@ theorem f_sound (Eb : List ℕ) (FL : List (List ℕ))
       containsS (BF j hj3) (fGQ_getD_lt i)]
     exact h7 j hj
 
-theorem conj_eq (x : ℕ) {F F' : List ℕ} (hF : ∀ q ∈ F, q < 2 ^ 144)
-    (hF' : ∀ q ∈ F', q < 2 ^ 144) :
+theorem conj_eq (x : ℕ) {F F' : List ℕ} (_hF : ∀ q ∈ F, q < 2 ^ 144)
+    (_hF' : ∀ q ∈ F', q < 2 ^ 144) :
     conjInto (unpackA x) (F.map unpackA) (F'.map unpackA) = conjQ x F F' := by
   rw [conjInto, conjQ]
   refine all_map_congr fun f _ => any_map_congr fun f' _ => ?_
@@ -77,7 +77,7 @@ theorem g_sound (G P2 Eb : List ℕ) (FL : List (List ℕ))
     (E2 : enumGrp (p2Q.map unpackA) = P2.map unpackA)
     (EE : enumGrp (ebQ.map unpackA) = Eb.map unpackA)
     (EFL : fLists () = FL.map fun F => F.map unpackA) (BG : ∀ q ∈ G, q < 2 ^ 144)
-    (B2 : ∀ q ∈ P2, q < 2 ^ 144) (BE : ∀ q ∈ Eb, q < 2 ^ 144)
+    (_B2 : ∀ q ∈ P2, q < 2 ^ 144) (_BE : ∀ q ∈ Eb, q < 2 ^ 144)
     (BF : ∀ F ∈ FL, ∀ q ∈ F, q < 2 ^ 144) (h : gAt (G.filter presW1) P2 Eb FL = true) :
     gOK47 () = true := by
   have hg1 : g1List () = (G.filter presW1).map unpackA := by

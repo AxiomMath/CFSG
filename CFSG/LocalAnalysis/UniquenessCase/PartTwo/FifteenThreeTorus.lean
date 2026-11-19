@@ -238,10 +238,10 @@ private theorem s15_Three_lift_torus (hT : RTable137) (h : Hyp151 D V₀ V L)
       IsElemAbelian 3 A → Nat.card A = q → IsElemAbelian 3 B → Nat.card B = 3 →
       ∃ h : ↥(Mbar D.M (v1Sub D.M V₀ V hV L) V hV),
         B.map (MulAut.conj h).toMonoidHom ≤ A)
-    {v : G} (hv : v ∈ V) (hv0 : v ∉ V₀) :
+    {v : G} (hv : v ∈ V) (_hv0 : v ∉ V₀) :
     ∃ F : Subgroup G, F ≤ F11.CElt D.M V₀ v ∧ IsElemAbelian 3 F ∧ Nat.card F = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMs1 : D.M ≤ stabTil (v1Sub D.M V₀ V hV L) V :=
     le_stabTil h.hyp125.pairFacts.le_normalizer (s15_Infra_le_normalizer_v1Sub h.hyp125 hV)
   let p1 : ↥D.M →* ↥(Mbar D.M (v1Sub D.M V₀ V hV L) V hV) := s15_Three_barHom D hV hMs1

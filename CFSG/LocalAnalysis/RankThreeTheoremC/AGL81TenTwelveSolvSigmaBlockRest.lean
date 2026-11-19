@@ -143,7 +143,7 @@ theorem exists_subnormal_perm_three_of_mem_cZero {X : Type} [Group X] [Finite X]
   have hpc : pCoreOf 2 T = pCoreOf 2 P := by
     rcases hT.shape with hcomp | hshape
     · exfalso
-      haveI : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.mpr hcomp.perfect
+      have : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.mpr hcomp.perfect
       have hperfQ : Group.IsPerfect (↥T ⧸ CFSG.pCore 2 ↥T) :=
         Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥T))
           (QuotientGroup.mk'_surjective _)
@@ -263,9 +263,9 @@ theorem false_of_nineThreeThree (hTPL : CitedBlockTransvectionPLType) {M S L : S
         rw [hd] at h
         exact (TauCeti.LieTypeIndex.inStandardRange_iff _).1
           ((TauCeti.LieTypeIndex.valid_iff _).1 h).1
-      haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d').Group :=
+      have : IsSimpleGroup (TauCeti.CFSGIndex.lie d').Group :=
         SymThree.isSimpleGroup_of_mulEquiv_lie_B (by omega) hq' hd' (MulEquiv.refl _)
-      haveI : IsSimpleGroup
+      have : IsSimpleGroup
           (↥(blockParabolic M S L) ⧸ CFSG.pCore 2 ↥(blockParabolic M S L)) := φ.isSimpleGroup
       exact SymThree.false_of_isSimpleGroup_of_isSubnormal hSub eU
     · obtain ⟨d', ⟨q', hq', hd'⟩, ⟨φ⟩⟩ := hOrth m d ⟨q, hq, Or.inr hd⟩ ⟨e⟩
@@ -274,9 +274,9 @@ theorem false_of_nineThreeThree (hTPL : CitedBlockTransvectionPLType) {M S L : S
         rw [hd] at h
         exact (TauCeti.LieTypeIndex.inStandardRange_iff _).1
           ((TauCeti.LieTypeIndex.valid_iff _).1 h).1
-      haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d').Group :=
+      have : IsSimpleGroup (TauCeti.CFSGIndex.lie d').Group :=
         SymThree.isSimpleGroup_of_mulEquiv_lie_B (by omega) hq' hd' (MulEquiv.refl _)
-      haveI : IsSimpleGroup
+      have : IsSimpleGroup
           (↥(blockParabolic M S L) ⧸ CFSG.pCore 2 ↥(blockParabolic M S L)) := φ.isSimpleGroup
       exact SymThree.false_of_isSimpleGroup_of_isSubnormal hSub eU
     · obtain ⟨e6⟩ := hU4 d ⟨q, hq, hd⟩ ⟨e⟩
@@ -333,6 +333,7 @@ theorem false_of_nineThreeFour {M S L : Subgroup G} (h4 : NineThreeFour M S L)
     rwa [hcardP]
   exact (by norm_num : ¬ 27 ∣ (72 : ℕ)) (dvd_trans h27 hdiv)
 
+omit [Finite G] in
 theorem false_of_nineThreeFive {M S L : Subgroup G} (h5 : NineThreeFive M L)
     (h27 : 27 ∣ Nat.card (blockParabolic M S L)) : False := by
   let Lb := barM M L

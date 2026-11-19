@@ -37,8 +37,8 @@ theorem quat_pgl2 [Finite K] (hK : IsOddPrimePower (Nat.card K)) (h2 : (2 : K) �
     (hBX : B * X * B⁻¹ = X⁻¹) (hBB : B * B = X ^ 2 ^ (r - 2)) :
     X.right = 1 ∧ B.right ≠ 1 ∧ B.right * B.right = 1 := by
   classical
-  haveI : IsCyclic (K ≃+* K) := ringAut_isCyclic K hK
-  haveI : Finite (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) := ringAut_isCyclic K hK
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun σ : K ≃+* K => (σ : K → K)) DFunLike.coe_injective
   have hcomm : ∀ x y : K ≃+* K, x * y = y * x := fun x y => IsMulCommutative.is_comm.comm x y
   set rh : PGammaL2 K →* (K ≃+* K) := SemidirectProduct.rightHom with hrh
@@ -113,11 +113,11 @@ theorem isSquare_neg_one_of_fieldAut [Finite K] (hK : IsOddPrimePower (Nat.card 
     {σ : K ≃+* K} (hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1) : IsSquare (-1 : K) := by
   classical
   obtain ⟨p, n, hp, hpodd, hn, hcard⟩ := hK
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   have hcardF : Fintype.card K = p ^ n := by rw [← Nat.card_eq_fintype_card]; exact hcard
-  haveI : CharP K p := charP_of_card_eq_prime_pow hcardF
-  letI : Algebra (ZMod p) K := ZMod.algebra K p
+  have : CharP K p := charP_of_card_eq_prime_pow hcardF
+  let : Algebra (ZMod p) K := ZMod.algebra K p
   let e : (K ≃+* K) ≃* (K ≃ₐ[ZMod p] K) := {
     toFun := fun sigma =>
       AlgEquiv.ofRingEquiv (f := sigma) (by

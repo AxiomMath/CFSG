@@ -30,7 +30,7 @@ theorem isInvariant_modOf_of_conj (L : Subgroup (X ⧸ gnC T)) {U : Subgroup X}
   simpa [mul_assoc] using this
 
 theorem sub_mem_modOf_of_commutator_le (L : Subgroup (X ⧸ gnC T)) {W' U : Subgroup X}
-    (hWV : W' ≤ gnV T)
+    (_hWV : W' ≤ gnV T)
     (hWU : ⁅W', L.comap (QuotientGroup.mk' (gnC T))⁆ ≤ U)
     {l : X ⧸ gnC T} (hl : l ∈ L) {w : Additive (IntMod (gnV T) hV)} (hw : w ∈ modOf hV W') :
     gnRep hV l w - w ∈ modOf hV U := by

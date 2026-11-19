@@ -42,15 +42,15 @@ theorem exists_universal_cover_lift {K R : Type} [Group K] [Finite K] [Group R]
         (∀ x, θ (QuotientGroup.mk (κ x)) = hopfCoverMap R x) ∧
         (∀ α x, κ (lift α x) = α (κ x)) ∧ ∀ α, kgInducedAut θC (lift α) = kgInducedAut θ α := by
   classical
-  haveI : Group.IsPerfect K := ⟨hK⟩
+  have : Group.IsPerfect K := ⟨hK⟩
   let q : K →* R := centralQuotientMap θ
   have hq : Function.Surjective q := centralQuotientMap_surjective θ
   have hqker : q.ker = Subgroup.center K := centralQuotientMap_ker θ
-  haveI : Finite R := finite_of_surjective_monoidHom q hq
-  haveI hRperf : Group.IsPerfect R := Group.IsPerfect.ofSurjective (f := q) hq
+  have : Finite R := finite_of_surjective_monoidHom q hq
+  have hRperf : Group.IsPerfect R := Group.IsPerfect.ofSurjective (f := q) hq
   let C := HopfCover R
-  haveI hCfin : Finite C := finite_hopfCover hRperf
-  haveI hCperf : Group.IsPerfect C := hopfCover_isPerfect
+  have hCfin : Finite C := finite_hopfCover hRperf
+  have hCperf : Group.IsPerfect C := hopfCover_isPerfect
   have hCcom : commutator C = ⊤ := Group.IsPerfect.commutator_eq_top (G := C)
   let π : C →* R := hopfCoverMap R
   have hπ : Function.Surjective π := hopfCoverMap_surjective (S := R)

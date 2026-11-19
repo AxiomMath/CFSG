@@ -23,7 +23,7 @@ theorem not_isPGroup_two_sl2_threeR : ¬ IsPGroup 2 SL(2, ZMod 3) := by
   obtain ⟨x, hx, hne⟩ : ∃ x : SL(2, ZMod 3), x ^ 3 = 1 ∧ x ≠ 1 := by
     refine ⟨⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩, ?_, ?_⟩
     · ext i j
-      fin_cases i <;> fin_cases j <;> simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_two] <;> decide
+      fin_cases i <;> fin_cases j <;> simp <;> decide
     · intro e
       have := congrArg (fun g : SL(2, ZMod 3) => (g : Matrix (Fin 2) (Fin 2) (ZMod 3)) 0 1) e
       simp at this

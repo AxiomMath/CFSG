@@ -146,6 +146,7 @@ theorem cfInner_dadeMap_puncturedDiff_eq_zero [H.Normal] (hD : IsDadeData L A R)
     cfInner_eq_zero_of_mem_span_of_forall hperp, map_zero]
 
 omit [Fintype G] in
+omit [Fintype ↥L] in
 theorem eq_sdiff_map_of_eq_image
     (hA : A = (fun x : ↥L => (x : G)) '' ((H : Set ↥L) \ {1})) :
     A = ((H.map L.subtype : Subgroup G) : Set G) \ {1} := by
@@ -164,7 +165,7 @@ theorem indClassFun_one_apply_of_mem {M : Type*} [Group M] [Fintype M] (K : Subg
     simpa using ‹K.Normal›.conj_mem y hy t⁻¹
   have key : ∀ t : M,
       (if h : t⁻¹ * y * t ∈ K then (1 : ↥K → ℂ) ⟨t⁻¹ * y * t, h⟩ else 0) = 1 := fun t => by
-    rw [dif_pos (hall t)]; rfl
+    rw [dite_eq_left (hall t)]; rfl
   rw [indClassFun_apply, Finset.sum_congr rfl fun t _ => key t, Finset.sum_const,
     Finset.card_univ, nsmul_eq_mul, mul_one]
   have hK : (Nat.card ↥K : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
@@ -192,8 +193,8 @@ theorem cfInner_self_of_eq_const_on
   have hterm : ∀ x : ↥L, r x * conj (r x) = if x ∈ H ∧ x ≠ 1 then c * c else 0 := by
     intro x
     by_cases hx : x ∈ H ∧ x ≠ 1
-    · rw [if_pos hx, hin x hx.1 hx.2, hc]
-    · rw [if_neg hx, hout x (fun h => hx ((hmem x).1 h))]
+    · rw [ite_eq_left hx, hin x hx.1 hx.2, hc]
+    · rw [ite_eq_right hx, hout x (fun h => hx ((hmem x).1 h))]
       simp
   have hHpos : 0 < Nat.card ↥H := Nat.card_pos
   have hcard : (Finset.univ.filter fun x : ↥L => x ∈ H ∧ x ≠ 1).card = Nat.card ↥H - 1 := by

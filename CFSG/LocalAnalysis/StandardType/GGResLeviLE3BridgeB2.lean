@@ -145,12 +145,12 @@ theorem l05nBL_DatumK.toDatum {G : Type} [Group G] {k : ℕ} {p : ℕ} [Fact p.P
 theorem l05nBL_datum {G : Type} [Group G] [Finite G] {k : ℕ} {p : ℕ} [Fact p.Prime]
     {Bs L J K : Subgroup G} (D : l05nBL_Al k p Bs L J K) :
     l05nBL_DatumK k p Bs L J K := by
-  letI := D.fin
-  letI := D.dec
-  letI := D.fina
-  letI := D.deca
-  letI := D.acg
-  letI := D.mod
+  let := D.fin
+  let := D.dec
+  let := D.fina
+  let := D.deca
+  let := D.acg
+  let := D.mod
   obtain ⟨μ, hμJ, hμa⟩ :=
     l05nBL_mu (U := (ZMod p)ˣ) (M := D.MK) (C := D.CK0)
       D.hWMK D.hCKK (by

@@ -20,7 +20,7 @@ private theorem mark_sl_conj (m : ℕ) (hm : 3 ≤ m + 1)
     (hc : ∀ s ∈ S, s * t = t * s) :
     IsConj (ggInvSL (m + 1) 1 (ZMod 2)) t := by
   obtain ⟨P, hSP⟩ := hS.exists_le_sylow
-  have hPS : (P : Subgroup (SL(m + 1, ZMod 2))) = S := hmax _ P.isPGroup' hSP
+  have hPS : (P : Subgroup (SL(m + 1, ZMod 2))) = S := hmax _ P.isPGroup hSP
   obtain ⟨P₀, hP₀⟩ :=
     exists_sylow_unitriangular (K := ZMod 2) 2 (n := m + 1) (by omega)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (SL(m + 1, ZMod 2)) P₀ P

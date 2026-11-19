@@ -31,7 +31,7 @@ variable {L : Type} [Group L]
 theorem l33_involutions_conj (hL : LieModel L .PSL 3 3 1)
     {u v : L} (hu : u ^ 2 = 1) (hu1 : u ≠ 1) (hv : v ^ 2 = 1) (hv1 : v ≠ 1) : IsConj u v := by
   obtain ⟨M, h⟩ := exists_isL33Model hL
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [l33_card_L hL]; norm_num)
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [l33_card_L hL]; norm_num)
   let S : Subgroup L := Subgroup.closure ({h.elX, h.elY} : Set L)
   have hcardS : Nat.card S = 16 := h.card_closure_elXY
   have hidx_eq : S.index = 351 := by

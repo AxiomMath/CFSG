@@ -95,10 +95,11 @@ theorem map_conj_map_conj (J : Subgroup G) (a b : G) :
 
 theorem map_conj_one (J : Subgroup G) : J.map (MulAut.conj (1 : G)).toMonoidHom = J := by
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_le_normalizer {A B : Subgroup G}
     (hB : B ≤ Subgroup.normalizer (A : Set G)) :
     Nat.card (A ⊔ B : Subgroup G) * Nat.card (A ⊓ B : Subgroup G) = Nat.card A * Nat.card B := by
@@ -128,7 +129,7 @@ theorem card_sup_mul_card_inf_of_le_normalizer {A B : Subgroup G}
 
 theorem card_le_pow_factorization {p : ℕ} (hp : p.Prime) {P H : Subgroup G} (hPH : P ≤ H)
     (hP : IsPGroup p P) : Nat.card P ≤ p ^ (Nat.card H).factorization p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hdvd : p ^ k ∣ Nat.card H := hk ▸ Subgroup.card_dvd_of_le hPH
   have hle : k ≤ (Nat.card H).factorization p :=
@@ -143,7 +144,7 @@ theorem card_le_three_of_le_centralizer (w : G) (hw : w ^ 3 = 1) (Q L : Subgroup
       P ≤ Subgroup.zpowers w) :
     ∀ P : Subgroup G, P ≤ Subgroup.centralizer (Q : Set G) → IsPGroup 3 P → Nat.card P ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := Subgroup.centralizer (Q : Set G) with hCdef
   have hLC : L ≤ Subgroup.normalizer (C : Set G) := fun l hl => mem_normalizer_centralizer (hLQ hl)
   have hprod := card_sup_mul_card_inf_of_le_normalizer hLC
@@ -156,7 +157,7 @@ theorem card_le_three_of_le_centralizer (w : G) (hw : w ^ 3 = 1) (Q L : Subgroup
     obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow 3 ↥(C ⊓ L)))
     set R' : Subgroup G := (R : Subgroup ↥(C ⊓ L)).map (C ⊓ L).subtype
     have hR'le : R' ≤ C ⊓ L := Subgroup.map_subtype_le _
-    have hR'w := hCL R' hR'le (R.isPGroup'.map _)
+    have hR'w := hCL R' hR'le (R.isPGroup.map _)
     have hcR : Nat.card R' = 3 ^ (Nat.card ↥(C ⊓ L)).factorization 3 := by
       rw [Subgroup.card_map_of_injective (C ⊓ L).subtype_injective, Sylow.card_eq_multiplicity]
     have hw3 : Nat.card (Subgroup.zpowers w) ≤ 3 := by
@@ -315,7 +316,7 @@ theorem relIndex_dvd_card_mulAut (w : G) (Q L : Subgroup G) (S : Finset (Subgrou
       simp only [χ, MonoidHom.mem_ker, MonoidHom.comp_apply]
       rw [← MonoidHom.mem_ker, mem_ker_normalizerToMulAut]
       exact ⟨fun h => ⟨x.2, h⟩, fun h => h.2⟩
-    haveI : Finite (MulAut J) :=
+    have : Finite (MulAut J) :=
       Finite.of_injective (fun φ : MulAut J => (φ : J → J)) DFunLike.coe_injective
     refine (Subgroup.relIndex_dvd_of_le_left Q hKw).trans ?_
     rw [Subgroup.relIndex, ← hker, Subgroup.index_ker]
@@ -325,14 +326,14 @@ theorem relIndex_dvd_card_mulAut (w : G) (Q L : Subgroup G) (S : Finset (Subgrou
       rw [← Subgroup.le_centralizer_iff]
       rw [← hKQ]
       exact inf_le_right
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 J))
     have hcard : Nat.card ((P : Subgroup J).map J.subtype) = 3 ^ (Nat.card J).factorization 3 := by
       rw [Subgroup.card_map_of_injective J.subtype_injective, Sylow.card_eq_multiplicity]
     have hf : 2 ≤ (Nat.card J).factorization 3 :=
       (Nat.prime_three.pow_dvd_iff_le_factorization Nat.card_pos.ne').1 (by simpa using h9 J hJ)
     have hle := hCQ ((P : Subgroup J).map J.subtype)
-      ((Subgroup.map_subtype_le _).trans hJC) (P.isPGroup'.map J.subtype)
+      ((Subgroup.map_subtype_le _).trans hJC) (P.isPGroup.map J.subtype)
     rw [hcard] at hle
     have : 3 ^ 2 ≤ 3 ^ (Nat.card J).factorization 3 := Nat.pow_le_pow_right (by norm_num) hf
     omega

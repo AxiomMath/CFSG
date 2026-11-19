@@ -13,8 +13,8 @@ variable {G : Type*} [Group G]
 private theorem exists_fixedPoint_of_iterate_five {α : Type*} [Finite α] {f : α → α}
     (hf : ∀ a, f^[5] a = a) (hα : ¬ 5 ∣ Nat.card α) : ∃ a, f a = a := by
   classical
-  haveI := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := Fintype.ofFinite α
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let σ : Equiv.Perm α :=
     { toFun := f
       invFun := f^[4]

@@ -261,15 +261,15 @@ theorem ggKGRootDatumAt_omMinusTorus
     (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) :
     GGKGRootDatumAt p (omMinusTorus (m := m) b c hζ).range := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpq : p ∣ Nat.card K - 1 := by
     have h : orderOf ζ ∣ Nat.card Kˣ := orderOf_dvd_natCard ζ
     rwa [hζo, Nat.card_units] at h
   have hK : 4 ≤ Nat.card K := by
     have h1 : p ≤ Nat.card K - 1 := Nat.le_of_dvd (by
       have h2K : 2 ≤ Nat.card K := by
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         rw [Nat.card_eq_fintype_card]
         exact Fintype.one_lt_card
       omega) hpq
@@ -335,12 +335,12 @@ theorem ggKGRootDatumAt_omMinusTorus
     have eProj : StatedProj (StatedOmega (StatedQuadMinus (m + 1) K b c)) ≃*
         StatedOmega (StatedQuadMinus (m + 1) K b c) :=
       (QuotientGroup.quotientMulEquivOfEq hscal).trans QuotientGroup.quotientBot
-    haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus (m + 1) K b c))) := hproj
+    have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus (m + 1) K b c))) := hproj
     exact eProj.symm.isSimpleGroup
   have hnc : ∃ a b : StatedOmega (StatedQuadMinus (m + 1) K b c), a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI := hS
+    have := hS
     have htop : Subgroup.center (StatedOmega (StatedQuadMinus (m + 1) K b c)) = ⊤ := by
       rw [eq_top_iff]
       intro x _
@@ -420,8 +420,8 @@ theorem ggKGRootDatum_statedOmegaMinus
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     GGKGRootDatum p m (StatedOmega (StatedQuadMinus (m + 1) K b c)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' p (by rw [Nat.card_units (α := K)]; exact hpq)
   have hζ : ζ ^ p = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
   intro E hEab h3 hmE hsc

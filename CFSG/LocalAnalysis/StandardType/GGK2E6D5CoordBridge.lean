@@ -70,18 +70,17 @@ theorem c2sp_coordAut_mem_signedPermSet
       simp only [Pi.smul_apply, smul_eq_mul, Basis.equivFun_self]
       by_cases hji : j = i
       · subst hji
-        rw [if_pos rfl, if_pos rfl]
+        rw [ite_eq_left rfl, ite_eq_left rfl]
         ring
       · have hσ : σ j ≠ σ i := fun h => hji (σ.injective h)
-        rw [if_neg hσ, if_neg hji]
+        rw [ite_eq_right hσ, ite_eq_right hji]
         simp
     calc
       ∑ j, b.equivFun (Multiplicative.toAdd (f j) • (c j • b (σ j))) (σ i)
           = ∑ j, (if j = i then c i * Multiplicative.toAdd (f i) else 0) := by
             exact Finset.sum_congr rfl fun j _ => hterm2 j
       _ = c i * Multiplicative.toAdd (f i) := by
-            simpa using (Finset.sum_ite_eq' (s := Finset.univ) i
-              (fun _ => c i * Multiplicative.toAdd (f i)))
+            simp
   simpa using congrArg Multiplicative.toAdd hcoord
 
 theorem reflection_coordAut_mem_modelReflSet

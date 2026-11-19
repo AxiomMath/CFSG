@@ -32,7 +32,7 @@ theorem nine3_comm_ne_one (hc : Nine3Choice V T A K S X p g x) (hρ : Nine3Fibre
   have hwN : w ∈ normalizer (conjSubgroup V g₁ : Set G) :=
     centralizer_le_normalizer_conj hc.core.hyp7.2.2 g₁ hiV hi1 hwcent
   obtain ⟨-, -, -, hnleU⟩ := mem_omegaSet.mp hU.1
-  obtain ⟨u, huU, huR⟩ := SetLike.not_le_iff_exists.mp hnleU
+  obtain ⟨u, huU, huR⟩ := IsConcreteLE.not_le_iff_exists.mp hnleU
   have huV : u ∈ conjSubgroup V g₁ := by rwa [← hUg₁]
   have hwV : w ∈ conjSubgroup V g₂ := by rwa [← hU'g₂]
   have hP : IsPGroup 2 (Subgroup.closure ({w, u} : Set G)) :=

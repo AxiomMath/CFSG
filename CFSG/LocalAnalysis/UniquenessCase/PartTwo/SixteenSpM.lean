@@ -77,6 +77,7 @@ section Transvection
 
 variable {W : Type*} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16b_exists_comm (s : MulAut W) : ∃ φ : W →* W, ∀ x, φ x = s x * x⁻¹ :=
   ⟨MonoidHom.mk' (fun x => s x * x⁻¹) fun a b => by
     rw [map_mul, mul_inv]

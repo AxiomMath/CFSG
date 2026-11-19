@@ -39,7 +39,7 @@ theorem sec6K_eq (X : Type) [Group X] (n : ℕ) (H : Subgroup X) :
     Sec6K X n H = K0 X n H ⊔ Sec6M X n H := by
   rw [K0_eq_sSup_sec5Comp]
   unfold Sec6K Sec6M Sec6KComp
-  rw [Set.setOf_or, sSup_union]
+  rw [Set.ofPred_or, sSup_union]
 
 @[expose] noncomputable def modOddCard {X : Type} [Group X] (H : Subgroup X) : ℕ :=
   Nat.card (↥H ⧸ pPrimeCore 2 ↥H)

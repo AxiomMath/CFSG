@@ -52,7 +52,7 @@ theorem fib_exch (e e' : ↥(setA2A1 K f)) (h : P K f e = P K f e') :
 
 theorem edge_exch {e e' g g' : ↥(setA2A1 K f)} (h1 : (X K f).adj (Sum.inl 0) e g)
     (h2 : (X K f).adj (Sum.inl 0) e' g') (hee : P K f e = P K f e') (hgg : P K f g = P K f g')
-    (hne : P K f e ≠ P K f g) :
+    (_hne : P K f e ≠ P K f g) :
     ∃ τ τ' : List ((Fin 2 ⊕ Fin 1) × ↥(setA2A1 K f)),
       IsJGallery (X K f) {Sum.inl 1, Sum.inr 0} e τ ∧ galleryEnd e τ = e' ∧
         IsJGallery (X K f) {Sum.inl 1, Sum.inr 0} g τ' ∧ galleryEnd g τ' = g' ∧

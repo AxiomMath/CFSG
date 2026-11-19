@@ -81,7 +81,7 @@ private theorem eq_bot_of_quasisimple {Q : Type} [Group Q] [Finite Q]
 private theorem normal_coprime_eq_bot_of_heis {Q : Type} [Group Q] [Finite Q] {X P w F : Q}
     (H : HeisData Q X P w F) {N : Subgroup Q} (hN : N.Normal)
     (hcop : Nat.Coprime 3 (Nat.card N)) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR : (heisR X P).Normal := H.normal_R
   have hR27 : Nat.card (heisR X P) = 27 := H.card_R
   have hcop27 : Nat.Coprime (Nat.card N) 27 := by
@@ -153,7 +153,7 @@ theorem isSL3EpsOver_of_statedSL_image {S : Type} [Group S] [Finite S] {J : Subg
     (g : ↥(StatedSL 3 E)) (hg : (g : GL (Fin 3) E) = Matrix.GeneralLinearGroup.scalar (Fin 3) ω)
     (hx : φ g ≠ 1) :
     Lemma27Ns.IsSL3EpsOver (↥J ⧸ GLAPPrimeCore 3 ↥J) (Nat.card E) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   have h3E : 3 ∣ Nat.card E - 1 := by
     rw [← Nat.card_units E, ← hord]
@@ -168,7 +168,7 @@ theorem isSL3EpsOver_of_statedSL_image {S : Type} [Group S] [Finite S] {J : Subg
     have := Subgroup.card_subgroup_dvd_card (Subgroup.center ↥(StatedSL 3 E))
     rwa [hZ] at this
   have hP : ∀ N : Subgroup ↥(StatedSL 3 E), N.Normal → Nat.Coprime 3 (Nat.card N) → N = ⊥ :=
-    fun N hN hcop => eq_bot_of_quasisimple hq h3 (by rw [hZ] <;> norm_num) hN hcop
+    fun N hN hcop => eq_bot_of_quasisimple hq h3 (by rw [hZ]; norm_num) hN hcop
   have hbot : GLAPPrimeCore 3 ↥J = ⊥ := glaPPrimeCore_eq_bot_of_all (eq_bot_of_iso e hP)
   let eY : (↥J ⧸ GLAPPrimeCore 3 ↥J) ≃* ↥(StatedSL 3 E) :=
     ((QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot).trans e.symm
@@ -183,11 +183,11 @@ theorem isSL3EpsOver_of_statedSU_image {S : Type} [Group S] [Finite S] {J : Subg
     (g : ↥(StatedSU 3 q E)) (hg : (g : GL (Fin 3) E) = Matrix.GeneralLinearGroup.scalar (Fin 3) ω)
     (hx : φ g ≠ 1) :
     Lemma27Ns.IsSL3EpsOver (↥J ⧸ GLAPPrimeCore 3 ↥J) q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   obtain ⟨p, f, hp, rfl⟩ : ∃ p f : ℕ, p.Prime ∧ q = p ^ f := by
     obtain ⟨p, hp⟩ := CharP.exists E
-    letI : Fintype E := Fintype.ofFinite E
+    let : Fintype E := Fintype.ofFinite E
     obtain ⟨n, hpp, hn0⟩ := FiniteField.card E p
     have hn : Nat.card E = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn0
     have hqd : q ∣ p ^ (n : ℕ) := by
@@ -195,7 +195,7 @@ theorem isSL3EpsOver_of_statedSU_image {S : Type} [Group S] [Finite S] {J : Subg
       exact Dvd.intro_left q (sq q).symm
     obtain ⟨f, -, hf⟩ := (Nat.dvd_prime_pow hpp).1 hqd
     exact ⟨p, f, hpp, hf⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hω_mem : Matrix.GeneralLinearGroup.scalar (Fin 3) ω ∈ StatedSU 3 (p ^ f) E :=
     hg ▸ g.2
   have hωq : ω ^ (p ^ f + 1) = 1 :=
@@ -212,9 +212,9 @@ theorem isSL3EpsOver_of_statedSU_image {S : Type} [Group S] [Finite S] {J : Subg
       Nat.Coprime 3 (Nat.card N) → N = ⊥ := by
     by_cases h2 : p ^ f = 2
     ·
-      have hK : Nat.card E = (2 ^ 1) ^ 2 := by rw [hE, h2] <;> norm_num
+      have hK : Nat.card E = (2 ^ 1) ^ 2 := by rw [hE, h2]; norm_num
       obtain ⟨X, P, w, F, H, -⟩ := exists_heisData_statedSU_two hK
-      have h21 : (2 ^ 1 : ℕ) = p ^ f := by rw [h2] <;> norm_num
+      have h21 : (2 ^ 1 : ℕ) = p ^ f := by rw [h2]; norm_num
       let e0 : ↥(StatedSU 3 (2 ^ 1) E) ≃* ↥(StatedSU 3 (p ^ f) E) :=
         MulEquiv.subgroupCongr (congrArg (fun m : ℕ => StatedSU 3 m E) h21)
       exact eq_bot_of_iso e0 (fun N hN hcop => normal_coprime_eq_bot_of_heis H hN hcop)
@@ -224,7 +224,7 @@ theorem isSL3EpsOver_of_statedSU_image {S : Type} [Group S] [Finite S] {J : Subg
       have h3 : 3 ∣ Nat.card ↥(StatedSU 3 (p ^ f) E) := by
         have := Subgroup.card_subgroup_dvd_card (Subgroup.center ↥(StatedSU 3 (p ^ f) E))
         rwa [hZ] at this
-      exact fun N hN hcop => eq_bot_of_quasisimple hq h3 (by rw [hZ] <;> norm_num) hN hcop
+      exact fun N hN hcop => eq_bot_of_quasisimple hq h3 (by rw [hZ]; norm_num) hN hcop
   have hbot : GLAPPrimeCore 3 ↥J = ⊥ := glaPPrimeCore_eq_bot_of_all (eq_bot_of_iso e hP)
   let eY : (↥J ⧸ GLAPPrimeCore 3 ↥J) ≃* ↥(StatedSU 3 (p ^ f) E) :=
     ((QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot).trans e.symm

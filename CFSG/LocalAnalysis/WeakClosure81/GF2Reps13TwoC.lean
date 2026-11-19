@@ -20,7 +20,7 @@ section Helpers
 
 private theorem w16g_three_cube_dvd_card_of_noncomm {A : Type*} [Group A] [Finite A]
     (hA : IsPGroup 3 A) (hnab : ¬ ∀ x y : A, x * y = y * x) : 3 ^ 3 ∣ Nat.card A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq hA
   have hk3 : 3 ≤ k := by
     by_contra h
@@ -30,10 +30,10 @@ private theorem w16g_three_cube_dvd_card_of_noncomm {A : Type*} [Group A] [Finit
     intro x y
     interval_cases k
     · have hcard1 : Nat.card A = 1 := by norm_num [hk]
-      haveI : Subsingleton A := (Nat.card_eq_one_iff_unique.mp hcard1).1
+      have : Subsingleton A := (Nat.card_eq_one_iff_unique.mp hcard1).1
       exact Subsingleton.elim _ _
     · have hcard3 : Nat.card A = 3 := by norm_num [hk]
-      haveI : IsCyclic A := isCyclic_of_prime_card hcard3
+      have : IsCyclic A := isCyclic_of_prime_card hcard3
       exact ((inferInstance : IsMulCommutative A)).is_comm.comm x y
     · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := A) hk).is_comm.comm x y
   rw [hk]
@@ -42,7 +42,7 @@ private theorem w16g_three_cube_dvd_card_of_noncomm {A : Type*} [Group A] [Finit
 private theorem w16g_card_mulAut_eq_card_GL_of_rk (hW : ∀ w : W, w ^ 2 = 1) :
     Nat.card (MulAut W) =
       Nat.card (GL (Fin (rk ↥(⊤ : Subgroup W))) (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardW : Nat.card W = 2 ^ rk ↥(⊤ : Subgroup W) := by
     rw [← Subgroup.card_top]
     exact card_eq_two_pow hW ⊤
@@ -97,7 +97,7 @@ private theorem w16g_isZ3WrZ3_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : 
 private theorem w16g_isPOnePlusTwo_of_mulEquiv {p : ℕ} {X Y : Type} [Group X] [Group Y]
     (e : X ≃* Y) (h : IsPOnePlusTwo p X) : IsPOnePlusTwo p Y := by
   obtain ⟨hX, hc, hp⟩ := h
-  haveI : CFSG.IsExtraspecial p X := hX
+  have : CFSG.IsExtraspecial p X := hX
   refine ⟨isExtraspecial_of_mulEquiv e.symm, ?_, ?_⟩
   · rw [← Nat.card_congr e.toEquiv]; exact hc
   · intro y
@@ -127,7 +127,7 @@ private theorem w16g_commSub_zpowers_eq_top {z : MulAut W}
 end Helpers
 
 theorem w16h_inverted_rank (h : Cfg132 t P) (hind : NoDecomp132 t P)
-    (hnab : ¬ ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) {z : MulAut W} (hzP : z ∈ P) (hz3 : orderOf z = 3)
+    (hnab : ¬ ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) {z : MulAut W} (_hzP : z ∈ P) (hz3 : orderOf z = 3)
     (hzc : ∀ y ∈ P, y * z = z * y) (hzi : t * z * t⁻¹ = z⁻¹) :
     (∀ u : W, z u = u → u = 1) ∧ rk ↥(⊤ : Subgroup W) = 6 ∧
       rk ↥(commSub ⊤ (Subgroup.zpowers t)) = 3 := by
@@ -217,13 +217,13 @@ theorem w16h_inverted_rank (h : Cfg132 t P) (hind : NoDecomp132 t P)
     w16h_even_rk_of_fixedFree hW hz3pow (S := (⊤ : Subgroup W))
       (fun u _ => Subgroup.mem_top (z u)) (fun u _ hu => hfix u hu)
   have hXrank : IsElemAbelianOfRank 3 1 ↥Z := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcard1 : Nat.card ↥Z = 3 := by
       change Nat.card ↥(Subgroup.zpowers z) = 3
       rw [Nat.card_zpowers, hz3]
     have hcard2 : Nat.card (Multiplicative (Fin 1 → ZMod 3)) = 3 := by
       simp [Nat.card_eq_fintype_card]
-    haveI : IsCyclic (Multiplicative (Fin 1 → ZMod 3)) := isCyclic_of_prime_card hcard2
+    have : IsCyclic (Multiplicative (Fin 1 → ZMod 3)) := isCyclic_of_prime_card hcard2
     exact ⟨mulEquivOfCyclicCardEq (hcard1.trans hcard2.symm)⟩
   have hinv : ∀ x ∈ Z, t * x * t⁻¹ = x⁻¹ := by
     intro x hx
@@ -258,7 +258,7 @@ theorem w16h_inverted_rank (h : Cfg132 t P) (hind : NoDecomp132 t P)
         card_eq_two_pow hW ⊤
       rw [Subgroup.card_top, h0] at h1
       simpa using h1
-    haveI : Subsingleton W := (Nat.card_eq_one_iff_unique.mp hcardW).1
+    have : Subsingleton W := (Nat.card_eq_one_iff_unique.mp hcardW).1
     have hbot : P = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
       intro x hx
@@ -292,7 +292,7 @@ theorem w16h_inverted_card (h : Cfg132 t P) (hnab : ¬ ∀ x ∈ P, ∀ y ∈ P,
     (hrk6 : rk ↥(⊤ : Subgroup W) = 6) {z : MulAut W} (hzP : z ∈ P) (hz3 : orderOf z = 3)
     (hzc : ∀ y ∈ P, y * z = z * y) (hzi : t * z * t⁻¹ = z⁻¹) : Nat.card P = 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMu : Nat.card (MulAut W) = 20158709760 :=
     w16g_card_mulAut_of_rk_eq_six h.hW hrk6
   have hPdvd : Nat.card P ∣ 20158709760 := by
@@ -357,15 +357,15 @@ private noncomputable def w16g_Aadd : (Fin 2 → ZMod 2) ≃+ (Fin 2 → ZMod 2)
   invFun u := fun j => if j = 0 then u 0 + u 1 else u 0
   left_inv u := by
     funext j
-    fin_cases j <;> simp <;> ring_nf <;>
-      simp [CharTwo.two_eq_zero, show (3 : ZMod 2) = 1 by decide]
+    fin_cases j <;> simp; ring_nf;
+      simp [CharTwo.two_eq_zero]
   right_inv u := by
     funext j
-    fin_cases j <;> simp <;> ring_nf <;>
-      simp [CharTwo.two_eq_zero, show (3 : ZMod 2) = 1 by decide]
+    fin_cases j <;> simp; ring_nf;
+      simp [CharTwo.two_eq_zero]
   map_add' u v := by
     funext j
-    fin_cases j <;> simp <;> ring_nf
+    fin_cases j <;> simp; ring_nf
 
 private noncomputable def w16g_A : MulAut w16g_M :=
   AddEquiv.toMultiplicative w16g_Aadd
@@ -487,11 +487,11 @@ private theorem w16g_right_eq_one_of_phi_eq_one (g : ZWr 1) (hg : w16g_phi g = 1
   simp only [w16g_phi_apply, MulAut.one_apply, w16g_phiApply] at hv
   have harg : w16g_v0 ((0 : ZMod 3) - Multiplicative.toAdd g.right) = 1 := by
     unfold w16g_v0
-    rw [if_neg hsub]
+    rw [ite_eq_right hsub]
   rw [harg, map_one] at hv
   have h0 : w16g_v0 0 = w16g_u0 := by
     unfold w16g_v0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   rw [h0] at hv
   exact w16g_u0_ne_one hv.symm
 
@@ -513,7 +513,7 @@ private theorem w16g_left_eq_one_of_phi_eq_one (g : ZWr 1) (hg : w16g_phi g = 1)
       rw [hvi] at hv
       have hvi' : v i = u := by
         unfold v
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
       rwa [hvi'] at hv
     have hp : w16g_A ^ (Multiplicative.toAdd (g.left (Multiplicative.ofAdd i))).val = 1 :=
       MulEquiv.ext (fun u => by simpa using hA u)
@@ -560,24 +560,23 @@ private theorem w16g_isZ3WrZ3_ZWr_one : IsZ3WrZ3 (ZWr 1) := by
     rw [show (1 : ZMod 3) + 1 = 2 by decide]
     rw [el_mul_two]
     rw [← el_zero_zero]
-    congr 1 <;> decide
+    congr 1
   have hb_inv : b⁻¹ = el 1 0 0 0 2 := by
     refine inv_eq_of_mul_eq_one_right ?_
     rw [show b = el 1 0 0 0 1 from rfl, el_mul_one]
     rw [← el_zero_zero]
-    congr 1 <;> decide
+    congr 1
   have hz3 : ∀ i, z i ^ 3 = 1 := by
     intro i
     fin_cases i <;> rw [el_pow_base] <;>
-      rw [← el_zero_zero] <;> congr 1 <;> decide
+      rw [← el_zero_zero] <;> congr 1
   have hzcomm : ∀ i j, Commute (z i) (z j) := by
     intro i j
     exact base_comm (by simp [z]) (by simp [z])
   have hconj : ∀ i, b * z i * b⁻¹ = z (i + 1) := by
     intro i
     fin_cases i <;>
-      simp [z, b, hb_inv, el_mul_one, el_mul_zero, el_left_zero, el_left_one, el_left_two,
-        show (1 : ZMod 3) + 2 = 0 by decide]
+      simp [z, b, hb_inv, el_mul_one, show (1 : ZMod 3) + 2 = 0 by decide]
   have hbe_all : ∀ e : ZMod 3, el 1 0 0 0 e = b ^ e.val := by
     intro e
     rcases zmod3_cases e with rfl | rfl | rfl
@@ -596,15 +595,15 @@ private theorem w16g_isZ3WrZ3_ZWr_one : IsZ3WrZ3 (ZWr 1) := by
     have hza : el 1 (Multiplicative.toAdd (w.left (Multiplicative.ofAdd 0))) 0 0 0 =
         (z 0) ^ (Multiplicative.toAdd (w.left (Multiplicative.ofAdd 0))).val := by
       rw [show z 0 = el 1 1 0 0 0 from rfl, el_pow_base]
-      congr 1 <;> simp [nsmul_eq_mul, ZMod.natCast_zmod_val]
+      congr 1 <;> simp [nsmul_eq_mul]
     have hzb : el 1 0 (Multiplicative.toAdd (w.left (Multiplicative.ofAdd 1))) 0 0 =
         (z 1) ^ (Multiplicative.toAdd (w.left (Multiplicative.ofAdd 1))).val := by
       rw [show z 1 = el 1 0 1 0 0 from rfl, el_pow_base]
-      congr 1 <;> simp [nsmul_eq_mul, ZMod.natCast_zmod_val]
+      congr 1 <;> simp [nsmul_eq_mul]
     have hzc : el 1 0 0 (Multiplicative.toAdd (w.left (Multiplicative.ofAdd 2))) 0 =
         (z 2) ^ (Multiplicative.toAdd (w.left (Multiplicative.ofAdd 2))).val := by
       rw [show z 2 = el 1 0 0 1 0 from rfl, el_pow_base]
-      congr 1 <;> simp [nsmul_eq_mul, ZMod.natCast_zmod_val]
+      congr 1 <;> simp [nsmul_eq_mul]
     have hbe : el 1 0 0 0 (Multiplicative.toAdd w.right) =
         b ^ (Multiplicative.toAdd w.right).val :=
       hbe_all (Multiplicative.toAdd w.right)
@@ -702,7 +701,7 @@ private theorem w16g_sylow_conj (hW : ∀ w : W, w ^ 2 = 1) (hrk6 : rk ↥(⊤ :
     {P Q : Subgroup (MulAut W)} (hP : Nat.card P = 81) (hQ : Nat.card Q = 81) :
     ∃ g : MulAut W, Q = P.map (MulAut.conj g).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMu : Nat.card (MulAut W) = 20158709760 := w16g_card_mulAut_of_rk_eq_six hW hrk6
   have hPp : IsPGroup 3 ↥P := IsPGroup.of_card (n := 4) (by rw [hP]; norm_num)
   have hQp : IsPGroup 3 ↥Q := IsPGroup.of_card (n := 4) (by rw [hQ]; norm_num)
@@ -740,7 +739,7 @@ private theorem w16g_wr_unique_extraspecial {X : Type} [Group X] (hX : IsZ3WrZ3 
   exact W16GTwoCB.w16g_wr_unique_of_mulEquiv e
 
 theorem w16h_isZ3WrZ3_of_card_81 (hW : ∀ w : W, w ^ 2 = 1) (hrk6 : rk ↥(⊤ : Subgroup W) = 6)
-    (hP : IsPGroup 3 ↥P) (hcard : Nat.card P = 81) : IsZ3WrZ3 ↥P := by
+    (_hP : IsPGroup 3 ↥P) (hcard : Nat.card P = 81) : IsZ3WrZ3 ↥P := by
   obtain ⟨S, hScard, hSwr⟩ := w16g_exists_wr_subgroup hW hrk6
   obtain ⟨g, hg⟩ := w16g_sylow_conj hW hrk6 (P := S) (Q := P) hScard hcard
   have h := w16g_isZ3WrZ3_of_mulEquiv
@@ -749,7 +748,7 @@ theorem w16h_isZ3WrZ3_of_card_81 (hW : ∀ w : W, w ^ 2 = 1) (hrk6 : rk ↥(⊤ 
   exact h
 
 theorem w16h_wr_extraspecial (hrk6 : rk ↥(⊤ : Subgroup W) = 6) (hwr : IsZ3WrZ3 ↥P)
-    {z : MulAut W} (hzP : z ∈ P) (hz3 : orderOf z = 3) (hzc : ∀ y ∈ P, y * z = z * y)
+    {z : MulAut W} (hzP : z ∈ P) (_hz3 : orderOf z = 3) (hzc : ∀ y ∈ P, y * z = z * y)
     (hfix : ∀ u : W, z u = u → u = 1) :
     ∃! Q : Subgroup (MulAut W), Q ≤ P ∧ IsPOnePlusTwo 3 ↥Q ∧ rk ↥(commSub ⊤ Q) = 6 := by
   classical

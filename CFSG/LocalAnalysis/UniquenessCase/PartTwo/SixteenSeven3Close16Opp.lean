@@ -13,9 +13,11 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem close16_opp_le (p : ℕ) (X : Subgroup G) : Opp p X ≤ X :=
   (Subgroup.closure_le X).2 fun _ hx => hx.1
 
+omit [Finite G] in
 theorem close16_opp_idem (p : ℕ) (X : Subgroup G) : Opp p (Opp p X) = Opp p X := by
   unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
   apply le_antisymm
@@ -24,6 +26,7 @@ theorem close16_opp_idem (p : ℕ) (X : Subgroup G) : Opp p (Opp p X) = Opp p X 
     rintro x ⟨hxL, hk⟩
     exact ⟨Subgroup.subset_closure ⟨hxL, hk⟩, hk⟩
 
+omit [Finite G] in
 theorem close16_mem_normalizer_opp (p : ℕ) {X : Subgroup G} {g : G}
     (hg : g ∈ normalizer (X : Set G)) : g ∈ normalizer ((Opp p X : Subgroup G) : Set G) := by
   have hg' := mem_normalizer_iff.mp hg
@@ -47,6 +50,7 @@ theorem close16_mem_normalizer_opp (p : ℕ) {X : Subgroup G} {g : G}
     · show g * (g⁻¹ * y * g) * g⁻¹ = y
       group
 
+omit [Finite G] in
 theorem close16_opp_normal (p : ℕ) (X : Subgroup G) : ((Opp p X).subgroupOf X).Normal :=
   Subgroup.normal_subgroupOf_iff_le_normalizer (close16_opp_le p X) |>.2
     fun _ hx => close16_mem_normalizer_opp p (Subgroup.le_normalizer hx)
@@ -60,8 +64,8 @@ structure Close16Quot3 (Z : Subgroup G) (Λ : Type) [Group Λ] (Ψ : ↥Z →* �
 
 theorem Close16Quot3.opp_surjective {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z →* Λ}
     (h : Close16Quot3 Z Λ Ψ) : ((Opp 3 Z).subgroupOf Z).map Ψ = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite Λ := Finite.of_surjective (Ψ : ↥Z → Λ) h.surjective
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite Λ := Finite.of_surjective (Ψ : ↥Z → Λ) h.surjective
   have htop : (⊤ : Subgroup ↥Z).map Z.subtype = Z := by
     rw [Subgroup.map_top, Subgroup.range_subtype]
   have hmap : CFSG.RankThree.PartOne.pElementSubgroup 3 Z =
@@ -77,7 +81,7 @@ theorem Close16Quot3.opp_surjective {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ 
     rw [hsub, s13_pElementSubgroup_map (p := 3) (by norm_num) Ψ ⊤,
       Subgroup.map_top_of_surjective _ h.surjective]
   have hPtop : CFSG.RankThree.PartOne.pElementSubgroup 3 (⊤ : Subgroup Λ) = ⊤ := by
-    haveI := h.simple
+    have := h.simple
     have hnorm : (CFSG.RankThree.PartOne.pElementSubgroup 3 (⊤ : Subgroup Λ)).Normal := by
       rw [← Subgroup.normalizer_eq_top_iff]
       ext g
@@ -94,7 +98,7 @@ theorem Close16Quot3.opp_surjective {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ 
         simpa using this
       rw [hx1] at hx
       simp at hx
-    haveI hPn : (CFSG.RankThree.PartOne.pElementSubgroup 3 (⊤ : Subgroup Λ)).Normal := hnorm
+    have hPn : (CFSG.RankThree.PartOne.pElementSubgroup 3 (⊤ : Subgroup Λ)).Normal := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (CFSG.RankThree.PartOne.pElementSubgroup 3 (⊤ : Subgroup Λ)) with hb | ht
     · exact absurd hb hne
@@ -103,7 +107,7 @@ theorem Close16Quot3.opp_surjective {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ 
 
 theorem Close16Quot3.opp_ne_bot {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z →* Λ}
     (h : Close16Quot3 Z Λ Ψ) : Opp 3 Z ≠ ⊥ := by
-  haveI := h.simple
+  have := h.simple
   intro h0
   have h1 := h.opp_surjective
   rw [h0, Subgroup.bot_subgroupOf, Subgroup.map_bot] at h1
@@ -118,7 +122,7 @@ private theorem close16_isPerfect_of_surjective_ker_isPGroup
     Group.IsPerfect A := by
   rw [Group.isPerfect_def]
   let D : Subgroup A := _root_.commutator A
-  haveI hDnormal : D.Normal := by
+  have hDnormal : D.Normal := by
     change (_root_.commutator A).Normal
     infer_instance
   have hDmap : D.map f = ⊤ := by
@@ -159,10 +163,10 @@ private theorem close16_isPerfect_of_surjective_ker_isPGroup
 
 theorem Close16Quot3.opp_perfect {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z →* Λ}
     (h : Close16Quot3 Z Λ Ψ) : ⁅Opp 3 Z, Opp 3 Z⁆ = Opp 3 Z := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite Λ := Finite.of_surjective (Ψ : ↥Z → Λ) h.surjective
-  haveI := h.simple
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite Λ := Finite.of_surjective (Ψ : ↥Z → Λ) h.surjective
+  have := h.simple
   let ι : ↥(Opp 3 Z) →* ↥Z := Subgroup.inclusion (close16_opp_le 3 Z)
   let Ψ' : ↥(Opp 3 Z) →* Λ := Ψ.comp ι
   have hιrange : ι.range = (Opp 3 Z).subgroupOf Z :=
@@ -199,9 +203,9 @@ theorem Close16Quot3.opp_perfect {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : �
 
 theorem Close16Quot3.opp_index {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z →* Λ}
     (h : Close16Quot3 Z Λ Ψ) : ∃ k : ℕ, ((Opp 3 Z).subgroupOf Z).index = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Finite Λ := Finite.of_surjective (Ψ : ↥Z → Λ) h.surjective
-  haveI : ((Opp 3 Z).subgroupOf Z).Normal := close16_opp_normal 3 Z
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Finite Λ := Finite.of_surjective (Ψ : ↥Z → Λ) h.surjective
+  have : ((Opp 3 Z).subgroupOf Z).Normal := close16_opp_normal 3 Z
   let φ : ↥Ψ.ker →* (↥Z ⧸ (Opp 3 Z).subgroupOf Z) :=
     (QuotientGroup.mk' ((Opp 3 Z).subgroupOf Z)).comp Ψ.ker.subtype
   have hφsurj : Function.Surjective φ := by
@@ -225,10 +229,10 @@ theorem Close16Quot3.opp_index {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥
 
 theorem Close16Quot3.opp_bar2 {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z →* Λ}
     (h : Close16Quot3 Z Λ Ψ) : Nonempty (Bar2 (Opp 3 Z) ≃* Λ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite Λ := Finite.of_surjective (Ψ : ↥Z → Λ) h.surjective
-  haveI := h.simple
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite Λ := Finite.of_surjective (Ψ : ↥Z → Λ) h.surjective
+  have := h.simple
   let ι : ↥(Opp 3 Z) →* ↥Z := Subgroup.inclusion (close16_opp_le 3 Z)
   let Ψ' : ↥(Opp 3 Z) →* Λ := Ψ.comp ι
   have hιrange : ι.range = (Opp 3 Z).subgroupOf Z :=
@@ -246,12 +250,12 @@ theorem Close16Quot3.opp_bar2 {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z
   have hker : CFSG.pCore 2 ↥(Opp 3 Z) = Ψ'.ker := by
     refine le_antisymm ?_ ?_
     · rw [← Subgroup.map_eq_bot_iff (f := Ψ')]
-      haveI hPn : (CFSG.pCore 2 ↥(Opp 3 Z)).Normal := inferInstance
+      have hPn : (CFSG.pCore 2 ↥(Opp 3 Z)).Normal := inferInstance
       have hmapnorm : ((CFSG.pCore 2 ↥(Opp 3 Z)).map Ψ').Normal :=
         hPn.map Ψ' hΨ'surj
       have hmap2 : IsPGroup 2 ((CFSG.pCore 2 ↥(Opp 3 Z)).map Ψ') :=
         (CFSG.pCore_isPGroup (p := 2) (G := ↥(Opp 3 Z))).map Ψ'
-      haveI : ((CFSG.pCore 2 ↥(Opp 3 Z)).map Ψ').Normal := hmapnorm
+      have : ((CFSG.pCore 2 ↥(Opp 3 Z)).map Ψ').Normal := hmapnorm
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((CFSG.pCore 2 ↥(Opp 3 Z)).map Ψ') with hbot | htop
       · exact hbot
@@ -265,6 +269,7 @@ theorem Close16Quot3.opp_bar2 {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z
   refine ⟨(QuotientGroup.quotientMulEquivOfEq hker).trans
     (QuotientGroup.quotientKerEquivOfSurjective Ψ' hΨ'surj)⟩
 
+omit [Finite G] in
 theorem Close16Quot3.pCore_ne_bot {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z →* Λ}
     (h : Close16Quot3 Z Λ Ψ) (hne : Ψ.ker ≠ ⊥) : pCoreOf 2 Z ≠ ⊥ := by
   intro h0
@@ -276,6 +281,7 @@ theorem Close16Quot3.pCore_ne_bot {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : 
   rw [hpc] at hker
   exact le_bot_iff.1 hker
 
+omit [Finite G] in
 theorem Close16Quot3.card_eq {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z →* Λ}
     (h : Close16Quot3 Z Λ Ψ) : Nat.card ↥Z = Nat.card ↥Ψ.ker * Nat.card Λ := by
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup Ψ.ker,
@@ -283,7 +289,7 @@ theorem Close16Quot3.card_eq {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z 
 
 private theorem close16_quasisimple_of_equiv {X Λ : Type} [Group X] [Group Λ] [IsSimpleGroup Λ]
     (hΛ : ¬ IsMulCommutative Λ) (e : X ≃* Λ) : CFSG.Open.IsQuasisimple X := by
-  haveI : IsSimpleGroup X := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup X := MulEquiv.isSimpleGroup e
   have hX : ¬ IsMulCommutative X := by
     intro hc
     apply hΛ
@@ -301,7 +307,7 @@ private theorem close16_quasisimple_of_equiv {X Λ : Type} [Group X] [Group Λ] 
 
 theorem Close16Quot3.opp_quasisimple {Z : Subgroup G} {Λ : Type} [Group Λ] {Ψ : ↥Z →* Λ}
     (h : Close16Quot3 Z Λ Ψ) : CFSG.Open.IsQuasisimple (Bar2 (Opp 3 Z)) := by
-  haveI := h.simple
+  have := h.simple
   obtain ⟨e⟩ := h.opp_bar2
   exact close16_quasisimple_of_equiv h.nonabelian e
 

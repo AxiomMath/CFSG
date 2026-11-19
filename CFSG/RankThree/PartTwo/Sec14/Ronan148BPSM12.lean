@@ -99,7 +99,7 @@ theorem isElemAbelian_of_le_P0 {B : Subgroup G12} (hB : B ≤ P0) (hB9 : Nat.car
     CFSG.Assembly.IsElemAbelian 3 B :=
   ⟨⟨⟨fun a b => Subtype.ext
     (CFSG.AGLEmbeddingD2.Wilson.MaximalityAmbient.KF148Sig.comm_of_card_nine B hB9 _ a.2 _ b.2)⟩⟩,
-    fun g hg => cube_of_mem_P0 (hB hg)⟩
+    fun _g hg => cube_of_mem_P0 (hB hg)⟩
 
 theorem false_of_EF
     {B : E9Basis G12} (hB : B = basisE ∨ B = basisF)

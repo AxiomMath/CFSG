@@ -34,7 +34,7 @@ theorem s16h_sl4_engine_b_three_not_dvd_kernel
     (hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
-    (hZ0 : wSub ⊥ V h.hyp151.isElemAbelian L ⊓
+    (_hZ0 : wSub ⊥ V h.hyp151.isElemAbelian L ⊓
         conjSubgroup (wSub ⊥ V h.hyp151.isElemAbelian L) x =
       wSub ⊥ V h.hyp151.isElemAbelian L ⊓ Subgroup.centralizer (L : Set G)) :
     ¬ 3 ∣ Nat.card ↥(F11.CTilde D.M ⊥ V) := by

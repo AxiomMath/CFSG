@@ -231,12 +231,12 @@ theorem phi_gen (m : Nat) : ∀ l : List Nat, (∀ i ∈ l, i < 10) →
       cases m.testBit i <;> rfl
     simp only [List.foldr_cons]
     by_cases hm : m.testBit i = true
-    · rw [if_pos hm]
-      exact ⟨CFSG.KS.Fi22L.TR_congr (CFSG.KS.RelTR.compT_TR (BT_TR hi) ih1) fun x _ => by rw [e, if_pos hm],
-        ((inJ_bK hi).comp ih2).congr fun x _ => by rw [e, if_pos hm]⟩
-    · rw [if_neg hm]
-      exact ⟨CFSG.KS.Fi22L.TR_congr ih1 fun x _ => by rw [e, if_neg hm],
-        ih2.congr fun x _ => by rw [e, if_neg hm]⟩
+    · rw [ite_eq_left hm]
+      exact ⟨CFSG.KS.Fi22L.TR_congr (CFSG.KS.RelTR.compT_TR (BT_TR hi) ih1) fun x _ => by rw [e, ite_eq_left hm],
+        ((inJ_bK hi).comp ih2).congr fun x _ => by rw [e, ite_eq_left hm]⟩
+    · rw [ite_eq_right hm]
+      exact ⟨CFSG.KS.Fi22L.TR_congr ih1 fun x _ => by rw [e, ite_eq_right hm],
+        ih2.congr fun x _ => by rw [e, ite_eq_right hm]⟩
 
 theorem phi_ok {j : Nat} (hj : j < 22) : (uqPhiTab BT uqW[j]! == DT[j]!) = true := by
   obtain ⟨h1, h2⟩ := phi_gen uqW[j]! (List.range 10) fun _ hi => List.mem_range.1 hi

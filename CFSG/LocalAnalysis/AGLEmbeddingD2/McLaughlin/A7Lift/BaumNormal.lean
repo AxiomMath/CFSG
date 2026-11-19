@@ -21,6 +21,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique
 
 variable {X : Type} [Group X] [Finite X] {T : Subgroup X} {L : Subgroup (X ⧸ gnC T)}
 
+omit [Finite X] in
 private theorem gnC_le_nL (T : Subgroup X) (L : Subgroup (X ⧸ gnC T)) :
     gnC T ≤ nL T L := by
   intro x hx
@@ -37,6 +38,7 @@ private theorem thompsonJ_le_nL (hX : GNSetting X T) (hL : IsComponentOf L ⊤) 
   rw [nL, Subgroup.mem_comap]
   exact thompsonJ_le_normalizer_of_isComponentOf hX hL ⟨x, hx, rfl⟩
 
+omit [Finite X] in
 private theorem mem_nL_iff_map_conj_eq (b : X) :
     b ∈ nL T L ↔
       L.map (MulAut.conj (QuotientGroup.mk' (gnC T) b)).toMonoidHom = L := by
@@ -51,7 +53,7 @@ private theorem exists_central_involution (hX : GNSetting X T) (hL : IsComponent
     hJle.trans (SixCtx.nL_le_normalizer_nV (T := T) (L := L) (normal_gnV T))
   let ρ : ↥(thompsonJ T) →* MulAut ↥(nV T L) :=
     (Subgroup.normalizerMonoidHom (nV T L)).comp (Subgroup.inclusion hJN)
-  haveI : Nontrivial ↥(nV T L) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Nontrivial ↥(nV T L) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
   have hP : IsPGroup 2 ↥(thompsonJ T) := hX.sylow.2.1.to_le (CFSG.Quasithin.B6.thompsonJ_le T)
   have hN : IsPGroup 2 ↥(nV T L) :=
     (CFSG.Open.IsElemAbelian.isPGroup

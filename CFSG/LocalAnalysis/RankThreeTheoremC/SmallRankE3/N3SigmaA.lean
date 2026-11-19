@@ -177,7 +177,7 @@ theorem exists_actsAs {S : Subgroup Γ} {z : Γ} {Zc : Subgroup Γ}
   obtain ⟨t, rfl⟩ := hsurjV y
   rw [he, he, hφh, hφh, hφ₀, hφ₀, hΨ.form (f s) (f t), hΨ.form s t]
   by_cases h : (s : Γ) * (t : Γ) * (s : Γ)⁻¹ * (t : Γ)⁻¹ = 1
-  · rw [if_pos h, if_pos ((hsymm s t).mpr h)]
-  · rw [if_neg h, if_neg (fun h' => h ((hsymm s t).mp h'))]
+  · rw [ite_eq_left h, ite_eq_left ((hsymm s t).mpr h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h ((hsymm s t).mp h'))]
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.N3

@@ -11,7 +11,7 @@ open Subgroup
 private theorem s16h_e3_tt_mem_of_pow_nine {Y : Type} [Group Y]
     {X : Subgroup Y} [hN : X.Normal] (hP : IsPGroup 2 (Y ⧸ X)) {y : Y}
     (hy : y ^ 9 = 1) : y ∈ X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq9 : (QuotientGroup.mk' X y) ^ 9 = 1 := by
     rw [← map_pow, hy, map_one]
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hP) (QuotientGroup.mk' X y)
@@ -31,7 +31,7 @@ theorem s16h_e3_two_three_parabolic_of_normalized {W : Type} [Group W] [Finite W
     ∃ (J : Subgroup W) (a : ℕ), J ≤ X ∧ T ≤ J ∧ Nat.card ↥J = 2 ^ a * 9 ∧
       ∀ x ∈ J, x ^ 9 = 1 → x ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set J : Subgroup W := B ⊔ T with hJdef
   have hBJ : B ≤ J := le_sup_left
   have hTJ : T ≤ J := le_sup_right
@@ -39,7 +39,7 @@ theorem s16h_e3_two_three_parabolic_of_normalized {W : Type} [Group W] [Finite W
   have hBnorm : (B.subgroupOf J).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hBJ).mpr
       (by rw [hJdef]; exact sup_le Subgroup.le_normalizer hBT)
-  haveI : (B.subgroupOf J).Normal := hBnorm
+  have : (B.subgroupOf J).Normal := hBnorm
   obtain ⟨j, hj⟩ := (hT2.to_inf_right (H := B)).exists_card_eq
   obtain ⟨k, hk⟩ := hT2.exists_card_eq
   have hBrelJ : B.relIndex J = B.relIndex T := by

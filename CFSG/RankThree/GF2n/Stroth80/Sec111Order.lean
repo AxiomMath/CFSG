@@ -30,16 +30,19 @@ theorem two_pow_mul_odd_of_hom {A U : Type} [Group A] [Finite A] [Group U] [Fini
   refine ⟨k, Nat.card ↥lam.range, hN.of_dvd_nat hdvd, ?_, hdvd⟩
   rw [← hmul, hk]
 
+omit [Finite G] in
 theorem H0_le_M : H0 M Z ≤ M := fun _ hx => hx.1
 
 @[expose] def mkH (M Q Z : Subgroup G) [(Q.subgroupOf M).Normal] : ↥(H0 M Z) →* Mbar M Q :=
   (QuotientGroup.mk' (Q.subgroupOf M)).comp (Subgroup.inclusion (H0_le_M : H0 M Z ≤ M))
 
+omit [Finite G] in
 theorem mkH_eq_one_iff [(Q.subgroupOf M).Normal] (g : ↥(H0 M Z)) :
     mkH M Q Z g = 1 ↔ (g : G) ∈ Q :=
   (QuotientGroup.eq_one_iff (N := Q.subgroupOf M) (⟨(g : G), H0_le_M g.2⟩ : ↥M)).trans
     Subgroup.mem_subgroupOf
 
+omit [Finite G] in
 theorem phi_eq_of_mkH_eq [(Q.subgroupOf M).Normal] {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφ : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) {g g' : ↥(H0 M Z)}
@@ -55,12 +58,14 @@ theorem phi_eq_of_mkH_eq [(Q.subgroupOf M).Normal] {K : Type} [Field K] {γ : G 
     M₀.E ≃ₗ[K] M₀.E :=
   φ (Function.invFun (mkH M Q Z) c)
 
+omit [Finite G] in
 theorem liftF_mkH [(Q.subgroupOf M).Normal] {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφ : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) (g : ↥(H0 M Z)) :
     liftF φ (mkH M Q Z g) = φ g :=
   phi_eq_of_mkH_eq hφ (Function.invFun_eq (⟨g, rfl⟩ : ∃ a, mkH M Q Z a = mkH M Q Z g))
 
+omit [Finite G] in
 theorem mem_bar_H0_iff [(Q.subgroupOf M).Normal] {c : Mbar M Q} :
     c ∈ bar M Q (H0 M Z) ↔ ∃ g : ↥(H0 M Z), mkH M Q Z g = c := by
   rw [bar, Subgroup.mem_map]
@@ -70,6 +75,7 @@ theorem mem_bar_H0_iff [(Q.subgroupOf M).Normal] {c : Mbar M Q} :
   · rintro ⟨g, rfl⟩
     exact ⟨⟨(g : G), H0_le_M g.2⟩, Subgroup.mem_subgroupOf.mpr g.2, rfl⟩
 
+omit [Finite G] in
 theorem liftF_mul [(Q.subgroupOf M).Normal] {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφ : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q) {c₁ c₂ : Mbar M Q}
@@ -80,6 +86,7 @@ theorem liftF_mul [(Q.subgroupOf M).Normal] {K : Type} [Field K] {γ : G → K}
   have e : mkH M Q Z g₁ * mkH M Q Z g₂ = mkH M Q Z (g₁ * g₂) := (map_mul _ _ _).symm
   rw [e, liftF_mkH hφ, liftF_mkH hφ, liftF_mkH hφ, map_mul]
 
+omit [Finite G] in
 theorem mk_commute_iff [(Q.subgroupOf M).Normal] (x y : ↥M) :
     Commute (QuotientGroup.mk' (Q.subgroupOf M) x) (QuotientGroup.mk' (Q.subgroupOf M) y) ↔
       ⁅(x : G), (y : G)⁆ ∈ Q := by
@@ -91,6 +98,7 @@ theorem mk_commute_iff [(Q.subgroupOf M).Normal] (x y : ↥M) :
     QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact Subgroup.mem_subgroupOf
 
+omit [Finite G] in
 theorem comm_mem_of_mkH_mem_centralizer [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
     {g : ↥(H0 M Z)}
     (hg : mkH M Q Z g ∈ Subgroup.centralizer (bar M Q (LB M Q B) : Set (Mbar M Q)))
@@ -112,6 +120,7 @@ theorem normalizer_LB_of_comm {g : G} (hL : ∀ t ∈ LB M Q B, ⁅g, t⁆ ∈ Q
   rw [e]
   exact (LB M Q B).mul_mem (hQLB (hL t ht)) ht
 
+omit [Finite G] in
 theorem stroth_sup_le_lift {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} (h : GlobalModelData M Q Z γ M₀) {S : Subgroup G}
     (hSQ : S ≤ Q) : (S ⊔ Z : Subgroup G) ≤ M₀.lift (M₀.img S) := by

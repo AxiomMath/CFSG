@@ -21,7 +21,7 @@ variable [Finite F] [CharP F 2] [FiniteDimensional F W]
 
 section PlaneTorus
 
-variable [Finite F] [FiniteDimensional F W] {r : ℕ}
+variable {r : ℕ}
 
 private noncomputable def conjLinearEquiv {X Y : Type*} [AddCommGroup X] [Module F X]
     [AddCommGroup Y] [Module F Y] (e : X ≃ₗ[F] Y) : (X ≃ₗ[F] X) ≃* (Y ≃ₗ[F] Y) where
@@ -31,6 +31,7 @@ private noncomputable def conjLinearEquiv {X Y : Type*} [AddCommGroup X] [Module
   right_inv g := by ext y; simp
   map_mul' g h := by ext y; simp [LinearEquiv.trans_apply]
 
+omit [Finite F] [CharP F 2] in
 private theorem conjLinearEquiv_apply {X Y : Type*} [AddCommGroup X] [Module F X]
     [AddCommGroup Y] [Module F Y] (e : X ≃ₗ[F] Y) (g : X ≃ₗ[F] X) (y : Y) :
     conjLinearEquiv e g y = e (g (e.symm y)) := rfl
@@ -48,11 +49,13 @@ private noncomputable def planeBasisLin (D : PlaneFrame Q) : (Fin 2 → F) →�
   map_smul' a x := by
     ext
     simp only [Submodule.coe_smul, Pi.smul_apply, smul_add, smul_smul, RingHom.id_apply,
-      smul_eq_mul, mul_assoc]
+      smul_eq_mul]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 private theorem planeBasis_apply (D : PlaneFrame Q) (x : Fin 2 → F) :
     (planeBasisLin D x : W) = x 0 • D.u + x 1 • D.v := rfl
 
+omit [Finite F] [FiniteDimensional F W] in
 private theorem planeBasis_injective (D : PlaneFrame Q) : Function.Injective (planeBasisLin D) := by
   intro x y h
   have h' : planeBasisLin D (x - y) = 0 := by rw [map_sub, h, sub_self]
@@ -85,6 +88,7 @@ private theorem planeBasis_injective (D : PlaneFrame Q) : Function.Injective (pl
   · exact sub_eq_zero.mp h0
   · exact sub_eq_zero.mp h1'
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 private theorem planeBasis_surjective (D : PlaneFrame Q) :
     Function.Surjective (planeBasisLin D) := by
   intro x
@@ -98,15 +102,18 @@ private theorem planeBasis_surjective (D : PlaneFrame Q) :
 private noncomputable def planeBasisEquiv (D : PlaneFrame Q) : (Fin 2 → F) ≃ₗ[F] D.A :=
   LinearEquiv.ofBijective (planeBasisLin D) ⟨planeBasis_injective D, planeBasis_surjective D⟩
 
+omit [Finite F] [FiniteDimensional F W] in
 private theorem planeBasisEquiv_coe (D : PlaneFrame Q) (x : Fin 2 → F) :
     (planeBasisEquiv D x : W) = x 0 • D.u + x 1 • D.v := rfl
 
+omit [Finite F] [FiniteDimensional F W] in
 private theorem planeBasisEquiv_e0 (D : PlaneFrame Q) :
     planeBasisEquiv D (Pi.single 0 1) = ⟨D.u, D.hu⟩ := by
   apply Subtype.ext
   rw [planeBasisEquiv_coe]
-  simp [Pi.single_apply]
+  simp
 
+omit [Finite F] [FiniteDimensional F W] in
 private theorem planeBasisEquiv_isometry (D : PlaneFrame Q) (x : Fin 2 → F) :
     Q (planeBasisEquiv D x : W) =
       CFSG.StandardType.OrthRestTail.binF (polar Q D.u D.v) (Q D.v) x := by
@@ -121,11 +128,13 @@ private noncomputable def matrixToLinear (M : Matrix.SpecialLinearGroup (Fin 2) 
   LinearMap.GeneralLinearGroup.generalLinearEquiv F (Fin 2 → F)
     (Matrix.GeneralLinearGroup.toLin (Matrix.SpecialLinearGroup.toGL M))
 
+omit [Finite F] [CharP F 2] in
 private theorem matrixToLinear_pow (M : Matrix.SpecialLinearGroup (Fin 2) F) (m : ℕ) :
     matrixToLinear M ^ m = matrixToLinear (M ^ m) := by
   simp only [matrixToLinear]
   rw [← map_pow, ← map_pow, ← map_pow]
 
+omit [Finite F] in
 private theorem mulVec_pow_single_ne_of_orderOf_eq {r m : ℕ}
     (M : Matrix.SpecialLinearGroup (Fin 2) F) (hr : r.Prime) (hr2 : r ≠ 2)
     (hM : orderOf M = r) (hm : 0 < m) (hmr : m < r) :
@@ -152,8 +161,8 @@ private theorem mulVec_pow_single_ne_of_orderOf_eq {r m : ℕ}
     have h10' := h10
     have h11' := h11
     fin_cases i <;> fin_cases j <;>
-      simp [Nmat, pow_two, Matrix.mul_apply, Fin.sum_univ_two, h00', h10', h11',
-        Matrix.SpecialLinearGroup.coe_one, CharTwo.add_self_eq_zero]
+      simp [Nmat, pow_two, h00', h10', h11',
+        CharTwo.add_self_eq_zero]
   have hN1 : M ^ m = 1 := by
     have hdvd : orderOf (M ^ m) ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr hN2
     have hdvd' : orderOf (M ^ m) ∣ r := by
@@ -176,6 +185,7 @@ private theorem mulVec_pow_single_ne_of_orderOf_eq {r m : ℕ}
     · exact h0
   nlinarith [hr.two_le]
 
+omit [FiniteDimensional F W] in
 private theorem planeTorus_pair_data (D : PlaneFrame Q) (hr : r.Prime) (hr2 : r ≠ 2)
     (hrdvd : r ∣ Nat.card F + 1) :
     ∃ (M σ : Matrix.SpecialLinearGroup (Fin 2) F) (tA σA : D.A ≃ₗ[F] D.A),
@@ -186,7 +196,7 @@ private theorem planeTorus_pair_data (D : PlaneFrame Q) (hr : r.Prime) (hr2 : r 
       σA ∈ TauCeti.QuadraticMap.orthogonalGroup (Q.restrict D.A) ∧
       orderOf tA = r ∧ σA * tA * σA⁻¹ = tA⁻¹ := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hK'⟩ := FiniteField.card F 2
   have hK : Nat.card F = 2 ^ (n : ℕ) := by rwa [Fintype.card_eq_nat_card] at hK'
   have hpn : r ∣ 2 ^ (n : ℕ) + 1 := by rwa [hK] at hrdvd
@@ -238,6 +248,7 @@ private theorem planeTorus_pair_data (D : PlaneFrame Q) (hr : r.Prime) (hr2 : r 
     simpa [σA, tA, map_mul, map_inv] using h
   exact ⟨M, σ, tA, σA, hMord, rfl, rfl, htA_iso, hσA_iso, htA_order, hconj⟩
 
+omit [FiniteDimensional F W] in
 theorem planeTorus_data (D : PlaneFrame Q) (hr : r.Prime) (hr2 : r ≠ 2)
     (hrdvd : r ∣ Nat.card F + 1) :
     ∃ (tA σA : D.A ≃ₗ[F] D.A),

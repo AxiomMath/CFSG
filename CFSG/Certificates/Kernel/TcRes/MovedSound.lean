@@ -97,11 +97,11 @@ theorem cbK_olen (ph : ℕ → ℕ) (psi : ℕ) :
     cases hb : bit psi (ph x) with
     | true =>
       rw [bit_iff] at hb
-      simp only [cond_true, Nat.sub_self, zero_add, Function.iterate_one]
+      simp only [_root_.Bool.cond_true, Nat.sub_self, zero_add, Function.iterate_one]
       exact ⟨le_rfl, by omega, hb, fun t h1 h2 => absurd h2 (by omega)⟩
     | false =>
-      rw [hb, cond_false] at h
-      simp only [cond_false]
+      rw [hb, Bool.cond_false] at h
+      simp only [Bool.cond_false]
       obtain ⟨h1, h2, h3, h4⟩ := ih (ph x) (s + 1) h
       refine ⟨by omega, by omega, ?_, fun t ht1 ht2 => ?_⟩
       · have hq : olen ph psi f (ph x) (s + 1) - s + 1 =
@@ -125,7 +125,7 @@ theorem cbK_lt72 {psi g : ℕ} (hlt : psi < 2 ^ 72) (h : psi.testBit g = true) :
 theorem cbK_treeM_zero (ADJ Φ rest C NB : ℕ) : treeM ADJ Φ 0 rest C NB =
     Bool.rec (motive := fun _ => ℕ) (1 <<< 72) C
       (CFSG.TcRes.TK.andB (Nat.blt 0 C) (Nat.beq (NB &&& Φ &&& C) (NB &&& Φ))) := by
-  simp only [treeM, strictN_eq] <;> rfl
+  simp only [treeM, strictN_eq]; rfl
 
 theorem cbK_treeM_succ (ADJ Φ c rest C NB : ℕ) : treeM ADJ Φ (c + 1) rest C NB =
     Bool.rec (motive := fun _ => ℕ) (1 <<< 72)
@@ -135,7 +135,7 @@ theorem cbK_treeM_succ (ADJ Φ c rest C NB : ℕ) : treeM ADJ Φ (c + 1) rest C 
           (CFSG.TcRes.TK.andB (CFSG.TcRes.TK.notB (Nat.beq (rest &&& 127) ((rest >>> 7) &&& 127)))
             (CFSG.TcRes.TK.andB (bit C ((rest >>> 7) &&& 127)) (bit (fld ADJ 72 (rest &&& 127)) ((rest >>> 7) &&& 127))))
           (Nat.beq (rest &&& 127) ((rest >>> 7) &&& 127)) (Nat.beq C 0)))) := by
-  simp only [treeM, strictN_eq] <;> rfl
+  simp only [treeM, strictN_eq]; rfl
 
 theorem cbK_bit_false {m i : ℕ} : bit m i = false ↔ m.testBit i = false := by
   rw [← Bool.not_eq_true, bit_iff, Bool.not_eq_true]
@@ -231,7 +231,7 @@ theorem cbK_tree_inv {ADJ Φ psi : ℕ} (hlt : psi < 2 ^ 72) : ∀ c rest C NB,
         have hC' : C ||| 1 <<< cbEnt rest 0 ≠ 0 := by
           intro h0
           have := congrArg (fun m => m.testBit (cbEnt rest 0)) h0
-          simp [testBit_or_pow] at this
+          simp at this
         rcases I5 j (by omega) with ⟨h0, -⟩ | ⟨h1, h2⟩
         · exact absurd h0 hC'
         · rw [hP, hE] at h2
@@ -511,7 +511,7 @@ theorem cbK_simpM (POS DEC psi : ℕ) : ∀ c rest acc, (∀ j < c, cbEnt rest j
     have h : simpM POS DEC psi (c + 1) rest acc = simpM POS DEC psi c (rest >>> 14)
         (Bool.rec (motive := fun _ => ℕ) acc ((acc ||| 1 <<< cbEnt rest 0) + 1 <<< 80)
           (CFSG.TcRes.TK.andB (bit POS (cbEnt rest 0)) (Nat.beq (fld DEC 72 (cbEnt rest 0) &&& psi) 0))) := by
-      simp only [simpM, strictN_eq] <;> rfl
+      simp only [simpM, strictN_eq]; rfl
     rw [h, ih _ _ (fun j hj => by rw [← cbEnt_succ]; exact hlt (j + 1) (by omega)),
       Finset.sum_range_succ']
     simp only [← cbEnt_succ]
@@ -527,7 +527,7 @@ theorem cbK_simpM (POS DEC psi : ℕ) : ∀ c rest acc, (∀ j < c, cbEnt rest j
         rw [Nat.testBit_shiftRight, Nat.testBit_shiftRight, testBit_or_pow]
         have : ¬ (80 + i = cbEnt rest 0) := by omega
         simp [this]
-      simp only [key, if_true]
+      simp only [key, ite_true]
       omega
 
 theorem cbK_simpM_mask (POS DEC psi : ℕ) : ∀ c rest acc, (∀ j < c, cbEnt rest j < 72) →
@@ -541,7 +541,7 @@ theorem cbK_simpM_mask (POS DEC psi : ℕ) : ∀ c rest acc, (∀ j < c, cbEnt r
     have h0 : simpM POS DEC psi (c + 1) rest acc = simpM POS DEC psi c (rest >>> 14)
         (Bool.rec (motive := fun _ => ℕ) acc ((acc ||| 1 <<< cbEnt rest 0) + 1 <<< 80)
           (CFSG.TcRes.TK.andB (bit POS (cbEnt rest 0)) (Nat.beq (fld DEC 72 (cbEnt rest 0) &&& psi) 0))) := by
-      simp only [simpM, strictN_eq] <;> rfl
+      simp only [simpM, strictN_eq]; rfl
     rw [h0] at h
     rcases ih _ _ (fun j hj => by rw [← cbEnt_succ]; exact hlt (j + 1) (by omega)) x hx h with
       h1 | ⟨j, hj, h1⟩
@@ -1035,8 +1035,8 @@ theorem cbK_kind {RT X Y : ℕ} {ph : ℕ → ℕ} {cb psi r N SM e : ℕ} {P Q 
   simp only [kindOf, strictN_eq, brecN_eq, Bool.cond_eq_ite, andB_eq, orB_eq,
     Bool.and_eq_true, Bool.or_eq_true] at hk ⊢
   split_ifs at hk ⊢ <;> (try simp only [KBAD] at hk) <;> (try omega) <;>
-    refine ⟨?_, ?_, ?_, ?_⟩ <;> intro hv <;> (try simp only [KBAD] at hv) <;> (try omega) <;>
-    simp_all only [Bool.not_eq_true, true_and, and_true, or_true, true_or, not_false_eq_true]
+    refine ⟨?_, ?_, ?_, ?_⟩ <;> intro hv <;> (try simp only at hv) <;> (try omega) <;>
+    simp_all only [Bool.not_eq_true, true_and, and_true, true_or]
   all_goals first
     | exact Or.inl (hW1 _ _ ‹_›)
     | exact hO1 _ _ ‹_›
@@ -1275,10 +1275,10 @@ theorem compRank_of_compRaw {N : ℕ}
   exact hinj a (h.lt a ((hSm a).1 ha).1) b (h.lt b ((hSm b).1 hb).1) hab
 
 theorem famA_iff (r N : ℕ) : famA r N = true ↔ 2 ≤ r ∧ N = r * (r + 1) := by
-  simp [famA, andB_eq, nble_eq, nbeq_eq, nmul_eq]
+  simp [famA, andB_eq, nble_eq, nbeq_eq]
 
 theorem famD_iff (r N : ℕ) : famD r N = true ↔ 4 ≤ r ∧ N = 2 * r * (r - 1) := by
-  simp [famD, andB_eq, nble_eq, nbeq_eq, nmul_eq, nsub_eq]
+  simp [famD, andB_eq, nble_eq, nbeq_eq]
 
 theorem famE_iff (r N : ℕ) : famE r N = true ↔ r = 6 ∧ N = 72 := by
   simp [famE, andB_eq, nbeq_eq]
@@ -1332,33 +1332,33 @@ theorem kind_of_kindRaw {N : ℕ}
   rcases hcases with h0 | h0 | h0 | h0
   · rw [h0]
     rcases hk.inner h0 with hw | ⟨e1, e2, e3, e4⟩
-    · rw [if_pos (hI _ hw)]
+    · rw [ite_eq_left (hI _ hw)]
       rfl
     · have n1 : ¬(dR d = 6 ∧ dN d = 72) := fun hp => by simp [hfE.2 hp] at e1
       have n2 : ¬(dR d = 4 ∧ dN d = 24) := fun hp => by simp [hfD4.2 hp] at e2
       have n3 : ¬(4 ≤ dR d ∧ dN d = 2 * dR d * (dR d - 1)) := fun hp => by simp [hfD.2 hp] at e3
       have n4 : ¬(2 ≤ dR d ∧ dN d = dR d * (dR d + 1)) := fun hp => by simp [hfA.2 hp] at e4
       by_cases h1 : twistInner (vec '' ψ) (⇑ρ)^[dE d]
-      · rw [if_pos h1]
+      · rw [ite_eq_left h1]
         rfl
-      · rw [if_neg h1, if_neg (fun hc => hc.elim n1 fun h => n2 ⟨h.1, h.2.1⟩), if_neg n3,
-          if_neg n4]
+      · rw [ite_eq_right h1, ite_eq_right (fun hc => hc.elim n1 fun h => n2 ⟨h.1, h.2.1⟩), ite_eq_right n3,
+          ite_eq_right n4]
         rfl
   · rw [h0]
     obtain ⟨hw, e1, e2, e3, e4⟩ := hk.suN h0
     have n2 : ¬(dR d = 4 ∧ dN d = 24) := fun hp => by simp [hfD4.2 hp] at e3
     have n3 : ¬(4 ≤ dR d ∧ dN d = 2 * dR d * (dR d - 1)) := fun hp => by simp [hfD.2 hp] at e2
     have n1 : ¬(dR d = 6 ∧ dN d = 72) := fun hp => by simp [hfE.2 hp] at e4
-    rw [if_neg (hO _ hw), if_neg (fun hc => hc.elim n1 fun h => n2 ⟨h.1, h.2.1⟩), if_neg n3,
-      if_pos (hfA.1 e1)]
+    rw [ite_eq_right (hO _ hw), ite_eq_right (fun hc => hc.elim n1 fun h => n2 ⟨h.1, h.2.1⟩), ite_eq_right n3,
+      ite_eq_left (hfA.1 e1)]
     rfl
   · rw [h0]
     obtain ⟨hw, hc⟩ := hk.twoD h0
-    rw [if_neg (hO _ hw)]
+    rw [ite_eq_right (hO _ hw)]
     rcases hc with ⟨e1, e2, e3⟩ | ⟨e1, hw2⟩
     · have n2 : ¬(dR d = 4 ∧ dN d = 24) := fun hp => by simp [hfD4.2 hp] at e2
       have n1 : ¬(dR d = 6 ∧ dN d = 72) := fun hp => by simp [hfE.2 hp] at e3
-      rw [if_neg (fun hc => hc.elim n1 fun h => n2 ⟨h.1, h.2.1⟩), if_pos (hfD.1 e1)]
+      rw [ite_eq_right (fun hc => hc.elim n1 fun h => n2 ⟨h.1, h.2.1⟩), ite_eq_left (hfD.1 e1)]
       rfl
     · obtain ⟨hr4, hn24⟩ := hfD4.1 e1
       have hin2 := hI _ hw2
@@ -1370,15 +1370,15 @@ theorem kind_of_kindRaw {N : ℕ}
       have hy : 4 ≤ dR d ∧ dN d = 2 * dR d * (dR d - 1) := by
         rw [hr4, hn24]
         decide
-      rw [if_neg hx, if_pos hy]
+      rw [ite_eq_right hx, ite_eq_left hy]
       rfl
   · rw [h0]
     obtain ⟨hw, hc⟩ := hk.exc h0
-    rw [if_neg (hO _ hw)]
+    rw [ite_eq_right (hO _ hw)]
     rcases hc with e1 | ⟨e1, hw2⟩
-    · rw [if_pos (Or.inl (hfE.1 e1))]
+    · rw [ite_eq_left (Or.inl (hfE.1 e1))]
       rfl
-    · rw [if_pos (Or.inr ⟨(hfD4.1 e1).1, (hfD4.1 e1).2, hO _ hw2⟩)]
+    · rw [ite_eq_left (Or.inr ⟨(hfD4.1 e1).1, (hfD4.1 e1).2, hO _ hw2⟩)]
       rfl
 
 theorem tcDataOK_of_compRaw
@@ -1438,11 +1438,11 @@ theorem compRaw_of_crK8
     {k : ℕ → ℕ → Bool} (hvec : vec = vecOf 8 V)
     (hD : DatumRaw Tag.E8 240 vec (fun g v => fld (RTs g) 8 v)
       (fun g v => Nat.beq (fld (fld ADJ 240 g) 1 v) 1) neg)
-    (hX : ∀ v < 240, ∀ g < 240, (dP 8 (fld X 256 v * fld Y 256 g) : ℤ) -
+    (_hX : ∀ v < 240, ∀ g < 240, (dP 8 (fld X 256 v * fld Y 256 g) : ℤ) -
       dQ 8 (fld X 256 v * fld Y 256 g) = iform (vec v) (vec g))
     (hq : ∀ i < 240, qOK QS V i = true) (hmv : ∀ x < 240, mvOK QS Y MVS x = true)
     (hpos : ∀ g < 240, pos8OK V POS g = true) (hdec : ∀ g < 240, dec8OK QS MVS V POS DEC g = true)
-    (hph : ∀ g < 240, ph g < 240)
+    (_hph : ∀ g < 240, ph g < 240)
     (hΦsub : ∀ a ∈ mset 240 Φ, ∀ b ∈ mset 240 Φ, ∀ c < 240, vec c = vec a - vec b →
       c ∈ mset 240 Φ)
     (hVl : ∀ i < 240, ∀ m < 8, fld (fld V 128 i) 16 m < 16)
@@ -1561,7 +1561,7 @@ theorem compRaw_of_crK8
   · rw [dN_eq]
     have e : mset 240 psi = ↑((Finset.range 256).filter (fun x => psi.testBit x = true)) := by
       ext x
-      rw [hmem, Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_range]
+      rw [hmem, Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_range]
       exact ⟨fun h => ⟨by have := hbit x h; omega, h⟩, fun h => h.2⟩
     rw [e, Set.ncard_coe_finset, t4]
   · rw [dR_eq, hScard]

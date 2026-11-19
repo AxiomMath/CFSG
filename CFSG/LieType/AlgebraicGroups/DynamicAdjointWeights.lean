@@ -128,15 +128,15 @@ theorem cotangentDualLieEquiv_coeff_conjugationAlgHom_of_mem_adjointWeightSpace
     ring
   have hcoeff := congrArg (fun q : LaurentPolynomial k => q.coeff n) hpoly
   simp only [AddMonoidAlgebra.coeff_map, Finsupp.mapRange_apply,
-    ← LaurentPolynomial.single_eq_C_mul_T, AddMonoidAlgebra.coeff_single_apply] at hcoeff
+    ← LaurentPolynomial.single_eq_C_mul_T, AddMonoidAlgebra.coeff_single, Finsupp.single_apply] at hcoeff
   apply e.injective
   rw [apply_ite e, map_zero]
   simp only [Φ, LinearMap.comp_apply, Derivation.coeFn_coe, AlgEquiv.toLinearMap_apply,
     LinearMap.toAddMonoidHom_coe] at hcoeff
   rw [hcoeff]
   by_cases hn : n = m
-  · rw [if_pos hn.symm, if_pos hn]
-  · rw [if_neg (Ne.symm hn), if_neg hn]
+  · rw [ite_eq_left hn.symm, ite_eq_left hn]
+  · rw [ite_eq_right (Ne.symm hn), ite_eq_right hn]
 
 theorem cotangentDualLieEquiv_mem_lieSubalgebra_unipotent_of_pos
     (l : H →ₐc[k] LaurentPolynomial k) {m : ℤ} (hm : 0 < m)
@@ -150,9 +150,9 @@ theorem cotangentDualLieEquiv_mem_lieSubalgebra_unipotent_of_pos
     (unipotentDefiningHopfIdeal_toIdeal_eq_span l)]
   rintro _ (⟨h, n, hn, rfl⟩ | ⟨h, rfl⟩)
   · rw [cotangentDualLieEquiv_coeff_conjugationAlgHom_of_mem_adjointWeightSpace l hx,
-      if_neg (by omega)]
+      ite_eq_right (by omega)]
   · rw [map_sub, cotangentDualLieEquiv_coeff_conjugationAlgHom_of_mem_adjointWeightSpace l hx,
-      if_neg (by omega), Derivation.map_algebraMap, sub_zero]
+      ite_eq_right (by omega), Derivation.map_algebraMap, sub_zero]
 
 theorem exists_add_mem_lieSubalgebra_unipotent_of_nonpos (l : H →ₐc[k] LaurentPolynomial k)
     (B : HopfIdeal k H)

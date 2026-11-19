@@ -22,7 +22,7 @@ open Subgroup CFSG.Open
 variable {G : Type} [Group G] [Finite G]
 
 theorem sigma_quotient_rank {M T V₀ V : Subgroup G} (h : Setting G M T V₀ V)
-    {p : ℕ} (hp : p ∈ SourceSetting.sigmaOf G M) {X : Subgroup G} (hXp : IsPGroup p X) (hXM : X ≤ M) :
+    {p : ℕ} (hp : p ∈ SourceSetting.sigmaOf G M) {X : Subgroup G} (_hXp : IsPGroup p X) (hXM : X ≤ M) :
     ∃ _ : ((X ⊓ centralizer (V₀ : Set G)).subgroupOf X).Normal,
       CFSG.Assembly.pRank p
         (⊤ : Subgroup (↥X ⧸ (X ⊓ centralizer (V₀ : Set G)).subgroupOf X)) ≤ 1 := by
@@ -41,7 +41,7 @@ theorem sigma_quotient_rank {M T V₀ V : Subgroup G} (h : Setting G M T V₀ V)
       intro y
       simp
   have hker := Section12.NonTISmallQuotient.conjAction_ker X V₀ hnX
-  haveI hNX : (centralizerInSubgroup X V₀).Normal := hker ▸ MonoidHom.normal_ker _
+  have hNX : (centralizerInSubgroup X V₀).Normal := hker ▸ MonoidHom.normal_ker _
   have hN : ((X ⊓ centralizer (V₀ : Set G)).subgroupOf X).Normal := by
     rw [hsub]; exact hNX
   refine ⟨hN, ?_⟩
@@ -60,7 +60,7 @@ theorem sigma_quotient_rank {M T V₀ V : Subgroup G} (h : Setting G M T V₀ V)
     have htop : centralizerInSubgroup X ⊥ = ⊤ := by
       ext x
       simp [centralizerInSubgroup, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
-    haveI : Subsingleton (↥X ⧸ centralizerInSubgroup X (⊥ : Subgroup G)) := by
+    have : Subsingleton (↥X ⧸ centralizerInSubgroup X (⊥ : Subgroup G)) := by
       constructor
       intro a b
       induction a using QuotientGroup.induction_on
@@ -73,7 +73,7 @@ theorem sigma_quotient_rank {M T V₀ V : Subgroup G} (h : Setting G M T V₀ V)
       · exact hm.1
       · exact absurd h0' h0
     have hnM : M ≤ normalizer (V₀ : Set G) := (mem_normalElemAbelian2.mp hV0).2.2.2
-    haveI hNM : (centralizerInSubgroup M V₀).Normal := by
+    have hNM : (centralizerInSubgroup M V₀).Normal := by
       rw [← Section12.NonTISmallQuotient.conjAction_ker M V₀ hnM]
       exact MonoidHom.normal_ker _
     have hc12 : Section12.Context G M T :=

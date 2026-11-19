@@ -44,7 +44,7 @@ theorem blockOK_of_cols {N : ℕ} {K P Pi : PM} {ns : List ℕ} {stds : List PM}
   have hw := h _ hj
   simp only [winOK, List.all_eq_true, List.mem_range] at hw
   have e := hw i hi
-  rw [if_pos ⟨Nat.le_add_right _ _, by omega⟩, Nat.add_sub_cancel_left] at e
+  rw [ite_eq_left ⟨Nat.le_add_right _ _, by omega⟩, Nat.add_sub_cancel_left] at e
   rw [hcol]
   exact e
 

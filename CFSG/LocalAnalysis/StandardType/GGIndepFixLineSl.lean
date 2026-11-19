@@ -40,8 +40,8 @@ theorem ggFixLine_not_slpm {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V
     (hQ : ∀ g : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s),
       g ∈ ggFixLineQ S ↔ (LinearEquiv.det g = 1 ∨ LinearEquiv.det g = -1)) : False := by
   classical
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V :=
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V :=
     ggFixLine_finite (p := p) s S.s_refl S.fix_H
   obtain ⟨hA, hspanT, hd_lower, hd_upper⟩ := ggFixLine_T_props S
   let T := ggFixLineT r s
@@ -69,7 +69,7 @@ theorem ggFixLine_not_slpm {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V
   have hu_f0 : u (f i0) = f i0 := by
     rw [hu_apply, hfv, zero_smul, add_zero]
   have hu_coord_i1 : f.coord i1 (f i1) = 1 := by
-    simp [Ne.symm hi01, i0, i1]
+    simp [i1]
   have hu_f1_sub : u (f i1) - f i1 = f i0 := by
     rw [hu_apply, hu_coord_i1, one_smul, add_sub_cancel_left]
   have hu_move : ∀ y, u y - y = f.coord i1 y • f i0 := by

@@ -28,12 +28,14 @@ theorem gl_oResidualTwo_apply_mem {X : Type} [Group X] (σ : X ≃* X) {x : X} (
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff] at hk ⊢
     simpa using hk
 
+omit [Finite G] in
 theorem gl_conj_mem_map_oResidualTwo {H : Subgroup G} {q : G} (hq : q ∈ normalizer (H : Set G)) {k : G}
     (hk : k ∈ (oResidualTwo ↥H).map H.subtype) : q * k * q⁻¹ ∈ (oResidualTwo ↥H).map H.subtype := by
   obtain ⟨h, hh, rfl⟩ := hk
   refine ⟨H.normalizerMonoidHom ⟨q, hq⟩ h, gl_oResidualTwo_apply_mem _ hh, ?_⟩
   exact Subgroup.normalizerMonoidHom_apply_apply_coe _ _ _
 
+omit [Finite G] in
 theorem gl_normalizer_le_map_oResidualTwo (H : Subgroup G) :
     normalizer (H : Set G) ≤ normalizer (((oResidualTwo ↥H).map H.subtype : Subgroup G) : Set G) := by
   intro q hq
@@ -49,7 +51,7 @@ theorem gl_inClassG_of_supplement {S H : Subgroup G} (hSH : S ≤ H) (hS : IsPGr
     (e : (↥H ⧸ K) ≃* CFSG.Assembly.RankThreeEven.projSL 2 (GaloisField 2 1))
     (hsup : ∀ Y : Subgroup ↥H, Y ⊔ K = ⊤ → CFSG.pCore 2 ↥H ≤ Y → Y = ⊤) :
     InClassG ↥S ↥H (Subgroup.inclusion hSH) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨Subgroup.inclusion_injective hSH, ?_, ?_, ?_⟩
   · refine ⟨le_top, ?_, ?_⟩
     · rw [Subgroup.inclusion_range]
@@ -110,7 +112,7 @@ theorem gl_exists_mulEquiv_aut (D : Data G) {Y : Subgroup (MBar D.M D.U)} {V₀ 
     have h1 : (QuotientGroup.mk ⟨x.1, preN_le_M D Y x.2⟩ : MBar D.M D.U) = 1 :=
       (uc22br_gt_mk_eq_one_iff hV ⟨x.1, preN_le_M D Y x.2⟩).2 hxU
     exact Subtype.ext (by rw [hπ]; exact h1)
-  haveI : Finite (MulAut ↥V₀) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (MulAut ↥V₀) := Nat.finite_of_card_ne_zero (by omega)
   exact ⟨MulEquiv.ofBijective θ (hinj.bijective_of_nat_card_le (by rw [hA6, hY6]))⟩
 
 theorem gl_K3_conj {D : Data G} {Y : Subgroup (MBar D.M D.U)} {V₀ : Subgroup G}

@@ -231,7 +231,7 @@ private lemma sylow_subgroupOf_normal {p : ℕ} [Fact p.Prime] {G : Type*} [Grou
   have hT_p : IsPGroup p T := by
     intro x
     let xs : ↥(S : Subgroup G) := ⟨x.1.1, x.2⟩
-    rcases (S.isPGroup' xs) with ⟨n, hn⟩
+    rcases (S.isPGroup xs) with ⟨n, hn⟩
     refine ⟨n, ?_⟩
     apply Subtype.ext
     apply Subtype.ext
@@ -508,7 +508,7 @@ public theorem theorem4_2 {p : ℕ} [Fact p.Prime] (hpodd : p ≠ 2) {G : Type*}
   -- `hBB_le_ZJ`; as `p` is odd, Corollary 4.1 gives `commChain B A₀ 2 = ⊥`)
   have hBB_le_ZB : ⁅B, B⁆ ≤ centerIn B :=
     commutator_le_centerIn_of_commutator_commutator_eq_bot B hB_class2
-  obtain ⟨A0, hA0_AS, _hA0_chain3, hA0_chain2⟩ := corollary4_1 (P := (S : Subgroup G)) S.isPGroup' (B := B)
+  obtain ⟨A0, hA0_AS, _hA0_chain3, hA0_chain2⟩ := corollary4_1 (P := (S : Subgroup G)) S.isPGroup (B := B)
     hB_le_S (Subgroup.Normal.subgroupOf hB_norm (S : Subgroup G)) hBB_le_ZB hBB_le_ZJ
   have hA0_BAA : ⁅⁅B, A0⁆, A0⁆ = ⊥ := by
     simpa [commChain] using hA0_chain2 hpodd
@@ -559,7 +559,7 @@ public theorem theorem4_2 {p : ℕ} [Fact p.Prime] (hpodd : p ≠ 2) {G : Type*}
   -- `V` is a `p`-subgroup (it lies in `X ≤ L∩S ≤ S`)
   have hV_p : IsPGroup p V := by
     have hV_le_S : V ≤ (S : Subgroup G) := (hV_le_X.trans hX_le_LS).trans inf_le_left
-    exact IsPGroup.to_le S.isPGroup' hV_le_S
+    exact IsPGroup.to_le S.isPGroup hV_le_S
   have hV_comm : IsMulCommutative V := by
     let : IsMulCommutative X := thompsonCenter_isMulCommutative (G := G) ((S : Subgroup G) ⊓ L)
     rw [isMulCommutative_iff]
@@ -577,7 +577,7 @@ public theorem theorem4_2 {p : ℕ} [Fact p.Prime] (hpodd : p ≠ 2) {G : Type*}
     have hJS_eq : thompsonSubgroup (G := G) (S : Subgroup G) =
         thompsonSubgroup (G := G) ((S : Subgroup G) ⊓ L) :=
       (lemma3_5 S).2.2
-        (IsPGroup.to_le S.isPGroup' (inf_le_left : (S : Subgroup G) ⊓ L ≤ (S : Subgroup G))) hJS_le_LS
+        (IsPGroup.to_le S.isPGroup (inf_le_left : (S : Subgroup G) ⊓ L ≤ (S : Subgroup G))) hJS_le_LS
     have hG_le_NC : (⊤ : Subgroup G) ≤ Subgroup.normalizer (C : Set G) := by
       calc
         (⊤ : Subgroup G) = Subgroup.normalizer (((S : Subgroup G) ⊓ L : Subgroup G) : Set G) ⊔ L := hfrattini.symm
@@ -640,7 +640,7 @@ public theorem theorem4_2 {p : ℕ} [Fact p.Prime] (hpodd : p ≠ 2) {G : Type*}
       intro hVAA
       exact hA_notL (h35 A V hA_AS hC_le_V hV_normal hV_p hVAA)
     -- the Replacement Theorem applied to `(V, A)`
-    obtain ⟨Astar, hAstar_AS, hlt, hAstarAA⟩ := theorem3_1b (P := (S : Subgroup G)) S.isPGroup'
+    obtain ⟨Astar, hAstar_AS, hlt, hAstarAA⟩ := theorem3_1b (P := (S : Subgroup G)) S.isPGroup
       hA_AS hV_le_S hV_comm (hA_le_NV A) hVAA_ne
     -- maximality of `A ∩ V` forces `A* ⊆ L ∩ S`
     have hAstar_le_LS : Astar ≤ (S : Subgroup G) ⊓ L := by

@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G}
 
 theorem c13_CQ_w (hc : Ctx13B t L S x₁ x₂ lam rho tau om) {w : G}
-    (hw : w ∈ ctxM t tau x₁ x₂) (hw2 : w * w = 1) (hwρ : w * rho = rho * w)
+    (_hw : w ∈ ctxM t tau x₁ x₂) (_hw2 : w * w = 1) (hwρ : w * rho = rho * w)
     (hwY : ∀ a ∈ ctxYq t tau x₁ x₂ rho, w * a = a * w)
     (hnt : ∃ a ∈ ctxQ t tau x₁ x₂ rho, a⁻¹ * (w * a * w⁻¹) ∉ fourGrp x₁ x₂) :
     ctxQ t tau x₁ x₂ rho ⊓ centralizer ({w} : Set G) = ctxYq t tau x₁ x₂ rho := by
@@ -137,7 +137,7 @@ theorem c13_inv_coset (hc : Ctx13B t L S x₁ x₂ lam rho tau om) {w : G}
   ext u
   constructor
   · intro hu
-    rw [InvIn, Set.mem_setOf_eq] at hu
+    rw [InvIn, Set.mem_ofPred_eq] at hu
     obtain ⟨huQ, hu2, hu1⟩ := hu
     obtain ⟨q, hqQ, hwq⟩ := Set.mem_smul_set.mp huQ
     have hwq' : w * q = u := by simpa using hwq
@@ -193,7 +193,7 @@ theorem c13_inv_coset (hc : Ctx13B t L S x₁ x₂ lam rho tau om) {w : G}
           _ = y⁻¹ := one_mul _
       rw [hw_eq]
       exact (ctxQ t tau x₁ x₂ rho).inv_mem hyQ
-    rw [InvIn, Set.mem_setOf_eq]
+    rw [InvIn, Set.mem_ofPred_eq]
     exact ⟨Set.mem_smul_set.mpr ⟨y, hyQ, by simpa using hwy⟩, hu2, hune⟩
 
 theorem c13_Q_om_of (hc : Ctx13B t L S x₁ x₂ lam rho tau om) {w : G}
@@ -204,7 +204,7 @@ theorem c13_Q_om_of (hc : Ctx13B t L S x₁ x₂ lam rho tau om) {w : G}
   obtain ⟨hleY, hcard, hinf, hmem4⟩ := c13_comm_w hc hw hw2 hwρ hwY hnt
   have hYcomm : ∀ a ∈ ctxYq t tau x₁ x₂ rho, ∀ b ∈ ctxYq t tau x₁ x₂ rho,
       a * b = b * a := by
-    haveI : IsMulCommutative ↥(ctxYq t tau x₁ x₂ rho) := hc.Y_elem.1
+    have : IsMulCommutative ↥(ctxYq t tau x₁ x₂ rho) := hc.Y_elem.1
     intro a ha b hb
     exact congrArg Subtype.val
       (mul_comm' (⟨a, ha⟩ : ↥(ctxYq t tau x₁ x₂ rho)) ⟨b, hb⟩)

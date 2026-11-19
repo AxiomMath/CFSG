@@ -160,8 +160,8 @@ theorem exists_overgroup_of_odd_index {X : Type*} [Group X] [Finite X] [Group.Is
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥H))
   have hPi : ¬ 2 ∣ (P : Subgroup ↥H).index := P.not_dvd_index
   have hPc : Nat.card (P : Subgroup ↥H) = 2 ^ c :=
-    card_eq_of_odd_index P.isPGroup' hPi (hHcard.trans hc) (by decide)
-  refine ⟨H, (P : Subgroup ↥H).map H.subtype, P.isPGroup'.map _, ?_, Subgroup.map_subtype_le _, ?_⟩
+    card_eq_of_odd_index P.isPGroup hPi (hHcard.trans hc) (by decide)
+  refine ⟨H, (P : Subgroup ↥H).map H.subtype, P.isPGroup.map _, ?_, Subgroup.map_subtype_le _, ?_⟩
   · rw [Subgroup.index_map_subtype, Nat.Prime.dvd_mul Nat.prime_two, hHidx]
     exact not_or.mpr ⟨hPi, hJI⟩
   · rw [Subgroup.card_map_of_injective H.subtype_injective, hPc, hHcard, hc, mul_comm]

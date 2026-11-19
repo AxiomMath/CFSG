@@ -32,15 +32,15 @@ theorem apply_eq_of_le_centralizer {α : Type*} [Fintype α] [DecidableEq α] {g
     (hg : g.cycleFactorsFinset.card ≤ 4) {K : Subgroup (Equiv.Perm α)}
     (hK : K ≤ Subgroup.centralizer {g}) (hKK : ⁅K, K⁆ = K) {k : Equiv.Perm α} (hk : k ∈ K)
     {m : α} (hm : m ∈ g.support) : k m = m := by
-  haveI : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hKK
+  have : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hKK
   let ρ : K →* Equiv.Perm g.cycleFactorsFinset :=
     (Equiv.Perm.OnCycleFactors.toPermHom g).comp (Subgroup.inclusion hK)
-  haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+  have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
   have hR : ⁅ρ.range, ρ.range⁆ = ρ.range := Subgroup.commutator_eq_self
   have hcardF : Nat.card g.cycleFactorsFinset ≤ 4 := by
     rw [Nat.card_eq_finsetCard]
     exact hg
-  haveI : Group.IsSolvable (Equiv.Perm g.cycleFactorsFinset) :=
+  have : Group.IsSolvable (Equiv.Perm g.cycleFactorsFinset) :=
     Equiv.Perm.isSolvable hcardF
   have hbot : ρ.range = ⊥ := eq_bot_of_commutator_eq_self hR
   have hcommute : ∀ x ∈ K, ∀ c ∈ g.cycleFactorsFinset, Commute x c := by
@@ -94,7 +94,7 @@ theorem cycleFactorsFinset_card_le_four {n : ℕ} {g : Equiv.Perm (Fin n)} (hg3 
 theorem noCQ425_alternatingGroup_le_fourteen {n : ℕ} (hn : n ≤ 14) :
     NoCQ425 (alternatingGroup (Fin n)) := by
   intro s K hs3 hsK hKs hKq _
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hKK : ⁅K, K⁆ = K := Subgroup.commutator_eq_self
   have hK'K : ⁅K.map (alternatingGroup (Fin n)).subtype,
       K.map (alternatingGroup (Fin n)).subtype⁆ =

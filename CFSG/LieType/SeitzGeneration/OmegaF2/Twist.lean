@@ -30,8 +30,8 @@ theorem torus2_mul_u2_mul_inv {ν : K} (hν : ν ≠ 0) (t : K) :
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hinv, hcoe]
   simp only [u2_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hν] <;>
-    (try field_simp) <;> (try ring)
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hν];
+    (try field_simp)
 
 variable {κ : SpecialLinearGroup (Fin 2) K → Matrix (Fin 2) (Fin 2) K}
 
@@ -77,15 +77,15 @@ theorem IsCocycle.u2_second_row (hκ : IsCocycle κ) (h1 : κ (u2 1) = 0) (t : K
   have h01 := congrArg (fun X : Matrix (Fin 2) (Fin 2) K => X 0 1) key
   simp at h00 h01
   constructor
-  · first | exact h00 | exact h00.symm | linear_combination h00 | linear_combination -h00
-  · first | exact h01 | exact h01.symm | linear_combination h01 | linear_combination -h01
+  · first | exact h00
+  · first | exact h01
 
 private theorem twist_u2_mul_left (r : K) (X : Matrix (Fin 2) (Fin 2) K) :
     (u2 r : Matrix (Fin 2) (Fin 2) K) * X = X + !![r * X 1 0, r * X 1 1; 0, 0] := by
   rw [u2_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.vecMul, dotProduct, Fin.sum_univ_two] <;> ring
+    simp [Matrix.vecMul, dotProduct, Fin.sum_univ_two]
 
 private theorem twist_torus_mul_row (ν : K) (hν : ν ≠ 0) (c : Matrix (Fin 2) (Fin 2) K)
     (h10 : c 1 0 = 0) (h11 : c 1 1 = 0) :

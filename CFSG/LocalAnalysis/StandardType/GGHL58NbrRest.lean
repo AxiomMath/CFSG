@@ -25,7 +25,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem ggHL58NbrTorRestInput_of_rest (h : GGHL58NbrRestInput) : GGHL58NbrTorRestInput :=
   fun G _ _ p N k _ B Bs x L D J y K hH hxL hyK hk hp hpN hN hcard hA hCent hK =>
     h G p N k B Bs x L D J y K hH hxL hyK hk hp hpN hN hcard hA hCent
-      (fun h1 => hK (largeEvenMarking_mono (fun lab R _ I F θ hP => ⟨Or.inl hP.1, hP.2⟩) h1))
+      (fun h1 => hK (largeEvenMarking_mono (fun _lab _R _ _I _F _θ hP => ⟨Or.inl hP.1, hP.2⟩) h1))
 
 theorem ggHL58NbrRestInput_of_torrest (hT : GGTBTorAll) (hLift : GGTBTorLiftRows)
     (hW : GGTBWNormLabelInput) (hRest : GGHL58NbrTorRestInput) : GGHL58NbrRestInput := by

@@ -28,7 +28,7 @@ public theorem CFSG.lemma_6_6_a
     intro x hxS
     refine Subgroup.subset_closure ?_
     rcases
-        (IsPGroup.iff_orderOf (p := p) (G := ↥(S : Subgroup G))).1 S.isPGroup' ⟨x, hxS⟩ with
+        (IsPGroup.iff_orderOf (p := p) (G := ↥(S : Subgroup G))).1 S.isPGroup ⟨x, hxS⟩ with
       ⟨n, hn⟩
     exact ⟨n, by simpa [Subgroup.orderOf_coe] using hn⟩
   have hS_le_L : (S : Subgroup G) ≤ L := by

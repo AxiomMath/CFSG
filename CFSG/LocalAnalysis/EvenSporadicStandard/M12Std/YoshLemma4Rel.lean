@@ -106,7 +106,7 @@ theorem rel4D_trivial {H : Type*} [Group H] (g : Fin 8 → H) (α β : ℕ)
   · rw [lift_mk_append, lift_lD]; exact hDD
   · rw [lift_mk_append, lift_lD']; exact hD'D'
   · apply lift_mkRel_eq_one
-    simp only [lift_mk_append, lift_mk_invW, lift_mk_powW, lift_wC, lift_lD, lift_lE]
+    simp only [lift_mk_append, lift_mk_invW, lift_wC, lift_lD, lift_lE]
     rw [iD]; exact hE
   · apply lift_mkRel_eq_one
     simp only [lift_mk_append, lift_mk_invW, lift_mk_powW, lift_wC, lift_lD, lift_lA]

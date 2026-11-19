@@ -36,7 +36,7 @@ theorem a10t1_sub_simple_normal {Y : Type*} [Group Y] {A S : Subgroup Y} (hA : I
     (hSA : S ≤ A) (hS : ∀ a ∈ A, ∀ s ∈ S, a * s * a⁻¹ ∈ S) : S = ⊥ ∨ S = A := by
   have hN : (S.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff hSA).2 (fun s a hs ha => hS a ha s hs)
-  haveI := hN
+  have := hN
   rcases hA.eq_bot_or_eq_top_of_normal (S.subgroupOf A) with h | h
   · left
     rw [Subgroup.subgroupOf_eq_bot, disjoint_iff, inf_of_le_left hSA] at h
@@ -203,13 +203,13 @@ theorem a10t1_sub_quasi_ne_sup {Y : Type*} [Group Y] {A B C : Subgroup Y}
       refine a10t1_sub_center_sup hA hAn hB hBn hAB (hCN ▸ z.2) (fun n hn => ?_)
       exact congrArg Subtype.val (hz ⟨n, hCN ▸ hn⟩)
     exact (Subgroup.mem_bot).2 (Subtype.ext hz1)
-  haveI : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hq.2.1
+  have : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hq.2.1
   have hbij : Function.Bijective (QuotientGroup.mk' (Subgroup.center ↥C)) := by
     refine ⟨(injective_iff_map_eq_one _).2 (fun x hx => ?_), QuotientGroup.mk'_surjective _⟩
     have : x ∈ Subgroup.center ↥C := (QuotientGroup.eq_one_iff x).1 hx
     rw [hZ] at this
     exact (Subgroup.mem_bot).1 this
-  haveI hCs : IsSimpleGroup ↥C := (MulEquiv.ofBijective _ hbij).isSimpleGroup
+  have hCs : IsSimpleGroup ↥C := (MulEquiv.ofBijective _ hbij).isSimpleGroup
   have hAN : (A.subgroupOf C).Normal := by
     refine (Subgroup.normal_subgroupOf_iff hAC).2 (fun h k hh hk => ?_)
     rw [hCN] at hk
@@ -222,7 +222,7 @@ theorem a10t1_sub_quasi_ne_sup {Y : Type*} [Group Y] {A B C : Subgroup Y}
         _ = a * h * a⁻¹ := by group
     rw [this]
     exact A.mul_mem (A.mul_mem ha hh) (A.inv_mem ha)
-  haveI := hAN
+  have := hAN
   rcases hCs.eq_bot_or_eq_top_of_normal (A.subgroupOf C) with h | h
   · rw [Subgroup.subgroupOf_eq_bot, disjoint_iff, inf_of_le_left hAC] at h
     exact (Subgroup.nontrivial_iff_ne_bot A).1 hA.toNontrivial h

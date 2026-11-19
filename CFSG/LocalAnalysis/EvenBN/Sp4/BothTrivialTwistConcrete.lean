@@ -67,6 +67,7 @@ theorem mem_preBar_of_centralizer (h : FCHyp L K n φ t)
   exact (mem_preBar hyX).mpr (subset_normalClosure
     ⟨⟨y, hyX⟩, mem_subgroupOf.mpr (mem_inf.mpr ⟨hyL, hyU⟩), rfl⟩)
 
+omit [Finite G] in
 theorem axisTorus_mem_centralizer (i : Axis) {j : G} (hj : j ∈ 𝐉[i]) :
     j ∈ centralizer (𝐔[i] : Set G) := by
   refine mem_centralizer_iff.mpr fun x hx => ?_
@@ -125,7 +126,7 @@ theorem X₁_eq_aux (h : FCHyp L K n φ t) :
   rw [← SetLike.mem_coe, ← F_mul_Fw' h Axis.one] at hx
   obtain ⟨a, ha, y, ⟨b, hb, rfl⟩, rfl⟩ := hx
   refine ⟨a, ha, b, hb, ?_⟩
-  simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, w_inv, inv_inv]
+  simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, w_inv]
 
 theorem cc_aux (h : FCHyp L K n φ t) (hbt : ∀ i : Axis, ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ = ⊥)
     {u : G} (huC : u ∈ 𝐂) (hU : ∀ x ∈ 𝐔[Axis.two], u * x * u⁻¹ ∈ 𝐔[Axis.one])
@@ -178,7 +179,7 @@ theorem false_of_swap (h : FCHyp L K n φ t) (hbt : ∀ i : Axis, ⁅𝐀[i], �
   have hn2 : 2 ≤ n := h.setup.two_le
   have hk₂' : Nat.card k₂ = 2 ^ (2 * n) := by
     rw [Nat.card_eq_fintype_card, hk₂, ← pow_mul, mul_comm]
-  haveI : CharP k₂ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP k₂ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by omega) hk₂'
   obtain ⟨π, hπs, hπk, hπS⟩ := exists_preBarHom hk₂' (X_le_S Axis.one) ψ hSyl
   have hPS : 𝐏 ≤ 𝐒 := by

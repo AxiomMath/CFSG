@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem mem_zpowers_cases_of_mul_self {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -89,7 +90,7 @@ theorem l41_conj_t_mul_four (h : L41GPh2 t L S x₁ x₂ lam rho) {f : G}
     exact l41_conj_t_mul h hcL hcz
 
 theorem l41_false_of_conj_eq_of_conj_z (h : L41GPh1 t L S x₁ x₂ lam rho) {v c : G}
-    (hcL : c ∈ L) (hcv : c * (x₁ * x₂) ^ 2 * c⁻¹ = v) {g : G}
+    (_hcL : c ∈ L) (hcv : c * (x₁ * x₂) ^ 2 * c⁻¹ = v) {g : G}
     (hconj : g * t * g⁻¹ = v) : False :=
   l41_not_conj_z h ⟨c⁻¹ * g, by
     calc (c⁻¹ * g) * t * (c⁻¹ * g)⁻¹
@@ -128,7 +129,7 @@ theorem l41_tG_inf_four (h : L41GPh1 t L S x₁ x₂ lam rho) :
 
 theorem pow_four_mem_twoCore_of_mem_ctxW_ctx0 (h : Ctx0 t L S x₁ x₂ lam rho) {w : G}
     (hw : w ∈ ctxW t x₁ x₂) : w ^ 4 ∈ twoCore t := by
-  haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+  have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
   have hbase_le_W : baseGrp x₁ x₂ ≤ ctxW t x₁ x₂ := le_sup_right
   have hcommW : ∀ a ∈ ctxW t x₁ x₂, ∀ b ∈ ctxW t x₁ x₂, a * b = b * a := by
     intro a ha b hb
@@ -158,7 +159,7 @@ theorem pow_four_mem_twoCore_of_mem_ctxW_ctx0 (h : Ctx0 t L S x₁ x₂ lam rho)
       have hc : Commute x y := hcommW x hxW y hyW
       rw [hc.mul_pow 4, ihx, ihy, mul_one]
     · intro x hx ihx
-      simpa [ihx] using inv_pow x 4
+      simp [ihx]
   have hcomm_P_B : ∀ a ∈ twoCore t, ∀ b ∈ baseGrp x₁ x₂, a * b = b * a :=
     fun a ha b hb => twoCore_commute h.hyp a ha b (hbase_le_L hb)
   obtain ⟨q, hq, b, hb, hwb⟩ := (mem_sup_iff_of_commute hcomm_P_B).mp hw

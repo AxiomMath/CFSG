@@ -129,7 +129,7 @@ theorem lc_fld (w m : ℕ) : ∀ n p x, lc (fun e => fld p (w * e) m) x n = pAct
       have e2 : Nat.shiftRight x 1 = x / 2 := by
         change x >>> 1 = x / 2
         rw [Nat.shiftRight_eq_div_pow, pow_one]
-      rw [hb, e1, e2, cond_false, Nat.testBit_zero]
+      rw [hb, e1, e2, Bool.cond_false, Nat.testBit_zero]
       have hp : fld p (w * 0) m = Nat.land p m := by
         simp only [fld, Nat.mul_zero]
         rfl
@@ -210,11 +210,11 @@ theorem evS_shl (X : ℕ → ℕ) {T : ℕ} (hT : T < 2 ^ 16) (j : ℕ) :
     rw [evS, evS_shl X hT j n, fld_shl hT]
     by_cases hjn : j = n
     · subst hjn
-      simp [Nat.lt_irrefl]
-    · rw [if_neg (Ne.symm hjn), Nat.zero_and, par16_zero, Nat.xor_zero]
+      simp
+    · rw [ite_eq_right (Ne.symm hjn), Nat.zero_and, par16_zero, Nat.xor_zero]
       by_cases h : j < n
-      · rw [if_pos h, if_pos (by omega)]
-      · rw [if_neg h, if_neg (by omega)]
+      · rw [ite_eq_left h, ite_eq_left (by omega)]
+      · rw [ite_eq_right h, ite_eq_right (by omega)]
 
 theorem ev_shl (X : ℕ → ℕ) {N T j : ℕ} (hT : T < 2 ^ 16) (hj : j < N) :
     ev X N (T <<< (16 * j + 1)) = par16 (T &&& X j) := by
@@ -225,7 +225,7 @@ theorem ev_shl (X : ℕ → ℕ) {N T j : ℕ} (hT : T < 2 ^ 16) (hj : j < N) :
     cases i with
     | zero => simp
     | succ i => simp [Nat.testBit_succ]
-  rw [ev, h0, evS_shl X hT j N, if_pos hj, Nat.zero_xor]
+  rw [ev, h0, evS_shl X hT j N, ite_eq_left hj, Nat.zero_xor]
 
 theorem ev_foldl (X : ℕ → ℕ) (N : ℕ) (f : Blk → ℕ) :
     ∀ (bl : List Blk) (acc : ℕ), (∀ b ∈ bl, ev X N (f b) = 0) →
@@ -391,13 +391,13 @@ theorem candOK_sound {AT BT BC FK FC : ℕ} {ds : List ℕ} {a M' nM' : ℕ} {c 
   have key : a * nM' ≤ 65536 ∧
       c.2.length = (if a * nM' ≤ 32768 then 1 else 2 ^ c.1.length) := by
     by_cases h1 : a * nM' ≤ 32768
-    · rw [Nat.ble_eq_true_of_le h1, cond_true] at hn hlen
-      exact ⟨by omega, by rw [if_pos h1]; exact Nat.eq_of_beq_eq_true hlen⟩
-    · rw [ble_false (x := a * nM') (y := 32768) (by omega), cond_false] at hn hlen
+    · rw [Nat.ble_eq_true_of_le h1, _root_.Bool.cond_true] at hn hlen
+      exact ⟨by omega, by rw [ite_eq_left h1]; exact Nat.eq_of_beq_eq_true hlen⟩
+    · rw [ble_false (x := a * nM') (y := 32768) (by omega), Bool.cond_false] at hn hlen
       by_cases h2 : a * nM' ≤ 65536
-      · rw [Nat.ble_eq_true_of_le h2, cond_true] at hn hlen
-        exact ⟨h2, by rw [if_neg h1]; exact Nat.eq_of_beq_eq_true hlen⟩
-      · rw [ble_false (x := a * nM') (y := 65536) (by omega), cond_false] at hn
+      · rw [Nat.ble_eq_true_of_le h2, _root_.Bool.cond_true] at hn hlen
+        exact ⟨h2, by rw [ite_eq_right h1]; exact Nat.eq_of_beq_eq_true hlen⟩
+      · rw [ble_false (x := a * nM') (y := 65536) (by omega), Bool.cond_false] at hn
         exact absurd hn (by decide)
   refine ⟨fun κ hκ => bit_of_land (hg κ hκ), key.1, ?_⟩
   intro φ hφ

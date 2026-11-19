@@ -29,7 +29,7 @@ theorem kdRank3Field_E6 (q : PrimePower) (hv : (LieTypeIndex.E6 q).Valid) :
   set d : TypeE6LieIndex := ⟨⟨.E6 q, hv⟩, (LieTypeIndex.isTypeE6_iff _).2 trivial⟩ with hd
   have hfin : Finite (CFSGIndex.lie ⟨.E6 q, hv⟩).Group := Finite.of_equiv S e.toEquiv
   have : Finite (FixedPointCandidate d.steinberg) := hfin
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d.1
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d.1
   have : Fintype d.1.fixedField := Fintype.ofFinite _
   have hchar' : d.1.characteristic = p := hchar
   have hq : Fintype.card d.1.fixedField = p ^ q.exponent := by
@@ -59,7 +59,7 @@ theorem kdRank3Field_E7 (q : PrimePower) (hv : (LieTypeIndex.E7 q).Valid) :
   set d : TypeE7LieIndex := ⟨⟨.E7 q, hv⟩, (LieTypeIndex.isTypeE7_iff _).2 trivial⟩ with hd
   have hfin : Finite (CFSGIndex.lie ⟨.E7 q, hv⟩).Group := Finite.of_equiv S e.toEquiv
   have : Finite (FixedPointCandidate d.steinberg) := hfin
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d.1
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d.1
   have : Fintype d.1.fixedField := Fintype.ofFinite _
   have hchar' : d.1.characteristic = p := hchar
   have hq : Fintype.card d.1.fixedField = p ^ q.exponent := by
@@ -94,7 +94,7 @@ theorem kdRank3Field_twistedE6 (q : PrimePower) (hv : (LieTypeIndex.twistedE6 q)
     ⟨⟨.twistedE6 q, hv⟩, (LieTypeIndex.isTypeTwistedE6_iff _).2 trivial⟩ with hd
   have hfin : Finite (CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group := Finite.of_equiv S e.toEquiv
   have : Finite (FixedPointCandidate d.steinberg) := hfin
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d.1
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d.1
   have : Fintype d.1.fixedField := Fintype.ofFinite _
   have hchar' : d.1.characteristic = p := hchar
   have hq : Fintype.card d.1.fixedField = p ^ q.exponent := by

@@ -26,7 +26,7 @@ theorem burnsideF45_g2d_iso {E : Type} [Group E] {M₁ M₂ : Subgroup E}
         e ((g • a : (incl M₁ M₂).Γ)) =
           ((burnsideF4h_g2_incl K hK).comp π.toMonoidHom (burnsideF45_eIso hyp g)) • e a) ∧
       ∀ a b, (incl M₁ M₂).graph.Adj a b ↔ (Γ (burnsideF4h_g2_sys K)).Adj (e a) (e b) := by
-  haveI := hyp.finite
+  have := hyp.finite
   set D := burnsideF4h_g2_sys K with hD
   let j : E →* G2Native.FullModel K := (burnsideF4h_g2_incl K hK).comp π.toMonoidHom
   have hj : ∀ y, j y = burnsideF4h_g2_incl K hK (π y) := fun _ => rfl
@@ -36,9 +36,9 @@ theorem burnsideF45_g2d_iso {E : Type} [Group E] {M₁ M₂ : Subgroup E}
   have hm2 : ∀ y, y ∈ M₂ ↔ j y ∈ D.P₂ := fun y => by
     rw [hD, ← burnsideF4h_g2_fullLocal_line, hj, burnsideF4h_g2_incl_mem hK]
     exact h2 y
-  letI actE : MulAction E (V D) := MulAction.compHom (V D) j
+  let actE : MulAction E (V D) := MulAction.compHom (V D) j
   have hsmulE : ∀ (y : E) (a : V D), y • a = j y • a := fun _ _ => rfl
-  haveI : GraphAction E (Γ D) := ⟨fun y a b => by
+  have : GraphAction E (Γ D) := ⟨fun y a b => by
     rw [hsmulE, hsmulE]
     exact GraphAction.adj_smul (j y) a b⟩
   let θ : E ≃* ↥(⊤ : Subgroup E) := Subgroup.topEquiv.symm
@@ -98,15 +98,15 @@ theorem burnsideF45_excKind_G2d : burnsideF45_ExcKind .G2d := by
   have hGp : Gp = ⊤ := hyp.canonical (Or.inl rfl)
   subst hGp
   obtain ⟨K, fK, finK, hK, π, h1, h2⟩ := burnsideF45_g2d_chart hyp.toHypF_4_4g
-  letI := fK
-  haveI := hyp.finite
+  let := fK
+  have := hyp.finite
   have hP := burnsideF45_g2d_isLie hK π h1 h2
   have hB := burnsideF45_g2d_borel_pGroup hK π h1 h2
   obtain ⟨e, he1, he2, heq, hadj⟩ := burnsideF45_g2d_iso hyp hK π h1 h2
   let J : (incl M₁ M₂).G0 →* G2Native.FullModel K :=
     ((burnsideF4h_g2_incl K hK).comp π.toMonoidHom).comp (burnsideF45_eIso hyp).toMonoidHom
-  letI actX : MulAction (G2Native.FullModel K) (incl M₁ M₂).Γ := burnsideF45_transAct e
-  haveI : GraphAction (G2Native.FullModel K) (incl M₁ M₂).graph := burnsideF45_transAct_graph e hadj
+  let actX : MulAction (G2Native.FullModel K) (incl M₁ M₂).Γ := burnsideF45_transAct e
+  have : GraphAction (G2Native.FullModel K) (incl M₁ M₂).graph := burnsideF45_transAct_graph e hadj
   have hJrange : J.range = (burnsideF4h_g2_incl K hK).range := by
     rw [MonoidHom.range_comp, MonoidHom.range_eq_top.2 (burnsideF45_eIso hyp).surjective,
       ← MonoidHom.range_eq_map, MonoidHom.range_comp, MonoidHom.range_eq_top.2 π.surjective,

@@ -20,9 +20,9 @@ open scoped commutatorElement
 
 section Basic
 
-theorem charP_two_of_card_eq {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
+theorem charP_two_of_card_eq {K : Type} [Field K] [Finite K] {n : ℕ} (_hn : 1 ≤ n)
     (h : Nat.card K = 2 ^ n) : CharP K 2 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hcp, m, hpp, hm⟩ := FiniteField.card' K
   rw [← Nat.card_eq_fintype_card, h] at hm
   have hdvd : p ∣ 2 ^ n := by
@@ -36,6 +36,7 @@ theorem charP_two_of_card_eq {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 �
 variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
   {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem finrank_E_eq_twenty (hg : GlobalModelData M Q Z γ M₀) (hZQ : Z ≤ Q)
     (hQ : Nat.card Q = Nat.card Z ^ 21) : finrank K M₀.E = 20 := by
   have himgQ : M₀.img Q = ⊤ := by
@@ -75,10 +76,12 @@ theorem exists_T_Lgen (hctx : Ctx M Q Z B) (hg : GlobalModelData M Q Z γ M₀) 
   exact ⟨φ.comp (Subgroup.inclusion hle), fun s x hx => h1 ⟨(s : G), hle s.2⟩ x hx,
     fun s => h2 ⟨(s : G), hle s.2⟩⟩
 
+omit [Finite G] in
 theorem Lgen_le_normalizer_Q (hctx : Ctx M Q Z B) :
     Lgen M (LB M Q B) ≤ Subgroup.normalizer (Q : Set G) := by
   exact (Lgen_le hctx.LB_le_M).trans hctx.hyp.Q_normal.2
 
+omit [Finite G] [Finite K] in
 theorem exists_SLAct {Lg : Subgroup G} [(Q.subgroupOf Lg).Normal]
     (T : Lg →* (M₀.E ≃ₗ[K] M₀.E)) (hQ : ∀ s : Lg, (s : G) ∈ Q → T s = 1)
     (Θ : ↥(StatedSL 6 K) →* (↥Lg ⧸ Q.subgroupOf Lg)) (hΘ : Function.Surjective Θ) :
@@ -97,7 +100,7 @@ theorem exists_SLAct {Lg : Subgroup G} [(Q.subgroupOf Lg).Normal]
       ∀ (g : GL (Fin 6) K) (hg : g ∈ StatedSL 6 K),
         act g = (Tbar (Θ ⟨g, hg⟩)).toLinearMap :=
     ⟨fun g => if hg : g ∈ StatedSL 6 K then (Tbar (Θ ⟨g, hg⟩)).toLinearMap else 1,
-      fun g hg => dif_pos hg⟩
+      fun g hg => dite_eq_left hg⟩
   have act_one : act 1 = 1 := by
     rw [hact 1 (one_mem _)]
     show (Tbar (Θ 1)).toLinearMap = 1
@@ -134,6 +137,7 @@ theorem exists_SLAct {Lg : Subgroup G} [(Q.subgroupOf Lg).Normal]
     rw [hact g hgS, e]
     rfl
 
+omit [Finite G] in
 theorem gsC_mk_mul_comm {Q Lg C : Subgroup G} [(Q.subgroupOf Lg).Normal]
     (hC : ⁅C, C⁆ ≤ Q) {s t : Lg} (hs : (s : G) ∈ C) (ht : (t : G) ∈ C) :
     (QuotientGroup.mk s : ↥Lg ⧸ Q.subgroupOf Lg) * QuotientGroup.mk t =
@@ -147,6 +151,7 @@ theorem gsC_mk_mul_comm {Q Lg C : Subgroup G} [(Q.subgroupOf Lg).Normal]
   rw [e]
   exact hcm
 
+omit [Finite G] in
 theorem gsC_mk_mul_self_eq_one {Q Lg C : Subgroup G} [(Q.subgroupOf Lg).Normal]
     (hC : ∀ a ∈ C, a ^ 2 ∈ Q) {s : Lg} (hs : (s : G) ∈ C) :
     (QuotientGroup.mk s : ↥Lg ⧸ Q.subgroupOf Lg) * QuotientGroup.mk s = 1 := by
@@ -222,8 +227,9 @@ theorem exists_W_of_bar {K : Type} [Field K] [Finite K] [CharP K 2] {X : Type} [
   rw [← hWU]
   exact hmemEG u
 
-theorem fixed_iff_mem_img {A' S : Subgroup G} {Lg : Subgroup G} (hctx : Ctx M Q Z A')
-    (hSM : S ≤ M) (hM : M ≤ Subgroup.normalizer (Q : Set G)) (hZQ : Z ≤ Q) (hLB : S = LB M Q A')
+omit [Finite G] [Finite K] in
+theorem fixed_iff_mem_img {A' S : Subgroup G} {Lg : Subgroup G} (_hctx : Ctx M Q Z A')
+    (hSM : S ≤ M) (hM : M ≤ Subgroup.normalizer (Q : Set G)) (hZQ : Z ≤ Q) (_hLB : S = LB M Q A')
     (hCQt : CQt Q Z S = ((A' ⊔ Z : Subgroup G) : Set G)) (hA'Q : A' ≤ Q)
     (T : Lg →* (M₀.E ≃ₗ[K] M₀.E))
     (hTe : ∀ (s : Lg) (x : G), x ∈ Q → M₀.π ((s : G) * x * (s : G)⁻¹) = T s (M₀.π x))
@@ -305,6 +311,7 @@ theorem LB_le_Lgen_of_point_E3L (h34 : Stroth34Statement) (hGen : StrothGenByBSt
   rw [hCeq, hc.ctx.LB_conj hm]
   exact le_iSup₂_of_le (p⁻¹ * g) hm le_rfl
 
+omit [Finite G] [Finite K] in
 theorem points_span (H : StrothHyp M Q Z) (M₀ : Tim79.QuadModel Q Z K γ) (v : M₀.E) :
     v ∈ ⨆ A' : {A' : Subgroup G // IsZConjugate Z A' ∧ A' ≤ Q ∧ A' ≠ Z},
       Submodule.span K ((fun x : G => M₀.π x) '' ((A'.1 : Subgroup G) : Set G)) := by

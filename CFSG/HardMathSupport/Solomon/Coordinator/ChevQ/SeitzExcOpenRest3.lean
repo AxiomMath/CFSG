@@ -238,7 +238,7 @@ theorem e7_inf3_dualWeylStabilizer_le_closure (z₀ z₁ z₂ : Fin Tag.E7.rank 
       dualWeylStabilizer z₂)
   · obtain ⟨a, z₀', z₁', z₂', h₀, h₁, h₂, g₀, g₁, g₂⟩ := exists_conj_fix_e7_triple h7
     exact e7_inf3_le_closure_of_conj h₀ h₁ h₂ (e7_inf3_le_closure_of_fix g₀ g₁ g₂)
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact inf3_dualWeylStabilizer_le_closure_of_card z₀ z₁ z₂ h7
 
 open CFSG.HardMathSupport.Timmesfeld.Torality CFSG.LocalAnalysis.ComponentInitial
@@ -259,7 +259,7 @@ theorem e7SevenCubeWeyl_holds (L : Type) [Field L] (a : Fin 3 → Fin Tag.E7.ran
     exact htop (Subgroup.mem_top y)
   · push Not at hall
     obtain ⟨s₀, i₀, hne⟩ := hall
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hζ : orderOf (a s₀ i₀) = 7 := orderOf_eq_prime (ha s₀ i₀) hne
     have hexp : ∀ (s : Fin 3) (i : Fin Tag.E7.rank), ∃ n : ℕ, a s i = (a s₀ i₀) ^ n :=
       fun s i => exists_pow_eq_of_pow_seven hζ (ha s i)
@@ -305,8 +305,8 @@ theorem exists_two_gen_of_card_sq' {G : Type*} [Group G] {p : ℕ} (hp : p.Prime
     (F : Subgroup G) (hF : Nat.card F = p ^ 2) (hexp : ∀ x ∈ F, x ^ p = 1) :
     ∃ x1 ∈ F, ∃ x2 ∈ F, F = Subgroup.closure {x1, x2} := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero 2 hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero 2 hp.ne_zero)
   have hp12 : p < p ^ 2 := by nlinarith [hp.one_lt]
   obtain ⟨x1, hx1F, hx1⟩ : ∃ x ∈ F, x ≠ 1 := by
     by_contra hcon
@@ -316,7 +316,7 @@ theorem exists_two_gen_of_card_sq' {G : Type*} [Group G] {p : ℕ} (hp : p.Prime
     have : 1 < p ^ 2 := Nat.one_lt_pow two_ne_zero hp.one_lt
     omega
   have hord : orderOf x1 = p := orderOf_eq_prime (hexp x1 hx1F) hx1
-  haveI : Finite (Subgroup.zpowers x1) :=
+  have : Finite (Subgroup.zpowers x1) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hord]; exact hp.ne_zero)
   obtain ⟨x2, hx2F, hx2⟩ : ∃ x2 ∈ F, x2 ∉ Subgroup.zpowers x1 := by
     by_contra hcon
@@ -335,7 +335,7 @@ theorem exists_two_gen_of_card_sq' {G : Type*} [Group G] {p : ℕ} (hp : p.Prime
     (Subgroup.zpowers_le).2 (Subgroup.subset_closure (Or.inl rfl))
   have hx2C : x2 ∈ C := Subgroup.subset_closure (Or.inr rfl)
   have hlt : Subgroup.zpowers x1 < C := lt_of_le_of_ne hZC fun h => hx2 (h ▸ hx2C)
-  haveI : Finite C := Finite.of_injective (Subgroup.inclusion hCF) (Subgroup.inclusion_injective _)
+  have : Finite C := Finite.of_injective (Subgroup.inclusion hCF) (Subgroup.inclusion_injective _)
   have h1 := Subgroup.card_lt_of_lt hlt
   rw [Nat.card_zpowers, hord] at h1
   have h2 : Nat.card C ∣ p ^ 2 := hF ▸ Subgroup.card_dvd_of_le hCF
@@ -352,8 +352,8 @@ theorem exists_three_gen_of_card_cube {G : Type*} [Group G] {p : ℕ} (hp : p.Pr
     (E : Subgroup G) (hE : Nat.card E = p ^ 3) (hexp : ∀ x ∈ E, x ^ p = 1) :
     ∃ x1 ∈ E, ∃ x2 ∈ E, ∃ x3 ∈ E, E = Subgroup.closure {x1, x2, x3} := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; exact pow_ne_zero 3 hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; exact pow_ne_zero 3 hp.ne_zero)
   obtain ⟨F', hF'⟩ := Sylow.exists_subgroup_card_pow_prime (G := E) p (n := 2)
     (by rw [hE]; exact pow_dvd_pow p (by norm_num))
   set F : Subgroup G := F'.map E.subtype with hFdef
@@ -366,7 +366,7 @@ theorem exists_three_gen_of_card_cube {G : Type*} [Group G] {p : ℕ} (hp : p.Pr
   obtain ⟨x1, hx1, x2, hx2, hF⟩ :=
     exists_two_gen_of_card_sq' hp F hFc (fun x hx => hexp x (hFE hx))
   have hp23 : p ^ 2 < p ^ 3 := Nat.pow_lt_pow_right hp.one_lt (by norm_num)
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFc]; exact pow_ne_zero 2 hp.ne_zero)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFc]; exact pow_ne_zero 2 hp.ne_zero)
   obtain ⟨x3, hx3E, hx3F⟩ : ∃ x3 ∈ E, x3 ∉ F := by
     by_contra h
     push Not at h
@@ -389,7 +389,7 @@ theorem exists_three_gen_of_card_cube {G : Type*} [Group G] {p : ℕ} (hp : p.Pr
     · exact Or.inr (Or.inl rfl)
   have hx3C : x3 ∈ C := Subgroup.subset_closure (Or.inr (Or.inr rfl))
   have hlt : F < C := lt_of_le_of_ne hFC fun h => hx3F (h ▸ hx3C)
-  haveI : Finite C := Finite.of_injective (Subgroup.inclusion hCE) (Subgroup.inclusion_injective _)
+  have : Finite C := Finite.of_injective (Subgroup.inclusion hCE) (Subgroup.inclusion_injective _)
   have h1 := Subgroup.card_lt_of_lt hlt
   have h2 : Nat.card C ∣ p ^ 3 := hE ▸ Subgroup.card_dvd_of_le hCE
   obtain ⟨k, hk, hkC⟩ := (Nat.dvd_prime_pow hp).1 h2
@@ -926,10 +926,10 @@ theorem e7_conj_into_frame_seven_cube {K : Type} [Field K] [Finite K] (hpq : 7 �
     (langToralCube_of_bar Nat.prime_seven cubesToralBar_E7_seven) K hpK E₀ hE₀comm hE₀p hE₀c
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hfr : Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) (f : ℕ) :=
     RingHom.ext fun x => by rw [hFr, iterateFrobenius_def, hq]
@@ -1119,7 +1119,7 @@ theorem hyperGen_adjoint_E7_two_seven (K : Type) [Field K] [Finite K] (hpq : 7 �
       IsElemAbelian 7 E → Nat.card E = 7 ^ 3 → HyperGen 7 ⊤ E)
     {E₀ : Subgroup (adjointGroup .E7 K)} (hE₀ : IsElemAbelian 7 E₀) (hc : Nat.card E₀ = 7 ^ 3) :
     HyperGen 7 ⊤ E₀ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact hyperGen_of_two_conj (e7A1D6 K) (e7FrameGroup K) (weylWordElt .E7 K e7Word)
     e7FrameGroup_le_e7A1D6 e7FrameGroup_le_conj_e7A1D6
     (fun M hX hn => eq_top_of_e7A1D6_le_of_conj_le M hX hn)
@@ -1154,7 +1154,7 @@ theorem e8_conj_into_frame_five_of_d8 (hpq : 5 ∣ Nat.card K + 1)
     (hD8 : ∃ g : adjointGroup .E8 K, E₀.map (MulAut.conj g).toMonoidHom ≤ ⨆ k, e8D8Chain K k) :
     ∃ g : adjointGroup .E8 K, E₀.map (MulAut.conj g).toMonoidHom ≤ e8FrameGroup K := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hp5p : (5 : ℕ).Prime := Nat.prime_five
   have hord := orderOf_eq_two_of_dvd_add_one hp5p (by norm_num) hpq
   have hpK : ¬ 5 ∣ Nat.card K := not_dvd_card_of_dvd_add_one hp5p hpq
@@ -1174,8 +1174,8 @@ theorem e8_conj_into_frame_five_of_d8 (hpq : 5 ∣ Nat.card K + 1)
   have hEa : IsElemAbelian 5 E := CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map 5 hE₀ _
   have hEcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hEa.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : Nonempty (Fin 8 ⊕ Fin 8) := ⟨Sum.inl 0⟩
-  haveI : Finite (spinGroup (Spin.quadPlus 8 K)) :=
+  have : Nonempty (Fin 8 ⊕ Fin 8) := ⟨Sum.inl 0⟩
+  have : Finite (spinGroup (Spin.quadPlus 8 K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   have hcen5 := not_dvd_card_center_spinPlus (K := K) hn3 (p := 5) (by norm_num) hpq1
   have hΨcop : ¬ 5 ∣ Nat.card Ψ.ker := fun hd => hcen5 (hd.trans (Subgroup.card_dvd_of_le hker))
@@ -1203,7 +1203,7 @@ theorem e8_conj_into_frame_five_of_d8 (hpq : 5 ∣ Nat.card K + 1)
       (∀ v ∈ T, Spin.quadPlus 8 K v = 0) → T = ⊥ := by
     intro T hTi hTs
     by_contra hT0
-    haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+    have : Fact (ringChar K).Prime := ⟨hℓ⟩
     obtain ⟨U, hU0, hUp, hUn⟩ : ∃ U : Subgroup (spinGroup (Spin.quadPlus 8 K)), U ≠ ⊥ ∧
         IsPGroup (ringChar K) U ∧ ∀ e ∈ E', U.map (MulAut.conj e).toMonoidHom = U := by
       rcases Nat.even_or_odd (Nat.card K) with hev | hodd
@@ -1212,7 +1212,7 @@ theorem e8_conj_into_frame_five_of_d8 (hpq : 5 ∣ Nat.card K + 1)
             rw [← Nat.card_eq_fintype_card]
             exact hev
           exact FiniteField.even_card_iff_char_two.mpr (Nat.even_iff.mp heven)
-        haveI : CharP K 2 := ringChar.of_eq hchar2
+        have : CharP K 2 := ringChar.of_eq hchar2
         exact exists_rGroup_normalized_of_invariant_singular_charTwo hn3 E' T hT0 hTs hTi
       · exact exists_rGroup_normalized_of_invariant_singular hodd hn3 E' T hT0 hTs hTi
     have hcenr : ¬ ringChar K ∣ Nat.card (Subgroup.center (spinGroup (Spin.quadPlus 8 K))) := by
@@ -1222,7 +1222,7 @@ theorem e8_conj_into_frame_five_of_d8 (hpq : 5 ∣ Nat.card K + 1)
             rw [← Nat.card_eq_fintype_card]
             exact hev
           exact FiniteField.even_card_iff_char_two.mpr (Nat.even_iff.mp heven)
-        haveI : CharP K 2 := ringChar.of_eq hchar2
+        have : CharP K 2 := ringChar.of_eq hchar2
         rw [hchar2]
         exact not_dvd_card_center_spinPlus_charTwo hn3
       · have hr2 : ringChar K ≠ 2 := by
@@ -1256,7 +1256,7 @@ theorem e8_conj_into_frame_five_of_d8 (hpq : 5 ∣ Nat.card K + 1)
           rw [← Nat.card_eq_fintype_card]
           exact hev
         exact FiniteField.even_card_iff_char_two.mpr (Nat.even_iff.mp heven)
-      haveI : CharP K 2 := ringChar.of_eq hchar2
+      have : CharP K 2 := ringChar.of_eq hchar2
       exact SeitzExcOpenRest2.exists_spin_conj_frameGroup_elem_charTwo hn3 (k := 4) (by norm_num)
         ιstd hp5p le_rfl hpl hord E' hE'comm hE'ea.2 hNS
     · exact SeitzExcOpenRest2.exists_spin_conj_frameGroup_elem hodd hn3 (k := 4) (by norm_num)
@@ -1280,7 +1280,7 @@ theorem hyperGen_adjoint_E8_two_five (K : Type) [Field K] [Finite K] (hpq : 5 �
     (hN : ¬ NormalizesRGroup (ringChar K) E₀)
     (hD8 : ∃ g : adjointGroup .E8 K, E₀.map (MulAut.conj g).toMonoidHom ≤ ⨆ k, e8D8Chain K k) :
     HyperGen 5 ⊤ E₀ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   have hpq1 : ¬ 5 ∣ Nat.card K - 1 :=
     not_dvd_pred_of_dvd_add_one Nat.prime_five (by norm_num) hpq
@@ -1296,7 +1296,7 @@ theorem hyperGen_adjoint_E8_four_five (K : Type) [Field K] [Finite K]
     {E₀ : Subgroup (adjointGroup .E8 K)} (hE₀ : IsElemAbelian 5 E₀) (hc : Nat.card E₀ = 5 ^ 3)
     (hD4 : ∃ g : adjointGroup .E8 K, E₀.map (MulAut.conj g).toMonoidHom ≤ e8D4Group K) :
     HyperGen 5 ⊤ E₀ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have hpK := not_dvd_of_orderOf_eq_four Nat.prime_five he

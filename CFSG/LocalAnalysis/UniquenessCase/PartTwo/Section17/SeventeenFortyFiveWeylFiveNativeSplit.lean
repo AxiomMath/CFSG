@@ -105,7 +105,7 @@ theorem weylFive_native_split
       (by norm_num) hW hK
   obtain ⟨S₀⟩ : Nonempty (Sylow 31 D) := inferInstance
   let P₀sub : Subgroup C := (S₀ : Subgroup D).map D.subtype
-  have hP₀sub_p : IsPGroup 31 P₀sub := (Sylow.isPGroup' S₀).map D.subtype
+  have hP₀sub_p : IsPGroup 31 P₀sub := (Sylow.isPGroup S₀).map D.subtype
   have hP₀sub_idx : ¬ 31 ∣ P₀sub.index := by
     rw [Subgroup.index_map_subtype]
     intro hdvd
@@ -119,7 +119,7 @@ theorem weylFive_native_split
     rw [hP₀coe] at hx
     obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.1 hx
     exact y.2
-  have hP₀p : IsPGroup 31 ↥(P₀ : Subgroup C) := Sylow.isPGroup' P₀
+  have hP₀p : IsPGroup 31 ↥(P₀ : Subgroup C) := Sylow.isPGroup P₀
   let E_C : Subgroup C := E.subgroupOf C
   have hE_C_p : IsPGroup 31 E_C := by
     intro x
@@ -148,7 +148,7 @@ theorem weylFive_native_split
     refine Subgroup.eq_of_le_of_card_ge hθE_sub ?_
     rw [Subgroup.card_map_of_injective hθC_inj]
   let Q : Subgroup C := (P₁ : Subgroup C).map θC
-  have hQp : IsPGroup 31 Q := (Sylow.isPGroup' P₁).map θC
+  have hQp : IsPGroup 31 Q := (Sylow.isPGroup P₁).map θC
   have hQcard : Nat.card Q = Nat.card (P₁ : Subgroup C) :=
     Subgroup.card_map_of_injective hθC_inj
   have hQidx : Q.index = (P₁ : Subgroup C).index := by

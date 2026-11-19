@@ -13,7 +13,7 @@ open scoped commutatorElement Pointwise Matrix
 variable {Q : Type} [CommGroup Q]
 
 @[expose] def w1369_ta_Equiv {Λ : Subgroup (MulAut Q)} {A B : Subgroup Q}
-    (hA : StableUnder Λ A) (hB : StableUnder Λ B) (e : ↥A ≃* ↥B) : Prop :=
+    (hA : StableUnder Λ A) (_hB : StableUnder Λ B) (e : ↥A ≃* ↥B) : Prop :=
   ∀ g (hg : g ∈ Λ) (x : ↥A),
     (e ⟨g (x : Q), hA g hg (x : Q) x.2⟩ : Q) = g (e x : Q)
 
@@ -47,7 +47,7 @@ lemma w1369_ta_Equiv.trans {Λ : Subgroup (MulAut Q)} {A B D : Subgroup Q}
 
 lemma w1369_ta_end_I_eq_id_or_zero {Λ : Subgroup (MulAut Q)} {k : ℕ} {I : Fin k → Subgroup Q}
     (P : w1369_ta_Proj I Λ) (hstab : ∀ i, StableUnder Λ (I i))
-    (hsimple : ∀ i, w1369_ta_IsSimple Λ (I i))
+    (_hsimple : ∀ i, w1369_ta_IsSimple Λ (I i))
     (hend : ∀ i j, i ≠ j → SecIsoOn Λ (I i) ⊥ (I j) ⊥ → ∀ f : Q →* Q,
       (∀ g ∈ Λ, ∀ x, f (g x) = g (f x)) → (∀ x ∈ I i, f x ∈ I i) →
       (∀ j', j' ≠ i → ∀ x ∈ I j', f x = 1) → (∀ x ∈ I i, f x = x) ∨ (∀ x ∈ I i, f x = 1))

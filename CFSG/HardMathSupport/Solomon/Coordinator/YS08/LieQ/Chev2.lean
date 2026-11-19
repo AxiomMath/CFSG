@@ -124,7 +124,7 @@ theorem radRigid_of_isChevOfChar_two (F : TwoFamilies) {S : Type} [Group S] [Fin
       hr e) hBT
 
 theorem lieQConstrained_two (F : TwoFamilies) : LieQConstrained 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact lieQConstrained_of_families
     (fun S _ _ hs hna h => holdsTits_two_of_isChevTwo hs hna (isChevTwo_of_isChevOfChar_two h))
     (fun S _ _ hs hna h => radRigid_of_isChevOfChar_two F hs hna h)

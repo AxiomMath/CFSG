@@ -39,7 +39,7 @@ theorem p21_secTwoHyp {t u x : Y} (htt : t * t = 1) (ht1 : t ≠ 1) (hF : P5.IsF
     (hdisj : Disjoint (zpowers t) (zpowers x ⊔ zpowers u))
     (hcent : centralizer ({t} : Set Y) = zpowers t ⊔ (zpowers x ⊔ zpowers u)) :
     SecTwoHyp Y t u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu_c : u ∈ centralizer ({t} : Set Y) := by
     rw [hcent]
     exact mem_sup_right (mem_sup_right (mem_zpowers u))

@@ -15,7 +15,7 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 
 theorem card_sylow_seven [Fact (Nat.Prime 7)] {C : Type*} [Group C] [Finite C] (R : Sylow 7 C)
     (h7 : 7 ∣ Nat.card C) (h49 : ¬ 49 ∣ Nat.card C) : Nat.card R = 7 := by
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp R.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp R.isPGroup
   have hidx := (R : Subgroup C).index_mul_card
   have hnd := R.not_dvd_index
   rcases k with _ | _ | k

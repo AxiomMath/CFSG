@@ -59,6 +59,7 @@ private theorem card_oTwoQuot_sup_le
               ((StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ k) F)))
             (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 private theorem card_chiefAut_eq_natural {H L N : Subgroup G} {k : ℕ} {F : Type}
     [Field F] [Finite F] (hFc : Nat.card F = (2 ^ k) ^ 2)
     {hE : IsElemAbelian 2 (Ch3z.chiefMod L N)}
@@ -68,8 +69,8 @@ private theorem card_chiefAut_eq_natural {H L N : Subgroup G} {k : ℕ} {F : Typ
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ :=
     @BinaryNaturalSU3.exists_equiv ↥(Ch3z.chiefMod L N) (commGroupOfElemAbelian hE)
       (Ch3z.chiefAut H L N) k hnat
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   rw [← Nat.card_congr e.toEquiv,
     CFSG.SectionRank.OddCover.card_statedSU_three_of_card_eq_sq (q := 2 ^ k) hKcard,
     CFSG.SectionRank.OddCover.card_statedSU_three_of_card_eq_sq (q := 2 ^ k) hFc]
@@ -99,7 +100,7 @@ theorem Str86AbHyp.mem_q1_of_chiefFactor_natural
     rw [Subgroup.relIndex, hKsub, Subgroup.index_ker,
       MonoidHom.range_eq_top.mpr (Ch3z.chiefHom_surjective hHL hHN), Subgroup.card_top]
   have hpCoreH : pCoreOf 2 H = Q1 L1 L2 S :=
-    u3LS_pCoreOf (k := k) (F := F) hF hI.hSB h1
+    u3LS_pCoreOf (_k := k) (F := F) hF hI.hSB h1
   have hpCore_sub : CFSG.Open.pCore 2 ↥H = (Q1 L1 L2 S).subgroupOf H :=
     u3LS_pCore_subgroupOf (k := k) (F := F) hF hI.hSB h1
   have hQ1C : Q1 L1 L2 S ≤ C := by

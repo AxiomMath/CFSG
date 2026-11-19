@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T X : Subgroup G}
 
+omit [Finite G] in
 theorem coe_sup_eq_mul_of_mul_eq_mul {A B : Subgroup G} (hAB : (A : Set G) * B = B * A) :
     ((A ⊔ B : Subgroup G) : Set G) = (A : Set G) * B := by
   let S : Subgroup G :=

@@ -13,6 +13,7 @@ open CFSG CFSG.RankThree.PartTwo
 
 variable {Q Γ : Type*} [Group Q] [Finite Q] [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem range_le_closure_orderOf {A : Type*} [Group A] (ψ : Γ →* A) {c : Γ}
     (hgen : (⊤ : Subgroup Γ) ≤ Subgroup.closure {x | ∃ g, x = g * c * g⁻¹}) :
     ψ.range ≤ Subgroup.closure {k | k ∈ ψ.range ∧ orderOf k = orderOf (ψ c)} := by
@@ -40,7 +41,7 @@ theorem not_nine_dvd_card_range (ψ : Γ →* alternatingGroup (Fin 6))
         (by norm_num; exact h9)
     calc (9 : ℕ) = 3 ^ 2 := by norm_num
       _ ∣ 3 ^ (Nat.card ψ.range).factorization 3 := pow_dvd_pow 3 h2
-  have hScyc : IsCyclic ↥(S : Subgroup Γ) := hcyc S S.isPGroup'
+  have hScyc : IsCyclic ↥(S : Subgroup Γ) := hcyc S S.isPGroup
   have hS'cyc : IsCyclic ↥(S' : Subgroup ↥ψ.range) := by
     have hsurj : Function.Surjective ((ψ.rangeRestrict.comp (S : Subgroup Γ).subtype).codRestrict
         (S' : Subgroup ↥ψ.range) fun x => ⟨x, x.2, rfl⟩) := by
@@ -62,6 +63,7 @@ theorem not_nine_dvd_card_range (ψ : Γ →* alternatingGroup (Fin 6))
   have := Nat.le_of_dvd (by norm_num) (h9'.trans hdvd)
   omega
 
+omit [Finite Q] in
 theorem range_eq_or_of_isCyclic {U V : Subgroup Q} [U.Normal] (hUV : U ⊔ V = ⊤)
     (hc : ⁅U, V⁆ = ⊥) (hV : Nonempty (↥V ⧸ Subgroup.center ↥V ≃* alternatingGroup (Fin 6)))
     (κ : Γ →* MulAut Q) (hκV : κ.range ≤ V.map (MulAut.conj : Q →* MulAut Q)) {c : Γ}

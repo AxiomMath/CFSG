@@ -397,7 +397,7 @@ theorem mem_M_of_pow_eq_one (hcount : involutionClassCount G = 2) {f : G} (hfX :
   refine (F.mem_M hcount).mpr ⟨hfX, ?_⟩
   set P := F.sylowT hcount with hP
   have hQ : IsPGroup 2 (↥(P : Subgroup ↥F.X) ⧸ (P : Subgroup ↥F.X).focalSubgroupOf) :=
-    P.isPGroup'.to_quotient _
+    P.isPGroup.to_quotient _
   set y := (P : Subgroup ↥F.X).transferFocal ⟨f, hfX⟩ with hy
   have hyn : y ^ n = 1 := by
     rw [hy, ← map_pow]

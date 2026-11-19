@@ -200,7 +200,7 @@ theorem cube_fix_of_class2 {s : J} {P : Set J} (hPC : ∀ t ∈ P, t * s = s * t
         rw [Subgroup.coe_inv]
         have := ha f hf
         rw [inv_smul_eq_iff, this] }
-  haveI hKn : K.Normal := by
+  have hKn : K.Normal := by
     refine ⟨fun k hk h f hf => ?_⟩
     rw [Subgroup.coe_mul, Subgroup.coe_mul, mul_smul, mul_smul, Subgroup.coe_inv]
     have h1 : (h : J)⁻¹ • f = (h : J)⁻¹ • f := rfl
@@ -321,7 +321,7 @@ theorem pConstrainedShape_of_twins (φ : J →* R) (e : ι → R) (s : J)
       · have := TabFi23.twin_smul hconj (hxg hg') hab
         rwa [hφ, hφ] at this
       · rw [map_mul, map_mul, map_inv, hφt, TabFi23.rho_smul hconj, hφ, hφ]
-    | one => simpa using (Subgroup.closure P).one_mem
+    | one => simp
     | mul y z _ _ hy hz =>
       have : g * (y * z) * g⁻¹ = (g * y * g⁻¹) * (g * z * g⁻¹) := by group
       rw [this]

@@ -186,7 +186,7 @@ theorem ggWeylNoEichlerRho_A {n : ℕ} (hn : 5 ≤ n) :
     rw [hy u a]
     dsimp only [x]
     rw [hu a, hu (σ a), hu (σ (σ a))]
-    simp only [if_neg ha, if_neg ha2, if_neg hσa_d, if_neg hσ2a_d, if_neg ha_d]
+    simp only [ite_eq_right ha, ite_eq_right ha2, ite_eq_right hσa_d, ite_eq_right hσ2a_d, ite_eq_right ha_d]
     norm_num
   have hyd : x d (g (g u) + g u + u) = 0 ∨ x d (g (g u) + g u + u) = -1 := by
     rw [hy u d]
@@ -195,7 +195,7 @@ theorem ggWeylNoEichlerRho_A {n : ℕ} (hn : 5 ≤ n) :
     by_cases hfix : σ d = d
     · left
       have hfix2 : σ (σ d) = d := by rw [hfix, hfix]
-      simp only [if_neg hd_a, if_pos hfix, if_pos hfix2, if_neg hσd_a, if_neg hσ2d_a]
+      simp only [ite_eq_right hd_a, ite_eq_left hfix, ite_eq_left hfix2, ite_eq_right hσd_a, ite_eq_right hσ2d_a]
       decide
     · right
       have hfix2 : σ (σ d) ≠ d := by
@@ -204,7 +204,7 @@ theorem ggWeylNoEichlerRho_A {n : ℕ} (hn : 5 ≤ n) :
         have h' := congrArg (fun x => σ x) h
         rw [hσ3_apply d] at h'
         exact h'.symm
-      simp only [if_neg hd_a, if_neg hfix, if_neg hfix2, if_neg hσd_a, if_neg hσ2d_a]
+      simp only [ite_eq_right hd_a, ite_eq_right hfix, ite_eq_right hfix2, ite_eq_right hσd_a, ite_eq_right hσ2d_a]
       decide
   have hconst_ad := hconst u a d
   rw [hya] at hconst_ad

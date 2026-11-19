@@ -36,7 +36,7 @@ theorem crossAtPrime_of_sylowAbelian {d : TauCeti.ValidLieTypeIndex} {p : ℕ}
   intro hp hp5 hdp
   refine ⟨fun L _ _ hs he _ _ => hab hp hp5 hdp L hs he, ?_⟩
   intro L _ _ hs he _ h3 y hy
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact three_le_pRank_centralizer_of_sylow_abelian (hab hp hp5 hdp L hs he) h3
     (hy ▸ pow_orderOf_eq_one y)
 
@@ -72,8 +72,8 @@ theorem crossAtPrime_of_untwisted {τ : Tag} {c : TauCeti.PrimePower → TauCeti
     (hW : p.Prime → ¬ p ∣ Nat.card (WeylGroup τ)) :
     CrossAtPrime ⟨c q, hv⟩ p := by
   refine crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ hs ⟨e⟩ P => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hdp' : q.p ≠ p := by rw [← hch q]; exact hdp
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
@@ -89,8 +89,8 @@ theorem crossAtPrime_twistedE6 {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid) {p : ℕ} (hp7 : 7 ≤ p) :
     CrossAtPrime ⟨.twistedE6 q, hv⟩ p := by
   refine crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ hs ⟨e⟩ P => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hdp' : q.p ≠ p := by simpa using hdp
   have hm : 0 < TwistTag.E6.order := by decide
   have hK : Nat.card (GaloisField q.p (q.exponent * TwistTag.E6.order)) =

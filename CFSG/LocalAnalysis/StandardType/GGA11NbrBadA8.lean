@@ -17,13 +17,13 @@ private theorem a11b8_fPow_add {G : Type} [Group G] (f : Fin 4 → G)
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  haveI : IsMulCommutative H := Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup H := IsMulCommutative.instCommGroup
+  have : IsMulCommutative H := Subgroup.isMulCommutative_closure hpair
+  let : CommGroup H := IsMulCommutative.instCommGroup
   let fH : Fin 4 → H := fun i => ⟨f i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have hordH : ∀ i, orderOf (fH i) = 7 := by
     intro i
     have h := Subgroup.orderOf_mk (H := H) (f i) (Subgroup.subset_closure ⟨i, rfl⟩)
-    simpa [fH, hord i] using h
+    simp [fH, hord i]
   have hper : ∀ i, fH i ^ ((v + w) i).val = fH i ^ (v i).val * fH i ^ (w i).val := by
     intro i
     have hval := ZMod.val_add (v i) (w i)
@@ -72,7 +72,7 @@ private theorem a11b8_fPow_mem {G : Type} [Group G] (f : Fin 4 → G)
   have p1 := Subgroup.pow_mem (Subgroup.closure (Set.range f)) h1 (v 1).val
   have p2 := Subgroup.pow_mem (Subgroup.closure (Set.range f)) h2 (v 2).val
   have p3 := Subgroup.pow_mem (Subgroup.closure (Set.range f)) h3 (v 3).val
-  simp only [fPow, Fin.prod_univ_four]
+  simp only [fPow]
   exact Subgroup.mul_mem (Subgroup.closure (Set.range f))
     (Subgroup.mul_mem (Subgroup.closure (Set.range f))
       (Subgroup.mul_mem (Subgroup.closure (Set.range f)) p0 p1) p2) p3
@@ -109,7 +109,7 @@ private theorem a11b8_fPow_injective {G : Type} [Group G] [Finite G] (f : Fin 4 
       rw [hrange]; exact x.2
     obtain ⟨v, hv⟩ := hx
     exact ⟨v, Subtype.ext hv⟩
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Fintype C := Fintype.ofFinite C
   have hcardC : Fintype.card C = 7 ^ 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard

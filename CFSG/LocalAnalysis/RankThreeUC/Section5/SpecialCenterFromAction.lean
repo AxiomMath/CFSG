@@ -35,9 +35,9 @@ theorem special_and_center {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     CFSG.LocalAnalysis.RankThreeUC.Section3.CoprimeSpecialGroups.IsSpecialPGroup (Sstar P T B) ∧
       (Subgroup.center (Sstar P T B)).map (Sstar P T B).subtype =
         Sstar P T B ⊓ Subgroup.centralizer (Bstar P B : Set (MulAut ↥P)) := by
-  haveI : Fact p.Prime := ⟨h.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨h.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨h.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨h.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨h.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨h.oddPrimeClassTwoAction.setting.exponent⟩
   have hodd := SstarCoprimeStructure.odd_card h
   have hcop : Nat.Coprime 2 (Nat.card (Bstar P B)) :=
     (Nat.coprime_two_left).mpr hodd

@@ -11,8 +11,8 @@ open scoped commutatorElement
 
 theorem perfect_pgroup_eq_bot_kz3 {X : Type} [Group X] [Finite X] {K : Subgroup X}
     (hK : IsPGroup 2 K) (hperf : ⁅K, K⁆ = K) : K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent K := IsPGroup.isNilpotent hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent K := IsPGroup.isNilpotent hK
   have h1 : CFSG.Quasithin.perfectCore K = ⊥ :=
     (CFSG.Quasithin.isSolvable_iff_perfectCore_eq_bot K).mp inferInstance
   have h2 : CFSG.Quasithin.perfectCore K = K := CFSG.Quasithin.perfectCore_eq_self_of_perfect hperf
@@ -21,7 +21,7 @@ theorem perfect_pgroup_eq_bot_kz3 {X : Type} [Group X] [Finite X] {K : Subgroup 
 
 theorem subsingleton_of_perfect_pgroup_kz3 {Y : Type} [Group Y] [Finite Y]
     (h2 : ∀ y : Y, ∃ n : ℕ, y ^ 2 ^ n = 1) (hperf : Group.IsPerfect Y) : Subsingleton Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : IsPGroup 2 ↥(⊤ : Subgroup Y) := fun g => by
     obtain ⟨n, hn⟩ := h2 g.1
     exact ⟨n, Subtype.ext (by simpa using hn)⟩
@@ -37,7 +37,7 @@ theorem subsingleton_of_perfect_pgroup_kz3 {Y : Type} [Group Y] [Finite Y]
 theorem pCore_quot_equiv_kz3 {X Y : Type} [Group X] [Finite X] [Group Y] [Finite Y] (φ : X →* Y)
     (hφ : Function.Surjective φ) (hK : ∀ x : X, φ x = 1 → ∃ k : ℕ, x ^ 2 ^ k = 1) :
     Nonempty ((X ⧸ CFSG.pCore 2 X) ≃* (Y ⧸ CFSG.pCore 2 Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : ∀ x ∈ CFSG.pCore 2 X, φ x ∈ CFSG.pCore 2 Y := by
     intro x hx
     have hle : (CFSG.pCore 2 X).map φ ≤ CFSG.pCore 2 Y := by
@@ -108,7 +108,7 @@ theorem subnormal_top_of_sup_pCore_aux_kz3 {X : Type} [Group X] [Finite X] (hper
       have hg : g ∈ Subgroup.normalizer (H : Set X) :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer (le_top : H ≤ ⊤)).mp hN (Subgroup.mem_top g)
       exact (Subgroup.mem_normalizer_iff.mp hg n).mp hn
-    haveI := hHnorm
+    have := hHnorm
     have hfT : (⊤ : Subgroup X).map (QuotientGroup.mk' H) = ⊤ :=
       Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective H)
     have hfO : (CFSG.pCore 2 X).map (QuotientGroup.mk' H) = ⊤ := by
@@ -164,7 +164,7 @@ theorem subnormal_top_eq_top_or_le_center_aux_kz3 {Y : Type} [Group Y] (hY : CFS
         have hg : g ∈ Subgroup.normalizer (H : Set Y) :=
           (Subgroup.normal_subgroupOf_iff_le_normalizer (le_top : H ≤ ⊤)).mp hN (Subgroup.mem_top g)
         exact (Subgroup.mem_normalizer_iff.mp hg n).mp hn
-      haveI := hHnorm
+      have := hHnorm
       by_cases hHt : H = ⊤
       · exact Or.inl hHt
       · exact Or.inr (res822_le_center_of_quasisimple hY hHt)
@@ -198,7 +198,7 @@ theorem isQuasisimple_of_simple_nonab_kz3 {Y : Type} [Group Y] [IsSimpleGroup Y]
     · exact h
   have e : (Y ⧸ Subgroup.center Y) ≃* Y :=
     (QuotientGroup.quotientMulEquivOfEq hc).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := MulEquiv.isSimpleGroup e
   obtain ⟨a0, b0, hab⟩ : ∃ a0 b0 : Y, a0 * b0 ≠ b0 * a0 := by
     push Not at hY
     exact hY
@@ -209,8 +209,8 @@ theorem isQuasisimple_of_simple_nonab_kz3 {Y : Type} [Group Y] [IsSimpleGroup Y]
 
 theorem isQuasisimple_of_isAlt6_kz3 {Y : Type} [Group Y] (e : Y ≃* alternatingGroup (Fin 6)) :
     CFSG.IsQuasisimple Y := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup Y := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup Y := MulEquiv.isSimpleGroup e
   have hcard : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     have h := two_mul_nat_card_alternatingGroup (α := Fin 6)
     have hperm : Nat.card (Equiv.Perm (Fin 6)) = 720 := by

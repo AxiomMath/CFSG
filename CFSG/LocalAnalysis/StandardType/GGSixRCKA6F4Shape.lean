@@ -53,13 +53,13 @@ theorem rckF4_comp_shape
   refine ⟨?_, ?_⟩
   ·
     intro L L' hL hL'
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
       (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-    haveI : CharP (AlgebraicClosure K) 2 :=
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-    haveI : Finite ↥(adjointGroup Tag.F4 K) := by
+    have : Finite ↥(adjointGroup Tag.F4 K) := by
       have : Finite (Module.End K (RootModule Tag.F4 K)) := Module.finite_of_finite K
       infer_instance
     have hpK : ¬ 3 ∣ Nat.card K := by
@@ -103,10 +103,10 @@ theorem rckF4_comp_shape
       exact hL
     obtain ⟨F, hFfield, hFfin, hFcard, ⟨e⟩⟩ :=
       CFSG.StandardType.A6Red.ggA6F4_comp_iso_sp (K := K) hK x hx L hcent
-    letI : Field F := hFfield
-    letI : Finite F := hFfin
-    haveI : CharP F 2 := by
-      haveI : Fintype F := Fintype.ofFinite F
+    let : Field F := hFfield
+    let : Finite F := hFfin
+    have : CharP F 2 := by
+      have : Fintype F := Fintype.ofFinite F
       exact charP_of_card_eq_prime_pow (f := 1)
         (by rw [← Nat.card_eq_fintype_card, hFcard]; norm_num)
     have hcenter : Subgroup.center (CFSG.Open.StatedSp 3 F) = ⊥ :=

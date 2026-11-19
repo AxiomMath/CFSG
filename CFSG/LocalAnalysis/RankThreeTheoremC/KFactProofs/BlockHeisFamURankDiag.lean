@@ -14,7 +14,7 @@ theorem heisU_false_of_torus {L K : Type} [Group L] [Field K] [Finite K] (hrk : 
     (hrq : r ∣ q + 1) (ρ : StatedSU n q K →* L)
     (hρ : ((6 ≤ n ∨ ¬ r ∣ n) ∧ ∀ g, ρ g = 1 → (g : GL (Fin n) K) ∈ StatedScalars (Fin n) K) ∨
       Function.Injective ρ) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrK : r ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     refine hrq.trans ⟨q - 1, ?_⟩
@@ -40,7 +40,7 @@ theorem heisU_center_eq_bot_of_not_injective {G L : Type*} [Group G] [Group L] (
     (hD : (Nat.card D).Prime) (ρ : G →* L) (hρ : Function.Surjective ρ)
     (hZ : ∀ g, ρ g ∈ Subgroup.center L ↔ g ∈ D) (hinj : ¬ Function.Injective ρ) :
     Subgroup.center L = ⊥ := by
-  haveI : Fact (Nat.card D).Prime := ⟨hD⟩
+  have : Fact (Nat.card D).Prime := ⟨hD⟩
   rw [injective_iff_map_eq_one] at hinj
   push Not at hinj
   obtain ⟨g, hg1, hg⟩ := hinj

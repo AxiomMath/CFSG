@@ -14,7 +14,7 @@ variable {G : Type*} [Group G]
 private lemma exists_mul_of_mem_sup_of_le_normalizer {H K : Subgroup G}
     (hHK : H ≤ Subgroup.normalizer (K : Set G)) {x : G} (hx : x ∈ H ⊔ K) :
     ∃ h ∈ H, ∃ k ∈ K, h * k = x := by
-  haveI : (K.subgroupOf (H ⊔ K)).Normal :=
+  have : (K.subgroupOf (H ⊔ K)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hHK
   have htop : H.subgroupOf (H ⊔ K) ⊔ K.subgroupOf (H ⊔ K) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
@@ -70,7 +70,7 @@ theorem isExtraspecial_of_mulEquiv {p : ℕ} {M N : Type*} [Group M] [Group N] (
         (Subgroup.map_center_eq e)).symm
       (CFSG.IsExtraspecial.quotient_elementary_abelian p N)
   quotient_nontrivial := by
-    haveI := CFSG.IsExtraspecial.quotient_nontrivial p N
+    have := CFSG.IsExtraspecial.quotient_nontrivial p N
     exact (QuotientGroup.congr (Subgroup.center M) (Subgroup.center N) e
       (Subgroup.map_center_eq e)).toEquiv.nontrivial
 
@@ -196,11 +196,11 @@ private theorem commutator_eq_center_of_isExtraspecial {p : ℕ} [Fact p.Prime] 
     [CFSG.IsExtraspecial p H] : commutator H = Subgroup.center H := by
   have hZtop : Subgroup.center H ≠ ⊤ := by
     intro h
-    haveI : Nontrivial (H ⧸ Subgroup.center H) := CFSG.IsExtraspecial.quotient_nontrivial p H
+    have : Nontrivial (H ⧸ Subgroup.center H) := CFSG.IsExtraspecial.quotient_nontrivial p H
     exact (not_subsingleton_iff_nontrivial.mpr ‹Nontrivial (H ⧸ Subgroup.center H)›)
       (QuotientGroup.subsingleton_iff.mpr h)
   have hle : commutator H ≤ Subgroup.center H := by
-    haveI : IsElementaryAbelian p (H ⧸ Subgroup.center H) :=
+    have : IsElementaryAbelian p (H ⧸ Subgroup.center H) :=
       CFSG.IsExtraspecial.quotient_elementary_abelian p H
     rw [commutator_def, Subgroup.commutator_le]
     intro a _ b _
@@ -211,7 +211,7 @@ private theorem commutator_eq_center_of_isExtraspecial {p : ℕ} [Fact p.Prime] 
   have hbot : commutator H ≠ ⊥ := by
     intro h
     have hc : IsMulCommutative H := (commutator_eq_bot_iff H).mp h
-    haveI : IsMulCommutative H := hc
+    have : IsMulCommutative H := hc
     exact hZtop Subgroup.center_eq_top
   have hdiv : Nat.card (commutator H) ∣ p := by
     rw [← CFSG.IsExtraspecial.center_order_p p H]
@@ -222,7 +222,7 @@ private theorem commutator_eq_center_of_isExtraspecial {p : ℕ} [Fact p.Prime] 
     rcases (Fact.out : Nat.Prime p).eq_one_or_self_of_dvd _ hdiv with h1 | hp
     · exact absurd h1 hne1
     · exact hp
-  haveI : Finite (Subgroup.center H) :=
+  have : Finite (Subgroup.center H) :=
     Nat.finite_of_card_ne_zero (by
       rw [CFSG.IsExtraspecial.center_order_p p H]; exact (Fact.out : Nat.Prime p).ne_zero)
   exact Subgroup.eq_of_le_of_card_ge hle
@@ -264,8 +264,8 @@ private lemma conj_commutator_mul_self {H : Type*} [Group H] {p v : H} (hv : v *
     _ = v * v := by group
     _ = 1 := hv
 
-private theorem exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
-    {P : Subgroup G} {v : G} [CFSG.IsExtraspecial p ↥P] (hcard : Nat.card ↥P = p ^ 3)
+private theorem exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime] (_hp : p ≠ 2)
+    {P : Subgroup G} {v : G} [CFSG.IsExtraspecial p ↥P] (_hcard : Nat.card ↥P = p ^ 3)
     (hv : v * v = 1) (hvP : v ∈ Subgroup.normalizer (P : Set G))
     (hPv : ⁅P, Subgroup.zpowers v⁆ = P) :
     ∃ σ : ↥P → ↥P,
@@ -273,9 +273,9 @@ private theorem exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime] (hp 
       (∀ y : ↥P, σ y * y ∈ Subgroup.center ↥P) ∧
       (∀ z ∈ Subgroup.center ↥P, σ z = z) := by
 
-  haveI : Finite ↥P :=
-    Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 3 (Fact.out : Nat.Prime p).ne_zero)
-  haveI : IsElementaryAbelian p (↥P ⧸ Subgroup.center ↥P) :=
+  have : Finite ↥P :=
+    Nat.finite_of_card_ne_zero (by rw [_hcard]; exact pow_ne_zero 3 (Fact.out : Nat.Prime p).ne_zero)
+  have : IsElementaryAbelian p (↥P ⧸ Subgroup.center ↥P) :=
     CFSG.IsExtraspecial.quotient_elementary_abelian p ↥P
   let Z : Subgroup ↥P := Subgroup.center ↥P
   have hcommZ : commutator ↥P = Z := commutator_eq_center_of_isExtraspecial (p := p)
@@ -297,7 +297,7 @@ private theorem exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime] (hp 
       change (QuotientGroup.mk' Z) (σ (a * b) * (a * b)) =
         (QuotientGroup.mk' Z) (σ a * a) * (QuotientGroup.mk' Z) (σ b * b)
       rw [hσ_mul]
-      letI : CommMonoid (↥P ⧸ Z) :=
+      let : CommMonoid (↥P ⧸ Z) :=
         { (inferInstance : Group (↥P ⧸ Z)) with mul_comm := fun x y => mul_comm' x y }
       simp only [map_mul]
       ac_rfl)
@@ -308,7 +308,7 @@ private theorem exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime] (hp 
     exact QuotientGroup.eq_one_iff (σ y * y)
   have hgen : ⁅P, Subgroup.zpowers v⁆ ≤ ψ.ker.map P.subtype := by
     rw [Subgroup.commutator_le]
-    intro p hp w hw
+    intro p _hp w hw
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hw
     rcases zpow_eq_one_or_self hv k with hk | hk
     · rw [hk, commutatorElement_one_right]
@@ -316,7 +316,7 @@ private theorem exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime] (hp 
     · rw [hk]
       have hmemP : ⁅p, v⁆ ∈ P := by
         rw [← hPv]
-        exact Subgroup.commutator_mem_commutator hp (Subgroup.mem_zpowers v)
+        exact Subgroup.commutator_mem_commutator _hp (Subgroup.mem_zpowers v)
       refine Subgroup.mem_map.mpr ⟨⟨⁅p, v⁆, hmemP⟩, ?_, rfl⟩
       rw [hS]
       have h1 : σ ⟨⁅p, v⁆, hmemP⟩ * ⟨⁅p, v⁆, hmemP⟩ = 1 := by
@@ -375,7 +375,7 @@ theorem inf_centralizer_eq_center {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : S
     (hv : v * v = 1) (hvP : v ∈ Subgroup.normalizer (P : Set G))
     (hPv : ⁅P, Subgroup.zpowers v⁆ = P) :
     P ⊓ Subgroup.centralizer ({v} : Set G) = (Subgroup.center ↥P).map P.subtype := by
-  haveI : Finite ↥P :=
+  have : Finite ↥P :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 3 (Fact.out : Nat.Prime p).ne_zero)
   let Z : Subgroup ↥P := Subgroup.center ↥P
   obtain ⟨σ, hσ, hσy_mem, hσz⟩ := exists_conj_data_of_isExtraspecial hp hcard hv hvP hPv
@@ -433,7 +433,7 @@ theorem exists_heisConfig {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : Subgroup 
     (hv : v * v = 1) (hvP : v ∈ Subgroup.normalizer (P : Set G))
     (hPv : ⁅P, Subgroup.zpowers v⁆ = P) :
     ∃ x z g : G, HeisConfig p P v x z g := by
-  haveI : Finite ↥P :=
+  have : Finite ↥P :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 3 (Fact.out : Nat.Prime p).ne_zero)
   let Z : Subgroup ↥P := Subgroup.center ↥P
   have hcommZ : commutator ↥P = Z := commutator_eq_center_of_isExtraspecial (p := p)
@@ -451,12 +451,12 @@ theorem exists_heisConfig {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : Subgroup 
     · exact Nat.coprime_comm.mp hodd.coprime_two_right
   have hZtop : Z ≠ ⊤ := by
     intro h
-    haveI : Nontrivial (↥P ⧸ Z) := CFSG.IsExtraspecial.quotient_nontrivial p ↥P
+    have : Nontrivial (↥P ⧸ Z) := CFSG.IsExtraspecial.quotient_nontrivial p ↥P
     exact (not_subsingleton_iff_nontrivial.mpr ‹Nontrivial (↥P ⧸ Z)›)
       (QuotientGroup.subsingleton_iff.mpr h)
   obtain ⟨x₀, hx₀Z⟩ : ∃ y : ↥P, y ∉ Z := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hZtop (eq_top_iff.mpr (fun y _ => h y))
   let c₀ : ↥P := σ x₀ * x₀
   have hc₀Z : c₀ ∈ Z := hσy_mem x₀
@@ -524,18 +524,17 @@ theorem exists_heisConfig {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : Subgroup 
     exact Z.inv_mem htZ
   obtain ⟨gH, hgH⟩ : ∃ g : ↥P, g * xH ≠ xH * g := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hxHZ (Subgroup.mem_center_iff.mpr (fun g => h g))
   let zH : ↥P := ⁅gH, xH⁆
   have hzHne : zH ≠ 1 := fun h => hgH (commutatorElement_eq_one_iff_mul_comm.mp h)
   have hzHZ : zH ∈ Z := by
-    change zH ∈ Z
     rw [← hcommZ]
     exact Subgroup.commutator_mem_commutator (Subgroup.mem_top gH) (Subgroup.mem_top xH)
   have hzHp : zH ^ p = 1 := by
     have := Monoid.pow_exponent_eq_one zH
     rwa [hexp] at this
-  haveI : Finite Z :=
+  have : Finite Z :=
     Nat.finite_of_card_ne_zero (by rw [hZcard]; exact (Fact.out : Nat.Prime p).ne_zero)
   have hzpZ : Subgroup.zpowers zH = Z := by
     have hle : Subgroup.zpowers zH ≤ Z := Subgroup.zpowers_le.mpr hzHZ
@@ -597,7 +596,7 @@ theorem exists_heisConfig {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : Subgroup 
         have hZTH : Z ≤ TH := fun c hc => hZT (Subgroup.mem_map.mpr ⟨c, hc, rfl⟩)
         have hxTH : xH ∈ TH := hxT
         have hgTH : gH ∈ TH := hgT
-        haveI : Finite (↥P ⧸ Z) := inferInstance
+        have : Finite (↥P ⧸ Z) := inferInstance
         let A : Subgroup (↥P ⧸ Z) := Subgroup.zpowers (QuotientGroup.mk' Z xH)
         let B : Subgroup (↥P ⧸ Z) := Subgroup.zpowers (QuotientGroup.mk' Z gH)
         have hA : Nat.card A = p := by

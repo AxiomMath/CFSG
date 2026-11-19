@@ -34,7 +34,7 @@ theorem a6c_lemmaE [Finite Γ] (g : Γ) (S C : Finset Γ) (hS : ∀ s ∈ S, IsC
   have hKprod : Nat.card K * Nat.card CF = Nat.card Γ :=
     card_conjClass_mul_card_centralizer g
   have hGpos : 0 < Nat.card Γ := by
-    haveI : Nonempty Γ := ⟨1⟩
+    have : Nonempty Γ := ⟨1⟩
     exact Nat.card_pos
   have hSpos : 0 < Nat.card (S : Set Γ) := Nat.pos_of_ne_zero fun h0 => by
     rw [h0, zero_mul] at hSprod
@@ -43,7 +43,7 @@ theorem a6c_lemmaE [Finite Γ] (g : Γ) (S C : Finset Γ) (hS : ∀ s ∈ S, IsC
     rw [h0, mul_zero] at hSprod
     exact hGpos.ne' hSprod.symm
   have hKpos : 0 < Nat.card K := by
-    haveI : Nonempty K := ⟨⟨g, IsConj.refl g⟩⟩
+    have : Nonempty K := ⟨⟨g, IsConj.refl g⟩⟩
     exact Nat.card_pos
   have hleSK : Nat.card (S : Set Γ) ≤ Nat.card K := by
     rw [Nat.card_coe_set_eq (S : Set Γ), Nat.card_coe_set_eq K]
@@ -126,7 +126,7 @@ theorem a6c_exists_conj_g0 [Finite Γ] (hΓ : ¬ 25 ∣ Nat.card Γ) {g0 n : Γ}
     (hg1 : g0 ≠ 1) (hn : n * g0 * n⁻¹ = g0 ^ 2) {x : Γ} (hx : x ^ 5 = 1) (hx1 : x ≠ 1) :
     ∃ δ : Γ, δ * x * δ⁻¹ = g0 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hg0ord : orderOf g0 = 5 := orderOf_eq_prime hg0 hg1
   have hxord : orderOf x = 5 := orderOf_eq_prime hx hx1
   have h25 : ¬ 5 ^ 2 ∣ Nat.card Γ := by

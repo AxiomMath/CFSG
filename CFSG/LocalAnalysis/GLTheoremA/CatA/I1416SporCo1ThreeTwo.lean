@@ -25,7 +25,7 @@ theorem lieOrderFormula_ne_suz {d : TauCeti.LieTypeIndex} (hd : d.Valid) :
 theorem not_isChevSimple_two_of_card_suz
     (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) {T : Type} [Group T]
     (hc : Nat.card T = 448345497600) : ¬ IsChevSimple 2 T := by
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   rintro (⟨i, hi, ⟨e⟩⟩ | ⟨i, hi, ⟨e⟩⟩)
   · cases i with
     | lie d => exact lieOrderFormula_ne_suz d.2 ((hb d T ⟨e⟩).symm.trans hc)
@@ -57,11 +57,11 @@ theorem row_Co1_three (hOut : SporadicOuterLeTwo)
     (fun _ _ _ _ e h => TypeOK.of_mulEquiv e h)
     (fun T _ e => by
       have hc : Nat.card T = 3265920 := (Nat.card_congr e.toEquiv).trans card_X₀
-      haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+      have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
       exact typeOK_of_not_chev (not_isChevSimple_two_of_card hb (a := 7) (m := 25515)
         (by rw [hc]; norm_num) (by decide) (by norm_num) (by norm_num)))
     (by
-      haveI : Finite ↥(alternatingGroup (Fin 9)) := inferInstance
+      have : Finite ↥(alternatingGroup (Fin 9)) := inferInstance
       exact typeOK_of_not_chev (not_isChevSimple_two_of_card_181440 hb card_alt_nine))
     (fun _ _ hc _ => typeOK_of_not_chev (not_isChevSimple_two_of_card_suz hb hc)) (hbr .Suz)
   exact @row_of_model .Co1 3 ↥GA _ hfin hs hOut b hnc fun x hx =>

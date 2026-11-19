@@ -21,7 +21,7 @@ theorem exists_conj_of_alt {n p : ℕ} (hn : 5 ≤ n) (hp : p.Prime) (hp2 : p �
       (alternatingGroup (Fin n))) ≠ 0 := fun h => by
     rw [h] at hOut
     norm_num at hOut
-  haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer
+  have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (alternatingGroup (Fin n))) := Nat.finite_of_card_ne_zero hne
   set q := QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner
       (alternatingGroup (Fin n))) α with hq
@@ -125,10 +125,10 @@ theorem kdAltDown_holds : KDAltDown := by
     have h1 := Subgroup.card_dvd_of_le hIF
     rw [Nat.card_congr e.toEquiv] at h1
     exact h1.trans (by simpa using natCard_alternatingGroup_dvd_factorial (Fin m))
-  haveI : Nontrivial ↥I := nontrivial_of_glaPComponent hp hI
+  have : Nontrivial ↥I := nontrivial_of_glaPComponent hp hI
   have hm5 : 5 ≤ m := by
     by_contra hlt
-    haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hI)
+    have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hI)
     exact false_of_isPerfect_of_card_dvd_twentyFour
       (hIdvd.trans (factorial_dvd_twentyFour (not_le.1 hlt)))
   have hmp : p ≤ m := by
@@ -137,8 +137,8 @@ theorem kdAltDown_holds : KDAltDown := by
     have hpm : ¬ p ∣ m.factorial := fun h => hlt ((Nat.Prime.dvd_factorial hp).1 h)
     exact ((Nat.Prime.coprime_iff_not_dvd hp).2 hpm).coprime_dvd_right hIdvd
   have hm5' : 5 ≤ Nat.card (Fin m) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hm5
-  haveI : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hm5'
-  haveI : IsSimpleGroup ↥(alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range :=
+  have : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hm5'
+  have : IsSimpleGroup ↥(alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range :=
     e.isSimpleGroup
   have hFC : (alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range ≤
       fixSubgroup (MulAut.conj x) := fun k hk =>

@@ -67,7 +67,7 @@ theorem triInnGoodAt_trialityModel
     TriInnGoodAt ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
   classical
   intro β hβmem hβ3 hβ1
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hβinn : β ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range :=
     sup_le le_rfl (CFSG.HardMathSupport.Dickson.Sec6.I1431.t6outtrid4_commutator_le_range
@@ -130,8 +130,8 @@ theorem kd264TriInnGood_holds :
     omega
   obtain ⟨K, hfield, hfinite, σ, hK, hσ, -, ⟨eK⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   exact (TriInnGoodAt.of_mulEquiv eK.symm (triInnGoodAt_trialityModel hK σ hσ hq3 hq4)) β hβ hβ3 hβ1
 
 end Model

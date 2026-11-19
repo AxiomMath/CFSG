@@ -25,11 +25,11 @@ namespace BSet
 @[expose] def count (n : ℕ) (b : BSet) : ℕ := (List.range n).countP b.has
 
 theorem has_ofFn {n i : ℕ} (f : ℕ → Bool) (h : i < n) : (ofFn n f).has i = f i := by
-  simp [has, ofFn, Array.getD_eq_getD_getElem?, Array.getElem?_map, Array.getElem?_range, h]
+  simp [has, ofFn, Array.getD_eq_getD_getElem?, h]
 
 theorem has_ofFn_ge {n i : ℕ} (f : ℕ → Bool) (h : n ≤ i) : (ofFn n f).has i = false := by
   have : ¬ i < n := by omega
-  simp [has, ofFn, Array.getD_eq_getD_getElem?, Array.getElem?_map, Array.getElem?_range, this]
+  simp [has, ofFn, Array.getD_eq_getD_getElem?, this]
 
 theorem size_ofFn (n : ℕ) (f : ℕ → Bool) : (ofFn n f).size = n := by simp [ofFn]
 
@@ -113,9 +113,11 @@ end Realizes
 
 namespace Rep
 
+omit [Group Γ] in
 theorem mem_iff {b : BSet} {X : Set Γ} (h : Rep D elt b X) {i : ℕ} (hi : i < D.n) :
     elt i ∈ X ↔ b.has i = true := (h.1 i hi).symm
 
+omit [Group Γ] in
 theorem unique {b : BSet} {X Y : Set Γ} (hX : Rep D elt b X) (hY : Rep D elt b Y) : X = Y := by
   ext x
   constructor
@@ -126,6 +128,7 @@ theorem unique {b : BSet} {X Y : Set Γ} (hX : Rep D elt b X) (hY : Rep D elt b 
     obtain ⟨i, hi, rfl⟩ := hY.2 x hx
     exact (hX.1 i hi).1 ((hY.1 i hi).2 hx)
 
+omit [Group Γ] in
 theorem ext_bits {b c : BSet} {X Y : Set Γ} (hX : Rep D elt b X) (hY : Rep D elt c Y)
     (h : ∀ i < D.n, b.has i = c.has i) : X = Y := by
   ext x
@@ -137,6 +140,7 @@ theorem ext_bits {b c : BSet} {X Y : Set Γ} (hX : Rep D elt b X) (hY : Rep D el
     obtain ⟨i, hi, rfl⟩ := hY.2 x hx
     exact (hX.1 i hi).1 ((h i hi) ▸ (hY.1 i hi).2 hx)
 
+omit [Group Γ] in
 theorem subset_tabSet {b : BSet} {X : Set Γ} (h : Rep D elt b X) : X ⊆ tabSet D elt :=
   fun x hx => h.2 x hx
 

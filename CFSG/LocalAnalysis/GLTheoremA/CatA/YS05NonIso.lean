@@ -523,15 +523,15 @@ theorem raw_eq {S : Type} [Group S] {t : CFSG.Open.StatedLieTag} {n p f : ℕ}
 
 theorem orderEq_A2 {S : Type} [Group S] (Q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 2 Q).Valid) (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.A 2 Q, hv⟩) :
-    ∃ hb : CFSG.Blueprint.LieModel S .PSL 3 Q.p Q.exponent,
+    ∃ _hb : CFSG.Blueprint.LieModel S .PSL 3 Q.p Q.exponent,
       Nat.card S * Nat.gcd 3 (Q.p ^ Q.exponent - 1) =
         (Q.p ^ Q.exponent) ^ 3 * (((Q.p ^ Q.exponent) ^ 2 - 1) * ((Q.p ^ Q.exponent) ^ 3 - 1)) ∧
       (Nat.card S).factorization Q.p = 3 * Q.exponent := by
-  have hb : CFSG.Blueprint.LieModel S .PSL 3 Q.p Q.exponent :=
+  have _hb : CFSG.Blueprint.LieModel S .PSL 3 Q.p Q.exponent :=
     CFSG.StandardType.ChevTwo.blueprintLieModel_of_modelsLieModel (by decide)
       (CFSG.Models.lieModel_A 2 Q hv e)
-  obtain ⟨h, hf⟩ := raw_eq hb
-  refine ⟨hb, ?_, hf⟩
+  obtain ⟨h, hf⟩ := raw_eq _hb
+  refine ⟨_hb, ?_, hf⟩
   simp only [CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
     CFSG.ComponentClassification.CatLeaf.lieOrderNumerator] at h
   rw [show Finset.Icc 2 3 = {2, 3} from by decide, Finset.prod_pair (by decide)] at h
@@ -541,7 +541,7 @@ theorem orderEq_A2 {S : Type} [Group S] (Q : TauCeti.PrimePower)
 theorem orderEq_U3 {S : Type} [Group S] (Q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA 2 Q).Valid)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.twistedA 2 Q, hv⟩) :
-    ∃ hb : CFSG.Blueprint.LieModel S .PSU 3 Q.p Q.exponent,
+    ∃ _hb : CFSG.Blueprint.LieModel S .PSU 3 Q.p Q.exponent,
       Nat.card S * Nat.gcd 3 (Q.p ^ Q.exponent + 1) =
         (Q.p ^ Q.exponent) ^ 3 * (((Q.p ^ Q.exponent) ^ 2 - 1) * ((Q.p ^ Q.exponent) ^ 3 + 1)) ∧
       (Nat.card S).factorization Q.p = 3 * Q.exponent := by
@@ -551,10 +551,10 @@ theorem orderEq_U3 {S : Type} [Group S] (Q : TauCeti.PrimePower)
     TauCeti.LieTypeIndex.fieldExponent_twistedA 2 Q
   have hm := CFSG.Models.lieModel_twistedA 2 Q hv e
   rw [hc, hf] at hm
-  have hb : CFSG.Blueprint.LieModel S .PSU 3 Q.p Q.exponent :=
+  have _hb : CFSG.Blueprint.LieModel S .PSU 3 Q.p Q.exponent :=
     CFSG.StandardType.ChevTwo.blueprintLieModel_of_modelsLieModel (by decide) hm
-  obtain ⟨h, hfa⟩ := raw_eq hb
-  refine ⟨hb, ?_, hfa⟩
+  obtain ⟨h, hfa⟩ := raw_eq _hb
+  refine ⟨_hb, ?_, hfa⟩
   simp only [CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
     CFSG.ComponentClassification.CatLeaf.lieOrderNumerator] at h
   rw [show Finset.Icc 2 3 = {2, 3} from by decide, Finset.prod_pair (by decide)] at h
@@ -563,14 +563,14 @@ theorem orderEq_U3 {S : Type} [Group S] (Q : TauCeti.PrimePower)
 
 theorem orderEq_B2 {S : Type} [Group S] (Q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.B 2 Q).Valid) (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.B 2 Q, hv⟩) :
-    ∃ hb : CFSG.Blueprint.LieModel S .PSp 2 Q.p Q.exponent,
+    ∃ _hb : CFSG.Blueprint.LieModel S .PSp 2 Q.p Q.exponent,
       Nat.card S * Nat.gcd 2 (Q.p ^ Q.exponent - 1) =
         (Q.p ^ Q.exponent) ^ 4 * (((Q.p ^ Q.exponent) ^ 2 - 1) * ((Q.p ^ Q.exponent) ^ 4 - 1)) ∧
       (Nat.card S).factorization Q.p = 4 * Q.exponent := by
-  have hb : CFSG.Blueprint.LieModel S .PSp 2 Q.p Q.exponent :=
+  have _hb : CFSG.Blueprint.LieModel S .PSp 2 Q.p Q.exponent :=
     Or.inl ⟨by decide, CFSG.QuasithinUnique.SQTK.statedClassicalModel_typeB2 Q hv e⟩
-  obtain ⟨h, hf⟩ := raw_eq hb
-  refine ⟨hb, ?_, hf⟩
+  obtain ⟨h, hf⟩ := raw_eq _hb
+  refine ⟨_hb, ?_, hf⟩
   simp only [CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
     CFSG.ComponentClassification.CatLeaf.lieOrderNumerator] at h
   rw [show Finset.Icc 1 2 = {1, 2} from by decide, Finset.prod_pair (by decide)] at h
@@ -579,16 +579,16 @@ theorem orderEq_B2 {S : Type} [Group S] (Q : TauCeti.PrimePower)
 
 theorem orderEq_A3 {S : Type} [Group S] (Q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 3 Q).Valid) (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.A 3 Q, hv⟩) :
-    ∃ hb : CFSG.Blueprint.LieModel S .PSL 4 Q.p Q.exponent,
+    ∃ _hb : CFSG.Blueprint.LieModel S .PSL 4 Q.p Q.exponent,
       Nat.card S * Nat.gcd 4 (Q.p ^ Q.exponent - 1) =
         (Q.p ^ Q.exponent) ^ 6 * (((Q.p ^ Q.exponent) ^ 2 - 1) *
           (((Q.p ^ Q.exponent) ^ 3 - 1) * ((Q.p ^ Q.exponent) ^ 4 - 1))) ∧
       (Nat.card S).factorization Q.p = 6 * Q.exponent := by
-  have hb : CFSG.Blueprint.LieModel S .PSL 4 Q.p Q.exponent :=
+  have _hb : CFSG.Blueprint.LieModel S .PSL 4 Q.p Q.exponent :=
     CFSG.StandardType.ChevTwo.blueprintLieModel_of_modelsLieModel (by decide)
       (CFSG.Models.lieModel_A 3 Q hv e)
-  obtain ⟨h, hf⟩ := raw_eq hb
-  refine ⟨hb, ?_, hf⟩
+  obtain ⟨h, hf⟩ := raw_eq _hb
+  refine ⟨_hb, ?_, hf⟩
   simp only [CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
     CFSG.ComponentClassification.CatLeaf.lieOrderNumerator] at h
   rw [show Finset.Icc 2 4 = {2, 3, 4} from by decide, Finset.prod_insert (by decide),
@@ -599,7 +599,7 @@ theorem orderEq_A3 {S : Type} [Group S] (Q : TauCeti.PrimePower)
 theorem orderEq_U4 {S : Type} [Group S] (Q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA 3 Q).Valid)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.twistedA 3 Q, hv⟩) :
-    ∃ hb : CFSG.Blueprint.LieModel S .PSU 4 Q.p Q.exponent,
+    ∃ _hb : CFSG.Blueprint.LieModel S .PSU 4 Q.p Q.exponent,
       Nat.card S * Nat.gcd 4 (Q.p ^ Q.exponent + 1) =
         (Q.p ^ Q.exponent) ^ 6 * (((Q.p ^ Q.exponent) ^ 2 - 1) *
           (((Q.p ^ Q.exponent) ^ 3 + 1) * ((Q.p ^ Q.exponent) ^ 4 - 1))) ∧
@@ -610,10 +610,10 @@ theorem orderEq_U4 {S : Type} [Group S] (Q : TauCeti.PrimePower)
     TauCeti.LieTypeIndex.fieldExponent_twistedA 3 Q
   have hm := CFSG.Models.lieModel_twistedA 3 Q hv e
   rw [hc, hf] at hm
-  have hb : CFSG.Blueprint.LieModel S .PSU 4 Q.p Q.exponent :=
+  have _hb : CFSG.Blueprint.LieModel S .PSU 4 Q.p Q.exponent :=
     CFSG.StandardType.ChevTwo.blueprintLieModel_of_modelsLieModel (by decide) hm
-  obtain ⟨h, hfa⟩ := raw_eq hb
-  refine ⟨hb, ?_, hfa⟩
+  obtain ⟨h, hfa⟩ := raw_eq _hb
+  refine ⟨_hb, ?_, hfa⟩
   simp only [CFSG.ComponentClassification.CatLeaf.lieOrderDivisor,
     CFSG.ComponentClassification.CatLeaf.lieOrderNumerator] at h
   rw [show Finset.Icc 2 4 = {2, 3, 4} from by decide, Finset.prod_insert (by decide),

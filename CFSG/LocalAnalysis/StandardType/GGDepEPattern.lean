@@ -253,7 +253,7 @@ private lemma lr7ep_MJ_E6 {emb : Fin 5 → Fin 6} (hemb : Function.Injective emb
     have hcase := hC.2 (some i) (some j) hne
     rw [lr7ep_coxeterE6_off (emb i) (emb j) hkl]
     rcases lr7ep_cartanE6_off (emb i) (emb j) hkl with he | he
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       rcases hcase with ⟨hm, -, -⟩ | ⟨hm, h1, -⟩ | ⟨hm, h1, h2, h3⟩ | ⟨hm, h1, h2, h3⟩
       · exact hm
       · exfalso
@@ -263,7 +263,7 @@ private lemma lr7ep_MJ_E6 {emb : Fin 5 → Fin 6} (hemb : Function.Injective emb
         exact lr7ep_mod3_zero_two hJij hJji h1 he
       · exfalso
         exact lr7ep_mod3_zero_three hJij hJji h1 h2 h3 (Or.inl he)
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       rcases hcase with ⟨hm, h1, -⟩ | ⟨hm, -, -⟩ | ⟨hm, h1, h2, h3⟩ | ⟨hm, h1, h2, h3⟩
       · exfalso
         rw [h1, he] at hJij
@@ -290,7 +290,7 @@ private lemma lr7ep_row {tab : Fin 6 → Fin 6 → ℕ} {T : CoxeterMatrix (Fin 
   let t : Fin 6 := eT.symm none
   have ht : ∀ i : Fin 5, t ≠ f i := by
     intro i h
-    have h' : (none : Option (Fin 5)) = some i := eT.symm.injective (by simpa [t, f] using h)
+    have h' : (none : Option (Fin 5)) = some i := eT.symm.injective (by simp [t, f] at h)
     simp at h'
   let g : Fin 5 → Fin 6 := lr7ep_g (f 0) (f 1) (f 2) (f 3) (f 4)
   have hg : ∀ i : Fin 5, g i = f i := lr7ep_g_apply f
@@ -355,12 +355,12 @@ private lemma lr7ep_assemble {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} 
   refine ⟨?_, ?_⟩
   · rw [h1]
     by_cases hjk : j = k
-    · rw [if_pos hjk, if_pos (hiff.mpr hjk)]
-    · rw [if_neg hjk, if_neg (fun h => hjk (hiff.mp h))]
+    · rw [ite_eq_left hjk, ite_eq_left (hiff.mpr hjk)]
+    · rw [ite_eq_right hjk, ite_eq_right (fun h => hjk (hiff.mp h))]
   · rw [h2]
     by_cases hjk : j = k
-    · rw [if_pos hjk, if_pos (hiff.mpr hjk)]
-    · rw [if_neg hjk, if_neg (fun h => hjk (hiff.mp h))]
+    · rw [ite_eq_left hjk, ite_eq_left (hiff.mpr hjk)]
+    · rw [ite_eq_right hjk, ite_eq_right (fun h => hjk (hiff.mp h))]
 
 private lemma lr7ep_typeE6_reindex {ι ι' : Type} {M : CoxeterMatrix ι} (h : GGIsTypeE6 M)
     (e : ι ≃ ι') : GGIsTypeE6 (M.reindex e) := by
@@ -524,9 +524,9 @@ private lemma lr7ep_main_b0 {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} (
     intro i
     by_cases hik : i = k
     · subst hik
-      have h3 : M none (some i) = 3 := by rw [hrowk i, if_pos rfl]
+      have h3 : M none (some i) = 3 := by rw [hrowk i, ite_eq_left rfl]
       simpa using lr7ep_cartan_of_three hC (by simp) h3
-    · have h2 : M none (some i) = 2 := by rw [hrowk i, if_neg hik]
+    · have h2 : M none (some i) = 2 := by rw [hrowk i, ite_eq_right hik]
       simpa [hik] using lr7ep_cartan_of_two hC (by simp) h2
   have hpat : GGDepEPat (e.symm b) (lr7ep_emb0 k) (-1) (-1) := by
     rw [hb0]
@@ -561,9 +561,9 @@ private lemma lr7ep_main_b5 {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} (
     intro i
     by_cases hik : i = k
     · subst hik
-      have h3 : M none (some i) = 3 := by rw [hrowk i, if_pos rfl]
+      have h3 : M none (some i) = 3 := by rw [hrowk i, ite_eq_left rfl]
       simpa using lr7ep_cartan_of_three hC (by simp) h3
-    · have h2 : M none (some i) = 2 := by rw [hrowk i, if_neg hik]
+    · have h2 : M none (some i) = 2 := by rw [hrowk i, ite_eq_right hik]
       simpa [hik] using lr7ep_cartan_of_two hC (by simp) h2
   have hpat : GGDepEPat (e.symm b) (lr7ep_emb5 k) (-1) (-1) := by
     rw [hb5]
@@ -607,9 +607,9 @@ private lemma lr7ep_main_b1 {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} (
     intro i
     by_cases hik : i = k
     · subst hik
-      have h3 : M none (some i) = 3 := by rw [hrowk i, if_pos rfl]
+      have h3 : M none (some i) = 3 := by rw [hrowk i, ite_eq_left rfl]
       simpa using lr7ep_cartan_of_three hC (by simp) h3
-    · have h2 : M none (some i) = 2 := by rw [hrowk i, if_neg hik]
+    · have h2 : M none (some i) = 2 := by rw [hrowk i, ite_eq_right hik]
       simpa [hik] using lr7ep_cartan_of_two hC (by simp) h2
   have hpat : GGDepEPat (e.symm b) (lr7ep_emb1 k) (-1) (-1) := by
     rw [hb1]
@@ -718,7 +718,7 @@ theorem ggDepE_pattern {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} (e : F
     have hemb5_inv : ∀ k : Fin 5, lr7ep_embInv5 (lr7ep_emb5 k) = k := by
       intro k
       unfold lr7ep_embInv5 lr7ep_emb5
-      rw [dif_pos k.isLt]
+      rw [dite_eq_left k.isLt]
     have hemb5_ne : ∀ k : Fin 5, lr7ep_emb5 k ≠ e.symm b := by
       rw [hb5]
       decide
@@ -730,7 +730,7 @@ theorem ggDepE_pattern {Λ : Type} [Fintype Λ] [DecidableEq Λ] {b : Λ} (e : F
         exact hj (Fin.ext h)
       have hjlt : j.val < 5 := by omega
       unfold lr7ep_embInv5 lr7ep_emb5
-      rw [dif_pos hjlt]
+      rw [dite_eq_left hjlt]
     have hemb5 : Function.Injective lr7ep_emb5 := by
       intro a b h
       have := congrArg lr7ep_embInv5 h

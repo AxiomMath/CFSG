@@ -12,20 +12,25 @@ open Subgroup CFSG.Blueprint
 variable {A : Type} [Group A] [Finite A] {B : Subgroup A} {t : A} {K : Subgroup (MulAut A)}
   {φ : (Fin 5 → ZMod 2) → A}
 
+omit [Finite A] in
 private theorem KB_mem_iff {α : MulAut A} :
     α ∈ sec1011_KB B K ↔ α ∈ K ∧ ∀ b ∈ B, α b = b :=
   Iff.rfl
 
+omit [Finite A] in
 private theorem KB_le_K {α : MulAut A} (hα : α ∈ sec1011_KB B K) : α ∈ K :=
   (KB_mem_iff.mp hα).1
 
+omit [Finite A] in
 private theorem KB_fixes {α : MulAut A} (hα : α ∈ sec1011_KB B K) : ∀ b ∈ B, α b = b :=
   (KB_mem_iff.mp hα).2
 
+omit [Finite A] in
 private theorem sq_of_mem_B (h : Sec1011Core B t K φ) {b : A} (hb : b ∈ B) : b * b = 1 := by
   obtain ⟨v, hv, rfl⟩ := (h.mem_B b).1 hb
   exact h.sq hv
 
+omit [Finite A] in
 private theorem KB_image_stable (h : Sec1011A1 B t K φ) {u : Fin 5 → ZMod 2}
     (hu : IsEvenVec u) (α : MulAut A) (hα : α ∈ sec1011_KB B K)
     (hαt : α t = t * φ u) (σ : Equiv.Perm (Fin 5)) (hσ : σ ∈ alternatingGroup (Fin 5)) :
@@ -109,6 +114,7 @@ theorem Sec1011A1.KB_card (h : Sec1011A1 B t K φ) : Nat.card ↥(sec1011_KB B K
   have hcard := Nat.card_congr (Equiv.ofBijective θ hbij)
   rw [hcard, h.core.card_B]
 
+omit [Finite A] in
 private theorem KB_comm (h : Sec1011A1 B t K φ) :
     ∀ α β : ↥(sec1011_KB B K), α * β = β * α := by
   intro α β
@@ -138,6 +144,7 @@ private theorem KB_comm (h : Sec1011A1 B t K φ) :
       group
     rw [h1, h2, h.core.comm (t⁻¹ * (α : MulAut A) t) (t⁻¹ * (β : MulAut A) t)]
 
+omit [Finite A] in
 private theorem KB_sq (h : Sec1011A1 B t K φ) {α : MulAut A}
     (hα : α ∈ sec1011_KB B K) : α ^ 2 = 1 := by
   let b : A := t⁻¹ * α t
@@ -209,7 +216,7 @@ theorem sec1011_alt1_core (h : Sec1011A1 B t K φ) :
     let Kt : Subgroup (MulAut A) := K ⊓ MulAction.stabilizer (MulAut A) t
     let Z : Subgroup ↥K := Kt.subgroupOf K
     let P : Subgroup ↥K := CFSG.pCore 2 ↥K
-    haveI : ((sec1011_KB B K).subgroupOf K).Normal := hKBnormal
+    have : ((sec1011_KB B K).subgroupOf K).Normal := hKBnormal
     have hQnorm : (P.subgroupOf Z).Normal :=
       (CFSG.pCore_normal (p := 2) (G := ↥K)).subgroupOf Z
     have hQp : IsPGroup 2 ↥(P.subgroupOf Z) :=

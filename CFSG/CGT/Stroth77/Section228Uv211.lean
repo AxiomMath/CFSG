@@ -24,11 +24,11 @@ theorem t211_u_a_half (m : ℕ) (hm : 2 ≤ m) :
   have hva : (2 ^ (m + 1) : ℕ) • Torus.a (k := Type211.k m) =
       Torus.ofInt (Type211.k m) ![0, (2 : ℤ) ^ (m + 1), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
-    simp [Torus.a, Torus.b, Torus.c]
+    simp [Torus.a]
   have hvb : (2 ^ (m + 1) : ℕ) • Torus.b (k := Type211.k m) =
       Torus.ofInt (Type211.k m) ![0, 0, (2 : ℤ) ^ (m + 1)] := by
     rw [Torus.ofInt_eq_zsmul_gens]
-    simp [Torus.a, Torus.b, Torus.c]
+    simp [Torus.b]
   rw [hva, hvb]
   change matAct (Type211.k m) (Type211.uM m) (Type211.compat_u m hm)
       (Torus.ofInt (Type211.k m) ![0, (2 : ℤ) ^ (m + 1), 0]) =
@@ -39,8 +39,7 @@ theorem t211_u_a_half (m : ℕ) (hm : 2 ≤ m) :
     rw [show Type211.uM m = uMat ![2 * 2 ^ (m - 2) + 1, 0, 0] (2 * 2 ^ (m - 2))
       from rfl, uMat_mulVec]
     funext i
-    fin_cases i <;> simp [Pi.smul_apply, zsmul_eq_mul]
-    all_goals ring
+    fin_cases i <;> simp
   rw [hmul, Torus.ofInt_eq_ofInt_iff]
   have h4 : (2 : ℤ) ^ m = 4 * 2 ^ (m - 2) := by
     rw [show (2 : ℤ) ^ m = 2 ^ (m - 2) * 2 ^ 2 by rw [← pow_add]; congr 1; omega]
@@ -67,7 +66,7 @@ theorem t211_uv_fixes_a_half (m : ℕ) (hm : 2 ≤ m) :
   have hva : (2 ^ (m + 1) : ℕ) • Torus.a (k := Type211.k m) =
       Torus.ofInt (Type211.k m) ![0, (2 : ℤ) ^ (m + 1), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
-    simp [Torus.a, Torus.b, Torus.c]
+    simp [Torus.a]
   rw [hva]
   change matAct (Type211.k m) (Type211.uvM m) (Type211.compat_uv m hm)
       (Torus.ofInt (Type211.k m) ![0, (2 : ℤ) ^ (m + 1), 0]) =
@@ -80,7 +79,7 @@ theorem t211_uv_fixes_a_half (m : ℕ) (hm : 2 ≤ m) :
     rw [show Type211.uvM m = ofCols ![-3, -4 + 8 * 2 ^ (m - 2), -4] (Type211.uvA m)
       (Type211.ρM *ᵥ (Type211.tM m *ᵥ Type211.uvA m)) from rfl, ofCols_mulVec]
     funext i
-    fin_cases i <;> simp [Type211.uvA, Pi.smul_apply, zsmul_eq_mul]
+    fin_cases i <;> simp [Type211.uvA]
     all_goals ring
   rw [hmul, Torus.ofInt_eq_ofInt_iff]
   have h4 : (2 : ℤ) ^ m = 4 * 2 ^ (m - 2) := by
@@ -151,7 +150,7 @@ theorem t211_φuv_a_add_b (m : ℕ) (hm : 2 ≤ m) :
   rw [map_add, Type211.uv_a m hm, Type211.uv_b m hm]
   funext i
   fin_cases i <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, Torus.ofInt, zsmul_eq_mul]
+    simp [Torus.a, Torus.b, Torus.c, gen, Torus.ofInt, zsmul_eq_mul]
   all_goals ring
 
 theorem t211_uv_preimage (m : ℕ) (hm : 2 ≤ m) :
@@ -209,7 +208,6 @@ theorem t211_uv_preimage (m : ℕ) (hm : 2 ≤ m) :
       congr 1
       funext i
       fin_cases i <;> simp [Pi.smul_apply]
-      all_goals ring
     have hw : (2 ^ m : ℕ) • (Torus.a (k := (StrothTypeIndex.t211 m hm).k) +
         Torus.b (k := (StrothTypeIndex.t211 m hm).k)) =
         Torus.ofInt (StrothTypeIndex.t211 m hm).k ![0, 8 * T, 8 * T] := by
@@ -252,6 +250,7 @@ theorem t211_φuv_ab_half (m : ℕ) (hm : 2 ≤ m) :
     abel
   rwa [hv] at h2
 
+omit [Finite G] in
 theorem t211_u_swaps_a_half {D : Subgroup G} {m : ℕ} {hm : 2 ≤ m}
     (dD : StrothWeakTypeData D (StrothTypeIndex.t211 m hm)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ (m + 1)) * dD.u = (dD.b : G) ^ 2 ^ (m + 1) := by
@@ -278,8 +277,8 @@ theorem t211_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} {hm : 2 ≤
   set bh : G := (dD.b : G) ^ 2 ^ (m + 1) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ m * ab ^ 2 ^ m = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (m + 2) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -441,11 +440,11 @@ theorem t211_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} {hm : 2 ≤
     have hva : (2 ^ (m + 1) : ℕ) • Torus.a (k := (StrothTypeIndex.t211 m hm).k) =
         Torus.ofInt (StrothTypeIndex.t211 m hm).k ![0, (2 : ℤ) ^ (m + 1), 0] := by
       rw [Torus.ofInt_eq_zsmul_gens]
-      simp [Torus.a, Torus.b, Torus.c]
+      simp [Torus.a]
     have hvb : (2 ^ (m + 1) : ℕ) • Torus.b (k := (StrothTypeIndex.t211 m hm).k) =
         Torus.ofInt (StrothTypeIndex.t211 m hm).k ![0, 0, (2 : ℤ) ^ (m + 1)] := by
       rw [Torus.ofInt_eq_zsmul_gens]
-      simp [Torus.a, Torus.b, Torus.c]
+      simp [Torus.b]
     intro htor
     rw [hva, hvb, Torus.ofInt_eq_ofInt_iff] at htor
     have h2 := htor 2
@@ -502,6 +501,7 @@ theorem t211_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} {hm : 2 ≤
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t211_d2_ofTorus {D : Subgroup G} {m : ℕ} {hm : 2 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t211 m hm)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t211 m hm).n - 2) =
@@ -521,8 +521,8 @@ theorem t211_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {m : ℕ} {hm : 2 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _
@@ -591,8 +591,7 @@ theorem t211_d2_eq_xy {F : StrothFrame G} {D : Subgroup G} {m : ℕ} {hm : 2 ≤
       rw [map_add, Type211.u_a m hm, Type211.u_b m hm]
       funext i
       fin_cases i <;>
-        simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, Torus.ofInt, zsmul_eq_mul]
-      all_goals ring
+        simp [Torus.a, Torus.b, Torus.c, gen, Torus.ofInt, zsmul_eq_mul]
     dsimp only [w]
     rw [map_nsmul, hφab]
     have hw : (2 ^ m : ℕ) •

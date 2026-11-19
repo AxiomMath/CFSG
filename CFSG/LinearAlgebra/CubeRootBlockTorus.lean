@@ -42,7 +42,7 @@ theorem exists_commute_orderOf_eq_cubeRootDiag [Finite K] (ω : Kˣ) {p : ℕ} (
     ∃ z : SL(2, K),
       Commute (z : Matrix (Fin 2) (Fin 2) K) (cubeRootDiag ω : Matrix (Fin 2) (Fin 2) K) ∧
         orderOf z = p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hcard : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact hpq
@@ -57,10 +57,10 @@ theorem exists_commute_orderOf_eq_cubeRootDiag [Finite K] (ω : Kˣ) {p : ℕ} (
 private theorem card_centralizer_toGL_cubeRootBlock_card_vectors [Finite K] :
     Nat.card {v : Fin 2 → K // v ≠ 0} = Nat.card K ^ 2 - 1 := by
   classical
-  haveI := Fintype.ofFinite K
-  haveI : Fintype {v : Fin 2 → K // v ≠ 0} := Fintype.ofFinite _
-  haveI : Fintype {v : Fin 2 → K // v = 0} := Fintype.ofFinite _
-  haveI : Unique {v : Fin 2 → K // v = 0} :=
+  have := Fintype.ofFinite K
+  have : Fintype {v : Fin 2 → K // v ≠ 0} := Fintype.ofFinite _
+  have : Fintype {v : Fin 2 → K // v = 0} := Fintype.ofFinite _
+  have : Unique {v : Fin 2 → K // v = 0} :=
     { default := ⟨0, rfl⟩
       uniq := fun x => Subtype.ext (by simpa using x.2) }
   have hzero : Fintype.card {v : Fin 2 → K // v = 0} = 1 := Fintype.card_unique
@@ -131,7 +131,7 @@ private theorem card_centralizer_toGL_cubeRootBlock_firstColumn_injective [Finit
     (h3 : (3 : K) ≠ 0) :
     Function.Injective (card_centralizer_toGL_cubeRootBlock_firstColumn (K := K)) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   let g : GL (Fin 2) K := SpecialLinearGroup.toGL (cubeRootBlock K)
   intro z w hzw
   have hcol : (z : GL (Fin 2) K).val *ᵥ (![1, 0] : Fin 2 → K) =
@@ -164,7 +164,7 @@ private theorem card_centralizer_toGL_cubeRootBlock_firstColumn_surjective [Fini
     (h3 : (3 : K) ≠ 0) (hq : ¬ Nat.card K % 3 = 1) :
     Function.Surjective (card_centralizer_toGL_cubeRootBlock_firstColumn (K := K)) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hs : IsCubeRootBlock (cubeRootBlock K) := isCubeRootBlock_cubeRootBlock h3
   let sMat : Matrix (Fin 2) (Fin 2) K := cubeRootBlock K
   let g : GL (Fin 2) K := SpecialLinearGroup.toGL (cubeRootBlock K)
@@ -184,7 +184,7 @@ private theorem card_centralizer_toGL_cubeRootBlock_firstColumn_surjective [Fini
       eq_zero_of_sq_add_mul_add_sq_of_not_dvd_card_sub_one h3 hq (hdet.symm.trans hzero)
     apply hv
     funext i
-    fin_cases i <;> simpa [h0, h1]
+    fin_cases i <;> simp [h0, h1]
   let z : GL (Fin 2) K := Matrix.GeneralLinearGroup.mkOfDetNeZero M hMdet
   have hzval : (z : Matrix (Fin 2) (Fin 2) K) = M := by simp [z]
   have hMcomm : Commute M sMat := by
@@ -210,7 +210,7 @@ theorem card_centralizer_toGL_cubeRootBlock [Finite K] (h3 : (3 : K) ≠ 0)
     Nat.card (Subgroup.centralizer
       ({SpecialLinearGroup.toGL (cubeRootBlock K)} : Set (GL (Fin 2) K))) = Nat.card K ^ 2 - 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hbij : Function.Bijective (card_centralizer_toGL_cubeRootBlock_firstColumn (K := K)) :=
     ⟨card_centralizer_toGL_cubeRootBlock_firstColumn_injective h3,
       card_centralizer_toGL_cubeRootBlock_firstColumn_surjective h3 hq⟩
@@ -223,7 +223,7 @@ theorem card_centralizer_toGL_cubeRootBlock [Finite K] (h3 : (3 : K) ≠ 0)
 theorem det_eq_one_of_orderOf_eq_of_not_dvd [Finite K] {n : ℕ} {p : ℕ} (hp : p.Prime)
     (hpq : ¬ p ∣ Nat.card K - 1) {z : GL (Fin n) K} (hz : orderOf z = p) :
     (z : Matrix (Fin n) (Fin n) K).det = 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   let d : Kˣ := GeneralLinearGroup.det z
   have hzp : z ^ p = 1 := by rw [← hz, pow_orderOf_eq_one]
   have hdpow : d ^ p = 1 := by rw [← map_pow, hzp, map_one]
@@ -243,7 +243,7 @@ theorem exists_commute_orderOf_eq_cubeRootBlock [Finite K] (h3 : (3 : K) ≠ 0)
     (hq : ¬ Nat.card K % 3 = 1) {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hpq : p ∣ Nat.card K + 1) :
     ∃ z : SL(2, K), Commute (z : Matrix (Fin 2) (Fin 2) K)
       (cubeRootBlock K : Matrix (Fin 2) (Fin 2) K) ∧ orderOf z = p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have hcard : p ∣ Nat.card (Subgroup.centralizer
       ({SpecialLinearGroup.toGL (cubeRootBlock K)} : Set (GL (Fin 2) K))) := by
@@ -285,10 +285,10 @@ theorem exists_commute_orderOf_eq_cubeRootBlockStd [Finite K] (h3 : (3 : K) ≠ 
       (cubeRootBlockStd K : Matrix (Fin 2) (Fin 2) K) ∧ orderOf z = p := by
   by_cases hq1 : Nat.card K % 3 = 1
   · obtain ⟨ω, _, hblock⟩ := cubeRootBlockStd_eq_cubeRootDiag h3 hq1
-    have hpq' : p ∣ Nat.card K - 1 := by simpa [if_pos hq1] using hpq
+    have hpq' : p ∣ Nat.card K - 1 := by simpa [ite_eq_left hq1] using hpq
     obtain ⟨z, hz, hord⟩ := exists_commute_orderOf_eq_cubeRootDiag ω hp hpq'
     exact ⟨z, by rwa [hblock], hord⟩
-  · have hpq' : p ∣ Nat.card K + 1 := by simpa [if_neg hq1] using hpq
+  · have hpq' : p ∣ Nat.card K + 1 := by simpa [ite_eq_right hq1] using hpq
     obtain ⟨z, hz, hord⟩ := exists_commute_orderOf_eq_cubeRootBlock h3 hq1 hp h5 hpq'
     exact ⟨z, by rwa [cubeRootBlockStd_eq_cubeRootBlock h3 hq1], hord⟩
 

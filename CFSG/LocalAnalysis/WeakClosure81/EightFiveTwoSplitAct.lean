@@ -93,7 +93,7 @@ theorem exists_action {V H T U : Subgroup G} (hD : DispatchHyp V H T U)
         change _ = ρ₀ a (ρ₀ b (φ k))
         rw [hρcj, hρcj] }
   have hρ : ∀ u k, ρ u (φ k) = φ (cj u k) := hρcj
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNC : pCoreOf 2 (kGenIn V H) ≤ Subgroup.centralizer (eSub V H T : Set G) :=
     h83.pCoreOf_kGenIn_le_centralizer_eSub
   have hinj : Function.Injective ρ := by

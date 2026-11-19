@@ -129,7 +129,7 @@ theorem isCyclic_of_le_map {G₁ G₂ : Type*} [Group G₁] [Group G₂] [Finite
     · exact absurd ((hk ▸ dvd_pow_self p (Nat.succ_ne_zero k)).trans hdvd) hnd
   have hPc : IsCyclic (P : Subgroup ↥A₁) := by
     have hc : IsCyclic ((P : Subgroup ↥A₁).map A₁.subtype) :=
-      hB _ ((Subgroup.map_subtype_le _).trans inf_le_right) (P.isPGroup'.map _)
+      hB _ ((Subgroup.map_subtype_le _).trans inf_le_right) (P.isPGroup.map _)
     exact isCyclic_of_injective
       ((Subgroup.equivMapOfInjective _ _ A₁.subtype_injective).toMonoidHom)
       (Subgroup.equivMapOfInjective _ _ A₁.subtype_injective).injective

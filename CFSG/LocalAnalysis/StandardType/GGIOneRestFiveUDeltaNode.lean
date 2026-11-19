@@ -64,9 +64,9 @@ theorem normalizer_of_mem_subgroup {G : Type} [Group G] {H : Subgroup G} {x : G}
     exact this
 
 theorem lift_of_prod_one [Finite K] {L' : Type} [Group L'] [Finite L'] (h : UnitaryFieldData 2 n K)
-    {p : ℕ} (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) {φ : ↥(unitarySU 2 n K d) →* L'}
+    {p : ℕ} (_hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) {φ : ↥(unitarySU 2 n K d) →* L'}
     (hM : UnitTB.Model φ) (hd3 : 3 ≤ d) {A : Subgroup (MulAut L')}
-    (hA : CFSG.Open.IsElemAbelian p A)
+    (_hA : CFSG.Open.IsElemAbelian p A)
     (hadm : GGDeltaAdm p L' A) (s0 : Fin d) (ν : A →* (Fin d → Kˣ))
     (hν : ∀ a : A, ActsU φ (a : MulAut L') (ν a) ∧ ν a s0 = 1)
     {τ : Fin d → Kˣ} (hτp : ∀ k, τ k ^ p = 1) (hprod : ∏ k, τ k = 1) (hτs : τ s0 = 1) :
@@ -106,7 +106,7 @@ theorem node_exists [Finite K] {L' : Type} [Group L'] [Finite L'] (h : UnitaryFi
     ∃ δ : Kˣ, δ ^ p = 1 ∧ δ ≠ 1 ∧ ∀ c : Fin d, c ≠ s0 → ∃ x : A, ν x = nodeDiag c δ := by
   have hA0 : ∃ a0 : A, ∏ k, ν a0 k ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinn : ∀ a ∈ A, ∃ e : L', e ^ p = 1 ∧ MulAut.conj e = a := fun a ha =>
       inner_of_prod_one h hpq hM hd3 hA ha s0 (hν ⟨a, ha⟩).1 (hν ⟨a, ha⟩).2 (hcon ⟨a, ha⟩)
     rcases hadm.2 with ⟨⟨a, ha, hna⟩, -⟩ | ⟨-, -, a, ha, hna⟩
@@ -151,7 +151,7 @@ theorem node_exists [Finite K] {L' : Type} [Group L'] [Finite L'] (h : UnitaryFi
 theorem exists_beta [Finite K] {L' : Type} [Group L'] (hK : Nat.card K = (2 ^ n) ^ 2) (hd : 5 ≤ d)
     (hdq : (d, 2 ^ n) ≠ (3, 2))
     {ψ : L' →* LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))} (hψ : Function.Surjective ψ)
-    (hker : ψ.ker ≤ Subgroup.center L') {φ : ↥(unitarySU 2 n K d) →* L'}
+    (_hker : ψ.ker ≤ Subgroup.center L') {φ : ↥(unitarySU 2 n K d) →* L'}
     (hφ : Function.Surjective φ) :
     ∃ β : LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)) ≃*
         LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)),
@@ -265,7 +265,7 @@ theorem centralizer_L [Finite K] {L' : Type} [Group L'] [Finite L'] (h : Unitary
   obtain ⟨ρ, hρp, hact⟩ := centR_of_fix h hK hn hd c hp hpq α' hα'p hfix'
   obtain ⟨hD', hact'⟩ := hact
   obtain ⟨hDζ, hactA⟩ := ha
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hprim : IsPrimitiveRoot ((ζ : Kˣ) : K) p :=
     IsPrimitiveRoot.coe_units_iff.mpr (IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime hζp hζ1))
   obtain ⟨j, -, hj⟩ := hprim.eq_pow_of_pow_eq_one
@@ -305,7 +305,6 @@ theorem centralizer_L [Finite K] {L' : Type} [Group L'] [Finite L'] (h : Unitary
     obtain ⟨u, rfl⟩ := hθs x
     obtain ⟨v, hv1, hv2⟩ := hiter u
     rw [hα u, hv2]
-    congr 1
     congr 1
     apply Subtype.ext
     show diagHom d (nodeDiag c (ζ ^ j)) * (u : GL (Fin d) K) *
@@ -399,7 +398,7 @@ theorem ggEndNodeIOneDelta_of_ne
         by_contra h'
         exact hi (Finset.mem_erase.mpr ⟨h', Finset.mem_univ i⟩)
       subst hic
-      simp only [nodeDiag, if_neg hj, if_pos rfl]
+      simp only [nodeDiag, ite_eq_right hj]
       exact fun e => hδ1 e.symm
   have hbig : BigOK n (Finset.univ.erase c : Finset (Fin d)) := Or.inl (by omega)
   obtain ⟨hlay, hcomp⟩ := layer_eq_block_of_isNodeOn hM ha hτ hbig
@@ -447,7 +446,7 @@ theorem ggEndNodeIOneDelta_of_ne
   have hx1 : x = 1 := Subtype.ext h1
   rw [hx1, map_one] at hx
   have h2 := congrFun hx c
-  simp only [nodeDiag, if_pos rfl, Pi.one_apply] at h2
+  simp only [nodeDiag, Pi.one_apply] at h2
   exact hδ1 h2.symm
 
 @[expose] def GGIOneUnitaryDvdDeltaSixTwoInput : Prop :=

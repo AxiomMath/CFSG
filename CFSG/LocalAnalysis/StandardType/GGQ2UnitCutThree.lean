@@ -87,9 +87,9 @@ private lemma l02qfru_finrank_cent_aux {N : ℕ} (S : Finset (Fin N)) (i₀ : Fi
       refine ⟨(oneLine N).mkQ (fun i => if h : i ∈ S then f ⟨i, h⟩ else 0), ?_⟩
       funext i
       have hwi : (if h : i.1 ∈ S then f ⟨i.1, h⟩ else 0) = f i := by
-        rw [dif_pos i.2]
+        rw [dite_eq_left i.2]
       have hwi0 : (if h : i₀ ∈ S then f ⟨i₀, h⟩ else 0) = 0 := by
-        rw [dif_pos hi₀]
+        rw [dite_eq_left hi₀]
         simpa [ev, LinearMap.proj_apply] using hf
       show diffFun N i.1 i₀
         ((oneLine N).mkQ (fun j => if h : j ∈ S then f ⟨j, h⟩ else 0)) = f i
@@ -113,7 +113,7 @@ private lemma l02qfru_finrank_cent_aux {N : ℕ} (S : Finset (Fin N)) (i₀ : Fi
       exact finrank_span_singleton (K := F) (v := fun _ : Fin N => (1 : F)) (by
         intro h
         have := congrFun h i₀
-        simpa using this)
+        simp at this)
     rw [hW, hline]
   have hrank := LinearMap.finrank_range_add_finrank_ker Φ
   rw [hdimrange, hker, hdimV] at hrank
@@ -147,7 +147,7 @@ private lemma l02qfru_labelIso_eq_of_twA_rank_ne_three {lab lab' : LargeEvenLabe
     exact absurd (htag ▸ this) (by decide)
 
 private lemma l02qfru_not_twoNodeLabels_twA_rank_succ {labX labJ : LargeEvenLabel}
-    (htX : labX.tag = .twA) (htJ : labJ.tag = .twA)
+    (_htX : labX.tag = .twA) (htJ : labJ.tag = .twA)
     (hr : labX.rank = labJ.rank + 1) :
     ¬ TwoNodeLabels 3 labX labJ := by
   intro h
@@ -184,14 +184,14 @@ theorem cent_univ {N : ℕ} : cent (Finset.univ : Finset (Fin N)) = ⊥ := by
     exact LinearMap.mem_ker.mp hmem
   · exact bot_le
 
-theorem finrank_cent {N : ℕ} (S : Finset (Fin N)) (hS : S.Nonempty) (hne : S ≠ Finset.univ) :
+theorem finrank_cent {N : ℕ} (S : Finset (Fin N)) (hS : S.Nonempty) (_hne : S ≠ Finset.univ) :
     finrank F (cent S) = N - S.card := by
   obtain ⟨i₀, hi₀⟩ := hS
   exact l02qfru_finrank_cent_aux S i₀ hi₀
 
 theorem unitFull_noInternalTwoNode {N : ℕ} (hN : 4 ≤ N) (v : Vfull N) (hv : v ≠ 0)
-    (U : Submodule F (Vfull N)) (hU : finrank F U = 2) (hvU : v ∈ U) (S T : Finset (Fin N))
-    (hS : admissible S) (hT : admissible T)
+    (U : Submodule F (Vfull N)) (hU : finrank F U = 2) (_hvU : v ∈ U) (S T : Finset (Fin N))
+    (hS : admissible S) (_hT : admissible T)
     (hocc_S : occurs (Submodule.span F {v}) S) (hocc_T : occurs U T)
     (hcent_S : cent S = Submodule.span F {v}) (hcent_T : cent T ≤ U)
     (hin : v ∈ inside S) :

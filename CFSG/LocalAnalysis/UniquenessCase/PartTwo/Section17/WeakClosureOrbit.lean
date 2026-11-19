@@ -61,6 +61,7 @@ theorem exists_ncard_conjSetOf_eq_two_pow (D : Data G) (L : Subgroup G) :
   rw [← hset, ← Nat.card_coe_set_eq]
   exact hk
 
+omit [Finite G] in
 theorem exists_conj_pair_of_ncard_conjSetOf_eq_two {T L : Subgroup G}
     (h : (conjSetOf T L).ncard = 2) :
     ∃ L₂ : Subgroup G, (∃ t ∈ T, L₂ = CFSG.Quasithin.conjSubgroup L t) ∧ L ≠ L₂ ∧

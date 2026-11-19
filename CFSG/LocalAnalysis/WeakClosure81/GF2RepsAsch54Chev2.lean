@@ -164,7 +164,7 @@ theorem pRank_three_normalizer_of_rank {X : Type} [Group X] [Finite X] [IsSimple
       · exact h
     rw [hr3] at hbig
     have hlift := pRank_normalizerQuotient_le_normalizer (S := (S : Subgroup X))
-      S.isPGroup' (p := 3) Nat.prime_three (by norm_num)
+      S.isPGroup (p := 3) Nat.prime_three (by norm_num)
     exact lt_of_lt_of_le hbig hlift
   have htop : 3 < CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
     obtain ⟨S₀⟩ := Sylow.nonempty (p := 2) (G := X)

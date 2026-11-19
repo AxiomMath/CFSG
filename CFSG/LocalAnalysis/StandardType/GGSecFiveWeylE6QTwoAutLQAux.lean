@@ -22,11 +22,13 @@ variable {Bs L : Subgroup G} {x : G} {ω : K}
     L →* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
   θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
 
+omit [Finite G] [Finite K] in
 theorem piOf_surjective
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :
     Function.Surjective (piOf (K := K) θ) :=
   θ.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] [Finite K] in
 private theorem piOf_ker
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :
     (piOf (K := K) θ).ker = Subgroup.center L := by
@@ -42,6 +44,7 @@ private theorem piOf_ker
     rw [QuotientGroup.mk'_apply,
       (QuotientGroup.eq_one_iff (N := Subgroup.center L) y).mpr h, map_one]
 
+omit [Finite G] in
 private theorem eq_one_of_mem_center_of_pow_three {y : L}
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hy : y ∈ Subgroup.center L) (hy3 : y ^ 3 = 1) :
     y = 1 := by
@@ -53,6 +56,7 @@ private theorem eq_one_of_mem_center_of_pow_three {y : L}
   have hcop : Nat.Coprime (2 ^ k) 3 := (by norm_num : Nat.Coprime 2 3).pow_left k
   exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hcop hk h3)
 
+omit [Finite G] [Finite K] in
 theorem piOf_injective_of_pow_three
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hZ2 : IsPGroup 2 (Subgroup.center L)) {z z' : L} (hz : z ^ 3 = 1) (hz' : z' ^ 3 = 1)
@@ -69,11 +73,13 @@ theorem piOf_injective_of_pow_three
   have hc1 : c = 1 := eq_one_of_mem_center_of_pow_three hZ2 hcZ hc3
   rw [hzc, hc1, mul_one]
 
+omit [Finite G] in
 theorem pow_three_of_mem_inf (hBs : IsElemAbelian 3 Bs) {y : L}
     (hy : y ∈ (Bs ⊓ L).subgroupOf L) : y ^ 3 = 1 := by
   apply Subtype.ext
   exact hBs.2 ((y : L) : G) (Subgroup.mem_subgroupOf.mp hy).1
 
+omit [Finite G] [Finite K] in
 private theorem piOf_injective_inf
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs) :
@@ -85,6 +91,7 @@ private theorem piOf_injective_inf
     pow_three_of_mem_inf hBs b.2
   exact Subtype.ext (piOf_injective_of_pow_three θ hZ2 h3a h3b hab)
 
+omit [Finite G] in
 private theorem card_inf_Bs_L (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
@@ -108,13 +115,15 @@ private theorem card_inf_Bs_L (hK : Nat.card K = 4)
     _ = Nat.card (USixTwo.torU K) := by rw [hmap]
     _ = 3 ^ 4 := USixTwo.card_torU hK
 
+omit [Finite G] in
 theorem orderOf_x_of_mem (hBs : IsElemAbelian 3 Bs) (hx : x ∈ Bs) (hxL : x ∉ L) :
     orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine orderOf_eq_prime (hBs.2 x hx) ?_
   intro h
   exact hxL (h ▸ L.one_mem)
 
+omit [Finite G] in
 private theorem zpowers_inf_Bs_L (hBs : IsElemAbelian 3 Bs) (hx : x ∈ Bs) (hxL : x ∉ L) :
     Subgroup.zpowers x ⊓ (Bs ⊓ L) = ⊥ := by
   classical
@@ -166,6 +175,7 @@ theorem Bs_eq_zpowers_sup (hK : Nat.card K = 4)
     norm_num
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hcard, hsupcard])).symm
 
+omit [Finite G] in
 theorem inf_le_normalizer_zpowers (hLx : L ≤ Subgroup.centralizer {x}) :
     Bs ⊓ L ≤ Subgroup.normalizer (Subgroup.zpowers x : Set G) := by
   intro y hy
@@ -196,7 +206,7 @@ theorem exists_mul_zpowers (hK : Nat.card K = 4)
 private def eps (i j : Fin 6) : Fin 6 → ZMod 3 := Pi.single i 1 - Pi.single j 1
 
 private theorem sum_eps (i j : Fin 6) : ∑ k, eps i j k = 0 := by
-  fin_cases i <;> fin_cases j <;> simp [eps, Fin.sum_univ_six] <;> decide
+  fin_cases i <;> fin_cases j <;> simp [eps]
 
 private theorem eps_apply_left {i j : Fin 6} (hij : i ≠ j) : eps i j i = 1 := by
   rw [eps, Pi.sub_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij]
@@ -237,7 +247,7 @@ private theorem eps_eq_neg_one_iff {i j x : Fin 6} (hij : i ≠ j) : eps i j x =
     rw [hx]
     exact eps_apply_right hij
 
-def epsS {i j : Fin 6} (hij : i ≠ j) : ↥sumZeroSubgroup :=
+def epsS {i j : Fin 6} (_hij : i ≠ j) : ↥sumZeroSubgroup :=
   ⟨Multiplicative.ofAdd (eps i j), sum_eps i j⟩
 
 private theorem coe_permX_epsS (σ : Equiv.Perm (Fin 6)) {i j : Fin 6} (hij : i ≠ j) :
@@ -325,8 +335,7 @@ theorem permX_swap_deltaS_inv (i : Fin 5) :
   rw [TorConj.coe_permX, Subgroup.coe_inv, toAdd_inv, Pi.neg_apply]
   change delta i ((Equiv.swap i.castSucc 5).symm k) = - delta i k
   fin_cases i <;> fin_cases k <;>
-    simp [delta, delta0, delta1, delta2, delta3, delta4, Equiv.swap_apply_def] <;>
-    decide
+    simp [delta, delta0, delta1, delta2, delta3, delta4, Equiv.swap_apply_def]
 
 theorem eq_one_of_inv_eq_self {a : Multiplicative (ZMod 3)} (h : a⁻¹ = a) : a = 1 := by
   revert a

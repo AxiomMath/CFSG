@@ -17,7 +17,7 @@ theorem I2018U38NotAlt_holds : I2018U38NotAlt := by
   have hcard : Nat.card X = 5515776 :=
     CFSG.LocalAnalysis.GLTheoremA.CatSingle.card_isU3eight
       CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds hX
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hA : Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
   rw [Nat.card_congr e.toEquiv, hA] at hcard

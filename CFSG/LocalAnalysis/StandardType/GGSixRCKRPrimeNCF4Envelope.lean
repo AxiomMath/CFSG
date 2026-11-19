@@ -15,7 +15,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Adjo
 
 theorem rckNC_twistKind_of_A {τ : Tag} {ρ : Equiv.Perm (Fin τ.rank → ℤ)}
     {χ : Multiplicative (Fin τ.rank → ℤ) →* GGLˣ} {i : KernelComponent χ}
-    (h2 : 2 ≤ compRank (componentRoots χ i))
+    (_h2 : 2 ≤ compRank (componentRoots χ i))
     (hn : (componentRoots χ i).ncard =
       compRank (componentRoots χ i) * (compRank (componentRoots χ i) + 1)) :
     twistKind ρ χ i = .inner ∨ twistKind ρ χ i = .suN := by

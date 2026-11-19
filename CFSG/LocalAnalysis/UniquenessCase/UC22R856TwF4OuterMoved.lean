@@ -44,7 +44,7 @@ theorem exists_moved_abelian_of_twistedF4_field
       (Nat.pow_le_pow_right (by norm_num) (by omega))
   obtain ⟨S, hSab, hstable, x, hx, hmoved⟩ := exists_moved_abelian_of_sl2_field hK3 hK4 σ hσ
   let A := (S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)).map ρ
-  have hAp : IsPGroup 3 A := S.isPGroup'.map ρ
+  have hAp : IsPGroup 3 A := S.isPGroup.map ρ
   have hAab : IsMulCommutative A := by
     let : IsMulCommutative (S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)) := hSab
     exact Subgroup.map_isMulCommutative (S : Subgroup _) ρ

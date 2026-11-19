@@ -82,6 +82,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [CharP F 2] in
 private theorem apply_mem_iSup_of_mem_normalizer_aux1 {m : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb)
     {b : ↥(orthDerived Q)} (hb : b ∈ Bb) {w : V} (hw : w ∈ (⨆ j, U j : Submodule F V)) :
@@ -105,6 +106,7 @@ private theorem apply_mem_iSup_of_mem_normalizer_aux1 {m : ℕ} {U : Fin m → S
     rw [map_add]
     exact Submodule.add_mem _ hy hz
 
+omit [CharP F 2] in
 private theorem apply_mem_iSup_of_mem_normalizer_aux2 {m : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb)
     {b : ↥(orthDerived Q)} (hb : b ∈ Bb) (v : V) :
@@ -119,6 +121,7 @@ private theorem apply_mem_iSup_of_mem_normalizer_aux2 {m : ℕ} {U : Fin m → S
   rw [h2]
   exact Submodule.sub_mem _ (apply_mem_iSup_of_mem_normalizer_aux1 hF hb hw) hw
 
+omit [CharP F 2] in
 theorem apply_mem_iSup_of_mem_normalizer {m : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb)
     {g : ↥(orthDerived Q)} (hg : g ∈ Subgroup.normalizer (Bb : Set ↥(orthDerived Q))) {x : V}
@@ -155,6 +158,7 @@ theorem apply_mem_iSup_of_mem_normalizer {m : ℕ} {U : Fin m → Submodule F V}
     rw [map_add]
     exact Submodule.add_mem _ hy hz
 
+omit [Finite F] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux1 {W : Type} [AddCommGroup W]
     [Module F W] [FiniteDimensional F W] {R : QuadraticForm F W}
     (hdim : Module.finrank F W = 2)
@@ -195,6 +199,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux1 {W : Type} [Add
     rw [hgt, mul_inv_rev, reflect_inv, reflect_inv]
     simp only [mul_assoc, reflect_mul_self, mul_one]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux2 {U : Submodule F V}
     (x u : U) :
     ((reflect (Q.comp U.subtype) x u : U) : V) = reflect Q (x : V) (u : V) := by
@@ -207,14 +212,16 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux2 {U : Submodule 
     simp only [Submodule.coe_sub, Submodule.coe_smul]
     rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux3 {n : ℕ}
-    {U : Fin n → Submodule F V} (hU : IsPlaneSystem Q U)
+    {U : Fin n → Submodule F V} (_hU : IsPlaneSystem Q U)
     (i : Fin n) {v : V} (hvU : v ∈ U i) (hvQ : Q v ≠ 0) :
     ∀ y ∈ U i, reflect Q v y ∈ U i := by
   intro y hy
   rw [reflect_apply hvQ]
   exact Submodule.sub_mem _ hy (Submodule.smul_mem _ _ hvU)
 
+omit [Finite F] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux4 {n : ℕ}
     {U : Fin n → Submodule F V} (hU : IsPlaneSystem Q U) (i : Fin n) {v : V}
     (hvU : v ∈ U i) (hvQ : Q v ≠ 0) {E : V ≃ₗ[F] V}
@@ -266,6 +273,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux4 {n : ℕ}
   have hcoeright : ((gU⁻¹ ⟨x, hx⟩ : Uj) : V) = E⁻¹ x := hcoe_inv ⟨x, hx⟩
   rw [hcoetop, hcoeright] at hk2; simpa only [LinearEquiv.mul_apply, reflect_inv] using hk2
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux5 {n : ℕ}
     {U : Fin n → Submodule F V} (hU : IsPlaneSystem Q U) (j : Fin n)
     {w : ↥(U j)} (hw0 : w ≠ 0) : Q (w : V) ≠ 0 := by
@@ -278,6 +286,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux5 {n : ℕ}
     show (Q.comp (U j).subtype) (c • w) = 0
     rw [QuadraticMap.map_smul, show (Q.comp (U j).subtype) w = 0 from hQw, smul_zero]
 
+omit [CharP F 2] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux6 {n : ℕ}
     {U : Fin n → Submodule F V} {e : Fin n → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb)
@@ -296,6 +305,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux6 {n : ℕ}
   rw [hk y hy]
   exact hpow k y hy
 
+omit [CharP F 2] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux7 {n : ℕ}
     {U : Fin n → Submodule F V} {e : Fin n → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb) (hp : p.Prime)
@@ -344,6 +354,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux8 {n : ℕ}
     exact exists_mem_normalizer_conj_eq_of_isEvenFlip_aux4 hF.toIsPlaneSystem i hvU hvQ hE
       hE1 hE2 hfree x hx
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux9 {n : ℕ}
     {U : Fin n → Submodule F V} (hU : IsPlaneSystem Q U) {v : Fin n → V}
     (hvU : ∀ i, v i ∈ U i) (hvQ : ∀ i, Q (v i) ≠ 0) (J : Finset (Fin n))
@@ -360,19 +371,20 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux9 {n : ℕ}
       rw [ih (comm.mono (fun x hx => Finset.mem_insert_of_mem hx))]
       by_cases hia : i = a
       · rw [hia]
-        rw [if_neg ha, if_pos (Finset.mem_insert_self a s)]
+        rw [ite_eq_right ha, ite_eq_left (Finset.mem_insert_self a s)]
       · simp only [Finset.mem_insert, hia, false_or]
         by_cases his : i ∈ s
-        · rw [if_pos his]
+        · rw [ite_eq_left his]
           exact reflect_apply_of_polar_eq_zero
             (hU.perp a i (Ne.symm hia) (v a) (hvU a) _
               (exists_mem_normalizer_conj_eq_of_isEvenFlip_aux3 hU i (hvU i) (hvQ i) x hx))
-        · rw [if_neg his]
+        · rw [ite_eq_right his]
           exact reflect_apply_of_polar_eq_zero
             (hU.perp a i (Ne.symm hia) (v a) (hvU a) x hx)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux10 {n : ℕ}
-    {U : Fin n → Submodule F V} (hU : IsPlaneSystem Q U) {v : Fin n → V}
+    {U : Fin n → Submodule F V} (_hU : IsPlaneSystem Q U) {v : Fin n → V}
     (hvU : ∀ i, v i ∈ U i) (J : Finset (Fin n))
     (comm : (J : Set (Fin n)).Pairwise
       (Function.onFun Commute (fun j => reflect Q (v j))))
@@ -387,6 +399,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux10 {n : ℕ}
       exact reflect_apply_of_polar_eq_zero
         (mem_polarPerp_iff.1 hx (v a) (Submodule.mem_iSup_of_mem a (hvU a)))
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux11 {m : ℕ}
     {U : Fin m → Submodule F V} (hU : IsPlaneSystem Q U) {P R : V ≃ₗ[F] V}
     (hW : ∀ (i : Fin m) (x : V), x ∈ U i → P x = R x)
@@ -405,6 +418,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux11 {m : ℕ}
   obtain ⟨u, hu, w, hw, rfl⟩ := Submodule.mem_sup.1 hx
   rw [map_add, map_add, hWsum u hu, hperp w hw]
 
+omit [CharP F 2] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux12
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) :
@@ -467,23 +481,24 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux22 {n : ℕ}
       (if i ∈ J then ((e i : V ≃ₗ[F] V))⁻¹ else (e i : V ≃ₗ[F] V)) x := by
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   by_cases hi : i ∈ J
-  · rw [hPinv i hx, if_pos hi, if_pos hi]
+  · rw [hPinv i hx, ite_eq_left hi, ite_eq_left hi]
     have hmem : (e i : V ≃ₗ[F] V) (reflect Q (v i) x) ∈ U i :=
       hF.maps_to i _ (exists_mem_normalizer_conj_eq_of_isEvenFlip_aux3
         hF.toIsPlaneSystem i (hvU i) (hvQ i) x hx)
     rw [show P ((e i : V ≃ₗ[F] V) (reflect Q (v i) x)) =
         reflect Q (v i) ((e i : V ≃ₗ[F] V) (reflect Q (v i) x)) from by
-      rw [hPeq, hPinv i hmem, if_pos hi]]
+      rw [hPeq, hPinv i hmem, ite_eq_left hi]]
     rw [show reflect Q (v i) ((e i : V ≃ₗ[F] V) (reflect Q (v i) x)) =
         (reflect Q (v i) * (e i : V ≃ₗ[F] V) * (reflect Q (v i))⁻¹) x from by
       rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, reflect_inv]]
     exact exists_mem_normalizer_conj_eq_of_isEvenFlip_aux8 hF hp (hF.mem i) i
       (hvU i) (hvQ i) x hx
-  · rw [hPinv i hx, if_neg hi, if_neg hi]
+  · rw [hPinv i hx, ite_eq_right hi, ite_eq_right hi]
     have hmem : (e i : V ≃ₗ[F] V) x ∈ U i := hF.maps_to i x hx
     rw [show P ((e i : V ≃ₗ[F] V) x) = (e i : V ≃ₗ[F] V) x from by
-      rw [hPeq, hPinv i hmem, if_neg hi]]
+      rw [hPeq, hPinv i hmem, ite_eq_right hi]]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux23 {n : ℕ}
     {U : Fin n → Submodule F V} {e : Fin n → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb)
@@ -507,25 +522,25 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux23 {n : ℕ}
       LinearEquiv.apply_symm_apply (e j : V ≃ₗ[F] V) y, hfix_i y hy]
   rw [hPinv i hx]
   by_cases hi : i ∈ J
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     have htau : reflect Q (v i) x ∈ U i :=
       exists_mem_normalizer_conj_eq_of_isEvenFlip_aux3 hF.toIsPlaneSystem i (hvU i)
         (hvQ i) x hx
     rw [hfix_i _ htau]
     have hPtau : P (reflect Q (v i) x) = x := by
-      rw [hPeq, hPinv i htau, if_pos hi]
+      rw [hPeq, hPinv i htau, ite_eq_left hi]
       rw [← LinearEquiv.mul_apply, reflect_mul_self]
       rfl
     rw [hPtau]
     by_cases hj : j ∈ J
-    · rw [if_pos hj, hfix_i_inv x hx]
-    · rw [if_neg hj, hfix_i x hx]
-  · rw [if_neg hi, hfix_i _ hx]
-    have hPx : P x = x := by rw [hPeq, hPinv i hx, if_neg hi]
+    · rw [ite_eq_left hj, hfix_i_inv x hx]
+    · rw [ite_eq_right hj, hfix_i x hx]
+  · rw [ite_eq_right hi, hfix_i _ hx]
+    have hPx : P x = x := by rw [hPeq, hPinv i hx, ite_eq_right hi]
     rw [hPx]
     by_cases hj : j ∈ J
-    · rw [if_pos hj, hfix_i_inv x hx]
-    · rw [if_neg hj, hfix_i x hx]
+    · rw [ite_eq_left hj, hfix_i_inv x hx]
+    · rw [ite_eq_right hj, hfix_i x hx]
 
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux14 {n : ℕ}
     {U : Fin n → Submodule F V} {e : Fin n → ↥(orthDerived Q)}
@@ -552,16 +567,17 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux14 {n : ℕ}
     have hPx : P x = x := by rw [hPeq]; exact hPperp hx
     rw [hPx]
     by_cases hj : j ∈ J
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       have h1 : ((e j : V ≃ₗ[F] V))⁻¹ x = x := by
         refine (e j : V ≃ₗ[F] V).injective ?_
         rw [show (e j : V ≃ₗ[F] V) ((e j : V ≃ₗ[F] V)⁻¹ x) = x from
           LinearEquiv.apply_symm_apply (e j : V ≃ₗ[F] V) x]
         exact (hF.apply_eq_of_mem_polarPerp_iSup (hF.mem j) hx).symm
       rw [h1]
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       exact (hF.apply_eq_of_mem_polarPerp_iSup (hF.mem j) hx).symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux20 {n : ℕ}
     {U : Fin n → Submodule F V} {e : Fin n → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb)
@@ -575,9 +591,9 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux20 {n : ℕ}
       obtain ⟨j, rfl⟩ := hy
       rw [hgen' j]
       by_cases hj : j ∈ J
-      · rw [if_pos hj]; exact Bb.inv_mem (hF.mem j)
-      · rw [if_neg hj]; exact hF.mem j
-  | one => simpa using Bb.one_mem
+      · rw [ite_eq_left hj]; exact Bb.inv_mem (hF.mem j)
+      · rw [ite_eq_right hj]; exact hF.mem j
+  | one => simp
   | mul a b ha hb iha ihb =>
       rw [map_mul]
       exact Bb.mul_mem iha ihb
@@ -585,6 +601,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux20 {n : ℕ}
       rw [map_inv]
       exact Bb.inv_mem iha
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux21 {n : ℕ}
     {U : Fin n → Submodule F V} (hF : IsPlaneSystem Q U) {v : Fin n → V}
     (hvU : ∀ i, v i ∈ U i) (hvQ : ∀ i, Q (v i) ≠ 0) (J : Finset (Fin n))
@@ -601,15 +618,15 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux21 {n : ℕ}
       show (g : V ≃ₗ[F] V) x = if i ∈ J then reflect Q (v i) x else x from by
         rw [hg, hPeq]; exact hPinv i hx]
     by_cases hi : i ∈ J
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       have htau : reflect Q (v i) x ∈ U i :=
         exists_mem_normalizer_conj_eq_of_isEvenFlip_aux3 hF i (hvU i) (hvQ i) x hx
       rw [show (g : V ≃ₗ[F] V) (reflect Q (v i) x) =
           if i ∈ J then reflect Q (v i) (reflect Q (v i) x) else reflect Q (v i) x from by
         rw [hg, hPeq]; exact hPinv i htau]
-      rw [if_pos hi, ← LinearEquiv.mul_apply, reflect_mul_self]
-    · rw [if_neg hi]
-      rw [show (g : V ≃ₗ[F] V) x = x from by rw [hg, hPeq, hPinv i hx, if_neg hi]]
+      rw [ite_eq_left hi, ← LinearEquiv.mul_apply, reflect_mul_self]
+    · rw [ite_eq_right hi]
+      rw [show (g : V ≃ₗ[F] V) x = x from by rw [hg, hPeq, hPinv i hx, ite_eq_right hi]]
       simp
   · intro x hx
     rw [LinearEquiv.mul_apply,
@@ -639,9 +656,9 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux16 {n : ℕ}
     apply Subtype.ext
     have h := hgenV j
     by_cases hj : j ∈ J
-    · rw [if_pos hj] at h ⊢
+    · rw [ite_eq_left hj] at h ⊢
       simpa only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv] using h
-    · rw [if_neg hj] at h ⊢
+    · rw [ite_eq_right hj] at h ⊢
       simpa only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv] using h
   have hfwd := exists_mem_normalizer_conj_eq_of_isEvenFlip_aux20 hF hgen'
   have hg_sq : g * g = 1 :=
@@ -674,8 +691,8 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux17 {n : ℕ}
     intro i x hx
     rw [hJflip.2.2 i x hx]
     by_cases hi : i ∈ J
-    · rw [if_pos hi]; exact exists_mem_normalizer_conj_eq_of_isEvenFlip_aux7 hF hp hd i x hx
-    · rw [if_neg hi]; exact exists_mem_normalizer_conj_eq_of_isEvenFlip_aux6 hF hd i x hx
+    · rw [ite_eq_left hi]; exact exists_mem_normalizer_conj_eq_of_isEvenFlip_aux7 hF hp hd i x hx
+    · rw [ite_eq_right hi]; exact exists_mem_normalizer_conj_eq_of_isEvenFlip_aux6 hF hd i x hx
   have hd'inv : ∀ {x : V}, x ∈ polarPerp Q (⨆ i, U i) → d'⁻¹ x = x :=
     fun {x} hx => (LinearEquiv.symm_apply_eq d').2 (hJflip.2.1 x hx).symm
   refine exists_mem_normalizer_conj_eq_of_isEvenFlip_aux11 hF.toIsPlaneSystem
@@ -683,31 +700,32 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux17 {n : ℕ}
   · intro i x hx
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
     by_cases hi : i ∈ J
-    · rw [hPinv i hx, if_pos hi]
+    · rw [hPinv i hx, ite_eq_left hi]
       have hmem : (d : V ≃ₗ[F] V) (reflect Q (v i) x) ∈ U i :=
         exists_mem_normalizer_conj_eq_of_isEvenFlip_aux6 hF hd i (reflect Q (v i) x)
           (exists_mem_normalizer_conj_eq_of_isEvenFlip_aux3 hF.toIsPlaneSystem i
             (hvU i) (hvQ i) x hx)
       rw [show P ((d : V ≃ₗ[F] V) (reflect Q (v i) x)) =
           reflect Q (v i) ((d : V ≃ₗ[F] V) (reflect Q (v i) x)) from by
-        rw [hPeq, hPinv i hmem, if_pos hi]]
+        rw [hPeq, hPinv i hmem, ite_eq_left hi]]
       rw [show reflect Q (v i) ((d : V ≃ₗ[F] V) (reflect Q (v i) x)) =
           (reflect Q (v i) * (d : V ≃ₗ[F] V) * (reflect Q (v i))⁻¹) x from by
         rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, reflect_inv]]
       rw [exists_mem_normalizer_conj_eq_of_isEvenFlip_aux8 hF hp hd i (hvU i) (hvQ i) x hx]
-      rw [hJflip.2.2 i x hx, if_pos hi]
-    · rw [hPinv i hx, if_neg hi]
+      rw [hJflip.2.2 i x hx, ite_eq_left hi]
+    · rw [hPinv i hx, ite_eq_right hi]
       have hmem : (d : V ≃ₗ[F] V) x ∈ U i :=
         exists_mem_normalizer_conj_eq_of_isEvenFlip_aux6 hF hd i x hx
       rw [show P ((d : V ≃ₗ[F] V) x) = (d : V ≃ₗ[F] V) x from by
-        rw [hPeq, hPinv i hmem, if_neg hi]]
-      rw [hJflip.2.2 i x hx, if_neg hi]
+        rw [hPeq, hPinv i hmem, ite_eq_right hi]]
+      rw [hJflip.2.2 i x hx, ite_eq_right hi]
   · intro x hx
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hPperp hx,
       hF.apply_eq_of_mem_polarPerp_iSup hd hx]
     rw [show P x = x from hPperp' hx]
     exact (hJflip.2.1 x hx).symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux18 {n : ℕ}
     {U : Fin n → Submodule F V} (hF : IsPlaneSystem Q U) {v : Fin n → V}
     (hvU : ∀ i, v i ∈ U i) (hvQ : ∀ i, Q (v i) ≠ 0) (J : Finset (Fin n))
@@ -721,24 +739,25 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux18 {n : ℕ}
   constructor
   · intro i x hx
     by_cases hi : i ∈ J
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       have htau : reflect Q (v i) x ∈ U i :=
         exists_mem_normalizer_conj_eq_of_isEvenFlip_aux3 hF i (hvU i) (hvQ i) x hx
       have h1 : (g : V ≃ₗ[F] V) (reflect Q (v i) x) = x := by
         rw [hgcoe, exists_mem_normalizer_conj_eq_of_isEvenFlip_aux9 hF hvU hvQ J comm htau,
-          if_pos hi, ← LinearEquiv.mul_apply, reflect_mul_self]
+          ite_eq_left hi, ← LinearEquiv.mul_apply, reflect_mul_self]
         rfl
       exact ((LinearEquiv.symm_apply_eq (g : V ≃ₗ[F] V)).2 h1.symm)
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       have h1 : (g : V ≃ₗ[F] V) x = x := by
         rw [hgcoe, exists_mem_normalizer_conj_eq_of_isEvenFlip_aux9 hF hvU hvQ J comm hx,
-          if_neg hi]
+          ite_eq_right hi]
       exact ((LinearEquiv.symm_apply_eq (g : V ≃ₗ[F] V)).2 h1.symm)
   · intro x hx
     have h1 : (g : V ≃ₗ[F] V) x = x := by
       rw [hgcoe, exists_mem_normalizer_conj_eq_of_isEvenFlip_aux10 hF hvU J comm hx]
     exact ((LinearEquiv.symm_apply_eq (g : V ≃ₗ[F] V)).2 h1.symm)
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux19 {n : ℕ}
     {U : Fin n → Submodule F V} (hF : IsPlaneSystem Q U) {v : Fin n → V}
     (hvU : ∀ i, v i ∈ U i) (hvQ : ∀ i, Q (v i) ≠ 0) (J : Finset (Fin n))
@@ -761,7 +780,7 @@ private theorem exists_mem_normalizer_conj_eq_of_isEvenFlip_aux19 {n : ℕ}
     exact (hPperp hx).symm
 
 theorem exists_mem_normalizer_conj_eq_of_isEvenFlip (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
-    {n : ℕ} (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
+    {n : ℕ} (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) (hp : p.Prime) (_hp2 : p ≠ 2)
     {U : Fin (n - 1) → Submodule F V} {e : Fin (n - 1) → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
     (hd : d ∈ Bb) {d' : V ≃ₗ[F] V} (hd' : IsEvenFlip Q U (d : V ≃ₗ[F] V) d') :
@@ -836,6 +855,7 @@ private theorem exists_mem_normalizer_map_eq_aux1 {b c : F}
     exact hb hlz
   rwa [hl0] at htw
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_mem_normalizer_map_eq_aux2 {A : Type} [AddCommGroup A] [Module F A]
     {R : QuadraticForm F A} {b c : F} (Φ : R.IsometryEquiv (minusTailForm F b c))
     {h : A ≃ₗ[F] A} (hh : h ∈ TauCeti.QuadraticMap.orthogonalGroup R) :
@@ -855,13 +875,13 @@ private theorem exists_mem_normalizer_map_eq_aux3 {b c : F}
     {e' g' : (Fin 2 → F) ≃ₗ[F] (Fin 2 → F)}
     (he' : e' ∈ omegaRotations b c) (hg' : g' ∈ omegaRotations b c)
     (he'p : orderOf e' = p) (hg'p : orderOf g' = p) : ∃ m : ℕ, e' ^ m = g' := by
-  haveI : Finite (Fin 2 → F) := inferInstance
-  haveI : Finite ((Fin 2 → F) ≃ₗ[F] (Fin 2 → F)) :=
+  have : Finite (Fin 2 → F) := inferInstance
+  have : Finite ((Fin 2 → F) ≃ₗ[F] (Fin 2 → F)) :=
     Finite.of_injective (fun e : (Fin 2 → F) ≃ₗ[F] (Fin 2 → F) =>
       (e : (Fin 2 → F) → (Fin 2 → F))) fun a b h => LinearEquiv.ext (congrFun h)
   let E' : ↥(omegaRotations b c) := ⟨e', he'⟩
   let G' : ↥(omegaRotations b c) := ⟨g', hg'⟩
-  haveI : IsCyclic ↥(omegaRotations b c) :=
+  have : IsCyclic ↥(omegaRotations b c) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeThree.ParabIrr.OrthMinus.isCyclic_omegaRotations hirr
   have heq : Subgroup.zpowers E' = Subgroup.zpowers G' := by
     rw [IsCyclic.subgroup_eq_iff_card_eq, Nat.card_zpowers, Nat.card_zpowers,
@@ -874,6 +894,7 @@ private theorem exists_mem_normalizer_map_eq_aux3 {b c : F}
     (x : (Fin 2 → F) ≃ₗ[F] (Fin 2 → F))) hm
   simpa [E', G'] using this
 
+omit [CharP F 2] in
 private theorem exists_mem_normalizer_map_eq_aux4 {A : Type} [AddCommGroup A] [Module F A]
     [FiniteDimensional F A] {R : QuadraticForm F A}
     (hR : (QuadraticMap.polarBilin R).Nondegenerate) (hA2 : finrank F A = 2)
@@ -881,7 +902,7 @@ private theorem exists_mem_normalizer_map_eq_aux4 {A : Type} [AddCommGroup A] [M
     ∃ b c : F, (∀ s : F, s ^ 2 + b * s + c ≠ 0) ∧
       Nonempty (R.IsometryEquiv (minusTailForm F b c)) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hnotplus : ¬ IsPlusType R := by
     rintro ⟨W, hW, hWs⟩
     have h1 : Module.finrank F W = 1 := by omega
@@ -906,7 +927,7 @@ private theorem exists_mem_normalizer_map_eq_aux5 {A : Type} [AddCommGroup A] [M
     [FiniteDimensional F A] {R : QuadraticForm F A}
     (hR : (QuadraticMap.polarBilin R).Nondegenerate) (hA2 : finrank F A = 2)
     (hani : ∀ x, R x = 0 → x = 0) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hpq : p ∣ Nat.card F + 1) {e g : A ≃ₗ[F] A}
+    (_hpq : p ∣ Nat.card F + 1) {e g : A ≃ₗ[F] A}
     (he : e ∈ TauCeti.QuadraticMap.orthogonalGroup R) (heo : orderOf e = p)
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup R) (hgo : orderOf g = p) :
     g ∈ Subgroup.zpowers e := by
@@ -933,6 +954,7 @@ private noncomputable def exists_mem_normalizer_map_eq_aux6 {m : ℕ} {U : Fin m
   LinearMap.linearProjOfIsCompl (polarPerp Q (U j)) (U j).subtype Subtype.val_injective
     (by simpa using isCompl_polarPerp (Q := Q) (hU.nondeg j))
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_mem_normalizer_map_eq_aux7 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) (j : Fin m) :
     (∀ x : U j, exists_mem_normalizer_map_eq_aux6 hU j (x : V) = x) ∧
@@ -940,6 +962,7 @@ private theorem exists_mem_normalizer_map_eq_aux7 {m : ℕ} {U : Fin m → Submo
   ⟨fun x => LinearMap.linearProjOfIsCompl_apply_left _ _ _ _ x,
     fun x hx => LinearMap.linearProjOfIsCompl_apply_right' _ _ _ _ x hx⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux8 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {i j : Fin m} (hij : i ≠ j) {x : V} (hx : x ∈ U j) :
     x ∈ polarPerp Q (U i) :=
@@ -953,14 +976,17 @@ private noncomputable def exists_mem_normalizer_map_eq_aux9 {m : ℕ} {U : Fin m
     + ((U a).subtype.comp (φ.symm.toLinearMap.comp (exists_mem_normalizer_map_eq_aux6 hU b))
         + (U b).subtype.comp (exists_mem_normalizer_map_eq_aux6 hU b))
 
+omit [Finite F] in
 private theorem exists_mem_normalizer_map_eq_aux11 {M : Type*} [AddCommGroup M] [Module F M]
     (v : M) : v + v = 0 := by
   rw [← two_smul (R := F), CharTwo.two_eq_zero, zero_smul]
 
+omit [Finite F] in
 private theorem exists_mem_normalizer_map_eq_aux12 {M : Type*} [AddCommGroup M] [Module F M]
     (v : M) : (2 : ℤ) • v = 0 := by
   rw [two_zsmul, ← two_smul (R := F), CharTwo.two_eq_zero, zero_smul]
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_mem_normalizer_map_eq_aux10a {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (φ : U a ≃ₗ[F] U b) (x : V) :
     exists_mem_normalizer_map_eq_aux9 hU φ x =
@@ -969,12 +995,14 @@ private theorem exists_mem_normalizer_map_eq_aux10a {m : ℕ} {U : Fin m → Sub
         + (((U a).subtype (φ.symm.toLinearMap (exists_mem_normalizer_map_eq_aux6 hU b x)) : V)
         + ((U b).subtype (exists_mem_normalizer_map_eq_aux6 hU b x) : V)) := rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux10b {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) :
     (∀ y : U b, (y : V) ∈ polarPerp Q (U a)) ∧ (∀ x : U a, (x : V) ∈ polarPerp Q (U b)) :=
   ⟨fun y => exists_mem_normalizer_map_eq_aux8 hU hab y.2,
    fun x => exists_mem_normalizer_map_eq_aux8 hU (Ne.symm hab) x.2⟩
 
+omit [Finite F] in
 private theorem exists_mem_normalizer_map_eq_aux10 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) :
     Function.Involutive (exists_mem_normalizer_map_eq_aux9 hU φ) := by
@@ -1021,13 +1049,14 @@ private theorem exists_mem_normalizer_map_eq_aux10 {m : ℕ} {U : Fin m → Subm
       + ((U b).subtype (πb x) + (U a).subtype (φ.symm (πb x)))
       + ((U a).subtype (πa x) + (U b).subtype (φ (πa x))) = x
   abel_nf
-  simp only [exists_mem_normalizer_map_eq_aux12 (F := F), add_zero, zero_add]
+  simp only [exists_mem_normalizer_map_eq_aux12 (F := F), add_zero]
 
 private noncomputable def exists_mem_normalizer_map_eq_aux13 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) : V ≃ₗ[F] V :=
   LinearEquiv.ofInvolutive (exists_mem_normalizer_map_eq_aux9 hU φ)
     (exists_mem_normalizer_map_eq_aux10 hU hab φ)
 
+omit [Finite F] in
 private theorem exists_mem_normalizer_map_eq_aux14 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b)
     (x : V) : (exists_mem_normalizer_map_eq_aux13 hU hab φ) x =
@@ -1037,6 +1066,7 @@ private theorem exists_mem_normalizer_map_eq_aux14 {m : ℕ} {U : Fin m → Subm
             + (U b).subtype (exists_mem_normalizer_map_eq_aux6 hU b x)) := by
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_mem_normalizer_map_eq_aux15 {W : Submodule F V} {E : V ≃ₗ[F] V}
     (hE : ∀ x ∈ W, E x ∈ W) : ∀ x ∈ W, E.symm x ∈ W := by
   intro x hx
@@ -1047,6 +1077,7 @@ private theorem exists_mem_normalizer_map_eq_aux15 {W : Submodule F V} {E : V �
   rw [← h, E.symm_apply_apply]
   exact y.2
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux16 {W : Submodule F V} {E : V ≃ₗ[F] V}
     (h1 : ∀ x ∈ W, E x ∈ W) (h2 : ∀ x ∈ W, E.symm x ∈ W) (n : ℕ) (u : W) :
     ((restrictEquiv W E h1 h2 ^ n) u : V) = (E ^ n) (u : V) := by
@@ -1057,6 +1088,7 @@ private theorem exists_mem_normalizer_map_eq_aux16 {W : Submodule F V} {E : V �
       LinearEquiv.mul_apply]
     rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux17 {W : Submodule F V} {E : V ≃ₗ[F] V}
     (hE : E ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (h1 : ∀ x ∈ W, E x ∈ W)
     (h2 : ∀ x ∈ W, E.symm x ∈ W) :
@@ -1067,11 +1099,12 @@ private theorem exists_mem_normalizer_map_eq_aux17 {W : Submodule F V} {E : V �
   rw [coe_restrictEquiv]
   exact map_of_mem hE (u : V)
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_mem_normalizer_map_eq_aux18 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) (hp : p.Prime) {j : Fin m} {E : V ≃ₗ[F] V}
     (h1 : ∀ x ∈ U j, E x ∈ U j) (h2 : ∀ x ∈ U j, E.symm x ∈ U j) (hEp : E ^ p = 1)
     (hfix : ∀ x ∈ U j, E x = x → x = 0) : orderOf (restrictEquiv (U j) E h1 h2) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine orderOf_eq_prime ?_ fun h => ?_
   · refine LinearEquiv.ext fun u => Subtype.ext ?_
     rw [exists_mem_normalizer_map_eq_aux16 h1 h2, hEp]
@@ -1079,6 +1112,7 @@ private theorem exists_mem_normalizer_map_eq_aux18 {m : ℕ} {U : Fin m → Subm
   · obtain ⟨v, hv, hv0⟩ := exists_ne_zero_mem_of_finrank_eq_two (U j) (hU.finrank_eq j)
     exact hv0 (hfix v hv (congrArg (fun ρ : U j ≃ₗ[F] U j => (ρ ⟨v, hv⟩ : V)) h))
 
+omit [CharP F 2] in
 private theorem exists_mem_normalizer_map_eq_aux19 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) (hp : p.Prime) (hp2 : p ≠ 2) (j : Fin m)
     {ρ : ↥(U j) ≃ₗ[F] ↥(U j)}
@@ -1092,19 +1126,21 @@ private theorem exists_mem_normalizer_map_eq_aux19 {m : ℕ} {U : Fin m → Subm
     exact Int.natCast_dvd_natCast.mpr h
   rw [natCard_orthogonalGroup_of_type (hU.nondeg j) (m := 0) (by rw [hU.finrank_eq j])
     (Or.inr ⟨rfl, hU.not_isPlusType j⟩)] at hdvd
-  simp only [zero_mul, pow_zero, mul_one, zero_add, pow_one, Finset.Icc_eq_empty_of_lt
+  simp only [pow_zero, mul_one, zero_add, pow_one, Finset.Icc_eq_empty_of_lt
     zero_lt_one, Finset.prod_empty, sub_neg_eq_add] at hdvd
   have hpZ : Prime (p : ℤ) := Nat.prime_iff_prime_int.mp hp
   have hp2' : ¬ (p : ℤ) ∣ 2 := fun h => hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp
     (Int.natCast_dvd_natCast.mp h))
   exact_mod_cast (hpZ.dvd_mul.mp hdvd).resolve_left hp2'
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux20 {E : V ≃ₗ[F] V} {y : V} (hy : E y = y)
     (n : ℕ) : (E ^ n) y = y := by
   induction n with
   | zero => rfl
   | succ n ih => rw [pow_succ, LinearEquiv.mul_apply, hy, ih]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux21 {W : Submodule F V}
     (hW : IsCompl W (polarPerp Q W)) {E₁ E₂ : V ≃ₗ[F] V}
     (hperp₁ : ∀ x ∈ polarPerp Q W, E₁ x = x) (hperp₂ : ∀ x ∈ polarPerp Q W, E₂ x = x)
@@ -1152,6 +1188,7 @@ private theorem exists_mem_normalizer_map_eq_aux23 {m : ℕ} {U : Fin m → Subm
   exact (exists_mem_normalizer_map_eq_aux16 hmap₁ (exists_mem_normalizer_map_eq_aux15 hmap₁) n
     ⟨x, hx⟩).symm.trans (congrArg (fun ρ : ↥(U j) ≃ₗ[F] ↥(U j) => (ρ ⟨x, hx⟩ : V)) hn)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux24 {σ : V ≃ₗ[F] V}
     (hσ : σ ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {W W' : Submodule F V}
     (h1 : ∀ x ∈ W', σ x ∈ W) {x : V} (hx : x ∈ polarPerp Q W) : σ.symm x ∈ polarPerp Q W' := by
@@ -1186,6 +1223,7 @@ private theorem exists_mem_normalizer_map_eq_aux25 {m : ℕ} {U : Fin m → Subm
       exact hfx
     simpa using congrArg σ (hF.eq_zero_of_apply_eq i _ (h2 x hx) hy)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux26 {m : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) {c : ↥(orthDerived Q)} (hc : ∀ j, c * e j * c⁻¹ ∈ Bb) :
@@ -1196,7 +1234,7 @@ private theorem exists_mem_normalizer_map_eq_aux26 {m : ℕ} {U : Fin m → Subm
   | mem y hy =>
       obtain ⟨j, rfl⟩ := hy
       exact hc j
-  | one => simpa using Bb.one_mem
+  | one => simp
   | mul a b ha hb iha ihb =>
       rw [show c * (a * b) * c⁻¹ = (c * a * c⁻¹) * (c * b * c⁻¹) by group]
       exact Bb.mul_mem iha ihb
@@ -1204,6 +1242,7 @@ private theorem exists_mem_normalizer_map_eq_aux26 {m : ℕ} {U : Fin m → Subm
       rw [show c * a⁻¹ * c⁻¹ = (c * a * c⁻¹)⁻¹ by group]
       exact Bb.inv_mem iha
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux27 {m : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) {g : ↥(orthDerived Q)} (hg : ∀ j, g * e j * g⁻¹ ∈ Bb)
@@ -1226,6 +1265,7 @@ private theorem exists_mem_normalizer_map_eq_aux28 {m : ℕ} {U : Fin m → Subm
   rw [show c * e i * c⁻¹ = (e i') ^ n from Subtype.ext hn.symm]
   exact Bb.pow_mem (hF.mem i') n
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux29 {σ : V ≃ₗ[F] V} {W W' : Submodule F V}
     (h : Submodule.map σ.toLinearMap W = W') :
     (∀ x ∈ W, σ x ∈ W') ∧ ∀ x ∈ W', σ.symm x ∈ W := by
@@ -1234,11 +1274,13 @@ private theorem exists_mem_normalizer_map_eq_aux29 {σ : V ≃ₗ[F] V} {W W' : 
   obtain ⟨w, hw, rfl⟩ := hx
   simpa using hw
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux30 {σ : V ≃ₗ[F] V} {W : Submodule F V}
     (h : ∀ x ∈ W, σ x = x) : (∀ x ∈ W, σ x ∈ W) ∧ ∀ x ∈ W, σ.symm x ∈ W :=
   ⟨fun x hx => by rw [h x hx]; exact hx,
     fun x hx => by rw [(LinearEquiv.symm_apply_eq σ).2 (h x hx).symm]; exact hx⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_map_eq_aux31 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b k : Fin m} (hka : k ≠ a) (hkb : k ≠ b) {x : V} (hx : x ∈ U k) :
     x ∈ polarPerp Q (U a ⊔ U b) := by
@@ -1280,6 +1322,7 @@ private theorem exists_mem_normalizer_map_eq_aux32 {m : ℕ} {U : Fin m → Subm
           (exists_mem_normalizer_map_eq_aux30 (hother j hja hjb)).2
           (exists_mem_normalizer_map_eq_aux30 (hother j hja hjb)).1
 
+omit [CharP F 2] in
 private theorem exists_swap_isometry_aux1 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) (a b : Fin m) :
     ∃ φ : U a ≃ₗ[F] U b, ∀ x : U a, Q ((φ x : U b) : V) = Q (x : V) := by
@@ -1288,6 +1331,7 @@ private theorem exists_swap_isometry_aux1 {m : ℕ} {U : Fin m → Submodule F V
     ⟨fun h => absurd h (hU.not_isPlusType a), fun h => absurd h (hU.not_isPlusType b)⟩
   exact ⟨e.toLinearEquiv, fun x => e.map_app x⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_swap_isometry_aux2 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) (j : Fin m) (x : V) :
     x - ((exists_mem_normalizer_map_eq_aux6 hU j x : U j) : V) ∈ polarPerp Q (U j) := by
@@ -1296,6 +1340,7 @@ private theorem exists_swap_isometry_aux2 {m : ℕ} {U : Fin m → Submodule F V
   rw [← hker, LinearMap.mem_ker, map_sub,
     (exists_mem_normalizer_map_eq_aux7 hU j).1 (exists_mem_normalizer_map_eq_aux6 hU j x), sub_self]
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_swap_isometry_aux3 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (x : V) :
     x - ((exists_mem_normalizer_map_eq_aux6 hU a x : U a) : V)
@@ -1309,11 +1354,13 @@ private theorem exists_swap_isometry_aux3 {m : ℕ} {U : Fin m → Submodule F V
     (exists_mem_normalizer_map_eq_aux8 hU (Ne.symm hab)
       (exists_mem_normalizer_map_eq_aux6 hU a x).2)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_swap_isometry_aux4 (s t r : V) (hst : polar Q s t = 0)
     (hsr : polar Q s r = 0) (htr : polar Q t r = 0) : Q (s + t + r) = Q s + Q t + Q r := by
   rw [QuadraticMap.map_add Q (s + t) r, QuadraticMap.map_add Q s t, polar_add_left, hsr, htr, hst]
   ring
 
+omit [Finite F] in
 private theorem exists_swap_isometry_aux5 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) (x : V) :
     exists_mem_normalizer_map_eq_aux13 hU hab φ x =
@@ -1331,6 +1378,7 @@ private theorem exists_swap_isometry_aux5 {m : ℕ} {U : Fin m → Submodule F V
   exact key _ _ _ _ _ (exists_mem_normalizer_map_eq_aux11 (F := F) _)
     (exists_mem_normalizer_map_eq_aux11 (F := F) _)
 
+omit [Finite F] in
 private theorem exists_swap_isometry_aux6 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b)
     (hφ : ∀ x : U a, Q ((φ x : U b) : V) = Q (x : V)) (x : V) :
@@ -1350,6 +1398,7 @@ private theorem exists_swap_isometry_aux6 {m : ℕ} {U : Fin m → Submodule F V
     exists_swap_isometry_aux4 _ _ _ (hU.perp a b hab _ u.2 _ w.2)
       (mem_polarPerp_iff.1 hra _ u.2) (mem_polarPerp_iff.1 hrb _ w.2), hφ u, hφw]
 
+omit [Finite F] in
 private theorem exists_swap_isometry_aux7 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) (u : U a) :
     exists_mem_normalizer_map_eq_aux13 hU hab φ (u : V) = ((φ u : U b) : V) := by
@@ -1358,6 +1407,7 @@ private theorem exists_swap_isometry_aux7 {m : ℕ} {U : Fin m → Submodule F V
       (exists_mem_normalizer_map_eq_aux8 hU (Ne.symm hab) u.2)]
   simp
 
+omit [Finite F] in
 private theorem exists_swap_isometry_aux8 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) (w : U b) :
     exists_mem_normalizer_map_eq_aux13 hU hab φ (w : V) = ((φ.symm w : U a) : V) := by
@@ -1365,6 +1415,7 @@ private theorem exists_swap_isometry_aux8 {m : ℕ} {U : Fin m → Submodule F V
     (exists_mem_normalizer_map_eq_aux7 hU a).2 _ (exists_mem_normalizer_map_eq_aux8 hU hab w.2)]
   simp
 
+omit [Finite F] in
 private theorem exists_swap_isometry_aux9 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) {y : V}
     (hya : y ∈ polarPerp Q (U a)) (hyb : y ∈ polarPerp Q (U b)) :
@@ -1373,6 +1424,7 @@ private theorem exists_swap_isometry_aux9 {m : ℕ} {U : Fin m → Submodule F V
     (exists_mem_normalizer_map_eq_aux7 hU b).2 y hyb]
   simp
 
+omit [Finite F] in
 private theorem exists_swap_isometry_aux10 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) :
     Submodule.map (exists_mem_normalizer_map_eq_aux13 hU hab φ).toLinearMap (U a) = U b := by
@@ -1386,6 +1438,7 @@ private theorem exists_swap_isometry_aux10 {m : ℕ} {U : Fin m → Submodule F 
       = ((φ (φ.symm ⟨y, hy⟩) : U b) : V) from exists_swap_isometry_aux7 hU hab φ _,
       LinearEquiv.apply_symm_apply]
 
+omit [Finite F] in
 private theorem exists_swap_isometry_aux11 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) :
     Submodule.map (exists_mem_normalizer_map_eq_aux13 hU hab φ).toLinearMap (U b) = U a := by
@@ -1412,12 +1465,14 @@ theorem exists_swap_isometry {m : ℕ} {U : Fin m → Submodule F V} (hU : IsPla
   exact exists_swap_isometry_aux9 hU hab φ (exists_mem_normalizer_map_eq_aux8 hU (Ne.symm hka) hx)
     (exists_mem_normalizer_map_eq_aux8 hU (Ne.symm hkb) hx)
 
+omit [Finite F] in
 private theorem exists_swap_mem_orthDerived_aux1 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) :
     exists_mem_normalizer_map_eq_aux13 hU hab φ * exists_mem_normalizer_map_eq_aux13 hU hab φ =
       1 :=
   LinearEquiv.ext fun x => exists_mem_normalizer_map_eq_aux10 hU hab φ x
 
+omit [Finite F] in
 private theorem exists_swap_mem_orthDerived_aux2 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b) (x : V) :
     exists_mem_normalizer_map_eq_aux13 hU hab φ x - x =
@@ -1430,6 +1485,7 @@ private theorem exists_swap_mem_orthDerived_aux2 {m : ℕ} {U : Fin m → Submod
     Submodule.coe_add]
   abel
 
+omit [Finite F] in
 private theorem exists_swap_mem_orthDerived_aux3 {m : ℕ} {U : Fin m → Submodule F V}
     (hU : IsPlaneSystem Q U) {a b : Fin m} (hab : a ≠ b) (φ : U a ≃ₗ[F] U b)
     (hφ : ∀ x : U a, Q ((φ x : U b) : V) = Q (x : V)) (x : V) :
@@ -1479,20 +1535,23 @@ theorem exists_mem_normalizer_map_eq (hQ : (QuadraticMap.polarBilin Q).Nondegene
   · obtain ⟨σ, hσa, hσb, hσfix⟩ := exists_swap_mem_orthDerived hQ hdim hn hF.toIsPlaneSystem hab
     exact ⟨σ, exists_mem_normalizer_map_eq_aux32 hF hp hp2 hσa hσb hσfix, hσa⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux_aeval {x k : V ≃ₗ[F] V} (p : F[X]) :
     aeval ((k * x * k⁻¹).toLinearMap) p = (k.conjAlgEquiv F) (aeval x.toLinearMap p) := by
   have hconj : ((k * x * k⁻¹).toLinearMap) = (k.conjAlgEquiv F) x.toLinearMap := by
     ext v
-    simp [LinearEquiv.conjAlgEquiv_apply, LinearEquiv.mul_apply]
+    simp [LinearEquiv.conjAlgEquiv_apply]
   rw [hconj]
   exact Polynomial.aeval_algHom_apply (k.conjAlgEquiv F) x.toLinearMap p
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux_aeval_apply {x k : V ≃ₗ[F] V} (p : F[X]) (v : V) :
     aeval ((k * x * k⁻¹).toLinearMap) p ((k : V ≃ₗ[F] V) v) =
       (k : V ≃ₗ[F] V) (aeval x.toLinearMap p v) := by
   have h1 := LinearMap.congr_fun (specialBlock_conj_aux_aeval (x := x) (k := k) p) ((k : V ≃ₗ[F] V) v)
   simpa [LinearEquiv.conjAlgEquiv_apply, LinearEquiv.mul_apply] using h1
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux1 {x k : V ≃ₗ[F] V} (h : F[X]) :
     primaryComponent (k * x * k⁻¹).toLinearMap h =
       (primaryComponent x.toLinearMap h).map (k : V →ₗ[F] V) := by
@@ -1507,16 +1566,18 @@ private theorem specialBlock_conj_aux1 {x k : V ≃ₗ[F] V} (h : F[X]) :
     simpa [LinearEquiv.conjAlgEquiv_apply, LinearEquiv.mul_apply] using h3
   · rintro ⟨w, hw, rfl⟩
     rw [specialBlock_conj_aux_aeval]
-    simp [LinearEquiv.conjAlgEquiv_apply, LinearEquiv.mul_apply, hw]
+    simp [LinearEquiv.conjAlgEquiv_apply, hw]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux2 {x k : V ≃ₗ[F] V} :
     primaryFactors (k * x * k⁻¹).toLinearMap = primaryFactors x.toLinearMap := by
   have hconj : ((k * x * k⁻¹).toLinearMap) = (k.conjAlgEquiv F) x.toLinearMap := by
     ext v
-    simp [LinearEquiv.conjAlgEquiv_apply, LinearEquiv.mul_apply]
+    simp [LinearEquiv.conjAlgEquiv_apply]
   unfold primaryFactors
   rw [hconj, minpoly.algEquiv_eq]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux3 {x k : V ≃ₗ[F] V} (h : F[X]) :
     othersSpace (k * x * k⁻¹).toLinearMap h =
       (othersSpace x.toLinearMap h).map (k : V →ₗ[F] V) := by
@@ -1527,6 +1588,7 @@ private theorem specialBlock_conj_aux3 {x k : V ≃ₗ[F] V} (h : F[X]) :
   refine iSup_congr fun _ => ?_
   exact specialBlock_conj_aux1 (x := x) (k := k) a
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux_supported {x k : V ≃ₗ[F] V}
     (hk : k ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {h : F[X]} {s : V ≃ₗ[F] V}
     (hs : s ∈ supportedBlock Q x h) :
@@ -1556,6 +1618,7 @@ private theorem specialBlock_conj_aux_supported {x k : V ≃ₗ[F] V}
     have h1 : (k : V ≃ₗ[F] V)⁻¹ ((k : V ≃ₗ[F] V) w) = w := by simp
     rw [h1, hsfix w hw]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux_aeval_apply_inv {x k : V ≃ₗ[F] V} (p : F[X]) (v : V) :
     aeval x.toLinearMap p ((k : V ≃ₗ[F] V)⁻¹ v) =
       (k : V ≃ₗ[F] V)⁻¹ (aeval ((k * x * k⁻¹).toLinearMap) p v) := by
@@ -1616,17 +1679,20 @@ private noncomputable def specialBlock_conj_aux_iso {x k : V ≃ₗ[F] V} (h : F
       change (k : V ≃ₗ[F] V)⁻¹ ((k : V ≃ₗ[F] V) (v : V)) = (v : V)
       simp))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux_iso_apply {x k : V ≃ₗ[F] V} (h : F[X])
     (u : primaryComponent x.toLinearMap h) :
     (specialBlock_conj_aux_iso (x := x) (k := k) h u : V) = (k : V ≃ₗ[F] V) (u : V) := rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux_iso_symm_apply {x k : V ≃ₗ[F] V} (h : F[X])
     (w : primaryComponent (k * x * k⁻¹).toLinearMap h) :
     ((specialBlock_conj_aux_iso (x := x) (k := k) h).symm w : V) =
       (k : V ≃ₗ[F] V)⁻¹ (w : V) := rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_aux_blockDet {x k : V ≃ₗ[F] V}
-    (hk : k ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {h : F[X]} {b : V ≃ₗ[F] V}
+    (_hk : k ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {h : F[X]} {b : V ≃ₗ[F] V}
     (hb : b ∈ supportedBlock Q x h)
     (hb' : k * b * k⁻¹ ∈ supportedBlock Q (k * x * k⁻¹) h) :
     blockDet Q (k * x * k⁻¹) h ⟨k * b * k⁻¹, hb'⟩ = blockDet Q x h ⟨b, hb⟩ := by
@@ -1649,6 +1715,7 @@ private theorem specialBlock_conj_aux_blockDet {x k : V ≃ₗ[F] V}
     simp [LinearEquiv.mul_apply]
   rw [blockDet_apply, blockDet_apply, heq, LinearMap.det_conj]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_conj_mem {x k : V ≃ₗ[F] V}
     (hk : k ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {h : F[X]} {s : V ≃ₗ[F] V}
     (hs : s ∈ specialBlock Q x h) :
@@ -1659,6 +1726,7 @@ private theorem specialBlock_conj_mem {x k : V ≃ₗ[F] V}
   rw [specialBlock_conj_aux_blockDet hk hsS hS']
   exact hsd
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem specialBlock_conj {x g : V ≃ₗ[F] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (h : F[X]) :
     specialBlock Q (g * x * g⁻¹) h = (specialBlock Q x h).map (MulAut.conj g).toMonoidHom := by
   refine le_antisymm ?_ ?_

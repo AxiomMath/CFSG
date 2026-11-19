@@ -13,7 +13,7 @@ open CFSG.Assembly.RankThreeEven (projSL projSU)
 section Certs
 
 theorem ys03_I06_not_G2_J3 {G : Type} [Group G] [Finite G] {A M H : Subgroup G} {s : G} {L J : Subgroup G}
-    (h : DiagSetting G A M H s L) (hJ : J ∈ thetaComponents 3 G)
+    (_h : DiagSetting G A M H s L) (_hJ : J ∈ thetaComponents 3 G)
     (hsec : HasSection (J.map (starQuot G) ⧸ Subgroup.center (J.map (starQuot G))) (projSL 3 (GaloisField 2 2))) :
     ¬ (Blueprint.ChevalleyExceptionalModel (J.map (starQuot G) ⧸ Subgroup.center (J.map (starQuot G))) .G2 3 1 ∨
        Nonempty (J.map (starQuot G) ⧸ Subgroup.center (J.map (starQuot G)) ≃* Blueprint.NativeSporadic.J3)) := by

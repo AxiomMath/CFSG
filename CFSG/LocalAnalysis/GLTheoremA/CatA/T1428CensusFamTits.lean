@@ -34,7 +34,7 @@ set_option linter.unusedSectionVars false
 theorem censusBodyTits : CensusBodyTits := by
   intro hv η _ _ _ r hr hr1 J₁ J₂ J₃ _ _ _ _ _ _ hL1 _ _
   exfalso
-  haveI := (CFSG.Assembly.lie_finite_simple ⟨TauCeti.LieTypeIndex.tits, hv⟩).1
+  have := (CFSG.Assembly.lie_finite_simple ⟨TauCeti.LieTypeIndex.tits, hv⟩).1
   have hr2 : r ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.2 hr) even_two

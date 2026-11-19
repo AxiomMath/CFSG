@@ -46,7 +46,7 @@ theorem twinCyc4_twistedG2 {X : Type} [Group X] {f : ℕ}
   subst hea
   have ha : 1 ≤ a := by omega
   obtain ⟨hfin, -, hcen, -⟩ := ward_kleidman_small_Ree_involution_centralizer_maximal a ha X hree
-  haveI := hfin
+  have := hfin
   intro z hz
   obtain ⟨L, hLC, -, hsup, ⟨eL⟩, hZ⟩ := hcen z hz
   refine ⟨⊥, inferInstance, ?_⟩
@@ -119,7 +119,7 @@ theorem twinCyc4_twistedG2 {X : Type} [Group X] {f : ℕ}
 theorem false_of_twistedG2 {r n : ℕ} (hr : 4 ≤ r) {Y : Type} [Group Y] [Finite Y]
     {R : Subgroup Y} {S : Sylow 2 R} {t : Y} (h : PerpHypR r n Y R S t)
     (hF : SmallTwistedG2 ↥(genFittingFStar Y)) : False := by
-  haveI := h.core.simple
+  have := h.core.simple
   obtain ⟨f, hm⟩ := hF
   rcases hm with ⟨htag, -⟩ | ⟨-, htag, -⟩ | ⟨-, -, hree⟩ | ⟨-, htag, -⟩
   · exact absurd htag (by decide)

@@ -14,84 +14,84 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 @[expose] def TypeALabelLane : Prop :=
   ∀
-    {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
+    {τ : Tag} (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
-    {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime)
+    {p₀ p : ℕ} (S : LangSetup τ L p₀) (_hp : p.Prime)
     {ι : Type} {a : ι → Fin τ.rank → Lˣ}
-    (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (hap : ∀ u j, a u j ^ p = 1)
-    (h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1) (i : KernelComponent (famCharHom a))
-    (hA : 1 ≤ compRank (componentRoots (famCharHom a) i) ∧
+    (_hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (_hap : ∀ u j, a u j ^ p = 1)
+    (_h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1) (i : KernelComponent (famCharHom a))
+    (_hA : 1 ≤ compRank (componentRoots (famCharHom a) i) ∧
       (componentRoots (famCharHom a) i).ncard = compRank (componentRoots (famCharHom a) i) *
         (compRank (componentRoots (famCharHom a) i) + 1))
-    (hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
+    (_hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
     FamLabelAt S (famCharHom a) i
 
 @[expose] def InnerLabelLane : Prop :=
   ∀
-    {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
+    {τ : Tag} (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
-    {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime)
+    {p₀ p : ℕ} (S : LangSetup τ L p₀) (_hp : p.Prime)
     {ι : Type} {a : ι → Fin τ.rank → Lˣ}
-    (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (hap : ∀ u j, a u j ^ p = 1)
-    (h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1) (i : KernelComponent (famCharHom a))
-    (hnA : ¬ (1 ≤ compRank (componentRoots (famCharHom a) i) ∧
+    (_hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (_hap : ∀ u j, a u j ^ p = 1)
+    (_h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1) (i : KernelComponent (famCharHom a))
+    (_hnA : ¬ (1 ≤ compRank (componentRoots (famCharHom a) i) ∧
       (componentRoots (famCharHom a) i).ncard = compRank (componentRoots (famCharHom a) i) *
         (compRank (componentRoots (famCharHom a) i) + 1)))
-    (hinner : twistInner (componentRoots (famCharHom a) i)
+    (_hinner : twistInner (componentRoots (famCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (famCharHom a) i)]))
-    (hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
+    (_hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
     FamLabelAt S (famCharHom a) i
 
 @[expose] def OuterDHighLabelLane : Prop :=
   ∀
-    {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
+    {τ : Tag} (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
-    {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime)
+    {p₀ p : ℕ} (S : LangSetup τ L p₀) (_hp : p.Prime)
     {ι : Type} {a : ι → Fin τ.rank → Lˣ}
-    (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (hap : ∀ u j, a u j ^ p = 1)
-    (h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1) (i : KernelComponent (famCharHom a))
-    (hD : 5 ≤ compRank (componentRoots (famCharHom a) i) ∧
+    (_hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (_hap : ∀ u j, a u j ^ p = 1)
+    (_h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1) (i : KernelComponent (famCharHom a))
+    (_hD : 5 ≤ compRank (componentRoots (famCharHom a) i) ∧
       (componentRoots (famCharHom a) i).ncard =
         2 * compRank (componentRoots (famCharHom a) i) *
           (compRank (componentRoots (famCharHom a) i) - 1))
-    (hout : ¬ twistInner (componentRoots (famCharHom a) i)
+    (_hout : ¬ twistInner (componentRoots (famCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (famCharHom a) i)]))
-    (hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
+    (_hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
     FamLabelAt S (famCharHom a) i
 
 @[expose] def OuterDFourLabelLane : Prop :=
   ∀
-    {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
+    {τ : Tag} (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
-    {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime) (hp2 : p ≠ 2)
+    {p₀ p : ℕ} (S : LangSetup τ L p₀) (_hp : p.Prime) (_hp2 : p ≠ 2)
     {ι : Type} {a : ι → Fin τ.rank → Lˣ}
-    (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (hap : ∀ u j, a u j ^ p = 1)
+    (_hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (_hap : ∀ u j, a u j ^ p = 1)
     (i : KernelComponent (famCharHom a))
-    (hr : compRank (componentRoots (famCharHom a) i) = 4)
-    (hc : (componentRoots (famCharHom a) i).ncard = 24)
-    (hout : ¬ twistInner (componentRoots (famCharHom a) i)
+    (_hr : compRank (componentRoots (famCharHom a) i) = 4)
+    (_hc : (componentRoots (famCharHom a) i).ncard = 24)
+    (_hout : ¬ twistInner (componentRoots (famCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (famCharHom a) i)]))
-    (hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
+    (_hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
     FamLabelAt S (famCharHom a) i
 
 @[expose] def OuterELabelLane : Prop :=
   ∀
-    {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8)
+    {τ : Tag} (_hτ : τ = .E7 ∨ τ = .E8)
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
-    {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime) (hp2 : p ≠ 2)
+    {p₀ p : ℕ} (S : LangSetup τ L p₀) (_hp : p.Prime) (_hp2 : p ≠ 2)
     {ι : Type} {a : ι → Fin τ.rank → Lˣ}
-    (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (hap : ∀ u j, a u j ^ p = 1)
+    (_hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) (_hap : ∀ u j, a u j ^ p = 1)
     (i : KernelComponent (famCharHom a))
-    (hE : 6 ≤ compRank (componentRoots (famCharHom a) i) ∧
+    (_hE : 6 ≤ compRank (componentRoots (famCharHom a) i) ∧
       (componentRoots (famCharHom a) i).ncard =
         eRootCount (compRank (componentRoots (famCharHom a) i)))
-    (hout : ¬ twistInner (componentRoots (famCharHom a) i)
+    (_hout : ¬ twistInner (componentRoots (famCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (famCharHom a) i)]))
-    (hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
+    (_hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)),
     FamLabelAt S (famCharHom a) i
 
 theorem langFamRatLabel_of_lanes

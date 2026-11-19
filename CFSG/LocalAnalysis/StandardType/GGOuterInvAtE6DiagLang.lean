@@ -60,7 +60,7 @@ theorem exists_langSetup_of_toral_datum_of_prime_formula {τ : Tag} {L : Type} [
     have : u = D.g0 * (D.g0⁻¹ * u * D.g0) * D.g0⁻¹ := by group
     rw [this, h]
     group
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     rw [hDq]
     exact ⟨hℓ.isPrimePow.pow (by omega), (CharP.cast_eq_zero_iff L ℓ _).2
@@ -128,7 +128,7 @@ theorem e6_solvable_of_ambient_centralizer_of_diag {K : Type} [Field K] [Finite 
       (fun w : ↥(adjointGroup Tag.E6 (AlgebraicClosure K) ⊓
         Subgroup.centralizer {rootDiagUnit Tag.E6 a₀}) =>
         (w : ModGL Tag.E6 (AlgebraicClosure K))) hyz)
-  haveI : Group.IsSolvable ↥(adjointGroup Tag.E6 (AlgebraicClosure K) ⊓
+  have : Group.IsSolvable ↥(adjointGroup Tag.E6 (AlgebraicClosure K) ⊓
       Subgroup.centralizer {rootDiagUnit Tag.E6 a₀}) := hsol
   exact Group.isSolvable_of_isSolvable_injective hf'inj
 

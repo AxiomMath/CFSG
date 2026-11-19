@@ -31,12 +31,14 @@ structure ModDataB {K : Subgroup G} {X : Type} [Group X] (φ : ↥K →* X) (B :
 
 attribute [instance] ModDataB.addCommGroup ModDataB.module ModDataB.finite
 
+omit [Finite G] in
 private theorem w16q_ι_one {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {B : Subgroup X} {E : Subgroup G} (D : ModDataB φ B E) : D.ι 1 = 0 := by
   have h := D.ι_mul 1 E.one_mem 1 E.one_mem
   rw [mul_one] at h
   exact left_eq_add.mp h
 
+omit [Finite G] in
 private theorem w16q_ι_inv {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {B : Subgroup X} {E : Subgroup G} (D : ModDataB φ B E) {e : G} (he : e ∈ E) :
     D.ι e⁻¹ = - D.ι e := by
@@ -44,6 +46,7 @@ private theorem w16q_ι_inv {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →
   rw [mul_inv_cancel, w16q_ι_one D] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit [Finite G] in
 private theorem w16q_ι_injOn {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {B : Subgroup X} {E : Subgroup G} (D : ModDataB φ B E) {e e' : G}
     (he : e ∈ E) (he' : e' ∈ E) (h : D.ι e = D.ι e') : e = e' := by
@@ -52,6 +55,7 @@ private theorem w16q_ι_injOn {K : Subgroup G} {X : Type} [Group X] {φ : ↥K �
   have h2 := D.ι_eq_zero _ (E.mul_mem he (E.inv_mem he')) h1
   exact mul_inv_eq_one.mp h2
 
+omit [Finite G] in
 private theorem w16q_ι_mul_inv {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {B : Subgroup X} {E : Subgroup G} (D : ModDataB φ B E) {p q : G} (hp : p ∈ E)
     (hq : q ∈ E) : D.ι (p * q⁻¹) = D.ι p - D.ι q := by
@@ -143,7 +147,7 @@ private theorem w16q_conj_mem_conjPairSub_right (d : DichCfg M V₀ V U S H φ)
   rw [show u * (w₁ * w₂) * u⁻¹ = (u * w₁ * u⁻¹) * (u * w₂ * u⁻¹) by group, hfix₂]
   exact (conjPairSub V₀ x y).mul_mem hstep (Subgroup.mem_sup_right hw₂)
 
-private theorem w16q_exists_lift (d : DichCfg M V₀ V U S H φ)
+private theorem w16q_exists_lift (_d : DichCfg M V₀ V U S H φ)
     {z : ↥(conjClosure V H)} {a : X} (ha : a ∈ yConj V H φ z) :
     ∃ u : ↥(conjClosure V H), (u : G) ∈ conjSubgroup V (z : G) ∧ φ u = a := by
   have h : a ∈ SevenK.barSub (conjClosure V H) φ (conjSubgroup V (z : G)) := by
@@ -151,7 +155,7 @@ private theorem w16q_exists_lift (d : DichCfg M V₀ V U S H φ)
     exact ha
   exact SevenK.mem_barSub.mp h
 
-private theorem w16q_not_comm_swap (d : DichCfg M V₀ V U S H φ) {x y : ↥(conjClosure V H)}
+private theorem w16q_not_comm_swap (_d : DichCfg M V₀ V U S H φ) {x y : ↥(conjClosure V H)}
     (h : ¬ ∀ a ∈ yConj V H φ x, ∀ b ∈ yConj V H φ y, a * b = b * a) :
     ¬ ∀ a ∈ yConj V H φ y, ∀ b ∈ yConj V H φ x, a * b = b * a := by
   intro h'

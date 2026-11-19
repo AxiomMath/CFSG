@@ -134,7 +134,7 @@ theorem mem_inf_of_central_sylow (hodd : Odd q) (hsl : HasSL2Model ↥L₁ (fun 
   have hl4 : l ^ 4 = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact hl₁4)
   have hlQ : l ∈ (Q : Subgroup ↥L₁) := by
     have hpg : IsPGroup 2 ↥((Q : Subgroup ↥L₁) ⊔ zpowers l) := by
-      obtain ⟨a, ha⟩ := Q.isPGroup'.exists_card_eq
+      obtain ⟨a, ha⟩ := Q.isPGroup.exists_card_eq
       have hord : orderOf l ∣ 2 ^ 2 := orderOf_dvd_of_pow_eq_one (by simpa using hl4)
       obtain ⟨b, -, hb⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hord
       have hcomm : ∀ x ∈ (Q : Subgroup ↥L₁), ∀ y ∈ zpowers l, x * y = y * x := by

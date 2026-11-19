@@ -17,7 +17,7 @@ theorem conj_into_of_odd_index {G : Type*} [Group G] [Finite G] (K : Subgroup G)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T0⟩ : Nonempty (Sylow 2 K) := inferInstance
   set T : Subgroup G := (T0 : Subgroup K).map K.subtype with hTdef
-  have hTp : IsPGroup 2 T := T0.isPGroup'.map K.subtype
+  have hTp : IsPGroup 2 T := T0.isPGroup.map K.subtype
   have hTidx : ¬ 2 ∣ T.index := by
     have h1 := Subgroup.card_mul_index T
     have h2 := Subgroup.card_mul_index (T0 : Subgroup K)

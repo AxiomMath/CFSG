@@ -71,7 +71,7 @@ theorem mem_of_commutators_mem_center {R : Subgroup G} (hR : CFSG.IsExtraspecial
     have hxq := hx ⟨r, Subgroup.le_normalizer hr⟩ hr
     have := congrArg (fun y : N => (y : G)) hxq
     simpa using this
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     AddCommGroup.zmodModule (n := 2) fun v => by
       obtain ⟨x, rfl⟩ := exists_ofMul_of v
       rw [← ofMul_pow, ← map_pow]

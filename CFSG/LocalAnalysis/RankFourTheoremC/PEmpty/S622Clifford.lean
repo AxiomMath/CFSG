@@ -17,9 +17,9 @@ private theorem s622_pow_card_eq_one_of_no_fixed {Γ N : Type*} [Group Γ] [Fini
     (hN : ∀ x : N, (∀ r ∈ R, r • x = x) → x = 1)
     (hZ : ∀ d : N, (∀ g ∈ Z, g • d = d) → d = 1) (x : N) : x ^ Nat.card R = 1 := by
   classical
-  letI : CommGroup N := { ‹Group N› with mul_comm := hcomm }
-  haveI : Fintype R := Fintype.ofFinite R
-  haveI : Fintype Z := Fintype.ofFinite Z
+  let : CommGroup N := { ‹Group N› with mul_comm := hcomm }
+  have : Fintype R := Fintype.ofFinite R
+  have : Fintype Z := Fintype.ofFinite Z
   have hnormR : ∀ y : N, ∏ r : R, ((r : Γ) • y) = 1 := by
     intro y
     apply hN
@@ -172,7 +172,7 @@ theorem s622_exists_commuting_of_frobenius {G : Type} [Group G] [Finite G] {p : 
   have hmain := s622_pow_card_eq_one_of_no_fixed (Γ := ↥Γ) (N := ↥N)
     (fun x y => Subtype.ext (hNcomm x x.2 y y.2)) (R := R.subgroupOf Γ)
     (Z := (zpowers z).subgroupOf Γ) ?_ ?_ ?_ ?_
-  · haveI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hN1
+  · have : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hN1
     obtain ⟨x, hx⟩ := exists_ne (1 : N)
     apply hx
     have h1 := hmain x

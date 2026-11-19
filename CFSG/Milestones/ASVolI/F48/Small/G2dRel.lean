@@ -13,7 +13,7 @@ theorem burnsideF48s_apartment_nbr {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y
     (c : α.Completion Y) {m : ℕ} (hm : 2 ≤ m) {S : Set c.Γ} (hS : c.IsApartment m S) {u l : c.Γ}
     (hu : u ∈ S) : ∃ d ∈ S, c.graph.Adj u d ∧ d ≠ l := by
   obtain ⟨e⟩ := hS
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   obtain ⟨i, hi⟩ := e.surjective ⟨u, hu⟩
   have hone : ((1 : Fin (2 * m)) : ℕ) = 1 := by
     rw [Fin.val_one']
@@ -114,7 +114,7 @@ theorem burnsideF48s_g2d_rel (h45 : F_4_5) (h46 : F_4_6) {p f : ℕ} {E : Type} 
       apply Subgroup.map_injective (setStab β Sig).subtype_injective
       rw [MonoidHom.map_closure, ← MonoidHom.range_eq_map, Subgroup.range_subtype, Set.image_pair]
       exact hstab.symm
-    haveI : Finite Q := Finite.of_equiv _ eS3.symm.toEquiv
+    have : Finite Q := Finite.of_equiv _ eS3.symm.toEquiv
     have hcard : Nat.card Q = 2 * 3 := by
       rw [Nat.card_congr eS3.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
       rfl

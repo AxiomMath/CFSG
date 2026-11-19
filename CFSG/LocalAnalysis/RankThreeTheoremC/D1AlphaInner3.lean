@@ -27,7 +27,7 @@ theorem D1ComponentAlphaData3.isCyclic_inf_centralizer {p : ℕ} [Fact p.Prime] 
   by_contra hnc
   obtain ⟨F, hF, hFel, hFcard⟩ := CFSG.AGLEmbedding.exists_isElemAbelian_card_sq_of_two_le_pRank hp
     (CFSG.AGLEmbedding.two_le_pRank_of_isPGroup_not_isCyclic hp h.data.red.ne_two
-      (Pbar.isPGroup'.to_le inf_le_left) hnc)
+      (Pbar.isPGroup.to_le inf_le_left) hnc)
   have hFz : F ≤ Subgroup.zpowers zbar := by
     intro f hf
     by_cases hf1 : f = 1

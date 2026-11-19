@@ -18,11 +18,11 @@ section OrbitCount
 
 variable {K : Type*} [Group K] [Finite K] {B Q : Subgroup K}
 
-theorem dvd_card_sdiff_centralizer_of_primeGroup {r : ℕ} [Fact r.Prime] (hr2 : r ≠ 2)
-    (hQ : IsPGroup 2 Q) (hB : IsPGroup r B) (hBQ : B ≤ normalizer (Q : Set K)) :
+theorem dvd_card_sdiff_centralizer_of_primeGroup {r : ℕ} [Fact r.Prime] (_hr2 : r ≠ 2)
+    (_hQ : IsPGroup 2 Q) (hB : IsPGroup r B) (hBQ : B ≤ normalizer (Q : Set K)) :
     r ∣ ((Q : Set K) \ ((Q ⊓ centralizer (B : Set K) : Subgroup K) : Set K)).ncard := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F : Subgroup K := Q ⊓ centralizer (B : Set K)
   change r ∣ ((Q : Set K) \ (F : Set K)).ncard
   have hFQ : F ≤ Q := inf_le_left
@@ -72,7 +72,7 @@ theorem dvd_relIndex_centralizer_sub_one_of_pGroup {r : ℕ} [Fact r.Prime] (hr2
     (hne : ¬ Q ≤ centralizer (B : Set K)) :
     r ∣ (centralizer (B : Set K)).relIndex Q - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F : Subgroup K := Q ⊓ centralizer (B : Set K)
   have hFQ : F ≤ Q := inf_le_left
   have hrelF : F.relIndex Q = (centralizer (B : Set K)).relIndex Q := by
@@ -133,6 +133,7 @@ theorem eq_of_neg_one_pow_eq_of_lt_two {F : Type*} [Field F] (hF : ringChar F �
     | exact absurd h hneg
     | exact absurd h.symm hneg
 
+omit [Finite K] in
 theorem exists_neg_character_witness {N : Subgroup K} (hN8 : N.index = 8)
     {F : Type*} [Field F] (lam : K → K → F)
     (hval : ∀ g x, lam g x = 1 ∨ lam g x = -1)
@@ -158,6 +159,7 @@ theorem exists_neg_character_witness {N : Subgroup K} (hN8 : N.index = 8)
     · exact h
   exact ⟨x, y, hxN, hxy⟩
 
+omit [Finite K] in
 theorem character_kernel_index_two {F : Type*} [Field F] (lam : K → K → F)
     (hval : ∀ g x, lam g x = 1 ∨ lam g x = -1)
     (hmul_right : ∀ g x x', lam g (x * x') = lam g x * lam g x')
@@ -193,6 +195,7 @@ theorem character_kernel_index_two {F : Type*} [Field F] (lam : K → K → F)
       rw [hay]
       norm_num
 
+omit [Finite K] in
 theorem exists_z_of_character_kernels {N Hx Hy : Subgroup K} (hN8 : N.index = 8)
     {F : Type*} [Field F] {lam : K → K → F} {x y : K}
     (hHx : ∀ z, z ∈ Hx ↔ lam x z = 1) (hHy : ∀ z, z ∈ Hy ↔ lam y z = 1)
@@ -210,18 +213,19 @@ theorem exists_z_of_character_kernels {N Hx Hy : Subgroup K} (hN8 : N.index = 8)
     intro h
     have h1 : (Hx ⊓ Hy).index = 8 := by rw [h, hN8]
     omega
-  obtain ⟨z, hzZ, hzN⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hNZ (Ne.symm hZne))
+  obtain ⟨z, hzZ, hzN⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hNZ (Ne.symm hZne))
   exact ⟨z, hzN, (hHx z).mp hzZ.1, (hHy z).mp hzZ.2⟩
 
-theorem exists_orthogonal_triple {N : Subgroup K} (hN : N.Normal) (hN8 : N.index = 8)
+omit [Finite K] in
+theorem exists_orthogonal_triple {N : Subgroup K} (_hN : N.Normal) (hN8 : N.index = 8)
     {F : Type*} [Field F] (hF : ringChar F ≠ 2)
     (lam : K → K → F) (hval : ∀ g x, lam g x = 1 ∨ lam g x = -1)
     (hmul_right : ∀ g x x', lam g (x * x') = lam g x * lam g x')
-    (hself : ∀ x, lam x x = 1) (hsymm : ∀ g x, lam g x = lam x g)
+    (_hself : ∀ x, lam x x = 1) (hsymm : ∀ g x, lam g x = lam x g)
     (hnondeg : ∀ x, (∀ g, lam g x = 1) ↔ x ∈ N) :
     ∃ x y z : K, x ∉ N ∧ z ∉ N ∧ lam x y = -1 ∧ lam x z = 1 ∧ lam y z = 1 := by
   classical
-  haveI : N.Normal := hN
+  have : N.Normal := _hN
   have hneg : (-1 : F) ≠ 1 := Ring.neg_one_ne_one_of_char_ne_two hF
   obtain ⟨x, y, hxN, hxy⟩ := exists_neg_character_witness hN8 lam hval hsymm hnondeg
   have h1 : ∀ g, lam g 1 = 1 := by
@@ -249,6 +253,7 @@ theorem exists_orthogonal_triple {N : Subgroup K} (hN : N.Normal) (hN8 : N.index
 private def threeCosetProduct (x y z : K) (p : Fin 2 × Fin 2 × Fin 2) : K :=
   x ^ (p.1 : ℕ) * y ^ (p.2.1 : ℕ) * z ^ (p.2.2 : ℕ)
 
+omit [Finite K] in
 private theorem seven_lam_pow {F : Type*} [Field F] {lam : K → K → F}
     (h1 : ∀ g, lam g 1 = 1)
     (hmul_right : ∀ g x x', lam g (x * x') = lam g x * lam g x') :
@@ -258,6 +263,7 @@ private theorem seven_lam_pow {F : Type*} [Field F] {lam : K → K → F}
   | zero => simpa using h1 g
   | succ n ih => rw [pow_succ, hmul_right, ih, pow_succ]
 
+omit [Finite K] in
 private theorem seven_P_eval_x {F : Type*} [Field F] {lam : K → K → F} {x y z : K}
     (hmul_right : ∀ g x x', lam g (x * x') = lam g x * lam g x')
     (hxy : lam x y = -1) (hxz : lam x z = 1) (hself : ∀ x, lam x x = 1)
@@ -270,6 +276,7 @@ private theorem seven_P_eval_x {F : Type*} [Field F] {lam : K → K → F} {x y 
   rw [hmul_right, hmul_right]
   simp only [hpow, hself x, hxy, hxz, one_pow, one_mul, mul_one]
 
+omit [Finite K] in
 private theorem seven_P_eval_y {F : Type*} [Field F] {lam : K → K → F} {x y z : K}
     (hmul_right : ∀ g x x', lam g (x * x') = lam g x * lam g x')
     (hyx : lam y x = -1) (hyz : lam y z = 1) (hself : ∀ x, lam x x = 1)
@@ -280,8 +287,9 @@ private theorem seven_P_eval_y {F : Type*} [Field F] {lam : K → K → F} {x y 
   change lam y (x ^ (p.1 : ℕ) * y ^ (p.2.1 : ℕ) * z ^ (p.2.2 : ℕ)) =
     (-1 : F) ^ (p.1 : ℕ)
   rw [hmul_right, hmul_right]
-  simp only [hpow, hself y, hyx, hyz, one_pow, one_mul, mul_one]
+  simp only [hpow, hself y, hyx, hyz, one_pow, mul_one]
 
+omit [Finite K] in
 private theorem seven_lam_congr {N : Subgroup K} [N.Normal] {F : Type*} [Field F]
     {lam : K → K → F}
     (hmul_right : ∀ g x x', lam g (x * x') = lam g x * lam g x')
@@ -294,6 +302,7 @@ private theorem seven_lam_congr {N : Subgroup K} [N.Normal] {F : Type*} [Field F
     _ = lam w (u * (u⁻¹ * v)) := (hmul_right w u _).symm
     _ = lam w v := by rw [show u * (u⁻¹ * v) = v by group]
 
+omit [Finite K] in
 private theorem seven_P_injective {F : Type*} [Field F] {N : Subgroup K} [N.Normal]
     (hF : ringChar F ≠ 2) {lam : K → K → F} {x y z : K} (hzN : z ∉ N)
     (hPx : ∀ p : Fin 2 × Fin 2 × Fin 2,
@@ -319,7 +328,7 @@ private theorem seven_P_injective {F : Type*} [Field F] {N : Subgroup K} [N.Norm
     simp only [threeCosetProduct, ha, hb],
     show threeCosetProduct x y z p' =
       x ^ (p'.1 : ℕ) * y ^ (p'.2.1 : ℕ) * z ^ (p'.2.2 : ℕ) by
-    simp only [threeCosetProduct, hb]] at h1
+    simp only [threeCosetProduct]] at h1
   have h2 : (z ^ (p.2.2 : ℕ) : K ⧸ N) = (z ^ (p'.2.2 : ℕ) : K ⧸ N) := by
     apply QuotientGroup.eq.mpr
     have hmem : (x ^ (p'.1 : ℕ) * y ^ (p'.2.1 : ℕ) * z ^ (p.2.2 : ℕ))⁻¹ *
@@ -359,10 +368,10 @@ theorem false_of_orthogonal_triple {N : Subgroup K} (hN : N.Normal) (hN8 : N.ind
     (hmul_right : ∀ g x x', lam g (x * x') = lam g x * lam g x')
     (hself : ∀ x, lam x x = 1) (hsymm : ∀ g x, lam g x = lam x g)
     (hnondeg : ∀ x, (∀ g, lam g x = 1) ↔ x ∈ N)
-    {x y z : K} (hxN : x ∉ N) (hzN : z ∉ N)
+    {x y z : K} (_hxN : x ∉ N) (hzN : z ∉ N)
     (hxy : lam x y = -1) (hxz : lam x z = 1) (hyz : lam y z = 1) : False := by
   classical
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have h1 : ∀ g, lam g 1 = 1 := by
     intro g
     have h : lam g 1 = lam g 1 * lam g 1 := by simpa using hmul_right g 1 1
@@ -378,8 +387,8 @@ theorem false_of_orthogonal_triple {N : Subgroup K} (hN : N.Normal) (hN8 : N.ind
   have hPx := seven_P_eval_x hmul_right hxy hxz hself hpow
   have hPy := seven_P_eval_y hmul_right hyx hyz hself hpow
   have hP_inj := seven_P_injective hF hzN hPx hPy (seven_lam_congr hmul_right hnondeg)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (K ⧸ N) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (K ⧸ N) := Fintype.ofFinite _
   have hcardQ : Fintype.card (K ⧸ N) = 8 := by
     rw [← Nat.card_eq_fintype_card, ← Subgroup.index_eq_card, hN8]
   have hbij : Function.Bijective fun p : Fin 2 × Fin 2 × Fin 2 =>
@@ -393,8 +402,7 @@ theorem false_of_orthogonal_triple {N : Subgroup K} (hN : N.Normal) (hN8 : N.ind
     have hg : g = threeCosetProduct (K := K) x y z p *
         ((threeCosetProduct (K := K) x y z p)⁻¹ * g) := by group
     rw [hg, hmul_right, (hnondeg _).mpr hmem z, mul_one]
-    simp only [threeCosetProduct, hmul_right, hpow, hzx, hzy, hself z, one_pow, one_mul,
-      mul_one]
+    simp only [threeCosetProduct, hmul_right, hpow, hzx, hzy, hself z, one_pow, mul_one]
   have halleq' : ∀ g, lam g z = 1 := fun g => by rw [hsymm g z]; exact halleq g
   exact hzN ((hnondeg z).mp halleq')
 
@@ -417,6 +425,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.AutSection
 
 variable {F : Type*} [Field F] {W : Type*} [AddCommGroup W] [Module F W] [FiniteDimensional F W]
 
+omit [FiniteDimensional F W] in
 private theorem seven_commutator_facts {Q B : Subgroup (Module.End F W)ˣ}
     (h3 : ⁅Q, Q⁆ ≤ centralizer (Q : Set (Module.End F W)ˣ))
     (h4 : ∀ x ∈ Q, x ^ 2 ∈ centralizer (B : Set (Module.End F W)ˣ))
@@ -444,6 +453,7 @@ private theorem seven_commutator_facts {Q B : Subgroup (Module.End F W)ˣ}
   rw [hg2] at h6
   exact mul_right_cancel (h6.symm.trans (one_mul x).symm)
 
+omit [FiniteDimensional F W] in
 private theorem seven_commutator_bilinear {Q : Subgroup (Module.End F W)ˣ}
     (hcent : ∀ g ∈ Q, ∀ x ∈ Q, ∀ h ∈ Q, ⁅g, x⁆ * h = h * ⁅g, x⁆)
     (hinv : ∀ g ∈ Q, ∀ x ∈ Q, ⁅g, x⁆ * ⁅g, x⁆ = 1) :
@@ -479,9 +489,9 @@ private theorem seven_exists_jointEigenProj [Finite F] (hF : ringChar F ≠ 2)
           Commute a ((⁅g, x⁆ : (Module.End F W)ˣ) : Module.End F W)) → Commute a π) := by
   classical
   have hF2 : (2 : F) ≠ 0 := Ring.two_ne_zero hF
-  haveI : Finite W := Module.finite_of_finite F
-  haveI : Finite (Module.End F W) := Module.finite_of_finite F
-  haveI : Finite (Module.End F W)ˣ :=
+  have : Finite W := Module.finite_of_finite F
+  have : Finite (Module.End F W) := Module.finite_of_finite F
+  have : Finite (Module.End F W)ˣ :=
     Finite.of_injective (fun u : (Module.End F W)ˣ => (u : Module.End F W)) Units.val_injective
   have hcQ : ∀ g ∈ Q, ∀ x ∈ Q, ⁅g, x⁆ ∈ Q := fun g hg x hx =>
     Subgroup.commutator_le_self Q (Subgroup.commutator_mem_commutator hg hx)
@@ -516,8 +526,9 @@ private theorem seven_exists_jointEigenProj [Finite F] (hF : ringChar F ≠ 2)
       obtain ⟨g, hg, x, hx, rfl⟩ := hS s hs
       exact hcomm g hg x hx)⟩
 
+omit [FiniteDimensional F W] in
 private theorem seven_eigenproj_chi [Finite F] (hF : ringChar F ≠ 2)
-    {Q : Subgroup (Module.End F W)ˣ} {π : Module.End F W} (hπ0 : π ≠ 0)
+    {Q : Subgroup (Module.End F W)ˣ} {π : Module.End F W} (_hπ0 : π ≠ 0)
     (hSπ : ∀ g ∈ Q, ∀ x ∈ Q,
       ((⁅g, x⁆ : (Module.End F W)ˣ) : Module.End F W) * π = π ∨
         ((⁅g, x⁆ : (Module.End F W)ˣ) : Module.End F W) * π = -π) :
@@ -533,10 +544,10 @@ private theorem seven_eigenproj_chi [Finite F] (hF : ringChar F ≠ 2)
       ((⁅g, x⁆ : (Module.End F W)ˣ) : Module.End F W) * π = χ ⁅g, x⁆ • π := by
     intro g hg x hx
     by_cases h6 : ((⁅g, x⁆ : (Module.End F W)ˣ) : Module.End F W) * π = π
-    · simp only [χ, if_pos h6, one_smul, h6]
+    · simp only [χ, ite_eq_left h6, one_smul, h6]
     · rcases hSπ g hg x hx with h7 | h7
       · exact absurd h7 h6
-      · simp only [χ, if_neg h6, neg_one_smul, h7]
+      · simp only [χ, ite_eq_right h6, neg_one_smul, h7]
   have hχsq : ∀ u, χ u * χ u = 1 := fun u => by
     by_cases h6 : (u : Module.End F W) * π = π <;> simp [χ, h6]
   have hχone : ∀ u, χ u = 1 ↔ (u : Module.End F W) * π = π := by
@@ -547,6 +558,7 @@ private theorem seven_eigenproj_chi [Finite F] (hF : ringChar F ≠ 2)
       exact iff_of_false hneg h6
   exact ⟨χ, hχ, hχsq, hχone⟩
 
+omit [FiniteDimensional F W] in
 private theorem seven_eigenproj_commute {Q : Subgroup (Module.End F W)ˣ} {π : Module.End F W}
     {g₀ x₀ : (Module.End F W)ˣ}
     (hcent : ∀ g ∈ Q, ∀ x ∈ Q, ∀ h ∈ Q, ⁅g, x⁆ * h = h * ⁅g, x⁆)
@@ -578,10 +590,11 @@ private theorem seven_exists_eigenproj [Finite F] (hF : ringChar F ≠ 2)
   obtain ⟨χ, hχ, hχsq, hχone⟩ := seven_eigenproj_chi hF hπ0 hSπ
   exact ⟨π, χ, hπ0, hzπ, hχ, hχsq, hχone, seven_eigenproj_commute hcent hπc hg₀ hx₀⟩
 
+omit [FiniteDimensional F W] in
 private theorem seven_exists_N {B Q : Subgroup (Module.End F W)ˣ} (hmin : HHMinimal B Q)
     (h2 : ⁅Q, Q⁆ ≤ centralizer (B : Set (Module.End F W)ˣ))
     {π : Module.End F W}
-    (hπQ : ∀ g ∈ Q, Commute (((g : (Module.End F W)ˣ) : Module.End F W)) π)
+    (_hπQ : ∀ g ∈ Q, Commute (((g : (Module.End F W)ˣ) : Module.End F W)) π)
     (hbil : ∀ g ∈ Q, ∀ a ∈ Q, ∀ c ∈ Q, ⁅g, a * c⁆ = ⁅g, a⁆ * ⁅g, c⁆)
     (hcinv : ∀ g ∈ Q, ∀ q ∈ Q, ⁅g, q⁻¹⁆ = ⁅g, q⁆) :
     ∃ N : Subgroup (Module.End F W)ˣ,
@@ -630,6 +643,7 @@ private theorem seven_exists_N {B Q : Subgroup (Module.End F W)ˣ} (hmin : HHMin
     rwa [h7] at h6
   exact ⟨N, hN, fun w hw => ((hN w).mp hw).1, hBN⟩
 
+omit [FiniteDimensional F W] in
 private theorem seven_N_proper (hF2 : (2 : F) ≠ 0) {N Q : Subgroup (Module.End F W)ˣ}
     {π : Module.End F W}
     (hN : ∀ w, w ∈ N ↔ w ∈ Q ∧ ∀ g ∈ Q,
@@ -640,6 +654,7 @@ private theorem seven_N_proper (hF2 : (2 : F) ≠ 0) {N Q : Subgroup (Module.End
     x₀ ∉ N := fun hx =>
   hπ0 (eq_zero_of_mul_eq_self_of_mul_eq_neg hF2 (((hN x₀).mp hx).2 g₀ hg₀) hzπ)
 
+omit [FiniteDimensional F W] in
 private theorem seven_N_le_centralizer {B Q N : Subgroup (Module.End F W)ˣ} (hmin : HHMinimal B Q)
     (hNQ : N ≤ Q) (hBN : B ≤ normalizer (N : Set (Module.End F W)ˣ))
     {x₀ : (Module.End F W)ˣ} (hx₀N : x₀ ∉ N) (hx₀ : x₀ ∈ Q) :
@@ -649,6 +664,7 @@ private theorem seven_N_le_centralizer {B Q N : Subgroup (Module.End F W)ˣ} (hm
     exact hx₀N (hmin.minimal N hNQ hBN hne' hx₀)
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hbot
 
+omit [FiniteDimensional F W] in
 private theorem seven_N_eq_inf {B Q N : Subgroup (Module.End F W)ˣ} {π : Module.End F W}
     (h5 : Q ⊓ centralizer (B : Set (Module.End F W)ˣ) ≤
       centralizer (Q : Set (Module.End F W)ˣ))
@@ -666,6 +682,7 @@ private theorem seven_N_eq_inf {B Q N : Subgroup (Module.End F W)ˣ} {π : Modul
   rw [h1, Units.val_one, one_mul]
 
 
+omit [FiniteDimensional F W] in
 private theorem seven_coset_eigenvectors [Finite F] {Q N : Subgroup (Module.End F W)ˣ} [Finite Q]
     {π : Module.End F W} {χ : (Module.End F W)ˣ → F} (hπ0 : π ≠ 0)
     (hN : ∀ w, w ∈ N ↔ w ∈ Q ∧ ∀ g ∈ Q,
@@ -683,7 +700,7 @@ private theorem seven_coset_eigenvectors [Finite F] {Q N : Subgroup (Module.End 
       Function.Injective t ∧ (∀ c, v c ≠ 0) ∧
         (∀ c g, φ g (v c) = t c g • v c) := by
   classical
-  haveI : Fintype (↥Q ⧸ N.subgroupOf Q) := Fintype.ofFinite _
+  have : Fintype (↥Q ⧸ N.subgroupOf Q) := Fintype.ofFinite _
   let rep : ↥Q ⧸ N.subgroupOf Q → (Module.End F W)ˣ := fun c => ((Quotient.out c : ↥Q) : _)
   have hrepQ : ∀ c, rep c ∈ Q := fun c => (Quotient.out c).2
   let φ : (Module.End F W)ˣ → Module.End F (Module.End F W) := fun g =>
@@ -706,7 +723,7 @@ private theorem seven_coset_eigenvectors [Finite F] {Q N : Subgroup (Module.End 
       have h6 : g * rep c * g⁻¹ = rep c * ⁅g, rep c⁆ := by
         rw [← hcent g hg (rep c) (hrepQ c) (rep c) (hrepQ c), commutatorElement_def]
         group
-      simp only [φ, t, v, if_pos hg, LinearMap.comp_apply, LinearMap.mulLeft_apply,
+      simp only [φ, t, v, ite_eq_left hg, LinearMap.comp_apply, LinearMap.mulLeft_apply,
         LinearMap.mulRight_apply]
       calc ((g : (Module.End F W)ˣ) : Module.End F W) *
             (((rep c : (Module.End F W)ˣ) : Module.End F W) * π *
@@ -716,12 +733,12 @@ private theorem seven_coset_eigenvectors [Finite F] {Q N : Subgroup (Module.End 
             simp only [Units.val_mul, mul_assoc]
         _ = χ ⁅g, rep c⁆ • (((rep c : (Module.End F W)ˣ) : Module.End F W) * π) := by
             rw [h6, Units.val_mul, mul_assoc, hχ g hg (rep c) (hrepQ c), mul_smul_comm]
-    · simp only [φ, t, if_neg hg, LinearMap.zero_apply, zero_smul]
+    · simp only [φ, t, ite_eq_right hg, LinearMap.zero_apply, zero_smul]
   have htinj : Function.Injective t := by
     intro c c' hcc
     have hchar : ∀ g ∈ Q, χ ⁅g, rep c⁆ = χ ⁅g, rep c'⁆ := fun g hg => by
       have h6 := congrFun hcc g
-      simpa only [t, if_pos hg] using h6
+      simpa only [t, ite_eq_left hg] using h6
     rw [← QuotientGroup.out_eq' c, ← QuotientGroup.out_eq' c', QuotientGroup.eq,
       Subgroup.mem_subgroupOf]
     show (rep c)⁻¹ * rep c' ∈ N
@@ -744,7 +761,7 @@ private theorem seven_card_quotient_le_finrank [Finite F] {Q N : Subgroup (Modul
     (hχsq : ∀ u, χ u * χ u = 1)
     (hπQ : ∀ g ∈ Q, Commute (((g : (Module.End F W)ˣ) : Module.End F W)) π) :
     Nat.card (↥Q ⧸ N.subgroupOf Q) ≤ Module.finrank F (Module.End F W) := by
-  haveI : Fintype (↥Q ⧸ N.subgroupOf Q) := Fintype.ofFinite _
+  have : Fintype (↥Q ⧸ N.subgroupOf Q) := Fintype.ofFinite _
   obtain ⟨φ, t, v, htinj, hv, hφv⟩ :=
     seven_coset_eigenvectors hπ0 hN hcent hbil hcinv hχ hχsq hπQ
   simpa only [Nat.card_eq_fintype_card] using
@@ -826,13 +843,14 @@ private theorem seven_abelian_case [Finite F] (hF : ringChar F ≠ 2)
       (hBk b hb) (hnorm b hb) q hq
 
 
+omit [FiniteDimensional F W] in
 private theorem seven_relIndex_eq_eight [Finite F] [Finite (Module.End F W)ˣ]
     {B Q L : Subgroup (Module.End F W)ˣ} [Finite Q]
     (hQ : IsPGroup 2 Q) (hB : IsPGroup 7 B) (hmin : HHMinimal B Q)
     (hnot : ¬ Q ≤ centralizer (B : Set (Module.End F W)ˣ))
     (hL : L = Q ⊓ centralizer (B : Set (Module.End F W)ˣ))
     (hrel : L.relIndex Q ≤ 16) : L.relIndex Q = 8 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdivF' : 7 ∣ (centralizer (B : Set (Module.End F W)ˣ)).relIndex Q - 1 :=
     dvd_relIndex_centralizer_sub_one_of_pGroup (K := (Module.End F W)ˣ) (B := B) (Q := Q)
       (r := 7) (by norm_num) hQ hB hmin.normalizes hnot
@@ -867,6 +885,7 @@ private theorem seven_relIndex_eq_eight [Finite F] [Finite (Module.End F W)ˣ]
   · norm_num
   · norm_num at hdiv
 
+omit [FiniteDimensional F W] in
 private theorem seven_chi_mul {Q : Subgroup (Module.End F W)ˣ} {a b g : (Module.End F W)ˣ}
     (ha : a ∈ Q) (hb : b ∈ Q) (hg : g ∈ Q) {π : Module.End F W}
     {χ : (Module.End F W)ˣ → F} (hπ0 : π ≠ 0)
@@ -886,6 +905,7 @@ private theorem seven_chi_mul {Q : Subgroup (Module.End F W)ˣ} {a b g : (Module
       smul_smul, mul_comm]
   exact smul_left_injective F hπ0 (h1'.symm.trans h2)
 
+omit [FiniteDimensional F W] in
 private theorem seven_chi_inv {Q : Subgroup (Module.End F W)ˣ} {g x : (Module.End F W)ˣ}
     (hg : g ∈ Q) (hx : x ∈ Q) {π : Module.End F W}
     {χ : (Module.End F W)ˣ → F} (hπ0 : π ≠ 0)
@@ -905,6 +925,7 @@ private theorem seven_chi_inv {Q : Subgroup (Module.End F W)ˣ} {g x : (Module.E
   exact smul_left_injective F hπ0 (h1.symm.trans h2')
 
 
+omit [FiniteDimensional F W] in
 private theorem seven_parity_application [Finite F] (hF : ringChar F ≠ 2)
     {Q N : Subgroup (Module.End F W)ˣ} [Finite Q]
     {π : Module.End F W} {χ : (Module.End F W)ˣ → F} (hπ0 : π ≠ 0)
@@ -959,7 +980,7 @@ private theorem seven_parity_application [Finite F] (hF : ringChar F ≠ 2)
     apply Subtype.ext
     exact (Subgroup.mem_centralizer_iff.mp (hNcenter (Subgroup.mem_subgroupOf.mp hx)))
       ((g : (Module.End F W)ˣ)) g.2
-  haveI : (N.subgroupOf Q).Normal := Subgroup.normal_of_le_center hNleCenter
+  have : (N.subgroupOf Q).Normal := Subgroup.normal_of_le_center hNleCenter
   exact false_of_index_eight_alternating_character (K := ↥Q) (N := N.subgroupOf Q)
     inferInstance hidx hF lam hval hmul_right hself hsymm hnondeg
 
@@ -975,9 +996,9 @@ private theorem seven_nonabelian_case [Finite F] (hF : ringChar F ≠ 2)
     (hnot : ¬ Q ≤ centralizer (B : Set (Module.End F W)ˣ))
     (hQnab : ¬ ∀ g ∈ Q, ∀ x ∈ Q, g * x = x * g) : False := by
   classical
-  haveI : Finite W := Module.finite_of_finite F
-  haveI : Finite (Module.End F W) := Module.finite_of_finite F
-  haveI : Finite (Module.End F W)ˣ :=
+  have : Finite W := Module.finite_of_finite F
+  have : Finite (Module.End F W) := Module.finite_of_finite F
+  have : Finite (Module.End F W)ˣ :=
     Finite.of_injective (fun u : (Module.End F W)ˣ => (u : Module.End F W)) Units.val_injective
   push Not at hQnab
   obtain ⟨g₀, hg₀, x₀, hx₀, hne₀⟩ := hQnab
@@ -1011,11 +1032,11 @@ theorem commute_of_seven_normalizes_two [Finite F] (hF : ringChar F ≠ 2)
     ∀ x ∈ R, y * x = x * y := by
   classical
   obtain ⟨k, hk⟩ := hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite W := Module.finite_of_finite F
-  haveI : Finite (Module.End F W) := Module.finite_of_finite F
-  haveI : Finite (Module.End F W)ˣ :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite W := Module.finite_of_finite F
+  have : Finite (Module.End F W) := Module.finite_of_finite F
+  have : Finite (Module.End F W)ˣ :=
     Finite.of_injective (fun u : (Module.End F W)ˣ => (u : Module.End F W)) Units.val_injective
   let B : Subgroup (Module.End F W)ˣ := Subgroup.zpowers y
   have hBk : ∀ b ∈ B, b ^ (7 ^ k) = 1 := fun b hb =>
@@ -1031,7 +1052,7 @@ theorem commute_of_seven_normalizes_two [Finite F] (hF : ringChar F ≠ 2)
     exact (Subgroup.mem_centralizer_iff.mp
       (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hbot hx)) y (Subgroup.mem_zpowers y)
   obtain ⟨Q, hQR, hmin⟩ := exists_hhMinimal hBR hne
-  haveI : Finite ↥Q := Subtype.finite
+  have : Finite ↥Q := Subtype.finite
   have hQ : IsPGroup 2 Q := hR.to_le hQR
   have h1 : ⁅Q, B⁆ = Q := hhMinimal_commutator_eq_self (by norm_num) hmin hQ hB
   have h2 : ⁅Q, Q⁆ ≤ centralizer (B : Set (Module.End F W)ˣ) :=

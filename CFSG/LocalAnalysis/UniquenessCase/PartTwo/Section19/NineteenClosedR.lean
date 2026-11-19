@@ -53,29 +53,29 @@ theorem r19_A13 (D : Data G) {V₀ V : Subgroup G}
 
 theorem r19_C12 (D : Data G) {V₀ V : Subgroup G}
     (hodd : ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (r : ℕ)
-      (h : Ctx19_10 D V₀ V p L A t B r), Odd (S17.nOf L))
-    (h1 : ∀ (p : ℕ) (L : Subgroup G) (h : Hyp19 D V₀ V p L), R19_1At D V₀ V p L h)
+      (_h : Ctx19_10 D V₀ V p L A t B r), Odd (S17.nOf L))
+    (h1 : ∀ (p : ℕ) (L : Subgroup G) (_h : Hyp19 D V₀ V p L), R19_1At D V₀ V p L _h)
     (h42 : S17.R17_42At D V₀ V)
     (h641 : S17.R17_64_1At D V₀ V) (h642 : S17.R17_64_2At D V₀ V)
     (h643 : S17.R17_64_3At D V₀ V) (h8107 : F08.R8107 D) :
     ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (r : ℕ)
-      (h : Ctx19_10 D V₀ V p L A t B r), R19_12At D V₀ V p L A t B r h := by
-  intro p L A t B r h
-  refine nineteen_twelve_at D h
-    (fun h3 => (r_ne_three h.hAcard h3 (hodd p L A t B r h) rfl).elim)
+      (_h : Ctx19_10 D V₀ V p L A t B r), R19_12At D V₀ V p L A t B r _h := by
+  intro p L A t B r _h
+  refine nineteen_twelve_at D _h
+    (fun h3 => (r_ne_three _h.hAcard h3 (hodd p L A t B r _h) rfl).elim)
     h42 h8107 ?_
   intro hj
   obtain ⟨K₁, K₂, hK₁, hK₂, hne, hI, hL1, hL2, hpow, hgt, -, -⟩ :=
-    jM_four_structure D h.hyp (h1 p L h.hyp) h42 h641 h642 h643 hj
+    jM_four_structure D _h.hyp (h1 p L _h.hyp) h42 h641 h642 h643 hj
   exact ⟨K₁, K₂, hK₁, hK₂, hne, hI, hL1, hL2, hpow, hgt⟩
 
 theorem r19_C13 (D : Data G) {V₀ V : Subgroup G}
     (hodd : ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (r : ℕ)
-      (h : Ctx19_10 D V₀ V p L A t B r), Odd (S17.nOf L)) :
+      (_h : Ctx19_10 D V₀ V p L A t B r), Odd (S17.nOf L)) :
     ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (r : ℕ)
-      (h : Ctx19_10 D V₀ V p L A t B r), R19_13At D V₀ V p L A t B r h := by
-  intro p L A t B r h h3 P hP
-  exact (r_ne_three h.hAcard h3 (hodd p L A t B r h) rfl).elim
+      (_h : Ctx19_10 D V₀ V p L A t B r), R19_13At D V₀ V p L A t B r _h := by
+  intro p L A t B r _h h3 P hP
+  exact (r_ne_three _h.hAcard h3 (hodd p L A t B r _h) rfl).elim
 
 theorem r19_A17 (D : Data G) {V₀ V : Subgroup G}
     (h16 : ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G)
@@ -433,36 +433,36 @@ theorem r19_A26 (D : Data G) {V₀ V : Subgroup G}
 
 theorem r19_C26 (D : Data G) {V₀ V : Subgroup G}
     (hodd : ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (r : ℕ)
-      (h : Ctx19_10 D V₀ V p L A t B r), Odd (S17.nOf L)) :
+      (_h : Ctx19_10 D V₀ V p L A t B r), Odd (S17.nOf L)) :
     ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (r : ℕ)
-      (A₀ H : Subgroup G) (h : Ctx19_23 D V₀ V p L A t B r A₀ H),
-      R19_26At D V₀ V p L A t B r A₀ H h :=
-  fun p L A t B r _ _ h => hodd p L A t B r h.ctx22.ctx
+      (A₀ H : Subgroup G) (_h : Ctx19_23 D V₀ V p L A t B r A₀ H),
+      R19_26At D V₀ V p L A t B r A₀ H _h :=
+  fun p L A t B r _ _ _h => hodd p L A t B r _h.ctx22.ctx
 
 theorem r19_odd_any (D : Data G) {V₀ V : Subgroup G}
     (h22 : ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G)
-      (h : Ctx19_10 D V₀ V p L A t B 3), R19_22At D V₀ V p L A t B 3 h)
+      (_h : Ctx19_10 D V₀ V p L A t B 3), R19_22At D V₀ V p L A t B 3 _h)
     (h23 : ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (A₀ : Subgroup G)
-      (h : Ctx19_22 D V₀ V p L A t B 3 A₀), R19_23At D V₀ V p L A t B 3 A₀ h)
+      (_h : Ctx19_22 D V₀ V p L A t B 3 A₀), R19_23At D V₀ V p L A t B 3 A₀ _h)
     (h26 : ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (A₀ H : Subgroup G)
-      (h : Ctx19_23 D V₀ V p L A t B 3 A₀ H), R19_26At D V₀ V p L A t B 3 A₀ H h) :
+      (_h : Ctx19_23 D V₀ V p L A t B 3 A₀ H), R19_26At D V₀ V p L A t B 3 A₀ H _h) :
     ∀ (p : ℕ) (L A : Subgroup G) (t : G) (B : Subgroup G) (r : ℕ)
-      (h : Ctx19_10 D V₀ V p L A t B r), Odd (S17.nOf L) := by
-  intro p L A t B r h
+      (_h : Ctx19_10 D V₀ V p L A t B r), Odd (S17.nOf L) := by
+  intro p L A t B r _h
   rcases Nat.even_or_odd (S17.nOf L) with heven | hodd
   · exfalso
     have hcardA : Nat.card A = (2 ^ S17.nOf L - 1) * (2 ^ S17.nOf L - 1) :=
-      card_eq_of_isZModSq h.hAcard
+      card_eq_of_isZModSq _h.hAcard
     have h3dvd : 3 ∣ 2 ^ S17.nOf L - 1 := by
       have h2 : 2 ∣ S17.nOf L := even_iff_two_dvd.mp heven
-      have h := Nat.pow_sub_one_dvd_pow_sub_one 2 h2
-      norm_num at h ⊢
-      exact h
+      have _h := Nat.pow_sub_one_dvd_pow_sub_one 2 h2
+      norm_num at _h ⊢
+      exact _h
     have h3dvdA : 3 ∣ Nat.card A := by
       rw [hcardA]
       exact h3dvd.mul_right _
     have h3mem : 3 ∈ piSet A := ⟨Nat.prime_three, h3dvdA⟩
-    let h3 : Ctx19_10 D V₀ V p L A t B 3 := { h with hr := h3mem, hr5 := by norm_num }
+    let h3 : Ctx19_10 D V₀ V p L A t B 3 := { _h with hr := h3mem, hr5 := by norm_num }
     obtain ⟨A₀, hctx22⟩ := h22 p L A t B h3
     let H : Subgroup G := centralizer (A₀ : Set G)
     have hO2 : pCoreOf 2 H = ⊥ := h23 p L A t B A₀ hctx22

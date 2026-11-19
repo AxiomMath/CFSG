@@ -19,7 +19,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem exists_sq_of_fixedField (hodd : ringChar K ≠ 2) {τ : K ≃+* K} (hτ2 : τ ^ 2 = 1)
     (hτ : τ ≠ 1) (u : (fixedField K τ)ˣ) :
     ∃ c : Kˣ, c ^ 2 = Units.map (fixedField K τ).subtype u := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcard := fixedField_card_square K τ hτ2 hτ
   set q₀ := Nat.card (fixedField K τ) with hq₀
   have hoddK : ¬ Even (Nat.card K) := by
@@ -92,7 +92,7 @@ theorem exists_outer_involution_pgl_two {F : Type} [Field F] [Finite F] (hodd : 
       rw [Units.val_pow_eq_pow_val, sq, hg₀]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.scalar_apply, Matrix.diagonal_apply]
+        simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.scalar_apply]
     rw [this]
     exact ProjGenLinGroup.mk_scalar _
   · rw [detClass_mk]
@@ -123,7 +123,7 @@ theorem field_two_evidence (hK : Nat.card K = 81) {τ : K ≃+* K} (hτ2 : τ ^ 
   have hodd0 : ringChar (fixedField K τ) ≠ 2 :=
     CatalogueBHigherLinearInner.ringChar_ne_two_of_odd_card _ (by rw [hq0]; decide)
   have hneg : IsSquare (-1 : fixedField K τ) := by
-    letI : Fintype (fixedField K τ) := Fintype.ofFinite _
+    let : Fintype (fixedField K τ) := Fintype.ofFinite _
     rw [FiniteField.isSquare_neg_one_iff, ← Nat.card_eq_fintype_card, hq0]
     decide
   obtain ⟨x₀, hx₀2, hx₀⟩ := exists_outer_involution_pgl_two hodd0 hneg

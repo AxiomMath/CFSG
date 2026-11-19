@@ -105,11 +105,11 @@ theorem for_bender :
     For (fun S _ => ∃ f : ℕ, (2 ≤ f ∧ StatedClassicalModel S .PSL 2 2 f) ∨
       (2 ≤ f ∧ StatedClassicalModel S .PSU 3 2 f) ∨ (Odd f ∧ 3 ≤ f ∧ SuzukiModel S 2 f)) := by
   refine For.of_perfCentral (fun S _ _ hP => ?_)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hPSL2 | hPSU3 | hSz⟩ := hP
   · obtain ⟨hf, h⟩ := hPSL2
     obtain ⟨e⟩ := CFSG.Adapters.RankTwoModelTransports.nonempty_mulEquiv_psl_galoisField S 2 2 f h
-    haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+    have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
       Finite.of_equiv S e.toEquiv
     exact perfCentral_of_mulEquiv e
       (perfCentral_of_fusionBenderBorel (CFSG.Open.bender_psl2_borel_full f hf))
@@ -117,7 +117,7 @@ theorem for_bender :
     obtain ⟨e⟩ := (CFSG.RankTwoShapes.open_statedClassicalModel_PSU_three_two_iff S f hf).mp h
     let e2 : S ≃* CFSG.Open.PSU3 2 f :=
       e.trans (MulEquiv.subgroupCongr (CFSG.Models.benderPSU3Model_eq_psu3 f))
-    haveI : Finite (CFSG.Open.PSU3 2 f) := Finite.of_equiv S e2.toEquiv
+    have : Finite (CFSG.Open.PSU3 2 f) := Finite.of_equiv S e2.toEquiv
     exact perfCentral_of_mulEquiv e2
       (perfCentral_of_fusionBenderBorel (CFSG.Open.bender_psu3_borel_full f hf))
   · obtain ⟨-, -, h⟩ := hSz
@@ -127,7 +127,7 @@ theorem for_bender :
       (CFSG.BenderSuzuki.szModel_eq_suzukiMatrixGroup a).symm.trans
         (CFSG.Models.benderSzModel_eq_sz a)
     let e2 : S ≃* CFSG.Open.Sz a := e.trans (MulEquiv.subgroupCongr hSzEq)
-    haveI : Finite (CFSG.Open.Sz a) := Finite.of_equiv S e2.toEquiv
+    have : Finite (CFSG.Open.Sz a) := Finite.of_equiv S e2.toEquiv
     exact perfCentral_of_mulEquiv e2
       (perfCentral_of_fusionBenderBorel (CFSG.Open.bender_suzuki_borel_full a ha))
 
@@ -135,7 +135,7 @@ theorem for_M11 :
     For (fun S _ => Nonempty (S ≃* NativeSporadic.Carrier .M11)) := by
   refine For.of_card_elemAbelian_le_four (fun S _ _ hP E hE => ?_)
   obtain ⟨e⟩ := hP
-  haveI : Finite (NativeSporadic.Carrier .M11) := Finite.of_equiv S e.toEquiv
+  have : Finite (NativeSporadic.Carrier .M11) := Finite.of_equiv S e.toEquiv
   have h2 : CFSG.Open.twoRank S ≤ 2 := by
     rw [CFSG.GH74.twoRank_eq_of_mulEquiv e]
     exact CFSG.GH74.SmallRanks.twoRank_M11_le_two

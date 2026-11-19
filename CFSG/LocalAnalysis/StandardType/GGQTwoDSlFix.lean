@@ -17,12 +17,12 @@ theorem ne_of_dTau_fix (m : ℕ) (ε : Bool) {a b c : Fin m} (hab : a ≠ b)
   refine ⟨fun hca => ?_, fun hcb => ?_⟩
   · rw [hca, dTau_apply_left m ε hab] at h
     have h1 := congrFun h b
-    simp only [Pi.smul_apply, dBasis_apply, if_true, smul_eq_mul, mul_one,
-      if_neg hab.symm] at h1
+    simp only [Pi.smul_apply, dBasis_apply, ite_true, smul_eq_mul, mul_one,
+      ite_eq_right hab.symm] at h1
     exact hsg h1
   · rw [hcb, dTau_apply_right m ε hab] at h
     have h1 := congrFun h a
-    simp only [Pi.smul_apply, dBasis_apply, if_true, smul_eq_mul, mul_one, if_neg hab] at h1
+    simp only [Pi.smul_apply, dBasis_apply, ite_true, smul_eq_mul, mul_one, ite_eq_right hab] at h1
     exact hsg h1
 
 theorem exists_conj_pair_of_noncomm_fix {m : ℕ} (hm : 6 ≤ m) {a b a' b' c : Fin m}

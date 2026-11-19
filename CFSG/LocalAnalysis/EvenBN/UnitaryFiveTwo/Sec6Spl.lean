@@ -48,7 +48,7 @@ theorem V₃_cen_MY_lin (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v
     rw [show y * x * y⁻¹ * x⁻¹ = y * (x * y⁻¹ * x⁻¹) by group]
     have e' : x * y⁻¹ = y⁻¹ * x := (Data.Hyp.D₂_comm_Y' hx2 (inv_mem hy)).symm.symm
     rw [e']
-    simpa using d.Y.one_mem
+    simp
   have hMYc : d.M ⊔ d.Y ≤ cenMod d.Y d.V₃ := sup_le hMc hYc
   intro x hx q hq
   exact (hMYc hq).2 x hx

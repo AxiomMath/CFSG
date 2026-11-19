@@ -190,7 +190,7 @@ theorem exists_conj_eq_of_card_four {V W : Subgroup (PSL2 (GaloisField 3 3))}
     have hUp : IsPGroup 2 U := IsPGroup.of_card (n := 2) (by rw [hU]; norm_num)
     obtain ⟨P, hUP⟩ := hUp.exists_le_sylow
     refine ⟨P, (Subgroup.eq_of_le_of_card_ge hUP ?_).symm⟩
-    obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2)).mp P.isPGroup'
+    obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2)).mp P.isPGroup
     have hdvd : 2 ^ m ∣ 9828 := by
       rw [← hm, ← card_psl2_27]
       exact Subgroup.card_subgroup_dvd_card _

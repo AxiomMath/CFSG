@@ -26,7 +26,7 @@ theorem s1614e3_row4_hrow (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig
   have hT2 : ∀ x : Vtil ⊥ V hV, x ^ 2 = 1 := s15_Infra_vtil_sq_eq_one ⊥ V hV
   have hpσ : p ∈ D.sig := h4At.2.2
   obtain ⟨ι, hι, Y, hind, hinj, hsup, hcard, hrk, hperm, hsurj⟩ := s16n9b_case4_data h4At.2.1
-  letI := hι
+  let := hι
   obtain ⟨F, hFX, hFel, hFcard, hFY, -⟩ := s16n9b_case4_kernel hT2 hp (by norm_num : 1 < 3)
     h4At.1 (s16n9b_case4_pcore D hV hc hpp (by norm_num) h4At.1) hge hind hinj hsup
     hcard hrk hperm hsurj
@@ -37,7 +37,7 @@ theorem s1614e3_row4_hrow (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig
     have hBel : IsElemAbelian p (F ⊓ centSub (Y i)) := hFel.mono inf_le_left
     refine ⟨F ⊓ centSub (Y i), inf_le_left.trans hFX, hBel.isPGroup, ?_, ?_⟩
     · intro hcyc
-      haveI : Fintype ↥(F ⊓ centSub (Y i)) := Fintype.ofFinite _
+      have : Fintype ↥(F ⊓ centSub (Y i)) := Fintype.ofFinite _
       have hle : Fintype.card ↥(F ⊓ centSub (Y i)) ≤ p := by
         have h := IsCyclic.card_pow_eq_one_le (α := ↥(F ⊓ centSub (Y i))) hpp.pos
         have hall : (Finset.univ.filter fun a : ↥(F ⊓ centSub (Y i)) => a ^ p = 1) =

@@ -18,7 +18,7 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 theorem simple_nonab_of_mulEquiv {M S : Type*} [Group M] [Group S] [IsSimpleGroup S]
     (hnab : ∃ a b : S, a * b ≠ b * a) (e : M ≃* S) :
     IsSimpleGroup M ∧ (∃ a b : M, a * b ≠ b * a) ∧ center M = ⊥ := by
-  haveI : IsSimpleGroup M := e.isSimpleGroup
+  have : IsSimpleGroup M := e.isSimpleGroup
   have hnab' : ∃ a b : M, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e.symm a, e.symm b, fun h => hab (e.symm.injective (by rw [map_mul, map_mul, h]))⟩
@@ -31,12 +31,14 @@ namespace Red
 variable {J L : Subgroup G} {H : Type} [Group H] [Finite H] (r : Red J L H)
 include r
 
+omit [Finite G] in
 theorem pPrimeCore_Lb_eq_bot (hev : 2 ∣ Nat.card ↥L) : pPrimeCore 2 ↥r.Lb = ⊥ := by
-  haveI := r.simpleL
+  have := r.simpleL
   obtain ⟨hs, -, -⟩ := simple_nonab_of_mulEquiv r.nonabL r.eL
   exact CFSG.ComponentClassification.HarrisLit.L415.pPrimeCore_eq_bot_of_simple_even hs
     (by rw [Nat.card_congr r.eL.toEquiv]; exact hev)
 
+omit [Finite G] in
 theorem lieModel_Lb (h6 : Nonempty (↥L ≃* alternatingGroup (Fin 6))) :
     LieModel (↥r.Lb ⧸ pPrimeCore 2 ↥r.Lb) .PSL 2 3 2 := by
   obtain ⟨e⟩ := h6
@@ -48,11 +50,12 @@ theorem lieModel_Lb (h6 : Nonempty (↥L ≃* alternatingGroup (Fin 6))) :
     ⟨((QuotientGroup.quotientMulEquivOfEq hO).trans QuotientGroup.quotientBot).trans
       (r.eL.trans e)⟩
 
+omit [Finite G] in
 theorem psl4_card (h6 : Nonempty (↥L ≃* alternatingGroup (Fin 6))) {p f : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hL : LieModel ↥(generalizedFitting H) .PSL 4 p f) :
     p ^ f = 3 ∨ p ^ f = 9 := by
   classical
-  haveI : (generalizedFitting H).Normal := LocalCores.generalized_fitting_characteristic.2
+  have : (generalizedFitting H).Normal := LocalCores.generalized_fitting_characteristic.2
   obtain ⟨⟨-, he, -⟩, k, _, _, hk, ⟨φ₀⟩⟩ :=
     CFSG.GH74.statedClassicalModel_of_lieModel (by norm_num) hL
   let φ : ↥(generalizedFitting H) ≃* LinearFlag.projectiveSL 4 k :=
@@ -73,12 +76,13 @@ theorem psl4_card (h6 : Nonempty (↥L ≃* alternatingGroup (Fin 6))) {p f : �
     rw [hk] at h
     exact h.symm
 
+omit [Finite G] in
 theorem psu4_card (h6 : Nonempty (↥L ≃* alternatingGroup (Fin 6))) {p f : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hL : LieModel ↥(generalizedFitting H) .PSU 4 p f) :
     p ^ f = 3 ∨ p ^ f = 9 := by
   classical
-  haveI : (generalizedFitting H).Normal := LocalCores.generalized_fitting_characteristic.2
-  haveI := r.simple
+  have : (generalizedFitting H).Normal := LocalCores.generalized_fitting_characteristic.2
+  have := r.simple
   obtain ⟨⟨-, he, -⟩, K, _, _, hK, ⟨φ₀⟩⟩ :=
     CFSG.GH74.statedClassicalModel_of_lieModel (by norm_num) hL
   have hud : UnitaryFieldData p f K := ⟨hp, he, by rw [hK, ← pow_mul, mul_comm]⟩
@@ -96,12 +100,13 @@ theorem psu4_card (h6 : Nonempty (↥L ≃* alternatingGroup (Fin 6))) {p f : �
   · right
     exact h.symm
 
+omit [Finite G] in
 theorem false_of_alt7 (hGLS : CFSG.ComponentClassification.CatLeaf.GLS3OddLieAutComponentsInput)
     (hO : CFSG.ComponentClassification.CatLeaf.LieOrderFormulasInput)
     (h7 : Nonempty (↥L ≃* alternatingGroup (Fin 7))) (hodd : OddLieType ↥(generalizedFitting H)) :
     False := by
-  haveI : (generalizedFitting H).Normal := LocalCores.generalized_fitting_characteristic.2
-  haveI := r.simpleL
+  have : (generalizedFitting H).Normal := LocalCores.generalized_fitting_characteristic.2
+  have := r.simpleL
   obtain ⟨hα2, hα1⟩ := CFSG.ComponentClassification.GSThmB.X10Rec.conjNormal_involutive
     r.cent_eq r.order
   have hα : orderOf (MulAut.conjNormal r.x : MulAut ↥(generalizedFitting H)) = 2 :=

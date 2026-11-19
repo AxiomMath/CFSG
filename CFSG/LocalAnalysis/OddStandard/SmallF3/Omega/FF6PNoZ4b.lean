@@ -35,7 +35,7 @@ private theorem ffOutFF6PNoZ4b_b04_type (hQ : Q.Nondegenerate)
   have hneu : ffOpt ({0,4} : Finset (Fin 5)) ≠ Finset.univ := by decide
   have hcard : (ffOpt ({0,4} : Finset (Fin 5))).card = 2 := by rw [ffOpt_card]; decide
   have hif : (if none ∈ ffOpt ({0,4} : Finset (Fin 5)) then (-1 : ℤˣ) else 1) = 1 :=
-    if_neg (none_notMem_ffOpt _)
+    ite_eq_right (none_notMem_ffOpt _)
   have h := ff6p_simHasType_signChange hQ fr (K := ffOpt ({0,4} : Finset (Fin 5))) hne0 hneu
   rw [hcard, hif] at h
   rw [show (-1 : ℤˣ) ^ (2 / 2) = -1 from by decide, one_mul] at h
@@ -124,9 +124,9 @@ theorem ff6p_cent_B1p_sq (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
       _ = (ffTs fr * ffTs fr) * (ffOmegaToSim hQ b * ffOmegaToSim hQ b) := by group
       _ = 1 := by rw [ffTs_mul_self, hιb, mul_one]
 
-theorem ff6p_z4_flip_z0 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) (h2 : 2 ≤ Module.finrank (ZMod 3) V)
-    (fr : PFrame Q (Option (Fin 5)) ffC) {z : ProjSim Q} (hz4 : z ^ 4 = 1)
+theorem ff6p_z4_flip_z0 (hQ : Q.Nondegenerate) (_hdim : Module.finrank (ZMod 3) V = 6)
+    (_hsgn : quadSign Q = 1) (h2 : 2 ≤ Module.finrank (ZMod 3) V)
+    (fr : PFrame Q (Option (Fin 5)) ffC) {z : ProjSim Q} (_hz4 : z ^ 4 = 1)
     (hv : z ^ 2 = ffOmegaToSim hQ (ffZ0s hQ fr))
     (hflip : ∀ (J : Finset (Fin 5)) (b : ↥(omegaProj hQ)), Even J.card →
       (b : ProjOrth Q) = toProj Q (fr.signChange (ffOpt J)) →
@@ -199,7 +199,7 @@ theorem ff6p_z4_flip_z0 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
     exact (none_notMem_ffOpt _) hmem'
 
 theorem ff6p_z4_flip_ts (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (fr : PFrame Q (Option (Fin 5)) ffC) {z : ProjSim Q} (hz4 : z ^ 4 = 1)
+    (fr : PFrame Q (Option (Fin 5)) ffC) {z : ProjSim Q} (_hz4 : z ^ 4 = 1)
     (hv : z ^ 2 = ffTs fr ∨ z ^ 2 = ffTs fr * ffOmegaToSim hQ (ffZ0s hQ fr))
     (hflip : ∀ (J : Finset (Fin 5)) (b : ↥(omegaProj hQ)), Even J.card →
       (b : ProjOrth Q) = toProj Q (fr.signChange (ffOpt J)) →

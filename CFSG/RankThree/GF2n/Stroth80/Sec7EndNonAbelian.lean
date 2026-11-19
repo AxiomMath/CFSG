@@ -104,7 +104,7 @@ theorem endg_nonabelian_of (h : EndgameHyp X A R N H t) (hTI : IsTIOf A)
       ¬ p ∣ ordA 2 (2 ^ b) ∧ ¬ p ∣ ordG2 (2 ^ b) ∧ ¬ p ∣ ordTrialityD4 (2 ^ b) ∧
       ¬ p ∣ 6048 ∧ ¬ p ∣ 360 ∧ ¬ p ∣ 604800) : False := by
   classical
-  haveI := h.H_normal
+  have := h.H_normal
   obtain ⟨S, _, π, hπs, hπk, hS, h16, hprime⟩ := h.quot
   obtain ⟨Kp, hKR, hKperf, hKne, hRK, hKnorm, hKidx⟩ := hK
   have hA1 : A ≠ ⊥ := fun hb => h.t_ne (by
@@ -116,7 +116,7 @@ theorem endg_nonabelian_of (h : EndgameHyp X A R N H t) (hTI : IsTIOf A)
   have G := endg_omegaPart2 hO
   have hsetup := endg_corB_setup hO F G hne h.t_mem h.t_ne
   set U : Subgroup X := Subgroup.normalClosure ({t} : Set X) with hU
-  haveI hUn : U.Normal := Subgroup.normalClosure_normal
+  have hUn : U.Normal := Subgroup.normalClosure_normal
   have htU : t ∈ U := Subgroup.subset_normalClosure (Set.mem_singleton t)
   have hUH : U ≤ H :=
     Subgroup.normalClosure_le_normal (Set.singleton_subset_iff.mpr (h.R_le_H (h.A_le_R h.t_mem)))
@@ -228,7 +228,7 @@ theorem endg_nonabelian_of (h : EndgameHyp X A R N H t) (hTI : IsTIOf A)
     have hord : orderOf (e tU) = 2 := by
       rw [MulEquiv.orderOf_eq, Subgroup.orderOf_mk]
       exact hsetup.orderOf_eq
-    haveI := CFSG.ClassicalInvolution.Disconnected.AschTight.isSolvable_centralizer_of_isBenderGroup
+    have := CFSG.ClassicalInvolution.Disconnected.AschTight.isSolvable_centralizer_of_isBenderGroup
       hB hord
     have hmem : ∀ k : ↥Kp, (e.toMonoidHom.comp φ) k ∈ Subgroup.centralizer ({e tU} : Set _) := by
       intro k
@@ -243,9 +243,9 @@ theorem endg_nonabelian_of (h : EndgameHyp X A R N H t) (hTI : IsTIOf A)
       intro a b hab
       have := congrArg Subtype.val hab
       exact hφi (e.injective this)
-    haveI : Group.IsSolvable ↥Kp := Group.isSolvable_of_isSolvable_injective hψ
-    haveI : Group.IsPerfect ↥Kp := Subgroup.isPerfect_iff.mpr hKperf
-    haveI : Nontrivial ↥Kp := (Subgroup.nontrivial_iff_ne_bot Kp).mpr hKne
+    have : Group.IsSolvable ↥Kp := Group.isSolvable_of_isSolvable_injective hψ
+    have : Group.IsPerfect ↥Kp := Subgroup.isPerfect_iff.mpr hKperf
+    have : Nontrivial ↥Kp := (Subgroup.nontrivial_iff_ne_bot Kp).mpr hKne
     exact Group.IsPerfect.not_isSolvable ↥Kp inferInstance
   ·
     obtain ⟨φ, hφi, -⟩ := hcommon (CFSG.Timmesfeld.CorB.corBList_of_outcomeTwo hO4)

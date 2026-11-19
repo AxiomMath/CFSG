@@ -72,7 +72,7 @@ theorem gcK_cons (f : Nat) (F : List Nat) (r : Nat) (R : List Nat) (b : Bool) (Q
       strictN (Nat.shiftRight l 1) fun l0 => strictN (Nat.shiftRight (Nat.xor l r) 1) fun l1 =>
         strictN (gcK F R Q v l0) fun x =>
         strictN (gcK F R Q (Bool.xor v (Bool.xor b (bit l 0))) l1) fun y => Nat.add x y := rfl
-  simp only [e, strictN_eq', bit_eq'] <;> rfl
+  simp only [e, strictN_eq', bit_eq']; rfl
 
 theorem rowOK_spec (Qt f : Nat) : ∀ (L : List Nat) (r : Nat), rowOK Qt f L r = true →
     ∀ k (hk : k < L.length), r.testBit k = bf Qt f L[k]

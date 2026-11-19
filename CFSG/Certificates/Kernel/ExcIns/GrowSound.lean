@@ -86,8 +86,8 @@ theorem testBit_rep {B L : Nat} (hB : B < 2 ^ L) : ∀ N v,
     rw [e, Nat.testBit_two_pow_mul_add _ hB, testBit_rep hB N]
     by_cases hv : v < L
     · have h1 : v < L * (N + 1) := by rw [Nat.mul_succ]; omega
-      rw [if_pos hv, Nat.mod_eq_of_lt hv, decide_eq_true h1, Bool.true_and]
-    · rw [if_neg hv]
+      rw [ite_eq_left hv, Nat.mod_eq_of_lt hv, decide_eq_true h1, Bool.true_and]
+    · rw [ite_eq_right hv]
       have hL : (v - L) % L = v % L := by
         conv_rhs => rw [show v = (v - L) + L by omega]
         rw [Nat.add_mod_right]
@@ -132,8 +132,6 @@ theorem testBit_digP {W k a d : Nat} (hW : W = 3 ^ d) (hk : k < d) (ha : a < 3) 
   rw [e1, e2, e3]
   change (((2 ^ 3 ^ k - 1) <<< (a * 3 ^ k)) * ((2 ^ W - 1) / (2 ^ (3 * 3 ^ k) - 1))).testBit v = _
   rw [hG]
-  change ((2 ^ 3 ^ k - 1) <<< (a * 3 ^ k) * ∑ j ∈ Finset.range (3 ^ (d - k - 1)),
-    (2 ^ (3 * 3 ^ k)) ^ j).testBit v = _
   rw [testBit_rep hB, ← hL, Nat.testBit_shiftLeft, Nat.testBit_two_pow_sub_one]
   have hdig : digK v k = v % (3 ^ k * 3) / 3 ^ k := by
     rw [Nat.mod_mul_right_div_self]
@@ -283,7 +281,7 @@ theorem testBit_maskK (p : Nat → Bool) (j : Nat) :
     · subst hj
       cases hpn : p j
       · simp [testBit_maskK p j j]
-      · simp [hb, testBit_maskK p j j]
+      · simp [testBit_maskK p j j]
     · have hne : n ≠ j := fun e => hj e.symm
       have hlt : (j < n + 1) ↔ j < n := by omega
       split
@@ -363,7 +361,7 @@ theorem testBit_meetK {c : Nat} : ∀ (PL : List Nat) (s A v : Nat),
       refine ⟨hA, fun p hp hc => ?_⟩
       rcases p with _ | p
       · rw [Nat.add_zero] at hc
-        rw [if_pos hc] at h1
+        rw [ite_eq_left hc] at h1
         change (A &&& q).testBit v = true at h1
         rw [Nat.testBit_and, Bool.and_eq_true] at h1
         rw [List.getElem_cons_zero]
@@ -423,7 +421,7 @@ theorem testBit_overK {A : Nat} : ∀ (PL : List Nat) (s acc u : Nat),
         · left
           rw [List.getElem_cons_zero] at h2
           have hq : (Nat.land A q == A) = true := beq_iff_eq.mpr h2
-          rw [if_pos hq, hb]
+          rw [ite_eq_left hq, hb]
           simp
         · right
           rw [List.getElem_cons_succ] at h2
@@ -534,7 +532,6 @@ theorem stepK_eq {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx h
       intro hn
       simp only [Nat.fold_succ]
       rw [← ih (by omega), tabsK_adj (by rw [← h.hr]; omega : n < nroots m)]
-      change nif (bit S n) _ _ = _
       rw [nif_eq, bit_eq]
       rfl
   rw [stepK, key K.r le_rfl, Chk.growN, ← h.hr]
@@ -559,8 +556,8 @@ theorem growIt_eq (K : KT) (M : Nat) (f : Nat → Nat) (hf : ∀ S, stepK K M S 
         | succ k ih =>
           change f (Nat.repeat f k S) = S
           rw [ih, hS]
-      rw [if_pos (by simp [hS]), hfix]
-    · rw [if_neg (by simpa using hS), growIt_eq K M f hf n (f S), repeat_comm]
+      rw [ite_eq_left (by simp [hS]), hfix]
+    · rw [ite_eq_right (by simpa using hS), growIt_eq K M f hf n (f S), repeat_comm]
       rfl
 
 theorem growCK_eq {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (h : TabsOK m K fx hx fx' hx')

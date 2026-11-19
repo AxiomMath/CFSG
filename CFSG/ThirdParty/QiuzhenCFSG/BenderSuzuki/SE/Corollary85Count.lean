@@ -75,7 +75,7 @@ public theorem normalizer_fixedPoint_hypothesisA1
   let A : Type u :=
     {omega : conjugateCosetSpace M //
       omega ∈ fixedPointsOfSubgroup X (conjugateCosetSpace M) Y}
-  letI : MulAction N A :=
+  let : MulAction N A :=
     normalizerFixedPointAction X (conjugateCosetSpace M) Y
   change HypothesisA1 N A H D Q tn
   have htwoN : MulAction.IsMultiplyPretransitive N A 2 := by
@@ -272,7 +272,7 @@ private theorem normalizer_fixedPoint_rankOne_count
   let A : Type u :=
     {omega : conjugateCosetSpace M //
       omega ∈ fixedPointsOfSubgroup X (conjugateCosetSpace M) Y}
-  letI : MulAction N A :=
+  let : MulAction N A :=
     normalizerFixedPointAction X (conjugateCosetSpace M) Y
   have htwoN : MulAction.IsMultiplyPretransitive N A 2 := by
     rw [MulAction.is_two_pretransitive_iff]
@@ -526,7 +526,7 @@ public theorem Proposition84Statement.normalizerIn_involutions_card_eq
   obtain ⟨P, hSdef⟩ := hSsylow
   have hSp : IsPGroup 2 S := by
     rw [hSdef]
-    exact P.isPGroup'.map
+    exact P.isPGroup.map
       (centralizerTwoPrimeResidual Y ⊓ M).subtype
   have huC : d83.u ∈ Subgroup.centralizer (Y : Set X) := by
     rw [Subgroup.mem_centralizer_iff]

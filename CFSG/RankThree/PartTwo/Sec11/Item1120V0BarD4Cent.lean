@@ -18,6 +18,7 @@ section Cent
 
 variable {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {ℓ f : ℕ} [hℓ : Fact ℓ.Prime]
 
+omit [Finite K] in
 theorem isSimpleGroup_graphFixedRootGroup_d4 (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 3) (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) :
     IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by

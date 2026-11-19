@@ -389,12 +389,12 @@ theorem exists_isPSLType_borel_or_top {I D P Y : Subgroup H} {p d : ℕ} [Fact p
 
 theorem i_le_Y_of_borel {I D P Y : Subgroup H} {p d : ℕ}
     (hhyp : ThreeTenHyp I D P Y p d) (hAut : MulAutTrivialOfCoprimeOrder ↥I d)
-    (B : Subgroup H) (hBle : B ≤ Y ⊓ I)
-    (hBmax : ∀ C, B ≤ C → C ≤ Y ⊓ I → C = B ∨ C = I) (hBcase : Y ⊓ I = B)
+    (B : Subgroup H) (_hBle : B ≤ Y ⊓ I)
+    (_hBmax : ∀ C, B ≤ C → C ≤ Y ⊓ I → C = B ∨ C = I) (_hBcase : Y ⊓ I = B)
     (hDbot : D ⊓ I = ⊥) (hSyl : CFSG.ABGLocalTools.IsSylowOf d (D ⊓ I) I) : I ≤ Y := by
   have hbase : ThreeTenHyp I D P Y p d := hhyp
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   by_cases hdvd : d ∣ Nat.card ↥I
   · have hfacpos : 0 < (Nat.card ↥I).factorization d :=
       hd.factorization_pos_of_dvd Nat.card_pos.ne' hdvd
@@ -406,7 +406,7 @@ theorem i_le_Y_of_borel {I D P Y : Subgroup H} {p d : ℕ}
     rw [hcardbot] at hdvd'
     exact absurd hdvd' hd.not_dvd_one
   · have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
-    haveI : I.Normal := hInormal
+    have : I.Normal := hInormal
     have htriv : ∀ x ∈ D, MulAut.conjNormal (G := H) (H := I) x = 1 := by
       intro x hx
       by_contra hx1
@@ -463,14 +463,14 @@ theorem i_le_Y_of_threeTenHyp_of_isSLType {I D P Y : Subgroup H} {p d : ℕ}
     (hhyp : ThreeTenHyp I D P Y p d) (hcase : IsSLType 2 (ZMod p) ↥I) : I ≤ Y := by
   have hbase : ThreeTenHyp I D P Y p d := hhyp
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact d.Prime := ⟨hd⟩
   rcases exists_isSLType_borel_or_top hbase hcase with htop | ⟨e, hB⟩
   · exact inf_eq_right.mp htop
   · have hbot : D ⊓ I = ⊥ :=
       D_inf_I_eq_bot_of_isSLType (B := Y ⊓ I) hbase e rfl hB
     have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
-    haveI : I.Normal := hInormal
+    have : I.Normal := hInormal
     have hSyl : CFSG.ABGLocalTools.IsSylowOf d (D ⊓ I) I :=
       isSylowOf_inf_of_normal (p := d) hInormal hD
     have hAut : MulAutTrivialOfCoprimeOrder ↥I d := by
@@ -493,7 +493,7 @@ theorem mulAut_eq_one_of_not_dvd_card_isPSLType {I : Type} [Group I] [Finite I] 
     (hp : p.Prime) (hd : d.Prime) (hd2 : d ≠ 2) (hnd : ¬ d ∣ Nat.card I)
     (hI : IsPSLType 2 (ZMod p) I) (δ : MulAut I) (hδ : orderOf δ = d) : δ = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hI
   have houtI : Nat.card (Outer I) ∣ 2 := by
     rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv]
@@ -523,14 +523,14 @@ theorem i_le_Y_of_threeTenHyp_of_isPSLType {I D P Y : Subgroup H} {p d : ℕ}
     (hhyp : ThreeTenHyp I D P Y p d) (hcase : IsPSLType 2 (ZMod p) ↥I) : I ≤ Y := by
   have hbase : ThreeTenHyp I D P Y p d := hhyp
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact d.Prime := ⟨hd⟩
   rcases exists_isPSLType_borel_or_top hbase hcase with htop | ⟨e, hB⟩
   · exact inf_eq_right.mp htop
   · have hbot : D ⊓ I = ⊥ :=
       D_inf_I_eq_bot_of_isPSLType (B := Y ⊓ I) hbase e rfl hB
     have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
-    haveI : I.Normal := hInormal
+    have : I.Normal := hInormal
     have hSyl : CFSG.ABGLocalTools.IsSylowOf d (D ⊓ I) I :=
       isSylowOf_inf_of_normal (p := d) hInormal hD
     have hAut : MulAutTrivialOfCoprimeOrder ↥I d := by

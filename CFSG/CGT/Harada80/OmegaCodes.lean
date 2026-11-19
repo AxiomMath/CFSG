@@ -69,8 +69,8 @@ theorem mApp_range_pow {d x : ℕ} (hx : x < 2 ^ d) : mApp ((List.range d).map (
       simp only [List.map_cons, mApp]
       rw [ih (y / 2), Nat.shiftLeft_xor_distrib]
       by_cases hy : y % 2 = 1
-      · simp only [hy, if_true]
-      · simp only [hy, if_false, Nat.zero_xor]
+      · simp only [hy, ite_true]
+      · simp only [hy, ite_false, Nat.zero_xor]
         rw [Nat.shiftLeft_eq]
         norm_num
   induction d generalizing x with
@@ -90,9 +90,9 @@ theorem mApp_range_pow {d x : ℕ} (hx : x < 2 ^ d) : mApp ((List.range d).map (
         rw [Nat.shiftLeft_eq, Nat.pow_one, Nat.mul_comm]
       rw [hshift]
       rcases Nat.mod_two_eq_zero_or_one x with h | h
-      · rw [if_neg (by omega), Nat.zero_xor]
+      · rw [ite_eq_right (by omega), Nat.zero_xor]
         omega
-      · rw [if_pos h, Nat.xor_comm, Nat.xor_one_of_even (even_two_mul (x / 2))]
+      · rw [ite_eq_left h, Nat.xor_comm, Nat.xor_one_of_even (even_two_mul (x / 2))]
         omega
     rw [List.range_succ_eq_map, List.map_cons, List.map_map]
     change mApp (2 ^ 0 :: List.map (fun j => 2 ^ (j + 1)) (List.range d)) x = x

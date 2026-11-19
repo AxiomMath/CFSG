@@ -153,7 +153,7 @@ theorem exists_pgroup_lift {y : G} (hyX : y ∈ normalizer (L1 : Set G)) (hy2 : 
     exact ⟨_, this, rfl⟩
   refine ⟨P, hPX, ?_, fun l hl => hSyin l (Subgroup.mem_sup_left hl) (Subgroup.le_normalizer hl),
     hSyin y (Subgroup.mem_sup_right (Subgroup.mem_zpowers y)) hyX, ?_⟩
-  · obtain ⟨k, hk⟩ := Sy.isPGroup'.exists_card_eq
+  · obtain ⟨k, hk⟩ := Sy.isPGroup.exists_card_eq
     exact IsPGroup.of_card (n := k) (by
       rw [Subgroup.card_map_of_injective hφinj]
       exact hk)

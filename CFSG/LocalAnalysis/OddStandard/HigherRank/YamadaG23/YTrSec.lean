@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] [Finite Γ₁] [Finite Γ₂] {f : Γ₁ →* Γ₂}
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private theorem map_subgroupOf_equivMapOfInjective (hf : Function.Injective f)
     (V N : Subgroup Γ₁) :
     (N.subgroupOf V).map (Subgroup.equivMapOfInjective V f hf) =
@@ -30,6 +31,7 @@ private theorem map_subgroupOf_equivMapOfInjective (hf : Function.Injective f)
     rw [h2]
     exact hn
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private theorem normal_subgroupOf_of_map (hf : Function.Injective f) (V N : Subgroup Γ₁)
     (h' : ((N.map f).subgroupOf (V.map f)).Normal) : (N.subgroupOf V).Normal := by
   have hmap : ((N.subgroupOf V).map
@@ -39,6 +41,7 @@ private theorem normal_subgroupOf_of_map (hf : Function.Injective f) (V N : Subg
   rwa [Subgroup.comap_map_eq_self_of_injective
     (Subgroup.equivMapOfInjective V f hf).injective] at this
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private theorem normal_map_subgroupOf (hf : Function.Injective f) (V N : Subgroup Γ₁)
     (h : (N.subgroupOf V).Normal) : ((N.map f).subgroupOf (V.map f)).Normal := by
   have hmap : ((N.subgroupOf V).map
@@ -54,6 +57,7 @@ private noncomputable def quotientCongr (hf : Function.Injective f) (V N : Subgr
   QuotientGroup.congr (N.subgroupOf V) ((N.map f).subgroupOf (V.map f))
     (Subgroup.equivMapOfInjective V f hf) (map_subgroupOf_equivMapOfInjective hf V N)
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private theorem quotientCongr_mk' (hf : Function.Injective f) (V N : Subgroup Γ₁)
     [hN : (N.subgroupOf V).Normal] [hN' : ((N.map f).subgroupOf (V.map f)).Normal]
     (x : ↥V) :
@@ -63,6 +67,7 @@ private theorem quotientCongr_mk' (hf : Function.Injective f) (V N : Subgroup Γ
   QuotientGroup.congr_mk' (N.subgroupOf V) ((N.map f).subgroupOf (V.map f))
     (Subgroup.equivMapOfInjective V f hf) (map_subgroupOf_equivMapOfInjective hf V N) x
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private theorem quotientCongr_comp (hf : Function.Injective f) (V N : Subgroup Γ₁)
     [hN : (N.subgroupOf V).Normal] [hN' : ((N.map f).subgroupOf (V.map f)).Normal] :
     (quotientCongr hf V N).toMonoidHom.comp (QuotientGroup.mk' (N.subgroupOf V)) =
@@ -73,6 +78,7 @@ private theorem quotientCongr_comp (hf : Function.Injective f) (V N : Subgroup �
 
 attribute [irreducible] quotientCongr
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private theorem map_subgroupOf_quotient (hf : Function.Injective f) (V N X : Subgroup Γ₁)
     [hN : (N.subgroupOf V).Normal] [hN' : ((N.map f).subgroupOf (V.map f)).Normal] :
     ((X.map f).subgroupOf (V.map f)).map
@@ -119,13 +125,13 @@ theorem secProp_map_type (hf : Function.Injective f) (V N : Subgroup Γ₁)
   constructor
   · rintro ⟨h', hq'⟩
     have hN := normal_subgroupOf_of_map hf V N h'
-    haveI := hN
-    haveI := h'
+    have := hN
+    have := h'
     exact ⟨hN, (hQ _ _ (quotientCongr hf V N)).mpr hq'⟩
   · rintro ⟨h, hq⟩
     have hN' := normal_map_subgroupOf hf V N h
-    haveI := h
-    haveI := hN'
+    have := h
+    have := hN'
     exact ⟨hN', (hQ _ _ (quotientCongr hf V N)).mp hq⟩
 
 theorem secProp_maxElem_map (hf : Function.Injective f) (V N X₁ X₂ : Subgroup Γ₁) :
@@ -136,8 +142,8 @@ theorem secProp_maxElem_map (hf : Function.Injective f) (V N X₁ X₂ : Subgrou
   constructor
   · rintro ⟨h', hp'⟩
     have hN := normal_subgroupOf_of_map hf V N h'
-    haveI := hN
-    haveI := h'
+    have := hN
+    have := h'
     refine ⟨hN, ?_⟩
     dsimp only
     apply (Subgroup.map_injective (f := (quotientCongr hf V N).toMonoidHom)
@@ -146,8 +152,8 @@ theorem secProp_maxElem_map (hf : Function.Injective f) (V N X₁ X₂ : Subgrou
       ← map_subgroupOf_quotient hf V N X₁, ← map_subgroupOf_quotient hf V N X₂]
   · rintro ⟨h, hp⟩
     have hN' := normal_map_subgroupOf hf V N h
-    haveI := h
-    haveI := hN'
+    have := h
+    have := hN'
     refine ⟨hN', ?_⟩
     dsimp only
     rw [← maxElemAbelian_map (quotientCongr hf V N), hp, Set.image_pair,
@@ -160,8 +166,8 @@ theorem secProp_thompsonRank_map (hf : Function.Injective f) (V N X : Subgroup �
   constructor
   · rintro ⟨h', hp'⟩
     have hN := normal_subgroupOf_of_map hf V N h'
-    haveI := hN
-    haveI := h'
+    have := hN
+    have := h'
     refine ⟨hN, ?_⟩
     dsimp only
     apply Subgroup.map_injective (f := (quotientCongr hf V N).toMonoidHom)
@@ -170,8 +176,8 @@ theorem secProp_thompsonRank_map (hf : Function.Injective f) (V N X : Subgroup �
       ← map_subgroupOf_quotient hf V N X]
   · rintro ⟨h, hp⟩
     have hN' := normal_map_subgroupOf hf V N h
-    haveI := h
-    haveI := hN'
+    have := h
+    have := hN'
     refine ⟨hN', ?_⟩
     dsimp only
     rw [← thompsonRank_top_map_equiv (quotientCongr hf V N), hp,

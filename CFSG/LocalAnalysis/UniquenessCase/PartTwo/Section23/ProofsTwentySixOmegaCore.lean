@@ -65,7 +65,7 @@ theorem Ctx23L.exists_mem_B0_not_mem_centralizer_Z_of_dvd {D : Data G} {Ch : Cho
   have hr_pi : r ∈ piSet c.B0 := by
     rw [c.hpi]
     exact ⟨hr, hrdvd.trans (Nat.pow_sub_one_dvd_pow_sub_one (x := 2) hmdvd)⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨b, hbo⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) r hr_pi.2
   have hboG : orderOf (b : G) = r := by rw [Subgroup.orderOf_coe, hbo]
   refine ⟨(b : G), b.2, hboG, ?_⟩
@@ -91,7 +91,7 @@ theorem exists_bar2_normal_noncyclic_exponent_classTwo {M : Subgroup G} {q : ℕ
     (hq2 : q ≠ 2) (hnc : ¬ IsCyclic ↥(CFSG.pCore q (Bar2 M))) :
     ∃ Dbar : Subgroup (Bar2 M), Dbar.Normal ∧ IsPGroup q ↥Dbar ∧ Dbar ≠ ⊥ ∧
       ¬ IsCyclic ↥Dbar ∧ (∀ y ∈ Dbar, y ^ q = 1) ∧ ⁅⁅Dbar, Dbar⁆, Dbar⁆ = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hQp : IsPGroup q (CFSG.pCore q (Bar2 M)) := CFSG.pCore_isPGroup
   have hQn : (CFSG.pCore q (Bar2 M)).Normal := CFSG.pCore_normal
   obtain ⟨Dbar, hle, hne, hDnc, hexp, hcl, hnorm⟩ :=
@@ -111,8 +111,8 @@ theorem inf_centralizer_self_facts {H : Type*} [Group H] [Finite H] {p : ℕ} [F
       IsPGroup p ↥(Dbar ⊓ Subgroup.centralizer (Dbar : Set H)) ∧
       Dbar ⊓ Subgroup.centralizer (Dbar : Set H) ≠ ⊥ ∧
       CFSG.Open.IsElemAbelian p (Dbar ⊓ Subgroup.centralizer (Dbar : Set H)) := by
-  haveI hDn' : Dbar.Normal := hDn
-  haveI hCn : (Subgroup.centralizer (Dbar : Set H)).Normal := Subgroup.normal_centralizer
+  have hDn' : Dbar.Normal := hDn
+  have hCn : (Subgroup.centralizer (Dbar : Set H)).Normal := Subgroup.normal_centralizer
   refine ⟨Subgroup.normal_inf_normal _ _, hDp.to_le inf_le_left, ?_, ?_⟩
   · obtain ⟨z, hzD, hzo, hz⟩ :=
       CFSG.GroupTheory.WielandtProduct.exists_orderOf_eq_commute_of_isPGroup hDp hDne
@@ -129,7 +129,7 @@ theorem card_modEq_one_of_inf_centralizer_singleton_eq_bot {H : Type*} [Group H]
     {E : Subgroup H} (hEn : E.Normal) {x : H} {r : ℕ} (hr : r.Prime) (hxr : x ^ r = 1)
     (hfix : E ⊓ Subgroup.centralizer ({x} : Set H) = ⊥) :
     Nat.card E ≡ 1 [MOD r] := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine CFSG.GroupTheory.card_modEq_one_of_isPGroup_normalizes_of_inf_centralizer_eq_bot
     (X := Subgroup.zpowers x) (IsPGroup.of_card_dvd_pow (n := 1) ?_) ?_ ?_
   · rw [Nat.card_zpowers, pow_one]
@@ -155,7 +155,7 @@ theorem Ctx23L.false_of_mem_B0_not_mem_centralizer_Z {D : Data G} {Ch : Choice20
     (hbZ : b ∉ Subgroup.centralizer (D.Z : Set G)) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hr13 : r ≠ 13) (hbo : orderOf b = r) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbM : b ∈ D.M := c.hBM hb
   obtain ⟨Dbar, hDn, hDq, hDne, hDnc, hDexp, hDcl⟩ :=
     exists_bar2_normal_noncyclic_exponent_classTwo (M := D.M) Nat.prime_three (by norm_num) hnc

@@ -35,7 +35,7 @@ theorem spor_inner_false {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S)
   obtain ⟨eD⟩ := hD
   obtain ⟨D', hDn', ⟨eD'⟩⟩ :=
     exists_normal_alt6_map (MulEquiv.subgroupCongr hfix).symm D eD
-  haveI := hDn'
+  have := hDn'
   have hcomp : CFSG.IsComponent D' := isComponent_of_alt6 D' eD'
   have hcard360 := card_quotient_center_alt6 eD'
   rcases sporadic_comp_360 hS hna e hσ hcomp hcard360 with ⟨rfl, -⟩ | ⟨-, hout⟩

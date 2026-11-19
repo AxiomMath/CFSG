@@ -28,7 +28,7 @@ theorem td4NotL3_holds
     cases d2 with
     | A r q2 =>
       rcases r with _ | _ | _ | r
-      all_goals first | exact hP2.elim | skip
+      all_goals try exact hP2.elim
       have hq2p : q2.p = 2 := hP2.1
       have hk : Even q2.exponent := by
         by_contra hodd

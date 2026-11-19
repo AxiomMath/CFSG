@@ -22,10 +22,13 @@ private theorem E8_le_normalizer_W :
       Subgroup.normalizer ((ctxWN t tau x₁ x₂ rho : Subgroup G) : Set G) :=
   fun c hc => Subgroup.mem_normalizer_fintype fun w hw => hz.E8_normalizes_W c hc w hw
 
+omit [Finite G] hz in
 theorem W_le_ctxVN : ctxWN t tau x₁ x₂ rho ≤ ctxVN t tau x₁ x₂ lam rho := le_sup_left
 
+omit [Finite G] hz in
 theorem E8_le_ctxVN : closure ({t, tau, lam} : Set G) ≤ ctxVN t tau x₁ x₂ lam rho := le_sup_right
 
+omit [Finite G] hz in
 theorem E0_le_ctxVN : ctxE0N t tau x₁ x₂ rho ≤ ctxVN t tau x₁ x₂ lam rho := by
   unfold ctxE0N ctxVN
   refine sup_le le_sup_left ?_
@@ -86,7 +89,7 @@ theorem cent_Y_ctxVN :
     exact Subgroup.mul_mem_sup hw (hz.E8_cent_Y e he fun a ha =>
       (Subgroup.mem_centralizer_iff.mp hecent a ha).symm)
   · intro e he
-    exact ⟨hz.E0_le_ctxVN he, Subgroup.mem_centralizer_iff.mpr fun a ha =>
+    exact ⟨CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E0_le_ctxVN he, Subgroup.mem_centralizer_iff.mpr fun a ha =>
       (hz.E0_le_cent_Y e he a ha).symm⟩
 
 theorem vn_cosets : ∀ x ∈ ctxVN t tau x₁ x₂ lam rho,

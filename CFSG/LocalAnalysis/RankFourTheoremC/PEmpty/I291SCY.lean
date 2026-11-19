@@ -16,7 +16,7 @@ theorem sc_map {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) {B : Sub
     ∀ y ∈ centralizer ((B.map (QuotientGroup.mk' (primeComplementCore (G := X) p)) :
         Subgroup (X ⧸ primeComplementCore (G := X) p)) : Set (X ⧸ primeComplementCore (G := X) p)),
       y ^ p = 1 → y ∈ B.map (QuotientGroup.mk' (primeComplementCore (G := X) p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   set π : X →* X ⧸ D := QuotientGroup.mk' D with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective D
@@ -50,7 +50,7 @@ theorem sc_map {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) {B : Sub
   obtain ⟨r, hrQ, hr⟩ := hmem
   have hπr : π (r : X) = yb := congrArg Subtype.val hr
   set Q' : Subgroup X := (Q : Subgroup ↥K).map K.subtype with hQ'
-  have hQ'p : IsPGroup p Q' := Q.isPGroup'.map K.subtype
+  have hQ'p : IsPGroup p Q' := Q.isPGroup.map K.subtype
   have hrQ' : (r : X) ∈ Q' := Subgroup.mem_map_of_mem K.subtype hrQ
   have hrp : (r : X) ^ p = 1 := by
     refine K62B.eq_one_of_mk_eq_one hp hQ'p (pow_mem hrQ' p) ?_
@@ -64,7 +64,7 @@ theorem yData_of_plane63 {p : ℕ} {X : Type} [Group X] [Finite X] {P : Sylow p 
       ((P : Subgroup X).map (QuotientGroup.mk' (primeComplementCore (G := X) p)))
       (x : X ⧸ primeComplementCore (G := X) p) (z : X ⧸ primeComplementCore (G := X) p) := by
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   have hD3 : ¬ p ∣ Nat.card D :=
     (Nat.Prime.coprime_iff_not_dvd hprime).mp (primeComplementCore_coprime p)
@@ -85,7 +85,7 @@ theorem yData_of_plane63 {p : ℕ} {X : Type} [Group X] [Finite X] {P : Sylow p 
     have h3 : Open.pRank p (P : Subgroup X) ≤ Open.pRank p (⊤ : Subgroup X) :=
       CFSG.SectionRank.pRank_mono hprime.one_lt le_top
     omega
-  · have hxp : IsPGroup p (zpowers x) := P.isPGroup'.to_le (zpowers_le.mpr hxP)
+  · have hxp : IsPGroup p (zpowers x) := P.isPGroup.to_le (zpowers_le.mpr hxP)
     have hmap :=
       CFSG.RankThreeEvenClassification.Helpers.centralizer_map_eq_of_pGroup_prime_complement_kernel
         p hprime π hπs hker (zpowers x) hxp

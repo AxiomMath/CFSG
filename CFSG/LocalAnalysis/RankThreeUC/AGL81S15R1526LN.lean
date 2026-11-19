@@ -15,6 +15,7 @@ section XLevel
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem gnYComponent_conj_of_mem_aux1 {T₁ : Subgroup X} {t : X}
     (ht : t ∈ normalizer (T₁ : Set X)) :
     (centralizer (T₁ : Set X)).map (MulAut.conj t).toMonoidHom = centralizer (T₁ : Set X) :=
@@ -22,6 +23,7 @@ theorem gnYComponent_conj_of_mem_aux1 {T₁ : Subgroup X} {t : X}
     (conj_mem_centralizer_of_mem_normalizer (Subgroup.inv_mem _ ht) (t := t⁻¹)
       |> fun h' => by simpa using h')
 
+omit [Finite X] in
 theorem gnYComponent_conj_of_mem_aux2 {T₂ : Subgroup X} {t : X}
     (ht : t ∈ normalizer (T₂ : Set X)) :
     (normalizer (T₂ : Set X)).map (MulAut.conj t).toMonoidHom = normalizer (T₂ : Set X) :=
@@ -30,6 +32,7 @@ theorem gnYComponent_conj_of_mem_aux2 {T₂ : Subgroup X} {t : X}
     (fun x hx => by
       simpa using Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ ht) hx) ht)
 
+omit [Finite X] in
 theorem gnYComponent_conj_of_mem {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     (hLs : GNYComponent T T₁ T₂ Ls) {x : X} (hx₁ : x ∈ normalizer (T₁ : Set X))
     (hx₂ : x ∈ normalizer (T₂ : Set X)) :
@@ -56,7 +59,7 @@ theorem ystar_normal_aux1 {Y : Type} [Group Y] (A : Subgroup Y) (a b : Y) :
 theorem ystar_normal_aux2 {Y : Type} [Group Y] (A : Subgroup Y) :
     A.map (MulAut.conj (1 : Y)).toMonoidHom = A := by
   ext x
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 theorem ystar_normal_aux3 {Y : Type} [Group Y] [Finite Y] {A : Subgroup Y} {g : Y}
     (hg : g ∈ normalizer (A : Set Y)) : A.map (MulAut.conj g).toMonoidHom = A :=
@@ -64,12 +67,14 @@ theorem ystar_normal_aux3 {Y : Type} [Group Y] [Finite Y] {A : Subgroup Y} {g : 
     (fun x hx => (Subgroup.mem_normalizer_iff.1 hg (g⁻¹ * x * g)).2
       (by simpa [mul_assoc] using hx))
 
+omit [Finite X] in
 theorem ystar_normal_aux4 {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     (hLs : GNYComponent T T₁ T₂ Ls) (huniq : ∀ Is, GNYComponent T T₁ T₂ Is → Is = Ls) {x : X}
     (hx₁ : x ∈ normalizer (T₁ : Set X)) (hx₂ : x ∈ normalizer (T₂ : Set X)) :
     Ls.map (MulAut.conj (toStar T x)).toMonoidHom = Ls :=
   huniq _ (gnYComponent_conj_of_mem hLs hx₁ hx₂)
 
+omit [Finite X] in
 theorem ystar_normal_aux5 {T T₁ T₂ : Subgroup X} (hg : IsGNPair T T₁ T₂) :
     normalizer (T : Set X) ≤ normalizer (T₁ : Set X) ⊓ normalizer (T₂ : Set X) :=
   le_inf (normalizer_le_normalizer_of_characteristic
@@ -116,7 +121,7 @@ theorem ystar_normal_aux8 {T T₁ T₂ : Subgroup X} (hX : GNSetting X T) (hg : 
     refine mem_normalizer_of_map_conj_eq_s15 ?_
     have hel : toStar T ((MulAut.conj m⁻¹).toMonoidHom t) =
         (toStar T m)⁻¹ * toStar T t * toStar T m := by
-      simp [MulAut.conj_apply]
+      simp
     rw [hel]
     calc Ls.map (MulAut.conj ((toStar T m)⁻¹ * toStar T t * toStar T m)).toMonoidHom
         = ((Ls.map (MulAut.conj (toStar T m)).toMonoidHom).map
@@ -199,7 +204,7 @@ theorem hLN_aux_eq_ystar_of_simple {T T₁ T₂ : Subgroup X}
       have hcen : J ≤ Subgroup.centralizer (Ls : Set (X ⧸ gnC T)) :=
         Subgroup.commutator_eq_bot_iff_le_centralizer.1 hc
       exact hcen.trans (Subgroup.centralizer_le_normalizer _)
-  haveI : (Ls.subgroupOf (Ystar T T₁ T₂)).Normal :=
+  have : (Ls.subgroupOf (Ystar T T₁ T₂)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hle).2 hnorm
   rcases hS.eq_bot_or_eq_top_of_normal (Ls.subgroupOf (Ystar T T₁ T₂)) with h | h
   · exfalso

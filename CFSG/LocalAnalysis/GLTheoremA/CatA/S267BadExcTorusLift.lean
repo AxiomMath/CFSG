@@ -182,7 +182,7 @@ theorem not_isRoot_nsmul_add_nsmul_of_check {τ : Tag}
     exact List.not_mem_nil hmem
 
 theorem exists_twoLocal_rootSpan {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {K : Type}
-    [Field K] [Finite K] {q f : ℕ} (hq : q.Prime) [CharP K q] (hK : Nat.card K = q ^ f)
+    [Field K] [Finite K] {q f : ℕ} (_hq : q.Prime) [CharP K q] (hK : Nat.card K = q ^ f)
     (h2 : (2 : K) ≠ 0) {k : ℕ} {α : Fin k → Fin τ.rank → ℤ} {i₀ : Fin τ.rank}
     {γ : Fin τ.rank → ℤ} (hck : RootSpanCheck τ α i₀ γ) :
     ∃ U E : Subgroup ↥(adjointGroup τ K), IsPGroup 2 U ∧ U ≠ ⊥ ∧
@@ -364,8 +364,8 @@ theorem seven_le_twoLocalRank_cat_E8 (Q : TauCeti.PrimePower)
     7 ≤ GLATwoLocalRank Q.p X := by
   obtain ⟨K, _, _, hK, hKc, ⟨e⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e8 Q hv
   obtain ⟨hfin, hsimp⟩ := CFSG.HardMathSupport.Timmesfeld.CrossChar.finite_isSimpleGroup_cat_E8 hv
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hmodel : CFSG.Models.LieModel (Cat ⟨.E8 Q, hv⟩) .E8 0 Q.p Q.exponent :=
     ⟨⟨Q.prime_p, Q.exponent_pos, rfl⟩, Or.inr ⟨rfl, ⟨.E8 Q, hv⟩, ⟨rfl, rfl⟩, ⟨MulEquiv.refl _⟩⟩⟩
   obtain ⟨hperf, ⟨eM⟩⟩ := CFSG.LieType.Steinberg.CentralExt.GriessExceptional.e8_row hmodel
@@ -394,8 +394,8 @@ theorem five_le_twoLocalRank_cat_E7 (Q : TauCeti.PrimePower)
     5 ≤ GLATwoLocalRank Q.p X := by
   obtain ⟨K, _, _, hK, hKc, ⟨e⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e7 Q hv
   obtain ⟨hfin, hsimp⟩ := CFSG.HardMathSupport.Timmesfeld.CrossChar.finite_isSimpleGroup_cat_E7 hv
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hmodel : CFSG.Models.LieModel (Cat ⟨.E7 Q, hv⟩) .E7 0 Q.p Q.exponent :=
     ⟨⟨Q.prime_p, Q.exponent_pos, rfl⟩, Or.inr ⟨rfl, ⟨.E7 Q, hv⟩, ⟨rfl, rfl⟩, ⟨MulEquiv.refl _⟩⟩⟩
   obtain ⟨hperf, ⟨eM⟩⟩ := CFSG.LieType.Steinberg.CentralExt.GriessExceptional.e7_row hmodel
@@ -425,8 +425,8 @@ theorem five_le_twoLocalRank_cat_E6 (Q : TauCeti.PrimePower)
     5 ≤ GLATwoLocalRank Q.p X := by
   obtain ⟨K, _, _, hK, hKc, ⟨e⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 Q hv
   obtain ⟨hfin, hsimp⟩ := CFSG.HardMathSupport.Timmesfeld.CrossChar.finite_isSimpleGroup_cat_E6 hv
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hmodel : CFSG.Models.LieModel (Cat ⟨.E6 Q, hv⟩) .E6 0 Q.p Q.exponent :=
     ⟨⟨Q.prime_p, Q.exponent_pos, rfl⟩, Or.inr ⟨rfl, ⟨.E6 Q, hv⟩, ⟨rfl, rfl⟩, ⟨MulEquiv.refl _⟩⟩⟩
   obtain ⟨hperf, ⟨eM⟩⟩ := CFSG.LieType.Steinberg.CentralExt.GriessExceptional.e6_row hmodel

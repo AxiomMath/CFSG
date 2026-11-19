@@ -49,7 +49,7 @@ theorem seventeen_fortynine
     obtain ⟨t, m, -, hmodel, hrank⟩ := ctx.rank
     have hl2 : l = 2 := h46 L X p n l C Dc Gamma ctx
     refine Inputs1719.BorelChevOver.of_on hK3 hmodel
-      ⟨by change CS17LieRank t m ≤ 2; rw [hrank, hl2], ?_⟩
+      ⟨by rw [hrank, hl2], ?_⟩
     rintro ⟨rfl, rfl, -⟩
     exact h47 L X p n l C Dc Gamma ctx (by simpa [IsL3] using hmodel)
   obtain ⟨r, hr, hr2, -, hC2, hZr⟩ :=

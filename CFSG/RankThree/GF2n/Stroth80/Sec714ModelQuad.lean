@@ -136,6 +136,7 @@ section CommSq
 
 variable {t r : G}
 
+omit [(Q.subgroupOf M).Normal] in
 theorem comm_sq_mem_Z0 (I : MInputs) (hs : Sec7Hyp hc n t) (hr : Sec7A hc t r)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
     (∀ x ∈ hc.CN t, ∀ y ∈ hc.CN t, ⁅x, y⁆ ∈ Z0) ∧ ∀ x ∈ hc.CN t, x ^ 2 ∈ Z0 := by
@@ -169,6 +170,7 @@ theorem sq_mem_bar_Z0 (I : MInputs) (hs : Sec7Hyp hc n t) (hr : Sec7A hc t r)
   rw [← QuotientGroup.mk_pow]
   exact mk_mem_bar _ (by simpa using (comm_sq_mem_Z0 I hs hr hZ0).2 x hx)
 
+omit [Finite G] in
 theorem mem_bar_Rt_of_Z0 {L : Subgroup G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M L t) Q) {z : Mbar M Q} (hz : z ∈ bar M Q Z0) :
     z ∈ bar M Q (Rt M L t) := by
@@ -302,7 +304,7 @@ variable (I : MInputs) (hS : IsTensorSetup hc n M₀ ρ b) {t r : G} (hs : Sec7H
 
 theorem piPhi_of_mem {g : Mbar M Q} (hg : g ∈ bar M Q (hc.CN t)) :
     (piPhi I hS hs hr g : ↥(wsub hS t) →ₗ[K] M₀.E) = delta hS t g (mem_bar_H0_of_CN hg) := by
-  simp only [piPhi, dif_pos hg]
+  simp only [piPhi, dite_eq_left hg]
 
 @[expose] noncomputable def fPhi (e f : ↥(phiSub I hS hs hr)) : K :=
   Fv ρ x₀ y₀ (QuotientGroup.mk (pre I hS hs hr e)) (QuotientGroup.mk (pre I hS hs hr f))
@@ -451,12 +453,14 @@ section GammaReg
 
 variable {t r : G}
 
+omit [(Q.subgroupOf M).Normal] in
 theorem Vt_le_Wt (I : MInputs) (hs : Sec7Hyp hc n t) :
     Vt M (LB M Q B) B Z t ≤ Wt Q (Vt M (LB M Q B) B Z t) := by
   obtain ⟨-, hWQ1⟩ := I.h310chi G M Q Z B hc n t hs.toSec5 (Or.inr hs.omegaNat)
   rw [hWQ1]
   exact hc.Vt_le_Q1 hs.toSec5.mem
 
+omit [(Q.subgroupOf M).Normal] in
 theorem Z0_le_CN (I : MInputs) (hs : Sec7Hyp hc n t) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) : Z0 ≤ hc.CN t := fun z hz =>
   Ctx.mem_CN.mpr ⟨((hZ0 z).mp hz).1, fun v hv =>
@@ -565,7 +569,7 @@ variable {t r : G}
 @[expose] def actW (hS : IsTensorSetup hc n M₀ ρ b) (ht : t ∈ LB M Q B) (h : Mbar M Q)
     (hh : h ∈ bar M Q (Rt M (LB M Q B) t)) : ↥(wsub hS t) →ₗ[K] ↥(wsub hS t) where
   toFun w := ⟨(ρ h).toAdd w, act_mem_wsub hS ht hh w.2⟩
-  map_add' v w := Subtype.ext (map_add _ _ _)
+  map_add' _v _w := Subtype.ext (map_add _ _ _)
   map_smul' c w := Subtype.ext (hS.lin h (mem_bar_H0_of_Rt hc hh) c w)
 
 @[expose] def conjHom (hS : IsTensorSetup hc n M₀ ρ b) (ht : t ∈ LB M Q B) (h : Mbar M Q)
@@ -659,7 +663,7 @@ variable (I : MInputs) (hS : IsTensorSetup hc n M₀ ρ b) (hs : Sec7Hyp hc n t)
 
 @[expose] noncomputable def psiPhi :
     ↥(bar M Q (Rt M (LB M Q B) t)) →* (↥(phiSub I hS hs hr) ≃ₗ[K] ↥(phiSub I hS hs hr)) where
-  toFun h := LinearEquiv.ofLinear (conjPhi I hS hs hr h) (conjPhi I hS hs hr h⁻¹)
+  toFun h := LinearEquiv.ofLinearMap (conjPhi I hS hs hr h) (conjPhi I hS hs hr h⁻¹)
     (by
       refine LinearMap.ext fun f => Subtype.ext ?_
       show conjHom hS hs.toSec5.mem (h : Mbar M Q) h.2

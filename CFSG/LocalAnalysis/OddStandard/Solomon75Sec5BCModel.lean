@@ -342,12 +342,12 @@ private theorem kleinOn_conj {σ : Perm (Fin n)} {a b c d : Fin n} (hab : a ≠ 
       (isFpf_conj hν (isFpf_of_mem_kleinOn hab hac had hbc hbd hcd hF hg hg1))))
 
 private theorem comm_cycle_dbl_false {a b c d : Fin n} (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
-    (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d)
+    (hbc : b ≠ c) (hbd : b ≠ d) (_hcd : c ≠ d)
     (h : (swap a b * swap a c) * (swap a b * swap c d) =
       (swap a b * swap c d) * (swap a b * swap a c)) : False := by
   have h3 := Equiv.Perm.ext_iff.1 h a
-  simp [Perm.mul_apply, swap_apply_def, hab, hac, had, hbc, hbd, hcd, hab.symm, hac.symm,
-    had.symm, hbc.symm, hbd.symm, hcd.symm] at h3
+  simp [Perm.mul_apply, swap_apply_def, hac, had, hbc, hab.symm, hac.symm,
+    had.symm, hbc.symm, hbd.symm] at h3
 
 end FourPoints
 

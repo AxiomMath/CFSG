@@ -15,11 +15,12 @@ section Transfer
 
 variable {G T : Type} [Group G] [Group T] [Finite G] [Finite T]
 
+omit [Finite T] in
 theorem layer_transfer (X : Subgroup G) (f : X →* T)
     (hT : GLAPPrimeCoreOf 3 f.range = ⊥) (hL : GLAPLayer 3 f.range = ⊥)
     (hcop : Nat.Coprime 3 (Nat.card f.ker)) :
     GLAPPrimeCore 3 ↥X = f.ker ∧ GLAPLayer 3 X = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup T := f.range with hCdef
   have hOC : GLAPPrimeCore 3 ↥C = ⊥ := by
     apply Subgroup.map_injective (f := C.subtype) Subtype.val_injective
@@ -162,7 +163,7 @@ theorem layer_transfer (X : Subgroup G) (f : X →* T)
     apply Subgroup.map_injective (f := (Θe : ↥X ⧸ GLAPPrimeCore 3 ↥X →* ↥C)) Θe.injective
     rw [Subgroup.map_bot, hbarΘ, ← hJsub, hJbot]
     ext y
-    simp [Subgroup.mem_subgroupOf]
+    simp
   rw [hbar_bot] at hcompLX
   obtain ⟨-, hs⟩ := hcompLX.2.2
   exact not_nontrivial _ hs.toNontrivial
@@ -171,7 +172,7 @@ end Transfer
 
 @[expose] def TildeCore : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m p B M E A a K) (_ : p = 3) (e : G) (he : e ∈ M) (_ : e ∈ E ⊓ A) (_ : e ≠ 1),
+    (_h : Cex117 G m p B M E A a K) (_ : p = 3) (e : G) (he : e ∈ M) (_ : e ∈ E ⊓ A) (_ : e ≠ 1),
     GLAPLayer 3 (Subgroup.centralizer ({QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨e, he⟩ : ↥M)} :
         Set (↥M ⧸ GLAPPrimeCore 3 ↥M))) = ⊥ ∧
       GLAPPrimeCoreOf 3 (Subgroup.centralizer ({QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨e, he⟩ : ↥M)} :
@@ -183,7 +184,7 @@ theorem lemma1113_of_inputs (h11 : Lemma1111Statement) (hcore : Lemma1113.TildeC
     Lemma1113Statement := by
   intro G _ _ m p B M E A a K h e heEA he1
   obtain ⟨rfl, -⟩ := h11 h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEM : E ≤ M := h.pair.1.1.1.1.1
   have hE3 : IsElemAbelian 3 E := h.pair.1.1.1.1.2.1
   have heE : e ∈ E := (Subgroup.mem_inf.1 heEA).1

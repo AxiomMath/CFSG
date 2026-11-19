@@ -30,10 +30,10 @@ theorem exists_sylow_N {H : Subgroup (suzukiGroup a K)} (Sy : Sylow 2 ↥H)
   set S : Subgroup ↥H := (Sy : Subgroup ↥H) with hS
   have hSN : S ≤ N := by
     intro x hx
-    obtain ⟨n, hn⟩ := Sy.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := Sy.isPGroup ⟨x, hx⟩
     exact mem_of_pow_two_pow_eq_one_of_odd_index N hN ⟨n, congrArg Subtype.val hn⟩
   have hp : IsPGroup 2 (S.subgroupOf N) :=
-    Sy.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
+    Sy.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
   have hidx : ¬ 2 ∣ (S.subgroupOf N).index := by
     intro h2
     have h1 : (S.subgroupOf N).index = S.relIndex N := rfl

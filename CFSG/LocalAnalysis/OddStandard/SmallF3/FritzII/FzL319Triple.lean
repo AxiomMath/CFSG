@@ -15,6 +15,7 @@ variable {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
 
 namespace Fz319Data
 
+omit [Finite G] in
 private lemma fzl_conj_comm {a b : G} (hab : a * b = b * a) (x : G) :
     a * (b * x * b⁻¹) * a⁻¹ = b * (a * x * a⁻¹) * b⁻¹ := by
   have hab' : b⁻¹ * a⁻¹ = a⁻¹ * b⁻¹ := by
@@ -25,6 +26,7 @@ private lemma fzl_conj_comm {a b : G} (hab : a * b = b * a) (x : G) :
     _ = (b * a) * x * (a⁻¹ * b⁻¹) := by rw [hab, hab']
     _ = b * (a * x * a⁻¹) * b⁻¹ := by group
 
+omit [Finite G] in
 private lemma fzl_conj_sq {a : G} (ha : a * a = 1) (x : G) :
     a * (a * x * a⁻¹) * a⁻¹ = x := by
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
@@ -32,6 +34,7 @@ private lemma fzl_conj_sq {a : G} (ha : a * a = 1) (x : G) :
   calc a * (a * x * a) * a = (a * a) * x * (a * a) := by group
     _ = x := by rw [ha]; group
 
+omit [Finite G] in
 private lemma fzl_conj_inv_sq {a b : G} (hab : a * b * a⁻¹ = b⁻¹) (hb : b ^ 3 = 1) (x : G) :
     a * (b * x * b⁻¹) * a⁻¹ = b * (b * (a * x * a⁻¹) * b⁻¹) * b⁻¹ := by
   have hba' : a * b⁻¹ * a⁻¹ = b := by
@@ -55,6 +58,7 @@ private lemma fzl_conj_inv_sq {a b : G} (hab : a * b * a⁻¹ = b⁻¹) (hb : b 
         rw [show b * (b * (a * x * a⁻¹) * b⁻¹) * b⁻¹
               = (b * b) * (a * x * a⁻¹) * (b⁻¹ * b⁻¹) by group, hb2', hb2]
 
+omit [Finite G] in
 private lemma fzl_conj_t_mul {n t lam : G} (h : lam * t = t * lam) :
     lam * (t * n) * lam⁻¹ * (t * n)⁻¹ = t * (lam * n * lam⁻¹ * n⁻¹) * t⁻¹ := by
   calc lam * (t * n) * lam⁻¹ * (t * n)⁻¹
@@ -62,6 +66,7 @@ private lemma fzl_conj_t_mul {n t lam : G} (h : lam * t = t * lam) :
     _ = (t * lam) * n * lam⁻¹ * n⁻¹ * t⁻¹ := by rw [h]
     _ = t * (lam * n * lam⁻¹ * n⁻¹) * t⁻¹ := by group
 
+omit [Finite G] in
 private lemma fzl_eq_of_coe {a b : FzUT}
     (h : ((D.φ.symm a : ↥P) : G) = ((D.φ.symm b : ↥P) : G)) : a = b :=
   D.φ.symm.injective (Subtype.ext h)
@@ -195,7 +200,7 @@ theorem validTriple : FzValidTriple D.cT D.cS D.cL := by
           apply D.φ.symm.injective
           apply Subtype.ext
           rw [MulEquiv.symm_apply_apply]
-          simp only [Subgroup.coe_mk, map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
+          simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
           rw [D.cS_coe]
         have h := (D.E_iff ⟨c, hcP⟩).mp hcE
         rw [hphi] at h

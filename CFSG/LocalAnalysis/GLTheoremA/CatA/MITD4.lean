@@ -102,7 +102,7 @@ theorem tri_odd_data {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.triali
     (hp : q.p ≠ 2) {S : Type} [Group S]
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.trialityD4 q, hv⟩) :
     LieModel S .trialityD4 0 q.p q.exponent ∧ 3 ^ 20 ≤ Nat.card S := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hto : 0 < (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by decide
   have hKc : Nat.card (GaloisField q.p (q.exponent * (CFSG.Blueprint.Chevalley.TwistTag.D4).order)) =
       (q.p ^ q.exponent) ^ (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by

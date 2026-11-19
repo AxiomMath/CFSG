@@ -17,6 +17,7 @@ namespace S126T2
 
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} [IsMulCommutative ↥V]
 
+omit [IsMulCommutative ↥V] in
 private theorem T_le_normalizer_V' (h1222 : Stmt12_2_2) (hH : Hyp126 G T L V) :
     T ≤ Subgroup.normalizer (V : Set G) := by
   have hyp := hH.hyp

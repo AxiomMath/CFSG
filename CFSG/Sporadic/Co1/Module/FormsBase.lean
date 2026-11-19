@@ -21,10 +21,10 @@ theorem rowsMatrix_addRows (X Y : Array ℕ) :
   rw [toVecD_xor]
   rfl
 
-@[expose] def letterMat (b : Bool) : Matrix (Fin 24) (Fin 24) (ZMod 2) :=
+def letterMat (b : Bool) : Matrix (Fin 24) (Fin 24) (ZMod 2) :=
   if b then matA else matB
 
-@[expose] def wordMat (w : List Bool) : Matrix (Fin 24) (Fin 24) (ZMod 2) :=
+def wordMat (w : List Bool) : Matrix (Fin 24) (Fin 24) (ZMod 2) :=
   (w.map letterMat).prod
 
 theorem rowsMatrix_letterRows (b : Bool) : rowsMatrix 24 (letterRows b) = letterMat b := by
@@ -43,15 +43,15 @@ theorem rowsMatrix_wordRows (w : List Bool) : rowsMatrix 24 (wordRows w) = wordM
       simp [wordMat]
   rw [wordRows, key, rowsMatrix_idRows, Matrix.one_mul]
 
-@[expose] def Qm : Matrix (Fin 24) (Fin 24) (ZMod 2) := rowsMatrix 24 qRows
+def Qm : Matrix (Fin 24) (Fin 24) (ZMod 2) := rowsMatrix 24 qRows
 
-@[expose] def F₀ : Matrix (Fin 24) (Fin 24) (ZMod 2) := Qm + Qmᵀ
+def F₀ : Matrix (Fin 24) (Fin 24) (ZMod 2) := Qm + Qmᵀ
 
-@[expose] def F₀inv : Matrix (Fin 24) (Fin 24) (ZMod 2) := rowsMatrix 24 f0InvRows
+def F₀inv : Matrix (Fin 24) (Fin 24) (ZMod 2) := rowsMatrix 24 f0InvRows
 
-@[expose] def q₀ (v : Vec24) : ZMod 2 := v ⬝ᵥ (Qm *ᵥ v)
+def q₀ (v : Vec24) : ZMod 2 := v ⬝ᵥ (Qm *ᵥ v)
 
-@[expose] def polar (q : Vec24 → ZMod 2) (u v : Vec24) : ZMod 2 := q (u + v) - q u - q v
+def polar (q : Vec24 → ZMod 2) (u v : Vec24) : ZMod 2 := q (u + v) - q u - q v
 
 theorem rowsMatrix_f0Rows : rowsMatrix 24 f0Rows = F₀ := by
   rw [f0Rows, rowsMatrix_addRows, rowsMatrix_transposeRows]
@@ -227,7 +227,7 @@ theorem single_dot_mulVec_single (X : Matrix (Fin 24) (Fin 24) (ZMod 2)) (i j : 
     Pi.single i (1 : ZMod 2) ⬝ᵥ (X *ᵥ Pi.single j 1) = X i j := by
   simp
 
-@[expose] def bil₀ (u v : Vec24) : ZMod 2 := u ⬝ᵥ (F₀ *ᵥ v)
+def bil₀ (u v : Vec24) : ZMod 2 := u ⬝ᵥ (F₀ *ᵥ v)
 
 theorem vecMul_wordMat {y : Vec24} (hA : y ᵥ* matA = y) (hB : y ᵥ* matB = y) (w : List Bool) :
     y ᵥ* wordMat w = y := by

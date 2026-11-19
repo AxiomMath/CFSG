@@ -722,9 +722,9 @@ private lemma BPrimeToBOf_mem (h12 : Hyp12 c) (hSC : Section3Hyp c) (hS4 : Secti
     DeltaSet_mem_t c h12 (DeltaSet_of_BPrime c h12 hνBp)
   rcases (BPrime_iff_exactly_one c h12 hSC hS4 hχ hνs hνt).1 hνBp with
     ⟨hνB, _⟩ | ⟨hνnot, hlamB⟩
-  · rw [BPrimeToBOf, dif_pos hνB]
+  · rw [BPrimeToBOf, dite_eq_left hνB]
     exact hνB
-  · rw [BPrimeToBOf, dif_neg hνnot]
+  · rw [BPrimeToBOf, dite_eq_right hνnot]
     exact hlamB
 
 /-- `BPrimeToBOf` is injective on `B′(χ)`. -/
@@ -763,7 +763,7 @@ private lemma BPrimeToBOf_surj (h12 : Hyp12 c) (hSC : Section3Hyp c) (hS4 : Sect
     · exact (BPrime_iff_exactly_one c h12 hSC hS4 hχ hμs (DeltaSet_mem_t c h12 hμΔ)).mpr
         (Or.inl ⟨hμB, fun hlam =>
           not_both_in_BOf c h12 hSC hS4 hχ hμs ⟨hμB, hlam⟩⟩)
-    · rw [BPrimeToBOf, dif_pos hμB]
+    · rw [BPrimeToBOf, dite_eq_left hμB]
   · have hνs : conjChar c.H0 (s_normalizes_H0 c h12) (lambdaTwoMul c h12 μ).1 =
       (lambdaTwoMul c h12 μ).1 := lambdaTwoMul_fixed_by_s c h12 hμs
     have hνt : (lambdaTwoMul c h12 μ).1 (tH0 c) = (lambdaTwoMul c h12 μ).1 1 :=
@@ -774,7 +774,7 @@ private lemma BPrimeToBOf_surj (h12 : Hyp12 c) (hSC : Section3Hyp c) (hS4 : Sect
     refine ⟨lambdaTwoMul c h12 μ, ?_, ?_⟩
     · exact (BPrime_iff_exactly_one c h12 hSC hS4 hχ hνs hνt).mpr
         (Or.inr ⟨hνnot, by simpa [lambdaTwoMul_sq] using hμB⟩)
-    · rw [BPrimeToBOf, dif_neg hνnot]
+    · rw [BPrimeToBOf, dite_eq_right hνnot]
       exact lambdaTwoMul_sq c h12 μ
 
 /-- `|B′(χ)| = |B(χ)|`. -/
@@ -1232,7 +1232,7 @@ private lemma nuHat_injective_on_BPrime (h12 : Hyp12 c) (hSC : Section3Hyp c)
       restrictU c h12 μ.1 = α.1 :=
     exists_fixed_alpha_of_section4 c h12 hSC hS4 hμs hμt
   unfold nuHat at hEq
-  rw [dif_pos hνP, dif_pos hμP] at hEq
+  rw [dite_eq_left hνP, dite_eq_left hμP] at hEq
   have hEq' := (glaubermanEquiv c).injective hEq
   have hEqα : Classical.choose hνP = Classical.choose hμP := congrArg Subtype.val hEq'
   have hresν : restrictU c h12 ν.1 = (Classical.choose hνP).1 :=

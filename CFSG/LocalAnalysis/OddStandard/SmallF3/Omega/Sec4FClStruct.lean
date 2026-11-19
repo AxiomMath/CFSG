@@ -31,8 +31,8 @@ theorem sec4FCl_structure [Finite G] {L : Subgroup G} (hL : IsOmega7Group L) {s 
       LieModel (X ⧸ oddCore X) .PSL 4 3 1 ∧ w ∈ L ∧ w ∈ centralizer ({s} : Set G) ∧
       IsI4PlusIn L w ∧
       L ⊓ centralizer ({s} : Set G) ≤ (X ⊔ Subgroup.zpowers w) ⊔ Sec4FOdd L := by
-  haveI : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
-  haveI : Finite (OGroup Sec4IQ) :=
+  have : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
+  have : Finite (OGroup Sec4IQ) :=
     CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   obtain ⟨e⟩ := sec4I_exists_model hL
   obtain ⟨y, hact, hy⟩ :=

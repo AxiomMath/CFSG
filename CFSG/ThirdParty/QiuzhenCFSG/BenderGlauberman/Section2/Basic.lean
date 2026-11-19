@@ -54,6 +54,7 @@ section Section2
 
 variable {G : Type u} [Group G] [Fintype G]
 
+omit [Fintype G] in
 /-- For an element `t` with `t² = 1`, every character of the dual group takes
 the value `±1` at `t`. -/
 private lemma lambda_sq_eq_one (H0 U : Subgroup G) (t : ↥H0) (ht_sq : t ^ 2 = 1)
@@ -287,7 +288,7 @@ public lemma s_normalizes_U (c : Hyp11 G) {u : G} (hu : u ∈ c.U) :
   have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hu
   have huH : u ∈ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
   have hsH : c.s ∈ c.H := s_mem_H c
   have hchar : (pPrimeCore 2 c.H).Characteristic :=
     pPrimeCore_characteristic (p := 2) (G := c.H)
@@ -474,7 +475,7 @@ private lemma s_inverts_S0 (c : Hyp11 G) {x : G} (hx : x ∈ (c.S0 : Subgroup G)
 /-- `S0 ≤ H0`. -/
 public lemma S0_le_H0 (c : Hyp11 G) : (c.S0 : Subgroup G) ≤ c.H0 := by
   intro y hy
-  exact SetLike.le_def.mp le_sup_right hy
+  exact _root_.IsConcreteLE.le_iff.mp le_sup_right hy
 
 /-- `S0` normalizes `U` (from `U ⊴ H0` and `S0 ≤ H0`). -/
 private lemma S0_le_normalizer_U (c : Hyp11 G) (h12 : Hyp12 c) :
@@ -579,7 +580,7 @@ public lemma lambda_hcomm (c : Hyp11 G) (h12 : Hyp12 c) :
     simp [div_eq_mul_inv, mul_inv_rev]
     group
   rw [hc]
-  exact SetLike.le_def.mp h12.H0_comm_le_U
+  exact _root_.IsConcreteLE.le_iff.mp h12.H0_comm_le_U
     (Subgroup.commutator_mem_commutator (H₁ := c.H0) (H₂ := c.H0) x.2 y.2)
 
 /-- `t ∉ U` (the odd core `U = O(H)` has odd order). -/
@@ -1329,7 +1330,7 @@ private lemma s0_commGroup (c : Hyp11 G) : IsMulCommutative ↥(c.S0 : Subgroup 
 private lemma sPrime_subgroupOf_normal (c : Hyp11 G) :
     ((SPrime c).subgroupOf (c.S0 : Subgroup G)).Normal := by
   let : IsMulCommutative ↥(c.S0 : Subgroup G) := s0_commGroup c
-  exact Subgroup.normal_of_comm ((SPrime c).subgroupOf (c.S0 : Subgroup G))
+  exact Subgroup.normal_of_isMulCommutative ((SPrime c).subgroupOf (c.S0 : Subgroup G))
 
 /-- The commutator hypothesis for the `S0`-instance of the `Λ`-machinery. -/
 private lemma sPrime_hcomm (c : Hyp11 G) :
@@ -1570,7 +1571,7 @@ public theorem lambda_fixed_by_s_iff (c : Hyp11 G) (h12 : Hyp12 c)
 
 /-- Existence of `κ1`: a linear character of `H0` whose kernel contains `S0`
 and `[S,U]`. -/
-theorem exists_kappaOne (c : Hyp11 G) (h12 : Hyp12 c) :
+theorem exists_kappaOne (c : Hyp11 G) (_h12 : Hyp12 c) :
     ∃ κ1 : ClassFunction (↥c.H0), IsLinearCharacter κ1 ∧
       (∀ x : ↥c.H0, (x : G) ∈ (c.S0 : Subgroup G) → κ1 x = 1) ∧
       (∀ x : ↥c.H0, (x : G) ∈ ⁅(c.S : Subgroup G), c.U⁆ → κ1 x = 1) := by
@@ -1728,7 +1729,7 @@ public theorem kappa_eq_lambda_mul (c : Hyp11 G)
   rfl
 
 /-- The product of two linear characters is linear. -/
-private lemma isLinearCharacter_mul (c : Hyp11 G) (h12 : Hyp12 c)
+private lemma isLinearCharacter_mul (c : Hyp11 G) (_h12 : Hyp12 c)
     {φ ψ : ClassFunction (↥c.H0)} (hφ : IsLinearCharacter φ) (hψ : IsLinearCharacter ψ) :
     IsLinearCharacter (φ * ψ) := by
   let φh := linearCharHom hφ
@@ -1804,7 +1805,7 @@ private lemma LambdaChar_conj_eq_inv (c : Hyp11 G) (h12 : Hyp12 c)
           l.1 ⟨(r : G), S0_le_H0 c r.2⟩ : ℂ) := by
         exact congrArg (fun z : ℂˣ => (z : ℂ)) hmul
       _ = (l.1 ⟨(r : G), S0_le_H0 c r.2⟩ : ℂ) := by rw [hl_u']; simp
-  simpa [hxr']
+  simp [hxr']
 
 /-- Each `κi` is a linear (hence irreducible) character of `H0`. -/
 theorem kappa_isLinear (c : Hyp11 G) (h12 : Hyp12 c) {κ1 : ClassFunction (↥c.H0)}
@@ -1957,7 +1958,7 @@ private lemma U_normal_in_H (c : Hyp11 G) {h u : G} (hh : h ∈ c.H) (hu : u ∈
   have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hu
   have huH : u ∈ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
   have hchar : (pPrimeCore 2 c.H).Characteristic :=
     pPrimeCore_characteristic (p := 2) (G := c.H)
   have hcomap : (pPrimeCore 2 c.H) ≤ (pPrimeCore 2 c.H).comap
@@ -2056,7 +2057,7 @@ private lemma eq_sup_zpowers_of_index_two {H K : Subgroup G} (hK : K ≤ H) {x :
   refine le_antisymm ?_ ?_
   · intro y hy
     by_cases hyq : QuotientGroup.mk (s := K.subgroupOf H) (⟨y, hy⟩ : ↥H) = q1
-    · exact SetLike.le_def.mp le_sup_left (by
+    · exact _root_.IsConcreteLE.le_iff.mp le_sup_left (by
         simpa [inv_inv] using (K.inv_mem (by
           simpa [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
             using (QuotientGroup.eq.mp hyq))))
@@ -2068,8 +2069,8 @@ private lemma eq_sup_zpowers_of_index_two {H K : Subgroup G} (hK : K ≤ H) {x :
       have hxEq : x * (y⁻¹ * x)⁻¹ = y := by group
       rw [← hxEq]
       exact (K ⊔ Subgroup.zpowers x).mul_mem
-        (SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers x))
-        (SetLike.le_def.mp le_sup_left (K.inv_mem hmem))
+        (_root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers x))
+        (_root_.IsConcreteLE.le_iff.mp le_sup_left (K.inv_mem hmem))
   · exact sup_le hK (by
       intro z hz
       rcases (Subgroup.mem_zpowers_iff.mp hz) with ⟨k, hk⟩
@@ -2649,6 +2650,7 @@ private lemma mem_U_of_mem_B (c : Hyp11 G) {b : G} (hbB : b ∈ c.B) : b ∈ c.U
   unfold Hyp11.B1 centralizerIn at hbB1
   exact (inf_le_left : c.U ⊓ Subgroup.centralizer ({c.t1} : Set G) ≤ c.U) hbB1
 
+omit [Fintype G] in
 /-- Membership in the fixed-point subgroup is pointwise fixedness. -/
 private lemma mem_fixedPointSubgroup_iff (A K : Subgroup G) [Subgroup.Normalizes A K]
     {x : ↥K} : x ∈ fixedPointSubgroup (↥A) (↥K) ↔ ∀ a : ↥A, a • x = x := by
@@ -2698,7 +2700,7 @@ private lemma b_mem_fixedPointSubgroup (c : Hyp11 G) (_h12 : Hyp12 c)
           have ht1S : t1S ∉ (c.S0 : Subgroup G).subgroupOf (c.S : Subgroup G) := by
             exact fun h => c.t1_not_mem_S0 (Subgroup.mem_subgroupOf.mp h)
           have hmul : aS * t1S ∈ (c.S0 : Subgroup G).subgroupOf (c.S : Subgroup G) := by
-            exact (Subgroup.mul_mem_iff_of_index_two (S0_index c)).2 (by simpa [haS, ht1S])
+            exact (Subgroup.mul_mem_iff_of_index_two (S0_index c)).2 (by simp [haS, ht1S])
           have hrS0 : (a : G) * c.t1 ∈ (c.S0 : Subgroup G) := by
             simpa [aS, t1S, Subgroup.coe_mul] using (Subgroup.mem_subgroupOf.mp hmul)
           rcases (Subgroup.mem_zpowers_iff.mp (by simpa [c.S0_eq_zpowers] using hrS0)) with
@@ -2750,7 +2752,7 @@ private lemma b_not_mem_comm_of_not_mem_Uprime (c : Hyp11 G) (h12 : Hyp12 c) {b 
     exact Subgroup.normalizer_commutator_ge_left c.U (c.S : Subgroup G)
   have hUleNormN : c.U ≤ Subgroup.normalizer (N : Set G) := by
     exact (le_inf hUleNormU' hUleNormC).trans
-      (Subgroup.normalizer_inf_normalizer_le_normalizer_sup U' C)
+      (Subgroup.inf_normalizer_le_normalizer_sup U' C)
   -- invariance of `U'` and `C` under the action of `S` on `U`
   have : IsInvariant A (↥c.U) (⊤ : Subgroup ↥c.U) := ⟨by intro a x; simp⟩
   have hU'subInv : IsInvariant A (↥c.U) (U'.subgroupOf c.U) := by
@@ -2798,10 +2800,10 @@ private lemma b_not_mem_comm_of_not_mem_Uprime (c : Hyp11 G) (h12 : Hyp12 c) {b 
         _ = U'sub.map c.U.subtype := by
               exact (Subgroup.map_subgroupOf_eq_of_le (Subgroup.commutator_le_self c.U)).symm
     rw [hEq]
-  have hsolvQ : IsSolvable (↥c.U ⧸ U'sub) := by
+  have hsolvQ : Group.IsSolvable (↥c.U ⧸ U'sub) := by
     let : IsMulCommutative (↥c.U ⧸ U'sub) := hQcomm
     let : CommGroup (↥c.U ⧸ U'sub) := IsMulCommutative.instCommGroup
-    exact isSolvable_of_comm (fun a b => mul_comm a b)
+    exact _root_.Group.isSolvable_of_comm (fun a b => mul_comm a b)
   have hcop2U : Nat.Coprime 2 (Nat.card ↥c.U) := by
     have h1 : Nat.card ↥c.U = Nat.card (pPrimeCore 2 c.H) := by
       dsimp [Hyp11.U]
@@ -2811,7 +2813,7 @@ private lemma b_not_mem_comm_of_not_mem_Uprime (c : Hyp11 G) (h12 : Hyp12 c) {b 
     rw [h1]
     exact pPrimeCore_coprime_card (p := 2) (G := c.H)
   have hcopSU : Nat.Coprime (Nat.card A) (Nat.card ↥c.U) := by
-    rcases (IsPGroup.exists_card_eq (p := 2) (G := A) c.S.isPGroup') with ⟨n, hn⟩
+    rcases (IsPGroup.exists_card_eq (p := 2) (G := A) c.S.isPGroup) with ⟨n, hn⟩
     rw [hn]
     exact (Nat.Coprime.pow_left n hcop2U)
   have hcopQ : Nat.Coprime (Nat.card A) (Nat.card (↥c.U ⧸ U'sub)) := by
@@ -2835,7 +2837,7 @@ private lemma b_not_mem_comm_of_not_mem_Uprime (c : Hyp11 G) (h12 : Hyp12 c) {b 
       exact (mem_fixedPointSubgroup_iff (c.S : Subgroup G) c.U).mp hbfix a
     have hsmul : a • (QuotientGroup.mk' U'sub ⟨b, hbU⟩ : ↥c.U ⧸ U'sub) =
         QuotientGroup.mk' U'sub (a • ⟨b, hbU⟩ : ↥c.U) := by
-      simpa using (MulAction.Quotient.smul_mk (H := U'sub) a ⟨b, hbU⟩)
+      simp
     calc
       a • qb = QuotientGroup.mk' U'sub (a • ⟨b, hbU⟩ : ↥c.U) := hsmul
       _ = QuotientGroup.mk' U'sub ⟨b, hbU⟩ := by rw [hfix']
@@ -2850,7 +2852,7 @@ private lemma b_not_mem_comm_of_not_mem_Uprime (c : Hyp11 G) (h12 : Hyp12 c) {b 
     rcases hx with ⟨a0, u, hxeq⟩
     refine ⟨a0, QuotientGroup.mk' U'sub u, ⟨by simp, ?_⟩⟩
     have hsmul : a0 • (QuotientGroup.mk' U'sub u) = QuotientGroup.mk' U'sub (a0 • u) := by
-      simpa using (MulAction.Quotient.smul_mk (H := U'sub) a0 u)
+      simp
     calc
       QuotientGroup.mk' U'sub x = QuotientGroup.mk' U'sub (u⁻¹ * (a0 • u)) := by rw [hxeq]
       _ = (QuotientGroup.mk' U'sub u)⁻¹ * QuotientGroup.mk' U'sub (a0 • u) := by
@@ -2903,7 +2905,7 @@ theorem exists_kappaOne_ne_one (c : Hyp11 G) (h12 : Hyp12 c)
       (∀ x : ↥c.H0, (x : G) ∈ (c.S0 : Subgroup G) → κ1 x = 1) ∧
       (∀ x : ↥c.H0, (x : G) ∈ ⁅(c.S : Subgroup G), c.U⁆ → κ1 x = 1) := by
   classical
-  rcases (SetLike.not_le_iff_exists.mp hB) with ⟨b, hbB, hbU'⟩
+  rcases (IsConcreteLE.not_le_iff_exists.mp hB) with ⟨b, hbB, hbU'⟩
   let U' : Subgroup G := ⁅c.U, c.U⁆
   let C : Subgroup G := ⁅(c.S : Subgroup G), c.U⁆
   let N : Subgroup G := U' ⊔ C
@@ -2925,7 +2927,7 @@ theorem exists_kappaOne_ne_one (c : Hyp11 G) (h12 : Hyp12 c)
     exact Subgroup.normalizer_commutator_ge_left c.U (c.S : Subgroup G)
   have hUleNormN : c.U ≤ Subgroup.normalizer (N : Set G) := by
     exact (le_inf hUleNormU' hUleNormC).trans
-      (Subgroup.normalizer_inf_normalizer_le_normalizer_sup U' C)
+      (Subgroup.inf_normalizer_le_normalizer_sup U' C)
   let : (N.subgroupOf c.U).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNleU).mpr hUleNormN
   rcases (LambdaHom_separates c.U N (hK := by infer_instance)
@@ -2939,7 +2941,7 @@ theorem exists_kappaOne_ne_one (c : Hyp11 G) (h12 : Hyp12 c)
   refine ⟨κ1, ?_, ?_, ?_, ?_⟩
   · exact isLinearCharacter_of_hom φ
   · intro hk1
-    have hbH0 : b ∈ c.H0 := SetLike.le_def.mp le_sup_left hbU
+    have hbH0 : b ∈ c.H0 := _root_.IsConcreteLE.le_iff.mp le_sup_left hbU
     have hval1 : φ ⟨b, hbH0⟩ ≠ 1 := by
       intro hφ1
       have hup : uPart c h12 ⟨b, hbH0⟩ = ⟨b, hbU⟩ :=
@@ -2962,7 +2964,7 @@ theorem exists_kappaOne_ne_one (c : Hyp11 G) (h12 : Hyp12 c)
       have hx := congrFun hk1 x
       change ((φ x : ℂˣ) : ℂ) = 1 at hx
       exact hx
-    simpa [hφ1]
+    simp [hφ1]
   · intro x hxS0
     change (l.1 (uPart c h12 x) : ℂ) = 1
     have hup : uPart c h12 x = 1 := uPart_eq_one_of_mem_S0 c h12 hxS0

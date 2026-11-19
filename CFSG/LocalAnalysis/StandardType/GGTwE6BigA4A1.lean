@@ -123,16 +123,16 @@ private theorem ggTwE6BigA4A1_eq_twA_of_dict {lab : LargeEvenLabel} {r f : ℕ}
     subst hf
     rfl
   case twD =>
-    split_ifs at ht hr <;>
-      first | exact absurd ht (by decide) | exact absurd (by omega) h3
+    split_ifs at ht hr;
+      exact absurd (by omega) h3
   case G2der => exact absurd hc (by decide)
-  all_goals ((try split_ifs at ht) <;> exact absurd ht (by decide))
+  all_goals ((try split_ifs at ht); try exact absurd ht (by decide))
 
 theorem ggTwE6BigA4A1_holds :
     GGTwE6BigA4A1 := by
   intro K _ _ σ hK hσ h hh1 hh3 hdim J hJ
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1 * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1 * 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hK3 : ringChar K ≠ 3 := by rw [hchar]; decide

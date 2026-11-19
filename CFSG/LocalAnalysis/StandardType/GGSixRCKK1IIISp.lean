@@ -61,6 +61,6 @@ theorem rckRowK1_III_sp
   refine ⟨.PSp, m, 1, β, ggRootSub (ggU .PSp m 1).D φ β 1, Or.inl rfl, le_rfl, hβ, hs, h2β,
     ⟨φ, MonoidHom.range_eq_top.2 hsurj, hker, 1, rfl⟩, ?_⟩
   exact Subgroup.mem_map.2 ⟨φ r, Subgroup.mem_map.2 ⟨r, Subgroup.mem_map.2 ⟨r, hrβ,
-    by simp [MulAut.conj_apply]; rfl⟩, rfl⟩, rfl⟩
+    by simp; rfl⟩, rfl⟩, rfl⟩
 
 end CFSG.StandardType.RCKK1IIISp

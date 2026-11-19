@@ -57,16 +57,16 @@ theorem sigmaSet_e7T3A2Word :
   · rintro ⟨l, hl, rfl⟩
     exact ⟨l, (e7T3A2WordList_eq l (List.mem_append_right _ hl)).2 hl, rfl⟩
 
-theorem isQuasisimple_e7T3QLayer {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fact ℓ.Prime]
+theorem isQuasisimple_e7T3QLayer {K : Type} [Field K] [Finite K] {ℓ f _p : ℕ} [Fact ℓ.Prime]
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ] {ε : ℤ}
   (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f) (hε : ε = 1 ∨ ε = -1)
   (hq2 : ε = -1 → 2 < ℓ ^ f) (n : ModGL Tag.E7 L) (hnm : n ∈ monomialSubgroup Tag.E7 L)
-  (hnC : n ∈ adjointGroup Tag.E7 L)
+  (_hnC : n ∈ adjointGroup Tag.E7 L)
   (hnW : ∀ x : Fin Tag.E7.rank → ℤ,
     weylQuotientHom Tag.E7 L ⟨n, hnm⟩ • x = (ε • e7T3W) *ᵥ x) :
     CFSG.IsQuasisimple ↥(rootSpan Tag.E7 L e7T3A5SubA2 ⊓
       twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f)))) := by
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨hg, hact⟩ := e7T3_comp_eps (L := L) hε hnW e7T3A2Word_good
   have hg' : (coxeterSystem Tag.E7).wordProd e7T3A2Comp.u ∈
       parabolicWeylGroup Tag.E7 CFSG.RankThree.PartOne.KE.support13 := by

@@ -94,7 +94,7 @@ theorem Z0_le_map (pre : PreHyp O L A) (hO : pPrimeCore 2 (X ⧸ O) = ⊥)
     rw [map_mul, ← hsu]
     exact hcc
   have hssO : s * s ∈ O := (QuotientGroup.eq_one_iff _).mp hss
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs.1⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs.1⟩
   have hk' : (s * s) ^ (2 ^ k) = 1 := by
     have := congrArg Subtype.val hk
     simp only [Subgroup.coe_pow, OneMemClass.coe_one] at this
@@ -129,7 +129,7 @@ theorem exists_omega (pre : PreHyp O L A)
     rw [map_mul, ← hsp]
     exact hpp
   have hssO : s * s ∈ O := (QuotientGroup.eq_one_iff _).mp hss
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs.1⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs.1⟩
   have hk' : (s * s) ^ (2 ^ k) = 1 := by
     have := congrArg Subtype.val hk
     simp only [Subgroup.coe_pow, OneMemClass.coe_one] at this

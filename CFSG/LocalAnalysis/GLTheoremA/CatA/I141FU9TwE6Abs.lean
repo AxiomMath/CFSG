@@ -47,7 +47,7 @@ theorem twE6_contra {Jg Q Tt : Type} [Group Jg] [Finite Jg] [Group Q] [Finite Q]
     (hIZ : Subgroup.center ↥I = ⊥) (hpiI : ∀ j, rho (lam j) ∈ I)
     (hsurj : ∀ t ∈ I, ∃ j, rho (lam j) = t) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := GLAPPrimeCore 3 Jg with hO
   have hOcop : Nat.Coprime 3 (Nat.card O) := CFSG.pPrimeCore_coprime_card
   let π : Jg →* ↥I := (rho.comp lam).codRestrict I hpiI
@@ -60,7 +60,7 @@ theorem twE6_contra {Jg Q Tt : Type} [Group Jg] [Finite Jg] [Group Q] [Finite Q]
     have hN1 : (O.map π).Normal := Subgroup.Normal.map inferInstance π hπs
     have hcop : Nat.Coprime 3 (Nat.card (O.map π)) :=
       Nat.Coprime.coprime_dvd_right (Subgroup.card_map_dvd _ π) hOcop
-    haveI := hN1
+    have := hN1
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.map π) with h | h
     · have hmem : π j ∈ O.map π := Subgroup.mem_map_of_mem π hj
       rw [h] at hmem

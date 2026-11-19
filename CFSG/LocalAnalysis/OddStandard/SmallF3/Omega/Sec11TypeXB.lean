@@ -12,6 +12,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G}
   {K1 K2 T R : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem t11b_isPGroup_zpowers {a : G} (ha : a * a = 1) : IsPGroup 2 (zpowers a) := by
   have hdvd : orderOf a ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact ha)
   rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h1 | h1

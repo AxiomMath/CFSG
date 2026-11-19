@@ -38,7 +38,7 @@ theorem oPrimeResidual_eq_top_of_isPerfect [Finite X] [Group.IsPerfect X] :
   obtain ⟨S⟩ : Nonempty (Sylow 2 X) := inferInstance
   have hSN : (S : Subgroup X) ≤ oPrimeResidual 2 X := by
     intro s hs
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     exact Subgroup.subset_closure ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hSodd : Odd (S : Subgroup X).index := by
     have := Sylow.not_dvd_index S

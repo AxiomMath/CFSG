@@ -57,7 +57,7 @@ private theorem s1611e3_c6_fixV_ne_bot_of_isPGroup_two {W : Type} [CommGroup W] 
     [Nontrivial W] (hsq : ∀ w : W, w ^ 2 = 1) {P : Subgroup (MulAut W)}
     (hP : IsPGroup 2 P) : fixV P ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hP.card_modEq_card_fixedPoints W
   have hfix : Nat.card (MulAction.fixedPoints ↥P W) = Nat.card ↥(fixV P) := by
     refine Nat.card_congr (Equiv.subtypeEquivRight fun v => ?_)
@@ -95,15 +95,15 @@ private theorem s1611e3_c6_pow_three_eq_one_of_card_24 {X : Type} [Group X] [Fin
     have h24' : 3 ^ k ∣ 24 := hk ▸ hdvd24
     have h9 : 9 ∣ 24 := by
       have h := h9dvd.trans h24'
-      simpa using h
+      simp at h
     norm_num at h9
   have hfin : orderOf x = 1 ∨ orderOf x = 3 := by
     rcases (by omega : k = 0 ∨ k = 1) with rfl | rfl
     · left; simpa using hk
     · right; simpa using hk
   rcases hfin with h | h
-  · exact orderOf_dvd_iff_pow_eq_one.mp (by simpa [h] using one_dvd (3 : ℕ))
-  · exact orderOf_dvd_iff_pow_eq_one.mp (by simpa [h] using dvd_refl (3 : ℕ))
+  · exact orderOf_dvd_iff_pow_eq_one.mp (by simp [h])
+  · exact orderOf_dvd_iff_pow_eq_one.mp (by simp [h])
 
 private theorem s1611e3_c6_map_conj_conj_inv {W : Type} [Group W] (t : MulAut W)
     (A : Subgroup (MulAut W)) :
@@ -186,7 +186,6 @@ private theorem s1611e3_c6_two_parabolics {W : Type} [Group W] [Finite W]
   refine ⟨Ps.map L.subtype, Subgroup.map_subtype_le Ps, ?_, ?_, ?_, ?_, ?_⟩
   · intro y hy
     exact ⟨⟨y, hT1L hy⟩, hPsT1 (by
-      change (⟨y, hT1L hy⟩ : ↥L) ∈ T1.subgroupOf L
       exact hy), rfl⟩
   · rw [Subgroup.card_map_of_injective L.subtype_injective, hPscard]
   · intro heq
@@ -235,8 +234,8 @@ theorem s1611e3_case6_l3_routeF_data {D : Data G} (h : S1611e3Std D) {V₀ V L :
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D V₀ V L hV) (h6 : Case168_6 D V₀ V hV L)
     (hL3 : IsL3 ↥(lBar V₀ V hV L) 1) : S1611e3RouteF D V₀ V hV 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, Z, hxT, hcomm, hinfA, hEeq, hfixBW, hfixAW, hinfW, hsupW, hT1syl, hZcard,
     hZM, hZnorm, hZL, hZJ, hZf, hFsup, hZinf, hZLp, hZJp, hZfp, hswap, -⟩ :=
     s1611e3_case6_prod h hc h6
@@ -271,10 +270,10 @@ theorem s1611e3_case6_l3_routeF_data {D : Data G} (h : S1611e3Std D) {V₀ V L :
     norm_num at hc'
     exact hc'
   have hT1p : IsPGroup 2 T1 := hT1syl.isPGroup
-  haveI : Nontrivial (Vtil V₀ V hV) := by
+  have : Nontrivial (Vtil V₀ V hV) := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
-    haveI : Subsingleton (MulAut (Vtil V₀ V hV)) :=
+    have : Subsingleton (MulAut (Vtil V₀ V hV)) :=
       ⟨fun a b => MulEquiv.ext fun v => Subsingleton.elim (a v) (b v)⟩
     apply hc.ne_bot
     change Lb = ⊥
@@ -607,7 +606,6 @@ theorem s1611e3_case6_l3_routeF_data {D : Data G} (h : S1611e3Std D) {V₀ V L :
       rw [← ht_eq, s1611e3_c6_map_conj_mul, hT0Q _ hu, hxQ]
   have hTbN : Tb ≤ Subgroup.normalizer (N : Set (MulAut (Vtil V₀ V hV))) := by
     intro t ht
-    change t ∈ Subgroup.normalizer (N : Set (MulAut (Vtil V₀ V hV)))
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     rw [hN]
     calc (Z ⊔ Q).map (MulAut.conj t).toMonoidHom

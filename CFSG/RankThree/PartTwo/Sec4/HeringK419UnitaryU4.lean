@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {a : G}
 theorem false_of_projSU_four
     (c : UCfg L a haN m) {n : ℕ} (hn : 1 ≤ n)
     (φ : L ⧸ aschbacherSolvableCore 3 L ≃* projSU 4 2 n) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set α := thetaQuotMulAut L (compAction L ⟨a, haN⟩) with hαdef
   set β : MulAut (projSU 4 2 n) := MulAut.congr φ α with hβdef
   have hβ3 : β ^ 3 = 1 := by rw [hβdef, ← map_pow, c.cube, map_one]

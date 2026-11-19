@@ -468,8 +468,8 @@ public theorem lemma4_transitive_linearAut_order
   have hcard_gt : 1 < Nat.card V := by
     rw [hcard]
     exact one_lt_pow₀ (by norm_num : 1 < (2 : ℕ)) (by omega)
-  letI : Nontrivial V := Finite.one_lt_card_iff_nontrivial.mp hcard_gt
-  letI := Fintype.ofFinite V
+  let : Nontrivial V := Finite.one_lt_card_iff_nontrivial.mp hcard_gt
+  let := Fintype.ofFinite V
   obtain ⟨x, hx⟩ := exists_ne (0 : V)
   let orbit :
       Subgroup.zpowers T → {v : V // v ≠ 0} :=
@@ -662,7 +662,7 @@ private theorem lemma4_singer_descend_fixed_vector
   have hcharpoly :
       (((T ^ d).toLinearMap).baseChange A).charpoly =
         (T ^ d).toLinearMap.charpoly.map (algebraMap R A) := by
-    letI : Module.Free R M := Module.Free.of_divisionRing R M
+    let : Module.Free R M := Module.Free.of_divisionRing R M
     let b := Module.Free.chooseBasis R M
     have h1 : (LinearMap.toMatrix b b (T ^ d).toLinearMap).charpoly =
         (T ^ d).toLinearMap.charpoly :=
@@ -701,8 +701,8 @@ private theorem lemma4_singer_frobenius_eigenvalue
       (M := TensorProduct (ZMod 2) K V)
       (T.toLinearMap.baseChange K) (lambda ^ (2 ^ i)) := by
   classical
-  letI := Fintype.ofFinite V
-  letI : Module.Finite K (TensorProduct (ZMod 2) K V) :=
+  let := Fintype.ofFinite V
+  let : Module.Finite K (TensorProduct (ZMod 2) K V) :=
     Module.Finite.of_basis
       ((Module.Free.chooseBasis (ZMod 2) V).baseChange K)
   let f : Module.End K (BC V) := T.toLinearMap.baseChange K
@@ -713,7 +713,7 @@ private theorem lemma4_singer_frobenius_eigenvalue
   have hcharpoly :
       (T.toLinearMap.baseChange K).charpoly =
         T.toLinearMap.charpoly.map (algebraMap (ZMod 2) K) := by
-    letI : Module.Free (ZMod 2) V := Module.Free.of_divisionRing (ZMod 2) V
+    let : Module.Free (ZMod 2) V := Module.Free.of_divisionRing (ZMod 2) V
     let b := Module.Free.chooseBasis (ZMod 2) V
     have h1 : (LinearMap.toMatrix b b T.toLinearMap).charpoly =
         T.toLinearMap.charpoly :=
@@ -766,8 +766,8 @@ private theorem lemma4_singer_primitive_root
           (T.toLinearMap.baseChange K) lambda ∧
         lambda ≠ 0 ∧ orderOf lambda = 2 ^ n - 1 := by
   classical
-  letI := Fintype.ofFinite V
-  letI : Module.Finite K (TensorProduct (ZMod 2) K V) :=
+  let := Fintype.ofFinite V
+  let : Module.Finite K (TensorProduct (ZMod 2) K V) :=
     Module.Finite.of_basis
       ((Module.Free.chooseBasis (ZMod 2) V).baseChange K)
   have hfinrank : Module.finrank (ZMod 2) V = n := by
@@ -861,8 +861,8 @@ private theorem lemma4_singer_eigenbasis
           (T.toLinearMap.baseChange K) (basis i) =
             lambda ^ (2 ^ (i : ℕ)) • basis i := by
   classical
-  letI := Fintype.ofFinite V
-  letI : Module.Finite K (BC V) :=
+  let := Fintype.ofFinite V
+  let : Module.Finite K (BC V) :=
     Module.Finite.of_basis
       ((Module.Free.chooseBasis (ZMod 2) V).baseChange K)
   obtain ⟨lambda, hlambda_eigen, hlambda_ne, hlambda_order⟩ :=
@@ -914,7 +914,7 @@ private theorem lemma4_singer_eigenbasis
   choose v hv using fun i => (heigen i).exists_hasEigenvector
   have hv_linearIndependent : LinearIndependent K v :=
     Module.End.eigenvectors_linearIndependent' f mu hmu_injective v hv
-  letI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  let : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   let basis : Module.Basis (Fin n) K (BC V) :=
     basisOfLinearIndependentOfCardEqFinrank hv_linearIndependent
       (by simp [hfinrank_bc])
@@ -947,8 +947,7 @@ private theorem lemma4_singer_baseChange_alternating
     exact LinearMap.BilinMap.baseChange_isSymm hsym x y
   intro x
   change BK x x = 0
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a v =>
       calc
         BK (a ⊗ₜ[ZMod 2] v) (a ⊗ₜ[ZMod 2] v) =
@@ -977,14 +976,10 @@ private theorem lemma4_singer_baseChange_equivariant
     LinearMap.BilinMap.baseChange K B
   change ∀ x y : BC V, BK (TK x) (TK y) = TK (BK x y)
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      intro y
-      simp only [map_zero, LinearMap.zero_apply]
+  induction x using TensorProduct.inductionOn with
   | tmul a v =>
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction y using TensorProduct.inductionOn with
       | tmul b w =>
           have hT_tmul (c : K) (z : V) :
               TK (c ⊗ₜ[ZMod 2] z) = c ⊗ₜ[ZMod 2] T z := by
@@ -1028,8 +1023,7 @@ private theorem lemma4_singer_baseChange_span
   change S = ⊤
   have hall : ∀ z : BC V, z ∈ S := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact S.zero_mem
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => exact S.add_mem hx hy
     | tmul a v =>
         have hv : v ∈ Submodule.span (ZMod 2)

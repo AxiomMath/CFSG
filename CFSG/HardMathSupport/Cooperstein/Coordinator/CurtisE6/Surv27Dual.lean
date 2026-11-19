@@ -13,14 +13,14 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.Quasith
   CFSG.LieType.Steinberg CFSG.LieType.Steinberg.Minuscule
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisTw
 
-@[expose] abbrev e6n5 : Fin TwistTag.E6.tag.rank := ⟨5, by decide⟩
+abbrev e6n5 : Fin TwistTag.E6.tag.rank := ⟨5, by decide⟩
 
 theorem rho_aux : ∀ s : Fin (Tag.rank .E6),
     (TwistedE6.rhoPerm s = ⟨0, by decide⟩ ↔ s = ⟨5, by decide⟩) ∧
       TwistedE6.rhoPerm (TwistedE6.rhoPerm s) = s := by decide
 
-@[expose] abbrev n0T : Fin (Tag.rank .E6) := ⟨0, by decide⟩
-@[expose] abbrev n5T : Fin (Tag.rank .E6) := ⟨5, by decide⟩
+abbrev n0T : Fin (Tag.rank .E6) := ⟨0, by decide⟩
+abbrev n5T : Fin (Tag.rank .E6) := ⟨5, by decide⟩
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
@@ -82,12 +82,12 @@ theorem e6Chi27s_hmT (s : Fin (Tag.rank .E6)) (u : Kˣ) :
   rw [e]
   by_cases hs : s = n5T
   · have hr : TwistedE6.rhoPerm s = n0T := ((rho_aux s).1).2 hs
-    rw [if_pos hs]
-    rw [if_pos hr] at h
+    rw [ite_eq_left hs]
+    rw [ite_eq_left hr] at h
     exact h
   · have hr : ¬ TwistedE6.rhoPerm s = n0T := fun h' => hs (((rho_aux s).1).1 h')
-    rw [if_neg hs]
-    rw [if_neg hr] at h
+    rw [ite_eq_right hs]
+    rw [ite_eq_right hr] at h
     exact h
 
 theorem e6Chi27s_hm (s : Fin TwistTag.E6.tag.rank) (u : Kˣ) :
@@ -129,7 +129,7 @@ theorem e6Rep27s_isCoverType :
     have h1' : ∀ u : Kˣ, (u : K) = 1 := fun u => by
       have := h1 u
       change e6Chi27s (e6Data_valid.hm K e6n5 u) = 1 at this
-      rwa [e6Chi27s_hm, if_pos rfl, zpow_one] at this
+      rwa [e6Chi27s_hm, ite_eq_left rfl, zpow_one] at this
     have hr : TwistedE6.rhoPerm e6n5 = e6n0 := ((rho_aux e6n5).1).2 rfl
     have h3 : (e6CoverData K).datum.heckeT (e6Rep27s K) e6n5 e6Y27 = -(∑ c : K, c) • e6Y27 :=
       (e6_heckeT_ys e6n5).trans (by
@@ -142,11 +142,11 @@ theorem e6Rep27s_isCoverType :
   · have hne : ¬ TwistedE6.rhoPerm s = n0T := fun h => hs (((rho_aux s).1).1 h)
     have hw : e6Data.wt (↑(⟨0, by decide⟩ : Fin e6Data.d)) (TwistedE6.rhoPerm s) = 0 := by
       have := e6_wt_zeroT (TwistedE6.rhoPerm s)
-      rw [if_neg hne] at this
+      rw [ite_eq_right hne] at this
       exact this
     refine ⟨fun _ => ⟨fun u => ?_, ?_⟩, fun _ => Finset.mem_erase.2 ⟨hs, Finset.mem_univ _⟩⟩
     · change e6Chi27s (e6Data_valid.hm K s u) = 1
-      rw [e6Chi27s_hm, if_neg hs, zpow_zero]
+      rw [e6Chi27s_hm, ite_eq_right hs, zpow_zero]
       rfl
     · exact (e6_heckeT_ys s).trans (sum_xm_nm_of_wt_zero (hV := e6Data_valid)
         (a₀ := ⟨0, by decide⟩) (s := TwistedE6.rhoPerm s) hw)

@@ -37,8 +37,8 @@ section Certified
 
 theorem isU4_of_isSUn_four {X : Type} [Group X] {n : ℕ} (h : IsSUn X 4 n) : IsU4 X n := by
   obtain ⟨K, hKf, hKfin, hcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hcard' : Nat.card K = 2 ^ (2 * n) := by
     rw [hcard, ← pow_mul]
     ring_nf
@@ -47,7 +47,7 @@ theorem isU4_of_isSUn_four {X : Type} [Group X] {n : ℕ} (h : IsSUn X 4 n) : Is
     · rw [h0, mul_zero, pow_zero] at hcard'
       exact absurd hcard' (Finite.one_lt_card).ne'
     · exact h0
-  haveI hchar : CharP K 2 := uc22p22d_charP_two (by omega) hcard'
+  have hchar : CharP K 2 := uc22p22d_charP_two (by omega) hcard'
   have hbot := CFSG.Quasithin.H13.F431.Un.statedScalars_inf_eq_bot (f := n) hcard
   let eP : StatedProj (StatedSU 4 (2 ^ n) K) ≃* ↥(StatedSU 4 (2 ^ n) K) :=
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
@@ -63,19 +63,19 @@ private noncomputable def quadPlusTwoProjEquiv (K : Type) [Field K] [Finite K] [
       refine ⟨Pi.single (Sum.inl 0) 1 + Pi.single (Sum.inr 0) 1, ?_⟩
       rw [← CFSG.LieType.Universal.Spin.coe_quadPlus 2 K]
       rw [CFSG.LieType.Universal.Spin.quadPlus_apply]
-      simp [Pi.single_apply, Fin.sum_univ_two, add_comm])
+      simp [Pi.single_apply, add_comm])
 
 theorem not_isSimpleGroup_of_isOmegaPlus_four {X : Type} [Group X] {k : ℕ}
     (h : IsOmegaPlus X 4 k) : ¬ IsSimpleGroup X := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hk : 1 ≤ k := by
     rcases Nat.eq_zero_or_pos k with h0 | h0
     · rw [h0, pow_zero] at hKcard
       exact absurd hKcard (Finite.one_lt_card).ne'
     · exact h0
-  haveI hchar : CharP K 2 := uc22p22d_charP_two hk hKcard
+  have hchar : CharP K 2 := uc22p22d_charP_two hk hKcard
   let eP := quadPlusTwoProjEquiv K
   intro hs
   have hsΩ : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 2 K)) :=
@@ -101,7 +101,7 @@ theorem not_isSimpleGroup_of_isOmegaPlus_four {X : Type} [Group X] {k : ℕ}
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
     obtain ⟨eΩ⟩ := uc22p22d_omegaPlus4_equiv (F := K) h4
-    haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K) :=
+    have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K) :=
       CFSG.RankThree.PartTwo.KFacts.nontrivial_sl2 K
     exact CFSG.LocalAnalysis.EvenBN.TwoF4.not_isSimpleGroup_of_equiv_prod
       ((e.trans eP).trans eΩ.symm) hs
@@ -118,7 +118,7 @@ theorem isSolvable_statedOmega_quadPlus_two {K : Type} [Field K] [Finite K]
       ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
     CFSG.HardMathSupport.Foote.E27.Q2.statedOmegaEquiv σ (StatedQuadPlus 2 K)
       (StatedQuadPlus 2 (ZMod 2)) hQ'
-  haveI : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
+  have : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
     CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.OmegaSmall.solvable_plus_two
   exact Group.isSolvable_of_isSolvable_injective (f := eσ.toMonoidHom) eσ.injective
 
@@ -128,8 +128,8 @@ theorem two_le_of_isOmegaPlus_four_of_perfect {X : Type} [Group X] [Finite X] {f
   by_contra hf
   have hf1 : f ≤ 1 := by omega
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hO
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hfpos : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with h0 | h0
     · rw [h0, pow_zero] at hKcard
@@ -137,16 +137,16 @@ theorem two_le_of_isOmegaPlus_four_of_perfect {X : Type} [Group X] [Finite X] {f
     · exact h0
   have hfeq : f = 1 := by omega
   have hK2 : Nat.card K = 2 := by rw [hKcard, hfeq, pow_one]
-  haveI : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 K)) :=
+  have : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 K)) :=
     isSolvable_statedOmega_quadPlus_two hK2
-  haveI : Group.IsSolvable (StatedProj (StatedOmega (StatedQuadPlus 2 K))) :=
+  have : Group.IsSolvable (StatedProj (StatedOmega (StatedQuadPlus 2 K))) :=
     Group.isSolvable_of_surjective
       (f := QuotientGroup.mk' ((StatedScalars (Fin 2 ⊕ Fin 2) K).subgroupOf
         (StatedOmega (StatedQuadPlus 2 K))))
       (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsSolvable X :=
+  have : Group.IsSolvable X :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-  haveI : Group.IsPerfect X := hperf
+  have : Group.IsPerfect X := hperf
   have hsub : Subsingleton X :=
     CFSG.ComponentClassification.SolvableKernelContainment.perfect_solvable_subsingleton
   exact (not_subsingleton_iff_nontrivial.mpr hnt) hsub
@@ -154,16 +154,16 @@ theorem two_le_of_isOmegaPlus_four_of_perfect {X : Type} [Group X] [Finite X] {f
 theorem nontrivial_of_isOmegaPlus_four {X : Type} [Group X] [Finite X] {f : ℕ}
     (hO : IsOmegaPlus X 4 f) : Nontrivial X := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hO
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with h0 | h0
     · rw [h0, pow_zero] at hKcard
       exact absurd hKcard (Finite.one_lt_card).ne'
     · exact h0
-  haveI hchar : CharP K 2 := uc22p22d_charP_two hf hKcard
+  have hchar : CharP K 2 := uc22p22d_charP_two hf hKcard
   let eP := quadPlusTwoProjEquiv K
-  haveI hΩnt : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 K)) := by
+  have hΩnt : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 K)) := by
     rcases Nat.lt_or_ge f 2 with hf1 | hf2
     · have hfeq : f = 1 := by omega
       have hK2 : Nat.card K = 2 := by rw [hKcard, hfeq, pow_one]
@@ -176,7 +176,7 @@ theorem nontrivial_of_isOmegaPlus_four {X : Type} [Group X] [Finite X] {f : ℕ}
           ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
         CFSG.HardMathSupport.Foote.E27.Q2.statedOmegaEquiv σ (StatedQuadPlus 2 K)
           (StatedQuadPlus 2 (ZMod 2)) hQ'
-      haveI : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
+      have : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
         CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.OmegaSmall.nontrivial_plus_two
       exact eσ.nontrivial
     · have h4 : 4 ≤ Nat.card K := by
@@ -184,18 +184,19 @@ theorem nontrivial_of_isOmegaPlus_four {X : Type} [Group X] [Finite X] {f : ℕ}
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
       obtain ⟨eΩ⟩ := uc22p22d_omegaPlus4_equiv (F := K) h4
-      haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K) :=
+      have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K) :=
         CFSG.RankThree.PartTwo.KFacts.nontrivial_sl2 K
-      haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K ×
+      have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K ×
           Matrix.SpecialLinearGroup (Fin 2) K) := inferInstance
       exact eΩ.symm.nontrivial
-  haveI : Nontrivial (StatedProj (StatedOmega (StatedQuadPlus 2 K))) := eP.nontrivial
+  have : Nontrivial (StatedProj (StatedOmega (StatedQuadPlus 2 K))) := eP.nontrivial
   exact e.nontrivial
 
+omit [Finite G] in
 theorem isPerfect_barSub_of_perfect {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {X : Subgroup G} (hXS : X ≤ stabTil V₀ V) (hX : Group.IsPerfect ↥X) :
     Group.IsPerfect ↥(barSub V₀ V hV X) := by
-  haveI hX' : Group.IsPerfect ↥(X.subgroupOf (stabTil V₀ V)) :=
+  have hX' : Group.IsPerfect ↥(X.subgroupOf (stabTil V₀ V)) :=
     CFSG.Quasithin.H13.isPerfect_subgroupOf hXS (Subgroup.isPerfect_iff.mp hX)
   exact Group.IsPerfect.map (actTil V₀ V hV)
 
@@ -225,15 +226,15 @@ theorem isOmegaPlus_barSub_cong_aux {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
   have hchar : CharP K 2 := uc22p22d_charP_two (by omega) hK
-  haveI := hchar
+  have := hchar
   let g1 := quadPlusTwoProjEquiv K
   obtain ⟨eSL1⟩ := uc22p22d_omegaPlus4_equiv (F := K) h4
   let eSL : ↥(barSub V₀ V h125.isElemAbelian X) ≃*
       Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K :=
     e0.trans (g1.trans eSL1.symm)
-  haveI hSL2simple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have hSL2simple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
     CFSG.Quasithin.Vol2.Ch10.HeL.sl2_isSimpleGroup h4
-  haveI hprodnt : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K ×
+  have hprodnt : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K ×
       Matrix.SpecialLinearGroup (Fin 2) K) := inferInstance
   have hm3bar : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup
       ↥(barSub V₀ V h125.isElemAbelian X)) := by
@@ -381,9 +382,10 @@ theorem isOmegaPlus_barSub_cong_aux {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
       LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU4
     exact absurd (hsimple_quotient hsimp) hnotSimpleXbar
 
+omit [Finite G] in
 theorem isPerfect_conjClosure_of_perfect {M L : Subgroup G} (hL : ⁅L, L⁆ = L) :
     ⁅conjClosure M L, conjClosure M L⁆ = conjClosure M L := by
-  haveI hLp : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL
+  have hLp : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL
   have hperf : Group.IsPerfect ↥(conjClosure M L) := by
     rw [CFSG.LocalAnalysis.UniquenessCase.UC22.uc22br4_conjClosure_eq]
     exact CFSG.RankThree.PartTwo.Sec14.Res9Fix.isPerfect_iSup _

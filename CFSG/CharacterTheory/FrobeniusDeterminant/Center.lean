@@ -16,6 +16,7 @@ namespace FrobeniusDeterminant.Center
 
 variable (G : Type*) [Group G] [Fintype G] [DecidableEq G]
 
+omit [Fintype G] [DecidableEq G] in
 private theorem coeff_conj_eq_of_mem_center
     (z : Subalgebra.center ℂ (MonoidAlgebra ℂ G)) (a b : G) :
     z.1.coeff (a * b * a⁻¹) = z.1.coeff b := by
@@ -25,6 +26,7 @@ private theorem coeff_conj_eq_of_mem_center
     MonoidAlgebra.coeff_mul_single_apply] at h'
   simpa [mul_assoc] using h'.symm
 
+omit [Fintype G] [DecidableEq G] in
 private theorem mem_center_of_coeff_conj_eq (z : MonoidAlgebra ℂ G)
     (hz : ∀ a b : G, z.coeff (a * b * a⁻¹) = z.coeff b) :
     z ∈ Subalgebra.center ℂ (MonoidAlgebra ℂ G) := by
@@ -47,10 +49,12 @@ private theorem mem_center_of_coeff_conj_eq (z : MonoidAlgebra ℂ G)
 @[expose] noncomputable def representative (c : ConjClasses G) : G :=
   Classical.choose (ConjClasses.exists_rep c)
 
+omit [Fintype G] [DecidableEq G] in
 private theorem mk_representative (c : ConjClasses G) :
     ConjClasses.mk (representative G c) = c :=
   Classical.choose_spec (ConjClasses.exists_rep c)
 
+omit [Fintype G] [DecidableEq G] in
 private theorem coeff_eq_of_mk_eq (z : Subalgebra.center ℂ (MonoidAlgebra ℂ G))
     {a b : G} (h : ConjClasses.mk a = ConjClasses.mk b) :
     z.1.coeff a = z.1.coeff b := by
@@ -63,6 +67,7 @@ private noncomputable def classFunctionAlgebra (f : ConjClasses G → ℂ) :
   (MonoidAlgebra.coeffLinearEquiv ℂ).symm
     (Finsupp.equivFunOnFinite.symm (fun g : G => f (ConjClasses.mk g)) : G →₀ ℂ)
 
+omit [DecidableEq G] in
 @[simp] private theorem classFunctionAlgebra_coeff (f : ConjClasses G → ℂ) (g : G) :
     (classFunctionAlgebra G f).coeff g = f (ConjClasses.mk g) := by
   unfold classFunctionAlgebra
@@ -73,6 +78,7 @@ private noncomputable def classFunctionAlgebra (f : ConjClasses G → ℂ) :
       (fun g : G => f (ConjClasses.mk g))) g
   simpa only [Finsupp.equivFunOnFinite_apply] using h
 
+omit [DecidableEq G] in
 private theorem classFunctionAlgebra_mem_center (f : ConjClasses G → ℂ) :
     classFunctionAlgebra G f ∈ Subalgebra.center ℂ (MonoidAlgebra ℂ G) := by
   apply mem_center_of_coeff_conj_eq
@@ -106,6 +112,7 @@ noncomputable def centerCoeff :
     ext d
     simp
 
+omit [DecidableEq G] in
 theorem centerCoeff_classFunctionCenter (f : ConjClasses G → ℂ) :
     centerCoeff G (classFunctionCenter G f) = f := by
   ext c
@@ -113,6 +120,7 @@ theorem centerCoeff_classFunctionCenter (f : ConjClasses G → ℂ) :
   rw [classFunctionAlgebra_coeff]
   simp [mk_representative]
 
+omit [DecidableEq G] in
 theorem classFunctionCenter_centerCoeff
     (z : Subalgebra.center ℂ (MonoidAlgebra ℂ G)) :
     classFunctionCenter G (centerCoeff G z) = z := by

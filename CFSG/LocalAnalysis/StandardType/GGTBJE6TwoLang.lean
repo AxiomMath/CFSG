@@ -37,8 +37,8 @@ theorem e6Two_langSetup {K : Type} [Field K] [Finite K] [CharP K 2]
       (∀ β, IsRoot .E6 β → S.ρ β = e6W0 • β) := by
   classical
   let L := AlgebraicClosure K
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   let D0 : LangDatum .E6 L := LangDatum.ofFrobenius Fr (Nat.card K) hFr e6W0 hg0C hg0
   have hd : LangDescent D0 7 ((baseChangeGL (algebraMap K L)).comp
       (adjointGroup .E6 K).subtype) :=

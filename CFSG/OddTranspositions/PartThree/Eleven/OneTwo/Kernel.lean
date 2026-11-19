@@ -32,6 +32,7 @@ namespace ElevenTwoHyp
 
 variable {hC : HypothesisC D}
 
+omit [Finite G] in
 private theorem conj (h : ElevenTwoHyp hC) (g : G) :
     ElevenTwoHyp (hC.conj g) where
   rad := h.rad

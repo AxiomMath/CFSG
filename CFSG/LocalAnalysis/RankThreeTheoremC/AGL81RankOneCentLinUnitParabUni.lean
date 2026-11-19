@@ -74,12 +74,12 @@ theorem uniBlockGroup_comm {t s ε : ℕ} {I : Finset ℕ} (hI : IsTopCut I t) (
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   rcases j with _ | c
   · obtain rfl : s = 0 := by omega
-    haveI := subsingleton_hypIndex_zero hε
+    have := subsingleton_hypIndex_zero hε
     exact gl_mul_comm_of_subsingleton (K := K) a b
   · have hle : c.1 - predCut I c.1 ≤ 1 := by
       have := (hI.le c.1 c.2).2
       omega
-    haveI : Subsingleton (Fin (c.1 - predCut I c.1)) := Fin.subsingleton_iff_le_one.mpr hle
+    have : Subsingleton (Fin (c.1 - predCut I c.1)) := Fin.subsingleton_iff_le_one.mpr hle
     exact gl_mul_comm_of_subsingleton (K := K) a b
 
 end Levi

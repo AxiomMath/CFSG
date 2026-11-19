@@ -23,7 +23,7 @@ theorem prime_dvd_card_spinGroup_quadMinus {p r f : ℕ} [Fact p.Prime] (hr : 2 
     {ω : (GaloisField 2 f)ˣ} (hω : ω ^ p = 1) (hωo : orderOf ω = p) :
     p ∣ Nat.card (spinGroup (quadMinus (r + 2) (GaloisField 2 f) (minusCoeffs 2 f).1
       (minusCoeffs 2 f).2)) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let T := spinMinusSplitTorus hr (minusCoeffs_irr 2 f) hω
   have hinj : Function.Injective T :=
     spinMinusSplitTorus_injective hr (minusCoeffs_irr 2 f) hω hωo
@@ -41,7 +41,7 @@ theorem ggSecFiveBCoordBOmChartInput_of_mp
     (hMp : GGInnerDiagMpInput) : GGSecFiveBCoordBOmChartInput := by
   intro G _ _ p B Bs x L D J 𝒦 hR hT1 n e hpres h4 eta i0 hBfull hLeta hLab hBB hnbr hG0 f K hcell
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨r, rfl⟩ : ∃ r, n = r + 2 := ⟨n - 2, by omega⟩
   have hr : 2 ≤ r := by omega
   obtain ⟨hf, hK𝒦, ⟨ψ, hker, hrange⟩, ⟨eL⟩, eta', -, hL', hK'⟩ := hcell

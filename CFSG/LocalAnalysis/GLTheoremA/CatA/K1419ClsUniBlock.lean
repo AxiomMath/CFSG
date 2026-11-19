@@ -182,8 +182,8 @@ private theorem selfDual_unitaryBlock_mulEquiv
   have hσL : ∀ l : L, sigmaK τ m hdiv (algebraMap L (AdjoinRoot f) l) =
       algebraMap L (AdjoinRoot f) (τ l) := fun l => sigmaK_of τ m hdiv l
   have hf0 : f ≠ 0 := (H.hirr f hf).ne_zero
-  haveI : Module.Finite L (AdjoinRoot f) := (H.hmon f hf).finite_adjoinRoot
-  haveI : Finite (AdjoinRoot f) :=
+  have : Module.Finite L (AdjoinRoot f) := (H.hmon f hf).finite_adjoinRoot
+  have : Finite (AdjoinRoot f) :=
     Finite.of_equiv (Fin (Module.finrank L (AdjoinRoot f)) → L)
       (Module.finBasis L (AdjoinRoot f)).equivFun.toEquiv.symm
   let σE : AdjoinRoot f ≃+* AdjoinRoot f := invEquiv (sigmaK τ m hdiv) hσσ
@@ -219,8 +219,8 @@ private theorem selfDual_unitaryBlock_mulEquiv
   obtain ⟨B, hsymm, hsep, hrep⟩ :=
     exists_trace_form hUFD.bar (τ : L →+* L) hρE hρL (hW τ s b F f) hherm hadj
       (hW_nondeg H hf hself)
-  haveI : Module.Finite L (Vf s b F f) := inferInstance
-  haveI : FiniteDimensional (AdjoinRoot f) (Vf s b F f) :=
+  have : Module.Finite L (Vf s b F f) := inferInstance
+  have : FiniteDimensional (AdjoinRoot f) (Vf s b F f) :=
     Module.Finite.of_restrictScalars_finite L (AdjoinRoot f) (Vf s b F f)
   obtain ⟨e0, he0⟩ :=
     UnitaryFieldData.exists_orthonormal_basis hUFD (B := B) (LinearMap.isSymm_def.mpr hsymm) hsep
@@ -277,14 +277,14 @@ theorem k1419ClsUniBlockPair {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L
   choose! a b hab using hcop
   let H : PrimaryHyp τ (s : Matrix (Fin n) (Fin n) L) (orderOf s) F a b :=
     ⟨hτ, hm0, hirr, hmon, hprod, hsm, hs', hab⟩
-  haveI hK : ∀ f : ↥(Fset (s : Matrix (Fin n) (Fin n) L) b F),
+  have hK : ∀ f : ↥(Fset (s : Matrix (Fin n) (Fin n) L) b F),
       Fact (∀ x ∈ Vf (s : Matrix (Fin n) (Fin n) L) b F f.1,
         aeval (s : Matrix (Fin n) (Fin n) L) f.1 *ᵥ x = 0) :=
     fun f => ⟨fun x hx => aeval_factor_mulVec_eq_zero H (mem_Fset.mp f.2).1 hx⟩
   let C : Subgroup (GL (Fin n) L) :=
     Subgroup.centralizer ({s} : Set (GL (Fin n) L)) ⊓ heldGU n L τ hτ
   let Hact : Activ H → Type := fun f => ↥(Bl H f.1)
-  haveI hFinH : ∀ f : Activ H, Finite (Hact f) := fun f => finite_Bl H f.1
+  have hFinH : ∀ f : Activ H, Finite (Hact f) := fun f => finite_Bl H f.1
   let ε : ↥C ≃* (∀ f : Activ H, Hact f) :=
     (centralizerEquivGlin' hτ s).trans (glinEquivBlocks H)
   let ψ : (∀ f : Activ H, Hact f) →* GL (Fin n) L :=
@@ -358,7 +358,7 @@ theorem k1419ClsUniBlockPair {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L
         rw [mem_factorSub]
         intro j hj
         rw [MonoidHom.mulSingle_apply]
-        simp [Pi.mulSingle_apply, hj]⟩
+        simp [hj]⟩
       left_inv := by
         intro w
         apply Subtype.ext
@@ -366,7 +366,7 @@ theorem k1419ClsUniBlockPair {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L
         by_cases hj : j = f0
         · subst hj
           simp [MonoidHom.mulSingle_apply]
-        · simp [MonoidHom.mulSingle_apply, Pi.mulSingle_apply, hj,
+        · simp [MonoidHom.mulSingle_apply, hj,
             mem_factorSub.mp w.2 j hj]
       right_inv := by
         intro x
@@ -400,8 +400,8 @@ theorem k1419ClsUniBlockPair {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L
       have h := adjM_piI H f0.1
       rw [hself] at h
       simpa [hfdef] using h
-    haveI : Fact (Irreducible f) := ⟨hirr f hfF⟩
-    haveI : Fact (∀ x ∈ Vf (s : Matrix (Fin n) (Fin n) L) b F f,
+    have : Fact (Irreducible f) := ⟨hirr f hfF⟩
+    have : Fact (∀ x ∈ Vf (s : Matrix (Fin n) (Fin n) L) b F f,
         aeval (s : Matrix (Fin n) (Fin n) L) f *ᵥ x = 0) :=
       ⟨fun x hx => aeval_factor_mulVec_eq_zero H hfF hx⟩
     obtain ⟨a', ρE, hρE, hτ'Q, hcardE, ⟨φ0⟩⟩ :=
@@ -471,12 +471,12 @@ theorem k1419ClsUniBlockPair {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L
   ·
     have hrep : IsRep H f0.1 := f0.2.resolve_left hself
     have hBl : Bl H f0.1 = ⊤ := Bl_of_isRep H hrep
-    haveI : Fact (Irreducible f) := ⟨hirr f hfF⟩
-    haveI : Module.Finite L (AdjoinRoot f) := (hmon f hfF).finite_adjoinRoot
-    haveI : Finite (AdjoinRoot f) :=
+    have : Fact (Irreducible f) := ⟨hirr f hfF⟩
+    have : Module.Finite L (AdjoinRoot f) := (hmon f hfF).finite_adjoinRoot
+    have : Finite (AdjoinRoot f) :=
       Finite.of_equiv (Fin (Module.finrank L (AdjoinRoot f)) → L)
         (Module.finBasis L (AdjoinRoot f)).equivFun.toEquiv.symm
-    haveI : Module.Finite (AdjoinRoot f)
+    have : Module.Finite (AdjoinRoot f)
         (Vf (s : Matrix (Fin n) (Fin n) L) b F f) :=
       Module.Finite.of_restrictScalars_finite L (AdjoinRoot f)
         (Vf (s : Matrix (Fin n) (Fin n) L) b F f)
@@ -506,7 +506,7 @@ theorem k1419ClsUniBlockPair {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L
         Subtype.ext (by
           have hx1 := eq_one_of_mem_statedSL_of_le_one hle1 x.2
           have hy1 := eq_one_of_mem_statedSL_of_le_one hle1 y.2
-          simp only [Subgroup.coe_mul, hx1, hy1, one_mul, mul_one]))
+          simp only [Subgroup.coe_mul, hx1, hy1, mul_one]))
     have hcardE : Nat.card (AdjoinRoot f) = Q ^ (2 * f.natDegree) := by
       let pb := AdjoinRoot.powerBasis (K := L) (H.hirr f hfF).ne_zero
       have hdim : pb.dim = f.natDegree :=
@@ -547,7 +547,7 @@ theorem k1419ClsUniBlockPair {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L
           calc x = Qlin x := hx.symm
             _ = Pmat (s : Matrix (Fin n) (Fin n) L) b F f *ᵥ x +
                 Pmat (s : Matrix (Fin n) (Fin n) L) b F (piI H f0.1).1 *ᵥ x := by
-                simp [Qlin, Matrix.toLin'_apply, Matrix.add_mulVec]
+                simp [Qlin, Matrix.toLin'_apply]
         rw [hx']
         exact Submodule.add_mem_sup (Pmat_mem_Vf H f0.1 x)
           (Pmat_mem_Vf H (piI H f0.1) x)

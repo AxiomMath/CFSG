@@ -172,7 +172,7 @@ theorem centralizes_of_card_27 {G : Type*} [Group G] [Finite G] {U : Subgroup G}
     rw [this] at hdv
     simp only [Finset.mem_insert, Finset.mem_singleton] at hdv
     rcases hdv with h | h | h | h <;> rw [h] at hmod ⊢ <;>
-      first | rfl | (exfalso; revert hmod; decide)
+      (exfalso; revert hmod; decide)
   have hCU : C = U := Subgroup.eq_of_le_of_card_ge (inf_le_left : C ≤ U) (by rw [hU, hC27])
   intro u hu
   have : u ∈ C := hCU ▸ hu

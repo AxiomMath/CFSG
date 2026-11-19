@@ -34,7 +34,7 @@ theorem su4_root_subgroup_and_linear_graph_pointwise_rigidity {k : Type*} [Field
       rw [← hq, Nat.card_eq_fintype_card, ← map_natCast (algebraMap k Ω),
         FiniteField.cast_card_eq_zero, map_zero]
     have : NeZero ((q + 1 : ℕ) : Ω) := ⟨by rw [Nat.cast_add, hq0, zero_add, Nat.cast_one]; simp⟩
-    obtain ⟨t, ht⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω (q + 1)
+    obtain ⟨t, ht⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω (q + 1)
     have htq : t ^ (q + 1) = 1 := ht.pow_eq_one
     have ht2 : t ^ 2 ≠ 1 := ht.pow_ne_one_of_pos_of_lt (by norm_num) (by omega)
     have ht0 : t ≠ 0 := fun h => by

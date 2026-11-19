@@ -46,8 +46,7 @@ private theorem pairMat_mulVec_planeIdx {n : ℕ} (i : Fin n) (g : Matrix (Fin 2
   rw [Matrix.mulVec_single_one, Fin.sum_univ_two]
   funext x
   fin_cases a <;>
-    · simp only [planeIdx_zero, planeIdx_one, Matrix.col_def, Matrix.transpose_apply, pairMat,
-        Pi.single_apply]
+    · simp only [planeIdx_zero, planeIdx_one, Matrix.col_def, Matrix.transpose_apply, pairMat]
       by_cases h1 : x = Sum.inl i <;> by_cases h2 : x = Sum.inr i <;>
         simp [h1, h2, Sum.inl_ne_inr, Sum.inr_ne_inl]
 
@@ -58,11 +57,11 @@ private theorem pairMat_mulVec_single_of_ne {n : ℕ} {x : Fin n ⊕ Fin n} {i :
   funext y
   by_cases hy1 : y = Sum.inl i
   · subst hy1
-    simp [Matrix.col_def, Matrix.transpose_apply, pairMat, h1, h2]
+    simp [pairMat, h1, h2]
   by_cases hy2 : y = Sum.inr i
   · subst hy2
-    simp [Matrix.col_def, Matrix.transpose_apply, pairMat, h1, h2]
-  · simp [Matrix.col_def, Matrix.transpose_apply, pairMat_apply_of_ne hy1 hy2, one_apply,
+    simp [pairMat, h1, h2]
+  · simp [pairMat_apply_of_ne hy1 hy2, one_apply,
       Pi.single_apply, eq_comm]
 
 private noncomputable def frameTorusMatrix (t : F) (ht : spCompanion t ^ p = 1) {n : ℕ}
@@ -99,13 +98,13 @@ private theorem spPlaneTorus_mulVec_eq_of_support_subset {n : ℕ}
         intro k hk
         by_cases hkj : k = j
         · subst hkj; simp [hg]
-        · simp only [hg, if_neg hkj]
+        · simp only [hg, ite_eq_right hkj]
           exact hf k (by simp [Finset.mem_insert, hkj, hk])
       have hfg : f = Pi.mulSingle j (f j) * g := by
         funext k
         by_cases hkj : k = j
         · subst hkj; simp [hg]
-        · simp [hg, hkj, Pi.mulSingle_eq_of_ne hkj]
+        · simp [hg, hkj]
       have hfix := ih g hgi hgs
       rw [hfg, map_mul]
       simp only [Subgroup.coe_mul, Units.val_mul]
@@ -135,7 +134,7 @@ private theorem coe_spPlaneTorus_mulVec_planeIdx
     funext k
     by_cases hk : k = i
     · subst hk; simp [hg]
-    · simp [hg, hk, Pi.mulSingle_eq_of_ne hk]
+    · simp [hg, hk]
   have hfix := spPlaneTorus_mulVec_eq_of_support_subset ζ i a (Finset.univ.erase i) g hgi hgs
   conv_lhs =>
     rw [hfg, map_mul]
@@ -170,9 +169,7 @@ private theorem spCompanion_action_of_sq {L : Type*} [Field L] [Algebra F L] (t 
     rw [hmul, coe_spCompanion]
     rw [Fin.sum_univ_two, Fin.sum_univ_two]
     simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one, one_mul, Matrix.mul_apply,
-      Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.of_apply, zero_mul, mul_zero, add_zero, zero_add, map_add, map_mul, map_neg, map_sub,
-      map_one]
+      Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.of_apply, zero_mul, zero_add, map_add, map_mul, map_neg, map_one]
     ring_nf
     rw [hζ2]
     ring
@@ -194,7 +191,7 @@ private theorem alt_frame_values {L : Type*} [Field L] [Algebra F L] (ζ u₀ : 
       (!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) F) a b := by
   intro a b
   fin_cases a <;> fin_cases b <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul]
+    simp only [pow_zero, pow_one, one_mul]
   · change β u₀ u₀ = 0; exact hβalt.self_eq_zero u₀
   · change β u₀ (ζ * u₀) = 1; exact hβu₀
   · change β (ζ * u₀) u₀ = -1
@@ -217,20 +214,19 @@ private theorem linearIndependent_of_pairFrame {V : Type*} [AddCommGroup V] [Mod
     fin_cases a <;> fin_cases c <;> first | rfl | (exfalso; exact hc rfl)
   have h := congrArg (fun v => B v (u i b')) hg
   rw [map_sum] at h
-  simp only [LinearMap.sum_apply, map_smul, LinearMap.smul_apply, smul_eq_mul,
-    LinearMap.zero_apply] at h
+  simp only [LinearMap.sum_apply, map_smul, LinearMap.smul_apply, smul_eq_mul] at h
   rw [Finset.sum_eq_single (i, a)] at h
-  · rw [hform i i a b', if_pos rfl] at h
+  · rw [hform i i a b', ite_eq_left rfl] at h
     have h0 : B 0 (u i b') = 0 := by simp
     rw [h0] at h
     exact (mul_eq_zero.mp h).resolve_right hMab
   · intro x _ hx
     rw [hform x.1 i x.2 b']
     by_cases hxi : x.1 = i
-    · rw [if_pos hxi]
+    · rw [ite_eq_left hxi]
       have hx2 : x.2 ≠ a := fun h2 => hx (Prod.ext hxi h2)
       rw [hMb x.2 hx2, mul_zero]
-    · rw [if_neg hxi, mul_zero]
+    · rw [ite_eq_right hxi, mul_zero]
   · intro hmem; exact absurd (Finset.mem_univ (i, a)) hmem
 
 private theorem frameForm_single {L : Type*} [Field L] [Algebra F L] {n : ℕ}
@@ -327,8 +323,8 @@ theorem exists_plane_frame [Finite F] (h2 : (2 : F) = 0) (hp : p.Prime) (hp2 : p
           ∑ b, (((spCompanion t ^ k i : SpecialLinearGroup (Fin 2) F) :
             Matrix (Fin 2) (Fin 2) F) b a) • u i b := by
   classical
-  haveI hchar2 : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have hchar2 : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpK : (p : F) ≠ 0 := by
     intro h
     have hd := (CharP.cast_eq_zero_iff F 2 p).mp h
@@ -343,10 +339,10 @@ theorem exists_plane_frame [Finite F] (h2 : (2 : F) = 0) (hp : p.Prime) (hp2 : p
     · intro x hx
       exact ⟨fun i => i.elim0, fun i => i.elim0⟩
   · set g : F[X] := X ^ 2 + C t * X + 1 with hg
-    haveI : Fact (Irreducible g) := ⟨hirr⟩
+    have : Fact (Irreducible g) := ⟨hirr⟩
     have hgd' : g ∣ cyclotomic p F := hgd
     have hdeg : (CoordSL.rootPB g).dim = 2 := SpNS.rootPB_dim_eq_two hp hp2 hpK hgd' hpq
-    haveI : Module.Finite F (AdjoinRoot g) := (CoordSL.rootPB g).finite
+    have : Module.Finite F (AdjoinRoot g) := (CoordSL.rootPB g).finite
     have hζo := NSFrame.root_isPrimitiveRoot (g := g) hp hpK hgd'
     have hζp : AdjoinRoot.root g ^ p = 1 := hζo.pow_eq_one
     let ψ : StatedSp n F →* Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F :=
@@ -428,7 +424,7 @@ theorem exists_plane_frame [Finite F] (h2 : (2 : F) = 0) (hp : p.Prime) (hp2 : p
     simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one] at h1
     have hcardκ : Fintype.card κ = 0 := by omega
     have hsn : s = n := by omega
-    haveI : IsEmpty κ := Fintype.card_eq_zero_iff.mp hcardκ
+    have : IsEmpty κ := Fintype.card_eq_zero_iff.mp hcardκ
     subst s
     have hζ2 : (AdjoinRoot.root g) ^ 2 =
         -(algebraMap F (AdjoinRoot g) t) * AdjoinRoot.root g - 1 := by
@@ -442,7 +438,7 @@ theorem exists_plane_frame [Finite F] (h2 : (2 : F) = 0) (hp : p.Prime) (hp2 : p
           -((algebraMap F (AdjoinRoot g) t) * AdjoinRoot.root g + 1) by ring]
       rw [eq_neg_iff_add_eq_zero]
       simpa [add_assoc] using h'
-    haveI : Unique (κ → F) := Pi.uniqueOfIsEmpty _
+    have : Unique (κ → F) := Pi.uniqueOfIsEmpty _
     set e₀ : (Fin n → AdjoinRoot g) ≃ₗ[F] ((Fin n → AdjoinRoot g) × (κ → F)) :=
       LinearEquiv.ofLinearMap (LinearMap.inl F _ _) (LinearMap.fst F _ _)
         (LinearMap.ext fun x => Prod.ext rfl (Subsingleton.elim _ _))
@@ -571,7 +567,7 @@ theorem exists_conj_range_planeTorus_of_frame (t : F) (ht : spCompanion t ^ p = 
   have hli : LinearIndependent F c₀.col := by
     rw [hc₀col]
     exact hvli
-  have hunit : IsUnit c₀ := Matrix.linearIndependent_cols_iff_isUnit.mp hli
+  have hunit : IsUnit c₀ := Matrix.linearIndependent_col_iff_isUnit.mp hli
   have hdet : c₀.det ≠ 0 := by
     have h := (Matrix.isUnit_iff_isUnit_det c₀).mp hunit
     exact IsUnit.ne_zero h

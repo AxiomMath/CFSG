@@ -4,7 +4,7 @@ public import CFSG.RankThree.Literature.ThompsonDihedralCore
 public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.Fitting.Centralizer
 public import CFSG.GroupTheory.LocalCores.MinimalNormal
 public import CFSG.CharacterTheory.Semidihedral.Principal.ThreeCentralizerSymmetricLocal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

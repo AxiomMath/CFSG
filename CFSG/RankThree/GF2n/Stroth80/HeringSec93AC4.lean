@@ -26,7 +26,7 @@ theorem key_surj {A A' H : Subgroup G} {y : G} (hHA : H ≤ A) (hHA' : H ≤ A')
   classical
   have hNH : (H.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff hHA).mpr fun k u hk hu => hHn u hu k hk
-  haveI := hNH
+  have := hNH
   let φ₀ : ↥A' → ↥A ⧸ H.subgroupOf A := fun x => QuotientGroup.mk ⟨⁅(x : G), y⁆, hxy x x.2⟩
   have hφmul : ∀ x₁ x₂ : ↥A', φ₀ (x₁ * x₂) = φ₀ x₁ * φ₀ x₂ := by
     intro x₁ x₂
@@ -220,7 +220,7 @@ theorem step93L2AltXH_of_line (h34 : Stroth34Statement) (h311a : Stroth311aState
   by_cases hNF : LB M Q B ⊓ hc.CN t ≤ Fhat M Q B h
   · exact Or.inl hNF
   right
-  obtain ⟨y₀, hy₀, hy₀F⟩ := SetLike.not_le_iff_exists.mp hNF
+  obtain ⟨y₀, hy₀, hy₀F⟩ := IsConcreteLE.not_le_iff_exists.mp hNF
   set S : Subgroup G :=
     LB M Q B ⊓ conjSubgroup h (LB M Q B) ⊔ (LB M Q B ⊓ hc.CN t) with hSdef
   have hHS : LB M Q B ⊓ conjSubgroup h (LB M Q B) ≤ S := le_sup_left

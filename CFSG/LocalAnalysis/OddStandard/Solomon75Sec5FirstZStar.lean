@@ -242,6 +242,7 @@ section Counting
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem eq_one_of_mem_pgroup_inf_odd {T O : Subgroup G} (hT : IsPGroup 2 ↥T)
     (hO : Odd (Nat.card O)) {x : G} (hxT : x ∈ T) (hxO : x ∈ O) : x = 1 := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hT) ⟨x, hxT⟩
@@ -252,7 +253,7 @@ private theorem eq_one_of_mem_pgroup_inf_odd {T O : Subgroup G} (hT : IsPGroup 2
   exact orderOf_eq_one_iff.1 h1
 
 private theorem card_mul_dvd_two_mul_card {T₁ T₂ O : Subgroup G}
-    (hT₁ : IsPGroup 2 ↥T₁) (hT₂ : IsPGroup 2 ↥T₂) (hO : Odd (Nat.card O))
+    (_hT₁ : IsPGroup 2 ↥T₁) (hT₂ : IsPGroup 2 ↥T₂) (hO : Odd (Nat.card O))
     (h₁ : T₁ ≤ normalizer (O : Set G)) (h₂ : T₂ ≤ normalizer (O : Set G))
     (hcomm : ∀ a ∈ T₁, ∀ b ∈ T₂, ⁅a, b⁆ ∈ O)
     (hZ : Nat.card ↥(T₁ ⊓ (T₂ ⊔ O)) ≤ 2) :
@@ -260,7 +261,7 @@ private theorem card_mul_dvd_two_mul_card {T₁ T₂ O : Subgroup G}
   set N : Subgroup G := normalizer (O : Set G)
   have hON : O ≤ N := Subgroup.le_normalizer
   set O' : Subgroup ↥N := O.subgroupOf N
-  haveI : O'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hON).2 le_rfl
+  have : O'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hON).2 le_rfl
   set q : ↥N →* ↥N ⧸ O' := QuotientGroup.mk' O'
   set ι₁ : ↥T₁ →* ↥N ⧸ O' := q.comp (Subgroup.inclusion h₁)
   set ι₂ : ↥T₂ →* ↥N ⧸ O' := q.comp (Subgroup.inclusion h₂)
@@ -420,6 +421,7 @@ private theorem not_two_pow_nine_dvd_card
   · rw [Nat.card_congr e.toEquiv, Sporadic.Ly.card_Ly']
     norm_num
 
+omit [Finite G] in
 private theorem mem_normalizer_map_subgroup {Y : Type} [Group Y] (ψ : Y →* G) {K : Subgroup Y}
     {g : Y} (hg : g ∈ normalizer (K : Set Y)) :
     ψ g ∈ normalizer ((K.map ψ : Subgroup G) : Set G) := by
@@ -453,6 +455,7 @@ private theorem card_comap_subtype_dvd {Y : Type} [Group Y] (R J : Subgroup Y) :
   rw [← h1]
   exact Subgroup.card_dvd_of_le (Subgroup.map_comap_le _ _)
 
+omit [Finite X] in
 private theorem not_mem_center_of_not_mem_centralizerSection {J : Subgroup X} (hzJ : z ∈ J)
     (hzc : z ∉ centralizerSection J (pPrimeCoreOf 2 J)) :
     QuotientGroup.mk' (pPrimeCore 2 ↥J) (⟨z, hzJ⟩ : ↥J) ∉ center (OQ J) := by
@@ -493,7 +496,7 @@ private theorem false_of_noncentral_comps
   have hJq : IsTwoGenQuasi ↥J :=
     (isTwoGenQuasi_subgroupOf_iff hJ.1).1 (isPComponent_two_iff.1 hJ.2).2
   have hQ : IsQuasisimple (OQ J) := hJq.2
-  haveI : IsSimpleGroup (CQ J) := hQ.2.1
+  have : IsSimpleGroup (CQ J) := hQ.2.1
   have hnonab : ∃ a b : CQ J, a * b ≠ b * a := hQ.2.2
   have hψsurj : Function.Surjective (psiQ J) :=
     (QuotientGroup.mk'_surjective _).comp (QuotientGroup.mk'_surjective _)

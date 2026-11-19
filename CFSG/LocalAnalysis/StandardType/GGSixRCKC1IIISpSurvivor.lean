@@ -93,7 +93,7 @@ theorem exists_isotropic_triple_of_pure_shortRoot_fourGroup
       SpSiegel a b r ∧ SpSiegel a c s ∧
       V = Subgroup.zpowers r ⊔ Subgroup.zpowers s := by
   classical
-  haveI : Finite (SpG m) := Subtype.finite
+  have : Finite (SpG m) := Subtype.finite
   have hr2 : r * r = 1 := by simpa [pow_two] using hVab.2 r hrV
   have hZcard : Nat.card (Subgroup.zpowers r) = 2 := by
     have horder : orderOf r = 2 := by
@@ -109,7 +109,7 @@ theorem exists_isotropic_triple_of_pure_shortRoot_fourGroup
     intro hle
     have hcard : Nat.card V ≤ Nat.card (Subgroup.zpowers r) := Subgroup.card_le_of_le hle
     omega
-  obtain ⟨s, hsV, hsZ⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨s, hsV, hsZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hs1 : s ≠ 1 := fun h => hsZ (by rw [h]; exact Subgroup.one_mem _)
   have hcomm : r * s = s * r := by
     have h := hVab.1.is_comm.comm ⟨r, hrV⟩ ⟨s, hsV⟩
@@ -442,7 +442,7 @@ theorem spAct_mem_span_of_commutes {r g : SpG m} {a b : SpMod m}
   exact ⟨spAct g v, rfl⟩
 
 theorem spAct_commutes_of_mem_stabilizer {r g : SpG m} {a b : SpMod m}
-    (hr : SpSiegel a b r) (hr1 : r ≠ 1) (hBab : spB m a b = 0)
+    (hr : SpSiegel a b r) (hr1 : r ≠ 1) (_hBab : spB m a b = 0)
     (hg : g ∈ SymplecticFlag.stabilizer m (GaloisField 2 1)
       (Submodule.span (GaloisField 2 1) {a, b})) :
     g * r = r * g := by
@@ -520,7 +520,7 @@ theorem spPureFourGroup_mem_iff {r s : SpG m} {V : Subgroup (SpG m)}
   rw [hVK]
   exact hKmem v
 
-theorem normalization_of_pure_shortRoot_fourGroup (hm : 3 ≤ m)
+theorem normalization_of_pure_shortRoot_fourGroup (_hm : 3 ≤ m)
     {V : Subgroup (SpG m)} {r : SpG m}
     (hrV : r ∈ V) (hr1 : r ≠ 1) (hVab : IsElemAbelian 2 V) (hV4 : Nat.card V = 4)
     (hpure : ∀ v ∈ V, v ≠ 1 → ∃ x y : SpMod m, spB m x y = 0 ∧ SpSiegel x y v) :
@@ -530,7 +530,7 @@ theorem normalization_of_pure_shortRoot_fourGroup (hm : 3 ≤ m)
   classical
   obtain ⟨a, b, c, s, hsV, hsZ, hLI, hBab, hBac, hBbc, hr, hs, hVeq⟩ :=
     exists_isotropic_triple_of_pure_shortRoot_fourGroup hrV hr1 hVab hV4 hpure
-  haveI : Finite (SpG m) := Subtype.finite
+  have : Finite (SpG m) := Subtype.finite
   have hr2 : r * r = 1 := by simpa [pow_two] using hVab.2 r hrV
   have hs2 : s * s = 1 := by simpa [pow_two] using hVab.2 s hsV
   have hVcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x := by
@@ -604,19 +604,19 @@ theorem normalization_of_pure_shortRoot_fourGroup (hm : 3 ≤ m)
       rcases rck1416_gf2_eq_zero_or_one α with hα | hα <;>
         rcases rck1416_gf2_eq_zero_or_one β with hβ | hβ
       · rw [hα, hβ] at ht
-        simp only [zero_smul, add_zero, zero_add] at ht
+        simp only [zero_smul, add_zero] at ht
         have ht1 : t = 1 := spSiegel_ext ht (spSiegel_zero_right (m := m) (x := a))
         rw [ht1]; exact Subgroup.one_mem _
       · rw [hα, hβ] at ht
-        simp only [zero_smul, one_smul, add_zero, zero_add] at ht
+        simp only [zero_smul, one_smul, zero_add] at ht
         have ht1 : t = r := spSiegel_ext ht hr
         rw [ht1]; exact Subgroup.mem_zpowers r
       · rw [hα, hβ] at ht
-        simp only [zero_smul, one_smul, add_zero, zero_add] at ht
+        simp only [zero_smul, one_smul, add_zero] at ht
         have ht1 : t = 1 := spSiegel_ext ht (spSiegel_self (m := m) a)
         rw [ht1]; exact Subgroup.one_mem _
       · rw [hα, hβ] at ht
-        simp only [one_smul, add_zero] at ht
+        simp only [one_smul] at ht
         have hsum : SpSiegel a (a + b) r := by
           have h := spSiegel_mul (x := a) (y := a) (z := b) (spB_self a) hBab hBab
             (spSiegel_self a) hr
@@ -639,7 +639,7 @@ theorem normalization_of_pure_shortRoot_fourGroup (hm : 3 ≤ m)
     · intro v hv
       rw [hVmem v] at hv
       rcases hv with hv | hv | hv | hv
-      · rw [hv]; simpa using V.one_mem
+      · rw [hv]; simp
       · rw [hv, hgr]; exact hrV
       · rw [hv, hgs]; exact V.mul_mem hsV htV
       · rw [hv]

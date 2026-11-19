@@ -47,7 +47,7 @@ theorem sylow_centralizer_eq_zpowers (i : K) (hi : orderOf i = 2)
     intro x y h
     have hv : x.val.val = y.val.val := congrArg (fun z : C => (z : K)) h
     exact Subtype.ext (Subtype.ext hv)
-  have hD : IsPGroup 2 D := S.isPGroup'.to_subgroup D
+  have hD : IsPGroup 2 D := S.isPGroup.to_subgroup D
   obtain ⟨P, hP⟩ := (hD.of_equiv (MonoidHom.ofInjective hf)).exists_le_sylow
   have hc : Nat.card D ≤ 2 := by
     have hdvd : Nat.card f.range ∣ Nat.card P := Subgroup.card_dvd_of_le hP
@@ -75,7 +75,7 @@ theorem sylow_containing_involution_eq_zpowers (i : K) (hi : orderOf i = 2)
     intro h
     simp [h] at hj
   let : Nontrivial S := ⟨⟨j, 1, hjne⟩⟩
-  let : Nontrivial (Subgroup.center S) := S.isPGroup'.center_nontrivial
+  let : Nontrivial (Subgroup.center S) := S.isPGroup.center_nontrivial
   obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center S)
   have hzj : (z : S) = j := by
     have hzD : (z : S) ∈ Subgroup.centralizer ({j} : Set S) :=
@@ -185,7 +185,7 @@ theorem involution_centralizer_two_part_odd_core (i : K) (hi : orderOf i = 2)
     · exact le_sSup ⟨inferInstance, hodd⟩
     · apply sSup_le
       intro H hH
-      exact odd_subgroup_le_two_group_kernel f S.isPGroup' H hH.2
+      exact odd_subgroup_le_two_group_kernel f S.isPGroup H hH.2
   have hidx : (CFSG.oddCore K).index = 2 := by
     rw [← hO, hcomp.symm.index_eq_card, all_sylow_two_card_eq_two i hi hC S]
   have hcompl : (CFSG.oddCore K).IsComplement' (Subgroup.zpowers i) := by

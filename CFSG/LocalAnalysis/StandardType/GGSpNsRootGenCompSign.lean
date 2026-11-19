@@ -22,6 +22,7 @@ section Helpers
 variable {p k : ℕ} {U : Fin k → Submodule F V} {e : Fin k → ↥(orthDerived Q)}
   {E : Subgroup ↥(orthDerived Q)}
 
+omit [Finite F] [CharP F 2] in
 private theorem maps_to_of_mem_gspFixPerp {W : Submodule F V} {g : Gsp (polarBilin Q)}
     (hQ : (polarBilin Q).Nondegenerate) (hg : g ∈ gspFixPerp (polarBilin Q) W) :
     ∀ u ∈ W, g.app u ∈ W := by
@@ -39,12 +40,14 @@ private theorem maps_to_of_mem_gspFixPerp {W : Submodule F V} {g : Gsp (polarBil
     exact isRefl_polarBilin Q u w (LinearMap.BilinForm.mem_orthogonal_iff.mp hw u hu)
   rwa [LinearMap.BilinForm.orthogonal_orthogonal hQ (isRefl_polarBilin Q) W] at hmem
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem apply_of_perp_of_ne (hF : IsPlaneFrame Q p U e E) {a b : Fin k} (hb : b ≠ a)
     {x : V} (hx : x ∈ U a) : (e b : V ≃ₗ[F] V) x = x := by
   refine hF.apply_of_perp b x (mem_polarPerp_iff.mpr fun y hy => ?_)
   rw [QuadraticMap.polar_comm]
   exact hF.perp a b (fun h => hb h.symm) x hx y hy
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem apply_mem_polarPerp_of_ne (hF : IsPlaneFrame Q p U e E) {a b : Fin k}
     (hb : b ≠ a) {w : V} (hw : w ∈ polarPerp Q (U a)) :
     (e b : V ≃ₗ[F] V) w ∈ polarPerp Q (U a) := by
@@ -57,6 +60,7 @@ private theorem apply_mem_polarPerp_of_ne (hF : IsPlaneFrame Q p U e E) {a b : F
         exact Gsp.form_app (omegaToGsp Q (e b)) y w
     _ = 0 := mem_polarPerp_iff.mp hw y hy
 
+omit [Finite F] [CharP F 2] in
 private theorem apply_mem_polarPerp_of_commute (hF : IsPlaneFrame Q p U e E) {b : Fin k}
     {h : Gsp (polarBilin Q)}
     (hcomm : omegaToGsp Q (e b) * h = h * omegaToGsp Q (e b)) {x : V}
@@ -69,6 +73,7 @@ private theorem apply_mem_polarPerp_of_commute (hF : IsPlaneFrame Q p U e E) {b 
   rw [Gsp.app_mul, Gsp.app_mul, omegaToGsp_app, omegaToGsp_app, hxfix] at h2
   exact h2
 
+omit [Finite F] [CharP F 2] in
 private theorem commute_omegaToGsp_of_mem_gspFixPerp (hQ : (polarBilin Q).Nondegenerate)
     (hF : IsPlaneFrame Q p U e E) {a b : Fin k} (hb : b ≠ a)
     {g : Gsp (polarBilin Q)} (hg : g ∈ gspFixPerp (polarBilin Q) (U a)) :
@@ -94,6 +99,7 @@ private theorem commute_omegaToGsp_of_mem_gspFixPerp (hQ : (polarBilin Q).Nondeg
     _ = g.app ((e b : V ≃ₗ[F] V) u + (e b : V ≃ₗ[F] V) w) := by rw [hfixa u hu]
     _ = g.app ((e b : V ≃ₗ[F] V) (u + w)) := by rw [map_add]
 
+omit [Finite F] [CharP F 2] in
 private theorem iInf_polarPerp_erase_eq (hQ : (polarBilin Q).Nondegenerate)
     (hF : IsPlaneFrame Q p U e E) (htop : (⨆ j, U j) = ⊤) (a : Fin k) :
     (⨅ b ∈ Finset.univ.erase a, polarPerp Q (U b)) = U a := by
@@ -128,6 +134,7 @@ private theorem iInf_polarPerp_erase_eq (hQ : (polarBilin Q).Nondegenerate)
 
 end Helpers
 
+omit [Finite F] [CharP F 2] in
 theorem isComponentOf_gspFixPerp_frame (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {p k : ℕ} {U : Fin k → Submodule F V} {e : Fin k → ↥(orthDerived Q)}
     {E : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e E) (htop : (⨆ j, U j) = ⊤)

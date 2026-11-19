@@ -34,7 +34,7 @@ private theorem card_centralizer_conj {G : Type*} [Group G] (g x : G) :
 
 private theorem mem_invClassSet_map_iff {G H : Type*} [Group G] [Group H] (e : G ≃* H)
     (x : G) (d : H) : d ∈ invClassSet (e x) ↔ e.symm d ∈ invClassSet x := by
-  simp only [invClassSet, Set.mem_setOf_eq]
+  simp only [invClassSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hdC, hd2, hd1, hdconj⟩
     refine ⟨?_, ?_, ?_, ?_⟩
@@ -163,7 +163,7 @@ private theorem psp_count_of_field {K : Type} [Field K] [Finite K] (hodd : Odd (
     _ = (invClassSet x).ncard := ncard_invClassSet_map ψ x
 
 theorem psp_conj_count {X : Type} [Group X] [Finite X] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hf : 1 ≤ f) (hX : CFSG.Blueprint.LieModel X .PSp 2 p f) {x : X} (hx : x ^ 2 = 1)
+    (_hf : 1 ≤ f) (hX : CFSG.Blueprint.LieModel X .PSp 2 p f) {x : X} (hx : x ^ 2 = 1)
     (hx1 : x ≠ 1) (hC : Nat.card (centralizer ({x} : Set X)) = 480) {M : Subgroup X}
     (hMC : M ≤ centralizer ({x} : Set X)) (hMp : ⁅M, M⁆ = M) (hM : Nat.card M = 60) :
     47 ≤ Set.ncard {c : X | c ∈ centralizer ({x} : Set X) ∧ c ^ 2 = 1 ∧ c ≠ 1 ∧ IsConj x c} := by

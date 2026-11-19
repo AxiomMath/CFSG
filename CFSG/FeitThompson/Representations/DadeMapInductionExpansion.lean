@@ -55,17 +55,17 @@ private theorem finsum_mem_comm_of_iff [Finite α] [Finite β] (S : Set α) (t :
       = ∑ y : β, if x ∈ S ∧ y ∈ t x then F x y else 0 := by
     intro x
     by_cases hx : x ∈ S
-    · rw [if_pos hx, finsum_mem_eq_sum_ite]
+    · rw [ite_eq_left hx, finsum_mem_eq_sum_ite]
       exact Finset.sum_congr rfl fun y _ => by simp [hx]
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       exact (Finset.sum_eq_zero fun y _ => by simp [hx]).symm
   have h2 : ∀ y : β, (if y ∈ T then ∑ᶠ x ∈ u y, F x y else 0)
       = ∑ x : α, if y ∈ T ∧ x ∈ u y then F x y else 0 := by
     intro y
     by_cases hy : y ∈ T
-    · rw [if_pos hy, finsum_mem_eq_sum_ite]
+    · rw [ite_eq_left hy, finsum_mem_eq_sum_ite]
       exact Finset.sum_congr rfl fun x _ => by simp [hy]
-    · rw [if_neg hy]
+    · rw [ite_eq_right hy]
       exact (Finset.sum_eq_zero fun x _ => by simp [hy]).symm
   rw [Finset.sum_congr rfl fun x _ => h1 x, Finset.sum_congr rfl fun y _ => h2 y,
     Finset.sum_comm]
@@ -260,12 +260,12 @@ theorem dadeExpansionTerm_of_mem (hD : IsDadeData L A H) (f : L → ℂ) (hB : B
       = (-1 : ℂ) ^ (B.ncard + 1) *
         indClassFun (dadeSubsetGroup H L B) (dadePullback (hD.dadeProj hBA hB) f) g := by
   classical
-  rw [dadeExpansionTerm, dif_pos ⟨hB, hBA⟩]
+  rw [dadeExpansionTerm, dite_eq_left ⟨hB, hBA⟩]
 
 theorem dadeExpansionTerm_of_notMem (hD : IsDadeData L A H) (f : L → ℂ)
     (h : B ∉ dadeNonemptySubsets A) (g : G) : dadeExpansionTerm hD f B g = 0 := by
   classical
-  rw [dadeExpansionTerm, dif_neg (mem_dadeNonemptySubsets_iff.not.1 h)]
+  rw [dadeExpansionTerm, dite_eq_right (mem_dadeNonemptySubsets_iff.not.1 h)]
 
 noncomputable def dadeExpansionWeightedTerm (hD : IsDadeData L A H) (f : L → ℂ) (B : Set G)
     (g : G) : ℂ :=
@@ -374,16 +374,19 @@ theorem dadeExpansionWeightedTerm_apply_of_mem_dadeSupport (hD : IsDadeData L A 
   rw [pow_succ]
   field_simp
 
+omit [Fintype G] in
 theorem conjClassIn_eq_setOf (L : Subgroup G) (a : G) :
     conjClassIn L a = {b : G | ∃ l ∈ L, l * a * l⁻¹ = b} :=
   Set.ext fun _ => mem_conjClassIn_iff
 
+omit [Fintype G] in
 theorem ncard_conjClassIn_mul_natCard_inf_centralizer_cast (L : Subgroup G) (a : G) :
     ((conjClassIn L a).ncard : ℂ) *
       (Nat.card (L ⊓ Subgroup.centralizer ({a} : Set G) : Subgroup G) : ℂ) = (Nat.card L : ℂ) := by
   rw [conjClassIn_eq_setOf, ← Nat.cast_mul]
   exact_mod_cast congrArg (Nat.cast : ℕ → ℂ) (ncard_setOf_conj_mul_natCard_inf_centralizer L a)
 
+omit [Fintype G] in
 theorem setOf_mem_dadeNonemptySubsets_and_mem_dadeStab (hbL : b ∈ L) :
     {B : Set G | B ∈ dadeNonemptySubsets A ∧ b ∈ dadeStab L B} = dadeInvariantSubsets A b := by
   ext B

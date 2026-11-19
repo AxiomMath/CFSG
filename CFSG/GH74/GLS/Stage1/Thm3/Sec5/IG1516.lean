@@ -160,7 +160,7 @@ theorem ig_15_16_ext_thm : IG_15_16_ext := by
   obtain ⟨S, hS⟩ := hSyl.exists_sylow_eq_subgroupOf
   have hPp : IsPGroup 2 ↥(P.subgroupOf X) := by
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   have hPidx : ¬ 2 ∣ (P.subgroupOf X).index := by
     rw [← hS]
     exact S.not_dvd_index

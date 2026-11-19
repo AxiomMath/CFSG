@@ -13,6 +13,7 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G} {K : Type} [Field K]
 
+omit [Finite G] in
 private theorem h2_conj_mem_centralizer {X : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (X : Set G)) {x : G}
     (hx : x ∈ Subgroup.centralizer (X : Set G)) :
@@ -28,6 +29,7 @@ private theorem h2_conj_mem_centralizer {X : Subgroup G} {n : G}
     _ = n * (x * (n⁻¹ * b * n)) * n⁻¹ := by rw [h1]
     _ = n * x * n⁻¹ * b := by group
 
+omit [Finite G] in
 private theorem h2_mem_normalizer_centralizer {X : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (X : Set G)) :
     n ∈ Subgroup.normalizer ((Subgroup.centralizer (X : Set G) : Subgroup G) : Set G) := by
@@ -42,7 +44,7 @@ private theorem h2_mem_normalizer_centralizer {X : Subgroup G} {n : G}
 
 theorem pow_eq_one_of_corrector (h37 : Vol2Native.A37ForSQTKCat)
     (h38 : Vol2Native.A38ForSQTKCat) (hfsu : FSU G T L I) (hlt : L < fsuL0 T L)
-    (hA : Concl326A T L I) [Finite K]
+    (_hA : Concl326A T L I) [Finite K]
     (hL3 : ∀ k ∈ fsuM T L, (∀ l ∈ fsuL0 T L,
         ⁅k, l⁆ ∈ Subgroup.centralizer (fsuVM T L I : Set G)) →
       k ∈ Subgroup.centralizer (fsuVM T L I : Set G))

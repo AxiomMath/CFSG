@@ -35,8 +35,8 @@ theorem kd291PPerf_of_gamma (hγ : N3.GammaStructureP) (hI : KD29Inner) : KD291P
   intro p hp hp5 X _ _ P x hcat hxP hx1 hx5 hP hC hperf _ hcomp S _ _ hnab hpS hsec
   obtain ⟨L, hLn, hLs, hLnab, hLcat, hLlu, hLC, hxL, -⟩ :=
     hγ p hp hp5 X P x hcat hxP hx1 hx5 hP hC hperf hcomp
-  haveI := hLn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hLn
+  have : Fact p.Prime := ⟨hp⟩
   have hxo : orderOf x = p := orderOf_eq_prime hx5 hx1
   have hY : 3 ≤ Open.pRank p (⊤ : Subgroup (X ⧸ primeComplementCore (G := X) p)) :=
     (N3.kd291_pRank_quot hp P hP).ge
@@ -58,9 +58,9 @@ theorem p622L613_of_kd291PPerf (hK : KD291PPerf) (hβ : NoTwoComponentsGen) : P6
     have := hprime.two_le
     omega
   obtain ⟨hPM, hxM, hzM, hpl⟩ := n4_plane63E3 hSet hs hp5 hx hz
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI hKn : (K.subgroupOf H).Normal := hsec.2.1
-  haveI hsimp : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := isSimpleGroup_quotient_of_section hsec
+  have : Fact p.Prime := ⟨hprime⟩
+  have hKn : (K.subgroupOf H).Normal := hsec.2.1
+  have hsimp : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := isSimpleGroup_quotient_of_section hsec
   have hnab := not_comm_quotient_of_section hsec
   have hpS' : p ∣ Nat.card (↥H ⧸ K.subgroupOf H) := hpS
   have hS1 := isSecOf_of_section (K := K) hxM hHM
@@ -116,9 +116,9 @@ theorem l613f3E3_of_kd291PPerf (hK : KD291PPerf) (hSch : CFSG.AGLEmbedding.KFact
   exfalso
   obtain ⟨hPM, hxM, hzM, hpl⟩ := plane63E3_of_situation hSet hs hx hz
   have hp : (5 : ℕ).Prime := Nat.prime_five
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
-  haveI hKn : (K.subgroupOf H).Normal := hsec.2.1
-  haveI hsimp : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := isSimpleGroup_quotient_of_section hsec
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
+  have hKn : (K.subgroupOf H).Normal := hsec.2.1
+  have hsimp : IsSimpleGroup (↥H ⧸ K.subgroupOf H) := isSimpleGroup_quotient_of_section hsec
   have hnab := not_comm_quotient_of_section hsec
   have hpS' : 5 ∣ Nat.card (↥H ⧸ K.subgroupOf H) := hpS
   have hS1 := isSecOf_of_section (K := K) hxM hHM

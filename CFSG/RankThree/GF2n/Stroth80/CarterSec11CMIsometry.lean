@@ -15,6 +15,7 @@ variable {G : Type} [Group G]
 
 theorem H0_le_M' : H0 M Z ≤ M := fun _ hx => hx.1
 
+omit [(Q.subgroupOf M).Normal] in
 theorem exists_unique_action_isometry (hD : GlobalModelData M Q Z γ M₀) (h : ↥(H0 M Z)) :
     ∃! T : M₀.E ≃ₗ[K] M₀.E,
       (∀ x ∈ Q, M₀.π ((h : G) * x * (h : G)⁻¹) = T (M₀.π x)) ∧
@@ -33,18 +34,22 @@ noncomputable def h0Isometry (hD : GlobalModelData M Q Z γ M₀) (h : ↥(H0 M 
     M₀.E ≃ₗ[K] M₀.E :=
   (exists_unique_action_isometry hD h).choose
 
+omit [(Q.subgroupOf M).Normal] in
 theorem h0Isometry_π (hD : GlobalModelData M Q Z γ M₀) (h : ↥(H0 M Z)) :
     ∀ x ∈ Q, M₀.π ((h : G) * x * (h : G)⁻¹) = h0Isometry hD h (M₀.π x) :=
   ((exists_unique_action_isometry hD h).choose_spec).1.1
 
+omit [(Q.subgroupOf M).Normal] in
 theorem h0Isometry_Qf (hD : GlobalModelData M Q Z γ M₀) (h : ↥(H0 M Z)) (e : M₀.E) :
     M₀.Qf (h0Isometry hD h e) = M₀.Qf e :=
   ((exists_unique_action_isometry hD h).choose_spec).1.2.1 e
 
+omit [(Q.subgroupOf M).Normal] in
 theorem h0Isometry_B (hD : GlobalModelData M Q Z γ M₀) (h : ↥(H0 M Z)) (e f : M₀.E) :
     M₀.B (h0Isometry hD h e) (h0Isometry hD h f) = M₀.B e f :=
   ((exists_unique_action_isometry hD h).choose_spec).1.2.2 e f
 
+omit [(Q.subgroupOf M).Normal] in
 theorem eq_h0Isometry_of_π (hD : GlobalModelData M Q Z γ M₀) (h : ↥(H0 M Z))
     {T : M₀.E ≃ₗ[K] M₀.E}
     (hT : ∀ x ∈ Q, M₀.π ((h : G) * x * (h : G)⁻¹) = T (M₀.π x)) :
@@ -53,6 +58,7 @@ theorem eq_h0Isometry_of_π (hD : GlobalModelData M Q Z γ M₀) (h : ↥(H0 M Z
   obtain ⟨x, hx, rfl⟩ := M₀.π_surj e
   rw [← hT x hx, ← h0Isometry_π hD h x hx]
 
+omit [(Q.subgroupOf M).Normal] in
 theorem isometry_of_π (hD : GlobalModelData M Q Z γ M₀) (h : ↥(H0 M Z))
     {T : M₀.E ≃ₗ[K] M₀.E}
     (hT : ∀ x ∈ Q, M₀.π ((h : G) * x * (h : G)⁻¹) = T (M₀.π x)) :

@@ -88,7 +88,7 @@ theorem exists_normalizer_of_weaklyClosed {H : Subgroup G} (hHS : H ≤ (D.S : S
     have := key x⁻¹ (inv_mem hx)
     rwa [show (g⁻¹ * x⁻¹ * g)⁻¹ = g⁻¹ * x * g by group] at this
   obtain ⟨P, hP⟩ := exists_isSylowOf 2 K
-  have hH2 : IsPGroup 2 H := D.S.isPGroup'.to_le hHS
+  have hH2 : IsPGroup 2 H := D.S.isPGroup.to_le hHS
   obtain ⟨c₁, hc₁K, hc₁⟩ := exists_conj_le_of_isSylowOf hP hHK hH2
   obtain ⟨c₂, hc₂K, hc₂⟩ := exists_conj_le_of_isSylowOf hP hHgK (hH2.map _)
   have hSM : IsSylowOf 2 (D.S : Subgroup G) D.M := (isSylowOf_top D.S).of_le D.S_le_M le_top

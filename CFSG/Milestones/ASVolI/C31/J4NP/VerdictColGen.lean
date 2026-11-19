@@ -83,14 +83,14 @@ theorem burnsideJ4NP_colMem_normalizer_closure {G : Type*} [Group G] [Finite G] 
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr heq
 
 theorem burnsideJ4NP_normalizer_le_of_colUnion {G : Type*} [Group G] [Finite G] (W : Subgroup G)
-    (lab : G → ℕ) (q : G → G → ℕ) (hlab : ∀ g x : G, lab (g * x * g⁻¹) = lab x)
-    (hq : ∀ g x w : G, q (g * x * g⁻¹) (g * w * g⁻¹) = q x w) {O : Set G} (hOW : O ⊆ W)
-    (hunion : ∀ x ∈ W, ∀ o ∈ O, lab x = lab o →
-      (∀ a b, burnsideJ4NP_colCount W lab q x a b = burnsideJ4NP_colCount W lab q o a b) →
+    (lab : G → ℕ) (q : G → G → ℕ) (hlab : ∀ _g x : G, lab (_g * x * _g⁻¹) = lab x)
+    (hq : ∀ _g x w : G, q (_g * x * _g⁻¹) (_g * w * _g⁻¹) = q x w) {O : Set G} (hOW : O ⊆ W)
+    (hunion : ∀ x ∈ W, ∀ _o ∈ O, lab x = lab _o →
+      (∀ a b, burnsideJ4NP_colCount W lab q x a b = burnsideJ4NP_colCount W lab q _o a b) →
         x ∈ O) :
     Subgroup.normalizer (W : Set G) ≤
-      Subgroup.normalizer ((Subgroup.closure O : Subgroup G) : Set G) := fun g hg =>
-  burnsideJ4NP_colMem_normalizer_closure fun o ho => Subgroup.subset_closure
+      Subgroup.normalizer ((Subgroup.closure O : Subgroup G) : Set G) := fun _g hg =>
+  burnsideJ4NP_colMem_normalizer_closure fun _o ho => Subgroup.subset_closure
     (burnsideJ4NP_conj_mem_of_colUnion W lab q hlab hq hOW hunion hg ho)
 
 section Verdicts

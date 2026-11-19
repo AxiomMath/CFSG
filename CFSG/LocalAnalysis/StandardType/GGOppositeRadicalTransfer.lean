@@ -195,7 +195,7 @@ theorem le_pCoreOf_comap (p : ℕ) [Fact p.Prime] [Finite G] (hker : ψ.ker ≤ 
   obtain ⟨S, hS⟩ := hY'.exists_le_sylow
   have hSn : (S : Subgroup (X.comap ψ)).Normal :=
     Sylow.normal_of_normalizerCondition Group.normalizerCondition_of_isNilpotent S
-  have hSle : (S : Subgroup (X.comap ψ)) ≤ pCore p (X.comap ψ) := le_pCore p hSn S.isPGroup'
+  have hSle : (S : Subgroup (X.comap ψ)) ≤ pCore p (X.comap ψ) := le_pCore p hSn S.isPGroup
   intro y hy
   exact ⟨⟨y, hYX hy⟩, hSle (hS (Subgroup.mem_subgroupOf.mpr hy)), rfl⟩
 
@@ -219,7 +219,7 @@ theorem map_pCoreOf_comap (p : ℕ) [Fact p.Prime] [Finite G] (hker : ψ.ker ≤
     ((P.mapSurjective hfs).maximal_isPGroup.eq_of_le
       (hX.of_equiv Subgroup.topEquiv.symm) le_top).symm
   have hPle : (P : Subgroup (X.comap ψ)).map (X.comap ψ).subtype ≤ pCoreOf p (X.comap ψ) :=
-    le_pCoreOf_comap ψ p hker hX (Subgroup.map_subtype_le _) (P.isPGroup'.map _)
+    le_pCoreOf_comap ψ p hker hX (Subgroup.map_subtype_le _) (P.isPGroup.map _)
   intro x hx
   have hmem : (⟨x, hx⟩ : X) ∈ (P.mapSurjective hfs : Subgroup X) := hPtop ▸ Subgroup.mem_top _
   rw [Sylow.coe_mapSurjective] at hmem

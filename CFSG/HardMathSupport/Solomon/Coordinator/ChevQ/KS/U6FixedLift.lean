@@ -17,7 +17,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.Coordi
 open scoped commutatorElement
 
 theorem uniqComp_lift {X : Type} [Group X] [Finite X] {K : Subgroup X}
-    (hK : CFSG.Open.IsQuasisimple ↥K) {a : X} (ha : a ∈ Subgroup.normalizer (K : Set X))
+    (_hK : CFSG.Open.IsQuasisimple ↥K) {a : X} (ha : a ∈ Subgroup.normalizer (K : Set X))
     {T : Subgroup (↥K ⧸ Subgroup.center ↥K)}
     (hT : GLAPComponent 3 (fixSubgroup (actHom K ⟨a, ha⟩)) T)
     (hu : ∀ L : Subgroup (↥K ⧸ Subgroup.center ↥K),

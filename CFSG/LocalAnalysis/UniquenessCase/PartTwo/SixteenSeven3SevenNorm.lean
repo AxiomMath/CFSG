@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 theorem s16c167_seven_normalizer_trivial {Y : Type} [CommGroup Y] [Finite Y]
     (hY : Nat.card Y = 8) (hsq : ∀ y : Y, y * y = 1) {l x : MulAut Y} (hl : l ^ 7 = 1)
     (hne : l ≠ 1) (hx : x * x = 1) (hxl : ∃ a : ℕ, x * l * x⁻¹ = l ^ a) : x = 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨φ⟩ := CFSG.OddStandard.ChengHeld.GL32Inv.mulAut_mulEquiv_GL3 hY hsq
   obtain ⟨a, ha⟩ := hxl
   have ho : orderOf l = 7 := orderOf_eq_prime hl hne

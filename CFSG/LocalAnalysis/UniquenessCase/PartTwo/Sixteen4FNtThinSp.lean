@@ -55,7 +55,7 @@ theorem s16nt_range_sp {n a : ℕ} (hq : CFSG.Open.IsQuasisimple Y)
   have ha1 : 1 ≤ a := by
     obtain ⟨-, K, hKf, hKfin, hKcard, -⟩ := h
     let := hKf
-    haveI : Nontrivial K := inferInstance
+    have : Nontrivial K := inferInstance
     have hlt : 1 < Nat.card K := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     rw [hKcard] at hlt
     have hpow : 2 ^ 1 ≤ 2 ^ a := by

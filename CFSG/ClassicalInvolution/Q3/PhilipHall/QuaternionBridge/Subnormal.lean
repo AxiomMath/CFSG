@@ -63,6 +63,7 @@ theorem mem_normalizer_centralizer_of_central {t y ν : Y} (hν : ν ∈ Subgrou
 
 variable [Finite Y] {R : Subgroup Y} {S : Sylow 2 R} {t : Y} {N : Subgroup Y} [N.Normal]
 
+omit [Finite Y] in
 theorem normal_map_centralizer (hNc : N ≤ Subgroup.center Y) :
     (((Subgroup.centralizer ({t} : Set Y)).map (QuotientGroup.mk' N)).subgroupOf
       (Subgroup.centralizer ({QuotientGroup.mk' N t} : Set (Y ⧸ N)))).Normal := by
@@ -88,6 +89,7 @@ theorem normal_map_centralizer (hNc : N ≤ Subgroup.center Y) :
 variable (hd : TightDatum R S t)
 include hd
 
+omit [Finite Y] in
 theorem normal_map_core_map_centralizer :
     (((tightCore R).map (QuotientGroup.mk' N)).subgroupOf
       ((Subgroup.centralizer ({t} : Set Y)).map (QuotientGroup.mk' N))).Normal := by
@@ -99,6 +101,7 @@ theorem normal_map_core_map_centralizer :
   rw [mem_normalizer_iff_conjSub_eq, ← TwistQ.conjSub_map (N := N),
     mem_normalizer_iff_conjSub_eq.mp (hd.le_normalizer_core hg)]
 
+omit [Finite Y] in
 theorem isSubnormal_map_core (hNc : N ≤ Subgroup.center Y) :
     IsSubnormal ((tightCore R).map (QuotientGroup.mk' N))
       (Subgroup.centralizer ({QuotientGroup.mk' N t} : Set (Y ⧸ N))) := by

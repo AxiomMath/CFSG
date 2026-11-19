@@ -37,10 +37,10 @@ theorem isSolvable_of_card_dvd {G : Type*} [Group G] [Finite G] {a b : ℕ}
 section U38
 
 
-theorem no_E9_centralizes_nineteen (E : Subgroup U38G) (hE : IsElemAbelian 3 E)
+theorem no_E9_centralizes_nineteen (E : Subgroup U38G) (_hE : IsElemAbelian 3 E)
     (hcard : Nat.card E = 9) (z : U38G) (hz : orderOf z = 19) (hc : ∀ e ∈ E, e * z = z * e) :
     False := by
-  haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   have hG : ¬ 19 ^ 2 ∣ Nat.card U38G := by rw [card_U38G]; norm_num
   have h19 : orderOf (⟨X19, X19_mem⟩ : U38G) = 19 := by
     rw [← Subgroup.orderOf_coe]; exact X19_order
@@ -158,12 +158,12 @@ theorem no_E9_fixes_seven (E : Subgroup (MulAut ↥X')) (hE : IsElemAbelian 3 E)
 
 theorem e9Solv_X' : E9Solv ↥X' := by
   intro E hE hcard
-  haveI : Finite ↥X' := inferInstance
+  have : Finite ↥X' := inferInstance
   have hbij := rhoU38_bijective (X := ↥X') nonempty_X'_equiv_projSU
   let ρ' : U38G ≃* MulAut ↥X' := MulEquiv.ofBijective rhoU38 hbij
   have h19 : ¬ 19 ∣ Nat.card (i269Fix E) := by
     intro h
-    haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(i269Fix E)) 19 h
     have hz' : orderOf (z : ↥X') = 19 := by rw [Subgroup.orderOf_coe]; exact hz
     have hzf : ∀ α ∈ E, α (z : ↥X') = z := mem_i269Fix.1 z.2
@@ -194,7 +194,7 @@ theorem e9Solv_X' : E9Solv ↥X' := by
         _ = _ := by rw [h2]
   have h7 : ¬ 7 ∣ Nat.card (i269Fix E) := by
     intro h
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(i269Fix E)) 7 h
     have hy' : orderOf (y : ↥X') = 7 := by rw [Subgroup.orderOf_coe]; exact hy
     exact no_E9_fixes_seven E hE hcard (y : ↥X') hy' (mem_i269Fix.1 y.2)

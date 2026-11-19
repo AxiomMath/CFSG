@@ -28,8 +28,8 @@ theorem coboundary_le_four_of_natBlock {G : Type} [Group G] [Finite G] {H T M₂
     Set.ncard ((fun v => chiefPsi (Setting.hHL hstep) (Setting.hHN hstep) ⟨y, hy⟩ v * v⁻¹) ''
       (↑(Subgroup.map (chiefIota (h.hNL hstep)) ((V ⊓ N).subgroupOf N)) : Set ↥(chiefMod L N))) ≤ 4 := by
   classical
-  letI : CommGroup ↥(chiefMod L N) := chiefCG (h.hE hstep)
-  haveI : Finite ↥(chiefMod L N) := inferInstance
+  let : CommGroup ↥(chiefMod L N) := chiefCG (h.hE hstep)
+  have : Finite ↥(chiefMod L N) := inferInstance
   have hsum : (⨆ K ∈ 𝓗, CFSG.Quasithin.commV K) = ⊤ := hctx.iSup_comm
   have hdir : CFSG.Quasithin.commV K₀ ⊓ (⨆ K ∈ 𝓗, ⨆ (_ : K ≠ K₀), CFSG.Quasithin.commV K) = ⊥ :=
     hctx.inf_iSup_comm hK₀
@@ -75,7 +75,6 @@ theorem coboundary_le_four_of_natBlock {G : Type} [Group G] [Finite G] {H T M₂
     have h0 := DFunLike.congr_fun hpow u
     first
     | exact h0
-    | simpa [MulAut.mul_apply, MulAut.one_apply] using h0
   have h1 : ∀ K ∈ 𝓗, K ≠ K₀ → ∀ k ∈ K, ∀ w ∈ CFSG.Quasithin.commV K₀, k • w = w :=
     fun K hK hne k hk w hw => hctx.act_commV_of_ne hK₀ hK (Ne.symm hne) hk hw
   have h2 : ∀ k ∈ K₀, ∀ w ∈ CFSG.Quasithin.commV K₀, k • w ∈ CFSG.Quasithin.commV K₀ :=
@@ -102,7 +101,7 @@ theorem coboundary_le_four_of_natBlock {G : Type} [Group G] [Finite G] {H T M₂
       chiefPsi (Setting.hHL hstep) (Setting.hHN hstep) ⟨c, hc⟩ w = w} =
       {u : ↥(chiefMod L N) | u ∈ CFSG.Quasithin.commV K₀ ∧ k u = u} := by
     ext w
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hw, hw'⟩
       exact ⟨hw, (hagree w hw).symm.trans hw'⟩

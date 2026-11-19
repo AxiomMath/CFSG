@@ -42,6 +42,7 @@ theorem exists_pi_sl3 {H K T : Subgroup G} (hKc : K ∈ cComp H)
     rw [← hhD, Subgroup.map_map]
   exact ⟨π, hπ, hker, hD⟩
 
+omit [Finite G] in
 theorem image_le_oTwoUpper {K : Subgroup G} {f : ↥K →* SL3.S} {Z : Subgroup G} (hZK : Z ≤ K)
     (hZ : Z ≤ oTwoUpper Z) : (Z.subgroupOf K).map f ≤ oTwoUpper ((Z.subgroupOf K).map f) := by
   rw [Subgroup.map_le_iff_le_comap]
@@ -61,8 +62,9 @@ theorem image_le_oTwoUpper {K : Subgroup G} {f : ↥K →* SL3.S} {Z : Subgroup 
   have hmz' : m = z := Subtype.ext hmz
   exact hmz' ▸ hm
 
+omit [Finite G] in
 theorem P0_le_normalizer_image {K T : Subgroup G} {f : ↥K →* SL3.S}
-    (hf : (T.subgroupOf K).map f = SL3.P0) {Z : Subgroup G} (hZK : Z ≤ K)
+    (hf : (T.subgroupOf K).map f = SL3.P0) {Z : Subgroup G} (_hZK : Z ≤ K)
     (hTZ : ∀ t ∈ T, ∀ z ∈ Z, t * z * t⁻¹ ∈ Z) :
     SL3.P0 ≤ Subgroup.normalizer ((((Z.subgroupOf K).map f : Subgroup SL3.S)) : Set SL3.S) := by
   have fwd : ∀ t : ↥K, t ∈ T.subgroupOf K → ∀ w ∈ (Z.subgroupOf K).map f,

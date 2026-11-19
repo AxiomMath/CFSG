@@ -66,7 +66,7 @@ theorem rank3_om8_two {k : Type} [Field k] [Finite k] [CharP k 2] (hk : Nat.card
     ∃ E W : Subgroup (matrixDerived (coordinateQuadPlus 4 k)), IsElemAbelian 3 E ∧
       Nat.card E = 3 ^ 3 ∧ IsPGroup 2 W ∧ W ≠ ⊥ ∧ E ≤ Subgroup.normalizer (W : Set _) := by
   obtain ⟨e⟩ := nonempty_equiv_om8_two hk
-  haveI : Finite (CFSG.PGLModel.projOmegaPlus 4 (GaloisField 2 1)) := Finite.of_equiv _ e.toEquiv
+  have : Finite (CFSG.PGLModel.projOmegaPlus 4 (GaloisField 2 1)) := Finite.of_equiv _ e.toEquiv
   obtain ⟨E, W, hE, hEc, hW2, hWne, hEW⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.D4XF.exists_E27_of_three_le_twoLocalPrimeRank
       (G := CFSG.PGLModel.projOmegaPlus 4 (GaloisField 2 1))

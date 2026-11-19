@@ -23,7 +23,7 @@ theorem internal_pair_sylow_image {group : Type*} [Group group] [Finite group]
   have image_le := image_pair.trans pair_le
   let internal_image := image.subgroupOf subgroup
   have internal_prime : IsPGroup prime internal_image :=
-    (sylow.isPGroup'.map pair.subtype).of_equiv (Subgroup.subgroupOfEquivOfLe image_le).symm
+    (sylow.isPGroup.map pair.subtype).of_equiv (Subgroup.subgroupOfEquivOfLe image_le).symm
   have internal_le : internal_image ≤ pairSubgroup first second := by
     rw [← pair_eq]
     exact Subgroup.subgroupOf_mono subgroup image_pair

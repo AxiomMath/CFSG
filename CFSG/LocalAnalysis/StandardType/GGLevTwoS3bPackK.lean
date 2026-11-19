@@ -71,7 +71,6 @@ theorem unpack8_getD : ∀ (n P b : ℕ), P >>> (8 * n) = 0 → (unpack8 P n).ge
     have e2 : 8 + 8 * b = 8 * (b + 1) := by omega
     simp only [unpack8, List.getD_cons_succ]
     refine (unpack8_getD n _ b h').trans ?_
-    change lk8 (P >>> 8) b = lk8 P (b + 1)
     rw [lk8_eq, lk8_eq, ← Nat.shiftRight_add, e2]
 
 @[expose] def lk32 (K j : ℕ) : ℕ := Nat.land (Nat.shiftRight K (Nat.mul 32 j)) 4294967295
@@ -103,7 +102,6 @@ theorem unpack32_getD : ∀ (n K j : ℕ), K >>> (32 * n) = 0 → (unpack32 K n)
     have e2 : 32 + 32 * j = 32 * (j + 1) := by omega
     simp only [unpack32, List.getD_cons_succ]
     refine (unpack32_getD n _ j h').trans ?_
-    change lk32 (K >>> 32) j = lk32 K (j + 1)
     rw [lk32_eq, lk32_eq, ← Nat.shiftRight_add, e2]
 
 theorem length_unpack32 : ∀ (n K : ℕ), (unpack32 K n).length = n
@@ -173,10 +171,10 @@ theorem rkOf_mem : ∀ (L : List (ℕ × ℕ)) (r : ℕ), r ∈ L.map Prod.fst �
   | [], _, h => by simp at h
   | e :: L, r, h => by
     by_cases he : e.1 = r
-    · simp only [rkOf, he, if_true]
+    · simp only [rkOf, he, ite_true]
       rw [← he]
       exact List.mem_cons_self ..
-    · simp only [rkOf, he, if_false]
+    · simp only [rkOf, he, ite_false]
       have h' : r ∈ L.map Prod.fst := by
         rcases List.mem_cons.1 (List.map_cons .. ▸ h) with h1 | h1
         · exact absurd h1.symm he

@@ -21,7 +21,7 @@ theorem sporadic_M12 {G L Γ A : Subgroup (GLV V)} {m : ℕ} [Finite ↥G] (h : 
     (hM : Nonempty ((↥L ⧸ Subgroup.center ↥L) ≃* NativeSporadic.Carrier .M12)) :
     Module.finrank (ZMod 2) V = 10 ∧ IsPermCoreModule L NativeSporadic.M12 ∧
       Nonempty (↥G ≃* MulAut ↥NativeSporadic.M12) := by
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     CFSG.Quasithin.Background.Harris.OrdinaryProofs.finite_GLV_of_finite (V := V)
   obtain ⟨⟨hm4, hd10, hperm⟩, -, -⟩ := case0_M12 h hM
   refine ⟨hd10, hperm, ?_⟩
@@ -50,7 +50,7 @@ theorem sporadic_M12 {G L Γ A : Subgroup (GLV V)} {m : ℕ} [Finite ↥G] (h : 
         have := hB.2 x hx
         rwa [← pow_two])
     exact absurd (hcard.symm.le.trans this) (by norm_num)
-  obtain ⟨a, haA, haL⟩ := SetLike.not_le_iff_exists.1 hAL
+  obtain ⟨a, haA, haL⟩ := IsConcreteLE.not_le_iff_exists.1 hAL
   have haG : a ∈ G := hΓG (h.A_le haA)
   have hLn : (L.subgroupOf G).Normal :=
     (Subgroup.normal_subgroupOf_iff hLG).2 fun l g hl hg => hnorm g hg l hl

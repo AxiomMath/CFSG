@@ -39,7 +39,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem hdRo7CKCoordAux_zeroSet_card_zero_false
     {L : Type} [Field L] [Algebra (GaloisField 2 1) L] [Module.Finite (GaloisField 2 1) L]
     {ζ : L} (hζ : IsPrimitiveRoot ζ 3) (hdim : Module.finrank (GaloisField 2 1) L = 2)
-    {m : ℕ} (hm : 5 ≤ m) {E : Subgroup (StatedSp m (GaloisField 2 1))}
+    {m : ℕ} (_hm : 5 ≤ m) {E : Subgroup (StatedSp m (GaloisField 2 1))}
     (F : ChoiceTwo.SpFrame (GaloisField 2 1) m ζ E) (c : Fin F.s → ZMod 3)
     (J' : Subgroup (StatedSp m (GaloisField 2 1)))
     (hJ' : CFSG.Assembly.IsComponentOf J'
@@ -67,7 +67,7 @@ theorem hdRo7CKCoordAux_zeroSet_card_one_false
       (Subgroup.centralizer ({F.tor c} : Set (StatedSp m (GaloisField 2 1)))))
     (hfix : J' ≤ CFSG.RankThree.PartOne.spFixedFactor (F.tor c))
     (h1 : (F.zeroSet c).card = 1) : False := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     rw [CFSG.ComponentClassification.TBLit.L34P.card_galoisField (p := 2) (n := 1)
       (by norm_num)]
@@ -108,7 +108,7 @@ theorem hdRo7CKCoordAux_zeroSet_card_two_false
     (hlabel : GGHasLabel ⟨tag, m - 2, 1⟩ (↥J' ⧸ Subgroup.center ↥J'))
     (hfix : J' ≤ CFSG.RankThree.PartOne.spFixedFactor (F.tor c))
     (h2 : (F.zeroSet c).card = 2) : False := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     rw [CFSG.ComponentClassification.TBLit.L34P.card_galoisField (p := 2) (n := 1)
       (by norm_num)]
@@ -174,7 +174,7 @@ theorem hdRo7CKCoordAux_zeroSet_card_two_false
   · obtain ⟨e⟩ := hDalt
     obtain ⟨e'⟩ : Nonempty (↥J' ⧸ Subgroup.center ↥J' ≃* ↥(alternatingGroup (Fin 6))) := by
       rw [heq]
-      haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+      have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
         alternatingGroup.isSimpleGroup (by norm_num : 5 ≤ Nat.card (Fin 6))
       have hDna : ∃ a b : ↥D, a * b ≠ b * a := by
         by_contra h

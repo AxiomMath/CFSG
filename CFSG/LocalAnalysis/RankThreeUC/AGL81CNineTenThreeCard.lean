@@ -82,7 +82,7 @@ theorem natCard_of_isExtNotation_alternating_five_q8d8 {Y : Type} [Group Y]
     (h : IsExtNotation (fun A _ => Nonempty (A ≃* alternatingGroup (Fin 5)))
       (fun B _ => IsQ8D8Type B) Y) : Nat.card Y = 1920 := by
   obtain ⟨N, hN, hBN, hAN, -⟩ := h
-  haveI := hN
+  have := hN
   obtain ⟨e⟩ := hAN
   have hA5 : Nat.card (Y ⧸ N) = 60 := by
     rw [Nat.card_congr e.toEquiv, natCard_alternatingGroup_fin 5 (by norm_num)]

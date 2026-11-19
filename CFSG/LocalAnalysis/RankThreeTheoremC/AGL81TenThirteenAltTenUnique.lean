@@ -23,7 +23,7 @@ private theorem eq_bot_of_perfect_of_isSolvable {X : Type*} [Group X] [Group.IsS
 theorem le_of_perfect_of_normal_of_le_sup [Finite G] {p : ℕ} [Fact p.Prime] {P₁ P₂ H T : Subgroup G}
     (h1 : P₁ ≤ H) (hP₁ : ⁅P₁, P₁⁆ = P₁) (h2 : P₂ ≤ H) (hn : (P₂.subgroupOf H).Normal)
     (hT : IsPGroup p T) (hHT : H ≤ normalizer (T : Set G)) (hH : H ≤ P₂ ⊔ T) : P₁ ≤ P₂ := by
-  haveI := hn
+  have := hn
   set q := QuotientGroup.mk' (P₂.subgroupOf H) with hq
   have hpq : IsPGroup p (↥H ⧸ P₂.subgroupOf H) := by
     intro y
@@ -55,8 +55,8 @@ theorem le_of_perfect_of_normal_of_le_sup [Finite G] {p : ℕ} [Fact p.Prime] {P
       have := congrArg Subtype.val hk
       simpa using this
     rw [h5, map_one]
-  haveI : Group.IsSolvable (↥H ⧸ P₂.subgroupOf H) := by
-    haveI := hpq.isNilpotent
+  have : Group.IsSolvable (↥H ⧸ P₂.subgroupOf H) := by
+    have := hpq.isNilpotent
     infer_instance
   have hP₁' : ⁅P₁.subgroupOf H, P₁.subgroupOf H⁆ = P₁.subgroupOf H := by
     apply Subgroup.map_injective H.subtype_injective
@@ -135,10 +135,10 @@ theorem exists_surjective_alt5_of_ker {I C : Type*} [Group I] [Group C] [Finite 
     (f : I →* alternatingGroup (Fin 5)) (hf : Function.Surjective f) (π : I →* C)
     (hπ : Function.Surjective π) (hk : IsPGroup 2 π.ker) :
     ∃ g : C →* alternatingGroup (Fin 5), Function.Surjective g := by
-  haveI hsimp : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hsimp : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by norm_num [Nat.card_eq_fintype_card])
   have hle : π.ker ≤ f.ker := by
-    haveI hN : (π.ker.map f).Normal := (MonoidHom.normal_ker π).map f hf
+    have hN : (π.ker.map f).Normal := (MonoidHom.normal_ker π).map f hf
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (π.ker.map f) with h | h
     · intro x hx
       have : f x ∈ π.ker.map f := ⟨x, hx, rfl⟩
@@ -146,7 +146,7 @@ theorem exists_surjective_alt5_of_ker {I C : Type*} [Group I] [Group C] [Finite 
       exact this
     · exfalso
       have h2 : IsPGroup 2 (⊤ : Subgroup (alternatingGroup (Fin 5))) := h ▸ hk.map f
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨k, hk'⟩ := h2.exists_card_eq
       rw [Subgroup.card_top, nat_card_alternatingGroup, Nat.card_fin] at hk'
       have h3 : (3 : ℕ) ∣ 2 ^ k := by rw [← hk']; decide
@@ -164,7 +164,7 @@ theorem card_eq_sixty_of_isSimpleGroup {Q : Type*} [Group Q] [IsSimpleGroup Q]
     rw [Nat.card_congr (Equiv.ofBijective g ⟨hinj, hg⟩), nat_card_alternatingGroup, Nat.card_fin]
     rfl
   · exfalso
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
       alternatingGroup.isSimpleGroup (by norm_num [Nat.card_eq_fintype_card])
     obtain ⟨a, ha⟩ := exists_ne (1 : alternatingGroup (Fin 5))
     obtain ⟨y, rfl⟩ := hg a

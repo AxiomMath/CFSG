@@ -39,7 +39,7 @@ theorem exists_klein_of_surjective {Y H : Type*} [Group Y] [Finite Y] [Group H]
       (Subtype.val_injective.comp Subtype.val_injective) h)
   obtain ⟨S⟩ : Nonempty (Sylow 2 P) := inferInstance
   have hS : (S : Subgroup P) = ⊤ := by
-    have h := S.maximal_isPGroup.eq_of_le (P.isPGroup'.to_subgroup ⊤) le_top
+    have h := S.maximal_isPGroup.eq_of_le (P.isPGroup.to_subgroup ⊤) le_top
     exact h
   set θ : (S : Subgroup P) →* U :=
     (πU.comp (P : Subgroup Ut).subtype).comp (S : Subgroup P).subtype with hθdef

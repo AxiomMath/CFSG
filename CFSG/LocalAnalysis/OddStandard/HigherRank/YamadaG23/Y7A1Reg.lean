@@ -121,7 +121,7 @@ theorem y7a_reg16 (Q : Subgroup (Equiv.Perm (Fin 16)))
   have hcardS3 : Nat.card ↥S3 = 9 := by simpa using hcardQ3
   have hS3bot : S3 ⊓ CFSG.pCore 2 ↥Q = ⊥ := by
     have hdisj : Disjoint S3 (CFSG.pCore 2 ↥Q) :=
-      IsPGroup.disjoint_of_coprime Q3.isPGroup' CFSG.pCore_isPGroup (by decide)
+      IsPGroup.disjoint_of_coprime Q3.isPGroup CFSG.pCore_isPGroup (by decide)
     exact disjoint_iff.mp hdisj
   let φ : ↥S3 →* MulAut ↥(CFSG.pCore 2 ↥Q) :=
     (MulAut.conjNormal (H := CFSG.pCore 2 ↥Q)).comp S3.subtype

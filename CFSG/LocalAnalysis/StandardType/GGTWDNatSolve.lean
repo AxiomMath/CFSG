@@ -62,7 +62,7 @@ theorem ggTWDSolH_complete {p N : ℕ} [Fact p.Prime] (pos : GGTWPos) (tgt : ℕ
       cases hbg : ggTWNInJ N (ggTWPosNat pos) c with
       | false => rfl
       | true => exact absurd hbg hb
-  rw [if_pos htest]
+  rw [ite_eq_left htest]
 
 theorem ggTWDSolH_sound {p N : ℕ} [Fact p.Prime] {pos : GGTWPos} {tgt : ℕ → ℕ} {l : List ℕ}
     (hl : l ∈ ggTWDSolH p N (ggTWPosNat pos) tgt) :
@@ -77,9 +77,9 @@ theorem ggTWDSolH_sound {p N : ℕ} [Fact p.Prime] {pos : GGTWPos} {tgt : ℕ �
         ggDepANDot p (((List.range (N - 1)).map fun c => ggDepANA p N c).getD c [])
           (ggTWNDecode p N k) == tgt c % p) = true := by
     by_contra h
-    rw [if_neg h] at hfk
+    rw [ite_eq_right h] at hfk
     cases hfk
-  rw [if_pos htest] at hfk
+  rw [ite_eq_left htest] at hfk
   simp only [Option.some.injEq] at hfk
   rw [← hfk]
   refine ⟨ggTWNDecode_length p N k, ?_⟩
@@ -149,7 +149,7 @@ theorem ggTWDSolA_complete {p N : ℕ} [Fact p.Prime] (pos : GGTWPos) (tgt : ℕ
       cases hbg : ggTWNInJ N (ggTWPosNat pos) c with
       | false => rfl
       | true => exact absurd hbg hb
-  rw [if_pos htest]
+  rw [ite_eq_left htest]
 
 theorem ggTWDSolA_sound {p N : ℕ} [Fact p.Prime] {pos : GGTWPos} {tgt : ℕ → ℕ} {l : List ℕ}
     (hl : l ∈ ggTWDSolA p N (ggTWPosNat pos) tgt) :
@@ -164,9 +164,9 @@ theorem ggTWDSolA_sound {p N : ℕ} [Fact p.Prime] {pos : GGTWPos} {tgt : ℕ �
         ggDepANDot p (ggTWNDecode p N k)
           (((List.range (N - 1)).map fun c => ggDepANH p N c).getD c []) == tgt c % p) = true := by
     by_contra h
-    rw [if_neg h] at hfk
+    rw [ite_eq_right h] at hfk
     cases hfk
-  rw [if_pos htest] at hfk
+  rw [ite_eq_left htest] at hfk
   simp only [Option.some.injEq] at hfk
   rw [← hfk]
   refine ⟨ggTWNDecode_length p N k, ?_⟩

@@ -37,7 +37,7 @@ theorem card_mulAut_eq_two_mul_of_mulEquiv {G H : Type*} [Group G] [Group H] (e 
 theorem card_mulAut_alternatingGroup {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6) :
     Nat.card (MulAut ↥(alternatingGroup (Fin n))) =
       2 * Nat.card ↥(alternatingGroup (Fin n)) := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   rw [two_mul_nat_card_alternatingGroup]
   exact (Nat.card_congr (Equiv.ofBijective _
     (CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj n hn hn6))).symm

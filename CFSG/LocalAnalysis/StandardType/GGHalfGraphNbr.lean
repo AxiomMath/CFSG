@@ -32,7 +32,7 @@ private theorem ggHalfGraphNbr_map_conj_map' {A : Type} {G : Type} [Group A] [Gr
 private theorem ggHalfGraphNbr_mem_normalizer_zpowers_of_commute {G : Type} [Group G] {a b : G}
     (h : a * b = b * a) : a ∈ Subgroup.normalizer (Subgroup.zpowers b : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, MonoidHom.map_zpowers]
-  simp only [MulAut.conj_apply, MonoidHom.coe_coe]
+  simp only [MulAut.conj_apply, _root_.MonoidHom.coe_ofClass]
   rw [show a * b * a⁻¹ = b from by rw [h]; group]
 
 private theorem ggHalfGraphNbr_statedClassicalModel_of_label_A {Q : Type} [Group Q]
@@ -40,8 +40,8 @@ private theorem ggHalfGraphNbr_statedClassicalModel_of_label_A {Q : Type} [Group
   unfold GGHasLabel at h
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at h
   obtain ⟨K, hF, hFin, hK, hne⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨e⟩ := hne
   have hadm : CFSG.Open.StatedLieAdmissible .PSL 6 2 1 :=
     ⟨Nat.prime_two, le_rfl, by norm_num, by decide, by decide⟩
@@ -54,8 +54,8 @@ private theorem ggHalfGraphNbr_statedClassicalModel_of_label_twD {Q : Type} [Gro
   unfold GGHasLabel at h
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeOmegaMinus] at h
   obtain ⟨K, hF, hFin, hK, b, c, hbc, hne⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨e⟩ := hne
   have hadm : CFSG.Open.StatedLieAdmissible .POmegaMinus 4 2 1 :=
     ⟨Nat.prime_two, le_rfl, le_rfl⟩
@@ -67,10 +67,10 @@ private theorem ggHalfGraphNbr_statedClassicalModel_of_label_twD {Q : Type} [Gro
 private theorem ggHalfGraphNbr_mixed_le_range
     {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G}
     {x : G} {L D J K : Subgroup G} {y : G} {φ₁ φ₂ : SpecialLinearGroup (Fin 6) F2 →* G}
-    (h : GGHalfCtx p B Bs x L D J 3 y K φ₁ φ₂) (hRig : GGLabelRigidInput)
-    (hTP : GGNbrTablePNbrInputOn GGRegimeAm2) (hLB : GGLBalanceInput)
+    (h : GGHalfCtx p B Bs x L D J 3 y K φ₁ φ₂) (_hRig : GGLabelRigidInput)
+    (_hTP : GGNbrTablePNbrInputOn GGRegimeAm2) (_hLB : GGLBalanceInput)
     (m : GGHalfE6Model) (φ : GGE6Two →* G) (hinj : Function.Injective φ)
-    (hv : φ (ggE6u (m.frame .L 0 1)) = vElt φ₁) (hw : φ (ggE6u (m.frame .K 6 7)) = wElt φ₂)
+    (_hv : φ (ggE6u (m.frame .L 0 1)) = vElt φ₁) (_hw : φ (ggE6u (m.frame .K 6 7)) = wElt φ₂)
     (hJ : m.J0.map φ = J) {y' : G} {K' : Subgroup G} (hnbr : GGNbr p B x D J y' K')
     (hJK' : J ≤ K') (hKq : CFSG.Assembly.IsQuasisimple ↥K')
     {lab : LargeEvenLabel} (hlab : GGHasLabel lab (↥K' ⧸ Subgroup.center ↥K'))
@@ -143,7 +143,7 @@ private theorem ggHalfGraphNbr_mixed_le_range
         exact (QuotientGroup.eq_one_iff (⟨φ z, hzK⟩ : ↥K')).mp
           (show (QuotientGroup.mk (⟨φ z, hzK⟩ : ↥K') : ↥K' ⧸ Subgroup.center ↥K') = 1 from h1)
       have hord : orderOf (π ⟨φ z, hzK⟩) = 17 := by
-        haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
         refine orderOf_eq_prime ?_ hq1
         rw [← map_pow, hzpow, map_one]
       have hdvd : 17 ∣ Nat.card (↥K' ⧸ Subgroup.center ↥K') := by
@@ -162,7 +162,7 @@ private theorem ggHalfGraphNbr_mixed_le_range
     have hmodeltwD : CFSG.Open.StatedClassicalModel
         (↥K' ⧸ Subgroup.center ↥K') .POmegaMinus 4 2 1 :=
       ggHalfGraphNbr_statedClassicalModel_of_label_twD hlabtwD
-    haveI : Group.IsPerfect ↥K' := ⟨hKq.1⟩
+    have : Group.IsPerfect ↥K' := ⟨hKq.1⟩
     have hZbot : Subgroup.center ↥K' = ⊥ :=
       HalfRowData.center_eq_bot_of_pomegaMinus_two hmodeltwD
     have hLie : CFSG.Blueprint.LieModel (↥K' ⧸ Subgroup.center ↥K') .POmegaMinus 4 2 1 :=

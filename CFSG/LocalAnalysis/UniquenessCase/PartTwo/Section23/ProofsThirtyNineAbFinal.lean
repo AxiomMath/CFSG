@@ -176,7 +176,7 @@ theorem commutator_le_inf (h4 : S23_4 D Ch) (h23 : S23_23 D Ch)
     ∀ s ∈ (c.L ⊔ D.T) ⊓ Subgroup.centralizer (c.V : Set G),
       ∀ x ∈ P.X, ⁅s, x⁆ ∈ P.C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSN : c.L ⊔ D.T ≤
       Subgroup.normalizer (((c.L ⊔ D.T) ⊓ Subgroup.centralizer (c.V : Set G) :
         Subgroup G) : Set G) :=
@@ -223,7 +223,7 @@ structure QuadData (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch) where
 
 private theorem sup_le_normalizer_of_coset (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
     (hB1 : ∀ t ∈ D.T, ∃ l ∈ D.T ⊓ c.L, t * l⁻¹ ∈ Subgroup.centralizer (c.V : Set G))
-    {X Y : Subgroup G} (hYX : Y ≤ X)
+    {X Y : Subgroup G} (_hYX : Y ≤ X)
     (hcomm : ∀ s ∈ (c.L ⊔ D.T) ⊓ Subgroup.centralizer (c.V : Set G), ∀ y ∈ Y,
       ⁅s, y⁆ ∈ Y)
     (hLY : c.L ≤ Subgroup.normalizer (Y : Set G)) :
@@ -418,7 +418,7 @@ theorem fpf (h4 : S23_4 D Ch) (h23 : S23_23 D Ch) (h1930 : H1930 D) {b : G}
     (hbB : b ∈ c.B0) (hb1 : b ≠ 1) :
     ∀ x ∈ Q.P.X, b * x * b⁻¹ = x → x ∈ c.centLModV := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx hfix
   have hbL : b ∈ c.L := c.hL0L (c.hB0.1 hbB)
   have hodd : Odd (orderOf b) := uc22p21d_odd_orderOf_of_mem_calB1 c.hB0 hbB
@@ -451,7 +451,7 @@ theorem exists_cover (h4 : S23_4 D Ch) (h23 : S23_23 D Ch) (h1930 : H1930 D)
       c.B0 ≤ Subgroup.normalizer (Y : Set G) ∧ Q.P.X ≤ Y ⊔ c.centLModV ∧
       ∀ b ∈ c.B0, b ≠ 1 → Subgroup.closure {z : G | ∃ y ∈ Y, z = ⁅y, b⁆} = Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB0comm : ∀ b ∈ c.B0, ∀ b' ∈ c.B0, b * b' = b' * b := by
     intro b hb b' hb'
     exact congrArg Subtype.val ((c.hB0.2.1).is_comm.comm ⟨b, hb⟩ ⟨b', hb'⟩)
@@ -472,7 +472,7 @@ theorem exists_cover (h4 : S23_4 D Ch) (h23 : S23_23 D Ch) (h1930 : H1930 D)
     rw [hk]
     exact (Nat.coprime_two_right.mpr hoddB).pow_right k
   have hsolv : Group.IsSolvable ↥Q.P.X := by
-    haveI : Group.IsNilpotent ↥Q.P.X := hX2.isNilpotent
+    have : Group.IsNilpotent ↥Q.P.X := hX2.isNilpotent
     exact IsNilpotent.to_isSolvable
   obtain ⟨Y, hYX, hBY, hXY, hYeq⟩ :=
     CFSG.GroupTheory.exists_closure_commutator_eq_of_coprime (B := c.B0) (X := Q.P.X)
@@ -530,9 +530,9 @@ theorem isEmpty_quadData (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
     have hKgt : 1 < Nat.card Q.κ.K := by
       by_contra hle
       have hle' : Nat.card Q.κ.K ≤ 1 := Nat.le_of_not_lt hle
-      haveI : Subsingleton Q.κ.K := Finite.card_le_one_iff_subsingleton.mp hle'
-      haveI : Subsingleton (Multiplicative (Fin 2 → Q.κ.K)) := inferInstance
-      haveI : Subsingleton ↥c.V :=
+      have : Subsingleton Q.κ.K := Finite.card_le_one_iff_subsingleton.mp hle'
+      have : Subsingleton (Multiplicative (Fin 2 → Q.κ.K)) := inferInstance
+      have : Subsingleton ↥c.V :=
         ⟨fun a b => (MulEquiv.ofBijective Q.κ.β Q.κ.β_bij).injective (Subsingleton.elim _ _)⟩
       exact c.V_ne_bot h4 h1930 (Subgroup.eq_bot_of_subsingleton (H := c.V))
     have himage_ne : ((D.T ⊓ c.L).subgroupOf c.L).map Q.κ.α ≠ ⊥ := by

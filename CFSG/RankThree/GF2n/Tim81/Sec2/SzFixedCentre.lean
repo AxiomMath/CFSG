@@ -14,6 +14,7 @@ variable (a K) in
 @[expose] noncomputable def szZ : Subgroup ↥(suzukiGroup a K) :=
   (suzukiZ0 a K).map (MulAut.conj (suzukiWElt a K)).toMonoidHom
 
+omit [CharP K 2] in
 theorem mem_szZ_iff (hK : Nat.card K = 2 ^ (2 * a + 1))
     {g : ↥(suzukiGroup a K)} :
     g ∈ szZ a K ↔ ∃ v : K, suzukiWElt a K * suzukiSElt a K 0 v * (suzukiWElt a K)⁻¹ = g := by
@@ -25,10 +26,12 @@ theorem mem_szZ_iff (hK : Nat.card K = 2 ^ (2 * a + 1))
   · rintro ⟨v, rfl⟩
     exact ⟨_, (mem_suzukiZ0_iff hK).mpr ⟨v, rfl⟩, rfl⟩
 
+omit [CharP K 2] [Fintype K] in
 theorem szZ_le_szUp :
     szZ a K ≤ szUp a K :=
   Subgroup.map_mono (suzukiZ0_le_suzukiU (a := a) (K := K))
 
+omit [CharP K 2] in
 theorem card_szZ (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     Nat.card (szZ a K) = 2 ^ (2 * a + 1) := by
   rw [szZ, Subgroup.card_map_of_injective (MulAut.conj (suzukiWElt a K)).injective]
@@ -45,11 +48,13 @@ theorem szZ_mul_self (hK : Nat.card K = 2 ^ (2 * a + 1))
   obtain ⟨z₀, hz₀, rfl⟩ := Subgroup.mem_map.mp hz
   rw [← map_mul, suzukiZ0_mul_self hK hz₀, map_one]
 
+omit [CharP K 2] in
 theorem suzukiZ0_comm (hK : Nat.card K = 2 ^ (2 * a + 1))
     {y z : ↥(suzukiGroup a K)} (hy : y ∈ suzukiZ0 a K) (hz : z ∈ suzukiZ0 a K) :
     y * z = z * y :=
   (suzuki_unipotent_structure hK).2.2.2.2.1 y hy z hz
 
+omit [CharP K 2] in
 theorem szZ_comm (hK : Nat.card K = 2 ^ (2 * a + 1))
     {y z : ↥(suzukiGroup a K)} (hy : y ∈ szZ a K) (hz : z ∈ szZ a K) : y * z = z * y := by
   obtain ⟨y₀, hy₀, rfl⟩ := Subgroup.mem_map.mp hy
@@ -62,11 +67,13 @@ theorem isElemAbelian_szZ (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     rw [pow_two]
     exact szZ_mul_self hK hx⟩
 
+omit [CharP K 2] in
 theorem suzukiZ0_comm_suzukiU
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {z : ↥(suzukiGroup a K)} (hz : z ∈ suzukiZ0 a K)
     {u : ↥(suzukiGroup a K)} (hu : u ∈ suzukiU a K) : z * u = u * z :=
   (suzuki_unipotent_structure hK).2.2.2.2.2.1 z hz u hu
 
+omit [CharP K 2] in
 theorem szZ_normal_in_szUp
     (hK : Nat.card K = 2 ^ (2 * a + 1)) : ((szZ a K).subgroupOf (szUp a K)).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -82,11 +89,13 @@ theorem szZ_normal_in_szUp
     (g : ↥(suzukiGroup a K)) * (n : ↥(suzukiGroup a K)) * (g : ↥(suzukiGroup a K))⁻¹
   rw [← hg, ← hz, ← map_inv, ← map_mul, ← map_mul]
 
+omit [CharP K 2] in
 theorem card_szUp (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     Nat.card (szUp a K) = (2 ^ (2 * a + 1)) ^ 2 := by
   rw [szUp, Subgroup.card_map_of_injective (MulAut.conj (suzukiWElt a K)).injective]
   exact (suzuki_unipotent_structure hK).2.1
 
+omit [CharP K 2] in
 theorem card_szUp_quot_szZ
     (hK : Nat.card K = 2 ^ (2 * a + 1))
     [((szZ a K).subgroupOf (szUp a K)).Normal] :

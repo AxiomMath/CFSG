@@ -20,10 +20,10 @@ theorem exists_fixed_line_decomposition {W : Type*} [AddCommGroup W] [Module F4 
       ∀ s v, eta (rho s v) =
         ((eta v).1, (alpha s : Matrix (Fin 3) (Fin 3) F4) *ᵥ (eta v).2) := by
   let b : Module.Basis (Fin 4) F4 W := Module.finBasisOfFinrankEq F4 W hdim
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) F4) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) F4) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect (le_refl 3)
   let d : Matrix.SpecialLinearGroup (Fin 3) F4 →* F4ˣ := LinearEquiv.det.comp rho
-  haveI : Group.IsPerfect d.range := Group.IsPerfect.range (f := d)
+  have : Group.IsPerfect d.range := Group.IsPerfect.range (f := d)
   have hd : ∀ s, (rho s).det = 1 := by
     intro s
     have h := Subsingleton.elim (⟨d s, ⟨s, rfl⟩⟩ : d.range) 1
@@ -141,9 +141,9 @@ theorem eq_stabSub_of_le_of_card_eq (T : Subgroup SL6) (P E : Submodule F4 V6)
   have hbeta : Function.Injective beta := Submodule.specialLinearEmbedding_injective h
   let b : Module.Basis (Fin 3) F4 E := Module.finBasisOfFinrankEq F4 E hE
   let e3 := Matrix.SpecialLinearGroup.toLin_equiv b
-  letI : Finite (_root_.SpecialLinearGroup F4 E) :=
+  let : Finite (_root_.SpecialLinearGroup F4 E) :=
     Finite.of_equiv (Matrix.SpecialLinearGroup (Fin 3) F4) e3.toEquiv
-  letI : Finite beta.range :=
+  let : Finite beta.range :=
     Finite.of_equiv (_root_.SpecialLinearGroup F4 E) (MonoidHom.ofInjective hbeta).toEquiv
   have hbc : Nat.card beta.range = Nat.card (Matrix.SpecialLinearGroup (Fin 3) F4) := by
     rw [Nat.card_congr (MonoidHom.ofInjective hbeta).symm.toEquiv,
@@ -219,7 +219,7 @@ theorem ggN2FourSpaceSliceInput_holds :
       iL (eta z).1, ⟨(eta z).1, rfl⟩, ?_⟩
     have h : eta.symm (0, (eta z).2) + eta.symm ((eta z).1, 0) = z := by
       rw [← map_add]
-      simpa using eta.symm_apply_apply z
+      simp
     exact congrArg Subtype.val h
   have hEact : ∀ (t : T) (u : Fin 3 → F4),
       (t.val : Matrix (Fin 6) (Fin 6) F4) *ᵥ iE u =

@@ -28,7 +28,7 @@ theorem ggB2der_noncyclic_three {G : Type} [Group G] [Finite G] {J : Subgroup G}
   let P : Sylow 3 ↥S' := default
   let T : Sylow 3 ↥S₀ := Sylow.mapSurjective hg P
   have hTtop : (T : Subgroup ↥S₀) = ⊤ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨n, hn⟩ := hS₀p.exists_card_eq
     have hT : Nat.card T = 3 ^ n := by
       rw [Sylow.card_eq_multiplicity, hn, Nat.factorization_pow]
@@ -45,17 +45,17 @@ theorem ggB2der_noncyclic_three {G : Type} [Group G] [Finite G] {J : Subgroup G}
     exact ⟨⟨p, hpP⟩, hpg⟩
   have hPnc : ¬ IsCyclic P := by
     intro hP
-    haveI : IsCyclic P := hP
-    haveI : IsCyclic ↥S₀ := isCyclic_of_surjective h hh
+    have : IsCyclic P := hP
+    have : IsCyclic ↥S₀ := isCyclic_of_surjective h hh
     exact hS₀nc inferInstance
   let ι : ↥S' →* G := J.subtype.comp S'.subtype
   have hι : Function.Injective ι := J.subtype_injective.comp S'.subtype_injective
   refine ⟨(P : Subgroup ↥S').map ι, ?_, ?_, ?_⟩
   · rintro _ ⟨s, -, rfl⟩
     exact s.1.2
-  · exact IsPGroup.of_equiv (Sylow.isPGroup' P) (Subgroup.equivMapOfInjective P ι hι)
+  · exact IsPGroup.of_equiv (Sylow.isPGroup P) (Subgroup.equivMapOfInjective P ι hι)
   · intro hScyc
-    haveI : IsCyclic ↥((P : Subgroup ↥S').map ι) := hScyc
+    have : IsCyclic ↥((P : Subgroup ↥S').map ι) := hScyc
     exact hPnc (isCyclic_of_surjective (Subgroup.equivMapOfInjective P ι hι).symm
       (Subgroup.equivMapOfInjective P ι hι).symm.surjective)
 

@@ -219,6 +219,7 @@ end GroupTheory
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem eq_one_of_mem_centralizer_of_mul_self {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     (hirr : HasIrrTildeV L) (hf : FaithfulTildeV L) {z : GLV V} (hzL : z ∈ L)
     (hzc : z ∈ Subgroup.centralizer (L : Set (GLV V))) (hz2 : z * z = 1) : z = 1 := by
@@ -286,6 +287,7 @@ private theorem nonempty_center_quotient_mulEquiv {P X : Type*} [Group P] [Group
 
 open CFSG.ComponentClassification.RankTwoClassical.ORigid
   (isSimpleGroup_statedOmega_quadPlus_of_three_le isSimpleGroup_statedOmega_quadMinus_of_two_le) in
+omit [Finite V] in
 private theorem glaubermanAt_of_isFModule (hgl : GlaubermanF) {L : Subgroup (GLV V)} (hfm : IsFModule L)
     {P : Type} [Group P] [Finite P] (hP : CFSG.Open.IsQuasisimple P) (e : P ≃* ↥L) :
     CFSG.CGT.PushingUpLit.CGT6.Nine7.GlaubermanAt (P ⧸ Subgroup.center P) := by
@@ -354,7 +356,7 @@ private theorem Extremal.component_of_inv (hclimb : Climb66) {G S L : Subgroup (
     simpa [MulAut.smul_def, MulAut.conj_apply] using h1
   set RT : Subgroup (GLV V) := (T : Subgroup ↥K).map K.subtype with hRT
   have hRTK : RT ≤ K := Subgroup.map_subtype_le _
-  have hRTp : IsPGroup 2 RT := T.isPGroup'.map K.subtype
+  have hRTp : IsPGroup 2 RT := T.isPGroup.map K.subtype
   have hsT : (k : GLV V) * s * (k : GLV V)⁻¹ ∈ RT := ⟨_, hks, rfl⟩
   have hcompT : IsComponentOf L (G ⊓ Subgroup.centralizer (RT : Set (GLV V))) :=
     hres RT hRTK _ hsT (hconj k k.2 s hs)
@@ -497,6 +499,7 @@ private theorem tight_of_component_of_inv {G L : Subgroup (GLV V)}
   exact hcomm g hg (CFSG.CGT.PushingUpLit.CGT6.Nine7.commute_of_isCompIn_ne
     ⟨h1.1, h1.2.1.subgroupOf, h1.2.2⟩ ⟨h2.1, h2.2.1.subgroupOf, h2.2.2⟩ hne)
 
+omit [Finite V] in
 private theorem normalizer_eq_of_tight {G L : Subgroup (GLV V)} {s : GLV V} (hsG : s ∈ G)
     (hs2 : orderOf s = 2) (hsL : s ∈ Subgroup.centralizer (L : Set (GLV V)))
     (htight : ∀ g ∈ G, g ∉ Subgroup.normalizer (L : Set (GLV V)) →
@@ -622,7 +625,7 @@ private theorem Extremal.quasisimple_of_four_dvd {G L : Subgroup (GLV V)} {s : G
   have hdich : ∀ Q : Subgroup ↥G, CFSG.IsComponent Q →
       L' ≤ Q ∨ L' ≤ Subgroup.centralizer (Q : Set ↥G) := by
     intro Q hQ
-    haveI hQn : Q.Normal := CFSG.LocalCores.component_normal_of_layer_eq_top hlayer hQ
+    have hQn : Q.Normal := CFSG.LocalCores.component_normal_of_layer_eq_top hlayer hQ
     rcases CFSG.LocalCores.component_normal_subgroup hL'comp (hQn.subgroupOf C') with h1 | h1
     · exact Or.inl (CFSG.LocalCores.le_of_subgroupOf_le hL'C' h1)
     · right

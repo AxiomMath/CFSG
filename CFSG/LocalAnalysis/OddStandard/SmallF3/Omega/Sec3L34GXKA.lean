@@ -28,7 +28,7 @@ theorem l34g_x_ka_fixed [Finite G] {H : Subgroup G} {t : G} (ht : t * t = 1)
     (htN : t ∈ normalizer (H : Set G)) {α : MulAut (↥H ⧸ oddCore ↥H)}
     (hα : ∀ x : ↥H, (QuotientGroup.mk (conjAut H ht htN x) : ↥H ⧸ oddCore ↥H) =
       α (QuotientGroup.mk x))
-    {B : Subgroup G} (hBH : B ≤ H) (hBt : B ≤ centralizer ({t} : Set G)) :
+    {B : Subgroup G} (_hBH : B ≤ H) (hBt : B ≤ centralizer ({t} : Set G)) :
     ∀ b ∈ (B.subgroupOf H).map (QuotientGroup.mk' (oddCore ↥H)), α b = b := by
   rintro _ ⟨b', hb', rfl⟩
   have hbt : t * (b' : G) = (b' : G) * t :=

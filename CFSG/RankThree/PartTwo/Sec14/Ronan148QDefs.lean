@@ -185,7 +185,7 @@ theorem Inv143Q.centralizer_le {A : Subgroup G} {a d : G} {X : Subgroup G} (h : 
     (ha : a ∈ A) :
     Subgroup.centralizer (A : Set G) ≤ Subgroup.normalizer
       ((pPrimeCoreOf 3 (Subgroup.centralizer ({a} : Set G)) ⊔ X : Subgroup G) : Set G) :=
-  fun x hx => h.inf_le ⟨Subgroup.centralizer_le (Set.singleton_subset_iff.mpr ha) hx,
+  fun _x hx => h.inf_le ⟨Subgroup.centralizer_le (Set.singleton_subset_iff.mpr ha) hx,
     Subgroup.centralizer_le_normalizer (A : Set G) hx⟩
 
 theorem item143_of_item143Q {A : Subgroup G} {LB : Subgroup G → Subgroup G}

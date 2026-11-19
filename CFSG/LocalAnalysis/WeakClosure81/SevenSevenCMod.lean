@@ -51,6 +51,7 @@ private theorem seven_seven_c_mod_iSub_comm (h : Hyp73 V H E J) {a b : G}
     ((seven_two_iSub_isElemAbelian_uncond h.elemAbelian h.ti h.abelian h.omega_le).1.is_comm.comm
       ⟨a, ha⟩ ⟨b, hb⟩)
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_exists_mem_notMem_iSub (h : Hyp73 V H E J) {U : Subgroup G}
     (hU : U ∈ omegaSet V H E) : ∃ v ∈ U, v ∉ iSub V H E := by
   by_contra hcon
@@ -58,6 +59,7 @@ private theorem seven_seven_c_mod_exists_mem_notMem_iSub (h : Hyp73 V H E J) {U 
   exact (mem_omegaSet.mp hU).choose_spec.2.2
     (le_trans (fun v hv => hcon v hv) (h.iSub_le.trans h.pcore_le))
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_comm_of_mem (h : Hyp73 V H E J) {U : Subgroup G}
     (hU : U ∈ omegaSet V H E) {x y : G} (hx : x ∈ U) (hy : y ∈ U) : x * y = y * x :=
   congrArg Subtype.val
@@ -71,6 +73,7 @@ private theorem seven_seven_c_mod_inf_V₁_V₂_eq_bot (h : Hyp73 V H E J)
   · rwa [hg₁, hg₂]
   · exact absurd (by rw [hg₁, hg₂]; exact heq) hc.ne₁₂
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_comm_V₁_V₂ (hc : SevenSevenCfg V H E V₁ V₂ V₃)
     {x y : G} (hx : x ∈ V₁) (hy : y ∈ V₂) : x * y = y * x := by
   have hmem : ⁅x, y⁆ ∈ ⁅V₁, V₂⁆ := Subgroup.commutator_mem_commutator hx hy
@@ -78,18 +81,22 @@ private theorem seven_seven_c_mod_comm_V₁_V₂ (hc : SevenSevenCfg V H E V₁ 
   exact (commute_iff_eq x y).mp
     ((commutatorElement_eq_one_iff_commute).mp (Subgroup.mem_bot.mp hmem))
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_V₁_le_normalizer (hA : SevenSevenModule V H E V₁ V₂ V₃ A) :
     V₁ ≤ Subgroup.normalizer (A : Set G) :=
   (le_sup_left.trans le_sup_left).trans hA.normalizes
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_V₂_le_normalizer (hA : SevenSevenModule V H E V₁ V₂ V₃ A) :
     V₂ ≤ Subgroup.normalizer (A : Set G) :=
   (le_sup_right.trans le_sup_left).trans hA.normalizes
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_V₃_le_normalizer (hA : SevenSevenModule V H E V₁ V₂ V₃ A) :
     V₃ ≤ Subgroup.normalizer (A : Set G) :=
   le_sup_right.trans hA.normalizes
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_commutator_mem_of_mem_normalizer {x a : G}
     (hx : x ∈ Subgroup.normalizer (A : Set G)) (ha : a ∈ A) : ⁅a, x⁆ ∈ A := by
   have hmem : x * a⁻¹ * x⁻¹ ∈ A :=
@@ -98,11 +105,13 @@ private theorem seven_seven_c_mod_commutator_mem_of_mem_normalizer {x a : G}
   rw [show a * x * a⁻¹ * x⁻¹ = a * (x * a⁻¹ * x⁻¹) by group]
   exact A.mul_mem ha hmem
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_commutator_le_of_le_normalizer {W : Subgroup G}
     (hW : W ≤ Subgroup.normalizer (A : Set G)) : ⁅A, W⁆ ≤ A :=
-  Subgroup.commutator_le.mpr fun a ha x hx =>
+  Subgroup.commutator_le.mpr fun _a ha _x hx =>
     seven_seven_c_mod_commutator_mem_of_mem_normalizer (hW hx) ha
 
+omit [Finite G] in
 private theorem seven_seven_c_mod_mem_sup_of_commute {B C : Subgroup G}
     (hB : B ≤ A) (hC : C ≤ A) (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     {x : G} (hx : x ∈ B ⊔ C) : ∃ b ∈ B, ∃ c ∈ C, b * c = x := by
@@ -159,7 +168,8 @@ private theorem seven_seven_c_mod_commutator_le_inf₃ (h : Hyp73 V H E J)
     ⁅A, V₃⁆ ≤ A ⊓ V₃ :=
   commutator_le_inf_of_mem_omegaSet h hc.mem₃ hA.le_iSub (seven_seven_c_mod_V₃_le_normalizer hA)
 
-theorem le_sup_commutator (h : Hyp73 V H E J) (hc : SevenSevenCfg V H E V₁ V₂ V₃)
+omit [Finite G] in
+theorem le_sup_commutator (_h : Hyp73 V H E J) (_hc : SevenSevenCfg V H E V₁ V₂ V₃)
     (hA : SevenSevenModule V H E V₁ V₂ V₃ A) : A ≤ ⁅A, V₁⁆ ⊔ ⁅A, V₂⁆ ⊔ ⁅A, V₃⁆ := by
   let S : Subgroup G := ⁅A, V₁⁆ ⊔ ⁅A, V₂⁆ ⊔ ⁅A, V₃⁆
   have hS_eq : S = ⁅A, V₁⁆ ⊔ ⁅A, V₂⁆ ⊔ ⁅A, V₃⁆ := rfl

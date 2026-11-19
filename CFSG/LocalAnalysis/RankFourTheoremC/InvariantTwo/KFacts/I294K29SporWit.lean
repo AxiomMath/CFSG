@@ -44,7 +44,7 @@ theorem RankThreeWitness.map_mulEquiv {S T : Type*} [Group S] [Group T] [Finite 
 theorem RankThreeWitness.of_mulEquiv {S T : Type*} [Group S] [Group T] [Finite S] {p : ℕ}
     [Fact p.Prime] (f : S ≃* T) {x : S} (hx : RankThreeWitness p (f x)) :
     RankThreeWitness p x := by
-  haveI : Finite T := Finite.of_equiv S f.toEquiv
+  have : Finite T := Finite.of_equiv S f.toEquiv
   simpa using hx.map_mulEquiv f.symm
 
 theorem RankThreeWitness.conj_eq {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]

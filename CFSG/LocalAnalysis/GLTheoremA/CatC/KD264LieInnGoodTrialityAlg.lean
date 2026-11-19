@@ -83,7 +83,7 @@ theorem exists_cycle_dvd {ν : ℕ} {L : Type} [Field L] {p : ℕ} (hp : p.Prime
     rw [h3, hall x₀, hall y₀]
     simp
   obtain ⟨a, ha⟩ := hvne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf (v a) = p := orderOf_eq_prime (hvp a) ha
   have hiter : ∀ n : ℕ, v (π^[n] a) = v a ^ (Q ^ n) := by
     intro n
@@ -123,7 +123,7 @@ theorem dvd_card_range_of_perfect_central {X G : Type*} [Group X] [Finite X] [Gr
     (g : X →* G) (hperf : Group.IsPerfect X) (hker : g.ker ≤ Subgroup.center X) {p : ℕ}
     (hp : p.Prime) (hpX : p ∣ Nat.card X) : p ∣ Nat.card g.range := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hnd
   have hcen : ∀ x : X, (∃ k : ℕ, x ^ (p ^ k) = 1) → x ∈ Subgroup.center X := by
     rintro x ⟨k, hk⟩

@@ -117,7 +117,7 @@ theorem perfectCentralizerPlanes_projOrthDerived
         hord hRep hmemRep hne1 hm).2.2.1
   have hPperf : ⁅componentImage Q (a : V ≃ₗ[K] V) h,
       componentImage Q (a : V ≃ₗ[K] V) h⁆ = componentImage Q (a : V ≃ₗ[K] V) h := by
-    haveI : Group.IsPerfect ↥(componentImage Q (a : V ≃ₗ[K] V) h) := hqJ.1
+    have : Group.IsPerfect ↥(componentImage Q (a : V ≃ₗ[K] V) h) := hqJ.1
     exact Subgroup.commutator_eq_self
   have hPdvd : p ∣ Nat.card ↥(componentImage Q (a : V ≃ₗ[K] V) h) := by
     obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' p hdvdF
@@ -181,8 +181,8 @@ theorem innGoodAt_pomegaOdd {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     InnGoodAt p d G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn : 3 ≤ n := hadm.2.2.1
   have hchar : ringChar K = ℓ :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm.1 hadm.2.1 hK
@@ -202,8 +202,8 @@ theorem innGoodAt_pomegaPlus {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     InnGoodAt p d G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hchar : ringChar K = ℓ :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm.1 hadm.2.1 hK
   have hpl : p ≠ ringChar K := by rw [hchar]; exact hpℓ
@@ -222,8 +222,8 @@ theorem innGoodAt_pomegaMinus {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     InnGoodAt p d G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, b, c, hirr, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn4 : 4 ≤ n := hadm.2.2
   have hn1 : 1 ≤ n := by omega
   have hchar : ringChar K = ℓ :=
@@ -246,7 +246,7 @@ theorem innGoodAt_pomegaMinus {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
 theorem lieInnGood_orthogonal : LieInnGood isOrthogonalIdx := by
   intro d p hp hp2 hpc h3 h5 hd
   obtain ⟨idx, hv⟩ := d
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨idx, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨idx, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   cases idx with
   | B r q =>
@@ -268,7 +268,7 @@ theorem lieInnGood_orthogonal : LieInnGood isOrthogonalIdx := by
         exact h2⟩
     have hSC := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_odd r q hv hq2 hr
       (MulEquiv.refl _)
-    haveI : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.B r q, hv⟩) :=
+    have : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.B r q, hv⟩) :=
       CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
     exact innGoodAt_pomegaOdd hSC hp hp2 hpℓ h32 (.B r q)
   | D n q =>
@@ -288,7 +288,7 @@ theorem lieInnGood_orthogonal : LieInnGood isOrthogonalIdx := by
     · have hn : 5 ≤ n := by
         have h4n : 4 ≤ n := hSC.1.2.2
         omega
-      haveI : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.D n q, hv⟩) :=
+      have : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.D n q, hv⟩) :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact innGoodAt_pomegaPlus hSC hn hp hp2 hpℓ h32 (.D n q)
     · have h4n : 4 ≤ n := hadm.2.2
@@ -306,7 +306,7 @@ theorem lieInnGood_orthogonal : LieInnGood isOrthogonalIdx := by
         rw [hfs]
         exact h2⟩
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_twistedD n q hv (MulEquiv.refl _)
-    · haveI : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.twistedD n q, hv⟩) :=
+    · have : Finite (TauCeti.ValidLieTypeIndex.Group ⟨.twistedD n q, hv⟩) :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact innGoodAt_pomegaMinus hSC hp hp2 hpℓ h32 (.twistedD n q)
     · have h4n : 4 ≤ n := hadm.2.2

@@ -107,17 +107,20 @@ section Levi
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   {Q : QuadraticForm K V} {Y : Type} [AddCommGroup Y] [DistribMulAction (Gom Q) Y]
 
+omit [Finite K] [CharP K 2] in
 theorem conj_mem_Lom_of_fix (g : Gom Q) {u : V} (hg : g.app u = u) {h : Gom Q}
     (hh : h ∈ Lom Q u) : g⁻¹ * h * g ∈ Lom Q u := by
   have := (mem_Lom_app_iff g u h).mp (by rw [hg]; exact hh)
   exact this
 
+omit [Finite K] in
 theorem polar_eichlerG_ne_zero' {u w v : V} (hu : Q u = 0) (hw : polar Q u w = 0)
     (hQw : Q w ≠ 0) (hv : polar Q v u ≠ 0) : polar Q v ((eichlerG Q u w).app v) ≠ 0 := by
   show polar Q v (eichler Q u w v) ≠ 0
   rw [polar_apply_eichler_self hu hw v, CharTwo.two_eq_zero, zero_mul, zero_sub]
   exact neg_ne_zero.mpr (mul_ne_zero hQw (pow_ne_zero 2 hv))
 
+omit [Finite K] in
 theorem levi_trivial_false {H : Type} [Group H] {u u' : V} (hu : Q u = 0)
     (huu' : polar Q u' u ≠ 0)
     (hdec : IsCompl (fixedSub Y (Lom Q u : Set (Gom Q))) (fixedSub Y (Lom Q u' : Set (Gom Q))))
@@ -204,25 +207,29 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 local notation "Qp" => quadPlus 3 K
 
+omit [Finite K] [CharP K 2] in
 theorem leviE0_quad : quadPlus 3 K (Pi.single (Sum.inl 0) 1 : Fin 3 ⊕ Fin 3 → K) = 0 := by
   rw [show ⇑(quadPlus 3 K) = StatedQuadPlus 3 K from coe_quadPlus 3 K]
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_three]
+  simp [StatedQuadPlus]
 
+omit [Finite K] [CharP K 2] in
 theorem leviE0'_quad : quadPlus 3 K (Pi.single (Sum.inr 0) 1 : Fin 3 ⊕ Fin 3 → K) = 0 := by
   rw [show ⇑(quadPlus 3 K) = StatedQuadPlus 3 K from coe_quadPlus 3 K]
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_three]
+  simp [StatedQuadPlus]
 
+omit [Finite K] [CharP K 2] in
 theorem leviE0_polar : polar (quadPlus 3 K) (Pi.single (Sum.inl 0) 1 : Fin 3 ⊕ Fin 3 → K)
     (Pi.single (Sum.inr 0) 1) = 1 := by
   rw [show ⇑(quadPlus 3 K) = StatedQuadPlus 3 K from coe_quadPlus 3 K]
-  simp [QuadraticMap.polar, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_three,
-    Pi.single_apply]
+  simp [QuadraticMap.polar, StatedQuadPlus, Pi.single_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem leviE0_ne : (Pi.single (Sum.inl 0) 1 : Fin 3 ⊕ Fin 3 → K) ≠ 0 := by
   intro h
   have := congrFun h (Sum.inl 0)
   simp at this
 
+omit [Finite K] [CharP K 2] in
 theorem leviE0'_ne : (Pi.single (Sum.inr 0) 1 : Fin 3 ⊕ Fin 3 → K) ≠ 0 := by
   intro h
   have := congrFun h (Sum.inr 0)

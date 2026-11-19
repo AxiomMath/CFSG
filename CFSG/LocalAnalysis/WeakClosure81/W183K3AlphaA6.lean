@@ -23,7 +23,7 @@ theorem w183k3_alpha_false_A6 (hfin : FinA6) (h : Assumption131 Y Γ VA i)
     (hshape : IsAlt (↥L₁ ⧸ Subgroup.center ↥L₁) 6)
     (hτ : ∃ τ ∈ Y, ActsOnDynkinMod (quasiCentre L₁) L₁ τ) : False := by
   classical
-  haveI : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
+  have : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
   obtain ⟨hN, hC⟩ := w183k3_alpha_normal_cent htwo.quasi₁ htwo.le₁
   obtain ⟨e⟩ := w183k3_alpha_shape htwo.le₁
   obtain ⟨e'⟩ := hshape

@@ -482,7 +482,7 @@ theorem initRes_flagGraph_adj_iff (m : ℕ) (U W : FlagVert σ m) :
 theorem initRes_flagTyp_eq_finrank_sub_one {m : ℕ} {U : FlagVert σ m}
     (hU : Module.finrank K U.1 ≠ m + 1) :
     (flagTyp U : ℕ) = Module.finrank K U.1 - 1 := by
-  rw [flagTyp, if_neg hU]
+  rw [flagTyp, ite_eq_right hU]
   exact min_eq_left (by
     have hle : Module.finrank K U.1 ≤ m + 1 := U.2.1.finrank_le
     omega)
@@ -490,13 +490,13 @@ theorem initRes_flagTyp_eq_finrank_sub_one {m : ℕ} {U : FlagVert σ m}
 theorem initRes_flagTyp_ge_iff {m k : ℕ} (hkm : k + 1 ≤ m) {U : FlagVert σ m} :
     k ≤ (flagTyp U : ℕ) ↔ k + 1 ≤ Module.finrank K U.1 := by
   by_cases hU : Module.finrank K U.1 = m + 1
-  · rw [flagTyp, if_pos hU]
+  · rw [flagTyp, ite_eq_left hU]
     have hkm' : k ≤ m - 1 := by omega
     by_cases he : Even ((m + 1) - Module.finrank K ↥(U.1 ⊓ stdLag (m + 1) K))
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       simp only [Fin.val_last]
       omega
-    · rw [if_neg he]
+    · rw [ite_eq_right he]
       simp
       omega
   · have hfin := initRes_flagTyp_eq_finrank_sub_one hU
@@ -557,7 +557,7 @@ theorem initRes_flagChamber_lt (E : QuadExt F K σ) {m' k : ℕ} (hm' : 1 ≤ m'
   have hfinC : Module.finrank K (flagChamber E (m' + k) j).1 = (j : ℕ) + 1 := by
     rw [coe_flagChamber]
     rw [FlipFrame.finrank_elt E.isUnitary.invol]
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   have hfinX : Module.finrank K (initResVertex E hk Y).1 = k + Module.finrank K Y.1 :=
     initResVertex_finrank E hk Y
   have hYpos : 1 ≤ Module.finrank K Y.1 := by
@@ -575,10 +575,10 @@ theorem initRes_flagChamber_lt (E : QuadExt F K σ) {m' k : ℕ} (hm' : 1 ≤ m'
     residueVertex (flagGraph σ (m' + k)) flagTyp (flagChamber E (m' + k))
       {j | (j : ℕ) < k} :=
   ⟨initResVertex E hk Y, by
-    simp only [Set.mem_setOf_eq, not_lt]
+    simp only [Set.mem_ofPred_eq, not_lt]
     exact initRes_flagTyp_ge E hm' hk Y, by
     intro j hj
-    simp only [Set.mem_setOf_eq] at hj
+    simp only [Set.mem_ofPred_eq] at hj
     exact Or.inr (Or.inl (initRes_flagChamber_lt E hm' hk Y hj))⟩
 
 theorem initRes_T_lt_of_residue (E : QuadExt F K σ) {m' k : ℕ} (hm' : 1 ≤ m') (hk : 1 ≤ k)
@@ -586,13 +586,13 @@ theorem initRes_T_lt_of_residue (E : QuadExt F K σ) {m' k : ℕ} (hm' : 1 ≤ m
       {j | (j : ℕ) < k}) : initResT K σ m' k < X.1.1 := by
   have hmem : (⟨k - 1, by omega⟩ : Fin (m' + k + 1)) ∈
       {j : Fin (m' + k + 1) | (j : ℕ) < k} := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     omega
   have hadj := X.2.2 _ hmem
   rw [initRes_flagGraph_adj_iff] at hadj
   have htyp : k ≤ (flagTyp X.1 : ℕ) := by
     have h := X.2.1
-    simp only [Set.mem_setOf_eq] at h
+    simp only [Set.mem_ofPred_eq] at h
     omega
   have hfinX : k + 1 ≤ Module.finrank K X.1.1 :=
     (initRes_flagTyp_ge_iff (K := K) (σ := σ) (m := m' + k) (k := k) (by omega)).mp htyp
@@ -600,7 +600,7 @@ theorem initRes_T_lt_of_residue (E : QuadExt F K σ) {m' k : ℕ} (hm' : 1 ≤ m
       (flagChamber E (m' + k) (⟨k - 1, by omega⟩ : Fin (m' + k + 1))).1 = k := by
     rw [coe_flagChamber]
     rw [FlipFrame.finrank_elt E.isUnitary.invol]
-    rw [if_pos]
+    rw [ite_eq_left]
     · simp
       omega
     · simp
@@ -653,7 +653,7 @@ theorem initRes_invSub_ne_bot (E : QuadExt F K σ) {m' k : ℕ} (hm' : 1 ≤ m')
     rw [hbot, Submodule.map_bot, sup_bot_eq]
   have htyp : k ≤ (flagTyp X.1 : ℕ) := by
     have h := X.2.1
-    simp only [Set.mem_setOf_eq] at h
+    simp only [Set.mem_ofPred_eq] at h
     omega
   have hsol : Module.finrank K X.1.1 ≠ m' + k + 1 := by
     rw [hXeq, initResT_finrank]

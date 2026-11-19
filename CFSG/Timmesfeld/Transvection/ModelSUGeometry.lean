@@ -87,7 +87,7 @@ theorem exists_isotropic_both (hσ : ∀ c, σ (σ c) = c) (htr : ∀ a, σ a = 
 omit [CharP F 2] in
 theorem exists_isotropic_perp_not_perp (hσ : ∀ c, σ (σ c) = c)
     (htr : ∀ a, σ a = a → ∃ c, c + σ c = a) {a v : Fin m → F} (ha : a ≠ 0)
-    (haa : uForm σ a a = 0) (hvv : uForm σ v v = 0) (hav : uForm σ a v = 0)
+    (haa : uForm σ a a = 0) (_hvv : uForm σ v v = 0) (hav : uForm σ a v = 0)
     (hva : ∀ c : F, v ≠ c • a) : ∃ z, uForm σ z z = 0 ∧ uForm σ a z ≠ 0 ∧ uForm σ v z = 0 := by
   obtain ⟨z₀, hvz₀, haz₀⟩ : ∃ z₀, uForm σ v z₀ = 0 ∧ uForm σ a z₀ ≠ 0 := by
     by_contra hne

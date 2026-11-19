@@ -30,7 +30,7 @@ theorem noE9CentralizedByInvolution_of_reeTitsModel_tits
   obtain ⟨S, P, hPtop, hN, -, -, hSP⟩ := hBT _ hUbot hUp
   have hEP : E ≤ P := fun x hx => hN (centralizer_singleton_le_normalizer_zpowers l (hEl hx))
   have hSsyl : IsSylowTwoOf (S : Subgroup X) ⊤ := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [show ((S : Subgroup X).subgroupOf ⊤).index = (S : Subgroup X).index from
       Subgroup.relIndex_top_right _]
     exact S.not_dvd_index

@@ -537,7 +537,7 @@ theorem e6il_U1_le_of_basis {W : Submodule (ZMod 2) e6TwoRestQV}
       by_cases hj : j = i
       · subst hj
         simp [e6il_e, e6il_incl, Pi.single_eq_same]
-      · simp [e6il_e, e6il_incl, Pi.single_apply, Pi.smul_apply, hj]
+      · simp [e6il_e, e6il_incl, Pi.smul_apply, hj]
     rw [hsingle]
     exact Submodule.smul_mem W (u i) (hb ⟨i, hi⟩)
   · have hui : u i = 0 := hu i (by omega)
@@ -563,7 +563,7 @@ theorem e6il_U2_le_of_basis {W : Submodule (ZMod 2) e6TwoRestQV}
       by_cases hj : j = i
       · subst hj
         simp [e6il_f, e6il_incl8, Pi.single_eq_same, Nat.sub_add_cancel h8]
-      · simp [e6il_f, e6il_incl8, Pi.single_apply, Pi.smul_apply, hj, Nat.sub_add_cancel h8]
+      · simp [e6il_f, e6il_incl8, Pi.smul_apply, hj, Nat.sub_add_cancel h8]
     rw [hsingle]
     exact Submodule.smul_mem W (u i) (hb ⟨(i : ℕ) - 8, by omega⟩)
 
@@ -580,14 +580,14 @@ theorem e6il_simple_U1 (W : Submodule (ZMod 2) e6TwoRestQV)
   by_cases hflag : e6il_isRep1 v = true
   · have hb : e6il_rep1b ∈ W := by
       change (if e6il_isRep1 v then e6il_rep1b else e6il_rep1a) ∈ W at hmem
-      rwa [if_pos hflag] at hmem
+      rwa [ite_eq_left hflag] at hmem
     exact e6il_U1_le_of_basis (fun k => by
       rw [e6il_basis_cert1b k]
       exact Submodule.sum_mem W
         (fun j _ => Submodule.smul_mem W _ (e6il_applyWord_mem hW _ _ hb)))
   · have hb : e6il_rep1a ∈ W := by
       change (if e6il_isRep1 v then e6il_rep1b else e6il_rep1a) ∈ W at hmem
-      rw [if_neg hflag] at hmem
+      rw [ite_eq_right hflag] at hmem
       exact hmem
     exact e6il_U1_le_of_basis (fun k => by
       rw [e6il_basis_cert1a k]
@@ -607,14 +607,14 @@ theorem e6il_simple_U2 (W : Submodule (ZMod 2) e6TwoRestQV)
   by_cases hflag : e6il_isRep2 v = true
   · have hb : e6il_rep2b ∈ W := by
       change (if e6il_isRep2 v then e6il_rep2b else e6il_rep2a) ∈ W at hmem
-      rwa [if_pos hflag] at hmem
+      rwa [ite_eq_left hflag] at hmem
     exact e6il_U2_le_of_basis (fun k => by
       rw [e6il_basis_cert2b k]
       exact Submodule.sum_mem W
         (fun j _ => Submodule.smul_mem W _ (e6il_applyWord_mem hW _ _ hb)))
   · have hb : e6il_rep2a ∈ W := by
       change (if e6il_isRep2 v then e6il_rep2b else e6il_rep2a) ∈ W at hmem
-      rw [if_neg hflag] at hmem
+      rw [ite_eq_right hflag] at hmem
       exact hmem
     exact e6il_U2_le_of_basis (fun k => by
       rw [e6il_basis_cert2a k]
@@ -886,12 +886,12 @@ theorem e6il_P2_inj_U1' {v : e6TwoRestQV} (hv : v ∈ invU1) (hv0 : v ≠ 0) :
 theorem e6il_proj1_mem (v : e6TwoRestQV) : e6il_proj1 v ∈ invU1 := by
   intro i hi
   simp only [e6il_proj1]
-  exact if_neg (by omega)
+  exact ite_eq_right (by omega)
 
 theorem e6il_proj2_mem (v : e6TwoRestQV) : e6il_proj2 v ∈ invU2 := by
   intro i hi
   simp only [e6il_proj2]
-  exact if_pos hi
+  exact ite_eq_left hi
 
 theorem e6il_proj1_add_proj2 (v : e6TwoRestQV) : e6il_proj1 v + e6il_proj2 v = v := by
   funext i

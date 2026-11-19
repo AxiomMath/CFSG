@@ -59,7 +59,7 @@ theorem psimple_nonempty_equiv_quotCenter {G : Type} [Group G] (p : ℕ) (L : Su
     have hzx : z * x = x * z := (Subgroup.mem_center_iff.1 hz x).symm
     show π x * π z = π z * π x
     rw [← map_mul, ← map_mul, hzx]
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (W.map (QuotientGroup.mk' (Subgroup.center ↥L)))
       with hb | ht
@@ -103,7 +103,7 @@ theorem psimple_nonempty_equiv_quotCenter {G : Type} [Group G] (p : ℕ) (L : Su
 theorem u6Glap_typed (β : MulAut LevelLieU6.S6) (h3 : β ^ 3 = 1) (h1 : β ≠ 1)
     {I : Subgroup LevelLieU6.S6} (hI : GLAPComponent 3 (fixSubgroup β) I) :
     catalogIs (PSimple 3 I) (fun i => S9.isU4two i ∨ S9.isU5two i ∨ S10.isL2eight i) := by
-  haveI := isSimple_S6
+  have := isSimple_S6
   obtain ⟨B, hB, ⟨c, hBc⟩, hβB⟩ := exists_unitary_of_pow_three β h3
   by_cases hsc : ∃ c : F4ˣ, B = Matrix.GeneralLinearGroup.scalar (Fin 6) c
   · exfalso
@@ -163,7 +163,7 @@ theorem u6CompRes_of_threeDvd (h3d : U6ThreeDvdComp) : U6CompRes := by
   have hG : GLAPComponent 3 (fixSubgroup α₆) (L.map e.toMonoidHom) :=
     CFSG.RankThree.PartTwo.Sec4.Ronan148L.glaPComponent_three_of_isComponentOf hL6 hd
   have hty := u6Glap_typed α₆ hα₆3 hα₆1 hG
-  haveI : IsSimpleGroup (PSimple 3 (L.map e.toMonoidHom)) :=
+  have : IsSimpleGroup (PSimple 3 (L.map e.toMonoidHom)) :=
     (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hG).2
   obtain ⟨eP⟩ := psimple_nonempty_equiv_quotCenter 3 (L.map e.toMonoidHom) hL6.2.2 inferInstance
   have h6 : catalogIs (↥(L.map e.toMonoidHom) ⧸ Subgroup.center ↥(L.map e.toMonoidHom))

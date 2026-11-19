@@ -33,11 +33,11 @@ public theorem CFSG.proposition_10_10_b
     ∃ P : Sylow p.val G, A ≤ (P : Subgroup G) ∧
       (P : Subgroup G) ≤ ambientDerivedSubgroup (Subgroup.normalizer (Q : Set G)) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
-  haveI : Fact q.val.Prime := ⟨q.property⟩
-  letI : IsElementaryAbelian p.val A := hA.1.2
-  letI : IsMulCommutative A := hA.1.2.toIsMulCommutative
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  have : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
+  let : IsElementaryAbelian p.val A := hA.1.2
+  let : IsMulCommutative A := hA.1.2.toIsMulCommutative
+  let : CommGroup A := IsMulCommutative.instCommGroup
   have hHyp : Hypothesis7_1 A := section10_rankTwoMaximal_hypothesis7_1 (G := G) hA
   have hAπ : subgroupPrimeSet A = ({p} : Set Nat.Primes) :=
     section10_rankTwoMaximal_subgroupPrimeSet_eq_singleton (G := G) hA
@@ -75,14 +75,14 @@ public theorem CFSG.proposition_10_10_b
   have hAp : IsPGroup p.val A := IsElementaryAbelian.isPGroup p.val A
   obtain ⟨P₀, hAP₀⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hAp
   have hP₀proper : (P₀ : Subgroup G) ≠ ⊤ :=
-    section10_global_pSubgroup_proper_of_min_ce (G := G) (p := p.val) P₀.isPGroup'
-  haveI : Group.IsNilpotent (P₀ : Subgroup G) :=
-    IsPGroup.isNilpotent (p := p.val) (G := (P₀ : Subgroup G)) P₀.isPGroup'
+    section10_global_pSubgroup_proper_of_min_ce (G := G) (p := p.val) P₀.isPGroup
+  have : Group.IsNilpotent (P₀ : Subgroup G) :=
+    IsPGroup.isNilpotent (p := p.val) (G := (P₀ : Subgroup G)) P₀.isPGroup
   have hAsubnormalP₀ : IsSubnormalIn A (P₀ : Subgroup G) :=
     section8_isSubnormalIn_of_nilpotent (G := G) hAP₀
   have hP₀π : IsPiSubgroup (subgroupPrimeSet A) (P₀ : Subgroup G) := by
     have hsingle : IsPiSubgroup (G := G) ({p} : Set Nat.Primes) (P₀ : Subgroup G) :=
-      section8_isPiSubgroup_singleton_of_isPGroup P₀.isPGroup'
+      section8_isPiSubgroup_singleton_of_isPGroup P₀.isPGroup
     simpa [hAπ] using hsingle
   have hres₀ :=
     theorem_7_4 (G := G) (A := A) (P := (P₀ : Subgroup G))
@@ -121,14 +121,14 @@ public theorem CFSG.proposition_10_10_b
       section10_mem_section7HStarFamily_top_conjBy (G := G) (g := (k : G)) hQ₀star
     simpa [hkQ, hPconj] using hQ₀conj
   have hPproper : (P : Subgroup G) ≠ ⊤ :=
-    section10_global_pSubgroup_proper_of_min_ce (G := G) (p := p.val) P.isPGroup'
-  haveI : Group.IsNilpotent (P : Subgroup G) :=
-    IsPGroup.isNilpotent (p := p.val) (G := (P : Subgroup G)) P.isPGroup'
+    section10_global_pSubgroup_proper_of_min_ce (G := G) (p := p.val) P.isPGroup
+  have : Group.IsNilpotent (P : Subgroup G) :=
+    IsPGroup.isNilpotent (p := p.val) (G := (P : Subgroup G)) P.isPGroup
   have hAsubnormalP : IsSubnormalIn A (P : Subgroup G) :=
     section8_isSubnormalIn_of_nilpotent (G := G) hAP
   have hPπ : IsPiSubgroup (subgroupPrimeSet A) (P : Subgroup G) := by
     have hsingle : IsPiSubgroup (G := G) ({p} : Set Nat.Primes) (P : Subgroup G) :=
-      section8_isPiSubgroup_singleton_of_isPGroup P.isPGroup'
+      section8_isPiSubgroup_singleton_of_isPGroup P.isPGroup
     simpa [hAπ] using hsingle
   have hres :=
     theorem_7_4 (G := G) (A := A) (P := (P : Subgroup G))

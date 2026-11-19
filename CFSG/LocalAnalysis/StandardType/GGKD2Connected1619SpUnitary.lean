@@ -138,7 +138,7 @@ private theorem ltrspb3b_isComponentOf_map {G G' : Type*} [Group G] [Group G'] (
 
 private theorem ltrspb3b_heldGU_two_conj_eq_heldSU {E : Type} [Field E] [Finite E] [CharP E 2]
     {τ : E ≃+* E} {hτ : ∀ x, τ (τ x) = x}
-    (hcard : Even (Nat.card E)) (g : ↥(heldGU 2 E τ hτ)) :
+    (_hcard : Even (Nat.card E)) (g : ↥(heldGU 2 E τ hτ)) :
     ∃ s : ↥(heldSU 2 E τ hτ), ∀ x : ↥(heldSU 2 E τ hτ),
       (g : GL (Fin 2) E) * (x : GL (Fin 2) E) * (g : GL (Fin 2) E)⁻¹ =
       (s : GL (Fin 2) E) * (x : GL (Fin 2) E) * (s : GL (Fin 2) E)⁻¹ := by
@@ -275,7 +275,7 @@ theorem spUnitaryBlock_action {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K
     (e₂ : A₂ ≃* heldGU r E τ hτ) {C : Subgroup ↥(StatedSp m K)}
     (hC : CFSG.Assembly.IsComponentOf C (Subgroup.centralizer ({x} : Set ↥(StatedSp m K))))
     (hle : C ≤ A₂) (hlab : GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel) (↥C ⧸ Subgroup.center ↥C))
-    {y : ↥(StatedSp m K)} (hxy : x * y = y * x) (hyC : ∀ c ∈ C, MulAut.conj y c ∈ C) :
+    {y : ↥(StatedSp m K)} (hxy : x * y = y * x) (_hyC : ∀ c ∈ C, MulAut.conj y c ∈ C) :
     QuotientInner C (MulAut.conj y) := by
   classical
   have hyY : y ∈ A₁ ⊔ A₂ := by
@@ -318,8 +318,8 @@ theorem spUnitaryBlock_action {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K
       exact h
     unfold CFSG.Assembly.LargeEvenRecipeLinear at hlabel
     obtain ⟨K₀, hK0f, hK0fin, hK0card, ⟨ψ⟩⟩ := hlabel
-    letI : Field K₀ := hK0f
-    letI : Finite K₀ := hK0fin
+    let : Field K₀ := hK0f
+    let : Finite K₀ := hK0fin
     have e1 : (↥C ⧸ Subgroup.center ↥C) ≃*
         LargeEvenProj (LargeEvenSLGroup (Fin 2) K₀) := ψ
     have eL : (↥C ⧸ Subgroup.center ↥C) ≃*
@@ -368,7 +368,7 @@ theorem spUnitaryBlock_action {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K
         rw [hQ]; norm_num
       have hZnz : Nat.card (Subgroup.center ↥(heldSU r E τ hτ)) ≠ 0 := by
         rintro h0
-        exact (Nat.not_even_iff_odd.mpr hcenterOdd) (by simpa [h0] using Nat.even_zero)
+        exact (Nat.not_even_iff_odd.mpr hcenterOdd) (by simp [h0])
       have hZfac : (Nat.card (Subgroup.center ↥(heldSU r E τ hτ))).factorization 2 = 0 :=
         Nat.factorization_eq_zero_of_not_dvd
           (p := 2) (n := Nat.card (Subgroup.center ↥(heldSU r E τ hτ))) (by
@@ -410,9 +410,9 @@ theorem spUnitaryBlock_action {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K
       rw [hcardSU3] at hdvd
       norm_num at hdvd
   subst r
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype E := Fintype.ofFinite E
-  haveI hcharE : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := e * 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype E := Fintype.ofFinite E
+  have hcharE : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := e * 2) (by
     rw [Fintype.card_eq_nat_card, hE, heK, ← pow_mul])
   have hEven : Even (Nat.card E) := by
     rw [hE, heK, ← pow_mul]

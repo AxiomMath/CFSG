@@ -28,7 +28,7 @@ theorem normalizer_Zhat_le_Yhat {p : ℕ} (hp : p ∈ c.sig)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     Subgroup.normalizer (t.Zhat : Set t.Xhat) ≤ t.Yhat := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ3 : IsPGroup 3 (t.Z.subgroupOf t.Xz) := by
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe t.Z_le_Xz).toEquiv, t.card_Z]
@@ -56,7 +56,7 @@ theorem not_isPSolvable_of_ker_le (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.
     (hφ : φ.ker ≤ (t.Ky ⊓ t.d.N).subgroupOf t.Ky) :
     ¬ CFSG.HallHigman.IsPSolvable 3 X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let T : Subgroup ↥t.Ky := (t.Ky ⊓ t.d.N).subgroupOf t.Ky
   have hφT : φ.ker ≤ T := hφ
   have hKyN : t.Ky ≤ Subgroup.normalizer (t.d.N : Set G) := by
@@ -69,7 +69,7 @@ theorem not_isPSolvable_of_ker_le (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.
     intro k hk
     exact Subgroup.inf_normalizer_le_normalizer_inf (H := t.Ky) (K := t.d.N)
       ⟨Subgroup.le_normalizer hk, hKyN hk⟩
-  haveI hTnormal : T.Normal :=
+  have hTnormal : T.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hInfNorm
   have hZleKy : t.Z ≤ t.Ky :=
     (le_inf (t.Z_le_AA.trans t.d.AA_le_S) t.Z_le_centralizer).trans t.Dz_le_Ky
@@ -138,7 +138,7 @@ theorem not_isPSolvable_of_ker_le (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.
       · rintro ⟨s, hs, rfl⟩
         exact Subgroup.mem_map.mpr
           ⟨⟨k, hk⟩ * s * ⟨k, hk⟩⁻¹, hS.conj_mem s hs ⟨k, hk⟩,
-            by simp [MulAut.conj_apply, mul_assoc]⟩
+            by simp [mul_assoc]⟩
       · intro hx
         have hxK : x ∈ t.Ky := by
           have hconjKy : k * x * k⁻¹ ∈ t.Ky := hS'le hx
@@ -175,14 +175,14 @@ theorem not_isPSolvable_of_ker_le (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.
     norm_num at h3
   have hsimple : IsSimpleGroup (↥t.Ky ⧸ T) :=
     CFSG.HallHigman.isSimpleGroup_quotient_of_maximal hT_ne_top hmax
-  haveI hPerfKy : Group.IsPerfect ↥t.Ky :=
+  have hPerfKy : Group.IsPerfect ↥t.Ky :=
     Subgroup.isPerfect_iff.mpr t.commutator_Ky
   have hPerfKyT : Group.IsPerfect (↥t.Ky ⧸ T) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' T)
       (QuotientGroup.mk'_surjective T)
-  haveI : Group.IsPerfect (↥t.Ky ⧸ T) := hPerfKyT
+  have : Group.IsPerfect (↥t.Ky ⧸ T) := hPerfKyT
   let T' : Subgroup (↥t.Ky ⧸ φ.ker) := T.map (QuotientGroup.mk' φ.ker)
-  haveI hT'normal : T'.Normal := hTnormal.map _ (QuotientGroup.mk'_surjective φ.ker)
+  have hT'normal : T'.Normal := hTnormal.map _ (QuotientGroup.mk'_surjective φ.ker)
   let e := QuotientGroup.quotientQuotientEquivQuotient (N := φ.ker) (M := T) hφT
   have hT'simple : IsSimpleGroup ((↥t.Ky ⧸ φ.ker) ⧸ T') := by
     have h := (MulEquiv.isSimpleGroup_congr e).mpr hsimple
@@ -208,12 +208,12 @@ theorem not_isPSolvable_of_ker_le (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.
         3 ^ T'.index.primeFactorsList.length := by
       rw [← Subgroup.index_eq_card T']
       exact hpow
-    haveI hP : IsPGroup 3 ((↥t.Ky ⧸ φ.ker) ⧸ T') := IsPGroup.of_card hcardA
-    haveI hPerfA : Group.IsPerfect ((↥t.Ky ⧸ φ.ker) ⧸ T') :=
+    have hP : IsPGroup 3 ((↥t.Ky ⧸ φ.ker) ⧸ T') := IsPGroup.of_card hcardA
+    have hPerfA : Group.IsPerfect ((↥t.Ky ⧸ φ.ker) ⧸ T') :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     have hsub : Subsingleton ((↥t.Ky ⧸ φ.ker) ⧸ T') := by
       by_contra hns
-      haveI : Nontrivial ((↥t.Ky ⧸ φ.ker) ⧸ T') :=
+      have : Nontrivial ((↥t.Ky ⧸ φ.ker) ⧸ T') :=
         not_subsingleton_iff_nontrivial.1 hns
       exact Group.IsPerfect.not_isNilpotent
         (G := ((↥t.Ky ⧸ φ.ker) ⧸ T')) hP.isNilpotent
@@ -225,7 +225,7 @@ theorem not_isPSolvable_Yhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥t.Yhat := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKYX : t.Ky ≤ t.Xz := t.Ky_le_Xz hK32 hGA hSp
   let π : ↥t.Xz →* t.Xhat := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥t.Xz)
   let ψ : ↥t.Ky →* t.Xhat := π.comp (Subgroup.inclusion hKYX)

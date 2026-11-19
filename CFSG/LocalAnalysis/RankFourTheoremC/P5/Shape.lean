@@ -59,7 +59,7 @@ theorem four_le_pRank_inf_centralizer_p (hp5 : 5 ≤ p) (hK : P5KFacts) (hG : P5
     · rw [Subgroup.card_map_of_injective E.subtype_injective, hK]
   obtain ⟨y0, hy0Q, hy0c, hy0p, hy0x⟩ :=
     h.exists_central_of_not_mem_zpowers hp2 hK.h243 hG.glob hG.fc hloc
-  exact PPointP.pGroupEndgame G p P P.isPGroup' x y0 h.elem.2.1 h.mem hy0Q hy0c hy0p hy0x hA4 hQ3
+  exact PPointP.pGroupEndgame G p P P.isPGroup x y0 h.elem.2.1 h.mem hy0Q hy0c hy0p hy0x hA4 hQ3
     fun D hDQ hD hDc => h.not_exists_conj_lines hp2 hK.h243 hK.h244 hK.hsig hG.glob hG.d1 hG.fc hloc
       hDQ hD hDc
 
@@ -82,7 +82,7 @@ theorem false_of_unitaryThree_or_linTwoSq_p (hp5 : 5 ≤ p) (hK : P5KFacts) (hG 
     rw [hReq, pRank_map_mk_eq_pRank_map_subtype hp.out O hOcop,
       map_subgroupOf_eq_of_le (inf_le_right : (P : Subgroup G) ⊓ C ≤ C)]
     exact hQ4
-  haveI : K.Normal := hf.red.normal
+  have : K.Normal := hf.red.normal
   obtain ⟨e⟩ := hf.equiv
   have hAut : Open.pRank p (⊤ : Subgroup (MulAut K)) ≤ 2 := by
     rcases hi with ⟨d, rfl, hd, hn⟩ | ⟨d, rfl, hd⟩

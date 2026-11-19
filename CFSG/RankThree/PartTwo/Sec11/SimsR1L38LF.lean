@@ -68,7 +68,7 @@ variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L : Subgroup 
 
 open TwoStarProof in
 theorem lfAt_c_L38 (hFF : SimsR1L38FaithfulFix) (hSF : SimsR1L38SolvableFix)
-    (h45 : Sec4.Item4_5) (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G)
+    (_h45 : Sec4.Item4_5) (h : ResidueConfig G A c L a R Y d) (_hT : A ∉ partTwoT G)
     (hL : IsL3Eight L) : LFAt L c := by
   obtain ⟨e⟩ : Nonempty (L ⧸ aschbacherSolvableCore 3 L ≃* projSL 3 (GaloisField 2 3)) := by
     rcases hL with ⟨h1, -⟩ | ⟨-, he⟩

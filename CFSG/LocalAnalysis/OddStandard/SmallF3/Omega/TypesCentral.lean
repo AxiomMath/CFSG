@@ -79,7 +79,7 @@ theorem nonempty_centralizer_mulEquiv (hQ : Q.Nondegenerate) {s : OGroup Q} (hs 
             change (Submodule.prodEquivOfIsCompl C N hcompl).symm n = (0, (⟨n, hn⟩ : N))
             exact Submodule.prodEquivOfIsCompl_symm_apply_right C N hcompl (⟨n, hn⟩ : N)
           rw [hsnd, QuadraticMap.orthogonalGroupProd_apply]
-          simp only [Prod.fst, Prod.snd, map_zero]
+          simp only [map_zero]
           change (Submodule.prodEquivOfIsCompl C N hcompl)
             (0, ((p.2 : N ≃ₗ[ZMod 3] N) ⟨n, hn⟩)) = _
           rw [Submodule.coe_prodEquivOfIsCompl']

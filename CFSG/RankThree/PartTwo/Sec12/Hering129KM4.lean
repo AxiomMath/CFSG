@@ -46,7 +46,7 @@ theorem km4_not_mem_zpowers (h1 : x₁ ^ 3 = 1) (hx₁ : x₁ ≠ 1)
 theorem km4_card_nine [Finite G] (h12 : x₁ * x₂ = x₂ * x₁) (h1 : x₁ ^ 3 = 1) (h2 : x₂ ^ 3 = 1)
     (hx₁ : x₁ ≠ 1) (hF1 : n₁ * x₁ * n₁⁻¹ = x₂⁻¹) (hF2 : n₁ * x₂ * n₁⁻¹ = x₁) :
     Nat.card (Subgroup.zpowers x₁ ⊔ Subgroup.zpowers x₂ : Subgroup G) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx₂ : x₂ ≠ 1 := by
     rintro rfl
     apply hx₁
@@ -240,8 +240,8 @@ theorem pglHess_of_frame {K : Type} [Field K] {p f : ℕ} {π : Bool}
     simp at hτ
   have h3 := hK.three_ne_zero hq
   have hs := Sec4.one_add_tau_add_sq hτ hτ1
-  haveI : Finite K := hK.finite
-  haveI : Finite (ProjGenLinGroup (Fin 3) K) :=
+  have : Finite K := hK.finite
+  have : Finite (ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (ProjGenLinGroup.mk : GL (Fin 3) K →* _) ProjGenLinGroup.mk_surjective
   set Lh := projImage (Sec4.slPi π 3 (p ^ f) K)
   set mg := ProjGenLinGroup.mk g

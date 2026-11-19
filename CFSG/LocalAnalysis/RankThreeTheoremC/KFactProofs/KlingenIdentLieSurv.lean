@@ -23,7 +23,7 @@ variable {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime] {Rb : Sylow p 
 theorem comm_inf_of_sylowShape {r e : ℕ} (hsh : SylowShape p r e K) (T : Sylow p K)
     (hT : (T : Subgroup K).map K.subtype = (Rb : Subgroup Y) ⊓ K) :
     ∀ a ∈ (Rb : Subgroup Y) ⊓ K, ∀ b ∈ (Rb : Subgroup Y) ⊓ K, a * b = b * a := by
-  obtain ⟨f⟩ := hsh (T : Subgroup K) T.isPGroup' T.not_dvd_index
+  obtain ⟨f⟩ := hsh (T : Subgroup K) T.isPGroup T.not_dvd_index
   intro a ha b hb
   rw [← hT] at ha hb
   obtain ⟨a', ha', rfl⟩ := ha

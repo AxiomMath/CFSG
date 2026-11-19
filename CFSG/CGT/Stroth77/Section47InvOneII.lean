@@ -209,7 +209,7 @@ theorem StrothFrame.IsD.false_of_t200_inv1_ii_v {F : StrothFrame G} {D : Subgrou
   have heord : orderOf e = 2 :=
     @orderOf_eq_prime G _ e 2 hFact (by rw [pow_two]; exact he2) he1
   obtain ⟨g, hg⟩ := @EvenSporadicStandard.exists_conj_mem_complement G _ _ F.simple hnonab
-    (S := (F.S : Subgroup G)) (U := S₁) F.S.isPGroup' F.S.not_dvd_index hUS h1' (t := e)
+    (S := (F.S : Subgroup G)) (U := S₁) F.S.isPGroup F.S.not_dvd_index hUS h1' (t := e)
     heS h2' heord
   set y : G := g⁻¹ * e * g with hy
   have hyS₁ : y ∈ S₁ := hg

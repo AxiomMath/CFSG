@@ -31,14 +31,14 @@ theorem curtisEval_foldl {G : Type*} [Group G] (t : Fin 8 → G) (w : List ℕ) 
     · have hd : decodeLetter 8 k = some (⟨k / 2, h⟩, decide (k % 2 = 0)) := by
         simp [decodeLetter, h]
       have hg : (List.ofFn t).getD (k / 2) 1 = t ⟨k / 2, h⟩ := by
-        rw [List.getD_eq_getElem?_getD, List.getElem?_ofFn, dif_pos h]
+        rw [List.getD_eq_getElem?_getD, List.getElem?_ofFn, dite_eq_left h]
         rfl
       rw [decodeWord_cons_some hd, FreeGroup.lift_mk, FreeGroup.lift_mk, List.map_cons,
         List.prod_cons, hg, mul_assoc]
       by_cases hk : k % 2 = 0 <;> simp [hk]
     · have hd : decodeLetter 8 k = none := by simp [decodeLetter, h]
       have hg : (List.ofFn t).getD (k / 2) 1 = 1 := by
-        rw [List.getD_eq_getElem?_getD, List.getElem?_ofFn, dif_neg h]
+        rw [List.getD_eq_getElem?_getD, List.getElem?_ofFn, dite_eq_right h]
         rfl
       rw [decodeWord_cons_none hd, hg, inv_one, ite_self, mul_one]
 

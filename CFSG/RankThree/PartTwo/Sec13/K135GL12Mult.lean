@@ -45,7 +45,7 @@ theorem kFactMultPrimeGL12_of_inputs
     (hB : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     KFactMultPrimeGL12 := by
   intro Q _ _ hQ hK hGL p hp hp7 hdvd
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2.1
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2.1
   obtain ⟨i, ⟨e⟩⟩ := CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.SmallRank.isCatalogGroup_of_isKGroup_simple hK
   cases i with
   | cyclic q hq =>
@@ -55,7 +55,7 @@ theorem kFactMultPrimeGL12_of_inputs
     rw [map_mul, map_mul]
     exact mul_comm _ _
   | alternating n hn =>
-    haveI : Group.IsPerfect Q := hQ.1
+    have : Group.IsPerfect Q := hQ.1
     exact CFSG.RankThree.PartOne.Mult.alternating_center_small_primes hn e hp (by omega) hdvd
   | sporadic s =>
     have h1 := CFSG.LocalAnalysis.GLTheoremA.i66_card_center_dvd hSpor hQ.1 s e

@@ -141,7 +141,7 @@ theorem signalizer_local_value_factorization
     have value_compatible := solvable_signalizer_value_compatible prime rank actor values conditions selected member
     have target_compatible := solvable_signalizer_compatible_of_le prime rank actor values value target
       value_compatible target_le normalized
-    have target_pgroup : IsPGroup groupPrime target := sylow.isPGroup'.map core.subtype
+    have target_pgroup : IsPGroup groupPrime target := sylow.isPGroup.map core.subtype
     have complete := locally_complete.1 target nontrivial target_compatible
     have control := signalizer_normalizer_completion_control prime rank prime_prime actor target elementary
       large values conditions.coprime target_compatible.1 complete.1

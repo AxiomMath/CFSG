@@ -308,7 +308,7 @@ theorem map_conj_sq_ne {K : Subgroup X} {y : X} (hy3 : y ^ 3 = 1)
 theorem diag3_comm {y k : X} (hy3 : y ^ 3 = 1)
     (h12 : k * (y * k * y⁻¹) = (y * k * y⁻¹) * k)
     (h13 : k * (y ^ 2 * k * (y ^ 2)⁻¹) = (y ^ 2 * k * (y ^ 2)⁻¹) * k)
-    (h23 : (y * k * y⁻¹) * (y ^ 2 * k * (y ^ 2)⁻¹) = (y ^ 2 * k * (y ^ 2)⁻¹) * (y * k * y⁻¹)) :
+    (_h23 : (y * k * y⁻¹) * (y ^ 2 * k * (y ^ 2)⁻¹) = (y ^ 2 * k * (y ^ 2)⁻¹) * (y * k * y⁻¹)) :
     y * diag3 y k = diag3 y k * y := by
   have hA : y * (y * k * y⁻¹) * y⁻¹ = y ^ 2 * k * (y ^ 2)⁻¹ := by
     simp only [pow_two, mul_inv_rev, mul_assoc]
@@ -443,7 +443,7 @@ theorem ct1a_axb {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 
 theorem ct1a_isPGroup_zpowers {G : Type*} [Group G] [Finite G] {b : G} (hb3 : b ^ 3 = 1) :
     IsPGroup 3 (Subgroup.zpowers b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases (Nat.dvd_prime Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hb3) with h | h
   · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
   · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
@@ -461,7 +461,7 @@ theorem ct1a_le_centralizer_zpowers {G : Type*} [Group G] {b : G} {Q : Subgroup 
 theorem pCore_two_centralizer_le_centralizer_pCore_three {y : X} (hy3 : y ^ 3 = 1) :
     inSubgroup (CFSG.pCore 2) (Subgroup.centralizer ({y} : Set X)) ≤
       Subgroup.centralizer ((CFSG.pCore 3 X : Subgroup X) : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ2 : IsPGroup 2 (inSubgroup (CFSG.pCore 2) (Subgroup.centralizer ({y} : Set X))) :=
     CFSG.RankThree.GroupTheory.SteinbergBY.isPGroup_inSubgroup_pCore 2 _
   have hZcop : Nat.Coprime
@@ -617,10 +617,10 @@ theorem ct3_suzuki_b {X : Type} [Group X] [Finite X] (hK : SuzukiAutFacts) (hXK 
     (hN2 : IsPGroup 2 N) (hyN : ∀ n ∈ N, y * n = n * y)
     (hcl : ∀ f ∈ J, y * f = f * y → ∀ n ∈ N, f * n * f⁻¹ ∈ N) : N = ⊥ := by
   unfold SuzukiAutFacts at hK
-  haveI : Small.{0} X := Small.mk' (Finite.equivFin X)
+  have : Small.{0} X := Small.mk' (Finite.equivFin X)
   let φ : X ≃* Shrink.{0} X := Shrink.mulEquiv.symm
-  haveI : Finite (Shrink.{0} X) := Finite.of_equiv X φ.toEquiv
-  haveI := hJs
+  have : Finite (Shrink.{0} X) := Finite.of_equiv X φ.toEquiv
+  have := hJs
   let eJ : ↥(J.map φ.toMonoidHom) ≃* ↥J := (J.equivMapOfInjective φ.toMonoidHom φ.injective).symm
   have hJ's : IsSimpleGroup ↥(J.map φ.toMonoidHom) := eJ.isSimpleGroup
   have hJ'c : CFSG.IsComponent (J.map φ.toMonoidHom) :=
@@ -683,7 +683,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem normal_two_subgroup_of_centralizer_layer_eq_bot (hK : SuzukiAutFacts)
     (hXK : CFSG.IsKGroup X) (hθ : aschbacherSolvableCore 3 X = ⊥)
     (hE : ∀ J : Subgroup X, CFSG.IsComponent J → ¬ 3 ∣ Nat.card J)
-    {y : X} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
+    {y : X} (hy3 : y ^ 3 = 1) (_hy1 : y ≠ 1)
     (W : Subgroup X) (hWE : W ≤ CFSG.layer X) (hWC : ∀ w ∈ W, y * w = w * y) (hW2 : IsPGroup 2 W)
     (hWn : ∀ e ∈ CFSG.layer X, y * e = e * y → ∀ w ∈ W, e * w * e⁻¹ ∈ W) : W = ⊥ := by
   have hZ : ∀ J : Subgroup X, CFSG.IsComponent J → Subgroup.center J = ⊥ :=
@@ -837,8 +837,8 @@ theorem normal_two_subgroup_of_centralizer_layer_eq_bot (hK : SuzukiAutFacts)
             exact Subgroup.mem_subgroupOf.mp hgt
           obtain ⟨n, hn⟩ := hpow _ hg
           exact ⟨n, Subtype.ext (by simpa using hn)⟩
-        haveI := hK2.isNilpotent
-        haveI := hKc.1.1
+        have := hK2.isNilpotent
+        have := hKc.1.1
         exact Group.IsPerfect.not_isSolvable K inferInstance
   rw [eq_bot_iff]
   intro w hw
@@ -892,7 +892,7 @@ theorem ct4_suzuki_of_equiv (hK : SuzukiAutFacts) {Y : Type*} {Z : Type} [Group 
   have hJ's : IsSimpleGroup (J.map e.toMonoidHom) :=
     (J.equivMapOfInjective e.toMonoidHom e.injective).isSimpleGroup_congr.mp hJs
   have hJ'p : Group.IsPerfect (J.map e.toMonoidHom) := by
-    haveI := hJp
+    have := hJp
     exact Group.IsPerfect.map e.toMonoidHom
   have h3' : ¬ 3 ∣ Nat.card (J.map e.toMonoidHom) := by
     rw [← hJ'eq]
@@ -955,13 +955,13 @@ theorem ct4_suzuki_univ (hK : SuzukiAutFacts) {Y : Type} [Group Y] [Finite Y] (h
       (∃ k : ℕ, x ^ 2 ^ k = 1) → (∀ j ∈ J, y * j = j * y → x * j = j * x) →
       ∀ j ∈ J, x * j = j * x) := by
   let e : Y ≃* (Shrink Y : Type) := Shrink.mulEquiv.symm
-  haveI : Finite (Shrink Y : Type) := Finite.of_equiv Y e.toEquiv
+  have : Finite (Shrink Y : Type) := Finite.of_equiv Y e.toEquiv
   exact ct4_suzuki_of_equiv hK (hYK.of_surjective e.toMonoidHom e.surjective) e J hJs hJp h3 y hyJ hy3
 
 theorem two_element_centralizes_layer (hK : SuzukiAutFacts) (hXK : CFSG.IsKGroup X)
     (hθ : aschbacherSolvableCore 3 X = ⊥)
     (hE : ∀ J : Subgroup X, CFSG.IsComponent J → ¬ 3 ∣ Nat.card J)
-    {y : X} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
+    {y : X} (hy3 : y ^ 3 = 1) (_hy1 : y ≠ 1)
     {x : X} (hxy : x * y = y * x) (hx2 : ∃ k : ℕ, x ^ 2 ^ k = 1)
     (hxC : ∀ e ∈ CFSG.layer X, y * e = e * y → x * e = e * x) :
     ∀ e ∈ CFSG.layer X, x * e = e * x := by
@@ -1144,7 +1144,7 @@ theorem threePrimeComponentsTwoCore_of (hK : SuzukiAutFacts) : ThreePrimeCompone
     pCore_two_centralizer_le_centralizer_pCore_three hy3
   have hcomm : ∀ x ∈ Z, x * y = y * x := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.mp (hZC hx)
-  haveI hLchar : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic (G := X)
+  have hLchar : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic (G := X)
   have hLn : (CFSG.layer X).Normal := inferInstance
   rw [eq_bot_iff]
   intro x hx

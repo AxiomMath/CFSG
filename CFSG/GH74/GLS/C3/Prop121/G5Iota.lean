@@ -41,7 +41,7 @@ theorem exists_equiv_T5 (h : IsAConfig 5 x K T Q S a)
       Subgroup.index_map_of_bijective (f := ι₀.toMonoidHom) ι₀.bijective]
     exact hTidx
   have hP0' : IsSylowOf 2 (P0 : Subgroup (Fgrp 5)) ⊤ :=
-    isSylowOf_iff.2 ⟨le_top, P0.isPGroup', by
+    isSylowOf_iff.2 ⟨le_top, P0.isPGroup, by
       rw [Subgroup.relIndex_top_right]; exact P0.not_dvd_index⟩
   obtain ⟨g, -, hg⟩ := hTm.exists_mem_conj hP0'
   have hP0mem : ∀ y : Fgrp 5, y ∈ (P0 : Subgroup (Fgrp 5)) ↔ ((y : Fgrp 5) : Amb 5) ∈ T5 := by

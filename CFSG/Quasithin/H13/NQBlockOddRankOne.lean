@@ -34,7 +34,7 @@ theorem not_le_sylow_two_of_card {G : Type*} [Group G] [Finite G] {p : ℕ} (hp 
     ¬ D ≤ T ∧ ¬ 3 ∣ Nat.card D := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨fun h => ?_, fun h => ?_⟩
-  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (T.isPGroup'.to_le h)
+  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (T.isPGroup.to_le h)
     rw [hD] at hk
     have hk0 : k ≠ 0 := by
       rintro rfl

@@ -61,7 +61,7 @@ theorem exists_sylow_eq_of_weaklyClosed {G : Type*} [Group G] [Finite G] {p : �
   have hlt : R.subgroupOf (P : Subgroup G) < ⊤ := by
     rw [lt_top_iff_ne_top, Ne, subgroupOf_eq_top]
     exact hPR
-  have : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
   have hnc : NormalizerCondition (P : Subgroup G) := Group.normalizerCondition_of_isNilpotent
   obtain ⟨-, hnle⟩ := lt_iff_le_not_ge.1 (hnc _ hlt)
   obtain ⟨x, hx, hxR⟩ := Set.not_subset.1 hnle
@@ -77,7 +77,7 @@ theorem exists_sylow_eq_of_weaklyClosed {G : Type*} [Group G] [Finite G] {p : �
     mem_normalizer_iff_map_conj_eq.2 hCeq
   have hQP : R ⊔ zpowers (x : G) ≤ (P : Subgroup G) :=
     sup_le hRP (zpowers_le.2 x.2)
-  have hQ := hmax (R ⊔ zpowers (x : G)) (P.isPGroup'.to_le hQP)
+  have hQ := hmax (R ⊔ zpowers (x : G)) (P.isPGroup.to_le hQP)
     (sup_le hRN (zpowers_le.2 hnN)) le_sup_left
   exact hnR (hQ (mem_sup_right (mem_zpowers _)))
 

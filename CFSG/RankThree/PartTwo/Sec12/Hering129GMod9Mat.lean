@@ -55,13 +55,12 @@ theorem uGL_mul_diagUnits (a c : Kˣ) :
   rw [Units.val_mul, Units.val_mul, coe_uGL, coe_diagUnits]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+    simp [uMat, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem uGL_mul_diagUnits_swap {a b : Kˣ} (h : (uGL : GL (Fin 3) K) * diagUnits a b 1 =
     diagUnits a b 1 * uGL) : a = b := by
   have h' := congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K) 0 1) h
-  simp [coe_uGL, coe_diagUnits, uMat, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.diagonal_apply] at h'
+  simp [coe_uGL, coe_diagUnits, uMat, Matrix.mul_apply, Matrix.diagonal_apply] at h'
   exact (Units.ext h'.symm)
 
 theorem uGL_mem_slPi {π : Bool} {p f : ℕ} (hK : PiField π p f K) :

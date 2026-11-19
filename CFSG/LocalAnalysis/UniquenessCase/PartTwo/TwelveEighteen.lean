@@ -76,7 +76,7 @@ theorem uniqueMax_sup_centralizer_of_isSylowIn {M V X P Q : Subgroup G} {p : ℕ
     (hP : IsSylowIn p P X) (hQ : IsSylowIn p Q X)
     (hU : UniqueMax M (P ⊔ centralizer (V : Set G))) :
     UniqueMax M (Q ⊔ centralizer (V : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP' : CFSG.ABGLocalTools.IsSylowOf p P X :=
     CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨hP.1, hP.2.1, hP.2.2⟩
   have hQ' : CFSG.ABGLocalTools.IsSylowOf p Q X :=
@@ -202,7 +202,7 @@ theorem twelve_eighteen_empty (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     obtain ⟨a, ha, b, hb', hab'⟩ := hnab
     exact hab' (hcomm a ha b hb')
   ·
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨y, hy1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hX1
     have hy : (y : MulAut (Vtil V₀ V hV)) ^ (2 ^ E3.mQuot V (UOf D.M V g) - 1) = 1 :=
       hexp y y.2
@@ -224,7 +224,7 @@ theorem twelve_eighteen_empty (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     have hle2 : 2 ^ E3.mQuot V (UOf D.M V g) ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) hnj
     omega
   ·
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hXne : p ∣ Nat.card ↥(barSub V₀ V hV X) := by
       obtain ⟨k, hk⟩ := hpX.exists_card_eq
       have hk0 : k ≠ 0 := by

@@ -45,18 +45,14 @@ section Lines
 theorem act0 {w : List Int} (hw : Lm 2 w) : wv (fun h => ONNQ.nqP (twH 0 h)) w = nqRho w := by
   unfold nqRho
   refine wv_two _ ?_ ?_ hw
-  · change ONNQ.nqP (twH 0 0) = d0
-    rw [ONNQ.twH_vals.1, ONNQ.nqP_zero]
-  · change ONNQ.nqP (twH 0 1) = d1
-    rw [ONNQ.twH_vals.2.1, ONNQ.nqP_one]
+  · rw [ONNQ.twH_vals.1, ONNQ.nqP_zero]
+  · rw [ONNQ.twH_vals.2.1, ONNQ.nqP_one]
 
 theorem act1 {w : List Int} (hw : Lm 2 w) : wv (fun h => ONNQ.nqP (twH 1 h)) w = nqRhoA w := by
   unfold nqRhoA
   refine wv_two _ ?_ ?_ hw
-  · change ONNQ.nqP (twH 1 0) = nqAP
-    rw [ONNQ.twH_vals.2.2.2.2.1, ONNQ.nqP_five]
-  · change ONNQ.nqP (twH 1 1) = d1
-    rw [ONNQ.twH_vals.2.2.2.2.2.1, ONNQ.nqP_one]
+  · rw [ONNQ.twH_vals.2.2.2.2.1, ONNQ.nqP_five]
+  · rw [ONNQ.twH_vals.2.2.2.2.2.1, ONNQ.nqP_one]
 
 theorem actN : wv (fun k => wv (fun h => ONNQ.nqP (twH 1 h)) (wd (OPV.D (77 + k))))
     (wd (OPV.D 154)) = nqSigA n1Word := by

@@ -76,7 +76,7 @@ theorem t2S_exists_core {G : Type} [Group G] [Finite G] {z u : G} (hz2 : z * z =
     simpa [pow_two] using t2S_closure_sq hz2 hu huz g g.2
   have hA' : IsPGroup 2 ↥((Subgroup.closure ({z, u} : Set G)).subgroupOf C) := hA.comap_subtype
   obtain ⟨Q, hQ⟩ := hA'.exists_le_sylow
-  refine ⟨(Q : Subgroup ↥C).map C.subtype, Q.isPGroup'.map C.subtype, ?_, ?_, ?_, ?_⟩
+  refine ⟨(Q : Subgroup ↥C).map C.subtype, Q.isPGroup.map C.subtype, ?_, ?_, ?_, ?_⟩
   · rw [Subgroup.index_map_subtype]
     intro h
     rcases (Nat.prime_two.dvd_mul).1 h with h | h
@@ -244,7 +244,7 @@ theorem t2S_exists_core' {G : Type} [Group G] [Finite G] {z : G}
   have hPC : (P : Subgroup G) ≤ C := fun s hs => (hmemC s).2 (hPz s hs)
   have hA' : IsPGroup 2 ↥(A.subgroupOf C) := hA.comap_subtype
   obtain ⟨Q, hQ⟩ := hA'.exists_le_sylow
-  refine ⟨(Q : Subgroup ↥C).map C.subtype, Q.isPGroup'.map C.subtype, ?_, ?_, ?_⟩
+  refine ⟨(Q : Subgroup ↥C).map C.subtype, Q.isPGroup.map C.subtype, ?_, ?_, ?_⟩
   · rw [Subgroup.index_map_subtype]
     intro h
     rcases (Nat.prime_two.dvd_mul).1 h with h | h

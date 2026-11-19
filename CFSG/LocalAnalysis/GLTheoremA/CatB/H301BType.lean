@@ -17,7 +17,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremA
 
 private theorem eq_bot_of_not_isPGroup {p : ℕ} {T : Type*} [Group T] [IsSimpleGroup T]
     (hT : ¬ IsPGroup p T) (M : Subgroup T) (hMn : M.Normal) (hM : IsPGroup p M) : M = ⊥ := by
-  haveI := hMn
+  have := hMn
   exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal M).resolve_right fun hMt =>
     hT ((hM.of_equiv (MulEquiv.subgroupCongr hMt)).of_equiv Subgroup.topEquiv)
 
@@ -101,7 +101,7 @@ theorem mapsOntoType_phiC {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a : G} {J Y 
     MapsOntoType ((I.subgroupOf (Subgroup.normalizer (J : Set G))).map (L62.phiC p J)) Q := by
   have : Fact p.Prime := ⟨hp⟩
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hI
-  haveI : IsSimpleGroup (PSimple p I) := hq.2
+  have : IsSimpleGroup (PSimple p I) := hq.2
   exact mapsOntoType_of_simple hp hp2 ha hJ hrk1 hIX hq.2
     (AGLEmbedding.not_isPGroup_of_isSimpleGroup
       (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq)) hIcat
@@ -123,12 +123,12 @@ theorem rowKS_phiC {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a : G} {J K : Subgr
       (not_isPGroup_of_card_ne hp (by rw [hc]; decide)) hK.1
   | m3 =>
     obtain ⟨e₀⟩ := H1420.nonempty_equiv_X₀_of_isU4of_three hK.1
-    haveI : IsSimpleGroup CFSG.LieType.Multipliers.U43.X₀ :=
+    have : IsSimpleGroup CFSG.LieType.Multipliers.U43.X₀ :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU
         CFSG.LieType.Multipliers.U43.F9 3 1
         (by rw [Nat.card_eq_fintype_card, CFSG.LieType.Multipliers.U43.F9.card_eq]; norm_num) 4
         (by norm_num) (by decide)
-    haveI : IsSimpleGroup (PSimple Row.m3.prime K) := e₀.isSimpleGroup
+    have : IsSimpleGroup (PSimple Row.m3.prime K) := e₀.isSimpleGroup
     exact mapsOntoType_of_simple hp hp2 ha hJ hrk1 hKX inferInstance
       (not_isPGroup_of_card_ne hp (by rw [H1420.card_eq_of_isU4of_three hK.1]; decide)) hK.1
   | m5 =>

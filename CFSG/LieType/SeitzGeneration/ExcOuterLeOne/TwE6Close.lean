@@ -25,6 +25,7 @@ private noncomputable abbrev twE6_w (i : Fin Tag.E6.rank) : ↥(adjointGroup Tag
 private abbrev twE6_thetaConjMv (g : ↥(adjointGroup Tag.E6 K)) (β δ : Fin Tag.E6.rank → ℤ) : Prop :=
   ∃ ε : ℤ, (ε = 1 ∨ ε = -1) ∧ ∀ u : K, g * xE6 β u * g⁻¹ = xE6 δ ((ε : K) * u)
 
+omit [Finite K] in
 private theorem twE6_thetaConj_comp {g h : ↥(adjointGroup Tag.E6 K)} {β δ γ : Fin Tag.E6.rank → ℤ}
     (hg : twE6_thetaConjMv g β δ) (hh : twE6_thetaConjMv h δ γ) :
     twE6_thetaConjMv (h * g) β γ := by
@@ -38,6 +39,7 @@ private theorem twE6_thetaConj_comp {g h : ↥(adjointGroup Tag.E6 K)} {β δ γ
       _ = xE6 γ ((ε' : K) * ((ε : K) * u)) := hh' _
       _ = xE6 γ (((ε' * ε : ℤ) : K) * u) := by congr 1; push_cast; ring
 
+omit [Finite K] in
 private theorem twE6_thetaConj_weyl (i : Fin Tag.E6.rank) {β : Fin Tag.E6.rank → ℤ}
     (hβ : IsRoot Tag.E6 β) :
     twE6_thetaConjMv (twE6_w (K := K) i) β (reflect Tag.E6 i β) := by
@@ -51,6 +53,7 @@ private theorem twE6_thetaConj_weyl (i : Fin Tag.E6.rank) {β : Fin Tag.E6.rank 
   simp only [Units.val_one, one_zpow, mul_one] at h1
   exact h1
 
+omit [Finite K] in
 private theorem twE6_thetaConj_step (i : Fin Tag.E6.rank) {β β' : Fin Tag.E6.rank → ℤ}
     (hβ : IsRoot Tag.E6 β) (h : reflect Tag.E6 i β = β') :
     twE6_thetaConjMv (twE6_w (K := K) i) β β' ∧ IsRoot Tag.E6 β' := by
@@ -78,10 +81,11 @@ private theorem twE6_thetaConj_top {t : Fin Tag.E6.rank → ℤ} (ht : t ∈ roo
 private theorem twE6_not_isRoot_of_not_mem {v : Fin Tag.E6.rank → ℤ} (h : v ∉ rootFinset Tag.E6) :
     ¬IsRoot Tag.E6 v := fun hv => h (mem_rootFinset.2 hv)
 
+omit [Finite K] in
 private theorem twE6_thetaConj_w_eq (i : Fin Tag.E6.rank) :
     twE6_w (K := K) i =
       xE6 (Pi.single i 1) 1 * xE6 (-Pi.single i 1) (-1) * xE6 (Pi.single i 1) 1 := by
-  simp only [twE6_w, CFSG.LieType.Steinberg.weylElement, inv_one, Units.val_one, Units.val_neg]
+  simp only [twE6_w, CFSG.LieType.Steinberg.weylElement, inv_one, Units.val_one]
 
 private theorem twE6_thetaConj_grp_id {G : Type*} [Group G] (A A' B B' : G)
     (hBA : B * A = A * B) (hBA' : B * A' = A' * B) (hB'A : B' * A = A * B') :
@@ -94,6 +98,7 @@ private theorem twE6_thetaConj_grp_id {G : Type*} [Group G] (A A' B B' : G)
     _ = A * A' * (A * B) * B' * B := by rw [hBA]
     _ = A * A' * A * (B * B' * B) := by simp only [mul_assoc]
 
+omit [Finite K] in
 private theorem twE6_thetaConj_orbit (i j : Fin Tag.E6.rank)
     (hr1 : ¬IsRoot Tag.E6 ((Pi.single j 1 : Fin Tag.E6.rank → ℤ) + Pi.single i 1))
     (hn1 : (Pi.single j 1 : Fin Tag.E6.rank → ℤ) + Pi.single i 1 ≠ 0)
@@ -199,6 +204,7 @@ theorem twE6_theta_conj_simple (hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.rank 
   rw [hnG]
   exact hG c
 
+omit [Finite K] in
 private theorem twE6_mem_reflect_node (P : Subgroup ↥(adjointGroup Tag.E6 K)) {i : Fin Tag.E6.rank}
     (hwi : CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) i (1 : Kˣ) ∈ P)
     {β : Fin Tag.E6.rank → ℤ} (hβ : IsRoot Tag.E6 β) (u : K) :
@@ -231,6 +237,7 @@ private theorem twE6_reflect_self (i : Fin Tag.E6.rank) :
   rw [reflect_single, hcart i, two_zsmul]
   abel
 
+omit [Finite K] in
 private theorem twE6_mem_e13_iff (P : Subgroup ↥(adjointGroup Tag.E6 K))
     (hw1 : CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) 1 (1 : Kˣ) ∈ P)
     (u : K) :
@@ -241,6 +248,7 @@ private theorem twE6_mem_e13_iff (P : Subgroup ↥(adjointGroup Tag.E6 K))
   have h := twE6_mem_reflect_node P hw1 (isRoot_single Tag.E6 3) u
   rwa [hr1] at h
 
+omit [Finite K] in
 private theorem twE6_mem_e1_iff (P : Subgroup ↥(adjointGroup Tag.E6 K))
     (hw3 : CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) 3 (1 : Kˣ) ∈ P)
     (h13 : Tag.E6.cartan 1 3 = -1) (u : K) :
@@ -253,6 +261,7 @@ private theorem twE6_mem_e1_iff (P : Subgroup ↥(adjointGroup Tag.E6 K))
   have h := twE6_mem_reflect_node P hw3 hroot u
   rwa [hr2] at h
 
+omit [Finite K] in
 private theorem twE6_neighbour_one_three (P : Subgroup ↥(adjointGroup Tag.E6 K))
     (hw1 : CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) 1 (1 : Kˣ) ∈ P)
     (hw3 : CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily Tag.E6)) 3 (1 : Kˣ) ∈ P)
@@ -486,6 +495,7 @@ private theorem alp_conj_mul {G : Type*} [Group G] (d X Y : G) :
     d * (X * Y) * d⁻¹ = (d * X * d⁻¹) * (d * Y * d⁻¹) := by
   group
 
+omit [Finite K] in
 private theorem alp_sq_of_pm {ε : K} (h : ε = 1 ∨ ε = -1) : ε * ε = 1 := by
   rcases h with rfl | rfl <;> norm_num
 
@@ -500,14 +510,17 @@ private theorem alp_XYX {G : Type*} [Group G] {a b c d : G} (hbc : b * c = c * b
     _ = a * (c * (a * (b * (d * b)))) := by rw [h3]
     _ = (a * c * a) * (b * d * b) := by simp only [mul_assoc]
 
+omit [Finite K] in
 private theorem alp_commute {γ δ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ) (hδ : IsRoot Tag.E6 δ)
     (hne : γ + δ ≠ 0) (hn : ¬IsRoot Tag.E6 (γ + δ)) (a b : K) :
     Commute (xE6 γ a) (xE6 δ b) :=
   commute_xPar e6AdjData_valid noG2_E6 hγ hδ hne hn a b
 
+omit [Finite K] in
 private theorem alp_xE6_zero (γ : Fin Tag.E6.rank → ℤ) : xE6 γ (0 : K) = 1 := by
   simp only [xE6, xPar_zero]
 
+omit [Finite K] in
 private theorem alp_torus_xE6 (t : Kˣ) (γ : Fin Tag.E6.rank → ℤ) (u : K) :
     torusElement Tag.E6 K 3 t * xE6 γ u * (torusElement Tag.E6 K 3 t)⁻¹ =
       xE6 γ (((t ^ (∑ j, Tag.E6.cartan 3 j * γ j) : Kˣ) : K) * u) := by
@@ -516,18 +529,21 @@ private theorem alp_torus_xE6 (t : Kˣ) (γ : Fin Tag.E6.rank → ℤ) (u : K) :
     exact (rootOperatorFamily Tag.E6).torusElement_mul_eltElement_mul_inv 3 t ⟨γ, h⟩ u
   · simp only [xE6, xPar_of_not_isRoot h, mul_one, mul_inv_cancel]
 
+omit [Finite K] in
 private theorem alp_torus_neg {γ : Fin Tag.E6.rank → ℤ} (s : K) (hs : s ≠ 0)
     (he : ∑ j, Tag.E6.cartan 3 j * γ j = -1) (u : K) :
     torusElement Tag.E6 K 3 (Units.mk0 s hs) * xE6 γ u *
       (torusElement Tag.E6 K 3 (Units.mk0 s hs))⁻¹ = xE6 γ (s⁻¹ * u) := by
   rw [alp_torus_xE6, he, zpow_neg_one, Units.val_inv_eq_inv_val, Units.val_mk0]
 
+omit [Finite K] in
 private theorem alp_torus_pos {γ : Fin Tag.E6.rank → ℤ} (s : K) (hs : s ≠ 0)
     (he : ∑ j, Tag.E6.cartan 3 j * γ j = 1) (u : K) :
     torusElement Tag.E6 K 3 (Units.mk0 s hs) * xE6 γ u *
       (torusElement Tag.E6 K 3 (Units.mk0 s hs))⁻¹ = xE6 γ (s * u) := by
   rw [alp_torus_xE6, he, zpow_one, Units.val_mk0]
 
+omit [Finite K] in
 private theorem alp_torus_mem {σ : K ≃+* K} {P : Subgroup ↥(adjointGroup Tag.E6 K)}
     (h3 : ∀ c : K, σ c = c → xE6 (Pi.single 3 1) c ∈ P ∧ xE6 (-Pi.single 3 1) c ∈ P)
     (t : Kˣ) (ht : σ (t : K) = t) : torusElement Tag.E6 K 3 t ∈ P := by
@@ -544,6 +560,7 @@ private theorem alp_torus_mem {σ : K ≃+* K} {P : Subgroup ↥(adjointGroup Ta
   rw [e1]
   exact P.mul_mem (hw t ht) (P.inv_mem (hw 1 (by simp)))
 
+omit [Finite K] in
 private theorem alp_conj_back {N : ↥(adjointGroup Tag.E6 K)} {α β : Fin Tag.E6.rank → ℤ} {ε : K}
     (hε : ε * ε = 1) (h : ∀ v : K, N * xE6 α v * N⁻¹ = xE6 β (ε * v)) (w : K) :
     N⁻¹ * xE6 β w * N = xE6 α (ε * w) := by
@@ -552,6 +569,7 @@ private theorem alp_conj_back {N : ↥(adjointGroup Tag.E6 K)} {α β : Fin Tag.
   rw [← h2]
   group
 
+omit [Finite K] in
 private theorem alp_conj_scale {N d : ↥(adjointGroup Tag.E6 K)} {α α' β β' : Fin Tag.E6.rank → ℤ}
     {ε ε' t : K} (hε : ε * ε = 1) (hε' : ε' * ε' = 1)
     (h0 : ∀ v : K, N * xE6 α v * N⁻¹ = xE6 β (ε * v))
@@ -573,6 +591,7 @@ private theorem alp_conj_scale {N d : ↥(adjointGroup Tag.E6 K)} {α α' β β'
   have k2 : ε' * (t * (ε' * w)) = t * w := by linear_combination (t * w) * hε'
   rw [k1, k2]
 
+omit [Finite K] in
 private theorem alp_scale_pair {σ : K ≃+* K} {P : Subgroup ↥(adjointGroup Tag.E6 K)}
     {N d : ↥(adjointGroup Tag.E6 K)} {α α' β β' : Fin Tag.E6.rank → ℤ} {ε ε' t : K}
     (hε : ε * ε = 1) (hε' : ε' * ε' = 1) (hN : N ∈ P) (hd : d ∈ P)
@@ -587,6 +606,7 @@ private theorem alp_scale_pair {σ : K ≃+* K} {P : Subgroup ↥(adjointGroup T
   rw [map_mul, hσt]
   exact key
 
+omit [Finite K] in
 private theorem alp_pair_add {σ : K ≃+* K} {P : Subgroup ↥(adjointGroup Tag.E6 K)}
     {γ δ : Fin Tag.E6.rank → ℤ} (hc : ∀ a b : K, Commute (xE6 γ a) (xE6 δ b)) {v w : K}
     (hv : xE6 γ v * xE6 δ (σ v) ∈ P) (hw : xE6 γ w * xE6 δ (σ w) ∈ P) :
@@ -601,6 +621,7 @@ private theorem alp_pair_add {σ : K ≃+* K} {P : Subgroup ↥(adjointGroup Tag
   rw [key]
   exact P.mul_mem hv hw
 
+omit [Finite K] in
 private theorem alp_decomp {σ : K ≃+* K} (hσ2 : ∀ x : K, σ (σ x) = x) {u : K} (hu : σ u ≠ u) (c : K) :
     ∃ a b : K, σ a = a ∧ σ b = b ∧ c = a + b * u := by
   have hu' : u - σ u ≠ 0 := sub_ne_zero.2 (Ne.symm hu)
@@ -616,6 +637,7 @@ private theorem alp_decomp {σ : K ≃+* K} (hσ2 : ∀ x : K, σ (σ x) = x) {u
   rw [map_sub, map_mul, hσb]
   linear_combination hbu
 
+omit [Finite K] in
 private theorem alp_span {σ : K ≃+* K} {P : Subgroup ↥(adjointGroup Tag.E6 K)}
     {γ δ : Fin Tag.E6.rank → ℤ} (hc : ∀ a b : K, Commute (xE6 γ a) (xE6 δ b))
     (hσ2 : ∀ x : K, σ (σ x) = x) {u₀ : K} (hu₀ : σ u₀ ≠ u₀)
@@ -641,6 +663,7 @@ private theorem alp_span {σ : K ≃+* K} {P : Subgroup ↥(adjointGroup Tag.E6 
   rw [hcab]
   exact alp_pair_add hc (hfix a ha) (hfixu b hb)
 
+omit [Finite K] in
 private theorem alp_W_conj (i : Fin Tag.E6.rank) {β : Fin Tag.E6.rank → ℤ} (hβ : IsRoot Tag.E6 β) :
     ∃ ε : K, (ε = 1 ∨ ε = -1) ∧ ∀ v : K,
       CFSG.LieType.Steinberg.weylElement (xPar (K := K) (rootOperatorFamily Tag.E6)) i 1 *
@@ -660,6 +683,7 @@ private theorem alp_W_conj (i : Fin Tag.E6.rank) {β : Fin Tag.E6.rank → ℤ} 
     rw [h1, mul_one, h2] at h
     exact h
 
+omit [Finite K] in
 private theorem alp_N_conj {α α' β : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α)
     (h4 : reflect Tag.E6 4 α = α') (hα' : IsRoot Tag.E6 α') (h2 : reflect Tag.E6 2 α' = β) :
     ∃ ε : K, (ε = 1 ∨ ε = -1) ∧ ∀ v : K,
@@ -691,6 +715,7 @@ private theorem alp_sigma_invol (hS : TwE6Setup K σ η p) : ∀ x : K, σ (σ x
   have h := congrArg (fun f : K ≃+* K => f x) hS.sigma_sq
   simpa [sq] using h
 
+omit [Finite K] in
 private theorem alp_N_mem {P : Subgroup ↥(adjointGroup Tag.E6 K)}
     (hab : xE6 (Pi.single 2 1) (1 : K) * xE6 (Pi.single 4 1) (1 : K) ∈ P)
     (hcd : xE6 (-Pi.single 2 1) (-1 : K) * xE6 (-Pi.single 4 1) (-1 : K) ∈ P) :

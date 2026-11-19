@@ -24,8 +24,8 @@ private lemma hdRo7DDSdRAux_dinv_succ_cons {p k : ℕ} (i j : Fin k)
       · simp [hi, hj, Fin.succ_inj]
   conv_lhs => rw [← Fin.cons_self_tail (NbrOrth.dinv i.succ j.succ f), htail]
   rw [show NbrOrth.dinv i.succ j.succ f 0 = f 0 from by
-    rw [NbrOrth.dinv, Function.update_apply, if_neg (Ne.symm (Fin.succ_ne_zero i)),
-      Function.update_apply, if_neg (Ne.symm (Fin.succ_ne_zero j))]]
+    rw [NbrOrth.dinv, Function.update_apply, ite_eq_right (Ne.symm (Fin.succ_ne_zero i)),
+      Function.update_apply, ite_eq_right (Ne.symm (Fin.succ_ne_zero j))]]
 
 private lemma hdRo7DDSdRAux_model_dinv {G : Type} [Group G] [Finite G] (p : ℕ)
     (B Bs : Subgroup G) (x : G) (L : Subgroup G) (k : ℕ)
@@ -97,14 +97,14 @@ private lemma hdRo7DDSdRAux_prod_two {p k : ℕ} (c : Fin (k + 1) → ZMod p)
     have hne : ¬ (x = i0 ∨ x = j0) := by
       push Not
       exact hx'
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   have hc'prod := hsplit (fun i => if i = i0 ∨ i = j0 then -c i else c i)
   rw [hrest] at hc'prod
   have hcprod := hsplit c
   have hii : (if i0 = i0 ∨ i0 = j0 then -c i0 else c i0) = 1 := by
-    rw [if_pos (Or.inl rfl), hi0]; ring
+    rw [ite_eq_left (Or.inl rfl), hi0]; ring
   have hjj : (if j0 = i0 ∨ j0 = j0 then -c j0 else c j0) = 1 := by
-    rw [if_pos (Or.inr rfl), hj0]; ring
+    rw [ite_eq_left (Or.inr rfl), hj0]; ring
   rw [hii, hjj] at hc'prod
   have hP : ((Finset.univ.erase i0).erase j0).prod c = 1 := by
     have h := hcprod
@@ -279,7 +279,7 @@ private theorem hdRo7DDSdRAux_backward_aux {G : Type} [Group G] [Finite G] (p : 
         have h0 : ¬ ((0 : Fin (k + 1)) = i0 ∨ (0 : Fin (k + 1)) = j0) := by
           push Not
           exact ⟨Ne.symm hi0ne0, Ne.symm hj0ne0⟩
-        rw [if_neg h0]
+        rw [ite_eq_right h0]
         exact hc0
       have hc' : ∀ i, c' i = 1 ∨ c' i = -1 := by
         intro i
@@ -289,7 +289,7 @@ private theorem hdRo7DDSdRAux_backward_aux {G : Type} [Group G] [Finite G] (p : 
             · exact hc'i0
             · exact hc'j0]
           exact Or.inl rfl
-        · have h1 : c' i = c i := by simp only [c']; rw [if_neg h]
+        · have h1 : c' i = c i := by simp only [c']; rw [ite_eq_right h]
           rw [h1]; exact hc i
       have hprod' : ∏ i, c' i = 1 := by
         have h := hdRo7DDSdRAux_prod_two c (Ne.symm hj0ne) hi0 hj0 hcprod
@@ -308,8 +308,8 @@ private theorem hdRo7DDSdRAux_backward_aux {G : Type} [Group G] [Finite G] (p : 
         rw [ha']
         by_cases hi' : i = i0
         · rw [hi']
-          rw [NbrOrth.dinv, Function.update_apply, if_pos hib.symm, Function.update_apply,
-            if_neg (fun h => hibj (Fin.succ_inj.mp h))]
+          rw [NbrOrth.dinv, Function.update_apply, ite_eq_left hib.symm, Function.update_apply,
+            ite_eq_right (fun h => hibj (Fin.succ_inj.mp h))]
           rw [hib, show Multiplicative.toAdd ((τ.symm (a (τ f)) (σ i0))⁻¹) =
             -Multiplicative.toAdd (τ.symm (a (τ f)) (σ i0)) from rfl, hrel f i0,
             hi0, hc'i0, one_mul]
@@ -317,8 +317,8 @@ private theorem hdRo7DDSdRAux_backward_aux {G : Type} [Group G] [Finite G] (p : 
         · by_cases hj' : i = j0
           · rw [hj']
             rw [NbrOrth.dinv, Function.update_apply,
-              if_neg (fun h => hj0ne (σ.injective (h.trans hib))), Function.update_apply,
-              if_pos hjb.symm]
+              ite_eq_right (fun h => hj0ne (σ.injective (h.trans hib))), Function.update_apply,
+              ite_eq_left hjb.symm]
             rw [hjb, show Multiplicative.toAdd ((τ.symm (a (τ f)) (σ j0))⁻¹) =
               -Multiplicative.toAdd (τ.symm (a (τ f)) (σ j0)) from rfl, hrel f j0,
               hj0, hc'j0, one_mul]
@@ -327,11 +327,11 @@ private theorem hdRo7DDSdRAux_backward_aux {G : Type} [Group G] [Finite G] (p : 
               hi' (σ.injective (h.trans hib))
             have hnej : ¬ (σ i = jb.succ) := fun h =>
               hj' (σ.injective (h.trans hjb))
-            rw [NbrOrth.dinv, Function.update_apply, if_neg hnei, Function.update_apply,
-              if_neg hnej]
+            rw [NbrOrth.dinv, Function.update_apply, ite_eq_right hnei, Function.update_apply,
+              ite_eq_right hnej]
             have hci : c' i = c i := by
               simp only [c']
-              rw [if_neg]
+              rw [ite_eq_right]
               push Not
               exact ⟨hi', hj'⟩
             rw [hrel f i, hci]
@@ -347,7 +347,7 @@ private theorem hdRo7DDSdRAux_backward_aux {G : Type} [Group G] [Finite G] (p : 
               simp [hc'j0, hii]
             · have hci : c' i = c i := by
                 simp only [c']
-                rw [if_neg]
+                rw [ite_eq_right]
                 push Not
                 exact ⟨hii, hjj⟩
               simp [hii, hjj, hci]
@@ -488,7 +488,7 @@ theorem d_dcoordModel_tau_of_dirs {G : Type} [Group G] [Finite G] (p : ℕ)
         ∀ f f', (g : G) * (τT f : G) * (g : G)⁻¹ = (τT f' : G) →
           ∀ i, Multiplicative.toAdd (f' (π i)) = ε i * Multiplicative.toAdd (f i))
     (hLx : ∀ g : ↥L, (g : G) * x * (g : G)⁻¹ = x)
-    (hxp : x ^ p = 1) (hxne : x ≠ 1) (hp : Nat.Prime p) (hx : x ∈ Bs) :
+    (_hxp : x ^ p = 1) (_hxne : x ≠ 1) (_hp : Nat.Prime p) (hx : x ∈ Bs) :
     DCoordModel p Bs L k (hdRo7CLCoordAux_tau p B Bs x L k τT hτT τC Φ) := by
   intro a
   exact ⟨hdRo7DDSdRAux_model_forward p B Bs x L k τT hτT τC Φ hΦ hC hnorm hLx a,

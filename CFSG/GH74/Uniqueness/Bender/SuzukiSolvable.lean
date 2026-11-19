@@ -39,7 +39,7 @@ theorem BenderType.isStronglyEmbedded_normalizer_sylow
   refine ⟨?_, ?_, ?_⟩
   · intro htop
     exact hnorm (Subgroup.normalizer_eq_top_iff.mp htop)
-  · obtain ⟨m, hm⟩ := S.isPGroup'.exists_card_eq
+  · obtain ⟨m, hm⟩ := S.isPGroup.exists_card_eq
     have hm0 : m ≠ 0 := by
       rintro rfl
       apply hS1
@@ -87,15 +87,15 @@ theorem BenderType.isStronglyEmbedded_normalizer_sylow
         exact congrArg Subtype.val hcomm
       rw [hcen] at hmem
       exact hmem
-    have hQ₀2 : IsPGroup 2 ((Q₀ : Subgroup K).subgroupOf J) := Q₀.isPGroup'.comap_subtype
-    have hS_le : (S : Subgroup J) ≤ (Q₀ : Subgroup K).subgroupOf J := hT S S.isPGroup' hyS
+    have hQ₀2 : IsPGroup 2 ((Q₀ : Subgroup K).subgroupOf J) := Q₀.isPGroup.comap_subtype
+    have hS_le : (S : Subgroup J) ≤ (Q₀ : Subgroup K).subgroupOf J := hT S S.isPGroup hyS
     let S₁ : Sylow 2 J := g⁻¹ • S
     have hyS₁ : (x : J) ∈ (S₁ : Subgroup J) := by
       show (x : J) ∈ ((g⁻¹ • S : Sylow 2 J) : Subgroup J)
       rw [mem_sylow_smul_iff, inv_inv]
       exact hgS
     have hS₁_le : (S₁ : Subgroup J) ≤ (Q₀ : Subgroup K).subgroupOf J :=
-      hT S₁ S₁.isPGroup' hyS₁
+      hT S₁ S₁.isPGroup hyS₁
     have h1 : (S : Subgroup J) = (Q₀ : Subgroup K).subgroupOf J := sylow_eq_of_le S hQ₀2 hS_le
     have h2 : (S₁ : Subgroup J) = (Q₀ : Subgroup K).subgroupOf J :=
       sylow_eq_of_le S₁ hQ₀2 hS₁_le
@@ -153,7 +153,7 @@ theorem BenderType.false_of_isStronglyEmbedded
     set Xc : Subgroup ↥J := involutionClosure ↥J with hXc
     let Tc : Sylow 2 ↥Xc := default
     let Q' := Sylow.mapSurjective (QuotientGroup.mk'_surjective (pPrimeCore 2 ↥Xc)) Tc
-    have hT₀2 : IsPGroup 2 ((Tc : Subgroup ↥Xc).map Xc.subtype) := Tc.isPGroup'.map Xc.subtype
+    have hT₀2 : IsPGroup 2 ((Tc : Subgroup ↥Xc).map Xc.subtype) := Tc.isPGroup.map Xc.subtype
     have hQ'sq : ∀ x ∈ (Q' : Subgroup (↥Xc ⧸ pPrimeCore 2 ↥Xc)), x * x = 1 := by
       intro x hx
       rw [Sylow.coe_mapSurjective] at hx
@@ -209,9 +209,9 @@ theorem BenderType.isSolvable_of_sq_eq_one
   obtain ⟨S, -⟩ : ∃ S : Sylow 2 J, True := ⟨default, trivial⟩
   have hS : ∀ x ∈ (S : Subgroup J), x * x = 1 := by
     intro x hx
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     exact hJ x k (by simpa using congrArg Subtype.val hk)
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hindex : ¬ 2 ∣ (S : Subgroup J).index := S.not_dvd_index
   have hcardJ : Nat.card J = 2 ^ k * (S : Subgroup J).index := by
     rw [← hk]

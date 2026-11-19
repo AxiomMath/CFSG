@@ -28,7 +28,7 @@ theorem factorization_two_25920 : (25920 : ℕ).factorization 2 = 6 := by
 theorem isSylowOf_of_card_ge {K T : Subgroup G} (hTK : T ≤ K) (hT : IsPGroup 2 ↥T)
     (hK : Nat.card ↥K = 25920) (hc : 2 ^ 6 ≤ Nat.card ↥T) :
     CFSG.ABGLocalTools.IsSylowOf 2 T K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT
   have hTdvd : Nat.card ↥T ∣ 25920 := hK ▸ Subgroup.card_dvd_of_le hTK
   have hn6 : n ≤ 6 := by
@@ -44,7 +44,7 @@ theorem isSylowOf_of_card_ge {K T : Subgroup G} (hTK : T ≤ K) (hT : IsPGroup 2
 
 theorem exists_conj_le_sylow_two {K P E : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 2 P K)
     (hEK : E ≤ K) (hE : IsPGroup 2 ↥E) : ∃ k ∈ K, ∀ x ∈ E, k * x * k⁻¹ ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE' : IsPGroup 2 ↥(E.subgroupOf K) :=
     hE.of_equiv (Subgroup.subgroupOfEquivOfLe hEK).symm
   obtain ⟨Q, hQ⟩ := hE'.exists_le_sylow
@@ -76,7 +76,7 @@ theorem card_M_sup_Y (h : d.Hyp) (hK : d.KLinear) : Nat.card ↥(d.M ⊔ d.Y) = 
 theorem isSylowOf_M_sup_Y (h : d.Hyp) (hK : d.KLinear) :
     CFSG.ABGLocalTools.IsSylowOf 2 (d.M ⊔ d.Y) d.K := by
   obtain ⟨φ, -⟩ := hK.graphField
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK₃ : d.K₃ ≤ d.K := by
     rw [← hK.centralizer_eq]
     exact inf_le_left
@@ -100,7 +100,7 @@ theorem exists_standard_position (h : d.Hyp) (hK : d.KLinear) :
       φ'.range = d.K ∧ (∀ A, d.t * φ' A * d.t⁻¹ = φ' (sigmaSL F4 A)) ∧
       (pstd F4).map φ' = d.M ⊔ d.Y := by
   obtain ⟨φ, hφ⟩ := hK.graphField
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl := h.isSylowOf_M_sup_Y hK
   have hK₃ : d.K₃ ≤ d.K := by
     rw [← hK.centralizer_eq]

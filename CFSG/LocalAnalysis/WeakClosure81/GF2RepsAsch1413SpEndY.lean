@@ -14,7 +14,7 @@ open scoped Matrix
 private theorem a1413SpEndY_ringChar_ne_two_of_odd_card {K : Type} [Field K] [Finite K]
     (h : Odd (Nat.card K)) : ringChar K ≠ 2 := by
   intro hc
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h2 := (FiniteField.even_card_iff_char_two (F := K)).mp hc
   rw [← Nat.card_eq_fintype_card] at h2
   exact (Nat.not_even_iff_odd.mpr h) (Nat.even_iff.mpr h2)
@@ -91,7 +91,7 @@ private theorem a1413SpEndY_iso {K : Type} [Field K] (B : gsp 2 K) (hchar : ring
     (φ : ↥(fixOf (conjSp 2 K B)) ≃* Matrix.SpecialLinearGroup (Fin 2) E) :
     Nonempty (↥((fixOf (conjSp 2 K B)).map (proj 2 K)) ≃* StatedProj (StatedSL 2 E)) := by
   have hmap := a1413SpEndY_map_ker_eq_center B hchar φ
-  haveI : ((spScalars 2 K).subgroupOf (fixOf (conjSp 2 K B))).Normal :=
+  have : ((spScalars 2 K).subgroupOf (fixOf (conjSp 2 K B))).Normal :=
     Subgroup.normal_of_le_center (by
       rw [← ker_fixProj (conjSp 2 K B)]
       exact ker_fixProj_le_center (conjSp 2 K B))
@@ -116,8 +116,8 @@ theorem sp4_Y_of_B {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp2
   have hK' : Nat.card K = p ^ 1 := by rw [pow_one]; exact hK
   obtain ⟨E, hEfield, hEfinite, hEcard, ⟨φ⟩⟩ :=
     ivk714_fixOf_conjSp_nonsquare_sl2 hp hp2 le_rfl hK' B hd0 hdsq hBB hμ
-  letI : Field E := hEfield
-  letI : Finite E := hEfinite
+  let : Field E := hEfield
+  let : Finite E := hEfinite
   have hEcard2 : Nat.card E = p ^ 2 := by rw [hEcard, pow_one]
   have hoddK : Odd (Nat.card K) := by rw [hK]; exact hp.odd_of_ne_two hp2
   have hchar : ringChar K ≠ 2 := a1413SpEndY_ringChar_ne_two_of_odd_card hoddK

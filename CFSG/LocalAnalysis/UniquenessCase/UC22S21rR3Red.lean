@@ -27,6 +27,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r3r_barInner_of_inner {M X : Subgroup G} (hXM : X ≤ M) {b : G} (hbM : b ∈ M)
     (h : ∃ y ∈ X, ∀ x ∈ X, b * x * b⁻¹ * (y * x * y⁻¹)⁻¹ ∈ CFSG.Open.pCoreOf 2 M) :
     ∃ x₀ ∈ barImage M X, ∀ f ∈ barImage M X,
@@ -81,7 +82,7 @@ theorem s21_22R3_of_residuals {D : Data G} {Ch : Choice2011 G}
   have u : R3Pair D L K n p := ⟨hL, hK, hne, hset, hc2, hn, hp, h15 h1930 c L hL hc2 n hS' p hp⟩
   have hβq : uc22p21cPi D.M ⟨b, c.hBM hb⟩ ^ q = 1 := by
     rw [← map_pow, show (⟨b, c.hBM hb⟩ : ↥D.M) ^ q = 1 from
-      Subtype.ext (by simpa [← hbo] using pow_orderOf_eq_one b), map_one]
+      Subtype.ext (by simp [← hbo]), map_one]
   have hodd := uc22p21d_odd_orderOf_of_mem_calB1 c.hB0 hb
   have key : ∀ {Y Y' : Subgroup G}, R3Pair D Y Y' n p → ∃ x ∈ barImage D.M Y,
       ∀ f ∈ barImage D.M Y, uc22p21cPi D.M ⟨b, c.hBM hb⟩ * f *

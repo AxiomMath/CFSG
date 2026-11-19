@@ -30,7 +30,7 @@ theorem treeE_mem {G : Type*} [SetLike G Pm] [SubgroupClass G Pm] {H : G} {γ : 
     (hγ : ∀ l, γ l ∈ H) (PAR PG : ℕ → ℕ) : ∀ f node, treeE γ PAR PG f node ∈ H
   | 0, _ => one_mem H
   | _ + 1, 0 => one_mem H
-  | f + 1, m + 1 => mul_mem (hγ _) (treeE_mem hγ PAR PG f _)
+  | f + 1, _m + 1 => mul_mem (hγ _) (treeE_mem hγ PAR PG f _)
 
 theorem downK_succ (S PAR PG : Nat → Nat) (f m p : Nat) :
     downK S PAR PG (f + 1) (m + 1) p = ap (S (t12 PG m)) (downK S PAR PG f (t12 PAR m) p) := by
@@ -84,8 +84,8 @@ theorem wpt_eq {A B : ℕ} {a b : Pm} (hA : PtRep A a) (hB : PtRep B b) (W : ℕ
     rw [wpt_eq hA hB W L x]
     simp only [wordE, Equiv.Perm.mul_apply]
     by_cases h : Nat.land (Nat.shiftRight W L) 1 = 0
-    · rw [if_pos h, nif_true (Nat.beq_eq_true_eq _ _ ▸ h), hA]
-    · rw [if_neg h, nif_false (Bool.eq_false_iff.2 fun e => h (Nat.eq_of_beq_eq_true e)), hB]
+    · rw [ite_eq_left h, nif_true (Nat.beq_eq_true_eq _ _ ▸ h), hA]
+    · rw [ite_eq_right h, nif_false (Bool.eq_false_iff.2 fun e => h (Nat.eq_of_beq_eq_true e)), hB]
 
 @[expose] def keyE (g : Pm) : ℕ := ((g 0 : ℕ) * 2048 + g 1) * 2048 + g 2
 
@@ -177,28 +177,28 @@ theorem recK_spec {S TP TG : ℕ → ℕ} {f : ℕ} {K : ℕ → ℕ} {A B R0 R1
   unfold recK at h
   simp only [strictB_eq, bIf_eq, nIf_eq, Nat.beq_eq, Nat.blt_eq] at h
   by_cases hr : Nat.land r 1 = 0
-  · rw [if_pos hr] at h
+  · rw [ite_eq_left hr] at h
     by_cases h3 : Nat.shiftRight r 1 < 3
-    · rw [if_pos h3] at h
+    · rw [ite_eq_left h3] at h
       refine Or.inl ⟨hr, h3, ?_⟩
       by_cases hk : k = 0
       · exact Or.inl hk
-      · rw [if_neg hk] at h
+      · rw [ite_eq_right hk] at h
         refine Or.inr fun e => ?_
-        rw [if_pos e] at h
+        rw [ite_eq_left e] at h
         exact Bool.false_ne_true h
-    · rw [if_neg h3] at h
+    · rw [ite_eq_right h3] at h
       exact absurd h Bool.false_ne_true
-  · rw [if_neg hr] at h
+  · rw [ite_eq_right hr] at h
     by_cases hk : k = 0
     · simp [hk] at h
     · refine Or.inr ⟨hr, hk, fun b hb => ?_⟩
       simp only [hk, ↓reduceIte] at h
       have h2 := allN_spec h b hb
       by_cases hd : downK S TP TG f k (kpt (K k) b) = b
-      · rw [if_pos hd] at h2
+      · rw [ite_eq_left hd] at h2
         exact ⟨hd, Nat.eq_of_beq_eq_true h2⟩
-      · rw [if_neg hd] at h2
+      · rw [ite_eq_right hd] at h2
         exact absurd h2 Bool.false_ne_true
 
 theorem sortedK_fold {K o : ℕ → ℕ} {n : ℕ} {f : ℕ → ℕ → ℕ} :
@@ -320,9 +320,9 @@ theorem scanRun_sound {F : ℕ → ℕ → Bool} {N : ℕ} : ∀ (cs d : List Ch
   | ch :: rest, d, i, v, op, hd, hop, hv, h => by
     simp only [scanK_cons, strictB_eq] at h
     cases h32 : Nat.beq (Char.toNat ch) (nat_lit 32)
-    · simp only [h32, scanK_brec_false] at h
+    · simp only [h32] at h
       cases h10 : Nat.beq (Char.toNat ch) (nat_lit 10)
-      · simp only [h10, scanK_brec_false, band_iff, Nat.ble_eq] at h
+      · simp only [h10, band_iff, Nat.ble_eq] at h
         obtain ⟨hlo, hhi, h⟩ := h
         have hdig := scanK_isDigit hlo hhi
         have e : d ++ ch :: rest = (d ++ [ch]) ++ rest := by simp
@@ -334,7 +334,7 @@ theorem scanRun_sound {F : ℕ → ℕ → Bool} {N : ℕ} : ∀ (cs d : List Ch
             exact hdig
         · rw [hv, CFSG.KC.Str.decVal, CFSG.KC.Str.decVal, List.foldl_append]
           rfl
-      · simp only [h10, scanK_brec_true, band_iff, Nat.beq_eq] at h
+      · simp only [h10, band_iff, Nat.beq_eq] at h
         obtain ⟨h1, h2, h3, h4⟩ := h
         have hne := hop.1 h1
         have hr := scanK_lrec h4
@@ -354,11 +354,11 @@ theorem scanRun_sound {F : ℕ → ℕ → Bool} {N : ℕ} : ∀ (cs d : List Ch
         refine ⟨?_, by simp; omega, fun t ht => ?_⟩
         · simp only [List.all_cons, List.all_nil, Bool.and_true, CFSG.KC.Co1BPair.goodP]
           have : d.isEmpty = false := by simpa using hne
-          simp [this, List.all_eq_true.2 hd, List.dropLast_concat]
+          simp [this, List.all_eq_true.2 hd]
         · have ht0 : t = 0 := by simpa using ht
           subst ht0
           simpa [hf, ← hv] using h2
-    · simp only [h32, scanK_brec_true, band_iff] at h
+    · simp only [h32, band_iff] at h
       obtain ⟨h1, h2, h3⟩ := h
       have hch : ch = ' ' := scanK_of_toNat (Nat.eq_of_beq_eq_true h32)
       subst hch
@@ -411,7 +411,7 @@ theorem twoBD_eq_one {g : Pm} (hg : g ∈ twoBD) (h0 : g 0 = 0) (h1 : g 1 = 1) (
   rw [RawSchreierDatum.ofArrays_base_toList] at hm
   have hl : finList 1365 twoBChainBase = [0, 1, 2] := by decide
   rw [hl] at hm
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hm
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hm
   rcases hm with e | e | e <;> rw [e]
   · exact h0
   · exact h1
@@ -434,7 +434,7 @@ open CFSG.EvenSporadicStandard.Induction.AutBound
 
 variable {G : Type*} [Group G]
 
-theorem ncard_conj_mul_le (H : Subgroup G) [Finite H] {t : G} (ht : t ∈ H) {K : Subgroup G}
+theorem ncard_conj_mul_le (H : Subgroup G) [Finite H] {t : G} (_ht : t ∈ H) {K : Subgroup G}
     (hKH : K ≤ H) (hK : ∀ k ∈ K, k * t = t * k) :
     {z : G | ∃ d ∈ H, z = d * t * d⁻¹}.ncard * Nat.card K ≤ Nat.card H := by
   classical
@@ -457,6 +457,7 @@ theorem ncard_conj_mul_le (H : Subgroup G) [Finite H] {t : G} (ht : t ∈ H) {K 
   have := Nat.card_le_card_of_injective Ψ hinj
   rwa [Nat.card_prod, Nat.card_coe_set_eq] at this
 
+omit [Group G] in
 theorem eq_image_of_ncard_le {S : Set G} (hS : S.Finite) {m : ℕ} (hle : S.ncard ≤ m)
     {f : ℕ → G} (hf : ∀ i < m, f i ∈ S) (hinj : ∀ i < m, ∀ j < m, f i = f j → i = j) :
     ∀ z ∈ S, ∃ i < m, f i = z := by
@@ -512,6 +513,7 @@ theorem closure_eq_of_tree {γ : ℕ → G} {J n : ℕ} {e : ℕ → G}
   rw [hc, heq, Set.InjOn.ncard_image (s := Set.Iio n) (f := e) fun i hi j hj e' => hinj i hi j hj e',
     Set.ncard_Iio_nat]
 
+omit [Group G] in
 theorem le_ncard_of_inj {S : Set G} (hS : S.Finite) {n : ℕ} {f : ℕ → G} (hf : ∀ i < n, f i ∈ S)
     (hinj : ∀ i < n, ∀ j < n, f i = f j → i = j) : n ≤ S.ncard := by
   have hsub : f '' Set.Iio n ⊆ S := by

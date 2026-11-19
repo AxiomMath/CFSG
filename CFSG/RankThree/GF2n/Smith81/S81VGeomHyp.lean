@@ -14,6 +14,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
     Set (Submodule F (Fin 6 → F)) :=
   {r | r ≤ U ∧ finrank F r = 1 ∧ ∀ v ∈ r, herm σ v v = 0}
 
+omit [Finite F] [CharP F 2] in
 private theorem herm_comb_pair (hσ : IsUnitaryInvolution σ) {x y : Fin 6 → F}
     (hx : herm σ x x = 0) (hy : herm σ y y = 0) (hxy : herm σ x y = 1) (a b : F) :
     herm σ (a • x + b • y) (a • x + b • y) = σ a * b + σ b * a := by
@@ -54,14 +55,14 @@ private theorem card_isoPtsOn_pair_norm (hσ : IsUnitaryInvolution σ) {x y : Fi
         IsoPtsOn σ (Submodule.span F {x, y}) := by
     rintro (_ | t)
     · show Submodule.span F {x} ∈ IsoPtsOn σ (Submodule.span F {x, y})
-      simp only [IsoPtsOn, Set.mem_setOf_eq]
+      simp only [IsoPtsOn, Set.mem_ofPred_eq]
       refine ⟨Submodule.span_mono (Set.singleton_subset_iff.2 (Set.mem_insert _ _)),
         finrank_span_singleton hx0, ?_⟩
       intro v hv
       obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.1 hv
       simp [herm_smul_left, herm_smul_right, hx]
     · show Submodule.span F {y + (t : F) • x} ∈ IsoPtsOn σ (Submodule.span F {x, y})
-      simp only [IsoPtsOn, Set.mem_setOf_eq]
+      simp only [IsoPtsOn, Set.mem_ofPred_eq]
       refine ⟨?_, finrank_span_singleton (hne _), ?_⟩
       · rw [Submodule.span_le]
         intro z hz
@@ -109,7 +110,7 @@ private theorem card_isoPtsOn_pair_norm (hσ : IsUnitaryInvolution σ) {x y : Fi
       exact congrArg some (Subtype.ext hts')
   have hsurj : Function.Surjective f := by
     rintro ⟨r, hrmem⟩
-    simp only [IsoPtsOn, Set.mem_setOf_eq] at hrmem
+    simp only [IsoPtsOn, Set.mem_ofPred_eq] at hrmem
     obtain ⟨hrle, hrfin, hriso⟩ := hrmem
     have hrne : r ≠ ⊥ := by
       rintro rfl
@@ -187,6 +188,7 @@ theorem card_isoPtsOn_pair (hσ : IsUnitaryInvolution σ) {x y : Fin 6 → F}
   rw [hspan]
   exact card_isoPtsOn_pair_norm hσ hx hy'y hy'
 
+omit [Finite F] in
 private theorem exists_nonzero_iso (hσ : IsUnitaryInvolution σ) {M : Submodule F (Fin 6 → F)}
     (hM : finrank F M = 2) : ∃ x ∈ M, x ≠ 0 ∧ herm σ x x = 0 := by
   have hM0 : M ≠ ⊥ := by
@@ -240,6 +242,7 @@ private theorem exists_nonzero_iso (hσ : IsUnitaryInvolution σ) {M : Submodule
     rw [h2, key]
     exact CharTwo.add_self_eq_zero _
 
+omit [Finite F] in
 theorem exists_isotropic_pair (hσ : IsUnitaryInvolution σ) {M : Submodule F (Fin 6 → F)}
     (hM : finrank F M = 2) (hnd : NonDeg σ M) :
     ∃ x ∈ M, ∃ y ∈ M, herm σ x x = 0 ∧ herm σ y y = 0 ∧ herm σ x y ≠ 0 := by

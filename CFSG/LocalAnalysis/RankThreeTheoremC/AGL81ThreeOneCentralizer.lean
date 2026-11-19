@@ -64,7 +64,7 @@ theorem le_weakCore_of_gammaOne {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 
     (hcK : c ∉ K) (hcp : orderOf c = p) (T : Sylow p K)
     (hTP : (T : Subgroup K).map K.subtype ≤ P) (h2 : 2 ≤ Open.pRank p (T : Subgroup K))
     (hΓ : GLBCore p 1 (T : Subgroup K) = ⊤) : K ≤ GLBWeakCore p P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTne : (T : Subgroup K) ⊓ ⊤ ≠ ⊥ := by
     rw [inf_top_eq]
     intro hbot
@@ -94,7 +94,7 @@ theorem le_weakCore_of_gammaOne {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 
       rw [hA, Subgroup.card_bot, pow_one] at hAcard
       exact hp.one_lt.ne hAcard
     obtain ⟨s, hsQ, hsp⟩ :=
-      RankFourTheoremC.exists_mem_orderOf_eq_of_isPGroup_ne_bot (T.isPGroup'.to_le hQT) hQne
+      RankFourTheoremC.exists_mem_orderOf_eq_of_isPGroup_ne_bot (T.isPGroup.to_le hQT) hQne
     by_cases hQ2 : 2 ≤ Open.pRank p (Q ⊔ ((T : Subgroup K) ⊓ Subgroup.centralizer (Q : Set K)))
     · exact normalizer_le_weakCore_of_central hp hcP hcC hcK hcp hTP hQT hsQ hsp hQ2
     have hzCQ : z ∈ Subgroup.centralizer (Q : Set K) :=
@@ -227,7 +227,7 @@ private theorem Hyp.prime_dvd_card (H : Hyp p K P E) : p ∣ Nat.card K := by
     have hx := Subgroup.mem_top x
     rw [hle] at hx
     exact Subgroup.mem_bot.1 hx
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := H.quasi.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := H.quasi.2
   obtain ⟨a, b, hab⟩ := exists_pair_ne (K ⧸ Subgroup.center K)
   induction a using QuotientGroup.induction_on with | H a => ?_
   induction b using QuotientGroup.induction_on with | H b => ?_
@@ -238,10 +238,10 @@ theorem Hyp.card_le_of_le_centralizer (H : Hyp p K P E)
     (hBP : B ≤ P) (hBC : B ≤ Subgroup.centralizer (K : Set G)) (hB : IsElemAbelian p B) :
     Nat.card B ≤ p := by
   have hp := H.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := H.normal
+  have : Fact p.Prime := ⟨hp⟩
+  have := H.normal
   set T := CFSG.QuasiDihedralFusion.sylowInfNormal P K
-  obtain ⟨u, huT, hup⟩ := RankFourTheoremC.exists_mem_orderOf_eq_of_isPGroup_ne_bot T.isPGroup'
+  obtain ⟨u, huT, hup⟩ := RankFourTheoremC.exists_mem_orderOf_eq_of_isPGroup_ne_bot T.isPGroup
     (Sylow.ne_bot_of_dvd_card T (Hyp.prime_dvd_card H))
   have huP : (u : G) ∈ (P : Subgroup G) := by
     rw [CFSG.QuasiDihedralFusion.sylowInfNormal_coe] at huT
@@ -281,8 +281,8 @@ private theorem Hyp.exists_central_of_ne_bot
     (hC : Subgroup.centralizer (K : Set G) ≠ ⊥) :
     ∃ c ∈ (P : Subgroup G), c ∈ Subgroup.centralizer (K : Set G) ∧ c ∉ K ∧ orderOf c = p ∧
       ∀ g ∈ (P : Subgroup G), g * c = c * g := by
-  haveI : Fact p.Prime := ⟨H.prime⟩
-  haveI := H.normal
+  have : Fact p.Prime := ⟨H.prime⟩
+  have := H.normal
   have hPC : (P : Subgroup G) ⊓ Subgroup.centralizer (K : Set G) ≠ ⊥ := by
     rwa [inf_eq_right.2 H.centralizer_le]
   obtain ⟨c, hc, hcp, hcc⟩ := RankFourTheoremC.Nongeneration.exists_central_orderOf P
@@ -297,13 +297,13 @@ private theorem Hyp.exists_central_of_ne_bot
   exact H.prime.one_lt.ne hcp
 
 theorem Hyp.threeOne_centralizer_two
-    (H : Hyp p K P E) (h3 : 3 ≤ Open.pRank p (P : Subgroup G))
+    (H : Hyp p K P E) (_h3 : 3 ≤ Open.pRank p (P : Subgroup G))
     (hnot : ¬ K ≤ GLBWeakCore p (P : Subgroup G)) (hZ : Subgroup.center K = ⊥)
     (hC : Subgroup.centralizer (K : Set G) ≠ ⊥) (h2 : 2 ≤ Open.pRank p (⊤ : Subgroup K)) :
     OnThreeOneList p K := by
   have hp := H.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := H.normal
+  have : Fact p.Prime := ⟨hp⟩
+  have := H.normal
   obtain ⟨hsimple, hnonab, hcat⟩ := H.isCatalogGroup hZ
   obtain ⟨c, hcP, hcC, hcK, hcp, -⟩ := Hyp.exists_central_of_ne_bot H hZ hC
   set T := CFSG.QuasiDihedralFusion.sylowInfNormal P K
@@ -331,10 +331,10 @@ theorem Hyp.threeOne_centralizer_one
     (hC : Subgroup.centralizer (K : Set G) ≠ ⊥) (h1 : Open.pRank p (⊤ : Subgroup K) ≤ 1) :
     OnThreeOneList p K := by
   have hp := H.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := H.normal
+  have : Fact p.Prime := ⟨hp⟩
+  have := H.normal
   have hperf : commutator ↥K = ⊤ := H.quasi.1
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := H.quasi.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := H.quasi.2
   have hnonab := RankFourTheoremC.Nongeneration.exists_noncomm_center_quotient hperf
   have hcatK : IsCatalogGroup (↥K ⧸ Subgroup.center ↥K) :=
     H.catalog K (Subgroup.center ↥K) inferInstance H.quasi.2 hnonab

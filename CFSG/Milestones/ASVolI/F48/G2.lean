@@ -106,11 +106,11 @@ theorem burnsideF48_cartanFPF_G2 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     (hyp : ChF.HypF_4_4 .G2 p f Gp M₁ M₂) (hp : p.Prime) (hm : 3 ≤ ChF.GLKind.G2.m)
     (hq : 4 ≤ p ^ f) (hpoly : IsGenPolygon (burnsideF48_setting hyp hp hm).ι.graph 6) :
     (burnsideF48_setting hyp hp hm).CartanFPF := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, fK, finK, hcard, marking, h1, h2⟩ := burnsideF48_chart_G2 hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
-  haveI : CharP K p := by
+  let := fK
+  have := finK
+  have : CharP K p := by
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   have hK4 : 4 ≤ Nat.card K := by rw [hcard]; exact hq
@@ -132,9 +132,9 @@ theorem burnsideF48_cartanFPF_G2 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
 theorem burnsideF48_simple_G2 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .G2 p f Gp M₁ M₂) (hq : 3 ≤ p ^ f) : IsSimpleGroup ↥Gp := by
   obtain ⟨K, fK, finK, hcard, marking, -, -⟩ := burnsideF48_chart_G2 hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
-  haveI := CFSG.GH74.GLS.Stage4.Hex.isSimpleGroup_g2Model (F := K) (by rw [hcard]; exact hq)
+  let := fK
+  have := finK
+  have := CFSG.GH74.GLS.Stage4.Hex.isSimpleGroup_g2Model (F := K) (by rw [hcard]; exact hq)
   exact marking.symm.isSimpleGroup
 
 open CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam CFSG.Quasithin.RankTwoAmalgam.Completion in

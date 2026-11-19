@@ -78,7 +78,7 @@ private lemma center_induced_data {P : Type*} [Group P] {φ ψ : MulAut P}
   exact ⟨φZ, ψZ, hφZ, hψZ, hφψZ, hψφZ, hφZcoe, hψZcoe⟩
 
 private lemma center_pow_three_eq_one_of_no_fixed {P : Type*} [Group P] [Finite P]
-    {p : ℕ} [Fact p.Prime] (hP : IsPGroup p P) (hp : p ≠ 3)
+    {p : ℕ} [Fact p.Prime] (_hP : IsPGroup p P) (_hp : p ≠ 3)
     {φ ψ : MulAut P} (hφ : φ ^ 3 = 1) (hψ : ψ ^ 3 = 1) (hφψ : Commute φ ψ)
     (h₁ : ∀ x, φ (ψ x) = x → φ x = x)
     (h₂ : ∀ x, φ (ψ (ψ x)) = x → φ x = x)
@@ -122,7 +122,7 @@ private lemma center_pow_three_eq_one_of_no_fixed {P : Type*} [Group P] [Finite 
     exact Subtype.ext (hψfix (a₂ : P) a₂.2 hfixP)
   have ha₃β : a₃ = z * β z * β (β z) := by
     dsimp [a₃, β]
-    simp only [MulAut.mul_apply, hψφZ]
+    simp only [hψφZ]
   have ha₃ : a₃ = 1 := by
     have hβfix : β a₃ = a₃ := by
       rw [ha₃β]
@@ -168,7 +168,7 @@ private lemma exists_nontrivial_center_fixed {P : Type*} [Group P] [Finite P]
     (h₂ : ∀ x, φ (ψ (ψ x)) = x → φ x = x) :
     (∃ z : P, z ∈ Subgroup.center P ∧ z ≠ 1 ∧ φ z = z) ∨
       (∃ z : P, z ∈ Subgroup.center P ∧ z ≠ 1 ∧ ψ z = z) := by
-  haveI : Nontrivial P := hPnt
+  have : Nontrivial P := hPnt
   by_contra hcon
   have hφcon : ¬ ∃ z : P, z ∈ Subgroup.center P ∧ z ≠ 1 ∧ φ z = z :=
     fun h => hcon (Or.inl h)
@@ -194,7 +194,7 @@ private lemma exists_nontrivial_center_fixed {P : Type*} [Group P] [Finite P]
   exact (Subgroup.nontrivial_iff_ne_bot _).mp hZnt hZbot
 
 private lemma exists_central_fixed_subgroup_of_fixed {P : Type*} [Group P]
-    {α β : MulAut P} (hα : α ^ 3 = 1) (hβ : β ^ 3 = 1) (hαβ : Commute α β)
+    {α β : MulAut P} (_hα : α ^ 3 = 1) (hβ : β ^ 3 = 1) (hαβ : Commute α β)
     {z : P} (hzZ : z ∈ Subgroup.center P) (hz1 : z ≠ 1) (hzfix : α z = z) :
     ∃ N : Subgroup P, N ≠ ⊥ ∧ N ≤ Subgroup.center P ∧
       (∀ n ∈ N, α n = n) ∧ (∀ n ∈ N, α n ∈ N) ∧ (∀ n ∈ N, β n ∈ N) := by
@@ -329,7 +329,7 @@ private lemma quotientAut_fixed {P : Type*} [Group P] [Finite P]
       quotientAut N φ hφN q = q) ∧
     (∀ q, quotientAut N φ hφN (quotientAut N ψ hψN (quotientAut N ψ hψN q)) = q →
       quotientAut N φ hφN q = q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hφψ3 : (φ * ψ) ^ 3 = 1 := by
     rw [hφψ.mul_pow, hφ, hψ, one_mul]
   have hφψN : ∀ n ∈ N, (φ * ψ) n ∈ N := fun n hn => hφN (ψ n) (hψN n hn)
@@ -397,7 +397,7 @@ private lemma pow_three_eq_one_of_psi_fixes {P : Type*} [Group P] {p : ℕ} [Fac
   exact mul_left_cancel h'
 
 private lemma pow_three_eq_one_of_phi_fixes {P : Type*} [Group P] {φ ψ : MulAut P}
-    (hφ : φ ^ 3 = 1) (hψ : ψ ^ 3 = 1) (hφψ : Commute φ ψ) {x e : P}
+    (hφ : φ ^ 3 = 1) (_hψ : ψ ^ 3 = 1) (hφψ : Commute φ ψ) {x e : P}
     (heZ : e ∈ Subgroup.center P) (hφe : φ e = e)
     (hψw : ψ (x⁻¹ * φ x) = (x⁻¹ * φ x) * e) : e ^ 3 = 1 := by
   let wfun : P → P := fun y => y⁻¹ * φ y
@@ -454,29 +454,29 @@ private lemma pow_three_eq_one_of_phi_fixes {P : Type*} [Group P] {φ ψ : MulAu
 
 private theorem apply_inv_mul_apply_aux (n : ℕ) :
     ∀ (P : Type*) [Group P] [Finite P] {p : ℕ} [Fact p.Prime]
-      (hP : IsPGroup p P) (hp : p ≠ 3) {φ ψ : MulAut P}
-      (hφ : φ ^ 3 = 1) (hψ : ψ ^ 3 = 1) (hφψ : Commute φ ψ)
-      (h₁ : ∀ x, φ (ψ x) = x → φ x = x)
-      (h₂ : ∀ x, φ (ψ (ψ x)) = x → φ x = x)
+      (_hP : IsPGroup p P) (_hp : p ≠ 3) {φ ψ : MulAut P}
+      (_hφ : φ ^ 3 = 1) (_hψ : ψ ^ 3 = 1) (_hφψ : Commute φ ψ)
+      (_h₁ : ∀ x, φ (ψ x) = x → φ x = x)
+      (_h₂ : ∀ x, φ (ψ (ψ x)) = x → φ x = x)
       (_ : Nat.card P = n) (x : P),
       ψ (x⁻¹ * φ x) = x⁻¹ * φ x := by
   induction n using Nat.strong_induction_on with
   | h n ih =>
-    intro P _ _ p _ hP hp φ ψ hφ hψ hφψ h₁ h₂ hcard x
+    intro P _ _ p _ _hP _hp φ ψ _hφ _hψ _hφψ _h₁ _h₂ hcard x
     classical
     by_cases hPnt : Nontrivial P
-    · haveI : Nontrivial P := hPnt
+    · have : Nontrivial P := hPnt
       obtain ⟨N, hNne, hNleZ, hNfix, hφN, hψN⟩ :=
-        exists_central_fixed_subgroup hP hp hPnt hφ hψ hφψ h₁ h₂
-      haveI hNnormal : N.Normal := Subgroup.normal_of_le_center hNleZ
+        exists_central_fixed_subgroup _hP _hp hPnt _hφ _hψ _hφψ _h₁ _h₂
+      have hNnormal : N.Normal := Subgroup.normal_of_le_center hNleZ
       have hnot3 : ¬ 3 ∣ Nat.card N := by
         intro h3
-        obtain ⟨k, hk⟩ := (hP.to_subgroup N).exists_card_eq
+        obtain ⟨k, hk⟩ := (_hP.to_subgroup N).exists_card_eq
         rw [hk] at h3
         have h3p : 3 ∣ p := Nat.prime_three.dvd_of_dvd_pow h3
         have hp3 : p = 3 :=
           (Nat.Prime.dvd_iff_eq (Fact.out : Nat.Prime p) (by norm_num : 3 ≠ 1)).mp h3p
-        exact hp hp3
+        exact _hp hp3
       have hNφmap : Subgroup.map (φ : P →* P) N = N :=
         map_eq_self_of_forall_mem N φ hφN
       have hNψmap : Subgroup.map (ψ : P →* P) N = N :=
@@ -484,15 +484,15 @@ private theorem apply_inv_mul_apply_aux (n : ℕ) :
       let Q := P ⧸ N
       let φbar : MulAut Q := quotientAut N φ hφN
       let ψbar : MulAut Q := quotientAut N ψ hψN
-      have hφbar3 : φbar ^ 3 = 1 := quotientAut_pow_three N hφ hφN
-      have hψbar3 : ψbar ^ 3 = 1 := quotientAut_pow_three N hψ hψN
-      have hφψbar : Commute φbar ψbar := quotientAut_commute N hφN hψN hφψ
-      have hfixed := quotientAut_fixed hφ hψ hφψ hφN hψN hnot3 h₁ h₂
+      have hφbar3 : φbar ^ 3 = 1 := quotientAut_pow_three N _hφ hφN
+      have hψbar3 : ψbar ^ 3 = 1 := quotientAut_pow_three N _hψ hψN
+      have hφψbar : Commute φbar ψbar := quotientAut_commute N hφN hψN _hφψ
+      have hfixed := quotientAut_fixed _hφ _hψ _hφψ hφN hψN hnot3 _h₁ _h₂
       have hcardQ : Nat.card Q < n := by
         rw [← hcard]
         exact CFSG.card_quotient_lt_of_ne_bot N hNne
       have hIH := ih (Nat.card Q) hcardQ Q (p := p) (φ := φbar) (ψ := ψbar)
-        (hP.to_quotient N) hp hφbar3 hψbar3 hφψbar hfixed.1 hfixed.2 rfl
+        (_hP.to_quotient N) _hp hφbar3 hψbar3 hφψbar hfixed.1 hfixed.2 rfl
       have hφbar_apply : ∀ y : P,
           φbar (QuotientGroup.mk y) = QuotientGroup.mk (φ y) := fun y =>
         quotientAut_mk N φ hφN y
@@ -518,14 +518,14 @@ private theorem apply_inv_mul_apply_aux (n : ℕ) :
         group
       have he3 : e ^ 3 = 1 := by
         rcases hNfix with hφfixN | hψfixN
-        · exact pow_three_eq_one_of_phi_fixes hφ hψ hφψ (hNleZ he_mem)
+        · exact pow_three_eq_one_of_phi_fixes _hφ _hψ _hφψ (hNleZ he_mem)
             (hφfixN e he_mem) (by simpa [w] using hψw)
-        · exact pow_three_eq_one_of_psi_fixes hP hp hψ (hψfixN e he_mem) hψw
-      have he1 : e = 1 := eq_one_of_pow_three_eq_one hP hp he3
+        · exact pow_three_eq_one_of_psi_fixes _hP _hp _hψ (hψfixN e he_mem) hψw
+      have he1 : e = 1 := eq_one_of_pow_three_eq_one _hP _hp he3
       have hψw' : ψ w = w := by
         rw [hψw, he1, mul_one]
       simpa [w] using hψw'
-    · haveI : Subsingleton P := not_nontrivial_iff_subsingleton.mp hPnt
+    · have : Subsingleton P := not_nontrivial_iff_subsingleton.mp hPnt
       exact Subsingleton.elim _ _
 
 theorem apply_inv_mul_apply {P : Type*} [Group P] [Finite P] {p : ℕ} [Fact p.Prime]
@@ -606,7 +606,7 @@ private lemma commute_d_commutator_zpowers {G : Type*} [Group G] {P : Subgroup G
       rw [h] at hkz
       simpa using hkz.symm
     rw [hz1]
-    simpa using Commute.one_right d
+    simp
   · have hzc : z = c := by
       rw [h] at hkz
       simpa using hkz.symm

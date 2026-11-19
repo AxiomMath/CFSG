@@ -115,6 +115,7 @@ section CharTwo
 
 variable {f : ℕ} {K : Type} [Field K] [Finite K] {n : ℕ}
 
+omit [Finite K] in
 theorem isQuasisimple_unitaryBlock_of_card_eq_two (h : UnitaryFieldData 2 f K)
     {I : Finset (Fin n)} (hI : I.card = 2) (hf : 2 ≤ f) :
     CFSG.IsQuasisimple ↥(unitaryBlock h I) := by
@@ -124,11 +125,11 @@ theorem isQuasisimple_unitaryBlock_of_card_eq_two (h : UnitaryFieldData 2 f K)
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv (unitaryBlockEquiv h I) hq
 
 theorem dvd_card_unitaryBlock_of_card_eq_two (h : UnitaryFieldData 2 f K)
-    {I : Finset (Fin n)} (hI : I.card = 2) {q : ℕ} (hq : q.Prime)
+    {I : Finset (Fin n)} (hI : I.card = 2) {q : ℕ} (_hq : q.Prime)
     (hqd : q ∣ 2 ^ (2 * f) - 1) :
     q ∣ Nat.card ↥(unitaryBlock h I) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
     rw [h.card, ← pow_mul, mul_comm]
   have hcard : Nat.card (unitarySU 2 f K 2) = 2 ^ f * ((2 ^ f) ^ 2 - 1) :=

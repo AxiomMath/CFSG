@@ -112,7 +112,7 @@ theorem tcrSet_ncard (hG : TcrGood τ S) (psi : List ℕ) (hnd : psi.Nodup)
     (hlt : ∀ i ∈ psi, i < S.tcrN) : (tcrSet S τ psi).ncard = psi.length := by
   have himg : tcrSet S τ psi = (fun i => tcrRv S τ i) '' ↑(psi.toFinset) := by
     ext γ
-    simp only [tcrSet, Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset]
+    simp only [tcrSet, Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset]
     constructor
     · rintro ⟨i, hi, -, rfl⟩
       exact ⟨i, hi, rfl⟩

@@ -27,7 +27,7 @@ theorem typeRow_of_model {P : TauCeti.CFSGIndex → Prop} {s : TauCeti.SporadicN
     TypeRow P s := by
   intro S _ _ ⟨e⟩ β hβ hβ1 J hJ hT
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩

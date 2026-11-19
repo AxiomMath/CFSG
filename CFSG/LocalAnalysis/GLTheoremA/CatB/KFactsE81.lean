@@ -17,7 +17,7 @@ theorem exists_normalizing_of_profile {K : Subgroup G} (hp : KProfile (PQuot 3 K
     (hFK : F ≤ K) (hF : IsElemAbelian 3 F) (hF4 : Nat.card F = 3 ^ 4) :
     ∃ n ∈ K, n ∈ Subgroup.normalizer (F : Set G) ∧ (∃ k : ℕ, n ^ 3 ^ k = 1) ∧
       n ∉ Subgroup.centralizer (F : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := piK K with hπ
   let F' : Subgroup ↥K := F.subgroupOf K
   have hF'e : IsElemAbelian 3 F' := isElemAbelian_subgroupOf hF
@@ -27,7 +27,7 @@ theorem exists_normalizing_of_profile {K : Subgroup G} (hp : KProfile (PQuot 3 K
   set P' : Subgroup ↥K := (P : Subgroup ↥K) with hP'
   have hPb : (Sylow.mapSurjective (QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥K)) P :
       Subgroup (PQuot 3 K)) = P'.map π := Sylow.coe_mapSurjective _ P
-  have hinj := piK_injective K P.isPGroup'
+  have hinj := piK_injective K P.isPGroup
   have hPc : Nat.card P' = 3 ^ 5 := by
     rw [card_eq_of_injective_comp_subtype π hinj, ← hPb, Sylow.card_eq_multiplicity, hp.card3]
   obtain ⟨a, ha, b, hb, hab⟩ := hp.not_abelian (A := P'.map π)
@@ -52,9 +52,9 @@ theorem exists_normalizing_of_profile {K : Subgroup G} (hp : KProfile (PQuot 3 K
     push Not at hcon
     have hcomm : IsMulCommutative ↥P' := by
       let H : Subgroup ↥P' := F'.subgroupOf P'
-      haveI : H.Normal := hnormal
+      have : H.Normal := hnormal
       have hcard : Nat.card (↥P' ⧸ H) = 3 := (Subgroup.index_eq_card H).symm.trans hrel
-      haveI : IsCyclic (↥P' ⧸ H) := isCyclic_of_prime_card hcard
+      have : IsCyclic (↥P' ⧸ H) := isCyclic_of_prime_card hcard
       refine (QuotientGroup.mk' H).isMulCommutative_of_isCyclic_of_ker_le_center ?_
       rw [QuotientGroup.ker_mk']
       intro h hh
@@ -64,7 +64,7 @@ theorem exists_normalizing_of_profile {K : Subgroup G} (hp : KProfile (PQuot 3 K
     exact hnc (congrArg Subtype.val (hcomm.is_comm.comm ⟨a', ha'⟩ ⟨b', hb'⟩))
   obtain ⟨x, hxc⟩ := hex
   refine ⟨((x : ↥K) : G), (x : ↥K).2, S8.L84.mem_normalizer_of_subgroupOf hFK (hPN x), ?_, ?_⟩
-  · obtain ⟨k, hk⟩ := P.isPGroup' x
+  · obtain ⟨k, hk⟩ := P.isPGroup x
     exact ⟨k, by simpa using congrArg (fun y : ↥P' => ((y : ↥K) : G)) hk⟩
   · intro hcen
     apply hxc
@@ -77,7 +77,7 @@ theorem relIndex_le_of_profile {K : Subgroup G} (hp : KProfile (PQuot 3 K))
     (hF4 : Nat.card F = 3 ^ 4) {Q : Subgroup G} (hQ : IsPGroup 3 Q)
     (hQK : Q ≤ Subgroup.normalizer (K : Set G)) (hQF : Q ≤ Subgroup.normalizer (F : Set G)) :
     (Subgroup.centralizer (F : Set G)).relIndex Q ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Y := PQuot 3 K
   set π := piK K with hπ
   let F' : Subgroup ↥K := F.subgroupOf K

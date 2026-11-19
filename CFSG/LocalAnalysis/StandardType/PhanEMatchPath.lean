@@ -55,11 +55,10 @@ theorem path_cartan_of_match {c : PhanCode} (hc : c.IsFlagCode) (σ : Fin c.rank
   cases c <;> simp only [IsFlagCode] at hc
   all_goals
     first
-    | exact hc.elim
     | (by_cases hkl : k = l
        · subst hkl
          simp [hdiag]
-       · rw [if_neg hkl, hadj k l hkl]
+       · rw [ite_eq_right hkl, hadj k l hkl]
          fin_cases k <;> fin_cases l <;> simp_all [PhanCode.coxN, PhanCode.rank])
 
 end CFSG.ClassicalInvolution.Phan.PhanE.Match

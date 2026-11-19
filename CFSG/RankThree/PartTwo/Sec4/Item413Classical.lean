@@ -32,7 +32,7 @@ theorem card_le_of_surjective_of_ker {S Q : Type*} [Group S] [Group Q] [Finite S
   set Q' : Subgroup S := (P : Subgroup Et).map Et.subtype
   have hQcard : Nat.card Q' = Nat.card P :=
     Subgroup.card_map_of_injective Et.subtype_injective
-  have hQp : IsPGroup 3 Q' := P.isPGroup'.map Et.subtype
+  have hQp : IsPGroup 3 Q' := P.isPGroup.map Et.subtype
   have htriv : ∀ s ∈ Q', ρ s = 1 → s = 1 := by
     intro s hs h1
     obtain ⟨n, hn⟩ := hQp ⟨s, hs⟩

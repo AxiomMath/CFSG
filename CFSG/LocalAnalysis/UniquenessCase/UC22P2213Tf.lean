@@ -25,7 +25,7 @@ theorem uc22p2214_su3_oddN (D : Data G) (Ch : Choice2011 G)
   by_contra hlt
   push Not at hlt
   have hKM : K ≤ D.M := uc22p22a_le_of_isSubnormal hKC.1
-  haveI := uc22p22a_qs_nontrivial hsu.1
+  have := uc22p22a_qs_nontrivial hsu.1
   have hKV : ¬ K ≤ centralizer (c.V : Set G) := fun hle =>
     ((Subgroup.nontrivial_iff_ne_bot _).1 inferInstance)
       ((uc22br4_mbarImage_eq_bot_iff D.M c.V K c.hVM hKM).2 hle)
@@ -68,7 +68,7 @@ theorem uc22p2215_false_of_su3N (D : Data G) (Ch : Choice2011 G)
   have hKM : K ≤ D.M := uc22p22a_le_of_isSubnormal hKC.1
   have hred : TwoReduced D.M c.V := (hV h1930 c).1.2.2
   have hel : CFSG.Open.IsElemAbelian 2 c.V := (hV h1930 c).1.1.1.2.2.2
-  haveI := uc22p22a_qs_nontrivial hsu.1
+  have := uc22p22a_qs_nontrivial hsu.1
   have hKV : ¬ K ≤ centralizer (c.V : Set G) := fun hKV =>
     ((Subgroup.nontrivial_iff_ne_bot _).1 inferInstance)
       ((uc22br4_mbarImage_eq_bot_iff D.M c.V K c.hVM hKM).2 hKV)

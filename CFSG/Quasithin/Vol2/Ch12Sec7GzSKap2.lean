@@ -27,15 +27,18 @@ variable {G : Type} [Group G] [Finite G] {V M M₀ : Subgroup G} [IsMulCommutati
 @[expose] noncomputable def vOf (S : SplitHyp V M M₀) (m : G) : G :=
   if hm : m ∈ M then Classical.choose (S.hdec m hm) else 1
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem vOf_mem (S : SplitHyp V M M₀) {m : G} (hm : m ∈ M) : vOf S m ∈ V := by
-  unfold vOf; rw [dif_pos hm]; exact (Classical.choose_spec (S.hdec m hm)).1
+  unfold vOf; rw [dite_eq_left hm]; exact (Classical.choose_spec (S.hdec m hm)).1
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem vOf_spec (S : SplitHyp V M M₀) {m : G} (hm : m ∈ M) :
     ∃ h ∈ M₀, m = vOf S m * h := by
-  unfold vOf; rw [dif_pos hm]
+  unfold vOf; rw [dite_eq_left hm]
   obtain ⟨h, hh, e⟩ := (Classical.choose_spec (S.hdec m hm)).2
   exact ⟨h, hh, e⟩
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem decomp_unique (S : SplitHyp V M M₀) {v v' h h' : G} (hv : v ∈ V) (hv' : v' ∈ V)
     (hh : h ∈ M₀) (hh' : h' ∈ M₀) (e : v * h = v' * h') : v = v' ∧ h = h' := by
   have h1 : v'⁻¹ * v = h' * h⁻¹ := by
@@ -53,6 +56,7 @@ theorem decomp_unique (S : SplitHyp V M M₀) {v v' h h' : G} (hv : v ∈ V) (hv
   rw [hvv] at e
   exact mul_left_cancel e
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem vOf_mul_of (S : SplitHyp V M M₀) {v h : G} (hv : v ∈ V) (hh : h ∈ M₀) :
     vOf S (v * h) = v := by
   have hm : v * h ∈ M := M.mul_mem (S.hVM hv) (S.hM0 hh)
@@ -65,24 +69,29 @@ theorem vOf_mul_of (S : SplitHyp V M M₀) {v h : G} (hv : v ∈ V) (hh : h ∈ 
 @[expose] noncomputable def bpart (C : Coding ↥V) (S : SplitHyp V M M₀) (m : G) : B6 :=
   if hm : m ∈ M then C.cB (conjAct V ⟨m, S.hMV hm⟩) else B6.id
 
+omit [Finite G] in
 theorem bpart_mul (C : Coding ↥V) (S : SplitHyp V M M₀) {m m' : G} (hm : m ∈ M) (hm' : m' ∈ M) :
     bpart C S (m * m') = (bpart C S m).comp (bpart C S m') := by
   have hmm : m * m' ∈ M := M.mul_mem hm hm'
   unfold bpart
-  rw [dif_pos hmm, dif_pos hm, dif_pos hm', ← C.cB_mul, ← map_mul]
+  rw [dite_eq_left hmm, dite_eq_left hm, dite_eq_left hm', ← C.cB_mul, ← map_mul]
   rfl
 
+omit [Finite G] in
 theorem bpart_of_mem (C : Coding ↥V) (S : SplitHyp V M M₀) {m : G} (hm : m ∈ M) :
     bpart C S m = cj C ⟨m, S.hMV hm⟩ := by
-  unfold bpart; rw [dif_pos hm]; rfl
+  unfold bpart; rw [dite_eq_left hm]; rfl
 
+omit [Finite G] in
 theorem bpart_V (C : Coding ↥V) (S : SplitHyp V M M₀) {v : G} (hv : v ∈ V) :
     bpart C S v = B6.id := by
   rw [bpart_of_mem C S (S.hVM hv), cj, conjAct_eq_one_of_mem (S.hMV (S.hVM hv)) hv, C.cB_one]
 
+omit [Finite G] in
 theorem bpart_one (C : Coding ↥V) (S : SplitHyp V M M₀) : bpart C S 1 = B6.id := by
   simpa using bpart_V C S (V.one_mem)
 
+omit [Finite G] in
 theorem cpart_V (C : Coding ↥V) (S : SplitHyp V M M₀) {v : G} (hv : v ∈ V) :
     cpart C S v = C.cd ⟨v, hv⟩ := by
   have h1 : vOf S v = v := by
@@ -90,10 +99,11 @@ theorem cpart_V (C : Coding ↥V) (S : SplitHyp V M M₀) {v : G} (hv : v ∈ V)
     simpa using this
   unfold cpart
   have hv' : vOf S v ∈ V := vOf_mem S (S.hVM hv)
-  rw [dif_pos hv']
+  rw [dite_eq_left hv']
   congr 1
   exact Subtype.ext h1
 
+omit [Finite G] in
 theorem bpart_decomp (C : Coding ↥V) (S : SplitHyp V M M₀) {m v h : G} (hv : v ∈ V)
     (hh : h ∈ M₀) (e : m = v * h) :
     bpart C S m = cj C ⟨h, S.hMV (S.hM0 hh)⟩ := by
@@ -104,6 +114,7 @@ theorem bpart_decomp (C : Coding ↥V) (S : SplitHyp V M M₀) {m v h : G} (hv :
   rw [e2, cj, map_mul, conjAct_eq_one_of_mem (S.hMV (S.hVM hv)) hv, one_mul]
   rfl
 
+omit [Finite G] in
 theorem cpart_mul (C : Coding ↥V) (S : SplitHyp V M M₀) {m m' : G} (hm : m ∈ M) (hm' : m' ∈ M) :
     cpart C S (m * m') = cpart C S m ^^^ (bpart C S m).app (cpart C S m') := by
   obtain ⟨h, hh, e⟩ := vOf_spec S hm
@@ -122,7 +133,7 @@ theorem cpart_mul (C : Coding ↥V) (S : SplitHyp V M M₀) {m m' : G} (hm : m �
     exact vOf_mul_of S (V.mul_mem hvV hconj) (M₀.mul_mem hh hh')
   unfold cpart
   have hvmV : vOf S (m * m') ∈ V := vOf_mem S (M.mul_mem hm hm')
-  rw [dif_pos hvmV, dif_pos hvV, dif_pos hv'V]
+  rw [dite_eq_left hvmV, dite_eq_left hvV, dite_eq_left hv'V]
   have hmain : (⟨vOf S (m * m'), hvmV⟩ : ↥V) = ⟨v, hvV⟩ * ⟨h * v' * h⁻¹, hconj⟩ :=
     Subtype.ext hvm
   rw [hmain, C.cd_mul]
@@ -132,6 +143,7 @@ theorem cpart_mul (C : Coding ↥V) (S : SplitHyp V M M₀) {m m' : G} (hm : m �
   have := cd_conj C ⟨h, hhN⟩ ⟨v', hv'V⟩
   exact this
 
+omit [Finite G] in
 theorem pair_inj (C : Coding ↥V) (S : SplitHyp V M M₀) {m m' : G} (hm : m ∈ M) (hm' : m' ∈ M)
     (hb : bpart C S m = bpart C S m') (hc : cpart C S m = cpart C S m') : m = m' := by
   obtain ⟨h, hh, e⟩ := vOf_spec S hm
@@ -142,7 +154,7 @@ theorem pair_inj (C : Coding ↥V) (S : SplitHyp V M M₀) {m m' : G} (hm : m �
     have h1 : C.cd ⟨vOf S m, hvV⟩ = C.cd ⟨vOf S m', hv'V⟩ := by
       have := hc
       unfold cpart at this
-      rwa [dif_pos hvV, dif_pos hv'V] at this
+      rwa [dite_eq_left hvV, dite_eq_left hv'V] at this
     have := C.cd_injective h1
     exact congrArg Subtype.val this
   have hhh : h = h' := by

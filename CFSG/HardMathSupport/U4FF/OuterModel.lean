@@ -20,7 +20,7 @@ theorem exists_displaced_involution {α : MulAut (gramSU h (miyamotoJ4 K))} (hα
     (hσ : miyamotoFieldFactor h α ≠ 1) :
     ∃ g : gramSU h (miyamotoJ4 K), α g ≠ g ∧ (α g * g⁻¹) * (α g * g⁻¹) = 1 := by
   have hchar : CharP K 2 := h.charP
-  haveI := isElementaryAbelian_miyamotoA1 h
+  have := isElementaryAbelian_miyamotoA1 h
   obtain ⟨t, ht⟩ := exists_conj_eq_u_or_uz1 h hα hσ
   set β := MulAut.conj t * α * (MulAut.conj t)⁻¹ with hβdef
   have hαβ : α = (MulAut.conj t)⁻¹ * β * MulAut.conj t := by rw [hβdef]; group

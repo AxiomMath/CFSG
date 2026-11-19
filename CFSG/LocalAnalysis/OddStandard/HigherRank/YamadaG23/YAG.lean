@@ -40,6 +40,7 @@ private theorem commutator_mem_A (s : Setting3 G L) {a b : G} (ha : a ∈ s.fr.A
   exact s.fr.A.mul_mem (s.fr.A.mul_mem (s.fr.A.mul_mem ha hb) (s.fr.A.inv_mem ha))
     (s.fr.A.inv_mem hb)
 
+omit [Finite G] in
 private theorem actsAs_pow {g : G} {α : MulAut (L ⧸ center L)} (h : ActsAs L g α) (n : ℕ) :
     ActsAs L (g ^ n) (α ^ n) := by
   induction n with
@@ -57,6 +58,7 @@ private theorem actsAs_comm {a b : G} {α β : MulAut (L ⧸ center L)}
   have h12 : ActsAs L ((a * b) * a⁻¹) ((α * β) * α⁻¹) := actsAs_mul L h1 h2
   exact actsAs_mul L h12 h3
 
+omit [Finite G] in
 private theorem jOn_mem {V : Subgroup G} (hV : V ≤ normalizer (L : Set G))
     {V' : Subgroup (MulAut (L ⧸ center L))} (hV' : jSub L V = V') (x : ↥V) :
     jOn L hV x ∈ V' := by

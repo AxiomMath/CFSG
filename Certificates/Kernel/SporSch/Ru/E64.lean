@@ -231,7 +231,7 @@ theorem invK_form (a1 a0 b1 b0 : Nat) :
     bAnd(Nat.beq b1 1, bAnd(Nat.beq b0 0, bIf(bAnd(Nat.beq a1 1, Nat.beq a0 0), false, true))) =
       true ↔ ((b1 = 1 ∧ b0 = 0) ∧ ¬(a1 = 1 ∧ a0 = 0)) := by
   by_cases h1 : b1 = 1 <;> by_cases h0 : b0 = 0 <;> by_cases g1 : a1 = 1 <;>
-    by_cases g0 : a0 = 0 <;> simp [beq_dec, bAnd_eq', bNot_eq, h1, h0, g1, g0]
+    by_cases g0 : a0 = 0 <;> simp [beq_dec, h1, h0, g1, g0]
 
 theorem invol_eq {c : Nat} (hc : c < 16384) :
     ruIsInvolA (prod2A 4060 ruLevS (c / 8) (c % 8)) = invK LR TR c := by

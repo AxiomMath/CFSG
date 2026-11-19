@@ -18,6 +18,7 @@ namespace FourteenFive
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem isMulCommutative_of_le {H K : Subgroup G} (hHK : H ≤ K)
     [IsMulCommutative K] : IsMulCommutative H :=
   IsMulCommutative.of_comm fun a b =>
@@ -25,11 +26,12 @@ private theorem isMulCommutative_of_le {H K : Subgroup G} (hHK : H ≤ K)
       simpa only [Subgroup.coe_mul] using
         setLike_mul_comm (s := K) (hHK a.2) (hHK b.2))
 
+omit [Finite G] in
 private theorem relIndex_eq_card_of_sup_inf {U V₀ N : Subgroup G} [IsMulCommutative U]
     (hU : U = V₀ ⊔ N) (hinf : V₀ ⊓ N = ⊥) : N.relIndex U = Nat.card V₀ := by
   have hV₀U : V₀ ≤ U := by rw [hU]; exact le_sup_left
   have hNU : N ≤ U := by rw [hU]; exact le_sup_right
-  haveI : (N.subgroupOf U).Normal := inferInstance
+  have : (N.subgroupOf U).Normal := inferInstance
   have hsup : N.subgroupOf U ⊔ V₀.subgroupOf U = ⊤ := by
     have h1 : (V₀ ⊔ N).subgroupOf U = ⊤ := by rw [← hU, Subgroup.subgroupOf_self]
     rw [Subgroup.subgroupOf_sup hV₀U hNU] at h1
@@ -57,6 +59,7 @@ private theorem relIndex_eq_card_of_sup_inf {U V₀ N : Subgroup G} [IsMulCommut
     _ = Nat.card (V₀.subgroupOf U) := Subgroup.relIndex_bot_left (V₀.subgroupOf U)
     _ = Nat.card V₀ := Nat.card_congr (Subgroup.subgroupOfEquivOfLe hV₀U).toEquiv
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup_of_isMulCommutative {H K L : Subgroup G}
     [IsMulCommutative L] (hH : H ≤ L) (hK : K ≤ L) {x : G} (hx : x ∈ H ⊔ K) :
     ∃ y ∈ H, ∃ z ∈ K, y * z = x := by
@@ -107,17 +110,18 @@ theorem relIndex_Z0_eq_two (h : Hyp65 n M V₀ V g) (hV₀K : ¬ V₀ ≤ KOf M 
     Subgroup.index_ne_zero_of_finite (H := (UOf M V g).subgroupOf V₀)
   omega
 
+omit [Finite G] in
 theorem exists_mem_centralizer_conj_ne (h15 : Hyp15 M V₀ V) (h : Hyp65 n M V₀ V g)
     (hV₀K : ¬ V₀ ≤ KOf M V g) (hn : (UOf M V g).relIndex V = 2) :
     ∃ x ∈ M ⊓ centralizer (V₀ : Set G), conjSubgroup (UOf M V g) x ≠ UOf M V g := by
   by_contra hcon
   push Not at hcon
   have hindex : ((UOf M V g).subgroupOf V).index = 2 := hn
-  haveI hVcomm : IsMulCommutative V := h.elemAbelian.1
+  have hVcomm : IsMulCommutative V := h.elemAbelian.1
   have hV₀_not_le_U : ¬ V₀ ≤ UOf M V g := by
     intro hle
     exact hV₀K (hle.trans (show UOf M V g ≤ KOf M V g from le_sup_left))
-  rw [SetLike.not_le_iff_exists] at hV₀_not_le_U
+  rw [IsConcreteLE.not_le_iff_exists] at hV₀_not_le_U
   obtain ⟨v₀, hv₀V₀, hv₀U⟩ := hV₀_not_le_U
   have hv₀V : v₀ ∈ V := h.le hv₀V₀
   have hV_le_sup : V ≤ UOf M V g ⊔ V₀ := by
@@ -234,11 +238,11 @@ section Certified
 
 theorem card_Y_eq_card_Z0 (h : Hyp65 n M V₀ V g) (hV₀K : ¬ V₀ ≤ KOf M V g) :
     Nat.card (YOf M V₀ g) = Nat.card (Z0Of M V₀ g) := by
-  haveI hVcomm : IsMulCommutative V := h.elemAbelian.1
-  haveI hVgcomm : IsMulCommutative (conjSubgroup V g) := h.swap.elemAbelian.1
-  haveI hUcomm : IsMulCommutative (UOf M V g) :=
+  have hVcomm : IsMulCommutative V := h.elemAbelian.1
+  have hVgcomm : IsMulCommutative (conjSubgroup V g) := h.swap.elemAbelian.1
+  have hUcomm : IsMulCommutative (UOf M V g) :=
     isMulCommutative_of_le (show UOf M V g ≤ V from inf_le_left)
-  haveI hBcomm : IsMulCommutative (BOf M V g) :=
+  have hBcomm : IsMulCommutative (BOf M V g) :=
     isMulCommutative_of_le (show BOf M V g ≤ conjSubgroup V g from inf_le_left)
   have hU_eq : UOf M V g = Z0Of M V₀ g ⊔ NOf M V g := h.U_eq_Z0_sup_N hV₀K
   have hZinf : Z0Of M V₀ g ⊓ NOf M V g = ⊥ := by
@@ -292,7 +296,7 @@ theorem exists_transvection_Y (h : Hyp65 n M V₀ V g) (hV₀K : ¬ V₀ ≤ KOf
   have hV₀_not_le_U : ¬ V₀ ≤ UOf M V g := by
     intro hle
     exact hV₀K (hle.trans (show UOf M V g ≤ KOf M V g from le_sup_left))
-  rw [SetLike.not_le_iff_exists] at hV₀_not_le_U
+  rw [IsConcreteLE.not_le_iff_exists] at hV₀_not_le_U
   obtain ⟨v₁, hv₁V₀, hv₁U⟩ := hV₀_not_le_U
   have hv₁V : v₁ ∈ V := h.le hv₁V₀
   have hcomm_mem : ∀ c ∈ YOf M V₀ g, c * v₁ * c⁻¹ * v₁⁻¹ ∈ Z0Of M V₀ g := by

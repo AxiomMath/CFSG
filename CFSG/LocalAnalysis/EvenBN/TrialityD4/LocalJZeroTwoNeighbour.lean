@@ -178,7 +178,7 @@ theorem not_normal_leviJ₀_bar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f
     CFSG.LocalAnalysis.ComponentInitial.OddNormalCore.odd_card_oddCore H
   have hTO : ∀ y ∈ (T : Subgroup H), y ∈ CFSG.oddCore H → y = 1 := by
     intro y hyT hyO
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨y, hyT⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨y, hyT⟩
     have hyk : y ^ 2 ^ k = 1 := by
       have := congrArg Subtype.val hk
       simpa using this
@@ -202,7 +202,7 @@ theorem not_normal_leviJ₀_bar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f
     apply Subtype.ext
     exact mem_centralizer_iff.1 (h.t_mem_centralizer_leviJ₀ d) _ (mem_subgroupOf.1 hk)
   set U := (T : Subgroup H).map π ⊓ centralizer (Kb : Set (H ⧸ CFSG.oddCore H)) with hU
-  have hUp : IsPGroup 2 U := (T.isPGroup'.map π).to_le inf_le_left
+  have hUp : IsPGroup 2 U := (T.isPGroup.map π).to_le inf_le_left
   have hU2 := hsyl U hUp inf_le_right
   have htbU : tb ∈ U := ⟨⟨_, htT, rfl⟩, htbK⟩
   apply h.not_le_centralizer_of_isSylowOf_centralizer_J₀ d (T := (T : Subgroup H).map H.subtype)
@@ -234,7 +234,6 @@ theorem not_normal_leviJ₀_bar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f
         simp only [e, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Matrix.cons_val_zero,
           Matrix.cons_val_one, Matrix.cons_val_two, Fin.isValue] at hab ⊢
       all_goals first
-        | rfl
         | exact absurd (congrArg Subtype.val hab) (by
             simp only [OneMemClass.coe_one]
             first

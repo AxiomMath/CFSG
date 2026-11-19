@@ -108,7 +108,7 @@ theorem eq_of_comm_nU (X : Mat4) (h : X * kr nU 1 = kr nU 1 * X) :
         Matrix.one_apply] at this ⊢ <;> exact this
   ext ⟨a, i⟩ ⟨b, j⟩
   fin_cases a <;> fin_cases b <;>
-    simp [kr_apply, Matrix.add_apply, nU, Matrix.one_apply, e1, e2]
+    simp [kr_apply, Matrix.add_apply, nU, e1, e2]
 
 def nilp8 : List Mat2 :=
   [!![0, 0; 1, 0], !![0, 0; 2, 0], !![0, 1; 0, 0], !![0, 2; 0, 0], !![1, 1; 2, 2],
@@ -226,7 +226,7 @@ theorem comm_dec : ∀ A ∈ nilp8, ∀ B : Mat2, B * A = A * B → ∃ x y : F3
 theorem mul_kr1A_apply (X : Mat4) (A : Mat2) (a i b j : Fin 2) :
     (X * kr 1 A) (a, i) (b, j) = ∑ k, X (a, i) (b, k) * A k j := by
   simp only [Matrix.mul_apply, Fintype.sum_prod_type, kr_apply, Matrix.one_apply]
-  simp [ite_mul, Finset.sum_ite_eq]
+  simp [ite_mul]
 
 theorem kr1A_mul_apply (X : Mat4) (A : Mat2) (a i b j : Fin 2) :
     (kr 1 A * X) (a, i) (b, j) = ∑ k, A i k * X (a, k) (b, j) := by
@@ -283,7 +283,7 @@ theorem rhoA_neg_one (A : Mat2) : rhoA A (-1, 0) = -1 := by
   simp [rhoA, kr_zero_left]
   ext ⟨a, i⟩ ⟨b, j⟩
   simp [kr_apply, Matrix.one_apply, Matrix.neg_apply]
-  by_cases h : a = b <;> by_cases h' : i = j <;> simp [h, h'] <;> decide
+  by_cases h : a = b <;> by_cases h' : i = j <;> simp [h, h']
 
 theorem Q6_getD : Q6.getD 0 0 = I2m0 ∧ Q6.getD 1 0 = I2m0 * I2m0 * I2m0 ∧ Q6.getD 2 0 = J2m0 ∧
     Q6.getD 3 0 = I2m0 * I2m0 * J2m0 ∧ Q6.getD 4 0 = I2m0 * J2m0 ∧

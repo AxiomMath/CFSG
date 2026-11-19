@@ -24,7 +24,7 @@ theorem exists_inner_jZero_of_inner_wPre {M H L : Subgroup G} (hX : H ⊓ L ≤ 
     (h : ∃ v ∈ wPre (barM M (H ⊓ L)), ∀ w ∈ wPre (barM M (H ⊓ L)),
       ⁅QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩ * v, w⁆ ∈ pCoreOf 2 (barM M (H ⊓ L))) :
     ∃ j ∈ jZero H L, ∀ x ∈ jZero H L, ⁅j⁻¹ * b, x⁆ ∈ pCoreOf 2 (jZero H L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := H ⊓ L with hXdef
   set P := barM M X with hP
   set mk := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hmk
@@ -138,7 +138,7 @@ theorem exists_inner_jZero_of_inner_wPre {M H L : Subgroup G} (hX : H ⊓ L ≤ 
 
 theorem not_dvd_card_of_isPGroup_two {K : Type*} [Group K] [Finite K] (hK : IsPGroup 2 K)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : ¬ p ∣ Nat.card K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hK
   rw [hn]
   intro h
@@ -147,7 +147,7 @@ theorem not_dvd_card_of_isPGroup_two {K : Type*} [Group K] [Finite K] (hK : IsPG
 theorem dvd_card_wPre_of_dvd_jZero {M H L : Subgroup G} (hX : H ⊓ L ≤ M) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (h : p ∣ Nat.card (jZero H L)) :
     p ∣ Nat.card (wPre (barM M (H ⊓ L))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X := H ⊓ L
   set P := barM M X
   set Wh := wSup (↥P ⧸ CFSG.pCore 2 ↥P)
@@ -185,7 +185,7 @@ theorem dvd_card_wPre_of_dvd_jZero {M H L : Subgroup G} (hX : H ⊓ L ≤ M) {p 
 theorem pRank_wPre_le_pRank_jZero {M H L : Subgroup G} (hX : H ⊓ L ≤ M) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) :
     Open.pRank p (wPre (barM M (H ⊓ L))) ≤ Open.pRank p (jZero H L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := H ⊓ L
   set P := barM M X
   set Wh := wSup (↥P ⧸ CFSG.pCore 2 ↥P)

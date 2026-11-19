@@ -38,7 +38,7 @@ theorem permN_xLast {σ : Equiv.Perm (Fin (m + 1))} (hσ : σ (Fin.last m) = Fin
     exact hσ.symm
   by_cases hi : i = Fin.last m
   · rw [hi, hσ']
-  · rw [if_neg hi, if_neg]
+  · rw [ite_eq_right hi, ite_eq_right]
     intro h
     apply hi
     have h1 := congrArg σ h
@@ -67,20 +67,20 @@ theorem TestHyp.prefix_cover
     funext i
     unfold prefFun
     by_cases hi : i.val < m
-    · rw [if_pos hi, f3_eq]
+    · rw [ite_eq_left hi, f3_eq]
       have h1 := hfa ⟨i.val, hi⟩
       rw [show (⟨i.val, hi⟩ : Fin m).castSucc = i from Fin.ext rfl] at h1
       exact h1
-    · rw [if_neg hi, ← hd, hlast i hi]
+    · rw [ite_eq_right hi, ← hd, hlast i hi]
   have hcv : c = prefVec m a' b' g := by
     funext i
     unfold prefVec
     by_cases hi : i.val < m
-    · rw [dif_pos hi]
+    · rw [dite_eq_left hi]
       have h1 := congrFun hc' ⟨i.val, hi⟩
       rw [show (⟨i.val, hi⟩ : Fin m).castSucc = i from Fin.ext rfl] at h1
       exact h1
-    · rw [dif_neg hi, ← hg, hlast i hi]
+    · rw [dite_eq_right hi, ← hg, hlast i hi]
   subst hav
   subst hcv
   have hc := List.all_eq_true.mp (List.all_eq_true.mp (List.all_eq_true.mp (List.all_eq_true.mp

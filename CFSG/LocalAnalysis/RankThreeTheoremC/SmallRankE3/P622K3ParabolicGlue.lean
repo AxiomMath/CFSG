@@ -75,7 +75,7 @@ theorem parabolic_section_of_psl3 {Kg : Type} [Group Kg] [Finite Kg] {n : ℕ}
     (K₀ : Subgroup Kg) (hQ : normalizer (Q : Set Kg) ≤ K₀) (hne : K₀ ≠ ⊤)
     {z : Kg} (hz : orderOf z = 3) (hzK₀ : z ∈ K₀) :
     ∃ H N : Subgroup Kg, H ≤ K₀ ∧ S622IsSimpleSection H N ∧ z ∈ H ∧ z ∉ N ∧ 3 ∣ N.relIndex H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   have h8 : 8 ≤ Nat.card (GaloisField 2 n) := by
     rw [hcard]

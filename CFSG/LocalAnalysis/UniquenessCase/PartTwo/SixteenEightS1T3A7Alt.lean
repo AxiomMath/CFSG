@@ -18,8 +18,7 @@ open Subgroup
 private theorem s16t3_sign_viaEmbedding {α β : Type*} [Fintype α] [DecidableEq α]
     [Fintype β] [DecidableEq β] (e : Equiv.Perm α) (ι : α ↪ β) :
     Equiv.Perm.sign (e.viaEmbedding ι) = Equiv.Perm.sign e := by
-  simpa [Equiv.Perm.viaEmbedding] using
-    Equiv.Perm.sign_extendDomain e (Equiv.ofInjective ι.1 ι.2)
+  simp [Equiv.Perm.viaEmbedding]
 
 private noncomputable def s16t3_altHom {n : ℕ} (h5 : 5 ≤ n) :
     alternatingGroup (Fin 5) →* alternatingGroup (Fin n) where

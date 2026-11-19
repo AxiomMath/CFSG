@@ -62,13 +62,13 @@ theorem testBit_xorFold_bits (s n j : ℕ) :
     by_cases hj : j < n
     · have h1 : j < n + 1 := by omega
       have h2 : n ≠ j := by omega
-      cases hs : s.testBit n <;> simp [hj, h1, h2, Nat.testBit_two_pow]
+      cases hs : s.testBit n <;> simp [hj, h1, h2]
     · by_cases hjn : j = n
       · subst hjn
-        cases hs : s.testBit j <;> simp [hj, hs, Nat.testBit_two_pow]
+        cases hs : s.testBit j <;> simp
       · have h1 : ¬ j < n + 1 := by omega
         have h2 : n ≠ j := by omega
-        cases hs : s.testBit n <;> simp [hj, h1, h2, Nat.testBit_two_pow]
+        cases hs : s.testBit n <;> simp [hj, h1, h2]
 
 theorem xorFold_bits {s n : ℕ} (hs : s < 2 ^ n) :
     xorFold n (fun k => bif s.testBit k then 2 ^ k else 0) = s := by
@@ -135,8 +135,8 @@ theorem rhoC_xor (x a b : ℕ) : rhoC x (a ^^^ b) = rhoC x a ^^^ rhoC x b := by
 theorem termC_xor (t : ℕ × ℕ × Bool) (a b : ℕ) : termC t (a ^^^ b) = termC t a ^^^ termC t b := by
   unfold termC
   cases t.2.2
-  · simp only [cond_false, xor_and_distrib, xor_shiftRight]
-  · simp only [cond_true, xor_and_distrib, xor_shiftLeft]
+  · simp only [Bool.cond_false, xor_and_distrib, xor_shiftRight]
+  · simp only [_root_.Bool.cond_true, xor_and_distrib, xor_shiftLeft]
 
 theorem rhoT_xor (ts : List (ℕ × ℕ × Bool)) (a b : ℕ) :
     rhoT ts (a ^^^ b) = rhoT ts a ^^^ rhoT ts b := by

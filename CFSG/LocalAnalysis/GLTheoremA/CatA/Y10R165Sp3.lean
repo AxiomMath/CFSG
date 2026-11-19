@@ -35,6 +35,7 @@ abbrev linIsometryGroup (B : LinearMap.BilinForm F V) : Subgroup (V ≃ₗ[F] V)
   (bilinIsometryGroup B).map
     (LinearMap.GeneralLinearGroup.generalLinearEquiv F V).toMonoidHom
 
+omit [FiniteDimensional F V] in
 theorem mem_linIsometryGroup {g : V ≃ₗ[F] V} :
     g ∈ linIsometryGroup B ↔ ∀ x y, B (g x) (g y) = B x y := by
   rw [linIsometryGroup, Subgroup.mem_map_equiv, mem_bilinIsometryGroup]
@@ -51,8 +52,8 @@ theorem orthogonal_nondegenerate (hB : B.IsAlt) (hBn : B.Nondegenerate) {U : Sub
     LinearMap.BilinForm.orthogonal_orthogonal hBn hB.isRefl]
   exact (isCompl_orthogonal_of_nondegenerate hB hU).symm
 
-noncomputable def restrictPointwise (hB : B.IsAlt) {U : Submodule F V}
-    (hU : (B.restrict U).Nondegenerate) (g : pointwiseStab (linIsometryGroup B) U) :
+noncomputable def restrictPointwise (_hB : B.IsAlt) {U : Submodule F V}
+    (_hU : (B.restrict U).Nondegenerate) (g : pointwiseStab (linIsometryGroup B) U) :
     bilinIsometryGroup (B.restrict (B.orthogonal U)) := by
   have hfix : ∀ u ∈ U, ((g : ↥(linIsometryGroup B)) : V ≃ₗ[F] V) u = u :=
     fun u hu => mem_pointwiseStab.mp g.2 u hu
@@ -97,6 +98,7 @@ noncomputable def restrictPointwise (hB : B.IsAlt) {U : Submodule F V}
     simp only [LinearMap.GeneralLinearGroup.coe_ofLinearEquiv, coe_restrictEquiv]
     exact hgiso x y
 
+omit [FiniteDimensional F V] in
 private theorem coe_restrictPointwise (hB : B.IsAlt) {U : Submodule F V}
     (hU : (B.restrict U).Nondegenerate) (g : pointwiseStab (linIsometryGroup B) U)
     (x : B.orthogonal U) :
@@ -120,8 +122,6 @@ noncomputable def gluePointwise (hB : B.IsAlt) {U : Submodule F V}
     obtain ⟨yu, yr, hy⟩ := exists_coe_add_of_isCompl
       (isCompl_orthogonal_of_nondegenerate hB hU) y
     rw [← hx, ← hy]
-    change B (T ((xu : V) + (xr : V))) (T ((yu : V) + (yr : V))) = B ((xu : V) + (xr : V))
-      ((yu : V) + (yr : V))
     have hxT : T ((xu : V) + (xr : V)) = (xu : V) +
         ((φL : B.orthogonal U →ₗ[F] B.orthogonal U) xr : V) := by
       dsimp only [T]
@@ -196,7 +196,7 @@ noncomputable def pointwiseStabEquiv (hB : B.IsAlt) {U : Submodule F V}
     rw [coe_restrictPointwise]
     rw [show ((x : B.orthogonal U) : V) = ((0 : U) : V) + (x : V) by simp,
       gluePointwise_apply]
-    simpa using zero_add ((φ : LinearMap.GeneralLinearGroup F (B.orthogonal U)) x : V)
+    simp
   map_mul' g h := by
     apply Subtype.ext
     apply Units.ext

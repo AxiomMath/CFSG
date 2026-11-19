@@ -21,8 +21,8 @@ theorem cSide_card_fix_outer [Finite C] (hC : AschbacherHyp C Q) {τ : C} (hτ :
     (hτ2 : τ ^ 2 ∈ Q) :
     Nat.card {v : Additive (Abelianization Q) // conjLinEquiv hQn τ v = v} = 2 ^ 4 := by
   classical
-  haveI : Finite Q := hC.plus.finite
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite Q := hC.plus.finite
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   have hb : conjLinEquiv hQn τ * conjLinEquiv hQn τ = 1 := by

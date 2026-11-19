@@ -28,8 +28,8 @@ theorem exists_central_involution_sylow {F : Type*} [Field F] [Finite F]
       (Nat.coprime_two_left.mpr (scalar_kernel_odd F D hDc))).mp h2SL
   have : Nontrivial ↥(T : Subgroup (SL3 F ⧸ D)) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr (T.ne_bot_of_dvd_card h2A)
-  have hZ : Nontrivial ↥(center ↥(T : Subgroup (SL3 F ⧸ D))) := T.isPGroup'.center_nontrivial
-  obtain ⟨n, hn, hcardZ⟩ := ((T.isPGroup'.to_subgroup _).nontrivial_iff_card).mp hZ
+  have hZ : Nontrivial ↥(center ↥(T : Subgroup (SL3 F ⧸ D))) := T.isPGroup.center_nontrivial
+  obtain ⟨n, hn, hcardZ⟩ := ((T.isPGroup.to_subgroup _).nontrivial_iff_card).mp hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2
     (hcardZ ▸ dvd_pow_self 2 (Nat.pos_iff_ne_zero.mp hn))
   refine ⟨((z : ↥(T : Subgroup (SL3 F ⧸ D))) : SL3 F ⧸ D),
@@ -264,7 +264,7 @@ theorem prime_linear_three_nonquasisimple_local_actual_affine_production
   have hMU : M.comap π ≤ normalizer (Ut : Set (SL3 F)) :=
     ((comap_mono hMN).trans (le_normalizer_comap π)).trans
       (LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic _)
-  have hUp : IsPGroup p ↥(Ut.map θ₃) := (U₀.isPGroup'.map _).map θ₃
+  have hUp : IsPGroup p ↥(Ut.map θ₃) := (U₀.isPGroup.map _).map θ₃
   have hUne : Ut.map θ₃ ≠ ⊥ := by
     have hNpne : Np ≠ ⊥ := fun h =>
       hOpM ((Subgroup.map_eq_bot_iff_of_injective _ M.subtype_injective).mp h)

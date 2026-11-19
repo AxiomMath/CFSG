@@ -238,7 +238,7 @@ theorem coordFlip_mem_spSignedGroup {k p : ℕ} (T : Finset (Fin k)) :
         by_cases ht : t = a
         · subst ht
           simp [ha]
-        · rw [Function.update_apply, if_neg ht, coordFlip_apply]
+        · rw [Function.update_apply, ite_eq_right ht, coordFlip_apply]
           simp [Finset.mem_insert, ht]
       rw [hstep]
       exact Subgroup.mul_mem _ (SpJoin.coordInv_mem_spSignedGroup a) ih
@@ -259,9 +259,9 @@ theorem signedPerm_mem_spSignedGroup {p k : ℕ} (π : Equiv.Perm (Fin k)) (ε :
     funext i
     rw [Equiv.Perm.mul_apply, SpJoin.coordPerm_apply, coordFlip_apply]
     by_cases h : ε (π.symm i) = -1
-    · rw [if_pos ((hmem (π.symm i)).mpr h), h, zpow_neg_one]
+    · rw [ite_eq_left ((hmem (π.symm i)).mpr h), h, zpow_neg_one]
     · have h1 : ε (π.symm i) = 1 := (hε _).resolve_right h
-      rw [if_neg (fun hh => h ((hmem (π.symm i)).mp hh)), h1, zpow_one]
+      rw [ite_eq_right (fun hh => h ((hmem (π.symm i)).mp hh)), h1, zpow_one]
 
 
 theorem mem_spSignedGroup_of_isSignedPerm {p k : ℕ}

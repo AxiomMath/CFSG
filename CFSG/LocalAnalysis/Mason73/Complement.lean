@@ -127,7 +127,7 @@ theorem E1_mul_self (hn : 2 ≤ n) : ∀ x ∈ E1 (n := n) hn, x * x = 1 := by
 theorem tT_mem_E1 (hn : 2 ≤ n) : tT (by omega) ∈ E1 (n := n) hn := subset_closure (by simp)
 
 theorem E1_le_centralizer_tT (hn : 2 ≤ n) :
-    E1 (n := n) hn ≤ centralizer {tT (by omega)} := fun x hx =>
+    E1 (n := n) hn ≤ centralizer {tT (by omega)} := fun _x hx =>
   Subgroup.mem_centralizer_singleton_iff.2
     (mul_comm_of_mul_self (E1_mul_self hn) hx (tT_mem_E1 hn))
 
@@ -175,11 +175,11 @@ theorem card_E1 (hn : 3 ≤ n) : Nat.card (E1 (n := n) (by omega)) = 16 := by
     _ ≤ _ := Nat.mul_le_mul h1 h2
 
 theorem x1T_eq_omegaEl (hn : 3 ≤ n) : x1T (n := n) (by omega) = omegaEl hn (1, 0, 1) := by
-  rw [omegaEl, dif_pos (by decide), x1T_eq, el_hv_eq_el_hv_iff' (by omega)]
+  rw [omegaEl, dite_eq_left (by decide), x1T_eq, el_hv_eq_el_hv_iff' (by omega)]
   decide
 
 theorem w1T_eq_omegaEl (hn : 3 ≤ n) : w1T (n := n) hn = omegaEl hn (1, 1, 1) := by
-  rw [omegaEl, dif_neg (by decide), w1T, el_eq_el_iff (by omega)]
+  rw [omegaEl, dite_eq_right (by decide), w1T, el_eq_el_iff (by omega)]
   refine ⟨rfl, ?_⟩
   have : wv n (pat (1, 1, 1)) - wv n ![1, 0, 0, 0] = hv n (pat (1, 1, 1)) - hv n ![1, 0, 0, 0] := by
     funext i
@@ -251,15 +251,15 @@ theorem card_le_eight_of_le_centralizer_w1T (hn : 3 ≤ n) (E : Subgroup (L4Mode
   exact mem_V23_iff.1 this
 
 theorem omegaEl_zero (hn : 3 ≤ n) : omegaEl (n := n) hn (0, 0, 0) = 1 := by
-  rw [omegaEl, dif_pos (by decide), one_eq_el_hv (by omega), el_hv_eq_el_hv_iff' (by omega)]
+  rw [omegaEl, dite_eq_left (by decide), one_eq_el_hv (by omega), el_hv_eq_el_hv_iff' (by omega)]
   decide
 
 theorem zT_eq_omegaEl (hn : 3 ≤ n) : zT (n := n) (by omega) = omegaEl hn (0, 1, 1) := by
-  rw [omegaEl, dif_pos (by decide), zT_eq, el_hv_eq_el_hv_iff' (by omega)]
+  rw [omegaEl, dite_eq_left (by decide), zT_eq, el_hv_eq_el_hv_iff' (by omega)]
   decide
 
 theorem y1T_eq_omegaEl (hn : 3 ≤ n) : y1T (n := n) (by omega) = omegaEl hn (1, 1, 0) := by
-  rw [omegaEl, dif_pos (by decide), y1T_eq, el_hv_eq_el_hv_iff' (by omega)]
+  rw [omegaEl, dite_eq_left (by decide), y1T_eq, el_hv_eq_el_hv_iff' (by omega)]
   decide
 
 theorem card_centralizer_le_of_not_mem_A (hn : 2 ≤ n) {g : L4Model n} (hg : g ∉ A n) :

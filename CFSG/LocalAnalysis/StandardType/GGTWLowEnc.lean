@@ -12,7 +12,7 @@ open Certificates.TwoDepSmall Certificates.DepASmall Certificates.TwoDepSmallLow
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-private lemma l05nLN_cast_neg_mod {p k : ℕ} (hp : 3 ≤ p) (hk : k < p) :
+private lemma l05nLN_cast_neg_mod {p k : ℕ} (_hp : 3 ≤ p) (hk : k < p) :
     (((p - k % p) % p : ℕ) : ZMod p) = -((k : ℕ) : ZMod p) := by
   rw [Nat.mod_eq_of_lt hk]
   exact l05nND_cast_neg p k (le_of_lt hk)
@@ -29,7 +29,7 @@ private lemma l05nLN_dot_cast {p N : ℕ} [Fact p.Prime] {a b : List ℕ}
   have h := ggDepANDot_cast (p := p) (N := N - 1) a b ha hb
   simpa only [ggTWNToZ, ggTWdot] using h
 
-theorem ggTWLEnc1 {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N) (pos : GGTWPos)
+theorem ggTWLEnc1 {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (_hN : 5 ≤ N) (pos : GGTWPos)
     (c0 : Fin (N - 1)) (mi ni : ℕ) (hmi : mi = 1 ∨ mi = 2) (hni : ni = 1 ∨ ni = 2)
     (ha αa : GGTWE p N)
     (hpair : GGTWPairs1 p N pos c0 (-(mi : ℤ)) (-(ni : ℤ)) ha αa)
@@ -48,13 +48,13 @@ theorem ggTWLEnc1 {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N) (pos 
     have h2 := (hpair c hcJ).2
     by_cases hcc : c = c0
     · subst hcc
-      rw [if_pos rfl] at h2
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl] at h2
+      rw [ite_eq_left rfl]
       rw [h2, l05nLN_cast_neg_mod hp hni_lt]
       simp only [Int.cast_neg, Int.cast_natCast]
-    · rw [if_neg hcc] at h2
+    · rw [ite_eq_right hcc] at h2
       have hne : c.val ≠ c0.val := fun hh => hcc (Fin.ext hh)
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       rw [h2]
       simp
   have hvA : ∀ c : Fin (N - 1), ggTWInJ N pos c.val →
@@ -64,13 +64,13 @@ theorem ggTWLEnc1 {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N) (pos 
     have h2 := (hpair c hcJ).1
     by_cases hcc : c = c0
     · subst hcc
-      rw [if_pos rfl] at h2
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl] at h2
+      rw [ite_eq_left rfl]
       rw [h2, l05nLN_cast_neg_mod hp hmi_lt]
       simp only [Int.cast_neg, Int.cast_natCast]
-    · rw [if_neg hcc] at h2
+    · rw [ite_eq_right hcc] at h2
       have hne : c.val ≠ c0.val := fun hh => hcc (Fin.ext hh)
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       rw [h2]
       simp
   obtain ⟨lh, hlh_mem, hlh_eq, hlh_len⟩ :=
@@ -135,7 +135,7 @@ private lemma l05nLN_h1s_cast {p : ℕ} [Fact p.Prime] (hp : 3 ≤ p) {N : ℕ}
   · subst h
     simp [l05nLN_cast_neg_one hp]
   · have hne : c.val ≠ c0.val := fun hh => h (Fin.ext hh)
-    rw [if_neg h]
+    rw [ite_eq_right h]
     simp [hne]
 
 private lemma l05nLN_tgt2_eq {p : ℕ} [Fact p.Prime] (hp : 3 ≤ p) {N : ℕ}
@@ -152,7 +152,7 @@ private lemma l05nLN_tgt2_eq {p : ℕ} [Fact p.Prime] (hp : 3 ≤ p) {N : ℕ}
         have hcond : ¬ (some c' = (some c0 : Option (Fin (N - 1)))) :=
           fun hh => h (Option.some.inj hh)
         simp only [Option.map_some, ggTWNTgt2]
-        rw [if_neg hne, if_neg hcond]
+        rw [ite_eq_right hne, ite_eq_right hcond]
         simp
 
 private lemma l05nLN_nb_eq {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p)
@@ -193,7 +193,7 @@ private lemma l05nLN_det_of_kernel {p : ℕ} [Fact p.Prime]
     · exact (mul_eq_zero.mp hD2).resolve_left hm
   exact sub_eq_zero.mp hD
 
-theorem ggTWLEnc2 {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N) (pos : GGTWPos)
+theorem ggTWLEnc2 {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (_hN : 5 ≤ N) (pos : GGTWPos)
     (c : Fin (N - 1)) (c₂ : Option (Fin (N - 1))) (ha1 αa1 ha2 αa2 : GGTWE p N)
     (hP : GGTWPairs2 p N pos c c₂ ha1 αa1 ha2 αa2)
     (hx : ggTWdot αa1 (ggTWx p N) ≠ 0 ∨ ggTWdot αa2 (ggTWx p N) ≠ 0) (lam mu : ZMod p)

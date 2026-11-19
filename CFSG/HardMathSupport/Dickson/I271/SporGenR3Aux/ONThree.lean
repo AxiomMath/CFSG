@@ -23,7 +23,7 @@ theorem center_eq_bot_of_not_hatON (hSpM : SporadicMultipliers) {X : Type} [Grou
   have hZ : IsPGroup 3 (Subgroup.center ↥K) :=
     i271h_center_isPGroup Nat.prime_three hH.primeCore
   have hd := card_center_dvd_multiplier hSpM hH.quasi .ONan e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hZ
   have hd3 : 3 ^ n ∣ 3 := by
     rw [← hn]
@@ -47,13 +47,13 @@ section ON
 
 theorem onThree_centShapeRk :
     CentShapeRk 3 (IsA6At 3) (RkAut 3) (NativeSporadic.Carrier .ONan) := by
-  haveI : Finite (NativeSporadic.Carrier .ONan) :=
+  have : Finite (NativeSporadic.Carrier .ONan) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card NativeSporadic.ON ≠ 0
       rw [CFSG.Sporadic.ON.card_ON]; norm_num)
   obtain ⟨φ, hφ, hker, hconj, hcard⟩ := on_cover_data
   obtain ⟨E, hEn, ⟨eE⟩, hq9⟩ := alt6_normal_of_cover φ hφ hker hcard
-  haveI := hEn
+  have := hEn
   have hx := shapeRkAt_alt6_of_normal E eE hq9
   intro k hk1 hkp
   have hk3 : orderOf k = 3 := orderOf_eq_prime hkp hk1

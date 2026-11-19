@@ -38,10 +38,10 @@ theorem decL_cS1 (Q : ℕ) : decL (cS1 Q) = compL (decL Q) (sigL 1) := by
 
 theorem decL_cS (j Q : ℕ) : decL (cS j Q) = compL (decL Q) (sigL j) := by
   cases h : Nat.beq j 0
-  · have e1 : cS j Q = cS1 Q := by rw [cS, h, cond_false]
+  · have e1 : cS j Q = cS1 Q := by rw [cS, h, Bool.cond_false]
     have e2 : sigL j = sigL 1 := by rw [sigL, sigL, h]; rfl
     rw [e1, e2, decL_cS1]
-  · have e1 : cS j Q = cS0 Q := by rw [cS, h, cond_true]
+  · have e1 : cS j Q = cS0 Q := by rw [cS, h, _root_.Bool.cond_true]
     have e2 : sigL j = sigL 0 := by rw [sigL, sigL, h]; rfl
     rw [e1, e2, decL_cS0]
 
@@ -85,12 +85,12 @@ theorem a6At_of_N {RE RP RV : ℕ → ℕ} {t : ℕ} (h : a6AtN RE RP RV t = tru
   · cases t with
     | zero =>
       have hz : Nat.beq 0 0 = true := rfl
-      rw [hz, cond_true] at ht ⊢
+      rw [hz, _root_.Bool.cond_true] at ht ⊢
       rw [Nat.eq_of_beq_eq_true ht]
       rfl
     | succ t =>
       have hz : Nat.beq (t + 1) 0 = false := rfl
-      rw [hz, cond_false] at ht ⊢
+      rw [hz, Bool.cond_false] at ht ⊢
       rw [Nat.eq_of_beq_eq_true ht, decL_cS]
       exact decide_eq_true rfl
   · rw [Nat.eq_of_beq_eq_true h0, decL_cS0]
@@ -103,7 +103,7 @@ theorem a6At_of_N {RE RP RV : ℕ → ℕ} {t : ℕ} (h : a6AtN RE RP RV t = tru
       constructor
       · intro e
         have e' : Nat.beq (RP t) 181896 = true := Nat.beq_eq.mpr e
-        rw [e', cond_true] at hk
+        rw [e', _root_.Bool.cond_true] at hk
         exact hk
       · exact hback
     rw [key]
@@ -128,10 +128,10 @@ theorem a6Check_ofN {RE RP RV PV PAV PBV : ℕ → ℕ}
   intro t hlo hhi
   have e := hcq t hlo hhi
   by_cases ht : t < 11520
-  · rw [Nat.blt_eq.mpr ht, cond_true] at e ⊢
+  · rw [Nat.blt_eq.mpr ht, _root_.Bool.cond_true] at e ⊢
     exact a6At_of_N e (code_of_memK hE hv ht)
   · have hf : Nat.blt t 11520 = false := Bool.eq_false_iff.2 fun h => ht (Nat.blt_eq.mp h)
-    rw [hf, cond_false]
+    rw [hf, Bool.cond_false]
 
 end CFSG.KC.YamakiA6
 

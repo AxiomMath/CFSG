@@ -29,7 +29,7 @@ theorem Lemma212Config.of_extremal (hS : Setting G) {p : ℕ} (hp : p ∈ rankTh
   obtain ⟨hDe, hDc⟩ := hext.isElemAbelian_of_isMulCommutative hprime hDab
   obtain ⟨A, hAP, hA, hAc⟩ := pRank_attained p (P : Subgroup G) (by rw [hP3]; norm_num)
   rw [hP3] at hAc
-  obtain ⟨-, z₀, -, hz₀1, -, hz₀p, hz₀u⟩ := isolatedPlane_structure hprime P.isPGroup'
+  obtain ⟨-, z₀, -, hz₀1, -, hz₀p, hz₀u⟩ := isolatedPlane_structure hprime P.isPGroup
     (hext.isIsolatedPlane_of_isMulCommutative hprime hDab) hAP
     ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   have hzz₀ : z ∈ zpowers z₀ := hz₀u z (hDP hzD) hzc hzp

@@ -205,8 +205,8 @@ theorem cl_map_blockOmega_le (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s =
 theorem cl_isComponentIn_range_of_fix (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
     {K : Subgroup (omegaProj hQ)} (hK : IsComponentIn K (fixSub (projAut hQ s))) :
     IsComponentIn K (clFixHom hQ hs).range ∨ IsComponentIn K (clCommHom hQ hs).range := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaProj hQ) := inferInstance
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaProj hQ) := inferInstance
   have hKH : K ≤ (cOmega hQ s).map (omegaToProj hQ) :=
     (IsComponentIn.le_commutator hK hK.le).trans (cl_commutator_fixSub_projAut_le hQ s)
   have hcomm_le : ⁅(cOmega hQ s).map (omegaToProj hQ),

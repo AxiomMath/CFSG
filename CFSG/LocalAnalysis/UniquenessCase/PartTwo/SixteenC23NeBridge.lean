@@ -19,7 +19,8 @@ open CFSG.Quasithin CFSG.Quasithin.FFC CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
-private theorem c23ne_commElt_le_V {V Y : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
+omit [Finite G] in
+private theorem c23ne_commElt_le_V {V Y : Subgroup G} (_hV : IsElemAbelian 2 V) {t : G}
     (hts : t ∈ stabTil Y V) : commElt V t ≤ V := by
   refine (Subgroup.closure_le _).2 ?_
   rintro x ⟨w, hw, rfl⟩
@@ -29,10 +30,12 @@ private theorem c23ne_commElt_le_V {V Y : Subgroup G} (hV : IsElemAbelian 2 V) {
   rw [he]
   exact V.mul_mem (V.inv_mem hw) h1
 
+omit [Finite G] in
 private theorem c23ne_gen_mem {V Y : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
     (hts : t ∈ stabTil Y V) {w : G} (hw : w ∈ V) : w⁻¹ * t⁻¹ * w * t ∈ V :=
   c23ne_commElt_le_V hV hts (Subgroup.subset_closure ⟨w, hw, rfl⟩)
 
+omit [Finite G] in
 private theorem c23ne_preTil_mono {V Y : Subgroup G} (hV : IsElemAbelian 2 V)
     {S T : Subgroup (Vtil Y V hV)} (h : S ≤ T) :
     preTil Y V hV S ≤ preTil Y V hV T := by
@@ -40,11 +43,13 @@ private theorem c23ne_preTil_mono {V Y : Subgroup G} (hV : IsElemAbelian 2 V)
   obtain ⟨x, rfl, hx⟩ := (mem_preTil Y V hV S).1 hg
   exact (mem_preTil Y V hV T).2 ⟨x, rfl, h hx⟩
 
+omit [Finite G] in
 private theorem c23ne_imgTil_mono {V Y : Subgroup G} (hV : IsElemAbelian 2 V)
     {U W : Subgroup G} (h : U ≤ W) : imgTil Y V hV U ≤ imgTil Y V hV W := by
   unfold imgTil intSub
   exact Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 private theorem c23ne_le_preTil {V Y : Subgroup G} (hV : IsElemAbelian 2 V) (hYV : Y ≤ V)
     (E : Subgroup (Vtil Y V hV)) : Y ≤ preTil Y V hV E := by
   intro y hy
@@ -93,6 +98,7 @@ private theorem c23ne_commSub_zpowers_le {W : Type*} [CommGroup W] (τ : MulAut 
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
   exact c23ne_zpow_mul_inv_mem τ C' hB1 hB2 k u
 
+omit [Finite G] in
 private theorem c23ne_imgTil_commElt {V Y : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
     (hts : t ∈ stabTil Y V) :
     imgTil Y V hV (commElt V t) =
@@ -112,7 +118,7 @@ private theorem c23ne_imgTil_commElt {V Y : Subgroup G} (hV : IsElemAbelian 2 V)
     refine Subtype.ext ?_
     change ((actStab Y V hV ⟨t, hts⟩)⁻¹ w).val = t⁻¹ * w.val * t
     rw [hσ, actStab_apply_val]
-    simp only [Subgroup.coe_inv, inv_inv, IntMod.mk, IntMod.val]
+    simp only [Subgroup.coe_inv, inv_inv, IntMod.val]
   apply le_antisymm
   · have hle : commElt V t ≤ preTil Y V hV (commSub ⊤ (Subgroup.zpowers τ)) := by
       refine (Subgroup.closure_le _).2 ?_
@@ -163,6 +169,7 @@ private theorem c23ne_mSub_commElt {V Y : Subgroup G} (hV : IsElemAbelian 2 V) {
   rw [s15_Infra_mSub_eq_rk_imgTil_add Y V (commElt V t) hV hU,
     c23ne_imgTil_commElt hV hts]
 
+omit [Finite G] in
 private theorem c23ne_commElt_le_preTil_of_le {V Y : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
     (hts : t ∈ stabTil Y V) {E : Subgroup (Vtil Y V hV)}
     (hE : commSub ⊤ (Subgroup.zpowers (actTil Y V hV ⟨t, hts⟩)) ≤ E) :
@@ -173,6 +180,7 @@ private theorem c23ne_commElt_le_preTil_of_le {V Y : Subgroup G} (hV : IsElemAbe
   rw [c23ne_imgTil_commElt hV hts] at h1
   exact h1.trans (c23ne_preTil_mono hV hE)
 
+omit [Finite G] in
 private theorem c23ne_fix_of_commute {V Y : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
     (hts : t ∈ stabTil Y V) (htY : t ∈ normalizer (Y : Set G))
     (hbot : commElt V t ⊓ Y = ⊥) {E : Subgroup (Vtil Y V hV)}
@@ -227,6 +235,7 @@ private theorem c23ne_fix_of_commute {V Y : Subgroup G} (hV : IsElemAbelian 2 V)
       _ = t * y := by rw [h3]
   exact h4.symm
 
+omit [Finite G] in
 private theorem c23ne_mQuot_CTilde_eq_rk_barSub {M V Y : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hMY : M ≤ normalizer (Y : Set G)) {E : Subgroup G}
     (hEM : E ≤ M) : E3.mQuot E (F11.CTilde M Y V) = rk ↥(barSub Y V hV E) := by

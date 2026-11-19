@@ -135,7 +135,7 @@ theorem range_shiftEmb : shiftEmb.range = complSp (ZMod 2) (0 : Fin 4) := by
   rw [shiftEmb, range_spEmbed, complSp]
   congr 1
   ext x
-  rcases x with i | i <;> fin_cases i <;> simp [coords] <;> decide
+  rcases x with i | i <;> fin_cases i <;> simp [coords]
 
 theorem initEmb_longBlock (k : Fin 3) (A : SL(2, ZMod 2)) :
     initEmb (longBlock (ZMod 2) 3 k A) = longBlock (ZMod 2) 4 k.castSucc A :=
@@ -180,7 +180,7 @@ theorem spIncl_mul_spIncl {m n p : ℕ} (σ : Fin n → Fin p) (τ : Fin m → F
   rw [Finset.sum_eq_single (Sum.map τ τ c)]
   · simp [Sum.map_map]
   · intro b _ hb
-    rw [if_neg hb, mul_zero]
+    rw [ite_eq_right hb, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -245,13 +245,13 @@ theorem range_embS : embS.range = complSp (ZMod 2) (2 : Fin 3) := by
   rw [embS, range_spEmbed, complSp]
   congr 1
   ext x
-  rcases x with i | i <;> fin_cases i <;> simp [coords] <;> decide
+  rcases x with i | i <;> fin_cases i <;> simp [coords]
 
 theorem range_embS' : embS'.range = complSp (ZMod 2) (0 : Fin 3) := by
   rw [embS', range_spEmbed, complSp]
   congr 1
   ext x
-  rcases x with i | i <;> fin_cases i <;> simp [coords] <;> decide
+  rcases x with i | i <;> fin_cases i <;> simp [coords]
 
 theorem embS_longBlock (k : Fin 2) (A : SL(2, ZMod 2)) :
     embS (longBlock (ZMod 2) 2 k A) = longBlock (ZMod 2) 3 k.castSucc A :=
@@ -399,7 +399,7 @@ noncomputable def shiftHom : ↥P3 →* ↥Pvec :=
 
 theorem coe_initHom (x : K3) : ((initHom x : ↥Pvec) : K4) = initEmb x := rfl
 
-theorem initHom_injective : Function.Injective initHom := fun x y h =>
+theorem initHom_injective : Function.Injective initHom := fun _x _y h =>
   initEmb_injective (congrArg Subtype.val h)
 
 end Am4

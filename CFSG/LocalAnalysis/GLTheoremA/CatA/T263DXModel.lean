@@ -35,7 +35,7 @@ theorem perfect_cover {J D : Type*} [Group J] [Group D] (hJ : commutator J = ⊤
     (hD : CFSG.Open.IsQuasisimple D) (π : J →* D) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center J) :
     CFSG.Open.IsQuasisimple J ∧ Nonempty (J ⧸ Subgroup.center J ≃* D ⧸ Subgroup.center D) := by
-  haveI : Group.IsPerfect J := ⟨hJ⟩
+  have : Group.IsPerfect J := ⟨hJ⟩
   have hcomap := CFSG.ComponentClassification.Quasisimple.center_comap_of_central_kernel π hπ hker
   let ψ : J →* D ⧸ Subgroup.center D := (QuotientGroup.mk' (Subgroup.center D)).comp π
   have hψsurj : Function.Surjective ψ := (QuotientGroup.mk'_surjective _).comp hπ
@@ -46,7 +46,7 @@ theorem perfect_cover {J D : Type*} [Group J] [Group D] (hJ : commutator J = ⊤
   have he : J ⧸ Subgroup.center J ≃* D ⧸ Subgroup.center D :=
     (QuotientGroup.quotientMulEquivOfEq hψker).symm.trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψsurj)
-  haveI : IsSimpleGroup (D ⧸ Subgroup.center D) := hD.2
+  have : IsSimpleGroup (D ⧸ Subgroup.center D) := hD.2
   exact ⟨⟨hJ, he.isSimpleGroup⟩, ⟨he⟩⟩
 
 end CentralCover
@@ -78,7 +78,7 @@ private theorem lift_component (σ : G →* T) (hσ : Function.Surjective σ)
       ∀ d : G, σ d ∈ Subgroup.centralizer (JT : Set T) → d ∈ Subgroup.centralizer (J₀ : Set G) := by
   set H : Subgroup G := JT.comap σ with hH
   have hHmap : H.map σ = JT := Subgroup.map_comap_eq_self_of_surjective hσ JT
-  haveI hJTperf : Group.IsPerfect ↥JT := ⟨hJT.2.2.1⟩
+  have hJTperf : Group.IsPerfect ↥JT := ⟨hJT.2.2.1⟩
   have hJTcomm : ⁅JT, JT⁆ = JT := Subgroup.commutator_eq_self
   have hJ₀map : (⁅H, H⁆ : Subgroup G).map σ = JT := by
     rw [Subgroup.map_commutator, hHmap, hJTcomm]
@@ -128,7 +128,6 @@ private theorem lift_component (σ : G →* T) (hσ : Function.Surjective σ)
       intro s hs
       rw [Subgroup.mem_centralizer_singleton_iff] at hs
       rw [Subgroup.mem_comap, Subgroup.mem_centralizer_singleton_iff]
-      change σ s * σ l = σ l * σ s
       rw [← map_mul, ← map_mul, hs]
     rw [inf_eq_right.2 hle] at h2
     refine IsSubnormal.step (M := H ⊓ Subgroup.centralizer ({l} : Set G)) (le_inf hJ₀H hJ₀C) ?_ h2
@@ -142,7 +141,7 @@ private theorem lift_component (σ : G →* T) (hσ : Function.Surjective σ)
         _ = a * h * a⁻¹ := by group
     rw [this]
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ ha hh) (Subgroup.inv_mem _ ha)
-  haveI hJ₀perfect : Group.IsPerfect ↥(⁅H, H⁆ : Subgroup G) := Subgroup.isPerfect_iff.2 hJ₀perf
+  have hJ₀perfect : Group.IsPerfect ↥(⁅H, H⁆ : Subgroup G) := Subgroup.isPerfect_iff.2 hJ₀perf
   let φ : ↥(⁅H, H⁆ : Subgroup G) →* ↥JT :=
     (σ.comp (⁅H, H⁆ : Subgroup G).subtype).codRestrict JT (fun j => hJ₀H j.2)
   have hφsurj : Function.Surjective φ := by
@@ -203,6 +202,7 @@ variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
 
 section Setup
 
+omit [Finite Ω] in
 theorem exists_conj_of_inducesInner {S : Subgroup Ω} {x : Ω}
     (hSp : GLAPPrimeCore p ↥S = ⊥) (hin : InducesInnerMod p S x) :
     ∃ l ∈ S, ∀ y ∈ S, x⁻¹ * y * x = l⁻¹ * y * l := by
@@ -215,6 +215,7 @@ theorem exists_conj_of_inducesInner {S : Subgroup Ω} {x : Ω}
   rw [h2, Subgroup.mem_bot, inv_mul_eq_one] at h1
   exact h1.symm
 
+omit [Finite Ω] in
 theorem commute_x_iff_commute_l_of_conj {S : Subgroup Ω} {x l : Ω}
     (hconj : ∀ y ∈ S, x⁻¹ * y * x = l⁻¹ * y * l) {s : Ω} (hs : s ∈ S) :
     s * x = x * s ↔ s * l = l * s := by
@@ -231,6 +232,7 @@ theorem commute_x_iff_commute_l_of_conj {S : Subgroup Ω} {x l : Ω}
     calc s * x = x * (x⁻¹ * s * x) := by group
       _ = x * s := by rw [h]
 
+omit [Finite Ω] in
 private theorem pow_comm_of_conj {S : Subgroup Ω} {x l : Ω} (hl : l ∈ S)
     (hconj : ∀ y ∈ S, x⁻¹ * y * x = l⁻¹ * y * l) (hxp : x ^ p = 1) :
     ∀ y ∈ S, y * l ^ p = l ^ p * y := by
@@ -248,6 +250,7 @@ private theorem pow_comm_of_conj {S : Subgroup Ω} {x l : Ω} (hl : l ∈ S)
   rw [hl']
   exact ((Commute.pow_right (hc y hy) p).inv_right).eq
 
+omit [Finite Ω] in
 private theorem mem_centralizer_of_central {S : Subgroup Ω} {x l : Ω}
     (hconj : ∀ y ∈ S, x⁻¹ * y * x = l⁻¹ * y * l) (hl : ∀ y ∈ S, y * l = l * y) :
     x ∈ Subgroup.centralizer (S : Set Ω) := by
@@ -259,6 +262,7 @@ private theorem mem_centralizer_of_central {S : Subgroup Ω} {x l : Ω}
   calc y * x = x * (x⁻¹ * y * x) := by group
     _ = x * y := by rw [h]
 
+omit [Finite Ω] in
 theorem exists_conj_element {S : Subgroup Ω} {x : Ω} (hSp : GLAPPrimeCore p ↥S = ⊥)
     (hin : InducesInnerMod p S x) (hxp : x ^ p = 1)
     (hxC : x ∉ Subgroup.centralizer (S : Set Ω)) :
@@ -276,10 +280,11 @@ theorem exists_conj_element {S : Subgroup Ω} {x : Ω} (hSp : GLAPPrimeCore p �
     have := Subgroup.mem_center_iff.1 hc ⟨y, hy⟩
     exact congrArg Subtype.val this
 
+omit [Finite Ω] in
 private theorem dvd_card_centerQuot {S : Subgroup Ω} (hp : p.Prime) {l₀ : ↥S}
     (hl₀p : l₀ ^ p ∈ Subgroup.center ↥S) (hl₀ : l₀ ∉ Subgroup.center ↥S) :
     p ∣ Nat.card (↥S ⧸ Subgroup.center ↥S) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : (QuotientGroup.mk l₀ : ↥S ⧸ Subgroup.center ↥S) ^ p = 1 := by
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact hl₀p
@@ -292,7 +297,7 @@ private theorem dvd_card_centerQuot {S : Subgroup Ω} (hp : p.Prime) {l₀ : ↥
 theorem eq_bot_of_isPGroup_two_le_center {G : Type} [Group G] [Finite G] (hp : p.Prime)
     (hp2 : p ≠ 2) (hG : GLAPPrimeCore p G = ⊥) {N : Subgroup G} (hN2 : IsPGroup 2 ↥N)
     (hNz : N ≤ Subgroup.center G) : N = ⊥ := by
-  haveI : N.Normal := Subgroup.normal_of_le_center hNz
+  have : N.Normal := Subgroup.normal_of_le_center hNz
   obtain ⟨k, hk⟩ := hN2.exists_card_eq
   have hcop : Nat.Coprime p (Nat.card N) := by
     rw [hk]
@@ -551,7 +556,7 @@ theorem selCompCore_of_component (hp : p.Prime) (hp2 : p ≠ 2) {S B₀ T' : Sub
     rw [hs_eq]
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hjJ) (Subgroup.mem_sup_right hdD)
   · have hTs : IsSimpleGroup T := by
-      haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+      have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
       exact e.symm.isSimpleGroup
     have hTnc : ∃ a b : T, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := (native_of_open_dx hSq).2.2

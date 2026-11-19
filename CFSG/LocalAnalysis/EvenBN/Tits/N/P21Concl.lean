@@ -33,11 +33,13 @@ section Concl
 variable {G : Type} [Group G] [Finite G]
   {d : Data G} {z₀ : G}
 
+omit [Finite G] in
 theorem Ja_eq_map {x : ↥(Ialpha d)} (hX : (Alpha d (Xg d)).subgroupOf (Ialpha d) = zpowers x) :
     Ja d = (normalClosure ({x} : Set ↥(Ialpha d))).map (Ialpha d).subtype := by
   unfold Ja
   rw [hX, zpowers_eq_closure, normalClosure_closure_eq_normalClosure]
 
+omit [Finite G] in
 theorem Ja_subgroupOf {x : ↥(Ialpha d)} (hX : (Alpha d (Xg d)).subgroupOf (Ialpha d) = zpowers x) :
     (Ja d).subgroupOf (Ialpha d) = normalClosure ({x} : Set ↥(Ialpha d)) := by
   rw [Ja_eq_map hX]
@@ -49,11 +51,12 @@ noncomputable def JaEquiv {x : ↥(Ialpha d)}
   (MulEquiv.subgroupCongr (Ja_eq_map hX)).trans
     (Subgroup.equivMapOfInjective _ (Ialpha d).subtype Subtype.val_injective).symm
 
+omit [Finite G] in
 theorem elemOf_alpha_t {t : ↥(Ialpha d)} (htα : (t : MulAut ↥(Ws d)) = alpha d d.t) :
     elemOf (Ialpha d) (alpha d d.t) = t := by
   have h : alpha d d.t ∈ Ialpha d := htα ▸ t.2
   unfold elemOf
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Subtype.ext htα.symm
 
 theorem exists_sylow_Alpha {S : Subgroup G} (hS : fusionIsSylowIn 2 S (Ig d)) :
@@ -134,7 +137,7 @@ theorem p21_concl (h09 : Node09 d z₀) (hW : ElemAb2 ↥(Ws d)) {t x : ↥(Ialp
       calc 16 = 2 ^ 4 := by norm_num
         _ ≤ 2 ^ rk (EVec.mulAutToGL hW j.1) := Nat.pow_le_pow_right (by norm_num) hrk
     · ext y
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       constructor
       · rintro ⟨hy, i, hi, rfl⟩
         have htP : t ∈ P := (hPm t).2 (htα ▸ htS)

@@ -17,7 +17,7 @@ open CFSG.Open
 theorem uniqueElemSylow_gl_of_div_eq_three (K : Type) [Field K] [Finite K]
     (hK : ¬ 3 ∣ Nat.card K) {n : ℕ} (hn : n / orderOf (Nat.card K : ZMod 3) = 3) :
     UniqueElemSylow 3 3 (GL (Fin n) K) := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : Nat.card K = Fintype.card K := Nat.card_eq_fintype_card
   rw [hcard] at hK hn
   have hq2 : 2 ≤ Fintype.card K := Fintype.one_lt_card

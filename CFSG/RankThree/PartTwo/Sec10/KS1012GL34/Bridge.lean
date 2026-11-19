@@ -40,11 +40,11 @@ theorem toMat_injective : Function.Injective toMat := by
 theorem toMat_mulL (A B : M3) : toMat (mulL A B) = toMat A * toMat B := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [toMat, mulL, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [toMat, mulL, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem toMat_oneL : toMat oneL = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [toMat, oneL, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [toMat, oneL]
 
 theorem toMat_mulV (A : M3) (w : V3) : Matrix.mulVec (toMat A) (vec3 w) = vec3 (mulV A w) := by
   ext i
@@ -80,7 +80,7 @@ theorem toMat_XdL : toMat XdL = Xd := by
 
 theorem toMat_ZsL : toMat ZsL = Zs := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [toMat, ZsL, Zs, Matrix.one_apply, F4.ω]
+  fin_cases i <;> fin_cases j <;> simp [toMat, ZsL, Zs, F4.ω]
 
 theorem toMat_WmL (μ : F4) : toMat (WmL μ) = Wm μ := by
   ext i j
@@ -101,22 +101,22 @@ theorem omega_mem_iff' (k : Fin 6) (v : Fin 3 → F4) :
 abbrev elemM (i j : Fin 3) (c : F4) : Matrix (Fin 3) (Fin 3) F4 := 1 + Matrix.single i j c
 
 theorem toMat_E01L : toMat E01L = elemM 0 1 1 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E01L, elemM, Matrix.single_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E01L, elemM]
 
 theorem toMat_E02L : toMat E02L = elemM 0 2 1 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E02L, elemM, Matrix.single_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E02L, elemM]
 
 theorem toMat_E10L : toMat E10L = elemM 1 0 1 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E10L, elemM, Matrix.single_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E10L, elemM]
 
 theorem toMat_E12L : toMat E12L = elemM 1 2 1 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E12L, elemM, Matrix.single_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E12L, elemM]
 
 theorem toMat_E20L : toMat E20L = elemM 2 0 1 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E20L, elemM, Matrix.single_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E20L, elemM]
 
 theorem toMat_E21L : toMat E21L = elemM 2 1 1 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E21L, elemM, Matrix.single_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [toMat, E21L, elemM]
 
 theorem allF4_mem (x : F4) : x ∈ allF4 := by
   revert x

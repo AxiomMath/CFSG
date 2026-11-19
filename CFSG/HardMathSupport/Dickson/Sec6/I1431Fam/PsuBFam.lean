@@ -44,10 +44,10 @@ theorem y1431_noCfg_psuBadThree (hO : CFSG.ComponentClassification.CatLeaf.LieOr
   intro Y _ _ Â ξ J q c t n p f hadm ht hF hm q0 hq0 hqq
   obtain ⟨⟨rfl, hn3, hdiv, hn6⟩, rfl⟩ := hF
   obtain ⟨K, _, h, ⟨e0⟩⟩ := exists_psu_model hadm hm
-  haveI := h.finite
-  haveI : Finite (GL (Fin 3) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 3) K) :=
     Finite.of_injective (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K)) Units.val_injective
-  haveI : Finite (primeFormP h (idGram K 3)) := inferInstance
+  have : Finite (primeFormP h (idGram K 3)) := inferInstance
   have cS := c.descend e0
   have hq2 : p ^ f ≠ 2 := fun h2 => hadm.2.2.2 (by rw [h2])
   have hp3 : p ≠ 3 := by

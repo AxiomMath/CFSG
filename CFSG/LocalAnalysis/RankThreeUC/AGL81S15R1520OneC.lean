@@ -15,14 +15,14 @@ theorem exists_complement_normalizer_sylow {A : Type*} [Group A] [Finite A] {p :
   have hQR : (Q : Subgroup A) ≤ normalizer (Q : Set A) := le_normalizer
   set N : Subgroup ↥(normalizer (Q : Set A)) := (Q : Subgroup A).subgroupOf (normalizer (Q : Set A))
     with hN
-  haveI : N.Normal := (normal_subgroupOf_iff_le_normalizer hQR).2 le_rfl
+  have : N.Normal := (normal_subgroupOf_iff_le_normalizer hQR).2 le_rfl
   have hNcard : Nat.card ↥N = Nat.card ↥(Q : Subgroup A) :=
     Nat.card_congr (subgroupOfEquivOfLe hQR).toEquiv
   have hidx : ¬ p ∣ N.index := fun h =>
     Q.not_dvd_index (h.trans (relIndex_dvd_index_of_le hQR))
   have hcop : Nat.Coprime (Nat.card ↥N) N.index := by
     rw [hNcard]
-    obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Fact.out).2 hidx)
   obtain ⟨H, hH⟩ := exists_right_complement'_of_coprime hcop
@@ -83,9 +83,9 @@ theorem exists_threePrime_cover {K : Type*} [Group K] [Finite K] {S B₀ : Subgr
     [S.Normal] [B₀.Normal] (hSB : S ≤ B₀) (hS : IsPGroup 2 S) (hS2 : ¬ 2 ∣ S.relIndex B₀)
     (h3 : ¬ 3 ∣ B₀.index) :
     ∃ D : Subgroup K, S ≤ D ∧ ¬ 3 ∣ Nat.card D ∧ B₀ ⊔ D = ⊤ ∧ ¬ 2 ∣ D.index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 3 K) := inferInstance
-  have hQB : (Q : Subgroup K) ≤ B₀ := le_of_isPGroup_of_not_dvd_index Q.isPGroup' h3
+  have hQB : (Q : Subgroup K) ≤ B₀ := le_of_isPGroup_of_not_dvd_index Q.isPGroup h3
   have hfr : normalizer (Q : Set K) ⊔ B₀ = ⊤ := Sylow.normalizer_sup_eq_top' Q hQB
   obtain ⟨C, hCR, hC3, hRC⟩ := exists_complement_normalizer_sylow Q
   have hsup : B₀ ⊔ (S ⊔ C) = ⊤ := by
@@ -109,8 +109,8 @@ theorem exists_threePrime_cover_of_normalizes {M : Type*} [Group M] [Finite M]
     (hS : IsPGroup 2 S) (hS2 : ¬ 2 ∣ S.relIndex B₀) (h3 : ¬ 3 ∣ B₀.relIndex K) :
     ∃ D : Subgroup M, S ≤ D ∧ D ≤ K ∧ ¬ 3 ∣ Nat.card D ∧ B₀ ⊔ D = K ∧ ¬ 2 ∣ D.relIndex K := by
   have hSK : S ≤ K := hSB.trans hBK
-  haveI hSN : (S.subgroupOf K).Normal := ⟨fun n hn g => hSn g g.2 n hn⟩
-  haveI hBN : (B₀.subgroupOf K).Normal := ⟨fun n hn g => hBn g g.2 n hn⟩
+  have hSN : (S.subgroupOf K).Normal := ⟨fun n hn g => hSn g g.2 n hn⟩
+  have hBN : (B₀.subgroupOf K).Normal := ⟨fun n hn g => hBn g g.2 n hn⟩
   obtain ⟨D₁, hSD₁, hD₃, hsup, hodd⟩ := exists_threePrime_cover
     (S := S.subgroupOf K) (B₀ := B₀.subgroupOf K) (fun x hx => hSB hx) hS.comap_subtype
     (by rwa [relIndex_subgroupOf hBK]) h3
@@ -145,9 +145,9 @@ theorem normalizer_sup_eq_top_of_sylow {M : Type*} [Group M] [Finite M] {p : ℕ
 theorem exists_conj_le_of_not_dvd_index {M : Type*} [Group M] [Finite M] {T D : Subgroup M}
     (hT : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index) (hD : ¬ 2 ∣ D.index) :
     ∃ g : M, ∀ x ∈ T, g⁻¹ * x * g ∈ D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R₀⟩ : Nonempty (Sylow 2 ↥D) := inferInstance
-  have hR : IsPGroup 2 ((R₀ : Subgroup ↥D).map D.subtype) := R₀.isPGroup'.map D.subtype
+  have hR : IsPGroup 2 ((R₀ : Subgroup ↥D).map D.subtype) := R₀.isPGroup.map D.subtype
   have hRi : ¬ 2 ∣ ((R₀ : Subgroup ↥D).map D.subtype).index := by
     rw [index_map_subtype]
     exact fun h => ((Nat.Prime.dvd_mul Nat.prime_two).1 h).elim R₀.not_dvd_index hD

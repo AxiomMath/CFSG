@@ -40,7 +40,7 @@ theorem hasE9_of_affine (hP : Pair X E) {d e z : X} (hd : d ∈ E) (he : e ∈ E
   · have hc1 : ⁅d * e, d * z⁆ ≠ 1 :=
       fun h => hcomm (commutatorElement_eq_one_iff_mul_comm.mp h)
     have hc3 : ⁅d * e, d * z⁆ ^ 3 = 1 := hR.commutator_pow_three
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcorder : orderOf ⁅d * e, d * z⁆ = 3 := orderOf_eq_prime hc3 hc1
     refine ⟨d * e, ⁅d * e, d * z⁆, hx3, hcorder, hR.commute_commutator_left.symm, ?_⟩
     intro hmem

@@ -31,7 +31,7 @@ theorem t_mem_of_inverts_of_gamma
   have hnorm : t ∈ Subgroup.normalizer (Z : Set G) :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr hmap
   have hZel : CFSG.Open.IsElemAbelian 3 Z := by
-    haveI : IsCyclic ↥Z := isCyclic_of_prime_card hZcard
+    have : IsCyclic ↥Z := isCyclic_of_prime_card hZcard
     refine ⟨inferInstance, ?_⟩
     intro x hx
     have h := pow_card_eq_one' (G := ↥Z) (x := ⟨x, hx⟩)

@@ -90,9 +90,9 @@ theorem rank_two_sylow_shapes_of_unitary_exclusion
     exact dvd_trans (by norm_num : 2 ∣ 4) this
   have hSne : Sg ≠ ⊥ := S.ne_bot_of_dvd_card h2G
   have : Nontrivial Sg := (Subgroup.nontrivial_iff_ne_bot Sg).mpr hSne
-  have hZnt : Nontrivial (Subgroup.center Sg) := S.isPGroup'.center_nontrivial
+  have hZnt : Nontrivial (Subgroup.center Sg) := S.isPGroup.center_nontrivial
   have hZ2 : 2 ∣ Nat.card (Subgroup.center Sg) := by
-    rcases (S.isPGroup'.to_subgroup (Subgroup.center Sg)).card_eq_or_dvd with h | h
+    rcases (S.isPGroup.to_subgroup (Subgroup.center Sg)).card_eq_or_dvd with h | h
     · exact absurd h (Finite.one_lt_card).ne'
     · exact h
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center Sg) 2 hZ2
@@ -108,7 +108,7 @@ theorem rank_two_sylow_shapes_of_unitary_exclusion
   have hφapply : ∀ (m : NQ) (q : Q), ((φ m q : Q) : G) = (m : G) * q * (m : G)⁻¹ :=
     fun m q => rfl
   set A : Subgroup (MulAut Q) := φ.range with hA
-  have hQp : IsPGroup 2 Q := S.isPGroup'.to_le hQS
+  have hQp : IsPGroup 2 Q := S.isPGroup.to_le hQS
   have hQrank : TwoRankLeTwo Q := by
     intro E hE hexp
     have hmap : Nat.card (E.map Q.subtype) = Nat.card E :=
@@ -129,7 +129,7 @@ theorem rank_two_sylow_shapes_of_unitary_exclusion
       exact h
   set P₀ : Subgroup NQ := (Sg ⊓ NQ).subgroupOf NQ with hP₀
   have hP₀p : IsPGroup 2 P₀ :=
-    (S.isPGroup'.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
+    (S.isPGroup.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   have hP₀idx : ¬ 2 ∣ P₀.index := (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mp hcop
   set P₀s : Sylow 2 NQ := hP₀p.toSylow hP₀idx with hP₀s
   set B : Sylow 2 A := P₀s.mapSurjective (f := φ.rangeRestrict) φ.rangeRestrict_surjective
@@ -211,7 +211,7 @@ theorem rank_two_sylow_shapes_of_unitary_exclusion
         rw [Subgroup.mem_centralizer_iff]
         intro t _
         exact hSab t s
-      rcases selfCentralizing_four_shapes S.isPGroup' (⊤ : Subgroup Sg)
+      rcases selfCentralizing_four_shapes S.isPGroup (⊤ : Subgroup Sg)
           ⟨⟨fun a b => Subtype.ext (hSab a b)⟩⟩ (fun v _ => hSexp v)
           (by rw [Subgroup.card_top]; exact hScard) hcentS with h | h
       · exact Or.inl h
@@ -258,7 +258,7 @@ theorem rank_two_sylow_shapes_of_unitary_exclusion
           rw [Subgroup.mem_centralizer_iff]
           intro w hw
           exact hVab.is_comm.comm ⟨w, hw⟩ ⟨v, hv⟩ |> congrArg Subtype.val
-      rcases selfCentralizing_four_shapes S.isPGroup' V hVab hVexp hVcard hVcent with h | h
+      rcases selfCentralizing_four_shapes S.isPGroup V hVab hVexp hVcard hVcent with h | h
       · exact Or.inl h
       · exact Or.inr (Or.inl h)
     ·

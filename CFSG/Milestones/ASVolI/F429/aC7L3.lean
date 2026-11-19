@@ -22,9 +22,9 @@ theorem burnsideF429a_L3_T_mem_ctr (φ : ↥(StatedSL 3 K) →* E) {g : ↥(Stat
     φ g ∈ ctr ((burnsideF4f_U0 K).map φ) := by
   have hgU : g ∈ burnsideF4f_U0 K := by
     refine ⟨(burnsideF4f_mem_B0 _).mpr ?_, ?_, ?_, ?_⟩ <;>
-      simp [hgv, matrixUnit, Matrix.one_apply]
-  have h01 : (g : GL (Fin 3) K).val 0 1 = 0 := by simp [hgv, matrixUnit, Matrix.one_apply]
-  have h12 : (g : GL (Fin 3) K).val 1 2 = 0 := by simp [hgv, matrixUnit, Matrix.one_apply]
+      simp [hgv, matrixUnit]
+  have h01 : (g : GL (Fin 3) K).val 0 1 = 0 := by simp [hgv, matrixUnit]
+  have h12 : (g : GL (Fin 3) K).val 1 2 = 0 := by simp [hgv, matrixUnit]
   refine Subgroup.mem_inf.2 ⟨⟨g, hgU, rfl⟩, Subgroup.mem_centralizer_iff.2 ?_⟩
   rintro _ ⟨u, hu, rfl⟩
   rw [← map_mul, ← map_mul, (burnsideF4f_U0_comm_E02 hgU hu h01 h12).symm]
@@ -36,7 +36,7 @@ theorem burnsideF429a_c7_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgr
     ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) = hyp.toHypF_4_4g.chart.longRoot := by
   obtain ⟨marking, hb, -, -, hl⟩ := burnsideF4f_L3_marking hyp.toHypF_4_4g.chart
   have hK : Nat.card marking.field = 2 ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field 2 := burnsideF4f_charP_of_card marking.exponent_pos hK
+  have : CharP marking.field 2 := burnsideF4f_charP_of_card marking.exponent_pos hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   let φ : ↥(StatedSL 3 marking.field) →* E := Gp.subtype.comp marking.transport
   have hker : ∀ g : ↥(StatedSL 3 marking.field),
@@ -63,8 +63,7 @@ theorem burnsideF429a_c7_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgr
       0, trivial, ?_⟩
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [markedMatrix, positiveMatrix, linearRoot, matrixUnit, Matrix.one_apply,
-        burnsideF4f_U0_diag hgU, ha, hc, g10, g20, g21]
+      simp [markedMatrix, positiveMatrix, linearRoot, matrixUnit, burnsideF4f_U0_diag hgU, ha, hc, g10, g20, g21]
   · unfold ClassicalRoots.Marking.root
     rw [Subgroup.map_map, Subgroup.map_le_iff_le_comap, hbasis]
     refine (Subgroup.closure_le _).2 ?_

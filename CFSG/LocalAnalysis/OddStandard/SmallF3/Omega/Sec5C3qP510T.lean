@@ -17,9 +17,11 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r ρ : G}
   {B A : Subgroup G} {φ : (Fin 6 → ZMod 2) → G} {Q₁ Q₂ : Subgroup G} {a b : G}
 
+omit [Finite G] in
 theorem sec5p510_t_mem_conj (t z : G) : t ∈ conjClassIn (centralizer ({z} : Set G)) t :=
   ⟨1, one_mem _, by group⟩
 
+omit [Finite G] in
 theorem sec5p510_conj_mem_conj {x g : G} (hx : x ∈ conjClassIn (centralizer ({z} : Set G)) t)
     (hg : g ∈ centralizer ({z} : Set G)) :
     g * x * g⁻¹ ∈ conjClassIn (centralizer ({z} : Set G)) t := by
@@ -44,7 +46,7 @@ theorem sec5p510_a_mem_H (h : Sec510Ctx G t L S z r ρ B A φ) (hab : Sec510Ab t
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact sec5p510_A_comm h (hab.a_mem_A h) (sec5p510_z_mem_A h)
 
-theorem sec5p510_z_mem_E (h : Sec510Ctx G t L S z r ρ B A φ) (hab : Sec510Ab t z a b φ A) :
+theorem sec5p510_z_mem_E (_h : Sec510Ctx G t L S z r ρ B A φ) (hab : Sec510Ab t z a b φ A) :
     z ∈ sec5p510_E t a b := by
   obtain ⟨ht, ha, hb⟩ := sec5p510_E_gens t a b
   rw [← hab.prod]
@@ -77,6 +79,7 @@ theorem sec5p510_E_le_T (hy : Sec5B59Hyp) (h4 : Asc82FactReflCentQ6)
   · exact Subgroup.subset_closure ⟨hac, haR⟩
   · exact Subgroup.subset_closure ⟨hbc, hbR⟩
 
+omit [Finite G] in
 theorem sec5p510_T_le_R (t z : G) (R : Subgroup G) : sec5p510_T t z R ≤ R :=
   (Subgroup.closure_le _).mpr Set.inter_subset_right
 

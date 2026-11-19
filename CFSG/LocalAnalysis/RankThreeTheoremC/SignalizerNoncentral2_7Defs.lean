@@ -103,7 +103,7 @@ theorem Z_le_U : (center D).map D.subtype ≤ U := by
   have hDP := hc.D_le_P
   have hUt : (U.subgroupOf D).Normal :=
     (normal_subgroupOf_iff_le_normalizer hc.U_le_D).2 (hDP.trans hc.PU)
-  have hDp : IsPGroup p D := P.isPGroup'.to_le hDP
+  have hDp : IsPGroup p D := P.isPGroup.to_le hDP
   have : Group.IsNilpotent D := hDp.isNilpotent
   have hUne : U.subgroupOf D ≠ ⊥ := by
     intro h
@@ -182,7 +182,7 @@ theorem commutator_mem_Z {g : G} (hg : g ∈ (P : Subgroup G)) :
   have hnz : g * z = z * g := hc.Z_comm hzZ hg
   obtain ⟨a, b, hab⟩ := exists_pow_mul_pow_of_mem_plane hc.Ue hc.Uc hzU hz1 hc.uU hdz
     ((mem_normalizer_iff.1 (hc.PU hg) u).1 hc.uU)
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
   have hk' : g ^ (p ^ k) = 1 := by
     have := congrArg Subtype.val hk
     simpa using this

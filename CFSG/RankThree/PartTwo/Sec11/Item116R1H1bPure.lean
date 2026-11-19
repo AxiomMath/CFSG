@@ -121,7 +121,7 @@ theorem h1b_module_core {Γ V : Type*} [Group Γ] [AddCommGroup V] [Finite V] [D
     intro h
     apply hne
     exact sub_eq_zero.mp (congrArg Subtype.val h)
-  haveI : Nontrivial (h1bW_cmW (V := V) c) := ⟨⟨_, 0, hW1⟩⟩
+  have : Nontrivial (h1bW_cmW (V := V) c) := ⟨⟨_, 0, hW1⟩⟩
   obtain ⟨aH, haH⟩ : ∃ g : Subgroup.centralizer ({c} : Set Γ), (g : Γ) = a :=
     ⟨⟨a, h1bW_mem_centralizer hca⟩, rfl⟩
   obtain ⟨zH, hzH⟩ : ∃ g : Subgroup.centralizer ({c} : Set Γ), (g : Γ) = z :=
@@ -257,7 +257,7 @@ theorem h1b_step4_pure {G : Type*} [Group G] [Finite G] {c : G} (hc3 : c ^ 3 = 1
     obtain ⟨n, rfl⟩ := h1b_s4_zpowers_nat hc3 γ hγ
     exact h1b_s4_comm_pow ⁅X, Subgroup.zpowers c⁆ U hHc (fun a ha => hθU a (hH1 ha)) n h hh
   have hcop : Nat.Coprime (Nat.card (Subgroup.zpowers c)) (Nat.card X) := by
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨k, hk⟩ := hX.exists_card_eq
     have hdvd : Nat.card (Subgroup.zpowers c) ∣ 3 := by
       rw [Nat.card_zpowers]
@@ -270,7 +270,7 @@ theorem h1b_step4_pure {G : Type*} [Group G] [Finite G] {c : G} (hc3 : c ^ 3 = 1
       (Subgroup.zpowers c) hCX hcop
   have hXU : ∀ g ∈ X, g ∈ U → g = 1 := by
     intro g hgX hgU
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨a, ha⟩ := hX ⟨g, hgX⟩
     obtain ⟨b, hb⟩ := hU2 ⟨g, hgU⟩
     have ha' : g ^ q ^ a = 1 := by
@@ -496,7 +496,7 @@ theorem exists_fixed_lift_prime {q : ℕ} [hq : Fact q.Prime] {P : Type*} [Group
       (CFSG.RankThree.PartOne.FixedRank36.frattiniRep q ρ l) 1) :
     ∃ x : P, ρ l x = x ∧ Additive.ofMul (x : P ⧸ frattini P) = v := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set Z := Subgroup.zpowers (ρ l) with hZ
   let α : Z →* MulAut P := Z.subtype
   have hN : ∀ b : Z, ∀ n ∈ frattini P, α b n ∈ frattini P := by
@@ -544,9 +544,9 @@ theorem h1b_module_step {G : Type} [Group G] [Finite G] {q : ℕ} [hq : Fact q.P
     (hC : ∀ x ∈ D, a * x = x * a → c * x = x * c) :
     c ∈ centralizer (D : Set G) := by
   classical
-  haveI hel : IsElementaryAbelian q (↥D ⧸ frattini ↥D) :=
+  have hel : IsElementaryAbelian q (↥D ⧸ frattini ↥D) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hD).2.2.2.1
-  letI : DistribMulAction (normalizer (D : Set G)) (Additive (↥D ⧸ frattini ↥D)) :=
+  let : DistribMulAction (normalizer (D : Set G)) (Additive (↥D ⧸ frattini ↥D)) :=
     DistribMulAction.compHom (Additive (↥D ⧸ frattini ↥D))
       (CFSG.RankThree.PartOne.FixedRank36.frattiniRep q D.normalizerMonoidHom :
         normalizer (D : Set G) →* Module.End (ZMod q) (Additive (↥D ⧸ frattini ↥D)))
@@ -700,7 +700,7 @@ namespace CFSG.RankThree.PartTwo.Sec11
 theorem index_eq_pow_of_normal_pow_mem_aux {H : Type*} [Group H] [Finite H] {q : ℕ}
     (hq : q.Prime) {K : Subgroup H} [K.Normal] (hK : ∀ g : H, ∃ k : ℕ, g ^ q ^ k ∈ K)
     {N : Subgroup H} (hKN : K ≤ N) : ∃ j : ℕ, N.index = q ^ j := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hQ : IsPGroup q (H ⧸ K) := by
     refine isPGroup_iff_pow_pow_eq_one.mpr ?_
     intro g
@@ -725,8 +725,8 @@ theorem sylow_mul_normal_eq {G : Type*} [Group G] [Finite G] {q : ℕ} (hq : q.P
     (hP : CFSG.Open.fusionIsSylowIn q P M) (hqU : ∀ x ∈ M, ∃ k : ℕ, x ^ q ^ k ∈ U) :
     ∀ x ∈ M, ∃ y ∈ P, ∃ u ∈ U, x = y * u := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI hUnorm : (U.subgroupOf M).Normal :=
+  have : Fact q.Prime := ⟨hq⟩
+  have hUnorm : (U.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff hUM).mpr fun h k hh hk => hUn k hk h hh
   obtain ⟨T, hT⟩ := CFSG.Goldschmidt.G310.exists_sylow_of_fusionIsSylowIn hP
   have hPM : P.subgroupOf M = (T : Subgroup M) := by
@@ -790,7 +790,7 @@ theorem exists_invariant_sylow_complement' (hB1 : ∀ {G : Type} [Group G] [Fini
         CFSG.Open.fusionIsSylowIn q P M → (∀ x ∈ M, ∃ k : ℕ, x ^ q ^ k ∈ U) →
           ∀ x ∈ M, ∃ y ∈ P, ∃ u ∈ U, x = y * u)
     {G : Type} [Group G] [Finite G] {q : ℕ} (hq : q.Prime)
-    (hq3 : q ≠ 3) {T : Subgroup G} (hT : IsPGroup 3 T) {Θ : Subgroup G}
+    (_hq3 : q ≠ 3) {T : Subgroup G} (hT : IsPGroup 3 T) {Θ : Subgroup G}
     (h3 : ¬ 3 ∣ Nat.card Θ) (hTΘ : T ≤ normalizer (Θ : Set G)) :
     ∃ P : Subgroup G, IsPGroup q P ∧ P ≤ inSubgroup (twoQ q) Θ ∧ T ≤ normalizer (P : Set G) ∧
       ∀ x ∈ inSubgroup (twoQ q) Θ, ∃ y ∈ P, ∃ u ∈ inSubgroup (CFSG.pCore 2) Θ, x = y * u := by
@@ -897,7 +897,7 @@ private theorem h1b_pCore_eq_bot_of_not_dvd (Q : Type*) [Group Q] [Finite Q] {p 
   · exact absurd (h1.trans (Subgroup.card_subgroup_dvd_card _)) h
 
 private theorem h1b_fitting_le_map {H : Type*} [Group H] [Finite H] (hH3 : ¬ 3 ∣ Nat.card H)
-    (S : Subgroup H) (hN : CFSG.pCore 2 H ≤ S)
+    (S : Subgroup H) (_hN : CFSG.pCore 2 H ≤ S)
     (hprime : ∀ p : ℕ, p.Prime → p ≠ 2 → p ≠ 3 → ∀ t ∈ twoQ p H, t ∈ S) :
     CFSG.fittingSubgroup (H ⧸ CFSG.pCore 2 H) ≤ S.map (QuotientGroup.mk' (CFSG.pCore 2 H)) := by
   rw [CFSG.fitting_eq_sup_pCore]

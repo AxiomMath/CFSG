@@ -83,12 +83,12 @@ theorem m12A5CentralizerStatement_holds : M12A5CentralizerStatement := by
   classical
   intro R' hcard hperf
   set C := Subgroup.centralizer (R' : Set ↥NativeSporadic.M12) with hCdef
-  haveI hP : Group.IsPerfect ↥R' := ⟨hperf⟩
-  haveI hS : IsSimpleGroup ↥R' :=
+  have hP : Group.IsPerfect ↥R' := ⟨hperf⟩
+  have hS : IsSimpleGroup ↥R' :=
     CFSG.Quasithin.A312J2.isSimpleGroup_of_perfect_card_sixty hP hcard
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥R') 5 (by rw [hcard]; norm_num)
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥R') 3 (by rw [hcard]; norm_num)
   have ha' : orderOf (a : ↥NativeSporadic.M12) = 5 := by rw [Subgroup.orderOf_coe, ha]
@@ -99,7 +99,7 @@ theorem m12A5CentralizerStatement_holds : M12A5CentralizerStatement := by
       (Subgroup.mem_centralizer_iff.1 hx r hr).symm
     have := m12_sq_eq_one_of_commute ha' hb' (hxr _ a.2) (hxr _ b.2)
     rwa [pow_two] at this
-  haveI : Nontrivial ↥R' := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have : Nontrivial ↥R' := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   have hcen : ∀ r ∈ R', (∀ r' ∈ R', r * r' = r' * r) → r = 1 := by
     intro r hr hcomm
     have hz : (⟨r, hr⟩ : ↥R') ∈ Subgroup.center ↥R' :=
@@ -110,11 +110,11 @@ theorem m12A5CentralizerStatement_holds : M12A5CentralizerStatement := by
     · exfalso
       have hmem : ∀ g : ↥R', g ∈ Subgroup.center ↥R' := fun g => by
         rw [h]; exact Subgroup.mem_top g
-      haveI : IsMulCommutative ↥R' := ⟨⟨fun g g' => Subgroup.mem_center_iff.1 (hmem g') g⟩⟩
+      have : IsMulCommutative ↥R' := ⟨⟨fun g g' => Subgroup.mem_center_iff.1 (hmem g') g⟩⟩
       exact Group.IsPerfect.not_isMulCommutative ↥R' inferInstance
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥R') := inferInstance
   have hScard : Nat.card ↥(S : Subgroup ↥R') = 4 := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 S.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 S.isPGroup
     have hmul := (S : Subgroup ↥R').card_mul_index
     have hnd := S.not_dvd_index
     rw [hk, hcard] at hmul

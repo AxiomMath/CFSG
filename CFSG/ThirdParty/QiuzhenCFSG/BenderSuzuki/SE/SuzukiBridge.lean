@@ -42,7 +42,7 @@ public theorem normal_complement_even
     exact inf_le_left
   let QM : Subgroup M := Q.subgroupOf M
   let DM : Subgroup M := D.subgroupOf M
-  haveI : QM.Normal := by
+  have : QM.Normal := by
     simpa [QM] using hQ.normal_in_M
   have hdisjointM : Disjoint QM DM := by
     rw [Subgroup.disjoint_def]
@@ -62,7 +62,7 @@ public theorem normal_complement_even
     isComplement'_of_disjoint_sup_eq_top_of_normal QM DM hdisjointM hsupM
   have hcard : Nat.card Q * Nat.card D = Nat.card M := by
     simpa [QM, DM, natCard_subgroupOf_eq Q M hQle,
-      natCard_subgroupOf_eq D M hDle] using hcomp.card_mul
+      natCard_subgroupOf_eq D M hDle] using hcomp.card_mul_card
   have hprodEven : Even (Nat.card Q * Nat.card D) :=
     hcard.symm ▸ hM.card_even
   exact (Nat.even_mul.mp hprodEven).resolve_right

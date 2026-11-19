@@ -54,8 +54,8 @@ theorem unitary_outer_fixesPair {ℓ f n : ℕ} {K : Type} [Field K] (hU : Unita
     {α : MulAut (primeFormP hU (idCn n K))} (hα : α ∉ inner (primeFormP hU (idCn n K)))
     (hαp : α ^ p = 1) : FixesIndepPair p α := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := hU.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := hU.finite
   have hC1 : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one' (n := n)
   have hα1 : α ≠ 1 := fun h => hα (h ▸ (inner (primeFormP hU (idCn n K))).one_mem)
   have hao : orderOf α = p := orderOf_eq_prime hαp hα1

@@ -41,7 +41,7 @@ theorem corBList_of_forall_conj_mem_QG (hCorB : TimmesfeldCorBInput) {G : Type} 
   have hGncomm : ¬ IsMulCommutative G := by
     obtain ⟨a, -, b, -, hab⟩ := S.exists_not_commute
     intro hcomm
-    haveI : IsMulCommutative G := hcomm
+    have : IsMulCommutative G := hcomm
     exact hab (mul_comm' a b)
   have hsub : conjCent S.z ⊆ (S.QG : Set G) := by
     rintro τ ⟨hcomm, hconj⟩
@@ -102,7 +102,7 @@ theorem corBList_of_forall_conj_mem_QG (hCorB : TimmesfeldCorBInput) {G : Type} 
     ·
       have htopz : (⊤ : Subgroup G) = Subgroup.zpowers S.z := by
         rw [← hNtop, hKeq, hKbot, bot_sup_eq]
-      haveI : IsMulCommutative G := IsMulCommutative.of_comm fun a b =>
+      have : IsMulCommutative G := IsMulCommutative.of_comm fun a b =>
         congrArg Subtype.val (mul_comm'
           (⟨a, by rw [← htopz]; exact Subgroup.mem_top a⟩ : Subgroup.zpowers S.z)
           (⟨b, by rw [← htopz]; exact Subgroup.mem_top b⟩ : Subgroup.zpowers S.z))
@@ -114,7 +114,7 @@ theorem corBList_of_forall_conj_mem_QG (hCorB : TimmesfeldCorBInput) {G : Type} 
         rwa [S.orderOf_z] at this
       exact (Nat.not_even_iff_odd.mpr hodd (even_iff_two_dvd.mpr h2)).elim
   ·
-    haveI : IsMulCommutative G := IsMulCommutative.of_comm fun a b =>
+    have : IsMulCommutative G := IsMulCommutative.of_comm fun a b =>
       (hElem a (by rw [hNtop]; exact Subgroup.mem_top a)
         b (by rw [hNtop]; exact Subgroup.mem_top b)).1
     exact (hGncomm ‹IsMulCommutative G›).elim

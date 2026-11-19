@@ -57,11 +57,11 @@ private theorem foldl_testBit (P : Nat → Bool) (L : List Nat) (M l : Nat) :
     by_cases hla : l = a
     · subst hla
       by_cases hP : P l = true
-      · simp [hP, Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow]
+      · simp [hP, Nat.testBit_or, Nat.one_shiftLeft]
       · simp [hP]
     · have hal : a ≠ l := fun h => hla h.symm
       by_cases hP : P a = true
-      · simp [hP, Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow, hal, hla]
+      · simp [hP, Nat.testBit_or, Nat.one_shiftLeft, hal, hla]
       · simp [hP, hla]
 
 private theorem pg_blk_eq (n w LT l b : Nat) :
@@ -208,7 +208,7 @@ theorem maskId_iff (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w) (LV : Nat) :
   · intro h l hl x hx
     obtain ⟨hlmem, hbit⟩ := List.mem_filter.mp hl
     have h1 := h l (List.mem_range.mp hlmem)
-    rw [bIf_eq, hasBit_eq, if_pos hbit] at h1
+    rw [bIf_eq, hasBit_eq, ite_eq_left hbit] at h1
     exact (key l).mp h1 x hx
   · intro h l hlt
     rw [bIf_eq, hasBit_eq]
@@ -263,7 +263,7 @@ theorem coverOK_iff {F : Nat → Nat → Nat} {s : BS} (hn16 : n < 2 ^ 16) (hw :
   constructor
   · intro h p hp hip
     have h1 := h p hp
-    rw [bIf_eq, if_neg (by rw [Nat.blt_eq]; omega), strictB_eq, bAnd_eq] at h1
+    rw [bIf_eq, ite_eq_right (by rw [Nat.blt_eq]; omega), strictB_eq, bAnd_eq] at h1
     exact (key p hp).mp h1
   · intro h p hp
     rw [bIf_eq]

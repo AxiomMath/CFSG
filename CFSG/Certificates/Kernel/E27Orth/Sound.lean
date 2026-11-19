@@ -110,7 +110,7 @@ theorem keyI_spec {N : ℕ} {E S : ℕ → ℕ} {k : ℕ} (h : keyI N E S k = tr
   rw [sB_eq] at h
   obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff _ _).1 h
   refine ⟨(blt_iff _ _).1 h1, fun hk => ?_⟩
-  rw [bRec_ite, if_pos ((blt_iff _ _).2 hk)] at h2
+  rw [bRec_ite, ite_eq_left ((blt_iff _ _).2 hk)] at h2
   exact (blt_iff _ _).1 h2
 
 theorem conjI_spec {mul : ℕ → ℕ → ℕ} {N nR : ℕ} {E Rp W : ℕ → ℕ} {i : ℕ}
@@ -137,7 +137,7 @@ theorem repI_spec {mul : ℕ → ℕ → ℕ} {cn : ℕ → Bool} {one N c0 : �
   obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff _ _).1 h
   rw [bRec_ite] at h2
   refine ⟨(blt_iff _ _).1 h1, fun hy t ht => ?_, fun hy => ?_⟩
-  · rw [if_pos ((beq_iff _ _).2 hy)] at h2
+  · rw [ite_eq_left ((beq_iff _ _).2 hy)] at h2
     have hall := CFSG.KS.allN_spec h2
     have hs : ∀ u < c0, Cm (c0 * r + u) < N ∧
         (u ≠ 0 → Cm (c0 * r + u - 1) < Cm (c0 * r + u)) ∧
@@ -210,7 +210,7 @@ abbrev gS (m : ℕ) (g : ℕ → H) : Subgroup H := Subgroup.closure {x | ∃ j 
 variable {ρ : H →* M} {dec : ℕ → M} {mul : ℕ → ℕ → ℕ} {cn : ℕ → Bool} {one m N : ℕ}
   {g : ℕ → H} {G E Tr S : ℕ → ℕ}
 
-theorem tab_tree (henc : Enc dec mul cn) (hρ : Function.Injective ρ) (hone : dec one = 1)
+theorem tab_tree (henc : Enc dec mul cn) (_hρ : Function.Injective ρ) (hone : dec one = 1)
     (hg : ∀ j < m, ρ (g j) = dec (G j)) (hbase : baseI cn one m G = true)
     (htree : ∀ i < N, treeI mul cn one m G E Tr i = true) (hkey : ∀ k < N, keyI N E S k = true) :
     ∃ X : ℕ → H, (∀ i < N, X i ∈ gS m g ∧ ρ (X i) = dec (E i)) ∧
@@ -231,9 +231,9 @@ theorem tab_tree (henc : Enc dec mul cn) (hρ : Function.Injective ρ) (hone : d
         rw [map_mul, hg j hj, hxe, he, henc.hmul _ _ (hcnG j hj) (treeI_spec (htree p (by omega))).1]
   classical
   refine ⟨fun i => if h : i < N then (hex i h).choose else 1, fun i hi => ?_, fun i hi k hk e => ?_⟩
-  · simp only [dif_pos hi]
+  · simp only [dite_eq_left hi]
     exact (hex i hi).choose_spec
-  · simp only [dif_pos hi, dif_pos hk] at e
+  · simp only [dite_eq_left hi, dite_eq_left hk] at e
     have e2 : dec (E i) = dec (E k) := by
       rw [← (hex i hi).choose_spec.2, ← (hex k hk).choose_spec.2, e]
     exact inj_of_keys hkey i hi k hk (henc.hinj _ _ (treeI_spec (htree i hi)).1

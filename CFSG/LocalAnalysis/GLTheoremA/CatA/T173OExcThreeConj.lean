@@ -27,7 +27,7 @@ theorem exists_conj_le_of_stdElt_of_levi (τ : Tag) {K : Type} [Field K] [Finite
     ∃ g : ↥(adjointGroup τ K),
       (A.map (MulAut.conj g).toMonoidHom).map (adjointGroup τ K).subtype ≤ M₀ ∧
         (stdLayer (MulAut.conj g d)).map (adjointGroup τ K).subtype ≤ M₀ := by
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hK : stdLayer d ≤ Subgroup.normalizer (T : Set ↥(adjointGroup τ K)) :=
     (CFSG.LocalAnalysis.GLTheoremA.S9.Cl.le_closureIn_self (stdLayer d)
       (Subgroup.normalizer (A : Set ↥(adjointGroup τ K)))).trans (le_sup_left.trans hTN)

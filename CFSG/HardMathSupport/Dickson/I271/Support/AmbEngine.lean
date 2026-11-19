@@ -29,6 +29,7 @@ variable {X : Type} [Group X] [Finite X]
     β ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (↥K ⧸ Subgroup.center ↥K) →
       GLAPLayer p (fixSubgroup β) = ⊥
 
+omit [Finite X] in
 theorem coreFree_of_inner_gen {p : ℕ} {K : Subgroup X} (hO : GLAPPrimeCore p ↥K = ⊥)
     (hq : CFSG.Open.IsQuasisimple ↥K) (hCF : CoreFreeInner p K)
     {H : Subgroup (MulAut (barOf p K))} (hH : innerAut (barOf p K) ≤ H)
@@ -56,11 +57,11 @@ theorem coreFree_of_inner_gen {p : ℕ} {K : Subgroup X} (hO : GLAPPrimeCore p �
 
 theorem isCompLocallyBalanced_of_inner_gen {p : ℕ} (hp : p.Prime) {K A : Subgroup X}
     (hq : CFSG.Open.IsQuasisimple ↥K) (hO : GLAPPrimeCore p ↥K = ⊥) (hCF : CoreFreeInner p K)
-    (hAN : A ≤ Subgroup.normalizer (K : Set X))
+    (_hAN : A ≤ Subgroup.normalizer (K : Set X))
     (hin : ∀ a ∈ A, ∃ k ∈ K, k⁻¹ * a ∈ Subgroup.centralizer (K : Set X)) :
     IsCompLocallyBalanced p 1 A K := by
   intro D hD H hH hDH
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card D = p := by simpa using hD.2.2
   have hnt : 1 < Nat.card D := by rw [hcard]; exact hp.one_lt
   obtain ⟨d, hdD, hd1⟩ : ∃ d ∈ D, d ≠ 1 := by
@@ -119,7 +120,7 @@ theorem not_glaPComponent_of_inner_gen {p : ℕ} (hp : p.Prime) {K : Subgroup X}
     (inf_le_left : K ⊓ Subgroup.centralizer ({a} : Set X) ≤ K) hJ
   rw [hfix] at hJ'
   have hnc := exists_noncomm_of_isQuasisimple hq
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hSz : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ := center_eq_bot_of_simple hnc
   have hβp : β ^ p = 1 := by
     rw [hβ, ← map_pow]
@@ -157,7 +158,7 @@ theorem engineInner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup X}
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hA : InnerNoncyclicIn B K) :
     IsStronglyBalancedIn p B K := by
   obtain ⟨A, hAB, hAnc, hAfaith, hAin⟩ := hA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hcore hcomp
   have hO : GLAPPrimeCore p ↥K = ⊥ := i271h_primeCore_eq_bot hcore hcomp
   have hBel : IsElemAbelian p B := hscp.2.1
@@ -205,7 +206,7 @@ theorem engineInner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup X}
     by_contra hcon
     push Not at hcon
     apply hAnc
-    haveI : Subsingleton ↥A :=
+    have : Subsingleton ↥A :=
       ⟨fun x y => Subtype.ext ((hcon x x.2).trans (hcon y y.2).symm)⟩
     exact isCyclic_of_subsingleton
   exact engine_full ⟨hp, hp2, hq, hdvd, hBN, hBel, hSC, hAB, hAnc, hloc, fun a ha ha1 J hJ =>

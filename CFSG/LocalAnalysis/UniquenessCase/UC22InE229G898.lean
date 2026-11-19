@@ -191,7 +191,7 @@ theorem uc22ine229_card_le_of_le_inner {X : Type} [Group X] [Finite X] {n : ℕ}
     (hX : IsSU3 X n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Subgroup (MulAut X)}
     (hRinn : R ≤ (MulAut.conj : X →* MulAut X).range) (hRel : IsElemAbelian p R) :
     Nat.card R ≤ p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := CFSG.RankThree.PartOne.projSU_of_statedClassicalModel
     (CFSG.SeitzReduction.RankOne.statedClassicalModel_of_lieModel_psu3 hX.2)
   have hrank : CFSG.Open.pRank p (⊤ : Subgroup (X ⧸ center X)) ≤ 2 := by
@@ -288,7 +288,7 @@ theorem uc22ine229_two_le_pRank_centralizer {M L : Subgroup G} (hLM : L ≤ M) {
     (hBel : IsElemAbelian p B) (hBcard : Nat.card B = p ^ 4) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) {E : Subgroup G} (hEL : E ≤ L) (hE : IsPGroup q E) :
     2 ≤ CFSG.Open.pRank p (M ⊓ centralizer (E : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : ↥B →* MulAut (Bar2 L) := (UC6S846.rhoL L).comp (Subgroup.inclusion hBN)
   have hpow : ∀ b : ↥B, φ b ^ p = 1 := by
     intro b
@@ -388,7 +388,7 @@ theorem r898Gamma_of_conclusion76 (D : Data G) (hSg : UC6S846.SigmaStd D) (hCen 
     by_cases hy1 : y = 1
     · rw [hy1]
       exact one_mem _
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact uc22ine229_normalizes_of_pRank_le_three hL (hBM hy) hp hp5
       (orderOf_eq_prime (hBel.2 y hy) hy1) (by norm_num) (by norm_num) hXL hXc hZ7 h7r
   have h2 := uc22ine229_two_le_pRank_centralizer hLM hX hp hp2 hp3

@@ -14,6 +14,7 @@ section Dim
 
 variable [Finite K] (hK : Nat.card K = 4)
 
+omit [Finite K] in
 theorem cube_sum_of_unit_ne_one {lam : Kˣ} (hlam3 : lam ^ 3 = 1) (hlamne : lam ≠ 1) :
     (lam : K) ^ 2 + (lam : K) + 1 = 0 := by
   have hval : (lam : K) ^ 3 = 1 := by
@@ -26,6 +27,7 @@ theorem cube_sum_of_unit_ne_one {lam : Kˣ} (hlam3 : lam ^ 3 = 1) (hlamne : lam 
     exact Units.ext (sub_eq_zero.mp h)
   · exact h
 
+omit [Finite K] in
 theorem lam_sq_ne_one (hK : Nat.card K = 4) {lam : Kˣ}
     (hlamsum : (lam : K) ^ 2 + (lam : K) + 1 = 0) :
     (lam : K) ^ 2 ≠ 1 := by
@@ -35,6 +37,7 @@ theorem lam_sq_ne_one (hK : Nat.card K = 4) {lam : Kˣ}
     linear_combination hlamsum - h - htwo
   exact lam.ne_zero hzero
 
+omit [Finite K] in
 theorem lam_ne_sq {lam : Kˣ} (hlamne : lam ≠ 1) : (lam : K) ≠ (lam : K) ^ 2 := by
   intro h
   have h' : (lam : K) * 1 = (lam : K) * (lam : K) := by
@@ -43,10 +46,12 @@ theorem lam_ne_sq {lam : Kˣ} (hlamne : lam ≠ 1) : (lam : K) ≠ (lam : K) ^ 2
   have h1 : (1 : K) = (lam : K) := mul_left_cancel₀ lam.ne_zero h'
   exact hlamne (Units.ext h1.symm)
 
+omit [Finite K] in
 theorem lam_val_ne_one {lam : Kˣ} (hlamne : lam ≠ 1) : (lam : K) ≠ 1 := by
   intro h
   exact hlamne (Units.ext h)
 
+omit [Finite K] in
 theorem cube_eigen_decomposition (hK : Nat.card K = 4)
     {M : Matrix (Fin 6) (Fin 6) K} (hM3 : M ^ 3 = 1)
     {lam : Kˣ} (hlam3 : lam ^ 3 = 1) (hlamne : lam ≠ 1) :
@@ -54,7 +59,7 @@ theorem cube_eigen_decomposition (hK : Nat.card K = 4)
       ∃ v1 ∈ Module.End.eigenspace (Matrix.toLin' M) ((lam : K)),
       ∃ v2 ∈ Module.End.eigenspace (Matrix.toLin' M) ((lam : K) ^ 2), v = v0 + v1 + v2 := by
   classical
-  haveI : FiniteDimensional K (Fin 6 → K) := FiniteDimensional.finiteDimensional_pi K
+  have : FiniteDimensional K (Fin 6 → K) := FiniteDimensional.finiteDimensional_pi K
   have hlamval3 : (lam : K) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, hlam3]; rfl
   have hlamsum : (lam : K) ^ 2 + (lam : K) + 1 = 0 :=
@@ -112,16 +117,16 @@ theorem cube_eigen_decomposition (hK : Nat.card K = 4)
       linear_combination hlamsum
     apply LinearMap.ext
     intro v
-    simp only [P, e, he2, hsq, hthree, hc1, hc2, Module.End.mul_apply, LinearMap.add_apply,
+    simp only [P, e, he2, hsq, LinearMap.add_apply,
       LinearMap.smul_apply, Module.End.one_apply, one_pow, one_smul, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.tail_cons]
+      Matrix.cons_val_one]
     have hx : f v + (lam : K) ^ 2 • f v + (lam : K) • f v = 0 := by
       rw [← one_smul K (f v)]
-      simp only [smul_smul, one_mul, mul_one]
+      simp only [smul_smul, mul_one]
       rw [← add_smul, ← add_smul, hc1, zero_smul]
     have hy : (f ^ 2) v + (lam : K) • (f ^ 2) v + (lam : K) ^ 2 • (f ^ 2) v = 0 := by
       rw [← one_smul K ((f ^ 2) v)]
-      simp only [smul_smul, one_mul, mul_one]
+      simp only [smul_smul, mul_one]
       rw [← add_smul, ← add_smul, hc2, zero_smul]
     have hv : v + v + v = v := by
       rw [← one_smul K v]
@@ -149,6 +154,7 @@ theorem cube_eigen_decomposition (hK : Nat.card K = 4)
     change P (e 2) v ∈ f.eigenspace (e 2)
     exact hPmem (e 2) (he3 2) v
 
+omit [Finite K] in
 theorem dim_eigenspace_one_eq_two (hK : Nat.card K = 4)
     {M C : Matrix (Fin 6) (Fin 6) K} (hM3 : M ^ 3 = 1)
     {lam : Kˣ} (hlam3 : lam ^ 3 = 1) (hlamne : lam ≠ 1)
@@ -156,7 +162,7 @@ theorem dim_eigenspace_one_eq_two (hK : Nat.card K = 4)
     (hCdet : IsUnit C.det) :
     Module.finrank K (Module.End.eigenspace (Matrix.toLin' M) (1 : K)) = 2 := by
   classical
-  haveI : FiniteDimensional K (Fin 6 → K) := FiniteDimensional.finiteDimensional_pi K
+  have : FiniteDimensional K (Fin 6 → K) := FiniteDimensional.finiteDimensional_pi K
   have hlamval3 : (lam : K) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, hlam3]; rfl
   have hlamsum : (lam : K) ^ 2 + (lam : K) + 1 = 0 :=
@@ -216,8 +222,7 @@ theorem dim_eigenspace_one_eq_two (hK : Nat.card K = 4)
   have he_inj : Function.Injective e := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      simp only [e, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.tail_cons] at hij
+      simp only [e] at hij
     · rfl
     · exact absurd hij.symm hlamvalne
     · exact absurd hij.symm hlam2ne1
@@ -240,16 +245,16 @@ theorem dim_eigenspace_one_eq_two (hK : Nat.card K = 4)
       linear_combination hlamsum
     apply LinearMap.ext
     intro v
-    simp only [P, e, he2, hsq, hthree, hc1, hc2, Module.End.mul_apply, LinearMap.add_apply,
+    simp only [P, e, he2, hsq, LinearMap.add_apply,
       LinearMap.smul_apply, Module.End.one_apply, one_pow, one_smul, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.tail_cons]
+      Matrix.cons_val_one]
     have hx : f v + (lam : K) ^ 2 • f v + (lam : K) • f v = 0 := by
       rw [← one_smul K (f v)]
-      simp only [smul_smul, one_mul, mul_one]
+      simp only [smul_smul, mul_one]
       rw [← add_smul, ← add_smul, hc1, zero_smul]
     have hy : (f ^ 2) v + (lam : K) • (f ^ 2) v + (lam : K) ^ 2 • (f ^ 2) v = 0 := by
       rw [← one_smul K ((f ^ 2) v)]
-      simp only [smul_smul, one_mul, mul_one]
+      simp only [smul_smul, mul_one]
       rw [← add_smul, ← add_smul, hc2, zero_smul]
     have hv : v + v + v = v := by
       rw [← one_smul K v]
@@ -317,7 +322,7 @@ theorem dim_eigenspace_one_eq_two (hK : Nat.card K = 4)
     apply LinearMap.ext
     intro v
     ext i
-    simp [Matrix.toLin'_apply', Matrix.mulVec, Matrix.scalar_apply, Finset.sum_ite_eq']
+    simp [Matrix.toLin'_apply', Matrix.mulVec, Matrix.scalar_apply]
   have hmap_mul : ∀ (mu : K) (w : (Fin 6 → K)), f w = mu • w →
       f (gC w) = ((lam : K)⁻¹ * mu) • gC w := by
     intro mu w hw
@@ -326,7 +331,7 @@ theorem dim_eigenspace_one_eq_two (hK : Nat.card K = 4)
     rw [← Matrix.toLin'_mul_apply, hrel]
     rw [Matrix.toLin'_mul_apply, Matrix.toLin'_mul_apply]
     rw [htoLin_scalar]
-    simp only [LinearMap.smul_apply, Module.End.one_apply, Module.End.mul_apply]
+    simp only [LinearMap.smul_apply, Module.End.one_apply]
     rw [hw]
     rw [map_smul, smul_smul, Units.val_inv_eq_inv_val]
   have hmap0 : Submodule.map gC.toLinearMap (V 0) ≤ V 2 := by
@@ -395,7 +400,7 @@ theorem card_le_nine_of_matrix_data (hK : Nat.card K = 4)
         C * (((r : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K))) :
     Nat.card R ≤ 9 := by
   classical
-  haveI : FiniteDimensional K (Fin 6 → K) := FiniteDimensional.finiteDimensional_pi K
+  have : FiniteDimensional K (Fin 6 → K) := FiniteDimensional.finiteDimensional_pi K
   have hlamval3 : (lam : K) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, hlam3]; rfl
   have hlamsum : (lam : K) ^ 2 + (lam : K) + 1 = 0 :=
@@ -432,7 +437,7 @@ theorem card_le_nine_of_matrix_data (hK : Nat.card K = 4)
     apply LinearMap.ext
     intro v
     ext i
-    simp [Matrix.toLin'_apply', Matrix.mulVec, Matrix.scalar_apply, Finset.sum_ite_eq']
+    simp [Matrix.toLin'_apply', Matrix.mulVec, Matrix.scalar_apply]
   have hmap_mul : ∀ (mu : K) (w : Fin 6 → K), f w = mu • w →
       f (gC w) = ((lam : K)⁻¹ * mu) • gC w := by
     intro mu w hw
@@ -441,7 +446,7 @@ theorem card_le_nine_of_matrix_data (hK : Nat.card K = 4)
     rw [← Matrix.toLin'_mul_apply, hrel]
     rw [Matrix.toLin'_mul_apply, Matrix.toLin'_mul_apply]
     rw [htoLin_scalar]
-    simp only [LinearMap.smul_apply, Module.End.one_apply, Module.End.mul_apply]
+    simp only [LinearMap.smul_apply, Module.End.one_apply]
     rw [hw]
     rw [map_smul, smul_smul, Units.val_inv_eq_inv_val]
   have hmap2 : Submodule.map gC.toLinearMap V2 ≤ V1 := by
@@ -512,29 +517,21 @@ theorem card_le_nine_of_matrix_data (hK : Nat.card K = 4)
         intro v
         apply Subtype.ext
         simp only [restrMap_coe]
-        change Matrix.toLin' ((((r⁻¹ : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K))
-          ((Matrix.toLin' (((r : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)) (v : Fin 6 → K)) =
-            (v : Fin 6 → K)
         rw [← Matrix.toLin'_mul_apply]
         have hmul : ((((r⁻¹ : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)) *
             (((r : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = 1 := by
           rw [Subgroup.coe_inv]
-          simpa using congrArg (fun u : GL (Fin 6) K => ((u : Matrix (Fin 6) (Fin 6) K)))
-            (inv_mul_cancel (((r : R) : GL (Fin 6) K)))
+          simp
         rw [hmul, Matrix.toLin'_one]; rfl
       right_inv := by
         intro v
         apply Subtype.ext
         simp only [restrMap_coe]
-        change Matrix.toLin' ((((r : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K))
-          ((Matrix.toLin' ((((r⁻¹ : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)))
-            (v : Fin 6 → K)) = (v : Fin 6 → K)
         rw [← Matrix.toLin'_mul_apply]
         have hmul : ((((r : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)) *
             ((((r⁻¹ : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)) = 1 := by
           rw [Subgroup.coe_inv]
-          simpa using congrArg (fun u : GL (Fin 6) K => ((u : Matrix (Fin 6) (Fin 6) K)))
-            (mul_inv_cancel (((r : R) : GL (Fin 6) K)))
+          simp
         rw [hmul, Matrix.toLin'_one]; rfl }
   have restrEquiv_coe (r : R) (v : V0) :
       ((restrEquiv r v : V0) : Fin 6 → K) =
@@ -547,7 +544,7 @@ theorem card_le_nine_of_matrix_data (hK : Nat.card K = 4)
         intro v
         change ((restrEquiv 1) v : V0) = v
         apply Subtype.ext
-        simp only [restrEquiv, restrMap_coe]
+        simp only [restrEquiv]
         change Matrix.toLin' ((((1 : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K))
           (v : Fin 6 → K) = (v : Fin 6 → K)
         rw [show (((1 : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = 1 by
@@ -560,7 +557,7 @@ theorem card_le_nine_of_matrix_data (hK : Nat.card K = 4)
         intro v
         change ((restrEquiv (r * s)) v : V0) = (restrEquiv r) ((restrEquiv s) v)
         apply Subtype.ext
-        simp only [restrEquiv, restrMap_coe]
+        simp only [restrEquiv]
         change Matrix.toLin' ((((r * s : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K))
             (v : Fin 6 → K) =
           Matrix.toLin' (((r : R) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)
@@ -681,7 +678,7 @@ theorem card_le_nine_of_matrix_data (hK : Nat.card K = 4)
       _ = s := mul_one s
   have hdim0 : Module.finrank K V0 = 2 := by
     simpa [V0, f] using dim_eigenspace_one_eq_two hK hM3 hlam3 hlamne hrel hCdet
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hGLcard : Nat.card (LinearMap.GeneralLinearGroup K V0) = 180 := by
     let b : Module.Basis (Fin 2) K V0 := Module.finBasisOfFinrankEq K V0 hdim0
     let eGL : LinearMap.GeneralLinearGroup K V0 ≃* GL (Fin 2) K :=

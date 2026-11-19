@@ -65,8 +65,8 @@ theorem exists_elemAbelian_rank_three {Hb : Type} [Group Hb] [Finite Hb] {F : Ty
         rw [hcomm.mul_pow]
         exact θ.range.mul_mem (θ.range.pow_mem (MonoidHom.mem_range.mpr ⟨a, rfl⟩) 3) hbS
   obtain ⟨E₀, hE₀, hE₀card⟩ := exists_torus_elemAbelian hp hpF
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative ↥E₀ := hE₀.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative ↥E₀ := hE₀.1
   have hb₁ne : b₁ ≠ 1 := fun h => hb₁S (by rw [h]; exact θ.range.one_mem)
   have hord : orderOf b₁ = p := orderOf_eq_prime hb₁p hb₁ne
   have hZK : Subgroup.zpowers b₁ ≤ Kb' := Subgroup.zpowers_le.mpr hb₁K

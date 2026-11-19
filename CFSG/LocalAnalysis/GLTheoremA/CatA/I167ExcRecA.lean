@@ -25,7 +25,7 @@ private theorem excRec_frame_dim {τ : Tag} {L : Type} [Field L] {ν r : ℕ}
   have hcard : (frameRoots σ).ncard = ν * (ν - 1) := by
     have hinj : Set.InjOn (fun q : Fin ν × Fin ν => σ q.1 q.2) {q | q.1 ≠ q.2} := by
       rintro ⟨x, y⟩ hxy ⟨u, v⟩ huv h
-      simp only [Set.mem_setOf_eq] at hxy huv
+      simp only [Set.mem_ofPred_eq] at hxy huv
       obtain ⟨rfl, rfl⟩ := hψ.eq_of_eq hκ hnorm hxy huv h
       rfl
     have himg : frameRoots σ = (fun q : Fin ν × Fin ν => σ q.1 q.2) '' {q | q.1 ≠ q.2} := by
@@ -39,7 +39,7 @@ private theorem excRec_frame_dim {τ : Tag} {L : Type} [Field L] {ν r : ℕ}
     have hoff : ({q : Fin ν × Fin ν | q.1 ≠ q.2} : Set (Fin ν × Fin ν)) =
         ↑(Finset.univ.offDiag : Finset (Fin ν × Fin ν)) := by
       ext q
-      simp [Finset.mem_offDiag]
+      simp
     rw [hoff, Set.ncard_coe_finset, Finset.offDiag_card, Finset.card_univ, Fintype.card_fin,
       Nat.mul_sub_left_distrib, mul_one]
   have h : ν * (ν - 1) = r * (r + 1) := hcard.symm.trans hr

@@ -170,7 +170,7 @@ lemma ggQ2x_sub_single_norm {n : ℕ} (a b : Fin n) (hab : a ≠ b) :
     (Pi.single a 1 - Pi.single b 1 : GGBCV n) ⬝ᵥ (Pi.single a 1 - Pi.single b 1) = 2 := by
   rw [ggQ2x_sub_single_dot]
   simp only [Pi.sub_apply, Pi.single_eq_same, Pi.single_eq_of_ne (M := fun _ => ZMod 3) hab,
-    Pi.single_eq_of_ne (M := fun _ => ZMod 3) (Ne.symm hab), sub_zero, zero_sub]
+    Pi.single_eq_of_ne (M := fun _ => ZMod 3) (Ne.symm hab), zero_sub]
   decide
 
 lemma ggQ2x_refl_sub_single {n : ℕ} (a b : Fin n) (hab : a ≠ b) (v : GGBCV n)
@@ -209,7 +209,7 @@ lemma ggQ2x_zero_coord_is_root {n : ℕ} [NeZero n] (Z : Set (GGBCV n))
           ⬝ᵥ (Pi.single 0 1 - Pi.single m 1) ≠ 0 := by
         rw [ggQ2x_sub_single_norm 0 m h0m]; decide
       have hc_root : (Pi.single 0 1 - Pi.single m 1 : GGBCV n) ∈ ggBCRoots n := by
-        refine ⟨?_, ?_⟩ <;> rw [ggQ2x_wt_sub_single 0 m h0m] <;> norm_num
+        refine ⟨?_, ?_⟩ <;> rw [ggQ2x_wt_sub_single 0 m h0m]; norm_num
       have hcZ : (Pi.single 0 1 - Pi.single m 1 : GGBCV n) ∈ Z := hZroots hc_root
       refine ⟨ggBCRefl (Pi.single 0 1 - Pi.single m 1) hc_ne z,
         hZcl _ hcZ z hz hc_ne, ?_, ?_⟩
@@ -246,7 +246,7 @@ lemma ggQ2x_zero_coord_is_root {n : ℕ} [NeZero n] (Z : Set (GGBCV n))
     intro h
     exact hzi (by rw [h]; exact hz'0)
   have hρroot : (Pi.single i (1 : ZMod 3) : GGBCV n) ∈ ggBCRoots n := by
-    refine ⟨?_, ?_⟩ <;> rw [ggQ2x_wt_single] <;> norm_num
+    refine ⟨?_, ?_⟩ <;> rw [ggQ2x_wt_single]; norm_num
   have hρlam : (Pi.single i (1 : ZMod 3) : GGBCV n) ∈ ggBCRootsLam1 n :=
     ⟨hρroot, by rw [Pi.single_eq_of_ne (M := fun _ => ZMod 3) (Ne.symm hi0)]⟩
   have hz'dot : z' ⬝ᵥ z' ≠ 0 := hZ0 z' hz'Z
@@ -367,7 +367,7 @@ lemma ggQ2x_full_support_false {n : ℕ} [NeZero n] (hn : 5 ≤ n) (Z : Set (GGB
       rw [Pi.single_eq_same]
       exact (by decide : ∀ x : ZMod 3, x ≠ 0 → 1 + (x * 2) * x = 0) (z 0) (hfull 0)
     have hfRoot : (Pi.single 0 1 : GGBCV n) ∈ ggBCRoots n := by
-      refine ⟨?_, ?_⟩ <;> rw [ggQ2x_wt_single] <;> norm_num
+      refine ⟨?_, ?_⟩ <;> rw [ggQ2x_wt_single]; norm_num
     have hT : Finset.univ.erase (0 : Fin n) ⊆
         Finset.univ.filter
           (fun k => (ggBCRefl z hz0 (Pi.single 0 1 : GGBCV n)) k ≠ 0) := by

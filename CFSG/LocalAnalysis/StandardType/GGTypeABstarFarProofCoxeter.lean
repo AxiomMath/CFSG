@@ -13,7 +13,6 @@ theorem coxeterMatrix_isFiniteType_A_eq (m : ℕ) :
     coxeterMatrix (isFiniteType_A m) = CoxeterMatrix.A m := by
   apply CoxeterMatrix.ext
   funext i j
-  change coxeterMatrix (isFiniteType_A m) i j = (CoxeterMatrix.A m).M i j
   rw [coxeterMatrix_A_apply]
   simp only [CoxeterMatrix.A, Matrix.of_apply]
   by_cases hij : i = j

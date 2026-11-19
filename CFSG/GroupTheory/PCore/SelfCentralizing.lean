@@ -13,7 +13,7 @@ theorem gLAPPrimeCoreOf_inf_eq_bot_of_normal_simple {G : Type*} [Group G] [Finit
     (hNn : (N.subgroupOf X).Normal) (hN : IsSimpleGroup ↥N) (hpN : p ∣ Nat.card N) :
     GLAPPrimeCoreOf p X ⊓ N = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O := GLAPPrimeCoreOf p X
   have hOX : O ≤ X := Subgroup.map_subtype_le _
   have hOn : (O.subgroupOf X).Normal :=
@@ -25,7 +25,7 @@ theorem gLAPPrimeCoreOf_inf_eq_bot_of_normal_simple {G : Type*} [Group G] [Finit
       ⟨(Subgroup.normal_subgroupOf_iff hOX).1 hOn h k (Subgroup.mem_inf.1 hh).1
           (hNX hk),
        (Subgroup.normal_subgroupOf_iff hNX).1 hNn h k (Subgroup.mem_inf.1 hh).2 (hNX hk)⟩
-  haveI := hONn
+  have := hONn
   have hcop : Nat.Coprime p (Nat.card ↥(O ⊓ N)) := by
     have hcopO : Nat.Coprime p (Nat.card O) := by
       rw [show O = GLAPPrimeCoreOf p X from rfl, GLAPPrimeCoreOf, GLAPPrimeCore]
@@ -52,7 +52,7 @@ theorem gLAPPrimeCoreOf_eq_bot_of_normal_simple_of_pow_mem {G : Type*} [Group G]
     (hT : IsSimpleGroup ↥T) (hpT : p ∣ Nat.card T) (hpow : ∀ x ∈ X, ∃ k : ℕ, x ^ (p ^ k) ∈ T) :
     GLAPPrimeCoreOf p X = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOT : GLAPPrimeCoreOf p X ⊓ T = ⊥ :=
     gLAPPrimeCoreOf_inf_eq_bot_of_normal_simple hp hTX hTn hT hpT
   rw [eq_bot_iff]
@@ -74,7 +74,7 @@ theorem gLAPPrimeCoreOf_eq_bot_of_normal_simple_of_pow_mem {G : Type*} [Group G]
 theorem gLAPPrimeCore_eq_bot_of_isSimpleGroup_of_dvd_card {Y : Type*} [Group Y] [Finite Y]
     {p : ℕ} (hp : p.Prime) (hY : IsSimpleGroup Y) (hdvd : p ∣ Nat.card Y) :
     GLAPPrimeCore p Y = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p Y)) := pPrimeCore_coprime_card
   rcases hY.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p Y) with h | h
   · exact h

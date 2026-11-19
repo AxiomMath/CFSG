@@ -53,7 +53,7 @@ theorem row_co3 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOute
   have hc : Nat.card ↥co3P = 495766656000 := by
     rw [← Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Co3.card_Co3
-  haveI : IsSimpleGroup ↥co3P :=
+  have : IsSimpleGroup ↥co3P :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co3.isSimpleGroup_Co3 e.symm
   exact row_of_model (s := .Co3) (Q := ↥co3P) hOut (e.symm.trans (hbr .Co3).some)
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))

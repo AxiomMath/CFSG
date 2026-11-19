@@ -35,8 +35,8 @@ private theorem outerSubThree_fieldActor_twE6 {d : ℕ} (hd : 1 ≤ d) {K : Type
       (fixSubfieldRestrict T κ) hσ₀ ε hε
   set C := graphFixedRootGroup TwistTag.E6 K σ.toRingHom
   set J := subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) (fixSubfieldRestrict T κ)
-  haveI : Finite (fixSubfield κ) := Subtype.finite
-  haveI := hsimple
+  have : Finite (fixSubfield κ) := Subtype.finite
+  have := hsimple
   let e1 : ↥(J.subgroupOf C) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJC
   let eJ : ↥J ≃* twistedE6RootGroup (fixSubfield κ) (fixSubfieldRestrict T κ) :=
     (Subgroup.equivMapOfInjective _ _
@@ -61,7 +61,7 @@ theorem lieOuterThreeAt_twE6 : LieOuterThreeAt FamTwE6 := by
   obtain ⟨-, hf, rfl⟩ := hadm
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ := exists_twistedE6RootGroup_equiv Nat.prime_three hf
     (hm.chevalleyExceptionalModel (by decide)).2
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv P e.symm.toEquiv
+  have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv P e.symm.toEquiv
   refine outerSubThree_congr e.symm ?_
   set β := MulAut.congr e.symm ψ with hβdef
   have hβ3 : β ^ 3 = 1 := by rw [hβdef, ← map_pow, hψ3, map_one]

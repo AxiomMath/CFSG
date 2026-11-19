@@ -80,7 +80,7 @@ theorem not_three_dvd_index_of_rankOne {K : Subgroup X} [hKn : K.Normal]
   set NT : Subgroup X := Subgroup.normalizer (T : Set X) with hNTdef
   set B : Subgroup X := K ⊓ NT with hBdef
   set Γ : Subgroup X := gammaCore 3 1 ⊤ (P : Subgroup X) with hΓdef
-  have hT3 : IsPGroup 3 T := P.isPGroup'.to_le inf_le_left
+  have hT3 : IsPGroup 3 T := P.isPGroup.to_le inf_le_left
   have hrkT : 1 ≤ CFSG.Open.pRank 3 T := by
     have hcard : Nat.card T ≠ 1 := fun h => hT (Subgroup.eq_bot_of_card_eq T h)
     have h3 : 3 ∣ Nat.card T := hT3.card_eq_or_dvd.resolve_left hcard
@@ -227,7 +227,7 @@ theorem not_three_dvd_index_of_rankOne {K : Subgroup X} [hKn : K.Normal]
   obtain ⟨y, hyP, hy1, hy3, hyω⟩ : ∃ y ∈ (P : Subgroup X), y ≠ 1 ∧ y ^ 3 = 1 ∧
       y ∈ Subgroup.normalizer (ω : Set X) := by
     have hx3 : IsPGroup 3 (Subgroup.zpowers x) :=
-      P.isPGroup'.to_le ((Subgroup.zpowers_le).2 hxP)
+      P.isPGroup.to_le ((Subgroup.zpowers_le).2 hxP)
     have hcard : Nat.card (Subgroup.zpowers x) ≠ 1 := by
       intro h
       apply hx1
@@ -316,7 +316,7 @@ theorem not_three_dvd_index_of_rankOne {K : Subgroup X} [hKn : K.Normal]
       rw [← this]
       exact hsc ▸ hcT
     exact hkN (hTI k hkK s hsT hs1 hks)
-  have hPnil : Group.IsNilpotent ↥(P : Subgroup X) := P.isPGroup'.isNilpotent
+  have hPnil : Group.IsNilpotent ↥(P : Subgroup X) := P.isPGroup.isNilpotent
   have hTn : (T.subgroupOf (P : Subgroup X)).Normal := by
     refine ⟨fun a ha b => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢

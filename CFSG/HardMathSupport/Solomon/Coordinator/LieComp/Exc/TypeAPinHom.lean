@@ -184,7 +184,7 @@ theorem exists_pinned_hom (hT : rootDiagUnit τ ta ∈ S.D.torus)
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨z, hconj, hnorm⟩ := pinned_exists_lang S hT i hs0 hψ hΨ hstd
   have hcent := pinned_central S hT i hs hmin hν hψ hΨ hnorm
   set P := outerOrbitFamily S hT i hs hmin with hP

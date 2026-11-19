@@ -46,7 +46,7 @@ private theorem sec63P_exists_elem_two_sq_of_mem [Finite G] {S : Subgroup G}
     (he : orderOf e = 2) (heS : e ∈ S) :
     ∃ E : Subgroup G, E ≤ S ∧ e ∈ E ∧ CFSG.Open.IsElemAbelian 2 E ∧ 4 ≤ Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E₁, hE₁S, hE₁el, hE₁card⟩ :=
     CFSG.GH74.Uniqueness.SU.SU1.exists_isElemAbelian_of_le_pRank (p := 2) Nat.prime_two hSrank
   have he2 : e ^ 2 = 1 := by simpa [he] using pow_orderOf_eq_one e
@@ -72,9 +72,9 @@ private theorem sec63P_exists_elem_two_sq_of_mem [Finite G] {S : Subgroup G}
   ·
     push Not at hcen
     obtain ⟨x, hxS, hxe⟩ := hcen
-    haveI : Nontrivial S :=
+    have : Nontrivial S :=
       ⟨⟨⟨e, heS⟩, 1, fun h => he1 (congrArg (fun z : ↥S => (z : G)) h)⟩⟩
-    haveI : Nontrivial (Subgroup.center (S : Subgroup G)) := hS.center_nontrivial
+    have : Nontrivial (Subgroup.center (S : Subgroup G)) := hS.center_nontrivial
     have hZpg : IsPGroup 2 (Subgroup.center (S : Subgroup G)) :=
       hS.to_subgroup (Subgroup.center (S : Subgroup G))
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hZpg
@@ -145,10 +145,10 @@ theorem sec63P_exists_E4 [Finite G] {H : Subgroup G} (hH : 2 ≤ CFSG.Open.pRank
     (he : orderOf e = 2) (heH : e ∈ H) :
     ∃ E : Subgroup G, E ≤ H ∧ e ∈ E ∧ CFSG.Open.IsElemAbelian 2 E ∧ 4 ≤ Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Subgroup ↥H) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Subgroup ↥H) :=
     Finite.of_injective (fun K : Subgroup ↥H => (K : Set ↥H)) SetLike.coe_injective
-  haveI : Finite (Sylow 2 ↥H) :=
+  have : Finite (Sylow 2 ↥H) :=
     Finite.of_injective (fun P : Sylow 2 ↥H => (P : Subgroup ↥H)) (fun _ _ h => Sylow.ext h)
   let j : ↥H := ⟨e, heH⟩
   have hj : orderOf j = 2 := (Subgroup.orderOf_mk e heH).trans he
@@ -177,7 +177,7 @@ theorem sec63P_exists_E4 [Finite G] {H : Subgroup G} (hH : 2 ≤ CFSG.Open.pRank
     CFSG.SectionRank.le_pRank (p := 2) (by norm_num) hE₁P hE₁el hE₁card
   obtain ⟨F, _, hjF, hFel, hFcard⟩ :=
     sec63P_exists_elem_two_sq_of_mem (G := ↥H) (S := (P₁ : Subgroup ↥H))
-      P₁.isPGroup' hrankP hj hjP
+      P₁.isPGroup hrankP hj hjP
   refine ⟨F.map H.subtype, Subgroup.map_subtype_le F, ?_, ?_, ?_⟩
   · exact Subgroup.mem_map.mpr ⟨j, hjF, rfl⟩
   · exact CFSG.SectionRank.isElemAbelian_map hFel H.subtype
@@ -217,7 +217,7 @@ theorem sec63P_relIndex_le_two [Finite G] {R J K : Subgroup G}
     (h : ∀ g ∈ R, CFSG.conjugate J g = J ∨ CFSG.conjugate J g = K) :
     (normalizer (J : Set G)).relIndex R ≤ 2 := by
   classical
-  letI : MulAction ↥R (Subgroup G) :=
+  let : MulAction ↥R (Subgroup G) :=
     MulAction.compHom (Subgroup G) (ConjAct.toConjAct.toMonoidHom.comp R.subtype)
   have hstab : MulAction.stabilizer ↥R J = (normalizer (J : Set G)).subgroupOf R := by
     ext r

@@ -239,7 +239,7 @@ theorem syl_sp8_nodup {v w : Nat} (h1 : v ≠ 0) (h2 : v ≠ 31) (h3 : w ≠ 0) 
   all_goals
     apply syl_xor_ne
     simp only [Nat.xor_assoc, Nat.xor_comm, lc, cc, Nat.xor_self, Nat.xor_zero,
-      Nat.zero_xor] at a2 a4 a5 a6 ⊢ <;> assumption
+      Nat.zero_xor] at a2 a4 a5 a6 ⊢; assumption
 
 theorem syl_mem_of_move {v w u : Nat} (hu : u ∈ Native.sp8 v w) (h0 : u ≠ 0) (h1 : u ≠ 31)
     (h2 : u ≠ v) (h3 : u ≠ 31 ^^^ v) : w ∈ [u, u ^^^ 31, u ^^^ v, u ^^^ 31 ^^^ v] := by
@@ -257,13 +257,13 @@ theorem syl_mem_of_move {v w u : Nat} (hu : u ∈ Native.sp8 v w) (h0 : u ≠ 0)
   · exact Or.inl e.symm
   · subst e
     refine Or.inr (Or.inl ?_)
-    simp only [Nat.xor_assoc, Nat.xor_comm, lc, cc, Nat.xor_self, Nat.xor_zero, Nat.zero_xor]
+    simp only [Nat.xor_comm, lc, Nat.xor_self, Nat.xor_zero]
   · subst e
     refine Or.inr (Or.inr (Or.inl ?_))
-    simp only [Nat.xor_assoc, Nat.xor_comm, lc, cc, Nat.xor_self, Nat.xor_zero, Nat.zero_xor]
+    simp only [Nat.xor_comm, cc]
   · subst e
     refine Or.inr (Or.inr (Or.inr ?_))
-    simp only [Nat.xor_assoc, Nat.xor_comm, lc, cc, Nat.xor_self, Nat.xor_zero, Nat.zero_xor]
+    simp only [Nat.xor_comm, lc, cc, Nat.xor_self, Nat.xor_zero]
 
 theorem syl_testBit_of_cls {SL : List (List Nat)} (hS : Native.sextList () = SL.toArray)
     (hSl : SL.length = 1771) {m : Nat}

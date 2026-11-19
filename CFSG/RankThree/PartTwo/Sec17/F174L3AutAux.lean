@@ -155,7 +155,7 @@ theorem eig_vec_one {F : Type} [Field F] {g : Matrix (Fin 3) (Fin 3) F} (hg3 : g
   rw [h, hc, one_smul]
 
 theorem eig_covec_one {F : Type} [Field F] {g gi : Matrix (Fin 3) (Fin 3) F}
-    (hg : g * gi = 1) (hgi : gi * g = 1) (hg3 : g * g * g = 1)
+    (_hg : g * gi = 1) (hgi : gi * g = 1) (hg3 : g * g * g = 1)
     (hcube : ∀ r : F, r ^ 3 = 1 → r = 1) {φ : Fin 3 → F} (hφ : φ ≠ 0) (c : F)
     (h : φ ᵥ* gi = c • φ) : φ ᵥ* g = φ := by
   have hgi3 : gi * gi * gi = 1 := by
@@ -198,8 +198,8 @@ theorem exists_involution_pow {G : Type} [Group G] {b : G} (hb : b ≠ 1) {k : �
 
 theorem exists_central_involution {G : Type} [Group G] [Finite G] (D : Subgroup G) (hD0 : D ≠ ⊥)
     (hD2 : IsPGroup 2 D) : ∃ z ∈ D, z * z = 1 ∧ z ≠ 1 ∧ ∀ d ∈ D, z * d = d * z := by
-  haveI : Nontrivial D := (Subgroup.nontrivial_iff_ne_bot D).2 hD0
-  haveI : Nontrivial (Subgroup.center D) := hD2.center_nontrivial
+  have : Nontrivial D := (Subgroup.nontrivial_iff_ne_bot D).2 hD0
+  have : Nontrivial (Subgroup.center D) := hD2.center_nontrivial
   obtain ⟨c, hc⟩ := exists_ne (1 : Subgroup.center D)
   have hcD : (c : D) ≠ 1 := fun h => hc (Subtype.ext h)
   obtain ⟨k, hk⟩ := hD2 (c : D)
@@ -279,7 +279,6 @@ theorem exists_sl_conj {F : Type} [Field F] [Finite F] (hcube : ∀ r : F, r ^ 3
             (t • ((B⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F))) := by
       rw [hbM, mul_one]
     rw [h1, ← mul_assoc, hcb, one_mul]
-  simp only [hc, hbSL, Matrix.smul_mul, Matrix.mul_smul, smul_smul, inv_mul_cancel₀ ht0,
-    mul_inv_cancel₀ ht0, one_smul]
+  simp only [hc, hbSL, Matrix.smul_mul, Matrix.mul_smul, smul_smul, mul_inv_cancel₀ ht0, one_smul]
 
 end CFSG.RankThree.PartTwo.Sec17.F174L3Aut.Grp

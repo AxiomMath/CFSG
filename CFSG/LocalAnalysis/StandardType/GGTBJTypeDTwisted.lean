@@ -45,11 +45,11 @@ private lemma tbD3_conj_diagAut_sgnAut_apply {m p : ℕ} {s : Fin m → ZMod p}
   rw [MulAut.conj_apply, hDinv, MulAut.mul_apply, MulAut.mul_apply, diagAut_apply, sgnAut_apply,
     Function.update_apply]
   by_cases hji : j = i
-  · rw [if_pos hji, diagAut_apply, toAdd_inv, toAdd_ofAdd, if_pos hji, hji]
+  · rw [ite_eq_left hji, diagAut_apply, toAdd_inv, toAdd_ofAdd, ite_eq_left hji, hji]
     rw [show s i * -(s i * toAdd (f i)) = -toAdd (f i) from by
       rw [mul_neg, ← mul_assoc, hs i, one_mul]]
     rw [ofAdd_neg, ofAdd_toAdd]
-  · rw [if_neg hji, diagAut_apply, toAdd_ofAdd, if_neg hji]
+  · rw [ite_eq_right hji, diagAut_apply, toAdd_ofAdd, ite_eq_right hji]
     rw [show s j * (s j * toAdd (f j)) = toAdd (f j) from by rw [← mul_assoc, hs j, one_mul]]
     rw [ofAdd_toAdd]
 
@@ -59,8 +59,8 @@ private lemma tbD3_conj_diagAut_sgnAut {m p : ℕ} {s : Fin m → ZMod p}
   refine MulEquiv.ext fun f => funext fun j => ?_
   rw [tbD3_conj_diagAut_sgnAut_apply (s := s) hs i f j, sgnAut_apply, Function.update_apply]
   by_cases hji : j = i
-  · rw [if_pos hji, if_pos hji, hji]
-  · rw [if_neg hji, if_neg hji]
+  · rw [ite_eq_left hji, ite_eq_left hji, hji]
+  · rw [ite_eq_right hji, ite_eq_right hji]
 
 private lemma tbD3_conj_diagAut_involutive {m p : ℕ} {s : Fin m → ZMod p}
     (hs : ∀ i, s i * s i = 1) (x : MulAut (Fin m → Multiplicative (ZMod p))) :
@@ -69,7 +69,7 @@ private lemma tbD3_conj_diagAut_involutive {m p : ℕ} {s : Fin m → ZMod p}
   simp
 
 private lemma tbD3_conj_diagAut_swap_of_mul_eq_one {m p : ℕ} {s : Fin m → ZMod p}
-    (hs : ∀ i, s i * s i = 1) {a b : Fin m} (hab : a ≠ b) (hc : s a * s b = 1) :
+    (hs : ∀ i, s i * s i = 1) {a b : Fin m} (_hab : a ≠ b) (hc : s a * s b = 1) :
     MulAut.conj (diagAut s hs) (permAut (p := p) (Equiv.swap a b)) =
       permAut (p := p) (Equiv.swap a b) := by
   refine MulEquiv.ext fun f => funext fun j => ?_
@@ -109,16 +109,16 @@ private lemma tbD3_conj_diagAut_swap_of_mul_eq_neg_one {m p : ℕ} {s : Fin m �
   rw [MulAut.mul_apply, permAut_apply, Function.comp_apply, Equiv.swap_inv,
     tbD3_sgnAut_mul_sgnAut_apply hab f]
   by_cases hja : j = a
-  · rw [hja, Equiv.swap_apply_left, if_neg (Ne.symm hab), if_pos rfl]
+  · rw [hja, Equiv.swap_apply_left, ite_eq_right (Ne.symm hab), ite_eq_left rfl]
     rw [show s a * (s b * toAdd (f b)) = -toAdd (f b) from by
       rw [← mul_assoc, hc, neg_one_mul]]
     rw [ofAdd_neg, ofAdd_toAdd]
   · by_cases hjb : j = b
-    · rw [hjb, Equiv.swap_apply_right, if_pos rfl]
+    · rw [hjb, Equiv.swap_apply_right, ite_eq_left rfl]
       rw [show s b * (s a * toAdd (f a)) = -toAdd (f a) from by
         rw [← mul_assoc, mul_comm (s b) (s a), hc, neg_one_mul]]
       rw [ofAdd_neg, ofAdd_toAdd]
-    · rw [Equiv.swap_apply_of_ne_of_ne hja hjb, if_neg hja, if_neg hjb]
+    · rw [Equiv.swap_apply_of_ne_of_ne hja hjb, ite_eq_right hja, ite_eq_right hjb]
       rw [show s j * (s j * toAdd (f j)) = toAdd (f j) from by rw [← mul_assoc, hs j, one_mul]]
       rw [ofAdd_toAdd]
 
@@ -173,10 +173,10 @@ private lemma tbD3_conj_permAut_sgnAut_apply {m p : ℕ} (τ : Equiv.Perm (Fin m
   by_cases h : τ⁻¹ j = i
   · have hj : j = τ i := by
       rw [← h]; exact (Equiv.apply_symm_apply τ j).symm
-    rw [if_pos h, if_pos hj, Function.comp_apply, hj]
+    rw [ite_eq_left h, ite_eq_left hj, Function.comp_apply, hj]
   · have hj : j ≠ τ i := by
       intro hh; exact h (by rw [hh]; exact Equiv.symm_apply_apply τ i)
-    rw [if_neg h, if_neg hj, Function.comp_apply]
+    rw [ite_eq_right h, ite_eq_right hj, Function.comp_apply]
     exact congrArg f (Equiv.apply_symm_apply τ j)
 
 private lemma tbD3_conj_permAut_sgnAut {m p : ℕ} (τ : Equiv.Perm (Fin m)) (i : Fin m) :
@@ -184,8 +184,8 @@ private lemma tbD3_conj_permAut_sgnAut {m p : ℕ} (τ : Equiv.Perm (Fin m)) (i 
   refine MulEquiv.ext fun f => funext fun j => ?_
   rw [tbD3_conj_permAut_sgnAut_apply τ i f j, sgnAut_apply, Function.update_apply]
   by_cases h : j = τ i
-  · rw [if_pos h, if_pos h, h]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h, h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private lemma tbD3_conj_permAut_permAut_swap {m p : ℕ} (τ : Equiv.Perm (Fin m)) (a b : Fin m) :
     MulAut.conj (permAut (p := p) τ) (permAut (p := p) (Equiv.swap a b)) =
@@ -333,7 +333,7 @@ theorem ggTBJTypeD_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
   let eS : Fin b ≃ S := (Finite.equivFinOfCardEq hcardS).symm
   let last : Fin b ↪ Fin m :=
     ⟨fun i => ⟨m - b + i.val, by have := i.isLt; omega⟩, fun i j h => by
-      have := congrArg Fin.val h; simp only [Fin.mk.injEq] at this; omega⟩
+      have := congrArg Fin.val h; simp only at this; omega⟩
   let enumerated : Fin b ↪ Fin m := eS.toEmbedding.trans (Function.Embedding.subtype (· ∈ S))
   obtain ⟨τ, hτ⟩ := Equiv.Perm.exists_smul_eq_embedding last enumerated
   have hτi : ∀ i : Fin b, τ (last i) = (eS i : Fin m) := by
@@ -361,14 +361,12 @@ theorem ggTBJTypeD_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
     · intro hx
       rcases Finset.mem_image.mp hx with ⟨y, hy, rfl⟩
       rcases Finset.mem_image.mp hy with ⟨i, -, rfl⟩
-      change τ (last i) ∈ S
       rw [hτi i]
       exact (eS i).2
     · intro hx
       refine Finset.mem_image.mpr ⟨last (eS.symm ⟨x, hx⟩), ?_, ?_⟩
       · exact Finset.mem_image.mpr ⟨eS.symm ⟨x, hx⟩, Finset.mem_univ _, rfl⟩
-      · change τ (last (eS.symm ⟨x, hx⟩)) = x
-        rw [hτi (eS.symm ⟨x, hx⟩)]; simp
+      · rw [hτi (eS.symm ⟨x, hx⟩)]; simp
   let D : MulAut (Fin m → Multiplicative (ZMod p)) := diagAut s hs
   let N : MulAut (Fin m → Multiplicative (ZMod p)) := permAut (p := p) τ
   let P : MulAut (Fin m → Multiplicative (ZMod p)) := D * N
@@ -393,8 +391,8 @@ theorem ggTBJTypeD_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
     rw [hX, hlift, ← Subgroup.map_map, hP_eq]
   obtain ⟨V, instV, instMod, ι, φ, h, α, hlin, hrefl, hpair, ⟨f, hf⟩, hclos, hφexplicit⟩ :=
     exists_typeD_datum_of_evenSignedAut (G := G) (p := p) (m := m) hp2 hm hBs Θ' hX'
-  letI : AddCommGroup V := instV
-  letI : Module (ZMod p) V := instMod
+  let : AddCommGroup V := instV
+  let : Module (ZMod p) V := instMod
   have hSN : permSupportedAut m p S =
       (permSupportedAut m p Tl).map (MulAut.conj N).toMonoidHom := by
     rw [← hTlτ]
@@ -433,14 +431,14 @@ theorem ggTBJTypeD_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
       rw [hφexplicit j.1]
       refine congrArg (liftBs Θ') ?_
       unfold typeDSimple
-      rw [dif_pos j.2.2]
+      rw [dite_eq_left j.2.2]
     · rintro ⟨j, rfl⟩
       refine ⟨j, ?_⟩
       change (liftBs Θ') (permAut (p := p) (Equiv.swap j.1 ⟨j.1.val + 1, j.2.2⟩)) = φ j.1
       rw [hφexplicit j.1]
       refine congrArg (liftBs Θ') ?_
       unfold typeDSimple
-      rw [dif_pos j.2.2]
+      rw [dite_eq_left j.2.2]
   have hres := ggTBJTypeDParabolicLE3_endA (G := G) (p := p) (Bs := Bs) (X := X) (J := J)
     (n := m) (m := b) hp2 hb2 hbm (by omega) hm
     (M := ggCoxeterMatrixD m) (C := CartanMatrix.D m) rfl rfl

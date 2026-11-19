@@ -104,7 +104,7 @@ theorem nonempty_oFrame_of_blockFrame {p a r : ℕ} [Fact p.Prime] (hp2 : p ≠ 
         exact hsq u
       refine ⟨⟨u * u, hD⟩, fun k => if k = i₀ then μ₀ ^ 2 else 1, ⟨i₀, j₁, ?_⟩, fun c => ?_⟩
       · show ¬ (p : ℤ) ∣ (if i₀ = i₀ then μ₀ ^ 2 else 1) - (if j₁ = i₀ then μ₀ ^ 2 else 1)
-        rw [if_pos rfl, if_neg (Ne.symm hji)]
+        rw [ite_eq_left rfl, ite_eq_right (Ne.symm hji)]
         exact hμ₀ h2
       · refine hGconj (u * u) hD c _ ?_
         have e2 : u * u * F.T c * (u * u)⁻¹ = u * (u * F.T c * u⁻¹) * u⁻¹ := by group
@@ -114,7 +114,7 @@ theorem nonempty_oFrame_of_blockFrame {p a r : ℕ} [Fact p.Prime] (hp2 : p ≠ 
         by_cases hk : k = i₀
         · subst hk
           simp [← zpow_mul, sq]
-        · simp [Function.update_of_ne hk, hk]
+        · simp [hk]
     ·
       obtain ⟨a₀, b₀, d₀, hab, hda, hdb⟩ : ∃ a₀ b₀ d₀ : Fin r,
           a₀ ≠ b₀ ∧ d₀ ≠ a₀ ∧ d₀ ≠ b₀ :=
@@ -166,11 +166,11 @@ theorem nonempty_oFrame_of_blockFrame {p a r : ℕ} [Fact p.Prime] (hp2 : p ≠ 
         congr 1
         funext k
         by_cases hka : k = a₀
-        · simp [hka, Function.update_apply, Equiv.swap_apply_left, Equiv.swap_apply_right,
+        · simp [hka, Equiv.swap_apply_left, Equiv.swap_apply_right,
             hab, Ne.symm hab]
         by_cases hkb : k = b₀
-        · simp [hkb, Function.update_apply, Equiv.swap_apply_left, Equiv.swap_apply_right,
-            hab, Ne.symm hab, hka]
+        · simp [hkb, Equiv.swap_apply_left, Equiv.swap_apply_right,
+            Ne.symm hab]
         · simp [Function.update_apply, Equiv.swap_apply_of_ne_of_ne, hka, hkb]
       refine ⟨⟨_, hD⟩, fun k => if k = a₀ ∨ k = b₀ then (-1 : ℤ) else 1, ⟨a₀, d₀, ?_⟩,
         fun c => ?_⟩

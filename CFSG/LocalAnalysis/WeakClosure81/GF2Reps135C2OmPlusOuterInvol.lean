@@ -171,19 +171,19 @@ theorem exists_conj_graphSpin_eq_nW {n : ℕ} (hn : 3 ≤ n) {F : Type} [Field F
   have hci₀ : c i₀ = 1 := by
     rw [hc, hi₀]
     unfold omqnfSignC
-    rw [if_neg (by simp only; omega)]
+    rw [ite_eq_right (by simp only; omega)]
   have hdisj : Equiv.Perm.Disjoint sw τ := by
     intro x
     rcases x with a | a
     · by_cases ha : a = i₀
       · right
-        rw [ha, hτ, spMonoPerm_inl, if_pos hci₀]
+        rw [ha, hτ, spMonoPerm_inl, ite_eq_left hci₀]
         rfl
       · left
         exact Equiv.swap_apply_of_ne_of_ne (fun h => ha (Sum.inl_injective h)) Sum.inl_ne_inr
     · by_cases ha : a = i₀
       · right
-        rw [ha, hτ, spMonoPerm_inr, if_pos hci₀]
+        rw [ha, hτ, spMonoPerm_inr, ite_eq_left hci₀]
         rfl
       · left
         exact Equiv.swap_apply_of_ne_of_ne Sum.inr_ne_inl (fun h => ha (Sum.inr_injective h))

@@ -13,11 +13,11 @@ variable {α : Type} [Fintype α] [DecidableEq α]
 @[expose] def fixOutside (S : Set α) : Subgroup (Perm α) where
   carrier := {g | ∀ y, y ∉ S → g y = y}
   mul_mem' {a b} ha hb y hy := by
-    simp only [Set.mem_setOf_eq, Perm.mul_apply] at *
+    simp only [Set.mem_ofPred_eq, Perm.mul_apply] at *
     rw [hb y hy, ha y hy]
   one_mem' _ _ := rfl
   inv_mem' {a} ha y hy := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     conv_lhs => rw [← ha y hy]
     exact a.symm_apply_apply y
 
@@ -271,9 +271,9 @@ private theorem transporter_spec {E K : Subgroup (Perm α)} {x₀ : α} {S : Set
     (h : ∃ k ∈ K, k x₀ ∈ S) : transporter E K x₀ S ∈ K ∧ transporter E K x₀ S x₀ ∈ S := by
   by_cases h1 : S = orbit E x₀
   · subst h1
-    simp only [transporter, if_true]
+    simp only [transporter, ite_true]
     exact ⟨K.one_mem, mem_orbit_self x₀⟩
-  · simp only [transporter, h1, if_false, dif_pos h]
+  · simp only [transporter, h1, ite_false, dite_eq_left h]
     exact h.choose_spec
 
 private noncomputable abbrev blockShift (E K : Subgroup (Perm α)) (x₀ z : α) : Perm α :=
@@ -370,12 +370,12 @@ private theorem DiagData.mem_orbit_iff_blockShift (hD : DiagData E K x₀ p) {z 
 
 private theorem dFun_of_not_reach {z : α} (hz : ¬ Reach E K x₀ z) : dFun E K x₀ p z = z := by
   unfold dFun
-  rw [if_neg hz]
+  rw [ite_eq_right hz]
 
 private theorem dFun_of_reach {z : α} (hz : Reach E K x₀ z) :
     dFun E K x₀ p z = blockShift E K x₀ z (p ((blockShift E K x₀ z)⁻¹ z)) := by
   unfold dFun
-  rw [if_pos hz]
+  rw [ite_eq_left hz]
 
 private theorem DiagData.dFun_mem_orbit (hD : DiagData E K x₀ p) (z : α) :
     dFun E K x₀ p z ∈ orbit E z := by

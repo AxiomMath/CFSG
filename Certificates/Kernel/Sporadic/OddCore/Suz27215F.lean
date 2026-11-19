@@ -63,10 +63,10 @@ theorem gensC_get {j : Nat} (hj : j < 5) : gensC[j]! = unpack 1782 11 (SOA.G j) 
       CFSG.Sporadic.SuzOddCore.invFullStrongCounts]
   rw [e1, SuzInv.run_eq3 (by omega), (gen_parts.2 j hj).1]
 
-theorem ginv_parts : (∀ k < 5, (gensC.map (invTab 1782))[k]! = unpack 1782 11 (SOA.GI k)) ∧
+theorem ginv_parts : (∀ _k < 5, (gensC.map (invTab 1782))[_k]! = unpack 1782 11 (SOA.GI _k)) ∧
     invsOK 1782 gensC (gensC.map (invTab 1782)) = true :=
-  invsOK_of_pcomp gensC_size (fun k hk => gensC_get hk) fun k hk =>
-    ⟨(gen_parts.2 k hk).2.1, (gen_parts.2 k hk).2.2.1, (gen_parts.2 k hk).2.2.2⟩
+  invsOK_of_pcomp gensC_size (fun _k hk => gensC_get hk) fun _k hk =>
+    ⟨(gen_parts.2 _k hk).2.1, (gen_parts.2 _k hk).2.2.1, (gen_parts.2 _k hk).2.2.2⟩
 
 theorem gensOK_C : GensOK 1782 11 5 SOA.G gensC :=
   ⟨gensC_size, fun j hj => ⟨gensC_get hj, (gen_parts.2 j hj).2.1⟩⟩
@@ -79,13 +79,13 @@ theorem letK_parts {j : Nat} (hj : j < 10) :
   unfold letterTab letK
   by_cases h : j < 5
   · have hb : Nat.blt j 5 = true := Nat.blt_eq.mpr h
-    rw [if_pos h, hb]
+    rw [ite_eq_left h, hb]
     exact ⟨gensC_get h, (gen_parts.2 j h).2.1⟩
   · have hb : Nat.blt j 5 = false := by
       cases e : Nat.blt j 5
       · rfl
       · exact absurd (Nat.blt_eq.mp e) h
-    rw [if_neg h, hb]
+    rw [ite_eq_right h, hb]
     have h5 : j - 5 < 5 := by omega
     have e2 : Nat.sub j 5 = j - 5 := rfl
     rw [e2, ← map_get (invTab 1782) (by rw [gensC_size]; exact h5), ginv_parts.1 _ h5]

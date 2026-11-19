@@ -61,7 +61,7 @@ theorem step715ZN_of_model (hModel : Sec715ZNModelStatement) (hSplit : Sec715Spl
     (hPerf : StatedOmegaPlusFourPerfectStatement) (hPlus : QuadraticPlusTypeStatement) :
     Step715ZNStatement := by
   intro G _ _ M Q Z B hc n t hs hn4 Z0 hZ0
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hQCN : Q ≤ hc.CN t := sec8_Q_le_CN hc ht
   obtain ⟨Zn, hZn⟩ := exists_isCentrePre hQCN
@@ -77,7 +77,7 @@ theorem step715ZN_of_model (hModel : Sec715ZNModelStatement) (hSplit : Sec715Spl
   obtain ⟨K, hKf, hKfin, hcard, φ, hrange, hkerφ, -⟩ := hn4'
   have hCNR : hc.CN t ≤ Rt M (LB M Q B) t := sec9_CN_le_Rt hc t
   have hYCN : Y ≤ hc.CN t := hYZn.trans hZn.le
-  haveI : (Y.subgroupOf (Rt M (LB M Q B) t)).Normal := normal_subgroupOf_of_conj_invariant hYinv
+  have : (Y.subgroupOf (Rt M (LB M Q B) t)).Normal := normal_subgroupOf_of_conj_invariant hYinv
   have hNn : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal := by
     rw [← hkerφ]
     exact φ.normal_ker

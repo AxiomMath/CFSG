@@ -13,10 +13,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t u : G}
 
+omit [Finite G] in
 private lemma y6_t_sq (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) : t * t = 1 := by
   rw [← pow_two, ← h.t_ord]
   exact pow_orderOf_eq_one t
 
+omit [Finite G] in
 private lemma y6_t_conj_V (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     ∀ v ∈ V, t * v * t⁻¹ = v⁻¹ := by
   intro v hv
@@ -24,27 +26,32 @@ private lemma y6_t_conj_V (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hv
   rw [← hk, ← conj_zpow, h.t_inv, inv_zpow]
 
+omit [Finite G] in
 private lemma y6_t_mul_V (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     ∀ v ∈ V, t * v = v⁻¹ * t := by
   intro v hv
   calc t * v = (t * v * t⁻¹) * t := by group
     _ = v⁻¹ * t := by rw [y6_t_conj_V h v hv]
 
+omit [Finite G] in
 private lemma y6_mul_t_V (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     ∀ v ∈ V, v * t = t * v⁻¹ := by
   intro v hv
   simpa using (y6_t_mul_V h v⁻¹ (inv_mem hv)).symm
 
+omit [Finite G] in
 private lemma y6_A_comm_V (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     ∀ a ∈ A, ∀ v ∈ V, a * v = v * a := by
   intro a ha v hv
   exact y6_C0_comm h a ha v (y6_V_le_C0 h hv)
 
+omit [Finite G] in
 private lemma y6_z_comm_A (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     ∀ a ∈ A, a * z = z * a := by
   intro a ha
   exact y6q8_z_central h.rel a (by rwa [h.hA] at ha)
 
+omit [Finite G] in
 private lemma y6_z_inv (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) : z⁻¹ = z :=
   inv_eq_of_mul_eq_one_right (by simpa [pow_two] using h.rel.z_sq)
 
@@ -63,17 +70,21 @@ private lemma y6_V_elems (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
   · right; right; left; simpa using h.u_sq
   · right; right; right; rfl
 
+omit [Finite G] in
 private lemma y6_u3 (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) : u ^ 3 = z * u := by
   rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_add, h.u_sq, pow_one]
 
+omit [Finite G] in
 private lemma y6_u3_sq (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) : (u ^ 3) ^ 2 = z := by
   have hu4 : u ^ 4 = 1 := by rw [← h.u_ord]; exact pow_orderOf_eq_one u
   rw [← pow_mul, show 3 * 2 = 4 + 2 by norm_num, pow_add, hu4, one_mul, h.u_sq]
 
+omit [Finite G] in
 private lemma y6_card_A_inf_V (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     Nat.card ↥(A ⊓ V) = 2 := by
   rw [y6_A_inf_V h, Nat.card_zpowers, orderOf_eq_prime h.rel.z_sq h.z_ne]
 
+omit [Finite G] in
 private lemma y6_sq_mul_z (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) {a b : G}
     (ha : a ∈ A) (hb : b ∈ A) (ha2 : a ^ 2 = z) (hb2 : b ^ 2 = z) (hab : ⁅a, b⁆ = z) :
     (a * b) ^ 2 = z := by
@@ -83,6 +94,7 @@ private lemma y6_sq_mul_z (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) {a b : G}
     _ = ⁅b, a⁆ := by rw [ha2, hb2, ← pow_two, h.rel.z_sq, one_mul]
     _ = z := by rw [← commutatorElement_inv, hab, y6_z_inv h]
 
+omit [Finite G] in
 private lemma y6_sq_eq_z_of_mul (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) {a v : G}
     (ha : a ∈ A) (hv : v ∈ V) (hv2 : v ^ 2 = z) (h1 : (a * v) ^ 2 = 1) : a ^ 2 = z := by
   have hcomm : Commute a v := y6_A_comm_V h a ha v hv
@@ -174,6 +186,7 @@ theorem y6_card_Up (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     10 * Nat.card ↥V
   omega
 
+omit [Finite G] in
 theorem y6_gen_Um (h : Y6Cfg A C0 V a₁ b₁ a₂ b₂ z t u) :
     closure ((y6Um A V z t : Set G) ∪ (V : Set G)) = A ⊔ C0 := by
   classical

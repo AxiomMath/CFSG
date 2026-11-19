@@ -32,7 +32,7 @@ theorem rngTLP : ∀ T ∈ [TLP.getD 0 [], TLP.getD 1 [], TLP.getD 2 [], TLP.get
   exact fun i hi => ((Orb.permOK_facts h).2.2 i hi).1
 
 theorem kBasic : (c2BasicN RG PLL QS LSP && lsN QS (l3N (QS.getD 3 []) BZ CZL) == LSP) = true :=
-  basicT_sound kBasicT (by rw [← hTLP] <;> rfl) rngTLP
+  basicT_sound kBasicT (by rw [← hTLP]; rfl) rngTLP
 
 theorem ppPLL : ∀ x ∈ PLL, PP 360 9 x :=
   PP_pfilterProducts hsz _ ppTLP _ [] (PP.id hsz) (fun _ h => absurd h List.not_mem_nil)

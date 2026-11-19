@@ -98,7 +98,7 @@ theorem sec7_om4_points (hPts : Sec5NatPointsOmegaStatement) (hc : Ctx M Q Z B) 
     rw [hι] at hcard
     have hmm : m' = 2 := sec7_pin_dim hq (hcard.symm.trans hV)
     subst hmm
-    haveI : Nonempty (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : Nonempty (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     have hQnd := nondegenerate_polarBilin_quadMinus_of_finite 2 K hirr
     set E := ElemMatrixIso.minus (K := K) hm' hirr with hE
     have hL₁ : ((LB M Q B).subgroupOf (Rt M (LB M Q B) t)).map φ = E.LomGL u := by
@@ -187,7 +187,7 @@ theorem sec7WVNe6Om4_of (h34 : Stroth34Statement) (hA : Sec7AExistsStatement)
   have hd := h52b G M Q Z B hc n t h5 hs.omegaNat r hr.mem hr.plane
     (conjSubgroup r B) (LB M Q B) (LB M Q (conjSubgroup r B)) (Vt M (LB M Q B) B Z t)
     (Wt Q (Vt M (LB M Q B) B Z t)) rfl rfl rfl rfl rfl
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
   have hWQ : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q := inf_le_left

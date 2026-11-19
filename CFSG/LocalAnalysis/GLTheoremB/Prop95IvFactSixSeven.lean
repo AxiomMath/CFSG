@@ -15,7 +15,7 @@ open CFSG.Alternating.Multipliers
 theorem ivAlt_card_center_dvd {Y X : Type} [Group Y] [Group X] (hY : Group.IsPerfect Y)
     (e : Y ⧸ Subgroup.center Y ≃* X) :
     Nat.card (Subgroup.center Y) ∣ Nat.card (hopfMultiplier X) := by
-  haveI := hY
+  have := hY
   have hsurj : Function.Surjective (e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Y))) :=
     e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : (e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Y))).ker =

@@ -157,7 +157,7 @@ theorem false_of_z4E4_mem_normalizer
   have hKcomm : ∀ u ∈ K, ∀ w ∈ K, u * w = w * u := by
     have hKmc : IsMulCommutative K :=
       Subgroup.isMulCommutative_closure (k := ({a ^ 2, b, c} : Set G)) hpair
-    letI : CommGroup K := by
+    let : CommGroup K := by
       open scoped IsMulCommutative in exact inferInstance
     intro u hu w hw
     exact congrArg Subtype.val (mul_comm (⟨u, hu⟩ : K) ⟨w, hw⟩)

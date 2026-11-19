@@ -45,7 +45,7 @@ private lemma l6m5_hbc
 
 private lemma l6m5_gram
     (c : Fin 8 → (Fin Tag.E8.rank → ℤ)) (b : Fin Tag.E8.rank → ℤ)
-    (hc : ∀ i, IsRoot .E8 (c i)) (hb : IsRoot .E8 b)
+    (_hc : ∀ i, IsRoot .E8 (c i)) (hb : IsRoot .E8 b)
     (hg : ∀ i j, iform (τ := .E8) (c i) (c j) = CartanMatrix.A 8 i j)
     (hb' : ∀ j, iform (τ := .E8) b (c j) = if j = 2 then -1 else 0) :
     l6m5_Gram c b := by
@@ -176,7 +176,7 @@ private lemma l6m5_U_conj_apply
       l6m5_delta c b k := by
     rw [Matrix.mulVecLin_apply]
     ext i
-    simp [Matrix.mulVec, l6m5_M, Pi.single_apply]
+    simp [Matrix.mulVec, l6m5_M]
   have hcoef : iform (τ := .E8) x (l6m5_delta c b k) =
       ∑ l, Tag.cartan .E8 k l * ((l6m5_M c b)⁻¹.mulVecLin x) l := by
     have h1 : iform (τ := .E8) ((l6m5_M c b)⁻¹.mulVecLin x) (Pi.single k 1) =
@@ -261,7 +261,7 @@ theorem e8_weyl_generated_by_chain
     rw [← hmap]
     exact Subgroup.card_map_of_injective (f := cU)
       (by intro a b hab; exact (MulAut.conj U).injective hab)
-  haveI : Finite (latticeWeylGroup .E8) := (finite_weyl_pair_orders .E8).1
+  have : Finite (latticeWeylGroup .E8) := (finite_weyl_pair_orders .E8).1
   have hHKeq : Subgroup.closure (Set.range rUnit) = latticeWeylGroup .E8 :=
     Subgroup.eq_of_le_of_card_ge hHK (le_of_eq hcard.symm)
   let u : Fin 8 → WeylGroup .E8 := ![s 0, sb, s 1, s 2, s 3, s 4, s 5, s 6]

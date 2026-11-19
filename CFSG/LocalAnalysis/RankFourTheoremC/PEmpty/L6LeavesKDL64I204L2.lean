@@ -18,7 +18,7 @@ theorem kdL64I204L2_pPrimeCore_bot {p : ℕ} (hp : p.Prime) {Z : Type} [Group Z]
     (hC : Subgroup.centralizer (L : Set Z) = ⊥) : CFSG.pPrimeCore p Z = ⊥ := by
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro N hN hcop
-  haveI : (N.subgroupOf L).Normal := hN.subgroupOf L
+  have : (N.subgroupOf L).Normal := hN.subgroupOf L
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf L) with h | h
   · have hdisj : N ⊓ L = ⊥ := disjoint_iff.1 (Subgroup.subgroupOf_eq_bot.1 h)
     have hNc : N ≤ Subgroup.centralizer (L : Set Z) := by
@@ -48,7 +48,7 @@ theorem kdL64I204L2_holds
     CFSG.HardMathSupport.Dickson.DefCharOuter.Export.simple_nonabelian_projectiveSL_two h4
   let eLP : ↥L ≃* projectiveSL 2 K :=
     eL.trans (LinearCover.projectiveSpecialLinearEquivProjectiveSL 2 K)
-  haveI : IsSimpleGroup ↥L := eLP.isSimpleGroup
+  have : IsSimpleGroup ↥L := eLP.isSimpleGroup
   have hZP : Subgroup.center (projectiveSL 2 K) = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnabP
   have hZL : Subgroup.center ↥L = ⊥ := by

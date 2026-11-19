@@ -31,7 +31,7 @@ theorem exists_isPGroup_map_eq_and_lift {H L : Type*} [Group H] [Group L] [Finit
     rw [Sylow.coe_mapSurjective] at hmem
     obtain ⟨x, hx, hxe⟩ := hmem
     exact ⟨x, ⟨x, hx, rfl⟩, congrArg Subtype.val hxe⟩
-  refine ⟨S, Q.isPGroup'.map M.subtype, hSE, fun t ht => ?_⟩
+  refine ⟨S, Q.isPGroup.map M.subtype, hSE, fun t ht => ?_⟩
   obtain ⟨h, rfl⟩ := hf t
   set S' : Subgroup H := S.map (MulAut.conj h⁻¹).toMonoidHom with hS'
   have hmemS' : ∀ x, x ∈ S' ↔ h * x * h⁻¹ ∈ S := by
@@ -40,7 +40,7 @@ theorem exists_isPGroup_map_eq_and_lift {H L : Type*} [Group H] [Group L] [Finit
     · rintro ⟨y, hy, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using hy
     · intro hx
-      exact ⟨h * x * h⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨h * x * h⁻¹, hx, by simp [mul_assoc]⟩
   have hS'M : S' ≤ M := by
     intro x hx
     have h1 : f (h * x * h⁻¹) ∈ E := hSM ((hmemS' x).mp hx)
@@ -99,7 +99,7 @@ theorem exists_pow_four_mul_three_of_similitude {q : ℕ} [Fact q.Prime] (hq2 : 
     {g : (Module.End (ZMod q) W)ˣ}
     (hg : g ∈ Subgroup.normalizer (P : Set (Module.End (ZMod q) W)ˣ)) :
     ∃ k : ℕ, ∀ x ∈ P, g ^ (4 * 3 ^ k) * x = x * g ^ (4 * 3 ^ k) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpK : ¬ 3 ∣ Nat.card (ZMod q) := by
     rw [Nat.card_zmod]
     exact fun h => hq3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three (Fact.out : q.Prime)).mp h).symm
@@ -133,7 +133,7 @@ theorem threeAutFour_of_smallModel {q : ℕ} [Fact q.Prime] (hq3 : q ≠ 3)
         ∃ k : ℕ, ∀ x ∈ P, y ^ (4 * 3 ^ k) * x = x * y ^ (4 * 3 ^ k))
     (A : Subgroup H) {K : Type} [Group K] (φ : ↥A →* K) (hφ : Function.Surjective φ) :
     ThreeAutFour K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro E hE g hg
   obtain ⟨S, hS, hSE, hlift⟩ := exists_isPGroup_map_eq_and_lift φ hφ hE
   obtain ⟨n, hnN, hng⟩ := hlift g hg
@@ -159,7 +159,7 @@ theorem threeAutFour_of_smallModel {q : ℕ} [Fact q.Prime] (hq3 : q ≠ 3)
       refine eq_of_map_eq_of_isPGroup Nat.prime_three (Fact.out : q.Prime) (Ne.symm hq3) ρ' hρ'
         hS hcS S.one_mem ?_
       have h2 : ρ' (n ^ (4 * 3 ^ k) * t * (n ^ (4 * 3 ^ k))⁻¹ * t⁻¹) = 1 := by
-        simp only [map_mul, map_inv, map_pow, map_one]
+        simp only [map_mul, map_inv, map_pow]
         rw [hk (ρ' t) ⟨t, ht, rfl⟩]
         group
       simpa using h2
@@ -182,7 +182,7 @@ theorem sevenCentralizesTwo_of_smallModel {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 
       y ∈ Subgroup.normalizer (R : Set (Module.End (ZMod q) W)ˣ) → ∀ x ∈ R, y * x = x * y)
     (A : Subgroup H) {K : Type} [Group K] (φ : ↥A →* K) (hφ : Function.Surjective φ) :
     SevenCentralizesTwo K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro E hE g hg hg7
   obtain ⟨S, hS, hSE, hlift⟩ := exists_isPGroup_map_eq_and_lift φ hφ hE
   obtain ⟨n, hnN, hng⟩ := hlift g hg

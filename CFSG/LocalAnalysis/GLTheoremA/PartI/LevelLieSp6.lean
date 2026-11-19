@@ -50,7 +50,7 @@ theorem mem_center_of_conj_eq_one {G : Type} [Group G] {z : G} (h : MulAut.conj 
 theorem kLevel_le_two_of_k2 {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k2 p)) :
     kLevel p S ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 theorem fixSubgroup_conj_one {G : Type} [Group G] :
     fixSubgroup (MulAut.conj (1 : G)) = ⊤ := by
@@ -104,7 +104,7 @@ theorem kdLieRowSp6Two_holds :
     rw [CFSG.Models.card_fixedField_of (TauCeti.LieTypeIndex.characteristic_B 3 q)
       (TauCeti.LieTypeIndex.fieldExponent_B 3 q), hA, hB]
     norm_num
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 q, hv⟩) :=
     Nat.finite_of_card_ne_zero (by rw [hKc]; norm_num)
   let e : (TauCeti.CFSGIndex.lie ⟨.B 3 q, hv⟩).Group ≃*
       StatedProj (StatedSp 3 ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 q, hv⟩)) :=

@@ -72,7 +72,7 @@ private theorem l48tR_exists_twoGroup {Y : Type} [Group Y] [Finite Y]
   by_contra hcon
   have hempty : {k | ∃ H : Subgroup Y, CFSG.Open.IsTwoLocal H ∧ CFSG.Open.pRank 3 H = k} = ∅ := by
     ext k
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     rintro ⟨H, hH, -⟩
     obtain ⟨T, hT, hT2, -⟩ := hH
     exact hcon ⟨T, hT, hT2⟩

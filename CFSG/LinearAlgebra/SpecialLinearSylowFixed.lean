@@ -14,10 +14,10 @@ theorem eq_zero_of_forall_apply_eq_of_odd_index
     {v : W} (hv : ∀ t ∈ T, (t : W ≃ₗ[E] W) v = v) : v = 0 := by
   by_contra h0
   let b : Module.Basis (Fin (Module.finrank E W)) E W := Module.finBasis E W
-  haveI : Fintype W := Module.fintypeOfFintype b
-  haveI : Fintype {w : W // w ≠ 0} := Fintype.ofFinite _
-  haveI : Fintype {w : W // w = 0} := Fintype.ofFinite _
-  letI : MulAction (SpecialLinearGroup E W) {w : W // w ≠ 0} :=
+  have : Fintype W := Module.fintypeOfFintype b
+  have : Fintype {w : W // w ≠ 0} := Fintype.ofFinite _
+  have : Fintype {w : W // w = 0} := Fintype.ofFinite _
+  let : MulAction (SpecialLinearGroup E W) {w : W // w ≠ 0} :=
     { smul := fun g w => ⟨g.1 w.1, by
         intro h
         apply w.2
@@ -25,7 +25,7 @@ theorem eq_zero_of_forall_apply_eq_of_odd_index
         simpa using this⟩
       one_smul := fun w => Subtype.ext rfl
       mul_smul := fun g h w => Subtype.ext (LinearEquiv.mul_apply g.1 h.1 w.1) }
-  haveI : MulAction.IsPretransitive (SpecialLinearGroup E W) {w : W // w ≠ 0} :=
+  have : MulAction.IsPretransitive (SpecialLinearGroup E W) {w : W // w ≠ 0} :=
     ⟨fun a b => by
       obtain ⟨g, hg⟩ := CFSG.LinearAlgebra.RootGroupSL.exists_specialLinear_apply_eq hm a.2 b.2
       exact ⟨g, Subtype.ext hg⟩⟩

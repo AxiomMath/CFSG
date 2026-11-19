@@ -97,7 +97,7 @@ theorem exists_lieIndex_of_conn_class (S : LangSetup Tag.E6 L p₀) {Fr : L →+
       exists_slCover_of_rankOne S hT i (hS1 rfl).1 (hS1 rfl).2.1 hQS hr hchar he hq
     rw [hs1, Nat.mul_one] at hKcard
     have he3 : e ≠ 3 := fun h => hq8 (hS1 rfl).2.2 (by rw [hq, h]; norm_num)
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hperf : commutator SL(2, K) = ⊤ :=
       (slFactorFacts_holds K 2 le_rfl (fun _ => by rwa [← Nat.card_eq_fintype_card])).perfect
     have hmodel := statedClassicalModel_PSL_of_slCover hr he hKcard hK4 g hg hgk hperf

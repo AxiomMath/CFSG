@@ -54,7 +54,7 @@ theorem two_pow_dvd_and_not_dvd_of_mod {p f r : ℕ} (hr : 4 ≤ r)
 
 theorem l1_gamma [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2 : p ≠ 2) (hf : Even f) {r : ℕ}
     (hr : 4 ≤ r) (harith : p ^ f % 2 ^ (r + 1) = 2 ^ r + 1) {σ₀ : F ≃+* F} (hσ₀1 : σ₀ ≠ 1)
-    (hσ₀2 : σ₀ * σ₀ = 1) (hq : ∀ x : F, σ₀ x = x ^ p ^ (f / 2))
+    (_hσ₀2 : σ₀ * σ₀ = 1) (hq : ∀ x : F, σ₀ x = x ^ p ^ (f / 2))
     (N : Subgroup (PGammaL2 F)) [N.Normal]
     (hN1 : ∀ g : PGammaL2 F, g.right = 1 → g.left ∈ pslRange F → g ∈ N)
     (hN2 : ∃ y : Fˣ, ¬ IsSquare y ∧ (gD y σ₀ ∈ N ∨ gA y σ₀ ∈ N))

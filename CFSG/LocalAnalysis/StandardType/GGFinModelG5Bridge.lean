@@ -293,7 +293,7 @@ private theorem g5_iSup_twisted_eq {ι κ G : Type*} [Fintype ι] [DecidableEq �
   · refine le_iSup₂_of_le
       (f := fun α (_ : α ∈ Φ) =>
         ⨆ (_ : ∃ c : ℕ, 0 < c ∧ orbitSum o α = c • β), X α) b hb ?_
-    exact le_iSup_of_le ⟨1, Nat.one_pos, by simpa [ho]⟩ le_rfl
+    exact le_iSup_of_le ⟨1, Nat.one_pos, by simp [ho]⟩ le_rfl
 
 private theorem g5_twistedRootSubgroup_eq_singleton {ι κ G : Type*}
     [Fintype ι] [DecidableEq ι] [DecidableEq κ] [Group G]
@@ -310,7 +310,7 @@ private theorem g5_inf_adjoint_eq {G : Type*} [Group G] {A E X : Subgroup G} (h 
   · exact le_inf inf_le_right (inf_le_left.trans inf_le_right)
 
 private theorem g5_twistedRootSubgroup_proj
-    (n f : ℕ)
+    (_n f : ℕ)
     {δ : Fin (Tag.rank .F4) → ℤ}
     {β : Fin (Tag.rank .E6) → ℤ}
     (hδ : proj β = δ)

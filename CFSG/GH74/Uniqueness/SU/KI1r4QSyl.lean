@@ -2,7 +2,7 @@ module
 
 public import CFSG.GH74.Uniqueness.SU.KI1r4QAbs
 public import CFSG.GroupTheory.KleinFourAutomorphism
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.GroupTheory.IndexNormal
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.Tactic.ENatToNat
@@ -86,7 +86,7 @@ theorem exists_sylow_data {G : Type*} [Group G] [Finite G] (R : Subgroup G) [R.N
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord3, pow_one])
   obtain ⟨P, hP⟩ := hy.exists_le_sylow
   have hyP : y ∈ (P : Subgroup G) := hP (mem_zpowers y)
-  have hP3 : IsPGroup 3 (P : Subgroup G) := P.isPGroup'
+  have hP3 : IsPGroup 3 (P : Subgroup G) := P.isPGroup
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 3)).mp hP3
   have hnd2 : ¬ 2 ∣ Nat.card (P : Subgroup G) := by
     rw [hk]

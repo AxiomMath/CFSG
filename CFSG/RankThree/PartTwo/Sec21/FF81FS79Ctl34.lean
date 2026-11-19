@@ -43,7 +43,7 @@ variable {b t b₁ b₂ : H} {J : Subgroup H}
 
 theorem K_comm_b (h : FS79Hyp b t b₁ b₂ J) {k : H}
     (hk : k ∈ Opp 3 (Nor (Subgroup.zpowers b))) : k * b = b * k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hkN : k ∈ Nor (Subgroup.zpowers b) := L14.Opp_le 3 _ hk
   have hb3 : b ^ 3 = 1 := by
     rw [← h.ord_b]
@@ -61,10 +61,12 @@ theorem K_comm_b (h : FS79Hyp b t b₁ b₂ J) {k : H}
   calc k * b = (k * b * k⁻¹) * k := by group
     _ = b * k := by rw [h1]
 
+omit [Finite H] in
 theorem comm_of_conj_eq' {g x : H} (h : g * x * g⁻¹ = x) : g * x = x * g := by
   calc g * x = (g * x * g⁻¹) * g := by group
     _ = x * g := by rw [h]
 
+omit [Finite H] in
 theorem conj_commute_of_commute' {g j x : H} (hg : g * x = x * g) (hj : j * x = x * j) :
     (g * j * g⁻¹) * x = x * (g * j * g⁻¹) := by
   have h1 : g⁻¹ * x = x * g⁻¹ := by
@@ -79,6 +81,7 @@ theorem conj_commute_of_commute' {g j x : H} (hg : g * x = x * g) (hj : j * x = 
     _ = (x * g) * j * g⁻¹ := by rw [hg]
     _ = x * (g * j * g⁻¹) := by group
 
+omit [Finite H] in
 theorem nor_normalizes_cen {β g x : H} (hg : g ∈ Nor (Subgroup.zpowers β)) (hx : x ∈ Cen β) :
     g * x * g⁻¹ ∈ Cen β := by
   have hβ' : g⁻¹ * β * g⁻¹⁻¹ ∈ Subgroup.zpowers β :=
@@ -174,27 +177,35 @@ variable (F : Frame b b₁ b₂ J w τ c J') (h : FS79Hyp b t b₁ b₂ J)
 
 include F h
 
+omit [Finite H] in
 theorem w_mem_J : w ∈ J := h.B₁_le_J F.w_mem
 
+omit [Finite H] in
 theorem c_mem_J : c ∈ J := h.B₁_le_J F.c_mem
 
+omit [Finite H] in
 theorem w_comm_b : w * b = b * w :=
   Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_b (F.w_mem_J h))
 
+omit [Finite H] in
 theorem c_comm_b : c * b = b * c :=
   Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_b (F.c_mem_J h))
 
 theorem c_comm_w : c * w = w * c :=
   h.B_comm (FS79Hyp.B₁_le_B b b₁ b₂ F.c_mem) (FS79Hyp.B₁_le_B b b₁ b₂ F.w_mem)
 
+omit [Finite H] in
 theorem τ_comm_b : τ * b = b * τ :=
   Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_b F.τ_mem)
 
+omit [Finite H] in
 theorem τ_comm_t : τ * t = t * τ :=
   Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_t F.τ_mem)
 
+omit [Finite H] h in
 theorem w_orderOf : orderOf w = 3 := orderOf_eq_prime F.w3 F.w_ne
 
+omit [Finite H] in
 theorem beta_pow_three : (b * w) ^ 3 = 1 := by
   have hb3 : b ^ 3 = 1 := by
     rw [← h.ord_b]
@@ -218,10 +229,11 @@ theorem zpowers_beta_inf_J : Subgroup.zpowers (b * w) ⊓ J = ⊥ := by
     have := (orderOf_dvd_iff_zpow_eq_one (x := b) (i := k)).mpr hmem
     rwa [h.ord_b] at this
   have hwk : w ^ k = 1 :=
-    (orderOf_dvd_iff_zpow_eq_one (x := w) (i := k)).mp (by rw [F.w_orderOf h]; exact h3)
+    (orderOf_dvd_iff_zpow_eq_one (x := w) (i := k)).mp (by rw [F.w_orderOf]; exact h3)
   rw [hmem, hwk, mul_one]
   exact Subgroup.one_mem _
 
+omit [Finite H] in
 theorem beta_ne_one : b * w ≠ 1 := by
   intro h1
   have hb : b ∈ J := by
@@ -230,18 +242,23 @@ theorem beta_ne_one : b * w ≠ 1 := by
     exact J.inv_mem (F.w_mem_J h)
   exact h.b_not_mem_J hb
 
+omit [Finite H] in
 theorem beta_orderOf : orderOf (b * w) = 3 :=
   orderOf_eq_prime (F.beta_pow_three h) (F.beta_ne_one h)
 
+omit [Finite H] in
 theorem card_Z : Nat.card (Subgroup.zpowers (b * w)) = 3 := by
   rw [Nat.card_zpowers, F.beta_orderOf h]
 
+omit [Finite H] in
 theorem beta_comm_b : (b * w) * b = b * (b * w) := by
   rw [mul_assoc, F.w_comm_b h]
 
+omit [Finite H] in
 theorem w_comm_t : w * t = t * w :=
   Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_t (F.w_mem_J h))
 
+omit [Finite H] in
 theorem isPGroup_E :
     IsPGroup 3 (Subgroup.zpowers b ⊔ Subgroup.zpowers (b * w) : Subgroup H) := by
   have hb3 : b ^ 3 = 1 := by
@@ -284,12 +301,14 @@ theorem weak_E {h' : H}
   have := h.conj_mem_zpowers_of_pgroup hS hbS hgS
   exact Subgroup.mem_sup_left this
 
+omit [Finite H] in
 theorem hat_sq : (t * τ) * (t * τ) = 1 := by
   calc (t * τ) * (t * τ) = t * (τ * t) * τ := by group
     _ = t * (t * τ) * τ := by rw [F.τ_comm_t h]
     _ = (t * t) * (τ * τ) := by group
     _ = 1 := by rw [h.t_sq, F.τ2, one_mul]
 
+omit [Finite H] in
 theorem hat_inv_b : (t * τ) * b * (t * τ)⁻¹ = b⁻¹ := by
   have e : τ * b * τ⁻¹ = b := by
     rw [F.τ_comm_b h]
@@ -298,6 +317,7 @@ theorem hat_inv_b : (t * τ) * b * (t * τ)⁻¹ = b⁻¹ := by
     _ = t * b * t⁻¹ := by rw [e]
     _ = b⁻¹ := h.inv_b
 
+omit [Finite H] in
 theorem hat_beta : (t * τ) * (b * w) * (t * τ)⁻¹ = (b * w)⁻¹ := by
   have e1 : τ * (b * w) * τ⁻¹ = b * w⁻¹ := by
     have e : τ * b * τ⁻¹ = b := by
@@ -341,7 +361,7 @@ theorem beta_pow_eq {e m : ℤ} {u : H} (hu : u ∈ J) (hm : (b * w) ^ m = b ^ e
     rwa [h.ord_b] at this
   refine ⟨h3, ?_⟩
   have hw : w ^ (m - e) = 1 :=
-    (orderOf_dvd_iff_zpow_eq_one (x := w) (i := m - e)).mp (by rw [F.w_orderOf h]; exact h3)
+    (orderOf_dvd_iff_zpow_eq_one (x := w) (i := m - e)).mp (by rw [F.w_orderOf]; exact h3)
   rw [hmem, one_mul] at e1
   rw [← e1]
   calc w ^ m = w ^ (m - e) * w ^ e := by group
@@ -401,11 +421,13 @@ theorem decomp {g : H}
 theorem beta_comm_c : c * (b * w) = (b * w) * c := by
   rw [← mul_assoc, F.c_comm_b h, mul_assoc, F.c_comm_w h, ← mul_assoc]
 
+omit [Finite H] in
 theorem J'_comm_beta {j : H} (hj : j ∈ J') : j * (b * w) = (b * w) * j := by
   have hjb : j * b = b * j :=
     Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_b (F.J'_le hj))
   rw [← mul_assoc, hjb, mul_assoc, F.J'_comm_w j hj, ← mul_assoc]
 
+omit [Finite H] in
 theorem closure_comm_J' {y j : H} (hy : y ∈ Subgroup.closure ({b, t * τ} : Set H))
     (hj : j ∈ J') : y * j = j * y := by
   have hle : Subgroup.closure ({b, t * τ} : Set H) ≤ Subgroup.centralizer ({j} : Set H) := by
@@ -436,7 +458,7 @@ theorem struct_b : ∃ W : Subgroup H,
         Nor (Subgroup.zpowers b ⊔ Subgroup.zpowers (b * w)),
       ∃ x ∈ W, ∃ y ∈ Subgroup.closure ({b, t * τ} : Set H), ∃ j ∈ J',
         ∃ z ∈ Subgroup.zpowers (b * w), g = x * y * j * z) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨Opp 3 (Nor (Subgroup.zpowers b)), ?_, L14.Opp_coprime 3 _, ?_, ?_⟩
   · intro κ hκ
     have hκβ : κ * (b * w) = (b * w) * κ := by
@@ -552,7 +574,7 @@ theorem decomp_c {g : H}
       ∃ n₁ ∈ Nor (Subgroup.zpowers b) ⊓ Nor (Subgroup.zpowers c) ⊓
         Nor (Subgroup.zpowers (b * w)), g = q * n₁ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hgc : g ∈ Nor (Subgroup.zpowers c) := F.Nor_cE'_le_Nor_c h hg.2
   have hQ : Ctl b c (Opp 3 (Nor (Subgroup.zpowers c))) := Ctl.of_N_bi F.ctl_c
   obtain ⟨q, hq, n₁, hn₁, hgqn⟩ := hQ.decomp g hgc
@@ -628,7 +650,7 @@ theorem struct_c : ∃ Wc : Subgroup H,
           Nor (Subgroup.zpowers b ⊔ Subgroup.zpowers (b * w)),
         ∃ z ∈ Subgroup.zpowers (b * w), g = x * n * z) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ : Ctl b c (Opp 3 (Nor (Subgroup.zpowers c))) := Ctl.of_N_bi F.ctl_c
   refine ⟨Opp 3 (Nor (Subgroup.zpowers c)) ⊓ Cen (b * w), ?_, ?_, ?_, ?_⟩
   · rintro q ⟨hq, hqC⟩
@@ -651,7 +673,7 @@ theorem no2 {R : Subgroup H} (hRΓ : R ≤ Nor (Subgroup.zpowers (b * w)))
     (hR2 : ∀ r ∈ R, ∃ k : ℕ, r ^ (2 ^ k) ∈ Subgroup.zpowers (b * w))
     (hb : b ∈ Nor R) (hc : c ∈ Nor R) : R ≤ Subgroup.zpowers (b * w) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hβ3 := F.beta_pow_three h
   have hβ1 := F.beta_ne_one h
   have hZ3 : Nat.card (Subgroup.zpowers (b * w)) = 3 := F.card_Z h
@@ -722,7 +744,7 @@ theorem no2 {R : Subgroup H} (hRΓ : R ≤ Nor (Subgroup.zpowers (b * w)))
     rw [hx, mul_one]
     exact hz
   by_contra hRZ
-  obtain ⟨r, hrR, hrZ⟩ := SetLike.not_le_iff_exists.mp hRZ
+  obtain ⟨r, hrR, hrZ⟩ := IsConcreteLE.not_le_iff_exists.mp hRZ
   have hmin : ∀ k : ℕ, ∀ r ∈ R, r ∉ Subgroup.zpowers (b * w) →
       r ^ (2 ^ k) ∈ Subgroup.zpowers (b * w) →
       ∃ r' ∈ R, r' ∉ Subgroup.zpowers (b * w) ∧ r' * r' ∈ Subgroup.zpowers (b * w) := by
@@ -829,7 +851,7 @@ theorem no2 {R : Subgroup H} (hRΓ : R ≤ Nor (Subgroup.zpowers (b * w)))
     obtain ⟨h3a, h3b⟩ := F.beta_pow_eq h J.one_mem e
     have h3c : (3 : ℤ) ∣ k' - 1 := by
       have := (orderOf_dvd_iff_zpow_eq_one (x := w) (i := k' - 1)).mpr h3b.symm
-      rwa [F.w_orderOf h] at this
+      rwa [F.w_orderOf] at this
     have h3i : (3 : ℤ) ∣ i := by omega
     obtain ⟨q, hq⟩ := h3i
     have hβ3z : (b * w) ^ (3 : ℤ) = 1 := by
@@ -865,6 +887,7 @@ theorem no2 {R : Subgroup H} (hRΓ : R ≤ Nor (Subgroup.zpowers (b * w)))
   have := J.mul_mem hbwJ (F.w_mem_J h)
   simpa using this
 
+omit [Finite H] in
 theorem beta_inv_ne : (b * w)⁻¹ ≠ b * w := by
   intro h1
   have hx2 : (b * w) * (b * w) = 1 := by
@@ -932,9 +955,9 @@ theorem qdata : QData (Nor (Subgroup.zpowers (b * w))) (Subgroup.zpowers (b * w)
 theorem ctlEq (hR1K : KF_FS79Prop2OneK) (hK : KCore.KGroupNonab InCatalog H) :
     CtlEq b (b * w) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have D := F.qdata h
-  haveI hN : ((Subgroup.zpowers (b * w)).subgroupOf (Nor (Subgroup.zpowers (b * w)))).Normal :=
+  have hN : ((Subgroup.zpowers (b * w)).subgroupOf (Nor (Subgroup.zpowers (b * w)))).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using D.Z_norm (g : H) g.2 (n : H) hn⟩

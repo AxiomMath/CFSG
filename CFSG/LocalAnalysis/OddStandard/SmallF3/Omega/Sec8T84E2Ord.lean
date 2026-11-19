@@ -29,7 +29,7 @@ theorem sec8t84_cent_order {G : Type} [Group G] [Finite G] {t : G} {L S : Subgro
   have hCX : (C.subgroupOf X).Normal :=
     Subgroup.normal_subgroupOf_centralizer_normalizer (E : Set G)
   have hXC : X ≤ normalizer (C : Set G) := by
-    haveI : (C.subgroupOf X).Normal := hCX
+    have : (C.subgroupOf X).Normal := hCX
     exact Subgroup.le_normalizer_of_normal_subgroupOf
       (Subgroup.centralizer_le_normalizer (E : Set G))
   have hYC : Y ≤ normalizer (C : Set G) := le_trans inf_le_left hXC

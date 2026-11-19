@@ -122,7 +122,7 @@ private theorem gram_single_e6 :
   rw [hs, one_mul, Finset.sum_eq_single j]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, Ne.symm hb]
+    simp [Ne.symm hb]
   · simp
 
 private theorem det_gram_single_e6 :
@@ -140,7 +140,7 @@ private theorem three_mul_sq_ne (m : ℤ) {k : ℤ} (hk : k = 1 ∨ k = 2 ∨ k 
   rcases hk with rfl | rfl | rfl | rfl <;> revert h2 <;> decide
 
 private theorem exists_det_gram_eq_sq_mul_three {Ψ : Set (Fin Tag.E6.rank → ℤ)}
-    (hΨ : IsRootComponent Ψ) (e : simpleRoots Ψ ≃ Fin Tag.E6.rank) :
+    (_hΨ : IsRootComponent Ψ) (e : simpleRoots Ψ ≃ Fin Tag.E6.rank) :
     ∃ m : ℤ, (Matrix.of fun i j => iform ((e.symm i : simpleRoots Ψ) : Fin Tag.E6.rank → ℤ)
       ((e.symm j : simpleRoots Ψ) : Fin Tag.E6.rank → ℤ)).det = m ^ 2 * 3 := by
   classical
@@ -220,7 +220,7 @@ private theorem exists_det_three_of_compRank_eq_six {Ψ : Set (Fin Tag.E6.rank �
   rw [det_gram_eq_cartan_det t e6 e hiform, hdet3]
 
 private theorem exists_unit_matrix_of_det_three {Ψ : Set (Fin Tag.E6.rank → ℤ)}
-    (hΨ : IsRootComponent Ψ) {e : simpleRoots Ψ ≃ Fin Tag.E6.rank}
+    (_hΨ : IsRootComponent Ψ) {e : simpleRoots Ψ ≃ Fin Tag.E6.rank}
     (h3 : (Matrix.of fun i j => iform ((e.symm i : simpleRoots Ψ) : Fin Tag.E6.rank → ℤ)
       ((e.symm j : simpleRoots Ψ) : Fin Tag.E6.rank → ℤ)).det = 3) :
     ∃ M : Matrix (Fin Tag.E6.rank) (Fin Tag.E6.rank) ℤ,

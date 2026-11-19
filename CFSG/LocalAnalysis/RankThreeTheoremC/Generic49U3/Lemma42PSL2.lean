@@ -52,8 +52,8 @@ theorem psl2_second_sylow_abelian {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (S : 
     rw [GaloisField.card p 2 (by norm_num)]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ p ^ 2 := Nat.pow_le_pow_left hp.two_le 2
-  haveI hsimpleP : IsSimpleGroup (PSL2GF p 2) := isSimpleGroup_psl2GF_of_two_le le_rfl
-  haveI : IsSimpleGroup L := e.isSimpleGroup
+  have hsimpleP : IsSimpleGroup (PSL2GF p 2) := isSimpleGroup_psl2GF_of_two_le le_rfl
+  have : IsSimpleGroup L := e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := CFSG.Walter.exists_mul_ne_mul_of_mulEquiv_psl2 hq4 e
   have hZ : Subgroup.center L = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center L) with h | h
@@ -70,7 +70,7 @@ theorem psl2_second_sylow_abelian {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (S : 
     ⟨(mulEquivMapCentralizer L hZ).symm.trans e⟩
   have hKC : Subgroup.centralizer ((L.map π : Subgroup (Y ⧸ C)) : Set (Y ⧸ C)) = ⊥ :=
     centralizer_map_centralizer_eq_bot L hZ
-  have hSπ : IsPGroup p ((S : Subgroup Y).map π) := S.isPGroup'.map π
+  have hSπ : IsPGroup p ((S : Subgroup Y).map π) := S.isPGroup.map π
   have hdvd := card_dvd_of_isPGroup_of_psl2GF kFactL2AutPCard hp2 (n := 2) (by norm_num) hKn hKe
     hKC _ hSπ
   have hle2 : Nat.card ((S : Subgroup Y).map π) ≤ p ^ 2 := by
@@ -81,7 +81,7 @@ theorem psl2_second_sylow_abelian {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (S : 
     exact Nat.le_of_dvd (pow_pos hp.pos 2) (hcop.dvd_of_dvd_mul_right hdvd)
   have hSylTop : CFSG.ABGLocalTools.IsSylowOf p (S : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hSylL : CFSG.ABGLocalTools.IsSylowOf p ((S : Subgroup Y) ⊓ L) L :=
     hSylTop.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top])
   obtain ⟨T⟩ : Nonempty (Sylow p (PSL2GF p 2)) := inferInstance
@@ -149,11 +149,11 @@ theorem psl2_second_sylow_abelian {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (S : 
     Subgroup.mem_centralizer_iff.mp hy.2 x (hAL hx)
   have hBcomm : IsMulCommutative B := by
     by_contra hnc
-    have hBp : IsPGroup p B := S.isPGroup'.to_le hBS
-    haveI : Fact (IsPGroup p B) := ⟨hBp⟩
+    have hBp : IsPGroup p B := S.isPGroup.to_le hBS
+    have : Fact (IsPGroup p B) := ⟨hBp⟩
     have hncyc : ¬ IsCyclic B := fun hc => hnc (IsCyclic.isMulCommutative)
     obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a hp2 hncyc
-    haveI : CFSG.IsElementaryAbelian p (E.map B.subtype) := CFSG.IsElementaryAbelian.map_subtype
+    have : CFSG.IsElementaryAbelian p (E.map B.subtype) := CFSG.IsElementaryAbelian.map_subtype
     set E' : Subgroup Y := E.map B.subtype with hE'
     have hE'card : Nat.card E' = p ^ 2 := by
       rw [hE', Subgroup.card_map_of_injective B.subtype_injective, hEcard]
@@ -214,16 +214,16 @@ theorem u3_psl2_second_false {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {P : Sylow
     rw [hgJ] at h1
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr h1
   let O' : Subgroup C := O.subgroupOf C
-  haveI hO'n : O'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOC).mpr hOnorm
+  have hO'n : O'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOC).mpr hOnorm
   have hO'cop : p.Coprime (Nat.card O') := by
     have : Nat.card O' = Nat.card O := Nat.card_congr (Subgroup.subgroupOfEquivOfLe hOC).toEquiv
     rw [this]
     exact hOcop
   let π : C →* C ⧸ O' := QuotientGroup.mk' O'
   let J' : Subgroup C := Ja.subgroupOf C
-  haveI hJ'n : J'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJa).mpr hCJa
+  have hJ'n : J'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJa).mpr hCJa
   let L : Subgroup (C ⧸ O') := J'.map π
-  haveI hLn : L.Normal := Subgroup.Normal.map hJ'n π (QuotientGroup.mk'_surjective O')
+  have hLn : L.Normal := Subgroup.Normal.map hJ'n π (QuotientGroup.mk'_surjective O')
   obtain ⟨eQ⟩ := hQ
   let eJ : J' ≃* Ja := Subgroup.subgroupOfEquivOfLe hJa
   let ψ' : J' →* Q := ψ.comp eJ.toMonoidHom
@@ -260,7 +260,7 @@ theorem u3_psl2_second_false {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {P : Sylow
       Subgroup.map_subgroupOf_eq_of_le hPa, hP3]
   have hcomm := psl2_second_sylow_abelian hp2 S hrank L e
   have hPO : (P : Subgroup G) ⊓ O = ⊥ := by
-    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup'.to_inf_left
+    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup.to_inf_left
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hPp
     have hdvd : Nat.card ((P : Subgroup G) ⊓ O : Subgroup G) ∣ Nat.card O :=
       Subgroup.card_dvd_of_le inf_le_right

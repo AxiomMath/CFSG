@@ -98,7 +98,7 @@ theorem two_le_pRank_cent (F : KI6BFacts) (h : Cfg H T H₀)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdata := component_data F h htc ht2 hK (hr K hK)
   have hx2 : ∃ n : ℕ, x ^ (2 ^ n) = 1 := by
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨x, hxT⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨x, hxT⟩
     refine ⟨n, ?_⟩
     have h1 := (Subgroup.orderOf_coe (⟨x, hxT⟩ : ↥(T : Subgroup H))).trans hn
     rw [← h1]; exact pow_orderOf_eq_one x

@@ -82,7 +82,7 @@ private theorem sp_conj_eq_one_of_mem_borel_vecStab {K : Type} [Field K] [Finite
     simpa [d, Pi.mulSingle_apply, Pi.mul_apply, Fin.zero_ne_one' (n := m + 1)] using h00
   have hd1 : d = 1 := by
     funext i
-    simp [d, Pi.mulSingle_apply, hc1]
+    simp [d, hc1]
   have hconj1 : e * t * e⁻¹ = 1 := by
     rw [h1, hd1]
     simp
@@ -131,8 +131,8 @@ theorem kTab23cNineAt_of_realizes_sp {W : Type} [CommGroup W] [Finite W]
 theorem kTab23cNineAt_sp4 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W))
     {n : ℕ} (h : NatSpn H ⊤ ⊥ 4 n) : KTab23cNineAt W H := by
   obtain ⟨-, K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hn : 1 ≤ n := by
     have hcard : 1 < Nat.card K := Finite.one_lt_card
     rw [hKcard] at hcard
@@ -140,14 +140,14 @@ theorem kTab23cNineAt_sp4 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (Mul
     have h0 : n = 0 := by omega
     subst h0
     norm_num at hcard
-  haveI : CharP K 2 := uc22p22d_charP_two hn hKcard
+  have : CharP K 2 := uc22p22d_charP_two hn hKcard
   exact kTab23cNineAt_of_realizes_sp H (m := 0) (K := K) hreal
 
 theorem kTab23cNineAt_sp6 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W))
     {n : ℕ} (h : NatSpn H ⊤ ⊥ 6 n) : KTab23cNineAt W H := by
   obtain ⟨-, K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hn : 1 ≤ n := by
     have hcard : 1 < Nat.card K := Finite.one_lt_card
     rw [hKcard] at hcard
@@ -155,7 +155,7 @@ theorem kTab23cNineAt_sp6 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (Mul
     have h0 : n = 0 := by omega
     subst h0
     norm_num at hcard
-  haveI : CharP K 2 := uc22p22d_charP_two hn hKcard
+  have : CharP K 2 := uc22p22d_charP_two hn hKcard
   exact kTab23cNineAt_of_realizes_sp H (m := 1) (K := K) hreal
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KTab23cNine

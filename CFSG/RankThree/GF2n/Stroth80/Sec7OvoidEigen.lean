@@ -139,7 +139,7 @@ theorem sec7_ovoid_eigen_scalar {K V : Type*} [Field K] [Finite K] [AddCommGroup
         Module.finrank K (Module.End.eigenspace T c) = 2 ∨
         Module.finrank K (Module.End.eigenspace T c) = 3) with h1 | h2 | h3
     · have hn3 : ¬ Module.finrank K (Module.End.eigenspace T c) = 3 := by omega
-      rw [if_neg hn3, h1]
+      rw [ite_eq_right hn3, h1]
       apply Finset.card_le_one.2
       intro P hP P' hP'
       obtain ⟨hPO, hPle⟩ := hsub P hP
@@ -150,9 +150,9 @@ theorem sec7_ovoid_eigen_scalar {K V : Type*} [Field K] [Finite K] [AddCommGroup
         Submodule.eq_of_le_of_finrank_eq hP'le (by rw [hO1 P' hP'O, h1])
       exact hPe.trans hP'e.symm
     · have hn3 : ¬ Module.finrank K (Module.End.eigenspace T c) = 3 := by omega
-      rw [if_neg hn3, h2]
+      rw [ite_eq_right hn3, h2]
       exact le_trans hcount (hline _ h2)
-    · rw [if_pos h3]
+    · rw [ite_eq_left h3]
       exact le_trans hcount (hplane _ h3)
   have hmain : F.card ≤ Nat.card K + 2 := by
     rw [hsplit]

@@ -13,10 +13,10 @@ theorem le_or_subgroupOf_le_center_of_perfect {H N : Subgroup Y} [N.Normal] (hpe
     (hs : IsSimpleGroup (↥H ⧸ center ↥H)) :
     H ≤ N ∨ N.subgroupOf H ≤ center ↥H := by
   let M : Subgroup ↥H := N.subgroupOf H
-  haveI hM : M.Normal := Subgroup.normal_subgroupOf
+  have hM : M.Normal := Subgroup.normal_subgroupOf
   let π : ↥H →* ↥H ⧸ center ↥H := QuotientGroup.mk' (center ↥H)
   have hker : π.ker = center ↥H := QuotientGroup.ker_mk' (center ↥H)
-  haveI hmap_normal : (M.map π).Normal :=
+  have hmap_normal : (M.map π).Normal :=
     hM.map π (QuotientGroup.mk'_surjective (center ↥H))
   rcases hs.eq_bot_or_eq_top_of_normal (M.map π) with hbot | htop
   · right

@@ -18,7 +18,7 @@ theorem isSimpleGroup_of_hyp (hSch : SchreierFor Catalog) (hP : P12Facts) (hKg :
   have hLtop : L = ⊤ := by
     rw [hCbot, sup_bot_eq] at hsup
     exact hsup
-  haveI := hLs
+  have := hLs
   let e : K ≃* ↥L := Subgroup.topEquiv.symm.trans (MulEquiv.subgroupCongr hLtop.symm)
   exact e.isSimpleGroup
 

@@ -72,7 +72,7 @@ theorem map_subtype_sup_zpowers_le {K : Subgroup G} (hK : K.Normal) {a : G}
     L.map (K ⊔ Subgroup.zpowers a).subtype ≤ K := by
   have hq := (CFSG.Open.IsQuasisimple.congr
     (L.equivMapOfInjective _ (K ⊔ Subgroup.zpowers a).subtype_injective)).1 hL.2.2
-  haveI : Group.IsPerfect ↥(L.map (K ⊔ Subgroup.zpowers a).subtype) := ⟨hq.1⟩
+  have : Group.IsPerfect ↥(L.map (K ⊔ Subgroup.zpowers a).subtype) := ⟨hq.1⟩
   exact CFSG.Quasithin.G11.g119_le_of_perfect_of_sup_zpowers le_sup_left
     (fun g _ n hn => hK.conj_mem n hn g) rfl (Subgroup.map_subtype_le L) inferInstance
 
@@ -139,14 +139,14 @@ theorem injective_subRep_sup_zpowers (hρ : Function.Injective ρ) {N : Subgroup
 
 theorem hP_subRep_sup_zpowers_eq_top [Finite G] [Finite V] (hρ : Function.Injective ρ)
     (hH : hP ρ = ⊤) {N : Subgroup G} {a : G} (hN : N.Normal)
-    (hW : ∀ g : G, ∀ w ∈ fixSub ρ N, ρ g w ∈ fixSub ρ N) (ha2 : a * a = 1)
+    (hW : ∀ g : G, ∀ _w ∈ fixSub ρ N, ρ g _w ∈ fixSub ρ N) (ha2 : a * a = 1)
     (hfa : ∀ n ∈ N, (∀ x ∈ commOn ρ N ⊤, ρ n x = x) → n = 1)
     (hact : ∀ g : G, ∃ h ∈ N ⊔ Subgroup.zpowers a, ∀ x ∈ commOn ρ N ⊤, ρ g x = ρ h x)
     (hout : ∀ n ∈ N, ¬ ∀ x ∈ commOn ρ N ⊤, ρ a x = ρ n x) :
     hP (subRep (ρ.comp (cenOn ρ ⊤ (commOn ρ N ⊤) ⊔ Subgroup.zpowers a).subtype)
-      (fixSub ρ N) fun g w hw => hW g w hw) = ⊤ :=
+      (fixSub ρ N) fun g _w hw => hW g _w hw) = ⊤ :=
   hP_subRep_comp_subtype_eq_top hρ hH hN (inf_sup_zpowers_eq_bot hN ha2 hfa hout)
-    (sup_sup_zpowers_eq_top hact) hW fun n hn w hw => mem_fixSub.1 hw n hn
+    (sup_sup_zpowers_eq_top hact) hW fun n hn _w hw => mem_fixSub.1 hw n hn
 
 theorem hasFactors148_sup_zpowers [Finite G] [Finite V] (hρ : Function.Injective ρ)
     (hshape : ∀ L : Subgroup G, IsComponentOf L ⊤ →

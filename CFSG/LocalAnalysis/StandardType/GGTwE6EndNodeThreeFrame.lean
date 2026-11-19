@@ -34,8 +34,8 @@ theorem exists_coroot_data_of_mem (hCore : TwE6RootAs.TwE6CorootCore) {n : ℕ} 
       CFSG.IsQuasisimple D ∧ 7 ∣ Nat.card D ∧ (2 ^ n) ^ 15 ∣ Nat.card D ∧
       ∀ y ∈ Y, (∀ x ∈ D, y x = x) → ∃ x ∈ X, y = MulAut.conj x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   set b : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ := TwE6RootAs.corootTuple γ ζ with hb
   have hb1 : b ≠ 1 := by
     intro h

@@ -29,11 +29,11 @@ private theorem pmop_card_qtwoStdW {F K : Type} [Field F] [Field K] [Finite K] [
   rcases lt_or_gt_of_ne hij with hlt | hgt
   · have hinj := CFSG.ClassicalInvolution.PhanDn.stdFamilyV_θ_inj E hm i j hlt h
     unfold qtwoStdW
-    rw [if_pos h, if_pos hlt, ← qTwoS34_card_Su_three hK]
+    rw [ite_eq_left h, ite_eq_left hlt, ← qTwoS34_card_Su_three hK]
     exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
   · have hinj := CFSG.ClassicalInvolution.PhanDn.stdFamilyV_θ_inj E hm j i hgt hMji
     unfold qtwoStdW
-    rw [if_pos h, if_neg (not_lt_of_gt hgt), ← qTwoS34_card_Su_three hK]
+    rw [ite_eq_left h, ite_eq_right (not_lt_of_gt hgt), ← qTwoS34_card_Su_three hK]
     exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
 
 theorem qtwoOrth_pair_card_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
@@ -55,12 +55,12 @@ theorem qtwoOrth_pair_card_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
   obtain ⟨m, hm⟩ : ∃ m, Φ.r = m + 1 := ⟨Φ.r - 1, by omega⟩
   have hm3 : 3 ≤ m := by omega
   obtain ⟨alg, E, χ, -, -, _hχQ, -, h1, h2⟩ := qtwoOrth_std_torus Φ hF m hm3 hm
-  letI := alg
+  let := alg
   have hlab : CFSG.StandardType.ggCoxeterMatrixD (m + 1)
       (Fin.cast hm (⟨0, by omega⟩ : Fin Φ.r))
       (Fin.cast hm (⟨1, by omega⟩ : Fin Φ.r)) = 3 := by
     refine (qtwoLabel_three_iff hm3 _ _).mpr (Or.inl ⟨?_, ?_⟩)
-    · simp [Fin.val_cast]
+    · simp
     · simp only [Fin.val_cast]
       exact Nat.le_sub_one_of_lt (by omega : 1 < m)
   have hpair := qtwoStd_pair E m hm3 (Fin.cast hm (⟨0, by omega⟩ : Fin Φ.r))
@@ -90,7 +90,7 @@ theorem qtwoOrth_pair_card_core (hF : Nat.card Φ.F = 2) {ρ ρ' : MulAut ↥Bs}
   exact pmop_card_qtwoStdW E natCard_galoisField_two_two m hm3 _ _ hlab
 
 theorem qtwoOrth_standardPair (hF : Nat.card Φ.F = 2)
-    (hZ : Subgroup.center ↥Y = ⊥) (hBs : IsElemAbelian p Bs) {ρ ρ' : MulAut ↥Bs}
+    (_hZ : Subgroup.center ↥Y = ⊥) (_hBs : IsElemAbelian p Bs) {ρ ρ' : MulAut ↥Bs}
     (hρ : ρ ∈ ggAutomizer Y Bs) (hρ' : ρ' ∈ ggAutomizer Y Bs) (hr : GGIsReflection p ρ)
     (hr' : GGIsReflection p ρ') (hnc : ρ * ρ' ≠ ρ' * ρ) :
     UnitaryBlockStandardPair (GaloisField 2 2) 2 1 (ggRankTwoIn Y Bs ρ ρ')

@@ -395,7 +395,7 @@ theorem isSylowTwoOf_J [Finite G] (hT : quasithinIsSylowTwo T) (hM : quasithinIs
   obtain ⟨S, hS⟩ := hJ'p.exists_le_sylow
   have hEq : E.J.subgroupOf C = (S : Subgroup C) := by
     by_contra hne
-    obtain ⟨y, ⟨hyS, hyN⟩, hyJ⟩ := exists_mem_inf_normalizer_not_mem S.isPGroup' hS hne
+    obtain ⟨y, ⟨hyS, hyN⟩, hyJ⟩ := exists_mem_inf_normalizer_not_mem S.isPGroup hS hne
     have hyJnorm : (y : G) ∈ Subgroup.normalizer (E.J : Set G) := by
       rw [Subgroup.mem_normalizer_iff]
       intro j

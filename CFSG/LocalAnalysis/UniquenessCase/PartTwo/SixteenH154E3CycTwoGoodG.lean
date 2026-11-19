@@ -22,7 +22,7 @@ theorem s16h_e3_CycTwoGoodG_vector {q : ℕ} (hq : q.Prime)
       ∀ R : Subgroup (MulAut (Vtil V₀ V hV)), R ≤ Mbar D.M V₀ V hV → IsElemAbelian q R →
         (∀ r ∈ R, r u₀ = u₀) → Nat.card ↥R ≤ q := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨w, hw⟩ := not_forall.1 hW
   rw [not_imp] at hw
   obtain ⟨hwW, hw⟩ := hw

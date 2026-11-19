@@ -18,7 +18,7 @@ theorem false_of_transferWitness {G : Type} [Group G] [Finite G] [IsSimpleGroup 
   let U' : Subgroup G := U.map H.subtype
   have hHodd : ¬ 2 ∣ H.index := fun h =>
     Q.not_dvd_index (h.trans (Subgroup.index_dvd_of_le hQH))
-  have hS'p : IsPGroup 2 S' := IsPGroup.map S.isPGroup' H.subtype
+  have hS'p : IsPGroup 2 S' := IsPGroup.map S.isPGroup H.subtype
   have hS'idx : ¬ 2 ∣ S'.index := by
     change ¬ 2 ∣ ((S : Subgroup ↥H).map H.subtype).index
     rw [Subgroup.index_map_subtype]

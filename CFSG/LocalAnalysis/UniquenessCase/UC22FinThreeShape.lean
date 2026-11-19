@@ -262,7 +262,7 @@ theorem not_isL2Odd_of_equiv_statedSL_three {Q : Type} [Group Q] {n r : ℕ} (hn
 theorem not_isJ1_of_equiv_statedSL_three {Q : Type} [Group Q] {n : ℕ} (hn : 2 < n)
     (e : Q ≃* CFSG.Open.StatedSL 3 (GaloisField 2 n)) : ¬ IsJ1 Q := by
   intro h
-  haveI : Finite Q := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite Q := Finite.of_equiv _ e.symm.toEquiv
   have hJ : Nat.card Q = 2 ^ 3 * 21945 := by rw [(kJ1_holds Q h).1]; norm_num
   rw [card_eq_of_equiv_statedSL_three (by omega) e] at hJ
   have := CFSG.Timmesfeld.Orders.eq_of_two_pow_mul_odd (odd_card_part (by omega))

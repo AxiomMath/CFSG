@@ -167,7 +167,7 @@ theorem le_stabSub_of_mem_aSet [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {j : ℕ} 
   have hmemT : ∀ a ∈ A, U.map a.toMonoidHom ∈ {Y : Subgroup V | ∃ a ∈ A, Y = U.map a.toMonoidHom} :=
     fun a ha => ⟨a, ha, rfl⟩
   by_contra hcon
-  obtain ⟨a₀, ha₀A, ha₀U⟩ := SetLike.not_le_iff_exists.mp hcon
+  obtain ⟨a₀, ha₀A, ha₀U⟩ := IsConcreteLE.not_le_iff_exists.mp hcon
   let A₁ : Subgroup (MulAut V) := A ⊓ stabSub U
   have hA₁A : A₁ ≤ A := inf_le_left
   have ha₀A₁ : a₀ ∉ A₁ := fun h => ha₀U h.2

@@ -64,8 +64,8 @@ theorem cl_closureFix_omegaProj_eight_plus (hA : Asc82OmegaPlusAutInvolutions)
   have hcard : Nat.card ↥(omegaProj hQ) = 4952179814400 := by
     rw [hmodel.card_eq_lieOrd (by norm_num : (4 : ℕ) ≠ 0)]
     decide +kernel
-  haveI : Finite ↥(omegaProj hQ) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : IsSimpleGroup ↥(omegaProj hQ) := hsimple
+  have : Finite ↥(omegaProj hQ) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : IsSimpleGroup ↥(omegaProj hQ) := hsimple
   have hnotprime : ¬ (4952179814400).Prime := by
     intro hp
     have hodd := hp.odd_of_ne_two (by norm_num)

@@ -106,10 +106,10 @@ theorem nontrivCount_le_two {G : Type} [Group G] [Finite G] {W : Type} [AddCommG
     (hmove : ∀ b ∈ B, b ∉ cenOn ρ B U → ∃ k ∈ L, ∃ u ∈ U, ρ b (ρ k u) ≠ ρ k (ρ b u))
     (hnt : ¬ B ≤ cenOn ρ B U) : nontrivCount (ρ.comp L.subtype) ≤ 2 := by
   classical
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hF
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFc : Fintype.card F = 2 ^ n := by rw [← Nat.card_eq_fintype_card]; exact hF
   have hZ' : ∀ z ∈ Subgroup.center ↥L, z ^ 3 = 1 := center_pow_three e
   have hZ : ∀ z ∈ L, (∀ k ∈ L, k * z = z * k) → z ^ 3 = 1 := by
@@ -136,7 +136,7 @@ theorem nontrivCount_le_two {G : Type} [Group G] [Finite G] {W : Type} [AddCommG
   have hLp : CFSG.pCore 2 ↥L = ⊥ := pCore_two_eq_bot_of_quasisimple hperf hsimple hZ'
   obtain ⟨e1, -⟩ := exists_quotientEquiv_fst hBp hLp
   let ψ : (↥L × ↥B) ⧸ CFSG.pCore 2 (↥L × ↥B) ≃* Matrix.SpecialLinearGroup (Fin 3) F := e1.trans e
-  haveI hAea : CFSG.IsElementaryAbelian 2 (graphSub lB) := graphSub_isElementaryAbelian lB
+  have hAea : CFSG.IsElementaryAbelian 2 (graphSub lB) := graphSub_isElementaryAbelian lB
     (fun b c => Subtype.ext (hBc b b.2 c c.2)) (fun b => Subtype.ext (hB2 b b.2))
   have hex : ∃ b : ↥B, lB b ≠ 1 := by
     by_contra hall
@@ -144,7 +144,7 @@ theorem nontrivCount_le_two {G : Type} [Group G] [Finite G] {W : Type} [AddCommG
     exact hnt fun b hb => mem_cenOn_of_lift_eq_one lB hlB hmove ⟨b, hb⟩ (hall ⟨b, hb⟩)
   have hnotle : ¬ graphSub lB ≤ CFSG.pCore 2 (↥L × ↥B) := not_graphSub_le_pCore hBp hLp lB hex
   let SU : Subrepresentation (ρ.comp π) := ⟨U, fun g w hw => hinv (π g) (hπmem g) w hw⟩
-  haveI : Finite ↥SU.toSubmodule := inferInstanceAs (Finite ↥U)
+  have : Finite ↥SU.toSubmodule := inferInstanceAs (Finite ↥U)
   obtain ⟨r, Vs, hVs⟩ := exists_isCompositionSeries SU.toRepresentation
   let φ : ↥B →* (↥L × ↥B) ⧸ CFSG.pCore 2 (↥L × ↥B) :=
     (QuotientGroup.mk' (CFSG.pCore 2 (↥L × ↥B))).comp (lB.prod (MonoidHom.id ↥B))
@@ -185,7 +185,7 @@ theorem nontrivCount_le_two {G : Type} [Group G] [Finite G] {W : Type} [AddCommG
     rw [hk, map_mul, h1, mul_one]
   have hle := nontrivCount_comp_le_card (MonoidHom.inl ↥L ↥B) hVs hsurj
   have hsq := nontrivCount_comp_sub_quot (MonoidHom.inl ↥L ↥B) (ρ.comp π) SU
-  haveI : Finite (W ⧸ SU.toSubmodule) :=
+  have : Finite (W ⧸ SU.toSubmodule) :=
     Finite.of_surjective _ (Submodule.Quotient.mk_surjective _)
   have hq : nontrivCount (SU.quotient.comp (MonoidHom.inl ↥L ↥B)) = 0 := by
     refine nontrivCount_eq_zero_of_trivial _ fun l => ?_

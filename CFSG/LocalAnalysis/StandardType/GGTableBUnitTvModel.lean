@@ -99,8 +99,8 @@ theorem exists_diagModel' {L' : Type} [Group L'] [Finite L'] {K : Type} [Field K
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
   ·
     intro a ha
     obtain ⟨xa, hxaI, hxa⟩ := hAI a ha

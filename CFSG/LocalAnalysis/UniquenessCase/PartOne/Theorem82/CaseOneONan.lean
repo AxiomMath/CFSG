@@ -26,7 +26,7 @@ theorem forall_pow_three_eq_one_mem_L_of_threeCover (c : Counterexample4 G) (hK3
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P c.S.M) :
     ∀ x ∈ P, x ^ 3 = 1 → x ∈ c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set Lbar := ↥c.L ⧸ CFSG.Open.pCore 2 ↥c.L with hLbar
   set φ := CFSG.GroupTheory.conjModPCore 2 c.L c.S.M c.le_normalizer_L with hφ
   set C : Subgroup G := φ.ker.map c.S.M.subtype with hC
@@ -98,7 +98,7 @@ theorem forall_pow_three_eq_one_mem_L_of_threeCover (c : Counterexample4 G) (hK3
     (CFSG.GroupTheory.le_map_ker_conjModPCore_iff_commutator 2 c.L c.S.M C
       c.le_normalizer_L (Subgroup.map_subtype_le φ.ker)).mp (le_refl C)
   have hc0_3N : c0 ^ 3 ∈ CFSG.Open.pCoreOf 2 c.L := by
-    haveI : ((CFSG.Open.pCoreOf 2 c.L).subgroupOf c.S.M).Normal :=
+    have : ((CFSG.Open.pCoreOf 2 c.L).subgroupOf c.S.M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hN_le).mpr
         (c.le_normalizer_L.trans
           (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 c.L))
@@ -168,7 +168,7 @@ theorem false_of_threeCover_ONan (c : Counterexample4 G) (hK3 : K3Exp) (hK5 : K5
     {p : ℕ} (hp : p ∈ CFSG.Open.uniqueFourSigma c.S.M)
     (h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M p) : False := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 c.S.M
   have hΩ : ∀ x ∈ P, x ^ 3 = 1 → x ∈ c.L :=
     forall_pow_three_eq_one_mem_L_of_threeCover c hK3 hOut hON hP

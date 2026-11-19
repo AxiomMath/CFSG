@@ -56,6 +56,7 @@ theorem exists_pCore_conj_ne_of_not_le_center {z u : G}
       (Subgroup.subset_closure rfl) g.2
   exact Subtype.ext hg.eq.symm
 
+omit [Finite G] in
 theorem commute_conj_pCore (hS : Setup G D) {z u : G} (hu : u ∈ centSet D z)
     {q : localGroup D z} (hq : q ∈ CFSG.pCore 2 (localGroup D z)) :
     Commute ((q : G) * u * (q : G)⁻¹) u := by
@@ -67,6 +68,7 @@ theorem commute_conj_pCore (hS : Setup G D) {z u : G} (hu : u ∈ centSet D z)
   exact commute_of_mul_mem_of_isPGroup hS.oddT
     (CFSG.pCore_isPGroup.map (localGroup D z).subtype) haD hu.1 hmem
 
+omit [Finite G] in
 theorem pairwise_commute_of_conj_pCore_mem_block (hS : Setup G D) {β : Set G}
     (hβ : IsBlock D β) {u w v : G} (hu : u ∈ β) (htri : IsTriangle D u w v) {n : ℕ}
     (hn : Odd n) (hord : orderOf (u * v * w) = 2 * n) {z : G}
@@ -213,6 +215,7 @@ theorem block_pairwise_commute_of_uQ_subset (hC : HypothesisC D)
       hord hzdef htrans hQ hα hv
       (mem_DalphaStar_of_mem_D_of_not_mem_alpha_of_commute hC hC.d_mem_alpha hbD hbα hbu)
 
+omit [Finite G] in
 theorem not_mem_alpha_of_isTriangle (hC : HypothesisC D)
     (hcomm : ∀ c ∈ hC.alpha, ∀ c' ∈ hC.alpha, Commute c c') {c a : G}
     (htri : IsTriangle D hC.d c a) : c ∉ hC.alpha :=

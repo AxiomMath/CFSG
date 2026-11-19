@@ -16,11 +16,11 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Uni
 
 theorem isSU3_of_isU3 {X : Type} [Group X] {n : ℕ} (hX : IsU3 X n) :
     IsSU3 X n ∧ center X = ⊥ := by
-  haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 hX
+  have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 hX
   obtain ⟨a, b, hab⟩ := CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_PSU3 hX
   have hnc : ¬ IsMulCommutative X := fun hc => hab (hc.is_comm.comm a b)
   have hc := TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative hnc
-  haveI := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
+  have := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
   let e : X ⧸ center X ≃* X :=
     (QuotientGroup.quotientMulEquivOfEq hc).trans QuotientGroup.quotientBot
   exact ⟨⟨⟨Group.IsPerfect.commutator_eq_top, e.isSimpleGroup⟩,

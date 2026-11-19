@@ -9,7 +9,7 @@ namespace CFSG.GroupTheory.SteinbergBK
 theorem isHallSubgroup_sylow {H : Type*} [Group H] [Finite H] {q : ℕ} [Fact q.Prime]
     (P : Sylow q H) : IsHallSubgroup {r : Nat.Primes | (r : ℕ) = q} (P : Subgroup H) := by
   refine isHallSubgroup_of _ _ (fun r hr => ?_) (fun r hr hdvd => ?_)
-  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     rw [hk] at hr
     exact (Nat.prime_dvd_prime_iff_eq r.2 Fact.out).mp (r.2.dvd_of_dvd_pow hr)
   · have hrq : (r : ℕ) = q := hr

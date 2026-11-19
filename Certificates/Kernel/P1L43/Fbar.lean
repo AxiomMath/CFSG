@@ -44,7 +44,7 @@ theorem genOf_pair {a b : Table} {ng : ℕ} {G : ℕ → ℕ} (hng : ng = 2) (ha
   rw [hng, img2, genOf]
   congr 1
   ext z
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_toArray, List.mem_cons, List.not_mem_nil,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray, List.mem_cons, List.not_mem_nil,
     or_false, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨t, rfl | rfl, rfl⟩

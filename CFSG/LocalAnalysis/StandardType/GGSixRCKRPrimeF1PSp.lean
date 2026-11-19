@@ -44,7 +44,7 @@ private theorem rckRPf1sp_odd_order {X : Type} [Group X] {p : ℕ} (hp : p.Prime
 
 theorem rckF1_PSp
     {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K J : Subgroup X} {d : X}
-    (hdp : d ^ p = 1) {n f : ℕ} (hf : 1 ≤ f) (φ : (ggU .PSp n f).K →* X) (hφr : φ.range = K)
+    (hdp : d ^ p = 1) {n f : ℕ} (_hf : 1 ≤ f) (φ : (ggU .PSp n f).K →* X) (hφr : φ.range = K)
     (hφk : φ.ker ≤ Subgroup.center (ggU .PSp n f).K)
     (hdN : d ∈ Subgroup.normalizer (K : Set X)) (hdID : GGPsiInnerDiag (ggU .PSp n f).D φ d)
     (hJ : IsComponentOf J (K ⊓ Subgroup.centralizer {d})) :

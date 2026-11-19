@@ -31,7 +31,7 @@ theorem owR35_l51_of_second {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type}
         u' ∉ Submodule.span (ZMod p) {u}) :
     ∀ r ∈ A, IsRefl p r → WitL51 p A r := by
   subst p
-  letI : Field (ZMod 3) := @ZMod.instField 3 ⟨by norm_num⟩
+  let : Field (ZMod 3) := @ZMod.instField 3 ⟨by norm_num⟩
   intro r hrA hr
   have hclass_r : r ∈ ClassRefl 3 Q c :=
     wit_classRefl_of_mem_closure (p := 3) (by norm_num) (by norm_num) Q hQ c hc hr (hA ▸ hrA)
@@ -101,7 +101,7 @@ theorem owR35_secondH_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Typ
       ∃ u' : U, u' ≠ 0 ∧ Q u' = 0 ∧ polarBilin Q u' a = 0 ∧ polarBilin Q u' u = 0 ∧
         u' ∉ Submodule.span (ZMod p) {u} := by
   subst p
-  letI : Field (ZMod 3) := @ZMod.instField 3 ⟨by norm_num⟩
+  let : Field (ZMod 3) := @ZMod.instField 3 ⟨by norm_num⟩
   have hpol : ∀ x y : U, QuadraticMap.polar Q x y = 2 * ∑ i, w i * (e x i * e y i) := by
     intro x y
     simp only [QuadraticMap.polar, he, map_add, Pi.add_apply]
@@ -159,7 +159,7 @@ theorem owR35_nondeg_smul {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Mo
     (hu : u ≠ 0) : (QuadraticMap.polarBilin (u • Q)).Nondegenerate := by
   have hpolar : ∀ x y : V, QuadraticMap.polar (u • Q) x y = u * QuadraticMap.polar Q x y := by
     intro x y
-    simp only [QuadraticMap.polar, QuadraticMap.smul_apply, smul_eq_mul]
+    simp only [QuadraticMap.polar, _root_.smul_apply, smul_eq_mul]
     ring
   refine ⟨fun x hx => hQ.1 x (fun y => ?_), fun y hy => hQ.2 y (fun x => ?_)⟩
   · have h := hx y
@@ -181,7 +181,7 @@ theorem owR35_coord {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type} [AddComm
     ∀ r ∈ Subgroup.closure (ClassRefl p Q c), IsRefl p r →
       WitL51 p (Subgroup.closure (ClassRefl p Q c)) r := by
   subst hp3
-  letI : Field (ZMod 3) := @ZMod.instField 3 ⟨by norm_num⟩
+  let : Field (ZMod 3) := @ZMod.instField 3 ⟨by norm_num⟩
   have hcinv : c⁻¹ * c = 1 := inv_mul_cancel₀ hc
   have hu : c⁻¹ ≠ 0 := inv_ne_zero hc
   have hcl : ClassRefl 3 Q c = ClassRefl 3 (c⁻¹ • Q) 1 := by
@@ -195,7 +195,7 @@ theorem owR35_coord {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type} [AddComm
     exact hcases _ h0
   have he1 : ∀ v, (c⁻¹ • Q) v = ∑ i, (c⁻¹ * w i) * (e v i) ^ 2 := by
     intro v
-    rw [QuadraticMap.smul_apply, he v, smul_eq_mul, Finset.mul_sum]
+    rw [_root_.smul_apply, he v, smul_eq_mul, Finset.mul_sum]
     exact Finset.sum_congr rfl fun i _ => by ring
   obtain ⟨π, hπ⟩ := owR35_perm_exists (fun i => c⁻¹ * w i) hw1
   let e' : U ≃ₗ[ZMod 3] (Fin 5 → ZMod 3) := e.trans (owR35_permIso π)

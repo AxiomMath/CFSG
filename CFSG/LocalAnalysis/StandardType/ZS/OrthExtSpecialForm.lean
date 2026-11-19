@@ -35,9 +35,9 @@ private theorem isCyclicRootTriple_action (hp : p ≠ 2) {H : Subgroup (U ≃ₗ
   intro i j
   by_cases hij : i = j
   · subst i
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact (hT.1 j).2.2
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     exact IsRefl.apply_eq_self_of_commute (hT.1 i).2.1 (hT.1 j).2.1 (hT.2.1 i j)
       (by rw [hspan i, hspan j]; exact hspan_ne i j hij) (e j) (hmem j)
 
@@ -48,7 +48,7 @@ private theorem isCyclicRootTriple_polar_eq_zero (hp : p ≠ 2) {H : Subgroup (U
   obtain ⟨-, -, hact⟩ := isCyclicRootTriple_action hp hT
   intro i j hij
   exact IsIsom.polar_eq_zero_of_apply_eq_neg_of_apply_eq hp (hoH.isIsom (hT.1 i).1)
-    (by rw [hact i i, if_pos rfl]) (by rw [hact i j, if_neg hij])
+    (by rw [hact i i, ite_eq_left rfl]) (by rw [hact i j, ite_eq_right hij])
 
 private theorem isCyclicRootTriple_norm_eq {H : Subgroup (U ≃ₗ[ZMod p] U)}
     {Q : QuadraticForm (ZMod p) U} {r : Fin 3 → U ≃ₗ[ZMod p] U} {e : Fin 3 → U}
@@ -92,7 +92,7 @@ private theorem isCyclicRootTriple_fix_root (hp : p ≠ 2) {H : Subgroup (U ≃�
   intro i hi
   have h0i : (0 : Fin 3) ≠ i := fun h0 => hi h0.symm
   calc h (e i) = r 0 (e i) := by rw [hr]
-    _ = e i := by rw [hact 0 i, if_neg h0i]
+    _ = e i := by rw [hact 0 i, ite_eq_right h0i]
 
 private theorem isCyclicRootTriple_mem_reflStab (hp : p ≠ 2) {H : Subgroup (U ≃ₗ[ZMod p] U)}
     {h : U ≃ₗ[ZMod p] U} {r : Fin 3 → U ≃ₗ[ZMod p] U} {e : Fin 3 → U}

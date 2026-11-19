@@ -109,7 +109,7 @@ theorem isPGroup_sylP [IsAlgClosed Ω] (hFr : ∀ c, Fr c = c ^ 2) (hζ : ζ ^ 3
   (Psi6 hζ).codRestrict (sylP Fr) (Psi_mem_sylP Fr hFr hζ)
 
 theorem PsiP_injective [IsAlgClosed Ω] (hFr : ∀ c, Fr c = c ^ 2) (hζ : ζ ^ 3 = 1)
-    (hζ' : orderOf ζ = 3) : Function.Injective (PsiP Fr hFr hζ) := fun a b h =>
+    (hζ' : orderOf ζ = 3) : Function.Injective (PsiP Fr hFr hζ) := fun _a _b h =>
   Psi6_injective hζ hζ' (congrArg Subtype.val h)
 
 theorem psiP_apply (x : sylP Fr) :

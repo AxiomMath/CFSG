@@ -143,7 +143,7 @@ theorem spin_sylow_connected_odd [Finite (spinGroup (quadOdd 3 K))]
   have hT : IsSylowIn 2 ((T₁ : Subgroup _).map (centralizer ({tSeven K} :
       Set (spinGroup (quadOdd 3 K)))).subtype)
       (centralizer ({tSeven K} : Set (spinGroup (quadOdd 3 K)))) := by
-    refine ⟨map_subtype_le _, T₁.isPGroup'.map _, ?_⟩
+    refine ⟨map_subtype_le _, T₁.isPGroup.map _, ?_⟩
     change ¬ 2 ∣ (Subgroup.subgroupOf _ _).index
     rw [hTsub]
     exact Sylow.not_dvd_index T₁
@@ -163,7 +163,7 @@ theorem spin_sylow_connected_odd [Finite (spinGroup (quadOdd 3 K))]
   have ho : Odd (Nat.card K ^ 6 * (2 * r * r + 2 * r + 1) *
       (Nat.card K ^ 4 + Nat.card K ^ 2 + 1)) :=
     (hodd.pow.mul ⟨r * r + r, by ring⟩).mul (hodd.pow.add_odd hodd.pow).add_one
-  have hconn := connected_of_normalizes_odd hp hp2 hK hT P₀.isPGroup' hTP₀
+  have hconn := connected_of_normalizes_odd hp hp2 hK hT P₀.isPGroup hTP₀
     fun x hx y hy => conj_mem_of_card_sylow hT P₀ hTP₀ ho hcard hx hy
   obtain ⟨E, hET, hE, hE8⟩ := exists_eight_le_odd hp hp2 hK hT
   have hrank : 3 ≤ Open.pRank 2 (P₀ : Subgroup (spinGroup (quadOdd 3 K))) :=

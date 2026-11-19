@@ -16,7 +16,7 @@ open CFSG.Open Subgroup
 
 theorem coprime_card_of_isPGroup_two {X : Type*} [Group X] [Finite X] {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     {W : Subgroup X} (hW : IsPGroup 2 W) : Nat.Coprime r (Nat.card W) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hW.exists_card_eq
   rw [hn]
   exact Nat.Coprime.pow_right _ ((Nat.coprime_primes hr Nat.prime_two).2 hr2)
@@ -25,7 +25,7 @@ theorem twoSigTriv_l28 {K : Type} [Group K] [Finite K] (d : TauCeti.ValidLieType
     (hd : ∃ q : TauCeti.PrimePower, q.p = 2 ∧ q.exponent = 3 ∧ d.1 = .A 1 q)
     (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) : TwoSigTriv 3 K := by
   intro S W hW hnorm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : AGLEmbedding.IsCaseTwoGroup 3 K := ⟨d, Or.inl ⟨rfl, hd⟩, ⟨e⟩⟩
   obtain ⟨ε⟩ := AGLEmbedding.KFactProofs.L28Local.nonempty_equiv_G8 hK
   have hcard : Nat.card K = 504 := by
@@ -40,7 +40,7 @@ theorem twoSigTriv_sz32 {K : Type} [Group K]
     [Finite K] (d : TauCeti.ValidLieTypeIndex) (hd : d.1 = .suzuki 2)
     (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) : TwoSigTriv 5 K := by
   intro S W hW hnorm
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hv⟩ := d
   simp only at hd
   subst hd

@@ -99,7 +99,7 @@ theorem Y1431Cfg.exists_elemAbelian_27 (h0 : L2CentreThree) {V : InndiagVocab} {
     (c : Y1431Cfg V Y Â ξ J q) (hin : ∀ a ∈ Â, a ∈ innerAut Y) :
     ∃ E : Subgroup (Y ⧸ Subgroup.center Y), IsElemAbelian 3 E ∧ Nat.card E = 27 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU := CFSG.HardMathSupport.Solomon.Proving.l2OrderUnique_holds
   have hF := CFSG.HardMathSupport.Solomon.Coordinator.l2FieldFixed_holds
   obtain ⟨x, z, hxξ, hzÂ, hzξ, hx3, hz3, hxz⟩ := c.exists_inner_pair hin

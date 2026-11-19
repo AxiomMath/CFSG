@@ -115,7 +115,7 @@ theorem B_transitive : ∀ b ∈ B, b ≠ 1 → ∀ b' ∈ B, b' ≠ 1 → ∃ m
     · exact Fin.ext h
     · exact absurd h1.symm (hlt _ _ h i.2)
   have hcardB : Nat.card {x : ↥B // x ≠ 1} = n := by
-    letI : Fintype ↥B := Fintype.ofFinite _
+    let : Fintype ↥B := Fintype.ofFinite _
     have h1 : Fintype.card {x : ↥B // ¬ x = 1} =
         Fintype.card ↥B - Fintype.card {x : ↥B // x = 1} :=
       Fintype.card_subtype_compl (fun x : ↥B => x = 1)

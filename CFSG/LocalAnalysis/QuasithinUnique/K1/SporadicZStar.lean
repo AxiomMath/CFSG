@@ -244,7 +244,7 @@ theorem centralizes_of_noStronglyClosed {G : Type} [Group G] [Finite G] {H S U L
     rw [hRbar']
     exact Subgroup.map_mono hU'R'
   have hSbar : IsSylowTwoOf (Rbar : Subgroup (N ⧸ C)) ⊤ :=
-    isSylowTwoOf_top_iff.mpr ⟨Rbar.isPGroup', Rbar.not_dvd_index⟩
+    isSylowTwoOf_top_iff.mpr ⟨Rbar.isPGroup, Rbar.not_dvd_index⟩
   let e₀ : L ⧸ Subgroup.center L ≃* Lbar :=
     (QuotientGroup.quotientMulEquivOfEq hφker.symm).trans (QuotientGroup.quotientKerEquivRange φ)
   have hX' : NoStronglyClosedElemAbelian Lbar := NoStronglyClosedElemAbelian.of_mulEquiv e₀.symm hX

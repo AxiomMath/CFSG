@@ -23,7 +23,7 @@ theorem false_of_almostClauseTwoCore_of_threeOnePlusFour {N Q : Subgroup G} {p :
     False := by
   classical
   obtain ⟨hp5, hsolv, P₀, hP₀P, hP₀card, hwc, ⟨hp, m, hm2, hL⟩, -, -, hF1, hF2⟩ := h
-  haveI : Fact p.Prime := hp
+  have : Fact p.Prime := hp
   have hQ3 : IsPGroup 3 Q := IsPGroup.of_card hcard
   obtain ⟨g, -, hQ'norm⟩ :=
     exists_conj_le_normalizer_of_weaklyClosed (p := p) (N := N) (P₀ := P₀) (Q := Q)
@@ -59,10 +59,10 @@ theorem fourteenFourOneCaseOneAt_of {M : Subgroup G} (h142 : FourteenTwoCaseOneA
   intro H E Q J h hA r hr
   have hr3 : r ≠ 3 := fun h3 => h.hypCGen.not_mem_sigmaSet (h3 ▸ hr)
   have hrp : r.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime r hr.1
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   obtain ⟨P, hPM, -, hcase⟩ := h.cstar.almost M h.maxLocal r hr
   rcases hcase with hΓ | hclause2 | hclause3
-  · haveI : IsSimpleGroup G := h.cstar.simple
+  · have : IsSimpleGroup G := h.cstar.simple
     have hMtop : M ≠ ⊤ :=
       CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top h.cstar.nonab M h.maxLocal.1
     have hr2 : 2 ≤ CFSG.Open.pRank r M := hr.2

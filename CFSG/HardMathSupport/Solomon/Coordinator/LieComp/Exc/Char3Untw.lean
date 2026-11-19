@@ -29,7 +29,7 @@ theorem mem_adjointGroup_of_mem_inndiagGroup_pow_eq_one {τ : Tag} {K : Type} [F
     exact pow_card_eq_one'
   have hbN : b ^ (Nat.card K - 1) = 1 := funext fun i => by
     rw [Pi.pow_apply, hN, Pi.one_apply]
-  haveI : ((adjointGroup τ K).subgroupOf (inndiagGroup τ K)).Normal := ⟨fun n hn g => by
+  have : ((adjointGroup τ K).subgroupOf (inndiagGroup τ K)).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using conj_mem_adjointGroup_of_mem_inndiag g.2 hn⟩
   set π := QuotientGroup.mk' ((adjointGroup τ K).subgroupOf (inndiagGroup τ K)) with hπ
@@ -127,7 +127,7 @@ theorem lieCompExport_char3_twE6
   classical
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
   rw [hq3] at hK hσ
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ (by norm_num)))
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK

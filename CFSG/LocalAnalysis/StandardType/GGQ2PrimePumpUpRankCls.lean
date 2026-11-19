@@ -19,9 +19,9 @@ theorem pumpUpSymplecticRankInput_holds : PumpUpSymplecticRankInput := by
   obtain ⟨-, hcl | ⟨h0, -⟩⟩ := hmodel
   · obtain ⟨-, K₀, _, _, hK₀, ⟨e⟩⟩ := hcl
     have hK₀2 : Nat.card K₀ = 2 := by rw [hK₀, pow_one]
-    letI : Fintype K₀ := Fintype.ofFinite K₀
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K₀ 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK₀2])
+    let : Fintype K₀ := Fintype.ofFinite K₀
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K₀ 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK₀2])
     obtain ⟨k, rfl⟩ : ∃ k, r = k + 1 := ⟨r - 1, by omega⟩
     exact h.false_of_ggTorusLift e (by omega) (TwoThree.ggTorusLift_sp_two (K := K₀) (k := k) hK₀2)
   · omega

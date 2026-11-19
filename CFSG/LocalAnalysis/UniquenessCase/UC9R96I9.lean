@@ -28,7 +28,7 @@ theorem I9_le_M_of_odd_dvd (S : Core D Y H q)
   obtain ⟨p, hp, F, hF, hFt, V, hV, hVm, hVf, σ, hcard, -, hpq, hσ, -, hfpf⟩ :=
     S.exists_sl2_rep_of_not_le hN hyp hK461 hK462 hSch hIM
   obtain ⟨r, hrp, hr2, hrq⟩ := hr
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   obtain ⟨μ, hμ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) r (by
     rw [Nat.card_units, Nat.card_eq_fintype_card, hcard]
     exact hrq)

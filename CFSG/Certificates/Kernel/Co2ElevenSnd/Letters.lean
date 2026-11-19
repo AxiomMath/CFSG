@@ -19,11 +19,11 @@ open CFSG.KC.Enum CFSG.KS CFSG.KC.Co2Eleven CFSG.KS.TW CFSG.Sporadic.Th.Native
 
 theorem wordLet_even (WV WVI : Nat → Nat) (j : Nat) : wordLet WV WVI (2 * j) = WV j := by
   unfold wordLet
-  rw [if_pos (by omega), show 2 * j / 2 = j by omega]
+  rw [ite_eq_left (by omega), show 2 * j / 2 = j by omega]
 
 theorem wordLet_odd (WV WVI : Nat → Nat) (j : Nat) : wordLet WV WVI (2 * j + 1) = WVI j := by
   unfold wordLet
-  rw [if_neg (by omega), show (2 * j + 1) / 2 = j by omega]
+  rw [ite_eq_right (by omega), show (2 * j + 1) / 2 = j by omega]
 
 theorem tr_congr {n : Nat} {t : Table} {f g : Nat → Nat} (h : TR n t f)
     (e : ∀ x < n, f x = g x) : TR n t g :=
@@ -81,25 +81,25 @@ private theorem tr_letter {Ai Bi A B : Nat} {WV WVI : Nat → Nat} {gens : Int �
     TR 2300 (slpLetterT gens L z) (ap12 (letK A Ai B Bi WV WVI z)) := by
   unfold slpLetterT
   by_cases h2 : z.natAbs ≤ 2
-  · rw [if_pos h2]
+  · rw [ite_eq_left h2]
     exact hg z hz h2
-  · rw [if_neg h2]
+  · rw [ite_eq_right h2]
     have h3 : z.natAbs - 3 < j := by omega
     have n1 : z ≠ 1 := fun e => h2 (by rw [e]; decide)
     have n2 : z ≠ -1 := fun e => h2 (by rw [e]; decide)
     have n3 : z ≠ 2 := fun e => h2 (by rw [e]; decide)
     have n4 : z ≠ -2 := fun e => h2 (by rw [e]; decide)
     by_cases hp : 0 < z
-    · rw [if_pos hp]
+    · rw [ite_eq_left hp]
       have e : letK A Ai B Bi WV WVI z = WV (z.natAbs - 3) := by
         unfold letK
-        rw [if_neg n1, if_neg n2, if_neg n3, if_neg n4, if_pos hp]
+        rw [ite_eq_right n1, ite_eq_right n2, ite_eq_right n3, ite_eq_right n4, ite_eq_left hp]
       rw [e, ← wordLet_even WV WVI]
       exact hL _ (by omega)
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       have e : letK A Ai B Bi WV WVI z = WVI (z.natAbs - 3) := by
         unfold letK
-        rw [if_neg n1, if_neg n2, if_neg n3, if_neg n4, if_neg hp]
+        rw [ite_eq_right n1, ite_eq_right n2, ite_eq_right n3, ite_eq_right n4, ite_eq_right hp]
       rw [e, ← wordLet_odd WV WVI]
       exact hL _ (by omega)
 
@@ -128,7 +128,7 @@ private theorem slp_take {Ai Bi A B : Nat} {WV WVI : Nat → Nat} {gens : Int �
     obtain ⟨ih1, ih2⟩ := slp_take hg hs hW j (by omega)
     have hjl : j < ws.length := by omega
     have ht : ws.take (j + 1) = ws.take j ++ [ws.getD j []] := by
-      rw [List.take_succ, List.getElem?_eq_getElem hjl, Option.toList_some,
+      rw [List.take_add_one, List.getElem?_eq_getElem hjl, Option.toList_some,
         List.getD_eq_getElem _ _ hjl]
     rw [ht, List.foldl_append, List.foldl_cons, List.foldl_nil]
     generalize (ws.take j).foldl (stepS gens) #[] = L at ih1 ih2
@@ -207,10 +207,10 @@ theorem subLetters_TR {L : Array Table} {WV WVI : Nat → Nat} {nw : Nat} {chain
   rw [getElem!_pos _ l (by simpa using hl), Array.getElem_ofFn]
   unfold chainLet
   by_cases he : l % 2 = 0
-  · simp only [he, if_true]
+  · simp only [he, ite_true]
     rw [← arr_get_getD, ← wordLet_even WV WVI]
     exact hL _ (by omega)
-  · simp only [he, if_false]
+  · simp only [he, ite_false]
     rw [← arr_get_getD, ← wordLet_odd WV WVI]
     exact hL _ (by omega)
 

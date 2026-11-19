@@ -18,7 +18,7 @@ private theorem prime_mul_dvd_sporOrd {S : Type} [Group S] [Finite S]
     (hS : IsSimpleGroup S) (hnab : ∃ a b : S, a * b ≠ b * a) {β : MulAut S} (hβp : β ^ p = 1)
     (hβ1 : β ≠ 1) {J : Subgroup S} (hJ : J ≤ fixSubgroup β) :
     p * Nat.card (PSimple p J) ∣ sporOrd t := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hout : Nat.card (Outer S) ≤ 2 := hOut S hS hnab t ⟨e⟩
   obtain ⟨x, rfl, hxp⟩ := exists_conj_of_pow hp hp2 hcen hout β hβp

@@ -99,9 +99,9 @@ theorem fj_pi_not_mem_of_perfect_fix (hQ : Q.Nondegenerate)
 theorem fjKGAAt_omegaGroup_six_minus (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = -1) :
     FJKGAAt ↥(omegaGroup hQ) := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite ↥(omegaGroup hQ) := Subtype.finite
-  haveI : Finite ↥(omegaProj hQ) :=
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite ↥(omegaGroup hQ) := Subtype.finite
+  have : Finite ↥(omegaProj hQ) :=
     Finite.of_surjective (omegaToProj hQ) (omegaToProj_surjective hQ)
   intro y B hy hB σ hσσ hσ1 hfix hσy
   have hq : CFSG.IsQuasisimple ↥(omegaGroup hQ) := isQuasisimple_omegaGroup_six_minus hQ hdim hs
@@ -252,9 +252,9 @@ theorem fjKGAAt_omegaGroup_six_minus (hQ : Q.Nondegenerate)
 theorem fjKGAAt_of_isTwoU43 (hS : Asc82SchurU43) {Y : Type} [Group Y] [Finite Y]
     (hq : CFSG.IsQuasisimple Y) (h : IsTwoU43 Y) : FJKGAAt Y := by
   obtain ⟨W, i1, i2, i3, R, hR, hdim, hs, ⟨f⟩⟩ := hS Y hq h
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   exact fjKGAAt_of_mulEquiv f.symm (fjKGAAt_omegaGroup_six_minus hR hdim hs)
 
 end CFSG.OddStandard.SmallF3.Omega

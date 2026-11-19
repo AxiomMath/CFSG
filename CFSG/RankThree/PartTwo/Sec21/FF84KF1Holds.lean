@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.SmallRank
 
 theorem isElemAbelian_of_card_nine {K : Type} [Group K] {P : Subgroup K} (h9 : Nat.card P = 9)
     (hncyc : ¬ IsCyclic P) : CFSG.Open.IsElemAbelian 3 P := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [h9]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [h9]; norm_num)
   refine ⟨IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by simpa using h9), ?_⟩
   intro x hx
   have hdvd : orderOf (⟨x, hx⟩ : P) ∣ 9 := h9 ▸ orderOf_dvd_natCard _
@@ -35,9 +35,9 @@ theorem isElemAbelian_of_card_nine {K : Type} [Group K] {P : Subgroup K} (h9 : N
 
 theorem ff84KF1_holds : FF84KF1 := by
   intro K _ _ hs hnab hcat P hP9 hncyc P₁ hP₁ hP₁3 hle
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hel := isElemAbelian_of_card_nine hP9 hncyc
-  haveI hcomm : IsMulCommutative (P : Subgroup K) := hel.1
+  have hcomm : IsMulCommutative (P : Subgroup K) := hel.1
   have hrank : 2 ≤ CFSG.Open.pRank 3 (P : Subgroup K) :=
     CFSG.SectionRank.le_pRank (k := 2) (by norm_num) le_rfl hel (by rw [hP9]; norm_num)
   obtain ⟨g, hgL, hgne⟩ := kFactWeakClosureInner_holds 3 Nat.prime_three (by norm_num) K hs hnab

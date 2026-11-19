@@ -66,7 +66,6 @@ theorem a7t_centralizer_card :
     intro h
     change Equiv.Perm.sign (Equiv.swap (4 : Fin 7) 5) = 1 at h
     norm_num [Equiv.Perm.sign_swap] at h
-    all_goals exact (by decide : (4 : Fin 7) ≠ 5) h
   let D : Subgroup (Equiv.Perm (Fin 7)) := Lattice.inf C A
   have hrel : D.relIndex C = 2 := by
     rw [Subgroup.relIndex_eq_two_iff]

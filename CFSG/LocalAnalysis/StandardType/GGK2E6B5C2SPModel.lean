@@ -21,8 +21,8 @@ lemma b5CDiag_cartan (i j : Fin 5) :
     (b5CDiag i)⁻¹ * b5CDiag j * (CartanMatrix.C 5 i j : ZMod 3) =
       (CartanMatrix.B 5 i j : ZMod 3) := by
   fin_cases i <;> fin_cases j <;>
-    simp [b5CDiag, CartanMatrix.B, CartanMatrix.C] <;>
-    first | exact inv_mul_cancel₀ (by decide : (2 : ZMod 3) ≠ 0) | norm_num
+    simp [b5CDiag, CartanMatrix.B, CartanMatrix.C];
+    first | exact inv_mul_cancel₀ (by decide : (2 : ZMod 3) ≠ 0)
 
 theorem exists_b5_c2sp_model_of_cartan
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]

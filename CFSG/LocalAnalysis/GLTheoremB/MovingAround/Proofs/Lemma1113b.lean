@@ -210,7 +210,7 @@ theorem centralize_of_thompson {P : Subgroup H} (hP : P.Normal) (hP3 : IsPGroup 
     (hYx : ∀ y ∈ Y, y * x = x * y)
     (hfix : ∀ y ∈ Y, ∀ r ∈ P, x * r * x⁻¹ = r → y * r * y⁻¹ = r) :
     ∀ y ∈ Y, ∀ r ∈ P, y * r * y⁻¹ = r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB3 : IsPGroup 3 ↥(Subgroup.zpowers x) := by
     rw [IsPGroup.iff_card, Nat.card_zpowers]
     obtain h1 | h3 := (Nat.dvd_prime Nat.prime_three).1 (orderOf_dvd_of_pow_eq_one hx)
@@ -229,9 +229,8 @@ theorem centralize_of_thompson {P : Subgroup H} (hP : P.Normal) (hP3 : IsPGroup 
     apply MulEquiv.ext
     intro r
     apply Subtype.ext
-    simp only [MulAut.mul_apply, α, β, MonoidHom.comp_apply, MonoidHom.coe_comp, Function.comp_apply,
-      Subgroup.coe_subtype, conjHom, MonoidHom.coe_mk, OneHom.coe_mk, conjOnNormal, MulEquiv.coe_mk,
-      Equiv.coe_fn_mk, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [MulAut.mul_apply, α, β, MonoidHom.comp_apply, Subgroup.coe_subtype, conjHom, MonoidHom.coe_mk, OneHom.coe_mk, conjOnNormal, MulEquiv.coe_mk,
+      Equiv.coe_fn_mk]
     calc (a : H) * ((b : H) * (r : H) * (b : H)⁻¹) * (a : H)⁻¹
         = ((a : H) * (b : H)) * (r : H) * ((a : H) * (b : H))⁻¹ := by group
       _ = ((b : H) * (a : H)) * (r : H) * ((b : H) * (a : H))⁻¹ := by rw [hab]
@@ -252,7 +251,7 @@ theorem centralize_of_thompson {P : Subgroup H} (hP : P.Normal) (hP3 : IsPGroup 
 theorem centralizer_pCore_le_of_layer (hO : GLAPPrimeCore 3 H = ⊥)
     (hL : GLAPLayer 3 (⊤ : Subgroup H) = ⊥) :
     ∀ g : H, (∀ r ∈ CFSG.pCore 3 H, g * r = r * g) → g ∈ CFSG.pCore 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 := CFSG.HardMathSupport.Solomon.LocalBalance.l28b_glaPLayer_top_eq_layer
     (p := 3) Nat.prime_three hO
   have hlay : CFSG.layer H = ⊥ := by
@@ -265,6 +264,7 @@ theorem centralizer_pCore_le_of_layer (hO : GLAPPrimeCore 3 H = ⊥)
   intro r hr
   exact (hcomm r hr).symm
 
+omit [Finite H] in
 theorem isPGroup_three_of_le {N M : Subgroup H} (hNM : N ≤ M) (hM : IsPGroup 3 ↥M) :
     IsPGroup 3 ↥N := by
   intro g
@@ -273,9 +273,10 @@ theorem isPGroup_three_of_le {N M : Subgroup H} (hNM : N ≤ M) (hM : IsPGroup 3
   have := congrArg (fun s : ↥M => (s : H)) hk
   simpa using this
 
+omit [Finite H] in
 theorem le_pCoreOf_three {C N : Subgroup H} (hNC : N ≤ C) (hNn : (N.subgroupOf C).Normal)
     (hNp : IsPGroup 3 ↥N) : N ≤ CFSG.Open.pCoreOf 3 C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNp' : IsPGroup 3 ↥(N.subgroupOf C) := by
     intro g
     obtain ⟨k, hk⟩ := hNp ⟨((g : C) : H), Subgroup.mem_subgroupOf.1 g.2⟩
@@ -292,7 +293,7 @@ theorem solv_core (hO : GLAPPrimeCore 3 H = ⊥) (hL : GLAPLayer 3 (⊤ : Subgro
     (x : H) (hx : x ^ 3 = 1) :
     GLAPLayer 3 (Subgroup.centralizer ({x} : Set H)) = ⊥ ∧
       GLAPPrimeCoreOf 3 (Subgroup.centralizer ({x} : Set H)) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcon := centralizer_pCore_le_of_layer hO hL
   have hPn : (CFSG.pCore 3 H).Normal := CFSG.pCore_normal (p := 3)
   have hPp : IsPGroup 3 ↥(CFSG.pCore 3 H) := CFSG.pCore_isPGroup (p := 3)
@@ -386,7 +387,7 @@ theorem solv_core (hO : GLAPPrimeCore 3 H = ⊥) (hL : GLAPLayer 3 (⊤ : Subgro
     · exact Nat.card_pos.ne'
     · intro d hd hdvd
       by_contra hne
-      haveI : Fact d.Prime := ⟨hd⟩
+      have : Fact d.Prime := ⟨hd⟩
       obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' d hdvd
       have hc0K0 : (c : H) ∈ K0 := c.2
       set c0 : H := (c : H) with hc0def
@@ -478,14 +479,14 @@ section Bridge
 variable {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
 
 theorem tildeCore_solvable (h : Cex117 G m p B M E A a K) (hp : p = 3) (e : G) (he : e ∈ M)
-    (heEA : e ∈ E ⊓ A) (he1 : e ≠ 1)
+    (heEA : e ∈ E ⊓ A) (_he1 : e ≠ 1)
     (hL : GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) = ⊥) :
     GLAPLayer 3 (Subgroup.centralizer ({QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨e, he⟩ : ↥M)} :
         Set (↥M ⧸ GLAPPrimeCore 3 ↥M))) = ⊥ ∧
       GLAPPrimeCoreOf 3 (Subgroup.centralizer ({QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨e, he⟩ : ↥M)} :
         Set (↥M ⧸ GLAPPrimeCore 3 ↥M))) = ⊥ := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE3 : IsElemAbelian 3 E := h.pair.1.1.1.1.2.1
   have he3 : e ^ 3 = 1 := hE3.2 e heEA.1
   have ht3 : (⟨e, he⟩ : ↥M) ^ 3 = 1 := Subtype.ext he3
@@ -511,11 +512,13 @@ open CFSG.HardMathSupport.Solomon.Coordinator (IsChevOfChar)
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem commute_of_mem_zpowers {c x y : H} (hc : c * x = x * c) (hy : y ∈ Subgroup.zpowers x) :
     c * y = y * c := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
   exact ((show Commute c x from hc).zpow_right k).eq
 
+omit [Finite H] in
 theorem centralizer_le_normalizer_zpowers (x : H) :
     Subgroup.centralizer ({x} : Set H) ≤
       Subgroup.normalizer ((Subgroup.zpowers x : Subgroup H) : Set H) := by
@@ -540,6 +543,7 @@ theorem centralizer_le_normalizer_zpowers (x : H) :
         _ = c * h * c⁻¹ := by group
     rw [heq]; exact hh
 
+omit [Finite H] in
 theorem centralizer_normal_in_normalizer (x : H) :
     ((Subgroup.centralizer ({x} : Set H)).subgroupOf
       (Subgroup.normalizer ((Subgroup.zpowers x : Subgroup H) : Set H))).Normal := by
@@ -564,7 +568,7 @@ theorem nonsolv_core (I13 : Input13_4) (L : Subgroup H) (hL : L.Normal)
     (x : H) (hxL : x ∈ L) (hx : x ^ 3 = 1) (hx1 : x ≠ 1) :
     GLAPLayer 3 (Subgroup.centralizer ({x} : Set H)) = ⊥ ∧
       GLAPPrimeCoreOf 3 (Subgroup.centralizer ({x} : Set H)) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective (conjHom L hL) := by
     rw [injective_iff_map_eq_one]
     intro g hg
@@ -572,7 +576,7 @@ theorem nonsolv_core (I13 : Input13_4) (L : Subgroup H) (hL : L.Normal)
     intro l hl
     have h1 := congrArg (fun σ : MulAut ↥L => ((σ ⟨l, hl⟩ : ↥L) : H)) hg
     simp only [conjHom, MonoidHom.coe_mk, OneHom.coe_mk, conjOnNormal, MulEquiv.coe_mk,
-      Equiv.coe_fn_mk, MulAut.one_apply, Subgroup.coe_mul, Subgroup.coe_inv] at h1
+      Equiv.coe_fn_mk, MulAut.one_apply] at h1
     calc g * l = (g * l * g⁻¹) * g := by group
       _ = l * g := by rw [h1]
   have hX : (MulAut.conj : ↥L →* MulAut ↥L).range ≤ (conjHom L hL).range := by
@@ -611,7 +615,7 @@ theorem tilde_facts (h : Cex117 G m p B M E A a K) (hp : p = 3) (e : G) (he : e 
     (QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨e, he⟩ : ↥M)) ^ 3 = 1 ∧
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨e, he⟩ : ↥M) ≠ 1 := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE3 : IsElemAbelian 3 E := h.pair.1.1.1.1.2.1
   have he3 : e ^ 3 = 1 := hE3.2 e heEA.1
   have ht3 : (⟨e, he⟩ : ↥M) ^ 3 = 1 := Subtype.ext he3
@@ -645,7 +649,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (IsChevOfChar)
 
 @[expose] def NonsolvChevClaim : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (m p : ℕ) (B M E A : Subgroup G) (a : G) (K : Subgroup G),
-    Cex117 G m p B M E A a K → p = 3 → ∀ (e : G) (he : e ∈ M), e ∈ E ⊓ A → e ≠ 1 →
+    Cex117 G m p B M E A a K → p = 3 → ∀ (e : G) (_he : e ∈ M), e ∈ E ⊓ A → e ≠ 1 →
     GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) ≠ ⊥ →
       IsChevOfChar 3 (↥(GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M))) ⧸
         Subgroup.center ↥(GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M))))
@@ -656,7 +660,7 @@ theorem tildeCore_of_inputs (I13 : Input13_4) (hQ : NonsolvQuasisimpleClaim) (hC
   by_cases hL : GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) = ⊥
   · exact tildeCore_solvable h hp e he heEA he1 hL
   · have hO : GLAPPrimeCore 3 (↥M ⧸ GLAPPrimeCore 3 ↥M) = ⊥ := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact CFSG.GH74.pPrimeCore_quotient_pPrimeCore_eq_bot ↥M 3
     obtain ⟨hq, hxL, hfaith⟩ := hQ G m p B M E A a K h hp e he heEA he1 hL
     have hchev := hC G m p B M E A a K h hp e he heEA he1 hL

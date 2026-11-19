@@ -113,7 +113,7 @@ theorem goldschmidt_cor
   have h2 : 2 ∣ Nat.card G := by
     have hS1 : Nat.card (S : Subgroup G) ≠ 1 := fun h =>
       hA (le_bot_iff.1 ((Subgroup.card_eq_one.1 h) ▸ hAS))
-    rcases S.isPGroup'.card_eq_or_dvd with h | h
+    rcases S.isPGroup.card_eq_or_dvd with h | h
     · exact absurd h hS1
     · exact h.trans (Subgroup.card_subgroup_dvd_card _)
   obtain ⟨-, hb, -⟩ :=

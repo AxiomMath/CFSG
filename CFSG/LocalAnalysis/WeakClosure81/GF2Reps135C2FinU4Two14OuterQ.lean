@@ -201,7 +201,7 @@ private theorem w183_intertwine_z {K : Type} [Field K]
     Matrix.submatrix_mul_equiv, key]
 
 theorem finU4_explicit_intertwiner {K : Type} [Field K] [Finite K]
-    [CharP K 2] (hK : Nat.card K = (2 ^ 1) ^ 2) {Z : Matrix (Fin 4) (Fin 4) K}
+    [CharP K 2] (_hK : Nat.card K = (2 ^ 1) ^ 2) {Z : Matrix (Fin 4) (Fin 4) K}
     (hZ : Z = 1 ∨ Z = finU4ZMat K) :
     ∃ Q : Matrix (TIdx finU4Label) (TIdx finU4Label) (ZMod 2),
       (∀ (E : Type) [Field E] [CharP E 2] [Algebra K E] (x y : SU4 K 1), FinU4FrobPair Z x y →

@@ -186,7 +186,7 @@ theorem n_mem_normalizer_V_B (hC : GorensteinHaradaThmCInput) (hOM : pPrimeCore 
     calc n⁻¹ * v * n⁻¹⁻¹ * (n⁻¹ * D.t * n) = n⁻¹ * (v * D.t) * n := by group
       _ = n⁻¹ * (D.t * v) * n := by rw [hvt]
       _ = n⁻¹ * D.t * n * (n⁻¹ * v * n⁻¹⁻¹) := by group
-  have hW2 : IsPGroup 2 W := (D.S.isPGroup'.to_le D.V_le_S).map _
+  have hW2 : IsPGroup 2 W := (D.S.isPGroup.to_le D.V_le_S).map _
   have hSM : IsSylowOf 2 (D.S : Subgroup G) D.M := (isSylowOf_top D.S).of_le D.S_le_M le_top
   obtain ⟨m, hmM, hm⟩ := exists_conj_le_of_isSylowOf hSM hWM hW2
   set k := m * n⁻¹ with hk

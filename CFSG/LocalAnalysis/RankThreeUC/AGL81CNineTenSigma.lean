@@ -22,7 +22,7 @@ open scoped Matrix
 private lemma exists_zpowers_of_card_three {V : Type*} [Group V] [Finite V]
     (H : Subgroup V) (hH : Nat.card H = 3) :
     ∃ d : V, d ∈ H ∧ H = Subgroup.zpowers d ∧ orderOf d = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card H := by rw [hH]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
   refine ⟨(x : V), x.2, ?_, ?_⟩
@@ -65,13 +65,13 @@ private lemma mulVec_ne_zero_of_unit {n : ℕ} (A : GL (Fin n) (ZMod 3))
   exact h1.symm
 
 theorem exists_hom_perm_four_of_lines {V : Type} [Group V] [Finite V]
-    (hVc : ∀ a b : V, a * b = b * a) (hV3 : ∀ v : V, v ^ 3 = 1) (hV : Nat.card V = 27)
+    (hVc : ∀ a b : V, a * b = b * a) (_hV3 : ∀ v : V, v ^ 3 = 1) (hV : Nat.card V = 27)
     (D : Fin 3 → Subgroup V) (hD : ∀ i, Nat.card (D i) = 3) (hDV : (⨆ i, D i) = ⊤)
     {X : Type} [Group X] (ρ : X →* MulAut V)
     (hρ : ∀ x i, ∃ j, (D i).map (ρ x).toMonoidHom = D j) :
     ∃ σ : X →* Equiv.Perm (Fin 4), ∀ x, σ x = 1 → ρ x = 1 ∨ ∀ v, ρ x v = v⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   choose d hdD hdDz hdord using fun i => exists_zpowers_of_card_three (D i) (hD i)
   have hd3 : ∀ i, d i ^ 3 = 1 := fun i => by
     rw [← hdord i]; exact pow_orderOf_eq_one _
@@ -88,7 +88,7 @@ theorem exists_hom_perm_four_of_lines {V : Type} [Group V] [Finite V]
     rw [hsup]
     exact hDV
   have hcard : Nat.card (Multiplicative (Fin 3 → ZMod 3)) = 27 := by
-    simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card]
+    simp [Nat.card_eq_fintype_card, ZMod.card]
   have hsurj : Function.Surjective (basisHom (x := d) hd3 hcomm) :=
     basisHom_surjective (x := d) hd3 hcomm
   have hbij : Function.Bijective (basisHom (x := d) hd3 hcomm) :=
@@ -208,7 +208,7 @@ theorem exists_hom_perm_four_of_lines {V : Type} [Group V] [Finite V]
       ext i
       by_cases h : i = π j
       · simp [signedMat, h]
-      · simp [signedMat, h, Pi.single_eq_of_ne h]
+      · simp [signedMat, h]
     exact mem_monomial_of π s hπbij hs0 hmat
   let F : X →* monomial := G.codRestrict monomial hmono
   let σ : X →* Equiv.Perm (Fin 4) := diagPerm.comp F

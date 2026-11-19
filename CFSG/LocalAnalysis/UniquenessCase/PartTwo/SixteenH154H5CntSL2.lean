@@ -67,15 +67,15 @@ theorem s16h_natNorm_elemAbelian_le_sl2 {K : Type} [Field K] [Finite K] {a : ℕ
   rcases (by omega : a = 2 ∨ a = 3) with rfl | rfl
   · exact s16h_H5_natNorm_statedSL_two_four_elemAbelian (by rw [hK]; norm_num) hq hq2 hA hE
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK8 : Nat.card K = 8 := by rw [hK]; norm_num
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have hKeven : Fintype.card K % 2 = 0 := by
       rw [Fintype.card_eq_nat_card, hK8]
     have hring : ringChar K = 2 := (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
     exact hring ▸ ringChar.charP K
-  haveI : Finite (MulAut (StdMod (Fin 2) K)) := MulEquiv.finite_left
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Finite (MulAut (StdMod (Fin 2) K)) := MulEquiv.finite_left
+  have : Fact q.Prime := ⟨hq⟩
   have hΓ : HasScalarCommutant (StatedSL 2 K) :=
     hasScalarCommutant_statedSL (d := 2) (by norm_num)
   let φ : ↥A' →* (K ≃+* K) := (fieldHom hΓ).comp (Subgroup.inclusion hA)

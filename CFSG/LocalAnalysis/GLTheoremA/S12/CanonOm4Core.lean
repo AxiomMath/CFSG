@@ -78,8 +78,8 @@ theorem block_card_ne (hK4 : Nat.card K = 4) (hx : OddOrderIsometry Q 5 x) {h : 
       Nat.card (↥(componentImage Q x h) ⧸ Subgroup.center ↥(componentImage Q x h)) ≠
         ordTwistedD 4 4 := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP K 2 := charP_two_of_card_four hK4
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : CharP K 2 := charP_two_of_card_four hK4
   have hFΩ : specialBlock Q x h ≤ orthDerived Q :=
     specialBlock_le_orthDerived_of_perfect hq.1
       ((specialBlock_le_isometryCentralizer h).trans (fun _ hg => (Subgroup.mem_inf.mp hg).1))
@@ -97,9 +97,9 @@ theorem block_card_ne (hK4 : Nat.card K = 4) (hx : OddOrderIsometry Q 5 x) {h : 
   subst hℓ
   have hf : f = 2 := Nat.pow_right_injective le_rfl (hq0.symm.trans hK4)
   subst hf
-  haveI := hU.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hU.charP
+  have := hU.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hU.charP
   have hm := two_le_multiplicity_of_quasisimple hx hh hq
   have hN := ordTwistedD_lt_ordA
   have hcardSU := (CFSG.LinearGroups.unitary_full_group_order hU hBsymm hBl
@@ -175,11 +175,11 @@ theorem fixed_card (hK4 : Nat.card K = 4) [Nontrivial V] (hQ : (polarBilin Q).No
           ordTwistedD 4 4 →
         finrank K (fixedSpace x) = 8 ∧ ¬ IsPlusType (Q.comp (fixedSpace x).subtype)) := by
   classical
-  haveI : CharP K 2 := charP_two_of_card_four hK4
+  have : CharP K 2 := charP_two_of_card_four hK4
   have hR : (polarBilin (Q.comp (fixedSpace x).subtype)).Nondegenerate :=
     hx.polarBilin_fixed_nondegenerate
   have hW3 : 3 ≤ finrank K (fixedSpace x) := hlist.1
-  haveI : Nontrivial (fixedSpace x) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial (fixedSpace x) := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   let e : ↥(fixedComponentImage Q x) ≃* ↥(orthDerived (Q.comp (fixedSpace x).subtype)) :=
     fixedComponentImageEquiv hQ hx
   have hc : Nat.card (↥(fixedComponentImage Q x) ⧸ Subgroup.center ↥(fixedComponentImage Q x)) =
@@ -290,10 +290,10 @@ theorem om4_core {K : Type} [Field K] [Finite K] (hK4 : Nat.card K = 4) {V : Typ
     Nat.card (↥J ⧸ Subgroup.center ↥J) ≠ ordA 5 4 ∧
       (Nat.card (↥J ⧸ Subgroup.center ↥J) = ordTwistedD 4 4 → 12 ≤ finrank K V) := by
   classical
-  haveI : CharP K 2 := charP_two_of_card_four hK4
+  have : CharP K 2 := charP_two_of_card_four hK4
   have hring : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨U, hU3, hU0⟩ := hT
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K)
     (by have := Submodule.finrank_le U; omega)
   have hN := ordTwistedD_lt_ordA
   have h60 : 60 < ordTwistedD 4 4 := by decide

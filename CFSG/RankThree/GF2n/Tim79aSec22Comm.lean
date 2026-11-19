@@ -46,8 +46,8 @@ theorem V_inf_wOf_le_commutator : V ⊓ wOf V H ≤ ⁅wOf V H, xOf V H⁆ := by
   have hOle : ∀ x ∈ V ⊓ wOf V H, x ∈ L := by
     intro x hx
     exact ⟨hx.1, hc.pCoreH_le_normalizer_conj hh (wOf_le_pCore V H hx.2)⟩
-  obtain ⟨a, haV, haL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne inf_le_left hLV)
-  obtain ⟨b, hbU, hbL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+  obtain ⟨a, haV, haL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne inf_le_left hLV)
+  obtain ⟨b, hbU, hbL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
   have hVΩ : V ∈ omegaOf V H := ⟨1, H.one_mem, (conjSubgroup_one V).symm⟩
   have haX : a ∈ xOf V H := le_xOf hVΩ haV
   have hbX : b ∈ xOf V H := le_xOf (conjSubgroup_mem_omegaOf hh) hbU
@@ -89,7 +89,7 @@ theorem commutator_wOf_xOf : ⁅wOf V H, xOf V H⁆ = wOf V H := by
       Subgroup.map_mono hc.V_inf_wOf_le_commutator
     rw [hcomm h hh] at h1
     have e : conjSubgroup h (V ⊓ wOf V H) = conjSubgroup h V ⊓ inSubgroup (pCore 2) H := by
-      rw [hc.V_inf_wOf_eq, conjSubgroup_inf]
+      rw [CFSG.RankThree.GF2n.Tim79a.MinCex.V_inf_wOf_eq, conjSubgroup_inf]
       congr 1
       exact mem_normalizer_iff_conjSubgroup_eq.mp ((inSubgroup_pCore_two H).2.2 hh)
     rwa [e] at h1

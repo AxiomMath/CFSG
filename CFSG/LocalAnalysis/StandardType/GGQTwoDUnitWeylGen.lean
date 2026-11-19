@@ -71,10 +71,10 @@ theorem ggQTwoDUnit_dEven_fix_decomp {m : ℕ} {c : Fin m} {w : DVec m ≃ₗ[ZM
         = if σ k ∈ Finset.univ.filter (fun j => c' (σ.symm j) = -1) then (-1 : ZMod 3)
           else 1 := by
       by_cases hk : σ k ∈ Finset.univ.filter (fun j => c' (σ.symm j) = -1)
-      · rw [if_pos hk]
+      · rw [ite_eq_left hk]
         have hmem := (Finset.mem_filter.mp hk).2
         rwa [Equiv.symm_apply_apply] at hmem
-      · rw [if_neg hk]
+      · rw [ite_eq_right hk]
         have hmem : c' k ≠ -1 := by
           intro h
           exact hk (Finset.mem_filter.mpr ⟨Finset.mem_univ _, by simpa using h⟩)
@@ -103,7 +103,7 @@ theorem ggQTwoDUnit_dSign_eq_comm {m : ℕ} {a b k : Fin m} (hab : a ≠ b) (hka
         · subst hjb
           have hsw : Equiv.swap a k j = j :=
             Equiv.swap_apply_of_ne_of_ne (Ne.symm hab) (Ne.symm hkb)
-          simp [hsw, Ne.symm hab, Ne.symm hkb] <;> decide
+          simp [hsw, Ne.symm hab, Ne.symm hkb]
         · have hsw : Equiv.swap a k j = j := Equiv.swap_apply_of_ne_of_ne hja hjk
           simp [hsw, hja, hjk, hjb]
   exact congrArg (fun s : ZMod 3 => s • dBasis m j) hcoeff

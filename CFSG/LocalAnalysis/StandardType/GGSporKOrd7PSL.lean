@@ -101,7 +101,7 @@ private theorem lr2opsl_h7k {n f : ℕ} (hn : 3 ≤ n) {K : Type} [Field K]
       (QuotientGroup.mk' ((StatedScalars (Fin n) K).subgroupOf (StatedSL n K))).ker := by
   rw [QuotientGroup.ker_mk']
   intro hdvd
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hscal : Nat.card (StatedScalars (Fin n) K) = Nat.card Kˣ := by
     have hinj : Function.Injective
         (Matrix.GeneralLinearGroup.scalar (Fin n) : Kˣ →* GL (Fin n) K) := by
@@ -131,13 +131,13 @@ theorem ord7Param_PSL {n f : ℕ} (h7 : ¬ 7 ∣ f) (h7q : ¬ 7 ∣ 2 ^ f - 1) (
     hmodel.statedClassicalModel_of_ne_zero (by omega)
   obtain ⟨-, K, _, _, hK, hIso⟩ := hcm
   obtain ⟨e⟩ := hIso
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := f)
       (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Nontrivial (Fin n → K) := by
+  have : Nontrivial (Fin n → K) := by
     obtain ⟨a, b, hab⟩ := exists_pair_ne K
     refine ⟨fun _ => a, fun _ => b, ?_⟩
     intro h

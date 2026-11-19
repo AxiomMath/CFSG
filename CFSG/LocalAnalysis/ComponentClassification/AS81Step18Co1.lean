@@ -161,9 +161,9 @@ theorem exists_sylow_centerIn_eq :
     ∃ P₀ : Subgroup NativeSporadic.Co1, IsSylowOf 2 P₀ ⊤ ∧ centerIn P₀ = zpowers aNC := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hQP, -⟩ := nativeSetting.exists_sylow_le_M
-  refine ⟨P, isSylowOf_iff.mpr ⟨le_top, P.isPGroup', by
+  refine ⟨P, isSylowOf_iff.mpr ⟨le_top, P.isPGroup, by
     rw [relIndex_top_right]; exact P.not_dvd_index⟩, ?_⟩
-  rw [centerIn_eq_map_center', nativeSetting.map_center_eq_zpowers P.isPGroup' hQP]
+  rw [centerIn_eq_map_center', nativeSetting.map_center_eq_zpowers P.isPGroup hQP]
   rfl
 
 theorem card_centerIn_of_isSylowOf {P : Subgroup NativeSporadic.Co1} (hP : IsSylowOf 2 P ⊤) :

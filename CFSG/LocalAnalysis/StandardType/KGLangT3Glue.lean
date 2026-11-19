@@ -143,8 +143,8 @@ private lemma l02qj4_lang_glue
     rw [hX₀, Subgroup.mem_centralizer_singleton_iff]
   let zX : TriD4LineX k K := D.Θ ⟨D.z₀, hzX₀⟩
   let E : Subgroup (TriD4LineX k K) := (EA.subgroupOf X₀).map D.Θ.toMonoidHom
-  haveI hEAab_sub : IsMulCommutative ↥(EA.subgroupOf X₀) := by
-    haveI : IsMulCommutative ↥EA := hEAea.1
+  have hEAab_sub : IsMulCommutative ↥(EA.subgroupOf X₀) := by
+    have : IsMulCommutative ↥EA := hEAea.1
     refine IsMulCommutative.mk ⟨fun a b => Subtype.ext ?_⟩
     apply Subtype.ext
     simpa only [Subgroup.coe_mul] using
@@ -304,13 +304,13 @@ theorem kgLangT3_core_z0 {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Type) [Fie
       ∃ k : GGTriD4R n K, (∀ α ∈ A, α ∈ kgLangT3Inn n K → α k = k) ∧ k * (α₀ k)⁻¹ = D.z₀ := by
   intro hEJ
   have hn1 : 1 ≤ n := by omega
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fintype k := Fintype.ofFinite k
+  have : Fintype K := Fintype.ofFinite K
   have hZ : Subgroup.center (GGTriD4R n K) = ⊥ := triD4Line_center_bot hn1 K hK
   have hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
-    haveI := hA.1
+    have := hA.1
     intro a ha b hb
     exact setLike_mul_comm ha hb
   have hdeg : Module.finrank k K = 3 := by

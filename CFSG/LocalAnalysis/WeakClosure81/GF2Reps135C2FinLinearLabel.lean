@@ -24,7 +24,7 @@ theorem exists_label_of_irreducible_specialLinear {K : Type} [Field K] [Fintype 
             d (ρ x w) = ρ (borelStd n K B τ 1 x) (d w)) →
         ∀ (j : Fin n) (hj : 1 ≤ j.val), (j ∈ S ↔ (⟨n - j.val, by omega⟩ : Fin n) ∈ S)) := by
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
-  haveI : ρ.IsIrreducible := hirr
+  have : ρ.IsIrreducible := hirr
   obtain ⟨S, hS, h0, hne'⟩ := exists_hasLabel hK (by omega) ρ hne
   obtain ⟨hcard, hnat⟩ := card_of_hasLabel hK (by omega) ρ hS hne'
   refine ⟨S, h0, hne', hcard, ?_, ?_, ?_⟩

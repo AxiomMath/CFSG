@@ -63,10 +63,10 @@ theorem runP_unfold (gs : Array (Array ℕ)) (s : IStateP) (h : ℕ) :
   unfold outerP withHP
   dsimp only
   by_cases hc : h < s.2.1.size
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     dsimp only [pure]
     rw [innerP_eq]
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     rfl
 
 theorem bfsPl_eq_run (gs : Array (Array ℕ)) :
@@ -130,13 +130,13 @@ theorem rowP_mono (F : ℕ → ℕ → ℕ) (h : ℕ) :
     intro l c hne
     rw [rowP_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact ih _ _ hne
+      · rw [ite_eq_left ‹_›]; exact ih _ _ hne
       · exact absurd rfl hne
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
+      · rw [ite_eq_left ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
       · exact absurd rfl hne
 
 theorem runP_succ (F : ℕ → ℕ → ℕ) (cap fuel h c : ℕ) :
@@ -162,12 +162,12 @@ theorem runP_mono (F : ℕ → ℕ → ℕ) (cap : ℕ) :
     intro h c hne
     rw [runP_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
       · exact absurd rfl hne
-      · rw [if_neg ‹_›]
+      · rw [ite_eq_right ‹_›]
         exact Nat.le_trans (rowP_mono F h ng 0 c ‹_›) (ih _ _ hne)
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
 
 theorem stepP_eq {gs : Array (Array ℕ)} (hg : ∀ l < ng, gs[l]! = unpackR 24 (GM l)) (x : ℕ)
     {l : ℕ} (hl : l < ng) : mulR (unpackR 24 x) gs[l]! = unpackR 24 (gtStepK GM x l) := by
@@ -197,16 +197,16 @@ theorem rowP_replay {gs : Array (Array ℕ)} (hg : ∀ l < ng, gs[l]! = unpackR 
     unfold stepP
     rw [stepP_eq hg _ (by omega)]
     by_cases hw : W (h * ng + l) < c
-    · rw [if_pos hw] at hne hle hmono ⊢
+    · rw [ite_eq_left hw] at hne hle hmono ⊢
       by_cases hp : P (W (h * ng + l)) = gtStepK GM (P h) l
-      · rw [if_pos hp] at hne hle hmono ⊢
+      · rw [ite_eq_left hp] at hne hle hmono ⊢
         rw [← hp, hs.seen _ (by omega), decide_eq_true hw]
         exact ih (l + 1) c s (by omega) hhc hs ht hne hle
-      · rw [if_neg hp] at hne
+      · rw [ite_eq_right hp] at hne
         exact absurd rfl hne
-    · rw [if_neg hw] at hne hle hmono ⊢
+    · rw [ite_eq_right hw] at hne hle hmono ⊢
       by_cases hn : W (h * ng + l) = c ∧ P c = gtStepK GM (P h) l ∧ PAR c = h ∧ LAB c = l
-      · rw [if_pos hn] at hne hle hmono ⊢
+      · rw [ite_eq_left hn] at hne hle hmono ⊢
         obtain ⟨hwc, hpc, hpar, hlab⟩ := hn
         have hcN : c < N := Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
           (Nat.le_trans (rowP_mono (gtStepK GM) h k (l + 1) (c + 1) hne) hle)
@@ -218,7 +218,7 @@ theorem rowP_replay {gs : Array (Array ℕ)} (hg : ∀ l < ng, gs[l]! = unpackR 
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
         · exact ht i h0 hi
         · exact ⟨by omega, by omega, by rw [hpar, hlab, hpc]⟩
-      · rw [if_neg hn] at hne
+      · rw [ite_eq_right hn] at hne
         exact absurd rfl hne
 
 theorem runP_replay {gs : Array (Array ℕ)} (hng : gs.size = ng)
@@ -242,20 +242,20 @@ theorem runP_replay {gs : Array (Array ℕ)} (hng : gs.size = ng)
     rw [runP_succ] at hr hmono
     by_cases hc : h < c
     · have hc' : h < c ∧ c < N + 1 := ⟨hc, by omega⟩
-      rw [if_pos hc'] at hr hmono
-      rw [if_pos hc]
+      rw [ite_eq_left hc'] at hr hmono
+      rw [ite_eq_left hc]
       by_cases h0 : bfsRowK (gtStepK GM) P PAR LAB W ng h ng 0 c = 0
-      · rw [if_pos h0] at hr
+      · rw [ite_eq_left h0] at hr
         omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_right h0] at hr hmono
         have hle : bfsRowK (gtStepK GM) P PAR LAB W ng h ng 0 c ≤ N :=
           hr ▸ runP_mono (gtStepK GM) (N + 1) fuel (h + 1) _ (by omega)
         rw [hs.pts h hc, hng]
         obtain ⟨hs', ht'⟩ := rowP_replay (W := W) hg hP hinj ng 0 c s (by omega) hc hs ht h0 hle
         exact ih (h + 1) _ _ hle hs' ht' hr
     · have hc' : ¬ (h < c ∧ c < N + 1) := fun e => hc e.1
-      rw [if_neg hc'] at hr
-      rw [if_neg hc]
+      rw [ite_eq_right hc'] at hr
+      rw [ite_eq_right hc]
       subst hr
       exact hs
 

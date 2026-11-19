@@ -37,7 +37,7 @@ theorem concl165_of_e8FourData {F : Type} [Field F] [Finite F] [CharP F 2] {n p 
       g * rootDiagUnit .E8 (d6zTorsionChar p ζ lam) * g⁻¹) :
     Concl165 (adjointGroup .E8 F) p q A₀ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ∣ Nat.card F ^ 2 + 1 := dvd_card_sq_add_one_of_rk2Ord_four hcard hp hrk
   have hqK : q ∣ Nat.card F - 1 ∨ Nat.card F = 2 ∧ q = 3 := by
     rcases hqdiv with h | ⟨hn1, hq3⟩
@@ -90,7 +90,7 @@ theorem exists_conj_map_eq_e8Four {F : Type} [Field F] [Finite F] (n p : ℕ)
     (hÃmax : CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup .E8 F)) ≤ CFSG.Open.pRank p Ã)
     (hA₀card : Nat.card A₀ = p ^ 4) :
     ∃ c : adjointGroup .E8 F, Ã.map (MulAut.conj c).toMonoidHom = A₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ∣ Nat.card F ^ 2 + 1 := dvd_card_sq_add_one_of_rk2Ord_four hcard hp hrk
   have h4Ã : 4 ≤ CFSG.Open.pRank p Ã :=
     (four_le_pRank_adjoint_e8 F hp (orderOf_card_eq_four hcard hrk)).trans hÃmax
@@ -130,11 +130,11 @@ theorem exists_conj_map_eq_e8Four {F : Type} [Field F] [Finite F] (n p : ℕ)
 
 theorem e8Model165At_four : E8Model165At 4 := by
   intro F hField hFinite hChar n p q hcard hn hp hp2 hrk hq hq2 hqp hqdiv
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   intro Ã hÃe hΩ hÃmax hÃ3
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨lam, hlam, ζ, hζo, g, hgM, hgN, A₀, hA₀e, hA₀card, x, z, hx, hz, hx1, hzx,
     hxL, hzL, hxdiag, hzdiag⟩ := exists_e8FourPointData F hcard hn hp hp2 hrk
   have hconcl : Concl165 (adjointGroup .E8 F) p q A₀ :=

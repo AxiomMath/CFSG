@@ -113,7 +113,7 @@ theorem Sec5S.exists_two_group (hS : Sec5S X n z Z S s) {A : Subgroup X}
     rw [injective_iff_map_eq_one]
     intro p hp
     have hker : (p : ↥U) ∈ q'.ker := hp
-    exact Subtype.ext (eq_one_of_mem_of_mem_odd q'.ker (P : Subgroup ↥U) hkerodd P.isPGroup' p.2
+    exact Subtype.ext (eq_one_of_mem_of_mem_odd q'.ker (P : Subgroup ↥U) hkerodd P.isPGroup p.2
       hker)
   have hPbij : Function.Bijective (q'.comp (P : Subgroup ↥U).subtype) :=
     hPinj.bijective_of_nat_card_le (by rw [hcardP, hJ64])
@@ -128,7 +128,7 @@ theorem Sec5S.exists_two_group (hS : Sec5S X n z Z S s) {A : Subgroup X}
     (Subgroup.equivMapOfInjective _ U.subtype U.subtype_injective).trans
       (Subgroup.equivMapOfInjective _ A.subtype A.subtype_injective)
   refine ⟨V, hVU, ?_, ?_, ?_⟩
-  · exact IsPGroup.of_equiv P.isPGroup' eV
+  · exact IsPGroup.of_equiv P.isPGroup eV
   · rw [← Nat.card_congr eV.toEquiv]; exact hcardP
   · rw [← Nat.card_congr (Subgroup.centerCongr eV).toEquiv]; exact hcenP
 

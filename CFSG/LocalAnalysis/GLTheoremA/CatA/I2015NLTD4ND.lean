@@ -57,15 +57,15 @@ variable {π : Bool} {f : ℕ} {F : Type} [Field F]
 theorem td4n_core_projImage (hK : PiField π 2 f F)
     (hmod : ModThree π (2 ^ f)) (hq2 : 2 < 2 ^ f) (hf : cond π 2 3 ≤ f) (N : ℕ) :
     TD4NCore N ↥(CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F)) := by
-  haveI := hK.finite
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) F) :=
+  have := hK.finite
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) F) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) F →* _)
       (QuotientGroup.mk'_surjective _)
   have hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f F :=
     fun h => by subst h; exact hK.unitary
   have hSP : CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F) ≤
       CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F) := Subgroup.map_mono (Sec4.slPi_le_glPi hπ)
-  haveI : Finite ↥(CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F)) := Subtype.finite
+  have : Finite ↥(CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F)) := Subtype.finite
   have hcomm := Sec13.commutator_projImage_glPi hK hq2
   set E := (CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)).subgroupOf
       (CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F)) with hEdef
@@ -75,7 +75,7 @@ theorem td4n_core_projImage (hK : PiField π 2 f F)
     CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
   have hperf : Group.IsPerfect ↥(CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)) :=
     Sec13.isPerfect_projImage_slPi hK hq2
-  haveI : Nontrivial ↥(CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)) := hs.toNontrivial
+  have : Nontrivial ↥(CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)) := hs.toNontrivial
   have hsE : IsSimpleGroup ↥E := eE.isSimpleGroup_congr.2 hs
   have hnaE : ∃ x y : ↥E, x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ :=
@@ -84,7 +84,7 @@ theorem td4n_core_projImage (hK : PiField π 2 f F)
       fun hh => hab (eE.symm.injective (by rw [map_mul, map_mul]; exact hh))⟩
   have hf2 : 2 ≤ f := by
     cases π <;> simp at hf <;> omega
-  haveI : Finite ↥E := Subtype.finite
+  have : Finite ↥E := Subtype.finite
   have hcardE : Nat.card ↥E * 3 =
       (2 ^ f) ^ 3 * ((2 ^ f) ^ 2 - 1) * cond π ((2 ^ f) ^ 3 - 1) ((2 ^ f) ^ 3 + 1) := by
     rw [Nat.card_congr eE.toEquiv]
@@ -112,7 +112,7 @@ theorem td4n_core_adjointG2 (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f) :
     obtain ⟨E, hs, hna, hperf, hidx, -⟩ := FR.Res.datumCore_adjointG2_two (by simpa using hk)
     have hD := CFSG.ComponentClassification.ExcSelector.card_adjointGroup_G2_two
       (k := k) (by simpa using hk)
-    haveI : Finite ↥E := Subtype.finite
+    have : Finite ↥E := Subtype.finite
     refine ⟨E, hs, hna, hperf, hle _ ?_⟩
     rcases hidx with h | h <;> omega
   · have h4 : 4 ≤ 2 ^ f := by
@@ -165,8 +165,8 @@ theorem td4n_core {S : Type} [Group S] [Finite S] (hchev : IsChevSimple 2 S) (hT
   have hf : 1 ≤ q.exponent := q.exponent_pos
   have hK' : Nat.card K = (2 ^ q.exponent) ^ 3 := by rw [hK, hq2]
   have hσ' : ∀ c, σ c = c ^ 2 ^ q.exponent := fun c => by rw [hσ c, hq2]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharK : CharP K 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K 2 := by
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := q.exponent * 3)
       (by rw [Fintype.card_eq_nat_card, hK', ← pow_mul])
@@ -202,7 +202,7 @@ theorem td4n_core {S : Type} [Group S] [Finite S] (hchev : IsChevSimple 2 S) (hT
       (ℓ := 2) (by norm_num) hf (Or.inl rfl) hK' σ hσ'
     have hkc : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 ^ q.exponent :=
       CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_two hf hK' σ hσ'
-    haveI : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
+    have : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
     refine ⟨_, inferInstance, ⟨eFix.trans (eA.trans ((MulEquiv.subgroupCongr rfl).trans eG))⟩, ?_⟩
     rw [hK']
     exact td4n_core_adjointG2 hf hkc
@@ -214,7 +214,7 @@ theorem td4n_core {S : Type} [Group S] [Finite S] (hchev : IsChevSimple 2 S) (hT
       (ℓ := 2) (by norm_num) hf (Or.inl rfl) hK' σ hσ'
     have hkc : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 ^ q.exponent :=
       CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_two hf hK' σ hσ'
-    haveI : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
+    have : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
     refine ⟨_, inferInstance, ⟨eFix.trans (eA.trans ((MulEquiv.subgroupCongr rfl).trans eG))⟩, ?_⟩
     rw [hK']
     exact td4n_core_adjointG2 hf hkc
@@ -240,7 +240,7 @@ theorem td4n_core {S : Type} [Group S] [Finite S] (hchev : IsChevSimple 2 S) (hT
             ↥(CFSG.PGLModel.projImage (glPi false 3 (2 ^ q.exponent) F)) :=
           Sec13.isSolvable_projImage_glPi_two hPi (by simp [h1])
         let eT := eFix.trans (e2.trans e3)
-        haveI : Group.IsSolvable ↥(FP.fixSub β) :=
+        have : Group.IsSolvable ↥(FP.fixSub β) :=
           Group.isSolvable_of_isSolvable_injective (f := eT.toMonoidHom) eT.injective
         exact FR.false_of_perfect_solvable hTC hTp hTne inferInstance
       · have hf3 : 3 ≤ q.exponent := by

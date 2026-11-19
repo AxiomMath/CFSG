@@ -65,7 +65,7 @@ theorem pPrimeCore_centralizer_eq_bot_of_charP
     (hch : d.1.characteristic = p) (e : Nonempty (↥L ≃* (TauCeti.CFSGIndex.lie d).Group))
     {w : Y} (hwL : w ∈ L) (hwo : orderOf w = p) :
     GLAPPrimeCoreOf p (centralizer ({w} : Set Y)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hρ : Function.Injective (MulAut.conjNormal : Y →* MulAut ↥L) :=
     i294_conjNormal_injective hC
   have hxval : (MulAut.conjNormal : Y →* MulAut ↥L) w = MulAut.conj (⟨w, hwL⟩ : ↥L) :=
@@ -90,7 +90,7 @@ theorem I294Cfg.pPrimeCore_eq_bot_of_defCharInnerCoreFree
     (hch : d.1.characteristic = p)
     (e : Nonempty (↥L ≃* (TauCeti.CFSGIndex.lie d).Group)) {w : Y} (hw : w ∈ D) (hw1 : w ≠ 1) :
     GLAPPrimeCoreOf p (centralizer ({w} : Set Y)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact pPrimeCore_centralizer_eq_bot_of_charP hCore h.prime h.odd h.simple h.nonab h.cent d hch e
     (hDL hw) (orderOf_eq_prime (h.elem.2 w hw) hw1)
 

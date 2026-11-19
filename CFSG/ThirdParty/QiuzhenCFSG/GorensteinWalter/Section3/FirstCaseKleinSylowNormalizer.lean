@@ -47,8 +47,7 @@ public theorem firstCase_klein_large_twoSubgroup_normalizer_le_Hhat
   classical
   let z : G := e.symm (DihedralGroup.r (2 ^ (m - 1) : ZMod (2 ^ m)))
   have hzP : z ∈ P := by
-    simpa [z] using
-      (e.symm (DihedralGroup.r (2 ^ (m - 1) : ZMod (2 ^ m)))).property
+    simp [z]
   have hmodelord : orderOf (DihedralGroup.r (2 ^ (m - 1) : ZMod (2 ^ m))) = 2 := by
     rw [DihedralGroup.orderOf_r]
     have hbase : (2 : ZMod (2 ^ m)) ^ (m - 1) =
@@ -68,7 +67,7 @@ public theorem firstCase_klein_large_twoSubgroup_normalizer_le_Hhat
     rw [hgcd]
     have hpow : 2 ^ m = 2 * 2 ^ (m - 1) := by
       calc
-        2 ^ m = 2 ^ ((m - 1) + 1) := by congr 1 <;> omega
+        2 ^ m = 2 ^ ((m - 1) + 1) := by congr 1; omega
         _ = 2 ^ (m - 1) * 2 := by rw [pow_succ]
         _ = 2 * 2 ^ (m - 1) := by ac_rfl
     rw [hpow]
@@ -123,7 +122,7 @@ public theorem firstCase_klein_large_twoSubgroup_normalizer_le_Hhat
           2 ^ (m - 1) + 2 ^ (m - 1) = 2 * 2 ^ (m - 1) := by omega
           _ = 2 ^ (m - 1) * 2 := by ac_rfl
           _ = 2 ^ ((m - 1) + 1) := by rw [pow_succ]
-          _ = 2 ^ m := by congr 1 <;> omega
+          _ = 2 ^ m := by congr 1; omega
       rw [sub_eq_add_neg]
       congr 1
       exact eq_neg_of_add_eq_zero_left hsum

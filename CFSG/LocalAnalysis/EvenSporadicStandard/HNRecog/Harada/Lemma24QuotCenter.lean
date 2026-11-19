@@ -86,12 +86,12 @@ theorem center_normal_eq_bot {Q : Type} [Group Q] [Finite Q]
     obtain ⟨k, hk⟩ := hpow (z : Q) z.2
     exact ⟨k, by rw [← Subgroup.orderOf_coe z, hk]⟩
   obtain ⟨S, hPS⟩ := hP2.exists_le_sylow
-  have hScard : Nat.card (S : Subgroup Q) ≤ 64 := hmax (S : Subgroup Q) S.isPGroup'
+  have hScard : Nat.card (S : Subgroup Q) ≤ 64 := hmax (S : Subgroup Q) S.isPGroup
   have hSP : P = (S : Subgroup Q) := by
     refine Subgroup.eq_of_le_of_card_ge hPS ?_
     calc Nat.card (S : Subgroup Q) ≤ 64 := hScard
       _ = Nat.card P := hPcard.symm
-  haveI : Z'.Normal := hZ'normal
+  have : Z'.Normal := hZ'normal
   have hZ'leS : Z' ≤ (S : Subgroup Q) := IsPGroup.le_sylow_of_normal hZ'2 S
   have hZ'leF : Z' ≤ F := by
     have hZ'leP : Z' ≤ P := by rw [hSP]; exact hZ'leS

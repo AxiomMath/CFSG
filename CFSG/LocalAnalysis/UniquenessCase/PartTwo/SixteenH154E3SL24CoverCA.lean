@@ -22,6 +22,7 @@ open CFSG.Quasithin CFSG.Quasithin.H CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_sl24_cover_coord {L : Subgroup (MulAut W)} {U Z : Subgroup W}
     (hrow : s16h_H5RowSL2 L U Z 2) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 4 ∧
@@ -34,8 +35,8 @@ theorem s16h_sl24_cover_coord {L : Subgroup (MulAut W)} {U Z : Subgroup W}
           β ⟨_, hu⟩ = natAct (CFSG.Assembly.LowTwoRank.StatedSL 2 K) γ (β u)) := by
   obtain ⟨-, hBN⟩ := hrow
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hBN
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨π, hπ⟩ := hreal
   obtain ⟨β, hβs, hβk, hβe⟩ :=
     FFModel.RealizesVia.coord (D := FFModel.nat (CFSG.Assembly.LowTwoRank.StatedSL 2 K))

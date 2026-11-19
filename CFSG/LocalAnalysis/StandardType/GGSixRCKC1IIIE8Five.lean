@@ -23,9 +23,9 @@ theorem lieModel_centerQuot_of_equiv_statedSU_five_four
     {Y : Type} [Group Y] {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = (2 ^ 2) ^ 2) (ε : Y ≃* CFSG.Open.StatedSU 5 (2 ^ 2) F) :
     LieModel (Y ⧸ Subgroup.center Y) .PSU 5 2 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 4) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 4) (by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num)
   let η := ε.trans (CFSG.LieType.Universal.Unitary.equivStatedSU (p := 2) (f := 2) hF 5).symm

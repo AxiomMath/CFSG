@@ -349,7 +349,7 @@ private lemma uniCubeRank_scalarGL_injective {N : ℕ} {K : Type} [Field K] (hN 
     simpa using congrArg (fun Y : GL (Fin N) K => (Y : Matrix (Fin N) (Fin N) K)) h
   simp only [Matrix.GeneralLinearGroup.coe_scalar] at h'
   have h00 := congrFun (congrFun h' ⟨0, by omega⟩) ⟨0, by omega⟩
-  simp [Matrix.smul_apply, Matrix.one_apply] at h00
+  simp at h00
   exact Units.ext h00
 
 private lemma uniCubeRank_scalar_eq_smul_one {n : ℕ} {K : Type} [Field K] (c : K) :
@@ -786,8 +786,7 @@ private lemma uniCubeRank_mem_of_perp_two
     have h1 := hxall w hw
     have h2 := haperp w hw
     have h3 : stdHermForm hE N (a + b) w = stdHermForm hE N a w + stdHermForm hE N b w := by
-      simp only [stdHermForm_apply, Pi.add_apply, map_add, LinearMap.add_apply, add_mul,
-        Finset.sum_add_distrib]
+      simp only [stdHermForm_apply, map_add, LinearMap.add_apply]
     rw [h3, h2, zero_add] at h1
     exact h1
   have hb0 : b = 0 := by
@@ -922,7 +921,7 @@ private lemma uniCubeRank_form_eq_sum_orthonormal {K V : Type} [Field K] [AddCom
   have hinner : (∑ j, b.repr y j * H (b i) (b j)) = b.repr y i := by
     rw [Finset.sum_eq_single i]
     · rw [horth i i]; simp
-    · intro j _ hji; rw [horth i j, if_neg (fun h => hji h.symm), mul_zero]
+    · intro j _ hji; rw [horth i j, ite_eq_right (fun h => hji h.symm), mul_zero]
     · intro hi; exact absurd (Finset.mem_univ i) hi
   rw [hinner]
 
@@ -963,8 +962,7 @@ private lemma uniCubeRank_exists_restrict_hom
     intro x y z
     change stdHermForm hE N (x.1 + y.1) z.1 =
       stdHermForm hE N x.1 z.1 + stdHermForm hE N y.1 z.1
-    simp only [stdHermForm_apply, Pi.add_apply, map_add, LinearMap.add_apply, add_mul,
-      Finset.sum_add_distrib]
+    simp only [stdHermForm_apply, map_add, LinearMap.add_apply]
   have hsmulL : ∀ (c : K) (x y : V), H (c • x) y = hE.barEquiv c * H x y := by
     intro c x y
     change stdHermForm hE N (c • x.1) y.1 = hE.barEquiv c * stdHermForm hE N x.1 y.1
@@ -1119,7 +1117,7 @@ private lemma uniCubeRank_exists_restrict_hom
 
 private lemma uniCubeRank_card_fix_le_three
     {K : Type} [Field K] [Finite K] [CharP K 2] {q N : ℕ} (hK : Nat.card K = q ^ 2)
-    (hq3 : 3 ∣ q + 1) (hN : 4 ≤ N)
+    (hq3 : 3 ∣ q + 1) (_hN : 4 ≤ N)
     {Ā : Subgroup (MulAut (PSUg N K q))} {δ' : MulAut (PSUg N K q)}
     {J' : Subgroup (PSUg N K q)} (hR : RDatum Ā δ' J') {Ahat : Subgroup (GL (Fin N) K)}
     (hL : UniLift N q K Ā Ahat) {d : GL (Fin N) K} (hdA : d ∈ Ahat) (hd3 : d ^ 3 = 1)
@@ -1176,7 +1174,7 @@ private lemma uniCubeRank_card_fix_le_three
         simpa only [Matrix.toLin'_apply, Matrix.one_mulVec] using hfixall v
       exact Subtype.ext (by rw [Subgroup.coe_one]; exact Units.ext (by rw [Units.val_one]; exact hmat))
     have hJbot : J' = ⊥ := by rw [hJ, eigBlock, heig, Subgroup.map_bot]
-    haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hR.comp.2.2.2.toNontrivial
+    have : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hR.comp.2.2.2.toNontrivial
     have hnt : Nontrivial ↥J' :=
       Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
     rw [hJbot] at hnt
@@ -1357,7 +1355,7 @@ theorem uniR_cube_rank {K : Type} [Field K] [Finite K] [CharP K 2] {q N : ℕ} (
     {J' : Subgroup (PSUg N K q)} (hR : RDatum Ā δ' J') {Ahat : Subgroup (GL (Fin N) K)}
     (hL : UniLift N q K Ā Ahat) (hcard : Nat.card Ahat = Nat.card Ā * (q + 1)) {d : GL (Fin N) K}
     (hdA : d ∈ Ahat) (hd3 : d ^ 3 = 1) (hδ : IsConjBy d δ')
-    {μ : K} (hμ : μ ^ 3 = 1) (hJ : J' = eigBlock q d μ) (hQS : CubeBlockQS q d μ)
+    {μ : K} (hμ : μ ^ 3 = 1) (hJ : J' = eigBlock q d μ) (_hQS : CubeBlockQS q d μ)
     (hk : Module.finrank K (cubeEigen d μ) = 2 ∨ Module.finrank K (cubeEigen d μ) = 3) :
     Nat.card Ā ≤ 3 ^ Module.finrank K (cubeEigen d μ) := by
   classical

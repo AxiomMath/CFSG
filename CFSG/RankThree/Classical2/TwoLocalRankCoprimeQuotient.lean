@@ -69,7 +69,7 @@ theorem le_localRank_of_normalizes {p : ℕ} (hp : p.Prime) {S D : Subgroup G}
   obtain ⟨T, hST, hT0⟩ :=
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       p 2 hp Nat.prime_two S D hSp hSD hcop h2
-  have hT2 : IsPGroup 2 ((T : Subgroup D).map D.subtype) := T.isPGroup'.map D.subtype
+  have hT2 : IsPGroup 2 ((T : Subgroup D).map D.subtype) := T.isPGroup.map D.subtype
   have hloc : IsTwoLocal (Subgroup.normalizer
       (((T : Subgroup D).map D.subtype : Subgroup G) : Set G)) := ⟨_, hT0, hT2, rfl⟩
   have h1 := CFSG.SectionRank.le_pRank hp.one_lt hST hS hSk

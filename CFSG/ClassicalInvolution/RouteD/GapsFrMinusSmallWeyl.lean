@@ -164,7 +164,7 @@ theorem stdPair_bridge_minus {s : ℕ} (hs : 3 ≤ s) (hp2 : p ≠ 2)
     have e2 : (Equiv.swap (⟨2, by omega⟩ : Fin (s + 5 - 1)) ⟨s + 1, by omega⟩
         ⟨s + 2, by omega⟩).val = s + 2 := by
       rw [Equiv.swap_apply_of_ne_of_ne (by simp [Fin.ext_iff]; try omega)
-        (by simp [Fin.ext_iff]; try omega)]
+        (by simp [Fin.ext_iff])]
     rw [rootSL2_congr Fr _ _ _ (by omega) (by omega) (by omega) e1 e2]
     have e3 : longWeylBool (⟨2, by omega⟩ : Fin (s + 5 - 1)) ⟨s + 1, by omega⟩ false true
         ⟨s + 1, by omega⟩ true = true := by
@@ -173,7 +173,7 @@ theorem stdPair_bridge_minus {s : ℕ} (hs : 3 ≤ s) (hp2 : p ≠ 2)
     have e4 : longWeylBool (⟨2, by omega⟩ : Fin (s + 5 - 1)) ⟨s + 1, by omega⟩ false true
         ⟨s + 2, by omega⟩ false = false := by
       rw [longWeylBool_of_ne false true (by simp [Fin.ext_iff]; try omega)
-        (by simp [Fin.ext_iff]; try omega)]
+        (by simp [Fin.ext_iff])]
     rw [e3, e4]
   have h2 : (rootSL2 Fr (s + 2) (s + 3) (by omega) (by omega) (by omega) true tM).map
       (MulAut.conj w).toMonoidHom = rootSL2 Fr (s + 2) (s + 3) (by omega) (by omega) (by omega)
@@ -182,16 +182,16 @@ theorem stdPair_bridge_minus {s : ℕ} (hs : 3 ≤ s) (hp2 : p ≠ 2)
     have e1 : (Equiv.swap (⟨2, by omega⟩ : Fin (s + 5 - 1)) ⟨s + 1, by omega⟩
         ⟨s + 2, by omega⟩).val = s + 2 := by
       rw [Equiv.swap_apply_of_ne_of_ne (by simp [Fin.ext_iff]; try omega)
-        (by simp [Fin.ext_iff]; try omega)]
+        (by simp [Fin.ext_iff])]
     have e2 : (Equiv.swap (⟨2, by omega⟩ : Fin (s + 5 - 1)) ⟨s + 1, by omega⟩
         ⟨s + 3, by omega⟩).val = s + 3 := by
-      rw [Equiv.swap_apply_of_ne_of_ne (by simp [Fin.ext_iff]; try omega)
-        (by simp [Fin.ext_iff]; try omega)]
+      rw [Equiv.swap_apply_of_ne_of_ne (by simp [Fin.ext_iff])
+        (by simp [Fin.ext_iff])]
     rw [rootSL2_congr Fr _ _ _ (by omega) (by omega) (by omega) e1 e2]
     rw [longWeylBool_of_ne false true (by simp [Fin.ext_iff]; try omega)
-        (by simp [Fin.ext_iff]; try omega),
-      longWeylBool_of_ne false true (by simp [Fin.ext_iff]; try omega)
-        (by simp [Fin.ext_iff]; try omega)]
+        (by simp [Fin.ext_iff]),
+      longWeylBool_of_ne false true (by simp [Fin.ext_iff])
+        (by simp [Fin.ext_iff])]
   rw [h1, h2] at hW2
   exact ⟨_, hW2⟩
 

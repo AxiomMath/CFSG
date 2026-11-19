@@ -26,7 +26,7 @@ private theorem isG2Der_of_isG2Cover
     (hodd : Odd (Nat.card (Subgroup.center X))) {f : ℕ} (hf : 2 ≤ f)
     (h : CFSG.Quasithin.IsG2 2 f (X ⧸ Subgroup.center X)) :
     ∃ n : ℕ, F08.IsG2Der X n := by
-  haveI : Group.IsPerfect X := Group.isPerfect_def.mpr hX.1
+  have : Group.IsPerfect X := Group.isPerfect_def.mpr hX.1
   have hZ : Subgroup.center X = ⊥ := by
     have h0 := CFSG.SectionRank.g2_even_perfect_odd_cover_trivial (f := f) h
       (QuotientGroup.mk' (Subgroup.center X)) (QuotientGroup.mk'_surjective _)

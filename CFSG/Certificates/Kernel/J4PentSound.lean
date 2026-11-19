@@ -156,7 +156,7 @@ theorem testBit_laneVF (B : List Nat) (l : Nat) : ∀ j0 j,
     · have e : j - j0 = (j - (j0 + 1)) + 1 := by omega
       rw [e]
       cases hb : b.testBit l <;>
-        simp [hb, show j0 + 1 ≤ j by omega, show j0 ≤ j by omega, testBit_one_succ]
+        simp [show j0 + 1 ≤ j by omega, show j0 ≤ j by omega, testBit_one_succ]
 
 theorem testBit_laneV (B : List Nat) (l j : Nat) :
     (laneV B l).testBit j = (B.getD j 0).testBit l := by
@@ -263,8 +263,7 @@ theorem entry_tab4 {W : Nat} {b0 b1 b2 b3 : Nat} (h0 : b0 < 2 ^ W) (h1 : b1 < 2 
       unfold xsel
       have he' : e < 15 := by omega
       interval_cases e <;>
-        simp (config := {decide := true}) only [Nat.testBit_xor, Nat.zero_testBit, Bool.true_and,
-          Bool.false_and, Bool.or_false, Bool.false_or, ↓reduceIte, Nat.reduceAdd] <;>
+        simp (config := {decide := true}) only [Nat.testBit_xor, Nat.zero_testBit, ↓reduceIte] <;>
         (generalize b0.testBit i = p0
          generalize b1.testBit i = p1
          generalize b2.testBit i = p2
@@ -307,8 +306,8 @@ theorem getD_drop (l : List Nat) (n m : Nat) : (l.drop n).getD m 0 = l.getD (n +
 theorem getD_range_map (f : Nat → Nat) (n j : Nat) :
     ((List.range n).map f).getD j 0 = if j < n then f j else 0 := by
   by_cases h : j < n
-  · simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, h]
-  · simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, h]
+  · simp [List.getD_eq_getElem?_getD, h]
+  · simp [List.getD_eq_getElem?_getD, h]
 
 @[expose] noncomputable def selS (B : List Nat) (c n : Nat) : Nat :=
   xsum (fun i => if c.testBit i then B.getD i 0 else 0) n
@@ -448,9 +447,9 @@ theorem testBit_laneV_appW {W MT M : Nat} (hT : IsTr MT M) {B : List Nat}
       (decide (j < n) && (vecJ (2 ^ 112 - 1) (laneV B l) M).testBit (lo + j)) := by
   rw [testBit_laneV, appW_eq, getD_range_map]
   by_cases hj : j < n
-  · rw [if_pos hj, dotW_tabsW hB, testBit_selS, bsum_sel_tr hT B (by omega)]
+  · rw [ite_eq_left hj, dotW_tabsW hB, testBit_selS, bsum_sel_tr hT B (by omega)]
     simp [hj]
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     simp [hj]
 
 theorem laneV_appT {MT M : Nat} (hT : IsTr MT M) (B : List Nat) (l : Nat) :
@@ -459,8 +458,8 @@ theorem laneV_appT {MT M : Nat} (hT : IsTr MT M) (B : List Nat) (l : Nat) :
   intro j
   rw [testBit_laneV, appT_eq, getD_range_map, Nat.zero_add]
   by_cases hj : j < 112
-  · rw [if_pos hj, dotT_tabsT, testBit_selS, bsum_sel_tr hT B hj]
-  · rw [if_neg hj, Nat.zero_testBit, testBit_vecJ_ge _ _ (by omega : 112 ≤ j)]
+  · rw [ite_eq_left hj, dotT_tabsT, testBit_selS, bsum_sel_tr hT B hj]
+  · rw [ite_eq_right hj, Nat.zero_testBit, testBit_vecJ_ge _ _ (by omega : 112 ≤ j)]
 
 theorem length_appT (MT : Nat) (Ts : List T16) (n lo : Nat) : (appT MT Ts lo n).length = n := by
   rw [appT_eq, List.length_map, List.length_range]
@@ -480,14 +479,14 @@ theorem laneV_cons (x : Nat) (xs : List Nat) (l : Nat) :
   | zero =>
     rw [Nat.testBit_zero, List.getD_cons_zero]
     cases h : x.testBit l
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       simp
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       simp
   | succ j =>
     rw [Nat.testBit_succ, List.getD_cons_succ, ← testBit_laneV]
     congr 1
-    cases x.testBit l <;> simp <;> omega
+    cases x.testBit l <;> simp; omega
 
 theorem lex_lt (u w : Nat) (x y : Bool) :
     ((if x = true then 1 else 0) + 2 * u < (if y = true then 1 else 0) + 2 * w) ↔
@@ -622,11 +621,11 @@ theorem laneV_stepT {N AT BT CT MA MB MC : Nat} (hA : IsTr AT MA) (hB : IsTr BT 
   generalize appT CT (tabsT Y 28) 0 112 = PC at eC lC ⊢
   apply Nat.eq_of_testBit_eq
   intro j
-  rw [testBit_laneV, getD_zipWith0 (by simp [nlor, nland]) _ _
+  rw [testBit_laneV, getD_zipWith0 (by simp) _ _
       (by simp [hY, lA, lB, lC]),
-    getD_zipWith0 (by simp [nlor, nland]) _ _ (by simp [lA, lB, lC]),
-    getD_zipWith0 (by simp [nlor, nland]) _ _ (by simp [lA, lB]),
-    getD_map0 (by simp [nland])]
+    getD_zipWith0 (by simp) _ _ (by simp [lA, lB, lC]),
+    getD_zipWith0 (by simp) _ _ (by simp [lA, lB]),
+    getD_map0 (by simp)]
   simp only [nlor, nland, nxor, Nat.testBit_or, Nat.testBit_and, Nat.testBit_xor,
     Nat.testBit_two_pow_sub_one, decide_eq_true hl, Bool.true_xor]
   have tA : (PA.getD j 0).testBit l = (vecJ (2 ^ 112 - 1) (laneV Y l) MA).testBit j := by
@@ -709,7 +708,7 @@ theorem subsT_spec {Ms : List Nat} {Mf : Nat → Nat} {j0 : Nat} {Y : List Nat}
     · rw [List.getD_append _ _ _ _ (by rw [hlen]; exact hak)]
       refine ⟨(hent a hak).1, fun L => ?_⟩
       rw [(hent a hak).2 L, prodV_succ]
-      rw [if_neg (by rw [Nat.testBit_lt_two_pow hak]; simp)]
+      rw [ite_eq_right (by rw [Nat.testBit_lt_two_pow hak]; simp)]
     · have hb : a - 2 ^ k < 2 ^ k := by rw [Nat.pow_succ] at ha; omega
       rw [List.getD_append_right _ _ _ _ (by rw [hlen]; omega), hlen,
         List.getD_eq_getElem?_getD, List.getElem?_map,
@@ -718,7 +717,7 @@ theorem subsT_spec {Ms : List Nat} {Mf : Nat → Nat} {j0 : Nat} {Y : List Nat}
       refine ⟨length_appT _ _ _ _, fun L => ?_⟩
       rw [laneV_appT (hT k (by omega)), (hent _ hb).2 L, prodV_succ]
       have ea : a = 2 ^ k + (a - 2 ^ k) := by omega
-      rw [if_pos (by rw [ea, Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hb]; rfl)]
+      rw [ite_eq_left (by rw [ea, Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hb]; rfl)]
       congr 1
       refine prodV_congr Mf j0 k (fun i hi => ?_) _
       rw [ea, Nat.testBit_two_pow_add_gt hi, Nat.add_sub_cancel_left]
@@ -749,7 +748,7 @@ theorem agree4_of {W h l : Nat} (hl : l < W) {A B : List Nat}
     refine orX_false _ _ fun j hj => ?_
     rw [takeK_eq] at hj ⊢
     rw [List.length_take] at hj
-    rw [List.getD_eq_getElem?_getD, List.getElem?_take, if_pos (by omega),
+    rw [List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left (by omega),
       ← List.getD_eq_getElem?_getD]
     exact hAB j (by omega) k hk
   have he : ∀ k < 4, ((2 ^ (4 * W) - 1) ^^^ orX (takeK h A) B).testBit (l + k * W) = true := by

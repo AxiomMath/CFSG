@@ -66,28 +66,35 @@ variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
 @[expose] noncomputable def σA (c : SC) : G := Y.ι ⟨cSp c, SW_le_Wsub (cSp_mem_SW c)⟩
 
+omit [Finite G] in
 theorem σA_mem_A (c : SC) : Y.σA c ∈ Y.A := Y.ι_mem_lift (cSp_mem_SW c)
 
+omit [Finite G] in
 theorem σA_mem_C (c : SC) : Y.σA c ∈ Subgroup.centralizer ({z} : Set G) := Y.ι_mem_C _
 
+omit [Finite G] in
 theorem ϑ_σA (c : SC) : (Y.ϑ ⟨Y.σA c, Y.σA_mem_C c⟩ : Wr 6) = cSp c :=
   congrArg Subtype.val (Y.ϑ_ι _)
 
+omit [Finite G] in
 theorem σA_add (c c' : SC) : Y.σA (c + c') = Y.σA c * Y.σA c' := by
   rw [σA, σA, σA, ← Y.ι_mul]
   congr 1
   exact Subtype.ext (cSp_add c c')
 
+omit [Finite G] in
 theorem σA_zero : Y.σA 0 = 1 := by
   rw [σA, show (⟨cSp 0, SW_le_Wsub (cSp_mem_SW 0)⟩ : ↥Wsub) = 1 from
     Subtype.ext cS_zero, map_one]
 
+omit [Finite G] in
 theorem σA_injective : Function.Injective Y.σA := by
   intro c c' h
   have h1 := Y.ι_injective h
   have h2 := cS_injective (congrArg Subtype.val h1)
   exact Prod.ext h2.1 h2.2
 
+omit [Finite G] in
 theorem exists_σA {a : G} (ha : a ∈ Y.A) : ∃ c, Y.σA c = a := by
   obtain ⟨haC, haS⟩ := Y.mem_lift.mp ha
   obtain ⟨c, hc⟩ := mem_SW_iff.mp haS
@@ -95,16 +102,19 @@ theorem exists_σA {a : G} (ha : a ∈ Y.A) : ∃ c, Y.σA c = a := by
   apply Y.eq_of_ϑ_eq (hx := Y.σA_mem_C c) (hy := haC)
   rw [Y.ϑ_σA, ← hc]
 
+omit [Finite G] in
 theorem σA_one_zero : Y.σA (1, 0) = z := by
   refine Eq.trans ?_ Y.ι_allOnes
   rw [σA]
   congr 1
 
+omit [Finite G] in
 theorem σA_pi3 : Y.σA (sc [2]) = Y.π3 := by
   rw [σA, π3]
   congr 1
   exact Subtype.ext (by decide)
 
+omit [Finite G] in
 theorem σA_pi12 : Y.σA (sc [0, 1]) = Y.π12 := by
   rw [σA, π12]
   congr 1
@@ -114,10 +124,12 @@ theorem σA_pi12 : Y.σA (sc [0, 1]) = Y.π12 := by
   haveI := Classical.decPred (fun c => Y.σA c ∈ X)
   Finset.univ.filter fun c => Y.σA c ∈ X
 
+omit [Finite G] in
 theorem mem_coord {X : Set G} {c : SC} : c ∈ Y.coord X ↔ Y.σA c ∈ X := by
   classical
   simp [coord]
 
+omit [Finite G] in
 theorem card_coord {X : Set G} (hX : X ⊆ Y.A) : (Y.coord X).card = X.ncard := by
   rw [← Set.ncard_coe_finset]
   have himg : Y.σA '' ↑(Y.coord X) = X := by
@@ -163,6 +175,7 @@ namespace YData
 
 variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
+omit [Finite G] in
 theorem conj_σA_of {g : Wr 6} (hg : g ∈ Wsub) {f : SC → SC}
     (hf : ∀ x, g * cSp x * g⁻¹ = cSp (f x)) (c : SC) :
     Y.ι ⟨g, hg⟩ * Y.σA c * (Y.ι ⟨g, hg⟩)⁻¹ = Y.σA (f c) := by
@@ -170,6 +183,7 @@ theorem conj_σA_of {g : Wr 6} (hg : g ∈ Wsub) {f : SC → SC}
   congr 1
   exact Subtype.ext (hf c)
 
+omit [Finite G] in
 theorem mem_normalizer_of {g : Wr 6} (hg : g ∈ Wsub) {f : SC → SC}
     (hf : ∀ x, g * cSp x * g⁻¹ = cSp (f x)) (hinv : ∀ x, ∃ y, f y = x) :
     Y.ι ⟨g, hg⟩ ∈ Subgroup.normalizer (Y.A : Set G) := by
@@ -193,6 +207,7 @@ theorem mem_normalizer_of {g : Wr 6} (hg : g ∈ Wsub) {f : SC → SC}
     rw [h1]
     exact Y.σA_mem_A y
 
+omit [Finite G] in
 theorem gens_mem_normalizer :
     Y.ι ⟨wMu, wMu_mem_Wsub⟩ ∈ Subgroup.normalizer (Y.A : Set G) ∧
     Y.ι ⟨wMu', wMu'_mem_Wsub⟩ ∈ Subgroup.normalizer (Y.A : Set G) ∧
@@ -203,6 +218,7 @@ theorem gens_mem_normalizer :
     Y.mem_normalizer_of _ conj_cS_wTau fun x => ⟨actTau x, actTau_actTau x⟩,
     Y.mem_normalizer_of _ conj_cS_wXi fun x => ⟨actXi (actXi x), actXi_actXi_actXi x⟩⟩
 
+omit [Finite G] in
 theorem coord_closed {X : Set G}
     (hX : ∀ x ∈ X, ∀ n ∈ Subgroup.normalizer (Y.A : Set G), n * x * n⁻¹ ∈ X) :
     IsClosedSC ↑(Y.coord X) := by
@@ -241,6 +257,7 @@ namespace YData
 variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
 open CFSG.ClassicalInvolution.Solomon73 in
+omit [Finite G] in
 theorem isE64_A : IsE64 Y.A := by
   refine ⟨fun a ha b hb => Y.A_comm ha hb, fun a ha => ?_, Y.card_A⟩
   obtain ⟨c, rfl⟩ := Y.exists_σA ha
@@ -251,7 +268,7 @@ theorem exists_normalizer_conj (P : Sylow 2 G) (hP : (P : Subgroup G) = Y.T)
     (hE : ∀ B : Subgroup G, B ≤ Y.T → IsE64 B → B = Y.A)
     {a b g : G} (ha : a ∈ Y.A) (hb : b ∈ Y.A) (hg : g * a * g⁻¹ = b) :
     ∃ n ∈ Subgroup.normalizer (Y.A : Set G), n * a * n⁻¹ = b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Cb := Subgroup.centralizer ({b} : Set G) with hCb
   have hAp : IsPGroup 2 Y.A := IsPGroup.of_card (n := 6) (by rw [Y.card_A]; norm_num)
   set Ag := Y.A.map (MulAut.conj g).toMonoidHom with hAg
@@ -269,7 +286,7 @@ theorem exists_normalizer_conj (P : Sylow 2 G) (hP : (P : Subgroup G) = Y.T)
   obtain ⟨Q, hQ⟩ := (hAp.comap_subtype (K := Cb)).exists_le_sylow
   obtain ⟨Q2, hQ2⟩ := (hAgp.comap_subtype (K := Cb)).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (↥Cb) Q2 Q
-  obtain ⟨P1, hP1⟩ := (Q.isPGroup'.map Cb.subtype).exists_le_sylow
+  obtain ⟨P1, hP1⟩ := (Q.isPGroup.map Cb.subtype).exists_le_sylow
   obtain ⟨t, ht⟩ := MulAction.exists_smul_eq G P P1
   have hmemP1 : ∀ x, x ∈ (P1 : Subgroup G) → t⁻¹ * x * t ∈ Y.T := by
     intro x hx

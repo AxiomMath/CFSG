@@ -54,7 +54,7 @@ theorem card_lt {G : Type*} [Group G] [Finite G]
     rintro member ⟨lift, hlift, rfl⟩
     exact lift.property
   have hfirstAmbient := hfirstIntersection.trans hintersection
-  have htwo : IsPGroup 2 firstImage := first.isPGroup'.map intersection.subtype
+  have htwo : IsPGroup 2 firstImage := first.isPGroup.map intersection.subtype
   obtain ⟨containing, hcontained⟩ := (htwo.comap_subtype (K := ambient)).exists_le_sylow
   have hle : firstImage ≤ (containing : Subgroup ambient).map ambient.subtype := by
     have hmap := Subgroup.map_mono (f := ambient.subtype) hcontained

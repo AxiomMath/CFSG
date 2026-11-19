@@ -17,6 +17,7 @@ section Pure
 variable {K : Type} [Field K] [Finite K] {n : ℕ} {L' : Type} [Group L']
   {ψ : L' →* TwE6Delta.RecipeR K n} {A As : Subgroup (MulAut L')}
 
+omit [Finite K] in
 theorem Cfg.odd_center [Finite L'] (h : Cfg ψ A As) :
     Odd (Nat.card (Subgroup.center L')) := by
   by_contra hodd
@@ -24,7 +25,7 @@ theorem Cfg.odd_center [Finite L'] (h : Cfg ψ A As) :
     rcases Nat.even_or_odd (Nat.card (Subgroup.center L')) with he | ho
     · exact even_iff_two_dvd.mp he
     · exact absurd ho hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center L') 2 h2
   let U : Subgroup L' :=
     { carrier := {x | x ∈ Subgroup.center L' ∧ x ^ 2 = 1}
@@ -59,6 +60,7 @@ theorem Cfg.odd_center [Finite L'] (h : Cfg ψ A As) :
     · rw [← map_pow, hu.2, map_one]
   exact hU1 (h.none As h.lt le_rfl U hU2 hinv)
 
+omit [Finite K] in
 theorem Cfg.induces_iff_mem [Finite L'] (h : Cfg ψ A As)
     (hF : ∃ a ∈ As, ¬ Induces ψ a) : ∀ a ∈ As, Induces ψ a ↔ a ∈ A := by
   intro a ha
@@ -110,6 +112,7 @@ section Outer
 variable {K : Type} [Field K] [Finite K] {n : ℕ} {L' : Type} [Group L'] [Finite L']
   {ψ : L' →* TwE6Delta.RecipeR K n} {A As : Subgroup (MulAut L')}
 
+omit [Finite L'] in
 theorem Cfg.three_dvd_of_not_induces (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (h3 : 3 ∣ 2 ^ n + 1) (h : Cfg ψ A As) {a : MulAut L'} (ha : a ∈ As)
     (hna : ¬ Induces ψ a) : 3 ∣ n := by

@@ -105,7 +105,7 @@ theorem s16t3_card_irr_three_or_seven [Finite Q] (hQ : ∀ q : Q, q ^ 2 = 1)
     s16t3_card_iso_type hQ (hS i) (hlen i) (hE i)
   have hcpos : ∀ i, 1 ≤ c i := by
     intro i
-    haveI : Nonempty {k : Fin 3 // XMod.Iso ↥Λ (S k) (S i)} := ⟨⟨i, XMod.Iso.refl (S i)⟩⟩
+    have : Nonempty {k : Fin 3 // XMod.Iso ↥Λ (S k) (S i)} := ⟨⟨i, XMod.Iso.refl (S i)⟩⟩
     show 0 < c i
     exact Finite.card_pos
   have hcle : ∀ i, c i ≤ 3 := by
@@ -142,7 +142,7 @@ theorem s16t3_card_irr_three_or_seven [Finite Q] (hQ : ∀ q : Q, q ^ 2 = 1)
     have huniq : ∀ i k, XMod.Iso ↥Λ (S k) (S i) → k = i := by
       intro i k hk
       have hcard : Nat.card {k' : Fin 3 // XMod.Iso ↥Λ (S k') (S i)} = 1 := hci i
-      haveI : Subsingleton {k' : Fin 3 // XMod.Iso ↥Λ (S k') (S i)} :=
+      have : Subsingleton {k' : Fin 3 // XMod.Iso ↥Λ (S k') (S i)} :=
         (Nat.card_eq_one_iff_unique.mp hcard).1
       have hEq : (⟨k, hk⟩ : {k' : Fin 3 // XMod.Iso ↥Λ (S k') (S i)}) =
           ⟨i, XMod.Iso.refl (S i)⟩ := Subsingleton.elim _ _
@@ -151,7 +151,7 @@ theorem s16t3_card_irr_three_or_seven [Finite Q] (hQ : ∀ q : Q, q ^ 2 = 1)
       intro i J hJ hJi
       have hcard : Nat.card
           {J' : Subgroup Q // XMod.IsIrr ↥Λ J' ∧ XMod.Iso ↥Λ J' (S i)} = 1 := hni i
-      haveI : Subsingleton
+      have : Subsingleton
           {J' : Subgroup Q // XMod.IsIrr ↥Λ J' ∧ XMod.Iso ↥Λ J' (S i)} :=
         (Nat.card_eq_one_iff_unique.mp hcard).1
       have hEq : (⟨J, hJ, hJi⟩ :

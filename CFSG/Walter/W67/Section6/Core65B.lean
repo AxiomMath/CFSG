@@ -80,7 +80,7 @@ theorem exists_invariant_sylow {H Q : Subgroup G} {ρ : G} (hρ3 : orderOf ρ = 
   obtain ⟨S, hQS, hSinv⟩ :=
     DisconnectedInvolutionGraph.Helpers.coprime_pgroup_invariant_sylow_containment 3 7 hA h3 _
       hQ' hinv
-  refine ⟨(S : Subgroup H).map H.subtype, ?_, Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(S : Subgroup H).map H.subtype, ?_, Subgroup.map_subtype_le _, S.isPGroup.map _, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hQH hx⟩, hQS hx, rfl⟩
   · rw [Subgroup.card_map_of_injective H.subtype_injective, Sylow.card_eq_multiplicity]
@@ -179,7 +179,7 @@ theorem exists_P₁ (hPc : Nat.card (PP e u) ≠ 7 ^ (Nat.card G).factorization 
   have : Subsingleton (Sylow 7 N) := (Nat.card_eq_one_iff_unique.mp hn).1
   have hSn : (S : Subgroup N).Normal := Sylow.normal_of_subsingleton S
   set P₁ := (S : Subgroup N).map N.subtype with hP₁
-  have hP₁7 : IsPGroup 7 P₁ := S.isPGroup'.map _
+  have hP₁7 : IsPGroup 7 P₁ := S.isPGroup.map _
   have hP₁N : P₁ ≤ N := Subgroup.map_subtype_le _
   have hPP₁ : PP e u ≤ P₁ := by
     have hPn : ((PP e u).subgroupOf N).Normal := Subgroup.normal_in_normalizer
@@ -256,7 +256,7 @@ theorem exists_sylow_le_centralizer_u (hPc : Nat.card (PP e u) ≠ 7 ^ (Nat.card
     have hzP : z ∈ PP e u := h.centralizer_P_le
       (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr (hPP₁.trans hT)) hzC)
     exact Subgroup.mem_inf.mpr ⟨hPP₁ hzP, hzC₁⟩
-  have hZT1 : ZT ≠ ⊥ := inf_centralizer_ne_bot T.isPGroup' (by
+  have hZT1 : ZT ≠ ⊥ := inf_centralizer_ne_bot T.isPGroup (by
     intro hbot
     have := Subgroup.card_le_of_le (hPP₁.trans hT)
     rw [hbot, Subgroup.card_bot, h.card_P] at this

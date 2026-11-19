@@ -20,7 +20,7 @@ theorem exists_fixed_mod_of_isPGroup {K V : Type} [Field K] [Finite K] [CharP K 
   let L : Λ → (↥A ⧸ S') →ₗ[K] (↥A ⧸ S') := fun T => Submodule.mapQ S' S' (act T) (hact T)
   have hL : ∀ (T : Λ) (v : ↥A), L T (Submodule.Quotient.mk v) = Submodule.Quotient.mk (act T v) :=
     fun T v => rfl
-  letI : MulAction Λ (↥A ⧸ S') :=
+  let : MulAction Λ (↥A ⧸ S') :=
     { smul := fun T q => L T q
       one_smul := fun q => by
         obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective S' q
@@ -41,17 +41,17 @@ theorem exists_fixed_mod_of_isPGroup {K V : Type} [Field K] [Finite K] [CharP K 
       rw [htop]
       exact Submodule.mem_top
     exact hmem
-  haveI : Nontrivial (↥A ⧸ S') := Submodule.Quotient.nontrivial_iff.mpr hS'top
-  haveI : Finite (↥A ⧸ S') :=
+  have : Nontrivial (↥A ⧸ S') := Submodule.Quotient.nontrivial_iff.mpr hS'top
+  have : Finite (↥A ⧸ S') :=
     Finite.of_surjective (Submodule.Quotient.mk : ↥A → ↥A ⧸ S')
       (Submodule.Quotient.mk_surjective S')
-  haveI : Module.Finite K (↥A ⧸ S') := Module.Finite.of_finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Module.Finite K (↥A ⧸ S') := Module.Finite.of_finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hΛ.card_modEq_card_fixedPoints (↥A ⧸ S')
   have hQeven : 2 ∣ Nat.card (↥A ⧸ S') := by
     rw [Module.natCard_eq_pow_finrank (K := K) (V := ↥A ⧸ S')]
     have hK : 2 ∣ Nat.card K := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff K 2 _).mp (FiniteField.cast_card_eq_zero K)
     have hpos : 0 < Module.finrank K (↥A ⧸ S') := Module.finrank_pos
@@ -78,7 +78,7 @@ theorem exists_fixed_mod_of_isPGroup {K V : Type} [Field K] [Finite K] [CharP K 
     ⟨fun a b => Subtype.ext ((h0 a).trans (h0 b).symm)⟩
   have hle : Nat.card (MulAction.fixedPoints Λ (↥A ⧸ S')) ≤ 1 :=
     Finite.card_le_one_iff_subsingleton.mpr hsub
-  haveI : Nonempty (MulAction.fixedPoints Λ (↥A ⧸ S')) :=
+  have : Nonempty (MulAction.fixedPoints Λ (↥A ⧸ S')) :=
     ⟨⟨0, MulAction.mem_fixedPoints.mpr fun g => map_zero (L g)⟩⟩
   have hpos : 0 < Nat.card (MulAction.fixedPoints Λ (↥A ⧸ S')) := Nat.card_pos
   have h2le := Nat.le_of_dvd hpos hF

@@ -340,7 +340,7 @@ theorem ty_mul_ty : (hallTP * hallYP) * (hallTP * hallYP) = 1 := by
 theorem permsA_hallYT :
     permsA 64 [hallY, hallT].toArray = ({hallYP, hallTP} : Set (Equiv.Perm (Fin 64))) := by
   ext x
-  simp only [permsA, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [permsA, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     have hk2 : k < 2 := by simpa using hk

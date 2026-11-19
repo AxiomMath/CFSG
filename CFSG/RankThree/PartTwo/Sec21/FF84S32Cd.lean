@@ -16,17 +16,18 @@ section Helpers
 variable {G : Type} [Group G] [Finite G]
 
 theorem card_Opp3_coprime (H : Subgroup G) : Nat.Coprime 3 (Nat.card (Opp 3 H)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have e := (pPrimeCore 3 H).equivMapOfInjective H.subtype H.subtype_injective
   have h : Nat.card (Opp 3 H) = Nat.card (pPrimeCore 3 H) :=
     (Nat.card_congr e.toEquiv.symm)
   rw [h]
   exact pPrimeCore_coprime_card
 
+omit [Finite G] in
 theorem le_Opp3_of_normal_coprime (H M : Subgroup G)
     (hMH : M ≤ H) (hMn : (M.subgroupOf H).Normal) (hcop : Nat.Coprime 3 (Nat.card M)) :
     M ≤ Opp 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.Coprime 3 (Nat.card (M.subgroupOf H)) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hMH).toEquiv]
     exact hcop
@@ -37,8 +38,10 @@ theorem le_Opp3_of_normal_coprime (H M : Subgroup G)
   have hmem : (⟨m, hMH hm⟩ : H) ∈ M.subgroupOf H := hm
   exact Subgroup.mem_map.2 ⟨⟨m, hMH hm⟩, hle hmem, rfl⟩
 
+omit [Finite G] in
 theorem Opp3_le (H : Subgroup G) : Opp 3 H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem mem_Nor_Opp3 {H : Subgroup G} {g : G} (hg : g ∈ H) : g ∈ Nor (Opp 3 H) := by
   rw [Subgroup.mem_normalizer_iff]
   intro x

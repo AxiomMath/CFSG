@@ -42,7 +42,7 @@ theorem dynkin_exponent_odd {x : El} (hx : validB x = true)
       have hmod : x.2 % 2 = 0 := Nat.even_iff.mp hev
       omega
     have hauto : autOf x = MulAut.conj (toS4 x.1 (validB_symp hx)) * minorAut GF4 ^ x.2 := by
-      rw [autOf, dif_pos hx]
+      rw [autOf, dite_eq_left hx]
     have hcg : MulAut.conj (toS4 x.1 (validB_symp hx)) ∈ innAutOf S4 := ⟨_, rfl⟩
     rcases hx2 with h0 | h2
     · rw [h0, pow_zero, mul_one] at hauto
@@ -70,7 +70,7 @@ theorem dynkin_generates_S4 {τ : MulAut S4} (h : ActsOnDynkinMod ⊥ (innAutOf 
     have h := pow_orderOf_eq_one ρ
     rwa [hord] at h
   have hauto : autOf x = MulAut.conj (toS4 x.1 (validB_symp hx)) * ρ ^ x.2 := by
-    rw [autOf, dif_pos hx]
+    rw [autOf, dite_eq_left hx]
   have hρmem : ρ ∈ innAutOf S4 ⊔ Subgroup.zpowers (autOf x) := by
     have hcg : MulAut.conj (toS4 x.1 (validB_symp hx)) ∈ innAutOf S4 :=
       ⟨toS4 x.1 (validB_symp hx), rfl⟩

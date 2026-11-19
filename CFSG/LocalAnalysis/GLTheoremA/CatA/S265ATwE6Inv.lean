@@ -94,7 +94,7 @@ theorem exists_fixed_involution_of_twE6 {Ω : Type} [Group Ω] [Finite Ω] {S B 
     ∃ v : PSimple 3 S, v * v = 1 ∧ v ≠ 1 ∧
       ∀ b ∈ B, ∀ hb : b ∈ Subgroup.normalizer (S : Set Ω), chevAut 3 S ⟨b, hb⟩ v = v := by
   obtain ⟨K, _, _, θ, hK, hI⟩ := exists_twE6Recipe_of_innDiagOn hinn d hd hSd
-  haveI := finite_mulAut_recipeR hK
+  have := finite_mulAut_recipeR hK
   have hN : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g => by
     rw [Subgroup.normalizer_eq_top_iff.2 hS]
     exact Subgroup.mem_top g
@@ -119,7 +119,7 @@ theorem exists_fixed_involution_of_twE6 {Ω : Type} [Group Ω] [Finite Ω] {S B 
     refine Subgroup.map_le_iff_le_comap.2 (Subgroup.commutator_le.2 fun t _ b hb => ?_)
     rw [Subgroup.mem_comap, map_commutatorElement, commutatorElement_def]
     exact D.mul_mem (hDn.conj_mem _ (hbD b hb) _) (D.inv_mem (hbD b hb))
-  haveI : (MulAut.conj : RecipeR K 1 →* MulAut (RecipeR K 1)).range.Normal := by
+  have : (MulAut.conj : RecipeR K 1 →* MulAut (RecipeR K 1)).range.Normal := by
     refine ⟨?_⟩
     rintro _ ⟨r, rfl⟩ α
     exact ⟨α r, (ggMulAut_conj_inn_outdiag α r).symm⟩

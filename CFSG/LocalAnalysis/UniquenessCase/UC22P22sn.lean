@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace P22s
 
+omit [Finite G] in
 theorem ne_bot_of_isQuasisimple {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple (Bar2 L)) : L ≠ ⊥ := by
   intro hbot
   obtain ⟨a, b, hab⟩ := CFSG.LocalCores.isQuasisimple_nontrivial (CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hq)
@@ -28,7 +29,7 @@ theorem ne_bot_of_isQuasisimple {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple (
   rw [show a' = b' from Subtype.ext (ha.trans hb.symm)]
 
 theorem mem_cComp_of_mem_calC {L X : Subgroup G} (hL : L ∈ calC X) : L ∈ CFSG.Quasithin.cComp X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hsub, hperf, hq⟩ := hL
   refine ⟨ne_bot_of_isQuasisimple hq, hperf, hsub, fun K hKL hKne hKperf hKsub => hKne ?_⟩
   have hKL' : CFSG.Open.IsSubnormal K L :=
@@ -66,7 +67,7 @@ theorem mem_cComp_of_mem_calC {L X : Subgroup G} (hL : L ∈ calC X) : L ∈ CFS
         _ ≤ ⁅P, P⁆ := Subgroup.commutator_mono hKP hKP
         _ ≤ pCoreOf 2 L := hPP
     have hK2 : IsPGroup 2 ↥K := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L).to_le hKO
-    haveI := hK2.isNilpotent
+    have := hK2.isNilpotent
     exact CFSG.Quasithin.A312S.eq_bot_of_perfect_of_solvable hKperf inferInstance
 
 theorem le_normalizer_of_mem_calC {L₀ L₁ L₂ : Subgroup G} (h₁ : L₁ ∈ calC L₀) (h₂ : L₂ ∈ calC L₀)

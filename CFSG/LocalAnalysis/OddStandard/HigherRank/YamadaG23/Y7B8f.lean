@@ -31,7 +31,7 @@ theorem y7b_cs3_X7 (c : Ctx7 G L) (hb : B5Std c) {y : G} (hy : y ∈ X7 c.s)
 theorem y7b_exists_u1 (c : Ctx7 G L) (hb : B5Std c) (hRT : c.s.R ≠ c.s.T)
     (hbad : ¬ M4 c.e ≤ M7 c.s) :
     ∃ m ∈ M4 c.e, m * c.g ∈ M7 c.s ∧ m * c.g ∈ y7bCS3 c ∧ ⁅m * c.g, c.s.t⁆ ∉ M3 c.s := by
-  obtain ⟨m₀, hm₀M4, hm₀7⟩ := SetLike.not_le_iff_exists.mp hbad
+  obtain ⟨m₀, hm₀M4, hm₀7⟩ := IsConcreteLE.not_le_iff_exists.mp hbad
   obtain ⟨m_s, hm_sM4, -, -, hm_sNot⟩ := y7b_exists_seed c hb
   have hm₀NM3 : m₀ ∈ normalizer (M3 c.s : Set G) :=
     Subgroup.mem_normalizer_fintype fun x hx =>

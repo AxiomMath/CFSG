@@ -15,13 +15,13 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem ntpTG_d4Idx_mem (k : Fin Tag.D4.rank) : d4Idx k ∈ d4Nodes Tag.E6 := by
   have hk : k.val < 4 := by simpa only [Tag.rank] using k.2
   have h6 : Tag.E6.rank = 6 := rfl
-  simp only [d4Nodes, Set.mem_setOf_eq, d4Idx]
+  simp only [d4Nodes, Set.mem_ofPred_eq, d4Idx]
   omega
 
 theorem ntpTG_exists_d4Idx_eq {i : Fin Tag.E6.rank} (hi : i ∈ d4Nodes Tag.E6) :
     ∃ k : Fin Tag.D4.rank, d4Idx k = i := by
   have hi' : 1 ≤ i.val ∧ i.val ≤ 4 := by
-    simpa only [d4Nodes, Set.mem_setOf_eq] using hi
+    simpa only [d4Nodes, Set.mem_ofPred_eq] using hi
   have h6 : Tag.E6.rank = 6 := rfl
   have h4 : Tag.D4.rank = 4 := rfl
   refine ⟨⟨i.val - 1, by omega⟩, Fin.ext ?_⟩

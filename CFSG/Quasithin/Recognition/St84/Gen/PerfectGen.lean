@@ -41,7 +41,7 @@ theorem not_isSolvable_of_isL2Quot {L : Subgroup G} {f : ℕ} (hf : 2 ≤ f)
 
 theorem le_commutator_sup_pCoreOf_of_isL2Quot {L : Subgroup G} {f : ℕ} (hf : 2 ≤ f)
     (h : IsL2Quot f (oTwoQuot ↥L)) : L ≤ ⁅L, L⁆ ⊔ pCoreOf 2 L := by
-  haveI := isPerfect_of_isL2Quot hf h
+  have := isPerfect_of_isL2Quot hf h
   let π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (pCore 2 ↥L)
   have hmap : (commutator ↥L).map π = ⊤ := by
     rw [map_commutator_eq, MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)]
@@ -57,7 +57,7 @@ theorem le_commutator_sup_pCoreOf_of_isL2Quot {L : Subgroup G} {f : ℕ} (hf : 2
 
 theorem perfect_of_isL2Quot {L : Subgroup G} {f : ℕ} (hf : 2 ≤ f) (h : IsL2Quot f (oTwoQuot ↥L))
     (hO : pCoreOf 2 L ≤ ⁅L, L⁆) : ⁅L, L⁆ = L :=
-  le_antisymm (Subgroup.commutator_le.mpr fun a ha b hb =>
+  le_antisymm (Subgroup.commutator_le.mpr fun _a ha _b hb =>
       L.mul_mem (L.mul_mem (L.mul_mem ha hb) (L.inv_mem ha)) (L.inv_mem hb))
     ((le_commutator_sup_pCoreOf_of_isL2Quot hf h).trans (sup_le le_rfl hO))
 

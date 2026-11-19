@@ -12,6 +12,7 @@ open Polynomial Module CFSG.RankThree.PartOne.KCPrimary CFSG.RankThree.PartOne.K
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem dvd_cyclotomic_three_of_nontrivial (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) : h ∣ (X ^ 2 + X + 1 : K[X]) := by
   have hirr := irreducible_of_mem_primaryFactors hh
@@ -24,6 +25,7 @@ theorem dvd_cyclotomic_three_of_nontrivial (hx : OddOrderIsometry Q 3 x) {h : K[
       (hirr.associated_of_dvd irreducible_X_sub_one h1)) hne1
   · exact h2
 
+omit [Finite K] in
 theorem reciprocalPolynomial_X_add_C {c : K} (hc : c ≠ 0) :
     reciprocalPolynomial (X + C c : K[X]) = X + C c⁻¹ := by
   have h0 : (X + C c : K[X]).coeff 0 = c := by simp
@@ -37,6 +39,7 @@ theorem reciprocalPolynomial_X_add_C {c : K} (hc : c ≠ 0) :
   rw [h0, h1, mul_add, ← mul_assoc, ← C_mul, inv_mul_cancel₀ hc, C_1, one_mul, mul_one]
   ring
 
+omit [Finite K] in
 theorem eq_or_eq_reciprocal (hx : OddOrderIsometry Q 3 x) {a b : K[X]}
     (ha : a ∈ primaryFactors x.toLinearMap) (hb : b ∈ primaryFactors x.toLinearMap)
     (ha1 : a ≠ X - 1) (hb1 : b ≠ X - 1) : b = a ∨ b = reciprocalPolynomial a := by
@@ -75,6 +78,7 @@ theorem eq_or_eq_reciprocal (hx : OddOrderIsometry Q 3 x) {a b : K[X]}
   conv_rhs => rw [hform_a, reciprocalPolynomial_X_add_C ha0]
   rw [hform_b, hb0]
 
+omit [Finite K] in
 theorem natDegree_eq_two_of_selfDual (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h) : h.natDegree = 2 := by
@@ -106,7 +110,7 @@ theorem natDegree_eq_two_of_selfDual (hx : OddOrderIsometry Q 3 x) {h : K[X]}
 theorem finrank_orbitSpace (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) :
     finrank K (orbitSpace x.toLinearMap h) = 2 * primaryMultiplicity x.toLinearMap h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   by_cases hself : h = reciprocalPolynomial h
   · have hdeg := natDegree_eq_two_of_selfDual hx hh hne1 hself
     have : orbitSpace x.toLinearMap h = primaryComponent x.toLinearMap h := by
@@ -114,7 +118,7 @@ theorem finrank_orbitSpace (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     rw [this, finrank_primaryComponent, hdeg]
   · have hdeg := natDegree_eq_one_of_paired hx hh hne1 hself
     have hh' := hx.reciprocalPolynomial_mem hh
-    haveI : Fact (Irreducible (reciprocalPolynomial h)) :=
+    have : Fact (Irreducible (reciprocalPolynomial h)) :=
       ⟨irreducible_of_mem_primaryFactors hh'⟩
     obtain ⟨hdeg', hmult, -⟩ := hx.pairedModel hh hne1 hself
     have hdisj := disjoint_primaryComponent_of_ne hx hh hh' hself
@@ -131,6 +135,7 @@ theorem finrank_orbitSpace (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     unfold primaryMultiplicity
     ring
 
+omit [Finite K] in
 theorem othersSpace_eq_orbitSpace (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) :
     othersSpace x.toLinearMap (X - 1) = orbitSpace x.toLinearMap h := by
@@ -156,6 +161,7 @@ theorem othersSpace_eq_orbitSpace (hx : OddOrderIsometry Q 3 x) {h : K[X]}
 section Parity
 
 open CFSG.RankThree.OrthogonalInvolutions in
+omit [Finite K] in
 theorem even_finrank_sub_fixedSpace (hQ : (polarBilin Q).Nondegenerate) {y : V ≃ₗ[K] V}
     (hy : y ∈ orthDerived Q) : Even (finrank K V - finrank K (fixedSpace y)) := by
   have hd := dicksonHom_eq_one_of_mem_orthDerived hQ hy

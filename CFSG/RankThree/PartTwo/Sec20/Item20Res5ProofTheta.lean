@@ -171,7 +171,7 @@ theorem center_eq_bot_of_isComponent (hO : CFSG.pPrimeCore 3 Y = ⊥)
   obtain ⟨a, ha⟩ := exists_pow_eq_one_of_mem_center hO hE hz
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥E) := inferInstance
   have hrE : CFSG.Open.pRank 3 (⊤ : Subgroup ↥E) ≤ 1 := (pRank_top_subgroup_le E).trans hr
-  have hcyc : IsCyclic ↥(P : Subgroup ↥E) := isCyclic_of_pRank_le_one hrE P.isPGroup'
+  have hcyc : IsCyclic ↥(P : Subgroup ↥E) := isCyclic_of_pRank_le_one hrE P.isPGroup
   have : IsMulCommutative ↥(P : Subgroup ↥E) := IsCyclic.isMulCommutative
   have hperf : commutator ↥E = ⊤ := hE.1.1.commutator_eq_top
   have hcop : Nat.Coprime (orderOf z) (P : Subgroup ↥E).index := by

@@ -15,6 +15,7 @@ open CFSG.OddStandard.SmallF3.HarrisU33.L34
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
+omit [Finite G] in
 private theorem commutator_zpowers_eq_bot_of_comm {Q : Subgroup G} {s : G}
     (hs : ∀ q ∈ Q, s * q = q * s) : ⁅Q, zpowers s⁆ = ⊥ := by
   rw [Subgroup.commutator_comm]
@@ -132,10 +133,10 @@ theorem CO_Q_le_V (hl : Ctx4L t L S x₁ x₂ lam rho tau) {o : G}
     norm_num at hcard
 
 theorem CLO_Q_le_V (ha : Ctx4A t L S x₁ x₂ lam rho tau)
-    (hQn : NormalIn (ctxQ t tau x₁ x₂ rho) (ctxLO t tau x₁ x₂)) {d : G}
+    (_hQn : NormalIn (ctxQ t tau x₁ x₂ rho) (ctxLO t tau x₁ x₂)) {d : G}
     (hd : d ∈ ctxLO t tau x₁ x₂) (hcent : ∀ q ∈ ctxQ t tau x₁ x₂ rho, d * q = q * d) :
     d ∈ fourGrp x₁ x₂ := by
-  clear hQn
+  clear _hQn
   have hdO : d ∈ ctxO t tau x₁ x₂ := by
     apply ha.CL_Obar d hd
     intro o ho

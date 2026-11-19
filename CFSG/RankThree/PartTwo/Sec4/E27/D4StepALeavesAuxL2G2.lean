@@ -130,10 +130,10 @@ theorem card_centralizer_short_unitary [Finite K] {n : ℕ} (hn : 1 ≤ n) (hK :
     (hz1 : z ≠ 1) :
     Nat.card (Subgroup.centralizer ({z} : Set (adjointGroup .G2 K))) =
       (2 ^ n) ^ 3 * ((2 ^ n) ^ 2 - 1) * ((2 ^ n) ^ 3 + 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hn hK
   obtain ⟨L, _, _, _, -, hdeg, -⟩ := KS11Lie4Proof.exists_quadratic_ext' K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   obtain ⟨e⟩ := KS11Lie7Proof.nonempty_centralizer_mulEquiv_statedSU (p := 2) (f := n) hK h3 hdeg
     hzS hz3 hz1
   have hL : Nat.card L = (2 ^ n) ^ 2 := by rw [KS11Lie4Proof.natCard_quadratic hdeg, hK]

@@ -43,7 +43,7 @@ public section
 namespace CFSG.Quasithin.H13.L319.S66
 
 theorem relIndex_centralizer_le_of_local {G : Type} [Group G] [Finite G] {y : G} {A W : Subgroup G}
-    (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hA2 : ∀ a ∈ A, a ^ 2 = 1)
+    (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (_hA2 : ∀ a ∈ A, a ^ 2 = 1)
     (hyA : ∀ a ∈ A, y * a * y⁻¹ ∈ A) (hy3 : ∀ a ∈ A, y ^ 3 * a * (y ^ 3)⁻¹ = a)
     (hWA : W ≤ A) {M : Type} [CommGroup M] [Finite M] (ι : ↥A →* M)
     (hker : ∀ a : ↥A, ι a = 1 ↔ (a : G) ∈ W)
@@ -123,10 +123,10 @@ theorem relIndex_centralizer_le_of_local {G : Type} [Group G] [Finite G] {y : G}
       _ ≤ b := hb
   have hsupW : (C.subgroupOf A).relIndex (C.subgroupOf A ⊔ W.subgroupOf A)
       = (C.subgroupOf A).relIndex (W.subgroupOf A) := by
-    haveI := hCsN
+    have := hCsN
     exact Subgroup.relIndex_sup_left (H := W.subgroupOf A) (K := C.subgroupOf A)
   have hne : (C.subgroupOf A).relIndex (C.subgroupOf A ⊔ W.subgroupOf A) ≠ 0 := by
-    haveI : (C.subgroupOf A).IsFiniteRelIndex (C.subgroupOf A ⊔ W.subgroupOf A) :=
+    have : (C.subgroupOf A).IsFiniteRelIndex (C.subgroupOf A ⊔ W.subgroupOf A) :=
       Subgroup.isFiniteRelIndex_of_finiteIndex (H := C.subgroupOf A)
         (K := C.subgroupOf A ⊔ W.subgroupOf A)
     exact Subgroup.relIndex_ne_zero

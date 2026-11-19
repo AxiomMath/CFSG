@@ -63,8 +63,8 @@ theorem autP2_toW (s : PG2) (m : ℕ) : autP2 s (toW 10 m) = toW 10 (actP2 s m) 
   Rc_toW (toPermMog s) (hasArr_toPerm s) m
 
 theorem chainAct_P2 : ChainAct (MaskCoords.std 10) autP2 actP2 where
-  spec s m _ := autP2_toW s m
-  lt s m _ := act10_lt _ m
+  spec _s m _ := autP2_toW _s m
+  lt _s m _ := act10_lt _ m
 
 theorem actP2_unit_moved_all : PG2.all.all (fun s =>
     s == 1 || (List.range 10).any fun j => actP2 s (2 ^ j) != 2 ^ j) = true := by
@@ -116,7 +116,7 @@ theorem card_of_chain (F : List PG2) (hnd : F.Nodup) (B : Subgroup P24)
     (hB : ∀ x : P24, x ∈ B ↔ ∃ s ∈ F, x = PG2.toPerm s) : Nat.card B = F.length := by
   have h1 : (B : Set P24) = PG2.toPerm '' (F.toFinset : Set PG2) := by
     ext x
-    simp only [SetLike.mem_coe, hB, Set.mem_image, Finset.mem_coe, List.mem_toFinset]
+    simp only [SetLike.mem_coe, hB, Set.mem_image, List.mem_toFinset]
     constructor
     · rintro ⟨s, hs, rfl⟩
       exact ⟨s, hs, rfl⟩

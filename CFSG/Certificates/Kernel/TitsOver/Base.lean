@@ -58,7 +58,7 @@ theorem InH.eq_of_base {H : Subgroup (Equiv.Perm (Fin n))} {bs : List Nat} {nb :
 
 theorem lexLtK_iffB {a b c d : Nat} : lexLtK a b c d = true ↔ LexLt a b c d := by
   unfold lexLtK LexLt
-  simp only [PK.bIf_eq, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq]
+  simp only [PK.bIf_eq, Nat.blt_eq, Nat.beq_eq]
   by_cases h : a < c
   · simp [h]
   · simp [h]
@@ -118,14 +118,14 @@ theorem penumPtB_spec {m nw k cnt nb i : Nat} {G B T PL POS SRT SRI : Nat → Na
   refine ⟨fun hi => ?_, fun j hj => ?_, ?_⟩
   · have e : Nat.beq i 0 = false := Bool.eq_false_iff.2 fun h => hi (Nat.eq_of_beq_eq_true h)
     rw [e] at ht
-    simp only [PK.strictB_eq, PK.bIf_eq, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at ht
+    simp only [PK.strictB_eq, PK.bIf_eq, Bool.and_eq_true, Nat.blt_eq] at ht
     obtain ⟨h1, h2, h3, h4⟩ := ht
     refine ⟨h1, h2, Nat.eq_of_beq_eq_true h3, fun hc => ?_⟩
     have hc' : Nat.succ i < cnt := hc
     simp only [hc', ↓reduceIte] at h4
     exact lexLtK_iffB.1 h4
   · have hq := (PK.allN_iff.1 hpos) j hj
-    simp only [PK.strictB_eq, PK.bAnd_eq, Nat.mul_eq, Nat.add_eq, Bool.and_eq_true,
+    simp only [PK.strictB_eq, Nat.mul_eq, Nat.add_eq, Bool.and_eq_true,
       Nat.blt_eq] at hq
     obtain ⟨h1, h2, h3⟩ := hq
     refine ⟨h1, fun s hs => ?_, ?_⟩
@@ -140,9 +140,9 @@ theorem penumPtB_spec {m nw k cnt nb i : Nat} {G B T PL POS SRT SRI : Nat → Na
         rw [PK.bIf_eq, e] at h3
         intro hl
         rw [← lexLtK_iffB] at hl
-        simp only [Bool.false_eq_true, ↓reduceIte, PK.bIf_eq, hl] at h3
+        simp only [Bool.false_eq_true, ↓reduceIte, hl] at h3
   · rw [PK.strictB_eq] at hs
-    simp only [PK.bIf_eq, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at hs
+    simp only [PK.bIf_eq, Bool.and_eq_true, Nat.blt_eq] at hs
     obtain ⟨h1, h2, h3⟩ := hs
     refine ⟨h1, Nat.eq_of_beq_eq_true h2, fun hc => ?_⟩
     have hc' : Nat.succ i < cnt := hc
@@ -159,7 +159,7 @@ theorem penumSlB_spec {m nw k cnt nb lo len : Nat} {G B T PL POS SRT SRI : Nat �
   have e : Nat.add lo (i - lo) = i := by
     change lo + (i - lo) = i
     omega
-  rw [e, PK.bIf_eq, if_pos (Nat.blt_eq.mpr h3)] at h'
+  rw [e, PK.bIf_eq, ite_eq_left (Nat.blt_eq.mpr h3)] at h'
   exact h'
 
 theorem penumBK_left_sound {H : Subgroup (Equiv.Perm (Fin n))} {bs : List Nat}
@@ -225,7 +225,6 @@ theorem penumBK_left_sound {H : Subgroup (Equiv.Perm (Fin n))} {bs : List Nat}
     · intro h hh j hj
       obtain ⟨h1, -, h3⟩ := (sp h hh).2.1 j hj
       refine ⟨h1, ?_, h3⟩
-      change leftStep n gens j (unpack n w (T h)) = unpack n w (T (r32 POS (h * k + j)))
       rw [hstep _ hj _ (hIn h hh).1, hclose h hh j hj]
   rw [← hk] at R
   have := enumBFS_replay R hcap
@@ -251,12 +250,12 @@ theorem icode_land (z : Int) : Nat.land (icode z) 1 = if 0 ≤ z then 0 else 1 :
   cases z with
   | ofNat k =>
     change (k + k) % 2 = _
-    have h0 : (0 : Int) ≤ Int.ofNat k := Int.ofNat_nonneg k
-    rw [if_pos h0]
+    have h0 : (0 : Int) ≤ Int.ofNat k := Int.natCast_nonneg k
+    rw [ite_eq_left h0]
     omega
   | negSucc k =>
     change (k + 1 + (k + 1) + 1) % 2 = _
-    rw [if_neg (Int.not_le.2 (Int.negSucc_lt_zero k))]
+    rw [ite_eq_right (Int.not_le.2 (Int.negSucc_lt_zero k))]
     omega
 
 theorem wordPt_eq {S : List (Equiv.Perm (Fin n))} {gs gi : Array Tab} {kL : Nat}
@@ -288,15 +287,15 @@ theorem wordPt_eq {S : List (Equiv.Perm (Fin n))} {gs gi : Array Tab} {kL : Nat}
     rw [PK.nIf_eq, icode_div, icode_land]
     by_cases hz : 0 < z
     · have e1 : Nat.beq (if 0 ≤ z then 0 else 1) 0 = true := by
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
         rfl
-      rw [if_pos e1, if_pos hz, hLf _ (by omega) _ hy]
+      rw [ite_eq_left e1, ite_eq_left hz, hLf _ (by omega) _ hy]
       have e2 : z.natAbs - 1 = z.toNat - 1 := by omega
       rw [e2]
     · have e1 : Nat.beq (if 0 ≤ z then 0 else 1) 0 = false := by
-        rw [if_neg (by omega)]
+        rw [ite_eq_right (by omega)]
         rfl
-      rw [if_neg (by rw [e1]; decide), if_neg hz, hLi _ (by omega) _ hy]
+      rw [ite_eq_right (by rw [e1]; decide), ite_eq_right hz, hLi _ (by omega) _ hy]
       have e2 : z.natAbs - 1 = (-z).toNat - 1 := by omega
       rw [e2]
 

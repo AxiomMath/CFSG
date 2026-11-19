@@ -90,7 +90,7 @@ theorem s16t_calABar_eq_empty_of_case168_4With (D : Data G) {V L : Subgroup G}
     calABar (mBar D.M ⊥ V hV) D.M ⊥ V hV = ∅ := by
   obtain ⟨p, hp, h4At⟩ := h
   have hpp : p.Prime := by rcases hp with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hpcore := s16n9b_case4_pcore D hV hc hpp (by omega : 1 < r) h4At.1
   have hLX : lBar ⊥ V hV L ≤ Mbar D.M ⊥ V hV := hpcore.trans (Subgroup.map_subtype_le _)
   have hge : 3 ≤ CFSG.Open.pRank p (Mbar D.M ⊥ V hV) := by

@@ -22,7 +22,7 @@ variable {E : Type} [Group E] {M₁ M₂ : Subgroup E}
 
 theorem burnsideF46_data (hyp : HypF_4_4 .Tits 2 1 ⊤ M₁ M₂) {Y : Type} [Group Y]
     (β : Cpl M₁ M₂ Y) (hβ : β.IsFaithful) : burnsideF46_Data β (Qx 2 ⊤ β) (Ql 2 ⊤ β) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have T := burnsideF45_titsData hyp
   have hι := incl_faithful M₁ M₂
   obtain ⟨b₀, P⟩ := T.pt
@@ -85,9 +85,9 @@ theorem burnsideF46_tits : ∀ (p f : ℕ) (E : Type) [Group E] (Gp M₁ M₂ : 
   subst hf1
   have hGp : Gp = ⊤ := hyp.canonical (Or.inr rfl)
   subst hGp
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have D := burnsideF46_data hyp β hβ
   have hthree := burnsideF4a_F46_three β hβ (incl M₁ M₂) (incl_faithful M₁ M₂)
   unfold burnsideF4b_F46Body

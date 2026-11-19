@@ -12,7 +12,7 @@ open CFSG Subgroup CFSG.ComponentClassification.PSL3Four CFSG.ComponentClassific
 
 theorem U_ns {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1 ∨ Us = U2) (c d : Fin 4) :
     (c, d, false) ∈ Us ↔ (c = 0 ∧ d = 0) ∨ (c = 3 ∧ d = 3) := by
-  rcases hU with rfl | rfl <;> simp [U1, U2] <;> decide +revert
+  rcases hU with rfl | rfl <;> simp [U1, U2]
 
 theorem U_sw {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1 ∨ Us = U2) {c d : Fin 4}
     (h : (c, d, true) ∈ Us) : c.val ^^^ d.val = 3 := by
@@ -55,11 +55,12 @@ namespace RAHyp
 variable (h : RAHyp)
 include h
 
+omit h in
 theorem r₄_eq : r₄ = kel true true := by simp [kel, r₄]
 
 theorem cos0_iff {y : Equiv.Perm (Fin 42)} (hy : y ∈ RA) : cosRA y = 0 ↔ y ∈ T0 := by
   obtain ⟨a, b, t, ht, rfl⟩ := h.mem_RA_iff.1 hy
-  rw [h.cosRA_kel _ _ ht, h.kel_mul_mem_T0 ht]
+  rw [h.cosRA_kel _ _ ht, CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.kel_mul_mem_T0 ht]
   cases a <;> cases b <;> decide
 
 theorem mul_kel (a b : Bool) (x : Equiv.Perm (Fin 42)) :
@@ -79,22 +80,25 @@ theorem cos3_iff {y : Equiv.Perm (Fin 42)} (hy : y ∈ RA) : cosRA y = 3 ↔ y �
       cases a <;> cases b <;> first | exact ⟨rfl, rfl⟩ | exact absurd e (by decide)
     obtain ⟨rfl, rfl⟩ := hab
     refine ⟨kel true true * t * kel true true, h.kel_conj true true ht, ?_⟩
-    rw [h.r₄_eq]
+    rw [RAHyp.r₄_eq]
     exact h.kel_mul' true true t
   · rintro ⟨x, hx, rfl⟩
-    rw [h.r₄_eq, h.mul_kel, h.cosRA_kel _ _ (h.kel_conj true true hx)]
+    rw [RAHyp.r₄_eq, h.mul_kel, h.cosRA_kel _ _ (h.kel_conj true true hx)]
     rfl
 
+omit h in
 theorem r₄_mem_RA : r₄ ∈ RA := by
-  rw [h.r₄_eq]
-  exact h.kel_mem true true
+  rw [RAHyp.r₄_eq]
+  exact CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.kel_mem true true
 
+omit h in
 theorem cosT_mem_RA {i : Bool} {y : Equiv.Perm (Fin 42)} (hy : y ∈ cosT i) : y ∈ RA := by
   cases i
-  · exact h.T0_le_RA hy
+  · exact CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA hy
   · obtain ⟨x, hx, rfl⟩ := hy
-    exact RA.mul_mem (h.T0_le_RA hx) h.r₄_mem_RA
+    exact RA.mul_mem (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA hx) CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.r₄_mem_RA
 
+omit h in
 theorem cosT_true_not_S {y : Equiv.Perm (Fin 42)} (hy : y ∈ cosT true) : y ∉ S := by
   obtain ⟨x, hx, rfl⟩ := hy
   intro hS
@@ -102,10 +106,12 @@ theorem cosT_true_not_S {y : Equiv.Perm (Fin 42)} (hy : y ∈ cosT true) : y ∉
   rw [inv_mul_cancel_left] at this
   exact not_mem_S_r₄ this
 
+omit h in
 theorem cosT_true_ne_one {y : Equiv.Perm (Fin 42)} (hy : y ∈ cosT true) : y ≠ 1 := by
   rintro rfl
-  exact h.cosT_true_not_S hy S.one_mem
+  exact RAHyp.cosT_true_not_S hy S.one_mem
 
+omit h in
 theorem isUni_not_S {u : Equiv.Perm (Fin 42)} (hu : isUni u) : u ∉ S := by
   obtain ⟨c, hc, rfl⟩ := hu
   intro hS
@@ -133,6 +139,7 @@ theorem codes {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1 ∨ Us = U2) {X 
     · rw [h.cos_mul hb ha, Nat.xor_comm, hs]
       rfl
 
+omit h in
 theorem RA_le_cent {z : Equiv.Perm (Fin 42)} (h₅ : z * g₅ = g₅ * z) (h₆ : z * g₆ = g₆ * z)
     (hT : ∀ x ∈ T0, z * x = x * z) : RA ≤ centralizer {z} := by
   unfold RA
@@ -142,6 +149,7 @@ theorem RA_le_cent {z : Equiv.Perm (Fin 42)} (h₅ : z * g₅ = g₅ * z) (h₆ 
   · exact mem_centralizer_singleton_iff.2 h₅.symm
   · exact mem_centralizer_singleton_iff.2 h₆.symm
 
+omit h in
 theorem uni_of {F : ConcXFacts} {y : Equiv.Perm (Fin 42)} (hy : y ∈ cosT true) (hyy : y * y = 1) :
     isUni y := by
   obtain ⟨x, hx, rfl⟩ := hy
@@ -154,7 +162,7 @@ theorem exists_swap4 (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : 
     ∃ g ∈ X, g.e = true ∧ g ^ 4 = 1 := by
   obtain ⟨x, hx, hw⟩ := F.inv
   have hwT : x * r₄ ∈ cosT true := ⟨x, hx, rfl⟩
-  have hwR := h.cosT_mem_RA hwT
+  have hwR := CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_mem_RA hwT
   have hw3 := (h.cos3_iff hwR).2 hwT
   have h4 : ∀ g : WrE, g ^ 4 = g * g * (g * g) := pow4
   rcases hU with rfl | rfl
@@ -189,6 +197,7 @@ theorem exists_swap4 (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : 
       simp only [e1, e2]
       rfl
 
+omit h in
 theorem card_le_prod {C : Set WrE} (f : Equiv.Perm (Fin 42) × Equiv.Perm (Fin 42) → WrE)
     (hf : Function.Injective f) (A₀ B₀ A₁ B₁ : Set (Equiv.Perm (Fin 42)))
     (hC : ∀ x ∈ C, ∃ p q, x = f (p, q) ∧ ((p ∈ A₀ ∧ q ∈ B₀) ∨ (p ∈ A₁ ∧ q ∈ B₁))) :
@@ -210,7 +219,7 @@ theorem card_le_prod {C : Set WrE} (f : Equiv.Perm (Fin 42) × Equiv.Perm (Fin 4
 theorem sq_mem_T0 {i : Bool} {y : Equiv.Perm (Fin 42)} (hy : y ∈ cosT i) : y * y ∈ T0 := by
   cases i
   · exact T0.mul_mem hy hy
-  · have hR := h.cosT_mem_RA hy
+  · have hR := CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_mem_RA hy
     refine (h.cos0_iff (RA.mul_mem hR hR)).1 (Fin.ext ?_)
     rw [h.cos_mul hR hR, (h.cos3_iff hR).2 hy]
     rfl
@@ -218,12 +227,12 @@ theorem sq_mem_T0 {i : Bool} {y : Equiv.Perm (Fin 42)} (hy : y ∈ cosT i) : y *
 theorem mem_X_ns {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1 ∨ Us = U2) {X : Subgroup WrE}
     (hX : ∀ x, x ∈ X ↔ x ∈ Pw ∧ cc x ∈ Us) {i : Bool} {p q : Equiv.Perm (Fin 42)}
     (hp : p ∈ cosT i) (hq : q ∈ cosT i) : (⟨p, q, false⟩ : WrE) ∈ X := by
-  refine (hX _).2 ⟨⟨h.cosT_mem_RA hp, h.cosT_mem_RA hq⟩, ?_⟩
+  refine (hX _).2 ⟨⟨CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_mem_RA hp, CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_mem_RA hq⟩, ?_⟩
   unfold cc
   rw [U_ns hU]
   cases i
-  · exact Or.inl ⟨(h.cos0_iff (h.T0_le_RA hp)).2 hp, (h.cos0_iff (h.T0_le_RA hq)).2 hq⟩
-  · exact Or.inr ⟨(h.cos3_iff (h.cosT_mem_RA hp)).2 hp, (h.cos3_iff (h.cosT_mem_RA hq)).2 hq⟩
+  · exact Or.inl ⟨(h.cos0_iff (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA hp)).2 hp, (h.cos0_iff (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA hq)).2 hq⟩
+  · exact Or.inr ⟨(h.cos3_iff (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_mem_RA hp)).2 hp, (h.cos3_iff (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_mem_RA hq)).2 hq⟩
 
 theorem T0_of_one {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1 ∨ Us = U2) {X : Subgroup WrE}
     (hX : ∀ x, x ∈ X ↔ x ∈ Pw ∧ cc x ∈ Us) {x : WrE} (hx : x ∈ X) (he : x.e = false)
@@ -231,10 +240,10 @@ theorem T0_of_one {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1 ∨ Us = U2)
   rcases (h.codes hU hX hx).1 he with hab | ⟨ha, hb⟩
   · exact hab
   · rcases h1 with h1 | h1
-    · exact absurd h1 (h.cosT_true_ne_one ha)
-    · exact absurd h1 (h.cosT_true_ne_one hb)
+    · exact absurd h1 (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_true_ne_one ha)
+    · exact absurd h1 (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_true_ne_one hb)
 
-theorem pair_struct (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1 ∨ Us = U2)
+theorem pair_struct (_F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1 ∨ Us = U2)
     {X : Subgroup WrE} (hX : ∀ x, x ∈ X ↔ x ∈ Pw ∧ cc x ∈ Us) {a' y' : WrE} (ha' : a' ∈ X)
     (hy' : y' ∈ X) (hA : IsA a') (hY : IsUU y') (hc : a' * y' = y' * a') :
     ∃ t u v : Equiv.Perm (Fin 42), ∃ f : Equiv.Perm (Fin 42) × Equiv.Perm (Fin 42) → WrE,
@@ -251,7 +260,7 @@ theorem pair_struct (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : U
   obtain ⟨hyR, -⟩ := h.codes hU hX hy'
   have hyT : y'.a ∈ cosT true ∧ y'.b ∈ cosT true := by
     rcases hyR hye with ⟨ha, -⟩ | hab
-    · exact absurd (T0_le_S ha) (h.isUni_not_S hyu)
+    · exact absurd (T0_le_S ha) (RAHyp.isUni_not_S hyu)
     · exact hab
   have hy2 := wsq_ns y' hye
   rw [hyy, eq_comm, wE_one] at hy2
@@ -347,12 +356,12 @@ theorem concX (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   ·
     obtain ⟨z, hz, hzz, hz1, hz5, hz6, hzT⟩ := F.cent
-    have hzR := h.RA_le_cent hz5 hz6 hzT
+    have hzR := RAHyp.RA_le_cent hz5 hz6 hzT
     have hzc : ∀ y ∈ RA, y * z = z * y := fun y hy => mem_centralizer_singleton_iff.1 (hzR hy)
-    refine ⟨⟨z, z, false⟩, (hX _).2 ⟨⟨h.T0_le_RA hz, h.T0_le_RA hz⟩, ?_⟩, fun x hx => ?_,
+    refine ⟨⟨z, z, false⟩, (hX _).2 ⟨⟨CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA hz, CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA hz⟩, ?_⟩, fun x hx => ?_,
       rfl, by rw [wsq_ns _ rfl, hzz]; rfl, hz1, hz1, T0_le_S hz, T0_le_S hz⟩
     · unfold cc
-      rw [(h.cos0_iff (h.T0_le_RA hz)).2 hz]
+      rw [(h.cos0_iff (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.T0_le_RA hz)).2 hz]
       rcases hU with rfl | rfl <;> simp [U1, U2]
     · obtain ⟨ha, hb⟩ := hXPw hx
       rw [wmul_ns _ _ rfl, WrE.mul_def]
@@ -374,7 +383,7 @@ theorem concX (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1
     have hp2 : g * g ≠ 1 := by
       intro e
       rw [hg2, wE_one] at e
-      exact h.cosT_true_ne_one hab e.2
+      exact CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_true_ne_one hab e.2
     have hp3 : g * (g * g) ≠ 1 := by
       refine ne_of_swap ?_ rfl
       rw [hg2, wmul_ns _ _ rfl, hge]
@@ -393,9 +402,9 @@ theorem concX (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1
     rw [hg2, wmul_ns _ _ rfl, wE_one] at hs
     refine ⟨hg4, by rw [hg2], hsq4, ?_, ?_⟩
     · rw [hg2]
-      exact h.uni_of (F := F) hba hs.1
+      exact RAHyp.uni_of (F := F) hba hs.1
     · rw [hg2]
-      exact h.uni_of (F := F) hab hs.2
+      exact RAHyp.uni_of (F := F) hab hs.2
   ·
     intro x hx hxx hx1
     obtain ⟨hns, hsw⟩ := h.codes hU hX hx
@@ -409,10 +418,10 @@ theorem concX (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1
         · by_cases hb1 : x.b = 1
           · exact Or.inl ⟨hxe, hxx, Or.inr ⟨hb1, ha1, T0_le_S ha⟩⟩
           · exact Or.inr (Or.inl ⟨hxe, hxx, ha1, hb1, T0_le_S ha, T0_le_S hb⟩)
-      · exact Or.inr (Or.inr ⟨hxe, hxx, h.uni_of (F := F) ha hsq.1, h.uni_of (F := F) hb hsq.2⟩)
+      · exact Or.inr (Or.inr ⟨hxe, hxx, RAHyp.uni_of (F := F) ha hsq.1, RAHyp.uni_of (F := F) hb hsq.2⟩)
     · have hsq := wsq_sw x hxe
       rw [hxx, eq_comm, wE_one] at hsq
-      exact absurd hsq.2 (h.cosT_true_ne_one (hsw hxe).1)
+      exact absurd hsq.2 (CFSG.ComponentClassification.GrSLit.L34Tw.RAHyp.cosT_true_ne_one (hsw hxe).1)
   ·
     intro b hb hbA
     refine ⟨g₀, hg₀, fun e => ?_⟩
@@ -447,7 +456,7 @@ theorem concX (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1
         rw [wmul_ns b _ rfl, wmul_ns _ b hbe]
         simp only [ha1, one_mul, mul_one, hbe, hq]
       · rintro ⟨⟨p, hp⟩, ⟨q, hq⟩⟩ ⟨⟨p', hp'⟩, ⟨q', hq'⟩⟩ e
-        simp only [Subtype.mk.injEq, WrE.mk.injEq] at e
+        simp only at e
         obtain ⟨rfl, rfl, -⟩ := e
         rfl
     · have hT := h.T0_of_one hU hX hb hbe (Or.inr hb1)
@@ -462,7 +471,7 @@ theorem concX (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1
         rw [wmul_ns b _ rfl, wmul_ns _ b hbe]
         simp only [hb1, one_mul, mul_one, hbe, hq]
       · rintro ⟨⟨p, hp⟩, ⟨q, hq⟩⟩ ⟨⟨p', hp'⟩, ⟨q', hq'⟩⟩ e
-        simp only [Subtype.mk.injEq, WrE.mk.injEq] at e
+        simp only at e
         obtain ⟨rfl, rfl, -⟩ := e
         rfl
   ·
@@ -471,7 +480,7 @@ theorem concX (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1
       h.pair_struct F hU hX ha' hy' hA hY hc
     have h128 : (2 : ℕ) ^ 7 = 128 := by norm_num
     rw [h128]
-    refine (h.card_le_prod f hf _ _ _ _ hC).trans ?_
+    refine (RAHyp.card_le_prod f hf _ _ _ _ hC).trans ?_
     have q0 := F.qcard v hv hvv false
     have q1 := F.qcard v hv hvv true
     have hp := F.pcard t ht htt ht1 u hu huu htu
@@ -491,7 +500,7 @@ theorem concX (F : ConcXFacts) {Us : Set (Fin 4 × Fin 4 × Bool)} (hU : Us = U1
       rcases hpq with ⟨hp, hq⟩ | ⟨hp, hq⟩
       · exact Or.inl ⟨⟨hp, hsq.1⟩, ⟨hq, hsq.2⟩⟩
       · exact Or.inr ⟨⟨hp, hsq.1⟩, ⟨hq, hsq.2⟩⟩
-    have hle := h.card_le_prod f hf _ _ _ _ hC₂
+    have hle := RAHyp.card_le_prod f hf _ _ _ _ hC₂
     have q0 := F.qinv v hv hvv false
     have q1 := F.qinv v hv hvv true
     have hp := F.pinv t ht htt ht1 u hu huu htu

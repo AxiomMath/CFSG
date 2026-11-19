@@ -146,7 +146,7 @@ theorem sp64_noSz (hb : LieOrderBridge) (hs : IsSimpleGroup Sp)
     exact eq_bot_of_equiv_simple ((MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv) hs h3S
       hYC hsub h3
   have hZ : Subgroup.center Sp = ⊥ := by
-    haveI := hs
+    have := hs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Sp) with h | h
     · exact h
     · exfalso
@@ -215,7 +215,7 @@ theorem kT1_eight_Sp6_4 : RowOf143 (projSp 3 (GaloisField 2 2)) := by
   have hOut : Group.IsSolvable (Outer S) := by
     have : Group.IsSolvable (Outer Sp) :=
       CFSG.SeitzReduction.SymplecticPilot.isSolvable_outer_statedSp (K := F4) (n := 3) (by norm_num)
-    exact solvable_of_surjective (f := (equivalence τ).symm.toMonoidHom)
+    exact Group.isSolvable_of_surjective (f := (equivalence τ).symm.toMonoidHom)
       (equivalence τ).symm.surjective
   have hsSp : IsSimpleGroup Sp := (MulEquiv.isSimpleGroup_congr τ).1 hs
   have hinn : ∀ β : MulAut Sp, β ^ 3 = 1 → IsInnerAut β := by

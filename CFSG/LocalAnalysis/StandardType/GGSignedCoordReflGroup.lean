@@ -33,10 +33,10 @@ private lemma nSwap_apply {n p : ℕ} {a b : Fin n} (hab : a ≠ b)
     SpCoord.permAut_apply]
   simp only [Function.update_apply, Function.comp_apply, Equiv.swap_inv]
   by_cases hia : i = a
-  · simp only [if_pos hia, if_neg hab, Equiv.swap_apply_left]
+  · simp only [ite_eq_left hia, ite_eq_right hab, Equiv.swap_apply_left]
   · by_cases hib : i = b
-    · simp only [if_neg hia, if_pos hib, Equiv.swap_apply_right]
-    · simp only [if_neg hia, if_neg hib, Equiv.swap_apply_of_ne_of_ne hia hib]
+    · simp only [ite_eq_right hia, ite_eq_left hib, Equiv.swap_apply_right]
+    · simp only [ite_eq_right hia, ite_eq_right hib, Equiv.swap_apply_of_ne_of_ne hia hib]
 
 private lemma pSwap_mulSingle {n p : ℕ} (a b i : Fin n) (c : ZMod p) :
     pSwap p a b (Pi.mulSingle i (Multiplicative.ofAdd c) :
@@ -155,14 +155,14 @@ private lemma spData_nSwap {n p : ℕ} {a b : Fin n} (hab : a ≠ b) :
   intro f i
   rw [nSwap_apply hab]
   rcases eq_or_ne i a with rfl | hia
-  · rw [Equiv.swap_apply_left, if_neg (Ne.symm hab), if_pos rfl, toAdd_inv, tw,
-      if_pos (Or.inl rfl)]
+  · rw [Equiv.swap_apply_left, ite_eq_right (Ne.symm hab), ite_eq_left rfl, toAdd_inv, tw,
+      ite_eq_left (Or.inl rfl)]
     ring
   · rcases eq_or_ne i b with rfl | hib
-    · rw [Equiv.swap_apply_right, if_pos rfl, toAdd_inv, tw, if_pos (Or.inr rfl)]
+    · rw [Equiv.swap_apply_right, ite_eq_left rfl, toAdd_inv, tw, ite_eq_left (Or.inr rfl)]
       ring
-    · rw [Equiv.swap_apply_of_ne_of_ne hia hib, if_neg hia, if_neg hib, tw,
-        if_neg (fun h => h.elim hia hib)]
+    · rw [Equiv.swap_apply_of_ne_of_ne hia hib, ite_eq_right hia, ite_eq_right hib, tw,
+        ite_eq_right (fun h => h.elim hia hib)]
       ring
 
 private lemma pSwap_mul_sgnAut {n p : ℕ} {a b : Fin n} (i : Fin n) :
@@ -492,7 +492,7 @@ private lemma isSupp_nSwap_iff {n p : ℕ} (hp : p.Prime) {a b : Fin n} (hab : a
     refine h ?_
     rw [nSwap_mulSingle hab,
       show Equiv.swap a b x = x from Equiv.swap_apply_of_ne_of_ne hx.1 hx.2,
-      tw, if_neg (fun h => h.elim hx.1 hx.2), one_mul]
+      tw, ite_eq_right (fun h => h.elim hx.1 hx.2), one_mul]
   · rintro (hx | hx)
     · rw [hx]
       intro h
@@ -605,7 +605,7 @@ private lemma apply_eq_of_notMem_genSet {n p : ℕ} {κ : Type*}
       have hjb : j ≠ b := by
         rintro rfl
         exact hj (mem_genSet.mpr ⟨k, (isSupp_nSwap hp hab hp').2⟩)
-      rw [hp', nSwap_apply hab, if_neg hja, if_neg hjb]
+      rw [hp', nSwap_apply hab, ite_eq_right hja, ite_eq_right hjb]
   · intro f
     rfl
   · intro x y _ _ hx hy f
@@ -826,7 +826,7 @@ private lemma blockB_erase {n p : ℕ} (i0 : Fin n) :
   rw [blockB, bCoordinateBlock]
   congr 1
   ext u
-  simp only [Set.mem_setOf_eq, Finset.mem_erase, Finset.mem_univ, and_true, pSwap]
+  simp only [Set.mem_ofPred_eq, Finset.mem_erase, Finset.mem_univ, and_true, pSwap]
   constructor
   · rintro (⟨i, hi, rfl⟩ | ⟨a, ha, b, hb, hab, rfl⟩)
     · exact Or.inl ⟨i, hi, rfl⟩
@@ -840,7 +840,7 @@ private lemma blockD_erase {n p : ℕ} (i0 : Fin n) :
   rw [blockD, dCoordinateBlock]
   congr 1
   ext u
-  simp only [Set.mem_setOf_eq, Finset.mem_erase, Finset.mem_univ, and_true, pSwap]
+  simp only [Set.mem_ofPred_eq, Finset.mem_erase, Finset.mem_univ, and_true, pSwap]
   constructor
   · rintro (⟨a, ha, b, hb, hab, h⟩ | ⟨a, ha, b, hb, hab, h⟩)
     · exact Or.inl ⟨a, b, hab, ha, hb, h⟩
@@ -857,7 +857,7 @@ private lemma blockS_univ {n p : ℕ} :
   rw [blockS, aPermutationFull]
   congr 1
   ext u
-  simp only [Set.mem_setOf_eq, Finset.mem_univ, true_and]
+  simp only [Set.mem_ofPred_eq, Finset.mem_univ, true_and]
   tauto
 
 private def stab {n p : ℕ} (f : Fin n → Multiplicative (ZMod p)) :
@@ -959,7 +959,7 @@ private lemma fix_blockD {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {I : Finset 
     have hN : nSwap p i j f = f := h (nSwap p i j) (Or.inr ⟨i, hi, j, hj, Ne.symm hji, rfl⟩)
     have heq : f i = f j := (pSwap_eq_self_iff).1 hP
     have hN' := congrArg (fun v : Fin n → Multiplicative (ZMod p) => toAdd (v i)) hN
-    rw [nSwap_apply (Ne.symm hji), if_pos rfl, toAdd_inv] at hN'
+    rw [nSwap_apply (Ne.symm hji), ite_eq_left rfl, toAdd_inv] at hN'
     have hsum : toAdd (f i) = -toAdd (f i) := by
       rw [← heq] at hN'
       exact hN'.symm
@@ -993,13 +993,13 @@ private lemma extendOff_of_mem {n p : ℕ} {I : Finset (Fin n)}
     {g : {i : Fin n // i ∉ I} → Multiplicative (ZMod p)} {i : Fin n} (h : i ∈ I) :
     extendOff I g i = 1 := by
   rw [extendOff]
-  simp only [dif_pos h]
+  simp only [dite_eq_left h]
 
 private lemma extendOff_of_notMem {n p : ℕ} {I : Finset (Fin n)}
     {g : {i : Fin n // i ∉ I} → Multiplicative (ZMod p)} {i : Fin n} (h : i ∉ I) :
     extendOff I g i = g ⟨i, h⟩ := by
   rw [extendOff]
-  simp only [dif_neg h]
+  simp only [dite_eq_right h]
 
 private lemma card_compl {n : ℕ} (I : Finset (Fin n)) :
     Nat.card {i : Fin n // i ∉ I} = n - I.card := by
@@ -1063,19 +1063,19 @@ private noncomputable def fixSEquiv {n p : ℕ} (I : Finset (Fin n)) (z : Fin n)
   invFun cg :=
     ⟨fun i => if h : i ∈ I then cg.1 else cg.2 ⟨i, h⟩, by
       refine (fix_blockS (p := p) (I := I)).2 (fun i hi j hj => ?_)
-      rw [dif_pos hi, dif_pos hj]⟩
+      rw [dite_eq_left hi, dite_eq_left hj]⟩
   left_inv f := by
     ext i
     change (if h : i ∈ I then f.1 z else f.1 (⟨i, h⟩ : {j : Fin n // j ∉ I})) = f.1 i
     by_cases hi : i ∈ I
-    · rw [dif_pos hi]
+    · rw [dite_eq_left hi]
       exact (fix_blockS (p := p) (I := I)).1 f.2 z hz i hi
-    · rw [dif_neg hi]
+    · rw [dite_eq_right hi]
   right_inv cg := by
     refine Prod.ext ?_ ?_
-    · exact dif_pos hz
+    · exact dite_eq_left hz
     · funext i
-      exact dif_neg i.2
+      exact dite_eq_right i.2
 
 private lemma card_fixS {n p : ℕ} (I : Finset (Fin n)) (z : Fin n) (hz : z ∈ I) :
     Nat.card {f : Fin n → Multiplicative (ZMod p) // ∀ u ∈ blockS (p := p) I, u f = f} =
@@ -1139,7 +1139,7 @@ private lemma bCoordinateBlock_one (p : ℕ) (i0 : Fin 1) :
       (∃ a b : Fin 1, a ≠ b ∧ a ≠ i0 ∧ b ≠ i0 ∧
         r = SpCoord.permAut (Equiv.swap a b))} = ∅ := by
     ext r
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_or]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_or]
     constructor
     · rintro ⟨i, hi, _⟩
       exact hi (Subsingleton.elim i i0)
@@ -1226,10 +1226,10 @@ private lemma pSign_eq_one_iff {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   constructor
   · intro h
     by_contra hc
-    rw [pSign, if_neg hc] at h
+    rw [pSign, ite_eq_right hc] at h
     exact coord_one_ne_neg_one hp hp2 h.symm
   · intro h
-    rw [pSign, if_pos h]
+    rw [pSign, ite_eq_left h]
 
 private lemma pSign_eq_neg_one_iff {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {R : Subgroup (MulAut (Fin n → Multiplicative (ZMod p)))} {a b : Fin n} :
@@ -1239,7 +1239,7 @@ private lemma pSign_eq_neg_one_iff {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rw [pSign_eq_one_iff hp hp2 |>.2 hc] at h
     exact coord_one_ne_neg_one hp hp2 h
   · intro h
-    rw [pSign, if_neg h]
+    rw [pSign, ite_eq_right h]
 
 private lemma pSign_sign {n p : ℕ}
     {R : Subgroup (MulAut (Fin n → Multiplicative (ZMod p)))} (a b : Fin n) :
@@ -1260,7 +1260,7 @@ private lemma pSwap_self {n p : ℕ} (a : Fin n) : pSwap p a a = 1 := by
 private lemma pSign_self {n p : ℕ}
     {R : Subgroup (MulAut (Fin n → Multiplicative (ZMod p)))} (a : Fin n) :
     pSign R a a = 1 := by
-  rw [pSign, if_pos (by rw [pSwap_self]; exact R.one_mem)]
+  rw [pSign, ite_eq_left (by rw [pSwap_self]; exact R.one_mem)]
 
 private lemma pSign_mul_neg {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [NeZero p]
     {R : Subgroup (MulAut (Fin n → Multiplicative (ZMod p)))} {I : Finset (Fin n)}
@@ -1280,10 +1280,10 @@ private lemma pSign_mul_neg {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [NeZero p
     · exact absurd h h1
     · exact h
   have h1s : pSign R a b = -1 := by
-    rw [pSign, if_neg h1]
+    rw [pSign, ite_eq_right h1]
   by_cases h2 : pSwap p b c ∈ R
   · have h2s : pSign R b c = 1 := by
-      rw [pSign, if_pos h2]
+      rw [pSign, ite_eq_left h2]
     rw [hnac (by
       rw [← conj_pn hab hbc hac]
       exact R.mul_mem (R.mul_mem h2 h1n) h2), h1s, h2s]
@@ -1293,7 +1293,7 @@ private lemma pSign_mul_neg {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [NeZero p
       · exact absurd h h2
       · exact h
     have h2s : pSign R b c = -1 := by
-      rw [pSign, if_neg h2]
+      rw [pSign, ite_eq_right h2]
     rw [(pSign_eq_one_iff hp hp2).2 (by
       rw [← conj_nn hab hbc hac]
       exact R.mul_mem (R.mul_mem h2n h1n) h2n), h1s, h2s]
@@ -1325,7 +1325,7 @@ private lemma pSign_mul {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [NeZero p]
         · exact absurd h h2
         · exact h
       have h2s : pSign R b c = -1 := by
-        rw [pSign, if_neg h2]
+        rw [pSign, ite_eq_right h2]
       rw [hnac (by
         rw [← conj_np hab hbc hac]
         exact R.mul_mem (R.mul_mem h2n h1) h2n), h1s, h2s]
@@ -1341,7 +1341,7 @@ private noncomputable def dSign {n p : ℕ}
 private lemma dSign_of_mem {n p : ℕ}
     {R : Subgroup (MulAut (Fin n → Multiplicative (ZMod p)))} {I : Finset (Fin n)} {z i : Fin n}
     (hi : i ∈ I) : dSign R I z i = pSign R z i := by
-  rw [dSign, if_pos hi]
+  rw [dSign, ite_eq_left hi]
 
 private lemma dSign_self {n p : ℕ}
     {R : Subgroup (MulAut (Fin n → Multiplicative (ZMod p)))} {I : Finset (Fin n)} {z : Fin n}
@@ -1379,10 +1379,10 @@ private lemma diagAut_mul_sgnAut_comm {n p : ℕ} {d : Fin n → ZMod p}
   simp only [Function.update_apply, diagAut_apply]
   by_cases hji : j = i
   · subst hji
-    rw [if_pos rfl, toAdd_inv, if_pos rfl, ← ofAdd_neg]
+    rw [ite_eq_left rfl, toAdd_inv, ite_eq_left rfl, ← ofAdd_neg]
     congr 1
     exact mul_neg (d j) (toAdd (f j))
-  · simp only [if_neg hji]
+  · simp only [ite_eq_right hji]
 
 private lemma conj_diag_sgn {n p : ℕ} [NeZero p] {d : Fin n → ZMod p}
     (hd : ∀ i, d i * d i = 1) (i : Fin n) :
@@ -1853,7 +1853,7 @@ private lemma blockD_eq_dBlockOn {n p : ℕ} (I : Finset (Fin n)) :
   rw [blockD, dBlockOn]
   congr 1
   ext u
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro (⟨a, ha, b, hb, hab, rfl⟩ | ⟨a, ha, b, hb, hab, rfl⟩)
     · exact Or.inl ⟨a, ha, b, hb, hab, rfl⟩

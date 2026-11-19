@@ -69,10 +69,10 @@ theorem asc82CorIII_of_orders
     (hCL1 : CFSG.ComponentClassification.CatLeaf.GLS3OddLieAutComponentsInput)
     (hO : CFSG.ComponentClassification.CatLeaf.LieOrderFormulasInput) : Asc82CorIII := by
   intro G _ _ t L hS z hz
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have hnab : ∃ a b : G, a * b ≠ b * a := c3b_nonabelian_of_inF hS.inF
   obtain ⟨hFs, hFnab⟩ := c3b_genFittingFStar_simple hnab
-  haveI := hFs
+  have := hFs
   obtain ⟨eF⟩ := c3b_nonempty_genFittingFStar_equiv hnab
   rcases c3b_oddLieType_or_m11_of_isI4PlusIn hCI hFnab hz with
     ⟨τ, n, p, f, hp, hp2, hadm, hm⟩ | hM11

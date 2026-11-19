@@ -19,7 +19,7 @@ theorem opp_le_centralizer_of_no_involution {M V W : Subgroup G} (hV : IsElemAbe
     (hMV : M ≤ Subgroup.normalizer (V : Set G))
     (h : ∀ t ∈ autI hV M, orderOf t = 2 → ∃ w : IntMod V hV, w.val ∈ W ∧ t w ≠ w) :
     Opp 2 (M ⊓ Subgroup.centralizer (W : Set G)) ≤ Subgroup.centralizer (V : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold Opp
   rw [pElementSubgroup, Subgroup.closure_le]
   rintro x ⟨hxMW, k, hk⟩
@@ -67,9 +67,9 @@ theorem opp_le_centralizer_of_no_involution {M V W : Subgroup G} (hV : IsElemAbe
 
 
 theorem odd_card_autI_of_opp_le {M V : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hMV : M ≤ Subgroup.normalizer (V : Set G))
+    (_hMV : M ≤ Subgroup.normalizer (V : Set G))
     (h : Opp 2 M ≤ Subgroup.centralizer (V : Set G)) : Odd (Nat.card (autI hV M)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   rw [Nat.not_odd_iff_even] at hodd
   have : Finite (MulAut (IntMod V hV)) := Finite.of_injective
@@ -104,6 +104,7 @@ theorem odd_card_autI_of_opp_le {M V : Subgroup G} (hV : IsElemAbelian 2 V)
   omega
 
 
+omit [Finite G] in
 theorem exists_conj_index {M V Q U L X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hd : Eleven11Data M V Q U L X) {s : ℕ} {Y : Fin s → Subgroup (MulAut (IntMod V hV))}
     {Vs : Fin s → Subgroup (IntMod V hV)} {i₀ : Fin s}
@@ -131,6 +132,7 @@ theorem exists_conj_index {M V Q U L X : Subgroup G} (hV : IsElemAbelian 2 V)
   exact (hYind.injective hdec.Y_ne_bot hj₀).symm
 
 
+omit [Finite G] in
 theorem vs_val_mem_inf {M V Q U L X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hd : Eleven11Data M V Q U L X) {s : ℕ} {Y : Fin s → Subgroup (MulAut (IntMod V hV))}
     {Vs : Fin s → Subgroup (IntMod V hV)} {i₀ : Fin s}
@@ -177,7 +179,7 @@ theorem eleven_eleven_opp {M V Q U L X : Subgroup G} (hV : IsElemAbelian 2 V)
     Opp 2 (M ⊓ Subgroup.centralizer ((U ⊓ conjSubgroup U g : Subgroup G) : Set G)) ≤
       Subgroup.centralizer (V : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine opp_le_centralizer_of_no_involution hV hd.setting.normal ?_
   intro t ht ht2
   by_contra hcon

@@ -94,7 +94,7 @@ private theorem fus_of_model (y : FzL410.TM) (hy : FzL410.FusAt y) (hyR : FzL410
         (2 : ZMod 4) * (b.val : ZMod 4), 0, 0) := by decide +kernel
     refine ⟨fz410Mu emb t s lam (FzL410.zE a b), ?_, ?_⟩
     · show fz410Mu emb t s lam (FzL410.pe _) ∈ Z
-      rw [M.mu_pe]
+      rw [(CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_pe (t := t) (lam := lam) (s := s) (emb := emb))]
       exact (M.mem_Z _).mpr (hZA a b)
     · have h1 : fz410Mu emb t s lam r' * fz410Mu emb t s lam y =
           (fz410Mu emb t s lam y * fz410Mu emb t s lam (FzL410.zE a b)) *
@@ -112,7 +112,7 @@ theorem fus_transfer (h : FzL410.FusAll) :
   · intro e he
     obtain ⟨a, b, rfl⟩ := M.exists_eE he
     have := M.fus_of_model (FzL410.mulT (FzL410.eE a b) FzL410.tsM) (hts a b) rfl
-    rwa [M.mu_mul, M.mu_eE, M.mu_tsM] at this
+    rwa [M.mu_mul, CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_eE, M.mu_tsM] at this
 
 theorem cardS_transfer (h : FzL410.CardS) : Nat.card ↥(T ⊓ centralizer ({t} : Set G)) = 128 := by
   rw [M.card_eq_filter _ inf_le_left FzL410.inS M.mem_S]

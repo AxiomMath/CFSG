@@ -23,7 +23,7 @@ theorem mem_rootSpan_of_baseChangeGL_mem {τ : Tag} {K L : Type} [Field K] [Fiel
     {u : ModGL τ K} (hu : u ∈ rootSpan τ K P) (huL : baseChangeGL ι u ∈ rootSpan τ L S) :
     u ∈ rootSpan τ K S := by
   obtain ⟨αS, hSinj, hSrange⟩ := exists_rootEnum (hP.subset hSP)
-  obtain ⟨αR, hRinj, hRrange⟩ := exists_rootEnum (hP.subset (Set.diff_subset : P \ S ⊆ P))
+  obtain ⟨αR, hRinj, hRrange⟩ := exists_rootEnum (hP.subset (Set.sdiff_subset : P \ S ⊆ P))
   have hSmem : ∀ k, αS k ∈ S := fun k => hSrange ▸ Set.mem_range_self k
   have hRmem : ∀ k, αR k ∈ P \ S := fun k => hRrange ▸ Set.mem_range_self k
   have hdisj : ∀ k l, αS k ≠ αR l := fun k l h => (hRmem l).2 (h ▸ hSmem k)

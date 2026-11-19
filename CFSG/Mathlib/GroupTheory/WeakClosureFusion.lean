@@ -56,7 +56,7 @@ theorem exists_mem_normalizer_conj_eq {G : Type*} [Group G] [Finite G] {p : ℕ}
       _ = g * (a * x) * g⁻¹ := by rw [ha x hx]
       _ = (g * a * g⁻¹) * MulAut.conj g x := by
         simp only [MulAut.conj_apply]; group
-  have hWp : IsPGroup p W := P.isPGroup'.to_le hWP
+  have hWp : IsPGroup p W := P.isPGroup.to_le hWP
   have hW'p : IsPGroup p (W.map (MulAut.conj g : G →* G)) :=
     hWp.map (MulAut.conj g : G →* G)
   obtain ⟨Q₀, hQ₀⟩ := IsPGroup.exists_le_sylow (hWp.comap_subtype (K := C))
@@ -87,7 +87,7 @@ theorem exists_mem_normalizer_conj_eq {G : Type*} [Group G] [Finite G] {p : ℕ}
       _ = ((Q₁ : Subgroup C).map (MulAut.conj c)).map C.subtype :=
         map_subtype_conj C c (Q₁ : Subgroup C)
       _ = (Q₀ : Subgroup C).map C.subtype := by rw [hcsub]
-  have hQ₀p : IsPGroup p ((Q₀ : Subgroup C).map C.subtype) := Q₀.isPGroup'.map C.subtype
+  have hQ₀p : IsPGroup p ((Q₀ : Subgroup C).map C.subtype) := Q₀.isPGroup.map C.subtype
   obtain ⟨S, hQ₀S⟩ := IsPGroup.exists_le_sylow hQ₀p
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq G P S
   let h : G := k⁻¹

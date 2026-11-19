@@ -49,7 +49,6 @@ theorem isCut_cut {c : PhanCode} (hc : c.IsFlagCode) : IsCut (c.rank + 1) c.cut 
   cases c <;> simp only [IsFlagCode] at hc
   all_goals
     first
-    | exact hc.elim
     | exact ⟨by decide, by decide, by
         intro i hi
         simp [cut] at hi
@@ -61,9 +60,8 @@ theorem coreN_iff_cutTypes {c : PhanCode} (hc : c.IsFlagCode) (k : Fin c.rank) :
   cases c <;> simp only [IsFlagCode] at hc
   all_goals
     first
-    | exact hc.elim
     | (fin_cases k <;>
-        simp only [cutTypes, Set.mem_setOf_eq] <;>
+        simp only [cutTypes, Set.mem_ofPred_eq] <;>
         rw [Nat.forall_lt_iff_fin] <;>
         decide)
 
@@ -83,7 +81,6 @@ theorem blockPerm_spec {c : PhanCode} (hc : c.IsFlagCode) (k : Fin c.rank)
   cases c <;> simp only [IsFlagCode] at hc
   all_goals
     first
-    | exact hc.elim
     | (fin_cases k <;>
         first
         | exact absurd hk (by decide)

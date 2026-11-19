@@ -32,7 +32,7 @@ theorem kf148FieldTopTwistROddU_holds : Ronan148V.KF148FieldTopTwistROddU := by
     by_contra h
     have hn1 : n = 1 := by obtain ⟨k, rfl⟩ := hnodd; omega
     subst hn1
-    haveI := hKs
+    have := hKs
     rcases hK with ⟨hq', -⟩ | ⟨-, ⟨φ⟩⟩
     · norm_num at hq'
     · exact Sec18.Item185Proof.not_isSimpleGroup_projSU_three_two_one φ.symm.isSimpleGroup
@@ -42,7 +42,7 @@ theorem kf148FieldTopTwistROddU_holds : Ronan148V.KF148FieldTopTwistROddU := by
   have hcardF : Nat.card F = 2 ^ (2 * (3 * n)) := GaloisField.card 2 _ (by omega)
   obtain ⟨hτ3, hτω, hτfix⟩ := Sec4.Ronan148B.fieldAut_three_facts hn hcardF hτ
   obtain ⟨r, hrp, hr3, hrc, hr2, hr4⟩ := Sec4.Ronan148B.exists_prime_dvd_cube_add_one hnodd hn3
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   have hdvdF : r ∣ Nat.card Fˣ := by
     rw [Nat.card_units, hcardF]
     have e : 2 ^ (2 * (3 * n)) = ((2 ^ n) ^ 3) ^ 2 := by rw [← pow_mul, ← pow_mul]; ring_nf

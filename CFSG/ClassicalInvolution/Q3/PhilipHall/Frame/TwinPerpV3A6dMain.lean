@@ -58,7 +58,7 @@ theorem v3AE6I_of {n : ℕ} (hP : TL4.TightBelowRPlus 3 n)
   have hItop : I < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun htop => ?_
     have hn : D.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (htop ▸ hIN))
-    haveI := hStd.perp.core.simple
+    have := hStd.perp.core.simple
     have hbot := eq_bot_of_normal_isPGroup hStd.perp.core.nonab hn hD2
     exact hd.hz.ne_one (by simpa [hbot] using htD)
   refine ⟨hItop, ?_⟩

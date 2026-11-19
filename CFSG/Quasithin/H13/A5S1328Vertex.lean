@@ -530,13 +530,13 @@ theorem vertex_excl (S : Setting G T L V) {B : Subgroup G}
       rw [Subgroup.normal_subgroupOf_iff hWP]
       intro h k hh hk
       exact (Subgroup.mem_normalizer_iff.mp (hWP1 (hP_le_P1 hk)) h).mp hh
-    haveI := hWnormal
+    have := hWnormal
     have hquot : Nat.card (↥P ⧸ (V ⊔ V' : Subgroup G).subgroupOf P) = 4 := by
       have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup
         ((V ⊔ V' : Subgroup G).subgroupOf P)
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hWP).toEquiv, hcardW, hcardP] at h1
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hMC : IsMulCommutative (↥P ⧸ (V ⊔ V' : Subgroup G).subgroupOf P) :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hquot]; norm_num)
     have hcommW : ∀ u ∈ P, ∀ v ∈ P, u * v * u⁻¹ * v⁻¹ ∈ V ⊔ V' := by

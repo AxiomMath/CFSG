@@ -229,6 +229,7 @@ theorem ff6p_centralizer_B0 (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5
     OGroup Q :=
   fr.signChange (ffOpt (Finset.univ.filter fun i => v i ≠ 0))
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffOutFF6PN1_ffVecT (fr : PFrame Q (Option (Fin 5)) ffC)
     (v : Fin 5 → ZMod 2) :
     ffVecT fr v = fr.signChange (ffOpt (ffOutFF6PN1_supp v)) := rfl

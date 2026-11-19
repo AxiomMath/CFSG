@@ -15,7 +15,7 @@ theorem exists_odd_normal_complement {P : Type} [Group P] [Finite P] {z : P}
       O ⊔ zpowers z = R := by
   have hzle : zpowers z ≤ R := Subgroup.zpowers_le.2 hzR
   have hzcenter : zpowers z ≤ Subgroup.center P := Subgroup.zpowers_le.2 hz
-  haveI hzpnormal : (zpowers z).Normal := Subgroup.normal_of_le_center hzcenter
+  have hzpnormal : (zpowers z).Normal := Subgroup.normal_of_le_center hzcenter
   let ZR : Subgroup R := (zpowers z).subgroupOf R
   have hZRcenter : ZR ≤ Subgroup.center R := by
     intro x hx
@@ -27,7 +27,7 @@ theorem exists_odd_normal_complement {P : Type} [Group P] [Finite P] {z : P}
     have hxzc : (x : P) ∈ Subgroup.center P := hzcenter hxzp
     rw [Subgroup.mem_center_iff] at hxzc
     exact hxzc (y : P)
-  haveI : ZR.Normal := Subgroup.normal_of_le_center hZRcenter
+  have : ZR.Normal := Subgroup.normal_of_le_center hZRcenter
   have hZRcard : Nat.card ZR = 2 := by
     change Nat.card ((zpowers z).subgroupOf R) = 2
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hzle).toEquiv, Nat.card_zpowers, hz2]

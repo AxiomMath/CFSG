@@ -14,12 +14,15 @@ open scoped MatrixGroups commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 variable {M V : Subgroup G}
 
+omit [Finite G] in
 private theorem fSet.V_le {A : Subgroup G} (hA : A ∈ fSet M V) : V ≤ A := by
   obtain ⟨-, -, U, -, x, -, rfl⟩ := hA
   exact le_sup_left
 
+omit [Finite G] in
 private theorem fSet.le_Pc {A : Subgroup G} (hA : A ∈ fSet M V) : A ≤ Pc M V := hA.1
 
+omit [Finite G] in
 private theorem fSet.card {A : Subgroup G} (hA : A ∈ fSet M V) :
     Nat.card A = Nat.card V ^ 2 := hA.2.1
 

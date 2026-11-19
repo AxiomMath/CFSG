@@ -19,7 +19,7 @@ theorem sylow_map_le (K : Subgroup G) (T : Sylow 2 ↥K) :
 
 theorem sylow_map_isPGroup (K : Subgroup G) (T : Sylow 2 ↥K) :
     IsPGroup 2 ((T : Subgroup ↥K).map K.subtype) :=
-  T.isPGroup'.map K.subtype
+  T.isPGroup.map K.subtype
 
 theorem sylow_map_max (K : Subgroup G) (T : Sylow 2 ↥K) (P : Subgroup G) (hP : IsPGroup 2 P)
     (hPK : P ≤ K) (hle : (T : Subgroup ↥K).map K.subtype ≤ P) :

@@ -49,7 +49,7 @@ theorem not_five_dvd_ree_card {q : ℕ} (hq : q % 5 = 2 ∨ q % 5 = 3) :
   omega
 
 
-theorem a6_G2_inner_false (hO : LieOrderFormulasInput) {K : Type} [Field K] [Finite K]
+theorem a6_G2_inner_false (_hO : LieOrderFormulasInput) {K : Type} [Field K] [Finite K]
     {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f) {α : MulAut (adjointGroup .G2 K)}
     {g : adjointGroup .G2 K} {a : Fin Tag.G2.rank → Kˣ}
     (hαg : ∀ h : adjointGroup .G2 K, (α h : ModGL .G2 K) = (g : ModGL .G2 K) *

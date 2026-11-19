@@ -91,7 +91,7 @@ private theorem eq_zero_of_mem_avgSub [Fintype Ω] [DecidableEq Ω] {h2 : ∀ m 
     (hdc : ∀ l ∈ L, l • c - d (l • ω₀) ∈ X)
     {f : Ω → ZMod 2} (hf : f ∈ avgSub h2 d X) : f = 0 := by
   by_contra hf0
-  letI : MulAction U (Ω → ZMod 2) := arrowAction
+  let : MulAction U (Ω → ZMod 2) := arrowAction
   obtain ⟨g, hgA, hg0, hgfix⟩ := exists_smul_eq_self_ne_zero (V := Ω → ZMod 2) hU2
     (fun a => funext fun ν => CharTwo.add_self_eq_zero (a ν)) (avgSub h2 d X)
     (fun u a ha => smul_mem_avgSub hXL hd1 (hUL u.2) ha) (fun u => rfl) hf hf0
@@ -301,7 +301,7 @@ private theorem sum_symmDiff_two [DecidableEq Ω] (h2 : ∀ m : M, m + m = 0) (g
 
 theorem two_pow_le_of_avg [Finite Ω] [Finite M] (h2 : ∀ m : M, m + m = 0) {L : Subgroup H}
     (htrans : ∀ μ ν : Ω, ∃ l ∈ L, l • μ = ν) (hodd : Odd (Nat.card Ω))
-    {ω₀ : Ω} {U : Subgroup H} (hUL : U ≤ L) (hU2 : IsPGroup 2 U) (hUfix : ∀ u ∈ U, u • ω₀ = ω₀)
+    {ω₀ : Ω} {U : Subgroup H} (hUL : U ≤ L) (hU2 : IsPGroup 2 U) (_hUfix : ∀ u ∈ U, u • ω₀ = ω₀)
     (hUtrans : ∀ μ ν : Ω, μ ≠ ω₀ → ν ≠ ω₀ → ∃ u ∈ U, u • μ = ν)
     {z : H} (hz : z * z = 1) (hzL : ∀ l ∈ L, z * l * z⁻¹ ∈ L)
     {X : AddSubgroup M} {c : M} (hXL : ∀ l ∈ L, ∀ x ∈ X, l • x ∈ X)
@@ -312,7 +312,7 @@ theorem two_pow_le_of_avg [Finite Ω] [Finite M] (h2 : ∀ m : M, m + m = 0) {L 
     2 ^ ((Nat.card Ω - Nat.card (MulAction.fixedBy Ω z)) / 2) ≤
       Nat.card (commSub (DistribMulAction.toAddEquiv M z)) := by
   classical
-  haveI := Fintype.ofFinite Ω
+  have := Fintype.ofFinite Ω
   have hN : Nat.card Ω = Fintype.card Ω := Nat.card_eq_fintype_card
   rw [hN] at hodd ⊢
   obtain ⟨d, hd1, hdc, hd2⟩ := exists_d htrans ω₀ (S := {z}) (fun _ h => h ▸ hzL) hXL hcfix

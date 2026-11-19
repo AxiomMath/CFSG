@@ -15,8 +15,8 @@ variable {k : ℕ} {E : Type} [Field E]
 
 theorem exists_orderOf_bar_eq (hU : UnitaryFieldData 2 k E) {q : ℕ} (hq : q.Prime)
     (hqk : q ∣ 2 ^ k - 1) : ∃ l : Eˣ, orderOf l = q ∧ hU.bar (l : E) = l := by
-  haveI := hU.finite
-  haveI : Fact q.Prime := ⟨hq⟩
+  have := hU.finite
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd : 2 ^ k - 1 ∣ Nat.card Eˣ := by
     rw [Nat.card_units, hU.card, pow_mul']
     simpa using Nat.sub_dvd_pow_sub_pow (2 ^ k) 1 2
@@ -38,8 +38,8 @@ theorem exists_invPairOf_commute_line (hU : UnitaryFieldData 2 k E) {q : ℕ} (h
         QuotientGroup.mk (d : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) * c ∧
       s * QuotientGroup.mk (d : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) =
         QuotientGroup.mk (d : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) * s := by
-  haveI := hU.charP
-  haveI : Fact q.Prime := ⟨hq⟩
+  have := hU.charP
+  have : Fact q.Prime := ⟨hq⟩
   have h2 : (2 : E) = 0 := CharTwo.two_eq_zero
   have hv := UCK.isOrthonormalFrame_single (p := 2) hU
   obtain ⟨a, b, hab, hbl, hbb, haq, hbq, ha1⟩ : ∃ a b : E, a * b = 1 ∧ hU.bar a = a ∧
@@ -82,7 +82,7 @@ theorem exists_invPairOf_commute_line (hU : UnitaryFieldData 2 k E) {q : ℕ} (h
     rw [hD, Matrix.diagonal_map (map_zero _), Matrix.diagonal_transpose]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [hS, hbl, hbb, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] <;>
+      simp [hS, hbl, hbb, Matrix.mul_apply, Matrix.diagonal_apply] <;>
       linear_combination hab
   have hSS : S * S = 1 := by
     ext i j

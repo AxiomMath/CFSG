@@ -356,7 +356,7 @@ theorem dvd_finrank_sub {r : ℕ} [Fact r.Prime] (basis : FiniteIrreducibleChara
       · rw [Nat.cast_sub Fintype.card_pos, Nat.cast_one]
       · have hu1 : u ≠ 1 := (Finset.mem_erase.mp hu).1
         apply hval
-        obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') u
+        obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) u
         rw [Subgroup.orderOf_coe, hn]
         rcases n with _ | n
         · exfalso

@@ -65,10 +65,10 @@ theorem rowCo2_of_model (h : Co2ModelStmt) : I301BRow .co2 := by
     CFSG.Sporadic.Co2Schreier.CTUC_Co2_full_automorphisms_inner_model S eS
   have hZ1 : ∀ t : NativeSporadic.Co2, (∀ u : NativeSporadic.Co2, u * t = t * u) → t = 1 := by
     intro t ht
-    haveI : IsSimpleGroup NativeSporadic.Co2 := CFSG.Sporadic.Co2.isSimpleGroup_Co2
+    have : IsSimpleGroup NativeSporadic.Co2 := CFSG.Sporadic.Co2.isSimpleGroup_Co2
     have hnc : ¬ IsMulCommutative NativeSporadic.Co2 := by
       intro hcomm
-      haveI : IsMulCommutative NativeSporadic.Co2 := hcomm
+      have : IsMulCommutative NativeSporadic.Co2 := hcomm
       have hp : (Nat.card NativeSporadic.Co2).Prime :=
         (Group.is_simple_iff_prime_card).mp inferInstance
       rw [CFSG.Sporadic.Co2.card_Co2] at hp

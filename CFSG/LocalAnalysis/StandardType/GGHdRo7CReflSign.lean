@@ -39,8 +39,8 @@ private noncomputable def hdRo7CSignRAux_z {n : ℕ} {V : Type} [AddCommGroup V]
       simp only [LinearMap.comp_apply, LinearMap.id_apply]
       rw [hT j]
       by_cases hj : j = 0
-      · rw [if_pos hj, hT j, if_pos hj]
-      · rw [if_neg hj, map_neg, hT j, if_neg hj, neg_neg]
+      · rw [ite_eq_left hj, hT j, ite_eq_left hj]
+      · rw [ite_eq_right hj, map_neg, hT j, ite_eq_right hj, neg_neg]
     intro x
     have hx := congrArg (fun L : V →ₗ[ZMod 3] V => L x) hcomp
     simpa [LinearMap.comp_apply] using hx)
@@ -53,12 +53,12 @@ private theorem hdRo7CSignRAux_z_apply {n : ℕ} {V : Type} [AddCommGroup V] [Mo
 
 private theorem hdRo7CSignRAux_z_apply_zero {n : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) : hdRo7CSignRAux_z b (b 0) = b 0 := by
-  rw [hdRo7CSignRAux_z_apply, if_pos rfl]
+  rw [hdRo7CSignRAux_z_apply, ite_eq_left rfl]
 
 private theorem hdRo7CSignRAux_z_apply_ne {n : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) {j : Fin (n + 1)} (hj : j ≠ 0) :
     hdRo7CSignRAux_z b (b j) = -b j := by
-  rw [hdRo7CSignRAux_z_apply, if_neg hj]
+  rw [hdRo7CSignRAux_z_apply, ite_eq_right hj]
 
 private theorem hdRo7CSignRAux_z_formula {n : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (v : V) :
@@ -74,8 +74,8 @@ private theorem hdRo7CSignRAux_z_formula {n : ℕ} {V : Type} [AddCommGroup V] [
       Module.Basis.coord_apply, Module.Basis.repr_self_apply]
     by_cases hj : j = 0
     · subst hj
-      rw [if_pos rfl, if_pos rfl, one_smul, sub_self, smul_zero, sub_zero]
-    · rw [if_neg hj, if_neg hj, zero_smul, sub_zero]
+      rw [ite_eq_left rfl, ite_eq_left rfl, one_smul, sub_self, smul_zero, sub_zero]
+    · rw [ite_eq_right hj, ite_eq_right hj, zero_smul, sub_zero]
       exact (hdRo7CSignRAux_sub_two (b j)).symm
   have h := congrArg (fun L : V →ₗ[ZMod 3] V => L v) hmap
   simpa [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smul_apply, LinearMap.smulRight_apply]
@@ -85,7 +85,7 @@ private theorem hdRo7CSignRAux_z_neg_axis_sub {n : ℕ} {V : Type} [AddCommGroup
     [Module (ZMod 3) V] (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) {g : V}
     (hg : b.coord 0 g = 0) : hdRo7CSignRAux_z b (-b 0 - g) = -b 0 + g := by
   have hc : b.coord 0 (-b 0 - g) = -1 := by
-    rw [map_sub, map_neg, hg, Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_pos rfl]
+    rw [map_sub, map_neg, hg, Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_left rfl]
     ring
   rw [hdRo7CSignRAux_z_formula, hc, neg_smul, one_smul]
   rw [show (-b 0 - g) - (-b 0) = -g by abel]
@@ -98,14 +98,14 @@ private theorem hdRo7CSignRAux_z_sp {n : ℕ} {V : Type} [AddCommGroup V] [Modul
   · intro j
     dsimp only
     by_cases hj : j = 0
-    · left; rw [if_pos hj]
-    · right; rw [if_neg hj]
+    · left; rw [ite_eq_left hj]
+    · right; rw [ite_eq_right hj]
   · intro j
     dsimp only
     rw [hdRo7CSignRAux_z_apply, Equiv.refl_apply]
     by_cases hj : j = 0
-    · subst hj; rw [if_pos rfl, if_pos rfl, one_smul]
-    · rw [if_neg hj, if_neg hj, neg_smul, one_smul]
+    · subst hj; rw [ite_eq_left rfl, ite_eq_left rfl, one_smul]
+    · rw [ite_eq_right hj, ite_eq_right hj, neg_smul, one_smul]
 
 private theorem hdRo7CSignRAux_range_smulRight {n : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod 3) V] (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (g : V) :
@@ -119,7 +119,7 @@ private theorem hdRo7CSignRAux_range_smulRight {n : ℕ} {V : Type} [AddCommGrou
     rw [Set.mem_singleton_iff] at hy
     subst hy
     exact ⟨b 0, by rw [LinearMap.smulRight_apply, Module.Basis.coord_apply,
-      Module.Basis.repr_self_apply, if_pos rfl, one_smul]⟩
+      Module.Basis.repr_self_apply, ite_eq_left rfl, one_smul]⟩
 
 private theorem hdRo7CSignRAux_supp_zero {n : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) {r : V ≃ₗ[ZMod 3] V} {u : V}
@@ -168,8 +168,8 @@ theorem c2_reflSign_holds : C2ReflSignLeaf := by
         refine b.ext (fun i => ?_)
         by_cases hi : i = 0
         · subst hi
-          rw [hNF.hφ0, Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_pos rfl]
-        · rw [hφi i hi, Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_neg hi]
+          rw [hNF.hφ0, Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_left rfl]
+        · rw [hφi i hi, Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_right hi]
       have hcu : b.coord 0 u = 2 := by
         have h := hNF.hφu
         rw [hφcoord] at h
@@ -177,10 +177,10 @@ theorem c2_reflSign_holds : C2ReflSignLeaf := by
       set a : V := u - (2 : ZMod 3) • b 0 with ha_def
       have hca : b.coord 0 a = 0 := by
         rw [ha_def, map_sub, map_smul, hcu, Module.Basis.coord_apply,
-          Module.Basis.repr_self_apply, if_pos rfl]
+          Module.Basis.repr_self_apply, ite_eq_left rfl]
         ring
       have hb0j : b.coord j (b 0) = 0 := by
-        rw [Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_neg (Ne.symm hj0)]
+        rw [Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_right (Ne.symm hj0)]
       have hca_j : b.coord j a = b.coord j u := by
         rw [ha_def, map_sub, map_smul, hb0j, smul_zero, sub_zero]
       have ha_ne : a ≠ 0 := by
@@ -229,9 +229,9 @@ theorem c2_reflSign_holds : C2ReflSignLeaf := by
         by_cases hi : i = 0
         · subst hi
           rw [ht_0, LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smulRight_apply,
-            Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_pos rfl, one_smul]
+            Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_left rfl, one_smul]
         · rw [ht_i i hi, LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smulRight_apply,
-            Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_neg hi, zero_smul,
+            Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_right hi, zero_smul,
             sub_zero]
       have ht_formula : ∀ v, t v = v - (b.coord 0 v) • a := by
         intro v

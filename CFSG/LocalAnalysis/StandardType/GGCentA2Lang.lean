@@ -43,12 +43,12 @@ theorem ntpA2_lang
         apply Units.ext
         rw [Matrix.GeneralLinearGroup.val_map_apply, Units.val_mul]
         exact hY
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       simp only [toGL_slConjugation, ntpA2lang_toGL_map Fr]
       simp only [map_mul, map_inv, hFY]
       group
   | true =>
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨Z, hZ⟩ := CFSG.LinearAlgebra.exists_mul_mul_transpose_map_frobenius_eq_one
         (p := 2) (f := f) (σ := Fr) (n := 3) hf hFr B
       refine ⟨Z, fun X => ?_⟩
@@ -63,7 +63,7 @@ theorem ntpA2_lang
         have h := congrArg Inv.inv hT
         rw [← map_inv (glGraphAut 3 L), inv_inv, inv_inv] at h
         exact h
-      simp only [if_true]
+      simp only [ite_true]
       simp only [toGL_slConjugation, toGL_slGraphAut, ntpA2lang_toGL_map Fr]
       simp only [map_mul, map_inv, hδFZ]
       group

@@ -165,7 +165,7 @@ theorem regular_witness {L : Type} [Field L] [IsAlgClosed L]
     · exact CharP.ringChar_ne_one h1
     · omega
   have : NeZero (ℓ : L) := ⟨hℓL⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L ℓ
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L ℓ
   set ζ : Lˣ := (hζ₀.isUnit hℓ.ne_zero).unit
   have hζ : orderOf ζ = ℓ := (IsPrimitiveRoot.coe_units_iff.1 hζ₀).eq_orderOf.symm
   refine ⟨ℓ, hℓ, hℓ7, ζ, hζ, regCoweight Γ, fun α hα hdvd => ?_, fun y hy => ?_⟩

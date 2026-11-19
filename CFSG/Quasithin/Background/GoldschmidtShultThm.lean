@@ -56,7 +56,7 @@ theorem shultFusionTheorem :
 
 theorem isSylowTwoOf_top_of_sylow {G : Type*} [Group G] [Finite G] (T : Sylow 2 G) :
     IsSylowTwoOf (T : Subgroup G) ⊤ := by
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   have h1 : ((T : Subgroup G).subgroupOf ⊤).index = (T : Subgroup G).index :=
     Subgroup.relIndex_top_right _
   rw [h1]

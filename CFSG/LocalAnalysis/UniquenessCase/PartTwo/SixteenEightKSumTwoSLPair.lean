@@ -16,9 +16,9 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl
 variable {K : Type} [Field K]
 
 private theorem s16k_charP_two (hK : Nat.card K = 2) : CharP K 2 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI := ringChar.charP K
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Fintype K := Fintype.ofFinite K
+  have := ringChar.charP K
   obtain ⟨m, hp', hm⟩ := FiniteField.card K (ringChar K)
   have hm2 : (2 : ℕ) = ringChar K ^ (m : ℕ) := by
     rw [← Nat.card_eq_fintype_card, hK] at hm
@@ -84,7 +84,7 @@ private theorem s16k_pairGL_R_symm {ι : Type} [Fintype ι] [DecidableEq ι] {a 
 private noncomputable def s16k_toΓ {n : ℕ} (g : Matrix.SpecialLinearGroup (Fin n) K) :
     ↥(StatedSL n K) :=
   ⟨Matrix.SpecialLinearGroup.toGL g,
-    CFSG.Open.StatedAPI.mem_statedSL_of_det (A := (g : GL (Fin n) K)) (by simpa using g.2)⟩
+    CFSG.Open.StatedAPI.mem_statedSL_of_det (A := (g : GL (Fin n) K)) (by simp)⟩
 
 private theorem s16k_fin_ne {n i j : ℕ} (hi : i < n) (hj : j < n) (h : i ≠ j) :
     (⟨i, hi⟩ : Fin n) ≠ ⟨j, hj⟩ := fun hh => h (Fin.ext_iff.mp hh)
@@ -98,7 +98,7 @@ private theorem s16k_exists_E (hK : Nat.card K = 2) {n : ℕ} (hn : 6 ≤ n) :
         s16k_e (⟨5, by omega⟩ : Fin n) = s16k_e (⟨5, by omega⟩ : Fin n)) ∧
       (∀ e : GL (Fin n) K, e ∈ E →
         Matrix.GeneralLinearGroup.inverseTranspose e ∈ E) := by
-  haveI : CharP K 2 := s16k_charP_two hK
+  have : CharP K 2 := s16k_charP_two hK
   have h12 : (⟨1, by omega⟩ : Fin n) ≠ ⟨2, by omega⟩ :=
     s16k_fin_ne (by omega) (by omega) (by decide)
   have h34 : (⟨3, by omega⟩ : Fin n) ≠ ⟨4, by omega⟩ :=
@@ -305,8 +305,8 @@ private theorem s16k_conj_fix_dual [Finite K] {n : ℕ} (E : Subgroup (GL (Fin n
 
 private theorem s16k_eq_zero_or_one (hK : Nat.card K = 2) (x : K) : x = 0 ∨ x = 1 := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Fintype K := Fintype.ofFinite K
   have h2 : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   have : ({0, 1} : Finset K) = Finset.univ := by
     apply Finset.eq_univ_of_card
@@ -356,7 +356,7 @@ private theorem s16k_move_to_pair (hK : Nat.card K = 2) {n : ℕ} (hn : 6 ≤ n)
         s16k_e (K := K) (⟨0, by omega⟩ : Fin n)) ∧
       ((M : Matrix (Fin n) (Fin n) K) *ᵥ s16k_e (K := K) (⟨0, by omega⟩ : Fin n) =
         s16k_e (K := K) (⟨0, by omega⟩ : Fin n)) := by
-  haveI : CharP K 2 := s16k_charP_two hK
+  have : CharP K 2 := s16k_charP_two hK
   classical
   by_cases hβspan : ∀ j : Fin n, j ≠ (⟨0, by omega⟩ : Fin n) →
       j ≠ (⟨5, by omega⟩ : Fin n) → β j = 0
@@ -390,7 +390,7 @@ private theorem s16k_move_to_pair (hK : Nat.card K = 2) {n : ℕ} (hn : 6 ≤ n)
     by_cases hβ5 : β (⟨5, by omega⟩ : Fin n) = 1
     · have hη5 : η (⟨5, by omega⟩ : Fin n) = 1 := by
         rw [hη]
-        simp [Pi.sub_apply, s16k_e, Pi.single_eq_of_ne (by decide : (5 : ℕ) ≠ 0), hβ5]
+        simp [Pi.sub_apply, s16k_e, hβ5]
       have hφβ : dotProduct (s16k_e (K := K) (⟨5, by omega⟩ : Fin n)) β = 1 := by
         rw [s16k_dot_single, hβ5]
       have hφη : dotProduct (s16k_e (K := K) (⟨5, by omega⟩ : Fin n)) η = 1 := by
@@ -409,11 +409,11 @@ private theorem s16k_move_to_pair (hK : Nat.card K = 2) {n : ℕ} (hn : 6 ≤ n)
         funext k
         by_cases hk0 : k = (⟨0, by omega⟩ : Fin n)
         · subst hk0
-          simp [Pi.add_apply, Pi.sub_apply, s16k_e, Pi.single_apply, hη0]
+          simp [Pi.add_apply, Pi.sub_apply, s16k_e, hη0]
         · by_cases hk5 : k = (⟨5, by omega⟩ : Fin n)
           · subst hk5
-            simp [Pi.add_apply, Pi.sub_apply, s16k_e, Pi.single_apply, hk0, hβ5, hη5]
-          · simp [Pi.add_apply, Pi.sub_apply, s16k_e, Pi.single_apply, hη, hk0, hk5]
+            simp [Pi.add_apply, Pi.sub_apply, s16k_e, hk0, hβ5, hη5]
+          · simp [Pi.add_apply, Pi.sub_apply, s16k_e, hη, hk0, hk5]
       · exact s16k_tvSL_row _ _ hdot (⟨0, by omega⟩) (by simp [Pi.sub_apply, hη0, s16k_e])
       · exact s16k_tvSL_col _ _ hdot (⟨0, by omega⟩) (by simp [s16k_e])
     · have hβ50 : β (⟨5, by omega⟩ : Fin n) = 0 := by
@@ -443,11 +443,11 @@ private theorem s16k_move_to_pair (hK : Nat.card K = 2) {n : ℕ} (hn : 6 ≤ n)
         funext k
         by_cases hk0 : k = (⟨0, by omega⟩ : Fin n)
         · subst hk0
-          simp [Pi.add_apply, Pi.sub_apply, s16k_e, Pi.single_apply, hη0]
+          simp [Pi.add_apply, Pi.sub_apply, s16k_e, hη0]
         · by_cases hk5 : k = (⟨5, by omega⟩ : Fin n)
           · subst hk5
-            simp [Pi.add_apply, Pi.sub_apply, s16k_e, Pi.single_apply, hk0, hβ50, hη5]
-          · simp [Pi.add_apply, Pi.sub_apply, s16k_e, Pi.single_apply, hη, hk0, hk5]
+            simp [Pi.add_apply, Pi.sub_apply, s16k_e, hk0, hβ50, hη5]
+          · simp [Pi.add_apply, Pi.sub_apply, s16k_e, hη, hk0, hk5]
       · exact s16k_tvSL_row _ _ hdot (⟨0, by omega⟩) (by simp [Pi.sub_apply, hη0, s16k_e])
       · exact s16k_tvSL_col _ _ hdot (⟨0, by omega⟩) (by simp [s16k_e, hj0])
 
@@ -455,7 +455,7 @@ private theorem s16k_nat_pair_of_ne_zero (hK : Nat.card K = 2) {n : ℕ} (hn : 6
     (a b : Multiplicative (Fin n → K)) (hab : a ≠ 1 ∨ b ≠ 1) :
     ∃ B : Subgroup ↥(StatedSL n K), IsPGroup 3 B ∧ ¬ IsCyclic ↥B ∧ ∀ g ∈ B,
         natAct (StatedSL n K) g a = a ∧ natAct (StatedSL n K) g b = b := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
   obtain ⟨E, hEΓ, hcard, hexp, hfix0, hfix5, hσE⟩ := s16k_exists_E hK hn
   have h2n : 2 ≤ n := by omega
   by_cases ha : Multiplicative.toAdd a ≠ 0
@@ -515,7 +515,7 @@ private theorem s16k_dual_pair_of_ne_zero (hK : Nat.card K = 2) {n : ℕ} (hn : 
     (a b : Multiplicative (Fin n → K)) (hab : a ≠ 1 ∨ b ≠ 1) :
     ∃ B : Subgroup ↥(StatedSL n K), IsPGroup 3 B ∧ ¬ IsCyclic ↥B ∧ ∀ g ∈ B,
         natAct (StatedSL n K) g a = a ∧ dualNatAct (StatedSL n K) g b = b := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
   obtain ⟨E, hEΓ, hcard, hexp, hfix0, hfix5, hσE⟩ := s16k_exists_E hK hn
   have h2n : 2 ≤ n := by omega
   by_cases ha : Multiplicative.toAdd a ≠ 0

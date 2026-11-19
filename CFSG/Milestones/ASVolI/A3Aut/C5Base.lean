@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 
 theorem burnsideAut_c5_center_eq_bot {L T B : Subgroup G} (h : CFSG.Quasithin.A315Hyp L T B)
     {M : Type} [Group M] (e : ↥L ≃* M) : Subgroup.center M = ⊥ := by
-  haveI : IsSimpleGroup ↥L := h.simple
+  have : IsSimpleGroup ↥L := h.simple
   have hLZ : Subgroup.center ↥L = ⊥ := burnsideAut_center_eq_bot h.nonabelian
   rw [eq_bot_iff]
   intro x hx
@@ -32,7 +32,7 @@ theorem burnsideAut_c5_center_eq_bot {L T B : Subgroup G} (h : CFSG.Quasithin.A3
 theorem burnsideAut_c5_odd_orderOf {L T B : Subgroup G} (h : CFSG.Quasithin.A315Hyp L T B)
     [L.Normal] {M : Type} [Group M] (e : ↥L ≃* M) {b : G} (hb : b ∈ B) :
     Odd (orderOf (MulAut.congr e (MulAut.conjNormal b : MulAut ↥L))) := by
-  haveI := h.sqtk.finite
+  have := h.sqtk.finite
   rw [MulEquiv.orderOf_eq]
   refine Odd.of_dvd_nat ?_ (orderOf_map_dvd (MulAut.conjNormal : G →* MulAut ↥L) b)
   rw [← Subgroup.orderOf_mk b hb]

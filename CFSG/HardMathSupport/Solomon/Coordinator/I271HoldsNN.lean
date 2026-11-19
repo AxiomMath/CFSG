@@ -41,6 +41,7 @@ theorem nn_caseA_of_hyperplane {K B : Subgroup X} (hK : GLAPComponent 3 ⊤ K)
   ⟨h4, isInGOne_of_isInGMinusOne_of_four_le h4
     (input22_4_general Nat.prime_three le_top hBel hK hN1 hgen)⟩
 
+omit [Finite X] in
 theorem cent_le_centralizer_bClosure {p : ℕ} {B K E : Subgroup X} (hBel : IsElemAbelian p B)
     (hEB : E ≤ B) (hEK : E ≤ Subgroup.centralizer (K : Set X)) :
     bClosure B K ≤ Subgroup.centralizer (E : Set X) := by
@@ -94,7 +95,7 @@ theorem isInGOne_of_cent_rank {p : ℕ} {B K E : Subgroup X} (hBel : IsElemAbeli
 theorem nn_hatSeven_caseA {K B : Subgroup X} (hH : I271Hyp 3 K B) (hK7 : IsHatSeven ↥K) :
     I271CaseA 3 K B := by
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hH.core hH.comp
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hOK : GLAPPrimeCore 3 ↥K = ⊥ := i271h_primeCore_eq_bot hH.core hH.comp
   have hodd : Odd (Nat.card (Subgroup.center ↥K)) := odd_card_center hH.prime hH.odd hOK
   obtain ⟨-, -, ⟨e0⟩⟩ := hK7
@@ -127,6 +128,7 @@ section NNProof
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem layer_conjSet_eq_bClosure (B K : Subgroup X) :
     GL83.CompFam.layer (conjSet B K) = bClosure B K := by
   apply le_antisymm
@@ -149,7 +151,7 @@ theorem isInGOne_of_card_stab {p r : ℕ} (hp : p.Prime) {B K : Subgroup X}
     (hBel : IsElemAbelian p B) (hK : IsComponentOf K ⊤) (hr : 1 ≤ r)
     (hB : p ^ (3 + r) ≤ Nat.card B)
     (hA : Nat.card (stab B K) ≤ p ^ r * Nat.card (cen B K)) : IsInGOne p B K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF := isFam_conjSet hBel hK
   have h := hF.layer_le_centGen 3 (mem_conjSet_self B K) hr hB hA
   rw [layer_conjSet_eq_bClosure] at h
@@ -213,7 +215,7 @@ theorem nn_card_data {K B : Subgroup X} (hBel : IsElemAbelian 3 B)
   rw [hAC, hs, hc]
 
 theorem nnUniform_holds (K B : Subgroup X) (hK : IsComponentOf K ⊤)
-    (hBel : IsElemAbelian 3 B) (hNN : ¬ B ≤ Subgroup.normalizer (K : Set X))
+    (hBel : IsElemAbelian 3 B) (_hNN : ¬ B ≤ Subgroup.normalizer (K : Set X))
     (hidx : (Subgroup.normalizer (K : Set X)).relIndex B = 3)
     (hnle : ¬ B ⊓ Subgroup.normalizer (K : Set X) ≤ B ⊓ Subgroup.centralizer (K : Set X))
     (hc2 : 2 ≤ CFSG.Open.pRank 3 (B ⊓ Subgroup.centralizer (K : Set X))) : IsInGOne 3 B K := by

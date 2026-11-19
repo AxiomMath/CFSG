@@ -100,14 +100,14 @@ theorem q_conj (H : QHyp ι f) {j : Nat} (hj : j < 2) (v : Nat) :
 theorem termM_even (g : Nat → Matrix (Fin 24) (Fin 24) (ZMod 2)) (n : Nat) :
     termM g 3 EG (2 * n) = g n := by
   unfold termM
-  rw [if_pos (Nat.mul_mod_right 2 n), Nat.mul_div_cancel_left n (by norm_num)]
+  rw [ite_eq_left (Nat.mul_mod_right 2 n), Nat.mul_div_cancel_left n (by norm_num)]
 
 theorem termM_odd (g : Nat → Matrix (Fin 24) (Fin 24) (ZMod 2)) (c : Nat) :
     termM g 3 EG (8 * c + 1) = epM g 3 [0, 1, 2, 3, 4, 5] c 1 := by
   unfold termM
   have h1 : (8 * c + 1) / 2 % 4 = 0 := by omega
   have h2 : (8 * c + 1) / 8 = c := by omega
-  rw [if_neg (by omega), h1, h2]
+  rw [ite_eq_right (by omega), h1, h2]
   rfl
 
 theorem q_rel (H : QHyp ι f) {k j : Nat} (hk : k < 27) (hj : j < 2) :
@@ -153,12 +153,12 @@ theorem t_prog (H : QHyp ι f) {l : Nat} (hl : l < 27) (h0 : Nat.land (getL 0 CS
   have e1 : refK [9, 10, 11] 3 12 (Nat.land (Nat.shiftRight (getL 0 CS.W l) 1) 1048575) =
       12 + (Nat.land (Nat.shiftRight (getL 0 CS.W l) 1) 1048575 - 3) := by
     unfold refK
-    rw [nrec_eq, if_neg (by rw [Nat.blt_eq]; omega)]
+    rw [nrec_eq, ite_eq_right (by rw [Nat.blt_eq]; omega)]
     rfl
   have e2 : refK [9, 10, 11] 3 12 (Nat.shiftRight (getL 0 CS.W l) 21) =
       9 + Nat.shiftRight (getL 0 CS.W l) 21 := by
     unfold refK
-    rw [nrec_eq, if_pos (by rw [Nat.blt_eq]; omega)]
+    rw [nrec_eq, ite_eq_left (by rw [Nat.blt_eq]; omega)]
     generalize Nat.shiftRight (getL 0 CS.W l) 21 = j at hj ⊢
     interval_cases j <;> rfl
   rw [e1, e2] at e
@@ -268,9 +268,9 @@ theorem GC_lt : ∀ g < FM.GC.length, getL 0 FM.GC g < 729 * 27 := by
   rw [Nat.blt_eq] at this
   exact this
 
-theorem fus_rep (H : QHyp ι f) (h1 : ∀ x < 729 * 27, mdlQ f x = 1 → x = 0) :
-    ∀ x, 729 ≤ x → x < 729 * 27 → mdlQ f x ^ 3 = 1 → ∃ r ∈ FM.RP, IsConj (mdlQ f r) (mdlQ f x) :=
-  fus_conj (FL := fun k => getLL FM.FT (k - 1)) (mdlQ f) (fun x y hx hy => mdlQ_mul H hx hy) h1
+theorem fus_rep (H : QHyp ι f) (h1 : ∀ _x < 729 * 27, mdlQ f _x = 1 → _x = 0) :
+    ∀ _x, 729 ≤ _x → _x < 729 * 27 → mdlQ f _x ^ 3 = 1 → ∃ r ∈ FM.RP, IsConj (mdlQ f r) (mdlQ f _x) :=
+  fus_conj (FL := fun k => getLL FM.FT (k - 1)) (mdlQ f) (fun _x _y hx hy => mdlQ_mul H hx hy) h1
     GC_lt kQFus'
 
 open CFSG.KS.SporSch.M24 CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1T in
@@ -415,7 +415,7 @@ theorem eQ_mem_codeSet (H : QHyp ι f) {v : Nat} (hv : v < 729) : eQ f v ∈ cod
   refine mem_codeSet.2 ⟨v, by omega, ?_⟩
   rw [mdlQ, Nat.div_eq_of_lt hv, Nat.mod_eq_of_lt hv, Nat.add_zero, f_twelve H, one_mul]
 
-theorem t_mem_codeSet (H : QHyp ι f) {k : Nat} (hk : k < 27) : f (12 + k) ∈ codeSet f := by
+theorem t_mem_codeSet (_H : QHyp ι f) {k : Nat} (hk : k < 27) : f (12 + k) ∈ codeSet f := by
   refine mem_codeSet.2 ⟨729 * k, by omega, ?_⟩
   rw [mdlQ, Nat.mul_div_cancel_left k (by norm_num), Nat.mul_mod_right, eQ_zero, mul_one]
 

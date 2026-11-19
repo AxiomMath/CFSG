@@ -94,11 +94,11 @@ private theorem xorBits_basis' (f : ℕ → ℕ) (n i : ℕ) :
     · simp [h1, show i < n + 1 by omega, show i ≠ n by omega]
     · by_cases h2 : i = n
       · subst h2; simp
-      · simp [h1, h2, show ¬ i < n + 1 by omega, show ¬ i = n from h2]
+      · simp [h1, h2, show ¬ i < n + 1 by omega]
 
 private theorem xorBits_basis (f : ℕ → ℕ) {n i : ℕ} (hi : i < n) :
     xorBits n f (2 ^ i) = f i := by
-  rw [xorBits_basis', if_pos hi]
+  rw [xorBits_basis', ite_eq_left hi]
 
 private theorem lin_eq_xorBits (f : ℕ → ℕ) (hadd : ∀ x y, f (x ^^^ y) = f x ^^^ f y) (n v : ℕ) :
     f (v % 2 ^ n) = xorBits n (fun j => f (2 ^ j)) v := by
@@ -113,13 +113,13 @@ private theorem lin_eq_xorBits (f : ℕ → ℕ) (hadd : ∀ x y, f (x ^^^ y) = 
       refine Nat.eq_of_testBit_eq fun i => ?_
       rw [Nat.testBit_xor, Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow]
       by_cases hv : v.testBit n
-      · simp only [hv, if_true, Nat.testBit_two_pow]
+      · simp only [hv, ite_true, Nat.testBit_two_pow]
         by_cases hi : i < n
         · simp [hi, show i < n + 1 by omega, show n ≠ i by omega]
         · by_cases hin : i = n
           · subst hin; simp [hv]
           · simp [hi, show ¬ i < n + 1 by omega, Ne.symm hin]
-      · simp only [hv, Bool.false_eq_true, if_false, Nat.zero_testBit, Bool.xor_false]
+      · simp only [hv, Bool.false_eq_true, ite_false, Nat.zero_testBit, Bool.xor_false]
         by_cases hi : i < n
         · simp [hi, show i < n + 1 by omega]
         · by_cases hin : i = n
@@ -153,10 +153,10 @@ private theorem unpack9_getD (P : ℕ) {j : ℕ} (hj : j < 9) : (unpack9 P).getD
 
 private theorem bit_eq (v j : ℕ) : bit v j = if v.testBit j then 1 else 0 := by
   have h : bit v j = (v >>> j) &&& 1 := rfl
-  have h2 : v.testBit j = (v >>> j).testBit 0 := by simp [Nat.testBit_shiftRight]
+  have h2 : v.testBit j = (v >>> j).testBit 0 := by simp
   rw [h, Nat.and_one_is_mod, h2, Nat.testBit_zero]
   have := Nat.mod_two_eq_zero_or_one (v >>> j)
-  by_cases h3 : (v >>> j) % 2 = 1 <;> simp [h3] <;> omega
+  by_cases h3 : (v >>> j) % 2 = 1 <;> simp [h3]; omega
 
 private theorem natrec_xor (f : ℕ → ℕ) (v n : ℕ) :
     (Nat.rec (motive := fun _ => ℕ) 0 (fun j acc => Nat.xor acc (Nat.mul (bit v j) (f j))) n : ℕ)
@@ -259,7 +259,7 @@ private theorem evalV_compT (r s v : ℕ) :
     evalV (compT (unpack6 r) (unpack6 s)) v =
       evalV (unpack6 r) (evalV (unpack6 s) (v % 64)) :=
   evalV_lin (fun v => evalV (unpack6 r) (evalV (unpack6 s) v)) (g_add r s) _
-    (fun j hj => compT_basis r s hj) v
+    (fun _j hj => compT_basis r s hj) v
 
 private theorem packT_unpack (r s : ℕ) :
     unpack6 (packT (tabK r) (tabK s)) = compT (unpack6 r) (unpack6 s) := by
@@ -492,10 +492,10 @@ private theorem bEntK_eq (u P k : ℕ) : bEntK u P k =
   rw [bEntK_letN, bEntK_letN]
   cases hb : Nat.beq (Nat.div k 3) (Nat.mod k 3)
   · have h : ¬ (k / 3 = k % 3) := Nat.ne_of_beq_eq_false hb
-    rw [if_neg h]
+    rw [ite_eq_right h]
     rfl
   · have h : k / 3 = k % 3 := Nat.eq_of_beq_eq_true hb
-    rw [if_pos h]
+    rw [ite_eq_left h]
     rfl
 
 private theorem bEntK_lt {u : ℕ} (hu : u ≤ 1) (P k : ℕ) : bEntK u P k < 512 := by
@@ -535,11 +535,11 @@ private theorem bEnt_eq (u : Bool) (P : ℕ) {k : ℕ} (hk : k < 9) :
   have hi : k / 3 < 3 := by omega
   have hj : k % 3 < 3 := by omega
   by_cases hd : k / 3 = k % 3
-  · rw [if_pos hd, bOf_getD_diag u _ hk hd, mkv_A _ hi, qK_eq, evV_eq]
-  · rw [if_neg hd, bOf_getD_off u _ hk hd, mkv_B _ hi _ hj, mkv_A _ hi]
+  · rw [ite_eq_left hd, bOf_getD_diag u _ hk hd, mkv_A _ hi, qK_eq, evV_eq]
+  · rw [ite_eq_right hd, bOf_getD_off u _ hk hd, mkv_B _ hi _ hj, mkv_A _ hi]
     simp only [qK_eq, evV_eq]
     cases u
-    · simp [evalV_zero, qOf_zero, Nat.xor_assoc]
+    · simp [evalV_zero, qOf_zero]
     · simp [mkv_C _ hj, Nat.xor_assoc]
 
 

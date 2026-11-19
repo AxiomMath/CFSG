@@ -24,7 +24,7 @@ theorem kFactSmallAutRank_of_noBM (h1 : StronglyEmbeddedRankTwoKFactNoBM)
   intro K _ _ hs hnab hcat p hp hp2 T hnc hGLB hrk
   have hZ := center_eq_bot_of_isSimpleGroup_of_nonabelian hs hnab
   have hrk2 : Open.pRank p (T : Subgroup K) = 2 :=
-    le_antisymm hrk (two_le_pRank_of_not_isCyclic hp hp2 T.isPGroup' hnc)
+    le_antisymm hrk (two_le_pRank_of_not_isCyclic hp hp2 T.isPGroup hnc)
   have hOut : ¬ p ∣ Nat.card (Outer K) → Open.pRank p (⊤ : Subgroup (MulAut K)) ≤ 2 :=
     fun hnd => (pRank_mulAut_le_of_not_dvd_card_outer hp hZ T hnd).trans hrk
   by_cases hBM : NotBM K

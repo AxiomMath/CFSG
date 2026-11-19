@@ -30,7 +30,7 @@ theorem card_eq_three
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := by
     ext x
     constructor
@@ -67,7 +67,7 @@ theorem card_eq_three
     have hker : (T : Subgroup N) ≤ rho.ker := fun z hz => hn z hz
     exact prime_not_dvd_range_card_of_sylow_le_ker T rho hker hseven
   obtain ⟨z,hzT,hzrho⟩ := hex
-  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' (⟨z,hzT⟩ : T)
+  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup (⟨z,hzT⟩ : T)
   have hzpermorder : orderOf z.val.val = 7 ^ e := by
     rw [Subgroup.orderOf_coe z.val,Subgroup.orderOf_coe z]
     exact (Subgroup.orderOf_coe (⟨z,hzT⟩ : T)).trans he
@@ -104,7 +104,7 @@ theorem card_eq_three
       apply hnF ⟨x,hxF⟩
       exact Subtype.ext he)
   rw [hQcard] at hQ3
-  obtain ⟨k,hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k,hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hk1 : k ≤ 1 := by
     by_contra hn
     have hh := Nat.pow_le_pow_right (by norm_num : 0 < 3) (by omega : 2 ≤ k)

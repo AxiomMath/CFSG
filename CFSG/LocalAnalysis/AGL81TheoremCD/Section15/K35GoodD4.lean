@@ -97,7 +97,7 @@ theorem k35Good_of_d4 {S : Type} [Group S] [Finite S] {r f : ℕ}
     hinn | ⟨hf3, α, hαA, hα1, K, _, _, ψ, σ, hK, -, hψ⟩
   · exact Or.inl hinn
   by_cases h2 : ringChar K = 2
-  · haveI := ringChar.of_eq h2
+  · have := ringChar.of_eq h2
     refine Or.inr (Or.inl ⟨α, hαA, hα1, (fixedBlocks_fieldAutT_d4 σ).map ψ.symm.toMonoidHom
       (fun a b hab => ψ.symm.injective hab) fun x => ?_⟩)
     simp only [MulEquiv.coe_toMonoidHom, ← hψ, MulAut.congr_apply, MulEquiv.trans_apply,

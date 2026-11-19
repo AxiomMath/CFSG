@@ -381,7 +381,7 @@ theorem borelFactsGrp_specialLinear {p m : ℕ} (hp : p.Prime) (hpq : p ∣ Nat.
   · intro x hx
     have hT2 : IsPGroup 2 ↥(unitriangular m K) := by
       rw [← hT]
-      exact T.isPGroup'
+      exact T.isPGroup
     obtain ⟨t, ht, hne⟩ := exists_noncomm_unitriangular hp hm hmp hT2 x hx
     exact ⟨t, hT ▸ ht, hne⟩
 

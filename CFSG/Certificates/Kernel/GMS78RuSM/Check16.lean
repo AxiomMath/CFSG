@@ -79,7 +79,7 @@ private theorem sKey_eq (m : Nat → Nat → Nat) (u : Nat) : ∀ n : Nat,
     by_cases h : (m n u == m u n) = true
     · have h' : Nat.beq (m n u) (m u n) = true := h
       rw [h']
-      simp only [List.filter_cons, List.filter_nil, h, if_true, List.length_append,
+      simp only [List.filter_cons, List.filter_nil, h, ite_true, List.length_append,
         List.countP_append, List.countP_cons, List.countP_nil, List.length_cons, List.length_nil]
       by_cases h1 : (m n n == u) = true <;> by_cases h2 : (m n n == 256) = true
       · have a1 : Nat.beq (m n n) u = true := h1
@@ -96,9 +96,9 @@ private theorem sKey_eq (m : Nat → Nat → Nat) (u : Nat) : ∀ n : Nat,
         rw [a1, a2]; simp only [h1, h2]; simp [Nat.shiftLeft_eq]; omega
     · have h' : Nat.beq (m n u) (m u n) = false := bf h
       rw [h']
-      simp only [List.filter_cons, List.filter_nil, h, Bool.false_eq_true, if_false, List.append_nil]
+      simp only [List.filter_cons, List.filter_nil, h, Bool.false_eq_true, ite_false, List.append_nil]
 
-private theorem key_read (k N R1 R2 : Nat) (hN : N < 16384) (h1 : R1 < 16384) (h2 : R2 < 16384)
+private theorem key_read (k N R1 R2 : Nat) (hN : N < 16384) (h1 : R1 < 16384) (_h2 : R2 < 16384)
     (h : N + (16384 * R1 + 2 ^ 28 * R2) = kKeyPart k) :
     kN k = N ∧ kR1 k = R1 ∧ kR2 k = R2 := by
   have hk : kKeyPart k = k % 2 ^ 42 := Nat.and_two_pow_sub_one_eq_mod k 42
@@ -264,16 +264,13 @@ theorem check16_sound (gA : Array (Fin 8)) (dA : Array (Nat × Fin 8)) (dct : Li
       · simp only [P117.andB_iff, P117.notB_iff, P117.blt_eq, decide_eq_true_eq] at h
         obtain ⟨hp, hw, hc', hpp, hww⟩ := h
         have := wit_sound hT hu hp hw (Nat.eq_of_beq_eq_true hc') hpp hww
-        try dsimp only
         rw [Bool.or_eq_true]
         exact Or.inr this
     · have : ((Gen.key16G gA dA dct ε (INVL.getD i 0)).2.1 != 128) = true := by simpa using hc
-      try dsimp only
       rw [this, Bool.true_or]
   · have s : ∀ x, Nat.shiftRight x 9 = x / 512 := fun x => Nat.shiftRight_eq_div_pow x 9
     refine all_range h3 fun p hp hf => ?_
     have hp' : p < 2048 := hp
-    try dsimp only at hf ⊢
     rw [mul16K_eq hT hp' hp', mul16K_eq hT (by decide) (hlt _ _), s] at hf
     exact hf
   · have s : ∀ x, Nat.shiftRight x 9 = x / 512 := fun x => Nat.shiftRight_eq_div_pow x 9
@@ -287,7 +284,6 @@ theorem check16_sound (gA : Array (Fin 8)) (dA : Array (Nat × Fin 8)) (dct : Li
     simpa [bne] using h
   · refine all_range h5 fun p hp hf => ?_
     have hp' : p < 2048 := hp
-    try dsimp only at hf ⊢
     rw [mul16K_eq hT hp' (by decide), mul16K_eq hT (by decide) hp'] at hf
     exact hf
 

@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheoremA.S10
 theorem t263_sz_dvd_descent {p q₀ : ℕ} (hp : p.Prime) (hq₀ : 1 ≤ q₀)
     (h : p ∣ (q₀ ^ p) ^ 2 * (q₀ ^ p - 1) * ((q₀ ^ p) ^ 2 + 1)) :
     p ∣ q₀ ^ 2 * (q₀ - 1) * (q₀ ^ 2 + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hqp : 1 ≤ q₀ ^ p := Nat.one_le_pow _ _ hq₀
   rw [← ZMod.natCast_eq_zero_iff] at h ⊢
   push_cast [Nat.cast_sub hqp] at h
@@ -37,7 +37,7 @@ theorem t263CaseIx_sz : T263CaseIx t263GSz := by
     hlay
   exfalso
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : CFSG.Open.IsElemAbelian p B := hB.1
   have hbp : b ^ p = 1 := hBel.2 b hb
   have hbN : b ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal hSn
@@ -67,7 +67,7 @@ theorem t263CaseIx_sz : T263CaseIx t263GSz := by
   | sporadic _ => exact hi.1.elim
   | lie d =>
     obtain ⟨xx, hv⟩ := d
-    cases xx <;> first | exact hi.1.elim | skip
+    cases xx <;> try exact hi.1.elim
     rename_i m
     have hm2 : m ≠ 2 := by
       intro hm
@@ -122,9 +122,9 @@ theorem t263CaseIx_sz : T263CaseIx t263GSz := by
       have hpa : p = 2 * a + 1 := by omega
       exact hm2 (by omega)
     ·
-      haveI : IsSimpleGroup (CFSG.Blueprint.suzukiGroup b' k) := (CFSG.LieType.Ree.suzuki_simple hb1 hkcard).2.2
-      haveI : IsSimpleGroup ↥(FP.fixSub β) := e₁.isSimpleGroup
-      haveI : Finite ↥(FP.fixSub β) := Finite.of_equiv _ e₁.symm.toEquiv
+      have : IsSimpleGroup (CFSG.Blueprint.suzukiGroup b' k) := (CFSG.LieType.Ree.suzuki_simple hb1 hkcard).2.2
+      have : IsSimpleGroup ↥(FP.fixSub β) := e₁.isSimpleGroup
+      have : Finite ↥(FP.fixSub β) := Finite.of_equiv _ e₁.symm.toEquiv
       have hcardD : Nat.card ↥(FP.fixSub β) =
           (2 ^ (2 * b' + 1)) ^ 2 * (2 ^ (2 * b' + 1) - 1) * ((2 ^ (2 * b' + 1)) ^ 2 + 1) := by
         rw [Nat.card_congr e₁.toEquiv]

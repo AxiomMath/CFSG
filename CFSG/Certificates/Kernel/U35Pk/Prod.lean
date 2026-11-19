@@ -124,7 +124,7 @@ theorem window_lo {lo : ℕ} (hi : ℕ) (hlo : lo < 2 ^ 1024) {s t : ℕ} (h : s
     have h2 : b + t + s < 1024 := by omega
     have h3 : b + t + s = b + (s + t) := by omega
     have h4 : ¬ 1024 ≤ b + (s + t) := by omega
-    simp [hb, h1, h2, h3, h4]
+    simp [hb, h1, h3, h4]
   · simp [hb]
 
 theorem window_lo0 {lo : ℕ} (hi : ℕ) (hlo : lo < 2 ^ 1024) {s : ℕ} (h : s + 54 ≤ 1024) :
@@ -346,7 +346,7 @@ theorem cv_lane (F G : Fin 3 → Fin 3 → ℕ) (i j : Fin 3) (ℓ : ℕ) (hℓ 
     cv (lanesA F) (lanesB G) ℓ = F i 0 * G 0 j + F i 1 * G 1 j + F i 2 * G 2 j := by
   subst hℓ
   fin_cases i <;> fin_cases j <;>
-    simp [cv, Finset.sum_range_succ, lanesA, lanesB] <;> ring
+    simp [cv, Finset.sum_range_succ, lanesA, lanesB]
 
 theorem quad_le : ∀ x < 5, ∀ y < 5, ∀ z < 5, ∀ w < 5, x * y + 2 * z * w ≤ 48 := by decide
 

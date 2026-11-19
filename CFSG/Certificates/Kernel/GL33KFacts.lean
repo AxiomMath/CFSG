@@ -312,7 +312,7 @@ theorem GFacts.case_bot (F : GFacts mem) {W : Subgroup G} (hW : Irr W)
     have : Subsingleton (Sylow 13 W) := (Nat.card_eq_one_iff_unique.1 hn1).1
     have hSn := Sylow.normal_of_subsingleton S
     have hScard : Nat.card S = 13 := by
-      obtain ⟨b, hb⟩ := S.isPGroup'.exists_card_eq
+      obtain ⟨b, hb⟩ := S.isPGroup.exists_card_eq
       have hb1 : b ≤ 1 := by
         by_contra hb1
         have : 13 ^ 2 ∣ 2 ^ 5 * 13 := (Nat.pow_dvd_pow 13 (by omega : 2 ≤ b)).trans

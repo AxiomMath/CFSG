@@ -25,12 +25,12 @@ theorem sum_partial_single_add_single {m : ℕ} (a b' : Fin m) (x0 y0 : ℤ) (k 
   · rw [Finset.sum_eq_single a]
     · simp
     · intro x _ hx
-      simp [Pi.single_apply, hx]
+      simp [hx]
     · simp
   · rw [Finset.sum_eq_single b']
     · simp
     · intro x _ hx
-      simp [Pi.single_apply, hx]
+      simp [hx]
     · simp
 
 theorem minusLong_mem_radical (j : Fin (n - 1)) {a b' : Fin (n - 1)} (hab : a ≠ b') (t : Bool)
@@ -54,7 +54,7 @@ theorem sum_partial_single {m : ℕ} (a : Fin m) (x0 : ℤ) (k : ℕ) :
   rw [Finset.sum_eq_single a]
   · simp
   · intro x _ hx
-    simp [Pi.single_apply, hx]
+    simp [hx]
   · simp
 
 include hirr in

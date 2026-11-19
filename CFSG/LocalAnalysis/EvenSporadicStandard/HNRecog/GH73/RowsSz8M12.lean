@@ -43,7 +43,7 @@ private lemma m12w_pow8 : m12w ^ 8 = 1 := by decide +kernel
 private lemma m12w_pow4 : m12w ^ 4 ≠ 1 := by decide +kernel
 
 private lemma orderOf_m12w : orderOf m12w = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := orderOf_eq_prime_pow (p := 2) (n := 2) (x := m12w)
     (by simpa using m12w_pow4) (by simpa using m12w_pow8)
   simpa using h
@@ -56,7 +56,7 @@ theorem not_sz8_of_noncomm
   rintro h
   let S : Sylow 2 X := default
   obtain ⟨a, ha, b, hb, ha2, hb2, hab⟩ := hN S
-  have hc := (CFSG.GH74.KGroups.Sz8.bender h (S : Subgroup X) S.isPGroup' S.not_dvd_index).1
+  have hc := (CFSG.GH74.KGroups.Sz8.bender h (S : Subgroup X) S.isPGroup S.not_dvd_index).1
   exact hab (hc a ha ha2 b hb).symm
 
 theorem not_M12_of_no_order_eight {X : Type} [Group X] (h8 : ∀ x : X, orderOf x ≠ 8) :

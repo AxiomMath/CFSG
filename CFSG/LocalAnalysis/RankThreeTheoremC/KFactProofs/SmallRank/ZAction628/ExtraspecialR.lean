@@ -16,9 +16,11 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem hallR_conj_coe {R : Subgroup K} {z : K} (hzR : z ∈ normalizer (R : Set K)) (x : ↥R) :
     ((Subgroup.normalizerMonoidHom R ⟨z, hzR⟩ x : ↥R) : K) = z * x * z⁻¹ := rfl
 
+omit [Finite K] in
 theorem hallR_normalizer_lift_of_char {R : Subgroup K} {z : K}
     (hzR : z ∈ normalizer (R : Set K)) {A : Subgroup ↥R} (hA : A.Characteristic) :
     z ∈ normalizer ((A.map R.subtype : Subgroup K) : Set K) := by
@@ -38,6 +40,7 @@ theorem hallR_normalizer_lift_of_char {R : Subgroup K} {z : K}
     have h4 : z * ((φ.symm a : ↥R) : K) * z⁻¹ = z * h * z⁻¹ := h2
     simpa using h4
 
+omit [Finite K] in
 theorem hallR_symplectic {R : Subgroup K} {z : K} (hzR : z ∈ normalizer (R : Set K))
     (hstar : ∀ A : Subgroup K, A ≤ R → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →
       z ∈ normalizer (A : Set K) → ∀ a ∈ A, z * a = a * z)
@@ -55,21 +58,25 @@ theorem hallR_symplectic {R : Subgroup K} {z : K} (hzR : z ∈ normalizer (R : S
   have hc := hcyc _ (Subgroup.map_subtype_le A) hcomm hz
   exact (MulEquiv.isCyclic (liftEquiv A)).mpr hc
 
+omit [Finite K] in
 theorem hallR_zpowers_comm {z x g : K} (h : z * x = x * z) (hg : g ∈ zpowers z) :
     g * x = x * g := by
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hg
   exact (Commute.zpow_left (show Commute z x from h) n).eq
 
+omit [Finite K] in
 theorem hallR_coe_mem_zpowers {R : Subgroup K} {a b : ↥R} (h : a ∈ zpowers b) :
     (a : K) ∈ zpowers (b : K) := by
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp h
   exact mem_zpowers_iff.mpr ⟨n, by simp⟩
 
+omit [Finite K] in
 theorem hallR_mem_zpowers_of_coe {R : Subgroup K} {a b : ↥R} (h : (a : K) ∈ zpowers (b : K)) :
     a ∈ zpowers b := by
   obtain ⟨n, hn⟩ := mem_zpowers_iff.mp h
   exact mem_zpowers_iff.mpr ⟨n, Subtype.ext (by simpa using hn)⟩
 
+omit [Finite K] in
 theorem hallR_Z_fixed {R : Subgroup K} {z : K} (hzR : z ∈ normalizer (R : Set K))
     (hstar : ∀ A : Subgroup K, A ≤ R → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →
       z ∈ normalizer (A : Set K) → ∀ a ∈ A, z * a = a * z)
@@ -82,6 +89,7 @@ theorem hallR_Z_fixed {R : Subgroup K} {z : K} (hzR : z ∈ normalizer (R : Set 
   intro w hw
   exact this _ ⟨w, hw, rfl⟩
 
+omit [Finite K] in
 theorem hallR_commutator_le {R : Subgroup K} {z : K} (hzR : z ∈ normalizer (R : Set K))
     {D E Rc : Subgroup ↥R} {t' : ↥R} (c : CritData D E Rc t')
     (hfixZ : ∀ w ∈ Zof D, z * (w : K) = (w : K) * z) :
@@ -111,6 +119,7 @@ theorem hallR_commutator_le {R : Subgroup K} {z : K} (hzR : z ∈ normalizer (R 
     rw [Subgroup.coe_mul, Subgroup.coe_inv, hallR_conj_coe, commutatorElement_def]
     group
 
+omit [Finite K] in
 theorem hallR_D_top {R : Subgroup K} {z : K} (hperf : ⁅R, zpowers z⁆ = R)
     {D : Subgroup ↥R} (hle : ⁅R, zpowers z⁆ ≤ D.map R.subtype) : ∀ x : ↥R, x ∈ D := by
   intro x
@@ -130,9 +139,10 @@ theorem hallR_comm_mul_central {G : Type*} [Group G] {e₁ e₂ y₁ y₂ : G}
     _ = e₁ * (e₂ * y₁) * (e₁ * y₁)⁻¹ * e₂⁻¹ := by rw [a2]
     _ = e₁ * e₂ * e₁⁻¹ * e₂⁻¹ := by group
 
+omit [Finite K] in
 theorem hallR_mem_of_pow_mem {R : Subgroup K} (hR2 : IsPGroup 2 R) {B : Subgroup K} {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {r : K} (hr : r ∈ R) (h : r ^ p ∈ B) : r ∈ B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hR2) ⟨r, hr⟩
   rw [Subgroup.orderOf_mk] at hk
   have hcop : Nat.Coprime p (orderOf r) := by
@@ -142,6 +152,7 @@ theorem hallR_mem_of_pow_mem {R : Subgroup K} (hR2 : IsPGroup 2 R) {B : Subgroup
   rw [← hm]
   exact pow_mem h m
 
+omit [Finite K] in
 theorem hallR_case_bot {R : Subgroup K} {z : K} (hzR : z ∈ normalizer (R : Set K))
     (hperf : ⁅R, zpowers z⁆ = R) (hRne : R ≠ ⊥)
     (hstar : ∀ A : Subgroup K, A ≤ R → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →
@@ -230,8 +241,8 @@ theorem extraspecial_of_zperfect {R : Subgroup K} {z : K} {p : ℕ} (hp : p.Prim
     (hcyc : ∀ A : Subgroup K, A ≤ R → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →
       (∀ a ∈ A, z * a = a * z) → IsCyclic A) :
     ∃ t : K, IsExt2 R t ∧ z * t = t * z ∧ ∀ r ∈ R, z * r = r * z → r ∈ zpowers t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).mpr hRne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).mpr hRne
   obtain ⟨D, hD⟩ := (CFSG.SectionRank.Ccomm.thompson_critical_subgroup hR2).1
   obtain ⟨E, Rc, t', c⟩ := exists_critData hR2 (hallR_symplectic hzR hstar hcyc) hD
   have hfixZ := hallR_Z_fixed hzR hstar c
@@ -253,8 +264,8 @@ theorem R_isExt2 {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Setup628 p f S X 
   extraspecial_of_zperfect h.hp h.hp2 h.hzp (h.hS.to_le (RR_le_S h.hzS)) h.hR
     (normalizer_commutator_ge_left _ _ (mem_zpowers z))
     (commutator_RR_eq h.hp h.hp2 h.hS h.hzp h.hz1 h.hzS)
-    (fun A hAR hAc hzA => z_centralizes_abelian h (hAR.trans (RR_le_S h.hzS)) hAc hzA)
-    (fun A hAR hAc hzA => isCyclic_of_abelian_centralizer h (hAR.trans (RR_le_S h.hzS)) hAc hzA)
+    (fun _A hAR hAc hzA => z_centralizes_abelian h (hAR.trans (RR_le_S h.hzS)) hAc hzA)
+    (fun _A hAR hAc hzA => isCyclic_of_abelian_centralizer h (hAR.trans (RR_le_S h.hzS)) hAc hzA)
 end
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.SmallRank.ZA628

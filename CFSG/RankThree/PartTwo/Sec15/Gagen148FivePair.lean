@@ -86,7 +86,7 @@ theorem exists_noncomm_of_sylow_lift {M C : Type*} [Group M] [Finite M] [Group C
     have h1 : f (u ^ 3) = 1 := by
       have hg3 : g (u ^ 3) = 1 := by rw [map_pow, hgu]; exact hcube _ hz3'
       exact congrArg Subtype.val hg3
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨u, hu⟩
     refine hker (u ^ 3) h1 k ?_
     rw [← pow_mul, mul_comm, pow_mul]
     have hk' : u ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk

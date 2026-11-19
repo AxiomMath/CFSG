@@ -50,7 +50,7 @@ theorem isRankTwoSEGroup_of_not_isCyclic_noBM (h : GenericShadow p S z Γ)
     rw [hT] at hmap
     have hle := h.pRank_inf_le_two hK4 hL
     have hge : 2 ≤ CFSG.Open.pRank p ((S : Subgroup Y) ⊓ L) :=
-      two_le_pRank_of_not_isCyclic hp h.ne_two (S.isPGroup'.to_inf_left) hnc
+      two_le_pRank_of_not_isCyclic hp h.ne_two (S.isPGroup.to_inf_left) hnc
     omega
   exact hK1 L hsimple hnonab hcat hBM p hp h.ne_two T hrank
     (h.rankThreeGamma_ne_top hK4 hL T hT)

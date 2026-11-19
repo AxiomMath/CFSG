@@ -114,8 +114,8 @@ private lemma ggQ2s08y_card_neg_le {p : ℕ} [Fact p.Prime] {V : Type*} [AddComm
 
 private lemma ggQ2s08y_card_le_card_of_le {G : Type*} [Group G] [Finite G] {H K : Subgroup G}
     (h : H ≤ K) : Nat.card ↥H ≤ Nat.card ↥K :=
-  Nat.card_le_card_of_injective (fun x : ↥H => (⟨x.1, h x.2⟩ : ↥K))
-    (fun x y hxy => Subtype.ext (congrArg (fun z : ↥K => (z : G)) hxy))
+  Nat.card_le_card_of_injective (fun _x : ↥H => (⟨_x.1, h _x.2⟩ : ↥K))
+    (fun _x _y hxy => Subtype.ext (congrArg (fun z : ↥K => (z : G)) hxy))
 
 private lemma ggQ2s08y_card_sup_le_mul {G : Type*} [Group G] [Finite G] (W K : Subgroup G)
     (h : K ≤ Subgroup.normalizer (W : Set G)) :
@@ -156,7 +156,7 @@ private lemma ggQ2s08y_card_sup_le_mul {G : Type*} [Group G] [Finite G] (W K : S
 
 private theorem ggQ2s08y_card_diagramSubgroup_le {p : ℕ} [Fact p.Prime] {E : Type*} [Group E]
     {V : Type*} [AddCommGroup V] [Module (ZMod p) V] {Λ : Type*} [Fintype Λ]
-    (ι : Additive E ≃+ V) (φ : Λ → MulAut E) (h : Λ → V) (α : Λ → Module.Dual (ZMod p) V)
+    (_ι : Additive E ≃+ V) (_φ : Λ → MulAut E) (h : Λ → V) (α : Λ → Module.Dual (ZMod p) V)
     (hdisj : Submodule.span (ZMod p) (Set.range h) = ⊤ ∨ ∀ v, (∀ i, α i v = 0) → v = 0) :
     Nat.card ↥(ggQ2s08y_diagramSubgroup h α) ≤
       Nat.card {π : Λ ≃ Λ // ∀ i j, α (π i) (h (π j)) = α i (h j)} := by
@@ -209,7 +209,7 @@ theorem ggQ2s08_hL_card_le_all {p : ℕ} [Fact p.Prime] {E : Type*} [Group E] {V
       2 * Nat.card {π : Λ ≃ Λ // ∀ i j, α (π i) (h (π j)) = α i (h j)} *
         Nat.card ↥(Subgroup.closure (Set.range fun i => ggLin (p := p) ι (φ i))) := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod p] V) :=
+  have : Finite (V ≃ₗ[ZMod p] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V))
       (fun e f h => LinearEquiv.ext (fun v => congrFun h v))
   let s : Λ → (V ≃ₗ[ZMod p] V) := fun i => ggLin (p := p) ι (φ i)

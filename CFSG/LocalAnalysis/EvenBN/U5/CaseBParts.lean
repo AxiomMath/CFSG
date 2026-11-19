@@ -93,7 +93,7 @@ open Data
 
 @[expose] def Sec52Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (f : ℕ) (K : Type) [Field K]
-    (h : UnitaryFieldData 2 f K) (d : Data G h) (hB : d.CaseBHyp) (c : d.CaseBData),
+    (h : UnitaryFieldData 2 f K) (d : Data G h) (_hB : d.CaseBHyp) (c : d.CaseBData),
     CaseBData.Sec52Comm c → CaseBData.Sec52 c
 
 @[expose] def HGenStatement : Prop :=
@@ -108,7 +108,7 @@ open Data
 
 @[expose] def PerfectNormalizerStatement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (f : ℕ) (K : Type) [Field K]
-    (h : UnitaryFieldData 2 f K) (d : Data G h) (hB : d.CaseBHyp) (c : d.CaseBData),
+    (h : UnitaryFieldData 2 f K) (d : Data G h) (_hB : d.CaseBHyp) (c : d.CaseBData),
     CaseBData.Sec52 c → ∀ H : Subgroup G, H ≤ normalizer (c.Hc : Set G) → ⁅H, H⁆ = H → H ≤ c.Hc
 
 @[expose] def InvolutoryFixedElemAbStatement : Prop :=
@@ -120,7 +120,7 @@ open Data
 @[expose] def NonSwapStatement : Prop :=
   InvolutoryFixedElemAbStatement →
   ∀ (G : Type) [Group G] [Finite G] (f : ℕ) (K : Type) [Field K]
-    (h : UnitaryFieldData 2 f K) (d : Data G h) (hB : d.CaseBHyp) (c : d.CaseBData),
+    (h : UnitaryFieldData 2 f K) (d : Data G h) (_hB : d.CaseBHyp) (c : d.CaseBData),
     CaseBData.Sec52 c → ∀ g : G, d.t ∈ normalizer ((c.Nc.map (MulAut.conj g).toMonoidHom : Subgroup G) :
         Set G) →
       d.t ∈ normalizer (((c.Nt).map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G) → False

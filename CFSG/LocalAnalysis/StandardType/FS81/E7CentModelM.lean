@@ -23,7 +23,7 @@ section
 
 private theorem subgroupOf_le_subgroupOf {G S T : Subgroup (ModGL .E7 (ZMod 2))}
     (h : S ≤ T) : S.subgroupOf G ≤ T.subgroupOf G :=
-  fun x hx => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx))
+  fun _x hx => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx))
 
 private theorem subgroupOf_le_normalizer_subgroupOf {G S T : Subgroup (ModGL .E7 (ZMod 2))}
     (h : S ≤ Subgroup.normalizer (T : Set (ModGL .E7 (ZMod 2)))) :
@@ -222,7 +222,7 @@ private def e7CentModelP (x : E7G) : Prop :=
     ⁅x, w⁆ ∈ Subgroup.zpowers e7HighInv
 
 private theorem e7CentModelP_mul {x y : E7G} (hx : x ∈ perpLevi .E7 (ZMod 2))
-    (hy : y ∈ perpLevi .E7 (ZMod 2)) (hPx : e7CentModelP x) (hPy : e7CentModelP y) :
+    (_hy : y ∈ perpLevi .E7 (ZMod 2)) (hPx : e7CentModelP x) (hPy : e7CentModelP y) :
     e7CentModelP (x * y) := by
   intro w hw
   have hcomm : x * ⁅y, w⁆ * x⁻¹ = ⁅y, w⁆ := conj_eq_of_mem_zpowers_high hx (hPy w hw)
@@ -472,7 +472,7 @@ private theorem mul_decomp_centralizer {d q m : E7G} {Q M : Subgroup E7G}
     calc j * m = (j * m * j⁻¹) * j := by group
       _ = m * j := by rw [this]
 
-private theorem exists_e7CentS_mul_e7A1_mul_e7D4 (hSR : E7CentSRoots) (hF : E7CentModelFlag)
+private theorem exists_e7CentS_mul_e7A1_mul_e7D4 (hSR : E7CentSRoots) (_hF : E7CentModelFlag)
     (hJ : E7CentModelJ) {d : E7G} (hdD : d ∈ perpLevi .E7 (ZMod 2))
     (hdσ : d * e7CentSigma = e7CentSigma * d) :
     ∃ r ∈ e7CentS, ∃ a ∈ e7A1, ∃ j ∈ e7D4, r * (a * j) = d := by
@@ -541,7 +541,7 @@ theorem e7CentModelM_of
       Subgroup.normalizer (highRadical .E7 (ZMod 2) : Set E7G) :=
     (isTwoRadicalDecomp_highRoot (K := ZMod 2) (Or.inr (Or.inl rfl)) (c := 1)
       one_ne_zero).2.2.2
-  haveI hsimple : IsSimpleGroup ↥e7D4 := isSimpleGroup_overlapSpanD4 (K := ZMod 2) (by decide)
+  have hsimple : IsSimpleGroup ↥e7D4 := isSimpleGroup_overlapSpanD4 (K := ZMod 2) (by decide)
   have hNnormal : (e7CentModelN hJ.1).Normal := e7CentModelN_normal hJ.1 hJ.2.1 hDQ
   have hNbot : e7CentModelN hJ.1 = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (e7CentModelN hJ.1) with h | h

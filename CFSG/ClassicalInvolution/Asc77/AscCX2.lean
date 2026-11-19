@@ -27,7 +27,7 @@ theorem mem_trivialOnQuot_of_mem_A (hyp : Hyp25 p f Ω K K' W S R R' z t u₁ u�
   have hs : Hyp23Setting p f Ω K K' z := hyp.std.setting
   have hst := hs.stand
   have hcpg : IsPGroup 2 (Subgroup.zpowers x) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hx.1)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hx.1)
   have hcent := Subgroup.mem_centralizer_iff.mp hx.2
   have hRc : R ≤ Subgroup.centralizer ({x} : Set G) := fun r hr =>
     Subgroup.mem_centralizer_singleton_iff.mpr (hcent r (Subgroup.mem_sup_left hr))
@@ -58,7 +58,7 @@ theorem false_of_stronglyClosed (hyp : Hyp25 p f Ω K K' W S R R' z t u₁ u₂)
   have : Group.IsSolvable ↥(Subgroup.centralizer (E : Set G)) :=
     (CFSG.perfect_residual_characterization
       (G := ↥(Subgroup.centralizer (E : Set G)))).2.2.2.2.2.mp hB
-  have hEp : IsPGroup 2 E := S.isPGroup'.to_le hES
+  have hEp : IsPGroup 2 E := S.isPGroup.to_le hES
   have hEK : E ≤ trivialOnQuot K := fun x hx => (mem_trivialOnQuot_of_mem_A hyp (hEA hx)).1
   have hcov : ∀ x ∈ K, ∃ s ∈ K ⊓ Subgroup.centralizer (E : Set G), ∃ n ∈ oddCoreIn K,
       x = s * n := fun x hx => exists_mem_inf_centralizer_mul hEp hEK hx

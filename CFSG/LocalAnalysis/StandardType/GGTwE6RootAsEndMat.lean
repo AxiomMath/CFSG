@@ -45,7 +45,7 @@ theorem exists_endNode_of_datum (hRK : RootKill) (hCore : TwE6CorootCore) {K : T
         ∃ u ∈ L, u ≠ 1 ∧ (∃ m : ℕ, u ^ 2 ^ m = 1) ∧
           ∀ s ∈ A, Commute (u : ModGL TwistTag.E6.tag K) s := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     have h1 : 2 ∣ 1 := (Nat.dvd_add_right (two_dvd_of_card hK h2)).mp hpq
@@ -108,7 +108,7 @@ theorem exists_endNode_of_datum (hRK : RootKill) (hCore : TwE6CorootCore) {K : T
       s ∈ Subgroup.zpowers (t : ModGL TwistTag.E6.tag K) := by
     intro s hs hsL
     obtain ⟨y, hyX, rfl⟩ := Subgroup.mem_map.1 (hmem s (hAI hs) (hA.comm hs hxA) hsL)
-    haveI : Finite X := Nat.finite_of_card_ne_zero hXodd.pos.ne'
+    have : Finite X := Nat.finite_of_card_ne_zero hXodd.pos.ne'
     have hy : y ∈ Subgroup.zpowers t :=
       CFSG.LocalAnalysis.GorensteinLyons.mem_of_pow_eq_one_of_isCyclic hXc
         (Subgroup.zpowers_le.2 htX) hp.pos

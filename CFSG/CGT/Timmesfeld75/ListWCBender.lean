@@ -44,7 +44,7 @@ variable [Finite K]
 theorem sylow_inf_eq_bot (hK : IsBenderGroup K) {P Q : Sylow 2 K} (hPQ : P ≠ Q) :
     (P : Subgroup K) ⊓ Q = ⊥ := by
   by_contra hne
-  have hp : IsPGroup 2 ((P : Subgroup K) ⊓ Q : Subgroup K) := P.isPGroup'.to_le inf_le_left
+  have hp : IsPGroup 2 ((P : Subgroup K) ⊓ Q : Subgroup K) := P.isPGroup.to_le inf_le_left
   rcases hp.card_eq_or_dvd with h1 | h2
   · exact hne (Subgroup.eq_bot_of_card_eq _ h1)
   obtain ⟨⟨s, hs⟩, hsord⟩ := exists_prime_orderOf_dvd_card' 2 h2
@@ -59,8 +59,8 @@ theorem sylow_inf_eq_bot (hK : IsBenderGroup K) {P Q : Sylow 2 K} (hPQ : P ≠ Q
       (Subgroup.mem_centralizer_singleton_iff.2
         (CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.commute_of_mul_self_eq_one hK P hs.1 hs2 y
           hy).eq.symm)
-  have hPQ' := le_of_isPGroup_of_le_normalizer P.isPGroup' Q hPN
-  exact hPQ (Sylow.ext (P.maximal_isPGroup.eq_of_le Q.isPGroup' hPQ'))
+  have hPQ' := le_of_isPGroup_of_le_normalizer P.isPGroup Q hPN
+  exact hPQ (Sylow.ext (P.maximal_isPGroup.eq_of_le Q.isPGroup hPQ'))
 
 theorem exists_smul_eq_of_card_sylow (hK : IsBenderGroup K) (Q : Sylow 2 K)
     (hcard : Nat.card (Sylow 2 K) = Nat.card (Q : Subgroup K) + 1) {P₁ P₂ : Sylow 2 K}
@@ -89,7 +89,7 @@ theorem exists_smul_eq_of_card_sylow (hK : IsBenderGroup K) (Q : Sylow 2 K)
         sylow_smul_eq_smul_iff.1 h
       have hQ : (u : K)⁻¹ * v ∈ (Q : Subgroup K) := mul_mem (inv_mem u.2) v.2
       have hP : (u : K)⁻¹ * v ∈ (P₁ : Subgroup K) :=
-        le_of_isPGroup_of_le_normalizer (Q.isPGroup'.to_le
+        le_of_isPGroup_of_le_normalizer (Q.isPGroup.to_le
           (Subgroup.zpowers_le.2 hQ)) P₁ (Subgroup.zpowers_le.2 hN) (Subgroup.mem_zpowers _)
       have h1 : (u : K)⁻¹ * v = 1 := by
         have := sylow_inf_eq_bot hK h₁
@@ -197,7 +197,7 @@ theorem bender_wc (hK : IsBenderGroup K) {q k : ℕ}
         _ = g * (x * (g⁻¹ * w * g)) * g⁻¹ := by rw [hu.eq]
         _ = g * x * g⁻¹ * w := by group
     have hQg : conjSubgroup g (Q : Subgroup K) ≤ (Q : Subgroup K) :=
-      le_of_isPGroup_of_le_normalizer (Q.isPGroup'.map _) Q hle
+      le_of_isPGroup_of_le_normalizer (Q.isPGroup.map _) Q hle
     exact mem_normalizer_of_conjSubgroup_eq (conjSubgroup_eq_of_le hQg)
   have hN : Subgroup.normalizer (T : Set K) = Subgroup.normalizer ((Q : Subgroup K) : Set K) :=
     le_antisymm hNge hNle

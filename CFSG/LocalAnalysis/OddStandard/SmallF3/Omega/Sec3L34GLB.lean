@@ -11,7 +11,7 @@ open Subgroup
 variable {G : Type} [Group G]
 
 theorem l34g_lbal_step [Finite G] (hLB : AschLBalance G) (hA2 : AschA2 G) {v x u : G}
-    {D : Subgroup G} (hv : orderOf v = 2) (hx : orderOf x = 2) (hu : orderOf u = 2)
+    {D : Subgroup G} (hv : orderOf v = 2) (_hx : orderOf x = 2) (hu : orderOf u = 2)
     (hxv : x * v = v * x) (hDv : IsComponentIn D (centralizer ({v} : Set G)))
     (hDF : InFStar D) (huD : u ∈ D) (hne : CFSG.conjugate D x ≠ D) :
     ∃ I : Subgroup G, IsComponentIn I (centralizer ({u} : Set G)) ∧ InFStar I ∧

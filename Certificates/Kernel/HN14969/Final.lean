@@ -67,7 +67,7 @@ theorem card_pair {n w kS nb BP NS CH : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {D
       Set (Equiv.Perm (Fin n))) = {g | ∃ k < ((strongArr kS n w PS).extract 0 2).size,
         permOfArr n ((strongArr kS n w PS).extract 0 2)[k]! = g} := by
     ext g
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
     rw [hsz]
     constructor
     · rintro (rfl | rfl)

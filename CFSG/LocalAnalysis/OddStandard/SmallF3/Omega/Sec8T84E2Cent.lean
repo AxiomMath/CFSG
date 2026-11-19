@@ -40,7 +40,7 @@ private lemma mem_sup_of_le_normalizer {G : Type} [Group G] {H K : Subgroup G}
             by group⟩ }
     have hHP : H ≤ P := fun a ha => ⟨a, ha, 1, K.one_mem, by simp⟩
     have hKP : K ≤ P := fun b hb => ⟨1, H.one_mem, b, hb, by simp⟩
-    exact SetLike.le_def.mp (sup_le hHP hKP) hx
+    exact _root_.IsConcreteLE.le_iff.mp (sup_le hHP hKP) hx
   · rintro ⟨a, ha, b, hb, rfl⟩
     exact Subgroup.mul_mem_sup ha hb
 
@@ -92,7 +92,7 @@ private lemma inf_centralizer_sup_eq {G : Type} [Group G] {t : G} {H K : Subgrou
 
 private lemma zpowers_inf_eq_bot_of_notMem {G : Type} [Group G] {t : G} {C : Subgroup G}
     (ht : t ∉ C) (hcard : Nat.card ↥(zpowers t) = 2) : zpowers t ⊓ C = ⊥ := by
-  haveI : Fact (Nat.card ↥(zpowers t)).Prime := ⟨by rw [hcard]; exact Nat.prime_two⟩
+  have : Fact (Nat.card ↥(zpowers t)).Prime := ⟨by rw [hcard]; exact Nat.prime_two⟩
   rcases Subgroup.eq_bot_or_eq_top_of_prime_card (C.subgroupOf (zpowers t)) with h | h
   · have hd : Disjoint C (zpowers t) := Subgroup.subgroupOf_eq_bot.mp h
     rw [Subgroup.disjoint_def] at hd

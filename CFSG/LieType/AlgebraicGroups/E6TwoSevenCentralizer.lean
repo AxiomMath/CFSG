@@ -96,9 +96,9 @@ theorem isSolvable_familyCentralizer_of_familyKernel_empty_of_odd
     (hKer : familyKernel a = ∅) :
     Group.IsSolvable ↥(familyCentralizer τ L a) := by
   classical
-  haveI : Finite (WeylGroup τ) :=
+  have : Finite (WeylGroup τ) :=
     (exceptional_Lang_Weyl_chamber_point_stabilizers τ).2.1
-  haveI hHs : Group.IsSolvable ↥(familyStabilizerSubgroup a) :=
+  have hHs : Group.IsSolvable ↥(familyStabilizerSubgroup a) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _
       (odd_card_familyStabilizerSubgroup_of_familyKernel_empty hm a ha hKer)
   have hgroup : familyGroup (K := L) a = torusGroup τ L := by
@@ -137,7 +137,7 @@ theorem isSolvable_familyCentralizer_of_familyKernel_empty_of_odd
   let ψ' : ↥(familyCentralizer τ L a) →*
       ↥((familyStabilizerSubgroup a).comap ρ) :=
     ψ.codRestrict ((familyStabilizerSubgroup a).comap ρ) hρψ
-  haveI := hsolv
+  have := hsolv
   refine Group.isSolvable_of_isSolvable_injective (f := ψ') ?_
   intro g g' h
   exact hψ (congrArg Subtype.val h)
@@ -167,7 +167,7 @@ def e6ThreeEigColumn (j : Fin 3) : Fin Tag.E6.rank → ZMod 7 :=
 theorem e6ThreeEigBasisMod_mulVec_single (j : Fin 3) :
     e6ThreeEigBasisMod *ᵥ (Pi.single j 1 : Fin 3 → ZMod 7) = e6ThreeEigColumn j := by
   ext i
-  simp [e6ThreeEigBasisMod, e6ThreeEigColumn, Matrix.mulVec, Pi.single_apply, Matrix.map_apply]
+  simp [e6ThreeEigBasisMod, e6ThreeEigColumn, Matrix.mulVec, Matrix.map_apply]
 
 theorem e6ThreeEigColumn_mem (j : Fin 3) :
     (modMat 7 (toMat Tag.E6.rank e6ThreeMat))ᵀ *ᵥ e6ThreeEigColumn j =
@@ -384,9 +384,9 @@ theorem e6TwoSeven_family_finite_centralizer_solvable
   let L := AlgebraicClosure K
   have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have : Algebra.IsAlgebraic K L := IsAlgClosure.isAlgebraic
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.E6 K) := Subtype.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (adjointGroup Tag.E6 K) := Subtype.finite
   obtain ⟨g0, hg0C, hconj⟩ :=
     e6TwoSeven_phi3_family_lang_conjugate (K := K) hK ζ hζ
   let ι : adjointGroup Tag.E6 K →* ModGL Tag.E6 L :=
@@ -463,7 +463,7 @@ theorem e6TwoSeven_family_finite_centralizer_solvable
     map_mul' := by
       intro x y
       ext
-      simp only [Submonoid.coe_mul, Subgroup.coe_mul, map_mul]
+      simp only [Subgroup.coe_mul, map_mul]
       group }
   have hψ : Function.Injective ψ := by
     intro x y h
@@ -474,7 +474,7 @@ theorem e6TwoSeven_family_finite_centralizer_solvable
       have := congrArg (fun z => g0 * z * g0⁻¹) h'
       simpa [mul_assoc] using this
     exact h''
-  haveI hfam : Group.IsSolvable ↥(familyCentralizer Tag.E6 L
+  have hfam : Group.IsSolvable ↥(familyCentralizer Tag.E6 L
       (e6ThreeFamily (L := L) ζ)) := e6TwoSeven_familyCentralizer_solvable hζ
   exact Group.isSolvable_of_isSolvable_injective (f := ψ) hψ
 
@@ -509,7 +509,7 @@ theorem isSolvable_centralizer_of_map_conj_eq
     map_mul' := by
       intro x y
       ext
-      simp only [Submonoid.coe_mul, Subgroup.coe_mul, map_mul]
+      simp only [Subgroup.coe_mul]
       group }
   have hψ : Function.Injective ψ := by
     intro x y h
@@ -525,18 +525,18 @@ theorem e6_two_seven_full_centralizer_solvable
     (hE : IsElemAbelian 7 E) (hcard : 7 ^ 3 ≤ Nat.card E) :
     Group.IsSolvable ↥(Subgroup.centralizer (E : Set (adjointGroup Tag.E6 K))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.E6 K) := Subtype.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (adjointGroup Tag.E6 K) := Subtype.finite
   have hK2 : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
-  haveI : CharP K 2 := charP_of_ne_zero (R := K) 2 hK2 (by
+  have : CharP K 2 := charP_of_ne_zero (R := K) 2 hK2 (by
     intro i hi hzero
     interval_cases i
     · rfl
-    · exact ((one_ne_zero : (1 : K) ≠ 0) (by simpa using hzero)).elim)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+    · exact ((one_ne_zero : (1 : K) ≠ 0) (by simp at hzero)).elim)
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ζ, hζo⟩ := CFSG.StandardType.GGFinModel.exists_zeta
     (AlgebraicClosure K) Nat.prime_seven (by norm_num)
@@ -545,7 +545,7 @@ theorem e6_two_seven_full_centralizer_solvable
     e6TwoSeven_family_finite_centralizer_solvable (K := K) hK ζ hζ
   obtain ⟨T, E0, -, hconj, -, hE0tors, -, hE0card⟩ :=
     (sylowTorus_adjoint_E6_two_seven hK).exists_torus
-  haveI : Finite E0 := Nat.finite_of_card_ne_zero (by rw [hE0card]; norm_num)
+  have : Finite E0 := Nat.finite_of_card_ne_zero (by rw [hE0card]; norm_num)
   obtain ⟨g, hg⟩ := hconj Pfin (isPGroup_of_isElemAbelian hPfinElem)
   have hPE0 : Pfin.map (MulAut.conj g⁻¹).toMonoidHom ≤ E0 := by
     intro x hx
@@ -572,7 +572,7 @@ theorem e6_two_seven_full_centralizer_solvable
   have hcent_le : Subgroup.centralizer (E1 : Set (adjointGroup Tag.E6 K)) ≤
       Subgroup.centralizer (Pfin : Set (adjointGroup Tag.E6 K)) :=
     Subgroup.centralizer_le (fun x hx => hPfinE1 hx)
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer
+  have : Group.IsSolvable ↥(Subgroup.centralizer
       (Pfin : Set (adjointGroup Tag.E6 K))) := hPfinSolv
   have hE1solv : Group.IsSolvable ↥(Subgroup.centralizer
       (E1 : Set (adjointGroup Tag.E6 K))) :=

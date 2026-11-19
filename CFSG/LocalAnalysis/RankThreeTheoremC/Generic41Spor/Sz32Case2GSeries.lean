@@ -42,7 +42,7 @@ theorem szh2_normal_pgroup_image {p : ℕ} [Fact p.Prime] {Γ Λ : Type*} [Group
     ∀ γ ∈ Γ₁, ∃ q ∈ (Sy : Subgroup Γ), φ γ = φ q := by
   intro γ hγ
   have hφ' : Function.Surjective φ.rangeRestrict := φ.rangeRestrict_surjective
-  haveI : (Γ₁.map φ.rangeRestrict).Normal := Subgroup.Normal.map inferInstance _ hφ'
+  have : (Γ₁.map φ.rangeRestrict).Normal := Subgroup.Normal.map inferInstance _ hφ'
   have hp' : IsPGroup p (Γ₁.map φ.rangeRestrict) := by
     rintro ⟨_, g, hg, rfl⟩
     obtain ⟨k, hk⟩ := h g hg
@@ -71,12 +71,12 @@ theorem szh2_pElement_MJ {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} {p : ℕ
     (hmax : CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.TypeBorelMax Typ p) :
     ∀ g ∈ M ⊓ J, (∃ k : ℕ, g ^ (p ^ k) = 1) → g ∈ u3T P x J ⊔ rankThreePrimeCore p J := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOM : rankThreePrimeCore p J ≤ M :=
     (u3main_core_facts hS hD1 hc.sigma hc.core hc.generic hc.le_cent hc.cent_le).1
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ, honto⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.u3_normalizer_onto_gen hc
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hSylJ : CFSG.ABGLocalTools.IsSylowOf p (u3T P x J) J :=
     hc.generic.2.2.1.inf_of_le_normalizer hc.le_cent hc.cent_le
   obtain ⟨Tsyl, hTsyl⟩ := hSylJ.exists_sylow_eq_subgroupOf
@@ -137,6 +137,7 @@ section NJ
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
+omit [Finite G] in
 theorem szh2_mem_normalizer_sup {A B : Subgroup G} {n : G}
     (hA : n ∈ Subgroup.normalizer (A : Set G)) (hB : n ∈ Subgroup.normalizer (B : Set G)) :
     n ∈ Subgroup.normalizer ((A ⊔ B : Subgroup G) : Set G) := by
@@ -146,7 +147,7 @@ theorem szh2_mem_normalizer_sup {A B : Subgroup G} {n : G}
 theorem szh2_NJ_le_M (hS : Setting G) (hU0 : FullCoreLocal G) (hc : PointConfig IsSz32Type G 5 P M x J)
     {a c y : G} (hP : Sz32Struct P x J a c y) :
     ∀ n ∈ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G), n ∈ J → n ∈ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro n hn hnJ
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hpres := hP.pres_P
@@ -172,7 +173,7 @@ theorem szh2_NJ_le_M (hS : Setting G) (hU0 : FullCoreLocal G) (hc : PointConfig 
     simp [MulAut.conj_apply, hxx]
   have hnR := szh2_mem_normalizer_sup hn hnx
   exact normalizer_le_of_le_of_two_le_pRank hS hU0 hc.sigma hc.core
-    (P.isPGroup'.to_le hRP) (hRP.trans hPM) h2 hnR
+    (P.isPGroup.to_le hRP) (hRP.trans hPM) h2 hnR
 
 end NJ
 
@@ -191,7 +192,7 @@ theorem szh2_pelt {p : ℕ} [Fact p.Prime] {Q : Type} [Group Q] [Finite Q] (hsig
     (S : Sylow p Q) (h : MulAut Q) (hh : ∀ s ∈ (S : Subgroup Q), h s = s) :
     ∃ k : ℕ, h ^ (p ^ k) = 1 := by
   have hp : p.Prime := Fact.out
-  haveI : Finite (MulAut Q) := Finite.of_injective (fun f : MulAut Q => (f : Q → Q)) DFunLike.coe_injective
+  have : Finite (MulAut Q) := Finite.of_injective (fun f : MulAut Q => (f : Q → Q)) DFunLike.coe_injective
   have hn : orderOf h ≠ 0 := (orderOf_pos h).ne'
   obtain ⟨e, m, hm, hem⟩ := Nat.exists_eq_pow_mul_and_not_dvd hn p hp.ne_one
   have hpe : p ^ e ≠ 0 := pow_ne_zero _ hp.ne_zero
@@ -243,10 +244,11 @@ theorem szh2_sylow_subgroupOf {p : ℕ} [Fact p.Prime] (P : Sylow p G) {W : Subg
     ∃ T : Sylow p W, (T : Subgroup W) = (P : Subgroup G).subgroupOf W := by
   have h : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup G) W := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨hPW, P.isPGroup', fun h =>
+    exact ⟨hPW, P.isPGroup, fun h =>
       P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPW))⟩
   exact h.exists_sylow_eq_subgroupOf
 
+omit [Finite G] in
 theorem szh2_centSeries_of_comm {p : ℕ} {W P K₀ N₀ : Subgroup G} (hPW : P ≤ W)
     (hN₀W : ∀ c ∈ W, ∀ n ∈ N₀, c * n * c⁻¹ ∈ N₀)
     (hN₀cop : ∀ n ∈ N₀, Nat.Coprime p (orderOf n))
@@ -303,7 +305,7 @@ theorem szh2_comm (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (
     (hP : Sz32Struct P x J a c y) :
     ∀ γ ∈ M ⊓ Subgroup.centralizer ({x} : Set G), ∀ b ∈ (P : Subgroup G),
       ∃ p₁ ∈ (P : Subgroup G), ∃ k ∈ u3K0 5 x J, γ * b * γ⁻¹ * b⁻¹ = p₁ * k := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hC
   set W : Subgroup G := M ⊓ C with hW
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
@@ -316,7 +318,7 @@ theorem szh2_comm (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (
   have hiso : ∀ (A B : Type) [Group A] [Group B], A ≃* B → IsSz32Type 5 A → IsSz32Type 5 B :=
     fun A B _ _ e h => ⟨h.1, h.2.imp fun _ hn => hn.map fun f => e.symm.trans f⟩
   obtain ⟨Q, iQ, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hOker : ∀ j : J, ψ j = 1 ↔ (j : G) ∈ rankThreePrimeCore 5 J := by
     intro j
     rw [← MonoidHom.mem_ker, hker, Subgroup.mem_subgroupOf]
@@ -359,7 +361,7 @@ theorem szh2_comm (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (
     have hconjM : γ * (t' : G) * γ⁻¹ ∈ M :=
       M.mul_mem (M.mul_mem hγ.1 (hPM htP)) (M.inv_mem hγ.1)
     have hp5 : ∃ k : ℕ, (γ * (t' : G) * γ⁻¹) ^ (5 ^ k) = 1 := by
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨(t' : G), htP⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨(t' : G), htP⟩
       refine ⟨k, ?_⟩
       have : (t' : G) ^ (5 ^ k) = 1 := congrArg Subtype.val hk
       rw [conj_pow, this]
@@ -411,7 +413,7 @@ theorem szh2_comm (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (
         rw [hu s hs] at h2
         rw [map_inv]
         exact h2 }
-  haveI hΓ₁n : Γ₁.Normal := ⟨fun u hu v s hs => by
+  have hΓ₁n : Γ₁.Normal := ⟨fun u hu v s hs => by
     show φ (v * u * v⁻¹) s = s
     have hs' : φ v⁻¹ s ∈ (Tsyl' : Subgroup Q) := hpres' v⁻¹ s hs
     rw [map_mul, map_mul, MulAut.mul_apply, MulAut.mul_apply, hu _ hs', ← MulAut.mul_apply,

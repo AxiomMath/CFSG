@@ -111,7 +111,7 @@ theorem w183finSp44G2Y_corConfig_map_iff {G H : Type*} [Group G] [Group H] (σ :
 theorem w183finSp44G2Y_mem_klein_iff {a b x : El} :
     x ∈ klein a b ↔ x = oneE ∨ x = a ∨ x = b ∨ x = gmulE a b := by
   rw [klein]
-  simp only [List.mem_cons, List.mem_nil_iff, List.not_mem_nil, false_or, or_false]
+  simp only [List.mem_cons, List.not_mem_nil, or_false]
 
 theorem w183finSp44G2Y_valid_klein {a b x : El} (ha : validB a = true)
     (hb : validB b = true) (hx : x ∈ klein a b) : validB x = true := by

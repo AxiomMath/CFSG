@@ -76,13 +76,16 @@ variable {F : Type} [Field F] [Finite F] {ι : Type} [Fintype ι] [DecidableEq �
 @[expose] def matHom (Y : Subgroup (GL ι F)) : ↥Y →* Matrix ι ι F :=
   (Units.coeHom (Matrix ι ι F)).comp Y.subtype
 
+omit [Finite F] in
 theorem matHom_injective (Y : Subgroup (GL ι F)) : Function.Injective (matHom Y) := by
   intro a b h
   exact Subtype.ext (Units.ext h)
 
+omit [Finite F] in
 theorem matHom_isUnit (Y : Subgroup (GL ι F)) (a : ↥Y) : IsUnit (matHom Y a) :=
   (a : GL ι F).isUnit
 
+omit [Finite F] in
 theorem matHom_ne_one (Y : Subgroup (GL ι F)) {a : ↥Y} (ha : a ≠ 1) : matHom Y a ≠ 1 := by
   intro h
   apply ha
@@ -129,7 +132,7 @@ theorem hsType_ten_le_card (hF : ringChar F ≠ 11) (Y : Subgroup (GL ι F)) (hY
   · simpa only [map_pow, map_one] using congrArg (matHom Y) hu
   · simpa only [map_mul, map_pow] using congrArg (matHom Y) (mul_inv_eq_iff_eq_mul.mp hhu)
 
-theorem no_hsType_card_eq_eight (hF3 : ringChar F ≠ 3) (hcard : Fintype.card ι = 8)
+theorem no_hsType_card_eq_eight (_hF3 : ringChar F ≠ 3) (hcard : Fintype.card ι = 8)
     (Bm : Matrix ι ι F) (hBm : IsUnit Bm.det) (Y : Subgroup (GL ι F)) (hY : HSType ↥Y)
     (hB : ∀ s ∈ Y, ((s : GL ι F) : Matrix ι ι F)ᵀ * Bm * ((s : GL ι F) : Matrix ι ι F) = Bm) :
     False := by

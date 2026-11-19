@@ -36,6 +36,7 @@ private noncomputable def conjAutHomOf (N A : Subgroup G)
       (n : G) * ((m : G) * (a : G) * (m : G)⁻¹) * (n : G)⁻¹
     group
 
+omit [Finite G] in
 private theorem conjAutHomOf_apply (N A : Subgroup G)
     (hA : ∀ n ∈ N, ∀ a ∈ A, n * a * n⁻¹ ∈ A) (n : ↥N) (a : ↥A) :
     ((conjAutHomOf N A hA n a : ↥A) : G) = (n : G) * (a : G) * (n : G)⁻¹ := rfl
@@ -72,7 +73,7 @@ theorem ase_split_sub {Q X₀ Y N E : Subgroup G} (φ : G → G) (hQX : Q ≤ X�
       M ⊔ X₀ = Y ∧ wz ∈ M := by
   have hQY : Q ≤ Y := hQX.trans hXY
   let Qy : Subgroup ↥Y := Q.subgroupOf Y
-  haveI : Qy.Normal :=
+  have : Qy.Normal :=
     (Subgroup.normal_subgroupOf_iff hQY).mpr fun h k hh hk => hQn k hk h hh
   let conjY : ↥N →* MulAut ↥Y := conjAutHomOf N Y hNY
   let conjE : ↥N →* MulAut ↥E := conjAutHomOf N E hNE
@@ -158,7 +159,7 @@ theorem ase_split_sub {Q X₀ Y N E : Subgroup G} (φ : G → G) (hQX : Q ≤ X�
         (fun h => hb (Subtype.ext h)) (fun h => hbz (Subtype.ext h))
     exact ⟨⟨n, hnN⟩, Subtype.ext hna⟩
   have hcommE : ∀ x y : ↥E, x * y = y * x := by
-    haveI : IsMulCommutative (⊤ : Subgroup ↥E) := hE.1.1
+    have : IsMulCommutative (⊤ : Subgroup ↥E) := hE.1.1
     intro x y
     exact setLike_mul_comm (s := (⊤ : Subgroup ↥E))
       (show x ∈ (⊤ : Subgroup ↥E) from trivial) (show y ∈ (⊤ : Subgroup ↥E) from trivial)

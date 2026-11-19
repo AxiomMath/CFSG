@@ -100,13 +100,13 @@ theorem suzFusOK_true : suzFusOK = true := by
     rw [(gensInv_get 1 (by norm_num)).1, y2_eq, invCand_PP hP1, (gen_facts (i := 1) (by norm_num)).2.1]
   have f1 : isInvA 1782 suzY1Arr suzGensInv[0]! = true := by
     rw [i0, y1_eq]
-    exact CFSG.KC.Item434Gen.isInvA_PP szOK1782 hP0
+    exact CFSG.KC.Item434Gen.isInvA_PP hP0
   have f2 : isInvA 1782 suzY2Arr suzGensInv[1]! = true := by
     rw [i1, y2_eq]
-    exact CFSG.KC.Item434Gen.isInvA_PP szOK1782 hP1
+    exact CFSG.KC.Item434Gen.isInvA_PP hP1
   have f3 : isInvA 1782 suzMArr (invCand 1782 suzMArr) = true := by
     rw [m_eq]
-    exact CFSG.KC.Item434Gen.isInvA_PP szOK1782 hP2
+    exact CFSG.KC.Item434Gen.isInvA_PP hP2
   have f4 : inM suzY1Arr = true := by rw [inM_eq y1_eq hP0.1]; exact hin0
   have f5 : inM suzY2Arr = true := by rw [inM_eq y2_eq hP1.1]; exact hin1
   have f6 : inM suzMArr = true := by rw [inM_eq m_eq hP2.1]; exact hin2

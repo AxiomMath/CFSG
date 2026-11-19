@@ -103,7 +103,7 @@ private theorem sec5RCtx_conj [Finite G] {t : G} {L S : Subgroup G} {z r : G}
       CFSG.conjugate B g = zpowers (g⁻¹ * t * g) ⊔
         (CFSG.conjugate B g ⊓ layerCent (CFSG.conjugate L g) (g⁻¹ * r * g)) := by
     refine ⟨?_, ?_, ?_⟩
-    · exact Subgroup.mem_map.mpr ⟨t, hc.B_split.1, by simp [φ, MulAut.conj_apply]⟩
+    · exact Subgroup.mem_map.mpr ⟨t, hc.B_split.1, by simp⟩
     · have hmap := congrArg (Subgroup.map φ.toMonoidHom) hc.B_split.2.1
       rw [Subgroup.map_inf _ _ _ φ.injective, hzp, hlayer, Subgroup.map_bot] at hmap
       simpa [φ, MulAut.conj_apply] using hmap
@@ -138,7 +138,7 @@ private theorem sec5KCtx_conj [Finite G] {t : G} {L S : Subgroup G} {z r : G}
     have hmap := centerIn_conjugate L g
     rw [hc.centre] at hmap
     rw [show CFSG.conjugate (zpowers t) g = zpowers (g⁻¹ * t * g) by
-      simp [CFSG.conjugate, MonoidHom.map_zpowers, MulAut.conj_apply]] at hmap
+      simp [CFSG.conjugate, MonoidHom.map_zpowers]] at hmap
     exact hmap
   have hpocket₁ : Sl23PocketIn (CFSG.conjugate L g) (g⁻¹ * z * g) (CFSG.conjugate K₁ g) :=
     hc.pocket₁.conjugate g
@@ -187,7 +187,7 @@ theorem sec5HCtx_conj {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
     change g⁻¹ * h * g ∈ normalizer (A.map φ.toMonoidHom : Set G)
     have hmap := Subgroup.map_equiv_normalizer_eq A φ
     rw [← hmap]
-    exact Subgroup.mem_map.mpr ⟨h, hc.h_mem, by simp [φ, MulAut.conj_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨h, hc.h_mem, by simp [φ]⟩
   have hh_t : (g⁻¹ * h * g)⁻¹ * (g⁻¹ * t * g) * (g⁻¹ * h * g) ∈
       CFSG.conjugate K₁ g ⊔ CFSG.conjugate K₂ g := by
     have h1 : CFSG.conjugate K₁ g ⊔ CFSG.conjugate K₂ g =

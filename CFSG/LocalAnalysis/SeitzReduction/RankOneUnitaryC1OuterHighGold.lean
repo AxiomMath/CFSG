@@ -62,7 +62,7 @@ theorem gold_exists_conj_le_sylow_of_le {K X : Subgroup G} (hXK : X ≤ K) (hX :
 omit [Finite G] in
 theorem gold_isPGroup_map {K : Subgroup G} (Q : Sylow 2 K) :
     IsPGroup 2 ((Q : Subgroup K).map K.subtype) :=
-  Q.isPGroup'.map K.subtype
+  Q.isPGroup.map K.subtype
 
 theorem gold_mem_of_conj_le (T : Sylow 2 G) {W A : Subgroup G} (hWT : W ≤ T)
     (hW : ∀ g : G, (∀ w ∈ W, g * w * g⁻¹ ∈ (T : Subgroup G)) → ∀ w ∈ W, g * w * g⁻¹ ∈ W)
@@ -82,7 +82,7 @@ theorem gold_mem_of_conj_le (T : Sylow 2 G) {W A : Subgroup G} (hWT : W ≤ T)
     calc x * (g⁻¹ * w * g) = g⁻¹ * ((g * x * g⁻¹) * w) * g := by group
       _ = g⁻¹ * (w * (g * x * g⁻¹)) * g := by rw [h1]
       _ = g⁻¹ * w * g * x := by group
-  have hWp : IsPGroup 2 W := (T.isPGroup').to_le hWT
+  have hWp : IsPGroup 2 W := (T.isPGroup).to_le hWT
   have hW'p : IsPGroup 2 W' := hWp.map _
   have hWp' : IsPGroup 2 (W.subgroupOf C) := hWp.of_equiv (subgroupOfEquivOfLe hWC).symm
   obtain ⟨Q, hQ⟩ := hWp'.exists_le_sylow
@@ -129,7 +129,7 @@ theorem gold_9_3_two (T : Sylow 2 G) {W A : Subgroup G} (hWT : W ≤ T)
   set N := normalizer (B : Set G) with hNdef
   set X₀ := (T : Subgroup G) ⊓ N with hX₀def
   have hX₀p : IsPGroup 2 (X₀.subgroupOf N) :=
-    ((T.isPGroup').to_le inf_le_left).of_equiv (subgroupOfEquivOfLe inf_le_right).symm
+    ((T.isPGroup).to_le inf_le_left).of_equiv (subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨Q, hQ⟩ := hX₀p.exists_le_sylow
   set W'' := W.map (MulAut.conj g₀⁻¹).toMonoidHom with hW''def
   have hW''c : ∀ y ∈ W'', ∀ b ∈ B, b * y = y * b := by
@@ -155,7 +155,7 @@ theorem gold_9_3_two (T : Sylow 2 G) {W A : Subgroup G} (hWT : W ≤ T)
             _ = y * (y * b * y⁻¹) := h1
         exact mul_left_cancel h2
       rwa [e]
-  have hW''p : IsPGroup 2 W'' := ((T.isPGroup').to_le hWT).map _
+  have hW''p : IsPGroup 2 W'' := ((T.isPGroup).to_le hWT).map _
   obtain ⟨n, hnN, hn⟩ := gold_exists_conj_le_sylow_of_le hW''N hW''p Q
   obtain ⟨h, hh⟩ := gold_exists_conj_le_sylow T (gold_isPGroup_map Q)
   have hkN : h * n * g₀⁻¹ ∈ normalizer (W : Set G) := by

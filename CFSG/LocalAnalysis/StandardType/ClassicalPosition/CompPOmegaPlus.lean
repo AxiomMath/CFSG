@@ -270,16 +270,12 @@ private lemma cpOp_hblock (n : ℕ) (F : Type) [Field F]
   let Y := cpOp_blk (Spin.spinMatrix Q y) ε hεid hyε
   have hXiso : X ∈ cpOp_isoGroup Q := by
     intro v
-    change Q (((X : GL (Fin n ⊕ Fin n) F) :
-      Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F).mulVec v) = Q v
     rw [show (X : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
         ((Spin.spinMatrix Q x : GL (Fin n ⊕ Fin n) F) :
           Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) * ε + (1 - ε) from rfl]
     exact cpOp_blk_isometry Q hG hεid hεadj hxε hAiso v
   have hYiso : Y ∈ cpOp_isoGroup Q := by
     intro v
-    change Q (((Y : GL (Fin n ⊕ Fin n) F) :
-      Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F).mulVec v) = Q v
     rw [show (Y : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
         ((Spin.spinMatrix Q y : GL (Fin n ⊕ Fin n) F) :
           Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) * ε + (1 - ε) from rfl]

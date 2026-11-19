@@ -41,7 +41,7 @@ theorem isTI_of_isStronglyEmbeddedOrder_normalizer {G : Type*} [Group G] [Finite
       Odd.of_dvd_nat hodd hdvd
     rw [Subgroup.eq_bot_iff_card]
     have h2 : IsPGroup 2 ↥((Q : Subgroup G) ⊓ conjSubgroup g (Q : Subgroup G)) :=
-      Q.isPGroup'.to_le inf_le_left
+      Q.isPGroup.to_le inf_le_left
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp h2
     rw [hn] at hodd'
     have hn0 : n = 0 := by
@@ -57,7 +57,7 @@ theorem inSubgroup_pCore_le_of_isSylow {G : Type*} [Group G] [Finite G]
     (hTM : (T : Subgroup G) ≤ M) : inSubgroup (pCore p) M ≤ (T : Subgroup G) := by
   have hSyl : CFSG.ABGLocalTools.IsSylowOf p (T : Subgroup G) M := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨hTM, T.isPGroup', fun h =>
+    exact ⟨hTM, T.isPGroup, fun h =>
       T.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hTM))⟩
   obtain ⟨Q, hQ⟩ := hSyl.exists_sylow_eq_subgroupOf
   have hp : pCore p M ≤ (Q : Subgroup M) :=
@@ -74,7 +74,7 @@ theorem eq_normalizer_of_isTI_sylow {G : Type*} [Group G] [Finite G] [IsSimpleGr
     (hnonab : ∃ a b : G, a * b ≠ b * a) {T : Sylow 2 G} {M : Subgroup G}
     (hM : IsMaximalTwoLocal M) (hTM : (T : Subgroup G) ≤ M) (hTI : IsTI (T : Subgroup G)) :
     M = Subgroup.normalizer (T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R, hR1, hR2, hRM⟩ := hM.1
   have hRleM : R ≤ M := hRM ▸ Subgroup.le_normalizer
   have hRnormal : (R.subgroupOf M).Normal :=
@@ -107,17 +107,17 @@ theorem eq_normalizer_of_isTI_sylow {G : Type*} [Group G] [Finite G] [IsSimpleGr
           rw [conjSubgroup, Subgroup.card_map_of_injective (MulAut.conj g).injective])).symm
       exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr heq
   have hNloc : IsPLocal 2 (Subgroup.normalizer (T : Set G)) :=
-    ⟨(T : Subgroup G), hTne, T.isPGroup', rfl⟩
+    ⟨(T : Subgroup G), hTne, T.isPGroup, rfl⟩
   have hNproper : Subgroup.normalizer (T : Set G) ≠ ⊤ := by
     intro htop
     have hTnormal : (T : Subgroup G).Normal := Subgroup.normalizer_eq_top_iff.mp htop
-    haveI : (T : Subgroup G).Normal := hTnormal
+    have : (T : Subgroup G).Normal := hTnormal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T : Subgroup G) with hbot | htopT
     · exact hTne hbot
     · have hP : IsPGroup 2 G := by
-        have htop2 : IsPGroup 2 (⊤ : Subgroup G) := htopT ▸ T.isPGroup'
+        have htop2 : IsPGroup 2 (⊤ : Subgroup G) := htopT ▸ T.isPGroup
         exact htop2.of_equiv Subgroup.topEquiv
-      haveI : Group.IsNilpotent G := hP.isNilpotent
+      have : Group.IsNilpotent G := hP.isNilpotent
       obtain ⟨a, b, hab⟩ := hnonab
       exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance a b)
   by_contra hne
@@ -128,13 +128,13 @@ theorem weaklyClosedIn_of_isTI_sylow {G : Type*} [Group G] [Finite G] [IsSimpleG
     (hM : IsMaximalTwoLocal M) (hTM : (T : Subgroup G) ≤ M) (hTI : IsTI (T : Subgroup G))
     (hV : V ≤ M) (hQ : WeaklyClosedIn V (inSubgroup (pCore 2) M)) :
     WeaklyClosedIn V M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTeq : M = Subgroup.normalizer (T : Set G) :=
     eq_normalizer_of_isTI_sylow hnonab hM hTM hTI
   have hTnormal : (T.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTM).2 (hTeq ▸ le_rfl)
   have hTle : (T : Subgroup G) ≤ (pCore 2 M).map M.subtype := by
-    have hT2 : IsPGroup 2 (T.subgroupOf M) := T.isPGroup'.comap_subtype
+    have hT2 : IsPGroup 2 (T.subgroupOf M) := T.isPGroup.comap_subtype
     have hp : T.subgroupOf M ≤ pCore 2 M := le_sSup ⟨hTnormal, hT2⟩
     have h := Subgroup.map_mono (f := M.subtype) hp
     rwa [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTM] at h
@@ -144,14 +144,14 @@ theorem weaklyClosedIn_of_isTI_sylow {G : Type*} [Group G] [Finite G] [IsSimpleG
     intro U hUM hU2
     have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (T : Subgroup G) M := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff]
-      exact ⟨hTM, T.isPGroup', fun h =>
+      exact ⟨hTM, T.isPGroup, fun h =>
         T.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hTM))⟩
     obtain ⟨Q, hQ⟩ := hSyl.exists_sylow_eq_subgroupOf
     have hQnormal : (Q : Subgroup M).Normal := hQ ▸ hTnormal
     have hUsub : IsPGroup 2 (U.subgroupOf M) := hU2.comap_subtype
     obtain ⟨S, hUS⟩ := hUsub.exists_le_sylow
-    have hQS : (Q : Subgroup M) ≤ S := IsPGroup.le_sylow_of_normal Q.isPGroup' S
-    have hSQ : S = (Q : Subgroup M) := Q.maximal_isPGroup.eq_of_ge S.isPGroup' hQS
+    have hQS : (Q : Subgroup M) ≤ S := IsPGroup.le_sylow_of_normal Q.isPGroup S
+    have hSQ : S = (Q : Subgroup M) := Q.maximal_isPGroup.eq_of_ge S.isPGroup hQS
     have h := Subgroup.map_mono (f := M.subtype) (hSQ ▸ hUS)
     rwa [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hUM,
       hQ, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTM] at h

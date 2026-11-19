@@ -18,7 +18,7 @@ theorem not_isCyclic_centralizer_extraspecial_self
   have hQdef := hQ
   unfold CFSG.LocalAnalysis.RankThreeUC.SmallClassTwoGroups.IsExtraspecialExpP at hQdef
   obtain ⟨hcard, hexp, -, hcenter⟩ := hQdef
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Subgroup.centralizer ({q} : Set G) ⊓ Q
   change ¬ IsCyclic C
   by_cases hqZ : q ∈ (Subgroup.center ↥Q).map Q.subtype
@@ -41,7 +41,7 @@ theorem not_isCyclic_centralizer_extraspecial_self
       norm_num
     have hQnc : ¬ IsCyclic ↥Q := by
       intro hcyc
-      haveI : IsCyclic ↥Q := hcyc
+      have : IsCyclic ↥Q := hcyc
       have htop : Subgroup.center ↥Q = ⊤ := Subgroup.center_eq_top
       have h27 : Nat.card (Subgroup.center ↥Q) = 27 := by
         rw [htop, Subgroup.card_top, hcardQ]

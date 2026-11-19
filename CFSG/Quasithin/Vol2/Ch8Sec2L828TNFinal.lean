@@ -20,9 +20,9 @@ open scoped IsMulCommutative
 private theorem pCore_two_le_solvableRadical_828N (X : Type) [Group X] [Finite X] :
     CFSG.pCore 2 X ≤ CFSG.solvableRadical X := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
   have hp : IsPGroup 2 ↥(CFSG.pCore 2 X) := CFSG.pCore_isPGroup
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 X) := hp.isNilpotent
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 X) := hp.isNilpotent
   exact le_sSup ⟨inferInstance, inferInstance⟩
 
 theorem stmt8_2_9_three_of (hE214 : ASInputs.AS_E_2_14)

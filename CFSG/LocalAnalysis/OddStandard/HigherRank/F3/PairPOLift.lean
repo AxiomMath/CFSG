@@ -17,7 +17,7 @@ theorem HasPOmegaMember.lift (hC2 : POmegaPlusCentreExpTwo) {L Q : Type} [Group 
   have hJ'perf : ⁅J', J'⁆ = J' := Subgroup.isPerfect_iff.mp hJ.block.quasisimple.1
   obtain ⟨J, hJle, hJnorm, hJperf, hJmap⟩ := exists_perfect_cover_subgroup π hπ J' hJ'perf
   obtain ⟨ρ, hρs, hρπ, hρk⟩ := exists_hom_of_map_eq π hk hJmap
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperf
   have hqs : IsQuasisimple ↥J :=
     isQuasisimple_of_central_cover ρ hρs hρk inferInstance hJ.block.quasisimple
   obtain ⟨eZ⟩ := nonempty_quotient_center_equiv_of_central_cover ρ hρs hρk inferInstance
@@ -47,7 +47,7 @@ theorem HasPOmegaMember.lift (hC2 : POmegaPlusCentreExpTwo) {L Q : Type} [Group 
     intro h1
     rw [h1, map_one] at hu
     exact hb1 hu.symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu2 : orderOf u = 2 :=
     orderOf_eq_prime (by rw [pow_two]; exact hsq u hu_center) hu1
   let u' : L := (u : L)

@@ -22,7 +22,7 @@ theorem rowS148_of_inner (hZ : Subgroup.center S = ⊥) (hout : ¬ 3 ∣ Nat.car
       ∀ R : Subgroup S,
         (∀ e ∈ E, e ≠ 1 → R ≤ pPrimeCoreOf 3 (Subgroup.centralizer ({e} : Set S))) → R = ⊥) :
     RowS148 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro F E X R hc
   set ι : S →* MulAut S := MulAut.conj with hι
   have hinj : Function.Injective ι := conj_injective_of_center_eq_bot hZ
@@ -94,7 +94,7 @@ theorem rowS148_of_inner (hZ : Subgroup.center S = ⊥) (hout : ¬ 3 ∣ Nat.car
   · have : r * f * r⁻¹ * f⁻¹ = r * (f * r⁻¹ * f⁻¹) := by group
     rw [commutatorElement_def, this]
     exact R.mul_mem hr ((Subgroup.mem_normalizer_iff.mp (hc.le_normalizer hf) _).mp (R.inv_mem hr))
-  · haveI : ι.range.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
+  · have : ι.range.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
     rw [commutatorElement_def]
     exact ι.range.mul_mem (this.conj_mem _ (hFι hf) r) (ι.range.inv_mem (hFι hf))
 
@@ -103,7 +103,7 @@ theorem comap_inf_inner_le_pPrimeCoreOf (hZ : Subgroup.center S = ⊥) {X R : Su
     (hR : R ≤ pPrimeCoreOf 3 (X ⊓ Subgroup.centralizer ({MulAut.conj s} : Set (MulAut S)))) :
     (R ⊓ (MulAut.conj : S →* MulAut S).range).comap MulAut.conj ≤
       pPrimeCoreOf 3 (Subgroup.centralizer ({s} : Set S)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ι : S →* MulAut S := MulAut.conj with hι
   have hinj : Function.Injective ι := conj_injective_of_center_eq_bot hZ
   set W := (pPrimeCoreOf 3 (X ⊓ Subgroup.centralizer ({ι s} : Set (MulAut S))) ⊓
@@ -248,12 +248,12 @@ variable {G : Type} [Group G] [Finite G]
 theorem pPrimeCoreOf_eq_bot_of_selfCentralizing {C P : Subgroup G} (hPC : P ≤ C)
     (hPn : ∀ g ∈ C, ∀ p ∈ P, g * p * g⁻¹ ∈ P) (hP3 : IsPGroup 3 P)
     (hcent : Subgroup.centralizer (P : Set G) ⊓ C ≤ P) : pPrimeCoreOf 3 C = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := pPrimeCoreOf 3 C with hN
   have hNC : N ≤ C := Sec14.pPrimeCoreOf_le 3 C
   have hCN : C ≤ Subgroup.normalizer (N : Set G) := Sec14.le_normalizer_pPrimeCoreOf 3 C
   have hdisj : N ⊓ P = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := hP3.exists_card_eq
     rw [hk]
     exact (Nat.Coprime.pow_left _ (Sec14.coprime_card_pPrimeCoreOf 3 C)).symm
@@ -277,7 +277,7 @@ theorem pPrimeCoreOf_eq_bot_of_selfCentralizing {C P : Subgroup G} (hPC : P ≤ 
 theorem pPrimeCoreOf_eq_bot_of_simpleNormal {C L : Subgroup G} (hLC : L ≤ C)
     (hLn : ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L) [hLs : IsSimpleGroup L] (hL3 : 3 ∣ Nat.card L)
     (hcent : ∀ g ∈ C, (∀ l ∈ L, l * g = g * l) → g ^ 3 = 1) : pPrimeCoreOf 3 C = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := pPrimeCoreOf 3 C with hN
   have hNC : N ≤ C := Sec14.pPrimeCoreOf_le 3 C
   have hCN : C ≤ Subgroup.normalizer (N : Set G) := Sec14.le_normalizer_pPrimeCoreOf 3 C
@@ -289,7 +289,7 @@ theorem pPrimeCoreOf_eq_bot_of_simpleNormal {C L : Subgroup G} (hLC : L ≤ C)
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       exact ⟨(Subgroup.mem_normalizer_iff.mp (hCN (hLC l.2)) _).mp hx.1,
         L.mul_mem (L.mul_mem l.2 hx.2) (L.inv_mem l.2)⟩
-    haveI := hnormal
+    have := hnormal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N ⊓ L).subgroupOf L) with h | h
     · rw [eq_bot_iff]
       intro x hx
@@ -325,7 +325,7 @@ theorem pPrimeCoreOf_eq_bot_of_simpleNormal {C L : Subgroup G} (hLC : L ≤ C)
 
 theorem pPrimeCoreOf_eq_bot_of_isQuasisimple {C : Subgroup G} (hq : IsQuasisimple C)
     (hZ : IsPGroup 3 (Subgroup.center C)) (h3 : 3 ∣ Nat.card C) : pPrimeCoreOf 3 C = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [pPrimeCoreOf, Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective]
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hq
       (CFSG.pPrimeCore_normal (p := 3) (G := C)) with h | h
@@ -334,7 +334,7 @@ theorem pPrimeCoreOf_eq_bot_of_isQuasisimple {C : Subgroup G} (hq : IsQuasisimpl
     rw [h, Subgroup.card_top] at hcop
     exact absurd (Nat.Coprime.eq_one_of_dvd hcop h3) (by norm_num)
   · have hdisj : CFSG.pPrimeCore 3 C ⊓ Subgroup.center C = ⊥ := by
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       obtain ⟨k, hk⟩ := hZ.exists_card_eq
       rw [hk]
       exact (Nat.Coprime.pow_left _ CFSG.pPrimeCore_coprime_card).symm
@@ -342,7 +342,7 @@ theorem pPrimeCoreOf_eq_bot_of_isQuasisimple {C : Subgroup G} (hq : IsQuasisimpl
 
 theorem pPrimeCoreOf_eq_bot_of_isPGroup {C : Subgroup G} (hC : IsPGroup 3 C) :
     pPrimeCoreOf 3 C = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle := Sec14.pPrimeCoreOf_le 3 C
   have hp : IsPGroup 3 (pPrimeCoreOf 3 C) := hC.to_le hle
   have hcop := Sec14.coprime_card_pPrimeCoreOf 3 C
@@ -350,6 +350,7 @@ theorem pPrimeCoreOf_eq_bot_of_isPGroup {C : Subgroup G} (hC : IsPGroup 3 C) :
   · exact Subgroup.eq_bot_of_card_eq _ h1
   · exact absurd (Nat.Coprime.eq_one_of_dvd hcop h3) (by norm_num)
 
+omit [Finite G] in
 theorem pPrimeCoreOf_centralizer_conj {P : Subgroup G} {y k : G} (hk : k ∈ P) (hy : y ^ 3 = 1)
     {e : ℕ} (he : e = 1 ∨ e = 2)
     (h : pPrimeCoreOf 3 (Subgroup.centralizer ({y} : Set G) ⊓ P) = ⊥) :
@@ -373,6 +374,7 @@ theorem pPrimeCoreOf_centralizer_conj {P : Subgroup G} {y k : G} (hk : k ∈ P) 
         _ = y ^ e * (k⁻¹ * w * k) := by group
   rw [← hmap, ← Sec14.map_pPrimeCoreOf, h, Subgroup.map_bot]
 
+omit [Finite G] in
 theorem pPrimeCoreOf_centralizer_of_isConj {y z : G} (hyz : IsConj y z)
     (h : pPrimeCoreOf 3 (Subgroup.centralizer ({y} : Set G)) = ⊥) :
     pPrimeCoreOf 3 (Subgroup.centralizer ({z} : Set G)) = ⊥ := by

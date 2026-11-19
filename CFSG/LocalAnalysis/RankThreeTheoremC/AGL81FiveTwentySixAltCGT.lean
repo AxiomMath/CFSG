@@ -48,13 +48,13 @@ theorem le_cgsIn_of_normal (hCGT : CFSG.AGLEmbedding.AschbacherLocalCGTBlock)
     (hX : GNSetting X T) {K : Subgroup X} (hK : K.Normal) : K ≤ CFSG.Quasithin.cgsIn K T := by
   classical
   by_cases hT : T = ⊥
-  · haveI := hX.subsingleton_of_eq_bot hT
+  · have := hX.subsingleton_of_eq_bot hT
     intro k _
     rw [Subsingleton.elim k 1]
     exact Subgroup.one_mem _
   have hT2 : IsPGroup 2 T := hX.sylow.2.1
   have hTK : T ≤ Subgroup.normalizer (K : Set X) := by
-    haveI := hK
+    have := hK
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hQD : pCoreOf 2 (⊤ : Subgroup X) ≤ K ⊔ T :=
@@ -98,7 +98,7 @@ theorem le_cgsIn_of_normal (hCGT : CFSG.AGLEmbedding.AschbacherLocalCGTBlock)
     obtain ⟨k, hkK, t, htT, hkt⟩ := hdD'
     have htNC : t ∈ Subgroup.normalizer (C : Set X) :=
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hCT).mp (by
-        haveI : (C.subgroupOf T).Characteristic := hch
+        have : (C.subgroupOf T).Characteristic := hch
         exact Subgroup.normal_of_characteristic (C.subgroupOf T))) htT
     have hkN : k ∈ Subgroup.normalizer (C : Set X) := by
       let N : Subgroup X := Subgroup.normalizer (C : Set X)
@@ -124,7 +124,7 @@ theorem le_cgsIn_of_normal (hCGT : CFSG.AGLEmbedding.AschbacherLocalCGTBlock)
   have hTJ : T ≤ Subgroup.normalizer (CFSG.Quasithin.cgsIn K T : Set X) :=
     le_normalizer_cgsIn hTK fun C hCT _ hch =>
       (Subgroup.normal_subgroupOf_iff_le_normalizer hCT).mp (by
-        haveI : (C.subgroupOf T).Characteristic := hch
+        have : (C.subgroupOf T).Characteristic := hch
         exact Subgroup.normal_of_characteristic (C.subgroupOf T))
   intro k hk
   have hkD : k ∈ CFSG.Quasithin.cgsIn K T ⊔ T := hKJ hk

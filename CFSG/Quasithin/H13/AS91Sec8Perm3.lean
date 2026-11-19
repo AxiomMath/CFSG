@@ -45,13 +45,13 @@ namespace CFSG.Quasithin.H13.AS91
 
 theorem perm3_derivedSeries_two {α : Type*} [Fintype α] [DecidableEq α]
     (h : Fintype.card α = 3) : derivedSeries (Equiv.Perm α) 2 = ⊥ := by
-  haveI : Nontrivial α := Fintype.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial α := Fintype.one_lt_card_iff_nontrivial.1 (by omega)
   have hcardA : Nat.card (alternatingGroup α) = 3 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, h]
     rfl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic (alternatingGroup α) := isCyclic_of_prime_card hcardA
-  haveI : IsMulCommutative (alternatingGroup α) := IsCyclic.commutative
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic (alternatingGroup α) := isCyclic_of_prime_card hcardA
+  have : IsMulCommutative (alternatingGroup α) := _root_.IsCyclic.isMulCommutative
   have hD1 : derivedSeries (Equiv.Perm α) 1 ≤ alternatingGroup α := by
     rw [derivedSeries_one]
     exact Abelianization.commutator_subset_ker (f := Equiv.Perm.sign)
@@ -87,7 +87,7 @@ theorem perm3_eq_bot_of_normal_pGroup {α : Type*} [Fintype α] [DecidableEq α]
     by_contra hcon
     exact hne ((Subgroup.eq_bot_iff_forall N).2
       (fun m hm => Classical.byContradiction fun hm1 => hcon ⟨m, hm, hm1⟩))
-  haveI : Nontrivial N := ⟨⟨⟨n, hnN⟩, 1, fun h' => hn1 (congrArg Subtype.val h')⟩⟩
+  have : Nontrivial N := ⟨⟨⟨n, hnN⟩, 1, fun h' => hn1 (congrArg Subtype.val h')⟩⟩
   have hgt : 1 < Nat.card N := Finite.one_lt_card
   have hcard2 : Nat.card N = 2 := by
     interval_cases k

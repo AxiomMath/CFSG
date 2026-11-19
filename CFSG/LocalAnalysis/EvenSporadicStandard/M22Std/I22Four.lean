@@ -239,9 +239,9 @@ theorem i22fCheckT_sound (hn : n < 2 ^ 32) {α β : Table} (h : i22fCheckT n α 
   have hgenRep : ∀ l, Rep n (gen l) (if l = 0 then ρ i22fAP else ρ i22fBP) := by
     intro l
     by_cases hl : l = 0
-    · simp only [hgen, hl, if_true]
+    · simp only [hgen, hl, ite_true]
       exact hAP
-    · simp only [hgen, hl, if_false]
+    · simp only [hgen, hl, ite_false]
       exact hBP
   have hρAB : ∀ l : ℕ, ρ (if l = 0 then i22fAP else i22fBP) =
       if l = 0 then ρ i22fAP else ρ i22fBP := by

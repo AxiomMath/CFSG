@@ -43,8 +43,8 @@ theorem good425_of_simpleNormal {C L : Subgroup S} (hLC : L ≤ C)
     (hfree : M ∉ typeOrders425 M B)
     (hcent : ∀ g ∈ C, (∀ l ∈ L, l * g = g * l) → g ^ 3 = 1) : Good425 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
+  have : Group.IsPerfect K := hKq.1
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
   have hL'n : (L.subgroupOf C).Normal := RonanK429H.normal_subgroupOf_of_forall_conj' hLn
   have hK'c : IsComponent (K.subgroupOf C) :=
     ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKC).symm hKq, hKs⟩
@@ -72,7 +72,7 @@ theorem good425_of_simpleNormal {C L : Subgroup S} (hLC : L ≤ C)
       rw [hcomm, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
       exact (congrArg Subtype.val hmem).symm
     have hK3 : IsPGroup 3 K := RonanK429H.isPGroup_three_of_pow_three hk3
-    haveI := hK3.isNilpotent
+    have := hK3.isNilpotent
     exact Group.IsPerfect.not_isSolvable K inferInstance
 
 end Simple
@@ -91,7 +91,7 @@ theorem good425_co2B :
     Good425 (Subgroup.centralizer ({co2XB} : Set (Equiv.Perm (Fin 2300))) ⊓ co2P) := by
   obtain ⟨-, -, -, hcard, hLC, hLn, hcent, hrels⟩ := co2CaseB_spec
   obtain ⟨eL⟩ := nonempty_mulEquiv_QP45_of_rels uvGen hrels hcard
-  haveI : IsSimpleGroup Lsub := isSimpleGroup_of_equiv_QP45 eL
+  have : IsSimpleGroup Lsub := isSimpleGroup_of_equiv_QP45 eL
   have hna : ∃ a b : Lsub, a * b ≠ b * a := nonabelian_of_equiv_QP45 eL
   exact good425_of_simpleNormal hLC hLn hna (M := 25920) (B := 30) hcard (by norm_num)
     (by decide +kernel) hcent

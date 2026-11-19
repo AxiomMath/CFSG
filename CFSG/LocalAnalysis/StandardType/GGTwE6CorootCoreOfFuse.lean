@@ -126,57 +126,57 @@ theorem exists_core_thetaSL2_pow (σ : K ≃+* K) (hf : 1 ≤ f) (hK : Nat.card 
     exact Subgroup.mem_map.2 ⟨⟨_, hXC hz⟩, Subgroup.mem_subgroupOf.2 hz, rfl⟩
 
 theorem twE6CorootCore_of_fuse
-    (hFuse : ∀ {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {f : ℕ} (hf : 1 ≤ f)
-      (hK : Nat.card K = (2 ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ 2 ^ f) {k : Type} [Field k]
-      [Algebra k K] (hk : Nat.card k = 2 ^ f) (Fr : AlgebraicClosure K →+* AlgebraicClosure K)
-      (hFr : ∀ c, Fr c = c ^ 2 ^ f) (v : WeylGroup TwistTag.E6.tag)
-      (hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
+    (hFuse : ∀ {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {f : ℕ} (_hf : 1 ≤ f)
+      (_hK : Nat.card K = (2 ^ f) ^ 2) (_hσ : ∀ c, σ c = c ^ 2 ^ f) {k : Type} [Field k]
+      [Algebra k K] (_hk : Nat.card k = 2 ^ f) (Fr : AlgebraicClosure K →+* AlgebraicClosure K)
+      (_hFr : ∀ c, Fr c = c ^ 2 ^ f) (v : WeylGroup TwistTag.E6.tag)
+      (_hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
       (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K))
-      (hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
-      (hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
+      (_hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
+      (_hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
         g0 * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) v)
       (t : ModGL TwistTag.E6.tag K) (_ht : t ∈ twistedE6InndiagGL K σ)
-      (γ : Fin TwistTag.E6.tag.rank → ℤ) (hγ : IsRoot TwistTag.E6.tag γ) (p : ℕ)
-      (_hp : p.Prime) (hpq : p ∣ 2 ^ f + 1) (ζ : (AlgebraicClosure K)ˣ) (hζ : ζ ^ p = 1)
-      (hζ1 : ζ ≠ 1)
-      (hcor : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) t * g0 =
+      (γ : Fin TwistTag.E6.tag.rank → ℤ) (_hγ : IsRoot TwistTag.E6.tag γ) (p : ℕ)
+      (_hp : p.Prime) (_hpq : p ∣ 2 ^ f + 1) (ζ : (AlgebraicClosure K)ˣ) (_hζ : ζ ^ p = 1)
+      (_hζ1 : ζ ≠ 1)
+      (_hcor : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) t * g0 =
         rootDiagUnit TwistTag.E6.tag (TwE6RootAs.corootTuple γ ζ)),
       ∃ c ∈ twistedE6InndiagGL K σ, ∃ A : SL2 k, orderOf A = Nat.card k + 1 ∧ ∃ m : ℕ,
         A ^ m ≠ 1 ∧ c * t * c⁻¹ =
           (thetaSL2 K).comp (Matrix.SpecialLinearGroup.map (algebraMap k K)) (A ^ m)) :
     TwE6RootAs.TwE6CorootCore := by
-  intro K _ _ σ q hK hσ h2 p hp hpq Fr hFr v hv g0 hg0C hg0 t ht γ hγ ζ hζ hζ1 hcor
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := ringChar.of_eq h2
+  intro K _ _ σ q _hK _hσ h2 p hp _hpq Fr _hFr v _hv g0 _hg0C _hg0 t ht γ _hγ ζ _hζ _hζ1 _hcor
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := ringChar.of_eq h2
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hdvd : q ∣ 2 ^ (n : ℕ) := by
-    rw [← hn, ← Nat.card_eq_fintype_card, hK]
+    rw [← hn, ← Nat.card_eq_fintype_card, _hK]
     exact dvd_pow_self q two_ne_zero
   obtain ⟨f, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
-  have hf : 1 ≤ f := by
+  have _hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with h0 | h0
     · have h1 := Finite.one_lt_card (α := K)
-      rw [hK, h0] at h1
+      rw [_hK, h0] at h1
       norm_num at h1
     · exact h0
-  have hσ' : ∀ c, σ.toRingHom c = c ^ 2 ^ f := hσ
+  have hσ' : ∀ c, σ.toRingHom c = c ^ 2 ^ f := _hσ
   have hσ2 : σ ^ 2 = 1 := by
     ext c
     rw [pow_two, RingAut.mul_apply, RingAut.one_apply]
-    exact TwistedE6Pilot.apply_apply_eq hK hσ' c
+    exact TwistedE6Pilot.apply_apply_eq _hK hσ' c
   have hσ1 : σ ≠ 1 := fun h => by
-    obtain ⟨c, hc⟩ := TwistedE6Pilot.exists_apply_ne hf hK hσ'
+    obtain ⟨c, hc⟩ := TwistedE6Pilot.exists_apply_ne _hf _hK hσ'
     exact hc (by rw [show σ.toRingHom c = σ c from rfl, h, RingAut.one_apply])
-  have hk : Nat.card (fixSubfield σ) = 2 ^ f := by
+  have _hk : Nat.card (fixSubfield σ) = 2 ^ f := by
     have h := (SteinbergBT.card_fixSubfield Nat.prime_two (by omega : 1 ≤ 2 * f)
-      (by rw [hK, ← pow_mul, mul_comm]) σ).2
+      (by rw [_hK, ← pow_mul, mul_comm]) σ).2
     rwa [orderOf_eq_prime hσ2 hσ1, Nat.mul_div_cancel_left f two_pos] at h
   obtain ⟨c, hc, A, hA, m, hm, hct⟩ :=
-    hFuse σ hf hK hσ hk Fr hFr v hv g0 hg0C hg0 t ht γ hγ p hp hpq ζ hζ hζ1 hcor
+    hFuse σ _hf _hK _hσ _hk Fr _hFr v _hv g0 _hg0C _hg0 t ht γ _hγ p hp _hpq ζ _hζ _hζ1 _hcor
   refine exists_core_of_conj hc (twistedE6InndiagConj K σ ⟨c, hc⟩⁻¹) (fun x => ?_) ?_
   · rw [twistedE6InndiagConj_apply, Subgroup.coe_inv, inv_inv]
   · rw [hct]
-    exact exists_core_thetaSL2_pow σ hf hK hσ hk hA hm
+    exact exists_core_thetaSL2_pow σ _hf _hK _hσ _hk hA hm
 
 end CFSG.StandardType.TwE6CorootCore
 

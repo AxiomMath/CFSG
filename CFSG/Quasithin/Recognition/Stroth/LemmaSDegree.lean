@@ -41,7 +41,7 @@ theorem relIndex_le_card_right_of_sup_eq {G : Type u} [Group G] [Finite G]
   exact hle
 
 theorem injOn_mul_quotient_of_regular {G : Type u} {Ω : Type*} [Group G] [MulAction G Ω]
-    (B U : Subgroup G) (α : Ω) (hB : B = MulAction.stabilizer G α) (hU : U ≤ B)
+    (B U : Subgroup G) (α : Ω) (hB : B = MulAction.stabilizer G α) (_hU : U ≤ B)
     (hreg : ∀ a b : Ω, a ≠ α → b ≠ α → ∃! u : U, u • a = b)
     {y : G} (hy : y ∉ B) :
     Set.InjOn (fun s : G => (QuotientGroup.mk (s * y) : G ⧸ B)) (U : Set G) := by
@@ -195,7 +195,7 @@ theorem le_B_or_eq_top_of_bruhat {G : Type u} [Group G] [Finite G] [IsSimpleGrou
         · exact (Subgroup.normalizer (Y : Set G)).mul_mem
             ((Subgroup.normalizer (Y : Set G)).mul_mem (hBnormY hb₁) hnY) (hBnormY hb₂)
       have hYtop : Y = ⊤ := by
-        haveI : Y.Normal := hYnormal
+        have : Y.Normal := hYnormal
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Y with h | h
         · exfalso
           apply hUbot
@@ -227,7 +227,7 @@ theorem RankOneData.map {N N' : Type u} [Group N] [Group N'] [Finite N] [Finite 
   isSylow := by
     obtain ⟨S, hS⟩ := h.isSylow
     refine ⟨S.mapSurjective (f := e.toMonoidHom) (by simpa using e.surjective), ?_⟩
-    simpa [Sylow.coe_mapSurjective, hS]
+    simp [Sylow.coe_mapSurjective, hS]
   U_le_B := Subgroup.map_mono h.U_le_B
   overgroup_le_B := by
     intro M' hUM' hM'
@@ -247,7 +247,7 @@ theorem RankOneData.map {N N' : Type u} [Group N] [Group N'] [Finite N] [Finite 
     rwa [Subgroup.map_comap_eq_self_of_surjective (by simpa using e.surjective) M'] at hmap
   index_B := by
     have h1 : (B.map e.toMonoidHom).index = B.index := by
-      simpa [MulEquiv.coe_toMonoidHom] using Subgroup.index_map_equiv B e
+      simp
     have h2 : Nat.card (U.map e.toMonoidHom) = Nat.card U :=
       Subgroup.card_map_of_injective e.injective
     rw [h1, h2, h.index_B]
@@ -267,7 +267,7 @@ theorem card_eq_one_add_of_rankOneData {Y : Type u} {Ω : Type*} [Group Y] [Fini
     (hdata : ∃ U B : Subgroup N, RankOneData N U B ∧ Nat.card U = c) :
     Fintype.card Ω = 1 + c := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e, he1, hcardΩ⟩ := hdeg
   have hfixed : MulAction.fixedPoints N Ω ≠ ⊤ := by
     intro htop
@@ -278,7 +278,7 @@ theorem card_eq_one_add_of_rankOneData {Y : Type u} {Ω : Type*} [Group Y] [Fini
     have h1 : n = 1 :=
       FaithfulSMul.eq_of_smul_eq_smul (fun x => by rw [hfixall x, one_smul])
     exact hn1 h1
-  haveI : MulAction.IsPreprimitive Y Ω :=
+  have : MulAction.IsPreprimitive Y Ω :=
     MulAction.isPreprimitive_of_is_two_pretransitive h2
   have hNtrans : MulAction.IsPretransitive N Ω :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := N) hfixed
@@ -328,14 +328,14 @@ theorem card_eq_one_add_of_rankOneData {Y : Type u} {Ω : Type*} [Group Y] [Fini
     rw [Subgroup.card_map_of_injective e1.injective, hUcard]
   have hMleB : M ≤ B' :=
     hU'data.overgroup_le_B M hU'le (lt_top_iff_ne_top.mpr hMtop.ne)
-  haveI : U'.IsFiniteRelIndex B' := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : U'.IsFiniteRelIndex B' := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hm_lt : M.relIndex B' < c := by
     have hle : M.relIndex B' ≤ U'.relIndex B' :=
       Subgroup.relIndex_le_of_le_left hU'le (Subgroup.relIndex_ne_zero (H := U') (K := B'))
     calc
       M.relIndex B' ≤ U'.relIndex B' := hle
       _ < c := by simpa [hU'card] using hU'data.relIndex_lt
-  haveI : M.IsFiniteRelIndex B' := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : M.IsFiniteRelIndex B' := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hm_pos : 1 ≤ M.relIndex B' := by
     rw [Nat.one_le_iff_ne_zero]
     exact Subgroup.relIndex_ne_zero (H := M) (K := B')

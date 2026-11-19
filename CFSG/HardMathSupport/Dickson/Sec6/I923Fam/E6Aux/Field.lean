@@ -18,7 +18,7 @@ theorem noL2Layer_entrywise_e6 (hO : ComponentClassification.CatLeaf.LieOrderFor
     {ℓ d : ℕ} (hℓ : ℓ.Prime) (hd : 1 ≤ d) {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
     (hcard : Nat.card (fixSubfield σ) = ℓ ^ d) :
     NoL2Layer (entrywiseAdjointAut Tag.E6 σ) := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) .E6 ℓ d :=
     ⟨⟨hℓ, hd, rfl⟩, untwisted_adjointGroup hcard⟩
   obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_e6_simplicity _ ℓ d hM
@@ -31,8 +31,8 @@ theorem noL2Layer_of_not_mem_e6Inndiag (hO : ComponentClassification.CatLeaf.Lie
     {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = ℓ ^ f) {x : MulAut (adjointGroup Tag.E6 K)} (hx3 : x ^ 3 = 1)
     (hxo : x ∉ e6Inndiag K) : NoL2Layer x := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := finite_field_prime_power_characteristic hℓ hf hK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := finite_field_prime_power_characteristic hℓ hf hK
   obtain ⟨σ, hσo, hpf, δ, hδ⟩ := exists_conj_entrywise_of_not_mem_e6Inndiag hℓ hf K hK
     Nat.prime_three (by norm_num) hx3 hxo
   have hd : 1 ≤ f / 3 := Nat.div_pos (Nat.le_of_dvd (by omega) hpf) (by norm_num)

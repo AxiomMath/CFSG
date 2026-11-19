@@ -14,8 +14,8 @@ open CFSG.RankThree.PartTwo.KFacts.L34
 theorem center_qSub_card {k : Type*} [Field k] (hk : Nat.card k = 4) :
     Nat.card (Subgroup.center (qSub (k := k))) = 3 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
+  let : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
+  have : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
   have hcard : Nat.card (qSub (k := k)) = 3 ^ 3 := by
     rw [card_qSub hk]
     norm_num
@@ -48,7 +48,7 @@ theorem center_qSub_card {k : Type*} [Field k] (hk : Nat.card k = 4) :
       have h9 : 3 * 9 = Nat.card (qSub (k := k) ⧸ Subgroup.center (qSub (k := k))) * 9 := by
         rw [h.symm]
       exact (Nat.mul_right_cancel (by norm_num : 0 < 9) h9).symm
-    haveI : IsCyclic (qSub (k := k) ⧸ Subgroup.center (qSub (k := k))) :=
+    have : IsCyclic (qSub (k := k) ⧸ Subgroup.center (qSub (k := k))) :=
       isCyclic_of_prime_card (p := 3) hq
     have hcomm : IsMulCommutative (qSub (k := k)) :=
       isMulCommutative_of_isCyclic_quotient_center_self _
@@ -67,8 +67,8 @@ theorem isElementaryAbelian_quotient_qSub {k : Type*} [Field k] (hk : Nat.card k
     CFSG.IsElementaryAbelian 3
       (↥(qSub (k := k)) ⧸ Subgroup.center (qSub (k := k))) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
+  let : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
+  have : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
   have hZ := center_qSub_card hk
   have hquot : Nat.card (qSub (k := k) ⧸ Subgroup.center (qSub (k := k))) = 9 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -94,8 +94,8 @@ theorem isElementaryAbelian_quotient_qSub {k : Type*} [Field k] (hk : Nat.card k
 theorem isExtraspecial_qSub {k : Type*} [Field k] (hk : Nat.card k = 4) :
     CFSG.IsExtraspecial 3 (qSub (k := k)) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
+  let : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
+  have : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
   refine ⟨center_qSub_card hk, isElementaryAbelian_quotient_qSub hk, ?_⟩
   have hquot : Nat.card (qSub (k := k) ⧸ Subgroup.center (qSub (k := k))) = 9 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -104,15 +104,15 @@ theorem isExtraspecial_qSub {k : Type*} [Field k] (hk : Nat.card k = 4) :
     have h9 : 9 * 3 = Nat.card (qSub (k := k) ⧸ Subgroup.center (qSub (k := k))) * 3 := by
       rw [h.symm]
     exact (Nat.mul_right_cancel (by norm_num : 0 < 3) h9).symm
-  haveI : Finite (qSub (k := k) ⧸ Subgroup.center (qSub (k := k))) := inferInstance
+  have : Finite (qSub (k := k) ⧸ Subgroup.center (qSub (k := k))) := inferInstance
   exact Finite.one_lt_card_iff_nontrivial.mp (by rw [hquot]; norm_num)
 
 theorem isExtraspecial_statedSL_sylow {k : Type} [Field k] (hk : Nat.card k = 4)
     {P : Subgroup (↥(StatedSL 3 k))} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤) :
     CFSG.IsExtraspecial 3 P ∧ Nat.card P = 27 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
+  let : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
+  have : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
   let e : Matrix.SpecialLinearGroup (Fin 3) k ≃* ↥(StatedSL 3 k) :=
     CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 k
   have hfactSL : (Nat.card (Matrix.SpecialLinearGroup (Fin 3) k)).factorization 3 = 3 := by
@@ -145,7 +145,7 @@ theorem isExtraspecial_statedSL_sylow {k : Type} [Field k] (hk : Nat.card k = 4)
     ((MulAut.conj g).subgroupMap (qSub (k := k))).trans
       (MulEquiv.subgroupCongr hQeq.symm)
   have hQext : CFSG.IsExtraspecial 3 Q := by
-    haveI : CFSG.IsExtraspecial 3 (qSub (k := k)) := isExtraspecial_qSub hk
+    have : CFSG.IsExtraspecial 3 (qSub (k := k)) := isExtraspecial_qSub hk
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv heQ.symm
   have hQmap : Q.map (e : Matrix.SpecialLinearGroup (Fin 3) k →* ↥(StatedSL 3 k)) = P := by
     ext x
@@ -159,7 +159,7 @@ theorem isExtraspecial_statedSL_sylow {k : Type} [Field k] (hk : Nat.card k = 4)
   let heQP : Q ≃* P :=
     (e.subgroupMap Q).trans (MulEquiv.subgroupCongr hQmap)
   have hPext : CFSG.IsExtraspecial 3 P := by
-    haveI : CFSG.IsExtraspecial 3 Q := hQext
+    have : CFSG.IsExtraspecial 3 Q := hQext
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv heQP.symm
   exact ⟨hPext, hPcard⟩
 
@@ -171,8 +171,8 @@ theorem isExtraspecial_sylow_three_of_isSL3Four_of_certificates
     CFSG.IsExtraspecial 3 P ∧ Nat.card P = 27 := by
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.nonempty_mulEquiv_statedSL_of_isSL3Four h
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPcardX : Nat.card P = 3 ^ (Nat.card X).factorization 3 := by
     have h := hP.card_eq (p := 3) (K := ⊤)
@@ -189,7 +189,7 @@ theorem isExtraspecial_sylow_three_of_isSL3Four_of_certificates
   have hP'sylow : CFSG.ABGLocalTools.IsSylowOf 3 P' ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_of_card le_top hP'cardTop
   obtain ⟨hP'ext, hP'card27⟩ := isExtraspecial_statedSL_sylow hKcard hP'sylow
-  haveI : CFSG.IsExtraspecial 3 P' := hP'ext
+  have : CFSG.IsExtraspecial 3 P' := hP'ext
   let he : P ≃* P' := e.subgroupMap P
   refine ⟨?_, ?_⟩
   · exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv he
@@ -210,8 +210,8 @@ theorem pow_three_statedSL_sylow {k : Type} [Field k] (hk : Nat.card k = 4)
     {P : Subgroup (↥(StatedSL 3 k))} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤) :
     ∀ x : P, x ^ 3 = 1 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
+  let : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
+  have : Finite (Matrix.SpecialLinearGroup (Fin 3) k) := inferInstance
   let e : Matrix.SpecialLinearGroup (Fin 3) k ≃* ↥(StatedSL 3 k) :=
     CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 k
   have hfactSL : (Nat.card (Matrix.SpecialLinearGroup (Fin 3) k)).factorization 3 = 3 := by
@@ -267,8 +267,8 @@ theorem pow_three_of_isSL3Four_sylow
     ∀ x : P, x ^ 3 = 1 := by
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.nonempty_mulEquiv_statedSL_of_isSL3Four h
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPcardX : Nat.card P = 3 ^ (Nat.card X).factorization 3 := by
     have h := hP.card_eq (p := 3) (K := ⊤)

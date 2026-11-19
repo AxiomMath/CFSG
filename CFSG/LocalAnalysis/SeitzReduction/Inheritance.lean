@@ -58,7 +58,7 @@ theorem card_le_two_of_forall_le_inf_centralizer {K : Subgroup X} {t : X} (htK :
   have hp : IsPGroup 2 (zpowers tK) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, htK2, pow_one])
   obtain ⟨S, hS⟩ := hp.exists_le_sylow
-  have hS2 : IsPGroup 2 ((S : Subgroup K).map K.subtype) := S.isPGroup'.map _
+  have hS2 : IsPGroup 2 ((S : Subgroup K).map K.subtype) := S.isPGroup.map _
   have htS : t ∈ (S : Subgroup K).map K.subtype := ⟨tK, hS (mem_zpowers tK), rfl⟩
   have hcardS : Nat.card S ≤ 2 := by
     rw [← card_map_of_injective K.subtype_injective]
@@ -78,10 +78,10 @@ theorem perfect_eq_bot_of_forall_card_le_two {K P : Subgroup X}
   obtain ⟨S⟩ : Nonempty (Sylow 2 P) := inferInstance
   have hScard : Nat.card S ≤ 2 := by
     rw [← card_map_of_injective P.subtype_injective]
-    exact h _ (S.isPGroup'.map _) ((map_subtype_le _).trans hPK)
+    exact h _ (S.isPGroup.map _) ((map_subtype_le _).trans hPK)
   have hScyc : IsCyclic (S : Subgroup P) := by
     refine isCyclic_of_card_dvd_prime (p := 2) ?_
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     rw [hk] at hScard ⊢
     rcases k with _ | _ | k
     · exact one_dvd _
@@ -92,7 +92,7 @@ theorem perfect_eq_bot_of_forall_card_le_two {K P : Subgroup X}
       omega
   obtain ⟨-, -, -, ⟨hn, hodd, hidx, -⟩, -⟩ := CFSG.cyclic_sylow_normal_odd_complement S hScyc
   have hq : IsPGroup 2 (P ⧸ pPrimeCore 2 P) := by
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     exact IsPGroup.of_card (n := k) (by rw [← index_eq_card, hidx, hk])
   have := hq.isNilpotent
   have hPtop : ⁅(⊤ : Subgroup P), (⊤ : Subgroup P)⁆ = ⊤ := by
@@ -119,7 +119,7 @@ theorem exists_conj_eq_of_forall_card_le_two {K : Subgroup X}
     obtain ⟨S, hS⟩ := hp.exists_le_sylow
     refine ⟨S, (eq_of_le_of_card_ge hS ?_).symm⟩
     rw [Nat.card_zpowers, hv, ← card_map_of_injective K.subtype_injective]
-    exact h _ (S.isPGroup'.map _) (map_subtype_le _)
+    exact h _ (S.isPGroup.map _) (map_subtype_le _)
   set tK : K := ⟨t, htK⟩ with htKdef
   set uK : K := ⟨u, huK⟩ with huKdef
   have htK2 : orderOf tK = 2 := by rw [htKdef, orderOf_mk, ht]
@@ -262,7 +262,7 @@ theorem card_le_two_of_le_centralizer_inf {t : H} (ht : orderOf t = 2) {D : Subg
   have h4A : 2 ^ 2 ∣ Nat.card A := h4V.trans (hAV ▸ card_map_dvd A π)
   obtain ⟨W⟩ : Nonempty (Sylow 2 A) := inferInstance
   have h4W : 2 ^ 2 ∣ Nat.card W := W.pow_dvd_card_of_pow_dvd_card h4A
-  have hW2 : IsPGroup 2 ((W : Subgroup A).map A.subtype) := W.isPGroup'.map _
+  have hW2 : IsPGroup 2 ((W : Subgroup A).map A.subtype) := W.isPGroup.map _
   have hWA : (W : Subgroup A).map A.subtype ≤ A := map_subtype_le _
   have hWcard : Nat.card ((W : Subgroup A).map A.subtype) = Nat.card W :=
     card_map_of_injective A.subtype_injective

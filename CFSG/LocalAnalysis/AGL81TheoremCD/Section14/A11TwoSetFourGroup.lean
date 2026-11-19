@@ -270,7 +270,7 @@ private theorem standard_subgroup_bound :
   have hge : 9 ≤ Nat.card ↥Y := by
     obtain ⟨m, hm, hEq⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hdvd'
     have hpos : 0 < Nat.card ↥Y := Nat.card_pos
-    interval_cases m <;> simp [hEq] at * <;> omega
+    interval_cases m <;> simp [hEq] at *
   have hYne : Y ≠ ⊥ := by
     intro hbot
     rw [hbot] at hge
@@ -289,7 +289,7 @@ private theorem standard_subgroup_bound :
     have hcardle : Nat.card ↥Y ≤ Nat.card ↥(Subgroup.zpowers y1) :=
       Nat.card_le_card_of_injective (Subgroup.inclusion hleY) (Subgroup.inclusion_injective hleY)
     omega
-  obtain ⟨y2, hy2Y, hy2not⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨y2, hy2Y, hy2not⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hy1supp : ((y1 : A11) : Perm (Fin 11)).support.card = 6 := hYsupp y1 hy1Y hy1ne
   obtain ⟨i, j, k, hijk⟩ := (mem_closure_iff_fin y1).mp hy1J
   obtain ⟨i', j', k', hi'j'k'⟩ := (mem_closure_iff_fin y2).mp (hYle hy2Y)
@@ -359,7 +359,7 @@ private theorem card_support_conj_a11 (g x : A11) :
       (x : Perm (Fin 11)).support.card := by
   have h := Equiv.Perm.card_support_conj (σ := (g : Perm (Fin 11)))
     (τ := (x : Perm (Fin 11)))
-  simpa [MulAut.conj_apply] using h
+  simp [MulAut.conj_apply]
 
 private theorem conj_c1c3_data {g σ c1 c3 : A11}
     (hg : g ∈ a11TwoSetStab 9 10)

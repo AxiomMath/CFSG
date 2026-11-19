@@ -38,7 +38,7 @@ theorem exists_char_two_sylow {Q : Type*} [Group Q] [Finite Q] (Sh : Subgroup Q)
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥Sh) := inferInstance
   have hPn : (P : Subgroup ↥Sh).Normal := inferInstance
   have hu : Unique (Sylow 2 ↥Sh) := Sylow.unique_of_normal P hPn
-  refine ⟨(P : Subgroup ↥Sh).map Sh.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P : Subgroup ↥Sh).map Sh.subtype, Subgroup.map_subtype_le _, P.isPGroup.map _, ?_, ?_⟩
   · intro x hx
     have hmax := (P.mapSurjective hf).maximal_isPGroup.eq_of_ge (h2.to_subgroup ⊤) le_top
     have hxm : f ⟨x, hx⟩ ∈ ((P.mapSurjective hf : Sylow 2 ↥(Sh.map π)) : Subgroup ↥(Sh.map π)) := by
@@ -55,7 +55,7 @@ theorem exists_char_two_sylow {Q : Type*} [Group Q] [Finite Q] (Sh : Subgroup Q)
     have hord : orderOf t = orderOf s' := by
       rw [← Subgroup.orderOf_coe t, ← Subgroup.orderOf_coe s']
       exact MulEquiv.orderOf_eq φ (s' : Q)
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨s', hs'P⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨s', hs'P⟩
     have hsk : orderOf s' ∣ 2 ^ k := by
       have h1 := orderOf_dvd_of_pow_eq_one hk
       rw [← Subgroup.orderOf_coe (⟨s', hs'P⟩ : ↥(P : Subgroup ↥Sh))] at h1
@@ -113,7 +113,7 @@ theorem exists_two_subgroup_of_simpleQuot (hp : p.Prime) (hp2 : p ≠ 2) {F : Su
     (IsPGroup.of_card (n := 0) (by simp)) (by rw [hbot]; exact le_top)
   obtain ⟨hRle, hRp⟩ : R ≤ hatSub p J St ∧ IsPGroup 2 R := by
     obtain ⟨Q, rfl⟩ := hRsyl
-    exact ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _⟩
+    exact ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _⟩
   obtain ⟨s, hsS, hs1⟩ : ∃ s ∈ S, s ≠ 1 := by
     by_contra hno
     push Not at hno

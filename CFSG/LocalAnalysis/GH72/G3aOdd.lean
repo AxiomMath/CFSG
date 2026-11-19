@@ -35,8 +35,7 @@ theorem odd_normalizes_e16_of_dd {D D₁ D₂ A : Subgroup G} (hd : DDDecomp D D
   let y : MulAut (PX a) := MulAut.congr φ σ
   have hy_apply : ∀ d : ↥D, y (φ d) = φ (σ d) := by
     intro d
-    simp only [y, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply,
-      MulEquiv.apply_symm_apply]
+    simp only [y, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
   have hσ_dvd : orderOf σ ∣ orderOf u := by
     change orderOf ((Subgroup.normalizerMonoidHom (H := D)) ⟨u, huN⟩) ∣ orderOf u
     rw [← Subgroup.orderOf_mk u huN]
@@ -116,7 +115,7 @@ theorem odd_normalizes_e16_of_dd {D D₁ D₂ A : Subgroup G} (hd : DDDecomp D D
     calc Subgroup.center (PX a) = (Subgroup.center ↥D).map φ.toMonoidHom :=
           (Subgroup.map_center_eq φ).symm
       _ ≤ AD.map φ.toMonoidHom := Subgroup.map_mono hcenterD
-  haveI : Fintype (PX a) := inferInstance
+  have : Fintype (PX a) := inferInstance
   have hmap_le : A'.map y.toMonoidHom ≤ A' := by
     rintro z ⟨x, hx, rfl⟩
     obtain ⟨d, hd, rfl⟩ := Subgroup.mem_map.1 hx
@@ -149,7 +148,7 @@ theorem odd_normalizes_e16_of_dd {D D₁ D₂ A : Subgroup G} (hd : DDDecomp D D
     change u * a * u⁻¹ ∈ A
     rw [← hσ_apply ⟨a, hA ha⟩]
     exact hσmem
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA16.2]; norm_num)
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA16.2]; norm_num)
   have hmapA_eq : A.map (MulAut.conj u).toMonoidHom = A :=
     Subgroup.eq_of_le_of_card_ge hmapA_le
       (le_of_eq (Subgroup.card_map_of_injective (MulAut.conj u).injective).symm)
@@ -159,7 +158,7 @@ theorem odd_normalizes_e16_of_dd {D D₁ D₂ A : Subgroup G} (hd : DDDecomp D D
 theorem odd_fixes_central_involutions_of_dd {D D₁ D₂ : Subgroup G} (hd : DDDecomp D D₁ D₂)
     (h₁ : IsDihNonab D₁) {u : G} (hu : Odd (orderOf u))
     (huN : u ∈ Subgroup.normalizer (D : Set G)) {z : G} (hzD : z ∈ D)
-    (hzc : ∀ y ∈ D, y * z = z * y) (hz2 : orderOf z = 2) : u * z * u⁻¹ = z := by
+    (hzc : ∀ y ∈ D, y * z = z * y) (_hz2 : orderOf z = 2) : u * z * u⁻¹ = z := by
   obtain ⟨a₀, ha₀, ⟨e₀⟩⟩ := h₁
   obtain ⟨a₁, ha₁, ⟨e₁⟩⟩ := hd.dih₂
   let a : Bool → ℕ := fun b => if b then a₁ else a₀
@@ -181,8 +180,7 @@ theorem odd_fixes_central_involutions_of_dd {D D₁ D₂ : Subgroup G} (hd : DDD
   let y : MulAut (PX a) := MulAut.congr φ σ
   have hy_apply : ∀ d : ↥D, y (φ d) = φ (σ d) := by
     intro d
-    simp only [y, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply,
-      MulEquiv.apply_symm_apply]
+    simp only [y, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
   have hσ_dvd : orderOf σ ∣ orderOf u := by
     change orderOf ((Subgroup.normalizerMonoidHom (H := D)) ⟨u, huN⟩) ∣ orderOf u
     rw [← Subgroup.orderOf_mk u huN]
@@ -272,13 +270,10 @@ theorem odd_fixes_central_involutions_of_dd {D D₁ D₂ : Subgroup G} (hd : DDD
     rcases hcases with h | h | h | h
     · rw [h, map_one]
     · rw [h]
-      change y (zz a false) = zz a false
       exact hfix false h0'
     · rw [h]
-      change y (zz a true) = zz a true
       exact hfix true h1'
     · rw [h]
-      change y (zz a false * zz a true) = zz a false * zz a true
       calc y (zz a false * zz a true) = y (zz a false) * y (zz a true) := map_mul y _ _
         _ = zz a false * zz a true := by rw [hfix false h0', hfix true h1']
   have hyw' : y (φ ⟨z, hzD⟩) = φ ⟨z, hzD⟩ := by

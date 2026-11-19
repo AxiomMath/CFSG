@@ -33,10 +33,10 @@ theorem linear_two_data_of_innerDiagOnLabel {G : Type} [Group G]
   rw [hA] at hraw
   dsimp only [LargeEvenRecipeLinear] at hraw
   obtain ⟨F, hfield, hfin, hF, -, -, θ, -, hNs, h3I⟩ := hraw
-  letI : Field F := hfield
-  letI : Finite F := hfin
+  let : Field F := hfield
+  let : Finite F := hfin
   have hF2 : Nat.card F = 2 := by simpa only [hn, pow_one] using hF
-  letI : CharP F 2 := charP_two_of_card (m := 1) (by simpa using hF2)
+  let : CharP F 2 := charP_two_of_card (m := 1) (by simpa using hF2)
   let e := TypeA.recipeEquiv (lab.rank + 1) F
   refine ⟨lab.rank + 1, F, hfield, hfin, inferInstance, hNs, θ.trans e,
     hd, hF2, hperf, fun b hb => ?_⟩
@@ -99,9 +99,9 @@ theorem native_linear_equiv_of_innerDiagOnLabel
         ∀ α ∈ (ggGamma K hN).range, MulAut.congr e α ∈ Set.range (conjAut d F) := by
   obtain ⟨d, F, hfield, hfin, hchar, hNs, θ, hd, hF, hperf, hinner⟩ :=
     linear_two_data_of_innerDiagOnLabel hS hK
-  letI : Field F := hfield
-  letI : Finite F := hfin
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfin
+  let : CharP F 2 := hchar
   have hAr := P9_Wa_card_range hBs hcard hz hz1 hN hker
   have hTB : GGTorusTBGroup 3 (n - 1) (projectiveSL d F) (Set.range (conjAut d F)) K
       (ggQuotHom θ) (ggGamma K hN).range := by

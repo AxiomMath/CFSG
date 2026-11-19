@@ -86,11 +86,11 @@ theorem ggTBJ_twE6_class_setup
     change (ζ ^ (t₀ i).val) ^ p = 1
     rw [← pow_mul, mul_comm, pow_mul, hζ, one_pow]
   have hpL : (p : AlgebraicClosure K) ≠ 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
       (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul])
-    haveI : CharP (AlgebraicClosure K) 2 :=
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
     rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]
     intro h2
@@ -140,7 +140,7 @@ theorem ggTBJ_twE6_class_setup
       have : ψ' x ∈ J.map ψ' := Subgroup.mem_map_of_mem ψ' hx
       rw [hbot, Subgroup.mem_bot] at this
       exact this
-    haveI : Nontrivial J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
+    have : Nontrivial J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
     have hJcomm : ⁅J, J⁆ = ⊥ := by
       rw [eq_bot_iff, Subgroup.commutator_le]
       intro x hx z hz
@@ -292,7 +292,7 @@ theorem ggTBJ_twE6_class
       rootDiagUnit TwistTag.E6.tag (TableBExc.E6Three.zetaVec ζ hζ t₀) * ggKGTwY F (ψ l) *
         (rootDiagUnit TwistTag.E6.tag (TableBExc.E6Three.zetaVec ζ hζ t₀))⁻¹)
     {J : Subgroup L'} (hJ : CFSG.Open.IsComponentOf J (fixSubgroup y))
-    (hJl : ∀ Q : Subgroup L', CFSG.Open.IsComponentOf Q (fixSubgroup y) → Q ≤ J) :
+    (_hJl : ∀ Q : Subgroup L', CFSG.Open.IsComponentOf Q (fixSubgroup y) → Q ≤ J) :
     ∃ i : KernelComponent (rootCharHom (TableBExc.E6Three.zetaVec ζ hζ t₀)),
       (∀ γ ∈ componentRoots (rootCharHom (TableBExc.E6Three.zetaVec ζ hζ t₀)) i,
         ∀ r ∈ ggKGTwJ F γ, ∃ m ∈ J, ψ m = r) ∧

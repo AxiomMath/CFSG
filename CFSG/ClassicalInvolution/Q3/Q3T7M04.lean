@@ -415,7 +415,7 @@ theorem E189E4.of_e187 (h4 : E187E4C) : E189E4 := by
       (Subgroup.centralizer (A : Set G)) := by
     have hle : P ≤ (S' : Subgroup G) ⊓ Subgroup.centralizer (A : Set G) := le_inf hPS' hP.1
     have hp2 : IsPGroup 2 ↥((S' : Subgroup G) ⊓ Subgroup.centralizer (A : Set G)) :=
-      S'.isPGroup'.to_le inf_le_left
+      S'.isPGroup.to_le inf_le_left
     have heq := hP.eq_of_le hp2 inf_le_right hle
     rw [heq]
     exact hP

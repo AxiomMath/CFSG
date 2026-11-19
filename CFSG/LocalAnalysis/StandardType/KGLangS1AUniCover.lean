@@ -85,7 +85,7 @@ theorem kgLangS1A_uni_cover
     apply Subtype.ext
     exact (Subgroup.mem_center_iff.mp (TableB.scalars_le_center h3)) (x : GL (Fin d) F)
   have hH : commutator SU = ⊤ := by
-    haveI hSUperf : Group.IsPerfect SU :=
+    have hSUperf : Group.IsPerfect SU :=
       Subgroup.isPerfect_iff.mpr (GGL45TG.SU.commutator_su h hd hn)
     exact Group.IsPerfect.commutator_eq_top
   have hconj : ∀ (α : MulAut K)

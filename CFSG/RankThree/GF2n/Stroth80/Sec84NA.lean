@@ -20,6 +20,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem nu_img_le {K : Type} [Field K] {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (h : ↥(H0 M Z)), ∀ y ∈ Q, M₀.π ((h : G) * y * (h : G)⁻¹) = φ h (M₀.π y))
@@ -87,12 +88,12 @@ theorem sec84NA_core (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   have hKn4 : 4 ≤ Nat.card Kn := by rw [hKnZ]; exact hc.hyp.q4
   have hKZ : Nat.card K = Nat.card Z := hD.card
   let φR : ↥(Rt M (LB M Q B) t) →* (M₀.E ≃ₗ[K] M₀.E) := φ.comp (Subgroup.inclusion hRH)
-  letI actE : DistribMulAction ↥(Rt M (LB M Q B) t) M₀.E := DistribMulAction.compHom M₀.E φR
-  haveI smcE : SMulCommClass ↥(Rt M (LB M Q B) t) K M₀.E := ⟨fun ρ c e => (φR ρ).map_smul c e⟩
+  let actE : DistribMulAction ↥(Rt M (LB M Q B) t) M₀.E := DistribMulAction.compHom M₀.E φR
+  have smcE : SMulCommClass ↥(Rt M (LB M Q B) t) K M₀.E := ⟨fun ρ c e => (φR ρ).map_smul c e⟩
   have hact : ∀ (ρ : ↥(Rt M (LB M Q B) t)) (e : M₀.E), ρ • e = φ ⟨ρ.1, hRH ρ.2⟩ e :=
     fun ρ e => rfl
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Module.Finite K M₀.E := M₀.fin
+  have : Finite M₀.E := Module.finite_of_finite K
   have hnd : M₀.B.Nondegenerate := by
     refine ⟨fun x hx => M₀.nondeg x hx, fun y hy => M₀.nondeg y fun f => ?_⟩
     rw [Tim79.QuadModel.B_comm, hy f, neg_zero]
@@ -143,7 +144,7 @@ theorem sec84NA_core (h34 : Stroth34Statement) (h51 : Stroth51Statement)
     fun ρ hρ y hy => hc.CN_conj_mem ht hρ hy
   have hsec : SecHyp (Rt M (LB M Q B) t) (hc.CN t) Z0 := ⟨hZ0N, hNN, hNsq, hNn, hZ0n⟩
   obtain ⟨Mo, iMo, iAct, κ, hκ, hkerAct⟩ := exists_sectionModule_ker hpts.ker hsec hNN
-  haveI : Finite Mo := hκ.finite
+  have : Finite Mo := hκ.finite
   have hMocard : Nat.card Mo = Nat.card Z ^ 8 := by
     have h1 := natCard_eq_of_isSecMod hZ0N hκ
     have hpos : 0 < Nat.card ↥Z0 := Nat.card_pos
@@ -315,7 +316,7 @@ theorem sec84NA_core (h34 : Stroth34Statement) (h51 : Stroth51Statement)
       rw [hact', toAdd_ofAdd, hm]
     rw [hρm, hm, ha_spec, ha_spec]
     exact haEeq ρ n ⟨ρ.1 * n.1 * ρ.1⁻¹, hρn⟩ rfl e
-  haveI : Finite X := Module.finite_of_finite K
+  have : Finite X := Module.finite_of_finite K
   have hAA : M₀.B.orthogonal AW1 = A := LinearMap.BilinForm.orthogonal_orthogonal hnd hrefl A
   let Bsub : E' →ₗ[K] E' →ₗ[K] K := M₀.B.compl₁₂ AW1.subtype AW1.subtype
   have hM : A' ≤ LinearMap.ker Bsub := by
@@ -618,7 +619,7 @@ theorem sec84NA_core (h34 : Stroth34Statement) (h51 : Stroth51Statement)
     obtain ⟨x, hx, y, hy, rfl⟩ := Submodule.mem_sup.mp hu'
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hy
     rw [map_add, hfV m x hx, map_smul, hf0, smul_zero, add_zero]
-  haveI : Nontrivial Mo := by
+  have : Nontrivial Mo := by
     obtain ⟨g, a', h⟩ := hMont
     exact ⟨⟨a', g • a', fun h' => h h'.symm⟩⟩
   have ha0 : a ≠ 0 := by
@@ -766,7 +767,7 @@ theorem sec84NAbelian_of_inputs (h34 : Stroth34Statement) (h51 : Stroth51Stateme
   obtain ⟨r, hr, -, -, -⟩ := sec8_Z0_data h51 hA hc hs hZ0
   obtain ⟨Kn, fKn, finKn, chKn, φn, hnorm, ψn, u, u', hpts, -, -, hequiv, nn, γ, M₀, hD, θ,
     hθ⟩ := sec8_natdata h34 hRoot hs hr hm3
-  haveI := hnorm
+  have := hnorm
   exact sec84NA_core h34 h51 h53 h310chi hzt hA hCW hS hc hs hr hC hm3 hZ0 hcard hirr hab hsq
     φn ψn hpts M₀ hD θ hθ hequiv
 

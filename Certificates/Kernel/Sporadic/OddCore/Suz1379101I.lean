@@ -36,8 +36,8 @@ theorem ten_bind : (tenArrs (rArrs ()) (cArrs ())).size = 10 ∧
   rw [ofFn_get _ hj]
   simp only
   by_cases h : j < 4
-  · rw [if_pos h, (rA_facts h).1, sel10_lt h]
-  · rw [if_neg h, (c_facts (by omega)).1, sel10_ge h]
+  · rw [ite_eq_left h, (rA_facts h).1, sel10_lt h]
+  · rw [ite_eq_right h, (c_facts (by omega)).1, sel10_ge h]
 
 theorem kw_parts : lettersK 10 WA = true ∧ lettersK 10 WB = true ∧
     wordK 1782 11 (mask 11) e kOne.sel10 (fun j => pinv (kOne.sel10 j)) WA = TRI 0 ∧

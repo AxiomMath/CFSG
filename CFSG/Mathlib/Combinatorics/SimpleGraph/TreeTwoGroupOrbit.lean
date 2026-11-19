@@ -104,7 +104,7 @@ theorem card_dist_eq_add_two_le (hT : T.Connected) {c : V} (hdeg : ∀ v, v ≠ 
     intro v hv
     have hfv : f v = (exists_adj_dist_eq_of_connected (k := k + 1) hT hv).choose := by
       simp only [f]
-      exact dif_pos hv
+      exact dite_eq_left hv
     rw [hfv]
     exact (exists_adj_dist_eq_of_connected (k := k + 1) hT hv).choose_spec
   refine Finset.card_le_card_of_injOn f ?_ ?_

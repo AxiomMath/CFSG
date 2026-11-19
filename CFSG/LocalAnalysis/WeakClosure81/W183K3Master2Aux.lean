@@ -28,7 +28,7 @@ theorem w183k3m2_four_le_card_of_two_le_mRank {D : Subgroup (LGL 2 V)} (h : 2 �
   have hpow : 2 ^ 2 ≤ Nat.card D := Nat.pow_le_of_le_log hne hlog
   simpa using hpow
 
-theorem w183k3m2_mOf_le_mRank {A B : Subgroup (LGL 2 V)} (hBA : B ≤ A) : mOf A B ≤ mRank A := by
+theorem w183k3m2_mOf_le_mRank {A B : Subgroup (LGL 2 V)} (_hBA : B ≤ A) : mOf A B ≤ mRank A := by
   unfold mOf mRank
   apply Nat.log_mono_right
   rw [← Subgroup.index_bot]
@@ -36,7 +36,7 @@ theorem w183k3m2_mOf_le_mRank {A B : Subgroup (LGL 2 V)} (hBA : B ≤ A) : mOf A
 
 theorem w183k3m2_card_eq_four_of_mRank_eq_two {D : Subgroup (LGL 2 V)}
     (hel : IsElemAbelian 2 D) (h : mRank D = 2) : Nat.card D = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (hel.isPGroup)
   have hlog : Nat.log 2 (2 ^ n) = 2 := by rw [← hn]; simpa only [mRank] using h
   have hn2 : n = 2 := by
@@ -103,12 +103,14 @@ theorem w183k3m2_three_le_mOf_or (hc : Br2Common Y Γ VA T 𝒢 Zs m i₀ δ)
   exact hc.h131.false_of_two_kernels_quasi hD htwo.le₁ htwo.le₂ htwo.quasi₁ htwo.quasi₂
     htwo.odd₁ htwo.odd₂ htwo.comm hAn₁ hAn₂ rfl rfl hDne hFne hDF (hm₁.trans hi)
 
+omit [Finite V] in
 theorem w183k3m2_centralizer_cj (g : LGL 2 V) (S : Subgroup (LGL 2 V)) :
     (Subgroup.centralizer (S : Set (LGL 2 V))).map (MulAut.conj g).toMonoidHom =
       Subgroup.centralizer ((cj g S : Subgroup (LGL 2 V)) : Set (LGL 2 V)) := by
   rw [CFSG.Walter.map_centralizer_mulEquiv, cj, Subgroup.coe_map]
   simp only [MulEquiv.coe_toMonoidHom]
 
+omit [Finite V] in
 theorem w183k3m2_not_centralizes_cj {g : LGL 2 V} {D S : Subgroup (LGL 2 V)}
     (h : ¬ D ≤ Subgroup.centralizer (S : Set (LGL 2 V))) :
     ¬ cj g D ≤ Subgroup.centralizer ((cj g S : Subgroup (LGL 2 V)) : Set (LGL 2 V)) := by

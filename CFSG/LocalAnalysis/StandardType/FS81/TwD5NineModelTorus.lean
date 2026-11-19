@@ -378,12 +378,12 @@ theorem exists_eq_reflect_of_conj_frameRot {A : Subgroup (V5 ≃ₗ[ZMod 2] V5)}
       · subst hki
         have hrel : h * frameRot F k = (frameRot F k)⁻¹ * h := by
           have := hconj k
-          rw [if_pos rfl] at this
+          rw [ite_eq_left rfl] at this
           exact mul_inv_eq_iff_eq_mul.mp this
         exact maps_perp_of_inv (frameRot_fix_iff F k) hrel
       · have hrel : h * frameRot F k = frameRot F k * h := by
           have := hconj k
-          rw [if_neg hki] at this
+          rw [ite_eq_right hki] at this
           exact mul_inv_eq_iff_eq_mul.mp this
         exact maps_perp_of_commute (frameRot_fix_iff F k) hrel
     exact maps_piece_of_perp hO hperp v hv
@@ -391,7 +391,7 @@ theorem exists_eq_reflect_of_conj_frameRot {A : Subgroup (V5 ≃ₗ[ZMod 2] V5)}
     intro k hki v hv
     have hrel : h * frameRot F k = frameRot F k * h := by
       have := hconj k
-      rw [if_neg hki] at this
+      rw [ite_eq_right hki] at this
       exact mul_inv_eq_iff_eq_mul.mp this
     exact eq_one_on_piece_of_commute F hU h2 (hmaps k) hrel v hv
   have hne_i : ∃ v ∈ F.U i, h v ≠ v := by
@@ -402,7 +402,7 @@ theorem exists_eq_reflect_of_conj_frameRot {A : Subgroup (V5 ≃ₗ[ZMod 2] V5)}
     have hxvi : h (frameRot F i v) = frameRot F i v := hno _ (F.mapsTo _ i v hv)
     have hrel : h * frameRot F i = (frameRot F i)⁻¹ * h := by
       have := hconj i
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       exact mul_inv_eq_iff_eq_mul.mp this
     have h1 := congrArg (fun g => g v) hrel
     have h2 : frameRot F i v = (frameRot F i)⁻¹ v := by
@@ -441,7 +441,7 @@ theorem exists_eq_reflect_of_conj_frameRot {A : Subgroup (V5 ≃ₗ[ZMod 2] V5)}
     frameRot_sq_apply_of_mem F hu_mem
   have hrel_i : h * frameRot F i = (frameRot F i)⁻¹ * h := by
     have := hconj i
-    rw [if_pos rfl] at this
+    rw [ite_eq_left rfl] at this
     exact mul_inv_eq_iff_eq_mul.mp this
   have hxinv : (frameRot F i)⁻¹ u = frameRot F i (frameRot F i u) := by
     have hx3 := frameRot_pow_three F i

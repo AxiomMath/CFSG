@@ -166,7 +166,7 @@ theorem burnsideF45_card_stab_opp {u w : W} (hF : burnsideF45_FaithfulAt Γ X u)
   set S := MulAction.stabilizer X u ⊓ MulAction.stabilizer X w with hS
   set N := Γ.neighborSet u with hNdef
   have hfin : N.Finite := Set.finite_of_ncard_ne_zero (by rw [h3]; norm_num)
-  haveI : Finite ↥N := hfin.to_subtype
+  have : Finite ↥N := hfin.to_subtype
   have hsu : ∀ s : S, (s : X) • u = u := fun s => MulAction.mem_stabilizer_iff.mp s.2.1
   have hsw : ∀ s : S, (s : X) • w = w := fun s => MulAction.mem_stabilizer_iff.mp s.2.2
   have hmapsto : ∀ s : S, ∀ a ∈ N, (s : X) • a ∈ N := by
@@ -210,7 +210,7 @@ theorem burnsideF45_card_stab_opp {u w : W} (hF : burnsideF45_FaithfulAt Γ X u)
     refine ⟨s, Equiv.ext fun z => Subtype.ext ?_⟩
     rw [hρ]
     let f₂ : W → W := fun y => if hy : y ∈ N then ((σ ⟨y, hy⟩ : N) : W) else y
-    have hf₂ : ∀ y (hy : y ∈ N), f₂ y = ((σ ⟨y, hy⟩ : N) : W) := fun y hy => dif_pos hy
+    have hf₂ : ∀ y (hy : y ∈ N), f₂ y = ((σ ⟨y, hy⟩ : N) : W) := fun y hy => dite_eq_left hy
     have hf₂inj : Function.Injective f₂ := by
       intro y y' hyy
       by_cases hy : y ∈ N <;> by_cases hy' : y' ∈ N
@@ -218,16 +218,16 @@ theorem burnsideF45_card_stab_opp {u w : W} (hF : burnsideF45_FaithfulAt Γ X u)
         exact congrArg Subtype.val (σ.injective (Subtype.ext hyy))
       · exfalso
         have h1 : f₂ y ∈ N := by rw [hf₂ y hy]; exact (σ _).2
-        have h2 : f₂ y' = y' := dif_neg hy'
+        have h2 : f₂ y' = y' := dite_eq_right hy'
         rw [hyy, h2] at h1
         exact hy' h1
       · exfalso
         have h1 : f₂ y' ∈ N := by rw [hf₂ y' hy']; exact (σ _).2
-        have h2 : f₂ y = y := dif_neg hy
+        have h2 : f₂ y = y := dite_eq_right hy
         rw [← hyy, h2] at h1
         exact hy h1
-      · have h1 : f₂ y = y := dif_neg hy
-        have h2 : f₂ y' = y' := dif_neg hy'
+      · have h1 : f₂ y = y := dite_eq_right hy
+        have h2 : f₂ y' = y' := dite_eq_right hy'
         rw [h1, h2] at hyy
         exact hyy
     have e := burnsideF45_eq_of_agree_two h3 (f₁ := fun y => t • y) (f₂ := f₂)
@@ -241,7 +241,7 @@ theorem burnsideF45_card_stab_opp {u w : W} (hF : burnsideF45_FaithfulAt Γ X u)
 
 theorem burnsideF45_card_inf_index_two {R H : Subgroup X} (hR : R.index = 2) (hH : ¬ H ≤ R) :
     2 * Nat.card ↥(R ⊓ H) = Nat.card ↥H := by
-  haveI := Subgroup.normal_of_index_eq_two hR
+  have := Subgroup.normal_of_index_eq_two hR
   have hdvd : R.relIndex H ∣ 2 := hR ▸ Subgroup.relIndex_dvd_index_of_normal R H
   have h1 : R.relIndex H ≠ 1 := fun h => hH (Subgroup.relIndex_eq_one.1 h)
   have h2 : R.relIndex H = 2 := by
@@ -375,14 +375,17 @@ namespace burnsideF45_G2dHex
 variable {J : G →* X} {x₀ l₀ : W} (H : burnsideF45_G2dHex Γ J x₀ l₀)
 include H
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem normal : J.range.Normal := Subgroup.normal_of_index_eq_two H.index
 
 theorem smul_path (g : G) {n : ℕ} (q : GPath Γ n) : J g • q = g • q :=
   GPath.ext' fun i _ => by rw [GPath.smul_apply, GPath.smul_apply, H.compat]
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem mem_stab_iff (g : G) (u : W) : g ∈ MulAction.stabilizer G u ↔ J g • u = u := by
   rw [MulAction.mem_stabilizer_iff, H.compat]
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem exists_point {w : W} {c : W → Bool} (hcl : ∀ g : G, c (g • l₀) = true) (hw : c w = false) :
     ∃ g : G, g • x₀ = w := by
   obtain ⟨g, hg | hg⟩ := H.vert w
@@ -390,6 +393,7 @@ theorem exists_point {w : W} {c : W → Bool} (hcl : ∀ g : G, c (g • l₀) =
   · rw [← hg, hcl] at hw
     exact absurd hw (by decide)
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem exists_line {w : W} {c : W → Bool} (hcx : ∀ g : G, c (g • x₀) = false) (hw : c w = true) :
     ∃ g : G, g • l₀ = w := by
   obtain ⟨g, hg | hg⟩ := H.vert w
@@ -397,6 +401,7 @@ theorem exists_line {w : W} {c : W → Bool} (hcx : ∀ g : G, c (g • x₀) = 
     exact absurd hw (by decide)
   · exact ⟨g, hg⟩
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem point_of_adj_line {u w : W} (hu : ∃ g : G, g • l₀ = u) (hw : Γ.Adj u w) :
     ∃ g' : G, g' • x₀ = w := by
   obtain ⟨c, hc, hcx, hcl⟩ := H.col
@@ -409,6 +414,7 @@ theorem point_of_adj_line {u w : W} (hu : ∃ g : G, g • l₀ = u) (hw : Γ.Ad
   · rw [hcw] at h1
     exact absurd rfl h1
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem line_of_even {u w : W} (hu : ∃ g : G, g • l₀ = u) (hw : Even (Γ.dist u w)) :
     ∃ g' : G, g' • l₀ = w := by
   obtain ⟨c, hc, hcx, hcl⟩ := H.col
@@ -417,26 +423,31 @@ theorem line_of_even {u w : W} (hu : ∃ g : G, g • l₀ = u) (hw : Even (Γ.d
   have := (GPath.dist_even_iff H.poly.connected hc (g • l₀) w).2 hw
   rw [← this, hcl]
 
+omit [GraphAction G Γ] in
 theorem faith_pt {u : W} (hu : ∃ g : G, g • x₀ = u) : burnsideF45_FaithfulAt Γ X u := by
   obtain ⟨g, rfl⟩ := hu
   rw [← H.compat]
   exact burnsideF45_faithfulAt_smul H.poly.connected H.model.faithx (J g)
 
+omit [GraphAction G Γ] in
 theorem faith_ln {u : W} (hu : ∃ g : G, g • l₀ = u) : burnsideF45_FaithfulAt Γ X u := by
   obtain ⟨g, rfl⟩ := hu
   rw [← H.compat]
   exact burnsideF45_faithfulAt_smul H.poly.connected H.model.faithl (J g)
 
+omit [GraphAction G Γ] in
 theorem two_pt {u : W} (hu : ∃ g : G, g • x₀ = u) : burnsideF45_TwoAt Γ X u := by
   obtain ⟨g, rfl⟩ := hu
   rw [← H.compat]
   exact burnsideF45_twoAt_smul H.poly.connected H.model.twox (J g)
 
+omit [GraphAction G Γ] in
 theorem two_ln {u : W} (hu : ∃ g : G, g • l₀ = u) : burnsideF45_TwoAt Γ X u := by
   obtain ⟨g, rfl⟩ := hu
   rw [← H.compat]
   exact burnsideF45_twoAt_smul H.poly.connected H.model.twol (J g)
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem outAt_x₀ : burnsideF45_OutAt Γ X J.range x₀ := by
   obtain ⟨w₀, hw₀, y₀, hy₀x, hy₀w, hy₀R⟩ := H.model.signx
   intro v hv
@@ -447,6 +458,7 @@ theorem outAt_x₀ : burnsideF45_OutAt Γ X J.range x₀ := by
   · have := H.normal.conj_mem _ hmem t⁻¹
     simpa [mul_assoc] using this
 
+omit [GraphAction G Γ] in
 theorem inAt_l₀ : burnsideF45_InAt Γ X J.range l₀ := by
   obtain ⟨w₀, hw₀, z, hzl, hzw, hz1, hzz, hzR⟩ := H.model.signl
   have hS : MulAction.stabilizer X l₀ ⊓ MulAction.stabilizer X w₀ ≤ J.range := by
@@ -473,20 +485,24 @@ theorem inAt_l₀ : burnsideF45_InAt Γ X J.range l₀ := by
   have := H.normal.conj_mem _ hmem s⁻¹
   simpa [mul_assoc] using this
 
+omit [GraphAction G Γ] in
 theorem out_pt {u : W} (hu : ∃ g : G, g • x₀ = u) : burnsideF45_OutAt Γ X J.range u := by
   obtain ⟨g, rfl⟩ := hu
   rw [← H.compat]
   exact burnsideF45_outAt_smul H.poly.connected H.normal H.outAt_x₀ (J g)
 
+omit [GraphAction G Γ] in
 theorem in_ln {u : W} (hu : ∃ g : G, g • l₀ = u) : burnsideF45_InAt Γ X J.range u := by
   obtain ⟨g, rfl⟩ := hu
   rw [← H.compat]
   exact burnsideF45_inAt_smul H.poly.connected H.normal H.inAt_l₀ (J g)
 
+omit [GraphAction G Γ] in
 theorem card_X_pt {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v = 6) :
     Nat.card ↥(MulAction.stabilizer X u ⊓ MulAction.stabilizer X v) = 6 :=
   burnsideF45_card_stab_opp (H.faith_pt hu) (H.two_pt hu) (H.three u) hv
 
+omit [GraphAction G Γ] in
 theorem card_RX_pt {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v = 6) :
     Nat.card ↥(J.range ⊓ (MulAction.stabilizer X u ⊓ MulAction.stabilizer X v)) = 3 := by
   have hnot : ¬ (MulAction.stabilizer X u ⊓ MulAction.stabilizer X v ≤ J.range) := by
@@ -496,6 +512,7 @@ theorem card_RX_pt {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v 
   rw [H.card_X_pt hu hv] at this
   omega
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem map_stab_inf (u v : W) :
     (MulAction.stabilizer G u ⊓ MulAction.stabilizer G v).map J =
       J.range ⊓ (MulAction.stabilizer X u ⊓ MulAction.stabilizer X v) := by
@@ -508,18 +525,21 @@ theorem map_stab_inf (u v : W) :
     exact ⟨g, ⟨(H.mem_stab_iff g u).2 (MulAction.mem_stabilizer_iff.mp hu),
       (H.mem_stab_iff g v).2 (MulAction.mem_stabilizer_iff.mp hv)⟩, rfl⟩
 
+omit [GraphAction G Γ] in
 theorem card_pt {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v = 6) :
     Nat.card ↥(MulAction.stabilizer G u ⊓ MulAction.stabilizer G v) = 3 := by
   rw [← Subgroup.card_map_of_injective H.inj, H.map_stab_inf]
   exact H.card_RX_pt hu hv
 
+omit [GraphAction G Γ] in
 theorem point_iso {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v = 6) :
     Nonempty (↥(MulAction.stabilizer G u ⊓ MulAction.stabilizer G v) ≃* Multiplicative (ZMod 3)) := by
   have hc := H.card_pt hu hv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic ↥(MulAction.stabilizer G u ⊓ MulAction.stabilizer G v) := isCyclic_of_prime_card hc
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic ↥(MulAction.stabilizer G u ⊓ MulAction.stabilizer G v) := isCyclic_of_prime_card hc
   exact ⟨mulEquivOfCyclicCardEq (by rw [hc]; simp)⟩
 
+omit [GraphAction G Γ] in
 theorem point_trans {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v = 6) {a a' : W}
     (ha : Γ.Adj u a) (ha' : Γ.Adj u a') : ∃ h : G, h • u = u ∧ h • v = v ∧ h • a = a' := by
   by_cases haa : a = a'
@@ -558,6 +578,7 @@ theorem point_trans {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v
   exact ⟨h, (H.compat h u).symm.trans htu, (H.compat h v).symm.trans htv,
     (H.compat h a).symm.trans hta⟩
 
+omit [GraphAction G Γ] in
 theorem point_invol {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v = 6) {a : W}
     (ha : Γ.Adj u a) : ∃ τ : X, τ • u = u ∧ τ • v = v ∧ τ • a = a ∧ τ ∉ J.range := by
   have h3 := H.three u
@@ -602,6 +623,7 @@ theorem point_invol {u v : W} (hu : ∃ g : G, g • x₀ = u) (hv : Γ.dist u v
   rw [e, hord, H.card_RX_pt hu hv] at hdvd
   omega
 
+omit [GraphAction G Γ] [GraphAction X Γ] in
 theorem edge_G {u a : W} (hua : Γ.Adj u a) :
     IsPGroup 2 ↥(MulAction.stabilizer G u ⊓ MulAction.stabilizer G a) := by
   obtain ⟨g, hg⟩ := H.flag u a hua
@@ -633,6 +655,7 @@ theorem edge_G {u a : W} (hua : Γ.Adj u a) :
   have h2 := H.inj (h1.trans (map_one J).symm)
   simpa using h2
 
+omit [GraphAction X Γ] in
 theorem ker_le {u a₀ : W} (ha₀ : Γ.Adj u a₀) :
     burnsideF45_g2dKer Γ G u ≤ pCoreOf 2 (MulAction.stabilizer G u) :=
   burnsideF45_g2dKer_le_pCoreOf ha₀ (H.edge_G ha₀)
@@ -682,6 +705,7 @@ theorem complement_line {u v : W} (hu : ∃ g : G, g • l₀ = u) (hv : Γ.dist
       rwa [hku'] at this
     rw [mul_smul, hagree _ hz', smul_inv_smul]
 
+omit [Group G] [Group X] [MulAction G W] [MulAction X W] [GraphAction G Γ] [GraphAction X Γ] H in
 theorem adj_first {a : W} {n : ℕ} (hn : 1 ≤ n) {r : GPath Γ n} (hr : r ∈ GPath.nbPaths Γ a n) :
     Γ.Adj a (r 1) := by
   have := r.adj 0 hn
@@ -705,8 +729,8 @@ theorem pathTrans_x (q q' : GPath Γ 6) (hq : q ∈ GPath.nbPaths Γ x₀ 6)
   have hq₁6 : (g₁ • q) 6 = q' 6 := by
     rw [GPath.smul_apply]
     exact (H.compat g₁ _).symm.trans ht'v
-  obtain ⟨g₂, hg₂x, hg₂v, hg₂1⟩ := H.point_trans hx hv' (H.adj_first (by norm_num) hq₁)
-    (H.adj_first (by norm_num) hq')
+  obtain ⟨g₂, hg₂x, hg₂v, hg₂1⟩ := H.point_trans hx hv' (burnsideF45_G2dHex.adj_first (by norm_num) hq₁)
+    (burnsideF45_G2dHex.adj_first (by norm_num) hq')
   refine ⟨g₂ * g₁, by rw [mul_smul, hg₁x, hg₂x], ?_⟩
   rw [GPath.mul_smul']
   refine CFSG.Quasithin.D4Hex.eq_of_first_last H.poly
@@ -754,6 +778,7 @@ theorem pathTrans_l (q q' : GPath Γ 5) (hq : q ∈ GPath.nbPaths Γ l₀ 5)
   exact H.poly.uniqueGeod 5 _ _ g1 g2 (hgq.1.trans hq'.1.symm)
     (by rw [GPath.smul_apply]; exact (H.compat g _).symm.trans hty) (by norm_num)
 
+omit [GraphAction G Γ] in
 theorem trans_paths_l {q r : GPath Γ 6} (hq : q ∈ GPath.nbPaths Γ l₀ 6)
     (hr : r ∈ GPath.nbPaths Γ l₀ 6) : ∃ y : X, y • l₀ = l₀ ∧ y • q = r := by
   obtain ⟨t₁, ht₁l, ht₁6⟩ := H.model.transl (q 6) (r 6)
@@ -761,7 +786,7 @@ theorem trans_paths_l {q r : GPath Γ 6} (hq : q ∈ GPath.nbPaths Γ l₀ 6)
   have hq₁ : t₁ • q ∈ GPath.nbPaths Γ l₀ 6 := CFSG.Quasithin.TitsGeo.smul_mem_nbPaths hq ht₁l
   obtain ⟨t₂, ht₂l, ht₂6, ht₂1⟩ := CFSG.Quasithin.D4Hex.trans_of_two
     (by rw [H.three l₀]; norm_num) (H.model.twol (r 6) (CFSG.Quasithin.D4Hex.end_dist H.poly le_rfl hr))
-    (H.adj_first (by norm_num) hq₁) (H.adj_first (by norm_num) hr)
+    (burnsideF45_G2dHex.adj_first (by norm_num) hq₁) (burnsideF45_G2dHex.adj_first (by norm_num) hr)
   refine ⟨t₂ * t₁, by rw [mul_smul, ht₁l, ht₂l], ?_⟩
   rw [GPath.mul_smul']
   refine CFSG.Quasithin.D4Hex.eq_of_first_last H.poly
@@ -856,9 +881,9 @@ theorem twoTrans_l {v : W} (hv : Γ.dist l₀ v = 6) {q₁ q₂ r₁ r₂ : GPat
     hq (CFSG.Quasithin.D4Hex.eq_of_first_last H.poly hq₁ hq₂ h (hq₁v.trans hq₂v.symm))
   have hr1 : r₁ 1 ≠ r₂ 1 := fun h =>
     hr (CFSG.Quasithin.D4Hex.eq_of_first_last H.poly hr₁ hr₂ h (hr₁v.trans hr₂v.symm))
-  obtain ⟨t, htl, htv, ht1, ht2⟩ := H.model.twol v hv _ _ _ _ (H.adj_first (by norm_num) hq₁)
-    (H.adj_first (by norm_num) hq₂) hq1 (H.adj_first (by norm_num) hr₁)
-    (H.adj_first (by norm_num) hr₂) hr1
+  obtain ⟨t, htl, htv, ht1, ht2⟩ := H.model.twol v hv _ _ _ _ (burnsideF45_G2dHex.adj_first (by norm_num) hq₁)
+    (burnsideF45_G2dHex.adj_first (by norm_num) hq₂) hq1 (burnsideF45_G2dHex.adj_first (by norm_num) hr₁)
+    (burnsideF45_G2dHex.adj_first (by norm_num) hr₂) hr1
   obtain ⟨g, rfl⟩ := H.inAt_l₀ v hv t htl htv
   have hgl : g • l₀ = l₀ := (H.compat g l₀).symm.trans htl
   have hgv : g • v = v := (H.compat g v).symm.trans htv

@@ -21,7 +21,7 @@ theorem leviAt_plusFlagStab (hr : 3 ≤ r) {D : Finset ℕ} (hD : ∀ d ∈ D, 1
     (hK₀ : K₀.map (orthElementaryGroup (quadPlus r K)).subtype = plusFlagStab K r D) (p : ℕ) :
     LeviAt K₀ p := by
   intro hB hp h5 hrank hpar hne hsyl
-  haveI := finite_plusAut (K := K) r
+  have := finite_plusAut (K := K) r
   have hpq2 : ¬ p ∣ Nat.card K ^ 2 - 1 := orthPlus_not_dvd_sq_sub_one_of_pRank_le_one hr hp hrank
   have hpK : ¬ p ∣ Nat.card K - 1 := fun h =>
     hpq2 (h.trans (Nat.sub_one_dvd_pow_sub_one (Nat.card K) 2))
@@ -55,7 +55,7 @@ theorem leviAt_orthPlus (hr : 4 ≤ r) (K₀ : Subgroup ↥(orthElementaryGroup 
 
 theorem leviSubAt_orthPlus (hr : 4 ≤ r) :
     LeviSubAt ↥(orthElementaryGroup (quadPlus r K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨T₀, hT₀⟩, hN, -⟩ :=
     orthogonal_geometry_split_Sylow_flag_normalizer (K := K) 2 (by omega : 3 ≤ r)
   refine leviSubAt_of_standard_sylow T₀ fun K₀ p hNK => leviAt_orthPlus hr K₀ p ?_
@@ -74,9 +74,9 @@ theorem leviSubAt_of_pomegaPlus {S : Type} [Group S] [Finite S] {n f : ℕ}
   have hn4 : 4 ≤ n := by
     obtain ⟨-, -, h4⟩ := hadm
     exact h4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   exact LeviSubAt.of_mulEquiv (e.trans (statedProjOmegaPlusEquiv (by omega)))
     (leviSubAt_orthPlus hn4)

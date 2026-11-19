@@ -49,7 +49,7 @@ theorem L2Datum.r0Normal (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h) :
 @[instance_reducible] noncomputable def L2Datum.r0Module (hS : Sec7Hyp M V n f)
     (hD : L2Datum M V A B h) [hN : (V.subgroupOf (p0Of M V (A ⊔ B))).Normal] :
     Module (ZMod 2) (SecMod (L2Datum.r0Hyp hS hD)) :=
-  SecMod.module (L2Datum.r0Hyp hS hD) fun x hx =>
+  SecMod.module (L2Datum.r0Hyp hS hD) fun _x hx =>
     Hyp.mul_self_mem_of_mem_Pc hS.sec5.toRootHyp.toHyp hx.1
 
 noncomputable def L2Datum.r0Rep (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
@@ -110,8 +110,6 @@ theorem L2Datum.span_r0Rep (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
     · rintro ⟨z, hzC, w, rfl⟩
       refine ⟨r0BarMap hS.toSec6Hyp A B z, ?_, w, ?_⟩
       · rw [Subgroup.mem_subgroupOf]
-        change ((r0BarMap hS.toSec6Hyp A B z :
-          ↥(imgQ M (r0Of M V (A ⊔ B)))) : MBar M) ∈ imgQ M C
         rw [r0BarMap_apply]
         exact mk_mem_imgQ hzC
       · rw [L2Datum.r0Rep_apply hS hD]
@@ -124,8 +122,8 @@ theorem L2Datum.span_r0Rep (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
 
 theorem L2Datum.card_r0Sec (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h) :
     Nat.card (SecMod (L2Datum.r0Hyp hS hD)) = (2 ^ f) ^ (2 * (n - 2)) := by
-  letI := L2Datum.r0Normal hS hD
-  letI := L2Datum.r0Module hS hD
+  let := L2Datum.r0Normal hS hD
+  let := L2Datum.r0Module hS hD
   have h := natCard_secMod (L2Datum.r0Hyp hS hD)
   rw [L2Datum.card_p0 hS hD, hS.card_V] at h
   have hn4 : 4 ≤ n := hS.four_le
@@ -251,8 +249,8 @@ theorem L2Datum.irred_r0_of_five_le (hS : Sec7Hyp M V n f) (hLP : UnitaryLinePai
   let Δ : Set (Subgroup (MBar M)) :=
     imgQ M '' {C | C ∈ sigmaSet M V ∧ C ≤ cenOf (A ⊔ B)}
   let K := ↥(imgQ M R0)
-  letI := L2Datum.r0Normal hS hD
-  letI := L2Datum.r0Module hS hD
+  let := L2Datum.r0Normal hS hD
+  let := L2Datum.r0Module hS hD
   have hX : IsSUImage (⊤ : Subgroup K)
       ((fun E : Subgroup (MBar M) => E.subgroupOf (imgQ M R0)) '' Δ) f (n - 2)
       hS.one_le (Nat.le_sub_of_add_le (Nat.le_trans (Nat.le_succ 4) h5)) :=

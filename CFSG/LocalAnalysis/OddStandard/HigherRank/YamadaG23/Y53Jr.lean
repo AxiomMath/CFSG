@@ -82,12 +82,12 @@ theorem y53_jr {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
   by_cases hRT : c.s.R = c.s.T
   · obtain ⟨hZn, hJ⟩ := y53_jrS_T1 hH
     refine ⟨hZn, ?_⟩
-    haveI := hZn
+    have := hZn
     exact y53_jr_apply hH hH.h32.2.1.1 (y5_T1_eq_S_C0 hH hRT) (s3_A_le_S c.s)
       (fun x hxS h => y53_centS hH x hxS h) (y5_S_normal_T1 hH) hJ
   · obtain ⟨hZn, hJ⟩ := y53_jrG_T1 hH hRT
     refine ⟨hZn, ?_⟩
-    haveI := hZn
+    have := hZn
     obtain ⟨_, _, hact, hg2, _⟩ := c.g_spec hRT
     exact y53_jr_apply hH (y5_Sg_le_T1 hH hRT) (y5_T1_eq_Sg_C0 hH hRT)
       ((s3_A_le_S c.s).trans le_sup_left)

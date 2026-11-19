@@ -107,10 +107,10 @@ public theorem
           cases v with
           | inl v =>
               dsimp [toFun, invFun]
-              rw [dif_pos v.property.2]
+              rw [dite_eq_left v.property.2]
           | inr v =>
               dsimp [toFun, invFun]
-              rw [dif_neg v.property.2] }
+              rw [dite_eq_right v.property.2] }
   have hAllCard : Nat.card AllInv = 15 := by
     calc
       Nat.card AllInv = Nat.card (InN ⊕ OutInv) := Nat.card_congr eSplit

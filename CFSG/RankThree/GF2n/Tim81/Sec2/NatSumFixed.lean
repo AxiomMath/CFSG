@@ -25,12 +25,14 @@ theorem IsNatSumModule.commSub_le_fixedSub {N : Type} [AddCommGroup N] [Module (
   · rw [← (hσ.fixedSub_zpowers_eq hA2 hA ha ha1).2]
     exact range_le_commSub (Subgroup.mem_zpowers a)
 
+omit [Fintype F] [CharP F 2] in
 private theorem borel_mulVec_second_zero {t : SL(2, F)} (ht : t ∈ borel F) {v : Fin 2 → F}
     (hv : v 1 = 0) : (t : Matrix (Fin 2) (Fin 2) F) *ᵥ v = ![t 0 0 * v 0, 0] := by
   have ht10 : t 1 0 = 0 := ht
   funext i
   fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, hv, ht10]
 
+omit [Fintype F] in
 private theorem eq_one_of_mem_borel_of_odd_orderOf_of_entry {t : SL(2, F)}
     (htb : t ∈ borel F) (hto : Odd (orderOf t)) (ht00 : t 0 0 = 1) : t = 1 := by
   have ht10 : t 1 0 = 0 := htb
@@ -42,6 +44,7 @@ private theorem eq_one_of_mem_borel_of_odd_orderOf_of_entry {t : SL(2, F)}
   · obtain ⟨k, hk⟩ := hto
     omega
 
+omit [Fintype F] in
 private theorem inf_fixedSub_utri_eq_bot_of_mem_borel (k : ℕ) {T' : Subgroup SL(2, F)}
     {t : SL(2, F)} (htT : t ∈ T') (htb : t ∈ borel F) (ht00 : t 0 0 ≠ 1) :
     fixedSub (natSumRep F k) (utri F) ⊓ fixedSub (natSumRep F k) T' = ⊥ := by
@@ -79,7 +82,7 @@ private theorem exists_conj_utri_and_borel_entry {A T : Subgroup SL(2, F)}
   have ht'mem : t' ∈ conjSubgroup x⁻¹ T := by
     dsimp [t']
     rw [mem_conjSubgroup]
-    simpa [mul_assoc] using t.2
+    simp [mul_assoc]
   have hNA : (borel F).map (MulAut.conj x).toMonoidHom =
       Subgroup.normalizer (A : Set SL(2, F)) := by
     rw [← normalizer_utri, Subgroup.map_equiv_normalizer_eq,

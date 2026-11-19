@@ -49,14 +49,14 @@ public theorem claim3_appendixI_scalar_adapter_KP
   classical
   let T : Subgroup K := ⊤
   let rhoT := AppendixIRepresentationOfT (p := r) (E := N) T
-  letI : FiniteDimensional (ZMod r) (Additive N) := Module.Finite.of_finite
-  letI : Field (AppendixIEndT (p := r) (E := N) T) := endField_field rhoT
-  letI : Finite (AppendixIEndT (p := r) (E := N) T) := endField_finite rhoT
-  letI : Module (AppendixIEndT (p := r) (E := N) T) (Additive N) :=
+  let : FiniteDimensional (ZMod r) (Additive N) := Module.Finite.of_finite
+  let : Field (AppendixIEndT (p := r) (E := N) T) := endField_field rhoT
+  let : Finite (AppendixIEndT (p := r) (E := N) T) := endField_finite rhoT
+  let : Module (AppendixIEndT (p := r) (E := N) T) (Additive N) :=
     endFieldModule rhoT
   let Fr := AppendixIFpT (p := r) (E := N) T
-  letI : Field Fr := (Finite.isField_of_domain Fr).toField
-  letI : Module Fr (Additive N) :=
+  let : Field Fr := (Finite.isField_of_domain Fr).toField
+  let : Module Fr (Additive N) :=
     Module.compHom (Additive N) Fr.val.toRingHom
   have hcardN : Nat.card N = r ^ p := by
     have hcard := Module.natCard_eq_pow_finrank
@@ -69,9 +69,9 @@ public theorem claim3_appendixI_scalar_adapter_KP
     obtain ⟨fieldInst, hfield⟩ :=
       peterfalvi_appendixI_proposition_2_a
         (p := r) (n := p) (U := K) (E := N) T hcardN
-    letI : Field Fr := fieldInst
+    let : Field Fr := fieldInst
     obtain ⟨moduleInst, hFrCard, _hFrFinrank, _hFrSmul⟩ := hfield
-    letI : Module Fr (Additive N) := moduleInst
+    let : Module Fr (Additive N) := moduleInst
     exact hFrCard
   let tauF : T →* Fr :=
     { toFun := fun t =>
@@ -381,8 +381,8 @@ public theorem claim3_appendixI_sigma_adapter_KP
     intro a b hab
     apply claim3_smul_left_injective sAdd hsAdd
     exact hab
-  letI : Fintype Fr := Fintype.ofFinite Fr
-  letI : Fintype (Additive N) := Fintype.ofFinite (Additive N)
+  let : Fintype Fr := Fintype.ofFinite Fr
+  let : Fintype (Additive N) := Fintype.ofFinite (Additive N)
   have htoN_card : Fintype.card Fr = Fintype.card (Additive N) := by
     simpa only [Nat.card_eq_fintype_card] using hcard
   have htoN_bijective : Function.Bijective toN :=

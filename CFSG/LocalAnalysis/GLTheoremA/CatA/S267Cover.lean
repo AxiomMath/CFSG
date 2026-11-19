@@ -20,8 +20,8 @@ theorem exists_twoGroup_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgr
       T.map (QuotientGroup.mk' N) = T' ∧ fusionIsSylowIn 2 T (T'.comap (QuotientGroup.mk' N)) ∧
       ∃ n : ℕ, ¬ 2 ∣ n ∧ Nat.card (T'.comap (QuotientGroup.mk' N) : Subgroup A) ∣ Nat.card T * n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : A →* A ⧸ N := QuotientGroup.mk' N with hπ
   set Y : Subgroup A := T'.comap π with hY
   have hEY : E ≤ Subgroup.normalizer (Y : Set A) := by
@@ -43,7 +43,7 @@ theorem exists_twoGroup_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgr
     · exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
   obtain ⟨P, hP⟩ := exists_sylow_normalized (r := 2) hEY hE hYp
   refine ⟨(P : Subgroup Y).map Y.subtype, ?_, hP, ?_, ?_, ?_⟩
-  · exact (P.isPGroup').map _
+  · exact (P.isPGroup).map _
   · set π' : ↥Y →* ↥T' := ((π.comp Y.subtype).codRestrict T' fun x => x.2) with hπ'
     have hπs : Function.Surjective π' := by
       intro t
@@ -63,7 +63,7 @@ theorem exists_twoGroup_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgr
       rw [Sylow.coe_mapSurjective] at hmem
       obtain ⟨y, hy, hyz⟩ := hmem
       exact ⟨y, ⟨y, hy, rfl⟩, congrArg Subtype.val hyz⟩
-  · refine ⟨Subgroup.map_subtype_le _, (P.isPGroup').map _, fun Z hZY hZ2 hTZ => ?_⟩
+  · refine ⟨Subgroup.map_subtype_le _, (P.isPGroup).map _, fun Z hZY hZ2 hTZ => ?_⟩
     have hZ' : IsPGroup 2 (Z.subgroupOf Y) := hZ2.of_equiv (Subgroup.subgroupOfEquivOfLe hZY).symm
     have hPZ : (P : Subgroup Y) ≤ Z.subgroupOf Y := by
       intro x hx
@@ -75,6 +75,7 @@ theorem exists_twoGroup_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgr
   · refine ⟨(P : Subgroup Y).index, P.not_dvd_index, ?_⟩
     rw [Subgroup.card_map_of_injective Y.subtype_injective, Subgroup.card_mul_index]
 
+omit [Finite A] in
 theorem le_normalizer_inf' {P Q C : Subgroup A} (hQ : P ≤ Subgroup.normalizer (Q : Set A))
     (hC : P ≤ Subgroup.normalizer (C : Set A)) : P ≤ Subgroup.normalizer ((Q ⊓ C : Subgroup A) : Set A) := by
   intro a ha
@@ -92,7 +93,7 @@ theorem covers_of_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgroup A)
     ∃ T : Subgroup A, IsPGroup 2 T ∧ T.map (QuotientGroup.mk' N) = T' ∧
       D ≤ Subgroup.normalizer (T : Set A) ∧ CoversMod p (Subgroup.normalizer (T : Set A)) J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : A →* A ⧸ N := QuotientGroup.mk' N with hπ
   obtain ⟨T, hT2', hDT', hTmap, hTsyl, n, hn, hTn⟩ := exists_twoGroup_lift hp hp2 N hN hT2 hD hDT
   refine ⟨T, hT2', hTmap, hDT', ?_⟩

@@ -54,7 +54,7 @@ theorem b3b_noComp_of_leaf
       ∀ J : Subgroup NativeSporadic.B,
         ¬ GLAPComponent 3 (Subgroup.centralizer ({s} : Set NativeSporadic.B)) J := by
   intro s hs hunv J hJ
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨z, hz3, hzrk, ⟨P, hPC, hPcard, hPZ⟩, haut⟩ := exists_z_sylow_aut
   have hzc : IsConj z (phiB (t3 1)) := isConj_phiB_t3_one_of_rk hz3 hzrk
   have hsc : IsConj s (phiB (t3 1)) := uninverted_isConj_phiB_t3_one hs hunv

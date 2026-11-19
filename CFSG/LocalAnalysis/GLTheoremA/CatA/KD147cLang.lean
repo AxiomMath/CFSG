@@ -204,7 +204,7 @@ theorem kd147c_inner_class (hT : rootDiagUnit Tag.G2 a ∈ S.D.torus)
     exact congrArg Subtype.val hcomm
   have hfm₁ : f m₁ ≠ 1 := fun h => hm₁nc (hker h)
   have hfm₃ : (f m₁) ^ 3 = 1 := by rw [← map_pow, hm₁3, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact kd147c_three_dvd_card (hR ▸ (⟨m₁, rfl⟩ : f m₁ ∈ f.range)) (orderOf_eq_prime hfm₃ hfm₁)
 
 theorem kd147c_suN_class (hT : rootDiagUnit Tag.G2 a ∈ S.D.torus)
@@ -264,7 +264,7 @@ theorem kd147c_suN_class (hT : rootDiagUnit Tag.G2 a ∈ S.D.torus)
       obtain ⟨x, y, hxy, rfl⟩ := hγ
       rw [hπ x y hxy, hwσ]
   · obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hes : 0 < e * s := Nat.mul_pos he hs0
     obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
     obtain ⟨-, hqsC, -⟩ := stdUnitary_fixSubgroup (ν := 3) hr hes σQ hσc hν
@@ -293,7 +293,7 @@ theorem kd147c_suN_class (hT : rootDiagUnit Tag.G2 a ∈ S.D.torus)
       exact kd147cSw_mul_ne (congrArg Subtype.val hcomm)
     have hfP : f P₁ ≠ 1 := fun h => hPnc (hfker h)
     have hfP₃ : (f P₁) ^ 3 = 1 := by rw [← map_pow, hP₃, map_one]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact kd147c_three_dvd_card (hRf ▸ (⟨P₁, rfl⟩ : f P₁ ∈ f.range)) (orderOf_eq_prime hfP₃ hfP)
 
 theorem kd147c_rootDiagUnit_pow_three (hap : ∀ i, a i ^ 3 = 1) :
@@ -382,7 +382,7 @@ theorem kd147c_baseChangeGL_mem {τ : Tag} {K₁ K₂ : Type} [Field K₁] [Fiel
       exact xUnit_mem_adjointGroup _ _
     · rw [show y = yUnit τ K₁ i c from Units.ext h, baseChangeGL_yUnit]
       exact yUnit_mem_adjointGroup _ _
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy => simpa using mul_mem hx hy
   | inv x _ hx => simpa using inv_mem hx
 

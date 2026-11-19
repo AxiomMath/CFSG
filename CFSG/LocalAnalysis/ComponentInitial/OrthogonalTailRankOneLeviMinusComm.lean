@@ -18,7 +18,7 @@ theorem commutator_mem_tailUnipotent_of_torus_comm {K : Type} [Field K] {A : Typ
     {b₁ b₂ : ((Fin r ⊕ Fin r → K) × A) ≃ₗ[K] ((Fin r ⊕ Fin r → K) × A)}
     (h₁ : b₁ ∈ tailBorel r qA) (h₂ : b₂ ∈ tailBorel r qA) : ⁅b₁, b₂⁆ ∈ tailUnipotent r qA := by
   classical
-  haveI := tailUnipotent_normal hani (r := r) (qA := qA)
+  have := tailUnipotent_normal hani (r := r) (qA := qA)
   obtain ⟨e⟩ := nonempty_quotient_mulEquiv_tailTorus hani (r := r) (qA := qA)
   have hcomm : ∀ x y : ↥(tailBorel r qA) ⧸
       (tailUnipotent r qA).subgroupOf (tailBorel r qA), x * y = y * x := fun x y =>
@@ -36,7 +36,7 @@ theorem tailTorus_comm_of_odd {r : ℕ} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠
     (hodd : Odd (Nat.card ↥(tailTorus r (minusTailForm K b c))))
     (x y : ↥(tailTorus r (minusTailForm K b c))) : x * y = y * x := by
   classical
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) := finite_orthLinearEquiv
   have key : ∀ z : ↥(tailTorus r (minusTailForm K b c)), ∃ (t : Fin r → Kˣ)
       (h : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)), IsOmegaTwisted b c h 0 ∧
@@ -81,16 +81,17 @@ private theorem card_orthElementaryGroup_two_H18 (hirr : ∀ s : K, s ^ 2 + b * 
     have hIcc : Finset.Icc 1 (3 - 1) = ({1, 2} : Finset ℕ) := by decide
     rw [hIcc]
     norm_num [q, Finset.prod_insert]
-    push_cast
     ring
   exact_mod_cast hInt'
 
+omit [CharP K 2] in
 private theorem card_tailUnipotent_two_H18 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Nat.card ↥(tailUnipotent 2 (minusTailForm K b c)) = (Nat.card K) ^ 6 := by
   rw [card_tailUnipotent (K := K) (A := Fin 2 → K) (qA := minusTailForm K b c) (r := 2)
     (hani := anisotropic_minusTailForm hirr)]
   norm_num [finrank_fin_two_fun]
 
+omit [CharP K 2] in
 private theorem odd_oddFactor_two_H18 (h2 : 2 ∣ Nat.card K) :
     Odd (((Nat.card K) ^ 3 + 1) * ((Nat.card K) ^ 2 - 1) * ((Nat.card K) ^ 4 - 1)) := by
   have hq_even : Even (Nat.card K) := even_iff_two_dvd.mpr h2
@@ -104,11 +105,12 @@ private theorem odd_oddFactor_two_H18 (h2 : 2 ∣ Nat.card K) :
     Nat.Even.sub_odd hq4ge (hq_even.pow_of_ne_zero (by norm_num)) odd_one
   exact (h1.mul h2').mul h3
 
+omit [CharP K 2] in
 private theorem card_tailBorel_two_H18 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Nat.card ↥(tailBorel 2 (minusTailForm K b c)) =
       Nat.card ↥(tailTorus 2 (minusTailForm K b c)) * (Nat.card K) ^ 6 := by
   have hani := anisotropic_minusTailForm hirr
-  haveI := tailUnipotent_normal hani (r := 2) (qA := minusTailForm K b c)
+  have := tailUnipotent_normal hani (r := 2) (qA := minusTailForm K b c)
   obtain ⟨e⟩ := nonempty_quotient_mulEquiv_tailTorus hani (r := 2) (qA := minusTailForm K b c)
   have hq : Nat.card (tailBorel 2 (minusTailForm K b c) ⧸
       (tailUnipotent 2 (minusTailForm K b c)).subgroupOf
@@ -126,8 +128,8 @@ private theorem card_tailBorel_two_H18 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 
 theorem odd_card_tailTorus_two (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Odd (Nat.card ↥(tailTorus 2 (minusTailForm K b c))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K))) := finite_orthLinearEquiv
   have hdvd : Nat.card ↥(tailBorel 2 (minusTailForm K b c)) ∣
       Nat.card ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c))) :=

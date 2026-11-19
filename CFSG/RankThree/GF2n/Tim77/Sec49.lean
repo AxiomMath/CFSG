@@ -121,9 +121,9 @@ theorem tim77Sec49_holds :
     rw [← hS.relIndex_Lb]
     exact hq
   obtain ⟨a, ha, haA0⟩ : ∃ a ∈ A, a ∉ Section3.A0 A Abar :=
-    SetLike.exists_of_lt (lt_of_le_of_ne hS.L_le hA0ne)
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hS.L_le hA0ne)
   obtain ⟨b, hb, hbA0⟩ : ∃ b ∈ Abar, b ∉ Section3.Abar0 A Abar :=
-    SetLike.exists_of_lt (lt_of_le_of_ne hS.Lb_le hAb0ne)
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hS.Lb_le hAb0ne)
   obtain ⟨g0, hg0⟩ := hS.conj
   have hsqA : ∀ x ∈ A, x * x = 1 := fun x hx => hS.sq_A hx
   have hsqAb : ∀ x ∈ Abar, x * x = 1 := fun x hx => hS.sq_Ab hx
@@ -334,15 +334,15 @@ theorem tim77Sec49_holds :
           exact S.mem_L_of_commute hc hxg hx1 hcx
       have hA0L : Section3.A0 A Abar ≤ A ⊓ normalizer (conjSubgroup g A : Set G) := by
         by_contra hnot
-        obtain ⟨c, hcA0, hcL⟩ := SetLike.not_le_iff_exists.mp hnot
+        obtain ⟨c, hcA0, hcL⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
         have hstar : ∀ a' ∈ A, a' ∉ A ⊓ normalizer (conjSubgroup g A : Set G) →
             a' ∈ Section3.A0 A Abar := by
           intro a' ha' ha'L
           obtain ⟨g', hg', hc'⟩ := S.tim77_2_4_five hCen hU (hS.L_le hcA0) hcL ha' ha'L
           rw [← hc']
           exact hA0norm g' (Subgroup.mem_inf.mp hg').2 c hcA0
-        obtain ⟨u, huA, huL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
-        obtain ⟨v, hvA, hvA0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hS.L_le hA0ne)
+        obtain ⟨u, huA, huL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+        obtain ⟨v, hvA, hvA0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hS.L_le hA0ne)
         have huA0 : u ∈ Section3.A0 A Abar := hstar u huA huL
         have hvL : v ∈ A ⊓ normalizer (conjSubgroup g A : Set G) := by
           by_contra hvL
@@ -360,7 +360,7 @@ theorem tim77Sec49_holds :
           exact Subgroup.mul_mem _ (Subgroup.inv_mem _ huA0) huv
       have hLA0 : A ⊓ normalizer (conjSubgroup g A : Set G) ≤ Section3.A0 A Abar := by
         by_contra hnot
-        obtain ⟨l, hlL, hlA0⟩ := SetLike.not_le_iff_exists.mp hnot
+        obtain ⟨l, hlL, hlA0⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
         have hprod := Subgroup.relIndex_mul_relIndex _ _ _ hA0L S.L_le
         rw [hidx] at hprod
         have hp1 : (Section3.A0 A Abar).relIndex

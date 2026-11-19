@@ -38,7 +38,7 @@ theorem heisY_pow_three : (heisY : SL(3, F)) ^ 3 = 1 := by
 theorem heis_commutator_mem_center (ω : F) (hω : ω ^ 3 = 1) :
     ⁅heisX ω hω, (heisY : SL(3, F))⁆ ∈ Subgroup.center SL(3, F) := by
   have hdet : (Matrix.scalar (Fin 3) ω).det = 1 := by
-    simp [Matrix.scalar_apply, Matrix.det_diagonal, Fin.prod_univ_three]
+    simp [Matrix.scalar_apply, Matrix.det_diagonal]
     linear_combination hω
   obtain ⟨c, hcc⟩ : ∃ c : SL(3, F), (c : Matrix (Fin 3) (Fin 3) F) = Matrix.scalar (Fin 3) ω :=
     ⟨⟨Matrix.scalar (Fin 3) ω, hdet⟩, rfl⟩
@@ -49,7 +49,7 @@ theorem heis_commutator_mem_center (ω : F) (hω : ω ^ 3 = 1) :
     ext i j
     simp only [Matrix.scalar_apply, Matrix.diagonal_mul, Matrix.mul_diagonal]
     fin_cases i <;> fin_cases j <;> simp <;>
-      first | ring1 | linear_combination -hω | linear_combination hω
+      first | ring1 | linear_combination -hω
   have hc : ⁅heisX ω hω, (heisY : SL(3, F))⁆ = c := by
     have h1 : ⁅heisX ω hω, (heisY : SL(3, F))⁆ =
         heisX ω hω * (heisY : SL(3, F)) * ((heisY : SL(3, F)) * heisX ω hω)⁻¹ := by
@@ -93,7 +93,7 @@ theorem heisY_mul_zpow_not_mem_center (ω : F) (hω : ω ^ 3 = 1) (i : ℤ) :
   obtain ⟨v, hv⟩ := heisX_zpow_diagonal ω hω i
   have hent : ((heisY * heisX ω hω ^ i : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) 0 0 = 0 := by
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, hv]
-    simp [coe_heisY, Fin.sum_univ_three, Matrix.diagonal_apply]
+    simp [coe_heisY, Matrix.diagonal_apply]
   have h0 := congrFun (congrFun hr 0) 0
   rw [hent] at h0
   simp only [Matrix.scalar_apply, Matrix.diagonal_apply_eq] at h0

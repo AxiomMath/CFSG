@@ -15,8 +15,8 @@ open Matrix
 theorem card_modEq_card_fixed_of_iterate_seven {α : Type*} [Finite α] (f : α → α)
     (hf : f^[7] = id) : Nat.card α ≡ Nat.card {a // f a = a} [MOD 7] := by
   classical
-  letI : Fintype α := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fintype α := Fintype.ofFinite α
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h := Equiv.Perm.card_fixedPoints_modEq (α := α) (f := (f : Function.End α)) (p := 7)
     (n := 1) hf
   have hcardfix : Fintype.card {a // f a = a} =
@@ -31,8 +31,8 @@ variable {K : Type*} [Field K]
 theorem card_fixedVec_eq_four_of_pow_seven (hK : Nat.card K = 4) {g : Matrix (Fin 4) (Fin 4) K}
     (hg7 : g ^ 7 = 1) (hg1 : g ≠ 1) : Nat.card {v : Fin 4 → K // g *ᵥ v = v} = 4 := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  letI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  let : Fintype K := Fintype.ofFinite K
   have hKcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card, hK]
   have hcardV : Nat.card (Fin 4 → K) = 256 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_fun, hKcard, Fintype.card_fin]

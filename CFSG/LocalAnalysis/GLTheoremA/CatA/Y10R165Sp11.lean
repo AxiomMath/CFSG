@@ -64,6 +64,7 @@ theorem prime_dvd_card_statedSp_two_eq_five {F : Type} [Field F] [Finite F] {p :
       norm_num at hp
     · exact h1
 
+omit [Finite (V ≃ₗ[F] V)] in
 theorem exists_commutator_pointwiseStab_sp4_two {B : LinearMap.BilinForm F V}
     (hBalt : B.IsAlt) (hBnd : B.Nondegenerate) {U : Submodule F V}
     (hU : (B.restrict U).Nondegenerate) (h4 : 4 ≤ Module.finrank F ↥(B.orthogonal U))
@@ -85,7 +86,7 @@ theorem exists_commutator_pointwiseStab_sp4_two {B : LinearMap.BilinForm F V}
         Set ↥(linIsometryGroup B)))).Normal ∧
       CFSG.Open.IsQuasisimple ↥Q ∧ p ∣ Nat.card ↥Q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hncard : Nat.card F = 2 := by rw [hcardF, hn1]; norm_num
   obtain ⟨s, hs, ⟨eSp⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.mclt_exists_bilinIsometryGroup_equiv_statedSp

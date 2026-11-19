@@ -24,7 +24,7 @@ private theorem exists_sylowBar2_with_mem {K T₀ : Subgroup G}
     ∃ U : Sylow 2 (Bar2 K), ∀ l : ↥K,
       (QuotientGroup.mk l : Bar2 K) ∈ (U : Subgroup (Bar2 K)) ↔ (l : G) ∈ T₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hS.exists_sylow_eq_subgroupOf
   refine ⟨Q.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥K)), fun l => ?_⟩
   rw [show ((Q.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥K))) :
@@ -42,7 +42,7 @@ private theorem exists_conj_uc22pwIndHom {K T₀ : Subgroup G} (hAut : KSzTwoAut
     ∀ g : ↥T₀, ∃ u ∈ (U : Subgroup (Bar2 K)),
       uc22pwIndHom K T₀ hT₀K g = MulAut.conj u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hψ : ∀ (g : ↥T₀) (x : Bar2 K),
       x ∈ (U : Subgroup (Bar2 K)) ↔ uc22pwIndHom K T₀ hT₀K g x ∈ (U : Subgroup (Bar2 K)) := by
     intro g x
@@ -63,6 +63,7 @@ private theorem exists_conj_uc22pwIndHom {K T₀ : Subgroup G} (hAut : KSzTwoAut
   intro g
   exact hAut (Bar2 K) a hSz U (uc22pwIndHom K T₀ hT₀K g) (hψ2 g) fun x hx => (hψ g x).mp hx
 
+omit [Finite G] in
 private theorem exists_lift_pow_orderOf_eq {K : Subgroup G} {a r : ℕ} (hSz : IsSz (Bar2 K) a)
     {xbar : Bar2 K} (hr : r.Prime) (hrdvd : r ∣ 2 ^ a - 1) (hxbo : orderOf xbar = r) :
     ∃ (x : ↥K) (c : ℕ), (QuotientGroup.mk x : Bar2 K) = xbar ^ 2 ^ c ∧ orderOf x = r := by
@@ -75,6 +76,7 @@ private theorem exists_lift_pow_orderOf_eq {K : Subgroup G} {a r : ℕ} (hSz : I
   show (QuotientGroup.mk (x₀ ^ 2 ^ c) : Bar2 K) = xbar ^ 2 ^ c
   rw [QuotientGroup.mk_pow, hx₀]
 
+omit [Finite G] in
 private theorem commutator_mem_sylowBar2 {K T₀ : Subgroup G}
     (hT₀K : T₀ ≤ Subgroup.normalizer (K : Set G)) (U : Sylow 2 (Bar2 K))
     (hconj : ∀ g : ↥T₀, ∃ u ∈ (U : Subgroup (Bar2 K)),
@@ -134,8 +136,8 @@ theorem exists_orderOf_mem_normalizer_of_isSz {K T₀ : Subgroup G} (hBor : KSzB
     (hS : IsSylowOf 2 (T₀ ⊓ K) K) (hr : r.Prime) (hrdvd : r ∣ 2 ^ a - 1) :
     ∃ x ∈ K, orderOf x = r ∧ x ∈ Subgroup.normalizer (T₀ : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨U, hU⟩ := exists_sylowBar2_with_mem (K := K) (T₀ := T₀) hS
   obtain ⟨D, hDcard, hDN⟩ := hBor (Bar2 K) a hSz U
   obtain ⟨xd, hxd⟩ := exists_prime_orderOf_dvd_card' (G := ↥D) r (by rw [hDcard]; exact hrdvd)
@@ -170,7 +172,7 @@ private theorem commutator_mem_solvableRadical_of_mem_calC {D : Data G} {K K' : 
     (hx : x ∈ K') (hl : l ∈ K) (hxN : x ∈ Subgroup.normalizer (K : Set G)) :
     ⁅x, l⁆ ∈ (CFSG.solvableRadical ↥K).map K.subtype := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxM : x ∈ D.M := hK'.1.le hx
   have hlM : l ∈ D.M := hK.1.le hl
   have hconjK : x * l * x⁻¹ ∈ K := (Subgroup.mem_normalizer_iff.mp hxN l).mp hl
@@ -226,6 +228,7 @@ private theorem inducedQuotInfAut_eq_one_of_mem_calC {D : Data G} {K K' : Subgro
   rw [MonoidHom.mem_ker, map_mul, map_inv] at hmem
   exact mul_inv_eq_one.mp hmem
 
+omit [Finite G] in
 private theorem inducedQuotInfAut_eq_conj_piBarInf {K : Subgroup G} {t : G}
     (htK : t ∈ K) (htN : t ∈ Subgroup.normalizer (K : Set G)) :
     inducedQuotInfAut K t htN = MulAut.conj (piBarInf K ⟨t, htK⟩) := by
@@ -271,6 +274,7 @@ private theorem exists_sylowImage_normalizer_of_conj {D : Data G} {K : Subgroup 
       simpa [Subgroup.orderOf_coe, hdord] using h
     exact hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).mp (hr.dvd_of_dvd_pow hdvd))
 
+omit [Finite G] in
 private theorem pCoreOf_conj_mem {M : Subgroup G} {n g : G} (hg : g ∈ M)
     (hn : n ∈ pCoreOf 2 M) : g * n * g⁻¹ ∈ pCoreOf 2 M := by
   obtain ⟨m, hm, rfl⟩ := hn
@@ -278,6 +282,7 @@ private theorem pCoreOf_conj_mem {M : Subgroup G} {n g : G} (hg : g ∈ M)
     (CFSG.pCore_normal (p := 2) (G := ↥M)).conj_mem m hm _, ?_⟩
   simp
 
+omit [Finite G] in
 private theorem exists_prime_dvd_two_pow_sub_one_of_isSz {K : Subgroup G} {a : ℕ}
     (hSz : IsSz (Bar2 K) a) :
     ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ 2 ^ a - 1 := by
@@ -291,15 +296,16 @@ private theorem exists_prime_dvd_two_pow_sub_one_of_isSz {K : Subgroup G} {a : �
   obtain ⟨r, hr, hrdvd⟩ := Nat.exists_prime_and_dvd hne1
   exact ⟨r, hr, uc22ine229_ne_two hodd hrdvd, hrdvd⟩
 
+omit [Finite G] in
 private theorem not_dvd_card_center_of_isSz {K : Subgroup G} {a r : ℕ}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) (hSz : IsSz (Bar2 K) a)
-    (hr : r.Prime) (hrdvd : r ∣ 2 ^ a - 1) :
+    (hr : r.Prime) (_hrdvd : r ∣ 2 ^ a - 1) :
     ¬ r ∣ Nat.card (Subgroup.center (Bar2 K)) := by
   rw [center_eq_bot_of_isSz hq hSz, Subgroup.card_bot]
   exact hr.not_dvd_one
 
 private theorem conj_injective_of_isSz {K : Subgroup G} {a : ℕ}
-    (hq : CFSG.Open.IsQuasisimple (Bar2 K)) (hSz : IsSz (Bar2 K) a) :
+    (hq : CFSG.Open.IsQuasisimple (Bar2 K)) (_hSz : IsSz (Bar2 K) a) :
     Function.Injective (MulAut.conj : xbar K →* MulAut (xbar K)) := by
   have hZbar : Subgroup.center (xbar K) = ⊥ := by
     obtain ⟨e⟩ := uc22p21k_quotCenter_equiv (center_barInf_eq_bot hq)
@@ -352,8 +358,6 @@ private theorem conjSet_data_of_ncard_eq_two {D : Data G} {K K' : Subgroup G} {t
   have hK''mem : (K.map (MulAut.conj t).toMonoidHom).map
       (MulAut.conj t).toMonoidHom ∈ conjSetOf D.M K := by
     refine ⟨t * t, D.M.mul_mem htM htM, ?_⟩
-    change (K.map (MulAut.conj t).toMonoidHom).map (MulAut.conj t).toMonoidHom =
-      K.map (MulAut.conj (t * t)).toMonoidHom
     rw [Subgroup.map_map]
     congr 1
     ext z
@@ -519,7 +523,7 @@ theorem Ctx23L.exists_diagonal_torus_elem {D : Data G}
       ∀ hh : h ∈ Subgroup.normalizer (K : Set G),
         inducedQuotInfAut K h hh = MulAut.conj d := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htM : t ∈ D.M := D.sylowM.le htT
   have hq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
   obtain ⟨r, h₀, hr, hrdvd, hr2, hh₀R, hh₀T, hh₀ord⟩ :=

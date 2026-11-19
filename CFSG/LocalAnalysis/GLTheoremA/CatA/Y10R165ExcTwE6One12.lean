@@ -63,8 +63,8 @@ private lemma exists_pxt_lift {f p : ℕ} {k : Type} [Field k] [Finite k] [CharP
       (twistedIsogenyC hf (CFSG.LieType.Universal.card_galoisField_two_mul 2 f hf)
         (frobQ 2 f) (fun c => frobQ_apply 2 f c)) x = pxtC ∧ x ≠ 1 := by
   classical
-  haveI hTfin : Finite ↥(thetaTorusP (f := f) t) := Subtype.finite
-  haveI hTfintype : Fintype ↥(thetaTorusP (f := f) t) := Fintype.ofFinite _
+  have hTfin : Finite ↥(thetaTorusP (f := f) t) := Subtype.finite
+  have hTfintype : Fintype ↥(thetaTorusP (f := f) t) := Fintype.ofFinite _
   have hTcard : 1 < Fintype.card ↥(thetaTorusP (f := f) t) := by
     rw [← Nat.card_eq_fintype_card, card_thetaTorusP hf hk ht]
     exact hp.one_lt
@@ -92,7 +92,7 @@ private lemma exists_zLevi_lift {f p : ℕ} {k : Type} [Field k] [Finite k] [Cha
     (h : UnitaryFieldData 2 f (GaloisField 2 (2 * f)))
     {ζ : (GaloisField 2 (2 * f))ˣ} (hζ : orderOf ζ = p)
     (hζbar : h.bar (ζ : GaloisField 2 (2 * f)) = ζ)
-    {t : kˣ} (ht : orderOf t = p)
+    {t : kˣ} (_ht : orderOf t = p)
     {A₁ : Subgroup ↥(fixedGroup (GaloisField 2 (2 * f)) (frobQ 2 f))}
     (hAmap : A₁.map (twistedIsogenyC hf
         (CFSG.LieType.Universal.card_galoisField_two_mul 2 f hf)
@@ -101,7 +101,7 @@ private lemma exists_zLevi_lift {f p : ℕ} {k : Type} [Field k] [Finite k] [Cha
         (R3Levi h p hp hp2 ζ hζ hζbar (fun c => frobQ_apply 2 f c)).subgroupOf (C0 f))
     {pxtC : C0 f} (hpxt_mem : pxtC ∈ thetaTorusP (f := f) t)
     {x : ↥(fixedGroup (GaloisField 2 (2 * f)) (frobQ 2 f))}
-    (hxA : x ∈ A₁)
+    (_hxA : x ∈ A₁)
     (hxπ : (twistedIsogenyC hf (CFSG.LieType.Universal.card_galoisField_two_mul 2 f hf)
       (frobQ 2 f) (fun c => frobQ_apply 2 f c)) x = pxtC) :
     ∃ (z : ↥(fixedGroup (GaloisField 2 (2 * f)) (frobQ 2 f)))
@@ -191,8 +191,8 @@ private lemma su6Levi_layer_data {f p : ℕ} {k : Type} [Field k] [Finite k] [Ch
   exact ⟨hJx, hJn, hJq, hpJ⟩
 
 private lemma QLevi_layer_data {f p : ℕ} {k : Type} [Field k] [Finite k] [CharP k 2]
-    [Algebra k (GaloisField 2 (2 * f))] [NeZero p] (hf : 1 ≤ f)
-    (hk : Nat.card k = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2)
+    [Algebra k (GaloisField 2 (2 * f))] [NeZero p] (_hf : 1 ≤ f)
+    (_hk : Nat.card k = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2)
     (h : UnitaryFieldData 2 f (GaloisField 2 (2 * f)))
     {ζ : (GaloisField 2 (2 * f))ˣ} (hζ : orderOf ζ = p)
     (hζbar : h.bar (ζ : GaloisField 2 (2 * f)) = ζ)
@@ -413,7 +413,7 @@ private theorem concl165Avoid_twE6_model_of_orderOf {f p q : ℕ} {k : Type} [Fi
     (CFSG.LieType.Universal.card_galoisField_two_mul 2 f hf)
     (frobQ 2 f) (fun c => frobQ_apply 2 f c)
   obtain ⟨hker, hsurj⟩ := twistedIsogeny_ker_surj (f := f) (k := k) hf
-  haveI hHfin : Finite H := Subtype.finite
+  have hHfin : Finite H := Subtype.finite
   obtain ⟨F, hFdef, hFe, -, hF3⟩ := exists_te6WA_data (f := f) (q := q) hj hq hg
   obtain ⟨pxtC, x, hpxt_mem, hpxt_ne, hxA, hxπ, hx1⟩ :=
     exists_pxt_lift (f := f) (k := k) (p := p) (A₁ := A₁) hf hk hp hp2 h hζ hζbar ht hAmap

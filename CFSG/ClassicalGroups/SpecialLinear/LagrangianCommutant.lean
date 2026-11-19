@@ -72,10 +72,12 @@ private noncomputable def lagPhi (P : LinearMap.BilinForm K U) {V : Submodule K 
     (b : Module.Basis (Fin n) K V) : U →ₗ[K] (Fin n → K) :=
   LinearMap.pi fun i => P (b i : U)
 
+omit [FiniteDimensional K U] in
 private lemma lagPhi_apply {P : LinearMap.BilinForm K U} {V : Submodule K U}
     {b : Module.Basis (Fin n) K V} (u : U) (i : Fin n) :
     lagPhi P b u i = P (b i : U) u := rfl
 
+omit [FiniteDimensional K U] in
 private lemma lagPhi_ker {P : LinearMap.BilinForm K U} {V : Submodule K U}
     (hV : LinearMap.BilinForm.orthogonal P V = V) (b : Module.Basis (Fin n) K V) :
     LinearMap.ker (lagPhi P b) = V := by
@@ -131,6 +133,7 @@ private lemma exists_lagRightInverse {P : LinearMap.BilinForm K U} (hP : P.Nonde
   have h := LinearMap.congr_fun hσ y
   simpa using h
 
+omit [FiniteDimensional K U] in
 private lemma lagRightInverse_sub_mem_V {P : LinearMap.BilinForm K U}
     {V : Submodule K U} (hV : LinearMap.BilinForm.orthogonal P V = V)
     (b : Module.Basis (Fin n) K V) (σ : (Fin n → K) →ₗ[K] U)
@@ -152,10 +155,12 @@ private noncomputable def restrictEquivMap (g : U ≃ₗ[K] U) {V : Submodule K 
     apply Subtype.ext
     simp
 
+omit [FiniteDimensional K U] in
 private lemma restrictEquivMap_apply (g : U ≃ₗ[K] U) {V : Submodule K U}
     (hΓV : ∀ v ∈ V, g v ∈ V) (v : V) :
     ((restrictEquivMap g hΓV v : V) : U) = g v := rfl
 
+omit [FiniteDimensional K U] in
 private lemma codRestrict_comp_eq_toLin {V : Submodule K U}
     {b : Module.Basis (Fin n) K V} {g : U ≃ₗ[K] U}
     {A : Matrix.SpecialLinearGroup (Fin n) K}
@@ -169,6 +174,7 @@ private lemma codRestrict_comp_eq_toLin {V : Submodule K U}
   simp only [Submodule.coe_smul]
   exact hg j
 
+omit [FiniteDimensional K U] in
 private lemma equivFun_comp_of_basis {V : Submodule K U}
     {b : Module.Basis (Fin n) K V} {g : U ≃ₗ[K] U}
     {A : Matrix.SpecialLinearGroup (Fin n) K}
@@ -184,6 +190,7 @@ private lemma equivFun_comp_of_basis {V : Submodule K U}
   rw [hgV, Matrix.toLin_apply, Module.Basis.equivFun_apply, Module.Basis.repr_sum_self,
     Module.Basis.equivFun_apply]
 
+omit [FiniteDimensional K U] in
 private lemma symm_apply_basis {V : Submodule K U}
     {b : Module.Basis (Fin n) K V} {g : U ≃ₗ[K] U}
     {A : Matrix.SpecialLinearGroup (Fin n) K}
@@ -215,6 +222,7 @@ private lemma symm_apply_basis {V : Submodule K U}
     simpa [restrictEquivMap_apply] using h
   exact (LinearEquiv.symm_apply_eq g).mpr hyU.symm
 
+omit [FiniteDimensional K U] in
 private lemma lagPhi_comp_iso {P : LinearMap.BilinForm K U} {V : Submodule K U}
     {b : Module.Basis (Fin n) K V} {g : U ≃ₗ[K] U}
     {A : Matrix.SpecialLinearGroup (Fin n) K}
@@ -249,6 +257,7 @@ private noncomputable def psiCoord (P : LinearMap.BilinForm K U) {V : Submodule 
     (Fin n → K) →ₗ[K] (Fin n → K) :=
   (lagPhi P b).comp (ψ.comp (V.subtype.comp b.equivFun.symm.toLinearMap))
 
+omit [FiniteDimensional K U] in
 private lemma psiCoord_intertwines {P : LinearMap.BilinForm K U} {V : Submodule K U}
     {b : Module.Basis (Fin n) K V} {Γ : Set (U ≃ₗ[K] U)}
     (hΓP : ∀ g ∈ Γ, ∀ u w, P (g u) (g w) = P u w)
@@ -287,6 +296,7 @@ private lemma psiCoord_intertwines {P : LinearMap.BilinForm K U} {V : Submodule 
     _ = ((A⁻¹ : Matrix.SpecialLinearGroup (Fin n) K) :
           Matrix (Fin n) (Fin n) K)ᵀ *ᵥ psiCoord P b ψ x := rfl
 
+omit [FiniteDimensional K U] in
 private lemma psi_maps_V {P : LinearMap.BilinForm K U} {V : Submodule K U}
     (hV : LinearMap.BilinForm.orthogonal P V = V) (b : Module.Basis (Fin n) K V)
     {Γ : Set (U ≃ₗ[K] U)}
@@ -324,9 +334,10 @@ private noncomputable def psiRestrict (ψ : U →ₗ[K] U) {V : Submodule K U}
     apply Subtype.ext
     simp
 
+omit [FiniteDimensional K U] in
 private lemma psiRestrict_commutes {V : Submodule K U} (b : Module.Basis (Fin n) K V)
     {Γ : Set (U ≃ₗ[K] U)}
-    (hΓV : ∀ g ∈ Γ, ∀ v ∈ V, g v ∈ V)
+    (_hΓV : ∀ g ∈ Γ, ∀ v ∈ V, g v ∈ V)
     (hSL : ∀ A : Matrix.SpecialLinearGroup (Fin n) K, ∃ g ∈ Γ,
       ∀ j, g (b j) = ∑ i, (A : Matrix (Fin n) (Fin n) K) i j • (b i : U))
     (ψ : U →ₗ[K] U) (hψ : ∀ g ∈ Γ, ∀ u, ψ (g u) = g (ψ u))
@@ -337,7 +348,7 @@ private lemma psiRestrict_commutes {V : Submodule K U} (b : Module.Basis (Fin n)
   let A : Matrix.SpecialLinearGroup (Fin n) K :=
     (Matrix.SpecialLinearGroup.toLin_equiv b).symm g
   have hgA : Matrix.SpecialLinearGroup.toLin_equiv b A = g := by
-    simpa [A] using (Matrix.SpecialLinearGroup.toLin_equiv b).apply_symm_apply g
+    simp [A]
   obtain ⟨h, hhΓ, hh⟩ := hSL A
   have hgV_eq : (g : V →ₗ[K] V) = Matrix.toLin b b (A : Matrix (Fin n) (Fin n) K) := by
     apply b.ext
@@ -468,7 +479,7 @@ private lemma Kmap_relation {P : LinearMap.BilinForm K U} (hP : P.Nondegenerate)
     (hΓV : ∀ g ∈ Γ, ∀ v ∈ V, g v ∈ V)
     (hSL : ∀ A : Matrix.SpecialLinearGroup (Fin n) K, ∃ g ∈ Γ,
       ∀ j, g (b j) = ∑ i, (A : Matrix (Fin n) (Fin n) K) i j • (b i : U))
-    (S : U →ₗ[K] U) (σ : (Fin n → K) →ₗ[K] U)
+    (S : U →ₗ[K] U) (_σ : (Fin n → K) →ₗ[K] U)
     (Kmap : (Fin n → K) →ₗ[K] (Fin n → K))
     (hKmap_Phi : ∀ u : U, Kmap (lagPhi P b u) = lagPhi P b (S u))
     (hScomm : ∀ g ∈ Γ, ∀ u, S (g u) = g (S u)) :
@@ -490,7 +501,7 @@ private lemma psi_sub_scalar_mem_V_add {P : LinearMap.BilinForm K U} (hP : P.Non
     (hSL : ∀ A : Matrix.SpecialLinearGroup (Fin n) K, ∃ g ∈ Γ,
       ∀ j, g (b j) = ∑ i, (A : Matrix (Fin n) (Fin n) K) i j • (b i : U))
     (ψ : U →ₗ[K] U) (hψ : ∀ g ∈ Γ, ∀ u, ψ (g u) = g (ψ u))
-    (hψV : ∀ v : V, ψ (v : U) ∈ V) {a : K} (ha : ∀ v : V, ψ (v : U) = a • (v : U))
+    (_hψV : ∀ v : V, ψ (v : U) ∈ V) {a : K} (ha : ∀ v : V, ψ (v : U) = a • (v : U))
     (hn : 3 ≤ n) :
     ∃ a' : K, ∀ u : U, ψ u - a • u - a' • u ∈ V := by
   let S : U →ₗ[K] U := ψ - a • LinearMap.id
@@ -538,7 +549,7 @@ private lemma lagrangian_correction_eq_zero {P : LinearMap.BilinForm K U}
     {V : Submodule K U} (hV : LinearMap.BilinForm.orthogonal P V = V)
     {Γ : Set (U ≃ₗ[K] U)}
     (hΓP : ∀ g ∈ Γ, ∀ u w, P (g u) (g w) = P u w)
-    (hΓV : ∀ g ∈ Γ, ∀ v ∈ V, g v ∈ V)
+    (_hΓV : ∀ g ∈ Γ, ∀ v ∈ V, g v ∈ V)
     (ψ : U →ₗ[K] U) (hψ : ∀ g ∈ Γ, ∀ u, ψ (g u) = g (ψ u))
     {a : K} (ha : ∀ v : V, ψ (v : U) = a • (v : U)) {a' : K}
     (ha' : ∀ u : U, ψ u - a • u - a' • u ∈ V)
@@ -593,6 +604,7 @@ private noncomputable def dualCoordMap (S : U →ₗ[K] U) {V : Submodule K U}
     (σ : (Fin n → K) →ₗ[K] U) : (Fin n → K) →ₗ[K] (Fin n → K) :=
   b.equivFun.toLinearMap.comp ((S.comp σ).codRestrict V (fun y => hSV (σ y)))
 
+omit [FiniteDimensional K U] in
 private lemma dualCoordMap_apply (S : U →ₗ[K] U) {V : Submodule K U}
     (hSV : ∀ u : U, S u ∈ V) (b : Module.Basis (Fin n) K V)
     (σ : (Fin n → K) →ₗ[K] U) (y : Fin n → K) :
@@ -604,6 +616,7 @@ private lemma dualCoordMap_apply (S : U →ₗ[K] U) {V : Submodule K U}
   rw [dualCoordMap, LinearMap.comp_apply, h1]
   rfl
 
+omit [FiniteDimensional K U] in
 private lemma dualCoordMap_apply_lagPhi {P : LinearMap.BilinForm K U}
     {V : Submodule K U} (hV : LinearMap.BilinForm.orthogonal P V = V)
     (b : Module.Basis (Fin n) K V) (S : U →ₗ[K] U) (hSV : ∀ u : U, S u ∈ V)
@@ -667,6 +680,7 @@ private lemma dualCoordMap_relation {P : LinearMap.BilinForm K U} (hP : P.Nondeg
     _ = (A : Matrix (Fin n) (Fin n) K) *ᵥ dualCoordMap S hSV b σ (lagPhi P b u) := by
         rw [dualCoordMap_apply_lagPhi hV b S hSV σ hσ hSVzero u]
 
+omit [FiniteDimensional K U] in
 private lemma dualCoordMap_standard (S : U →ₗ[K] U) {V : Submodule K U}
     (hSV : ∀ u : U, S u ∈ V) (b : Module.Basis (Fin n) K V)
     (σ : (Fin n → K) →ₗ[K] U)
@@ -685,6 +699,7 @@ private lemma dualCoordMap_standard (S : U →ₗ[K] U) {V : Submodule K U}
     rw [hAeq, Matrix.SpecialLinearGroup.coe_transpose]
   rw [← hB, hrel A y, hAmat]
 
+omit [FiniteDimensional K U] in
 private lemma S_eq_zero_of_dualCoordMap_eq_zero {P : LinearMap.BilinForm K U}
     {V : Submodule K U} (hV : LinearMap.BilinForm.orthogonal P V = V)
     (b : Module.Basis (Fin n) K V) (S : U →ₗ[K] U) (hSV : ∀ u : U, S u ∈ V)

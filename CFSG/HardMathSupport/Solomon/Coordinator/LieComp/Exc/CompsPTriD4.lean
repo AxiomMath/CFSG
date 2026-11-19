@@ -82,7 +82,7 @@ theorem trialityFieldExportP {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) : Triality
   intro ℓ f hℓ' hf K _ _ hK σ hσ φ hφp hφout
   classical
   have hℓ : ℓ.Prime := hℓ'.out
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hφ1 : φ ≠ 1 := fun h => hφout (h ▸ one_mem _)
   have hφord : orderOf φ = p := orderOf_eq_prime hφp hφ1
   obtain ⟨-, -, Θ, hΘ, -⟩ := triality_normal_form_data hℓ hf K hK σ hσ
@@ -127,7 +127,7 @@ theorem trialityFieldExportP {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) : Triality
   obtain ⟨-, -, hk, -, -, -, hfixJ, hsimpJ, hncJ, -⟩ :=
     triality_canonical_field_full_centralizer_and_pointwise_kernel hℓ hd hp.two_le hm3 K hK' σ
       hσ' δc hδc
-  haveI := hsimpJ
+  have := hsimpJ
   set δ₀ := fieldActor (t := TwistTag.D4) σ δc with hδ₀
   have e3 : ↥(fixSubgroup δ₀) ≃* ↥(trialityFieldImage σ δc) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
@@ -135,13 +135,13 @@ theorem trialityFieldExportP {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) : Triality
       (MulEquiv.subgroupCongr hfixJ)
   have hsimE : IsSimpleGroup ↥(fixSubgroup δ₀) := e3.isSimpleGroup
   have hncE : ∃ a b : ↥(fixSubgroup δ₀), a * b ≠ b * a := by
-    simp only [not_forall, ne_eq] at hncJ
+    simp only [not_forall] at hncJ
     obtain ⟨a, b, hab⟩ := hncJ
     refine ⟨e3.symm a, e3.symm b, fun h => hab ?_⟩
     have h' := congrArg e3 h
     simp only [map_mul, MulEquiv.apply_symm_apply] at h'
     exact h'
-  haveI : Finite (fixSubfield δc) := Subtype.finite
+  have : Finite (fixSubfield δc) := Subtype.finite
   have hk3 : Nat.card (fixSubfield δc) = (ℓ ^ f') ^ 3 := by rw [hk, ← pow_mul, mul_comm]
   obtain ⟨r, hr, hσr⟩ := exists_cubic_exponent_exc hp (by omega) (fixSubfield δc) hk σ hσ'
   obtain ⟨hG₀, hG₀A6⟩ := isChevSimple_graphFixedRootGroup_cubic_exc hℓ hd (fixSubfield δc) hk3
@@ -160,7 +160,7 @@ theorem trialityFieldExportP {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) : Triality
   have hperf : commutator ↥(fixSubgroup δ₀) = ⊤ := (b3Lie_isQuasisimple_of_simple hncE).1
   have hder : ⁅fixSubgroup δ₀, fixSubgroup δ₀⁆ = fixSubgroup δ₀ :=
     Subgroup.isPerfect_iff.1 ⟨hperf⟩
-  haveI : Finite ↥(fixSubgroup δ₀) := Subtype.finite
+  have : Finite ↥(fixSubgroup δ₀) := Subtype.finite
   have hexp : LieCompExport ℓ δ₀ := by
     refine lieCompExport_of_derived_eq_simple hder hsimE hncE
       ⟨↥(fixSubgroup δ₀), inferInstance, inferInstance, lieFactorData_of_simple hncE hchevE,

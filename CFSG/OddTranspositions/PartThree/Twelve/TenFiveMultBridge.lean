@@ -95,11 +95,11 @@ theorem fiveOrthogonal_le_closure_fiveReflections (k : ℕ) (ε : Bool) :
     · have hv' : fiveForm k ε v v ≠ 0 := by rwa [fiveQuad_apply] at hv
       by_cases hsq : IsSquare (fiveForm k ε v v)
       · have hmem : fiveReflOf k ε v ∈ S :=
-          Or.inl (fiveReflOf_mem hv' (by simpa [hsq]))
+          Or.inl (fiveReflOf_mem hv' (by simp [hsq]))
         rw [reflect_fiveQuad_eq_toLinEquiv_fiveReflOf]
         exact Subgroup.subset_closure ⟨fiveReflOf k ε v, hmem, rfl⟩
       · have hmem : fiveReflOf k ε v ∈ S :=
-          Or.inr (fiveReflOf_mem hv' (by simpa [hsq]))
+          Or.inr (fiveReflOf_mem hv' (by simp [hsq]))
         rw [reflect_fiveQuad_eq_toLinEquiv_fiveReflOf]
         exact Subgroup.subset_closure ⟨fiveReflOf k ε v, hmem, rfl⟩
   intro g hg
@@ -145,7 +145,7 @@ theorem fiveOmega_le_fiveReflectionGroup {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
   let N' : Subgroup G := N.subgroupOf (fiveOrthogonal k ε)
   let t : G := ⟨t0, ht0O⟩
   let H : Subgroup G := Subgroup.zpowers t
-  haveI : N'.Normal := ⟨fun n hn g => by
+  have : N'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     change ((g * n * g⁻¹ : G) : GL (Fin (k + 1)) (ZMod 5)) ∈ fiveReflectionGroup k ε π
     convert hconj g g.2 n hn using 1⟩
@@ -189,7 +189,7 @@ theorem fiveOmega_le_fiveReflectionGroup {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
     have : y = g := Subtype.ext hyeq
     rwa [this] at hy
   have hcomm : _root_.commutator G ≤ N' := by
-    haveI : IsMulCommutative H := Subgroup.zpowers_isMulCommutative t
+    have : IsMulCommutative H := Subgroup.zpowers_isMulCommutative t
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hHN
   calc fiveOmega k ε = (commutator G).map (Subgroup.subtype (fiveOrthogonal k ε)) :=
         (Subgroup.map_subtype_commutator (fiveOrthogonal k ε)).symm

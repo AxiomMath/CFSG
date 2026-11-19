@@ -169,8 +169,6 @@ private theorem mem_torusGroup_of_commute_fiveFrameDiag {L : Type} [Field L] {ζ
   have hfam : z ∈ familyCentralizer TwistTag.E6.tag L a := by
     rw [mem_familyCentralizer]
     refine ⟨hz, fun i => ?_⟩
-    change rootDiagUnit TwistTag.E6.tag (a i) * z *
-      (rootDiagUnit TwistTag.E6.tag (a i))⁻¹ = z
     have hfd : frameDiag (τ := TwistTag.E6.tag) ζ hζ (Pi.single i 1) =
         rootDiagUnit TwistTag.E6.tag (a i) := rfl
     rw [← hfd, ← hcomm]
@@ -190,7 +188,7 @@ private theorem mem_torusGroup_of_commute_fiveFrameDiag {L : Type} [Field L] {ζ
 
 private theorem frameDiag_mem_twistedTorus_five {L : Type} [Field L] [IsAlgClosed L]
     (Fr : L →+* L) {q : ℕ} (hFr : ∀ c, Fr c = c ^ q) (h5 : 5 ∣ q + 1)
-    {ζ : Lˣ} (hζo : orderOf ζ = 5) (hζ : ζ ^ 5 = 1)
+    {ζ : Lˣ} (_hζo : orderOf ζ = 5) (hζ : ζ ^ 5 = 1)
     (s : Fin TwistTag.E6.tag.rank → ZMod 5) :
     frameDiag (τ := TwistTag.E6.tag) ζ hζ s ∈
       twistedTorusOf (canonicalRep (coxeterSystem TwistTag.E6.tag) L twE6PhiTwoWeyl)
@@ -324,21 +322,21 @@ theorem exists_fiveLangFrame {f : ℕ} (hf : 1 ≤ f) (h5 : 5 ∣ 2 ^ f + 1) :
   let L := AlgebraicClosure K
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (by norm_num))
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h5dvd : 5 ∣ Nat.card K - 1 := by
     rw [hK]
     have hsq : (2 ^ f) ^ 2 - 1 = (2 ^ f - 1) * (2 ^ f + 1) := by
       simpa [mul_comm] using Nat.sq_sub_sq (2 ^ f) 1
     rw [hsq]
     exact dvd_mul_of_dvd_right h5 _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   let Fr : L →+* L := iterateFrobenius L 2 f
   have hFr : ∀ c, Fr c = c ^ (2 ^ f) := fun c => iterateFrobenius_def 2 f c
   obtain ⟨ζK, hζKord⟩ := exists_orderOf_eq_of_dvd_card_sub_one (F := K) h5dvd
@@ -411,7 +409,7 @@ theorem exists_fiveLangFrame {f : ℕ} (hf : 1 ≤ f) (h5 : 5 ∣ 2 ^ f + 1) :
   set C' : Subgroup (ModGL TwistTag.E6.tag L) :=
     (graphFixedRootGroup TwistTag.E6 K (frobQ 2 f)).map (baseChangeGL (algebraMap K L))
     with hC'
-  haveI : Finite R' := hfinR
+  have : Finite R' := hfinR
   have hle : C' ≤ R' := by
     rw [← hder]
     refine Subgroup.commutator_le.2 fun a ha b hb => ?_
@@ -425,7 +423,7 @@ theorem exists_fiveLangFrame {f : ℕ} (hf : 1 ≤ f) (h5 : 5 ∣ 2 ^ f + 1) :
       exact Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) _
     rw [e]
     infer_instance
-  haveI : (C'.subgroupOf R').Normal := hnormal
+  have : (C'.subgroupOf R').Normal := hnormal
   have hXR : X ≤ R' := by
     rintro _ ⟨y, hy, rfl⟩
     rw [mem_twistedFixedGroup_iff_twistHom]
@@ -522,7 +520,7 @@ theorem exists_fiveLangFrame {f : ℕ} (hf : 1 ≤ f) (h5 : 5 ∣ 2 ^ f + 1) :
         (Multiplicative.toAdd s) * g₀⁻¹ := by
     intro s
     have h := MonoidHom.apply_ofInjective_symm hβinj (ψ s)
-    simpa [ι₀, e, ψ] using h
+    simp [ι₀, e, ψ]
   have hι₀inj : Function.Injective ι₀ := by
     intro s t hst
     exact hψinj (e.symm.injective hst)

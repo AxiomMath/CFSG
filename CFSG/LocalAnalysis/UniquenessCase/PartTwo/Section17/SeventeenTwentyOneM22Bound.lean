@@ -270,7 +270,7 @@ theorem card_vtil_eq_of_M22
   have hmParam : E3.mParam (Mbar D.M V₀ V hV.isElemAbelian) =
       sInf {n : ℕ | ∃ t ∈ Mbar D.M V₀ V hV.isElemAbelian,
         orderOf t = 2 ∧ n = rkIdx (fixV (Subgroup.zpowers t))} := by
-    simp only [E3.mParam, if_pos hevenMb]
+    simp only [E3.mParam, ite_eq_left hevenMb]
   have hY0le : barSub V₀ V hV.isElemAbelian L ⊔ Subgroup.zpowers t₀ ≤
       Mbar D.M V₀ V hV.isElemAbelian :=
     sup_le hLMb (Subgroup.zpowers_le.mpr ht₀Mb)

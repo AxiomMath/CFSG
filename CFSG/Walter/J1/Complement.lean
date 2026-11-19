@@ -20,7 +20,7 @@ theorem exists_odd_complement {K T : Subgroup G} (hTK : T ≤ K) (hT2 : IsPGroup
   have hP₀ : IsPGroup 2 P₀ := hT2.of_equiv eP.symm
   obtain ⟨Q, hQ⟩ := hP₀.exists_le_sylow
   have hQT : (Q : Subgroup K).map K.subtype = T := by
-    apply hmax _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map _)
+    apply hmax _ (Subgroup.map_subtype_le _) (Q.isPGroup.map _)
     intro x hx
     exact ⟨⟨x, hTK hx⟩, hQ (by simpa [P₀, Subgroup.mem_subgroupOf] using hx), rfl⟩
   have hQP : (Q : Subgroup K) = P₀ := by
@@ -64,7 +64,7 @@ theorem exists_odd_complement {K T : Subgroup G} (hTK : T ≤ K) (hT2 : IsPGroup
       rw [← map_pow]
       have : (⟨g, hg⟩ : K) ^ orderOf g = 1 := Subtype.ext (by simp [pow_orderOf_eq_one])
       rw [this, map_one]
-    obtain ⟨k, hk⟩ := Q.isPGroup' (φ ⟨g, hg⟩)
+    obtain ⟨k, hk⟩ := Q.isPGroup (φ ⟨g, hg⟩)
     have h2 : orderOf (φ ⟨g, hg⟩) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     have hcop : Nat.Coprime (orderOf g) (2 ^ k) :=
       Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hodd)

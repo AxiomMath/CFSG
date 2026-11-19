@@ -30,7 +30,7 @@ theorem lieModel_of_dim_two {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2)
     exact not_comm_of_simple hs fun a b => Subsingleton.elim _ _
   obtain ⟨-, -, hqs, ⟨s, hsp, hs5, hsq, ⟨e⟩⟩, -, -⟩ :=
     CFSG.SectionRank.Ccomm.perfect_prime_linear_recognition hq2 P hP
-  haveI : Fact s.Prime := ⟨hsp⟩
+  have : Fact s.Prime := ⟨hsp⟩
   have hR : R = center P := eq_of_simple_quotients hRs hs hqs.2
   exact ⟨s, hsp, by omega, hsq, Or.inl ⟨by decide,
     statedClassicalModel_psl_two hs5 ((QuotientGroup.quotientMulEquivOfEq hR).trans e)⟩⟩
@@ -92,7 +92,7 @@ theorem classification_of_dim_three
     exact not_isSolvable_of_isQuasisimple hqs
       (TauCeti.isSolvable_of_card_dvd_prime_pow_mul_prime_pow Nat.prime_two Nat.prime_three hdvd)
   ·
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have eP : P ≃* alternatingGroup (Fin 5) := (MulEquiv.subgroupCongr hHP.symm).trans e
     obtain ⟨e₅⟩ := CFSG.ClassicalModels.nonempty_statedLinearModel_equiv_alternating_five
       (ZMod 5) (Or.inr (Nat.card_zmod 5))
@@ -101,7 +101,7 @@ theorem classification_of_dim_three
       statedClassicalModel_psl_two le_rfl ((eR.trans eP).trans (e₅.symm.trans
         (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 (ZMod 5)).symm))⟩⟩
   ·
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨e₇⟩ := CFSG.LocalAnalysis.ComponentInitial.nonempty_GL_three_two_equiv_PSL_two_seven
     have eP : P ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod 7) :=
       ((MulEquiv.subgroupCongr hHP.symm).trans e).trans e₇
@@ -178,14 +178,14 @@ theorem classification_of_dim_le_three
       LieModel (L ⧸ X) .PSL 3 q 1 ∨
       (Nonempty (L ⧸ X ≃* alternatingGroup (Fin 6)) ∧ 3 ∣ Nat.card X) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   induction d using Nat.strong_induction_on with
   | _ d ih =>
   by_cases hirr : IsIrreducibleMatrixRep φ
   · obtain ⟨hRn, ⟨e⟩⟩ := exists_range_quotient_equiv φ X hφ
-    haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+    have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
     have hRs : Group.IsSolvable (X.map φ.rangeRestrict) := by
-      haveI := hXs
+      have := hXs
       exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective φ.rangeRestrict X)
     have hsP : IsSimpleGroup (φ.range ⧸ X.map φ.rangeRestrict) :=
       (MulEquiv.isSimpleGroup_congr e).2 hs
@@ -221,7 +221,7 @@ theorem classification_or_irreducible_four
           CriticalSection X q 4 φ) := by
   classical
   obtain ⟨q, hq, hq2, hqd, d, hd, φ, hφ, hcs⟩ := exists_criticalSection X hXs hX2 hrank hcent hs
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine ⟨q, inferInstance, hq2, hqd, ?_⟩
   rcases (show d ≤ 3 ∨ d = 4 by omega) with hd3 | rfl
   · exact Or.inl (classification_of_dim_le_three hXs hs hq hq2 hd3 φ hφ)

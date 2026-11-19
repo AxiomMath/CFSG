@@ -21,7 +21,7 @@ private theorem modelLin_diagonal_hImage {E : Type} [Field E] (b : Fin 6 → Eˣ
   have hx : hImage (E := E) j =
       (Matrix.diagonal (fun i => (diagCoeff j i : E)), 0, 0, 0, 0) := rfl
   rw [hx, modelLin_apply]
-  simp only [mul_zero, map_zero]
+  simp only [map_zero]
   rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]
   have hfun : (fun i => (b i : E) * (diagCoeff j i : E) * ((b i)⁻¹ : E)) =
       fun i => (diagCoeff j i : E) := by
@@ -36,7 +36,7 @@ private theorem modelLin_diagonal_rootImage_matRoot {E : Type} [Field E] (b : Fi
         (Matrix.diagonal fun i => ((b i)⁻¹ : E)) (rootImage (E := E) (matRoot a b')) =
       ((b a * (b b')⁻¹ : Eˣ) : E) • rootImage (E := E) (matRoot a b') := by
   rw [rootImage_matRoot hab, modelLin_apply]
-  simp only [mul_zero, map_zero]
+  simp only [map_zero]
   have hmat : Matrix.diagonal (fun i => (b i : E)) * Matrix.single a b' 1 *
       Matrix.diagonal (fun i => ((b i)⁻¹ : E)) =
       ((b a * (b b')⁻¹ : Eˣ) : E) • Matrix.single a b' 1 := by
@@ -180,7 +180,7 @@ theorem realize_diagonal_eq_rootDiagUnit {E : Type} [Field E] (h2 : (2 : E) = 0)
         rw [Finset.mul_prod_erase Finset.univ (fun x : Fin 6 => (b x : E))
           (Finset.mem_univ i)]
         exact hdet
-      simpa [Matrix.diagonal_apply_eq, hprod]
+      simp [Matrix.diagonal_apply_eq, hprod]
     · simp [Matrix.diagonal_apply_ne, hij]
   obtain ⟨a, ha⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup
     (realize_diagonal_mem_torusGroup h2 B b hB hB')
@@ -261,7 +261,7 @@ theorem realize_diagonal_eq_rootDiagUnit_cubic {E : Type} [Field E] (h2 : (2 : E
     (B : Matrix.SpecialLinearGroup (Fin 6) E) (c d : Eˣ)
     (hB : ((B : Matrix (Fin 6) (Fin 6) E)) =
       Matrix.diagonal fun i => ((![c, c, c, d, d, d] : Fin 6 → Eˣ) i : E))
-    (hc : c ^ 3 = 1) (hd : d ^ 3 = 1) :
+    (_hc : c ^ 3 = 1) (hd : d ^ 3 = 1) :
     E6GraphLevi.realize h2 B =
       rootDiagUnit .E6 ![1, 1, 1, c / d, 1, 1] := by
   have h := realize_diagonal_eq_rootDiagUnit (E := E) h2 B
@@ -339,7 +339,7 @@ theorem R3Levi_le_torusGroup {f : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem thetaTorusP_le_graphFixedRootTorus {f : ℕ} (hf : 1 ≤ f) {k : Type} [Field k]
     [Algebra k (GaloisField 2 (2 * f))] (hk : Nat.card k = 2 ^ f) (t : kˣ)
-    (hσ : ∀ c, frobQ 2 f c = c ^ 2 ^ f) :
+    (_hσ : ∀ c, frobQ 2 f c = c ^ 2 ^ f) :
     ∀ x ∈ thetaTorusP (f := f) t,
       (x : ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) ∈
         graphFixedRootTorus TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f) := by
@@ -408,7 +408,7 @@ theorem range_twE6ThreeFrameHom_eq_model {f : ℕ} (hf : 1 ≤ f) (h3 : ¬ 3 ∣
   have h4 : Tag.F4.rank = 4 := by decide
   have hdom : Nat.card (Multiplicative (Fin Tag.F4.rank → ZMod 3)) = 3 ^ 4 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_pi, h4]
-    simp [Nat.card_zmod]
+    simp
   have hRange : Nat.card ↥(CFSG.StandardType.ExcFrames.twE6ThreeFrameHom hf h3 ζ hζ).range =
       3 ^ 4 := by
     rw [← hdom]

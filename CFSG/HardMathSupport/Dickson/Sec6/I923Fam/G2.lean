@@ -70,7 +70,7 @@ theorem not_dvd_g2_two (r m : ℕ) (hr : 10 ≤ r) (hm : m + r = r ^ 3) : ¬ m �
 theorem noL2Layer_entrywise_G2 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInput)
     {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {ℓ d : ℕ} (hℓ : ℓ.Prime) (hd : 1 ≤ d)
     (hk : Nat.card ↥(fixSubfield σ) = ℓ ^ d) : NoL2Layer (entrywiseAdjointAut Tag.G2 σ) := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   by_cases h3 : 3 ≤ ℓ ^ d
   · have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.G2 ↥(fixSubfield σ)) .G2 ℓ d :=
       ⟨⟨hℓ, hd, rfl, h3⟩, untwisted_adjointGroup hk⟩
@@ -94,7 +94,7 @@ theorem noL2OuterAt_g2 (hO : ComponentClassification.CatLeaf.LieOrderFormulasInp
     NoL2OuterAt FamG2 := by
   intro P _ _ t n p f hadm ht hF hm ψ hψ3 hψ
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .G2 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩

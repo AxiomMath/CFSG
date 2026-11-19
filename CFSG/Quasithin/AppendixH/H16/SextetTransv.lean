@@ -50,7 +50,7 @@ private theorem foldl_const {M : Type*} (l : List ℕ) (a : M) :
   | cons j l ih => simp [List.foldl_cons, ih]
 
 theorem gJ_zero : gJ 0 = 1 := by
-  simp only [gJ, Nat.zero_testBit, if_false]
+  simp only [gJ, Nat.zero_testBit]
   exact foldl_const (List.range 6) (1 : MulAut W11)
 
 theorem isTranspAxis_ksRho {i : ℕ} (hi : i < 6) :
@@ -103,7 +103,7 @@ private theorem fold_isTranspAxis (J : ℕ) :
 theorem isTranspAxis_gJ (J : ℕ) : IsTranspAxis (gJ J) US V10 (toW 11 (xorCtr J)) := by
   have h := (fold_isTranspAxis J (List.range 6) (fun j hj => List.mem_range.1 hj) 1 0
     (by simpa [toW_zero] using isTranspAxis_one US V10)
-    (by simpa [toW_zero] using V10.one_mem)).1
+    (by simp [toW_zero])).1
   simpa [gJ, xorCtr, gJAut, gJCtr] using h
 
 theorem gJ_injOn : ∀ J < 64, ∀ J' < 64, gJ J = gJ J' → J = J' := by
@@ -124,7 +124,7 @@ theorem gJ_injOn : ∀ J < 64, ∀ J' < 64, gJ J = gJ J' → J = J' := by
 
 theorem exists_gJ_eq :
     ∀ g ∈ imgCd sxKS, ∃ J < 64, g = gJ J := by
-  haveI : Finite (MulAut W11) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z (V := W11)
+  have : Finite (MulAut W11) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z (V := W11)
   let f : Fin 64 → ↥(imgCd sxKS) := fun J => ⟨gJ J, gJ_mem J⟩
   have hf : Function.Injective f := by
     intro J J' h

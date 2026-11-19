@@ -48,7 +48,7 @@ theorem qUConcl_of_unitary {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg 3 S B T
   have hf3 : labK.n ≠ 3 := by omega
   have h : UnitaryFieldData 2 labK.n K :=
     ⟨Nat.prime_two, by omega, by rw [hKcard, ← pow_mul, Nat.mul_comm]⟩
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hq3 : ¬(3 = 3 ∧ 2 ^ labK.n = 2) := fun h' =>
     hf1 (Nat.pow_right_injective le_rfl (h'.2.trans (pow_one 2).symm))
   have hαD := congr_not_mem_primeFormD h le_rfl hq3 hτq hA hσ e heu hu

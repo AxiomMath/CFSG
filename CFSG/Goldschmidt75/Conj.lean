@@ -48,7 +48,7 @@ theorem inf_subgroupOf_eq_sylow (T' : Sylow p G) {H : Subgroup G} (TH : Sylow p 
   have hle : (TH : Subgroup H) ≤ ((T' : Subgroup G) ⊓ H).subgroupOf H :=
     fun x hx => ⟨hTH ⟨x, hx, rfl⟩, x.2⟩
   have hp : IsPGroup p (((T' : Subgroup G) ⊓ H).subgroupOf H) :=
-    (T'.isPGroup'.to_inf_left).comap_subtype
+    (T'.isPGroup.to_inf_left).comap_subtype
   exact TH.maximal_isPGroup.eq_of_ge hp hle
 
 omit [Finite G] [Fact p.Prime] in

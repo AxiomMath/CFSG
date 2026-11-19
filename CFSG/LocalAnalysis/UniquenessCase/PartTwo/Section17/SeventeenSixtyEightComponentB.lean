@@ -40,7 +40,7 @@ theorem normal_of_isSz_of_not_mem_conjSetOf {D : Data G} {L L' J : Subgroup G}
   suffices h : D.M ≤ Subgroup.normalizer (J : Set G) by
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hJM).2 h
   by_contra hnot
-  obtain ⟨y, hyM, hyN⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨y, hyM, hyN⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   set K : Subgroup G := CFSG.Quasithin.conjSubgroup J y⁻¹ with hKdef
   have hKmap : K = J.map (MulAut.conj y).toMonoidHom := by
     rw [hKdef, CFSG.Quasithin.conjSubgroup]

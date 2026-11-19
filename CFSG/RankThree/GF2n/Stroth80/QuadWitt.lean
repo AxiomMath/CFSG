@@ -41,7 +41,7 @@ theorem B_eq_zero_of_singular (M₀ : QuadModel QF V K γ) {U : AddSubgroup M₀
 theorem two_mul_finrank_le_of_totallySingular (M₀ : QuadModel QF V K γ)
     (S : Submodule K M₀.E) (hS : ∀ x ∈ S, M₀.Qf x = 0) :
     2 * Module.finrank K S ≤ Module.finrank K M₀.E := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hnd : M₀.B.Nondegenerate := by
     refine ⟨fun x hx => M₀.nondeg x hx, fun y hy => M₀.nondeg y fun f => ?_⟩
     rw [B_comm, hy f, neg_zero]
@@ -58,8 +58,8 @@ theorem card_le_of_totallySingular [Finite K] (M₀ : QuadModel QF V K γ) {U : 
     (hU : ∀ e ∈ U, M₀.Qf e = 0) {w : ℕ} (hdim : Module.finrank K M₀.E = 2 * w) :
     Nat.card U ≤ Nat.card K ^ w := by
   classical
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Module.Finite K M₀.E := M₀.fin
+  have : Finite M₀.E := Module.finite_of_finite K
   set Qf' := M₀.toQuadraticForm with hQf'
   have hspan : ∀ x ∈ Submodule.span K (U : Set M₀.E), M₀.Qf x = 0 := by
     intro x hx

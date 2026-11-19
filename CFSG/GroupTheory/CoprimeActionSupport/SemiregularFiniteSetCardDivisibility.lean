@@ -16,7 +16,7 @@ theorem card_dvd_pred {B : Type*} [Group B] [Finite B] {X : Type*} [Finite X] [M
     Nat.card B ∣ Nat.card X - 1 := by
   classical
   let Y := {x : X // x ≠ x0}
-  letI : MulAction B Y :=
+  let : MulAction B Y :=
     { smul := fun b y => ⟨b • y.1, fun h => y.2 (by
         have := congrArg (fun z => b⁻¹ • z) h
         simpa [hfix] using this)⟩
@@ -35,8 +35,8 @@ theorem card_dvd_pred {B : Type*} [Group B] [Finite B] {X : Type*} [Finite X] [M
     by_contra hne
     exact hfree b hne y.1 y.2 (congrArg Subtype.val (MulAction.mem_stabilizer_iff.mp hb))
   have : Nat.card B ∣ Nat.card Y := by
-    haveI : Finite Y := Subtype.finite
-    haveI : Fintype (MulAction.orbitRel.Quotient B Y) := Fintype.ofFinite _
+    have : Finite Y := Subtype.finite
+    have : Fintype (MulAction.orbitRel.Quotient B Y) := Fintype.ofFinite _
     rw [Nat.card_congr (MulAction.selfEquivSigmaOrbits B Y), Nat.card_sigma]
     apply Finset.dvd_sum
     intro ω _

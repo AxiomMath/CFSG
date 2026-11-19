@@ -23,7 +23,7 @@ theorem eq_locZ_of_isElemAbelian_locC
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     obtain ⟨_, ⟨x, hx, rfl⟩⟩ := a
     obtain ⟨_, ⟨y, hy, rfl⟩⟩ := b
-    haveI := hF.1
+    have := hF.1
     have hxy := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
     change (MulAut.conj c).toMonoidHom x * (MulAut.conj c).toMonoidHom y =
       (MulAut.conj c).toMonoidHom y * (MulAut.conj c).toMonoidHom x

@@ -51,12 +51,12 @@ public theorem theorem_6_3_commutator_le_of_maximal
     ⁅A, H⁆ ≤ B := by
   classical
   let Bsub : Subgroup H := B.subgroupOf H
-  haveI : Bsub.Normal := hBnorm.subgroupOf H
+  have : Bsub.Normal := hBnorm.subgroupOf H
   let q : H →* H ⧸ Bsub := QuotientGroup.mk' Bsub
   let Asub : Subgroup H := A.subgroupOf H
-  haveI : Asub.Normal := hAnorm.subgroupOf H
+  have : Asub.Normal := hAnorm.subgroupOf H
   let N : Subgroup (H ⧸ Bsub) := Asub.map q
-  haveI : N.Normal := QuotientGroup.map_normal Bsub Asub
+  have : N.Normal := QuotientGroup.map_normal Bsub Asub
   have hN_ne_bot : N ≠ ⊥ := by
     intro hNbot
     have hAB : A ≤ B := by
@@ -75,7 +75,7 @@ public theorem theorem_6_3_commutator_le_of_maximal
       exact haBsub
     exact hBA.not_ge hAB
   have hcomm_lt : ⁅N, (⊤ : Subgroup (H ⧸ Bsub))⁆ < N := by
-    letI : Group.IsNilpotent (H ⧸ Bsub) := hnil
+    let : Group.IsNilpotent (H ⧸ Bsub) := hnil
     exact nilpotent_commutator_lt_self_of_normal N hN_ne_bot
   let C : Subgroup L := ⁅A, H⁆
   have hC_le_A : C ≤ A := by

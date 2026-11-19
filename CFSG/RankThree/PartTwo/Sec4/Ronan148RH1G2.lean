@@ -69,8 +69,8 @@ theorem row427_of_noCfg_on
     have hK₁q : IsQuasisimple (K'.subgroupOf L) :=
       CFSG.LocalCores.isQuasisimple_of_mulEquiv eKL.symm hK'q
     have hZK : Subgroup.center (K'.subgroupOf L ⧸ CFSG.pCore 2 (K'.subgroupOf L)) = ⊥ := by
-      haveI := (isA5Type_quot_congr eKL hT).isSimpleGroup
-      haveI : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
+      have := (isA5Type_quot_congr eKL hT).isSimpleGroup
+      have : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
       exact center_eq_bot_of_isSimpleGroup_of_isPerfect
     have hinf : K'.subgroupOf L ⊓ Subgroup.center L = ⊥ :=
       inf_eq_bot_of_center_eq_bot hK₁q hZK le_rfl hZ3
@@ -142,12 +142,12 @@ theorem short_simple
     e.symm.trans (CFSG.Walter.psl2MulEquivSL2OfCharTwo (K := F)).symm
   obtain ⟨hsimp, hsolv⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.psl2_simple_not_isSolvable h4
-  haveI : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 F) := hsimp
+  have : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 F) := hsimp
   refine ⟨e'.isSimpleGroup, ?_, ?_⟩
   · by_contra hcon
     push Not at hcon
     apply hsolv
-    haveI : IsMulCommutative (KS11Lie4Proof.g2ShortSL2 F) := ⟨⟨hcon⟩⟩
+    have : IsMulCommutative (KS11Lie4Proof.g2ShortSL2 F) := ⟨⟨hcon⟩⟩
     have : Group.IsSolvable (KS11Lie4Proof.g2ShortSL2 F) := inferInstance
     exact Group.isSolvable_of_surjective (f := e'.toMonoidHom) e'.surjective
   · rw [← Nat.card_congr e.toEquiv, CFSG.GorensteinWalter.sl2_card_formula]
@@ -158,7 +158,7 @@ theorem good427_threeB
     (hz1 : z ≠ 1) : Good427 (Subgroup.centralizer ({z} : Set (adjointGroup .G2 F))) := by
   obtain ⟨hcomm, -⟩ := KS11Lie4Proof.g2ThreeBCentMinus_holds F h3 (by omega) z hzM hz3 hz1
   obtain ⟨hs, hna, hcard⟩ := short_simple (F := F) (by omega)
-  haveI := hs
+  have := hs
   have hSC : KS11Lie4Proof.g2ShortSL2 F ≤ Subgroup.centralizer ({z} : Set (adjointGroup .G2 F)) :=
     fun s hs' => Subgroup.mem_centralizer_singleton_iff.mpr
       (KS11Lie4Proof.g2Short_commute_g2Long hs' hzM)
@@ -180,7 +180,7 @@ theorem onFree_threeB
   intro K hKC hKq _ hzK _
   obtain ⟨hcomm, -⟩ := KS11Lie4Proof.g2ThreeBCentMinus_holds F h3 (by omega) z hzM hz3 hz1
   obtain ⟨hs, hna, -⟩ := short_simple (F := F) (by omega)
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hKS : K ≤ KS11Lie4Proof.g2ShortSL2 F := by
     have h1 := Subgroup.commutator_mono hKC hKC
     rw [Subgroup.commutator_eq_self (H := K)] at h1
@@ -207,7 +207,7 @@ theorem threeA_data
       Odd (Nat.card (Subgroup.center (Subgroup.centralizer ({z} : Set (adjointGroup .G2 F))))) ∧
       (Nat.card (Subgroup.centralizer ({z} : Set (adjointGroup .G2 F))) : ℤ) =
         ((2 ^ f : ℕ) : ℤ) ^ 3 * ((((2 ^ f : ℕ) : ℤ) ^ 2 - 1) * (((2 ^ f : ℕ) : ℤ) ^ 3 + 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   obtain ⟨L, _, _, _, -, hdeg, -⟩ := KS11Lie4Proof.exists_quadratic_ext' F
@@ -243,8 +243,8 @@ theorem qsList_threeA
     (hz1 : z ≠ 1) :
     QSList (Subgroup.centralizer ({z} : Set (adjointGroup .G2 F)))
       (Subgroup.centralizer ({z} : Set (adjointGroup .G2 F))) :=
-  eq_of_quasisimple_subnormal le_rfl (fun g hg s hs => mul_mem (mul_mem hg hs) (inv_mem hg))
-    (threeA_data hF hf h3 hzS hz3 hz1).1 fun u _ v hv huT _ => huT v hv
+  eq_of_quasisimple_subnormal le_rfl (fun _g hg _s hs => mul_mem (mul_mem hg hs) (inv_mem hg))
+    (threeA_data hF hf h3 hzS hz3 hz1).1 fun _u _ v hv huT _ => huT v hv
 
 theorem nine_dvd_threeA
     {f : ℕ} (hF : Nat.card F = 2 ^ f) (hf : 2 ≤ f) (h3 : 3 ∣ Nat.card F + 1)
@@ -276,13 +276,13 @@ theorem good427_threeA
 theorem pCore_two_eq_bot_of_odd_center
     {K : Type*} [Group K] [Finite K] (hK : IsQuasisimple K)
     (hodd : Odd (Nat.card (Subgroup.center K))) : CFSG.pCore 2 K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
   have hP : IsPGroup 2 (CFSG.pCore 2 K) := CFSG.pCore_isPGroup
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hK hN with htop | hle
   · exfalso
-    haveI : Group.IsPerfect K := hK.1
-    haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
+    have : Group.IsPerfect K := hK.1
+    have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
     have h2 : IsPGroup 2 K := fun g => by
       obtain ⟨k, hk⟩ := hP ⟨g, htop ▸ Subgroup.mem_top g⟩
       exact ⟨k, congrArg Subtype.val hk⟩
@@ -359,7 +359,7 @@ theorem good427_inner
     {f : ℕ} (hF : Nat.card F = 2 ^ f) (hf : 5 ≤ f) (h3 : 3 ∣ Nat.card F + 1)
     {x : adjointGroup .G2 F} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :
     Good427 (Subgroup.centralizer ({x} : Set (adjointGroup .G2 F))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   have h8 : 8 ≤ Nat.card F := by
@@ -378,7 +378,7 @@ theorem onFree_inner
     {f : ℕ} (hF : Nat.card F = 2 ^ f) (hf : 5 ≤ f) (h3 : 3 ∣ Nat.card F + 1)
     {x : adjointGroup .G2 F} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :
     OnFree (Subgroup.centralizer ({x} : Set (adjointGroup .G2 F))) x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   have h8 : 8 ≤ Nat.card F := by
@@ -403,7 +403,7 @@ theorem good427_field
     {f : ℕ} (hF : Nat.card F = 2 ^ f) (hf : 5 ≤ f) (hodd : Odd f)
     {α : MulAut (adjointGroup .G2 F)} (hα3 : α ^ 3 = 1)
     (hout : ¬ CFSG.RankThree.PartTwo.KFacts.IsInnerAut α) : Good427 (Sec4.autFix α) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   have hchar : ringChar F = 2 := ringChar.eq F 2
@@ -438,7 +438,7 @@ theorem good427_field
     calc 3 ≤ 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) (by omega)
   have hsimp := CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 h3k
-  haveI : IsSimpleGroup E := eE.symm.isSimpleGroup
+  have : IsSimpleGroup E := eE.symm.isSimpleGroup
   have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card (fixSubfield φ) h3k
   refine good427_of_le_simple le_rfl ?_ ?_ fun _ hKC _ => hKC
   · obtain ⟨-, -, a, b, hab⟩ := hq
@@ -468,7 +468,7 @@ theorem noCfgS427_g2
     NoCfgS427 (adjointGroup .G2 F) := by
   have h3 : 3 ∣ Nat.card F + 1 := hF ▸ three_dvd_two_pow_add_one' hodd
   intro α hα3 h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf α = 3 := orderOf_eq_prime hα3 h1
   by_cases hin : CFSG.RankThree.PartTwo.KFacts.IsInnerAut α
   · obtain ⟨x, rfl, hx3, hx1⟩ := RonanKChevTwo.exists_conj_of_isInnerAut
@@ -493,7 +493,7 @@ theorem center_eq_bot_g2
     (hF : 5 ≤ Nat.card F) {L : Type} [Group L] [Finite L]
     (hL : IsQuasisimple L) (θ : L ⧸ Subgroup.center L ≃* adjointGroup .G2 F) :
     Subgroup.center L = ⊥ := by
-  haveI : Group.IsPerfect L := hL.1
+  have : Group.IsPerfect L := hL.1
   set ψ : L →* adjointGroup .G2 F := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
   have hψker : ψ.ker = Subgroup.center L := Res6Seitz.ker_centralQuotient θ
   have hψs : Function.Surjective ψ := θ.surjective.comp (QuotientGroup.mk'_surjective _)

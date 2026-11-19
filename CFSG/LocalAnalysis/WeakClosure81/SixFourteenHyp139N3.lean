@@ -36,17 +36,17 @@ theorem fixedSubmodule_eq_of_finrank_eq_sub_one
 theorem sixfourteen_n3_first_reduction {W : Type} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1)
     {G X D : Subgroup (MulAut W)} {s : MulAut W} {Y : Subgroup W} {n : ℕ}
-    (hK : CFSG.Open.IsKGroup ↥G) (hpCore : pCoreOf 2 G = ⊥)
+    (_hK : CFSG.Open.IsKGroup ↥G) (_hpCore : pCoreOf 2 G = ⊥)
     (hirr : ∀ Z : Subgroup W, (∀ g ∈ G, ∀ z ∈ Z, g z ∈ Z) → Z = ⊥ ∨ Z = ⊤)
     (ht2 : ∃ t ∈ G, orderOf t = 2 ∧ rkIdx (fixV (Subgroup.zpowers t)) ≤ 3)
     (hXG : X ≤ G) (hXnorm : ∀ g ∈ G, ∀ y ∈ X, g * y * g⁻¹ ∈ X)
     (hXcard : Nat.card X = 3)
-    (hsG : s ∈ G) (hs_ord2 : orderOf s = 2)
-    (hs_not_cent : s ∉ Subgroup.centralizer (X : Set (MulAut W)))
+    (_hsG : s ∈ G) (_hs_ord2 : orderOf s = 2)
+    (_hs_not_cent : s ∉ Subgroup.centralizer (X : Set (MulAut W)))
     (hYinv : ∀ a ∈ X, ∀ y ∈ Y, a y ∈ Y) (hYrk : rkIdx Y = 2)
     (hW : Nat.card W = 4 ^ n)
     (hD : D ≤ G) (hDCX : ∀ d ∈ D, ∀ x ∈ X, d * x = x * d)
-    (hDs : ∀ d ∈ D, d * s = s * d)
+    (_hDs : ∀ d ∈ D, d * s = s * d)
     (hElem : CFSG.Quasithin.IsElemAbelian2 D) (hDcard : Nat.card D = 2 ^ (n - 1))
     (hYD : Y ≤ fixV D)
     (hn : 2 < n) :
@@ -58,7 +58,7 @@ theorem sixfourteen_n3_first_reduction {W : Type} [CommGroup W] [Finite W]
     omega
   have hfixX : fixV X = ⊥ := fixV_eq_bot_of_irreducible hirr hXG hXnorm hXne
   have hXcard' : Nat.card ↥X = 3 := hXcard
-  letI : Fintype ↥X := Fintype.ofFinite _
+  let : Fintype ↥X := Fintype.ofFinite _
   have hXcardF : Fintype.card ↥X = 3 := by
     rw [← Nat.card_eq_fintype_card, hXcard']
   obtain ⟨xX, hxXne⟩ : ∃ xX : ↥X, xX ≠ 1 := by
@@ -122,7 +122,7 @@ theorem sixfourteen_n3_first_reduction {W : Type} [CommGroup W] [Finite W]
   have hDgt : 1 < Nat.card D := by
     rw [hDcard]
     exact Nat.one_lt_pow (by omega) (by norm_num : 1 < 2)
-  letI : Fintype ↥D := Fintype.ofFinite _
+  let : Fintype ↥D := Fintype.ofFinite _
   obtain ⟨dD, hdDne⟩ : ∃ dD : ↥D, dD ≠ 1 := by
     refine Fintype.exists_ne_of_one_lt_card ?_ (1 : ↥D)
     rw [← Nat.card_eq_fintype_card]
@@ -142,7 +142,7 @@ theorem sixfourteen_n3_first_reduction {W : Type} [CommGroup W] [Finite W]
       fun w hw y hy => hYD hw y (hzp_le_D hy)
     have hd_ord2 : orderOf d = 2 :=
       orderOf_eq_prime (by simpa [pow_two] using hElem.2 d hdD) hd_ne
-    letI := galoisModule hw2 x hx3 hfix
+    let := galoisModule hw2 x hx3 hfix
     let Ys : Submodule (GaloisField 2 2) (Additive W) :=
       YSubmodule hw2 x hx3 hfix hxX hYinv
     have hKcard : Nat.card (GaloisField 2 2) = 4 := by
@@ -248,7 +248,7 @@ theorem sixfourteen_n3_first_reduction {W : Type} [CommGroup W] [Finite W]
       have hBgt : 1 < Nat.card B := by
         rw [hBcard]
         exact Nat.one_lt_pow (by omega) (by norm_num : 1 < 2)
-      letI : Fintype ↥B := Fintype.ofFinite _
+      let : Fintype ↥B := Fintype.ofFinite _
       obtain ⟨bB, hbBne⟩ : ∃ bB : ↥B, bB ≠ 1 := by
         refine Fintype.exists_ne_of_one_lt_card ?_ (1 : ↥B)
         rw [← Nat.card_eq_fintype_card]

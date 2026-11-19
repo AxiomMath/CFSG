@@ -125,10 +125,10 @@ theorem exists_dicksonHom (K : Type*) [Field K] [Finite K] [CharP K 2] :
     ∃ δ : ↥(detIsom K) →* Multiplicative (ZMod 2),
       ∀ T : ↥(detIsom K), δ T = 1 ↔ (T : Mat2 K ≃ₗ[K] Mat2 K) ∈ pairGroup K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup ↥(detIsom K) := (pairGroup K).subgroupOf (detIsom K) with hH
   have hidx : H.index = 2 := relIndex_pairGroup
-  haveI : H.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : H.Normal := Subgroup.normal_of_index_eq_two hidx
   have hcard : Nat.card (↥(detIsom K) ⧸ H) = 2 := hidx
   have hcard' : Nat.card (Multiplicative (ZMod 2)) = 2 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]

@@ -24,13 +24,13 @@ noncomputable section
 @[expose] noncomputable def twoLocalRank (p : ℕ) (G : Type u) [Group G] [Finite G] : ℕ :=
   CFSG.Open.twoLocalPrimeRank p G
 
-@[expose] def beta (TLR : ∀ (p : ℕ) (G : Type u) [Group G] [Finite G], ℕ)
+@[expose] def beta (TLR : ∀ (_p : ℕ) (G : Type u) [Group G] [Finite G], ℕ)
     (k : ℕ) (G : Type u) [Group G] [Finite G] : Set ℕ :=
-  {p | p.Prime ∧ p ≠ 2 ∧ p ∣ Nat.card G ∧ k ≤ TLR p G}
+  {_p | _p.Prime ∧ _p ≠ 2 ∧ _p ∣ Nat.card G ∧ k ≤ TLR _p G}
 
 @[expose] def isBmax {G : Type u} [Group G] [Finite G]
-    (TLR : ∀ (p : ℕ) (G : Type u) [Group G] [Finite G], ℕ) (p : ℕ) (B : Subgroup G) : Prop :=
-  CFSG.Open.IsElemAbelian p B ∧ Nat.card B = p ^ TLR p G ∧
+    (TLR : ∀ (_p : ℕ) (G : Type u) [Group G] [Finite G], ℕ) (_p : ℕ) (B : Subgroup G) : Prop :=
+  CFSG.Open.IsElemAbelian _p B ∧ Nat.card B = _p ^ TLR _p G ∧
     ∃ U : Subgroup G, U ≠ ⊥ ∧ IsPGroup 2 U ∧ B ≤ Subgroup.normalizer (U : Set G)
 
 @[expose] def pPrimeCoreOf (PC : ℕ → ∀ (H : Type u) [Group H], Subgroup H)

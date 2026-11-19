@@ -30,7 +30,7 @@ theorem l154_marking_J {p : ℕ} (hp : p.Prime) {G : Type} [Group G] [Finite G] 
     (e : PSimple p J ≃* LargeEvenProj (LargeEvenSLGroup (Fin (r + 1)) D₁))
     (hnot : MulAut.congr e (MI.indAut p J y hy) ∉
       LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin (r + 1)) D₁)) Set.univ) :
-    CFSG.Assembly.LargeEvenMarking (PQuot p J) fun lab R _ I _ θ =>
+    CFSG.Assembly.LargeEvenMarking (PQuot p J) fun lab _R _ I _ θ =>
       (lab.tag ≠ .triD4 ∨ p ≠ 3) ∧ ¬ (lab.tag = .D ∧ lab.rank = 4 ∧ p = 3) ∧
         MulAut.congr θ (MI.indAut p J y hy) ∉ I := by
   obtain ⟨hs, hna⟩ := chev_pSimple_simple_nonabelian hp hJ
@@ -80,8 +80,8 @@ theorem l154_lin_fieldOn (hLD : LinLabelDict) {p : ℕ} (hp : p.Prime) (hp2 : p 
         inv_mul_cancel, map_one, mul_one]
     rw [← h4, ← hz]
   have hD : ∃ k, Nat.card D₁ = 2 ^ k := by
-    haveI : Fintype D₁ := Fintype.ofFinite D₁
-    haveI : CharP D₁ 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2'
+    have : Fintype D₁ := Fintype.ofFinite D₁
+    have : CharP D₁ 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2'
     obtain ⟨n, -, hn⟩ := FiniteField.card D₁ 2
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩
   obtain ⟨k, hk⟩ := hD
@@ -90,7 +90,7 @@ theorem l154_lin_fieldOn (hLD : LinLabelDict) {p : ℕ} (hp : p.Prime) (hp2 : p 
     rcases Nat.eq_zero_or_pos k with h0 | h0
     · rw [h0, pow_zero] at hk
       exact absurd hk (Nat.card_eq_one_iff_unique.not.2 (fun hh => by
-        haveI := hh.1
+        have := hh.1
         exact absurd (Subsingleton.elim (0 : D₁) 1) zero_ne_one))
     · exact h0
   have hrk : r = 1 → 2 ≤ k := by

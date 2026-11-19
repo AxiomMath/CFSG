@@ -55,7 +55,7 @@ theorem conj_mem {x : Equiv.Perm (Fin 360)} {d : Fin 8 → Fin 8}
     rw [MonoidHom.map_closure, Subgroup.closure_le]
     rintro _ ⟨g, ⟨i, hi, rfl⟩, rfl⟩
     have e := hx ⟨i, hi⟩
-    simp only [gP, if_pos hi, if_pos (d ⟨i, hi⟩).isLt] at e
+    simp only [gP, ite_eq_left hi, ite_eq_left (d ⟨i, hi⟩).isLt] at e
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rw [e]
     exact Subgroup.subset_closure ⟨_, (d ⟨i, hi⟩).isLt, rfl⟩
@@ -156,8 +156,8 @@ theorem el_of : ∀ c : Fin 8, c.val ∈ el → ∃ t < 6, el.getD t 0 = c.val :
 
 theorem coe_tgA (i : Nat) : (tgA i : Equiv.Perm (Fin 360)) = wv gP (tg0.getD i []) := by
   by_cases h : i < 6
-  · rw [tgA, dif_pos h, coe_ae6Word, ← tg0_get ⟨i, h⟩]
-  · rw [tgA, dif_neg h, List.getD_eq_default _ _ (by rw [tg0_len]; omega)]
+  · rw [tgA, dite_eq_left h, coe_ae6Word, ← tg0_get ⟨i, h⟩]
+  · rw [tgA, dite_eq_right h, List.getD_eq_default _ _ (by rw [tg0_len]; omega)]
     rfl
 
 theorem tgen0 : Subgroup.closure (Set.range fun i => ae6Word (ae6TriGen 0 i)) =
@@ -180,9 +180,9 @@ theorem tgen0 : Subgroup.closure (Set.range fun i => ae6Word (ae6TriGen 0 i)) =
     refine Subgroup.list_prod_mem _ fun y hy => ?_
     obtain ⟨i, -, rfl⟩ := List.mem_map.1 hy
     by_cases hi : i < 6
-    · rw [tgA, dif_pos hi]
+    · rw [tgA, dite_eq_left hi]
       exact Subgroup.subset_closure ⟨⟨i, hi⟩, by simp only [trigen0_eq]⟩
-    · rw [tgA, dif_neg hi]
+    · rw [tgA, dite_eq_right hi]
       exact Subgroup.one_mem _
 
 end CertificateChecks.KernelAE6Tri

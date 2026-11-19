@@ -58,8 +58,8 @@ theorem l2out_psu_fixed {S : Type} [Group S] {p f : ℕ} (hp : p.Prime) (hodd : 
     obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset k)) (n := 4)
       (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; omega)
     exact ⟨s, hs⟩
-  haveI := CFSG.LinearGroups.special_linear_dimension_two_perfect h4
-  haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+  have := CFSG.LinearGroups.special_linear_dimension_two_perfect h4
+  have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
   refine ⟨ρ.range.map e.symm.toMonoidHom, Group.IsPerfect.map _, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective e.symm.injective]
     exact heven

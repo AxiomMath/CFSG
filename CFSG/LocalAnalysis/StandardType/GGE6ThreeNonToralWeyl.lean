@@ -28,7 +28,7 @@ private noncomputable def adActMulAut (w : WeylGroup .E6) :
     rw [← adAct_mul, mul_inv_cancel, adAct_one]
   map_mul' x y := by
     apply Multiplicative.toAdd.injective
-    simp only [toAdd_ofAdd, toAdd_mul, Pi.add_apply]
+    simp only [toAdd_ofAdd, toAdd_mul]
     exact NoOffRest.adAct_add w x.toAdd y.toAdd
 
 private theorem adActMulAut_apply (w : WeylGroup .E6)
@@ -87,7 +87,7 @@ private theorem eq_one_of_mem_centralFix_of_coprime (A : Subgroup (WeylGroup .E6
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_fun, Nat.card_zmod, Nat.card_fin,
       show Tag.E6.rank = 6 by decide]
   have hAp : IsPGroup 3 A := TableB.isPGroup_of_isElemAbelian hA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let action : A →* MulAut (Multiplicative (Fin Tag.E6.rank → ZMod 3)) :=
     adActHom.comp A.subtype
   have hcomm : ∀ element : A, Commute (adActMulAut w) (action element) := by
@@ -260,8 +260,8 @@ private theorem card_le_card_sup_zpowers (A : Subgroup (WeylGroup .E6)) {y : Wey
   let B := A ⊔ Subgroup.zpowers y
   have hAB : A ≤ B := le_sup_left
   let AB : Subgroup B := A.subgroupOf B
-  haveI : IsMulCommutative ↥B := hcommB
-  haveI : AB.Normal := Subgroup.normal_of_comm AB
+  have : IsMulCommutative ↥B := hcommB
+  have : AB.Normal := Subgroup.normal_of_isMulCommutative AB
   let yB : B := ⟨y, Subgroup.mem_sup_right (Subgroup.mem_zpowers y)⟩
   let q : B →* B ⧸ AB := QuotientGroup.mk' AB
   have hqy_ne : q yB ≠ 1 := by
@@ -273,7 +273,7 @@ private theorem card_le_card_sup_zpowers (A : Subgroup (WeylGroup .E6)) {y : Wey
     have hyB3 : yB ^ 3 = ⟨y ^ 3, Subgroup.mem_sup_left hy3⟩ := Subtype.ext rfl
     rw [hyB3]
     exact (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr hy3)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hqy_order : orderOf (q yB) = 3 := orderOf_eq_prime hqy3 hqy_ne
   have hdvd : 3 ∣ Nat.card (B ⧸ AB) := by
     rw [← hqy_order]
@@ -301,13 +301,12 @@ private theorem model_pow_three_of_one (v : Multiplicative (Fin 3 → ZMod 3)) :
     (⟨v, 1⟩ : Model piE7 piE7_pow_three) ^ 3 = 1 := by
   rw [pow_three]
   apply SemidirectProduct.ext
-  · simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right, map_one, one_mul,
-      map_mul, MulAut.one_apply, SemidirectProduct.one_left]
+  · simp only [SemidirectProduct.mul_left, map_one, map_mul, MulAut.one_apply, SemidirectProduct.one_left]
     apply Multiplicative.toAdd.injective
     funext i
     simp only [toAdd_mul, toAdd_one, Pi.add_apply, Pi.zero_apply]
     fin_cases i <;> (ring_nf; rw [show (3 : ZMod 3) = 0 by decide, mul_zero])
-  · simp [SemidirectProduct.mul_left, SemidirectProduct.mul_right]
+  · simp [SemidirectProduct.mul_right]
 
 private theorem model_pow_three_of_one_mul (v : Multiplicative (Fin 3 → ZMod 3)) :
     (⟨v, Multiplicative.ofAdd (1 : ZMod 3)⟩ : Model piE7 piE7_pow_three) ^ 3 =
@@ -315,14 +314,12 @@ private theorem model_pow_three_of_one_mul (v : Multiplicative (Fin 3 → ZMod 3
         Model piE7 piE7_pow_three) := by
   rw [pow_three]
   apply SemidirectProduct.ext
-  · simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right, map_mul, phi_one,
-      phi_two]
+  · simp only [SemidirectProduct.mul_left, map_mul, phi_one]
     apply Multiplicative.toAdd.injective
     funext i
     fin_cases i <;>
       simp [toAdd_shiftAut, piE7] <;> ring_nf
-  · simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right, map_mul, phi_one,
-      phi_two, ← ofAdd_add]
+  · simp only [SemidirectProduct.mul_right, ← ofAdd_add]
     decide
 
 private theorem modelHomE6_of_right_one (u : Multiplicative (Fin 3 → ZMod 3)) :
@@ -539,7 +536,7 @@ private theorem commute_map_conj (B : Subgroup (WeylGroup .E6))
     ∀ u ∈ B.map (MulAut.conj g).toMonoidHom,
       ∀ v ∈ B.map (MulAut.conj g).toMonoidHom, u * v = v * u := by
   rintro u ⟨a, ha, rfl⟩ v ⟨b, hb, rfl⟩
-  haveI : IsMulCommutative ↥B := hBcomm
+  have : IsMulCommutative ↥B := hBcomm
   have hab : a * b = b * a :=
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥B) (⟨b, hb⟩ : ↥B))
   calc (MulAut.conj g).toMonoidHom a * (MulAut.conj g).toMonoidHom b
@@ -661,7 +658,7 @@ theorem mem_of_commute_of_fix
       adAct .E6 3 w x = x) :
     w ∈ A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hA1 : A = ⊥
   · exact mem_of_eq_bot_of_centralFix A hwx hA1
   · have hA_ge3 : 3 ≤ Nat.card A := three_le_card_of_le_range A hAS hA1

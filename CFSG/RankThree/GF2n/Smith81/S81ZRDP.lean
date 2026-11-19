@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem conj_uN_of_single (g : Gp K) (φ : NU K →ₗ[K] NU K)
     (h : ∀ (β : ↥(Phi a7)) (b : K), uN (φ (Pi.single β b)) = g * uN (Pi.single β b) * g⁻¹)
     (m : NU K) : uN (φ m) = g * uN m * g⁻¹ := by
@@ -70,11 +71,13 @@ open _root_.Classical in
     unfold shiftFun
     by_cases h : δ.1 - γ ∈ Phi a7 <;> simp [h]
 
+omit [CharP K 2] in
 theorem shiftN_apply (γ : Rt) (n : NU K) (δ : ↥(Phi a7)) :
     shiftN γ n δ = shiftFun γ n δ := by
   simp only [shiftN, LinearMap.coe_mk, AddHom.coe_mk]
 
 open _root_.Classical in
+omit [CharP K 2] in
 theorem shiftN_single (γ : Rt) (β : ↥(Phi a7)) (b : K) :
     shiftN γ (Pi.single β b) =
       if h : β.1 + γ ∈ Phi a7 then Pi.single ⟨β.1 + γ, h⟩ b else 0 := by
@@ -86,9 +89,9 @@ theorem shiftN_single (γ : Rt) (β : ↥(Phi a7)) (b : K) :
     rw [Subtype.ext_iff]
     exact sub_eq_iff_eq_add
   by_cases h1 : β.1 + γ ∈ Phi a7
-  · rw [dif_pos h1]
+  · rw [dite_eq_left h1]
     by_cases h3 : δ.1 - γ ∈ Phi a7
-    · rw [dif_pos h3]
+    · rw [dite_eq_left h3]
       by_cases e : δ.1 = β.1 + γ
       · have h4 : (⟨δ.1 - γ, h3⟩ : ↥(Phi a7)) = β := (hiff h3).2 e
         have h2 : δ = ⟨β.1 + γ, h1⟩ := Subtype.ext e
@@ -96,30 +99,31 @@ theorem shiftN_single (γ : Rt) (β : ↥(Phi a7)) (b : K) :
         simp
       · have h4 : ¬ (⟨δ.1 - γ, h3⟩ : ↥(Phi a7)) = β := fun h => e ((hiff h3).1 h)
         have h5 : ¬ δ = ⟨β.1 + γ, h1⟩ := fun h => e (by rw [h])
-        simp [Pi.single_apply, h4, h5]
-    · rw [dif_neg h3]
+        simp [h4, h5]
+    · rw [dite_eq_right h3]
       have h5 : ¬ δ = ⟨β.1 + γ, h1⟩ := by
         intro h
         apply h3
         have : δ.1 = β.1 + γ := by rw [h]
         rw [this, add_sub_cancel_right]
         exact β.2
-      simp [Pi.single_apply, h5]
-  · rw [dif_neg h1]
+      simp [h5]
+  · rw [dite_eq_right h1]
     by_cases h3 : δ.1 - γ ∈ Phi a7
-    · rw [dif_pos h3]
+    · rw [dite_eq_left h3]
       have h4 : ¬ (⟨δ.1 - γ, h3⟩ : ↥(Phi a7)) = β := by
         intro h
         apply h1
         have := (hiff h3).1 h
         rw [← this]
         exact δ.2
-      simp [Pi.single_apply, h4]
-    · rw [dif_neg h3]
+      simp [h4]
+    · rw [dite_eq_right h3]
       rfl
 
 @[expose] def adjN (γ : Rt) (a : K) : NU K →ₗ[K] NU K := LinearMap.id + a • shiftN γ
 
+omit [CharP K 2] in
 theorem adjN_apply (γ : Rt) (a : K) (n : NU K) : adjN γ a n = n + a • shiftN γ n := by
   simp [adjN]
 
@@ -137,10 +141,10 @@ theorem xE_conj_single {γ : Rt} (hγ : IsRoot .E7 γ) (hpr : pr a7 γ = 0 ∨ p
   by_cases hr : IsRoot .E7 (γ + β.1)
   · have hmem : γ + β.1 ∈ Phi a7 := (isRoot_add_iff_mem hpr hβ).1 hr
     have hmem' : β.1 + γ ∈ Phi a7 := by rwa [add_comm]
-    rw [if_pos hr, dif_pos hmem']
+    rw [ite_eq_left hr, dite_eq_left hmem']
     have h1 : a • (Pi.single ⟨β.1 + γ, hmem'⟩ b : NU K) = Pi.single ⟨β.1 + γ, hmem'⟩ (a * b) := by
       funext δ
-      by_cases h : δ = ⟨β.1 + γ, hmem'⟩ <;> simp [Pi.single_apply, h]
+      by_cases h : δ = ⟨β.1 + γ, hmem'⟩ <;> simp [h]
     rw [h1, uN_single, add_comm γ β.1]
     exact xE_comm_of_mem_Phi hβ hmem' b (a * b)
   · have hno : ¬ β.1 + γ ∈ Phi a7 := by
@@ -148,7 +152,7 @@ theorem xE_conj_single {γ : Rt} (hγ : IsRoot .E7 γ) (hpr : pr a7 γ = 0 ∨ p
       apply hr
       rw [add_comm]
       exact (mem_Phi.1 h).1
-    rw [if_neg hr, dif_neg hno, smul_zero, uN_zero, mul_one, one_mul]
+    rw [ite_eq_right hr, dite_eq_right hno, smul_zero, uN_zero, mul_one, one_mul]
 
 theorem xE_conj_uN {γ : Rt} (hγ : IsRoot .E7 γ) (hpr : pr a7 γ = 0 ∨ pr a7 γ = 1) (a : K)
     (m : NU K) : uN (adjN γ a m) = xE γ a * uN m * (xE γ a)⁻¹ :=
@@ -172,10 +176,12 @@ theorem linAd_xE {γ : Rt} (hγ : IsRoot .E7 γ) (hpr : pr a7 γ = 0 ∨ pr a7 �
     funext β
     simp [mul_left_comm]
 
+omit [CharP K 2] in
 theorem diagN_apply (j : Fin (Tag.rank .E7)) (c : Kˣ) (n : NU K) (β : ↥(Phi a7)) :
     diagN j c n β = ((c ^ MinData.toWeight β.1 j : Kˣ) : K) * n β := by
   simp [diagN]
 
+omit [CharP K 2] in
 theorem diagN_single (j : Fin (Tag.rank .E7)) (c : Kˣ) (β : ↥(Phi a7)) (b : K) :
     diagN j c (Pi.single β b) = Pi.single β (((c ^ MinData.toWeight β.1 j : Kˣ) : K) * b) := by
   classical
@@ -184,8 +190,9 @@ theorem diagN_single (j : Fin (Tag.rank .E7)) (c : Kˣ) (β : ↥(Phi a7)) (b : 
   by_cases h : δ = β
   · subst h
     simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
+omit [CharP K 2] in
 theorem hm_conj_uN (j : Fin (Tag.rank .E7)) (c : Kˣ) (m : NU K) :
     uN (diagN j c m) = (e7Data_valid.hm K j c : Gp K) * uN m * (e7Data_valid.hm K j c : Gp K)⁻¹ := by
   refine conj_uN_of_single (e7Data_valid.hm K j c) (diagN j c) (fun β b => ?_) m

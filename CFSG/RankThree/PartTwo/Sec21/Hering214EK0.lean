@@ -102,7 +102,7 @@ theorem multiplierOdd_g2 {X : Type} [Group X] {k : ℕ} (hk : 4 ≤ k)
   have hg : genericOrders .G2 0 2 k = (1, 1) := rfl
   have hex : exceptionalOrders .G2 0 2 k = (1, 1) := by
     unfold exceptionalOrders
-    split <;> first | rfl | simp_all | omega
+    split <;> first | rfl | simp_all
   rw [hg, hex]
   decide
 

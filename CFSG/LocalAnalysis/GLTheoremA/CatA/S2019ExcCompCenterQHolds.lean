@@ -48,7 +48,6 @@ private theorem not_dvd_genericOrders {t : StatedLieTag} {n p f : ℕ} (hp : p.P
     | exact hmul h1 h1
     | exact hmul (hdvd (Nat.gcd_dvd_right _ _) hm) h1
     | exact hmul (hdvd (Nat.gcd_dvd_right _ _) hpl) h1
-    | exact hmul (hdvd (Nat.gcd_dvd_left _ _) h2) h1
 
 private theorem eq_of_dvd_exceptionalOrders {t : StatedLieTag} {n p f : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (h : p ∣ (exceptionalOrders t n p f).1 * (exceptionalOrders t n p f).2) :
@@ -99,7 +98,7 @@ theorem s2019ExcCompCenterQ_holds : S2019ExcCompCenterQ := by
   · exact absurd hi' id
   change d'.characteristic = q at hi'
   have hJq : CFSG.Open.IsQuasisimple ↥J := hJcomp.2.2
-  haveI := hJq.2
+  have := hJq.2
   have hperfQ : commutator (↥J ⧸ Subgroup.center ↥J) = ⊤ := by
     have h := congrArg (Subgroup.map (QuotientGroup.mk' (Subgroup.center ↥J))) hJq.1
     rwa [_root_.commutator_def, Subgroup.map_commutator,

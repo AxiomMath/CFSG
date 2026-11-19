@@ -288,7 +288,7 @@ theorem blueprintLieModel_td4two
   obtain ⟨q, hv, hq, ⟨e⟩⟩ := lieIndex_isTD4two h
   obtain ⟨h1, h2⟩ := primePower_eq_of_card_eq Nat.prime_two (s := 1) (by norm_num)
     (hq.trans (by norm_num))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 3) = q.card ^ (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by
     rw [GaloisField.card 2 3 (by norm_num), hq]
     rfl

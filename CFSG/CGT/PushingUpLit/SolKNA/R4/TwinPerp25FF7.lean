@@ -46,7 +46,7 @@ theorem fBase_quat (hr : 4 ≤ r) (hP : PerpHypR r n Y R S t)
     exact hcard
   have h3 : k + 3 = r := Nat.pow_right_injective (le_refl 2) h1
   have h4 : 2 ^ k' = 2 ^ k := by
-    haveI : NeZero (2 ^ k') := ⟨by positivity⟩
+    have : NeZero (2 ^ k') := ⟨by positivity⟩
     have hc := Nat.card_congr e.toEquiv
     rw [hQc, Nat.card_eq_fintype_card, QuaternionGroup.card] at hc
     have h5 : 2 ^ (k + 2) = 2 ^ (k' + 2) := by rw [hc]; ring

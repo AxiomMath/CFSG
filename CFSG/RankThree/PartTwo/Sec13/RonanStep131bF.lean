@@ -84,7 +84,7 @@ theorem exists_F {G : Type} [Group G] [Finite G] (hFE : partTwoF G = partTwoE G)
       E ≤ Subgroup.normalizer (F : Set G) ∧ F ≤ Subgroup.normalizer (E : Set G) ∧
       (∀ f ∈ F, ∀ e ∈ E, f * e * f⁻¹ * e⁻¹ ∈ Subgroup.zpowers c) ∧
       Nat.card (E ⊓ F : Subgroup G) = 9 ∧ F = Subgroup.zpowers a ⊔ (E ⊓ F) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hEe.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hE3 : ∀ x ∈ E, x ^ 3 = 1 := hEe.2

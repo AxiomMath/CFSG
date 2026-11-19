@@ -18,12 +18,14 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c167_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y hxy
   exact IntMod.val_injective
     (mul_inv_eq_one.1 (Subgroup.mem_bot.1 ((mkTil_eq_iff ⊥ V hV x y).1 hxy)))
 
+omit [Finite G] in
 private theorem s16c167_imgTil_inj' {V U U' : Subgroup G} (hV : IsElemAbelian 2 V)
     (hU : U ≤ V) (hU' : U' ≤ V) (h : imgTil (⊥ : Subgroup G) V hV U =
       imgTil (⊥ : Subgroup G) V hV U') : U = U' := by
@@ -74,6 +76,7 @@ private theorem s16c167_isIrr_action_nontrivial' {W : Type*} [CommGroup W] [Fini
   · exact hJbot h
   · exact hJtop h
 
+omit [Finite G] in
 private theorem s16c167_fixV_barSub {V B' : Subgroup G} (hV : IsElemAbelian 2 V)
     (hB' : B' ≤ stabTil (⊥ : Subgroup G) V) :
     fixV (barSub (⊥ : Subgroup G) V hV B') =
@@ -116,6 +119,7 @@ private theorem s16c167_mem_conjSubs_map {W : Type} [CommGroup W]
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite G] in
 private theorem s16c167_lBar_le_stabSub_wTil {V L : Subgroup G} (hV : IsElemAbelian 2 V) :
     lBar (⊥ : Subgroup G) V hV L ≤ stabSub (wTil (⊥ : Subgroup G) V hV L) := by
   have hmap : ∀ y ∈ lBar (⊥ : Subgroup G) V hV L,

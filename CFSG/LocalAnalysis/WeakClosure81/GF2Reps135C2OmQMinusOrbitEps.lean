@@ -31,7 +31,7 @@ theorem omq_omMinus_rank_of_eps_orbit {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field
     d ≤ Module.finrank k
       (LinearMap.range (σ ((SmallO8mCurtis.curtisDatum n hn hirr).nW x) - 1)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D := SmallO8mCurtis.curtisDatum n hn hirr
   let cs := (coxeterMatrix (isFiniteType_cartanB (n - 1))).toCoxeterSystem
   let : MulAction (coxeterMatrix (isFiniteType_cartanB (n - 1))).Group (Fin (n - 1) → ℤ) :=
@@ -50,14 +50,14 @@ theorem omq_omMinus_rank_of_eps_orbit {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field
     by_cases htl : t.val + 1 < n - 1
     · have hr := omqnfRealizes_simple_of_lt htl v'
       rw [hr]
-      simp only [omqMinusSimple, dif_pos htl] at h
+      simp only [omqMinusSimple, dite_eq_left htl] at h
       rw [toStdB_ofStdB]
       funext b
       have h' := congrFun h b
       simpa [omqSignedActZ] using h'
     · have hr := omqnfRealizes_simple_of_not_lt htl v'
       rw [hr]
-      simp only [omqMinusSimple, dif_neg htl] at h
+      simp only [omqMinusSimple, dite_eq_right htl] at h
       rw [toStdB_ofStdB]
       funext b
       have h' := congrFun h b

@@ -14,7 +14,7 @@ open CFSG.Sporadic.Ly.Gen CFSG.Sporadic.Ly.Omega CFSG.Sporadic.LySchreier MulAct
 
 section
 
-@[expose] noncomputable def genGs (j : ℕ) : J := slpG genG genWords j
+noncomputable def genGs (j : ℕ) : J := slpG genG genWords j
 
 theorem genG_eq_seedLetter : (genG : ℤ → J) = seedLetter := by
   funext z

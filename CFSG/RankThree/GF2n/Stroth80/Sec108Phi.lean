@@ -28,10 +28,12 @@ theorem Sec108Data.bV_spec (D : Sec108Data hc t Y) (AM : Smith81.Smith23E1.Actio
   (SLMNat.exists_basis_statedSL D.h34 D.hspread D.hyp D.good.1 D.slm (by norm_num) AM.glob AM.φ
     AM.φ_π).choose_spec A
 
+omit [Finite G] in
 private theorem B_antisymm (AM : Smith81.Smith23E1.ActionModel M Q Z) (x y : AM.M₀.E) :
     AM.M₀.B x y = -AM.M₀.B y x :=
   (LinearMap.IsAlt.neg AM.M₀.alt y x).symm
 
+omit [Finite G] in
 private theorem B_phi (AM : Smith81.Smith23E1.ActionModel M Q Z) (m : ↥(H0 M Z))
     (e f : AM.M₀.E) : AM.M₀.B (AM.φ m e) (AM.φ m f) = AM.M₀.B e f :=
   quadModel_B_iso AM.M₀ (AM.φ m) (AM.φ_Qf m) e f
@@ -56,7 +58,7 @@ theorem Sec108Data.exists_eV (D : Sec108Data hc t Y) (AM : Smith81.Smith23E1.Act
   by_cases hij : i = j
   · subst hij
     simp
-  · simp [Finsupp.single_apply, hij, Ne.symm hij]
+  · simp [hij]
 
 noncomputable def Sec108Data.eV (D : Sec108Data hc t Y) (AM : Smith81.Smith23E1.ActionModel M Q Z) :
     Fin 3 → AM.M₀.E :=
@@ -82,7 +84,7 @@ private theorem coord_Vsp (D : Sec108Data hc t Y) (AM : Smith81.Smith23E1.Action
     {x : AM.M₀.E} (hx : x ∈ AM.Vsp hc t) :
     x = ∑ l, AM.M₀.B (D.eV AM l) x • (D.bV AM l : AM.M₀.E) := by
   have h := congrArg Subtype.val ((D.bV AM).sum_repr ⟨x, hx⟩)
-  simp only [Submodule.coe_sum, Submodule.coe_smul, Subtype.coe_mk] at h
+  simp only [Submodule.coe_sum, Submodule.coe_smul] at h
   have hc : ∀ l, AM.M₀.B (D.eV AM l) x = (D.bV AM).repr ⟨x, hx⟩ l := by
     intro l
     conv_lhs => rw [← h]
@@ -185,6 +187,7 @@ private theorem coord_phi {r : ↥(H0 M Z)} {A : Matrix (Fin 3) (Fin 3) AM.K}
   conv_lhs => rw [coord_Vsp D AM hx]
   simp [map_sum, map_smul, hA, D.B_eV_bV, mul_comm]
 
+omit [Finite G] in
 private theorem phi_phi_inv (r : ↥(H0 M Z)) (x : AM.M₀.E) : AM.φ r (AM.φ r⁻¹ x) = x := by
   rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one]
   rfl
@@ -290,8 +293,7 @@ theorem Sec108Data.phiMat_mulVec_eq_zero_iff (hV : ∀ e ∈ AM.Vsp hc t, AM.φ 
   have hcoord : ∀ i, (D.phiMat AM m *ᵥ w) i = AM.M₀.B (D.eV AM i)
       (AM.φ m (∑ j, w j • D.nu AM (D.eV AM j)) - ∑ j, w j • D.nu AM (D.eV AM j)) := by
     intro i
-    simp only [Matrix.mulVec, dotProduct, D.phiMat_apply, map_sum, map_smul, smul_sub,
-      Finset.sum_sub_distrib, smul_eq_mul, map_sub]
+    simp only [Matrix.mulVec, dotProduct, D.phiMat_apply, map_sum, map_smul, smul_eq_mul, map_sub]
     rw [← Finset.sum_sub_distrib]
     refine Finset.sum_congr rfl fun j _ => ?_
     ring
@@ -350,7 +352,7 @@ theorem Sec108Data.matV_eq_one_iff (D : Sec108Data hc t Y)
   · intro h1 e he
     rw [coord_Vsp D AM he]
     simp only [map_sum, map_smul, D.phi_bV_eq_sum AM hm, h1, Matrix.one_apply, ite_smul, one_smul,
-      zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   · intro hfix
     refine D.matV_eq_of_forall AM fun j => ?_
     rw [hfix _ (D.bV AM j).2]
@@ -361,13 +363,13 @@ theorem Sec108Data.CN_le_H0 (D : Sec108Data hc t Y) : hc.CN t ≤ H0 M Z := fun 
 
 theorem Sec108Data.comm_CN_mem (D : Sec108Data hc t Y) {n n' : G} (hn : n ∈ hc.CN t)
     (hn' : n' ∈ hc.CN t) : ⁅n, n'⁆ ∈ Q := by
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hnM : n ∈ M := hc.Rt_le_M t (Ctx.mem_CN.mp hn).1
   have hn'M : n' ∈ M := hc.Rt_le_M t (Ctx.mem_CN.mp hn').1
   have hmem : ∀ x (hx : x ∈ hc.CN t) (hxM : x ∈ M),
       QuotientGroup.mk' (Q.subgroupOf M) ⟨x, hxM⟩ ∈ bar M Q (hc.CN t) :=
     fun x hx hxM => Subgroup.mem_map_of_mem _ hx
-  haveI := D.isElemAbelian_bar_CN.1
+  have := D.isElemAbelian_bar_CN.1
   have h := setLike_mul_comm (s := bar M Q (hc.CN t)) (hmem n hn hnM)
     (hmem n' hn' hn'M)
   have h2 : QuotientGroup.mk' (Q.subgroupOf M) ⁅(⟨n, hnM⟩ : ↥M), ⟨n', hn'M⟩⁆ = 1 := by

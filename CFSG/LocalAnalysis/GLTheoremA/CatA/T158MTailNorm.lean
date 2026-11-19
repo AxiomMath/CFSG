@@ -84,7 +84,7 @@ theorem t158NormConj_of (T : Tables112) (TL : TableL2) (TT : Tables112Types) (hE
   have hc0 := hc
   obtain ⟨hp3, n, hn, hn1, hcase⟩ := hc
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L : Subgroup X := K.map (MulAut.conj g⁻¹).toMonoidHom with hLdef
   have hmemL : ∀ z : X, z ∈ L ↔ g * z * g⁻¹ ∈ K := by
     intro z
@@ -93,7 +93,7 @@ theorem t158NormConj_of (T : Tables112) (TL : TableL2) (TT : Tables112Types) (hE
       simpa [MulAut.conj_apply, mul_assoc] using hk
     · intro hz
       refine ⟨g * z * g⁻¹, hz, ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
   suffices hBL : B ≤ Subgroup.normalizer (L : Set X) by
     have h := Subgroup.mem_normalizer_iff.mp (hBL hb) y
     rw [hmemL, hmemL] at h

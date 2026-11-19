@@ -81,7 +81,7 @@ private theorem revPerm_pow_two : (Fin.revPerm : Sym 6) ^ 2 = 1 := by
 
 private theorem revPerm_cycleType_rep :
     (Fin.revPerm : Sym 6).cycleType = Multiset.replicate 3 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hct := Equiv.Perm.cycleType_of_pow_prime_eq_one revPerm_pow_two
   have hsum : (Fin.revPerm : Sym 6).cycleType.sum = 6 := by
     rw [Equiv.Perm.sum_cycleType]
@@ -107,7 +107,7 @@ private theorem revPerm_cycleType :
 private theorem revPerm_nat_card :
     Nat.card ↥(Subgroup.centralizer ({(Fin.revPerm : Sym 6)} : Set (Sym 6))) = 48 := by
   rw [Equiv.Perm.nat_card_centralizer, revPerm_cycleType_rep]
-  simp only [Multiset.sum_replicate, Multiset.card_replicate, Multiset.prod_replicate,
+  simp only [Multiset.sum_replicate, Multiset.prod_replicate,
     Multiset.toFinset_replicate, Multiset.count_replicate]
   norm_num [Nat.factorial]
 

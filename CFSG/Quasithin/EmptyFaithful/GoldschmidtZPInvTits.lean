@@ -12,7 +12,7 @@ open CFSG.Sporadic.Schreier.Tits CFSG.Sporadic.Schreier.TitsQT
 
 theorem zpUniq_titsD :
     ZPUniq titsD := by
-  refine zpUniq_of_central_subset titsD_center (titsSylow : Subgroup titsD) titsSylow.isPGroup'
+  refine zpUniq_of_central_subset titsD_center (titsSylow : Subgroup titsD) titsSylow.isPGroup
     titsSylow.not_dvd_index titsZD fun c hc hcc => ?_
   exact titsSylow_central_eq c hc fun p hp => (hcc p hp).symm
 

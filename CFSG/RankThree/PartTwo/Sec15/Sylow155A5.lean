@@ -65,7 +65,7 @@ private lemma zpowers_eq_of_orderOf_eq {G : Type*} [Group G] [Finite G] {p : ℕ
   have hp2 : 2 ≤ p := hp.out.two_le
   have hP : ∀ P : Sylow p G, Nat.card P = p := by
     intro P
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have hpk : p ∣ Nat.card P := P.dvd_card_of_dvd_card hdvd
     have hPG : Nat.card P ∣ Nat.card G := Subgroup.card_subgroup_dvd_card _
     have hk1 : k = 1 := by
@@ -169,8 +169,8 @@ private lemma eq_bot_or_exists_sylow {x : A₅} (hx : orderOf x = 3) {W : Subgro
       Nat.card W = 10 ∨ Nat.card W = 20 := by
     generalize Nat.card W = n at hdvd hle hW3 ⊢
     interval_cases n <;> omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rcases hcases with h | h | h | h | h | h
   · exact Or.inl (Subgroup.eq_bot_of_card_eq W h)
   · exact (false_of_prime_dvd hx hN (p := 2) (Or.inl rfl) (by rw [h]) (by rw [h]; norm_num)).elim
@@ -195,7 +195,7 @@ private lemma exists_swap_A5 {x : A₅} (hx : orderOf x = 3) {R V : Subgroup A�
     (hR : x ∈ Subgroup.normalizer (R : Set A₅)) (hV : x ∈ Subgroup.normalizer (V : Set A₅)) :
     ∃ u : A₅, u * x * u⁻¹ ∈ Subgroup.zpowers x ∧ (R = ⊥ ∨ ∀ v ∈ V, u * v * u⁻¹ ∈ R) := by
   have hx1 : (1 : A₅) * x * (1 : A₅)⁻¹ ∈ Subgroup.zpowers x := by
-    simpa using Subgroup.mem_zpowers x
+    simp
   rcases eq_bot_or_exists_sylow hx hR3 hR with hR0 | ⟨PR, hPR, hxPR⟩
   · exact ⟨1, hx1, Or.inl hR0⟩
   rcases eq_bot_or_exists_sylow hx hV3 hV with hV0 | ⟨PV, hPV, hxPV⟩

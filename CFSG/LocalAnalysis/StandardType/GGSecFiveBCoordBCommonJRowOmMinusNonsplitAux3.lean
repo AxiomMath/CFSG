@@ -73,14 +73,14 @@ private theorem frame_dense_piece_orbit {K V : Type} [Field K] [Finite K] [CharP
     (hp : p.Prime) (hp2 : p ≠ 2) (F : SevOm.Frame Q p A r)
     (hAΩ : A ≤ orthDerived Q)
     (hmax : ∀ g ∈ orthDerived Q, g ^ p = 1 → (∀ c ∈ A, g * c = c * g) → g ∈ A)
-    (hU : ∀ j, finrank K (F.U j) = 2) (hV : finrank K V ≤ 2 * r + 2)
-    (f : Fin r → Multiplicative (ZMod p)) (hf : ∀ j, toAdd (f j) ≠ 0)
+    (_hU : ∀ j, finrank K (F.U j) = 2) (_hV : finrank K V ≤ 2 * r + 2)
+    (f : Fin r → Multiplicative (ZMod p)) (_hf : ∀ j, toAdd (f j) ≠ 0)
     (hfixvec : ∃ v : V, v ≠ 0 ∧ ∀ a ∈ A, a v = v)
     {h : K[X]} (hh : h ∈ primaryFactors (F.ι (OrthTorus.piMul r p f)).toLinearMap)
     (hX : h ≠ X - 1) (hself : reciprocalPolynomial h = h) :
     ∃ j, F.U j ≤ orbitSpace (F.ι (OrthTorus.piMul r p f)).toLinearMap h := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : V ≃ₗ[K] V := F.ι (OrthTorus.piMul r p f) with hxdef
   have hx : OddOrderIsometry Q p x := F.oddOrderIsometry hQ hp2 hp hAΩ (OrthTorus.piMul r p f)
   have hxmem : x ∈ A := F.mem (OrthTorus.piMul r p f)
@@ -143,13 +143,13 @@ private theorem block_minpoly_natDegree {K D : Type} [Field K] [Finite K] [CharP
     (hfix : ∀ u, c u = u → u = 0) {a : ZMod p} (ha : a ≠ 0) :
     (minpoly K ((c ^ a.val : D ≃ₗ[K] D) : D →ₗ[K] D)).natDegree = 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let ca : D ≃ₗ[K] D := c ^ a.val
   let caL : D →ₗ[K] D := ca
   let h : K[X] := minpoly K caL
   have hmon : h.Monic := minpoly.monic (Algebra.IsIntegral.isIntegral caL)
-  haveI : Nontrivial D := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
+  have : Nontrivial D := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
   have hcne : c ≠ 1 := by
     intro hc1
     obtain ⟨u, hu⟩ := exists_ne (0 : D)
@@ -276,7 +276,7 @@ private theorem frame_dense_primary {K V D : Type} [Field K] [Finite K] [CharP K
       (∀ h : K[X], h ∈ primaryFactors (F.ι (OrthTorus.piMul r p f)).toLinearMap →
         h ≠ X - 1 → h = h0) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : V ≃ₗ[K] V := F.ι (OrthTorus.piMul r p f) with hxdef
   have hx : OddOrderIsometry Q p x := F.oddOrderIsometry hQ hp2 hp hAΩ (OrthTorus.piMul r p f)
   have htoadd : ∀ j, toAdd ((OrthTorus.piMul r p f) j) = toAdd (f j) := fun j => rfl
@@ -288,7 +288,7 @@ private theorem frame_dense_primary {K V D : Type} [Field K] [Finite K] [CharP K
     exact hθact (OrthTorus.piMul r p f) j d
   let a : ZMod p := toAdd (f 0)
   have ha : a ≠ 0 := hf 0
-  haveI : NeZero a := ⟨ha⟩
+  have : NeZero a := ⟨ha⟩
   let ca : D ≃ₗ[K] D := c ^ a.val
   let caL : D →ₗ[K] D := ca
   let h0 : K[X] := minpoly K caL
@@ -398,7 +398,7 @@ private theorem frame_dense_label {K V D : Type} [Field K] [Finite K] [CharP K 2
       (isometryCentralizer Q (F.ι (OrthTorus.piMul r p f)))) :
     GGHasLabel ⟨.twA, r - 1, n⟩ (↥L ⧸ Subgroup.center ↥L) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : V ≃ₗ[K] V := F.ι (OrthTorus.piMul r p f) with hxdef
   have hx : OddOrderIsometry Q p x := F.oddOrderIsometry hQ hp2 hp hAΩ (OrthTorus.piMul r p f)
   have hfixne : fixedSpace x ≠ ⊥ := by
@@ -448,8 +448,8 @@ private theorem frame_dense_label {K V D : Type} [Field K] [Finite K] [CharP K 2
     omega
   have hdim : finrank K (primaryComponent x.toLinearMap h) = 2 * r :=
     le_antisymm hdim_le hdim_ge
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have hdeg : h.natDegree = 2 :=
     CFSG.RankThree.PartOne.K159.natDegree_eq_two_of_dvd_card_add_one hx hp hp2 hpq hh hX
   have hmult : primaryMultiplicity x.toLinearMap h = r := by
@@ -522,22 +522,22 @@ theorem ggCommonJRowOmMinusNonsplit_dense {K : Type} [Field K] [Finite K] {p m f
     (hK : Nat.card K = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ f + 1)
     (hm : 3 ≤ m) (hmo : Odd m) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {τ : (Fin m → Multiplicative (ZMod p)) →* OrthRest.RMinus K m b c}
-    (hτ : Function.Injective τ) (hsign : GGOmMinusNonsplitSignedNormalizer τ)
+    (hτ : Function.Injective τ) (_hsign : GGOmMinusNonsplitSignedNormalizer τ)
     (hsgn : ∀ i : Fin m, ∃ w : OrthRest.RMinus K m b c, ∀ f, w * τ f * w⁻¹ = τ (SpCoord.sgnAut i f))
     (hperm : ∀ σ : Equiv.Perm (Fin m), ∃ w : OrthRest.RMinus K m b c,
       ∀ f, w * τ f * w⁻¹ = τ (SpCoord.permAut σ f))
     {g : Fin m → Multiplicative (ZMod p)} (hD : GGCoordDense g)
     (hΛ : LargeEvenInLambda2 ⟨.twA, m - 1, f⟩) (J : Subgroup (OrthRest.RMinus K m b c))
     (hJ : IsComponentOf J (Subgroup.centralizer ({τ g} : Set (OrthRest.RMinus K m b c))))
-    (hcard : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set (OrthRest.RMinus K m b c))) = p) :
+    (_hcard : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set (OrthRest.RMinus K m b c))) = p) :
     GGHasLabel ⟨.twA, m - 1, f⟩ (↥J ⧸ Subgroup.center ↥J) := by
   classical
-  haveI : CharP K 2 := by
-    haveI := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : NeZero m := ⟨by omega⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero m := ⟨by omega⟩
   have hpqK : p ∣ Nat.card K + 1 := by rw [hK]; exact hpq
   let Q : QuadraticForm K (LargeEvenMinusIdx m → K) := TableBOrth.qMinusForm K m b c
   let e := OrthTorus.rMinusEquiv K m b c
@@ -580,9 +580,9 @@ theorem ggCommonJRowOmMinusNonsplit_dense {K : Type} [Field K] [Finite K] {p m f
   obtain ⟨r, τ₀, F, D, i₁, i₂, i₃, c', θ, hτF, hinj, hrange, hdim, hcp, hfix, htwist, hroots,
     hθinj, hθrange, hθact, hnorm, hswap, hdinv, hsignMove, hnoFix, hexFix⟩ :=
     OrthTorus.exists_torus_blocks (p := p) hp2 hpq' hQ hT hAΩ hApow hAcomm hmax hneA
-  letI := i₁
-  letI := i₂
-  letI := i₃
+  let := i₁
+  let := i₂
+  let := i₃
   let Δ : OrthTorus.TBJOmData Q p (E₁.map (orthDerived Q).subtype) r :=
     { τ := τ₀, F := F, D := D, c := c', θ := θ, τ_eq := hτF, τ_inj := hinj, τ_range := hrange,
       finrank_D := hdim, c_pow := hcp, c_fix := hfix, c_twist := htwist, c_roots := hroots,

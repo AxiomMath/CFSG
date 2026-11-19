@@ -126,7 +126,7 @@ theorem sylow_fixed_card
   rw [← Nat.card_coe_set_eq,← Nat.card_coe_set_eq,
     Nat.card_eq_fintype_card (α := Function.fixedPoints u.val.val),
     Equiv.Perm.card_fixedPoints,ht,Multiset.sum_replicate,nsmul_eq_mul,Nat.cast_id,hcard] at hle
-  have hm := S.isPGroup'.card_modEq_card_fixedPoints X
+  have hm := S.isPGroup.card_modEq_card_fixedPoints X
   change Nat.card X % p = Nat.card (fixedPoints S X) % p at hm
   rw [Nat.card_eq_fintype_card,hcard] at hm
   rcases hp with rfl | rfl | rfl <;> omega

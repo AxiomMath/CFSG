@@ -14,8 +14,8 @@ theorem rk2_lift_elemAbelian {H S : Type} [Group H] [Finite H] [Group S] {q : �
     {A : Subgroup S} (hA : IsElemAbelian q A) :
     ∃ B : Subgroup H, IsElemAbelian q B ∧ Nat.card B = Nat.card A := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite S := Finite.of_surjective α hα
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite S := Finite.of_surjective α hα
   obtain ⟨k, hk⟩ := exists_card_eq_pow_of_isElemAbelian hq hA
   set P : Subgroup H := A.comap α with hP
   have hcard : Nat.card P = Nat.card α.ker * Nat.card A := by

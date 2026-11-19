@@ -34,26 +34,34 @@ namespace ShapeII
 
 variable {G : Type*} [Group G] [Finite G] {K : Config G} (P : ShapeII K)
 
+omit [Finite G] in
 theorem sElt8_comm {p q : Sc8} (h : smul8 p q = smul8 q p) :
     P.sElt8 p * P.sElt8 q = P.sElt8 q * P.sElt8 p := by
   rw [← P.sElt8_mul, ← P.sElt8_mul, h]
 
+omit [Finite G] in
 theorem sElt8_one8 : P.sElt8 one8 = 1 := P.sElt8_zero
 
+omit [Finite G] in
 theorem sElt8_z8 : P.sElt8 z8 = (K.x * K.y) ^ 2 := by
   rw [show z8 = ((0, 4, 4), 0) from rfl, P.sElt8_ev, P.x_eq, P.y_eq, ← P.ev8_add, ← P.ev8_nsmul]
   rfl
 
+omit [Finite G] in
 theorem sElt8_w8 : P.sElt8 w8 = K.w := by
   rw [show w8 = ((1, 0, 0), 0) from rfl, P.sElt8_ev, P.ev8_w]
 
+omit [Finite G] in
 theorem sElt8_uv8 : P.sElt8 uv8 = K.uv := P.sElt8_gen_uv
+omit [Finite G] in
 theorem sElt8_u8 : P.sElt8 u8 = K.u := P.sElt8_gen_u
 
+omit [Finite G] in
 theorem sElt8_wu8 : P.sElt8 wu8 = K.w * K.u := by
   rw [show wu8 = smul8 ((1, 0, 0), 0) (0, (0, 0, 1)) by decide, P.sElt8_mul, P.sElt8_ev,
     P.ev8_w, P.sElt8_gen_u]
 
+omit [Finite G] in
 theorem sElt8_xyuv8 : P.sElt8 xyuv8 = K.x * K.y * K.uv := by
   rw [show xyuv8 = smul8 ((0, 2, 2), 0) (0, (1, 0, 0)) by decide, P.sElt8_mul, P.sElt8_ev,
     P.sElt8_gen_uv, P.x_eq, P.y_eq, ← P.ev8_add]
@@ -92,15 +100,18 @@ theorem card_Fsub : Nat.card P.Fsub = 16 := by
       ⟨⟨p, hp⟩, Subtype.ext hg⟩⟩
   rw [← Nat.card_eq_of_bijective _ hbij, Nat.card_eq_fintype_card, card_F8_subtype]
 
+omit [Finite G] in
 theorem Fsub_inv {f : G} (hf : f ∈ P.Fsub) : f * f = 1 := by
   obtain ⟨p, hp, rfl⟩ := hf
   rw [← P.sElt8_mul, F8_mul_self hp, P.sElt8_one8]
 
+omit [Finite G] in
 theorem Fsub_comm {f g : G} (hf : f ∈ P.Fsub) (hg : g ∈ P.Fsub) : f * g = g * f := by
   obtain ⟨p, hp, rfl⟩ := hf
   obtain ⟨q, hq, rfl⟩ := hg
   exact P.sElt8_comm (F8_comm' hp hq)
 
+omit [Finite G] in
 theorem r0_mem_Fsub : P.sElt8 r0_8 ∈ P.Fsub := ⟨r0_8, r0_mem_F8, rfl⟩
 
 theorem mem_C_iff (p : Sc8) : P.sElt8 p ∈ P.C ↔ p.2 = 0 := by
@@ -127,6 +138,7 @@ theorem snd_of_mem_centralizer_w {p : Sc8} (h : P.sElt8 p ∈ Subgroup.centraliz
 theorem comm_snd_zero : ∀ d e : Dc, (d = 0 ∨ d = (0, 0, 1)) → (e = 0 ∨ e = (0, 0, 1)) →
     dmul (dmul (dinv d) (dinv e)) (dmul d e) = 0 := by decide
 
+omit [Finite G] in
 theorem A_le_C : K.A ≤ P.C := by
   rw [K.hA, Subgroup.closure_le]
   intro g hg
@@ -136,8 +148,9 @@ theorem A_le_C : K.A ≤ P.C := by
   · rw [← P.ha2]; exact pow_mem P.a_mem 2
   · rw [← P.hb2]; exact pow_mem P.b_mem 2
 
-theorem C_le_centralizer_A : P.C ≤ Subgroup.centralizer (K.A : Set G) := fun c hc =>
-  Subgroup.mem_centralizer_iff.mpr fun a ha => P.comm (P.A_le_C ha) hc
+omit [Finite G] in
+theorem C_le_centralizer_A : P.C ≤ Subgroup.centralizer (K.A : Set G) := fun _c hc =>
+  Subgroup.mem_centralizer_iff.mpr fun _a ha => P.comm (P.A_le_C ha) hc
 
 theorem mem_A_of_mem_C {c : G} (hc : c ∈ P.C) (h4 : c ^ 4 = 1) : c ∈ K.A := by
   obtain ⟨v, rfl⟩ := P.exists_ev8 hc
@@ -154,14 +167,17 @@ theorem mem_A_of_mem_C {c : G} (hc : c ∈ P.C) (h4 : c ^ 4 = 1) : c ∈ K.A := 
 variable {S : Sylow 2 G} (hS : (S : Subgroup G) = P.Ssub8)
 include hS
 
+omit [Finite G] in
 theorem mem_S_iff' {g : G} : g ∈ (S : Subgroup G) ↔ ∃ p, P.sElt8 p = g := by
   rw [hS]
   exact ⟨P.exists_sElt8, fun ⟨p, hp⟩ => hp ▸ P.sElt8_mem p⟩
 
+omit [Finite G] in
 theorem C_le_Q1 : P.C ≤ (S : Subgroup G) ⊓ Subgroup.centralizer {K.w} := fun c hc =>
   ⟨by rw [hS]; exact Subgroup.mem_sup_left hc,
     Subgroup.mem_centralizer_singleton_iff.mpr (P.comm hc P.w_mem)⟩
 
+omit [Finite G] in
 theorem u_mem_Q1 : K.u ∈ (S : Subgroup G) ⊓ Subgroup.centralizer {K.w} := by
   refine ⟨(P.mem_S_iff' hS).2 ⟨u8, P.sElt8_u8⟩, Subgroup.mem_centralizer_singleton_iff.mpr ?_⟩
   have h := K.hu_w
@@ -242,6 +258,7 @@ theorem mem_normalizer_A_of_mem_normalizer_Q1 (g : G)
 
 @[expose] noncomputable def coord8 (g : G) : Sc8 := Function.invFun P.sElt8 g
 
+omit [Finite G] in
 theorem sElt8_coord8 {g : G} (hg : g ∈ (S : Subgroup G)) : P.sElt8 (P.coord8 g) = g :=
   Function.invFun_eq ((P.mem_S_iff' hS).1 hg)
 
@@ -352,7 +369,7 @@ theorem arch76Lemma3_not_shapeII (K : Config G) (P : ShapeII K)
     (huw : IsConj K.u K.w) (hwu : IsConj (K.w * K.u) (K.x * K.y * K.uv))
     (hAnn1 : ¬ IsConj K.w ((K.x * K.y) ^ 2)) (S : Sylow 2 G)
     (hS : (S : Subgroup G) = P.C ⊔ Subgroup.closure {K.uv, K.t, K.u}) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS' : (S : Subgroup G) = P.Ssub8 := hS
   set z := (K.x * K.y) ^ 2 with hzdef
   have hz : P.sElt8 z8 = z := P.sElt8_z8
@@ -441,7 +458,7 @@ theorem arch76Lemma3_not_shapeII (K : Config G) (P : ShapeII K)
     eq_of_le_centralizer_w K hfusE hAnn1 S hTS hSN
       (P.mem_normalizer_A_of_mem_normalizer_Q1 hS') hQ hQw hQQ
   have hQ1p : IsPGroup 2 ((S : Subgroup G) ⊓ Subgroup.centralizer {K.w} : Subgroup G) :=
-    S.isPGroup'.to_le inf_le_left
+    S.isPGroup.to_le inf_le_left
   obtain ⟨k, -, hkF⟩ := exists_conj_le_of_maximal inf_le_right hQ1p hmax hF'p hF'w
   refine P.no_elemAbelian_sixteen hS' (F₁ := F'.map (MulAut.conj k⁻¹).toMonoidHom) ?_ ?_ ?_ ?_
   · rintro _ ⟨f, hf, rfl⟩

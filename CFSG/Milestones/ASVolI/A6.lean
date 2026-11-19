@@ -306,7 +306,7 @@ private theorem a6_pair_facts [Finite G] {z t : G} (h : HasTwoInvolutionClasses 
       exact a6_not_isConj h hu hv (c1.trans (a6_mem_conjClass_iff.mp hvx).symm)
 
 private theorem a6_aCount_split [Finite G] {z t : G} (h : HasTwoInvolutionClasses G z t) {x : G}
-    (hx1 : x ≠ 1) (hx2 : x * x = 1) :
+    (_hx1 : x ≠ 1) (_hx2 : x * x = 1) :
     aCount z t x = aiCount z t x 1 + aiCount z t x 2 := by
   have hU : pairSet z t x = pairSetI z t x 1 ∪ pairSetI z t x 2 := by
     ext ⟨u, v⟩
@@ -319,11 +319,11 @@ private theorem a6_aCount_split [Finite G] {z t : G} (h : HasTwoInvolutionClasse
       · left
         refine ⟨⟨hu, hv, hxw⟩, ?_⟩
         show orderOf (u * v) % 4 = (if (1 : ℕ) = 1 then 0 else 2)
-        rw [if_pos rfl]; omega
+        rw [ite_eq_left rfl]; omega
       · right
         refine ⟨⟨hu, hv, hxw⟩, ?_⟩
         show orderOf (u * v) % 4 = (if (2 : ℕ) = 1 then 0 else 2)
-        rw [if_neg (by norm_num)]; omega
+        rw [ite_eq_right (by norm_num)]; omega
     · rintro (hp | hp)
       · exact hp.1
       · exact hp.1
@@ -332,8 +332,8 @@ private theorem a6_aCount_split [Finite G] {z t : G} (h : HasTwoInvolutionClasse
     rintro ⟨u, v⟩ h1 h2
     have e1 : orderOf (u * v) % 4 = (if (1 : ℕ) = 1 then 0 else 2) := h1.2
     have e2 : orderOf (u * v) % 4 = (if (2 : ℕ) = 1 then 0 else 2) := h2.2
-    rw [if_pos rfl] at e1
-    rw [if_neg (by norm_num)] at e2
+    rw [ite_eq_left rfl] at e1
+    rw [ite_eq_right (by norm_num)] at e2
     omega
   unfold aCount aiCount
   rw [hU, Nat.card_coe_set_eq, Nat.card_coe_set_eq, Nat.card_coe_set_eq,
@@ -446,7 +446,7 @@ private theorem a6_thompson [Finite G] {z t : G} (h : HasTwoInvolutionClasses G 
     Nat.card G = Nat.card (Subgroup.centralizer ({z} : Set G)) * aCount z t t +
       Nat.card (Subgroup.centralizer ({t} : Set G)) * aCount z t z := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hZc : Nat.card (conjClass z) = (Finset.univ.filter (· ∈ conjClass z)).card :=
     a6_natCard_set _
   have hTc : Nat.card (conjClass t) = (Finset.univ.filter (· ∈ conjClass t)).card :=
@@ -638,7 +638,7 @@ private theorem a6_c_mul [Finite G] {z t : G} (h : HasTwoInvolutionClasses G z t
     cCount t i * Nat.card (Subgroup.centralizer ({z} : Set G)) =
       Nat.card (Subgroup.centralizer ({t} : Set G)) * cCount z (3 - i) := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hZc : Nat.card (conjClass z) = (Finset.univ.filter (· ∈ conjClass z)).card :=
     a6_natCard_set _
   have hTc : Nat.card (conjClass t) = (Finset.univ.filter (· ∈ conjClass t)).card :=

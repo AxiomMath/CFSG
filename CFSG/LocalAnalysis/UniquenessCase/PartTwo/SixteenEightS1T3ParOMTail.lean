@@ -14,11 +14,11 @@ open scoped commutatorElement
 
 theorem s16t3_minus_census_of_three_le {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {r : ℕ} (hr : 3 ≤ r) : S16t3MinusCensus K r := by
-  haveI : IsF2 K := IsF2.of_natCard_eq_two hK
-  letI : Fintype K := Fintype.ofFinite K
+  have : IsF2 K := IsF2.of_natCard_eq_two hK
+  let : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) hK'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) hK'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hirr : ∀ s : K, s ^ 2 + 1 * s + 1 ≠ 0 := irreducible_one_one
   let qA : QuadraticForm K (Fin 2 → K) := minusTailForm K 1 1
   let d : Fin ((r + 1) / 2 + 1) → ℕ := s16t3MinusCuts r
@@ -27,7 +27,7 @@ theorem s16t3_minus_census_of_three_le {K : Type} [Field K] [Finite K] (hK : Nat
   let P₀ : Subgroup ↥E := orthParab r qA d
   let Y : Subgroup (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) := tailUnipotent r qA
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) := finite_orthLinearEquiv
   have hd : OrthCuts r d := s16t3_minus_cuts_orthCuts (by omega)
   have hE : ⁅TauCeti.QuadraticMap.orthogonalGroup (quadTail r qA),

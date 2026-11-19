@@ -11,7 +11,7 @@ open CFSG
 namespace CFSG.BenderSuzuki
 namespace PFchapter1section3
 
-open PFchapter1section1 PFAppendixIII MatrixGroups
+open PFchapter1section1 PFAppendixIII _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization
 
 universe u v w

@@ -66,7 +66,7 @@ private theorem ggTP_closureL_mulVec_single5 {g : E6Dep.Mat6} (hg : g ∈ E6Dep.
 private theorem ggTP_closureL_pow_mem {m : E6Dep.Mat6} (hm : m ∈ E6Dep.closureL) (n : ℕ) :
     m ^ n ∈ E6Dep.closureL := by
   induction n with
-  | zero => simpa using Submonoid.one_mem E6Dep.closureL
+  | zero => simp
   | succ n ih => rw [pow_succ]; exact Submonoid.mul_mem _ ih hm
 
 private theorem ggTP_actsAsK_eq_of {G : Type} [Group G] {Bs : Subgroup G}

@@ -26,7 +26,7 @@ private theorem bsv_linearIndependent_of_orthonormal {m : ℕ} {ι : Type*} [Fin
   have h := congrArg (hermL (unitaryInvolution K 2 1) (v j)) hc
   simp only [map_sum, map_smul, hermL_apply, smul_eq_mul, map_zero] at h
   simpa only [hv j, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ,
-    if_true] using h
+    ite_true] using h
 
 private theorem bsv_disjoint_span_orthonormal {m k d r : ℕ} {s : Fin k → Fin m → K}
     (hdk : d ≤ k) (hs : ∀ i j : Fin k, (i : ℕ) < d → (j : ℕ) < d →
@@ -204,11 +204,11 @@ private theorem bsv_orthonormal_snoc (hσ : IsUnitaryInvolution (unitaryInvoluti
     · simpa [Fin.snoc_last] using hww
     · have h0 : herm (unitaryInvolution K 2 1) w (u j) = 0 := by
         rw [herm_conj _ hσ.invol, hw j, map_zero]
-      simpa [Fin.snoc_last, Fin.snoc_castSucc, if_neg (hne j)] using h0
+      simpa [Fin.snoc_last, Fin.snoc_castSucc, ite_eq_right (hne j)] using h0
   · refine Fin.lastCases ?_ (fun j => ?_) j
     · have hne' : (Fin.castSucc i : Fin (n + 1)) ≠ Fin.last n := fun h => hne i h.symm
       have h0 : herm (unitaryInvolution K 2 1) (u i) w = 0 := hw i
-      simpa [Fin.snoc_last, Fin.snoc_castSucc, if_neg hne'] using h0
+      simpa [Fin.snoc_last, Fin.snoc_castSucc, ite_eq_right hne'] using h0
     · have h0 : herm (unitaryInvolution K 2 1) (u i) (u j) = if i = j then 1 else 0 := hu i j
       simpa [Fin.snoc_castSucc, Fin.castSucc_inj] using h0
 
@@ -288,9 +288,9 @@ private theorem bsvd_norm {m : ℕ} {U V : Fin m → Fin m → K}
   intro j
   dsimp only [bsvd]
   by_cases hj : j = last
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     exact bsvc_norm hU hV
-  · rw [if_neg hj, map_one, one_mul]
+  · rw [ite_eq_right hj, map_one, one_mul]
 
 omit [Finite K] [CharP K 2] in
 private theorem bsvd_prod {m : ℕ} (U V : Fin m → Fin m → K) (last : Fin m) :
@@ -375,7 +375,7 @@ private theorem bsvM_action {m : ℕ} {U V : Fin m → Fin m → K}
     conjTr_colMat_mul_colMat hU
   have hd : bsvd U V last j = 1 := by
     dsimp only [bsvd]
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
   have hcolU : colMat U *ᵥ (Pi.single j 1 : Fin m → K) = U j := by
     ext a
     simp [colMat, Matrix.mulVec, dotProduct, Pi.single_apply]

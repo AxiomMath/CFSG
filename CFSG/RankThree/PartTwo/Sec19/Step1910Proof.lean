@@ -460,7 +460,7 @@ theorem exists_mem_of_le_normalizer {J A : Subgroup G} (hA3 : IsPGroup 3 A)
     omega
   obtain ⟨R, hR⟩ := hA3.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 3 J) hnd
   set RG := (R : Subgroup J).map J.subtype with hRG
-  have hRG3 : IsPGroup 3 RG := R.isPGroup'.map _
+  have hRG3 : IsPGroup 3 RG := R.isPGroup.map _
   have hRGJ : RG ≤ J := Subgroup.map_subtype_le _
   have hAR : A ≤ Subgroup.normalizer (RG : Set G) := by
     intro a ha

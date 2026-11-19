@@ -21,7 +21,7 @@ theorem isSolvable_normalizer_sylow_two {X : Type*} [Group X] [Finite X] (S : Sy
   have hSN : (S : Subgroup X) ≤ N := Subgroup.le_normalizer
   have hTn : ((S : Subgroup X).subgroupOf N).Normal := Subgroup.normal_in_normalizer
   have hS : Group.IsSolvable ↥(S : Subgroup X) := by
-    have := S.isPGroup'.isNilpotent
+    have := S.isPGroup.isNilpotent
     infer_instance
   have hT : Group.IsSolvable ↥((S : Subgroup X).subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hSN).toMonoidHom)
@@ -115,7 +115,7 @@ theorem b_L114_final57_of_SE (hSE : B_L114_SE57) :
   have hsimp : IsSimpleGroup G := (isKProperSimple_iff.1 hG.kproper).1
   have hn' : n = 5 ∨ n = 7 := by
     simpa only [Finset.mem_insert, Finset.mem_singleton] using hn
-  haveI : IsSimpleGroup G := hsimp
+  have : IsSimpleGroup G := hsimp
   exact false_of_isStronglyEmbeddedOrder_NW hn' h
     (hSE G hG n hn x K T Q S a h hS ha hW)
 

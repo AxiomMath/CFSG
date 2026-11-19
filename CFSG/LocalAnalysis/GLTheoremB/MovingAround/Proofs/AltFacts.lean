@@ -32,8 +32,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem glaPPrimeCoreOf_le_pCoreOf_of_simple {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G}
     (hsimple : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L)) (hdvd : p ∣ Nat.card ↥L) :
     GLAPPrimeCoreOf p L ≤ pCoreOf 2 L := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S : Subgroup ↥L := CFSG.pCore 2 ↥L with hS
   set Q : Subgroup ↥L := GLAPPrimeCore p ↥L with hQ
   have hcop2 : Nat.Coprime p (Nat.card ↥S) := by
@@ -41,7 +41,7 @@ theorem glaPPrimeCoreOf_le_pCoreOf_of_simple {p : ℕ} (hp : p.Prime) (hp2 : p �
     rw [hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
   have hSQ : S ≤ Q := CFSG.le_pPrimeCore_of_normal_coprime (CFSG.pCore_normal (p := 2) (G := ↥L)) hcop2
-  haveI : (Q.map (QuotientGroup.mk' S)).Normal :=
+  have : (Q.map (QuotientGroup.mk' S)).Normal :=
     Subgroup.Normal.map inferInstance (QuotientGroup.mk' S) (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Q.map (QuotientGroup.mk' S)) with hbot | htop
   · have hQS : Q ≤ S := by
@@ -71,7 +71,7 @@ theorem cex134_O2_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
     (h121 : Prop121_of_cexStatement) (hcomp : Sec13_compStatement) : Cex134_O2Statement := by
   intro G _ _ m p B M E A D T L h hp3
   have hS : GLStanding G m p := h.standing
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hp2 : p ≠ 2 := hS.ne_two
   have hD : IsEkIn p 2 A D := h.hD
   have hDA : D ≤ A := hD.1
@@ -119,8 +119,8 @@ theorem finite_of_isLThreeFour {X : Type} [Group X] (hX : IsLThreeFour X) : Fini
 
 theorem inputAutL34Order9_holds : Lemma1112b.InputAutL34Order9 := by
   intro X _ hX E hE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite X := finite_of_isLThreeFour hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite X := finite_of_isLThreeFour hX
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 (Lemma1112b.isPGroup_of_isElemAbelian hE)
   have hn2 : n ≤ 2 :=
     (Lemma1112b.le_pRank_of_card (le_top : E ≤ ⊤) hE hn).trans (pRank_mulAut_le_two_of_isLThreeFour hX)
@@ -132,7 +132,7 @@ theorem exists_conj_of_mk_eq_three {Γ : Type} [Group Γ] [Finite Γ] (Q : Subgr
     (hQ : ¬ 3 ∣ Nat.card Q) {y w : Γ} (hy : orderOf y = 3) (hw : orderOf w = 3)
     (hyw : y⁻¹ * w ∈ Q) : ∃ h ∈ Q ⊔ Subgroup.zpowers y, h * w * h⁻¹ = y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card Q) := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hQ
   set W : Subgroup Γ := Q ⊔ Subgroup.zpowers y with hW
   have hyW : y ∈ W := Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
@@ -229,7 +229,7 @@ theorem exists_conj_of_mk_eq_three {Γ : Type} [Group Γ] [Finite Γ] (Q : Subgr
 
 theorem isRankThreeL34_of_isLThreeFour {X : Type} [Group X] (h : IsLThreeFour X) :
     CFSG.LocalAnalysis.RankThreeTheoremC.IsRankThreeL34 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
   let q : TauCeti.PrimePower := ⟨2, 2, Nat.prime_two, by norm_num⟩
   have hv : (TauCeti.LieTypeIndex.A 2 q).Valid := by
@@ -246,9 +246,9 @@ theorem isRankThreeL34_of_isLThreeFour {X : Type} [Group X] (h : IsLThreeFour X)
 
 theorem inputL34FusionK_holds : Lemma1112b.InputL34FusionK := by
   intro X _ _ K hL x y hx hy
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Q : Subgroup ↥K := GLAPPrimeCore 3 ↥K with hQdef
-  haveI : Q.Normal := inferInstance
+  have : Q.Normal := inferInstance
   have hQ : ¬ 3 ∣ Nat.card Q :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 CFSG.pPrimeCore_coprime_card
   set π : ↥K →* ↥K ⧸ Q := QuotientGroup.mk' Q with hπ
@@ -263,7 +263,7 @@ theorem inputL34FusionK_holds : Lemma1112b.InputL34FusionK := by
         simpa using this
       rw [hu] at h2
       exact hQ h2
-  haveI : Finite (↥K ⧸ Q) := inferInstance
+  have : Finite (↥K ⧸ Q) := inferInstance
   obtain ⟨cb, hcb⟩ := CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.L34Borel.exists_conj_of_orderOf_eq_three
     (K := ↥K ⧸ Q) (isRankThreeL34_of_isLThreeFour hL) (hord x hx) (hord y hy)
   obtain ⟨c, rfl⟩ := QuotientGroup.mk'_surjective Q cb
@@ -284,7 +284,7 @@ theorem inputL34FusionK_holds : Lemma1112b.InputL34FusionK := by
 theorem p1rank_of_inputs_alt (h1111 : Lemma1111Statement) (hKn : Lemma1112b.InputCgNormalizesK)
     (hC1 : Lemma1112b.InputCentBarRankOne) :
     ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-      (h : Cex117 G m 3 B M E A a K), CFSG.Open.pRank 3 (Cg a) = 3 :=
+      (_h : Cex117 G m 3 B M E A a K), CFSG.Open.pRank 3 (Cg a) = 3 :=
   Lemma1112b.p1rank_of_inputs h1111 hKn hC1 inputAutL34Order9_holds
 
 theorem p1Claim_of_inputs_alt (hsyl : Lemma1112b.P1SylowClaim) (h1111 : Lemma1111Statement)
@@ -382,7 +382,7 @@ theorem card_sup_mul_card_inf {Γ : Type} [Group Γ] [Finite Γ] (L R : Subgroup
       apply Prod.ext
       · rfl
       · apply Subtype.ext
-        simp only [Subgroup.coe_inv]
+        simp only
         rw [h, inv_inv]
   have h1 := Subgroup.card_ker_mul_card_range μ
   rw [hker, hrange, Nat.card_prod] at h1
@@ -453,42 +453,42 @@ theorem Z4_fix : Z4 ≤ fixSet {i : Fin 13 | i.val < 9 ∨ i.val = 12} :=
 
 theorem R12_fix : R12 ≤ fixSet {i : Fin 13 | 6 ≤ i.val} :=
   sup_le (Z1_fix.trans (fun σ hσ => mem_fixSet.2 fun i hi => mem_fixSet.1 hσ i (by
-      simp only [Set.mem_setOf_eq] at hi ⊢; omega)))
+      simp only [Set.mem_ofPred_eq] at hi ⊢; omega)))
     (Z2_fix.trans (fun σ hσ => mem_fixSet.2 fun i hi => mem_fixSet.1 hσ i (by
-      simp only [Set.mem_setOf_eq] at hi ⊢; omega)))
+      simp only [Set.mem_ofPred_eq] at hi ⊢; omega)))
 
 theorem R34_fix : R34 ≤ fixSet {i : Fin 13 | i.val < 6 ∨ i.val = 12} :=
   sup_le (Z3_fix.trans (fun σ hσ => mem_fixSet.2 fun i hi => mem_fixSet.1 hσ i (by
-      simp only [Set.mem_setOf_eq] at hi ⊢; omega)))
+      simp only [Set.mem_ofPred_eq] at hi ⊢; omega)))
     (Z4_fix.trans (fun σ hσ => mem_fixSet.2 fun i hi => mem_fixSet.1 hσ i (by
-      simp only [Set.mem_setOf_eq] at hi ⊢; omega)))
+      simp only [Set.mem_ofPred_eq] at hi ⊢; omega)))
 
 theorem Z12_inf : Z1 ⊓ Z2 = ⊥ :=
-  inf_eq_bot_of_fixSet Z1_fix Z2_fix (by intro i; simp only [Set.mem_setOf_eq]; omega)
+  inf_eq_bot_of_fixSet Z1_fix Z2_fix (by intro i; simp only [Set.mem_ofPred_eq]; omega)
 
 theorem Z34_inf : Z3 ⊓ Z4 = ⊥ :=
-  inf_eq_bot_of_fixSet Z3_fix Z4_fix (by intro i; simp only [Set.mem_setOf_eq]; omega)
+  inf_eq_bot_of_fixSet Z3_fix Z4_fix (by intro i; simp only [Set.mem_ofPred_eq]; omega)
 
 theorem R_inf : R12 ⊓ R34 = ⊥ :=
-  inf_eq_bot_of_fixSet R12_fix R34_fix (by intro i; simp only [Set.mem_setOf_eq]; omega)
+  inf_eq_bot_of_fixSet R12_fix R34_fix (by intro i; simp only [Set.mem_ofPred_eq]; omega)
 
 theorem Z1_card : Nat.card Z1 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold Z1
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime b1_pow b1_ne
 theorem Z2_card : Nat.card Z2 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold Z2
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime b2_pow b2_ne
 theorem Z3_card : Nat.card Z3 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold Z3
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime b3_pow b3_ne
 theorem Z4_card : Nat.card Z4 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold Z4
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime b4_pow b4_ne
@@ -685,7 +685,7 @@ theorem J2_le_normalizer :
 
 theorem H0_GLBCore :
     CFSG.Open.GLBCore 3 2 (H0.subgroupOf (alternatingGroup (Fin 13))) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_top_iff]
   set A : Subgroup S13 := alternatingGroup (Fin 13) with hA
   have hR12 : R12.subgroupOf A ≤ H0.subgroupOf A := fun x hx =>
@@ -721,14 +721,14 @@ theorem H0A_elem : CFSG.Open.IsElemAbelian 3 (H0.subgroupOf (alternatingGroup (F
 open CFSG.AGLEmbedding.Norton.OrdinaryProofs in
 theorem input1210_P2_holds : Lemma1210.Input1210_P2 := by
   intro Y _ _ ⟨e⟩ Q hQ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A : Subgroup S13 := alternatingGroup (Fin 13) with hA
   have hH0p : IsPGroup 3 (H0.subgroupOf A) :=
     IsPGroup.of_card (n := 4) H0A_card
   obtain ⟨P0, hP0⟩ := hH0p.exists_le_sylow
   have hQp : IsPGroup 3 Q := hQ.2.1
   obtain ⟨SQ, hSQ⟩ := hQp.exists_le_sylow
-  have hSQQ : (SQ : Subgroup Y) = Q := hQ.2.2 _ le_top SQ.isPGroup' hSQ
+  have hSQQ : (SQ : Subgroup Y) = Q := hQ.2.2 _ le_top SQ.isPGroup hSQ
   let SA : Sylow 3 ↥A := Sylow.mapSurjective (f := e.toMonoidHom) e.surjective SQ
   obtain ⟨g, hg⟩ := sylow_eq_map_conj P0 SA
   have hSA : (SA : Subgroup ↥A) = Q.map e.toMonoidHom := by
@@ -946,12 +946,12 @@ theorem exists_threeGroup_cent {σ : Perm (Fin 13)} (h3 : σ ^ 3 = 1)
     {X : Subgroup (Perm (Fin 13))} (hX : IsPGroup 3 X) (hXc : ∀ x ∈ X, x * σ = σ * x) :
     ∃ P : Subgroup (Perm (Fin 13)), IsPGroup 3 P ∧ X ≤ P ∧ (∀ p ∈ P, p * σ = σ * p) ∧
       3 ^ 5 ≤ Nat.card P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup (Perm (Fin 13)) := Subgroup.centralizer ({σ} : Set (Perm (Fin 13))) with hC
   have hXC : X ≤ C := fun x hx => Subgroup.mem_centralizer_singleton_iff.2 (hXc x hx)
   have hT : IsPGroup 3 (X.subgroupOf C) := hX.comap_of_injective C.subtype Subtype.val_injective
   obtain ⟨S, hS⟩ := hT.exists_le_sylow
-  refine ⟨(S : Subgroup ↥C).map C.subtype, S.isPGroup'.map C.subtype, ?_, ?_, ?_⟩
+  refine ⟨(S : Subgroup ↥C).map C.subtype, S.isPGroup.map C.subtype, ?_, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hXC hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   · rintro _ ⟨p, hp, rfl⟩
@@ -969,8 +969,9 @@ section Unpack
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem config_unpack {N K A F : Subgroup G} {a : G}
-    (ι : ↥(barX 3 N K) →* Equiv.Perm (Fin 13)) (hιinj : Function.Injective ι)
+    (ι : ↥(barX 3 N K) →* Equiv.Perm (Fin 13)) (_hιinj : Function.Injective ι)
     (Fh Bh : Subgroup (Equiv.Perm (Fin 13)))
     (hFh : Fh = ((barX 3 N F).subgroupOf (barX 3 N K)).map ι)
     (hBh : Bh = ((barX 3 N (Subgroup.zpowers a)).subgroupOf (barX 3 N K)).map ι)
@@ -1105,7 +1106,7 @@ theorem cen_assemble {Y : Type} [Group Y] [Finite Y] (φ : Y ≃* alternatingGro
     (hAmap : Abar.map ((alternatingGroup (Fin 13)).subtype.comp φ.toMonoidHom) = Fh ⊔ Bh)
     {x : Y} (hx : x ∈ Abar) (hx1 : x ≠ 1) :
     ∃ Q : Subgroup Y, IsSylowIn 3 ⊤ Q ∧ Abar ≤ Q ∧ x ∈ centerOf Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ι : Y →* Perm (Fin 13) := (alternatingGroup (Fin 13)).subtype.comp φ.toMonoidHom with hι
   have hιinj : Function.Injective ι := Subtype.val_injective.comp φ.injective
   have hιsurj : ∀ σ ∈ alternatingGroup (Fin 13), ∃ y : Y, ι y = σ := fun σ hσ =>
@@ -1317,7 +1318,7 @@ theorem exists_coord_functional {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     [Module.Finite (ZMod 3) V] (hfr : Module.finrank (ZMod 3) V = 2) {f w : V} (hw : w ≠ 0)
     (hfw : ∀ a : ZMod 3, a • w ≠ f) :
     ∃ c : V →ₗ[ZMod 3] ZMod 3, c w = 0 ∧ c f = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hli : LinearIndependent (ZMod 3) ![w, f] := (LinearIndependent.pair_iff' hw).2 hfw
   let b : Module.Basis (Fin 2) (ZMod 3) V :=
     basisOfLinearIndependentOfCardEqFinrank hli (by simp [hfr])
@@ -1332,12 +1333,12 @@ theorem exists_coord_functional {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
 theorem exists_transvection {H : Type} [CommGroup H] [Finite H] (h3 : ∀ x : H, x ^ 3 = 1)
     (hc : Nat.card H = 9) {f w : H} (hw : w ≠ 1) (hfw : f ∉ Subgroup.zpowers w) :
     ∃ α : MulAut H, α f = f * w ∧ α ^ 3 = 1 ∧ ∀ g : H, g⁻¹ * α g ∈ Subgroup.zpowers w := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Module (ZMod 3) (Additive H) := AddCommGroup.zmodModule (fun x => by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Module (ZMod 3) (Additive H) := AddCommGroup.zmodModule (fun x => by
     have : x = Additive.ofMul (Additive.toMul x) := rfl
     rw [this, ← ofMul_pow, h3, ofMul_one])
-  haveI : Finite (Additive H) := inferInstanceAs (Finite H)
-  haveI : Module.Finite (ZMod 3) (Additive H) := Module.Finite.of_finite
+  have : Finite (Additive H) := inferInstanceAs (Finite H)
+  have : Module.Finite (ZMod 3) (Additive H) := Module.Finite.of_finite
   have hcard : Nat.card (Additive H) = 9 := hc
   have hfr : Module.finrank (ZMod 3) (Additive H) = 2 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := Additive H)
@@ -1361,7 +1362,7 @@ theorem exists_transvection {H : Type} [CommGroup H] [Finite H] (h3 : ∀ x : H,
     exact Subgroup.pow_mem _ (Subgroup.mem_zpowers w) _
   obtain ⟨c, hcw, hcf⟩ := exists_coord_functional hfr hw0 hnot
   let T : Additive H ≃ₗ[ZMod 3] Additive H :=
-    LinearEquiv.ofLinear (LinearMap.id + c.smulRight (Additive.ofMul w))
+    LinearEquiv.ofLinearMap (LinearMap.id + c.smulRight (Additive.ofMul w))
       (LinearMap.id - c.smulRight (Additive.ofMul w))
       (by
         ext v
@@ -1529,7 +1530,7 @@ theorem perm_shear (h : Cfg13 Fh Bh c₀) {Zh : Subgroup (Perm (Fin 13))} (hZle 
     {z : Perm (Fin 13)} (hz : z ∈ Zh) (hzF : z ∉ Fh) :
     ∃ σ ∈ alternatingGroup (Fin 13), (∀ x ∈ Fh ⊔ Bh, σ * x * σ⁻¹ ∈ Fh ⊔ Bh) ∧
       (∀ x ∈ Zh, σ * x * σ⁻¹ ∈ Zh) ∧ ∃ f ∈ Fh, f ≠ 1 ∧ σ⁻¹ * z * σ = z * f := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hZ9, hZB⟩ := h.zh_regular hZle hZcard hZorb
   obtain ⟨f₀, hf₀, c, hc, hzfc⟩ := h.exists_mul (hZle hz)
   have hc1 : c ≠ 1 := by
@@ -1551,7 +1552,7 @@ theorem perm_shear (h : Cfg13 Fh Bh c₀) {Zh : Subgroup (Perm (Fin 13))} (hZle 
       rw [this]
       exact Zh.mul_mem (Zh.inv_mem hf₀Z) hz
     exact hc1 (hZB c hc hcZ)
-  letI : CommGroup ↥Fh :=
+  let : CommGroup ↥Fh :=
     { (inferInstance : Group ↥Fh) with mul_comm := fun x y => Subtype.ext (h.comm x x.2 y y.2) }
   have hF3 : ∀ x : ↥Fh, x ^ 3 = 1 := fun x => Subtype.ext (by simpa using h.three x x.2)
   obtain ⟨α, hαf, hα3, hαg⟩ := exists_transvection (H := ↥Fh) hF3 h.card_Fh
@@ -1721,7 +1722,7 @@ theorem input1210_shear'_holds :
             y * x * y⁻¹ ∈ (barX 3 N (E ⊓ A)).subgroupOf (barX 3 N K)) ∧
           ∃ f ∈ (barX 3 N F).subgroupOf (barX 3 N K), f ≠ 1 ∧ y⁻¹ * z * y = z * f := by
   intro G _ _ N K E A F a φ hAN hAe hE2 hAK hOrb hF z hz hzF
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hEk, hFix, hreg, haA, hAeq, -, hBth⟩ := hF
   obtain ⟨c₀, hcfg, hAmap⟩ := config_unpack ((alternatingGroup (Fin 13)).subtype.comp φ.toMonoidHom)
     (Subtype.val_injective.comp φ.injective) _ _ rfl rfl hAN hAK hEk haA hAeq hFix hreg hBth
@@ -1756,7 +1757,7 @@ open Lemma1210
 variable {G : Type} [Group G] [Finite G]
 
 theorem sylow_central_of_cen' {m : ℕ} {B M E A N K F : Subgroup G} {a : G}
-    (h : Sec11 G m 3 B M E A) (hAe : CFSG.Open.IsElemAbelian 3 A)
+    (_h : Sec11 G m 3 B M E A) (hAe : CFSG.Open.IsElemAbelian 3 A)
     (hAmax : ∀ S : Subgroup G, CFSG.Open.IsElemAbelian 3 S → A ≤ S → S = A)
     (hAN : A ≤ N) (hKN : K ≤ N)
     (hAK : barX 3 N A ≤ barX 3 N K) (hL : GLAPLayer 3 N = ⨆ g ∈ A, GLBConj g K)
@@ -1765,7 +1766,7 @@ theorem sylow_central_of_cen' {m : ℕ} {B M E A N K F : Subgroup G} {a : G}
     (hOut : Lemma1210.Input1210_Out13) {x : G} (hx : x ∈ A) (hx1 : x ≠ 1) :
     ∃ Q : Subgroup G, IsSylowIn 3 N Q ∧ A ≤ Q ∧ x ∈ centerOf Q := by
   have hcen := input1210_cen'_holds
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYn : (barX 3 N K).Normal := Lemma1210.barX_normal_of_layer N K A hKN hAN hAK hL
   set O : Subgroup ↥N := GLAPPrimeCore 3 ↥N with hOdef
   have hAΓ : IsPGroup 3 ↥(A.subgroupOf N) := Lemma1210.isPGroup_subgroupOf_of_elemAb hAe hAN
@@ -1862,15 +1863,15 @@ theorem sylow_central_of_cen' {m : ℕ} {B M E A N K F : Subgroup G} {a : G}
 
 theorem shear_lift' {m : ℕ} {B M E A N K F : Subgroup G} {a : G}
     (h : Sec11 G m 3 B M E A) (hAe : CFSG.Open.IsElemAbelian 3 A)
-    (hA3 : CFSG.Open.pRank 3 A = 3) (hE2 : CFSG.Open.pRank 3 (E ⊓ A) = 2)
-    (hAN : A ≤ N) (hKN : K ≤ N) (hAK : barX 3 N A ≤ barX 3 N K)
-    (hL : GLAPLayer 3 N = ⨆ g ∈ A, GLBConj g K)
+    (_hA3 : CFSG.Open.pRank 3 A = 3) (hE2 : CFSG.Open.pRank 3 (E ⊓ A) = 2)
+    (hAN : A ≤ N) (_hKN : K ≤ N) (hAK : barX 3 N A ≤ barX 3 N K)
+    (_hL : GLAPLayer 3 N = ⨆ g ∈ A, GLBConj g K)
     (φ : ↥(barX 3 N K) ≃* ↥(alternatingGroup (Fin 13))) (hOrb : Lemma129IvAOrbit φ E A)
     (hF : Lemma129IvAComplement φ A F a)
     {z : G} (hzA0 : z ∈ E ⊓ A) (hzF : z ∉ F) :
     ∃ y ∈ N ⊓ M ⊓ Subgroup.normalizer (A : Set G), ∃ f ∈ F, f ≠ 1 ∧ y⁻¹ * z * y = z * f := by
   have hShear := input1210_shear'_holds
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup ↥N := GLAPPrimeCore 3 ↥N with hOdef
   have hO : Nat.Coprime 3 (Nat.card O) := Lemma1210.coprime_three_card_O N
   have hAΓp : IsPGroup 3 ↥(A.subgroupOf N) := Lemma1210.isPGroup_subgroupOf_of_elemAb hAe hAN
@@ -2048,7 +2049,7 @@ theorem lemma1210_holds : Lemma1210Statement := by
   have hne : ∃ x ∈ R, x ≠ 1 := by
     obtain ⟨x, hxA, hx1⟩ := hAnt
     exact ⟨x, hAR hxA, hx1⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hzR, hz3⟩ := Lemma1210.exists_central_prime hRM.2.1 hne
   have hzEA : z ∈ E ⊓ A := Sec12c.prop126_central_mem h11 hER hzR hz3
   have hzA : z ∈ A := hzEA.2

@@ -31,7 +31,7 @@ theorem scCaseTwo_holds : SCCaseTwo :=
 theorem s622KFactP65Single_of_delta (hδ : S622DeltaNPC) : S622KFactP65Single := by
   intro A _ _ p P X x z hpl hN hnpc hU W hWX hWcop hBW
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPX : (P : Subgroup A) ≤ X := hpl.sylow_le
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup A) := hpl.plane.isIsolatedPlane.1
   have hxX : x ∈ X := hPX (hBP (Subgroup.mem_sup_left (mem_zpowers x)))

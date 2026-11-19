@@ -11,7 +11,7 @@ open CFSG.Blueprint
 
 theorem psl225_exists_conj_product {S : Type} [Group S] (h : LieModel S .PSL 2 5 2) {i : S}
     (hi : orderOf i = 2) : ∃ g : S, orderOf (i * (g * i * g⁻¹)) = 13 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let F := GaloisField 5 2
   have hFcard : Nat.card F = 5 ^ 2 := GaloisField.card 5 2 (by norm_num)
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := F) 5 2 (by norm_num) hFcard h

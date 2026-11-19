@@ -58,9 +58,10 @@ private theorem isChevSimple_of_mulEquiv_held {r : ℕ} {S S' : Type} [Group S] 
   · exact Or.inl (ys03_catalogIs_of_mulEquiv e h)
   · exact Or.inr (ys03_catalogIs_of_mulEquiv e h)
 
+omit [Finite G] in
 private theorem barX_mono_held {p : ℕ} {M T L : Subgroup G} (h : T ≤ L) :
     barX p M T ≤ barX p M L :=
-  Subgroup.map_mono fun x hx =>
+  Subgroup.map_mono fun _x hx =>
     Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx))
 
 theorem exists_kLevel_of_hyp {p : ℕ} (hp : p.Prime) {B L : Subgroup G} (h : I264bHyp p B L) :
@@ -75,7 +76,7 @@ theorem exists_kLevel_of_hyp {p : ℕ} (hp : p.Prime) {B L : Subgroup G} (h : I2
   have hLM : L ≤ M := le_sup_left
   have hBM : B ≤ M := le_sup_right
   have hMN : M ≤ Subgroup.normalizer (L : Set G) := sup_le Subgroup.le_normalizer hBN
-  haveI hLn : (L.subgroupOf M).Normal :=
+  have hLn : (L.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 hMN
   have hsn : IsSubnormal L M := IsSubnormal.step hLM hLn (IsSubnormal.refl M)
   have hOL : GLAPPrimeCoreOf p M ≤ L := ys03_glaPPrimeCoreOf_sup_le hp hBp hBN

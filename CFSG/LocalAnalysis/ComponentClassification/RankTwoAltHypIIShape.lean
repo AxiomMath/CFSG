@@ -133,10 +133,10 @@ theorem qWitness_s1 {p r : α} (hp1 : yb p = p) (hp2 : ya p ≠ p) (hr1 : ya r �
         | exact h01 hij | exact h01 hij.symm | exact h02 hij | exact h02 hij.symm
         | exact h03 hij | exact h03 hij.symm | exact h04 hij | exact h04 hij.symm
         | exact h05 hij | exact h05 hij.symm | exact h12 hij | exact h12 hij.symm
-        | exact h13 hij | exact h13 hij.symm | exact h14 hij | exact h14 hij.symm
-        | exact h15 hij | exact h15 hij.symm | exact h23 hij | exact h23 hij.symm
+        | exact h14 hij | exact h14 hij.symm
+        | exact h23 hij | exact h23 hij.symm
         | exact h24 hij | exact h24 hij.symm | exact h25 hij | exact h25 hij.symm
-        | exact hr3 hij | exact hr3 hij.symm | exact h35 hij | exact h35 hij.symm
+        | exact hr3 hij | exact hr3 hij.symm
         | exact h45 hij | exact h45 hij.symm
   · intro i
     rw [s1a_apply]
@@ -180,7 +180,7 @@ theorem qWitness_s2 {p p' r : α} (hp1 : yb p = p) (hp2 : ya p ≠ p) (hq1 : yb 
         | exact h01 hij | exact h01 hij.symm | exact h02 hij | exact h02 hij.symm
         | exact h03 hij | exact h03 hij.symm | exact h04 hij | exact h04 hij.symm
         | exact h05 hij | exact h05 hij.symm | exact h12 hij | exact h12 hij.symm
-        | exact h13 hij | exact h13 hij.symm | exact h14 hij | exact h14 hij.symm
+        | exact h14 hij | exact h14 hij.symm
         | exact h15 hij | exact h15 hij.symm | exact h23 hij | exact h23 hij.symm
         | exact h24 hij | exact h24 hij.symm | exact h25 hij | exact h25 hij.symm
         | exact h34 hij | exact h34 hij.symm | exact h35 hij | exact h35 hij.symm
@@ -278,7 +278,7 @@ theorem sign_eq_one_s4 {p q f : α} (hp1 : yb p = p) (hp2 : ya p ≠ p) (hq1 : y
         | exact h03 hij | exact h03 hij.symm | exact h04 hij | exact h04 hij.symm
         | exact h05 hij | exact h05 hij.symm | exact h12 hij | exact h12 hij.symm
         | exact h13 hij | exact h13 hij.symm | exact h14 hij | exact h14 hij.symm
-        | exact h15 hij | exact h15 hij.symm | exact h23 hij | exact h23 hij.symm
+        | exact h23 hij | exact h23 hij.symm
         | exact h24 hij | exact h24 hij.symm | exact h25 hij | exact h25 hij.symm
         | exact h34 hij | exact h34 hij.symm | exact h35 hij | exact h35 hij.symm
         | exact h45 hij | exact h45 hij.symm
@@ -434,7 +434,7 @@ theorem qWitness_of_twoOrbit' (h5 : 5 ≤ Fintype.card α) {E : Subgroup (Perm �
           first
             | exact h01 hij | exact h01 hij.symm | exact h02 hij | exact h02 hij.symm
             | exact h03 hij | exact h03 hij.symm | exact h12 hij | exact h12 hij.symm
-            | exact h13 hij | exact h13 hij.symm | exact h23 hij | exact h23 hij.symm
+            | exact h23 hij | exact h23 hij.symm
       refine hsign ((sign_eq_of_embedding ⟨_, hinj⟩ (m := swap 0 1 * swap 2 3) ?_ ?_).trans
         sign_swap01_swap23)
       · intro i

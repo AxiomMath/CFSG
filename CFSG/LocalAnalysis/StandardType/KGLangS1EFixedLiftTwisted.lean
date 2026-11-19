@@ -88,7 +88,7 @@ theorem kgLangS1EFixedLift_twistedCover (k : Type) [Field k] [Finite k] [CharP k
       hk hσ c
   have hk4 : 4 ≤ Nat.card k := by rw [hk]; nlinarith
   obtain ⟨f, hf1, rfl⟩ : ∃ f : ℕ, 1 ≤ f ∧ q = 2 ^ f := by
-    letI : Fintype k := Fintype.ofFinite k
+    let : Fintype k := Fintype.ofFinite k
     obtain ⟨n, -, hn⟩ := FiniteField.card k 2
     have hdvd : q ∣ 2 ^ (n : ℕ) := by
       rw [← hn, ← Nat.card_eq_fintype_card, hk]

@@ -15,7 +15,7 @@ open CFSG.Open
 theorem pRank_quotient_le_of_commutative {A : Type} [Group A] [Finite A] {q : ℕ}
     (hq : q.Prime) (hcomm : ∀ a b : A, a * b = b * a) (M : Subgroup A) [M.Normal] :
     CFSG.Open.pRank q (⊤ : Subgroup (A ⧸ M)) ≤ CFSG.Open.pRank q (⊤ : Subgroup A) := by
-  letI : CommGroup A := { (inferInstance : Group A) with mul_comm := hcomm }
+  let : CommGroup A := { (inferInstance : Group A) with mul_comm := hcomm }
   let f : A →* A := powMonoidHom q
   let g : A ⧸ M →* A ⧸ M := powMonoidHom q
   have hK : CFSG.Open.IsElemAbelian q f.ker := by
@@ -122,7 +122,7 @@ theorem one_lt_mS_of_cartan_product {X : Type} [Group X] [Finite X]
     1 < mS T T₁ q Ls ∨ 1 < mS T T₂ q Ls := by
   have hCH : C ≤ H := by rw [hsup]; exact le_sup_left
   have hNH : N ≤ H := by rw [hsup]; exact le_sup_right
-  letI : CommGroup ↥H :=
+  let : CommGroup ↥H :=
     { (inferInstance : Group ↥H) with
       mul_comm := fun a b => Subtype.ext (hHcomm a a.2 b b.2) }
   let CH : Subgroup ↥H := C.subgroupOf H

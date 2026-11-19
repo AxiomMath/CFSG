@@ -18,7 +18,7 @@ theorem exists_twoSubgroup_of_pComponent_orbit {p : ℕ} (hp : p.Prime) (hp2 : p
     (hET : E ⊓ Subgroup.normalizer (K : Set G) ≤ Subgroup.normalizer (T : Set G)) :
     ∃ T' : Subgroup G, T' ≤ X ∧ T' ≠ ⊥ ∧ IsPGroup 2 T' ∧
       E ≤ Subgroup.normalizer (T' : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKe : ∀ e ∈ E, GLAPComponent p X (GLBConj e K) := fun e he => by
     have h := glaPComponent_gLBConj hK e

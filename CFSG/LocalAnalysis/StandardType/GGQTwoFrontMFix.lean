@@ -95,14 +95,14 @@ private theorem qTwoFrontM_fix_isSolvable_finset_sup {G ι : Type*} [Group G]
             (by rintro rfl; exact hi hj) with heq | hc
           · exact absurd heq.symm (hex j hj)
           · exact hc
-      haveI := hsol_i
-      haveI := hsol_s
+      have := hsol_i
+      have := hsol_s
       exact qTwoFrontM_fix_isSolvable_sup_of_comm hcent
 
 private theorem qTwoFrontM_fix_blockSU_solvable {K : Type} [Field K] [Finite K] {d : ℕ}
     (h : UnitaryFieldData 2 1 K) {I : Finset (Fin d)} (h1 : 1 ≤ I.card) (h3 : I.card ≤ 3) :
     Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := 1) I) := by
-  haveI : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
+  have : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
     SmallU.isSolvable_unitarySU_small h h1 h3
   let e := TableBUE.blockSUEquiv (K := K) (n := 1) I h
   exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom)
@@ -167,7 +167,7 @@ theorem qTwoFrontM_ggFix_solvable {K : Type} [Field K] [Finite K] (hKd : Unitary
   have hle : (commutator ↥(ggFix δ)).map (ggFix δ).subtype ≤ Finset.univ.sup B := by
     rw [Subgroup.map_subtype_commutator (ggFix δ), Finset.sup_univ_eq_iSup]
     exact hder
-  haveI : Group.IsSolvable ↥(Finset.univ.sup B) := hJsol
+  have : Group.IsSolvable ↥(Finset.univ.sup B) := hJsol
   let e := Subgroup.equivMapOfInjective (commutator ↥(ggFix δ)) (ggFix δ).subtype
     (Subgroup.subtype_injective (ggFix δ))
   let g : ↥(commutator ↥(ggFix δ)) →* ↥(Finset.univ.sup B) :=

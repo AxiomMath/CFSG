@@ -31,7 +31,7 @@ theorem isGB_of_kd264KLie {G : Type} [Group G] [Finite G] {p : ℕ} (hKL : KD264
   have hLM : L ≤ M := le_sup_left
   have hBM : B ≤ M := le_sup_right
   have hMN : M ≤ Subgroup.normalizer (L : Set G) := sup_le Subgroup.le_normalizer hBN
-  haveI hLn : (L.subgroupOf M).Normal :=
+  have hLn : (L.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 hMN
   have hsn : IsSubnormal L M := IsSubnormal.step hLM hLn (IsSubnormal.refl M)
   have hOL : GLAPPrimeCoreOf p M ≤ L := ys03_glaPPrimeCoreOf_sup_le hp hBp hBN
@@ -247,7 +247,7 @@ theorem fullCoverLevel_eq_four_of_f4_te6 {Q : Type} [Group Q]
   have h2 : ¬ K2Cover 3 Q := fun hk => hnot (Or.inr (k2Cover_imp_catalogIs 3 hk))
   have h3 : ¬ K3Cover 3 Q := fun hk => k3NotChev2At_holds 3 Q hk (isChevSimple_two_of_f4_te6 hc)
   unfold fullCoverLevel
-  rw [if_neg h1, if_neg h2, if_neg h3]
+  rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
 
 theorem false_of_case1_lie {G : Type} [Group G] [Finite G] (hKG : CFSG.Open.IsKGroup G)
     {B D X L : Subgroup G} (hB : IsElemAbelian 3 B) (hB4 : 3 ^ 4 ≤ Nat.card B) (hDB : D ≤ B)

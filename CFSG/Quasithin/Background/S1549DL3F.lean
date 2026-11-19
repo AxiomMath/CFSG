@@ -57,7 +57,7 @@ theorem stab_of_normalizes_filter : ∀ S : Finset Vec, IsPlane S → ∀ g : Γ
   intro S hS g hg v
   obtain ⟨k, hk, hk1⟩ : ∃ k ∈ BS S, k ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : BS S ⊆ {1} := fun k hk => Finset.mem_singleton.2 (h k hk)
     have hc := Finset.card_le_card hsub
     rw [BS_card S hS, Finset.card_singleton] at hc

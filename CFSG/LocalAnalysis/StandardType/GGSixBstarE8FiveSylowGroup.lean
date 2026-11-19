@@ -37,7 +37,7 @@ lemma le_normalizer_of_normal_subgroupOf_pow {H : Type*} [Group H] {p : ℕ}
     group
 
 theorem exists_conj_map_eq_of_exponent_card {H : Type*} [Group H] [Finite H] {p : ℕ}
-    [Fact p.Prime] {T X : Subgroup H} (hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x) (hXT : X ≤ T)
+    [Fact p.Prime] {T X : Subgroup H} (_hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x) (hXT : X ≤ T)
     (hXp : ∀ x ∈ X, x ^ p = 1) (hTp : ∀ t ∈ T, t ^ p = 1 → t ∈ X)
     (hX4 : Nat.card X ≤ p ^ 4)
     (hord : (Nat.card H).factorization p = (Nat.card T).factorization p + 1)
@@ -50,7 +50,7 @@ theorem exists_conj_map_eq_of_exponent_card {H : Type*} [Group H] [Finite H] {p 
   have hp : p.Prime := Fact.out
   have hp_pos : 0 < p := hp.pos
   have hp_ne : p ≠ 0 := hp.ne_zero
-  haveI : Finite T := Finite.of_injective (Subtype.val) Subtype.coe_injective
+  have : Finite T := Finite.of_injective (Subtype.val) Subtype.coe_injective
   have hXpg : IsPGroup p X := by
     rw [isPGroup_iff_pow_pow_eq_one]
     intro x
@@ -65,7 +65,7 @@ theorem exists_conj_map_eq_of_exponent_card {H : Type*} [Group H] [Finite H] {p 
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
     exact y.2
-  have hQpg : IsPGroup p Q := Q₀.isPGroup'.map T.subtype
+  have hQpg : IsPGroup p Q := Q₀.isPGroup.map T.subtype
   obtain ⟨P, hQP⟩ := hQpg.exists_le_sylow
   have hcardP : Nat.card P = p ^ (Nat.card H).factorization p := Sylow.card_eq_multiplicity P
   have hcardQ0 : Nat.card Q₀ = p ^ (Nat.card T).factorization p := Sylow.card_eq_multiplicity Q₀
@@ -176,12 +176,12 @@ theorem exists_conj_map_eq_of_exponent_card {H : Type*} [Group H] [Finite H] {p 
   · rintro ⟨y, ⟨z, hz, hyz⟩, hxy⟩
     have hxz : x = z := by
       rw [← hxy, ← hyz]
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+      simp only [MulAut.conj_apply, inv_inv]
       group
     rwa [hxz]
   · intro hx
     exact ⟨MulAut.conj c⁻¹ x, ⟨x, hx, rfl⟩, by
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]; group⟩
+      simp only [MulAut.conj_apply, inv_inv]; group⟩
 
 end NoOffE8Five
 

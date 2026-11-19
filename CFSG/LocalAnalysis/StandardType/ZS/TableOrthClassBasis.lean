@@ -310,10 +310,10 @@ private lemma zstqbGen_mem_J (hp : p ≠ 2) [Module.Finite (ZMod p) U]
   intro i
   by_cases hi : IsSquare (Q (e i) / c)
   · rw [hJ]
-    simp only [zstqbGen, dif_pos hi]
+    simp only [zstqbGen, dite_eq_left hi]
     exact Subgroup.subset_closure (zstqb_reflect_mem_classRefl hp hQ hc (hQne i) hi)
   · rw [hJ]
-    simp only [zstqbGen, dif_neg hi]
+    simp only [zstqbGen, dite_eq_right hi]
     exact zstqb_forbidden_pair_mem hp hQ hc e horth (Ne.symm (hpartner_ne i hi))
       (hQne i) (hQne (partner i)) hi (hpartner_forb i hi)
 
@@ -327,11 +327,11 @@ private lemma zstqbGen_mem_signChange {n : ℕ} {Q : QuadraticForm (ZMod p) U} {
   intro i
   by_cases hi : IsSquare (Q (e i) / c)
   · rw [show zstqbGen Q c e partner i = signEquiv e {i} by
-      simp only [zstqbGen, dif_pos hi]
+      simp only [zstqbGen, dite_eq_left hi]
       exact zstqb_reflect_eq_signEquiv_singleton e horth i (hQne i)]
     exact signEquiv_mem_signChangeSubgroup e {i}
   · rw [show zstqbGen Q c e partner i = signEquiv e {i, partner i} by
-      simp only [zstqbGen, dif_neg hi]
+      simp only [zstqbGen, dite_eq_right hi]
       exact zstqb_reflect_mul_eq_signEquiv_pair e horth (Ne.symm (hpartner_ne i hi))
         (hQne i) (hQne (partner i))]
     exact signEquiv_mem_signChangeSubgroup e {i, partner i}
@@ -344,9 +344,9 @@ private lemma zstqbGen_neg {n : ℕ} {Q : QuadraticForm (ZMod p) U} {c : ZMod p}
     ∀ i, zstqbGen Q c e partner i (e i) = - e i := by
   intro i
   by_cases hi : IsSquare (Q (e i) / c)
-  · simp only [zstqbGen, dif_pos hi]
+  · simp only [zstqbGen, dite_eq_left hi]
     exact zstqb_reflect_self (hQne i)
-  · simp only [zstqbGen, dif_neg hi]
+  · simp only [zstqbGen, dite_eq_right hi]
     have hpi : CFSG.ClassicalGroups.Orthogonal.reflect Q (e (partner i)) (e i) = e i :=
       CFSG.ClassicalGroups.Orthogonal.reflect_apply_of_polar_eq_zero (by
         rw [← QuadraticMap.polarBilin_apply_apply]
@@ -434,12 +434,12 @@ theorem coprimeWitness_orthClass (hp : p ≠ 2) [Module.Finite (ZMod p) U]
     else Classical.choose (hcond i |>.resolve_left h)
   have hpartner_ne : ∀ i, ¬ IsSquare (Q (e i) / c) → partner i ≠ i := by
     intro i hi
-    simp only [partner, dif_neg hi]
+    simp only [partner, dite_eq_right hi]
     exact (Classical.choose_spec (hcond i |>.resolve_left hi)).1
   have hpartner_forb : ∀ i, ¬ IsSquare (Q (e i) / c) →
       ¬ IsSquare (Q (e (partner i)) / c) := by
     intro i hi
-    simp only [partner, dif_neg hi]
+    simp only [partner, dite_eq_right hi]
     exact (Classical.choose_spec (hcond i |>.resolve_left hi)).2
   have hgenJ : ∀ i, zstqbGen Q c e partner i ∈ J :=
     zstqbGen_mem_J hp hQ hc hJ e horth hQne partner hpartner_ne hpartner_forb

@@ -146,13 +146,13 @@ private structure RsInv (lv : List Nat) (s : BS) : Prop where
 private theorem rs_getD_append_single (l : List Nat) (q k : Nat) :
     (l ++ [q]).getD k 0 = if k = l.length then q else l.getD k 0 := by
   by_cases h1 : k < l.length
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     simp only [List.getD_eq_getElem?_getD]
     rw [List.getElem?_append_left h1]
   · by_cases h2 : k = l.length
     · subst h2
       simp [List.getD_eq_getElem?_getD]
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       simp only [List.getD_eq_getElem?_getD]
       rw [List.getElem?_append_right (by omega), List.getElem?_eq_none (by simp; omega),
         List.getElem?_eq_none (by omega)]
@@ -168,8 +168,8 @@ private theorem rs_trans_congr {F : Nat → Nat → Nat} {s s' : BS} :
     have h1 := hk k (Nat.le_refl k)
     rw [BS.trans.eq_1 F s', BS.trans.eq_1 F s, h1.1, h1.2]
     by_cases hc : 0 < k ∧ s.par.getD k 0 < k
-    · rw [dif_pos hc, dif_pos hc, ih _ hc.2 (fun j hj => hk j (by omega))]
-    · rw [dif_neg hc, dif_neg hc]
+    · rw [dite_eq_left hc, dite_eq_left hc, ih _ hc.2 (fun j hj => hk j (by omega))]
+    · rw [dite_eq_right hc, dite_eq_right hc]
 
 private abbrev rsSnoc (s : BS) (q h l : Nat) : BS := ⟨s.pts ++ [q], s.par ++ [h], s.lab ++ [l]⟩
 
@@ -179,7 +179,7 @@ private theorem rs_snoc_trans_old {F : Nat → Nat → Nat} {s : BS}
     BS.trans F (rsSnoc s q h l) k = BS.trans F s k := by
   refine rs_trans_congr k fun j hj => ?_
   show (s.par ++ [h]).getD j 0 = s.par.getD j 0 ∧ (s.lab ++ [l]).getD j 0 = s.lab.getD j 0
-  rw [rs_getD_append_single, rs_getD_append_single, if_neg (by omega), if_neg (by omega)]
+  rw [rs_getD_append_single, rs_getD_append_single, ite_eq_right (by omega), ite_eq_right (by omega)]
   exact ⟨rfl, rfl⟩
 
 private theorem rs_snoc_trans_new {F : Nat → Nat → Nat} {s : BS}
@@ -190,13 +190,13 @@ private theorem rs_snoc_trans_new {F : Nat → Nat → Nat} {s : BS}
   rw [BS.trans.eq_1]
   have h1 : (rsSnoc s q h l).par.getD s.pts.length 0 = h := by
     show (s.par ++ [h]).getD s.pts.length 0 = h
-    rw [rs_getD_append_single, if_pos hpar.symm]
+    rw [rs_getD_append_single, ite_eq_left hpar.symm]
   have h2 : (rsSnoc s q h l).lab.getD s.pts.length 0 = l := by
     show (s.lab ++ [l]).getD s.pts.length 0 = l
-    rw [rs_getD_append_single, if_pos hlab.symm]
+    rw [rs_getD_append_single, ite_eq_left hlab.symm]
   have hc : 0 < s.pts.length ∧ (rsSnoc s q h l).par.getD s.pts.length 0 < s.pts.length :=
     ⟨hpos, by rw [h1]; exact hh⟩
-  rw [dif_pos hc, h1, h2, rs_snoc_trans_old hpar hlab hh]
+  rw [dite_eq_left hc, h1, h2, rs_snoc_trans_old hpar hlab hh]
 
 private theorem rs_inv_init {lv : List Nat} (r : Nat) : RsInv lv ⟨[r], [0], [0]⟩ := by
   refine ⟨rfl, rfl, by simp, by simp, ?_, ?_⟩
@@ -210,44 +210,44 @@ private theorem rs_inv_init {lv : List Nat} (r : Nat) : RsInv lv ⟨[r], [0], [0
 private theorem rs_inv_snoc {lv : List Nat} {s : BS} (hs : RsInv lv s) {q h l : Nat}
     (hm : q ∉ s.pts) (hh : h < s.pts.length) (hl : l ∈ lv) : RsInv lv (rsSnoc s q h l) := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  · simp [rsSnoc, hs.len_par]
-  · simp [rsSnoc, hs.len_lab]
-  · simp [rsSnoc]
+  · simp [hs.len_par]
+  · simp [hs.len_lab]
+  · simp
   · refine List.nodup_append.2 ⟨hs.nodup, List.nodup_cons.2 ⟨List.not_mem_nil, List.nodup_nil⟩, ?_⟩
     intro a ha b hb
     rw [List.mem_singleton] at hb
     subst hb
     exact fun e => hm (e ▸ ha)
   · intro k hk hk'
-    simp only [rsSnoc, List.length_append, List.length_singleton] at hk'
+    simp only [List.length_append, List.length_singleton] at hk'
     have hlp := hs.len_par
     show (s.par ++ [h]).getD k 0 < k
     rw [rs_getD_append_single]
     by_cases hkc : k = s.par.length
-    · rw [if_pos hkc]
+    · rw [ite_eq_left hkc]
       omega
-    · rw [if_neg hkc]
+    · rw [ite_eq_right hkc]
       exact hs.par_lt k hk (by omega)
   · intro k hk hk'
-    simp only [rsSnoc, List.length_append, List.length_singleton] at hk'
+    simp only [List.length_append, List.length_singleton] at hk'
     have hlp := hs.len_lab
     show (s.lab ++ [l]).getD k 0 ∈ lv
     rw [rs_getD_append_single]
     by_cases hkc : k = s.lab.length
-    · rw [if_pos hkc]
+    · rw [ite_eq_left hkc]
       exact hl
-    · rw [if_neg hkc]
+    · rw [ite_eq_right hkc]
       exact hs.lab_mem k hk (by omega)
 
 private theorem rs_letter_of_mem {F : Nat → Nat → Nat} {h p l : Nat} {s : BS} (hm : F l p ∈ s.pts) :
     BS.letter F h p s l = s := by
   unfold BS.letter
-  rw [if_pos hm]
+  rw [ite_eq_left hm]
 
 private theorem rs_letter_of_not_mem {F : Nat → Nat → Nat} {h p l : Nat} {s : BS}
     (hm : F l p ∉ s.pts) : BS.letter F h p s l = rsSnoc s (F l p) h l := by
   unfold BS.letter
-  rw [if_neg hm]
+  rw [ite_eq_right hm]
 
 private theorem rs_letter_inv {F : Nat → Nat → Nat} {lv : List Nat} {s : BS} (hs : RsInv lv s)
     {h p l : Nat} (hh : h < s.pts.length) (hl : l ∈ lv) : RsInv lv (BS.letter F h p s l) := by
@@ -269,14 +269,14 @@ private theorem rs_letter_mem (F : Nat → Nat → Nat) (h p l : Nat) (s : BS) :
   · rw [rs_letter_of_mem hm]
     exact hm
   · rw [rs_letter_of_not_mem hm]
-    simp [rsSnoc]
+    simp
 
 private theorem rs_letter_getD {F : Nat → Nat → Nat} {h p l : Nat} {s : BS} {k : Nat}
     (hk : k < s.pts.length) : (BS.letter F h p s l).pts.getD k 0 = s.pts.getD k 0 := by
   by_cases hm : F l p ∈ s.pts
   · rw [rs_letter_of_mem hm]
   · rw [rs_letter_of_not_mem hm]
-    simp only [rsSnoc, List.getD_eq_getElem?_getD]
+    simp only [List.getD_eq_getElem?_getD]
     rw [List.getElem?_append_left hk]
 
 private theorem rs_letter_trans {F : Nat → Nat → Nat} {lv : List Nat} {s : BS} {h p l k : Nat}
@@ -296,18 +296,18 @@ private theorem rs_trans_perm {F : Nat → Nat → Nat} {lv : List Nat} {s : BS}
     by_cases hc : 0 < k ∧ s.par.getD k 0 < k
     · have e : BS.trans F s k = fun x => F (s.lab.getD k 0) (BS.trans F s (s.par.getD k 0) x) := by
         funext x
-        rw [BS.trans, dif_pos hc]
+        rw [BS.trans, dite_eq_left hc]
       rw [e]
       exact (hF _ (hs.lab_mem k hc.1 hk)).comp (ih _ hc.2 (by omega))
     · have e : BS.trans F s k = fun x => x := by
         funext x
-        rw [BS.trans, dif_neg hc]
+        rw [BS.trans, dite_eq_right hc]
       rw [e]
       exact isPermN_id n
 
 private theorem rs_trans_zero {F : Nat → Nat → Nat} {s : BS} : BS.trans F s 0 = fun x => x := by
   funext x
-  rw [BS.trans, dif_neg (by simp)]
+  rw [BS.trans, dite_eq_right (by simp)]
 
 private structure RsRep (n : Nat) (F : Nat → Nat → Nat) (s : BS) (h : Nat)
     (q : SchreierOrbitState n) : Prop where
@@ -373,11 +373,11 @@ private theorem rs_letter_rep {lv : List Nat} (hF : ∀ l ∈ lv, IsPermN n (F l
     have hnone : q.transversal? (permOf n (F l) x) = none :=
       rs_rep_lookup_of_not_mem hr (by rw [hy]; exact hm)
     rw [SchreierOrbitState.discover_of_unassigned _ _ _ hnone]
-    have hlen : (rsSnoc s (F l p) h l).pts.length = s.pts.length + 1 := by simp [rsSnoc]
+    have hlen : (rsSnoc s (F l p) h l).pts.length = s.pts.length + 1 := by simp
     refine ⟨?_, ?_, ?_⟩
     · have hk := hr.keys
       unfold SchreierOrbitState.keys at hk ⊢
-      simp only [rsSnoc, List.map_append, List.map_cons, List.map_nil, hk, hy]
+      simp only [List.map_append, List.map_cons, List.map_nil, hk, hy]
     · have hp := hr.perms
       have htp : permOf n (F l) * permOf n T =
           permOf n (BS.trans F (rsSnoc s (F l p) h l) s.pts.length) := by
@@ -390,7 +390,7 @@ private theorem rs_letter_rep {lv : List Nat} (hF : ∀ l ∈ lv, IsPermN n (F l
       intro j hj
       rw [rs_snoc_trans_old hs.len_par hs.len_lab (List.mem_range.1 hj)]
     · have hq := hr.queue
-      simp only [List.map_append, List.map_cons, List.map_nil, hq, hy, rsSnoc]
+      simp only [List.map_append, List.map_cons, List.map_nil, hq, hy]
       rw [List.drop_append_of_le_length (by omega)]
 
 private theorem rs_letters_rep {lv : List Nat} (hF : ∀ l ∈ lv, IsPermN n (F l)) {h p : Nat}
@@ -477,7 +477,7 @@ private theorem rs_step_rep {lv : List Nat} (hF : ∀ l ∈ lv, IsPermN n (F l))
         ⟨q.entries, pending⟩ hs hpop hh rfl rfl
       have hstep : BS.step F lv s h = lv.foldl (BS.letter F h (s.pts.getD h 0)) s := by
         unfold BS.step
-        rw [if_pos hh]
+        rw [ite_eq_left hh]
       have hfold : (rsSteps n F lv).foldl
           (fun (st : SchreierOrbitState n) σ => st.discover (σ x) (σ * permOf n (BS.trans F s h)))
             (⟨q.entries, pending⟩ : SchreierOrbitState n) =
@@ -500,7 +500,7 @@ private theorem rs_step_rep {lv : List Nat} (hF : ∀ l ∈ lv, IsPermN n (F l))
     have hqe : q.queue = [] := List.map_eq_nil_iff.1 hq
     have hstep : BS.step F lv s h = s := by
       unfold BS.step
-      rw [if_neg hh]
+      rw [ite_eq_right hh]
     rw [hstep, SchreierOrbitState.step_of_queue_empty _ q hqe]
     refine ⟨hs, hr.keys, hr.perms, ?_⟩
     rw [hqe, List.drop_eq_nil_of_le (by omega)]
@@ -571,9 +571,9 @@ theorem rawOf_transversal (hF : PairsOK n F NL) (i : Fin k) (x : Fin n) :
   have hr := rs_orbit_rep (hn := hn) (bs := bs) (hbs := hbs) hF i
   show ((rawOf n hn F NL bs hbs).orbitSearch i).transversal? x = _
   by_cases hx : x.val ∈ (BS.run F (lvAt F NL (bs.toList.map Fin.val) i.val) n (bs.get i).val).pts
-  · simp only [if_pos hx]
+  · simp only [ite_eq_left hx]
     exact rs_rep_lookup_of_mem hr hx
-  · simp only [if_neg hx]
+  · simp only [ite_eq_right hx]
     exact rs_rep_lookup_of_not_mem hr hx
 
 private theorem rs_runOK (hF : PairsOK n F NL) (i : Fin k) :

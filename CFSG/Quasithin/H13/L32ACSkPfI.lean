@@ -124,7 +124,7 @@ theorem pRank_three_ne_one_of_isPSL34 (hL : IsPSL 3 2 2 (X ⧸ Subgroup.center X
     obtain ⟨P, rfl⟩ := Sylow.mapSurjective_surjective hπ 3 Q
     rw [Sylow.coe_mapSurjective] at hAQ
     have : IsCyclic (P : Subgroup X) := CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one
-      Nat.prime_three (by norm_num) le_top P.isPGroup' hX1
+      Nat.prime_three (by norm_num) le_top P.isPGroup hX1
     have : IsCyclic ((P : Subgroup X).map (QuotientGroup.mk' (Subgroup.center X))) :=
       isCyclic_of_surjective _ ((QuotientGroup.mk' (Subgroup.center X)).subgroupMap_surjective P)
     exact Subgroup.isCyclic_of_le hAQ

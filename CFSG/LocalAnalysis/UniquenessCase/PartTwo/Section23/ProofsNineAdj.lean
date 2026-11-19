@@ -18,7 +18,7 @@ namespace Ctx23L
 variable {D : Data G} {Ch : Choice2011 G}
 
 theorem Hinf_inf_L_ne_bot_of_not_barImage_le_rep_ker (c : Ctx23L D Ch)
-    (hV : IsElemAbelian 2 c.V) (d : S23_9_A0Data D Ch c)
+    (_hV : IsElemAbelian 2 c.V) (d : S23_9_A0Data D Ch c)
     (hnot : ¬ barImage D.M (Hinf (D.M ⊓ c.L)) ≤ d.rep.ker) :
     Hinf (D.M ⊓ c.L) ≠ ⊥ := by
   intro hbot
@@ -43,7 +43,7 @@ theorem map_Hinf_inf_ne_bot (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (hK : K
     rw [hbot, Subgroup.mem_bot] at hxmap
     exact Subgroup.mem_map.mpr
       ⟨⟨x, hKL hx⟩, (by rw [MonoidHom.mem_ker]; exact hxmap), rfl⟩
-  haveI hkerSolv : Group.IsSolvable ↥(c.phiL hV).ker := phiL_ker_isSolvable c hV hK hnat
+  have hkerSolv : Group.IsSolvable ↥(c.phiL hV).ker := phiL_ker_isSolvable c hV hK hnat
   let g : ↥(c.phiL hV).ker →*
       ↥(c.L.subtype.comp (c.phiL hV).ker.subtype).range :=
     ((c.L.subtype.comp (c.phiL hV).ker.subtype)).rangeRestrict
@@ -54,13 +54,13 @@ theorem map_Hinf_inf_ne_bot (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (hK : K
   have hmapSolv : Group.IsSolvable ↥(((c.phiL hV).ker).map c.L.subtype) := by
     rw [← hrange]
     exact Group.isSolvable_of_surjective (f := g) hg
-  haveI : Group.IsSolvable ↥K :=
+  have : Group.IsSolvable ↥K :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hKle)
       (Subgroup.inclusion_injective hKle)
   have hKperf : ⁅K, K⁆ = K := by
     simpa [K] using uc22p21c_Hinf_perfect (D.M ⊓ c.L)
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
-  haveI : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr (by simpa [K] using hne)
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
+  have : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr (by simpa [K] using hne)
   exact Group.IsPerfect.not_isSolvable ↥K inferInstance
 
 theorem n_eq_pRank_of_pointStab (c : Ctx23L D Ch) (h52 : S23_5_2 D Ch)
@@ -96,15 +96,15 @@ theorem Hinf_stabilizer_sylowStar_eq_map_Hinf (c : Ctx23L D Ch) (hV : IsElemAbel
       (((fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) : Subgroup (c.W hV)) :
         Set (c.W hV)))) =
       ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hℓ : fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) = c.Ztil hV :=
@@ -137,11 +137,11 @@ theorem phiL_mem_stabilizer_of_mem_B0 (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.
     letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
     c.phiL hV ⟨b, c.hL0L (c.hB0.1 hb)⟩ ∈ MulAction.stabilizer ↥(c.H hV)
       (((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV))) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   exact (c.phiL_mem_stabilizer_Ztil_iff hV h4 h1930 ⟨b, c.hL0L (c.hB0.1 hb)⟩).2 (c.hBM hb)
 
 theorem phiL_mem_Y0_inf_stabilizer (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
@@ -153,11 +153,11 @@ theorem phiL_mem_Y0_inf_stabilizer (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
     c.phiL hV ⟨b, c.hL0L (c.hB0.1 hb)⟩ ∈ c.Y0 hV ⊓ MulAction.stabilizer ↥(c.H hV)
       (((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV))) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   exact Subgroup.mem_inf.mpr
     ⟨c.phiL_mem_Y0_of_mem_B0 hV hb, c.phiL_mem_stabilizer_of_mem_B0 hV h4 h1930 hb⟩
 
@@ -188,9 +188,9 @@ theorem phiL_not_mem_fixingSubgroup (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     c.phiL hV ⟨b, c.hL0L (c.hB0.1 hb)⟩ ∉
       fixingSubgroupOf ↥(c.H hV) (c.W hV)
         (((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV))) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
   intro h
   have hCH : c.phiL hV ⟨b, c.hL0L (c.hB0.1 hb)⟩ ∈ c.CH hV := h
@@ -223,12 +223,12 @@ theorem exists_KAdj_data_of (c : Ctx23L D Ch) (h2 : S23_2_natural D Ch)
           ∃ u ∈ X, orderOf u = r ∧ ∀ x ∈ X,
             c.phiL hV ⟨b, c.hL0L (c.hB0.1 hb)⟩ * x *
                 (c.phiL hV ⟨b, c.hL0L (c.hB0.1 hb)⟩)⁻¹ = u * x * u⁻¹ := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hnat : IsNaturalClassicalModule (c.H hV) (CFSG.Open.pRank 2 D.Z) := by

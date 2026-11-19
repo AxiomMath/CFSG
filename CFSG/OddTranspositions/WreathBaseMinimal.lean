@@ -37,15 +37,15 @@ theorem base_isMinimalNormal (f n : ℕ) (hf : 2 ≤ f) (hn : 2 ≤ n) :
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI : IsSimpleGroup (Base f) := by
+  have : IsSimpleGroup (Base f) := by
     simpa [Base, F, CFSG.Theory.Comparator.PSL2Model] using
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
-  haveI : CharP F 2 := by
+  have : CharP F 2 := by
     simpa [F] using (inferInstance : CharP (GaloisField 2 f) 2)
   have hfield : ∃ a : F, a ≠ 0 ∧ a ^ 2 ≠ 1 := exists_ne_zero_sq_ne_one_charTwo h4
   have hnc : ¬ IsMulCommutative (Base f) := by
     intro hcomm
-    haveI := hcomm
+    have := hcomm
     have hbot : commutator (Base f) = ⊥ := commutator_eq_bot (G := Base f)
     obtain ⟨a, ha⟩ := exists_ne (1 : (Base f))
     have ha' : a ∈ (⊥ : Subgroup (Base f)) := by
@@ -138,7 +138,7 @@ theorem base_isMinimalNormal (f n : ℕ) (hf : 2 ≤ f) (hn : 2 ≤ n) :
       rw [hProjbot, Subgroup.mem_bot] at hxproj
       exact hj hxproj
     have hProjTop (i : Fin n) : Proj i = ⊤ := by
-      haveI := hProjNormal i
+      have := hProjNormal i
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Proj i) with h | h
       · exact absurd h (hProjNeBot i)
       · exact h
@@ -208,7 +208,7 @@ theorem base_isMinimalNormal (f n : ℕ) (hf : 2 ≤ f) (hn : 2 ≤ n) :
       have hMprojNormal : ((N0 ⊓ C i).map (evalAt i)).Normal :=
         Subgroup.Normal.map (Subgroup.normal_inf_normal N0 (C i)) (evalAt i) (hevalSurj i)
       have hMprojTop : (N0 ⊓ C i).map (evalAt i) = ⊤ := by
-        haveI := hMprojNormal
+        have := hMprojNormal
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
           ((N0 ⊓ C i).map (evalAt i)) with h | h
         · exact absurd h hMprojNeBot

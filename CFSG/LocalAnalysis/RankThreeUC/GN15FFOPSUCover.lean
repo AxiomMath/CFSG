@@ -17,8 +17,8 @@ theorem exists_su_cover
     ∃ φ : StatedSU m (2 ^ f) K →* Λ, Function.Surjective φ ∧
       φ.ker ≤ (StatedScalars (Fin m) K).subgroupOf (StatedSU m (2 ^ f) K) ∧
       ((StatedScalars (Fin m) K).subgroupOf (StatedSU m (2 ^ f) K)).map φ = Subgroup.center Λ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := f * 2) (by rw [hK, pow_mul])
   obtain ⟨hsurj, hcen, hdvd⟩ := CFSG.SectionRank.EvenCover.pullbackFst_centralQuotientMap e
   obtain ⟨σ, hσ⟩ :=
@@ -42,7 +42,7 @@ theorem scalar_mem_statedSU {K : Type} [Field K] [Finite K] {m f : ℕ}
 theorem exists_orderOf_eq_of_dvd {K : Type} [Field K] [Finite K] {f r : ℕ}
     (hK : Nat.card K = (2 ^ f) ^ 2) (hr : r.Prime) (hrq : r ∣ 2 ^ f + 1) :
     ∃ c : Kˣ, orderOf c = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcard : Nat.card Kˣ = (2 ^ f) ^ 2 - 1 := by rw [Nat.card_units, hK]
   have hdvd : r ∣ Nat.card Kˣ := by
     rw [hcard]
@@ -65,8 +65,8 @@ theorem exists_su_cover_scalar_mem_ker
       φ.ker ≤ (StatedScalars (Fin m) K).subgroupOf (StatedSU m (2 ^ f) K) ∧
       orderOf c = r ∧ φ ⟨_, hc⟩ = 1 := by
   obtain ⟨⟨-, hf, hm, hq⟩, K, hKf, hKfin, hK, ⟨e⟩⟩ := hmodel
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hodd : Odd (Nat.card (Subgroup.center ↥L)) :=
     CFSG.HardMathSupport.Meierfrankenfeld.FFToolkit.odd_card_center_of_isIrrOn hV hirr
   obtain ⟨φ, hφs, hφk, hφmap⟩ := exists_su_cover hodd hK hf hm hq e

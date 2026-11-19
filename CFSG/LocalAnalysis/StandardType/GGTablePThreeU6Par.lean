@@ -248,7 +248,7 @@ private lemma dotBilin_nondegenerate {K : Type} [Field K] :
 
 private lemma frob6_injective {K : Type} [Field K] [Finite K] {q : ℕ}
     (hK : Nat.card K = q ^ 2) : Function.Injective (frob6 q (K := K)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   intro x y hxy
   have hq : ∀ c : K, c ^ (q * q) = c := by
     intro c
@@ -280,7 +280,7 @@ private lemma mem_perp {K : Type} [Field K] {q : ℕ} {W : Submodule K (Fin 6 �
 private lemma hf_pow_q {K : Type} [Field K] [CharP K 2] [Finite K] {q : ℕ}
     (hK : Nat.card K = q ^ 2) {f : ℕ} (hq : q = 2 ^ f) (u v : Fin 6 → K) :
     (hf q u v) ^ q = dotBilin (K := K) u (frob6 q v) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   subst hq
   have hqq : (2 ^ f) * (2 ^ f) = Nat.card K := by rw [hK]; ring
   rw [hf, dotBilin_apply, sum_pow_two_pow]
@@ -293,9 +293,9 @@ private lemma finrank_perp {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (W : Submodule K (Fin 6 → K)) :
     Module.finrank K (perp q W) = 6 - Module.finrank K W := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (perp q W) := Fintype.ofFinite _
-  haveI : Fintype (dotBilin (K := K).orthogonal W) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (perp q W) := Fintype.ofFinite _
+  have : Fintype (dotBilin (K := K).orthogonal W) := Fintype.ofFinite _
   have hq0 : q ≠ 0 := by rw [hq]; positivity
   have hbij : Function.Bijective (frob6 q (K := K)) :=
     ⟨frob6_injective hK, (Finite.injective_iff_surjective.mp (frob6_injective hK))⟩
@@ -404,7 +404,7 @@ private lemma three_dvd_card_units {K : Type} [Field K] [Finite K] {q : ℕ}
 private lemma exists_omega {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1) :
     ∃ ω : K, ω ^ 3 = 1 ∧ ω ≠ 1 ∧ ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 (three_dvd_card_units hK hq3)
   have hg3 : g ^ 3 = 1 := by rw [← hg]; exact pow_orderOf_eq_one g
   have hg1 : g ≠ 1 := by
@@ -490,7 +490,7 @@ private lemma eq_smul_one_of_dvd_cube_sub_one {K : Type} [Field K] [Finite K] [C
           = (Polynomial.aeval T p) ^ 2 - (ω + ω ^ 2) • Polynomial.aeval T p
               + (ω * ω ^ 2) • (1 : V →ₗ[K] V) := by
         simp only [sub_mul, mul_sub, mul_sub, pow_two, smul_mul_assoc, mul_smul_comm,
-          smul_smul, one_mul, mul_one]
+          one_mul, mul_one]
         module
       rw [hexp, hsum1, hωω]
       simp only [one_smul]
@@ -616,7 +616,7 @@ private lemma is_scalar_of_cube_eq_one {K : Type} [Field K] [Finite K] [CharP K 
     rw [hkey w hw, hc, LinearMap.smul_apply, Module.End.one_apply]
   have hc0 : c ≠ 0 := by
     intro h0
-    have h : (0 : K) = 1 := by simpa [h0] using hc3
+    have h : (0 : K) = 1 := by simp [h0] at hc3
     exact (zero_ne_one : (0 : K) ≠ 1) h
   have hcqp : c ^ (q + 1) = 1 := by
     obtain ⟨k, hk⟩ := hq3
@@ -686,7 +686,7 @@ private lemma is_scalar_of_cube_eq_one {K : Type} [Field K] [Finite K] [CharP K 
   exact h
 private lemma exists_two_pow_of_card {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (hK : Nat.card K = q ^ 2) : ∃ f : ℕ, q = 2 ^ f := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hn, hcard⟩ := FiniteField.card (K := K) 2
   have hcard' : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   have hq2 : q ^ 2 = 2 ^ (n : ℕ) := by rw [← hK, hcard']
@@ -764,7 +764,7 @@ private lemma mul_cube_eq_cube_mul_cube {G : Type*} [Group G]
             exact central_mul_assoc hzneg (a ^ 2) (a * b)
       _ = z⁻¹ * a ^ 3 * b ^ 3 := by group
   calc (a * b) ^ 3 = a * (b * a) ^ 2 * b := by
-        simp only [pow_succ, pow_two, pow_zero, one_mul, mul_assoc]
+        simp only [pow_succ, pow_zero, one_mul, mul_assoc]
     _ = a * ((z⁻¹) ^ 2 * (a * b) ^ 2) * b := by rw [hmul]
     _ = (z⁻¹) ^ 2 * (a * (a * b) ^ 2 * b) := by
           rw [show a * ((z⁻¹) ^ 2 * (a * b) ^ 2) * b
@@ -799,7 +799,7 @@ theorem u6_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (d : GL (Fin 6) K) (hdA : d ∈ Ahat) (lam : K)
     (hd3 : (d : Matrix (Fin 6) (Fin 6) K) ^ 3 = lam • (1 : Matrix (Fin 6) (Fin 6) K))
     (hlam : ∀ μ : K, μ ^ 3 ≠ lam)
-    (hker : ∀ a ∈ Ahat, (∀ g : GL (Fin 6) K, IsHermIsometry q (g : Matrix (Fin 6) (Fin 6) K) →
+    (_hker : ∀ a ∈ Ahat, (∀ g : GL (Fin 6) K, IsHermIsometry q (g : Matrix (Fin 6) (Fin 6) K) →
         g * d = d * g → a * g = g * a) →
       ∃ (k : ℤ) (c : Kˣ), c ^ (q + 1) = 1 ∧
         a = d ^ k * Matrix.GeneralLinearGroup.scalar (Fin 6) c) :
@@ -812,7 +812,7 @@ theorem u6_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
   have hT3 : T ^ 3 = lam • 1 := by
     rw [hTdef, ← Matrix.toLin'_pow, hd3]
     ext v
-    simp [Matrix.toLin'_apply, Matrix.smul_mulVec]
+    simp
   have hdW : ∀ w ∈ W, T w ∈ W := by
     intro w hw
     rw [hTdef, Matrix.toLin'_apply]
@@ -956,7 +956,7 @@ theorem u6_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     exact is_scalar_of_cube_eq_one hK hq3 hlam hT3 hWperp hw0W hw0ne hspan
       (hiso ((a : Cg) : Ahat) ((a : Cg) : Ahat).2) hMT hMW hM3
   have hker_le : Nat.card psi.ker ≤ 3 := by
-    haveI : NeZero 3 := ⟨by norm_num⟩
+    have : NeZero 3 := ⟨by norm_num⟩
     let f : psi.ker → rootsOfUnity 3 K := fun a =>
       rootsOfUnity.mkOfPowEq (Classical.choose (hex a)) (Classical.choose_spec (hex a)).1
     have hf_inj : Function.Injective f := by
@@ -996,7 +996,7 @@ theorem u6_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     have hiso : Cg ⧸ psi.ker ≃* psi.range := QuotientGroup.quotientKerEquivRange psi
     have h1 : Nat.card (Cg ⧸ psi.ker) = Nat.card psi.range := Nat.card_congr hiso.toEquiv
     have h2 : Nat.card psi.range ≤ q + 1 := by
-      haveI : NeZero (q + 1) := ⟨Nat.succ_ne_zero q⟩
+      have : NeZero (q + 1) := ⟨Nat.succ_ne_zero q⟩
       calc Nat.card psi.range ≤ Nat.card ((rootsOfUnity (q + 1) K).map sc) :=
             Subgroup.card_le_of_le hpsi_range_le
         _ = Nat.card (rootsOfUnity (q + 1) K) :=

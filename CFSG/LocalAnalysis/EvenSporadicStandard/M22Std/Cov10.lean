@@ -158,7 +158,7 @@ theorem twisted_sylow (ι : L →* H) (hι : Function.Injective ι) (hn : ι.ran
   have htT : ι t ∈ (T : Subgroup H) := hιP t htP₀
   have hTL : ∀ l : L, ι l ∈ (T : Subgroup H) → l ∈ P₀ := by
     set Q₀ : Subgroup L := (T : Subgroup H).comap ι with hQ₀
-    have hQp : IsPGroup 2 Q₀ := T.isPGroup'.comap_of_injective ι hι
+    have hQp : IsPGroup 2 Q₀ := T.isPGroup.comap_of_injective ι hι
     have hP₀Q : P₀ ≤ Q₀ := fun l hl => hιP l hl
     have hQm : IsPGroup 2 (Q₀.map F.φ) := hQp.map F.φ
     have hdvd : Nat.card (Q₀.map F.φ) ∣ 443520 := by

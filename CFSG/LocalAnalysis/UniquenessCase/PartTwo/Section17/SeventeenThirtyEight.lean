@@ -33,8 +33,8 @@ theorem uc2_17_38_cNatModSU3 {D : Data G} {V₀ V L : Subgroup G} {n : ℕ}
   have h35 : CNatModSU3Sub W W' X n := (h17_35.1 L n c).1
   have hW'ne : W' ≠ ⊥ := by
     obtain ⟨S⟩ := h35
-    letI : Field S.K := S.fieldK
-    letI : Finite S.K := S.finiteK
+    let : Field S.K := S.fieldK
+    let : Finite S.K := S.finiteK
     let y : Multiplicative (Fin 3 → S.K) := Multiplicative.ofAdd (fun _ : Fin 3 => (1 : S.K))
     have hy1 : y ≠ 1 := by
       intro h

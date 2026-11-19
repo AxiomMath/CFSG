@@ -25,7 +25,7 @@ theorem sec63PC_isI4PlusIn_of_chain {Y K M : Subgroup G} {y : G} (hy2 : orderOf 
     (fun l hl m hm => M.mul_mem (M.mul_mem hm hl) (M.inv_mem hm)) hM
 
 theorem sec63PC_fact_inner [Finite G] {Y L : Subgroup G} {t b c : G} (hA : Sec63PCA6 Y t L)
-    (hb : b ∈ L) (hconj : ∀ x ∈ L, orderOf x = 2 → ∃ l ∈ L, x = l * b * l⁻¹)
+    (_hb : b ∈ L) (hconj : ∀ x ∈ L, orderOf x = 2 → ∃ l ∈ L, x = l * b * l⁻¹)
     (hc : c ∈ Y) (hct : c * t * c⁻¹ = b)
     (hcent : Nat.card ↥(L ⊓ centralizer ({b} : Set G) ⊓
       centralizer ((L.map (MulAut.conj c).toMonoidHom : Subgroup G) : Set G)) ≤ 2)

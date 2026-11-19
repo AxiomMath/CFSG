@@ -92,8 +92,7 @@ theorem eq_matching_of_swap_mem (hcard : 6 ≤ Fintype.card Ω)
         · exact hcab.symm
         · rw [hc]; exact hcab.symm
     rw [this]
-    simp [Finset.card_insert_of_notMem, hσa.symm, hab, ha2, hσab, hσa, hσb, hb1, hb,
-      Ne.symm hσa, Ne.symm hσb, Ne.symm hb, ha2.symm, hσab.symm, hab.symm]
+    simp [Finset.card_insert_of_notMem, hab, ha2, hσab, Ne.symm hσa, Ne.symm hσb, Ne.symm hb]
   ·
     have hΩ : (Finset.univ : Finset Ω) ⊆ {a, σ a, b, σ b} := by
       intro y _

@@ -74,17 +74,17 @@ theorem psl2_overgroup_eq_top {p f : ℕ} [Fact p.Prime]
       rintro rfl
       norm_num at hp
     omega
-  haveI hfin : Finite PSL(2, GaloisField p f) := finite_psl2 _
+  have hfin : Finite PSL(2, GaloisField p f) := finite_psl2 _
   have hcardF : Nat.card (GaloisField p f) = p ^ f := GaloisField.card p f hf
   have hzJ : z ∈ J := hNJ (le_normalizer (mem_zpowers z))
   obtain ⟨T, hTcyc, hzT, hTcard⟩ :=
     psl2_exists_torus_containing_order_three hp2 hp3 hcardF z hz
-  haveI := hTcyc
+  have := hTcyc
   have hTJ : T ≤ J := by
     intro t ht
     apply hNJ
     apply mem_normalizer_zpowers_of_commute
-    letI : CommGroup T := IsCyclic.commGroup
+    let : CommGroup T := IsCyclic.commGroup
     exact congrArg Subtype.val (mul_comm (⟨z, hzT⟩ : T) ⟨t, ht⟩)
   obtain ⟨gJ, hgJord, hg3⟩ := exists_elt_orderOf_card_of_cyclic J T hTJ hzT hz
   have hbig : (p ^ f - 1) / 2 ≤ orderOf gJ := by
@@ -107,7 +107,7 @@ theorem psl2_overgroup_eq_top {p f : ℕ} [Fact p.Prime]
     intro h
     obtain ⟨y, hy, hne⟩ := hnc'
     exact hne (h y hy)
-  rcases CFSG.Open.Open.quasithin_dickson_psl2_subgroups p f (Nat.one_le_iff_ne_zero.mpr hf) J with
+  rcases CFSG.Open.Thm.quasithin_dickson_psl2_subgroups p f (Nat.one_le_iff_ne_zero.mpr hf) J with
     ⟨-, m, -, hcardJ⟩ | ⟨hcyc, -⟩ | ⟨d, -, ⟨e⟩⟩ | ⟨-, ⟨e⟩⟩ | ⟨-, ⟨e⟩⟩ | ⟨-, ⟨e⟩⟩ |
     ⟨m, t, P, hPn, -, hPcard, hcycq, -, -, -⟩ | ⟨m, hm, ⟨e⟩⟩ | ⟨m, hm, ⟨e⟩⟩
   ·
@@ -118,7 +118,7 @@ theorem psl2_overgroup_eq_top {p f : ℕ} [Fact p.Prime]
     exact hp3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp h3p).symm
   ·
     exfalso
-    haveI := hcyc
+    have := hcyc
     exact hcomm_false fun y _ => (IsCyclic.commGroup (α := ↥J)).mul_comm zJ y
   ·
     exfalso
@@ -140,9 +140,9 @@ theorem psl2_overgroup_eq_top {p f : ℕ} [Fact p.Prime]
     omega
   ·
     exfalso
-    haveI := hPn
+    have := hPn
     have hP' : IsPGroup p P := IsPGroup.of_card hPcard
-    haveI : IsCyclic (R.subgroupOf J) :=
+    have : IsCyclic (R.subgroupOf J) :=
       isCyclic_of_two_group_of_quotient_cyclic hp2 P hP' hcycq (R.subgroupOf J) hR'
     exact hcomm_false (commute_of_isCyclic_two_group (R.subgroupOf J) hR' zJ hzJord hzN')
   ·

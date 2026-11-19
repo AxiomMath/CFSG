@@ -35,7 +35,7 @@ theorem hat_of_data' {G : Type} [Group G] [Finite G]
       ∀ x (hx : x ∈ E), ∃ hm : f ⟨x, hx⟩ ∈ Wsub, φ ⟨x, hEB hx⟩ = Θ ⟨f ⟨x, hx⟩, hm⟩ := by
   classical
   set N : Subgroup ↥B := E.subgroupOf B with hN
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     rw [hN, Subgroup.normal_subgroupOf_iff hEB]
     intro h g hh hg
     exact hEn g hg h hh

@@ -30,7 +30,7 @@ theorem s7f_aschOmega6Plus_of_inputs (hZ : Asc82ZExists) (hsh : Asc82Shapes)
     (hO : Asc82Outside) (hF5 : Asc82Fink5) (h77b : Asc82Lemma77b) (h78 : Asc82Lemma78)
     (h63 : Asc82Lemma63) (hAb : Asc82AbelAutBound) : AschOmega6Plus := by
   intro G _ _ t L hS hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hSyl⟩ : ∃ S : Subgroup G, IsSylow2Of S (centralizer ({t} : Set G)) :=
     ⟨_, isSylow2Of_map_sylow (Classical.arbitrary (Sylow 2 ↥(centralizer ({t} : Set G))))⟩
   obtain ⟨z, hz⟩ := hZ G t L hS S hSyl

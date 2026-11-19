@@ -19,7 +19,7 @@ private lemma plh_symm_eq (ρ : Equiv.Perm (Fin (m + 1))) (hρ : ∀ i, ρ (ρ i
 
 private lemma plh_eq_apply_iff (ρ : Equiv.Perm (Fin (m + 1))) (hρ : ∀ i, ρ (ρ i) = i)
     (p i : Fin (m + 1)) : p = ρ i ↔ ρ p = i := by
-  have h := Equiv.apply_eq_iff_eq_symm_apply ρ (x := p) (y := i)
+  have h := (Equiv.eq_symm_apply ρ (x := i) (y := p)).symm
   rw [plh_symm_eq ρ hρ] at h
   exact h.symm
 

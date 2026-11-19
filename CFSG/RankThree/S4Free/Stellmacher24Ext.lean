@@ -389,7 +389,7 @@ theorem exists_isL24_or_isL24Sz_of_sup_normalCore {U : Subgroup H} (hPU : P U)
         rw [htop]
         exact mem_top _
       exact this
-    · obtain ⟨k, hkK, hkM⟩ := SetLike.exists_of_lt hK
+    · obtain ⟨k, hkK, hkM⟩ := _root_.IsConcreteLE.exists_of_lt hK
       have hKD : K.map U.subtype ⊔ D = ⊤ := by
         apply h.isCoatom.2
         refine lt_of_le_of_ne (fun m hm => ?_) fun heq => hkM ?_
@@ -486,7 +486,7 @@ theorem exists_isL24_or_isL24Sz_of_comap_ne_top {Lb : Subgroup (H ⧸ M.normalCo
         rw [htop]
         exact mem_top _
       exact this
-    · obtain ⟨k, hkK, hkM⟩ := SetLike.exists_of_lt hK
+    · obtain ⟨k, hkK, hkM⟩ := _root_.IsConcreteLE.exists_of_lt hK
       have hkM' : (k : H) ∉ M := by rwa [mem_subgroupOf] at hkM
       set K₁ := K.map L₁.subtype with hK₁
       have hMK : M ⊓ L₁ ≤ K₁ := by
@@ -555,7 +555,7 @@ theorem isL24Sz_top_of_comap_eq_top (h : Hyp24 S M A) (hO : oTwo H = ⊥)
       rw [← relIndex_top_right, ← hUD, relIndex_sup_of_normal]
       exact fun hd => hDodd (hd.trans (relIndex_dvd_card U D))
     obtain ⟨T⟩ : Nonempty (Sylow 2 U) := inferInstance
-    have hT2 : IsPGroup 2 ((T : Subgroup U).map U.subtype) := T.isPGroup'.map _
+    have hT2 : IsPGroup 2 ((T : Subgroup U).map U.subtype) := T.isPGroup.map _
     have hTi : ¬ 2 ∣ ((T : Subgroup U).map U.subtype).index := by
       rw [index_map_subtype]
       intro hd
@@ -726,7 +726,7 @@ theorem exists_isL24_or_isL24Sz_of_step_subgroup (P : ∀ (G : Type u) [Group G]
     (hquot : ∀ (G : Type u) [Group G] (N : Subgroup G) [N.Normal], P G → P (G ⧸ N))
     (step : Step24 P) {G : Type u} [Group G] [Finite G] {H : Subgroup G} (hP : P H)
     {S M A : Subgroup G} (hS : IsPGroup 2 S) (hSH : S ≤ H) (hSi : ¬ 2 ∣ S.relIndex H)
-    (hMH : M ≤ H) (hM : IsCoatom (M.subgroupOf H)) (hSM : S ≤ M) (hAS : A ≤ S)
+    (_hMH : M ≤ H) (hM : IsCoatom (M.subgroupOf H)) (hSM : S ≤ M) (hAS : A ≤ S)
     (hA : CFSG.Open.IsElemAbelian 2 A) (hAD : ∃ h ∈ H, ∃ a ∈ A, h * a * h⁻¹ ∉ M) :
     ∃ L ≤ H, IsL24 S M A L ∨ IsL24Sz S M A L := by
   have hAH : A ≤ H := hAS.trans hSH

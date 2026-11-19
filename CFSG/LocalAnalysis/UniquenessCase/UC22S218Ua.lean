@@ -20,9 +20,9 @@ theorem uc22s218u_exists_conj_commute {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hyN : y ∈ normalizer (L : Set G)) (hyL : ∀ l ∈ L, y * l * y⁻¹ * l⁻¹ ∈ O) :
     ∃ w ∈ L, w⁻¹ * y * w ∈ centralizer (A : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W : Subgroup G := O ⊔ A with hWdef
   have hWL : W ≤ L := sup_le hOL hAL
   have hOW : O ≤ W := le_sup_left
@@ -125,11 +125,11 @@ theorem uc22s218u_normalizer_le (D : Data G) {p : ℕ} (hp : p.Prime) (hp2 : p �
     (hsec : PartTwo.S19.HasL2SzSection n (normalizer (X : Set G) ⊓ D.M)) :
     normalizer (X : Set G) ≤ D.M := by
   by_contra hNM
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := normalizer (X : Set G) with hHdef
   have hHtop : H ≠ ⊤ := by
     intro htop
-    haveI : X.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+    have : X.Normal := Subgroup.normalizer_eq_top_iff.mp htop
     rcases D.standing.simple.eq_bot_or_eq_top_of_normal X with hbot | htop'
     · exact hX1 hbot
     · exact hsp.1 (eq_top_iff.mpr (htop' ▸ hXM))

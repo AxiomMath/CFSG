@@ -54,7 +54,7 @@ theorem sec11_perm_normalized [Finite G] (hp : Asc82Pre11) {t : G} {L S : Subgro
     have h2 : t * z = t * 1 := by rw [htz, ← h, ← ha, mul_one]
     exact mul_left_cancel h2
   obtain ⟨π, hπ0, hπ1⟩ := sec11_relabel_exists a (hm0.rho m a) hab
-  haveI hN : Alt.Normal := by
+  have hN : Alt.Normal := by
     rcases hAlt with rfl | rfl
     · infer_instance
     · infer_instance

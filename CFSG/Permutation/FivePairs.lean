@@ -159,7 +159,7 @@ private lemma pairGroup_eq_zpowers_sup_bk (k : Fin 5) :
   rw [hset, Set.insert_eq, Subgroup.closure_union, Subgroup.zpowers_eq_closure]
 
 private lemma fixingSubgroup_triple_le_closure_three_swaps {a b c : Fin 11}
-    (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
+    (_hab : a ≠ b) (_hac : a ≠ c) (_hbc : b ≠ c) :
     fixingSubgroup (Equiv.Perm (Fin 11)) ({a, b, c}ᶜ : Set (Fin 11)) ≤
       Subgroup.closure ({Equiv.swap a b, Equiv.swap a c, Equiv.swap b c} :
         Set (Equiv.Perm (Fin 11))) := by
@@ -304,13 +304,13 @@ private lemma mem_zpowers_pairSwap_of_mem_sk_of_apply_ten {k : Fin 5}
         by_cases hx : x ∈ ({pairFst k, pairSnd k, 10} : Set (Fin 11))
         · simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
           rcases hx with rfl | rfl | rfl
-          · rw [hsa] <;> simp
-          · rw [hsb] <;> simp
-          · rw [hs10] <;> simp
+          · rw [hsa]; simp
+          · rw [hsb]; simp
+          · rw [hs10]; simp
         · have hsx : s x = x := by
             have := (mem_fixingSubgroup_iff (Equiv.Perm (Fin 11))).mp hs x (by simpa using hx)
             simpa using this
-          rw [hsx] <;> simp
+          rw [hsx]; simp
       rw [hs_eq]
       exact Subgroup.one_mem _
     · exact absurd hsb hsb_ne10
@@ -320,9 +320,9 @@ private lemma mem_zpowers_pairSwap_of_mem_sk_of_apply_ten {k : Fin 5}
         by_cases hx : x ∈ ({pairFst k, pairSnd k, 10} : Set (Fin 11))
         · simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
           rcases hx with rfl | rfl | rfl
-          · rw [hsa, pairSwap_apply_fst] <;> simp
-          · rw [hsb, pairSwap_apply_snd] <;> simp
-          · rw [hs10, pairSwap_fixes_ten] <;> simp
+          · rw [hsa, pairSwap_apply_fst]
+          · rw [hsb, pairSwap_apply_snd]
+          · rw [hs10, pairSwap_fixes_ten]
         · simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at hx
           have hsx : s x = x := by
             have := (mem_fixingSubgroup_iff (Equiv.Perm (Fin 11))).mp hs x (by simpa using hx)
@@ -396,30 +396,30 @@ private lemma bk_isMulCommutative (k : Fin 5) :
   Subgroup.isMulCommutative_closure (pairwise_commute_pairSwap_other k)
 
 private lemma bk_isSolvable (k : Fin 5) :
-    IsSolvable (Subgroup.closure (pairSwap '' {j : Fin 5 | j ≠ k})) := by
-  haveI : IsMulCommutative (Subgroup.closure (pairSwap '' {j : Fin 5 | j ≠ k})) :=
+    Group.IsSolvable (Subgroup.closure (pairSwap '' {j : Fin 5 | j ≠ k})) := by
+  have : IsMulCommutative (Subgroup.closure (pairSwap '' {j : Fin 5 | j ≠ k})) :=
     bk_isMulCommutative k
   exact Group.instIsSolvableOfIsMulCommutative
 
 private lemma sk_isSolvable (k : Fin 5) :
-    IsSolvable (fixingSubgroup (Equiv.Perm (Fin 11))
+    Group.IsSolvable (fixingSubgroup (Equiv.Perm (Fin 11))
       ({pairFst k, pairSnd k, 10}ᶜ : Set (Fin 11))) :=
   CFSG.Permutation.TranspositionCentralizer.isSolvable_fixingSubgroup_compl_triple
     (pairFst k) (pairSnd k) 10
 
-theorem isSolvable_pairParabolic (k : Fin 5) : IsSolvable (pairParabolic k) := by
+theorem isSolvable_pairParabolic (k : Fin 5) : Group.IsSolvable (pairParabolic k) := by
   classical
   let P := pairParabolic k
   have hP : P = sk k ⊔ bk k := pairParabolic_eq_sk_sup_bk k
   have hSP : sk k ≤ P := by rw [hP]; exact le_sup_left
   have hBP : bk k ≤ P := by rw [hP]; exact le_sup_right
   have hSNormal : ((sk k).subgroupOf P).Normal := sk_subgroupOf_pairParabolic_normal k
-  have hSkSol : IsSolvable (sk k) := sk_isSolvable k
-  have hSkSubSol : IsSolvable ((sk k).subgroupOf P) := by
+  have hSkSol : Group.IsSolvable (sk k) := sk_isSolvable k
+  have hSkSubSol : Group.IsSolvable ((sk k).subgroupOf P) := by
     let e : (sk k).subgroupOf P ≃* sk k := Subgroup.subgroupOfEquivOfLe hSP
     exact @Group.isSolvable_of_surjective (sk k) ((sk k).subgroupOf P) _ _
       e.symm.toMonoidHom (MulEquiv.surjective e.symm) hSkSol
-  have hBkSol : IsSolvable (bk k) := bk_isSolvable k
+  have hBkSol : Group.IsSolvable (bk k) := bk_isSolvable k
   let f : bk k →* P ⧸ ((sk k).subgroupOf P) :=
     (QuotientGroup.mk' ((sk k).subgroupOf P)).comp (Subgroup.inclusion hBP)
   have hf : Function.Surjective f := by
@@ -438,13 +438,13 @@ theorem isSolvable_pairParabolic (k : Fin 5) : IsSolvable (pairParabolic k) := b
     change QuotientGroup.mk' ((sk k).subgroupOf P) b =
       QuotientGroup.mk' ((sk k).subgroupOf P) x
     rw [← hsb, map_mul, hsKer, one_mul]
-  have hQuotSol : IsSolvable (P ⧸ ((sk k).subgroupOf P)) :=
+  have hQuotSol : Group.IsSolvable (P ⧸ ((sk k).subgroupOf P)) :=
     @Group.isSolvable_of_surjective (bk k) (P ⧸ ((sk k).subgroupOf P)) _ _ f hf hBkSol
   exact @Group.isSolvable_of_subgroup_quotient P _ ((sk k).subgroupOf P) hSNormal hSkSubSol hQuotSol
 
 private lemma pairGroup_square_eq_one : ∀ g ∈ pairGroup, g * g = 1 := by
   intro g hg
-  haveI : IsMulCommutative pairGroup :=
+  have : IsMulCommutative pairGroup :=
     Subgroup.isMulCommutative_closure pairwise_commute_pairSwap
   refine Subgroup.closure_induction (p := fun x _ => x * x = 1) ?_ ?_ ?_ ?_ hg
   · intro x hx
@@ -536,7 +536,7 @@ private lemma orbit_ten_pairParabolic (k : Fin 5) :
         ⟨⟨pairSwap k * Equiv.swap (pairFst k) 10,
           Subgroup.mul_mem (pairParabolic k) (pairSwap_mem_pairParabolic k k)
             (extra_mem_pairParabolic k)⟩,
-          by simp [Subgroup.coe_mul, Subgroup.smul_def, Equiv.Perm.mul_apply, pairSwap_apply_fst]⟩
+          by simp [Subgroup.smul_def, Equiv.Perm.mul_apply, pairSwap_apply_fst]⟩
     · exact MulAction.mem_orbit_iff.mpr ⟨1, by simp⟩
 
 private lemma ncard_triple (k : Fin 5) :

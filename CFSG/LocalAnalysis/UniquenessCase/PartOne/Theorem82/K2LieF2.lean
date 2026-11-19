@@ -39,7 +39,7 @@ theorem outerFixed3_psp6 (hr : r.Prime) (hr3 : r ≠ 3) (h : LieModel X .PSp 3 r
   rcases hcases _ hz with h1 | h2
   · rw [h1, orderOf_one]
     simp
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h22 : orderOf (2 : ZMod 3) = 2 := orderOf_eq_prime (by decide) (by decide)
     rw [h2, h22]
     simp
@@ -75,7 +75,7 @@ theorem outerFixed3_omega7 (hr : r.Prime) (hr2 : r ≠ 2) (hr3 : r ≠ 3)
   rcases hcases _ hz with h1 | h2
   · rw [h1, orderOf_one]
     simp
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h22 : orderOf (2 : ZMod 3) = 2 := orderOf_eq_prime (by decide) (by decide)
     rw [h2, h22]
     simp
@@ -106,11 +106,11 @@ theorem outerFixed3_pomega8m (hr : r.Prime) (hr3 : r ≠ 3) (h : LieModel X .POm
     · rw [h2]
       decide
   rw [CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291OL.pRank_statedProj_OmegaMinus_formula
-    Nat.prime_three (by norm_num) (by norm_num) hirr h3, if_pos hdvd]
+    Nat.prime_three (by norm_num) (by norm_num) hirr h3, ite_eq_left hdvd]
   rcases hcases _ hz with h1 | h2
   · rw [h1, orderOf_one]
     simp
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h22 : orderOf (2 : ZMod 3) = 2 := orderOf_eq_prime (by decide) (by decide)
     rw [h2, h22]
     simp
@@ -137,10 +137,10 @@ private theorem outerFixed3_psl4_aux_rank {F : Type} [Field F] [Finite F]
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSL 4 F))) := by
   have hform := pRank_statedProj_SL_formula (F := F) (p := 3) (n := 4)
     Nat.prime_three (by norm_num) (by norm_num) hpF hdiv
-  rw [if_pos hdvd] at hform
+  rw [ite_eq_left hdvd] at hform
   rw [hform]
 
-theorem outerFixed3_psl4 (hr : r.Prime) (hq : r ^ f % 3 = 1) (h : LieModel X .PSL 4 r f) :
+theorem outerFixed3_psl4 (_hr : r.Prime) (hq : r ^ f % 3 = 1) (h : LieModel X .PSL 4 r f) :
     OuterFixed3 X := by
   intro ψ hψ hψI
   have hcl := h.statedClassicalModel_of_ne_zero (by norm_num)
@@ -189,8 +189,8 @@ private theorem outerFixed3_psl67_aux_rank {n : ℕ} {F : Type} [Field F] [Finit
   have hn1 : 1 ≤ n := by rcases hn with rfl | rfl <;> norm_num
   have hform := pRank_statedProj_SL_formula (F := F) (p := 3) (n := n)
     Nat.prime_three (by norm_num) hn1 hpF hdiv
-  rw [if_neg hndvd] at hform
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  rw [ite_eq_right hndvd] at hform
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf ((Nat.card F : ℕ) : ZMod 3) = 2 := by
     rw [hFz]
     exact orderOf_eq_prime (by decide) (by decide)
@@ -198,7 +198,7 @@ private theorem outerFixed3_psl67_aux_rank {n : ℕ} {F : Type} [Field F] [Finit
   have hn2 : n / 2 = 3 := by rcases hn with rfl | rfl <;> norm_num
   rw [hform, hn2]
 
-theorem outerFixed3_psl67 {n : ℕ} (hn : n = 6 ∨ n = 7) (hr : r.Prime) (hq : r ^ f % 3 = 2)
+theorem outerFixed3_psl67 {n : ℕ} (hn : n = 6 ∨ n = 7) (_hr : r.Prime) (hq : r ^ f % 3 = 2)
     (h : LieModel X .PSL n r f) : OuterFixed3 X := by
   intro ψ hψ hψI
   have hn0 : n ≠ 0 := by rcases hn with rfl | rfl <;> norm_num
@@ -243,10 +243,10 @@ private theorem outerFixed3_psu4_aux_rank {F : Type} [Field F] [Finite F] {r f :
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSU 4 (r ^ f) F))) := by
   have hform := pRank_statedProj_SU_formula (F := F) (p := 3) (ℓ := r) (n := 4) (q := r ^ f)
     Nat.prime_three (by norm_num) hr ⟨f, rfl⟩ (by norm_num) hFcard hpq hdiv
-  rw [if_pos hq1] at hform
+  rw [ite_eq_left hq1] at hform
   rw [hform]
 
-theorem outerFixed3_psu4 (hr : r.Prime) (hq : r ^ f % 3 = 2) (hq2 : r ^ f ≠ 2)
+theorem outerFixed3_psu4 (hr : r.Prime) (hq : r ^ f % 3 = 2) (_hq2 : r ^ f ≠ 2)
     (h : LieModel X .PSU 4 r f) : OuterFixed3 X := by
   intro ψ hψ hψI
   have hcl := h.statedClassicalModel_of_ne_zero (by norm_num)
@@ -289,9 +289,9 @@ private theorem outerFixed3_psu67_aux_rank {n : ℕ} {F : Type} [Field F] [Finit
   have hn1 : 1 ≤ n := by rcases hn with rfl | rfl <;> norm_num
   have hform := pRank_statedProj_SU_formula (F := F) (p := 3) (ℓ := r) (n := n) (q := r ^ f)
     Nat.prime_three (by norm_num) hr ⟨f, rfl⟩ hn1 hFcard hpq hdiv
-  rw [if_neg hq1] at hform
+  rw [ite_eq_right hq1] at hform
   have hord : orderOf (-(((r ^ f : ℕ)) : ZMod 3)) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hneg : (-(((r ^ f : ℕ)) : ZMod 3)) = 2 := by rw [hqz]; decide
     rw [hneg]
     exact orderOf_eq_prime (by decide) (by decide)

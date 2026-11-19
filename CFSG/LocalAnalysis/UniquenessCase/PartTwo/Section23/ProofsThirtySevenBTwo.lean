@@ -194,6 +194,7 @@ private theorem pCore_coprime_B0 {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D 
 
 end Ctx23L
 
+omit [Finite G] in
 theorem IsInnerCartanOnL.map_conj_le_inf {A K L T M : Subgroup G} {m : ℕ} {g : G}
     (hA : IsInnerCartanOnL A K L T m)
     (hKleM : K ≤ M) (hKn : (K.subgroupOf M).Normal) (hgM : g ∈ M) (hgT : g ∈ T) :
@@ -219,6 +220,7 @@ theorem IsInnerCartanOnL.odd_two_pow_sub_one {A K L T : Subgroup G} {m : ℕ}
   have hEven : Even (2 ^ m) := Nat.even_pow.mpr ⟨even_two, hm⟩
   exact Nat.Even.sub_odd Nat.one_le_two_pow hEven odd_one
 
+omit [Finite G] in
 theorem IsInnerCartanOnL.pow_card_sub_one_eq_one {A K L T : Subgroup G} {m : ℕ}
     (hA : IsInnerCartanOnL A K L T m) {a : G} (ha : a ∈ A) :
     a ^ (2 ^ m - 1) = 1 := by
@@ -236,6 +238,7 @@ private theorem IsInnerCartanOnL.odd_orderOf_conj {A K L T : Subgroup G} {m : �
   have hconj : IsConj a (g * a * g⁻¹) := isConj_iff.mpr ⟨g, rfl⟩
   exact (IsConj.orderOf_eq hconj).symm ▸ hoddA
 
+omit [Finite G] in
 theorem IsInnerCartanOnL.map_conj {A K L T M : Subgroup G} {m : ℕ} {g : G}
     (hA : IsInnerCartanOnL A K L T m)
     (hKleM : K ≤ M) (hKn : (K.subgroupOf M).Normal) (hgM : g ∈ M)
@@ -310,7 +313,7 @@ theorem orderOf_alpha_lift_dvd {K A₀ : Subgroup G} {m : ℕ}
     have h : θ (QuotientGroup.mk (l₀ ^ (2 ^ m - 1))) = 1 := by
       rw [show (QuotientGroup.mk (l₀ ^ (2 ^ m - 1)) : Bar2 c.L) =
           (QuotientGroup.mk l₀) ^ (2 ^ m - 1) from by
-        simpa using map_pow (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L)) l₀ (2 ^ m - 1),
+        simp,
         hl₀]
       exact hθz
     rwa [hθmk, map_pow] at h
@@ -342,7 +345,7 @@ theorem commutator_mem_P_of_mem_zpowers (h4 : S23_4 D Ch) (h23 : S23_23 D Ch)
 theorem alpha_conj_pow_mul {a₀ : G} (hL : a₀ ∈ Subgroup.normalizer (c.L : Set G))
     {ℓ₀ : Bar2 c.L} {l₀ : ↥c.L} (hl₀ : QuotientGroup.mk l₀ = ℓ₀)
     (hθ₀ : InducedBar c.L a₀ (MulAut.conj ℓ₀)) (t : ↥c.L) (k : ℕ)
-    (bL : ↥c.L) (hb : bL ∈ c.B0.subgroupOf c.L)
+    (bL : ↥c.L) (_hb : bL ∈ c.B0.subgroupOf c.L)
     (hxL : (((t : G) * a₀ * (t : G)⁻¹) ^ k * (bL : G) *
       (((t : G) * a₀ * (t : G)⁻¹) ^ k)⁻¹) ∈ c.L) :
     X.κ.α ⟨((t : G) * a₀ * (t : G)⁻¹) ^ k * (bL : G) *
@@ -452,8 +455,8 @@ private theorem P_commutator_mem_zpowers_B0 (h4 : S23_4 D Ch) (h23 : S23_23 D Ch
 
 private theorem isMulCommutative_map_B0 :
     IsMulCommutative ↥((c.B0.subgroupOf c.L).map X.κ.α) := by
-  haveI : IsMulCommutative ↥c.B0 := c.hB0.2.1
-  haveI : IsMulCommutative ↥(c.B0.subgroupOf c.L) :=
+  have : IsMulCommutative ↥c.B0 := c.hB0.2.1
+  have : IsMulCommutative ↥(c.B0.subgroupOf c.L) :=
     Subgroup.subgroupOf_isMulCommutative c.L c.B0
   exact Subgroup.map_isMulCommutative (c.B0.subgroupOf c.L) X.κ.α
 
@@ -589,6 +592,7 @@ end B2Data
 
 end Ctx23L
 
+omit [Finite G] in
 private theorem commutator_map_conj_eq_bot {A B : Subgroup G} {g a : G}
     (hgen : Subgroup.zpowers a = A)
     (hcomm : ∀ b ∈ B, (g * a * g⁻¹) * b = b * (g * a * g⁻¹)) :

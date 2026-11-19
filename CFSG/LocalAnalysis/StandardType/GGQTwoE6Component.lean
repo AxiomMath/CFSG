@@ -48,6 +48,7 @@ theorem exists_diagonal_of_mem_langCube {g : ModGL Tag.E6 (AlgebraicClosure K)}
   · rw [hbase]
     group
 
+omit [Finite K] in
 theorem fullThreeTorus_eq_cubeTorus
     (T : LangSetup Tag.E6 (AlgebraicClosure K) 5) (hq : T.D.q = 2)
     (hρ : ∀ γ, IsRoot Tag.E6 γ → T.ρ γ = -γ) :
@@ -247,8 +248,8 @@ theorem exists_original_rational_component
   obtain ⟨K, instF, instFin, σ, hK1, hσ1, θ₀, hN, S, Fr, hFr, g, hK4, hσ2,
     hSdef, hSEA, hScard, hg, hgn, hSlang, _⟩ :=
     actual_beta_langCube_of_marking hS hp3 hq2 htag hmark hidx hr
-  letI : Field K := instF
-  letI : Finite K := instFin
+  let : Field K := instF
+  let : Finite K := instFin
   let e := centerQuotEquivOfBot (exceptional_fixed_center_trivial TwistTag.E6 K σ)
   let θ := θ₀.trans e
   have hbeta : (ggBeta L θ₀ hN).range.map (MulAut.congr e).toMonoidHom =
@@ -267,7 +268,7 @@ theorem exists_original_rational_component
       rfl
   obtain ⟨b, w, hb, haw, hwb⟩ := exists_diagonal_of_mem_langCube hK1 σ hσ1 Fr hFr
     (hSlang haS)
-  haveI : CharP K 2 := charP_two_of_card (m := 2) (by rw [hK4]; norm_num)
+  have : CharP K 2 := charP_two_of_card (m := 2) (by rw [hK4]; norm_num)
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   have hlang : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g =
       g * canonicalRep (coxeterSystem Tag.E6) (AlgebraicClosure K) twE6W0 :=
@@ -315,7 +316,7 @@ theorem exists_original_rational_component
       apply hι
       simpa [h] using hact' c
     exact hd1 ha1
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpL : (3 : AlgebraicClosure K) ≠ 0 := by
     have h2 : (2 : AlgebraicClosure K) = 0 := CharP.cast_eq_zero _ 2

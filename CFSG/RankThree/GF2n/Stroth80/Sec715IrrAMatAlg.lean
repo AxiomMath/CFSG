@@ -67,7 +67,7 @@ variable {K : Type*} [Field K]
 theorem rootN_mul_self (f : Fin 2 → K) : rootN f * rootN f = 0 := by
   ext i j
   simp only [rootN, Matrix.mul_apply, Matrix.of_apply, Fin.sum_univ_two, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Matrix.zero_apply]
+    Matrix.cons_val_one, Matrix.zero_apply]
   ring
 
 theorem exists_rows_of_mulVec_eq_zero {f : Fin 2 → K} (hf : f ≠ 0)
@@ -78,15 +78,14 @@ theorem exists_rows_of_mulVec_eq_zero {f : Fin 2 → K} (hf : f ≠ 0)
     apply hf
     have h0 := congrFun h 0
     have h1 := congrFun h 1
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Pi.zero_apply,
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Pi.zero_apply,
       neg_eq_zero] at h0 h1
     funext i
     fin_cases i
     · exact h1
     · exact h0
   have hfa : f ⬝ᵥ (![f 1, -f 0] : Fin 2 → K) = 0 := by
-    simp only [dotProduct, Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons]
+    simp only [dotProduct, Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one]
     ring
   have hrow : ∀ i, ∃ c : K, (fun j => N i j) = c • (![f 1, -f 0] : Fin 2 → K) := by
     intro i
@@ -123,7 +122,7 @@ theorem exists_eq_smul_rootN {f : Fin 2 → K} (hf : f ≠ 0) {N : Matrix (Fin 2
         apply hf
         have h0 := congrFun h' 0
         have h1 := congrFun h' 1
-        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Pi.zero_apply,
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Pi.zero_apply,
           neg_eq_zero] at h0 h1
         funext i
         fin_cases i
@@ -138,15 +137,14 @@ theorem exists_eq_smul_rootN {f : Fin 2 → K} (hf : f ≠ 0) {N : Matrix (Fin 2
       rw [hNe, Matrix.zero_apply] at h2
       exact (mul_eq_zero.mp h2).resolve_right hj
   have hfa : (![f 1, -f 0] : Fin 2 → K) ⬝ᵥ f = 0 := by
-    simp only [dotProduct, Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons]
+    simp only [dotProduct, Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one]
     ring
   have ha0 : (![f 1, -f 0] : Fin 2 → K) ≠ 0 := by
     intro h'
     apply hf
     have h0 := congrFun h' 0
     have h1 := congrFun h' 1
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Pi.zero_apply,
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Pi.zero_apply,
       neg_eq_zero] at h0 h1
     funext i
     fin_cases i

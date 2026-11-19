@@ -30,7 +30,7 @@ theorem ggF4Small_e6_false
       rw [h, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hc
       exact absurd hc hab
     · exact h
-  haveI : Group.IsPerfect G := ⟨hperf⟩
+  have : Group.IsPerfect G := ⟨hperf⟩
   have hx1 : x ≠ 1 := by
     rintro rfl
     simp at hx

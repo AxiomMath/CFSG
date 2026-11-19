@@ -362,7 +362,7 @@ theorem commutator_lBarA_eq (h : Sec13Data G A c L) (hEN : E ≤ Subgroup.normal
     rw [← h₁, ← h₂, ← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext (hEc _ (Subgroup.mem_subgroupOf.mp hn₁) _ (Subgroup.mem_subgroupOf.mp hn₂))
-  letI : IsMulCommutative Eb := hEcomm
+  let : IsMulCommutative Eb := hEcomm
   refine le_antisymm (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup) ?_
   have hΛp : Group.IsPerfect Λ := by
     have := isPerfect_lBar h

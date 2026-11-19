@@ -118,12 +118,13 @@ theorem sup_inf_centralizer_eq (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fiftee
     have hcard := CFSG.OddStandard.AltStdSec.SwapPartner.card_le_card_inf_centralizer_mul
       (U ⊔ V₀) (conjSubgroup V₀ h) v₂ hcomm
     rw [← hU'eq, E3.card_conjSubgroup, hcardUV] at hcard
-    haveI : Nonempty ↥V₀ := ⟨⟨1, V₀.one_mem⟩⟩
+    have : Nonempty ↥V₀ := ⟨⟨1, V₀.one_mem⟩⟩
     exact Nat.le_of_mul_le_mul_right hcard Nat.card_pos
   refine Subgroup.eq_of_le_of_card_ge (sup_le inf_le_left le_sup_right) ?_
   rw [hcardUV, hcardU'V]
   exact Nat.mul_le_mul_right _ hcard_le
 
+omit [Finite G] in
 theorem eq_sup_zpowers_of_mem_centralizer (c : Cfg1620 M V₀ V U S R H g B) {b y : G}
     (hb : b ∈ R ⊓ (F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G))) (hyH : y ∈ H) (hyM : y ∉ M)
     (hyC : y ∈ centralizer (conjSubgroup U b : Set G)) : R ⊔ Subgroup.zpowers y = H := by

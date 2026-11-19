@@ -26,6 +26,7 @@ private theorem frob4P_sylow_conj {p : ℕ} [Fact p.Prime] {P K R : Subgroup G}
   have h := (hconj g).mp hgmap
   simpa using h
 
+omit [Finite G] in
 private theorem frob4P_exists_isSylowOf_ge_of_le {p : ℕ} [Fact p.Prime] {Q K : Subgroup G}
     (hQK : Q ≤ K) (hQ : IsPGroup p Q) : ∃ P : Subgroup G, IsSylowOf p P K ∧ Q ≤ P := by
   have hQ' : IsPGroup p (Q.subgroupOf K) := hQ.comap_subtype
@@ -180,7 +181,7 @@ theorem frob4P_isSylowOf_centralizer [Fact p.Prime] (hG : FrobGlobal G) (hl : Fr
     intro u hu
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact Subgroup.mem_centralizer_iff.mp hdL u hu.2
-  have hUp : IsPGroup p (frU P x) := P.isPGroup'.to_inf_left
+  have hUp : IsPGroup p (frU P x) := P.isPGroup.to_inf_left
   obtain ⟨P', hP'syl, hUP'⟩ := frob4P_exists_isSylowOf_ge_of_le hUleCd hUp
   have hP'p : IsPGroup p P' := hP'syl.isPGroup
   have hP'C : P' ≤ centralizer ({d} : Set G) := hP'syl.le
@@ -231,7 +232,7 @@ theorem frob4P_isSylowOf_centralizer [Fact p.Prime] (hG : FrobGlobal G) (hl : Fr
     · exfalso
       let Z0 : Subgroup G := (P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G)
       have hzZ0 : z ∈ Z0 := hzZ
-      have hZ0p : IsPGroup p Z0 := P.isPGroup'.to_inf_left
+      have hZ0p : IsPGroup p Z0 := P.isPGroup.to_inf_left
       obtain ⟨k, hk⟩ := hZ0p.exists_card_eq
       have hdvd : orderOf z ∣ p ^ k := by
         rw [← hk]

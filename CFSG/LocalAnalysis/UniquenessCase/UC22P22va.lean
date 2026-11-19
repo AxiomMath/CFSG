@@ -16,7 +16,7 @@ open CFSG.Open Subgroup
 private theorem uc22p22va_exists_noncyclic_sylow {F : Type*} [Group F] [Finite F] [Group.IsNilpotent F]
     (hnc : ¬ IsCyclic F) : ∃ q : ℕ, q.Prime ∧ ∃ S : Sylow q F, ¬ IsCyclic ↥(S : Subgroup F) := by
   by_contra h
-  haveI : IsZGroup F := ⟨fun q hq S => by_contra fun hS => h ⟨q, hq, S, hS⟩⟩
+  have : IsZGroup F := ⟨fun q hq S => by_contra fun hS => h ⟨q, hq, S, hS⟩⟩
   exact hnc inferInstance
 
 private theorem uc22p22va_exists_normal_noncyclic {H : Type} [Group H] [Finite H]
@@ -33,21 +33,21 @@ private theorem uc22p22va_exists_normal_noncyclic {H : Type} [Group H] [Finite H
       ((CFSG.fittingSubgroup ↥N).equivMapOfInjective N.subtype N.subtype_injective).trans
         (MulEquiv.subgroupCongr h)
     exact hF (isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective)
-  haveI hFn : F.Normal := inferInstance
-  haveI hFnil : Group.IsNilpotent ↥F := by
-    haveI : Group.IsNilpotent ↥(CFSG.fittingSubgroup H) := inferInstance
+  have hFn : F.Normal := inferInstance
+  have hFnil : Group.IsNilpotent ↥F := by
+    have : Group.IsNilpotent ↥(CFSG.fittingSubgroup H) := inferInstance
     exact Group.nilpotent_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe (inf_le_right : F ≤ CFSG.fittingSubgroup H))
   obtain ⟨q, hq, S, hS⟩ := uc22p22va_exists_noncyclic_sylow hFcyc
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hle : (S : Subgroup ↥F).map F.subtype ≤ CFSG.pCore q H := Sylow.map_le_pCore hFn hFnil q S
   refine ⟨q, CFSG.pCore q H ⊓ N, hq, inferInstance, (CFSG.pCore_isPGroup).to_le inf_le_left, ?_,
     inf_le_right⟩
   intro hRc
   have hSR : (S : Subgroup ↥F).map F.subtype ≤ CFSG.pCore q H ⊓ N :=
     le_inf hle ((Subgroup.map_subtype_le _).trans inf_le_left)
-  haveI := hRc
-  haveI : IsCyclic ↥((S : Subgroup ↥F).map F.subtype) := Subgroup.isCyclic_of_le hSR
+  have := hRc
+  have : IsCyclic ↥((S : Subgroup ↥F).map F.subtype) := Subgroup.isCyclic_of_le hSR
   exact hS (isCyclic_of_surjective
     ((S : Subgroup ↥F).equivMapOfInjective F.subtype F.subtype_injective).symm.toMonoidHom
     (MulEquiv.surjective _))
@@ -63,7 +63,7 @@ theorem uc22p22va_exists_minimal_calQ {Hh : Type} [Group Hh] [Finite Hh]
     rintro rfl
     have hRbot : R ≤ ⊥ := hO2 ▸ le_sSup ⟨hRn, hRq⟩
     exact hRnc (Subgroup.isCyclic_of_le hRbot)
-  haveI := hRn
+  have := hRn
   obtain ⟨P₀, hP₀R, hP₀n, hP₀exp, hP₀cl, hP₀nc, -⟩ := uc22p22r_exists_omega_two hq hq2 R hRq hRnc
   have hRN' : R ≤ ⁅(⊤ : Subgroup Hh), (⊤ : Subgroup Hh)⁆ := by
     rw [← _root_.commutator_def]; exact hRN

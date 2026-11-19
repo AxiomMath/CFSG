@@ -38,7 +38,7 @@ theorem d4FieldFour_of (h2 : D4FourRank) : D4FieldFour := by
     ⟨⟨hr, hf, le_refl 4⟩, K, inferInstance, inferInstance, hK, ⟨e0⟩⟩
   obtain ⟨hQ, hab, hidx⟩ := coordinate_facts_four hm K hK e0
   have hQv := exists_nonzero_value (coordinateQuadPlus 4 K) hQ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy1 : y ≠ 1 := fun h => hyI (h ▸ (Inn (D4Model K)).one_mem)
   have hord : orderOf y = 3 := orderOf_eq_prime hy3 hy1
   have hnotlin : y ∉ (linearConjugationHom (coordinateQuadPlus 4 K)).range := fun hL =>

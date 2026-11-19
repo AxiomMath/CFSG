@@ -12,8 +12,8 @@ open scoped commutatorElement
 theorem s16c13bc_commute_of_perfect {Γ : Type*} [Group Γ] {L Z : Subgroup Γ} {p : ℕ}
     (hp : p.Prime) (hL : _root_.commutator ↥L = ⊤) (hZc : Nat.card Z = p)
     (hZn : ∀ m ∈ L, ∀ x ∈ Z, m * x * m⁻¹ ∈ Z) : ∀ m ∈ L, ∀ x ∈ Z, m * x = x * m := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic Z := isCyclic_of_prime_card hZc
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic Z := isCyclic_of_prime_card hZc
   have hLN : L ≤ Subgroup.normalizer (Z : Set Γ) := by
     intro m hm
     rw [Subgroup.mem_normalizer_iff]
@@ -47,7 +47,7 @@ theorem s16c13bc_map_conj_mul {Γ : Type*} [Group Γ] (A : Subgroup Γ) (x y : �
 theorem s16c13bc_map_conj_one {Γ : Type*} [Group Γ] (A : Subgroup Γ) :
     A.map (MulAut.conj (1 : Γ)).toMonoidHom = A := by
   ext z
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 theorem s16c13bc_map_conj_cancel {Γ : Type*} [Group Γ] (A : Subgroup Γ) (x : Γ) :
     (A.map (MulAut.conj x).toMonoidHom).map (MulAut.conj x⁻¹).toMonoidHom = A := by

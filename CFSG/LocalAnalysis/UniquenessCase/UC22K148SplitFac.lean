@@ -41,7 +41,7 @@ theorem nonempty_sup_zpowers_mulEquiv_perm_three [Finite G] {Q K : Subgroup G} {
     (hQ3 : Nat.card ↥Q = 3) (hb : ∀ x ∈ Q, b * x * b⁻¹ = x⁻¹) (hb2 : b * b = 1)
     (hQK : ∀ x ∈ Q, ∀ k ∈ K, x * k = k * x) (hr2 : r * r = 1) (hr1 : r ≠ 1) (hrb : r * b ∈ K) :
     Nonempty (↥(Q ⊔ Subgroup.zpowers r) ≃* Equiv.Perm (Fin 3)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, hq⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top Q).1 (isCyclic_of_prime_card hQ3)
   have hq3 : orderOf q = 3 := by rw [← Nat.card_zpowers, hq, hQ3]
   have hqQ : q ∈ Q := hq ▸ Subgroup.mem_zpowers q
@@ -62,10 +62,10 @@ theorem hasFactors148_of_split [Finite G] [Finite V] (hO : CFSG.pCore 2 G = ⊥)
     (hMn : (N ⊔ Subgroup.zpowers r).Normal)
     (hMK : (N ⊔ Subgroup.zpowers r) ⊓ cenOn ρ ⊤ (commOn ρ N ⊤) = ⊥)
     (hMKsup : (N ⊔ Subgroup.zpowers r) ⊔ cenOn ρ ⊤ (commOn ρ N ⊤) = ⊤)
-    (hMc : ∀ m ∈ N ⊔ Subgroup.zpowers r, ∀ k ∈ cenOn ρ ⊤ (commOn ρ N ⊤), m * k = k * m)
+    (hMc : ∀ m ∈ N ⊔ Subgroup.zpowers r, ∀ _k ∈ cenOn ρ ⊤ (commOn ρ N ⊤), m * _k = _k * m)
     (hfM : IsFactor148 (N ⊔ Subgroup.zpowers r)) : HasFactors148 G :=
   hasFactors148_of_prod hO hρ hshape hH IH hMn (cenOn_commOn_normal hN) hMK hMKsup hMc
     (fun h => hN1 (le_bot_iff.1 (h ▸ le_sup_left))) hfM (commOn_sup_zpowers_le hN hcod hr2)
-    fun k hk x hx => hk.2 x hx
+    fun _k hk x hx => hk.2 x hx
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.K148

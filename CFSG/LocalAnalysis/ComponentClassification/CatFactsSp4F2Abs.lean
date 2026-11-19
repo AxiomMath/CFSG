@@ -47,7 +47,7 @@ theorem exists_inner_normalizing {I : Subgroup G} [I.Normal] {a : G} (ha2 : a * 
   set C := N ⊓ centralizer ({a} : Set G) with hC
   obtain ⟨T, hT⟩ := hQS
   have hQ2 : IsPGroup 2 Q := by
-    have h := T.isPGroup'
+    have h := T.isPGroup
     rw [hT] at h
     exact h.of_equiv (subgroupOfEquivOfLe hQC)
   have haC : a ∈ C := ⟨mem_sup_right (mem_zpowers a), mem_centralizer_singleton_iff.mpr rfl⟩

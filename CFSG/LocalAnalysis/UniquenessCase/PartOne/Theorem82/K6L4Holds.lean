@@ -61,8 +61,8 @@ theorem model_sl {Y : Type} [Group Y] [Finite Y] {r : ℕ} (hZ : Subgroup.center
         π.ker = (StatedScalars (Fin 4) K).subgroupOf (StatedSL 4 K) := by
   obtain ⟨-, K, hK, hfin, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (t := .PSL) (by decide)
   rw [pow_one] at hcard
-  letI := hK
-  letI := hfin
+  let := hK
+  let := hfin
   let N : Subgroup (StatedSL 4 K) := (StatedScalars (Fin 4) K).subgroupOf (StatedSL 4 K)
   let eqY : (Y ⧸ Subgroup.center Y) ≃* Y :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -89,8 +89,8 @@ theorem model_su {Y : Type} [Group Y] [Finite Y] {r : ℕ} (hZ : Subgroup.center
       Nat.card K = r ^ 2 ∧ TwoQuot π ∧
         π.ker = (StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 r K) := by
   obtain ⟨-, K, hK, hfin, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (t := .PSU) (by decide)
-  letI := hK
-  letI := hfin
+  let := hK
+  let := hfin
   have hcard' : Nat.card K = r ^ 2 := by simpa only [pow_one] using hcard
   have hSU : StatedSU 4 (r ^ 1) K = StatedSU 4 r K := by rw [pow_one]
   have he : Nonempty ((Y ⧸ Subgroup.center Y) ≃* StatedProj (StatedSU 4 r K)) := by
@@ -129,7 +129,7 @@ theorem center_eq_bot {Y : Type} [Group Y] [Finite Y] {r : ℕ} (hY : IsLie811 Y
     rcases hm with ⟨-, hm⟩ | ⟨-, hm⟩
     · exact Or.inl hm
     · exact Or.inr ⟨hm, by rw [pow_one]; omega⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp h2
   have hk0 : k = 0 := by
     by_contra hne

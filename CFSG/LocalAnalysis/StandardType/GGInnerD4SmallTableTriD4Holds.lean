@@ -95,14 +95,14 @@ private theorem ltrsm7_finite_triD4R
     (n : ℕ) (K : Type) [Field K] [Finite K]
     (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 3) :
     Finite (GGTriD4R n K) := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (k := n * 3) (by omega) (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n :=
     fun c => by rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
   obtain ⟨e⟩ := nonempty_triD4_equiv hn K hK σ hσ
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   exact Finite.of_equiv _ e.symm.toEquiv
 
 private theorem ltrsm7_labelOf_triD4_recipe (n : ℕ) (K : Type) [Field K] [Finite K]
@@ -131,8 +131,7 @@ private theorem ltrsm7_innerComp_even
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   refine recipeTwisted_and (m := 3) (n := n)
     (P := LargeEvenSimpleGuard (ltrsm7_TriD4SmallProp ⟨.triD4, 0, n⟩)) ?_ hQ
-  intro K _ _ hKcard
-  intro hS hna τ hτ hτ3 hτ1 L hL
+  intro K _ _ hKcard hS hna τ hτ hτ3 hτ1 L hL
   obtain ⟨s, hs⟩ := chevIDImage_subset_inn_triD4 hn K hKcard hτ
   have hfix : ggAutFixedSubgroup τ =
       Subgroup.centralizer ({s} : Set (GGTriD4R n K)) := by
@@ -164,7 +163,7 @@ private theorem ltrsm7_innerComp_even
           (Nat.not_even_iff_odd.mp hne)) hdiv
     have hA2 : A2Label n = (⟨.A, 2, n⟩ : LargeEvenLabel) := by
       unfold A2Label
-      rw [if_pos heven]
+      rw [ite_eq_left heven]
     refine ⟨A2Label n, ?_, ?_, ?_⟩
     · rw [hA2]
       exact ⟨by simpa using hn, by norm_num, fun _ => by simpa using h2⟩
@@ -181,8 +180,7 @@ private theorem ltrsm7_innerComp_odd
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   refine recipeTwisted_and (m := 3) (n := n)
     (P := LargeEvenSimpleGuard (ltrsm7_TriD4SmallProp ⟨.triD4, 0, n⟩)) ?_ hQ
-  intro K _ _ hKcard
-  intro hS hna τ hτ hτ3 hτ1 L hL
+  intro K _ _ hKcard hS hna τ hτ hτ3 hτ1 L hL
   have hn : 1 ≤ n := by omega
   obtain ⟨s, hs⟩ := chevIDImage_subset_inn_triD4 hn K hKcard hτ
   have hfix : ggAutFixedSubgroup τ =
@@ -212,7 +210,7 @@ private theorem ltrsm7_innerComp_odd
       intro y
       exact Subgroup.mem_centralizer_iff.mp hmem y (Subgroup.mem_top y)
     rwa [hZ, Subgroup.mem_bot] at this
-  haveI : Finite (GGTriD4R n K) := ltrsm7_finite_triD4R n K hn hKcard
+  have : Finite (GGTriD4R n K) := ltrsm7_finite_triD4R n K hn hKcard
   rcases htri (GGTriD4R n K) ⊤ L s (⟨.triD4, 0, n⟩ : LargeEvenLabel)
       hlabelOf rfl hodd hn3 hZtop (Subgroup.le_normalizer (Subgroup.mem_top s)) hs3 hbC hcomp with
     ⟨hnot, -⟩ | ⟨-, hin⟩
@@ -225,7 +223,7 @@ private theorem ltrsm7_innerComp_odd
       exact CFSG.StandardType.TCJ.tcj_ggHasLabel_of_hasLabel hA1
     · have hA2 : A2Label n = (⟨.twA, 2, n⟩ : LargeEvenLabel) := by
         unfold A2Label
-        rw [if_neg hnotEven]
+        rw [ite_eq_right hnotEven]
       refine ⟨A2Label n, ?_, ?_, ?_⟩
       · rw [hA2]
         exact ⟨by simpa using hn, by norm_num, fun _ => by show 2 ≤ n; omega⟩

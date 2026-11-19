@@ -146,7 +146,7 @@ theorem finrank_ker_weylMatrix_sub_one_of_a2
     rw [Submodule.mem_span_range_iff_exists_fun]
     refine ⟨![(3 : L)⁻¹ * ∑ j, (m j : L) * d j, (3 : L)⁻¹ * ∑ j, (n j : L) * d j], ?_⟩
     rw [Fin.sum_univ_two]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [mul_smul, mul_smul, ← smul_add, ← h3d, smul_smul, inv_mul_cancel₀ h3, one_smul]
   rw [le_antisymm hle2 hle1, finrank_span_eq_card hli, Fintype.card_fin]
 
@@ -171,7 +171,7 @@ private theorem fd_rootVec_eq_smul {τ : Tag} {L : Type} [Field L] {β β' : Fin
   · exfalso
     rw [FourGroupChevalley.rootVec_eq_single hβ, FourGroupChevalley.rootVec_eq_single hβ'] at h
     have := congrArg (fun v : RootModule τ L => v (Sum.inr ⟨β, hβ⟩)) h
-    simp [Finsupp.single_apply, hb] at this
+    simp [hb] at this
 
 private theorem fd_eq_one_of_sq_cube {L : Type} [Field L] {z : L} (h2 : z ^ 2 = 1)
     (h3 : z ^ 3 = 1) : z = 1 := by

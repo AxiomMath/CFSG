@@ -20,9 +20,9 @@ private lemma lr2opsp_bound {r f : ℕ} (h7 : ¬ 7 ∣ f)
         Induces (QuotientGroup.mk' ((StatedScalars (Fin r ⊕ Fin r) K).subgroupOf (StatedSp r K)))
           (natRep (StatedSp r K)) s α) :
     (Nat.card (MulAut R)).factorization 7 ≤ (Nat.card R).factorization 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   have hcardAutField : Nat.card (K ≃+* K) = f := by
     let e : (K ≃+* K) ≃* (K ≃ₐ[ZMod 2] K) :=
       { toFun := fun σ => AlgEquiv.ofRingEquiv (f := σ) fun x =>
@@ -42,8 +42,8 @@ private lemma lr2opsp_bound {r f : ℕ} (h7 : ¬ 7 ∣ f)
     rw [QuotientGroup.ker_mk',
       CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot, Subgroup.card_bot]
     norm_num
-  haveI : Nonempty (Fin r) := ⟨⟨0, by omega⟩⟩
-  haveI : Nontrivial (Fin r ⊕ Fin r → K) := Function.nontrivial
+  have : Nonempty (Fin r) := ⟨⟨0, by omega⟩⟩
+  have : Nontrivial (Fin r ⊕ Fin r → K) := Function.nontrivial
   have hlin : ∀ s : Equiv.Perm (Fin r ⊕ Fin r → K),
       s ∈ semilinGroup K (Fin r ⊕ Fin r → K) → SemiIso (spForm r K) s →
       (∀ (c : K) (v : Fin r ⊕ Fin r → K), s (c • v) = c • s v) →
@@ -102,20 +102,20 @@ private lemma lr2opsp_bound {r f : ℕ} (h7 : ¬ 7 ∣ f)
 open CFSG.LieType.ChevTwo.OppCl CFSG.LieType.BorelTits in
 theorem ord7Param_PSp {r f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .PSp r 2 f := by
   intro R _ _ hR hmodel
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hSC : StatedClassicalModel R .PSp r 2 f :=
     LieModel.statedClassicalModel hmodel (by decide)
   obtain ⟨hadm, hKdata⟩ := hSC
   obtain ⟨h2prime, hf1, hr2, hnot⟩ := hadm
   by_cases hr3 : 3 ≤ r
   · obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hKdata
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hKft : Fintype.card K = 2 ^ f := by
       rw [← Nat.card_eq_fintype_card]; exact hKcard
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hKft
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hKft
     have hind : ∀ R' : Subgroup (MulAut (StatedProj (StatedSp r K))), IsPGroup 7 R' →
         ∀ α ∈ R', ∃ s : Equiv.Perm (Fin r ⊕ Fin r → K),
           s ∈ semilinGroup K (Fin r ⊕ Fin r → K) ∧ SemiIso (spForm r K) s ∧
@@ -123,7 +123,7 @@ theorem ord7Param_PSp {r f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .PSp r 2 f := by
             ((StatedScalars (Fin r ⊕ Fin r) K).subgroupOf (StatedSp r K)))
             (natRep (StatedSp r K)) s α := by
       intro R' hR' α hα
-      exact induced_PSp K 7 (by norm_num) r hr3 R' hR' α hα
+      exact induced_PSp K 7 r hr3 R' hR' α hα
     exact lr2opsp_bound h7 K hKcard R e hr2 hind
   · have hr_eq : r = 2 := by omega
     subst r
@@ -133,13 +133,13 @@ theorem ord7Param_PSp {r f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .PSp r 2 f := by
       rw [hf1eq, pow_one]
     have hf2 : 2 ≤ f := by omega
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hKdata
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hKft : Fintype.card K = 2 ^ f := by
       rw [← Nat.card_eq_fintype_card]; exact hKcard
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hKft
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hKft
     have hF : 4 ≤ Nat.card K := by
       rw [hKcard]
       have hpow : 2 ^ 2 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2

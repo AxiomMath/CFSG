@@ -13,6 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_exists_signChange_eq {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (g : OGroup Q)
     (hdiag : ∀ o, ∃ s : ZMod 3, s * s = 1 ∧
@@ -33,9 +34,9 @@ theorem fg_exists_signChange_eq {ι : Type} [Fintype ι] [DecidableEq ι] {c : �
   rw [fr.signChange_basis, hgs o]
   rcases hs' o with h | h
   · have hn : o ∉ Finset.univ.filter (fun o => s o = -1) := by simp [h, h13]
-    rw [if_neg hn, h, one_smul]
+    rw [ite_eq_right hn, h, one_smul]
   · have hm : o ∈ Finset.univ.filter (fun o => s o = -1) := by simp [h]
-    rw [if_pos hm, h, neg_one_smul]
+    rw [ite_eq_left hm, h, neg_one_smul]
 
 theorem fg_eq_ffB0p (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) ffC)
     (B : Subgroup (OGroup Q)) (hΩ : B ≤ omegaGroup hQ) (hcard : Nat.card B = 16)
@@ -55,9 +56,10 @@ theorem fg_eq_ffB0p (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) ffC)
     refine ⟨J, hnone, ?_, hJ⟩
     have h2 := hmem.2
     rwa [Finset.erase_eq_of_notMem hnone] at h2
-  haveI : Finite ↥(ffB0p fr) := Nat.finite_of_card_ne_zero (by rw [ffB0p_card]; norm_num)
+  have : Finite ↥(ffB0p fr) := Nat.finite_of_card_ne_zero (by rw [ffB0p_card]; norm_num)
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [ffB0p_card, hcard])
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_polar_sim {ρ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ} (hρ : IsSimilitude Q ρ c) (x y : V) :
     QuadraticMap.polar Q (ρ x) (ρ y) = (c : ZMod 3) * QuadraticMap.polar Q x y := by
   simp only [QuadraticMap.polar]

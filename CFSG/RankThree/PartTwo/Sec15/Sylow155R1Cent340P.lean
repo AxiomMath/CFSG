@@ -18,7 +18,7 @@ theorem res1340_le_of_inf_normalizer_le {p : ℕ} [Fact p.Prime] {R Z : Subgroup
     (hR : IsPGroup p R) (hZ : IsPGroup p Z) (hRZ : R ≤ Subgroup.normalizer (Z : Set G))
     (h : Z ⊓ Subgroup.normalizer (R : Set G) ≤ R) : Z ≤ R := by
   have hHp : IsPGroup p ↥(R ⊔ Z) := IsPGroup.to_sup_of_normal_right' hR hZ hRZ
-  haveI : Group.IsNilpotent ↥(R ⊔ Z) := hHp.isNilpotent
+  have : Group.IsNilpotent ↥(R ⊔ Z) := hHp.isNilpotent
   have hself : Subgroup.normalizer ((R.subgroupOf (R ⊔ Z) : Subgroup ↥(R ⊔ Z)) : Set ↥(R ⊔ Z)) =
       R.subgroupOf (R ⊔ Z) := by
     refine le_antisymm (fun x hx => ?_) Subgroup.le_normalizer
@@ -50,7 +50,7 @@ theorem le_pCoreOf_of_competing (τ : Res1Tau Q P A c L X K Y M T P' Yc z)
     (hN : n155 A K ≤ Subgroup.normalizer (K : Set G)) {M' Z : Subgroup G}
     (hC' : Ctx155 A X K Y M' T) (hZ2 : IsPGroup 2 Z) (hZQ : Z ∈ scriptQ A (lB A))
     (hYZ : Y ≤ Subgroup.normalizer (Z : Set G)) (hZM : Z ≤ M') : Z ≤ CFSG.Open.pCoreOf 2 Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := CFSG.Open.pCoreOf 2 Y with hR
   have hY3 : Y ∈ scriptY3 A (lB A) := τ.ctx.isY.1
   have hR2 : IsPGroup 2 R := CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) Y

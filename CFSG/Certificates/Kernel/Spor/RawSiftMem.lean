@@ -19,14 +19,14 @@ theorem mem_Gen_of_siftA (hd : Hd n S base kO W) : ∀ d l, base.size - l = d �
   | zero =>
     intro l hl g G hg h
     have hls : ¬ l < (rawLevels n S base).size := by rw [chainLevels_size]; omega
-    rw [siftA, dif_neg hls] at h
+    rw [siftA, dite_eq_right hls] at h
     rw [eq_of_eqA hg rep_idA h]
     exact Subgroup.one_mem _
   | succ d ih =>
     intro l hl g G hg h
     have hlb : l < base.size := by omega
     have hls : l < (rawLevels n S base).size := by rw [chainLevels_size]; exact hlb
-    rw [siftA, dif_pos hls, chainLevels_getElem hls] at h
+    rw [siftA, dite_eq_left hls, chainLevels_getElem hls] at h
     simp only [Bool.and_eq_true, decide_eq_true_eq] at h
     obtain ⟨hk, h⟩ := h
     have hT := (tr_spec hd hlb _ hk).1.1

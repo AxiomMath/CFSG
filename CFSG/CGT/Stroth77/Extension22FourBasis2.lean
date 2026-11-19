@@ -12,6 +12,7 @@ open scoped IsMulCommutative
 
 variable {S : Type*} [Group S] [Finite S] {B C S' : Subgroup S} {m : ℕ}
 
+omit [Finite S] in
 theorem t100_sqSubgroup_fixed_rho
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) (y : B)
     (hy : conjBy D.ρ_mem y * y⁻¹ ∈ sqSubgroup D) :
@@ -31,27 +32,27 @@ theorem t100_sqSubgroup_fixed_rho
     exact type100_rho_apply_gens m i j l
   have hY1 : D.ec y 1 = (j : ZMod (2 ^ (StrothTypeIndex.t100 m).k 1)) := by
     rw [hy_eq]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have hY2 : D.ec y 2 = (l : ZMod (2 ^ (StrothTypeIndex.t100 m).k 2)) := by
     rw [hy_eq]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have hΦ1 : (Φρ D (D.ec y)) 1 = (-l : ZMod (2 ^ (StrothTypeIndex.t100 m).k 1)) := by
     rw [hρy]
-    simp [gen, Pi.single_apply, zsmul_eq_mul]
+    simp [gen, zsmul_eq_mul]
   have hΦ2 : (Φρ D (D.ec y)) 2 =
       (j : ZMod (2 ^ (StrothTypeIndex.t100 m).k 2)) -
         (l : ZMod (2 ^ (StrothTypeIndex.t100 m).k 2)) := by
     rw [hρy]
-    simp [gen, Pi.single_apply, zsmul_eq_mul]
+    simp [gen, zsmul_eq_mul]
   have hc1 : ((-l - j : ℤ) : ZMod (2 ^ (StrothTypeIndex.t100 m).k 1)) = 2 * z 1 := by
     have h := congrFun hz' 1
-    simp only [Pi.sub_apply, hY1, hΦ1, Pi.smul_apply, zsmul_eq_mul] at h
+    simp only [Pi.sub_apply, hY1, hΦ1, Pi.smul_apply] at h
     push_cast
     ring_nf at h ⊢
     exact h
   have hc2 : ((j - 2 * l : ℤ) : ZMod (2 ^ (StrothTypeIndex.t100 m).k 2)) = 2 * z 2 := by
     have h := congrFun hz' 2
-    simp only [Pi.sub_apply, hY2, hΦ2, Pi.smul_apply, zsmul_eq_mul] at h
+    simp only [Pi.sub_apply, hY2, hΦ2, Pi.smul_apply] at h
     push_cast
     ring_nf at h ⊢
     exact h
@@ -71,7 +72,7 @@ theorem t100_sqSubgroup_fixed_rho
     rcases hneg with ⟨t, ht⟩
     refine ⟨-t, ?_⟩
     have hneg' := congrArg Neg.neg ht
-    simp only [neg_neg, neg_mul] at hneg'
+    simp only [neg_neg] at hneg'
     rw [hneg']
     ring
   have hl : Even l := (Int.even_add.mp hsum).mpr hj
@@ -122,7 +123,7 @@ theorem sqQuotientHom_range_le_cParity_ker
         conjBy D.ρ_mem ⟨(x : S) * (x : S),
           sq_mem_of_not_cyclic_quotient_four hBC hC hrel hncyc x⟩ := by
       apply Subtype.ext
-      simp only [conjBy_val, Subgroup.coe_mk, Subgroup.coe_mul]
+      simp only [conjBy_val]
       group
     calc φ (conjBy hρC x)
         = cParityHom D hm ⟨_, _⟩ := hφ_apply _
@@ -330,6 +331,7 @@ theorem sq_range_eq_ab
     cParityQuotient_ker_card hB.data hm]
 
 
+omit [Finite S] in
 theorem t100_a_not_mem_sqSubgroup
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     D.a ∉ sqSubgroup D := by
@@ -343,8 +345,9 @@ theorem t100_a_not_mem_sqSubgroup
     intro h0
     have h1 := congrFun h0 1
     norm_num at h1
-  exact hsingle (Multiplicative.ofAdd.injective (by simpa using hval))
+  exact hsingle (Multiplicative.ofAdd.injective (by simp at hval))
 
+omit [Finite S] in
 theorem t100_b_not_mem_sqSubgroup
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     D.b ∉ sqSubgroup D := by
@@ -358,8 +361,9 @@ theorem t100_b_not_mem_sqSubgroup
     intro h0
     have h1 := congrFun h0 2
     norm_num at h1
-  exact hsingle (Multiplicative.ofAdd.injective (by simpa using hval))
+  exact hsingle (Multiplicative.ofAdd.injective (by simp at hval))
 
+omit [Finite S] in
 theorem t100_ab_not_mem_sqSubgroup
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) :
     D.a * D.b⁻¹ ∉ sqSubgroup D := by
@@ -372,8 +376,7 @@ theorem t100_ab_not_mem_sqSubgroup
   have h' := congrArg Multiplicative.toAdd hval
   simp only [toAdd_mul, toAdd_inv, toAdd_ofAdd, toAdd_one] at h'
   have h1 := congrFun h' 1
-  simp only [Pi.add_apply, Pi.neg_apply, Pi.zero_apply, Pi.single_eq_same,
-    Pi.single_eq_of_ne (by decide : (2 : Fin 3) ≠ 1), neg_zero, add_zero] at h1
+  simp only [Pi.add_apply, Pi.neg_apply, Pi.zero_apply, Pi.single_eq_same] at h1
   exact one_ne_zero h1
 
 theorem exists_sq_eq_a_b
@@ -394,10 +397,10 @@ theorem exists_sq_eq_a_b
   let sq := sqQuotientHom hcommC D hBC hC hrel hncyc
   have hca : cParity D hm D.a = 0 := by
     rw [cParity, D.ec_a]
-    simp [Torus.a, gen, Pi.single_apply]
+    simp [Torus.a, gen]
   have hcb : cParity D hm D.b = 0 := by
     rw [cParity, D.ec_b]
-    simp [Torus.b, gen, Pi.single_apply]
+    simp [Torus.b, gen]
   have ha_range : QuotientGroup.mk' (sqSubgroup D) D.a ∈ sq.range := by
     have hreq := sq_range_eq_ab hB hBC hC hrel hL hncyc hH hcS hm
     rw [show sq.range = (cParityQuotient D hm).ker from hreq]
@@ -464,9 +467,9 @@ theorem closure_c_e_f_of_comm
   let aC : C := ⟨D.a, hBC D.a.2⟩
   let bC : C := ⟨D.b, hBC D.b.2⟩
   let K : Subgroup C := Subgroup.closure ({cC, e, f} : Set C)
-  have hcK : cC ∈ K := Subgroup.subset_closure (by simp [K])
-  have heK : e ∈ K := Subgroup.subset_closure (by simp [K])
-  have hfK : f ∈ K := Subgroup.subset_closure (by simp [K])
+  have hcK : cC ∈ K := Subgroup.subset_closure (by simp)
+  have heK : e ∈ K := Subgroup.subset_closure (by simp)
+  have hfK : f ∈ K := Subgroup.subset_closure (by simp)
   have haK : aC ∈ K := by
     have h : aC = e * e := he.symm
     rw [h]
@@ -643,7 +646,7 @@ theorem closure_c_e_f
     hB.data hBC hrel hm he hf
 
 theorem torusBasisEquivFour_of_sq
-    [hN : (B.subgroupOf C).Normal]
+    [_hN : (B.subgroupOf C).Normal]
     (hcommC : IsMulCommutative C)
     (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hBC : B ≤ C) (hrel : Nat.card C = 4 * Nat.card B) (hm : 1 ≤ m)

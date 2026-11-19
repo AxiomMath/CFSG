@@ -212,7 +212,7 @@ theorem exists_inverted_centralizing_witness (V : Subgroup G) [IsKleinFour V]
   obtain ⟨Q, huQ, hVQ⟩ := CFSG.Wreathed.StationaryScalarCoverage.exists_invariant_sylow_containing
     hr V X (Subgroup.zpowers u) hV2 hXodd hVX (Subgroup.zpowers_le.mpr huX) hup hVu
   set QG := (Q : Subgroup X).map X.subtype with hQG
-  have hQGp : IsPGroup r QG := Q.isPGroup'.map X.subtype
+  have hQGp : IsPGroup r QG := Q.isPGroup.map X.subtype
   obtain ⟨c, hc, hFle⟩ :=
     CFSG.Semidihedral.StationaryOddLocalization.invariant_pgroup_le_fixed_conjugate_sylow
       hr V X F hV2 hVX hXodd Q hVQ hFX hFp hVF

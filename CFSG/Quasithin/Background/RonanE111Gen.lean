@@ -46,8 +46,8 @@ theorem perfectCore_top_le_of_two_quotient [Finite Q] (N : Subgroup Q) [N.Normal
     refine ⟨k, ?_⟩
     rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact hk
-  haveI : Group.IsNilpotent (Q ⧸ N) := hP.isNilpotent
-  haveI : Group.IsSolvable (Q ⧸ N) := IsNilpotent.to_isSolvable
+  have : Group.IsNilpotent (Q ⧸ N) := hP.isNilpotent
+  have : Group.IsSolvable (Q ⧸ N) := IsNilpotent.to_isSolvable
   have hbot : perfectCore (⊤ : Subgroup (Q ⧸ N)) = ⊥ :=
     (isSolvable_iff_perfectCore_eq_bot _).mp inferInstance
   have hmap := map_perfectCore (QuotientGroup.mk' N) (⊤ : Subgroup Q)
@@ -137,7 +137,7 @@ theorem le_closure_commutators_of_swap {P : Type} [Group P] {L L' : Subgroup P} 
   · exact (Subgroup.subgroupOf_eq_top.mp htop).trans inf_le_left
 
 theorem D_le_commutator_sup {T₀ D Y A : Subgroup Q} {𝒟 : Set (Subgroup Q)} [Y.Normal] [D.Normal]
-    (hAab : IsElemAbelian 2 A) (hAT₀ : A ≤ T₀) (hT₀A : ∀ t ∈ T₀, ∀ a ∈ A, t * a = a * t)
+    (_hAab : IsElemAbelian 2 A) (hAT₀ : A ≤ T₀) (hT₀A : ∀ t ∈ T₀, ∀ a ∈ A, t * a = a * t)
     (hSM : SemisimpleMod T₀ D Y 𝒟) (hmove : ∃ S ∈ 𝒟, ¬ A ≤ Cmod S Y) : D ≤ ⁅D, A⁆ ⊔ Y := by
   have hconjT : ∀ t ∈ T₀, ∀ c ∈ ⁅D, A⁆, t * c * t⁻¹ ∈ ⁅D, A⁆ := by
     intro t ht
@@ -276,7 +276,7 @@ theorem twoResidual_top_of_perfect [Finite Q] {D T₀ : Subgroup Q} [D.Normal]
   have hpc : perfectCore (⊤ : Subgroup Q) = D := by
     refine le_antisymm ?_ (le_perfectCore_of_perfect le_top hDperf)
     have hBs : Group.IsSolvable ↥T₀ := by
-      haveI : Group.IsNilpotent ↥T₀ := hT₀.isNilpotent
+      have : Group.IsNilpotent ↥T₀ := hT₀.isNilpotent
       exact IsNilpotent.to_isSolvable
     exact perfectCore_le_of_sup_solvable (A := D) (B := T₀) (Y := ⊤) le_top
       (normal_subgroupOf_of_conj le_top fun s _ n hn =>
@@ -290,14 +290,14 @@ theorem twoResidual_top_of_perfect [Finite Q] {D T₀ : Subgroup Q} [D.Normal]
     intro x hx
     rw [mem_twoResidual_iff]
     intro N _ h2 h3
-    haveI : N.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h2)
+    have : N.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h2)
     exact perfectCore_top_le_of_two_quotient N (fun y => h3 y (Subgroup.mem_top y)) hx
   exact ⟨le_antisymm hle hge, hpc⟩
 
 theorem exists_involution_of_isComp [Finite Q] {X S : Subgroup Q} (hS : IsComp X S) :
     ∃ x ∈ S, x ≠ 1 ∧ x ^ 2 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup ↥S := hS.2.2.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup ↥S := hS.2.2.1
   have h2 : Even (Nat.card ↥S) := CFSG.Holt.General.even_card_of_isSimpleGroup hS.2.2.2
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥S) 2 (even_iff_two_dvd.mp h2)
   have ht1 : t ≠ 1 := by

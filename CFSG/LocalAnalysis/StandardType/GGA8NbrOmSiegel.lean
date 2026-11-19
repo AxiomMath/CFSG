@@ -288,7 +288,7 @@ private theorem om6_tau_up_i {K : Type} [Field K] [Finite K] [CharP K 2] {V : Ty
     P.om6_tau hij (up i) = up j := by
   rw [om6_tau, om6_siegel_apply]
   simp only [QuadraticMap.polar_add_right, om6_polar_self_eq_zero, P.om6_orth_pp hij, P.pol,
-    P.om6_orth_pm hij, zero_add, add_zero, zero_smul, one_smul]
+    P.om6_orth_pm hij, add_zero, zero_smul, one_smul]
   rw [← add_assoc, om6_two_eq_zero_vec (K := K), zero_add]
 
 private theorem om6_tau_um_i {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}
@@ -298,7 +298,7 @@ private theorem om6_tau_um_i {K : Type} [Field K] [Finite K] [CharP K 2] {V : Ty
     P.om6_tau hij (um i) = um j := by
   rw [om6_tau, om6_siegel_apply]
   simp only [QuadraticMap.polar_add_right, om6_polar_self_eq_zero, P.om6_orth_mm hij, P.om6_pol',
-    P.om6_orth_mp hij, zero_add, add_zero, zero_smul, one_smul]
+    P.om6_orth_mp hij, add_zero, zero_smul, one_smul]
   rw [← add_assoc, om6_two_eq_zero_vec (K := K), zero_add]
 
 private theorem om6_tau_up_j {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}
@@ -476,7 +476,7 @@ namespace om6_Pairs
 private theorem om6_root {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}
     [AddCommGroup V] [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ}
     {A : Subgroup (V ≃ₗ[K] V)} {r : ℕ} {F : SevOm.Frame Q p A r} {ζ : Kˣ} {up um : Fin r → V}
-    (P : om6_Pairs F ζ up um) (hAΩ : A ≤ orthDerived Q) {c : ZMod p} (hc : c ≠ 0)
+    (P : om6_Pairs F ζ up um) (hAΩ : A ≤ orthDerived Q) {c : ZMod p} (_hc : c ≠ 0)
     {x : V} (hx0 : x ≠ 0) {μ : K} (hμ : F.ι (ofAdd fun _ : Fin r => c) x = μ • x)
     (hμ1 : μ ≠ 1) : μ = (ζ : K) ^ c.val ∨ μ = ((ζ : K) ^ c.val)⁻¹ := by
   by_contra hne
@@ -543,7 +543,7 @@ private theorem om6_tau_mem_specialBlock {K : Type} [Field K] [Finite K] [CharP 
       om6_polar_eq_zero_of_eigen hT (P.actm _ i') hv' fun h => hz1 ((inv_mul_eq_one₀ hz0).mp h).symm
     exact P.om6_tau_perp hij ⟨hpv i, hmv i, hpv j, hmv j⟩
   refine mem_specialBlock.mpr ⟨hS, ?_⟩
-  haveI : Fact (Irreducible (X - C μ)) := ⟨irreducible_X_sub_C μ⟩
+  have : Fact (Irreducible (X - C μ)) := ⟨irreducible_X_sub_C μ⟩
   set d := blockDet Q a (X - C μ) ⟨P.om6_tau hij, hS⟩ with hd
   have hdd : d * d = 1 := by
     rw [hd, ← map_mul]
@@ -634,7 +634,7 @@ private theorem om6_exists_orderOf_seventyThree {K : Type} [Field K] [Finite K] 
     (hm : primaryMultiplicity a.toLinearMap (X - C μ) = 3) :
     ∃ w ∈ specialBlock Q a (X - C μ), orderOf w = 73 := by
   classical
-  haveI : Fact (Irreducible (X - C μ)) := ⟨irreducible_X_sub_C μ⟩
+  have : Fact (Irreducible (X - C μ)) := ⟨irreducible_X_sub_C μ⟩
   have hE : Nat.card (AdjoinRoot (X - C μ)) = 8 := by
     rw [om6_natCard_adjoinRoot_X_sub_C, hK]
   have : Finite (AdjoinRoot (X - C μ)) := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
@@ -692,7 +692,7 @@ private theorem om6_siegel_block {K : Type} [Field K] [Finite K] [CharP K 2] {V 
 theorem omSiegel {A : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)} (hAΩ : A ≤ omΩ)
     (F : SevOm.Frame omQ 7 A 3) (ζ : (GaloisField 2 3)ˣ) (hζ : orderOf ζ = 7)
     (hdim : ∀ i, finrank (GaloisField 2 3) (F.U i) = 2) (hal : CoordOm.FrameAligned F ζ)
-    (hmoves : CoordOm.FrameMovesAll F (CoordSp.signs 7)) {c : ZMod 7} (hc : c ≠ 0)
+    (_hmoves : CoordOm.FrameMovesAll F (CoordSp.signs 7)) {c : ZMod 7} (hc : c ≠ 0)
     {J : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)} {h : (GaloisField 2 3)[X]}
     (hh : h ∈ primaryFactors (F.ι (ofAdd fun _ : Fin 3 => c)).toLinearMap) (hX : h ≠ X - 1)
     (hJ : J = specialBlock omQ (F.ι (ofAdd fun _ : Fin 3 => c)) h)

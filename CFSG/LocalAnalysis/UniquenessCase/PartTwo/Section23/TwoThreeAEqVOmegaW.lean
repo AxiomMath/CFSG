@@ -31,6 +31,7 @@ theorem aParam_le_autSub {W : Type} [CommGroup W] [Finite W]
     rw [hz]
     exact Nat.zero_le _
 
+omit [Finite G] in
 private theorem conjClosure_eq_iSup_translates (H S : Subgroup G) :
     conjClosure H S = ⨆ l : ↥H, S.map (MulAut.conj (l : G)).toMonoidHom := by
   refine le_antisymm ?_ ?_
@@ -40,7 +41,8 @@ private theorem conjClosure_eq_iSup_translates (H S : Subgroup G) :
   · refine iSup_le fun l => ?_
     exact le_iSup₂_of_le _ ⟨(l : G), l.2, rfl⟩ le_rfl
 
-private theorem actTriv_of_fix_imgTil {W₁ W₂ : Subgroup G} (hW₁ : IsElemAbelian 2 W₁)
+omit [Finite G] in
+private theorem actTriv_of_fix_imgTil {W₁ W₂ : Subgroup G} (_hW₁ : IsElemAbelian 2 W₁)
     (hW₂ : IsElemAbelian 2 W₂) (h12 : W₁ ≤ W₂) {x : G} (hx : x ∈ stabTil (⊥ : Subgroup G) W₂)
     (hfix : ∀ u ∈ imgTil (⊥ : Subgroup G) W₂ hW₂ W₁,
       actTil (⊥ : Subgroup G) W₂ hW₂ ⟨x, hx⟩ u = u) :
@@ -102,18 +104,18 @@ private theorem isPGroup_of_inf_pCoreOf {D : Data G} {Ch : Choice2011 G} (c : Ct
     (hR0le : R ⊓ c.L0 ≤ CFSG.Open.pCoreOf 2 c.L0) : IsPGroup 2 ↥R := by
   have hHnL0 : (D.T ⊔ c.L0 : Subgroup G) ≤ Subgroup.normalizer (c.L0 : Set G) :=
     sup_le c.hL0.1.1 Subgroup.le_normalizer
-  haveI hRn : (R.subgroupOf (D.T ⊔ c.L0)).Normal :=
+  have hRn : (R.subgroupOf (D.T ⊔ c.L0)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRH).mpr hHnR
   have hR0p : IsPGroup 2 ↥(R ⊓ c.L0) :=
     IsPGroup.to_le (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 c.L0) hR0le
   have hR0p' : IsPGroup 2 ((R ⊓ c.L0).subgroupOf R) :=
     hR0p.of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_left).symm
-  haveI hL0nH : ((c.L0).subgroupOf (D.T ⊔ c.L0)).Normal :=
+  have hL0nH : ((c.L0).subgroupOf (D.T ⊔ c.L0)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).mpr hHnL0
   have hRN : R ≤ Subgroup.normalizer ((R ⊓ c.L0 : Subgroup G) : Set G) :=
     (le_inf (hRH.trans hHnR) (hRH.trans hHnL0)).trans
       Subgroup.inf_normalizer_le_normalizer_inf
-  haveI hR0n : ((R ⊓ c.L0).subgroupOf R).Normal :=
+  have hR0n : ((R ⊓ c.L0).subgroupOf R).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hRN
   have hHL : IsPGroup 2 (↥(D.T ⊔ c.L0) ⧸ (c.L0).subgroupOf (D.T ⊔ c.L0)) :=
     CFSG.GroupTheory.isPGroup_quotient_sup_left (p := 2) (T := D.T) (C := c.L0)

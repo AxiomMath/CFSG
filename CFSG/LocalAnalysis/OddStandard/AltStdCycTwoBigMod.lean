@@ -26,7 +26,7 @@ theorem mem_oddPart_of_odd_orderOf {H P : Subgroup G} (hPH : P ≤ H) (hP : IsPG
     exact h
   obtain ⟨-, -, -, ⟨hnormal, -, hindex, -⟩, -⟩ := cyclic_sylow_normal_odd_complement S hS
   have := hnormal
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   let h' : H := ⟨h, hh⟩
   have h1 : orderOf (QuotientGroup.mk' (pPrimeCore 2 H) h') ∣ orderOf h' :=
     orderOf_map_dvd _ h'
@@ -67,6 +67,7 @@ theorem cyc_odd_relIndex_inf (d : Cyc L P x) :
   exact h2.trans (Dvd.intro _ (relIndex_mul_relIndex P _ (centralizer (L : Set G))
     (cyc_le_inf_cent d) inf_le_left))
 
+omit [Finite G] in
 theorem conj_mem_cent_of_mem_normalizer {c k : G} (hc : c ∈ normalizer (L : Set G))
     (hk : k ∈ centralizer (L : Set G)) : c * k * c⁻¹ ∈ centralizer (L : Set G) := by
   rw [mem_centralizer_iff]

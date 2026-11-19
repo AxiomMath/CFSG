@@ -43,10 +43,10 @@ theorem exists_normOne_pow_eq (h : UnitaryFieldData p f F) {σ : F ≃+* F}
     (hd : (p ^ f + 1).gcd n ∣ Q ^ j - 1) (a : Fˣ) (ha : h.norm (a : F) = 1) :
     ∃ μ : Fˣ, h.norm (μ : F) = 1 ∧
       μ ^ n = a * (Units.map σ.toRingHom.toMonoidHom a)⁻¹ := by
-  haveI : Finite F := h.finite
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := h.finite
+  have : Fintype F := Fintype.ofFinite F
   let U := (Units.map h.normHom).ker
-  haveI : IsCyclic U := isCyclic_subgroup_units U
+  have : IsCyclic U := isCyclic_subgroup_units U
   let φU : U →* U :=
     { toFun := fun u => ⟨Units.map σ.toRingHom.toMonoidHom (u : Fˣ), by
         rw [UnitaryFieldData.mem_ker_normUnits h]

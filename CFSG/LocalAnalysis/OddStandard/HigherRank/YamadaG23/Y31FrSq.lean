@@ -11,11 +11,13 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {Q : Type} [Group Q] [Finite Q] (fr : Frame (MulAut Q))
 
+omit [Finite Q] in
 private lemma mem_S_of_mem_gens {fr : Frame (MulAut Q)} {x : MulAut Q}
     (hx : x ∈ ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀} : Set (MulAut Q))) : x ∈ fr.S := by
   change x ∈ Subgroup.closure ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀} : Set (MulAut Q))
   exact Subgroup.subset_closure hx
 
+omit [Finite Q] in
 theorem frame_mem_Sσ_cases (h : fr.Fact11 (innerAut Q)) {α : MulAut Q} (hα : α ∈ fr.Sσ) :
     α ∈ fr.S ∨ ∃ s ∈ fr.S, α = s * fr.σ := by
   have hσ2 : fr.σ ^ 2 = 1 := frame_sigma_sq fr h
@@ -59,6 +61,7 @@ theorem frame_mem_Sσ_cases (h : fr.Fact11 (innerAut Q)) {α : MulAut Q} (hα : 
       rw [show fr.σ * s⁻¹ * fr.σ * fr.σ = fr.σ * s⁻¹ * (fr.σ * fr.σ) by group,
         hσσ, mul_one]
 
+omit [Finite Q] in
 theorem frame_sq_mem_S (h : fr.Fact11 (innerAut Q)) {α : MulAut Q} (hα : α ∈ fr.Sσ) :
     α ^ 2 ∈ fr.S := by
   have hσ2 : fr.σ ^ 2 = 1 := frame_sigma_sq fr h

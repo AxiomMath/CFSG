@@ -30,15 +30,18 @@ theorem exists_elemSec {f : ℕ} [Fact f.Prime] {Y M G : Subgroup K} (hMY : M �
 variable {f : ℕ} {Y M G : Subgroup K} {W : Type} [AddCommGroup W] [Module (ZMod f) W]
   {π : K → W} {ρ : Representation (ZMod f) ↥G W}
 
+omit [Finite K] in
 theorem ElemSec.map_one (h : ElemSec f Y M G W π ρ) : π 1 = 0 := by
   have := h.add 1 Y.one_mem 1 Y.one_mem
   simpa using this
 
+omit [Finite K] in
 theorem ElemSec.map_inv (h : ElemSec f Y M G W π ρ) {x : K} (hx : x ∈ Y) : π x⁻¹ = - π x := by
   have := h.add x⁻¹ (Y.inv_mem hx) x hx
   rw [inv_mul_cancel, h.map_one] at this
   exact eq_neg_of_add_eq_zero_left this.symm
 
+omit [Finite K] in
 theorem ElemSec.eq_iff (h : ElemSec f Y M G W π ρ) {x y : K} (hx : x ∈ Y) (hy : y ∈ Y) :
     π x = π y ↔ x⁻¹ * y ∈ M := by
   rw [← h.ker _ (Y.mul_mem (Y.inv_mem hx) hy), h.add _ (Y.inv_mem hx) _ hy, h.map_inv hx]
@@ -56,6 +59,7 @@ theorem ElemSec.eq_iff (h : ElemSec f Y M G W π ρ) {x y : K} (hx : x ∈ Y) (h
     rw [h.add _ x.2 _ y.2]
     rfl
 
+omit [Finite K] in
 theorem ElemSec.card_eq (h : ElemSec f Y M G W π ρ) (hMY : M ≤ Y) :
     Nat.card Y = Nat.card M * Nat.card W := by
   have hsurj : Function.Surjective h.hom := by
@@ -82,6 +86,7 @@ theorem ElemSec.card_eq (h : ElemSec f Y M G W π ρ) (hMY : M ≤ Y) :
     rintro x ⟨hx, hxU⟩
     exact ⟨Y.inv_mem hx, by rw [h.map_inv hx]; exact U.neg_mem hxU⟩
 
+omit [Finite K] in
 theorem ElemSec.card_preimage (h : ElemSec f Y M G W π ρ) (hMY : M ≤ Y)
     (U : Submodule (ZMod f) W) : Nat.card (h.preimage U) = Nat.card M * Nat.card U := by
   set H := h.preimage U with hH

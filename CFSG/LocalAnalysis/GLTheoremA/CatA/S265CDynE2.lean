@@ -40,7 +40,7 @@ theorem tagLie_adjointE_three {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨h, hh, hβh, hp1, hh1⟩ :=
     exists_inndiag_of_mem_innAutDerived_E hτ hp β hβmem hβ3 hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hpℓ : 3 ≠ ringChar K := by rw [hK2]; exact hp2
@@ -80,7 +80,7 @@ theorem tagLie_of_adjointEquiv_three {S : Type} [Group S] [Finite S] {τ : Tag}
     (hJ : CFSG.Open.IsComponentOf J (fixSubgroup β)) :
     TagLieType IsADETag 2 ↥J := by
   have hK2 : ringChar K = 2 := by
-    haveI := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+    have := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
     exact ringChar.eq K 2
   have hβ'mem : MulAut.congr ψ β ∈ innAutDerived _ := (mem_innAutDerived_congr ψ).2 hβmem
   have hβ'3 : (MulAut.congr ψ β) ^ 3 = 1 := by rw [← map_pow, hβ3, map_one]
@@ -193,11 +193,11 @@ theorem tagLie_twE6 {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : MulA
   obtain ⟨b⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.twistedE6 q hv K₀ (by rw [hK₀, hq])
     σ₀ (fun x => by rw [hq]; exact hσ₀ x)
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   let ψ : S ≃* ↥(twistedE6RootGroup K σ) :=
     ((CFSG.LocalAnalysis.GLTheoremA.CanonInn.quotCenterEquivOfBot hcen).symm.trans e₀).trans
       (b.trans eK)

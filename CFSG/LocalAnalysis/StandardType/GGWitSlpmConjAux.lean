@@ -42,8 +42,7 @@ theorem wSlpmC_Ea_apply {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U]
     [Module (ZMod p) U] (a : U) (α : U →ₗ[ZMod p] ZMod p) (hα : α a = 2)
     (h2 : (2 : ZMod p) ≠ 0) (x : ↥(ZMod p ∙ a)) (y : ↥(LinearMap.ker α)) :
     wSlpmC_Ea a α hα h2 (x, y) = (x : U) + (y : U) := by
-  simp [wSlpmC_Ea, Submodule.coe_prodEquivOfIsCompl, LinearMap.coprod_apply,
-    Submodule.subtype_apply]
+  simp [wSlpmC_Ea]
 
 theorem wSlpmC_finrank_ker {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U]
     [Module (ZMod p) U] [Module.Finite (ZMod p) U] (a : U) (α : U →ₗ[ZMod p] ZMod p)
@@ -203,9 +202,9 @@ theorem wSlpmC_exists_aut_det {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup 
     LinearEquiv.det_refl, mul_one]
 
 theorem wSlpmC_isRefl_form {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U]
-    [Module (ZMod p) U] [Module.Finite (ZMod p) U] (h2 : (2 : ZMod p) ≠ 0)
+    [Module (ZMod p) U] [Module.Finite (ZMod p) U] (_h2 : (2 : ZMod p) ≠ 0)
     (t : U ≃ₗ[ZMod p] U) (ht : IsRefl p t) :
-    ∃ (a : U) (α : U →ₗ[ZMod p] ZMod p) (hα : α a = 2), ∀ v, t v = v - α v • a := by
+    ∃ (a : U) (α : U →ₗ[ZMod p] ZMod p) (_hα : α a = 2), ∀ v, t v = v - α v • a := by
   let τ : U →ₗ[ZMod p] U := t.toLinearMap - LinearMap.id
   have hτfin : Module.finrank (ZMod p) ↥(LinearMap.range τ) = 1 := ht.2
   have hne : LinearMap.range τ ≠ ⊥ := by
@@ -242,7 +241,7 @@ theorem wSlpmC_isRefl_form {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U]
   let τ₂ : U →ₗ[ZMod p] U := (0 : U →ₗ[ZMod p] U) - τ
   have hτ₂ : ∀ v, τ₂ v = -τ v := by
     intro v
-    simp only [τ₂, LinearMap.sub_apply, LinearMap.zero_apply, zero_sub,
+    simp only [τ₂, zero_sub,
       LinearMap.neg_apply]
   let τ' : U →ₗ[ZMod p] ↥(LinearMap.range σ) :=
     τ₂.codRestrict (LinearMap.range σ) (fun v => by
@@ -271,8 +270,8 @@ theorem wSlpmC_isRefl_form {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U]
   · intro v
     have hτv : τ v = -(γ v • a) := by
       have h := hσγ v
-      have h2 : σ (γ v) = γ v • a := by simp [σ, LinearMap.toSpanSingleton]
-      rw [h2] at h
+      have _h2 : σ (γ v) = γ v • a := by simp [σ, LinearMap.toSpanSingleton]
+      rw [_h2] at h
       have hneg := congrArg (fun z => -z) h
       rw [neg_neg] at hneg
       exact hneg.symm

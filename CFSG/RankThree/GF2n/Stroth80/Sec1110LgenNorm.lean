@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G]
   {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal] {n : ℕ}
 
+omit [Finite G] [(Q.subgroupOf M).Normal] in
 private theorem act_mem_img {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     {φH0 : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φH0 m (M₀.π x))
@@ -26,6 +27,7 @@ private theorem act_mem_img {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.Qu
   rw [hu] at h
   exact M₀.pi_mem_img h (hVQ h)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem act_act_eq {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     {φH0 : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)} (hc : Ctx M Q Z B)
     (hφker : ∀ m : H0 M Z, φH0 m = 1 ↔ (m : G) ∈ Q) {u : G} (hu : u ∈ LB M Q B) (e : M₀.E) :
@@ -47,8 +49,8 @@ theorem XbarCore.mem_XbarPre_of_conj_eq (hc : Ctx M Q Z B) (hn : 3 ≤ n)
     · exact act_mem_img hφπ S.le_Q₁ h₁ ((hW₁ _).mpr (C.inl_mem_W₁ x))
     · exact act_mem_img hφπ S.le_Q₂ h₂ ((hW₂ _).mpr (C.inr_mem_W₂ x))
   obtain ⟨r, k, hZpow, -⟩ := hc.hyp.cp
-  letI : Fintype S.F := Fintype.ofFinite S.F
-  haveI : CharP S.F 2 := by
+  let : Fintype S.F := Fintype.ofFinite S.F
+  have : CharP S.F 2 := by
     apply charP_of_card_eq_prime_pow (p := 2) (f := r)
     rw [Fintype.card_eq_nat_card, S.card, hZpow]
   have hK : ∃ c : K, c ≠ 0 ∧ c ^ 2 ≠ 1 :=

@@ -16,11 +16,12 @@ open CFSG.LocalAnalysis.EvenBN.TrialityD4 CFSG.QuasithinUnique
 variable {G X : Type} [Group G] [Group X] [Finite G] [Finite X]
   {L1 L2 S H : Subgroup G} {f : ℕ}
 
+omit [Finite X] in
 private theorem isSylowTwoOf_normalizer_V (d : TrialityD4Data X (2 ^ f)) :
     IsSylowTwoOf d.S (Subgroup.normalizer (d.V : Set X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
-  refine ⟨d.S_le_normalizer_V, hP ▸ P.isPGroup', ?_⟩
+  refine ⟨d.S_le_normalizer_V, hP ▸ P.isPGroup, ?_⟩
   intro hdvd
   exact d.not_two_dvd_index_S
     (hdvd.trans (Subgroup.relIndex_dvd_index_of_le d.S_le_normalizer_V))

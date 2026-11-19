@@ -213,7 +213,7 @@ theorem ggInnerDiagOn_le_normalizer {G : Type} [Group G] {Bs K : Subgroup G}
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
     (y : G) (K : Subgroup G) (hc : GGConfig p B Bs x L D J), GGInnerDiagOn Bs L →
     GGInnerDiagOn Bs K → GGNbr p B x D J y K →
-    ∃ (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+    ∃ (_hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
       (hx : x ∈ Subgroup.normalizer (K : Set G)),
       GGTPNDatumB p (Nat.card Bs) (fun _ _ => True) (ggAutsOf K Bs hN)
         (ggAutsOf K B (hc.2.1.1.trans hN)) (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K)
@@ -222,7 +222,7 @@ theorem ggInnerDiagOn_le_normalizer {G : Type} [Group G] {Bs K : Subgroup G}
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
     (y : G) (K : Subgroup G), GGConfig p B Bs x L D J → GGInnerDiagOn Bs L →
     GGInnerDiagOn Bs K → GGNbr p B x D J y K → Bs ⊓ Subgroup.centralizer (J : Set G) ≤ D →
-    ∃ (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+    ∃ (_hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
       (hx : x ∈ Subgroup.normalizer (K : Set G)),
       GGTPNDatum p (fun _ _ => True) (ggAutsOf K Bs hN)
         (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K)
@@ -231,7 +231,7 @@ theorem ggInnerDiagOn_le_normalizer {G : Type} [Group G] {Bs K : Subgroup G}
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
     (y : G) (K : Subgroup G), GGConfig p B Bs x L D J → GGInnerDiagOn Bs L →
     GGInnerDiagOn Bs K → GGNbr p B x D J y K →
-    ∀ (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+    ∀ (_hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
       (hx : x ∈ Subgroup.normalizer (K : Set G)),
       Bs ⊓ Subgroup.centralizer (J : Set G) ≤ D →
       GGTPNLocal p (ggAutsOf K Bs hN) (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K)
@@ -240,7 +240,7 @@ theorem ggInnerDiagOn_le_normalizer {G : Type} [Group G] {Bs K : Subgroup G}
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
     (y : G) (K : Subgroup G), GGConfig p B Bs x L D J → GGInnerDiagOn Bs L →
     GGInnerDiagOn Bs K → GGNbr p B x D J y K →
-    ∀ (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+    ∀ (_hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
       (hx : x ∈ Subgroup.normalizer (K : Set G)),
       GGTPNLocalCore p (ggAutsOf K Bs hN) (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K)
 
@@ -248,7 +248,7 @@ theorem ggInnerDiagOn_le_normalizer {G : Type} [Group G] {Bs K : Subgroup G}
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
     (y : G) (K : Subgroup G) (hc : GGConfig p B Bs x L D J), GGInnerDiagOn Bs L →
     GGInnerDiagOn Bs K → GGNbr p B x D J y K →
-    ∀ (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+    ∀ (_hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
       (hx : x ∈ Subgroup.normalizer (K : Set G)),
       GGTPNFlat p (ggAutsOf K Bs hN) (ggAutsOf K B (hc.2.1.1.trans hN))
         (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K)
@@ -296,7 +296,7 @@ theorem ggInnerDiagOn_le_normalizer {G : Type} [Group G] {Bs K : Subgroup G}
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
     (y : G) (K : Subgroup G), GGConfig p B Bs x L D J → GGInnerDiagOn Bs L →
     GGInnerDiagOn Bs K → GGNbr p B x D J y K →
-    ∀ (hJK : J ≤ K) (hx : x ∈ Subgroup.normalizer (K : Set G)),
+    ∀ (_hJK : J ≤ K) (hx : x ∈ Subgroup.normalizer (K : Set G)),
       GGTPNOnlyComp p (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K)
 
 @[expose] def GGTPNTrMarked : Prop :=

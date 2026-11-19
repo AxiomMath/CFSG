@@ -70,10 +70,10 @@ theorem exists_original_twistedE6_root_comparison
       (ggRootLevi (ggU .twistedE6 0 q).D (Pi.single (0 : Fin 4) 1)).map Phi =
         (rankOne (e7Datum K).rootGroup j).map (MulAut.conj v).toMonoidHom := by
   classical
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
-  letI : Algebra (ZMod 2) (AlgebraicClosure K) := inferInstance
-  haveI : Algebra.IsAlgebraic (ZMod 2) K := Algebra.IsAlgebraic.of_finite _ _
-  haveI : Algebra.IsAlgebraic (ZMod 2) (AlgebraicClosure K) :=
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Algebra (ZMod 2) (AlgebraicClosure K) := inferInstance
+  have : Algebra.IsAlgebraic (ZMod 2) K := Algebra.IsAlgebraic.of_finite _ _
+  have : Algebra.IsAlgebraic (ZMod 2) (AlgebraicClosure K) :=
     Algebra.IsAlgebraic.trans (ZMod 2) K (AlgebraicClosure K)
   obtain ⟨beta, hbeta, hbPsi, hnbPsi, hParent, _⟩ :=
     exists_e7_parent_fixed_root_in_e6_component_of_prime hp hp2 hK lambda hker hBs S iota

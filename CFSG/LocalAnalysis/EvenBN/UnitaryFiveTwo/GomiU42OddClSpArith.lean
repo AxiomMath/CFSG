@@ -28,7 +28,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem three_pow_dvd_card_GL {r f : ℕ} (hK : Nat.card K = 3 ^ f) :
     3 ^ (f * (r * (r - 1) / 2)) ∣ Nat.card (GL (Fin r) K) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hq : Fintype.card K = 3 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hK
   rw [Matrix.card_GL_field, hq]
   have h1 : ∀ i ∈ Finset.univ (α := Fin r), (3 ^ f) ^ (i : ℕ) ∣ (3 ^ f) ^ r - (3 ^ f) ^ (i : ℕ) :=
@@ -47,7 +47,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem u42_not_classOne {f a b : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f) (ha : 1 ≤ a)
     (hb : 1 ≤ b) (h2f : a = 1 → b = 1 → 2 ≤ f) {G : Type} [Group G]
-    (e : G ≃* StatedSp a K × StatedSp b K) (h1 : 25920 ∣ Nat.card G) (h2 : Nat.card G ∣ 103680) :
+    (e : G ≃* StatedSp a K × StatedSp b K) (_h1 : 25920 ∣ Nat.card G) (h2 : Nat.card G ∣ 103680) :
     False := by
   have hc : Nat.card G = Nat.card (StatedSp a K) * Nat.card (StatedSp b K) := by
     rw [Nat.card_congr e.toEquiv, Nat.card_prod]
@@ -83,7 +83,7 @@ theorem u42_not_classTwo {f r : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f) (h
       exact (pow_dvd_pow 3 hbig).trans (three_pow_dvd_card_GL hK)
     exact not_dvd_103680_of_three_pow_five h5 h2
   · push Not at hbig
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have hq : Fintype.card K = 3 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hK
     have hr3 : r = 2 ∨ r = 3 := by
       by_contra hne
@@ -98,7 +98,7 @@ theorem u42_not_classTwo {f r : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f) (h
     · have hf4 : f ≤ 4 := by norm_num at hbig; omega
       have hf2 := h2f rfl
       rw [hc, Matrix.card_GL_field, hq] at h1 h2
-      interval_cases f <;> simp [Fin.prod_univ_two] at h1 h2 <;> omega
+      interval_cases f <;> simp [Fin.prod_univ_two] at h1 h2
     · have hf1 : f = 1 := by norm_num at hbig; omega
       subst hf1
       rw [hc, Matrix.card_GL_field, hq] at h1 h2
@@ -106,7 +106,7 @@ theorem u42_not_classTwo {f r : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f) (h
 
 theorem u42_not_classThree {E : Type} [Field E] [Finite E] {f m : ℕ} (hf : 1 ≤ f)
     (hE : Nat.card E = 3 ^ (2 * f)) (hm : 1 ≤ m) (h2f : m = 1 → 2 ≤ f) {G : Type} [Group G]
-    (e : G ≃* StatedSp m E) (h1 : 25920 ∣ Nat.card G) (h2 : Nat.card G ∣ 103680) : False := by
+    (e : G ≃* StatedSp m E) (_h1 : 25920 ∣ Nat.card G) (h2 : Nat.card G ∣ 103680) : False := by
   have hc : Nat.card G = Nat.card (StatedSp m E) := Nat.card_congr e.toEquiv
   by_cases hbig : 5 ≤ 2 * f * m ^ 2
   · have h5 : 3 ^ 5 ∣ Nat.card G := by

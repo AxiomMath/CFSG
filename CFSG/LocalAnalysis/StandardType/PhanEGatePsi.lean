@@ -32,8 +32,8 @@ private theorem p9uGS_mem_residue_of_mem_flipCore (hB : IsWeylDistanceBuilding c
   exact resProj_mem hB J a z
 
 theorem flipPsi_mem (hB : IsWeylDistanceBuilding cs δ)
-    (hw : ∀ w, cs.length (w * w₀) + cs.length w = cs.length w₀)
-    (ht : IsFlipInvolution cs δ w₀ t) (hx : x ∈ flipCore cs δ t J a) :
+    (_hw : ∀ w, cs.length (w * w₀) + cs.length w = cs.length w₀)
+    (_ht : IsFlipInvolution cs δ w₀ t) (hx : x ∈ flipCore cs δ t J a) :
     flipPsi cs δ t J a x ∈ flipCore cs δ t J a := by
   rw [flipCore, projSet] at hx ⊢
   obtain ⟨z, hz, rfl⟩ := hx

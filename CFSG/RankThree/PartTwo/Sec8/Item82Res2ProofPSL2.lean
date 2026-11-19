@@ -66,7 +66,7 @@ theorem exists_lift_of_fixed {B : Subgroup G} (hBN : B ≤ Subgroup.normalizer (
   have hEP' : E ≤ P' := Subgroup.map_subtype_le _
   have hP'L : P' ≤ L := Subgroup.map_subtype_le _
   have hEL : E ≤ L := hEP'.trans hP'L
-  have hE3' : IsPGroup 3 E := Q.isPGroup'.map P'.subtype
+  have hE3' : IsPGroup 3 E := Q.isPGroup.map P'.subtype
   have hmemP : ∀ x : L, (x : G) ∈ E → x ∈ P := by
     intro x hx
     obtain ⟨l, hl, hlx⟩ := hEP' hx

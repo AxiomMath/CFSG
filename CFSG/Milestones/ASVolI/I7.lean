@@ -221,8 +221,8 @@ private theorem burnsideIb_exists_mul_self_ne_one {G : Type} [Group G] [Finite G
   push Not at hcon
   apply hΦ
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 Q) := ⟨hQ⟩
-  haveI : CFSG.IsElementaryAbelian 2 Q :=
+  have : Fact (IsPGroup 2 Q) := ⟨hQ⟩
+  have : CFSG.IsElementaryAbelian 2 Q :=
     { is_comm := ⟨fun a b => Subtype.ext
         (CFSG.ClassicalInvolution.commute_of_mul_self_eq_one (hcon a a.2) (hcon b b.2)
           (hcon _ (Q.mul_mem a.2 b.2)))⟩
@@ -295,8 +295,8 @@ private theorem burnsideIb_le_or_le {G : Type} [Group G] {E N N' : Subgroup G}
     (h : ∀ e ∈ E, e ∈ N ∨ e ∈ N') : E ≤ N ∨ E ≤ N' := by
   by_contra hcon
   push Not at hcon
-  obtain ⟨u, huE, huN⟩ := SetLike.not_le_iff_exists.mp hcon.1
-  obtain ⟨v, hvE, hvN'⟩ := SetLike.not_le_iff_exists.mp hcon.2
+  obtain ⟨u, huE, huN⟩ := IsConcreteLE.not_le_iff_exists.mp hcon.1
+  obtain ⟨v, hvE, hvN'⟩ := IsConcreteLE.not_le_iff_exists.mp hcon.2
   have huN' : u ∈ N' := (h u huE).resolve_left huN
   have hvN : v ∈ N := (h v hvE).resolve_right hvN'
   rcases h (u * v) (E.mul_mem huE hvE) with h1 | h1
@@ -304,7 +304,7 @@ private theorem burnsideIb_le_or_le {G : Type} [Group G] {E N N' : Subgroup G}
   · exact hvN' (by simpa using N'.mul_mem (N'.inv_mem huN') h1)
 
 private theorem burnsideIb_card_le_two_mul {G : Type} [Group G] [Finite G] {E J : Subgroup G}
-    (hJE : J ≤ E) (w : G) (hw : ∀ y ∈ E, y ∈ J ∨ w⁻¹ * y ∈ J) (hwE : w ∈ E) :
+    (_hJE : J ≤ E) (w : G) (hw : ∀ y ∈ E, y ∈ J ∨ w⁻¹ * y ∈ J) (_hwE : w ∈ E) :
     Nat.card E ≤ 2 * Nat.card J := by
   classical
   let f : E → Bool × J := fun y =>
@@ -313,12 +313,12 @@ private theorem burnsideIb_card_le_two_mul {G : Type} [Group G] [Finite G] {E J 
   have hf : Function.Injective f := by
     intro y y' hyy
     by_cases hy : (y : G) ∈ J <;> by_cases hy' : (y' : G) ∈ J
-    · simp only [f, hy, hy', dif_pos] at hyy
+    · simp only [f, hy, hy', dite_eq_left] at hyy
       have h3 := congrArg Subtype.val (Prod.mk.inj hyy).2
       exact Subtype.ext h3
     · simp [f, hy, hy'] at hyy
     · simp [f, hy, hy'] at hyy
-    · simp only [f, hy, hy', dif_neg, not_false_eq_true] at hyy
+    · simp only [f, hy, hy', dite_eq_right, not_false_eq_true] at hyy
       have h3 := congrArg Subtype.val (Prod.mk.inj hyy).2
       exact Subtype.ext (mul_left_cancel h3)
   have := Nat.card_le_card_of_injective f hf
@@ -353,7 +353,7 @@ private theorem burnsideIb_frattiniOf_eq {G : Type} [Group G] [Finite G] {M T : 
     (h3 : ∀ s ∈ T, ∃ m₁ ∈ M, ∃ m₂ ∈ M, m₁ * m₂ * m₁⁻¹ * m₂⁻¹ = s) :
     ChIJK.frattiniOf M = T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 M) := ⟨hM⟩
+  have : Fact (IsPGroup 2 M) := ⟨hM⟩
   have hcomm : _root_.commutator ↥M ≤ T.subgroupOf M := by
     rw [_root_.commutator_def]
     exact Subgroup.commutator_le.mpr fun a _ b _ => h1 a a.2 b b.2
@@ -442,9 +442,11 @@ private theorem N_eq_mul [Finite G] :
     ∀ a ∈ burnsideIb_N S R, ∃ s ∈ S₀ ⊓ burnsideIb_N S R, ∃ r ∈ R, a = s * r :=
   exists_mul_of_natCard_eq inf_le_right h.R_le_N h.S₁_inf_R (by rw [h.N_card, h.S₁_card])
 
+omit h in
 private theorem N_le_M : burnsideIb_N S R ≤ burnsideIb_N S (burnsideIb_N S R) :=
   le_inf inf_le_left Subgroup.le_normalizer
 
+omit h in
 private theorem conj_mem_N {m n : G} (hm : m ∈ burnsideIb_N S (burnsideIb_N S R))
     (hn : n ∈ burnsideIb_N S R) : m * n * m⁻¹ ∈ burnsideIb_N S R :=
   (Subgroup.mem_normalizer_iff.mp hm.2 n).mp hn
@@ -452,7 +454,7 @@ private theorem conj_mem_N {m n : G} (hm : m ∈ burnsideIb_N S (burnsideIb_N S 
 private theorem f_mem {m r : G} (hm : m ∈ burnsideIb_N S (burnsideIb_N S R)) (hr : r ∈ R) :
     r⁻¹ * (m * r * m⁻¹) ∈ S₀ ⊓ burnsideIb_N S R := by
   have hrN : r ∈ burnsideIb_N S R := h.R_le_N hr
-  have h1 : m * r * m⁻¹ ∈ burnsideIb_N S R := h.conj_mem_N hm hrN
+  have h1 : m * r * m⁻¹ ∈ burnsideIb_N S R := CFSG.ASVolI.burnsideIb_EAData.conj_mem_N hm hrN
   refine ⟨?_, (burnsideIb_N S R).mul_mem ((burnsideIb_N S R).inv_mem hrN) h1⟩
   obtain ⟨a, ha, ρ, hρ, hmeq⟩ := h.S_eq m hm.1
   have e : r⁻¹ * (m * r * m⁻¹) = (r⁻¹ * a * r) * a⁻¹ := by
@@ -490,7 +492,7 @@ private theorem card_M_le [Finite G] {r : G} (hr : r ∈ R) (hr1 : r ≠ 1) :
         ∀ s ∈ S₀ ⊓ burnsideIb_N S R, ∃ m ∈ burnsideIb_N S (burnsideIb_N S R),
           r⁻¹ * (m * r * m⁻¹) = s) := by
   have key := burnsideIb_card_le_mul (A := burnsideIb_N S R)
-    (B := burnsideIb_N S (burnsideIb_N S R)) (S₁ := S₀ ⊓ burnsideIb_N S R) h.N_le_M
+    (B := burnsideIb_N S (burnsideIb_N S R)) (S₁ := S₀ ⊓ burnsideIb_N S R) (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R))
     (fun b => r⁻¹ * (b * r * b⁻¹)) (fun b hb => h.f_mem hb hr)
     (fun a ha b hb => h.f_eq_iff ha hb hr hr1)
   rw [h.N_card, h.S₁_card] at key
@@ -564,6 +566,7 @@ private theorem N_le_W [Finite G] (hS : ¬ S ≤ Subgroup.normalizer (R : Set G)
   · exact le_iSup₂ (f := fun s (_ : s ∈ S) => conjSubgroup s R) m hm.1
 
 open CFSG.ClassicalInvolution in
+omit h in
 private theorem conj_W_le {y : G} (hy : y ∈ S) :
     conjSubgroup y (⨆ s ∈ S, conjSubgroup s R) ≤ ⨆ s ∈ S, conjSubgroup s R := by
   rw [Subgroup.map_le_iff_le_comap]
@@ -591,12 +594,14 @@ private theorem conj_N_exp (y : G) {a : G} (ha : a ∈ conjSubgroup y (burnsideI
     _ = 1 := by rw [this]; group
 
 open CFSG.ClassicalInvolution in
+omit h in
 private theorem N'_le_M {x : G} (hxP : x ∈ burnsideIb_P S R) :
     conjSubgroup x (burnsideIb_N S R) ≤ burnsideIb_M S R := by
-  have h1 := conjSubgroup_mono (g := x) h.N_le_M
+  have h1 := conjSubgroup_mono (g := x) (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R))
   rwa [conjSubgroup_eq_self_iff.mpr hxP.2] at h1
 
 open CFSG.ClassicalInvolution in
+omit h in
 private theorem N'_ne {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn : x ∉ burnsideIb_M S R) :
     conjSubgroup x (burnsideIb_N S R) ≠ burnsideIb_N S R := fun e =>
   hxn ⟨hxP.1, conjSubgroup_eq_self_iff.mp e⟩
@@ -618,8 +623,8 @@ private theorem I_inf_R [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn :
   by_contra ha1
   have hle : conjSubgroup x (burnsideIb_N S R) ≤ burnsideIb_N S R := by
     intro b hb
-    exact h.mem_N_of_commute haR ha1 (h.N'_le_M hxP hb).1 (h.conj_N_comm x hb haN')
-  exact h.N'_ne hxP hxn (Subgroup.eq_of_le_of_card_ge hle (by rw [h.card_N' x, h.N_card]))
+    exact h.mem_N_of_commute haR ha1 (CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP hb).1 (h.conj_N_comm x hb haN')
+  exact CFSG.ASVolI.burnsideIb_EAData.N'_ne hxP hxn (Subgroup.eq_of_le_of_card_ge hle (by rw [h.card_N' x, h.N_card]))
 
 open CFSG.ClassicalInvolution in
 private theorem card_I_le [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn : x ∉
@@ -644,13 +649,13 @@ private theorem card_M_eq [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn
   obtain ⟨r, hr, hr1⟩ := h.R_ne_one
   have h7 := (h.card_M_le hr hr1).1
   have hi := h.card_I_le hxP hxn
-  have hN'M := h.N'_le_M hxP
+  have hN'M := CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP
   have hIM : burnsideIb_N S R ⊓ conjSubgroup x (burnsideIb_N S R) ≤ burnsideIb_M S R :=
-    inf_le_left.trans h.N_le_M
+    inf_le_left.trans (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R))
   have hqpos : 0 < Nat.card R := Nat.card_pos
   have hapos : 0 < Nat.card (burnsideIb_M S R) := Nat.card_pos
   have E1 := Subgroup.relIndex_mul_card (burnsideIb_N S R) (burnsideIb_M S R)
-  rw [inf_eq_left.mpr h.N_le_M, h.N_card] at E1
+  rw [inf_eq_left.mpr (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R)), h.N_card] at E1
   have E2 := Subgroup.relIndex_mul_card (conjSubgroup x (burnsideIb_N S R)) (burnsideIb_M S R)
   rw [inf_eq_left.mpr hN'M, h.card_N' x] at E2
   have E3 := Subgroup.relIndex_mul_card
@@ -727,7 +732,7 @@ private theorem cent_N [Finite G]
       _ = m⁻¹ * ((m * r * m⁻¹) * g) * m := by rw [hmr]
       _ = r * (m⁻¹ * g * m) := by group
   have hN := h.mem_N_of_commute hr hr1 hg' hcomm
-  have := h.conj_mem_N hm hN
+  have := CFSG.ASVolI.burnsideIb_EAData.conj_mem_N hm hN
   have e2 : m * (m⁻¹ * g * m) * m⁻¹ = g := by group
   rwa [e2] at this
 
@@ -741,8 +746,8 @@ private theorem I_eq [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn : x 
     by_contra haS₁
     have hle' : conjSubgroup x (burnsideIb_N S R) ≤ burnsideIb_N S R := by
       intro b hb
-      exact h.cent_N hM haN haS₁ (h.N'_le_M hxP hb).1 (h.conj_N_comm x hb haN')
-    exact h.N'_ne hxP hxn (Subgroup.eq_of_le_of_card_ge hle' (by rw [h.card_N' x, h.N_card]))
+      exact h.cent_N hM haN haS₁ (CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP hb).1 (h.conj_N_comm x hb haN')
+    exact CFSG.ASVolI.burnsideIb_EAData.N'_ne hxP hxn (Subgroup.eq_of_le_of_card_ge hle' (by rw [h.card_N' x, h.N_card]))
   refine Subgroup.eq_of_le_of_card_ge hle ?_
   rw [h.S₁_card, (h.card_M_eq hxP hxn).2]
 
@@ -787,7 +792,7 @@ private theorem f_surj_N' [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn
     {r : G} (hr : r ∈ R) (hr1 : r ≠ 1) :
     ∀ s ∈ S₀ ⊓ burnsideIb_N S R, ∃ n' ∈ conjSubgroup x (burnsideIb_N S R),
       r⁻¹ * (n' * r * n'⁻¹) = s := by
-  have hN'M := h.N'_le_M hxP
+  have hN'M := CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP
   have hI := h.I_eq hxP hxn hM
   have hAB : S₀ ⊓ burnsideIb_N S R ≤ conjSubgroup x (burnsideIb_N S R) := by
     rw [← hI]
@@ -817,12 +822,12 @@ private theorem M_eq_mul [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn 
       ∃ n' ∈ conjSubgroup x (burnsideIb_N S R), m = a * n' := by
   intro m hm
   obtain ⟨r, hr, hr1⟩ := h.R_ne_one
-  have hN'M := h.N'_le_M hxP
+  have hN'M := CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP
   obtain ⟨n', hn', hfn'⟩ := h.f_surj_N' hxP hxn hM hr hr1 _ (h.f_mem hm hr)
   have hν : n'⁻¹ * m ∈ burnsideIb_N S R :=
     (h.f_eq_iff (hN'M hn') hm hr hr1).mp hfn'
   have hn'M : n' ∈ burnsideIb_M S R := hN'M hn'
-  refine ⟨n' * (n'⁻¹ * m) * n'⁻¹, h.conj_mem_N hn'M hν, n', hn', ?_⟩
+  refine ⟨n' * (n'⁻¹ * m) * n'⁻¹, CFSG.ASVolI.burnsideIb_EAData.conj_mem_N hn'M hν, n', hn', ?_⟩
   group
 
 open CFSG.ClassicalInvolution in
@@ -837,6 +842,7 @@ private theorem S₁_central [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (
   rw [← mul_assoc, h.N_comm s hs.2 a ha, mul_assoc, h.conj_N_comm x hsN' hn', mul_assoc]
 
 open CFSG.ClassicalInvolution in
+omit h in
 private theorem conj_mem_N' {x : G} (hxP : x ∈ burnsideIb_P S R) {m b : G}
     (hm : m ∈ burnsideIb_M S R) (hb : b ∈ conjSubgroup x (burnsideIb_N S R)) :
     m * b * m⁻¹ ∈ conjSubgroup x (burnsideIb_N S R) := by
@@ -846,7 +852,7 @@ private theorem conj_mem_N' {x : G} (hxP : x ∈ burnsideIb_P S R) {m b : G}
   have hxm : x⁻¹ * m * x ∈ burnsideIb_M S R := by
     have := (Subgroup.mem_normalizer_iff.mp hxinv m).mp hm
     simpa using this
-  have := h.conj_mem_N hxm hb
+  have := CFSG.ASVolI.burnsideIb_EAData.conj_mem_N hxm hb
   have e : x⁻¹ * (m * b * m⁻¹) * x = (x⁻¹ * m * x) * (x⁻¹ * b * x) * (x⁻¹ * m * x)⁻¹ := by group
   rw [e]
   exact this
@@ -858,22 +864,22 @@ private theorem comm_mem [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn 
     ∀ m₁ ∈ burnsideIb_M S R, ∀ m₂ ∈ burnsideIb_M S R,
       m₁ * m₂ * m₁⁻¹ * m₂⁻¹ ∈ S₀ ⊓ burnsideIb_N S R := by
   intro m₁ hm₁ m₂ hm₂
-  have hN'M := h.N'_le_M hxP
+  have hN'M := CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP
   have h1 : m₁ * m₂ * m₁⁻¹ * m₂⁻¹ ∈ burnsideIb_N S R :=
     burnsideIb_commutator_mem (A := conjSubgroup x (burnsideIb_N S R)) hN'M
-      (fun m hm b hb => h.conj_mem_N hm hb)
+      (fun m hm b hb => CFSG.ASVolI.burnsideIb_EAData.conj_mem_N hm hb)
       (fun a ha a' ha' => h.conj_N_comm x ha ha')
       (fun m hm => by
         obtain ⟨a, ha, n', hn', rfl⟩ := h.M_eq_mul hxP hxn hM m hm
         exact ⟨a, ha, n', hn', rfl⟩) m₁ hm₁ m₂ hm₂
   have h2 : m₁ * m₂ * m₁⁻¹ * m₂⁻¹ ∈ conjSubgroup x (burnsideIb_N S R) :=
-    burnsideIb_commutator_mem (A := burnsideIb_N S R) h.N_le_M
-      (fun m hm b hb => h.conj_mem_N' hxP hm hb)
+    burnsideIb_commutator_mem (A := burnsideIb_N S R) (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R))
+      (fun m hm b hb => CFSG.ASVolI.burnsideIb_EAData.conj_mem_N' hxP hm hb)
       (fun a ha a' ha' => h.N_comm a ha a' ha')
       (fun m hm => by
         obtain ⟨a, ha, n', hn', rfl⟩ := h.M_eq_mul hxP hxn hM m hm
         refine ⟨n', hn', n'⁻¹ * a * n', ?_, by group⟩
-        have := h.conj_mem_N ((burnsideIb_M S R).inv_mem (hN'M hn')) ha
+        have := CFSG.ASVolI.burnsideIb_EAData.conj_mem_N ((burnsideIb_M S R).inv_mem (hN'M hn')) ha
         simpa using this) m₁ hm₁ m₂ hm₂
   rw [← h.I_eq hxP hxn hM]
   exact ⟨h1, h2⟩
@@ -902,7 +908,7 @@ private theorem sq_mem [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn : 
   intro m hm
   obtain ⟨a, ha, n', hn', rfl⟩ := h.M_eq_mul hxP hxn hM m hm
   have hcS₁ : n' * a * n'⁻¹ * a⁻¹ ∈ S₀ ⊓ burnsideIb_N S R :=
-    h.comm_mem hxP hxn hM n' (h.N'_le_M hxP hn') a (h.N_le_M ha)
+    h.comm_mem hxP hxn hM n' (CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP hn') a ((CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R)) ha)
   rw [h.mul_self_eq ha hn' hcS₁.2]
   exact hcS₁
 
@@ -915,7 +921,7 @@ private theorem invol_mem [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn
   intro m hm hmm
   obtain ⟨a, ha, n', hn', rfl⟩ := h.M_eq_mul hxP hxn hM m hm
   have hI := h.I_eq hxP hxn hM
-  have hn'M := h.N'_le_M hxP hn'
+  have hn'M := CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP hn'
   by_cases haS : a ∈ S₀ ⊓ burnsideIb_N S R
   · right
     have : a ∈ conjSubgroup x (burnsideIb_N S R) := by
@@ -927,7 +933,7 @@ private theorem invol_mem [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn
     exact (burnsideIb_N S R).mul_mem ha hnS.2
   exfalso
   have hcS₁ : n' * a * n'⁻¹ * a⁻¹ ∈ S₀ ⊓ burnsideIb_N S R :=
-    h.comm_mem hxP hxn hM n' hn'M a (h.N_le_M ha)
+    h.comm_mem hxP hxn hM n' hn'M a ((CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R)) ha)
   have h1 : n' * a * n'⁻¹ * a⁻¹ = 1 := by
     rw [← h.mul_self_eq ha hn' hcS₁.2]
     exact hmm
@@ -947,10 +953,10 @@ private theorem central_mem [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (h
     z ∈ S₀ ⊓ burnsideIb_N S R := by
   obtain ⟨r, hr, hr1⟩ := h.R_ne_one
   have hzN : z ∈ burnsideIb_N S R :=
-    h.mem_N_of_commute hr hr1 hz.1 (hc r (h.N_le_M (h.R_le_N hr)))
+    h.mem_N_of_commute hr hr1 hz.1 (hc r ((CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R)) (h.R_le_N hr)))
   have hr' : x * r * x⁻¹ ∈ conjSubgroup x (burnsideIb_N S R) :=
     mem_conjSubgroup_of_mem (h.R_le_N hr)
-  have hcomm : z * (x * r * x⁻¹) = (x * r * x⁻¹) * z := hc _ (h.N'_le_M hxP hr')
+  have hcomm : z * (x * r * x⁻¹) = (x * r * x⁻¹) * z := hc _ (CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP hr')
   have hzN' : x⁻¹ * z * x ∈ burnsideIb_N S R := by
     refine h.mem_N_of_commute hr hr1 (S.mul_mem (S.mul_mem (S.inv_mem hxP.1) hz.1) hxP.1) ?_
     calc (x⁻¹ * z * x) * r = x⁻¹ * (z * (x * r * x⁻¹)) * x := by group
@@ -965,7 +971,7 @@ private theorem P_cases [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S R) (hxn :
     ∀ y ∈ burnsideIb_P S R, y ∈ burnsideIb_M S R ∨ x⁻¹ * y ∈ burnsideIb_M S R := by
   intro y hy
   have hEM : conjSubgroup y (burnsideIb_N S R) ≤ burnsideIb_M S R := by
-    have h1 := conjSubgroup_mono (g := y) h.N_le_M
+    have h1 := conjSubgroup_mono (g := y) (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R))
     rwa [conjSubgroup_eq_self_iff.mpr hy.2] at h1
   have hinv : ∀ e ∈ conjSubgroup y (burnsideIb_N S R),
       e ∈ burnsideIb_N S R ∨ e ∈ conjSubgroup x (burnsideIb_N S R) := fun e he =>
@@ -994,17 +1000,17 @@ private theorem S_le_normalizer_M [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S
     (inf_le_left : burnsideIb_P S R ≤ S) hPne
   have hMP : burnsideIb_M S R ≤ burnsideIb_P S R := le_inf inf_le_left Subgroup.le_normalizer
   have hEP : conjSubgroup z (burnsideIb_N S R) ≤ burnsideIb_P S R := by
-    have h1 := conjSubgroup_mono (g := z) (h.N_le_M.trans hMP)
+    have h1 := conjSubgroup_mono (g := z) ((CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R)).trans hMP)
     rwa [conjSubgroup_eq_self_iff.mpr hzP] at h1
   have hES : conjSubgroup z (burnsideIb_N S R) ≤ S := hEP.trans inf_le_left
-  have hN'M := h.N'_le_M hxP
+  have hN'M := CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP
   have hq4 := h.four_le
   have hcardE : Nat.card (conjSubgroup z (burnsideIb_N S R)) ≤
       2 * Nat.card (conjSubgroup z (burnsideIb_N S R) ⊓ burnsideIb_M S R : Subgroup G) := by
     by_cases hEM : conjSubgroup z (burnsideIb_N S R) ≤ burnsideIb_M S R
     · rw [inf_eq_left.mpr hEM]
       omega
-    · obtain ⟨w, hwE, hwM⟩ := SetLike.not_le_iff_exists.mp hEM
+    · obtain ⟨w, hwE, hwM⟩ := IsConcreteLE.not_le_iff_exists.mp hEM
       have hxw : x⁻¹ * w ∈ burnsideIb_M S R :=
         ((h.P_cases hxP hxn hM w (hEP hwE)).resolve_left hwM)
       refine burnsideIb_card_le_two_mul inf_le_left w (fun y hy => ?_) hwE
@@ -1035,7 +1041,7 @@ private theorem S_le_normalizer_M [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S
       have := Subgroup.card_le_of_le hle
       rw [h.S₁_card] at this
       omega
-    obtain ⟨a, haJ, haS₁⟩ := SetLike.not_le_iff_exists.mp hnot
+    obtain ⟨a, haJ, haS₁⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
     have hEN : E ≤ burnsideIb_N S R := fun g hg =>
       h.cent_N hM (hJN haJ) haS₁ (hES hg) (h.conj_N_comm z hg haJ.1)
     have hEeq : E = burnsideIb_N S R := Subgroup.eq_of_le_of_card_ge hEN hE_card
@@ -1046,7 +1052,7 @@ private theorem S_le_normalizer_M [Finite G] {x : G} (hxP : x ∈ burnsideIb_P S
       have := Subgroup.card_le_of_le hle
       rw [h.S₁_card] at this
       omega
-    obtain ⟨a, haJ, haS₁⟩ := SetLike.not_le_iff_exists.mp hnot
+    obtain ⟨a, haJ, haS₁⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
     have hEN : E ≤ conjSubgroup x (burnsideIb_N S R) := fun g hg =>
       h.cent_N' hxP hxn hM (hJN' haJ) haS₁ (hES hg) (h.conj_N_comm z hg haJ.1)
     have hEeq : E = conjSubgroup x (burnsideIb_N S R) :=
@@ -1103,7 +1109,7 @@ private theorem W_eq_M [Finite G] (hS : ¬ S ≤ Subgroup.normalizer (R : Set G)
   have hSN := h.S_le_normalizer_M hxP hxn hM
   apply le_antisymm
   · refine iSup₂_le fun s hs => ?_
-    have h1 := conjSubgroup_mono (g := s) (h.R_le_N.trans h.N_le_M)
+    have h1 := conjSubgroup_mono (g := s) (h.R_le_N.trans (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R)))
     rwa [conjSubgroup_eq_self_iff.mpr (hSN hs)] at h1
   · intro m hm
     obtain ⟨a, ha, n', hn', rfl⟩ := h.M_eq_mul hxP hxn hM m hm
@@ -1111,7 +1117,7 @@ private theorem W_eq_M [Finite G] (hS : ¬ S ≤ Subgroup.normalizer (R : Set G)
     refine (⨆ s ∈ S, conjSubgroup s R).mul_mem (hNW ha) ?_
     have : conjSubgroup x (burnsideIb_N S R) ≤ conjSubgroup x (⨆ s ∈ S, conjSubgroup s R) :=
       conjSubgroup_mono hNW
-    exact h.conj_W_le hxP.1 (this hn')
+    exact CFSG.ASVolI.burnsideIb_EAData.conj_W_le hxP.1 (this hn')
 
 open CFSG.ClassicalInvolution in
 private theorem case_II [Finite G] (hS : ¬ S ≤ Subgroup.normalizer (R : Set G))
@@ -1130,13 +1136,13 @@ private theorem case_II [Finite G] (hS : ¬ S ≤ Subgroup.normalizer (R : Set G
   have hxP : x ∈ burnsideIb_P S R := ⟨hxS, hxM⟩
   have hM := (h.card_M_eq hxP hxn).1
   obtain ⟨r, hr, hr1⟩ := h.R_ne_one
-  have hTM : S₀ ⊓ burnsideIb_N S R ≤ burnsideIb_M S R := inf_le_right.trans h.N_le_M
+  have hTM : S₀ ⊓ burnsideIb_N S R ≤ burnsideIb_M S R := inf_le_right.trans (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R))
   have hcomm := h.comm_mem hxP hxn hM
   have hsurj : ∀ s ∈ S₀ ⊓ burnsideIb_N S R, ∃ m₁ ∈ burnsideIb_M S R, ∃ m₂ ∈ burnsideIb_M S R,
       m₁ * m₂ * m₁⁻¹ * m₂⁻¹ = s := by
     intro s hs
     obtain ⟨n', hn', hfn'⟩ := h.f_surj_N' hxP hxn hM hr hr1 s hs
-    refine ⟨r⁻¹, (burnsideIb_M S R).inv_mem (h.N_le_M (h.R_le_N hr)), n', h.N'_le_M hxP hn', ?_⟩
+    refine ⟨r⁻¹, (burnsideIb_M S R).inv_mem ((CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R)) (h.R_le_N hr)), n', CFSG.ASVolI.burnsideIb_EAData.N'_le_M hxP hn', ?_⟩
     rw [← hfn']
     group
   refine ⟨h.S_le_normalizer_M hxP hxn hM, h.W_eq_M hS hxP hxn hM, hM, ?_, ?_, ?_,
@@ -1182,7 +1188,7 @@ private theorem main [Finite G] (hS : ¬ S ≤ Subgroup.normalizer (R : Set G)) 
     have hM := hII.2.2.1
     intro s hs u hu
     have hsM : s ∈ Subgroup.normalizer (burnsideIb_M S R : Set G) := hII.1 hs
-    have hu' : u ∈ burnsideIb_M S R := inf_le_right.trans h.N_le_M hu
+    have hu' : u ∈ burnsideIb_M S R := inf_le_right.trans (CFSG.ASVolI.burnsideIb_EAData.N_le_M (S := S) (R := R)) hu
     refine h.central_mem hxP hxn hM ?_ ?_
     · exact (Subgroup.mem_normalizer_iff.mp hsM u).mp hu'
     · intro m hm

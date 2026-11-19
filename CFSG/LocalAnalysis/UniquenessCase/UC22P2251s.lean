@@ -55,6 +55,7 @@ theorem isQuasisimple_of_equiv_statedSL {Q : Type*} [Group Q] {k n : ℕ} (hk : 
     (CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_quasisimple _ _ hk
       (Or.inr (by rw [hK]; omega)) (Or.inr (by rw [hK]; omega)))
 
+omit [Finite G] in
 theorem isComponentOf_mbarImage {M V Y : Subgroup G} (hV : M ≤ normalizer (V : Set G))
     (hYM : Y ≤ M) (hO : CFSG.pCore 2 (MBar M V) = ⊥) (hq : CFSG.IsQuasisimple (Bar2 Y))
     (hsn : CFSG.Open.IsSubnormal (mbarImage M V Y) ⊤) (hne : ¬ Y ≤ centralizer (V : Set G)) :

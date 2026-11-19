@@ -26,18 +26,18 @@ private lemma l6p3_A_eq_f {m : ℕ} (l l' : Fin m) :
 private lemma l6p3_f_row {a k : ℕ} (ha : a < k) :
     l6p3_f a k = if a = k - 1 then -1 else 0 := by
   unfold l6p3_f
-  rw [if_neg (by omega : ¬ a = k)]
+  rw [ite_eq_right (by omega : ¬ a = k)]
   by_cases h : a = k - 1
-  · rw [if_pos (Or.inl (by omega : a + 1 = k)), if_pos h]
-  · rw [if_neg (by omega : ¬ (a + 1 = k ∨ k + 1 = a)), if_neg h]
+  · rw [ite_eq_left (Or.inl (by omega : a + 1 = k)), ite_eq_left h]
+  · rw [ite_eq_right (by omega : ¬ (a + 1 = k ∨ k + 1 = a)), ite_eq_right h]
 
 private lemma l6p3_f_col {k b : ℕ} (hb : b < k) :
     l6p3_f k b = if b = k - 1 then -1 else 0 := by
   unfold l6p3_f
-  rw [if_neg (by omega : ¬ k = b)]
+  rw [ite_eq_right (by omega : ¬ k = b)]
   by_cases h : b = k - 1
-  · rw [if_pos (Or.inr (by omega : b + 1 = k)), if_pos h]
-  · rw [if_neg (by omega : ¬ (k + 1 = b ∨ b + 1 = k)), if_neg h]
+  · rw [ite_eq_left (Or.inr (by omega : b + 1 = k)), ite_eq_left h]
+  · rw [ite_eq_right (by omega : ¬ (k + 1 = b ∨ b + 1 = k)), ite_eq_right h]
 
 private lemma l6p3_sum_row (i k : ℕ) (hik : i < k) :
     (∑ a ∈ Finset.Ico i k, l6p3_f a k) = -1 := by
@@ -45,10 +45,10 @@ private lemma l6p3_sum_row (i k : ℕ) (hik : i < k) :
   trans l6p3_f (k - 1) k
   · refine Finset.sum_eq_single (k - 1) ?_ ?_
     · intro b hb hne
-      rw [l6p3_f_row (Finset.mem_Ico.mp hb).2, if_neg hne]
+      rw [l6p3_f_row (Finset.mem_Ico.mp hb).2, ite_eq_right hne]
     · intro hnot
       exact absurd hmem hnot
-  · rw [l6p3_f_row (by omega : k - 1 < k), if_pos rfl]
+  · rw [l6p3_f_row (by omega : k - 1 < k), ite_eq_left rfl]
 
 private lemma l6p3_sum_col (i k : ℕ) (hik : i < k) :
     (∑ b ∈ Finset.Ico i k, l6p3_f k b) = -1 := by
@@ -56,10 +56,10 @@ private lemma l6p3_sum_col (i k : ℕ) (hik : i < k) :
   trans l6p3_f k (k - 1)
   · refine Finset.sum_eq_single (k - 1) ?_ ?_
     · intro b hb hne
-      rw [l6p3_f_col (Finset.mem_Ico.mp hb).2, if_neg hne]
+      rw [l6p3_f_col (Finset.mem_Ico.mp hb).2, ite_eq_right hne]
     · intro hnot
       exact absurd hmem hnot
-  · rw [l6p3_f_col (by omega : k - 1 < k), if_pos rfl]
+  · rw [l6p3_f_col (by omega : k - 1 < k), ite_eq_left rfl]
 
 private lemma l6p3_interval_step (i j : ℕ) (hij : i < j) :
     (∑ a ∈ Finset.Ico i (j + 1), ∑ b ∈ Finset.Ico i (j + 1), l6p3_f a b)

@@ -27,6 +27,7 @@ theorem CompSetting.three_dvd (hs : CompSetting P) {K : Subgroup Y} (hK : IsComp
     exact hto
   exact hord ▸ _root_.orderOf_dvd_natCard _
 
+omit [Finite Y] in
 theorem mem_sup_prod {A B : Subgroup Y} (hAB : A ≤ normalizer (B : Set Y)) {w : Y}
     (hw : w ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, a * b = w := by
   have hset := Subgroup.coe_mul_of_left_le_normalizer_right A B hAB
@@ -42,6 +43,7 @@ variable (htw : TwoData P K₁ K₂)
 
 include htw
 
+omit [Finite Y] in
 theorem symm : TwoData P K₂ K₁ :=
   ⟨htw.hs, htw.c₂, htw.c₁, htw.ne.symm, fun K hK => (htw.all K hK).symm⟩
 
@@ -68,11 +70,13 @@ theorem prod_unique {a c b d : Y} (ha : a ∈ K₁) (hc : c ∈ K₁) (hb : b �
   have hac : a = c := (inv_mul_eq_one.mp hmem).symm
   exact ⟨hac, mul_left_cancel (a := a) (by rw [h, hac])⟩
 
+omit [Finite Y] in
 theorem conj_comp (g : Y) :
     K₁.map (MulAut.conj g).toMonoidHom = K₁ ∨ K₁.map (MulAut.conj g).toMonoidHom = K₂ :=
   htw.all _ ((CFSG.ComponentClassification.LocalComponents.equiv_iff (MulAut.conj g) K₁).mpr
     htw.c₁)
 
+omit [Finite Y] in
 theorem swap_of_ne {g : Y} (hg : K₁.map (MulAut.conj g).toMonoidHom ≠ K₁) :
     K₁.map (MulAut.conj g).toMonoidHom = K₂ ∧ K₂.map (MulAut.conj g).toMonoidHom = K₁ := by
   have h1 : K₁.map (MulAut.conj g).toMonoidHom = K₂ := (htw.conj_comp g).resolve_left hg
@@ -81,12 +85,14 @@ theorem swap_of_ne {g : Y} (hg : K₁.map (MulAut.conj g).toMonoidHom ≠ K₁) 
   · exact absurd (map_injective (MulAut.conj g).injective (h1.trans h2.symm)) htw.ne
   · exact h2
 
+omit [Finite Y] in
 theorem map_conj_of_mem {g : Y} (hg : K₁.map (MulAut.conj g).toMonoidHom = K₁) :
     K₂.map (MulAut.conj g).toMonoidHom = K₂ := by
   rcases htw.symm.conj_comp g with h2 | h2
   · exact h2
   · exact absurd (map_injective (MulAut.conj g).injective (hg.trans h2.symm)) htw.ne
 
+omit [Finite Y] in
 theorem normal_normalizer : (normalizer (K₁ : Set Y)).Normal := by
   refine ⟨fun y hy g => ?_⟩
   have hy' : K₁.map (MulAut.conj y).toMonoidHom = K₁ := mem_normalizer_iff_map_conj_eq.mp hy
@@ -107,8 +113,8 @@ theorem normal_normalizer : (normalizer (K₁ : Set Y)).Normal := by
 
 theorem exists_normalizer_swap {ι : Y} (hι : K₁.map (MulAut.conj ι).toMonoidHom = K₂) :
     ∃ t ∈ normalizer (P : Set Y), K₁.map (MulAut.conj t).toMonoidHom = K₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := htw.normal_normalizer
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := htw.normal_normalizer
   set D : Subgroup Y := normalizer (K₁ : Set Y) with hD
   have hPD : P ≤ D := htw.hs.normalizes htw.c₁
   set P' : Subgroup Y := P.map (MulAut.conj ι).toMonoidHom with hP'
@@ -126,7 +132,7 @@ theorem exists_normalizer_swap {ι : Y} (hι : K₁.map (MulAut.conj ι).toMonoi
     (hSyl.of_le hP'D le_top)
   have hdm : ∀ y : Y, y ∈ P' ↔ ι⁻¹ * y * ι ∈ P := fun y => by
     rw [hP', Subgroup.mem_map_equiv]
-    simp [MulAut.conj_apply]
+    simp
   refine ⟨d⁻¹ * ι, ?_, ?_⟩
   · rw [mem_normalizer_iff]
     intro y
@@ -141,6 +147,7 @@ theorem exists_normalizer_swap {ι : Y} (hι : K₁.map (MulAut.conj ι).toMonoi
 
 end TwoData
 
+omit [Finite Y] in
 theorem zpowers_comm {a b : Y} (h : a * b = b * a) :
     ∀ u ∈ zpowers a, ∀ v ∈ zpowers b, u * v = v * u := by
   intro u hu v hv
@@ -148,6 +155,7 @@ theorem zpowers_comm {a b : Y} (h : a * b = b * a) :
   obtain ⟨j, rfl⟩ := mem_zpowers_iff.mp hv
   exact (Commute.zpow_zpow (show Commute a b from h) i j).eq
 
+omit [Finite Y] in
 theorem mem_of_map_eq {K : Subgroup Y} {g : Y} (h : K.map (MulAut.conj g).toMonoidHom = K)
     {y : Y} (hy : y ∈ K) : g * y * g⁻¹ ∈ K := by
   rw [← h]

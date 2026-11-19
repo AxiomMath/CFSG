@@ -23,9 +23,9 @@ theorem dT_mem : dT ∈ T0 := mem_T0_iff.mpr (by unfold IsMon dT; decide)
 
 theorem sx_dT : sT * xT * dT = xT * sT := by
   apply Subtype.ext
-  simp only [Matrix.SpecialLinearGroup.coe_mul, xT, sT, dT]
+  simp only [xT, sT, dT]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> decide
+  fin_cases i <;> fin_cases j <;> simp <;> decide
 
 theorem mulVec_e3 (M : Matrix (Fin 3) (Fin 3) (ZMod 5)) :
     M *ᵥ ![0, 0, 1] = ![M 0 2, M 1 2, M 2 2] := by
@@ -125,6 +125,7 @@ theorem card_permH {o : ℕ} (hp : o.Prime) (ho : g ^ o = 1) (h1 : g ≠ 1) (h2 
     exact Nat.le_of_dvd Nat.card_pos (hcop.mul_dvd_of_dvd_of_dvd hz hT)
 
 include hg hperm in
+omit hg hperm in
 theorem dT_comm (hn : ∀ t ∈ T0, t * g * t⁻¹ ∈ Subgroup.zpowers g) : dT * g = g * dT := by
   obtain ⟨α, hα⟩ := Subgroup.mem_zpowers_iff.mp (hn xT xT_mem)
   obtain ⟨β, hβ⟩ := Subgroup.mem_zpowers_iff.mp (hn sT sT_mem)
@@ -209,7 +210,7 @@ theorem fix_e3_of_31 (h31 : g ^ 31 = 1) (h1 : g ≠ 1) :
   · have : Subsingleton (Sylow 31 H) := (Nat.card_eq_one_iff_unique.mp hn).1
     have hnorm := PS.normal_of_subsingleton
     apply col_of_dT_comm
-    apply dT_comm hg hperm
+    apply dT_comm
     intro t ht
     have h2 := hnorm.conj_mem ⟨g, hgH⟩ ((hPmem _).mpr (Subgroup.mem_zpowers g)) ⟨t, hTH ht⟩
     exact (hPmem _).mp h2
@@ -321,7 +322,7 @@ theorem fix_e3_of_5 (hpt : ptOKL tC = true) (h5 : g ^ 5 = 1)
           Matrix.SpecialLinearGroup.coe_one, one_mulVec]
       rw [h1, mulVec_smul, isMon_mulVec_e3 (T0.inv_mem (htT i)), smul_smul] at h2
       rw [h2]
-      simp [he3]
+      simp
     choose r hr0 hr5 c hc hrc using himg
     let f : Fin 5 → Fin 4 := fun i => ⟨r i - 1, by have := hr5 i; omega⟩
     obtain ⟨i, j, hij, hf⟩ := Fintype.exists_ne_map_eq_of_card_lt f (by simp)

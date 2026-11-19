@@ -73,7 +73,7 @@ theorem ggKGCCentSolv_A_ge_six {n : ℕ} (hn : 6 ≤ n) :
   have hfinj : Function.Injective f :=
     (MonoidHom.injective_codRestrict (φ.domRestrict S) S' hmem).mpr
       (fun x y hxy => Subtype.ext (hφinj hxy))
-  haveI : Group.IsSolvable ↥S' := hs
+  have : Group.IsSolvable ↥S' := hs
   exact Group.isSolvable_of_isSolvable_injective (f := f) hfinj
 
 end CFSG.StandardType

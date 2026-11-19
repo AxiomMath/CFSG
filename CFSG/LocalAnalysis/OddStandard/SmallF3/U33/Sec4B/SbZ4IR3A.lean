@@ -109,7 +109,7 @@ section quotient
 
 variable (N : Subgroup X) [N.Normal]
 
-@[expose] abbrev z4iπ : X →* X ⧸ N := QuotientGroup.mk' N
+abbrev z4iπ : X →* X ⧸ N := QuotientGroup.mk' N
 
 theorem z4iπ_surjective : Function.Surjective (z4iπ N) :=
   QuotientGroup.mk'_surjective N
@@ -131,6 +131,7 @@ theorem z4iπ_mem_map_iff {A : Subgroup X} {x : X} :
 theorem z4i_map_sup_N (A : Subgroup X) : (A ⊔ N).map (z4iπ N) = A.map (z4iπ N) := by
   rw [Subgroup.map_sup, QuotientGroup.map_mk'_self, sup_bot_eq]
 
+omit [N.Normal] in
 theorem z4i_inf_N_eq_bot (hN : Odd (Nat.card N)) [Finite X] {P : Subgroup X}
     (hP : IsPGroup 2 P) : P ⊓ N = ⊥ :=
   CFSG.RankThree.OddKernel.inf_eq_bot_of_odd hP hN

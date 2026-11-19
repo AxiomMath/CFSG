@@ -59,11 +59,11 @@ abbrev BlockLevi222 := SpecialLinearGroup (Fin 2) F × SpecialLinearGroup (Fin c
 
 @[simp] theorem blockStd222_apply_even {ε : ℕ} (hε : ε % 2 = 0) (g : BlockLevi222 c F) :
     blockStd222 c F A hA σ ε g = blockStd222Even c F A hA σ g := by
-  rw [blockStd222, if_pos hε]
+  rw [blockStd222, ite_eq_left hε]
 
 @[simp] theorem blockStd222_apply_odd {ε : ℕ} (hε : ε % 2 = 1) (g : BlockLevi222 c F) :
     blockStd222 c F A hA σ ε g = blockStd222Odd c F A hA σ g := by
-  rw [blockStd222, if_neg (by omega)]
+  rw [blockStd222, ite_eq_right (by omega)]
 
 theorem blockStd222Even_apply (g : BlockLevi222 c F) :
     blockStd222Even c F A hA σ g =

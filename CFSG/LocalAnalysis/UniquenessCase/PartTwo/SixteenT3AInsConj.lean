@@ -14,7 +14,7 @@ theorem s16t_a_exists_conj_stable_set {Γ : Type} [Group Γ] {B : Subgroup Γ}
     (hodd : Odd (Nat.card ↥Ω)) :
     ∃ H ∈ Ω, ∀ b ∈ B, H.map (MulAut.conj b).toMonoidHom = H := by
   classical
-  letI : MulAction ↥B (Subgroup Γ) :=
+  let : MulAction ↥B (Subgroup Γ) :=
     MulAction.compHom (Subgroup Γ) ((MulAut.conj : Γ →* MulAut Γ).comp B.subtype)
   have hsmul : ∀ (b : ↥B) (H : Subgroup Γ), b • H = H.map (MulAut.conj (b : Γ)).toMonoidHom := by
     intro b H

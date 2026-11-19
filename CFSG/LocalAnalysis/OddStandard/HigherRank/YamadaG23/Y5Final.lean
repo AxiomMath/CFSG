@@ -20,19 +20,19 @@ theorem f33hyp_of (hB : Sec3Inputs) (hS : HRSetting G L) (hL : HRG23 (L ⧸ cent
     hB.f32 G L hS hL s e, hB.transport G L hS hL s⟩
 
 theorem sec52_of (hB : Sec3Inputs) : Sec52 :=
-  fun G _ _ L hS hL c => y52_fact (f33hyp_of hB hS hL c.s c.e)
+  fun _G _ _ _L hS hL c => y52_fact (f33hyp_of hB hS hL c.s c.e)
 
 theorem sec53_of (hB : Sec3Inputs) : Sec53 :=
-  fun G _ _ L hS hL c => y53_fact (f33hyp_of hB hS hL c.s c.e)
+  fun _G _ _ _L hS hL c => y53_fact (f33hyp_of hB hS hL c.s c.e)
 
 theorem sec54_of (hB : Sec3Inputs) : Sec54 :=
-  fun G _ _ L hS hL c => y54_fact c (f33hyp_of hB hS hL c.s c.e)
+  fun _G _ _ _L hS hL c => y54_fact c (f33hyp_of hB hS hL c.s c.e)
 
 theorem sec55_of (hB : Sec3Inputs) : Sec55 :=
-  fun G _ _ L hS hL c => y55_fact c (f33hyp_of hB hS hL c.s c.e)
+  fun _G _ _ _L hS hL c => y55_fact c (f33hyp_of hB hS hL c.s c.e)
 
 theorem sec57_of (hB : Sec3Inputs) : Sec57 :=
-  fun G _ _ L hS hL c => y57_fact c (f33hyp_of hB hS hL c.s c.e)
+  fun _G _ _ _L hS hL c => y57_fact c (f33hyp_of hB hS hL c.s c.e)
 
 theorem sec5_of_sec3 (hB : Sec3Inputs) (h56 : Sec56) : Sec5 :=
   sec5_of (sec52_of hB) (sec53_of hB) (sec54_of hB) (sec55_of hB) h56 (sec57_of hB)

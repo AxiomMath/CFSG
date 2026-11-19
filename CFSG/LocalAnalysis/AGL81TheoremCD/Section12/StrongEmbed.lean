@@ -20,11 +20,12 @@ theorem stronglyDEmbedded_of_almost {M : Subgroup G} {p : ℕ} {Q H : Subgroup G
   · exact absurd h2.2.1 hns
   · exact absurd h3.2.1 hns
 
+omit [Finite G] in
 theorem not_isSolvable_of_mem_weakBlockSet {M H L : Subgroup G}
     (hL : L ∈ weakBlockSet M H) : ¬ Group.IsSolvable M := by
   intro hsol
   have hLM : L ≤ M := hL.le
-  haveI : Group.IsSolvable ↥M := hsol
+  have : Group.IsSolvable ↥M := hsol
   have hLs : Group.IsSolvable ↥L :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hLM).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hLM).surjective
@@ -32,8 +33,8 @@ theorem not_isSolvable_of_mem_weakBlockSet {M H L : Subgroup G}
     intro hbot
     rw [hbot] at hL
     exact hL.not_le_normalizer bot_le
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hLne
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL.perfect
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hLne
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL.perfect
   exact Group.IsPerfect.not_isSolvable ↥L hLs
 
 end CFSG.LocalAnalysis.AGL81TheoremCD.Section12

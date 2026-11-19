@@ -55,7 +55,7 @@ theorem invW_eq (d : ℕ) (M : Array W) :
   · simp only [id_bind]
     generalize List.foldl _ d (List.range' c (d - c)) = p
     by_cases hp : p < d
-    · rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp, ite_eq_left hp]
       unfold invNorm
       split_ifs with hn
       · rw [forIn_id_eq _ _ (fun i t => invElim c (c >>> 6) (1 <<< (c &&& 63).toUInt64)
@@ -71,7 +71,7 @@ theorem invW_eq (d : ℕ) (M : Array W) :
         · intro i t
           unfold invElim
           split_ifs <;> rfl
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp, ite_eq_right hp]
       rfl
   · intro i p
     split_ifs <;> rfl
@@ -136,10 +136,10 @@ theorem rowW_swapIfInBounds {X : Array W} {c p : ℕ} (hc : c < X.size) (hp : p 
   by_cases hk : k < X.size
   · rw [Array.getElem?_eq_getElem (by simpa using hk), Array.getElem_swapIfInBounds]
     by_cases h1 : k = c
-    · simp [h1, hp, Array.getElem?_eq_getElem hp]
+    · simp [h1, hp]
     · by_cases h2 : k = p
       · subst h2
-        simp [h1, Array.getElem?_eq_getElem hc, hc]
+        simp [h1, hc]
       · simp [h1, h2, Array.getElem?_eq_getElem hk]
   · rw [Array.getElem?_eq_none (by simpa using hk)]
     have h1 : k ≠ c := by omega
@@ -179,10 +179,10 @@ theorem matW_neg {X : Array W} (hX : RowsWF X) (hs : X.size = d) {c : ℕ} (hc :
   rw [Matrix.diagonal_mul, matW_apply, matW_apply, rowW_modify]
   by_cases h : i = ⟨c, hc⟩
   · subst h
-    rw [if_pos ⟨rfl, by omega⟩, W.val_neg (hX.row c), Function.update_self]
+    rw [ite_eq_left ⟨rfl, by omega⟩, W.val_neg (hX.row c), Function.update_self]
     exact (neg_one_mul _).symm
   · have e : ¬(c = i.val ∧ i.val < X.size) := fun e => h (Fin.ext e.1.symm)
-    rw [if_neg e, Function.update_of_ne h]
+    rw [ite_eq_right e, Function.update_of_ne h]
     simp
 
 theorem det_neg_ne (c : Fin d) :
@@ -191,7 +191,7 @@ theorem det_neg_ne (c : Fin d) :
   simp only [Pi.one_apply, Finset.prod_const_one, mul_one]
   decide
 
-theorem matW_addRow {X : Array W} (hX : RowsWF X) (hs : X.size = d) {i c : ℕ} (hi : i < d)
+theorem matW_addRow {X : Array W} (_hX : RowsWF X) (hs : X.size = d) {i c : ℕ} (hi : i < d)
     (hc : c < d) (s : ZMod 3) {f : W → W}
     (hf : ∀ j, (f (rowW X i)).val j = (rowW X i).val j + s * (rowW X c).val j) :
     matW d d (X.modify i f) = Matrix.transvection ⟨i, hi⟩ ⟨c, hc⟩ s * matW d d X := by
@@ -199,9 +199,9 @@ theorem matW_addRow {X : Array W} (hX : RowsWF X) (hs : X.size = d) {i c : ℕ} 
   by_cases h : k = ⟨i, hi⟩
   · subst h
     rw [Matrix.transvection_mul_apply_same, matW_apply, matW_apply, matW_apply, rowW_modify,
-      if_pos ⟨rfl, by omega⟩, hf]
+      ite_eq_left ⟨rfl, by omega⟩, hf]
   · rw [Matrix.transvection_mul_apply_of_ne (ha := h), matW_apply, matW_apply, rowW_modify,
-      if_neg (fun e => h (Fin.ext e.1.symm))]
+      ite_eq_right (fun e => h (Fin.ext e.1.symm))]
 
 end RowOps
 
@@ -244,9 +244,9 @@ theorem det_op {B B' E : Matrix (Fin d) (Fin d) (ZMod 3)} (hB : B' = E * B) (hE 
 
 theorem rowW_modify_size {X : Array W} {i k : ℕ} {f : W → W} (hk : k ≠ i) :
     rowW (X.modify i f) k = rowW X k := by
-  rw [rowW_modify, if_neg (fun e => hk e.1.symm)]
+  rw [rowW_modify, ite_eq_right (fun e => hk e.1.symm)]
 
-theorem elim_row {pa pb : W} {S : ℕ → Prop} {s : Array W × Array W} (hc : c < d) (hd : d ≤ 781)
+theorem elim_row {pa pb : W} {S : ℕ → Prop} {s : Array W × Array W} (hc : c < d) (_hd : d ≤ 781)
     (h : ElimState d c N pa pb S s) {i : ℕ} (hi : i < d) (hic : i ≠ c) (e : ZMod 3)
     (fa fb : W → W)
     (hfa : ∀ x, x.wf = true → (fa x).wf = true ∧ ∀ j, (fa x).val j = x.val j + e * pa.val j)
@@ -281,10 +281,10 @@ theorem elim_row {pa pb : W} {S : ℕ → Prop} {s : Array W × Array W} (hc : c
   · intro k j hk hj
     rw [hrow]
     by_cases hm : k = i ∧ k < s.1.size
-    · rw [if_pos hm, (hfa _ (h.wa.row k)).2, ← h.ra, h.col c j hc hj, if_neg (by omega), mul_zero,
+    · rw [ite_eq_left hm, (hfa _ (h.wa.row k)).2, ← h.ra, h.col c j hc hj, ite_eq_right (by omega), mul_zero,
         add_zero]
       exact h.col k j hk hj
-    · rw [if_neg hm]
+    · rw [ite_eq_right hm]
       exact h.col k j hk hj
   · intro k hk hS hkc
     rw [hrow]
@@ -308,30 +308,30 @@ theorem invElim_spec {pa pb : W} {S : ℕ → Prop} {s : Array W × Array W} (hc
   have hpb : pb.wf = true := h.rb ▸ h.wb.row c
   unfold invElim
   by_cases hic : i = c
-  · rw [if_neg (by simp [hic])]
+  · rw [ite_eq_right (by simp [hic])]
     refine { h with done := ?_ }
     intro k hk hs hkc
     rcases hs with hs | e
     · exact h.done k hk hs hkc
     · exact absurd (e.trans hic) hkc
-  rw [if_pos (by simpa using hic), rowW_getElem!, limbP_bit, limbM_bit]
+  rw [ite_eq_left (by simpa using hic), rowW_getElem!, limbP_bit, limbM_bit]
   have hxw := h.wa.row i
   by_cases h1 : (rowW s.1 i).bitP c = true
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     refine elim_row hc hd h hi hic (-1) _ _ (fun x hx => ⟨W.wf_sub hx hpa, fun j => ?_⟩)
       (fun x hx => ⟨W.wf_sub hx hpb, fun j => ?_⟩) hpa1 ?_
     · rw [W.val_sub hx hpa, neg_one_mul, sub_eq_add_neg]
     · rw [W.val_sub hx hpb, neg_one_mul, sub_eq_add_neg]
     · rw [val_eq_one_of_bitP hxw h1, add_neg_cancel]
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : (rowW s.1 i).bitM c = true
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       refine elim_row hc hd h hi hic 1 _ _ (fun x hx => ⟨W.wf_add hx hpa, fun j => ?_⟩)
         (fun x hx => ⟨W.wf_add hx hpb, fun j => ?_⟩) hpa1 ?_
       · rw [W.val_add hx hpa, one_mul]
       · rw [W.val_add hx hpb, one_mul]
       · rw [val_eq_two_of_bitM hxw h2]; decide
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       have h0 : (rowW s.1 i).val c = 0 :=
         val_eq_zero_of_bits (by simpa using h1) (by simpa using h2)
       refine { h with done := ?_ }
@@ -378,7 +378,7 @@ theorem invPiv_fold {d : ℕ} {Q : ℕ → Bool} {lo : ℕ} : ∀ (L : List ℕ)
     · have h1 := invPiv_fold L p0 hL' h0
       have e : r = L.foldl (fun p i => if (p == d && Q i) = true then i else p) p0 := by
         simp only [r, List.foldl_cons]
-        rw [if_neg hb]
+        rw [ite_eq_right hb]
       rw [e]
       refine ⟨h1.1, fun hr => ⟨(h1.2 hr).1, ?_⟩⟩
       intro j hj
@@ -416,10 +416,10 @@ theorem det_eq_zero_of_col {A : Matrix (Fin d) (Fin d) (ZMod 3)} (hc : c < d)
           · simp [v, h1, h2, h3, Ne.symm h3]
         · simp [v, h1, h2]
     rw [Pi.zero_apply, Matrix.mulVec, dotProduct]
-    simp only [key, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [key, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     by_cases hi : i.val < c
-    · rw [if_pos hi, add_neg_cancel]
-    · rw [if_neg hi, hz i (by omega), add_zero]
+    · rw [ite_eq_left hi, add_neg_cancel]
+    · rw [ite_eq_right hi, hz i (by omega), add_zero]
 
 theorem pivot_state {s : Array W × Array W} (hc : c < d) (h : InvState d c N s) {p : ℕ}
     (hp : p < d) (hcp : c ≤ p) (hnz : (rowW s.1 p).val c ≠ 0) :
@@ -432,7 +432,7 @@ theorem pivot_state {s : Array W × Array W} (hc : c < d) (h : InvState d c N s)
   have hcb : c < s.2.size := by rw [h.sb]; exact hc
   have hpb : p < s.2.size := by rw [h.sb]; exact hp
   have hrc : rowW (s.1.swapIfInBounds c p) c = rowW s.1 p := by
-    rw [rowW_swapIfInBounds hca hpa, if_pos rfl]
+    rw [rowW_swapIfInBounds hca hpa, ite_eq_left rfl]
   have h1 : InvState d c N (s.1.swapIfInBounds c p, s.2.swapIfInBounds c p) := by
     refine ⟨by simp [h.sa], by simp [h.sb], RowsWF.swapIfInBounds h.wa c p,
       RowsWF.swapIfInBounds h.wb c p, ?_, rel_op h.rel (matW_swap h.sa hc hp) (matW_swap h.sb hc hp),
@@ -444,18 +444,18 @@ theorem pivot_state {s : Array W × Array W} (hc : c < d) (h : InvState d c N s)
       dsimp only
       rw [rowW_swapIfInBounds hca hpa]
       by_cases e1 : i = c
-      · rw [if_pos e1, h.col p j hp hj, if_neg (by omega), if_neg (by omega)]
-      · rw [if_neg e1]
+      · rw [ite_eq_left e1, h.col p j hp hj, ite_eq_right (by omega), ite_eq_right (by omega)]
+      · rw [ite_eq_right e1]
         by_cases e2 : i = p
-        · rw [if_pos e2, h.col c j hc hj, if_neg (by omega), if_neg (by omega)]
-        · rw [if_neg e2]
+        · rw [ite_eq_left e2, h.col c j hc hj, ite_eq_right (by omega), ite_eq_right (by omega)]
+        · rw [ite_eq_right e2]
           exact h.col i j hi hj
   have hw : (rowW s.1 p).wf = true := h.wa.row p
   unfold invNorm
   dsimp only
   rw [rowW_getElem!, limbM_bit, hrc]
   by_cases hm : (rowW s.1 p).bitM c = true
-  · rw [if_pos hm]
+  · rw [ite_eq_left hm]
     have hA := matW_neg h1.wa h1.sa hc
     have hB := matW_neg h1.wb h1.sb hc
     have hrow : ∀ (X : Array W) k, rowW (X.modify c W.neg) k =
@@ -477,14 +477,14 @@ theorem pivot_state {s : Array W × Array W} (hc : c < d) (h : InvState d c N s)
     · intro i j hi hj
       rw [hrow]
       by_cases e : i = c ∧ i < (s.1.swapIfInBounds c p, s.2.swapIfInBounds c p).1.size
-      · rw [if_pos e, W.val_neg (h1.wa.row i), h1.col i j hi hj, if_neg (by omega)]
+      · rw [ite_eq_left e, W.val_neg (h1.wa.row i), h1.col i j hi hj, ite_eq_right (by omega)]
         decide
-      · rw [if_neg e]
+      · rw [ite_eq_right e]
         exact h1.col i j hi hj
-    · rw [hrow, if_pos ⟨rfl, by simp [h.sa, hc]⟩, W.val_neg (h1.wa.row c), hrc,
+    · rw [hrow, ite_eq_left ⟨rfl, by simp [h.sa, hc]⟩, W.val_neg (h1.wa.row c), hrc,
         val_eq_two_of_bitM hw hm]
       decide
-  · rw [if_neg hm]
+  · rw [ite_eq_right hm]
     refine ⟨h1, ?_⟩
     rw [hrc]
     have := (val_ne_zero_iff hw c).1 hnz
@@ -502,7 +502,7 @@ theorem invCol_spec {s : Array W × Array W} (hc : c < d) (hd : d ≤ 781) (hN :
   dsimp only at hpiv ⊢
   generalize List.foldl _ d (List.range' c (d - c)) = p at hpiv ⊢
   by_cases hpd : p < d
-  · rw [if_pos hpd]
+  · rw [ite_eq_left hpd]
     rcases hpiv.1 with hpe | ⟨-, hcp, hQ⟩
     · omega
     rw [rowW_getElem!, nz_bit, ← val_ne_zero_iff (h.wa.row p)] at hQ
@@ -520,9 +520,9 @@ theorem invCol_spec {s : Array W × Array W} (hc : c < d) (hd : d ≤ 781) (hN :
     · exact hf.col i j hi hj
     · by_cases hic : i = j
       · subst hic
-        rw [if_pos rfl, hf.ra, rowW_getElem!]
+        rw [ite_eq_left rfl, hf.ra, rowW_getElem!]
         exact ht1
-      · rw [if_neg hic]
+      · rw [ite_eq_right hic]
         exact hf.done i hi (Or.inr (by rw [List.mem_range'_1]; omega)) hic
   · exfalso
     have hpe : p = d := by rcases hpiv.1 with h' | h' <;> omega
@@ -561,7 +561,7 @@ theorem invW_spec {d : ℕ} (hd : d ≤ 781) {M : Array W} (hs : M.size = d) (hw
     refine ⟨hs, idW_size d, hw, RowsWF.idW (by omega), ?_, ?_, ?_, fun _ _ _ hj => absurd hj (by omega)⟩
     · intro i j hj
       by_cases hi : i < d
-      · rw [rowW_idW i hi, W.val_setTrit (by omega) (W.val_zero _), if_neg (by omega), W.val_zero]
+      · rw [rowW_idW i hi, W.val_setTrit (by omega) (W.val_zero _), ite_eq_right (by omega), W.val_zero]
       · rw [rowW_ge (by rw [idW_size]; omega), W.val_zero]
     · dsimp only
       rw [matW_idW (by omega), Matrix.one_mul]

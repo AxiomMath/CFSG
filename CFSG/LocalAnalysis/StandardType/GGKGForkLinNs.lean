@@ -15,7 +15,7 @@ theorem ggTorusSignedEltSC_linear_nonsplit {K : Type} [Field K] [Finite K] {n d 
     (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n) (hd : 2 ≤ d) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ 2 ^ n + 1) :
     GGTorusSignedEltSC p (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) := by
-  haveI : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hn hK
+  have : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hn hK
   have hpK : p ∣ Nat.card K + 1 := by rw [hK]; exact hpq
   have hpK0 : (p : K) ≠ 0 := fun hzero =>
     hp2 (((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp

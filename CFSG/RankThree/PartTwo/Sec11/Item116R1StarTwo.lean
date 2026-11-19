@@ -115,7 +115,7 @@ theorem five_e3iii {G : Type} [Group G] [Finite G] (hloc : FiveLocalRankHyp G) {
     (hw : FiveStarData S w) (hw' : FiveStarData S w') (hcomm : ⁅fiveStarR S w, fiveStarR S w'⁆ = ⊥) : False := by
   obtain ⟨⟨eR⟩, -, -⟩ := hw
   obtain ⟨-, -, p, D, hp, hp3, hDp, -, hSD, -, hpr, hirr⟩ := hw'
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRD : fiveStarR S w ≤ Subgroup.normalizer (D : Set G) := (fiveStarR_le hwS).trans hSD
   have hR'D : fiveStarR S w' ≤ Subgroup.normalizer (D : Set G) := (fiveStarR_le hw'S).trans hSD
   have hcomm' : ∀ a ∈ fiveStarR S w, ∀ b ∈ fiveStarR S w', a * b = b * a := by
@@ -251,7 +251,7 @@ theorem h12_dich {H : Type} [Group H] [Finite H] (hS : IsExtraspecialPGroup 2 H)
     intro a ha
     exact hle (Subgroup.mem_map_of_mem _ ha)
   set A : Subgroup H := T ⊔ Subgroup.center H with hAdef
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   let f : Function.End A := fun a => ⟨γ (a : H), hAinv (a : H) a.2⟩
   have hfpow : ∀ (n : ℕ) (a : A), (((f ^ n) a : A) : H) = (γ ^ n) (a : H) := by
     intro n
@@ -268,7 +268,7 @@ theorem h12_dich {H : Type} [Group H] [Finite H] (hS : IsExtraspecialPGroup 2 H)
     apply Subtype.ext
     rw [hfpow 5 a, h5]
     try rfl
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hf1 : f ^ 5 ^ 1 = 1 := by simpa using hf5
   have hmod : Nat.card A ≡ Nat.card (Function.fixedPoints f) [MOD 5] := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
@@ -490,7 +490,7 @@ theorem h13_no_triv {G : Type} [Group G] {S : Subgroup G} {x : G} (hx : FiveStar
   exact h13_QD32_not_comm hcomm
 
 theorem five_cyclic_action {G : Type} [Group G] [Finite G] (hloc : FiveLocalRankHyp G) {θ S : Subgroup G}
-    (hS2 : IsPGroup 2 S) (hstar : FiveStarAt θ S) {P : Subgroup G} (hP5 : IsPGroup 5 P)
+    (_hS2 : IsPGroup 2 S) (hstar : FiveStarAt θ S) {P : Subgroup G} (hP5 : IsPGroup 5 P)
     (hPS : P ≤ normalizer (S : Set G)) (hPθ : P ≤ normalizer (θ : Set G)) {a b : G} (ha : a ∈ P)
     (hb : b ∈ P) (hcomm : ∀ s ∈ S, a * (b * s * b⁻¹) * a⁻¹ = b * (a * s * a⁻¹) * b⁻¹)
     (hnt : ∃ s ∈ S, a * s * a⁻¹ ≠ s) :
@@ -516,10 +516,10 @@ theorem five_cyclic_action {G : Type} [Group G] [Finite G] (hloc : FiveLocalRank
   have hMA : Nat.card (MulAut ↥(fiveStarR S a)) ∣ 2 ^ 7 * 3 * 5 :=
     (quaternionDihedralAutomorphismPrimeSupport ↥(fiveStarR S a) hne).1
   have hAdvd : Nat.card ↥A ∣ 2 ^ 7 * 3 * 5 := (Subgroup.card_subgroup_dvd_card A).trans hMA
-  haveI : Finite (MulAut ↥(fiveStarR S a)) := Nat.finite_of_card_ne_zero (fun h => by
+  have : Finite (MulAut ↥(fiveStarR S a)) := Nat.finite_of_card_ne_zero (fun h => by
     rw [h, zero_dvd_iff] at hMA
     norm_num at hMA)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 5)).mp hA5
   set a' : ↥(P ⊓ Subgroup.normalizer (fiveStarR S a : Set G)) :=
     ⟨a, Subgroup.mem_inf.mpr ⟨ha, haN⟩⟩ with ha'
@@ -606,7 +606,7 @@ namespace CFSG.RankThree.PartTwo.Sec11
 theorem zpow_inv_mul_zpow_mem {G : Type*} [Group G] {θ H : Subgroup G}
     (hθH : θ ≤ H) (hHθ : H ≤ normalizer (θ : Set G)) {x n : G} (hx : x ∈ H) (hn : n ∈ θ)
     (c : ℤ) : (x ^ c)⁻¹ * (x * n) ^ c ∈ θ := by
-  haveI : (θ.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHθ
+  have : (θ.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHθ
   have hxn : x * n ∈ H := mul_mem hx (hθH hn)
   have h1 : QuotientGroup.mk' (θ.subgroupOf H) (⟨x * n, hxn⟩ : H) =
       QuotientGroup.mk' (θ.subgroupOf H) (⟨x, hx⟩ : H) := by
@@ -656,7 +656,7 @@ theorem fiveCaseCore_of_star : FiveCaseCore := by
     push Not at hcon
     apply hx₁θ
     refine five_nc_lemma (K := K₁) hθH hHθ hθs hK₁H hK₁S hK₁perf hs₁ hnt₁ hx₁K (m := 1) (one_mem H)
-      (fun g _ => by simpa using (one_mem θ)) ?_ hcon
+      (fun g _ => by simp) ?_ hcon
     rw [hy₁eq]
     simpa using hn₁θ
   have hy₂nt : ∃ s ∈ S, y₂ * s * y₂⁻¹ ≠ s := by
@@ -664,7 +664,7 @@ theorem fiveCaseCore_of_star : FiveCaseCore := by
     push Not at hcon
     apply hx₂θ
     refine five_nc_lemma (K := K₂) hθH hHθ hθs hK₂H hK₂S hK₂perf hs₂ hnt₂ hx₂K (m := 1) (one_mem H)
-      (fun g _ => by simpa using (one_mem θ)) ?_ hcon
+      (fun g _ => by simp) ?_ hcon
     rw [hy₂eq]
     simpa using hn₂θ
   have hV : ∀ a ∈ P, (∀ g ∈ P, ∀ s ∈ S, a * (g * s * g⁻¹) * a⁻¹ = g * (a * s * a⁻¹) * g⁻¹) →

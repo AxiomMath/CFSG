@@ -14,6 +14,7 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin CFSG.Quasithin.SzR1 CFSG.Quas
 
 variable {G : Type} [Group G] [Finite G] {K1 L2 S Zs : Subgroup G} {Ω : Type}
 
+omit [Finite G] in
 theorem normal_eq_pCore_or_top (hs : IsSimpleGroup (OTwoQuot K1)) {X : Subgroup G} (hXK : X ≤ K1)
     (hXn : ∀ k ∈ K1, ∀ x ∈ X, k * x * k⁻¹ ∈ X) (hQX : pCoreOf 2 K1 ≤ X) :
     X = pCoreOf 2 K1 ∨ K1 ≤ X := by
@@ -23,7 +24,7 @@ theorem normal_eq_pCore_or_top (hs : IsSimpleGroup (OTwoQuot K1)) {X : Subgroup 
     exact hXn k k.2 x hx⟩
   let φ : ↥K1 →* OTwoQuot K1 := QuotientGroup.mk' _
   have hY : (X'.map φ).Normal := hX'n.map φ (QuotientGroup.mk'_surjective _)
-  haveI := hY
+  have := hY
   rcases hs.eq_bot_or_eq_top_of_normal (X'.map φ) with h | h
   · left
     refine le_antisymm (fun x hx => ?_) hQX
@@ -93,7 +94,7 @@ theorem exists_order_seven [Fintype Ω] (C : FamCtx K1 L2 S Zs Ω) (hc9 : Fintyp
   have h504 : Nat.card (OTwoQuot K1) = 504 := by
     rw [Nat.card_congr e.toEquiv, CFSG.Walter.psl2_even_card (by norm_num)]
     norm_num
-  letI : MulAction ↥K1 Ω := MulAction.compHom Ω C.D.act
+  let : MulAction ↥K1 Ω := MulAction.compHom Ω C.D.act
   have : MulAction.IsPretransitive ↥K1 Ω := ⟨fun x y => by
     refine ⟨C.D.kf y * (C.D.kf x)⁻¹, ?_⟩
     show C.D.act (C.D.kf y * (C.D.kf x)⁻¹) x = y
@@ -115,7 +116,7 @@ theorem exists_order_seven [Fintype Ω] (C : FamCtx K1 L2 S Zs Ω) (hc9 : Fintyp
       rw [h2, hK]
       exact Dvd.dvd.mul_right (by norm_num) _
     exact (Nat.Coprime.dvd_of_dvd_mul_left (by norm_num) this)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 7 h7
   have hxs : C.D.act (x : ↥K1) C.D.pt = C.D.pt := MulAction.mem_stabilizer_iff.mp x.2
   refine ⟨((x : ↥K1) : G), (x : ↥K1).2, (C.D.stab _).mp hxs, ?_⟩

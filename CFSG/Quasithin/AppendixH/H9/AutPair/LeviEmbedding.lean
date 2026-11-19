@@ -106,8 +106,8 @@ theorem levi_mulVec_single (B : GL (Fin m) (ZMod 2)) :
   rw [levi_val, Matrix.mulVec_single_one]
   ext i
   refine Fin.cases ?_ (fun i => ?_) i
-  · simp [Matrix.col_apply, Pi.single_apply]
-  · simp [Matrix.col_apply, Pi.single_apply, Fin.succ_ne_zero i]
+  · simp [Matrix.col_apply]
+  · simp [Matrix.col_apply, Fin.succ_ne_zero i]
 
 theorem exists_eq_levi {A : GL (Fin (m + 1)) (ZMod 2)}
     (h₁ : (A : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)) *ᵥ Pi.single 0 1 = Pi.single 0 1)
@@ -143,13 +143,13 @@ theorem exists_eq_levi {A : GL (Fin (m + 1)) (ZMod 2)}
         (A : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)) = 1 := by
     have := congrArg (fun g : GL (Fin (m + 1)) (ZMod 2) =>
       (g : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2))) (inv_mul_cancel A)
-    simpa using this
+    simp
   have hAAinv : (A : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)) *
         ((A⁻¹ : GL (Fin (m + 1)) (ZMod 2)) :
           Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)) = 1 := by
     have := congrArg (fun g : GL (Fin (m + 1)) (ZMod 2) =>
       (g : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2))) (mul_inv_cancel A)
-    simpa using this
+    simp
   have hrow : ∀ j : Fin (m + 1),
       (A : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)) 0 j =
         (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)) 0 j := by

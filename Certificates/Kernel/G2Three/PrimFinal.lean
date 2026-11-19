@@ -20,7 +20,7 @@ theorem M_eq_dec14 (a : Array ℕ) : M a = dec14 a.toList := by
 
 theorem gen_lt {k : ℕ} (hk : k < 8) : K7G k = k7bGen K7G k := by
   unfold k7bGen
-  rw [Nat.blt_eq.mpr hk, cond_true]
+  rw [Nat.blt_eq.mpr hk, _root_.Bool.cond_true]
 
 theorem canon_K7G {k : ℕ} (hk : k < 8) : Canon3 196 (K7G k) := by
   rw [gen_lt hk, ← pk_gen k]
@@ -182,7 +182,7 @@ theorem closure_even (hgen : Subgroup.closure (gens '' {k | k < 8}) = ⊤)
   · exact Subgroup.subset_closure ⟨j, (by omega : j < 4), rfl⟩
   · have e : Certificates.G2ThreeMax.invK (2 * j) = 2 * j + 1 := by
       unfold Certificates.G2ThreeMax.invK
-      rw [if_pos (by omega)]
+      rw [ite_eq_left (by omega)]
     rw [← e, hinv _ (by omega)]
     exact Subgroup.inv_mem _ (Subgroup.subset_closure ⟨j, (by omega : j < 4), rfl⟩)
 

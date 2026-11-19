@@ -64,7 +64,7 @@ theorem isSL23Mod_ker_sdwUDet {F : Type} [Field F] (h : UnitaryFieldData 3 1 F) 
     IsSL23Mod ↥(sdwUDet (3 ^ 1) F).ker := by
   obtain ⟨k, ik, ikFin, hkcard, ⟨e⟩⟩ := sdwU_exists_ker_equiv h
   have hk3 : Nat.card k = 3 := by rw [hkcard]; norm_num
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hk : Fintype.card k = 3 := by rw [← Nat.card_eq_fintype_card, hk3]
   exact isSL23Mod_of_mulEquiv
     ((sl2EquivOfRingEquiv (ZMod.ringEquivOfPrime k Nat.prime_three hk).symm).symm.trans e.symm)
@@ -103,7 +103,7 @@ theorem isI4PlusIn_top_of_lieModel_psu33 {Y : Type} [Group Y] [Finite Y]
 
 theorem exists_involution_of_lieModel_psu33 {Y : Type} [Group Y] [Finite Y]
     (h : LieModel Y .PSU 3 3 1) : ∃ z : Y, orderOf z = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card Y = 6048 := by
     rw [(CFSG.ClassicalInvolution.card_statedClassicalModel_of_ne_two (G := Y)
       (show (3 : ℕ) ≠ 2 by norm_num) (h.statedClassicalModel_of_ne_zero (by norm_num))).2.1 rfl]

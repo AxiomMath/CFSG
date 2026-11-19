@@ -23,6 +23,7 @@ open scoped Classical in
 @[expose] noncomputable def pOne (δ : ι → Kˣ) : Matrix ι ι K :=
   Matrix.diagonal fun y => if δ y = 1 then 1 else 0
 
+omit [Fintype ι] in
 theorem pStar_add_pOne (δ : ι → Kˣ) : pStar (K := K) δ + pOne δ = 1 := by
   ext y z
   simp only [pStar, pOne, Matrix.add_apply, Matrix.diagonal_apply, Matrix.one_apply]
@@ -116,7 +117,7 @@ theorem commute_of_fixStar {Ω : Subgroup (GL ι K)} {δ ε : ι → Kˣ}
     congr 1
     funext y
     by_cases hδ : δ y = 1
-    · rw [if_pos hδ, hε y hδ, Units.val_one, one_mul]
+    · rw [ite_eq_left hδ, hε y hδ, Units.val_one, one_mul]
     · simp [hδ]
   have hxP : x * P = P * x := by
     rw [hx, hP, pStar, Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]

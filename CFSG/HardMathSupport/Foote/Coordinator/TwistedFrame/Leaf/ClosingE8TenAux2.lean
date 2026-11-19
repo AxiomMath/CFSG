@@ -65,14 +65,14 @@ theorem Eop4_apply {γ : Fin Tag.E8.rank → ℤ} (hγ : γ ∈ rootFinset Tag.E
   by_cases hν : ν ∈ deg1Roots
   · obtain ⟨h1, h2⟩ := coef_plus hγ hγ0 hν
     by_cases h : ν - γ ∈ rootFinset Tag.E8
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have e : (((aE8 γ (ν - γ) * aE8 (-γ) ν : ℤ) : L)) ^ 2 = 1 := by
         rw [← Int.cast_pow, h1 h, Int.cast_one]
       calc (((aE8 γ (ν - γ) * aE8 (-γ) ν : ℤ) : L)) *
             ((((aE8 γ (ν - γ) * aE8 (-γ) ν : ℤ) : L)) * u ν)
           = (((aE8 γ (ν - γ) * aE8 (-γ) ν : ℤ) : L)) ^ 2 * u ν := by ring
         _ = u ν := by rw [e, one_mul]
-    · rw [if_neg h, h2 h]
+    · rw [ite_eq_right h, h2 h]
       simp
   · rw [hu ν hν]
     simp

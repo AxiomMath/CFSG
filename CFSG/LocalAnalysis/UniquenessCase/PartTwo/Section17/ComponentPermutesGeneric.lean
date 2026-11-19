@@ -34,7 +34,7 @@ theorem exists_permutes_three_of_alt_ge_eight {D : Data G} {L : Subgroup G} (hL 
       alternatingGroup (Fin n))) :
     ∃ X : Subgroup G, X ≤ D.M ∧ X ≠ ⊥ ∧ IsPGroup 3 ↥X ∧ (∀ x ∈ X, x ^ 3 = 1) ∧
       ¬ IsCyclic ↥X ∧ Permutes X D.T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : CFSG.Open.IsQuasisimple (Bar2 L) := hL.2.2
   have hodd : Odd (Nat.card (Subgroup.center (Bar2 L))) :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p20p_odd_center_bar2 ↥L
@@ -106,7 +106,7 @@ theorem eq_of_mem_calC_of_imageOTwoQuot_eq {D : Data G} {L K : Subgroup G}
     (h : CFSG.Quasithin.imageOTwoQuot D.M L = CFSG.Quasithin.imageOTwoQuot D.M K) :
     L = K := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK1 : CFSG.IsComponent (CFSG.Quasithin.imageOTwoQuot D.M L) := isComponent_K1 hL
   let π : ↥D.M →* CFSG.Quasithin.OTwoQuot D.M :=
     QuotientGroup.mk' (CFSG.Open.pCore 2 ↥D.M)
@@ -286,7 +286,7 @@ theorem kyForm_twoQuotient {H : Type} [Group H] [Finite H] {K S : Subgroup H}
         (CFSG.GroupTheory.twoQuotientC_normal hSK))
       (CFSG.GroupTheory.twoQuotientKY K S (CFSG.GroupTheory.twoQuotientC_normal hSK))
       (CFSG.GroupTheory.twoQuotientSY K S (CFSG.GroupTheory.twoQuotientC_normal hSK)) := by
-  letI : (CFSG.GroupTheory.twoQuotientC K S).Normal :=
+  let : (CFSG.GroupTheory.twoQuotientC K S).Normal :=
     CFSG.GroupTheory.twoQuotientC_normal hSK
   obtain ⟨eK⟩ := CFSG.GroupTheory.twoQuotientK_nonempty_equiv_K hZ hS hSK
   refine ⟨CFSG.GroupTheory.twoQuotientKY_normal hSK, ?_, ?_, ?_, ?_, ?_⟩
@@ -297,6 +297,7 @@ theorem kyForm_twoQuotient {H : Type} [Group H] [Finite H] {K S : Subgroup H}
   · exact CFSG.GroupTheory.twoQuotientKY_index_eq_pow hS hSK
   · exact CFSG.GroupTheory.twoQuotientSY_isSylowIn hS hSK hSyl
 
+omit [Finite G] in
 theorem nonempty_bar2_mulEquiv_map_subtype {H : Subgroup G} (X : Subgroup ↥H) :
     Nonempty (Bar2 X ≃* Bar2 (X.map H.subtype)) := by
   let e : ↥X ≃* ↥(X.map H.subtype) :=

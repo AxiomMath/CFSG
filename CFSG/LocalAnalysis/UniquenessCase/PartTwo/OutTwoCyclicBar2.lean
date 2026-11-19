@@ -20,7 +20,7 @@ theorem outTwoCyclic_of_centerQuotient {K : Type*} [Group K] [Group.IsPerfect K]
   have hP' : IsPGroup 2 (P.map (centerQuotientOuterHom K)) :=
     hP.map (centerQuotientOuterHom K)
   have hcyc : IsCyclic (P.map (centerQuotientOuterHom K)) := h _ hP'
-  haveI : IsCyclic (P.map (centerQuotientOuterHom K)) := hcyc
+  have : IsCyclic (P.map (centerQuotientOuterHom K)) := hcyc
   exact isCyclic_of_injective_hom
     (Subgroup.equivMapOfInjective P (centerQuotientOuterHom K)
       (centerQuotient_outer_injective K)).toMonoidHom
@@ -29,7 +29,7 @@ theorem outTwoCyclic_of_centerQuotient {K : Type*} [Group K] [Group.IsPerfect K]
 
 theorem outTwoCyclic_bar2_of_isU5 {M L : Subgroup G} (hL : L ∈ calC M) {n : ℕ}
     (h : IsU5 (BarInf L) n) : Nobq.OutTwoCyclic (Bar2 L) := by
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
   have hsm : CFSG.Assembly.LowTwoRank.StatedClassicalModel (BarInf L) .PSU 5 2 n :=
     CFSG.ClassicalInvolution.Q3.TA3.Q5L5U5.statedClassicalModel_of_lieModel_psu h
   have hodd : Odd (Nat.gcd 5 (2 ^ n + 1)) :=

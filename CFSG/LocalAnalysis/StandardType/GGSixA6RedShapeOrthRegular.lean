@@ -19,7 +19,7 @@ theorem ggA6_shape_orthRegular {K : Type} [Field K] [Finite K] [CharP K 2] {V : 
     (hJs : CFSG.Assembly.IsSubnormal J (TauCeti.QuadraticMap.orthogonalGroup Q)) :
     GGA6CharTwoLie ↥J := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hJqn : CFSG.IsQuasisimple J :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native J).mp hJq
   obtain ⟨h4, hcase⟩ :=

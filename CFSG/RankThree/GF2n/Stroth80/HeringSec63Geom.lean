@@ -64,8 +64,8 @@ theorem exists_smul_of_fix_eq (hQ : (polarBilin Q).Nondegenerate) {u w w' : V} (
       apply eq_zero_of_polar_eq_zero hQ
       intro y
       have := congrArg (fun f => f y) hc
-      simp only [LinearMap.coe_sum, Finset.sum_apply, LinearMap.smul_apply, Fin.sum_univ_two,
-        L, Matrix.cons_val_zero, Matrix.cons_val_one, polarBilin_apply_apply, smul_eq_mul] at this
+      simp only [Fin.sum_univ_two,
+        L, Matrix.cons_val_zero, Matrix.cons_val_one, polarBilin_apply_apply] at this
       rw [polar_sub_left, polar_add_left, polar_smul_left_eq, polar_smul_left_eq]
       have h2 : polar Q (c 0 • u + c 1 • w) y = polar Q w' y := by
         rw [polar_add_left, polar_smul_left_eq, polar_smul_left_eq]
@@ -89,6 +89,7 @@ section Pairs
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite K] [CharP K 2]
   {Q' : QuadraticForm K (ι → K)}
 
+omit [DecidableEq ι] [Finite K] [CharP K 2] in
 theorem finrank_le_finrank_perp_add_two (u w : ι → K) :
     Module.finrank K (ι → K) ≤ Module.finrank K
       (LinearMap.ker (polarBilin Q' u) ⊓ LinearMap.ker (polarBilin Q' w) :
@@ -127,6 +128,7 @@ theorem exists_pair_in_perp_of_ne (hQ : (polarBilin Q').Nondegenerate)
   · rw [polar_comm]
     exact ((hmem x₂).mp h2).2
 
+omit [Fintype ι] [DecidableEq ι] [Finite K] [CharP K 2] in
 theorem exists_pair_in_perp_of_threePairs (hQ : (polarBilin Q').Nondegenerate)
     (hthree : ∃ P₁ P₂ P₃ : HypPair Q', P₁.Orth P₂ ∧ P₁.Orth P₃ ∧ P₂.Orth P₃) {u w : ι → K}
     (hu : Q' u = 0) (hu0 : u ≠ 0) (hw : polar Q' u w = 0) (hwQ : Q' w = 0)

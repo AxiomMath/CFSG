@@ -147,7 +147,7 @@ private theorem ggLieAut_mul_canonicalRep_pow_card_mem_torusGroup
   obtain ⟨h, hh, hpow⟩ := key (Nat.card (WeylGroup τ))
   rw [hpow]
   have hwN : w ^ Nat.card (WeylGroup τ) = 1 := by
-    haveI : Fintype (WeylGroup τ) := Fintype.ofFinite _
+    have : Fintype (WeylGroup τ) := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card]
     exact pow_card_eq_one
   rw [hwN, canonicalRep_one, mul_one]
@@ -245,16 +245,16 @@ private theorem ggLieAut_exists_pow_ne_one {L : Type} [Field L] [IsAlgClosed L]
       intro x y hxy
       dsimp only at hxy
       by_cases hx : x = 0
-      · rw [if_pos hx] at hxy
+      · rw [ite_eq_left hx] at hxy
         have hy : y = 0 := by
           by_contra hy
-          rw [if_neg hy] at hxy
+          rw [ite_eq_right hy] at hxy
           exact Bool.noConfusion hxy
         rw [hx, hy]
-      · rw [if_neg hx] at hxy
+      · rw [ite_eq_right hx] at hxy
         have hy : y ≠ 0 := by
           intro hy
-          rw [if_pos hy] at hxy
+          rw [ite_eq_left hy] at hxy
           exact Bool.noConfusion hxy
         have hx1 : x = 1 := congrArg Units.val (hy1 (Units.mk0 x hx))
         have hy1' : y = 1 := congrArg Units.val (hy1 (Units.mk0 y hy))
@@ -426,7 +426,7 @@ private theorem ggLieAut_root_compat
     rw [Finset.sum_eq_single j]
     · simp
     · intro i _ hi
-      simp [Pi.smul_apply, Pi.single_apply, hi]
+      simp [Pi.smul_apply, hi]
     · intro hj
       exact absurd (Finset.mem_univ j) hj
   have h_ext : ∀ (f g : (Fin τ.rank → ℤ) →+ (Fin τ.rank → ℤ)),
@@ -461,7 +461,7 @@ private theorem ggLieAut_step_mem_normalizer
       D.step g ∈ Subgroup.normalizer (torusGroup τ L : Set (ModGL τ L)) := by
   obtain ⟨f, hf1, hfq⟩ := hq
   obtain ⟨Fr, hFr, P, hP, hΦ⟩ := D.steinberg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFr' : Fr = iterateFrobenius L 2 f := by
     ext c; rw [hFr c, hfq, iterateFrobenius_def]
   have hPmem : P ∈ Subgroup.normalizer (torusGroup τ L : Set (ModGL τ L)) := by
@@ -582,7 +582,7 @@ private theorem ggLieAut_lang_torus
     ∀ c ∈ torusGroup τ L, ∃ ζ ∈ torusGroup τ L, ζ⁻¹ * D.step ζ = c := by
   obtain ⟨f, hf1, hfq⟩ := hq
   obtain ⟨Fr, hFr, P, hP, hΦ⟩ := D.steinberg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFr' : Fr = iterateFrobenius L 2 f := by
     ext c; rw [hFr c, hfq, iterateFrobenius_def]
   have hPmem : P ∈ Subgroup.normalizer (torusGroup τ L : Set (ModGL τ L)) := by

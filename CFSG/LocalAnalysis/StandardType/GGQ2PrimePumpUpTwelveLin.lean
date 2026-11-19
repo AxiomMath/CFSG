@@ -22,7 +22,7 @@ private theorem card_linearEquiv_of_card_two {F M : Type*} [Field F] [Finite F]
     [AddCommGroup M] [Module F M] [FiniteDimensional F M] (hF : Nat.card F = 2) :
     Nat.card (M ≃ₗ[F] M) = ∏ i : Fin (finrank F M), (2 ^ finrank F M - 2 ^ (i : ℕ)) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let b : Module.Basis (Fin (finrank F M)) F M := Module.finBasisOfFinrankEq F M rfl
   let e : GL (Fin (finrank F M)) F ≃* (M ≃ₗ[F] M) :=
     (Matrix.GeneralLinearGroup.toLin' b).trans
@@ -80,14 +80,14 @@ private theorem twelve_cases {F V : Type} [Field F] [Finite F] [AddCommGroup V] 
       (finrank F (LinearMap.ker (z.toLinearMap - LinearMap.id)) = 10 ∧
         ∀ w ∈ W, ∀ v ∈ LinearMap.range (z.toLinearMap - LinearMap.id), w v = v) := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V)) fun a b h =>
       LinearEquiv.ext (congrFun h)
   have h2 : (2 : F) = 0 := by
-    letI : Fintype F := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
+    let : Fintype F := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
       (by rw [← Nat.card_eq_fintype_card, hF, pow_one])
     exact_mod_cast CharP.cast_eq_zero F 2
   have hvv : ∀ v : V, v + v = 0 := fun v => by rw [← two_smul F v, h2, zero_smul]
@@ -123,7 +123,7 @@ private theorem twelve_cases {F V : Type} [Field F] [Finite F] [AddCommGroup V] 
     have : z (z u) + z u = z (z u) + z u + u + u := by
       rw [add_assoc (z (z u) + z u) u u, hvv, add_zero]
     rw [this, h, zero_add]
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) :=
     ⟨CFSG.HardMathSupport.Timmesfeld.CrossChar.irreducible_cyc3 hF⟩
   have hUeven : Even (finrank F U) := by
     rw [hUker, finrank_primaryComponent]
@@ -423,7 +423,7 @@ private theorem twTenOrth_holds {F V : Type} [Field F] [Finite F] [AddCommGroup 
     (hWO : W ≤ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hWU : ∀ w ∈ W, ∀ v ∈ LinearMap.range (z.toLinearMap - LinearMap.id), w v = v)
     (hWM : CFSG.Open.IsComponentOf W M) (hW : Nat.card W = 13685760) : False := by
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 1) le_rfl (by rw [hF, pow_one])
   have hx : OddOrderIsometry Q 3 z := by
     refine ⟨hz, hz3, ?_, fun v hv => hQ.1 v fun w => by simpa using hv w⟩
@@ -480,7 +480,7 @@ private theorem twTenSp_holds {F V : Type} [Field F] [Finite F] [AddCommGroup V]
     (hMB : M ≤ TauCeti.BilinForm.isometryGroup B)
     (hWU : ∀ w ∈ W, ∀ v ∈ LinearMap.range (z.toLinearMap - LinearMap.id), w v = v)
     (hWM : CFSG.Open.IsComponentOf W M) (hW : Nat.card W = 13685760) : False := by
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 1) le_rfl (by rw [hF, pow_one])
   set C : Submodule F V := fixedSpace z with hCdef
   set U : Submodule F V := LinearMap.range (z.toLinearMap - LinearMap.id) with hUdef
@@ -942,7 +942,7 @@ theorem false_of_twelve_sp_config {F V : Type} [Field F] [Finite F] [AddCommGrou
       (TauCeti.BilinForm.isometryGroup B ⊓ Subgroup.centralizer {z}))
     (hKF : ∀ g ∈ TauCeti.BilinForm.isometryGroup B, orderOf g = 3 → (∀ w ∈ W, g * w = w * g) →
       g * z = z * g → g ∈ Subgroup.zpowers z) : False := by
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hWc]; norm_num)
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hWc]; norm_num)
   have hWz : ∀ w ∈ W, w * z = z * w := fun w hw =>
     Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_inf.mp (hcomp.1 hw)).2
   have hWZ : Subgroup.center W = ⊥ :=
@@ -966,7 +966,7 @@ theorem twelve_orth_fixed_two {F V : Type} [Field F] [Finite F] [AddCommGroup V]
     CFSG.RankThree.PartOne.KCOrthogonal.orthDerived_le_orthogonalGroup
   have hzO : z ∈ TauCeti.QuadraticMap.orthogonalGroup Q := hΩO hzΩ
   have hWO : W ≤ TauCeti.QuadraticMap.orthogonalGroup Q := hcomp.1.trans (inf_le_left.trans hΩO)
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hWc]; norm_num)
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hWc]; norm_num)
   have hWz : ∀ w ∈ W, w * z = z * w := fun w hw =>
     Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_inf.mp (hcomp.1 hw)).2
   have hWZ : Subgroup.center W = ⊥ :=

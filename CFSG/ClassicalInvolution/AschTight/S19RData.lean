@@ -62,7 +62,7 @@ theorem exists_sylow_le_of_std6 {Ω : Set (Subgroup G)} {K : Subgroup G} {S : Sy
   have hRK : IsSylow2In R K := Sec7.isSylow2In_of_mem_RSet_of_le hstd.stand.odd hstd.stand.hyp
     hstd.hR hstd.stand.mem hstd.hRK
   obtain ⟨Q, hQ⟩ := (hRK.2.1.comap_subtype : IsPGroup 2 (R.subgroupOf K)).exists_le_sylow
-  refine ⟨Q, hRK.2.2 _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map _) ?_⟩
+  refine ⟨Q, hRK.2.2 _ (Subgroup.map_subtype_le _) (Q.isPGroup.map _) ?_⟩
   rw [← Subgroup.map_subgroupOf_eq_of_le hRK.1]
   exact Subgroup.map_mono hQ
 
@@ -85,7 +85,7 @@ theorem le_centralizer_of_std6 [IsSimpleGroup G] {Ω : Set (Subgroup G)} {K : Su
       rw [e]
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hs (hQS hx')) (Subgroup.inv_mem _ hs)
     exact conjSubgroup_eq_self_iff.mp
-      (conjSubgroup_sylow_eq_of_tightD ht Q₀ S.isPGroup' hQS hle)
+      (conjSubgroup_sylow_eq_of_tightD ht Q₀ S.isPGroup hQS hle)
   intro s hs
   rw [Subgroup.mem_centralizer_singleton_iff]
   have h1 := hzR.conj_eq (conjSub_eq_of_mem_normalizer (hSN hs))

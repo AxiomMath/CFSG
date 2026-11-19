@@ -15,7 +15,7 @@ theorem ncard_eq_zero_two_four {α : Type*} {T A : Set α} (hT : T.ncard = 4) (h
     (h1 : ∀ p ∈ A, ∃ q ∈ A, q ≠ p) (h2 : ∀ p ∈ T \ A, ∃ q ∈ T \ A, q ≠ p) :
     A.ncard = 0 ∨ A.ncard = 2 ∨ A.ncard = 4 := by
   have hTfin : T.Finite := Set.finite_of_ncard_ne_zero (by omega)
-  have hsum := Set.ncard_diff_add_ncard_of_subset hAT hTfin
+  have hsum := Set.ncard_sdiff_add_ncard_of_subset hAT hTfin
   have hA1 : A.ncard ≠ 1 := by
     intro h
     obtain ⟨a, rfl⟩ := Set.ncard_eq_one.1 h
@@ -74,7 +74,7 @@ theorem smul_mem_Aset_Eker {e : G} (he : e ∈ c.Eker c.l0) {y : G ⧸ c.G1} (hy
 theorem ncard_onL_ne {k : G ⧸ c.G2} (hk : c.OnL c.x0 k) :
     ({a | c.OnL a k} \ {c.x0}).ncard = 4 := by
   have hx : c.x0 ∈ {a | c.OnL a k} := hk
-  rw [Set.ncard_diff_singleton_of_mem hx, c.ncard_onL k]
+  rw [Set.ncard_sdiff_singleton_of_mem hx, c.ncard_onL k]
 
 variable {c}
 

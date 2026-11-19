@@ -30,6 +30,7 @@ section Frame
 
 variable {A Y J : Subgroup G} [(ker148 A Y).Normal] [(ker148 A (centPre148 A Y J)).Normal]
 
+omit [Finite G] in
 theorem img148_eq_of_centPre148
     (hcore : pPrimeCoreOf 3 (centPre148 A Y J) = pPrimeCoreOf 3 Y) {X X' : Subgroup G}
     (hX : X ≤ centPre148 A Y J ⊔ A) (hX' : X' ≤ centPre148 A Y J ⊔ A)
@@ -38,6 +39,7 @@ theorem img148_eq_of_centPre148
   rw [← Ronan148M.map_img148_compare148 hcore.le hX, h,
     Ronan148M.map_img148_compare148 hcore.le hX']
 
+omit [Finite G] in
 theorem isZ3PGLThreeAt_of_centPre148
     (hcore : pPrimeCoreOf 3 (centPre148 A Y J) = pPrimeCoreOf 3 Y) {X : Subgroup G}
     (hX : X ≤ centPre148 A Y J ⊔ A) {p f : ℕ}
@@ -71,6 +73,7 @@ private theorem mem_of_mk_eq_mk {a j : G} (haM : a ∈ Y ⊔ A) (hjM : j ∈ Y �
   have h2 : j * (a⁻¹ * j)⁻¹ = a := by group
   rwa [h2] at h1
 
+omit [Finite G] in
 theorem img148_le_normalizer_of_map_normal {X : Subgroup G} (hXY : X ≤ Y)
     (hN : ((X.subgroupOf Y).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥Y))).Normal) :
     img148 A Y Y ≤ Subgroup.normalizer (img148 A Y X : Set (↥(Y ⊔ A) ⧸ ker148 A Y)) := by
@@ -148,6 +151,7 @@ theorem alpha148_mem_of_inf (hA3 : ∀ a ∈ A, a ^ 3 = 1) {J : Subgroup G} (hJY
   rw [hxb]
   exact Subgroup.pow_mem _ hbJ n
 
+omit [Finite G] in
 theorem img148_deltaZero_eq_bot_of_case148One {Y' : Subgroup G} {LB : Subgroup G → Subgroup G}
     (hcore : pPrimeCoreOf 3 Y' = pPrimeCoreOf 3 Y) (h1 : Case148One A LB Y') :
     img148 A Y (deltaZero A LB Y') = ⊥ := by

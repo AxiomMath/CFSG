@@ -19,7 +19,7 @@ theorem stabB_iff (σ : Perm (Fin 7)) :
     stabB (enc σ) = true ↔ ((σ 5 = 5 ∧ σ 6 = 6) ∨ (σ 5 = 6 ∧ σ 6 = 5)) := by
   have h5 : rd (enc σ) 5 = σ 5 := rd_enc (by norm_num) σ 5
   have h6 : rd (enc σ) 6 = σ 6 := rd_enc (by norm_num) σ 6
-  simp only [stabB, h5, h6, Bool.or_eq_true, Bool.and_eq_true, Nat.beq_eq, Fin.ext_iff] <;>
+  simp only [stabB, h5, h6, Bool.or_eq_true, Bool.and_eq_true, Nat.beq_eq, Fin.ext_iff];
     exact Iff.rfl
 
 theorem card_stabFS_pack : (Finset.univ.filter fun σ : Perm (Fin 7) =>

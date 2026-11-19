@@ -24,7 +24,7 @@ theorem p427_fin_e12_ne : ∀ g : HeJ.GL2, g ^ 3 = 1 → g ≠ 1 →
     (Matrix.of ![![0, 1], ![0, 0]] : HeJ.M2) + g.val ≠ 0 := by
   decide +kernel
 
-theorem p427_card_pow2 (T : HeSetup G) (hB : T.BaseFacts) {z : G} (P : P427 T z)
+theorem p427_card_pow2 (T : HeSetup G) (_hB : T.BaseFacts) {z : G} (P : P427 T z)
     {w : G} (hwZ : w ∈ T.Z) (hw1 : w ≠ 1) (hwdet : (T.m w).det = 0) :
     ∃ k : ℕ, Nat.card ↥(centralizer ({w} : Set G) ⊓ centralizer ({T.a} : Set G)) = 2 ^ k := by
   obtain ⟨s, hs⟩ := (T.fusion_facts P.hfus P.hzZ P.hzm).1 w hwZ hw1 hwdet
@@ -72,7 +72,7 @@ theorem p427_O_trivial (T : HeSetup G) (hB : T.BaseFacts) {z : G} (P : P427 T z)
     (hOn : ∀ m ∈ centralizer ({T.a} : Set G), ∀ o ∈ O, m * o * m⁻¹ ∈ O)
     (hodd : Odd (Nat.card ↥O)) : O = ⊥ := by
   have haZ : T.a ∈ T.Z := T.hD.ha
-  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxN T.hxa T.hx3
+  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxa
   obtain ⟨b, hbB, hb1, hba, hbm⟩ := p427_exists_b T
   have hbZ : b ∈ T.Z := hB.B_le_Z hbB
   have hb2 : b * b = 1 := hB.A_sq b (hB.Z_le_A hbZ)
@@ -138,11 +138,11 @@ theorem p427_O_trivial (T : HeSetup G) (hB : T.BaseFacts) {z : G} (P : P427 T z)
     intro h
     have h0 : T.m (z * b) = 0 := by rw [h, T.hD.hT.m_one]
     rw [hmw] at h0
-    exact p427_fin_e12_ne T.g (T.hD.g_pow_three T.hxN T.hxa T.hx3)
+    exact p427_fin_e12_ne T.g (T.hD.g_pow_three T.hxN T.hx3)
       (T.hD.g_ne_one T.hxN T.hxa T.hx3) h0
   have hwdet : (T.m (z * b)).det = 0 := by
     rw [hmw]
-    exact p427_fin_e12 T.g (T.hD.g_pow_three T.hxN T.hxa T.hx3) (T.hD.g_ne_one T.hxN T.hxa T.hx3)
+    exact p427_fin_e12 T.g (T.hD.g_pow_three T.hxN T.hx3) (T.hD.g_ne_one T.hxN T.hxa T.hx3)
   obtain ⟨k, hk⟩ := p427_card_pow2 T hB P hwZ hw1 hwdet
   have hOR : O ≤ centralizer ({z * b} : Set G) ⊓ centralizer ({T.a} : Set G) := by
     intro o ho

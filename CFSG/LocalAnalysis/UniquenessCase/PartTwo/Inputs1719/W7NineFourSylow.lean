@@ -209,6 +209,7 @@ theorem isTwoPrimeComponent_of_perfectCore {H L : Subgroup G}
     exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mp hJq
   refine ⟨hLH, hLsn, hperf, le_top, hsub, hq⟩
 
+omit [Finite G] in
 theorem opp_opp (A : Subgroup G) : Opp 2 (Opp 2 A) = Opp 2 A := by
   apply le_antisymm
   · unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
@@ -234,6 +235,7 @@ theorem isSylowTwoOf_opp_of_isPGroup {A : Subgroup G} (h : IsPGroup 2 (Opp 2 A))
   intro U hUA hU2 _ _
   exact le_pElementSubgroup_of_isPGroup Nat.prime_two hU2 hUA
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_opp (A : Subgroup G) :
     normalizer (A : Set G) ≤ normalizer (Opp 2 A : Set G) := by
   intro w hw
@@ -286,7 +288,7 @@ theorem le_normalizer_of_commutator_opp_le {A B P : Subgroup G}
 
 theorem w7_9_le_normalizer_sup_zpowers {H L : Subgroup G} (hL : IsTwoPrimeComponent H L)
     {x : G} (hx : x ∈ H) (hne : L.map (MulAut.conj x).toMonoidHom ≠ L) {k : G}
-    (hkL : k ∈ L) (hkLx : k ∈ L.map (MulAut.conj x).toMonoidHom) :
+    (_hkL : k ∈ L) (hkLx : k ∈ L.map (MulAut.conj x).toMonoidHom) :
     L ≤ Subgroup.normalizer ((Subgroup.zpowers k ⊔ pCoreOf 2 H : Subgroup G) : Set G) := by
   set Lx : Subgroup G := L.map (MulAut.conj x).toMonoidHom with hLxdef
   have hLx : IsTwoPrimeComponent H Lx := by rw [hLxdef]; exact hL.map_conj hx

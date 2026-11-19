@@ -25,12 +25,12 @@ variable {D : Data G}
 variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
 theorem exists_elementaryAbelian_seven_rank_two'
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (hK8 : K8Cat)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
+    (_hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (_hK8 : K8Cat)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (_hZA : zSub P c.L ≤ A)
+    (_hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
     (hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
         (alternatingGroup (Fin 6)) ∧
       zSub P c.L ≤ perfectCoreL c a ∧
@@ -38,7 +38,7 @@ theorem exists_elementaryAbelian_seven_rank_two'
         CFSG.Open.pCoreOf 2 (perfectCoreL c a) ∧
       A ≤ Subgroup.closure ({a} : Set G) ⊔ perfectCoreL c a)
     (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
-    (hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
+    (_hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
       W ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
         (CFSG.Open.pCoreOf 2 c.L) c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J)
@@ -48,7 +48,7 @@ theorem exists_elementaryAbelian_seven_rank_two'
         CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 ↥(Subgroup.centralizer ({a} : Set G))),
       IsPGroup 7 Y ∧ 2 ≤ Group.rank Y := by
   classical
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   let H := Subgroup.centralizer ({a} : Set G)
   let N := CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 H
   let X := H ⧸ N
@@ -179,8 +179,8 @@ theorem exists_elementaryAbelian_seven_rank_two'
   let B : Subgroup X := Subgroup.zpowers (y₂ : X)
   have htrivialintersect : A ⊓ B = ⊥ := by
     let I : Subgroup X := A ⊓ B
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hZ2 : IsPGroup 2 ((Subgroup.center ↥K₁).map K₁.subtype) :=
       hZ₁two.map K₁.subtype
     have hIle : I ≤ (Subgroup.center ↥K₁).map K₁.subtype := by
@@ -238,17 +238,17 @@ theorem exists_elementaryAbelian_seven_rank_two'
     rw [← hy2ordX, pow_orderOf_eq_one]
   have hEA : IsElementaryAbelian 7 ↥Y := by
     rw [hYeq]
-    haveI hEA1 : IsElementaryAbelian 7 ↥(Subgroup.zpowers (y₁ : X)) :=
+    have hEA1 : IsElementaryAbelian 7 ↥(Subgroup.zpowers (y₁ : X)) :=
       IsElementaryAbelian.zpowers_of_pow_eq_one hy1pow
-    haveI hEA2 : IsElementaryAbelian 7 ↥(Subgroup.zpowers (y₂ : X)) :=
+    have hEA2 : IsElementaryAbelian 7 ↥(Subgroup.zpowers (y₂ : X)) :=
       IsElementaryAbelian.zpowers_of_pow_eq_one hy2pow
     exact IsElementaryAbelian.sup_of_le_centralizer hcent
   have hYp : IsPGroup 7 Y := by
-    haveI : IsElementaryAbelian 7 ↥Y := hEA
+    have : IsElementaryAbelian 7 ↥Y := hEA
     exact IsElementaryAbelian.isPGroup 7 ↥Y
   have hnotcyc : ¬ IsCyclic ↥Y := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-    haveI : IsElementaryAbelian 7 ↥Y := hEA
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : IsElementaryAbelian 7 ↥Y := hEA
     exact IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hYcard
   have hYrank : 2 ≤ Group.rank ↥Y := by
     by_contra h

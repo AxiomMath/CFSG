@@ -161,7 +161,7 @@ private theorem ordTwistedA_dvd_card_of_unitary_component
     (θ : ↥J ⧸ Subgroup.center ↥J ≃*
       LargeEvenProj (LargeEvenSUGroup (Fin d) E (2 ^ m))) :
     ordTwistedA (d - 1) (2 ^ m) ∣ Nat.card R := by
-  haveI : Finite E := hE.finite
+  have : Finite E := hE.finite
   have hcardJZ : Nat.card (↥J ⧸ Subgroup.center ↥J) = ordTwistedA (d - 1) (2 ^ m) := by
     rw [Nat.card_congr θ.toEquiv]
     have hEcard : Nat.card E = (2 ^ m) ^ 2 := by
@@ -180,7 +180,7 @@ private theorem not_ordTwistedA_dvd_ordE6_two_of_shape {d m : ℕ} (hd36 : d = 3
   · have hm3 : 3 ≤ m := by
       have hne1 : m ≠ 1 := fun h => hdm ⟨rfl, h⟩
       have hne2 : m ≠ 2 := fun h =>
-        (by norm_num : ¬ (3 ∣ 2 ^ 2 + 1)) (by simpa [h] using hpm)
+        (by norm_num : ¬ (3 ∣ 2 ^ 2 + 1)) (by simp [h] at hpm)
       omega
     exact not_ordTwistedA_two_dvd_ordE6_two hm3
   · intro h
@@ -205,8 +205,8 @@ private theorem q2URLevel_E6Two :
     · omega
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hQ
-  letI : Field K := fieldK
-  letI : Finite K := finiteK
+  let : Field K := fieldK
+  let : Finite K := finiteK
   have hK2 : Nat.card K = 2 := by rw [hK]; norm_num
   have hRcard : Nat.card (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false))
       = ordE6 2 := by
@@ -268,7 +268,7 @@ theorem ggBstarAbelianPreimageJUniS1On_F4Three :
     exact hdm ⟨hd3, by omega⟩
   have hHasTwA : GGHasLabel (⟨.twA, d - 1, m⟩ : LargeEvenLabel)
       (↥J ⧸ Subgroup.center ↥J) := by
-    haveI : Finite E := hE.finite
+    have : Finite E := hE.finite
     dsimp only [GGHasLabel, LargeEvenRawDatum, LargeEvenRecipeUnitary]
     refine ⟨E, inferInstance, inferInstance, ?_, ?_⟩
     · rw [hE.card, ← pow_mul, Nat.mul_comm 2 m]
@@ -353,7 +353,7 @@ theorem ggBstarAbelianPreimageJUniS1OnDeg_twE6_d6 :
       _ ≤ Nat.card (ggGamma L hNL).range * 3 := Nat.mul_le_mul_right 3 h5
       _ = Nat.card Bs := hmul
   subst hd6
-  haveI : Finite E := hE.finite
+  have : Finite E := hE.finite
   have hK : Nat.card E = (2 ^ m) ^ 2 := by
     rw [hE.card, ← pow_mul, Nat.mul_comm 2 m]
   have hm : 1 ≤ m := hE.one_le

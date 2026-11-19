@@ -48,22 +48,22 @@ theorem imgBits_ok {n : ℕ} {W' : Subgroup (Wn n)} {cs : List ℕ} (hcs : cs.le
     SetOK W' (imgBits cs N bs) := by
   refine foldl_ok _ (fun a x ha => ?_) _ _ h
   by_cases hx : bs.testBit x = true
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     refine setOK_or ha ?_
     rw [← maskHom_toW hcs]
     exact hinv _ (h x hx)
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     exact ha
 
 theorem addSpan_ok {n : ℕ} {W' : Subgroup (Wn n)} (N : ℕ) {sp x : ℕ} (hsp : SetOK W' sp)
     (hx : toW n x ∈ W') : SetOK W' (addSpan N sp x) := by
   refine foldl_ok _ (fun a s ha => ?_) _ _ hsp
   by_cases hs : sp.testBit s = true
-  · rw [if_pos hs]
+  · rw [ite_eq_left hs]
     refine setOK_or ha ?_
     rw [toW_xor]
     exact W'.mul_mem (hsp s hs) hx
-  · rw [if_neg hs]
+  · rw [ite_eq_right hs]
     exact ha
 
 theorem spanBits_ok {n : ℕ} {W' : Subgroup (Wn n)} (N : ℕ) {bs : ℕ} (h : SetOK W' bs) :
@@ -76,13 +76,13 @@ theorem spanBits_ok {n : ℕ} {W' : Subgroup (Wn n)} (N : ℕ) {bs : ℕ} (h : S
     exact W'.one_mem
   refine foldl_ok _ (fun sp x hsp => ?_) _ _ h1
   by_cases hx : bs.testBit x = true
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     by_cases hs : sp.testBit x = true
-    · rw [if_pos hs]
+    · rw [ite_eq_left hs]
       exact hsp
-    · rw [if_neg hs]
+    · rw [ite_eq_right hs]
       exact addSpan_ok N hsp (h x hx)
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     exact hsp
 
 theorem orbBits_ok {n : ℕ} {W' : Subgroup (Wn n)} {gens : List (List ℕ)}

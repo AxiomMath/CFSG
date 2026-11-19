@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V A B : Subgroup G} {h : G} {n f : ℕ}
 
+omit [Finite G] in
 theorem generalizedFitting_barY_rOf (hD : L2Datum M V A B h) (h73a : Sec7.Stmt73alpha M V)
     (hOY : inSubgroup (pPrimeCore 2) (yOf h) = oOf M h) :
     generalizedFitting ↥(barY h (rOf M h)) = pCore 2 ↥(barY h (rOf M h)) := by
@@ -87,7 +88,7 @@ theorem EpsIn.le_barY_of_le_barY_p0 (hE : EpsIn M V h) (hS : Sec6Hyp M V)
   · exfalso
     have hPU : barY h (p0Of M V (A ⊔ B)) ≤ U :=
       (barY_le_iff_le_preimY h hP0Y).mpr (hNP0.symm.le.trans inf_le_right)
-    haveI := hUc
+    have := hUc
     have hP2 : IsPGroup 2 (p0Of M V (A ⊔ B)) :=
       (inSubgroup_pCore_two M).1.to_le (inf_le_left.trans inf_le_left)
     have hinj := hE.barMap_injective_of_disjoint hP0Y (hE.disjoint_oddCore_of_isPGroup hP2)

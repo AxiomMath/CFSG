@@ -41,7 +41,7 @@ theorem stepCaseAU_holds :
   intro Ω _ _ B x L _ e hsetup T hT hBT hnot
   classical
   obtain ⟨hcfg, -, -⟩ := hsetup
-  haveI : Group.IsPerfect ↥L := isPerfect_of_cfg hcfg
+  have : Group.IsPerfect ↥L := isPerfect_of_cfg hcfg
   have hB3 : ∀ b ∈ B, b ^ 3 = 1 := fun b hb => hcfg.elem.2 b hb
   let C : Subgroup Ω := ⁅T, B⁆
   have hC_le_T : C ≤ T := Subgroup.le_normalizer_iff_commutator_le_left.mp hBT

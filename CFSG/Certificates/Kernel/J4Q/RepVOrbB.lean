@@ -124,9 +124,9 @@ private theorem and_rep (X n : Nat) :
   intro i k hk
   rw [Nat.testBit_and, hr i k hk]
   by_cases hi : i < n
-  · simp only [hi, if_true]
+  · simp only [hi, ite_true]
     rcases Nat.eq_zero_or_pos k with rfl | hk0
-    · cases hX : X.testBit (128 * i) <;> simp [hX]
+    · cases hX : X.testBit (128 * i) <;> simp
     · have hk1 : k ≠ 0 := by omega
       cases X.testBit (128 * i) <;> simp [one_bit, hk1]
   · simp [hi]
@@ -174,8 +174,8 @@ private theorem rowJ_stepQ {n r k : Nat} (hr : r < n) (hk : k < 112) (A M : Nat)
   have hb2 : ∀ _ : Nat, rowJ (2 ^ 112 - 1) M k < 2 ^ 128 := fun _ => Nat.lt_trans hY (by norm_num)
   change rowJ (2 ^ 112 - 1) (((A >>> k) &&& rep 1 128 n) * (2 ^ 112 - 1) &&&
     rowJ (2 ^ 112 - 1) M k * rep 1 128 n) r = _
-  rw [rowJ_and, e1, e2, rowJ_fld (fld_bsum hb1 n).1, rowJ_fld (fld_bsum hb2 n).1, if_pos hr,
-    if_pos hr, and_one_bit]
+  rw [rowJ_and, e1, e2, rowJ_fld (fld_bsum hb1 n).1, rowJ_fld (fld_bsum hb2 n).1, ite_eq_left hr,
+    ite_eq_left hr, and_one_bit]
   have hb : (rowJ (2 ^ 112 - 1) A r).testBit k = (A >>> k).testBit (128 * r) := by
     rw [rowJ_bit, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one, decide_eq_true hk,
       Bool.and_true, Nat.mul_comm, Nat.add_comm]

@@ -33,7 +33,7 @@ theorem pCoreOf_cjS {G : Type} [Group G] (g : G) (H : Subgroup G) :
     (Subgroup.equivMapOfInjective H (MulAut.conj g).toMonoidHom (injective_conj_toMonoidHom g))
   unfold pCoreOf cjS
   rw [← hp, Subgroup.map_map, Subgroup.map_map]
-  congr 1 <;> ext x <;> simp [MulAut.conj_apply]
+  congr 1
 
 theorem cjS_zpowers {G : Type} [Group G] (g z : G) :
     cjS g (Subgroup.zpowers z) = Subgroup.zpowers (g * z * g⁻¹) := by
@@ -107,7 +107,7 @@ theorem cjS_Gz_le_normalizer {G : Type} [Group G] (g z : G) (A : Subgroup G)
   intro y
   have e : g⁻¹ * (w * y * w⁻¹) * g = (g⁻¹ * w * g) * (g⁻¹ * y * g) * (g⁻¹ * w * g)⁻¹ := by
     group
-  simp only [SetLike.mem_coe, mem_cjS_iff, e]
+  simp only [mem_cjS_iff, e]
   exact hN (g⁻¹ * y * g)
 
 theorem structAt_conj {G : Type} [Group G] [Finite G] (g z : G) (h : StructAt G z) :

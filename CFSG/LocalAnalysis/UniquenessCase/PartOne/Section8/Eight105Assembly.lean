@@ -22,7 +22,7 @@ private theorem exists_cex8105 {D : Data G} {L P B H N₀ : Subgroup G}
       H < H' → UniqueMax D.M H')
     (hN₀ : N₀ ∈ calMOf H) (hN₀ne : N₀ ≠ D.M) :
     ∃ N : Subgroup G, Cex8105 D L P B H N := by
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   let t : Set (Subgroup G) := {N' | N' ∈ calMOf H ∧ N' ≠ D.M}
   obtain ⟨N, hNt, hNmax⟩ := Set.exists_max_image t
@@ -61,9 +61,9 @@ theorem r8_105_at_of_inputs (hK1 : KU45Lines) (hCP : KU45CentP) (hGR : KU45GenRa
   intro B hB
   have s : Std8105 D L P B p n := std8105_of_at hK2 hSg h61 hHyp hB h8103
   obtain ⟨B', D₀, hl⟩ := exists_lines8105 hK1 hCP hGR s
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
-  haveI : WellFoundedGT (Subgroup G) := Finite.to_wellFoundedGT
+  have : WellFoundedGT (Subgroup G) := Finite.to_wellFoundedGT
   intro H
   induction H using WellFoundedGT.induction with
   | _ H ih =>

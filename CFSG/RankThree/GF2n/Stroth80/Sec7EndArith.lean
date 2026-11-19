@@ -40,7 +40,7 @@ private lemma endgH_ne_pow5 (b : ℕ) (hb : 2 ≤ b) (k : ℕ) : (2 ^ b) ^ 2 + 1
 private lemma endgH_exists_prime (b : ℕ) (hb : 2 ≤ b) :
     ∃ p : ℕ, p.Prime ∧ p ≠ 5 ∧ p ∣ (2 ^ b) ^ 2 + 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hN : (2 ^ b) ^ 2 + 1 ≠ 0 := by positivity
   have hfac := Nat.eq_prime_pow_of_unique_prime_dvd hN (p := 5)
     (fun {d} hd hdvd => by
@@ -51,12 +51,12 @@ private lemma endgH_exists_prime (b : ℕ) (hb : 2 ≤ b) :
 private lemma endgH_num {p : ℕ} (hp : p.Prime) (hp5 : p ≠ 5) (h1 : p % 4 = 1) :
     13 ≤ p := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   interval_cases p <;> first | omega | norm_num at hp
 
 private lemma endgH_ge13 {p b : ℕ} (hp : p.Prime) (hp5 : p ≠ 5) (hb : 2 ≤ b)
     (hpd : p ∣ (2 ^ b) ^ 2 + 1) : 13 ≤ p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hz : ((2 : ZMod p) ^ b) ^ 2 + 1 = 0 := by
     have h := (CharP.cast_eq_zero_iff (ZMod p) p _).2 hpd
     push_cast at h
@@ -116,7 +116,7 @@ private lemma endgH_zmod_sq {p q : ℕ} (hpd : p ∣ q ^ 2 + 1) : (q : ZMod p) ^
 
 private lemma endgH_ordA {p q : ℕ} (hp : p.Prime) (h13 : 13 ≤ p) (hq : 1 ≤ q)
     (hpd : p ∣ q ^ 2 + 1) : ¬ p ∣ CFSG.Open.ordA 2 q := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨F1, F2, F3, -, -⟩ := endgH_facts h13 (endgH_zmod_sq hpd)
   have hsub : q - 1 ∣ q ^ 2 - 1 := by
     have h := Nat.sub_dvd_pow_sub_pow q 1 2
@@ -145,7 +145,7 @@ private lemma endgH_ordA {p q : ℕ} (hp : p.Prime) (h13 : 13 ≤ p) (hq : 1 ≤
 
 private lemma endgH_ordG2 {p q : ℕ} (hp : p.Prime) (h13 : 13 ≤ p) (hq : 1 ≤ q)
     (hpd : p ∣ q ^ 2 + 1) : ¬ p ∣ CFSG.Open.ordG2 q := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨F1, F2, -, F4, -⟩ := endgH_facts h13 (endgH_zmod_sq hpd)
   have h6 : 1 ≤ q ^ 6 := Nat.one_le_pow _ _ (by omega)
   have h2 : 1 ≤ q ^ 2 := Nat.one_le_pow _ _ (by omega)
@@ -157,7 +157,7 @@ private lemma endgH_ordG2 {p q : ℕ} (hp : p.Prime) (h13 : 13 ≤ p) (hq : 1 �
 
 private lemma endgH_ordTD4 {p q : ℕ} (hp : p.Prime) (h13 : 13 ≤ p) (hq : 1 ≤ q)
     (hpd : p ∣ q ^ 2 + 1) : ¬ p ∣ CFSG.Open.ordTrialityD4 q := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨F1, F2, -, F4, F6⟩ := endgH_facts h13 (endgH_zmod_sq hpd)
   have h6 : 1 ≤ q ^ 6 := Nat.one_le_pow _ _ (by omega)
   have h2 : 1 ≤ q ^ 2 := Nat.one_le_pow _ _ (by omega)

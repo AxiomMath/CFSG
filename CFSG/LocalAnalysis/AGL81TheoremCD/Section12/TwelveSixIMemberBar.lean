@@ -13,6 +13,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem center_barM_eq_bot_and_psl {M L : Subgroup G} (hL : IsTwoPrimeComponent M L) {n : ℕ}
     (hL3 : IsL3TwoPow n (modTwoCore L)) :
     Subgroup.center ↥(barM M L) = ⊥ ∧
@@ -21,8 +22,8 @@ theorem center_barM_eq_bot_and_psl {M L : Subgroup G} (hL : IsTwoPrimeComponent 
     hL.le hL.inf_twoCore
   obtain ⟨e3⟩ := hL3
   have hL3bar : IsL3TwoPow n (barM M L) := ⟨eB.symm.trans e3⟩
-  haveI : IsSimpleGroup ↥(barM M L) := hL3bar.isSimpleGroup
-  haveI : Group.IsPerfect ↥(barM M L) := ⟨hL.component.2.2.1⟩
+  have : IsSimpleGroup ↥(barM M L) := hL3bar.isSimpleGroup
+  have : Group.IsPerfect ↥(barM M L) := ⟨hL.component.2.2.1⟩
   have hZ : Subgroup.center ↥(barM M L) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥(barM M L)) with h | h
     · exact h
@@ -36,11 +37,13 @@ noncomputable def yHom {M L X : Subgroup G} (hXL : X ≤ L) (hL : L ≤ M) :
   (QuotientGroup.mk' _).comp
     ((CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeThree.barHom M L hL).comp (inclusion hXL))
 
+omit [Finite G] in
 theorem range_yHom {M L X : Subgroup G} (hXL : X ≤ L) (hL : L ≤ M) : (yHom hXL hL).range =
     ((barM M X).subgroupOf (barM M L)).map (QuotientGroup.mk' (Subgroup.center ↥(barM M L))) := by
   rw [yHom, MonoidHom.range_comp, MonoidHom.range_comp, Subgroup.inclusion_range,
     CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeThree.map_barHom_subgroupOf hXL hL]
 
+omit [Finite G] in
 theorem isPGroup_ker_yHom {M L X : Subgroup G} (hXL : X ≤ L) (hL : L ≤ M)
     (hZ : Subgroup.center ↥(barM M L) = ⊥) : IsPGroup 2 (yHom hXL hL).ker := by
   have h : (yHom hXL hL).ker =

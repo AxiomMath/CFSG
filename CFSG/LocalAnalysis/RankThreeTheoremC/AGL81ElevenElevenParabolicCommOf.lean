@@ -28,10 +28,12 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace ParabolicComm
 
+omit [Finite G] in
 theorem commutatorElement_mem {M : Subgroup G} {a b : G} (ha : a ∈ M) (hb : b ∈ M) :
     ⁅a, b⁆ ∈ M :=
   M.commutator_le_self (Subgroup.commutator_mem_commutator ha hb)
 
+omit [Finite G] in
 theorem mk_commutator_mem {M B : Subgroup G} (hBM : B ≤ M) {b₁ b₂ : G} (h₁ : b₁ ∈ B)
     (h₂ : b₂ ∈ B) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨⁅b₁, b₂⁆, commutatorElement_mem (hBM h₁) (hBM h₂)⟩ ∈
@@ -45,6 +47,7 @@ theorem mk_commutator_mem {M B : Subgroup G} (hBM : B ≤ M) {b₁ b₂ : G} (h�
   rw [e]
   exact Subgroup.commutator_mem_commutator ⟨⟨b₁, hBM h₁⟩, h₁, rfl⟩ ⟨⟨b₂, hBM h₂⟩, h₂, rfl⟩
 
+omit [Finite G] in
 theorem forall_mem_commutator {M B L : Subgroup G} (hBM : B ≤ M)
     (hc : ∀ c ∈ ⁅barM M B, barM M B⁆, ∀ y ∈ barM M L, c * y = y * c) :
     ∀ c ∈ ⁅B, B⁆, ∃ hcM : c ∈ M, ∀ y ∈ barM M L,

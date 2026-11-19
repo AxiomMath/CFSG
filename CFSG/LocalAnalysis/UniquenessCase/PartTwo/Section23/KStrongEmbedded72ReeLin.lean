@@ -14,7 +14,7 @@ open CFSG.GorensteinWalter
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer inner)
 open scoped MatrixGroups
 
-theorem sq_sub_one_eq_eight_mul_odd {q : ℕ} (hq : Odd q)
+theorem sq_sub_one_eq_eight_mul_odd {q : ℕ} (_hq : Odd q)
     (hq8 : q % 8 = 3 ∨ q % 8 = 5) :
     ∃ u : ℕ, Odd u ∧ q ^ 2 - 1 = 8 * u := by
   have hq16 : q % 16 < 16 := Nat.mod_lt _ (by norm_num)
@@ -46,7 +46,7 @@ theorem odd_of_pow_mod_eight {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   omega
 
 theorem odd_elim_reduction {K : Type} [Group K] [Finite K] {p f : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) (hf : 0 < f) (h5 : 5 ≤ p ^ f)
+    (hp2 : p ≠ 2) (hf : 0 < f) (_h5 : 5 ≤ p ^ f)
     (h8 : p ^ f % 8 = 3 ∨ p ^ f % 8 = 5)
     (e : K ≃* PSL(2, GaloisField p f)) :
     Nat.card K = p ^ f * ((p ^ f) ^ 2 - 1) / 2 ∧
@@ -82,7 +82,7 @@ theorem pgl2_card_eq_eight_mul_odd {F : Type} [Field F] [Finite F] {p f : ℕ} [
   ring
 
 theorem nat_card_outer_odd_psl2 {K : Type} [Group K] [Finite K] {p f : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) (hf : 0 < f) (h5 : 5 ≤ p ^ f) (hfodd : Odd f)
+    (hp2 : p ≠ 2) (hf : 0 < f) (h5 : 5 ≤ p ^ f) (_hfodd : Odd f)
     (e : K ≃* PSL(2, GaloisField p f)) :
     Nat.card (Outer K) = 2 * f := by
   classical
@@ -248,13 +248,13 @@ theorem pgl2_sylow_two_noncommutative {F : Type} [Field F] [Finite F] {p f : ℕ
   exact hnc hcommD
 
 theorem centralizer_reeLin_false {X : Type} [Group X] [Finite X] {L K : Subgroup X}
-    (hKL : K ≤ L) (hKn : K.Normal)
+    (_hKL : K ≤ L) (hKn : K.Normal)
     (hKC : Subgroup.centralizer (K : Set X) = ⊥)
-    [hKs : IsSimpleGroup ↥K]
+    [_hKs : IsSimpleGroup ↥K]
     (hL8 : ∀ S : Sylow 2 ↥L, Nat.card (S : Subgroup ↥L) = 8)
     (hLab : ∀ S : Sylow 2 ↥L, IsMulCommutative (S : Subgroup ↥L))
-    {t : ↥L} (ht : orderOf t = 2)
-    (hC24 : Nat.card ↥(Subgroup.centralizer ({t} : Set ↥L)) = 24)
+    {t : ↥L} (_ht : orderOf t = 2)
+    (_hC24 : Nat.card ↥(Subgroup.centralizer ({t} : Set ↥L)) = 24)
     {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hf : 0 < f) (h5 : 5 ≤ p ^ f)
     (h8 : p ^ f % 8 = 3 ∨ p ^ f % 8 = 5)
     (e : ↥K ≃* PSL(2, GaloisField p f)) : False := by
@@ -270,7 +270,7 @@ theorem centralizer_reeLin_false {X : Type} [Group X] [Finite X] {L K : Subgroup
   have h8F : Nat.card F % 8 = 3 ∨ Nat.card F % 8 = 5 := by
     simpa [hFcard] using h8
   have hfodd : Odd f := odd_of_pow_mod_eight hp2 h8
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hLnorm : L ≤ Subgroup.normalizer (K : Set X) := Subgroup.le_normalizer_of_normal
   let ψ : ↥L →* MulAut ↥K :=
     K.normalizerMonoidHom.comp (Subgroup.inclusion hLnorm)
@@ -397,7 +397,7 @@ theorem centralizer_reeLin_false {X : Type} [Group X] [Finite X] {L K : Subgroup
     rw [Subgroup.card_map_of_injective isoA.injective, hU8]
   have hfield : ∀ u : ↥U, (isoA (u : MulAut ↥K)).right = 1 := by
     intro u
-    obtain ⟨n, hn⟩ := U.isPGroup'.exists_orderOf_eq_pow u
+    obtain ⟨n, hn⟩ := U.isPGroup.exists_orderOf_eq_pow u
     have huPow : ((u : MulAut ↥K)) ^ 2 ^ n = 1 := by
       have hu : u ^ 2 ^ n = 1 := by rw [← hn, pow_orderOf_eq_one]
       exact congrArg (fun z : ↥U => (z : MulAut ↥K)) hu

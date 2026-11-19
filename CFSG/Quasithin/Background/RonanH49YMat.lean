@@ -94,7 +94,7 @@ theorem Y_stab_kernel_param : ∀ p q u r s w p' q' u' r' s' w' : ZMod 2,
 
 theorem Y_stab_kernel {a b : Matrix (Fin 3) (Fin 3) (ZMod 2)}
     (ha : a 2 0 = 0 ∧ a 2 1 = 0 ∧ a 2 2 = 1) (hb : b 2 0 = 0 ∧ b 2 1 = 0 ∧ b 2 2 = 1)
-    (h : a * YMat * bᵀ = YMat) (h0 : a * tMat 0 * bᵀ = tMat 0) (h1 : a * tMat 1 * bᵀ = tMat 1) :
+    (_h : a * YMat * bᵀ = YMat) (h0 : a * tMat 0 * bᵀ = tMat 0) (h1 : a * tMat 1 * bᵀ = tMat 1) :
     (∃ x y : ZMod 2, a = axMat x y) ∧ (∃ x y : ZMod 2, b = axMat x y) := by
   have hA : !![a 0 0, a 0 1, a 0 2; a 1 0, a 1 1, a 1 2; 0, 0, 1] = a := by
     ext i j

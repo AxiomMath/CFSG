@@ -55,19 +55,19 @@ theorem blockExt_conj_diagonal {S : Finset (Fin d)} {D : GL (Fin d) F}
   by_cases hi : i ∈ S
   · by_cases hj : j ∈ S
     · rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
-      simp only [blockExt, dif_pos hi, dif_pos hj, Matrix.diagonal_mul, Matrix.mul_diagonal,
+      simp only [blockExt, dite_eq_left hi, dite_eq_left hj, Matrix.diagonal_mul, Matrix.mul_diagonal,
         Equiv.symm_apply_apply, Subtype.coe_mk]
     · rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
-      simp only [blockExt, dif_pos hi, dif_neg hj, Matrix.one_apply]
+      simp only [blockExt, dite_eq_left hi, dite_eq_right hj, Matrix.one_apply]
       by_cases hij : i = j
       · subst hij
         simp
       · simp
   · rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
-    simp only [blockExt, dif_neg hi, Matrix.one_apply]
+    simp only [blockExt, dite_eq_right hi, Matrix.one_apply]
     by_cases hij : i = j
     · subst hij
-      simp only [if_true, mul_one]
+      simp only [ite_true, mul_one]
       exact mul_inv_cancel₀ (LineU.diag_ne_zero_of_eq hD i)
     · simp [hij]
 

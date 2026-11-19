@@ -21,7 +21,7 @@ theorem leafKer_holds : LeafKer := by
   rw [MonoidHom.mem_ker, toAutI_eq_one_iff] at hx
   have hKH : K ≤ H := le_of_mem_cComp h.K_cComp
   have hxQ : (x : G) ∈ pCoreOf 2 H := mem_pCoreOf_of_actH_eq_one h hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKn : K ≤ Subgroup.normalizer ((K ⊓ pCoreOf 2 H : Subgroup G) : Set G) := by
     intro k hk
     rw [Subgroup.mem_normalizer_iff]
@@ -37,7 +37,7 @@ theorem leafKer_holds : LeafKer := by
 
 theorem isPSL_statedProj_of_card_four {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) :
     IsPSL 3 2 2 (CFSG.Assembly.LowTwoRank.StatedProj (CFSG.Assembly.LowTwoRank.StatedSL 3 F)) := by
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have hF' : Fintype.card F = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num
@@ -76,12 +76,12 @@ theorem leafCenter_of_ker (hKer : LeafKer) : LeafCenter := by
     · rw [hbot, Subgroup.card_bot] at h3
       norm_num at h3
   ·
-    letI := Fintype.ofFinite F'
+    let := Fintype.ofFinite F'
     have eS : KQ K ≃* ↥(CFSG.Assembly.LowTwoRank.StatedSL 3 F') := eQ.trans eA
     have hcen : Nat.card (Subgroup.center (KQ K)) = 3 := by
       rw [Nat.card_congr (Subgroup.centerCongr eS).toEquiv]
       exact CFSG.Open.StatedCenterThree.card_center_statedSL_three (K := F')
-        (by rw [hF'] <;> norm_num)
+        (by rw [hF'])
     have hPSLX : IsPSL 3 2 2 (KQ K ⧸ Subgroup.center (KQ K)) := by
       refine IsPSL.of_mulEquiv (SmithC27.quotCenterCongr eS).symm ?_
       exact SmithC27.isPSL_statedSL_three (F := F') (n := 2) (by norm_num)

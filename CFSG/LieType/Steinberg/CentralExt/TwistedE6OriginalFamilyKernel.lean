@@ -63,7 +63,7 @@ theorem TwE6ToralCoords.famKernel_ggHyperplane
     famKernel (Set.range aH) = famKernel (Set.range aV) := congrArg famKernel hRange
     _ = familyKernel aV := by
       ext δ
-      simp only [famKernel, familyKernel, Set.mem_setOf_eq, Set.forall_mem_range]
+      simp only [famKernel, familyKernel, Set.mem_ofPred_eq, Set.forall_mem_range]
     _ = {γ, -γ} := TwE6ThreeRootGen.familyKernel_zetaVec_eq hζ hζo hV hγ
 
 end CFSG.LieType.Steinberg.CentralExt.TwistedE6TwoCover

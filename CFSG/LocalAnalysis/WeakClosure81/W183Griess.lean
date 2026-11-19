@@ -52,7 +52,7 @@ theorem Socle185Shape.exists_lieModel_table_dvd_two {S : Type} [Group S] (h : So
     have hexc : exceptionalOrders .PSL 2 p e = (1, 1) :=
       w183_exceptionalOrders_psl_two (by omega) (by omega)
     rw [hgen, hexc]
-    simp only [Prod.fst, Prod.snd, mul_one, one_mul]
+    simp only [mul_one]
     exact Nat.gcd_dvd_left 2 (p ^ e - 1)
   · rcases h with ⟨h3, h4, hS⟩ | ⟨h3, h4, hS⟩
     ·
@@ -62,7 +62,7 @@ theorem Socle185Shape.exists_lieModel_table_dvd_two {S : Type} [Group S] (h : So
       have hexc : exceptionalOrders .PSL 3 p f = (1, 1) :=
         w183_exceptionalOrders_psl_three (by omega)
       rw [hgen, hexc]
-      simp only [Prod.fst, Prod.snd, mul_one, one_mul]
+      simp only [mul_one]
       rw [w183_gcd_three_sub_one_eq_one h3]
       norm_num
     ·
@@ -71,7 +71,7 @@ theorem Socle185Shape.exists_lieModel_table_dvd_two {S : Type} [Group S] (h : So
       have hgen : genericOrders .PSU 3 p f = (Nat.gcd 3 (p ^ f + 1), 1) := rfl
       have hexc : exceptionalOrders .PSU 3 p f = (1, 1) := w183_exceptionalOrders_psu_three
       rw [hgen, hexc]
-      simp only [Prod.fst, Prod.snd, mul_one, one_mul]
+      simp only [mul_one]
       rw [w183_gcd_three_add_one_eq_one h3]
       norm_num
   ·
@@ -80,7 +80,7 @@ theorem Socle185Shape.exists_lieModel_table_dvd_two {S : Type} [Group S] (h : So
     have hexc : exceptionalOrders .PSL 2 7 1 = (1, 1) :=
       w183_exceptionalOrders_psl_two (by norm_num) (by norm_num)
     rw [hgen, hexc]
-    simp only [Prod.fst, Prod.snd, mul_one, one_mul]
+    simp only [mul_one]
     norm_num
 
 theorem oddMultiplierSocle185_of_griess
@@ -88,8 +88,8 @@ theorem oddMultiplierSocle185_of_griess
     OddMultiplierSocle185 := by
   intro S _ hS X _ _ Z _ hZc hZodd hperf hiso
   obtain ⟨e⟩ := hiso
-  haveI : Finite S := Finite.of_equiv (X ⧸ Z) e.toEquiv
-  haveI hsimp : IsSimpleGroup S := hS.isSimpleGroup
+  have : Finite S := Finite.of_equiv (X ⧸ Z) e.toEquiv
+  have hsimp : IsSimpleGroup S := hS.isSimpleGroup
   have hnab : ∃ a b : S, a * b ≠ b * a := hS.exists_not_commute
   have hcenterS : Subgroup.center S = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h

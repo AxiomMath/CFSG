@@ -178,9 +178,10 @@ theorem swapEl_conj (j : Fin 3) (a : Fin 3 → ZMod 3) :
   simp only [Pi.mul_apply, Pi.inv_apply, flip]
   by_cases h : i = j
   · subst h
-    rw [Pi.mulSingle_eq_same, if_pos rfl, pGL_conj_tPow]
-  · rw [Pi.mulSingle_eq_of_ne h, if_neg h, one_mul, inv_one, mul_one]
+    rw [Pi.mulSingle_eq_same, ite_eq_left rfl, pGL_conj_tPow]
+  · rw [Pi.mulSingle_eq_of_ne h, ite_eq_right h, one_mul, inv_one, mul_one]
 
+omit [CharP K 2] in
 theorem inclMat_mul_diagonal (σ : Equiv.Perm (Fin 3)) (d : Fin 3 → K) :
     inclMat (K := K) σ * diagonal d = diagonal (d ∘ σ.symm) * inclMat σ := by
   ext a b
@@ -191,12 +192,14 @@ theorem inclMat_mul_diagonal (σ : Equiv.Perm (Fin 3)) (d : Fin 3 → K) :
     simp
   · simp
 
+omit [CharP K 2] in
 theorem spIncl_mul_planeMat (σ : Equiv.Perm (Fin 3)) (h : Fin 3 → Matrix (Fin 2) (Fin 2) K) :
     spIncl (K := K) σ * planeMat h = planeMat (h ∘ σ.symm) * spIncl σ := by
   simp only [spIncl, planeMat, fromBlocks_multiply, Matrix.zero_mul, Matrix.mul_zero, add_zero,
     zero_add, inclMat_mul_diagonal]
   rfl
 
+omit [CharP K 2] in
 theorem spIncl_symplectic (σ : Equiv.Perm (Fin 3)) :
     (spIncl (K := K) σ)ᵀ * CFSG.ClassicalInvolution.Models.SymplecticPairs.gram K 3 * spIncl σ =
       CFSG.ClassicalInvolution.Models.SymplecticPairs.gram K 3 := by
@@ -256,8 +259,8 @@ theorem commute_spEmbed_eps (i : Fin 3) {a : Fin 3 → ZMod 3} (ha : ∀ j, j �
     rcases r with x | x <;> rcases t with y | y <;>
       simp only [planeMat, fromBlocks_apply₁₁, fromBlocks_apply₁₂, fromBlocks_apply₂₁,
         fromBlocks_apply₂₂, diagonal_apply, one_apply, Sum.inl.injEq, Sum.inr.injEq,
-        reduceCtorEq, if_false] <;>
-      by_cases hxy : x = y <;> simp only [hxy, if_true, if_false]
+        reduceCtorEq, ite_false] <;>
+      by_cases hxy : x = y <;> simp only [hxy, ite_true, ite_false]
     all_goals
       subst hxy
       have hx : x ≠ i := fun h => hrt ⟨by rw [h]; simp [coords], by rw [h]; simp [coords]⟩
@@ -305,7 +308,7 @@ theorem cel_conj (c : Fin 6) (a : Fin 3 → ZMod 3) :
 end Witness
 
 theorem witness_sp6two : Witness (StatedSp 3 (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨(eps (K := ZMod 2)).range, ?_, ?_, ?_⟩
   · rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩
     rw [← map_mul, ← map_mul, mul_comm]

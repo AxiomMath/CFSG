@@ -44,7 +44,7 @@ theorem classicalFalse (hI : ComponentClassification.RankTwoOddLie.OddLieInputs)
   obtain ⟨W, hW2, hW4, htW, huW, htu, hu1, huJ, hJc, hM, hsl⟩ :=
     exists_fourGroup_of_classicalMember hGA ht₀2 hLt hLp hp2' hf' h5' hJ hu
   have hu2 : orderOf (u : G) = 2 := (Subgroup.orderOf_coe u).trans hJ.orderOf_eq_two
-  haveI : IsSimpleGroup G := hset.std.simple
+  have : IsSimpleGroup G := hset.std.simple
   obtain ⟨K, hKc, huK, hout⟩ := exists_blowUp_of_fourGroup hL35 hset.std.nonab hset.std.kProper
     hset.notCat hp' hp2' hf' h5' hW2 hW4 hJc hM hsl huJ huW hu1 htW htu
   rcases hout with ⟨-, -, -, hZ, hL34⟩ | ⟨-, -, h5⟩ | ⟨-, -, h3⟩

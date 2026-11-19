@@ -45,7 +45,7 @@ lemma snoc_six (u : Fin 6 → K) (t : K) :
   have h : i.castSucc ≠ (6 : Fin 7) := by
     rw [six_last]
     exact Fin.castSucc_ne_last i
-  simp [axis, tU, Pi.single_apply, h]
+  simp [axis, tU, h]
 
 @[expose] def kvec : U := ![2, 0, 1, 0, 2, 1]
 
@@ -102,7 +102,7 @@ lemma lwordProd_apply (w : List (Fin 6)) (v : V7) :
       ext j
       refine Fin.lastCases ?_ (fun j => ?_) j
       · simp [ofUT, tcoord, s_apply_last, snoc_six]
-      · simp [ofUT, ucoord, applyUWord, sU, s_apply_apply, sub_eq_add_neg, mul_comm]
+      · simp [ofUT, applyUWord]
 
 lemma lwordProd_mem {H : Subgroup (V7 ≃ₗ[K] V7)}
     (hs : ∀ i : Fin 6, s i ∈ H) (w : List (Fin 6)) : lwordProd w ∈ H := by
@@ -872,7 +872,7 @@ structure NormEntry where
 @[expose] def normIdx (u : U) : Fin 8 :=
   (normEntry u).map (fun e => e.idx) |>.getD 0
 
-private def decEqUFast : DecidableEq U := fun u v =>
+@[instance_reducible] private def decEqUFast : DecidableEq U := fun u v =>
   decidable_of_iff (((List.finRange 6).all fun i => decide (u i = v i)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
     exact funext_iff.symm)

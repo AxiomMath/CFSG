@@ -78,7 +78,7 @@ theorem burnsideF45_relIndex_mod {E : Type} [Group E] [Finite E] {p : ℕ} (hp :
     (hS : ∃ S : Subgroup E, ChF.IsSylowOf p S H ∧ B = H ⊓ Subgroup.normalizer (S : Set E)) :
     B.relIndex P % p = 1 := by
   obtain ⟨S, ⟨hSH, hSp, hSidx⟩, hB⟩ := hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSB : S ≤ B := by
     rw [hB]; exact le_inf hSH Subgroup.le_normalizer
   have hSP : S ≤ P := hSB.trans hBP
@@ -118,7 +118,7 @@ theorem burnsideF45_relIndex_mod {E : Type} [Group E] [Finite E] {p : ℕ} (hp :
 theorem burnsideF45_witness_top {κ' : GLKind} {p' f' : ℕ} {E : Type} [Group E]
     [hE : IsSimpleGroup E] {Gp' M₁ M₂ : Subgroup E} (hyp' : HypF_4_4 κ' p' f' Gp' M₁ M₂) :
     Gp' = ⊤ := by
-  haveI := hyp'.normal
+  have := hyp'.normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Gp' with h | h
   · exfalso
     have hc := hyp'.centralizer_trivial
@@ -176,8 +176,8 @@ theorem burnsideF45_C5 (hL : burnsideF45_LieFactsAll)
   rcases burnsideF45_isLie_or κ with hκ | hκ
   · exact burnsideF45_C5_lie hL hyp hκ
   · obtain ⟨κ', p', f', Gp', hκ', hyp'⟩ := hext
-    haveI : Finite E := hyp.finite
-    haveI := hsimple κ p f E Gp M₁ M₂ hyp hκ
+    have : Finite E := hyp.finite
+    have := hsimple κ p f E Gp M₁ M₂ hyp hκ
     have hGp : Gp = ⊤ := hyp.canonical hκ
     have hp : p = 2 := burnsideF45_p_eq_two hyp hκ
     have hGp' : Gp' = ⊤ := burnsideF45_witness_top hyp'

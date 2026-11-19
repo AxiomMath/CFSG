@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s15_Infra_vtil_sq_eq_one (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (w : Vtil V₀ V hV) : w ^ 2 = 1 := by
   induction w using QuotientGroup.induction_on with
@@ -31,6 +32,7 @@ theorem s15_Infra_v1Sub_le {D : Data G} {V₀ V L : Subgroup G} (h : Hyp125 D V�
   · rw [v1Sub_of_ne_bot D.M V₀ V hV L h0]
     exact h.pairFacts.le
 
+omit [Finite G] in
 theorem s15_Infra_le_v1Sub (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (L : Subgroup G) :
     V₀ ≤ v1Sub M V₀ V hV L := by
   by_cases h0 : V₀ = ⊥
@@ -96,6 +98,7 @@ theorem s15_Infra_mSub_eq_rk_imgTil_add (V₀ V U : Subgroup G) (hV : IsElemAbel
   rw [← hmul, padicValNat.mul (Nat.card_pos (α := ↥(imgTil V₀ V hV U))).ne'
     (Nat.card_pos (α := ↥(U ⊓ V₀))).ne']
 
+omit [Finite G] in
 theorem s15_Infra_imgTil_top (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
     imgTil V₀ V hV V = ⊤ := by
   have h : intSub V hV V = (⊤ : Subgroup (IntMod V hV)) := by
@@ -104,6 +107,7 @@ theorem s15_Infra_imgTil_top (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
     exact ⟨fun _ => trivial, fun _ => x.val_mem⟩
   rw [imgTil, h, Subgroup.map_top_of_surjective (mkTil V₀ V hV) (mkTil_surjective V₀ V hV)]
 
+omit [Finite G] in
 theorem s15_Infra_imgTil_sup_left {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V) (hU : U ≤ V)
     (hV₀ : V₀ ≤ V) : imgTil V₀ V hV (U ⊔ V₀) = imgTil V₀ V hV U := by
   have hsup : intSub V hV (U ⊔ V₀) = intSub V hV U ⊔ modNull V₀ V hV := by
@@ -126,6 +130,7 @@ theorem s15_Infra_imgTil_sup_left {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 
     obtain ⟨x, hx, rfl⟩ := hq
     exact ⟨x, (le_sup_left : U ≤ U ⊔ V₀) hx, rfl⟩
 
+omit [Finite G] in
 theorem s15_Infra_barSub_conjSubgroup (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) (X : Subgroup G) :
     barSub V₀ V hV (conjSubgroup X m) =
@@ -147,7 +152,7 @@ theorem s15_Infra_barSub_conjSubgroup (V₀ V : Subgroup G) (hV : IsElemAbelian 
     rw [show (actTil V₀ V hV ⟨m, hm⟩⁻¹)⁻¹ = actTil V₀ V hV ⟨m, hm⟩
       from by simp, ← map_mul]
     have hg' : (⟨m, hm⟩⁻¹ * ⟨m * (g : G) * m⁻¹, hgs⟩ * ⟨m, hm⟩ : stabTil V₀ V) = g :=
-      Subtype.ext (by simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]; group)
+      Subtype.ext (by simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group)
     rw [hg']
   · rintro ⟨θ, hθ, hθφ⟩
     rw [mem_barSub] at hθ
@@ -188,9 +193,10 @@ theorem s15_Infra_commSub_top_map_conj {W : Type*} [CommGroup W]
     obtain ⟨x₀, hx₀, v, -, rfl⟩ := hs
     refine ⟨MulAut.conj α x₀, ⟨x₀, hx₀, rfl⟩, α v, trivial, ?_⟩
     change (MulAut.conj α x₀) (α v) * (α v)⁻¹ = α (x₀ v * v⁻¹)
-    simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.apply_inv_self, MulAut.inv_apply_self,
+    simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply_self,
       map_mul, map_inv]
 
+omit [Finite G] in
 theorem s15_Infra_wTil_conjSubgroup (V₀ V L : Subgroup G) (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) :
     wTil V₀ V hV (conjSubgroup L m) =
@@ -199,6 +205,7 @@ theorem s15_Infra_wTil_conjSubgroup (V₀ V L : Subgroup G) (hV : IsElemAbelian 
   rw [s15_Infra_barSub_conjSubgroup V₀ V hV hm L]
   exact s15_Infra_commSub_top_map_conj (barSub V₀ V hV L) (actTil V₀ V hV ⟨m, hm⟩)⁻¹
 
+omit [Finite G] in
 theorem s15_Infra_preTil_map_actTil (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) (S : Subgroup (Vtil V₀ V hV)) :
     preTil V₀ V hV (S.map ((actTil V₀ V hV ⟨m, hm⟩)⁻¹).toMonoidHom) =
@@ -231,13 +238,14 @@ theorem s15_Infra_preTil_map_actTil (V₀ V : Subgroup G) (hV : IsElemAbelian 2 
       (Subgroup.mem_normalizer_iff.1 (stabTil_le_normalizer V₀ V hm) g).2 (hy ▸ y.val_mem)
     refine ⟨actStab V₀ V hV ⟨m, hm⟩⁻¹ y, ?_, ?_⟩
     · rw [actStab_apply_val, hy]
-      simp only [InvMemClass.coe_inv, Subtype.coe_mk]
+      simp only [InvMemClass.coe_inv]
       group
     · rw [Subgroup.mem_map]
       refine ⟨mkTil V₀ V hV y, hyS, ?_⟩
       rw [← map_inv]
       exact actTil_mk V₀ V hV ⟨m, hm⟩⁻¹ y
 
+omit [Finite G] in
 theorem s15_Infra_wSub_conjSubgroup (V₀ V L : Subgroup G) (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) :
     wSub V₀ V hV (conjSubgroup L m) = conjSubgroup (wSub V₀ V hV L) m := by
@@ -245,6 +253,7 @@ theorem s15_Infra_wSub_conjSubgroup (V₀ V L : Subgroup G) (hV : IsElemAbelian 
   rw [s15_Infra_wTil_conjSubgroup V₀ V L hV hm]
   exact s15_Infra_preTil_map_actTil V₀ V hV hm (wTil V₀ V hV L)
 
+omit [Finite G] in
 theorem s15_Infra_imgTil_conjSubgroup (V₀ V U : Subgroup G) (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) :
     imgTil V₀ V hV (conjSubgroup U m) =
@@ -264,7 +273,7 @@ theorem s15_Infra_imgTil_conjSubgroup (V₀ V U : Subgroup G) (hV : IsElemAbelia
     obtain ⟨x, hx, rfl⟩ := hθ
     refine ⟨actStab V₀ V hV ⟨m, hm⟩⁻¹ x, ?_, ?_⟩
     · rw [mem_conjSubgroup_iff, actStab_apply_val]
-      simp only [InvMemClass.coe_inv, Subtype.coe_mk]
+      simp only [InvMemClass.coe_inv]
       rw [show m * (m⁻¹ * x.val * (m⁻¹)⁻¹) * m⁻¹ = x.val by group]
       exact hx
     · rw [← map_inv]
@@ -431,7 +440,7 @@ theorem s15_Infra_iSup_barSub_normal {D : Data G} {V₀ V L : Subgroup G}
   {X | ∃ m ∈ M, X = imgTil (v1Sub M V₀ V hV L) V hV (conjSubgroup (wSub V₀ V hV L) m)}
 
 theorem s15_Infra_map_wStar_mem_wStarConj {D : Data G} {V₀ V L : Subgroup G}
-    (h : Hyp125 D V₀ V) (hV : IsElemAbelian 2 V)
+    (_h : Hyp125 D V₀ V) (hV : IsElemAbelian 2 V)
     {e : MulAut (vStar D.M V₀ V hV L)} (he : e ∈ Mbar D.M (v1Sub D.M V₀ V hV L) V hV) :
     (wStar D.M V₀ V hV L).map e.toMonoidHom ∈ wStarConj D.M V₀ V hV L := by
   obtain ⟨g, hgM, rfl⟩ :=
@@ -456,7 +465,7 @@ theorem mSub_wSub_sup_v1Sub (D : Data G) {V₀ V L : Subgroup G} (h : Hyp125 D V
       (preTil_le V₀ V hV _) (s15_Infra_v1Sub_le h hV)]
   rfl
 
-theorem mSub_wSub (D : Data G) {V₀ V L : Subgroup G} (h : Hyp125 D V₀ V)
+theorem mSub_wSub (D : Data G) {V₀ V L : Subgroup G} (_h : Hyp125 D V₀ V)
     (hV : IsElemAbelian 2 V) :
     mSub (wSub V₀ V hV L) = gamma15 D.M V₀ V hV L + delta15 D.M V₀ V hV L := by
   rw [s15_Infra_mSub_eq_rk_imgTil_add (v1Sub D.M V₀ V hV L) V (wSub V₀ V hV L) hV

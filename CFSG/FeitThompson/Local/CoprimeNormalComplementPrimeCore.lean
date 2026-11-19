@@ -79,7 +79,7 @@ theorem mem_pCore_of_mem_centralizer_of_orderOf_eq_pow [Finite G] (hp : p.Prime)
   have hsup : N ⊔ (S : Subgroup G) = ⊤ :=
     (isComplement'_of_coprime hp hcop hN S.card_eq_multiplicity).sup_eq_top
   exact le_pCore hp (normal_inf_centralizer_of_sup_eq_top hsup)
-    (S.isPGroup'.to_le inf_le_left) ⟨hS (mem_zpowers x), hxC⟩
+    (S.isPGroup.to_le inf_le_left) ⟨hS (mem_zpowers x), hxC⟩
 
 theorem mem_pCore_of_mem_centralizer_of_isPGroup_zpowers [Finite G] (hp : p.Prime)
     {N : Subgroup G} [N.Normal] (hcop : (Nat.card N).Coprime p)

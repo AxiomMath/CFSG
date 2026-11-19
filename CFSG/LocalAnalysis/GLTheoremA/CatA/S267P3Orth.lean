@@ -36,6 +36,7 @@ section Core
 
 variable {q : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
+omit [Finite Ω] in
 theorem inf_centralizer_eq_bot_of_center (hZ : Subgroup.center ↥S = ⊥) :
     S ⊓ Subgroup.centralizer (S : Set Ω) = ⊥ := by
   rw [eq_bot_iff]
@@ -59,9 +60,9 @@ theorem P3Hyp.le_sup_centralizer (H : P3Hyp q S B)
       3 ≤ GLATwoLocalRank 3 M ∧ Subgroup.center M = ⊥ ∧
         ∃ ψ : M →* ↥S, Function.Injective ψ ∧ ∀ m, β (ψ m) = ψ m) :
     B ≤ S ⊔ Subgroup.centralizer (S : Set Ω) := by
-  haveI := H.normal
+  have := H.normal
   by_contra hBN
-  obtain ⟨b, hbB, hbN⟩ := SetLike.not_le_iff_exists.1 hBN
+  obtain ⟨b, hbB, hbN⟩ := IsConcreteLE.not_le_iff_exists.1 hBN
   set C : Subgroup Ω := Subgroup.centralizer (S : Set Ω) with hC
   set β : MulAut ↥S := MulAut.conjNormal b with hβdef
   have hb3 : b ^ 3 = 1 := H.elem.2 b hbB
@@ -144,7 +145,7 @@ theorem P3Hyp.eq_sup_of_le (H : P3Hyp q S B) (hZ : Subgroup.center ↥S = ⊥)
     (hW : 3 ≤ GLATwoLocalRank 3 ↥S) (hBN : B ≤ S ⊔ Subgroup.centralizer (S : Set Ω)) :
     B = (B ⊓ centModSubgroup 3 S) ⊔ (B ⊓ S) ∧
       (B ⊓ centModSubgroup 3 S) ⊓ (B ⊓ S) = ⊥ := by
-  haveI := H.normal
+  have := H.normal
   set C : Subgroup Ω := Subgroup.centralizer (S : Set Ω) with hC
   set B₀ : Subgroup Ω := B ⊓ centModSubgroup 3 S with hB₀
   have hSC := inf_centralizer_eq_bot_of_center hZ
@@ -237,7 +238,7 @@ theorem P3Hyp.eq_sup_of_odd (H : P3Hyp q S B) (hZ : Subgroup.center ↥S = ⊥) 
   refine H.eq_sup hZ (OrthWit.three_le_twoLocalRank_of_odd hM hℓ3) fun β hβ => ?_
   obtain ⟨M, _, e, hM', ψ, hψ, hfix⟩ :=
     OrthFix.exists_fixed_model_of_odd hM Nat.prime_three (by norm_num) (Ne.symm hℓ3) hβ
-  haveI : Finite M := Finite.of_injective ψ hψ
+  have : Finite M := Finite.of_injective ψ hψ
   exact ⟨M, inferInstance, inferInstance, OrthWit.three_le_twoLocalRank_of_odd hM' hℓ3,
     OrthFix.center_eq_bot_of_orth_model (Or.inl rfl) hM', ψ, hψ, hfix⟩
 
@@ -248,7 +249,7 @@ theorem P3Hyp.eq_sup_of_minus (H : P3Hyp q S B) (hZ : Subgroup.center ↥S = ⊥
   refine H.eq_sup hZ (OrthWit.three_le_twoLocalRank_of_minus hM hℓ2 hℓ3) fun β hβ => ?_
   obtain ⟨M, _, e, hM', ψ, hψ, hfix⟩ :=
     OrthFix.exists_fixed_model_of_minus hM Nat.prime_three (by norm_num) (Ne.symm hℓ3) hβ
-  haveI : Finite M := Finite.of_injective ψ hψ
+  have : Finite M := Finite.of_injective ψ hψ
   exact ⟨M, inferInstance, inferInstance, OrthWit.three_le_twoLocalRank_of_minus hM' hℓ2 hℓ3,
     OrthFix.center_eq_bot_of_orth_model (Or.inr (Or.inr rfl)) hM', ψ, hψ, hfix⟩
 
@@ -263,7 +264,7 @@ theorem p3At_B3 (Q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.B 3 Q).Vali
   have hq3 : Q.p ≠ 3 := hQq ▸ H.three
   have hQ5 : 5 ≤ Q.p ^ Q.exponent := (Q.prime_p.five_le_of_ne_two_of_ne_three hq2 hq3).trans
     (Nat.le_self_pow Q.exponent_pos.ne' _)
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) =
       Q.p ^ Q.exponent := by
@@ -299,7 +300,7 @@ theorem p3At_twistedD4
   have hQq : Q.p = q := by simpa using hchar
   have hq2 : Q.p ≠ 2 := hQq ▸ H.two
   have hq3 : Q.p ≠ 3 := hQq ▸ H.three
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 Q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 Q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 Q, hv⟩) =
       Q.p ^ Q.exponent := by

@@ -141,7 +141,7 @@ private lemma teCenter_twE6Cen_le_rad
 
 private lemma twE6Cen_central
     {k : Type} [Field k] (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) :
-    ∀ a ∈ twE6Cen θ, ∀ b ∈ twE6Rad θ, a * b = b * a := fun a ha b hb =>
+    ∀ _a ∈ twE6Cen θ, ∀ b ∈ twE6Rad θ, _a * b = b * _a := fun _a ha b hb =>
   (Subgroup.mem_centralizer_iff.mp (twE6Cen_le_centralizer_rad θ hθ ha) b hb).symm
 
 private lemma teCenter_twE6Cen_comm
@@ -267,16 +267,16 @@ private lemma teCenter_list_prod_single {M : Type*} [Group M] {α : Type} [Decid
     obtain ⟨hbL, hL⟩ := hL
     rw [List.map_cons, List.prod_cons]
     by_cases hba : b = a
-    · rw [if_pos hba]
+    · rw [ite_eq_left hba]
       have hzero : ∀ c ∈ L, (if c = a then x else 1) = 1 := by
         intro c hc
-        rw [if_neg]
+        rw [ite_eq_right]
         intro h
         exact hbL (by rw [hba, ← h]; exact hc)
       rw [List.prod_eq_one (fun y hy => by
         obtain ⟨c, hc, rfl⟩ := List.mem_map.1 hy
         exact hzero c hc), mul_one]
-    · rw [if_neg hba]
+    · rw [ite_eq_right hba]
       have haL : a ∈ L := by
         rcases List.mem_cons.1 ha with h | h
         · exact absurd h.symm hba
@@ -326,9 +326,9 @@ private lemma twE6Long_decomp
       by_cases h : ε' = (ε : _)
       · subst ε'; simpa using hx
       · change (if ε' = (ε : Fin (Tag.rank .F4) → ℤ) then x else 1) ∈ twistedRootGroup k θ ε'
-        rw [if_neg h]; exact one_mem _
+        rw [ite_eq_right h]; exact one_mem _
     · change (if twE6Alpha = (ε : Fin (Tag.rank .F4) → ℤ) then x else 1) = 1
-      rw [if_neg (fun h => ε.2.2.2 h.symm)]
+      rw [ite_eq_right (fun h => ε.2.2.2 h.symm)]
     · exact (teCenter_list_prod_single twE6CenRoots_nodup
         (twE6CenRoots_complete.2 ⟨ε.2.1, ε.2.2.1⟩) x).symm
   · exact ⟨fun _ => 1, fun ε _ => one_mem _, rfl, by simp⟩
@@ -357,7 +357,7 @@ private lemma twE6Cen_inf_alpha
     intro ε hε
     by_cases h : ε = twE6Alpha
     · subst h; simpa [g] using hwα
-    · simp only [g, if_neg h]; exact one_mem _
+    · simp only [g, ite_eq_right h]; exact one_mem _
   have hgα : g twE6Alpha = w := by simp [g]
   have hgprod : (twE6CenRoots.map g).prod = w :=
     teCenter_list_prod_single twE6CenRoots_nodup twE6Alpha_mem_cenRoots w
@@ -472,7 +472,7 @@ private lemma teCenter_sum_pi_single {k : Type} [AddCommMonoid k] (c : Fin 8 →
     (∑ j : Fin 8, Pi.single j (c j)) = c := by
   funext i
   rw [Finset.sum_apply]
-  rw [Finset.sum_eq_single i (fun j _ hj => by rw [Pi.single_apply, if_neg hj.symm])
+  rw [Finset.sum_eq_single i (fun j _ hj => by rw [Pi.single_apply, ite_eq_right hj.symm])
     (fun hi => absurd (Finset.mem_univ i) hi)]
   rw [Pi.single_eq_same]
 

@@ -12,16 +12,19 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma elemAbelian_comm {E : Subgroup G} (hE : IsElemAbelian 2 E) {a b : G}
     (ha : a ∈ E) (hb : b ∈ E) : a * b = b * a := by
-  haveI := hE.1
+  have := hE.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : E) ⟨b, hb⟩)
 
+omit [Finite G] in
 private lemma mul_self_eq_one_of_mem {E : Subgroup G} (hE : IsElemAbelian 2 E) {a : G}
     (ha : a ∈ E) : a * a = 1 := by
   have h := hE.2 a ha
   rwa [pow_two] at h
 
+omit [Finite G] in
 private lemma mul_comm_of_sq_eq_one {a b : G} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b * (a * b) = 1) : a * b = b * a := by
   have hinv : (a * b)⁻¹ = a * b := inv_eq_of_mul_eq_one_right hab
@@ -31,6 +34,7 @@ private lemma mul_comm_of_sq_eq_one {a b : G} (ha : a * a = 1) (hb : b * b = 1)
     _ = b⁻¹ * a⁻¹ := mul_inv_rev a b
     _ = b * a := by rw [ha', hb']
 
+omit [Finite G] in
 private lemma card_setMul_mul_card_inf (A B : Subgroup G) :
     Nat.card ↥((A : Set G) * (B : Set G)) * Nat.card ↥(A ⊓ B) =
       Nat.card ↥A * Nat.card ↥B := by
@@ -66,6 +70,7 @@ private lemma card_setMul_mul_card_inf (A B : Subgroup G) :
       = Nat.card ↥B * (B.relIndex A * Nat.card ↥(A ⊓ B)) := by ring
     _ = Nat.card ↥A * Nat.card ↥B := by rw [h2]; ring
 
+omit [Finite G] in
 private lemma centEl_eq_of_mem {S A B : Subgroup G} (hBS : B ≤ S)
     (hSAB : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b)
     (hB : IsElemAbelian 2 B)
@@ -91,6 +96,7 @@ private lemma centEl_eq_of_mem {S A B : Subgroup G} (hBS : B ≤ S)
   · intro hsB
     exact elemAbelian_comm hB hsB hbB
 
+omit [Finite G] in
 private lemma prod_rev {S A B : Subgroup G}
     (hSAB : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b) :
     ∀ s ∈ S, ∃ b ∈ B, ∃ a ∈ A, s = b * a := by
@@ -98,7 +104,8 @@ private lemma prod_rev {S A B : Subgroup G}
   obtain ⟨a, ha, b, hb, heq⟩ := hSAB s⁻¹ (S.inv_mem hs)
   exact ⟨b⁻¹, B.inv_mem hb, a⁻¹, A.inv_mem ha, by rw [← inv_inv s, heq, mul_inv_rev]⟩
 
-private lemma not_le_of_nonabelian {S P Q : Subgroup G} (hPS : P ≤ S) (hQS : Q ≤ S)
+omit [Finite G] in
+private lemma not_le_of_nonabelian {S P Q : Subgroup G} (_hPS : P ≤ S) (_hQS : Q ≤ S)
     (hS_PQ : ∀ s ∈ S, ∃ p ∈ P, ∃ q ∈ Q, s = p * q)
     (hQ : IsElemAbelian 2 Q) (hnab : ∃ x ∈ S, ∃ y ∈ S, x * y ≠ y * x) :
     ¬ P ≤ Q := by
@@ -110,7 +117,8 @@ private lemma not_le_of_nonabelian {S P Q : Subgroup G} (hPS : P ≤ S) (hQS : Q
     exact Q.mul_mem (hPQ hp) hq
   exact hxy (elemAbelian_comm hQ (hSle hxS) (hSle hyS))
 
-private lemma inf_le_cen {S A B : Subgroup G} (hAS : A ≤ S) (hBS : B ≤ S)
+omit [Finite G] in
+private lemma inf_le_cen {S A B : Subgroup G} (hAS : A ≤ S) (_hBS : B ≤ S)
     (hSAB : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b)
     (hA : IsElemAbelian 2 A) (hB : IsElemAbelian 2 B) : A ⊓ B ≤ cen S := by
   intro g hg
@@ -127,6 +135,7 @@ private lemma inf_le_cen {S A B : Subgroup G} (hAS : A ≤ S) (hBS : B ≤ S)
     _ = (g * a) * b := by rw [hga]
     _ = g * (a * b) := by rw [mul_assoc]
 
+omit [Finite G] in
 private lemma cen_eq {S A B : Subgroup G} (hAS : A ≤ S) (hBS : B ≤ S)
     (hSAB : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b)
     (hA : IsElemAbelian 2 A) (hB : IsElemAbelian 2 B)
@@ -146,7 +155,8 @@ private lemma cen_eq {S A B : Subgroup G} (hAS : A ≤ S) (hBS : B ≤ S)
     exact Subgroup.mem_inf.mpr ⟨hgA, hgB⟩
   · exact inf_le_cen hAS hBS hSAB hA hB
 
-private lemma le_or_le_of_elemAbelian {S A B : Subgroup G} (hAS : A ≤ S) (hBS : B ≤ S)
+omit [Finite G] in
+private lemma le_or_le_of_elemAbelian {S A B : Subgroup G} (_hAS : A ≤ S) (hBS : B ≤ S)
     (hSAB : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b)
     (hA : IsElemAbelian 2 A) (hB : IsElemAbelian 2 B)
     (hcent : ∀ a ∈ A, a ∉ B → ∀ s ∈ S, s * a = a * s ↔ s ∈ A)
@@ -179,6 +189,7 @@ private lemma le_or_le_of_elemAbelian {S A B : Subgroup G} (hAS : A ≤ S) (hBS 
     rw [hy]
     exact B.mul_mem (B.inv_mem hxB) hxyB
 
+omit [Finite G] in
 private lemma maxElemAbelian_eq {S A B : Subgroup G} (hAS : A ≤ S) (hBS : B ≤ S)
     (hSAB : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b)
     (hA : IsElemAbelian 2 A) (hB : IsElemAbelian 2 B)
@@ -206,11 +217,11 @@ private lemma maxElemAbelian_eq {S A B : Subgroup G} (hAS : A ≤ S) (hBS : B �
       · exact absurd (hBY'.trans hY'A) hBle
       · exact le_antisymm hY'B hBY'
 
-private lemma centEl_card_le_of {S P Q : Subgroup G} (hPS : P ≤ S) (hQS : Q ≤ S)
+private lemma centEl_card_le_of {S P Q : Subgroup G} (hPS : P ≤ S) (_hQS : Q ≤ S)
     (hS_PQ : (S : Set G) = (P : Set G) * (Q : Set G))
     (hcentP : ∀ p ∈ P, p ∉ Q → ∀ s ∈ S, s * p = p * s ↔ s ∈ P)
     (hP : IsElemAbelian 2 P) (hQ : IsElemAbelian 2 Q)
-    {x : G} (hxS : x ∈ S) (hxP : x ∉ P) (hxQ : x ∉ Q) :
+    {x : G} (hxS : x ∈ S) (hxP : x ∉ P) (_hxQ : x ∉ Q) :
     Nat.card ↥(centEl S x) ≤ Nat.card ↥Q := by
   let C : Subgroup G := centEl S x
   have hCS : C ≤ S := inf_le_left
@@ -266,7 +277,7 @@ private lemma centEl_card_le_of {S P Q : Subgroup G} (hPS : P ≤ S) (hQS : Q �
     exact hprodQ
   exact Nat.le_of_mul_le_mul_left (h1.le.trans (h2.trans_eq h3)) Nat.card_pos
 
-theorem y7a_yam79_21 {S A B : Subgroup G} (hS : IsPGroup 2 S) (hAS : A ≤ S) (hBS : B ≤ S)
+theorem y7a_yam79_21 {S A B : Subgroup G} (_hS : IsPGroup 2 S) (hAS : A ≤ S) (hBS : B ≤ S)
     (hSAB : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b) (hA : IsElemAbelian 2 A)
     (hB : IsElemAbelian 2 B) (hnab : ∃ x ∈ S, ∃ y ∈ S, x * y ≠ y * x)
     (hcent : ∀ a ∈ A, a ∉ B → ∀ s ∈ S, s * a = a * s ↔ s ∈ A) :

@@ -48,14 +48,14 @@ theorem finite_rationalComponent {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
     {p : ℕ} (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
     (i : KernelComponent (rootCharHom a)) :
     Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
-  haveI := S.finite
+  have := S.finite
   exact Finite.of_injective
     (fun x => (⟨(x : ModGL τ L), rationalComponent_le_model S i x.2⟩ : ↥S.D.model))
     (fun x y h => Subtype.ext (congrArg (fun z : ↥S.D.model => (z : ModGL τ L)) h))
 
 theorem commutator_mem_of_twist_mem_centralizer_exp
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
-    {p : ℕ} (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
+    {p : ℕ} (_S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
     (i : KernelComponent (rootCharHom a))
     {F : ModGL τ L →* ModGL τ L} {Z : Subgroup (ModGL τ L)}
     (hFmem : ∀ x ∈ rootSpan τ L (componentRoots (rootCharHom a) i),
@@ -111,7 +111,7 @@ theorem step_mul_frobGL_fixed {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [C
 
 theorem frobGL_stab_of_stab {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     {p : ℕ} (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
-    (hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
+    (_hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
     {y : ModGL τ L}
     (hyStab : MulAut.conj y ∈ subgroupStabAut
       (rationalComponent S.ρ S.Γ (rootCharHom a) i)) :
@@ -119,7 +119,7 @@ theorem frobGL_stab_of_stab {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [Cha
       (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
   classical
   let R := rationalComponent S.ρ S.Γ (rootCharHom a) i
-  haveI hRfin : Finite ↥R := finite_rationalComponent S i
+  have hRfin : Finite ↥R := finite_rationalComponent S i
   have hinj : Function.Injective (frobGL (τ := τ) (frobeniusEquiv L 2 : L ≃+* L)) :=
     frobGL_injective (τ := τ) _
   have hmapR : R.map (frobGL (τ := τ) (frobeniusEquiv L 2)) = R := by
@@ -183,7 +183,7 @@ theorem excHighRankExpThree_holds :
         (componentRoots (rootCharHom a) i)]) := by
     intro hi
     unfold twistKind at hkind
-    rw [if_pos hi] at hkind
+    rw [ite_eq_left hi] at hkind
     exact TwistKind.noConfusion hkind
   have h6 : compRank (componentRoots (rootCharHom a) i) = 6 := by
     classical
@@ -191,9 +191,9 @@ theorem excHighRankExpThree_holds :
     by_cases h1 : twistInner (componentRoots (rootCharHom a) i)
         ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
           (componentRoots (rootCharHom a) i)])
-    · rw [if_pos h1] at hkind
+    · rw [ite_eq_left h1] at hkind
       cases hkind
-    · rw [if_neg h1] at hkind
+    · rw [ite_eq_right h1] at hkind
       by_cases h2 : (compRank (componentRoots (rootCharHom a) i) = 6 ∧
           (componentRoots (rootCharHom a) i).ncard = 72) ∨
           (compRank (componentRoots (rootCharHom a) i) = 4 ∧
@@ -201,22 +201,21 @@ theorem excHighRankExpThree_holds :
               ¬ twistInner (componentRoots (rootCharHom a) i)
                 ((S.ρ : (Fin τ.rank → ℤ) → _)^[2 * componentOrbitLength S.ρ
                   (componentRoots (rootCharHom a) i)]))
-      · rw [if_pos h2] at hkind
+      · rw [ite_eq_left h2] at hkind
         rcases h2 with h | h
         · exact h.1
         · exact absurd h.1 hr
-      · rw [if_neg h2] at hkind
+      · rw [ite_eq_right h2] at hkind
         split_ifs at hkind
-        all_goals cases hkind
   have h72 : (componentRoots (rootCharHom a) i).ncard = 72 := by
     classical
     unfold twistKind at hkind
     by_cases h1 : twistInner (componentRoots (rootCharHom a) i)
         ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
           (componentRoots (rootCharHom a) i)])
-    · rw [if_pos h1] at hkind
+    · rw [ite_eq_left h1] at hkind
       cases hkind
-    · rw [if_neg h1] at hkind
+    · rw [ite_eq_right h1] at hkind
       by_cases h2 : (compRank (componentRoots (rootCharHom a) i) = 6 ∧
           (componentRoots (rootCharHom a) i).ncard = 72) ∨
           (compRank (componentRoots (rootCharHom a) i) = 4 ∧
@@ -224,13 +223,12 @@ theorem excHighRankExpThree_holds :
               ¬ twistInner (componentRoots (rootCharHom a) i)
                 ((S.ρ : (Fin τ.rank → ℤ) → _)^[2 * componentOrbitLength S.ρ
                   (componentRoots (rootCharHom a) i)]))
-      · rw [if_pos h2] at hkind
+      · rw [ite_eq_left h2] at hkind
         rcases h2 with h | h
         · exact h.2
         · exact absurd h.1 hr
-      · rw [if_neg h2] at hkind
+      · rw [ite_eq_right h2] at hkind
         split_ifs at hkind
-        all_goals cases hkind
   have hdet : (Matrix.of fun β γ : simpleRoots (componentRoots (rootCharHom a) i) =>
       corootPair (β : Fin τ.rank → ℤ) γ).det = 3 :=
     det_cartan_eq_three_of_rank_six (isRootComponent_componentRoots i) _
@@ -287,7 +285,7 @@ theorem excHighRankCompAction_of_fixedPerfect
   intro τ L _ _ _ p₀ p S hp hp2 hτ a hT hap hTp h1 hG2 i hkind hr hQS h360
     y hyZ hyF hyStab
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
-  haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
+  have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
     ⟨hs0.ne'⟩
   have hExp := excHighRankExpThree_holds S hp hp2 hτ hT hap hTp h1 hG2 i hkind hr
   exact hC S hT i hExp hs hmin

@@ -43,12 +43,12 @@ private theorem isPGroup_quotient_of_pow_two_mem {X : Type} [Group X]
 private theorem isNilpotent_of_pow_two_mem_of_le_center {X : Type} [Group X] [Finite X]
     {C K : Subgroup X} (hcenter : C ≤ Subgroup.center X)
     (hpow : ∀ k ∈ K, ∃ a : ℕ, k ^ (2 ^ a) ∈ C) : Group.IsNilpotent K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hCnormal : C.Normal := Subgroup.normal_of_le_center hcenter
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hCnormal : C.Normal := Subgroup.normal_of_le_center hcenter
   let π : K →* K ⧸ C.subgroupOf K := QuotientGroup.mk' (C.subgroupOf K)
   have hquot : IsPGroup 2 (K ⧸ C.subgroupOf K) :=
     isPGroup_quotient_of_pow_two_mem hpow
-  haveI : Group.IsNilpotent (K ⧸ C.subgroupOf K) := hquot.isNilpotent
+  have : Group.IsNilpotent (K ⧸ C.subgroupOf K) := hquot.isNilpotent
   have hkerπ : π.ker ≤ Subgroup.center K := by
     intro x hx
     have hxC : (x : X) ∈ C := by
@@ -62,7 +62,7 @@ private theorem isNilpotent_of_pow_two_mem_of_le_center {X : Type} [Group X] [Fi
 private theorem odd_card_of_pCore_eq_bot_of_isNilpotent {X : Type} [Group X] [Finite X]
     {K : Subgroup X} [K.Normal] [Group.IsNilpotent K]
     (hbot : CFSG.pCore 2 X = ⊥) : Odd (Nat.card K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 K))
   have hPle : ((P : Subgroup K).map K.subtype) ≤ CFSG.pCore 2 X :=
     Sylow.map_le_pCore (N := K) inferInstance inferInstance 2 P
@@ -85,7 +85,7 @@ private theorem le_of_pow_two_mem_of_odd_card {X : Type} [Group X] [Finite X]
     {C K : Subgroup X} (hcenter : C ≤ Subgroup.center X)
     (hpow : ∀ k ∈ K, ∃ a : ℕ, k ^ (2 ^ a) ∈ C)
     (hodd : Odd (Nat.card K)) : K ≤ C := by
-  haveI hCnormal : C.Normal := Subgroup.normal_of_le_center hcenter
+  have hCnormal : C.Normal := Subgroup.normal_of_le_center hcenter
   have hquot : IsPGroup 2 (K ⧸ C.subgroupOf K) :=
     isPGroup_quotient_of_pow_two_mem hpow
   have hqodd : Odd (Nat.card (K ⧸ C.subgroupOf K)) :=
@@ -104,7 +104,7 @@ theorem eq_of_pow_two_mem_of_pCore_eq_bot {X : Type} [Group X] [Finite X]
     (hcenter : C ≤ Subgroup.center X)
     (hpow : ∀ k ∈ K, ∃ a : ℕ, k ^ (2 ^ a) ∈ C)
     (hbot : CFSG.pCore 2 X = ⊥) : K = C ∧ Odd (Nat.card C) := by
-  haveI hnil : Group.IsNilpotent K :=
+  have hnil : Group.IsNilpotent K :=
     isNilpotent_of_pow_two_mem_of_le_center hcenter hpow
   have hoddK : Odd (Nat.card K) :=
     odd_card_of_pCore_eq_bot_of_isNilpotent (K := K) hbot
@@ -134,7 +134,7 @@ theorem image_ker_le_center_of_commutator_le {X Y : Type} [Group X] [Group Y]
     simpa [commutatorElement_def] using hker x hx y
   have hNmap : N.map π = ⊥ := by
     rw [Subgroup.map_eq_bot_iff]
-    exact le_of_eq (by simpa [π] using (QuotientGroup.ker_mk' N).symm)
+    exact le_of_eq (by simp [π])
   have hmap : (⁅f.ker, (⊤ : Subgroup X)⁆).map π ≤ N.map π := Subgroup.map_mono hcomm
   rw [hNmap, Subgroup.map_commutator, Subgroup.map_top_of_surjective π hπ] at hmap
   exact eq_bot_iff.mpr hmap
@@ -168,6 +168,7 @@ noncomputable def quotientQuotientEquivQuotientOfSurjective
   exact (QuotientGroup.quotientQuotientEquivQuotient N (P.comap f) hNleM).trans
     (QuotientGroup.liftEquiv (P.comap f) hg hgker.symm)
 
+omit [Finite Y] in
 theorem comap_pCore_eq_of_surjective_of_schur (f : X →* Y) (hf : Function.Surjective f)
     (hperfect : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤)
     (hker : ∀ x ∈ f.ker, ∀ y : X, x * y * x⁻¹ * y⁻¹ ∈ CFSG.pCore 2 X)
@@ -176,13 +177,13 @@ theorem comap_pCore_eq_of_surjective_of_schur (f : X →* Y) (hf : Function.Surj
       Odd (Nat.card ↥K) →
       Nonempty (Xb ⧸ K ≃* Y ⧸ CFSG.pCore 2 Y) → K = ⊥) :
     (CFSG.pCore 2 Y).comap f = CFSG.pCore 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup X := CFSG.pCore 2 X
   let P : Subgroup Y := CFSG.pCore 2 Y
   have hNbot : CFSG.pCore 2 (X ⧸ N) = ⊥ :=
     CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot (p := 2) (H := X)
   have hNleM : N ≤ P.comap f := pCore_le_comap_of_surjective f hf
-  haveI hMn : (P.comap f).Normal := (CFSG.pCore_normal (p := 2) (G := Y)).comap f
+  have hMn : (P.comap f).Normal := (CFSG.pCore_normal (p := 2) (G := Y)).comap f
   let C : Subgroup (X ⧸ N) := f.ker.map (QuotientGroup.mk' N)
   let K : Subgroup (X ⧸ N) := (P.comap f).map (QuotientGroup.mk' N)
   have hKnormal : K.Normal :=
@@ -195,13 +196,13 @@ theorem comap_pCore_eq_of_surjective_of_schur (f : X →* Y) (hf : Function.Surj
   have hpowK : ∀ k ∈ K, ∃ a : ℕ, k ^ (2 ^ a) ∈ C :=
     pow_two_mem_map_of_isPGroup (N := N) (P := P) f
       (CFSG.pCore_isPGroup (p := 2) (G := Y))
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   obtain ⟨hKC, hCodd⟩ :=
     eq_of_pow_two_mem_of_pCore_eq_bot (C := C) (K := K) hCK hcenterC hpowK hNbot
   rw [← hKC] at hcenterC hCodd
   have hperfectX : commutator X = ⊤ := by rwa [_root_.commutator_def]
-  haveI hPerfX : Group.IsPerfect X := Group.IsPerfect.mk hperfectX
-  haveI hPerfXbar : Group.IsPerfect (X ⧸ N) := inferInstance
+  have hPerfX : Group.IsPerfect X := Group.IsPerfect.mk hperfectX
+  have hPerfXbar : Group.IsPerfect (X ⧸ N) := inferInstance
   have hcommXbar : ⁅(⊤ : Subgroup (X ⧸ N)), (⊤ : Subgroup (X ⧸ N))⁆ = ⊤ := by
     rw [← _root_.commutator_def]
     exact Group.IsPerfect.commutator_eq_top
@@ -216,6 +217,7 @@ theorem comap_pCore_eq_of_surjective_of_schur (f : X →* Y) (hf : Function.Surj
     simpa [N, QuotientGroup.ker_mk'] using hle
   exact le_antisymm hMleN hNleM
 
+omit [Finite Y] in
 theorem comap_pCore_eq_of_surjective (f : X →* Y) (hf : Function.Surjective f)
     (hperfect : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤)
     (hker : ∀ x ∈ f.ker, ∀ y : X, x * y * x⁻¹ * y⁻¹ ∈ CFSG.pCore 2 X)
@@ -248,6 +250,7 @@ noncomputable def quotientPCoreEquivOfSurjective (f : X →* Y) (hf : Function.S
   have hmain := comap_pCore_eq_of_surjective f hf hperfect hker hS hshape
   exact QuotientGroup.liftEquiv N hg (hmain.symm.trans hgker.symm)
 
+omit [Finite Y] in
 theorem isL2_quotientPCore_of_surjective (f : X →* Y) (hf : Function.Surjective f)
     (hperfect : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤)
     (hker : ∀ x ∈ f.ker, ∀ y : X, x * y * x⁻¹ * y⁻¹ ∈ CFSG.pCore 2 X)
@@ -256,6 +259,7 @@ theorem isL2_quotientPCore_of_surjective (f : X →* Y) (hf : Function.Surjectiv
   CFSG.Blueprint.LieModel.of_mulEquiv
     (quotientPCoreEquivOfSurjective f hf hperfect hker hS (Or.inl h)).symm h
 
+omit [Finite Y] in
 theorem isL2Square_quotientPCore_of_surjective (f : X →* Y) (hf : Function.Surjective f)
     (hperfect : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤)
     (hker : ∀ x ∈ f.ker, ∀ y : X, x * y * x⁻¹ * y⁻¹ ∈ CFSG.pCore 2 X)
@@ -264,6 +268,7 @@ theorem isL2Square_quotientPCore_of_surjective (f : X →* Y) (hf : Function.Sur
   IsL2Square.of_mulEquiv
     (quotientPCoreEquivOfSurjective f hf hperfect hker hS (Or.inr h)).symm h
 
+omit [Finite Y] in
 theorem comap_pCore_eq_of_pCore_eq_bot (f : X →* Y) (hf : Function.Surjective f)
     (hperfect : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤)
     (hker : ∀ x ∈ f.ker, ∀ y : X, x * y * x⁻¹ * y⁻¹ ∈ CFSG.pCore 2 X)

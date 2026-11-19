@@ -53,7 +53,7 @@ theorem wordS_eq {S : Array (Array Nat)} {PS PSI : Nat → Nat}
       unpack 3510 12 (wordK 3510 12 (mask 12) (pidn 3510 12) PS PSI wd) := by
   refine (wordEqK_sound hS hp ?_).1
   rw [wordEqK]
-  simp only [bAnd_iff, szOK', hl, true_and]
+  simp only [szOK', hl]
   exact Nat.beq_refl _
 
 theorem word_eq {S : Array (Array Nat)} (hS : S.size = 2 ∧ ∀ j < 2, S[j]! = unpack 3510 12 (G j))
@@ -66,6 +66,7 @@ theorem orig_bind : fi22OrigArrs.size = 2 ∧ ∀ j < 2, fi22OrigArrs[j]! = unpa
   rw [← gen_eq hj, getElem!_pos _ j (by simpa [fi22OrigArrs] using hj)]
   simp [fi22OrigArrs]
 
+set_option exponentiation.threshold 42120 in
 theorem get_eq {P : Nat} (hP : Nat.shiftRight P (3510 * 12) = 0) (i : Nat) :
     (unpack 3510 12 P)[i]! = pg 12 (mask 12) P i := by
   by_cases hi : i < 3510

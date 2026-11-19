@@ -28,7 +28,7 @@ theorem mem_eigSp {c : K} {v : Fin 4 ⊕ Fin 4 → K} : v ∈ eigSp g c ↔ g v 
   simp [eigSp, sub_eq_zero]
 
 omit [Finite K] in
-theorem root_facts (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
+theorem root_facts (_h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     ω ≠ -1 - ω ∧ ω * (-1 - ω) = 1 ∧ ω ^ 2 ≠ 1 ∧ (-1 - ω) ^ 2 ≠ 1 ∧
       ∀ l : K, l ^ 2 + l + 1 = 0 → l = ω ∨ l = -1 - ω := by
   refine ⟨fun h => ?_, by linear_combination -hω, fun h => ?_, fun h => ?_, fun l hl => ?_⟩
@@ -129,6 +129,7 @@ theorem eig_inf (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) {ω : K} (hω : ω ^ 2
   exact (smul_eq_zero.mp this).resolve_left (sub_ne_zero.mpr hne)
 
 include hg in
+omit [Finite K] in
 theorem finrank_eig_le_four (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0)
     (hg3 : ∀ v, g (g (g v)) = v)
     (hd : finrank K (LinearMap.ker ((g : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] _) - LinearMap.id)) = 0)
@@ -143,6 +144,7 @@ theorem finrank_eig_le_four (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0)
   omega
 
 include hg in
+omit [Finite K] in
 theorem finrank_eig_eq_four (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0)
     (hsum : ∀ v, v + g v + g (g v) = 0) (hg3 : ∀ v, g (g (g v)) = v)
     (hd : finrank K (LinearMap.ker ((g : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] _) - LinearMap.id)) = 0)
@@ -329,6 +331,7 @@ theorem planeVec_inj {W : Submodule K (Fin 4 ⊕ Fin 4 → K)} (b : Module.Basis
     linear_combination -b3
 
 include hg in
+omit [Finite K] in
 theorem exists_planes_family (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0)
     (hsum : ∀ v, v + g v + g (g v) = 0) (hg3 : ∀ v, g (g (g v)) = v)
     (hd : finrank K (LinearMap.ker ((g : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] _) - LinearMap.id)) = 0)
@@ -369,7 +372,7 @@ theorem exists_planes_family (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0)
         {(planeVec b c).1, (planeVec b c).2} := by
       ext x
       simp only [Set.mem_range, Set.mem_insert_iff, Set.mem_singleton_iff, Fin.exists_fin_two,
-        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+        Matrix.cons_val_zero, Matrix.cons_val_one]
       tauto
     rw [hset] at h
     simp only [P]

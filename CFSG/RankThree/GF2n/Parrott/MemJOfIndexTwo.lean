@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem mem_center_J_iff (j : J z) :
     j ∈ Subgroup.center (J z) ↔ (j : G) ∈ centerIn (J z) := by
   rw [← QuotientV.centerIn_subgroupOf_eq_center, Subgroup.mem_subgroupOf]
@@ -71,6 +72,7 @@ theorem conjV_eq_one_of_conjZ_eq_one_of_sq_mem_centralizer (h : Tim79a.ParrottHy
   rw [map_mul, map_inv, mul_inv_eq_one] at h1
   exact h1
 
+omit [Finite G] in
 private theorem card_center_J (h : Tim79a.ParrottHyp z) : Nat.card (Subgroup.center (J z)) = 4 := by
   rw [← card_centerIn_J h, centerIn_eq_map_center,
     Subgroup.card_map_of_injective (J z).subtype_injective]

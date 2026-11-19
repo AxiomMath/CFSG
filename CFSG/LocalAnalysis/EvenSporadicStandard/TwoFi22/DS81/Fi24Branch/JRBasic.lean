@@ -71,7 +71,7 @@ theorem mem_Kg_iff {t z j : G} (hK : KleinPair t z) (h1 : ¬ IsConj t z)
     · calc j * z = (j * z * j⁻¹) * j := by group
         _ = z * j := by rw [conj_z_eq hK hj h1 h2]
 
-theorem conj_K {t z : G} (hK : KleinPair t z) (h1 : ¬ IsConj t z) (h2 : IsConj t (t * z))
+theorem conj_K {t z : G} (_hK : KleinPair t z) (_h1 : ¬ IsConj t z) (_h2 : IsConj t (t * z))
     {j k : G} (hj : j ∈ Jg t z) (hk : k ∈ Kg t z) : j * k * j⁻¹ ∈ Kg t z := by
   have hjt : j⁻¹ * t * j ∈ Vtz t z := inv_conj_mem_Vtz hj t_mem_Vtz
   have hjz : j⁻¹ * z * j ∈ Vtz t z := inv_conj_mem_Vtz hj z_mem_Vtz
@@ -193,10 +193,10 @@ theorem J_le_C {t z : G} (hK : KleinPair t z) (h1 : ¬ IsConj t z) (h2 : IsConj 
 theorem jBasic {t z : G} (hK : KleinPair t z) (h1 : ¬ IsConj t z) (h2 : IsConj t (t * z))
     (hs : ∃ y ∈ Jg t z, y * t * y⁻¹ = t * z) : JBasic t z where
   J_le_C := J_le_C hK h1 h2
-  conj_K := fun j hj k hk => conj_K hK h1 h2 hj hk
-  conj_OK := fun j hj o ho => conj_OK hK h1 h2 hj ho
+  conj_K := fun _j hj _k hk => conj_K hK h1 h2 hj hk
+  conj_OK := fun _j hj _o ho => conj_OK hK h1 h2 hj ho
   relIndex_KJ := relIndex_KJ hK h1 h2 hs
-  swap_of_not_mem := fun j hj hjnk => swap_of_not_mem hK h1 h2 hj hjnk
+  swap_of_not_mem := fun _j hj hjnk => swap_of_not_mem hK h1 h2 hj hjnk
   swap := hs
 
 end CFSG.EvenSporadicStandard.TwoFi22.DS81.Fi24Branch

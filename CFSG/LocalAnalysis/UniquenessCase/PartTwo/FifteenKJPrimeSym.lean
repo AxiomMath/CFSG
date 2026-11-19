@@ -27,7 +27,7 @@ theorem s15k_jp_sym_five {W : Type} [CommGroup W] {J : Subgroup (MulAut W)} {R :
   have hmapψ : (alternatingGroup (Fin m)).map ψ = ⁅J, J⁆ := by
     rw [← hA]
     exact s15k_jp_derived_map_eq π hsurj
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
   refine ⟨?_, ?_⟩
   · rw [s15k_jp_index_eq π hbij, hA, alternatingGroup.index_eq_two]
   · exact Or.inl (Or.inr (Or.inr (Or.inr (Or.inr ⟨m, hm,

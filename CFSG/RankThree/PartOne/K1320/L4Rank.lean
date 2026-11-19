@@ -217,7 +217,7 @@ theorem exists_rank_two_of_acts {G : Type} [Group G] [Finite G] {K R : Subgroup 
     have h3 : Nat.card (P : Subgroup K) = 1 := by rw [h]; exact Subgroup.card_bot
     rw [h1] at h3
     exact h2 (by simpa [hr.one_lt.ne'] using h3)
-  obtain ⟨x, hxP, hxord, hxfix⟩ := exists_fixed_elem_order hRp φ (P : Subgroup K) P.isPGroup' hP1
+  obtain ⟨x, hxP, hxord, hxfix⟩ := exists_fixed_elem_order hRp φ (P : Subgroup K) P.isPGroup hP1
     (fun ρ y hy => hP ρ y hy)
   set x' : G := (x : G) with hx'
   have hx'ord : orderOf x' = r := by rw [hx', Subgroup.orderOf_coe]; exact hxord
@@ -265,7 +265,7 @@ theorem exists_rank_two_of_acts {G : Type} [Group G] [Finite G] {K R : Subgroup 
     ?_, ?_, hScard.trans (by ring)⟩
   · intro h
     exact hU1 ((Subgroup.map_eq_bot_iff_of_injective (U : Subgroup K) K.subtype_injective).1 h)
-  · exact (U.isPGroup').map K.subtype
+  · exact (U.isPGroup).map K.subtype
   · rintro _ ⟨u, -, rfl⟩
     exact u.2
   · intro σ hσ

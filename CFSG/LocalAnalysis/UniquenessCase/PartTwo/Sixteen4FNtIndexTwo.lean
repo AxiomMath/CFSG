@@ -277,7 +277,7 @@ private lemma w183_extendFun_of_mem {G : Type} [Group G] {H : Subgroup G} [H.Nor
     (hG : ∀ g : G, g ∈ H ∨ g * s ∈ H) (f : H → N) (b : N) {g : G} (hg : g ∈ H) :
     w183_extendFun ρ s hG f b g = f ⟨g, hg⟩ := by
   classical
-  simp only [w183_extendFun, dif_pos hg]
+  simp only [w183_extendFun, dite_eq_left hg]
 
 private lemma w183_extendFun_of_not_mem {G : Type} [Group G] {H : Subgroup G} [H.Normal]
     {N : Type} [AddCommGroup N] [Module (ZMod 2) N] (ρ : Representation (ZMod 2) G N) (s : G)
@@ -285,7 +285,7 @@ private lemma w183_extendFun_of_not_mem {G : Type} [Group G] {H : Subgroup G} [H
     w183_extendFun ρ s hG f b g =
       f ⟨g * s, (hG g).resolve_left hg⟩ + ρ (g * s) b := by
   classical
-  simp only [w183_extendFun, dif_neg hg]
+  simp only [w183_extendFun, dite_eq_right hg]
 
 private theorem w183_extend_cocycle {G : Type} [Group G] {H : Subgroup G} [H.Normal]
     {N : Type} [AddCommGroup N] [Module (ZMod 2) N]
@@ -541,7 +541,7 @@ private def w183_tauBar {G : Type} [Group G] {H : Subgroup G} [H.Normal] {N : Ty
     CFSG.Quasithin.JonesParshall.H1 (ρ.comp H.subtype) →ₗ[ZMod 2]
       CFSG.Quasithin.JonesParshall.H1 (ρ.comp H.subtype) :=
   (w183_B1H H ρ).mapQ (w183_B1H H ρ) (w183_tauZ ρ s hs)
-    (fun x hx => w183_tauZ_mem_B1H ρ s hs hx)
+    (fun _x hx => w183_tauZ_mem_B1H ρ s hs hx)
 
 private lemma w183_tauBar_comp_self {G : Type} [Group G] {H : Subgroup G} [H.Normal]
     {N : Type} [AddCommGroup N] [Module (ZMod 2) N]
@@ -589,7 +589,7 @@ private def w183_resBar {G : Type} [Group G] {H : Subgroup G} [H.Normal] {N : Ty
     CFSG.Quasithin.JonesParshall.H1 ρ →ₗ[ZMod 2]
       CFSG.Quasithin.JonesParshall.H1 (ρ.comp H.subtype) :=
   (w183_B1G ρ).mapQ (w183_B1H H ρ) (w183_resZ H ρ)
-    (fun x hx => w183_resZ_mem_B1H ρ hx)
+    (fun _x hx => w183_resZ_mem_B1H ρ hx)
 
 private lemma w183_Z1_tau_restrict {G : Type} [Group G] {H : Subgroup G} [H.Normal] {N : Type}
     [AddCommGroup N] [Module (ZMod 2) N] (ρ : Representation (ZMod 2) G N) (s : G)
@@ -759,14 +759,14 @@ theorem s16nt_h1_index_two {G : Type} [Group G] [Finite G] {N : Type} [AddCommGr
     (hfix : ∀ n : N, (∀ h : H, ρ h n = n) → n = 0) :
     Module.finrank (ZMod 2) (CFSG.Quasithin.JonesParshall.H1 (ρ.comp H.subtype)) ≤
       2 * Module.finrank (ZMod 2) (CFSG.Quasithin.JonesParshall.H1 ρ) := by
-  haveI hfinZH : Finite ↥(Z1 (ρ.comp H.subtype)) := Subtype.finite
-  haveI hfinZG : Finite ↥(Z1 ρ) := Subtype.finite
-  haveI hH1H : Module.Finite (ZMod 2)
+  have hfinZH : Finite ↥(Z1 (ρ.comp H.subtype)) := Subtype.finite
+  have hfinZG : Finite ↥(Z1 ρ) := Subtype.finite
+  have hH1H : Module.Finite (ZMod 2)
       (CFSG.Quasithin.JonesParshall.H1 (ρ.comp H.subtype)) :=
     Module.finite_iff_finite.mpr (Finite.of_surjective _
       (Submodule.Quotient.mk_surjective
         ((B1 (ρ.comp H.subtype)).comap (Z1 (ρ.comp H.subtype)).subtype)))
-  haveI hH1G : Module.Finite (ZMod 2) (CFSG.Quasithin.JonesParshall.H1 ρ) :=
+  have hH1G : Module.Finite (ZMod 2) (CFSG.Quasithin.JonesParshall.H1 ρ) :=
     Module.finite_iff_finite.mpr (Finite.of_surjective _
       (Submodule.Quotient.mk_surjective ((B1 ρ).comap (Z1 ρ).subtype)))
   set T : CFSG.Quasithin.JonesParshall.H1 (ρ.comp H.subtype) →ₗ[ZMod 2]

@@ -14,11 +14,13 @@ open scoped MatrixGroups
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_sylow_of_isSylowTwoOf'' {K S : Subgroup X} (h : IsSylowTwoOf S K) :
     ∃ P : Sylow 2 ↥K, (P : Subgroup ↥K) = S.subgroupOf K := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨IsPGroup.toSylow (h.2.1.comap_subtype) h.2.2, rfl⟩
 
+omit [Finite X] in
 theorem zOf_eq_zpowers_of {K S : Subgroup X} (hSK : S ≤ K) {z : ↥K}
     (h : E2P.zOf (S.subgroupOf K) = Subgroup.zpowers z) :
     E2P.zOf S = Subgroup.zpowers (z : X) := by
@@ -161,7 +163,7 @@ theorem outer_case
     have := hcomm p hpP
     rw [hzX] at this
     exact this
-  haveI := hLn
+  have := hLn
   have hall := keyLemma φ hφ ζ hζc hCcard L hL eL hφL hO2 (P.subgroupOf C) hP16 hPbig hζP hPfix
   have hφ_apply : ∀ g : ↥C, ((φ g : ↥C) : X) = u * g * u⁻¹ := fun g => rfl
   have hcommC : ∀ c ∈ C, u * c * u⁻¹ * c⁻¹ ∈ Subgroup.zpowers (z : X) := by

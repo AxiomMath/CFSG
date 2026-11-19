@@ -13,7 +13,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4
 open CFSG.HardMathSupport.Solomon.UniquenessMaximal
 
 theorem fullCoverLevel_eq_kLevel {p : ℕ} (hM : ListedMultiplierBound p)
-    (hH : HatOddMultiplierBound) (hp : p.Prime) (hp2 : p ≠ 2) {Q : Type} [Group Q] [Finite Q]
+    (hH : HatOddMultiplierBound) (_hp : p.Prime) (_hp2 : p ≠ 2) {Q : Type} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) (hZ : IsPGroup p (Subgroup.center Q)) :
     fullCoverLevel p Q = kLevel p (Q ⧸ Subgroup.center Q) := by
   have e1 : K1Cover p Q ↔ IsChevSimple p (Q ⧸ Subgroup.center Q) :=
@@ -24,14 +24,14 @@ theorem fullCoverLevel_eq_kLevel {p : ℕ} (hM : ListedMultiplierBound p)
     ⟨k3Cover_imp_catalogIs, catalogIs_imp_k3Cover hM hH hQ hZ⟩
   unfold fullCoverLevel kLevel
   by_cases h1 : K1Cover p Q
-  · rw [if_pos h1, if_pos (e1.1 h1)]
-  rw [if_neg h1, if_neg (mt e1.2 h1)]
+  · rw [ite_eq_left h1, ite_eq_left (e1.1 h1)]
+  rw [ite_eq_right h1, ite_eq_right (mt e1.2 h1)]
   by_cases h2 : K2Cover p Q
-  · rw [if_pos h2, if_pos (e2.1 h2)]
-  rw [if_neg h2, if_neg (mt e2.2 h2)]
+  · rw [ite_eq_left h2, ite_eq_left (e2.1 h2)]
+  rw [ite_eq_right h2, ite_eq_right (mt e2.2 h2)]
   by_cases h3 : K3Cover p Q
-  · rw [if_pos h3, if_pos (e3.1 h3)]
-  rw [if_neg h3, if_neg (mt e3.2 h3)]
+  · rw [ite_eq_left h3, ite_eq_left (e3.1 h3)]
+  rw [ite_eq_right h3, ite_eq_right (mt e3.2 h3)]
 
 variable {G : Type} [Group G] [Finite G]
 

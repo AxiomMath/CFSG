@@ -31,12 +31,12 @@ private theorem ksBFgo_idle (G A : Array ℕ) (par : Array (ℕ × ℕ)) (seen :
     (i : ℕ) (h : A.size ≤ i) : ∀ fuel, enumData.go G fuel A par seen i = (A, par)
   | 0 => rfl
   | f + 1 => by
-    rw [enumData.go.eq_2, if_neg (by omega)]
+    rw [enumData.go.eq_2, ite_eq_right (by omega)]
 
 private theorem ksBFtake_push {α : Type} [Inhabited α] {l : List α} {c : ℕ} {y : α}
     (hc : c < l.length) (h : l[c]'hc = y) :
     (l.take c).toArray.push y = (l.take (c + 1)).toArray := by
-  rw [Array.push_eq_append, Array.toArray_append, List.take_succ, List.getElem?_eq_getElem hc,
+  rw [Array.push_eq_append, Array.toArray_append, List.take_add_one, List.getElem?_eq_getElem hc,
     Option.toList_some, ← h]
 
 private theorem ksBFseen_insert {E : List ℕ} {c : ℕ} {y : ℕ} {seen : Std.HashSet ℕ}
@@ -44,7 +44,7 @@ private theorem ksBFseen_insert {E : List ℕ} {c : ℕ} {y : ℕ} {seen : Std.H
     (h : ∀ z, seen.contains z = true ↔ z ∈ E.take c) :
     ∀ z, (seen.insert y).contains z = true ↔ z ∈ E.take (c + 1) := by
   intro z
-  rw [Std.HashSet.contains_insert, Bool.or_eq_true, beq_iff_eq, h z, List.take_succ,
+  rw [Std.HashSet.contains_insert, Bool.or_eq_true, beq_iff_eq, h z, List.take_add_one,
     List.getElem?_eq_getElem hc, Option.toList_some, List.mem_append, List.mem_singleton, hE]
   tauto
 
@@ -102,14 +102,14 @@ private theorem ksBFstep_lt (G : Array ℕ) (x i : ℕ) (B : Array ℕ) (par : A
     (seen : Std.HashSet ℕ) (j : ℕ) (h : seen.contains (Code.mul x (G[j]!)) = true) :
     ksBFstep G x i (B, par, seen) j = (B, par, seen) := by
   simp only [ksBFstep]
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem ksBFstep_push (G : Array ℕ) (x i : ℕ) (B : Array ℕ) (par : Array (ℕ × ℕ))
     (seen : Std.HashSet ℕ) (j : ℕ) (h : seen.contains (Code.mul x (G[j]!)) = false) :
     ksBFstep G x i (B, par, seen) j =
       (B.push (Code.mul x (G[j]!)), par.push (i, j), seen.insert (Code.mul x (G[j]!))) := by
   simp only [ksBFstep]
-  rw [if_neg (by simpa using h)]
+  rw [ite_eq_right (by simpa using h)]
 
 private theorem ksBFfold_succ (G : Array ℕ) (x i j : ℕ) (B : Array ℕ) (par : Array (ℕ × ℕ))
     (seen : Std.HashSet ℕ) (L' : List ℕ) :
@@ -276,7 +276,7 @@ private theorem ksBFgo_run {ix : ℕ → ℕ} {gs E : List ℕ} {P : List (ℕ �
     | succ f =>
       rw [ksBFgo_succ gs.toArray (E.take c).toArray x i f (P.take c).toArray seen hAi]
       dsimp only []
-      rw [if_pos (by rw [hsize]; omega)]
+      rw [ite_eq_left (by rw [hsize]; omega)]
       rw [List.size_toArray, ← ksBFrange_zero gs.length, hfold]
       refine ih (i + 1) c' (E.drop c') (P.drop c') f seen' hxs' rfl rfl (by omega) hcE' hseen'
         ?_ hk
@@ -421,8 +421,8 @@ theorem invStep_eq (x : ℕ) (k : ℕ → ℕ) (y : ℕ) :
   unfold invStep
   rw [ifN_eq, mulF_eq, oneF_eq]
   by_cases h : Code.mul y x = Code.one
-  · rw [if_pos h, if_pos (by simpa using h)]
-  · rw [if_neg h, if_neg (by simpa using h)]
+  · rw [ite_eq_left h, ite_eq_left (by simpa using h)]
+  · rw [ite_eq_right h, ite_eq_right (by simpa using h)]
 
 theorem invGo_succ (x f y : ℕ) :
     invGo x (f + 1) y = if Code.mul y x = Code.one then y else invGo x f (Code.mul y x) :=
@@ -434,7 +434,7 @@ theorem codeInv_go_eq (x : ℕ) : ∀ fuel y, codeInv.go x fuel y = invGo x fuel
     rw [codeInv.go, invGo_succ]
     by_cases h : Code.mul y x = Code.one
     · simp [h]
-    · simp only [h, beq_iff_eq, if_false]
+    · simp only [h, beq_iff_eq, ite_false]
       exact codeInv_go_eq x f _
 
 theorem codeInv_eq (bound x : ℕ) : codeInv bound x = invGo x bound x := codeInv_go_eq x bound x

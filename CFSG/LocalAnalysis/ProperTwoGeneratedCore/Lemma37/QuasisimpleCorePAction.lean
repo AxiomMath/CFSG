@@ -106,7 +106,7 @@ theorem exists_mul_eq_of_mem_sup (hL : OneComponent Y e v L)
   have := hL.centralizer_normal
   obtain ⟨l, hl, k, hk, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp ht
   have hlk : Commute l k := (Subgroup.mem_centralizer_iff.mp hk l hl)
-  obtain ⟨n, hn⟩ := T.isPGroup' ⟨l * k, htT⟩
+  obtain ⟨n, hn⟩ := T.isPGroup ⟨l * k, htT⟩
   have hn' : l ^ 2 ^ n * k ^ 2 ^ n = 1 := by
     rw [← hlk.mul_pow]
     simpa using congrArg Subtype.val hn
@@ -134,7 +134,7 @@ theorem exists_mul_eq_of_mem_sup (hL : OneComponent Y e v L)
     rw [hconj]
     exact ⟨(T : Subgroup X).mul_mem ((T : Subgroup X).mul_mem htT hq.1)
       ((T : Subgroup X).inv_mem htT), hLn.conj_mem q hq.2 _⟩
-  have hR := IsPGroup.to_sup_of_normal_left' (T.isPGroup'.to_le inf_le_left) hl2 hnorm
+  have hR := IsPGroup.to_sup_of_normal_left' (T.isPGroup.to_le inf_le_left) hl2 hnorm
   have hlT := hL.le_inf_of_isPGroup T hR (_root_.sup_le inf_le_right (Subgroup.zpowers_le.mpr hl))
     le_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers l))
   refine ⟨l, hlT, k, ⟨?_, hk⟩, rfl⟩

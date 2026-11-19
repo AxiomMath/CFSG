@@ -28,7 +28,7 @@ theorem dvd_orderA_one (q : ℕ) : q ∣ orderA 1 q := by
     · have : q ^ 2 - 1 = (q - 1) * (q + 1) := by
         rcases q with _ | q
         · omega
-        · simp [Nat.succ_sub_one, pow_two]; ring_nf; omega
+        · simp [pow_two]; ring_nf; omega
       rw [this]
       exact dvd_mul_right _ _
   rw [Nat.mul_div_assoc _ hg]
@@ -216,7 +216,7 @@ theorem listThree_of_dvd (hb : LieOrderBridge)
       · omega
   · rcases hd' with ⟨-, q, hq2, hq3, hdq⟩ | ⟨h, -⟩
     · exfalso
-      haveI : Finite (TauCeti.CFSGIndex.lie d).Group :=
+      have : Finite (TauCeti.CFSGIndex.lie d).Group :=
         Finite.of_injective (fun x => e.symm (x, 1)) fun a b h => by
           have := congrArg Prod.fst (e.symm.injective h)
           simpa using this
@@ -236,7 +236,7 @@ theorem not_isSolvable_of_simple_of_card_504 {K : Type} [Group K] [Finite K] [Is
   intro hsol
   rcases (commutator K).normal_of_characteristic.eq_bot_or_eq_top with hc | hc
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := K) 2 (by rw [h]; norm_num)
     have hcomm : ∀ a b : K, a * b = b * a := by
       intro a b
@@ -257,8 +257,8 @@ theorem not_isSolvable_of_simple_of_card_504 {K : Type} [Group K] [Finite K] [Is
     · have := Nat.card_zpowers g
       rw [ht, Subgroup.card_top, h, hg] at this
       norm_num at this
-  · haveI : Group.IsPerfect K := ⟨hc⟩
-    haveI : Nontrivial K := IsSimpleGroup.toNontrivial
+  · have : Group.IsPerfect K := ⟨hc⟩
+    have : Nontrivial K := IsSimpleGroup.toNontrivial
     exact Group.IsPerfect.not_isSolvable K hsol
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactInvolved
@@ -274,7 +274,7 @@ theorem kFactNineThreeInvolvedA6L34_of (hb : LieOrderBridge) :
   intro A K _ _ _ hA hK hAK
   classical
   obtain ⟨U, φ, hφ⟩ := hAK
-  haveI : Finite K := Finite.of_surjective φ hφ
+  have : Finite K := Finite.of_surjective φ hφ
   have hKU : Nat.card K ∣ Nat.card U := Subgroup.card_dvd_of_surjective hφ
   have hUA : Nat.card U ∣ Nat.card A := Subgroup.card_subgroup_dvd_card U
   have hcardS : Nat.card ↥CFSG.ComponentClassification.PSL3Four.S = 20160 := by
@@ -301,7 +301,7 @@ theorem kFactNineThreeInvolvedA6L34_of (hb : LieOrderBridge) :
       change orderA 1 q.card = 504
       rw [card_eq hq2 hq3]
       decide
-    haveI : IsSimpleGroup K :=
+    have : IsSimpleGroup K :=
       (CFSG.LieType.Simplicity.fam_PSL_simplicity K _ _ _
         (CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv eK)).2
     have hKns := not_isSolvable_of_simple_of_card_504 hK504
@@ -316,10 +316,10 @@ theorem kFactNineThreeInvolvedA6L34_of (hb : LieOrderBridge) :
       rw [h360] at this
       norm_num at this
     · obtain ⟨e⟩ := KFactProofs.L34ModelS.nonempty_mulEquiv_S_of_isLinThreeFour hL
-      haveI : IsSimpleGroup A := isSimpleGroup_of_isLinThreeFour' hL
+      have : IsSimpleGroup A := isSimpleGroup_of_isLinThreeFour' hL
       by_cases hU : U = ⊤
       · subst hU
-        haveI : IsSimpleGroup ↥(⊤ : Subgroup A) := Subgroup.topEquiv.isSimpleGroup
+        have : IsSimpleGroup ↥(⊤ : Subgroup A) := Subgroup.topEquiv.isSimpleGroup
         rcases (φ.normal_ker).eq_bot_or_eq_top with hk | hk
         · have hinj : Function.Injective φ := (MonoidHom.ker_eq_bot_iff φ).mp hk
           have h1 : Nat.card K = Nat.card A := by
@@ -358,8 +358,8 @@ theorem kFactNineThreeInvolvedA6L34_of (hb : LieOrderBridge) :
           norm_num at h1512
         rcases solvable_or_aSix_of_not_dvd_index hU'ne hidx with hsol | ha6
         · have hUs : Group.IsSolvable ↥U :=
-            solvable_of_solvable_injective (f := eU.toMonoidHom) eU.injective
-          exact hKns (solvable_of_surjective hφ)
+            Group.isSolvable_of_isSolvable_injective (f := eU.toMonoidHom) eU.injective
+          exact hKns (Group.isSolvable_of_surjective hφ)
         · obtain ⟨a6⟩ := ha6
           have hU360 : Nat.card U = 360 := by
             rw [Nat.card_congr (eU.trans a6).toEquiv, card_alternatingGroup_six]

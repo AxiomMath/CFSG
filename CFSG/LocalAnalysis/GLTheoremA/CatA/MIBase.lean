@@ -30,7 +30,7 @@ theorem rawDatum_iff_legacy {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 la
     have ha : (n - 1) / 2 ≠ 0 := by omega
     dsimp only [CFSG.Assembly.LargeEvenRawDatum, CFSG.StandardType.LargeEvenRawDatum,
       LargeEvenRecipeTwF4Inherited, LargeEvenRecipeTwF4]
-    simp only [if_neg ha]
+    simp only [ite_eq_right ha]
   all_goals exact Iff.rfl
 
 theorem canonAll_iff_legacyAll {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
@@ -47,7 +47,7 @@ theorem CAll.mono {lab : LargeEvenLabel} {P P' : LargeEvenRawCont}
 
 theorem CAll.and {lab : LargeEvenLabel} {P P' : LargeEvenRawCont} (h : CAll lab P)
     (h' : CAll lab P') : CAll lab fun R _ I F => P R I F ∧ P' R I F := fun Q hQ =>
-  Canonical.largeEvenRawDatum_mono (fun R _ I F ⟨⟨hq, hp⟩, hp'⟩ => ⟨hq, hp, hp'⟩) (h' _ (h Q hQ))
+  Canonical.largeEvenRawDatum_mono (fun _R _ _I _F ⟨⟨hq, hp⟩, hp'⟩ => ⟨hq, hp, hp'⟩) (h' _ (h Q hQ))
 
 theorem canonRawDatum_or {lab : LargeEvenLabel} {Q₁ Q₂ : LargeEvenRawCont}
     (h : CFSG.Assembly.LargeEvenRawDatum lab fun R _ I F => Q₁ R I F ∨ Q₂ R I F) :

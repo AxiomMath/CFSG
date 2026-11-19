@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.SignalizerTrivial
 theorem signalizerThreeOn_of_signalizerTrivialOn {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3)
     {K : Type} [Group K] [Finite K] (h : SignalizerTrivialOn p K) : SignalizerThreeOn p K := by
   intro T W hW hnorm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hW.exists_card_eq
   refine h T W ?_ hnorm
   rw [hk]
@@ -23,7 +23,7 @@ theorem signalizerTrivialOn_of_model {p : ℕ} (hp : p.Prime) {M : Type} [Group 
     (h : ∀ V : Subgroup (MulAut M), Nat.Coprime p (Nat.card V) →
       (∀ b ∈ B₀, ∀ v ∈ V, MulAut.conj b * v * (MulAut.conj b)⁻¹ ∈ V) → V = ⊥)
     {K : Type} [Group K] [Finite K] (e : K ≃* M) : SignalizerTrivialOn p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro P W hW hnorm
   obtain ⟨T₀, hBT₀⟩ := hB₀.exists_le_sylow
   obtain ⟨Φ, hPT⟩ : ∃ Φ : K ≃* M, (P : Subgroup K).map Φ.toMonoidHom = (T₀ : Subgroup M) := by

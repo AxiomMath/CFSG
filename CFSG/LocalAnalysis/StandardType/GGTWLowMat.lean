@@ -31,14 +31,14 @@ private lemma l05nLM_toZ_basis (p d : ℕ) (k : Fin d) :
   have hlen : j.val < ((List.range d).map (fun j => if j = k.val then 1 else 0)).length := by
     simp [j.isLt]
   rw [List.getD_eq_getElem _ 0 hlen, List.getElem_map]
-  have hrange : (List.range d)[j.val] = j.val := List.getElem_range (by simpa using j.isLt)
+  have hrange : (List.range d)[j.val] = j.val := List.getElem_range (by simp)
   rw [hrange]
   by_cases h : j.val = k.val
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hjk : j = k := Fin.ext h
     rw [hjk, Pi.single_eq_same]
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hjk : j ≠ k := fun hh => h (congrArg Fin.val hh)
     rw [Pi.single_eq_of_ne hjk]
     simp
@@ -53,7 +53,7 @@ private lemma l05nLM_lin_single (p d : ℕ) (A : List (List ℕ)) (k : Fin d) :
   rw [Finset.sum_eq_single k]
   · simp
   · intro b _ hb
-    rw [Pi.single_apply, if_neg hb, zero_smul]
+    rw [Pi.single_apply, ite_eq_right hb, zero_smul]
   · intro hk
     exact absurd (Finset.mem_univ k) hk
 
@@ -65,7 +65,7 @@ private lemma l05nLM_ext_pi_single {p d : ℕ} {f g : Module.End (ZMod p) (GGDep
     funext j
     by_cases hj : j = i
     · rw [hj]; simp
-    · simp [Pi.single_apply, hj]
+    · simp [hj]
   rw [hsingle, map_smul, map_smul, h i]
 
 private lemma l05nLM_getD_map_range {α : Type} (f : ℕ → α) (d : ℕ) (k : Fin d) (dflt : α) :
@@ -73,7 +73,7 @@ private lemma l05nLM_getD_map_range {α : Type} (f : ℕ → α) (d : ℕ) (k : 
   have hlen : k.val < ((List.range d).map f).length := by simp
   rw [List.getD_eq_getElem ((List.range d).map f) dflt hlen, List.getElem_map]
   congr 1
-  exact List.getElem_range (by simpa using k.isLt)
+  exact List.getElem_range (by simp)
 
 private lemma l05nLM_refl_length {p d : ℕ} {q : GGDepANPair} {v : List ℕ}
     (hq1 : q.1.length = d) (hv : v.length = d) : (ggTWNRefl p q v).length = d := by
@@ -181,7 +181,7 @@ private lemma l05nLM_vecEq_iff (p d : ℕ) [Fact p.Prime] {u v : List ℕ}
     · intro i hi
       have hid : i < d := by rw [← hu]; exact hi
       have hcomp := congrFun h (⟨i, hid⟩ : Fin d)
-      simp only [ggDepANToZ, Fin.val_mk] at hcomp
+      simp only [ggDepANToZ] at hcomp
       exact (ZMod.natCast_eq_natCast_iff' (u.getD i 0) (v.getD i 0) p).mp hcomp
 
 private lemma l05nLM_lin_eq_iff (p d : ℕ) (A B : List (List ℕ)) :

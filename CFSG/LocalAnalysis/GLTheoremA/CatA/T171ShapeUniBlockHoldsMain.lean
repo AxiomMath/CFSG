@@ -75,8 +75,8 @@ theorem uniBlockInnDiag_holds : UniBlockInnDiag := by
       (isQuasisimple_pQuot_of_glaPComponent hS.prime hS.pcomp)
   rcases hres with hself | hpair
   · obtain ⟨m, E, instE, finE, k, hE, B₁, hB₁, hconj, e₀, hm2, hk2, hk3, he₀⟩ := hself
-    letI : Field E := instE
-    letI : Finite E := finE
+    let : Field E := instE
+    let : Finite E := finE
     by_cases hm3 : 3 ≤ m
     · exact innDiagOn_of_uniJSelfDualModel_three_le hS.prime hS.odd hS.b_norm hq hbp
         hE B₁ hB₁ hconj e₀ he₀ hm3 hk3

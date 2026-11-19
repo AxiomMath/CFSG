@@ -25,6 +25,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem core_red : primeComplementCore (G := Red X) 3 = ⊥ :=
   primeComplementCore_quotient_eq_bot 3
 
+omit [Finite X] in
 theorem catalog_red (h : CFSG.AGLEmbedding.CatalogSimpleSections X) :
     CFSG.AGLEmbedding.CatalogSimpleSections (Red X) :=
   h.quotient _
@@ -32,6 +33,7 @@ theorem catalog_red (h : CFSG.AGLEmbedding.CatalogSimpleSections X) :
 theorem not_dvd_core : ¬ 3 ∣ Nat.card (primeComplementCore (G := X) 3) :=
   (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (primeComplementCore_coprime 3)
 
+omit [Finite X] in
 theorem ker_pr : (pr X).ker = primeComplementCore (G := X) 3 :=
   QuotientGroup.ker_mk' _
 
@@ -64,6 +66,7 @@ theorem sylow_map {S : Subgroup X} (hS : IsSylowOf 3 S ⊤) : IsSylowOf 3 (S.map
   rw [Subgroup.relIndex_top_right] at hidx ⊢
   exact fun h => hidx (h.trans (Subgroup.index_map_dvd S (QuotientGroup.mk'_surjective _)))
 
+omit [Finite X] in
 theorem isPGroup_zpowers {u : X} {n : ℕ} (h : u ^ 3 ^ n = 1) : IsPGroup 3 (zpowers u) := by
   intro g
   obtain ⟨i, hi⟩ := mem_zpowers_iff.mp g.2

@@ -22,7 +22,7 @@ theorem listRowOf_f4_two_of_cert : ListRowOf (TauCeti.CFSGIndex.lie f4TwoIndex).
     have h := CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_F4 (K := K)
     rw [hK] at h
     exact h.trans (by norm_num [CFSG.Open.ordF4])
-  haveI : Finite (adjointGroup ReeTag.F4.tag K) :=
+  have : Finite (adjointGroup ReeTag.F4.tag K) :=
     Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
   have hall := Certificates.certificate428003 K hK
   exact ListRow.of_mulEquiv φ.symm (listRow_of_wit3 hall)

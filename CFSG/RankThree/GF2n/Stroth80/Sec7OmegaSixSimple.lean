@@ -22,10 +22,10 @@ theorem sec7_isSimpleGroup_omegaPlusSix {K : Type} [Field K] [Finite K] [CharP K
       (projectiveSpecialLinearGroupEquivStatedProj 4 K)
   let eS : ↥(StatedSL 4 K) ≃* StatedProj (StatedSL 4 K) :=
     (specialLinearGroupEquivStatedSL 4 K).symm.trans eP
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 4 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 4) (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
-  haveI : IsSimpleGroup ↥(StatedSL 4 K) := eS.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedSL 4 K) := eS.isSimpleGroup
   exact eGS.isSimpleGroup
 
 end CFSG.RankThree.GF2n.Stroth80

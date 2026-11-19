@@ -22,8 +22,8 @@ private theorem lemmaF (hU : UnitaryFieldData 2 k E) (hk : 2 ≤ k) {p : ℕ} (h
     Nat.card J ≤ p ^ 2 ∧ (p ^ 2 ≤ Nat.card J → ∃ t ∈ J, t ≠ 1 ∧
       ∃ c : primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E), orderOf c = 3 ∧ c * t = t * c) := by
   classical
-  haveI := hU.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hU.finite
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 < p := by omega
   have hv := UCK.isOrthonormalFrame_single (p := 2) hU
   obtain ⟨k', hk'⟩ : ∃ k', 2 ^ k = k' + 1 :=
@@ -77,7 +77,7 @@ private theorem lemmaF (hU : UnitaryFieldData 2 k E) (hk : 2 ≤ k) {p : ℕ} (h
     obtain ⟨d, hdT, rfl, hdq⟩ := UCK.exists_lift_pow_eq_one hp hp3 ht htp
     have hDq : (⟨d, hdT⟩ : frameTorusSU hU (fun i => Pi.single i 1)) ^ p = 1 :=
       Subtype.ext (by rw [Subgroup.coe_pow]; exact hdq)
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     obtain ⟨a, ha⟩ := UCK.exists_pow_eq_of_pow_eq_one hz (a := frameEigHom hv 0 ⟨d, hdT⟩)
       (by rw [← map_pow, hDq, map_one])
     obtain ⟨b, hb⟩ := UCK.exists_pow_eq_of_pow_eq_one hz (a := frameEigHom hv 1 ⟨d, hdT⟩)
@@ -129,11 +129,11 @@ private theorem lemmaF (hU : UnitaryFieldData 2 k E) (hk : 2 ≤ k) {p : ℕ} (h
     obtain ⟨s, hs3, hs⟩ := UCK.exists_eig_mul_of_mk_eq hv (d := 1) (d' := ℓ₂)
       (by rw [OneMemClass.coe_one, QuotientGroup.mk_one]; exact h1.symm)
     have h0 := hs 0
-    rw [hℓ₂, map_one, one_mul, if_neg (by decide)] at h0
+    rw [hℓ₂, map_one, one_mul, ite_eq_right (by decide)] at h0
     have := Nat.le_of_dvd (by norm_num) (hz ▸ orderOf_dvd_of_pow_eq_one (h0 ▸ hs3 : z ^ 3 = 1))
     omega
   obtain ⟨c₀, hc₀, hc₀L⟩ := exists_orderOf_three_commute_line hU (d := ℓ₂) (by
-    rw [hℓ₂, hℓ₂, if_neg (by decide), if_neg (by decide)])
+    rw [hℓ₂, hℓ₂, ite_eq_right (by decide), ite_eq_right (by decide)])
   refine ⟨x, x.2, fun h => hL₂1 ?_, g * c₀ * g⁻¹, ?_, ?_⟩
   · rwa [hxL, conj_eq_one_iff] at h
   · exact (MulEquiv.orderOf_eq (MulAut.conj g) c₀).trans hc₀
@@ -164,7 +164,7 @@ theorem exists_fixed_eq_range (hU : UnitaryFieldData 2 k E) (hk : 2 ≤ k) {p : 
         primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E)),
       Function.Injective j ∧ ∀ y, β y = y ↔ y ∈ j.range := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hne' : ¬(3 = 3 ∧ 2 ^ k = 2) := fun ⟨_, h⟩ => by
     have : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk
@@ -231,7 +231,7 @@ theorem exists_commute_orderOf_three_fixed (hU : UnitaryFieldData 2 k E) (hk : 2
     (hJ : ∀ x ∈ J, x ^ p = 1) (hJc : p ^ 2 ≤ Nat.card J) (hβJ : ∀ x ∈ J, β x = x) :
     ∃ t ∈ J, t ≠ 1 ∧ ∃ c : primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E), orderOf c = 3 ∧
       c * t = t * c ∧ β c = c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨m, hm⟩, E₀, _, h₀, j, hj, hfix⟩ := exists_fixed_eq_range hU hk hp hp5 hβ hβi
   have hkm : k / p = m := by rw [hm, Nat.mul_div_cancel_left m hp.pos]
   have hpm : p ∣ 2 ^ m + 1 := by

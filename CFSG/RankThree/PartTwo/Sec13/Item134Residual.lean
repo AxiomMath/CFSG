@@ -126,7 +126,7 @@ theorem bar_facts_of_central {z : Λ} (hz1 : z ≠ 1)
   have hθp := (solvable_prime_complement_core_characterization (H := Λ) Nat.prime_three).2.2.1
   refine ⟨fun h => hz1 ?_, S.mapSurjective hπs, ?_, ?_⟩
   · rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨z, hzS⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨z, hzS⟩
     exact eq_one_of_pow_three_pow_of_not_dvd hθp h (by simpa using congrArg Subtype.val hk)
   · rw [Sylow.coe_mapSurjective]
     exact Subgroup.mem_map_of_mem π hzS
@@ -149,7 +149,7 @@ theorem map_residual_centralizer_eq (h415 : Sec4.Item4_15)
   set π := QuotientGroup.mk' N with hπ
   have hθp := (solvable_prime_complement_core_characterization (H := Λ) Nat.prime_three).2.2.1
   obtain ⟨S, hzS, -⟩ := hz
-  have hz3 : IsPGroup 3 (Subgroup.zpowers z) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hzS)
+  have hz3 : IsPGroup 3 (Subgroup.zpowers z) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hzS)
   have hCmap : (Subgroup.centralizer ({z} : Set Λ)).map π =
       Subgroup.centralizer ({π z} : Set (Λ ⧸ N)) := by
     have h := CFSG.Semidihedral.Local.map_centralizer_eq_of_coprime 3 N hθp
@@ -236,10 +236,10 @@ theorem mem_residual_centralizer (h415 : Sec4.Item4_15)
   set J' := inSubgroup perfectResidual (Subgroup.centralizer ({z} : Set Λ)) with hJ'
   have hJC : J' ≤ Subgroup.centralizer ({z} : Set Λ) := Subgroup.map_subtype_le _
   obtain ⟨S, hzS, -⟩ := hz
-  obtain ⟨j, hj⟩ := S.isPGroup' ⟨z, hzS⟩
+  obtain ⟨j, hj⟩ := S.isPGroup ⟨z, hzS⟩
   have hzj : z ^ 3 ^ j = 1 := by simpa using congrArg Subtype.val hj
   have hB : IsPGroup 3 (Subgroup.zpowers (π z)) :=
-    (S.isPGroup'.map π).to_le (Subgroup.zpowers_le.mpr (Subgroup.mem_map_of_mem π hzS))
+    (S.isPGroup.map π).to_le (Subgroup.zpowers_le.mpr (Subgroup.mem_map_of_mem π hzS))
   have hBM : Subgroup.zpowers (π z) ≤ J'.map π := by
     rw [hJQ]
     exact Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr rfl)
@@ -280,7 +280,7 @@ theorem mem_zpowers_of_mem_residual_centralizer (h415 : Sec4.Item4_15)
   have hcen := KFacts.KS14.j2_center_centralizer h415 hJ2 hz1' hzP
   have hJC : J' ≤ Subgroup.centralizer ({z} : Set Λ) := Subgroup.map_subtype_le _
   obtain ⟨S, hzS, -⟩ := hz
-  obtain ⟨j, hj⟩ := S.isPGroup' ⟨z, hzS⟩
+  obtain ⟨j, hj⟩ := S.isPGroup ⟨z, hzS⟩
   have hzj : z ^ 3 ^ j = 1 := by simpa using congrArg Subtype.val hj
   have hxCbar : π x ∈ Cbar := hJQ ▸ Subgroup.mem_map_of_mem π hxJ
   have hxZ : (⟨π x, hxCbar⟩ : ↥Cbar) ∈ Subgroup.center ↥Cbar := by

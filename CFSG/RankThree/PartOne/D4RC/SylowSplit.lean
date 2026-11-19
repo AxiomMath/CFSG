@@ -346,7 +346,7 @@ theorem rcy_sylow_split (F : RclFrame ℓ f K σ ε p L) [Fact p.Prime] (S : Syl
   set pa := ordProj[p] d with hpa
   have hd0 : d ≠ 0 := (d4T36d_odd F.hε (by omega)).pos.ne'
   obtain ⟨β, hβ, hβfix, hβinj, κ, hκ, hκd⟩ := rcy_coord F hc
-  have hTp : IsPGroup p T := S.isPGroup'
+  have hTp : IsPGroup p T := S.isPGroup
   have hcomm : ∀ a ∈ T, ∀ b ∈ T, a * b = b * a := fun a ha b hb => by
     have h := hβinj (show β (⟨a, ha⟩ * ⟨b, hb⟩) = β (⟨b, hb⟩ * ⟨a, ha⟩) by
       rw [map_mul, map_mul, mul_comm])
@@ -522,7 +522,7 @@ theorem rcy_exists_normalizer_line (F : RclFrame ℓ f K σ ε p L) [Fact p.Prim
     rw [hx, orderOf_one] at hord
     have := F.hp3
     omega
-  exact rcn_exists_normalizer_line (by have := F.hp3; omega) S.isPGroup' hES hEp hEc hΩ
+  exact rcn_exists_normalizer_line (by have := F.hp3; omega) S.isPGroup hES hEp hEc hΩ
     (fun a ha b hb => Subgroup.mem_centralizer_iff.1 hb a ha) (rcy_perfect_rclPx F sp) hidx hcyc
     hP1 hZ1 hAZ hsplit
 

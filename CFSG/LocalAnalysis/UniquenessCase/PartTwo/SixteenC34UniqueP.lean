@@ -61,7 +61,7 @@ theorem s16c34_uniqueMax_cent_of_mem_v0 (D : Data G) (h61 : UC6.R6_1 D) {V₀ V 
     have h4 : Nat.card V₀ ≤ 4 := s16c34_card_v0_le_four D h
     have h5 : (V₀ : Set G).ncard = Nat.card V₀ := (Nat.card_coe_set_eq (V₀ : Set G)).symm
     have h6 : ((V₀ : Set G) \ {1}).ncard = (V₀ : Set G).ncard - 1 :=
-      Set.ncard_diff_singleton_of_mem V₀.one_mem
+      Set.ncard_sdiff_singleton_of_mem V₀.one_mem
     omega
   have hSw : ∀ e ∈ E, e * w * e⁻¹ ∈ (V₀ : Set G) \ {1} := by
     intro e he
@@ -75,6 +75,7 @@ theorem s16c34_uniqueMax_cent_of_mem_v0 (D : Data G) (h61 : UC6.R6_1 D) {V₀ V 
     (IsElemAbelian.isPGroup (IsElemAbelian.mono hEea inf_le_left)) hnc
     (inf_le_inf_right _ hEM) inf_le_left
 
+omit [Finite G] in
 theorem s16c34_wSub_le_preTil_fixV {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {L' : Subgroup G}
     {K : Subgroup (MulAut (Vtil V₀ V hV))} (hK : commSub (wTil V₀ V hV L') K = ⊥) :
     wSub V₀ V hV L' ≤ preTil V₀ V hV (fixV K) := by
@@ -105,12 +106,14 @@ theorem s16c34_v1Sub_le_preTil_fixV (D : Data G) {V₀ V L : Subgroup G} (h : Hy
   exact s15_Core_imgTil_v1Sub_le_fixV h hc
     ((mem_imgTil V₀ V hV _ _).2 ⟨IntMod.mk hV ⟨w, hwV⟩, hw, rfl⟩)
 
+omit [Finite G] in
 private theorem s16c34_conjSubgroup_mono_v {A B : Subgroup G} (h : A ≤ B) (x : G) :
     conjSubgroup A x ≤ conjSubgroup B x := by
   intro y hy
   rw [mem_conjSubgroup_iff] at hy ⊢
   exact h hy
 
+omit [Finite G] in
 private theorem s16c34_conjSubgroup_le_of_mem_v {A M : Subgroup G} (hA : A ≤ M) {x : G}
     (hx : x ∈ M) : conjSubgroup A x ≤ M := by
   intro y hy
@@ -119,11 +122,13 @@ private theorem s16c34_conjSubgroup_le_of_mem_v {A M : Subgroup G} (hA : A ≤ M
   have e : x⁻¹ * (x * y * x⁻¹) * x = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 private theorem s16c34_isPGroup_conj_v {p : ℕ} {P : Subgroup G} (hP : IsPGroup p P) (x : G) :
     IsPGroup p (conjSubgroup P x) :=
   hP.of_equiv (Subgroup.equivMapOfInjective P (MulAut.conj x⁻¹).toMonoidHom
     (MulAut.conj x⁻¹).injective)
 
+omit [Finite G] in
 private theorem s16c34_not_isCyclic_conj_v {P : Subgroup G} (hP : ¬ IsCyclic ↥P) (x : G) :
     ¬ IsCyclic ↥(conjSubgroup P x) := fun hc =>
   hP ((Subgroup.equivMapOfInjective P (MulAut.conj x⁻¹).toMonoidHom
@@ -200,6 +205,7 @@ theorem s16c34_unique₂_of_pRank (D : Data G) (h61 : UC6.R6_1 D) (h127 : R127 D
     rwa [s15_Infra_wSub_conjSubgroup V₀ V L hV (hMs hm)] at hW
   exact s16c34_uniqueMax_of_mem_preTil D h61 h127 h hp h3 hPL hPp hPc hx (hle hw) hw1
 
+omit [Finite G] in
 private theorem s16c34_isPGroup_two_sub_v {V U : Subgroup G} (hV : IsElemAbelian 2 V)
     (hUV : U ≤ V) : IsPGroup 2 U := by
   intro g

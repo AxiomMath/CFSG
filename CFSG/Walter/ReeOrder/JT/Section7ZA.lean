@@ -283,7 +283,7 @@ theorem exists_fixed_omegaZ
       · exact absurd hv hvt
       · rw [← hv]; exact hyv
       · exact absurd hv hv1
-    have hy1 := h.eq_one_of_commute_t_w hp3 c hpq P₀.isPGroup' hCpP₀ hyP hyt hyw
+    have hy1 := h.eq_one_of_commute_t_w hp3 c hpq P₀.isPGroup hCpP₀ hyP hyt hyw
     rw [hydef] at hy1
     calc h.t * z * h.t⁻¹ = z⁻¹ * (z * (h.t * z * h.t⁻¹)) := by group
       _ = z⁻¹ := by rw [hy1, mul_one]

@@ -185,7 +185,7 @@ theorem nonempty_mulEquiv_prod_psl23_of_card_24 {C U : Subgroup X} {t σ : X}
     have hle := Nat.le_of_dvd (by norm_num) h24
     have hpos : 0 < Nat.card A := Nat.card_pos
     omega
-  haveI hWnA : (W.subgroupOf A).Normal :=
+  have hWnA : (W.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff hWA).mpr fun h k hh hk =>
       (Subgroup.mem_normalizer_iff.mp (hAN hk) h).mp hh
   obtain ⟨eA⟩ := CFSG.Quasithin.R3c9.isAlt4_of_structure (W.subgroupOf A) ⟨σ, hσA⟩
@@ -203,7 +203,7 @@ theorem nonempty_mulEquiv_prod_psl23_of_card_24 {C U : Subgroup X} {t σ : X}
     have h := Subgroup.card_mul_index (A.subgroupOf C)
     rw [hA'12, hC] at h
     omega
-  haveI : (A.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hidx2
+  have : (A.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hidx2
   have hq2 : Nat.card (↥C ⧸ A.subgroupOf C) = 2 := by
     rw [← Subgroup.index_eq_card, hidx2]
   have hZ2 : Nat.card ℤˣ = 2 := by
@@ -236,7 +236,7 @@ theorem isReeType_one_of_psl28 (K : Subgroup X) (hKn : K.Normal)
     (hKc : Subgroup.centralizer (K : Set X) = ⊥)
     (hK : IsoLie ↥K (.A 1 ⟨2, 3, Nat.prime_two, by norm_num⟩)) (hidx : K.index = 3) :
     IsReeType X 1 := by
-  haveI := hKn
+  have := hKn
   obtain ⟨hv, ⟨e₀⟩⟩ := hK
   have e : K ≃* PSL(2, GaloisField 2 3) :=
     e₀.trans (@CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 _ ⟨Nat.prime_two⟩ hv)

@@ -27,11 +27,11 @@ private theorem reeF4_simple {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .reeF4 
     Finite A ∧ IsSimpleGroup A ∧ (∃ a b : A, a * b ≠ b * a) ∧ Group.IsSolvable (Outer A) := by
   obtain ⟨F, _, _, _, hF, ⟨eΓ⟩⟩ :=
     CFSG.HardMathSupport.Malle.LocalAction.exists_reeGamma_model hd ⟨e⟩
-  haveI : Finite (F4.reeGamma F 2) := Subtype.finite
-  haveI : Finite A := Finite.of_equiv _ eΓ.symm.toEquiv
-  haveI : IsSimpleGroup (CFSG.AGLEmbedding.CatGroup d) :=
+  have : Finite (F4.reeGamma F 2) := Subtype.finite
+  have : Finite A := Finite.of_equiv _ eΓ.symm.toEquiv
+  have : IsSimpleGroup (CFSG.AGLEmbedding.CatGroup d) :=
     CFSG.AGLEmbedding.isSimpleGroup_of_catGroup_reeF4 hd
-  haveI hs : IsSimpleGroup A := e.isSimpleGroup
+  have hs : IsSimpleGroup A := e.isSimpleGroup
   have h25 : 5 ^ 2 ∣ Nat.card A := by
     rw [Nat.card_congr e.toEquiv, CFSG.AGLEmbedding.card_catGroup_reeF4 hd]
     norm_num [CFSG.Open.ordTwistedF4]
@@ -40,15 +40,15 @@ private theorem reeF4_simple {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .reeF4 
   have hO : Nat.card (Outer A) ∣ 5 := by
     rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence eΓ).toEquiv]
     exact (CFSG.AGLEmbedding.outer_reeGamma (a := 2) (K := F) (by norm_num) hF).2
-  haveI : Finite (Outer A) := Nat.finite_of_card_ne_zero fun h => by
+  have : Finite (Outer A) := Nat.finite_of_card_ne_zero fun h => by
     rw [h] at hO
     norm_num at hO
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hP : IsPGroup 5 (Outer A) := by
     rcases (Nat.dvd_prime Nat.prime_five).mp hO with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [h]; norm_num)
     · exact IsPGroup.of_card (n := 1) (by rw [h]; norm_num)
-  haveI := hP.isNilpotent
+  have := hP.isNilpotent
   infer_instance
 
 private theorem le_of_forall_centralizer_le_reeF4 {Y : Type} [Group Y] [Finite Y]
@@ -162,8 +162,8 @@ theorem threeFourTwoNoneAt_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .re
   obtain ⟨-, hX1, hX2, hX3⟩ := reeF4_simple hd (MulEquiv.refl _)
   refine threeFourTwoNoneAt_of_inf hX1 hX2 hX3 ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ _ hER hE hEc hcore _ hKY
-  haveI := hKn
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := hKn
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e⟩ := hKX
   obtain ⟨-, hKs, hKnab, -⟩ := reeF4_simple hd e
   have hZK : center K = ⊥ := CFSG.ComponentClassification.Helpers.center_eq_bot K hKnab
@@ -180,7 +180,7 @@ theorem threeFourTwoNoneAt_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .re
       (Subgroup.subgroupOfEquivOfLe le_sup_left).trans e
     by_cases h3 : 3 ≤ CFSG.pRank 5 (R : Subgroup Y)
     ·
-      rw [if_pos h3] at hcore
+      rw [ite_eq_left h3] at hcore
       left
       have h3' : 3 ≤ CFSG.Open.pRank 5 ((R.subtype le_sup_right : Sylow 5 H) : Subgroup H) := by
         rw [Sylow.coe_subtype, CFSG.LargeEvenClassification.Helpers.pRank_subgroupOf
@@ -198,7 +198,7 @@ theorem threeFourTwoNoneAt_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .re
       exact isSolvable_inf_of_isSolvable_subgroupOf le_sup_left hsitu.solvable
     ·
       exfalso
-      rw [if_neg h3] at hcore
+      rw [ite_eq_right h3] at hcore
       have hRK : (R : Subgroup Y) ≤ K := by
         by_contra hRK
         have hne : K.subgroupOf H ≠ ⊤ := fun htop =>
@@ -220,7 +220,7 @@ theorem threeFourTwoNoneAt_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .re
       exact (Commute.zpow_right hkx j).symm.eq
   ·
     exfalso
-    obtain ⟨c, hcRC, hc5, -⟩ := exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup'
+    obtain ⟨c, hcRC, hc5, -⟩ := exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup
       inf_le_left (self_le_normalizer_inf_normal (N := C)) hRC
     have hcC : c ∈ C := (Subgroup.mem_inf.mp hcRC).2
     have hcR : c ∈ (R : Subgroup Y) := (Subgroup.mem_inf.mp hcRC).1
@@ -249,7 +249,7 @@ theorem threeFourTwoNoneAt_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .re
       rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
       exact le_openPRank_sup_of_commute (by norm_num) hZe hcE (fun a ha => hKc a (hZK ha))
         (hKcbot Z hZK) hZc hcc (sup_le (hZT.trans hTR) (zpowers_le.mpr hcR))
-    rw [if_pos h3] at hcore
+    rw [ite_eq_left h3] at hcore
     refine hKY (le_of_forall_centralizer_le_reeF4 hd e hZK hZe hZc ?_)
     intro x hx hx1 k hk hkx
     have hxK : x ∈ K := hZK hx

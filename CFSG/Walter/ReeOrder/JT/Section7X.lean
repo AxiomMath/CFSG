@@ -25,7 +25,7 @@ theorem factorization_card_eq_of_piCyclic
     [hp : Fact p.Prime] (hpq : p ∣ (h.q - 1) / 2) :
     (Nat.card G).factorization p = ((h.q - 1) / 2).factorization p := by
   obtain ⟨P₀, hCpP₀, hT₀P₀⟩ := h.exists_sylow_invariant hp3 c hpq
-  have hcyc := hπ p hp.out hpq P₀ P₀.isPGroup'
+  have hcyc := hπ p hp.out hpq P₀ P₀.isPGroup
   have heq : c.Cp p = P₀ := by
     by_contra hne
     exact h.not_isCyclic_of_ne hp3 c hpq P₀ hCpP₀ hT₀P₀ hne hcyc
@@ -239,7 +239,7 @@ theorem lemma_7_16_of_piCyclic
     obtain ⟨Rz, hRz⟩ := hzr.exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Ry Rz
     have hRzQ : (Rz : Subgroup G) ≤ s.Q :=
-      s.le_Q_of_isPGroup hp3 hS hr6 Rz.isPGroup' hzQ hz1 (hRz (Subgroup.mem_zpowers z))
+      s.le_Q_of_isPGroup hp3 hS hr6 Rz.isPGroup hzQ hz1 (hRz (Subgroup.mem_zpowers z))
     have hgy : g * y * g⁻¹ ∈ s.Q := by
       apply hRzQ
       rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]

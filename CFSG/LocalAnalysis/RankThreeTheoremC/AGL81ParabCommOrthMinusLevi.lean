@@ -31,6 +31,7 @@ variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {r : ℕ} {K : Type}
   (hd : OrthCuts r d) (hPY : P ≤ Y)
 
 include hd hPY in
+omit [Finite A] [Finite K] in
 theorem toHat_range_normal {D : Type} [Group D] (ψ : D →* ↥(orthParab r (minusTailForm K b c) d))
     (h : ∀ (q : ↥(orthParab r (minusTailForm K b c) d)) (x : D), ∃ x' : D,
       orthLeviHom b c hd (q * ψ x * q⁻¹) = orthLeviHom b c hd (ψ x')) :
@@ -71,7 +72,7 @@ theorem toHat_orthLeviSL_mem_wSup (hr : 3 ≤ r) (l : Fin s)
       Function.surjective_id (C.toHat.comp ψ) (by rw [MonoidHom.ker_id]; exact bot_le) hnorm
       (isQuasisimple_or_perm_three hk (MulEquiv.refl _))
     exact h ⟨B, rfl⟩
-  · haveI := LeviBlock.subsingleton_specialLinear_of_lt_two (K := K)
+  · have := LeviBlock.subsingleton_specialLinear_of_lt_two (K := K)
       (m := d l.succ - d l.castSucc) (by omega)
     rw [Subsingleton.elim B 1, map_one, map_one]
     exact one_mem _
@@ -87,10 +88,11 @@ theorem toHat_orthLeviSL_mem_wSup (hr : 3 ≤ r) (l : Fin s)
 
 @[expose] noncomputable def resLevi (hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0) :
     ↥(orthResDer K b c (r - d (Fin.last s))) →* ↥(orthParab r (minusTailForm K b c) d) :=
-  (resLeviE hd hr hirr).codRestrict (orthParab r (minusTailForm K b c) d) fun B =>
+  (resLeviE hd hr hirr).codRestrict (orthParab r (minusTailForm K b c) d) fun _B =>
     mem_orthParab.2 fun i => map_tailFlag_orthLeviRes hd.last
       (hd.mono.monotone (Fin.le_last i)) _
 
+omit [CharP K 2] in
 theorem orthLeviHom_conj_resLevi (hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0)
     (q : ↥(orthParab r (minusTailForm K b c) d))
     (x : ↥(orthResDer K b c (r - d (Fin.last s))))

@@ -23,7 +23,7 @@ theorem BenderCounterexample.mem_of_benderM_eq_singleton (hG : BenderCounterexam
 theorem BenderCounterexample.three_le_rank_sylow (hG : BenderCounterexample G) (T : Sylow 2 G) :
     3 ≤ rank (T : Subgroup G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  rw [rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup', (pRank_sylow T).1]
+  rw [rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup, (pRank_sylow T).1]
   exact hG.three_le_twoRank
 
 theorem exists_involution_mem_inf_conj {T : Subgroup G} (hTp : IsPGroup 2 T)
@@ -135,7 +135,7 @@ theorem BenderCounterexample.exists_benderM_ne_singleton (hG : BenderCounterexam
   have hcommT : ∀ x ∈ (T : Subgroup G), ∀ y ∈ (T : Subgroup G), x * y = y * x :=
     fun x hx y hy => congrArg Subtype.val (hTab.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have h3 := hG.three_le_rank_sylow T
-  have hTp : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hTp : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hrT : rank (T : Subgroup G) = Open.pRank 2 (T : Subgroup G) :=
     rank_eq_pRank_of_isPGroup Nat.prime_two hTp
   have hrR : rank R = Open.pRank 2 R := rank_eq_pRank_of_isPGroup Nat.prime_two (hTp.to_le hRT)

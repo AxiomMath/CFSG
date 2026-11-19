@@ -25,7 +25,7 @@ theorem stepRun_mk (r s a : ℕ) : stepRun F THM BS NB RD RW RA r (s, a) =
 theorem stepRun_fail (r : ℕ) {st : WS} (h : wsFail st.1 = 1) :
     wsFail (stepRun F THM BS NB RD RW RA r st).1 = 1 := by
   obtain ⟨s, a⟩ := st
-  rw [stepRun_mk, if_pos (by simpa using h)]
+  rw [stepRun_mk, ite_eq_left (by simpa using h)]
   exact wsBad_fail a
 
 theorem walkStep_mk (r rot pos s a : ℕ) : walkStep F THM E BS NB RD RW RA r rot pos (s, a) =
@@ -187,7 +187,7 @@ section Relator
 
 variable {x : ℕ → G} {u : G} {E : ℕ}
 
-theorem relator_prod (hxE : x E * x E = 1) (hu : u * u = 1) (hE : (x E * u) ^ 4 = 1) {rot : ℕ}
+theorem relator_prod (_hxE : x E * x E = 1) (hu : u * u = 1) (hE : (x E * u) ^ 4 = 1) {rot : ℕ}
     (hrot : rot < 2) : ((List.range' 0 8).map (pv x u E rot)).prod = 1 := by
   rw [show List.range' 0 8 = [0, 1, 2, 3, 4, 5, 6, 7] from rfl]
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, pv]
@@ -226,7 +226,7 @@ theorem walk_relator (hx : ∀ c, x c * x c = 1) (hu : u * u = 1) (hE : (x E * u
     simp
   have hR := relator_prod (hx E) hu hE hrot
   rw [e1, List.map_append, List.map_cons, List.prod_append, List.prod_cons] at hR
-  have hgu : pv x u E rot g = u := by unfold pv; rw [if_neg (by omega)]
+  have hgu : pv x u E rot g = u := by unfold pv; rw [ite_eq_right (by omega)]
   rw [hgu, ← mul_assoc] at hR
   rw [e2, e3, prod_rev_inv hpv, eq_inv_of_mul_eq_one_left hR]
 
@@ -263,7 +263,7 @@ theorem walkOK_spec (hx : ∀ c, x c * x c = 1) (hu : u * u = 1)
     (hRA : GW (2 ^ 20) (RA r)) (h : walkOK F THM E BS NB RD RW RA r d J = true) :
     CE H (X (dN1 d) * val x (RW r) * u) (X (dN2 d) * val x (RA r)) := by
   unfold walkOK at h
-  simp only [sB_eq, prod_rec_eq, andB_iff, walkRun_eq] at h
+  simp only [sB_eq, andB_iff, walkRun_eq] at h
   obtain ⟨hh0, hE10, hgr, hff, hfb, -, hkf, hkb, h1f, h1b⟩ := h
   replace hff := Nat.eq_of_beq_eq_true hff
   replace hfb := Nat.eq_of_beq_eq_true hfb
@@ -303,7 +303,7 @@ theorem factStepOK_spec (hx : ∀ c, x c * x c = 1) (hu : u * u = 1)
     (hRA : GW (2 ^ 20) (RA r)) (h : factStepOK F THM BS NB RD RW RA r d J = true) :
     CE H (X (dN1 d) * val x (RW r) * u) (X (dN2 d) * val x (RA r)) := by
   unfold factStepOK at h
-  simp only [prod_rec_eq, andB_iff] at h
+  simp only [andB_iff] at h
   obtain ⟨hf, hk, h1⟩ := h
   obtain ⟨c, g⟩ := stepRun_spec F RD RW RA THM BS NB H x u hx hu hθ hone hH
     (hRW.mono (B' := 2 ^ 22) (by norm_num)) (Nat.eq_of_beq_eq_true hf)
@@ -321,7 +321,7 @@ theorem diffOK_spec (hx : ∀ c, x c * x c = 1) (hu : u * u = 1)
     (h : diffOK F THM BS NB RD RW RA r d J = true) :
     X (dN2 d) * val x (RW r) * (X (dN2 d))⁻¹ ∈ H := by
   unfold diffOK at h
-  simp only [sB_eq, prod_rec_eq, andB_iff] at h
+  simp only [sB_eq, andB_iff] at h
   obtain ⟨hh, hf1, hf2, hk1, hk2, h1⟩ := h
   have hi : Nat.land J 255 < 256 := by
     have : Nat.land J 255 ≤ 255 := Nat.and_le_right

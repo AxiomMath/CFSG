@@ -85,12 +85,12 @@ theorem B0_elem (hR : Reg Rg) : CFSG.Open.IsElemAbelian 3 (B0 Rg) := by
   · rintro _ ⟨i, hi, rfl⟩ _ ⟨j, hj, rfl⟩ _
     exact hcomm i hi j hj
   · rintro _ ⟨i, hi, rfl⟩
-    simp only [gens_B0, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hi
+    simp only [gens_B0, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hi
     rcases hi with rfl | rfl | rfl
     exacts [pow_of_ord hR.ord_x0, pow_of_ord hR.ord_uu, pow_of_ord hR.ord_vv]
 
 theorem B0_comm (hR : Reg Rg) {a b : Gp} (ha : a ∈ B0 Rg) (hb : b ∈ B0 Rg) : a * b = b * a := by
-  haveI := (B0_elem hR).1
+  have := (B0_elem hR).1
   exact Subtype.ext_iff.1 (IsMulCommutative.is_comm.comm (⟨a, ha⟩ : B0 Rg) ⟨b, hb⟩)
 
 theorem x0_B0 : Rg r_x0 ∈ B0 Rg := Ksub_mem (by simp [gens_B0])
@@ -104,7 +104,7 @@ theorem CA_eq
   have hsz : j3tCAGens.size = 4 := by simp [j3tCAGens]
   have hset : Rg '' {r | r ∈ gens_CA} = CFSG.RankThree.Native.permsA 6156 j3tCAGens := by
     ext z
-    simp only [CFSG.RankThree.Native.permsA, Set.mem_image, Set.mem_setOf_eq, hsz, gens_CA,
+    simp only [CFSG.RankThree.Native.permsA, Set.mem_image, Set.mem_ofPred_eq, hsz, gens_CA,
       List.mem_cons, List.not_mem_nil, or_false]
     constructor
     · rintro ⟨r, hr, rfl⟩
@@ -157,7 +157,7 @@ theorem mem_normalizer_B0 {f fi : ℕ} (hfi : Rg fi = (Rg f)⁻¹)
     intro b
     simp [prodG, hfi, mul_assoc]
   rw [e]
-  simp only [gens_B0, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hk
+  simp only [gens_B0, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hk
   rcases hk with rfl | rfl | rfl
   exacts [hx0, huu, hvv]
 
@@ -270,7 +270,7 @@ theorem normal_closure_frame (hR : Reg Rg) {g gi x1 x2 xi1 xi2 c1 c2 : ℕ} {gen
   subst hgens
   refine normal_closure_eq (K' := Ksub Rg [c1, c2]) (S := Rg '' {r | r ∈ [c1, c2]}) hu rfl ?_ ?_ ?_
   · rintro _ ⟨r, hr, rfl⟩
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hr
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hr
     rcases hr with rfl | rfl
     exacts [⟨Rg x1, hx1', hc1'⟩, ⟨Rg x2, hx2', hc2'⟩]
   · refine Ksub_le fun r hr => ?_
@@ -306,9 +306,9 @@ theorem conj_reg_mem {K : Subgroup Gp} {a g gi x : ℕ} (hgi : Rg gi = (Rg g)⁻
   rw [this]
   exact conj_mem_cj hx
 
-theorem hk_mem (hR : Reg Rg) : ∀ k ∈ gens_H, Rg k ∈ H0 Rg := fun _ hk => Ksub_mem hk
+theorem hk_mem (_hR : Reg Rg) : ∀ k ∈ gens_H, Rg k ∈ H0 Rg := fun _ hk => Ksub_mem hk
 
-theorem hik_mem (hR : Reg Rg) {h hi : ℕ} (hh : h ∈ gens_H) (hinv : prodG Rg [h, hi] = prodG Rg []) :
+theorem hik_mem (_hR : Reg Rg) {h hi : ℕ} (hh : h ∈ gens_H) (hinv : prodG Rg [h, hi] = prodG Rg []) :
     Rg hi ∈ H0 Rg := by
   rw [inv_of_prod hinv]
   exact (H0 Rg).inv_mem (Ksub_mem hh)
@@ -439,7 +439,7 @@ theorem four_frame (hR : Reg Rg) {y : ℕ} (hy : Rg y ∈ j3P)
     have hset : ((centralizer ({Rg y} : Set Gp) ⊓ Ksub Rg gens_P64 : Subgroup Gp) : Set Gp) =
         {x | x ∈ Ksub Rg gens_P64 ∧ x * Rg y = Rg y * x} := by
       ext x
-      simp only [SetLike.mem_coe, mem_inf, mem_centralizer_singleton_iff, Set.mem_setOf_eq]
+      simp only [SetLike.mem_coe, mem_inf, mem_centralizer_singleton_iff, Set.mem_ofPred_eq]
       tauto
     rw [← hcount, ← hset]
     exact Nat.card_coe_set_eq _
@@ -493,16 +493,16 @@ theorem four_part (hR : Reg Rg) :
       apply Subtype.ext
       have := hR.y2_def
       simp only [prodG_cons, prodG_nil, mul_one] at this
-      simp [this, pow_two, mul_assoc]
+      simp [this, pow_two]
     rw [e]
     exact four_frame hR hy2 hR.loop_four2 hR.loop_nonab2
 
 @[expose] noncomputable def VPair (Rg : ℕ → Gp) : Fin 2 → Subgroup ↥j3P :=
   fun i => if i = 0 then VJ Rg (Rg r_gA) else VJ Rg (Rg r_gB)
 
-@[simp] theorem VPair_zero : VPair Rg 0 = VJ Rg (Rg r_gA) := if_pos rfl
+@[simp] theorem VPair_zero : VPair Rg 0 = VJ Rg (Rg r_gA) := ite_eq_left rfl
 
-@[simp] theorem VPair_one : VPair Rg 1 = VJ Rg (Rg r_gB) := if_neg (by decide)
+@[simp] theorem VPair_one : VPair Rg 1 = VJ Rg (Rg r_gB) := ite_eq_right (by decide)
 
 theorem vpair_facts
     (hR : Reg Rg) :

@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem case1_mem_normalizer_of_comm {T : Subgroup G} {x : G}
     (hxcT : ∀ t ∈ T, x * t = t * x) : x ∈ normalizer (T : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -78,7 +79,7 @@ theorem case1_orders_gen {p k : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     CFSG.ABGLocalTools.IsSylowOf 2 Y ((T ⊔ R) ⊔ (Y ⊔ zpowers x)) ∧
     ∀ q : ℕ, q.Prime → q ∣ R.relIndex ((T ⊔ R) ⊔ (Y ⊔ zpowers x)) → q = 2 ∨ q = p := by
   have hp : p.Prime := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp0 : 0 < p := hp.pos
   have hp2' : Nat.Coprime 2 p := (Nat.coprime_primes Nat.prime_two hp).2 (Ne.symm hp2)
   have hRp : ¬ p ∣ Nat.card R := (Nat.Prime.coprime_iff_not_dvd hp).1 hRcop
@@ -194,7 +195,7 @@ theorem case1_orders_gen {p k : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
 
 theorem case1_orders {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     {M R T Y : Subgroup G} {x : G}
-    (hRM : R ≤ M) (hRn : M ≤ normalizer (R : Set G)) (hRcop : Nat.Coprime p (Nat.card R))
+    (_hRM : R ≤ M) (hRn : M ≤ normalizer (R : Set G)) (hRcop : Nat.Coprime p (Nat.card R))
     (hNn : M ≤ normalizer ((T ⊔ R : Subgroup G) : Set G))
     (hTM : T ≤ M) (hTcard : Nat.card T = p ^ 3) (hxM : x ∈ M) (hxp : x ^ p = 1) (hx1 : x ≠ 1)
     (hxT : x ∉ T) (hxcT : ∀ t ∈ T, x * t = t * x)

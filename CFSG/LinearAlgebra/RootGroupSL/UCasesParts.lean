@@ -19,10 +19,13 @@ private def stdInlE : E →ₗ[k] DSpace E X :=
   LinearMap.prod (0 : E →ₗ[k] E)
     (LinearMap.prod (0 : E →ₗ[k] X) (LinearMap.id : E →ₗ[k] E))
 
+omit [Module.Finite k E] [Module.Finite k X] in
 private lemma stdIota_apply' (t : E) : stdIota k E X t = (t, (0 : X), (0 : E)) := rfl
 
+omit [Module.Finite k E] [Module.Finite k X] in
 private lemma stdPi_apply' (v : DSpace E X) : stdPi k E X v = v.2.2 := rfl
 
+omit [Module.Finite k E] [Module.Finite k X] in
 private lemma mem_range_stdIota_iff (w : DSpace E X) :
     w ∈ LinearMap.range (stdIota k E X) ↔ w.2.1 = 0 ∧ w.2.2 = 0 := by
   constructor
@@ -107,13 +110,13 @@ theorem mem_datumQ0_std_iff {g : SpecialLinearGroup k (DSpace E X)} :
       simp
     rw [show (a, x, b) = (a, x, (0 : E)) + (0, (0 : X), b) by ext <;> simp]
     rw [map_add, hfix, hE0]
-    ext <;> simp [uSL, unipElt] <;> abel
+    ext <;> simp [unipElt]
   · rintro ⟨ψ, rfl⟩
     refine ⟨?_, ?_⟩
     · intro v
       refine ⟨ψ v.2.2, ?_⟩
       rw [stdIota_apply']
-      ext <;> simp [uSL, unipElt] <;> abel
+      ext <;> simp [uSL, unipElt]
     · intro v hv
       rw [stdPi_apply'] at hv
       ext <;> simp [uSL, unipElt, hv]
@@ -177,13 +180,13 @@ theorem mem_datumU1_std_iff {g : SpecialLinearGroup k (DSpace E X)} :
     rw [show (a, x, b) = (a, (0 : X), (0 : E)) + ((0, x, (0 : E)) + (0, (0 : X), b)) by
       ext <;> simp]
     rw [map_add, map_add, hfixW, hX, hE0]
-    ext <;> simp [uSL, unipElt] <;> abel
+    ext <;> simp [unipElt]; abel
   · rintro ⟨φ, ψ, rfl⟩
     refine ⟨?_, ?_⟩
     · intro v
       refine ⟨φ v.2.1 + ψ v.2.2, ?_⟩
       rw [stdIota_apply']
-      ext <;> simp [uSL, unipElt] <;> abel
+      ext <;> simp [uSL, unipElt]; abel
     · intro t
       rw [stdIota_apply']
       ext <;> simp [uSL, unipElt]
@@ -225,7 +228,7 @@ theorem mem_datumU2_std_iff {g : SpecialLinearGroup k (DSpace E X)} :
       · rw [hχ]
     rw [show (a, x, b) = (a, x, (0 : E)) + (0, (0 : X), b) by ext <;> simp]
     rw [map_add, hfix, hE0]
-    ext <;> simp [uSL, unipElt] <;> abel
+    ext <;> simp [unipElt]
   · rintro ⟨χ, ψ, rfl⟩
     refine ⟨?_, ?_⟩
     · intro v

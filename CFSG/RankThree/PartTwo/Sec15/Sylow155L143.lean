@@ -41,7 +41,7 @@ private theorem not_l143Config_of_isSLThreeEpsAt (heig : L143EigProp) {Y : Type}
 theorem l143NoConfig_of (h2 : Sec4.Item4_1ThreeCover) (h43 : Sec4.Item4_3)
     (hin : Sec4.Census.CoverInputs46) (heig : L143EigProp) (hK : L143RowsK) : L143NoConfig := by
   intro Y _ _ hY hq hZ3 a w h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card (Subgroup.center Y) := by
     have := Subgroup.orderOf_dvd_natCard (Subgroup.center Y) h.w_mem
     rwa [h.orderOf_w] at this
@@ -73,7 +73,7 @@ theorem L143Config.exists_of_point {Y : Type*} [Group Y] [Finite Y]
     (hc : ∀ u : Y, u * x = x * u → u ^ 3 = 1 → u ∈ Subgroup.zpowers x ⊔ Subgroup.center Y)
     (hf : ∀ z ∈ Subgroup.center Y, ∀ g : Y, g * x * g⁻¹ = x * z → z = 1) :
     ∃ w : Y, L143Config x w := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain h0 | ⟨w, hw, hw1⟩ := (Subgroup.center Y).bot_or_exists_ne_one
   · rw [h0, Subgroup.card_bot] at hZ
     norm_num at hZ
@@ -97,7 +97,7 @@ theorem L143NoConfig.false_of_point (hN : L143NoConfig) {Y : Type} [Group Y] [Fi
     {x : Y} (hx3 : x ^ 3 = 1) (hxZ : x ∉ Subgroup.center Y)
     (hc : ∀ u : Y, u * x = x * u → u ^ 3 = 1 → u ∈ Subgroup.zpowers x ⊔ Subgroup.center Y)
     (hf : ∀ z ∈ Subgroup.center Y, ∀ g : Y, g * x * g⁻¹ = x * z → z = 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w, hw⟩ := L143Config.exists_of_point hZ hx3 hxZ hc hf
   exact hN Y hY hq (IsPGroup.of_card (n := 1) (by rw [hZ, pow_one])) x w hw
 

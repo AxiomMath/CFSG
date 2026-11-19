@@ -65,7 +65,7 @@ theorem torData_primeTorus {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 1 ≤ f) (h
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     GGTorusTorData (Nat.card K - 1) m (CartanMatrix.B m) (CoxeterMatrix.B m)
       ↥(LargeEvenOmega (LargeEvenQMinus m b c)) (scalarA (primeTorus K m p b c)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hM : Odd (Nat.card K - 1) := by
     have h1 : 2 ^ f = 2 * 2 ^ (f - 1) := by
       rw [← pow_succ']
@@ -96,12 +96,12 @@ theorem torData_primeTorus {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 1 ≤ f) (h
     (fun g => mem_primeTorus_iff_pow) ζ hζ (weylElt hm hirr) ?_ ?_ ?_ ?_ ?_
   ·
     intro k hk x
-    simp only [weylElt, dif_pos hk]
+    simp only [weylElt, dite_eq_left hk]
     exact swap_conj_torus k hk hm x
   ·
     intro k hk x
     have hk' : ¬ k.val + 1 < m := by omega
-    simp only [weylElt, dif_neg hk']
+    simp only [weylElt, dite_eq_right hk']
     exact sign_conj_torus k hm hirr x
   ·
     intro g hc x
@@ -138,7 +138,7 @@ theorem torData_of_elemAbelian {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 1 ≤ f
     GGTorusTorData (Nat.card K - 1) m (CartanMatrix.B m) (CoxeterMatrix.B m)
       ↥(LargeEvenOmega (LargeEvenQMinus m b c))
       (E.map (MulAut.conj : ↥(LargeEvenOmega (LargeEvenQMinus m b c)) →* MulAut _)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p
     (by rw [Nat.card_units K]; exact hpq)
   have hEO : E.map (LargeEvenOmega (LargeEvenQMinus m b c)).subtype ≤ LargeEvenOrthGroup (LargeEvenQMinus m b c) := by
@@ -215,9 +215,9 @@ theorem largeEvenLabelAll_relD_twD_split
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   simp only [h2, h3, ↓reduceIte] at hQ ⊢
   obtain ⟨K, i1, i2, hK, b, c, hirr, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card (m := n) hK
+  have : CharP K 2 := charP_two_of_card (m := n) hK
   have hM : ggTorMpm p ⟨.twD, ℓ, n⟩ = Nat.card K - 1 := by
-    rw [ggTorMpm, if_pos hpn, hK]
+    rw [ggTorMpm, ite_eq_left hpn, hK]
   refine ⟨K, i1, i2, hK, b, c, hirr, hQ', ?_⟩
   rw [hM]
   exact RelDMinus.ggTorusTorW_twMinusSplit hK hn hp hp2 (by rw [hK]; exact hpn) (by omega) hirr

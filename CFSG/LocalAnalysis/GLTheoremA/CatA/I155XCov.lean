@@ -25,6 +25,7 @@ theorem core_inf_le {p : ℕ} (hp : p.Prime) {X Ks : Subgroup G} (hKX : Ks ≤ X
       ((Nat.Prime.coprime_iff_not_dvd hp).2 (not_dvd_card_glaPPrimeCoreOf hp X))
   exact le_glaPPrimeCoreOf_of_normal' inf_le_right hO hcop
 
+omit [Finite G] in
 theorem commutator_list_mem {Ks N : Subgroup G} (hN : ∀ g ∈ Ks, ∀ n ∈ N, g * n * g⁻¹ ∈ N)
     (hNKs : N ≤ Ks) (a : G) : ∀ (L : List G), (∀ l ∈ L, ⁅a, l⁆ ∈ N ∧ l ∈ Ks) →
       ⁅a, L.prod⁆ ∈ N
@@ -47,6 +48,7 @@ theorem commutator_K_glbConj_le {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1
   rw [zpow_zero, gLBConj_one] at h
   exact h
 
+omit [Finite G] in
 theorem conj_mem_glbConj_nat {x : G} {K : Subgroup G} {c : G} (hc : c ∈ K) (i : ℕ) :
     (x ^ i)⁻¹ * c * x ^ i ∈ GLBConj (x ^ (i : ℤ)) K := by
   rw [mem_gLBConj, zpow_natCast]
@@ -60,11 +62,12 @@ theorem glbConj_nat_le_centMod {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
   exact le_centModSubgroup_of_ne hp (glaPComponent_zpow hxX hK _) hK
     (glbConj_zpow_ne_of_not_dvd hp hx hxK hi')
 
+omit [Finite G] in
 theorem glbConj_le_of_le {A B : Subgroup G} (h : A ≤ B) (g : G) : GLBConj g A ≤ GLBConj g B := by
   unfold GLBConj
   exact Subgroup.map_mono h
 
-theorem commutator_core_mem {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
+theorem commutator_core_mem {x : G} {p : ℕ} (hp : p.Prime) (_hx : x ^ p = 1)
     {X K J : Subgroup G} (hxX : x ∈ X) (hK : GLAPComponent p X K)
     (hJx : J ≤ Subgroup.centralizer ({x} : Set G)) (hJK : ∀ j ∈ J, j ∈ centModSubgroup p K)
     (hJKs : J ≤ closureIn K (Subgroup.zpowers x)) {j : G} (hj : j ∈ J) :
@@ -157,7 +160,7 @@ theorem not_centMod_all {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
       (Nat.Coprime.coprime_dvd_right (Subgroup.card_dvd_of_le inf_le_right) hcop)
   have hJO' : ⁅J, J⁆ ≤ GLAPPrimeCoreOf p J := hJN.trans hJO
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hJ
-  haveI := isQuasisimple_nontrivial hq
+  have := isQuasisimple_nontrivial hq
   have hbot : commutator (PQuot p J) = ⊥ := by
     rw [commutator_def, eq_bot_iff]
     refine Subgroup.commutator_le.2 fun a _ b _ => ?_
@@ -179,6 +182,7 @@ theorem not_centMod_all {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
   rw [hbot] at h
   exact ((Subgroup.nontrivial_iff_ne_bot (⊤ : Subgroup (PQuot p J))).1 inferInstance) h.symm
 
+omit [Finite G] in
 theorem act_one {p : ℕ} (K : Subgroup G) : act p K 1 = 1 := by
   rw [act_of_mem (Subgroup.one_mem _)]
   exact map_one (chevAut p K)
@@ -188,7 +192,7 @@ theorem cover_c {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1) {X K J : Subgr
     (hJ : GLAPComponent p (closureIn K (Subgroup.zpowers x) ⊓ Subgroup.centralizer ({x} : Set G)) J) :
     K ≤ J ⊔ centModSubgroup p K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : 2 ≤ p := hp.two_le
   set Ks := closureIn K (Subgroup.zpowers x) with hKs
   set N := GLAPPrimeCoreOf p Ks with hN
@@ -297,7 +301,7 @@ theorem cover_c {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1) {X K J : Subgr
     rw [← actImage_K_eq_range] at ht
     obtain ⟨c, hc, rfl⟩ := (mem_actImage_iff Subgroup.le_normalizer).1 ht
     exact hsurj c hc
-  haveI := isSimpleGroup_range hp hK
+  have := isSimpleGroup_range hp hK
   have hsn : IsSubnormal (actImage p K J) (actImage p K C) := isSubnormal_actImage hJ.2.1
   rw [hCimg] at hsn
   have hJ_ne : actImage p K J ≠ ⊥ := by
@@ -327,6 +331,7 @@ theorem cover_c {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1) {X K J : Subgr
   rw [hcj]
   exact Subgroup.mul_mem_sup hj hm
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow {x : G} {p : ℕ} (hx : x ^ p = 1) :
     IsPGroup p (Subgroup.zpowers x) := by
   intro g
@@ -336,6 +341,7 @@ theorem isPGroup_zpowers_of_pow {x : G} {p : ℕ} (hx : x ^ p = 1) :
   simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
   rw [← hk, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx, one_zpow]
 
+omit [Finite G] in
 theorem core_le_centMod {p : ℕ} {K : Subgroup G} : GLAPPrimeCoreOf p K ≤ centModSubgroup p K := by
   intro o ho
   have hoK : o ∈ K := Subgroup.map_subtype_le _ ho
@@ -356,6 +362,7 @@ theorem cover_b {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1) {K J : Subgrou
     _ ≤ J ⊔ centModSubgroup p K :=
       sup_le ((le_of_eq hJL).trans le_sup_left) (core_le_centMod.trans le_sup_right)
 
+omit [Finite G] in
 theorem closureIn_eq_self_of_mem_normalizer {x : G} {K : Subgroup G}
     (hxK : x ∈ Subgroup.normalizer (K : Set G)) :
     closureIn K (Subgroup.zpowers x) = K := by

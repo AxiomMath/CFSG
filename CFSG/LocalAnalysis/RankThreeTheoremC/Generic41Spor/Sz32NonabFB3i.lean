@@ -19,7 +19,7 @@ theorem nf5_I714 (h714 : KFactI714Four') (hc : NF5Cfg F Γ B R₀ x L z) (hFL : 
     (∃ (t : CFSG.Assembly.LowTwoRank.StatedLieTag) (n ℓ f : ℕ), ℓ ≠ 5 ∧
       CFSG.Blueprint.LieModel ↥L t n ℓ f) ∧
       (Nat.card ((F ⊓ L : Subgroup Y)) = 25 ∧ IsCyclic ((F ⊓ L : Subgroup Y))) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hsimple, hnonab, hcat⟩ :=
     hc.data.catalog.isSimpleGroup_of_center_eq_bot hc.comp hc.cen
   obtain ⟨hFp, hFidx⟩ : IsPGroup 5 F ∧ ¬ 5 ∣ F.index := by
@@ -41,7 +41,7 @@ theorem nf5_I714 (h714 : KFactI714Four') (hc : NF5Cfg F Γ B R₀ x L z) (hFL : 
     exact hFL
   have hex5 : ∃ q ∈ (Q : Subgroup Y), q ^ 5 ≠ 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hBF : B = F := by
       ext b
       rw [hc.data.hB b]

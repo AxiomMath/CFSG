@@ -92,7 +92,7 @@ theorem gls3ConclusionPlus_lie_L34 (d : TauCeti.ValidLieTypeIndex) (q : TauCeti.
       have : Q = ⊥ := eq_bot_iff.mpr fun x hx => (Subgroup.mem_bot).mpr (hcon x hx)
       rw [this, Subgroup.card_bot] at hQcard
       omega
-    obtain ⟨A, hAP, hAel, hAc, hAK⟩ := exists_plane_not_le P.isPGroup' hPexp hQne hnot
+    obtain ⟨A, hAP, hAel, hAc, hAK⟩ := exists_plane_not_le P.isPGroup hPexp hQne hnot
     have hGLB := kFactL34Outer d hd34 X K hKn hKc ⟨e⟩ A hAel hAc hAK
     exact absurd (gammaCore_eq_top_of_glbCore_le hAP hGLB) (ne_of_lt hΓ)
   have hPQ : (P : Subgroup X) = Q := (inf_eq_left.mpr hPK).symm

@@ -79,7 +79,7 @@ theorem exists_isPGroup_of_mem_mod {G : Type} [Group G] [Finite G] {Ω : Set (Su
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   have hR : (Q : Subgroup ↥K).map K.subtype ∈ RSet Ω := ⟨K, hK, Q, rfl⟩
   have h8 : 8 ≤ Nat.card ↥((Q : Subgroup ↥K).map K.subtype) := hΩ.eight_le_of_mem_RSet hp hR
-  have hR2 : IsPGroup 2 ↥((Q : Subgroup ↥K).map K.subtype) := Q.isPGroup'.map _
+  have hR2 : IsPGroup 2 ↥((Q : Subgroup ↥K).map K.subtype) := Q.isPGroup.map _
   refine ⟨(Q : Subgroup ↥K).map K.subtype, Subgroup.map_subtype_le _, hR2, h8, ?_⟩
   obtain ⟨a, ha⟩ := hR2.exists_card_eq
   have ha0 : a ≠ 0 := by
@@ -115,7 +115,7 @@ theorem false_of_card_eq_eight_mul_odd {G : Type} [Group G] [Finite G] [IsSimple
   obtain ⟨R, hRK, hR2, h8, hzR⟩ := exists_isPGroup_of_mem_mod hΩ hp hK hz
   obtain ⟨P, hRP⟩ := hR2.exists_le_sylow
   obtain ⟨a, ha⟩ := hR2.exists_card_eq
-  obtain ⟨b, hb⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨b, hb⟩ := P.isPGroup.exists_card_eq
   have hbdvd : 2 ^ b ∣ 2 ^ 3 * j := by
     rw [← hb, ← hcard]
     exact Subgroup.card_subgroup_dvd_card _

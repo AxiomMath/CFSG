@@ -58,12 +58,13 @@ section ThreeB
 variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {n m : ℕ}
 
+omit [Finite V] in
 theorem Setting12One.fixed_of_gen_eq_top {ρ : G →* LGL 2 V}
     {B A : Subgroup G} {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m) {g : G}
     (hgen : A ⊔ A.map (MulAut.conj g).toMonoidHom = ⊤) {a : G} (ha : a ∈ A) (ha1 : a ≠ 1)
     {v : V} (hv : v ∈ commSub ρ.range) (hfix : ρ (a * (g * a * g⁻¹)) v = v) :
     ∀ y : G, ρ y v = v := by
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   obtain ⟨-, -, -, h4⟩ := twelveOne_partOne h hgen
   have hP : ∃ a₀ ∈ A, a₀ ≠ 1 ∧ ρ a₀ = ρ a := ⟨a, ha, ha1, rfl⟩
   have hmem := h4 (ρ a) (Subgroup.mem_map_of_mem ρ ha) hP
@@ -82,8 +83,8 @@ theorem Setting12One.m_dvd_of_subgroup
     {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m) {H : Subgroup G} (hAH : A ≤ H)
     {k : ℕ} (hk : CFSG.Quasithin.IsPSL 2 2 k ↥H ∨ CFSG.Quasithin.IsSz k ↥H)
     (hZ : Module.finrank (ZMod 2) Z ≤ m) : m ∣ k := by
-  haveI : Finite G := rankOne_finite h.type
-  haveI : Finite ↥H := rankOne_finite hk
+  have : Finite G := rankOne_finite h.type
+  have : Finite ↥H := rankOne_finite hk
   have hH := h.restrict hAH hk
   obtain ⟨L, hL⟩ := hH.exists_minimal
   rcases (twelveTwo_two_general hH hL hZ).1 with hmk | ⟨-, hmk, -⟩
@@ -99,7 +100,7 @@ variable {G : Type} [Group G]
 theorem rankOne_psl_odd_order_dvd
     {k : ℕ} {Y : Type} [Group Y] (hY : CFSG.Quasithin.IsPSL 2 2 k Y) {x : Y}
     (hx : Odd (orderOf x)) : orderOf x ∣ 2 ^ k - 1 ∨ orderOf x ∣ 2 ^ k + 1 := by
-  haveI : Finite Y := rankOne_finite (Or.inl hY)
+  have : Finite Y := rankOne_finite (Or.inl hY)
   by_cases hx1 : x = 1
   · left
     rw [hx1, orderOf_one]
@@ -124,7 +125,7 @@ theorem twelveThree_subfield
     (hodd : Odd (orderOf x)) (hord : orderOf x * (2 ^ m - 1) = 2 ^ n - 1)
     (hcop : Nat.Coprime (orderOf x) (2 ^ m - 1)) :
     n = 2 * m ∧ CFSG.Quasithin.IsPSL 2 2 n G := by
-  haveI hHfin : Finite ↥H := rankOne_finite (hk.imp And.right And.right)
+  have hHfin : Finite ↥H := rankOne_finite (hk.imp And.right And.right)
   have hdvd1 : orderOf x ∣ Nat.card ↥H := Subgroup.orderOf_dvd_natCard H hxH
   have hdvd2 : 2 ^ m - 1 ∣ 2 ^ k - 1 := Nat.pow_sub_one_dvd_pow_sub_one 2 hmk
   have hk1 : 1 ≤ k := by omega

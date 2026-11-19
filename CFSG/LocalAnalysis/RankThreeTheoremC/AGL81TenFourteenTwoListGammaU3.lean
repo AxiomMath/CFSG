@@ -28,7 +28,7 @@ open CFSG.Open CFSG.AGLEmbedding Subgroup
 theorem kFactTenFourteenTwoA5GammaUThreeJFour_of_jFour (hR : KFactTenFourteenTwoA5GammaJFour) :
     KFactTenFourteenTwoA5GammaUThreeJFour := by
   intro p K _ _ T K₁ J hp hp2 hL hZ hC2 hL2 hS3 hrank hΓ hK₁ hJs hJp hJ1 hJirr
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, hi, hi10, hRee, hMcL, ⟨e⟩⟩ := hL
   by_cases hU : ∃ d, i = .lie d ∧ IsUnitaryIndex p d
   · exfalso
@@ -41,11 +41,11 @@ theorem kFactTenFourteenTwoA5GammaUThreeJFour_of_jFour (hR : KFactTenFourteenTwo
       rw [h0, Subgroup.card_bot] at hEc
       have : 1 < p ^ (2 * d.1.fieldExponent) := Nat.one_lt_pow (by omega) hp.one_lt
       omega
-    haveI : Nontrivial (T : Subgroup K) :=
+    have : Nontrivial (T : Subgroup K) :=
       (Subgroup.nontrivial_iff_ne_bot _).2 fun h0 => hEne (eq_bot_iff.2 (h0 ▸ hET))
-    haveI : Nontrivial (center (T : Subgroup K)) := T.isPGroup'.center_nontrivial
+    have : Nontrivial (center (T : Subgroup K)) := T.isPGroup.center_nontrivial
     obtain ⟨n, hn0, hnc⟩ :=
-      (T.isPGroup'.to_subgroup (center (T : Subgroup K))).nontrivial_iff_card.1 inferInstance
+      (T.isPGroup.to_subgroup (center (T : Subgroup K))).nontrivial_iff_card.1 inferInstance
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p (hnc ▸ dvd_pow_self p hn0.ne')
     have hzT : ((g : (T : Subgroup K)) : K) ∈ (T : Subgroup K) := (g : (T : Subgroup K)).2
     have hoz : orderOf ((g : (T : Subgroup K)) : K) = p := by
@@ -60,13 +60,13 @@ theorem kFactTenFourteenTwoA5GammaUThreeJFour_of_jFour (hR : KFactTenFourteenTwo
       le_trans (by omega)
         (CFSG.SectionRank.le_pRank hp.one_lt (le_inf hET (hET.trans hTz)) hE hEc)
     have hTK₁ := hTz.trans ((RankOneCent.centralizer_le_narrowGamma hzT hoz h2).trans hΓ)
-    haveI := UnitaryModel.isSolvable_of_unitary_sylow_le hd h T hTK₁ hK₁
-    haveI : Group.IsSolvable J :=
+    have := UnitaryModel.isSolvable_of_unitary_sylow_le hd h T hTK₁ hK₁
+    have : Group.IsSolvable J :=
       Group.isSolvable_of_isSolvable_injective (inclusion_injective hJs.le)
-    haveI : Group.IsPerfect J :=
+    have : Group.IsPerfect J :=
       (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq J).mpr hJp
-    haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot _).2 hJ1
-    have hlt := IsSolvable.commutator_lt_of_ne_bot (G := J) (H := ⊤) top_ne_bot
+    have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot _).2 hJ1
+    have hlt := Group.IsSolvable.commutator_lt_of_ne_bot (G := J) (H := ⊤) top_ne_bot
     rw [show ⁅(⊤ : Subgroup J), ⊤⁆ = ⊤ from
       (inferInstance : Group.IsPerfect J).commutator_eq_top] at hlt
     exact lt_irrefl _ hlt

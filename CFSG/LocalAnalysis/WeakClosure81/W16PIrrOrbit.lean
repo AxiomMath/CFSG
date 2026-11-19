@@ -18,11 +18,13 @@ variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
 @[expose] def cjOrbit (G A : Subgroup (LGL 2 V)) : Set (Subgroup (LGL 2 V)) :=
   {B | ∃ g ∈ G, B = cj g A}
 
+omit [Finite V] in
 theorem mem_cjOrbit_self (G A : Subgroup (LGL 2 V)) : A ∈ cjOrbit G A := by
   refine ⟨1, G.one_mem, ?_⟩
   ext x
   simp [cj]
 
+omit [Finite V] in
 private theorem cj_iSup₂ (g : LGL 2 V) {ι : Type*} (s : Set ι)
     (f : ι → Subgroup (LGL 2 V)) :
     cj g (⨆ i ∈ s, f i) = ⨆ i ∈ s, cj g (f i) := by
@@ -31,6 +33,7 @@ private theorem cj_iSup₂ (g : LGL 2 V) {ι : Type*} (s : Set ι)
   refine iSup_congr fun i => ?_
   rw [Subgroup.map_iSup]
 
+omit [Finite V] in
 private theorem normal_iSup_cjOrbit {H A : Subgroup (LGL 2 V)} (hA : A ≤ H) :
     ((⨆ B ∈ cjOrbit H A, B).subgroupOf H).Normal := by
   set N : Subgroup (LGL 2 V) := ⨆ B ∈ cjOrbit H A, B with hN
@@ -55,7 +58,7 @@ private theorem normal_iSup_cjOrbit {H A : Subgroup (LGL 2 V)} (hA : A ≤ H) :
     exact hstep h hh (Subgroup.mem_map.mpr ⟨y, hy, by simp [MulAut.conj_apply]⟩)
   · intro hy
     have hmem : h⁻¹ * (h * y * h⁻¹) * h ∈ cj h⁻¹ N :=
-      Subgroup.mem_map.mpr ⟨h * y * h⁻¹, hy, by simp [MulAut.conj_apply]⟩
+      Subgroup.mem_map.mpr ⟨h * y * h⁻¹, hy, by simp⟩
     have hthis := hstep h⁻¹ (H.inv_mem hh) hmem
     rwa [show h⁻¹ * (h * y * h⁻¹) * h = y from by group] at hthis
 
@@ -63,7 +66,7 @@ theorem exists_le_cjOrbit_assumption131 (h : Assumption131 G Γ VA i)
     {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ) :
     ∃ G₁ : Subgroup (LGL 2 V), G₁ ≤ G ∧ A ≤ G₁ ∧ cjOrbit G₁ A ⊆ Γ ∧
       G₁ = (⨆ B ∈ cjOrbit G₁ A, B) ∧ Assumption131 G₁ (cjOrbit G₁ A) VA i := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨G₁, hG₁P, hG₁min⟩ :=
     CFSG.GroupTheory.CoprimeActionSupport.FiniteMinimalSubgroup.exists_minimal_subgroup
       (fun X : Subgroup (LGL 2 V) => A ≤ X ∧ X ≤ G ∧ pCoreOf 2 X ≤ pCoreOf 2 G)
@@ -135,7 +138,7 @@ theorem hyp711_UAOf_of_eq_iSup {A : Subgroup (LGL 2 V)}
     (hVAle : ∀ B ∈ cjOrbit G A, VA B ≤ fixSub B) (hgen : G = ⨆ B ∈ cjOrbit G A, B) :
     Hyp711 (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G) := by
   have hA : A ∈ cjOrbit G A := mem_cjOrbit_self G A
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : ((vHat G).subgroupOf (⊤ : Subgroup (VG G))).Normal := normal_vHat.subgroupOf _
   have hOm : ∀ W ∈ omegaSet (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G),
       W ≤ (⊤ : Subgroup (VG G)) := fun _ _ => le_top
@@ -166,7 +169,7 @@ theorem hyp711_UAOf_of_eq_iSup {A : Subgroup (LGL 2 V)}
       exact (le_sup_right : aHat G B ≤ wHat G (VA B) ⊔ aHat G B).trans (hK B hB)
     intro g
     exact haHat (mem_aHat.mpr ⟨g, by rw [← hgen]; exact g.2, rfl⟩)
-  haveI : (kSub (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G)).Normal := by
+  have : (kSub (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G)).Normal := by
     have h1 := (Subgroup.normal_subgroupOf_iff_le_normalizer le_top).mp
       (kSub_subgroupOf_normal (V := UAOf G VA A) le_top hnorm hOm)
     exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h1)

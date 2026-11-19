@@ -176,7 +176,7 @@ theorem false_of_haut_of_noncentral {G : Type} [Group G] [Finite G] {t : G}
     exact hne (hfix_of_aut htS haut n hn _ hmem hcent rfl)
   · push Not at hP
     obtain ⟨S, hS⟩ := hS₁2.exists_le_sylow
-    have hSeq : (S : Subgroup G) = S₁ := hP _ S.isPGroup' hS
+    have hSeq : (S : Subgroup G) = S₁ := hP _ S.isPGroup hS
     exact hnc S (hSeq ▸ hS₁C)
 
 end CFSG.GH74.E2

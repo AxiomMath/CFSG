@@ -20,9 +20,10 @@ section Index
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem pow_relIndex_mem_of_le_normalizer {B H : Subgroup G} (hBH : B ≤ H)
     (hHB : H ≤ normalizer (B : Set G)) {x : G} (hx : x ∈ H) : x ^ B.relIndex H ∈ B := by
-  haveI := (normal_subgroupOf_iff_le_normalizer hBH).mpr hHB
+  have := (normal_subgroupOf_iff_le_normalizer hBH).mpr hHB
   have h := pow_index_mem (B.subgroupOf H) (⟨x, hx⟩ : ↥H)
   rw [mem_subgroupOf, SubgroupClass.coe_pow] at h
   exact h
@@ -122,6 +123,7 @@ theorem le_sup_ballStab_of_rigidAt {μ δ : CosetGeom G₀ G₁ G₂} {L U Q : S
   rw [e]
   exact mul_mem (mem_sup_left hu) (mem_sup_right hcB)
 
+omit [Finite G] in
 theorem mem_ballStab_of_le_sup {μ δ : CosetGeom G₀ G₁ G₂} {U Q : Subgroup G}
     (hUμ : U ≤ stab μ)
     (hUreg : ∀ g : ↥G₀, (g : G) ∈ U → ∀ ε ∈ nbrs μ, ε ≠ δ → g • ε = ε → (g : G) ∈ ballStab 1 μ)

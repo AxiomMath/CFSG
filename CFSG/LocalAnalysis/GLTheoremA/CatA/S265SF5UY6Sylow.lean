@@ -23,7 +23,7 @@ theorem exists_conj_map_le_of_exponent_card {H : Type*} [Group H] [Finite H] {p 
   have hp : p.Prime := Fact.out
   have hp_pos : 0 < p := hp.pos
   have hp_ne : p ≠ 0 := hp.ne_zero
-  haveI : Finite T := Finite.of_injective (Subtype.val) Subtype.coe_injective
+  have : Finite T := Finite.of_injective (Subtype.val) Subtype.coe_injective
   have hXpg : IsPGroup p X := by
     rw [isPGroup_iff_pow_pow_eq_one]
     intro x
@@ -36,7 +36,7 @@ theorem exists_conj_map_le_of_exponent_card {H : Type*} [Group H] [Finite H] {p 
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, -, rfl⟩
     exact y.2
-  obtain ⟨P, hQP⟩ := (Q₀.isPGroup'.map T.subtype).exists_le_sylow
+  obtain ⟨P, hQP⟩ := (Q₀.isPGroup.map T.subtype).exists_le_sylow
   have hcardP : Nat.card P = p ^ (Nat.card H).factorization p := Sylow.card_eq_multiplicity P
   have hcardQ0 : Nat.card Q₀ = p ^ (Nat.card T).factorization p := Sylow.card_eq_multiplicity Q₀
   have hcardQ : Nat.card Q = Nat.card Q₀ :=

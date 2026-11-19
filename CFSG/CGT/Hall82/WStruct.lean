@@ -43,7 +43,7 @@ theorem conj_inf_pCoreOf_eq_bot (S : Setting G M L)
       calc y = g * (g⁻¹ * y * g) * g⁻¹ := by group
         _ = g * 1 * g⁻¹ := by rw [hw1]
         _ = 1 := by group
-    simpa [hy1]
+    simp [hy1]
   · have hgM : g ∈ M := by
       refine S.mem_of_conj_mem hF hc hW2 hWab hyW hw1 ?_
       rw [show g * (g⁻¹ * y * g) * g⁻¹ = y from by group]
@@ -308,7 +308,7 @@ theorem fixPts_singleton_eq (S : Setting G M L)
   have hsub : fixPts (S.psiSub hc Y : Set (Equiv.Perm (Fin 64))) ⊆
       fixPts {S.psiM hc ⟨y, hyM⟩} := by
     intro v hv
-    simp only [fixPts, Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq]
+    simp only [fixPts, Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq]
     exact hv _ hb_mem
   have hcent : blockU L ⊓ Subgroup.centralizer (Y : Set G) =
       blockU L ⊓ Subgroup.centralizer ({y} : Set G) := by

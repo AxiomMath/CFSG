@@ -244,7 +244,7 @@ theorem burnsideF4g_incl_graph_iso [Finite E] (hyp : HypF_4_4g κ p f Gp M₁ M�
     (pm : ℕ) (hpm : 3 ≤ pm) :
     Nonempty ((incl M₁ M₂).graph ≃g
       ((burnsideF4d_lieExtE hyp hyam).toLieAmalgamExt.setting hfin pm hpm).ι.graph) := by
-  haveI := hyp.normal
+  have := hyp.normal
   let X := burnsideF4d_lieExtE hyp hyam
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective hyp.centralizer_trivial
@@ -286,8 +286,8 @@ open CFSG.Quasithin CFSG.Quasithin.H13.F431 CFSG.ASVolI.ChF
 theorem burnsideF4g_polygon_L3 : burnsideF4f_PolygonKind .L3 := by
   intro f E _ Gp M₁ M₂ hyp
   have hyp4 := hyp.toHypF_4_4g
-  haveI := hyp4.finite
-  haveI := hyp4.normal
+  have := hyp4.finite
+  have := hyp4.normal
   obtain ⟨TD, hyam⟩ := burnsideF4d_Y1_yam hyp4
   have hmodel := burnsideF4d_Y1_lieModel hyp4
   let X := burnsideF4d_lieExtE hyp4 hyam
@@ -374,8 +374,8 @@ open CFSG.Quasithin CFSG.Quasithin.H13.F431 CFSG.ASVolI.ChF CFSG.ASVolI.ChF.Clas
 theorem burnsideF4g_polygon_Sp4_of_yam (hy : burnsideF4g_YamSp4) {f : ℕ} (hf : 2 ≤ f) {E : Type}
     [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4g .Sp4 2 f Gp M₁ M₂) :
     IsGenPolygon (incl M₁ M₂).graph GLKind.Sp4.m := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .Sp4) hyp
   obtain ⟨TD, hTD⟩ := hy hf marking
   rw [← h1, ← h2] at hTD
@@ -388,8 +388,8 @@ theorem burnsideF4g_polygon_Sp4_of_yam (hy : burnsideF4g_YamSp4) {f : ℕ} (hf :
 theorem burnsideF4g_polygon_U4_of_yam (hy : burnsideF4g_YamU4) {f : ℕ} {E : Type}
     [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4g .U4 2 f Gp M₁ M₂) :
     IsGenPolygon (incl M₁ M₂).graph GLKind.U4.m := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U4) hyp
   obtain ⟨TD, hTD⟩ := hy marking
   rw [← h1, ← h2] at hTD
@@ -402,8 +402,8 @@ theorem burnsideF4g_polygon_U4_of_yam (hy : burnsideF4g_YamU4) {f : ℕ} {E : Ty
 theorem burnsideF4g_polygon_U5_of_yam (hy : burnsideF4g_YamU5) {f : ℕ} {E : Type}
     [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4g .U5 2 f Gp M₁ M₂) :
     IsGenPolygon (incl M₁ M₂).graph GLKind.U5.m := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U5) hyp
   obtain ⟨TD, hTD⟩ := hy marking
   rw [← h1, ← h2] at hTD
@@ -538,12 +538,12 @@ def burnsideF4g_YamG2 : Prop :=
 theorem burnsideF4g_polygon_G2_of_yam (hy : burnsideF4g_YamG2) {f : ℕ} (hf : 2 ≤ f) {E : Type}
     [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4g .G2 2 f Gp M₁ M₂) :
     IsGenPolygon (incl M₁ M₂).graph GLKind.G2.m := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, hcard, marking, h1, h2⟩ := burnsideF4g_chart_G2 hyp
-  letI := fK
-  haveI := finK
-  haveI : CharP K 2 := burnsideF4f_charP_of_card (by omega) hcard
+  let := fK
+  have := finK
+  have : CharP K 2 := burnsideF4f_charP_of_card (by omega) hcard
   have hK3 : 3 ≤ Nat.card K := by
     rw [hcard]
     have : 2 ^ 2 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
@@ -577,11 +577,11 @@ def burnsideF4g_YamD4 : Prop :=
 theorem burnsideF4g_polygon_D4tw_of_yam (hy : burnsideF4g_YamD4) {f : ℕ} {E : Type}
     [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4g .D4tw 2 f Gp M₁ M₂) :
     IsGenPolygon (incl M₁ M₂).graph GLKind.D4tw.m := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, sigma, hscope, marking, h1, h2⟩ := burnsideF4g_chart_D4tw hyp
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   obtain ⟨TD, hTD⟩ := hy sigma hscope marking
   rw [← h1, ← h2] at hTD
   have hmodel := burnsideF4g_lieModel_D4tw hyp.model
@@ -608,11 +608,11 @@ def burnsideF4g_YamF4 : Prop :=
 theorem burnsideF4g_polygon_F4tw_of_yam (hy : burnsideF4g_YamF4) {f : ℕ} (hf : 3 ≤ f) {E : Type}
     [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4g .F4tw 2 f Gp M₁ M₂) :
     IsGenPolygon (incl M₁ M₂).graph GLKind.F4tw.m := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, h1, h2⟩ := burnsideF4g_chart_F4tw hyp
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   obtain ⟨TD, hTD⟩ := hy (by omega) hscope marking
   rw [← h1, ← h2] at hTD
   have hmodel := burnsideF4g_lieModel_F4tw hf hyp.model
@@ -663,7 +663,7 @@ theorem burnsideF4gU4_pos_injective : Function.Injective burnsideF4gU4_pos :=
 @[expose] noncomputable def burnsideF4gU4_equiv : HypIndex 2 0 ≃ Fin 4 :=
   Equiv.ofBijective burnsideF4gU4_pos
     ((Fintype.bijective_iff_injective_and_card _).mpr
-      ⟨burnsideF4gU4_pos_injective, by simp [card_hypIndex]⟩)
+      ⟨burnsideF4gU4_pos_injective, by simp⟩)
 
 theorem burnsideF4gU4_equiv_val (a : HypIndex 2 0) :
     ((burnsideF4gU4_equiv a : Fin 4) : ℕ) = fullPos a := rfl
@@ -700,7 +700,7 @@ theorem burnsideF4gU4_isHypTransport (h : UnitaryFieldData 2 f K) (B : Matrix (F
   show (((burnsideF4gU4_R B).map h.bar)ᵀ * burnsideF4gU4_R B) a b = hypGram 2 0 K a b
   rw [h1, hB, hypGram_apply, burnsideF4gU4_equiv_val, burnsideF4gU4_equiv_val]
   rcases a with i | k | i <;> rcases b with j | l | j
-  all_goals first | exact k.elim0 | exact l.elim0 | skip
+  all_goals try first | exact k.elim0 | exact l.elim0
   all_goals fin_cases i <;> fin_cases j <;> simp [fullPos]
 
 end U4Transport
@@ -829,7 +829,7 @@ variable {f : ℕ} {H : Type} [Group H] (marking : Marking .U4 2 f H)
 theorem burnsideF4gU4_fieldData : UnitaryFieldData 2 f marking.field :=
   ⟨Nat.prime_two, marking.exponent_pos, by
     have := marking.field_card
-    simp only [true_or, if_true] at this
+    simp only [true_or, ite_true] at this
     rw [this, ← pow_mul, mul_comm]⟩
 
 theorem burnsideF4gU4_basis_gram (i j : Fin 4) :
@@ -900,8 +900,8 @@ theorem burnsideF4gU4_parabolic_true :
 
 theorem burnsideF4gU4_transport_injective : Function.Injective marking.transport := by
   have hfd := burnsideF4gU4_fieldData marking
-  haveI : Finite marking.field := hfd.finite
-  haveI : CharP marking.field 2 := hfd.charP
+  have : Finite marking.field := hfd.finite
+  have : CharP marking.field 2 := hfd.charP
   have hcard : Nat.card marking.field = (2 ^ f) ^ 2 := by
     rw [hfd.card, ← pow_mul, mul_comm]
   rw [injective_iff_map_eq_one]
@@ -1167,7 +1167,7 @@ theorem burnsideF4gSp_coordinateSpace_flag {K : Type} [Field K] (v : Fin 2 ⊕ F
       (v ∈ coordinateSpace ({Sum.inl 0, Sum.inl 1} : Set (Fin 2 ⊕ Fin 2)) ↔
         v ∈ flag 2 K 2) := by
   rw [mem_flag_of_le (by norm_num), mem_flag_of_le (by norm_num), mem_isoFlag, mem_isoFlag]
-  simp only [coordinateSpace, Set.mem_setOf_eq]
+  simp only [coordinateSpace, Set.mem_ofPred_eq]
   constructor
   · constructor
     · intro h
@@ -1208,7 +1208,7 @@ theorem burnsideF4gSp_yam_of_marking_ge {f : ℕ} {H : Type} [Group H]
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   have hY := burnsideF4gSp_yam_stated hK
   have keyS : ∀ (S : Set (Fin 2 ⊕ Fin 2))
@@ -1249,11 +1249,11 @@ theorem burnsideF4gSp_yam_of_marking_ge {f : ℕ} {H : Type} [Group H]
   refine ⟨(projUnipotent 2 marking.field).map marking.identification.toMonoidHom, ?_⟩
   have h0 := hpar false
   have h1 := hpar true
-  simp only [Bool.false_eq_true, if_false, if_true] at h0 h1
+  simp only [Bool.false_eq_true, ite_false, ite_true] at h0 h1
   rw [h0, h1]
   exact CFSG.Quasithin.IsYAmalgamPair.map marking.identification hY
 
-theorem burnsideF4gSp_yam_of_marking {f : ℕ} (hf : 2 ≤ f) {H : Type} [Group H]
+theorem burnsideF4gSp_yam_of_marking {f : ℕ} (_hf : 2 ≤ f) {H : Type} [Group H]
     (marking : CFSG.ASVolI.ChF.ClassicalRoots.Marking .Sp4 2 f H) :
     ∃ TD : Subgroup H, CFSG.Quasithin.IsYAmalgamPair TD (marking.parabolic false)
       (marking.parabolic true) := by
@@ -1298,7 +1298,7 @@ variable {K : Type} [Field K]
 theorem burnsideF4gU5_mulVec_mem_flag {M : Matrix (Fin 5) (Fin 5) K} (hM : M.BlockTriangular id)
     (k : ℕ) {v : Fin 5 → K} (hv : v ∈ burnsideF4gU5_flag K k) :
     M.mulVec v ∈ burnsideF4gU5_flag K k := by
-  simp only [burnsideF4gU5_flag, Set.mem_setOf_eq] at hv ⊢
+  simp only [burnsideF4gU5_flag, Set.mem_ofPred_eq] at hv ⊢
   intro a ha
   rw [Matrix.mulVec, dotProduct]
   apply Finset.sum_eq_zero
@@ -1324,7 +1324,7 @@ variable {F : Type} [Field F] (σ : F ≃+* F)
     exact Matrix.blockTriangular_one
   inv_mem' := by
     intro A hA
-    letI : Invertible ((A : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F) := Units.invertible _
+    let : Invertible ((A : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F) := Units.invertible _
     have h := Matrix.blockTriangular_inv_of_blockTriangular hA
     show ((((A⁻¹ : SU σ 5)) : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F).BlockTriangular id
     have hinv : (((A⁻¹ : SU σ 5)) : GL (Fin 5) F) = (A : GL (Fin 5) F)⁻¹ := rfl
@@ -1466,21 +1466,21 @@ theorem burnsideF4gU5_Y1_mem_stab_two (hσ : ∀ c, σ (σ c) = c) :
     burnsideF4gU5_Y1 σ hσ ∈ burnsideF4gU5_stab σ 2 := by
   intro v
   rw [burnsideF4gU5_Y1_val]
-  simp only [burnsideF4gU5_flag, Set.mem_setOf_eq]
+  simp only [burnsideF4gU5_flag, Set.mem_ofPred_eq]
   constructor
   · intro h a ha
     have h2 := h 2 (by decide)
     have h3 := h 3 (by decide)
     have h4 := h 4 (by decide)
     rw [burnsideF4gU5_rootMatrix_mulVec] at h2 h3 h4
-    simp [burnsideF4gU5_rev_zero, burnsideF4gU5_rev_one] at h2 h3 h4
+    simp [burnsideF4gU5_rev_one] at h2 h3 h4
     fin_cases a <;> simp_all
   · intro hv a ha
     rw [burnsideF4gU5_rootMatrix_mulVec]
     have h2 := hv 2 (by decide)
     have h3 := hv 3 (by decide)
     have h4 := hv 4 (by decide)
-    fin_cases a <;> simp_all [burnsideF4gU5_rev_zero, burnsideF4gU5_rev_one]
+    fin_cases a <;> simp_all [burnsideF4gU5_rev_one]
 
 theorem burnsideF4gU5_Y1_not_mem_stab_one (hσ : ∀ c, σ (σ c) = c) :
     burnsideF4gU5_Y1 σ hσ ∉ burnsideF4gU5_stab σ 1 := by
@@ -1491,17 +1491,17 @@ theorem burnsideF4gU5_Y1_not_mem_stab_one (hσ : ∀ c, σ (σ c) = c) :
       intro h0
       subst h0
       exact absurd ha (by decide)
-    simp [Pi.single_apply, this])
+    simp [this])
   rw [burnsideF4gU5_Y1_val] at h1
   have h2 := h1 1 (by decide)
   rw [burnsideF4gU5_rootMatrix_mulVec] at h2
-  simp [burnsideF4gU5_rev_zero, burnsideF4gU5_rev_one, Pi.single_apply] at h2
+  simp at h2
 
 theorem burnsideF4gU5_Y0_mem_stab_one (h1 : (1 : F) + σ 1 = 0) :
     burnsideF4gU5_Y0 σ h1 ∈ burnsideF4gU5_stab σ 1 := by
   intro v
   rw [burnsideF4gU5_Y0_val]
-  simp only [burnsideF4gU5_flag, Set.mem_setOf_eq]
+  simp only [burnsideF4gU5_flag, Set.mem_ofPred_eq]
   constructor
   · intro h a ha
     have h1' := h 1 (by decide)
@@ -1528,11 +1528,11 @@ theorem burnsideF4gU5_Y0_not_mem_stab_two (h1 : (1 : F) + σ 1 = 0) :
       intro h0
       subst h0
       exact absurd ha (by decide)
-    simp [Pi.single_apply, this])
+    simp [this])
   rw [burnsideF4gU5_Y0_val] at h1'
   have h2 := h1' 3 (by decide)
   rw [burnsideF4gU5_longRootMatrix_mulVec] at h2
-  simp [burnsideF4gU5_rev_three, Pi.single_apply] at h2
+  simp [burnsideF4gU5_rev_three] at h2
 
 end Elements
 
@@ -1580,8 +1580,8 @@ theorem burnsideF4gU5_yam_core :
         ((burnsideF4gU5_stab (unitaryInvolution F 2 f) 1).map (un5Proj (F := F) (f := f)))
         ((burnsideF4gU5_stab (unitaryInvolution F 2 f) 2).map (un5Proj (F := F) (f := f))) := by
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
-  haveI := isSimpleGroup_un5 hF
+  have : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
+  have := isSimpleGroup_un5 hF
   have hU := isSylowTwoOf_un5System hF ζ
   have hY := CFSG.Quasithin.H13.F431.BN.isYAmalgamPair (un5System hF ζ) hU
   have hσ : ∀ c, unitaryInvolution F 2 f (unitaryInvolution F 2 f c) = c :=
@@ -1737,9 +1737,9 @@ theorem burnsideF4gU5_antidiag_eq (K : Type) [Field K] :
   have hj := j.isLt
   by_cases h : (i : ℕ) + j + 1 = 5
   · have : j = Fin.rev i := Fin.ext (by rw [Fin.val_rev]; omega)
-    rw [if_pos this, if_pos h]
+    rw [ite_eq_left this, ite_eq_left h]
   · have : j ≠ Fin.rev i := fun hh => h (by rw [hh, Fin.val_rev]; omega)
-    rw [if_neg this, if_neg h]
+    rw [ite_eq_right this, ite_eq_right h]
 
 theorem burnsideF4gU5_basis_gram {f : ℕ} {H : Type} [Group H]
     (marking : Marking .U5 2 f H) [CharP marking.field 2] :
@@ -1756,8 +1756,8 @@ theorem burnsideF4gU5_coordinateSpace_flag (K : Type) [Field K] (b : Bool) :
       (burnsideF4gU5_flag K (if b then 2 else 1) : Set (Fin 5 → K)) := by
   cases b
   · ext v
-    simp only [coordinateSpace, flagOne, burnsideF4gU5_flag, Set.mem_setOf_eq, Bool.false_eq_true,
-      if_false, Set.mem_singleton_iff]
+    simp only [coordinateSpace, flagOne, burnsideF4gU5_flag, Set.mem_ofPred_eq, Bool.false_eq_true,
+      ite_false, Set.mem_singleton_iff]
     constructor
     · intro h a ha
       exact h a (by intro h0; subst h0; simp at ha)
@@ -1768,7 +1768,7 @@ theorem burnsideF4gU5_coordinateSpace_flag (K : Type) [Field K] (b : Bool) :
         simp at this
         omega)
   · ext v
-    simp only [coordinateSpace, flagTwo, burnsideF4gU5_flag, Set.mem_setOf_eq, if_true,
+    simp only [coordinateSpace, flagTwo, burnsideF4gU5_flag, Set.mem_ofPred_eq, ite_true,
       Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · intro h a ha
@@ -1825,7 +1825,7 @@ theorem burnsideF4gU5_yam_of_marking {f : ℕ} {H : Type} [Group H]
   have hcard : Nat.card marking.field = (2 ^ f) ^ 2 := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := by
+  have : CharP marking.field 2 := by
     have h2 : Nat.card marking.field = 2 ^ (f * 2) := by rw [hcard, ← pow_mul]
     exact burnsideF4f_charP_of_card (by have := marking.exponent_pos; omega) h2
   have hB := burnsideF4gU5_basis_gram marking
@@ -1983,7 +1983,7 @@ theorem burnsideF4gG2_mem_rootGenerators (root : Fin Tag.G2.rank → ℤ)
         (x : ModGL Tag.G2 K) = burnsideF4gG2_wordUnit K word * xUnit Tag.G2 K index c *
           (burnsideF4gG2_wordUnit K word)⁻¹ := by
   unfold ChF.G2Native.rootGenerators ChF.G2Native.simpleGenerators ChF.G2Native.simpleVector
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨word, index, hroot, rep, hrep, g, ⟨c, hc⟩, rfl⟩
     refine ⟨word, index, c, hroot, ?_⟩
@@ -2006,7 +2006,7 @@ theorem burnsideF4gG2_mem_torusGenerators (x : ChF.G2Native.Parent K) :
       ∃ (index : Fin Tag.G2.rank) (t : Kˣ),
         (x : ModGL Tag.G2 K) = torusElt Tag.G2 K index t := by
   unfold ChF.G2Native.torusGenerators
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨index, t, h⟩
     exact ⟨index, t, Units.ext h⟩
@@ -2169,7 +2169,7 @@ theorem burnsideF4gG2_yam {K : Type} [Field K] [Finite K] [CharP K 2] (hK : 3 �
     ∃ TD : Subgroup H, CFSG.Quasithin.IsYAmalgamPair TD
       (CFSG.ASVolI.ChF.G2Native.fullImage K marking (CFSG.ASVolI.ChF.G2Native.pointParabolic K))
       (CFSG.ASVolI.ChF.G2Native.fullImage K marking (CFSG.ASVolI.ChF.G2Native.lineParabolic K)) := by
-  haveI := isSimpleGroup_adjointQuotient hK
+  have := isSimpleGroup_adjointQuotient hK
   have hY := CFSG.Quasithin.H13.F431.BN.isYAmalgamPair (GH74.GLS.Stage4.Hex.g2ModelSystem K hK)
     (isSylowTwoOf_modelU hK)
   refine ⟨(GH74.GLS.Stage4.Hex.g2ModelSystem K hK).U.map marking.toMonoidHom, ?_⟩
@@ -2198,7 +2198,7 @@ theorem burnsideF4gG2_yam_borel {K : Type} [Field K] [Finite K] [CharP K 2] (hK 
       (CFSG.ASVolI.ChF.G2Native.fullImage K marking (CFSG.ASVolI.ChF.G2Native.lineParabolic K)) ∧
       CFSG.ASVolI.ChF.G2Native.fullImage K marking (CFSG.ASVolI.ChF.G2Native.positiveBorel K) =
         Subgroup.normalizer (TD : Set H) := by
-  haveI := isSimpleGroup_adjointQuotient hK
+  have := isSimpleGroup_adjointQuotient hK
   have hY := CFSG.Quasithin.H13.F431.BN.isYAmalgamPair (GH74.GLS.Stage4.Hex.g2ModelSystem K hK)
     (isSylowTwoOf_modelU hK)
   refine ⟨(GH74.GLS.Stage4.Hex.g2ModelSystem K hK).U.map marking.toMonoidHom, ?_, ?_⟩
@@ -2272,7 +2272,7 @@ theorem burnsideF4gF4_relativeWeyl_eq (word : List (Fin tag.rank)) :
   rw [Subgroup.zpowers_eq_closure]
   congr 1
   ext e
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   rw [burnsideF4gF4_weylWordOperator_eq]
   exact ⟨fun h => Units.ext h, fun h => h ▸ rfl⟩
 
@@ -2305,7 +2305,7 @@ set_option linter.unusedSectionVars false
 variable
     {tag : Tag} {K : Type} [Field K]
 
-theorem burnsideF4gF4_absoluteRoot_le {α : Fin tag.rank → ℤ} (hα : IsRoot tag α) :
+theorem burnsideF4gF4_absoluteRoot_le {α : Fin tag.rank → ℤ} (_hα : IsRoot tag α) :
     absoluteRoot tag K α ≤ rootSubgroup tag K α := by
   refine (Subgroup.closure_le _).2 ?_
   rintro e ⟨c, seed, word, actor, hfold, hact, he⟩
@@ -2506,7 +2506,7 @@ theorem burnsideF4gF4_exists_quotEquiv {G : Type} [Group G] (hz : Subgroup.cente
 open CFSG.GH74.BNPair CFSG.Quasithin.H13.F431.BN in
 theorem burnsideF4gF4_center_trivial (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     Subgroup.center ↥(reeGroup K a) = ⊥ := by
-  haveI : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
+  have : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
   let e0 : Gm K a ≃* ↥(reeGroup K a) := MulEquiv.subgroupCongr burnsideF4gF4_reeGroup_eq.symm
   have hcen : Subgroup.center (Gm K a) = ⊥ := by
     rcases (inferInstance : (Subgroup.center (Gm K a)).Normal).eq_bot_or_eq_top with h | h
@@ -2540,10 +2540,10 @@ theorem burnsideF4gF4_yam {K : Type} [Field K] [Finite K] [CharP K 2] {a : ℕ} 
       ((CFSG.ASVolI.ChF.ExceptionalRoots.centralImage
         (CFSG.ASVolI.ChF.ExceptionalRoots.reeGroup K a)
         (CFSG.ASVolI.ChF.ExceptionalRoots.reeParabolic K a 0)).map marking.toMonoidHom) := by
-  haveI : CharP K F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K F4.prime := inferInstanceAs (CharP K 2)
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := hK
-  haveI : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK'
-  haveI : Finite (Gm K a) := Subtype.finite
+  have : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK'
+  have : Finite (Gm K a) := Subtype.finite
   have hY := CFSG.Quasithin.H13.F431.BN.isYAmalgamPair (octSystemOf (octRGD2 hK'))
     (isSylowTwoOf_Ug hK')
   obtain ⟨q, hq⟩ := burnsideF4gF4_exists_quotEquiv (burnsideF4gF4_center_trivial ha hK')
@@ -2788,8 +2788,7 @@ theorem burnsideF4gD4_wordUnit_outer :
   have h13 : Commute (weylElt TwistTag.D4.tag K 1 1) (weylElt TwistTag.D4.tag K 3 1) :=
     burnsideF4gD4_commute_outer 1 3 (by decide) (by decide) (by decide)
   simp only [burnsideF4gD4_wordUnit, List.map_cons, List.map_nil, List.reverse_cons,
-    List.reverse_nil, List.nil_append, List.prod_cons, List.prod_nil, List.singleton_append,
-    List.cons_append, mul_one]
+    List.reverse_nil, List.nil_append, List.prod_cons, List.prod_nil, List.cons_append, mul_one]
   change weylElt TwistTag.D4.tag K 3 1 * (weylElt TwistTag.D4.tag K 1 1 *
       weylElt TwistTag.D4.tag K 0 1) = weylElt TwistTag.D4.tag K 0 1 *
         (weylElt TwistTag.D4.tag K 1 1 * weylElt TwistTag.D4.tag K 3 1)
@@ -2815,7 +2814,7 @@ theorem burnsideF4gD4_trialityBorel_eq (σ : K →+* K)
     (hΓ : twistedFixedGroup TwistTag.D4 K σ = graphFixedRootGroup TwistTag.D4 K σ) :
     trialityBorel K σ = graphFixedRootBorel TwistTag.D4 K σ := by
   ext x
-  simp only [trialityBorel, graphFixedRootBorel, graphFixedBorel, Subgroup.mem_inf]
+  simp only [trialityBorel, graphFixedRootBorel, graphFixedBorel]
   rw [burnsideF4gD4_absoluteBorel_eq, hΓ]
   constructor
   · rintro ⟨h1, h2⟩
@@ -3150,7 +3149,7 @@ theorem burnsideF4gSpOne_coordinateSpace_flag {K : Type} [Field K] (v : Fin 2 �
       (v ∈ coordinateSpace ({Sum.inl 0, Sum.inl 1} : Set (Fin 2 ⊕ Fin 2)) ↔
         v ∈ flag 2 K 2) := by
   rw [mem_flag_of_le (by norm_num), mem_flag_of_le (by norm_num), mem_isoFlag, mem_isoFlag]
-  simp only [coordinateSpace, Set.mem_setOf_eq]
+  simp only [coordinateSpace, Set.mem_ofPred_eq]
   constructor
   · constructor
     · intro h
@@ -3391,13 +3390,13 @@ theorem burnsideF4gSpOne_polygon_gen {f : ℕ} {E : Type} [Group E] {Gp M₁ M�
     (hyp : CFSG.ASVolI.ChF.HypF_4_4g .Sp4 2 f Gp M₁ M₂) :
     CFSG.Quasithin.IsGenPolygon (CFSG.ASVolI.ChF.incl M₁ M₂).graph
       CFSG.ASVolI.ChF.GLKind.Sp4.m := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4gSpOne_marking hyp
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSpOne_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSpOne_charP_of_card hK
   obtain ⟨θ, hθU⟩ := burnsideF4gSpOne_exists_iso hK
   obtain ⟨e, he⟩ := burnsideF4gSpOne_parabolic_eq marking
   let Ψ : antiSp marking.field →* E := Gp.subtype.comp (e.toMonoidHom.comp θ.toMonoidHom)
@@ -3566,7 +3565,7 @@ theorem burnsideF4gG2Two_mem_rootGenerators (root : Fin Tag.G2.rank → ℤ)
         (x : ModGL Tag.G2 K) = burnsideF4gG2Two_wordUnit K word * xUnit Tag.G2 K index c *
           (burnsideF4gG2Two_wordUnit K word)⁻¹ := by
   unfold ChF.G2Native.rootGenerators ChF.G2Native.simpleGenerators ChF.G2Native.simpleVector
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨word, index, hroot, rep, hrep, g, ⟨c, hc⟩, rfl⟩
     refine ⟨word, index, c, hroot, ?_⟩
@@ -3589,7 +3588,7 @@ theorem burnsideF4gG2Two_mem_torusGenerators (x : ChF.G2Native.Parent K) :
       ∃ (index : Fin Tag.G2.rank) (t : Kˣ),
         (x : ModGL Tag.G2 K) = torusElt Tag.G2 K index t := by
   unfold ChF.G2Native.torusGenerators
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨index, t, h⟩
     exact ⟨index, t, Units.ext h⟩
@@ -3747,7 +3746,7 @@ theorem burnsideF4gG2Two_torus_eq_bot (hK : Nat.card K = 2) (i : Fin 2) :
 theorem burnsideF4gG2Two_faithful (hK : Nat.card K = 2) :
     FaithfulOnBuilding (hexQuotPre (g2Data K)).B (hexQuotPre (g2Data K)).N
       (hexQuotPre (g2Data K)).w₁ (hexQuotPre (g2Data K)).w₂ := by
-  haveI := (hexQuotRGD2 (g2Data K)).cartan_normal
+  have := (hexQuotRGD2 (g2Data K)).cartan_normal
   refine (hexQuotRGD2 (g2Data K)).faithful (hexQuotRGD2_gen (g2Data K)) ?_
   intro g hg _
   have h0 : (⨆ i : Fin 2, torus (τ := Tag.G2) K i) = ⊥ := by
@@ -4182,8 +4181,8 @@ theorem burnsideF4gG2Two_polygon {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
     CFSG.Quasithin.IsGenPolygon (CFSG.ASVolI.ChF.incl M₁ M₂).graph
       CFSG.ASVolI.ChF.GLKind.G2.m := by
   obtain ⟨K, fK, finK, hcard, marking, h1, h2⟩ := burnsideF4gG2Two_chart_G2 hyp
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have hK : Nat.card K = 2 := by simpa using hcard
   let ι : AdjointQuotient .G2 K →* E := Gp.subtype.comp marking.toMonoidHom
   have k1 : (burnsideF4gG2Two_sys hK).P₁ = M₁.comap ι := by
@@ -4219,7 +4218,7 @@ open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG U
 
 
 theorem burnsideF4gG2Two_center_u33 : Subgroup.center U33G = ⊥ := by
-  haveI := isSimpleGroup_u33Pres
+  have := isSimpleGroup_u33Pres
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center U33G) with h | h
   · exact h
   · exfalso
@@ -4236,7 +4235,7 @@ theorem burnsideF4gG2Two_center_u33 : Subgroup.center U33G = ⊥ := by
 
 theorem burnsideF4gG2Two_iota_injective {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0)
     (hk2 : ∀ c : K, c = 0 ∨ c = 1) : Function.Injective (burnsideF4gG2Two_iota h2 hk2) :=
-  fun a b hab => g2Hom_injective h2 (congrArg Subtype.val hab)
+  fun _a _b hab => g2Hom_injective h2 (congrArg Subtype.val hab)
 
 theorem burnsideF4gG2Two_iota_surjective {K : Type} [Field K] (h2 : (2 : K) = 0)
     (hk2 : ∀ c : K, c = 0 ∨ c = 1) : Function.Surjective (burnsideF4gG2Two_iota h2 hk2) := by
@@ -4373,8 +4372,8 @@ theorem burnsideF4gG2Two_polygon_derived {E : Type} [Group E] {Gp M₁ M₂ : Su
       CFSG.ASVolI.ChF.GLKind.G2d.m := by
   have hGp : Gp = ⊤ := hyp.canonical (Or.inl rfl)
   obtain ⟨K, fK, finK, hK, marking, h1, h2⟩ := burnsideF4gG2Two_chart_G2d hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   let π : E →* G2Native.SmallModel K :=
     marking.symm.toMonoidHom.comp
       (MonoidHom.codRestrict (MonoidHom.id E) Gp (fun e => hGp ▸ Subgroup.mem_top e))
@@ -4846,7 +4845,7 @@ theorem burnsideF4gU4InvW_rank_one (N : (Ix → K) →ₗ[K] (Ix → K))
     intro u v
     have h1 := hsa u v
     rw [hcoef u, hcoef v] at h1
-    simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, map_smul, RingHom.id_apply] at h1
+    simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, RingHom.id_apply] at h1
     rw [← hH w u] at h1
     exact h1
   set μ : K := h.bar (coef v₀) / h.bar (hypForm h 2 0 w v₀) with hμ
@@ -4864,7 +4863,7 @@ theorem burnsideF4gU4InvW_rank_one (N : (Ix → K) →ₗ[K] (Ix → K))
   have hμbar : h.bar μ = μ := by
     have h1 := hsa v₀ v₀
     rw [hcoef v₀, hμv v₀] at h1
-    simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, map_smul, RingHom.id_apply] at h1
+    simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, RingHom.id_apply] at h1
     rw [← hH w v₀, map_mul] at h1
     have h2 : (h.bar μ - μ) * (h.bar (hypForm h 2 0 w v₀) * hypForm h 2 0 w v₀) = 0 := by
       linear_combination h1
@@ -4915,44 +4914,34 @@ theorem burnsideF4gU4InvW_adjust (a₁ a₂ u₁ u₂ : Ix → K)
   let w₁ : Ix → K := u₁ + γ₁ • a₁ + (0 : K) • a₂
   let w₂ : Ix → K := u₂ + R • a₁ + γ₂ • a₂
   have k11 : hypForm h 2 0 a₁ w₁ = 1 := by
-    simp only [w₁, map_add, map_smulₛₗ, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g11, g12, g21, g22, f11, f12,
-      f21, f22]
+    simp only [w₁, map_add, map_smulₛₗ, smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, g11]
     ring
   have k12 : hypForm h 2 0 a₁ w₂ = 0 := by
-    simp only [w₂, map_add, map_smulₛₗ, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g11, g12, g21, g22, f11, f12,
-      f21, f22]
+    simp only [w₂, map_add, map_smulₛₗ, smul_eq_mul, RingHom.id_apply, h11, h12, g12]
     ring
   have k21 : hypForm h 2 0 a₂ w₁ = 0 := by
-    simp only [w₁, map_add, map_smulₛₗ, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g11, g12, g21, g22, f11, f12,
-      f21, f22]
+    simp only [w₁, map_add, map_smulₛₗ, smul_eq_mul, RingHom.id_apply, map_zero, h22, h21, g21]
     ring
   have k22 : hypForm h 2 0 a₂ w₂ = 1 := by
-    simp only [w₂, map_add, map_smulₛₗ, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g11, g12, g21, g22, f11, f12,
-      f21, f22]
+    simp only [w₂, map_add, map_smulₛₗ, smul_eq_mul, RingHom.id_apply, h22, h21, g22]
     ring
   have l11 : hypForm h 2 0 w₁ a₁ = 1 := by rw [← hH a₁ w₁, k11, map_one]
   have l12 : hypForm h 2 0 w₂ a₁ = 0 := by rw [← hH a₁ w₂, k12, map_zero]
   have l21 : hypForm h 2 0 w₁ a₂ = 0 := by rw [← hH a₂ w₁, k21, map_zero]
   have l22 : hypForm h 2 0 w₂ a₂ = 1 := by rw [← hH a₂ w₂, k22, map_one]
   have m11 : hypForm h 2 0 w₁ w₁ = 0 := by
-    simp only [w₁, map_add, map_smulₛₗ, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g11, g12, g21, g22, f11, f12,
-      f21, f22]
+    simp only [w₁, map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply,
+      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g11, g21, f11, f21]
     linear_combination hγ₁ + P * h2
   have m12 : hypForm h 2 0 w₁ w₂ = 0 := by
-    simp only [w₁, w₂, map_add, map_smulₛₗ, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g11, g12, g21, g22, f11, f12,
-      f21, f22]
+    simp only [w₁, w₂, map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply,
+      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g12, g22, f11, f21]
     linear_combination R * h2
   have m21 : hypForm h 2 0 w₂ w₁ = 0 := by rw [← hH w₁ w₂, m12, map_zero]
   have m22 : hypForm h 2 0 w₂ w₂ = 0 := by
-    simp only [w₂, map_add, map_smulₛₗ, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, RingHom.id_apply, map_zero, h11, h12, h22, h21, g11, g12, g21, g22, f11, f12,
-      f21, f22]
+    simp only [w₂, map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply,
+      smul_eq_mul, RingHom.id_apply, h11, h12, h22, h21, g12, g22, f12,
+      f22]
     linear_combination hγ₂ + Q * h2
   refine ⟨fun a => if a = ie1 then a₁ else if a = ie2 then a₂ else if a = if1 then w₁ else w₂,
     ?_, by simp, by simp, γ₁, 0, R, γ₂, by simp [w₁], by simp [w₂]⟩
@@ -5161,17 +5150,17 @@ theorem burnsideF4gU4Inv_mem_zRad_of_comm {z : hypSU h 2 0} (hz : z ∈ parP h)
   have e12 : ∀ t : K, Z ie1 ie2 * t = h.bar t * Z if2 if1 := fun t => by
     have := congrFun (congrFun (hX t) ie1) if1
     rw [mul_apply, mul_apply, sum_ix, sum_ix] at this
-    simp [sMat_apply, one_apply, hc11, hf11, c2, c3, c4, r1, r2] at this
+    simp [sMat_apply, one_apply, hc11, hf11] at this
     linear_combination this
   have e22 : ∀ t : K, Z ie2 ie2 * t = t := fun t => by
     have := congrFun (congrFun (hX t) ie2) if1
     rw [mul_apply, mul_apply, sum_ix, sum_ix] at this
-    simp [sMat_apply, one_apply, hc11, hf11, c2, c3, c4, r1, r2] at this
+    simp [sMat_apply, one_apply, hf11, c2] at this
     linear_combination this
   have e33 : ∀ t : K, Z if2 if2 * h.bar t = h.bar t := fun t => by
     have := congrFun (congrFun (hX t) ie1) if2
     rw [mul_apply, mul_apply, sum_ix, sum_ix] at this
-    simp [sMat_apply, one_apply, hc11, hf11, c2, c3, c4, r1, r2] at this
+    simp [sMat_apply, one_apply, hc11, r2] at this
     linear_combination -this
   have m21 : Z if2 ie2 = 0 := by
     have := congrFun (congrFun (hX 1) if2) if1
@@ -5180,7 +5169,7 @@ theorem burnsideF4gU4Inv_mem_zRad_of_comm {z : hypSU h 2 0} (hz : z ∈ parP h)
   have f12 : ∀ t : K, Z ie1 if2 * t = h.bar t * Z ie2 if1 := fun t => by
     have := congrFun (congrFun (hY t) ie1) if1
     rw [mul_apply, mul_apply, sum_ix, sum_ix] at this
-    simp [sMat_apply, one_apply, hc11, hf11, c2, c3, c4, r1, r2] at this
+    simp [sMat_apply, one_apply, hc11, hf11] at this
     linear_combination this
   have m12 : Z ie2 if2 = 0 := by
     have := congrFun (congrFun (hY 1) ie2) if1
@@ -5246,7 +5235,7 @@ theorem burnsideF4gU4Inv_zRad_le_centralizer_U :
   ext i j
   rw [mul_apply, mul_apply, sum_ix, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [sMat_apply, one_apply, u1, u2, u3, u4, u5, u6, u7] <;> ring
+    simp [sMat_apply, one_apply, u1, u2, u3, u4, u5, u6, u7]; ring
 
 theorem burnsideF4gU4Inv_ctr_U : ctr (hypUnitriangular h 2 0) = zRad h := by
   apply le_antisymm
@@ -5324,7 +5313,6 @@ theorem burnsideF4gU4Inv_centralizer_zRad_le {z : hypSU h 2 0} (hz : z ∈ zRad 
     simp [sMat_apply, one_apply] at this
     first
       | exact this.resolve_right hc0
-      | (exact (mul_eq_zero.mp (by linear_combination this)).resolve_left hc0)
 
 @[expose] noncomputable def burnsideF4gU4Inv_short : Subgroup (hypSU h 2 0) where
   carrier := {g | ∃ x : K, ((g : GL Ix K) : Matrix Ix Ix K) = sMat h x 0 0}
@@ -6157,7 +6145,7 @@ theorem burnsideF4gSpInv_not_Alt_xl {t : K} (ht : t ≠ 0) :
     ¬ burnsideF4gSpInv_Alt (burnsideF4gSpInv_xl t) := by
   intro h
   have := h (Pi.single (Sum.inr 0) 1)
-  simp [burnsideF4gSpInv_form, burnsideF4gSpInv_xl_mv, Pi.single_apply] at this
+  simp [burnsideF4gSpInv_form, burnsideF4gSpInv_xl_mv] at this
   exact ht this
 
 theorem burnsideF4gSpInv_Alt_xs [CharP K 2] (t : K) :
@@ -6177,7 +6165,7 @@ theorem burnsideF4gSpInv_not_Rk1_xs {t : K} (ht : t ≠ 0) :
   have a1 := congrFun h₁ (Sum.inl 0)
   have a2 := congrFun h₁ (Sum.inl 1)
   have b1 := congrFun h₂ (Sum.inl 0)
-  simp [burnsideF4gSpInv_xs_mv, Pi.single_apply] at a1 a2 b1
+  simp [burnsideF4gSpInv_xs_mv] at a1 a2 b1
   have hc₁ : c₁ ≠ 0 := by
     rintro rfl
     exact ht (by simpa using a2)
@@ -6194,7 +6182,7 @@ theorem burnsideF4gSpInv_mixed_mv (s t : K) (v : Fin 2 ⊕ Fin 2 → K) :
         (t * v (Sum.inr 0)) • Pi.single (Sum.inl 1) 1 := by
   rw [burnsideF4gSpInv_mv_mul, burnsideF4gSpInv_xs_mv, burnsideF4gSpInv_xl_mv]
   ext i
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply] <;> ring
+  rcases i with i | i <;> fin_cases i <;> simp; ring
 
 theorem burnsideF4gSpInv_not_Rk1_mixed {s t : K} (ht : t ≠ 0) :
     ¬ burnsideF4gSpInv_Rk1 (burnsideF4gSpInv_xl s * burnsideF4gSpInv_xs t) := by
@@ -6205,7 +6193,7 @@ theorem burnsideF4gSpInv_not_Rk1_mixed {s t : K} (ht : t ≠ 0) :
   have a2 := congrFun h₁ (Sum.inl 1)
   have b1 := congrFun h₂ (Sum.inl 0)
   have b2 := congrFun h₂ (Sum.inl 1)
-  simp [burnsideF4gSpInv_mixed_mv, Pi.single_apply] at a1 a2 b1 b2
+  simp [burnsideF4gSpInv_mixed_mv] at a1 a2 b1 b2
   have hc₂ : c₂ ≠ 0 := by
     rintro rfl
     exact ht (by simpa using b1)
@@ -6220,7 +6208,7 @@ theorem burnsideF4gSpInv_not_Alt_mixed {s t : K} (hs : s ≠ 0) :
     ¬ burnsideF4gSpInv_Alt (burnsideF4gSpInv_xl s * burnsideF4gSpInv_xs t) := by
   intro h
   have := h (Pi.single (Sum.inr 0) 1)
-  simp [burnsideF4gSpInv_form, burnsideF4gSpInv_mixed_mv, Pi.single_apply] at this
+  simp [burnsideF4gSpInv_form, burnsideF4gSpInv_mixed_mv] at this
   exact hs this
 
 theorem burnsideF4gSpInv_xl_mul (s t : K) :
@@ -6279,7 +6267,7 @@ theorem burnsideF4gSpInv_xl_xs_comm (s t : K) :
   rw [burnsideF4gSpInv_mv_mul, burnsideF4gSpInv_mv_mul, burnsideF4gSpInv_xl_mv,
     burnsideF4gSpInv_xs_mv, burnsideF4gSpInv_xs_mv, burnsideF4gSpInv_xl_mv]
   ext i
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply] <;> ring
+  rcases i with i | i <;> fin_cases i <;> simp; ring
 
 end Native
 
@@ -6344,19 +6332,23 @@ theorem burnsideF4gSpInv_inv_cases (y : StatedSp 2 K) (hy1 : y ≠ 1) (hy2 : y *
   have := MonoidHom.map_isConj (antiSpEquiv K).toMonoidHom hk
   simpa using this
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gSpInv_Rk1_one : burnsideF4gSpInv_Rk1 (1 : StatedSp 2 K) :=
   ⟨0, fun v => ⟨0, by simp [burnsideF4gSpInv_mv_one]⟩⟩
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gSpInv_isConj_Rk1 {a b : StatedSp 2 K} (h : IsConj a b) :
     burnsideF4gSpInv_Rk1 a ↔ burnsideF4gSpInv_Rk1 b := by
   obtain ⟨c, hc⟩ := isConj_iff.1 h
   rw [← hc, burnsideF4gSpInv_Rk1_iff_conj]
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gSpInv_isConj_Alt {a b : StatedSp 2 K} (h : IsConj a b) :
     burnsideF4gSpInv_Alt a ↔ burnsideF4gSpInv_Alt b := by
   obtain ⟨c, hc⟩ := isConj_iff.1 h
   rw [← hc, burnsideF4gSpInv_Alt_iff_conj]
 
+omit [Finite K] in
 theorem burnsideF4gSpInv_mixed_sq (s t : K) :
     (burnsideF4gSpInv_xl s * burnsideF4gSpInv_xs t) *
       (burnsideF4gSpInv_xl s * burnsideF4gSpInv_xs t) = 1 := by
@@ -6415,23 +6407,26 @@ theorem burnsideF4gSpInv_inv_exhaust (y : StatedSp 2 K) (hy1 : y ≠ 1) (hy2 : y
   · subst h
     exact Or.inr (Or.inr (hky.trans hkc.symm))
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gSpInv_not_conj_xl_xs :
     ¬ IsConj (burnsideF4gSpInv_xl (1 : K)) (burnsideF4gSpInv_xs 1) :=
   fun h => burnsideF4gSpInv_not_Rk1_xs (t := (1 : K)) one_ne_zero
     ((burnsideF4gSpInv_isConj_Rk1 h).1 (burnsideF4gSpInv_Rk1_xl 1))
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gSpInv_not_conj_xl_mixed :
     ¬ IsConj (burnsideF4gSpInv_xl (1 : K)) (burnsideF4gSpInv_xl 1 * burnsideF4gSpInv_xs 1) :=
   fun h => burnsideF4gSpInv_not_Rk1_mixed (s := (1 : K)) one_ne_zero
     ((burnsideF4gSpInv_isConj_Rk1 h).1 (burnsideF4gSpInv_Rk1_xl 1))
 
+omit [Finite K] in
 theorem burnsideF4gSpInv_not_conj_xs_mixed :
     ¬ IsConj (burnsideF4gSpInv_xs (1 : K)) (burnsideF4gSpInv_xl 1 * burnsideF4gSpInv_xs 1) :=
   fun h => burnsideF4gSpInv_not_Alt_mixed (s := (1 : K)) (t := (1 : K)) one_ne_zero
     ((burnsideF4gSpInv_isConj_Alt h).1 (burnsideF4gSpInv_Alt_xs 1))
 
 theorem burnsideF4gSpInv_conj_long {y : StatedSp 2 K} (hy1 : y ≠ 1) (hy2 : y * y = 1)
-    (hR : burnsideF4gSpInv_Rk1 y) (hA : ¬ burnsideF4gSpInv_Alt y) :
+    (hR : burnsideF4gSpInv_Rk1 y) (_hA : ¬ burnsideF4gSpInv_Alt y) :
     IsConj y (burnsideF4gSpInv_xl 1) := by
   rcases burnsideF4gSpInv_inv_exhaust y hy1 hy2 with h | h | h
   · exact h
@@ -6441,7 +6436,7 @@ theorem burnsideF4gSpInv_conj_long {y : StatedSp 2 K} (hy1 : y ≠ 1) (hy2 : y *
       (burnsideF4gSpInv_not_Rk1_mixed (s := (1 : K)) one_ne_zero)
 
 theorem burnsideF4gSpInv_conj_short {y : StatedSp 2 K} (hy1 : y ≠ 1) (hy2 : y * y = 1)
-    (hR : ¬ burnsideF4gSpInv_Rk1 y) (hA : burnsideF4gSpInv_Alt y) :
+    (_hR : ¬ burnsideF4gSpInv_Rk1 y) (hA : burnsideF4gSpInv_Alt y) :
     IsConj y (burnsideF4gSpInv_xs 1) := by
   rcases burnsideF4gSpInv_inv_exhaust y hy1 hy2 with h | h | h
   · exact absurd ((burnsideF4gSpInv_isConj_Alt h).1 hA)
@@ -6566,23 +6561,23 @@ theorem burnsideF4gSpInv_vec_decomp (v : Fin 2 ⊕ Fin 2 → K) :
       v (Sum.inr 0) • (Pi.single (Sum.inr 0) 1 : Fin 2 ⊕ Fin 2 → K) +
       v (Sum.inr 1) • (Pi.single (Sum.inr 1) 1 : Fin 2 ⊕ Fin 2 → K) := by
   ext i
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply]
+  rcases i with i | i <;> fin_cases i <;> simp
 
 theorem burnsideF4gSpInv_form_e0 (x : Fin 2 ⊕ Fin 2 → K) :
     burnsideF4gSpInv_form x (Pi.single (Sum.inl 0) 1) = - x (Sum.inr 0) := by
-  simp [burnsideF4gSpInv_form, Pi.single_apply]
+  simp [burnsideF4gSpInv_form]
 
 theorem burnsideF4gSpInv_form_e1 (x : Fin 2 ⊕ Fin 2 → K) :
     burnsideF4gSpInv_form x (Pi.single (Sum.inl 1) 1) = - x (Sum.inr 1) := by
-  simp [burnsideF4gSpInv_form, Pi.single_apply]
+  simp [burnsideF4gSpInv_form]
 
 theorem burnsideF4gSpInv_form_f0 (x : Fin 2 ⊕ Fin 2 → K) :
     burnsideF4gSpInv_form x (Pi.single (Sum.inr 0) 1) = x (Sum.inl 0) := by
-  simp [burnsideF4gSpInv_form, Pi.single_apply]
+  simp [burnsideF4gSpInv_form]
 
 theorem burnsideF4gSpInv_form_f1 (x : Fin 2 ⊕ Fin 2 → K) :
     burnsideF4gSpInv_form x (Pi.single (Sum.inr 1) 1) = x (Sum.inl 1) := by
-  simp [burnsideF4gSpInv_form, Pi.single_apply]
+  simp [burnsideF4gSpInv_form]
 
 theorem burnsideF4gSpInv_eq_xl_of_fix {g : StatedSp 2 K}
     (h0 : burnsideF4gSpInv_mv g (Pi.single (Sum.inl 0) 1) = Pi.single (Sum.inl 0) 1)
@@ -6603,7 +6598,7 @@ theorem burnsideF4gSpInv_eq_xl_of_fix {g : StatedSp 2 K}
   simp only [burnsideF4gSpInv_mv_add, burnsideF4gSpInv_mv_smul, h0, h1, h3, ← hw]
   rw [burnsideF4gSpInv_xl_mv]
   ext i
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply, a0, a1, a3] <;> ring
+  rcases i with i | i <;> fin_cases i <;> simp [a0, a1, a3]; ring
 
 theorem burnsideF4gSpInv_mem_flag_one (v : Fin 2 ⊕ Fin 2 → K) :
     v ∈ flag 2 K 1 ↔ v (Sum.inr 0) = 0 ∧ v (Sum.inr 1) = 0 ∧ v (Sum.inl 1) = 0 := by
@@ -6635,7 +6630,7 @@ theorem burnsideF4gSpInv_Q2_zero_char {g : StatedSp 2 K} (hg : g ∈ Q2 K 0) :
   obtain ⟨h1, h2, h3⟩ := (burnsideF4gSpInv_mem_flag_one _).1 (h.2 he)
   refine ⟨burnsideF4gSpInv_mv g (Pi.single (Sum.inl 0) 1) (Sum.inl 0), ?_⟩
   ext i
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply, h1, h2, h3]
+  rcases i with i | i <;> fin_cases i <;> simp [h1, h2, h3]
 
 @[expose] def burnsideF4gSpInv_S1 (K : Type) [Field K] : Subgroup (StatedSp 2 K) where
   carrier := {g | burnsideF4gSpInv_mv g (Pi.single (Sum.inl 0) 1) = Pi.single (Sum.inl 0) 1}
@@ -6665,9 +6660,9 @@ theorem burnsideF4gSpInv_mem_flag_one_iff (v : Fin 2 ⊕ Fin 2 → K) :
   · rintro ⟨h1, h2, h3⟩
     refine ⟨v (Sum.inl 0), ?_⟩
     ext i
-    rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply, h1, h2, h3]
+    rcases i with i | i <;> fin_cases i <;> simp [h1, h2, h3]
   · rintro ⟨c, rfl⟩
-    simp [Pi.single_apply]
+    simp
 
 theorem burnsideF4gSpInv_S1_le_Q2 : burnsideF4gSpInv_S1 K ≤ Q2 K 0 := by
   intro g hg
@@ -6775,12 +6770,12 @@ theorem burnsideF4gSpInv_b2_sq [CharP K 2] (s : K) :
 theorem burnsideF4gSpInv_a2_mem_S1 (s : K) : burnsideF4gSpInv_a2 s ∈ burnsideF4gSpInv_S1 K := by
   rw [burnsideF4gSpInv_mem_S1, burnsideF4gSpInv_a2_mv]
   ext i
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply]
+  rcases i with i | i <;> fin_cases i <;> simp
 
 theorem burnsideF4gSpInv_b2_mem_S1 (s : K) : burnsideF4gSpInv_b2 s ∈ burnsideF4gSpInv_S1 K := by
   rw [burnsideF4gSpInv_mem_S1, burnsideF4gSpInv_b2_mv]
   ext i
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply]
+  rcases i with i | i <;> fin_cases i <;> simp
 
 theorem burnsideF4gSpInv_mem_oPPrime_of_sq {x : StatedSp 2 K} (hx : x ∈ Q2 K 0) (h : x * x = 1) :
     x ∈ oPPrime 2 (Q2 K 0) := by
@@ -6803,7 +6798,7 @@ theorem burnsideF4gSpInv_unipotent_isPGroup [Finite K] [CharP K 2] :
     IsPGroup 2 (unipotent 2 K) := by
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := K) 2 2
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem burnsideF4gSpInv_unipotent_le_oPPrime [Finite K] [CharP K 2] :
     unipotent 2 K ≤ oPPrime 2 (Q2 K 0) := by
@@ -6863,7 +6858,7 @@ theorem burnsideF4gSpInv_torus_mv_e0 (a : Fin 2 → Kˣ) :
   simp only [burnsideF4gSpInv_mv, coe_torusHom]
   rw [Matrix.diagonal_mulVec_single]
   ext i
-  by_cases h : i = Sum.inl 0 <;> simp [Pi.single_apply, h]
+  by_cases h : i = Sum.inl 0 <;> simp [h]
 
 theorem burnsideF4gSpInv_S1_le_oPPrime [Finite K] [CharP K 2] :
     burnsideF4gSpInv_S1 K ≤ oPPrime 2 (Q2 K 0) := by
@@ -6890,7 +6885,7 @@ theorem burnsideF4gSpInv_S1_le_oPPrime [Finite K] [CharP K 2] :
     funext i
     fin_cases i
     · simpa [Pi.mulSingle_apply] using ha0
-    · simp [Pi.mulSingle_apply]
+    · simp
   rw [hta]
   exact mul_mem (burnsideF4gSpInv_lam_one_mem_oPPrime _) hhO
 
@@ -6921,7 +6916,7 @@ theorem burnsideF4gSpInv_fix_of_comm [CharP K 2] {z : StatedSp 2 K}
     rw [hl]; exact hB.symm
   have hform := burnsideF4gSpInv_form_mv z (Pi.single (Sum.inl 1) 1) (Pi.single (Sum.inr 1) 1)
   rw [← hX, ← hY, hX', hY'] at hform
-  simp [burnsideF4gSpInv_form, Pi.single_apply] at hform
+  simp [burnsideF4gSpInv_form] at hform
   have hll : l * l = 1 := hform
   have hl1 : l = 1 := by
     have : (l - 1) ^ 2 = 0 := by linear_combination hll + (1 - l) * h2
@@ -6931,7 +6926,7 @@ theorem burnsideF4gSpInv_fix_of_comm [CharP K 2] {z : StatedSp 2 K}
 
 theorem burnsideF4gSpInv_form_e0_left (y : Fin 2 ⊕ Fin 2 → K) :
     burnsideF4gSpInv_form (Pi.single (Sum.inl 0) 1) y = y (Sum.inr 0) := by
-  simp [burnsideF4gSpInv_form, Pi.single_apply]
+  simp [burnsideF4gSpInv_form]
 
 theorem burnsideF4gSpInv_ctr_oPPrime [Finite K] [CharP K 2] {z : StatedSp 2 K}
     (hz : z ∈ ctr (oPPrime 2 (Q2 K 0))) : ∃ t : K, z = burnsideF4gSpInv_xl t := by
@@ -6972,9 +6967,9 @@ theorem burnsideF4gSpInv_centralizer_xl [CharP K 2] {t : K} (ht : t ≠ 0) :
     rw [hge] at hform
     have hform' : burnsideF4gSpInv_form ((l • Pi.single (Sum.inl 0) 1 : Fin 2 ⊕ Fin 2 → K))
         (burnsideF4gSpInv_mv g (Pi.single (Sum.inr 0) 1)) = l * l := by
-      simp [burnsideF4gSpInv_form, Pi.single_apply, ← hl]
+      simp [burnsideF4gSpInv_form, ← hl]
     rw [hform'] at hform
-    simp [burnsideF4gSpInv_form, Pi.single_apply] at hform
+    simp [burnsideF4gSpInv_form] at hform
     have hl1 : l = 1 := by
       have : (l - 1) ^ 2 = 0 := by linear_combination hform + (1 - l) * h2
       exact sub_eq_zero.1 (pow_eq_zero_iff two_ne_zero |>.1 this)
@@ -7093,7 +7088,7 @@ theorem burnsideF4gSpInv_xs_mem_Rad2 (t : K) :
     burnsideF4gSpInv_xs t ∈ burnsideF4gSpInv_Rad2 K := by
   refine ⟨fun v => ?_, fun w hw => ?_⟩
   · rw [burnsideF4gSpInv_xs_mv, add_assoc, add_sub_cancel_left, burnsideF4gSpInv_mem_flag_two]
-    simp [Pi.single_apply]
+    simp
   · rw [burnsideF4gSpInv_mem_flag_two] at hw
     rw [burnsideF4gSpInv_xs_mv, hw.1, hw.2]
     simp
@@ -7115,7 +7110,7 @@ theorem burnsideF4gSpInv_centralizer_xs_le {t : K} (ht : t ≠ 0) :
     have hxu : burnsideF4gSpInv_mv (burnsideF4gSpInv_xs t) u - u = w := by
       rw [burnsideF4gSpInv_xs_mv, hu]
       ext i
-      rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply, hw.1, hw.2] <;> field_simp
+      rcases i with i | i <;> fin_cases i <;> simp [hw.1, hw.2] <;> field_simp
     have h1 : burnsideF4gSpInv_mv g w = burnsideF4gSpInv_mv (burnsideF4gSpInv_xs t)
         (burnsideF4gSpInv_mv g u) - burnsideF4gSpInv_mv g u := by
       calc burnsideF4gSpInv_mv g w
@@ -7126,7 +7121,7 @@ theorem burnsideF4gSpInv_centralizer_xs_le {t : K} (ht : t ≠ 0) :
         _ = _ := by rw [← burnsideF4gSpInv_mv_mul, hg, burnsideF4gSpInv_mv_mul]
     rw [h1, burnsideF4gSpInv_xs_mv, add_assoc, add_sub_cancel_left,
       burnsideF4gSpInv_mem_flag_two]
-    simp [Pi.single_apply]
+    simp
   intro g hg
   have hg' := Subgroup.mem_centralizer_singleton_iff.1 hg
   have hginv := Subgroup.mem_centralizer_singleton_iff.1
@@ -7165,7 +7160,7 @@ theorem burnsideF4gSpInv_xl_val (t : K) :
   simp only [burnsideF4gSpInv_xl, coe_pairRootElt, pairRootMat_inl_inr_self]
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [Matrix.single_apply, Matrix.one_apply]
+    simp
 
 theorem burnsideF4gSpInv_xs_val (t : K) :
     (((burnsideF4gSpInv_xs t : StatedSp 2 K) : GL (Fin 2 ⊕ Fin 2) K) :
@@ -7177,7 +7172,7 @@ theorem burnsideF4gSpInv_xs_val (t : K) :
   rw [pairRootMat_inl_inr (by simp : (0 : Fin 2) ≠ 1)]
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [Matrix.single_apply, Matrix.one_apply]
+    simp
 
 theorem burnsideF4gSpInv_xl_mem_unipotent (t : K) :
     burnsideF4gSpInv_xl t ∈ unipotent 2 K := by
@@ -7204,7 +7199,7 @@ theorem burnsideF4gSpInv_xl_mem_ctr (t : K) :
   rw [hAi, hAa]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply]
+    simp [Matrix.mul_apply, Matrix.single_apply]
 
 theorem burnsideF4gSpInv_xs_mem_ctr [CharP K 2] (t : K) :
     burnsideF4gSpInv_xs t ∈ ctr (unipotent 2 K) := by
@@ -7219,7 +7214,7 @@ theorem burnsideF4gSpInv_xs_mem_ctr [CharP K 2] (t : K) :
   rw [hAi, hAa]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply] <;>
+    simp [Matrix.mul_apply, Matrix.single_apply];
     linear_combination (a * t) * h2
 
 theorem burnsideF4gSpInv_Q2_inf_eq_borel : Q2 K 0 ⊓ Q2 K 1 = borelSubgroup 2 K := by
@@ -7374,7 +7369,7 @@ theorem burnsideF4gSpInv_clause4 [Finite K] [CharP K 2] {f : ℕ} {E : Type} [Gr
     · rw [burnsideF4gSpInv_RootInvolution_iff]
       refine ⟨hne, ?_, 1, ?_⟩
       · rw [← map_mul, burnsideF4gSpInv_xl_sq, map_one]
-      · simp only [Bool.false_eq_true, if_false, one_mul, inv_one, mul_one]
+      · simp only [Bool.false_eq_true, ite_false, one_mul, inv_one, mul_one]
         exact (hlong _).2 ⟨t, rfl⟩
     · rw [hcent, hM₁]
       exact Subgroup.map_mono burnsideF4gSpInv_S1_le_Q2
@@ -7389,7 +7384,7 @@ theorem burnsideF4gSpInv_clause4 [Finite K] [CharP K 2] {f : ℕ} {E : Type} [Gr
         exact burnsideF4gSpInv_xs_ne_one (K := K) one_ne_zero
           (Ψ.injective (h.trans (map_one Ψ).symm))
       · rw [← map_mul, burnsideF4gSpInv_xs_sq, map_one]
-      · simp only [if_true, one_mul, inv_one, mul_one]
+      · simp only [ite_true, one_mul, inv_one, mul_one]
         exact (hshort _).2 ⟨1, rfl⟩
     · rw [burnsideF4gSpInv_centralizer_map, hM₂]
       exact Subgroup.map_mono (burnsideF4gSpInv_centralizer_xs_le one_ne_zero)
@@ -7558,12 +7553,12 @@ theorem burnsideF4gSpInv_clause2 {f : ℕ}
   ·
     rw [burnsideF4gSpInv_RootInvolution_iff]
     refine ⟨hl1, hl2, 1, ?_⟩
-    simp only [Bool.false_eq_true, if_false, one_mul, inv_one, mul_one]
+    simp only [Bool.false_eq_true, ite_false, one_mul, inv_one, mul_one]
     exact (hlong _).2 ⟨1, rfl⟩
   ·
     rw [burnsideF4gSpInv_RootInvolution_iff]
     refine ⟨hs1, hs2, 1, ?_⟩
-    simp only [if_true, one_mul, inv_one, mul_one]
+    simp only [ite_true, one_mul, inv_one, mul_one]
     exact (hshort _).2 ⟨1, rfl⟩
   ·
     refine ⟨1, Subgroup.mem_top _, Ψ (burnsideF4gSpInv_xl 1), (hlong _).2 ⟨1, rfl⟩,
@@ -7571,7 +7566,7 @@ theorem burnsideF4gSpInv_clause2 {f : ℕ}
     rw [one_mul, inv_one, mul_one, map_mul]
   · intro x
     rw [burnsideF4gSpInv_RootInvolution_iff, ← burnsideF4gSpInv_long_iff_E Ψ x]
-    simp only [Bool.false_eq_true, if_false]
+    simp only [Bool.false_eq_true, ite_false]
     constructor
     · rintro ⟨h1, h2, c, hc⟩
       obtain ⟨t, ht⟩ := (hlong _).1 hc
@@ -7580,7 +7575,7 @@ theorem burnsideF4gSpInv_clause2 {f : ℕ}
       exact ⟨h1, h2, c, (hlong _).2 ⟨t, ht⟩⟩
   · intro x
     rw [burnsideF4gSpInv_RootInvolution_iff, ← burnsideF4gSpInv_short_iff_E Ψ x]
-    simp only [if_true]
+    simp only [ite_true]
     constructor
     · rintro ⟨h1, h2, c, hc⟩
       obtain ⟨t, ht⟩ := (hshort _).1 hc
@@ -7698,7 +7693,7 @@ theorem burnsideF4gSpInv_F427_kind_Sp4 : burnsideF4f_F427_kind .Sp4 := by
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   let φ : StatedSp 2 marking.field →* E := (⊤ : Subgroup E).subtype.comp marking.transport
   have hφinj : Function.Injective φ := by
@@ -7871,7 +7866,7 @@ theorem burnsideF4gG2Inv_oPPrime_map (Ψ : G ≃* E) (H : Subgroup G) :
   rw [MonoidHom.map_closure]
   congr 1
   ext y
-  simp only [Set.mem_setOf_eq, Set.mem_image, SetLike.mem_coe, Subgroup.mem_map,
+  simp only [Set.mem_ofPred_eq, Set.mem_image, Subgroup.mem_map,
     MulEquiv.coe_toMonoidHom]
   constructor
   · rintro ⟨⟨x, hx, rfl⟩, k, hk⟩
@@ -7948,6 +7943,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.Quasithin.H13.F431.G2
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_longRoot_eq : ChF.G2Native.longRoot K = Xc K := by
   have hroot : IsRoot Tag.G2 rC := CFSG.Quasithin.H13.Sec53F.G2.isRoot_rC
   have h := burnsideF4gG2_map_rootSubgroup (K := K) hroot
@@ -7963,6 +7959,7 @@ theorem burnsideF4gG2Inv_longRoot_eq : ChF.G2Native.longRoot K = Xc K := by
   · rintro ⟨s, rfl⟩
     exact ⟨s, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_shortRoot_eq : ChF.G2Native.shortRoot K = Xv K := by
   have hroot : IsRoot Tag.G2 rV := (isRoot_pos_iff.2 (Or.inr (Or.inr (Or.inr (Or.inl rfl))))).1
   have h := burnsideF4gG2_map_rootSubgroup (K := K) hroot
@@ -7978,18 +7975,21 @@ theorem burnsideF4gG2Inv_shortRoot_eq : ChF.G2Native.shortRoot K = Xv K := by
   · rintro ⟨s, rfl⟩
     exact ⟨s, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_point_eq : ChF.G2Native.pointParabolic K = Cent.Pr K := by
   unfold ChF.G2Native.pointParabolic
   rw [show (-ChF.G2Native.simpleVector 1 : ChF.G2Native.Lattice) =
     -Pi.single (⟨1, by decide⟩ : Fin Tag.G2.rank) 1 from rfl, burnsideF4gG2_eq_Pmin]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_line_eq : ChF.G2Native.lineParabolic K = Cent.Pa K := by
   unfold ChF.G2Native.lineParabolic
   rw [show (-ChF.G2Native.simpleVector 0 : ChF.G2Native.Lattice) =
     -Pi.single (⟨0, by decide⟩ : Fin Tag.G2.rank) 1 from rfl, burnsideF4gG2_eq_Pmin]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_U_le_Pr : U K ≤ Cent.Pr K := fun g hg => by
   rw [Cent.mem_Pr_iff]
   have hle : posUnipotent Tag.G2 K ≤ borelGroup Tag.G2 K := le_sup_right
@@ -8004,6 +8004,7 @@ theorem burnsideF4gG2Inv_pCoreOf_borel (hK : 3 ≤ Nat.card K) :
     ((Subgroup.normal_subgroupOf_iff_le_normalizer posUnipotentSub_le_borelSub).1
       normal_posUnipotentSub)
 
+omit [Finite K] in
 theorem burnsideF4gG2Inv_ctr_U : ChF.ctr (U K) = Xc K := by
   ext g
   simp only [ChF.ctr, Subgroup.mem_inf, Subgroup.mem_centralizer_iff, SetLike.mem_coe]
@@ -8025,7 +8026,7 @@ theorem burnsideF4gG2Inv_cls {x : C K} (hx1 : x ≠ 1) (hx : x * x = 1) :
 theorem burnsideF4gG2Inv_InvClasses {E : Type} [Group E] (Ψ : C K ≃* E) :
     ChF.InvClasses E = {ConjClasses.mk (Ψ (xc 1)), ConjClasses.mk (Ψ (xv 1))} := by
   ext c
-  simp only [ChF.InvClasses, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [ChF.InvClasses, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨x, hx, hx1, hx2⟩
     obtain ⟨y, rfl⟩ := Ψ.surjective x
@@ -8060,6 +8061,7 @@ theorem burnsideF4gG2Inv_ncard_InvClasses {E : Type} [Group E] (Ψ : C K ≃* E)
   rw [burnsideF4gG2Inv_InvClasses Ψ]
   exact Set.ncard_pair (burnsideF4gG2Inv_classes_ne Ψ 1)
 
+omit [Finite K] in
 theorem burnsideF4gG2Inv_two_elt_commutes {x : C K} (hx : x ∈ Cent.Pr K) {k : ℕ}
     (hk : orderOf x = 2 ^ k) (s : K) : x * xc s = xc s * x := by
   have hxm : (x : ModGL Tag.G2 K) ∈ parabolicSubgroup Tag.G2 K {i1} := Cent.mem_Pr_iff.1 hx
@@ -8097,6 +8099,7 @@ theorem burnsideF4gG2Inv_two_elt_commutes {x : C K} (hx : x ∈ Cent.Pr K) {k : 
     show (x : ModGL Tag.G2 K) * gX rC s = gX rC s * (x : ModGL Tag.G2 K)
     exact mul_inv_eq_iff_eq_mul.1 h4)
 
+omit [Finite K] in
 theorem burnsideF4gG2Inv_oPPrime_le_centralizer :
     ChF.oPPrime 2 (Cent.Pr K) ≤ Subgroup.centralizer (Xc K : Set (C K)) := by
   refine (Subgroup.closure_le _).2 ?_
@@ -8134,6 +8137,7 @@ theorem burnsideF4gG2Inv_ctr_oPPrime_le {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf 
 @[expose] def burnsideF4gG2Inv_nC (K : Type) [Field K] (i : Fin Tag.G2.rank) (t : Kˣ) : C K :=
   ⟨weylElt Tag.G2 K i t, weylElt_mem_adjointGroup i t⟩
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_nC_mem_Pr (t : Kˣ) : burnsideF4gG2Inv_nC K i1 t ∈ Cent.Pr K := by
   rw [Cent.mem_Pr_iff]
   show weylElt Tag.G2 K i1 t ∈ parabolicSubgroup Tag.G2 K {i1}
@@ -8142,6 +8146,7 @@ theorem burnsideF4gG2Inv_nC_mem_Pr (t : Kˣ) : burnsideF4gG2Inv_nC K i1 t ∈ Ce
     (Subgroup.mem_sup_left (torusElt_mem_torusGroup i1 t)))
     (weylElt_mem_parabolicSubgroup (Set.mem_singleton i1))
 
+omit [Finite K] in
 theorem burnsideF4gG2Inv_nC_sq (i : Fin Tag.G2.rank) (t : Kˣ) :
     burnsideF4gG2Inv_nC K i t * burnsideF4gG2Inv_nC K i t = 1 := by
   apply Subtype.ext
@@ -8154,6 +8159,7 @@ theorem burnsideF4gG2Inv_nC_sq (i : Fin Tag.G2.rank) (t : Kˣ) :
       = weylElt Tag.G2 K i t * (weylElt Tag.G2 K i t)⁻¹ := by rw [h]
     _ = 1 := mul_inv_cancel _
 
+omit [Finite K] in
 theorem burnsideF4gG2Inv_nC_mem (t : Kˣ) :
     burnsideF4gG2Inv_nC K i1 t ∈ ChF.oPPrime 2 (Cent.Pr K) := by
   have hord : orderOf (burnsideF4gG2Inv_nC K i1 t) ∣ 2 ^ 1 := by
@@ -8162,6 +8168,7 @@ theorem burnsideF4gG2Inv_nC_mem (t : Kˣ) :
   obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hord
   exact burnsideF4gG2Inv_mem_oPPrime (burnsideF4gG2Inv_nC_mem_Pr t) hm
 
+omit [Finite K] in
 theorem burnsideF4gG2Inv_torus_i1_mem (t : Kˣ) :
     (⟨torusElt Tag.G2 K i1 t, torusElt_mem_adjointGroup i1 t⟩ : C K) ∈
       ChF.oPPrime 2 (Cent.Pr K) := by
@@ -8196,6 +8203,7 @@ theorem burnsideF4gG2Inv_Pr_le_sup :
   have : j = g := Subtype.ext hjg
   exact this ▸ hj
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_Pr_le_normalizer :
     Cent.Pr K ≤ Subgroup.normalizer (ChF.oPPrime 2 (Cent.Pr K) : Set (C K)) := by
   intro p hp
@@ -8209,6 +8217,7 @@ theorem burnsideF4gG2Inv_Pr_le_normalizer :
     have e : p⁻¹ * (p * h * p⁻¹) * p⁻¹⁻¹ = h := by group
     rwa [e] at this
 
+omit [Finite K] in
 theorem burnsideF4gG2Inv_conj_xc (τ : Kˣ) (s : K) :
     torusHom K i0 τ * xc s * (torusHom K i0 τ)⁻¹ = xc ((τ : K) * s) := by
   apply Subtype.ext
@@ -8275,6 +8284,7 @@ theorem burnsideF4gG2Inv_pCoreOf_Pa (hK : 3 ≤ Nat.card K) : pCoreOf 2 (Cent.Pa
     exact CFSG.LieType.BorelTits.pCoreOf_map_mulEquiv 2 (mk K) _
   exact Subgroup.map_injective (mk K).injective (h2.symm.trans h1)
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_conj_mem {E : Type} [Group E] (Ψ : C K ≃* E) {y z : C K}
     {X : Subgroup (C K)} (hz : z ∈ X) (h : IsConj z y) :
     ∃ c : E, c * Ψ y * c⁻¹ ∈ X.map Ψ.toMonoidHom := by
@@ -8284,6 +8294,7 @@ theorem burnsideF4gG2Inv_conj_mem {E : Type} [Group E] (Ψ : C K ≃* E) {y z : 
   rw [MulEquiv.coe_toMonoidHom, ← e]
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gG2Inv_isConj_of_mem {E : Type} [Group E] (Ψ : C K ≃* E) {y : C K}
     {X : Subgroup (C K)} (c : E) (h : c * Ψ y * c⁻¹ ∈ X.map Ψ.toMonoidHom) :
     ∃ z ∈ X, IsConj z y := by
@@ -8332,7 +8343,7 @@ section ChartExtract
 open CFSG.ASVolI.ChF CFSG.Quasithin.H13.F431.G2
 
 
-theorem burnsideF4gG2Inv_chart {f : ℕ} (hf : 1 ≤ f) {E : Type} [Group E] {M₁ M₂ : Subgroup E}
+theorem burnsideF4gG2Inv_chart {f : ℕ} (_hf : 1 ≤ f) {E : Type} [Group E] {M₁ M₂ : Subgroup E}
     (chart : NativeChart .G2 2 f (⊤ : Subgroup E)) (hm : chart.Matches M₁ M₂) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2), Nat.card K = 2 ^ f ∧
       ∃ Ψ : G2Native.Parent K ≃* E,
@@ -8346,8 +8357,8 @@ theorem burnsideF4gG2Inv_chart {f : ℕ} (hf : 1 ≤ f) {E : Type} [Group E] {M�
     ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨-, exponent, K, fK, finK, charK, scope, ⟨hk, -⟩ | ⟨hk, -⟩⟩
   · exact absurd hk (by cases c <;> decide)
   · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI charK : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+    have : Fintype K := Fintype.ofFinite K
+    have charK : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
     let Ψ : G2Native.Parent K ≃* E := ((mk K).trans marking).trans Subgroup.topEquiv
     have hΨ : ∀ L : Subgroup (G2Native.Parent K),
@@ -8572,7 +8583,7 @@ theorem burnsideF4gF4Two_relativeWeyl_eq (word : List (Fin tag.rank)) :
   rw [Subgroup.zpowers_eq_closure]
   congr 1
   ext e
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   rw [burnsideF4gF4Two_weylWordOperator_eq]
   exact ⟨fun h => Units.ext h, fun h => h ▸ rfl⟩
 
@@ -8603,7 +8614,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.ASVolI.ChF.ExceptionalRoots
 variable
     {tag : Tag} {K : Type} [Field K]
 
-theorem burnsideF4gF4Two_absoluteRoot_le {α : Fin tag.rank → ℤ} (hα : IsRoot tag α) :
+theorem burnsideF4gF4Two_absoluteRoot_le {α : Fin tag.rank → ℤ} (_hα : IsRoot tag α) :
     absoluteRoot tag K α ≤ rootSubgroup tag K α := by
   refine (Subgroup.closure_le _).2 ?_
   rintro e ⟨c, seed, word, actor, hfold, hact, he⟩
@@ -8986,13 +8997,15 @@ open CFSG.GH74.BNPair CFSG.GH74.GLS.SP CFSG.LieType.Ree CFSG.LieType.Ree.ReeTag
 variable
   {K : Type} [Field K] [Finite K] [CharP K F4.prime]
 
+omit [Finite K] [CharP K F4.prime] in
 theorem burnsideF4gF4Two_units_subsingleton (hK : Nat.card K = 2) : Subsingleton Kˣ := by
   have h2 : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
   exact (Nat.card_eq_one_iff_unique.1 h2).1
 
+omit [Finite K] [CharP K F4.prime] in
 theorem burnsideF4gF4Two_torusGroup_eq_bot (hK : Nat.card K = 2) {τ : Tag} :
     torusGroup τ K = ⊥ := by
-  haveI := burnsideF4gF4Two_units_subsingleton hK
+  have := burnsideF4gF4Two_units_subsingleton hK
   rw [eq_bot_iff, torusGroup, Subgroup.closure_le]
   rintro _ ⟨⟨i, u⟩, rfl⟩
   rw [Subsingleton.elim u 1]
@@ -9091,7 +9104,7 @@ variable
 theorem burnsideF4gF4Two_mem_P₁_iff (hK : Nat.card K = 2) (y : Gm K 0) :
     y ∈ (burnsideF4gF4Two_system hK).P₁ ↔
       (y : ModGL F4.tag K) ∈ ChF.ExceptionalRoots.reeParabolic K 0 1 := by
-  haveI hK' : Nat.card K = 2 ^ (2 * 0 + 1) := by simpa using hK
+  have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := by simpa using hK
   have hm : octR1 K 0 ∈ (burnsideF4gF4Two_system hK).N := (octRGD2 hK').r₁_mem_N
   rw [burnsideF4gF4Two_reeParabolic_one]
   have hP := burnsideF4gF4Two_P_eq_sup (burnsideF4gF4Two_system hK) true (m := octR1 K 0) hm rfl
@@ -9102,7 +9115,7 @@ theorem burnsideF4gF4Two_mem_P₁_iff (hK : Nat.card K = 2) (y : Gm K 0) :
 theorem burnsideF4gF4Two_mem_P₂_iff (hK : Nat.card K = 2) (y : Gm K 0) :
     y ∈ (burnsideF4gF4Two_system hK).P₂ ↔
       (y : ModGL F4.tag K) ∈ ChF.ExceptionalRoots.reeParabolic K 0 0 := by
-  haveI hK' : Nat.card K = 2 ^ (2 * 0 + 1) := by simpa using hK
+  have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := by simpa using hK
   have hm : octR2 K 0 ∈ (burnsideF4gF4Two_system hK).N := (octRGD2 hK').r₂_mem_N
   rw [burnsideF4gF4Two_reeParabolic_zero]
   have hP := burnsideF4gF4Two_P_eq_sup (burnsideF4gF4Two_system hK) false (m := octR2 K 0) hm rfl
@@ -9113,8 +9126,8 @@ theorem burnsideF4gF4Two_mem_P₂_iff (hK : Nat.card K = 2) (y : Gm K 0) :
 theorem burnsideF4gF4Two_yamPair (hK : Nat.card K = 2) :
     CFSG.Quasithin.IsYAmalgamPair (Ug K 0) (burnsideF4gF4Two_system hK).P₁
       (burnsideF4gF4Two_system hK).P₂ := by
-  haveI hK' : Nat.card K = 2 ^ (2 * 0 + 1) := by simpa using hK
-  haveI : Finite (Gm K 0) := Subtype.finite
+  have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := by simpa using hK
+  have : Finite (Gm K 0) := Subtype.finite
   exact (burnsideF4gF4Two_yamStd (burnsideF4gF4Two_system hK) (isSylowTwoOf_Ug hK')).isYAmalgamPair
 
 end YamZero
@@ -9186,11 +9199,11 @@ theorem burnsideF4gF4Two_Dm_eq_commutator :
           burnsideF4gF4Two_Dm_perfect.symm
       _ ≤ ⁅(⊤ : Subgroup ↥twoF4M), (⊤ : Subgroup ↥twoF4M)⁆ :=
           Subgroup.commutator_mono le_top le_top
-  · haveI : (titsD.subgroupOf twoF4M).Normal := twoF4D_normal
+  · have : (titsD.subgroupOf twoF4M).Normal := twoF4D_normal
     have hc2 : Nat.card (↥twoF4M ⧸ titsD.subgroupOf twoF4M) = 2 := by
       rw [← Subgroup.index_eq_card, index_titsD_twoF4M]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI hcyc : IsCyclic (↥twoF4M ⧸ titsD.subgroupOf twoF4M) := isCyclic_of_prime_card hc2
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have hcyc : IsCyclic (↥twoF4M ⧸ titsD.subgroupOf twoF4M) := isCyclic_of_prime_card hc2
     have hcomm : commutator ↥twoF4M ≤ titsD.subgroupOf twoF4M := by
       rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
       exact ⟨⟨fun a b => hcyc.commGroup.mul_comm a b⟩⟩
@@ -9235,10 +9248,10 @@ open CFSG.Open CFSG.Quasithin CFSG.Sporadic.Schreier.Tits
 
 theorem burnsideF4gF4Two_complete (α : MulAut ↥twoF4M) :
     ∃ m : ↥twoF4M, ∀ x : ↥twoF4M, α x = m * x * m⁻¹ := by
-  haveI hchar : (titsD.subgroupOf twoF4M).Characteristic := by
+  have hchar : (titsD.subgroupOf twoF4M).Characteristic := by
     rw [burnsideF4gF4Two_Dm_eq_commutator]
     infer_instance
-  haveI : (titsD.subgroupOf twoF4M).Normal := twoF4D_normal
+  have : (titsD.subgroupOf twoF4M).Normal := twoF4D_normal
   let e0 : ↥(titsD.subgroupOf twoF4M) ≃* ↥titsD := Subgroup.subgroupOfEquivOfLe titsD_le_twoF4M
   obtain ⟨m, hm⟩ := (twoF4ConjD_bijective titsOutBound).2
     (MulAut.congr e0 (burnsideF4gF4Two_restrict (titsD.subgroupOf twoF4M) α))
@@ -9439,13 +9452,13 @@ theorem burnsideF4gF4Two_polygon {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
     (hyp : CFSG.ASVolI.ChF.HypF_4_4g .F4tw 2 1 Gp M₁ M₂) :
     CFSG.Quasithin.IsGenPolygon (CFSG.ASVolI.ChF.incl M₁ M₂).graph
       CFSG.ASVolI.ChF.GLKind.F4tw.m := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, h1, h2⟩ := burnsideF4gF4Two_chart_F4tw hyp
   have ha : a = 0 := by omega
   subst ha
-  letI := fK
-  haveI := finK
-  haveI : CharP K F4.prime := charK
+  let := fK
+  have := finK
+  have : CharP K F4.prime := charK
   have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hK'
   have hcen : Subgroup.center ↥(reeGroup K 0) = ⊥ := by
@@ -9508,9 +9521,9 @@ theorem burnsideF4gF4Two_polygon_tits {E : Type} [Group E] {Gp M₁ M₂ : Subgr
   have hyp4 := hyp.toHypF_4_4g
   have hGp : Gp = ⊤ := hyp.canonical (Or.inr rfl)
   obtain ⟨K, fK, finK, charK, hscope, marking, h1, h2⟩ := burnsideF4gF4Two_chart_tits hyp4
-  letI := fK
-  haveI := finK
-  haveI : CharP K F4.prime := charK
+  let := fK
+  have := finK
+  have : CharP K F4.prime := charK
   have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hK'
   obtain ⟨Φ, hΦ⟩ := burnsideF4gF4Two_key hK
@@ -9721,7 +9734,7 @@ theorem burnsideF4gF4Inv_relativeWeyl_eq (word : List (Fin tag.rank)) :
   rw [Subgroup.zpowers_eq_closure]
   congr 1
   ext e
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   rw [burnsideF4gF4Inv_weylWordOperator_eq]
   exact ⟨fun h => Units.ext h, fun h => h ▸ rfl⟩
 
@@ -9760,7 +9773,7 @@ set_option linter.unusedSectionVars false
 variable
     {tag : Tag} {K : Type} [Field K]
 
-theorem burnsideF4gF4Inv_absoluteRoot_le {α : Fin tag.rank → ℤ} (hα : IsRoot tag α) :
+theorem burnsideF4gF4Inv_absoluteRoot_le {α : Fin tag.rank → ℤ} (_hα : IsRoot tag α) :
     absoluteRoot tag K α ≤ rootSubgroup tag K α := by
   refine (Subgroup.closure_le _).2 ?_
   rintro e ⟨c, seed, word, actor, hfold, hact, he⟩
@@ -9961,7 +9974,7 @@ theorem burnsideF4gF4Inv_exists_quotEquiv {G : Type} [Group G] (hz : Subgroup.ce
 open CFSG.GH74.BNPair CFSG.Quasithin.H13.F431.BN in
 theorem burnsideF4gF4Inv_center_trivial (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     Subgroup.center ↥(reeGroup K a) = ⊥ := by
-  haveI : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
+  have : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
   let e0 : Gm K a ≃* ↥(reeGroup K a) := MulEquiv.subgroupCongr burnsideF4gF4Inv_reeGroup_eq.symm
   have hcen : Subgroup.center (Gm K a) = ⊥ := by
     rcases (inferInstance : (Subgroup.center (Gm K a)).Normal).eq_bot_or_eq_top with h | h
@@ -10193,7 +10206,7 @@ theorem burnsideF4gF4Inv_clause4a (x : E) (hx : x ∈ ctr (oPPrime 2 M₁)) (hx1
   · calc h * z * h⁻¹ * (h * z * h⁻¹) = h * (z * z) * h⁻¹ := by group
       _ = 1 := by rw [D.z_sq]; group
   · have : h⁻¹ * (h * z * h⁻¹) * h⁻¹⁻¹ = z := by group
-    rw [if_neg (by decide), this]
+    rw [ite_eq_right (by decide), this]
     exact D.z_L
   · rw [hC]
     exact burnsideF4gF4Inv_oPPrime_le 2 M₁
@@ -10339,7 +10352,7 @@ theorem burnsideF4gF4Inv_oPPrime_conj {E : Type} [Group E] (p : ℕ) {P : Subgro
     refine ⟨k, ?_⟩
     rw [← hk]
     exact (orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective y)
-  | one => simpa using (oPPrime p P).one_mem
+  | one => simp
   | mul y z _ _ hy hz =>
     have e : g * (y * z) * g⁻¹ = (g * y * g⁻¹) * (g * z * g⁻¹) := by group
     rw [e]
@@ -10829,7 +10842,7 @@ theorem burnsideF4gF4Inv_Cz_le_P1 (hK : Nat.card K = 2 ^ (2 * a + 1)) :
 open CFSG.LieType.Ree.LargeReeCover in
 theorem burnsideF4gF4Inv_oPPrime_P1_le (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     oPPrime 2 (F4.reeLocalParabolic K a ⟨1, by decide⟩) ≤ centralizerZ K a := by
-  haveI : CharP K 2 := inferInstanceAs (CharP K F4.prime)
+  have : CharP K 2 := inferInstanceAs (CharP K F4.prime)
   refine (Subgroup.closure_le _).2 ?_
   rintro x ⟨hxP, k, hk⟩
   obtain ⟨τ, hτ, s, hs, rfl⟩ := exists_mul_of_mem_reeLocalParabolic hK hxP
@@ -11181,8 +11194,8 @@ theorem burnsideF4gF4Inv_F427 {f : ℕ} (hf : 3 ≤ f) : burnsideF4g_F427At .F4t
   obtain ⟨K, fK, finK, charK, a, ha, hKsc, marking, h2, h3, h4, h5⟩ :=
     burnsideF4gF4Inv_chart_data hf chart
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hKsc
-  haveI : CharP K F4.prime := inferInstanceAs (CharP K 2)
-  haveI : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
+  have : CharP K F4.prime := inferInstanceAs (CharP K 2)
+  have : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
   obtain ⟨Φ0, hΦ0⟩ := burnsideF4gF4Inv_exists_iso ha hK marking
   let Φ : Gm K a ≃* E := Φ0.trans Subgroup.topEquiv
   have hmap : ∀ (P : Subgroup (Gm K a)) (R : Subgroup (ModGL F4.tag K)),
@@ -11292,7 +11305,7 @@ theorem burnsideF4gD4Inv_map_oPPrime (f : G →* G') (hf : Function.Injective f)
   rw [MonoidHom.map_closure]
   congr 1
   ext y
-  simp only [Set.mem_setOf_eq, Set.mem_image, Subgroup.mem_map]
+  simp only [Set.mem_ofPred_eq, Set.mem_image, Subgroup.mem_map]
   constructor
   · rintro ⟨⟨x, hx, rfl⟩, k, hk⟩
     exact ⟨x, ⟨hx, k, by rwa [orderOf_injective f hf] at hk⟩, rfl⟩
@@ -11395,7 +11408,7 @@ theorem burnsideF4gD4Inv_oPPrime_conj_mem (M : Subgroup E) {h x : E} (hh : h ∈
     refine Subgroup.subset_closure ⟨M.mul_mem (M.mul_mem hh hxM) (M.inv_mem hh), k, ?_⟩
     rw [← hk]
     exact (orderOf_injective (MulAut.conj h).toMonoidHom (MulAut.conj h).injective x)
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have := mul_mem hx hy
     simpa [mul_assoc] using this
@@ -11587,10 +11600,11 @@ section PCoreNormalizer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem burnsideF4gD4Inv_pCoreOf_normalizer {U : Subgroup G}
     (hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     pCoreOf 2 (Subgroup.normalizer (U : Set G)) = U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := Subgroup.normalizer (U : Set G) with hN
   have hUN : U ≤ N := Subgroup.le_normalizer
   have hUp : IsPGroup 2 U := hU.2.1
@@ -11613,6 +11627,7 @@ theorem burnsideF4gD4Inv_pCoreOf_normalizer {U : Subgroup G}
         ⟨hnorm, hU'p⟩) (show (⟨u, hUN hu⟩ : ↥N) ∈ U.subgroupOf N from hu)
     exact ⟨⟨u, hUN hu⟩, h1, rfl⟩
 
+omit [Finite G] in
 theorem burnsideF4gD4Inv_le_pCoreOf {K N : Subgroup G} (hNK : N ≤ K)
     (hnorm : ∀ k ∈ K, ∀ n ∈ N, k * n * k⁻¹ ∈ N) (hp : IsPGroup 2 N) : N ≤ pCoreOf 2 K := by
   have hn : (N.subgroupOf K).Normal := ⟨fun n hn k => by
@@ -11641,7 +11656,7 @@ theorem burnsideF4gD4Inv_orderOf_of_isPGroup {H : Subgroup G} (hH : IsPGroup 2 H
   exact ⟨k, hk⟩
 
 theorem burnsideF4gD4Inv_le_oPPrime {P Q : Subgroup G} (hQP : Q ≤ P) (hQ : IsPGroup 2 Q) :
-    Q ≤ oPPrime 2 P := fun x hx =>
+    Q ≤ oPPrime 2 P := fun _x hx =>
   Subgroup.subset_closure ⟨hQP hx, burnsideF4gD4Inv_orderOf_of_isPGroup hQ hx⟩
 
 theorem burnsideF4gD4Inv_isSylowTwoOf_of_le {U P : Subgroup G}
@@ -11654,18 +11669,18 @@ theorem burnsideF4gD4Inv_isSylowTwoOf_of_le {U P : Subgroup G}
   rw [h1] at h2
   exact h2
 
-theorem burnsideF4gD4Inv_oPPrime_le_of_sylow [Finite G] {P N S : Subgroup G} (hNP : N ≤ P)
+theorem burnsideF4gD4Inv_oPPrime_le_of_sylow [Finite G] {P N S : Subgroup G} (_hNP : N ≤ P)
     (hnorm : ∀ g ∈ P, ∀ n ∈ N, g * n * g⁻¹ ∈ N)
     (hS : CFSG.QuasithinUnique.IsSylowTwoOf S P) (hSN : S ≤ N) : oPPrime 2 P ≤ N := by
   have hodd : ¬ 2 ∣ N.relIndex P := fun h =>
     hS.2.2 (h.trans (Subgroup.relIndex_dvd_of_le_left P hSN))
-  haveI : (N.subgroupOf P).Normal := ⟨fun n hn k => by
+  have : (N.subgroupOf P).Normal := ⟨fun n hn k => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hnorm k.1 k.2 n.1 hn⟩
   refine (Subgroup.closure_le _).2 ?_
   rintro x ⟨hxP, k, hk⟩
   have h1 : (⟨x, hxP⟩ : ↥P) ^ (2 ^ k) = 1 :=
-    Subtype.ext (by simpa [← hk] using pow_orderOf_eq_one x)
+    Subtype.ext (by simp [← hk])
   have hq : (QuotientGroup.mk (⟨x, hxP⟩ : ↥P) : ↥P ⧸ N.subgroupOf P) ^ (2 ^ k) = 1 := by
     rw [← QuotientGroup.mk_pow, h1, QuotientGroup.mk_one]
   have hd1 := orderOf_dvd_of_pow_eq_one hq
@@ -11722,7 +11737,7 @@ include hσ in
 theorem burnsideF4gD4Inv_cover : ∀ x : Cm σ, x ≠ 1 → x * x = 1 →
     IsConj (zC σ) x ∨ IsConj (tC σ hσ) x := by
   intro x hx1 hx2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact cls_d4 σ hσ x (orderOf_eq_prime (by rw [sq]; exact hx2) hx1)
 
 include hσ in
@@ -11732,6 +11747,7 @@ theorem burnsideF4gD4Inv_not_conj : ¬ IsConj (zC σ) (tC σ hσ) := by
   exact no_aut_zC_tC σ hσ (MulAut.conj c) (by simpa [MulAut.conj_apply] using hc)
 
 include hf hK hσq in
+omit [CharP K 2] hf hK hσq in
 theorem burnsideF4gD4Inv_B_eq :
     Pst0 σ ⊓ Pst1 σ = Subgroup.normalizer (Ust σ : Set (Cm σ)) := by
   rw [CFSG.Quasithin.H13.F431.D4q.Hex.d4_normalizer_eq σ,
@@ -11741,10 +11757,11 @@ theorem burnsideF4gD4Inv_B_eq :
   exact Iff.rfl
 
 include hf hK hσq in
+omit [CharP K 2] in
 theorem burnsideF4gD4Inv_pCore_B : pCoreOf 2 (Pst0 σ ⊓ Pst1 σ) = Ust σ := by
   have hS := CFSG.Quasithin.H13.F431.D4q.Hex.d4_yamStd σ hf hK hσq
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  rw [burnsideF4gD4Inv_B_eq σ hf hK hσq]
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  rw [burnsideF4gD4Inv_B_eq σ]
   exact burnsideF4gD4Inv_pCoreOf_normalizer hS.sylow
 
 include hσ hf hK hσq in
@@ -11762,6 +11779,7 @@ theorem burnsideF4gD4Inv_ctr_conj :
   exact isConj_iff.2 ⟨h, hh⟩
 
 include hf hK in
+omit [Field K] [Finite K] [CharP K 2] in
 theorem burnsideF4gD4Inv_four_le_card : 4 ≤ Nat.card K := by
   rw [hK]
   have h2 : 2 ≤ 2 ^ f := by
@@ -11806,7 +11824,7 @@ theorem burnsideF4gD4Inv_oPPrime_le_perfectCore :
   have hσ3 : σ.toRingHom ^ 3 = 1 :=
     RingHom.ext fun c => (ringHom_pow_three_apply σ.toRingHom c).trans (hσ c)
   have hS := CFSG.Quasithin.H13.F431.D4q.Hex.d4_yamStd σ hf hK hσq
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hP0C : graphFixedParabolic TwistTag.D4 K σ.toRingHom
       {(⟨0, by decide⟩ : Fin TwistTag.D4.foldedTag.rank)} ≤
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom := graphFixedParabolic_le _ _ _ _
@@ -11905,6 +11923,7 @@ theorem burnsideF4gD4Inv_Gamma_eq :
     twistedFixedGroup TwistTag.D4 K σ.toRingHom = graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
   twistedFixedGroup_eq_graphFixedRootGroup_triality σ hσ (Or.inl (ringChar.eq K 2))
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gD4Inv_wordUnit_append {τ : Tag} (w w' : List (Fin τ.rank)) :
     burnsideF4gD4_wordUnit τ K (w ++ w') =
       burnsideF4gD4_wordUnit τ K w' * burnsideF4gD4_wordUnit τ K w := by
@@ -11939,11 +11958,12 @@ section RootTraces
 open CFSG.ASVolI.ChF.ExceptionalRoots CFSG.ComponentClassification.RankTwoExceptional.D4
 
 include hσ in
+omit [Finite K] [CharP K 2] hσ in
 theorem burnsideF4gD4Inv_posRoot_one {g : ModGL TwistTag.D4.tag K}
     (hg : g ∈ trialityPositiveRoot K σ.toRingHom 1) :
     ∃ c : K, σ c = c ∧ g = d4x₂ K c := by
   have hne : ¬ ((1 : Fin 6) = 0 ∨ (1 : Fin 6) = 2 ∨ (1 : Fin 6) = 3) := by decide
-  rw [trialityPositiveRoot, if_neg hne] at hg
+  rw [trialityPositiveRoot, ite_eq_right hne] at hg
   obtain ⟨hgΓ, hgA⟩ := hg
   have hseed : trialitySeed 1 = Pi.single (2 : Fin Tag.D4.rank) 1 := by
     funext i; fin_cases i <;> rfl
@@ -11961,7 +11981,7 @@ include hσ in
 theorem burnsideF4gD4Inv_x₂_mem_posRoot :
     d4x₂ K 1 ∈ trialityPositiveRoot K σ.toRingHom 1 := by
   have hne : ¬ ((1 : Fin 6) = 0 ∨ (1 : Fin 6) = 2 ∨ (1 : Fin 6) = 3) := by decide
-  rw [trialityPositiveRoot, if_neg hne]
+  rw [trialityPositiveRoot, ite_eq_right hne]
   have hseed : trialitySeed 1 = Pi.single (2 : Fin Tag.D4.rank) 1 := by
     funext i; fin_cases i <;> rfl
   have e : trialityRoot 1 = Pi.single (2 : Fin TwistTag.D4.tag.rank) 1 := by
@@ -11976,6 +11996,7 @@ theorem burnsideF4gD4Inv_x₂_mem_posRoot :
     exact h
 
 include hσ in
+omit [Finite K] [CharP K 2] hσ in
 theorem burnsideF4gD4Inv_longRoot_elements :
     ∀ a ∈ trialityLongRoot K σ.toRingHom, ∃ c : K, σ c = c ∧
       a = burnsideF4gD4Inv_nL K * d4x₂ K c * (burnsideF4gD4Inv_nL K)⁻¹ := by
@@ -11984,7 +12005,7 @@ theorem burnsideF4gD4Inv_longRoot_elements :
   induction ha using Subgroup.closure_induction with
   | mem e he =>
     obtain ⟨actor, -, hactor, g, hg, rfl⟩ := he
-    obtain ⟨c, hc, rfl⟩ := burnsideF4gD4Inv_posRoot_one σ hσ hg
+    obtain ⟨c, hc, rfl⟩ := burnsideF4gD4Inv_posRoot_one σ hg
     have hact : actor = burnsideF4gD4_wordUnit Tag.D4 K [0, 1, 3, 2] :=
       (burnsideF4gD4_eq_wordUnit_iff _ actor).1 hactor
     subst hact
@@ -12017,6 +12038,7 @@ theorem burnsideF4gD4Inv_longRoot_elements :
     group
 
 include hσ in
+omit [Finite K] [CharP K 2] hσ in
 theorem burnsideF4gD4Inv_x₂_ne_one : d4x₂ K 1 ≠ 1 := fun h =>
   one_ne_zero (pinnedX_injective _ _ _ (h.trans (pinnedX_zero _ _ _).symm))
 
@@ -12042,7 +12064,7 @@ theorem burnsideF4gD4Inv_L_ne : ∃ a : Cm σ, a ∈ burnsideF4gD4Inv_LC σ ∧ 
   · intro h
     have h1 : burnsideF4gD4Inv_nL K * d4x₂ K 1 * (burnsideF4gD4Inv_nL K)⁻¹ = 1 :=
       congrArg Subtype.val h
-    apply burnsideF4gD4Inv_x₂_ne_one σ hσ
+    apply burnsideF4gD4Inv_x₂_ne_one (K := K)
     calc d4x₂ K 1 = (burnsideF4gD4Inv_nL K)⁻¹ *
           (burnsideF4gD4Inv_nL K * d4x₂ K 1 * (burnsideF4gD4Inv_nL K)⁻¹) *
             burnsideF4gD4Inv_nL K := by group
@@ -12052,7 +12074,7 @@ include hσ in
 theorem burnsideF4gD4Inv_L_conj :
     ∀ a ∈ burnsideF4gD4Inv_LC σ, a ≠ 1 → IsConj (zC σ) a := by
   intro a ha ha1
-  obtain ⟨c, hc, hac⟩ := burnsideF4gD4Inv_longRoot_elements σ hσ _ (Subgroup.mem_subgroupOf.1 ha)
+  obtain ⟨c, hc, hac⟩ := burnsideF4gD4Inv_longRoot_elements σ _ (Subgroup.mem_subgroupOf.1 ha)
   have hc0 : c ≠ 0 := by
     rintro rfl
     apply ha1
@@ -12071,10 +12093,11 @@ theorem burnsideF4gD4Inv_L_conj :
   group
 
 include hσ in
+omit [Finite K] [CharP K 2] hσ in
 theorem burnsideF4gD4Inv_posRoot_zero {g : ModGL TwistTag.D4.tag K}
     (hg : g ∈ trialityPositiveRoot K σ.toRingHom 0) : ∃ c : K, g = d4x₁ K σ c := by
   have hpos : ((0 : Fin 6) = 0 ∨ (0 : Fin 6) = 2 ∨ (0 : Fin 6) = 3) := Or.inl rfl
-  rw [trialityPositiveRoot, if_pos hpos] at hg
+  rw [trialityPositiveRoot, ite_eq_left hpos] at hg
   obtain ⟨hgΓ, hgA⟩ := hg
   have hseed : trialitySeed 0 = Pi.single (0 : Fin Tag.D4.rank) 1 := by
     funext i; fin_cases i <;> rfl
@@ -12098,10 +12121,11 @@ theorem burnsideF4gD4Inv_posRoot_zero {g : ModGL TwistTag.D4.tag K}
   exact coe_orbitX_zero_d4 σ c
 
 include hσ in
+omit [Finite K] in
 theorem burnsideF4gD4Inv_x₁_mem_posRoot :
     d4x₁ K σ 1 ∈ trialityPositiveRoot K σ.toRingHom 0 := by
   have hpos : ((0 : Fin 6) = 0 ∨ (0 : Fin 6) = 2 ∨ (0 : Fin 6) = 3) := Or.inl rfl
-  rw [trialityPositiveRoot, if_pos hpos]
+  rw [trialityPositiveRoot, ite_eq_left hpos]
   have hσ3 : σ.toRingHom ^ 3 = 1 :=
     RingHom.ext fun c => (ringHom_pow_three_apply σ.toRingHom c).trans (hσ c)
   have hmem := trialityOrbitProd_mem (σ := σ.toRingHom) (j := 0) hpos hσ3 1
@@ -12120,6 +12144,7 @@ theorem burnsideF4gD4Inv_x₁_mem_posRoot :
   exact hle hmem.1
 
 include hσ in
+omit [Finite K] [CharP K 2] hσ in
 theorem burnsideF4gD4Inv_shortRoot_elements :
     ∀ a ∈ trialityShortRoot K σ.toRingHom, ∃ c : K,
       a = burnsideF4gD4Inv_nS K * d4x₁ K σ c * (burnsideF4gD4Inv_nS K)⁻¹ := by
@@ -12128,7 +12153,7 @@ theorem burnsideF4gD4Inv_shortRoot_elements :
   induction ha using Subgroup.closure_induction with
   | mem e he =>
     obtain ⟨actor, -, hactor, g, hg, rfl⟩ := he
-    obtain ⟨c, rfl⟩ := burnsideF4gD4Inv_posRoot_zero σ hσ hg
+    obtain ⟨c, rfl⟩ := burnsideF4gD4Inv_posRoot_zero σ hg
     have hact : actor = burnsideF4gD4_wordUnit Tag.D4 K [2, 0, 1, 3] :=
       (burnsideF4gD4_eq_wordUnit_iff _ actor).1 hactor
     subst hact
@@ -12204,7 +12229,7 @@ include hσ in
 theorem burnsideF4gD4Inv_S_conj :
     ∀ b ∈ burnsideF4gD4Inv_SC σ, b ≠ 1 → IsConj (tC σ hσ) b := by
   intro b hb hb1
-  obtain ⟨c, hbc⟩ := burnsideF4gD4Inv_shortRoot_elements σ hσ _ (Subgroup.mem_subgroupOf.1 hb)
+  obtain ⟨c, hbc⟩ := burnsideF4gD4Inv_shortRoot_elements σ _ (Subgroup.mem_subgroupOf.1 hb)
   have hc0 : c ≠ 0 := by
     rintro rfl
     apply hb1
@@ -12268,7 +12293,7 @@ theorem burnsideF4gD4Inv_main (f : ℕ) {E : Type} [Group E] {M₁ M₂ : Subgro
     have hσ' : ∀ c, σ c = c ^ (2 ^ f) := hσ
     have hσ3 : ∀ c, σ (σ (σ c)) = c := ringEquiv_cube_apply_eq hK hσ'
     have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-    haveI hCharP : CharP K 2 :=
+    have hCharP : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (by omega) hK3
     have hchar : ringChar K = 2 := ringChar.eq K 2
@@ -12435,7 +12460,7 @@ theorem burnsideF4gU5Inv_hh_nondeg_left {x : Fin 5 → F} (hx : ∀ y, burnsideF
   · simpa using this
   · intro j _ hji
     have : Fin.rev j ≠ Fin.rev i := fun h => hji (Fin.rev_injective h)
-    simp [Pi.single_apply, this]
+    simp [this]
   · simp
 
 theorem burnsideF4gU5Inv_sum_comm3 (g : Fin 5 → Fin 5 → Fin 5 → F) :
@@ -12575,7 +12600,7 @@ theorem burnsideF4gU5Inv_mem_Umat_iff (A : SU σ 5) :
 theorem burnsideF4gU5Inv_xl04_mat (c : F) (hc : c + σ c = 0) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_xl04 σ c hc) = 1 + Matrix.single 0 4 c := by
   show longRootMatrix (0 : Fin 5) c = _
-  simp [longRootMatrix, burnsideF4gU5_rev_zero]
+  simp [longRootMatrix]
 
 theorem burnsideF4gU5Inv_xl13_mat (c : F) (hc : c + σ c = 0) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_xl13 σ c hc) = 1 + Matrix.single 1 3 c := by
@@ -12586,13 +12611,13 @@ theorem burnsideF4gU5Inv_x01_mat (hσ : ∀ c, σ (σ c) = c) (a : F) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_x01 σ hσ a) =
       1 + Matrix.single 0 1 a - Matrix.single 3 4 (σ a) := by
   show rootMatrix σ (0 : Fin 5) 1 a = _
-  simp [rootMatrix, burnsideF4gU5_rev_one, burnsideF4gU5_rev_zero]
+  simp [rootMatrix, burnsideF4gU5_rev_one]
 
 theorem burnsideF4gU5Inv_x03_mat (hσ : ∀ c, σ (σ c) = c) (a : F) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_x03 σ hσ a) =
       1 + Matrix.single 0 3 a - Matrix.single 1 4 (σ a) := by
   show rootMatrix σ (0 : Fin 5) 3 a = _
-  simp [rootMatrix, burnsideF4gU5_rev_three, burnsideF4gU5_rev_zero]
+  simp [rootMatrix, burnsideF4gU5_rev_three]
 
 @[expose] noncomputable def burnsideF4gU5Inv_h0 (hσ : ∀ c, σ (σ c) = c) (a b : F)
     (hab : b + σ b + σ a * a = 0) : SU σ 5 :=
@@ -12611,7 +12636,7 @@ theorem burnsideF4gU5Inv_h0_mat (hσ : ∀ c, σ (σ c) = c) (a b : F)
     SUExtras.mat σ 5 (burnsideF4gU5Inv_h0 σ hσ a b hab) =
       1 + Matrix.single 0 2 a - Matrix.single 2 4 (σ a) + Matrix.single 0 4 b := by
   show heisenbergMatrix σ (0 : Fin 5) 2 a b = _
-  simp [heisenbergMatrix, burnsideF4gU5_rev_zero]
+  simp [heisenbergMatrix]
 
 theorem burnsideF4gU5Inv_h1_mat (hσ : ∀ c, σ (σ c) = c) (a b : F)
     (hab : b + σ b + σ a * a = 0) :
@@ -12624,45 +12649,45 @@ theorem burnsideF4gU5Inv_xl04_mem_Umat (c : F) (hc : c + σ c = 0) :
     burnsideF4gU5Inv_xl04 σ c hc ∈ burnsideF4gU5Inv_Umat σ := by
   rw [burnsideF4gU5Inv_mem_Umat_iff, burnsideF4gU5Inv_xl04_mat]
   refine ⟨fun i j hji => ?_, fun i => ?_⟩
-  · fin_cases i <;> fin_cases j <;> simp_all [Matrix.single_apply, Matrix.one_apply]
-  · fin_cases i <;> simp [Matrix.single_apply, Matrix.one_apply]
+  · fin_cases i <;> fin_cases j <;> simp_all
+  · fin_cases i <;> simp
 
 theorem burnsideF4gU5Inv_xl13_mem_Umat (c : F) (hc : c + σ c = 0) :
     burnsideF4gU5Inv_xl13 σ c hc ∈ burnsideF4gU5Inv_Umat σ := by
   rw [burnsideF4gU5Inv_mem_Umat_iff, burnsideF4gU5Inv_xl13_mat]
   refine ⟨fun i j hji => ?_, fun i => ?_⟩
-  · fin_cases i <;> fin_cases j <;> simp_all [Matrix.single_apply, Matrix.one_apply]
-  · fin_cases i <;> simp [Matrix.single_apply, Matrix.one_apply]
+  · fin_cases i <;> fin_cases j <;> simp_all
+  · fin_cases i <;> simp
 
 theorem burnsideF4gU5Inv_x01_mem_Umat (hσ : ∀ c, σ (σ c) = c) (a : F) :
     burnsideF4gU5Inv_x01 σ hσ a ∈ burnsideF4gU5Inv_Umat σ := by
   rw [burnsideF4gU5Inv_mem_Umat_iff, burnsideF4gU5Inv_x01_mat]
   refine ⟨fun i j hji => ?_, fun i => ?_⟩
-  · fin_cases i <;> fin_cases j <;> simp_all [Matrix.single_apply, Matrix.one_apply]
-  · fin_cases i <;> simp [Matrix.single_apply, Matrix.one_apply]
+  · fin_cases i <;> fin_cases j <;> simp_all
+  · fin_cases i <;> simp
 
 theorem burnsideF4gU5Inv_x03_mem_Umat (hσ : ∀ c, σ (σ c) = c) (a : F) :
     burnsideF4gU5Inv_x03 σ hσ a ∈ burnsideF4gU5Inv_Umat σ := by
   rw [burnsideF4gU5Inv_mem_Umat_iff, burnsideF4gU5Inv_x03_mat]
   refine ⟨fun i j hji => ?_, fun i => ?_⟩
-  · fin_cases i <;> fin_cases j <;> simp_all [Matrix.single_apply, Matrix.one_apply]
-  · fin_cases i <;> simp [Matrix.single_apply, Matrix.one_apply]
+  · fin_cases i <;> fin_cases j <;> simp_all
+  · fin_cases i <;> simp
 
 theorem burnsideF4gU5Inv_h0_mem_Umat (hσ : ∀ c, σ (σ c) = c) (a b : F)
     (hab : b + σ b + σ a * a = 0) :
     burnsideF4gU5Inv_h0 σ hσ a b hab ∈ burnsideF4gU5Inv_Umat σ := by
   rw [burnsideF4gU5Inv_mem_Umat_iff, burnsideF4gU5Inv_h0_mat]
   refine ⟨fun i j hji => ?_, fun i => ?_⟩
-  · fin_cases i <;> fin_cases j <;> simp_all [Matrix.single_apply, Matrix.one_apply]
-  · fin_cases i <;> simp [Matrix.single_apply, Matrix.one_apply]
+  · fin_cases i <;> fin_cases j <;> simp_all
+  · fin_cases i <;> simp
 
 theorem burnsideF4gU5Inv_h1_mem_Umat (hσ : ∀ c, σ (σ c) = c) (a b : F)
     (hab : b + σ b + σ a * a = 0) :
     burnsideF4gU5Inv_h1 σ hσ a b hab ∈ burnsideF4gU5Inv_Umat σ := by
   rw [burnsideF4gU5Inv_mem_Umat_iff, burnsideF4gU5Inv_h1_mat]
   refine ⟨fun i j hji => ?_, fun i => ?_⟩
-  · fin_cases i <;> fin_cases j <;> simp_all [Matrix.single_apply, Matrix.one_apply]
-  · fin_cases i <;> simp [Matrix.single_apply, Matrix.one_apply]
+  · fin_cases i <;> fin_cases j <;> simp_all
+  · fin_cases i <;> simp
 
 section Entries
 
@@ -12781,7 +12806,7 @@ theorem burnsideF4gU5Inv_centralizer_Umat_shape
   have g40 : G 4 0 = 0 := by have := e1 4 4; simpa [hτ0] using this
   have g00 : G 0 0 = G 4 4 := by
     have := e1 0 4
-    simp only [if_true] at this
+    simp only [ite_true] at this
     exact mul_right_cancel₀ hτ0 (by rw [this, mul_comm])
   have g41 : G 4 1 = 0 := by have := e1 0 1; simpa [hτ0] using this.symm
   have g42 : G 4 2 = 0 := by have := e1 0 2; simpa [hτ0] using this.symm
@@ -12792,7 +12817,7 @@ theorem burnsideF4gU5Inv_centralizer_Umat_shape
   have g41' : G 4 1 = 0 := by have := e2 4 3; simpa [hτ0] using this
   have g11 : G 1 1 = G 3 3 := by
     have := e2 1 3
-    simp only [if_true] at this
+    simp only [ite_true] at this
     exact mul_right_cancel₀ hτ0 (by rw [this, mul_comm])
   have g30' : G 3 0 = 0 := by have := e2 1 0; simpa [hτ0] using this.symm
   have g32 : G 3 2 = 0 := by have := e2 1 2; simpa [hτ0] using this.symm
@@ -12836,7 +12861,7 @@ theorem burnsideF4gU5Inv_centralizer_Umat_shape
   refine ⟨G 0 0, G 0 4, ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.single_apply, g10, g20,
+    simp [Matrix.add_apply, Matrix.smul_apply, g10, g20,
       g30, g40, g41, g42, g43, g01, g21, g31, g32, g34, g12, g13, g14', g23, g24', g02, g03, d11,
       d22, d33, d44]
 
@@ -12894,7 +12919,7 @@ theorem burnsideF4gU5Inv_centralizer_Umat
     have := SUExtras.sum_mat_mul_mat g 4 4
     simp only [Fin.sum_univ_five, hent, burnsideF4gU5_rev_zero, burnsideF4gU5_rev_one,
       burnsideF4gU5Inv_rev_two, burnsideF4gU5_rev_three, burnsideF4gU5Inv_rev_four] at this
-    simp [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.single_apply] at this
+    simp [Matrix.add_apply, Matrix.smul_apply] at this
     linear_combination this
   have hl0 : l ≠ 0 := by
     rintro rfl
@@ -12906,9 +12931,9 @@ theorem burnsideF4gU5Inv_centralizer_Umat
       fin_cases i <;> fin_cases j <;>
         simp_all [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.single_apply]
     have hdet : (SUExtras.mat σ 5 g).det = 1 := g.2.1
-    rw [Matrix.det_of_upperTriangular hUT] at hdet
+    rw [det_of_isUpperTriangular hUT] at hdet
     have : ∀ i, SUExtras.mat σ 5 g i i = l := fun i => by
-      rw [hent]; simp [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.single_apply]
+      rw [hent]; simp [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply]
       intro h0 h4
       exact absurd (h0.trans h4.symm) (by decide)
     simpa [this] using hdet
@@ -12958,6 +12983,7 @@ theorem burnsideF4gU5Inv_pow_two_eq_one {f : ℕ} (hF : Nat.card F = (2 ^ f) ^ 2
   rw [← hux, this]
   rfl
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_matrix_ext {M N : Matrix (Fin 5) (Fin 5) F}
     (h : ∀ x, M *ᵥ x = N *ᵥ x) : M = N := by
   ext i j
@@ -12966,16 +12992,18 @@ theorem burnsideF4gU5Inv_matrix_ext {M N : Matrix (Fin 5) (Fin 5) F}
 
 @[expose] def burnsideF4gU5Inv_e0 : Fin 5 → F := Pi.single 0 1
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_eq_smul_e0 {v : Fin 5 → F} (hv : v ∈ burnsideF4gU5_flag F 1) :
     v = v 0 • (burnsideF4gU5Inv_e0 : Fin 5 → F) := by
   funext a
-  simp only [burnsideF4gU5_flag, Set.mem_setOf_eq] at hv
+  simp only [burnsideF4gU5_flag, Set.mem_ofPred_eq] at hv
   fin_cases a
   · simp [burnsideF4gU5Inv_e0]
   all_goals
-    simp [burnsideF4gU5Inv_e0, Pi.single_apply]
+    simp [burnsideF4gU5Inv_e0]
     exact hv _ (by decide)
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_xl04_mulVec (c : F) (hc : c + σ c = 0) (x : Fin 5 → F) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_xl04 σ c hc) *ᵥ x =
       x + (c * x 4) • (burnsideF4gU5Inv_e0 : Fin 5 → F) := by
@@ -12988,11 +13016,12 @@ theorem burnsideF4gU5Inv_xl04_mulVec (c : F) (hc : c + σ c = 0) (x : Fin 5 → 
     simp
   · simp [h]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_hh_e0_left (x : Fin 5 → F) :
     burnsideF4gU5Inv_hh σ (burnsideF4gU5Inv_e0 : Fin 5 → F) x = x 4 := by
-  simp [burnsideF4gU5Inv_hh, burnsideF4gU5Inv_e0, Pi.single_apply, burnsideF4gU5_rev_zero,
-    burnsideF4gU5Inv_rev_four]
+  simp [burnsideF4gU5Inv_hh, burnsideF4gU5Inv_e0, Pi.single_apply]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_commute_xl04_of_fix (c : F) (hc : c + σ c = 0) {g : SU σ 5}
     (hg : SUExtras.mat σ 5 g *ᵥ (burnsideF4gU5Inv_e0 : Fin 5 → F) = burnsideF4gU5Inv_e0) :
     g * burnsideF4gU5Inv_xl04 σ c hc = burnsideF4gU5Inv_xl04 σ c hc * g := by
@@ -13009,6 +13038,7 @@ theorem burnsideF4gU5Inv_commute_xl04_of_fix (c : F) (hc : c + σ c = 0) {g : SU
 
 @[expose] def burnsideF4gU5Inv_e1 : Fin 5 → F := Pi.single 1 1
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_smul_e0_mem_flag (c : F) :
     c • (burnsideF4gU5Inv_e0 : Fin 5 → F) ∈ burnsideF4gU5_flag F 1 := by
   intro a ha
@@ -13019,17 +13049,19 @@ theorem burnsideF4gU5Inv_smul_e0_mem_flag (c : F) :
     exact absurd ha (by decide)
   simp [this]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_eq_of_mem_flag_two {v : Fin 5 → F} (hv : v ∈ burnsideF4gU5_flag F 2) :
     v = v 0 • (burnsideF4gU5Inv_e0 : Fin 5 → F) + v 1 • (burnsideF4gU5Inv_e1 : Fin 5 → F) := by
   funext a
-  simp only [burnsideF4gU5_flag, Set.mem_setOf_eq] at hv
+  simp only [burnsideF4gU5_flag, Set.mem_ofPred_eq] at hv
   fin_cases a
-  · simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1, Pi.single_apply]
-  · simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1, Pi.single_apply]
+  · simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1]
+  · simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1]
   all_goals
-    simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1, Pi.single_apply]
+    simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1]
     exact hv _ (by decide)
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_e0_mem_flag_two : (burnsideF4gU5Inv_e0 : Fin 5 → F) ∈
     burnsideF4gU5_flag F 2 := by
   intro a ha
@@ -13040,6 +13072,7 @@ theorem burnsideF4gU5Inv_e0_mem_flag_two : (burnsideF4gU5Inv_e0 : Fin 5 → F) �
     exact absurd ha (by decide)
   simp [this]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_e1_mem_flag_two : (burnsideF4gU5Inv_e1 : Fin 5 → F) ∈
     burnsideF4gU5_flag F 2 := by
   intro a ha
@@ -13050,11 +13083,13 @@ theorem burnsideF4gU5Inv_e1_mem_flag_two : (burnsideF4gU5Inv_e1 : Fin 5 → F) �
     exact absurd ha (by decide)
   simp [this]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_flag_smul {k : ℕ} {v : Fin 5 → F} (hv : v ∈ burnsideF4gU5_flag F k)
     (c : F) : c • v ∈ burnsideF4gU5_flag F k := by
   intro a ha
   simp [hv a ha]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_mem_stab_one_of {g : SU σ 5}
     (h1 : SUExtras.mat σ 5 g *ᵥ (burnsideF4gU5Inv_e0 : Fin 5 → F) ∈ burnsideF4gU5_flag F 1)
     (h2 : SUExtras.mat σ 5 g⁻¹ *ᵥ (burnsideF4gU5Inv_e0 : Fin 5 → F) ∈
@@ -13075,6 +13110,7 @@ theorem burnsideF4gU5Inv_mem_stab_one_of {g : SU σ 5}
     rw [burnsideF4gU5Inv_eq_smul_e0 hv, Matrix.mulVec_smul]
     exact burnsideF4gU5Inv_flag_smul h1 _
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_mem_stab_two_of {g : SU σ 5}
     (h1 : SUExtras.mat σ 5 g *ᵥ (burnsideF4gU5Inv_e0 : Fin 5 → F) ∈ burnsideF4gU5_flag F 2)
     (h1' : SUExtras.mat σ 5 g *ᵥ (burnsideF4gU5Inv_e1 : Fin 5 → F) ∈ burnsideF4gU5_flag F 2)
@@ -13103,6 +13139,7 @@ theorem burnsideF4gU5Inv_mem_stab_two_of {g : SU σ 5}
       Matrix.mulVec_smul]
     exact add_mem (burnsideF4gU5Inv_flag_smul h1 _) (burnsideF4gU5Inv_flag_smul h1' _)
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_apply_e0_of_comm (c : F) (hc : c + σ c = 0) (hc0 : c ≠ 0) {g : SU σ 5}
     (hg : g * burnsideF4gU5Inv_xl04 σ c hc = burnsideF4gU5Inv_xl04 σ c hc * g) :
     SUExtras.mat σ 5 g *ᵥ (burnsideF4gU5Inv_e0 : Fin 5 → F) ∈ burnsideF4gU5_flag F 1 := by
@@ -13123,6 +13160,7 @@ theorem burnsideF4gU5Inv_apply_e0_of_comm (c : F) (hc : c + σ c = 0) (hc0 : c �
   rw [h4]
   exact burnsideF4gU5Inv_smul_e0_mem_flag _
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_centralizer_xl04_le_stab (c : F) (hc : c + σ c = 0) (hc0 : c ≠ 0)
     {g : SU σ 5} (hg : g * burnsideF4gU5Inv_xl04 σ c hc = burnsideF4gU5Inv_xl04 σ c hc * g) :
     g ∈ burnsideF4gU5_stab σ 1 :=
@@ -13163,6 +13201,7 @@ theorem burnsideF4gU5Inv_commute_xl04_of_two_power {f : ℕ} (hF : Nat.card F = 
   burnsideF4gU5Inv_commute_xl04_of_fix σ c hc
     (burnsideF4gU5Inv_fix_e0_of_two_power σ hF hg hk)
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_x03_mulVec (hσ : ∀ c, σ (σ c) = c) (a : F) (x : Fin 5 → F) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_x03 σ hσ a) *ᵥ x =
       x + (a * x 3) • (burnsideF4gU5Inv_e0 : Fin 5 → F) -
@@ -13173,6 +13212,7 @@ theorem burnsideF4gU5Inv_x03_mulVec (hσ : ∀ c, σ (σ c) = c) (a : F) (x : Fi
     burnsideF4gU5Inv_e1, Pi.smul_apply, Pi.single_apply, smul_eq_mul]
   fin_cases i <;> simp
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_apply_e01_of_comm (hσ : ∀ c, σ (σ c) = c) {g : SU σ 5}
     (hg : g * burnsideF4gU5Inv_x03 σ hσ 1 = burnsideF4gU5Inv_x03 σ hσ 1 * g) :
     SUExtras.mat σ 5 g *ᵥ (burnsideF4gU5Inv_e0 : Fin 5 → F) ∈ burnsideF4gU5_flag F 2 ∧
@@ -13192,8 +13232,8 @@ theorem burnsideF4gU5Inv_apply_e01_of_comm (hσ : ∀ c, σ (σ c) = c) {g : SU 
   simp only [map_mul, ← Matrix.mulVec_mulVec, burnsideF4gU5Inv_x03_mulVec] at h3 h4
   simp only [Matrix.mulVec_sub, Matrix.mulVec_add, Matrix.mulVec_smul] at h3 h4
   have e33 : (Pi.single 3 1 : Fin 5 → F) 3 = 1 := by simp
-  have e34 : (Pi.single 3 1 : Fin 5 → F) 4 = 0 := by simp [Pi.single_apply]
-  have e43 : (Pi.single 4 1 : Fin 5 → F) 3 = 0 := by simp [Pi.single_apply]
+  have e34 : (Pi.single 3 1 : Fin 5 → F) 4 = 0 := by simp
+  have e43 : (Pi.single 4 1 : Fin 5 → F) 3 = 0 := by simp
   have e44 : (Pi.single 4 1 : Fin 5 → F) 4 = 1 := by simp
   rw [e33, e34, map_one] at h3
   rw [e43, e44, map_one] at h4
@@ -13215,6 +13255,7 @@ theorem burnsideF4gU5Inv_apply_e01_of_comm (hσ : ∀ c, σ (σ c) = c) {g : SU 
     rw [h5]
     exact hflag _ _
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_centralizer_x03_le_stab (hσ : ∀ c, σ (σ c) = c) {g : SU σ 5}
     (hg : g * burnsideF4gU5Inv_x03 σ hσ 1 = burnsideF4gU5Inv_x03 σ hσ 1 * g) :
     g ∈ burnsideF4gU5_stab σ 2 :=
@@ -13223,11 +13264,12 @@ theorem burnsideF4gU5Inv_centralizer_x03_le_stab (hσ : ∀ c, σ (σ c) = c) {g
     (burnsideF4gU5Inv_apply_e01_of_comm σ hσ (Commute.inv_left (show Commute g _ from hg))).1
     (burnsideF4gU5Inv_apply_e01_of_comm σ hσ (Commute.inv_left (show Commute g _ from hg))).2
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_hh_e1_left (x : Fin 5 → F) :
     burnsideF4gU5Inv_hh σ (burnsideF4gU5Inv_e1 : Fin 5 → F) x = x 3 := by
-  simp [burnsideF4gU5Inv_hh, burnsideF4gU5Inv_e1, Pi.single_apply, burnsideF4gU5_rev_one,
-    burnsideF4gU5_rev_three]
+  simp [burnsideF4gU5Inv_hh, burnsideF4gU5Inv_e1, Pi.single_apply, burnsideF4gU5_rev_one]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_mem_flag_three_iff (v : Fin 5 → F) :
     v ∈ burnsideF4gU5_flag F 3 ↔ ∀ w ∈ burnsideF4gU5_flag F 2, burnsideF4gU5Inv_hh σ w v = 0 := by
   constructor
@@ -13249,6 +13291,7 @@ theorem burnsideF4gU5Inv_mem_flag_three_iff (v : Fin 5 → F) :
     · exact h1
     · exact h0
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_stab_two_flag_three {g : SU σ 5} (hg : g ∈ burnsideF4gU5_stab σ 2)
     {v : Fin 5 → F} (hv : v ∈ burnsideF4gU5_flag F 3) :
     SUExtras.mat σ 5 g *ᵥ v ∈ burnsideF4gU5_flag F 3 := by
@@ -13263,24 +13306,29 @@ theorem burnsideF4gU5Inv_stab_two_flag_three {g : SU σ 5} (hg : g ∈ burnsideF
   rw [this]
   exact hv _ hw'
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_flag_add {k : ℕ} {x y : Fin 5 → F} (hx : x ∈ burnsideF4gU5_flag F k)
     (hy : y ∈ burnsideF4gU5_flag F k) : x + y ∈ burnsideF4gU5_flag F k := by
   intro a ha
   simp [hx a ha, hy a ha]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_flag_zero (k : ℕ) : (0 : Fin 5 → F) ∈ burnsideF4gU5_flag F k :=
   fun _ _ => rfl
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_flag_mono {k k' : ℕ} (hk : k ≤ k') {v : Fin 5 → F}
     (hv : v ∈ burnsideF4gU5_flag F k) : v ∈ burnsideF4gU5_flag F k' :=
   fun a ha => hv a (hk.trans ha)
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_mul_sub_one_mulVec (A B : SU σ 5) (v : Fin 5 → F) :
     (SUExtras.mat σ 5 (A * B) - 1) *ᵥ v = (SUExtras.mat σ 5 A - 1) *ᵥ (SUExtras.mat σ 5 B *ᵥ v) +
       (SUExtras.mat σ 5 B - 1) *ᵥ v := by
   simp only [map_mul, Matrix.sub_mulVec, Matrix.one_mulVec, ← Matrix.mulVec_mulVec]
   abel
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_mulVec_eq (A : SU σ 5) (v : Fin 5 → F) :
     SUExtras.mat σ 5 A *ᵥ v = v + (SUExtras.mat σ 5 A - 1) *ᵥ v := by
   simp [Matrix.sub_mulVec]
@@ -13307,6 +13355,7 @@ theorem burnsideF4gU5Inv_mulVec_eq (A : SU σ 5) (v : Fin 5 → F) :
   one_mem' := by
     refine ⟨fun v => ?_, fun v hv => ?_, fun v hv => ?_⟩ <;> simp [burnsideF4gU5Inv_flag_zero]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_R2m_pow_four [CharP F 2] {A : SU σ 5}
     (hA : A ∈ burnsideF4gU5Inv_R2m σ) : A ^ 4 = 1 := by
   apply SUExtras.mat_injective
@@ -13344,12 +13393,14 @@ theorem burnsideF4gU5Inv_R2m_pow_four [CharP F 2] {A : SU σ 5}
       rw [this]
       exact (burnsideF4gU5Inv_R2m σ).mul_mem ((burnsideF4gU5Inv_R2m σ).mul_mem hA hA) hA }
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_R2_isPGroup [CharP F 2] : IsPGroup 2 (burnsideF4gU5Inv_R2 σ) := by
   intro x
   refine ⟨2, ?_⟩
   apply Subtype.ext
   exact burnsideF4gU5Inv_R2m_pow_four σ x.2
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_conj_sub_one_mulVec (g A : SU σ 5) (v : Fin 5 → F) :
     (SUExtras.mat σ 5 (g * A * g⁻¹) - 1) *ᵥ v =
       SUExtras.mat σ 5 g *ᵥ ((SUExtras.mat σ 5 A - 1) *ᵥ (SUExtras.mat σ 5 g⁻¹ *ᵥ v)) := by
@@ -13359,6 +13410,7 @@ theorem burnsideF4gU5Inv_conj_sub_one_mulVec (g A : SU σ 5) (v : Fin 5 → F) :
     Matrix.mulVec_mulVec]
   rw [hgg]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_R2_conj_mem [CharP F 2] {g A : SU σ 5} (hg : g ∈ burnsideF4gU5_stab σ 2)
     (hA : A ∈ burnsideF4gU5Inv_R2 σ) : g * A * g⁻¹ ∈ burnsideF4gU5Inv_R2 σ := by
   have hg' : g⁻¹ ∈ burnsideF4gU5_stab σ 2 := (burnsideF4gU5_stab σ 2).inv_mem hg
@@ -13373,6 +13425,7 @@ theorem burnsideF4gU5Inv_R2_conj_mem [CharP F 2] {g A : SU σ 5} (hg : g ∈ bur
     have h1 : SUExtras.mat σ 5 g⁻¹ *ᵥ v ∈ burnsideF4gU5_flag F 2 := (hg' v).mpr hv
     rw [hA3 _ h1, Matrix.mulVec_zero]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_x03_mem_R2 [CharP F 2] (hσ : ∀ c, σ (σ c) = c) :
     burnsideF4gU5Inv_x03 σ hσ 1 ∈ burnsideF4gU5Inv_R2 σ := by
   have hsub : ∀ v : Fin 5 → F, (SUExtras.mat σ 5 (burnsideF4gU5Inv_x03 σ hσ 1) - 1) *ᵥ v =
@@ -13418,7 +13471,7 @@ variable {F : Type} [Field F] (σ : F ≃+* F)
       ext i j
       fin_cases i <;> fin_cases j <;>
         simp [conjTr, antidiag, Matrix.mul_apply, Matrix.diagonal_apply, Fin.sum_univ_five, hσ,
-          hσa, ha, Fin.rev] <;> field_simp)
+          hσa, ha, Fin.rev])
 
 theorem burnsideF4gU5Inv_torus_mat (hσ : ∀ c, σ (σ c) = c) (a : F) (ha : a ≠ 0) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_torus σ hσ a ha) =
@@ -13438,7 +13491,7 @@ theorem burnsideF4gU5Inv_torus_conj_xl04 (hσ : ∀ c, σ (σ c) = c) (a : F) (h
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.diagonal_apply, Matrix.add_apply, Matrix.one_apply,
-      Matrix.single_apply, Fin.sum_univ_five] <;> field_simp
+      Matrix.single_apply]; field_simp
 
 end Torus
 
@@ -13450,6 +13503,7 @@ variable {F : Type} [Field F] [Finite F] (σ : F ≃+* F)
   ∀ x y : Fin 5 → F, ∃ a b : F, (a ≠ 0 ∨ b ≠ 0) ∧
     a • ((SUExtras.mat σ 5 A - 1) *ᵥ x) + b • ((SUExtras.mat σ 5 A - 1) *ᵥ y) = 0
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_Rk1_conj {A : SU σ 5} (h : burnsideF4gU5Inv_Rk1 σ A) (g : SU σ 5) :
     burnsideF4gU5Inv_Rk1 σ (g * A * g⁻¹) := by
   intro x y
@@ -13463,6 +13517,7 @@ theorem burnsideF4gU5Inv_Rk1_conj {A : SU σ 5} (h : burnsideF4gU5Inv_Rk1 σ A) 
   rw [burnsideF4gU5Inv_conj_sub_one_mulVec, burnsideF4gU5Inv_conj_sub_one_mulVec]
   exact key
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_Rk1_xl04 (c : F) (hc : c + σ c = 0) :
     burnsideF4gU5Inv_Rk1 σ (burnsideF4gU5Inv_xl04 σ c hc) := by
   intro x y
@@ -13481,6 +13536,7 @@ theorem burnsideF4gU5Inv_Rk1_xl04 (c : F) (hc : c + σ c = 0) :
     have : y 4 * (c * x 4) + -x 4 * (c * y 4) = 0 := by ring
     rw [this, zero_smul]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_not_Rk1_x03 (hσ : ∀ c, σ (σ c) = c) {c : F} (hc : c ≠ 0) :
     ¬ burnsideF4gU5Inv_Rk1 σ (burnsideF4gU5Inv_x03 σ hσ c) := by
   intro h
@@ -13495,7 +13551,7 @@ theorem burnsideF4gU5Inv_not_Rk1_x03 (hσ : ∀ c, σ (σ c) = c) {c : F} (hc : 
   rw [hsub, hsub] at e
   have e0 := congrFun e 0
   have e1 := congrFun e 1
-  simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1, Pi.single_apply] at e0 e1
+  simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1] at e0 e1
   have ha : a = 0 := by
     rcases e0 with h | h
     · exact h
@@ -13512,6 +13568,7 @@ section Facts
 
 variable {F : Type} [Field F] [Finite F] (σ : F ≃+* F)
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_xl04_sq [CharP F 2] (c : F) (hc : c + σ c = 0) :
     burnsideF4gU5Inv_xl04 σ c hc * burnsideF4gU5Inv_xl04 σ c hc = 1 := by
   apply SUExtras.mat_injective
@@ -13521,15 +13578,17 @@ theorem burnsideF4gU5Inv_xl04_sq [CharP F 2] (c : F) (hc : c + σ c = 0) :
     simp [Matrix.mul_apply, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
       Fin.sum_univ_five, CharTwo.add_self_eq_zero]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_x03_sq [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (c : F) :
     burnsideF4gU5Inv_x03 σ hσ c * burnsideF4gU5Inv_x03 σ hσ c = 1 := by
   apply SUExtras.mat_injective
   rw [map_mul, burnsideF4gU5Inv_x03_mat, map_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply,
+    simp [Matrix.mul_apply, Matrix.add_apply, Matrix.one_apply,
       Matrix.single_apply, Fin.sum_univ_five, CharTwo.add_self_eq_zero, CharTwo.sub_eq_add]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_commute_xl04_Umat (c : F) (hc : c + σ c = 0) {u : SU σ 5}
     (hu : u ∈ burnsideF4gU5Inv_Umat σ) :
     u * burnsideF4gU5Inv_xl04 σ c hc = burnsideF4gU5Inv_xl04 σ c hc * u := by
@@ -13563,6 +13622,7 @@ theorem burnsideF4gU5Inv_commute_xl04_Umat (c : F) (hc : c + σ c = 0) {u : SU �
 @[expose] noncomputable def burnsideF4gU5Inv_Xs (hσ : ∀ c, σ (σ c) = c) : Subgroup (SU σ 5) :=
   (rootHom σ hσ (i := (0 : Fin 5)) (j := (3 : Fin 5)) (by decide) (by decide) (by decide)).range
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_mem_Xs_iff (hσ : ∀ c, σ (σ c) = c) (x : SU σ 5) :
     x ∈ burnsideF4gU5Inv_Xs σ hσ ↔ ∃ a : F, x = burnsideF4gU5Inv_x03 σ hσ a := by
   constructor
@@ -13571,20 +13631,24 @@ theorem burnsideF4gU5Inv_mem_Xs_iff (hσ : ∀ c, σ (σ c) = c) (x : SU σ 5) :
   · rintro ⟨a, rfl⟩
     exact ⟨Multiplicative.ofAdd a, rfl⟩
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_x03_zero (hσ : ∀ c, σ (σ c) = c) : burnsideF4gU5Inv_x03 σ hσ 0 = 1 := by
   apply SUExtras.mat_injective
   rw [burnsideF4gU5Inv_x03_mat, map_one]
   simp
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_Xl_le_Umat : burnsideF4gU5Inv_Xl σ ≤ burnsideF4gU5Inv_Umat σ := by
   intro x hx
   obtain ⟨c, hc, rfl⟩ := (burnsideF4gU5Inv_mem_Xl_iff σ x).mp hx
   exact burnsideF4gU5Inv_xl04_mem_Umat σ c hc
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_Umat_le_stab (k : ℕ) :
     burnsideF4gU5Inv_Umat σ ≤ burnsideF4gU5_stab σ k :=
   (burnsideF4gU5Inv_Umat_le_UT σ).trans (burnsideF4gU5_UT_le_stab σ k)
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_x03_one_not_central
     (hσ : CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution σ) :
     burnsideF4gU5Inv_x03 σ hσ.invol 1 ∉ Subgroup.center (SU σ 5) := by
@@ -13597,6 +13661,7 @@ theorem burnsideF4gU5Inv_x03_one_not_central
     Matrix.single_apply, Fin.sum_univ_five] at h2
   exact ha h2.symm
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_mem_flag_four_iff (v : Fin 5 → F) :
     v ∈ burnsideF4gU5_flag F 4 ↔ ∀ w ∈ burnsideF4gU5_flag F 1, burnsideF4gU5Inv_hh σ w v = 0 := by
   constructor
@@ -13613,6 +13678,7 @@ theorem burnsideF4gU5Inv_mem_flag_four_iff (v : Fin 5 → F) :
     subst this
     exact h0
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_stab_one_flag_four {g : SU σ 5} (hg : g ∈ burnsideF4gU5_stab σ 1)
     {v : Fin 5 → F} (hv : v ∈ burnsideF4gU5_flag F 4) :
     SUExtras.mat σ 5 g *ᵥ v ∈ burnsideF4gU5_flag F 4 := by
@@ -13627,6 +13693,7 @@ theorem burnsideF4gU5Inv_stab_one_flag_four {g : SU σ 5} (hg : g ∈ burnsideF4
   rw [this]
   exact hv _ hw'
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_stab_inf_le_UT :
     burnsideF4gU5_stab σ 1 ⊓ burnsideF4gU5_stab σ 2 ≤ burnsideF4gU5_UT σ := by
   rintro g ⟨hg1, hg2⟩
@@ -13634,7 +13701,7 @@ theorem burnsideF4gU5Inv_stab_inf_le_UT :
   have hcol : ∀ j : Fin 5, ∀ i : Fin 5, SUExtras.mat σ 5 g i j =
       (SUExtras.mat σ 5 g *ᵥ (Pi.single j 1 : Fin 5 → F)) i := by
     intro j i
-    simp [Matrix.mulVec_single_one]
+    simp
   have h0 : SUExtras.mat σ 5 g *ᵥ (Pi.single 0 1 : Fin 5 → F) ∈ burnsideF4gU5_flag F 1 :=
     (hg1 _).mpr (by simpa [burnsideF4gU5Inv_e0] using
       burnsideF4gU5Inv_smul_e0_mem_flag (F := F) 1)
@@ -13645,13 +13712,13 @@ theorem burnsideF4gU5Inv_stab_inf_le_UT :
       intro a ha
       have : a ≠ 2 := by
         intro h; subst h; exact absurd ha (by decide)
-      simp [Pi.single_apply, this])
+      simp [this])
   have h3 : SUExtras.mat σ 5 g *ᵥ (Pi.single 3 1 : Fin 5 → F) ∈ burnsideF4gU5_flag F 4 :=
     burnsideF4gU5Inv_stab_one_flag_four σ hg1 (by
       intro a ha
       have : a ≠ 3 := by
         intro h; subst h; exact absurd ha (by decide)
-      simp [Pi.single_apply, this])
+      simp [this])
   intro i j hji
   have hji' : (j : ℕ) < (i : ℕ) := hji
   show SUExtras.mat σ 5 g i j = 0
@@ -13665,6 +13732,7 @@ theorem burnsideF4gU5Inv_stab_inf_le_UT :
     simp at hji'
     omega
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_pow_diag {M : Matrix (Fin 5) (Fin 5) F} (hM : M.BlockTriangular id)
     (n : ℕ) : (M ^ n).BlockTriangular id ∧ ∀ i, (M ^ n) i i = M i i ^ n := by
   induction n with
@@ -13684,6 +13752,7 @@ theorem burnsideF4gU5Inv_UT_two_power_mem_Umat {f : ℕ} (hF : Nat.card F = (2 ^
   rw [← map_pow, hk, map_one, Matrix.one_apply_eq] at h1
   exact burnsideF4gU5Inv_pow_two_eq_one hF h1.symm
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_Umat_conj_mem {g u : SU σ 5} (hg : g ∈ burnsideF4gU5_UT σ)
     (hu : u ∈ burnsideF4gU5Inv_Umat σ) : g * u * g⁻¹ ∈ burnsideF4gU5Inv_Umat σ := by
   refine ⟨(burnsideF4gU5_UT σ).mul_mem ((burnsideF4gU5_UT σ).mul_mem hg hu.1)
@@ -13752,7 +13821,7 @@ theorem burnsideF4gU5Inv_eq_of_two_power {A B : G} {a b : ℕ} (hA : A ^ (2 ^ a)
   exact inv_mul_eq_one.mp (burnsideF4gU5Inv_eq_one_of_odd (hodd _ hζ) h1)
 
 include hcent hodd in
-theorem burnsideF4gU5Inv_exists_two_power_lift {K : Subgroup G} (hK : θ.ker ≤ K) {x : E}
+theorem burnsideF4gU5Inv_exists_two_power_lift {K : Subgroup G} (_hK : θ.ker ≤ K) {x : E}
     (hx : x ∈ K.map θ) {k : ℕ} (hxk : x ^ (2 ^ k) = 1) :
     ∃ A ∈ K, θ A = x ∧ A ^ (2 ^ k) = 1 := by
   obtain ⟨A₀, hA₀K, rfl⟩ := hx
@@ -13903,11 +13972,11 @@ variable {F : Type} [Field F] [Finite F] {f : ℕ} [CharP F 2] (hF : Nat.card F 
   (hker : θ.ker = Subgroup.center (SU (unitaryInvolution F 2 f) 5))
 
 include hF hker in
-theorem burnsideF4gU5Inv_ker_odd : ∀ z ∈ θ.ker, Odd (orderOf z) :=
-  fun z hz => burnsideF4gU5Inv_center_odd hF (hker ▸ hz)
+theorem burnsideF4gU5Inv_ker_odd : ∀ _z ∈ θ.ker, Odd (orderOf _z) :=
+  fun _z hz => burnsideF4gU5Inv_center_odd hF (hker ▸ hz)
 
 include hF hker in
-theorem burnsideF4gU5Inv_ker_le_stab (k : ℕ) (hk : k = 1 ∨ k = 2) :
+theorem burnsideF4gU5Inv_ker_le_stab (k : ℕ) (_hk : k = 1 ∨ k = 2) :
     θ.ker ≤ burnsideF4gU5_stab (unitaryInvolution F 2 f) k := by
   have h1 : θ.ker ≤ burnsideF4gU5_UT (unitaryInvolution F 2 f) := by
     rw [hker]
@@ -13998,6 +14067,7 @@ theorem burnsideF4gU5Inv_ctr_pCore_borel (hsurj : Function.Surjective θ) :
   rw [burnsideF4gU5Inv_pCore_borel hF θ hker, burnsideF4gU5Inv_ctr_Umat hF θ hker hsurj]
 
 include hF hker in
+omit hF hker in
 theorem burnsideF4gU5Inv_Umat_le_oPPrime :
     (burnsideF4gU5Inv_Umat (unitaryInvolution F 2 f)).map θ ≤
       oPPrime 2 ((burnsideF4gU5_stab (unitaryInvolution F 2 f) 1).map θ) := by
@@ -14020,7 +14090,7 @@ theorem burnsideF4gU5Inv_ctr_oPPrime_le (hsurj : Function.Surjective θ) :
   refine burnsideF4gU5Inv_mem_Xl_of_centralizer hF θ hker hsurj
     (Subgroup.mem_centralizer_iff.mpr ?_)
   intro y hy
-  exact Subgroup.mem_centralizer_iff.mp hz y (burnsideF4gU5Inv_Umat_le_oPPrime hF θ hker hy)
+  exact Subgroup.mem_centralizer_iff.mp hz y (burnsideF4gU5Inv_Umat_le_oPPrime θ hy)
 
 theorem burnsideF4gU5Inv_xl04_zero :
     burnsideF4gU5Inv_xl04 (unitaryInvolution F 2 f) 0 (by simp) = 1 := by
@@ -14053,6 +14123,7 @@ theorem burnsideF4gU5Inv_map_x03_ne_one :
     (hker ▸ MonoidHom.mem_ker.mpr h)
 
 include hF hker in
+omit hF hker in
 theorem burnsideF4gU5Inv_exists_xl04 {z : E}
     (hz : z ∈ (burnsideF4gU5Inv_Xl (unitaryInvolution F 2 f)).map θ) (hz1 : z ≠ 1) :
     ∃ (c : F) (hc : c + unitaryInvolution F 2 f c = 0), c ≠ 0 ∧
@@ -14073,7 +14144,7 @@ theorem burnsideF4gU5Inv_centralizer_le_M1 (hsurj : Function.Surjective θ) {z :
       (burnsideF4gU5_stab (unitaryInvolution F 2 f) 1).map θ := by
   have hcent : θ.ker ≤ Subgroup.center (SU (unitaryInvolution F 2 f) 5) := hker.le
   have hodd := burnsideF4gU5Inv_ker_odd hF θ hker
-  obtain ⟨c, hc, hc0, rfl⟩ := burnsideF4gU5Inv_exists_xl04 hF θ hker hz hz1
+  obtain ⟨c, hc, hc0, rfl⟩ := burnsideF4gU5Inv_exists_xl04 θ hz hz1
   rw [burnsideF4gU5Inv_centralizer_map θ hcent hodd hsurj (a := 1)
     (by rw [pow_one, pow_two]; exact burnsideF4gU5Inv_xl04_sq _ c hc)]
   rintro _ ⟨g, hg, rfl⟩
@@ -14113,6 +14184,7 @@ theorem burnsideF4gU5Inv_R2_le_stab_two :
     exact hv
 
 include hF hker in
+omit hker in
 theorem burnsideF4gU5Inv_x03_mem_pCore :
     θ (burnsideF4gU5Inv_x03 (unitaryInvolution F 2 f) (unitaryInvolution_involutive hF) 1) ∈
       pCoreOf 2 ((burnsideF4gU5_stab (unitaryInvolution F 2 f) 2).map θ) := by
@@ -14190,30 +14262,37 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] (σ : F ≃+* F)
 @[expose] noncomputable def burnsideF4gU5Inv_Nv (A : SU σ 5) (v : Fin 5 → F) : Fin 5 → F :=
   (SUExtras.mat σ 5 A - 1) *ᵥ v
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_Nv_add (A : SU σ 5) (v w : Fin 5 → F) :
     burnsideF4gU5Inv_Nv σ A (v + w) = burnsideF4gU5Inv_Nv σ A v + burnsideF4gU5Inv_Nv σ A w :=
   Matrix.mulVec_add _ _ _
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_Nv_smul (A : SU σ 5) (c : F) (v : Fin 5 → F) :
     burnsideF4gU5Inv_Nv σ A (c • v) = c • burnsideF4gU5Inv_Nv σ A v :=
   Matrix.mulVec_smul _ _ _
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_Nv_sub (A : SU σ 5) (v w : Fin 5 → F) :
     burnsideF4gU5Inv_Nv σ A (v - w) = burnsideF4gU5Inv_Nv σ A v - burnsideF4gU5Inv_Nv σ A w :=
   Matrix.mulVec_sub _ _ _
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_Nv_zero (A : SU σ 5) : burnsideF4gU5Inv_Nv σ A 0 = 0 :=
   Matrix.mulVec_zero _
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_Nv_eq_sub (A : SU σ 5) (v : Fin 5 → F) :
     burnsideF4gU5Inv_Nv σ A v = SUExtras.mat σ 5 A *ᵥ v - v := by
   simp [burnsideF4gU5Inv_Nv, Matrix.sub_mulVec]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_mulVec_eq_add_Nv (A : SU σ 5) (v : Fin 5 → F) :
     SUExtras.mat σ 5 A *ᵥ v = v + burnsideF4gU5Inv_Nv σ A v := by
   rw [burnsideF4gU5Inv_Nv_eq_sub]
   abel
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_eq_one_of_Nv_zero {A : SU σ 5}
     (h : ∀ v, burnsideF4gU5Inv_Nv σ A v = 0) : A = 1 := by
   apply SUExtras.mat_injective
@@ -14223,11 +14302,13 @@ theorem burnsideF4gU5Inv_eq_one_of_Nv_zero {A : SU σ 5}
   rw [burnsideF4gU5Inv_mulVec_eq_add_Nv, h, add_zero, Matrix.one_mulVec]
 
 variable {σ} in
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_mulVec_self {A : SU σ 5} (hA : A * A = 1) (v : Fin 5 → F) :
     SUExtras.mat σ 5 A *ᵥ (SUExtras.mat σ 5 A *ᵥ v) = v := by
   rw [Matrix.mulVec_mulVec, ← map_mul, hA, map_one, Matrix.one_mulVec]
 
 variable {σ} in
+omit [Finite F] in
 theorem burnsideF4gU5Inv_Nv_Nv {A : SU σ 5} (hA : A * A = 1) (v : Fin 5 → F) :
     burnsideF4gU5Inv_Nv σ A (burnsideF4gU5Inv_Nv σ A v) = 0 := by
   have hmat : SUExtras.mat σ 5 A * SUExtras.mat σ 5 A = 1 := by rw [← map_mul, hA, map_one]
@@ -14240,6 +14321,7 @@ theorem burnsideF4gU5Inv_Nv_Nv {A : SU σ 5} (hA : A * A = 1) (v : Fin 5 → F) 
   simp only [burnsideF4gU5Inv_Nv, Matrix.mulVec_mulVec, h1, Matrix.zero_mulVec]
 
 variable {σ} in
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_hh_mulVec_comm {A : SU σ 5} (hA : A * A = 1) (x y : Fin 5 → F) :
     burnsideF4gU5Inv_hh σ (SUExtras.mat σ 5 A *ᵥ x) y =
       burnsideF4gU5Inv_hh σ x (SUExtras.mat σ 5 A *ᵥ y) := by
@@ -14247,6 +14329,7 @@ theorem burnsideF4gU5Inv_hh_mulVec_comm {A : SU σ 5} (hA : A * A = 1) (x y : Fi
   rwa [burnsideF4gU5Inv_mulVec_self hA y] at this
 
 variable {σ} in
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_hh_Nv_left {A : SU σ 5} (hA : A * A = 1) (x y : Fin 5 → F) :
     burnsideF4gU5Inv_hh σ (burnsideF4gU5Inv_Nv σ A x) y =
       burnsideF4gU5Inv_hh σ x (burnsideF4gU5Inv_Nv σ A y) := by
@@ -14256,30 +14339,36 @@ theorem burnsideF4gU5Inv_hh_Nv_left {A : SU σ 5} (hA : A * A = 1) (x y : Fin 5 
 @[expose] noncomputable def burnsideF4gU5Inv_beta (A : SU σ 5) (x y : Fin 5 → F) : F :=
   burnsideF4gU5Inv_hh σ x (burnsideF4gU5Inv_Nv σ A y)
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_beta_add_left (A : SU σ 5) (x x' y : Fin 5 → F) :
     burnsideF4gU5Inv_beta σ A (x + x') y =
       burnsideF4gU5Inv_beta σ A x y + burnsideF4gU5Inv_beta σ A x' y :=
   burnsideF4gU5Inv_hh_add_left _ _ _ _
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_beta_add_right (A : SU σ 5) (x y y' : Fin 5 → F) :
     burnsideF4gU5Inv_beta σ A x (y + y') =
       burnsideF4gU5Inv_beta σ A x y + burnsideF4gU5Inv_beta σ A x y' := by
   simp only [burnsideF4gU5Inv_beta, burnsideF4gU5Inv_Nv_add, burnsideF4gU5Inv_hh_add_right]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_beta_smul_left (A : SU σ 5) (c : F) (x y : Fin 5 → F) :
     burnsideF4gU5Inv_beta σ A (c • x) y = σ c * burnsideF4gU5Inv_beta σ A x y :=
   burnsideF4gU5Inv_hh_smul_left _ _ _ _
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_beta_smul_right (A : SU σ 5) (c : F) (x y : Fin 5 → F) :
     burnsideF4gU5Inv_beta σ A x (c • y) = c * burnsideF4gU5Inv_beta σ A x y := by
   simp only [burnsideF4gU5Inv_beta, burnsideF4gU5Inv_Nv_smul, burnsideF4gU5Inv_hh_smul_right]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_beta_sub_right (A : SU σ 5) (x y y' : Fin 5 → F) :
     burnsideF4gU5Inv_beta σ A x (y - y') =
       burnsideF4gU5Inv_beta σ A x y - burnsideF4gU5Inv_beta σ A x y' := by
   simp only [burnsideF4gU5Inv_beta, burnsideF4gU5Inv_Nv_sub, burnsideF4gU5Inv_hh_sub_right]
 
 variable {σ} in
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_beta_conj (hσ : ∀ c, σ (σ c) = c) {A : SU σ 5} (hA : A * A = 1)
     (x y : Fin 5 → F) :
     σ (burnsideF4gU5Inv_beta σ A x y) = burnsideF4gU5Inv_beta σ A y x := by
@@ -14287,6 +14376,7 @@ theorem burnsideF4gU5Inv_beta_conj (hσ : ∀ c, σ (σ c) = c) {A : SU σ 5} (h
   rw [burnsideF4gU5Inv_hh_conj σ hσ, ← burnsideF4gU5Inv_hh_Nv_left hA]
 
 variable {σ} in
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_beta_eq {A : SU σ 5} (hA : A * A = 1) (x y : Fin 5 → F) :
     burnsideF4gU5Inv_beta σ A x y = burnsideF4gU5Inv_hh σ (burnsideF4gU5Inv_Nv σ A x) y :=
   (burnsideF4gU5Inv_hh_Nv_left hA x y).symm
@@ -14299,6 +14389,7 @@ open Matrix CFSG.LieType.Universal.Unitary CFSG.ClassicalGroups.Unitary
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_beta_zero_of_diag (hσI : IsUnitaryInvolution σ) {A : SU σ 5}
     (hA : A * A = 1) {P : (Fin 5 → F) → Prop} (hadd : ∀ y y', P y → P y' → P (y + y'))
     (hsmul : ∀ (c : F) y, P y → P (c • y))
@@ -14325,6 +14416,7 @@ theorem burnsideF4gU5Inv_beta_zero_of_diag (hσI : IsUnitaryInvolution σ) {A : 
     exact hc (CharTwo.add_eq_zero.mp h)
   exact (mul_eq_zero.mp h3).resolve_left h4
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_exists_beta_one (hσI : IsUnitaryInvolution σ) {A : SU σ 5}
     (hA : A * A = 1) {x : Fin 5 → F} (hx : burnsideF4gU5Inv_beta σ A x x ≠ 0) :
     ∃ c : F, burnsideF4gU5Inv_beta σ A (c • x) (c • x) = 1 := by
@@ -14337,6 +14429,7 @@ theorem burnsideF4gU5Inv_exists_beta_one (hσI : IsUnitaryInvolution σ) {A : SU
   rw [burnsideF4gU5Inv_beta_smul_left, burnsideF4gU5Inv_beta_smul_right, ← mul_assoc, hc,
     inv_mul_cancel₀ hx]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_Nv_eq_zero_of_diag (hσI : IsUnitaryInvolution σ) {A : SU σ 5}
     (hA : A * A = 1) {P : (Fin 5 → F) → Prop} (hadd : ∀ y y', P y → P y' → P (y + y'))
     (hsmul : ∀ (c : F) y, P y → P (c • y))
@@ -14356,6 +14449,7 @@ theorem burnsideF4gU5Inv_Nv_eq_zero_of_diag (hσI : IsUnitaryInvolution σ) {A :
     exact h2.symm
   exact burnsideF4gU5Inv_hh_nondeg_left σ h
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_exists_next (hσI : IsUnitaryInvolution σ) {A : SU σ 5} (hA : A * A = 1)
     {P : (Fin 5 → F) → Prop} (hadd : ∀ y y', P y → P y' → P (y + y'))
     (hsmul : ∀ (c : F) y, P y → P (c • y))
@@ -14373,10 +14467,12 @@ theorem burnsideF4gU5Inv_exists_next (hσI : IsUnitaryInvolution σ) {A : SU σ 
   exact hN (burnsideF4gU5Inv_Nv_eq_zero_of_diag hσI hA hadd hsmul hdec hdiag hy₀)
 
 variable (σ) in
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_hh_self_fixed (hσ : ∀ c, σ (σ c) = c) (x : Fin 5 → F) :
     σ (burnsideF4gU5Inv_hh σ x x) = burnsideF4gU5Inv_hh σ x x :=
   burnsideF4gU5Inv_hh_conj σ hσ x x
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_Nv_eq_of_perp {A : SU σ 5} (hA : A * A = 1) {x₁ : Fin 5 → F}
     (h1 : burnsideF4gU5Inv_beta σ A x₁ x₁ = 1)
     (hH : ∀ y, burnsideF4gU5Inv_beta σ A x₁ y = 0 → burnsideF4gU5Inv_Nv σ A y = 0)
@@ -14392,6 +14488,7 @@ theorem burnsideF4gU5Inv_Nv_eq_of_perp {A : SU σ 5} (hA : A * A = 1) {x₁ : Fi
   rw [e]
   exact h
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_no_three {A : SU σ 5} (hA : A * A = 1) (x : Fin 3 → Fin 5 → F)
     (hβ : ∀ i j, burnsideF4gU5Inv_beta σ A (x i) (x j) = if i = j then 1 else 0) : False := by
   let L : (Fin 5 → F) →ₗ[F] (Fin 5 → F) := Matrix.mulVecLin (SUExtras.mat σ 5 A - 1)
@@ -14424,10 +14521,12 @@ theorem burnsideF4gU5Inv_no_three {A : SU σ 5} (hA : A * A = 1) (x : Fin 3 → 
   rw [h4, Fintype.card_fin] at h6
   omega
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_hh_Nv_Nv {A : SU σ 5} (hA : A * A = 1) (x y : Fin 5 → F) :
     burnsideF4gU5Inv_hh σ (burnsideF4gU5Inv_Nv σ A x) (burnsideF4gU5Inv_Nv σ A y) = 0 := by
   rw [burnsideF4gU5Inv_hh_Nv_left hA, burnsideF4gU5Inv_Nv_Nv hA, burnsideF4gU5Inv_hh_zero_right]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_gram_correct (hσI : IsUnitaryInvolution σ) {w₁ w₂ x₁ x₂ : Fin 5 → F}
     (hw11 : burnsideF4gU5Inv_hh σ w₁ w₁ = 0) (hw12 : burnsideF4gU5Inv_hh σ w₁ w₂ = 0)
     (hw22 : burnsideF4gU5Inv_hh σ w₂ w₂ = 0)
@@ -14457,12 +14556,13 @@ theorem burnsideF4gU5Inv_gram_correct (hσI : IsUnitaryInvolution σ) {w₁ w₂
   refine ⟨x₁ + a₁ • w₁, x₂ + burnsideF4gU5Inv_hh σ x₁ x₂ • w₁ + a₂ • w₂, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals simp only [burnsideF4gU5Inv_hh_add_left, burnsideF4gU5Inv_hh_add_right,
     burnsideF4gU5Inv_hh_smul_left, burnsideF4gU5Inv_hh_smul_right, hw11, hw12, hw21, hw22, h11, h12,
-    h21, h22, hx11, hx12, hx21, hx22, mul_zero, mul_one, add_zero, zero_add]
+    h21, h22, hx11, hx12, hx21, hx22, mul_zero, mul_one, add_zero]
   · linear_combination ha₁ + CharTwo.add_self_eq_zero (burnsideF4gU5Inv_hh σ x₁ x₁)
   · rw [hγ] at *
     linear_combination CharTwo.add_self_eq_zero (burnsideF4gU5Inv_hh σ x₁ x₂)
   · linear_combination ha₂ + CharTwo.add_self_eq_zero (burnsideF4gU5Inv_hh σ x₂ x₂)
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_invol_structure (hσI : IsUnitaryInvolution σ) {A : SU σ 5}
     (hA : A * A = 1) (hne : A ≠ 1) :
     (∃ w : Fin 5 → F, burnsideF4gU5Inv_hh σ w w = 0 ∧ w ≠ 0 ∧
@@ -14617,6 +14717,7 @@ open Matrix CFSG.LieType.Universal.Unitary CFSG.ClassicalGroups.Unitary
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_antidiag_mul_self :
     (antidiag 5 : Matrix (Fin 5) (Fin 5) F) * antidiag 5 = 1 := by
   ext i j
@@ -14628,12 +14729,14 @@ theorem burnsideF4gU5Inv_antidiag_mul_self :
     simp [this]
   · simp
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_det_antidiag_ne_zero :
     (antidiag 5 : Matrix (Fin 5) (Fin 5) F).det ≠ 0 := by
   have h := congrArg Matrix.det (burnsideF4gU5Inv_antidiag_mul_self (F := F))
   rw [Matrix.det_mul, Matrix.det_one] at h
   exact left_ne_zero_of_mul_eq_one h
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_conjTr_mul_apply (M : Matrix (Fin 5) (Fin 5) F) (i j : Fin 5) :
     (conjTr σ M * (antidiag 5 : Matrix (Fin 5) (Fin 5) F) * M : Matrix (Fin 5) (Fin 5) F) i j =
       ∑ l, σ (M l i) * M (Fin.rev l) j := by
@@ -14653,15 +14756,18 @@ theorem burnsideF4gU5Inv_conjTr_mul_apply (M : Matrix (Fin 5) (Fin 5) F) (i j : 
   rw [← Equiv.sum_comp Fin.revPerm]
   simp [Fin.revPerm]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_antidiag_apply (i j : Fin 5) :
     (antidiag 5 : Matrix (Fin 5) (Fin 5) F) i j = if j = Fin.rev i then 1 else 0 := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_det_conjTr (M : Matrix (Fin 5) (Fin 5) F) :
     (conjTr σ M).det = σ M.det := by
   rw [conjTr, Matrix.det_transpose]
   exact (RingHom.map_det σ.toRingHom M).symm
 
-theorem burnsideF4gU5Inv_exists_of_frame (hσI : IsUnitaryInvolution σ) (v : Fin 5 → Fin 5 → F)
+omit [Finite F] [CharP F 2] in
+theorem burnsideF4gU5Inv_exists_of_frame (_hσI : IsUnitaryInvolution σ) (v : Fin 5 → Fin 5 → F)
     (hG : ∀ i j, burnsideF4gU5Inv_hh σ (v i) (v j) = if j = Fin.rev i then 1 else 0) :
     ∃ g : SU σ 5, ∀ i, i ≠ 2 →
       SUExtras.mat σ 5 g *ᵥ (Pi.single i 1 : Fin 5 → F) = v i := by
@@ -14688,7 +14794,7 @@ theorem burnsideF4gU5Inv_exists_of_frame (hσI : IsUnitaryInvolution σ) (v : Fi
   set M' : Matrix (Fin 5) (Fin 5) F := Matrix.of fun r c => s c * M r c with hM'
   have hdet' : M'.det = 1 := by
     rw [hM', Matrix.det_mul_row]
-    simp [s, Fin.prod_univ_five]
+    simp [s]
     exact inv_mul_cancel₀ hd0
   have hGram' : conjTr σ M' * (antidiag 5 : Matrix (Fin 5) (Fin 5) F) * M' = antidiag 5 := by
     ext i j
@@ -14702,7 +14808,7 @@ theorem burnsideF4gU5Inv_exists_of_frame (hσI : IsUnitaryInvolution σ) (v : Fi
     rw [e, hsum, burnsideF4gU5Inv_antidiag_apply]
     by_cases hj : j = Fin.rev i
     · subst hj
-      simp only [if_true, mul_one]
+      simp only [ite_true, mul_one]
       fin_cases i
       · simp [s]
       · simp [s]
@@ -14715,13 +14821,15 @@ theorem burnsideF4gU5Inv_exists_of_frame (hσI : IsUnitaryInvolution σ) (v : Fi
   refine ⟨burnsideF4gU5Inv_mk σ M' hdet' hGram', fun i hi => ?_⟩
   funext r
   rw [burnsideF4gU5Inv_mk_mat]
-  simp [Matrix.mulVec_single_one, hM', hM, s, hi]
+  simp [hM', hM, s, hi]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_hh_eq_sum (x y : Fin 5 → F) :
     burnsideF4gU5Inv_hh σ x y = ∑ j, σ (x (Fin.rev j)) * y j := by
   rw [burnsideF4gU5Inv_hh, ← Equiv.sum_comp Fin.revPerm]
   simp [Fin.revPerm]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_hh_mulVec_right (x : Fin 5 → F) (M : Matrix (Fin 5) (Fin 5) F)
     (c : Fin 5 → F) :
     burnsideF4gU5Inv_hh σ x (M *ᵥ c) = ∑ k, c k * burnsideF4gU5Inv_hh σ x (fun r => M r k) := by
@@ -14730,6 +14838,7 @@ theorem burnsideF4gU5Inv_hh_mulVec_right (x : Fin 5 → F) (M : Matrix (Fin 5) (
   refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun i _ => ?_
   ring
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_exists_middle (hσI : IsUnitaryInvolution σ) (f : Fin 4 → Fin 5 → F)
     (hf : ∀ i j : Fin 4, burnsideF4gU5Inv_hh σ (f i) (f j) = if i.val + j.val = 3 then 1 else 0) :
     ∃ z : Fin 5 → F, (∀ i, burnsideF4gU5Inv_hh σ (f i) z = 0) ∧
@@ -14819,6 +14928,7 @@ theorem burnsideF4gU5Inv_exists_middle (hσI : IsUnitaryInvolution σ) (f : Fin 
   · rw [burnsideF4gU5Inv_hh_smul_left, burnsideF4gU5Inv_hh_smul_right, ← mul_assoc, hc,
       inv_mul_cancel₀ hvv]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_exists_of_pairs (hσI : IsUnitaryInvolution σ) {w₁ w₂ x₁ x₂ : Fin 5 → F}
     (h11 : burnsideF4gU5Inv_hh σ w₁ w₁ = 0) (h12 : burnsideF4gU5Inv_hh σ w₁ w₂ = 0)
     (h22 : burnsideF4gU5Inv_hh σ w₂ w₂ = 0) (g11 : burnsideF4gU5Inv_hh σ w₁ x₁ = 1)
@@ -14855,7 +14965,7 @@ theorem burnsideF4gU5Inv_exists_of_pairs (hσI : IsUnitaryInvolution σ) {w₁ w
     have z2' : burnsideF4gU5Inv_hh σ z x₂ = 0 := conj0 _ _ z2
     have z3' : burnsideF4gU5Inv_hh σ z x₁ = 0 := conj0 _ _ z3
     fin_cases i <;> fin_cases j <;>
-      simp [v, burnsideF4gU5_rev_zero, burnsideF4gU5_rev_one, burnsideF4gU5Inv_rev_two,
+      simp [v, burnsideF4gU5_rev_one, burnsideF4gU5Inv_rev_two,
         burnsideF4gU5_rev_three, burnsideF4gU5Inv_rev_four, h11, h12, h22, g11, g12, g21, g22, k11,
         k12, k22, conj0 _ _ h12, conj0 _ _ g12, conj0 _ _ g21, conj0 _ _ k12, conj1 _ _ g11,
         conj1 _ _ g22, hzz, z0, z1, z2, z3, z0', z1', z2', z3']
@@ -14870,6 +14980,7 @@ open Matrix CFSG.LieType.Universal.Unitary CFSG.ClassicalGroups.Unitary CFSG.Lie
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_xl13_mulVec (c : F) (hc : c + σ c = 0) (x : Fin 5 → F) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_xl13 σ c hc) *ᵥ x =
       x + (c * x 3) • (burnsideF4gU5Inv_e1 : Fin 5 → F) := by
@@ -14885,14 +14996,16 @@ theorem burnsideF4gU5Inv_xl13_mulVec (c : F) (hc : c + σ c = 0) (x : Fin 5 → 
 @[expose] noncomputable def burnsideF4gU5Inv_y0 (σ : F ≃+* F) (h1 : (1 : F) + σ 1 = 0) : SU σ 5 :=
   burnsideF4gU5Inv_xl04 σ 1 h1 * burnsideF4gU5Inv_xl13 σ 1 h1
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_y0_mulVec (h1 : (1 : F) + σ 1 = 0) (x : Fin 5 → F) :
     SUExtras.mat σ 5 (burnsideF4gU5Inv_y0 σ h1) *ᵥ x =
       x + x 4 • (burnsideF4gU5Inv_e0 : Fin 5 → F) + x 3 • (burnsideF4gU5Inv_e1 : Fin 5 → F) := by
   rw [burnsideF4gU5Inv_y0, map_mul, ← Matrix.mulVec_mulVec, burnsideF4gU5Inv_xl13_mulVec,
     burnsideF4gU5Inv_xl04_mulVec]
   funext a
-  fin_cases a <;> simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1, Pi.single_apply]
+  fin_cases a <;> simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1]
 
+omit [Finite F] in
 theorem burnsideF4gU5Inv_y0_sq (h1 : (1 : F) + σ 1 = 0) :
     burnsideF4gU5Inv_y0 σ h1 * burnsideF4gU5Inv_y0 σ h1 = 1 := by
   apply SUExtras.mat_injective
@@ -14903,13 +15016,14 @@ theorem burnsideF4gU5Inv_y0_sq (h1 : (1 : F) + σ 1 = 0) :
     Matrix.one_mulVec]
   funext a
   fin_cases a
-  · simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1, Pi.single_apply]
+  · simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1]
     linear_combination CharTwo.add_self_eq_zero (x 4)
-  · simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1, Pi.single_apply]
+  · simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1]
     linear_combination CharTwo.add_self_eq_zero (x 3)
-  all_goals simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1, Pi.single_apply]
+  all_goals simp [burnsideF4gU5Inv_e0, burnsideF4gU5Inv_e1]
 
-theorem burnsideF4gU5Inv_isConj_y0 (hσI : IsUnitaryInvolution σ) {A : SU σ 5} (hA : A * A = 1)
+omit [Finite F] [CharP F 2] in
+theorem burnsideF4gU5Inv_isConj_y0 (hσI : IsUnitaryInvolution σ) {A : SU σ 5} (_hA : A * A = 1)
     {w₁ w₂ x₁ x₂ : Fin 5 → F}
     (h11 : burnsideF4gU5Inv_hh σ w₁ w₁ = 0) (h12 : burnsideF4gU5Inv_hh σ w₁ w₂ = 0)
     (h22 : burnsideF4gU5Inv_hh σ w₂ w₂ = 0) (g11 : burnsideF4gU5Inv_hh σ w₁ x₁ = 1)
@@ -14948,6 +15062,7 @@ open Matrix CFSG.LieType.Universal.Unitary CFSG.ClassicalGroups.Unitary CFSG.Lie
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
   (hF : Nat.card F = (2 ^ f) ^ 2)
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideF4gU5Inv_antidiag_mulVec (y : Fin 5 → F) :
     (antidiag 5 : Matrix (Fin 5) (Fin 5) F) *ᵥ y = fun i => y (Fin.rev i) := by
   funext i
@@ -15002,7 +15117,7 @@ theorem burnsideF4gU5Inv_exists_move {w w' : Fin 5 → F} (hw0 : w ≠ 0)
   exact h2
 
 include hF in
-theorem burnsideF4gU5Inv_isConj_xl04 {A : SU (unitaryInvolution F 2 f) 5} (hA : A * A = 1)
+theorem burnsideF4gU5Inv_isConj_xl04 {A : SU (unitaryInvolution F 2 f) 5} (_hA : A * A = 1)
     {w : Fin 5 → F} (hw : burnsideF4gU5Inv_hh (unitaryInvolution F 2 f) w w = 0) (hw0 : w ≠ 0)
     (hN : ∀ v, burnsideF4gU5Inv_Nv (unitaryInvolution F 2 f) A v =
       burnsideF4gU5Inv_hh (unitaryInvolution F 2 f) w v • w)
@@ -15044,6 +15159,7 @@ open Matrix CFSG.LieType.Universal.Unitary CFSG.ClassicalGroups.Unitary CFSG.Lie
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
   (hF : Nat.card F = (2 ^ f) ^ 2)
 
+omit [CharP F 2] [Finite F] in
 theorem burnsideF4gU5Inv_Rk1_of_isConj {σ : F ≃+* F} {A B : SU σ 5} (h : IsConj A B)
     (hB : burnsideF4gU5Inv_Rk1 σ B) : burnsideF4gU5Inv_Rk1 σ A := by
   obtain ⟨c, hc⟩ := isConj_iff.mp h
@@ -15219,6 +15335,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ} (hF : Nat.card K 
   (hB : conjTr (unitaryInvolution K 2 f) (B : Matrix (Fin 5) (Fin 5) K) *
     (B : Matrix (Fin 5) (Fin 5) K) = antidiag 5)
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gU5Inv_markedMatrix_longOne (q : ℕ) (c central : K) :
     markedMatrix .U5 q B .longOne false c central =
       (B : Matrix (Fin 5) (Fin 5) K) * (1 + Matrix.single 0 4 c) *
@@ -15226,8 +15343,9 @@ theorem burnsideF4gU5Inv_markedMatrix_longOne (q : ℕ) (c central : K) :
   have e : (matrixUnit 0 4 c : Matrix (Fin 5) (Fin 5) K) = Matrix.single 0 4 c := by
     ext i j
     simp [matrixUnit, Matrix.single_apply, eq_comm]
-  simp only [markedMatrix, positiveMatrix, unitaryRootFive, Bool.false_eq_true, if_false, e]
+  simp only [markedMatrix, positiveMatrix, unitaryRootFive, Bool.false_eq_true, ite_false, e]
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideF4gU5Inv_markedMatrix_sum (q : ℕ) (a central : K) :
     markedMatrix .U5 q B .sum false a central =
       (B : Matrix (Fin 5) (Fin 5) K) *
@@ -15239,7 +15357,7 @@ theorem burnsideF4gU5Inv_markedMatrix_sum (q : ℕ) (a central : K) :
   have e2 : (matrixUnit 1 4 (a ^ q) : Matrix (Fin 5) (Fin 5) K) = Matrix.single 1 4 (a ^ q) := by
     ext i j
     simp [matrixUnit, Matrix.single_apply, eq_comm]
-  simp only [markedMatrix, positiveMatrix, unitaryRootFive, Bool.false_eq_true, if_false, e1, e2]
+  simp only [markedMatrix, positiveMatrix, unitaryRootFive, Bool.false_eq_true, ite_false, e1, e2]
 
 include hF in
 theorem burnsideF4gU5Inv_Φn_val_matrix (A : SU (unitaryInvolution K 2 f) 5) :
@@ -15457,7 +15575,7 @@ theorem burnsideF4gU5Inv_clause3 :
       exact hx1 (isConj_one_right.mp this.symm)
     rw [hL] at hzL
     have hzL' : z ∈ (burnsideF4gU5Inv_Xl (unitaryInvolution F 2 f)).map θ := hzL
-    obtain ⟨c, hc, hc0, hzc⟩ := burnsideF4gU5Inv_exists_xl04 hF θ hker hzL' hz1
+    obtain ⟨c, hc, hc0, hzc⟩ := burnsideF4gU5Inv_exists_xl04 θ hzL' hz1
     have hcj : IsConj z a := by
       rw [hzc]
       exact MonoidHom.map_isConj θ (burnsideF4gU5Inv_isConj_xl04_xl04 hF hc hc0 h1)
@@ -15499,7 +15617,7 @@ theorem burnsideF4gU5Inv_clause3 :
       group
     rw [hL] at hg
     rw [hS] at hk
-    obtain ⟨c, hc, hc0, hyc⟩ := burnsideF4gU5Inv_exists_xl04 hF θ hker hg hy1
+    obtain ⟨c, hc, hc0, hyc⟩ := burnsideF4gU5Inv_exists_xl04 θ hg hy1
     obtain ⟨x', hx'S, hxx⟩ := hk
     obtain ⟨a', rfl⟩ := (burnsideF4gU5Inv_mem_Xs_iff _ _ x').mp hx'S
     have ha0 : a' ≠ 0 := by
@@ -15536,7 +15654,7 @@ theorem burnsideF4gU5Inv_clause4b :
   have hσ := unitaryInvolution_involutive hF
   refine ⟨θ (burnsideF4gU5Inv_x03 (unitaryInvolution F 2 f) hσ 1), ?_, ?_, ?_⟩
   · rw [hM₂]
-    exact burnsideF4gU5Inv_x03_mem_pCore hF θ hker
+    exact burnsideF4gU5Inv_x03_mem_pCore hF θ
   · refine burnsideF4gU5Inv_rootInv_true_of_mem hF θ chart hS ?_
       (burnsideF4gU5Inv_map_x03_ne_one hF θ hker)
     rw [hS]
@@ -15560,7 +15678,7 @@ theorem burnsideF4gU5Inv_F427 : burnsideF4f_F427_kind .U5 := by
   have hcard : Nat.card marking.field = (2 ^ f) ^ 2 := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := by
+  have : CharP marking.field 2 := by
     have h2 : Nat.card marking.field = 2 ^ (f * 2) := by rw [hcard, ← pow_mul]
     exact burnsideF4f_charP_of_card (by have := marking.exponent_pos; omega) h2
   obtain ⟨θ0, hs0, hk0, hpar, hr1, hr2⟩ := burnsideF4gU5Inv_marking_data marking hcard
@@ -15579,13 +15697,13 @@ theorem burnsideF4gU5Inv_F427 : burnsideF4f_F427_kind .U5 := by
   have hM₁ : M₁ = (burnsideF4gU5_stab (unitaryInvolution marking.field 2 f) 1).map θ := by
     have h := hmatch.2.1
     have hp1 := hpar false
-    simp only [Bool.false_eq_true, if_false] at hp1
+    simp only [Bool.false_eq_true, ite_false] at hp1
     rw [top_inf_eq, hp, hp1, Subgroup.map_map] at h
     exact h
   have hM₂ : M₂ = (burnsideF4gU5_stab (unitaryInvolution marking.field 2 f) 2).map θ := by
     have h := hmatch.2.2
     have hp1 := hpar true
-    simp only [if_true] at hp1
+    simp only [ite_true] at hp1
     rw [top_inf_eq, hl, hp1, Subgroup.map_map] at h
     exact h
   have hL : chart.longRoot =
@@ -15829,7 +15947,7 @@ theorem burnsideF4gF4TwoInv_clause4a (x : E) (hx : x ∈ ctr (oPPrime 2 M₁)) (
   · calc h * z * h⁻¹ * (h * z * h⁻¹) = h * (z * z) * h⁻¹ := by group
       _ = 1 := by rw [D.z_sq]; group
   · have : h⁻¹ * (h * z * h⁻¹) * h⁻¹⁻¹ = z := by group
-    rw [if_neg (by decide), this]
+    rw [ite_eq_right (by decide), this]
     exact D.z_L
   · rw [hC]
     exact burnsideF4gF4TwoInv_oPPrime_le 2 M₁
@@ -15943,7 +16061,7 @@ theorem burnsideF4gF4TwoInv_oPPrime_conj (p : ℕ) {P : Subgroup G} {g : G}
     refine ⟨k, ?_⟩
     rw [← hk]
     exact (orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective y)
-  | one => simpa using (oPPrime p P).one_mem
+  | one => simp
   | mul y z _ _ hy hz =>
     have e : g * (y * z) * g⁻¹ = (g * y * g⁻¹) * (g * z * g⁻¹) := by group
     rw [e]
@@ -16482,7 +16600,7 @@ theorem burnsideF4gF4TwoInv_eq_zero_or_one {L : Type} [Field L] [Finite L]
   by_cases hv : v = 0
   · exact Or.inl hv
   · right
-    haveI := burnsideF4gF4TwoInv_units_subsingleton hL
+    have := burnsideF4gF4TwoInv_units_subsingleton hL
     exact congrArg Units.val (Subsingleton.elim (Units.mk0 v hv) 1)
 
 theorem burnsideF4gF4TwoInv_coe_zg (hK : Nat.card K = 2 ^ (2 * a + 1)) :
@@ -16506,7 +16624,7 @@ theorem burnsideF4gF4TwoInv_commute_mul {G : Type*} [Group G] {u x y : G}
 theorem burnsideF4gF4TwoInv_commute_centralZ {u : ModGL F4.tag K}
     (hu : u ∈ F4.reeFixedPosUnipotent K a) (c : K) :
     u * centralZ K a c = centralZ K a c * u := by
-  haveI : CharP K 2 := ‹CharP K F4.prime›
+  have : CharP K 2 := ‹CharP K F4.prime›
   have hu' : u ∈ posUnipotent .F4 K := (Subgroup.mem_inf.1 hu).1
   rw [burnsideF4gF4TwoInv_centralZ_eq]
   exact burnsideF4gF4TwoInv_commute_mul (f4x_central (k := 44) (Or.inl rfl) c hu')
@@ -16519,7 +16637,7 @@ theorem burnsideF4gF4TwoInv_borel_commute_centralZ (hK : Nat.card K = 2 ^ (2 * a
   rw [reeFixedBorel_eq_mul] at hb'
   obtain ⟨h, hh, x, hx, rfl⟩ := hb'
   obtain ⟨u, v, rfl⟩ := rankOne_exists_torusPair_eq hK hh
-  haveI := burnsideF4gF4TwoInv_units_subsingleton hK2
+  have := burnsideF4gF4TwoInv_units_subsingleton hK2
   have hu : u = 1 := Subsingleton.elim _ _
   subst hu
   have h1 := torusPair_conj_centralZ hK 1 v c
@@ -16947,9 +17065,9 @@ theorem burnsideF4gF4TwoInv_F427_F4tw : burnsideF4g_F427At .F4tw 1 := by
     burnsideF4gF4TwoInv_chart_data_F4tw chart
   have ha : a = 0 := by omega
   subst ha
-  letI := fK
-  haveI := finK
-  haveI : CharP K F4.prime := charK
+  let := fK
+  have := finK
+  have : CharP K F4.prime := charK
   have hKa : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hKa
   have hcen : Subgroup.center ↥(reeGroup K 0) = ⊥ := by
@@ -17059,7 +17177,7 @@ theorem burnsideF4gF4TwoInv_mem_chart_image_tits {E : Type} [Group E] {K : Type}
 
 theorem burnsideF4gF4TwoInv_inv_mem_D {s : ↥twoF4M} (h1 : s ≠ 1) (h2 : s * s = 1) :
     (s : Equiv.Perm (Fin 1755)) ∈ titsD := by
-  haveI : (titsD.subgroupOf twoF4M).Normal := twoF4D_normal
+  have : (titsD.subgroupOf twoF4M).Normal := twoF4D_normal
   have hz : zM ∈ titsD.subgroupOf twoF4M := Subgroup.mem_subgroupOf.2 titsZ_mem_titsD
   have ht : tM ∈ titsD.subgroupOf twoF4M :=
     Subgroup.mem_subgroupOf.2 (titsS_le_titsD tEl_mem_titsS)
@@ -17093,7 +17211,7 @@ theorem burnsideF4gF4TwoInv_datum_titsD_of {t' : ↥twoF4M} (ht1 : t' ≠ 1) (ht
     exact ht1 (by rw [← hι, h, map_one])
   · apply ιD_injective
     rw [map_mul, hι, ht2, map_one]
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hQ2 : IsPGroup 2 (pCoreOf 2 twoF4M2) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 twoF4M2
     have hle : (pCoreOf 2 twoF4M2).comap ιD ≤ titsND := fun x hx =>
       hND x (CFSG.LieType.BorelTits.pCoreOf_le 2 twoF4M2 (Subgroup.mem_comap.1 hx))
@@ -17133,9 +17251,9 @@ theorem burnsideF4gF4TwoInv_F427_Tits : burnsideF4g_F427At .Tits 1 := by
   obtain ⟨-, hM1, hM2⟩ := hmatch'
   obtain ⟨K, fK, finK, charK, hscope, marking, h2, h3, h4, h5⟩ :=
     burnsideF4gF4TwoInv_chart_data_tits chart
-  letI := fK
-  haveI := finK
-  haveI : CharP K F4.prime := charK
+  let := fK
+  have := finK
+  have : CharP K F4.prime := charK
   have hKa : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hKa
   obtain ⟨Φ, hΦz, hΦ1, hΦ2, ht1, ht2, htc, hct⟩ := burnsideF4gF4TwoInv_gamma_t hK hKa
@@ -17412,7 +17530,7 @@ theorem burnsideF4gG2TwoInv_Tel_conj (i : ℕ)
 
 theorem burnsideF4gG2TwoInv_inv_conj {u : U33G} (hu1 : u ≠ 1) (hu2 : u * u = 1) :
     IsConj u u33z := by
-  haveI := burnsideF4gG2TwoInv_finite_u33
+  have := burnsideF4gG2TwoInv_finite_u33
   obtain ⟨h, hh⟩ := burnsideF4gG2TwoInv_exists_conj_mem_sylow u33_syl hu2
   obtain ⟨i, hi⟩ := (u33Data.mem_T_iff _).1 hh
   have hi' : u33Tel u33GenPG i = h⁻¹ * u * h := hi
@@ -17600,6 +17718,7 @@ theorem burnsideF4gG2TwoInv_reflW_eq (w : List (Fin 2)) (v : Fin 2 → ℤ) :
   | nil => rfl
   | cons i w ih => exact ih _
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_coe_wU
     (w : List (Fin 2)) (a : ModGL Tag.G2 K) :
     ((burnsideF4gG2TwoInv_wU w a : ModGL Tag.G2 K) : Module.End K (RootModule Tag.G2 K)) =
@@ -17643,6 +17762,7 @@ theorem burnsideF4gG2TwoInv_reach {α : Fin Tag.G2.rank → ℤ} (hα : IsRoot T
     obtain ⟨w, j, hw⟩ := ih
     exact ⟨w ++ [i], j, (burnsideF4gG2TwoInv_reflW_snoc w i _).trans (congrArg (reflect Tag.G2 i) hw)⟩
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_wU_mem
     (w : List (Fin 2)) (a : ModGL Tag.G2 K)
     (ha : a ∈ adjointGroup Tag.G2 K) : burnsideF4gG2TwoInv_wU w a ∈ adjointGroup Tag.G2 K := by
@@ -17656,7 +17776,7 @@ theorem burnsideF4gG2TwoInv_wU_one_conj
       burnsideF4gG2TwoInv_wU w 1 * pinnedX Tag.G2 K (Pi.single i 1) c * (burnsideF4gG2TwoInv_wU w 1)⁻¹ =
         pinnedX Tag.G2 K (burnsideF4gG2TwoInv_reflW w (Pi.single i 1)) c :=
   burnsideF4gG2TwoInv_wU_conj w 1 _ _ c (isRoot_single Tag.G2 i)
-    (by simp only [inv_one, one_mul, mul_one] <;> rfl)
+    (by simp only [inv_one, one_mul, mul_one]; rfl)
 
 theorem burnsideF4gG2TwoInv_mem_rootGenerators
     {root : Fin 2 → ℤ} (hroot : IsRoot Tag.G2 root)
@@ -17696,6 +17816,7 @@ theorem burnsideF4gG2TwoInv_mem_rootGenerators
       refine Eq.trans ?_ (burnsideF4gG2TwoInv_wU_one_conj w i c).2.symm
       rw [hw]
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_weylElt_neg_one
     (i : Fin Tag.G2.rank) :
     weylElt Tag.G2 K i (-1) = (weylElt Tag.G2 K i 1)⁻¹ := by
@@ -17703,6 +17824,7 @@ theorem burnsideF4gG2TwoInv_weylElt_neg_one
   rw [coe_weylElt, coe_weylElt_inv]
   simp
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_torusElt_one
     (i : Fin Tag.G2.rank) : torusElt Tag.G2 K i 1 = 1 := by
   unfold torusElt
@@ -17718,6 +17840,7 @@ theorem burnsideF4gG2TwoInv_isRoot_of_mem_rootGenerators
   rw [← hw']
   exact (burnsideF4gG2TwoInv_wU_one_conj (K := K) w i 1).1
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_rootSubgroup_le_posUnipotent
     {root : Fin 2 → ℤ} (hroot : IsRoot Tag.G2 root)
     (hpos : 0 < height (τ := Tag.G2) root) :
@@ -17800,7 +17923,7 @@ theorem burnsideF4gG2TwoInv_card_le_two_mul {G : Type*} [Group G] (U R : Subgrou
     rw [Subgroup.relIndex_dvd_two_iff]
     by_cases hU : U ≤ R
     · exact ⟨1, U.one_mem, fun b hb => Or.inr (hU hb)⟩
-    · obtain ⟨a₀, ha₀U, ha₀R⟩ := SetLike.not_le_iff_exists.1 hU
+    · obtain ⟨a₀, ha₀U, ha₀R⟩ := IsConcreteLE.not_le_iff_exists.1 hU
       refine ⟨a₀⁻¹, U.inv_mem ha₀U, fun b hb => ?_⟩
       by_cases hbR : b ∈ R
       · exact Or.inr hbR
@@ -17819,7 +17942,7 @@ theorem burnsideF4gG2TwoInv_Sg_syl
     (hk2 : ∀ c : K, c = 0 ∨ c = 1) :
     IsPGroup 2 ((G2Native.positiveBorel K).comap (g2HomC h2)) ∧
       32 ≤ Nat.card ((G2Native.positiveBorel K).comap (g2HomC h2)) := by
-  haveI : Finite (G2Group K) := finite_g2Group
+  have : Finite (G2Group K) := finite_g2Group
   have hU : IsPGroup 2 (G2Native.positiveBorel K) :=
     IsPGroup.of_card (n := 6) (by rw [burnsideF4gG2TwoInv_card_positiveBorel hK]; norm_num)
   have hinj := g2HomC_injective h2
@@ -17845,6 +17968,7 @@ theorem burnsideF4gG2TwoInv_Sg_syl
     rw [hm] at h64
     omega
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_phi_y
     (h2 : (2 : K) = 0) :
     ((g2HomC h2 (u33GenPG 4) : G2Group K) : ModGL Tag.G2 K) =
@@ -17879,6 +18003,7 @@ theorem burnsideF4gG2TwoInv_y_mem
   · rw [← pinnedX_neg_single (τ := Tag.G2) (R := K) (1 : Fin 2) 1]
     exact mem_rootSubgroup.2 ⟨1, rfl⟩
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_le_Pg
     [Finite K] (h2 : (2 : K) = 0) :
     (G2Native.positiveBorel K).comap (g2HomC h2) ≤ (G2Native.pointParabolic K).comap (g2HomC h2) :=
@@ -17968,6 +18093,7 @@ theorem burnsideF4gG2TwoInv_commute_negr
       _ = _ := by group
   exact mul_left_cancel (mul_right_cancel h4)
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_adj_le_normalizer
     (h2 : (2 : K) = 0) (hk2 : ∀ c : K, c = 0 ∨ c = 1) :
     adjointGroup Tag.G2 K ≤ Subgroup.normalizer ((g2Hom h2).range : Set (ModGL Tag.G2 K)) := by
@@ -17977,6 +18103,7 @@ theorem burnsideF4gG2TwoInv_adj_le_normalizer
   · exact (Subgroup.normalizer _).one_mem
   · exact g2L_mem_normalizer h2 t.2
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_x0_mem
     (h2 : (2 : K) = 0) :
     xUnit Tag.G2 K (0 : Fin 2) 1 ∈ (g2Hom h2).range := by
@@ -18066,7 +18193,7 @@ open scoped Pointwise in
 theorem burnsideF4gG2TwoInv_sylow_conj {G : Type*} [Group G] [Finite G] (S T : Subgroup G)
     (hS : IsPGroup 2 S) (hSi : ¬ 2 ∣ S.index) (hT : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index) :
     ∃ h : G, ∀ g : G, g ∈ T ↔ ∃ s ∈ S, h * s * h⁻¹ = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S' : Sylow 2 G := hS.toSylow hSi
   let T' : Sylow 2 G := hT.toSylow hTi
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq G S' T'
@@ -18106,7 +18233,7 @@ theorem burnsideF4gG2TwoInv_Sg_sylow
   obtain ⟨hSp, hS32⟩ := burnsideF4gG2TwoInv_Sg_syl hK h2 hk2
   set S := (G2Native.positiveBorel K).comap (g2HomC h2) with hS
   have hcard : Nat.card U33G = 6048 := card_u33Pres
-  haveI : Finite U33G := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite U33G := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hSle : Nat.card S ∣ 6048 := hcard ▸ Subgroup.card_subgroup_dvd_card S
   obtain ⟨n, hn⟩ := hSp.exists_card_eq
   have hn5 : n = 5 := by
@@ -18136,7 +18263,7 @@ theorem burnsideF4gG2TwoInv_Pg_conj
   obtain ⟨hSp, hSi⟩ := burnsideF4gG2TwoInv_Sg_sylow hK h2 hk2
   set S := (G2Native.positiveBorel K).comap (g2HomC h2) with hS
   set P := (G2Native.pointParabolic K).comap (g2HomC h2) with hP
-  haveI : Finite U33G := Nat.finite_of_card_ne_zero (by rw [card_u33Pres]; norm_num)
+  have : Finite U33G := Nat.finite_of_card_ne_zero (by rw [card_u33Pres]; norm_num)
   obtain ⟨h, hh⟩ := burnsideF4gG2TwoInv_sylow_conj S u33Data.T hSp hSi u33_syl.1 u33_syl.2
   obtain ⟨z, hz1, hz2, hzφ⟩ := burnsideF4gG2TwoInv_exists_z (K := K) h2 hk2
   have hzc := burnsideF4gG2TwoInv_Pg_comm hK h2 z hzφ
@@ -18163,7 +18290,7 @@ theorem burnsideF4gG2TwoInv_Pg_conj
       _ = h * z * h⁻¹ * (h * p * h⁻¹) := by group
 
 theorem burnsideF4gG2TwoInv_z_mem_Lg
-    {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 2)
+    {K : Type} [Field K] [Finite K] [CharP K 2] (_hK : Nat.card K = 2)
     (h2 : (2 : K) = 0) (z : U33G) (hz : g2Hom h2 z = pinnedX Tag.G2 K ![2, 3] 1) :
     z ∈ (G2Native.longRoot K).comap (g2HomC h2) := by
   rw [Subgroup.mem_comap]
@@ -18290,9 +18417,9 @@ theorem burnsideF4gG2TwoInv_F427_G2d
       ⟨-, e, K', fK', finK', charK', scope, hcase⟩
   · cases c <;> exact absurd hk (by decide)
   · exact absurd hk (by decide)
-  · haveI := finK
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime (p := 2)
+  · have := finK
+    have := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime (p := 2)
       (by rw [← Nat.card_eq_fintype_card, hcard])
     have h2eq : (2 : K) = 0 := two_eq_zero_of_card_two hcard
     have hk2 := eq_zero_or_eq_one_of_card_two hcard
@@ -18510,7 +18637,7 @@ variable
 theorem burnsideF4gG2TwoInv_sEl26 (h2 : (2 : K) = 0) :
     sEl h2 26 = g2HomC h2 u33z := by
   show (if 26 < 32 then g2HomC h2 (u33Tel u33GenPG 26) else _) = _
-  rw [if_pos (by norm_num), burnsideF4gG2TwoInv_Tel26]
+  rw [ite_eq_left (by norm_num), burnsideF4gG2TwoInv_Tel26]
 
 theorem burnsideF4gG2TwoInv_x_moves_zbar (h2 : (2 : K) = 0) :
     g2HomC h2 (u33GenPG 3) * sEl h2 26 * (g2HomC h2 (u33GenPG 3))⁻¹ ≠ sEl h2 26 := by
@@ -18530,7 +18657,7 @@ theorem burnsideF4gG2TwoInv_cent_S (h2 : (2 : K) = 0) (hk2 : ∀ c : K, c = 0 �
 theorem burnsideF4gG2TwoInv_sEl32 (h2 : (2 : K) = 0) : sEl h2 32 = g2RhoC h2 := by
   show (if 32 < 32 then g2HomC h2 (u33Tel u33GenPG 32) else
     g2RhoC h2 * g2HomC h2 (u33Tel u33GenPG (32 - 32))) = _
-  rw [if_neg (by norm_num)]
+  rw [ite_eq_right (by norm_num)]
   have : u33Tel u33GenPG (32 - 32) = 1 := u33Tel_zero
   rw [this, map_one, mul_one]
 
@@ -18571,7 +18698,7 @@ theorem burnsideF4gG2TwoInv_oPPrime_P₂ (h2 : (2 : K) = 0) (hk2 : ∀ c : K, c 
       rw [hP₂]; exact D.rho_mem_ext _
     have hρ1 : g2RhoC h2 ≠ 1 := fun h => D.rho_not_mem ⟨1, by rw [map_one, h]⟩
     have hρ2 : g2RhoC h2 ^ 2 = 1 := by rw [pow_two]; exact D.sq
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hρo : orderOf (g2RhoC h2) = 2 := orderOf_eq_prime hρ2 hρ1
     have hρ : g2RhoC h2 ∈ oPPrime 2 (lat h2 hk2).P₂ :=
       Subgroup.subset_closure ⟨hρP, 1, by rw [hρo]; norm_num⟩
@@ -18727,7 +18854,7 @@ theorem burnsideF4gG2TwoInv_fusion (h2 : (2 : K) = 0) (hk2 : ∀ c : K, c = 0 �
 theorem burnsideF4gG2TwoInv_outer_inv_conj [Finite K] (h2 : (2 : K) = 0)
     (hk2 : ∀ c : K, c = 0 ∨ c = 1) {v : G2Group K} (hvJ : v ∉ (g2HomC h2).range)
     (hv : v * v = 1) : IsConj v (g2RhoC h2) := by
-  haveI : Finite (G2Group K) := CFSG.Quasithin.finite_g2Group
+  have : Finite (G2Group K) := CFSG.Quasithin.finite_g2Group
   obtain ⟨g, hg⟩ := burnsideF4gG2TwoInv_exists_conj_mem_sylow (lat h2 hk2).sylow hv
   obtain ⟨i, hi, hvi⟩ := (mem_S_iff h2 hk2).1 hg
   have hnotJ : g⁻¹ * v * g ∉ (g2HomC h2).range := fun h => hvJ (by
@@ -18845,6 +18972,7 @@ theorem burnsideF4gG2TwoInv_zL_sq :
   rw [burnsideF4gG2TwoInv_one_add_one] at h
   exact h.symm.trans (pinnedX_zero Tag.G2 K ![2, 3])
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_zL_ne_one : burnsideF4gG2TwoInv_zL (K := K) ≠ 1 := by
   intro h
   have h1 : pinnedX Tag.G2 K ![2, 3] 1 = 1 := congrArg Subtype.val h
@@ -18858,6 +18986,7 @@ theorem burnsideF4gG2TwoInv_zS_sq :
   rw [burnsideF4gG2TwoInv_one_add_one] at h
   exact h.symm.trans (pinnedX_zero Tag.G2 K ![1, 2])
 
+omit [CharP K 2] in
 theorem burnsideF4gG2TwoInv_zS_ne_one : burnsideF4gG2TwoInv_zS (K := K) ≠ 1 := by
   intro h
   have h1 : pinnedX Tag.G2 K ![1, 2] 1 = 1 := congrArg Subtype.val h
@@ -18924,6 +19053,7 @@ theorem burnsideF4gG2TwoInv_Pc_comm (hK : Nat.card K = 2) :
   have hmem := hC hP
   exact (Subgroup.mem_centralizer_iff.1 hmem _ rfl).symm
 
+omit [Finite K] in
 theorem burnsideF4gG2TwoInv_mem_longRoot (hk2 : ∀ c : K, c = 0 ∨ c = 1) {x : G2Group K} :
     x ∈ G2Native.longRoot K ↔ x = 1 ∨ x = burnsideF4gG2TwoInv_zL := by
   have hmap := burnsideF4gG2TwoInv_map_rootSubgroup (K := K) burnsideF4gG2TwoInv_cRoot_isRoot
@@ -18950,6 +19080,7 @@ theorem burnsideF4gG2TwoInv_mem_longRoot (hk2 : ∀ c : K, c = 0 ∨ c = 1) {x :
       have : y = burnsideF4gG2TwoInv_zL := Subtype.ext hye
       rwa [this] at hy
 
+omit [Finite K] in
 theorem burnsideF4gG2TwoInv_mem_shortRoot (hk2 : ∀ c : K, c = 0 ∨ c = 1) {x : G2Group K} :
     x ∈ G2Native.shortRoot K ↔ x = 1 ∨ x = burnsideF4gG2TwoInv_zS := by
   have hmap := burnsideF4gG2TwoInv_map_rootSubgroup (K := K) burnsideF4gG2TwoInv_sRoot_isRoot
@@ -18976,6 +19107,7 @@ theorem burnsideF4gG2TwoInv_mem_shortRoot (hk2 : ∀ c : K, c = 0 ∨ c = 1) {x 
       have : y = burnsideF4gG2TwoInv_zS := Subtype.ext hye
       rwa [this] at hy
 
+omit [Finite K] in
 theorem burnsideF4gG2TwoInv_zS_conj :
     ∃ n : G2Group K, burnsideF4gG2TwoInv_zS (K := K) =
       n * ⟨g2L 1, g2L_mem_adjointGroup 1⟩ * n⁻¹ := by
@@ -18991,6 +19123,7 @@ theorem burnsideF4gG2TwoInv_zS_conj :
   rw [← hw, g2L_one]
   rfl
 
+omit [Finite K] in
 theorem burnsideF4gG2TwoInv_zS_not_mem_J (h2 : (2 : K) = 0) (hk2 : ∀ c : K, c = 0 ∨ c = 1) :
     burnsideF4gG2TwoInv_zS (K := K) ∉ (g2HomC h2).range := by
   obtain ⟨n, hn⟩ := burnsideF4gG2TwoInv_zS_conj (K := K)
@@ -19026,7 +19159,7 @@ theorem burnsideF4gG2TwoInv_borel_conj (hK : Nat.card K = 2) (h2 : (2 : K) = 0)
     (hk2 : ∀ c : K, c = 0 ∨ c = 1) :
     ∃ h : G2Group K, ∀ g, g ∈ (CFSG.Quasithin.F6.G22Shape.lat h2 hk2).S ↔
       ∃ b ∈ G2Native.positiveBorel K, h * b * h⁻¹ = g := by
-  haveI : Finite (G2Group K) := finite_g2Group
+  have : Finite (G2Group K) := finite_g2Group
   obtain ⟨hp, hi⟩ := burnsideF4gG2TwoInv_borel_sylow hK
   exact burnsideF4gG2TwoInv_sylow_conj _ _ hp hi (CFSG.Quasithin.F6.G22Shape.lat h2 hk2).sylow.1
     (CFSG.Quasithin.F6.G22Shape.lat h2 hk2).sylow.2
@@ -19177,7 +19310,7 @@ theorem burnsideF4gG2TwoInv_cfacts (hK : Nat.card K = 2)
         Subgroup.centralizer ({q} : Set (G2Group K)) ≤ G2Native.lineParabolic K := by
   have h2 := two_eq_zero_of_card_two hK
   have hk2 := eq_zero_or_eq_one_of_card_two hK
-  haveI : Finite (G2Group K) := finite_g2Group
+  have : Finite (G2Group K) := finite_g2Group
   have D := g2IndexTwoData h2 hk2
   obtain ⟨h, hh⟩ := burnsideF4gG2TwoInv_borel_conj hK h2 hk2
   obtain ⟨hP, hz⟩ := burnsideF4gG2TwoInv_Pc_conj hK h2 hk2 hh
@@ -19395,9 +19528,9 @@ theorem burnsideF4gG2TwoInv_F427_G2
       ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨-, e, K', fK', finK', charK', scope, hcase⟩
   · cases c <;> exact absurd hk (by decide)
   · have hcard' : Nat.card K = 2 := by simpa using hcard
-    haveI := finK
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime (p := 2)
+    have := finK
+    have := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime (p := 2)
       (by rw [← Nat.card_eq_fintype_card, hcard'])
     have hψi := burnsideF4gG2TwoInv_psiC_injective marking
     have hψs := burnsideF4gG2TwoInv_psiC_surjective marking hGp

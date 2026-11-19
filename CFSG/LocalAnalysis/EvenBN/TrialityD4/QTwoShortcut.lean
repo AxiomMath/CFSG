@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem two_mul_pow_five_lt_of_two_mul_pow_ten_le {q n : ℕ} (hq : 2 ≤ q)
     (h : 2 * q ^ 10 ≤ n * q ^ 4) : 2 * q ^ 5 < n := by
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have h1 : n * q ^ 4 ≤ 2 * q ^ 5 * q ^ 4 := Nat.mul_le_mul hle le_rfl
   have h2 : 2 * q ^ 10 = 2 * q ^ 9 * q := by ring
   have h3 : 2 * q ^ 9 * 2 ≤ 2 * q ^ 9 * q := Nat.mul_le_mul le_rfl hq
@@ -26,7 +26,7 @@ theorem exists_isElemAbelian_two_mul_card_le {A B : Subgroup G} {y : G}
     (hyA : ∀ a ∈ A, y * a * y⁻¹ * a⁻¹ ∈ B) :
     ∃ E : Subgroup G, IsElemAbelian 2 E ∧ E ≤ centralizer ({y} : Set G) ∧
       2 * Nat.card A ≤ Nat.card E * Nat.card B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm' : ∀ x ∈ A, ∀ z ∈ A, x * z = z * x := fun x hx z hz =>
     congrArg Subtype.val (hA.1.is_comm.comm ⟨x, hx⟩ ⟨z, hz⟩)
   have hy2 : y ^ 2 = 1 := by rw [sq]; exact hy

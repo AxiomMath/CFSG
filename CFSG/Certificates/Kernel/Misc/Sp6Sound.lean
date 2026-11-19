@@ -196,7 +196,7 @@ theorem sp6_sound {u : Bool} {G : List (List ℕ)}
     · intro x hx
       obtain ⟨i, hi, rfl⟩ := hPS x hx
       rw [← Snd.validK_eq]; exact hval i hi
-  · simp only [eaCheckG, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, List.contains_iff_mem,
+  · simp only [eaCheckG, Bool.and_eq_true, decide_eq_true_eq, List.contains_iff_mem,
       List.all_eq_true]
     refine ⟨Snd.mem_eaClose_of_mem _ _ _ _ _ (by simp), fun A hA => ?_⟩
     obtain ⟨hA1, hAP, -, -, -, hAs⟩ := hEA A hA

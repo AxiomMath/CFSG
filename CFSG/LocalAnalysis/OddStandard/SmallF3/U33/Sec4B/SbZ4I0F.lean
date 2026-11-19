@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem z4iPsiK_apply_coe (k : ↥(ctxKI t tau x₁ x₂ rho)) (q : ↥(ctxQ t tau x₁ x₂ rho)) :
     ((z4iPsiK t tau x₁ x₂ rho k q : ↥(ctxQ t tau x₁ x₂ rho)) : G) = (k : G) * q * (k : G)⁻¹ :=
   rfl

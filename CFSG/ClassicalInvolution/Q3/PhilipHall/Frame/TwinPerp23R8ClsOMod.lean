@@ -17,8 +17,8 @@ theorem zOf_miss_vec (c y : Fin 5) :
     simp [miss]
   rw [zOf_vec_apply]
   by_cases hy : y = c
-  · rw [if_neg (fun h' => (h.mp h') hy), if_pos hy]
-  · rw [if_pos (h.mpr hy), if_neg hy]
+  · rw [ite_eq_right (fun h' => (h.mp h') hy), ite_eq_left hy]
+  · rw [ite_eq_left (h.mpr hy), ite_eq_right hy]
 
 set_option synthInstance.maxHeartbeats 400000 in
 set_option synthInstance.maxSize 8192 in
@@ -106,9 +106,9 @@ theorem exists_three_elt_prod {p : Fin 5} {ι : Fin 4 ↪ Fin 5} (hι : ∀ y, y
     rw [range_emb]
     simp [miss]
   have hz1 : ∀ y, y ≠ p → z.vec y = 1 := fun y hy => by
-    rw [hz, zOf_vec_apply, if_pos ((hmem y).mpr hy)]
+    rw [hz, zOf_vec_apply, ite_eq_left ((hmem y).mpr hy)]
   have hz0 : z.vec p = 0 := by
-    rw [hz, zOf_vec_apply, if_neg (fun h => (hmem p).mp h rfl)]
+    rw [hz, zOf_vec_apply, ite_eq_right (fun h => (hmem p).mp h rfl)]
   have hzp : z.perm = 1 := zOf_perm _
   refine ⟨ofPerm σ, ofPerm_threeCycle_mem h23 h3p, ?_, ?_, ?_, ?_, ?_⟩
   · rw [← map_pow, ofPerm_pow, threeCycle_cubed h23 h3p h2p, ofPerm_one, map_one]

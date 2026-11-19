@@ -13,10 +13,10 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.SEFive
 open Subgroup
 
 theorem ker_le_or_eq_one {L : Type*} [Group L] [IsSimpleGroup L] {J : Type*} [Group J]
-    (hJ : Group.IsPerfect J) (φ : J →* L) (hφ : Function.Surjective φ) (hsol : IsSolvable φ.ker)
+    (hJ : Group.IsPerfect J) (φ : J →* L) (hφ : Function.Surjective φ) (hsol : Group.IsSolvable φ.ker)
     {M : Type*} [Group M] (ρ : J →* M) : ρ.ker ≤ φ.ker ∨ ρ = 1 := by
-  haveI : Group.IsPerfect J := hJ
-  haveI : (ρ.ker.map φ).Normal := Subgroup.Normal.map ρ.normal_ker φ hφ
+  have : Group.IsPerfect J := hJ
+  have : (ρ.ker.map φ).Normal := Subgroup.Normal.map ρ.normal_ker φ hφ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ρ.ker.map φ) with hbot | htop
   · left
     intro x hx
@@ -30,7 +30,7 @@ theorem ker_le_or_eq_one {L : Type*} [Group L] [IsSimpleGroup L] {J : Type*} [Gr
       apply hρ
       ext g
       exact MonoidHom.mem_ker.mp (h ▸ Subgroup.mem_top g)
-    haveI : Nontrivial (J ⧸ ρ.ker) := by
+    have : Nontrivial (J ⧸ ρ.ker) := by
       rw [← not_subsingleton_iff_nontrivial, QuotientGroup.subsingleton_iff]
       exact hkerne
     have hsurj : Function.Surjective ((QuotientGroup.mk' ρ.ker).comp φ.ker.subtype) := by
@@ -43,9 +43,9 @@ theorem ker_le_or_eq_one {L : Type*} [Group L] [IsSimpleGroup L] {J : Type*} [Gr
       · show (QuotientGroup.mk' ρ.ker) (n⁻¹ * g) = (QuotientGroup.mk' ρ.ker) g
         have hn1 : (QuotientGroup.mk' ρ.ker) n = 1 := (QuotientGroup.eq_one_iff n).mpr hn
         rw [map_mul, map_inv, hn1, inv_one, one_mul]
-    haveI : Group.IsSolvable φ.ker := hsol
-    haveI : Group.IsSolvable (J ⧸ ρ.ker) := Group.isSolvable_of_surjective hsurj
-    haveI : Group.IsPerfect (J ⧸ ρ.ker) :=
+    have : Group.IsSolvable φ.ker := hsol
+    have : Group.IsSolvable (J ⧸ ρ.ker) := Group.isSolvable_of_surjective hsurj
+    have : Group.IsPerfect (J ⧸ ρ.ker) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' ρ.ker) (QuotientGroup.mk'_surjective _)
     exact Group.IsPerfect.not_isSolvable (J ⧸ ρ.ker) inferInstance
 
@@ -69,7 +69,7 @@ theorem coverActsTriviallyOnSmall_of_nonabelian {p : ℕ} (hp : p.Prime) (hp5 : 
   intro J instJ finJ hJ φ hφ hcop hsol ℓ hℓ hℓ2 hℓp V instV finV hVcomm hVpow hVcard ρ
   rcases ker_le_or_eq_one hJ φ hφ hsol ρ with hker | hρ
   · exfalso
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hq : Nat.Coprime p (Nat.card φ.ker) :=
       Nat.Coprime.of_dvd_left (dvd_mul_left p 2) hcop.symm
     obtain ⟨S', t', hS'p, hS'map, hinj, -, -⟩ :=
@@ -107,7 +107,7 @@ theorem coverActsTriviallyOnSmall_of_elemAbelian {p : ℕ} {L : Type*} [Group L]
       apply Subtype.ext
       show (a : L) * (b : L) = (b : L) * (a : L)
       exact hcomm (a : L) a.2 (b : L) b.2
-    haveI hEEA : IsElementaryAbelian 2 E :=
+    have hEEA : IsElementaryAbelian 2 E :=
       { is_comm := ⟨hEcomm'⟩
         exponent_dvd_p := by
           rw [Monoid.exponent_dvd_iff_forall_pow_eq_one]
@@ -120,14 +120,14 @@ theorem coverActsTriviallyOnSmall_of_elemAbelian {p : ℕ} {L : Type*} [Group L]
       intro a b
       apply Subtype.ext
       apply hE'inj (E'.mul_mem a.2 b.2) (E'.mul_mem b.2 a.2)
-      simp only [Subgroup.coe_mul, map_mul]
+      simp only [map_mul]
       exact hcomm (φ a) (hE'map ▸ Subgroup.mem_map_of_mem φ a.2)
         (φ b) (hE'map ▸ Subgroup.mem_map_of_mem φ b.2)
     have hE'pow : ∀ a : ↥E', a ^ 2 = 1 := by
       intro a
       apply Subtype.ext
       apply hE'inj (E'.pow_mem a.2 2) (Subgroup.one_mem E')
-      simp only [Subgroup.coe_pow, map_pow, map_one]
+      simp only [map_pow, map_one]
       exact hexp (φ a) (hE'map ▸ Subgroup.mem_map_of_mem φ a.2)
     let ρ' : ↥E' →* MulAut V := ρ.comp E'.subtype
     have hρ'faith : ∀ g : ↥E', ρ' g = 1 → g = 1 := by
@@ -153,13 +153,13 @@ theorem coverActsTriviallyOnSmall_of_elemAbelian {p : ℕ} {L : Type*} [Group L]
       apply Subtype.ext
       change (ρ' x) ^ 2 = 1
       rw [← map_pow, hE'pow, map_one]
-    haveI hAEA : IsElementaryAbelian 2 A :=
+    have hAEA : IsElementaryAbelian 2 A :=
       { is_comm := ⟨hAcomm⟩
         exponent_dvd_p := by
           rw [Monoid.exponent_dvd_iff_forall_pow_eq_one]
           exact hApow }
-    haveI hℓfact : Fact ℓ.Prime := ⟨hℓ⟩
-    haveI hVEA : IsElementaryAbelian ℓ V :=
+    have hℓfact : Fact ℓ.Prime := ⟨hℓ⟩
+    have hVEA : IsElementaryAbelian ℓ V :=
       { is_comm := ⟨hVcomm⟩
         exponent_dvd_p := by
           rw [Monoid.exponent_dvd_iff_forall_pow_eq_one]
@@ -169,7 +169,7 @@ theorem coverActsTriviallyOnSmall_of_elemAbelian {p : ℕ} {L : Type*} [Group L]
     obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary hVcomm hVpow hncard
     let ψ : MulAut V ≃* GL (Fin n) (ZMod ℓ) := CFSG.SectionRank.Ccomm.elemAutEquivGL e
     let B : Subgroup (GL (Fin n) (ZMod ℓ)) := A.map ψ.toMonoidHom
-    haveI hBEA : IsElementaryAbelian 2 B :=
+    have hBEA : IsElementaryAbelian 2 B :=
       IsElementaryAbelian.map (A := A) ψ.toMonoidHom
     have h2 : (2 : ZMod ℓ) ≠ 0 := by
       intro hzero

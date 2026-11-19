@@ -39,7 +39,7 @@ private theorem oUpperTwo_le_of_index_two {S : Type} [Group S] [Finite S]
 
 theorem card_oUpperTwo_of_card_six {S : Type} [Group S] [Finite S] (hS : Nat.card S = 6) :
     Nat.card (S17.oUpperTwo (⊤ : Subgroup S)) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hTcard⟩ :=
     Sylow.exists_subgroup_card_pow_prime (G := S) 3 (n := 1) (by rw [hS]; norm_num)
   have hTcard3 : Nat.card T = 3 := by simpa using hTcard
@@ -62,8 +62,8 @@ theorem card_oUpperTwo_of_card_six {S : Type} [Group S] [Finite S] (hS : Nat.car
 theorem oUpperTwo_le_of_normal_of_card_six {S : Type} [Group S] [Finite S] (hS : Nat.card S = 6)
     (hnc : ∃ a b : S, a * b ≠ b * a) {N : Subgroup S} (hN : N.Normal) (hne : N ≠ ⊥) :
     S17.oUpperTwo (⊤ : Subgroup S) ≤ N := by
-  haveI : N.Normal := hN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : N.Normal := hN
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNcard_dvd : Nat.card N ∣ 6 := by
     rw [← hS]
     exact Subgroup.card_subgroup_dvd_card N
@@ -106,8 +106,8 @@ theorem oUpperTwo_le_of_normal_of_card_six {S : Type} [Group S] [Finite S] (hS :
       rw [hcard, hS] at h
       have hNindex : N.index = 3 := by omega
       rw [← Subgroup.index_eq_card, hNindex]
-    haveI : IsCyclic (S ⧸ N) := isCyclic_of_prime_card hquotcard
-    haveI : IsMulCommutative S :=
+    have : IsCyclic (S ⧸ N) := isCyclic_of_prime_card hquotcard
+    have : IsMulCommutative S :=
       MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' N)
         (by rw [QuotientGroup.ker_mk']; exact hNcenter)
     obtain ⟨a, b, hab⟩ := hnc
@@ -127,7 +127,7 @@ theorem opp_top_of_card_eighteen {G : Type} [Group G] [Finite G] (hG : Nat.card 
     (hnc : ∃ a b : G, a * b * a⁻¹ * b⁻¹ ∉ C) :
     Nat.card (Opp 2 (⊤ : Subgroup G)) = 6 ∧
       ∃ a ∈ Opp 2 (⊤ : Subgroup G), ∃ b ∈ Opp 2 (⊤ : Subgroup G), a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hTcard⟩ :=
     Sylow.exists_subgroup_card_pow_prime (G := G) 3 (n := 2) (by rw [hG]; norm_num)
   have hTcard9 : Nat.card T = 9 := by simpa using hTcard
@@ -223,7 +223,7 @@ theorem opp_top_of_card_eighteen {G : Type} [Group G] [Finite G] (hG : Nat.card 
       apply le_antisymm le_top
       rw [← hGT]
       exact sup_le hTcenter (Subgroup.zpowers_le.mpr hucenter)
-    haveI : IsMulCommutative G := Subgroup.center_eq_top_iff.mp hcenterTop
+    have : IsMulCommutative G := Subgroup.center_eq_top_iff.mp hcenterTop
     obtain ⟨a, b, hab⟩ := hnc
     refine hab ?_
     have h1 : a * b * a⁻¹ * b⁻¹ = 1 := by rw [mul_comm' a b]; group

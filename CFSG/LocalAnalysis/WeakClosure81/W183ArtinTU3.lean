@@ -134,7 +134,7 @@ theorem w183art_tqpow_U3 {p q k : ℕ} (hp : 3 ≤ p) (hq : q = 3 ∨ q = 5) (hq
           intro h
           have h2 : 3 ∣ 2 := by
             have hsub := Nat.dvd_sub (show 3 ∣ (r + 3) + 1 from h3p1) h
-            simpa using hsub
+            simp at hsub
           exact not_dvd_two Nat.prime_three (by norm_num) h2
         have h3C' : ¬ 3 ∣ 3 * n ^ 2 + 9 * n + 7 := by
           intro h

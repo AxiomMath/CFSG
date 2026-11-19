@@ -17,12 +17,12 @@ section Certificates
 
 
 noncomputable def regJ (k : ℕ) : J :=
-  if h : 2 ≤ k ∧ (ops[k - 2]!).1 < k ∧ (ops[k - 2]!).2 < k then
+  if _h : 2 ≤ k ∧ (ops[k - 2]!).1 < k ∧ (ops[k - 2]!).2 < k then
     regJ (ops[k - 2]!).1 * regJ (ops[k - 2]!).2
   else if k = 0 then a else if k = 1 then b else 1
 termination_by k
 decreasing_by
-  all_goals first | exact h.2.1 | exact h.2.2
+  all_goals first | exact _h.2.1 | exact _h.2.2
 
 noncomputable def gJ (j : ℕ) : J := regJ (gens[j]!)
 
@@ -164,7 +164,7 @@ theorem factorization_J : (Nat.card J).factorization 3 = 7 := by
 theorem e27_lyS0_table :
     ∃ T : Subgroup J, Nat.card T = 3 ^ (Nat.card J).factorization 3 ∧
       ∀ s ∈ T, orderOf s = 3 → 81 ∣ Nat.card ↥(T ⊓ centralizer ({s} : Set J)) := by
-  haveI := finite_J
+  have := finite_J
   obtain ⟨T, hT, -⟩ := tabData.exists_subgroup (by unfold nS; norm_num : 0 < nS)
   refine ⟨T, tabData.sylow_kill hT ?_ killOK_parts⟩
   rw [factorization_J]

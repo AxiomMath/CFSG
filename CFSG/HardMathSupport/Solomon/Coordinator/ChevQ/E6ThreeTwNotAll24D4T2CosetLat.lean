@@ -225,11 +225,11 @@ theorem d4t2c_toral_weyl {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
   subst ha
   have hd3 : dV ω f₀ ^ 3 = 1 := hab.2 _ hdA
   have hod : orderOf (dV ω f₀) = 3 := orderOf_eq_prime hd3 hd1
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨ε₁, hε₁A, hε₁Z⟩ : ∃ ε₁ ∈ A, ε₁ ∉ Subgroup.zpowers (dV ω f₀) := by
-    refine SetLike.not_le_iff_exists.1 fun hcon => ?_
+    refine IsConcreteLE.not_le_iff_exists.1 fun hcon => ?_
     have hZ : Nat.card (Subgroup.zpowers (dV ω f₀)) = 3 := by rw [Nat.card_zpowers, hod]
-    haveI : Finite (Subgroup.zpowers (dV ω f₀)) :=
+    have : Finite (Subgroup.zpowers (dV ω f₀)) :=
       Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
     have h := Subgroup.card_le_of_le (H := A) (K := Subgroup.zpowers (dV ω f₀)) hcon
     rw [hcard, hZ] at h
@@ -243,8 +243,8 @@ theorem d4t2c_toral_weyl {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     rw [hNdef]
     exact sup_le (Subgroup.zpowers_le.2 hdA) (Subgroup.zpowers_le.2 hε₁A)
   obtain ⟨ε₂, hε₂A, hε₂N⟩ : ∃ ε₂ ∈ A, ε₂ ∉ N := by
-    refine SetLike.not_le_iff_exists.1 fun hcon => ?_
-    haveI : Finite N := Nat.finite_of_card_ne_zero (by rw [hN]; norm_num)
+    refine IsConcreteLE.not_le_iff_exists.1 fun hcon => ?_
+    have : Finite N := Nat.finite_of_card_ne_zero (by rw [hN]; norm_num)
     have h := Subgroup.card_le_of_le (H := A) (K := N) hcon
     rw [hcard, hN] at h
     norm_num at h
@@ -260,7 +260,7 @@ theorem d4t2c_toral_weyl {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     rw [hN₃def]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers ε₂)
   have hN₃eq : N₃ = A := by
-    haveI : Finite N₃ :=
+    have : Finite N₃ :=
       Finite.of_injective (Subgroup.inclusion hN₃A) (Subgroup.inclusion_injective hN₃A)
     have h9 : 3 ^ 2 ∣ Nat.card N₃ := hN ▸ Subgroup.card_dvd_of_le hNN₃
     have h27 : Nat.card N₃ ∣ 3 ^ 3 := hcard ▸ Subgroup.card_dvd_of_le hN₃A

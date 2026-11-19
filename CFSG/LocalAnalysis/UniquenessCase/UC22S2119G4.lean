@@ -29,9 +29,9 @@ private theorem g4N_normalizer_ne_top_of_isPGroup (D : Data G) {Z : Subgroup G} 
     (hr : r.Prime) (hZ : IsPGroup r Z) (hZ1 : Z ≠ ⊥) :
     Subgroup.normalizer (Z : Set G) ≠ ⊤ := by
   intro htop
-  haveI : IsSimpleGroup G := D.standing.simple
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI hnorm : Z.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+  have : IsSimpleGroup G := D.standing.simple
+  have : Fact r.Prime := ⟨hr⟩
+  have hnorm : Z.Normal := Subgroup.normalizer_eq_top_iff.1 htop
   have hZtop : Z = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Z with h | h
     · exact absurd h hZ1
@@ -39,8 +39,8 @@ private theorem g4N_normalizer_ne_top_of_isPGroup (D : Data G) {Z : Subgroup G} 
   have hP : IsPGroup r G := by
     have hZ' : IsPGroup r ↥(⊤ : Subgroup G) := hZtop ▸ hZ
     exact IsPGroup.of_equiv hZ' Subgroup.topEquiv
-  haveI : Group.IsNilpotent G := hP.isNilpotent
-  haveI : IsMulCommutative G :=
+  have : Group.IsNilpotent G := hP.isNilpotent
+  have : IsMulCommutative G :=
     Group.IsNilpotent.nilpotencyClass_le_one_iff.mp
       (Group.nilpotencyClass_le_one_of_isSimple_of_isNilpotent (G := G))
   obtain ⟨x, y, hxy⟩ := D.standing.nonab
@@ -101,7 +101,7 @@ private theorem g4N_false_of_isL2Odd_of_forall (D : Data G) (Ch : Choice2011 G)
       normalizer (A : Set G) ≤ D.M) : False := by
   let c₀ : Ctx21 D Ch := { c with B := c.B0, hB := c.hB0, hle := le_rfl }
   have hp2 : p ≠ 2 := by omega
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hLp
   have hZc : Subgroup.center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hL.2.2
   obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 hZc
@@ -163,7 +163,7 @@ private theorem g4N_s21_19_of_forall (D : Data G) (Ch : Choice2011 G) (h211 : S2
     have hK3 := pRank_three_eq_one_and_thin8_or_isU3 hKs
     have h3L : 3 ∣ Nat.card L :=
       CFSG.GroupTheory.dvd_card_of_one_le_pRank Nat.prime_three (by rw [hL3.1])
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 3 h3L
     let D₃ : Subgroup G := Subgroup.zpowers ((x : ↥L) : G)
     have hxG : orderOf ((x : ↥L) : G) = 3 := by
@@ -174,9 +174,9 @@ private theorem g4N_s21_19_of_forall (D : Data G) (Ch : Choice2011 G) (h211 : S2
       rw [show D₃ = Subgroup.zpowers ((x : ↥L) : G) from rfl, Nat.card_zpowers, hxG]
     have hD₃U : D₃ ∈ uniqueSet D.M :=
       mem_uniqueSet_of_card_eq_three D h8107 hL hK hLK hL3 hK3 hD₃L hD₃3
-    haveI : IsSimpleGroup (Bar2 L) :=
+    have : IsSimpleGroup (Bar2 L) :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hLp
-    haveI : IsSimpleGroup (Bar2 K) := g4N_isSimpleGroup_of_shape hKs
+    have : IsSimpleGroup (Bar2 K) := g4N_isSimpleGroup_of_shape hKs
     exact Ctx21.g4N_false_of_isL2Odd_of_forall D Ch h212 h920 hH c (hn3 hH c) hL hp hp5 hLp hD₃L
       hD₃3 hD₃U (hN L hL K hK hLK hLn p hp5 hLp hL3.1 hK3.1 (uc22p21k_center_eq_bot hL.2.2)
         (uc22p21k_center_eq_bot hK.2.2))

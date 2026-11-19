@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem normalizer_inf_centralizer {R W : Subgroup G}
     (hR : R ≤ normalizer (W : Set G)) :
     R ≤ normalizer ((R ⊓ centralizer (W : Set G) : Subgroup G) : Set G) := by
@@ -49,7 +50,7 @@ theorem S_le_of_le (c : Cfg1511 M V₀ V U S H P Q₀ p) (hPR : P ⊓ F11.CTilde
 theorem inf_centralizer_eq (c : Cfg1511 M V₀ V U S H P Q₀ p)
     (hR : IsSylowIn 2 R (F11.CTilde M V₀ V)) (hPR : P ⊓ F11.CTilde M V₀ V ≤ R) :
     R ⊓ centralizer (U : Set G) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSR : S ≤ R := c.S_le_of_le hPR
   have hSC : S ≤ centralizer (U : Set G) := c.cex.S_le_centralizer
   have hSA : S ≤ R ⊓ centralizer (U : Set G) := le_inf hSR hSC

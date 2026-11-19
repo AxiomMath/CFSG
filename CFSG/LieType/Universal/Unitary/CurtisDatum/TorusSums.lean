@@ -447,7 +447,7 @@ theorem phi_apply_last_odd_eq_diagonal (hF : Nat.card F = (2 ^ f) ^ 2) {n : ℕ}
       exact Equiv.swap_apply_of_ne_of_ne hjp' hjr'
     have hεj : levelSign σU ((ζ : F)) s j = 1 := by
       rw [levelSign, dite_eq_right hs, longSign]
-      rw [if_neg hjp', if_neg hjr']
+      rw [ite_eq_right hjp', ite_eq_right hjr']
     have hcol : ∀ r, mat σU n ((curtisDatum hF n hn ζ hζ).n s) r j = if r = j then 1 else 0 := by
       intro r
       rw [show mat σU n ((curtisDatum hF n hn ζ hζ).n s) =
@@ -457,9 +457,9 @@ theorem phi_apply_last_odd_eq_diagonal (hF : Nat.card F = (2 ^ f) ^ 2) {n : ℕ}
     rw [map_mul, Matrix.mul_apply]
     refine (Finset.sum_eq_single j ?_ ?_).trans ?_
     · intro r _ hr
-      rw [hcol r, if_neg hr, mul_zero]
+      rw [hcol r, ite_eq_right hr, mul_zero]
     · intro hj'; simp at hj'
-    · rw [hcol j, if_pos rfl, mul_one]
+    · rw [hcol j, ite_eq_left rfl, mul_one]
       rw [hxmat']
       have h1 : p ≠ j := hjp.symm
       have h2 : mid ≠ p := hne.1.symm
@@ -481,9 +481,9 @@ theorem phi_apply_last_odd_eq_diagonal (hF : Nat.card F = (2 ^ f) ^ 2) {n : ℕ}
     rw [map_mul, Matrix.mul_apply]
     refine (Finset.sum_eq_single (Fin.rev p) ?_ ?_).trans ?_
     · intro r _ hr
-      rw [hcolp r, if_neg hr, mul_zero]
+      rw [hcolp r, ite_eq_right hr, mul_zero]
     · intro h; simp at h
-    · rw [hxpp, hcolp (Fin.rev p), if_pos rfl]
+    · rw [hxpp, hcolp (Fin.rev p), ite_eq_left rfl]
   have h0 : ∀ j, j < p →
       (mat σU n l * diagonal (fun t => mat σU n ((curtisDatum hF n hn ζ hζ).phi s x) t t) *
         mat σU n u) p j = 0 := by
@@ -620,7 +620,7 @@ theorem curtisDatum_dScalar_eq_zero_last_odd (hF : Nat.card F = (2 ^ f) ^ 2) (n 
   have hc0 : c ≠ 0 := neg_ne_zero.mpr (inv_ne_zero hζ)
   let T' : F → SU σU n := fun t => if ht : t = 0 then 1 else T (Units.mk0 t ht)
   have hT' : ∀ u : Fˣ, T' u = T u := fun u => by
-    simp only [T', dif_neg u.ne_zero, Units.mk0_val]
+    simp only [T', dite_eq_right u.ne_zero, Units.mk0_val]
   let β : (curtisDatum hF n hn ζ hζ).X s → F := fun x => mat σU n x p (Fin.rev p)
   have hX : ∀ x : (curtisDatum hF n hn ζ hζ).X s, ∃ a, β x + σU (β x) + σU a * a = 0 ∧
       mat σU n x = heisenbergMatrix σU p mid a (β x) := by
@@ -657,7 +657,7 @@ theorem curtisDatum_dScalar_eq_zero_last_odd (hF : Nat.card F = (2 ^ f) ^ 2) (n 
       apply mat_injective
       rw [hdiag, hTmat, Units.val_mk0]
     rw [heq]
-    simp only [T', dif_neg hbc]
+    simp only [T', dite_eq_right hbc]
   have hEltX : ∀ {a b : F} (hab : b + σU b + σU a * a = 0),
       heisenbergElt hσ hpp hpm hmr hab ∈ (curtisDatum hF n hn ζ hζ).X s :=
     fun hab => (mem_curtisDatum_X_last_odd_iff hF hn ζ hζ hodd hs).mpr

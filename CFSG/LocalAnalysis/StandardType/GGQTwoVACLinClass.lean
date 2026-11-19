@@ -271,11 +271,11 @@ theorem omegaBlock_mulVec (n : ℕ) (k : Fin n) (v : Fin (n + 1) → F2) (i : Fi
   have hne : k.castSucc ≠ k.succ := (show k.castSucc < k.succ from Fin.castSucc_lt_succ).ne
   by_cases h0 : i = k.castSucc
   · subst h0
-    simp only [if_neg hne]
+    simp only [ite_eq_right hne]
     split_ifs <;> ring_nf <;> rw [show (2 : F2) = 0 from gf2_two, mul_zero, zero_add]
   · by_cases h1 : i = k.succ
     · subst h1
-      simp only [if_neg hne.symm]
+      simp only [ite_eq_right hne.symm]
       split_ifs <;> ring_nf
     · simp [h0, h1]
 
@@ -318,22 +318,22 @@ theorem blockGen_mulVec_zero (n : ℕ) (i : Fin (R n)) :
   rw [blockGen, omegaBlock_mulVec, blockGen_castSucc, blockGen_succ]
   by_cases h0 : x = pairCoord n i 0
   · subst h0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hne : pairCoord n i 0 ≠ pairCoord n i 1 := by
       intro h
       have := congrArg Fin.val h
       simp [pairCoord] at this
     simp [hne]
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     by_cases h1 : x = pairCoord n i 1
     · subst h1
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have h01 : pairCoord n i 1 ≠ pairCoord n i 0 := by
         intro h
         have := congrArg Fin.val h
         simp [pairCoord] at this
       simp [h01]
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       simp [h0, h1]
 
 theorem blockGen_mulVec_one (n : ℕ) (i : Fin (R n)) :
@@ -345,22 +345,22 @@ theorem blockGen_mulVec_one (n : ℕ) (i : Fin (R n)) :
   rw [blockGen, omegaBlock_mulVec, blockGen_castSucc, blockGen_succ]
   by_cases h0 : x = pairCoord n i 0
   · subst h0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hne : pairCoord n i 0 ≠ pairCoord n i 1 := by
       intro h
       have := congrArg Fin.val h
       simp [pairCoord] at this
     simp [hne]
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     by_cases h1 : x = pairCoord n i 1
     · subst h1
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have h01 : pairCoord n i 1 ≠ pairCoord n i 0 := by
         intro h
         have := congrArg Fin.val h
         simp [pairCoord] at this
       simp [h01]
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       simp [h0, h1]
 
 theorem blockGen_mulVec_eq_self_of_support (n : ℕ) (j : Fin (R n))
@@ -371,14 +371,14 @@ theorem blockGen_mulVec_eq_self_of_support (n : ℕ) (j : Fin (R n))
   funext x
   rw [blockGen, omegaBlock_mulVec, blockGen_castSucc, blockGen_succ]
   by_cases h0 : x = pairCoord n j 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     rw [hv (pairCoord n j 1) (Or.inr rfl), hv x (Or.inl h0)]
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     by_cases h1 : x = pairCoord n j 1
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       rw [hv (pairCoord n j 0) (Or.inl rfl), hv (pairCoord n j 1) (Or.inr rfl), zero_add,
         hv x (Or.inr h1)]
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
 
 theorem blockGen_mulVec_pairCoord_of_ne (n : ℕ) {i i0 : Fin (R n)} (hne : i ≠ i0)
     (a : Fin 2) :
@@ -472,10 +472,10 @@ theorem nsSL_single_eq_blockGen (n : ℕ) (i : Fin (R n)) :
       rw [hy, ← frameCoords_pair_zero, nsMat_single_mulVec_single]
       by_cases hi : i = i0
       · rw [hi]
-        rw [if_pos rfl, mul_one]
+        rw [ite_eq_left rfl, mul_one]
         rw [frameCoords_pair_zero, blockGen_mulVec_zero, ← basis_aDim_one, frameCoords_pair_one]
       · have hne : i0 ≠ i := fun h => hi h.symm
-        rw [if_neg hne, one_mul]
+        rw [ite_eq_right hne, one_mul]
         rw [frameCoords_pair_zero, blockGen_mulVec_pairCoord_of_ne n hi 0]
     · rw [ha] at hε
       have hy : y = pairCoord n i0 1 := by
@@ -483,12 +483,12 @@ theorem nsSL_single_eq_blockGen (n : ℕ) (i : Fin (R n)) :
       rw [hy, ← frameCoords_pair_one, nsMat_single_mulVec_single]
       by_cases hi : i = i0
       · rw [hi]
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         rw [root_mul_basis_one, frameCoords_pair_one, blockGen_mulVec_one]
         have hpair := ggQ2Lin_single_add_basis n i0
         rw [hpair, map_add, basis_aDim_zero, frameCoords_pair_zero, frameCoords_pair_one]
       · have hne : i0 ≠ i := fun h => hi h.symm
-        rw [if_neg hne, one_mul]
+        rw [ite_eq_right hne, one_mul]
         rw [frameCoords_pair_one, blockGen_mulVec_pairCoord_of_ne n hi 1]
   · have hy : y = restCoord n j := by
       rw [← eps_symm_inr n j, ← hε, Equiv.symm_apply_apply]
@@ -584,7 +584,7 @@ theorem prod_gen_eq (n : ℕ) (v : Fin (R n) → Multiplicative (ZMod 3)) :
   · simp only [Pi.pow_apply, Pi.mulSingle_apply]
     exact (ofAdd_one_pow_mul (v k)).symm
   · intro b _ hb
-    rw [Pi.pow_apply, Pi.mulSingle_apply, if_neg (fun h => hb h.symm)]
+    rw [Pi.pow_apply, Pi.mulSingle_apply, ite_eq_right (fun h => hb h.symm)]
     simp
   · intro hk; exact absurd (Finset.mem_univ k) hk
 
@@ -669,16 +669,16 @@ theorem delta_conj_blockGen_of_mem (n : ℕ) (S : Finset (Fin (R n))) {i : Fin (
     delta n S * blockGen n i * (delta n S)⁻¹ = (blockGen n i)⁻¹ := by
   unfold delta blockGen
   refine slPerm_conj_omegaBlock_inv (swapPerm n S) (k := pairIdx n i) (k' := pairIdx n i) ?_ ?_
-  · rw [blockGen_castSucc, blockGen_succ, swapPerm_apply_pair, if_pos hi, flip2_zero]
-  · rw [blockGen_succ, blockGen_castSucc, swapPerm_apply_pair, if_pos hi, flip2_one]
+  · rw [blockGen_castSucc, blockGen_succ, swapPerm_apply_pair, ite_eq_left hi, flip2_zero]
+  · rw [blockGen_succ, blockGen_castSucc, swapPerm_apply_pair, ite_eq_left hi, flip2_one]
 
 theorem delta_conj_blockGen_of_not_mem (n : ℕ) (S : Finset (Fin (R n))) {i : Fin (R n)}
     (hi : i ∉ S) :
     delta n S * blockGen n i * (delta n S)⁻¹ = blockGen n i := by
   unfold delta blockGen
   refine slPerm_conj_omegaBlock (swapPerm n S) (k := pairIdx n i) (k' := pairIdx n i) ?_ ?_
-  · rw [blockGen_castSucc, swapPerm_apply_pair, if_neg hi]
-  · rw [blockGen_succ, swapPerm_apply_pair, if_neg hi]
+  · rw [blockGen_castSucc, swapPerm_apply_pair, ite_eq_right hi]
+  · rw [blockGen_succ, swapPerm_apply_pair, ite_eq_right hi]
 
 theorem blockGen_inv_eq_sq (n : ℕ) (j : Fin (R n)) :
     (blockGen n j)⁻¹ = blockGen n j ^ 2 := by
@@ -694,12 +694,12 @@ theorem delta_conj_bg (n : ℕ) (S : Finset (Fin (R n))) (j : Fin (R n)) :
     delta n S * (bg n j : SpecialLinearGroup (Fin (n + 1)) F2) * (delta n S)⁻¹ =
       ((bg n j) ^ (if j ∈ S then 2 else 1) : ↥(halfTorus n)) := by
   by_cases hj : j ∈ S
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     change delta n S * blockGen n j * (delta n S)⁻¹ =
       (↑((bg n j) ^ 2) : SpecialLinearGroup (Fin (n + 1)) F2)
     rw [delta_conj_blockGen_of_mem n S hj, Subgroup.coe_pow, blockGen_inv_eq_sq]
     simp [bg]
-  · rw [if_neg hj, pow_one]
+  · rw [ite_eq_right hj, pow_one]
     change delta n S * blockGen n j * (delta n S)⁻¹ =
       (↑(bg n j) : SpecialLinearGroup (Fin (n + 1)) F2)
     rw [delta_conj_blockGen_of_not_mem n S hj]
@@ -740,8 +740,8 @@ theorem delta_conj_tZero_eq (n : ℕ) (v : Fin (R n) → Multiplicative (ZMod 3)
       (Multiplicative.toAdd (v j)).val := by
     intro j
     by_cases hj : j ∈ S
-    · rw [if_pos hj, (mem_swapSet.mp hj)]
-    · rw [if_neg hj]
+    · rw [ite_eq_left hj, (mem_swapSet.mp hj)]
+    · rw [ite_eq_right hj]
       have hne : (Multiplicative.toAdd (v j)).val ≠ 0 := by
         intro h0
         apply hv j
@@ -1037,9 +1037,9 @@ theorem theta_perm_conj_blockGen (n : ℕ) (σ : Equiv.Perm (Fin (R n))) (i : Fi
   simp only [Pi.single_apply]
   by_cases h : σ j = i
   · have hj : j = σ.symm i := (Equiv.eq_symm_apply σ).mpr h
-    rw [if_pos h, if_pos hj]
+    rw [ite_eq_left h, ite_eq_left hj]
   · have hj : j ≠ σ.symm i := fun hh => h ((Equiv.eq_symm_apply σ).mp hh)
-    rw [if_neg h, if_neg hj]
+    rw [ite_eq_right h, ite_eq_right hj]
 
 theorem coordBlockSL_univ (n : ℕ) :
     CFSG.RankThree.CALinearPlane.coordBlockSL (AdjoinRoot phi3)
@@ -1141,16 +1141,16 @@ theorem delta_theta_blockGen_pow (n : ℕ) (S : Finset (Fin (R n)))
   set s' := if σ.symm i ∈ S then 2 else 1 with hs'
   have hDAi : delta n S * blockGen n i * (delta n S)⁻¹ = (blockGen n i) ^ s := by
     by_cases hi : i ∈ S
-    · rw [if_pos hi] at hs
+    · rw [ite_eq_left hi] at hs
       rw [hs, delta_conj_blockGen_of_mem n S hi, blockGen_inv_eq_sq]
-    · rw [if_neg hi] at hs
+    · rw [ite_eq_right hi] at hs
       rw [hs, pow_one, delta_conj_blockGen_of_not_mem n S hi]
   have hDAj : delta n S * B * (delta n S)⁻¹ = B ^ s' := by
     rw [hB]
     by_cases hj : σ.symm i ∈ S
-    · rw [if_pos hj] at hs'
+    · rw [ite_eq_left hj] at hs'
       rw [hs', delta_conj_blockGen_of_mem n S hj, blockGen_inv_eq_sq]
-    · rw [if_neg hj] at hs'
+    · rw [ite_eq_right hj] at hs'
       rw [hs', pow_one, delta_conj_blockGen_of_not_mem n S hj]
   have h1 : (delta n S * U * (delta n S)⁻¹) * blockGen n i *
       (delta n S * U * (delta n S)⁻¹)⁻¹ =
@@ -1322,7 +1322,7 @@ theorem blockGen_pow_ne_of_ne {n : ℕ} {i j : Fin (R n)} (hij : i ≠ j)
   have hconj := congrArg (fun x : ↥(halfTorus n) => (torusCoord n).symm x) hsub
   rw [map_pow, torusCoord_symm_blockGen, torusCoord_symm_blockGen] at hconj
   have heval := congrFun hconj j
-  simp only [Pi.pow_apply, Pi.mulSingle_apply, hij.symm, if_false] at heval
+  simp only [Pi.pow_apply, Pi.mulSingle_apply, hij.symm, ite_false] at heval
   rcases he with rfl | rfl | rfl
   · exact (by decide : (Multiplicative.ofAdd (1 : ZMod 3)) ^ 1 ≠ 1) heval
   · exact (by decide : (Multiplicative.ofAdd (1 : ZMod 3)) ^ 2 ≠ 1) heval
@@ -1409,7 +1409,7 @@ theorem blockGen_pow_ne_pow_of_ne {n : ℕ} {i j : Fin (R n)} (hij : i ≠ j)
   have hconj := congrArg (fun x : ↥(halfTorus n) => (torusCoord n).symm x) hsub
   rw [map_pow, map_pow, torusCoord_symm_blockGen, torusCoord_symm_blockGen] at hconj
   have heval := congrFun hconj j
-  simp only [Pi.pow_apply, Pi.mulSingle_apply, hij.symm, if_false, one_pow] at heval
+  simp only [Pi.pow_apply, Pi.mulSingle_apply, hij.symm, ite_false, one_pow] at heval
   rcases he with rfl | rfl | rfl <;>
     exact (by decide : (Multiplicative.ofAdd (1 : ZMod 3)) ^ _ ≠ 1) heval
 
@@ -1445,9 +1445,9 @@ theorem blockGen_pow_ne_pow_of_ne_of_not_dvd {n : ℕ} {i j : Fin (R n)} (hij : 
   have hconj := congrArg (fun x : ↥(halfTorus n) => (torusCoord n).symm x) hsub
   rw [map_pow, map_pow, torusCoord_symm_blockGen, torusCoord_symm_blockGen] at hconj
   have heval := congrFun hconj j
-  simp only [Pi.pow_apply, Pi.mulSingle_apply, hij.symm, if_false, one_pow, if_true] at heval
+  simp only [Pi.pow_apply, Pi.mulSingle_apply, hij.symm, ite_false, one_pow, ite_true] at heval
   have hfval := congrFun hconj i
-  simp only [Pi.pow_apply, Pi.mulSingle_apply, hij, if_false, one_pow, if_true] at hfval
+  simp only [Pi.pow_apply, Pi.mulSingle_apply, hij, ite_false, one_pow, ite_true] at hfval
   have h3 : 3 ∣ e ∧ 3 ∣ f := by
     refine ⟨?_, ?_⟩
     · rw [ofAdd_one_pow_nat] at heval

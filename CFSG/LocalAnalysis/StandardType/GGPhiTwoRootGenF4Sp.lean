@@ -54,7 +54,7 @@ theorem mem_iSup_phiTwoComp_of_mem_phiTwoB4
       phiTwoB4Subgroup (AlgebraicClosure K)) :
     x ∈ ⨆ γ : {γ : Fin Tag.F4.rank → ℤ // IsRoot .F4 γ}, phiTwoComp g0 γ.1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨h, d, hd, hg0d⟩ := exists_mul_eq_phiTwoB4 hFr hneg hg0C hg0
   have hxh : ((h⁻¹ * x * h : adjointGroup .F4 K) : ModGL .F4 K) ∈ phiTwoB4Subgroup K :=
     (mem_phiTwoB4_iff hd hg0d x).1 hx
@@ -99,7 +99,7 @@ theorem mem_iSup_phiTwoComp_of_mem_phiTwoB4
     have h3 : 2 ∣ (Nat.card K + 1) - Nat.card K := Nat.dvd_sub h2dvd h2q
     rw [Nat.add_sub_cancel_left] at h3
     exact absurd h3 (by norm_num)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζo, -⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_orderOf_eq_of_dvd_add_one K
       (L := AlgebraicClosure K) (N := p) hpq

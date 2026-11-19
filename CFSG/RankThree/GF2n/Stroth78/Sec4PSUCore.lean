@@ -86,7 +86,7 @@ theorem emb3SU_mem_unitaryBlock {L : Finset (Fin n)} (hIL : I ⊆ L)
     emb3SU I e M hdet hM ∈ unitaryBlock hK L := by
   intro r c hrc
   change emb3 I e M r c = (1 : Matrix (Fin n) (Fin n) K) r c
-  rw [emb3, blockMatrix_apply, dif_neg]
+  rw [emb3, blockMatrix_apply, dite_eq_right]
   rintro ⟨hr, hc⟩
   rcases hrc with hr' | hc'
   · exact hr' (hIL hr)
@@ -98,7 +98,7 @@ theorem emb3_permMatrix (σ : Equiv.Perm (Fin 3)) :
   rw [emb3, blockMatrix_apply]
   by_cases hrc : r ∈ I ∧ c ∈ I
   · obtain ⟨hr, hc⟩ := hrc
-    rw [dif_pos ⟨hr, hc⟩, reindex_apply, submatrix_apply]
+    rw [dite_eq_left ⟨hr, hc⟩, reindex_apply, submatrix_apply]
     simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply,
       Option.mem_def, Option.some.injEq]
     rw [Equiv.Perm.extendDomain_apply_subtype σ e hr]
@@ -111,15 +111,15 @@ theorem emb3_permMatrix (σ : Equiv.Perm (Fin 3)) :
         rw [Equiv.apply_symm_apply]
         exact Subtype.ext h1
     by_cases h1 : σ (e.symm ⟨r, hr⟩) = e.symm ⟨c, hc⟩
-    · rw [if_pos h1, if_pos (hiff.1 h1)]
-    · rw [if_neg h1, if_neg (fun h2 => h1 (hiff.2 h2))]
-  · rw [dif_neg hrc]
+    · rw [ite_eq_left h1, ite_eq_left (hiff.1 h1)]
+    · rw [ite_eq_right h1, ite_eq_right (fun h2 => h1 (hiff.2 h2))]
+  · rw [dite_eq_right hrc]
     simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply,
       Option.mem_def, Option.some.injEq]
     by_cases hr : r ∈ I
     · have hc : c ∉ I := fun hc => hrc ⟨hr, hc⟩
       have hne : r ≠ c := fun h' => hc (h' ▸ hr)
-      rw [one_apply_ne hne, if_neg]
+      rw [one_apply_ne hne, ite_eq_right]
       intro h'
       apply hc
       rw [← h', Equiv.Perm.extendDomain_apply_subtype σ e hr]
@@ -215,7 +215,7 @@ variable {n : ℕ} {i j : Fin n} (hij : i ≠ j)
 theorem eq_one_of_pow_two_pow_eq_one {μ : K} (hμ : μ ≠ 0) {k : ℕ} (hk : μ ^ 2 ^ k = 1) :
     μ = 1 := by
   have h3 : μ ^ 3 = 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have := FiniteField.pow_card_sub_one_eq_one μ hμ
     rwa [show Fintype.card K = 4 by rw [← Nat.card_eq_fintype_card, card_K]; rfl] at this
   have hu : IsUnit μ := isUnit_iff_ne_zero.mpr hμ
@@ -311,7 +311,7 @@ theorem diagKL_spec {k l : Fin n} (hkl : k ≠ l) :
       · rw [hdo a hak hal, one_pow]
   · simp only [hd, dKL, Pi.mul_apply]
     rw [Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.prod_pi_mulSingle',
-      if_pos (Finset.mem_univ _), if_pos (Finset.mem_univ _), ← pow_succ', omega_cube]
+      ite_eq_left (Finset.mem_univ _), ite_eq_left (Finset.mem_univ _), ← pow_succ', omega_cube]
 
 @[expose] noncomputable def dSU {k l : Fin n} (hkl : k ≠ l) : unitarySU 2 1 K n :=
   diagSU hK (dKL k l) (diagKL_spec hkl).1 (diagKL_spec hkl).2.1
@@ -413,8 +413,8 @@ theorem eq_top_of_torus_threeCycle_invariant (hJ : 3 ≤ ({i, j}ᶜ : Finset (Fi
           subst h
           exact Subtype.ext hcl
       by_cases hal : a = l'
-      · rw [if_pos hal, if_pos (hiff.2 hal)]
-      · rw [if_neg hal, if_neg (fun h => hal (hiff.1 h))]
+      · rw [ite_eq_left hal, ite_eq_left (hiff.2 hal)]
+      · rw [ite_eq_right hal, ite_eq_right (fun h => hal (hiff.1 h))]
   rw [eq_top_iff]
   intro y _
   have hy : y = ∑ a, y a • (Pi.single a 1 : ({i, j}ᶜ : Finset (Fin n)) → K) := by
@@ -447,9 +447,9 @@ theorem permSU_mem_unitaryBlock {c : Equiv.Perm (Fin n)} (hci : c i = i) (hcj : 
         have := hfix c' hc
         rw [← this] at h
         exact c.injective h
-      rw [if_pos h, if_pos this]
+      rw [ite_eq_left h, ite_eq_left this]
     · have : r ≠ c' := fun e => h (by rw [e, hfix c' hc])
-      rw [if_neg h, if_neg this]
+      rw [ite_eq_right h, ite_eq_right this]
 
 theorem le_tvRadical_of_isPGroup (hJ : 3 ≤ ({i, j}ᶜ : Finset (Fin n)).card)
     {P : Subgroup (unitarySU 2 1 K n)} (hPC : P ≤ Subgroup.centralizer {tvTransSU hK hij})

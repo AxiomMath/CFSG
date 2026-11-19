@@ -114,7 +114,7 @@ theorem isPGroup_P0 : IsPGroup 3 P0 := by
   simpa using P0_pow g.1 g.2
 
 theorem card_P0 : Nat.card P0 = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := isPGroup_P0.exists_le_sylow
   have hQcard : Nat.card (Q : Subgroup A) = 9 := by
     rw [Sylow.card_eq_multiplicity, fact3]; norm_num
@@ -157,7 +157,7 @@ theorem normalizes_P0 : ∀ x : A, x ∈ P0 ↔ gg * x * gg⁻¹ ∈ P0 := by
 
 theorem exists_conj (Pb : Subgroup A) (h9 : Nat.card Pb = 9) :
     ∃ t : A, ∀ x : A, x ∈ Pb ↔ t⁻¹ * x * t ∈ P0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let SP : Sylow 3 A := Sylow.ofCard Pb (by rw [h9, fact3]; norm_num)
   let S0 : Sylow 3 A := Sylow.ofCard P0 (by rw [card_P0, fact3]; norm_num)
   obtain ⟨t, ht⟩ := MulAction.exists_smul_eq A S0 SP
@@ -319,7 +319,7 @@ theorem isPGroup_P0 : IsPGroup 3 P0 := by
   simpa using P0_pow g.1 g.2
 
 theorem card_P0 : Nat.card P0 = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := isPGroup_P0.exists_le_sylow
   have hQcard : Nat.card (Q : Subgroup A) = 9 := by
     rw [Sylow.card_eq_multiplicity, fact3]; norm_num
@@ -362,7 +362,7 @@ theorem normalizes_P0 : ∀ x : A, x ∈ P0 ↔ gg * x * gg⁻¹ ∈ P0 := by
 
 theorem exists_conj (Pb : Subgroup A) (h9 : Nat.card Pb = 9) :
     ∃ t : A, ∀ x : A, x ∈ Pb ↔ t⁻¹ * x * t ∈ P0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let SP : Sylow 3 A := Sylow.ofCard Pb (by rw [h9, fact3]; norm_num)
   let S0 : Sylow 3 A := Sylow.ofCard P0 (by rw [card_P0, fact3]; norm_num)
   obtain ⟨t, ht⟩ := MulAction.exists_smul_eq A S0 SP

@@ -123,6 +123,7 @@ theorem fact19_of_witness {L S E F Y₁ Y₂ Y₃ : Subgroup Γ} (hS : IsSylowIn
       rw [hYL, hl, conjSub_mul]
       exact Or.inr rfl
 
+omit [Finite Γ] in
 theorem fact110_two_of_centIn {L F : Subgroup Γ} {σ : Γ} (hL : L.Normal) (hσ : σ * σ = 1)
     (hcentF : centIn L F = F) (hσF : ∀ f ∈ F, σ * f = f * σ) :
     σ ∈ normalizer (F : Set Γ) ∧ ∀ g ∈ normIn L F, ⁅σ, g⁆ ∈ F := by
@@ -159,6 +160,7 @@ theorem fact110_two_of_centIn {L F : Subgroup Γ} {σ : Γ} (hL : L.Normal) (hσ
     have hcent : ⁅σ, g⁆ ∈ centIn L F := ⟨hmemL, hmemC⟩
     rwa [hcentF] at hcent
 
+omit [Finite Γ] in
 theorem isSylowIn_two_of_card {C F : Subgroup Γ} (hFC : F ≤ C) (hC : Nat.card C = 1512)
     (hF : Nat.card F = 8) : IsSylowIn 2 C F := by
   refine ⟨hFC, IsPGroup.of_card (n := 3) ?_, ?_⟩

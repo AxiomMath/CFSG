@@ -155,6 +155,7 @@ variable {G : Type} [Group G] [Finite G] {k p : ℕ} [Fact p.Prime] {Bs L J K : 
   {sel : Prop → Prop → Prop}
   {typ : ∀ {Λ Λ' : Type}, CoxeterMatrix Λ → CoxeterMatrix Λ' → Prop}
 
+omit [Finite G] in
 theorem GGResLeviDatumCard.aj_le (hD : GGResLeviDatumCard k p Bs L J K sel typ) :
     ggAutomizer J Bs ≤ ggAutomizer L Bs ⊓ ggAutomizer K Bs := by
   obtain ⟨Λ, instΛ, decΛ, S, Λa, instΛa, decΛa, ML, CL, MK, CK, V, instV, instMod, ι, φ, h, α,

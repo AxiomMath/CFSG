@@ -89,7 +89,7 @@ theorem isSimpleGroup_of_isNineThreeProductIndex {p : ℕ} {d : TauCeti.ValidLie
   rcases hd with ⟨-, q, hqp, hqe, hdq⟩ | ⟨-, hdq⟩
   · dsimp only at hdq
     subst hdq
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have h4 : 4 ≤ Nat.card (GaloisField q.p q.exponent) := by
       rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hqp, hqe]
       norm_num
@@ -97,7 +97,7 @@ theorem isSimpleGroup_of_isNineThreeProductIndex {p : ℕ} {d : TauCeti.ValidLie
       (Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (F := GaloisField q.p q.exponent) h4)
   · dsimp only at hdq
     subst hdq
-    haveI := (CFSG.BenderSuzuki.External.huppert_blackburn_XI_3_6 2 (by norm_num)).1
+    have := (CFSG.BenderSuzuki.External.huppert_blackburn_XI_3_6 2 (by norm_num)).1
     exact (CFSG.BenderSuzuki.Catalog.groupEquivSuzukiMatrixGroup hv).isSimpleGroup
 
 theorem nineThreeListGroup_sup_of_components {X : Type} [Group X] [Finite X] {p : ℕ}
@@ -105,12 +105,12 @@ theorem nineThreeListGroup_sup_of_components {X : Type} [Group X] [Finite X] {p 
     {d : TauCeti.ValidLieTypeIndex} (hd : IsNineThreeProductIndex p d)
     (e₁ : L₁ ≃* (TauCeti.CFSGIndex.lie d).Group) (e₂ : L₂ ≃* (TauCeti.CFSGIndex.lie d).Group) :
     NineThreeListGroup p (L₁ ⊔ L₂ : Subgroup X) := by
-  haveI := isSimpleGroup_of_isNineThreeProductIndex hd
-  haveI : IsSimpleGroup L₁ := e₁.isSimpleGroup
+  have := isSimpleGroup_of_isNineThreeProductIndex hd
+  have : IsSimpleGroup L₁ := e₁.isSimpleGroup
   have hC : L₁ ≤ Subgroup.centralizer (L₂ : Set X) := le_centralizer_of_component_ne h₁ h₂ hne
   have hZ : Subgroup.center L₁ = ⊥ := by
     refine (Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center L₁)).resolve_right fun htop => ?_
-    haveI := h₁.2.2.2
+    have := h₁.2.2.2
     obtain ⟨y, hy⟩ := exists_ne (1 : L₁ ⧸ Subgroup.center L₁)
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective y
     exact hy ((QuotientGroup.eq_one_iff y).mpr (by rw [htop]; exact Subgroup.mem_top y))

@@ -74,7 +74,7 @@ theorem burnsideJ4NP_bruteFix_iff {a : Code} (ha : burnsideJ4NP_CodeWF a) :
     have hvp : toVecD 12 (ofBits 12 f) = p := by
       funext j
       rw [toVecD_ofBits, hf]
-      simp only [j.isLt, dif_pos]
+      simp only [j.isLt, dite_eq_left]
       exact burnsideJ4NP_zmod2_ite (p j)
     have hodd : ofBits 12 f % 2 = 1 := by
       have h0 := ofBits_testBit 12 f 0
@@ -193,7 +193,7 @@ theorem burnsideJ4NP_affine2A_iff_hasFix
     cases h : (burnsideJ4NP_enc ⟨x, hx⟩).inE
     · rfl
     · exact absurd ((burnsideJ4NP_mem_Eg_iff hx).2 h) hxE
-  rw [burnsideJ4NP_affine2A, burnsideJ4NP_affine2AWith, hin, if_neg Bool.false_ne_true,
+  rw [burnsideJ4NP_affine2A, burnsideJ4NP_affine2AWith, hin, ite_eq_right Bool.false_ne_true,
     burnsideJ4NP_hasFix_iff (burnsideJ4NP_codeWF_enc _), burnsideJ4NP_codeMat_enc]
 
 end CFSG.ASVolI

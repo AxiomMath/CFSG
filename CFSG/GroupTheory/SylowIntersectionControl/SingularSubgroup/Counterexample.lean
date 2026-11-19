@@ -27,7 +27,7 @@ structure GomiThm45Counterexample (c : GNPairChoice Ω) (G S : Subgroup Ω) : Pr
 theorem exists_gomiThm45Counterexample (c : GNPairChoice Ω) {G : Subgroup Ω}
     (h : ¬ GomiThm45At c G) : ∃ G' S : Subgroup Ω, GomiThm45Counterexample c G' S := by
   obtain ⟨G', hG', hmin⟩ := wellFounded_lt.has_min {H | ¬ GomiThm45At c H} ⟨G, h⟩
-  simp only [Set.mem_setOf_eq, GomiThm45At] at hG'
+  simp only [Set.mem_ofPred_eq, GomiThm45At] at hG'
   push Not at hG'
   obtain ⟨hyp, hreg, S, hS, hX⟩ := hG'
   refine ⟨G', S, hyp, hreg, hS, hX, fun H hH => ?_⟩

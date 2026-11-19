@@ -144,22 +144,22 @@ theorem isSolvable_semidirectProduct {E C : Type*} [Group E] [Group C] (φ : C �
 theorem eq_bot_of_perfect_of_equiv_semidirect {X : Type*} [Group X] {P : Subgroup X}
     {E C : Subgroup P} (hE : IsElementaryAbelian 2 E) (hC : IsCyclic C)
     (φ : C →* MulAut E) (e : P ≃* E ⋊[φ] C) (hperf : ⁅P, P⁆ = P) : P = ⊥ := by
-  haveI : Group.IsSolvable ↥E := by
-    haveI : IsMulCommutative ↥E := hE.toIsMulCommutative
+  have : Group.IsSolvable ↥E := by
+    have : IsMulCommutative ↥E := hE.toIsMulCommutative
     infer_instance
-  haveI : Group.IsSolvable ↥C := by
-    haveI : CommGroup ↥C := hC.commGroup
+  have : Group.IsSolvable ↥C := by
+    have : CommGroup ↥C := hC.commGroup
     infer_instance
-  haveI : Group.IsSolvable (↥E ⋊[φ] ↥C) := isSolvable_semidirectProduct φ
-  haveI : Group.IsSolvable ↥P :=
+  have : Group.IsSolvable (↥E ⋊[φ] ↥C) := isSolvable_semidirectProduct φ
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   exact eq_bot_of_perfect_of_isSolvable hperf
 
 theorem eq_bot_of_perfect_of_equiv_dihedral {X : Type*} [Group X] {P : Subgroup X} {z : ℕ}
     (hz : 2 ≤ z) (e : P ≃* DihedralGroup z) (hperf : ⁅P, P⁆ = P) : P = ⊥ := by
-  haveI : NeZero z := ⟨by omega⟩
-  haveI : Group.IsSolvable (DihedralGroup z) := CFSG.LinearGroups.isSolvable_dihedralGroup z
-  haveI : Group.IsSolvable ↥P :=
+  have : NeZero z := ⟨by omega⟩
+  have : Group.IsSolvable (DihedralGroup z) := CFSG.LinearGroups.isSolvable_dihedralGroup z
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   exact eq_bot_of_perfect_of_isSolvable hperf
 
@@ -242,7 +242,7 @@ theorem exists_prime_of_perfect_psl2 (K : Type*) [Field K]
     [Finite K] [CharP K 2] (f : ℕ) (hKf : Nat.card K = 2 ^ f) (hfodd : Odd f)
     (P : Subgroup (PSL2MatrixGroup K)) (hperf : ⁅P, P⁆ = P) (hne : P ≠ ⊥) :
     ∃ r : ℕ, r.Prime ∧ 5 ≤ r ∧ r ∣ Nat.card P ∧ r ∣ Nat.card K - 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases CFSG.Glauberman.Dickson.dickson_psl2_subgroup_list
       (F := K) (p := 2) (f := f) hKf P with
     ⟨m, hmf, hcard, hel⟩ | ⟨z, hzdiv, hcard, hcyc⟩ | ⟨z, hz2, hzdiv, ⟨e⟩⟩ |
@@ -250,9 +250,9 @@ theorem exists_prime_of_perfect_psl2 (K : Type*) [Field K]
       ⟨m, t, hm1, hmf, ht1, htq, E, C, hE, hEel, hEcard, hCcyc, hCcard, hdisj, hsup, hfaith,
         φ, hφinj, ⟨e⟩⟩ |
       ⟨m, hmf, ⟨e⟩⟩ | ⟨m, hm2f, ⟨e⟩⟩
-  · haveI : IsMulCommutative ↥P := hel.toIsMulCommutative
+  · have : IsMulCommutative ↥P := hel.toIsMulCommutative
     exact (hne (eq_bot_of_perfect_of_isSolvable hperf)).elim
-  · haveI : CommGroup ↥P := hcyc.commGroup
+  · have : CommGroup ↥P := hcyc.commGroup
     exact (hne (eq_bot_of_perfect_of_isSolvable hperf)).elim
   · exact (hne (eq_bot_of_perfect_of_equiv_dihedral hz2 e hperf)).elim
   · exact (hA4.elim (by rintro ⟨k, hk⟩; omega) (Nat.not_even_iff_odd.mpr hfodd)).elim

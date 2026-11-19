@@ -20,7 +20,7 @@ theorem not_mulEquiv_solvableRadical_alternatingGroup_six {K : Subgroup G}
     (hK : IsPComponentIn 3 K K) (hC3 : IsL34Star K) :
     ¬ Nonempty (↥K ⧸ CFSG.solvableRadical ↥K ≃* alternatingGroup (Fin 6)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : CFSG.IsQuasisimple (threeStar K) := by
     have hKtop : CFSG.IsPComponent 3 (⊤ : Subgroup ↥K) := by
       simpa [Subgroup.subgroupOf_self] using hK.2
@@ -62,11 +62,11 @@ theorem nineNineOneAt_of_eq_three (h991 : CFSG.LocalAnalysis.RankThreeUC.AGL81C.
 
 theorem nineNineOneAt_of (h991 : CFSG.LocalAnalysis.RankThreeUC.AGL81C.O991Gen)
     (hpre : PreambleTypes M) : NineNineOneAt M :=
-  nineNineOneAt_of_eq_three h991 fun q E H h => h.eq_three hpre
+  nineNineOneAt_of_eq_three h991 fun _q _E _H h => h.eq_three hpre
 
 theorem nineNineOneAt_of_twelveEleven (h991 : CFSG.LocalAnalysis.RankThreeUC.AGL81C.O991Gen)
     (h1211 : TwelveElevenGen) {M : Subgroup G} : NineNineOneAt M :=
-  nineNineOneAt_of_eq_three h991 fun q E H h => h.eq_three_of_twelveEleven h1211
+  nineNineOneAt_of_eq_three h991 fun _q _E _H h => h.eq_three_of_twelveEleven h1211
 
 theorem agl81FourteenFifteen_of_nine
     (h1210 : TwelveTenThree) (h1211 : TwelveElevenGen)

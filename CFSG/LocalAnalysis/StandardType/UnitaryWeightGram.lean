@@ -64,7 +64,7 @@ theorem gram_weight_entry (σ : Ω ≃+* Ω) {P X G : Matrix ι ι Ω} {w : ι �
     ring
   exact (mul_left_cancel₀ h hcancel).symm
 
-theorem transport_form (σ : Ω ≃+* Ω) {P Q R G : Matrix ι ι Ω} (hPQ : P * Q = 1) (hQP : Q * P = 1)
+theorem transport_form (σ : Ω ≃+* Ω) {P Q R G : Matrix ι ι Ω} (hPQ : P * Q = 1) (_hQP : Q * P = 1)
     (hR : Rᵀ * G * R.map σ = G) :
     (Q * R * P)ᵀ * (Pᵀ * G * P.map σ) * (Q * R * P).map σ = Pᵀ * G * P.map σ := by
   have hQPt : Qᵀ * Pᵀ = 1 := by

@@ -85,6 +85,7 @@ section OutLemma
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem le_J_of_commutator (J : Subgroup X) [J.Normal] (hCJ : centralizer (J : Set X) ≤ J)
     (hOut : Odd (Nat.card ↥(commutator (Outer ↥J)))) {Q : Subgroup X} (hQ : IsPGroup 2 ↥Q)
     (hQX : Q ≤ commutator X) : Q ≤ J := by

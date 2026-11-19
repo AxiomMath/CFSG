@@ -22,9 +22,9 @@ theorem IsMaxArc.two_mul_add_le_of_commutator_ne_bot {a f : ℕ}
     (h₁ : t.IsFixRadius (ε + 1) b₁) (hh : t.IsFixRadius (ε + 1 + b₁) bh)
     (hle : ⁅t.Zv (ε + 1), t.Zv (ε + 1 + b₁)⁆ ≤ t.Zv (ε + 1) ⊓ t.Zv (ε + 1 + b₁))
     (hne : ⁅t.Zv (ε + 1), t.Zv (ε + 1 + b₁)⁆ ≠ ⊥) : 2 * b₁ + bh ≤ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hRw : ⁅t.Zv (ε + 1), t.Zv (ε + 1 + b₁)⁆ ≤ t.Gw (ε + 1 - b₁) (ε + 1 + b₁ + bh) := by
     intro y hy
     have h1 := h₁.le_Gw (mem_inf.mp (hle hy)).1
@@ -36,7 +36,7 @@ theorem IsMaxArc.two_mul_add_le_of_commutator_ne_bot {a f : ℕ}
   have hRp : IsPGroup 2 ↥⁅t.Zv (ε + 1), t.Zv (ε + 1 + b₁)⁆ :=
     (t.isPGroup_Zv (ε + 1)).to_le (hle.trans inf_le_left)
   have h3 := t.le_pCoreOf_Gw hfr (by omega) hRp hRw
-  rw [h.pCoreOf_eq_bot _ _ (by push_cast; omega)] at h3
+  rw [h.pCoreOf_eq_bot _ _ (by omega)] at h3
   exact hne (le_bot_iff.mp h3)
 
 theorem IsMaxArc.eq_two_of_even_of_commutator_ne_bot

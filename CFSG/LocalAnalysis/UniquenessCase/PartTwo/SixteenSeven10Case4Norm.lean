@@ -29,10 +29,10 @@ private theorem s16c1610_false_of_isQuasisimple_of_comm {X : Type*} [Group X]
   have hbot : commutator X = ⊥ := (commutator_eq_bot_iff_center_eq_top X).mpr hcenter
   have hperf : commutator X = ⊤ := h.1
   have htopbot : (⊤ : Subgroup X) = ⊥ := hperf ▸ hbot
-  haveI : Subsingleton X := by
+  have : Subsingleton X := by
     rw [Subgroup.eq_bot_iff_forall] at htopbot
     exact ⟨fun a b => (htopbot a trivial).trans (htopbot b trivial).symm⟩
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
+  have : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (X ⧸ Subgroup.center X)).exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
@@ -132,7 +132,7 @@ private def s16c1610_pointStab {X : Type*} [Group X] (Y : Subgroup X) : Subgroup
     have h1 : a⁻¹ y = a⁻¹ (a y) := congrArg (fun t => a⁻¹ t) (ha y hy).symm
     have h2 : a⁻¹ (a y) = y := by
       have := congrArg (fun f : MulAut X => f y) (inv_mul_cancel a)
-      simpa [MulAut.mul_apply] using this
+      simp
     exact h1.trans h2
 
 private noncomputable def s16c1610_restrictAut {X : Type*} [Group X] (α : MulAut X)
@@ -213,9 +213,9 @@ private theorem s16c1610_ncard_orderThree_subgroups {W : Type} [Group W] [Finite
     (L : Subgroup W) (hcard : Nat.card ↥L = 9) (hexp : ∀ x : ↥L, x ^ 3 = 1) :
     (Set.ncard {X : Subgroup W | X ≤ L ∧ Nat.card X = 3}) = 4 := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Fintype ↥L := Fintype.ofFinite ↥L
-  haveI : Fintype (Subgroup W) :=
+  have : Fintype W := Fintype.ofFinite W
+  have : Fintype ↥L := Fintype.ofFinite ↥L
+  have : Fintype (Subgroup W) :=
     Fintype.ofInjective (fun X : Subgroup W => (X : Set W)) SetLike.coe_injective
   have hOrder : ∀ x : ↥L, x ≠ 1 → orderOf x = 3 := by
     intro x hx
@@ -303,11 +303,11 @@ theorem s16c1610_exists_normal_three_of_symSum_two {W : Type} [CommGroup W] [Fin
     ∃ X : Subgroup (MulAut W), X ≤ A ∧ Nat.card X = 3 ∧
       ∀ m ∈ A, ∀ x ∈ X, m * x * m⁻¹ ∈ X := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Fintype (Subgroup W) :=
+  have : Fintype W := Fintype.ofFinite W
+  have : Fintype (Subgroup W) :=
     Fintype.ofInjective (fun X : Subgroup W => (X : Set W)) SetLike.coe_injective
   obtain ⟨Z, hZrk, hZind, hZsup, hZcard, hZperm⟩ := hS
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun f g h => MulEquiv.ext (congrFun h))
   have hcardLb : Nat.card ↥Lb = 9 := by
@@ -322,7 +322,7 @@ theorem s16c1610_exists_normal_three_of_symSum_two {W : Type} [CommGroup W] [Fin
     simp
     exact Or.inl (by decide)
   let Xs : Set (Subgroup W) := conjSubs A Z
-  haveI hfinXs : Finite ↥Xs := by
+  have hfinXs : Finite ↥Xs := by
     refine Finite.of_surjective
       (fun g : ↥A => (⟨Z.map (g : MulAut W).toMonoidHom,
         ⟨(g : MulAut W), g.2, rfl⟩⟩ : ↥Xs)) ?_
@@ -339,7 +339,7 @@ theorem s16c1610_exists_normal_three_of_symSum_two {W : Type} [CommGroup W] [Fin
     obtain ⟨g, hg, hgY⟩ := Y.2
     refine ⟨(a : MulAut W) * g, A.mul_mem a.2 hg, ?_⟩
     rw [hgY, Subgroup.map_map]; rfl
-  letI : MulAction ↥A ↥Xs :=
+  let : MulAction ↥A ↥Xs :=
     { smul := fun a Y =>
         ⟨(Y : Subgroup W).map (a : MulAut W).toMonoidHom, hmemAct a Y⟩
       one_smul := by
@@ -567,7 +567,7 @@ theorem s16c1610_exists_normal_three_of_symSum_two {W : Type} [CommGroup W] [Fin
       intro Y Y' hEq
       by_contra hne
       have hcardXsF : Fintype.card ↥Xs = 3 := by rw [← Nat.card_eq_fintype_card]; exact hcardXs
-      haveI : DecidableEq ↥Xs := Classical.decEq _
+      have : DecidableEq ↥Xs := Classical.decEq _
       have hlt : ({Y, Y'} : Finset ↥Xs).card < (Finset.univ : Finset ↥Xs).card := by
         rw [Finset.card_pair hne, Finset.card_univ, hcardXsF]; norm_num
       obtain ⟨Y'', -, hY''⟩ := Finset.exists_mem_notMem_of_card_lt_card hlt

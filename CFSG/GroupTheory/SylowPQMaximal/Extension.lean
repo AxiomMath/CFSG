@@ -96,7 +96,7 @@ theorem SylowPQMaximal.quotient_of_isPGroup [Finite Y] [Fact p.Prime] (N : Subgr
     rw [hker]
     exact hN
   let P₁ : Subgroup Y := (Pbar : Subgroup (Y ⧸ N)).comap π
-  have hP₁p : IsPGroup p ↥P₁ := Pbar.isPGroup'.comap_of_ker_isPGroup π hNp
+  have hP₁p : IsPGroup p ↥P₁ := Pbar.isPGroup.comap_of_ker_isPGroup π hNp
   have hidx : ¬ p ∣ P₁.index := by
     rw [show P₁.index = (Pbar : Subgroup (Y ⧸ N)).index from
       Subgroup.index_comap_of_surjective (H := (Pbar : Subgroup (Y ⧸ N))) hπ]

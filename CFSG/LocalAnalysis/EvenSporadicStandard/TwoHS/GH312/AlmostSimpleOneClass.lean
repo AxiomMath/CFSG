@@ -15,8 +15,8 @@ theorem false_of_oneClass [Finite X] {T : Subgroup X} (hT : T.Normal)
     (hone : ∀ a b : ↥T, orderOf a = 2 → orderOf b = 2 → IsConj a b) {u : X} (huT : u ∈ T)
     (hu : orderOf u = 2) (P : Sylow 2 X) (hP : Nat.card ↥(P : Subgroup X) = 2 ^ 7)
     (hC : ¬ 2 ^ 7 ∣ Nat.card ↥(centralizer ({u} : Set X))) : False := by
-  haveI := hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hT
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2T : 2 ∣ Nat.card ↥T := by
     have h : orderOf (⟨u, huT⟩ : ↥T) = 2 := by
       rw [← Subgroup.orderOf_coe]
@@ -25,7 +25,7 @@ theorem false_of_oneClass [Finite X] {T : Subgroup X} (hT : T.Normal)
     exact orderOf_dvd_natCard _
   obtain ⟨n, ⟨hnT, hnP⟩, hn1⟩ := CFSG.EvenSporadicStandard.TwoHS.SAFyGH.exists_ne_one_mem_inf_sylow
     h2T P
-  haveI : Group.IsNilpotent ↥(P : Subgroup X) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(P : Subgroup X) := P.isPGroup.isNilpotent
   have hQn : (T.subgroupOf (P : Subgroup X)).Normal := hT.subgroupOf _
   have hQne : T.subgroupOf (P : Subgroup X) ≠ ⊥ := by
     intro h
@@ -35,7 +35,7 @@ theorem false_of_oneClass [Finite X] {T : Subgroup X} (hT : T.Normal)
   obtain ⟨⟨z, hzQ⟩, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hQne)
   have hz1' : z ≠ 1 := fun h => hz1 (Subtype.ext h)
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') z
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) z
   have hk1 : 1 ≤ k := by
     by_contra hk0
     obtain rfl : k = 0 := by omega

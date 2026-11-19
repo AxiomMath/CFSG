@@ -50,6 +50,7 @@ theorem Hyp.heartB (h : Hyp G L z v H₁ m ψ) (hm : 2 ≤ m) :
     (fun τ hτ => honto τ (mem_altOn_iff.1 hτ).1) h.BB_le_L hB
   exact ⟨ρB, βB, hHB, hinjB, hontoB⟩
 
+omit [Finite V] in
 theorem BB_comm_yy {x : GLV V} (hx : x ∈ BB ψ) : x * yy ψ = yy ψ * x := by
   obtain ⟨σ, hσ, rfl⟩ := hx
   rw [yy_eq_pe_iota2]
@@ -69,6 +70,7 @@ noncomputable abbrev RR (z : GLV V) (ψ : ↥H₁ ≃* Equiv.Perm (Fin (m + 6 + 
 theorem Hyp.RR_le_G (h : Hyp G L z v H₁ m ψ) : RR z ψ ≤ G :=
   sup_le (Subgroup.zpowers_le.2 h.z_mem_G) (Subgroup.zpowers_le.2 h.yy_mem_N.1)
 
+omit [Finite V] in
 theorem mem_centralizer_RR {x : GLV V} (hz : x * z = z * x) (hy : x * yy ψ = yy ψ * x) :
     x ∈ Subgroup.centralizer ((RR z ψ : Subgroup (GLV V)) : Set (GLV V)) := by
   have hle : RR z ψ ≤ Subgroup.centralizer ({x} : Set (GLV V)) :=

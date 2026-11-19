@@ -105,10 +105,10 @@ theorem exists_fixed_of_modular {H V : Type*} [Group H] [AddCommGroup V] [Distri
 theorem central_threeGroup_eq_bot_of_perfect {Q : Type*} [Group Q] [Finite Q]
     (hperf : commutator Q = ⊤) (hsyl : ∀ P : Sylow 3 Q, IsCyclic P)
     (Z : Subgroup Q) (hZ : Z ≤ Subgroup.center Q) (hZ3 : IsPGroup 3 Z) : Z = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 Q) := inferInstance
   have hcyc : IsCyclic (P : Subgroup Q) := hsyl P
-  letI : CommGroup ↥(P : Subgroup Q) := IsCyclic.commGroup
+  let : CommGroup ↥(P : Subgroup Q) := IsCyclic.commGroup
   have hT : ∀ g : Q, MonoidHom.transfer (MonoidHom.id ↥(P : Subgroup Q)) g = 1 := by
     have hle : commutator Q ≤ (MonoidHom.transfer (MonoidHom.id ↥(P : Subgroup Q))).ker := by
       rw [commutator_def, Subgroup.commutator_le]
@@ -191,7 +191,7 @@ lemma pel_eq_top_of_cover {H : Type*} [Group H] {N C : Subgroup H}
     have hcC : QuotientGroup.mk' C c = 1 := (QuotientGroup.eq_one_iff (N := C) c).mpr hc
     show QuotientGroup.mk' C (c⁻¹ * h) = QuotientGroup.mk' C h
     rw [map_mul, map_inv, hcC, inv_one, one_mul]
-  haveI : Group.IsSolvable (H ⧸ C) := Group.isSolvable_of_surjective hsurj
+  have : Group.IsSolvable (H ⧸ C) := Group.isSolvable_of_surjective hsurj
   have hcomm : ⁅(⊤ : Subgroup (H ⧸ C)), (⊤ : Subgroup (H ⧸ C))⁆ = ⊤ := by
     have h1 : Subgroup.map (QuotientGroup.mk' C) ⁅(⊤ : Subgroup H), (⊤ : Subgroup H)⁆ = ⊤ := by
       rw [hperf, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective C)]
@@ -238,7 +238,7 @@ theorem centralizes_of_pElements {G : Type*} [Group G] [Finite G] {K S θ : Subg
       calc (a : G)⁻¹ * s * (a : G)
           = (a : G)⁻¹ * ((a : G) * s * (a : G)⁻¹) * (a : G) := by rw [ha' s hs]
         _ = s := by group
-  haveI hCn : C.Normal := ⟨fun n hn g => by
+  have hCn : C.Normal := ⟨fun n hn g => by
     rw [hC] at hn ⊢
     intro s hs
     have ht : (g : G)⁻¹ * s * (g : G) ∈ S := by
@@ -250,18 +250,18 @@ theorem centralizes_of_pElements {G : Type*} [Group G] [Finite G] {K S θ : Subg
           group
       _ = (g : G) * ((g : G)⁻¹ * s * (g : G)) * (g : G)⁻¹ := by rw [hn']
       _ = s := by group⟩
-  haveI hCbar : (C.map (QuotientGroup.mk' (θ.subgroupOf K))).Normal :=
+  have hCbar : (C.map (QuotientGroup.mk' (θ.subgroupOf K))).Normal :=
     Subgroup.Normal.map hCn (QuotientGroup.mk' (θ.subgroupOf K))
       (QuotientGroup.mk'_surjective (θ.subgroupOf K))
-  haveI hNsolv : Group.IsSolvable (θ.subgroupOf K) := pel_isSolvable_subgroupOf K θ
+  have hNsolv : Group.IsSolvable (θ.subgroupOf K) := pel_isSolvable_subgroupOf K θ
   have hperfK : ⁅(⊤ : Subgroup K), (⊤ : Subgroup K)⁆ = ⊤ := pel_perfect_top hKperf
   have hCtop : C = ⊤ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top
         (C.map (QuotientGroup.mk' (θ.subgroupOf K))) with hbot | htop
     ·
       exfalso
-      haveI : Fact p.Prime := ⟨hp⟩
-      haveI : Finite (K ⧸ θ.subgroupOf K) := inferInstance
+      have : Fact p.Prime := ⟨hp⟩
+      have : Finite (K ⧸ θ.subgroupOf K) := inferInstance
       obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' (G := K ⧸ θ.subgroupOf K) p hpd
       obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (θ.subgroupOf K) q
       have hn0 : orderOf y ≠ 0 := (orderOf_pos y).ne'

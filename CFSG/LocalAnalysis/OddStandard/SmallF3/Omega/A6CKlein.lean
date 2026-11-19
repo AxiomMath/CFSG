@@ -16,19 +16,19 @@ theorem a6c_relIndex_or_klein {G Γ : Type} [Group G] [Finite G] [Group Γ] (R C
     (hle : Nat.card ψ.range ≤ 4) (hexp : ∀ c ∈ ψ.range, c * c = 1) :
     C.relIndex R ≤ 2 ∨
       QuotEquivTo R (R ⊓ C) (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : C.relIndex R = Nat.card ψ.range := by
     rw [Subgroup.relIndex, ← hker, Subgroup.index_ker]
   have hrange2 : IsPGroup 2 ψ.range :=
     hR2.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
-  haveI : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   obtain ⟨k, hk⟩ := hrange2.exists_card_eq
   by_cases h4 : Nat.card ψ.range = 4
   · right
-    haveI : Nontrivial ψ.range := by
+    have : Nontrivial ψ.range := by
       rw [← Finite.one_lt_card_iff_nontrivial, h4]
       norm_num
-    haveI : IsKleinFour ψ.range := by
+    have : IsKleinFour ψ.range := by
       refine ⟨h4, ?_⟩
       rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
       intro g hg

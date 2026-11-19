@@ -265,13 +265,13 @@ theorem fix_iff [Finite K] (h3 : (3 : K) ≠ 0) (hbc : ∀ s : K, s ^ 2 + b * s 
       rw [h1]
       intro j hj
       have hji : j ≠ i := fun h => hj (h ▸ hi)
-      simp [planeVec, Pi.single_apply, hji]
+      simp [planeVec, hji]
     rw [hset] at hw
     have := (h2 _).1 hw i
     simp [planeVec] at this
   · intro hv
     ext w
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [h1, h2]
     constructor
     · intro h i
@@ -353,7 +353,7 @@ theorem two_le_pRank_centralizer_c₀_of_model [Finite K] (h3 : (3 : K) ≠ 0)
     (hyo : orderOf y = p) (hxy : Commute x y) (hyx : y ∉ Subgroup.zpowers x)
     (hxS : ∀ s ∈ S, Commute x (cm K s)) (hyS : ∀ s ∈ S, Commute y (cm K s)) :
     2 ≤ pRank p (Subgroup.centralizer (c₀ h3 hbc '' S : Set ↥(omegaMinus8 K b c))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact CFSG.GroupTheory.two_le_pRank_of_commute
     (omegaEquiv_symm_mem_centralizer_c₀ h3 hbc S hx hxS)
     (omegaEquiv_symm_mem_centralizer_c₀ h3 hbc S hy hyS)
@@ -367,7 +367,7 @@ theorem one_le_pRank_centralizer_c₀_of_model [Finite K] (h3 : (3 : K) ≠ 0)
     (S : Set (Multiplicative (Fin 3 → ZMod 3))) {x : ModelSpace K ≃ₗ[K] ModelSpace K}
     (hx : x ∈ modelOmega b c) (hxo : orderOf x = p) (hxS : ∀ s ∈ S, Commute x (cm K s)) :
     1 ≤ pRank p (Subgroup.centralizer (c₀ h3 hbc '' S : Set ↥(omegaMinus8 K b c))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord := orderOf_omegaEquiv_symm (toModelIso h3 hbc) hx
   refine CFSG.SectionRank.le_pRank hp.one_lt
     (E := Subgroup.zpowers ((omegaEquiv (toModelIso h3 hbc)).symm ⟨x, hx⟩)) ?_ ?_ ?_

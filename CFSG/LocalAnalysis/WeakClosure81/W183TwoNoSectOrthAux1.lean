@@ -47,7 +47,7 @@ theorem w183b5_noPsp45Factor_of_lieModel_two (hO : LieOrderFormulasInput) {Y : T
 theorem w183b5_noPsp45Factor_orthogonalPlus_of_statedOmega (hO : LieOrderFormulasInput) (k : ℕ)
     {F : Type} [Field F] [Finite F] (h : NoPsp45Factor ↥(StatedOmega (StatedQuadPlus k F))) :
     NoPsp45Factor ↥(CFSG.PGLModel.orthogonalPlus k F) := by
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin k ⊕ Fin k) F) := inferInstance
+  have : Finite (Matrix.GeneralLinearGroup (Fin k ⊕ Fin k) F) := inferInstance
   exact NoPsp45Factor.of_commutator hO
     (h.of_mulEquiv (commutatorOrthogonalPlusEquiv k F).symm)
 
@@ -55,7 +55,7 @@ theorem w183b5_noPsp45Factor_orthogonalMinus_of_statedOmega (hO : LieOrderFormul
     {F : Type} [Field F] [Finite F] (b c : F)
     (h : NoPsp45Factor ↥(StatedOmega (StatedQuadMinus (k + 1) F b c))) :
     NoPsp45Factor ↥(CFSG.PGLModel.orthogonalMinus k F b c) := by
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin k ⊕ Fin k ⊕ Fin 2) F) := inferInstance
+  have : Finite (Matrix.GeneralLinearGroup (Fin k ⊕ Fin k ⊕ Fin 2) F) := inferInstance
   exact NoPsp45Factor.of_commutator hO
     (h.of_mulEquiv (commutatorOrthogonalMinusEquiv k F b c).symm)
 
@@ -82,7 +82,7 @@ private theorem w183b5_noPsp45Factor_sl2 (hO : LieOrderFormulasInput) {F : Type}
     [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) :
     NoPsp45Factor (Matrix.SpecialLinearGroup (Fin 2) F) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) =
       lieOrderNumerator .PSL 2 (2 ^ n) := by
     rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_SL_eq (by norm_num), hF]
@@ -100,7 +100,7 @@ private theorem w183b5_noPsp45Factor_sl2 (hO : LieOrderFormulasInput) {F : Type}
       rw [hF]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+    have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
       CFSG.RankThree.PartOne.KCRootAxis.sl2_isSimpleGroup h4
     refine NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
     have hadm : StatedLieAdmissible .PSL 2 2 n :=
@@ -121,7 +121,7 @@ private theorem w183b5_noPsp45Factor_sl2 (hO : LieOrderFormulasInput) {F : Type}
 theorem w183b5_noPsp45Factor_orthogonalPlus_two (hO : LieOrderFormulasInput) {F : Type} [Field F]
     [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) :
     NoPsp45Factor ↥(CFSG.PGLModel.orthogonalPlus 2 F) := by
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   have hle : (OmegaPlusCell.jProd (F := F)).range ≤ orthGroup (StatedQuadPlus 2 F) := by
     rintro _ ⟨x, rfl⟩
     exact OmegaPlusCell.jProd_mem_orthGroup x
@@ -139,15 +139,15 @@ theorem w183b5_noPsp45Factor_statedOmega_quadPlus_three (hO : LieOrderFormulasIn
     [Field F] [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n) :
     NoPsp45Factor ↥(StatedOmega (StatedQuadPlus 3 F)) := by
   have hn : 1 ≤ n := one_le_of_natCard_eq_two_pow hF
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   obtain ⟨hnd, hts⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := F) (n := 3) le_rfl
   obtain ⟨eK⟩ := kleinCommutatorOrthogonalSix (quadPlus 3 F) hnd (by simp) hts
   let E : ↥(StatedOmega (StatedQuadPlus 3 F)) ≃* Matrix.SpecialLinearGroup (Fin 4) F :=
     (statedOmegaEquivCommutator (coe_quadPlus 3 F)).trans
       (eK.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 4 F).symm)
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 4) F) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 4) F) :=
     (CFSG.RankThree.PartOne.K159.Klein.sl4_isSimpleGroup_and_perfect (K := F)).1
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 F)) := E.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 F)) := E.isSimpleGroup
   refine NoPsp45Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
   have hadm : StatedLieAdmissible .PSL 4 2 n :=
     ⟨Nat.prime_two, hn, by norm_num, fun h => absurd (Prod.mk.inj h).1 (by norm_num),

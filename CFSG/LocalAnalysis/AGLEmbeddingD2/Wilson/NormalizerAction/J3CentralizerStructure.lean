@@ -11,7 +11,7 @@ open Subgroup CFSG.RankThree.PartTwo.KFacts.K426 CFSG.RankThree.PartTwo.Sec21 CF
 open scoped commutatorElement
 
 theorem center_alt6_eq_bot : Subgroup.center (alternatingGroup (Fin 6)) = ⊥ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (alternatingGroup (Fin 6))) with h | h
   · exact h
   · exfalso

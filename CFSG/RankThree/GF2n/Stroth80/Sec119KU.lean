@@ -23,7 +23,7 @@ variable [(Q.subgroupOf M).Normal]
   {c | ∃ k : ↥(H0 M Z), mkH M Q Z k = c ∧ ⁅(k : G), a⁆ ∈ Q ∧
     ∀ x ∈ ⁅Q, Subgroup.zpowers a⁆, ⁅(k : G), x⁆ ∈ Z}
 
-omit [(Q.subgroupOf M).Normal] in
+omit [(Q.subgroupOf M).Normal] [Finite G] in
 private theorem Ctx.commutator_zpowers_le_Q (hc : Ctx M Q Z B) {a : G} (ha : a ∈ M) :
     ⁅Q, Subgroup.zpowers a⁆ ≤ Q := by
   rw [Subgroup.commutator_le]
@@ -31,6 +31,7 @@ private theorem Ctx.commutator_zpowers_le_Q (hc : Ctx M Q Z B) {a : G} (ha : a �
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   exact hc.comm_mem_Q (M.zpow_mem ha n) hx
 
+omit [Finite G] in
 theorem Ctx.mem_fixA2Plane_of_liftF_fix (hc : Ctx M Q Z B) {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))

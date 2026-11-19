@@ -35,7 +35,7 @@ theorem rankThreeAschCore_eq_top_of_planes {G : Type*} [Group G] [Finite G] {E X
     (h1c : Nat.card X₁ = 3 ^ 2) (h2 : X₂ ≤ E) (h2c : Nat.card X₂ = 3 ^ 2)
     (hgen : Subgroup.normalizer (X₁ : Set G) ⊔ Subgroup.normalizer (X₂ : Set G) = ⊤) :
     ∃ P : Sylow 3 G, rankThreeAschCore 2 3 (P : Subgroup G) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hEP⟩ := (IsPGroup.of_card hEc).exists_le_sylow
   refine ⟨P, eq_top_iff.2 ?_⟩
   rw [← hgen]
@@ -73,9 +73,9 @@ theorem threeCoreAt_of_threePlaneGen {M X : Type*} [Group M] [Group X] (e : M �
 theorem threeCoreAt_of_tcGenDatum {M X : Type} [Group M] [Group X] (e : M ≃* X)
     (h : ∀ [Finite M], CFSG.AGLEmbedding.TCGenDatum M 3) : ThreeCoreAt X := by
   intro G _ _ ⟨f⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let g : M ≃* G := e.trans f.symm
-  haveI : Finite M := Finite.of_equiv G g.symm.toEquiv
+  have : Finite M := Finite.of_equiv G g.symm.toEquiv
   let T : Sylow 3 M := default
   refine ⟨Sylow.mapSurjective (f := g.toMonoidHom) g.surjective T, ?_⟩
   exact CFSG.AGLEmbedding.glbWeakCore_eq_top_of_mulEquiv Nat.prime_three g
@@ -123,7 +123,7 @@ theorem agl81EightThirteenCKnown_of_threeCore (h433 : CFSG.RankThree.PartTwo.Ite
     (h : KFactIIModelThreeCore) : AGL81EightThirteenCKnown :=
   agl81EightThirteenCKnown_of_iiModel h433 fun G _ _ hII hS h3 => by
     exfalso
-    haveI := hS.simple
+    have := hS.simple
     obtain ⟨P, hP⟩ := h G hII
     obtain ⟨H, hH, hle⟩ := hS.pre 3 h3 P
     rw [hP, top_le_iff] at hle

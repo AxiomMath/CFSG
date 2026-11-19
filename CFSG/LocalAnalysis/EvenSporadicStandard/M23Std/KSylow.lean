@@ -114,7 +114,7 @@ theorem Ksub_sylow (h : OneClassData L z t)
   have hK'P : IsPGroup 2 ((Ksub z F).subgroupOf (centralizer (F : Set G))) := hKP.comap_subtype
   obtain ⟨P, hP⟩ := hK'P.exists_le_sylow
   have hPG : IsPGroup 2 ((P : Subgroup (centralizer (F : Set G))).map
-      (centralizer (F : Set G)).subtype) := P.isPGroup'.map _
+      (centralizer (F : Set G)).subtype) := P.isPGroup.map _
   have hKP' : Ksub z F ≤ (P : Subgroup (centralizer (F : Set G))).map
       (centralizer (F : Set G)).subtype := fun k hk =>
     ⟨⟨k, hKC hk⟩, hP (Subgroup.mem_subgroupOf.2 hk), rfl⟩

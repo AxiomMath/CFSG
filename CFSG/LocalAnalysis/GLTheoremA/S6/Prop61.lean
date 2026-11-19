@@ -22,7 +22,8 @@ structure Prop61Inputs (G : Type) [Group G] [Finite G] (p : ℕ) : Prop where
   i196 : I196At G p
   i194 : I194At G p
 
-private theorem p61_card_sup_mul_card_inf [Finite G] (L R : Subgroup G)
+omit [Finite G] in
+private theorem p61_card_sup_mul_card_inf (L R : Subgroup G)
     (hc : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) :
     Nat.card (L ⊔ R : Subgroup G) * Nat.card (L ⊓ R : Subgroup G) = Nat.card L * Nat.card R := by
   let μ : L × R →* G := MonoidHom.noncommCoprod L.subtype R.subtype fun x y => hc x x.2 y y.2
@@ -113,7 +114,7 @@ theorem exists_inner_noncentralizing (hp : p.Prime) {B L : Subgroup G} {x : G}
     have hyI : y ∈ innerModSubgroup p L := (Subgroup.mem_inf.1 hyC).2
     exact (hcent y hyB).1 (hno y hyE (mem_innerModSubgroup.1 hyI))
   have hZ : Nat.card (Subgroup.zpowers x) = p := by
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (hB.2 x hxB) hx1
   have hle2 : Nat.card (C ⊓ E : Subgroup G) ≤ p := by
@@ -145,6 +146,7 @@ theorem exists_hyperplane_comm_ne_bot (hp : p.Prime) (hp2 : p ≠ 2) {B T : Subg
   rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
   exact hTC
 
+omit [Finite G] in
 theorem mem_hyperplane_of_comm_ne_bot (hp : p.Prime) {B T H : Subgroup G} {x : G} (hHB : H ≤ B)
     (hidx : (H.subgroupOf B).index = p) (hxB : x ∈ B)
     (hxT : T ≤ Subgroup.centralizer ({x} : Set G))
@@ -296,7 +298,7 @@ theorem bender_E (hp : p.Prime) (hp2 : p ≠ 2) {B E S : Subgroup G}
   have hS'cop : Nat.Coprime p (Nat.card (S.subgroupOf C)) := by
     have hcard : Nat.card (S.subgroupOf C) = Nat.card S :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSE).toEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hS2
     rw [hcard, hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
@@ -328,7 +330,7 @@ theorem commutator_facts (hp : p.Prime) (hp2 : p ≠ 2) {B T E S : Subgroup G}
     (hS : S = ⁅B, T ⊓ Subgroup.centralizer (E : Set G)⁆) :
     S ≤ T ⊓ Subgroup.centralizer (E : Set G) ∧ IsPGroup 2 S ∧
       B ≤ Subgroup.normalizer (S : Set G) ∧ (⁅S, B⁆ : Subgroup G) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hS
   have hfwd : ∀ b ∈ B, ∀ v ∈ T ⊓ Subgroup.centralizer (E : Set G),
       b * v * b⁻¹ ∈ T ⊓ Subgroup.centralizer (E : Set G) := by
@@ -365,7 +367,7 @@ theorem commutator_facts (hp : p.Prime) (hp2 : p ≠ 2) {B T E S : Subgroup G}
     rw [ha, hc]
     exact Nat.Coprime.pow a c ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
   have hsolv : Group.IsSolvable V := by
-    haveI := IsPGroup.isNilpotent hV2
+    have := IsPGroup.isNilpotent hV2
     infer_instance
   have hdbl := GL83.commutator_double_eq_self B V hBV hcop hsolv
   have hBS : B ≤ Subgroup.normalizer ((⁅B, V⁆ : Subgroup G) : Set G) := by
@@ -380,6 +382,7 @@ theorem commutator_facts (hp : p.Prime) (hp2 : p ≠ 2) {B T E S : Subgroup G}
   rw [Subgroup.commutator_comm B V]
   exact hdbl
 
+omit [Finite G] in
 theorem exists_glaPComponent_of_layer_ne_bot {X : Subgroup G} (h : GLAPLayer p X ≠ ⊥) :
     ∃ J : Subgroup G, GLAPComponent p X J := by
   by_contra hne

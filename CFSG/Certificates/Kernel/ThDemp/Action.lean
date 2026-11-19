@@ -121,7 +121,7 @@ theorem spanL_map (l : List ℕ) (N : ℕ) :
   rw [spanL, spanL, mapM, Submodule.map_span]
   congr 1
   ext v
-  simp only [List.mem_map, Set.mem_setOf_eq, Set.mem_image]
+  simp only [List.mem_map, Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨b, ⟨r, hr, rfl⟩, rfl⟩
     exact ⟨pkVec r, ⟨r, hr, rfl⟩, by rw [pkVec_vecB']; rfl⟩

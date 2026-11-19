@@ -97,7 +97,7 @@ theorem cfix_eq_comm1 {x y : GLV W} (hx : ∀ v, x (x (x v)) = v) (hy : ∀ v, y
     set q := x z - y (y z) with hq
     have hP : x q - y q = 0 := by
       rw [hq, hz]
-      simp only [map_sub, ← hxy, hx, hy, hr', map_neg]
+      simp only [map_sub, ← hxy, hx, hr', map_neg]
       abel
     have hq0 : q = 0 := by
       refine h2 q ?_
@@ -131,23 +131,28 @@ section TildeV
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem conj_mem_self (L : Subgroup (GLV V)) : ∀ k' ∈ L, ∀ k ∈ L, k' * k * k'⁻¹ ∈ L :=
   fun _ hk' _ hk => L.mul_mem (L.mul_mem hk' hk) (L.inv_mem hk')
 
+omit [Finite V] in
 theorem invariant_fixedSpace_self (L : Subgroup (GLV V)) : Invariant L (fixedSpace L) :=
   invariant_fixedSpace (conj_mem_self L)
 
+omit [Finite V] in
 theorem invariant_commSpace_self (L : Subgroup (GLV V)) : Invariant L (commSpace L ⊤) :=
   invariant_commSpace (conj_mem_self L) (invariant_top L)
 
 noncomputable abbrev rhoT (L : Subgroup (GLV V)) : ↥L →* GLV (TildeV L) :=
   sectHom L (invariant_fixedSpace_self L) (invariant_commSpace_self L)
 
+omit [Finite V] in
 theorem rhoT_mk (L : Subgroup (GLV V)) (ℓ : ↥L) (w : ↥(commSpace L ⊤)) :
     rhoT L ℓ (Submodule.Quotient.mk w) =
       Submodule.Quotient.mk ⟨(ℓ : GLV V) w, invariant_commSpace_self L ℓ ℓ.2 w w.2⟩ :=
   sectHom_mk _ _ _ ℓ w
 
+omit [Finite V] in
 theorem mk_eq_mk_iff (L : Subgroup (GLV V)) {v v' : V} (hv : v ∈ commSpace L ⊤)
     (hv' : v' ∈ commSpace L ⊤) :
     (Submodule.Quotient.mk ⟨v, hv⟩ : TildeV L) = Submodule.Quotient.mk ⟨v', hv'⟩ ↔
@@ -155,6 +160,7 @@ theorem mk_eq_mk_iff (L : Subgroup (GLV V)) {v v' : V} (hv : v ∈ commSpace L �
   rw [Submodule.Quotient.eq]
   rfl
 
+omit [Finite V] in
 theorem rhoT_injective {L : Subgroup (GLV V)} (hf : FaithfulTildeV L) :
     Function.Injective (rhoT L) := by
   rw [injective_iff_map_eq_one]
@@ -165,13 +171,14 @@ theorem rhoT_injective {L : Subgroup (GLV V)} (hf : FaithfulTildeV L) :
   simp only [rhoT_mk] at h'
   exact (mk_eq_mk_iff L _ hw).1 h'
 
+omit [Finite V] in
 theorem isIrr_range_rhoT {L : Subgroup (GLV V)} (hirr : HasIrrTildeV L) :
     IsIrr (rhoT L).range ⊤ := by
   obtain ⟨hlt, hmin⟩ := hirr
   refine ⟨invariant_top _, ⟨bot_lt_iff_ne_bot.2 ?_, fun J hJ _ _ => ?_⟩⟩
   ·
     intro htop
-    obtain ⟨w, hw, hwC⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨w, hw, hwC⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have : (Submodule.Quotient.mk ⟨w, hw⟩ : TildeV L) ∈ (⊤ : Submodule (ZMod 2) (TildeV L)) :=
       Submodule.mem_top
     rw [htop, Submodule.mem_bot, Submodule.Quotient.mk_eq_zero] at this
@@ -238,6 +245,7 @@ theorem commSpace_zpowers_le_comm1 (x : GLV V) :
     rw [e]
     exact (comm1 x).add_mem (mem_comm1.2 ⟨_, rfl⟩) (ih (Subgroup.pow_mem _ (Subgroup.mem_zpowers x) n))
 
+omit [Finite V] in
 theorem comm1_le_commSpace {L : Subgroup (GLV V)} {x : GLV V} (hx : x ∈ L) :
     comm1 x ≤ commSpace L ⊤ := by
   intro v hv

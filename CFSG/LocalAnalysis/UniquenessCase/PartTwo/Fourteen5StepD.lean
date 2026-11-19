@@ -18,7 +18,7 @@ theorem odd_relIndex_sup {M H I N : Subgroup G} (hIH : I ≤ H) (hHI : H ≤ nor
   have hIodd : Odd (M.relIndex I) := by
     have hI'norm : (I.subgroupOf H).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hIH).2 hHI
-    haveI : (I.subgroupOf H).Normal := hI'norm
+    have : (I.subgroupOf H).Normal := hI'norm
     have hdvd : (M.subgroupOf H).relIndex ((I.subgroupOf H) ⊔ (M.subgroupOf H)) ∣
         M.relIndex H := by
       have := Subgroup.relIndex_dvd_index_of_le (H := M.subgroupOf H)
@@ -35,7 +35,7 @@ theorem odd_relIndex_sup {M H I N : Subgroup G} (hIH : I ≤ H) (hHI : H ≤ nor
     sup_le Subgroup.le_normalizer (hNH.trans hHI)
   have hInorm : (I.subgroupOf (I ⊔ N)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 hH₁
-  haveI : (I.subgroupOf (I ⊔ N)).Normal := hInorm
+  have : (I.subgroupOf (I ⊔ N)).Normal := hInorm
   have hsupIN : (I.subgroupOf (I ⊔ N)) ⊔ (N.subgroupOf (I ⊔ N)) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
   have hsup : (I.subgroupOf (I ⊔ N)) ⊔ (M.subgroupOf (I ⊔ N)) = ⊤ := by
@@ -57,7 +57,7 @@ theorem odd_relIndex_sup {M H I N : Subgroup G} (hIH : I ≤ H) (hHI : H ≤ nor
 theorem not_seven_dvd_card_of_le {M H I : Subgroup G} (hM : IsStronglyPEmbedded 7 M)
     (hIH : I ≤ H) (hHI : H ≤ normalizer (I : Set G)) (hIM : I ≤ M) (hHM : ¬ H ≤ M) :
     ¬ 7 ∣ Nat.card I := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   rintro h7
   obtain ⟨W, hW⟩ := CFSG.ABGLocalTools.exists_isSylowOf 7 I
   have hWI : W ≤ I := hW.le
@@ -77,7 +77,7 @@ theorem not_seven_dvd_card_of_le {M H I : Subgroup G} (hM : IsStronglyPEmbedded 
   have hHeq : H = I ⊔ (H ⊓ normalizer (W : Set G)) := by
     let N : Subgroup ↥H := I.subgroupOf H
     have hNnorm : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIH).2 hHI
-    haveI : N.Normal := hNnorm
+    have : N.Normal := hNnorm
     have hWsyl : CFSG.ABGLocalTools.IsSylowOf 7 (W.subgroupOf H) N := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff]
       refine ⟨Subgroup.subgroupOf_mono H hWI, hW7.comap_subtype, ?_⟩
@@ -123,7 +123,7 @@ variable {D : Data G} {L₁ L₂ X : Subgroup G}
 theorem isSylowOf_three_of_eq_opp (h : Hyp141 D L₁ L₂ X) (h1421 : Thm1421 D)
     (hL : L₁ ⊔ L₂ = Opp 3 D.M) {H : Subgroup G} (hXH : X ≤ H) :
     CFSG.ABGLocalTools.IsSylowOf 3 X H := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hX3 : IsPGroup 3 X := h.sylow.isPGroup
   obtain ⟨S, hS, hXS⟩ := exists_isSylowOf_ge_of_isPGroup hX3 h.X_le_M
   have hSleL : S ≤ L₁ ⊔ L₂ := by
@@ -211,8 +211,8 @@ theorem primeCore_le (h : Hyp141 D L₁ L₂ X) (hSg : UC6S846.SigmaStd D) (h142
 theorem pRank_seven_le_one (h : Hyp141 D L₁ L₂ X) (hSg : UC6S846.SigmaStd D) (h71 : F07.R71 D)
     {H : Subgroup G} (hXH : X ≤ H) (hF : Fstar H = pCoreOf 2 H) (hHM : ¬ H ≤ D.M) :
     Open.pRank 7 (H ⊓ D.M) ≤ 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   by_contra hle
   rw [not_le] at hle
   have hsec : F07.Sec7Hyp D 7 H :=

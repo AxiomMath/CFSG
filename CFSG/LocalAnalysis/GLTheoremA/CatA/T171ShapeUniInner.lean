@@ -41,8 +41,8 @@ theorem innerCompNonShapeW_unitary_charTwo_of_block
     ⟨.lie ⟨.twistedA r q, hv⟩, ⟨q, by simp, hcardq⟩, ⟨e⟩⟩
   obtain ⟨K, hK, hKfin, hfield, θ, hact⟩ :=
     uniMarking_holds G p L J A d b (r + 1) q.exponent hS hcatA
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   have hrange : 2 ≤ r ∧ (r = 2 → 3 ≤ q.card) := by
     have h := (TauCeti.LieTypeIndex.valid_iff _).mp hv |>.1
     simpa only [TauCeti.LieTypeIndex.inStandardRange_iff] using h

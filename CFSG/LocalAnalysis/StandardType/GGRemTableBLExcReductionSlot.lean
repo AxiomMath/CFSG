@@ -19,17 +19,17 @@ theorem ggRemainderTableBL_of_exc
     (hLineN : GGLNoInvariantLineInputOn GGRemTableBLExcLabel) :
     GGRemainderTableBL :=
   ggRemainderTableBL_of_residualsUni
-    (ggTableBCxInputOn_restrict_exc hCx fun p lab hp h1 h2 h3 =>
+    (ggTableBCxInputOn_restrict_exc hCx fun _p _lab hp h1 h2 h3 =>
       ggRemTableBLExc_of_resCx hp h1 h2 h3)
-    (ggTableBModuleInputOn_restrict_exc hMod fun p lab hp h1 h2 h3 =>
+    (ggTableBModuleInputOn_restrict_exc hMod fun _p _lab hp h1 h2 h3 =>
       ggRemTableBLExc_of_resCx hp h1 h2 h3)
-    (ggTableBActionInputOn_restrict_exc hAct fun p lab hp h1 h2 h3 =>
+    (ggTableBActionInputOn_restrict_exc hAct fun _p _lab hp h1 h2 h3 =>
       ggRemTableBLExc_of_resCx hp h1 h2 (ggRemTableBLExcResCx_of_act h3))
     hX hY ggBstarInnerDiagLInputOn_resLID_false
     (ggLTransvectionCenterInputOn_of_not_unitDvd63All
-      (ggLTransvectionCenterInputOn_restrict_exc hTv fun p lab hp h1 h2 h3 =>
+      (ggLTransvectionCenterInputOn_restrict_exc hTv fun _p _lab hp h1 h2 h3 =>
         ggRemTableBLExc_of_resTv hp h1 h2 (And.intro h3.1.1 h3.2)))
-    (ggLNoInvariantLineInputOn_restrict_exc hLineN fun p lab hp h1 h2 h3 =>
+    (ggLNoInvariantLineInputOn_restrict_exc hLineN fun _p _lab hp h1 h2 h3 =>
       ggRemTableBLExc_of_resLine hp h1 h2 h3)
 
 theorem ggRemainderTableBL_of_exc'

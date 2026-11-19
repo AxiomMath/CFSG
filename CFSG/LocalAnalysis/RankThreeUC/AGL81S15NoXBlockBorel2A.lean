@@ -35,9 +35,9 @@ theorem inv_scalar_eq {c : K} (hc : c ≠ 0) :
 theorem torusEntries_ne_zero (h : UnitaryFieldData p f K) (a : Fin r → Kˣ) (d : Fin ε → Kˣ)
     (x : HypIndex r ε) : torusEntries h a d x ≠ 0 := by
   rcases x with i | k | i
-  · simpa using (a i).ne_zero
-  · simpa using (d k).ne_zero
-  · simpa using inv_ne_zero (map_ne_zero h.bar (a i).ne_zero)
+  · simp
+  · simp
+  · simp
 
 theorem exists_mem_hypTorus_diag (h : UnitaryFieldData p f K) (hε : ε ≤ 1)
     {a : Fin r → Kˣ} {d : Fin ε → Kˣ} (hd : ∀ k, h.norm (d k : K) = 1)
@@ -99,7 +99,7 @@ theorem mul_N_eq_N_mul_of_conj_scalar {h : UnitaryFieldData p f K} {g u z : hypS
       fullPos)
     {N : Matrix (HypIndex r ε) (HypIndex r ε) K}
     (humat : ((u : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K) = 1 + N)
-    {x y : HypIndex r ε} (hxy : x ≠ y)
+    {x y : HypIndex r ε} (_hxy : x ≠ y)
     (hMx : ((g : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K) x x ≠ 0) :
     (((g : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K) * N) x y =
       (N * ((g : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K)) x y := by
@@ -147,7 +147,7 @@ theorem centralizer_hypProjUnitriangular_le (h : UnitaryFieldData p f K) (hr : 1
     have hfix : u • hypFlag h r ε i = hypFlag h r ε i := by
       rcases Nat.eq_zero_or_pos i with h0 | h0
       · subst h0
-        rw [hypFlag, if_pos (Nat.zero_le r), isoFlag_zero, Subgroup.smul_def, smul_eq_map,
+        rw [hypFlag, ite_eq_left (Nat.zero_le r), isoFlag_zero, Subgroup.smul_def, smul_eq_map,
           Submodule.map_bot]
       · exact (mem_hypBorel.mp (hypUnitriangular_le_hypBorel h hu)) i h0 hi
     calc u • g • hypFlag h r ε i = g • (g⁻¹ * u * g) • hypFlag h r ε i := by
@@ -184,7 +184,7 @@ theorem centralizer_hypProjUnitriangular_le (h : UnitaryFieldData p f K) (hr : 1
     simp at h
   have hPkk : ∀ k : Fin ε, h.norm (blkP M k k) = 1 := by
     intro k
-    haveI : Subsingleton (Fin ε) :=
+    have : Subsingleton (Fin ε) :=
       ⟨fun a b => Fin.ext (by have := a.2; have := b.2; omega)⟩
     have hkk := congrFun (congrFun h2 k) k
     simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply,
@@ -486,7 +486,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData
   CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.GNQuotient
 
 theorem odd_centralizer_centralizes_of_component_2A
-    {L : Type} [Group L] [Finite L] (hL : CFSG.Open.IsQuasisimple L)
+    {L : Type} [Group L] [Finite L] (_hL : CFSG.Open.IsQuasisimple L)
     (m : ℕ) (hm : 3 ≤ m) (Q : TauCeti.PrimePower) (hQ : Q.p = 2)
     (hv : (TauCeti.LieTypeIndex.twistedA m Q).Valid)
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
@@ -501,8 +501,8 @@ theorem odd_centralizer_centralizes_of_component_2A
   have h2r : 2 * rr + ee = m + 1 := by omega
   have hee1 : ee ≤ 1 := by omega
   have hrr1 : 1 ≤ rr := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   let K := GaloisField 2 (2 * Q.exponent)
   have hK : UnitaryFieldData 2 Q.exponent K :=
     { prime := Nat.prime_two
@@ -514,8 +514,8 @@ theorem odd_centralizer_centralizes_of_component_2A
       card := by
         rw [hQ]
         exact GaloisField.card 2 (2 * Q.exponent) (by have := Q.exponent_pos; omega) }
-  haveI : Finite K := hK.finite
-  haveI : Finite (hypPSU hK rr ee) :=
+  have : Finite K := hK.finite
+  have : Finite (hypPSU hK rr ee) :=
     Finite.of_surjective (hypProj hK rr ee) (hypProj_surjective hK rr ee)
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := rr) (ε := ee) hK
   let e1 : (TauCeti.CFSGIndex.lie
@@ -574,7 +574,7 @@ theorem odd_centralizer_centralizes_of_component_2A
   obtain ⟨P₀, hP₀coe⟩ := (unitary_order_and_Sylow hK hrr1 hee1).2.2.2.2.1
   have hQ2 : Q.p = 2 := hQ
   have hŪ2 : IsPGroup 2 ↥(hypProjUnitriangular hK rr ee) := by
-    have h := P₀.isPGroup'
+    have h := P₀.isPGroup
     rw [hP₀coe] at h
     refine isPGroup_iff_orderOf_dvd_pow.mpr fun g => ?_
     obtain ⟨k, hk⟩ := isPGroup_iff_orderOf_dvd_pow.mp h g
@@ -624,7 +624,7 @@ theorem odd_centralizer_centralizes_of_component_2A
       intro h
       exact hne (congrArg Subtype.val h)
     have h2 : 2 ∣ orderOf (⟨y, hmemV⟩ : (V : Subgroup (hypPSU hK rr ee))) :=
-      V.isPGroup'.dvd_orderOf hne'
+      V.isPGroup.dvd_orderOf hne'
     have hyV : orderOf (⟨y, hmemV⟩ : (V : Subgroup (hypPSU hK rr ee))) = orderOf y :=
       (Subgroup.orderOf_coe _).symm
     rw [hyV] at h2
@@ -649,7 +649,7 @@ theorem noXBlock_borelPre_done_2A
     (hsub : CFSG.Open.IsSubnormal Y (borelPre T Ls))
     (hblock : CFSG.AGLEmbedding.InClassXBlock Y) : False := by
   classical
-  haveI : Finite (X ⧸ gnC T) :=
+  have : Finite (X ⧸ gnC T) :=
     Finite.of_surjective (QuotientGroup.mk' (gnC T)) (QuotientGroup.mk'_surjective (gnC T))
   refine noXBlock_borelPre_done hX hLs hinv ?_ Y hY hsub hblock
   refine hLI_of_component_li hX hLs ?_

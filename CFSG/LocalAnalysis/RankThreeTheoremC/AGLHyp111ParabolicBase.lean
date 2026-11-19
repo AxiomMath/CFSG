@@ -14,6 +14,7 @@ open CFSG.PreuniquenessRankFour.Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_sup_of_le_normalizer {N K : Subgroup G}
     (hK : K ≤ Subgroup.normalizer (N : Set G)) : N.relIndex (K ⊔ N) = N.relIndex K := by
   set A := K ⊔ N
@@ -21,7 +22,7 @@ theorem relIndex_sup_of_le_normalizer {N K : Subgroup G}
   have hKA : K ≤ A := le_sup_left
   set N' := N.subgroupOf A
   set K' := K.subgroupOf A
-  haveI : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNA).mpr
+  have : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNA).mpr
     (sup_le hK Subgroup.le_normalizer)
   have htop : K' ⊔ N' = ⊤ := by
     apply Subgroup.map_injective A.subtype_injective

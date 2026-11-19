@@ -73,7 +73,7 @@ theorem ambient_sylow_of_odd_sylow_normalizer {group : Type*} [Group group] [Fin
   have fixed_pair := fixed_pair_of_odd_sylow_normalizer prime even_point_rule two_transitive
     first second distinct sylow odd_normalizer
   obtain ⟨ambient, contains, ambient_fixed⟩ := CFSG.OrderReductions.FixedPairSylow.exists_ambient_sylow_fixed_pair_of_odd
-    prime odd_prime image (sylow.isPGroup'.map _) first second distinct fixed_pair
+    prime odd_prime image (sylow.isPGroup.map _) first second distinct fixed_pair
   have ambient_pair : (ambient : Subgroup group) ≤ pairSubgroup first second := by
     intro element element_mem
     have first_fixed : first ∈ MulAction.fixedPoints (ambient : Subgroup group) (Component group) := by
@@ -85,7 +85,7 @@ theorem ambient_sylow_of_odd_sylow_normalizer {group : Type*} [Group group] [Fin
     exact ⟨MulAction.mem_fixedPoints.mp first_fixed ⟨element, element_mem⟩,
       MulAction.mem_fixedPoints.mp second_fixed ⟨element, element_mem⟩⟩
   have internal_prime : IsPGroup prime ((ambient : Subgroup group).subgroupOf (pairSubgroup first second)) :=
-    ambient.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe ambient_pair).symm
+    ambient.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe ambient_pair).symm
   have internal_contains : (sylow : Subgroup (pairSubgroup first second)) ≤
       (ambient : Subgroup group).subgroupOf (pairSubgroup first second) := by
     intro element element_mem

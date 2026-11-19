@@ -39,7 +39,7 @@ theorem central_quotients_preserve_prime_core_quasisimplicity {G : Type*} [Group
       Subgroup.isNilpotent_of_ker_le_center f.rangeRestrict (by rwa [MonoidHom.ker_rangeRestrict])
     obtain ⟨S⟩ : Nonempty (Sylow p A) := inferInstance
     have hSn : (S : Subgroup A).Normal := hAnil.sylow_normal p S
-    have hSO : (S : Subgroup A) ≤ pCore p A := le_sSup ⟨hSn, S.isPGroup'⟩
+    have hSO : (S : Subgroup A) ≤ pCore p A := le_sSup ⟨hSn, S.isPGroup⟩
     have hSmap : (S : Subgroup A).map f.rangeRestrict = ⊤ := by
       let S' := S.mapSurjective f.rangeRestrict_surjective
       have h1 : (S' : Subgroup f.range) = ⊤ := (S'.maximal_isPGroup.eq_of_ge (hrp.to_subgroup ⊤) le_top).symm

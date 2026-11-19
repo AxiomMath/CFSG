@@ -37,7 +37,7 @@ theorem ofList_ne_empty (l : List Char) :
       intro h
       have := congrArg String.toList h
       simp at this
-    simp [this]
+    simp
 
 theorem digits_ofList (l : List Char) : digits (String.ofList l) = digitsK l := by
   simp [digits, digitsK]

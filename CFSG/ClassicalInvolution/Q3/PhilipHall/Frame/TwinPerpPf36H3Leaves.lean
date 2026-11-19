@@ -47,7 +47,7 @@ theorem h3_of_transCentral [Fact P24.Sup23_2P] (hA : CentralizeH) (hB : TransCen
       hyp := hyp }
   let H : HCtx Ω K K' W S R R' z u := ⟨C, a, T₃, ha2, ha1, haR, haR', hT, hTN, hTa⟩
   obtain ⟨H', S₁, hS₁W, hRS₁, hR'S₁, haS₁, haZ⟩ := hA G Ω K K' W S R R' z u H
-  haveI : Fact P24.Hyp51VertexP := ⟨P24.hyp51VertexP_proved⟩
+  have : Fact P24.Hyp51VertexP := ⟨P24.hyp51VertexP_proved⟩
   exact H'.false_of_transH0 (hB G Ω K K' W S R R' z u H' S₁ hS₁W hRS₁ hR'S₁ haS₁ haZ)
 
 end S24B

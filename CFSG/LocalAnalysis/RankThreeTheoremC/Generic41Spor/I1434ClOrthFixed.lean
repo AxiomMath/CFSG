@@ -172,7 +172,7 @@ theorem unsplit_a5_charTwo (Q : QuadraticForm K W) (hQ : (polarBilin Q).Nondegen
             even_minus_four_six_actual_derived_extraction Q hQ (Or.inl (by omega)) hts'
           obtain ⟨E, _, _, D, ψ, ρ, -, -, -, hrange, hcard⟩ := h4 (by omega)
           rw [hrange] at hcard
-          haveI := hsimple
+          have := hsimple
           have hZ : Subgroup.center ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q)) =
               ⊥ := by
             have h1 : Subgroup.center ↥(orthDerived Q) = ⊥ := center_eq_bot_of_simple hna
@@ -199,7 +199,7 @@ theorem unsplit_a5_charTwo (Q : QuadraticForm K W) (hQ : (polarBilin Q).Nondegen
             even_minus_four_six_actual_derived_extraction Q hQ (Or.inr (by omega)) hts'
           obtain ⟨E, _, _, D, ψ, ρ, -, -, -, hrange, hcard⟩ := h6 (by omega)
           rw [hrange] at hcard
-          haveI := hsimple
+          have := hsimple
           have hZ : Subgroup.center ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q)) =
               ⊥ := by
             have h1 : Subgroup.center ↥(orthDerived Q) = ⊥ := center_eq_bot_of_simple hna
@@ -259,7 +259,7 @@ theorem card_sl_two_of_card_four (hK : Nat.card K = 4) : Nat.card SL(2, K) = 60 
 theorem exists_elemAbelian_determinant [CharP K 2] (hK : Nat.card K = 4) :
     ∃ E : Subgroup (DeterminantIsometries K), CFSG.Open.IsElemAbelian 5 E ∧ Nat.card E = 25 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5 : 5 ∣ Nat.card SL(2, K) := by rw [card_sl_two_of_card_four hK]; norm_num
   obtain ⟨A, hA⟩ := exists_prime_orderOf_dvd_card' 5 h5
   obtain ⟨B, hB⟩ := exists_prime_orderOf_dvd_card' 5 h5
@@ -314,6 +314,7 @@ theorem exists_elemAbelian_split [CharP K 2] {W : Type} [AddCommGroup W] [Module
   refine ⟨E.map e.symm.toMonoidHom, CFSG.SectionRank.isElemAbelian_map hE _, ?_⟩
   rw [Subgroup.card_map_of_injective e.symm.injective, hcard]
 
+omit [Finite K] in
 theorem nonempty_equiv_splitFactor {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
     {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x)
     (e : ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.comp (fixedSpace x).subtype)) ≃*

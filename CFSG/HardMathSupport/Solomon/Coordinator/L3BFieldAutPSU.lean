@@ -324,7 +324,7 @@ theorem l3bf_psu_scalar (hp : p ^ f₀ ≠ 0) (A : GL (Fin 3) K) (τ : K ≃+* K
   refine ⟨A.val 0 0, ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
-  all_goals first | rfl | exact hoff _ _ (by decide) | exact hc1.symm | exact hc2
+  all_goals first | exact hoff _ _ (by decide) | exact hc1.symm | exact hc2
 
 include h₀ in
 theorem l3bf_psu_tau_scalar [Finite K] (A : GL (Fin 3) K) (τ : K ≃+* K)

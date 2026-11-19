@@ -49,7 +49,7 @@ private theorem siegel_eq_pow_siegel_smul {v : Fin m → ZMod p} {c : ZMod p}
   rw [ZMod.natCast_zmod_val, inv_mul_cancel₀ hc, one_smul]
 
 private theorem conj_siegel_orthRefl {v w : Fin m → ZMod p} (hvU : v ∈ F.U)
-    (hvv : f v v = -2) :
+    (_hvv : f v v = -2) :
     orthRefl f v * F.siegel w * (orthRefl f v)⁻¹
       = F.siegel ((orthRefl f v : Matrix (Fin m) (Fin m) (ZMod p)) *ᵥ w) :=
   F.siegel_conj (isOrthIsometry_orthRefl f F.symm v) (F.orthRefl_mulVec_s (F.mem_U.1 hvU).1) w
@@ -119,7 +119,7 @@ private theorem exists_siegel_not_mem {B : Subgroup (GL (Fin m) (ZMod p))}
     exact hclosure (F.siegel_mem_closure_of_span hspan hw)
   have hBY' : B = F.Y := le_antisymm hBY hYle
   have hBpos : 0 < Nat.card ↥B := by
-    haveI : Nonempty ↥B := ⟨⟨1, B.one_mem⟩⟩
+    have : Nonempty ↥B := ⟨⟨1, B.one_mem⟩⟩
     exact Nat.card_pos
   have hc : Nat.card ↥B * p = Nat.card ↥B * 1 := by
     rw [mul_one]

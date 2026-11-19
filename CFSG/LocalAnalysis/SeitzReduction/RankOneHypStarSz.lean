@@ -226,7 +226,7 @@ theorem exists_conj_not_mem_zpowers_suzukiGroup (ha : 1 ≤ a)
   obtain ⟨c₀, hc₀U, hc₀, hnot⟩ := exists_conj_not_mem_zpowers_of_mem_suzukiU ha hK hp₀U hp₀
   refine exists_conj_not_mem_zpowers_of_mulEquiv (MulAut.conj g⁻¹) ?_
   rw [hφp]
-  exact ⟨c₀, hc₀, ⟨suzukiU a K, P₀.isPGroup', hp₀U, hc₀U⟩, hnot⟩
+  exact ⟨c₀, hc₀, ⟨suzukiU a K, P₀.isPGroup, hp₀U, hc₀U⟩, hnot⟩
 
 theorem hypothesisOneStar_of_mulEquiv_suzukiGroup {Y : Type*}
     [Group Y] (ha : 1 ≤ a) [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1))

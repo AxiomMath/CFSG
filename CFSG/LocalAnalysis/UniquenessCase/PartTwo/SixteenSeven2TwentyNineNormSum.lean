@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16c167_norm_natSum3_invariant {L : Subgroup (MulAut W)} {J : Subgroup W}
     (hJ : NatSum3 L J) : ∀ y ∈ L, ∀ w ∈ J, y w ∈ J := by
   obtain ⟨I₀, I₁, I₂, hi₀, hi₁, hi₂, -, -, -, -, -, rfl⟩ := hJ
@@ -58,6 +59,7 @@ theorem s16c167_norm_card_fixV_natSum3_le (hW : ∀ w : W, w ^ 2 = 1) {L : Subgr
         Nat.pow_le_pow_right (by norm_num) hrk
     _ = 8 := by norm_num
 
+omit [Finite W] in
 theorem s16c167_norm_exists_summand_nontrivial {L Z : Subgroup (MulAut W)} {J : Subgroup W}
     (hJ : NatSum3 L J) (hZ : Nat.card ↥Z = 7) (hZf : ∀ z ∈ Z, z ≠ 1 → ∃ w ∈ J, z w ≠ w) :
     ∃ V : Subgroup W, V ≤ J ∧ XMod.IsIrr ↥L V ∧ Nat.card ↥V = 8 ∧ ∃ z ∈ Z, ∃ v ∈ V, z v ≠ v := by
@@ -94,6 +96,7 @@ theorem s16c167_norm_exists_summand_nontrivial {L Z : Subgroup (MulAut W)} {J : 
   · exact ⟨I₁, le_sup_right.trans le_sup_left, hi₁, hc₁, z, hzmem, v, hv, hvne⟩
   · exact ⟨I₂, le_sup_right, hi₂, hc₂, z, hzmem, v, hv, hvne⟩
 
+omit [Finite W] in
 theorem s16c167_norm_fixes_natSum3_of_fixes_irr {L : Subgroup (MulAut W)} {J : Subgroup W}
     (hJ : NatSum3 L J) {g : MulAut W} (hgL : ∀ y ∈ L, g * y = y * g)
     (h : ∀ V : Subgroup W, V ≤ J → XMod.IsIrr ↥L V → Nat.card ↥V = 8 →

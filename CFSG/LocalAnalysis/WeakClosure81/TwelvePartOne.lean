@@ -15,6 +15,7 @@ section PartOne
 variable {G : Type} [Group G] [Finite G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   [Finite V] {n m : ℕ}
 
+omit [Finite V] in
 private theorem b12_TwelvePartOne_fixMod_conj {K : Subgroup (LGL 2 V)} {d x : LGL 2 V}
     (hd : d ∈ K) (h : fixMod (cE K) (d * x * d⁻¹) ⊓ commSub K ≤ cE K) :
     fixMod (cE K) x ⊓ commSub K ≤ cE K := by
@@ -32,6 +33,7 @@ private theorem b12_TwelvePartOne_fixMod_conj {K : Subgroup (LGL 2 V)} {d x : LG
   have hback : d⁻¹ (d e) ∈ cE K := map_mem_cE K (K.inv_mem hd) hdeE
   rwa [inv_apply_apply'] at hback
 
+omit [Finite V] in
 private theorem b12_TwelvePartOne_not_mem_borel
     {ρ : G →* LGL 2 V} {B A : Subgroup G} {Z : Submodule (ZMod 2) V}
     (h : Setting12One ρ B Z A n m) {a a' g w c : G} (ha : a ∈ A) (ha2 : a * a = 1)
@@ -67,9 +69,10 @@ private theorem b12_TwelvePartOne_not_mem_borel
       exact absurd hwodd (by norm_num)
   exact hw1 (orderOf_eq_one_iff.mp h1)
 
+omit [Finite V] in
 theorem Setting12One.injective {ρ : G →* LGL 2 V} {B A : Subgroup G}
     {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m) : Function.Injective ρ := by
-  haveI : IsSimpleGroup G := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz h.type
+  have : IsSimpleGroup G := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz h.type
   rcases Subgroup.Normal.eq_bot_or_eq_top ρ.ker with hbot | htop
   · exact (MonoidHom.ker_eq_bot_iff ρ).mp hbot
   · exfalso
@@ -87,6 +90,7 @@ theorem Setting12One.injective {ρ : G →* LGL 2 V} {B A : Subgroup G}
     rw [← hSB] at hne
     exact hne hBtop
 
+omit [Finite V] in
 theorem twelveOne_fix_of_involutions {ρ : G →* LGL 2 V}
     {B A : Subgroup G} {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m)
     (hmin : ∀ L : Subgroup G, A ≤ L → ¬ L ≤ B → L = ⊤) {u v : G} (hu : u * u = 1)
@@ -166,6 +170,7 @@ theorem twelveOne_fix_of_involutions {ρ : G →* LGL 2 V}
   exact b12_TwelvePartOne_fixMod_conj (K := ρ.range) (d := ρ c₁) (x := ρ (u * v))
     (MonoidHom.mem_range.mpr ⟨c₁, rfl⟩) h4'
 
+omit [Finite V] in
 theorem twelveOne_fix_of_inverted {ρ : G →* LGL 2 V}
     {B A : Subgroup G} {Z : Submodule (ZMod 2) V} (h : Setting12One ρ B Z A n m)
     (hmin : ∀ L : Subgroup G, A ≤ L → ¬ L ≤ B → L = ⊤) {t x : G} (ht : t * t = 1)

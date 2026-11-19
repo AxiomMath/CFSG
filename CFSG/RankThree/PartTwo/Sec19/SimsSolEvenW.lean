@@ -70,7 +70,7 @@ theorem commutator_W_eq : ⁅blockU X, X⁆ = blockU X := by
             simp only [commutatorElement_def, Subgroup.coe_inv]; group
           rw [e]
           exact hN0 _ (a⁻¹).2 _ ((⁅blockU X, X⁆).inv_mem (ha y hy)) }
-    haveI hNn : N.Normal := ⟨by
+    have hNn : N.Normal := ⟨by
       intro a ha g y hy
       have e : ⁅((g * a * g⁻¹ : ↥X) : G), y⁆ =
           (g : G) * ⁅(a : G), ((g⁻¹ : ↥X) : G) * y * ((g⁻¹ : ↥X) : G)⁻¹⁆ * (g : G)⁻¹ := by
@@ -277,11 +277,11 @@ theorem c3_conj {i j k : Fin n} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) 
   simp only [Perm.mul_apply, Perm.one_apply, swap_apply_def]
   split_ifs <;> simp_all
 
-theorem c3_apply_left {i j k : Fin n} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) :
+theorem c3_apply_left {i j k : Fin n} (hij : i ≠ j) (_hjk : j ≠ k) (hik : i ≠ k) :
     (swap i j * swap j k) i = j := by
   rw [Perm.mul_apply, swap_apply_of_ne_of_ne hij hik, swap_apply_left]
 
-theorem c3_apply_mid {i j k : Fin n} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) :
+theorem c3_apply_mid {i j k : Fin n} (_hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) :
     (swap i j * swap j k) j = k := by
   rw [Perm.mul_apply, swap_apply_left, swap_apply_of_ne_of_ne hik.symm hjk.symm]
 
@@ -341,7 +341,7 @@ theorem good_mul {x y : ↥X} {u : ↥(blockU X)} (hx : actX C x u = u) (hy : ac
 theorem fibre_fixed_three {i j k : Fin n} (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k)
     {u : ↥(blockU X)} (hu : bet C u = (pairEW i j : altHeart n)) {x : ↥X}
     (hxi : pm C x i = j) (hxj : pm C x j = i) (hxk : pm C x k = k) : actX C x u = u := by
-  haveI : IsMulCommutative ↥(blockU X) := C.S.elemU.1
+  have : IsMulCommutative ↥(blockU X) := C.S.elemU.1
   have hc₀A : (swap i j * swap j k : Perm (Fin n)) ∈ alternatingGroup (Fin n) := by
     rw [mem_alternatingGroup, map_mul, sign_swap hij, sign_swap hjk]
     decide
@@ -463,7 +463,7 @@ structure PairLift where
   triangle : ∀ p q r, w p q * w q r * w r p = 1
 
 theorem nonempty_pairLift (hn : 5 ≤ n) : Nonempty (PairLift C) := by
-  haveI : IsMulCommutative ↥(blockU X) := C.S.elemU.1
+  have : IsMulCommutative ↥(blockU X) := C.S.elemU.1
   obtain ⟨i₀, hi₀⟩ : ∃ i₀ : Fin n, i₀ = ⟨0, by omega⟩ := ⟨_, rfl⟩
   obtain ⟨j₀, hj₀⟩ : ∃ j₀ : Fin n, j₀ = ⟨1, by omega⟩ := ⟨_, rfl⟩
   obtain ⟨k₀, hk₀⟩ : ∃ k₀ : Fin n, k₀ = ⟨2, by omega⟩ := ⟨_, rfl⟩
@@ -496,7 +496,7 @@ theorem nonempty_pairLift (hn : 5 ≤ n) : Nonempty (PairLift C) := by
   have w₁_eq : ∀ (x : ↥X) p q, p ≠ q → pm C x i₀ = p → pm C x j₀ = q →
       w₁ p q = actX C x u₀ := by
     intro x p q hpq h1 h2
-    simp only [w₁, dif_pos hpq]
+    simp only [w₁, dite_eq_left hpq]
     obtain ⟨c1, c2⟩ := Classical.choose_spec (hex p q hpq)
     exact hunique _ _ (Or.inl ⟨by rw [c1, h1], by rw [c2, h2]⟩)
   have w₁_self : ∀ p, w₁ p p = 1 := fun p => by simp [w₁]
@@ -549,20 +549,20 @@ theorem nonempty_pairLift (hn : 5 ≤ n) : Nonempty (PairLift C) := by
     intro p q
     by_cases hpq : p = q
     · rw [hpq]
-    · simp only [w, if_neg hpq, if_neg (Ne.symm hpq), w₁_comm]
+    · simp only [w, ite_eq_right hpq, ite_eq_right (Ne.symm hpq), w₁_comm]
   refine ⟨⟨w, ?_, w_self, w_comm, ?_, ?_⟩⟩
   · intro p q
     by_cases hpq : p = q
     · subst hpq
       rw [w_self, bet_one, pairEW_self]
       rfl
-    · simp only [w, if_neg hpq, bet_mul, w₁_bet, hs_bet, add_zero]
+    · simp only [w, ite_eq_right hpq, bet_mul, w₁_bet, hs_bet, add_zero]
   · intro x p q
     by_cases hpq : p = q
     · subst hpq
       rw [w_self, w_self, map_one]
     · have hne : pm C x p ≠ pm C x q := fun h => hpq ((pm C x).injective h)
-      simp only [w, if_neg hpq, if_neg hne, map_mul, w₁_equivar,
+      simp only [w, ite_eq_right hpq, ite_eq_right hne, map_mul, w₁_equivar,
         actX_eq_of_bet_eq_zero C x hs_bet]
   · intro p q r
     by_cases hpq : p = q
@@ -574,7 +574,7 @@ theorem nonempty_pairLift (hn : 5 ≤ n) : Nonempty (PairLift C) := by
       · by_cases hpr : p = r
         · subst hpr
           rw [w_self, mul_one, w_comm q p, W_sq C.S]
-        · simp only [w, if_neg hpq, if_neg hqr, if_neg (Ne.symm hpr)]
+        · simp only [w, ite_eq_right hpq, ite_eq_right hqr, ite_eq_right (Ne.symm hpr)]
           have ht : w₁ p q * w₁ q r * w₁ r p = s := t_eq p q r hpq hqr hpr
           calc (w₁ p q * s) * (w₁ q r * s) * (w₁ r p * s)
               = (w₁ p q * w₁ q r * w₁ r p) * (s * s * s) := by ac_rfl
@@ -591,7 +591,7 @@ variable {A : Type*} [Group A] [IsMulCommutative A]
 theorem ite_add_zmod2 {B : Type*} [Group B] (a b : ZMod 2) (g : B) (hg : g * g = 1) :
     (if a + b = 1 then g else 1) = (if a = 1 then g else 1) * (if b = 1 then g else 1) := by
   rcases zmod_two_cases a with rfl | rfl <;> rcases zmod_two_cases b with rfl | rfl <;>
-    simp [hg] <;> decide
+    simp [hg]
 
 theorem eq_sum_pairEW (a₀ : Fin n) (v : evenWeight n) :
     v = ∑ i, if (v : Fin n → ZMod 2) i = 1 then pairEW a₀ i else 0 := by
@@ -605,8 +605,8 @@ theorem eq_sum_pairEW (a₀ : Fin n) (v : evenWeight n) :
     by_cases h : (v : Fin n → ZMod 2) i = 1
     · simp [h, pairEW_apply]
     · have h0 : (v : Fin n → ZMod 2) i = 0 := (zmod_two_eq_zero_iff_ne_one _).2 h
-      simp [h, h0]
-  rw [AddSubmonoidClass.coe_finset_sum, Finset.sum_apply]
+      simp [h0]
+  rw [_root_.AddSubmonoidClass.coe_finsetSum, Finset.sum_apply]
   simp_rw [key, mul_add, Finset.sum_add_distrib, ← Finset.sum_mul, hv, zero_mul, zero_add]
   simp [mul_ite]
 
@@ -681,7 +681,7 @@ variable (C : Cfg G M X n)
 
 theorem PairLift.act_w (hn : 5 ≤ n) (pl : PairLift C) (m : ↥M) (p q : Fin n) :
     act C m (pl.w p q) = pl.w (C.θ m p) (C.θ m q) := by
-  haveI : IsMulCommutative ↥(blockU X) := C.S.elemU.1
+  have : IsMulCommutative ↥(blockU X) := C.S.elemU.1
   obtain ⟨ε, hεdef⟩ : ∃ ε : Fin n → Fin n → ↥(blockU X),
       ε = fun p q => (pl.w (C.θ m p) (C.θ m q))⁻¹ * act C m (pl.w p q) := ⟨_, rfl⟩
   have hdec : ∀ p q, act C m (pl.w p q) = pl.w (C.θ m p) (C.θ m q) * ε p q := by
@@ -759,7 +759,7 @@ theorem exists_psi (hn : 5 ≤ n) :
       (∀ v, bet C (ψ v) = ((Multiplicative.toAdd v : evenWeight n) : altHeart n)) ∧
       (∀ (m : ↥M) v, act C m (ψ v) =
         ψ (Multiplicative.ofAdd (evenWeightPerm (C.θ m) (Multiplicative.toAdd v)))) := by
-  haveI : IsMulCommutative ↥(blockU X) := C.S.elemU.1
+  have : IsMulCommutative ↥(blockU X) := C.S.elemU.1
   obtain ⟨pl⟩ := nonempty_pairLift C hn
   obtain ⟨a₀⟩ : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨ψ, hψ⟩ := exists_hom_of_cocycle (W_sq C.S) a₀ pl.w pl.w_self pl.w_comm pl.triangle

@@ -68,7 +68,7 @@ theorem exists_conj_mem_zpowers_of_mem_sup {θ : Subgroup G} {c y : G} (hc3 : or
   refine ⟨u, hu, ?_⟩
   have h1 : x⁻¹ * (u⁻¹ * y * u) * x ∈ X := by
     have := hmem
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, InvMemClass.coe_inv] at this
+    simp only [Subgroup.coe_mul, InvMemClass.coe_inv] at this
     have e : (u * x)⁻¹ * y * (u * x) = x⁻¹ * (u⁻¹ * y * u) * x := by group
     rw [← e]
     exact this

@@ -49,8 +49,7 @@ private lemma fourPoint_sq :
   rw [pow_two]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.add_apply, Matrix.one_apply,
+    simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.add_apply, Matrix.one_apply,
       Matrix.single_apply, CharTwo.add_self_eq_zero]
 
 private lemma fourPoint_cube :
@@ -60,8 +59,7 @@ private lemma fourPoint_cube :
   rw [pow_succ, fourPoint_sq]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.add_apply,
+    simp [Matrix.mul_apply, Fin.sum_univ_four, Matrix.add_apply,
       Matrix.one_apply, Matrix.single_apply, CharTwo.add_self_eq_zero]
 
 private lemma fourPoint_pow_six : (1 + Z4 : Matrix (Fin 4) (Fin 4) K) ^ 6 = 1 := by
@@ -69,31 +67,29 @@ private lemma fourPoint_pow_six : (1 + Z4 : Matrix (Fin 4) (Fin 4) K) ^ 6 = 1 :=
   rw [pow_mul, fourPoint_cube, pow_two]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.add_apply, Matrix.one_apply,
-      Matrix.single_apply, CharTwo.add_self_eq_zero]
+    simp [Matrix.mul_apply, Matrix.add_apply, Matrix.single_apply, CharTwo.add_self_eq_zero]
 
 private lemma fourPoint_sq_ne_one : (1 + Z4 : Matrix (Fin 4) (Fin 4) K) ^ 2 ≠ 1 := by
   intro h
   have h00 := congrFun (congrFun h 0) 0
-  simp [fourPoint_sq, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply] at h00
+  simp [fourPoint_sq, Matrix.add_apply] at h00
 
 private lemma fourPoint_cube_ne_one : (1 + Z4 : Matrix (Fin 4) (Fin 4) K) ^ 3 ≠ 1 := by
   intro h
   have h00 := congrFun (congrFun h 0) 0
-  simp [fourPoint_cube, Matrix.one_apply, Matrix.single_apply] at h00
+  simp [fourPoint_cube] at h00
 
 private lemma fourPoint_sq_not_scalar (r : K) :
     Matrix.scalar (Fin 4) r ≠ (1 + Z4 : Matrix (Fin 4) (Fin 4) K) ^ 2 := by
   intro h
   have h00 := congrFun (congrFun h 0) 0
   have h02 := congrFun (congrFun h 0) 2
-  simp [fourPoint_sq, Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.add_apply,
-    Matrix.one_apply, Matrix.single_apply] at h00 h02
+  simp [fourPoint_sq, Matrix.scalar_apply, Matrix.add_apply] at h00 h02
 
 variable {α : Type*} [Fintype α] [DecidableEq α]
 variable {β : Type*} [Fintype β] [DecidableEq β]
 
+omit [CharP K 2] in
 private lemma submatrix_pow_equiv (B : Matrix α α K) (e : α ≃ β) (n : ℕ) :
     (B.submatrix e.symm e.symm : Matrix β β K) ^ n =
       (B ^ n).submatrix e.symm e.symm := by
@@ -102,17 +98,20 @@ private lemma submatrix_pow_equiv (B : Matrix α α K) (e : α ≃ β) (n : ℕ)
   | succ n ih =>
       rw [pow_succ, ih, pow_succ, Matrix.submatrix_mul_equiv]
 
+omit [CharP K 2] [Fintype α] in
 private lemma one_add_submatrix_eq (e : Fin 4 ≃ α) :
     (1 + (Z4).submatrix e.symm e.symm : Matrix α α K) =
       ((1 + Z4 : Matrix (Fin 4) (Fin 4) K).submatrix e.symm e.symm) := by
   ext i j
   simp [Matrix.submatrix_apply, Matrix.add_apply, Matrix.one_apply]
 
+omit [CharP K 2] in
 private lemma submatrix_scalar_equiv (e : Fin 4 ≃ α) (r : K) :
     (Matrix.scalar α r).submatrix e e = Matrix.scalar (Fin 4) r := by
   ext i j
-  by_cases h : i = j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, h]
+  by_cases h : i = j <;> simp [Matrix.scalar_apply, h]
 
+omit [CharP K 2] [Fintype α] in
 private lemma submatrix_eq_one_iff (B : Matrix (Fin 4) (Fin 4) K) (e : Fin 4 ≃ α) :
     (B.submatrix e.symm e.symm : Matrix α α K) = 1 ↔ B = 1 := by
   constructor
@@ -183,14 +182,14 @@ private lemma exists_fourEquiv {α : Type*} [Fintype α] [DecidableEq α]
       invFun := fun x => if x = a then 0 else if x = b then 1 else if x = c then 2 else 3
       left_inv := by
         intro i
-        fin_cases i <;> simp [hab, hac, had, hbc, hbd, hcd, hab.symm, hac.symm, had.symm,
+        fin_cases i <;> simp [hab.symm, hac.symm, had.symm,
           hbc.symm, hbd.symm, hcd.symm]
       right_inv := by
         intro x
-        rcases hcover x with rfl | rfl | rfl | rfl <;> simp [hab, hac, had, hbc, hbd, hcd,
-          hab.symm, hac.symm, had.symm, hbc.symm, hbd.symm, hcd.symm] }
+        rcases hcover x with rfl | rfl | rfl | rfl <;> simp [hab.symm, hac.symm, had.symm, hbc.symm, hbd.symm, hcd.symm] }
   refine ⟨e, ?_, ?_, ?_, ?_⟩ <;> simp [e]
 
+omit [Fintype ι] [DecidableEq ι] in
 private lemma fourPoint_symm_four {a b c d : ι}
     (e : Fin 4 ≃ ↥({a, b, c, d} : Set ι)) (he0 : (e 0 : ι) = a) (he1 : (e 1 : ι) = b)
     (he2 : (e 2 : ι) = c) (he3 : (e 3 : ι) = d) :
@@ -210,6 +209,7 @@ private lemma fourPoint_symm_four {a b c d : ι}
     rw [Equiv.apply_symm_apply]
     exact Subtype.ext he3.symm
 
+omit [CharP K 2] [Fintype ι] in
 private lemma fourPoint_eq_blocks (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
     (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d)
     (e : Fin 4 ≃ ↥({a, b, c, d} : Set ι)) (he0 : (e 0 : ι) = a) (he1 : (e 1 : ι) = b)
@@ -228,8 +228,7 @@ private lemma fourPoint_eq_blocks (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d
     obtain ⟨hsymm0, hsymm1, hsymm2, hsymm3⟩ := fourPoint_symm_four e he0 he1 he2 he3
     simp only [S, Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
     rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;>
-      simp [hsymm0, hsymm1, hsymm2, hsymm3, Matrix.single_apply, Matrix.one_apply,
-        hab, hac, had, hbc, hbd, hcd, hab.symm, hac.symm, had.symm, hbc.symm, hbd.symm,
+      simp [hsymm0, hsymm1, hsymm2, hsymm3, hab, hac, had, hbc, hbd, hcd, hab.symm, hac.symm, had.symm, hbc.symm, hbd.symm,
         hcd.symm]
   · simp only [Matrix.reindex_apply, Matrix.submatrix_apply]
     rw [Equiv.sumCompl_symm_apply_of_pos hx, Equiv.sumCompl_symm_apply_of_neg hy]
@@ -240,8 +239,7 @@ private lemma fourPoint_eq_blocks (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d
     have hyc : c ≠ y := fun h => hy.2.2.1 h.symm
     have hyd : d ≠ y := fun h => hy.2.2.2 h.symm
     rcases hx with rfl | rfl | rfl | rfl <;>
-      simp [Matrix.single_apply, Matrix.one_apply, hya, hyb, hyc, hyd,
-        hya.symm, hyb.symm, hyc.symm, hyd.symm, eq_comm,
+      simp [hya, hyb, hyc, hyd,
         hab, hac, had, hbc, hbd, hcd]
   · simp only [Matrix.reindex_apply, Matrix.submatrix_apply]
     rw [Equiv.sumCompl_symm_apply_of_neg hx, Equiv.sumCompl_symm_apply_of_pos hy]
@@ -252,9 +250,8 @@ private lemma fourPoint_eq_blocks (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d
     have hxc : c ≠ x := fun h => hx.2.2.1 h.symm
     have hxd : d ≠ x := fun h => hx.2.2.2 h.symm
     rcases hy with rfl | rfl | rfl | rfl <;>
-      simp [Matrix.single_apply, Matrix.one_apply, hxa, hxb, hxc, hxd,
-        hxa.symm, hxb.symm, hxc.symm, hxd.symm, eq_comm,
-        hab, hac, had, hbc, hbd, hcd]
+      simp [hxa, hxb, hxc, hxd,
+        hxa.symm, hxb.symm, hxc.symm, hxd.symm, hab, hac, had, hbc, hbd, hcd]
   · simp only [Matrix.reindex_apply, Matrix.submatrix_apply]
     rw [Equiv.sumCompl_symm_apply_of_neg hx, Equiv.sumCompl_symm_apply_of_neg hy]
     simp only [Matrix.fromBlocks_apply₂₂, Matrix.one_apply]
@@ -267,9 +264,8 @@ private lemma fourPoint_eq_blocks (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d
     have hyb : b ≠ y := fun h => hy.2.1 h.symm
     have hyc : c ≠ y := fun h => hy.2.2.1 h.symm
     have hyd : d ≠ y := fun h => hy.2.2.2 h.symm
-    simp [Matrix.single_apply, Matrix.one_apply, hxa, hxb, hxc, hxd, hya, hyb, hyc, hyd,
-      hxa.symm, hxb.symm, hxc.symm, hxd.symm, hya.symm, hyb.symm, hyc.symm, hyd.symm,
-      eq_comm, hab, hac, had, hbc, hbd, hcd]
+    simp [Matrix.one_apply, hxa, hxb, hxc, hxd, hya, hyb, hyc, hyd]
+omit [CharP K 2] in
 private lemma reindex_eq_one_iff {α β : Type*} [Fintype α] [Fintype β] [DecidableEq α]
     [DecidableEq β] (E : α ≃ β) (B : Matrix α α K) :
     (B.reindex E E : Matrix β β K) = 1 ↔ B = 1 := by
@@ -280,6 +276,7 @@ private lemma reindex_eq_one_iff {α β : Type*} [Fintype α] [Fintype β] [Deci
   · intro h
     rw [h, Matrix.reindex_apply, Matrix.submatrix_one_equiv]
 
+omit [CharP K 2] in
 private lemma scalar_reindex_blocks (r : K) :
     let S : Set ι := {a, b, c, d}
     let E : S ⊕ ↥(Sᶜ : Set ι) ≃ ι := Equiv.sumCompl (· ∈ S)
@@ -473,6 +470,7 @@ local notation "P4" => (1 + Matrix.single (u a0) (w a0) (1 : K) +
   Matrix.single (w a0) (u a1) (1 : K) + Matrix.single (u a0) (u a1) (1 : K) +
   Matrix.single (u a1) (u a0) (1 : K) : Matrix ι ι K)
 
+omit [CharP K 2] [Fintype ι] in
 private lemma nilOf_eq_sum_single (hu : Function.Injective u) :
     nilOf K u w = Finset.sum Finset.univ (fun a : Fin k => Matrix.single (u a) (w a) (1 : K)) := by
   classical
@@ -480,7 +478,7 @@ private lemma nilOf_eq_sum_single (hu : Function.Injective u) :
   rw [nilOf_apply, Matrix.sum_apply]
   by_cases h : ∃ a : Fin k, u a = i ∧ w a = j
   · obtain ⟨a, rfl, rfl⟩ := h
-    rw [if_pos ⟨a, rfl, rfl⟩]
+    rw [ite_eq_left ⟨a, rfl, rfl⟩]
     rw [Finset.sum_eq_single a]
     · rw [Matrix.single_apply_same]
     · intro b _ hba
@@ -489,13 +487,14 @@ private lemma nilOf_eq_sum_single (hu : Function.Injective u) :
       exact hba (hu hub)
     · intro ha
       exact absurd (Finset.mem_univ a) ha
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     symm
     refine Finset.sum_eq_zero fun a _ => ?_
     rw [Matrix.single_apply_of_ne]
     rintro ⟨rfl, rfl⟩
     exact h ⟨a, rfl, rfl⟩
 
+omit [CharP K 2] [Fintype ι] in
 private lemma nilOf_eq_head_add_tail (ha01 : a0 ≠ a1)
     (hu : Function.Injective u) :
     nilOf K u w = Matrix.single (u a0) (w a0) (1 : K) +
@@ -511,6 +510,7 @@ private lemma nilOf_eq_head_add_tail (ha01 : a0 ≠ a1)
     (Finset.mem_erase.2 ⟨ha01.symm, Finset.mem_univ a1⟩)]
   abel
 
+omit [CharP K 2] in
 private lemma sum_single_mul_single_eq_zero (T : Finset (Fin k)) (b : ι) (c : ι)
     (h : ∀ a ∈ T, w a ≠ b) :
     (Finset.sum T (fun a => Matrix.single (u a) (w a) (1 : K))) *
@@ -519,6 +519,7 @@ private lemma sum_single_mul_single_eq_zero (T : Finset (Fin k)) (b : ι) (c : �
   refine Finset.sum_eq_zero fun a ha => ?_
   rw [Matrix.single_mul_single_of_ne (1 : K) (u a) (w a) b (h a ha) (1 : K)]
 
+omit [CharP K 2] in
 private lemma single_mul_sum_single_eq_zero (T : Finset (Fin k)) (b : ι) (c : ι)
     (h : ∀ a ∈ T, u a ≠ c) :
     Matrix.single b c (1 : K) *
@@ -527,6 +528,7 @@ private lemma single_mul_sum_single_eq_zero (T : Finset (Fin k)) (b : ι) (c : �
   refine Finset.sum_eq_zero fun a ha => ?_
   rw [Matrix.single_mul_single_of_ne (1 : K) b c (u a) (h a ha).symm (1 : K)]
 
+omit [CharP K 2] in
 private lemma sum_single_mul_sum_single_eq_zero (T : Finset (Fin k))
     (h : ∀ a ∈ T, ∀ b ∈ T, w a ≠ u b) :
     (Finset.sum T (fun a => Matrix.single (u a) (w a) (1 : K))) *
@@ -537,6 +539,7 @@ private lemma sum_single_mul_sum_single_eq_zero (T : Finset (Fin k))
   refine Finset.sum_eq_zero fun b hb => ?_
   rw [Matrix.single_mul_single_of_ne (1 : K) (u a) (w a) (u b) (h a ha b hb) (1 : K)]
 
+omit [CharP K 2] in
 private lemma head_mul_cross {a b c d : ι} (hbd : b ≠ d) :
     (Matrix.single a b (1 : K) + Matrix.single c d (1 : K)) *
       (Matrix.single d a (1 : K) + Matrix.single b c (1 : K)) =
@@ -544,26 +547,28 @@ private lemma head_mul_cross {a b c d : ι} (hbd : b ≠ d) :
   rw [Matrix.add_mul, Matrix.mul_add, Matrix.mul_add]
   rw [Matrix.single_mul_single_of_ne (1 : K) a b d hbd (1 : K),
     Matrix.single_mul_single_of_ne (1 : K) c d b hbd.symm (1 : K)]
-  simp only [Matrix.single_zero, zero_add, add_zero]
+  simp only [zero_add, add_zero]
   rw [Matrix.single_mul_single_same (1 : K) a b c (1 : K),
     Matrix.single_mul_single_same (1 : K) c d a (1 : K)]
   simp
 
+omit [Fintype ι] in
 private lemma fourCycle_apply {a b c d : ι} (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
     (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) :
     let σ : Equiv.Perm ι := Equiv.swap a d * Equiv.swap a c * Equiv.swap a b
     σ a = b ∧ σ b = c ∧ σ c = d ∧ σ d = a := by
   intro σ
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
-    simp [σ, Equiv.swap_apply_left, Equiv.swap_apply_of_ne_of_ne, hab, hac, had, hbc, hbd,
+    simp [σ, Equiv.swap_apply_left, Equiv.swap_apply_of_ne_of_ne, hbc, hbd,
       hcd, hab.symm, hac.symm, had.symm, hbc.symm, hbd.symm, hcd.symm]
 
+omit [Fintype ι] in
 private lemma fourCycle_fixes_of_ne {a b c d x : ι} (hxa : x ≠ a) (hxb : x ≠ b)
     (hxc : x ≠ c) (hxd : x ≠ d) :
     (Equiv.swap a d * Equiv.swap a c * Equiv.swap a b) x = x := by
-  simp [Equiv.swap_apply_of_ne_of_ne, hxa, hxb, hxc, hxd, hxa.symm, hxb.symm, hxc.symm,
-    hxd.symm]
+  simp [Equiv.swap_apply_of_ne_of_ne, hxa, hxb, hxc, hxd]
 
+omit [Fintype ι] in
 private lemma fourCycle_symm_fixes_of_ne {a b c d x : ι} (hxa : x ≠ a) (hxb : x ≠ b)
     (hxc : x ≠ c) (hxd : x ≠ d) :
     (Equiv.swap a d * Equiv.swap a c * Equiv.swap a b).symm x = x := by
@@ -587,6 +592,7 @@ local notation "P4" => (1 + Matrix.single (u a0) (w a0) (1 : K) +
   Matrix.single (w a0) (u a1) (1 : K) + Matrix.single (u a0) (u a1) (1 : K) +
   Matrix.single (u a1) (u a0) (1 : K) : Matrix ι ι K)
 
+omit [CharP K 2] in
 private lemma permMatrix_conj_nilOf (σ : Equiv.Perm ι) :
     (σ.permMatrix K) * nilOf K u w * (σ.permMatrix K)⁻¹ =
       nilOf K (σ.symm ∘ u) (σ.symm ∘ w) := by
@@ -614,6 +620,7 @@ private lemma det_permMatrix_charTwo (σ : Equiv.Perm ι) : (σ.permMatrix K).de
   rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h | h <;> rw [h] <;>
     simp [CharTwo.neg_eq]
 
+omit [Fintype ι] in
 private lemma fourCycle_maps {a b c d : ι} (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
     (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) :
     let σ : Equiv.Perm ι := Equiv.swap a d * Equiv.swap a c * Equiv.swap a b
@@ -625,6 +632,7 @@ private lemma fourCycle_maps {a b c d : ι} (hab : a ≠ b) (hac : a ≠ c) (had
     rw [Equiv.symm_apply_eq] <;>
     simp [σ, h.1, h.2.1, h.2.2.1, h.2.2.2]
 
+omit [CharP K 2] [Fintype ι] in
 private lemma nilOf_conj_head_tail (ha01 : a0 ≠ a1)
     (hu : Function.Injective u) (hw : Function.Injective w)
     (huw : ∀ a b, u a ≠ w b) :
@@ -849,6 +857,7 @@ private lemma rank_two_normal_form {A : Matrix.SpecialLinearGroup ι K} (hA : A 
   exact ⟨k, u, w, g0, hk, hu, hw, huw, hg0⟩
 
 
+omit [Finite K] in
 private lemma exists_conj_eq_fourPoint {A : Matrix.SpecialLinearGroup ι K}
     {k : ℕ} {u w : Fin k → ι} {g0 : Matrix.SpecialLinearGroup ι K}
     (a0 a1 : Fin k) (ha01 : a0 ≠ a1) (hu : Function.Injective u)
@@ -922,6 +931,7 @@ private lemma exists_conj_eq_fourPoint {A : Matrix.SpecialLinearGroup ι K}
       (mul_conj_eq_fourPoint (K := K) (u := u) (w := w) a0 a1 ha01 hu hw huw)
   exact ⟨g, M, by dsimp only [M, x], hMmat⟩
 
+omit [Finite K] in
 private lemma order_center_of_fourPoint {g0 x M : Matrix.SpecialLinearGroup ι K}
     {a b c d : ι} (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c)
     (hbd : b ≠ d) (hcd : c ≠ d)
@@ -1041,6 +1051,7 @@ local notation "P4[" a ", " b ", " c ", " d "]" => (1 + Matrix.single a b (1 : K
 
 open CFSG.SeitzReduction.LinearPilot
 
+omit [Finite K] in
 private lemma eq_one_of_mem_center_of_sq_eq_one [Nonempty ι]
     {z : Matrix.SpecialLinearGroup ι K}
     (hz : z ∈ Subgroup.center (Matrix.SpecialLinearGroup ι K)) (hz2 : z ^ 2 = 1) : z = 1 := by
@@ -1079,7 +1090,7 @@ theorem vecMulVec_or_exists_conj_orderOf_mk_mul_eq_six {A : Matrix.SpecialLinear
     have hx2 : x ^ 2 ∉ C := fun h => hsq (hCle h)
     have hx3 : x ^ 3 ∉ C := by
       intro h
-      haveI : Nonempty ι := by
+      have : Nonempty ι := by
         apply Fintype.card_pos_iff.mp
         have hle := Matrix.rank_le_card_height ((A : Matrix ι ι K) - 1)
         omega

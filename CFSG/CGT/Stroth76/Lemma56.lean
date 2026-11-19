@@ -10,6 +10,7 @@ open CFSG.CGT.Stroth77.Arch76
 
 variable {G : Type*} [Group G] [Finite G] (K : Config G)
 
+omit [Finite G] in
 theorem arch76Lemma5
     (hfusE : ∀ e ∈ Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t}, e ≠ 1 →
       IsConj e ((K.x * K.y) ^ 2))
@@ -17,6 +18,7 @@ theorem arch76Lemma5
     (hg : g⁻¹ * K.uv * g = tElt K q) : IsConj (K.w * K.u) ((K.x * K.y) ^ 2) :=
   hwu.trans (isConj_xyuv_sq K hfusE hq (isConj_of_conj g hg))
 
+omit [Finite G] in
 theorem false_of_lemma2_iii
     (hfusE : ∀ e ∈ Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t}, e ≠ 1 →
       IsConj e ((K.x * K.y) ^ 2))

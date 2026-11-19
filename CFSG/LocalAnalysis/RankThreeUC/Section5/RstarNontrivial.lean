@@ -37,7 +37,7 @@ theorem ne_bot {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCommGroup
   have hchar : ∀ φ : ↥B ≃* ↥B,
       Subgroup.map φ.toMonoidHom (A.subgroupOf B) = A.subgroupOf B := by
     intro φ
-    haveI : Finite (A.subgroupOf B) := inferInstance
+    have : Finite (A.subgroupOf B) := inferInstance
     rw [IsCyclic.subgroup_eq_iff_card_eq, Subgroup.card_map_of_injective φ.injective]
   have h57 := (characteristic_actor_fixes_commutator_fixedSpace_and_centralizes_odd_invariants hc.oddPrimeClassTwoAction hc.faithfulBinaryIrreducibleAction A hAB hchar).2.2 hAbot
   apply h57

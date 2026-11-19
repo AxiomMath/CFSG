@@ -103,7 +103,7 @@ theorem exists_frame_six_of_twoGroup (h : UnitaryFieldData 2 1 K) {ω : K}
     calc 81 < 2 * 3 ^ 4 := by norm_num
       _ ≤ Nat.card ψ.ker * Nat.card A := Nat.mul_le_mul h2 h81
   obtain ⟨w, hw0, hwW, hwX⟩ := exists_common_eigenvector_six h hÂ3 hÂGU hcard hW hWiso hWÂ
-  have hwiso : idForm h 6 w w = 0 := Submodule.mem_orthogonalBilin_iff.mp (hWiso hwW) w hwW
+  have hwiso : idForm h 6 w w = 0 := Submodule.mem_orthogonalBilin.mp (hWiso hwW) w hwW
   exact exists_frame_six h hω hA h81 hAD hw0 hwiso (fun X hX => hwX _ ⟨X, hX, rfl⟩)
 
 end CFSG.LocalAnalysis.GLTheoremA.S265.BSCl

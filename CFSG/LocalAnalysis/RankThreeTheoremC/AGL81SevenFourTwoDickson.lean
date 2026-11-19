@@ -36,7 +36,7 @@ theorem map_closure_orderOf_eq [Fact p.Prime] {N : Type*} [Group N]
       · rw [hy1]
         exact one_mem _
       · exact Subgroup.subset_closure ⟨hy, hy1⟩
-    · exact Subgroup.closure_mono Set.diff_subset
+    · exact Subgroup.closure_mono Set.sdiff_subset
   rw [heq]
   apply CFSG.RankThree.SubgroupLists.dickson_gl_two_closure
   rintro _ ⟨⟨x, hx, rfl⟩, hx1⟩
@@ -205,7 +205,7 @@ theorem normalizer_le_of_map_closure_eq_statedSL (hSch : KFactCatalogSchreier)
     exact sup_le (hAL.trans hLY) hker
   have hPS : (P : Subgroup X) ≤ S.map N.subtype := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     refine ⟨⟨x, hPD hx⟩, ?_, rfl⟩
     have hxk : (⟨x, hPD hx⟩ : N) ^ p ^ k = 1 := Subtype.ext (by
       have := congrArg Subtype.val hk

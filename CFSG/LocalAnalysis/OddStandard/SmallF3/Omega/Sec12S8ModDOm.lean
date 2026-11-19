@@ -36,7 +36,7 @@ theorem s8d_shapeOm {Z : Subgroup S8A}
     have h := hR x
     rwa [show ι x = z from congrArg Subtype.val hx] at h
   let e := MonoidHom.ofInjective s8dOm_injective
-  haveI : Finite ↥s8dOm.range := Finite.of_equiv _ e.toEquiv
+  have : Finite ↥s8dOm.range := Finite.of_equiv _ e.toEquiv
   have hcardZ : Nat.card ↥Z = 3600 := by
     rw [← Nat.card_congr θ'.toEquiv, Nat.card_prod, s8d_card_alt_five]
   have hcardR : Nat.card ↥s8dOm.range = 3600 := by

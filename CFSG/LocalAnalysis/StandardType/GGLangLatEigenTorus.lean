@@ -25,7 +25,7 @@ theorem rootDiagUnit_latEigenCoroot_mem_rationalComponent
     rootDiagUnit τ (fun j => ζ ^ (g j).val) ∈
       rationalComponent S.ρ S.Γ (rootCharHom a) i := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hval : ∀ n : ℤ, ζ ^ ((n : ZMod p).val) = ζ ^ n := by
     intro n
     rw [← zpow_natCast, zpow_eq_zpow_iff_modEq, ZMod.val_intCast]

@@ -853,9 +853,9 @@ private theorem exists_good_parameter (hσ : IsUnitaryInvolution σ) [Finite K] 
   obtain ⟨t, ht0, htB₁, htcB₂⟩ := exists_good_scalar hK hq hB₁ hB₂ hc₀
   refine ⟨t, ht0, ?_, ?_⟩
   · rw [hB₁def] at htB₁
-    simpa only [Set.mem_setOf_eq, map_add, map_smul] using htB₁
+    simpa only [Set.mem_ofPred_eq, map_add, map_smul] using htB₁
   · rw [hB₂def] at htcB₂
-    simpa only [Set.mem_setOf_eq, hc₀def, map_add, map_smul] using htcB₂
+    simpa only [Set.mem_ofPred_eq, hc₀def, map_add, map_smul] using htcB₂
 
 private theorem exists_orthogonal_vectors {α β γ δ s s' : Fin n ⊕ Fin n → K} (t : K)
     (hβq : quadPlus n K β = 0) (hδq : quadPlus n K δ = 0)

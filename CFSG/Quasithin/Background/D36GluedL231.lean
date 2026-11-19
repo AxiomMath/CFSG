@@ -19,8 +19,8 @@ theorem zmod31_pow8 : ((!![0, -1; 1, 4] : Matrix (Fin 2) (Fin 2) (ZMod 31)) ^ 8)
 
 theorem exists_ringEquiv_zmod31 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 31) :
     Nonempty (ZMod 31 ≃+* K) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hcard : Fintype.card K = Fintype.card (ZMod 31) := by
     rw [← Nat.card_eq_fintype_card, hK, ZMod.card]
   exact ⟨(FiniteField.ringEquivOfCardEq hcard).symm⟩
@@ -53,7 +53,7 @@ theorem exists_orderOf_sixteen_psl2_31 {K : Type} [Field K] [Finite K] (hK : Nat
       Matrix.map_apply] at h1
     have e8 : ((!![0, -1; 1, 4] : Matrix (Fin 2) (Fin 2) (ZMod 31)) ^ 8) 0 1 ≠ 0 := zmod31_pow8
     exact e8 (φ.injective (by rw [← h1, map_zero]))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨QuotientGroup.mk g, ?_⟩
   have h1 : (QuotientGroup.mk g : ProjectiveSpecialLinearGroup (Fin 2) K) ^ 2 ^ 4 = 1 := by
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
@@ -79,8 +79,8 @@ theorem matrix_pow_eight_eq_one {d : ℕ} (hd : d ≤ 8) {M : Matrix (Fin d) (Fi
     (h : M ^ 16 = 1) : M ^ 8 = 1 := by
   rcases Nat.eq_zero_or_pos d with rfl | hpos
   · exact Subsingleton.elim _ _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty (Fin d) := ⟨⟨0, hpos⟩⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hpos⟩⟩
   have h2 : (1 : Matrix (Fin d) (Fin d) (ZMod 2)) + 1 = 0 := by
     have : ((2 : ℕ) : Matrix (Fin d) (Fin d) (ZMod 2)) = 0 := CharP.cast_eq_zero _ 2
     simpa [one_add_one_eq_two] using this

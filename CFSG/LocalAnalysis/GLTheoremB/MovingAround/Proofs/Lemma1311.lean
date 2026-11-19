@@ -81,7 +81,7 @@ theorem glaPPrimeCore_sub_eq_bot {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [
 theorem eq_bot_of_subnormal_pPrime {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [Finite Y]
     (hY : GLAPPrimeCore p Y = ⊥) {S : Subgroup Y} (hS : IsSubnormal S ⊤)
     (hcop : Nat.Coprime p (Nat.card ↥S)) : S = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hself : (⊤ : Subgroup ↥S) ≤ GLAPPrimeCore p ↥S := by
     refine le_sSup ⟨Subgroup.normal_top, ?_⟩
     simpa using hcop
@@ -97,7 +97,7 @@ theorem eq_bot_of_subnormal_pPrime {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y]
 theorem glaPComponent_of_normal {p : ℕ} (hp : p.Prime) {T N K : Subgroup G} (hNT : N ≤ T)
     (hTN : T ≤ Subgroup.normalizer (N : Set G)) (hK : GLAPComponent p N K) :
     GLAPComponent p T K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hNnorm : (N.subgroupOf T).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -140,10 +140,12 @@ section Gen
 
 variable {p : ℕ}
 
+omit [Finite G] in
 theorem barX_mono' (p : ℕ) {X S T : Subgroup G} (h : S ≤ T) : barX p X S ≤ barX p X T := by
   rintro _ ⟨x, hx, rfl⟩
   exact ⟨x, Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx)), rfl⟩
 
+omit [Finite G] in
 theorem mem_barX' (p : ℕ) {X S : Subgroup G} {y : ↥X ⧸ GLAPPrimeCore p ↥X} :
     y ∈ barX p X S ↔ ∃ x : ↥X, (x : G) ∈ S ∧ QuotientGroup.mk' (GLAPPrimeCore p ↥X) x = y := by
   unfold barX
@@ -157,6 +159,7 @@ abbrev SummandP (p : ℕ) (M D L : Subgroup G) : Prop :=
   GLAPComponent p M L ∧ ¬ barX p M (gammaStar p D) ≤
     Subgroup.centralizer ((barX p M L : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) : Set (↥M ⧸ GLAPPrimeCore p ↥M))
 
+omit [Finite G] in
 theorem Iof_eq_iSup_summand (p : ℕ) (M D : Subgroup G) :
     Iof p M D = ⨆ x : {L0 : Subgroup G // SummandP p M D L0}, x.1 := by
   unfold Iof
@@ -215,7 +218,8 @@ noncomputable def barXIso (hp : p.Prime) {M L : Subgroup G} (hLM : L ≤ M) (hsn
     ↥(barX p M L) ≃* barOf p L :=
   (quotEquivBarX hp hLM hsn).symm
 
-theorem isSubnormal_pComp_of_istar (hp : p.Prime) {M D L : Subgroup G}
+omit [Finite G] in
+theorem isSubnormal_pComp_of_istar (_hp : p.Prime) {M D L : Subgroup G}
     (hL : GLAPComponent p (Istar p M D) L) : IsSubnormal L M :=
   isSubnormal_trans' hL.2.1 (istar_isSubnormal p M D)
 
@@ -234,29 +238,35 @@ variable {X : Type} [Group X] [Finite X]
 @[expose] def orbitProd1311 (B K₁ : Subgroup X) : Subgroup X :=
   ⨆ K ∈ orbitSet1311 B K₁, K
 
+omit [Finite X] in
 theorem mem_orbitSet1311_self (B K₁ : Subgroup X) (hB : (1 : X) ∈ B) :
     K₁ ∈ orbitSet1311 B K₁ :=
   ⟨1, hB, gLBConj_one K₁⟩
 
+omit [Finite X] in
 theorem isComponentOf_orbit1311 {B K₁ K : Subgroup X} (hK₁ : IsComponentOf K₁ ⊤)
     (hK : K ∈ orbitSet1311 B K₁) : IsComponentOf K ⊤ := by
   obtain ⟨b, -, rfl⟩ := hK
   exact isComponentOf_gLBConj hK₁ b
 
+omit [Finite X] in
 theorem le_orbitProd1311 {B K₁ K : Subgroup X} (hK : K ∈ orbitSet1311 B K₁) :
     K ≤ orbitProd1311 B K₁ :=
   le_iSup₂_of_le (f := fun K (_ : K ∈ orbitSet1311 B K₁) => K) K hK le_rfl
 
+omit [Finite X] in
 theorem orbitProd1311_le {B K₁ Y : Subgroup X} (h : ∀ K ∈ orbitSet1311 B K₁, K ≤ Y) :
     orbitProd1311 B K₁ ≤ Y :=
   iSup₂_le fun K hK => h K hK
 
+omit [Finite X] in
 theorem isComponentOf_orbitProd1311 {B K₁ K : Subgroup X} (hK₁ : IsComponentOf K₁ ⊤)
     (hK : K ∈ orbitSet1311 B K₁) : IsComponentOf K (orbitProd1311 B K₁) := by
   have h := isComponentOf_orbit1311 hK₁ hK
   have hKle : K ≤ orbitProd1311 B K₁ := le_orbitProd1311 hK
   exact ⟨hKle, isSubnormal_of_le_of_le h.2.1 hKle le_top, h.2.2⟩
 
+omit [Finite X] in
 theorem gLBConj_orbitProd1311_le {B K₁ : Subgroup X} {b : X} (hb : b ∈ B) :
     GLBConj b (orbitProd1311 B K₁) ≤ orbitProd1311 B K₁ := by
   unfold orbitProd1311
@@ -269,6 +279,7 @@ theorem gLBConj_orbitProd1311_le {B K₁ : Subgroup X} {b : X} (hb : b ∈ B) :
   exact le_iSup₂_of_le (f := fun K (_ : K ∈ orbitSet1311 B K₁) => K) (GLBConj (b₀ * b) K₁)
     ⟨b₀ * b, B.mul_mem hb₀ hb, rfl⟩ le_rfl
 
+omit [Finite X] in
 theorem le_normalizer_orbitProd1311 {B K₁ : Subgroup X} :
     B ≤ Subgroup.normalizer ((orbitProd1311 B K₁ : Subgroup X) : Set X) := by
   intro b hb
@@ -287,10 +298,11 @@ theorem le_normalizer_orbitProd1311 {B K₁ : Subgroup X} :
     exact h1 (mem_gLBConj.2 hh)
 
 theorem orbit_commute1311 {B K₁ : Subgroup X} (hK₁ : IsComponentOf K₁ ⊤) :
-    ∀ K ∈ orbitSet1311 B K₁, ∀ K' ∈ orbitSet1311 B K₁, K ≠ K' → ⁅K, K'⁆ = ⊥ :=
-  fun K hK K' hK' hne => Sec13e.commute_of_isComponentOf (isComponentOf_orbit1311 hK₁ hK)
+    ∀ _K ∈ orbitSet1311 B K₁, ∀ _K' ∈ orbitSet1311 B K₁, _K ≠ _K' → ⁅_K, _K'⁆ = ⊥ :=
+  fun _K hK _K' hK' hne => Sec13e.commute_of_isComponentOf (isComponentOf_orbit1311 hK₁ hK)
     (isComponentOf_orbit1311 hK₁ hK') hne
 
+omit [Finite X] in
 theorem le_normalizer_orbitProd_of_comp1311 {B K₁ K : Subgroup X}
     (h : K ∈ orbitSet1311 B K₁ ∨ ∀ K'' ∈ orbitSet1311 B K₁, ⁅K, K''⁆ = ⊥) :
     K ≤ Subgroup.normalizer ((orbitProd1311 B K₁ : Subgroup X) : Set X) := by
@@ -321,7 +333,7 @@ variable {X : Type} [Group X] [Finite X]
     (hb : b ∈ Subgroup.normalizer (K : Set X)) : MulAut ↥K where
   toFun x := ⟨b * x * b⁻¹, (Subgroup.mem_normalizer_iff.1 hb x).1 x.2⟩
   invFun x := ⟨b⁻¹ * x * b, (Subgroup.mem_normalizer_iff.1 hb (b⁻¹ * x * b)).2 (by
-    simpa [mul_assoc] using x.2)⟩
+    simp [mul_assoc])⟩
   left_inv x := by
     apply Subtype.ext
     simp [mul_assoc]
@@ -472,7 +484,8 @@ theorem barX_istar_le_normalizer_orbit (hp : p.Prime) {M D L0 : Subgroup G}
   (barX_istar_le_iSup_pComp hp M D).trans
     (iSup_le fun y => barX_pComp_le_normalizer_orbit hp hL0 y.2)
 
-theorem orbitProd_le_barX_istar (hp : p.Prime) {M D L0 : Subgroup G} (hD : D ≤ M)
+omit [Finite G] in
+theorem orbitProd_le_barX_istar (_hp : p.Prime) {M D L0 : Subgroup G} (_hD : D ≤ M)
     (hL0 : GLAPComponent p (Istar p M D) L0) :
     orbitProd1311 (barX p M D) (barX p M L0) ≤ barX p M (Istar p M D) := by
   refine iSup₂_le fun K hK => ?_
@@ -514,6 +527,7 @@ variable {p : ℕ}
 @[expose] def KGof (p : ℕ) (M : Subgroup G) (Q : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) : Subgroup G :=
   (Q.comap (QuotientGroup.mk' (GLAPPrimeCore p ↥M))).map M.subtype
 
+omit [Finite G] in
 theorem mem_KGof (p : ℕ) {M : Subgroup G} {Q : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)} {h : G} :
     h ∈ KGof p M Q ↔ ∃ hM : h ∈ M, QuotientGroup.mk' (GLAPPrimeCore p ↥M) ⟨h, hM⟩ ∈ Q := by
   unfold KGof
@@ -523,6 +537,7 @@ theorem mem_KGof (p : ℕ) {M : Subgroup G} {Q : Subgroup (↥M ⧸ GLAPPrimeCor
   · rintro ⟨hM, hQ⟩
     exact ⟨⟨h, hM⟩, hQ, rfl⟩
 
+omit [Finite G] in
 theorem conj_mem_LO (p : ℕ) {M D : Subgroup G} {Q : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)} {g : G}
     (hgM : g ∈ M) (hgI : g ∈ Subgroup.normalizer ((Istar p M D : Subgroup G) : Set G))
     (hgQ : QuotientGroup.mk' (GLAPPrimeCore p ↥M) ⟨g, hgM⟩ ∈ Subgroup.normalizer (Q : Set _))
@@ -558,13 +573,14 @@ theorem conj_mem_LO (p : ℕ) {M D : Subgroup G} {Q : Subgroup (↥M ⧸ GLAPPri
       simpa [mul_assoc] using this)
     exact iff_of_false hL hR
 
+omit [Finite G] in
 theorem normalizes_centralizer_singleton {d h : G} (hdh : d * h = h * d) (x : G) :
     x ∈ Subgroup.centralizer ({d} : Set G) ↔ h * x * h⁻¹ ∈ Subgroup.centralizer ({d} : Set G) := by
   have hdh' : h⁻¹ * d = d * h⁻¹ := by
     calc h⁻¹ * d = h⁻¹ * d * (h * h⁻¹) := by simp
       _ = h⁻¹ * (d * h) * h⁻¹ := by simp [mul_assoc]
       _ = h⁻¹ * (h * d) * h⁻¹ := by rw [hdh]
-      _ = d * h⁻¹ := by simp [mul_assoc]
+      _ = d * h⁻¹ := by simp
   have e1 : d * (h * x * h⁻¹) = h * (d * x) * h⁻¹ := by
     calc d * (h * x * h⁻¹) = (d * h) * x * h⁻¹ := by simp [mul_assoc]
       _ = (h * d) * x * h⁻¹ := by rw [hdh]
@@ -588,7 +604,7 @@ theorem lift_pComp (hp : p.Prime) {M D L0 : Subgroup G} (hD : D ≤ M)
       Subgroup.centralizer ({QuotientGroup.mk' (GLAPPrimeCore p ↥M) ⟨d, hD hdD⟩} :
         Set (↥M ⧸ GLAPPrimeCore p ↥M))) Y) :
     ∃ K : Subgroup G, GLAPComponent p (Istar p M D ⊓ Cg d) K ∧ barX p M K = Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdM : d ∈ M := hD hdD
   have hbB : QuotientGroup.mk' (GLAPPrimeCore p ↥M) ⟨d, hdM⟩ ∈ barX p M D :=
     (mem_barX' p).2 ⟨⟨d, hdM⟩, hdD, rfl⟩
@@ -666,7 +682,7 @@ variable {p : ℕ}
 
 theorem pRank_top_le_of_iso (hp : p.Prime) {L : Subgroup G} {K : Type} [Group K] [Finite K]
     (e : K ≃* barOf p L) : CFSG.Open.pRank p (⊤ : Subgroup K) ≤ CFSG.Open.pRank p L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hndvd : ¬ p ∣ Nat.card ↥(GLAPPrimeCore p ↥L) :=
     (Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e]
@@ -677,7 +693,7 @@ theorem pRank_top_le_of_iso (hp : p.Prime) {L : Subgroup G} {K : Type} [Group K]
 theorem pRank_top_eq_one (hp : p.Prime) {L : Subgroup G} {K : Type} [Group K] [Finite K]
     (e : K ≃* barOf p L) (hpK : p ∣ Nat.card K) (hr : CFSG.Open.pRank p L = 1) :
     CFSG.Open.pRank p (⊤ : Subgroup K) = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · exact (pRank_top_le_of_iso hp e).trans hr.le
   · obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := K) p hpK
@@ -711,10 +727,11 @@ theorem p_dvd_card_alt (hp : p.Prime) (hp3 : 3 ≤ p) :
     omega
   exact hcop.dvd_of_dvd_mul_left hdvd
 
+omit [Finite G] in
 theorem glaPPrimeCore_eq_bot_of_simple (hp : p.Prime) {K : Subgroup G} (hK : IsComponentOf K ⊤)
     (hZ : Subgroup.center ↥K = ⊥) (hpK : p ∣ Nat.card ↥K) : GLAPPrimeCore p ↥K = ⊥ := by
   have hsimple : IsSimpleGroup ↥K := by
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
     have e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥K :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
     exact e.symm.isSimpleGroup
@@ -734,9 +751,9 @@ theorem glaPPrimeCore_eq_bot_of_simple (hp : p.Prime) {K : Subgroup G} (hK : IsC
   ∀ (p : ℕ), p.Prime → ∀ (ε : Bool) (n : ℕ) (X : Type) [Group X] [Finite X], 1 ≤ n →
     IsOmegaTwo ε (n + 1) X → HasFixedPointFreeOrder ε n p → p ∣ Nat.card X
 
-theorem pComp_eq_of_single (hp : p.Prime) {M D L1 L : Subgroup G} (hIL : Istar p M D = L1)
+theorem pComp_eq_of_single (_hp : p.Prime) {M D L1 L : Subgroup G} (hIL : Istar p M D = L1)
     (hL1 : GLAPComponent p (Istar p M D) L1) (hL : GLAPComponent p (Istar p M D) L) : L = L1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   rw [hIL] at hL hL1
   have hL1c : IsComponentOf (⊤ : Subgroup (↥L1 ⧸ GLAPPrimeCore p ↥L1)) ⊤ := by
     have h : IsComponentOf (barX p L1 L1) ⊤ := hL1.2.2.1
@@ -777,7 +794,7 @@ theorem comp_data (hp : p.Prime) (hp3 : 3 ≤ p) (hOm : InputOmegaDvd1311)
       IsOmegaTwo ε (n + 1) ↥(barX p M L) ∧ HasFixedPointFreeOrder ε n p ∧
         CFSG.Open.pRank p (⊤ : Subgroup ↥(barX p M L)) = 1)) ∧
     p ∣ Nat.card ↥(barX p M L) ∧ IsPiGroup p ↥(barX p M L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK1 : IsComponentOf (barX p M L) ⊤ := isComponent_barX_of_pComp hp hL
   have hLM : L ≤ M := hL.1.trans (istar_le_M p M D)
   have hsn : IsSubnormal L M := isSubnormal_pComp_of_istar hp hL
@@ -836,7 +853,7 @@ theorem pComp_le_R (hp : p.Prime) {M D L0 : Subgroup G} (hD : D ≤ M) (hDel : I
     (hPi : IsPiGroup p ↥(barX p M L0))
     (φ : ↥(barX p M L0) ≃* barOf p Y) :
     Y ≤ barX p M (piLayer p (Istar p M D ⊓ Cg d)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, hK, hKY⟩ := lift_pComp hp hD hDel hL0 hdD hY
   have hKM : K ≤ M := (hK.1.trans inf_le_left).trans (istar_le_M p M D)
   have e2 := barOfIsoBarX hp hKM
@@ -846,11 +863,11 @@ theorem pComp_le_R (hp : p.Prime) {M D L0 : Subgroup G} (hD : D ≤ M) (hDel : I
   rw [← hKY]
   exact barX_mono' p (X := M) hKP
 
-theorem layer_le_R (hp : p.Prime) (hp3 : 3 ≤ p) (hI225 : Input22_5Layer) (hI71 : Input7_1Aut)
+theorem layer_le_R (hp : p.Prime) (_hp3 : 3 ≤ p) (hI225 : Input22_5Layer) (_hI71 : Input7_1Aut)
     {M D L0 : Subgroup G} (hD : D ≤ M) (hDel : IsElemAbelian p D)
     (hL0 : GLAPComponent p (Istar p M D) L0)
     (hK₁ : IsComponentOf (barX p M L0) ⊤) (hZ : Subgroup.center ↥(barX p M L0) = ⊥)
-    (hT : IsAltType (p + 2) ↥(barX p M L0) ∨ (3 < p ∧ ∃ (ε : Bool) (n : ℕ), 1 ≤ n ∧
+    (_hT : IsAltType (p + 2) ↥(barX p M L0) ∨ (3 < p ∧ ∃ (ε : Bool) (n : ℕ), 1 ≤ n ∧
       IsOmegaTwo ε (n + 1) ↥(barX p M L0) ∧ HasFixedPointFreeOrder ε n p ∧
         CFSG.Open.pRank p (⊤ : Subgroup ↥(barX p M L0)) = 1))
     (hPi : IsPiGroup p ↥(barX p M L0))
@@ -861,7 +878,7 @@ theorem layer_le_R (hp : p.Prime) (hp3 : 3 ≤ p) (hI225 : Input22_5Layer) (hI71
     (hbJ : b ∈ jSet1311 (orbitProd1311 (barX p M D) (barX p M L0)) (barX p M D) (barX p M L0)) :
     GLAPLayer p (orbitProd1311 (barX p M D) (barX p M L0) ⊓ Subgroup.centralizer ({b} : Set _)) ≤
       ⨆ (d : G) (_ : d ∈ D) (_ : d ≠ 1), barX p M (piLayer p (Istar p M D ⊓ Cg d)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hxD, rfl⟩ := (mem_barX' p).1 hbB
   have hd1 : (x : G) ≠ 1 := by
     intro h
@@ -887,7 +904,7 @@ theorem istar_barX_le_R (hp : p.Prime) (hp3 : 3 ≤ p) (hI22 : Input22_3) (hI71 
     (hDcard : Nat.card ↥D = p ^ 2) :
     barX p M (Istar p M D) ≤
       ⨆ (d : G) (_ : d ∈ D) (_ : d ≠ 1), barX p M (piLayer p (Istar p M D ⊓ Cg d)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine (barX_istar_le_iSup_pComp hp M D).trans (iSup_le fun y => ?_)
   obtain ⟨hK₁, hcen, hT, hpK, hPi⟩ := comp_data hp hp3 hOm h139 y.2
   have hPD : IsPGroup p ↥D := fun g => ⟨1, by
@@ -929,7 +946,7 @@ variable {p : ℕ}
 theorem pComp_piLayer_summand (hp : p.Prime) {H J : Subgroup G}
     (hJ : GLAPComponent p (piLayer p H) J) :
     ∃ S : Subgroup G, GLAPComponent p H S ∧ IsPiGroup p (↥S ⧸ GLAPPrimeCore p ↥S) ∧ J = S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXH : piLayer p H ≤ H := Sec13f.piLayer_le p H
   have hsum : ∀ i : Sec13f.PiSummand p H, GLAPComponent p (piLayer p H) i.1 := fun i =>
     glaPComponent_of_le hp i.2.1 (Sec13f.le_piLayer i.2.1 i.2.2) hXH
@@ -960,7 +977,7 @@ theorem barOf_iso_of_pComp (hp : p.Prime) {M D K L : Subgroup G}
 
 @[expose] def Gap1311Iso : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T : Subgroup G}
-    (h : Sec13 G m p B M E A D T) (h139 : Prop139a p M D ∨ Prop139b p M D) (d : G),
+    (_h : Sec13 G m p B M E A D T) (_h139 : Prop139a p M D ∨ Prop139b p M D) (d : G),
     d ∈ D → d ≠ 1 → ¬ Istar p M D ≤ Subgroup.centralizer ({d} : Set G) →
     ∀ J : Subgroup G, GLAPComponent p (piLayer p (Istar p M D ⊓ Cg d)) J →
       ∃ K : Subgroup G, GLAPComponent p (Istar p M D) K ∧ Nonempty (barOf p J ≃* barOf p K)

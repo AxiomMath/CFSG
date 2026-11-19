@@ -17,7 +17,7 @@ theorem l2_su_neg_one {K : Type} [Field K] {p f : ℕ} (hp : p.Prime)
       m ∈ (CFSG.Open.StatedScalars (Fin n) K).subgroupOf (CFSG.Open.StatedSU n (p ^ f) K) ∧
       ∀ u ∈ (CFSG.Open.StatedScalars (Fin n) K).subgroupOf
           (CFSG.Open.StatedSU n (p ^ f) K), u * u = 1 → u = 1 ∨ u = m := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 2 (pow_ne_zero f hp.ne_zero))
   have hqmod : Nat.card K % 2 = 1 := by
@@ -58,10 +58,10 @@ theorem l2_su_neg_one {K : Type} [Field K] {p f : ℕ} (hp : p.Prime)
     apply Subtype.ext
     change Matrix.GeneralLinearGroup.scalar (Fin n) c *
       Matrix.GeneralLinearGroup.scalar (Fin n) c = 1
-    rw [← map_mul, show c * c = 1 by simp [c, neg_mul_neg], map_one]
+    rw [← map_mul, show c * c = 1 by simp [c], map_one]
   have hinj : Function.Injective
       (Matrix.GeneralLinearGroup.scalar (Fin n) : Kˣ →* Matrix.GeneralLinearGroup (Fin n) K) := by
-    haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+    have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
     intro a b hab
     have h := congrArg (fun g : Matrix.GeneralLinearGroup (Fin n) K =>
       (g : Matrix (Fin n) (Fin n) K)) hab

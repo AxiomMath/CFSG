@@ -17,7 +17,7 @@ open scoped commutatorElement
 
 private theorem w85g_mem_commE {E Y : Type} [CommGroup E] [Group Y] (α : Y →* MulAut E)
     (d : Y) (z : E) : z ∈ commE α d ↔ ∃ w : E, w * (α d w)⁻¹ = z := by
-  simp [commE, MonoidHom.mem_range, MonoidHom.div_apply, div_eq_mul_inv]
+  simp [commE, MonoidHom.mem_range, div_eq_mul_inv]
 
 private theorem w85g_map_commE_le {E Y : Type} [CommGroup E] [Group Y] (α : Y →* MulAut E)
     (u d : Y) : (commE α d).map (α u).toMonoidHom ≤ commE α (u * d * u⁻¹) := by
@@ -127,7 +127,7 @@ private theorem w85g_odd_card_fusionOddCore {Y : Type} [Group Y] [Finite Y] :
     unfold fusionOddCore CFSG.pPrimeCore
     congr 1
     ext N
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [Nat.coprime_two_left]
   rw [h]
   exact Nat.coprime_two_left.1 CFSG.pPrimeCore_coprime_card
@@ -196,7 +196,7 @@ private theorem w85g_ker_eq_bot_of_perm {Y : Type} [Group Y] [Finite Y] {m : ℕ
 theorem commE_sup_eq_top {Y E : Type} [Group Y] [Finite Y] [CommGroup E] [Finite E]
     (α : Y →* MulAut E) (hE : ∀ x : E, x * x = 1) {m : ℕ}
     {e : Y ⧸ fusionOddCore Y ≃* Perm (Fin m)} {t : Y} {P : Sylow 2 Y} (h : SymSetting e t P)
-    (hnc : ¬ fusionOddCore Y ≤ Subgroup.center Y)
+    (_hnc : ¬ fusionOddCore Y ≤ Subgroup.center Y)
     (hC : ∀ x : E, (∀ r ∈ ⁅fusionOddCore Y, Subgroup.zpowers t⁆, α r x = x) → x = 1) :
     (⨆ o ∈ fusionOddCore Y, commE α (o * t * o⁻¹)) = ⊤ := by
   classical
@@ -254,7 +254,7 @@ theorem commE_sup_eq_top {Y E : Type} [Group Y] [Finite Y] [CommGroup E] [Finite
     rw [hk]
     exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hoddR)
   have hsolv : Group.IsSolvable E := inferInstance
-  letI : MulDistribMulAction R E := MulDistribMulAction.compHom E αR
+  let : MulDistribMulAction R E := MulDistribMulAction.compHom E αR
   have hfixed_bot : CFSG.fixedPointSubgroup R E = ⊥ := by
     rw [eq_bot_iff]
     intro x hx
@@ -436,6 +436,7 @@ structure ModuleData (V H T : Subgroup G) {X : Type} [Group X] (φ : ↥(kGenIn 
   range : ι.range = eSub V H T
   act : ∀ (k : ↥(kGenIn V H)) (x : E), ι (α (φ k) x) = k * ι x * (k : G)⁻¹
 
+omit [Finite X] in
 private theorem w85g_exists_conjAction (s : TailSetup V H T φ) :
     ∃ (E : Type) (_ : CommGroup E) (_ : Finite E) (α : X →* MulAut E) (ι : E →* G),
       ModuleData V H T φ E α ι := by
@@ -444,8 +445,8 @@ private theorem w85g_exists_conjAction (s : TailSetup V H T φ) :
   let E := ↥(eSub V H T)
   let cE : CommGroup E :=
     { (inferInstance : Group E) with mul_comm := h83.isMulCommutative_eSub.is_comm.comm }
-  letI : CommGroup E := cE
-  haveI : Finite E := inferInstance
+  let : CommGroup E := cE
+  have : Finite E := inferInstance
   let ι : E →* G := (eSub V H T).subtype
   have hHEN : H ≤ Subgroup.normalizer (eSub V H T : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h83.eSub_le_H).mp h83.eSub_subgroupOf_normal
@@ -469,7 +470,7 @@ private theorem w85g_exists_conjAction (s : TailSetup V H T φ) :
       (f := φ) (f_inv := Function.surjInv s.bar.surjective)
       (Function.rightInverse_surjInv s.bar.surjective)
       (⟨ψ, fun k hk => (hψker k).mpr hk⟩) k
-    simpa [α] using h
+    simp [α]
   refine ⟨E, cE, inferInstance, α, ι, ?_, ?_, ?_, ?_, ?_⟩
   · intro a b hab
     obtain ⟨ka, rfl⟩ := s.bar.surjective a
@@ -514,6 +515,7 @@ private theorem w85g_gap5_commutator_mem {V H T : Subgroup G} (h83 : Hyp83 V H T
   refine ⟨?_, (conjSubgroup V h).mul_mem h1 ((conjSubgroup V h).inv_mem hc)⟩
   simpa [mul_assoc] using (eSub V H T).mul_mem he h4
 
+omit [Finite X] in
 private theorem w85g_commE_ti (s : TailSetup V H T φ) {t : X}
     (ht : barSub (kGenIn V H) φ V = Subgroup.zpowers t)
     {E : Type} [CommGroup E] {α : X →* MulAut E} {ι : E →* G}
@@ -655,6 +657,7 @@ private theorem w85g_commE_ti (s : TailSetup V H T φ) {t : X}
   rw [hbot, Subgroup.mem_bot] at hzin
   exact hzin
 
+omit [Finite X] in
 theorem exists_moduleData (s : TailSetup V H T φ) {t : X}
     (ht : barSub (kGenIn V H) φ V = Subgroup.zpowers t) :
     ∃ (E : Type) (_ : CommGroup E) (_ : Finite E) (α : X →* MulAut E) (ι : E →* G),
@@ -702,12 +705,12 @@ private theorem w85g_commutator_commutator_eq_of_coprime {A : Type} [Group A]
 private theorem w85g_exists_ne_one_fixed {W : Type} [CommGroup W] [Finite W]
     (hW : Even (Nat.card W)) (T : Subgroup (MulAut W)) (hT : IsPGroup 2 T) :
     ∃ v : W, v ≠ 1 ∧ ∀ x ∈ T, x v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := hT.card_modEq_card_fixedPoints W
   have hF1 : (1 : W) ∈ MulAction.fixedPoints ↥T W := fun t => by
     show (t : MulAut W) 1 = 1
     exact map_one _
-  haveI : Nonempty (MulAction.fixedPoints ↥T W) := ⟨⟨1, hF1⟩⟩
+  have : Nonempty (MulAction.fixedPoints ↥T W) := ⟨⟨1, hF1⟩⟩
   have h' : Nat.card W % 2 = Nat.card (MulAction.fixedPoints ↥T W) % 2 := h
   have hFeven : Nat.card (MulAction.fixedPoints ↥T W) % 2 = 0 := by
     rw [← h']
@@ -717,7 +720,7 @@ private theorem w85g_exists_ne_one_fixed {W : Type} [CommGroup W] [Finite W]
     have hpos : 0 < Nat.card (MulAction.fixedPoints ↥T W) := Nat.card_pos
     have : Nat.card (MulAction.fixedPoints ↥T W) = 1 := by omega
     omega
-  haveI : Nontrivial (MulAction.fixedPoints ↥T W) := Finite.one_lt_card_iff_nontrivial.mp hgt
+  have : Nontrivial (MulAction.fixedPoints ↥T W) := Finite.one_lt_card_iff_nontrivial.mp hgt
   obtain ⟨c, hc⟩ := exists_ne (⟨1, hF1⟩ : MulAction.fixedPoints ↥T W)
   refine ⟨c, fun h1 => hc (Subtype.ext h1), fun x hx => ?_⟩
   have := c.2 ⟨x, hx⟩
@@ -786,7 +789,7 @@ private theorem w85g_R_not_centralizes_t {Y : Type} [Group Y] [Finite Y] {m : �
   rw [heq] at hsub
   exact hRne (le_bot_iff.mp hsub)
 
-private theorem w85g_conjAut_R (s : TailSetup V H T φ) (hV : Hyp7 V)
+private theorem w85g_conjAut_R (s : TailSetup V H T φ) (_hV : Hyp7 V)
     (hT : IsSylowIn 2 T (H ⊓ Subgroup.normalizer (V : Set G))) {t : X}
     (ht : barSub (kGenIn V H) φ V = Subgroup.zpowers t) {m : ℕ}
     {e : X ⧸ fusionOddCore X ≃* Perm (Fin m)} {P : Sylow 2 X} (hS : SymSetting e t P)
@@ -825,7 +828,7 @@ private theorem w85g_conjAut_R (s : TailSetup V H T φ) (hV : Hyp7 V)
     have h := MonoidHom.liftOfRightInverse_comp_apply (f := φ)
       (f_inv := Function.surjInv s.bar.surjective)
       (Function.rightInverse_surjInv s.bar.surjective) (⟨φ.comp cj, hcj_ker.ge⟩) k
-    simpa [σ₀] using h
+    simp [σ₀]
   have hcji : Function.Injective σ₀ := by
     intro x y hxy
     obtain ⟨kx, rfl⟩ := s.bar.surjective x
@@ -933,6 +936,7 @@ private theorem w85g_normalizer_zpowers_eq_centralizer (A : Type) [Group A] :
       rw [heq]
       exact Subgroup.mem_zpowers_iff.mpr ⟨n, rfl⟩
 
+omit [Finite X] [Finite G] in
 private theorem w85g_exists_tauAction (s : TailSetup V H T φ) {E : Type} [CommGroup E]
     {α : X →* MulAut E} {ι : E →* G} (hM : ModuleData V H T φ E α ι) :
     ∃ τ : ↥T →* MulAut E, ∀ (a : ↥T) (y : E), ι (τ a y) = (a : G) * ι y * (a : G)⁻¹ := by
@@ -977,7 +981,7 @@ private theorem w85g_exists_fixed_T (s : TailSetup V H T φ) {m : ℕ}
     ∃ z : E, z ≠ 1 ∧ (∀ r ∈ (⁅fusionOddCore X, Subgroup.zpowers t⁆ : Subgroup X), α r z = z) ∧
       ∀ a ∈ T, (a : G) * ι z * (a : G)⁻¹ = ι z := by
   classical
-  haveI : Finite E := Finite.of_injective ι hM.inj
+  have : Finite E := Finite.of_injective ι hM.inj
   have h83 := s.hyp83
   have hV : Hyp7 V := ⟨h83.elemAbelian, h83.two_lt_card, h83.isTI⟩
   have hT : IsSylowIn 2 T (H ⊓ Subgroup.normalizer (V : Set G)) := h83.sylow
@@ -1031,7 +1035,7 @@ private theorem w85g_exists_fixed_T (s : TailSetup V H T φ) {m : ℕ}
   have hC2 : IsPGroup 2 C := hE2.of_injective C.subtype C.subtype_injective
   have hCeven : Even (Nat.card C) := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp hC2
-    haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hCne
+    have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hCne
     have hlt : 1 < 2 ^ k := by rw [← hk]; exact Finite.one_lt_card
     have hk0 : k ≠ 0 := by
       intro h0; rw [h0, pow_zero] at hlt; omega
@@ -1053,7 +1057,7 @@ private theorem w85g_exists_fixed_T (s : TailSetup V H T φ) {m : ℕ}
 theorem centralizer_E_R_eq_bot (hi : CentralizersInM V H T) (s : TailSetup V H T φ) {m : ℕ}
     {e : X ⧸ fusionOddCore X ≃* Perm (Fin m)} {t : X} {P : Sylow 2 X} (hS : SymSetting e t P)
     (ht : barSub (kGenIn V H) φ V = Subgroup.zpowers t)
-    (hP : (P : Subgroup X) = barSub (kGenIn V H) φ T)
+    (_hP : (P : Subgroup X) = barSub (kGenIn V H) φ T)
     (hnc : ¬ fusionOddCore X ≤ Subgroup.center X) {E : Type} [CommGroup E] {α : X →* MulAut E}
     {ι : E →* G} (hM : ModuleData V H T φ E α ι) :
     ∀ x : E, (∀ r ∈ ⁅fusionOddCore X, Subgroup.zpowers t⁆, α r x = x) → x = 1 := by

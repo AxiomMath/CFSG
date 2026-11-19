@@ -75,8 +75,8 @@ theorem s15_Three_mul_comm_of_commutator_eq_bot {A : Type} [Group A] {S T : Subg
   exact commutatorElement_eq_one_iff_mul_comm.1 h1
 
 private theorem s15_Three_barSub_conj_map_eq' (hV : IsElemAbelian 2 V)
-    (hMs : D.M ≤ stabTil V₀ V) {X : Subgroup G} (hX : X ≤ D.M)
-    {m : G} (hm : m ∈ D.M) (m₀ : ↥(stabTil V₀ V)) (hm₀ : (m₀ : G) ∈ D.M) :
+    (_hMs : D.M ≤ stabTil V₀ V) {X : Subgroup G} (_hX : X ≤ D.M)
+    {m : G} (_hm : m ∈ D.M) (m₀ : ↥(stabTil V₀ V)) (_hm₀ : (m₀ : G) ∈ D.M) :
     (barSub V₀ V hV (conjSubgroup X m)).map
         (MulAut.conj (actTil V₀ V hV m₀)).toMonoidHom =
       barSub V₀ V hV (conjSubgroup X (m * (m₀ : G)⁻¹)) := by

@@ -20,61 +20,72 @@ section Printed
 
 variable (D : StrothTypeData B (StrothTypeIndex.t300 (s + 1)))
 
+omit [Finite S] in
 theorem ec_conj_uv_c300 : D.ec (conjBy D.uv_mem D.c) =
     (-3 : ℤ) • (𝔨 s 0) + (-1 : ℤ) • (𝔨 s 1) + (-1 : ℤ) • (𝔨 s 2) := by
   have h := D.uv_conj D.c
   rw [show D.e (Additive.ofMul D.c) = Torus.c from D.ec_c] at h
   exact h.trans (Type300.uv_c _)
 
+omit [Finite S] in
 theorem ec_conj_uv_a300 : D.ec (conjBy D.uv_mem D.a) =
     (4 : ℤ) • (𝔨 s 0) + (1 : ℤ) • (𝔨 s 1) + (2 : ℤ) • (𝔨 s 2) := by
   have h := D.uv_conj D.a
   rw [show D.e (Additive.ofMul D.a) = Torus.a from D.ec_a] at h
   exact h.trans (Type300.uv_a _)
 
+omit [Finite S] in
 theorem ec_conj_uv_b300 : D.ec (conjBy D.uv_mem D.b) =
     (4 : ℤ) • (𝔨 s 0) + (2 : ℤ) • (𝔨 s 1) + (1 : ℤ) • (𝔨 s 2) := by
   have h := D.uv_conj D.b
   rw [show D.e (Additive.ofMul D.b) = Torus.b from D.ec_b] at h
   exact h.trans (Type300.uv_b _)
 
+omit [Finite S] in
 theorem ec_conj_u_c300 : D.ec (conjBy D.u_mem D.c) = (1 : ℤ) • (𝔨 s 0) := by
   have h := D.u_conj D.c
   rw [show D.e (Additive.ofMul D.c) = Torus.c from D.ec_c] at h
   exact h.trans (Type300.u_c _)
 
+omit [Finite S] in
 theorem ec_conj_u_a300 : D.ec (conjBy D.u_mem D.a) = (1 : ℤ) • (𝔨 s 2) := by
   have h := D.u_conj D.a
   rw [show D.e (Additive.ofMul D.a) = Torus.a from D.ec_a] at h
   exact h.trans (Type300.u_a _)
 
+omit [Finite S] in
 theorem ec_conj_u_b300 : D.ec (conjBy D.u_mem D.b) = (1 : ℤ) • (𝔨 s 1) := by
   have h := D.u_conj D.b
   rw [show D.e (Additive.ofMul D.b) = Torus.b from D.ec_b] at h
   exact h.trans (Type300.u_b _)
 
+omit [Finite S] in
 theorem ec_conj_ρ_c300 : D.ec (conjBy D.ρ_mem D.c) = (1 : ℤ) • (𝔨 s 0) := by
   have h := D.ρ_conj D.c
   rw [show D.e (Additive.ofMul D.c) = Torus.c from D.ec_c] at h
   exact h.trans (Type300.rho_c _)
 
+omit [Finite S] in
 theorem ec_conj_ρ_a300 : D.ec (conjBy D.ρ_mem D.a) = (1 : ℤ) • (𝔨 s 2) := by
   have h := D.ρ_conj D.a
   rw [show D.e (Additive.ofMul D.a) = Torus.a from D.ec_a] at h
   exact h.trans (Type300.rho_a _)
 
+omit [Finite S] in
 theorem ec_conj_ρ_b300 : D.ec (conjBy D.ρ_mem D.b) =
     (-4 : ℤ) • (𝔨 s 0) + (-1 : ℤ) • (𝔨 s 1) + (-1 : ℤ) • (𝔨 s 2) := by
   have h := D.ρ_conj D.b
   rw [show D.e (Additive.ofMul D.b) = Torus.b from D.ec_b] at h
   exact h.trans (Type300.rho_b _)
 
+omit [Finite S] in
 theorem conjBy_ρ_a300 : conjBy D.ρ_mem D.a = D.b := by
   apply D.ec_injective
   rw [ec_conj_ρ_a300, D.ec_b, one_smul]
 
 end Printed
 
+omit [Finite S] in
 theorem conj_ρ_sq300 (D : StrothTypeData B (StrothTypeIndex.t300 (s + 1))) (hBC : B ≤ C)
     (hL : D.L ≤ Subgroup.normalizer C) {e : C} (he : e * e = ⟨D.a, hBC D.a.2⟩) :
     conjBy (hL D.ρ_mem_L) e * conjBy (hL D.ρ_mem_L) e = ⟨D.b, hBC D.b.2⟩ := by
@@ -236,6 +247,7 @@ variable (D : StrothTypeData B (StrothTypeIndex.t300 (s + 1))) (hBC : B ≤ C)
   (he : e * e = ⟨D.a, hBC D.a.2⟩)
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_incl300 (β : B) {i j l : ℤ} (h : D.ec β = i • (𝔨 s 0) + j • (𝔨 s 1) + l • (𝔨 s 2)) :
     E.symm (Additive.ofMul (⟨β, hBC β.2⟩ : C)) = i • (𝔤 s 0) + (2 * j) • (𝔤 s 1) +
         (2 * l) • (𝔤 s 2) := by
@@ -252,6 +264,7 @@ theorem E_symm_incl300 (β : B) {i j l : ℤ} (h : D.ec β = i • (𝔨 s 0) + 
     ← two_zsmul, ← two_zsmul, smul_smul, smul_smul, mul_comm j 2, mul_comm l 2]
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem alpha_incl300 {g : S} (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (β : B) {i j l : ℤ}
     (h : D.ec (conjBy hgB β) = i • (𝔨 s 0) + j • (𝔨 s 1) + l • (𝔨 s 2)) :
@@ -264,24 +277,28 @@ theorem alpha_incl300 {g : S} (hgC : g ∈ Subgroup.normalizer C)
   exact E_symm_incl300 D hBC hL E hE0 hE1 hE2 he _ h
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_c300 : E.symm (Additive.ofMul (⟨D.c, hBC D.c.2⟩ : C)) = (𝔤 s 0) := by
   rw [E_symm_incl300 D hBC hL E hE0 hE1 hE2 he D.c (i := 1) (j := 0) (l := 0)
     (by rw [D.ec_c]; module)]
   module
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_a300 : E.symm (Additive.ofMul (⟨D.a, hBC D.a.2⟩ : C)) = (2 : ℤ) • (𝔤 s 1) := by
   rw [E_symm_incl300 D hBC hL E hE0 hE1 hE2 he D.a (i := 0) (j := 1) (l := 0)
     (by rw [D.ec_a]; module)]
   module
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_b300 : E.symm (Additive.ofMul (⟨D.b, hBC D.b.2⟩ : C)) = (2 : ℤ) • (𝔤 s 2) := by
   rw [E_symm_incl300 D hBC hL E hE0 hE1 hE2 he D.b (i := 0) (j := 0) (l := 1)
     (by rw [D.ec_b]; module)]
   module
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem transport300 :
     conjTorusIdx4 E (hL D.ρ_mem_L) (𝔤 s 0) = (𝔤 s 0) ∧
     conjTorusIdx4 E (hL D.ρ_mem_L) (𝔤 s 1) = (𝔤 s 2) ∧

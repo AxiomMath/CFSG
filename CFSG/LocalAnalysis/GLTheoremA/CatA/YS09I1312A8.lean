@@ -38,7 +38,7 @@ theorem small_aut_eq_one {H : Type} [Group H] [Finite H]
     (α : MulAut H) (m : ℕ) (hm : Odd m) (hαm : α ^ m = 1)
     (Q : Subgroup H) (hQp : IsPGroup 2 Q) (hQne : Q ≠ ⊥) (hQfix : ∀ x ∈ Q, α x = x) : α = 1 := by
   have hZS : Subgroup.center (H ⧸ Subgroup.center H) = ⊥ := by
-    haveI : Nontrivial (H ⧸ Subgroup.center H) := hsimple.toNontrivial
+    have : Nontrivial (H ⧸ Subgroup.center H) := hsimple.toNontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (H ⧸ Subgroup.center H)) with h | h
     · exact h
     · exfalso

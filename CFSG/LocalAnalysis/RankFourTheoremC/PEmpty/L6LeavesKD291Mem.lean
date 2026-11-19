@@ -21,7 +21,7 @@ theorem exists_B_of_mem {p : ℕ} [hpp : Fact p.Prime]
       Function.Injective (π.comp f) ∧ ∀ a, c B (f a) = f a)
     (hmem : ∃ B : G, Φ B = l212in_descend e (odC L x)) :
     ∃ B : G, Φ B = l212in_descend e (odC L x) ∧ B ^ p ∈ Z ∧ ∀ w ∈ Z, w ^ p ≠ B ^ p := by
-  haveI := hS₀
+  have := hS₀
   have hp : p.Prime := hpp.out
   have hxp : x ^ p = 1 := hx ▸ pow_orderOf_eq_one x
   obtain ⟨B, hB⟩ := hmem
@@ -69,7 +69,7 @@ theorem n_eq_p_of_mem {p n : ℕ} [hpp : Fact p.Prime] (hp5 : 5 ≤ p) (hpn : p 
       ∃ T : Subgroup S₀, IsElemAbelian p T ∧ p ^ (p + 1) ≤ Nat.card (T.map π) ∧
         ∀ t ∈ T, c B t ∈ T)
     (hmem : ∃ B : G, Φ B = l212in_descend e (odC L x)) : n = p := by
-  haveI := hS₀
+  have := hS₀
   have hp : p.Prime := hpp.out
   obtain ⟨B, hB, hBZ, hnp⟩ := exists_B_of_mem L hx hx2 hS₀ π c Φ Z hcentral hker e φ hφπ hc hcZ
     htorus hmem

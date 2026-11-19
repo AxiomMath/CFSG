@@ -313,7 +313,7 @@ private theorem center_sylow_containing
   have : Nontrivial ↥(S : Subgroup L) :=
     ⟨⟨xL, hxS⟩, ⟨1, (S : Subgroup L).one_mem⟩, fun h => hx1 (congrArg Subtype.val h)⟩
   have hcentne : Nontrivial (Subgroup.center ↥(S : Subgroup L)) :=
-    S.isPGroup'.center_nontrivial
+    S.isPGroup.center_nontrivial
   have hgt : 1 < Nat.card (Subgroup.center ↥(S : Subgroup L)) :=
     Finite.one_lt_card_iff_nontrivial.mpr hcentne
   have hxord : orderOf xL = 5 := by

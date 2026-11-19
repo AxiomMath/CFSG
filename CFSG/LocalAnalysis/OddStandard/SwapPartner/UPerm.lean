@@ -61,7 +61,7 @@ theorem exists_conj_swap_mul {ρ : Perm (Fin 8)} (h2 : ρ * ρ = 1) :
     exact ⟨1, 1, 0, by simp, by simp, by simp⟩
   · obtain ⟨a, ha⟩ : ∃ a : Fin 8, ρ a ≠ a := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hρ1 (Equiv.ext h)
     have hρρ : ∀ x : Fin 8, ρ (ρ x) = x := by
       intro x
@@ -112,7 +112,7 @@ theorem exists_conj_of_sign_neg_one {ρ : Perm (Fin 8)} (h2 : ρ * ρ = 1) (hs :
     exact absurd hs (by decide)
   obtain ⟨a, ha⟩ : ∃ a : Fin 8, ρ a ≠ a := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hρ1 (Equiv.ext h)
   have hρρ : ∀ x : Fin 8, ρ (ρ x) = x := by
     intro x
@@ -185,7 +185,7 @@ theorem exists_conj_of_sign_neg_one {ρ : Perm (Fin 8)} (h2 : ρ * ρ = 1) (hs :
 
 theorem liftS8_swap_zero_one : liftS8 (swap (0 : Fin 8) 1) = swap (0 : Fin 10) 1 := by
   rw [liftS8_swap]
-  congr 1 <;> exact Fin.ext rfl
+  congr 1
 
 theorem liftS8_apply_zero {ρ : Perm (Fin 8)} (h0 : ρ 0 = 0) : liftS8 ρ 0 = 0 := by
   have h : (0 : Fin 10) = Fin.castLE (by norm_num : 8 ≤ 10) (0 : Fin 8) := Fin.ext rfl

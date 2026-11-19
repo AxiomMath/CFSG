@@ -25,10 +25,11 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uc22p22q_normalizer_le (D : Data G) (hstd : Sigma23Std D) {p : ℕ} (hp : p ∈ D.sig)
     {P : Subgroup G} (hP : IsSylowOf p P D.M) : normalizer (P : Set G) ≤ D.M := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have h2 : 2 ≤ CFSG.Open.pRank p P := (D.sig_rank p hp).trans (uc22p22q_pRank_le_sylow hP)
   exact (gamma_normalizer_le 2 p P P le_rfl h2).trans (hstd.gamma_two p hp P hP)
 
+omit [Finite G] in
 theorem uc22p22q_weak_elem {P P₀ : Subgroup G} (hwc : IsWeaklyClosedIn P₀ P) :
     ∀ g : G, (∀ x ∈ P₀, g⁻¹ * x * g ∈ P) → ∀ x ∈ P₀, g⁻¹ * x * g ∈ P₀ := by
   intro g hg x hx
@@ -39,6 +40,7 @@ theorem uc22p22q_weak_elem {P P₀ : Subgroup G} (hwc : IsWeaklyClosedIn P₀ P)
   have hxm : g⁻¹ * x * g ∈ CFSG.conjugate P₀ g := ⟨x, hx, by simp⟩
   rwa [h] at hxm
 
+omit [Finite G] in
 theorem uc22p22q_mem_normalizer_centralizer {P₀ : Subgroup G} {n : G}
     (hn : n ∈ normalizer (P₀ : Set G)) : n ∈ normalizer ((centralizer (P₀ : Set G) : Subgroup G) : Set G) := by
   have key : ∀ m ∈ normalizer (P₀ : Set G), ∀ c ∈ centralizer (P₀ : Set G),
@@ -68,7 +70,7 @@ theorem uc22p22q_stronglyClosed_P1 (D : Data G) (hstd : Sigma23Std D) {p : ℕ} 
   have hpσ : p ∈ D.sig := by
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hpσ).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hpσ).1⟩
   have hPG : IsSylowOf p P ⊤ := uc22p22q_isSylowOf_top D hstd hpσ hH.sylow
   have hwe := uc22p22q_weak_elem hwc
   have hcen₀ : ∀ y ∈ P, ∀ z ∈ P₀, y * z = z * y :=
@@ -88,7 +90,7 @@ theorem uc22p22q_inU_of_stronglyClosed (D : Data G) (hstd : Sigma23Std D) {p : �
     (hsc : ∀ a ∈ P₁, ∀ g : G, g⁻¹ * a * g ∈ P → g⁻¹ * a * g ∈ P₁)
     (hΓ : rankThreeGamma 1 p P₁ ≤ D.M) {X : Subgroup G} (hXP₁ : X ≤ P₁) (hX : X ≠ ⊥) :
     UC6.InU D.M X := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hM : normalizer (D.M : Set G) = D.M := UC6.normalizer_eq_of_isMaxTwoLocal D.maxLocal
   have hPG : IsSylowOf p P ⊤ := uc22p22q_isSylowOf_top D hstd hp hP
   have hNP : normalizer (P : Set G) ≤ D.M := uc22p22q_normalizer_le D hstd hp hP
@@ -131,7 +133,7 @@ theorem uc22p22q_P1_ne_bot (D : Data G) (hstd : Sigma23Std D) {p : ℕ} {P P₀ 
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hPG : IsSylowOf p P ⊤ := uc22p22q_isSylowOf_top D hstd hpσ hH.sylow
   have hcen₀ : ∀ y ∈ P, ∀ z ∈ P₀, y * z = z * y :=
     uc22p22q_central_of_weaklyClosed hpP hH.sylow.isPGroup hH.le hH.card (uc22p22q_weak_elem hwc)
@@ -185,7 +187,7 @@ theorem uc22p22q_centralInU_of (D : Data G) (hstd : Sigma23Std D) (hstd2 : Sigma
     have hpσ : p ∈ D.sig := by
       rw [D.sig_sub]
       exact Or.inl (Or.inr hp2)
-    haveI : Fact p.Prime := ⟨(D.sig_prime p hpσ).1⟩
+    have : Fact p.Prime := ⟨(D.sig_prime p hpσ).1⟩
     obtain ⟨P, P₀, hH⟩ := hstd2.exists_hyp612 p hp2
     obtain ⟨⟨hp3, -, hwc, hΓ, hL, -⟩, hcent⟩ := h613 p P P₀ hH
     have hsc := (uc22p22q_stronglyClosed_P1 D hstd hH hwc hcent).2
@@ -201,13 +203,13 @@ theorem uc22p22q_centralInU_of (D : Data G) (hstd : Sigma23Std D) (hstd2 : Sigma
     have hpσ : 3 ∈ D.sig := by
       rw [D.sig_sub]
       exact Or.inr hp3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P, hP⟩ := exists_isSylowOf 3 D.M
     obtain ⟨-, -, h3, -, -⟩ := h611 hp3 P hP
     have hPne : P ≠ ⊥ := uc22p22qv_ne_bot_of_pRank Nat.prime_three
       (by have := (D.sig_rank 3 hpσ).trans (uc22p22q_pRank_le_sylow hP); omega)
-    haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
-    haveI : Nontrivial ↥(Subgroup.center ↥P) := hP.isPGroup.center_nontrivial
+    have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+    have : Nontrivial ↥(Subgroup.center ↥P) := hP.isPGroup.center_nontrivial
     have hXne : (Subgroup.center ↥P).map P.subtype ≠ ⊥ := by
       intro h
       obtain ⟨z, hz⟩ := exists_ne (1 : ↥(Subgroup.center ↥P))

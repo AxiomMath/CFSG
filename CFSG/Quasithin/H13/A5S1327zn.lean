@@ -150,6 +150,7 @@ theorem exists_eq_mul_conj_of_fpf {U : Subgroup G} {c : G} (hcU : ∀ u ∈ U, c
   obtain ⟨v, hv⟩ := (Finite.injective_iff_surjective.mp hinj) ⟨w, hw⟩
   exact ⟨v, v.2, (congrArg Subtype.val hv).symm⟩
 
+omit [Finite G] in
 theorem charTwo_of_pCoreOf_le {P Y : Subgroup G} (hP : CharTwo P) (hYP : Y ≤ P)
     (hO : pCoreOf 2 P ≤ Y) : CharTwo Y := CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hP hYP hO
 

@@ -146,7 +146,7 @@ private theorem mem_commutator_of_mem_center {G : Type*} [Group G] [Finite G] {p
   have h3 : z ^ (P : Subgroup G).index ∈ ⁅(P : Subgroup G), (P : Subgroup G)⁆ := by
     rw [← Subgroup.map_subtype_commutator]
     exact ⟨_, h2, rfl⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨z, hzP⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨z, hzP⟩
   rw [Subgroup.orderOf_mk] at hk
   have hcop : Nat.gcd (P : Subgroup G).index (orderOf z) = 1 := by
     rw [hk]
@@ -288,7 +288,7 @@ theorem N27_of (h11a : S_N11a) (h11c : S_N11c) (h13 : S_N13) : S_N27 := by
   obtain ⟨M, hAM, hM2⟩ : ∃ M : Subgroup G, A ≤ M ∧
       (M.subgroupOf (A ⊔ Subgroup.center G)).index = 2 := by
     have hp : IsPGroup 2 (A ⊔ Subgroup.center G : Subgroup G) :=
-      S.isPGroup'.to_le (sup_le hA.le hZS)
+      S.isPGroup.to_le (sup_le hA.le hZS)
     obtain ⟨b, hb⟩ := hp.exists_card_eq
     obtain ⟨a, ha⟩ := (hp.to_subgroup (A.subgroupOf (A ⊔ Subgroup.center G))).exists_card_eq
     have hlt : a < b := by

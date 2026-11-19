@@ -21,7 +21,7 @@ private theorem sec121_f_inv (F : Sec12Frame t L S) {p : G} (hp : p ∈ secCMB t
     simpa [sec12f] using hmul.symm
   exact eq_inv_of_mul_eq_one_right h1
 
-private theorem sec121_conj_mem_V (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCMB t S L))
+private theorem sec121_conj_mem_V (_F : Sec12Frame t L S) (_hE : IsSylow2Of E (secCMB t S L))
     {a x : G} (ha : a ∈ E) (hx : x ∈ secV t S L E) : a * x * a⁻¹ ∈ secV t S L E := by
   have hle : secV t S L E ≤ (secV t S L E).comap (MulAut.conj a).toMonoidHom := by
     rw [secV, Subgroup.commutator_le]
@@ -163,7 +163,7 @@ theorem sec121_comm_A_Y (F : Sec12Frame t L S) {a y : G} (ha : a ∈ secA t S L)
     rw [heq, htct]
     exact hc
 
-theorem sec121_V_le_V0 (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCMB t S L))
+theorem sec121_V_le_V0 (F : Sec12Frame t L S) (_hE : IsSylow2Of E (secCMB t S L))
     {V0 : Subgroup G} (hB : secB S L ≤ V0)
     (hinv : ∀ y ∈ secM t S L ⊓ L, ∀ x ∈ V0, y * x * y⁻¹ ∈ V0)
     (hdec : ∀ e ∈ E, ∃ x ∈ V0, ∃ a ∈ secA t S L, e = x * a) : secV t S L E ≤ V0 := by

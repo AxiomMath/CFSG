@@ -13,7 +13,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
 theorem card_eq_pow_three {G : Type*} [Group G] [Finite G] {E : Subgroup G}
     (hE : IsElemAbelian 3 E) :
     ∃ k : ℕ, Nat.card E = 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hP : IsPGroup 3 E := by
     intro g
     refine ⟨1, ?_⟩
@@ -23,7 +23,7 @@ theorem card_eq_pow_three {G : Type*} [Group G] [Finite G] {E : Subgroup G}
   exact hP.exists_card_eq
 
 instance finite_linearEquiv_struct : Finite (V ≃ₗ[ZMod 2] V) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   exact Finite.of_injective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V))
     (fun _ _ h => LinearEquiv.ext (congrFun h))
 

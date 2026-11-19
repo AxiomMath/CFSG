@@ -19,6 +19,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizerMod_bot_eq (X U : Subgroup G) :
     centralizerMod ⊥ X U = X ⊓ Subgroup.centralizer (U : Set G) := by
   ext x
@@ -36,6 +37,7 @@ theorem centralizerMod_bot_eq (X U : Subgroup G) :
     rw [Subgroup.mem_bot, ← h u hu]
     group
 
+omit [Finite G] in
 theorem conj_commutatorElement_eq_inv_of_mul_self {z a : G} (haa : a * a = 1) :
     a * ⁅z, a⁆ * a⁻¹ = ⁅z, a⁆⁻¹ := by
   have ha1 : a⁻¹ = a := inv_eq_of_mul_eq_one_right haa
@@ -62,7 +64,7 @@ theorem str86_b2_f5 {L1 L2 S A : Subgroup G} {k n : ℕ}
       ¬ IsCentralStep (L2 ⊔ Q2 L1 L2 S) ⊥ (Z2 L1 L2 S) ∧
       ∀ z ∈ Z2 L1 L2 S, ∀ s ∈ S, ⁅z, s⁆ ∈ Z1 L1 L2 S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : VU3Big L1 := ⟨k, hk, F, inferInstance, inferInstance, hFc, hU3⟩
   have h2 : VL2 L2 := ⟨n, hL2⟩
   obtain ⟨-, hZ1Z2, hZ2H, -, hZ2CS⟩ := str86_caseI_basics hF hSB h1 hB2 h2 hZI

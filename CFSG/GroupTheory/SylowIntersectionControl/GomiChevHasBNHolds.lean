@@ -24,7 +24,7 @@ theorem gomiChevHasBN_holds :
     CFSG.ASVolI.ChIJK.burnsideI2BN_comap Nat.prime_two h₀ (QuotientGroup.mk' (Subgroup.center X))
       (QuotientGroup.mk'_surjective (Subgroup.center X)) hker hcop
   obtain ⟨B', N', hBN', -, hNB, -⟩ :=
-    CFSG.LocalAnalysis.UniquenessCase.UC22.uc22k108bn_exists_conj_split hcomap Q.isPGroup'
+    CFSG.LocalAnalysis.UniquenessCase.UC22.uc22k108bn_exists_conj_split hcomap Q.isPGroup
       Q.not_dvd_index
   subst hNB
   have hPre := CFSG.ASVolI.ChIJK.burnsideI2BN_toPre hBN'

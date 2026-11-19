@@ -103,7 +103,7 @@ theorem theta_two_diag_mem_torusGroup [IsAlgClosed K] (w : NativeFrame K) (B : S
     fin_cases i <;> fin_cases j <;>
       simp [HSL, d₀, d₁, Matrix.mul_apply, Fin.sum_univ_three, hB 0 1 (by decide),
         hB 0 2 (by decide), hB 1 0 (by decide), hB 1 2 (by decide), hB 2 0 (by decide),
-        hB 2 1 (by decide), h2, mul_inv, hdiag 0]
+        hB 2 1 (by decide), h2, hdiag 0]
   rw [hBeq, map_mul]
   refine mul_mem ?_ ?_
   · have h0 := DFunLike.congr_fun (w.block0 2) (HSL d₀)
@@ -117,6 +117,7 @@ theorem theta_two_diag_mem_torusGroup [IsAlgClosed K] (w : NativeFrame K) (B : S
     rw [Images.theta_diagonal_two w]
     exact Subgroup.subset_closure ⟨(_, _), rfl⟩
 
+omit [CharP K 2] in
 theorem exists_sl_conj_diag_of_commute [IsAlgClosed K] {n ι : Type} [Fintype n] [DecidableEq n]
     [Finite ι] {p : ℕ} [NeZero p] {η : K} (hη : IsPrimitiveRoot η p)
     (f : ι → Matrix.SpecialLinearGroup n K) (hcomm : ∀ i j, f i * f j = f j * f i)
@@ -155,11 +156,12 @@ theorem exists_sl_conj_diag_of_commute [IsAlgClosed K] {n ι : Type} [Fintype n]
     rw [Matrix.mul_diagonal, hQ, hb'y]
     simp only [Pi.smul_apply, smul_eq_mul] at h
     rw [mul_comm, ← h]
-    simp only [Matrix.toLinAlgEquiv'_apply, Matrix.toLin'_apply, Matrix.mul_apply, Matrix.mulVec,
+    simp only [Matrix.toLinAlgEquiv'_apply, Matrix.mul_apply, Matrix.mulVec,
       dotProduct, hQ, hb'y]
   rw [hP, Matrix.mul_assoc, hfQ, ← Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hQu, Matrix.one_mul,
     Matrix.diagonal_apply_ne _ hac]
 
+omit [CharP K 2] in
 theorem scalar6_pow_three {ζ : Kˣ} (hζ : ζ ^ 3 = 1) :
     (upperSL3 K (centralWord ζ) * lowerSL3 K (centralWord ζ)) ^ 3 = 1 := by
   have h3 : (ζ : K) ^ 3 = 1 := by
@@ -168,6 +170,7 @@ theorem scalar6_pow_three {ζ : Kˣ} (hζ : ζ ^ 3 = 1) :
   rw [Matrix.SpecialLinearGroup.coe_pow, coe_scalar6 hζ, smul_pow, one_pow, h3, one_smul,
     Matrix.SpecialLinearGroup.coe_one]
 
+omit [CharP K 2] in
 theorem scalar6_pow_eq_one {ζ : Kˣ} (hζ : ζ ^ 3 = 1) {m : ℕ} (h : centralWord ζ ^ m = 1) :
     (upperSL3 K (centralWord ζ) * lowerSL3 K (centralWord ζ)) ^ m = 1 := by
   have hm : (ζ : K) ^ m = 1 := by
@@ -221,7 +224,7 @@ theorem exists_conj_torus_of_commute [IsAlgClosed K] (w : NativeFrame K) {ζ : K
     have : (9 : K) = 1 + 4 * 2 := by norm_num
     rw [this, h2, mul_zero, add_zero]
     exact one_ne_zero⟩
-  obtain ⟨η, hη⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot K 9
+  obtain ⟨η, hη⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot K 9
   obtain ⟨P, hP⟩ := exists_sl_conj_diag_of_commute hη (fun x : E => A x)
     (fun x y => hA x x.2 y y.2) (fun x => (h9 x x.2).1)
   obtain ⟨Q, hQ⟩ := exists_sl_conj_diag_of_commute hη (fun x : E => B x)
@@ -252,6 +255,7 @@ theorem flipWord_mul_self : (flipWord : SL(3, K)) * flipWord = 1 := by
 theorem flipWord_inv : (flipWord : SL(3, K))⁻¹ = flipWord :=
   inv_eq_of_mul_eq_one_left flipWord_mul_self
 
+omit [CharP K 2] in
 theorem diagonalWord_pow_three {ζ : Kˣ} (hζ : ζ ^ 3 = 1) : diagonalWord ζ ^ 3 = 1 := by
   have h3 : (ζ : K) ^ 3 = 1 := by
     simpa only [Units.val_pow_eq_pow_val, Units.val_one] using congrArg (fun u : Kˣ => (u : K)) hζ
@@ -274,7 +278,7 @@ theorem flipWord_conj_diagonalWord {ζ : Kˣ} (hζ : ζ ^ 3 = 1) :
     Matrix.SpecialLinearGroup.coe_pow, coe_flipWord, diagonalWord_val ζ hζ]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [heisXMat, Matrix.mul_apply, Fin.sum_univ_three, pow_two] <;>
+    simp [heisXMat, Matrix.mul_apply, Fin.sum_univ_three, pow_two];
     first
     | linear_combination (ζ : K) * h3
     | linear_combination -(ζ : K) * h3
@@ -290,6 +294,7 @@ theorem flipWord_conj_cycleWord :
 
 @[expose] def e3 : Fin 1 × Fin 3 ≃ Fin 3 := finProdFinEquiv.trans (finCongr (by norm_num))
 
+omit [CharP K 2] in
 theorem reindex_e3_one_kronecker (M : Matrix (Fin 3) (Fin 3) K) :
     reindex e3 e3 ((1 : Matrix (Fin 1) (Fin 1) K) ⊗ₖ M) = M := by
   ext a b
@@ -305,10 +310,12 @@ theorem reindex_e3_one_kronecker (M : Matrix (Fin 3) (Fin 3) K) :
   have hb := he b
   rw [reindex_apply, submatrix_apply, ha, hb, kroneckerMap_apply, Matrix.one_apply_eq, one_mul]
 
+omit [CharP K 2] in
 theorem shift3_eq_heisYMat : HeisenbergPair.shift3 = (heisYMat : Matrix (Fin 3) (Fin 3) K) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [HeisenbergPair.shift3, heisYMat] <;> decide
+  fin_cases i <;> fin_cases j <;> simp [HeisenbergPair.shift3, heisYMat]
 
+omit [CharP K 2] in
 theorem diagonal_pow_eq_diagonalWord {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (m : ℕ) :
     (diagonal fun j : Fin 3 => ((ζ : K) ^ m) ^ (j : ℕ)) =
       ((diagonalWord ζ ^ m : SL(3, K)) : Matrix (Fin 3) (Fin 3) K) := by
@@ -318,6 +325,7 @@ theorem diagonal_pow_eq_diagonalWord {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (m : ℕ) :
   funext j
   fin_cases j <;> simp [← pow_mul, mul_comm]
 
+omit [CharP K 2] in
 theorem exists_centralWord_smul {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) {c : K} (hc : c ^ 3 = 1)
     (M : SL(3, K)) :
     ∃ a : ℕ, c • (M : Matrix (Fin 3) (Fin 3) K) = ((centralWord ζ ^ a * M : SL(3, K)) :
@@ -328,6 +336,7 @@ theorem exists_centralWord_smul {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) {c : K} 
     centralWord_val ζ hζ.pow_eq_one, ← map_pow, ha, Matrix.scalar_apply, ← smul_one_eq_diagonal,
     Matrix.smul_mul, Matrix.one_mul]
 
+omit [CharP K 2] in
 theorem exists_scalar6_smul {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) {c : K} (hc : c ^ 3 = 1)
     (M : SL(6, K)) :
     ∃ a : ℕ, c • (M : Matrix (Fin 6) (Fin 6) K) =
@@ -358,9 +367,11 @@ variable (K) in
     rw [← map_mul, ← mul_kronecker_mul, Matrix.one_mul]
     rfl)
 
+omit [CharP K 2] in
 theorem coe_diagSL3 (W : SL(3, K)) : ((diagSL3 K W : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) =
     reindex e6 e6 ((1 : Matrix (Fin 2) (Fin 2) K) ⊗ₖ (W : Matrix (Fin 3) (Fin 3) K)) := rfl
 
+omit [CharP K 2] in
 theorem upper_mul_lower_eq_diagSL3 (W : SL(3, K)) :
     upperSL3 K W * lowerSL3 K W = diagSL3 K W :=
   Subtype.ext (coe_upper_mul_lower W)
@@ -414,6 +425,7 @@ theorem scalarWord_commute_frame (w : NativeFrame K) {ζ : Kˣ} (hζ : ζ ^ 3 = 
   rw [scalarWord_eq w ζ, ← mul_assoc, ← map_mul, hc, map_mul, mul_assoc, mul_assoc,
     (a5Frame_commute_theta_two w _ Q).eq]
 
+omit [CharP K 2] in
 theorem mem_map_conj_mul {E : Subgroup (ModGL .E7 K)} {f g z : ModGL .E7 K}
     (hz : z ∈ E.map (MulAut.conj g).toMonoidHom) :
     f * z * f⁻¹ ∈ E.map (MulAut.conj (f * g)).toMonoidHom := by

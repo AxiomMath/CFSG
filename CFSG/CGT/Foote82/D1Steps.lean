@@ -16,12 +16,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isFooteBlock_conj {H J : Subgroup G} (hJ : IsFooteBlock H J) {g : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) :
     IsFooteBlock H (J.map (MulAut.conj g).toMonoidHom) := by
   have h := isFooteBlock_map hJ (MulAut.conj g)
   rwa [map_conj_eq_self_of_mem_normalizer hg] at h
 
+omit [Finite G] in
 theorem not_comm_of_isFooteBlock {H J : Subgroup G} (hJ : IsFooteBlock H J) :
     ¬ ∀ a ∈ J, ∀ b ∈ J, a * b = b * a := by
   intro hc
@@ -82,6 +84,7 @@ theorem le_of_isSubnormal_of_isFooteBlock {X A B C : Subgroup G} (hA : IsSubnorm
         fun _ hx hxo => CFSG.Quasithin.mem_oTwoUpper_of_odd hx hxo
     exact (hBO.trans hO).trans inf_le_left
 
+omit [Finite G] in
 theorem pCoreOf_le_pCoreOf_of_isSubnormal {A X : Subgroup G} (h : IsSubnormal A X) :
     pCoreOf 2 A ≤ pCoreOf 2 X := by
   induction h with

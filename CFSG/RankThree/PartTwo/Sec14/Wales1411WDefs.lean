@@ -63,8 +63,7 @@ theorem le_normalizer_map_iff {E U : Subgroup Q} :
     rw [Subgroup.mem_normalizer_iff]
     intro u'
     have hx' := Subgroup.mem_normalizer_iff.mp (h hx) (φ.symm u')
-    simp only [MulEquiv.coe_toMonoidHom, Subgroup.mem_map_equiv, map_mul, map_inv,
-      MulEquiv.apply_symm_apply]
+    simp only [MulEquiv.coe_toMonoidHom, Subgroup.mem_map_equiv, map_mul, map_inv]
     simpa [map_mul, map_inv] using hx'
 
 theorem invTwo_map_iff {E H U : Subgroup Q} :
@@ -126,7 +125,7 @@ theorem ETrans.of_mulEquiv [Finite Q] [Finite Q'] {E : Subgroup Q} {E' : Subgrou
     rw [Subgroup.mem_normalizer_iff] at hnE ⊢
     intro e
     have := hnE (φ e)
-    simp only [Subgroup.mem_map_equiv, MulEquiv.coe_toMonoidHom, map_mul, map_inv,
+    simp only [Subgroup.mem_map_equiv, map_mul, map_inv,
       MulEquiv.symm_apply_apply] at this
     simpa [map_mul, map_inv] using this
   · apply Subgroup.map_injective (f := φ.toMonoidHom) φ.injective
@@ -168,7 +167,7 @@ theorem ETrans2.of_mulEquiv {E : Subgroup Q} {E' : Subgroup Q'}
     rw [Subgroup.mem_normalizer_iff] at hnE ⊢
     intro e
     have := hnE (φ e)
-    simp only [Subgroup.mem_map_equiv, MulEquiv.coe_toMonoidHom, map_mul, map_inv,
+    simp only [Subgroup.mem_map_equiv, map_mul, map_inv,
       MulEquiv.symm_apply_apply] at this
     simpa [map_mul, map_inv] using this
   · apply Subgroup.map_injective (f := φ.toMonoidHom) φ.injective

@@ -260,7 +260,7 @@ theorem su4_quadratic_card_le {F : Type} [Field F] [Finite F] [CharP F 2] (σ : 
       apply Nat.finite_of_card_ne_zero
       rw [hEcard]
       exact pow_ne_zero _ (Nat.card_pos (α := F)).ne'
-    haveI := hEfin
+    have := hEfin
     let s : ↥(qdEnd C I) ≃+ ↥(qdEnd C I) := qdAdjE σ hσ.invol hC hI
     have hs : ∀ (c : F) (x : ↥(qdEnd C I)), s (c • x) = σ c • s x :=
       fun c x => Subtype.ext (qdAdj_smul σ c x.1)

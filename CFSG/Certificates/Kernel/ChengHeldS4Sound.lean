@@ -214,7 +214,7 @@ theorem cent_closure_get (R : Rep M H) (hN : M.N = n) (hm : ∀ a b, M.m a b = m
     have e1 := Set.ext_iff.1 (R.set_cent (R.closure_size hgs')) x
     rw [Rep.mem_set] at e1
     rw [e1, cgK_pt R hm hgs', R.set_closure hgs']
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
     exact cent_closure_iff (S := {h : H | R.pt h ∈ gs}) x
   · rw [getElem!_neg _ _ (by rw [Rep.cent_size, hN]; exact ha), decide_eq_false ha,
       Bool.false_and]
@@ -242,7 +242,7 @@ theorem pt_cmE (R : Rep M H) (hm : ∀ a b, M.m a b = m a b) (hinv : ∀ a, M.in
 
 theorem commSub_eq_of (R : Rep M H) (hN : M.N = n) (hm : ∀ a b, M.m a b = m a b)
     (hinv : ∀ a, M.inv[a]! = inv a) (hn : 0 < n) (hmlt : ∀ x y, x < n → y < n → m x y < n)
-    {A : Array Bool} (hA : A.size = n) {gs ds : List ℕ} (hgs : ∀ y ∈ gs, y < n)
+    {A : Array Bool} (hA : A.size = n) {gs ds : List ℕ} (_hgs : ∀ y ∈ gs, y < n)
     (hAs : R.set A = (closure {h : H | R.pt h ∈ gs} : Set H)) {Af : ℕ → Bool}
     (hAf : ∀ i, A[i]! = Af i) {ps : List (ℕ × ℕ)} {K : ℕ} (hcl : clW n m ds K = true)
     (hd : derW n m inv gs ds Af ps K = true) : M.commSub A A = M.closure ds := by
@@ -325,14 +325,14 @@ theorem ord_bne8 (R : Rep M H) (hN : M.N = n) (hm : ∀ a b, M.m a b = m a b) {a
   rw [Bool.eq_iff_iff, beq_iff_eq, o2K_iff R hm]
   norm_num
 
-theorem filter_ord4 (R : Rep M H) (hN : M.N = n) (hm : ∀ a b, M.m a b = m a b) (f : ℕ → Bool) :
-    (elemsK n f).filter (fun a => M.ord a == 4) = (elemsK n f).filter fun a => o2K m a 1 :=
-  List.filter_congr fun a ha =>
+theorem filter_ord4 (R : Rep M H) (hN : M.N = n) (hm : ∀ _a b, M.m _a b = m _a b) (f : ℕ → Bool) :
+    (elemsK n f).filter (fun _a => M.ord _a == 4) = (elemsK n f).filter fun _a => o2K m _a 1 :=
+  List.filter_congr fun _a ha =>
     ord_beq4 R hN hm (List.mem_range.1 (List.mem_filter.1 ha).1)
 
-theorem all_ord8 (R : Rep M H) (hN : M.N = n) (hm : ∀ a b, M.m a b = m a b) (f : ℕ → Bool) :
-    (elemsK n f).all (fun a => M.ord a != 8) = (elemsK n f).all fun a => !o2K m a 2 :=
-  all_congr' fun a ha => ord_bne8 R hN hm (List.mem_range.1 (List.mem_filter.1 ha).1)
+theorem all_ord8 (R : Rep M H) (hN : M.N = n) (hm : ∀ _a b, M.m _a b = m _a b) (f : ℕ → Bool) :
+    (elemsK n f).all (fun _a => M.ord _a != 8) = (elemsK n f).all fun _a => !o2K m _a 2 :=
+  all_congr' fun _a ha => ord_bne8 R hN hm (List.mem_range.1 (List.mem_filter.1 ha).1)
 
 theorem bInter_get (A B : Array Bool) (i : ℕ) : (bInter A B)[i]! = (A[i]! && B[i]!) := by
   unfold bInter
@@ -441,7 +441,7 @@ theorem struct4OK_of {α K : ℕ} {ws : List ℕ} {ps qs : List (ℕ × ℕ)} (R
     unfold struct4OK s4RestW
     simp only [← hM]
     simp only [hN', hm, hinv, hg, pw_eq hm, hWeq, hCT, hea, ht4, beq_self_eq_true, Bool.and_true,
-      Bool.true_and, Bool.true_or, card_eq sZ gZ, card_eq sD gD, card_eq sR1 gR1, card_eq sR2 gR2,
+      Bool.true_or, card_eq sZ gZ, card_eq sD gD, card_eq sR1 gR1, card_eq sR2 gR2,
       card_eq sV gV, card_eq sW gW, bR12, bR1, bR2, bC, RegModel.invols, RegModel.ord4,
       RegModel.isElemAb, RegModel.cm, isAbelian_closure R hN hm (clW_lt cV),
       isAbelian_closure R hN hm (clW_lt cW), elems_eq sR1 gR1, elems_eq sR2 gR2, elems_eq sV gV,
@@ -456,7 +456,7 @@ theorem struct4OK_of {α K : ℕ} {ws : List ℕ} {ps qs : List (ℕ × ℕ)} (R
     unfold struct4OK s4RestW
     simp only [← hM]
     simp only [hN', hm, hinv, hg, pw_eq hm, hWeq, hCT, hWW, hea, ht4, h0, beq_self_eq_true,
-      Bool.and_true, Bool.true_and, Bool.false_or, card_eq sZ gZ, card_eq sD gD, card_eq sR1 gR1,
+      Bool.and_true, Bool.false_or, card_eq sZ gZ, card_eq sD gD, card_eq sR1 gR1,
       card_eq sR2 gR2, card_eq sV gV, card_eq sW gW, bR12, bR1, bR2, bC, bWZ, RegModel.invols,
       RegModel.ord4, RegModel.isElemAb, RegModel.cm, isAbelian_closure R hN hm (clW_lt cV),
       isAbelian_closure R hN hm (clW_lt cW), elems_eq sR1 gR1, elems_eq sR2 gR2, elems_eq sV gV,

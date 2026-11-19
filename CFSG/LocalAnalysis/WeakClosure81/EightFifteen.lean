@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_mem_of_relIndex_two_of_le {V₁ V D : Subgroup G} (hV₁V : V₁ ≤ V) (hV₁D : V₁ ≤ D)
     (h2 : V₁.relIndex V = 2) {g : G} (hgV : g ∈ normalizer (V : Set G))
     (hgD : g ∈ normalizer (D : Set G)) {x : G} (hx : x ∈ V) : g * x * g⁻¹ * x⁻¹ ∈ D := by

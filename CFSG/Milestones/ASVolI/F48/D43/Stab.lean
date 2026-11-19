@@ -103,7 +103,7 @@ theorem burnsideF48d_P2_le_SL : burnsideF48d_P2 ≤ burnsideF48d_SL := by
   rintro _ ⟨j, hj, rfl⟩
   exact burnsideF48d_L_mem_SL hj
 
-theorem burnsideF48d_top_orbit (p : Fin 26572) :
+theorem burnsideF48d_top_orbit (_p : Fin 26572) :
     MulAction.orbit ↥(⊤ : Subgroup ↥burnsideF48d_X) (0 : Fin 26572) = Set.univ := by
   ext q
   simp only [Set.mem_univ, iff_true]
@@ -170,7 +170,7 @@ theorem burnsideF48d_B'_le_P1 : burnsideF48d_B' ≤ burnsideF48d_P1 := by
   rintro _ ⟨j, hj, rfl⟩
   exact Subgroup.subset_closure ⟨j, fun h => by
     have : j.val = 1 := congrArg Fin.val h
-    simp only [Set.mem_setOf_eq] at hj
+    simp only [Set.mem_ofPred_eq] at hj
     omega, rfl⟩
 
 theorem burnsideF48d_B'_le_P2 : burnsideF48d_B' ≤ burnsideF48d_P2 := by
@@ -178,7 +178,7 @@ theorem burnsideF48d_B'_le_P2 : burnsideF48d_B' ≤ burnsideF48d_P2 := by
   rintro _ ⟨j, hj, rfl⟩
   exact Subgroup.subset_closure ⟨j, fun h => by
     have : j.val = 0 := congrArg Fin.val h
-    simp only [Set.mem_setOf_eq] at hj
+    simp only [Set.mem_ofPred_eq] at hj
     omega, rfl⟩
 
 theorem burnsideF48d_card_B'_ge : 27634932 ≤ Nat.card ↥burnsideF48d_B' := by

@@ -40,7 +40,7 @@ theorem perfect_act_trivial {M S : Type*} [Group M] [Finite S] (hS : Nat.card S 
     (act : M → S → S) (h1 : ∀ s, act 1 s = s)
     (hmul : ∀ m m' s, act (m * m') s = act m (act m' s))
     {K : Subgroup M} (hK : ⁅K, K⁆ = K) {k : M} (hk : k ∈ K) (s : S) : act k s = s := by
-  haveI : Group.IsSolvable (Equiv.Perm S) := Equiv.Perm.isSolvable hS
+  have : Group.IsSolvable (Equiv.Perm S) := Equiv.Perm.isSolvable hS
   set f := permHomOfAct act h1 hmul with hf
   have hKm : ⁅K.map f, K.map f⁆ = K.map f := by
     rw [← Subgroup.map_commutator, hK]

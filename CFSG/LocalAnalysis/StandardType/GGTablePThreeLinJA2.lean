@@ -37,7 +37,7 @@ theorem linJA2_holds :
     ⟨hcomm, lab, hlab, CFSG.StandardType.Canonical.largeEvenRawDatum_mono
       (fun R' _ I' F' ⟨hs', hna', θ', _⟩ => ⟨hs', hna', θ', rfl⟩) hrawC⟩
   have hsimpleQ : IsSimpleGroup (J ⧸ Subgroup.center J) := by
-    haveI := hsimple
+    have := hsimple
     exact θ.isSimpleGroup
   have hnonabQ : ∃ a b : J ⧸ Subgroup.center J, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnonab
@@ -47,10 +47,10 @@ theorem linJA2_holds :
   have hIsQ : CFSG.IsQuasisimple J :=
     ⟨Group.IsPerfect.mk hcomm, hsimpleQ, hnonabQ⟩
   obtain ⟨e⟩ := he
-  haveI : Finite (PSLg m E) := inferInstance
-  haveI : Finite J :=
+  have : Finite (PSLg m E) := inferInstance
+  have : Finite J :=
     CFSG.RankThree.PerfectCover.finite_of_quasisimple_finite_central_quotient hIsQ e
-  haveI : CharP E 2 := hchar
+  have : CharP E 2 := hchar
   obtain ⟨k, -, hEk⟩ := CFSG.StandardType.LayerExcThree.exists_card_eq_two_pow E
   have he' : Nonempty (J ⧸ Subgroup.center J ≃*
       CFSG.Open.StatedProj (CFSG.Open.StatedSL m E)) := by

@@ -186,7 +186,7 @@ theorem pRank_ge_of_lift [Finite L] (π : L →* Q)
   have hZc : Z ≤ Subgroup.center L := (Subgroup.zpowers_le).2 hzc
   have hZcen : ∀ w ∈ Z, ∀ g : L, g * w = w * g := fun w hw g =>
     Subgroup.mem_center_iff.1 (hZc hw) g
-  haveI : Z.Normal := ⟨fun n hn g => by
+  have : Z.Normal := ⟨fun n hn g => by
     rw [hZcen n hn g, mul_assoc, mul_inv_cancel, mul_one]; exact hn⟩
   have hz3 : z ^ 3 = 1 := by rw [← hzo]; exact pow_orderOf_eq_one z
   have hZ3 : ∀ w ∈ Z, w ^ 3 = 1 := by

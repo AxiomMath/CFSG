@@ -62,7 +62,7 @@ theorem chevWitness_aux_of_subgroup {τ : Tag} {K : Type} [Field K] [Finite K] (
   subst hS
   have hH' : H = adjointGroup τ K := hH.trans (chevH_false_eq_adjointGroup K τ)
   subst hH'
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hZ : Subgroup.center ↥(adjointGroup τ K) = ⊥ := center_adjointGroup_eq_bot
   let e : (↥(adjointGroup τ K) ⧸ Subgroup.center ↥(adjointGroup τ K)) ≃* ↥(adjointGroup τ K) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -140,12 +140,12 @@ theorem g2N_witness_of_fixed {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.P
     (hf : ∀ x : ↥(LargeEvenChevH Tag.G2.cartan K false), chevRho Tag.G2 K σ x = x →
       f (QuotientGroup.mk x) = QuotientGroup.mk x) : NLWitness f := by
   obtain ⟨D, hsD, hcard, hfix⟩ := g2N_derived_subfield σ hk
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
   have hna : ∃ x y : ↥D, x * y ≠ y * x := by
     refine FR.Res.nonab_of_simple hsD ?_
     rw [hcard]
     norm_num
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   obtain ⟨-, h1, h2⟩ := g2N_two_pow_arith hp hp2
   rw [← hK] at h1 h2
   refine chevWitness_of_fixed_of_subgroup σ D hsD hna (fun U hU hU2 hle => ?_) hfix hf

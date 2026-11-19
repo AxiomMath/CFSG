@@ -21,7 +21,7 @@ theorem le_rk_of_case1633 (D : Data G) (h61 : UC6.R6_1 D) (hext : DataExt D) (h5
   obtain ⟨-, hr⟩ := r16_35_holds D h61 hext h5 V₀ V L hV hS m hm
   have hC : ¬ centralizer (((⊥ : Subgroup G) : Subgroup G) : Set G) ≤ D.M := fun h =>
     uc22br4_M_ne_top D (top_le_iff.1 fun x _ => h (by
-      simp only [Subgroup.coe_bot, Set.mem_singleton_iff]
+      simp only [Subgroup.coe_bot]
       exact Subgroup.mem_centralizer_iff.2 fun y hy => by
         rw [Set.mem_singleton_iff.1 hy]; simp))
   have h1 := rMV_le_mQuot D.M V ⊥ bot_le hC

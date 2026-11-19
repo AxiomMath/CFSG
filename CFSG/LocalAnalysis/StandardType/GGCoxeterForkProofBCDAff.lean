@@ -12,6 +12,7 @@ section Aff
 
 variable {Λ : Type*} [DecidableEq Λ] [Fintype Λ] {C : Matrix Λ Λ ℤ} {n : ℕ}
 
+omit [Fintype Λ] in
 theorem not_isFiniteType_ggAttachCartan_shapeB (e : Fin (n + 3) ≃ Λ)
     (hC : ∀ i j, C (e i) (e j) = CartanMatrix.B (n + 3) i j) :
     ¬ TauCeti.IsFiniteType (ggAttachCartan C (e ⟨1, by omega⟩)) := by
@@ -25,6 +26,7 @@ theorem not_isFiniteType_ggAttachCartan_shapeB (e : Fin (n + 3) ≃ Λ)
   · simp [Fin.ext_iff]
   · simp [hC]
 
+omit [Fintype Λ] in
 theorem not_isFiniteType_ggAttachCartan_shapeC (e : Fin (n + 3) ≃ Λ)
     (hC : ∀ i j, C (e i) (e j) = CartanMatrix.C (n + 3) i j) :
     ¬ TauCeti.IsFiniteType (ggAttachCartan C (e ⟨1, by omega⟩)) := by
@@ -53,6 +55,7 @@ private theorem ggDoubleForkEmb_injective {k : ℕ} (e : Fin (k + 2 + 3) ≃ Λ)
       Fin.mk.injEq] at hij <;>
     (try split_ifs at hij) <;> (try simp_all) <;> omega
 
+omit [Fintype Λ] in
 theorem not_isFiniteType_ggAttachCartan_shapeD (e : Fin (n + 3) ≃ Λ) (hn : 1 ≤ n)
     (hC : ∀ i j, C (e i) (e j) = CartanMatrix.D (n + 3) i j) :
     ¬ TauCeti.IsFiniteType (ggAttachCartan C (e ⟨1, by omega⟩)) := by

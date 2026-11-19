@@ -21,6 +21,7 @@ variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
 
 namespace Assumption131
 
+omit [Finite V] in
 theorem false_of_ticorConfigHolds (h : Assumption131 G Γ VA i)
     (hVfix : ∀ A ∈ Γ, VA A ≤ fixSub A) {G₀ : Type} [Group G₀] (hG₀ : TICorConfigHolds G₀)
     (χ : G₀ →* LGL 2 V) (hχ : Function.Injective χ) (hχG : ∀ g, χ g ∈ G)

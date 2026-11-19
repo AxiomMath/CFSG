@@ -6,7 +6,7 @@ public import Mathlib.Data.ZMod.Defs
 import Mathlib.Algebra.BigOperators.Fin
 import Mathlib.Tactic.LinearCombination
 import Mathlib.Algebra.Order.Field.Basic
-import Mathlib.Data.Nat.SuccPred
+import Mathlib.Order.SuccPred.Nat
 import Mathlib.Data.Rat.Cast.Order
 import Mathlib.Tactic.Linarith.Frontend
 import Mathlib.Tactic.NormNum.Abs

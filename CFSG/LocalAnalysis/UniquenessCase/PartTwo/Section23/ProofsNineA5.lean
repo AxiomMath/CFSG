@@ -58,7 +58,7 @@ theorem exists_lift_elemAbelian {D : Data G} {Ch : Choice2011 G} {p : ℕ} [Fact
     have hyE : c.phiL hV (y : c.L) ∈ E := by
       rw [← hAmap]
       exact Subgroup.mem_map_of_mem _ y.2
-    letI : IsMulCommutative E := hE.1
+    let : IsMulCommutative E := hE.1
     refine hinj (x * y) (y * x) ?_
     change c.phiL hV ((x : c.L) * (y : c.L)) = c.phiL hV ((y : c.L) * (x : c.L))
     rw [map_mul, map_mul]
@@ -97,12 +97,12 @@ theorem exists_SU44Estar {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
       Nat.card ↥(E ⊓ Kstar) = 3 ∧
       (∃ k ∈ Kstar, ∃ e ∈ E ⊓ Kstar, e * k ≠ k * e) ∧
       ∃ w0 : ↥(c.H hV), w0 ∉ Pℓ ∧ ∀ e ∈ E, w0 * e * w0⁻¹ = e⁻¹ := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   let ℓ : Subgroup (c.W hV) := fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV)
@@ -200,7 +200,7 @@ private theorem SU44_w_lift_decomp {D : Data G} {Ch : Choice2011 G} (c : Ctx23L 
     calc c.phiL hV m = (c.phiL hV n)⁻¹ * (c.phiL hV n * c.phiL hV m) := by group
       _ = (c.phiL hV n)⁻¹ * w0 := by rw [← h1]
   have hcomm_n (y : ↥(c.H hV)) (hy : y ∈ E) : (c.phiL hV n)⁻¹ * y * c.phiL hV n = y := by
-    letI : IsMulCommutative ↥E := hE.1
+    let : IsMulCommutative ↥E := hE.1
     have hc : c.phiL hV n * y = y * c.phiL hV n :=
       congrArg Subtype.val (mul_comm' (⟨c.phiL hV n, hnE⟩ : E) ⟨y, hy⟩)
     calc (c.phiL hV n)⁻¹ * y * c.phiL hV n = (c.phiL hV n)⁻¹ * (y * c.phiL hV n) := by group
@@ -287,12 +287,12 @@ theorem exists_SU44Lift {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
       ((Etil.subgroupOf c.L) ⊓ (c.phiL hV).ker = ⊥) ∧
       (∀ x ∈ (Etil.subgroupOf c.L), w * x * w⁻¹ = x⁻¹) ∧
       (∀ x ∈ Etil, (w : G) * x * (w : G)⁻¹ = x⁻¹) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   let ℓ : Subgroup (c.W hV) := fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV)
@@ -334,7 +334,7 @@ theorem semireg_hyp_of_inverted {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D C
       X ≤ D.M ⊓ Subgroup.centralizer ({e} : Set G) →
         X ∉ uniqueSet D.M ∧ q ∉ D.sig := by
   intro q hq hq2 X hXne hXp hXle
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hXM : X ≤ D.M := hXle.trans inf_le_left
   have hXe : X ≤ Subgroup.centralizer ({e} : Set G) := hXle.trans inf_le_right
   have hnotinv : ¬ InvertedIn D.M (Subgroup.zpowers e) :=
@@ -391,7 +391,7 @@ theorem SU44_fixV_eq_bot {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
     (hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M)
     (hSem : S23_9_Semireg D Ch) (h1930 : H1930 D)
     {Etil : Subgroup G} (hEtilM : Etil ≤ D.M) (hEtil_el : IsElemAbelian 3 Etil)
-    (hEtil_card : Nat.card ↥Etil = 9) {w : G}
+    (_hEtil_card : Nat.card ↥Etil = 9) {w : G}
     (hw_inv : ∀ x ∈ Etil, w * x * w⁻¹ = x⁻¹) {e : G} (he : e ∈ Etil)
     (heZ : e ∉ Subgroup.centralizer (D.Z : Set G)) :
     d.fixV (barImage D.M (Subgroup.zpowers e)) = ⊥ := by
@@ -404,6 +404,7 @@ theorem SU44_fixV_eq_bot {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
     Nat.prime_three (by norm_num) her
     (fun a ha => hw_inv a (Subgroup.zpowers_le.mpr he ha))
 
+omit [Finite G] in
 private theorem card_barImage_eq_card_of_isPGroup_three {M P : Subgroup G}
     (hP : P ≤ M) (hP3 : IsPGroup 3 P) :
     Nat.card (barImage M P) = Nat.card ↥P := by
@@ -524,20 +525,20 @@ private theorem SU44_exists_mem_Etil_not_D0 {D : Data G}
   exact ⟨e, heEtil, heD0, hbar⟩
 
 theorem SU44_D0bar_le_ker {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
-    (d : S23_9_A0Data D Ch c) (h4 : S23_4 D Ch) (h6 : S23_6 D Ch)
-    (hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M)
-    (hSem : S23_9_Semireg D Ch) (h1930 : H1930 D) (hq3 : d.q ≠ 3)
+    (d : S23_9_A0Data D Ch c) (_h4 : S23_4 D Ch) (_h6 : S23_6 D Ch)
+    (_hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M)
+    (_hSem : S23_9_Semireg D Ch) (_h1930 : H1930 D) (hq3 : d.q ≠ 3)
     {Etil D0 : Subgroup G} (hEtilM : Etil ≤ D.M) (hEtil_el : IsElemAbelian 3 Etil)
     (hEtil_card : Nat.card ↥Etil = 9) (hD0_eq : D0 = Etil ⊓ Subgroup.centralizer (D.Z : Set G))
     (hD0_card : Nat.card ↥D0 = 3)
     (hfix : ∀ e ∈ Etil, e ∉ D0 →
       d.fixV (barImage D.M (Subgroup.zpowers e)) = ⊥) :
     barImage D.M D0 ≤ d.rep.ker := by
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   let A : Subgroup (Bar2 D.M) := barImage D.M Etil
   obtain ⟨hD0bar_mem, hA_ne, -⟩ :=
     SU44_D0bar_mem_hyperplanes hEtilM hEtil_el hEtil_card hD0_eq hD0_card
@@ -642,7 +643,7 @@ private theorem SU44_Y_sup_pCore {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D 
     le_inf hD0leBL (Subgroup.subgroupOf_mono c.L hD0N)
   have hnt : Nontrivial ↥((D0.subgroupOf c.L).map (c.phiL hV)) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hD0card]; norm_num)
-  haveI := hnt
+  have := hnt
   obtain ⟨x, hxmem, hx1⟩ :=
     Subgroup.exists_ne_one_of_nontrivial ((D0.subgroupOf c.L).map (c.phiL hV))
   have hxY : x ∈ Y := Subgroup.map_mono hD0leAL hxmem
@@ -666,7 +667,7 @@ private theorem SU44_Y_sup_pCore {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D 
     rw [hxKord] at hdvd
     have h32 : (3 : ℕ) ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hdvd
     omega
-  haveI : (Y.subgroupOf Kstar).Normal := hYnorm
+  have : (Y.subgroupOf Kstar).Normal := hYnorm
   have hsup : Y.subgroupOf Kstar ⊔ CFSG.pCore 2 ↥Kstar = ⊤ := by
     by_contra hne
     have hNtop : (Y.subgroupOf Kstar ⊔ CFSG.pCore 2 ↥Kstar).Normal := inferInstance
@@ -699,10 +700,10 @@ private theorem SU44_Y_eq_top {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
     have hmapperf : ⁅Kstar, Kstar⁆ = Kstar := by
       rw [← hKstarMap, ← Subgroup.map_commutator, hsubperf]
     exact Subgroup.isPerfect_iff.mpr hmapperf
-  haveI : (Y.subgroupOf Kstar).Normal := hYnorm
+  have : (Y.subgroupOf Kstar).Normal := hYnorm
   have htopPerf : (⁅(⊤ : Subgroup ↥Kstar), (⊤ : Subgroup ↥Kstar)⁆ :
       Subgroup ↥Kstar) = ⊤ := by
-    haveI : Group.IsPerfect ↥Kstar := hKstarPerf
+    have : Group.IsPerfect ↥Kstar := hKstarPerf
     rw [← commutator_def]
     exact Group.IsPerfect.commutator_eq_top
   have hYtop : Y.subgroupOf Kstar = ⊤ := by
@@ -716,7 +717,7 @@ private theorem SU44_Y_eq_top {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
   exact hYtop
 
 private theorem SU44_K_le_sup_pCore {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
-    (hV : IsElemAbelian 2 c.V) (d : S23_9_A0Data D Ch c) (h1930 : H1930 D)
+    (hV : IsElemAbelian 2 c.V) (d : S23_9_A0Data D Ch c) (_h1930 : H1930 D)
     (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L)
     {Kstar : Subgroup ↥(c.H hV)}
     (hKstarMap : ((SU44K c).subgroupOf c.L).map (c.phiL hV) = Kstar)
@@ -755,9 +756,9 @@ private theorem SU44_K_le_barPreimage {D : Data G} {Ch : Choice2011 G} {c : Ctx2
     simpa only [K, SU44K] using uc22p21c_Hinf_perfect (D.M ⊓ c.L)
   have hNleM : N ≤ D.M := uc22p21c_barPreimage_le D.M d.rep.ker
   have hNnormM : D.M ≤ Subgroup.normalizer (N : Set G) := by
-    haveI : d.rep.ker.Normal := MonoidHom.normal_ker d.rep
+    have : d.rep.ker.Normal := MonoidHom.normal_ker d.rep
     exact uc22p22u_barPreimage_normalizes (D := d.rep.ker)
-  haveI : (N.subgroupOf D.M).Normal :=
+  have : (N.subgroupOf D.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNleM).2 hNnormM
   have hKbar_le : K.subgroupOf D.M ≤ (N.subgroupOf D.M) ⊔
       ((CFSG.Open.pCoreOf 2 c.L).subgroupOf D.M) := by
@@ -796,7 +797,7 @@ theorem SU44_K_le_ker {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
     (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L)
     {Kstar : Subgroup ↥(c.H hV)}
     (hKstarMap : ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV) = Kstar)
-    {D0 : Subgroup G} (hD0M : D0 ≤ D.M) (hD0L : D0 ≤ c.L)
+    {D0 : Subgroup G} (hD0M : D0 ≤ D.M) (_hD0L : D0 ≤ c.L)
     (hD0bar : barImage D.M D0 ≤ d.rep.ker)
     (hD0le : (D0.subgroupOf c.L).map (c.phiL hV) ≤ Kstar)
     (hD0card : Nat.card ↥((D0.subgroupOf c.L).map (c.phiL hV)) = 3)
@@ -810,7 +811,7 @@ theorem SU44_K_le_ker {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
       ⟨s23_9_O2L_of (D := D) (Ch := Ch) h1930 c (Subgroup.mem_map_of_mem c.L.subtype hx),
         x.2⟩
   have hNnormM : D.M ≤ Subgroup.normalizer (SU44N c d : Set G) := by
-    haveI : d.rep.ker.Normal := MonoidHom.normal_ker d.rep
+    have : d.rep.ker.Normal := MonoidHom.normal_ker d.rep
     exact uc22p22u_barPreimage_normalizes (D := d.rep.ker)
   have hD0N : D0 ≤ SU44N c d := by
     intro x hx
@@ -874,7 +875,7 @@ private theorem s23_9_A5_D0_basic {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D
   exact ⟨_, rfl, hD0M, hD0L, hD0le, hD0card, hD0cardD⟩
 
 private theorem s23_9_A5_D0_bar {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
-    {hV : IsElemAbelian 2 c.V} {d : S23_9_A0Data D Ch c}
+    {_hV : IsElemAbelian 2 c.V} {d : S23_9_A0Data D Ch c}
     (h1930 : H1930 D) (h4 : S23_4 D Ch) (h6 : S23_6 D Ch)
     (hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M)
     (hSemi : S23_9_Semireg D Ch) (hq3 : d.q ≠ 3)
@@ -898,12 +899,12 @@ private theorem s23_9_A5_D0_bar {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D C
 private theorem s23_9_A5_setup {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     (hV : IsElemAbelian 2 c.V)
     (h2 : S23_2_natural D Ch) (h3 : S23_3 D Ch) (h4 : S23_4 D Ch)
-    (h52 : S23_5_2 D Ch) (h6 : S23_6 D Ch) (hPS : S23_9_PointStab D Ch)
-    (hSemi : S23_9_Semireg D Ch) (hKSU : KSU44) (hA : KTab23a) (hD : KTab23d)
+    (h52 : S23_5_2 D Ch) (_h6 : S23_6 D Ch) (hPS : S23_9_PointStab D Ch)
+    (_hSemi : S23_9_Semireg D Ch) (hKSU : KSU44) (hA : KTab23a) (hD : KTab23d)
     (hK : KOrdNatural) (hSC : KSchurC1)
-    (hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M)
+    (_hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M)
     (h1930 : H1930 D) (d : S23_9_A0Data D Ch c) (hSU44 : S23_9_SU44 D Ch c hV)
-    (hq3 : d.q ≠ 3) (hnot : ¬ barImage D.M (Hinf (D.M ⊓ c.L)) ≤ d.rep.ker) :
+    (_hq3 : d.q ≠ 3) (hnot : ¬ barImage D.M (Hinf (D.M ⊓ c.L)) ≤ d.rep.ker) :
     ∃ (Kstar : Subgroup ↥(c.H hV)) (Etil : Subgroup G) (w : ↥c.L) (E : Subgroup ↥(c.H hV)),
       ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV) = Kstar ∧
       (c.phiL hV).ker = CFSG.pCore 2 ↥c.L ∧
@@ -913,12 +914,12 @@ private theorem s23_9_A5_setup {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch
       (Etil.subgroupOf c.L) ⊓ (c.phiL hV).ker = ⊥ ∧
       (∀ x ∈ Etil, (w : G) * x * (w : G)⁻¹ = x⁻¹) ∧
       E ⊓ c.CH hV = E ⊓ Kstar ∧ Nat.card ↥(E ⊓ Kstar) = 3 ∧ IsL2 (Bar2 Kstar) 2 := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   rcases Ctx23L.exists_isNaturalClassicalModule D Ch h2 h3 h4 h1930 c with ⟨hVn, hnat⟩
@@ -969,12 +970,12 @@ theorem s23_9_A5_of (D : Data G) (Ch : Choice2011 G)
     (hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M) :
     S23_9_A5 D Ch := by
   intro h1930 c hV d hSU44 _ _ hq3 hnot
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   obtain ⟨Kstar, Etil, w, E, hKstarMap, hker_eq, hn, hpr, hEtilM, hEtilL, hEtil_el,
@@ -983,7 +984,7 @@ theorem s23_9_A5_of (D : Data G) (Ch : Choice2011 G)
       hq3 hnot
   obtain ⟨D0, hD0_eq, hD0M, hD0L, hD0le, hD0card, hD0cardD⟩ :=
     s23_9_A5_D0_basic hEtilM hEtilL hEtil_map hEtil_ker hEfixCH hEfixcard
-  have hD0bar := s23_9_A5_D0_bar (hV := hV) h1930 h4 h6 hsp hSemi hq3 hD0_eq hD0cardD
+  have hD0bar := s23_9_A5_D0_bar (_hV := hV) h1930 h4 h6 hsp hSemi hq3 hD0_eq hD0cardD
     hEtilM hEtil_el hEtil_card hw_inv
   have hsimple : IsSimpleGroup (Bar2 Kstar) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2

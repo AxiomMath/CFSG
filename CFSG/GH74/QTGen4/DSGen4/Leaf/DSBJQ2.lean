@@ -117,7 +117,7 @@ theorem comm_mem_of_index_two {Z Z2 : Subgroup G} {t : G}
     simpa using this
 
 theorem mem_of_comm_mem_frat [Finite G] {Q W' W'' : Subgroup G} {d : G}
-    (hdQ : d ∈ Subgroup.normalizer (Q : Set G))
+    (_hdQ : d ∈ Subgroup.normalizer (Q : Set G))
     (hW'N : Q ≤ Subgroup.normalizer (W' : Set G))
     (hsup : W' ⊔ W'' = Q) (hΦW'' : dsFrattini Q ≤ W'')
     (hfix : FixFree (dsFrattini Q) W' d) (hd : ∀ w ∈ W'', ⁅d, w⁆ ∈ dsFrattini Q)
@@ -193,19 +193,19 @@ theorem fix_dichotomy [Finite G] {Z2 Φ : Subgroup G} {k : G}
 theorem exists_central_involution [Finite G] {W : Subgroup G} (hW : Nat.card W = 16) :
     ∃ u ∈ W, u ≠ 1 ∧ u ^ 2 = 1 ∧ ∀ w ∈ W, u * w = w * u := by
   have hW2 : IsPGroup 2 ↥W := IsPGroup.of_card (n := 4) (by rw [hW]; norm_num)
-  haveI : Nontrivial ↥W := by
+  have : Nontrivial ↥W := by
     rw [← Finite.one_lt_card_iff_nontrivial, hW]
     norm_num
   have hC : Nat.card ↥(Subgroup.center ↥W) ∣ 2 ^ 4 := by
     have := Subgroup.card_subgroup_dvd_card (Subgroup.center ↥W)
     rwa [hW] at this
-  haveI : Nontrivial ↥(Subgroup.center ↥W) := (IsPGroup.center_nontrivial hW2)
+  have : Nontrivial ↥(Subgroup.center ↥W) := (IsPGroup.center_nontrivial hW2)
   have hC2 : IsPGroup 2 ↥(Subgroup.center ↥W) := IsPGroup.of_card_dvd_pow hC
   obtain ⟨n, hn, hcard⟩ := (IsPGroup.nontrivial_iff_card hC2).mp inferInstance
   have h2 : 2 ∣ Nat.card ↥(Subgroup.center ↥W) := by
     rw [hcard]
     exact dvd_pow_self 2 hn.ne'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥W)) 2 h2
   have hx1 : x ≠ 1 := by
     intro h
@@ -226,7 +226,7 @@ theorem exists_central_involution [Finite G] {W : Subgroup G} (hW : Nat.card W =
     simpa using h.symm
 
 theorem caseA_false [Finite G] {Q W' W'' Z2 : Subgroup G} {d : G}
-    (hQ : IsPGroup 2 Q) (hdQ : d ∈ Subgroup.normalizer (Q : Set G))
+    (_hQ : IsPGroup 2 Q) (hdQ : d ∈ Subgroup.normalizer (Q : Set G))
     (hZ2Q : Z2 ≤ Q) (hZ2c : ∀ z ∈ Z2, ∀ q ∈ Q, q * z = z * q)
     (hZ2d : ∀ z ∈ Z2, ⁅d, z⁆ = 1) (hZ2card : Nat.card Z2 = 4)
     (hZ2Ω : Z2 = dsOmega1 (centerOf Q))
@@ -329,7 +329,7 @@ theorem caseB_false [Finite G] {Q W' W'' : Subgroup G} {t t' : G}
 
 theorem exists_order_three {L : Subgroup G} [Finite G] (e : oTwoQuot ↥L ≃* Equiv.Perm (Fin 3)) :
     ∃ k ∈ L, orderOf k = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc3 : (finRotate 3) ^ 3 = 1 := by decide
   have hc1 : finRotate 3 ≠ 1 := by decide
   have hcord : orderOf (finRotate 3) = 3 := orderOf_eq_prime hc3 hc1
@@ -351,7 +351,7 @@ theorem le_of_comm_mem [Finite G] {Q M : Subgroup G} (hQ : IsPGroup 2 Q) {k : G}
     (hk : k ∈ Subgroup.normalizer (Q : Set G)) (hfix : FixFree (dsFrattini Q) Q k)
     (hQc : Nat.card Q = 64) (hΦc : Nat.card (dsFrattini Q) = 4) (hM : M ≤ Q)
     (hcomm : ∀ q ∈ Q, ⁅q, k⁆ ∈ M) : Q ≤ M := by
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ⟩
   have hcQ : ∀ x ∈ Q, ⁅x, k⁆ ∈ Q := by
     intro x hx
     rw [commutatorElement_def]
@@ -388,7 +388,7 @@ theorem le_of_comm_mem [Finite G] {Q M : Subgroup G} (hQ : IsPGroup 2 Q) {k : G}
     intro x y
     apply Subtype.ext
     simp only [Subgroup.coe_mul, commutatorElement_def, hcm_val]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcm_val, commutatorElement_def]
+    simp only [Subgroup.coe_inv, hcm_val, commutatorElement_def]
     group
   let φ : ↥Q →* ↥Q ⧸ N := MonoidHom.mk' (fun x => (QuotientGroup.mk (cm x) : ↥Q ⧸ N)) (by
     intro x y
@@ -432,7 +432,7 @@ theorem le_of_comm_mem [Finite G] {Q M : Subgroup G} (hQ : IsPGroup 2 Q) {k : G}
     have hmem : (cm z)⁻¹ * ⟨x, hx⟩ ∈ N := QuotientGroup.eq.mp hz
     have hΦ : (((cm z)⁻¹ * ⟨x, hx⟩ : ↥Q) : G) ∈ dsFrattini Q := (hmem_frat _).mp hmem
     have hx_eq : x = ⁅(z : G), k⁆ * (((cm z)⁻¹ * ⟨x, hx⟩ : ↥Q) : G) := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcm_val, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcm_val]
       group
     rw [hx_eq]
     exact (M ⊔ dsFrattini Q).mul_mem (Subgroup.mem_sup_left (hcomm (z : G) z.2))

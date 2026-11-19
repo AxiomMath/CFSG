@@ -100,7 +100,7 @@ theorem card_fixed_omegaPlus {K : Type} [Field K] [Finite K] [CharP K 2] (hm : 3
 theorem twoPart_card_omegaPlus {L : Type} [Field L] [Finite L] {e : ℕ} (he : 1 ≤ e)
     (hL : Nat.card L = 2 ^ e) (hm : 4 ≤ m) :
     twoPart (Nat.card (LargeEvenOmega (LargeEvenQPlus L m))) = 2 ^ (e * (m * (m - 1))) := by
-  haveI : CharP L 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hL
+  have : CharP L 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hL
   rw [twoPart_card_matrix_group he hL]
   obtain ⟨O, hO, h⟩ :=
     CFSG.SeitzReduction.OmegaPilot.card_statedProj_statedOmega_quadPlus_eq_mul_odd hL he hm
@@ -113,7 +113,7 @@ theorem stOrderBody_omegaPlus {K : Type} [Field K] [Finite K] (hm : 4 ≤ m) {n 
     (I : Set (MulAut (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))))) :
     StOrderBody p (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) I
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus K m)))) := by
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   refine stOrderBody_of_matrix hn hK (LargeEvenOmega (LargeEvenQPlus K m))
     (fun σ h hh => omegaPlus_map_mem σ h hh) (fun _ => True) (fun _ _ _ => trivial)
     (u := m * (m - 1)) (v := 1) (Nat.mul_pos (by omega) (by omega)) one_pos ?_ ?_ hp

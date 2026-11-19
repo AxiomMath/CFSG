@@ -61,7 +61,6 @@ theorem injective_cycleTau : Function.Injective ![e, e ^ 2, (1 : K)] := by
   fin_cases i <;> fin_cases j <;> simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
     cons_val_zero, cons_val_one, cons_val_two, head_cons, tail_cons] at hij ⊢
   all_goals first
-    | rfl
     | exact absurd hij h3
     | exact absurd hij he1
     | exact absurd hij.symm h3

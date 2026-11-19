@@ -16,6 +16,7 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInit
 
 variable {K : Type} [Field K] [Finite K] {n d p : ℕ}
 
+omit [Finite K] in
 theorem diagonal_mem_primeFormUnitary (h : UnitaryFieldData 2 n K) {Δ : GL (Fin d) K}
     {δ : Fin d → K} (hΔ : (Δ : Matrix (Fin d) (Fin d) K) = diagonal δ)
     (hδ : ∀ i, δ i ^ (2 ^ n + 1) = 1) : Δ ∈ primeFormUnitary h (idGram K d) := by
@@ -29,6 +30,7 @@ theorem diagonal_mem_primeFormUnitary (h : UnitaryFieldData 2 n K) {Δ : GL (Fin
   rw [show (fun i => h.bar (δ i) * δ i) = fun _ => (1 : K) from funext hprod]
   simp
 
+omit [Finite K] in
 theorem exists_unitary_phase_frame (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ 2 ^ n + 1) {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ p) {x y : GL (Fin d) K}
     (hxU : x ∈ primeFormUnitary h (idGram K d)) (hx : x ^ p = 1) {u₀ : Kˣ} (hu₀ : u₀ ≠ 1)
@@ -42,8 +44,8 @@ theorem exists_unitary_phase_frame (h : UnitaryFieldData 2 n K) (hp : p.Prime) (
         x * z = GeneralLinearGroup.scalar (Fin d) (ζ ^ m) * (z * x) →
           ∃ c : Kˣ, D * z * D⁻¹ = GeneralLinearGroup.scalar (Fin d) c * (z * x ^ m) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζK : IsPrimitiveRoot (ζ : K) p := IsPrimitiveRoot.coe_units_iff.mpr hζ
   let X : primeFormUnitary h (idGram K d) := ⟨x, hxU⟩
   have hXpow : X ^ p = 1 := by
@@ -143,6 +145,7 @@ theorem exists_unitary_phase_frame (h : UnitaryFieldData 2 n K) (hp : p.Prime) (
   obtain ⟨c, hc⟩ := hΔact z m hz
   exact ⟨c, by simpa [D, A₀] using hc⟩
 
+omit [Finite K] in
 theorem exists_unitary_quadPhase (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp5 : 5 ≤ p)
     (hpq : p ∣ 2 ^ n + 1) {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ p) {x y : GL (Fin d) K}
     (hxU : x ∈ primeFormUnitary h (idGram K d)) (hx : x ^ p = 1) {u₀ : Kˣ} (hu₀ : u₀ ≠ 1)
@@ -151,7 +154,7 @@ theorem exists_unitary_quadPhase (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp
       x * z = GeneralLinearGroup.scalar (Fin d) (ζ ^ m) * (z * x) →
         ∃ c : Kˣ, D * z * D⁻¹ = GeneralLinearGroup.scalar (Fin d) c * (z * x ^ m) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   have hζK : IsPrimitiveRoot (ζ : K) p := IsPrimitiveRoot.coe_units_iff.mpr hζ
@@ -185,6 +188,7 @@ theorem exists_unitary_quadPhase (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp
     simpa [idGram] using h
   exact ⟨D, (mem_unitarySU_iff (n := d) h).mpr ⟨hDdet, hDunit⟩, hact⟩
 
+omit [Finite K] in
 theorem exists_unitary_quadPhase_three (h : UnitaryFieldData 2 n K) (hpq : 3 ∣ 2 ^ n + 1)
     {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) {x y : GL (Fin d) K}
     (hxU : x ∈ primeFormUnitary h (idGram K d)) (hx : x ^ 3 = 1) {u₀ : Kˣ} (hu₀ : u₀ ≠ 1)

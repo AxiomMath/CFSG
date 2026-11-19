@@ -31,8 +31,8 @@ theorem relative_generation_printed_of_pgl2_prime
     D ≤ T ⊔ ⨆ J ∈ {J : Subgroup G |
       CFSG.LocalAnalysis.UniquenessCase.PartTwo.InCalEi 1 T A J}, J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (PGL2 F) := e22pl2pgl_finite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (PGL2 F) := e22pl2pgl_finite F
   have hp_ne_six : p ≠ 6 := by
     intro h
     have hp6 : Nat.Prime 6 := h ▸ Fact.out
@@ -57,11 +57,11 @@ theorem relative_generation_printed_of_pgl2_prime
     exact E1.isSylowIn_two_map_top hpi hSylD
   have hBcard_le : Nat.card B ≤ 4 :=
     CFSG.Quasithin.H13.card_le_four_of_isElemAbelian_pgl2_614 hodd hcardF B hBelem
-  haveI : Nontrivial ↥B := (Subgroup.nontrivial_iff_ne_bot B).mpr hBne
+  have : Nontrivial ↥B := (Subgroup.nontrivial_iff_ne_bot B).mpr hBne
   rcases CFSG.FiveTransitive.TwoGroupSmallCard.two_or_four hBp hBcard_le with hB2 | hB4
   ·
-    haveI : (pslRange F).Normal := pslRange_normal hodd hcardF
-    haveI : IsSimpleGroup ↥(pslRange F) := e22pl2pgl_simple_J hcardF
+    have : (pslRange F).Normal := pslRange_normal hodd hcardF
+    have : IsSimpleGroup ↥(pslRange F) := e22pl2pgl_simple_J hcardF
     have hnab : ∃ a b : ↥(pslRange F), a * b ≠ b * a :=
       e22pl2pgl_nonabelian_J hcardF
     have hC : Subgroup.centralizer (pslRange F : Set (PGL2 F)) = ⊥ :=

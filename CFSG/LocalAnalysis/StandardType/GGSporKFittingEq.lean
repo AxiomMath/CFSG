@@ -30,7 +30,7 @@ theorem ggSporK_generalizedFitting_eq_top {W K : Type} [Group W] [Finite W] [Gro
       map_mul, map_inv, MulEquiv.symm_apply_apply] at h1
     have h2 := congrArg Subtype.val h1
     rw [MulAut.conjNormal_apply] at h2
-    simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv] at h2
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv] at h2
     calc (k : W)⁻¹ * w * x = (k : W)⁻¹ * (w * x * w⁻¹) * w := by group
       _ = (k : W)⁻¹ * ((k : W) * x * (k : W)⁻¹) * w := by rw [h2]
       _ = x * ((k : W)⁻¹ * w) := by group

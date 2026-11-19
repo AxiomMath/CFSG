@@ -27,7 +27,7 @@ theorem exists_ne_one_of_card_ne_one {K : Type} [Group K] [Finite K] {A : Subgro
 
 theorem card_eq_three_of_ne_bot {K : Type} [Group K] [Finite K] {F : Subgroup K}
     (hFel : IsElemAbelian 3 F) (hFle : Nat.card F ≤ 3) (hF : F ≠ ⊥) : Nat.card F = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : Nat.card F ≠ 1 := by
     intro h1
     exact hF (Subgroup.eq_bot_of_card_eq F h1)
@@ -79,7 +79,7 @@ theorem kd264I5Field_of_pieces (hC : KD264I5CoverLift) (hU : KD264I5Universal) :
   obtain ⟨E, hEfix, hEel, hEkm⟩ := hU e k hb L hLu βL hβL3 hβLout
   obtain ⟨E₀, hE₀E, hE₀el, hE₀card⟩ := exists_card_pRank_three E
   have hE₀fix : ∀ x ∈ E₀, βL x = x := fun x hx => hEfix (hE₀E hx)
-  haveI hKcyc : IsCyclic (Subgroup.center K) := isCyclic_center_of_surjective π hs hk
+  have hKcyc : IsCyclic (Subgroup.center K) := isCyclic_center_of_surjective π hs hk
   have hr1 : CFSG.Open.pRank 3 (Subgroup.center K) ≤ 1 := pRank_three_le_one_of_isCyclic _
   have hrm : CFSG.Open.pRank 3 (Subgroup.center K) ≤ CFSG.Open.pRank 3 (Subgroup.center L) :=
     pRank_center_le_of_surjective π hs hk
@@ -124,7 +124,7 @@ theorem kd264I5Field_of_pieces (hC : KD264I5CoverLift) (hU : KD264I5Universal) :
       obtain ⟨z, hzA, hz1⟩ := exists_ne_one_of_card_ne_one (A := A) (by rw [hAcard]; norm_num)
       have hzc : z ∈ Subgroup.center K := hAZ hzA
       have hz3 : z ^ 3 = 1 := hAel.2 z hzA
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hzord : orderOf z = 3 := orderOf_eq_prime hz3 hz1
       have hzE₁ : z ∉ E₀.map π := by
         rintro ⟨x, hx, hxz⟩

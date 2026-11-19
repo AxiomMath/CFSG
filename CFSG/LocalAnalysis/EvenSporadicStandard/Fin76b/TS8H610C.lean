@@ -20,7 +20,7 @@ include h
 theorem Oz_sub_X {α : G} (hα : AlphaSpec S z t α) {u : G}
     (hu : u ∈ {u : G | ∃ f ∈ Fsub h hα, u = f * z * f⁻¹}) : u ∈ XSet S E z := by
   obtain ⟨f, hf, rfl⟩ := hu
-  exact h.X_inv hf.1 h.z_mem_X
+  exact CFSG.EvenSporadicStandard.Fin76b.OHyp69.X_inv hf.1 h.z_mem_X
 
 theorem alpha_orbit_F {α : G} (hα : AlphaSpec S z t α) :
     {u : G | ∃ f ∈ Fsub h hα, u = f * α * f⁻¹} = {α, α * t} := by

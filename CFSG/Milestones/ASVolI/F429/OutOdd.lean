@@ -94,11 +94,11 @@ theorem burnsideF429_card_outer_D4tw (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) :
 theorem burnsideF429_card_outer_F4tw (hyp : HypF_4_4 .F4tw 2 f Gp M₁ M₂) (hf : 2 ≤ f) :
     Nat.card (Outer ↥Gp) = f := by
   obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, -, -⟩ := burnsideF4g_chart_F4tw hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have ha : 1 ≤ a := by omega
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hscope
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   obtain ⟨Φ, -⟩ := burnsideF4gF4Inv_exists_iso ha hK marking
   obtain ⟨-, -, -, -, hcard, -⟩ :=
     CFSG.ComponentClassification.UnbalancedCatalog.large_Ree_full_inner_field_automorphism_normal_form

@@ -39,7 +39,7 @@ theorem mem_fiveSqSubgroup_right {a b : Γ} {ha : a ^ 5 = 1} {hb : b ^ 5 = 1}
   exact ⟨(0, 1), by simp [ZMod.val_one, ZMod.val_zero]⟩
 
 theorem five_dvd_exponents_of_mul_eq_one {a b : Γ} (ha : a ^ 5 = 1) (ha1 : a ≠ 1)
-    (hb : b ^ 5 = 1) (hab : a * b = b * a) (hb' : ∀ i : ℕ, b ≠ a ^ i)
+    (hb : b ^ 5 = 1) (_hab : a * b = b * a) (hb' : ∀ i : ℕ, b ≠ a ^ i)
     {i j : ℕ} (h : a ^ i * b ^ j = 1) : 5 ∣ i ∧ 5 ∣ j := by
   classical
   have hb1 : b ≠ 1 := by simpa using hb' 0
@@ -73,10 +73,10 @@ theorem five_dvd_exponents_of_mul_eq_one {a b : Γ} (ha : a ^ 5 = 1) (ha1 : a �
   exact ⟨hi, hj⟩
 
 @[expose] noncomputable def fiveSqEquiv {a b : Γ} (ha : a ^ 5 = 1) (ha1 : a ≠ 1)
-    (hb : b ^ 5 = 1) (hab : a * b = b * a) (hb' : ∀ i : ℕ, b ≠ a ^ i) :
+    (hb : b ^ 5 = 1) (hab : a * b = b * a) (hb' : ∀ _i : ℕ, b ≠ a ^ _i) :
     Multiplicative (ZMod 5 × ZMod 5) ≃* fiveSqSubgroup a b ha hb hab :=
   MonoidHom.ofInjective <|
-    fiveHom2_injective a b ha hb hab fun i j h =>
+    fiveHom2_injective a b ha hb hab fun _i _j h =>
       five_dvd_exponents_of_mul_eq_one ha ha1 hb hab hb' h
 
 theorem card_fiveSqSubgroup {a b : Γ} (ha : a ^ 5 = 1) (ha1 : a ≠ 1)
@@ -87,7 +87,7 @@ theorem card_fiveSqSubgroup {a b : Γ} (ha : a ^ 5 = 1) (ha1 : a ≠ 1)
     Nat.card (fiveSqSubgroup a b ha hb hab) =
         Nat.card (Multiplicative (ZMod 5 × ZMod 5)) := Nat.card_congr e.toEquiv.symm
     _ = Nat.card (ZMod 5 × ZMod 5) := Nat.card_congr Multiplicative.toAdd
-    _ = 25 := by simp [Nat.card_prod, Nat.card_zmod]
+    _ = 25 := by simp
 
 theorem fiveSqSubgroup_comm {a b : Γ} {ha : a ^ 5 = 1} {hb : b ^ 5 = 1}
     {hab : a * b = b * a} : ∀ x ∈ fiveSqSubgroup a b ha hb hab,
@@ -260,7 +260,7 @@ theorem aut_eq_one_of_fixes_generators {E : Type*} [CommGroup E]
   rw [← huv, map_mul, hcu, hcv]
   rfl
 
-theorem fiveSq_zpowers_lines_ne {a b : Γ} (ha : a ^ 5 = 1) (ha1 : a ≠ 1)
+theorem fiveSq_zpowers_lines_ne {a b : Γ} (ha : a ^ 5 = 1) (_ha1 : a ≠ 1)
     (hb : b ^ 5 = 1) (hab : a * b = b * a) (hb' : ∀ i : ℕ, b ≠ a ^ i) :
     Subgroup.zpowers (⟨a, mem_fiveSqSubgroup_left⟩ : fiveSqSubgroup a b ha hb hab) ≠
       Subgroup.zpowers (⟨b, mem_fiveSqSubgroup_right⟩ : fiveSqSubgroup a b ha hb hab) := by
@@ -289,11 +289,11 @@ theorem fiveSq_no_fixed_line_of_order_three {a b : Γ} (ha : a ^ 5 = 1) (ha1 : a
   classical
   let E := fiveSqSubgroup a b ha hb hab
   have hEcard : Nat.card E = 25 := card_fiveSqSubgroup ha ha1 hb hab hb'
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hcommE : ∀ x y : E, x * y = y * x := fun x y =>
     Subtype.ext (fiveSqSubgroup_comm (x := (x : Γ)) x.2 (y := (y : Γ)) y.2)
-  letI : CommGroup E := { (inferInstance : Group E) with mul_comm := hcommE }
+  let : CommGroup E := { (inferInstance : Group E) with mul_comm := hcommE }
   let ea : E := ⟨a, mem_fiveSqSubgroup_left⟩
   let eb : E := ⟨b, mem_fiveSqSubgroup_right⟩
   have hA5 : ea ^ 5 = 1 := pow_five_eq_one ea
@@ -352,7 +352,7 @@ theorem fiveSqSubgroup_le_normalizer {a b g : Γ} (ha : a ^ 5 = 1) (hb : b ^ 5 =
   have hcb : MulAut.conj g b ∈ E := by
     rw [MulAut.conj_apply, hgb']
     exact E.mul_mem (E.pow_mem haE k) (E.pow_mem hbE l)
-  haveI : Finite E := (Set.finite_range (fiveHom2 a b ha hb hab)).to_subtype
+  have : Finite E := (Set.finite_range (fiveHom2 a b ha hb hab)).to_subtype
   have hmap_le : E.map (MulAut.conj g).toMonoidHom ≤ E := by
     rintro x ⟨y, hy, rfl⟩
     change y ∈ fiveSqSubgroup a b ha hb hab at hy
@@ -386,9 +386,6 @@ theorem fiveSqConjAut_pow_three {a b g : Γ} (ha : a ^ 5 = 1) (hb : b ^ 5 = 1)
     (hg : g ^ 3 = 1) : fiveSqConjAut ha hb hab hgE ^ 3 = 1 := by
   ext x
   simp only [pow_three, MulAut.mul_apply, MulAut.one_apply]
-  change (fiveSqConjAut ha hb hab hgE
-    (fiveSqConjAut ha hb hab hgE
-      (fiveSqConjAut ha hb hab hgE x)) : Γ) = x
   rw [fiveSqConjAut_apply, fiveSqConjAut_apply, fiveSqConjAut_apply]
   calc
     g * (g * (g * (x : Γ) * g⁻¹) * g⁻¹) * g⁻¹ = g ^ 3 * (x : Γ) * (g ^ 3)⁻¹ := by

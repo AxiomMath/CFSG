@@ -65,7 +65,7 @@ theorem asc82Fact512H_inv_class_of (hS : Asc82SchurU43) :
   intro G _ _ L hL t ht2 hct z hz u hu hu2 huz
   obtain ⟨V, _, _, _, Q, hQ, φ, hφ, hinj, hsurj⟩ :=
     sec5c_cover_iso hS hL (sec5c_oddCoreIn_bot hL ht2 hct)
-  haveI : Finite (OGroup Q) := sec5c_finite_ogroup
+  have : Finite (OGroup Q) := sec5c_finite_ogroup
   have hΦ := sec5cdPhi_injective hinj
   have hzL : z ∈ L := sec5c_mem_of_isI4PlusIn hz
   obtain ⟨hztt, hzt4⟩ := sec5c_z_model hL hφ hz hzL

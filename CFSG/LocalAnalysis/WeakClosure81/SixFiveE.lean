@@ -17,12 +17,15 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def pairConjOf (V : Subgroup G) (g : G) : Set (Subgroup G) :=
   {A | ∃ x ∈ LOf V g, A = conjSubgroup V x ∨ A = conjSubgroup (conjSubgroup V g) x}
 
+omit [Finite G] in
 theorem V_mem_pairConjOf (V : Subgroup G) (g : G) : V ∈ pairConjOf V g :=
   ⟨1, Subgroup.one_mem _, Or.inl (conjSubgroup_one V).symm⟩
 
+omit [Finite G] in
 theorem conjV_mem_pairConjOf (V : Subgroup G) (g : G) : conjSubgroup V g ∈ pairConjOf V g :=
   ⟨1, Subgroup.one_mem _, Or.inr (conjSubgroup_one (conjSubgroup V g)).symm⟩
 
+omit [Finite G] in
 theorem le_LOf_of_mem_pairConjOf {V : Subgroup G} {g : G} {A : Subgroup G}
     (hA : A ∈ pairConjOf V g) : A ≤ LOf V g := by
   obtain ⟨x, hxL, hxA | hxA⟩ := hA
@@ -37,6 +40,7 @@ namespace Hyp65
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem isElemAbelian_of_mem_pairConjOf (h : Hyp65 n M V₀ V g) {A : Subgroup G}
     (hA : A ∈ pairConjOf V g) : IsElemAbelian 2 A := by
   obtain ⟨x, -, hxA | hxA⟩ := hA
@@ -50,6 +54,7 @@ theorem conjV₀_eq_of_inf_ne_bot (h : Hyp65 n M V₀ V g) {y y' : G}
     conjSubgroup V₀ y = conjSubgroup V₀ y' :=
   (inf_conjSubgroup_eq_bot_or_eq h.isTI y y').resolve_left hne
 
+omit [Finite G] in
 theorem conjV_eq_of_conjV₀_eq (h : Hyp65 n M V₀ V g) {y y' : G}
     (he : conjSubgroup V₀ y = conjSubgroup V₀ y') : conjSubgroup V y = conjSubgroup V y' :=
   conjSubgroup_V₀_eq_of_conjSubgroup_eq (A := V) (V := V₀) (x := y) (y := y')

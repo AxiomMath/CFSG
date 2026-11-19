@@ -63,7 +63,7 @@ theorem exists_rootWeightDatum_twisted {t : TwistTag}
         intro x
         rw [pow_succ', RingAut.mul_apply, ih x, map_pow, hτ'_apply, ← pow_mul, pow_succ']
   have hσm : τ' ^ t.order = 1 := by
-    haveI : Fintype (TauCetiBridge.fieldOf q t.order) :=
+    have : Fintype (TauCetiBridge.fieldOf q t.order) :=
       Fintype.ofFinite (TauCetiBridge.fieldOf q t.order)
     ext x
     rw [hpow t.order x, show (1 : TauCetiBridge.fieldOf q t.order ≃+* _) x = x from rfl,

@@ -69,7 +69,7 @@ theorem kind_cases {d : ℕ} {refs : Array (Array (Array ℕ))} {taus : Array (A
   by_cases h2 : c.kind = 2
   · exact Or.inr (Or.inr h2)
   exfalso
-  simp only [beq_iff_eq, h0, h1, h2, if_false] at h
+  simp only [beq_iff_eq, h0, h1, h2, ite_false] at h
   exact absurd h (by decide)
 
 end CFSG.LargeExtraspecial.SL4Mod

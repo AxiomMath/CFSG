@@ -171,7 +171,7 @@ theorem claim_contra (iL3 : InputL3U3Facts) (iK : InputKType) (h514 : Lemma514)
     (hK : GLAPComponent 3 (Subgroup.centralizer ({x} : Set G)) K) (hyA : y ∈ A)
     (hyN : y ∉ Subgroup.normalizer (K : Set G))
     (h3 : (Subgroup.normalizer (K : Set G)).relIndex B = 3) {R K₀ : Subgroup G}
-    (hR : RData (Subgroup.centralizer ({x} : Set G)) B K y R) (hk : K0Data B K x y K₀) :
+    (_hR : RData (Subgroup.centralizer ({x} : Set G)) B K y R) (hk : K0Data B K x y K₀) :
     False := by
   have hp : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X := Subgroup.centralizer ({x} : Set G) with hX

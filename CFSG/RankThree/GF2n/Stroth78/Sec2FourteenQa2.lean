@@ -14,7 +14,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
-theorem QaOf_le_centralizer_centerIn_inf (S : Setting z E F) (a : G) :
+omit [Finite G] in
+theorem QaOf_le_centralizer_centerIn_inf (_S : Setting z E F) (a : G) :
     QaOf a ≤ Subgroup.centralizer ((ZQ z ⊓ centerIn (QaOf a) : Subgroup G) : Set G) := by
   intro x hx
   rw [Subgroup.mem_centralizer_iff]
@@ -96,6 +97,7 @@ theorem centerIn_QaOf_le_sup_zpowers_of_le_Q_of_mem (S : Setting z E F) {a : G}
   rw [← hC_eq]
   exact Subgroup.mem_inf.mpr ⟨huCentral, huQ⟩
 
+omit [Finite G] in
 theorem card_zpowers_eq_two_of_isConj (S : Setting z E F) {a : G}
     (hconj : IsConj z a) (haZ : a ∉ ZQ z) :
     Nat.card (Subgroup.zpowers a) = 2 := by
@@ -105,6 +107,7 @@ theorem card_zpowers_eq_two_of_isConj (S : Setting z E F) {a : G}
     exact haZ (h.symm ▸ (ZQ z).one_mem)
   rw [Nat.card_zpowers, orderOf_eq_prime ha2 ha1]
 
+omit [Finite G] in
 theorem zpowers_inf_ZQ_eq_bot (S : Setting z E F) {a : G}
     (hconj : IsConj z a) (haZ : a ∉ ZQ z) :
     Subgroup.zpowers a ⊓ ZQ z = ⊥ := by
@@ -122,6 +125,7 @@ theorem zpowers_inf_ZQ_eq_bot (S : Setting z E F) {a : G}
     rw [← hk, zpow_add, zpow_mul] at hxW
     simpa [ha2] using hxW
 
+omit [Finite G] in
 theorem card_sup_zpowers_ZQ_eq_two_mul (S : Setting z E F) {a : G}
     (haQ : a ∈ Q z) (hconj : IsConj z a) (haZ : a ∉ ZQ z) :
     Nat.card ↥(Subgroup.zpowers a ⊔ ZQ z) = 2 * Nat.card (ZQ z) := by
@@ -144,7 +148,7 @@ theorem card_ZQ_eq_two_mul_card_inf_of_le_sup (S : Setting z E F) {a : G}
     (haQ : a ∈ Q z) (hconj : IsConj z a) (haZ : a ∉ ZQ z)
     (hZQa : centerIn (QaOf a) ≤ Q z)
     (hsup : centerIn (QaOf a) ≤ Subgroup.zpowers a ⊔ ZQ z)
-    (hza_not : z ∉ centerIn (QaOf a)) :
+    (_hza_not : z ∉ centerIn (QaOf a)) :
     Nat.card (ZQ z) = 2 * Nat.card ↥(ZQ z ⊓ centerIn (QaOf a)) := by
   set U : Subgroup G := centerIn (QaOf a) with hU
   set W : Subgroup G := ZQ z with hW
@@ -188,6 +192,7 @@ theorem card_ZQ_eq_two_mul_card_inf_of_le (S : Setting z E F) {a : G}
   have hsup := centerIn_QaOf_le_sup_zpowers_of_le_Q_of_mem S haQ hconj haZ hza hZQa
   exact card_ZQ_eq_two_mul_card_inf_of_le_sup S haQ hconj haZ hZQa hsup hza_not
 
+omit [Finite G] in
 theorem stroth78Hyperplane_of_centerIn_inf
     {a : G}
     (hcard : Nat.card (centerIn (Qa z)) =

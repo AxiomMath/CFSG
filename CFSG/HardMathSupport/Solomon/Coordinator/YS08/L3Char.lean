@@ -412,7 +412,7 @@ theorem two_mul_tri (n : ℕ) : 2 * (n * (n + 1) / 2) = n * (n + 1) :=
 theorem prod_le_pow_sum {Q : ℕ} {s : Finset ℕ} {f g : ℕ → ℕ} (h : ∀ i ∈ s, f i ≤ Q ^ g i) :
     ∏ i ∈ s, f i ≤ Q ^ (∑ i ∈ s, g i) := by
   rw [← Finset.prod_pow_eq_pow_sum]
-  exact Finset.prod_le_prod' h
+  exact prod_le_prod h
 
 theorem dvd_sq_sub_one {Q : ℕ} (hQ : 1 ≤ Q) : Q - 1 ∣ Q ^ 2 - 1 := by
   obtain ⟨t, rfl⟩ : ∃ t, Q = t + 1 := ⟨Q - 1, by omega⟩
@@ -462,7 +462,7 @@ theorem shape_twistedA (n Q : ℕ) (hn : 2 ≤ n) (hQ : 2 ≤ Q) :
   · have h2 : (if Even 2 then Q ^ 2 - 1 else Q ^ 2 + 1) ∣
         ∏ i ∈ Icc 2 (n + 1), (if Even i then Q ^ i - 1 else Q ^ i + 1) :=
       Finset.dvd_prod_of_mem (fun i => if Even i then Q ^ i - 1 else Q ^ i + 1) (by simp; omega)
-    simp only [even_two, if_true] at h2
+    simp only [even_two, ite_true] at h2
     exact (Nat.gcd_dvd_right _ _).trans ((succ_dvd_sq_sub_one (by omega)).trans h2)
   · have hN := two_mul_tri n
     rcases Nat.lt_or_ge n 3 with h | h
@@ -745,7 +745,7 @@ theorem lie_char_part (d : TauCeti.LieTypeIndex) (hd : d.Valid) :
 
 theorem card_eq_pow_of_charP (K : Type) [Field K] [Finite K] (p : ℕ) [Fact p.Prime] [CharP K p] :
     ∃ k : ℕ, 1 ≤ k ∧ Nat.card K = p ^ k := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, h⟩ := FiniteField.card K p
   exact ⟨n, n.pos, by rw [Nat.card_eq_fintype_card, h]⟩
 
@@ -770,7 +770,7 @@ theorem sl_quot_card (K : Type) [Field K] [Finite K] (h3 : 3 ∣ Nat.card K - 1)
 
 theorem sl_quot_simple (K : Type) [Field K] [Finite K] {W : Type} [Group W]
     (e : W ≃* CFSG.Open.StatedSL 3 K) : IsSimpleGroup (W ⧸ Subgroup.center W) := by
-  haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 K)) :=
+  have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (by norm_num) (Or.inl (by norm_num))
       (Or.inl (by norm_num))
   let e' : W ≃* Matrix.SpecialLinearGroup (Fin 3) K := e.trans (sl3Equiv K).symm
@@ -859,7 +859,7 @@ theorem psu_card_three (p j : ℕ) [Fact p.Prime] (hj : 1 ≤ j) (K : Type) [Fie
     exact Nat.dvd_of_mod_eq_zero h'
   rw [Nat.mul_div_cancel' hdiv]
 
-theorem su_quot_facts (p j : ℕ) [Fact p.Prime] (hj : 1 ≤ j) (hq : (p ^ j) % 3 = 2)
+theorem su_quot_facts (p j : ℕ) [Fact p.Prime] (_hj : 1 ≤ j) (hq : (p ^ j) % 3 = 2)
     (hq2 : p ^ j ≠ 2) (K : Type) [Field K] [Finite K] (hK : Nat.card K = (p ^ j) ^ 2)
     (W : Type) [Group W] [Finite W] (e : W ≃* CFSG.Open.StatedSU 3 (p ^ j) K) :
     Nat.card (W ⧸ Subgroup.center W) =
@@ -868,7 +868,7 @@ theorem su_quot_facts (p j : ℕ) [Fact p.Prime] (hj : 1 ≤ j) (hq : (p ^ j) % 
   have hq0 : p ^ j ≠ 0 := (pow_pos (Fact.out : p.Prime).pos j).ne'
   have h3 : 3 ∣ p ^ j + 1 := by omega
   have hc := center_statedSU_eq K hK hq0 h3
-  haveI : (CFSG.Open.StatedScalars (Fin 3) K).subgroupOf (CFSG.Open.StatedSU 3 (p ^ j) K) |>.Normal := by
+  have : (CFSG.Open.StatedScalars (Fin 3) K).subgroupOf (CFSG.Open.StatedSU 3 (p ^ j) K) |>.Normal := by
     rw [← hc]; infer_instance
   let e2 : W ⧸ Subgroup.center W ≃* CFSG.Open.StatedSU 3 (p ^ j) K ⧸
       Subgroup.center (CFSG.Open.StatedSU 3 (p ^ j) K) :=
@@ -940,7 +940,7 @@ theorem isL3Kind_finite (p : ℕ) (H : Type) [Group H] (hH : IsL3Kind p H) : Fin
   · rcases hH1 with ⟨K, hF, hfin, -, -, ⟨e⟩⟩ | ⟨K, hF, hfin, q, -, -, -, -, ⟨e⟩⟩
     · exact Finite.of_equiv _ e.toEquiv.symm
     · exact Finite.of_equiv _ e.toEquiv.symm
-  · haveI : Finite W := by
+  · have : Finite W := by
       rcases hW with ⟨K, hF, hfin, -, -, ⟨f⟩⟩ | ⟨K, hF, hfin, q, -, -, -, -, ⟨f⟩⟩
       · exact Finite.of_equiv _ f.toEquiv.symm
       · exact Finite.of_equiv _ f.toEquiv.symm
@@ -948,12 +948,12 @@ theorem isL3Kind_finite (p : ℕ) (H : Type) [Group H] (hH : IsL3Kind p H) : Fin
 
 theorem isL3Kind_quot (p : ℕ) (hp : p.Prime) (H : Type) [Group H] [Finite H] (hH : IsL3Kind p H) :
     Nat.card (H ⧸ Subgroup.center H) = 1 ∨ ∃ s, L3Order p s (Nat.card (H ⧸ Subgroup.center H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hH with hH1 | ⟨W, hWg, hW, ⟨e⟩⟩
   · rcases hH1 with ⟨K, hF, hfin, hchar, hmod, ⟨e⟩⟩ | ⟨K, hF, hfin, q, hchar, hcard, hq3, hq2, ⟨e⟩⟩
     ·
-      letI := hF
-      haveI := hchar
+      let := hF
+      have := hchar
       have h3 : 3 ∣ Nat.card K - 1 := by omega
       have hZ : Nat.card (Subgroup.center H) = 3 := by
         rw [card_center_transfer e, CFSG.Open.StatedCenterThree.card_center_statedSL_three h3]
@@ -963,8 +963,8 @@ theorem isL3Kind_quot (p : ℕ) (hp : p.Prime) (H : Type) [Group H] [Finite H] (
       rw [mul_comm 3]
       exact hH'.symm
     ·
-      letI := hF
-      haveI := hchar
+      let := hF
+      have := hchar
       obtain ⟨k, hk1, hkr⟩ := card_eq_pow_of_charP K p
       have hqd : q ∣ p ^ k := by
         rw [← hkr, hcard]; exact dvd_pow_self q two_ne_zero
@@ -981,13 +981,13 @@ theorem isL3Kind_quot (p : ℕ) (hp : p.Prime) (H : Type) [Group H] [Finite H] (
       exact psu_card_three p j hj K hK hq3
   ·
     rcases hW with ⟨K, hF, hfin, hchar, hmod, ⟨f⟩⟩ | ⟨K, hF, hfin, q, hchar, hcard, hq3, hq2, ⟨f⟩⟩
-    · letI := hF
-      haveI := hchar
+    · let := hF
+      have := hchar
       have h3 : 3 ∣ Nat.card K - 1 := by omega
-      haveI : Finite W := Finite.of_equiv _ f.toEquiv.symm
+      have : Finite W := Finite.of_equiv _ f.toEquiv.symm
       have hY := sl_quot_card K h3 f
-      haveI : IsSimpleGroup (W ⧸ Subgroup.center W) := sl_quot_simple K f
-      haveI : IsSimpleGroup H := e.isSimpleGroup
+      have : IsSimpleGroup (W ⧸ Subgroup.center W) := sl_quot_simple K f
+      have : IsSimpleGroup H := e.isSimpleGroup
       rcases quot_center_cases H with h1 | h1
       · exact Or.inl h1
       · refine Or.inr (L3Order_of_sl p K hmod _ ?_)
@@ -995,8 +995,8 @@ theorem isL3Kind_quot (p : ℕ) (hp : p.Prime) (H : Type) [Group H] [Finite H] (
         rw [h1, hHY, mul_comm 3]
         exact hY
     ·
-      letI := hF
-      haveI := hchar
+      let := hF
+      have := hchar
       obtain ⟨k, hk1, hkr⟩ := card_eq_pow_of_charP K p
       have hqd : q ∣ p ^ k := by
         rw [← hkr, hcard]; exact dvd_pow_self q two_ne_zero
@@ -1007,10 +1007,10 @@ theorem isL3Kind_quot (p : ℕ) (hp : p.Prime) (H : Type) [Group H] [Finite H] (
         · exact h0
       subst hqj
       have hK : Nat.card K = (p ^ j) ^ 2 := hcard
-      haveI : Finite W := Finite.of_equiv _ f.toEquiv.symm
+      have : Finite W := Finite.of_equiv _ f.toEquiv.symm
       obtain ⟨hcardY, hsimpleY⟩ := su_quot_facts p j hj hq3 hq2 K hK W f
-      haveI : IsSimpleGroup (W ⧸ Subgroup.center W) := hsimpleY
-      haveI : IsSimpleGroup H := e.isSimpleGroup
+      have : IsSimpleGroup (W ⧸ Subgroup.center W) := hsimpleY
+      have : IsSimpleGroup H := e.isSimpleGroup
       rcases quot_center_cases H with h1 | h1
       · exact Or.inl h1
       · refine Or.inr (L3Order_of_su p j hj _ hq3 hq2 ?_)
@@ -1022,13 +1022,13 @@ theorem isL3Kind_quot (p : ℕ) (hp : p.Prime) (H : Type) [Group H] [Finite H] (
 theorem one_ne_char_part {q v M : ℕ} (hq : q.Prime) (h : 1 = q ^ v * M)
     (hM : M < q ^ (2 * v)) : False := by
   rcases Nat.eq_zero_or_pos v with rfl | hv
-  · simp at h hM <;> omega
+  · simp at h hM; omega
   · have h1 : q ∣ q ^ v * M := Dvd.dvd.mul_right (dvd_pow_self q hv.ne') M
     rw [← h] at h1
     exact hq.one_lt.ne' (Nat.dvd_one.1 h1)
 
 theorem card_alt (n : ℕ) (hn : 2 ≤ n) : Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
 
 theorem amb_small_contra {p n : ℕ}
@@ -1085,8 +1085,8 @@ theorem l3CharUnique_of_bridge (hb : LieOrderBridge) :
     ∀ (p q' : ℕ) (H : Type) [Group H], p.Prime → IsL3Kind p H →
       CFSG.Yardstones.Md0ec50421ce4.IsChevSimple q' (H ⧸ Subgroup.center H) → q' = p := by
   intro p q' H _ hp hH hchev
-  haveI : Finite H := isL3Kind_finite p H hH
-  haveI : Finite (H ⧸ Subgroup.center H) := inferInstance
+  have : Finite H := isL3Kind_finite p H hH
+  have : Finite (H ⧸ Subgroup.center H) := inferInstance
   have hgroup := isL3Kind_quot p hp H hH
   rcases hchev with ⟨i, hi, ⟨e⟩⟩ | ⟨i, hi, ⟨e⟩⟩
   ·

@@ -20,12 +20,12 @@ noncomputable def uC (c c' : ℕ) : GG :=
 
 theorem coe_uC {c c' : ℕ} (h : Code.mul c c' = Code.one ∧ Code.mul c' c = Code.one) :
     (uC c c' : MM) = mat c := by
-  rw [uC, dif_pos h]
+  rw [uC, dite_eq_left h]
   rfl
 
 theorem coe_uC_inv {c c' : ℕ} (h : Code.mul c c' = Code.one ∧ Code.mul c' c = Code.one) :
     (((uC c c')⁻¹ : GG) : MM) = mat c' := by
-  rw [uC, dif_pos h]
+  rw [uC, dite_eq_left h]
   rfl
 
 theorem units_eq {g h : GG} {x : ℕ} (hg : (g : MM) = mat x) (hh : (h : MM) = mat x) : g = h :=
@@ -401,7 +401,7 @@ theorem comm_good {a b : ℕ} (ha : a < 17) (hb : b < 17) :
     (fun x hx => orbL_lt hb (List.mem_of_mem_filter hx)) ?_ ?_
   · intro g
     rw [orb_good hb]
-    simp only [Set.mem_setOf_eq, List.mem_filter, decide_eq_true_eq]
+    simp only [Set.mem_ofPred_eq, List.mem_filter, decide_eq_true_eq]
     constructor
     · rintro ⟨⟨x, hx, hgx⟩, hgr⟩
       exact ⟨x, ⟨hx, (hcomm g x hgx).1 hgr⟩, hgx⟩
@@ -459,7 +459,7 @@ theorem ncard_union_pw {α : Type} (T : α → Set GG) (L : List α)
   | cons a L ih =>
     have hset : {g | ∃ x ∈ a :: L, g ∈ T x} = T a ∪ {g | ∃ x ∈ L, g ∈ T x} := by
       ext g
-      simp only [List.mem_cons, Set.mem_setOf_eq, Set.mem_union]
+      simp only [List.mem_cons, Set.mem_ofPred_eq, Set.mem_union]
       constructor
       · rintro ⟨x, rfl | hx, hg⟩
         · exact Or.inl hg

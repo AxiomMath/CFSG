@@ -34,7 +34,7 @@ theorem dvd_four_of_eq_four_smul_coord {k : Fin 3 → ℕ} {a b c : ℤ} {z : To
   have h' := congrFun h j
   have hleft : (a • gen k 0 + b • gen k 1 + c • gen k 2 : Torus k) j =
       (if j = 0 then a else if j = 1 then b else c : ℤ) := by
-    fin_cases j <;> simp [gen, Pi.single_apply, zsmul_eq_mul]
+    fin_cases j <;> simp [gen, zsmul_eq_mul]
   have hright : (4 • z : Torus k) j = 4 * (z j).val := by
     rw [Pi.smul_apply, nsmul_eq_mul]
     congr 1
@@ -201,10 +201,12 @@ def fourB (D : StrothTypeData B τ) : Subgroup B where
     rw [D.ec_inv]
     exact (fourT τ.k).neg_mem hx
 
+omit [Finite S] in
 theorem mem_fourB_iff (D : StrothTypeData B τ) {x : B} :
     x ∈ fourB D ↔ ∃ z : Torus τ.k, 4 • z = D.ec x :=
   mem_fourT_iff
 
+omit [Finite S] in
 @[simp]
 theorem ec_pow (D : StrothTypeData B τ) (x : B) (n : ℕ) :
     D.ec (x ^ n) = n • D.ec x := by
@@ -212,6 +214,7 @@ theorem ec_pow (D : StrothTypeData B τ) (x : B) (n : ℕ) :
   | zero => simp
   | succ n ih => rw [pow_succ, D.ec_mul, ih, add_smul, one_smul]
 
+omit [Finite S] in
 theorem exists_pow_four_of_mem_fourB (D : StrothTypeData B τ) {y : B}
     (hy : y ∈ fourB D) : ∃ s : B, s ^ 4 = y := by
   obtain ⟨z, hz⟩ := (mem_fourB_iff D).mp hy
@@ -225,6 +228,7 @@ theorem exists_pow_four_of_mem_fourB (D : StrothTypeData B τ) {y : B}
   rw [hs]
   exact hz
 
+omit [Finite S] in
 theorem t100_fixed_rho_t_mod_four_of_mem {D : StrothTypeData B (StrothTypeIndex.t100 m)}
     (hm : 1 ≤ m) {y : B}
     (hρ : conjBy D.ρ_mem y * y⁻¹ ∈ fourB D)
@@ -252,7 +256,8 @@ theorem t100_fixed_rho_t_mod_four_of_mem {D : StrothTypeData B (StrothTypeIndex.
     rw [mem_fourT_iff] at h
     simpa [sub_eq_add_neg] using h
 
-theorem subgroupOf_le_center (hBC : B ≤ C)
+omit [Finite S] in
+theorem subgroupOf_le_center (_hBC : B ≤ C)
     (hC : C ≤ Subgroup.centralizer (B : Set S)) :
     B.subgroupOf C ≤ Subgroup.center C := by
   intro b hb
@@ -261,6 +266,7 @@ theorem subgroupOf_le_center (hBC : B ≤ C)
   have hbB : (b : S) ∈ B := Subgroup.mem_subgroupOf.mp hb
   exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (hC g.2) (b : S) hbB).symm
 
+omit [Finite S] in
 theorem comm_of_le_centralizer_of_cyclic_quotient [hN : (B.subgroupOf C).Normal]
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hcyc : IsCyclic (C ⧸ B.subgroupOf C)) (x y : C) : x * y = y * x := by
@@ -268,11 +274,11 @@ theorem comm_of_le_centralizer_of_cyclic_quotient [hN : (B.subgroupOf C).Normal]
   have hker : (QuotientGroup.mk' H).ker ≤ Subgroup.center C := by
     rw [QuotientGroup.ker_mk']
     exact subgroupOf_le_center hBC hC
-  haveI : IsCyclic (C ⧸ H) := hcyc
-  exact commutative_of_cyclic_center_quotient (QuotientGroup.mk' H) hker x y
+  have : IsCyclic (C ⧸ H) := hcyc
+  exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' H) hker).is_comm.comm x y
 
-theorem card_quotient_four [hN : (B.subgroupOf C).Normal]
-    (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
+theorem card_quotient_four [_hN : (B.subgroupOf C).Normal]
+    (hBC : B ≤ C) (_hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 4 * Nat.card B) :
     Nat.card (C ⧸ B.subgroupOf C) = 4 := by
   rw [← Subgroup.index_eq_card, index_four_of_relIndex hBC hrel]
@@ -310,7 +316,7 @@ noncomputable def conjOnSubgroup (g : S) (hg : g ∈ Subgroup.normalizer C) : C 
   map_one' := by ext; simp
   map_mul' x y := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mk, Subgroup.coe_mul]
+    simp only [Subgroup.coe_mul]
     group
 
 section QuotientAction
@@ -325,6 +331,7 @@ noncomputable def conjQuotientMap (g : S) (hgC : g ∈ Subgroup.normalizer C)
     change g * (x : S) * g⁻¹ ∈ B
     exact (Subgroup.mem_normalizer_iff.mp hgB (x : S)).mp (Subgroup.mem_subgroupOf.mp hx))
 
+omit [Finite S] in
 @[simp]
 theorem conjQuotientMap_mk (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (x : C) :
@@ -333,6 +340,7 @@ theorem conjQuotientMap_mk (g : S) (hgC : g ∈ Subgroup.normalizer C)
   rw [conjQuotientMap]
   exact QuotientGroup.map_mk _ _ _ _ x
 
+omit [Finite S] in
 theorem conjQuotientMap_left_inv (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) :
     Function.LeftInverse
@@ -347,6 +355,7 @@ theorem conjQuotientMap_left_inv (g : S) (hgC : g ∈ Subgroup.normalizer C)
     simp only [conjOnSubgroup, MonoidHom.coe_mk, OneHom.coe_mk, Subgroup.coe_mk]
     group
 
+omit [Finite S] in
 theorem conjQuotientMap_right_inv (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) :
     Function.RightInverse
@@ -367,6 +376,7 @@ noncomputable def conjAutQuotient (g : S) (hgC : g ∈ Subgroup.normalizer C)
     ⟨(conjQuotientMap_left_inv g hgC hgB).injective,
      (conjQuotientMap_right_inv g hgC hgB).surjective⟩
 
+omit [Finite S] in
 @[simp]
 theorem conjAutQuotient_apply_mk (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (x : C) :

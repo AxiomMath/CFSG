@@ -44,7 +44,7 @@ theorem card_centralizer_le_two
   have hD₀r : ∀ d ∈ D₀, d.right = 1 := by
     rintro _ ⟨t, -, rfl⟩
     rfl
-  have hD₀2 : IsPGroup 2 D₀ := T.isPGroup'.map (incl F)
+  have hD₀2 : IsPGroup 2 D₀ := T.isPGroup.map (incl F)
   have hσne : σ ≠ 1 := fun h => hσL (h ▸ one_mem _)
   by_contra hlt
   push Not at hlt

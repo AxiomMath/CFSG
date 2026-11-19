@@ -27,7 +27,7 @@ private lemma ltrl6lin_kernel_scalar {d n : ℕ} {K : Type} [Field K] [Finite K]
     (X : GL (Fin d) K) ∈ LargeEvenScalars (Fin d) K := by
   have hperf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin d) K) := by
     let e := MulEquiv.subgroupCongr (largeEvenSLGroup_eq_statedSL (K := K) d)
-    haveI : Group.IsPerfect ↥(StatedSL d K) := by
+    have : Group.IsPerfect ↥(StatedSL d K) := by
       by_cases hd3 : 3 ≤ d
       · exact CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le hd3 K
       · have hd2 : d = 2 := by omega
@@ -78,7 +78,7 @@ theorem leaf6Linear_false {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (htag : lab.tag = .A) {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ lab.n)
     {L' : Type} [Group L'] [Finite L']
     (ψ : L' →* LargeEvenProj (LargeEvenSLGroup (Fin (lab.rank + 1)) K))
-    (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
+    (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L') (_hperf : commutator L' = ⊤)
     {e : MulAut L'} {J : Subgroup L'} {a : MulAut L'}
     (hset : GGRankOneSetup
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin (lab.rank + 1)) K))
@@ -90,7 +90,7 @@ theorem leaf6Linear_false {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
   have hΛ := hlab
   simp only [LargeEvenInLambda2, htag] at hΛ
   obtain ⟨hn1, hr1, hr1n⟩ := hΛ
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hn1 hK
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hn1 hK
   have hd : 2 ≤ lab.rank + 1 := by omega
   have hdn : lab.rank + 1 = 2 → 2 ≤ lab.n := by intro h; exact hr1n (by omega)
   have hpow : ∀ k : ℕ, ∀ l : L', (φ ^ k) (ψ l) = ψ ((e ^ k) l) := by

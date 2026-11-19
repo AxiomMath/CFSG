@@ -32,10 +32,10 @@ private theorem aux_exists_pow_eq_of_mem_Z {S : Subgroup G} (h : IsM125 p S) {w 
     (hw : w ∈ centralizer (S : Set G) ⊓ S) (hw1 : w ≠ 1)
     (hz : z ∈ centralizer (S : Set G) ⊓ S) : ∃ m : ℕ, z = w ^ m := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf w = p := orderOf_eq_prime (aux_pow_eq_one_of_mem_Z h hw) hw1
   have hle : Subgroup.zpowers w ≤ centralizer (S : Set G) ⊓ S := Subgroup.zpowers_le.2 hw
-  haveI : Finite ↥(centralizer (S : Set G) ⊓ S) := aux_finite_sub h inf_le_right
+  have : Finite ↥(centralizer (S : Set G) ⊓ S) := aux_finite_sub h inf_le_right
   have hcard : Nat.card (Subgroup.zpowers w) = p := by rw [Nat.card_zpowers, hord]
   have heq : Subgroup.zpowers w = centralizer (S : Set G) ⊓ S :=
     Subgroup.eq_of_le_of_card_ge hle (le_of_eq (by rw [hcard, card_Z h]))
@@ -65,7 +65,7 @@ private theorem aux_exists_mem_E_not_Z {S : Subgroup G} (h : IsM125 p S) :
   by_contra hcon
   push Not at hcon
   have hle : h.E ≤ centralizer (S : Set G) ⊓ S := fun e he => hcon e he
-  haveI : Finite ↥(centralizer (S : Set G) ⊓ S) := aux_finite_sub h inf_le_right
+  have : Finite ↥(centralizer (S : Set G) ⊓ S) := aux_finite_sub h inf_le_right
   have h1 : Nat.card h.E ≤ Nat.card ↥(centralizer (S : Set G) ⊓ S) :=
     Subgroup.card_le_of_le hle
   rw [card_E h, card_Z h] at h1
@@ -77,12 +77,12 @@ private theorem aux_sup_zpowers_eq_E {S : Subgroup G} (h : IsM125 p S) {b : G} (
     (hbZ : b ∉ centralizer (S : Set G) ⊓ S) :
     Subgroup.zpowers b ⊔ (centralizer (S : Set G) ⊓ S) = h.E := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKE : Subgroup.zpowers b ⊔ (centralizer (S : Set G) ⊓ S) ≤ h.E :=
     sup_le (Subgroup.zpowers_le.2 hbE) (Z_le_E h)
-  haveI : Finite ↥(Subgroup.zpowers b ⊔ (centralizer (S : Set G) ⊓ S)) :=
+  have : Finite ↥(Subgroup.zpowers b ⊔ (centralizer (S : Set G) ⊓ S)) :=
     aux_finite_sub h (hKE.trans (E_le h))
-  haveI : Finite h.E := aux_finite_sub h (E_le h)
+  have : Finite h.E := aux_finite_sub h (E_le h)
   have hZlt : centralizer (S : Set G) ⊓ S < Subgroup.zpowers b ⊔ (centralizer (S : Set G) ⊓ S) := by
     refine lt_of_le_of_ne le_sup_right ?_
     intro heq
@@ -181,7 +181,7 @@ theorem exists_mem_act {S : Subgroup G} (h : IsM125 p S) {g : G}
     (hgE : ∀ e ∈ h.E, g * e * g⁻¹ * e⁻¹ ∈ centralizer (S : Set G) ⊓ S) :
     ∃ s ∈ S, ∀ e ∈ h.E, g * e * g⁻¹ = s * e * s⁻¹ := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, haS, haE⟩ := aux_exists_mem_not_E h
   obtain ⟨b, hbE, hbZ⟩ := aux_exists_mem_E_not_Z h
   have hbS : b ∈ S := E_le h hbE
@@ -328,7 +328,7 @@ theorem exists_normalizer_act [Fact p.Prime] {S : Sylow p G} (h : IsM125 p (S : 
     refine ⟨fun e he => ?_, s'', hs'', hconj⟩
     rw [show n * s * n⁻¹ * e * (n * s * n⁻¹)⁻¹ = n * (s * (n⁻¹ * e * n) * s⁻¹) * n⁻¹ by group]
     exact hnE _ (aux_E_conj_mem h hs (hinvE e he))
-  haveI : Finite (Sylow p H) := aux_finite_sylow H
+  have : Finite (Sylow p H) := aux_finite_sylow H
   obtain ⟨w, hw⟩ := MulAction.exists_smul_eq (↥H) (aux_sylow_subgroupOf hTH)
     (aux_sylow_subgroupOf hSH)
   have hw1 : ∀ x ∈ (T : Subgroup G), (w : G) * x * (w : G)⁻¹ ∈ (S : Subgroup G) := by

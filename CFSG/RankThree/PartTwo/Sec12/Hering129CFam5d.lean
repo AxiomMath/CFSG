@@ -19,7 +19,7 @@ variable {S Lb : Type} [Group S] [Finite S] [Group Lb] {s : S} {J : Subgroup S} 
 theorem PPair.exists_sylow_le (h : PPair s J g) (h81 : ¬ 81 ∣ Nat.card S) :
     ∃ P : Sylow 3 S, (P : Subgroup S) ≤ J ∧ s ∈ (P : Subgroup S) ∧
       (P : Subgroup S) ≤ Subgroup.centralizer {s} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h27K : 27 ∣ Nat.card J :=
     h.twentySeven_dvd_Lb.trans (Subgroup.card_dvd_of_surjective h.surjective)
   set k : J := ⟨s, h.s_mem⟩ with hk
@@ -30,15 +30,15 @@ theorem PPair.exists_sylow_le (h : PPair s J g) (h81 : ¬ 81 ∣ Nat.card S) :
   have hkQ : k ∈ (Q : Subgroup J) := hQ (Subgroup.mem_zpowers k)
   have h27Q : 27 ∣ Nat.card (Q : Subgroup J) :=
     Q.pow_dvd_card_of_pow_dvd_card (n := 3) (by norm_num; exact h27K)
-  have hQ3 : IsPGroup 3 ((Q : Subgroup J).map J.subtype) := Q.isPGroup'.map _
+  have hQ3 : IsPGroup 3 ((Q : Subgroup J).map J.subtype) := Q.isPGroup.map _
   obtain ⟨P, hP⟩ := hQ3.exists_le_sylow
   have hPcard : Nat.card (P : Subgroup S) ≤ 27 := by
     rw [P.card_eq_multiplicity]
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h4 : 4 ≤ (Nat.card S).factorization 3 := by
       by_contra h'
-      push_neg at h'
+      push Not at h'
       have : 3 ^ (Nat.card S).factorization 3 ≤ 3 ^ 3 :=
         Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
@@ -69,8 +69,8 @@ section J2
 theorem PPair.isTripleCover_J2 {S Lb : Type} [Group S] [Finite S] [Group Lb] {s : S}
     {J : Subgroup S} {g : ↥J →* Lb} (e : S ≃* NativeSporadic.J2) (h : PPair s J g) :
     Sec4.IsTripleCover Lb (alternatingGroup (Fin 6)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := h.finite_Lb
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.finite_Lb
   have hSc : Nat.card S = 604800 := by
     rw [Nat.card_congr e.toEquiv, KFacts.KS14.card_nativeJ2]
   have h81 : ¬ 81 ∣ Nat.card S := by

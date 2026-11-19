@@ -33,7 +33,7 @@ private lemma tbD_fin_ne_succ {k : ℕ} {i : Fin k} (hi : i.val + 1 < k) :
   intro hh
   have h2 : i.val = i.val + 1 := by
     have := congrArg Fin.val hh
-    simpa using this
+    simp at this
   omega
 
 private lemma tbD_toAdd_permAut {p k : ℕ} (σ : Equiv.Perm (Fin k)) (v : Fin k → ZMod p)
@@ -42,11 +42,11 @@ private lemma tbD_toAdd_permAut {p k : ℕ} (σ : Equiv.Perm (Fin k)) (v : Fin k
   rw [permAut_apply, Function.comp_apply]
   exact toAdd_ofAdd (v (σ⁻¹ j))
 
-private noncomputable def tbD_h (m p : ℕ) [Fact p.Prime] (hm : 2 ≤ m) (i : Fin m) :
+private noncomputable def tbD_h (m p : ℕ) [Fact p.Prime] (_hm : 2 ≤ m) (i : Fin m) :
     Fin m → ZMod p :=
   ggDSimple p m i
 
-private noncomputable def tbD_alpha (m p : ℕ) (hm : 2 ≤ m) (i : Fin m) :
+private noncomputable def tbD_alpha (m p : ℕ) (_hm : 2 ≤ m) (i : Fin m) :
     Module.Dual (ZMod p) (Fin m → ZMod p) :=
   ggQ2_DW_dotLin p m (ggDSimple p m i)
 
@@ -58,13 +58,13 @@ private lemma tbD_toAdd_sgnAut_pair {p k : ℕ} {a b : Fin k} (hab : a ≠ b)
   by_cases hja : j = a
   · subst hja
     rw [MulAut.mul_apply, sgnAut_apply, sgnAut_apply, Function.update_self,
-      Function.update_of_ne hab, toAdd_inv, toAdd_ofAdd, if_neg hab, if_pos rfl]
+      Function.update_of_ne hab, toAdd_inv, toAdd_ofAdd, ite_eq_right hab, ite_eq_left rfl]
   · by_cases hjb : j = b
     · subst hjb
       rw [MulAut.mul_apply, sgnAut_apply, sgnAut_apply, Function.update_of_ne (Ne.symm hab),
-        Function.update_self, toAdd_inv, toAdd_ofAdd, if_pos rfl]
+        Function.update_self, toAdd_inv, toAdd_ofAdd, ite_eq_left rfl]
     · rw [MulAut.mul_apply, sgnAut_apply, sgnAut_apply, Function.update_of_ne hja,
-        Function.update_of_ne hjb, toAdd_ofAdd, if_neg hjb, if_neg hja]
+        Function.update_of_ne hjb, toAdd_ofAdd, ite_eq_right hjb, ite_eq_right hja]
 
 private lemma tbD_toAdd_sgnAut_pair_swap {p k : ℕ} {a b : Fin k} (hab : a ≠ b)
     (v : Fin k → ZMod p) (j : Fin k) :
@@ -73,7 +73,7 @@ private lemma tbD_toAdd_sgnAut_pair_swap {p k : ℕ} {a b : Fin k} (hab : a ≠ 
       if j = a then -v b else if j = b then -v a else v j := by
   rw [tbD_toAdd_sgnAut_pair (a := a) (b := b) hab v (Equiv.swap a b j)]
   by_cases hja : j = a
-  · rw [hja, Equiv.swap_apply_left]; simp [hab, Ne.symm hab]
+  · rw [hja, Equiv.swap_apply_left]; simp
   · by_cases hjb : j = b
     · rw [hjb, Equiv.swap_apply_right]; simp [hab, Ne.symm hab]
     · rw [Equiv.swap_apply_of_ne_of_ne hja hjb]; simp [hja, hjb]
@@ -123,12 +123,12 @@ private theorem tbD_typeDSimple_eq_simpleReflection {m p : ℕ} [Fact p.Prime] (
     typeDSimple m p (by omega : 2 ≤ m) i =
       DScalarTorus.simpleReflection (m := p) (N := m) hm i := by
   by_cases hi : i.val + 1 < m
-  · rw [typeDSimple, dif_pos hi, DScalarTorus.simpleReflection, dif_pos hi]
-  · rw [typeDSimple, dif_neg hi, DScalarTorus.simpleReflection, dif_neg hi]
+  · rw [typeDSimple, dite_eq_left hi, DScalarTorus.simpleReflection, dite_eq_left hi]
+  · rw [typeDSimple, dite_eq_right hi, DScalarTorus.simpleReflection, dite_eq_right hi]
     exact tbD_permAut_swap_mul_sgn_pair
       (by intro h
           have hv := congrArg Fin.val h
-          simp only [Fin.val_mk] at hv
+          simp only at hv
           omega : (⟨m - 2, by omega⟩ : Fin m) ≠ ⟨m - 1, by omega⟩)
 
 private lemma tbD_ggLin_permAut (m p : ℕ) [Fact p.Prime] (σ : Equiv.Perm (Fin m))
@@ -152,16 +152,16 @@ private theorem tbD_ggLin_g (m p : ℕ) [Fact p.Prime] (hm : 4 ≤ m) (i : Fin m
     = v - ggQ2_DW_dotLin p m (ggDSimple p m i) v • ggDSimple p m i
   by_cases hi : i.val + 1 < m
   · rw [show typeDSimple m p (by omega) i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-        unfold typeDSimple; rw [dif_pos hi],
+        unfold typeDSimple; rw [dite_eq_left hi],
       tbD_ggLin_permAut]
     rw [← ggQ2_DW_r_eq_swap p m hm i hi, ggQ2_DW_r_apply]
   · have hbound1 : m - 1 < m := Nat.sub_lt (by omega) (by norm_num)
     have hbound2 : m - 2 < m := Nat.sub_lt (by omega) (by norm_num)
-    have hlt : ¬ (⟨m - 1, hbound1⟩ : Fin m).val + 1 < m := by simp only [Fin.val_mk]; omega
+    have hlt : ¬ (⟨m - 1, hbound1⟩ : Fin m).val + 1 < m := by simp only; omega
     have hab : (⟨m - 2, hbound2⟩ : Fin m) ≠ ⟨m - 1, hbound1⟩ :=
-      Fin.ne_of_val_ne (by simp only [Fin.val_mk]; omega)
-    have hca : ((⟨m - 2, hbound2⟩ : Fin m) : ℕ) + 2 = m := by simp only [Fin.val_mk]; omega
-    have hcb : ((⟨m - 1, hbound1⟩ : Fin m) : ℕ) + 1 = m := by simp only [Fin.val_mk]; omega
+      Fin.ne_of_val_ne (by simp only; omega)
+    have hca : ((⟨m - 2, hbound2⟩ : Fin m) : ℕ) + 2 = m := by simp only; omega
+    have hcb : ((⟨m - 1, hbound1⟩ : Fin m) : ℕ) + 1 = m := by simp only; omega
     have hieq : i = ⟨m - 1, hbound1⟩ := by
       apply Fin.ext
       show i.val = m - 1
@@ -180,7 +180,7 @@ private theorem tbD_ggLin_g (m p : ℕ) [Fact p.Prime] (hm : 4 ≤ m) (i : Fin m
       show typeDSimple m p (by omega) (⟨m - 1, hbound1⟩ : Fin m) =
           permAut (Equiv.swap ⟨m - 2, hbound2⟩ ⟨m - 1, hbound1⟩) *
             (sgnAut ⟨m - 2, hbound2⟩ * sgnAut ⟨m - 1, hbound1⟩) from by
-        unfold typeDSimple; rw [dif_neg hlt]]
+        unfold typeDSimple; rw [dite_eq_right hlt]]
     funext j
     have hb : Additive.toMul ((tbD_iota m p).symm v) = fun k => ofAdd (v k) := by
       have h1 : (tbD_iota m p).symm v = Additive.ofMul (fun k => ofAdd (v k)) := by
@@ -196,17 +196,17 @@ private theorem tbD_ggLin_g (m p : ℕ) [Fact p.Prime] (hm : 4 ≤ m) (i : Fin m
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     by_cases hja : j = ⟨m - 2, hbound2⟩
     · subst hja
-      rw [if_pos (Or.inl hca), if_pos rfl]
+      rw [ite_eq_left (Or.inl hca), ite_eq_left rfl]
       ring
     · by_cases hjb : j = ⟨m - 1, hbound1⟩
       · subst hjb
-        rw [if_pos (Or.inr hcb), if_neg (Ne.symm hab), if_pos rfl]
+        rw [ite_eq_left (Or.inr hcb), ite_eq_right (Ne.symm hab), ite_eq_left rfl]
         ring
       · have hfa : ¬ ((j : ℕ) + 2 = m ∨ (j : ℕ) + 1 = m) := by
           rintro (h | h)
           · exact hja (Fin.ext (by have := j.isLt; omega))
           · exact hjb (Fin.ext (by have := j.isLt; omega))
-        rw [if_neg hja, if_neg hjb, if_neg hfa]
+        rw [ite_eq_right hja, ite_eq_right hjb, ite_eq_right hfa]
         ring
 
 private theorem tbD_hpair (m p : ℕ) [Fact p.Prime] (hm : 4 ≤ m) (i j : Fin m) :
@@ -393,9 +393,7 @@ theorem exists_typeD_datum_of_evenSignedAut {G : Type} [Group G] [Finite G] {p m
   have hpair' : ∀ i j, (tbD_alpha m p (by omega) i) (tbD_h m p (by omega) j) =
       (CartanMatrix.D m i j : ZMod p) := tbD_hpair m p hm
   have hclos : ggAutomizer X Bs = Subgroup.closure (Set.range φ) := by
-    change ggAutomizer X Bs = Subgroup.closure (Set.range φ)
     rw [← hmapΦ]
-    change H.map (liftBs Θ) = Subgroup.closure (Set.range φ)
     rw [show H = Subgroup.closure (Set.range (fun i : Fin m => typeDSimple m p (by omega) i))
         from (tbD_closure_simple hp2 hm).symm]
     rw [MonoidHom.map_closure]
@@ -422,18 +420,18 @@ theorem exists_typeD_datum_of_evenSignedAut {G : Type} [Group G] [Finite G] {p m
     change GGIsReflection p (liftBs Θ (typeDSimple m p (by omega) i))
     by_cases hi : i.val + 1 < m
     · rw [show typeDSimple m p (by omega) i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-          unfold typeDSimple; rw [dif_pos hi]]
+          unfold typeDSimple; rw [dite_eq_left hi]]
       exact tbD_isRefl_lift hp hp2 Θ (permAut_swap_sq _ _)
         (card_fix_permAut_swap hp hp2 (tbD_fin_ne_succ hi))
     · have hb2 : m - 2 < m := Nat.sub_lt (by omega) (by norm_num)
       have hb1 : m - 1 < m := Nat.sub_lt (by omega) (by norm_num)
       have hne : (⟨m - 2, hb2⟩ : Fin m) ≠ ⟨m - 1, hb1⟩ :=
-        Fin.ne_of_val_ne (by simp only [Fin.val_mk]; omega)
+        Fin.ne_of_val_ne (by simp only; omega)
       rw [tbD_typeDSimple_eq_simpleReflection hm i,
         show DScalarTorus.simpleReflection (m := p) (N := m) hm i =
           sgnAut ⟨m - 2, hb2⟩ * sgnAut ⟨m - 1, hb1⟩ *
             permAut (Equiv.swap ⟨m - 2, hb2⟩ ⟨m - 1, hb1⟩) from by
-          rw [DScalarTorus.simpleReflection, dif_neg hi]]
+          rw [DScalarTorus.simpleReflection, dite_eq_right hi]]
       exact tbD_isRefl_lift hp hp2 Θ (OrthExcEven.sgnTransp_sq hne)
         (OrthExcEven.card_fix_sgnTransp hp hp2 hne)
   · intro i j

@@ -73,7 +73,7 @@ theorem three_free_le_sylow_of_orders {X : Type*} [Group X] [Finite X] {k : ℕ}
   obtain ⟨Q, hRQ⟩ := hRp.exists_le_sylow
   have hQR : (Q : Subgroup X) = R := by
     obtain ⟨s, hs, hcard⟩ := hW Q hRQ
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp Q.isPGroup
     rcases hs with rfl | h3
     · exact (Subgroup.eq_of_le_of_card_ge hRQ (by rw [hcard, hR, mul_one])).symm
     · exfalso
@@ -141,7 +141,7 @@ theorem sylow_product_ne_of_three_free {X : Type*} [Group X] [Finite X] (S : Syl
   intro x hx
   rw [Subgroup.mem_bot]
   have hx2 : IsPGroup 2 (Subgroup.zpowers x) :=
-    S.isPGroup'.to_le ((Subgroup.zpowers_le).2 (hle hx))
+    S.isPGroup.to_le ((Subgroup.zpowers_le).2 (hle hx))
   have hxp : IsPGroup p (Subgroup.zpowers x) := hP.to_le ((Subgroup.zpowers_le).2 hx)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop := IsPGroup.coprime_card_of_ne 2 p (by omega) _ _ hx2 hxp

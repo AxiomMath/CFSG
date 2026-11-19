@@ -26,8 +26,8 @@ theorem perfectInLayer_of_card_168 {S : Type} [Group S] [Finite S] [IsSimpleGrou
     exact mem_fixSubgroup.1 hx
   have hPtop : P ≠ ⊤ := fun h => hCtop (top_le_iff.1 (h ▸ hP))
   by_contra hPne
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
   have hidx : P.index ≠ 1 := fun h => hPtop (Subgroup.index_eq_one.1 h)
   have hmul := Subgroup.card_mul_index P
   rw [hc] at hmul
@@ -41,7 +41,7 @@ theorem perfectInLayer_of_card_168 {S : Type} [Group S] [Finite S] [IsSimpleGrou
     intro h
     rw [h] at hmul
     have h2 : P.index = 2 := by omega
-    haveI : P.Normal := Subgroup.normal_of_index_eq_two h2
+    have : P.Normal := Subgroup.normal_of_index_eq_two h2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with h' | h'
     · exact hPne h'
     · exact hPtop h'
@@ -51,8 +51,8 @@ theorem perfect_eq_bot_of_not_seven {S : Type} [Group S] [Finite S] (hc : Nat.ca
     {x : S} (h7 : ¬ 7 ∣ Nat.card (Subgroup.centralizer ({x} : Set S))) {P : Subgroup S}
     (hP : P ≤ Subgroup.centralizer ({x} : Set S)) (hperf : ⁅P, P⁆ = P) : P = ⊥ := by
   by_contra hne
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
   have hPC : Nat.card P ∣ Nat.card (Subgroup.centralizer ({x} : Set S)) :=
     Subgroup.card_dvd_of_le hP
   have hCS : Nat.card (Subgroup.centralizer ({x} : Set S)) ∣ 6048 := by
@@ -68,7 +68,7 @@ theorem perfect_eq_bot_of_not_seven {S : Type} [Group S] [Finite S] (hc : Nat.ca
   obtain ⟨a, b, ha, hb, hab⟩ := Nat.dvd_mul.1 hdvd
   obtain ⟨i, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 ha
   obtain ⟨j, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hb
-  haveI : Fintype ↥P := Fintype.ofFinite ↥P
+  have : Fintype ↥P := Fintype.ofFinite ↥P
   exact Group.IsPerfect.not_isSolvable ↥P
     (CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
       Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, ← hab]))

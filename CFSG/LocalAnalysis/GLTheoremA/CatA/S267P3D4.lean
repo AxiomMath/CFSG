@@ -14,7 +14,7 @@ theorem p3At_D4
   intro q Ω _ _ S B H hchar ⟨e⟩
   exfalso
   have hfin : ∀ d : TauCeti.ValidLieTypeIndex, Finite d.fixedField := fun _ => inferInstance
-  haveI := hfin ⟨.D 4 Q, hv⟩
+  have := hfin ⟨.D 4 Q, hv⟩
   obtain ⟨ι, hι, hcomm⟩ := CFSG.RankThree.PartTwo.Census.Exceptional.exists_commuting_rootSL2
     (K := TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩) .D4
     ![![1, 0, 0, 0], ![0, 1, 0, 0], ![0, 0, 0, 1], ![1, 1, 2, 1]] (by decide +kernel)

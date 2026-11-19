@@ -20,9 +20,9 @@ theorem cartan_eq_lit {τ : Tag} (hτ : tgOK τ = true) (j k : Fin τ.rank) :
     τ.cartan j k = (if j = k then 2 else 0) - ((lane (row (tgCneg τ) j) k : ℕ) : ℤ) := by
   by_cases hjk : j = k
   · subst hjk
-    rw [cartan_self hτ, if_pos rfl, (tgCneg_lane_le hτ j j).2 rfl]
+    rw [cartan_self hτ, ite_eq_left rfl, (tgCneg_lane_le hτ j j).2 rfl]
     simp
-  · rw [tgCneg_lane hτ j k hjk, if_neg hjk]
+  · rw [tgCneg_lane hτ j k hjk, ite_eq_right hjk]
     ring
 
 theorem symmetrizedCartan_eq_lit {τ : Tag} (hτ : tgOK τ = true) (j k : Fin τ.rank) :
@@ -38,7 +38,7 @@ variable {τ : Tag} {p mode : ℕ} {H : Hd}
 theorem latGram_single {N : ℕ} (S : Matrix (Fin N) (Fin N) ℤ) (j : Fin N) (β : Fin N → ℤ) :
     latGram S (Pi.single j 1) β = ∑ k, S j k * β k := by
   unfold latGram
-  rw [Finset.sum_eq_single j (fun i _ hij => by simp [Pi.single_apply, hij]) (by simp)]
+  rw [Finset.sum_eq_single j (fun i _ hij => by simp [hij]) (by simp)]
   simp
 
 theorem latGram_expand {N : ℕ} (S : Matrix (Fin N) (Fin N) ℤ) (α β : Fin N → ℤ) :
@@ -61,7 +61,7 @@ theorem latGram_single_rowZ (h : tagHdOK τ p mode H = true) (r : ℕ) (j : Fin 
   rw [Finset.sum_range (fun k => lane (row (tgCneg τ) j) k * rtC H r k)]
   push_cast
   simp only [sub_mul, mul_sub, ite_mul, zero_mul, Finset.sum_sub_distrib, Finset.mul_sum,
-    mul_ite, mul_zero, Finset.sum_ite_eq Finset.univ j, Finset.mem_univ, if_true]
+    mul_ite, mul_zero, Finset.sum_ite_eq Finset.univ j, Finset.mem_univ, ite_true]
   congr 1
   · ring
   · exact Finset.sum_congr rfl fun k _ => by ring

@@ -74,17 +74,17 @@ theorem exists_conj_slTorusDiag [NeZero k] [Finite K] [CharP K 2] (hk : 2 ≤ k)
   · rw [hab, Matrix.diagonal_apply_eq, slMat_conj_slU_apply_self hsU hup b]
     unfold slTorusDiag
     by_cases h0 : (b : ℕ) = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       have hb0 : b = 0 := Fin.ext (by simpa using h0)
       subst hb0
       rfl
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       by_cases h1 : (b : ℕ) = 1
-      · rw [if_pos h1]
+      · rw [ite_eq_left h1]
         have hb1 : b = ⟨1, hk1⟩ := Fin.ext (by simpa using h1)
         subst hb1
         exact h11
-      · rw [if_neg h1]
+      · rw [ite_eq_right h1]
         exact hone b (by omega)
   · rw [Matrix.diagonal_apply_ne _ hab]
     exact hsdiag a b hab

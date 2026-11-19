@@ -48,7 +48,7 @@ theorem exists_complement :
       hp.rho_mem_normalizer_Y hp.sigma_mem_normalizer_Y hp.rho_pow_three hp.sigma_sq
       hp.sigma_rho
       (fun y hy hyρ => by
-        have hQ : y ∈ ctxQ t tau x₁ x₂ rho := hp.Y_le_Q hy
+        have hQ : y ∈ ctxQ t tau x₁ x₂ rho := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q hy
         have hc : y ∈ centralizer ({rho} : Set G) :=
           mem_centralizer_iff.mpr fun h hh => by
             rw [Set.mem_singleton_iff.mp hh]; exact hyρ
@@ -85,7 +85,7 @@ theorem Q_eq_sup {V' : Subgroup G} (hle : V' ≤ ctxYq t tau x₁ x₂ rho) (hca
     exact Subgroup.mem_bot.mp hb''
   refine ⟨hBinf, ?_⟩
   have hle' : baseGrp x₁ x₂ ⊔ V' ≤ ctxQ t tau x₁ x₂ rho :=
-    sup_le hp.base_le_Q (hle.trans hp.Y_le_Q)
+    sup_le hp.base_le_Q (hle.trans CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q)
   refine (Subgroup.eq_of_le_of_card_ge hle' ?_).symm
   rw [hp.card_Q]
   have hc := S4A.m11_card_mul_le_sup hBinf
@@ -96,12 +96,12 @@ theorem Q_eq_sup {V' : Subgroup G} (hle : V' ≤ ctxYq t tau x₁ x₂ rho) (hca
 theorem comm_inj_V' {V' : Subgroup G} (hle : V' ≤ ctxYq t tau x₁ x₂ rho)
     (hinf : fourGrp x₁ x₂ ⊓ V' = ⊥) {v v' : G} (hv : v ∈ V') (hv' : v' ∈ V')
     (h : z4Comm t v = z4Comm t v') : v = v' := by
-  have hvQ : v ∈ ctxQ t tau x₁ x₂ rho := hp.Y_le_Q (hle hv)
-  have hv'Q : v' ∈ ctxQ t tau x₁ x₂ rho := hp.Y_le_Q (hle hv')
+  have hvQ : v ∈ ctxQ t tau x₁ x₂ rho := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q (hle hv)
+  have hv'Q : v' ∈ ctxQ t tau x₁ x₂ rho := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q (hle hv')
   have hdV : v * v'⁻¹ ∈ V' := mul_mem hv (inv_mem hv')
   have hdY : v * v'⁻¹ ∈ ctxYq t tau x₁ x₂ rho := hle hdV
   have hcomm : z4Comm t (v * v'⁻¹) = 1 := by
-    rw [hp.comm_mul hp.t_mem_X hvQ (inv_mem hv'Q), hp.comm_inv hp.t_mem_X hv'Q, h]
+    rw [hp.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X hvQ (inv_mem hv'Q), hp.comm_inv CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X hv'Q, h]
     group
   have hV : v * v'⁻¹ ∈ fourGrp x₁ x₂ := (hp.comm_t_eq_one_iff hdY).mp hcomm
   have hboth : v * v'⁻¹ ∈ fourGrp x₁ x₂ ⊓ V' := ⟨hV, hdV⟩
@@ -122,9 +122,9 @@ theorem exists_comm_eq_V' {V' : Subgroup G} (hle : V' ≤ ctxYq t tau x₁ x₂ 
       rw [heq]; exact ha) haY'
   refine ⟨v', hv'V, ?_⟩
   have hvQ : v ∈ ctxQ t tau x₁ x₂ rho := hp.V_le_Q hvV
-  have hv'Q : v' ∈ ctxQ t tau x₁ x₂ rho := hp.Y_le_Q (hle hv'V)
+  have hv'Q : v' ∈ ctxQ t tau x₁ x₂ rho := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q (hle hv'V)
   have h1 : z4Comm t a = z4Comm t v' := by
-    rw [hav, hp.comm_mul hp.t_mem_X hvQ hv'Q, hp.comm_V hp.t_mem_O hvV, one_mul]
+    rw [hav, hp.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X hvQ hv'Q, hp.comm_V hp.t_mem_O hvV, one_mul]
   exact h1.symm.trans ha
 
 theorem exists_VBase :
@@ -132,14 +132,14 @@ theorem exists_VBase :
   obtain ⟨V', hle, hcard, hinf, hρ, hσ⟩ := hp.exists_complement
   have hY : ctxYq t tau x₁ x₂ rho = fourGrp x₁ x₂ ⊔ V' := hp.Y_eq_sup hle hcard hinf
   obtain ⟨hBinf, hQ⟩ := hp.Q_eq_sup hle hcard hinf
-  obtain ⟨v₁, hv₁V, hv₁c⟩ := hp.exists_comm_eq_V' hle hY (x₁ ^ 2) hp.y_mem_V
+  obtain ⟨v₁, hv₁V, hv₁c⟩ := hp.exists_comm_eq_V' hle hY (x₁ ^ 2) CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
   obtain ⟨v₂, hv₂V, hv₂c⟩ := hp.exists_comm_eq_V' hle hY (x₂ ^ 2) hp.w_mem_V
   have hv₁sq : v₁ * v₁ = 1 := by simpa [pow_two] using hp.Y_sq (hle hv₁V)
   have hv₂sq : v₂ * v₂ = 1 := by simpa [pow_two] using hp.Y_sq (hle hv₂V)
   have hv₁v₂comm : v₁ * v₂ = v₂ * v₁ := hp.Y_comm _ (hle hv₁V) _ (hle hv₂V)
   have hv₁v₂c : z4Comm t (v₁ * v₂) = (x₁ * x₂) ^ 2 := by
     have hy : (x₁ ^ 2) * (x₁ ^ 2) = 1 := by simpa [pow_two] using hp.y_sq
-    rw [hp.comm_mul hp.t_mem_X (hp.Y_le_Q (hle hv₁V)) (hp.Y_le_Q (hle hv₂V)), hv₁c, hv₂c,
+    rw [hp.comm_mul CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X (CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q (hle hv₁V)) (CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q (hle hv₂V)), hv₁c, hv₂c,
       hp.x₂_sq, ← mul_assoc, hy, one_mul]
   refine ⟨V', v₁, v₂, ?_⟩
   refine ⟨?_, hcard, hQ, hBinf, hY, hinf, ?_, hv₁V, hv₂V, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -168,7 +168,7 @@ theorem exists_VBase :
     · intro v hv
       have hvY : v ∈ ctxYq t tau x₁ x₂ rho := hle hv
       have hcomm : z4Comm t v ∈ fourGrp x₁ x₂ :=
-        hp.comm_mem hp.t_mem_X (hp.Y_le_O hvY)
+        hp.comm_mem CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X (hp.Y_le_O hvY)
       rw [hp.mem_V_iff] at hcomm
       rw [S4B.mem_closure_pair_of_invol hv₁sq hv₂sq hv₁v₂comm]
       rcases hcomm with h | h | h | h
@@ -184,7 +184,7 @@ theorem exists_VBase :
       rcases hx with rfl | rfl
       · exact hv₁V
       · exact hv₂V
-  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hp.V_le_Y hp.y_mem_V
+  · have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hp.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
     have hc : v₁ * x₁ ^ 2 = x₁ ^ 2 * v₁ := hp.Y_comm _ (hle hv₁V) _ hy
     have h1 : t * v₁ * t⁻¹ = x₁ ^ 2 * v₁ := by
       have h := hv₁c
@@ -199,7 +199,7 @@ theorem exists_VBase :
       rwa [mul_inv_eq_iff_eq_mul] at h
     rw [h1, hc]
   · apply hp.comm_inj_V' hle hinf (hσ v₁ hv₁V) hv₂V
-    rw [hp.comm_conj (g := t) (c := lam * t) hp.sigma_comm_t.symm v₁, hv₁c, hp.sigma_y, hv₂c]
+    rw [CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_conj (g := t) (c := lam * t) hp.sigma_comm_t.symm v₁, hv₁c, hp.sigma_y, hv₂c]
 
 end Z4Pre
 

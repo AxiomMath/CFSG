@@ -64,7 +64,7 @@ theorem quot_transfer_of_star {H M T B : Subgroup G} (Q : Subgroup ↥H) [Q.Norm
       simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
       exact hbN
     exact (Subgroup.map_mono hBT').trans (Subgroup.le_normalizer_map _)
-  · obtain ⟨b₀, hb₀B, hb₀Q⟩ := SetLike.not_le_iff_exists.1 hBQ
+  · obtain ⟨b₀, hb₀B, hb₀Q⟩ := IsConcreteLE.not_le_iff_exists.1 hBQ
     have hcard : Nat.card (B.subgroupOf H) = p := by
       rw [← hBp]
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBH).toEquiv
@@ -238,6 +238,7 @@ theorem uc2_10_7w_of_c (h7c : UC2_10_7c) : UC2_10_7w G := by
     exact h1
   exact (hπ1 _).1 h2
 
+omit [Finite G] in
 theorem not_le_of_minimal_normal {M X L : Subgroup G} (hXn : X.Normal)
     (hXmin : ∀ W : Subgroup G, W.Normal → W ≤ X → W = ⊥ ∨ W = X) (hXM : ¬ X ≤ M)
     (hMX : M ⊔ X = ⊤) (hLX : L ≤ X) (hXL : X ≤ normalizer (L : Set G)) (hL : L ≠ ⊥) :
@@ -268,6 +269,7 @@ theorem not_le_of_minimal_normal {M X L : Subgroup G} (hXn : X.Normal)
     rw [← h]
     exact inf_le_left.trans (Subgroup.normalCore_le M)
 
+omit [Finite G] in
 theorem isComponentOf_top_of_simple {X L : Subgroup G} (hXn : X.Normal) (hLX : L ≤ X)
     (hXL : X ≤ normalizer (L : Set G)) (hLs : IsSimpleGroup ↥L)
     (hLnab : ∃ a b : ↥L, a * b ≠ b * a) : CFSG.Open.IsComponentOf L ⊤ := by

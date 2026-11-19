@@ -18,7 +18,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem gap17_15_autPGL2At_of (D : Data G) {V₀ V L : Subgroup G} {r q : ℕ}
-    (hC : Ctx17_6 D V₀ V L r q) :
+    (_hC : Ctx17_6 D V₀ V L r q) :
     IsL2Over17 (Bar2 L) 7 →
       CFSG.Quasithin.F6.IsPGL2 7 (Bar2 (L ⊔ NTL17 D L)) →
         ∃ (A : Type) (_ : Group A)

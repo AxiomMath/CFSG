@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_G47_card_starImg_mul {K Y : Subgroup G} (hY : Y ≤ K) :
     Nat.card ↥(starImg K Y) * Nat.card ↥(Y ⊓ pCoreOf 2 K) = Nat.card ↥Y := by
   let Y' : Subgroup ↥K := Y.subgroupOf K

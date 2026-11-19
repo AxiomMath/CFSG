@@ -77,7 +77,7 @@ theorem tightSecGenS3R_of_four_le (hr : 4 ≤ r)
     ⟨⟨(Sylow.equiv Sb Sq).trans hcq.1.some⟩, hcq.2⟩
   obtain ⟨L, hLn, hLq, hLC, hzn, hnt, hd', hc', hnO', hE', hTs, hTab, hTC, hfam⟩ :=
     layerIdent hr hF.large.below hF.large.tbelow hList hO h6 hF.card_secQ_lt hdb hcb hnE2 hedge
-  haveI := hLn
+  have := hLn
   obtain ⟨g, hg⟩ := hconj
   apply sup_centralizer_of_quot hnt ⟨g, hg⟩
   set z := E3.secT htu ht with hzdef

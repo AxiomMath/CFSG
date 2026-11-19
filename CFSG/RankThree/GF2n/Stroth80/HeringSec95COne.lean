@@ -216,7 +216,7 @@ theorem sec95One_core (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t 
   obtain ⟨K, fK, finK, chK, γ, M₀, h⟩ := stroth_globalModelData hc.hyp
   obtain ⟨φ₀, hφπ, hφQ, hφiso⟩ := exists_actionHom_H0 hc.hyp h
   obtain ⟨φ, hφπ', hφker, hφadd, hφsemi⟩ := exists_actionHom_M hc.hyp h
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hKZ : Nat.card K = Nat.card Z := h.card
   have hK2 : 1 < Nat.card K := by rw [hKZ]; omega
   obtain ⟨U, hUmem, hUdim, hE, hUsing, hUperp⟩ := exists_lagrangian95 h34 hs h
@@ -460,7 +460,7 @@ theorem sec95One_core (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t 
         have h1 : α x (α x⁻¹ e) = e := by
           have := congrArg (fun f : M₀.E ≃ₗ[K] M₀.E => f e)
             (show α x * α x⁻¹ = 1 by rw [← map_mul, mul_inv_cancel, map_one])
-          simpa using this
+          simp
         have e1 : α x⁻¹ e - e = -(α x (α x⁻¹ e) - α x⁻¹ e) := by
           rw [h1]; abel
         rw [e1]

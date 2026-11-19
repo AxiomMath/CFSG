@@ -53,7 +53,7 @@ theorem s16k_pRank_le_two_of_aut_sixteen {Q : Type} [CommGroup Q] [Finite Q]
     (hp : p.Prime) (hp2 : p ≠ 2) : CFSG.Open.pRank p A ≤ 2 := by
   apply CFSG.SectionRank.pRank_le hp.one_lt
   intro E hEA hE
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEP : IsPGroup p E := hE.isPGroup
   obtain ⟨k, hk⟩ := hEP.exists_card_eq
   have hdiv : p ^ k ∣ 20160 := by

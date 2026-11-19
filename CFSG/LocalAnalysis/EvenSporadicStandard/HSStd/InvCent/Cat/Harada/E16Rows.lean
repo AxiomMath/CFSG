@@ -117,7 +117,7 @@ theorem exists_elemAbelian_sixteen (htop : centralizer ({t} : Set G) ≠ ⊤) :
     · intro x hx y hy _
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
       rcases hx with hx | hx | hx | hx <;> rcases hy with hy | hy | hy | hy <;> rw [hx, hy] <;>
-        first | exact Commute.refl _ | assumption | (apply Commute.symm; assumption)
+        first | assumption | (apply Commute.symm; assumption)
     · intro x hx
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
       rcases hx with hx | hx | hx | hx <;> rw [hx]
@@ -217,19 +217,19 @@ theorem no_E16_of_L225 {D : Type} [Group D] [Finite D] (S : Subgroup D) [S.Norma
 
 theorem noTwoCfgL225_holds : NoTwoCfgL225 := by
   intro G _ _ S hSn hS hcent t v J h _
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   exact no_E16_of_L225 S hcent hS (h.exists_elemAbelian_sixteen htop)
 
 theorem noTwoCfgL35_holds : NoTwoCfgL35 := by
   intro G _ _ S hSn hS hcent t v J h _
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   exact no_E16_of_L35 S hcent hS (h.exists_elemAbelian_sixteen htop)
 
 theorem noTwoCfgU35_holds : NoTwoCfgU35 := by
   intro G _ _ S hSn hS hcent t v J h _
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   exact no_E16_of_U35 S hcent hS (h.exists_elemAbelian_sixteen htop)
 

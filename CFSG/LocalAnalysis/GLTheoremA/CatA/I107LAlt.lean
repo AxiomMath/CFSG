@@ -53,14 +53,14 @@ theorem levi_unip_comm {A Y : Matrix (Fin m) (Fin m) K} (hAA : A * A = 1) :
     levi A * unipBlk Y * levi A * unipBlk Y = unipBlk (Y + A * Y * Aᵀ) := by
   have hAt : Aᵀ * Aᵀ = 1 := by
     rw [← Matrix.transpose_mul, hAA, Matrix.transpose_one]
-  simp only [levi, unipBlk, fromBlocks_multiply, Matrix.mul_one, Matrix.one_mul, Matrix.mul_zero,
-    Matrix.zero_mul, add_zero, zero_add, Matrix.mul_add, Matrix.add_mul]
+  simp only [levi, unipBlk, fromBlocks_multiply, Matrix.mul_one, Matrix.mul_zero,
+    Matrix.zero_mul, add_zero, zero_add]
   rw [hAA, hAt]
-  simp [fromBlocks_one, add_comm, Matrix.mul_assoc]
+  simp [Matrix.mul_assoc]
 
 theorem quad_eq_dot (w : Fin m ⊕ Fin m → K) :
     CFSG.Open.StatedQuadPlus m K w = (w ∘ Sum.inl) ⬝ᵥ (w ∘ Sum.inr) := by
-  simp only [CFSG.Open.StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, dotProduct, Function.comp]
+  simp only [CFSG.Open.StatedQuadPlus, dotProduct, Function.comp]
 
 theorem unipBlk_mulVec_inl (Y : Matrix (Fin m) (Fin m) K) (v : Fin m ⊕ Fin m → K) :
     (unipBlk Y *ᵥ v) ∘ Sum.inl = (v ∘ Sum.inl) + Y *ᵥ (v ∘ Sum.inr) := by
@@ -104,7 +104,7 @@ theorem dot_offMat_mulVec (h2 : (2 : K) = 0) (f : OffIdx m → K) (y : Fin m →
       have := congrArg Prod.fst hswap
       simpa using this.symm
     have hd : offEntry f p.1 p.2 = 0 := by
-      simp only [offEntry, dif_pos h1]
+      simp only [offEntry, dite_eq_left h1]
     simp [hd]
   · intro p _
     simp
@@ -148,12 +148,12 @@ theorem offMat_pair {i j : Fin m} (hij : i ≠ j) (c : K) (hs : ¬ (s(i, j) : Sy
     Subtype.mk.injEq, Sym2.eq_iff]
   by_cases hxy : x = y
   · subst hxy
-    simp only [dif_pos rfl]
-    split_ifs <;> simp_all [eq_comm]
-  · simp only [dif_neg hxy]
+    simp only
+    split_ifs <;> simp_all
+  · simp only [dite_eq_right hxy]
     split_ifs <;> simp_all [eq_comm]
 
-theorem key_identity {i j q : Fin m} (hij : i ≠ j) (hiq : i ≠ q) (hjq : j ≠ q) (c : K) (h2 : (2 : K) = 0) :
+theorem key_identity {i j q : Fin m} (_hij : i ≠ j) (_hiq : i ≠ q) (hjq : j ≠ q) (c : K) (h2 : (2 : K) = 0) :
     (1 + Matrix.single i q (1 : K)) * (Matrix.single q j c + Matrix.single j q c) *
         (1 + Matrix.single q i (1 : K)) + (Matrix.single q j c + Matrix.single j q c) =
       Matrix.single i j c + Matrix.single j i c := by
@@ -181,7 +181,7 @@ theorem key_identity {i j q : Fin m} (hij : i ≠ j) (hiq : i ≠ q) (hjq : j �
 
 theorem exists_third {m : ℕ} (hm : 3 ≤ m) (i j : Fin m) : ∃ q : Fin m, q ≠ i ∧ q ≠ j := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Finset.univ : Finset (Fin m)) ⊆ {i, j} := by
     intro q _
     by_cases hqi : q = i
@@ -282,7 +282,7 @@ theorem eq_zero_of_offMat {f : OffIdx m → K} (h : offMat f = 0) : f = 0 := by
   | _ i j =>
     have hij : i ≠ j := fun e => ht (Sym2.mk_isDiag_iff.2 e)
     have hf : f ⟨s(i, j), ht⟩ = offEntry f i j := by
-      simp only [offEntry, dif_neg hij]
+      simp only [offEntry, dite_eq_right hij]
     rw [hf]
     have := congrFun (congrFun h i) j
     simpa [offMat, hij] using this
@@ -302,7 +302,7 @@ theorem altHom_fix (i0 : Fin m) (x : Multiplicative (OffIdx m → K)) :
   rw [altHom_val]
   have hr : (Pi.single (Sum.inl i0) (1 : K) : Fin m ⊕ Fin m → K) ∘ Sum.inr = 0 := by
     funext t
-    simp [Pi.single_apply]
+    simp
   funext k
   rcases k with k | k
   · have h := congrFun (unipBlk_mulVec_inl (offMat x.toAdd) (Pi.single (Sum.inl i0) (1 : K))) k
@@ -319,10 +319,10 @@ theorem card_altParam {n : ℕ} {K : Type} [Field K] [Finite K] {m : ℕ} (hK : 
 
 end Alt
 
-theorem pRank_alt_plus_ge {m n : ℕ} (hn : 1 ≤ n) (hm : 3 ≤ m) {K : Type} [Field K] [Finite K]
+theorem pRank_alt_plus_ge {m n : ℕ} (_hn : 1 ≤ n) (hm : 3 ≤ m) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ n) :
     n * m.choose 2 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m)))) := by
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hK
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hK
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hv : (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin m)) (1 : K) : Fin m ⊕ Fin m → K) ≠ 0 := by
     intro h

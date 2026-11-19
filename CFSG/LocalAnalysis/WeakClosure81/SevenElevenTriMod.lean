@@ -32,7 +32,7 @@ private theorem triality_isNilpotent_rep_sub_one {Γ X A : Type} [Group Γ] [Gro
     (hI : TrialityIdent π 𝔇 ρ) :
     ∀ g : Γ, IsNilpotent (ρ g - 1) := by
   classical
-  haveI : Finite (Subrepresentation ρ) :=
+  have : Finite (Subrepresentation ρ) :=
     Finite.of_injective (fun S : Subrepresentation ρ => (S.toSubmodule : Set A))
       (fun S T h =>
         Subrepresentation.toSubmodule_injective
@@ -107,7 +107,7 @@ theorem false_of_isNilpotent_rep {Γ X A : Type} [Group Γ] [Group X] [AddCommGr
     [Module (ZMod 2) A] [Finite A] {π : Γ →* X} {𝔇 : Set Γ} {s : X}
     (hL : TrialityHyp π 𝔇 s) (ρ : Representation (ZMod 2) Γ A)
     (hI : TrialityIdent π 𝔇 ρ) (hker : ∀ g : Γ, ρ g = 1 → π g = 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil := triality_isNilpotent_rep_sub_one hL ρ hI
   have hP : IsPGroup 2 X := by
     intro x

@@ -80,11 +80,11 @@ theorem census_of_m24CheckC {xg xs : Array (Array ℕ)}
         rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         exact mul_mem (mul_mem (inv_mem hv) hx) (inv_inv v ▸ hv)
       · exact mul_mem (mul_mem hv hx) (inv_mem hv)
-      · simp [MulAut.conj_apply, mul_assoc]
+      · simp [mul_assoc]
     have hback : (E₀.map (MulAut.conj v).toMonoidHom).map (MulAut.conj v⁻¹).toMonoidHom = E₀ := by
       rw [map_conj_map_conj, inv_mul_cancel]
       ext x
-      simp [MulAut.conj_apply]
+      simp
     exact witW_of_map_conj hvX (by rw [hback]; exact hW)
   have hS'le : S' ≤ iota.range := by
     change S' ≤ AutPerm.subtype.range

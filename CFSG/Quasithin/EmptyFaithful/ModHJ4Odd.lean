@@ -60,7 +60,7 @@ theorem eq_bot_of_normalized_by_sylow
   have hM : MatFacts := hF.mat
   have hP0 : IsSylowTwoOf P0 ⊤ := by
     let P0s : Sylow 2 J := Sylow.ofCard P0 (by rw [card_P0 hM hF, card_J_factorization hF])
-    have h := K1.isSylowTwoOf_top_iff.2 ⟨P0s.isPGroup', P0s.not_dvd_index⟩
+    have h := K1.isSylowTwoOf_top_iff.2 ⟨P0s.isPGroup, P0s.not_dvd_index⟩
     rwa [Sylow.coe_ofCard] at h
   exact eq_bot_of_normalized_by_sylow_abstract hP0 Eg_le_P0
     (fun hp hp2 P' hP' hEP => eq_bot_of_normalized_by_E hF hp hp2 hP' hEP)

@@ -161,9 +161,9 @@ theorem sum_norm_sq_cfInner_mul_le
         (fun k => (hfam j).subset_Irr ⟨k, rfl⟩) (hfam j).isCoherentWith]
       by_cases hk : k = k'
       · subst hk; simp
-      · rw [if_neg hk, if_neg (by simpa using hk)]
+      · rw [ite_eq_right hk, ite_eq_right (by simpa using hk)]
     · rw [cfInner_coherentImage_coherentImage_eq_zero_of_ne hfam hdisj hjj,
-        if_neg (fun h => hjj (congrArg Subtype.val (congrArg Sigma.fst h)))]
+        ite_eq_right (fun h => hjj (congrArg Subtype.val (congrArg Sigma.fst h)))]
   have hbessel := sum_norm_sq_cfInner_le_re_of_cfInner_eq_ite hortho Γ
   refine le_trans (le_of_eq ?_) hbessel
   rw [← Finset.univ_sigma_univ, Finset.sum_sigma, ← Finset.sum_coe_sort B]

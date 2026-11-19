@@ -34,7 +34,7 @@ theorem sec63_elem_le_of_relIndex [Finite G] {R H : Subgroup G} (hU : IsCyclic �
     (h : H.relIndex R ≤ 2) :
     ∀ E : Subgroup G, E ≤ R → CFSG.Open.IsElemAbelian 2 E → Nat.card E ≤ 4 := by
   intro E hER hE
-  haveI : IsCyclic ↥(R ⊓ H) := hU
+  have : IsCyclic ↥(R ⊓ H) := hU
   have hexp : ∀ x ∈ E ⊓ H, x ^ 2 = 1 := fun x hx =>
     hE.2 x (Subgroup.mem_inf.mp hx).1
   have hEH : Nat.card ↥(E ⊓ H) ≤ 2 :=
@@ -55,7 +55,7 @@ theorem sec63_elem_le_of_quot_z4 [Finite G] {R H : Subgroup G} (hU : IsCyclic �
   let ψ : ↥E →* Multiplicative (ZMod 4) := φ.comp (Subgroup.inclusion hER)
   have hcard := Subgroup.card_ker_mul_card_range ψ
   have hker_le : Nat.card ψ.ker ≤ 2 := by
-    haveI : IsCyclic ↥(R ⊓ H) := hU
+    have : IsCyclic ↥(R ⊓ H) := hU
     have hexp : ∀ x ∈ E ⊓ H, x ^ 2 = 1 := fun x hx =>
       hE.2 x (Subgroup.mem_inf.mp hx).1
     have hEH : Nat.card ↥(E ⊓ H) ≤ 2 :=

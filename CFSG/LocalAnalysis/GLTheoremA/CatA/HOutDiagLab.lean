@@ -24,7 +24,7 @@ theorem hod_lab_triple_twA {lab : CFSG.Assembly.LargeEvenLabel}
   obtain ⟨tg, r, nn⟩ := lab
   obtain ⟨h1, h2, h3⟩ := h
   cases tg <;> simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-    CFSG.StandardType.markDeg] at h1 h2 h3 <;> (try split_ifs at h1 h2 h3) <;> simp_all <;> omega
+    CFSG.StandardType.markDeg] at h1 h2 h3 <;> (try split_ifs at h1 h2 h3) <;> simp_all
 
 theorem hod_lab_triple_D {lab : CFSG.Assembly.LargeEvenLabel}
     (h : CFSG.StandardType.markTag lab = StatedLieTag.POmegaPlus ∧
@@ -33,7 +33,7 @@ theorem hod_lab_triple_D {lab : CFSG.Assembly.LargeEvenLabel}
   obtain ⟨tg, r, nn⟩ := lab
   obtain ⟨h1, h2, h3⟩ := h
   cases tg <;> simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
-    CFSG.StandardType.markDeg] at h1 h2 h3 <;> (try split_ifs at h1 h2 h3) <;> simp_all <;> omega
+    CFSG.StandardType.markDeg] at h1 h2 h3 <;> (try split_ifs at h1 h2 h3) <;> simp_all
 
 
 

@@ -87,7 +87,7 @@ private lemma omegaBlockModel_fixed {ι : Type} [Fintype ι] [DecidableEq ι] {f
       RCKClassicalTag t ∧ 1 ≤ g ∧
         RCKModelConverse (J'.subgroupOf (glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε))
           t m g κ := by
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   let H : Subgroup ↥(StatedOmega ⇑Φ) := glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε
   let C : Subgroup ↥H := J'.subgroupOf H
   change ∃ (t : StatedLieTag) (m g : ℕ) (κ : (ggU t m g).K →* ↥H),
@@ -95,8 +95,8 @@ private lemma omegaBlockModel_fixed {ι : Type} [Fintype ι] [DecidableEq ι] {f
   have hCoC : CFSG.Open.IsComponentOf C ⊤ := hCo
   obtain ⟨ι₁, hFintype₁, hDecEq₁, Q₁, -, ⟨Φ₁, hΦ₁eq, hΦ₁nd⟩, hdisj⟩ :=
     ClassicalBlocks.blockGroup_iso_Omega_one Φ hΦ h8 b hb hodd hε h1
-  letI : Fintype ι₁ := hFintype₁
-  letI : DecidableEq ι₁ := hDecEq₁
+  let : Fintype ι₁ := hFintype₁
+  let : DecidableEq ι₁ := hDecEq₁
   rcases hdisj with ⟨⟨iso⟩, hnotsmall⟩ | ⟨-, -, hsol, -⟩
   · have hsmall : ¬ (Nat.card (GaloisField 2 f) = 2 ∧ Fintype.card ι₁ = 4 ∧
         ∃ S : Submodule (GaloisField 2 f) (ι₁ → GaloisField 2 f),
@@ -106,10 +106,10 @@ private lemma omegaBlockModel_fixed {ι : Type} [Fintype ι] [DecidableEq ι] {f
     exact rckBlockModel_omegaFixed hCoC hf Φ₁ hΦ₁nd hsmall hiso.some
   · exfalso
     have hCq : CFSG.Open.IsQuasisimple C := hCoC.2.2
-    haveI : Nontrivial (C ⧸ Subgroup.center C) := hCq.2.toNontrivial
-    haveI : Nontrivial C := (QuotientGroup.mk_surjective (s := Subgroup.center C)).nontrivial
-    haveI : Group.IsPerfect C := ⟨hCq.1⟩
-    letI : Group.IsSolvable ↥H := hsol
+    have : Nontrivial (C ⧸ Subgroup.center C) := hCq.2.toNontrivial
+    have : Nontrivial C := (QuotientGroup.mk_surjective (s := Subgroup.center C)).nontrivial
+    have : Group.IsPerfect C := ⟨hCq.1⟩
+    let : Group.IsSolvable ↥H := hsol
     exact (Group.IsPerfect.not_isSolvable C) inferInstance
 
 private lemma omegaBlockModel_moved {ι : Type} [Fintype ι] [DecidableEq ι] {f : ℕ}
@@ -136,7 +136,7 @@ private lemma omegaBlockModel_moved {ι : Type} [Fintype ι] [DecidableEq ι] {f
       Nat.card E = Q ^ 2 ∧
       Nonempty (↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ≃*
         ↥(ClassicalBlocks.GUFull m Q E))) := by
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   let H : Subgroup ↥(StatedOmega ⇑Φ) := glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε
   let C : Subgroup ↥H := J'.subgroupOf H
   change (∃ (t : StatedLieTag) (m g : ℕ) (κ : (ggU t m g).K →* ↥H),
@@ -146,9 +146,9 @@ private lemma omegaBlockModel_moved {ι : Type} [Fintype ι] [DecidableEq ι] {f
   have hCoC : CFSG.Open.IsComponentOf C ⊤ := hCo
   rcases omegaBlockGroup_moved_eq_unitaryRCK Φ hΦ h8 b hb hodd hε heprim h1 with
     ⟨m, Q, E, hEfield, hEfin, hCh, hEcard, ⟨iso⟩⟩
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
-  letI : CharP E 2 := hCh
+  let : Field E := hEfield
+  let : Finite E := hEfin
+  let : CharP E 2 := hCh
   rcases rckBlockModel_unitaryCase (m := m) (Q := Q) (E := E) hCoC hEcard (Φ := iso) with
     h | h
   · exact Or.inl h
@@ -178,7 +178,7 @@ private lemma omegaBlockModel_pair {ι : Type} [Fintype ι] [DecidableEq ι] {f 
       RCKClassicalTag t ∧ 1 ≤ g ∧
         RCKModelConverse (J'.subgroupOf (glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε))
           t m g κ := by
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   let H : Subgroup ↥(StatedOmega ⇑Φ) := glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε
   let C : Subgroup ↥H := J'.subgroupOf H
   change ∃ (t : StatedLieTag) (m g : ℕ) (κ : (ggU t m g).K →* ↥H),
@@ -186,9 +186,9 @@ private lemma omegaBlockModel_pair {ι : Type} [Fintype ι] [DecidableEq ι] {f 
   have hCoC : CFSG.Open.IsComponentOf C ⊤ := hCo
   rcases omegaBlockGroup_pair_eq_generalLinearRCK Φ hΦ h8 b hb hodd hε he he' hne hεe with
     ⟨m, E, hEfield, hEfin, hCh, ⟨iso⟩⟩
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
-  letI : CharP E 2 := hCh
+  let : Field E := hEfield
+  let : Finite E := hEfin
+  let : CharP E 2 := hCh
   exact rckBlockModel_linearCase (m := m) (E := E) hCoC (Φ := iso)
 
 private lemma omegaBlockModel_of_isPrimAdjIdemIn {ι : Type} [Fintype ι] [DecidableEq ι] {f : ℕ}
@@ -212,7 +212,7 @@ private lemma omegaBlockModel_of_isPrimAdjIdemIn {ι : Type} [Fintype ι] [Decid
       Nat.card E = Q ^ 2 ∧
       Nonempty (↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ≃*
         ↥(ClassicalBlocks.GUFull m Q E))) := by
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   let H : Subgroup ↥(StatedOmega ⇑Φ) := glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε
   let C : Subgroup ↥H := J'.subgroupOf H
   have hC : IsComponentOf C ⊤ := rckIsComponentOf_top_of_commutator hJ'
@@ -278,7 +278,7 @@ theorem rckBlockModel_Omega {ι : Type} [Fintype ι] [DecidableEq ι] {f : ℕ} 
       Nonempty (↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ≃*
         ↥(ClassicalBlocks.GUFull m Q E))) := by
   classical
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   exact omegaBlockModel_of_isPrimAdjIdemIn hf Φ hΦ h8 hb hodd hε hJ'
 
 end CFSG.StandardType.RCKRP

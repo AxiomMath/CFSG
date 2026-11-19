@@ -48,7 +48,7 @@ theorem model3_facts_of_rel
   obtain ⟨h15, hca, hcb, ha, hb, hab⟩ := he
   obtain ⟨h3, h5⟩ := hn
   simp only [evalG_sW, evalG, evalG_append, evalG_flatten_replicate] at h15 hca hcb ha hb hab h3 h5
-  simp only [if_true, one_ne_zero, if_false, mul_one] at hca hcb ha hb hab
+  simp only [ite_true, one_ne_zero, ite_false, mul_one] at hca hcb ha hb hab
   have hs : ∀ n : ℕ, ((s3 ^ n : model3) : Equiv.Perm (Fin 18)) = (perm3a * perm3b) ^ n :=
     fun n => Subgroup.coe_pow _ _ n
   have hne : ∀ n : ℕ, (perm3a * perm3b) ^ n ≠ 1 → s3 ^ n ≠ 1 :=
@@ -88,7 +88,7 @@ theorem model6_facts_of_rel
   obtain ⟨h30, hca, hcb, ha, hb, hab⟩ := he
   obtain ⟨h15, h10, h6⟩ := hn
   simp only [evalG_sW, evalG, evalG_append, evalG_flatten_replicate] at h30 hca hcb ha hb hab h15 h10 h6
-  simp only [if_true, one_ne_zero, if_false, mul_one] at hca hcb ha hb hab
+  simp only [ite_true, one_ne_zero, ite_false, mul_one] at hca hcb ha hb hab
   have hs : ∀ n : ℕ, ((s6 ^ n : model6) : Equiv.Perm (Fin 162)) = (perm6a * perm6b) ^ n :=
     fun n => Subgroup.coe_pow _ _ n
   have hne : ∀ n : ℕ, (perm6a * perm6b) ^ n ≠ 1 → s6 ^ n ≠ 1 :=

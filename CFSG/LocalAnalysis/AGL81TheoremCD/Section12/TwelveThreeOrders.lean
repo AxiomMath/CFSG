@@ -33,10 +33,10 @@ theorem isSimpleOfOrder_iff {n : ℕ} {X : Type} [Group X] :
 theorem IsSimpleOfOrder.of_mulEquiv {n : ℕ} {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
     (h : IsSimpleOfOrder n Y) : IsSimpleOfOrder n X := by
   obtain ⟨hY, hns, hc⟩ := h
-  haveI : IsSimpleGroup Y := hY
+  have : IsSimpleGroup Y := hY
   refine ⟨MulEquiv.isSimpleGroup e, ?_, ?_⟩
   · intro hsolv
-    haveI : Group.IsSolvable X := hsolv
+    have : Group.IsSolvable X := hsolv
     exact hns (Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective)
   · rw [Nat.card_congr e.toEquiv, hc]
 
@@ -44,7 +44,7 @@ theorem isSimpleOfOrder_of_reeTitsModel_tits
     {X : Type} [Group X] (h : CFSG.Blueprint.ReeTitsModel X .Tits 2 1) :
     IsSimpleOfOrder 17971200 X := by
   obtain ⟨e⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv X 2 1 h
-  haveI : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD :=
+  have : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD :=
     CFSG.Sporadic.Schreier.Tits.titsD_simple
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
   have hcard : Nat.card X = 17971200 := by
@@ -57,7 +57,7 @@ theorem isSimpleOfOrder_of_reeTitsModel_tits
 theorem isSimpleOfOrder_of_isSporadic_HS {X : Type} [Group X]
     (h : CFSG.Blueprint.NativeSporadic.IsSporadic X .HS) : IsSimpleOfOrder 44352000 X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .HS) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .HS) :=
     CFSG.Sporadic.HS.isSimpleGroup_HS
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
   have hcard : Nat.card X = 44352000 := by
@@ -71,7 +71,7 @@ theorem isSimpleOfOrder_of_isSporadic_Ly {X : Type} [Group X]
     (h : CFSG.Blueprint.NativeSporadic.IsSporadic X .Ly) :
     IsSimpleOfOrder 51765179004000000 X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Ly) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Ly) :=
     CFSG.Sporadic.Ly.fam_ly_simplicity.2.2
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
   have hcard : Nat.card X = 51765179004000000 := by
@@ -84,7 +84,7 @@ theorem isSimpleOfOrder_of_isSporadic_Ly {X : Type} [Group X]
 theorem isSimpleOfOrder_of_isSporadic_ONan {X : Type} [Group X]
     (h : CFSG.Blueprint.NativeSporadic.IsSporadic X .ONan) : IsSimpleOfOrder 460815505920 X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     CFSG.Sporadic.ON.fam_on_simplicity.2.2
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
   have hcard : Nat.card X = 460815505920 := by
@@ -98,7 +98,7 @@ theorem isSimpleOfOrder_of_isSporadic_Fi24Prime {X : Type}
     [Group X] (h : CFSG.Blueprint.NativeSporadic.IsSporadic X .Fi24Prime) :
     IsSimpleOfOrder 1255205709190661721292800 X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) :=
     CFSG.Sporadic.Fi24.isSimpleGroup_Fi24prime
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
   have hcard : Nat.card X = 1255205709190661721292800 := by
@@ -134,7 +134,7 @@ theorem isSimpleOfOrder_of_chevalleyExceptionalModel_g2_five
 theorem isSimpleOfOrder_of_isSporadic_He {X : Type} [Group X]
     (h : CFSG.Blueprint.NativeSporadic.IsSporadic X .He) : IsSimpleOfOrder 4030387200 X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
     CFSG.Sporadic.He.isSimpleGroup_He
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
   have hcard : Nat.card X = 4030387200 := by
@@ -156,7 +156,7 @@ private theorem card_psl3_seven : Nat.card (PSL(3, ZMod 7)) = 1876896 := by
 theorem isSimpleOfOrder_of_isPSLType_three_three {X : Type} [Group X]
     (h : IsPSLType 3 (ZMod 3) X) : IsSimpleOfOrder 5616 X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (PSL(3, ZMod 3)) :=
+  have : IsSimpleGroup (PSL(3, ZMod 3)) :=
     CFSG.BenderSuzuki.External.huppert_II_6_13 3 (by norm_num) (Or.inl (by norm_num))
       (Or.inl (by norm_num))
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
@@ -170,7 +170,7 @@ theorem isSimpleOfOrder_of_isPSLType_three_three {X : Type} [Group X]
 theorem isSimpleOfOrder_of_isPSLType_three_seven {X : Type} [Group X]
     (h : IsPSLType 3 (ZMod 7) X) : IsSimpleOfOrder 1876896 X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (PSL(3, ZMod 7)) :=
+  have : IsSimpleGroup (PSL(3, ZMod 7)) :=
     CFSG.BenderSuzuki.External.huppert_II_6_13 3 (by norm_num) (Or.inl (by norm_num))
       (Or.inl (by norm_num))
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
@@ -184,7 +184,7 @@ theorem isSimpleOfOrder_of_isPSLType_three_seven {X : Type} [Group X]
 theorem simple_nonsolvable_three_dvd_of_isPSLType_two {X : Type} [Group X] {p : ℕ}
     [Fact p.Prime] (hp5 : 5 ≤ p) (h : IsPSLType 2 (ZMod p) X) :
     IsSimpleGroup X ∧ ¬ Group.IsSolvable X ∧ 3 ∣ Nat.card X := by
-  haveI : IsSimpleGroup (PSL(2, ZMod p)) :=
+  have : IsSimpleGroup (PSL(2, ZMod p)) :=
     CFSG.RankThree.PartTwo.Sec15.isSimpleGroup_PSL2 hp5
   obtain ⟨e⟩ := h
   have hsimple : IsSimpleGroup X := MulEquiv.isSimpleGroup e
@@ -193,7 +193,7 @@ theorem simple_nonsolvable_three_dvd_of_isPSLType_two {X : Type} [Group X] {p : 
     exact ⟨e.symm a, e.symm b, fun hcomm => hab (by simpa using congrArg e hcomm)⟩
   refine ⟨hsimple, ?_, ?_⟩
   · intro hsolv
-    haveI : IsSimpleGroup X := hsimple
+    have : IsSimpleGroup X := hsimple
     obtain ⟨a, b, hab⟩ := hnc
     exact hab ((IsSimpleGroup.comm_iff_isSolvable (G := X)).mpr hsolv a b)
   · rw [Nat.card_congr e.toEquiv]

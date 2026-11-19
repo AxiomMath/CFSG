@@ -22,7 +22,7 @@ theorem mem_calH2_9_of_mem_calMOf (D : Data G) {Y N : Subgroup G} (hY : Y ∈ ca
     (hN : N ∈ calMOf Y) (hNM : N ≠ D.M) : N ∈ calH2_9 D Y := by
   rcases hY.2.2.1 hN with h | h
   · refine ⟨h, ?_⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hF := (CFSG.isCharacteristicP_iff_generalizedFitting_eq_pCore ↥N 2).1
       ((CFSG.QuasithinUnique.charTwo_iff_isCharacteristicP (K := N)).1 (D.standing.charTwo N hN.1.1))
     unfold Fstar pCoreOf
@@ -75,7 +75,7 @@ theorem sup_mem_calY2_9 (D : Data G) {Y W N P : Subgroup G} (hY : Y ∈ calY2_9 
     rw [h] at h'
     exact hNM (Set.mem_singleton_iff.1 h')
   have hNZ : calNOf (L9 Y W ⊔ P) ≠ {D.M} := by
-    haveI := D.standing.simple
+    have := D.standing.simple
     rcases eq_top_or_exists_le_coatom N with h | ⟨N', hN', hNN'⟩
     · exact absurd h (CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hN.1.1)
     · intro hc

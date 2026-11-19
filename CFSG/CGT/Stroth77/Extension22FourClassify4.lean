@@ -15,6 +15,7 @@ namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
 
+omit [Finite S] in
 theorem isMulCommutative_of_torusBasisEquivFour (E : TorusBasisEquivFour D hBC e f) :
     IsMulCommutative C :=
   IsMulCommutative.of_comm fun x y => by
@@ -26,6 +27,7 @@ theorem map_two_torsion (φ : Torus (Type200.k m) →+ Torus (Type200.k m))
     {x : Torus (Type200.k m)} (hx : 2 • x = 0) : 2 • φ x = 0 := by
   rw [← map_nsmul, hx, map_zero]
 
+omit [Finite S] in
 theorem cocycleUV_eq_zero_of_two_torsion
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
@@ -36,6 +38,7 @@ theorem cocycleUV_eq_zero_of_two_torsion
   · simpa [two_zsmul, two_nsmul] using cocycleUV_two_gen1 he hf E hL
   · simpa [two_zsmul, two_nsmul] using cocycleUV_two_gen2 he hf E hL
 
+omit [Finite S] in
 theorem cocycleT_eq_zero_of_two_torsion
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
@@ -46,6 +49,7 @@ theorem cocycleT_eq_zero_of_two_torsion
   · simpa [two_zsmul, two_nsmul] using cocycleT_two_gen1 he hf E hL
   · simpa [two_zsmul, two_nsmul] using cocycleT_two_gen2 he hf E hL
 
+omit [Finite S] in
 theorem cocycleU_eq_zero_of_two_torsion
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
@@ -56,6 +60,7 @@ theorem cocycleU_eq_zero_of_two_torsion
   · simpa [two_zsmul, two_nsmul] using cocycleU_two_gen1 he hf E hL
   · simpa [two_zsmul, two_nsmul] using cocycleU_two_gen2 he hf E hL
 
+omit [Finite S] in
 theorem cocycleR_eq_zero_of_two_torsion
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
@@ -82,16 +87,15 @@ theorem cocycleR_eq_zero_of_two_torsion
     change E.E (psiBasis h2P h2Q (gen (Type200.k m) 1)) =
       Additive.ofMul (e * Additive.toMul (E.E P))
     rw [psiBasis_gen1]
-    change E.E (gen (Type200.k m) 1 + P) = Additive.ofMul (e * Additive.toMul (E.E P))
     rw [map_add, E.E_gen1, ofMul_mul, ofMul_toMul]
   E_gen2 := by
     rw [AddEquiv.trans_apply]
     change E.E (psiBasis h2P h2Q (gen (Type200.k m) 2)) =
       Additive.ofMul (f * Additive.toMul (E.E Q))
     rw [psiBasis_gen2]
-    change E.E (gen (Type200.k m) 2 + Q) = Additive.ofMul (f * Additive.toMul (E.E Q))
     rw [map_add, E.E_gen2, ofMul_mul, ofMul_toMul]
 
+omit [Finite S] in
 theorem conjTorusFour_basisChange
     (E : TorusBasisEquivFour D hBC e f)
     (P Q : Torus (Type200.k m)) (h2P : 2 • P = 0) (h2Q : 2 • Q = 0)
@@ -119,6 +123,7 @@ theorem conjTorusFour_basisChange
       (E.E.symm (Additive.ofMul (conjBy hg (Additive.toMul (E.E (psiBasis h2P h2Q x))))))
   rfl
 
+omit [Finite S] in
 theorem cocycle_basisChange_gen1
     (E : TorusBasisEquivFour D hBC e f)
     (P Q : Torus (Type200.k m)) (h2P : 2 • P = 0) (h2Q : 2 • Q = 0)
@@ -136,9 +141,10 @@ theorem cocycle_basisChange_gen1
     piBasis_two_torsion_eq_zero h2P h2Q h2p
   rw [cocycle_apply, conjTorusFour_basisChange, psiBasis_gen1,
     action_eq_printed_add_cocycle E hgC φ]
-  simp only [map_add, psiBasis_apply, hδP, hφP, hπδ, map_zero, add_zero, zero_add]
+  simp only [map_add, psiBasis_apply, hδP, hφP, hπδ, add_zero]
   abel
 
+omit [Finite S] in
 theorem cocycle_basisChange_gen2
     (E : TorusBasisEquivFour D hBC e f)
     (P Q : Torus (Type200.k m)) (h2P : 2 • P = 0) (h2Q : 2 • Q = 0)
@@ -156,9 +162,10 @@ theorem cocycle_basisChange_gen2
     piBasis_two_torsion_eq_zero h2P h2Q h2q
   rw [cocycle_apply, conjTorusFour_basisChange, psiBasis_gen2,
     action_eq_printed_add_cocycle E hgC φ]
-  simp only [map_add, psiBasis_apply, hδQ, hφQ, hπδ, map_zero, add_zero, zero_add]
+  simp only [map_add, psiBasis_apply, hδQ, hφQ, hπδ, add_zero]
   abel
 
+omit [Finite S] in
 theorem exists_u_normalized_all
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
@@ -180,7 +187,6 @@ theorem exists_u_normalized_all
   have hz : z * z = 1 := by simp [z]
   have hw : w * w = 1 := by
     apply Additive.ofMul.injective
-    change Additive.ofMul (w * w) = Additive.ofMul (1 : C)
     rw [ofMul_mul, ofMul_one]
     have h : (2 : ℕ) • (E.E p) = 0 := by
       rw [← map_nsmul]
@@ -188,10 +194,10 @@ theorem exists_u_normalized_all
     rw [show E.E p = Additive.ofMul w from rfl] at h
     rwa [two_nsmul] at h
   have he1 : (e * z) * (e * z) = ⟨D.a, hBC D.a.2⟩ := by
-    haveI : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
+    have : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
     rw [mul_mul_mul_comm, he, hz, mul_one]
   have hf1 : (f * w) * (f * w) = ⟨D.b, hBC D.b.2⟩ := by
-    haveI : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
+    have : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
     rw [mul_mul_mul_comm, hf, hw, mul_one]
   refine ⟨z, w, hz, hw, he1, hf1, basisChange E 0 p (by simp) h2p, ?_⟩
   have hgen : ∀ j : Fin 3,
@@ -233,6 +239,7 @@ theorem exists_u_normalized_all
   exact cocycle_eq_zero_of_gen_eq_zero (basisChange E 0 p (by simp) h2p)
     (hL D.u_mem_L) _ hgen
 
+omit [Finite S] in
 theorem cocycleR_apply_zsmul_gens
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -255,6 +262,7 @@ theorem phiR_neg_sum (m : ℕ) :
     Type200.rho_c, Type200.rho_a, Type200.rho_b]
   module
 
+omit [Finite S] in
 theorem cocycleR_u_rho_eq
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -381,6 +389,7 @@ theorem cocycleR_u_rho_eq
       _ = 0 := by rw [hp, hq, add_zero]
   simpa [p, q] using hfin
 
+omit [Finite S] in
 theorem cocycleR_rho_cube_eq
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
@@ -537,7 +546,7 @@ theorem eBit_spec_gen {k : Fin 3 → ℕ} {x : Torus k} (hx : 2 • x = 0) (i : 
   · simp [h]
   · by_cases h0 : x i = 0
     · simp [h0]
-    · rw [if_neg h0, h, one_zsmul]
+    · rw [ite_eq_right h0, h, one_zsmul]
 
 theorem eBit_spec {x : Torus (Type200.k m)} (hx : 2 • x = 0) (i : Fin 3) :
     x i = eBit x i • eBasis m i i := by
@@ -546,7 +555,7 @@ theorem eBit_spec {x : Torus (Type200.k m)} (hx : 2 • x = 0) (i : Fin 3) :
     rcases Nat.eq_zero_or_pos m with rfl | hm
     · have h1 : 2 ^ Type200.k 0 0 = 1 := by
         rw [show Type200.k 0 0 = 0 from rfl]; norm_num
-      haveI : Subsingleton (ZMod (2 ^ Type200.k 0 0)) := by
+      have : Subsingleton (ZMod (2 ^ Type200.k 0 0)) := by
         rw [h1]; infer_instance
       have hx0 : x 0 = 0 := Subsingleton.elim _ _
       simp [eBit, hx0, eBasis]
@@ -555,7 +564,7 @@ theorem eBit_spec {x : Torus (Type200.k m)} (hx : 2 • x = 0) (i : Fin 3) :
         omega
       have h := eBit_spec_gen (k := Type200.k m) hx 0 hk
       have hEq : eBasis m 0 0 = ((2 ^ (m - 1) : ℕ) : ZMod (2 ^ m)) := by
-        simp [eBasis, gen, Pi.single_apply, nsmul_eq_mul]
+        simp [eBasis, gen, nsmul_eq_mul]
         rfl
       rw [hEq]
       change x 0 = (if x 0 = 0 then (0 : ℤ) else 1) •
@@ -567,7 +576,7 @@ theorem eBit_spec {x : Torus (Type200.k m)} (hx : 2 • x = 0) (i : Fin 3) :
       omega
     have h := eBit_spec_gen (k := Type200.k m) hx 1 hk
     have hEq : eBasis m 1 1 = ((2 ^ (m + 1) : ℕ) : ZMod (2 ^ (m + 2))) := by
-      simp [eBasis, gen, Pi.single_apply, nsmul_eq_mul]
+      simp [eBasis, gen, nsmul_eq_mul]
       rfl
     rw [hEq]
     change x 1 = (if x 1 = 0 then (0 : ℤ) else 1) •
@@ -579,7 +588,7 @@ theorem eBit_spec {x : Torus (Type200.k m)} (hx : 2 • x = 0) (i : Fin 3) :
       omega
     have h := eBit_spec_gen (k := Type200.k m) hx 2 hk
     have hEq : eBasis m 2 2 = ((2 ^ (m + 1) : ℕ) : ZMod (2 ^ (m + 2))) := by
-      simp [eBasis, gen, Pi.single_apply, nsmul_eq_mul]
+      simp [eBasis, gen, nsmul_eq_mul]
       rfl
     rw [hEq]
     change x 2 = (if x 2 = 0 then (0 : ℤ) else 1) •
@@ -690,14 +699,11 @@ theorem phiR_eBasis_two (m : ℕ) :
       simpa [Torus.c, Torus.a, Torus.b] using Type200.rho_b m]
   funext i
   fin_cases i
-  · simp [Pi.add_apply, Pi.smul_apply, gen, Pi.single_apply, nsmul_eq_mul, zsmul_eq_mul,
-      show Type200.k m 0 = m from rfl]
+  · simp [Pi.add_apply, Pi.smul_apply, gen, nsmul_eq_mul]
     exact zmod_two_pow_succ_pow_eq_zero m
-  · simp [Pi.add_apply, Pi.smul_apply, gen, Pi.single_apply, nsmul_eq_mul, zsmul_eq_mul,
-      show Type200.k m 1 = m + 2 from rfl]
+  · simp [Pi.add_apply, Pi.smul_apply, gen, nsmul_eq_mul]
     exact zmod_two_pow_succ_pow_neg m
-  · simp [Pi.add_apply, Pi.smul_apply, gen, Pi.single_apply, nsmul_eq_mul, zsmul_eq_mul,
-      show Type200.k m 2 = m + 2 from rfl]
+  · simp [Pi.add_apply, Pi.smul_apply, gen, nsmul_eq_mul]
     exact zmod_two_pow_succ_pow_neg m
 
 theorem zmod_two_pow_pow_eq_zero (N : ℕ) :
@@ -737,14 +743,15 @@ theorem eBit_eq_zero_of_mul_eq_zero (x : Torus (Type200.k m)) (i : Fin 3)
     (h : (↑(eBit x i) : ZMod (2 ^ Type200.k m i)) * t = 0) : eBit x i = 0 := by
   have hbit : eBit x i = 0 ∨ eBit x i = 1 := by
     by_cases h0 : x i = 0
-    · left; simp only [eBit]; rw [if_pos h0]
-    · right; simp only [eBit]; rw [if_neg h0]
+    · left; simp only [eBit]; rw [ite_eq_left h0]
+    · right; simp only [eBit]; rw [ite_eq_right h0]
   rcases hbit with h0 | h1
   · exact h0
   · rw [h1] at h
     norm_num at h
     exact absurd h ht
 
+omit [Finite S] in
 theorem cocycleR_forms
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -771,14 +778,13 @@ theorem cocycleR_forms
   change ((Type200.action m).φρ ((Type200.action m).φρ p) + p) +
     ((Type200.action m).φρ q + q) = 0 at h2
   rw [hp, hq] at h1 h2
-  simp only [map_add, map_zsmul, map_nsmul, phiU_eBasis_zero, phiU_eBasis_one,
+  simp only [map_add, map_zsmul, phiU_eBasis_zero, phiU_eBasis_one,
     phiU_eBasis_two, phiR_eBasis_zero, phiR_eBasis_one, phiR_eBasis_two] at h1 h2
   have h10 := congrFun h1 0
   have h11 := congrFun h1 1
   have h12 := congrFun h1 2
   have h21 := congrFun h2 1
-  simp [Pi.add_apply, Pi.mul_apply, Pi.smul_apply, eBasis, gen, Pi.single_apply,
-    nsmul_eq_mul, Pi.one_apply, Pi.zero_apply] at h10 h11 h12 h21
+  simp [Pi.add_apply, Pi.mul_apply, eBasis, gen, nsmul_eq_mul] at h10 h11 h12 h21
   have h2t1 : (2 : ZMod (2 ^ (m + 2))) * (2 : ZMod (2 ^ (m + 2))) ^ (m + 1) = 0 := by
     rw [← pow_succ', show m + 1 + 1 = m + 2 by omega]
     exact zmod_two_pow_pow_eq_zero (m + 2)
@@ -858,12 +864,12 @@ theorem cocycleR_forms
   have hp2q1 : eBit p 2 = eBit q 1 := by
     have hpbit : eBit p 2 = 0 ∨ eBit p 2 = 1 := by
       by_cases h0 : p 2 = 0
-      · left; simp only [eBit]; rw [if_pos h0]
-      · right; simp only [eBit]; rw [if_neg h0]
+      · left; simp only [eBit]; rw [ite_eq_left h0]
+      · right; simp only [eBit]; rw [ite_eq_right h0]
     have hqbit : eBit q 1 = 0 ∨ eBit q 1 = 1 := by
       by_cases h0 : q 1 = 0
-      · left; simp only [eBit]; rw [if_pos h0]
-      · right; simp only [eBit]; rw [if_neg h0]
+      · left; simp only [eBit]; rw [ite_eq_left h0]
+      · right; simp only [eBit]; rw [ite_eq_right h0]
     rcases hpbit with hp | hp <;> rcases hqbit with hq | hq
     · rw [hp, hq]
     · exfalso
@@ -922,7 +928,7 @@ theorem cocycleR_forms
     rcases Nat.eq_zero_or_pos m with rfl | hm
     · have h1 : (2 : ℕ) ^ Type200.k 0 0 = 1 := by
         rw [show Type200.k 0 0 = 0 from rfl]; norm_num
-      haveI : Subsingleton (ZMod (2 ^ Type200.k 0 0)) := by
+      have : Subsingleton (ZMod (2 ^ Type200.k 0 0)) := by
         rw [h1]; infer_instance
       have h0 : p 0 = 0 := Subsingleton.elim _ _
       simp [eBit, h0]
@@ -966,27 +972,27 @@ theorem eBasis_two_torsion (m : ℕ) (i : Fin 3) : 2 • eBasis m i = 0 := by
         rw [← pow_succ', show m - 1 + 1 = m by omega]]
       ext j
       fin_cases j
-      · simp [gen, Pi.single_apply, nsmul_eq_mul]
+      · simp [gen, nsmul_eq_mul]
         exact zmod_two_pow_pow_eq_zero m
-      · simp [gen, Pi.single_apply]
-      · simp [gen, Pi.single_apply]
+      · simp [gen]
+      · simp [gen]
   · change 2 • eBasis m 1 = 0
     rw [eBasis_one, smul_smul, show 2 * 2 ^ (m + 1) = 2 ^ (m + 2) by
       rw [← pow_succ', show m + 1 + 1 = m + 2 by omega]]
     ext j
     fin_cases j
-    · simp [gen, Pi.single_apply]
-    · simp [gen, Pi.single_apply, nsmul_eq_mul]
+    · simp [gen]
+    · simp [gen, nsmul_eq_mul]
       exact zmod_two_pow_pow_eq_zero (m + 2)
-    · simp [gen, Pi.single_apply]
+    · simp [gen]
   · change 2 • eBasis m 2 = 0
     rw [eBasis_two, smul_smul, show 2 * 2 ^ (m + 1) = 2 ^ (m + 2) by
       rw [← pow_succ', show m + 1 + 1 = m + 2 by omega]]
     ext j
     fin_cases j
-    · simp [gen, Pi.single_apply]
-    · simp [gen, Pi.single_apply]
-    · simp [gen, Pi.single_apply, nsmul_eq_mul]
+    · simp [gen]
+    · simp [gen]
+    · simp [gen, nsmul_eq_mul]
       exact zmod_two_pow_pow_eq_zero (m + 2)
 
 theorem smul_eBasis_add_self (m : ℕ) (l : ℤ) (i : Fin 3) :
@@ -1016,6 +1022,7 @@ theorem rhoQ_form {p q : Torus (Type200.k m)} {a l : ℤ}
   rw [rhoP_form hp hq, map_add]
   simp only [map_zsmul, phiU_eBasis_zero, phiU_eBasis_two]
 
+omit [Finite S] in
 theorem exists_rho_normalized_all
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -1052,7 +1059,6 @@ theorem exists_rho_normalized_all
   let w : C := Additive.toMul (E.E Q)
   have hz : z * z = 1 := by
     apply Additive.ofMul.injective
-    change Additive.ofMul (z * z) = Additive.ofMul (1 : C)
     rw [ofMul_mul, ofMul_one]
     have h : (2 : ℕ) • (E.E P) = 0 := by
       rw [← map_nsmul]
@@ -1061,7 +1067,6 @@ theorem exists_rho_normalized_all
     rwa [two_nsmul] at h
   have hw : w * w = 1 := by
     apply Additive.ofMul.injective
-    change Additive.ofMul (w * w) = Additive.ofMul (1 : C)
     rw [ofMul_mul, ofMul_one]
     have h : (2 : ℕ) • (E.E Q) = 0 := by
       rw [← map_nsmul]
@@ -1069,10 +1074,10 @@ theorem exists_rho_normalized_all
     rw [show E.E Q = Additive.ofMul w from rfl] at h
     rwa [two_nsmul] at h
   have he1 : (e * z) * (e * z) = ⟨D.a, hBC D.a.2⟩ := by
-    haveI : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
+    have : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
     rw [mul_mul_mul_comm, he, hz, mul_one]
   have hf1 : (f * w) * (f * w) = ⟨D.b, hBC D.b.2⟩ := by
-    haveI : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
+    have : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
     rw [mul_mul_mul_comm, hf, hw, mul_one]
   refine ⟨z, w, hz, hw, he1, hf1, basisChange E P Q h2P h2Q, ?_, ?_⟩
   · have hu1 : cocycle ((Type200.action m).φu) E (hL D.u_mem_L)
@@ -1119,7 +1124,7 @@ theorem exists_rho_normalized_all
         rw [piBasis_gen1]
         have hφQ : (Type200.action m).φu Q = P := by
           rw [hQ, map_add]
-          simp only [map_zsmul, phiU_eBasis_zero, phiU_eBasis_one, phiU_eBasis_two]
+          simp only [map_zsmul, phiU_eBasis_zero, phiU_eBasis_one]
           exact hP.symm
         rw [hφQ]
         rw [← two_nsmul]
@@ -1182,12 +1187,12 @@ theorem two_pow_succ_gen0_eq_zero (m : ℕ) :
     (2 ^ (m + 1) : ℕ) • gen (Type200.k m) 0 = 0 := by
   ext j
   fin_cases j
-  · simp [gen, Pi.single_apply, nsmul_eq_mul]
+  · simp [gen, nsmul_eq_mul]
     change (((2 : ℕ) : ZMod (2 ^ m)) ^ (m + 1) = 0)
     rw [← Nat.cast_pow, ZMod.natCast_eq_zero_iff]
     exact pow_dvd_pow 2 (Nat.le_succ m)
-  · simp [gen, Pi.single_apply]
-  · simp [gen, Pi.single_apply]
+  · simp [gen]
+  · simp [gen]
 
 theorem phiUV_eBasis_one (m : ℕ) :
     (Type200.action m).φuv (eBasis m 1) = eBasis m 1 := by
@@ -1197,7 +1202,7 @@ theorem phiUV_eBasis_one (m : ℕ) :
       (0 : ℤ) • gen (Type200.k m) 0 + ((2 ^ (m + 1) : ℕ) : ℤ) •
         gen (Type200.k m) 1 + (0 : ℤ) • gen (Type200.k m) 2 by simp]
   rw [Type200.PhiUV_apply_gens]
-  simp only [zero_mul, zero_add, mul_zero, add_zero]
+  simp only [zero_add, mul_zero, add_zero]
   rw [show (2 * ((2 ^ (m + 1) : ℕ) : ℤ)) = ((2 ^ (m + 2) : ℕ) : ℤ) by
     push_cast; ring]
   have h₂ : (((2 ^ (m + 2) : ℕ) : ℤ) • gen (Type200.k m) 2) = 2 • eBasis m 2 := by
@@ -1219,7 +1224,7 @@ theorem phiUV_eBasis_two (m : ℕ) :
       (0 : ℤ) • gen (Type200.k m) 0 + (0 : ℤ) • gen (Type200.k m) 1 +
         ((2 ^ (m + 1) : ℕ) : ℤ) • gen (Type200.k m) 2 by simp]
   rw [Type200.PhiUV_apply_gens]
-  simp only [zero_mul, zero_add, mul_zero, add_zero]
+  simp only [zero_add, mul_zero, add_zero]
   rw [show (((2 ^ (m + 1) : ℕ) : ℤ) • gen (Type200.k m) 0) =
       (2 ^ (m + 1) : ℕ) • gen (Type200.k m) 0 by rw [natCast_zsmul]]
   rw [two_pow_succ_gen0_eq_zero m, zero_add]
@@ -1241,7 +1246,7 @@ theorem phiT_eBasis_one (m : ℕ) :
       (0 : ℤ) • gen (Type200.k m) 0 + ((2 ^ (m + 1) : ℕ) : ℤ) •
         gen (Type200.k m) 1 + (0 : ℤ) • gen (Type200.k m) 2 by simp]
   rw [Type200.PhiT_apply_gens]
-  simp only [zero_mul, zero_sub, mul_zero, add_zero, sub_zero]
+  simp only [zero_sub, mul_zero, sub_zero]
   have h₁ : (((2 ^ (m + 1) : ℕ) : ℤ) • gen (Type200.k m) 1) = eBasis m 1 := by
     rw [natCast_zsmul]; exact (eBasis_one m).symm
   rw [neg_smul, h₁]
@@ -1257,7 +1262,7 @@ theorem phiT_eBasis_two (m : ℕ) :
       (0 : ℤ) • gen (Type200.k m) 0 + (0 : ℤ) • gen (Type200.k m) 1 +
         ((2 ^ (m + 1) : ℕ) : ℤ) • gen (Type200.k m) 2 by simp]
   rw [Type200.PhiT_apply_gens]
-  simp only [zero_mul, zero_sub, mul_zero, add_zero, sub_zero]
+  simp only [zero_sub, mul_zero, sub_zero]
   rw [neg_smul]
   rw [show (((2 ^ (m + 1) : ℕ) : ℤ) • gen (Type200.k m) 0) =
       (2 ^ (m + 1) : ℕ) • gen (Type200.k m) 0 by rw [natCast_zsmul]]
@@ -1289,7 +1294,7 @@ theorem phiUV_eBasis_zero (m : ℕ) (hm : 1 ≤ m) :
       ((2 ^ (m - 1) : ℕ) : ℤ) • gen (Type200.k m) 0 +
         (0 : ℤ) • gen (Type200.k m) 1 + (0 : ℤ) • gen (Type200.k m) 2 by simp]
   rw [Type200.PhiUV_apply_gens]
-  simp only [zero_mul, zero_add, mul_zero, add_zero]
+  simp only [mul_zero, add_zero]
   have h4 : (4 : ℤ) * ((2 ^ (m - 1) : ℕ) : ℤ) = ((2 ^ (m + 1) : ℕ) : ℤ) := by
     rw [show (4 : ℤ) = ((4 : ℕ) : ℤ) by norm_num, ← Nat.cast_mul,
       four_mul_two_pow_pred m hm]

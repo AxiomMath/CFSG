@@ -12,6 +12,7 @@ namespace UC6
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_centralizer_uc6 {P₀ : Subgroup G} {n : G} (hn : n ∈ normalizer (P₀ : Set G)) :
     n ∈ normalizer ((centralizer (P₀ : Set G) : Subgroup G) : Set G) := by
   have key : ∀ n' ∈ normalizer (P₀ : Set G), ∀ c ∈ centralizer (P₀ : Set G),
@@ -34,6 +35,7 @@ theorem mem_normalizer_centralizer_uc6 {P₀ : Subgroup G} {n : G} (hn : n ∈ n
     have := key n⁻¹ (inv_mem hn) _ hc
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mem_normalizer_inftyOf_uc6 {H : Subgroup G} {n : G} (hn : n ∈ normalizer (H : Set G)) :
     n ∈ normalizer ((inftyOf H : Subgroup G) : Set G) := by
   have key : ∀ n' ∈ normalizer (H : Set G), ∀ z ∈ inftyOf H, n' * z * n'⁻¹ ∈ inftyOf H := by
@@ -53,6 +55,7 @@ theorem mem_normalizer_inftyOf_uc6 {H : Subgroup G} {n : G} (hn : n ∈ normaliz
     have := key n⁻¹ (inv_mem hn) _ hz
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mem_normalizer_Opp_uc6 {X : Subgroup G} {n : G} (hn : n ∈ normalizer (X : Set G)) (p : ℕ) :
     n ∈ normalizer ((Opp p X : Subgroup G) : Set G) := by
   have key : ∀ n' ∈ normalizer (X : Set G), ∀ y ∈ Opp p X, n' * y * n'⁻¹ ∈ Opp p X := by
@@ -126,7 +129,7 @@ theorem commutator_L_eq (hq : CFSG.Open.IsQuasisimple ↥m.L) : ⁅m.L, m.L⁆ =
 
 theorem OL_le_centralizer (hq : CFSG.Open.IsQuasisimple ↥m.L) (hr : m.r ∣ Nat.card ↥m.L) :
     m.OL ≤ centralizer (m.L : Set G) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   rcases normal_dichotomy_uc6 hq (CFSG.pPrimeCore m.r ↥m.L) with hc | htop
   · intro x hx
     obtain ⟨p, hp, rfl⟩ := hx

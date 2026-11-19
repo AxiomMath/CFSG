@@ -17,7 +17,7 @@ namespace NineSettingGen
 theorem exists_isSylowOf_normalizer_le (h : NineSettingGen G M p Q H E k)
     (hp : p ∉ sigmaM G M) (hU : NineNineOne M p) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P H ∧ P ≤ M ∧ normalizer (P : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (H ⊓ M)
   obtain ⟨hPH, hN⟩ :=
     _root_.CFSG.LocalAnalysis.RankThreeUC.AGL81C.isSylowOf_of_NineNineOne
@@ -26,19 +26,19 @@ theorem exists_isSylowOf_normalizer_le (h : NineSettingGen G M p Q H E k)
 
 theorem pCore_quotKer_eq_bot (h : NineSettingGen G M p Q H E k) (hp : p ∉ sigmaM G M)
     (hU : NineNineOne M p) : CFSG.pCore p (QuotKer M H) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨P, hPH, hPM, -⟩ := h.exists_isSylowOf_normalizer_le hp hU
   exact _root_.CFSG.LocalAnalysis.RankThreeUC.AGL81C.pCore_quotKer_eq_bot hPH hPM
 
 theorem center_quotKer_eq_bot (h : NineSettingGen G M p Q H E k) (hp : p ∉ sigmaM G M)
     (hU : NineNineOne M p) : Subgroup.center (QuotKer M H) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨P, hPH, -, hN⟩ := h.exists_isSylowOf_normalizer_le hp hU
   exact _root_.CFSG.LocalAnalysis.RankThreeUC.AGL81C.center_quotKer_eq_bot hPH hN
 
 theorem dvd_card_quotKer (h : NineSettingGen G M p Q H E k) (hp : p ∉ sigmaM G M)
     (hU : NineNineOne M p) : p ∣ Nat.card (QuotKer M H) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨P, hPH, -, hN⟩ := h.exists_isSylowOf_normalizer_le hp hU
   exact _root_.CFSG.LocalAnalysis.RankThreeUC.AGL81C.dvd_card_quotKer hPH hN h.not_le
 

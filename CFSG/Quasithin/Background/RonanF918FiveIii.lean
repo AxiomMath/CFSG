@@ -17,6 +17,7 @@ attribute [local instance] CFSG.Quasithin.commGroupOfFact
 
 variable {G : Type} [Group G] [Finite G] {T V L V₁ Vp H K I : Subgroup G}
 
+omit [Finite G] in
 theorem tildeOf_commutator' {V₁ U X : Subgroup G} (hU : U ≤ Subgroup.normalizer (V₁ : Set G))
     (hX : X ≤ Subgroup.normalizer (V₁ : Set G)) :
     tildeOf V₁ ⁅U, X⁆ = ⁅tildeOf V₁ U, tildeOf V₁ X⁆ := by
@@ -38,7 +39,7 @@ theorem map_commV_autIH (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure
     (hXH : X ≤ H) :
     (commV (autIH V₁ I H X)).map (tildeOf V₁ (conjClosure I H)).subtype =
       tildeOf V₁ ⁅conjClosure I H, X⁆ := by
-  haveI : IsMulCommutative ↥(tildeOf V₁ (conjClosure I H)) := (Fact.out :
+  have : IsMulCommutative ↥(tildeOf V₁ (conjClosure I H)) := (Fact.out :
     IsElemAbelian 2 (tildeOf V₁ (conjClosure I H))).1
   have hXV : tildeOf V₁ X ≤ Subgroup.normalizer
       ((tildeOf V₁ (conjClosure I H) : Subgroup (GtOf V₁)) : Set (GtOf V₁)) :=
@@ -57,19 +58,22 @@ theorem commV_autIH_eq_subM (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClo
     exact Subgroup.le_normalizer_iff_commutator_le_right.mp (hXH.trans (le_normalizer_conjClosure I H))
   exact (Subgroup.map_subgroupOf_eq_of_le hle).symm
 
+omit [Finite G] [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
 theorem map_subtype_subM {J : Subgroup G}
     (hle : tildeOf V₁ J ≤ tildeOf V₁ (conjClosure I H)) :
     (subM V₁ (conjClosure I H) J).map (tildeOf V₁ (conjClosure I H)).subtype = tildeOf V₁ J :=
   Subgroup.map_subgroupOf_eq_of_le hle
 
-theorem fixV_autIH_eq (hIU : I ≤ conjClosure Vp H) {Y : Subgroup G} (hYH : Y ≤ H) :
+omit [Finite G] in
+theorem fixV_autIH_eq (_hIU : I ≤ conjClosure Vp H) {Y : Subgroup G} (hYH : Y ≤ H) :
     fixV (autIH V₁ I H Y) =
       (Subgroup.centralizer (tildeOf V₁ Y : Set (GtOf V₁))).subgroupOf (tildeOf V₁ (conjClosure I H)) := by
-  haveI : IsMulCommutative ↥(tildeOf V₁ (conjClosure I H)) := (Fact.out :
+  have : IsMulCommutative ↥(tildeOf V₁ (conjClosure I H)) := (Fact.out :
     IsElemAbelian 2 (tildeOf V₁ (conjClosure I H))).1
   exact AutOn.fixV_autOn_eq (secImg_le_normalizer_secImg (hYH.trans (le_normalizer_conjClosure I H)))
 
-theorem map_actH_subM_of_le (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H)
+omit [Finite G] [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
+theorem map_actH_subM_of_le (h : HypF918 T V L V₁ Vp H K) (_hIU : I ≤ conjClosure Vp H)
     {J : Subgroup G} (x : ↥H) :
     (subM V₁ (conjClosure I H) J).map
         (actH h.H_le_normalizer_V₁ (le_normalizer_conjClosure I H) x).toMonoidHom =
@@ -93,6 +97,7 @@ theorem map_actH_subM_of_le (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClo
     rfl
   rw [hsymm, actH_apply_coe, hsec, MulAut.conj_symm_apply, inv_inv]
 
+omit [Finite G] in
 theorem conjAutSub_autIH (h : HypF918 T V L V₁ Vp H K) {X : Subgroup G} (hXH : X ≤ H) {t : G}
     (htH : t ∈ H) :
     conjAutSub (actH h.H_le_normalizer_V₁ (le_normalizer_conjClosure I H) ⟨t, htH⟩)
@@ -148,6 +153,7 @@ theorem tilde_commutator_le_centralizer (h : HypF918 T V L V₁ Vp H K) (hIU : I
   obtain ⟨w, hw, rfl⟩ := hy
   exact ⟨w.2, Subgroup.mem_subgroupOf.mp (hcen hw)⟩
 
+omit [Finite G] in
 theorem mem_hat_iff (h : HypF918 T V L V₁ Vp H K) {X : Subgroup G} (hXH : X ≤ H)
     {y : GhOf V₁ (conjClosure Vp H) (conjClosure K T)} :
     y ∈ hat' V₁ Vp H K T X ↔ ∃ (k : G) (hk : k ∈ X), y = kbarOf h (hXH hk) := by
@@ -175,7 +181,7 @@ theorem modelOnU_of_realizes_le (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ con
     isElemAbelian_secImg (h.isElemAbelian_tilde_of_le hIU)
   refine ⟨hatOf_le_normalizer hXI, hel, ?_⟩
   obtain ⟨π, hπ⟩ := hD
-  letI : CommGroup ↥(hat' V₁ Vp H K T I) := commGroupOfElemAbelian hel
+  let : CommGroup ↥(hat' V₁ Vp H K T I) := commGroupOfElemAbelian hel
   have hle : autIH V₁ I H X ≤ autIH V₁ I H (conjClosure K T) :=
     CFSG.Quasithin.AutOn.autOn_mono (secImg_mono hXK)
   let τ0 : ↥(autIH V₁ I H X) →* MulAut ↥(hat' V₁ Vp H K T I) :=
@@ -308,13 +314,13 @@ theorem realizes_orthModelU_iff {F : Type} [Field F] [CharP F 2] (a : ℕ) {V : 
 
 theorem isSimpleGroup_statedSL_two {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 2 ≤ n)
     (hcard : Nat.card F = 2 ^ n) : IsSimpleGroup ↥(StatedSL 2 F) := by
-  haveI : CharP F 2 := charP_two_of_card_pow_two hcard
+  have : CharP F 2 := charP_two_of_card_pow_two hcard
   have h4 : 4 ≤ 2 ^ n := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have h22 : 2 ≠ 2 ∨ Nat.card F ≠ 2 := Or.inr (by omega)
   have h23 : 2 ≠ 2 ∨ Nat.card F ≠ 3 := Or.inr (by omega)
-  haveI := CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 2) F le_rfl h22 h23
+  have := CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 2) F le_rfl h22 h23
   exact ((QuotientGroup.quotientMulEquivOfEq
     (CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot (K := F))).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup
@@ -371,7 +377,7 @@ theorem five_iii_a_of_modFiveA (h : HypF918 T V L V₁ Vp H K)
       obtain ⟨hσne, hσσ⟩ := frobPow_sigma ha1 hcard'
       refine ⟨2 * a, F, hF, hFin, iterateFrobenius F 2 a, even_two_mul a, hcard', hσne, hσσ, ?_, ?_⟩
       · obtain ⟨π, hπ⟩ := hreal
-        haveI hsimp : IsSimpleGroup ↥(StatedSL 2 F) := isSimpleGroup_statedSL_two (n := 2 * a) (by omega) hcard'
+        have hsimp : IsSimpleGroup ↥(StatedSL 2 F) := isSimpleGroup_statedSL_two (n := 2 * a) (by omega) hcard'
         obtain ⟨s, hs⟩ : ∃ s, π s ≠ 1 := by
           obtain ⟨y, hy1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hne
           obtain ⟨s, hs⟩ := hπ.1 y
@@ -385,6 +391,7 @@ theorem five_iii_a_of_modFiveA (h : HypF918 T V L V₁ Vp H K)
       obtain ⟨πe⟩ := alt_mulEquiv_of_surj (n := 5) (by norm_num) hne π hπ.1
       exact ⟨eA.trans πe.symm⟩
 
+omit [Finite G] in
 theorem actH_mem_normalizer_autIH (h : HypF918 T V L V₁ Vp H K) {X : Subgroup G} (hXH : X ≤ H) {s : G}
     (hsH : s ∈ H) (hsX : s ∈ Subgroup.normalizer (X : Set G)) :
     actH h.H_le_normalizer_V₁ (le_normalizer_conjClosure I H) ⟨s, hsH⟩ ∈

@@ -292,7 +292,7 @@ private theorem orbit_run {act : Nat → Nat → Nat} {gens masks vs : List Nat}
   refine ⟨hlen, hP, fun k hk' => ?_⟩
   obtain ⟨-, h2, h3, h4⟩ := treeE_get gens.length masks 0 k hk'
   have := hj _ (by simpa using h2)
-  simp only [Nat.sub_zero, List.length_singleton] at this h3
+  simp only [Nat.sub_zero] at this h3
   exact ⟨by omega, h4⟩
 
 private theorem mergeK_perm : ∀ (n : Nat) (a b : List Nat), (mergeK n a b).Perm (a ++ b)
@@ -403,7 +403,7 @@ private theorem orbitVecs_rel {M V : Type} [Inhabited M] [Inhabited V] (O : Ops 
     rw [orbitVecs_get O gens t _ _ _ i hi]
     cases i with
     | zero =>
-      rw [orbitVecs_succ, if_pos rfl, push_get! _ _ _ (by rw [orbitVecs_size])]
+      rw [orbitVecs_succ, ite_eq_left rfl, push_get! _ _ _ (by rw [orbitVecs_size])]
       have e : vs.getD 0 0 = u := by rw [hvs]; rfl
       rw [e]
       exact hu
@@ -419,7 +419,7 @@ private theorem orbitVecs_rel {M V : Type} [Inhabited M] [Inhabited V] (O : Ops 
       have hlab : (labOf gK.length masks).toArray[k + 1]! = (treeE gK.length masks 0)[k].2 := by
         rw [toArray_getElem! _ (by rw [labOf_eq]; simpa using hk)]
         simp only [labOf_eq, List.getElem_cons_succ, List.getElem_map]
-      rw [orbitVecs_succ, if_neg (Nat.succ_ne_zero k), push_get! _ _ _ (by rw [orbitVecs_size]),
+      rw [orbitVecs_succ, ite_eq_right (Nat.succ_ne_zero k), push_get! _ _ _ (by rw [orbitVecs_size]),
         hpar, hlab]
       have hv : vs.getD (k + 1) 0 = act (vs.getD (treeE gK.length masks 0)[k].1 0)
           (gK.getD (treeE gK.length masks 0)[k].2 0) := by

@@ -133,7 +133,7 @@ theorem exists_mem_kernelAt [Finite V] [Finite H] (hk : 2 ≤ k) (hm : 3 ≤ m)
     have heq : (a * (t ^ (2 ^ k + 1))⁻¹) * t ^ (2 ^ k + 1) = a := by group
     rwa [heq] at hmem
   have haPow : a ^ (2 ^ k - 1) ∈ F₀ := by
-    haveI hN₀ : (F₀.subgroupOf G₀).Normal := by
+    have hN₀ : (F₀.subgroupOf G₀).Normal := by
       rw [Subgroup.normal_subgroupOf_iff_le_normalizer_inf]
       exact (le_inf (stabilizer_le_normalizer_fixingSubgroup (H := H) (Γ := Γ)
         (z := W.x 0)) G₀.le_normalizer).trans
@@ -483,8 +483,8 @@ theorem exists_twoFix_of_claimA [Finite V] [Finite H] (hk : 2 ≤ k) (hm : 3 ≤
     simpa [MulAut.conj_apply] using
       ((MulAut.conj (φ σ)).orderOf_eq (φ ⟨h, hTle hhT⟩)).symm
   have hΩcard : Nat.card Ω₁ = 2 ^ m + 1 := (hS.l2 (W.x 1) hx1not).1
-  haveI : Finite Ω₁ := Nat.finite_of_card_ne_zero (by rw [hΩcard]; exact Nat.succ_ne_zero _)
-  haveI : Finite ↥(localGroup H Γ (W.x 1)) := Subtype.finite
+  have : Finite Ω₁ := Nat.finite_of_card_ne_zero (by rw [hΩcard]; exact Nat.succ_ne_zero _)
+  have : Finite ↥(localGroup H Γ (W.x 1)) := Subtype.finite
   let C : Subgroup (Equiv.Perm Ω₁) := Subgroup.zpowers (φ ⟨b, hTle hbT⟩)
   let c₁ : ↥C := ⟨φ ⟨h, hTle hhT⟩, hhC⟩
   let c₂ : ↥C := ⟨φ ⟨h', hTle hh'T⟩, hh'C⟩

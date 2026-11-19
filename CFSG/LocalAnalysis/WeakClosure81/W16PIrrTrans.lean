@@ -22,7 +22,7 @@ theorem exists_normalizer_conj_of_hyp711 (hTim : TimmesfeldTIRootInput) (h : Hyp
     (hs1 : s ≠ 1) (ht1 : t ≠ 1) :
     ∃ m : ↥(kSub V H E), (m : G) ∈ Subgroup.normalizer (V : Set G) ∧
       t = φ m * s * (φ m)⁻¹ := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let S : Subgroup X := barSub (kSub V H E) φ V
   have hsS : s ∈ S := hs
   have htS : t ∈ S := ht
@@ -110,7 +110,7 @@ theorem exists_normalizer_conj_of_hyp711 (hTim : TimmesfeldTIRootInput) (h : Hyp
       have hj1 : φ ⟨j, hJleK hjJ⟩ = 1 := (hφ.ker_iff _).mpr hjJ
       have hmj' : (⟨m, hmK⟩ : ↥(kSub V H E)) = k * ⟨j, hJleK hjJ⟩⁻¹ := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [hmj]
         group
       rw [hmj', map_mul, map_inv, hj1, inv_one, mul_one]

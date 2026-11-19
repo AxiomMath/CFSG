@@ -84,8 +84,8 @@ theorem cartanC_ne_zero_iff {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     CFSG.LieType.Universal.Symplectic.cartanC m i j ≠ 0 ↔
       i.val + 1 = j.val ∨ j.val + 1 = i.val := by
   unfold CFSG.LieType.Universal.Symplectic.cartanC
-  rw [Matrix.of_apply, if_neg hij]
-  split_ifs with h1 h2 <;> simp_all <;> omega
+  rw [Matrix.of_apply, ite_eq_right hij]
+  split_ifs with h1 h2 <;> simp_all
 
 theorem cartan_ne_zero_iff {n : ℕ} {i j : Fin (n / 2)} (hij : i ≠ j) :
     cartan n i j ≠ 0 ↔ i.val + 1 = j.val ∨ j.val + 1 = i.val := by
@@ -124,7 +124,7 @@ theorem mem_blk_pair (hb : b.val = a.val + 1) (hm : b.val + 1 < m) (q : Fin (m +
 theorem nodesOf_blk_pair (hb : b.val = a.val + 1) (hm : b.val + 1 < m) :
     nodesOf (blkSet ({a, b} : Set (Fin m)) a.castSucc) = ({a, b} : Set (Fin m)) := by
   ext k
-  simp only [nodesOf, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff,
+  simp only [nodesOf, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff,
     mem_blk_pair hb hm, Fin.val_castSucc, Fin.val_succ, Fin.ext_iff]
   omega
 
@@ -141,15 +141,15 @@ theorem card_coordsOf_blk_pair (hb : b.val = a.val + 1) (hm : b.val + 1 < m) :
     omega
   · intro h
     have := congrArg Fin.val h
-    simp only [Fin.val_mk] at this
+    simp only at this
     omega
   · intro h
     have := congrArg Fin.val h
-    simp only [Fin.val_mk] at this
+    simp only at this
     omega
   · ext i
     simp only [mem_coordsOf, mem_blk_pair hb hm, Finset.mem_insert, Finset.mem_singleton,
-      Fin.ext_iff, Fin.val_castSucc, Fin.val_mk]
+      Fin.ext_iff, Fin.val_castSucc]
     omega
 
 end Block
@@ -194,7 +194,7 @@ theorem edgeRange_su_of_adj {n : ℕ} {a b : Fin (n / 2)} (hb : b.val = a.val + 
   have hG : GbU hF (blkSet ({a, b} : Set (Fin (n / 2))) a.castSucc) =
       GAu hF (coordsOf (blkSet ({a, b} : Set (Fin (n / 2))) a.castSucc)) := by
     unfold GbU
-    rw [if_neg (last_not_mem_blk_pair hb hm)]
+    rw [ite_eq_right (last_not_mem_blk_pair hb hm)]
   rw [hr, ← hG, GbU_eq (I := ({a, b} : Set (Fin (n / 2)))) (p := a.castSucc) hF hn rfl hne]
   exact (congrArg (leviM (rootDatum hF n)) (nodesOf_blk_pair hb hm)).trans
     (leviM_pair (rootDatum hF n) a b)

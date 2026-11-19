@@ -29,7 +29,7 @@ theorem lin_eq_bot (hl : d.LinCtx) {Y : Subgroup (s39a1H d ⧸ s39a1O d)} (hY : 
     exact lin_layer_nonabelian hl
   have hΛn : (s39a1Λ d).Normal := by
     rw [hΛ]
-    haveI : (CFSG.layer (s39a1H d ⧸ s39a1O d)).Characteristic :=
+    have : (CFSG.layer (s39a1H d ⧸ s39a1O d)).Characteristic :=
       CFSG.LocalCores.layer_characteristic
     infer_instance
   have hC : centralizer ((s39a1Λ d : Subgroup (s39a1H d ⧸ s39a1O d)) :
@@ -65,7 +65,7 @@ theorem lin_eq_bot (hl : d.LinCtx) {Y : Subgroup (s39a1H d ⧸ s39a1O d)} (hY : 
 
 theorem lin_card_le (hl : d.LinCtx) {X : Subgroup G} (hX : X ≤ d.M₂) (hX2 : IsPGroup 2 X) :
     Nat.card X ≤ (2 ^ f) ^ 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := (hX2.comap_subtype (K := d.M₂)).exists_le_sylow
   have hQS : IsSylowOf 2 ((Q : Subgroup d.M₂).map d.M₂.subtype) d.M₂ := ⟨Q, rfl⟩
   have hXQ : X ≤ (Q : Subgroup d.M₂).map d.M₂.subtype := fun x hx =>

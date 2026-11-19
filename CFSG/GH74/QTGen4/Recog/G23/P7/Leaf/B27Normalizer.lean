@@ -19,7 +19,7 @@ section Part2
 
 variable {a b t z : G} {H H₁ H₂ M₁ M₂ Pb : Subgroup G}
 
-theorem card_cent_Pb_conj (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {g x : G}
+theorem card_cent_Pb_conj (_C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {g x : G}
     (hg : g ∈ Subgroup.normalizer (Pb : Set G)) :
     Nat.card ↥(Pb ⊓ Subgroup.centralizer {g * x * g⁻¹}) =
       Nat.card ↥(Pb ⊓ Subgroup.centralizer {x}) := by
@@ -244,11 +244,11 @@ theorem Core.E_maximal [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {t
       exact Subgroup.mem_subgroupOf.mp hm
     exact le_antisymm hRE hER
   have hlt : (Subgroup.closure ({t, z} : Set G)).subgroupOf R < ⊤ := lt_top_iff_ne_top.mpr hneTop
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥R := hR2.isNilpotent
   have hNC := Group.normalizerCondition_of_isNilpotent (G := ↥R)
   have hlt' := hNC _ hlt
-  obtain ⟨x, hxN, hxE⟩ := SetLike.exists_of_lt hlt'
+  obtain ⟨x, hxN, hxE⟩ := _root_.IsConcreteLE.exists_of_lt hlt'
   have hxR : (x : G) ∈ R := x.2
   have hxNorm : (x : G) ∈ Subgroup.normalizer (Pb : Set G) := hRN hxR
   have hgE : ∀ e ∈ Subgroup.closure ({t, z} : Set G),
@@ -314,7 +314,7 @@ theorem Core.exists_sylow_E [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ P
     ∃ P : Sylow 2 ↥(Subgroup.normalizer (Pb : Set G)),
       (P : Subgroup ↥(Subgroup.normalizer (Pb : Set G))) =
         (Subgroup.closure ({t, z} : Set G)).subgroupOf (Subgroup.normalizer (Pb : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEN : Subgroup.closure ({t, z} : Set G) ≤ Subgroup.normalizer (Pb : Set G) :=
     C.E_le_norm_Pb
   have hPN2 : IsPGroup 2 ↥((Subgroup.closure ({t, z} : Set G)).subgroupOf
@@ -348,7 +348,7 @@ theorem Core.exists_Mf [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {t
       (∀ g ∈ Subgroup.normalizer (Pb : Set G), ∀ x ∈ Mf, g * x * g⁻¹ ∈ Mf) ∧
       Mf ⊓ Subgroup.closure ({t, z} : Set G) = ⊥ ∧
       Mf ⊔ Subgroup.closure ({t, z} : Set G) = Subgroup.normalizer (Pb : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEN : Subgroup.closure ({t, z} : Set G) ≤ Subgroup.normalizer (Pb : Set G) :=
     C.E_le_norm_Pb
   obtain ⟨P, hPE⟩ := C.exists_sylow_E ht' hW
@@ -427,7 +427,7 @@ theorem Core.gl_rep [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
         (∀ g (hg : g ∈ Subgroup.normalizer (Pb : Set G)) (x : G) (hx : x ∈ Pb),
           (ρ g).mulVec (coords ⟨x, hx⟩) = coords ⟨g * x * g⁻¹, (Subgroup.mem_normalizer_iff.mp hg x).mp hx⟩) := by
   classical
-  letI cg : CommGroup ↥Pb :=
+  let cg : CommGroup ↥Pb :=
     { (inferInstance : Group ↥Pb) with
       mul_comm := fun x y => Subtype.ext (C.Pb_comm x.1 x.2 y.1 y.2) }
   have hexp : ∀ x : Additive ↥Pb, (3 : ℕ) • x = 0 := by
@@ -435,11 +435,11 @@ theorem Core.gl_rep [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     have h3 : (Additive.toMul x) ^ 3 = 1 := Subtype.ext (by simpa using C.Pb_cube (Additive.toMul x).2)
     show Additive.ofMul ((Additive.toMul x) ^ 3) = Additive.ofMul 1
     rw [h3]
-  letI : Module (ZMod 3) (Additive ↥Pb) := AddCommGroup.zmodModule hexp
+  let : Module (ZMod 3) (Additive ↥Pb) := AddCommGroup.zmodModule hexp
   have hcard : Nat.card (Additive ↥Pb) = 27 := by
     rw [Nat.card_congr Additive.ofMul.symm]
     exact C.Pb_card
-  haveI : Fintype (Additive ↥Pb) := Fintype.ofFinite _
+  have : Fintype (Additive ↥Pb) := Fintype.ofFinite _
   have hfin : Module.finrank (ZMod 3) (Additive ↥Pb) = 3 := by
     have h := Module.card_eq_pow_finrank (K := ZMod 3) (V := Additive ↥Pb)
     have h27 : Fintype.card (Additive ↥Pb) = 27 := by
@@ -462,7 +462,7 @@ theorem Core.gl_rep [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     exact Additive.ofMul.injective (β.equivFun.injective hxy)
   · intro g hg h hh
     have hgh : g * h ∈ Subgroup.normalizer (Pb : Set G) := mul_mem hg hh
-    simp only [ρ, dif_pos hg, dif_pos hh, dif_pos hgh]
+    simp only [ρ, dite_eq_left hg, dite_eq_left hh, dite_eq_left hgh]
     rw [← LinearMap.toMatrix_comp β β β]
     congr 1
     apply LinearMap.ext
@@ -471,7 +471,7 @@ theorem Core.gl_rep [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     apply Subtype.ext
     simp [f, conjPb, mul_assoc]
   · simp only [ρ]
-    rw [dif_pos (Subgroup.one_mem _)]
+    rw [dite_eq_left (Subgroup.one_mem _)]
     have hf : f 1 (Subgroup.one_mem _) = LinearMap.id := by
       apply LinearMap.ext
       intro x
@@ -480,7 +480,7 @@ theorem Core.gl_rep [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
       simp [f, conjPb]
     rw [hf, LinearMap.toMatrix_id]
   · intro g hg x hx
-    simp only [ρ, dif_pos hg]
+    simp only [ρ, dite_eq_left hg]
     have := LinearMap.toMatrix_mulVec_repr β β (f g hg) (Additive.ofMul ⟨x, hx⟩)
     simpa [f, conjPb] using this
 
@@ -492,8 +492,8 @@ abbrev GL3Trans : Prop :=
 theorem Core.ord13_false [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) (hGL : GL3Trans) {g : G}
     (hgN : g ∈ Subgroup.normalizer (Pb : Set G)) (hord : orderOf g = 13) : False := by
   obtain ⟨coords, hadd, hinj, ρ, hmul, hone, hrel⟩ := C.gl_rep
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpow : ∀ k : ℕ, g ^ k ∈ Subgroup.normalizer (Pb : Set G) := fun k =>
     (Subgroup.normalizer (Pb : Set G)).pow_mem hgN k
   have hρpow : ∀ k : ℕ, ρ (g ^ k) = (ρ g) ^ k := by
@@ -608,12 +608,12 @@ theorem Core.gl_hom [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     map_one' := ?_
     map_mul' := ?_ }, ?_⟩
   · apply Units.ext
-    simp only [Units.val_mk, Units.val_one]
+    simp only [Units.val_one]
     have : ((1 : ↥(Subgroup.normalizer (Pb : Set G))) : G) = 1 := rfl
     rw [this, hone]
   · intro g h
     apply Units.ext
-    simp only [Units.val_mul, Units.val_mk, Subgroup.coe_mul]
+    simp only [Units.val_mul, Subgroup.coe_mul]
     rw [hmul (g : G) g.2 (h : G) h.2]
   · intro g x hx
     exact hrel (g : G) g.2 x hx
@@ -621,8 +621,8 @@ theorem Core.gl_hom [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
 theorem Core.prime_dvd_N [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) (hGL : GL3Trans) {p : ℕ}
     (hp : p.Prime) (hpN : p ∣ Nat.card ↥(Subgroup.normalizer (Pb : Set G))) : p = 2 ∨ p = 3 := by
   obtain ⟨coords, -, hinj, ψ, hψ⟩ := C.gl_hom
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype ↥(Subgroup.normalizer (Pb : Set G)) := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥(Subgroup.normalizer (Pb : Set G)) := Fintype.ofFinite _
   have hpN' : p ∣ Fintype.card ↥(Subgroup.normalizer (Pb : Set G)) := by
     rw [← Nat.card_eq_fintype_card]; exact hpN
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card p hpN'
@@ -690,13 +690,13 @@ structure MfData (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) (Mf : Subgroup G) :
 theorem Core.three_mem_Mf [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {t' : G}
     (ht' : t' = t ∨ t' = t * z) {Mf : Subgroup G} (hM : MfData C Mf) {g : G}
     (hg : g ∈ Subgroup.normalizer (Pb : Set G)) {n : ℕ} (hn : g ^ 3 ^ n = 1) : g ∈ Mf := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := Subgroup.normalizer (Pb : Set G) with hNdef
   set E := Subgroup.closure ({t, z} : Set G) with hEdef
   have hEN : E ≤ N := C.E_le_norm_Pb
   let K : Subgroup ↥N := Mf.subgroupOf N
-  haveI hK : K.Normal := ⟨fun k hk x => by
+  have hK : K.Normal := ⟨fun k hk x => by
     have hk' : (k : G) ∈ Mf := Subgroup.mem_subgroupOf.mp hk
     exact Subgroup.mem_subgroupOf.mpr (hM.conj x x.2 k hk')⟩
   have hKcard : Nat.card ↥K = Nat.card ↥Mf :=
@@ -1094,7 +1094,7 @@ theorem Core.card_Mf [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {t' 
     have hsu : s * (t' * z) = (t' * z) * s :=
       Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_inf.mp hs).2
     have hy' : (MulAut.conj g⁻¹).toMonoidHom s = g⁻¹ * s * g := by
-      simp [MulAut.conj_apply]
+      simp
     rw [hy']
     apply (C.cent_z _).mp
     calc g⁻¹ * s * g * z = g⁻¹ * s * g * (g⁻¹ * (t' * z) * g) := by rw [hz']
@@ -1123,7 +1123,7 @@ theorem Core.card_Mf [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {t' 
     rw [hcard] at h81
     omega
   have hk9 : k = 9 ∨ k = 3 := by
-    interval_cases k <;> first | omega | (norm_num at hd9)
+    interval_cases k <;> first | omega
   rcases hk9 with rfl | rfl
   · refine ⟨hk, ?_⟩
     rw [hcard]
@@ -1384,7 +1384,7 @@ theorem Core.wOne_gen [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) {t'
   obtain ⟨m, hm, hne⟩ := C.noncomm_b
   refine ⟨m, hm, ?_⟩
   have hc0W : b * m * b⁻¹ * m⁻¹ ∈ wOne C := C.comm_M₁_b ht' hW hM hm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcube : (b * m * b⁻¹ * m⁻¹) ^ 3 = 1 := C.M₁_cube _ (wOne_le_M₁ C hc0W)
   have hord : orderOf (b * m * b⁻¹ * m⁻¹) = 3 := orderOf_eq_prime hcube hne
   have h1 : Subgroup.zpowers (b * m * b⁻¹ * m⁻¹) ≤ wOne C := Subgroup.zpowers_le.mpr hc0W
@@ -1547,7 +1547,7 @@ theorem Core.Mf_commutator_le [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂
     (hM : MfData C Mf) (hMf : Nat.card ↥Mf = 243) :
     ∀ x ∈ Mf, ∀ y ∈ Mf, x * y * x⁻¹ * y⁻¹ ∈ wOne C := by
   have hWn := C.wOne_conj_Mf ht' hW hM hMf
-  haveI hN : ((wOne C).subgroupOf Mf).Normal := ⟨fun n hn g => by
+  have hN : ((wOne C).subgroupOf Mf).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hWn (g : G) g.2 (n : G) hn
     simpa using this⟩

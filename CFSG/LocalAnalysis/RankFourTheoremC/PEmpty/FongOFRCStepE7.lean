@@ -43,7 +43,7 @@ theorem E7_zmod5_phi14_ne : ∀ x : ZMod 5, x ^ 6 - x ^ 5 + x ^ 4 - x ^ 3 + x ^ 
 theorem E7_p_eq_five_or_seven {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hp7 : ¬ 7 < p) :
     p = 5 ∨ p = 7 := by
   have : p ≤ 7 := by omega
-  interval_cases p <;> first | omega | (exfalso; revert hp; norm_num) | simp
+  interval_cases p <;> first | omega | (exfalso; revert hp; norm_num)
 
 section
 
@@ -71,7 +71,7 @@ theorem untwCrossRankStep_E7 (g5 : CyclicSylowGap Tag.E7 5) (g8 : CyclicSylowGap
   refine untwCrossRankStep_of_row (D := [18, 14, 12, 10, 8, 6, 2]) (N := 63) (by decide)
     (fun K _ _ => card_adjointGroup_E7_dvd K) ?_
   intro ℓ f₀ p hℓ hf₀ hp hp5 hne K k _ _ _ _ hK hk m hm hpm hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcong := natCast_card_eq_of_pow (p := p) hK hk
   have hpk : ¬ p ∣ Nat.card k := by
     rw [hk]
@@ -105,7 +105,7 @@ theorem untwCrossRankStep_E7 (g5 : CyclicSylowGap Tag.E7 5) (g8 : CyclicSylowGap
         have hsum_eq : ∑ j ∈ Finset.range 5, (1 * (Nat.card K : ℤ)) ^ j =
             (exhaustionPhi 5).eval (Nat.card K : ℤ) := by
           simp only [exhaustionPhi, Finset.sum_range_succ, Finset.sum_range_zero,
-            Polynomial.eval_add, Polynomial.eval_sub, Polynomial.eval_pow, Polynomial.eval_X,
+            Polynomial.eval_add, Polynomial.eval_pow, Polynomial.eval_X,
             Polynomial.eval_one, one_mul, zero_add]
           ring
         have hsum : ((5 : ℕ) : ℤ) ∣ ∑ j ∈ Finset.range 5, (1 * (Nat.card K : ℤ)) ^ j := by
@@ -143,7 +143,7 @@ theorem untwCrossRankStep_E7 (g5 : CyclicSylowGap Tag.E7 5) (g8 : CyclicSylowGap
         have hsum_eq : ∑ j ∈ Finset.range 7, (1 * (Nat.card K : ℤ)) ^ j =
             (exhaustionPhi 7).eval (Nat.card K : ℤ) := by
           simp only [exhaustionPhi, Finset.sum_range_succ, Finset.sum_range_zero,
-            Polynomial.eval_add, Polynomial.eval_sub, Polynomial.eval_pow, Polynomial.eval_X,
+            Polynomial.eval_add, Polynomial.eval_pow, Polynomial.eval_X,
             Polynomial.eval_one, one_mul, zero_add]
           ring
         have hsum : ((7 : ℕ) : ℤ) ∣ ∑ j ∈ Finset.range 7, (1 * (Nat.card K : ℤ)) ^ j := by

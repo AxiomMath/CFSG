@@ -14,9 +14,9 @@ variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 theorem w135c2_lend_card (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥) :
     ∃ k : ℕ, 1 ≤ k ∧ Nat.card ↥(LEnd L) = 2 ^ k := by
   classical
-  letI : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
-  haveI : Finite ↥(LEnd L) := by
-    haveI : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
+  let : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
+  have : Finite ↥(LEnd L) := by
+    have : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
     infer_instance
   have h2 : (2 : ↥(LEnd L)) = 0 := by
     have hx2 : ∀ x : Additive W, x + x = 0 := by
@@ -32,9 +32,9 @@ theorem w135c2_lend_card (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥) 
     change (2 : AddMonoid.End (Additive W)) x = 0
     rw [AddMonoid.End.ofNat_apply, two_nsmul]
     exact hx2 x
-  haveI : CharP ↥(LEnd L) 2 :=
+  have : CharP ↥(LEnd L) 2 :=
     CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
-  haveI : Fintype ↥(LEnd L) := Fintype.ofFinite _
+  have : Fintype ↥(LEnd L) := Fintype.ofFinite _
   obtain ⟨n, -, hn⟩ := FiniteField.card ↥(LEnd L) 2
   exact ⟨(n : ℕ), Nat.succ_le_of_lt n.pos,
     by rw [Nat.card_eq_fintype_card]; exact hn⟩
@@ -42,10 +42,10 @@ theorem w135c2_lend_card (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥) 
 theorem w135c2_rk_eq_mul (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥) {k : ℕ}
     (hk : Nat.card ↥(LEnd L) = 2 ^ k) : ∃ d : ℕ, rk W = k * d := by
   classical
-  letI : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
-  letI : Module ↥(LEnd L) (Additive W) :=
+  let : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
+  let : Module ↥(LEnd L) (Additive W) :=
     Module.compHom (Additive W) (LEnd L).subtype
-  haveI : Module.Finite ↥(LEnd L) (Additive W) := Module.Finite.of_finite
+  have : Module.Finite ↥(LEnd L) (Additive W) := Module.Finite.of_finite
   let d : ℕ := Module.finrank ↥(LEnd L) (Additive W)
   refine ⟨d, ?_⟩
   have hcard := Module.natCard_eq_pow_finrank (K := ↥(LEnd L)) (V := Additive W)

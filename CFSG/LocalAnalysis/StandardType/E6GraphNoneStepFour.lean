@@ -36,7 +36,7 @@ private theorem weylMat_one : weylMat 1 = 1 := by
   rw [inv_one, one_smul, Matrix.one_apply, Pi.single_apply]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg (Ne.symm h), if_neg h]
+  · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
 
 private theorem weylMat_pow (w : WeylGroup TwistTag.E6.tag) (k : ℕ) :
     weylMat (w ^ k) = weylMat w ^ k := by

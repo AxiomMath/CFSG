@@ -123,7 +123,7 @@ theorem two_torsion_solution_familyOne (Z : StrothDatum X)
         Int.modEq_zero_iff_dvd.mpr ⟨r * ε 1, by ring⟩
       have hsplit : (2 * r + 1) * ε 1 = 2 * (r * ε 1) + ε 1 := by ring
       rw [hsplit]
-      simpa using hzero.add (Int.ModEq.refl (ε 1))
+      simp
     have hA : (1 - 2 * t) * ε 0 ≡ 0 [ZMOD 2] := by
       have hsub := hmod.sub hodd
       simpa [add_sub_cancel_right] using hsub
@@ -155,11 +155,11 @@ theorem two_torsion_solution_familyOne (Z : StrothDatum X)
   have hv_eq : v = (2 : ℤ) ^ Z.τ.m • (![0, 1, 0] : Fin 3 → ℤ) := by
     funext i
     fin_cases i <;>
-      simp [v, hk1, hk2, hε0, hε1, hε2, Nat.add_sub_cancel]
+      simp [v, hk1, hk2, hε0, hε1, hε2]
   have hv'_eq : v' = (2 : ℤ) ^ Z.τ.m • (![0, 0, 1] : Fin 3 → ℤ) := by
     funext i
     fin_cases i <;>
-      simp [v', hk1, hk2, hε0, hε1, hε2, hu1, hu2, hr0, Nat.add_sub_cancel]
+      simp [v', hk1, hk2, hε0, hε1, hε2, hu1, hu2, hr0]
   constructor
   · calc w = Torus.ofInt Z.τ.k v := hwε
       _ = Torus.ofInt Z.τ.k ((2 : ℤ) ^ Z.τ.m • (![0, 1, 0] : Fin 3 → ℤ)) := by
@@ -176,7 +176,7 @@ theorem two_torsion_solution_familyOne (Z : StrothDatum X)
 
 theorem deviation_form_diag_familyOne (Z : StrothDatum X)
     (hk : ∀ i, 2 ≤ Z.τ.k i) (hrel : Z.τ.m + 1 = Z.τ.n)
-    (F : Subgroup G) (hDF : Z.D ≤ F) (hF : F ≤ Z.centralizerInMho)
+    (F : Subgroup G) (_hDF : Z.D ≤ F) (hF : F ≤ Z.centralizerInMho)
     (hN : X.L ≤ Subgroup.normalizer (F : Set G))
     (hidx : (Z.D.subgroupOf F).index = 2)
     (hcent : F ≤ Subgroup.centralizer ((omegaIn (Z.τ.n - 1) Z.D : Subgroup G) : Set G))
@@ -188,7 +188,7 @@ theorem deviation_form_diag_familyOne (Z : StrothDatum X)
     (hR : ∀ i j, Z.τ.action.ρ i j = Type100.ρM i j)
     (hV10 : Z.τ.action.uv 1 0 ≡ 2 [ZMOD 4])
     (hV11 : Odd (Z.τ.action.uv 1 1))
-    (huv0 : Even (Z.τ.action.uv 0 1))
+    (_huv0 : Even (Z.τ.action.uv 0 1))
     (huv2 : Even (Z.τ.action.uv 2 1)) :
     ((deviation Z s (hF hsF) (Additive.ofMul ⟨Z.dataD.c, Z.dataD.c.2⟩)).toMul : G) = 1 ∧
     ((deviation Z s (hF hsF) (Additive.ofMul ⟨Z.dataD.a, Z.dataD.a.2⟩)).toMul : G) =

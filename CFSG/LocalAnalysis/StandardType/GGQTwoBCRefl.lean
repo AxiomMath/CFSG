@@ -73,11 +73,11 @@ private lemma ggQ2x_dot_smul_right {n : ℕ} (a : ZMod 3) (v w : GGBCV n) :
 
 private lemma ggQ2x_single_apply_self {n : ℕ} (i : Fin n) (a : ZMod 3) :
     (Pi.single i a : GGBCV n) i = a := by
-  simp [Pi.single_apply]
+  simp
 
 private lemma ggQ2x_single_apply_ne {n : ℕ} {i j : Fin n} (hij : j ≠ i) (a : ZMod 3) :
     (Pi.single i a : GGBCV n) j = 0 := by
-  simp [Pi.single_apply, hij]
+  simp [hij]
 
 private lemma ggQ2x_refl_smul_single_self {n : ℕ} (k : Fin n) (a : ZMod 3) (ha : a ≠ 0)
     (hc : (a • Pi.single k 1 : GGBCV n) ⬝ᵥ (a • Pi.single k 1) ≠ 0) :
@@ -93,15 +93,14 @@ private lemma ggQ2x_refl_smul_single_self {n : ℕ} (k : Fin n) (a : ZMod 3) (ha
   · subst hjk
     simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     decide
-  · simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same,
-      ggQ2x_single_apply_ne hjk, smul_eq_mul, mul_zero, mul_one, add_zero]
+  · simp only [Pi.add_apply, Pi.smul_apply, ggQ2x_single_apply_ne hjk, smul_eq_mul, mul_zero, add_zero]
 
 private lemma ggQ2x_dot_pair {n : ℕ} (a b : ZMod 3) (ha : a ≠ 0) (hb : b ≠ 0)
     (k l : Fin n) (hkl : k ≠ l) :
     (a • Pi.single k 1 + b • Pi.single l 1 : GGBCV n) ⬝ᵥ
       (a • Pi.single k 1 + b • Pi.single l 1) = 2 := by
   rw [add_dotProduct, dotProduct_add, dotProduct_add]
-  simp only [ggQ2x_dot_smul, ggQ2x_dot_smul_right, dotProduct_single_one, Pi.smul_apply,
+  simp only [ggQ2x_dot_smul_right, dotProduct_single_one, Pi.smul_apply,
     smul_eq_mul, ggQ2x_single_apply_self, ggQ2x_single_apply_ne hkl,
     ggQ2x_single_apply_ne hkl.symm, mul_zero, mul_one, add_zero, zero_add]
   have h : ∀ a b : ZMod 3, a ≠ 0 → b ≠ 0 → a * a + b * b = 2 := by decide
@@ -143,15 +142,15 @@ private lemma ggQ2x_refl_pair_self {n : ℕ} {k l : Fin n} (hkl : k ≠ l) (a b 
   by_cases hjl : j = l
   · subst hjl
     simp only [Pi.add_apply, Pi.smul_apply, ggQ2x_single_apply_self,
-      ggQ2x_single_apply_ne hkl.symm, smul_eq_mul, mul_zero, add_zero, zero_add, mul_one]
+      ggQ2x_single_apply_ne hkl.symm, smul_eq_mul, mul_zero, zero_add, mul_one]
     rw [ggQ2x_pair_mixed]
   · by_cases hjk : j = k
     · subst hjk
       simp only [Pi.add_apply, Pi.smul_apply, ggQ2x_single_apply_self,
-        ggQ2x_single_apply_ne hkl, smul_eq_mul, mul_zero, add_zero, zero_add, mul_one]
+        ggQ2x_single_apply_ne hkl, smul_eq_mul, mul_zero, add_zero, mul_one]
       exact ggQ2x_pair_self_scalar a ha
     · simp only [Pi.add_apply, Pi.smul_apply, ggQ2x_single_apply_ne hjl,
-        ggQ2x_single_apply_ne hjk, smul_eq_mul, mul_zero, add_zero, zero_add, mul_one]
+        ggQ2x_single_apply_ne hjk, smul_eq_mul, mul_zero, add_zero]
 
 private lemma ggQ2x_pair_mixed_swap (a b : ZMod 3) : (b * 2) * a = 2 * a * b := by
   have h : ∀ a b : ZMod 3, (b * 2) * a = 2 * a * b := by decide
@@ -178,10 +177,10 @@ private lemma ggQ2x_refl_pair_swap {n : ℕ} {k l : Fin n} (hkl : k ≠ l) (a b 
   · by_cases hjl : j = l
     · rw [hjl]
       simp only [Pi.add_apply, Pi.smul_apply, ggQ2x_single_apply_self,
-        ggQ2x_single_apply_ne hkl.symm, smul_eq_mul, mul_zero, add_zero, zero_add, mul_one]
+        ggQ2x_single_apply_ne hkl.symm, smul_eq_mul, mul_zero, zero_add, mul_one]
       exact ggQ2x_pair_self_scalar b hb
     · simp only [Pi.add_apply, Pi.smul_apply, ggQ2x_single_apply_ne hjk,
-        ggQ2x_single_apply_ne hjl, smul_eq_mul, mul_zero, add_zero, zero_add, mul_one]
+        ggQ2x_single_apply_ne hjl, smul_eq_mul, mul_zero, add_zero]
 
 private lemma ggQ2x_refl_pair_other {n : ℕ} {k l i : Fin n} (hik : i ≠ k) (hil : i ≠ l)
     (hkl : k ≠ l) (a b : ZMod 3) (ha : a ≠ 0) (hb : b ≠ 0)
@@ -204,7 +203,7 @@ private lemma ggQ2x_supp_smul {n : ℕ} (a : ZMod 3) (ha : a ≠ 0) (v : GGBCV n
   unfold ggQ2x_supp
   congr 1
   ext i
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and, Pi.smul_apply, smul_eq_mul]
+  simp only [Pi.smul_apply, smul_eq_mul]
   rw [mul_ne_zero_iff]
   exact and_iff_right ha
 
@@ -288,8 +287,8 @@ private lemma ggQ2x_refl_mem_Mon {n : ℕ} (c : GGBCV n) (hc : c ⬝ᵥ c ≠ 0)
     · intro i
       dsimp only
       by_cases h : i = k
-      · rw [if_pos h]; decide
-      · rw [if_neg h]; decide
+      · rw [ite_eq_left h]; decide
+      · rw [ite_eq_right h]; decide
     · intro i
       by_cases hik : i = k
       · rw [hik]
@@ -313,7 +312,7 @@ private lemma ggQ2x_refl_mem_Mon {n : ℕ} (c : GGBCV n) (hc : c ⬝ᵥ c ≠ 0)
       · by_cases hil : i = l
         · subst hil
           rw [ggQ2x_refl_pair_swap hkl a b ha hb hc]
-          simp [hkl]
+          simp
         · rw [ggQ2x_refl_pair_other hik hil hkl a b ha hb hc]
           rw [Equiv.swap_apply_of_ne_of_ne hik hil]
           simp [hik, hil]
@@ -386,7 +385,7 @@ private lemma ggQ2x_solve (x y z : ZMod 3) (hz : z ≠ 0) (h : x * z = 2 * y) :
 
 private lemma ggQ2x_two_ne_zero : (2 : ZMod 3) ≠ 0 := by decide
 
-theorem ggQ2_bc_W_refl (n : ℕ) (hn : 3 ≤ n) (t : GGBCV n ≃ₗ[ZMod 3] GGBCV n) (ht : t ∈ ggBCW n)
+theorem ggQ2_bc_W_refl (n : ℕ) (_hn : 3 ≤ n) (t : GGBCV n ≃ₗ[ZMod 3] GGBCV n) (ht : t ∈ ggBCW n)
     (hr : IsReflLin t) : t ∈ ggBCReflSet (ggBCRoots n) := by
   obtain ⟨c, φ, hφc, ht_eq⟩ := hr
   obtain ⟨σ, ε, hε, htf⟩ := ggQ2x_W_le_Mon n ht
@@ -543,7 +542,7 @@ private lemma ggQ2x_sum_single {n : ℕ} (k : Fin n) (a : ZMod 3) :
     rw [Finset.sum_eq_single k]
     · simp
     · intro j _ hj
-      simp [Pi.single_apply, hj]
+      simp [hj]
     · intro hk
       exact absurd (Finset.mem_univ k) hk
   rw [h1, mul_one]

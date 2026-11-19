@@ -41,7 +41,7 @@ theorem burnsideAut_innDiag_normal (S : Type) [Group S] : (ChA.innDiagSubgroup S
   exact key ⟨x, hx, rfl⟩
 
 theorem burnsideAut_inn_le_innDiag (S : Type) [Group S] :
-    (MulAut.conj : S →* MulAut S).range ≤ ChA.innDiagSubgroup S := fun ψ hψ =>
+    (MulAut.conj : S →* MulAut S).range ≤ ChA.innDiagSubgroup S := fun _ψ hψ =>
   Subgroup.subset_closure (Or.inl hψ)
 
 end InnDiag
@@ -89,7 +89,7 @@ theorem burnsideAut_solvBorel_of_mulEquiv {S M : Type} [Group S] [Group M] (e : 
     burnsideAut_SolvBorel S U := by
   intro Y hUY hY
   have hY' : Group.IsSolvable ↥(Y.map e.toMonoidHom) :=
-    solvable_of_surjective (f := (Y.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
+    Group.isSolvable_of_surjective (f := (Y.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
       (Y.equivMapOfInjective e.toMonoidHom e.injective).surjective
   have h1 := h (Y.map e.toMonoidHom) (Subgroup.map_mono hUY) hY'
   intro y hy

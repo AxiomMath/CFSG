@@ -19,12 +19,12 @@ theorem symT_matching {Y : Type} [Group Y] [Finite Y] {m : ℕ}
       (∀ x ∈ symT t (P : Subgroup Y), (symPi e x).IsSwap) ∧
       (∀ a b : Fin m, a ≠ b → Equiv.swap a b ∈ (P : Subgroup Y).map (symPi e) →
         Equiv.swap a b ∈ symPi e '' symT t (P : Subgroup Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : (symPi e).ker = fusionOddCore Y := by
     rw [symPi]
     ext z
-    simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
-  have hP2 : IsPGroup 2 (P : Subgroup Y) := P.isPGroup'
+    simp
+  have hP2 : IsPGroup 2 (P : Subgroup Y) := P.isPGroup
   have htriv : (P : Subgroup Y) ⊓ fusionOddCore Y = ⊥ := by
     rw [eq_bot_iff]
     intro x hx

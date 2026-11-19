@@ -68,16 +68,16 @@ theorem s16c167_swap_eq_of_altAct_fixed_iff {n : ℕ} (hn : 5 ≤ n) {σ τ : Eq
     have had : a ≠ d := fun h => haT (by simp [h])
     obtain ⟨m, hma, hmb, hmc, hmd⟩ := exists_ne_four hn a b c d
     have h1 : ((pairEW a m : evenWeight n) : Fin n → ZMod 2) a = 1 := by
-      rw [pairEW_apply, if_pos rfl, if_neg (Ne.symm hma)]
+      rw [pairEW_apply, ite_eq_left rfl, ite_eq_right (Ne.symm hma)]
       decide
     have h2 : ((pairEW a m : evenWeight n) : Fin n → ZMod 2) b = 0 := by
-      rw [pairEW_apply, if_neg (Ne.symm hab), if_neg (Ne.symm hmb)]
+      rw [pairEW_apply, ite_eq_right (Ne.symm hab), ite_eq_right (Ne.symm hmb)]
       decide
     have h3 : ((pairEW a m : evenWeight n) : Fin n → ZMod 2) c = 0 := by
-      rw [pairEW_apply, if_neg hac.symm, if_neg (Ne.symm hmc)]
+      rw [pairEW_apply, ite_eq_right hac.symm, ite_eq_right (Ne.symm hmc)]
       decide
     have h4 : ((pairEW a m : evenWeight n) : Fin n → ZMod 2) d = 0 := by
-      rw [pairEW_apply, if_neg had.symm, if_neg (Ne.symm hmd)]
+      rw [pairEW_apply, ite_eq_right had.symm, ite_eq_right (Ne.symm hmd)]
       decide
     have hx := hiff (pairEW a m)
     rw [h1, h2, h3, h4] at hx
@@ -86,16 +86,16 @@ theorem s16c167_swap_eq_of_altAct_fixed_iff {n : ℕ} (hn : 5 ≤ n) {σ τ : Eq
     have hbd : b ≠ d := fun h => hbT (by simp [h])
     obtain ⟨m, hma, hmb, hmc, hmd⟩ := exists_ne_four hn a b c d
     have h1 : ((pairEW b m : evenWeight n) : Fin n → ZMod 2) b = 1 := by
-      rw [pairEW_apply, if_pos rfl, if_neg (Ne.symm hmb)]
+      rw [pairEW_apply, ite_eq_left rfl, ite_eq_right (Ne.symm hmb)]
       decide
     have h2 : ((pairEW b m : evenWeight n) : Fin n → ZMod 2) a = 0 := by
-      rw [pairEW_apply, if_neg hab, if_neg (Ne.symm hma)]
+      rw [pairEW_apply, ite_eq_right hab, ite_eq_right (Ne.symm hma)]
       decide
     have h3 : ((pairEW b m : evenWeight n) : Fin n → ZMod 2) c = 0 := by
-      rw [pairEW_apply, if_neg hbc.symm, if_neg (Ne.symm hmc)]
+      rw [pairEW_apply, ite_eq_right hbc.symm, ite_eq_right (Ne.symm hmc)]
       decide
     have h4 : ((pairEW b m : evenWeight n) : Fin n → ZMod 2) d = 0 := by
-      rw [pairEW_apply, if_neg hbd.symm, if_neg (Ne.symm hmd)]
+      rw [pairEW_apply, ite_eq_right hbd.symm, ite_eq_right (Ne.symm hmd)]
       decide
     have hx := hiff (pairEW b m)
     rw [h1, h2, h3, h4] at hx

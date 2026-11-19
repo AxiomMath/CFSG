@@ -16,6 +16,7 @@ structure Frame5 (G : Type) [Group G] (z : G) extends Frame4 G z where
 
 @[expose] def Frame2.Ω (F : Frame2 G z) : Set G := ((F.A : Set G) \ {1}) \ F.Sz
 
+omit [Finite G] in
 theorem Frame3.Δ2_sub_Sz (F : Frame3 G z) (hU2 : ∀ u ∈ F.U2, u ≠ 1 → InZG z u) :
     F.Δ 2 ⊆ F.Sz := by
   intro a ha
@@ -26,7 +27,7 @@ theorem Frame3.Δ2_sub_Sz (F : Frame3 G z) (hU2 : ∀ u ∈ F.U2, u ≠ 1 → In
 
 theorem Frame3.exists_x (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
     (hU2 : ∀ u ∈ F.U2, u ≠ 1 → InZG z u) (h45 : F.Sz.ncard = 45)
-    (hex : F.Δ 4 ⊆ F.Sz ∨ F.Δ 5 ⊆ F.Sz) :
+    (_hex : F.Δ 4 ⊆ F.Sz ∨ F.Δ 5 ⊆ F.Sz) :
     ∃ x : Fin 7, (x = 4 ∨ x = 5) ∧ ¬ F.Δ x ⊆ F.Sz ∧
       ∀ i : Fin 7, i ≠ 3 → i ≠ x → F.Δ i ⊆ F.Sz := by
   classical
@@ -37,10 +38,9 @@ theorem Frame3.exists_x (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG 
   have hfin7 : ∀ i : Fin 7, i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 ∨ i = 4 ∨ i = 5 ∨ i = 6 := by decide
   by_cases h4 : F.Δ 4 ⊆ F.Sz <;> by_cases h5 : F.Δ 5 ⊆ F.Sz <;>
     by_cases h6 : F.Δ 6 ⊆ F.Sz <;> simp [h4, h5, h6] at hsum
-  all_goals first
+  all_goals try first
     | (exfalso; omega)
-    | (exfalso; rcases hex with h | h <;> contradiction)
-    | skip
+    | (exfalso; rcases _hex with h | h <;> contradiction)
   · refine ⟨5, Or.inr rfl, h5, fun i hi3 hi5 => ?_⟩
     rcases hfin7 i with rfl | rfl | rfl | rfl | rfl | rfl | rfl
     · exact h0
@@ -64,11 +64,11 @@ theorem Frame3.exists_x (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG 
 theorem Frame2.card_Ω (F : Frame2 G z) (h45 : F.Sz.ncard = 45) : F.Ω.ncard = 18 := by
   have hSz : F.Sz ⊆ (F.A : Set G) \ {1} := fun a ha => ⟨ha.1, ha.2.1⟩
   have h1 : ((F.A : Set G) \ {1}).ncard = 63 := by
-    rw [Set.ncard_diff_singleton_of_mem F.A.one_mem, ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem F.A.one_mem, ← Nat.card_coe_set_eq]
     show Nat.card F.A - 1 = 63
     rw [F.card_A]
   show (((F.A : Set G) \ {1}) \ F.Sz).ncard = 18
-  rw [Set.ncard_diff hSz, h1, h45]
+  rw [Set.ncard_sdiff hSz, h1, h45]
 
 theorem s40_2_T (F : Frame5 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
     (hU2 : ∀ u ∈ F.U2, u ≠ 1 → InZG z u) (h45 : F.Sz.ncard = 45) :

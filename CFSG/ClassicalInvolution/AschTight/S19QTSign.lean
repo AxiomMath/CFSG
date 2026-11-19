@@ -105,7 +105,7 @@ theorem exists_mul_self_eq_z (hd : Sec19DataT p f K z S W L t V) :
     ∃ ζ ∈ W ⊓ sec19Y K z, ζ * ζ = z := by
   have ef := S1911.etaYForm p f G K z S W L t V hd
   refine exists_mul_self_eq_of_isCyclic (S1916.isUniqueInvolution_W_inf hd) le_rfl ef.cyclic
-    (S.isPGroup'.to_le (inf_le_left.trans hd.hWS)) ?_
+    (S.isPGroup.to_le (inf_le_left.trans hd.hWS)) ?_
   rw [ef.card]
   exact ef.four
 
@@ -124,7 +124,7 @@ theorem sign_mem_or (hd : Sec19DataT p f K z S W L t V)
   refine ⟨hNO g hg, ?_⟩
   have hzZ := S1916.isUniqueInvolution_W_inf hd
   have hcomm := S1911.comm_of_mem hd0
-  have hZ2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup'.to_le (inf_le_left.trans hd.hWS)
+  have hZ2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup.to_le (inf_le_left.trans hd.hWS)
   have hbot := S1916.inf_oddCoreOf_eq_bot hZ2 (sec19Y K z)
   have hOY : oddCoreOf (sec19Y K z) ≤ sec19Y K z := Subgroup.map_subtype_le _
   have hyY : g * ζ * g⁻¹ ∈ sec19Y K z := (Subgroup.mem_normalizer_iff.mp (hNY hg) ζ).mp hζ.2

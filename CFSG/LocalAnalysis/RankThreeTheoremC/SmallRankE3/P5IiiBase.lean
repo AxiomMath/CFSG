@@ -60,7 +60,7 @@ theorem L630Setting3.failure (hL : L630Setting3 G P M x z T f) : Prop627Failure 
   Prop627Failure.mk_five hL.situation hL.point hL.central hL.sylowTwo
 
 theorem L630Setting3.centralizer_z_le (hL : L630Setting3 G P M x z T f) :
-    centralizer ({z} : Set G) ≤ M := fun g hg =>
+    centralizer ({z} : Set G) ≤ M := fun _g hg =>
   (hL.failure.normalizer_zpowers_le hL.setting)
     (centralizer_singleton_le_normalizer_zpowers z hg)
 

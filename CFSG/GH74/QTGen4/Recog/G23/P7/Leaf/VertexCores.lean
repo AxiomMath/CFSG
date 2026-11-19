@@ -196,7 +196,7 @@ def vcConj {C : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (C : Set G))
 theorem vc_oddCore_map_le [Finite G] {C : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (C : Set G)) :
     (CFSG.oddCore ↥C).map (vcConj hg).toMonoidHom ≤ CFSG.oddCore ↥C := by
-  haveI : (CFSG.oddCore ↥C).Normal := inferInstance
+  have : (CFSG.oddCore ↥C).Normal := inferInstance
   have hN : ((CFSG.oddCore ↥C).map (vcConj hg).toMonoidHom).Normal :=
     Subgroup.Normal.map this _ (vcConj hg).surjective
   have hodd : Odd (Nat.card ((CFSG.oddCore ↥C).map (vcConj hg).toMonoidHom)) := by
@@ -263,8 +263,8 @@ theorem vc_vertexCore [Finite G] [G23Leaf LeafSylow2Cent] {H L : Subgroup G} {e 
     (hodd : ∀ S : Subgroup G, S ≤ H → Odd (Nat.card S) → Nat.card S ∣ 9)
     (hOC : ∀ x : G, orderOf x = 2 → IsConj (zOf e) x) :
     ∃ M : Subgroup G, VertexCore e H σ L M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardL : Nat.card ↥L = 24 := vc_card_L eL
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   have hinv : ∀ u ∈ L, u * u = 1 → u ≠ 1 → u = zOf e :=
@@ -477,7 +477,7 @@ theorem vc_vertexCore [Finite G] [G23Leaf LeafSylow2Cent] {H L : Subgroup G} {e 
   have hzC : zOf e ∈ C := hLC hzL
   obtain ⟨zC, hzC'⟩ : ∃ zC : ↥C, (zC : G) = zOf e := ⟨⟨zOf e, hzC⟩, rfl⟩
   have hPeq : (P : Subgroup ↥C) = Q₀.subgroupOf C := by
-    have hR'two : IsPGroup 2 ((P : Subgroup ↥C).map C.subtype) := P.isPGroup'.map C.subtype
+    have hR'two : IsPGroup 2 ((P : Subgroup ↥C).map C.subtype) := P.isPGroup.map C.subtype
     have hR'C : (P : Subgroup ↥C).map C.subtype ≤ C := Subgroup.map_subtype_le (P : Subgroup ↥C)
     have hQR' : Q₀ ≤ (P : Subgroup ↥C).map C.subtype := by
       intro q hq
@@ -675,7 +675,7 @@ theorem vc_vertexCore [Finite G] [G23Leaf LeafSylow2Cent] {H L : Subgroup G} {e 
   obtain ⟨V, hVk, htV, hzV⟩ :=
     CFSG.GorensteinWalter.exists_kleinFour_of_commuting_involutions (e 4) (zOf e)
       ⟨ht1, by rw [pow_two]; exact ht2⟩ ⟨hz1, by rw [pow_two]; exact hz2⟩ hte htz
-  haveI : IsKleinFour V := hVk
+  have : IsKleinFour V := hVk
   have hVN : V ≤ Subgroup.normalizer (M : Set G) := by
     intro v hv
     have hv4 : v = 1 ∨ v = e 4 ∨ v = zOf e ∨ v = e 4 * zOf e := by

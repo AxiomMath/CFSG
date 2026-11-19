@@ -36,7 +36,7 @@ theorem ssTw_pgroup_d4_outer [E6Sub τ] (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E
     ∃ V : Subgroup ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i), IsPGroup ℓ V ∧
       8 ≤ Nat.card V := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := ℓ)
   set Ψ := componentRoots (rootCharHom a) i with hΨdef
   have hfin : Ψ.Finite := (finite_setOf_isRoot τ).subset fun γ hγ => hγ.1.1
@@ -125,7 +125,7 @@ theorem ssTw_pgroup_d4_twE6 (hE6 : E6FixDNAll) (S : LangSetup .E6 L p)
   | D4 => exact absurd ht (by decide)
   | E6 =>
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := ℓ)
   have hΦ' : ∀ g, S.D.Φ g = e6Diagram L * Units.map (entrywiseHom Fr) g * (e6Diagram L)⁻¹ := hΦ
   obtain ⟨w, hn⟩ := S.D.n_weyl

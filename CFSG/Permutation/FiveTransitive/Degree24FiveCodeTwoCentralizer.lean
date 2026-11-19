@@ -28,7 +28,7 @@ theorem sylow_five_card_twenty_five_centralizer_card_dvd_seven_hundred_fifty
           (S : Set (fixingSubgroup P s))) ∣
       750 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let inclusion : S →* Equiv.Perm X :=
     P.subtype.comp

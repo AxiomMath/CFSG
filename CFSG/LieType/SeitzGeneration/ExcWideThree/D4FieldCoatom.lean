@@ -20,7 +20,7 @@ theorem d4_fieldType_isCoatom_index
     (he3 : e ^ 3 = 1) {σ : K ≃+* K} (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hNF : HasNF e 0 σ) :
     IsCoatom (CFSG.ComponentClassification.FixedCommutingProduct.fixedSubgroup e) ∧
       3 ∣ (CFSG.ComponentClassification.FixedCommutingProduct.fixedSubgroup e).index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ f := by
     by_contra h
     push Not at h

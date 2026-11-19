@@ -49,7 +49,7 @@ private lemma padicValNat_prod_finset {ι : Type*} (s : Finset ι) (f : ι → �
     (h : ∀ i ∈ s, f i ≠ 0) :
     padicValNat 2 (∏ i ∈ s, f i) = ∑ i ∈ s, padicValNat 2 (f i) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   induction s using Finset.induction_on with
   | empty => simp
   | insert a s ha ih =>
@@ -124,8 +124,8 @@ private theorem open_isQuasisimple_of_mulEquiv {G H : Type*} [Group G] [Group H]
 theorem s15_Lin_exists_ne_one_mem_fixV {W : Type*} [CommGroup W] [Finite W]
     {P : Subgroup (MulAut W)} (hP : IsPGroup 2 P) (hW : ∀ w : W, w ^ 2 = 1) {U : Subgroup W}
     (hU : U ≠ ⊥) (hPU : ∀ x ∈ P, ∀ u ∈ U, x u ∈ U) : ∃ u ∈ U, u ≠ 1 ∧ u ∈ fixV P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥P ↥U :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥P ↥U :=
     { smul := fun x u => ⟨x.1 u.1, hPU x.1 x.2 u.1 u.2⟩
       one_smul := fun u => Subtype.ext rfl
       mul_smul := fun x y u => Subtype.ext (MulAut.mul_apply W x.1 y.1 u.1) }
@@ -303,7 +303,7 @@ theorem s15_Lin_commSub_top_iSup {W : Type*} [CommGroup W] {ι : Sort*}
 theorem s15_Lin_rk_sSup_eq_finsum {W : Type*} [CommGroup W] [Finite W]
     {𝓤 : Set (Subgroup W)} (h : sSupIndep 𝓤) : rk ↥(sSup 𝓤) = ∑ᶠ U ∈ 𝓤, rk ↥U := by
   classical
-  haveI : Fintype 𝓤 := (Set.toFinite 𝓤).fintype
+  have : Fintype 𝓤 := (Set.toFinite 𝓤).fintype
   let H : 𝓤 → Subgroup W := Subtype.val
   have hind : iSupIndep H := (sSupIndep_iff 𝓤).mp h
   have hcomm : Pairwise fun i j : 𝓤 => ∀ x y : W, x ∈ H i → y ∈ H j → Commute x y :=
@@ -326,7 +326,7 @@ theorem s15_Lin_exists_hyperplane {W : Type*} [CommGroup W] [Finite W]
     {A B : Subgroup (MulAut W)} (hA : IsElemAbelian2 A) (hBA : B < A) :
     ∃ E : Subgroup (MulAut W), B ≤ E ∧ E < A ∧ E3.mQuot A E = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Set (Subgroup (MulAut W)) := {E | B ≤ E ∧ E < A}
   obtain ⟨E, hE⟩ := (Set.toFinite S).exists_maximal ⟨B, le_rfl, hBA⟩
   obtain ⟨hES, hEmax0⟩ := hE
@@ -478,7 +478,7 @@ theorem s15_Lin_odd_card_of_isNilpotent {H : Type*} [Group H] [Finite H]
     (hN : ∀ N : Subgroup H, N.Normal → (∃ n : ℕ, N.index = 2 ^ n) → N = ⊤) :
     Odd (Nat.card H) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2dvd : 2 ∣ Nat.card H :=
     even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hodd)
@@ -486,7 +486,7 @@ theorem s15_Lin_odd_card_of_isNilpotent {H : Type*} [Group H] [Finite H]
   have hp2mem : (2 : ℕ) ∈ (Nat.card H).primeFactors :=
     Nat.mem_primeFactors.mpr ⟨Nat.prime_two, h2dvd, Nat.card_pos.ne'⟩
   let p₂ : (Nat.card H).primeFactors := ⟨2, hp2mem⟩
-  haveI : Fact (Nat.Prime (p₂ : ℕ)) := ⟨by simpa [p₂] using Nat.prime_two⟩
+  have : Fact (Nat.Prime (p₂ : ℕ)) := ⟨by simpa [p₂] using Nat.prime_two⟩
   let P₀ : Sylow (p₂ : ℕ) H := Classical.arbitrary _
   let Fam : (Nat.card H).primeFactors → Type _ := fun p => ∀ P : Sylow p H, (↑P : Subgroup H)
   let Gfam : Sylow (p₂ : ℕ) H → Type _ := fun P => (↑P : Subgroup H)
@@ -521,7 +521,7 @@ theorem s15_Lin_odd_card_iSup {A : Type*} [Group A] [Finite A] {ι : Type*}
     (hcomm : ∀ i j, K i ≠ K j → ∀ x ∈ K i, ∀ y ∈ K j, Commute x y) :
     Odd (Nat.card ↥(⨆ i, K i)) := by
   classical
-  haveI : Fintype (Set.range K) := (Set.toFinite (Set.range K)).fintype
+  have : Fintype (Set.range K) := (Set.toFinite (Set.range K)).fintype
   let H : Set.range K → Subgroup A := Subtype.val
   have hcomm' : Pairwise fun i j : Set.range K =>
       ∀ x y : A, x ∈ H i → y ∈ H j → Commute x y := by
@@ -576,7 +576,7 @@ theorem s15_Lin_exists_component_or_isNilpotent {A : Type} [Group A] [Finite A]
       exact hsup.symm
     have hnil : Group.IsNilpotent (⊤ : Subgroup ↥H) :=
       hfit ▸ (inferInstance : Group.IsNilpotent (CFSG.fittingSubgroup ↥H))
-    letI : Group.IsNilpotent (⊤ : Subgroup ↥H) := hnil
+    let : Group.IsNilpotent (⊤ : Subgroup ↥H) := hnil
     exact Or.inr (Group.nilpotent_of_mulEquiv Subgroup.topEquiv)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

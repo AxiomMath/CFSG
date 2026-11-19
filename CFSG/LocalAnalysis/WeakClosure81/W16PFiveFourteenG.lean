@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G} {g : G} {
 
 theorem Hyp167.le_pCoreOf_X (h1 : W16One G) (hS : Std15 G) (hX : Hyp167 M V₀ V U S H g X T)
     (hVO : V ≤ pCoreOf 2 H) : V ≤ pCoreOf 2 X ∧ V ≤ kerMOf M X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO2S : pCoreOf 2 H ≤ S := Cex16.pCoreOf_le_S h1 hS hX.cex hX.min.1
   have hO2M : pCoreOf 2 H ≤ M := hO2S.trans hX.cex.S_le_M
   have hO2H : pCoreOf 2 H ≤ H := CFSG.LieType.BorelTits.pCoreOf_le 2 H
@@ -55,6 +55,7 @@ theorem Hyp167.not_mem_M (h1 : W16One G) (hS : Std15 G) (hX : Hyp167 M V₀ V U 
   have hVK : V ≤ kerMOf M X := (Hyp167.le_pCoreOf_X h1 hS hX hVO).2
   exact hX.mem.2.2.not_le_ker (by rwa [hconj])
 
+omit [Finite G] in
 theorem Hyp167.quad_of_le_conjSubgroup_M (hX : Hyp167 M V₀ V U S H g X T)
     (hIA : conjClosure V X ≤ conjSubgroup M g) :
     ∀ a ∈ conjSubgroup V g, ∀ b ∈ conjSubgroup V g, ∀ e ∈ conjClosure V X,

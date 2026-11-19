@@ -21,7 +21,7 @@ theorem mem_centralizer_of_commute (k : Sec7Core4 G) (h75 : Step75 k) {H : Subgr
     u ∈ Subgroup.centralizer (X : Set G) := by
   by_contra huC
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Nbar : Subgroup (↥H ⧸ K₀) := ((H ⊓ k.M).subgroupOf H).map π
@@ -64,7 +64,7 @@ theorem mem_centralizer_of_commute (k : Sec7Core4 G) (h75 : Step75 k) {H : Subgr
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBH).toEquiv, hb]
   have hB'K : B' ⊓ π.ker = ⊥ := by
     rw [QuotientGroup.ker_mk']
-    exact Subgroup.inf_eq_bot_of_coprime (by rw [hB'c]; exact hKcop.pow_left b)
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hB'c]; exact hKcop.pow_left b)))
   have hBbarc : Nat.card Bbar = k.p ^ b := by
     have hinj : Function.Injective (π.comp B'.subtype) := by
       rw [injective_iff_map_eq_one]
@@ -85,7 +85,7 @@ theorem mem_centralizer_of_commute (k : Sec7Core4 G) (h75 : Step75 k) {H : Subgr
   have hFB := hF Bbar hBN (IsPGroup.of_card hBbarc) hBbarab
     (by rw [hBbarc]; exact Nat.pow_le_pow_right hp.pos hb3)
   have hsimple := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting (↥H ⧸ K₀)) := hsimple.1
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting (↥H ⧸ K₀)) := hsimple.1
   have hLbarperf : ⁅CFSG.generalizedFitting (↥H ⧸ K₀), CFSG.generalizedFitting (↥H ⧸ K₀)⁆ =
       CFSG.generalizedFitting (↥H ⧸ K₀) :=
     Subgroup.isPerfect_iff.mp

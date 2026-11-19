@@ -126,7 +126,7 @@ variable {F : Type} [Field F] {p : ℕ} [CharP F p] {ω : F}
 
 theorem hessQuadLift_omega (hω : ω ^ 2 + ω + 1 = 0) :
     hessQuadLift (p := p) hω QuadraticAlgebra.omega = ω := by
-  letI := ZMod.algebra F p
+  let := ZMod.algebra F p
   simp [hessQuadLift, QuadraticAlgebra.lift_apply_apply]
 
 end Quadratic

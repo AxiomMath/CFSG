@@ -90,8 +90,8 @@ theorem pevT_nil (f g : Fin 5 → Nat) : pevT f g [] = pI := rfl
 theorem encT_cond (b : Bool) (s t : Array (Fin 22)) :
     encT (cond b s t) = cond b (encT s) (encT t) := by
   cases b
-  · rw [cond_false, cond_false]
-  · rw [cond_true, cond_true]
+  · rw [Bool.cond_false, Bool.cond_false]
+  · rw [_root_.Bool.cond_true, _root_.Bool.cond_true]
 
 theorem encT_evalT (f g : Fin 5 → Array (Fin 22)) : ∀ w,
     encT (evalT f g w) = pevT (fun i => encT (f i)) (fun i => encT (g i)) w
@@ -226,7 +226,7 @@ theorem encT_candT (T₀ T₁ T₂ : Array (Fin 22)) (i : Fin 5) :
   rfl
 
 theorem glueCheck_eq {gT gTi crdT : List (Array (Fin 22))} (hc : ∀ T ∈ crdT, V T)
-    (hg : ∀ T ∈ gT, V T) :
+    (_hg : ∀ T ∈ gT, V T) :
     glueCheck gT gTi crdT = glueCheckP (gT.map encT) (gTi.map encT) (crdT.map encT) := by
   unfold glueCheck glueCheckP
   simp only [strictB_eq', contains_eq hc, fixesF_eq, beq_eq, encT_evalT, encT_candT, encT_ite,

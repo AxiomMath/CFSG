@@ -17,7 +17,7 @@ theorem isHeisThree_sup_zpowers {H : Type} [Group H] [Finite H] {F : Subgroup H}
     b ∉ F ∧ Nat.card (F ⊔ Subgroup.zpowers b : Subgroup H) = 27 ∧
       Sec4.IsHeisThree ↥(F ⊔ Subgroup.zpowers b) ∧
       ∀ u ∈ F ⊔ Subgroup.zpowers b, u * c = c * u := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨f₀, hf₀F, hf₀⟩ := hne
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hF.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)

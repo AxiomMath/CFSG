@@ -57,7 +57,7 @@ theorem colC_bit (M v : ℕ) {i : ℕ} (hi : i < 3) :
 
 theorem colC_bit_hi (M v : ℕ) {i : ℕ} (hi : 3 ≤ i) : (colC M v).testBit i = false := by
   rw [colC_eq]
-  simp only [testBit_brec, fld7_bit_hi _ _ hi, Nat.zero_testBit, Bool.false_xor, Bool.and_false,
+  simp only [testBit_brec, fld7_bit_hi _ _ hi, Nat.zero_testBit, Bool.and_false,
     Bool.xor_false]
 
 theorem testBit_lor_shl (acc c s t : ℕ) :
@@ -163,7 +163,7 @@ theorem pwG_col {G : Type} [Group G] (g : ℕ → G) (M : ℕ) (j : Fin 3) :
   have hb : ∀ i < 3, ((M >>> (3 * j.val)) &&& 7).testBit i = M.testBit (3 * j.val + i) :=
     fun i hi => fld7_bit M _ hi
   rw [pwG_succ, pwG_succ, pwG_succ, hb 0 (by norm_num), hb 1 (by norm_num), hb 2 (by norm_num)]
-  simp only [vecE, m9, pwG, Fin.val_zero, Fin.val_one, Fin.val_two, Nat.add_zero, one_mul]
+  simp only [vecE, m9, pwG, Fin.val_zero, Fin.val_one, Fin.val_two, Nat.add_zero]
   cases M.testBit (3 * j.val) <;> cases M.testBit (3 * j.val + 1) <;>
     cases M.testBit (3 * j.val + 2) <;> simp [show ZMod.val (1 : ZMod 2) = 1 from rfl]
 

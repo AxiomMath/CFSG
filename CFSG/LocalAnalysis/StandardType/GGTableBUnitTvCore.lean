@@ -70,11 +70,11 @@ theorem not_transvection_of_model [Finite K] [Finite L'] (hM : Model φ)
     ¬ GGIsTransvection p (A.normalizerMonoidHom α) := by
   intro hT
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut L') :=
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) DFunLike.coe_injective
-  letI : CommGroup A :=
+  let : CommGroup A :=
     { (inferInstance : Group A) with
       mul_comm := fun a b => Subtype.ext (IsElemAbelian.comm hA a.2 b.2) }
   obtain ⟨ζ, hζ⟩ := CFSG.RankThree.PartOne.KFU.exists_isPrimitiveRoot hM.field hp hpq

@@ -15,8 +15,10 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem OUp_le (M : Subgroup G) : OUp 3 M ≤ M := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem OUp_conj_mem {M : Subgroup G} {g z : G} (hg : g ∈ M) (hz : z ∈ OUp 3 M) :
     g * z * g⁻¹ ∈ OUp 3 M := by
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hz
@@ -26,7 +28,7 @@ abbrev NC (M : Subgroup G) : Subgroup ↥M :=
   Subgroup.normalClosure {g : M | Nat.Coprime 3 (orderOf g)}
 
 theorem isPGroup_quot_NC (M : Subgroup G) : IsPGroup 3 (↥M ⧸ NC M) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL : CFSG.GH74.GLS.oResidual 3 M ≤ NC M := by
     refine Subgroup.closure_le _ |>.mpr fun g hg => ?_
     exact Subgroup.subset_normalClosure (Nat.coprime_comm.mp hg)
@@ -71,7 +73,7 @@ theorem mem_OUp_of_inv {M : Subgroup G} {n x : G} (hn : n ∈ M) (hx : x ∈ M) 
 
 theorem sylow_cen_beta {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J B b₁ b₂) :
     IsSylowOf 3 B (Cen (b₁ * b₂)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB := bgen_of_sec4 h4
   obtain ⟨hEl, hcardB⟩ := h4.mono.1
   have hcomm : ∀ u ∈ B, ∀ v ∈ B, u * v = v * u := fun u hu v hv =>
@@ -140,7 +142,7 @@ theorem cen_beta_aux {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b
     Subgroup.closure {b, b₁ ^ 2 * b₂} ≤ OUp 3 (Cen (b₁ * b₂)) ∧
     Nat.card (↥(Cen (b₁ * b₂)) ⧸ NC (Cen (b₁ * b₂))) = 3 ∧
     (Nat.card (OUp 3 (Cen (b₁ * b₂)))).factorization 3 = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB := bgen_of_sec4 h4
   obtain ⟨hEl, hcardB⟩ := h4.mono.1
   have hSyl := sylow_cen_beta h4
@@ -158,7 +160,7 @@ theorem cen_beta_aux {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b
   obtain ⟨t, htC, ht⟩ := exists_inv_gamma h4
   have hγ3 : (b₁ ^ 2 * b₂) ^ 3 = 1 := by
     have hg : b₁ ^ 2 * b₂ = crd b b₁ b₂ (0, 2, 1) := by simp [crd]
-    rw [hg, pow_three', hB.crd_mul, hB.crd_mul, ← hB.crd_zero]
+    rw [hg, pow_three', hB.crd_mul, hB.crd_mul, ← CFSG.RankThree.PartTwo.Sec21.FF79.BGen.crd_zero]
     exact hB.crd_eq_of_dvd ⟨by simp, by simp, by simp⟩
   have hbH : b ∈ OUp 3 (Cen (b₁ * b₂)) :=
     mem_OUp_of_inv hn₀C (hBM hB.bmem.1) hB.cube.1 hn₀
@@ -209,13 +211,13 @@ theorem cen_beta_decomp {b : G} {J B : Subgroup G} {b₁ b₂ : G}
     (Subgroup.zpowers (b₁ * b₂) ⊔ OUp 3 (Cen (b₁ * b₂)) = Cen (b₁ * b₂) ∧
       Subgroup.zpowers (b₁ * b₂) ⊓ OUp 3 (Cen (b₁ * b₂)) = ⊥) ∧
     IsSylowOf 3 (Subgroup.closure {b, b₁ ^ 2 * b₂}) (OUp 3 (Cen (b₁ * b₂))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB := bgen_of_sec4 h4
   obtain ⟨hβH, hAH, hQ, hv⟩ := cen_beta_aux h4
   have hA9 := card_closure hB h4.mono.1.2
   have hβ3 : (b₁ * b₂) ^ 3 = 1 := by
     have hg : b₁ * b₂ = crd b b₁ b₂ (0, 1, 1) := by simp [crd]
-    rw [hg, pow_three', hB.crd_mul, hB.crd_mul, ← hB.crd_zero]
+    rw [hg, pow_three', hB.crd_mul, hB.crd_mul, ← CFSG.RankThree.PartTwo.Sec21.FF79.BGen.crd_zero]
     exact hB.crd_eq_of_dvd ⟨by simp, by simp, by simp⟩
   have hβM : b₁ * b₂ ∈ Cen (b₁ * b₂) := Subgroup.mem_centralizer_iff.mpr fun h hh => by
     rw [Set.mem_singleton_iff.mp hh]
@@ -260,7 +262,7 @@ theorem cen_beta_decomp {b : G} {J B : Subgroup G} {b₁ b₂ : G}
 theorem perfect_le_OUp_cen_beta {b : G} {J B : Subgroup G} {b₁ b₂ : G}
     (h4 : FF79Sec4 b J B b₁ b₂) {S : Subgroup G} (hS : S ≤ Cen (b₁ * b₂))
     (hP : Group.IsPerfect ↥S) : S ≤ OUp 3 (Cen (b₁ * b₂)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hβH, -, hQ, -⟩ := cen_beta_aux h4
   have hβM : b₁ * b₂ ∈ Cen (b₁ * b₂) := Subgroup.mem_centralizer_iff.mpr fun h hh => by
     rw [Set.mem_singleton_iff.mp hh]

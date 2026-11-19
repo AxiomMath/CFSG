@@ -23,7 +23,7 @@ theorem twIrred_core {K : Type} [Field K] [Finite K] (hK : 3 ≤ Nat.card K)
     TwIrred (D.frame TwClass.e6Six.S₁) (D.frame TwClass.e6Six.S₂) := by
   classical
   intro W hWM hWstab
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hq2 : 2 ≤ Nat.card K := by omega
   have hspecK := heisCoord_spec Tag.E6 K
   have hspecL := heisCoord_spec Tag.E6 D.L
@@ -279,7 +279,7 @@ theorem twIrred_core {K : Type} [Field K] [Finite K] (hK : 3 ≤ Nat.card K)
         D.Fr (heisCoord Tag.E6 D.L q' μ) = ε μ * heisCoord Tag.E6 D.L q' (wE • μ) := by
       intro μ hμ
       have h := congrFun h4 μ
-      rw [hFq, h6 μ, if_pos hμ] at h
+      rw [hFq, h6 μ, ite_eq_left hμ] at h
       exact h.symm
     rw [← h2]
     funext ν

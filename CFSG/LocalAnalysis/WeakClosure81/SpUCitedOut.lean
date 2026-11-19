@@ -29,7 +29,7 @@ private theorem spUCited_outPNice_two_statedProj_two {K : Type} [Field K] [Finit
     {n : ℕ} (hn : 1 ≤ n) (hcard : Nat.card K = 2 ^ n) :
     OutPNice 2 (StatedProj (StatedSp 2 K)) := by
   have : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by
     rw [← Nat.card_eq_fintype_card, hcard])
   obtain ⟨Fr, hFr, hord, hzp, -, -⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality
@@ -43,8 +43,8 @@ private theorem spUCited_outPNice_two_statedProj_two {K : Type} [Field K] [Finit
 theorem spUCited_outPChain_two_of_isSpGp {L : Type} [Group L] [Finite L] {m n : ℕ}
     (hm : 4 ≤ m) (h : IsSpGp L m n) : OutPChain 2 L := by
   obtain ⟨k, rfl, F, hFld, hFin, hcard, ⟨e⟩⟩ := h
-  letI := hFld
-  letI := hFin
+  let := hFld
+  let := hFin
   have : Fintype F := Fintype.ofFinite F
   have hk2 : 2 ≤ k := by omega
   have hn1 : 1 ≤ n := by
@@ -55,9 +55,9 @@ theorem spUCited_outPChain_two_of_isSpGp {L : Type} [Group L] [Finite L] {m n : 
     have hn0 : n = 0 := by omega
     rw [hcard, hn0, pow_zero] at h2
     omega
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by
     rw [← Nat.card_eq_fintype_card, hcard])
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   let e' : L ≃* StatedProj (StatedSp k F) :=
     e.trans (MulEquiv.ofBijective
       (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj k F)
@@ -71,7 +71,7 @@ theorem spUCited_outPChain_two_of_isSpGp {L : Type} [Group L] [Finite L] {m n : 
       (spUCited_outPNice_two_statedProj_two (K := F) hn1 hcard).toChain
 
 theorem spUCited_outPChain_two_of_isPSUGp {L : Type} [Group L] [Finite L] {m n : ℕ}
-    (hm : 4 ≤ m) (h : IsPSUGp L m n) : OutPChain 2 L := by
+    (_hm : 4 ≤ m) (h : IsPSUGp L m n) : OutPChain 2 L := by
   have hn1 : 1 ≤ n := (CFSG.Blueprint.LieModel.admissible h).2.1
   have hodd : ¬ 2 ∣ 2 ^ n + 1 := by
     intro hd

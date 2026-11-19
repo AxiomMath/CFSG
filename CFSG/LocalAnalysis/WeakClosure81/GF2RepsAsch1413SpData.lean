@@ -92,7 +92,7 @@ private theorem a1413SpData_mem_E2_sq_eq_one {K : Type} [Field K] (h2 : (2 : K) 
 theorem asch1413_sp4_data {Q : Type} [Group Q] [Finite Q] {L A : Subgroup Q} (hLn : L.Normal)
     (hc : centralizer (L : Set Q) ≤ L) {K : Type} [Field K] [Finite K]
     (hodd : Odd (Nat.card K)) (h5 : 5 ≤ Nat.card K) (hZ : Subgroup.center ↥L = ⊥)
-    (e : ↥L ≃* StatedProj (StatedSp 2 K)) (hA : Nat.card A = 4) (hAe : IsElemAbelian 2 A)
+    (e : ↥L ≃* StatedProj (StatedSp 2 K)) (_hA : Nat.card A = 4) (hAe : IsElemAbelian 2 A)
     (hAz : ∀ a ∈ A, a * spIota e (u1 K) = spIota e (u1 K) * a) (hzA : spIota e (u1 K) ∉ A) :
     (∀ a ∈ A, ∀ x ∈ (X0 K).map (spIota e), a * x * a⁻¹ ∈ (X0 K).map (spIota e)) ∧
       A ⊓ centralizer (((E1 K).map (spIota e) : Subgroup Q) : Set Q) = ⊥ ∧

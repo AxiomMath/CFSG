@@ -34,6 +34,7 @@ theorem ggAttachNullPos_false_of_cert (C : Matrix Λ Λ ℤ) (k : Λ) (y : Optio
   rw [hT] at hT0
   linarith
 
+omit [Fintype Λ] in
 theorem ggAttachCartan_submatrix_optionCongr {Λ' : Type} [DecidableEq Λ'] {C : Matrix Λ Λ ℤ}
     {C' : Matrix Λ' Λ' ℤ} (e : Λ' ≃ Λ) (hC : ∀ i j, C (e i) (e j) = C' i j) {k : Λ} {k' : Λ'}
     (hk : k = e k') :
@@ -42,7 +43,7 @@ theorem ggAttachCartan_submatrix_optionCongr {Λ' : Type} [DecidableEq Λ'] {C :
   subst hk
   ext i j
   rcases i with _ | i <;> rcases j with _ | j <;>
-    simp [Matrix.submatrix_apply, Equiv.optionCongr_apply, Equiv.apply_eq_iff_eq, hC]
+    simp [Matrix.submatrix_apply, Equiv.optionCongr_apply, hC]
 
 theorem GGAttachNullPos.of_equiv {Λ' : Type} [Fintype Λ'] [DecidableEq Λ'] {C : Matrix Λ Λ ℤ}
     {C' : Matrix Λ' Λ' ℤ} (e : Λ' ≃ Λ) (hC : ∀ i j, C (e i) (e j) = C' i j) {k : Λ} {k' : Λ'}

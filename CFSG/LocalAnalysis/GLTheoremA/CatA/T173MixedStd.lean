@@ -25,13 +25,14 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
 
 theorem oddOrderIsometry_of_std (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 : p ≠ 2)
     (hd : IsStdElt p A d) : OddOrderIsometry Q p (d : V ≃ₗ[F] V) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hord : orderOf d = p := orderOf_eq_prime hd.2.2.1 hd.2.1
   exact oddOrderIsometry_of_orthDerived hp (by rw [ringChar.eq F 2]; exact hp2) hQ d hord
 
+omit [Finite F] [CharP F 2] in
 theorem mem_zpowers_of_fixed_layer
     (hcd : A ⊓ Subgroup.centralizer (stdLayer d : Set ↥(orthDerived Q)) = Subgroup.zpowers d)
     {P : Submodule F V} (hP : (QuadraticMap.polarBilin (Q.comp P.subtype)).Nondegenerate)
@@ -45,6 +46,7 @@ theorem mem_zpowers_of_fixed_layer
       Subtype.ext (commute_of_apply_eq hP (hOg g) (hfix g hg) heP hperp)⟩
   rwa [hcd] at this
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem fixes_of_layer_su {h k : Polynomial F} (hk : k ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap) (hkh : k ≠ h)
     (hkh' : k ≠ reciprocalPolynomial h)
     (hL : stdLayer d = (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q)) :
@@ -53,6 +55,7 @@ theorem fixes_of_layer_su {h k : Polynomial F} (hk : k ∈ primaryFactors (d : V
   rw [hL] at hg
   exact apply_eq_of_mem_specialBlock hk hkh hkh' (Subgroup.mem_subgroupOf.1 hg) hv
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem fixes_of_layer_omega {G : Subgroup (V ≃ₗ[F] V)} (hGle : G ≤ supportedFixedDerived Q (d : V ≃ₗ[F] V))
     {k : Polynomial F} (hk : k ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap) (hk1 : k ≠ X - 1)
     (hL : stdLayer d = G.subgroupOf (orthDerived Q)) :
@@ -62,7 +65,7 @@ theorem fixes_of_layer_omega {G : Subgroup (V ≃ₗ[F] V)} (hGle : G ≤ suppor
   exact apply_eq_of_mem_supportedFixedDerived hk hk1 (hGle (Subgroup.mem_subgroupOf.1 hg)) hv
 
 theorem le_primaryComponent_of_ne (hM : IsMixedFrame Q p U ρ i j A)
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hdim : Module.finrank F V = 2 * l) (hl : 4 ≤ l) (hp : p.Prime)
+    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (_hdim : Module.finrank F V = 2 * l) (_hl : 4 ≤ l) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) (hd : IsStdElt p A d) {h : Polynomial F}
     (hh : h ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap) (hh1 : h ≠ X - 1)
     (hL : stdLayer d = (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q)) :
@@ -87,6 +90,7 @@ theorem le_primaryComponent_of_ne (hM : IsMixedFrame Q p U ρ i j A)
   exact hv0 (eq_zero_of_mem_primaryComponent_of_apply_eq hh hh1 (hi' hv)
     ((hM.frame.apply_eq_of_mem_zpowers hp (hM.le_torus hd.1) hρd) i' hi'k v hv))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem le_primaryComponent_pair_aux1 (hM : IsMixedFrame Q p U ρ i j A) :
     (∀ x ∈ U i ⊔ U j, ((ρ i * ρ j : ↥(orthDerived Q)) : V ≃ₗ[F] V) x ∈ U i ⊔ U j) ∧
       ∀ x ∈ polarPerp Q (U i ⊔ U j), ((ρ i * ρ j : ↥(orthDerived Q)) : V ≃ₗ[F] V) x = x := by
@@ -143,10 +147,11 @@ private theorem le_primaryComponent_pair_aux2 (hM : IsMixedFrame Q p U ρ i j A)
   obtain ⟨heP, hperp⟩ := le_primaryComponent_pair_aux1 hM
   exact mem_zpowers_of_fixed_layer hd.2.2.2.2 hP (hM.pair_mem) hfixP heP hperp
 
+omit [CharP F 2] in
 private theorem le_primaryComponent_pair_aux3 (hM : IsMixedFrame Q p U ρ i j A) (hp : p.Prime)
     (hd : IsStdElt p A d) (hπmem : ρ i * ρ j ∈ Subgroup.zpowers d) :
     d ∈ Subgroup.zpowers (ρ i * ρ j) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hπ1 : ρ i * ρ j ≠ 1 := by
     intro h1
     obtain ⟨u, hu, hu0⟩ := exists_ne_zero_mem_of_finrank_eq_two (U i) (hM.frame.finrank_eq i)
@@ -170,6 +175,7 @@ private theorem le_primaryComponent_pair_aux3 (hM : IsMixedFrame Q p U ρ i j A)
   rw [heq]
   exact Subgroup.mem_zpowers d
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem le_primaryComponent_pair_aux4 (hM : IsMixedFrame Q p U ρ i j A)
     (hπd : d ∈ Subgroup.zpowers (ρ i * ρ j)) :
     ∀ m, m ≠ i → m ≠ j → ∀ v ∈ U m, (d : V ≃ₗ[F] V) v = v := by
@@ -191,11 +197,11 @@ private theorem le_primaryComponent_pair_aux4 (hM : IsMixedFrame Q p U ρ i j A)
     ((Subgroup.zpowers_le (H := MulAction.stabilizer (V ≃ₗ[F] V) v)).2 hstab hmem)
 
 theorem le_primaryComponent_pair (hM : IsMixedFrame Q p U ρ i j A)
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hdim : Module.finrank F V = 2 * l) (hl : 4 ≤ l) (hp : p.Prime)
+    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (_hdim : Module.finrank F V = 2 * l) (_hl : 4 ≤ l) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) (hd : IsStdElt p A d) {h : Polynomial F}
     (hh : h ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap) (hh1 : h ≠ X - 1)
     (hL : stdLayer d = (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q))
-    (hout : ∀ k, k ≠ i → k ≠ j → U k ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h) :
+    (_hout : ∀ k, k ≠ i → k ≠ j → U k ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h) :
     U i ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h ∧ U j ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h := by
   have hi : U i ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h := by
     by_contra hcon
@@ -294,7 +300,7 @@ private theorem mem_zpowers_pair_aux1 (hM : IsMixedFrame Q p U ρ i j A)
   exact fixes_of_layer_omega hGle hk hk1 hL g hg v (hUk hv)
 
 theorem mem_zpowers_pair (hM : IsMixedFrame Q p U ρ i j A)
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hdim : Module.finrank F V = 2 * l) (hl : 4 ≤ l) (hp : p.Prime)
+    (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (_hdim : Module.finrank F V = 2 * l) (_hl : 4 ≤ l) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) (hd : IsStdElt p A d) {G : Subgroup (V ≃ₗ[F] V)}
     (hGle : G ≤ supportedFixedDerived Q (d : V ≃ₗ[F] V)) (hL : stdLayer d = G.subgroupOf (orthDerived Q))
     (hall : ∀ k, k ≠ i → k ≠ j → ∀ x ∈ U k, (d : V ≃ₗ[F] V) x = x) :
@@ -328,9 +334,10 @@ theorem mem_zpowers_pair (hM : IsMixedFrame Q p U ρ i j A)
   exact le_primaryComponent_pair_aux3 hM hp hd
     (mem_zpowers_of_fixed_layer hd.2.2.2.2 hP (hM.pair_mem) hfixP heP hperp)
 
+omit [Finite F] [CharP F 2] in
 private theorem fixedSpace_pair_aux1 (hM : IsMixedFrame Q p U ρ i j A) (hp : p.Prime) :
     orderOf (ρ i * ρ j) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem : ρ i * ρ j ∈ Subgroup.closure (Set.range ρ) :=
     Subgroup.mul_mem _ (Subgroup.subset_closure ⟨i, rfl⟩) (Subgroup.subset_closure ⟨j, rfl⟩)
   have hp1 : (ρ i * ρ j) ^ p = 1 := hM.frame.isElemAbelian.2 _ hmem
@@ -345,8 +352,9 @@ private theorem fixedSpace_pair_aux1 (hM : IsMixedFrame Q p U ρ i j A) (hp : p.
     exact hu0 (hM.frame.eq_zero_of_apply_eq i u hu hthis)
   exact orderOf_eq_prime hp1 hne
 
+omit [Finite F] [CharP F 2] in
 private theorem fixedSpace_pair_aux2 (hM : IsMixedFrame Q p U ρ i j A)
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) :
+    (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate) :
     fixedSpace ((ρ i * ρ j : ↥(orthDerived Q)) : V ≃ₗ[F] V) ≤ polarPerp Q (U i ⊔ U j) := by
   intro x hx
   have hP : (QuadraticMap.polarBilin (Q.comp (U i ⊔ U j).subtype)).Nondegenerate := by
@@ -396,6 +404,7 @@ private theorem fixedSpace_pair_aux2 (hM : IsMixedFrame Q p U ρ i j A)
   have hx₂0 : x₂ = 0 := hM.frame.eq_zero_of_apply_eq j x₂ hx₂ hx₂fix
   simpa [hx₁0, hx₂0] using hw
 
+omit [CharP F 2] in
 theorem fixedSpace_pair (hM : IsMixedFrame Q p U ρ i j A)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hdim : Module.finrank F V = 2 * l) (hp : p.Prime)
     (hdz : d ∈ Subgroup.zpowers (ρ i * ρ j)) (hd1 : d ≠ 1) :
@@ -428,6 +437,7 @@ theorem fixedSpace_pair (hM : IsMixedFrame Q p U ρ i j A)
   rw [hfsd, finrank_polarPerp hQ (U i ⊔ U j), hdim, hfin]
   omega
 
+omit [CharP F 2] in
 private theorem not_quasisimple_of_four_aux1 (hM : IsMixedFrame Q p U ρ i j A)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hdim : Module.finrank F V = 2 * l) (hl4 : l = 4) :
     (QuadraticMap.polarBilin (Q.comp (polarPerp Q (U i ⊔ U j)).subtype)).Nondegenerate ∧
@@ -465,7 +475,8 @@ private theorem not_quasisimple_of_four_aux1 (hM : IsMixedFrame Q p U ρ i j A)
   rw [← heq]
   exact (hM.frame.toIsPlaneSystem.isPlusType_biSup_iff _).2 (by rw [hcard]; exact even_two)
 
-private theorem not_quasisimple_of_four_aux2 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
+omit [CharP F 2] in
+private theorem not_quasisimple_of_four_aux2 (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {W : Submodule F V} (hW : (QuadraticMap.polarBilin (Q.comp W.subtype)).Nondegenerate)
     (hWdim : Module.finrank F W = 4) (hWplus : IsPlusType (Q.comp W.subtype)) (hF2 : Nat.card F = 2) :
     Nat.card ↥(orthDerived (Q.comp W.subtype)) ∣ 2 ^ 3 * 3 ^ 2 := by
@@ -497,10 +508,10 @@ theorem not_quasisimple_of_four (hM : IsMixedFrame Q p U ρ i j A)
     (hF2 : Nat.card F = 2) (hp : p.Prime) (hp2 : p ≠ 2) (hd : IsStdElt p A d)
     (hfs : fixedSpace (d : V ≃ₗ[F] V) = polarPerp Q (U i ⊔ U j)) {G : Subgroup (V ≃ₗ[F] V)}
     (hGq : CFSG.IsQuasisimple ↥G) (hGle : G ≤ supportedFixedDerived Q (d : V ≃ₗ[F] V)) : False := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite ↥G := Finite.of_injective (fun g : ↥G => (g : V ≃ₗ[F] V)) Subtype.coe_injective
+  have : Finite ↥G := Finite.of_injective (fun g : ↥G => (g : V ≃ₗ[F] V)) Subtype.coe_injective
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) := oddOrderIsometry_of_std hQ hp hp2 hd
   obtain ⟨hWreg, hWdim, hWplus⟩ := not_quasisimple_of_four_aux1 hM hQ hdim hl4
   have hdvd : Nat.card ↥(orthDerived (Q.comp (fixedSpace (d : V ≃ₗ[F] V)).subtype)) ∣
@@ -516,9 +527,9 @@ theorem not_quasisimple_of_four (hM : IsMixedFrame Q p U ρ i j A)
   have hdvdG : Nat.card ↥G ∣ 2 ^ 3 * 3 ^ 2 := hcardG.trans (hsd.symm ▸ hdvd)
   have hsolv : Group.IsSolvable ↥G :=
     TauCeti.isSolvable_of_card_dvd_prime_pow_mul_prime_pow Nat.prime_two Nat.prime_three hdvdG
-  haveI : IsSimpleGroup (↥G ⧸ Subgroup.center ↥G) := hGq.2.1
-  haveI : Nontrivial ↥G := (QuotientGroup.mk'_surjective (Subgroup.center ↥G)).nontrivial
-  haveI : Group.IsPerfect ↥G := hGq.1
+  have : IsSimpleGroup (↥G ⧸ Subgroup.center ↥G) := hGq.2.1
+  have : Nontrivial ↥G := (QuotientGroup.mk'_surjective (Subgroup.center ↥G)).nontrivial
+  have : Group.IsPerfect ↥G := hGq.1
   exact Group.IsPerfect.not_isSolvable ↥G hsolv
 
 theorem pair_of_omega (hM : IsMixedFrame Q p U ρ i j A)
@@ -548,7 +559,7 @@ theorem standard_trichotomy (hM : IsMixedFrame Q p U ρ i j A)
         (∀ k, U k ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h) ∧
         stdLayer d = (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q) ∧
         CFSG.IsQuasisimple ↥(specialBlock Q (d : V ≃ₗ[F] V) h)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf d = p := orderOf_eq_prime hd.2.2.1 hd.2.1
   rcases comp_cases_orthDerived_gen hQ hp hp2 hpq hord hd.2.2.2.1 with
     ⟨h, hh, hh1, hquasi, hL⟩ | ⟨G, hGq, hGle, -, hGdim, hL⟩

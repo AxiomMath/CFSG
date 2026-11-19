@@ -44,9 +44,9 @@ theorem twoLocalWhen_POmegaPlus_eight : TwoLocalWhen .POmegaPlus (fun n f₀ => 
   have hfp : f = p := by rw [hf, mul_one]
   have hp6 := OLThreeAdic.prime_mod_six hp hp5
   obtain ⟨-, F, hF, hFfin, hFcard, ⟨e⟩⟩ := hcl0
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = 2 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hFcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
   have hq : Nat.card F = 2 ^ p := by rw [hFcard, hfp]
   have hcard : Fintype.card (Fin 4 ⊕ Fin 4) = 8 := by simp
   refine ⟨3, Nat.prime_three, fun R hR2 hR1 => ?_⟩

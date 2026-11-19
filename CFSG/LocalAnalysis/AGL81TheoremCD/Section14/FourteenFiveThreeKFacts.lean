@@ -15,6 +15,6 @@ namespace CFSG.LocalAnalysis.AGL81TheoremCD.Section14
   ∀ p : ℕ, p.Prime → 5 ≤ p → ∀ (X : Type) [Group X] [Finite X],
     CFSG.LocalAnalysis.RankThreeTheoremC.NineFourListGroup p ↥(CFSG.generalizedFitting X) →
     ∀ N : Subgroup X, CFSG.RankThree.PartOne.IsStronglyPEmbedded p N →
-      (¬ IsSolvable ↥N ∨ 2 ≤ CFSG.Open.pRank 3 ⁅N, N⁆) → CFSG.pPrimeCore 3 ↥N = ⊥
+      (¬ Group.IsSolvable ↥N ∨ 2 ≤ CFSG.Open.pRank 3 ⁅N, N⁆) → CFSG.pPrimeCore 3 ↥N = ⊥
 
 end CFSG.LocalAnalysis.AGL81TheoremCD.Section14

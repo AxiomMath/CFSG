@@ -22,7 +22,7 @@ theorem mem_zpowers_of_mem_zpowers_of_ne_one {G : Type*} [Group G] {x b : G} (hx
   have hfin : (zpowers x : Set G).Finite := by
     have : IsOfFinOrder x := isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, hx3⟩
     exact (this.finite_zpowers)
-  haveI : Finite ↥(zpowers x) := hfin.to_subtype
+  have : Finite ↥(zpowers x) := hfin.to_subtype
   have hle : zpowers b ≤ zpowers x := zpowers_le.2 hb
   have heq : zpowers b = zpowers x := by
     refine Subgroup.eq_of_le_of_card_ge hle ?_
@@ -30,8 +30,9 @@ theorem mem_zpowers_of_mem_zpowers_of_ne_one {G : Type*} [Group G] {x b : G} (hx
   rw [heq]
   exact Subgroup.mem_zpowers x
 
+omit [Finite X] hLn in
 theorem LModel.mem_centImage_of_pow_eq_one (M : LModel L π p f K ν)
-    (hproj : ∀ s ∈ Subgroup.center ↥(slPi π 3 (p ^ f) K), ν s = 1) {x : X} {y : GL (Fin 3) K}
+    (_hproj : ∀ s ∈ Subgroup.center ↥(slPi π 3 (p ^ f) K), ν s = 1) {x : X} {y : GL (Fin 3) K}
     (hx : IsLiftAt ν x y) {w₀ : GL (Fin 3) K} (hw₀L : w₀ ∈ slPi π 3 (p ^ f) K)
     (hcent : centMod (slPi π 3 (p ^ f) K) y =
       (slPi π 3 (p ^ f) K ⊓ centralizer ({y} : Set (GL (Fin 3) K))) ⊔ zpowers w₀)
@@ -104,13 +105,14 @@ theorem LModel.mem_centImage_of_pow_eq_one (M : LModel L π p f K ν)
     zpow_natCast, hw3], one_zpow, mul_one]
   exact haA
 
+omit [Finite X] hLn in
 theorem LModel.pow_eq_one_of_mem_centImage (M : LModel L π p f K ν)
     (hproj : ∀ s ∈ Subgroup.center ↥(slPi π 3 (p ^ f) K), ν s = 1) {y : GL (Fin 3) K}
     (hT : IsTypeThree π (p ^ f) K y) {m : ℕ}
     (hm : Nat.card ↥(slPi π 3 (p ^ f) K ⊓ centralizer ({y} : Set (GL (Fin 3) K))) = 3 * m)
     {a : X} (ha : a ∈ centImage ν y) : a ^ m = 1 := by
   have := M.piField.finite
-  haveI := hT.cyclic
+  have := hT.cyclic
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau M.piField M.modThree
   have hτ0 : τ ≠ 0 := by
     rintro rfl
@@ -219,7 +221,7 @@ theorem LModel.commute_of_proj (M : LModel L π p f K ν)
       rw [h]
       calc w ^ 2 = w ^ 3 * w⁻¹ := by group
         _ = w⁻¹ := by rw [hw3, one_mul]
-    haveI hAcyc : IsCyclic ↥(centImage ν y : Subgroup X) := isCyclic_centImage hT
+    have hAcyc : IsCyclic ↥(centImage ν y : Subgroup X) := isCyclic_centImage hT
     have hwN : w ∈ normalizer ((centImage ν y : Subgroup X) : Set X) :=
       mem_normalizer_of_conj_mem fun a ha => conj_mem_centImage hw₀cm ha
     obtain ⟨m, hm, -, hm3⟩ := hT.card_eq M.piField M.modThree M.two_lt

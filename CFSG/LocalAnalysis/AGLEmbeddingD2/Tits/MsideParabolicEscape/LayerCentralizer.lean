@@ -13,7 +13,7 @@ theorem three_dvd_card_of_layerType {Y : Type} [Group Y] [Finite Y] (h : IsRankT
   rcases h with h | h | h
   · obtain ⟨e⟩ := h
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]
-    simp [Fintype.card_perm]
+    simp
     decide
   · obtain ⟨e⟩ := nonempty_equiv_gl32_of_model h
     rw [Nat.card_congr e.toEquiv, SylowL32.card_gl]
@@ -34,8 +34,8 @@ theorem inf_le_core_of_psolvable {G : Type} [Group G] [Finite G] {M L C : Subgro
       ∀ c ∈ C, ∀ l ∈ L, c * l * c⁻¹ * l⁻¹ ∈ GLBPrimeCore 3 M := by
   obtain ⟨hLM, hDL, hLn, hS, hnc, hty⟩ := hlay
   set D : Subgroup G := GLBPrimeCore 3 M with hD
-  haveI : (L.subgroupOf M).Normal := hLn
-  haveI : (C.subgroupOf M).Normal := hCn
+  have : (L.subgroupOf M).Normal := hLn
+  have : (C.subgroupOf M).Normal := hCn
   set π := QuotientGroup.mk' (D.subgroupOf M) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set S := starImg M L with hSdef
@@ -47,7 +47,7 @@ theorem inf_le_core_of_psolvable {G : Type} [Group G] [Finite G] {M L C : Subgro
     intro x hx
     have hxM : x ∈ M := hLM hx.1
     set N : Subgroup M := L.subgroupOf M ⊓ C.subgroupOf M with hN
-    haveI : N.Normal := inferInstance
+    have : N.Normal := inferInstance
     set R : Subgroup (M ⧸ D.subgroupOf M) := N.map π with hR
     have hRS : R ≤ S := Subgroup.map_mono inf_le_left
     have hRn : (R.subgroupOf S).Normal := (Subgroup.Normal.map inferInstance π hπs).subgroupOf S
@@ -62,7 +62,7 @@ theorem inf_le_core_of_psolvable {G : Type} [Group G] [Finite G] {M L C : Subgro
       exact (QuotientGroup.eq_one_iff (N := D.subgroupOf M) (⟨x, hxM⟩ : M)).mp h2
     · exfalso
       set H : Subgroup C := (L ⊓ C).subgroupOf C with hH
-      haveI hHn : H.Normal := by
+      have hHn : H.Normal := by
         refine ⟨fun h hh c => ?_⟩
         have hh' : (h : G) ∈ L ⊓ C := hh
         refine ⟨hconjL c (hCM c.2) h hh'.1, C.mul_mem (C.mul_mem c.2 hh'.2) (C.inv_mem c.2)⟩
@@ -89,7 +89,7 @@ theorem inf_le_core_of_psolvable {G : Type} [Group G] [Finite G] {M L C : Subgro
       rcases h3 H (Subgroup.Normal.isSubnormal hHn) φ.ker hsimple with h | h
       · rw [hidx] at h
         have hc3 : Nat.card S = 3 := h
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         have : IsCyclic ↥S := isCyclic_of_prime_card hc3
         exact hnc ⟨⟨fun a b => (mul_comm a b)⟩⟩
       · rw [hidx] at h

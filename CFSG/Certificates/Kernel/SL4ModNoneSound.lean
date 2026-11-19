@@ -20,7 +20,7 @@ theorem vec105_xor (a b : ℕ) : vec (a ^^^ b) = vec a + vec b := toVecD_xor 105
 
 theorem vec_onesV : vec onesV = fun _ => 1 := by
   funext k
-  rw [vec, toVecD_apply, onesV, Nat.testBit_two_pow_sub_one, decide_eq_true k.isLt, if_pos rfl]
+  rw [vec, toVecD_apply, onesV, Nat.testBit_two_pow_sub_one, decide_eq_true k.isLt, ite_eq_left rfl]
 
 theorem nz_of_vec_ne_zero {x : ℕ} (h : vec x ≠ 0) : nz x = true := by
   by_contra hn
@@ -94,12 +94,12 @@ theorem xorGo_xor (c : ℕ) : ∀ (m : ℕ) (L : List ℕ) (acc : ℕ),
   | m, a :: L, acc => by
     rw [xorGo, xorGo]
     by_cases hb : m.testBit 0 = true
-    · rw [if_pos hb, if_pos hb]
+    · rw [ite_eq_left hb, ite_eq_left hb]
       have e : acc ^^^ c ^^^ a = acc ^^^ a ^^^ c := by
         rw [Nat.xor_assoc, Nat.xor_comm c a, ← Nat.xor_assoc]
       rw [e]
       exact xorGo_xor c (m / 2) L (acc ^^^ a)
-    · rw [if_neg hb, if_neg hb]
+    · rw [ite_eq_right hb, ite_eq_right hb]
       exact xorGo_xor c (m / 2) L acc
 
 theorem xorGo_map_xor (c : ℕ) : ∀ (m : ℕ) (L : List ℕ) (acc : ℕ),
@@ -109,7 +109,7 @@ theorem xorGo_map_xor (c : ℕ) : ∀ (m : ℕ) (L : List ℕ) (acc : ℕ),
   | m, a :: L, acc => by
     rw [List.map_cons, xorGo, xorGo]
     by_cases hb : m.testBit 0 = true
-    · rw [if_pos hb, if_pos hb]
+    · rw [ite_eq_left hb, ite_eq_left hb]
       have e : acc ^^^ (a ^^^ c) = acc ^^^ a ^^^ c := by rw [Nat.xor_assoc]
       rw [e]
       rcases xorGo_map_xor c (m / 2) L (acc ^^^ a ^^^ c) with h | h
@@ -117,7 +117,7 @@ theorem xorGo_map_xor (c : ℕ) : ∀ (m : ℕ) (L : List ℕ) (acc : ℕ),
         exact Or.inr rfl
       · rw [h, xorGo_xor c (m / 2) L (acc ^^^ a), Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
         exact Or.inl rfl
-    · rw [if_neg hb, if_neg hb]
+    · rw [ite_eq_right hb, ite_eq_right hb]
       exact xorGo_map_xor c (m / 2) L acc
 
 theorem xorSelL_map_xor (c mask : ℕ) (L : List ℕ) :
@@ -184,16 +184,16 @@ theorem le_finrank_of_echOKL {Y : Submodule (ZMod 2) (Fin 105 → ZMod 2)} {N : 
           rw [Pi.smul_apply]
           have hbval : b.val ≠ k₀.val := fun h => hbne (Fin.ext h)
           rcases lt_or_gt_of_ne hbval with hlt | hgt
-          · rw [ih b (Fin.lt_iff_val_lt_val.mpr hlt), zero_smul]
+          · rw [ih b (Fin.lt_def.mpr hlt), zero_smul]
           · have hbit0 : (vec (xorSelL (masks.getD b.val 0) L))
                 ⟨piv.getD k₀.val 0, hpiv⟩ = 0 := by
               rw [vec, toVecD_apply, (spec b.val b.isLt).2.2 k₀.val hgt,
-                if_neg Bool.false_ne_true]
+                ite_eq_right Bool.false_ne_true]
             rw [hbit0, smul_zero]
         · intro hmem
           exact absurd (Finset.mem_univ k₀) hmem
       have hbit1 : (vec (xorSelL (masks.getD k₀.val 0) L)) ⟨piv.getD k₀.val 0, hpiv⟩ = 1 := by
-        rw [vec, toVecD_apply, hset, if_pos rfl]
+        rw [vec, toVecD_apply, hset, ite_eq_left rfl]
       rw [hsingle, Pi.smul_apply, hbit1, smul_eq_mul, mul_one] at hcoord
       exact hcoord
   let v : Fin N → Y := fun k => ⟨vec (xorSelL (masks.getD k.val 0) L), xorSelL_mem _ hL⟩
@@ -317,9 +317,9 @@ theorem entryOK_spec {tl : List (List ℕ)} {a b m : ℕ} {ent : ℕ × NoneRec 
       · exact Or.inl ⟨_, h2⟩
   rw [entryOK] at h
   by_cases hw : (ent.1 == 0) = true
-  · simp only [if_pos hw] at h
+  · simp only [ite_eq_left hw] at h
     exact key a b hm h
-  · simp only [if_neg hw] at h
+  · simp only [ite_eq_right hw] at h
     exact key b a hm.symm h
 
 theorem entryOK_of_checkNoneFrom {tl : List (List ℕ)} {od : OrbData} :

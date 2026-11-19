@@ -19,8 +19,8 @@ variable {K : Type} [Field K] {d : ℕ}
 variable {S : Finset (Fin d)}
 
 theorem isSBlock_diagonal (t : Fin d → K) : IsSBlock S (diagonal t) :=
-  ⟨fun i hi k hk => diagonal_apply_ne _ fun h => hk (h ▸ hi),
-    fun i hi k hk => diagonal_apply_ne _ fun h => hi (h ▸ hk)⟩
+  ⟨fun _i hi _k hk => diagonal_apply_ne _ fun h => hk (h ▸ hi),
+    fun _i hi _k hk => diagonal_apply_ne _ fun h => hi (h ▸ hk)⟩
 
 theorem blockRes_mul_of_row {M : Matrix (Fin d) (Fin d) K} (hM : ∀ i ∈ S, ∀ k ∉ S, M i k = 0)
     (N : Matrix (Fin d) (Fin d) K) : blockRes S (M * N) = blockRes S M * blockRes S N := by
@@ -40,11 +40,12 @@ theorem blockRes_diagonal_of_const {t : Fin d → K} {c : K} (ht : ∀ i ∈ S, 
   simp only [blockRes, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
   by_cases hab : a = b
   · subst hab
-    rw [diagonal_apply_eq, ht _ (S.equivFin.symm a).2, if_pos rfl, mul_one]
+    rw [diagonal_apply_eq, ht _ (S.equivFin.symm a).2, ite_eq_left rfl, mul_one]
   · have hne : ((S.equivFin.symm a : ↥S) : Fin d) ≠ S.equivFin.symm b :=
       fun h' => hab (S.equivFin.symm.injective (Subtype.ext h'))
-    rw [diagonal_apply_ne _ hne, if_neg hab, mul_zero]
+    rw [diagonal_apply_ne _ hne, ite_eq_right hab, mul_zero]
 
+omit [Field K] in
 theorem apply_eq_blockRes (M : Matrix (Fin d) (Fin d) K) {i j : Fin d} (hi : i ∈ S) (hj : j ∈ S) :
     M i j = blockRes S M (S.equivFin ⟨i, hi⟩) (S.equivFin ⟨j, hj⟩) := by
   simp [blockRes]

@@ -70,6 +70,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 @[expose] def G112Concl3 (Γ : Subgroup (V ≃ₗ[ZMod 2] V)) : Prop :=
   Module.finrank (ZMod 2) V = 6 ∧ IsSubSD16Heis Γ
 
+omit [Finite V] in
 theorem G112Concl3.toPartial {Γ : Subgroup (V ≃ₗ[ZMod 2] V)}
     (full : G112Concl3 Γ) : G112Concl3Partial Γ := by
   obtain ⟨dimension, P, normal, extraspecial, cardinality, exponent, indexBound,

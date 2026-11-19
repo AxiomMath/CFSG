@@ -20,12 +20,12 @@ theorem ggSporK_bmPCentralF1F4_M_three_of_simple
     BMPCentralF1 3 (TauCeti.CFSGIndex.sporadic .M).Group ∧
       BMPCentralF4 3 (TauCeti.CFSGIndex.sporadic .M).Group := by
   obtain ⟨e⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
-  haveI := hS
+  have := hS
   let e' : (TauCeti.CFSGIndex.sporadic .M).Group ≃* CFSG.Blueprint.NativeSporadic.Carrier .M :=
     e.symm.trans (MulEquiv.refl _)
   obtain ⟨f⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := (TauCeti.CFSGIndex.sporadic .M).Group) e'
-  haveI : Finite CFSG.Monster.Generated.Gmat :=
+  have : Finite CFSG.Monster.Generated.Gmat :=
     CFSG.Monster.Generated.generated_rational_group_finite_simple.2.2
   exact ⟨bmPCentralF1_of_mulEquiv 3 f.symm ggSporK_bmPCentralF1F4_gmat_three.1,
     bmPCentralF4_of_mulEquiv 3 f.symm ggSporK_bmPCentralF1F4_gmat_three.2⟩

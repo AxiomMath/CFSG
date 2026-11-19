@@ -119,7 +119,7 @@ theorem isSolvable_rootCharStabilizerSubgroup_of_familyKernel_empty
     (ha : ∀ i, a i ^ m = 1)
     (hKer : familyKernel (fun _ : Unit => a) = ∅) :
     Group.IsSolvable ↥(rootCharStabilizerSubgroup a) := by
-  haveI : Finite (WeylGroup τ) :=
+  have : Finite (WeylGroup τ) :=
     (exceptional_Lang_Weyl_chamber_point_stabilizers τ).2.1
   exact CFSG.FeitThompson.isSolvable_of_odd_natCard _
     (odd_card_rootCharStabilizerSubgroup_of_familyKernel_empty hm ha hKer)
@@ -141,8 +141,8 @@ theorem isSolvable_centralizer_of_familyKernel_empty_of_odd
   have hNbot : (kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a) = ⊥ := by
     rw [hKR]
     ext x
-    simp [Subgroup.mem_subgroupOf]
-  haveI hHs : Group.IsSolvable ↥(rootCharStabilizerSubgroup a) :=
+    simp
+  have hHs : Group.IsSolvable ↥(rootCharStabilizerSubgroup a) :=
     isSolvable_rootCharStabilizerSubgroup_of_familyKernel_empty hm ha hKer
   have hgroup : familyGroup (K := L) (fun _ : Unit => a) = torusGroup τ L := by
     rw [familyGroup, hKer, rootSpan]
@@ -182,7 +182,7 @@ theorem isSolvable_centralizer_of_familyKernel_empty_of_odd
   let ψ' : ↥(familyCentralizer τ L (fun _ : Unit => a)) →*
       ↥((rootCharStabilizerSubgroup a).comap ρ) :=
     ψ.codRestrict ((rootCharStabilizerSubgroup a).comap ρ) hρψ
-  haveI := hsolv
+  have := hsolv
   refine Group.isSolvable_of_isSolvable_injective (f := ψ') ?_
   intro g g' h
   exact hψ (congrArg Subtype.val h)
@@ -204,7 +204,7 @@ theorem isSolvable_centralizer_of_familyKernel_empty_of_odd_inter
   have he : Function.Injective e := fun x y h =>
     Subtype.ext (congrArg
       (fun z : ↥(familyCentralizer τ L (fun _ : Unit => a)) => (z : ModGL τ L)) h)
-  haveI : Group.IsSolvable ↥(familyCentralizer τ L (fun _ : Unit => a)) := hfam
+  have : Group.IsSolvable ↥(familyCentralizer τ L (fun _ : Unit => a)) := hfam
   exact Group.isSolvable_of_isSolvable_injective (f := e) he
 
 theorem exists_conj_torusGroup_of_prime_order
@@ -213,7 +213,7 @@ theorem exists_conj_torusGroup_of_prime_order
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {x : ModGL Tag.E6 L} (hx : x ∈ adjointGroup Tag.E6 L) (hxp : x ^ p = 1) :
     ∃ g ∈ adjointGroup Tag.E6 L, g⁻¹ * x * g ∈ torusGroup Tag.E6 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmon : MonomialToralAt Tag.E6 p :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.monomialToralAt_exc
       CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.monomialToralAt_E6_five

@@ -35,7 +35,7 @@ private theorem recipeSymplectic_inndiag {m n : ℕ} {Q : LargeEvenRawCont}
     LargeEvenRecipeSymplectic m (2 ^ n) false fun R _ I F =>
       Q R I F ∧ I ⊆ LargeEvenInnSet R := by
   obtain ⟨K, _, _, hK, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   exact ⟨K, inferInstance, inferInstance, hK, hQ, matConjImage_gsp_subset_inn m⟩
 
 private theorem recipeOmegaPlus_inndiag {m q : ℕ} {Q : LargeEvenRawCont}
@@ -93,7 +93,7 @@ private theorem recipeTwF4Inherited_inndiag {a : ℕ} {Q : LargeEvenRawCont} (ha
   obtain ⟨K, _, _, hK, hQ⟩ := h
   have ha0 : a ≠ 0 := by omega
   refine ⟨K, inferInstance, inferInstance, hK, ?_⟩
-  simp only [if_neg ha0] at hQ ⊢
+  simp only [ite_eq_right ha0] at hQ ⊢
   exact ⟨hQ, chevIDImage_subset_inn_twF4 ha K hK⟩
 
 theorem rk2_inndiag_subset_inn_of_notDerived {lab : GLALabel} (hlab : GLAInLambda2 lab)
@@ -114,31 +114,31 @@ theorem rk2_inndiag_subset_inn_of_notDerived {lab : GLALabel} (hlab : GLAInLambd
     exact recipeSymplectic_inndiag hQ
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
     by_cases hl : l = 3
-    · rw [if_pos hl] at hQ ⊢
+    · rw [ite_eq_left hl] at hQ ⊢
       have hodd : Odd (2 ^ n - 1) := ggOdd_two_pow_sub_one hn
       exact recipeLinear_inndiag (by
         simpa using Nat.Coprime.pow_right 2 (Nat.coprime_two_right.mpr hodd)) hQ
-    · rw [if_neg hl] at hQ ⊢
+    · rw [ite_eq_right hl] at hQ ⊢
       exact recipeOmegaPlus_inndiag hQ
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
     by_cases hl2 : l = 2
-    · rw [if_pos hl2] at hQ ⊢
+    · rw [ite_eq_left hl2] at hQ ⊢
       have hn2 : 1 ≤ n * 2 := Nat.one_le_iff_ne_zero.mpr (Nat.mul_ne_zero (by omega) (by norm_num))
       exact recipeLinear_inndiag (Nat.coprime_two_right.mpr (by
         rw [← pow_mul]
         exact ggOdd_two_pow_sub_one hn2)) hQ
-    · rw [if_neg hl2] at hQ ⊢
+    · rw [ite_eq_right hl2] at hQ ⊢
       by_cases hl3 : l = 3
-      · rw [if_pos hl3] at hQ ⊢
+      · rw [ite_eq_left hl3] at hQ ⊢
         have hodd : Odd (2 ^ n + 1) := CFSG.RankThree.PartTwo.Census.odd_two_pow_add_one hn
         exact recipeUnitary_inndiag (by
           simpa using Nat.Coprime.pow_right 2 (Nat.coprime_two_right.mpr hodd)) hQ
-      · rw [if_neg hl3] at hQ ⊢
+      · rw [ite_eq_right hl3] at hQ ⊢
         exact recipeOmegaMinus_inndiag hQ
   · exact (htag.2.2.1 rfl).elim
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
     exact recipeChevalley_inndiag (fun K _ _ hK => by
-      haveI : CharP K 2 := charP_two_of_card hK
+      have : CharP K 2 := charP_two_of_card hK
       exact chevIDImage_subset_inn_of_top (τ := .E7)
         (TableB.torusSubgroup_eq_top_of_mul_eq_smul _ K TableB.cartanE7_adj
           (TableB.exists_sq_eq_of_charTwo K))) hQ
@@ -226,13 +226,13 @@ theorem rk2_card_le_of_le_inndiag (hinput : Rk2DiagIndexInput) {lab : GLALabel}
         E ≤ Subgroup.closure (I ∪ Set.range (MulAut.conj : R →* MulAut R)) →
           IsElemAbelian p E →
             Nat.card E ≤ p ^ @CFSG.Open.pRank p R _ hfin (⊤ : Subgroup R) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro Q hQ
   refine Canonical.largeEvenRawDatum_mono (fun R _ I F hq => ?_)
     (rk2_pSubgroup_le_inn hinput hlab hp hp2 hpd Q hQ)
   obtain ⟨hq, hEinn⟩ := hq
   refine ⟨hq, fun hfin hs E hE hEel => ?_⟩
-  haveI : Finite R := hfin
+  have : Finite R := hfin
   have hInn : E ≤ (MulAut.conj : R →* MulAut R).range := hEinn E hE hEel.isPGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R) with hZ | hZ
   · have hconj : Function.Injective (MulAut.conj : R →* MulAut R) :=

@@ -42,7 +42,7 @@ theorem coverW_eq (R : List (List (Fin 2 × Bool)))
   unfold coverWords
   rw [hf]
   simp only [List.flatMap_cons, List.flatMap_nil, List.map_cons, List.map_nil, List.append_nil,
-    List.map_append, List.cons_append, List.nil_append]
+    List.map_append]
   have c1 : ∀ (i : Fin 2) (r : List (Fin 2 × Bool)),
       CFSG.KC.Misc.G24.commK [2 * i.val + 1] (encG r) = encG (commWord [(i, true)] r) :=
     fun i r => commK_enc [(i, true)] r

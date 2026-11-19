@@ -80,7 +80,7 @@ theorem leaf_closure_of_six {X : Type} [Group X] (ε : Fin 6 → X) (hε : Satis
   exact leafType_three_of_equiv_adjointG2 e
 
 theorem th_shape_S : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) thS := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   obtain ⟨hrel, hcomm, hne⟩ := th_letters_spec
   have hε : SatisfiesG23Words thEps := fun r hr => (lift_mk_eq_evalW _ r).trans (hrel r hr)
   obtain ⟨hleaf, hsimp, hnab, hcard⟩ := leaf_closure_of_six thEps hε hne

@@ -29,7 +29,7 @@ private theorem CFSG.exists_zmod_p_mul_of_cast_eq_zero
     (p e : ℕ) [Fact p.Prime] (he : 1 ≤ e) (z : ZMod (p ^ e))
     (hz : ZMod.castHom (dvd_pow_self p (Nat.ne_of_gt he)) (ZMod p) z = 0) :
     ∃ y : ZMod (p ^ e), (p : ZMod (p ^ e)) * y = z := by
-  haveI : NeZero (p ^ e) := ⟨pow_ne_zero e (Fact.out : Nat.Prime p).ne_zero⟩
+  have : NeZero (p ^ e) := ⟨pow_ne_zero e (Fact.out : Nat.Prime p).ne_zero⟩
   rw [ZMod.castHom_apply] at hz
   have hzval : (z.val : ZMod p) = 0 := by
     rw [ZMod.cast_eq_val] at hz
@@ -71,7 +71,7 @@ public theorem CFSG.standardHomocyclicCover_frattini_le_reduction_ker
     (κ : Type u) [Fintype κ] (p e : ℕ) [Fact p.Prime] (he : 1 ≤ e) :
     frattini (StandardHomocyclicCover κ (p ^ e)) ≤
       (standardHomocyclicCoverReduction κ p e he).ker := by
-  haveI : Fact (IsPGroup p (StandardHomocyclicCover κ (p ^ e))) :=
+  have : Fact (IsPGroup p (StandardHomocyclicCover κ (p ^ e))) :=
     ⟨standardHomocyclicCover_isPGroup κ p e⟩
   rw [frattini_eq_closure_commutator_union_powers
     (R := StandardHomocyclicCover κ (p ^ e)) (p := p)]
@@ -125,7 +125,7 @@ public theorem CFSG.standardHomocyclicCover_frattini_eq_reduction_ker
       x ∈ Subgroup.closure
         (Set.range (fun y : StandardHomocyclicCover κ (p ^ e) => y ^ p)) :=
     standardHomocyclicCover_reduction_ker_le_powers_closure κ p e he hx
-  haveI : Fact (IsPGroup p (StandardHomocyclicCover κ (p ^ e))) :=
+  have : Fact (IsPGroup p (StandardHomocyclicCover κ (p ^ e))) :=
     ⟨standardHomocyclicCover_isPGroup κ p e⟩
   rw [frattini_eq_closure_commutator_union_powers
     (R := StandardHomocyclicCover κ (p ^ e)) (p := p)]

@@ -26,7 +26,7 @@ private theorem exists_mem_M_of_not_le {R : Subgroup J} (hR : IsPGroup 2 R) (hQR
     refine lt_top_iff_ne_top.2 fun htop => hne fun r hr => ?_
     have h1 : (⟨r, hr⟩ : R) ∈ Q' := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 h1
-  obtain ⟨y, hyN, hyQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
+  obtain ⟨y, hyN, hyQ⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
   have hconj : ∀ u : R, u ∈ Subgroup.normalizer (Q' : Set R) → ∀ q ∈ Max3.Q,
       (u : J) * q * (u : J)⁻¹ ∈ Max3.Q := by
     intro u hu q hq

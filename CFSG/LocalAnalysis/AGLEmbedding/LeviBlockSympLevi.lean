@@ -292,6 +292,6 @@ theorem isPGroup_spFlag_unipotent [Finite K] [CharP K 2] :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := SymplecticFlag.exists_sylow_unipotent (K := K) 2 r
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 end CFSG.AGLEmbedding.LeviBlock

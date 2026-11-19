@@ -66,7 +66,7 @@ theorem caseA_pocket {H X : Type} [Group H] [Finite H] [Group X] {z : H} (hz : z
     hK.map fun e => (Subgroup.subgroupOfEquivOfLe hKP).trans e
   have hzK' : (⟨z, hzP⟩ : ↥P) ∈ K.subgroupOf P := hzK
   have hzR' : (⟨z, hzP⟩ : ↥P) ∈ R.subgroupOf P := hzR
-  haveI : (R.subgroupOf P).Normal := hRnorm.subgroupOf P
+  have : (R.subgroupOf P).Normal := hRnorm.subgroupOf P
   have hKR' : K.subgroupOf P ⊔ R.subgroupOf P = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hKP hRP, hKR, Subgroup.subgroupOf_self]
   have hcardR : Nat.card (R.subgroupOf P) = 2 * Nat.card Nn := by

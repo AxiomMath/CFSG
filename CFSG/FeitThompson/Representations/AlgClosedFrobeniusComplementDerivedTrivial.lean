@@ -737,7 +737,7 @@ end Core
 
 theorem eq_one_of_mem_commutator_of_finrank_invariants_eq_one
     [IsAlgClosed k] [FiniteDimensional k V] [Finite G]
-    (hK : K.Normal) (hKR : Subgroup.IsComplement' K R) (hK1 : K ≠ ⊥) (hR1 : R ≠ ⊥)
+    (hK : K.Normal) (_hKR : Subgroup.IsComplement' K R) (_hK1 : K ≠ ⊥) (hR1 : R ≠ ⊥)
     (hC : ∀ x ∈ R, x ≠ 1 → K ⊓ Subgroup.centralizer {x} = ⊥)
     (hsol : Group.IsSolvable ↥K) (hr : Nat.Prime (Nat.card ↥R))
     (hk : (Nat.card G : k) ≠ 0) (ρ : Representation k G V)

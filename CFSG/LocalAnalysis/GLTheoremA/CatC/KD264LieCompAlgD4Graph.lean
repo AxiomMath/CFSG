@@ -110,9 +110,9 @@ theorem mem_innAutDerived_of_conj_projImage_slPi {K : Type} [Field K] [Finite K]
           (Matrix.ProjGenLinGroup.mk A)⁻¹) :
     α ∈ innAutDerived Y := by
   classical
-  haveI := hK.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hK.prime⟩
+  have := hK.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hK.prime⟩
   set β : MulAut (CFSG.PGLModel.projImage (Sec4.slPi false 3 (p ^ f) K)) :=
     MulAut.congr e α with hβ
   have hβeq : ∀ m : CFSG.PGLModel.projImage (Sec4.slPi false 3 (p ^ f) K),
@@ -145,15 +145,15 @@ theorem false_of_component_adjointGroup_G2_eight {F F' : Type} [Field F] [Finite
     (he : ∃ q : TauCeti.PrimePower, (e.1 = .A 1 q ∨ e.1 = .twistedA 2 q) ∧ q.card = 8)
     (hiso : Nonempty (↥J ⧸ Subgroup.center ↥J ≃* (TauCeti.CFSGIndex.lie e).Group)) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF'3 : 3 ≤ Nat.card F' := by rw [hF']; norm_num
   have hG2simple : IsSimpleGroup ↥(adjointGroup Tag.G2 F') :=
     CFSG.LieType.SeitzGeneration.isSimpleGroup_adjointGroup_of_isQuasisimple
       (CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card F' hF'3)
   have hsH : IsSimpleGroup ↥(fixSubgroup β) :=
     (MulEquiv.isSimpleGroup_congr eG).2 hG2simple
-  haveI := hJ.2.2.2
-  haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+  have := hJ.2.2.2
+  have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
   have hJne : J ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot J).1 inferInstance
   have hJH : J = fixSubgroup β :=
     CFSG.StandardType.ggEq_of_isSubnormal_of_isSimpleGroup
@@ -185,7 +185,7 @@ theorem component_eq_commutator_of_isoPGUThree {F K : Type} [Field F] [Finite F]
     {J : Subgroup (adjointGroup Tag.D4 F)} (hJ : IsComponentOf J (fixSubgroup β)) :
     J = ⁅fixSubgroup β, fixSubgroup β⁆ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Sec4.PiField false 2 3 K :=
     ⟨Nat.prime_two, by norm_num, by simpa [Sec4.piCard] using hKcard⟩
   have hq2 : 2 < (2 : ℕ) ^ 3 := by norm_num
@@ -219,7 +219,7 @@ theorem exists_mulEquiv_projImage_slPi_of_eq_commutator {F K : Type} [Field F] [
         (φ ⟨(y : adjointGroup Tag.D4 F), hJ.1 y.2⟩ :
           Matrix.ProjGenLinGroup (Fin 3) K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Sec4.PiField false 2 3 K :=
     ⟨Nat.prime_two, by norm_num, by simpa [Sec4.piCard] using hKcard⟩
   have hq2 : 2 < (2 : ℕ) ^ 3 := by norm_num
@@ -285,7 +285,7 @@ theorem centerQuotientHom_mem_innAutDerived_of_isoPGUThree
     centerQuotientHom ↥J (CFSG.GroupActions.subgroupStabRestrict J ⟨x, hxstab⟩) ∈
       innAutDerived (↥J ⧸ Subgroup.center ↥J) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Sec4.PiField false 2 3 K :=
     ⟨Nat.prime_two, by norm_num, by simpa [Sec4.piCard] using hKcard⟩
   have hq2 : 2 < (2 : ℕ) ^ 3 := by norm_num
@@ -342,9 +342,9 @@ theorem compAlgAtWith_d4Eight_graph {F : Type} [Field F] [Finite F] (hF : Nat.ca
       (fun β _ => β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
         (adjointGroup Tag.D4 F)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : ringChar F = 2 := by
-    haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (k := 3) (by norm_num) hF
     exact ringChar.eq F 2
   intro β hβmem hβ3 hβ1 J hJ e he hiso x hxmem hx3 hβx hβout hxstab
@@ -371,13 +371,13 @@ theorem compAlgAtWith_d4Eight_graph {F : Type} [Field F] [Finite F] (hF : Nat.ca
       (mul_right_cancel h2)
   rcases CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.OuterFourSeitz2.graphFix_cases hF hβ3 hA
     with ⟨F', hF'f, hF'fin, hF'card, ⟨eG⟩⟩ | ⟨K, hKf, hKfin, hKcard, ⟨ePGU⟩⟩
-  · letI := hF'f
-    letI := hF'fin
+  · let := hF'f
+    let := hF'fin
     have eG' : ↥(fixSubgroup β) ≃* ↥(adjointGroup Tag.G2 F') :=
       (MulEquiv.subgroupCongr hfix).symm.trans eG
     exact (false_of_component_adjointGroup_G2_eight hF'card eG' hJ he hiso).elim
-  · letI := hKf
-    letI := hKfin
+  · let := hKf
+    let := hKfin
     have φ : ↥(fixSubgroup β) ≃*
         CFSG.PGLModel.projImage (Sec4.glPi false 3 (2 ^ 3) K) :=
       (MulEquiv.subgroupCongr hfix).symm.trans ePGU
@@ -394,8 +394,8 @@ theorem d4EightCompAlgOuter_of_trialityInnerPairs (hB : D4EightTrialityInnerPair
   rintro ⟨d, hv⟩ ⟨q, rfl⟩ hfield
   classical
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hfieldD : fieldSize (.D 4 q) = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
   have hq8 : q.p ^ q.exponent = 8 := hfieldD ▸ hfield
   have hFcard' : Nat.card F = q.p ^ q.exponent := by

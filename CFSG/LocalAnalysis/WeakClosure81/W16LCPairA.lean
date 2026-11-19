@@ -144,7 +144,7 @@ theorem w16l_map_rightHom_conjSubgroup_a1L (l : L) :
         (MulAut.conj (SemidirectProduct.inr l : VGL ρ)).toMonoidHom =
       (MulAut.conj l).toMonoidHom.comp (SemidirectProduct.rightHom : VGL ρ →* L) := by
     ext x
-    simp [MulAut.conj_apply, map_mul]
+    simp [MulAut.conj_apply]
   rw [hcomp, ← Subgroup.map_map, w16l_map_rightHom_a1L]
 
 theorem w16l_inr_mul_inl (b : L) (m : Multiplicative W) :
@@ -257,7 +257,7 @@ theorem w16l_card_zHat : Nat.card (zHat ρ Z) = Nat.card Z := by
   refine Nat.card_congr (α := Z) (β := Z.toAddSubgroup.toSubgroup) ?_
   refine
     { toFun := fun z => ⟨Multiplicative.ofAdd z.1, by
-        rw [Multiplicative.mem_toSubgroup]; simpa using z.2⟩
+        rw [Multiplicative.mem_toSubgroup]; simp⟩
       invFun := fun x => ⟨Multiplicative.toAdd x.1, by
         have hx := x.2
         rw [Multiplicative.mem_toSubgroup] at hx

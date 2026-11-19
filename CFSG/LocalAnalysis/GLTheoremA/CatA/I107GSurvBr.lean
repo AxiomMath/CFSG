@@ -29,7 +29,7 @@ theorem valid_B3 : (LieTypeIndex.B 3 pp2).Valid := by
 
 theorem valid_D4 : (LieTypeIndex.D 4 pp2).Valid := by
   rw [LieTypeIndex.valid_iff, LieTypeIndex.inStandardRange_iff, LieTypeIndex.isDuplicateRepresentative_iff]
-  simp [pp2]
+  simp
 
 theorem valid_twistedA4 : (LieTypeIndex.twistedA 4 pp2).Valid := by
   rw [LieTypeIndex.valid_iff, LieTypeIndex.inStandardRange_iff, LieTypeIndex.isDuplicateRepresentative_iff]
@@ -37,7 +37,7 @@ theorem valid_twistedA4 : (LieTypeIndex.twistedA 4 pp2).Valid := by
 
 theorem valid_trialityD4 : (LieTypeIndex.trialityD4 pp2).Valid := by
   rw [LieTypeIndex.valid_iff, LieTypeIndex.inStandardRange_iff, LieTypeIndex.isDuplicateRepresentative_iff]
-  simp [pp2]
+  simp
 
 theorem catalogIs_sp6_recipe {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     catalogIs (LargeEvenProj (LargeEvenSpGroup K 3)) S9.isList107 := by
@@ -53,7 +53,7 @@ theorem catalogIs_sp6_recipe {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
 
 theorem catalogIs_u4_recipe {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
     catalogIs (LargeEvenProj (LargeEvenSUGroup (Fin 4) K 2)) S9.isList107 :=
-  catalogIs_isList107_of (fun i hi => Or.inr (Or.inl hi))
+  catalogIs_isList107_of (fun _i hi => Or.inr (Or.inl hi))
     (catalogIs_u4two_of_statedProj hK (MulEquiv.refl _))
 
 theorem catalogIs_u5_recipe {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
@@ -68,7 +68,7 @@ theorem catalogIs_u5_recipe {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4
 
 theorem catalogIs_u3_recipe {K : Type} [Field K] [Finite K] (hK : Nat.card K = 64) :
     catalogIs (LargeEvenProj (LargeEvenSUGroup (Fin 3) K 8)) S9.isList107 :=
-  catalogIs_isList107_of (fun i hi => Or.inr (Or.inr (Or.inr (Or.inl hi))))
+  catalogIs_isList107_of (fun _i hi => Or.inr (Or.inr (Or.inr (Or.inl hi))))
     (CFSG.LocalAnalysis.GLTheoremA.CatB.U48.catalogIs_u3eight_of_statedProj hK (MulEquiv.refl _))
 
 theorem catalogIs_d4_recipe {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
@@ -87,8 +87,8 @@ theorem catalogIs_td4_recipe
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ 1) ^ 3) :
     catalogIs (LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 1))
       S9.isTD4two := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card (GaloisField 2 3) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, GaloisField.card 2 3 (by norm_num)]
     norm_num

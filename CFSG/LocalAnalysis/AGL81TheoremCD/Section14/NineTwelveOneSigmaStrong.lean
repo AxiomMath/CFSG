@@ -59,7 +59,7 @@ theorem nineTwelveOneSigmaStrong_holds
     (hS : CFSG.LocalAnalysis.ComponentInitial.SchreierFor CFSG.Assembly.InCatalog) :
     NineTwelveOneSigmaStrong := by
   intro G _ _ M Q H F q s hq3 L hL hLM
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   have hΓ : ∀ P : Subgroup G,
       CFSG.ABGLocalTools.IsSylowOf q P (H ⊓ M) →
         CFSG.Open.rankThreeGamma 1 q P ≤ M := by

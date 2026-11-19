@@ -119,7 +119,7 @@ theorem level_of_cube_one (B : primeFormUnitary hF4 (idGram F4 6)) (hB3 : B ^ 3 
       by_cases hij : i = j
       · subst hij
         simp [hconst i]
-      · simp [Matrix.diagonal_apply_ne _ hij, Matrix.one_apply_ne hij]
+      · simp [Matrix.diagonal_apply_ne _ hij]
     have hB : (B : GL (Fin 6) F4) = (P : GL (Fin 6) F4) * D * (P : GL (Fin 6) F4)⁻¹ := by
       rw [hDeq]
       group

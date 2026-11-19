@@ -30,7 +30,7 @@ theorem s15GapFour_ncard_conj_le [Finite A] (M K L : Subgroup A) :
           X = K.map (MulAut.conj n).toMonoidHom} *
         Set.ncard {X : Subgroup A | ∃ φ ∈ M, X = L.map (MulAut.conj φ).toMonoidHom} := by
   classical
-  haveI : Finite (Subgroup A) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup A) := Finite.of_injective _ SetLike.coe_injective
   set 𝒦 : Set (Subgroup A) := {X | ∃ φ ∈ M, X = K.map (MulAut.conj φ).toMonoidHom} with h𝒦
   set 𝒞 : Set (Subgroup A) :=
     {X | ∃ n ∈ M ⊓ normalizer (L : Set A), X = K.map (MulAut.conj n).toMonoidHom} with h𝒞
@@ -68,7 +68,7 @@ theorem s15GapFour_mem_normalizer_of_odd [Finite A] (N K : Subgroup A)
   classical
   set S : Set (Subgroup A) :=
     {X | ∃ φ ∈ N, X = K.map (MulAut.conj φ).toMonoidHom} with hS
-  haveI : Finite (Subgroup A) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup A) := Finite.of_injective _ SetLike.coe_injective
   have hSfin : S.Finite := Set.toFinite S
   let c : ℕ → Subgroup A := fun n => K.map (MulAut.conj (y ^ n)).toMonoidHom
   have hcS : ∀ n, c n ∈ S := fun n => ⟨y ^ n, N.pow_mem hy n, rfl⟩

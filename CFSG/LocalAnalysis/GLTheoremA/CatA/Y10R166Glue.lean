@@ -171,7 +171,7 @@ theorem isComponentOf_and_glaLayer_eq_of_commutator_mem {X : Type} [Group X] {C 
     exact J.mul_mem h1 hm
   have hcomp : CFSG.Open.IsComponentOf J C :=
     ⟨hJC, CFSG.Open.IsSubnormal.step hJC hnormal (CFSG.Open.IsSubnormal.refl C), hJq⟩
-  haveI : (J.subgroupOf C).Normal := hnormal
+  have : (J.subgroupOf C).Normal := hnormal
   have hsolv : Group.IsSolvable (↥C ⧸ J.subgroupOf C) := by
     refine Group.isSolvable_of_comm fun x y => ?_
     induction x using QuotientGroup.induction_on with
@@ -187,11 +187,11 @@ theorem isComponentOf_and_glaLayer_eq_of_commutator_mem {X : Type} [Group X] {C 
           group
         rw [e]
         exact h
-  haveI : Group.IsSolvable (↥C ⧸ J.subgroupOf C) := hsolv
+  have : Group.IsSolvable (↥C ⧸ J.subgroupOf C) := hsolv
   refine ⟨hcomp, le_antisymm ?_ (CFSG.LocalAnalysis.GLTheoremA.I142N.le_GLALayer hcomp)⟩
   refine CFSG.LocalAnalysis.GLTheoremA.I142N.GLALayer_le_of fun L hL => ?_
   set π : ↥C →* (↥C ⧸ J.subgroupOf C) := QuotientGroup.mk' _
-  haveI : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   have hperf : Group.IsPerfect ↥(L.subgroupOf C) :=
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hL.1).symm.toMonoidHom)
@@ -200,7 +200,7 @@ theorem isComponentOf_and_glaLayer_eq_of_commutator_mem {X : Type} [Group X] {C 
     Group.IsPerfect.map (f := π)
   have hbot : Subgroup.map π (L.subgroupOf C) = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(Subgroup.map π (L.subgroupOf C)) :=
+    have : Nontrivial ↥(Subgroup.map π (L.subgroupOf C)) :=
       (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact (Group.IsPerfect.not_isSolvable ↥(Subgroup.map π (L.subgroupOf C))) inferInstance
   intro l hl

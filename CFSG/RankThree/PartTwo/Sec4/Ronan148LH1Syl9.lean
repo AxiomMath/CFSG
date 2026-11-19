@@ -477,7 +477,7 @@ theorem noThreeCover_projSp45 :
   have hcard : Nat.card (generic .PSp 2 5 1 × exceptional .PSp 2 5 1) = 2 := by
     simp only [generic, exceptional, Nat.card_prod, card_multiplicative_zmod]
     simp [genericOrders, exceptionalOrders]
-  haveI : Finite (generic .PSp 2 5 1 × exceptional .PSp 2 5 1) :=
+  have : Finite (generic .PSp 2 5 1 × exceptional .PSp 2 5 1) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact noThreeCover_of_hopf e (by rw [hcard]; norm_num)
 
@@ -497,7 +497,7 @@ theorem noThreeCover_projSL45 :
   have hcard : Nat.card (generic .PSL 4 5 1 × exceptional .PSL 4 5 1) = 4 := by
     simp only [generic, exceptional, Nat.card_prod, card_multiplicative_zmod]
     simp [genericOrders, exceptionalOrders]
-  haveI : Finite (generic .PSL 4 5 1 × exceptional .PSL 4 5 1) :=
+  have : Finite (generic .PSL 4 5 1 × exceptional .PSL 4 5 1) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact noThreeCover_of_hopf e (by rw [hcard]; norm_num)
 

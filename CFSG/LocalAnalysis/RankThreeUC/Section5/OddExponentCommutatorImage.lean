@@ -25,7 +25,7 @@ theorem pCoreOf_sup_eq {p : ℕ} {P T B : Subgroup G} {e : ℕ} (h51 : OddPrimeC
   set M : Subgroup G := B ⊔ T with hMdef
   have hTn : (T.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTM).mpr hM
-  haveI : (T.subgroupOf M).Normal := hTn
+  have : (T.subgroupOf M).Normal := hTn
   have hT : IsPGroup 2 (T.subgroupOf M) :=
     hset.twoGroup.comap_of_injective M.subtype Subtype.coe_injective
   have hBodd : Odd (Nat.card (B.subgroupOf M)) := by
@@ -50,7 +50,7 @@ theorem pCoreOf_sup_eq {p : ℕ} {P T B : Subgroup G} {e : ℕ} (h51 : OddPrimeC
   have hcop0 : Nat.Coprime (Nat.card (B.subgroupOf M)) (Nat.card (T.subgroupOf M)) := by
     obtain ⟨k, hk⟩ := hT.exists_card_eq
     rw [hk]; exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hBodd)
-  have hdisj : B.subgroupOf M ⊓ T.subgroupOf M = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop0
+  have hdisj : B.subgroupOf M ⊓ T.subgroupOf M = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop0))
   have hmul : ((B.subgroupOf M : Subgroup M) : Set M) * ((T.subgroupOf M : Subgroup M) : Set M)
       = Set.univ := by
     apply Set.eq_univ_of_forall
@@ -62,7 +62,7 @@ theorem pCoreOf_sup_eq {p : ℕ} {P T B : Subgroup G} {e : ℕ} (h51 : OddPrimeC
     Subgroup.isComplement'_of_disjoint_and_mul_eq_univ (disjoint_iff.mpr hdisj) hmul
   have hcard : Nat.card (B.subgroupOf M) * Nat.card (T.subgroupOf M) = Nat.card M :=
     hcompl.card_mul_card
-  haveI : (CFSG.pCore 2 M).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 M).Normal := CFSG.pCore_normal
   have hNT : CFSG.pCore 2 M ≤ T.subgroupOf M :=
     OddActorSylowFactorization.normal_two_le (CFSG.pCore_isPGroup) hBodd hT hcard
   have hTle : T.subgroupOf M ≤ CFSG.pCore 2 M := fun x hx =>

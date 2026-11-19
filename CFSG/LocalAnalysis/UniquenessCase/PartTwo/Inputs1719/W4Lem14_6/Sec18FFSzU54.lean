@@ -52,10 +52,10 @@ private theorem noSectionOffender_psu52
     (hEN : Eb ≤ Subgroup.normalizer (Lb : Set (MulAut V)))
     (ψ : X →* ↥Lb) (hψ : Function.Surjective ψ) :
     Nat.card Eb * Nat.card (fixV Eb) < Nat.card V := by
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU
-  haveI : Nontrivial ↥Lb := CFSG.LocalCores.isQuasisimple_nontrivial hq
-  haveI : IsSimpleGroup ↥Lb := IsSimpleGroup.isSimpleGroup_of_surjective ψ hψ
+  have : Nontrivial ↥Lb := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have : IsSimpleGroup ↥Lb := IsSimpleGroup.isSimpleGroup_of_surjective ψ hψ
   have hZ : ¬ 5 ∣ Nat.card (Subgroup.center ↥Lb) := by
     rw [CFSG.LocalAnalysis.UniquenessCase.UC22.K148.ExcAux.center_eq_bot hq]
     norm_num
@@ -75,7 +75,7 @@ private theorem noSectionOffender_psu52
 
 theorem k146FFSz_holds : K146FFSz := by
   intro W _ _ hW Y L n hO2 hL hSz A hA
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
   let ρ : Representation (ZMod 2) ↥Y (Additive W) :=
     (CFSG.RankThree.FFModules.autRep W).comp Y.subtype
   have hρ : Function.Injective ρ :=
@@ -97,7 +97,7 @@ theorem k146FFSz_holds : K146FFSz := by
 theorem k146FFU54_holds :
     K146FFU54 := by
   intro W _ _ hW Y L hO2 hL hU A hA
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
   let ρ : Representation (ZMod 2) ↥Y (Additive W) :=
     (CFSG.RankThree.FFModules.autRep W).comp Y.subtype
   have hρ : Function.Injective ρ :=

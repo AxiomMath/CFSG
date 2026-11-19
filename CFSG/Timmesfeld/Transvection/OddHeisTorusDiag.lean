@@ -126,13 +126,13 @@ private theorem exists_conj_weyl_mul_eq_diagonal
       d (Fin.rev (lowIdx (cLastIdx r hr))) = (unitaryInvolution F 2 n c)⁻¹ := by
   classical
   have hk : (cPrevIdx r hr).val + 1 < 2 * r / 2 := by
-    simp only [cPrevIdx, Fin.val_mk]
+    simp only
     omega
   let P' := cPrevIdx r hr
   let L' := cLastIdx r hr
   have hstep : (⟨P'.val + 1, hk⟩ : Fin (2 * r / 2)) = L' := by
     apply Fin.ext
-    simp only [L', P', cLastIdx, cPrevIdx, Fin.val_mk]
+    simp only [L', P']
     omega
   let w : F → SU (unitaryInvolution F 2 n) (2 * r) := fun t =>
     shortWeyl (unitaryInvolution F 2 n) (unitaryInvolution_involutive hFn)
@@ -176,7 +176,7 @@ private theorem exists_conj_weyl_mul_eq_diagonal
     rw [Finset.sum_eq_single s] at hsum
     · simpa using hsum
     · intro t _ ht
-      simp [Matrix.diagonal_apply, ht]
+      simp [ht]
     · simp
   have hdb : d (lowIdx L') = c :=
     shortTorusFun_left (σ := unitaryInvolution F 2 n) (lowIdx L') (lowIdx P') c

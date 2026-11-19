@@ -137,8 +137,8 @@ theorem exists_stab_transport {W : Type} [CommGroup W]
 theorem k_K_Omega6Minus_lineStab_holds : K_Omega6Minus_lineStab := by
   intro W _ _ H n p F _ _ b c hF hirr hp _hp2 hcong W' hW' _hN ε ψ hψ E hEW hrk hsing
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hF
   have hn1 : 1 ≤ n := by
     by_contra hn
     have hn0 : n = 0 := by omega

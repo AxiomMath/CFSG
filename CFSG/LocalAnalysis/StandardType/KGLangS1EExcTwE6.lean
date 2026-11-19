@@ -98,9 +98,9 @@ theorem kgLangS1E_cont_twE6_even
   obtain ⟨t, l, n⟩ := lab
   subst htag
   let L : Type := AlgebraicClosure (ZMod 2)
-  letI : Field L := inferInstanceAs (Field (AlgebraicClosure (ZMod 2)))
-  letI : IsAlgClosed L := inferInstanceAs (IsAlgClosed (AlgebraicClosure (ZMod 2)))
-  letI : CharP L 2 := inferInstanceAs (CharP (AlgebraicClosure (ZMod 2)) 2)
+  let : Field L := inferInstanceAs (Field (AlgebraicClosure (ZMod 2)))
+  let : IsAlgClosed L := inferInstanceAs (IsAlgClosed (AlgebraicClosure (ZMod 2)))
+  let : CharP L 2 := inferInstanceAs (CharP (AlgebraicClosure (ZMod 2)) 2)
   have hkg : GGL45KGLabel 3 ⟨.twE6, l, n⟩ := by simp [GGL45KGLabel]
   have hrecAll : LargeEvenLabelAll ⟨.twE6, l, n⟩ (GGL45NtRec 3) :=
     ggL45NtRecOn_twE6_even 3 (by norm_num) (by norm_num) ⟨.twE6, l, n⟩ hlab hkg ⟨rfl, heven⟩
@@ -117,16 +117,16 @@ theorem kgLangS1E_cont_twE6_even
   unfold CFSG.StandardType.LargeEvenRawDatum CFSG.Assembly.LargeEvenRecipeTwisted
   obtain ⟨K₁, hf₁, hfin₁, hK₁, hQ₁, hrec₁, hfc₁, hif₁, hpc₁⟩ := hraw
   refine ⟨K₁, hf₁, hfin₁, hK₁, hQ₁, ?_⟩
-  letI : Field K₁ := hf₁
-  letI : Finite K₁ := hfin₁
-  haveI : CharP K₁ 2 := charP_two_of_card (m := n * 2) (by rw [hK₁, pow_mul])
+  let : Field K₁ := hf₁
+  let : Finite K₁ := hfin₁
+  have : CharP K₁ 2 := charP_two_of_card (m := n * 2) (by rw [hK₁, pow_mul])
   obtain ⟨hs, hna⟩ := TwE6Dvd.isSimpleGroup_recipeR hlab.1 hK₁
   intro K _ _ θ hcomm A hA hAIF α₀ hα₀ hα₀I hcard2 ξ hξ hξI J₀ hJ₀ hTor
   have hA0 : ∃ α ∈ A, α ≠ 1 ∧ kgInducedAut θ α ∈ kgLangS1EExcTwE6Aux_I K₁ n := by
     classical
-    letI : Finite (MulAut K) :=
+    let : Finite (MulAut K) :=
       Finite.of_injective (fun f : MulAut K => (f : K → K)) DFunLike.coe_injective
-    letI : Fintype {α : MulAut K // α ∈ A ∧ kgInducedAut θ α ∈ kgLangS1EExcTwE6Aux_I K₁ n} :=
+    let : Fintype {α : MulAut K // α ∈ A ∧ kgInducedAut θ α ∈ kgLangS1EExcTwE6Aux_I K₁ n} :=
       Fintype.ofFinite _
     have hgt : 1 < Fintype.card {α : MulAut K // α ∈ A ∧
         kgInducedAut θ α ∈ kgLangS1EExcTwE6Aux_I K₁ n} := by
@@ -164,7 +164,7 @@ theorem kgLangS1E_cont_twE6_even
   let F₀ : ModGL TwistTag.E6.tag L →* ModGL TwistTag.E6.tag L :=
     frobTwistGL TwistTag.E6.tag L 2 eb (diagramMap TwistTag.E6 L)
   let G : Subgroup (ModGL TwistTag.E6.tag L) := ratPts TwistTag.E6.tag L (endPow F₀ 3)
-  haveI : Finite G := hfinB
+  have : Finite G := hfinB
   have hstab : ∀ g ∈ G, F₀ g ∈ G := by
     intro g hg
     refine ⟨hstab₀ g hg.1, ?_⟩

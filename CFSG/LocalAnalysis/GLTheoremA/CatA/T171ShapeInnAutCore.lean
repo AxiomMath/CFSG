@@ -166,7 +166,7 @@ theorem innDiagOn_of_lieModel
       unfold MI.indAut
       rw [← map_zpow]
       congr 1
-      exact Subtype.ext (by simp [zpow_neg, inv_zpow])
+      exact Subtype.ext (by simp [zpow_neg])
     rw [e']
     exact Subgroup.zpow_mem _ hmem k
   exact ⟨hX, lab, hlab, hraw'⟩

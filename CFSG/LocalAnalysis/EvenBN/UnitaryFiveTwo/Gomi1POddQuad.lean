@@ -220,7 +220,7 @@ theorem GomiQuad.exists_involution {z : Q} (h : GomiQuad Q z) (hz1 : z ≠ 1)
     · refine gomiOdd_card_le_two_mul C D 1 ?_
       intro y hy
       exact Or.inl (hCD hy)
-    · obtain ⟨y₁, hy₁C, hy₁D⟩ := SetLike.not_le_iff_exists.mp hCD
+    · obtain ⟨y₁, hy₁C, hy₁D⟩ := IsConcreteLE.not_le_iff_exists.mp hCD
       have hy₁comm : x₀ * y₁ = z * (y₁ * x₀) := by
         rcases h.comm_or x₀ y₁ with h1 | h1
         · exact absurd ((hDmem y₁).mpr ⟨hy₁C, h1⟩) hy₁D

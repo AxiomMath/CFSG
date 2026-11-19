@@ -26,10 +26,10 @@ variable (h : Hyp25T p f Ω K K' W S R R' z t u₁ u₂ t')
 include h
 
 theorem S_inf_K : (S : Subgroup G) ⊓ K = R :=
-  h.hRsyl.2.2 _ inf_le_right (S.isPGroup'.to_le inf_le_left) (le_inf h.hRS h.hRsyl.1)
+  h.hRsyl.2.2 _ inf_le_right (S.isPGroup.to_le inf_le_left) (le_inf h.hRS h.hRsyl.1)
 
 theorem S_inf_K' : (S : Subgroup G) ⊓ K' = R' :=
-  h.hR'syl.2.2 _ inf_le_right (S.isPGroup'.to_le inf_le_left) (le_inf h.hR'S h.hR'syl.1)
+  h.hR'syl.2.2 _ inf_le_right (S.isPGroup.to_le inf_le_left) (le_inf h.hR'S h.hR'syl.1)
 
 theorem conj_twin {x : G} (hx : x⁻¹ * z * x = z) {J : Subgroup G} (hJ : J = K ∨ J = K') :
     conjSub x⁻¹ J = K ∨ conjSub x⁻¹ J = K' := by

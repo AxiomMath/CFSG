@@ -180,7 +180,7 @@ theorem lt_inf_normalizer {C₂ : Subgroup G} (hC₂D : C₂ ≤ 𝒟) (hC₂c :
   have hne : (P : Subgroup G) ≠ S' := ne_sylow hzC hsup hinf hz hb hnd hV φ he halt S P
   have hlt : S'.subgroupOf P < ⊤ :=
     lt_top_iff_ne_top.mpr fun h => hne (le_antisymm (Subgroup.subgroupOf_eq_top.mp h) hSP)
-  have := P.isPGroup'.isNilpotent
+  have := P.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (S'.subgroupOf P) hlt
   rw [← Subgroup.subgroupOf_normalizer_eq hSP] at hnc
   obtain ⟨x, hx, hxS⟩ := IsConcreteLE.exists_of_lt hnc
@@ -198,12 +198,12 @@ theorem two_pow_five_dvd {C₂ : Subgroup G} (hC₂D : C₂ ≤ 𝒟) (hC₂c : 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 𝒩))
   set S' := (S : Subgroup 𝒩).map (𝒩).subtype with hS'
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map (𝒩).subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map (𝒩).subtype
   obtain ⟨P, hP⟩ := hS'2.exists_le_sylow
   obtain ⟨hlt, hle⟩ := lt_inf_normalizer hzC hsup hinf hz hb hnd hV φ he halt hC₂D hC₂c hC₂R
     hC₂z' hC₂z hC₂e hC₂N S P hP
   set T := (P : Subgroup G) ⊓ normalizer (S' : Set G) with hT
-  have hT2 : IsPGroup 2 T := P.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 T := P.isPGroup.to_le inf_le_left
   obtain ⟨k, hk⟩ := hT2.exists_card_eq
   have hS'c : Nat.card S' = 2 ^ 13 := by
     rw [hS', Subgroup.card_map_of_injective (𝒩).subtype_injective,

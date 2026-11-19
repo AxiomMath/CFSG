@@ -69,7 +69,7 @@ theorem eq_one_of_normalizer_fixed [Finite G] (hG : _root_.commutator G = ⊤)
   let A : Subgroup (MulAut (P : Subgroup G)) := ν.range
   have : Finite (MulAut (P : Subgroup G)) := inferInstance
   have : Finite A := Subtype.finite
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   have hcomm : ∀ a b : (P : Subgroup G), (a : G) * b = b * a :=
     fun a b => congrArg Subtype.val (mul_comm a b)
   have hval : ∀ (x : normalizer (P : Set G)) (a : (P : Subgroup G)),

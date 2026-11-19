@@ -13,8 +13,8 @@ open Matrix Subgroup CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.Comp
 theorem ot_linear_D_cyclic_mod_inner {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n) :
     ∃ g ∈ linearAutGroup n K, ∀ x ∈ linearAutGroup n K, ∃ k : ℤ,
       g ^ k * x ∈ (MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)).range := by
-  haveI : Finite Kˣ := Finite.of_injective (Units.val : Kˣ → K) Units.val_injective
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Finite Kˣ := Finite.of_injective (Units.val : Kˣ → K) Units.val_injective
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨u, hu⟩ := IsCyclic.exists_generator (α := Kˣ)
   obtain ⟨M, hM⟩ := Matrix.GeneralLinearGroup.det_surjective (n := Fin n) (R := K) u
   refine ⟨conjAut n K M, conjAut_mem_linearAutGroup M, ?_⟩

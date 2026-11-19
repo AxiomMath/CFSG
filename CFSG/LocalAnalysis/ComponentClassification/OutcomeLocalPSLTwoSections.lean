@@ -33,7 +33,7 @@ theorem card_le_four_of_sylow_two_cyclic {G H Q : Type*} [Group G] [Group H] [Gr
     | zero => rfl
     | succ n =>
       exact absurd ((dvd_pow_self 2 n.succ_ne_zero).trans (hn ▸ hdvd)) U.not_dvd_index
-  obtain ⟨P, hP⟩ := (U.isPGroup'.map ι).exists_le_sylow
+  obtain ⟨P, hP⟩ := (U.isPGroup.map ι).exists_le_sylow
   obtain ⟨C, -, hC, hCidx⟩ := hS P
   set CU : Subgroup H := (U : Subgroup H) ⊓ C.comap ι with hCU
   have hCUcyc : IsCyclic CU := by

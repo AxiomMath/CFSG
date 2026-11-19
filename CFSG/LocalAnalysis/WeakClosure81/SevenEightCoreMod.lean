@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_eq_or_eq_of_relIndex_prime {p : ℕ} (hp : p.Prime)
     {B D Y : Subgroup G} (hBD : B ≤ D) (hDY : D ≤ Y) (hB : B.relIndex Y = p) :
     D = B ∨ D = Y := by
@@ -29,6 +30,7 @@ private theorem seven_eight_core_mod_eq_or_eq_of_relIndex_prime {p : ℕ} (hp : 
       exact mul_right_cancel₀ hp.ne_zero h2
     exact le_antisymm (Subgroup.relIndex_eq_one.mp h1') hBD
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_sup_eq_of_relIndex_eq_prime {p : ℕ} (hp : p.Prime)
     {B B' Y : Subgroup G} (hBY : B ≤ Y) (hB'Y : B' ≤ Y)
     (hB : B.relIndex Y = p) (hB' : B'.relIndex Y = p) (hne : B ≠ B') :
@@ -45,6 +47,7 @@ private theorem seven_eight_core_mod_sup_eq_of_relIndex_eq_prime {p : ℕ} (hp :
     exact hne (le_antisymm (Subgroup.relIndex_eq_one.mp h1) hle)
   · exact h
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_eq_of_le_of_relIndex_eq_prime {p : ℕ} (hp : p.Prime)
     {B C Y : Subgroup G} (hBC : B ≤ C) (hCY : C ≤ Y)
     (hB : B.relIndex Y = p) (hC : C.relIndex Y = p) : B = C := by
@@ -55,6 +58,7 @@ private theorem seven_eight_core_mod_eq_of_le_of_relIndex_eq_prime {p : ℕ} (hp
     exact mul_right_cancel₀ hp.ne_zero h2
   exact le_antisymm hBC (Subgroup.relIndex_eq_one.mp h1)
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_conj_mem_of_commutator_le {I B Y : Subgroup G}
     (hIB : I ≤ B) (hBY : B ≤ Y) (hYY : ⁅Y, Y⁆ ≤ I) {y : G} (hy : y ∈ Y) {b : G}
     (hb : b ∈ B) : y * b * y⁻¹ ∈ B := by
@@ -63,6 +67,7 @@ private theorem seven_eight_core_mod_conj_mem_of_commutator_le {I B Y : Subgroup
   rw [hyb]
   exact B.mul_mem (hIB hcomm) hb
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_le_normalizer_of_commutator_le {I B Y : Subgroup G}
     (hIB : I ≤ B) (hBY : B ≤ Y) (hYY : ⁅Y, Y⁆ ≤ I) :
     Y ≤ Subgroup.normalizer (B : Set G) := by
@@ -82,6 +87,7 @@ private theorem seven_eight_core_mod_le_normalizer_of_commutator_le {I B Y : Sub
     change y * (y⁻¹ * b * y) * y⁻¹ = b
     group
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_le_normalizer_centralizer {B Y : Subgroup G}
     (hYB : Y ≤ Subgroup.normalizer (B : Set G)) :
     Y ≤ Subgroup.normalizer (Subgroup.centralizer (B : Set G) : Set G) := by
@@ -114,6 +120,7 @@ private theorem seven_eight_core_mod_le_normalizer_centralizer {B Y : Subgroup G
     · change y * (y⁻¹ * x * y) * y⁻¹ = x
       group
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_le_normalizer_commutator {A Y : Subgroup G}
     (hYA : Y ≤ Subgroup.normalizer (A : Set G)) :
     Y ≤ Subgroup.normalizer (⁅A, Y⁆ : Subgroup G) := by
@@ -126,6 +133,7 @@ private theorem seven_eight_core_mod_le_normalizer_commutator {A Y : Subgroup G}
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer (H := Y) hy)
   rw [hA, hY]
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_mem_normalizer_of_conj_mem {H : Subgroup G} {v : G}
     (hv2 : v * v = 1) (h : ∀ c ∈ H, v * c * v⁻¹ ∈ H) :
     v ∈ Subgroup.normalizer (H : Set G) := by
@@ -139,6 +147,7 @@ private theorem seven_eight_core_mod_mem_normalizer_of_conj_mem {H : Subgroup G}
       _ = (v * v) * c * (v * v) := by rw [hv_inv]
       _ = c := by rw [hv2]; group] at this
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_mem_centralizer_sup {H K : Subgroup G} {x : G}
     (hH : x ∈ Subgroup.centralizer (H : Set G))
     (hK : x ∈ Subgroup.centralizer (K : Set G)) :
@@ -152,6 +161,7 @@ private theorem seven_eight_core_mod_mem_centralizer_sup {H K : Subgroup G} {x :
     sup_le (Subgroup.le_centralizer_iff.mp hH') (Subgroup.le_centralizer_iff.mp hK')
   exact Subgroup.zpowers_le.mp (Subgroup.le_centralizer_iff.mpr hsup)
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_inf_centralizer_sup_eq {I B : Subgroup G}
     (hIcomm : IsMulCommutative I) :
     I ⊓ Subgroup.centralizer ((B ⊔ I : Subgroup G) : Set G)
@@ -166,11 +176,12 @@ private theorem seven_eight_core_mod_inf_centralizer_sup_eq {I B : Subgroup G}
     have hxI' : x ∈ Subgroup.centralizer (I : Set G) := by
       rw [Subgroup.mem_centralizer_iff]
       intro i hi
-      letI := hIcomm
+      let := hIcomm
       exact congrArg Subtype.val (mul_comm' (⟨i, hi⟩ : I) (⟨x, hxI⟩ : I))
     exact Subgroup.mem_inf.mpr
       ⟨hxI, seven_eight_core_mod_mem_centralizer_sup hxB hxI'⟩
 
+omit [Finite G] in
 private theorem seven_eight_core_mod_map_centralizer_eq {H : Subgroup G} (e : G ≃* G) :
     (Subgroup.centralizer (H : Set G)).map e.toMonoidHom
       = Subgroup.centralizer ((H.map e.toMonoidHom) : Set G) := by
@@ -224,7 +235,7 @@ private theorem seven_eight_core_mod_relIndex_sup_eq_prime {p : ℕ}
   have hBY : B₀ ⊔ I ≤ Y := sup_le hB0Y hIY
   have hnorm : (I.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hIY).mpr hYI
-  haveI : (I.subgroupOf Y).Normal := hnorm
+  have : (I.subgroupOf Y).Normal := hnorm
   have hIS_bot : I.subgroupOf S = ⊥ := by
     rw [Subgroup.subgroupOf_eq_bot]
     exact disjoint_iff.mpr hIS
@@ -251,7 +262,7 @@ private theorem seven_eight_core_mod_relIndex_sup_eq_prime {p : ℕ}
   have hmul := Subgroup.relIndex_mul_relIndex I (B₀ ⊔ I) Y le_sup_right hBY
   rw [hIrelB, hIrelY, hB0card] at hmul
   have hpos : Nat.card B₀ ≠ 0 := by
-    haveI : Nonempty B₀ := ⟨1⟩
+    have : Nonempty B₀ := ⟨1⟩
     exact Nat.card_pos.ne'
   exact mul_left_cancel₀ hpos (hmul.trans (Nat.mul_comm p (Nat.card B₀)))
 
@@ -299,7 +310,7 @@ theorem exists_weight {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {I Y : Subgroup G
     apply hYne
     rw [← hIsup, hSbot, sup_bot_eq]
   have hpS : p ≤ Nat.card S := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨j, hj⟩ := hSEA.isPGroup.exists_card_eq
     have hjpos : 0 < j := by
       by_contra hj0
@@ -352,7 +363,7 @@ theorem eq_or_le_of_commutator_inf_centralizer_ne_bot {p : ℕ} (hp : p.Prime)
     (hodd : Odd (I.relIndex Y)) (hYab : ⁅Y, Y⁆ ≤ I)
     (hIB : I ≤ B) (hBY : B ≤ Y) (hB : B.relIndex Y = p)
     (hIC : I ≤ C) (hCY : C ≤ Y) (hC : C.relIndex Y = p)
-    (hIM : I ≤ M) (hMY : M ≤ Y) (hM : I.relIndex M = p)
+    (hIM : I ≤ M) (_hMY : M ≤ Y) (hM : I.relIndex M = p)
     (hv2 : v * v = 1) (hvY : v ∈ Subgroup.normalizer (Y : Set G))
     (hvI : v ∈ Subgroup.normalizer (I : Set G))
     (hYv : ∀ y ∈ Y, ⁅y, v⁆ ∈ M) (hCv : ∀ c ∈ C, ⁅c, v⁆ ∈ I)

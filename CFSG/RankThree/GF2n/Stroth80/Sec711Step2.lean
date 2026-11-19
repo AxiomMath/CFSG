@@ -15,7 +15,7 @@ theorem orthogonal_eq_of_le_of_card {E : Type*} [AddCommGroup E] [Module (ZMod 2
     (f : LinearMap.BilinForm (ZMod 2) E) (hf : f.Nondegenerate) (S T : Submodule (ZMod 2) E)
     (hTS : T ≤ f.orthogonal S) (hcard : Nat.card T * Nat.card S = Nat.card E) :
     T = f.orthogonal S := by
-  haveI : Module.Finite (ZMod 2) E := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) E := Module.Finite.of_finite
   have h2 : Nat.card (ZMod 2) = 2 := by simp
   have hE : Nat.card E = 2 ^ Module.finrank (ZMod 2) E := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := E), h2]
@@ -65,10 +65,10 @@ theorem n12Lemma2_of (h34 : Stroth34Statement) (h52c : Stroth52cStatement) :
       ⟨hZQ, hcomm, hsq, fun r hr x hx => by rw [Subgroup.mem_bot] at hr; simpa [hr] using hx,
         fun r hr x hx => by rw [Subgroup.mem_bot] at hr; simpa [hr] using hx⟩
     obtain ⟨Mo, iM, iA, κ, hκ⟩ := exists_sectionModule hsec
-    haveI : Finite Mo := hκ.finite
-    letI : Module (ZMod 2) Mo := AddCommGroup.zmodModule (fun a => by
+    have : Finite Mo := hκ.finite
+    let : Module (ZMod 2) Mo := AddCommGroup.zmodModule (fun a => by
       rw [two_nsmul]; exact hκ.two a)
-    haveI : FiniteDimensional (ZMod 2) Mo := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) Mo := Module.Finite.of_finite
     obtain ⟨f, hfnd, hfalt, hfκ⟩ := exists_lamForm lam hcomm hZc hκ hnd
     let Sub : Subgroup G → Submodule (ZMod 2) Mo := fun U =>
       AddSubgroup.toZModSubmodule 2 (secSub κ U)
@@ -95,7 +95,7 @@ theorem n12Lemma2_of (h34 : Stroth34Statement) (h52c : Stroth52cStatement) :
       unfold comm2
       have : (⟨⁅(v : G), (a' : G)⁆, hcomm _ v.2 _ a'.2⟩ : ↥Z) = 1 := Subtype.ext h1
       rw [this, map_one, toAdd_one]
-    haveI : (Z.subgroupOf V).Normal :=
+    have : (Z.subgroupOf V).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
         hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
     have hchi := h52c G M Q Z B hc n t hs.toSec5 hs.omegaNat _ _ _ rfl rfl rfl
@@ -123,7 +123,7 @@ theorem n12Lemma2_of (h34 : Stroth34Statement) (h52c : Stroth52cStatement) :
       intro n' hn'
       obtain ⟨v, rfl⟩ := hrep n'
       have hv : (v : G) ∈ V := (hmemU V hZV v).1 hn'
-      rw [hfκ, comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm]
+      rw [hfκ, comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm]
       exact hperp v hv
     rw [← heq] at hao
     exact (hmemU W hZW ⟨a, haQ⟩).1 hao

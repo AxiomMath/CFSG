@@ -19,7 +19,7 @@ theorem hasPOmegaMember_of_lieModel_pomegaOdd {Q : Type} [Group Q] [IsSimpleGrou
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := (h.statedClassicalModel (by decide)).2
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 4 := ⟨n - 4, by omega⟩
   have hK3 : Nat.card K = 3 := by rwa [pow_one] at hK
-  haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadOdd (m + 4) K))) :=
+  have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadOdd (m + 4) K))) :=
     MulEquiv.isSimpleGroup e.symm
   exact HasPOmegaMember.of_mulEquiv e.symm (hasPOmegaMember_statedProj_of_split
     (two_ne_zero_of_natCard_eq_three hK3) (poSplitD m Unit) (pullQ_poSplitOdd m)
@@ -30,9 +30,9 @@ theorem hasPOmegaMember_of_lieModel_pomegaPlus {Q : Type} [Group Q] [IsSimpleGro
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := (h.statedClassicalModel (by decide)).2
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 4 := ⟨n - 4, by omega⟩
   have hK3 : Nat.card K = 3 := by rwa [pow_one] at hK
-  haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadPlus (m + 4) K))) :=
+  have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadPlus (m + 4) K))) :=
     MulEquiv.isSimpleGroup e.symm
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   exact HasPOmegaMember.of_mulEquiv e.symm (hasPOmegaMember_statedProj_of_split
     (two_ne_zero_of_natCard_eq_three hK3) (poSplitPlus m) (pullQ_poSplitPlus m)
     (neg_one_mem_statedOmega_quadPlus_four hK3) (pomegaBlock_statedOmega_quadPlus_four hK3))
@@ -42,7 +42,7 @@ theorem hasPOmegaMember_of_lieModel_pomegaMinus {Q : Type} [Group Q] [IsSimpleGr
   obtain ⟨K, hF, hfin, hK, b, c, -, ⟨e⟩⟩ := (h.statedClassicalModel (by decide)).2
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 5 := ⟨n - 5, by omega⟩
   have hK3 : Nat.card K = 3 := by rwa [pow_one] at hK
-  haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus (m + 5) K b c))) :=
+  have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus (m + 5) K b c))) :=
     MulEquiv.isSimpleGroup e.symm
   exact HasPOmegaMember.of_mulEquiv e.symm (hasPOmegaMember_statedProj_of_split
     (two_ne_zero_of_natCard_eq_three hK3) (poSplitMinus m) (pullQ_poSplitMinus m b c)

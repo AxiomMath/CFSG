@@ -22,12 +22,12 @@ variable {A : Subgroup G}
 theorem pPrimeCore_quotient_injOn_of_isSylowOf {A : Subgroup G}
     (hA : CFSG.ABGLocalTools.IsSylowOf 3 A K) :
     Set.InjOn (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)) (A.subgroupOf K : Set ↥K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   have hbot : A.subgroupOf K ⊓ CFSG.pPrimeCore 3 ↥K = ⊥ := by
     have hA3 : IsPGroup 3 ↥(A.subgroupOf K) := hA.isPGroup.comap_subtype
     obtain ⟨n, hn⟩ := hA3.exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hn]
     exact Nat.Coprime.pow_left n (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥K))
   intro x hx y hy hxy
@@ -56,8 +56,8 @@ theorem card_map_pPrimeCore_quotient_of_isSylowOf {A : Subgroup G}
     (hA : CFSG.ABGLocalTools.IsSylowOf 3 A K) :
     Nat.card ((A.subgroupOf K).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))) = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   obtain ⟨Q3, hQ3⟩ := hA.exists_sylow_eq_subgroupOf
   let Q3bar : Sylow 3 (↥K ⧸ CFSG.pPrimeCore 3 ↥K) :=
     Q3.mapSurjective (f := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))
@@ -88,8 +88,8 @@ theorem card_eq_nine_of_isSylowOf (hK : Nonempty
 theorem isElemAbelian_of_isSylowOf (hK : Nonempty
     ((↥K ⧸ CFSG.pPrimeCore 3 ↥K) ≃* projSL 3 (GaloisField 2 2)))
     (hA : CFSG.ABGLocalTools.IsSylowOf 3 A K) : CFSG.Open.IsElemAbelian 3 A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   have h9 : Nat.card A = 9 := card_eq_nine_of_isSylowOf hK hA
   have hbar9 : Nat.card ((A.subgroupOf K).map
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))) = 9 :=
@@ -136,6 +136,7 @@ theorem isElemAbelian_of_isSylowOf (hK : Nonempty
         (Subgroup.mem_subgroupOf.mpr A.one_mem) (by rw [hmem, map_one])
     simpa using congrArg Subtype.val hone
 
+omit [Finite G] in
 theorem pPrimeCore_quotient_eq_one_of_mem_map {y : G} {hyK : y ∈ K}
     (hy : y ∈ (CFSG.pPrimeCore 3 ↥K).map K.subtype) :
     QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨y, hyK⟩ = 1 := by
@@ -143,15 +144,15 @@ theorem pPrimeCore_quotient_eq_one_of_mem_map {y : G} {hyK : y ∈ K}
   rw [show (⟨y, hyK⟩ : ↥K) = n from Subtype.ext hny.symm]
   exact (QuotientGroup.eq_one_iff (N := CFSG.pPrimeCore 3 ↥K) n).mpr hn
 
+omit [Finite G] in
 theorem mem_sup_of_quotient_eq {K A : Subgroup G} (hAK : A ≤ K) {c : ↥K} {a : G}
     (ha : a ∈ A)
     (hπ : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) c =
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨a, hAK ha⟩) :
     (c : G) ∈ A ⊔ (CFSG.pPrimeCore 3 ↥K).map K.subtype := by
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   have hker : c * ⟨a, hAK ha⟩⁻¹ ∈ CFSG.pPrimeCore 3 ↥K := by
     rw [← QuotientGroup.eq_one_iff (N := CFSG.pPrimeCore 3 ↥K)]
-    change QuotientGroup.mk (c * ⟨a, hAK ha⟩⁻¹) = 1
     rw [QuotientGroup.mk_mul, QuotientGroup.mk_inv]
     change QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) c *
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨a, hAK ha⟩)⁻¹ = 1
@@ -165,12 +166,13 @@ theorem mem_sup_of_quotient_eq {K A : Subgroup G} (hAK : A ≤ K) {c : ↥K} {a 
   exact (A ⊔ (CFSG.pPrimeCore 3 ↥K).map K.subtype).mul_mem
     (Subgroup.mem_sup_right hOK) (Subgroup.mem_sup_left ha)
 
+omit [Finite G] in
 theorem pPrimeCore_quotient_eq_of_mem_pPrimeCore_map {K : Subgroup G} {a k : G}
     (haK : a ∈ K) (hk : k ∈ K)
     (h : a⁻¹ * k ∈ (CFSG.pPrimeCore 3 ↥K).map K.subtype) :
     QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨k, hk⟩ =
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨a, haK⟩ := by
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   change QuotientGroup.mk (⟨k, hk⟩ : ↥K) = QuotientGroup.mk ⟨a, haK⟩
   rw [QuotientGroup.eq]
   have hmemK : a⁻¹ * k ∈ K := Subgroup.map_subtype_le _ h
@@ -191,9 +193,9 @@ theorem exists_mem_normalizer_inf_conj_eq (hK : Nonempty
     (hb : b ∈ A) (hb1 : b ≠ 1) :
     ∃ n ∈ Subgroup.normalizer (A : Set G) ⊓ K, n * a * n⁻¹ = b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
-  haveI : Fact (IsPGroup 3 ↥(A.subgroupOf K)) := ⟨hA.isPGroup.comap_subtype⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (IsPGroup 3 ↥(A.subgroupOf K)) := ⟨hA.isPGroup.comap_subtype⟩
   set N : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K with hN
   set π : ↥K →* (↥K ⧸ N) := QuotientGroup.mk' N with hπ
   set AK : Subgroup ↥K := A.subgroupOf K with hAK
@@ -246,6 +248,7 @@ theorem exists_mem_normalizer_inf_conj_eq (hK : Nonempty
     exact ⟨(Subgroup.mem_subgroupOf.mp hmem).2, n.2⟩
   · simpa using congrArg Subtype.val heq
 
+omit [Finite G] in
 theorem mem_conj_of_inner {A : Subgroup G} (hA : CFSG.ABGLocalTools.IsSylowOf 3 A K)
     {e k : G} (hk : k ∈ K)
     (hek : ∀ x ∈ A, (k * x * k⁻¹)⁻¹ * (e * x * e⁻¹) ∈
@@ -258,6 +261,7 @@ theorem mem_conj_of_inner {A : Subgroup G} (hA : CFSG.ABGLocalTools.IsSylowOf 3 
   rw [hsplit]
   exact K.mul_mem hxk (hOle (hek x hx))
 
+omit [Finite G] in
 theorem pPrimeCore_quotient_conj_eq {A : Subgroup G}
     (hA : CFSG.ABGLocalTools.IsSylowOf 3 A K) {e k : G} (hk : k ∈ K)
     (hek : ∀ x ∈ A, (k * x * k⁻¹)⁻¹ * (e * x * e⁻¹) ∈
@@ -268,8 +272,8 @@ theorem pPrimeCore_quotient_conj_eq {A : Subgroup G}
         QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨x, hA.le hx⟩ *
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨k, hk⟩)⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   have hxk : k * x * k⁻¹ ∈ K := K.mul_mem (K.mul_mem hk (hA.le hx)) (K.inv_mem hk)
   have hmem : (k * x * k⁻¹)⁻¹ * (e * x * e⁻¹) ∈ K :=
     K.mul_mem (K.inv_mem hxk) (mem_conj_of_inner hA hk hek hx)
@@ -279,7 +283,7 @@ theorem pPrimeCore_quotient_conj_eq {A : Subgroup G}
   have hprod : (⟨e * x * e⁻¹, mem_conj_of_inner hA hk hek hx⟩ : ↥K) =
       ⟨k * x * k⁻¹, hxk⟩ * ⟨(k * x * k⁻¹)⁻¹ * (e * x * e⁻¹), hmem⟩ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     group
   calc QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨e * x * e⁻¹, mem_conj_of_inner hA hk hek hx⟩
       = QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨k * x * k⁻¹, hxk⟩ := by
@@ -291,6 +295,7 @@ theorem pPrimeCore_quotient_conj_eq {A : Subgroup G}
             (⟨k, hk⟩ : ↥K) * ⟨x, hA.le hx⟩ * (⟨k, hk⟩ : ↥K)⁻¹ := Subtype.ext rfl
         rw [hsplit, map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 theorem pPrimeCore_quotient_cube_mem_centralizer {A : Subgroup G}
     (hA : CFSG.ABGLocalTools.IsSylowOf 3 A K) {e k : G} (hk : k ∈ K)
     (he3 : e ^ 3 = 1) (heA : ∀ a ∈ A, e * a * e⁻¹ ∈ A)
@@ -301,8 +306,8 @@ theorem pPrimeCore_quotient_cube_mem_centralizer {A : Subgroup G}
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)) :
           Set (↥K ⧸ CFSG.pPrimeCore 3 ↥K)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   set N : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K with hN
   set π : ↥K →* (↥K ⧸ N) := QuotientGroup.mk' N with hπ
   set AK : Subgroup ↥K := A.subgroupOf K with hAK
@@ -359,7 +364,7 @@ theorem pPrimeCore_quotient_cube_mem_centralizer {A : Subgroup G}
       _ = π u * y ^ 3 := h.symm
   exact hcomm.symm
 
-theorem pPrimeCore_quotient_mem_normalizer_of_inner (hK : Nonempty
+theorem pPrimeCore_quotient_mem_normalizer_of_inner (_hK : Nonempty
     ((↥K ⧸ CFSG.pPrimeCore 3 ↥K) ≃* projSL 3 (GaloisField 2 2)))
     (hA : CFSG.ABGLocalTools.IsSylowOf 3 A K) {e k : G} (hk : k ∈ K)
     (heA : ∀ a ∈ A, e * a * e⁻¹ ∈ A)
@@ -370,8 +375,8 @@ theorem pPrimeCore_quotient_mem_normalizer_of_inner (hK : Nonempty
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)) :
           Set (↥K ⧸ CFSG.pPrimeCore 3 ↥K)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   set N : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K with hN
   set π : ↥K →* (↥K ⧸ N) := QuotientGroup.mk' N with hπ
   set AK : Subgroup ↥K := A.subgroupOf K with hAK
@@ -407,8 +412,8 @@ theorem pPrimeCore_quotient_mem_of_centralizer (hK : Nonempty
         Set (↥K ⧸ CFSG.pPrimeCore 3 ↥K))) :
     y ∈ (A.subgroupOf K).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   have hE9 : Nat.card ((A.subgroupOf K).map
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))) = 9 :=
     card_map_pPrimeCore_quotient_of_isSylowOf hK hA
@@ -482,8 +487,8 @@ theorem exists_mem_and_commute_of_inner (hK : Nonempty
     (∃ a₀ ∈ A, a₀⁻¹ * k ∈ (CFSG.pPrimeCore 3 ↥K).map K.subtype) ∧
       ∀ a ∈ A, e * a * e⁻¹ = a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   set N : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K with hN
   set π : ↥K →* (↥K ⧸ N) := QuotientGroup.mk' N with hπ
   set AK : Subgroup ↥K := A.subgroupOf K with hAK

@@ -20,7 +20,7 @@ open scoped Matrix
 private theorem ggKGTr_card_ker_mulVec {p n : ℕ} [Fact p.Prime]
     (B : Matrix (Fin n) (Fin n) (ZMod p)) :
     Nat.card {x : Fin n → ZMod p // B *ᵥ x = 0} = p ^ (n - B.rank) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hker : Nat.card (LinearMap.ker B.mulVecLin) =
       Nat.card ({j // TauCeti.IsFreeColumn (List.ofFn B) j} → ZMod p) :=
     Nat.card_congr (TauCeti.freeColumnBasis B).equivFun.toEquiv
@@ -289,14 +289,14 @@ private theorem ggKGTr_count
       Nat.card {f : Multiplicative (Fin TwistTag.E6.tag.rank → ZMod p) //
         ExcWeylOuter.torusMulAut TwistTag.E6.tag p u f = f} =
         p ^ (TwistTag.E6.tag.rank - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP (AlgebraicClosure K) 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP (AlgebraicClosure K) 2 := by
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
       (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
     exact charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   obtain ⟨u, -, hconj_raw⟩ :=
     ggKGTwE6_normalizer_weyl hK hσ hp hp5 F (Or.inr ⟨hpq, hv⟩) hrefl.1
   have hconj : ∀ e ∈ E, ggKGTr_Y F (w₀ * e * w₀⁻¹) =
@@ -349,7 +349,6 @@ private theorem ggKGTr_count
           group
       _ = k⁻¹ * ggKGTr_Y F e * k := by rw [h1]
       _ = ggKGTr_Y F e := by
-          change k⁻¹ * ggKGTr_Y F e * k = ggKGTr_Y F e
           rw [mul_assoc, ← hcomm, ← mul_assoc, inv_mul_cancel, one_mul]
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_units (L := AlgebraicClosure K) (ℓ := 2)
     Nat.prime_two hp (by omega)
@@ -413,8 +412,8 @@ theorem ggKGTwE6_reflection_isRoot
             ((e : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) * F.g0) *
           (canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K)
             (rootReflection γ))⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨u, hu2, hconj, hfix⟩ := ggKGTr_count hK hσ hp hp5 hpq F hv hrefl
   have hpred : ∀ f : Multiplicative (Fin TwistTag.E6.tag.rank → ZMod p),
       ExcWeylOuter.torusMulAut TwistTag.E6.tag p (1 : WeylGroup TwistTag.E6.tag) f = f := by

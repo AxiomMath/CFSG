@@ -45,7 +45,7 @@ theorem y56_phi_mul {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     _ = f3phi s y' * f3phi s y := by rw [hcomm]; group
     _ = f3phi s y * f3phi s y' := hab
 
-theorem y56_phi_eq_one {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+theorem y56_phi_eq_one {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     ∀ y ∈ e4Y s, (f3phi s y = 1 ↔ y ∈ e4X0 s) := by
   intro y hy
   have h1 : f3phi s y = 1 ↔ y * s.t * y⁻¹ = s.t := by
@@ -66,7 +66,7 @@ theorem y56_phi_eq_one {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
   rw [h1, h2, hHiff]
   exact ⟨fun hh => ⟨hh, hy.2⟩, fun hx => hx.1⟩
 
-theorem y56_phi_conj {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+theorem y56_phi_conj {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     ∀ n ∈ e4N s, ∀ y : G, f3phi s (n * y * n⁻¹) = n * f3phi s y * n⁻¹ := by
   intro n hn y
   have hnt : n * s.t = s.t * n := Subgroup.mem_centralizer_singleton_iff.mp hn.1
@@ -107,7 +107,7 @@ theorem y56_d_mem_Y (c : Ctx5 G L) (hH : F33Hyp c.s c.e) : c.d ∈ e4Y c.s := by
             rw [hxt, y5_dtd (c := c) hH]
             exact Subgroup.mul_mem _ (Subgroup.subset_closure (Or.inl (y56_z_mem_E hH)))
               (Subgroup.subset_closure (Or.inr rfl))
-      | one => simpa using Subgroup.one_mem _
+      | one => simp
       | mul x y hx hy ihx ihy =>
           rw [show c.d * (x * y) * c.d⁻¹ =
             (c.d * x * c.d⁻¹) * (c.d * y * c.d⁻¹) by group]
@@ -164,7 +164,7 @@ theorem y56_y0_mem_Y {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) {
           rw [hxt, hy₀.2.2]
           exact Subgroup.mul_mem _ (Subgroup.subset_closure (Or.inl hv₀E))
             (Subgroup.subset_closure (Or.inr rfl))
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y hx hy ihx ihy =>
         rw [show y₀ * (x * y) * y₀⁻¹ = (y₀ * x * y₀⁻¹) * (y₀ * y * y₀⁻¹) by group]
         exact Subgroup.mul_mem _ ihx ihy
@@ -201,7 +201,7 @@ theorem y56_y0_mem_Y {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) {
           rw [hxt, ht_inv]
           exact Subgroup.mul_mem _ (Subgroup.subset_closure (Or.inl hv₀E))
             (Subgroup.subset_closure (Or.inr rfl))
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y hx hy ihx ihy =>
         rw [show y₀⁻¹ * (x * y) * y₀ = (y₀⁻¹ * x * y₀) * (y₀⁻¹ * y * y₀) by group]
         exact Subgroup.mul_mem _ ihx ihy

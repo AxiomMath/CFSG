@@ -15,10 +15,10 @@ theorem isTranspAxis_one (U W : Subgroup V) : IsTranspAxis (1 : MulAut V) U W 1 
   constructor
   · intro x hx
     rw [MulAut.one_apply]
-    simpa using Subgroup.one_mem U
+    simp
   · intro x hx
     rw [MulAut.one_apply]
-    simpa using Subgroup.one_mem U
+    simp
 
 theorem isTranspAxis_mul {U W : Subgroup V} (hUW : U ≤ W) {g₁ g₂ : MulAut V} {c₁ c₂ : V}
     (hc₂ : c₂ ∈ W) (h₁ : IsTranspAxis g₁ U W c₁) (h₂ : IsTranspAxis g₂ U W c₂) :
@@ -30,7 +30,7 @@ theorem isTranspAxis_mul {U W : Subgroup V} (hUW : U ≤ W) {g₁ g₂ : MulAut 
       have hu : g₂ x * x⁻¹ ∈ U := h₂.1 x hx
       have hprod : (g₂ x * x⁻¹) * x ∈ W := Subgroup.mul_mem W (hUW hu) hx
       convert hprod using 1
-      simp [mul_comm, mul_left_comm, mul_assoc]
+      simp [mul_comm]
     have hb : g₁ (g₂ x) * (g₂ x)⁻¹ ∈ U := h₁.1 (g₂ x) hg2x
     have ha : g₂ x * x⁻¹ ∈ U := h₂.1 x hx
     convert Subgroup.mul_mem U hb ha using 1

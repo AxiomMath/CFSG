@@ -139,6 +139,7 @@ section Quotient
 variable (hO : pPrimeCore p G ≤ oddCore G)
 include hO
 
+omit [Fact (Nat.Prime p)] in
 private theorem map_oddCore_eq :
     (oddCore G).map (QuotientGroup.mk' (pPrimeCore p G)) = oddCore (G ⧸ pPrimeCore p G) := by
   have hqs := QuotientGroup.mk'_surjective (pPrimeCore p G)
@@ -153,6 +154,7 @@ private theorem map_oddCore_eq :
       _ ≤ _ := map_mono h
 
 omit [Finite G] in
+omit [Fact (Nat.Prime p)] in
 private theorem map_inf_oddCore_eq (P : Subgroup G) :
     (P ⊓ oddCore G).map (QuotientGroup.mk' (pPrimeCore p G)) =
       P.map (QuotientGroup.mk' (pPrimeCore p G)) ⊓
@@ -225,7 +227,7 @@ theorem oddCore_sup_normalizer_zj_eq_top_of_quotient (hp : p ≠ 2) {P : Subgrou
     have hrel : Ub.relIndex K = (Ub ⊓ Ob).relIndex Ob := by
       rw [hKdef, relIndex_sup_eq_relIndex_of_normal Ob Ub, Subgroup.inf_relIndex_right]
     have hKodd : Odd (Nat.card K) := odd_card_sup_of_normal hp hObodd hUbp
-    haveI : Group.IsSolvable K := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hKodd
+    have : Group.IsSolvable K := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hKodd
     have hUK : IsSylowOf p Ub K := by
       rw [isSylowOf_iff]
       refine ⟨le_sup_right, hUbp, ?_⟩
@@ -275,7 +277,7 @@ theorem oddCore_sup_normalizer_zj_eq_top_of_quotient (hp : p ≠ 2) {P : Subgrou
     have hmap : (ambientMaxCardZJ (Ub.subgroupOf K)).map K.subtype = ambientMaxCardZJ Ub := by
       rw [map_ambientMaxCardZJ_of_injective K.subtype _
         (K.subtype_injective.comp Subtype.val_injective), map_subgroupOf_eq_of_le le_sup_right]
-    haveI : (ambientMaxCardZJ (Ub.subgroupOf K)).Normal := h62
+    have : (ambientMaxCardZJ (Ub.subgroupOf K)).Normal := h62
     have hN := le_normalizer_map_subtype K (ambientMaxCardZJ (Ub.subgroupOf K))
     rw [hmap] at hN
     exact le_sup_left.trans hN
@@ -347,7 +349,7 @@ theorem pPrimeCore_le_oddCore_of_not_le_centralizer {P X : Subgroup G} (hP : IsP
     exact (pPrimeCore p G).mul_mem ((pPrimeCore_normal).conj_mem x (hXM hx) y)
       ((pPrimeCore p G).inv_mem (hXM hx))
 
-theorem centralizer_pCore_quotient_le_of_not_le_centralizer (hp : p ≠ 2) {P X : Subgroup G}
+theorem centralizer_pCore_quotient_le_of_not_le_centralizer (_hp : p ≠ 2) {P X : Subgroup G}
     (hP : IsPGroup p P) (hQ : IsSylowOf p (P ⊓ oddCore G) (oddCore G))
     (hX : IsPGroup 2 X) (hXP : X ≤ normalizer (P : Set G))
     (hXQ : ¬ X ≤ centralizer ((P ⊓ oddCore G : Subgroup G) : Set G))

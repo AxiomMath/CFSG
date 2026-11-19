@@ -14,14 +14,17 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conjSubgroup_inv_le_iff (B M : Subgroup G) (g : G) :
     conjSubgroup B g⁻¹ ≤ M ↔ B ≤ conjSubgroup M g :=
   (E3.le_conjSubgroup_iff_inv_le g).symm
 
+omit [Finite G] in
 private theorem conjSub_eq_conjSubgroup_inv (h : G) (A : Subgroup G) :
     CFSG.Quasithin.A1b.conjSub h A = conjSubgroup A h⁻¹ := by
   rw [CFSG.Quasithin.A1b.conjSub, conjSubgroup, inv_inv]
 
+omit [Finite G] in
 private theorem twoFirst_conj {n : ℕ} {M V : Subgroup G} (y g : G) :
     TwoFirst n (conjSubgroup M y) (conjSubgroup V y) (y⁻¹ * g * y) ↔ TwoFirst n M V g := by
   have hgy : y * (y⁻¹ * g * y) = g * y := by group
@@ -75,6 +78,7 @@ private theorem twoFirst_conj {n : ℕ} {M V : Subgroup G} (y g : G) :
         exact h
       exact (E3.conjSubgroup_le_conjSubgroup_iff y).1 h'
 
+omit [Finite G] in
 private theorem inCalO2_conj {n : ℕ} {M V₀ V : Subgroup G} (y g : G) :
     InCalO2 n (conjSubgroup M y) (conjSubgroup V₀ y) (conjSubgroup V y) (y⁻¹ * g * y) ↔
       InCalO2 n M V₀ V g := by

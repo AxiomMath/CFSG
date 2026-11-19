@@ -17,7 +17,7 @@ theorem card_quotient_of_sectionAct {m : ℕ} {K : Type} [Field K] {R V Z N : Su
       SectionAct K R V Z φ act) :
     Nat.card (↥V ⧸ Z.subgroupOf V) = Nat.card K ^ m := by
   obtain ⟨-, -, -, -, hN, ψ, -⟩ := h
-  haveI := hN
+  have := hN
   rw [Nat.card_congr ψ.toEquiv, Nat.card_congr Multiplicative.toAdd, Nat.card_fun,
     Nat.card_fin]
 
@@ -30,9 +30,10 @@ theorem card_quotient_of_naturalDualRep {m : ℕ} {K : Type} [Field K] {R V Z N 
 
 variable [Finite G] {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem card_quotient_X₄_X₂_of_dualRep {m : ℕ} {K : Type} [Field K] {X₂ X₃ X₄ : Subgroup G}
     (hX₃ : X₃ = X₂)
-    (h₂₃ : X₂ ≤ X₃) (h₃₄ : X₃ ≤ X₄)
+    (_h₂₃ : X₂ ≤ X₃) (_h₃₄ : X₃ ≤ X₄)
     (nat4 : NaturalDualRep (ι := Fin m) K (StatedSL m K) (XbarPre M Q Z B) X₄ X₃
       (Q)) :
     Nat.card (↥X₄ ⧸ X₂.subgroupOf X₄) = Nat.card K ^ m := by
@@ -43,6 +44,7 @@ section ModuleChain
 
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] [Finite K] in
 theorem card_X₄_of_dualRep {m : ℕ} {X₁ X₂ X₃ X₄ : Subgroup G} (hX₁ : X₁ = Z) (hZ₁ : Z ≤ X₁)
     (h₁₂ : X₁ ≤ X₂) (h₂₃ : X₂ ≤ X₃) (h₃₄ : X₃ ≤ X₄) (hX₃ : X₃ = X₂)
     (nat2 : NaturalRep (ι := Fin m) K (StatedSL m K) (XbarPre M Q Z B) X₂ X₁

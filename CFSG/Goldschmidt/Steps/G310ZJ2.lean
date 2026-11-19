@@ -139,7 +139,7 @@ theorem zj_normal_of_map
         rw [sup_comm, ← hrange]
         exact ⟨s, rfl⟩
       obtain ⟨q, hq, l, hl, hql⟩ := exists_mul_of_mem_sup hPL hsR
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
       have hsk : s ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       obtain ⟨l', hl', hpow⟩ := exists_pow_mul_eq (hPL hq) hl (2 ^ k)
       have h1 : q ^ 2 ^ k * l' = 1 := by rw [← hpow, hql, ← map_pow, hsk, map_one]
@@ -155,7 +155,7 @@ theorem zj_normal_of_map
         exact Nat.Coprime.pow _ _ ((Nat.coprime_primes Nat.prime_two hp).mpr (Ne.symm hp2))
       rw [← hql]
       exact Lq.mul_mem (Subgroup.zpowers_le.mpr hqk hq') hl
-    have hab' := hab _ hSL (S.isPGroup'.map ρ)
+    have hab' := hab _ hSL (S.isPGroup.map ρ)
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     have hcomm : ρ ((a : X) * b) = ρ ((b : X) * a) := by
       rw [map_mul, map_mul]
@@ -165,7 +165,7 @@ theorem zj_normal_of_map
     have h2 : ((b : X) * a)⁻¹ * ((a : X) * b) ∈ (S : Subgroup X) :=
       (S : Subgroup X).mul_mem ((S : Subgroup X).inv_mem
         ((S : Subgroup X).mul_mem b.2 a.2)) ((S : Subgroup X).mul_mem a.2 b.2)
-    have h3 := eq_one_of_odd_of_two hkerodd S.isPGroup' h1 h2
+    have h3 := eq_one_of_odd_of_two hkerodd S.isPGroup h1 h2
     rw [inv_mul_eq_one] at h3
     simp only [Subgroup.coe_mul]
     exact h3.symm

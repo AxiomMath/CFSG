@@ -190,21 +190,21 @@ private theorem wccs_rigid {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat
 theorem outerFixedNotElem_isSp4 {M : Type} [Group M] [Finite M] (h : IsSp4 M 2) :
     OuterFixedNotElem M := by
   obtain ⟨-, F, _, _, hF2, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  haveI : CharP F 2 := uc22pwlie_charP_two hF2
+  have : CharP F 2 := uc22pwlie_charP_two hF2
   have hF : Nat.card F = 4 := by rw [hF2]; norm_num
   exact outerFixedNotElem_of_mulEquiv e.symm (wccs_notElem hF)
 
 theorem outerFixedNoNormalTwo_isSp4 {M : Type} [Group M] [Finite M] (h : IsSp4 M 2) :
     OuterFixedNoNormalTwo M := by
   obtain ⟨-, F, _, _, hF2, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  haveI : CharP F 2 := uc22pwlie_charP_two hF2
+  have : CharP F 2 := uc22pwlie_charP_two hF2
   have hF : Nat.card F = 4 := by rw [hF2]; norm_num
   exact outerFixedNoNormalTwo_of_mulEquiv e.symm (wccs_noNormalTwo hF)
 
 theorem outerFixedRigid_isSp4 {M : Type} [Group M] [Finite M] (h : IsSp4 M 2) :
     OuterFixedRigid M := by
   obtain ⟨-, F, _, _, hF2, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  haveI : CharP F 2 := uc22pwlie_charP_two hF2
+  have : CharP F 2 := uc22pwlie_charP_two hF2
   have hF : Nat.card F = 4 := by rw [hF2]; norm_num
   exact outerFixedRigid_of_mulEquiv e.symm (wccs_rigid hF)
 

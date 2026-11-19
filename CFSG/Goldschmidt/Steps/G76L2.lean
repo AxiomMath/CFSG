@@ -174,7 +174,7 @@ theorem exists_acts_of_sylow {K : Subgroup G} (hKq : CFSG.Open.IsQuasisimple K)
   set B := (P : Subgroup K).map K.subtype with hBdef
   have hBK : B ≤ K := Subgroup.map_subtype_le _
   have hBab : IsMulCommutative B := Subgroup.map_isMulCommutative _ _
-  have hB2 : IsPGroup 2 B := P.isPGroup'.map _
+  have hB2 : IsPGroup 2 B := P.isPGroup.map _
   have hBmax : ∀ Q : Subgroup G, Q ≤ K → IsPGroup 2 Q → B ≤ Q → Q = B := by
     intro Q hQK hQ2 hBQ
     have hPQ : (P : Subgroup K) ≤ Q.subgroupOf K := fun x hx =>
@@ -240,7 +240,7 @@ theorem exists_acts_of_sylow {K : Subgroup G} (hKq : CFSG.Open.IsQuasisimple K)
     rw [← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext (hkP p hp).symm
-  have hsup := Pb.isPGroup'.to_sup_of_normal_left' hzp hzN
+  have hsup := Pb.isPGroup.to_sup_of_normal_left' hzp hzN
   have heq := Pb.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have hπkP : π k' ∈ (Pb : Subgroup (K ⧸ Subgroup.center K)) := by
     rw [← heq]

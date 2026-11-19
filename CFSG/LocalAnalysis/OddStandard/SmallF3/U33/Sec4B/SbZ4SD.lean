@@ -12,6 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem mem_sup_of_normalizes {A C : Subgroup G} (hC : ∀ c ∈ C, ∀ a ∈ A, c * a * c⁻¹ ∈ A)
     {g : G} (hg : g ∈ A ⊔ C) : ∃ a ∈ A, ∃ c ∈ C, g = a * c := by
   rw [Subgroup.sup_eq_closure] at hg
@@ -95,8 +96,8 @@ theorem CQ_t : ctxQ t tau x₁ x₂ rho ⊓ centralizer ({t} : Set G) = baseGrp 
       rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
       rcases he with h | h | h
       · rw [h]; exact hqt'
-      · rw [h]; exact (hp.Q_comm q hqQ _ (hp.V_le_Q hp.y_mem_V)).symm
-      · rw [h]; exact (hp.Q_comm q hqQ _ (hp.V_le_Q hp.z_mem_V)).symm
+      · rw [h]; exact (hp.Q_comm q hqQ _ (hp.V_le_Q CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V)).symm
+      · rw [h]; exact (hp.Q_comm q hqQ _ (hp.V_le_Q CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.z_mem_V)).symm
     have hqK : q ∈ closure ({t, tau, x₁, x₂} : Set G) := by
       rw [← hp.cent_E]
       refine ⟨hp.Q_le_O hqQ, mem_centralizer_iff.mpr fun e he => ?_⟩
@@ -143,7 +144,7 @@ theorem B_inf_Y : baseGrp x₁ x₂ ⊓ ctxYq t tau x₁ x₂ rho = fourGrp x₁
 theorem CY_t : ctxYq t tau x₁ x₂ rho ⊓ centralizer ({t} : Set G) = fourGrp x₁ x₂ := by
   apply le_antisymm
   · rintro a ⟨haY, hat⟩
-    have haQ : a ∈ ctxQ t tau x₁ x₂ rho ⊓ centralizer ({t} : Set G) := ⟨hp.Y_le_Q haY, hat⟩
+    have haQ : a ∈ ctxQ t tau x₁ x₂ rho ⊓ centralizer ({t} : Set G) := ⟨CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q haY, hat⟩
     rw [hp.CQ_t] at haQ
     have h : a ∈ baseGrp x₁ x₂ ⊓ ctxYq t tau x₁ x₂ rho := ⟨haQ, haY⟩
     rwa [hp.B_inf_Y] at h
@@ -153,7 +154,7 @@ theorem CY_t : ctxYq t tau x₁ x₂ rho ⊓ centralizer ({t} : Set G) = fourGrp
 
 theorem comm_t_eq_one_iff {a : G} (ha : a ∈ ctxYq t tau x₁ x₂ rho) :
     z4Comm t a = 1 ↔ a ∈ fourGrp x₁ x₂ := by
-  rw [hp.comm_eq_one_iff]
+  rw [CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_eq_one_iff]
   constructor
   · intro h
     rw [← hp.CY_t]
@@ -168,7 +169,7 @@ theorem exists_comm_eq : ∀ v ∈ fourGrp x₁ x₂, ∃ a ∈ ctxYq t tau x₁
   have hNV : N ≤ fourGrp x₁ x₂ := by
     intro n hn
     obtain ⟨a, ha, hn'⟩ := hNimg n hn
-    have h := hp.comm_mem hp.t_mem_X (hp.Y_le_O ha)
+    have h := hp.comm_mem CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X (hp.Y_le_O ha)
     have h2 : a * t * a⁻¹ * t⁻¹ = (z4Comm t a)⁻¹ := by unfold z4Comm; group
     rw [hn', h2]
     exact inv_mem h

@@ -24,7 +24,7 @@ theorem eq_one_of_central {K : Type} [Group K] [Finite K] [IsSimpleGroup K] {p :
       rw [h] at this
       exact Subgroup.mem_bot.mp this
     · exact h
-  letI : CommGroup K :=
+  let : CommGroup K :=
     { (inferInstance : Group K) with
       mul_comm := fun a b => by
         have := Subgroup.mem_center_iff.mp (hcen ▸ Subgroup.mem_top a) b

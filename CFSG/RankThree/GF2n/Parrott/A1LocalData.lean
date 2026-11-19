@@ -138,6 +138,7 @@ theorem ker_qHP : (qHP D).ker = (J z).subgroupOf (H z) := by
   change (QuotientDataPSp.toQP45 D) (QuotientGroup.mk' ((J z).subgroupOf (H z)) x) = 1 ↔ _
   rw [MulEquiv.map_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
 
+omit [Finite G] in
 theorem isPGroup_ker_qHP : IsPGroup 2 (qHP D).ker := by
   rw [ker_qHP]
   exact isPGroup_J_subgroupOf (z := z)

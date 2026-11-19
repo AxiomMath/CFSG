@@ -206,7 +206,7 @@ theorem exists_unitary4_parabolic {G : Type} [Group G] [Finite G]
     (by norm_num) (by norm_num)).2.1
   have hUs : IsSylowTwoOf (hypUnitriangular h 2 0) ⊤ := by
     rw [← hU]
-    refine ⟨le_top, U.isPGroup', ?_⟩
+    refine ⟨le_top, U.isPGroup, ?_⟩
     have hi : ((U : Subgroup (hypSU h 2 0)).subgroupOf ⊤).index =
         (U : Subgroup (hypSU h 2 0)).index := Subgroup.relIndex_top_right _
     rw [hi]

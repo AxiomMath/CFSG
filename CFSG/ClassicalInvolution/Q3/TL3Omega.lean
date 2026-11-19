@@ -113,7 +113,7 @@ theorem hypOmegaGen_of_datum {R : Subgroup G} (S : Sylow 2 R)
         have hord : orderOf y = 2 := orderOf_eq_prime (by rw [pow_two]; exact hyy) hy1
         exact eq_of_orderOf_eq_two_of_quaternion_sylow htR hto hRC S hS (hK0R hy) hord
   set S0 : Subgroup G := (S : Subgroup R).map R.subtype with hS0def
-  have hS0p : IsPGroup 2 S0 := S.isPGroup'.map R.subtype
+  have hS0p : IsPGroup 2 S0 := S.isPGroup.map R.subtype
   have hS0K0 : S0 ≤ K0 := by
     intro s hs
     refine Subgroup.subset_closure ⟨Subgroup.map_subtype_le _ hs, ?_⟩

@@ -27,8 +27,8 @@ theorem pgl2_prime_sup_isE_one_eq_top_of_elemAbelian
   have hp7 : 7 ≤ p := by omega
   have hodd : IsOddPrimePower (Nat.card K) := e22pl2pgl_isOddPrimePower hp7 hK
   have hcard : 3 < Nat.card K := by rw [hK]; omega
-  haveI : Finite (PGL2 K) := e22pl2pgl_finite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (PGL2 K) := e22pl2pgl_finite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBp : IsPGroup 2 B := isPGroup_of_isElemAbelian hB
   obtain ⟨k, hk⟩ := hBp.exists_card_eq
   have hBcard_ne_one : Nat.card B ≠ 1 := by
@@ -50,8 +50,8 @@ theorem pgl2_prime_sup_isE_one_eq_top_of_elemAbelian
   interval_cases k
   ·
     have hB2 : Nat.card B = 2 := by simpa using hk
-    haveI : (pslRange K).Normal := pslRange_normal hodd hcard
-    haveI : IsSimpleGroup ↥(pslRange K) := e22pl2pgl_simple_J hcard
+    have : (pslRange K).Normal := pslRange_normal hodd hcard
+    have : IsSimpleGroup ↥(pslRange K) := e22pl2pgl_simple_J hcard
     have hE : IsE 1 ⊤ S B ⊤ :=
       isE_one_top_of_almostSimple (pslRange K) S B
         (e22pl2pgl_nonabelian_J hcard)

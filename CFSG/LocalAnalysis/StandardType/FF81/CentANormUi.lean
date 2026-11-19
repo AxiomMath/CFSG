@@ -23,7 +23,7 @@ private theorem caNormU_t_mem_liftSub (hS : CentASetting m Y L R b t φ)
   rw [hS.φ_t]
   exact hJ
 
-private theorem caNormU_conj_mem_liftSub (hS : CentASetting m Y L R b t φ)
+private theorem caNormU_conj_mem_liftSub (_hS : CentASetting m Y L R b t φ)
     {K : Subgroup (GL (BlkIdx 1 m) (ZMod 2))}
     (hKn : ∀ g ∈ Cent 1 m, ∀ u ∈ K, g * u * g⁻¹ ∈ K)
     {y u : G} (hy : y ∈ liftSub φ (Cent 1 m)) (hu : u ∈ liftSub φ K) :
@@ -39,7 +39,7 @@ private theorem caNormU_conj_mem_liftSub (hS : CentASetting m Y L R b t φ)
   exact hKn (φ ⟨y, hyY⟩) hyC (φ ⟨u, huY⟩) huK
 
 private theorem caNormU_mul_self_eq_one_of_mem_liftSub
-    (hS : CentASetting m Y L R b t φ)
+    (_hS : CentASetting m Y L R b t φ)
     {K : Subgroup (GL (BlkIdx 1 m) (ZMod 2))} (hKexp : ∀ u ∈ K, u * u = 1)
     {u : G} (hu : u ∈ liftSub φ K) : u * u = 1 := by
   obtain ⟨huY, huK⟩ := (mem_liftSub (K := K)).mp hu
@@ -53,7 +53,7 @@ private theorem caNormU_mul_self_eq_one_of_mem_liftSub
     φ.injective (hφ.trans (map_one φ).symm)
   exact congrArg (fun x : ↥Y => (x : G)) hone
 
-private theorem caNormU_mem_liftSub_of_commute (hS : CentASetting m Y L R b t φ)
+private theorem caNormU_mem_liftSub_of_commute (_hS : CentASetting m Y L R b t φ)
     {K : Subgroup (GL (BlkIdx 1 m) (ZMod 2))}
     (hKcent : ∀ u ∈ uSub 1 m, (∀ v ∈ K, u * v = v * u) → u ∈ K)
     {u : G} (hu : u ∈ liftSub φ (uSub 1 m))
@@ -82,7 +82,7 @@ private theorem caNormU_mem_liftSub_of_commute (hS : CentASetting m Y L R b t φ
   exact (mem_liftSub (K := K)).mpr
     ⟨huY, hKcent (φ ⟨u, huY⟩) huU fun v hv => hcomm ⟨v, hv⟩⟩
 
-private theorem caNormU_isPGroup_liftSub_uSub (hS : CentASetting m Y L R b t φ) :
+private theorem caNormU_isPGroup_liftSub_uSub (_hS : CentASetting m Y L R b t φ) :
     IsPGroup 2 (liftSub φ (uSub 1 m)) := by
   have hcard : Nat.card (liftSub φ (uSub 1 m)) = 2 ^ (1 * 1 + 2 * 1 * m) := by
     change Nat.card (Subgroup.map Y.subtype
@@ -221,7 +221,7 @@ private theorem caNormU_centralizer_le_uSub (hchar : IsCharTwoType G)
 
 private theorem caNormU_normalizer_le (hchar : IsCharTwoType G)
     (hS : CentASetting m Y L R b t φ) (K : Subgroup (GL (BlkIdx 1 m) (ZMod 2)))
-    (hJ : jGL 1 m ∈ K) (hKsub : K ≤ uSub 1 m)
+    (hJ : jGL 1 m ∈ K) (_hKsub : K ≤ uSub 1 m)
     (hKn : ∀ g ∈ Cent 1 m, ∀ u ∈ K, g * u * g⁻¹ ∈ K)
     (hKexp : ∀ u ∈ K, u * u = 1)
     (hKcent : ∀ u ∈ uSub 1 m, (∀ v ∈ K, u * v = v * u) → u ∈ K)

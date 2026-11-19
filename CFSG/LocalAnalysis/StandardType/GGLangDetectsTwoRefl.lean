@@ -83,7 +83,7 @@ theorem langRatKills_of_reflection_commutator
     (horth : iform (u • γ) γ = 0)
     (hle : rationalComponent S.ρ S.Γ (rootCharHom a) i ≤ Subgroup.centralizer {rootDiagUnit τ b}) :
     rootChar b γ = 1 := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
   have hrootΨ : ∀ δ ∈ Ψs, IsRoot τ δ := fun δ hδ => isRoot_of_mem_componentRoots (hΨ hδ)
   have hγr : IsRoot τ γ := hrootΨ γ hγ
   have hmemR : ∀ δ ∈ Ψs, rootSL2 τ L δ WSL ∈ rationalSpan S.ρ S.Γ (rootCharHom a) i := by

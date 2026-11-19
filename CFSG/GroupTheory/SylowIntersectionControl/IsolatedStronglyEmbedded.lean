@@ -34,6 +34,6 @@ theorem ControlsSylowIntersections.nonempty_of_not_isPIsolatedOver {X : Type*} [
   have hnormal : (P : Subgroup X).Normal := by
     rw [← Subgroup.normalizer_eq_top_iff]
     simpa using hN
-  exact (Sylow.ne_bot_of_dvd_card P hp) (hO (P : Subgroup X) hnormal P.isPGroup')
+  exact (Sylow.ne_bot_of_dvd_card P hp) (hO (P : Subgroup X) hnormal P.isPGroup)
 
 end CFSG.GroupTheory

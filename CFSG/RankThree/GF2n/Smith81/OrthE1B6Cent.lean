@@ -65,7 +65,7 @@ theorem b6c_unit1 (Φ : Tensor3 K ≃ₗ[K] Tensor3 K)
       intro S
       funext a y z
       simp only [b6c_act1_apply, Pi.add_apply]
-      fin_cases y <;> simp <;> ring
+      fin_cases y <;> simp; ring
     rw [e, e, map_add] at h
     exact add_left_cancel h
   fin_cases b
@@ -104,7 +104,7 @@ theorem b6c_unit2 (Φ : Tensor3 K ≃ₗ[K] Tensor3 K)
       intro S
       funext a y z
       simp only [b6c_act2_apply, Pi.add_apply]
-      fin_cases z <;> simp <;> ring
+      fin_cases z <;> simp; ring
     rw [e, e, map_add] at h
     exact add_left_cancel h
   fin_cases c

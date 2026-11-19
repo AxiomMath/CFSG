@@ -65,8 +65,8 @@ theorem card_le_nine_of_adjointG2 {F : Type} [Field F] [Finite F] (hF3 : ringCha
     (hF4 : 4 ≤ Nat.card F) (E : Subgroup (adjointGroup .G2 F)) (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 9 := by
   by_cases h2 : ringChar F = 2
-  · haveI : CharP F 2 := h2 ▸ ringChar.charP F
-    haveI := Fintype.ofFinite F
+  · have : CharP F 2 := h2 ▸ ringChar.charP F
+    have := Fintype.ofFinite F
     obtain ⟨n, hn, hcard⟩ := FiniteField.card F 2
     have hcard' : Nat.card F = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
     have hmod : ChevalleyExceptionalModel (adjointGroup .G2 F) .G2 2 (n : ℕ) :=
@@ -98,7 +98,7 @@ theorem k419OneFieldG2_of_E9 (hE9 : K419HasE9) : K419OneFieldG2 := by
   intro G _ _ L hL h46 F _ _ hF3 hF4 x a hx3 hxa hxk haL ha3 haC hin K hKle hKc ht
   obtain ⟨e⟩ : Nonempty (L ⧸ aschbacherSolvableCore 3 L ≃* adjointGroup Tag.G2 F) := by
     rcases hxk with ⟨e, -⟩ | ⟨e, -⟩ <;> exact ⟨e⟩
-  haveI : Finite (adjointGroup Tag.G2 F) := Finite.of_equiv _ e.toEquiv
+  have : Finite (adjointGroup Tag.G2 F) := Finite.of_equiv _ e.toEquiv
   obtain ⟨g, ι, hg3, hg1, hι, hcomm, hZK⟩ := HeringOF.exists_centralizing_of_inner hL
     center_adjointGroup_eq_bot e haL ha3 haC hin hKle hKc ht
   obtain ⟨E, hE, hE9'⟩ := hE9 K ht
@@ -111,7 +111,7 @@ theorem k419OneFieldTriality_of_E9
   obtain ⟨e⟩ : Nonempty (L ⧸ aschbacherSolvableCore 3 L ≃*
       graphFixedRootGroup TwistTag.D4 F σ.toRingHom) := by
     rcases hxk with ⟨e, -⟩ | ⟨e, -⟩ <;> exact ⟨e⟩
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) := Finite.of_equiv _ e.toEquiv
+  have : Finite (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) := Finite.of_equiv _ e.toEquiv
   obtain ⟨g, ι, hg3, hg1, hι, hcomm, hZK⟩ := HeringOF.exists_centralizing_of_inner hL
     (CFSG.TauCetiBridge.Twisted.center_graphFixedRootGroup_eq_bot σ.toRingHom) e haL ha3 haC hin
     hKle hKc ht
@@ -126,7 +126,7 @@ theorem k419OneFieldLargeRee_of_E9 (hE9 : K419HasE9) : K419OneFieldLargeRee := b
   obtain ⟨e⟩ : Nonempty (L ⧸ aschbacherSolvableCore 3 L ≃*
       CFSG.LieType.Ree.ReeTag.F4.reeGamma F b) := by
     rcases hxk with ⟨e, -⟩ | ⟨e, -⟩ <;> exact ⟨e⟩
-  haveI : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma F b) := Finite.of_equiv _ e.toEquiv
+  have : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma F b) := Finite.of_equiv _ e.toEquiv
   obtain ⟨g, ι, hg3, hg1, hι, hcomm, hZK⟩ := HeringOF.exists_centralizing_of_inner hL
     (CFSG.LieType.Ree.ReeTag.large_Ree_fixed_group_center_trivial b F hF) e haL ha3 haC hin hKle
     hKc ht

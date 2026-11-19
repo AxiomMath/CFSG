@@ -23,7 +23,7 @@ theorem isShapeCentralizerFiveC_of_shape5COK (h : shape5COK = true) (ha2 : elemA
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hwr, hord⟩, hwu⟩, hwv⟩, hY⟩, hcY⟩, hnY⟩, haY⟩, huY⟩, hvY⟩, hblk⟩, himg⟩,
     haTriv⟩, hcomm⟩ := h
   have hg : gensOK = true := gensOK_of_blkDataOK hblk
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hrr : Rep 1408 (tabW fix5C.rep) (elemW fix5C.rep) := rep_elemW_of_gensOK hg hwr
   have hr5 : orderOf (elemW fix5C.rep) = 5 := orderOf_eq_of_primeOrderOK hrr hord
   have hrA : Rep 1408 (tabW wordA) elemA := rep_elemW_of_gensOK hg (by decide)
@@ -62,8 +62,8 @@ theorem isShapeCentralizerSeven_of_shape7OK (h : shape7OK = true) (ha2 : elemA *
       ↥(P1408 ⊓ centralizer ({elemW fix7.rep} : Set (Equiv.Perm (Fin 1408)))) := by
   simp only [shape7OK, Bool.and_eq_true, Bool.not_eq_true'] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨hg, hwr⟩, hord⟩, hww⟩, hcw⟩, hord2⟩, hcr⟩, hcc⟩, hne⟩ := h
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrr : Rep 1408 (tabW fix7.rep) (elemW fix7.rep) := rep_elemW_of_gensOK hg hwr
   have hrA : Rep 1408 (tabW wordA) elemA := rep_elemW_of_gensOK hg (by decide)
   have hrw : Rep 1408 (tabW w7Word) (elemW w7Word) := rep_elemW_of_gensOK hg hww

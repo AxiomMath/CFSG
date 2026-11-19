@@ -179,7 +179,7 @@ theorem sylowCent_psl3 {X : Type} [Group X] [Finite X] {f : ℕ} (h : IsPSL 3 2 
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   have h0 : IsSylowTwoOf (projUnitriangular 3 K) ⊤ := by
     rw [← hS]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   exact sylowCent_of_one h0 cent_projUnitriangular_three
 
 end SylowCentral
@@ -216,7 +216,7 @@ theorem sylowCent_of_isBenderOf {n : ℕ} {Y : Type} [Group Y] [Finite Y]
     have hle : Nat.card {w : Y // InCenterOf (Q : Subgroup Y) w} ≤ Nat.card ↥(Q : Subgroup Y) :=
       Nat.card_le_card_of_injective (fun w => (⟨w.1, w.2.1⟩ : ↥(Q : Subgroup Y)))
         (fun a b hab => Subtype.ext (congrArg (fun z : ↥(Q : Subgroup Y) => (z : Y)) hab))
-    obtain ⟨k, hk⟩ := (Q.isPGroup').exists_card_eq
+    obtain ⟨k, hk⟩ := (Q.isPGroup).exists_card_eq
     have h4k : 4 ≤ 2 ^ k := by rw [← hk]; omega
     have hk2 : 2 ≤ k := by
       by_contra hk2
@@ -293,7 +293,7 @@ theorem borelLift_of_pkg {L Q : Subgroup G} (hq : CFSG.IsQuasisimple ↥L)
   have hT : T = P'.map π := by
     rw [hTdef, Sylow.coe_mapSurjective, A4.toSylow_coe]
   have hTsyl : IsSylowTwoOf T ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   have hTcomap : T.comap π = P' := by
     rw [hT]
     exact Subgroup.comap_map_eq_self (by rw [hker]; exact hZP')

@@ -95,20 +95,20 @@ theorem shapeZ_of_comm [CharP K 2] (hb : b ≠ 0) {a0 : Fin (n - 1)} {G : Matrix
       rw [barS_minusPos, Bool.not_not]
     by_cases hy1 : y = minusPos n b' t'
     · subst hy1
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have := H.col_p (hne b' (!t') hb') (minusPos n a0 true)
-      rw [if_pos rfl, if_neg (hne b' (!t') hb'), sub_zero, hbr] at this
+      rw [ite_eq_left rfl, ite_eq_right (hne b' (!t') hb'), sub_zero, hbr] at this
       exact this.symm
-    · rw [if_neg hy1]
+    · rw [ite_eq_right hy1]
       by_cases hy2 : y = minusPos n a0 false
-      · rw [if_pos hy2, hy2]
-      · rw [if_neg hy2]
+      · rw [ite_eq_left hy2, hy2]
+      · rw [ite_eq_right hy2]
         have := (H.row_bar (hne b' (!t') hb') (y := y) (by rwa [hbr]) (by rwa [hbp])).1
         rwa [hbr] at this
   have hlm : lam = mu := by
     have e1 := D.plane_row hb 0 (y := pl n 0) (minusPos_ne_pl a0 false 0).symm
     have e2 := D.plane_col 0 (x := pl n 0) (minusPos_ne_pl a0 true 0).symm
-    rw [if_pos rfl] at e1 e2
+    rw [ite_eq_left rfl] at e1 e2
     rw [← hlam] at e1
     rw [← hmu] at e2
     exact e1.symm.trans e2
@@ -129,25 +129,25 @@ theorem shapeZ_of_comm [CharP K 2] (hb : b ≠ 0) {a0 : Fin (n - 1)} {G : Matrix
       by_contra hy
       exact hxy (Or.inl ⟨rfl, hy⟩)
     subst hy
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact hl1
   by_cases hxb : x = minusPos n a0 false
   · subst hxb
     rw [hrow y, hm1]
     by_cases h : y = minusPos n a0 false
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (Ne.symm h)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
   have hyb : y ≠ minusPos n a0 false := fun hy => hxy (Or.inr ⟨by rw [hbp]; exact hy, by
     rw [hbp]; exact hxb⟩)
   rcases x with a | a | u
   · have ha : a ≠ a0 := fun e => hxp (by rw [e]; rfl)
     have := hframe a true ha y
-    rw [if_neg hyb, hl1] at this
+    rw [ite_eq_right hyb, hl1] at this
     rw [show (Sum.inl a : SM n) = minusPos n a true from rfl, this]
     simp only [eq_comm]
   · have ha : a ≠ a0 := fun e => hxb (by rw [e]; rfl)
     have := hframe a false ha y
-    rw [if_neg hyb, hl1] at this
+    rw [ite_eq_right hyb, hl1] at this
     rw [show (Sum.inr (Sum.inl a) : SM n) = minusPos n a false from rfl, this]
     simp only [eq_comm]
   · have := D.plane_row hb u hyb
@@ -160,10 +160,10 @@ theorem mul_single_entry {ι : Type*} [Fintype ι] [DecidableEq ι] (G : Matrix 
   rw [Matrix.mul_apply]
   simp only [Matrix.single_apply, mul_ite, mul_one, mul_zero, ite_and]
   rw [Finset.sum_ite_eq]
-  simp only [Finset.mem_univ, if_true]
+  simp only [Finset.mem_univ, ite_true]
   by_cases h : j = y
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg (Ne.symm h)]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
 
 theorem shapeZ_mul_long {a0 b' : Fin (n - 1)} (hab : a0 ≠ b') (t : Bool) (r : K)
     {G : Matrix (SM n) (SM n) K} (hG : ShapeZ G (minusPos n a0 true)) :
@@ -186,7 +186,7 @@ theorem shapeZ_mul_long {a0 b' : Fin (n - 1)} (hab : a0 ≠ b') (t : Bool) (r : 
       (G * mat n ((minusFrame n b c).longRoot hab true t (Multiplicative.ofAdd r)))
         (minusPos n a0 true) y = G (minusPos n a0 true) y + (if y = minusPos n b' (!t) then r else 0) := by
     intro y hy
-    rw [hE, if_neg hy, mul_zero, sub_zero, hG.col_p, if_pos rfl]
+    rw [hE, ite_eq_right hy, mul_zero, sub_zero, hG.col_p, ite_eq_left rfl]
     split_ifs <;> ring
   refine ⟨fun x y hxy => ?_, hrowE⟩
   rw [hE]
@@ -198,10 +198,10 @@ theorem shapeZ_mul_long {a0 b' : Fin (n - 1)} (hab : a0 ≠ b') (t : Bool) (r : 
     subst hx hy
     have hb'ne : minusPos n a0 false ≠ minusPos n b' t := fun e => hab (minusPos_inj e).1
     have hb'ne' : minusPos n a0 false ≠ minusPos n b' (!t) := fun e => hab (minusPos_inj e).1
-    rw [if_neg hb'ne', if_pos rfl, hG.row_bar (minusPos n a0 false),
-      hG.row_bar (minusPos n b' t), if_neg hb'ne]
+    rw [ite_eq_right hb'ne', ite_eq_left rfl, hG.row_bar (minusPos n a0 false),
+      hG.row_bar (minusPos n b' t), ite_eq_right hb'ne]
     simp
-  · rw [if_neg hy, mul_zero, sub_zero, hG x y (by
+  · rw [ite_eq_right hy, mul_zero, sub_zero, hG x y (by
       rintro (⟨hx, hy'⟩ | ⟨hy', hx⟩)
       · exact hxy (Or.inl ⟨hx, hy'⟩)
       · exact hy (by rw [hy', barS_minusPos]; rfl))]
@@ -212,17 +212,17 @@ theorem shapeZ_mul_long {a0 b' : Fin (n - 1)} (hab : a0 ≠ b') (t : Bool) (r : 
         exact hxy (Or.inl ⟨rfl, hy'⟩)
       subst hy'
       have : minusPos n a0 true ≠ minusPos n b' (!t) := fun e => hab (minusPos_inj e).1
-      rw [if_neg this]
+      rw [ite_eq_right this]
       simp
-    · rw [hG.col_p, if_neg hx]
+    · rw [hG.col_p, ite_eq_right hx]
       simp
 
 theorem polar_single_planeVec_smul [CharP K 2] (y : SM n) (u : Fin 2) (r : K) :
     polar (quadMinus n K b c) (Pi.single y 1) (planeVec n (r • Pi.single u 1)) =
       if y = pl n (1 - u) then b * r else 0 := by
   rcases y with a | a | v
-  · rw [polar_single_planeVec_of_ne n (fun t => by simp) _, if_neg (by simp [pl])]
-  · rw [polar_single_planeVec_of_ne n (fun t => by simp) _, if_neg (by simp [pl])]
+  · rw [polar_single_planeVec_of_ne n (fun t => by simp) _, ite_eq_right (by simp [pl])]
+  · rw [polar_single_planeVec_of_ne n (fun t => by simp) _, ite_eq_right (by simp [pl])]
   · rw [show (Sum.inr (Sum.inr v) : SM n) = pl n v from rfl, polar_single_pl]
     simp only [planeVec, pl, Pi.smul_apply, Pi.single_apply, smul_eq_mul, Sum.inr.injEq]
     fin_cases u <;> fin_cases v <;> simp
@@ -243,15 +243,15 @@ theorem shapeZ_mul_short [CharP K 2] (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     intro x y hy
     have hy' : minusPos n a0 false ≠ y := fun e => hy e.symm
     rw [Matrix.mul_apply]
-    simp only [mat_twShortRoot_apply n hirr a0 true q, Bool.not_true, if_neg hy', zero_mul,
-      add_zero, mul_zero, mul_add, mul_sub, Finset.sum_add_distrib, Finset.sum_sub_distrib,
-      mul_ite, mul_one, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [mat_twShortRoot_apply n hirr a0 true q, Bool.not_true, ite_eq_right hy', zero_mul,
+      add_zero, mul_zero, mul_sub, Finset.sum_sub_distrib,
+      mul_ite, mul_one, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
   have hrowE : ∀ y, y ≠ minusPos n a0 false →
       (G * mat n (twShortRoot n hirr a0 true (Multiplicative.ofAdd q))) (minusPos n a0 true) y =
         G (minusPos n a0 true) y - (if y = pl n (1 - u) then b * r else 0) := by
     intro y hy
-    rw [hE _ y hy, hG.col_p, if_pos rfl, mul_one, hq, polar_single_planeVec_smul]
+    rw [hE _ y hy, hG.col_p, ite_eq_left rfl, mul_one, hq, polar_single_planeVec_smul]
   refine ⟨fun x y hxy => ?_, hrowE⟩
   by_cases hy : y = minusPos n a0 false
   · have hx : x = minusPos n a0 false := by
@@ -259,11 +259,11 @@ theorem shapeZ_mul_short [CharP K 2] (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
       exact hxy (Or.inr ⟨by rw [barS_minusPos]; exact hy, by rw [barS_minusPos]; exact hx⟩)
     subst hx hy
     rw [Matrix.mul_apply]
-    simp only [hG.row_bar, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [hG.row_bar, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     rw [mat_twShortRoot_apply]
-    simp only [Bool.not_true, if_true, planeVec]
+    simp only [Bool.not_true, ite_true, planeVec]
     have h1 : (if minusPos n a0 false = minusPos n a0 true then (1 : K) else 0) = 0 :=
-      if_neg (minusPos_true_ne_false a0).symm
+      ite_eq_right (minusPos_true_ne_false a0).symm
     rw [h1, polar_single_planeVec_of_ne n (fun t => by simp [minusPos])]
     simp [minusPos]
   · rw [hE x y hy, hG x y (by
@@ -278,7 +278,7 @@ theorem shapeZ_mul_short [CharP K 2] (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
       subst hy'
       rw [polar_single_planeVec_of_ne n (fun t => by simp [minusPos])]
       simp
-    · rw [hG.col_p, if_neg hx]
+    · rw [hG.col_p, ite_eq_right hx]
       simp
 
 theorem eq_one_of_shapeZ [CharP K 2] (hb : b ≠ 0) {a0 : Fin (n - 1)} {G : Matrix (SM n) (SM n) K}
@@ -297,7 +297,7 @@ theorem eq_one_of_shapeZ [CharP K 2] (hb : b ≠ 0) {a0 : Fin (n - 1)} {G : Matr
       by_cases hyp : y = p
       · subst hyp
         exact hG.col_p p
-      · rw [hz y hyp hy, if_neg (Ne.symm hyp)]
+      · rw [hz y hyp hy, ite_eq_right (Ne.symm hyp)]
     · exact hG x y (by
         rintro (⟨hx', -⟩ | ⟨hy', -⟩)
         · exact hx hx'
@@ -315,13 +315,13 @@ theorem eq_one_of_shapeZ [CharP K 2] (hb : b ≠ 0) {a0 : Fin (n - 1)} {G : Matr
       have hy : minusPos n a false ≠ pb := fun e => ha (minusPos_inj e).1
       have h := hpol (Pi.single (minusPos n a false) 1) (Pi.single pb 1)
       rw [hcolv _ hy, polar_single_minusPos, polar_single_minusPos, Bool.not_false,
-        Pi.single_apply, if_neg (fun e => ha (minusPos_inj e).1)] at h
+        Pi.single_apply, ite_eq_right (fun e => ha (minusPos_inj e).1)] at h
       exact h
     · have ha : a ≠ a0 := fun e => hx2 (by rw [e]; rfl)
       have hy : minusPos n a true ≠ pb := fun e => (minusPos_inj e).2 |> Bool.noConfusion
       have h := hpol (Pi.single (minusPos n a true) 1) (Pi.single pb 1)
       rw [hcolv _ hy, polar_single_minusPos, polar_single_minusPos, Bool.not_true,
-        Pi.single_apply, if_neg (fun e => ha (minusPos_inj e).1)] at h
+        Pi.single_apply, ite_eq_right (fun e => ha (minusPos_inj e).1)] at h
       exact h
     · exact absurd rfl (hx3 u)
   have hwp : ∀ u, w (pl n u) = 0 := by
@@ -329,19 +329,19 @@ theorem eq_one_of_shapeZ [CharP K 2] (hb : b ≠ 0) {a0 : Fin (n - 1)} {G : Matr
     have hy : pl n (1 - u) ≠ pb := (minusPos_ne_pl a0 false _).symm
     have h := hpol (Pi.single (pl n (1 - u)) 1) (Pi.single pb 1)
     rw [hcolv _ hy, polar_single_pl, polar_single_pl, one_sub_one_sub, Pi.single_apply,
-      if_neg (minusPos_ne_pl a0 false u).symm, mul_zero] at h
+      ite_eq_right (minusPos_ne_pl a0 false u).symm, mul_zero] at h
     exact (mul_eq_zero.mp h).resolve_left hb
   have hwe : w = Pi.single pb 1 + Pi.single p (G p pb) := by
     funext x
     rw [Pi.add_apply]
     by_cases hx1 : x = p
     · subst hx1
-      rw [hwx, Pi.single_apply, if_neg hppb, Pi.single_apply, if_pos rfl, zero_add]
+      rw [hwx, Pi.single_apply, ite_eq_right hppb, Pi.single_apply, ite_eq_left rfl, zero_add]
     · by_cases hx2 : x = pb
       · subst hx2
-        rw [hwx, hG.row_bar, if_pos rfl, Pi.single_apply, if_pos rfl, Pi.single_apply,
-          if_neg (Ne.symm hppb), add_zero]
-      · rw [Pi.single_apply, if_neg hx2, Pi.single_apply, if_neg hx1, add_zero]
+        rw [hwx, hG.row_bar, ite_eq_left rfl, Pi.single_apply, ite_eq_left rfl, Pi.single_apply,
+          ite_eq_right (Ne.symm hppb), add_zero]
+      · rw [Pi.single_apply, ite_eq_right hx2, Pi.single_apply, ite_eq_right hx1, add_zero]
         by_cases hx3 : ∃ u, x = pl n u
         · obtain ⟨u, rfl⟩ := hx3
           exact hwp u
@@ -426,11 +426,11 @@ theorem lift_zero [CharP K 2] [Finite K] (hirr : ∀ s : K, s ^ 2 + b * s + c �
             (Multiplicative.ofAdd r))) (minusPos n a0 true) < N := by
           rw [← hN]
           refine cntZ_lt hy1 (by rw [hbp]; exact hy2) hy3 ?_ ?_
-          · rw [hrow _ hy2, if_pos hya, hr]
+          · rw [hrow _ hy2, ite_eq_left hya, hr]
             simp [minusPos]
           · intro y h1 h2
             rw [hbp] at h2
-            rw [hrow y h2, if_neg (by rw [← hya]; exact h1), add_zero]
+            rw [hrow y h2, ite_eq_right (by rw [← hya]; exact h1), add_zero]
         have key := ih _ hlt _ hS' rfl
         have hk : k = (k * (minusFrame n b c).longRoot hab true false (Multiplicative.ofAdd r)) *
             ((minusFrame n b c).longRoot hab true false (Multiplicative.ofAdd r))⁻¹ :=
@@ -447,11 +447,11 @@ theorem lift_zero [CharP K 2] [Finite K] (hirr : ∀ s : K, s ^ 2 + b * s + c �
             (Multiplicative.ofAdd r))) (minusPos n a0 true) < N := by
           rw [← hN]
           refine cntZ_lt hy1 (by rw [hbp]; exact hy2) hy3 ?_ ?_
-          · rw [hrow _ hy2, if_pos hya, hr]
+          · rw [hrow _ hy2, ite_eq_left hya, hr]
             simp [minusPos]
           · intro y h1 h2
             rw [hbp] at h2
-            rw [hrow y h2, if_neg (by rw [← hya]; exact h1), add_zero]
+            rw [hrow y h2, ite_eq_right (by rw [← hya]; exact h1), add_zero]
         have key := ih _ hlt _ hS' rfl
         have hk : k = (k * (minusFrame n b c).longRoot hab true true (Multiplicative.ofAdd r)) *
             ((minusFrame n b c).longRoot hab true true (Multiplicative.ofAdd r))⁻¹ :=
@@ -467,11 +467,11 @@ theorem lift_zero [CharP K 2] [Finite K] (hirr : ∀ s : K, s ^ 2 + b * s + c �
             (Multiplicative.ofAdd (r • Pi.single (1 - v) 1)))) (minusPos n a0 true) < N := by
           rw [← hN]
           refine cntZ_lt hy1 (by rw [hbp]; exact hy2) hy3 ?_ ?_
-          · rw [hrow _ hy2, if_pos hv, hr, mul_div_cancel₀ _ hb]
+          · rw [hrow _ hy2, ite_eq_left hv, hr, mul_div_cancel₀ _ hb]
             simp [pl]
           · intro y h1 h2
             rw [hbp] at h2
-            rw [hrow y h2, if_neg (by rw [← hv]; exact h1), sub_zero]
+            rw [hrow y h2, ite_eq_right (by rw [← hv]; exact h1), sub_zero]
         have key := ih _ hlt _ hS' rfl
         have hk : k = (k * twShortRoot n hirr a0 true (Multiplicative.ofAdd (r • Pi.single (1 - v) 1))) *
             (twShortRoot n hirr a0 true (Multiplicative.ofAdd (r • Pi.single (1 - v) 1)))⁻¹ :=
@@ -502,7 +502,7 @@ theorem mem_radical_of_comm_node_zero [CharP K 2] [Finite K]
       (hmat _ (minusShort_mem_radical hirr j le_rfl _)) x y
   obtain ⟨b₁, b₂, h1, h2, h12⟩ := exists_two_ne hN j
   have hpol := polar_mat_mulVec k (Pi.single (minusPos n j true) 1) (Pi.single (minusPos n j false) 1)
-  rw [polar_single_minusPos, Bool.not_true, Pi.single_apply, if_pos rfl] at hpol
+  rw [polar_single_minusPos, Bool.not_true, Pi.single_apply, ite_eq_left rfl] at hpol
   have hShape := shapeZ_of_comm (c := c) hb hH h1 h2 h12 hS hpol
   exact lift_zero hirr hb _ j
     (fun b' hab t r => minusLong_mem_radical hirr j hab t le_rfl (Or.inl (hjb b' (Ne.symm hab))) r)

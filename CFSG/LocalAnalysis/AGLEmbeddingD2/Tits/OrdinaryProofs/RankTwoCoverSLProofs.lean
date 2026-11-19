@@ -215,21 +215,18 @@ theorem blockMat3_transvection (a b : Fin 3) (c : F) :
     subst hp' hq'
     show blockMat3 s hs _ (blockEquiv3 s hs (Sum.inl k)) (blockEquiv3 s hs (Sum.inr v)) = _
     rw [blockMat3_inl_inr]
-    simp [Matrix.transvection, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-      bc_ne_complement]
+    simp [Matrix.transvection, Matrix.add_apply, bc_ne_complement]
   · have hp' : p = blockEquiv3 s hs (Sum.inr u) := by rw [← hp]; simp
     have hq' : q = bc s hs l := by rw [bc, ← hq]; simp
     subst hp' hq'
     show blockMat3 s hs _ (blockEquiv3 s hs (Sum.inr u)) (blockEquiv3 s hs (Sum.inl l)) = _
     rw [blockMat3_inr_inl]
-    simp [Matrix.transvection, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-      bc_ne_complement, Ne.symm (bc_ne_complement s hs l u)]
+    simp [Matrix.transvection, Matrix.add_apply, bc_ne_complement, Ne.symm (bc_ne_complement s hs l u)]
   · have hp' : p = blockEquiv3 s hs (Sum.inr u) := by rw [← hp]; simp
     have hq' : q = blockEquiv3 s hs (Sum.inr v) := by rw [← hq]; simp
     subst hp' hq'
     rw [blockMat3_inr_inr]
-    simp [Matrix.transvection, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-      bc_ne_complement]
+    simp [Matrix.transvection, Matrix.add_apply, Matrix.one_apply, bc_ne_complement]
 
 theorem transvection_02_factor (c : F) :
     (Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 2 by decide) c) =
@@ -240,7 +237,7 @@ theorem transvection_02_factor (c : F) :
   refine Matrix.SpecialLinearGroup.ext _ _ fun i j => ?_
   simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.transvection_coe]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.transvection]
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem transvection_20_factor (c : F) :
     (Matrix.SpecialLinearGroup.transvection (show (2 : Fin 3) ≠ 0 by decide) c) =
@@ -251,7 +248,7 @@ theorem transvection_20_factor (c : F) :
   refine Matrix.SpecialLinearGroup.ext _ _ fun i j => ?_
   simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.transvection_coe]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.transvection] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem blockHom3_transvection (s : ℕ) (hs : s + 3 ≤ n) (a b : Fin 3) (hab : a ≠ b) (c : F) :
     blockHom3 s hs (F := F) (Matrix.SpecialLinearGroup.transvection hab c) =

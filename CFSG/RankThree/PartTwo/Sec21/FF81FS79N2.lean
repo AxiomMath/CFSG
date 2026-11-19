@@ -52,6 +52,7 @@ theorem frame_R_le_Nor {A₁ : Subgroup J6.S6}
   · exact S.ι_mem_Nor_map (hRN r hr)
   · exact (Nor (A₁.map S.ι)).mul_mem (S.t_mem_Nor_map A₁) (S.ι_mem_Nor_map (hRN r hr))
 
+omit [Finite H] in
 theorem frame_le_Nor_b (A₁ : Subgroup J6.S6) : S.frame A₁ ≤ Nor (Subgroup.zpowers b) := by
   intro x hx
   obtain ⟨s, hs, rfl | rfl⟩ := (S.mem_frame_iff A₁ x).mp hx
@@ -116,6 +117,7 @@ theorem M1_eq (A₁ : Subgroup J6.S6) :
       exact (Subgroup.mem_normalizer_iff.mp hσ s).mp hs
 
 
+omit [Finite H] in
 theorem NJ_le_J (A₁ : Subgroup J6.S6) : S.NJ A₁ ≤ J := by
   rintro _ ⟨σ, -, rfl⟩
   exact S.ι_mem σ
@@ -162,7 +164,7 @@ theorem isSylowOf_Nor_A₁H (A₁ : Subgroup J6.S6) (hN : Nat.card (Nor A₁) = 
     (hRN : ∀ r ∈ J6.R, ∀ s ∈ A₁, r * s * r⁻¹ ∈ A₁) (h38 : R38Stmt b (A₁.map S.ι)) :
     CFSG.ABGLocalTools.IsSylowOf 2 (S.frame J6.R) (Nor (A₁.map S.ι)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := S.hyp
   set L : Subgroup H := Nor (A₁.map S.ι) with hL
   set O₁ : Subgroup H := Opp 2 L with hO₁

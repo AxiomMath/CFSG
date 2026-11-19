@@ -240,7 +240,7 @@ theorem primeTISign_principal (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) :
     h.primeTISign σ (principalIrr ↥W₂) = 1 := by
   classical
-  rw [primeTISign, if_pos]
+  rw [primeTISign, ite_eq_left]
   rw [h.isCyclicTIPair.basisProdIrr_principal, hσ.map_principalClassFun, coe_principalClassFun]
   exact one_mem_Irr
 
@@ -265,10 +265,10 @@ theorem cfInner_primeTIirr (h : IsPrimeCyclicTIHyp K W₁ W₂)
   · subst hjl
     by_cases hik : i = k
     · subst hik
-      rw [if_pos rfl, if_pos ⟨rfl, rfl⟩, mul_one, h.primeTISign_mul_self]
-    · rw [if_neg (by simp [Prod.ext_iff, hik]), if_neg (by simp [hik])]
+      rw [ite_eq_left rfl, ite_eq_left ⟨rfl, rfl⟩, mul_one, h.primeTISign_mul_self]
+    · rw [ite_eq_right (by simp [Prod.ext_iff, hik]), ite_eq_right (by simp [hik])]
       ring
-  · rw [if_neg (by simp [Prod.ext_iff, hjl]), if_neg (by simp [hjl])]
+  · rw [ite_eq_right (by simp [Prod.ext_iff, hjl]), ite_eq_right (by simp [hjl])]
     ring
 
 open scoped Classical in

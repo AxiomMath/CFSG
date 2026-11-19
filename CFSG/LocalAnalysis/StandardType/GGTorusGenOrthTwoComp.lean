@@ -86,7 +86,7 @@ theorem ggTorusCompMeetSC_orthDerivedTwo {K : Type} [Field K] [Finite K] [CharP 
             CFSG.StandardType.LayerCores.OrthRegular.isSolvable_orthogonalGroup_of_finrank_le_two
               hxIso.polarBilin_fixed_nondegenerate hdim2
           have hFsolv : Group.IsSolvable ↥(supportedBlock Q a (X - 1)) :=
-            solvable_of_solvable_injective
+            Group.isSolvable_of_isSolvable_injective
               (f := (fixedBlockEquiv hxIso).toMonoidHom) (fixedBlockEquiv hxIso).injective
           have hLq : CFSG.IsQuasisimple L :=
             (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native L).1

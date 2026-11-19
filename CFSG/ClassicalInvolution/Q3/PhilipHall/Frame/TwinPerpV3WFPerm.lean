@@ -65,7 +65,7 @@ theorem normalizes_of_odd_normal {Y : Type*} [Group Y] (M : Fin 4 → Subgroup Y
     intro c d i
     apply hinj
     rw [← hπ (c * d) i, Subgroup.coe_mul, conjSub_mul, hπ d i, hπ c]
-  letI : MulAction ↥C (Fin 4) := { smul := π, one_smul := hπ1, mul_smul := hπmul }
+  let : MulAction ↥C (Fin 4) := { smul := π, one_smul := hπ1, mul_smul := hπmul }
   let σ : ↥C →* Perm (Fin 4) := MulAction.toPermHom ↥C (Fin 4)
   have hσ : ∀ (c : ↥C) i, σ c i = π c i := fun c i => rfl
   have hPker : ∀ p (hp : p ∈ P), σ ⟨p, hNC (hPN hp)⟩ = 1 := by

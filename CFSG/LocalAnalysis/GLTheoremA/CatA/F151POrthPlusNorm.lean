@@ -12,9 +12,9 @@ namespace CFSG.LocalAnalysis.GLTheoremA.F151
 
 theorem orthPlusNorm_holds : OrthPlusNorm := by
   intro n m K _ _ hn hcard p hp hp2
-  haveI : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (R := K) (p := 2) (f := m)
       (by simpa only [Nat.card_eq_fintype_card] using hcard)
   obtain ⟨hQ, hT⟩ :=

@@ -166,7 +166,7 @@ lemma f_apply_a_closed_form
       * (Nat.card (Subgroup.centralizer ({a} : Set G)) : k)
       * (orderOf a : k) := by
   classical
-  letI: Fintype G := Fintype.ofFinite G
+  let: Fintype G := Fintype.ofFinite G
   unfold f
   rw [ClassFun.ind_apply_eq_inv_mul_sum]
   dsimp [phi]
@@ -191,7 +191,7 @@ lemma f_apply_a_closed_form
         (conj_inv_mem_E_and_phi_nonzero_iff
           p ha x).mpr hxC
       rcases hxBoth with ⟨hxE, hreg⟩
-      rw [dif_pos hxE, if_pos hreg, if_pos hxC]
+      rw [dite_eq_left hxE, ite_eq_left hreg, ite_eq_left hxC]
     · have hxNotBoth :
           ¬ (x⁻¹ * a * x ∈ E_subgroup p a ∧
               Group.pRegular p (x⁻¹ * a * x) = a) :=
@@ -203,8 +203,8 @@ lemma f_apply_a_closed_form
             Group.pRegular p (x⁻¹ * a * x) ≠ a := by
           intro hreg
           exact hxNotBoth ⟨hxE, hreg⟩
-        rw [dif_pos hxE, if_neg hreg_not, if_neg hxC]
-      · rw [dif_neg hxE, if_neg hxC]
+        rw [dite_eq_left hxE, ite_eq_right hreg_not, ite_eq_right hxC]
+      · rw [dite_eq_right hxE, ite_eq_right hxC]
 
   have hsum :=
     congrArg

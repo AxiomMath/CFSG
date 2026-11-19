@@ -17,7 +17,7 @@ theorem ggQ2_ajOfSetting {G : Type} [Group G] [Finite G] (hP : GGStdSubPrimeInpu
   obtain ⟨hcfg, -, hIDAll, -, -⟩ := hS.1
   obtain ⟨hI, hBstar, hStdSub⟩ := hcfg
   have hp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsabel : IsElemAbelian p Bs := hBstar.2.1
   have hpJ : p ∣ Nat.card J := hP G p B x L D J hI hStdSub
   have hJq : CFSG.Assembly.IsQuasisimple ↥J := hStdSub.1.2.2.2.2.2.1.2.2

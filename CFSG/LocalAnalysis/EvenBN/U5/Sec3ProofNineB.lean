@@ -163,7 +163,7 @@ theorem sec39b_sq_comm_A₃ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd :
   have hf := hd.commutator_B₆_FA₃_mem_F hGMS hsB (mem_sup_right hb)
   obtain ⟨f₁, hf₁⟩ : ∃ f₁, f₁ = s * b * s⁻¹ * b⁻¹ := ⟨_, rfl⟩
   rw [← hf₁] at hf
-  haveI := hd.isElementaryAbelian_F hGMS
+  have := hd.isElementaryAbelian_F hGMS
   have hsq : f₁ * f₁ = 1 := by
     have := CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := d.F) f₁ hf
     simpa [pow_two] using this

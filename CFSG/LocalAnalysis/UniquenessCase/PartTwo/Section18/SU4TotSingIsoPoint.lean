@@ -16,11 +16,13 @@ variable {F : Type} [Field F] [Finite F] {σ : F ≃+* F} {n p : ℕ}
 private def isoVec_T1J3 (a b : Fˣ) : Fin 4 → F :=
   ![(a : F), (a : F), (b : F), ((((a * a * b)⁻¹ : Fˣ)) : F)]
 
+omit [Finite F] in
 private theorem isoVec_det_T1J3 (a b : Fˣ) : ∏ i, isoVec_T1J3 a b i = 1 := by
   rw [Fin.prod_univ_four]
   have h : (((a * a * b) * (a * a * b)⁻¹ : Fˣ) : F) = 1 := by simp
-  simpa [isoVec_T1J3, mul_assoc] using h
+  simp [isoVec_T1J3, mul_assoc]
 
+omit [Finite F] in
 private theorem isoVec_norm_T1J3 {Z : Subgroup Fˣ} (hZ : ∀ a ∈ Z, σ (a : F) * a = 1)
     {a b : Fˣ} (ha : a ∈ Z) (hb : b ∈ Z) (i : Fin 4) :
     σ (isoVec_T1J3 a b i) * isoVec_T1J3 a b i = 1 := by
@@ -85,6 +87,7 @@ private theorem isoSU_injective_T1J3 (Z : Subgroup Fˣ)
   simp [isoVec_T1J3] at e1 e2
   exact Prod.ext (Subtype.ext (Units.ext e1)) (Subtype.ext (Units.ext e2))
 
+omit [Finite F] in
 private theorem span_stab_T1J3 {E : Subgroup (GL (Fin 4) F)} {v : Fin 4 → F}
     (hscale : ∀ g ∈ E, ∃ d : F, d ≠ 0 ∧
       ((g : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) *ᵥ v = d • v)

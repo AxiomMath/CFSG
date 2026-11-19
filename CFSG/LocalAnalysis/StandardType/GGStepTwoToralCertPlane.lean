@@ -39,7 +39,7 @@ theorem tcInV_congr (E : TcEnv) {a b : Array ℤ} (h : tcVec E.p E.n a = tcVec E
 
 theorem tcVec_tcCanon (hp : p.Prime) {n : ℕ} (d : Fin n → ZMod p) :
     tcVec p n (tcCanon p n d) = d := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [tcCanon, tcVec_ofFn]
   funext i
   simp
@@ -99,9 +99,9 @@ theorem tcLeadFrom_eq (a : Array ℤ) (k : ℕ) :
 theorem tcNormalized_of_first (hp : p.Prime) {n : ℕ} {a : Array ℤ} {d : Fin n → ZMod p}
     (hd : tcVec p n a = d) (k : Fin n) (h1 : d k = 1) (hz : ∀ j : Fin n, j < k → d j = 0) :
     tcNormalized p n a = true := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hlead : tcLead p n a = k := by
-    apply tcLeadFrom_eq a n 0 k (Nat.zero_le _) (by simpa using k.2)
+    apply tcLeadFrom_eq a n 0 k (Nat.zero_le _) (by simp)
     · intro j _ hj
       have := congrFun hd ⟨j, by omega⟩
       simp only [tcVec] at this
@@ -265,7 +265,7 @@ theorem tcPlaneOK_sound (hp : p.Prime) {L : List (Array ℤ)} {gens : Array (Lis
     (h : tcPlaneOK (tcEnv τ p L gens) T basis = true)
     {D : Submodule (ZMod p) (Fin τ.rank → ZMod p)} (hD : QualPlane p (tcKerSub p τ.rank L) D) :
     ∃ d ∈ D, d ≠ 0 ∧ TcHit π basis d := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hnone
   push Not at hnone
   obtain ⟨hDV, hDcard, hphi, hker⟩ := hD

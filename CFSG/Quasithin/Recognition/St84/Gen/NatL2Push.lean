@@ -20,13 +20,13 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem alpha_ker_eq_pCoreOf {X P Z : Subgroup G} (h : PushHyp X P Z)
     {F : Type} [Field F] [Finite F] [CharP F 2] (α : ↥X →* SL(2, F))
     (hαk : α.ker = Subgroup.centralizer ((Z.subgroupOf X : Subgroup ↥X) : Set ↥X)) :
     α.ker = (pCoreOf 2 X).subgroupOf X := by
   have hZX : Z ≤ X := h.le_core.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 X)
   ext g
-  change g ∈ α.ker ↔ g ∈ (pCoreOf 2 X).subgroupOf X
   rw [hαk, mem_centralizer_subgroupOf_iff hZX, Subgroup.mem_subgroupOf]
   constructor
   · intro hg
@@ -36,19 +36,21 @@ theorem alpha_ker_eq_pCoreOf {X P Z : Subgroup G} (h : PushHyp X P Z)
     rw [← h.cent_eq] at hg
     exact hg.2
 
+omit [Finite G] in
 private theorem z_ne_bot_of_surjective {X Z : Subgroup G} {F : Type} [Field F]
     (β : ↥(Z.subgroupOf X) →* Multiplicative (Fin 2 → F))
     (hβ : Function.Surjective β) : Z ≠ ⊥ := by
   intro hZ
   have hV : Z.subgroupOf X = ⊥ := by rw [hZ, Subgroup.bot_subgroupOf]
-  haveI : Subsingleton ↥(Z.subgroupOf X) := by rw [hV]; infer_instance
-  haveI hsub : Subsingleton (Multiplicative (Fin 2 → F)) :=
+  have : Subsingleton ↥(Z.subgroupOf X) := by rw [hV]; infer_instance
+  have hsub : Subsingleton (Multiplicative (Fin 2 → F)) :=
     ⟨fun a b => by
       obtain ⟨x, rfl⟩ := hβ a
       obtain ⟨y, rfl⟩ := hβ b
       rw [Subsingleton.elim x y]⟩
   exact (not_subsingleton (Multiplicative (Fin 2 → F))) hsub
 
+omit [Finite G] in
 private theorem map_sylow {X P : Subgroup G} {F : Type} [Field F] [Finite F] [CharP F 2]
     (hP : IsSylowTwoOf P X) (α : ↥X →* SL(2, F)) (hα : Function.Surjective α) :
     IsSylowTwoOf ((P.subgroupOf X).map α) ⊤ :=
@@ -62,8 +64,6 @@ theorem beta_ker_eq_zZero {X Z : Subgroup G}
         (Z.subgroupOf X)) :
     β.ker = ((zZero X Z).subgroupOf X).subgroupOf (Z.subgroupOf X) := by
   ext v
-  change v ∈ β.ker ↔
-    v ∈ ((zZero X Z).subgroupOf X).subgroupOf (Z.subgroupOf X)
   rw [hβk, Subgroup.mem_subgroupOf, mem_centralizer_oddOrder_iff,
     Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
   constructor
@@ -239,7 +239,7 @@ private theorem fixed_relIndex_of_natCoord {X P Z : Subgroup G} (h : PushHyp X P
     {x : G} (hxP : x ∈ P) (hxQ : x ∉ pCoreOf 2 X) :
     (fixSecIn (Subgroup.zpowers x) (zZero X Z) Z).relIndex Z = Nat.card F := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hZX : Z ≤ X := h.le_core.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 X)
   have hxX : x ∈ X := h.sylow.1 hxP
   have hαker : α.ker = (pCoreOf 2 X).subgroupOf X := alpha_ker_eq_pCoreOf h α hαk
@@ -322,7 +322,6 @@ private theorem fixed_relIndex_of_natCoord {X P Z : Subgroup G} (h : PushHyp X P
   let Fx : Subgroup ↥X := (fixSecIn (Subgroup.zpowers x) (zZero X Z) Z).subgroupOf X
   have hδker : δ.ker = Fx.subgroupOf V := by
     ext v
-    change v ∈ δ.ker ↔ v ∈ Fx.subgroupOf V
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, mem_fixSecIn_zpowers_iff
       h.Z_le_normalizer_zZero hxN]
     have hvZ : (((v : V) : ↥X) : G) ∈ Z := Subgroup.mem_subgroupOf.mp v.2
@@ -371,6 +370,7 @@ private theorem fixed_relIndex_of_natCoord {X P Z : Subgroup G} (h : PushHyp X P
   rw [Subgroup.relIndex_subgroupOf hZX] at hFixrel
   exact hFixrel
 
+omit [Finite G] in
 theorem card_map_sylow_of_natCoord {X P : Subgroup G}
     {F : Type} [Field F] [Finite F] [CharP F 2]
     (hP : IsSylowTwoOf P X) (α : ↥X →* SL(2, F)) (hα : Function.Surjective α) :
@@ -390,6 +390,7 @@ theorem card_map_sylow_of_natCoord {X P : Subgroup G}
           rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_unitriangular]
           norm_num
 
+omit [Finite G] in
 private theorem relIndex_core_sylow_of_natCoord {X P Z : Subgroup G} (h : PushHyp X P Z)
     {F : Type} [Field F] [Finite F] [CharP F 2]
     (α : ↥X →* SL(2, F)) (hα : Function.Surjective α)
@@ -407,8 +408,8 @@ private theorem odd_of_natCoord {X P Z : Subgroup G} (h : PushHyp X P Z)
     (hαk : α.ker = Subgroup.centralizer ((Z.subgroupOf X : Subgroup ↥X) : Set ↥X)) :
     ∃ u ∈ X, Odd (orderOf u) ∧ u ∉ pCoreOf 2 X := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hαker : α.ker = (pCoreOf 2 X).subgroupOf X := alpha_ker_eq_pCoreOf h α hαk
   have hQX : (pCoreOf 2 X).relIndex X = Nat.card (SL(2, F)) := by
     rw [Subgroup.relIndex, ← hαker, Subgroup.index_ker, MonoidHom.range_eq_top.mpr hα,
@@ -463,15 +464,15 @@ theorem natFacts_of_natCoord {X P Z : Subgroup G} (h : PushHyp X P Z)
     (hα : Function.Surjective α)
     (hαk : α.ker = Subgroup.centralizer ((Z.subgroupOf X : Subgroup ↥X) : Set ↥X))
     (hβ : Function.Surjective β)
-    (hβe : ∀ (x : ↥X) (v v' : ↥(Z.subgroupOf X)), (v' : ↥X) = x * v * x⁻¹ →
+    (hβe : ∀ (_x : ↥X) (v v' : ↥(Z.subgroupOf X)), (v' : ↥X) = _x * v * _x⁻¹ →
       Multiplicative.toAdd (β v') =
-        (α x : Matrix (Fin 2) (Fin 2) F).mulVec (Multiplicative.toAdd (β v)))
+        (α _x : Matrix (Fin 2) (Fin 2) F).mulVec (Multiplicative.toAdd (β v)))
     (hβk : β.ker = (Subgroup.centralizer
       ((oddOrderSubgroup (⊤ : Subgroup ↥X) : Subgroup ↥X) : Set ↥X)).subgroupOf
         (Z.subgroupOf X)) : NatFacts X P Z :=
   ⟨odd_of_natCoord h α hα hαk,
-    fun W hWZ hXW => irr_of_natCoord h α β hα hβe hβk hWZ hXW,
-    fun x hxP hxQ => tr_of_natCoord h α β hα hαk hβ hβe hβk hxP hxQ⟩
+    fun _W hWZ hXW => irr_of_natCoord h α β hα hβe hβk hWZ hXW,
+    fun _x hxP hxQ => tr_of_natCoord h α β hα hαk hβ hβe hβk hxP hxQ⟩
 
 theorem baumannC_of_natCoord {X P Z : Subgroup G} (h : PushHyp X P Z)
     {F : Type} [Field F] [Finite F] [CharP F 2]

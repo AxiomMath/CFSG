@@ -55,7 +55,7 @@ theorem exists_mem_of_splitFour (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prim
     (hK : 4 ≤ Nat.card K) :
     ∃ y ∈ J, (∀ c ∈ E, y * c = c * y) ∧ orderOf y = p ^ e := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx : OddOrderIsometry Q p (F.ι s) := F.oddOrderIsometry hQ hp2 hp hEΩ s
   have hsp4 : finrank K (fixedSpace (F.ι s)) = 4 := hsp.1
   rcases (SevOmSmall.fixed_case_small_odd hx (isComponentOf_isometryCentralizer hJ) hJX).2 with

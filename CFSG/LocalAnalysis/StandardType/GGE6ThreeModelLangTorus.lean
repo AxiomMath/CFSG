@@ -40,17 +40,17 @@ private theorem weylElt_conj_rootDiagUnit_zetaVec {L : Type} [Field L] {ζ : Lˣ
   rw [show adAct Tag.E6 3 (simple Tag.E6 i) x = adRefl .E6 3 i x from
     adAct_simple (τ := Tag.E6) i x]
 
-theorem langTorus_not_le_cgrp (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g)
+theorem langTorus_not_le_cgrp (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (_hL : IsLang Fr g)
     {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3)
     {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) :
     ¬ ∀ x ∈ TwistedDiag.thetaTorus Ω (2 ^ n), g * x * g⁻¹ ∈ TwistedDiag.Cgrp K σ.toRingHom Ω := by
   classical
   intro hXC
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hq0 : ((2 ^ n : ℕ) : Ω) = 0 := by
     rw [Nat.cast_pow, CharP.cast_eq_zero Ω 2]
     exact zero_pow (by omega : n ≠ 0)
@@ -114,9 +114,9 @@ theorem langTorus_not_le_cgrp (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL :
     obtain ⟨y, rfl⟩ := hv
     exact ⟨Multiplicative.toAdd y, by apply Subtype.ext; rfl⟩
   let e : (Fin Tag.E6.rank → ZMod 3) ≃ V := Equiv.ofBijective f ⟨hfinj, hfsurj⟩
-  haveI : Finite V := by
+  have : Finite V := by
     show Finite ψ.range
-    haveI := MonoidHom.fintypeRange ψ
+    have := MonoidHom.fintypeRange ψ
     infer_instance
   have hX'cent : ∀ x ∈ X', ∀ v ∈ V, x * v * x⁻¹ = v := by
     intro x hx v hv

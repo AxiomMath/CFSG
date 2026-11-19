@@ -204,7 +204,7 @@ theorem exists_conj_le_of_isElemAbelian2 {U : Type} [CommGroup U] [Finite U]
   have hA_le_GC : A ≤ G ⊔ C := by
     intro a ha
     have hmem : φA ⟨a, ha⟩ ∈ φG.range := by
-      have hle := SetLike.le_def.mp hA_map_le
+      have hle := _root_.IsConcreteLE.le_iff.mp hA_map_le
       exact hle ⟨⟨a, ha⟩, rfl⟩
     rw [MonoidHom.mem_range] at hmem
     obtain ⟨g, hg_eq⟩ := hmem

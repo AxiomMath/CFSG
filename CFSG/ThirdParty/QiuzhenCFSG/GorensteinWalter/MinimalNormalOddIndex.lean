@@ -54,7 +54,7 @@ private theorem sylow_le_of_normal_odd_index
   let pi : Q →* Q ⧸ L := QuotientGroup.mk' L
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmapP : IsPGroup 2 ((P : Subgroup Q).map pi) :=
-    P.isPGroup'.map pi
+    P.isPGroup.map pi
   rcases IsPGroup.iff_card.mp hmapP with ⟨n, hn⟩
   have hcard_dvd :
       Nat.card ((P : Subgroup Q).map pi) ∣ Nat.card (Q ⧸ L) :=

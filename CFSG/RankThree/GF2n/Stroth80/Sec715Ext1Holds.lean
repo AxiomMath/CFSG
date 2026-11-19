@@ -41,6 +41,7 @@ include hB
     rintro _ ⟨a, ha, rfl⟩
     exact ⟨a⁻¹, A.inv_mem ha, hB.f_inv (hAW ha)⟩
 
+omit [Field K] [AddCommGroup X] [Module K X] [Group Hb] hB in
 theorem conj_mem_of_conjSubgroup {A : Subgroup G} (hAR : ∀ r ∈ R, conjSubgroup r A = A)
     {r : G} (hr : r ∈ R) {a : G} (ha : a ∈ A) : r * a * r⁻¹ ∈ A := by
   rw [← hAR r hr]
@@ -57,7 +58,7 @@ theorem exists_compl_of_addCompl (A : Subgroup G) (hVA : V ≤ A) (hAW : A ≤ W
     rintro h _ ⟨a, ha, rfl⟩
     obtain ⟨r, rfl⟩ := hB.bar_surj h
     rw [← hB.conj_f r a (hAW ha)]
-    exact ⟨_, conj_mem_of_conjSubgroup hB hAR r.2 ha, rfl⟩
+    exact ⟨_, conj_mem_of_conjSubgroup hAR r.2 ha, rfl⟩
   obtain ⟨M', hMM', hM'⟩ := hX _ hMinv
   have hdisj : ∀ v, v ∈ hB.imAdd A hAW → v ∈ M' → v = 0 := fun v h1 h2 => by
     have : v ∈ hB.imAdd A hAW ⊓ M' := ⟨h1, h2⟩
@@ -111,8 +112,8 @@ theorem exists_addCompl_of_omega8 (hNF : Tri.SmallNFStatement) (hq : 4 ≤ Nat.c
     (M : AddSubgroup X) (hM : ∀ h, ∀ v ∈ M, act h v ∈ M) :
     ∃ M' : AddSubgroup X, IsCompl M M' ∧ ∀ h, ∀ v ∈ M', act h v ∈ M' := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : FiniteDimensional K X := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
+  have : FiniteDimensional K X := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hq' : 4 ≤ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hm : 2 * 2 ^ ((n : ℕ) - 1) = Fintype.card K := by
@@ -167,7 +168,7 @@ theorem ext1VanishingD4_of_smallNF (h34 : Stroth34Statement)
     (hPts : Sec5NatPointsOmegaStatement) (hNF : Tri.SmallNFStatement) :
     Ext1VanishingD4Statement := by
   intro G _ _ M Q Z B hc n t hs hp hn Z0 hZ0 hZN
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have h310chi := stroth310Chi_of_34 h34
   have hWV := sec7WVMinOrder_of hA hPts h52a h52b
   have h79 := sec79MinOrder_of h51 hA hPts

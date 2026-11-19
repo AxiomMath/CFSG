@@ -60,7 +60,7 @@ theorem A3_reversal_diagonal_characteristic_two_overgroup
           e * (t⁻¹ * e * t) ≠ 1 ∧ (e * (t⁻¹ * e * t)) ^ 2 = 1) ∧
       CharTwo (normalizer (V : Set G)) ∧ CharTwo X := by
   classical
-  have hP2 : IsPGroup 2 P := T.isPGroup'.to_le hPT
+  have hP2 : IsPGroup 2 P := T.isPGroup.to_le hPT
   obtain ⟨-, hUK, -, hUexp, hUab, -, hUKC, -, -⟩ := SteinbergBS.ReversalPair.a3_data hK h3
   rw [← hU] at hUK hUexp hUab hUKC
   obtain ⟨⟨-, -, hKU, -, -, hQK, -, -, -⟩, hrev, hodd⟩ :=
@@ -208,7 +208,7 @@ theorem A3_reversal_diagonal_characteristic_two_overgroup
   have he1' : e ≠ 1 := fun h => he1 (Subtype.ext h)
   obtain ⟨hzV, hzZ, hz1, -⟩ := hdiag e heE he1'
   have hTsyl : IsSylowTwoOf (T : Subgroup G) ⊤ := by
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     rw [show ((T : Subgroup G).subgroupOf ⊤).index = (T : Subgroup G).relIndex ⊤ from rfl,
       Subgroup.relIndex_top_right]
     exact T.not_dvd_index

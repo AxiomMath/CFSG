@@ -42,7 +42,7 @@ theorem cyclic_sylow_quotient_of_translation_complement [Finite G]
     have h1 : u ∈ Q ⊓ A := hQA ▸ Subgroup.mem_zpowers u
     exact h1.2
   have hPA : P' ≤ A := Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 P' := P.isPGroup'.map A.subtype
+  have hP2 : IsPGroup 2 P' := P.isPGroup.map A.subtype
   have huP : u ∈ P' := mem_sylow_of_central_involution huA hAu hu P
   have hcyc : IsCyclic P' :=
     isCyclic_of_sl2_hull_action hLM hLn he hF eL hK (hPA.trans hAM) (hPA.trans hAu) huP

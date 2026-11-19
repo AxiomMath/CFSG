@@ -15,6 +15,7 @@ section Uni
 
 variable {F : Type} [Field F] [Fintype F]
 
+omit [Fintype F] in
 theorem diagHom_mem_statedSU {q m : ℕ} (hq0 : q ≠ 0) (t : Fin m → Fˣ) (h : ∏ i, t i = 1)
     (hq : ∀ i, (t i) ^ (q + 1) = 1) : diagHom m t ∈ StatedSU m q F := by
   rw [CFSG.PGLModel.statedSU_eq_closure_det]
@@ -53,13 +54,13 @@ theorem uniMat_ge4 {q r m : ℕ} [hr : Fact r.Prime] (hperm : PermBound r m) (hr
     have := Fintype.one_lt_card (α := F)
     omega
   have ha1 : 1 ≤ padicValNat r (q + 1) := one_le_padicValNat_of_dvd (by omega) hrq
-  haveI : Nontrivial (unitsPPart F r) := by
+  have : Nontrivial (unitsPPart F r) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hacard]
     exact Nat.one_lt_pow (by omega) hr.out.one_lt
   obtain ⟨f, hqf, hdata⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData F hF
   have hZsub : (Z₀.map (StatedSU m q F).subtype).subgroupOf (StatedSU m q F) = Z₀ :=
     Subgroup.comap_map_eq_self_of_injective (StatedSU m q F).subtype_injective Z₀
-  haveI : ((Z₀.map (StatedSU m q F).subtype).subgroupOf (StatedSU m q F)).Normal := by
+  have : ((Z₀.map (StatedSU m q F).subtype).subgroupOf (StatedSU m q F)).Normal := by
     rw [hZsub]
     infer_instance
   have hZG : Z₀.map (StatedSU m q F).subtype ≤ StatedSU m q F := by

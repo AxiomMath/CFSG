@@ -27,7 +27,7 @@ private theorem ggKGNf_mactC_subtype_coe {G : Type} [CommGroup G] {r : ℕ} (H :
     mactC M (fun i => (a i : G)) = fun i => ((mactC M a i : H) : G) := by
   funext i
   simp only [mactC]
-  rw [Subgroup.val_finset_prod]
+  rw [Subgroup.val_finsetProd]
   exact Finset.prod_congr rfl fun j _ => by rw [Subgroup.coe_zpow]
 
 private theorem ggKGNf_canonicalRep_pow_charTwo
@@ -97,7 +97,7 @@ theorem card_fixed_le_pow_nons {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8)
     (hnc : u ∉ Subgroup.centralizer (ET : Set (adjointGroup τ K))) :
     Nat.card {e : adjointGroup τ K // e ∈ ET ∧ u * e = e * u} ≤ p ^ m := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let D : LangDatum τ (AlgebraicClosure K) :=
     LangDatum.ofFrobenius Fr (Nat.card K) hFr w hg0 hlang
@@ -262,20 +262,20 @@ theorem card_fixed_le_pow_nons {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8)
     exact Subtype.ext
       (Subtype.ext (baseChangeGL_injective (algebraMap K (AlgebraicClosure K)) hBeq))
   have hCcard : Nat.card (rootsOfUnity p (AlgebraicClosure K)) = p := by
-    haveI : NeZero p := ⟨hp.ne_zero⟩
-    haveI : NeZero (p : AlgebraicClosure K) := ⟨by
+    have : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero (p : AlgebraicClosure K) := ⟨by
       intro h
       have h' : ((p : ℕ) : AlgebraicClosure K) = 0 := h
       rw [CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 p] at h'
       rcases (Nat.dvd_prime hp).1 h' with h1 | h2
       · norm_num at h1
       · omega⟩
-    haveI : IsSepClosed (AlgebraicClosure K) := inferInstance
-    haveI : HasEnoughRootsOfUnity (AlgebraicClosure K) p :=
+    have : IsSepClosed (AlgebraicClosure K) := inferInstance
+    have : HasEnoughRootsOfUnity (AlgebraicClosure K) p :=
       IsSepClosed.hasEnoughRootsOfUnity (AlgebraicClosure K) p
-    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
     exact hζ.card_rootsOfUnity
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have horder : orderOf v = p := orderOf_eq_prime hvp hv1
   calc Nat.card {e : adjointGroup τ K // e ∈ ET ∧ u * e = e * u}
       ≤ Nat.card {a : Fin τ.rank → rootsOfUnity p (AlgebraicClosure K) //

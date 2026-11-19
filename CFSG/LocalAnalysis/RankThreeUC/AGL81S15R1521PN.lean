@@ -20,7 +20,7 @@ open KFactsSmall
 theorem mem_uniqueSet_of_order_three_aux_outTwo (hKOut : KOut) {S : Type} [Group S] [Finite S]
     (hq : CFSG.Open.IsQuasisimple S) (hlist : IsOutTwoGroupList (S ⧸ Subgroup.center S)) :
     OutTwoGroup S := by
-  haveI : Group.IsPerfect S := ⟨hq.1⟩
+  have : Group.IsPerfect S := ⟨hq.1⟩
   intro φ
   set π := CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom S with hπ
   obtain ⟨k, y, hy⟩ := hKOut (S ⧸ Subgroup.center S) hlist (π φ)
@@ -74,7 +74,7 @@ theorem mem_uniqueSet_of_order_three_aux_lift3 {X : Type} [Group X] [Finite X] {
     (hLn : L.Normal) (hOut : OutTwoGroup ↥(barO2 L)) {b : X} (hb : b ^ 3 = 1) :
     ∃ l ∈ L, (∃ j : ℕ, orderOf l = 3 ^ j) ∧ l⁻¹ * b ∈ cMHat L := by
   set π : X →* X ⧸ CFSG.pCore 2 X := QuotientGroup.mk' (CFSG.pCore 2 X) with hπ
-  haveI hbn : (barO2 L).Normal := Subgroup.Normal.map hLn _ (QuotientGroup.mk'_surjective _)
+  have hbn : (barO2 L).Normal := Subgroup.Normal.map hLn _ (QuotientGroup.mk'_surjective _)
   have hbN : π b ∈ Subgroup.normalizer (barO2 L : Set (X ⧸ CFSG.pCore 2 X)) := by
     rw [Subgroup.normalizer_eq_top]
     exact Subgroup.mem_top _
@@ -209,8 +209,8 @@ theorem mem_uniqueSet_of_order_three_aux_exists {X : Type} [Group X] [Finite X] 
       obtain ⟨E, hzE, hEL, hEa, hEc⟩ := hE9 (Subgroup.zpowers l) (Subgroup.zpowers_le.2 hlL) hcard
       refine ⟨E, hEL, hEa, hEc, fun e he => ?_⟩
       exact hEa.comm (hzE (Subgroup.mem_zpowers l)) he
-  haveI hNn : (O2In L).Normal := by
-    haveI := hLn
+  have hNn : (O2In L).Normal := by
+    have := hLn
     unfold O2In
     infer_instance
   have hc : ∀ e ∈ E, b * e * b⁻¹ * e⁻¹ ∈ O2In L := by

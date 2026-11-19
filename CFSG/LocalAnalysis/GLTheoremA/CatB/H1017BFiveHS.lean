@@ -53,7 +53,7 @@ theorem false_of_autModel {G M : Type*} [Group G] [Group M] {P R : Subgroup M}
     {E : Subgroup G} (θ : ↥E ≃* ↥P) {W : Subgroup G} (hWc : Nat.card W = 2 ^ 4)
     (hWN : W ≤ normalizer (E : Set G)) (hfaith : ∀ w ∈ W, w ≠ 1 → ∃ x ∈ E, w * x ≠ x * w)
     {e : G} (heE : e ∈ E) (he5 : orderOf e = 5) (heW : ∀ w ∈ W, w * e = e * w) : False := by
-  haveI : (E.subgroupOf (normalizer (E : Set G))).Normal := normal_in_normalizer
+  have : (E.subgroupOf (normalizer (E : Set G))).Normal := normal_in_normalizer
   refine false_of_autModel_aux hM hP (E.subgroupOf (normalizer (E : Set G)))
     ((subgroupOfEquivOfLe le_normalizer).trans θ) (W := W.subgroupOf (normalizer (E : Set G)))
     ?_ ?_ ⟨⟨e, le_normalizer heE⟩, mem_subgroupOf.2 heE⟩ ((Subgroup.orderOf_mk e _).trans he5) ?_

@@ -158,8 +158,8 @@ theorem a2l_summand_odd (hn : 4 ≤ n) :
   · intro h
     have := congrFun h (Sum.inr (Sum.inr ()))
     simp at this
-  · exact (polar_quadOdd_single_inr_inl n K _ _).trans (by simp [Pi.single_apply])
-  · exact (polar_quadOdd_single_inl n K _ _).trans (by simp [Pi.single_apply])
+  · exact (polar_quadOdd_single_inr_inl n K _ _).trans (by simp)
+  · exact (polar_quadOdd_single_inl n K _ _).trans (by simp)
 
 theorem a2l_summand_minus (hn : 5 ≤ n) (b c : K) :
     ∃ (S : A2lSummand (quadPlus 4 K) (quadMinus n K b c))
@@ -172,8 +172,8 @@ theorem a2l_summand_minus (hn : 5 ≤ n) (b c : K) :
   · intro h
     have := congrFun h (Sum.inr (Sum.inr 0))
     simp at this
-  · exact (polar_quadMinus_single_inr_inl n K b c _ _).trans (by simp [Pi.single_apply])
-  · exact (polar_quadMinus_single_inl n K b c _ _).trans (by simp [Pi.single_apply])
+  · exact (polar_quadMinus_single_inr_inl n K b c _ _).trans (by simp)
+  · exact (polar_quadMinus_single_inl n K b c _ _).trans (by simp)
 
 end Forms
 

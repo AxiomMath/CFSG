@@ -42,7 +42,7 @@ theorem perm_apply_eq_of_local {σ e : Perm (Fin 8)} {O : Set (Fin 8)} (hO : O.n
         · exact hρ
         · exact hσ ρ hρ
       have hle : (O \ {z, ρ, σ ρ}).ncard ≤ 1 := by
-        rw [Set.ncard_diff hsub, hT]
+        rw [Set.ncard_sdiff hsub, hT]
         omega
       have hσz : σ z ∈ O \ {z, ρ, σ ρ} := by
         refine ⟨hσ z hz, ?_⟩

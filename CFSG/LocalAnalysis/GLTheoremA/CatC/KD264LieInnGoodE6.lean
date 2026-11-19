@@ -29,7 +29,7 @@ theorem perfectCentralizerPlanes_adjointGroup_E6_ge_five (K : Type) [Field K] [F
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpK : ¬ p ∣ Nat.card K) :
     PerfectCentralizerPlanes p (adjointGroup Tag.E6 K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK1 : 1 ≤ Nat.card K := Nat.card_pos
   by_cases hcnt : 2 ≤ degCount Tag.E6 (orderOf ((Nat.card K : ℕ) : ZMod p))
   · rcases degCount_E6_ge_two hcnt with h1 | h2 | h3 | h4 | h6
@@ -87,8 +87,8 @@ theorem perfectCentralizerPlanes_cat_E6 (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, -, ⟨ε⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     exact not_dvd_card_of_ne hp hpq
@@ -113,9 +113,9 @@ theorem innGoodAt_E6_ge_five (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeInde
     InnGoodAt p (.E6 q) (Cat ⟨.E6 q, hv⟩) := by
   obtain ⟨K, hF, hFin, -, -, ⟨ε⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Finite (Cat ⟨.E6 q, hv⟩) := Finite.of_equiv _ ε.symm.toEquiv
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Finite (Cat ⟨.E6 q, hv⟩) := Finite.of_equiv _ ε.symm.toEquiv
   have hZ : Subgroup.center (Cat ⟨.E6 q, hv⟩) = ⊥ := by
     rw [← Subgroup.map_center_eq ε.symm, center_adjointGroup_eq_bot, Subgroup.map_bot]
   exact innGoodAt_of_outPNice hp hZ (outPNice_cat_E6 q hv hp (by omega) (by omega))
@@ -130,8 +130,8 @@ theorem innGoodAt_E6_three (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.
     (hpq : 3 ≠ q.p) (h2 : q.card ≠ 2) : InnGoodAt 3 (.E6 q) (Cat ⟨.E6 q, hv⟩) := by
   obtain ⟨K, hF, hFin, hK, hKchar, ⟨ε⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have hK3 : ringChar K ≠ 3 := by
     rw [ringChar.eq K q.p]
     exact hpq.symm

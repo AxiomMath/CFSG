@@ -44,7 +44,7 @@ theorem not_isType419_of_psuConj_fixed {p f : ℕ} {F : Type} [Field F]
     (T : Subgroup (unitarySU p f F 3)) (θ : T →* K) (hθ : Function.Surjective θ)
     (hker : ∀ t : T, θ t = 1 → (t : unitarySU p f F 3) ∈ unitaryScalars hF 3)
     (hfix : ∀ t : T, psuConj hF A (unitaryProj hF 3 t) = unitaryProj hF 3 t) : False := by
-  haveI := hF.finite
+  have := hF.finite
   obtain ⟨-, c, -, hAc⟩ := eq_one_of_psuConj_mul_psuField_eq_one (A ^ 3) 1
     (by rw [map_one, mul_one]; exact hA3)
   have hA3m : ((A : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) ^ 3 =
@@ -166,7 +166,7 @@ theorem k419OneFieldSU3_holds : K419OneFieldSU3 := by
   have ha3' : a ^ 3 = 1 := ha3 ▸ pow_orderOf_eq_one a
   obtain ⟨e⟩ : Nonempty (L ⧸ aschbacherSolvableCore 3 L ≃* unitarySU p f F 3) := by
     rcases hxk with ⟨e, -⟩ | ⟨e, -⟩ <;> exact ⟨e⟩
-  haveI := HeringOF.isPerfect_unitarySU_three hF hq
+  have := HeringOF.isPerfect_unitarySU_three hF hq
   obtain ⟨e', A, hA⟩ : ∃ (e' : L ⧸ aschbacherSolvableCore 3 L ≃* unitarySU p f F 3)
       (A : unitaryIsom3 hF), psuConj hF A = MulAut.congr (suCenterEquiv hF hq)
         (centerDescend _ (inducedAutHom L e' ⟨a, haL⟩)) := by

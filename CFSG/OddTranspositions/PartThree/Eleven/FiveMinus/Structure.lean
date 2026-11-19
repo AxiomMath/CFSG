@@ -31,8 +31,7 @@ private lemma Qbb34 : fiveForm 4 true (bb 3 + bb 4) (bb 3 + bb 4) = 2 := by deci
 
 private lemma fiveForm_smul_left_five (c : ZMod 5) (x y : Fin 5 → ZMod 5) :
     fiveForm 4 true (c • x) y = c * fiveForm 4 true x y := by
-  simp only [fiveForm, Fin.sum_univ_four, Pi.smul_apply, smul_eq_mul, Finset.mul_sum,
-    mul_sub, mul_assoc]
+  simp only [fiveForm, Fin.sum_univ_four, Pi.smul_apply, smul_eq_mul, mul_sub, mul_assoc]
   ring
 
 private lemma fiveForm_smul_right_five (c : ZMod 5) (x y : Fin 5 → ZMod 5) :
@@ -47,7 +46,7 @@ private def Binv : Matrix (Fin 5) (Fin 5) (ZMod 5) :=
 private lemma Bmat_mul_Binv : Bmat * Binv = 1 := by decide
 
 private lemma eq_smul_of_fiveReflOf_eq {x y : Fin 5 → ZMod 5}
-    (hx : fiveForm 4 true x x ≠ 0) (hy : fiveForm 4 true y y ≠ 0)
+    (hx : fiveForm 4 true x x ≠ 0) (_hy : fiveForm 4 true y y ≠ 0)
     (h : fiveReflOf 4 true x = fiveReflOf 4 true y) :
     ∃ c : ZMod 5, x = c • y := by
   have h2 : (2 : ZMod 5) ≠ 0 := by decide
@@ -78,7 +77,7 @@ private lemma eq_of_smul_add_eq {v w : Fin 5 → ZMod 5} {a b d : ZMod 5}
   have e1 := congrFun h k1
   have e2 := congrFun h k2
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, h1v, h1w, h2v, h2w, mul_one, mul_zero,
-    add_zero, zero_add, zero_mul, one_mul] at e1 e2
+    add_zero, zero_add] at e1 e2
   exact e2.trans e1.symm
 
 private lemma eq_smul_bb0_bb1 {a b d : ZMod 5}
@@ -366,7 +365,7 @@ theorem index_commutator_fiveReflectionGroup_four_true_false :
 
 private lemma center_derived_eq_bot :
     Subgroup.center FiveSquareFrameGeneration.derived = ⊥ := by
-  haveI : IsSimpleGroup FiveSquareFrameGeneration.derived :=
+  have : IsSimpleGroup FiveSquareFrameGeneration.derived :=
     FiveSquareFrameGeneration.derived_isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (Subgroup.center FiveSquareFrameGeneration.derived) with h | h

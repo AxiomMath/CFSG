@@ -91,7 +91,7 @@ theorem OddOrderIsometry.isSolvable_specialBlock_three_two
         Nat.primeFactors_prime_pow (by norm_num) Nat.prime_two,
         Nat.primeFactors_prime_pow (by norm_num) Nat.prime_three]
       decide)
-  exact solvable_of_solvable_injective (f := e₂.toMonoidHom) e₂.injective
+  exact Group.isSolvable_of_isSolvable_injective (f := e₂.toMonoidHom) e₂.injective
 
 end SelfDual
 

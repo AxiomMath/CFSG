@@ -27,7 +27,7 @@ theorem exists_odd_moving (hO : classicalInvolutionOddCore G = ⊥)
     ∃ x ∈ Subgroup.normalClosure (U : Set G), Odd (orderOf x) ∧ ∃ p ∈ P, x * p ≠ p * x := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   by_cases hwP : w ∈ P
   · apply hno
     refine ⟨P, hPn, hP, fun u hu => ?_⟩
@@ -119,7 +119,7 @@ theorem exists_odd_moving (hO : classicalInvolutionOddCore G = ⊥)
     rw [hρker, (hπ1 p).mpr hp]; exact one_mem _
   have hρsq : ρ w * ρ w = 1 := by rw [← map_mul]; exact hρP _ hw2
   set N2 : Subgroup G := (Subgroup.zpowers (ρ w)).comap ρ with hN2
-  haveI hN2n : N2.Normal := by
+  have hN2n : N2.Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [hN2, Subgroup.mem_comap] at hn ⊢
     have hc := Subgroup.mem_center_iff.mp ((Subgroup.zpowers_le.mpr hρw) hn) (ρ g)
@@ -152,7 +152,7 @@ theorem exists_odd_moving (hO : classicalInvolutionOddCore G = ⊥)
     have hy0 : orderOf y ≠ 0 := (orderOf_pos y).ne'
     obtain ⟨q, hq, hqd, hq2⟩ : ∃ q, q.Prime ∧ q ∣ orderOf y ∧ q ≠ 2 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd hy0 (fun {d} hd hdd => h d hd hdd)⟩
     have hqodd : Odd q := hq.odd_of_ne_two hq2
     have hy'ord : orderOf (y ^ (orderOf y / q)) = q := orderOf_pow_orderOf_div hy0 hqd

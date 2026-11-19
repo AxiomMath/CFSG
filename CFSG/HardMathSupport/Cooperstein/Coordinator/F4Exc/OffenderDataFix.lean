@@ -37,13 +37,13 @@ theorem card_fix_D (b : Module.Basis (Fin m) (EndRing (repOfSubgroup Lg)) V)
   have h1 : Nat.card {v : V // ∀ s ∈ A', ((φS s : ↥Lg) : (Module.End (ZMod 2) V)ˣ).val v = v} =
       Nat.card FD := by
     refine Nat.card_congr (Equiv.subtypeEquivRight fun v => ?_)
-    simp only [FD, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk, Set.mem_setOf_eq,
+    simp only [FD, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk, Set.mem_ofPred_eq,
       repD_apply, repOfSubgroup_apply]
   have : Module.Finite D V := Module.Finite.of_finite
   rw [h1, Module.natCard_eq_pow_finrank (K := D)]
   congr 1
   let T : A' → Matrix (Fin m) (Fin m) D := fun s => matRep b (φS s.1)
-  letI : Algebra D k := ιD.toAlgebra
+  let : Algebra D k := ιD.toAlgebra
   have : FaithfulSMul D k := ⟨fun {r₁ r₂} h => by
     have h1 := h 1
     simp only [Algebra.smul_def, mul_one] at h1
@@ -306,7 +306,7 @@ theorem offender_periodic_data_fix
       rw [Module.End.mul_eq_comp, Module.End.mul_eq_comp, ← Matrix.toLin'_mul, ← Matrix.toLin'_mul,
         ← Matrix.map_mul, ← Matrix.map_mul, hMrel]
   · intro A'
-    haveI : Finite S := Finite.of_equiv ↥L ι.symm.toEquiv
+    have : Finite S := Finite.of_equiv ↥L ι.symm.toEquiv
     have h1 : Nat.card ↥(fixV ((A'.map ι.toMonoidHom).map L.subtype)) =
         Nat.card {v : V // ∀ s ∈ A', ((φS s : ↥L') : (Module.End (ZMod 2) V)ˣ).val v = v} := by
       rw [← B42SL3.card_fix_map θ ((A'.map ι.toMonoidHom).map L.subtype)]

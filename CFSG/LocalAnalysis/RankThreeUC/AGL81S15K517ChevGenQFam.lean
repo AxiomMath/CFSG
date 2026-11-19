@@ -22,7 +22,7 @@ theorem hasQModel_of_sl2 {K Y : Type} [Group K] [Finite K] [Group Y] {D : Univer
     (h : BorelQuotient D n H π M) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hn : ∀ i, HasSL2Node D i F) : HasQModel Y (Nat.card F ^ 2 - 1) :=
   ⟨K, inferInstance, inferInstance, D, n, H, π, M, h, fun i => (hn i).hasInvolThree,
-    fun i p hp hp2 hpd => oddNode_of_hasSL2Node (hn i) hp hp2 hpd⟩
+    fun i _p hp hp2 hpd => oddNode_of_hasSL2Node (hn i) hp hp2 hpd⟩
 
 section Models
 

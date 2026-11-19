@@ -253,7 +253,7 @@ theorem E6_five_structure
   have hS := a1_untwisted_structure .E6 3 (Or.inl ⟨rfl, rfl⟩) K hf hK L hp (by omega)
     hordW n hnC hθroot hZcyc hN hZcard hord hkerZ
   obtain ⟨e0⟩ := nonempty_mulEquiv_sl2_conj_range (K := K) (L := L) (1 : GL (Fin 2) L)
-  haveI hSfin : Finite ↥((SpecialLinearGroup.map (algebraMap K L)).range.map
+  have hSfin : Finite ↥((SpecialLinearGroup.map (algebraMap K L)).range.map
       (conjSL (1 : GL (Fin 2) L))) := Finite.of_equiv _ e0.toEquiv
   have hSx := hS _ (a1_typeI_action Fr hFr hn) (sl2_conj_range_centralizer (K := K) 1)
   have : Finite (ModGL .E6 K) := finite_modGL
@@ -266,10 +266,10 @@ theorem E6_five_structure
     exact ⟨hK4, ⟨e0.trans e1⟩⟩
   · exfalso
     have hsolSL : Group.IsSolvable SL(2, K) := isSolvable_SL_two_of_card_lt_four (not_le.1 hK4)
-    haveI : Group.IsSolvable ↥((SpecialLinearGroup.map (algebraMap K L)).range.map
+    have : Group.IsSolvable ↥((SpecialLinearGroup.map (algebraMap K L)).range.map
         (conjSL (1 : GL (Fin 2) L))) :=
       Group.isSolvable_of_isSolvable_injective (f := e0.symm.toMonoidHom) e0.symm.injective
-    haveI := (hSx x hx).2 inferInstance
+    have := (hSx x hx).2 inferInstance
     exact ExcNonsplit.not_isComponentOf_of_isSolvable hX
 
 end CFSG.StandardType.E6Nonsplit

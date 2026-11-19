@@ -12,7 +12,7 @@ open CFSG.HardMathSupport.Foote.Coordinator.SplitFrame CFSG.HardMathSupport.Foot
 set_option linter.unusedSectionVars false
 
 
-theorem twCentral (c : TwClass) (K : Type) [Field K] [Finite K] (hK : c.minQ ≤ Nat.card K)
+theorem twCentral (c : TwClass) (K : Type) [Field K] [Finite K] (_hK : c.minQ ≤ Nat.card K)
     (D : LangLevi c.tag K c.w) : TwCentral (c.X₁ D) (c.X₂ D) :=
   CentralAux.twCentral_aux c D
 

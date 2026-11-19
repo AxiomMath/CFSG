@@ -150,7 +150,7 @@ theorem natCard_fix_torusMulAut_simple [Fact p.Prime] (hp2 : p ≠ 2)
     Nat.card {f : Multiplicative (Fin τ.rank → ZMod p) //
       ExcWeylOuter.torusMulAut τ p (simple τ i) f = f} = p ^ (τ.rank - 1) := by
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hr : 0 < τ.rank := Fin.pos i
   rw [ExcWeylOuter.torusMulAut_simple hsymm i]
   have h := card_fix_torusReflAut hp hp2 (CFSG.RankThree.CentralCover.cartanFunctional τ p i)
@@ -173,7 +173,7 @@ theorem normInducesInner_range_torusMulAut_of_diagram [Fact p.Prime] (hp2 : p �
     (hperm : ∀ π : Equiv.Perm (Fin τ.rank), (∀ i j, τ.cartan (π i) (π j) = τ.cartan i j) →
       ∃ g : WeylGroup τ, ∀ i, g * simple τ i * g⁻¹ = simple τ (π i)) :
     NormInducesInner (ExcWeylOuter.torusMulAut τ p).range := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   intro φ hφ
   have hρ : Function.Injective (ExcWeylOuter.torusMulAut τ p) :=
     ExcWeylOuter.torusMulAut_injective hp2

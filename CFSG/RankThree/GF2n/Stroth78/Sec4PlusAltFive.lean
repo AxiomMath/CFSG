@@ -38,8 +38,8 @@ theorem false_of_w_eq_five_of_isPointMaps
     (hA : A2Action (transvectionSet 4 (ZMod 2)) (qS S) ((rhoX S a).comp Ψ))
     (hP : IsPointMaps ((rhoX S a).comp Ψ) (qS S) P Pd) (hw5 : w = 5) : False := by
   classical
-  letI := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   obtain ⟨-, hLi, hIle, hLb, hD2⟩ := card_Lbar_numerics_of_mulEquiv_alt8 S h h217 h34 hZ e
   subst hw5
   set C : Subgroup (Hbar z) := Subgroup.centralizer (Xsub S a : Set (Hbar z)) with hCdef

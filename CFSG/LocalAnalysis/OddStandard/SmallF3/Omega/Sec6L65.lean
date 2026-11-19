@@ -72,7 +72,7 @@ theorem sec65_pRank_sectional [Finite G] {T : Subgroup G}
   let E' : Subgroup ↥T := E.subgroupOf T
   have hE' : CFSG.Open.IsElemAbelian 2 E' := by
     obtain ⟨hcomm, hpow⟩ := hE
-    haveI : IsMulCommutative ↥E := hcomm
+    have : IsMulCommutative ↥E := hcomm
     refine ⟨IsMulCommutative.of_comm (fun a b => ?_), fun x hx => ?_⟩
     · apply (Subgroup.subgroupOfEquivOfLe hET).injective
       rw [map_mul, map_mul]
@@ -88,7 +88,7 @@ theorem sec65_core [Finite G] (hsh : Asc82Shapes) (hF : Asc82AutFacts) (h64 : As
     (hXC : InC X) (hXF : InFStar X) (hEN : E ≤ normalizer (X : Set G))
     (hE : CFSG.Open.IsElemAbelian 2 E) : CFSG.Open.pRank 2 E ≤ 6 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ : ∃ T : Subgroup G, IsSylow2Of T (centralizer (X : Set G)) :=
     ⟨_, isSylow2Of_map_sylow (Classical.arbitrary (Sylow 2 ↥(centralizer (X : Set G))))⟩
   have hq : IsQuasisimple ↥X := sec65_quasisimple hXF

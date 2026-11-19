@@ -33,7 +33,7 @@ theorem harada75E8_holds :
           have := hEn
           exact sec47_final hS hA hA8 hCA hE hE8 h4
             (card_normalizer_le_32 hS hA hA8 hCA hAn hE hE8 hEn h4 hno)
-  · exact CFSG.Open.Open.macwilliams_four_generator S hS
+  · exact CFSG.Open.Thm.macwilliams_four_generator S hS
       (fun E hEn hE hE8 => hex ⟨E, hEn, hE, hE8⟩)
 
 end CFSG.EvenSporadicStandard.Fin76b

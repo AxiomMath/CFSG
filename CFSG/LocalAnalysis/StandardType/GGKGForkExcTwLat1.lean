@@ -99,7 +99,7 @@ noncomputable def ggKGTl_pi
     apply ggKGTl_conj_injective F
     dsimp only
     rw [ggKGTl_pick_spec, Subgroup.coe_one, ggKGTl_conj_one]
-    simp only [Pi.zero_apply, zpow_zero, Pi.one_apply]
+    simp only [Pi.zero_apply, zpow_zero]
     exact rootDiagUnit_one
   map_add' y y' := by
     change Additive.ofMul (ggKGTl_pick hK hσ hp hp5 hpq F hv ζ hζ (y + y')) =
@@ -139,7 +139,7 @@ theorem ggKGTl_pi_surjective
     (ζ : (AlgebraicClosure K)ˣ) (hζ : IsPrimitiveRoot ζ p) :
     Function.Surjective (ggKGTl_pi hK hσ hp hp5 hpq F hv ζ hζ) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro e
   let Ψ : ↥E →* ModGL TwistTag.E6.tag (AlgebraicClosure K) :=
     { toFun := fun x => F.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))

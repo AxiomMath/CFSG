@@ -339,14 +339,14 @@ theorem ggSecFiveBPermSU_singletonComm_K [Finite G] {n r : ℕ} (hp : p.Prime) (
     intro i
     have hi := congrFun (hexT (Pi.single m c)) i
     by_cases him : i = m
-    · rw [if_pos him]
+    · rw [ite_eq_left him]
       rw [him, Pi.single_eq_same] at hi
       have h1 : toAdd (eta ⟨κ (τ (ofAdd (Pi.single m c))), htB⟩ (π m.succ)) = 1 := by
         have : Fact p.Prime := ⟨hp⟩
         exact mul_left_cancel₀ hc (hi.trans (mul_one c).symm)
       rw [him]
       exact toAdd.injective (h1.trans (toAdd_ofAdd 1).symm)
-    · rw [if_neg him]
+    · rw [ite_eq_right him]
       rw [Pi.single_eq_of_ne him] at hi
       exact hcoord _ i hi
   have hgen : ∀ e ∈ Bs, ∃ h' ∈ ggBsCoordZero Bs eta (π m.succ), ∃ k : ℤ,
@@ -423,13 +423,13 @@ theorem ggSecFiveBPermSU_singletonComm_K [Finite G] {n r : ℕ} (hp : p.Prime) (
         intro i
         rw [MulEquiv.apply_symm_apply]
         by_cases hik : i = k
-        · rw [hik, if_pos rfl, Pi.mulSingle_eq_same]
-        · rw [if_neg hik, Pi.mulSingle_eq_of_ne
+        · rw [hik, ite_eq_left rfl, Pi.mulSingle_eq_same]
+        · rw [ite_eq_right hik, Pi.mulSingle_eq_of_ne
             (fun he => hik (Fin.succ_inj.mp (π.injective he))) _]
       have hbH : ((eta.symm (Pi.mulSingle (π k.succ) (ofAdd 1)) : ↥Bs) : G) ∈
           ggBsCoordZero Bs eta (π m.succ) := by
         refine (coe_mem_ggBsCoordZero (b := eta.symm (Pi.mulSingle (π k.succ) (ofAdd 1)))).mpr ?_
-        rw [hbη, if_neg (Ne.symm hkm)]
+        rw [hbη, ite_eq_right (Ne.symm hkm)]
       have hexb : frameExp eta π c (eta.symm (Pi.mulSingle (π k.succ) (ofAdd 1))) =
           Pi.single k c := by
         funext i
@@ -437,9 +437,9 @@ theorem ggSecFiveBPermSU_singletonComm_K [Finite G] {n r : ℕ} (hp : p.Prime) (
           (Pi.single k c : Fin (r + 1) → ZMod p) i
         rw [hbη]
         by_cases hik : i = k
-        · rw [if_pos hik, hik, toAdd_ofAdd]
+        · rw [ite_eq_left hik, hik, toAdd_ofAdd]
           simp
-        · rw [if_neg hik, toAdd_one]
+        · rw [ite_eq_right hik, toAdd_one]
           simp [hik]
       have h1 := hact' (eta.symm (Pi.mulSingle (π k.succ) (ofAdd 1))) x
       rw [Subgroup.mem_centralizer_iff.mp hx _ hbH, mul_inv_cancel_right, hexb] at h1

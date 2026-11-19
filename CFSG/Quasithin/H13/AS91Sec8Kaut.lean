@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} (c : Loc49 G z)
 theorem index_G3_subgroupOf_K (hJ : HypJ4 G z) : (c.G3.subgroupOf c.K).index = 7 := by
   classical
   let zz : ↥c.Z := ⟨z, c.z_mem_Z⟩
-  letI : MulAction ↥c.K ↥c.Z := MulAction.compHom ↥c.Z c.actKZ
+  let : MulAction ↥c.K ↥c.Z := MulAction.compHom ↥c.Z c.actKZ
   have hsm : ∀ (k : ↥c.K) (x : ↥c.Z), ((k • x : ↥c.Z) : G) = k * x * (k : G)⁻¹ := fun k x => by
     show ((c.actKZ k x : ↥c.Z) : G) = _
     rw [c.actKZ_apply, Subgroup.coe_inv]
@@ -26,8 +26,7 @@ theorem index_G3_subgroupOf_K (hJ : HypJ4 G z) : (c.G3.subgroupOf c.K).index = 7
     rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, Loc49.G3, H,
       Subgroup.mem_centralizer_iff]
     constructor
-    · intro h
-      intro y hy
+    · intro h y hy
       rw [Set.mem_singleton_iff] at hy
       rw [hy]
       have h1 := congrArg Subtype.val h
@@ -46,7 +45,7 @@ theorem index_G3_subgroupOf_K (hJ : HypJ4 G z) : (c.G3.subgroupOf c.K).index = 7
   have hz1 : z ≠ 1 := Loc49.z_ne_one hJ
   have horb : MulAction.orbit ↥c.K zz = {w | w ≠ 1} := by
     ext w
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨k, rfl⟩ h
       have h1 := congrArg Subtype.val h
@@ -64,7 +63,7 @@ theorem index_G3_subgroupOf_K (hJ : HypJ4 G z) : (c.G3.subgroupOf c.K).index = 7
   have h8 : Nat.card ↥c.Z = 8 := c.card_Z
   have : ({w | w ≠ (1 : ↥c.Z)} : Set ↥c.Z) = Set.univ \ {1} := by
     ext w; simp
-  rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ _),
+  rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _),
     Set.ncard_univ, h8]
 
 theorem kaut (hJ : HypJ4 G z) (α : ↥c.K ≃* ↥c.K)
@@ -122,7 +121,7 @@ theorem kaut (hJ : HypJ4 G z) (α : ↥c.K ≃* ↥c.K)
     show ((α t : ↥c.K) : G) * (t : G)⁻¹ = 1
     rw [hα t ht]
     simp
-  letI : CommGroup ↥c.Z :=
+  let : CommGroup ↥c.Z :=
     { (inferInstance : Group ↥c.Z) with mul_comm := fun a b => c.Z_comm' a b }
   have hodd : Odd (c.G3.subgroupOf c.K).index := by
     rw [c.index_G3_subgroupOf_K hJ]; decide

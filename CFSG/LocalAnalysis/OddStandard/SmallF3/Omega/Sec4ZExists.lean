@@ -24,9 +24,9 @@ open Subgroup CFSG.Blueprint
 private theorem sec4Z_mem_map_of_le {A : Type} [Group A] [Finite A] (Ω : Subgroup A)
     (P : Sylow 2 ↥Ω) (Q : Sylow 2 A) (hPQ : ∀ x ∈ (P : Subgroup ↥Ω), (x : A) ∈ Q) {z : A}
     (hzQ : z ∈ (Q : Subgroup A)) (hzΩ : z ∈ Ω) : (⟨z, hzΩ⟩ : ↥Ω) ∈ (P : Subgroup ↥Ω) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH : IsPGroup 2 ↥(((Q : Subgroup A) ⊓ Ω).subgroupOf Ω) :=
-    (Q.isPGroup'.to_inf_left (K := Ω)).of_equiv
+    (Q.isPGroup.to_inf_left (K := Ω)).of_equiv
       (Subgroup.subgroupOfEquivOfLe (inf_le_right : (Q : Subgroup A) ⊓ Ω ≤ Ω)).symm
   have hle : (P : Subgroup ↥Ω) ≤ ((Q : Subgroup A) ⊓ Ω).subgroupOf Ω := fun x hx =>
     Subgroup.mem_subgroupOf.mpr ⟨hPQ x hx, x.2⟩
@@ -36,7 +36,7 @@ private theorem sec4Z_mem_map_of_le {A : Type} [Group A] [Finite A] (Ω : Subgro
 
 theorem asc82ZExists7_of (h36 : Asc82Lemma36) : Asc82ZExists7 := by
   intro G _ _ t L hset hmodel S hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL : IsOmega7Group L := ⟨hset.component.isQuasisimple, hmodel⟩
   obtain ⟨e⟩ := sec4I_exists_model hL
   have hρ := sec4ICover_odd hL e

@@ -67,7 +67,7 @@ theorem Pmat_mul_PinvMat (h2 : (2 : F) ≠ 0) : Pmat F * PinvMat F = 1 := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [Pmat, PinvMat, Matrix.fromBlocks, Matrix.mul_apply, Fintype.sum_sum_type]
-  all_goals first | ring1 | linear_combination h22
+  all_goals linear_combination h22
 
 theorem mat_Pel_inv (h2 : (2 : F) ≠ 0) : mat 2 F (Pel h2)⁻¹ = PinvMat F := by
   have h1 : mat 2 F (Pel h2)⁻¹ * Pmat F = 1 := by

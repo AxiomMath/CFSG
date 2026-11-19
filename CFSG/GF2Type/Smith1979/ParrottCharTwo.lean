@@ -18,6 +18,7 @@ open Subgroup Module QuadraticMap CFSG.LargeExtraspecial CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_Qa_of_commute (S : Setting G) {g m x : G}
     (hm : m * (g * S.z * g⁻¹) = (g * S.z * g⁻¹) * m) (hx : x ∈ S.Qa g) : m * x * m⁻¹ ∈ S.Qa g :=
   (S.conjBy g).conj_mem_QG (mem_centralizer_singleton_iff.mpr hm) hx
@@ -37,7 +38,7 @@ theorem hasLbar_cl_conj_z (S : Setting G) (hw : S.width = 6) {g : G} (H : S4.Hyp
     refine S.mem_Lbar_iff.mpr ⟨m * y * m⁻¹, ⟨?_, (m * y * m⁻¹).2⟩, by
       rw [map_mul, map_mul, map_inv]⟩
     exact conj_mem_Qa_of_commute S hma hyL.1
-  · haveI := S.isElementaryAbelian_Lbar haQ
+  · have := S.isElementaryAbelian_Lbar haQ
     exact CFSG.IsElementaryAbelian.isPGroup 2 _
   · rw [C.card_Lbar, hw]
 
@@ -46,7 +47,7 @@ theorem false_of_charTwoFacts [IsSimpleGroup G] (hchar : IsCharTwoType G)
     (hirr : ¬ S.IsReducible) (hnoAll : S11.NoA2All S) {g : G} (H : S4.Hyp4 S g)
     (C : S4.Cons311 S g) (hF : CharTwoFacts S) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have haQ : g * S.z * g⁻¹ ∈ S.QG := H.conj_mem
   have hne : g * S.z * g⁻¹ ≠ S.z := H.conj_ne
   have ha1 : g * S.z * g⁻¹ ≠ 1 := S4.conj_z_ne_one S g

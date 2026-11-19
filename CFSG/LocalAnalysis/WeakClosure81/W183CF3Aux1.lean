@@ -157,7 +157,7 @@ theorem w183_psl2_pomegaOdd_ne {p e n M : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h
   have hleaf : M * 2 = p ^ e * ((p ^ e) ^ 2 - 1) := by
     have hD : lieOrderDivisor .PSL 2 (p ^ e) = 2 := w183_lieOrderDivisor_PSL_two_odd hodd
     have hN : lieOrderNumerator .PSL 2 (p ^ e) = p ^ e * ((p ^ e) ^ 2 - 1) := by
-      simp [lieOrderNumerator, Finset.prod_pair]
+      simp [lieOrderNumerator]
     rw [hD, hN] at hM_leaf
     exact hM_leaf
   have hc : M * 2 = p ^ (n ^ 2) * ∏ i ∈ Finset.Icc 1 n, (p ^ (2 * i) - 1) := by
@@ -191,7 +191,7 @@ theorem w183_psl2_pomegaPlus_ne {p e n M : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   have hleaf : M * 2 = p ^ e * ((p ^ e) ^ 2 - 1) := by
     have hD : lieOrderDivisor .PSL 2 (p ^ e) = 2 := w183_lieOrderDivisor_PSL_two_odd hodd
     have hN : lieOrderNumerator .PSL 2 (p ^ e) = p ^ e * ((p ^ e) ^ 2 - 1) := by
-      simp [lieOrderNumerator, Finset.prod_pair]
+      simp [lieOrderNumerator]
     rw [hD, hN] at hM_leaf
     exact hM_leaf
   set A := n * (n - 1) with hA
@@ -252,7 +252,7 @@ theorem w183_psl2_pomegaMinus_ne {p e n M : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
   have hleaf : M * 2 = p ^ e * ((p ^ e) ^ 2 - 1) := by
     have hD : lieOrderDivisor .PSL 2 (p ^ e) = 2 := w183_lieOrderDivisor_PSL_two_odd hodd
     have hN : lieOrderNumerator .PSL 2 (p ^ e) = p ^ e * ((p ^ e) ^ 2 - 1) := by
-      simp [lieOrderNumerator, Finset.prod_pair]
+      simp [lieOrderNumerator]
     rw [hD, hN] at hM_leaf
     exact hM_leaf
   set A := n * (n - 1) with hA

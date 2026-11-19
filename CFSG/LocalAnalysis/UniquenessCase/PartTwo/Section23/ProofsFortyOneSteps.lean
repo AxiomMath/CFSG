@@ -91,7 +91,7 @@ theorem card_Zh {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
     (c.isElemAbelian_Z h4 h1930)
 
 theorem Zh_le_centralizer_F {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
-    (X : S2341Frame D Ch c) (h1930 : H1930 D) :
+    (X : S2341Frame D Ch c) (_h1930 : H1930 D) :
     X.Zh ≤ Subgroup.centralizer (X.F : Set G) := by
   intro z hz
   rw [X.hZh] at hz
@@ -128,7 +128,7 @@ private noncomputable def frameCommMap {D : Data G} {Ch : Choice2011 G} {c : Ctx
     (X : S2341Frame D Ch c) (h4 : S23_4 D Ch) (h1930 : H1930 D) (a : G)
     (haF : a ∈ X.F) : ↥X.W →* ↥X.W :=
   CFSG.RankThree.PartTwo.Sec19.SolEven.H2.commMap X.W
-    (fun x hx y hy => (X.isElemAbelian_W h4 h1930).comm hx hy) a
+    (fun _x hx _y hy => (X.isElemAbelian_W h4 h1930).comm hx hy) a
     (fun w hw => (Subgroup.mem_normalizer_iff.mp
       (X.le_normalizer_W h4 h1930 haF) w).mp hw)
 
@@ -347,7 +347,7 @@ private theorem commutator_commutator_E_W_eq_bot {D : Data G} {Ch : Choice2011 G
     (hneq : ⁅X.W, X.F⁆ ≠ ⊥) : ⁅⁅c.E, X.W⁆, X.W⁆ = ⊥ := by
   have hcomm_le_inf := commutator_E_W_le_inf X h4 h23 h39 h40 h1930 hneq
   have hW_le_Eh := W_le_conjSubgroup_E X
-  haveI : IsMulCommutative ↥c.E := c.isMulCommutative_E h39 h1930
+  have : IsMulCommutative ↥c.E := c.isMulCommutative_E h39 h1930
   have hEh_comm : IsMulCommutative ↥(conjSubgroup c.E X.h) :=
     Subgroup.map_isMulCommutative (H := c.E) (MulAut.conj X.h⁻¹).toMonoidHom
   rw [eq_bot_iff, Subgroup.commutator_le]

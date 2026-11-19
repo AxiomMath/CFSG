@@ -121,7 +121,7 @@ theorem E_sq (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) :
   rw [hsq, fzc_sy3_coord_eq hs.ord₁ hs.ord₂ hs.inf]
   omega
 
-theorem Z_le_E (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) :
+theorem Z_le_E (_hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) :
     fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp]
   refine (Subgroup.closure_le (baseGrp x₁ x₂)).mpr ?_

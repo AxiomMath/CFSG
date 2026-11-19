@@ -178,9 +178,9 @@ end Coords
 
 theorem charTwo_of_card_four (K : Type) [Field K] [Finite K] (h : Nat.card K = 4) :
     CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, hp⟩ := CharP.exists K
-  haveI := hp
+  have := hp
   obtain ⟨n, hpp, hn⟩ := FiniteField.card K p
   have h4 : p ^ (n : ℕ) = 4 := by
     rw [← hn]
@@ -266,11 +266,13 @@ section Counting
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Field K] [Finite K] in
 theorem card_coord24 (hcard : Nat.card K = 4) :
     Nat.card (Multiplicative (Fin 2 → K)) = 16 := by
   rw [Nat.card_congr Multiplicative.toAdd, Nat.card_fun, hcard]
   simp
 
+omit [Finite K] in
 theorem card_eq_ker_mul24 {U : Type} [Group U] [Finite U] (hcard : Nat.card K = 4)
     (φ : U →* Multiplicative (Fin 2 → K)) (hφ : Function.Surjective φ) :
     Nat.card φ.ker * 16 = Nat.card U := by
@@ -368,6 +370,7 @@ variable {V : Type} [CommGroup V] {H : Subgroup (MulAut V)} {U Z : Subgroup V} {
 
 include D
 
+omit [CharP K 2] [Finite K] in
 theorem rk_eq [Finite V] (hcard : Nat.card K = 4) (hZU : Z ≤ U) : rk ↥U = rk ↥Z + 4 := by
   have hker : D.φ.ker = Z.subgroupOf U := by
     ext u
@@ -447,6 +450,7 @@ theorem rk_commModSub_le [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (hcard : Nat.car
     simpa using hcardS
   exact (Nat.pow_le_pow_iff_right (by norm_num)).mp this
 
+omit [Finite K] in
 theorem commutator_lift {R : Subgroup (MulAut V)} (hRH : R ≤ H) (hR : IsElemAbelian2 R)
     {x : V} (hx : x ∈ commModSub U R Z) {r : MulAut V} (hr : r ∈ R) (hr1 : r ≠ 1) :
     ∃ z ∈ U, (r z * z⁻¹) * x⁻¹ ∈ Z := by

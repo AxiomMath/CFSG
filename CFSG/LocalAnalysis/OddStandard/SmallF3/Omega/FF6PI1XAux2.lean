@@ -154,7 +154,7 @@ theorem ffOutFF6PI1X_involution_fix_K (hQ : Q.Nondegenerate)
     tauto
 
 theorem ffOutFF6PI1X_cent_X (hQ : Q.Nondegenerate)
-    (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = 1)
+    (_hdim : Module.finrank (ZMod 3) V = 6) (_hsgn : quadSign Q = 1)
     (h2 : 2 ≤ Module.finrank (ZMod 3) V) (fr : PFrame Q (Option (Fin 5)) ffC)
     {z : ProjSim Q}
     (hB : ∀ b ∈ ffB1p hQ fr, z * ffOmegaToSim hQ b = ffOmegaToSim hQ b * z)

@@ -168,7 +168,7 @@ theorem three_le_finrank_invariants {H : Type*} [Group H] [Finite H]
     (hcard : Nat.card F = 13 ∨ ∃ m : ℕ, Odd m ∧ 3 ≤ m ∧ Nat.card F = 4 ^ m + 2 ^ m + 1) :
     3 ≤ Module.finrank (ZMod 2)
       (Representation.invariants (ρ.comp (Subgroup.zpowers c).subtype)) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hodd : Odd (Nat.card F) := by
     rcases hcard with h | ⟨m, hm, h3, h⟩
     · rw [h]
@@ -231,7 +231,7 @@ theorem three_le_finrank_invariants {H : Type*} [Group H] [Finite H]
     (Subgroup.normal_subgroupOf_iff_le_normalizer hFN).mpr le_rfl
   have hBK : Subgroup.zpowers c' ≤
       Subgroup.normalizer (((F.subgroupOf N : Subgroup N)) : Set N) := by
-    haveI := hKn
+    have := hKn
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hKc : IsMulCommutative (F.subgroupOf N) := by

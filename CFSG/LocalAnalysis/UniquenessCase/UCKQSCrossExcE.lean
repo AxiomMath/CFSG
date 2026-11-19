@@ -13,7 +13,7 @@ open CFSG.Assembly.LowTwoRank CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.Open
 
 theorem qsExc_seven_le_of_dvd_orderOf {p q d : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hpq : ¬ p ∣ q)
     (hd : 3 ∣ d) (he : orderOf (q : ZMod p) = d) : 7 ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (q : ZMod p) ≠ 0 := fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h)
   have h1 : d ∣ p - 1 := he ▸ ZMod.orderOf_dvd_card_sub_one hq0
   have h2 : 3 ∣ p - 1 := hd.trans h1
@@ -198,25 +198,25 @@ theorem qsExc_pca_E8 (F : Type) [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (h
 
 theorem pcaLieCross_F4 : PCALieCrossAt .F4 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp h5 hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨hℓ, _, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   exact qsExc_pca_of_adjoint (τ := Tag.F4) hp hℓ hpℓ hm fun F _ _ hpF => qsExc_pca_F4 F hp h5 hpF
 
 theorem pcaLieCross_E6 : PCALieCrossAt .E6 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp h5 hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨hℓ, _, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   exact qsExc_pca_of_adjoint (τ := Tag.E6) hp hℓ hpℓ hm fun F _ _ hpF => qsExc_pca_E6 F hp h5 hpF
 
 theorem pcaLieCross_E7 : PCALieCrossAt .E7 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp h5 hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨hℓ, _, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   exact qsExc_pca_of_adjoint (τ := Tag.E7) hp hℓ hpℓ hm fun F _ _ hpF => qsExc_pca_E7 F hp h5 hpF
 
 theorem pcaLieCross_E8 : PCALieCrossAt .E8 := by
   intro K _ _ _ _ n ℓ f _ hmodel p hp h5 hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨hℓ, _, _⟩, hm⟩ := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   exact qsExc_pca_of_adjoint (τ := Tag.E8) hp hℓ hpℓ hm fun F _ _ hpF => qsExc_pca_E8 F hp h5 hpF
 

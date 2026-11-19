@@ -27,6 +27,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {s : ℕ}
 @[expose] def burnsideK312_sg (F : Type) [Field F] [CharP F 2] (s : ℕ) : F →+* F :=
   iterateFrobenius F 2 s
 
+omit [Finite F] in
 theorem burnsideK312_sg_apply (x : F) : burnsideK312_sg F s x = x ^ 2 ^ s := by
   show iterateFrobenius F 2 s x = _
   rw [iterateFrobenius_def]
@@ -38,6 +39,7 @@ theorem burnsideK312_sg_sg (hF : Nat.card F = 2 ^ (2 * s)) (x : F) :
   rw [burnsideK312_sg_apply, burnsideK312_sg_apply, ← pow_mul, ← pow_add, ← two_mul, ← hF',
     FiniteField.pow_card]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideK312_one_le (hF : Nat.card F = 2 ^ (2 * s)) : 1 ≤ s := by
   by_contra h0
   have hs0 : s = 0 := by omega
@@ -49,6 +51,7 @@ theorem burnsideK312_one_le (hF : Nat.card F = 2 ^ (2 * s)) : 1 ≤ s := by
 @[expose] def burnsideK312_K (F : Type) [Field F] [CharP F 2] (s : ℕ) : Subfield F :=
   RingHom.eqLocusField (burnsideK312_sg F s) (RingHom.id F)
 
+omit [Finite F] in
 theorem burnsideK312_mem_K {x : F} : x ∈ burnsideK312_K F s ↔ x ^ 2 ^ s = x := by
   show burnsideK312_sg F s x = (RingHom.id F) x ↔ _
   rw [burnsideK312_sg_apply]
@@ -85,6 +88,7 @@ theorem burnsideK312_exists_trace (hs : 1 ≤ s) (hF : Nat.card F = 2 ^ (2 * s))
   rw [mul_pow, hdivK]
   field_simp
 
+omit [Finite F] in
 theorem burnsideK312_exists_hilbert90 {a : F} (ha : a * a ^ 2 ^ s = 1) :
     ∃ y : F, y ≠ 0 ∧ y = a * y ^ 2 ^ s := by
   by_cases h1 : a = 1
@@ -105,6 +109,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin
 variable {V : Type} [CommGroup V] {L : Subgroup (MulAut V)} {s : ℕ} {F : Type} [Field F] [Finite F]
   [CharP F 2]
 
+omit [Finite F] in
 theorem burnsideK312_frobPow_eq_map (M : Matrix (Fin 2) (Fin 2) F) :
     frobPow s M = M.map (burnsideK312_sg F s) := by
   ext i j
@@ -114,6 +119,7 @@ theorem burnsideK312_frobPow_eq_map (M : Matrix (Fin 2) (Fin 2) F) :
     (M : Matrix (Fin 2) (Fin 2) F) : Prop :=
   (frobPow s M)ᵀ = M
 
+omit [Finite F] in
 theorem burnsideK312_herm_apply {M : Matrix (Fin 2) (Fin 2) F} (h : burnsideK312_Herm F s M)
     (i j : Fin 2) : M i j = (M j i) ^ 2 ^ s := by
   have := congrFun (congrFun h i) j
@@ -256,12 +262,14 @@ theorem burnsideK312_sgE_apply (hF : Nat.card F = 2 ^ (2 * s)) (x : F) :
     burnsideK312_sgE hF x = x ^ 2 ^ s :=
   burnsideK312_sg_apply x
 
+omit [Finite F] in
 theorem burnsideK312_herm_transpose {M : Matrix (Fin 2) (Fin 2) F} (h : burnsideK312_Herm F s M) :
     Mᵀ = frobPow s M := by
   have := congrArg Matrix.transpose h
   rw [Matrix.transpose_transpose] at this
   exact this.symm
 
+omit [Finite F] in
 theorem burnsideK312_herm_map {M : Matrix (Fin 2) (Fin 2) F} (h : burnsideK312_Herm F s M)
     (ρ : F ≃+* F) (hρ : ∀ x, burnsideK312_sg F s (ρ x) = ρ (burnsideK312_sg F s x)) :
     burnsideK312_Herm F s (M.map ρ) := by
@@ -270,7 +278,7 @@ theorem burnsideK312_herm_map {M : Matrix (Fin 2) (Fin 2) F} (h : burnsideK312_H
     ext i j
     have := hρ (M i j)
     simp only [burnsideK312_sg_apply] at this
-    simpa [frobPow] using this
+    simp [frobPow]
   rw [e, ← Matrix.transpose_map, h]
 
 @[expose] noncomputable def burnsideK312_fieldTwist (c : OrthogonalFourCoordinates L s F) (ρ : F ≃+* F)
@@ -374,7 +382,7 @@ theorem burnsideK312_fieldTwist_actHom (c : OrthogonalFourCoordinates L s F) (ρ
     ext i j
     have := hρ ((g : Matrix (Fin 2) (Fin 2) F) i j)
     simp only [burnsideK312_sg_apply] at this
-    simpa [frobPow] using this.symm
+    simp [frobPow]
   rw [Matrix.map_mul, Matrix.map_mul, Matrix.transpose_map, e]
   rfl
 
@@ -441,6 +449,7 @@ theorem burnsideK312_sh_notMem (c : OrthogonalFourCoordinates L s F) :
   simp at h2
   exact hω h2.symm
 
+omit [Finite F] in
 theorem burnsideK312_twAct_mul (γ δ M : Matrix (Fin 2) (Fin 2) F) :
     CFSG.Quasithin.B45L2.twAct s (γ * δ) M =
       CFSG.Quasithin.B45L2.twAct s γ (CFSG.Quasithin.B45L2.twAct s δ M) := by
@@ -449,12 +458,14 @@ theorem burnsideK312_twAct_mul (γ δ M : Matrix (Fin 2) (Fin 2) F) :
     Matrix.map_mul, Matrix.transpose_mul]
   simp only [Matrix.mul_assoc]
 
+omit [Finite F] in
 theorem burnsideK312_twAct_one (M : Matrix (Fin 2) (Fin 2) F) :
     CFSG.Quasithin.B45L2.twAct s 1 M = M := by
   unfold CFSG.Quasithin.B45L2.twAct
   rw [burnsideK312_frobPow_eq_map]
   simp
 
+omit [Finite F] in
 theorem burnsideK312_det_twAct (g : SL(2, F)) (M : Matrix (Fin 2) (Fin 2) F) :
     (CFSG.Quasithin.B45L2.twAct s (g : Matrix (Fin 2) (Fin 2) F) M).det = M.det := by
   unfold CFSG.Quasithin.B45L2.twAct
@@ -502,7 +513,7 @@ theorem burnsideK312_actHom_conj (c : OrthogonalFourCoordinates L s F) (g h : SL
 
 theorem burnsideK312_Rc_le_Uc (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_Rc c ≤ burnsideK312_Uc c :=
-  Subgroup.map_mono (fun g ⟨t, _, e⟩ => ⟨t, trivial, e⟩)
+  Subgroup.map_mono (fun _g ⟨t, _, e⟩ => ⟨t, trivial, e⟩)
 
 theorem burnsideK312_Uc_conj (c : OrthogonalFourCoordinates L s F) (g : SL(2, F)) :
     burnsideK312_Uc (burnsideK312_conj c g) =
@@ -537,6 +548,7 @@ theorem burnsideK312_matrix_uMat (c : OrthogonalFourCoordinates L s F) (x : F) (
   rw [burnsideK312_matrix_act, CFSG.Quasithin.JonesParshall.uMat_coe]
   exact CFSG.Quasithin.B45L2.twAct_u s x (c.matrix v)
 
+omit [Finite F] in
 theorem burnsideK312_map_sg_uMat (x : F) :
     Matrix.SpecialLinearGroup.map (burnsideK312_sg F s) (CFSG.Quasithin.JonesParshall.uMat x) =
       CFSG.Quasithin.JonesParshall.uMat (x ^ 2 ^ s) := by
@@ -639,6 +651,7 @@ open CFSG.Quasithin.B45L2 (rootSub card_rootSub rootSub_sq rootSub_comm)
 
 variable {E : Type} [Field E] [Finite E] [CharP E 2]
 
+omit [Finite E] [CharP E 2] in
 theorem burnsideK312_card_rootSub : Nat.card (rootSub (⊤ : AddSubgroup E)) = Nat.card E := by
   rw [card_rootSub]
   exact Nat.card_congr (AddSubgroup.topEquiv (G := E)).toEquiv
@@ -649,6 +662,7 @@ theorem burnsideK312_even_card : Even (Nat.card E) := by
   rw [Nat.card_eq_fintype_card, hn]
   exact (Nat.even_pow.mpr ⟨even_two, n.pos.ne'⟩)
 
+omit [CharP E 2] in
 theorem burnsideK312_card_SL2 :
     Nat.card SL(2, E) = Nat.card E * (Nat.card E ^ 2 - 1) := by
   classical
@@ -664,6 +678,7 @@ theorem burnsideK312_card_SL2 :
   rw [e1]
   ring
 
+omit [Finite E] in
 theorem burnsideK312_isPGroup_rootSub : IsPGroup 2 (rootSub (⊤ : AddSubgroup E)) := fun g =>
   ⟨1, Subtype.ext (by
     rw [Subgroup.coe_pow, Subgroup.coe_one]
@@ -672,7 +687,7 @@ theorem burnsideK312_isPGroup_rootSub : IsPGroup 2 (rootSub (⊤ : AddSubgroup E
 theorem burnsideK312_sylow_conj {Y : Subgroup SL(2, E)} (hY : IsPGroup 2 Y) :
     ∃ x : SL(2, E), Y ≤ (rootSub (⊤ : AddSubgroup E)).map (MulAut.conj x).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := rootSub (⊤ : AddSubgroup E) with hP
   have hPc : Nat.card P = Nat.card E := burnsideK312_card_rootSub
   have hpos : 0 < Nat.card E := Nat.card_pos
@@ -777,6 +792,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin
 variable {V : Type} [CommGroup V] [Finite V] {L : Subgroup (MulAut V)} {s : ℕ} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite V] in
 theorem burnsideK312_Cl_u_fix_E (c : OrthogonalFourCoordinates L s F) (E : V)
     (hE : c.matrix E = !![(1 : F), 0; 0, 0]) (x : F) :
     burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.uMat x) E = E := by
@@ -785,6 +801,7 @@ theorem burnsideK312_Cl_u_fix_E (c : OrthogonalFourCoordinates L s F) (E : V)
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite V] in
 theorem burnsideK312_commutant (c : OrthogonalFourCoordinates L s F)
     (hirr : ∀ J : Subgroup V, (∀ l ∈ L, ∀ v ∈ J, l v ∈ J) → J = ⊥ ∨ J = ⊤)
     (φ : MulAut V)
@@ -832,10 +849,10 @@ theorem burnsideK312_commutant (c : OrthogonalFourCoordinates L s F)
     { carrier := {v | c.matrix (φ v) = M 0 0 • c.matrix v}
       one_mem' := by simp [burnsideK312_matrix_one]
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, map_mul, burnsideK312_matrix_mul, smul_add] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, map_mul, burnsideK312_matrix_mul, smul_add] at ha hb ⊢
         rw [ha, hb]
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq, map_inv, burnsideK312_matrix_inv, smul_neg] at ha ⊢
+        simp only [Set.mem_ofPred_eq, map_inv, burnsideK312_matrix_inv, smul_neg] at ha ⊢
         rw [ha] }
   have hJL : ∀ l ∈ L, ∀ v ∈ J, l v ∈ J := by
     intro l hl v hv
@@ -843,7 +860,7 @@ theorem burnsideK312_commutant (c : OrthogonalFourCoordinates L s F)
     show c.matrix (φ (burnsideK312_actHom c g v)) = M 0 0 • c.matrix (burnsideK312_actHom c g v)
     have hv' : c.matrix (φ v) = M 0 0 • c.matrix v := hv
     rw [hφv, burnsideK312_matrix_act, burnsideK312_matrix_act, hv']
-    simp [Matrix.mul_smul, Matrix.smul_mul]
+    simp
   have hEJ : E ∈ J := by
     show M = M 0 0 • c.matrix E
     rw [hE]
@@ -861,11 +878,13 @@ theorem burnsideK312_commutant (c : OrthogonalFourCoordinates L s F)
     have : v ∈ J := h ▸ Subgroup.mem_top v
     exact this
 
+omit [Finite V] in
 theorem burnsideK312_Cl_conj_mem (c : OrthogonalFourCoordinates L s F) {t : MulAut V}
     (hN : t ∈ Subgroup.normalizer (L : Set (MulAut V))) (g : SL(2, F)) :
     t * burnsideK312_actHom c g * t⁻¹ ∈ L :=
   (Subgroup.mem_normalizer_iff.mp hN _).mp (burnsideK312_actHom_mem c g)
 
+omit [Finite V] in
 theorem burnsideK312_Cl_conj_mem' (c : OrthogonalFourCoordinates L s F) {t : MulAut V}
     (hN : t ∈ Subgroup.normalizer (L : Set (MulAut V))) (g : SL(2, F)) :
     t⁻¹ * burnsideK312_actHom c g * t ∈ L := by
@@ -877,6 +896,7 @@ theorem burnsideK312_Cl_conj_mem' (c : OrthogonalFourCoordinates L s F) {t : Mul
     SL(2, F) :=
   Classical.choose (burnsideK312_exists_actHom c (burnsideK312_Cl_conj_mem c hN g))
 
+omit [Finite V] in
 theorem burnsideK312_Cl_aF_spec (c : OrthogonalFourCoordinates L s F) {t : MulAut V}
     (hN : t ∈ Subgroup.normalizer (L : Set (MulAut V))) (g : SL(2, F)) :
     burnsideK312_actHom c (burnsideK312_Cl_aF c hN g) = t * burnsideK312_actHom c g * t⁻¹ :=
@@ -900,15 +920,17 @@ theorem burnsideK312_Cl_aF_spec (c : OrthogonalFourCoordinates L s F) {t : MulAu
       map_mul]
     group
 
+omit [Finite V] in
 theorem burnsideK312_Cl_actHom_alpha (c : OrthogonalFourCoordinates L s F) {t : MulAut V}
     (hN : t ∈ Subgroup.normalizer (L : Set (MulAut V))) (g : SL(2, F)) :
     burnsideK312_actHom c (burnsideK312_Cl_alpha c hN g) =
       t * burnsideK312_actHom c g * t⁻¹ :=
   burnsideK312_Cl_aF_spec c hN g
 
+omit [CharP F 2] in
 theorem burnsideK312_Cl_ringAut_comm (hF : Nat.card F = 2 ^ (2 * s)) (ρ τ : RingAut F) :
     ρ * τ = τ * ρ := by
-  haveI : IsCyclic (RingAut F) :=
+  have : IsCyclic (RingAut F) :=
     (CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.ringAut_card_and_cyclic hF).2
   exact (IsCyclic.commGroup (α := RingAut F)).mul_comm ρ τ
 
@@ -918,6 +940,7 @@ theorem burnsideK312_Cl_sg_comm (hF : Nat.card F = 2 ^ (2 * s)) (ρ : RingAut F)
   have := congrArg (fun r : RingAut F => r x) h
   exact this
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideK312_Cl_map_map (ρ τ : F ≃+* F) (g : SL(2, F)) :
     Matrix.SpecialLinearGroup.map ρ.toRingHom (Matrix.SpecialLinearGroup.map τ.toRingHom g) =
       Matrix.SpecialLinearGroup.map (ρ * τ).toRingHom g := by
@@ -927,6 +950,7 @@ theorem burnsideK312_Cl_map_map (ρ τ : F ≃+* F) (g : SL(2, F)) :
   ext i j
   simp
 
+omit [Finite V] in
 theorem burnsideK312_Cl_data (c : OrthogonalFourCoordinates L s F) {t : MulAut V}
     (hN : t ∈ Subgroup.normalizer (L : Set (MulAut V))) (hsq : t * t = 1) :
     ∃ (h : SL(2, F)) (ρ : RingAut F),
@@ -982,9 +1006,9 @@ theorem burnsideK312_Cl_sq_eq_one (hF : Nat.card F = 2 ^ (2 * s)) {ρ : RingAut 
   classical
   have hs := burnsideK312_one_le hF
   have hcc := CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.ringAut_card_and_cyclic hF
-  haveI hcyc : IsCyclic (RingAut F) := hcc.2
-  haveI : Finite (RingAut F) := Nat.finite_of_card_ne_zero (by rw [hcc.1]; omega)
-  haveI : Fintype (RingAut F) := Fintype.ofFinite _
+  have hcyc : IsCyclic (RingAut F) := hcc.2
+  have : Finite (RingAut F) := Nat.finite_of_card_ne_zero (by rw [hcc.1]; omega)
+  have : Fintype (RingAut F) := Fintype.ofFinite _
   have hσ2 : burnsideK312_sgE hF * burnsideK312_sgE hF = 1 := by
     ext x
     exact burnsideK312_sg_sg hF x
@@ -1015,6 +1039,7 @@ theorem burnsideK312_Cl_sq_eq_one (hF : Nat.card F = 2 ^ (2 * s)) {ρ : RingAut 
     (M : Matrix (Fin 2) (Fin 2) F) : Matrix (Fin 2) (Fin 2) F :=
   h * M.map ρ * (frobPow s h)ᵀ
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideK312_Cl_Tm_smul (h : Matrix (Fin 2) (Fin 2) F) (ρ : F ≃+* F)
     (a : F) (M : Matrix (Fin 2) (Fin 2) F) :
     burnsideK312_Cl_Tm s h ρ (a • M) = ρ a • burnsideK312_Cl_Tm s h ρ M := by
@@ -1024,6 +1049,7 @@ theorem burnsideK312_Cl_Tm_smul (h : Matrix (Fin 2) (Fin 2) F) (ρ : F ≃+* F)
     simp
   rw [this, Matrix.mul_smul, Matrix.smul_mul]
 
+omit [Finite F] in
 theorem burnsideK312_Cl_Tm_Tm (ρ : F ≃+* F) (hρ2 : ∀ x, ρ (ρ x) = x)
     (hσρ : ∀ x, burnsideK312_sg F s (ρ x) = ρ (burnsideK312_sg F s x))
     {h : Matrix (Fin 2) (Fin 2) F} (hh : h * h.map ρ = 1) (M : Matrix (Fin 2) (Fin 2) F) :
@@ -1054,6 +1080,7 @@ theorem burnsideK312_Cl_Tm_Tm (ρ : F ≃+* F) (hρ2 : ∀ x, ρ (ρ x) = x)
         rw [hh, ← Matrix.transpose_mul, hs1, Matrix.transpose_one]
         simp
 
+omit [Finite V] in
 theorem burnsideK312_outer_involution (c : OrthogonalFourCoordinates L s F)
     (hirr : ∀ J : Subgroup V, (∀ l ∈ L, ∀ v ∈ J, l v ∈ J) → J = ⊥ ∨ J = ⊤)
     {t : MulAut V} (hN : t ∈ Subgroup.normalizer (L : Set (MulAut V))) (hsq : t ^ 2 = 1)
@@ -1151,6 +1178,7 @@ theorem burnsideK312_outer_involution (c : OrthogonalFourCoordinates L s F)
       map_one, one_smul]
     rfl
 
+omit [Finite V] in
 theorem burnsideK312_Cl_range (c : OrthogonalFourCoordinates L s F) :
     (burnsideK312_actHom c).range = L := by
   ext x
@@ -1161,18 +1189,21 @@ theorem burnsideK312_Cl_range (c : OrthogonalFourCoordinates L s F) :
     obtain ⟨g, hg⟩ := burnsideK312_exists_actHom c hx
     exact ⟨g, hg⟩
 
+omit [Finite V] in
 theorem burnsideK312_Cl_card_L (c : OrthogonalFourCoordinates L s F) :
     Nat.card L = Nat.card F * (Nat.card F ^ 2 - 1) := by
   rw [← burnsideK312_card_SL2 (E := F)]
   exact (Nat.card_congr ((CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F).trans
     c.group_equiv).toEquiv).symm
 
+omit [Finite V] in
 theorem burnsideK312_Cl_card_Uc (c : OrthogonalFourCoordinates L s F) :
     Nat.card (burnsideK312_Uc c) = Nat.card F := by
   unfold burnsideK312_Uc
   rw [Subgroup.card_map_of_injective (burnsideK312_actHom_injective c)]
   exact burnsideK312_card_rootSub
 
+omit [Finite V] in
 theorem burnsideK312_Cl_conj_hom (c : OrthogonalFourCoordinates L s F) (x : SL(2, F)) :
     (burnsideK312_actHom c).comp (MulAut.conj x).toMonoidHom =
       (MulAut.conj (burnsideK312_actHom c x)).toMonoidHom.comp (burnsideK312_actHom c) := by
@@ -1244,6 +1275,7 @@ theorem burnsideK312_sylow_of_isSylow (c : OrthogonalFourCoordinates L s F)
   have hke : k = e := by omega
   rw [hk, he, hke]
 
+omit [Finite V] in
 theorem burnsideK312_Cl_borel (c : OrthogonalFourCoordinates L s F) {h0 : SL(2, F)}
     (h : burnsideK312_actHom c (h0 * CFSG.Quasithin.JonesParshall.uMat 1 * h0⁻¹) ∈
       burnsideK312_Uc c) : (h0 : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 := by
@@ -1313,8 +1345,7 @@ theorem burnsideK312_Cl_cocycle_borel (hF : Nat.card F = 2 ^ (2 * s)) {h0 : SL(2
     rw [hh0, hb]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, burnsideK312_sg_apply, map_inv₀, map_div₀,
-        div_pow, hYY]
+      simp [Matrix.mul_apply, Fin.sum_univ_two, burnsideK312_sg_apply, div_pow, hYY]
     · exact hy.symm
     · have hY0' : y ^ 2 ^ s ≠ 0 := hY0
       have e1 : a * (w' ^ 2 ^ s / y) = w' ^ 2 ^ s / y ^ 2 ^ s := by
@@ -1331,6 +1362,7 @@ theorem burnsideK312_Cl_cocycle_borel (hF : Nat.card F = 2 ^ (2 * s)) {h0 : SL(2
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.map_apply_coe,
     RingHom.mapMatrix_apply, key]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideK312_Cl_conj_uMat {b : SL(2, F)}
     (hb : (b : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) :
     ∃ p : F, p ≠ 0 ∧ ∀ x : F,
@@ -1354,6 +1386,7 @@ theorem burnsideK312_Cl_conj_uMat {b : SL(2, F)}
     | linear_combination (b : Matrix (Fin 2) (Fin 2) F) 0 0 * hdet
     | ring
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideK312_Cl_rootSub_conj {b : SL(2, F)}
     (hb : (b : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) :
     (CFSG.Quasithin.B45L2.rootSub (⊤ : AddSubgroup F)).map (MulAut.conj b).toMonoidHom =
@@ -1370,6 +1403,7 @@ theorem burnsideK312_Cl_rootSub_conj {b : SL(2, F)}
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rw [hp, mul_div_cancel₀ _ hp2]
 
+omit [Finite V] in
 theorem burnsideK312_Cl_Uc_conj_upper (c : OrthogonalFourCoordinates L s F) {b : SL(2, F)}
     (hb : (b : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) :
     (burnsideK312_Uc c).map (MulAut.conj (burnsideK312_actHom c b)).toMonoidHom =
@@ -1475,18 +1509,21 @@ variable {V : Type} [CommGroup V] [Finite V] {L : Subgroup (MulAut V)} {s : ℕ}
     (ha : a ^ 2 ^ s = a) (hd : d ^ 2 ^ s = d) : V :=
   Classical.choose (burnsideK312_exists_vec c (burnsideK312_herm_mk c.field_card (b := b) ha hd))
 
+omit [Finite V] in
 theorem burnsideK312_Geo_matrix_mk (c : OrthogonalFourCoordinates L s F) (a b d : F)
     (ha : a ^ 2 ^ s = a) (hd : d ^ 2 ^ s = d) :
     c.matrix (burnsideK312_Geo_mk c a b d ha hd) = !![a, b; b ^ 2 ^ s, d] :=
   Classical.choose_spec
     (burnsideK312_exists_vec c (burnsideK312_herm_mk c.field_card (b := b) ha hd))
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideK312_Geo_pol (M N : Matrix (Fin 2) (Fin 2) F) :
     (M + N).det - M.det - N.det =
       M 0 0 * N 1 1 + N 0 0 * M 1 1 - M 0 1 * N 1 0 - N 0 1 * M 1 0 := by
   simp only [Matrix.det_fin_two, Matrix.add_apply]
   ring
 
+omit [Finite V] in
 theorem burnsideK312_Geo_zpowers (c : OrthogonalFourCoordinates L s F) :
     ∀ x ∈ Subgroup.zpowers (burnsideK312_sh c), x = 1 ∨ x = burnsideK312_sh c := by
   intro x hx
@@ -1503,6 +1540,7 @@ theorem burnsideK312_Geo_zpowers (c : OrthogonalFourCoordinates L s F) :
 @[expose] noncomputable def burnsideK312_Geo_Jv (c : OrthogonalFourCoordinates L s F) : V :=
   Classical.choose (burnsideK312_exists_vec c (burnsideK312_herm_J (F := F) (s := s)))
 
+omit [Finite V] in
 theorem burnsideK312_Geo_matrix_Jv (c : OrthogonalFourCoordinates L s F) :
     c.matrix (burnsideK312_Geo_Jv c) = !![(0 : F), 1; 1, 0] :=
   Classical.choose_spec (burnsideK312_exists_vec c (burnsideK312_herm_J (F := F) (s := s)))
@@ -1520,10 +1558,12 @@ theorem burnsideK312_Geo_matrix_Jv (c : OrthogonalFourCoordinates L s F) :
       ext i j
       fin_cases i <;> fin_cases j <;> simp [CharTwo.neg_eq]⟩
 
+omit [Finite V] in
 theorem burnsideK312_Geo_mem_line (c : OrthogonalFourCoordinates L s F) (v : V) :
     v ∈ burnsideK312_Geo_line c ↔
       ∃ κ : F, κ ^ 2 ^ s = κ ∧ c.matrix v = κ • !![(0 : F), 1; 1, 0] := Iff.rfl
 
+omit [Finite V] in
 theorem burnsideK312_Geo_commV (c : OrthogonalFourCoordinates L s F) :
     commV (Subgroup.zpowers (burnsideK312_sh c)) = burnsideK312_Geo_line c := by
   have hF := c.field_card
@@ -1543,13 +1583,11 @@ theorem burnsideK312_Geo_commV (c : OrthogonalFourCoordinates L s F) :
       · rw [add_pow_char_pow, ← h10, ← h01, add_comm]
       · rw [burnsideK312_matrix_mul, burnsideK312_matrix_inv, burnsideK312_matrix_sh]
         ext i j
-        fin_cases i <;> fin_cases j <;> simp [CharTwo.neg_eq, h2]
+        fin_cases i <;> fin_cases j <;> simp [CharTwo.neg_eq]
         all_goals first
           | ring1
           | linear_combination (c.matrix v 0 0) * h2
           | linear_combination (c.matrix v 1 1) * h2
-          | linear_combination (c.matrix v 0 1) * h2
-          | linear_combination (c.matrix v 1 0) * h2
   · rintro v ⟨κ, hκ, hv⟩
     obtain ⟨z, hz⟩ := burnsideK312_exists_trace hs hF hκ
     apply Subgroup.subset_closure
@@ -1559,8 +1597,9 @@ theorem burnsideK312_Geo_commV (c : OrthogonalFourCoordinates L s F) :
     rw [burnsideK312_matrix_mul, burnsideK312_matrix_inv, burnsideK312_matrix_sh, hv,
       burnsideK312_Geo_matrix_mk, ← hz]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [CharTwo.neg_eq, h2, add_comm]
+    fin_cases i <;> fin_cases j <;> simp [CharTwo.neg_eq, add_comm]
 
+omit [Finite V] in
 theorem burnsideK312_Geo_fix (c : OrthogonalFourCoordinates L s F) (v : V) :
     v ∈ fixV (Subgroup.zpowers (burnsideK312_sh c)) ↔ (c.matrix v)ᵀ = c.matrix v := by
   constructor
@@ -1575,6 +1614,7 @@ theorem burnsideK312_Geo_fix (c : OrthogonalFourCoordinates L s F) (v : V) :
       rw [burnsideK312_matrix_sh]
       exact h
 
+omit [Finite V] in
 theorem burnsideK312_Geo_reflection (c : OrthogonalFourCoordinates L s F) (v : V) :
     c.matrix (burnsideK312_sh c v) = c.matrix v +
       (c.polar v (burnsideK312_Geo_Jv c) / (c.matrix (burnsideK312_Geo_Jv c)).det) •
@@ -1587,12 +1627,12 @@ theorem burnsideK312_Geo_reflection (c : OrthogonalFourCoordinates L s F) (v : V
   ext i j
   fin_cases i <;> fin_cases j <;> simp
   all_goals first
-    | ring1
     | linear_combination (c.matrix v 0 1) * h2
     | linear_combination (c.matrix v 1 0) * h2
     | linear_combination (-(c.matrix v 0 1)) * h2
     | linear_combination (-(c.matrix v 1 0)) * h2
 
+omit [Finite V] in
 theorem burnsideK312_Geo_Jv_ne (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_Geo_Jv c ≠ 1 := by
   intro h
@@ -1601,17 +1641,20 @@ theorem burnsideK312_Geo_Jv_ne (c : OrthogonalFourCoordinates L s F) :
   have := congrFun (congrFun h1 0) 1
   simp at this
 
+omit [Finite V] in
 theorem burnsideK312_Geo_det_Jv (c : OrthogonalFourCoordinates L s F) :
     (c.matrix (burnsideK312_Geo_Jv c)).det ≠ 0 := by
   rw [burnsideK312_Geo_matrix_Jv]
   simp [Matrix.det_fin_two]
 
+omit [Finite V] in
 theorem burnsideK312_Geo_isPoint (c : OrthogonalFourCoordinates L s F) :
     c.IsPoint (commV (Subgroup.zpowers (burnsideK312_sh c))) := by
   refine ⟨burnsideK312_Geo_Jv c, burnsideK312_Geo_Jv_ne c, fun v => ?_⟩
   rw [burnsideK312_Geo_commV, burnsideK312_Geo_mem_line, burnsideK312_Geo_matrix_Jv]
   exact Iff.rfl
 
+omit [Finite V] in
 theorem burnsideK312_Geo_nonsingular (c : OrthogonalFourCoordinates L s F) :
     ∀ vector ∈ commV (Subgroup.zpowers (burnsideK312_sh c)), vector ≠ 1 →
       (c.matrix vector).det ≠ 0 := by
@@ -1626,6 +1669,7 @@ theorem burnsideK312_Geo_nonsingular (c : OrthogonalFourCoordinates L s F) :
   rw [hM, Matrix.det_smul]
   simp [Matrix.det_fin_two, hκ0]
 
+omit [Finite V] in
 theorem burnsideK312_Geo_mem_centralizer (c : OrthogonalFourCoordinates L s F) (x : MulAut V) :
     x ∈ L ⊓ Subgroup.centralizer ({burnsideK312_sh c} : Set (MulAut V)) ↔
       ∃ g : SL(2, F), Matrix.SpecialLinearGroup.map (burnsideK312_sg F s) g = g ∧
@@ -1647,6 +1691,7 @@ theorem burnsideK312_Geo_mem_centralizer (c : OrthogonalFourCoordinates L s F) (
     have h3 := congrArg (fun m => m * burnsideK312_sh c) h2
     simpa [mul_assoc, burnsideK312_sh_sq] using h3
 
+omit [Finite F] in
 theorem burnsideK312_Geo_starJ (g : SL(2, F)) :
     (g : Matrix (Fin 2) (Fin 2) F) * !![(0 : F), 1; 1, 0] *
         (frobPow s (g : Matrix (Fin 2) (Fin 2) F))ᵀ = !![(0 : F), 1; 1, 0] ↔
@@ -1695,6 +1740,7 @@ theorem burnsideK312_Geo_starJ (g : SL(2, F)) :
       | linear_combination (q * p) * h2
       | linear_combination (w * r) * h2
 
+omit [Finite V] in
 theorem burnsideK312_Geo_line_mapsto (c : OrthogonalFourCoordinates L s F) {g : SL(2, F)}
     (hg : Matrix.SpecialLinearGroup.map (burnsideK312_sg F s) g = g) {v : V}
     (hv : v ∈ burnsideK312_Geo_line c) :
@@ -1705,6 +1751,7 @@ theorem burnsideK312_Geo_line_mapsto (c : OrthogonalFourCoordinates L s F) {g : 
   have := (burnsideK312_Geo_starJ g).mpr hg
   rw [Matrix.mul_smul, Matrix.smul_mul, this]
 
+omit [Finite V] in
 theorem burnsideK312_Geo_stab (c : OrthogonalFourCoordinates L s F) :
     ∀ x ∈ L, x ∈ Subgroup.centralizer ({burnsideK312_sh c} : Set (MulAut V)) ↔
       ∀ v : V, v ∈ commV (Subgroup.zpowers (burnsideK312_sh c)) ↔
@@ -1751,6 +1798,7 @@ theorem burnsideK312_Geo_stab (c : OrthogonalFourCoordinates L s F) :
     SL(2, ↥(burnsideK312_K F s)) →* SL(2, F) :=
   Matrix.SpecialLinearGroup.map (burnsideK312_K F s).subtype
 
+omit [Finite F] in
 theorem burnsideK312_Geo_incl_coe (g : SL(2, ↥(burnsideK312_K F s))) (i j : Fin 2) :
     ((burnsideK312_Geo_incl g : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) i j =
       ((g : Matrix (Fin 2) (Fin 2) ↥(burnsideK312_K F s)) i j : F) := by
@@ -1758,6 +1806,7 @@ theorem burnsideK312_Geo_incl_coe (g : SL(2, ↥(burnsideK312_K F s))) (i j : Fi
   rw [Matrix.SpecialLinearGroup.map_apply_coe]
   rfl
 
+omit [Finite F] in
 theorem burnsideK312_Geo_incl_injective :
     Function.Injective (burnsideK312_Geo_incl (F := F) (s := s)) := by
   intro g g' h
@@ -1767,6 +1816,7 @@ theorem burnsideK312_Geo_incl_injective :
   have := congrArg (fun m : SL(2, F) => (m : Matrix (Fin 2) (Fin 2) F) i j) h
   simpa [burnsideK312_Geo_incl_coe] using this
 
+omit [Finite F] in
 theorem burnsideK312_Geo_incl_fixed (g : SL(2, ↥(burnsideK312_K F s))) :
     Matrix.SpecialLinearGroup.map (burnsideK312_sg F s) (burnsideK312_Geo_incl g) =
       burnsideK312_Geo_incl g := by
@@ -1776,6 +1826,7 @@ theorem burnsideK312_Geo_incl_fixed (g : SL(2, ↥(burnsideK312_K F s))) :
     burnsideK312_Geo_incl_coe, burnsideK312_sg_apply]
   exact burnsideK312_mem_K.mp (g i j).2
 
+omit [Finite F] in
 theorem burnsideK312_Geo_exists_incl {g' : SL(2, F)}
     (hg : Matrix.SpecialLinearGroup.map (burnsideK312_sg F s) g' = g') :
     ∃ g : SL(2, ↥(burnsideK312_K F s)), burnsideK312_Geo_incl g = g' := by
@@ -1804,6 +1855,7 @@ theorem burnsideK312_Geo_exists_incl {g' : SL(2, F)}
   rw [burnsideK312_Geo_incl_coe, hg0]
   rfl
 
+omit [Finite V] in
 theorem burnsideK312_Geo_viii (c : OrthogonalFourCoordinates L s F) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (field_embedding : K →+* F),
       Nat.card K = 2 ^ s ∧ Function.Injective field_embedding ∧
@@ -1843,6 +1895,7 @@ theorem burnsideK312_Geo_viii (c : OrthogonalFourCoordinates L s F) :
     exact ⟨(MulEquiv.ofBijective ψ ⟨hinj, hsurj⟩).symm.trans
       (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 ↥(burnsideK312_K F s))⟩
 
+omit [Finite V] in
 theorem burnsideK312_Geo_perp_char (c : OrthogonalFourCoordinates L s F) (v : V) :
     v ∈ fixV (Subgroup.zpowers (burnsideK312_sh c)) ↔
       ∀ point ∈ commV (Subgroup.zpowers (burnsideK312_sh c)), c.polar v point = 0 := by
@@ -1869,6 +1922,7 @@ theorem burnsideK312_Geo_perp_char (c : OrthogonalFourCoordinates L s F) (v : V)
     · linear_combination (-1 : F) * h0 + (-(c.matrix v 0 1)) * h2
     · linear_combination h0 + (c.matrix v 0 1) * h2
 
+omit [Finite F] in
 theorem burnsideK312_Geo_sq_inj {x y : F} (h : x ^ 2 = y ^ 2) : x = y := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have h0 : (x - y) ^ 2 = 0 := by linear_combination h + (y * (y - x)) * h2
@@ -1932,8 +1986,6 @@ theorem burnsideK312_Geo_iso_matrix (_hF : Nat.card F = 2 ^ (2 * s))
       | ring1
       | linear_combination hx1
       | linear_combination hz1
-      | linear_combination (-1 : F) * hx1
-      | linear_combination (-1 : F) * hz1
   · rw [hg]
     ext i j
     fin_cases i <;> fin_cases j <;>
@@ -1942,9 +1994,8 @@ theorem burnsideK312_Geo_iso_matrix (_hF : Nat.card F = 2 ^ (2 * s))
       | ring1
       | linear_combination hx3
       | linear_combination hz3
-      | linear_combination (-1 : F) * hx3
-      | linear_combination (-1 : F) * hz3
 
+omit [Finite V] in
 theorem burnsideK312_Geo_perp_sym (c : OrthogonalFourCoordinates L s F) {v : V}
     (hv : v ∈ fixV (Subgroup.zpowers (burnsideK312_sh c))) :
     c.matrix v 1 0 = c.matrix v 0 1 := by
@@ -1952,6 +2003,7 @@ theorem burnsideK312_Geo_perp_sym (c : OrthogonalFourCoordinates L s F) {v : V}
   have h := congrFun (congrFun this 0) 1
   simpa using h
 
+omit [Finite V] in
 theorem burnsideK312_Geo_perp_K01 (c : OrthogonalFourCoordinates L s F) {v : V}
     (hv : v ∈ fixV (Subgroup.zpowers (burnsideK312_sh c))) :
     (c.matrix v 0 1) ^ 2 ^ s = c.matrix v 0 1 := by
@@ -1959,6 +2011,7 @@ theorem burnsideK312_Geo_perp_K01 (c : OrthogonalFourCoordinates L s F) {v : V}
   rw [← h1]
   exact burnsideK312_Geo_perp_sym c hv
 
+omit [Finite V] in
 theorem burnsideK312_Geo_mk_mem (c : OrthogonalFourCoordinates L s F) (a b d : F)
     (ha : a ^ 2 ^ s = a) (hb : b ^ 2 ^ s = b) (hd : d ^ 2 ^ s = d) :
     burnsideK312_Geo_mk c a b d ha hd ∈ fixV (Subgroup.zpowers (burnsideK312_sh c)) := by
@@ -1966,11 +2019,13 @@ theorem burnsideK312_Geo_mk_mem (c : OrthogonalFourCoordinates L s F) (a b d : F
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite V] in
 theorem burnsideK312_Geo_matrix_mk' (c : OrthogonalFourCoordinates L s F) (a b d : F)
     (ha : a ^ 2 ^ s = a) (hb : b ^ 2 ^ s = b) (hd : d ^ 2 ^ s = d) :
     c.matrix (burnsideK312_Geo_mk c a b d ha hd) = !![a, b; b, d] := by
   rw [burnsideK312_Geo_matrix_mk, hb]
 
+omit [Finite V] in
 theorem burnsideK312_Geo_card_perp (c : OrthogonalFourCoordinates L s F) :
     Nat.card ↥(fixV (Subgroup.zpowers (burnsideK312_sh c))) = 2 ^ (3 * s) := by
   have hF := c.field_card
@@ -2009,6 +2064,7 @@ theorem burnsideK312_Geo_card_perp (c : OrthogonalFourCoordinates L s F) :
   rw [Nat.card_congr e, Nat.card_prod, Nat.card_prod, burnsideK312_card_K hs hF]
   ring
 
+omit [Finite V] in
 theorem burnsideK312_Geo_perp_stable (c : OrthogonalFourCoordinates L s F) {x : MulAut V}
     (hx : x ∈ L ⊓ Subgroup.centralizer ({burnsideK312_sh c} : Set (MulAut V))) :
     ∀ v ∈ fixV (Subgroup.zpowers (burnsideK312_sh c)),
@@ -2034,6 +2090,7 @@ theorem burnsideK312_Geo_perp_stable (c : OrthogonalFourCoordinates L s F) {x : 
     rw [burnsideK312_matrix_act]
     exact burnsideK312_det_twAct g _
 
+omit [Finite V] in
 theorem burnsideK312_Geo_perp_faithful (c : OrthogonalFourCoordinates L s F) {x : MulAut V}
     (hx : x ∈ L ⊓ Subgroup.centralizer ({burnsideK312_sh c} : Set (MulAut V)))
     (h : ∀ v ∈ fixV (Subgroup.zpowers (burnsideK312_sh c)), x v = v) : x = 1 := by
@@ -2055,6 +2112,7 @@ theorem burnsideK312_Geo_perp_faithful (c : OrthogonalFourCoordinates L s F) {x 
   have hg2 : g = 1 := Subtype.ext hg1
   rw [hg2, map_one]
 
+omit [Finite V] in
 theorem burnsideK312_Geo_perp_iso (c : OrthogonalFourCoordinates L s F) {P : Subgroup V}
     (hP : P = fixV (Subgroup.zpowers (burnsideK312_sh c))) (ι : MulAut ↥P)
     (hdet : ∀ vector : ↥P, (c.matrix (ι vector : V)).det = (c.matrix (vector : V)).det)
@@ -2235,6 +2293,7 @@ theorem burnsideK312_Geo_perp_iso (c : OrthogonalFourCoordinates L s F) {P : Sub
   simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_smul, Matrix.smul_mul]
   rw [hg1, hg3, hgJ, hm2]
 
+omit [Finite V] in
 theorem burnsideK312_Geo_card_V (c : OrthogonalFourCoordinates L s F) :
     Nat.card V = 2 ^ (4 * s) := by
   have hF := c.field_card
@@ -2272,6 +2331,7 @@ theorem burnsideK312_Geo_card_V (c : OrthogonalFourCoordinates L s F) :
   rw [Nat.card_congr e, Nat.card_prod, Nat.card_prod, burnsideK312_card_K hs hF, hcard]
   ring
 
+omit [Finite V] in
 theorem burnsideK312_TConj_sh (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_TConj c (burnsideK312_sh c) := by
   refine ⟨?_, ?_,
@@ -2306,6 +2366,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin
 variable {V : Type} [CommGroup V] [Finite V] {L : Subgroup (MulAut V)} {s : ℕ} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite V] in
 theorem burnsideK312_RU_sq (c : OrthogonalFourCoordinates L s F) (v : V) : v ^ 2 = 1 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   apply burnsideK312_matrix_injective c
@@ -2314,6 +2375,7 @@ theorem burnsideK312_RU_sq (c : OrthogonalFourCoordinates L s F) (v : V) : v ^ 2
   simp only [Matrix.add_apply, Matrix.zero_apply]
   linear_combination (c.matrix v i j) * h2
 
+omit [Finite V] in
 theorem burnsideK312_RU_hV (c : OrthogonalFourCoordinates L s F) : ∀ v : V, v ^ 2 = 1 :=
   burnsideK312_RU_sq c
 
@@ -2348,6 +2410,7 @@ theorem burnsideK312_RU_rk_fix_le (c : OrthogonalFourCoordinates L s F) (A : Sub
   have hV : rk V = 4 * s := burnsideK312_RU_rk_of_card (burnsideK312_Geo_card_V c)
   omega
 
+omit [Finite V] in
 theorem burnsideK312_RU_rAV_ge {A : Subgroup (MulAut V)} {p q : ℕ}
     (hp : p ≤ rkIdx (fixV A)) (hq : rk A ≤ q) (hA : 0 < rk A) :
     (p : ℚ) / q ≤ rAV A := by
@@ -2380,10 +2443,12 @@ theorem burnsideK312_RU_rAV_ge {A : Subgroup (MulAut V)} {p q : ℕ}
     rw [this, map_inv]
     exact A.inv_mem hx
 
+omit [Finite V] in
 theorem burnsideK312_RU_mem_S (c : OrthogonalFourCoordinates L s F) (A : Subgroup (MulAut V))
     (x : F) : x ∈ burnsideK312_RU_S c A ↔
       burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.uMat x) ∈ A := Iff.rfl
 
+omit [Finite V] in
 theorem burnsideK312_RU_eq_map (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hA : A ≤ burnsideK312_Uc c) :
     A = (CFSG.Quasithin.B45L2.rootSub (burnsideK312_RU_S c A)).map (burnsideK312_actHom c) := by
@@ -2395,12 +2460,14 @@ theorem burnsideK312_RU_eq_map (c : OrthogonalFourCoordinates L s F) {A : Subgro
   · rintro ⟨g, ⟨x, hx, rfl⟩, rfl⟩
     exact hx
 
+omit [Finite V] in
 theorem burnsideK312_RU_card_A (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hA : A ≤ burnsideK312_Uc c) : Nat.card A = Nat.card (burnsideK312_RU_S c A) := by
   conv_lhs => rw [burnsideK312_RU_eq_map c hA]
   rw [Subgroup.card_map_of_injective (burnsideK312_actHom_injective c),
     CFSG.Quasithin.B45L2.card_rootSub]
 
+omit [Finite V] in
 theorem burnsideK312_RU_exists_ne (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hA : A ≤ burnsideK312_Uc c) (hA1 : A ≠ ⊥) : ∃ x ∈ burnsideK312_RU_S c A, x ≠ 0 := by
   by_contra hcon
@@ -2411,6 +2478,7 @@ theorem burnsideK312_RU_exists_ne (c : OrthogonalFourCoordinates L s F) {A : Sub
   rw [hcon x hx, CFSG.Quasithin.JonesParshall.uMat_zero, map_one]
   exact Subgroup.one_mem _
 
+omit [Finite V] in
 theorem burnsideK312_RU_mem_fixV (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hA : A ≤ burnsideK312_Uc c) (v : V) :
     v ∈ fixV A ↔ ∀ x ∈ burnsideK312_RU_S c A,
@@ -2422,6 +2490,7 @@ theorem burnsideK312_RU_mem_fixV (c : OrthogonalFourCoordinates L s F) {A : Subg
     obtain ⟨g, ⟨x, -, rfl⟩, rfl⟩ := hA ha
     exact h x ha
 
+omit [Finite V] in
 theorem burnsideK312_RU_fix_uMat (c : OrthogonalFourCoordinates L s F) {x : F} (hx : x ≠ 0)
     (v : V) :
     burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.uMat x) v = v ↔
@@ -2449,6 +2518,7 @@ theorem burnsideK312_RU_fix_uMat (c : OrthogonalFourCoordinates L s F) {x : F} (
     fin_cases i <;> fin_cases j <;> simp [h11]
     linear_combination h
 
+omit [Finite F] in
 theorem burnsideK312_RU_ratio_K {x B : F} (hx : x ≠ 0)
     (h : x * B ^ 2 ^ s + B * x ^ 2 ^ s = 0) : (B / x) ^ 2 ^ s = B / x := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
@@ -2459,6 +2529,7 @@ theorem burnsideK312_RU_ratio_K {x B : F} (hx : x ≠ 0)
     Prop :=
   ∀ y ∈ burnsideK312_RU_S c A, ∀ t ∈ burnsideK312_RU_S c A, y * t ^ 2 ^ s + t * y ^ 2 ^ s = 0
 
+omit [Finite V] in
 theorem burnsideK312_RU_fix_iff (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hA : A ≤ burnsideK312_Uc c) {x : F} (hxS : x ∈ burnsideK312_RU_S c A) (hx : x ≠ 0) (v : V)
     (hv : v ∈ fixV A) :
@@ -2469,6 +2540,7 @@ theorem burnsideK312_RU_fix_iff (c : OrthogonalFourCoordinates L s F) {A : Subgr
   rw [burnsideK312_herm_apply (burnsideK312_matrix_herm c v) 1 0] at h2
   exact h2
 
+omit [Finite V] in
 theorem burnsideK312_RU_noniso (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hA : A ≤ burnsideK312_Uc c) {x1 x2 : F} (h1 : x1 ∈ burnsideK312_RU_S c A)
     (h2 : x2 ∈ burnsideK312_RU_S c A) (hp : x1 * x2 ^ 2 ^ s + x2 * x1 ^ 2 ^ s ≠ 0) :
@@ -2513,9 +2585,11 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin
 variable {V : Type} [CommGroup V] [Finite V] {L : Subgroup (MulAut V)} {s : ℕ} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideK312_RU2_zero_pow : (0 : F) ^ 2 ^ s = 0 :=
   zero_pow (pow_ne_zero _ two_ne_zero)
 
+omit [Finite V] in
 theorem burnsideK312_RU_mem_fixV_iff (c : OrthogonalFourCoordinates L s F)
     {A : Subgroup (MulAut V)} (hA : A ≤ burnsideK312_Uc c) {x0 : F}
     (hx0S : x0 ∈ burnsideK312_RU_S c A) (hx0 : x0 ≠ 0) (v : V) :
@@ -2541,6 +2615,7 @@ theorem burnsideK312_RU_mem_fixV_iff (c : OrthogonalFourCoordinates L s F)
       rw [burnsideK312_herm_apply (burnsideK312_matrix_herm c v) 1 0]
       exact h x hx
 
+omit [Finite V] in
 theorem burnsideK312_RU_card_fix_noniso (c : OrthogonalFourCoordinates L s F)
     {A : Subgroup (MulAut V)} (hA : A ≤ burnsideK312_Uc c) {x1 x2 : F}
     (h1 : x1 ∈ burnsideK312_RU_S c A) (h2 : x2 ∈ burnsideK312_RU_S c A)
@@ -2644,6 +2719,7 @@ theorem burnsideK312_RU_card_fix_iso (c : OrthogonalFourCoordinates L s F)
           ring
       _ ≤ Nat.card (fixV A) := Nat.card_le_card_of_injective g hinj
 
+omit [Finite V] in
 theorem burnsideK312_RU_S_ratio (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     {x0 : F} (hx0S : x0 ∈ burnsideK312_RU_S c A) (hx0 : x0 ≠ 0) (hiso : burnsideK312_RU_Iso c A)
     {y : F} (hy : y ∈ burnsideK312_RU_S c A) : (y / x0) ^ 2 ^ s = y / x0 :=
@@ -2654,6 +2730,7 @@ theorem burnsideK312_RU_S_ratio (c : OrthogonalFourCoordinates L s F) {A : Subgr
     (hiso : burnsideK312_RU_Iso c A) : ↥(burnsideK312_RU_S c A) → ↥(burnsideK312_K F s) :=
   fun y => ⟨y.1 / x0, burnsideK312_mem_K.mpr (burnsideK312_RU_S_ratio c hx0S hx0 hiso y.2)⟩
 
+omit [Finite V] in
 theorem burnsideK312_RU_toK_injective (c : OrthogonalFourCoordinates L s F)
     {A : Subgroup (MulAut V)} {x0 : F} (hx0S : x0 ∈ burnsideK312_RU_S c A) (hx0 : x0 ≠ 0)
     (hiso : burnsideK312_RU_Iso c A) :
@@ -2662,6 +2739,7 @@ theorem burnsideK312_RU_toK_injective (c : OrthogonalFourCoordinates L s F)
   have h' : y.1 / x0 = z.1 / x0 := congrArg Subtype.val h
   exact Subtype.ext ((div_left_inj' hx0).mp h')
 
+omit [Finite V] in
 theorem burnsideK312_RU_card_S_iso_le (c : OrthogonalFourCoordinates L s F)
     {A : Subgroup (MulAut V)} {x0 : F} (hx0S : x0 ∈ burnsideK312_RU_S c A) (hx0 : x0 ≠ 0)
     (hiso : burnsideK312_RU_Iso c A) : Nat.card (burnsideK312_RU_S c A) ≤ 2 ^ s := by
@@ -2671,6 +2749,7 @@ theorem burnsideK312_RU_card_S_iso_le (c : OrthogonalFourCoordinates L s F)
         Nat.card_le_card_of_injective _ (burnsideK312_RU_toK_injective c hx0S hx0 hiso)
     _ = 2 ^ s := burnsideK312_card_K hs hF
 
+omit [Finite V] in
 theorem burnsideK312_RU_S_eq_of_card (c : OrthogonalFourCoordinates L s F)
     {A : Subgroup (MulAut V)} {x0 : F} (hx0S : x0 ∈ burnsideK312_RU_S c A) (hx0 : x0 ≠ 0)
     (hiso : burnsideK312_RU_Iso c A) (hcard : 2 ^ s ≤ Nat.card (burnsideK312_RU_S c A))
@@ -2687,6 +2766,7 @@ theorem burnsideK312_RU_S_eq_of_card (c : OrthogonalFourCoordinates L s F)
   rw [← this]
   exact y.2
 
+omit [Finite V] in
 theorem burnsideK312_RU_quad_iso (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hq : IsQuadratic A) : burnsideK312_RU_Iso c A := by
   have hF := c.field_card
@@ -2721,28 +2801,30 @@ theorem burnsideK312_RU_quad_iso (c : OrthogonalFourCoordinates L s F) {A : Subg
   carrier := {v | c.matrix v 1 1 = 0}
   one_mem' := by simp [burnsideK312_matrix_one]
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     simp [burnsideK312_matrix_mul, ha, hb]
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     simp [burnsideK312_matrix_inv, ha]
 
 @[expose] def burnsideK312_RU_W2 (c : OrthogonalFourCoordinates L s F) : Subgroup V where
   carrier := {v | c.matrix v 0 1 = 0 ∧ c.matrix v 1 1 = 0}
   one_mem' := by simp [burnsideK312_matrix_one]
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     simp [burnsideK312_matrix_mul, ha.1, ha.2, hb.1, hb.2]
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     simp [burnsideK312_matrix_inv, ha.1, ha.2]
 
+omit [Finite V] in
 theorem burnsideK312_RU_mem_Uc (c : OrthogonalFourCoordinates L s F) {a : MulAut V}
     (ha : a ∈ burnsideK312_Uc c) :
     ∃ x : F, a = burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.uMat x) := by
   obtain ⟨g, ⟨x, -, rfl⟩, rfl⟩ := ha
   exact ⟨x, rfl⟩
 
+omit [Finite V] in
 theorem burnsideK312_RU_cubic (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hA : A ≤ burnsideK312_Uc c) : commSeries A 3 = ⊥ := by
   have ha : commSub (⊤ : Subgroup V) A ≤ burnsideK312_RU_W1 c := by
@@ -2751,8 +2833,7 @@ theorem burnsideK312_RU_cubic (c : OrthogonalFourCoordinates L s F) {A : Subgrou
     obtain ⟨x, rfl⟩ := burnsideK312_RU_mem_Uc c (hA haA)
     show c.matrix _ 1 1 = 0
     simp only [burnsideK312_matrix_mul, burnsideK312_matrix_inv, burnsideK312_matrix_uMat,
-      Matrix.add_apply, Matrix.neg_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
+      Matrix.add_apply, Matrix.neg_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
     ring
   have hb : commSub (burnsideK312_RU_W1 c) A ≤ burnsideK312_RU_W2 c := by
     rw [commSub, Subgroup.closure_le]
@@ -2779,6 +2860,7 @@ theorem burnsideK312_RU_cubic (c : OrthogonalFourCoordinates L s F) {A : Subgrou
   exact eq_bot_iff.mpr ((commSub_mono (commSub_mono ha le_rfl) le_rfl).trans
     ((commSub_mono hb le_rfl).trans hc.le))
 
+omit [Finite V] in
 theorem burnsideK312_RU_Uc_elem (c : OrthogonalFourCoordinates L s F) :
     IsElemAbelian2 (burnsideK312_Uc c) := by
   refine ⟨fun a ha b hb => ?_, fun a ha => ?_⟩
@@ -2790,6 +2872,7 @@ theorem burnsideK312_RU_Uc_elem (c : OrthogonalFourCoordinates L s F) :
     rw [sq, ← map_mul, CFSG.Quasithin.JonesParshall.uMat_mul, CharTwo.add_self_eq_zero,
       CFSG.Quasithin.JonesParshall.uMat_zero, map_one]
 
+omit [Finite V] in
 theorem burnsideK312_RU_isPGroup (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hA : A ≤ burnsideK312_Uc c) : IsPGroup 2 A := by
   intro a
@@ -2899,6 +2982,7 @@ theorem burnsideK312_RU_eq_Uc_of_rk (c : OrthogonalFourCoordinates L s F)
   rw [this]
   rfl
 
+omit [Finite V] in
 theorem burnsideK312_RU_conj_tMat (c : OrthogonalFourCoordinates L s F) (a : F) (ha : a ≠ 0)
     (x : F) :
     MulAut.conj (burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.tMat a ha))
@@ -2907,17 +2991,19 @@ theorem burnsideK312_RU_conj_tMat (c : OrthogonalFourCoordinates L s F) (a : F) 
   rw [MulAut.conj_apply, ← map_inv, ← map_mul, ← map_mul,
     CFSG.Quasithin.JonesParshall.tMat_conj]
 
+omit [Finite V] in
 theorem burnsideK312_RU_mem_Rc (c : OrthogonalFourCoordinates L s F) (k : F)
     (hk : k ^ 2 ^ s = k) :
     burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.uMat k) ∈ burnsideK312_Rc c :=
   ⟨_, ⟨k, hk, rfl⟩, rfl⟩
 
+omit [Finite V] in
 theorem burnsideK312_RU_iso_le_conj (c : OrthogonalFourCoordinates L s F)
     {A : Subgroup (MulAut V)} (hA : A ≤ burnsideK312_Uc c) (hA1 : A ≠ ⊥)
     (hiso : burnsideK312_RU_Iso c A) :
     ∃ (a : F) (ha : a ≠ 0), A ≤ (burnsideK312_Rc c).map
       (MulAut.conj (burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.tMat a ha))).toMonoidHom := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨x0, hx0S, hx0⟩ := burnsideK312_RU_exists_ne c hA hA1
   have ha0 : CFSG.Quasithin.JonesParshall.sqrtF x0 ≠ 0 := by
     intro h
@@ -2934,22 +3020,26 @@ theorem burnsideK312_RU_iso_le_conj (c : OrthogonalFourCoordinates L s F)
   congr 3
   field_simp
 
+omit [Finite V] in
 theorem burnsideK312_RU_S_Uc (c : OrthogonalFourCoordinates L s F) (x : F) :
     x ∈ burnsideK312_RU_S c (burnsideK312_Uc c) :=
   ⟨_, ⟨x, AddSubgroup.mem_top x, rfl⟩, rfl⟩
 
+omit [Finite V] in
 theorem burnsideK312_RU_Uc_le_L (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_Uc c ≤ L := by
   intro z hz
   obtain ⟨g, -, rfl⟩ := hz
   exact burnsideK312_actHom_mem c g
 
+omit [Finite V] in
 theorem burnsideK312_RU_card_Uc (c : OrthogonalFourCoordinates L s F) :
     Nat.card (burnsideK312_Uc c) = 2 ^ (2 * s) := by
   unfold burnsideK312_Uc
   rw [Subgroup.card_map_of_injective (burnsideK312_actHom_injective c), burnsideK312_card_rootSub,
     c.field_card]
 
+omit [Finite V] in
 theorem burnsideK312_RU_Uc_noniso (c : OrthogonalFourCoordinates L s F) :
     ¬ burnsideK312_RU_Iso c (burnsideK312_Uc c) := by
   intro h
@@ -2986,8 +3076,7 @@ theorem burnsideK312_RU_card_fix_Uc (c : OrthogonalFourCoordinates L s F) :
       have h' := congrArg (fun v : ↥(fixV (burnsideK312_Uc c)) => c.matrix v.1) h
       simp only [g, burnsideK312_Geo_matrix_mk] at h'
       have e := congrFun (congrFun h' 0) 0
-      simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-        Matrix.empty_val', Matrix.cons_val_fin_one] at e
+      simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val', Matrix.cons_val_fin_one] at e
       exact Subtype.ext e
     calc 2 ^ s = Nat.card ↥(burnsideK312_K F s) := (burnsideK312_card_K hs hF).symm
       _ ≤ _ := Nat.card_le_card_of_injective g hinj
@@ -3006,6 +3095,7 @@ theorem burnsideK312_RU_rAV_Uc (c : OrthogonalFourCoordinates L s F) :
   push_cast
   field_simp
 
+omit [Finite V] in
 theorem burnsideK312_RU_S_Rc (c : OrthogonalFourCoordinates L s F) (x : F) :
     x ∈ burnsideK312_RU_S c (burnsideK312_Rc c) ↔ x ^ 2 ^ s = x := by
   constructor
@@ -3017,6 +3107,7 @@ theorem burnsideK312_RU_S_Rc (c : OrthogonalFourCoordinates L s F) (x : F) :
   · intro hx
     exact burnsideK312_RU_mem_Rc c x hx
 
+omit [Finite V] in
 theorem burnsideK312_RU_card_Rc (c : OrthogonalFourCoordinates L s F) :
     Nat.card (burnsideK312_Rc c) = 2 ^ s := by
   have hF := c.field_card
@@ -3028,6 +3119,7 @@ theorem burnsideK312_RU_card_Rc (c : OrthogonalFourCoordinates L s F) :
     rw [burnsideK312_mem_K]
     exact Iff.rfl)
 
+omit [Finite V] in
 theorem burnsideK312_RU_Rc_iso (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_RU_Iso c (burnsideK312_Rc c) := by
   intro y hy t ht
@@ -3056,6 +3148,7 @@ theorem burnsideK312_RU_rAV_Rc (c : OrthogonalFourCoordinates L s F) :
   push_cast
   field_simp
 
+omit [Finite V] in
 theorem burnsideK312_RU_Rc_ne_bot (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_Rc c ≠ ⊥ := by
   have hs := burnsideK312_one_le c.field_card
@@ -3067,6 +3160,7 @@ theorem burnsideK312_RU_Rc_ne_bot (c : OrthogonalFourCoordinates L s F) :
       _ ≤ 2 ^ s := Nat.pow_le_pow_right (by norm_num) hs
   omega
 
+omit [Finite V] in
 theorem burnsideK312_RU_Rc_elem (c : OrthogonalFourCoordinates L s F) :
     IsElemAbelian2 (burnsideK312_Rc c) :=
   ⟨fun a ha b hb => (burnsideK312_RU_Uc_elem c).1 a (burnsideK312_Rc_le_Uc c ha) b
@@ -3084,6 +3178,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin
 variable {V : Type} [CommGroup V] [Finite V] {L : Subgroup (MulAut V)} {s : ℕ} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite V] in
 theorem burnsideK312_RU_fixV_sup (A B : Subgroup (MulAut V)) (v : V) :
     v ∈ fixV (A ⊔ B) ↔ v ∈ fixV A ∧ v ∈ fixV B := by
   constructor
@@ -3097,6 +3192,7 @@ theorem burnsideK312_RU_fixV_sup (A B : Subgroup (MulAut V)) (v : V) :
     have := (MulAction.mem_stabilizer_iff).mp (hle hx)
     rwa [MulAut.smul_def] at this
 
+omit [Finite V] in
 theorem burnsideK312_RU_Rc_commute (c : OrthogonalFourCoordinates L s F) {r : MulAut V}
     (hr : r ∈ burnsideK312_Rc c) : Commute r (burnsideK312_sh c) := by
   have hr' : r ∈ Subgroup.centralizer ({burnsideK312_sh c} : Set (MulAut V)) ⊓
@@ -3105,6 +3201,7 @@ theorem burnsideK312_RU_Rc_commute (c : OrthogonalFourCoordinates L s F) {r : Mu
     exact hr
   exact (Subgroup.mem_centralizer_iff.mp hr'.1 (burnsideK312_sh c) (Set.mem_singleton _)).symm
 
+omit [Finite V] in
 theorem burnsideK312_RU_Y_commute (c : OrthogonalFourCoordinates L s F) {x : MulAut V}
     (hx : x ∈ burnsideK312_Rc c ∨ x * burnsideK312_sh c ∈ burnsideK312_Rc c) :
     Commute x (burnsideK312_sh c) := by
@@ -3156,6 +3253,7 @@ theorem burnsideK312_RU3_ss (hF : Nat.card F = 2 ^ (2 * s)) (y : F) :
   rw [burnsideK312_sg_apply, burnsideK312_sg_apply] at this
   exact this
 
+omit [Finite V] in
 theorem burnsideK312_RU_Xc_mem (c : OrthogonalFourCoordinates L s F) {x : MulAut V} :
     x ∈ burnsideK312_Xc c ↔
       x ∈ burnsideK312_Rc c ∨ x * burnsideK312_sh c ∈ burnsideK312_Rc c := by
@@ -3180,6 +3278,7 @@ theorem burnsideK312_RU_Xc_mem (c : OrthogonalFourCoordinates L s F) {x : MulAut
         ((le_sup_right : Subgroup.zpowers (burnsideK312_sh c) ≤ burnsideK312_Rc c ⊔
           Subgroup.zpowers (burnsideK312_sh c)) (Subgroup.mem_zpowers _))
 
+omit [Finite V] in
 theorem burnsideK312_RU_Xc_exists (c : OrthogonalFourCoordinates L s F) {x : MulAut V}
     (hx : x ∈ burnsideK312_Xc c) :
     ∃ r ∈ burnsideK312_Rc c, x = r ∨ x = r * burnsideK312_sh c := by
@@ -3188,6 +3287,7 @@ theorem burnsideK312_RU_Xc_exists (c : OrthogonalFourCoordinates L s F) {x : Mul
   · refine ⟨x * burnsideK312_sh c, h, Or.inr ?_⟩
     rw [mul_assoc, burnsideK312_sh_sq, mul_one]
 
+omit [Finite V] in
 theorem burnsideK312_RU_Xc_elem (c : OrthogonalFourCoordinates L s F) :
     IsElemAbelian2 (burnsideK312_Xc c) := by
   have hR := burnsideK312_RU_Rc_elem c
@@ -3208,6 +3308,7 @@ theorem burnsideK312_RU_Xc_elem (c : OrthogonalFourCoordinates L s F) :
     · exact hR.2 a hr
     · rw [c2.mul_pow, hR.2 r hr, sq, burnsideK312_sh_sq, one_mul]
 
+omit [Finite V] in
 theorem burnsideK312_RU_Xc_fix (c : OrthogonalFourCoordinates L s F) (v : V) :
     v ∈ fixV (burnsideK312_Xc c) ↔
       c.matrix v 1 1 = 0 ∧ (c.matrix v 0 1) ^ 2 ^ s = c.matrix v 0 1 := by
@@ -3241,6 +3342,7 @@ theorem burnsideK312_RU_Xc_fix (c : OrthogonalFourCoordinates L s F) (v : V) :
       ext i j
       fin_cases i <;> fin_cases j <;> simp [Matrix.transpose_apply, hsym]
 
+omit [Finite V] in
 theorem burnsideK312_RU_Xc_quad (c : OrthogonalFourCoordinates L s F) :
     IsQuadratic (burnsideK312_Xc c) := by
   have hF := c.field_card
@@ -3259,8 +3361,7 @@ theorem burnsideK312_RU_Xc_quad (c : OrthogonalFourCoordinates L s F) :
   · have e11 : c.matrix (burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.uMat k) v * v⁻¹)
         1 1 = 0 := by
       simp only [burnsideK312_matrix_mul, burnsideK312_matrix_inv, burnsideK312_matrix_uMat,
-        Matrix.add_apply, Matrix.neg_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
+        Matrix.add_apply, Matrix.neg_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
       ring
     have e01 : c.matrix (burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.uMat k) v * v⁻¹)
         0 1 = k * c.matrix v 1 1 := by
@@ -3275,8 +3376,7 @@ theorem burnsideK312_RU_Xc_quad (c : OrthogonalFourCoordinates L s F) :
         burnsideK312_sh c) v * v⁻¹) 1 1 = 0 := by
       simp only [MulAut.mul_apply, burnsideK312_matrix_mul, burnsideK312_matrix_inv,
         burnsideK312_matrix_uMat, burnsideK312_matrix_sh, Matrix.add_apply, Matrix.neg_apply,
-        Matrix.of_apply, Matrix.transpose_apply, Matrix.cons_val', Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
+        Matrix.of_apply, Matrix.transpose_apply, Matrix.cons_val', Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
       ring
     have e01 : c.matrix ((burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.uMat k) *
         burnsideK312_sh c) v * v⁻¹) 0 1 =
@@ -3349,6 +3449,7 @@ theorem burnsideK312_RU_card_fix_Xc (c : OrthogonalFourCoordinates L s F) :
           ring
       _ ≤ Nat.card (fixV (burnsideK312_Xc c)) := Nat.card_le_card_of_injective g hinj
 
+omit [Finite V] in
 theorem burnsideK312_RU_card_Xc (c : OrthogonalFourCoordinates L s F) :
     Nat.card (burnsideK312_Xc c) = 2 ^ (s + 1) := by
   have hX : burnsideK312_Xc c = burnsideK312_Rc c ⊔ Subgroup.zpowers (burnsideK312_sh c) := rfl
@@ -3398,6 +3499,7 @@ theorem burnsideK312_X_facts (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_RU_Rc_elem c, burnsideK312_Rc_le_Uc c, burnsideK312_RU_Uc_le_L c,
     burnsideK312_RU_card_fix_Xc c, burnsideK312_RU_rAV_Xc c, burnsideK312_RU_rAV_Rc c⟩
 
+omit [Finite V] in
 theorem burnsideK312_RU_Uc_ne_bot (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_Uc c ≠ ⊥ := by
   have hs := burnsideK312_one_le c.field_card
@@ -3415,6 +3517,7 @@ theorem burnsideK312_Uc_facts (c : OrthogonalFourCoordinates L s F) :
   ⟨burnsideK312_RU_Uc_elem c, burnsideK312_RU_Uc_ne_bot c, burnsideK312_RU_rAV_Uc c,
     burnsideK312_RU_cubic c le_rfl⟩
 
+omit [Finite V] in
 theorem burnsideK312_tMat_mem (c : OrthogonalFourCoordinates L s F) (a : F) (ha : a ≠ 0) :
     burnsideK312_actHom c (CFSG.Quasithin.JonesParshall.tMat a ha) ∈
       L ⊓ Subgroup.normalizer (burnsideK312_Uc c : Set (MulAut V)) := by
@@ -3492,6 +3595,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin
 variable {V : Type} [CommGroup V] [Finite V] {L : Subgroup (MulAut V)} {s : ℕ} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite V] in
 theorem burnsideK312_W_exists_smul (c : OrthogonalFourCoordinates L s F) {κ : F}
     (hκ : κ ^ 2 ^ s = κ) (v : V) : ∃ u : V, c.matrix u = κ • c.matrix v := by
   apply burnsideK312_exists_vec c
@@ -3505,11 +3609,13 @@ theorem burnsideK312_W_exists_smul (c : OrthogonalFourCoordinates L s F) {κ : F
   · simp only [Matrix.smul_apply, smul_eq_mul]
     rw [h10, mul_pow, hκ]
 
+omit [Finite V] in
 theorem burnsideK312_W_det (c : OrthogonalFourCoordinates L s F) (v : V) :
     (c.matrix v).det = c.matrix v 0 0 * c.matrix v 1 1 -
       c.matrix v 0 1 * (c.matrix v 0 1) ^ 2 ^ s := by
   rw [Matrix.det_fin_two, burnsideK312_herm_apply (burnsideK312_matrix_herm c v) 1 0]
 
+omit [Finite V] in
 theorem burnsideK312_W_norm (c : OrthogonalFourCoordinates L s F) {v : V}
     (hv : (c.matrix v).det = 0) (h0 : c.matrix v 0 0 = 0) : c.matrix v 0 1 = 0 := by
   rw [burnsideK312_W_det, h0] at hv
@@ -3518,6 +3624,7 @@ theorem burnsideK312_W_norm (c : OrthogonalFourCoordinates L s F) {v : V}
   · exact h
   · exact pow_eq_zero_iff (pow_ne_zero _ two_ne_zero) |>.mp h
 
+omit [Finite V] in
 theorem burnsideK312_W_bound (c : OrthogonalFourCoordinates L s F) (W : Subgroup V)
     (hsing : ∀ v ∈ W, (c.matrix v).det = 0)
     (hK : ∀ scalar : F, OrthogonalFourCoordinates.IsFixedScalar s scalar →
@@ -3620,6 +3727,7 @@ theorem burnsideK312_W_bound (c : OrthogonalFourCoordinates L s F) (W : Subgroup
       ext i j
       simp [CharTwo.neg_eq]⟩
 
+omit [Finite V] in
 theorem burnsideK312_witt (c : OrthogonalFourCoordinates L s F) :
     0 < s ∧ Nat.card V = 2 ^ (4 * s) ∧
     (∃ singularPoint : Subgroup V, c.IsPoint singularPoint ∧
@@ -3642,6 +3750,7 @@ theorem burnsideK312_witt (c : OrthogonalFourCoordinates L s F) :
     rw [Matrix.det_fin_two, hv, hp]
     simp
 
+omit [Finite V] in
 theorem burnsideK312_W_fixV_zpowers (g : MulAut V) (v : V) :
     v ∈ fixV (Subgroup.zpowers g) ↔ g v = v := by
   constructor
@@ -3654,6 +3763,7 @@ theorem burnsideK312_W_fixV_zpowers (g : MulAut V) (v : V) :
     have := (MulAction.mem_stabilizer_iff).mp (hle hx)
     rwa [MulAut.smul_def] at this
 
+omit [Finite V] in
 theorem burnsideK312_W_Rc_fix (c : OrthogonalFourCoordinates L s F) (v : V) :
     v ∈ fixV (burnsideK312_Rc c) ↔
       c.matrix v 1 1 = 0 ∧ (c.matrix v 0 1) ^ 2 ^ s = c.matrix v 0 1 := by
@@ -3680,6 +3790,7 @@ theorem burnsideK312_W_Rc_fix (c : OrthogonalFourCoordinates L s F) (v : V) :
       rw [h10, hK, hxK]
       linear_combination (x * c.matrix v 0 1) * h2
 
+omit [Finite V] in
 theorem burnsideK312_W_point (c : OrthogonalFourCoordinates L s F) {y : F}
     (hy : y ^ 2 ^ s ≠ y) :
     c.IsPoint (fixV (burnsideK312_Rc c ⊔ Subgroup.zpowers
@@ -3712,7 +3823,7 @@ theorem burnsideK312_W_point (c : OrthogonalFourCoordinates L s F) {y : F}
       have h10' : c.matrix v 1 0 = 0 := by
         rw [h10, h01, burnsideK312_RU2_zero_pow]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [h01, h10', h11, burnsideK312_RU2_zero_pow]
+      fin_cases i <;> fin_cases j <;> simp [h01, h10', h11]
     · rintro ⟨κ, hκ, hv⟩
       rw [hp] at hv
       have e11 : c.matrix v 1 1 = 0 := by
@@ -3727,6 +3838,7 @@ theorem burnsideK312_W_point (c : OrthogonalFourCoordinates L s F) {y : F}
       rw [e10, e01]
       ring
 
+omit [Finite V] in
 theorem burnsideK312_W_normalizer (c : OrthogonalFourCoordinates L s F) {n : MulAut V}
     (hn : n ∈ L ⊓ Subgroup.normalizer (burnsideK312_Uc c : Set (MulAut V))) :
     ∃ p : F, p ≠ 0 ∧ ∀ k : F, MulAut.conj n
@@ -3764,6 +3876,7 @@ theorem burnsideK312_W_normalizer (c : OrthogonalFourCoordinates L s F) {n : Mul
     linear_combination (-((g : Matrix (Fin 2) (Fin 2) F) 0 0 * k)) * hpt
   rw [MulAut.conj_apply, ← map_inv, ← map_mul, ← map_mul, ← mul_inv_eq_iff_eq_mul.mpr key]
 
+omit [Finite V] in
 theorem burnsideK312_W_map_le (c : OrthogonalFourCoordinates L s F) {n1 n2 : MulAut V}
     {p1 p2 ρ : F}
     (h1 : ∀ k : F, MulAut.conj n1
@@ -3783,6 +3896,7 @@ theorem burnsideK312_W_map_le (c : OrthogonalFourCoordinates L s F) {n1 n2 : Mul
   show MulAut.conj n2 _ = MulAut.conj n1 _
   rw [h2, h1, hp, mul_assoc]
 
+omit [Finite V] in
 theorem burnsideK312_W_map_disjoint (c : OrthogonalFourCoordinates L s F) {n1 n2 : MulAut V}
     {p1 p2 : F} (hp2 : p2 ≠ 0)
     (h1 : ∀ k : F, MulAut.conj n1
@@ -3816,6 +3930,7 @@ theorem burnsideK312_W_map_disjoint (c : OrthogonalFourCoordinates L s F) {n1 n2
       linear_combination (-1 : F) * hz''
     rw [e, div_pow, hk1, hk2]
 
+omit [Finite V] in
 theorem burnsideK312_std_x (c : OrthogonalFourCoordinates L s F) :
     (∀ element ∈ burnsideK312_Uc c, element ≠ 1 →
       ∃ normalizerElement ∈ L ⊓ Subgroup.normalizer (burnsideK312_Uc c : Set (MulAut V)),
@@ -3840,7 +3955,7 @@ theorem burnsideK312_std_x (c : OrthogonalFourCoordinates L s F) :
   refine ⟨?_, ?_, ?_⟩
   · intro element hU hne
     obtain ⟨y, rfl⟩ := burnsideK312_RU_mem_Uc c hU
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     have hy0 : y ≠ 0 := by
       rintro rfl
       apply hne
@@ -3884,6 +3999,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin
 variable {V : Type} [CommGroup V] [Finite V] {L : Subgroup (MulAut V)} {s : ℕ} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite V] in
 theorem burnsideK312_RO_Xc_conj (c : OrthogonalFourCoordinates L s F) (g : SL(2, F)) :
     burnsideK312_Xc (burnsideK312_conj c g) =
       (burnsideK312_Xc c).map (MulAut.conj (burnsideK312_actHom c g)).toMonoidHom := by
@@ -3891,6 +4007,7 @@ theorem burnsideK312_RO_Xc_conj (c : OrthogonalFourCoordinates L s F) (g : SL(2,
   rw [burnsideK312_Rc_conj, burnsideK312_sh_conj, Subgroup.map_sup, MonoidHom.map_zpowers]
   rfl
 
+omit [Finite F] in
 theorem burnsideK312_RO_incl_uMat (κ : ↥(burnsideK312_K F s)) :
     burnsideK312_Geo_incl (CFSG.Quasithin.JonesParshall.uMat κ) =
       CFSG.Quasithin.JonesParshall.uMat (κ : F) := by
@@ -3899,6 +4016,7 @@ theorem burnsideK312_RO_incl_uMat (κ : ↥(burnsideK312_K F s)) :
   rw [burnsideK312_Geo_incl_coe]
   fin_cases i <;> fin_cases j <;> simp [CFSG.Quasithin.JonesParshall.uMat_coe]
 
+omit [Finite V] in
 theorem burnsideK312_RO_sylow (c : OrthogonalFourCoordinates L s F) {A : Subgroup (MulAut V)}
     (hAe : IsElemAbelian2 A) (hsh : burnsideK312_sh c ∈ A) :
     ∃ x : SL(2, ↥(burnsideK312_K F s)), ∀ a ∈ A, a ∈ L →
@@ -3998,7 +4116,7 @@ theorem burnsideK312_RO_X_sub (c : OrthogonalFourCoordinates L s F) {A : Subgrou
         exact Subgroup.mem_zpowers _
     have hA_eq : A = Subgroup.zpowers (burnsideK312_sh c) :=
       le_antisymm hA_le (Subgroup.zpowers_le.mpr hsh)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hord : orderOf (burnsideK312_sh c) = 2 :=
       orderOf_eq_prime (by rw [sq, burnsideK312_sh_sq]) hsh1
     have hcard2 : Nat.card A = 2 := by
@@ -4072,6 +4190,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin CFSG.QuasithinUnique
 variable {V : Type} [CommGroup V] [Finite V] {G L : Subgroup (MulAut V)} {s : ℕ} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite V] in
 theorem burnsideK312_AS_irr (hirr : XMod.IsIrrSec ↥L (⊥ : Subgroup V) ⊤) :
     ∀ J : Subgroup V, (∀ l ∈ L, ∀ v ∈ J, l v ∈ J) → J = ⊥ ∨ J = ⊤ := by
   intro J hJ
@@ -4091,6 +4210,7 @@ theorem burnsideK312_AS_sylow_inf (hLG : L ≤ G) (hLn : ∀ g ∈ G, ∀ l ∈ 
     simpa using hLn g g.2 x hx'
   exact CFSG.QuasithinUnique.RankOneRecog.isSylowTwoOf_inf_of_subnormal hT hLG hnorm.isSubnormal
 
+omit [Finite V] in
 theorem burnsideK312_AS_mem_normalizer (hLn : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L)
     {g : MulAut V} (hg : g ∈ G) : g ∈ Subgroup.normalizer (L : Set (MulAut V)) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -4099,6 +4219,7 @@ theorem burnsideK312_AS_mem_normalizer (hLn : ∀ g ∈ G, ∀ l ∈ L, g * l * 
   have := hLn g⁻¹ (G.inv_mem hg) _ hh
   simpa [mul_assoc] using this
 
+omit [Finite V] in
 theorem burnsideK312_AS_mem_normalizer_inf (hLn : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L)
     {T : Subgroup (MulAut V)} (hT : T ≤ G) {t : MulAut V} (ht : t ∈ T) :
     t ∈ Subgroup.normalizer ((T ⊓ L : Subgroup (MulAut V)) : Set (MulAut V)) := by
@@ -4168,6 +4289,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin CFSG.QuasithinUnique
 variable {V : Type} [CommGroup V] [Finite V] {G L : Subgroup (MulAut V)} {s : ℕ} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite V] in
 theorem burnsideK312_AS_rel (c : OrthogonalFourCoordinates L s F) (g : SL(2, F)) (x : V) :
     c.matrix x = (g : Matrix (Fin 2) (Fin 2) F) * (burnsideK312_conj c g).matrix x *
       (frobPow s (g : Matrix (Fin 2) (Fin 2) F))ᵀ := by
@@ -4176,16 +4298,19 @@ theorem burnsideK312_AS_rel (c : OrthogonalFourCoordinates L s F) (g : SL(2, F))
   rw [burnsideK312_matrix_conj]
   exact this
 
+omit [Finite V] in
 theorem burnsideK312_AS_rel_inv (c : OrthogonalFourCoordinates L s F) (g : SL(2, F)) (x : V) :
     (burnsideK312_conj c g).matrix x = ((g⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) *
       c.matrix x * (frobPow s ((g⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F))ᵀ := by
   rw [burnsideK312_matrix_conj, ← map_inv, burnsideK312_matrix_act]
 
+omit [Finite V] in
 theorem burnsideK312_AS_det_conj (c : OrthogonalFourCoordinates L s F) (g : SL(2, F)) (x : V) :
     ((burnsideK312_conj c g).matrix x).det = (c.matrix x).det := by
   rw [burnsideK312_AS_rel_inv]
   exact burnsideK312_det_twAct g⁻¹ _
 
+omit [Finite V] in
 theorem burnsideK312_AS_smul_conj (c : OrthogonalFourCoordinates L s F) (g : SL(2, F))
     (x y : V) (κ : F) :
     (burnsideK312_conj c g).matrix x = κ • (burnsideK312_conj c g).matrix y ↔
@@ -4198,6 +4323,7 @@ theorem burnsideK312_AS_smul_conj (c : OrthogonalFourCoordinates L s F) (g : SL(
     rw [burnsideK312_AS_rel_inv c g x, burnsideK312_AS_rel_inv c g y, h]
     simp only [Matrix.mul_smul, Matrix.smul_mul]
 
+omit [Finite V] in
 theorem burnsideK312_AS_polar_conj (c : OrthogonalFourCoordinates L s F) (g : SL(2, F))
     (x y : V) : (burnsideK312_conj c g).polar x y = c.polar x y := by
   unfold OrthogonalFourCoordinates.polar
@@ -4205,6 +4331,7 @@ theorem burnsideK312_AS_polar_conj (c : OrthogonalFourCoordinates L s F) (g : SL
     burnsideK312_AS_det_conj c g (x * y), burnsideK312_AS_det_conj c g x,
     burnsideK312_AS_det_conj c g y]
 
+omit [Finite V] in
 theorem burnsideK312_AS_TConj_transfer (c : OrthogonalFourCoordinates L s F) (g : SL(2, F))
     {t : MulAut V} (h : burnsideK312_TConj (burnsideK312_conj c g) t) :
     burnsideK312_TConj c t := by
@@ -4249,10 +4376,12 @@ theorem burnsideK312_AS_TConj_transfer (c : OrthogonalFourCoordinates L s F) (g 
       exact hdι v
     · exact (hsm _ _ κ).mpr (hκι κ hκ first second ((hsm _ _ κ).mp hs))
 
+omit [Finite V] in
 theorem burnsideK312_AS_TConj_conj (c : OrthogonalFourCoordinates L s F) (g : SL(2, F)) :
     burnsideK312_TConj c (burnsideK312_sh (burnsideK312_conj c g)) :=
   burnsideK312_AS_TConj_transfer c g (burnsideK312_TConj_sh (burnsideK312_conj c g))
 
+omit [Finite V] in
 theorem burnsideK312_AS_sh_conj_eq (c : OrthogonalFourCoordinates L s F) (g : SL(2, F)) :
     burnsideK312_sh (burnsideK312_conj c g) = burnsideK312_actHom c (g *
       (Matrix.SpecialLinearGroup.map (burnsideK312_sg F s) g)⁻¹) * burnsideK312_sh c := by
@@ -4261,10 +4390,11 @@ theorem burnsideK312_AS_sh_conj_eq (c : OrthogonalFourCoordinates L s F) (g : SL
   have e : (burnsideK312_actHom c (Matrix.SpecialLinearGroup.map (burnsideK312_sg F s) g))⁻¹ =
       burnsideK312_sh c * (burnsideK312_actHom c g)⁻¹ * burnsideK312_sh c := by
     rw [← h]
-    simp only [mul_inv_rev, burnsideK312_sh_inv, mul_assoc, inv_inv]
+    simp only [mul_inv_rev, burnsideK312_sh_inv, mul_assoc]
   rw [burnsideK312_sh_conj, map_mul, map_inv, e]
   simp only [mul_assoc, hs, mul_one]
 
+omit [Finite V] in
 theorem burnsideK312_AS_fieldMatrix (c : OrthogonalFourCoordinates L s F) (h : SL(2, F)) :
     ∃ fieldMatrix : Matrix.GeneralLinearGroup (Fin 2) F,
       (∀ groupElement : ↥(StatedSL 2 F), ∃ imageElement : ↥(StatedSL 2 F),
@@ -4354,6 +4484,7 @@ theorem burnsideK312_AS_rAV_gt_one (c : OrthogonalFourCoordinates L s F) (hHyp :
     push_cast
     linarith
 
+omit [Finite V] in
 theorem burnsideK312_AS_le_of_odd (hLn : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L)
     (hodd : Odd (L.relIndex G)) {A : Subgroup (MulAut V)} (hAG : A ≤ G)
     (hAe : IsElemAbelian2 A) : A ≤ L := by
@@ -4378,24 +4509,29 @@ theorem burnsideK312_AS_le_of_odd (hLn : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻�
       _ = 1 := by rw [← hm]; exact hyn
   exact (QuotientGroup.eq_one_iff x).mp hy1
 
+omit [Finite V] in
 theorem burnsideK312_AS_Rc_le_G (c : OrthogonalFourCoordinates L s F) (hLG : L ≤ G) :
     burnsideK312_Rc c ≤ G :=
   (burnsideK312_Rc_le_Uc c).trans ((burnsideK312_RU_Uc_le_L c).trans hLG)
 
+omit [Finite V] in
 theorem burnsideK312_AS_Uc_le_G (c : OrthogonalFourCoordinates L s F) (hLG : L ≤ G) :
     burnsideK312_Uc c ≤ G :=
   (burnsideK312_RU_Uc_le_L c).trans hLG
 
+omit [Finite V] in
 theorem burnsideK312_AS_Rc_quad (c : OrthogonalFourCoordinates L s F) :
     commSeries (burnsideK312_Rc c) 2 = ⊥ := by
   have h := (isQuadratic_iff_commSeries_two _).mp (burnsideK312_RU_Xc_quad c)
   have hle : burnsideK312_Rc c ≤ burnsideK312_Xc c := le_sup_left
   exact eq_bot_iff.mpr ((commSeries_mono hle 2).trans h.le)
 
+omit [Finite V] in
 theorem burnsideK312_AS_Rc_A2 (c : OrthogonalFourCoordinates L s F) (hLG : L ≤ G) :
     IsA2 G (burnsideK312_Rc c) :=
   ⟨burnsideK312_AS_Rc_le_G c hLG, burnsideK312_RU_Rc_ne_bot c, burnsideK312_RU_Rc_elem c⟩
 
+omit [Finite V] in
 theorem burnsideK312_AS_Uc_A2 (c : OrthogonalFourCoordinates L s F) (hLG : L ≤ G) :
     IsA2 G (burnsideK312_Uc c) :=
   ⟨burnsideK312_AS_Uc_le_G c hLG, burnsideK312_RU_Uc_ne_bot c, burnsideK312_RU_Uc_elem c⟩
@@ -4431,6 +4567,7 @@ theorem burnsideK312_AS_q_odd (c : OrthogonalFourCoordinates L s F) (hHyp : B4Hy
     obtain ⟨g, hg⟩ := hA A hA2
     exact (burnsideK312_Uc_sub (burnsideK312_conj c g) hg hA2.2.2 hA2.2.1).1
 
+omit [Finite V] in
 theorem burnsideK312_AS_map_conj_mul (X : Subgroup (MulAut V)) (a b : MulAut V) :
     (X.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       X.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -4441,6 +4578,7 @@ theorem burnsideK312_AS_map_conj_mul (X : Subgroup (MulAut V)) (a b : MulAut V) 
     simp [MulAut.conj_apply, mul_assoc]
   rw [h]
 
+omit [Finite V] in
 theorem burnsideK312_AS_zpowers_elem {t : MulAut V} (hsq : t ^ 2 = 1) :
     IsElemAbelian2 (Subgroup.zpowers t) := by
   refine ⟨fun a ha b hb => ?_, fun a ha => ?_⟩
@@ -4624,6 +4762,7 @@ theorem burnsideK312_AS_C2 (c : OrthogonalFourCoordinates L s F) (hHyp : B4Hyp G
   obtain ⟨h5a, h5b⟩ := h5 hall'
   exact ⟨h1, h5a, h3, h5b⟩
 
+omit [Finite V] in
 theorem burnsideK312_AS_sh_normalizes_Uc (c : OrthogonalFourCoordinates L s F) :
     burnsideK312_sh c ∈ Subgroup.normalizer (burnsideK312_Uc c : Set (MulAut V)) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -4646,12 +4785,14 @@ theorem burnsideK312_AS_sh_normalizes_Uc (c : OrthogonalFourCoordinates L s F) :
   rw [e] at this
   exact this
 
+omit [Finite V] in
 theorem burnsideK312_AS_isPoint_conj (c : OrthogonalFourCoordinates L s F) (g : SL(2, F))
     {W : Subgroup V} (h : (burnsideK312_conj c g).IsPoint W) : c.IsPoint W := by
   obtain ⟨q, hq1, hq2⟩ := h
   exact ⟨q, hq1, fun v => (hq2 v).trans
     (exists_congr (fun κ => and_congr_right (fun _ => burnsideK312_AS_smul_conj c g v q κ)))⟩
 
+omit [Finite V] in
 theorem burnsideK312_AS_xblock (c : OrthogonalFourCoordinates L s F) (g : SL(2, F))
     {T : Subgroup (MulAut V)} (hS : T ⊓ L = burnsideK312_Uc (burnsideK312_conj c g)) :
     (∀ element ∈ T ⊓ L, element ≠ 1 →
@@ -4691,6 +4832,7 @@ open CFSG.ASVolI.ChIJK CFSG.Quasithin CFSG.QuasithinUnique
 variable {V : Type} [CommGroup V] [Finite V] {G L : Subgroup (MulAut V)} {F : Type}
   [Field F] [Finite F] [CharP F 2]
 
+omit [Finite V] in
 theorem burnsideK312_S1_center {s : ℕ} (c : OrthogonalFourCoordinates L s F) :
     Subgroup.center ↥L = ⊥ := by
   let θL : ↥L ≃* SL(2, F) :=
@@ -4705,6 +4847,7 @@ theorem burnsideK312_S1_center {s : ℕ} (c : OrthogonalFourCoordinates L s F) :
   rw [B42L2.center_sl2_eq_bot, Subgroup.mem_bot] at h1
   exact θL.injective (h1.trans (map_one θL).symm)
 
+omit [Finite V] in
 theorem burnsideK312_S1_cent (c : OrthogonalFourCoordinates L 1 F)
     (hirr : ∀ J : Subgroup V, (∀ l ∈ L, ∀ v ∈ J, l v ∈ J) → J = ⊥ ∨ J = ⊤)
     {g : MulAut V} (hcomm : ∀ l ∈ L, g * l = l * g) : g = 1 := by
@@ -4737,6 +4880,7 @@ theorem burnsideK312_S1_cent (c : OrthogonalFourCoordinates L 1 F)
     (Classical.choice (CFSG.Quasithin.C124.YL.A6.sl2_equiv_alt_five
       (by rw [c.field_card]; norm_num)))
 
+omit [Finite V] in
 theorem burnsideK312_S1_haut (c : OrthogonalFourCoordinates L 1 F) :
     Nat.card (MulAut ↥L) ≤ 2 * Nat.card ↥L := by
   rw [Nat.card_congr (MulAut.congr (burnsideK312_S1_eL c)).toEquiv,
@@ -4761,7 +4905,7 @@ theorem burnsideK312_S1_deleted
       ∀ y : ↥(L ⊔ Q), (y : MulAut V) ∈ L ↔ σ y ∈ alternatingGroup (Fin 5) := by
   have hQL := burnsideK312_S1_not_le c hK.hyp hK.elem2 hQ
   refine ⟨hQL, ?_⟩
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hFc : Fintype.card F = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, c.field_card]
   let θL : ↥L ≃* SL(2, F) :=
@@ -4787,7 +4931,7 @@ theorem burnsideK312_S1_Q (c : OrthogonalFourCoordinates L 1 F)
   have hsq : burnsideK312_sh c ^ 2 = 1 := by rw [sq]; exact burnsideK312_sh_sq c
   have hel := burnsideK312_AS_zpowers_elem hsq
   have hsh1 : burnsideK312_sh c ≠ 1 := fun h => burnsideK312_sh_notMem c (h ▸ L.one_mem)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (burnsideK312_sh c) = 2 := orderOf_eq_prime hsq hsh1
   have hQc : Nat.card (Subgroup.zpowers (burnsideK312_sh c)) = 2 := by
     rw [Nat.card_zpowers, hord]
@@ -4853,7 +4997,7 @@ theorem burnsideK312_S1
           (fun g _ hc => burnsideK312_S1_cent c hirr hc) (burnsideK312_S1_haut c)
       exact ⟨(MulEquiv.subgroupCongr (hN1.symm.trans hN2)).trans σ⟩
   · intro _ A hA
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     have hFc : Fintype.card F = 2 ^ 2 := by
       rw [← Nat.card_eq_fintype_card, c.field_card]
     let θL : ↥L ≃* SL(2, F) :=

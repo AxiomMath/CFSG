@@ -21,6 +21,7 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem conj_mem_OCW {W : Subgroup G} {g o : G} (hg : g ∈ Subgroup.normalizer (W : Set G))
     (ho : o ∈ OCW W) : g * o * g⁻¹ ∈ OCW W := by
   have h := CFSG.ClassicalInvolution.Asc77.Thompson.conjSub_OCW g W
@@ -28,7 +29,7 @@ theorem conj_mem_OCW {W : Subgroup G} {g o : G} (hg : g ∈ Subgroup.normalizer 
   rw [← h]
   exact conj_mem_conjSub ho
 
-@[expose] def zhat (hΩ : HypOmegaMod Ω) (W : Subgroup G) : Subgroup G where
+@[expose] def zhat (_hΩ : HypOmegaMod Ω) (W : Subgroup G) : Subgroup G where
   carrier := {x | x ∈ Subgroup.normalizer (W : Set G) ∧
     ∀ y ∈ MGrp Ω W, x * y * x⁻¹ * y⁻¹ ∈ OCW W}
   one_mem' := ⟨Subgroup.one_mem _, fun y _ => by simp⟩
@@ -46,6 +47,7 @@ theorem conj_mem_OCW {W : Subgroup G} {g o : G} (hg : g ∈ Subgroup.normalizer 
     rw [e]
     exact conj_mem_OCW (Subgroup.inv_mem _ h) (Subgroup.inv_mem _ (k y hy))
 
+omit [Finite G] in
 theorem mem_zhat_iff {hΩ : HypOmegaMod Ω} {W : Subgroup G} {x : G} :
     x ∈ zhat hΩ W ↔ x ∈ Subgroup.normalizer (W : Set G) ∧
       ∀ y ∈ MGrp Ω W, x * y * x⁻¹ * y⁻¹ ∈ OCW W := Iff.rfl
@@ -80,6 +82,7 @@ theorem conj_mem_zhat (hΩ : HypOmegaMod Ω) {W : Subgroup G} {s x : G}
     rw [e]
     exact conj_mem_OCW (Subgroup.inv_mem _ h) (Subgroup.inv_mem _ k)
 
+omit [Finite G] in
 theorem le_cmodO {W X : Subgroup G} {a : G} (hXN : X ≤ Subgroup.normalizer (W : Set G))
     (hXa : X ≤ Subgroup.centralizer ({a} : Set G)) : X ≤ cmodO W a := by
   intro y hy
@@ -90,6 +93,7 @@ theorem le_cmodO {W X : Subgroup G} {a : G} (hXN : X ≤ Subgroup.normalizer (W 
   rw [e]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem OCW_le_cmodO {W : Subgroup G} {a : G} (ha : a ∈ Subgroup.normalizer (W : Set G)) :
     OCW W ≤ cmodO W a := by
   intro o ho
@@ -210,7 +214,7 @@ theorem exists_S₁ : ∃ S₁ : Sylow 2 G, H.a ∈ (S₁ : Subgroup G) ∧ W �
     R ≤ (S₁ : Subgroup G) ∧ R' ≤ (S₁ : Subgroup G) ∧
     (S₁ : Subgroup G) ≤ Subgroup.normalizer (W : Set G) := by
   have hP : IsPGroup 2 ↥(R ⊔ R' ⊔ W) :=
-    S.isPGroup'.to_le (sup_le (sup_le H.C.hd.hR.2.2 H.C.hd.hR'.2.2) H.C.hd.hWS)
+    S.isPGroup.to_le (sup_le (sup_le H.C.hd.hR.2.2 H.C.hd.hR'.2.2) H.C.hd.hWS)
   have hPa : R ⊔ R' ⊔ W ≤ Subgroup.centralizer ({H.a} : Set G) :=
     sup_le (sup_le H.haR H.haR') H.W_le_centralizer_a
   have haP : H.a ∈ Subgroup.centralizer ((R ⊔ R' ⊔ W : Subgroup G) : Set G) :=
@@ -239,7 +243,7 @@ theorem exists_central (S₁ : Sylow 2 G) (haS₁ : H.a ∈ (S₁ : Subgroup G))
   have hZn : Z₁.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact conj_mem_zhat H.hΩ (hS₁ g.2) hn⟩
-  haveI := S₁.isPGroup'.isNilpotent
+  have := S₁.isPGroup.isNilpotent
   have hne : Z₁ ≠ ⊥ := by
     rw [Subgroup.ne_bot_iff_exists_ne_one]
     refine ⟨⟨⟨H.a, haS₁⟩, (Subgroup.mem_subgroupOf).mpr H.a_mem_zhat⟩, ?_⟩
@@ -259,7 +263,7 @@ theorem exists_central (S₁ : Sylow 2 G) (haS₁ : H.a ∈ (S₁ : Subgroup G))
     apply hx1
     exact Subtype.ext (Subtype.ext h)
   obtain ⟨n, hn2, hn1⟩ := exists_involution_pow
-    (S₁.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyS)) hy1
+    (S₁.isPGroup.to_le (Subgroup.zpowers_le.mpr hyS)) hy1
   refine ⟨y ^ n, Subgroup.pow_mem _ hyZ n, Subgroup.pow_mem _ hyS n,
     Subgroup.mem_centralizer_iff.mpr fun h hh => ((Commute.pow_right (hyc h hh) n)).eq, hn2, hn1⟩
 
@@ -276,7 +280,7 @@ theorem exists_T (a₀ : G) (ha₀Z : a₀ ∈ zhat H.hΩ W) (ha₀2 : a₀ * a�
     have h4 : 4 ≤ Nat.card (Subgroup.zpowers H.C.D.x₃) := by
       rw [Nat.card_zpowers, H.C.orderOf_x₃]
     have h2 : IsPGroup 2 (Subgroup.zpowers H.C.D.x₃) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (H.C.hd.hWS H.C.D.x₃_mem))
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr (H.C.hd.hWS H.C.D.x₃_mem))
     refine CFSG.ClassicalInvolution.Disconnected.AschTight.Sec6Gen.eq_of_le_of_le hΩ
       (hΩ.conjInvariant a₀ _ hJ) hJ h2 h4 ?_ (Subgroup.zpowers_le.mpr H.C.x₃_mem_J)
     rw [Subgroup.zpowers_le, mem_conjSub_iff]

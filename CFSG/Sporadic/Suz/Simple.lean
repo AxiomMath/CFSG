@@ -310,7 +310,7 @@ theorem subLab_mem (p : Fin 22880) :
     (subLab p = 4 → InTree (Tj 2) p.val) := by
   unfold subLab
   refine ⟨fun h => ?_, fun h => ?_, fun h => ?_, fun h => ?_, fun h => ?_⟩ <;>
-    split_ifs at h with h0 h1 h2 h3 <;> first | exact absurd h (by decide) | skip
+    split_ifs at h with h0 h1 h2 h3 <;> try exact absurd h (by decide)
   · exact Fin.ext h0
   · exact h1
   · exact h2

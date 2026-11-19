@@ -28,7 +28,7 @@ theorem card_le_of_bstarUniqueIn [Finite G] {p : ℕ} (hp : p.Prime) {M Bs E : S
   obtain ⟨R, hR⟩ := ((hpg hE).comap_of_injective M.subtype M.subtype_injective).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq M R Q
   have hPM : (Q : Subgroup ↥M).map M.subtype ≤ M := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p ((Q : Subgroup ↥M).map M.subtype) := Q.isPGroup'.map M.subtype
+  have hPp : IsPGroup p ((Q : Subgroup ↥M).map M.subtype) := Q.isPGroup.map M.subtype
   have hBsP : Bs ≤ (Q : Subgroup ↥M).map M.subtype := fun b hb => ⟨⟨b, hBsM hb⟩, hQ hb, rfl⟩
   have hmaxM : ∀ S : Subgroup G, S ≤ M → IsPGroup p S →
       (Q : Subgroup ↥M).map M.subtype ≤ S → S = (Q : Subgroup ↥M).map M.subtype := by

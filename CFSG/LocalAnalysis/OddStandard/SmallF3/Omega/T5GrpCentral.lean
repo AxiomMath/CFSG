@@ -27,7 +27,7 @@ private lemma closure_conj_mem {H : Type*} [Group H] {s : Set H}
     (hx : x ∈ Subgroup.closure s) (y : H) : y * x * y⁻¹ ∈ Subgroup.closure s := by
   induction hx using Subgroup.closure_induction with
   | mem z hz => exact Subgroup.subset_closure (hs z hz y)
-  | one => simpa using Subgroup.one_mem (Subgroup.closure s)
+  | one => simp
   | mul a b _ _ iha ihb =>
       have h : y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) := by group
       rw [h]
@@ -60,9 +60,9 @@ private lemma twoOrderGen_normal (H : Type*) [Group H] : (twoOrderGen H).Normal 
 
 private theorem oddOrderGen_eq_top (H : Type*) [Group H] [Finite H]
     (hperf : Group.IsPerfect H) : oddOrderGen H = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : (oddOrderGen H).Normal := oddOrderGen_normal H
-  haveI : Group.IsPerfect H := hperf
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : (oddOrderGen H).Normal := oddOrderGen_normal H
+  have : Group.IsPerfect H := hperf
   have hpg : IsPGroup 2 (H ⧸ oddOrderGen H) := by
     intro x
     obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective (oddOrderGen H) x
@@ -79,24 +79,24 @@ private theorem oddOrderGen_eq_top (H : Type*) [Group H] [Finite H]
   have hnil : Group.IsNilpotent (H ⧸ oddOrderGen H) := IsPGroup.isNilpotent (p := 2) hpg
   have hsub : Subsingleton (H ⧸ oddOrderGen H) := by
     by_contra h
-    haveI : Nontrivial (H ⧸ oddOrderGen H) := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial (H ⧸ oddOrderGen H) := not_subsingleton_iff_nontrivial.mp h
     exact Group.IsPerfect.not_isNilpotent (H ⧸ oddOrderGen H) hnil
   exact (QuotientGroup.subsingleton_iff).mp hsub
 
 private theorem twoOrderGen_eq_top (H : Type*) [Group H] [Finite H]
     (hperf : Group.IsPerfect H) (hsimple : IsSimpleGroup (H ⧸ Subgroup.center H))
-    {t : H} (ht : t ∈ Subgroup.center H) (ht2 : orderOf t = 2) :
+    {t : H} (_ht : t ∈ Subgroup.center H) (ht2 : orderOf t = 2) :
     twoOrderGen H = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Group.IsPerfect H := hperf
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hsimple
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Group.IsPerfect H := hperf
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hsimple
   let R : Subgroup H := twoOrderGen H
   have hRnorm : R.Normal := twoOrderGen_normal H
-  haveI : R.Normal := hRnorm
+  have : R.Normal := hRnorm
   have hnormmap : (R.map (QuotientGroup.mk' (Subgroup.center H))).Normal :=
     hRnorm.map (QuotientGroup.mk' (Subgroup.center H))
       (QuotientGroup.mk'_surjective (Subgroup.center H))
-  haveI : (R.map (QuotientGroup.mk' (Subgroup.center H))).Normal := hnormmap
+  have : (R.map (QuotientGroup.mk' (Subgroup.center H))).Normal := hnormmap
   change R = ⊤
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (R.map (QuotientGroup.mk' (Subgroup.center H))) with hbot | htop
@@ -109,7 +109,7 @@ private theorem twoOrderGen_eq_top (H : Type*) [Group H] [Finite H]
     let P : Sylow 2 H := default
     have hPZ : (P : Subgroup H) ≤ Subgroup.center H := by
       intro x hx
-      obtain ⟨k, hk⟩ := P.isPGroup'.exists_orderOf_eq_pow
+      obtain ⟨k, hk⟩ := P.isPGroup.exists_orderOf_eq_pow
         (⟨x, hx⟩ : ↥(P : Subgroup H))
       exact hRZle (Subgroup.subset_closure
         ⟨k, (Subgroup.orderOf_coe (⟨x, hx⟩ : ↥(P : Subgroup H))).trans hk⟩)

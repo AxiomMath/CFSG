@@ -24,11 +24,11 @@ theorem OmegaModel.exists_subgroup_card_nine_two_le_pRank_five {W : Type} [CommG
     ∃ Q : Subgroup M, Q ≤ F ∧ Nat.card Q = 3 ^ 2 ∧
       2 ≤ CFSG.Open.pRank 5 (centralizer (Q : Set M)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite W :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite W :=
     Finite.of_injective (S.e : W → Multiplicative (OmI → S.K)) S.e.injective
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
   have hΩ0 : S.omega = S.factor 0 ⊔ S.factor 1 :=
     (omega_eq_omega0_of_card S (by rw [hΩ, hK]; norm_num)).trans (factor_sup S).symm

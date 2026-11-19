@@ -15,6 +15,7 @@ open scoped commutatorElement MatrixGroups
 
 variable {G : Type} [Group G] [Finite G] {M V A B : Subgroup G} {h : G} {n f : ℕ}
 
+omit [Finite G] in
 theorem imgQ_iSup {ι : Sort*} (s : ι → Subgroup G) (hs : ∀ i, s i ≤ M) :
     imgQ M (⨆ i, s i) = ⨆ i, imgQ M (s i) := by
   have hsub : (⨆ i, s i).subgroupOf M = ⨆ i, (s i).subgroupOf M := by
@@ -24,6 +25,7 @@ theorem imgQ_iSup {ι : Sort*} (s : ι → Subgroup G) (hs : ∀ i, s i ≤ M) :
       iSup_congr fun i => Subgroup.map_subgroupOf_eq_of_le (hs i)]
   rw [imgQ, hsub, Subgroup.map_iSup]
 
+omit [Finite G] in
 private theorem imgQ_biSup {ι : Sort*} (s : ι → Subgroup G) (p : ι → Prop)
     (hs : ∀ i, p i → s i ≤ M) :
     imgQ M (⨆ i, ⨆ (_ : p i), s i) = ⨆ i, ⨆ (_ : p i), imgQ M (s i) := by
@@ -47,7 +49,7 @@ theorem Sec6Hyp.sup_inf_Pc_eq_bot (hS : Sec6Hyp M V) {C D : Subgroup G}
     obtain ⟨g, rfl, -⟩ := hC
     rw [card_conjSubgroup]
     exact hS.sec5.toRootHyp.four_le_card
-  haveI : IsSimpleGroup ↥(C ⊔ D) := hCD.isSimpleGroup h4C
+  have : IsSimpleGroup ↥(C ⊔ D) := hCD.isSimpleGroup h4C
   have hbot : ((C ⊔ D) ⊓ Pc M V).subgroupOf (C ⊔ D) = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top
       (((C ⊔ D) ⊓ Pc M V).subgroupOf (C ⊔ D)) with h | h
@@ -75,6 +77,7 @@ theorem Sec6Hyp.sup_inf_Pc_eq_bot (hS : Sec6Hyp M V) {C D : Subgroup G}
   have hx1 : (⟨x, hxH⟩ : ↥(C ⊔ D)) = 1 := Subgroup.mem_bot.mp hmem
   exact Subgroup.mem_bot.mpr (by simpa using congrArg Subtype.val hx1)
 
+omit [Finite G] in
 theorem imgQ_sup {C D : Subgroup G} (hC : C ≤ M) (hD : D ≤ M) :
     imgQ M (C ⊔ D) = imgQ M C ⊔ imgQ M D := by
   rw [imgQ, Subgroup.subgroupOf_sup hC hD, Subgroup.map_sup]
@@ -140,6 +143,7 @@ theorem L2Datum.orderOf_mk (hS : Sec6Hyp M V) (hD : L2Datum M V A B h) (hhM : h 
   have h3 : f ⟨h, hD.mem⟩ = QuotientGroup.mk' (pCore 2 ↥M) ⟨h, hhM⟩ := rfl
   rw [← h3, h1, h2, hD.order]
 
+omit [Finite G] in
 theorem imgQ_le_centralizer_of_le_cenOf {C D : Subgroup G} (h : C ≤ cenOf D) :
     imgQ M C ≤ Subgroup.centralizer (imgQ M D : Set (MBar M)) := by
   intro z hz

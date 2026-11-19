@@ -157,8 +157,8 @@ variable
 
 theorem holds_reeGamma (a : ℕ) :
     CFSG.LieType.BorelTits.Holds ↥(ReeTag.F4.reeGamma K a) 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   exact (holds_reeFixed ReeTag.F4 K a).of_mulEquiv (ReeTag.reeFixedEquivReeGamma K a)
 
 end ReeHoldsSection
@@ -176,8 +176,8 @@ theorem card_normalizer_sylow_le (hK : Nat.card K = 8)
     (Syl : Sylow 2 ↥(ReeTag.F4.reeGamma K 1))
     (hSN : Subgroup.normalizer (Syl : Subgroup ↥(ReeTag.F4.reeGamma K 1)) ≤ P) :
     Nat.card P ∈ reeParabolicOrders := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   have hK' : Nat.card K = 2 ^ (2 * 1 + 1) := by rw [hK]; norm_num
   let U₀ : Sylow 2 ↥(ReeTag.F4.reeGamma K 1) :=
     (ReeTag.isPGroup_reeFixedPosUnipotent_subgroupOf (K := K) (a := 1)).toSylow

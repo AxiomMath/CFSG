@@ -79,7 +79,7 @@ private theorem isCompl_planeSpan (T : Finset (Fin n)) :
   · rw [codisjoint_iff, eq_top_iff]
     intro v _
     let w : V n := fun k => if planeOf k ∈ T then v k else 0
-    have hw : w ∈ planeSpan n T := mem_planeSpan.mpr fun k hk => if_neg hk
+    have hw : w ∈ planeSpan n T := mem_planeSpan.mpr fun k hk => ite_eq_right hk
     have hvw : v - w ∈ planeSpan n Tᶜ := mem_planeSpan.mpr fun k hk => by
       have hk' : planeOf k ∈ T := by simpa using hk
       simp [w, hk']
@@ -89,12 +89,12 @@ private abbrev cpair (s : Fin n) : V n × V n :=
   (Pi.single (Sum.inl s) 1, Pi.single (Sum.inr s) 1)
 
 private theorem minusPair_cpair (s : Fin n) : MinusPair (Q n) (cpair s).1 (cpair s).2 :=
-  ⟨Q_single n _, Q_single n _, by simp [cpair, polar_single_inl_apply]⟩
+  ⟨Q_single n _, Q_single n _, by simp [polar_single_inl_apply]⟩
 
 private theorem pairPerp_cpair {s t : Fin n} (h : s ≠ t) :
     PairPerp (Q n) (cpair s) (cpair t) := by
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
-    simp [cpair, polar_single_inl_apply, polar_single_inr_apply, Pi.single_apply, h]
+    simp [polar_single_inl_apply, polar_single_inr_apply, h]
 
 private noncomputable def framePairs (T : Finset (Fin n)) : List (V n × V n) :=
   T.toList.map cpair

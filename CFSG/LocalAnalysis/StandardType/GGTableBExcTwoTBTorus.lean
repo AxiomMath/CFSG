@@ -38,7 +38,7 @@ theorem mat_eq_of_pow_three (hK : Nat.card K = 2) (M : Matrix (Fin 2) (Fin 2) K)
   rcases key (M 0 0) with a | a <;> rcases key (M 0 1) with b | b <;>
     rcases key (M 1 0) with c | c <;> rcases key (M 1 1) with d | d <;>
     simp only [a, b, c, d] at hdet h3 h1 ⊢ <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, one_add_one_eq_two, h2,
+    simp [one_add_one_eq_two, h2,
       TableBF4Two.neg_one_eq_one_of_two h2, Matrix.one_fin_two] at hdet h3 h1 ⊢
 
 theorem sl2_eq_of_pow_three (hK : Nat.card K = 2) (A : SL2 K) (h3 : A ^ 3 = 1) (h1 : A ≠ 1) :
@@ -326,7 +326,7 @@ theorem map_conj_nW_rootSL2_range (τ : Tag) (K : Type) [Field K] (w : List (Fin
     map_conj_nW_rootSubgroup τ K w (CFSG.LieType.Chevalley.IsRoot.neg hα), wAct_neg]
 
 theorem rootSL2_eq_of_order_three (τ : Tag) (K : Type) [Field K] (hK : Nat.card K = 2)
-    {α : Fin τ.rank → ℤ} (hα : IsRoot τ α) {x : ModGL τ K}
+    {α : Fin τ.rank → ℤ} (_hα : IsRoot τ α) {x : ModGL τ K}
     (hx : x ∈ (rootSL2 τ K α).range) (h3 : x ^ 3 = 1) (h1 : x ≠ 1) :
     x = rootSL2 τ K α (uSL 1 * vSL 1) ∨ x = rootSL2 τ K α (uSL 1 * vSL 1)⁻¹ := by
   obtain ⟨A, rfl⟩ := hx
@@ -348,6 +348,7 @@ variable {τ : Tag} {d : ℕ} {K : Type} [Field K] [CharP K 2]
     (π : Fin (d + 1) → Fin (d + 1)) : Prop :=
   ∀ a, wAct τ w (F.root a) = F.root (π a) ∨ wAct τ w (F.root a) = -F.root (π a)
 
+omit [CharP K 2] in
 theorem S0_inv_eq_sq (h2 : (2 : K) = 0) : (uSL 1 * vSL 1 : SL2 K)⁻¹ = (uSL 1 * vSL 1) ^ 2 := by
   have hS3 : (uSL 1 * vSL 1 : SL2 K) ^ 3 = 1 := TableBF4Two.S0_pow_three h2
   rw [inv_eq_iff_mul_eq_one, ← pow_succ', show (2 : ℕ) + 1 = 3 from rfl, hS3]
@@ -453,14 +454,14 @@ theorem irreducible_frame (hK : Nat.card K = 2) (F : OrthFrame τ d) {w₁ w₂ 
   right
   obtain ⟨x, hxE, hx1⟩ : ∃ x ∈ E', x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hbot (eq_bot_iff.mpr fun x hx => Subgroup.mem_bot.mpr (hcon x hx))
   obtain ⟨v, rfl⟩ : ∃ v : Fin (d + 1) → ZMod 3, tE K F (Multiplicative.ofAdd v) = x := by
     obtain ⟨g, hg⟩ := MonoidHom.mem_range.mp (hle hxE)
     exact ⟨Multiplicative.toAdd g, by rw [ofAdd_toAdd, hg]⟩
   have hi : ∃ i, v i ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hx1
     have hv0 : v = 0 := funext hne
     rw [hv0, ofAdd_zero, map_one]
@@ -575,7 +576,7 @@ theorem schur_frame (hK : Nat.card K = 2) (F : OrthFrame τ d) {w₁ w₂ : List
     funext j
     by_cases hj : j = a
     · subst hj
-      simp [nsmul_eq_mul, ZMod.natCast_zmod_val, mul_comm]
+      simp [nsmul_eq_mul, mul_comm]
     · simp [Pi.single_eq_of_ne hj]
   have hfull : ∀ v : Fin (d + 1) → ZMod 3, fE v = fun j => c j * v j := by
     intro v
@@ -672,7 +673,7 @@ theorem secEltAt_frame (hK : Nat.card K = 2) (F : OrthFrame τ d) {w₁ w₂ : L
   · refine ⟨nGen K F 0, Or.inl ⟨0, rfl⟩, tGen K F 0,
       ⟨Multiplicative.ofAdd (Pi.single 0 1), by rw [tE_single, tC_one]⟩, ?_⟩
     intro h
-    rw [← tC_one F 0, nGen_conj_tC, if_pos rfl] at h
+    rw [← tC_one F 0, nGen_conj_tC, ite_eq_left rfl] at h
     have h2 := tC_injective F 0 h
     exact absurd h2 (by decide)
   · intro G hGE hGmul hGW

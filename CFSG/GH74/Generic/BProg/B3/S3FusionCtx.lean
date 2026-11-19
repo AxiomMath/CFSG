@@ -187,7 +187,7 @@ theorem exists_T {x y : G} {K : Subgroup G}
     exact this
   set T₀ : Subgroup G := (P₀ : Subgroup ↥(centralizer ({x} : Set G))).map (centralizer ({x} : Set G)).subtype
     with hT₀
-  have hT₀p : IsPGroup 2 ↥T₀ := (P₀.isPGroup').map _
+  have hT₀p : IsPGroup 2 ↥T₀ := (P₀.isPGroup).map _
   have hT₀C : T₀ ≤ centralizer ({x} : Set G) := Subgroup.map_subtype_le _
   have hy₀T : (y₀ : G) ∈ T₀ := ⟨y₀, hy₀P, rfl⟩
   have hpi₀ : piC x (y₀ : G) = yb := by rw [piC_of_mem x y₀.2]; exact hy₀

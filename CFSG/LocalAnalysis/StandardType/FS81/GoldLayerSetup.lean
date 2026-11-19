@@ -95,7 +95,7 @@ theorem goldLayer_pCore_central {Y : Type} [Group Y] [Finite Y] {S : Sylow 2 Y} 
 theorem goldLayer_sylow_inf {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} (P : Sylow 2 Y)
     (hL : L.Normal) : fusionIsSylowIn 2 ((P : Subgroup Y) ⊓ L) L := by
   have : L.Normal := hL
-  exact G3a.fusionIsSylowIn_inf ⟨le_top, P.isPGroup', fun Q _ hQ hPQ => P.maximal_isPGroup.eq_of_ge hQ hPQ⟩
+  exact G3a.fusionIsSylowIn_inf ⟨le_top, P.isPGroup, fun Q _ hQ hPQ => P.maximal_isPGroup.eq_of_ge hQ hPQ⟩
     le_top (inferInstance : (L.subgroupOf (⊤ : Subgroup Y)).Normal).isSubnormal
 
 theorem goldLayer_comp_normal {Y : Type} [Group Y] [Finite Y] {S : Sylow 2 Y} {B L : Subgroup Y}
@@ -109,7 +109,7 @@ theorem goldLayer_isSStarIn (hcore : CoreStatement) {Y : Type} [Group Y] [Finite
     {S : Sylow 2 Y} {B : Subgroup Y} (h : CoreHyp Y S B) : IsSStarIn (⊤ : Subgroup Y) B := by
   have hIH : IH (Nat.card Y + 1) := fun Z _ _ _ => hcore Z
   have hSyl : fusionIsSylowIn 2 (S : Subgroup Y) ⊤ :=
-    ⟨le_top, S.isPGroup', fun P _ hP hSP => S.maximal_isPGroup.eq_of_ge hP hSP⟩
+    ⟨le_top, S.isPGroup, fun P _ hP hSP => S.maximal_isPGroup.eq_of_ge hP hSP⟩
   have hcl : CFSG.Goldschmidt.IsStronglyClosedIn B (S : Subgroup Y) ⊤ := fun a ha g _ hg =>
     h.closed a ha g hg
   exact G41.isSStarIn_of_lt hIH (by rw [Subgroup.card_top]; exact Nat.lt_succ_self _)

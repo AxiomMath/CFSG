@@ -101,7 +101,7 @@ theorem false_of_comm (h : T7F2.Hyp25T p f Ω K K' W S R R' z t u₁ u₂ t') {g
         _ = t' * (a * z) := by rw [mul_assoc]
   obtain ⟨a', ha'A, ha'1, hna'⟩ := T7T.c25_3_proved (p := p) (f := f) G Ω K K' W S R R' z t' u₁
     u₂ hyp' _ hA4 hzA hcommA
-  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup.to_le inf_le_left
   have haN : a ∈ T7F2.Nsub S R :=
     h.mem_N_of_conj_R' haS (mem_normalizer_iff_conjSub_eq.mp hF'.1)
   rcases hAmem a' ha'A with rfl | rfl | rfl | rfl
@@ -139,7 +139,7 @@ theorem exists_comm_swap_of_ff (h11 : C25_11 p f) (hyp : Hyp25 p f Ω K K' W S R
   have haz : a * z = z * a := hzS a haS
   have ht'z : t' * z = z * t' := hzS t' ht'S
   have hai : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha2
-  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup.to_le inf_le_left
   have haN : a ∈ T7F2.Nsub S R :=
     h.mem_N_of_conj_R' haS (mem_normalizer_iff_conjSub_eq.mp hF'.1)
   obtain ⟨b, hb⟩ : ∃ b : G, b = t' * a * t'⁻¹ := ⟨_, rfl⟩

@@ -44,7 +44,7 @@ private theorem oddCoreFact_three_unitaryPSU {K : Type} [Field K] {n : ℕ}
     (h : UnitaryFieldData 2 n K) [IsSimpleGroup (unitaryPSU h 3)]
     (hna : ∃ a b : unitaryPSU h 3, a * b ≠ b * a) (hn : Odd n) (hn1 : 1 < n) :
     OddCoreFact 3 (unitaryPSU h 3) := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hmodel : StatedClassicalModel (unitaryPSU h 3) .PSU 3 2 n := by
     refine ⟨⟨Nat.prime_two, h.one_le, by norm_num, ?_⟩, K, inferInstance, inferInstance, ?_,
       ⟨unitaryPSUEquiv h (n := 3) (by norm_num)⟩⟩
@@ -80,9 +80,9 @@ theorem oddCoreFact_three_of_lieL3 :
     simpa [CFSG.Yardstones.Md0ec50421ce4.k2Lie] using hd
   obtain ⟨hp2, hEven⟩ := hd'
   obtain ⟨e⟩ := e
-  haveI : IsSimpleGroup S := hS
+  have : IsSimpleGroup S := hS
   let K := GaloisField q.p q.exponent
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card K = 2 ^ q.exponent := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hp2]
   have hn0 : q.exponent ≠ 0 := q.exponent_pos.ne'
@@ -92,7 +92,7 @@ theorem oddCoreFact_three_of_lieL3 :
   let eP : S ≃* projectiveSL 3 K :=
     (e.trans eC).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 K)
-  haveI : IsSimpleGroup (projectiveSL 3 K) := eP.symm.isSimpleGroup
+  have : IsSimpleGroup (projectiveSL 3 K) := eP.symm.isSimpleGroup
   have hnaP : ∃ a b : projectiveSL 3 K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eP a, eP b, fun h' => hab (eP.injective (by simpa using h'))⟩
@@ -117,9 +117,9 @@ theorem oddCoreFact_three_of_lieU3 :
     simpa [CFSG.Yardstones.Md0ec50421ce4.k2Lie] using hd
   obtain ⟨rfl, hOdd, hn1⟩ := hd'
   obtain ⟨eS⟩ := e
-  haveI : IsSimpleGroup S := hS
+  have : IsSimpleGroup S := hS
   let K := GaloisField 2 (2 * m)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardK : Nat.card K = 2 ^ (2 * m) :=
     GaloisField.card 2 (2 * m) (by omega)
   let h : UnitaryFieldData 2 m K :=
@@ -131,7 +131,7 @@ theorem oddCoreFact_three_of_lieU3 :
       ⟨2, m, hp, hpos⟩ hv
   let eU : S ≃* unitaryPSU h 3 :=
     (eS.trans eC).trans (unitaryPSUEquiv h (n := 3) (by norm_num)).symm
-  haveI : IsSimpleGroup (unitaryPSU h 3) := eU.symm.isSimpleGroup
+  have : IsSimpleGroup (unitaryPSU h 3) := eU.symm.isSimpleGroup
   have hnaP : ∃ a b : unitaryPSU h 3, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eU a, eU b, fun h' => hab (eU.injective (by simpa using h'))⟩

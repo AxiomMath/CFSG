@@ -17,8 +17,8 @@ variable {k : ℕ} {E : Type} [Field E]
 
 theorem exists_trace_norm_fixed (hU : UnitaryFieldData 2 k E) :
     ∃ a b : E, a + hU.bar a = 1 ∧ hU.bar b = b ∧ a * hU.bar a + b * b = 1 := by
-  haveI := hU.charP
-  haveI := hU.finite
+  have := hU.charP
+  have := hU.finite
   have h2 : (2 : E) = 0 := CharTwo.two_eq_zero
   have hinj : Function.Injective fun x : E => x * x := fun x y hxy => by
     have h : x * x = y * y := hxy
@@ -40,8 +40,8 @@ theorem exists_invPair_commute_line (hU : UnitaryFieldData 2 k E)
         QuotientGroup.mk (d : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) * c ∧
       s * QuotientGroup.mk (d : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) =
         QuotientGroup.mk (d : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) * s := by
-  haveI := hU.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hU.charP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 : (2 : E) = 0 := CharTwo.two_eq_zero
   have hv := UCK.isOrthonormalFrame_single (p := 2) hU
   obtain ⟨a, b, ha, hbb, hab⟩ := exists_trace_norm_fixed hU
@@ -173,8 +173,8 @@ theorem exists_conj_line_mem (hU : UnitaryFieldData 2 k E) (hk : 2 ≤ k) {p : �
         primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E)) ≠ 1 ∧
       g * QuotientGroup.mk (ℓ : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) * g⁻¹ ∈ J := by
   classical
-  haveI := hU.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hU.finite
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 < p := by omega
   have hv := UCK.isOrthonormalFrame_single (p := 2) hU
   obtain ⟨k', hk'⟩ : ∃ k', 2 ^ k = k' + 1 :=
@@ -210,7 +210,7 @@ theorem exists_conj_line_mem (hU : UnitaryFieldData 2 k E) (hk : 2 ≤ k) {p : �
     obtain ⟨s, hs3, hs⟩ := UCK.exists_eig_mul_of_mk_eq hv (d := 1) (d' := ℓ)
       (by rw [OneMemClass.coe_one, QuotientGroup.mk_one]; exact h1.symm)
     have h0 := hs 0
-    rw [hℓ, map_one, one_mul, if_neg (by decide)] at h0
+    rw [hℓ, map_one, one_mul, ite_eq_right (by decide)] at h0
     have := Nat.le_of_dvd (by norm_num) (hz ▸ orderOf_dvd_of_pow_eq_one (h0 ▸ hs3 : z ^ 3 = 1))
     omega
   have hJp : IsPGroup p J := fun x => ⟨1, Subtype.ext (by rw [pow_one]; exact hJ x x.2)⟩
@@ -237,7 +237,7 @@ theorem exists_conj_line_mem (hU : UnitaryFieldData 2 k E) (hk : 2 ≤ k) {p : �
       · rw [conj_pow, hLp, mul_one, mul_inv_cancel])
   have hJK := Subgroup.eq_of_le_of_card_ge (fun x hx => Subgroup.subset_closure (Or.inl hx))
     ((card_le_of_pow_eq_one hU hk hp hp5 hpk hK.2).trans hJc)
-  refine ⟨ℓ, g, by rw [hℓ, hℓ, if_neg (by decide), if_neg (by decide)], hL1, ?_⟩
+  refine ⟨ℓ, g, by rw [hℓ, hℓ, ite_eq_right (by decide), ite_eq_right (by decide)], hL1, ?_⟩
   rw [hJK]
   exact Subgroup.subset_closure (Set.mem_union_right _ rfl)
 

@@ -69,7 +69,7 @@ theorem y6b_S_conj_g_mem (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c
   intro s hs
   have hmem : s * c.g * s⁻¹ ∈ conjClass c.s.fr.S c.g := ⟨s, hs, rfl⟩
   rw [← h3] at hmem
-  simp only [Set.mem_setOf_eq] at hmem
+  simp only [Set.mem_ofPred_eq] at hmem
   obtain ⟨f, hf, hfeq⟩ := hmem
   rw [h1] at hf
   exact ⟨f, hf, hfeq⟩
@@ -107,7 +107,7 @@ theorem y6b_T_decomp (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T
     rw [pow_one]
     group
 
-theorem y6b_T_le_normalizer_F (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
+theorem y6b_T_le_normalizer_F (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (_hRT : c.s.R ≠ c.s.T) :
     c.s.T ≤ normalizer (c.s.fr.F : Set G) :=
   y4_T_normF hH
 

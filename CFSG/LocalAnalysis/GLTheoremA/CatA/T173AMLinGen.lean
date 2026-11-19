@@ -45,7 +45,7 @@ private noncomputable def conjSL {d : ℕ} {F : Type} [Field F] (P : GL (Fin d) 
   right_inv u := by apply Subtype.ext; group
   map_mul' u v := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Units.val_mul]
+    simp only [Subgroup.coe_mul]
     group
 
 @[simp] private theorem conjSL_apply_coe {d : ℕ} {F : Type} [Field F] (P : GL (Fin d) F)
@@ -141,8 +141,8 @@ private theorem permGL_conj_mem_LinBlockSet {d : ℕ} {F : Type} [Field F] [Char
     · exact Or.inr (fun hh => h ((hmemI b).mp hh))
   rw [hg.2 (σ a) (σ b) hJ]
   by_cases hab' : a = b
-  · subst hab'; rw [if_pos rfl, if_pos rfl]
-  · rw [if_neg hab', if_neg (fun h => hab' (σ.injective h))]
+  · subst hab'; rw [ite_eq_left rfl, ite_eq_left rfl]
+  · rw [ite_eq_right hab', ite_eq_right (fun h => hab' (σ.injective h))]
 
 private theorem closureIn_conj_mem {G : Type} [Group G] (K N : Subgroup G) {b : G}
     (hb : b ∈ N) {k : G} (hk : k ∈ K) :
@@ -164,14 +164,14 @@ private theorem transvection_toSL_mem_LinBlockSet {d : ℕ} {F : Type} [Field F]
   · subst h
     have haJ : a ∉ J := hab.elim id id
     have hai : a ≠ i := fun hh => haJ (hh ▸ hi)
-    rw [if_pos rfl, if_neg (fun hh => hai hh.1.symm)]
+    rw [ite_eq_left rfl, ite_eq_right (fun hh => hai hh.1.symm)]
     simp
   · have hnot : ¬(i = a ∧ j = b) := by
       rintro ⟨hia, hjb⟩
       rcases hab with ha | hb
       · exact ha (hia ▸ hi)
       · exact hb (hjb ▸ hj)
-    rw [if_neg h, if_neg hnot]
+    rw [ite_eq_right h, ite_eq_right hnot]
     simp
 
 private theorem diag2n_toSL_mem_LinBlockSet {d : ℕ} {F : Type} [Field F]
@@ -187,15 +187,15 @@ private theorem diag2n_toSL_mem_LinBlockSet {d : ℕ} {F : Type} [Field F]
     have haJ : a ∉ J := hab.elim id id
     have hai : a ≠ i := fun hh => haJ (hh ▸ hi)
     have haj : a ≠ j := fun hh => haJ (hh ▸ hj)
-    rw [if_pos rfl, if_pos rfl, if_neg hai, if_neg haj]
-  · rw [if_neg h, if_neg h]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_right hai, ite_eq_right haj]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private theorem eq_top_of_LinBlockSet_le {d : ℕ} {F : Type} [Field F] {m : ℕ}
     (hm : 2 ≤ m) (hmd : m ≤ d) (H : Subgroup ↥(LargeEvenSLGroup (Fin d) F))
     (hH : ∀ J : Finset (Fin d), J.card = m → ∀ g : ↥(LargeEvenSLGroup (Fin d) F),
       (g : GL (Fin d) F) ∈ LinBlockSet d F J → g ∈ H) :
     H = ⊤ := by
-  haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.mpr (le_trans hm hmd)
+  have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.mpr (le_trans hm hmd)
   have hmem : ∀ A : Matrix.SpecialLinearGroup (Fin d) F, toSL A ∈ H := by
     intro A
     refine Matrix.SpecialLinearGroup.diagonal_transvection_induction'
@@ -236,7 +236,7 @@ theorem lin_gen {d : ℕ} {F : Type} [Field F] {m : ℕ} (hm : 2 ≤ m) (hmd : m
   rwa [(conjSL P⁻¹).apply_symm_apply u] at hmem
 
 theorem lin_closure_top {d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S N K : Subgroup Ω}
-    {F : Type} [Field F] [Finite F] [CharP F 2] (hd : 3 ≤ d)
+    {F : Type} [Field F] [Finite F] [CharP F 2] (_hd : 3 ≤ d)
     (ψ : ↥(LargeEvenSLGroup (Fin d) F) →* ↥S) (hψ : Function.Surjective ψ) (P : GL (Fin d) F)
     (I : Finset (Fin d)) (hI : 2 ≤ I.card)
     (hK : ∀ k : Ω, k ∈ K ↔ ∃ u : ↥(LargeEvenSLGroup (Fin d) F),
@@ -288,21 +288,21 @@ theorem lin_closure_top {d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S N K : Su
 private theorem le_center_of_normal_isPGroup_two {Q : Type*} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) {N : Subgroup Q} (hNn : N.Normal) (hN2 : IsPGroup 2 N) :
     N ≤ Subgroup.center Q := by
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   let π : Q →* Q ⧸ Subgroup.center Q := QuotientGroup.mk' _
   have hMnorm : (N.map π).Normal := hNn.map π (QuotientGroup.mk'_surjective _)
   have hM2 : IsPGroup 2 (N.map π) := hN2.map π
   rcases Subgroup.Normal.eq_bot_or_eq_top (N.map π) with hM | hM
   · rwa [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hM
   · exfalso
-    haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hQ.2.toNontrivial
+    have : Nontrivial (Q ⧸ Subgroup.center Q) := hQ.2.toNontrivial
     have hM2' : IsPGroup 2 (Q ⧸ Subgroup.center Q) := (hM ▸ hM2).of_equiv Subgroup.topEquiv
     have hcenter : Subgroup.center (Q ⧸ Subgroup.center Q) = ⊤ := by
       rcases Subgroup.Normal.eq_bot_or_eq_top
         (Subgroup.center (Q ⧸ Subgroup.center Q)) with h | h
       · exact absurd h (IsPGroup.bot_lt_center hM2').ne'
       · exact h
-    haveI : IsMulCommutative (Q ⧸ Subgroup.center Q) :=
+    have : IsMulCommutative (Q ⧸ Subgroup.center Q) :=
       Subgroup.center_eq_top_iff.mp hcenter
     have hcomm : commutator (Q ⧸ Subgroup.center Q) = ⊥ := by
       rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]

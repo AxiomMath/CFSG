@@ -77,7 +77,7 @@ theorem loc26_of_conj (hs : Std8Core Ω K J S R T W z t) (h : TypeRFam r Ω) {Q 
     hTsyl.2.2 P (hPA.trans inf_le_left) hP2 hTP⟩
   have hSH : (S : Subgroup G) ⊓ H = T := by
     have hle := T8R.natCard_le_of_eq_sup_oddCoreOf hAH hHeq hTA inf_le_right
-      S.isPGroup'.to_inf_left
+      S.isPGroup.to_inf_left
     exact (Subgroup.eq_of_le_of_card_ge (le_inf hTS (hTA.1.trans hAH)) hle).symm
   have hconjH : ∀ ν ∈ Q, ∀ {P : Subgroup G}, P ≤ conjSub ν J →
       P ≤ Subgroup.centralizer ({z} : Set G) → P ≤ H := by
@@ -108,7 +108,7 @@ theorem loc26_of_conj (hs : Std8Core Ω K J S R T W z t) (h : TypeRFam r Ω) {Q 
   ·
     obtain ⟨ν, hν, rfl⟩ := hconj M hMK
     have hx : XMem Ω z (conjSub ν J) := xMem_of_mem_omegaNbr_gen h hMK hs.hz
-    have hA2 : IsPGroup 2 ↥(conjSub ν J ⊓ (S : Subgroup G)) := S.isPGroup'.to_inf_right
+    have hA2 : IsPGroup 2 ↥(conjSub ν J ⊓ (S : Subgroup G)) := S.isPGroup.to_inf_right
     have hzS : z ∈ (S : Subgroup G) := hRS hzR
     have hzN : z ∈ Subgroup.normalizer
         ((conjSub ν J ⊓ (S : Subgroup G) : Subgroup G) : Set G) := by

@@ -112,10 +112,10 @@ theorem noL2Section_psl2_odd {L : Type} [Group L] [Finite L] {p f : ℕ} (hp : p
     (hL : LieModel L .PSL 2 p f) : NoL2Section L := by
   obtain ⟨hAdm, hB⟩ := hL.statedClassicalModel (by decide)
   obtain ⟨K, hKfield, hKfin, hKcard, _⟩ := hB
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hp_prime : p.Prime := hAdm.1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hf : 0 < f := Nat.lt_of_lt_of_le Nat.zero_lt_one hAdm.2.1
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := K) p f hf hKcard hL
   have hodd : IsOddPrimePower (Nat.card K) :=
@@ -137,8 +137,8 @@ theorem noL2Section_psl3_odd {L : Type} [Group L] [Finite L] {p f : ℕ} (hp : p
     (hL : LieModel L .PSL 3 p f) : NoL2Section L := by
   obtain ⟨hAdm, hB⟩ := hL.statedClassicalModel (by decide)
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hB
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hp_prime : p.Prime := hAdm.1
   have hKodd : Nat.card K % 2 = 1 := by
     rw [hKcard]
@@ -155,8 +155,8 @@ theorem noL2Section_psu3_odd {L : Type} [Group L] [Finite L] {p f : ℕ} (hp : p
     (hL : LieModel L .PSU 3 p f) : NoL2Section L := by
   obtain ⟨hAdm, hB⟩ := hL.statedClassicalModel (by decide)
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hB
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hp_prime : p.Prime := hAdm.1
   have hKodd : Nat.card K % 2 = 1 := by
     rw [hKcard]

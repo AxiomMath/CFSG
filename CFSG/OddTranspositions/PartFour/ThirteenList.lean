@@ -27,6 +27,7 @@ theorem setup_setOf_isConj {X : Type*} [Group X] {s : X}
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem mk_ne_one_of_isConj {s : X} (hodd : IsOddTransp {x : X | IsConj s x})
     (hO2 : CFSG.pCore 2 X = ⊥) :
     ∀ d ∈ {x : X | IsConj s x}, QuotientGroup.mk' (Subgroup.center X) d ≠ 1 := by
@@ -42,6 +43,7 @@ theorem mk_ne_one_of_isConj {s : X} (hodd : IsOddTransp {x : X | IsConj s x})
   rw [hle, orderOf_one] at hd2
   exact absurd hd2 (by decide)
 
+omit [Finite X] in
 theorem setup_quotient_center {s : X} (hodd : IsOddTransp {x : X | IsConj s x})
     (hncl : Subgroup.normalClosure ({s} : Set X) = ⊤) (hO2 : CFSG.pCore 2 X = ⊥) :
     Setup (X ⧸ Subgroup.center X)
@@ -61,10 +63,10 @@ theorem eq_bot_of_normal_isSolvable_quotient_center (hO2 : CFSG.pCore 2 X = ⊥)
     fun z hz => by
       rw [Subgroup.mem_comap, QuotientGroup.mk'_apply, (QuotientGroup.eq_one_iff z).mpr hz]
       exact N.one_mem
-  haveI : Group.IsSolvable ↥(Subgroup.center X) :=
+  have : Group.IsSolvable ↥(Subgroup.center X) :=
     Group.isSolvable_of_comm fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a)
-  haveI : Group.IsSolvable ↥(N.comap (QuotientGroup.mk' (Subgroup.center X))) := by
-    refine solvable_of_ker_le_range (Subgroup.inclusion hZP)
+  have : Group.IsSolvable ↥(N.comap (QuotientGroup.mk' (Subgroup.center X))) := by
+    refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hZP)
       ((QuotientGroup.mk' (Subgroup.center X)).subgroupComap N) fun p hp => ?_
     have hpZ : (p : X) ∈ Subgroup.center X := by
       rw [MonoidHom.mem_ker] at hp
@@ -91,6 +93,7 @@ private theorem l2WreathEquivWreathSymTwo_inr (f m : ℕ) (σ : Equiv.Perm (Fin 
   funext i
   simp [l2WreathEquivWreathSymTwo]
 
+omit [Finite X] in
 theorem isWreathTransposition_of_isConj {s : X} {f r : ℕ} (hf : 2 ≤ f)
     (Φ : X ⧸ Subgroup.center X ≃* L2Wreath f r) {i j : Fin r} (hij : i ≠ j)
     (hc : IsConj (SemidirectProduct.inr (Equiv.swap i j)) (Φ (QuotientGroup.mk s))) :
@@ -158,7 +161,7 @@ theorem sup_zpowers_hyps (hS : Setup G D)
   ·
     refine le_bot_iff.mp (sSup_le fun K hK => le_bot_iff.mpr ?_)
     obtain ⟨hKn, hK2⟩ := hK
-    haveI := hK2.isNilpotent
+    have := hK2.isNilpotent
     exact hradY K hKn inferInstance
   ·
     refine le_bot_iff.mp (sSup_le fun N hN => le_bot_iff.mpr ?_)

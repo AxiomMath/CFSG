@@ -52,8 +52,8 @@ variable {V : Type*} [Group V] [Finite V]
 theorem card_modEq_fixed {p : ℕ} [Fact p.Prime] (G : Subgroup (MulAut V)) (hG : IsPGroup p G)
     (U : Subgroup V) (hU : ∀ g ∈ G, ∀ u ∈ U, g u ∈ U) :
     Nat.card U ≡ Nat.card {u : U // ∀ g ∈ G, g u.1 = u.1} [MOD p] := by
-  letI : SMul G U := ⟨fun g u => ⟨g.1 u.1, hU g.1 g.2 u.1 u.2⟩⟩
-  letI : MulAction G U :=
+  let : SMul G U := ⟨fun g u => ⟨g.1 u.1, hU g.1 g.2 u.1 u.2⟩⟩
+  let : MulAction G U :=
     { one_smul := fun u => Subtype.ext (by change ((1 : G) : MulAut V) u.1 = u.1; simp)
       mul_smul := fun g h u => Subtype.ext (by
         change ((g * h : G) : MulAut V) u.1 = g.1 (h.1 u.1)
@@ -77,12 +77,12 @@ theorem exists_ne_one_fixed {p : ℕ} [Fact p.Prime] (G : Subgroup (MulAut V)) (
   have hF : p ∣ Nat.card {u : U // ∀ g ∈ G, g u.1 = u.1} := by
     have := (Nat.modEq_zero_iff_dvd.2 hp).symm.trans h
     exact Nat.modEq_zero_iff_dvd.1 this.symm
-  haveI : Nonempty {u : U // ∀ g ∈ G, g u.1 = u.1} := ⟨⟨⟨1, one_mem U⟩, fun g hg => by simp⟩⟩
+  have : Nonempty {u : U // ∀ g ∈ G, g u.1 = u.1} := ⟨⟨⟨1, one_mem U⟩, fun g hg => by simp⟩⟩
   have hpos : 0 < Nat.card {u : U // ∀ g ∈ G, g u.1 = u.1} := Nat.card_pos
   have hge : p ≤ Nat.card {u : U // ∀ g ∈ G, g u.1 = u.1} := Nat.le_of_dvd hpos hF
   have hp2 := (Fact.out : p.Prime).two_le
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : Subsingleton {u : U // ∀ g ∈ G, g u.1 = u.1} := by
     refine ⟨fun a b => ?_⟩
     have ha : a.1.1 = 1 := by
@@ -126,6 +126,7 @@ theorem mem_iff_of_forall_mem (g : MulAut V) (U : Subgroup V) (hU : ∀ u ∈ U,
 @[expose] def fixSub (g : MulAut V) : Subgroup V :=
   MonoidHom.eqLocus (g : V →* V) (MonoidHom.id V)
 
+omit [Finite V] in
 theorem card_fixed_subtype_eq (g : MulAut V) (U : Subgroup V) :
     Nat.card {u : U // g u.1 = u.1} = Nat.card ↥(U ⊓ fixSub g) :=
   Nat.card_congr
@@ -136,7 +137,7 @@ theorem card_fixed_subtype_eq (g : MulAut V) (U : Subgroup V) :
 
 theorem card_modEq_x (x : MulAut V) (hx5 : x ^ 5 = 1) (U : Subgroup V)
     (hU : ∀ u ∈ U, x u ∈ U) : Nat.card U ≡ Nat.card ↥(U ⊓ fixSub x) [MOD 5] := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hG : IsPGroup 5 (zpowers x) := by
     intro g
     refine ⟨1, ?_⟩
@@ -188,6 +189,7 @@ theorem card_mod_five_of_fpf (x : MulAut V) (hx5 : x ^ 5 = 1) (U : Subgroup V)
   rw [hF, Subgroup.card_bot] at h
   exact h
 
+omit [Finite V] in
 theorem card_inf_ker_mul_card_map (f : V →* V) (U : Subgroup V) :
     Nat.card ↥(f.ker ⊓ U : Subgroup V) * Nat.card ↥(U.map f) = Nat.card U := by
   have h := Subgroup.card_ker_mul_card_range (f.comp U.subtype)

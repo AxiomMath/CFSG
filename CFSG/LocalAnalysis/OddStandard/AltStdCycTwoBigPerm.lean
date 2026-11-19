@@ -12,6 +12,7 @@ section Helpers
 
 variable {α : Type*} [DecidableEq α]
 
+omit [DecidableEq α] in
 private theorem false_of_sq_eq_one_mem {V : Subgroup (Perm α)} (hV : Odd (Nat.card V))
     {g : Perm α} (hg : g ∈ V) (h1 : g ≠ 1) (h2 : g ^ 2 = 1) : False := by
   have hd := V.orderOf_dvd_natCard hg
@@ -42,7 +43,7 @@ private theorem swap_mul_swap_sq {a b d : α} (hab : a ≠ b) (had : a ≠ d) (h
   simp only [pow_two, Perm.mul_apply, swap_apply_def]
   grind
 
-private theorem three_cycle_mul_three_cycle {u u' w₁ w₂ : α} (h1 : u ≠ u') (h2 : u ≠ w₁)
+private theorem three_cycle_mul_three_cycle {u u' w₁ w₂ : α} (h1 : u ≠ u') (_h2 : u ≠ w₁)
     (h3 : u ≠ w₂) (h4 : u' ≠ w₁) (h5 : u' ≠ w₂) (h6 : w₁ ≠ w₂) :
     swap u' w₁ * swap u w₁ * (swap u' w₂ * swap u w₂) = swap u w₁ * swap u' w₂ := by
   ext y
@@ -62,6 +63,7 @@ private theorem swap_orbit {σ : Perm α} (hσσ : ∀ y, σ (σ y) = y) (a y : 
   · exact Or.inr (by rw [h2, hσσ])
   · exact Or.inl rfl
 
+omit [DecidableEq α] in
 private theorem orbit_mul {σ f g : Perm α} (hσσ : ∀ y, σ (σ y) = y)
     (hf : ∀ y, f y = y ∨ f y = σ y) (hg : ∀ y, g y = y ∨ g y = σ y) (y : α) :
     (f * g) y = y ∨ (f * g) y = σ y := by
@@ -72,6 +74,7 @@ private theorem orbit_mul {σ f g : Perm α} (hσσ : ∀ y, σ (σ y) = y)
   · exact Or.inr rfl
   · exact Or.inl (hσσ y)
 
+omit [DecidableEq α] in
 private theorem orbit_sq {σ g : Perm α} (hσσ : ∀ y, σ (σ y) = y)
     (hg : ∀ y, g y = y ∨ g y = σ y) : g ^ 2 = 1 := by
   ext y

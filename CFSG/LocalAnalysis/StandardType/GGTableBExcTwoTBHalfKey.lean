@@ -43,8 +43,7 @@ theorem rootPairing_eq_zero_of_fixed {τ : Tag} (ω : List (Fin τ.rank)) (α : 
     refine LinearMap.pi_ext' fun b => LinearMap.ext_ring ?_
     have hb := h b
     simp only [LinearMap.add_apply, LinearMap.coe_comp, Function.comp_apply,
-      LinearMap.coe_single, f, Λ, W, torusWordLin_apply, LinearMap.coe_mk, AddHom.coe_mk,
-      LinearMap.sum_apply, LinearMap.smul_apply, LinearMap.coe_proj, Function.eval,
+      LinearMap.coe_single, f, Λ, W, torusWordLin_apply, LinearMap.coe_mk, LinearMap.sum_apply, LinearMap.smul_apply, LinearMap.coe_proj, Function.eval,
       smul_eq_mul, Pi.single_apply] at hb ⊢
     show rootPairing τ α (Pi.single b 1) + _ = _
     rw [hb, ← Finset.sum_add_distrib]

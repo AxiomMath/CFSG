@@ -32,7 +32,7 @@ theorem statedClassicalModel_of_hasLabel_typeD {X : Type} [Group X] {n f : ℕ} 
   have h3 : ¬ n = 3 := by omega
   have hX' : LargeEvenRecipeOmegaPlus n (2 ^ f)
       (fun R' _ _ _ => Nonempty (X ≃* R')) := by
-    simpa only [GGHasLabel, LargeEvenRawDatum, if_neg h2, if_neg h3] using hX
+    simpa only [GGHasLabel, LargeEvenRawDatum, ite_eq_right h2, ite_eq_right h3] using hX
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := hX'
   have hf : 1 ≤ f := by
     have hK' : Field K := hF
@@ -53,7 +53,7 @@ theorem statedClassicalModel_of_hasLabel_typeTwD {X : Type} [Group X] {n f : ℕ
   have h3 : ¬ n = 3 := by omega
   have hX' : LargeEvenRecipeOmegaMinus (n - 1) (2 ^ f)
       (fun R' _ _ _ => Nonempty (X ≃* R')) := by
-    simp only [GGHasLabel, LargeEvenRawDatum, if_neg h2, if_neg h3] at hX
+    simp only [GGHasLabel, LargeEvenRawDatum, ite_eq_right h2, ite_eq_right h3] at hX
     exact hX
   obtain ⟨K, hF, hfin, hK, b, c, hbc, ⟨e⟩⟩ := hX'
   have hf : 1 ≤ f := by

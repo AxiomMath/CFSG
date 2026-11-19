@@ -150,7 +150,7 @@ private theorem eq_of_central_displacement {G : Type*} [Group G]
     (hperf : Group.IsPerfect (G ⧸ Subgroup.center G)) (φ : G →* G)
     (hc : ∀ g : G, g⁻¹ * φ g ∈ Subgroup.center G)
     (hz : ∀ z ∈ Subgroup.center G, φ z = z) (g : G) : φ g = g := by
-  haveI : IsMulCommutative (Subgroup.center G) :=
+  have : IsMulCommutative (Subgroup.center G) :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a.1)
   let D : G →* Subgroup.center G :=
     { toFun := fun g => ⟨g⁻¹ * φ g, hc g⟩
@@ -184,7 +184,7 @@ private theorem eq_of_central_displacement {G : Type*} [Group G]
 theorem centralizer_eq_of_isCentralProduct {Q : Type*} [Group Q] [Finite Q] {U V : Subgroup Q}
     [U.Normal] [V.Normal] (hUV : U ⊔ V = ⊤) (hc : ⁅U, V⁆ = ⊥) (h3 : Nat.card ↥(U ⊓ V) = 3)
     (hU : Sec4.IsTripleCover ↥U (alternatingGroup (Fin 6)))
-    (hV : Sec4.IsTripleCover ↥V (alternatingGroup (Fin 6))) :
+    (_hV : Sec4.IsTripleCover ↥V (alternatingGroup (Fin 6))) :
     Subgroup.centralizer (U : Set Q) = V := by
   apply le_antisymm
   · intro q hq
@@ -376,7 +376,7 @@ theorem exists_mem_eq_conj {Q : Type*} [Group Q] [Finite Q] {U V : Subgroup Q}
     calc (vV : Q)⁻¹ * (z : Q) * (vV : Q) = (vV : Q)⁻¹ * ((z : Q) * vV) := by group
       _ = (vV : Q)⁻¹ * (vV * z) := by rw [hcomm]
       _ = z := inv_mul_cancel_left _ _
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
   have hperf : Group.IsPerfect (↥V ⧸ Subgroup.center ↥V) :=
     Group.IsPerfect.ofSurjective (f := eV.symm.toMonoidHom) eV.symm.surjective

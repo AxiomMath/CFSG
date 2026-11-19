@@ -110,7 +110,7 @@ private lemma ggKGCFiveCent_ker_comm {V : Type} [AddCommGroup V] [Module GGKGCF 
     apply Subalgebra.smul_mem
     exact Subalgebra.pow_mem _ (Algebra.self_mem_adjoin_singleton GGKGCF (y : V →ₗ[GGKGCF] V)) i
   have hcomm : Pa * Pb = Pb * Pa := by
-    haveI : IsMulCommutative
+    have : IsMulCommutative
         (Algebra.adjoin GGKGCF ({(y : V →ₗ[GGKGCF] V)} : Set (V →ₗ[GGKGCF] V))) :=
       Algebra.isMulCommutative_adjoin_singleton GGKGCF (y : V →ₗ[GGKGCF] V)
     have h := mul_comm
@@ -162,20 +162,20 @@ theorem ggKGCFive_cent_solvable {V : Type} [AddCommGroup V] [Module GGKGCF V]
     have h := Submodule.finrank_add_eq_of_isCompl hcompl
     rw [hU4, hV] at h
     omega
-  haveI : FiniteDimensional GGKGCF W := FiniteDimensional.finiteDimensional_submodule W
+  have : FiniteDimensional GGKGCF W := FiniteDimensional.finiteDimensional_submodule W
   have hcardW : Nat.card (W ≃ₗ[GGKGCF] W) = 6 := ggKGCANum_card_aut_two hW2
-  haveI : Finite (W ≃ₗ[GGKGCF] W) :=
+  have : Finite (W ≃ₗ[GGKGCF] W) :=
     Nat.finite_of_card_ne_zero (by rw [hcardW]; norm_num)
-  haveI : Group.IsSolvable (W ≃ₗ[GGKGCF] W) :=
+  have : Group.IsSolvable (W ≃ₗ[GGKGCF] W) :=
     CFSG.GroupTheory.groups_order_below_sixty_solvable (by rw [hcardW]; norm_num)
   let C := ↥(Subgroup.centralizer ({y} : Set (V ≃ₗ[GGKGCF] V)))
   change Group.IsSolvable C
   let res : C →* (W ≃ₗ[GGKGCF] W) := ggKGCFiveCent_res y
-  haveI hker : Group.IsSolvable res.ker := by
+  have hker : Group.IsSolvable res.ker := by
     apply Group.isSolvable_of_comm
     intro a b
     exact ggKGCFiveCent_ker_comm y hy hU4 hcompl a b
-  haveI hquot : Group.IsSolvable (C ⧸ res.ker) :=
+  have hquot : Group.IsSolvable (C ⧸ res.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective res)
   exact Group.isSolvable_of_subgroup_quotient res.ker
 

@@ -30,7 +30,7 @@ private theorem spUCited_uFlagStabilizer_le_iff (h : UnitaryFieldData p f K) (h�
     obtain ⟨hj1, hjr⟩ := Set.mem_Icc.mp (hJ hj)
     set k : Fin r := ⟨j - 1, by omega⟩
     have hk1 : (k : ℕ) + 1 = j := by
-      simp only [k, Fin.val_mk]
+      simp only [k]
       omega
     have hmemI : uWeylRep ε h k c hc ∈ flagStabilizer h r ε I :=
       (uWeylRep_mem_flagStabilizer_iff h hε hc hc0 hI k).mpr (by rw [hk1]; exact hjI)

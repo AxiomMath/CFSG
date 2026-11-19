@@ -95,7 +95,7 @@ private theorem hmbSL_ε_n {M : ChevModel2 D n H Fld} {m : ℕ} [CharP Fld 2] (L
 
 include hct hext in
 private theorem hmbSL_hinj {M : ChevModel2 D n H Fld} {m : ℕ} [CharP Fld 2] (L : SLPath M m)
-    {J : Set (Fin D.rank)} (hJ : Set.range L.e = J) (g : K) :
+    {J : Set (Fin D.rank)} (_hJ : Set.range L.e = J) (g : K) :
     Function.Injective (hmbSL_Psi L g) := by
   intro E E' h
   obtain ⟨A, hA⟩ := exists_flagAct_stdFlag E
@@ -180,7 +180,7 @@ private theorem hmbSL_hpanel {M : ChevModel2 D n H Fld} {m : ℕ} [CharP Fld 2] 
   group
 
 private theorem hmbSL_hbase {M : ChevModel2 D n H Fld} {m : ℕ} (L : SLPath M m)
-    {J : Set (Fin D.rank)} (hJ : Set.range L.e = J) (g : K) :
+    {J : Set (Fin D.rank)} (_hJ : Set.range L.e = J) (g : K) :
     (g : K ⧸ borel D H) ∈ Set.range (hmbSL_Psi L g) := by
   refine ⟨stdFlag Fld (m + 1), ?_⟩
   rw [hmbSL_Psi_apply L g 1 (by rw [map_one, flagAct_one]), map_one, mul_one]
@@ -277,7 +277,7 @@ private lemma hmbSL_conjGL_one {m : ℕ} :
 
 private theorem hmbSL_hom_ext_tv {N : Type*} [Group N] {m : ℕ}
     (f g : SpecialLinearGroup (Fin (m + 1)) Fld →* N)
-    (h : ∀ (p q : Fin (m + 1)) (hpq : p ≠ q) (c : Fld),
+    (h : ∀ (p q : Fin (m + 1)) (_hpq : p ≠ q) (c : Fld),
       f (tv Fld p q c) = g (tv Fld p q c)) : f = g := by
   apply MonoidHom.ext
   intro A
@@ -333,7 +333,7 @@ private lemma hmbSL_pathRoot_sub {r m : ℕ} (e : Fin m → Fin r) (p q : Fin (m
       have h := hmbSL_pathRoot_split e (Fin.zero_le q) hlt.le
       have hneg : pathRoot e p q = -pathRoot e q p := by
         unfold pathRoot
-        rw [if_neg (not_lt.mpr hlt.le), if_pos hlt]
+        rw [ite_eq_right (not_lt.mpr hlt.le), ite_eq_left hlt]
       rw [hneg, h]; abel
 
 private theorem hmbSL_torus_gen {M : ChevModel2 D n H Fld} {m : ℕ} (L : SLPath M m)

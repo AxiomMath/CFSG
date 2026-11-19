@@ -47,7 +47,7 @@ theorem step717NotUnitary_of_inputs
   have hN2y : IsPGroup 2 ↥((bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z))) :=
     hN2.of_equiv (Subgroup.subgroupOfEquivOfLe hNH).symm
   obtain ⟨K₀, hKf, hKfin, hK₀, hnormN, hquot⟩ := Ctx.recog_quot_equiv hc hp3
-  haveI := hnormN
+  have := hnormN
   obtain ⟨hnormY, hquotY⟩ := nonempty_quot_equiv_bar (M := M) (Q := Q) (H := H0 M Z) hQN hNR
     hRH hHM hquot
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4

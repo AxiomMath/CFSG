@@ -199,9 +199,9 @@ theorem isSylowOf_top_of_normalizer_le {G : Type} [Group G] [Finite G] {p : ℕ}
   have hST : (S : Subgroup G) ≤ T := by
     by_contra hne
     obtain ⟨x, hxS, hxN, hxT⟩ :=
-      exists_mem_normalizer_not_mem S.isPGroup' (lt_of_le_not_ge hTS hne)
+      exists_mem_normalizer_not_mem S.isPGroup (lt_of_le_not_ge hTS hne)
     have hQ := hT.eq_of_le (le_inf hTS Subgroup.le_normalizer) (inf_le_right.trans hN)
-      S.isPGroup'.to_inf_left
+      S.isPGroup.to_inf_left
     exact hxT (hQ ▸ ⟨hxS, hxN⟩)
   rw [isSylowOf_iff]
   refine ⟨le_top, hT.isPGroup, ?_⟩

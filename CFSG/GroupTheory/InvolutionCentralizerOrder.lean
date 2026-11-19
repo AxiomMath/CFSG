@@ -39,7 +39,7 @@ theorem not_four_dvd_card_of_inf_centralizer_eq_zpowers {G : Type*} [Group G] [F
     have h := S.pow_dvd_card_of_pow_dvd_card (n := 2) (by simpa using h4)
     simpa using h
   have hcardS : 4 ≤ Nat.card (S : Subgroup T) := Nat.le_of_dvd Nat.card_pos h4S
-  haveI : Nontrivial ↥(S : Subgroup T) :=
+  have : Nontrivial ↥(S : Subgroup T) :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   have haA : (⟨a, haT⟩ : T) ∈ A := Subgroup.mem_subgroupOf.mpr (Subgroup.mem_zpowers a)
   have haS : (⟨a, haT⟩ : T) ∈ (S : Subgroup T) := hAS haA
@@ -58,7 +58,7 @@ theorem not_four_dvd_card_of_inf_centralizer_eq_zpowers {G : Type*} [Group G] [F
     have e : A.subgroupOf (S : Subgroup T) ≃* A := Subgroup.subgroupOfEquivOfLe hAS
     rw [Nat.card_congr e.toEquiv, hcardA]
   have hcenter_nt : Nontrivial ↥(Subgroup.center ↥(S : Subgroup T)) :=
-    S.isPGroup'.center_nontrivial
+    S.isPGroup.center_nontrivial
   have hcenter_eq : Subgroup.center ↥(S : Subgroup T) = A.subgroupOf (S : Subgroup T) :=
     Subgroup.eq_of_le_of_card_ge hcenter_le (by
       rw [hcardAS]

@@ -13,6 +13,7 @@ open CFSG.CGT.Timmesfeld75 (conjSubgroup mem_conjSubgroup)
 
 variable {G : Type} [Group G] [Finite G] {M X : Subgroup G} {n : ℕ}
 
+omit [Finite G] in
 private theorem eq_one_of_mem_pCoreOf_of_odd (H : Subgroup G) {r : G}
     (hr : r ∈ CFSG.Open.pCoreOf 2 H) {m : ℕ} (hm : Odd m) (hrm : r ^ m = 1) : r = 1 := by
   obtain ⟨j, hj⟩ := isPGroup_pCoreOf' H ⟨r, hr⟩

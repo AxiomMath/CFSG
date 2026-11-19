@@ -17,7 +17,7 @@ theorem ggRC_card_le_factorial_of_monomial {p : ℕ} [Fact p.Prime] {V : Type} [
     (hdiag : ∀ a ∈ A, (∀ i, ∃ c : ZMod p, a (f i) = c • f i) → a = 1) :
     Nat.card A ≤ n.factorial := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let σ : A → Equiv.Perm (Fin n) := fun a => (hmon a a.2).choose
   have hσ : ∀ a : A, ∃ c : Fin n → ZMod p,
       (∀ i, c i ≠ 0) ∧

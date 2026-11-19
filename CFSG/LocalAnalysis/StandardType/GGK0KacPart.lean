@@ -52,9 +52,9 @@ private theorem dvd_alcoveValue_sub_dot {r : ℕ} (p : ℕ) (μ γ : Fin r → �
     (p : ℤ) ∣ alcoveValue p μ γ - dotProduct γ μ := by
   rw [alcoveValue]
   by_cases h : ∀ j, 0 ≤ γ j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨1, by ring⟩
 
 private theorem zpow_eq_of_dvd_sub_of_orderOf {L : Type} [Field L] {p : ℕ} {ζ : Lˣ}

@@ -59,7 +59,7 @@ theorem sylowFactsJ2_unfolded :
   refine ⟨centerSmall_j2, fun T α hα => ?_⟩
   have : Finite (NativeSporadic.Carrier .J2) := (CFSG.Sporadic.J2.fam_j2_simplicity).1
   have hT : IsSylowTwoOf (T : Subgroup (NativeSporadic.Carrier .J2)) ⊤ :=
-    K1.isSylowTwoOf_top_iff.2 ⟨T.isPGroup', T.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.2 ⟨T.isPGroup, T.not_dvd_index⟩
   obtain ⟨z, hzT, hzc, hz⟩ := key _ hT α hα
   exact ⟨⟨z, hzT⟩, Subgroup.mem_center_iff.2 fun g => Subtype.ext (hzc g g.2).symm, hz⟩
 

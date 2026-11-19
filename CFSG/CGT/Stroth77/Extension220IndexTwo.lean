@@ -26,7 +26,7 @@ theorem u_apply_gens_t131 (m : ℕ) (hm : 3 ≤ m) (i j l : ℤ) :
       l • gen (Type131.k m) 1 + j • gen (Type131.k m) 2
   rw [matAct_zsmul_gens]
   simp only [Type131.uM, uMat, ofCols_apply]
-  congr 2 <;> simp <;> ring
+  congr 2 <;> simp
 
 theorem false_of_index_two_t131_of_data {B C S' : Subgroup S} {m : ℕ} {hm : 3 ≤ m}
     (D : StrothTypeData B (StrothTypeIndex.t131 m hm))

@@ -90,8 +90,7 @@ theorem mem_normalizer_pa1_of_conj_pzz_le [Finite k] [CharP k 2]
     norm_num
   have htr2 : Matrix.trace (M : Matrix (Fin 3) (Fin 3) k) = 3 * (c : k) := by
     rw [hMm]
-    simp [Matrix.trace, Fin.sum_univ_three, coe_uu, Matrix.mul_apply, Matrix.scalar_apply,
-      Matrix.diagonal_apply]
+    simp [Matrix.trace, Fin.sum_univ_three, coe_uu, Matrix.scalar_apply]
     ring
   have h3 : (3 : k) = 1 := by
     have h2 : (2 : k) = 0 := CharTwo.two_eq_zero
@@ -126,8 +125,7 @@ theorem mem_normalizer_pa1_of_conj_pzz_le [Finite k] [CharP k 2]
         (Pi.single 2 1 : Fin 3 → k) =
         (Pi.single 2 1 : Fin 3 → k) + (Pi.single 0 1 : Fin 3 → k) := by
       ext i
-      fin_cases i <;> simp [coe_uu, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
-        Pi.single_apply]
+      fin_cases i <;> simp [coe_uu, Matrix.mulVec, dotProduct, Pi.single_apply]
     rw [h2, h3, Matrix.mulVec_add, add_sub_cancel_left] at h1
     exact h1
   exact ⟨xt, mem_stabilizer_of_mulVec_mem hxe, rfl⟩
@@ -135,7 +133,7 @@ theorem mem_normalizer_pa1_of_conj_pzz_le [Finite k] [CharP k 2]
 @[expose] def dg (l : kˣ) : Matrix.SpecialLinearGroup (Fin 3) k :=
   ⟨!![(l : k), 0, 0; 0, ((l⁻¹ : kˣ) : k), 0; 0, 0, 1], by
     rw [Matrix.det_fin_three]
-    simp [← Units.val_mul]⟩
+    simp⟩
 
 theorem dg_mem_upperTriangular (l : kˣ) : (dg l : Matrix.SpecialLinearGroup (Fin 3) k) ∈
     upperTriangular 3 k := by

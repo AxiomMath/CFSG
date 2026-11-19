@@ -24,6 +24,7 @@ structure IsNormalForm (D : D4Datum G K) (ρ : Representation K G X)
 
 namespace IsNormalForm
 
+omit [Finite K] [CharP K 2] in
 private theorem span_range_eq_top {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {j : ℕ}
     {b : (Fin 4 → ZMod (Nat.card Kˣ)) → X} (hb : IsNormalForm D ρ C j b) :
     Submodule.span K (Set.range (fun a : C => b a)) = ⊤ := by
@@ -41,6 +42,7 @@ theorem linearIndependent {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {j : ℕ}
     LinearIndependent K (fun a : C => b a) :=
   linearIndependent_of_mem_wtSpace hb.mem
 
+omit [Finite K] [CharP K 2] in
 theorem rho_h {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {j : ℕ}
     {b : (Fin 4 → ZMod (Nat.card Kˣ)) → X} (hb : IsNormalForm D ρ C j b)
     (t : Fin 4 → Kˣ) {a : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ∈ C) :
@@ -103,8 +105,8 @@ theorem exists_equiv {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {j : ℕ}
       rw [hb.act α hα c a a.2, hb'.act α hα c a a.2]
       by_cases hm : (a : Fin 4 → ZMod (Nat.card Kˣ)) +
           (2 : ZMod (Nat.card Kˣ)) ^ j • castW _ α ∈ C
-      · rw [if_pos hm, if_pos hm, map_add, map_smul, he a, he ⟨_, hm⟩]
-      · rw [if_neg hm, if_neg hm, map_add, map_zero, he a]
+      · rw [ite_eq_left hm, ite_eq_left hm, map_add, map_smul, he a, he ⟨_, hm⟩]
+      · rw [ite_eq_right hm, ite_eq_right hm, map_add, map_zero, he a]
     exact congrArg (fun f : X →ₗ[K] Y => f x) hmap
   have hS : S = ⊤ := by
     have hle : Subgroup.closure {g : G | ∃ α, IsD4Root α ∧ ∃ c, D.x α c = g} ≤ S :=
@@ -119,7 +121,7 @@ theorem exists_equiv {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {j : ℕ}
 
 private theorem exists_mem_ne_neg_of_isSmallClass {N : ℕ} {σ : ZMod N}
     {C : Finset (Fin 4 → ZMod N)} (hC : IsSmallClass N σ C)
-    {a : Fin 4 → ZMod N} (ha : a ∈ C) : ∃ m ∈ C, m ≠ a ∧ m ≠ -a := by
+    {a : Fin 4 → ZMod N} (_ha : a ∈ C) : ∃ m ∈ C, m ≠ a ∧ m ≠ -a := by
   have h2 : ({a, -a} : Finset (Fin 4 → ZMod N)).card ≤ 2 := by
     have h1 := Finset.card_insert_le a ({-a} : Finset (Fin 4 → ZMod N))
     have h0 : ({-a} : Finset (Fin 4 → ZMod N)).card ≤ 1 := by simp
@@ -151,7 +153,7 @@ private theorem exists_eq_smul_b {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {j
     intro x hxne
     have hz : wtProj D ρ x (T (b a)) = 0 := by
       rw [wtProj_of_mem (D := D) (ρ := ρ) (a := (x : _)) (b := (a : _)) hTwt]
-      exact if_neg hxne
+      exact ite_eq_right hxne
     have h := congrArg (fun z : X => wtProj D ρ x z) hsum
     rw [hz, map_sum] at h
     have hsingle : (∑ y : C, wtProj D ρ x (d y • b y)) =
@@ -161,10 +163,10 @@ private theorem exists_eq_smul_b {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {j
       intro y _ hy
       rw [map_smul, wtProj_of_mem (D := D) (ρ := ρ) (a := (x : _)) (b := (y : _))
         (hb.mem y y.2).2]
-      rw [if_neg (fun hxy => hy (Subtype.ext hxy.symm))]
+      rw [ite_eq_right (fun hxy => hy (Subtype.ext hxy.symm))]
       exact smul_zero _
     rw [hsingle, map_smul, wtProj_of_mem (D := D) (ρ := ρ) (a := (x : _)) (b := (x : _))
-      (hb.mem x x.2).2, if_pos rfl] at h
+      (hb.mem x x.2).2, ite_eq_left rfl] at h
     have hc := congrArg (fun z : X => hb.basis.repr z x) h.symm
     simpa [d, ← hb.basis_apply] using hc
   refine ⟨d a, ?_⟩
@@ -187,7 +189,7 @@ private theorem coeff_step {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {j : ℕ
     rw [← h]
     exact a'.2
   have hact : ρ (D.x α 1) (b a) = b a + b a' := by
-    rw [hb.act α hα 1 a a.2, if_pos hcond, h.symm]
+    rw [hb.act α hα 1 a a.2, ite_eq_left hcond, h.symm]
     simp
   have h := congrArg (fun f : Module.End K X => f (b a)) (hT (D.x α 1))
   simp only [Module.End.mul_apply] at h

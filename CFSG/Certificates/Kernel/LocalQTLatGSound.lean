@@ -32,7 +32,7 @@ theorem inC_nil (hn : n ≤ 32) (σ : Perm (Fin n)) : InC n [] σ ↔ σ = 1 := 
   by_cases e : σ = 1
   · subst e
     simp
-  · rw [if_neg fun h => e (P.code_inj hn h)]
+  · rw [ite_eq_right fun h => e (P.code_inj hn h)]
     simp [e]
 
 theorem img_mul_rep (hn : n ≤ 32) {prev : List ℕ} {lv : Lvl} {C : List Lvl}

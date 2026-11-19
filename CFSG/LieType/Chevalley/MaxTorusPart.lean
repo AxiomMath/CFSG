@@ -47,7 +47,6 @@ theorem mem_rootCharStabilizer_zetaVec_iff {ζ : Lˣ} (hζo : orderOf ζ = 3) (h
     rw [rootChar_zetaVec, rootChar_zetaVec] at h'
     exact Multiplicative.ofAdd.injective (zmodPowHom_injective hζo hζ h')
   · intro h v
-    change rootChar (zetaVec ζ hζ x) (w • v) = rootChar (zetaVec ζ hζ x) v
     rw [rootChar_zetaVec, rootChar_zetaVec, h v]
 
 theorem adAct_wordProd_eq_triAct (ω : List (Fin τ.rank)) (x : Fin τ.rank → ZMod 3) :

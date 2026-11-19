@@ -84,7 +84,7 @@ theorem normal_threePrime_le_M152 {T Mc M : Subgroup G} (hs : Setting152 T Mc M)
     rw [e3]
     exact K₀.inv_mem (K₀.mul_mem (K₀.mul_mem hk hk1) hk2)
   have htK : t ∈ K₀ := by
-    obtain ⟨a, ha⟩ := (S.isPGroup') ⟨t, ht⟩
+    obtain ⟨a, ha⟩ := (S.isPGroup) ⟨t, ht⟩
     have hta : t ^ 2 ^ a = 1 := by
       have := congrArg (fun z : (S : Subgroup G) => (z : G)) ha
       simpa using this

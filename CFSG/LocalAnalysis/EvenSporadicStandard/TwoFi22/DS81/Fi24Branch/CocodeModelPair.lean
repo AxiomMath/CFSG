@@ -88,7 +88,7 @@ theorem ncard_Duad : Duad.ncard = 276 := by
     o2_nodup.1.map_on fun a ha b hb hab => toW_inj (o2_lt a ha) (o2_lt b hb) hab
   have hset : Duad = ((o2Masks24.map (toW 11)).toFinset : Set W11) := by
     ext v
-    simp only [Duad, Set.mem_setOf_eq, List.coe_toFinset, List.mem_map]
+    simp only [Duad, Set.mem_ofPred_eq, List.coe_toFinset, List.mem_map]
   rw [hset, Set.ncard_coe_finset, List.toFinset_card_of_nodup hinj, List.length_map,
     (Certificates.certificate450101).1.2.1]
 

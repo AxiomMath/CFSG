@@ -16,7 +16,7 @@ theorem s16h_orth3_sylow_fixed {T : Subgroup (MulAut Orth3)}
   have hsmul : ∀ (t : ↥T) (v : α), (t : MulAut Orth3) v ∈ s16h_orth3Sing := by
     intro t v
     exact s16h_orth3Sing_normalizer_mem (hT t.2) v.2
-  letI : MulAction ↥T α :=
+  let : MulAction ↥T α :=
     { smul := fun t v => ⟨(t : MulAut Orth3) v, hsmul t v⟩
       one_smul := by
         intro v
@@ -27,7 +27,7 @@ theorem s16h_orth3_sylow_fixed {T : Subgroup (MulAut Orth3)}
         apply Subtype.ext
         rfl }
   have hcard : Nat.card α = 15 := by
-    haveI : Fintype α := Fintype.ofFinite α
+    have : Fintype α := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card]
     change Fintype.card ↥s16h_orth3Sing = 15
     rw [Fintype.card_coe, s16h_orth3Sing_card]

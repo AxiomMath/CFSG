@@ -124,13 +124,13 @@ public noncomputable def noSpansTwoBase
   classical
   have ht2 : 2 ≤ t := by
     have h3 := hT p
-    rw [hdeg p, if_pos hp] at h3
+    rw [hdeg p, ite_eq_left hp] at h3
     omega
   have hs2 : 2 ≤ s := two_le_s hP hT c hdeg
   have hL0_exists : ∃ L : V, Γ.Adj p L := by
     have h3 : 3 ≤ (Γ.neighborFinset p).card := by
       rw [card_neighborFinset_eq_degree]
-      simpa [hdeg p, if_pos hp] using hT p
+      simpa [hdeg p, ite_eq_left hp] using hT p
     obtain ⟨L, hL⟩ := Finset.card_pos.mp (by omega : 0 < (Γ.neighborFinset p).card)
     exact ⟨L, by simpa using hL⟩
   let L0 : V := Classical.choose hL0_exists
@@ -267,9 +267,9 @@ public noncomputable def noSpansTwoBase
       have e : ((2 : ZMod 8) + 1) = 3 := by decide
       have hadj : Γ.Adj (v 2) (v 3) := by simpa [e] using h
       exact color_eq_one_of_adj_of_color_eq_zero hc2 hadj
-    have hd1 : Γ.degree (v 1) = s + 1 := by rw [hdeg (v 1), if_neg (by rw [hc1]; decide)]
-    have hd2 : Γ.degree (v 2) = t + 1 := by rw [hdeg (v 2), if_pos hc2]
-    have hd3 : Γ.degree (v 3) = s + 1 := by rw [hdeg (v 3), if_neg (by rw [hc3]; decide)]
+    have hd1 : Γ.degree (v 1) = s + 1 := by rw [hdeg (v 1), ite_eq_right (by rw [hc1]; decide)]
+    have hd2 : Γ.degree (v 2) = t + 1 := by rw [hdeg (v 2), ite_eq_left hc2]
+    have hd3 : Γ.degree (v 3) = s + 1 := by rw [hdeg (v 3), ite_eq_right (by rw [hc3]; decide)]
     rw [hcard, hd1, hd2, hd3]
     simp only [Nat.add_sub_cancel]
   have hfree : ∀ (g : ↥E) {x : V}, Γ.dist p x = 4 → (g : H) • x = x → g = 1 := by
@@ -421,7 +421,7 @@ public noncomputable def noSpansTwoBase
     have hstab_card : Nat.card ↥(MulAction.stabilizer ↥E z0) = Nat.card ↥S0s := by
       rw [hstab, Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv]
     have horb_nat : Nat.card ↥(MulAction.orbit ↥E z0) = s := horbit0card
-    haveI : Fintype ↥(MulAction.stabilizer ↥E z0) := Fintype.ofFinite _
+    have : Fintype ↥(MulAction.stabilizer ↥E z0) := Fintype.ofFinite _
     have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥E) (b := z0)
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       ← Nat.card_eq_fintype_card] at h
@@ -469,7 +469,7 @@ public noncomputable def noSpansTwoBase
     rw [hs31, hs32, hs33] at h
     have hd : Γ.degree (s3 4) = t + 1 := by
       rw [hs34, hdeg w2]
-      exact if_pos (color_eq_zero_of_adj_of_color_eq_one hcL2 hw2L2)
+      exact ite_eq_left (color_eq_zero_of_adj_of_color_eq_one hcL2 hw2L2)
     have hd' : Γ.degree (s3 4) - 1 = t := by rw [hd]; omega
     rw [hd'] at h
     exact h
@@ -547,7 +547,7 @@ public noncomputable def noSpansTwoBase
     have h := card_rootGroup hP hT hM qU hq
     rw [hq1, hq2, hq3] at h
     have hd : Γ.degree (qU 4) = s + 1 := by
-      rw [hq4, hdeg M0, if_neg (by rw [hcM0]; decide)]
+      rw [hq4, hdeg M0, ite_eq_right (by rw [hcM0]; decide)]
     have hd' : Γ.degree (qU 4) - 1 = s := by rw [hd]; omega
     rw [hd'] at h
     exact h

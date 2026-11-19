@@ -170,7 +170,7 @@ theorem linPerm_mul_tr (hn : 8 ≤ n) (A : GL (Fin 3) (ZMod 2)) (v : Fin 8) :
 theorem coe_lin (hn : 8 ≤ n) (A : GL (Fin 3) (ZMod 2)) :
     ((lin hn A : alternatingGroup (Fin n)) : Perm (Fin n)) = linPerm hn A := rfl
 
-theorem lin_injective (hn : 8 ≤ n) : Function.Injective (lin (n := n) hn) := fun A B h =>
+theorem lin_injective (hn : 8 ≤ n) : Function.Injective (lin (n := n) hn) := fun _A _B h =>
   linPerm_injective hn (congrArg Subtype.val h)
 
 end Lin

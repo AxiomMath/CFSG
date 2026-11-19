@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma mk'_eq_mk'_of_inv_mul_mem {ℰ E₀ : Subgroup G} [(E₀.subgroupOf ℰ).Normal]
     {x d : G} (hx : x ∈ ℰ) (hd : d ∈ ℰ) (h : x⁻¹ * d ∈ E₀) :
     QuotientGroup.mk' (E₀.subgroupOf ℰ) ⟨x, hx⟩ =
@@ -29,7 +30,7 @@ theorem exists_index_two_of_fusion {ℰ E₀ : Subgroup G} (hℰ : IsPGroup 2 �
     (hnc : ∀ x ∈ ℰ, ∀ e ∈ E₀, x * t * x⁻¹ ≠ l * e) :
     ∃ M₁ : Subgroup G, M₁ ≤ ℰ ∧ M₁.relIndex ℰ = 2 ∧ t ∉ M₁ ∧
       ∀ u ∈ M₁, u * u = 1 → u ∈ E₀ ∨ ∃ e ∈ E₀, u = l * e := by
-  letI hN₀ : (E₀.subgroupOf ℰ).Normal :=
+  let hN₀ : (E₀.subgroupOf ℰ).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hN.2 g.1 g.2 n.1 hn⟩

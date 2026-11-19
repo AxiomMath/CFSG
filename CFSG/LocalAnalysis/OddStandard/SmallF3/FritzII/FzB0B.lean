@@ -127,7 +127,7 @@ theorem fzbs_card_Wtau (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (two
     rw [Subgroup.relIndex_eq_two_iff_exists_notMem_and']
     refine ⟨tau, Subgroup.mem_sup_right (Subgroup.mem_zpowers tau), hτW, ?_⟩
     intro b hb
-    haveI : ((ctxW t x₁ x₂).subgroupOf (ctxW t x₁ x₂ ⊔ zpowers tau)).Normal := hN
+    have : ((ctxW t x₁ x₂).subgroupOf (ctxW t x₁ x₂ ⊔ zpowers tau)).Normal := hN
     have hbK : (⟨b, hb⟩ : ↥(ctxW t x₁ x₂ ⊔ zpowers tau)) ∈
         (ctxW t x₁ x₂).subgroupOf (ctxW t x₁ x₂ ⊔ zpowers tau) ⊔
         (zpowers tau).subgroupOf (ctxW t x₁ x₂ ⊔ zpowers tau) := by
@@ -212,7 +212,7 @@ theorem fzbs_Wtau_act (h : Ctx t L S x₁ x₂ lam rho tau) {k : G}
     have hle : ctxW t x₁ x₂ ⊔ zpowers tau ≤ Subgroup.centralizer ({z} : Set G) := by
       refine sup_le (fun w hw => ?_) (Subgroup.zpowers_le.mpr ?_)
       · rw [Subgroup.mem_centralizer_singleton_iff]
-        haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+        have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
         exact congrArg Subtype.val
           (mul_comm' (⟨w, hw⟩ : ctxW t x₁ x₂) ⟨z, hzW⟩)
       · rw [Subgroup.mem_centralizer_singleton_iff]

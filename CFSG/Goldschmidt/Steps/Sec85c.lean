@@ -66,7 +66,7 @@ theorem exists_not_isCyclic (h81 : S_G81) (h84 : S_G84) (hset : GoldSetting G S 
     le_normalizer_of_isNormalIn (qCoreOf_normal_in H 2)
   have hPS : P ≤ S := by
     have hR : IsPGroup 2 ((S : Subgroup G) ⊔ P : Subgroup G) :=
-      IsPGroup.to_sup_of_normal_right' S.isPGroup' hPp (hSH.trans hHP)
+      IsPGroup.to_sup_of_normal_right' S.isPGroup hPp (hSH.trans hHP)
     exact le_sup_right.trans (S.maximal_isPGroup.le_of_ge hR le_sup_left)
   have hinv : ∀ t ∈ P, t ^ 2 = 1 → t ≠ 1 → t = a := fun t htP ht2 ht1 =>
     eq_of_mem_omega1 ha1 ha2 hΩ htP ht2 ht1
@@ -114,7 +114,7 @@ theorem exists_not_isCyclic (h81 : S_G81) (h84 : S_G84) (hset : GoldSetting G S 
         _ = z * y := by rw [h, inv_one, one_mul]
   have hX' : ⁅X, X⁆ ≤ P := by
     refine le_qCoreOf_two_of_le_centralizer hE ((commutator_self_le X).trans hXH)
-      (S.isPGroup'.to_le ((commutator_self_le X).trans hXS)) fun q hq => ?_
+      (S.isPGroup.to_le ((commutator_self_le X).trans hXS)) fun q hq => ?_
     by_cases hq2 : q = 2
     · subst hq2
       exact (commutator_self_le X).trans hXC
@@ -145,7 +145,7 @@ theorem exists_not_isCyclic (h81 : S_G81) (h84 : S_G84) (hset : GoldSetting G S 
     rw [key u hu, key v hv]
   have hS'P : ⁅(S : Subgroup G), (S : Subgroup G)⁆ ≤ P := by
     refine le_qCoreOf_two_of_le_centralizer hE ((commutator_self_le _).trans hSH)
-      (S.isPGroup'.to_le (commutator_self_le _)) fun q hq => ?_
+      (S.isPGroup.to_le (commutator_self_le _)) fun q hq => ?_
     by_cases hq2 : q = 2
     · subst hq2
       exact commutator_le_centralizer_of_isCyclic (hSH.trans hHP)
@@ -154,7 +154,7 @@ theorem exists_not_isCyclic (h81 : S_G81) (h84 : S_G84) (hset : GoldSetting G S 
         (hSH.trans (le_normalizer_of_isNormalIn (qCoreOf_normal_in H q)))
   have hS' : ⁅(S : Subgroup G), (S : Subgroup G)⁆ = ⊥ := by
     by_contra hne
-    obtain ⟨t, htS, ht1, ht2⟩ := exists_involution (S.isPGroup'.to_le (commutator_self_le _)) hne
+    obtain ⟨t, htS, ht1, ht2⟩ := exists_involution (S.isPGroup.to_le (commutator_self_le _)) hne
     rw [hinv t (hS'P htS) ht2 ht1] at htS
     have h1 : x⁻¹ * a * x ∈ ⁅(S : Subgroup G), (S : Subgroup G)⁆ := by
       simpa using (Subgroup.mem_normalizer_iff.mp

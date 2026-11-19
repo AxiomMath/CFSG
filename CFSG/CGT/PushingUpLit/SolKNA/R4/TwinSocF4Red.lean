@@ -17,9 +17,9 @@ theorem map_eq_self (hT : IsSimpleGroup ↥T) (hab : ∃ a b : ↥T, a * b ≠ b
     (hC : Subgroup.centralizer (T : Set A) = ⊥) (φ : A ≃* A) : T.map φ.toMonoidHom = T := by
   have hN : (T.map φ.toMonoidHom).Normal := Subgroup.Normal.map inferInstance _ φ.surjective
   have hM : ((T.map φ.toMonoidHom ⊓ T).subgroupOf T).Normal := by
-    haveI : (T.map φ.toMonoidHom ⊓ T).Normal := Subgroup.normal_inf_normal _ _
+    have : (T.map φ.toMonoidHom ⊓ T).Normal := Subgroup.normal_inf_normal _ _
     exact Subgroup.normal_subgroupOf
-  haveI := hT
+  have := hT
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((T.map φ.toMonoidHom ⊓ T).subgroupOf T) with h | h
   · exfalso
     have hint : T.map φ.toMonoidHom ⊓ T = ⊥ := by
@@ -92,6 +92,7 @@ theorem mem_iff_apply_mem (hT : IsSimpleGroup ↥T) (hab : ∃ a b : ↥T, a * b
     ((restrictAut hT hab hC φ x : ↥T) : A) = φ x :=
   rfl
 
+omit [Finite A] [T.Normal] in
 theorem eq_of_conj_eq (hC : Subgroup.centralizer (T : Set A) = ⊥) {g h : A}
     (hgh : ∀ x ∈ T, g * x * g⁻¹ = h * x * h⁻¹) : g = h := by
   have hmem : h⁻¹ * g ∈ Subgroup.centralizer (T : Set A) := by

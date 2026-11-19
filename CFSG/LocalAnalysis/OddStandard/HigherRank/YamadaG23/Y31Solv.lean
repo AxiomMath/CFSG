@@ -22,16 +22,16 @@ private theorem innerAut_normal' (Q : Type) [Group Q] : (innerAut Q).Normal wher
 private theorem isSolvable_of_isCyclic_sylow_two {K : Type} [Group K] [Finite K]
     (S : Sylow 2 K) (hS : IsCyclic ↥(S : Subgroup K)) : Group.IsSolvable K := by
   obtain ⟨N, hNnormal, hNS⟩ := CFSG.exists_normal_isComplement'_of_isCyclic_sylow_two S hS
-  haveI := hNnormal
+  have := hNnormal
   have hNodd : Odd (Nat.card ↥N) := by
     rw [← hNS.index_eq_card]
     exact Nat.not_even_iff_odd.mp (mt even_iff_two_dvd.mp S.not_dvd_index)
-  haveI hNsolv : Group.IsSolvable ↥N := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥N hNodd
-  haveI hSsolv : Group.IsSolvable ↥(S : Subgroup K) := by
-    haveI := hS
+  have hNsolv : Group.IsSolvable ↥N := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥N hNodd
+  have hSsolv : Group.IsSolvable ↥(S : Subgroup K) := by
+    have := hS
     infer_instance
   have hQsolv : Group.IsSolvable (K ⧸ N) := by
-    haveI := hSsolv
+    have := hSsolv
     refine Group.isSolvable_of_surjective
       (f := (QuotientGroup.mk' N).comp (S : Subgroup K).subtype) ?_
     intro q
@@ -42,7 +42,7 @@ private theorem isSolvable_of_isCyclic_sylow_two {K : Type} [Group K] [Finite K]
     show QuotientGroup.mk' N t = QuotientGroup.mk' N (n * t)
     rw [map_mul]
     rw [show (QuotientGroup.mk' N) n = 1 from (QuotientGroup.eq_one_iff n).mpr hn, one_mul]
-  haveI := hQsolv
+  have := hQsolv
   exact Group.isSolvable_of_subgroup_quotient N
 
 theorem s3_centEl_solvable_of_odd (hS : HRSetting G L)
@@ -50,10 +50,10 @@ theorem s3_centEl_solvable_of_odd (hS : HRSetting G L)
     (hodd : Odd (Nat.card ↥(centEl L (y * s.t * y⁻¹) ⊓ conjSub y L))) :
     Group.IsSolvable ↥(centEl L (y * s.t * y⁻¹)) := by
   let Inn : Subgroup (MulAut (L ⧸ center L)) := innerAut (L ⧸ center L)
-  haveI hInnN : Inn.Normal := innerAut_normal' (L ⧸ center L)
+  have hInnN : Inn.Normal := innerAut_normal' (L ⧸ center L)
   let N0 : Subgroup ↥s.H := L.subgroupOf s.H
-  haveI hN0N : N0.Normal := s3_L_normal_H s hS
-  haveI hPerf : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have hN0N : N0.Normal := s3_L_normal_H s hS
+  have hPerf : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   have hCsolv : Group.IsSolvable ↥(centralizer (L : Set G)) := by
     obtain ⟨S, hScyc⟩ := hS.cyclic
     exact isSolvable_of_isCyclic_sylow_two S hScyc
@@ -70,20 +70,20 @@ theorem s3_centEl_solvable_of_odd (hS : HRSetting G L)
   have hinf : centIn s.H L ≤ s.H := inf_le_left
   let f : ↥(centIn s.H L) →* ↥s.H ⧸ N0 :=
     (QuotientGroup.mk' N0).comp (Subgroup.inclusion hinf)
-  haveI hCentSolv : Group.IsSolvable ↥(centIn s.H L) := by
-    haveI := hCsolv
+  have hCentSolv : Group.IsSolvable ↥(centIn s.H L) := by
+    have := hCsolv
     let e := Subgroup.subgroupOfEquivOfLe (H := centIn s.H L)
       (K := centralizer (L : Set G)) inf_le_right
     exact Group.isSolvable_of_ker_le_range (G'' := PUnit.{1}) e.toMonoidHom
       (1 : ↥(centIn s.H L) →* PUnit) (by
         intro x _
         exact e.surjective x)
-  haveI hOutSolv : Group.IsSolvable (MulAut (L ⧸ center L) ⧸ Inn) := by
+  have hOutSolv : Group.IsSolvable (MulAut (L ⧸ center L) ⧸ Inn) := by
     have hcard : Nat.card (MulAut (L ⧸ center L) ⧸ Inn) = 2 := by
       rw [← Subgroup.index_eq_card (H := Inn)]
       exact hOut
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsCyclic (MulAut (L ⧸ center L) ⧸ Inn) := isCyclic_of_prime_card hcard
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsCyclic (MulAut (L ⧸ center L) ⧸ Inn) := isCyclic_of_prime_card hcard
     infer_instance
   have hfg : g.ker ≤ f.range := by
     intro q hq
@@ -120,11 +120,11 @@ theorem s3_centEl_solvable_of_odd (hS : HRSetting G L)
         = (⟨l, hlH⟩ : ↥s.H)⁻¹ := by
       apply Subtype.ext
       rw [Subgroup.coe_div, Subgroup.coe_inv, Subgroup.coe_inclusion]
-      simp only [c, Subtype.coe_mk]
+      simp only [c]
       rw [div_eq_mul_inv, mul_assoc, mul_inv_cancel, mul_one]
     rw [hdiv]
     simpa using L.inv_mem hlL
-  haveI hHQuotSolv : Group.IsSolvable (↥s.H ⧸ N0) :=
+  have hHQuotSolv : Group.IsSolvable (↥s.H ⧸ N0) :=
     Group.isSolvable_of_ker_le_range f g hfg
   let X : Subgroup G := centEl L (y * s.t * y⁻¹)
   let conjHom : ↥X →* G := (MulAut.conj y⁻¹).toMonoidHom.comp X.subtype
@@ -185,7 +185,7 @@ theorem s3_centEl_solvable_of_odd (hS : HRSetting G L)
   have hkerodd : Odd (Nat.card ↥ψ.ker) := by
     rw [hcardker]
     exact hodd
-  haveI hkerSolv : Group.IsSolvable ↥ψ.ker := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥ψ.ker hkerodd
+  have hkerSolv : Group.IsSolvable ↥ψ.ker := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥ψ.ker hkerodd
   exact Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ (by rw [Subgroup.range_subtype])
 
 end CFSG.OddStandard.HigherRank.YamadaG23

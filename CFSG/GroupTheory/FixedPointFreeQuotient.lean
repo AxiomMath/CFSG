@@ -21,9 +21,9 @@ theorem exists_mem_sub_one_eq_of_mem [FiniteDimensional k V]
   let f : U →ₗ[k] U :=
     { toFun := fun u => ⟨T (u : V) - (u : V), U.sub_mem (hU (u : V) u.2) u.2⟩
       map_add' := fun u v => Subtype.ext (by
-        simp only [Subtype.coe_mk, AddMemClass.coe_add, map_add, add_sub_add_comm])
+        simp only [AddMemClass.coe_add, map_add, add_sub_add_comm])
       map_smul' := fun c u => Subtype.ext (by
-        simp only [Subtype.coe_mk, SetLike.val_smul, map_smul, smul_sub]
+        simp only [SetLike.val_smul, map_smul, smul_sub]
         rfl) }
   have hf : Function.Injective f := by
     intro u v huv

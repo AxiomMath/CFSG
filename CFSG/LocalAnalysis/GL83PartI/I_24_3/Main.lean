@@ -234,10 +234,10 @@ theorem Cfg.false_of_lfour {R : Sylow 3 X} (h : Cfg 3 R B K z) {d : TauCeti.Vali
     (hF : LFourFacts) (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hZ : 3 ∣ Nat.card (Subgroup.center ↥K)) (hZ9 : ¬ 3 ^ 2 ∣ Nat.card (Subgroup.center ↥K)) :
     False := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
   obtain ⟨⟨h9, h27⟩, hrk, hgen⟩ := hF d hd
   have hperf : Group.IsPerfect ↥K := ⟨h.comp.2.2.1⟩
-  haveI : Group.IsPerfect ↥K := hperf
+  have : Group.IsPerfect ↥K := hperf
   have hcardL : Nat.card (↥K ⧸ Subgroup.center ↥K) = Nat.card (TauCeti.CFSGIndex.lie d).Group :=
     Nat.card_congr e.toEquiv
   have hρ : Function.Injective ((MulAut.congr e).toMonoidHom.comp

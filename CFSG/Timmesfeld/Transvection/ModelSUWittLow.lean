@@ -23,10 +23,10 @@ private theorem truncLow_apply_lowIdx {j : ℕ} {v : Fin m → F} {i : Fin (m / 
   · simp [hi]
   · intro b hb
     by_cases hbj : b.val < j
-    · rw [if_pos hbj, Pi.smul_apply, Pi.single_eq_of_ne, smul_zero]
+    · rw [ite_eq_left hbj, Pi.smul_apply, Pi.single_eq_of_ne, smul_zero]
       intro h
       exact hb (Fin.ext (by simpa [val_lowIdx] using congrArg Fin.val h)).symm
-    · rw [if_neg hbj]
+    · rw [ite_eq_right hbj]
       rfl
 
 private theorem truncLow_apply_rev (j : ℕ) (v : Fin m → F) (i : Fin (m / 2)) :
@@ -34,8 +34,8 @@ private theorem truncLow_apply_rev (j : ℕ) (v : Fin m → F) (i : Fin (m / 2))
   rw [truncLow, Pi.sub_apply, Fintype.sum_apply,
     Finset.sum_eq_zero (fun b _ => ?_), sub_zero]
   by_cases hbj : b.val < j
-  · rw [if_pos hbj, Pi.smul_apply, Pi.single_eq_of_ne (lowIdx_ne_rev b i).symm, smul_zero]
-  · rw [if_neg hbj]
+  · rw [ite_eq_left hbj, Pi.smul_apply, Pi.single_eq_of_ne (lowIdx_ne_rev b i).symm, smul_zero]
+  · rw [ite_eq_right hbj]
     rfl
 
 private theorem uForm_truncLow {j : ℕ} {v y : Fin m → F}
@@ -60,8 +60,8 @@ private theorem uForm_truncLow {j : ℕ} {v y : Fin m → F}
       _ = 0 := by
             refine Finset.sum_eq_zero fun i _ => ?_
             by_cases hi : i.val < j
-            · rw [if_pos hi, uForm_smul_left, uForm_single_left, hy i hi, mul_zero]
-            · rw [if_neg hi]
+            · rw [ite_eq_left hi, uForm_smul_left, uForm_single_left, hy i hi, mul_zero]
+            · rw [ite_eq_right hi]
               simp [uForm_eq]
   rw [truncLow, uForm_sub_left, hsum, sub_zero]
 

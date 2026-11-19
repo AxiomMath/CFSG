@@ -64,7 +64,7 @@ theorem map_gnV_eq_uCore {M T : Subgroup G} (hTM : T ≤ M) :
     M.subtype = uCore M T
   apply le_antisymm
   · have hUM : uCore M T ≤ M := uCore_le_of_le hTM
-    haveI : ((uCore M T).subgroupOf M).Normal :=
+    have : ((uCore M T).subgroupOf M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hUM).mpr (le_normalizer_uCore M T)
     have hle : Subgroup.normalClosure (CFSG.Quasithin.omegaOneCenterOf (T.subgroupOf M) : Set ↥M) ≤
         (uCore M T).subgroupOf M := by

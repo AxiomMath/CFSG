@@ -30,7 +30,7 @@ theorem testBit_imgMT {g : Nat} (m j : Nat) : ∀ t,
         (Nat.lor (imgMT w g m t) (Nat.shiftLeft 1 (pg w (mask w) g t))) (imgMT w g m t) := rfl
     rw [e]
     cases hb : Nat.testBit m t
-    · rw [cond_false, ih]
+    · rw [Bool.cond_false, ih]
       constructor
       · rintro ⟨i, hi, h1, h2⟩
         exact ⟨i, by omega, h1, h2⟩
@@ -39,7 +39,7 @@ theorem testBit_imgMT {g : Nat} (m j : Nat) : ∀ t,
         · exact ⟨i, hi, h1, h2⟩
         · rw [hb] at h1
           exact absurd h1 (by simp)
-    · rw [cond_true, shiftLeft_one]
+    · rw [_root_.Bool.cond_true, shiftLeft_one]
       change Nat.testBit (imgMT w g m t ||| 2 ^ pg w (mask w) g t) j = true ↔ _
       rw [Nat.testBit_or, Bool.or_eq_true, ih, Nat.testBit_two_pow, decide_eq_true_eq]
       constructor
@@ -60,7 +60,7 @@ theorem imgMT_lt {g : Nat} (hg : PP n w g) (m : Nat) : ∀ t, t ≤ n → imgMT 
     rw [e]
     cases Nat.testBit m t
     · exact ih
-    · rw [cond_true, shiftLeft_one]
+    · rw [_root_.Bool.cond_true, shiftLeft_one]
       exact Nat.or_lt_two_pow ih (Nat.pow_lt_pow_right (by norm_num) (hg.2.1 t (by omega)))
 
 theorem ptsM_imgM {g : Nat} (hg : PP n w g) (m : Nat) :
@@ -83,7 +83,7 @@ theorem ptsM_inj {x y : Nat} (hx : x < 2 ^ n) (hy : y < 2 ^ n) (h : ptsM n x = p
   intro i
   by_cases hi : i < n
   · have e := congrArg (fun S : Set (Fin n) => (⟨i, hi⟩ : Fin n) ∈ S) h
-    simp only [ptsM, Set.mem_setOf_eq, eq_iff_iff] at e
+    simp only [ptsM, Set.mem_ofPred_eq, eq_iff_iff] at e
     exact Bool.eq_iff_iff.2 e
   · have h2 : 2 ^ n ≤ 2 ^ i := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [Nat.testBit_eq_false_of_lt (by omega), Nat.testBit_eq_false_of_lt (by omega)]

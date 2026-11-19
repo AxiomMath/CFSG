@@ -116,7 +116,7 @@ theorem exists_conj_mem_maxElemAbelian_of_sylow [Finite Γ] {L S Y : Subgroup Γ
       exact hy
     exact Subgroup.mem_map.mpr ⟨⟨y, hYL hy⟩, hYP hy', rfl⟩
   have hP'syl : IsSylowIn 2 L P' := by
-    refine ⟨Subgroup.map_subtype_le (P : Subgroup ↥L), IsPGroup.map P.isPGroup' L.subtype, ?_⟩
+    refine ⟨Subgroup.map_subtype_le (P : Subgroup ↥L), IsPGroup.map P.isPGroup L.subtype, ?_⟩
     have hidx : P'.relIndex L = P.index := by
       have h1 : P'.relIndex L = (P'.subgroupOf L).index := by
         rw [← Subgroup.relIndex_subgroupOf (H := P') (K := L) (L := L) le_rfl,

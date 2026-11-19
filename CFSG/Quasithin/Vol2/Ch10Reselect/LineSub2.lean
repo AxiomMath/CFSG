@@ -29,7 +29,7 @@ private theorem conj_mem_Z (M : UModel A U Z L K) {j z : G} (hjU : j ∈ U) (hzU
     rw [e, map_mul, map_mul, map_inv, hψz, mul_one, inv_mul_cancel]
   exact (M.ker ⟨j⁻¹ * z * j, hpU⟩).mp h1
 
-theorem commutator_lineJ [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
+theorem commutator_lineJ (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
     (hLU : L ≤ Subgroup.normalizer (U : Set G)) (hZL : Z ≤ Subgroup.centralizer (L : Set G)) :
     ⁅M.lineJ w, L⁆ = M.lineJ w := by
   have hLJ : L ≤ Subgroup.normalizer (M.lineJ w : Set G) := L_le_normalizer_lineJ M w hLU
@@ -66,7 +66,7 @@ theorem commutator_lineJ [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K}
     rw [e]
     exact Subgroup.commutator_mem_commutator hj hl
 
-theorem exists_lineJ_not_mem_Z [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
+theorem exists_lineJ_not_mem_Z (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
     (hLU : L ≤ Subgroup.normalizer (U : Set G)) : ∃ j ∈ M.lineJ w, j ∉ Z := by
   have he : (![1, 0] : Fin 2 → K) ≠ 0 := fun h => one_ne_zero (congrFun h 0)
   have hp : ((w 0 • (![1, 0] : Fin 2 → K), w 1 • (![1, 0] : Fin 2 → K)) : UTilde K) ∈
@@ -86,14 +86,14 @@ theorem exists_lineJ_not_mem_Z [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 
   · exact hi ((smul_eq_zero.mp h20).resolve_right he)
   · exact hi ((smul_eq_zero.mp h21).resolve_right he)
 
-theorem lineJ_ne_bot [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
+theorem lineJ_ne_bot (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
     (hLU : L ≤ Subgroup.normalizer (U : Set G)) : M.lineJ w ≠ ⊥ := by
   intro h
   obtain ⟨j, hj, hjZ⟩ := exists_lineJ_not_mem_Z M hw hLU
   rw [h, Subgroup.mem_bot] at hj
   exact hjZ (by rw [hj]; exact Z.one_mem)
 
-theorem lineJ_irreducible [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
+theorem lineJ_irreducible (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
     (hLU : L ≤ Subgroup.normalizer (U : Set G)) {J' : Subgroup G} (h1 : M.lineJ w ⊓ Z ≤ J')
     (h2 : J' ≤ M.lineJ w) (h3 : L ≤ Subgroup.normalizer (J' : Set G)) :
     J' = M.lineJ w ⊓ Z ∨ J' = M.lineJ w := by
@@ -159,7 +159,7 @@ theorem lineJ_irreducible [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K
     have := J'.mul_mem hj' hmem2
     rwa [mul_inv_cancel_left] at this
 
-theorem eq_one_of_centralizes_lineJ [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K}
+theorem eq_one_of_centralizes_lineJ (M : UModel A U Z L K) {w : Fin 2 → K}
     (hw : w ≠ 0) (hLU : L ≤ Subgroup.normalizer (U : Set G)) (l : ↥L)
     (h : ∀ j ∈ M.lineJ w, (l : G) * j * (l : G)⁻¹ = j) : M.γ l = 1 := by
   have hfix : ∀ u : Fin 2 → K,
@@ -198,7 +198,7 @@ theorem eq_one_of_centralizes_lineJ [Nontrivial K] (M : UModel A U Z L K) {w : F
     rw [Matrix.SpecialLinearGroup.coe_one]
     exact congrFun (congrFun hM i) j
 
-theorem exists_hom_lineJ [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
+theorem exists_hom_lineJ (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
     (hLU : L ≤ Subgroup.normalizer (U : Set G)) :
     ∃ f : ↥(M.lineJ w) →* Multiplicative ↥(lineAdd K w), Function.Surjective f ∧
       ∀ j : ↥(M.lineJ w), f j = 1 ↔ (j : G) ∈ Z := by
@@ -238,7 +238,7 @@ theorem exists_hom_lineJ [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K}
       rw [toAdd_eq_zero]
       exact (M.ker ⟨(j : G), hJU j⟩).mpr hjZ
 
-theorem card_lineJ [Finite G] [Finite K] [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K}
+theorem card_lineJ [Finite G] [Finite K] (M : UModel A U Z L K) {w : Fin 2 → K}
     (hw : w ≠ 0) (hLU : L ≤ Subgroup.normalizer (U : Set G)) :
     Nat.card ↥(M.lineJ w) = Nat.card ↥(Z.subgroupOf (M.lineJ w)) * Nat.card K ^ 2 := by
   obtain ⟨f, hfsurj, hfker⟩ := exists_hom_lineJ M hw hLU

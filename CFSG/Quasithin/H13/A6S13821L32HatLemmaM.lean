@@ -194,7 +194,7 @@ private theorem A0M_sub {M : Mat3} (hM : M ∈ A0M) : ∃ a : SL3, a ∈ A₀ �
   exact ⟨wordSL w, wordSL_mem w, by rw [wordSL_coe, hw]⟩
 
 private theorem E0M_sub {M : Mat3} (hM : M ∈ E0M) : ∃ e : SL3, e ∈ E₀ ∧ e.1 = M := by
-  simp only [E0M, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hM
+  simp only [E0M, List.mem_cons, List.not_mem_nil, or_false] at hM
   rcases hM with rfl | rfl | rfl | rfl
   · exact ⟨1, E₀.one_mem, rfl⟩
   · exact ⟨ela₁, ela₁_mem_E0, rfl⟩
@@ -449,7 +449,7 @@ theorem two_le_finrank_quot_fixed {F U : Type*} [Field F] [CharP F 2]
     obtain ⟨g, hg⟩ := hnt
     exact hg (rho_eq_one_of_ela ρ hone g)
   have hpos : 0 < Module.finrank F (U ⧸ C) := by
-    haveI : Nontrivial (U ⧸ C) := Submodule.Quotient.nontrivial_iff.2 hCtop
+    have : Nontrivial (U ⧸ C) := Submodule.Quotient.nontrivial_iff.2 hCtop
     exact Module.finrank_pos
   by_contra hlt
   replace hlt := not_le.1 hlt

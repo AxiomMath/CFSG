@@ -44,7 +44,7 @@ theorem isExtNotation_of_isA6Type {X : Type} [Group X]
   obtain ⟨e⟩ := h6
   refine ⟨Subgroup.center X, inferInstance, hZ3, ⟨e⟩, ?_⟩
   rintro ⟨H, hH, hinf, hsup⟩
-  haveI : H.Normal := hH
+  have : H.Normal := hH
   have hZne : Subgroup.center X ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hZ3
@@ -67,8 +67,8 @@ theorem isSLType_three_four_of_isL34Type
   have hPi := CFSG.RankThree.PartTwo.KFacts.isSLThreePiAt_of_isSLThreeEpsAt (p := 2) (e := 2)
     (by norm_num) hEps (Or.inl (by norm_num)) hZne
   obtain ⟨F, hF, hFfin, hcase⟩ := hPi
-  letI : Field F := hF
-  letI : Finite F := hFfin
+  let : Field F := hF
+  let : Finite F := hFfin
   rcases hcase with ⟨hFcard, -, ⟨φ⟩⟩ | ⟨-, hmod, -⟩
   · refine ⟨φ.trans ?_⟩
     exact (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 F).symm.trans

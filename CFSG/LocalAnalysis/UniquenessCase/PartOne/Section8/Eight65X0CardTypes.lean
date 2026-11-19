@@ -21,7 +21,7 @@ theorem card_sup_eq_nine_of_card_three_of_ne {X Z : Subgroup G}
     Nat.card ↥(X ⊔ Z) = 9 := by
   have hXZbot : X ⊓ Z = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(X ⊓ Z) := (Subgroup.nontrivial_iff_ne_bot (X ⊓ Z)).mpr hne
+    have : Nontrivial ↥(X ⊓ Z) := (Subgroup.nontrivial_iff_ne_bot (X ⊓ Z)).mpr hne
     have hgt : 1 < Nat.card ↥(X ⊓ Z) := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     have hdvd : Nat.card ↥(X ⊓ Z) ∣ 3 := by
       simpa only [hXcard] using
@@ -40,6 +40,7 @@ theorem card_sup_eq_nine_of_card_three_of_ne {X Z : Subgroup G}
         CFSG.card_sup_eq_mul_of_commute X Z hcomm hXZbot
     _ = 9 := by rw [hXcard, hZcard]
 
+omit [Finite G] in
 theorem psi_mk'_eq_self_of_commutator_eq_bot {L E Q : Subgroup G}
     (hE : E ≤ Subgroup.normalizer (L : Set G))
     (hQE : ⁅Q, E⁆ = ⊥) (e : ↥E) {y : ↥L} (hy : (y : G) ∈ Q) :
@@ -82,7 +83,7 @@ theorem card_range_eq_three_of_conj_mem {L X Z : Subgroup G}
             (Subgroup.card_map_dvd (H := C) (f := MulAut.conj))
       _ = 3 := hCcard
   have hne3 : Nat.card (psi hEnorm).range ≠ 1 := by
-    obtain ⟨z, hzZ, hznot⟩ := SetLike.not_le_iff_exists.mp hZnotle
+    obtain ⟨z, hzZ, hznot⟩ := IsConcreteLE.not_le_iff_exists.mp hZnotle
     have hzE : z ∈ X ⊔ Z := Subgroup.mem_sup_right hzZ
     have hzne : psi hEnorm (⟨z, hzE⟩ : ↥(X ⊔ Z)) ≠ 1 := by
       intro h1

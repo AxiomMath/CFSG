@@ -177,7 +177,7 @@ theorem unip_mem_closure_uniLiftFixSL (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (h
     {g : SpecialLinearGroup (Fin n) F} (hg : (g : Matrix (Fin n) (Fin n) F) - 1 ∈ thetaSpace W) :
     g ∈ Subgroup.closure (uniLiftFixSL E) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K := Subgroup.closure (uniLiftFixSL E) with hK
   set φ : Matrix (Fin n) (Fin n) F := (g : Matrix (Fin n) (Fin n) F) - 1 with hφ
   obtain ⟨x, hxE, y, hyE, hy1, hxy⟩ := exists_independent_pair hp E hE1.2 hc
@@ -379,7 +379,7 @@ theorem lift_dichotomy [Finite F] (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 :
     have hz'K : z' ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
     have hAK := mem_of_conjAut_mem_of_sup_eq hn hgen hK hz₀K hz'K rfl rfl hA
     have hBK := mem_of_conjAut_mem_of_sup_eq hn hgen hK hz₀K hz'K rfl rfl hB
-    haveI : IsMulCommutative (Subgroup.closure S) :=
+    have : IsMulCommutative (Subgroup.closure S) :=
       Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
     exact hAB (setLike_mul_comm (s := Subgroup.closure S) hAK hBK)
   have hzvk : ∀ k : ℕ, (z₀ : Matrix (Fin n) (Fin n) F) *ᵥ
@@ -492,7 +492,7 @@ theorem heis_fixed_five_eq_one (h5 : ringChar F = 5) {E : Subgroup (MulAut (proj
     have hBK : B ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
     have h1 := mem_of_conjAut_mem_of_sup_eq hn hgen hK hXK hBK rfl rfl hA₁
     have h2 := mem_of_conjAut_mem_of_sup_eq hn hgen hK hXK hBK rfl rfl hA₂
-    haveI : IsMulCommutative (Subgroup.closure S) :=
+    have : IsMulCommutative (Subgroup.closure S) :=
       Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
     exact hA (setLike_mul_comm (s := Subgroup.closure S) h1 h2)
   obtain ⟨c, hcBX⟩ := exists_scalarGL_comm hn hE1 he₀ he''E
@@ -507,7 +507,7 @@ theorem heis_fixed_five_eq_one (h5 : ringChar F = 5) {E : Subgroup (MulAut (proj
     rw [← map_pow] at h
     have h1 := congrArg (fun g : GL (Fin 3) F => (g : Matrix (Fin 3) (Fin 3) F) 0 0) h
     simp only [scalarGL_coe_eq_smul, Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one,
-      map_one, Units.val_one] at h1
+      Units.val_one] at h1
     exact Units.ext h1
   obtain ⟨hker, hcop⟩ := proj_ker_facts Nat.prime_five h5 3
   obtain ⟨k, rfl, hk5⟩ := exists_pow_lift (proj 3 F) (proj_surjective 3 F) hcop (n := 1)
@@ -533,8 +533,8 @@ theorem heis_fixed_five_eq_one (h5 : ringChar F = 5) {E : Subgroup (MulAut (proj
     calc (k : Matrix (Fin 3) (Fin 3) F) * X
         = (X * k * ((X⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)) * X := by rw [h1]
       _ = X * k := by rw [Matrix.mul_assoc, Units.inv_mul, Matrix.mul_one]
-  haveI : CharP F 5 := h5 ▸ ringChar.charP F
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : CharP F 5 := h5 ▸ ringChar.charP F
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set N : Matrix (Fin 3) (Fin 3) F := (k : Matrix (Fin 3) (Fin 3) F) - 1 with hN
   have hN5 : N ^ 5 = 0 := by
     rw [hN, sub_pow_char_of_commute (R := Matrix (Fin 3) (Fin 3) F) (p := 5)
@@ -572,7 +572,7 @@ theorem uniPlaneGen_projectiveSL_five (h5 : ringChar F = 5) {n : ℕ} (hn : 3 �
       rwa [h5] at h
     · obtain ⟨e₀, he₀, he₀1, s, hs1, hs, hs5⟩ := hfive
       exact absurd (heis_fixed_five_eq_one h5 hE hc hD hnonab he₀ he₀1 hs hs5) hs1
-  · haveI : CharP F 5 := h5 ▸ ringChar.charP F
+  · have : CharP F 5 := h5 ▸ ringChar.charP F
     have h := Inputs2311c.uniPlaneGen_of_field_outer Nat.prime_five hf hn hK Nat.prime_three (by norm_num)
       (by norm_num) hE hc hD
     rwa [h5] at h
@@ -588,7 +588,7 @@ theorem sup_zpowers_facts {p : ℕ} (hp : p.Prime) {a b : G} (hab : Commute a b)
     IsElemAbelian p (Subgroup.zpowers a ⊔ Subgroup.zpowers b) ∧
       Nat.card ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers b) = p ^ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H := Subgroup.zpowers a ⊔ Subgroup.zpowers b with hH
   have hHcl : H = Subgroup.closure ({a, b} : Set G) := by
     rw [hH, Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure, ← Subgroup.closure_union]
@@ -657,7 +657,7 @@ theorem sup_zpowers_facts {p : ℕ} (hp : p.Prime) {a b : G} (hab : Commute a b)
     | inv u hu ihu => rw [inv_pow, ihu, inv_one]
   refine ⟨⟨hcomm, hexp⟩, ?_⟩
   have hpg : IsPGroup p H := fun z => ⟨1, Subtype.ext (by simpa using hexp z z.2)⟩
-  haveI hSfin : Finite S := by
+  have hSfin : Finite S := by
     have : Finite (Set.range φ) := Set.finite_range φ |>.to_subtype
     exact this
   have hfinH : Finite H :=
@@ -706,7 +706,7 @@ theorem uniPlaneGen_or_heis {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hE : IsElemAbelian p E) (hc : Nat.card E = p ^ 2) :
     Inputs2311c.UniPlaneGen ℓ E ∨ (E ≤ linearAutGroup n F ∧ n = p ∧
       ∃ A B : GL (Fin n) F, conjAut n F A ∈ E ∧ conjAut n F B ∈ E ∧ A * B ≠ B * A) := by
-  haveI : CharP F ℓ := finite_field_prime_power_characteristic hℓ hf hK
+  have : CharP F ℓ := finite_field_prime_power_characteristic hℓ hf hK
   have hchar : ringChar F = ℓ := ringChar.eq F ℓ
   have hpF0 : (p : F) ≠ 0 := by
     intro h0
@@ -743,7 +743,7 @@ theorem lifts_commute_of_commute {n : ℕ} (hn : 3 ≤ n) {E : Subgroup (MulAut 
   have hWK : W ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
   have h1 := mem_of_conjAut_mem_of_sup_eq hn hgen hK hXK hWK rfl rfl hA
   have h2 := mem_of_conjAut_mem_of_sup_eq hn hgen hK hXK hWK rfl rfl hB
-  haveI : IsMulCommutative (Subgroup.closure S) :=
+  have : IsMulCommutative (Subgroup.closure S) :=
     Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
   exact setLike_mul_comm (s := Subgroup.closure S) h1 h2
 
@@ -799,8 +799,8 @@ theorem thm4Rest_linear {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime
       CFSG.GH74.GLS.oPrimeResidualOf q (barX p (Cg a) K ⊓ Subgroup.centralizer
         ({QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z} : Set (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a)))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set A0 := E ⊓ A with hA0
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hNdef
   set F := GaloisField Q.p Q.exponent with hFdef
@@ -1032,7 +1032,7 @@ theorem thm4Rest_linear {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime
     have hprim : IsPrimitiveRoot (u : F) p := by
       rw [IsPrimitiveRoot.coe_units_iff, IsPrimitiveRoot.iff_orderOf]
       exact orderOf_eq_prime hup hu1
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     obtain ⟨t, htp, hut⟩ := hprim.eq_pow_of_pow_eq_one (ξ := (v : F))
       (by rw [← Units.val_pow_eq_pow_val, hvp, Units.val_one])
     have hvt : v = u ^ t := Units.ext (by rw [Units.val_pow_eq_pow_val, hut])
@@ -1119,11 +1119,11 @@ theorem input23_11Thm4Rest_of_residuals (hU : Thm4RestUnitary)
 
 theorem sq_dvd_card_mulAut {p : ℕ} (hp : p.Prime) {a : G} {K A0 : Subgroup G} (hK : GLAPComponent p (Cg a) K)
     {T : Type} [Group T] [Finite T] (θ' : barOf p K ⧸ Subgroup.center (barOf p K) ≃* T)
-    (hA0el : IsElemAbelian p A0) (hA0r : 2 ≤ CFSG.Open.pRank p A0)
+    (_hA0el : IsElemAbelian p A0) (hA0r : 2 ≤ CFSG.Open.pRank p A0)
     (hN : A0 ≤ Subgroup.normalizer (K : Set G)) (hF : ∀ x ∈ A0, x ∈ centBar p ⊤ K → x = 1) :
     p ^ 2 ∣ Nat.card (MulAut T) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut T) := Finite.of_injective (fun e : MulAut T => (e : T → T)) DFunLike.coe_injective
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut T) := Finite.of_injective (fun e : MulAut T => (e : T → T)) DFunLike.coe_injective
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hNdef
   set φ : ↥N →* MulAut T :=
     (MulAut.congr θ').toMonoidHom.comp ((quotientCenterAut' (barOf p K)).comp (barAut p K)) with hφ
@@ -1371,7 +1371,7 @@ theorem uniGenFiveNonCpf_linear :
 theorem exists_orderOf_five_of_alt5 {K : Type} [Group K] [Finite K] {L : Subgroup K}
     (hL5 : IsAltType 5 (barOf 3 L)) : ∃ l ∈ L, orderOf l = 5 := by
   obtain ⟨e⟩ := hL5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := alternatingGroup (Fin 5)) 5
     (by rw [Inputs256b.card_alt5]; norm_num)
   obtain ⟨l₀, hl₀⟩ := QuotientGroup.mk_surjective (e.symm g)
@@ -1445,7 +1445,7 @@ theorem le_glaPPrimeCoreOf_of_isSubnormal' {X : Type} [Group X] [Finite X] {p : 
     {L C : Subgroup X} (h : IsSubnormal L C) (hcop : Nat.Coprime p (Nat.card L)) :
     L ≤ GLAPPrimeCoreOf p C :=
   (CFSG.HardMathSupport.Timmesfeld.Proving.le_GLAPPrimeCoreOf_of_normal le_rfl
-    (fun g hg x hx => L.mul_mem (L.mul_mem hg hx) (L.inv_mem hg)) hcop).trans
+    (fun _g hg _x hx => L.mul_mem (L.mul_mem hg hx) (L.inv_mem hg)) hcop).trans
     (CFSG.LocalAnalysis.GLTheoremB.glaPPrimeCoreOf_le_of_isSubnormal hp h)
 
 variable {G : Type} [Group G] [Finite G]
@@ -1465,7 +1465,7 @@ theorem oPrimeResidualOf_le_of_qGen {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (h
             IsChevSimple q (barOf p Q ⧸ Subgroup.center (barOf p Q))),
           Q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hNdef
   set zb : ↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a) := QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z with hzb
   set C : Subgroup (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a)) :=
@@ -1599,7 +1599,7 @@ theorem input14_2Struct_of_at (h : Input14_2StructAt fun _ => True) : Inputs2311
 
 theorem input14_2StructAt_five_le (hQ : QGenOn fun _ => True) : Input14_2StructAt (5 ≤ ·) := by
   intro G _ _ p q hp hp2 hq hq2 hqp hq5 a K E A hK hchev hA0C hA0el hA0r hN hF hIii
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hchev with ⟨i, hi, ⟨θ⟩⟩ | hamb
   · cases i with
     | lie d =>

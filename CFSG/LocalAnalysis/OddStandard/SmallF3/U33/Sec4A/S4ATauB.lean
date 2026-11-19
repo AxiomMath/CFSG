@@ -66,7 +66,7 @@ theorem exists_adapted_frame (hK : LieModel K .PSU 3 3 1) {x₁ x₂ lam : K}
     (hŜT : ∀ w : K, MulAut.conj w ∈ Ŝ → w ∈ wreathGrp x₁ x₂ lam) :
     ∃ (x₁' x₂' lam' rho' : K) (α' : MulAut K), U33Frame x₁' x₂' lam' rho' α' ∧
       U33FrameExtras x₁' x₂' lam' rho' α' ∧ baseGrp x₁' x₂' = baseGrp x₁ x₂ ∧ α' ∈ Ŝ := by
-  haveI hFinAut : Finite (MulAut K) :=
+  have hFinAut : Finite (MulAut K) :=
     Nat.finite_of_card_ne_zero (by rw [card_aut_of_psu33 hK]; norm_num)
   have hfac : (12096 : ℕ).factorization 2 = 6 := by
     have h12096 : (12096 : ℕ) = 2 ^ 6 * 189 := by norm_num
@@ -111,7 +111,7 @@ theorem exists_alpha (hK : LieModel K .PSU 3 3 1) {x₁ x₂ lam rho : K}
     (hTŜ : ∀ w ∈ wreathGrp x₁ x₂ lam, MulAut.conj w ∈ Ŝ)
     (hŜT : ∀ w : K, MulAut.conj w ∈ Ŝ → w ∈ wreathGrp x₁ x₂ lam) :
     ∃ α ∈ Ŝ, AlphaData x₁ x₂ lam rho α := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [card_K_of_psu33 hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [card_K_of_psu33 hK]; norm_num)
   obtain ⟨x₁', x₂', lam', rho', α', hf, he, hBB, hα'Ŝ⟩ := exists_adapted_frame hK hw Ŝ hcard hŜT
   have hx₁B : x₁ ∈ baseGrp x₁ x₂ := Subgroup.subset_closure (by simp)
   have hx₂B : x₂ ∈ baseGrp x₁ x₂ := Subgroup.subset_closure (by simp)
@@ -156,7 +156,7 @@ theorem exists_alpha (hK : LieModel K .PSU 3 3 1) {x₁ x₂ lam rho : K}
   have hlaminv : lam⁻¹ = lam := inv_eq_of_mul_eq_one_right (wr_lam_sq hw)
   have hlamN' : lam⁻¹ * c * lam ∈ baseGrp x₁ x₂ := by
     have := hlamN c hcB
-    rwa [hlaminv] at this ⊢
+    rw [hlaminv] at this ⊢; assumption
   have hbl := hF2 lam hlamN
   obtain ⟨b, hbB, hb⟩ : ∃ b ∈ baseGrp x₁ x₂, (MulAut.conj c * α') lam = lam * b := by
     refine ⟨(lam⁻¹ * c * lam) * (lam⁻¹ * α' lam) * c⁻¹,
@@ -267,7 +267,7 @@ theorem AlphaData.autFixed_eq (hK : LieModel K .PSU 3 3 1) {x₁ x₂ lam rho : 
       change α lam = lam
       exact hα.lam
   have hcard24 : Nat.card (autFixed α) = 24 := autFixed_card_of_psu33 hK hα.sq hα.outer
-  haveI : Finite (autFixed α) := Nat.finite_of_card_ne_zero (by rw [hcard24]; norm_num)
+  have : Finite (autFixed α) := Nat.finite_of_card_ne_zero (by rw [hcard24]; norm_num)
   have hDle : Subgroup.closure ({x₁ ^ 2, (x₁ * x₂) ^ 2, lam} : Set K) ≤ M := by
     apply Subgroup.closure_mono
     intro z hz
@@ -286,8 +286,8 @@ theorem AlphaData.autFixed_eq (hK : LieModel K .PSU 3 3 1) {x₁ x₂ lam rho : 
   have h24 : 24 ∣ Nat.card M := by
     rw [show (24 : ℕ) = 8 * 3 from rfl]
     exact (Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h8 h3)
-  haveI : Nonempty M := ⟨⟨1, M.one_mem⟩⟩
-  haveI : Finite M :=
+  have : Nonempty M := ⟨⟨1, M.one_mem⟩⟩
+  have : Finite M :=
     Finite.of_injective (Subgroup.inclusion hsub) (Subgroup.inclusion_injective hsub)
   have hcardM : Nat.card M = 24 := by
     have hle : Nat.card M ≤ 24 := by

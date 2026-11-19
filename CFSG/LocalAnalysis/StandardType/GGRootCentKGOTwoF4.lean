@@ -158,7 +158,7 @@ theorem pCoreOf_le_range_of_zT {K : Type} [Field K] [Finite K] [CharP K 2] {f : 
     have hN'2 : IsPGroup 2 N' :=
       hN2.comap_of_injective (F4Pilot.C3Levi K).subtype (F4Pilot.C3Levi K).subtype_injective
     have hbot : N' = ⊥ := by
-      haveI := hN'
+      have := hN'
       exact OmegaPilot.normal_isPGroup_eq_bot_of_isQuasisimple F4Pilot.isQuasisimple_C3Levi
         F4Pilot.center_C3Levi_eq_bot N' hN' hN'2
     exact RCSTOm.eq_bot_of_subgroupOf_eq_bot hN hbot
@@ -245,6 +245,7 @@ section RootElt
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 private theorem exists_conj_zT_of_pinnedX {γ : Fin Tag.F4.rank → ℤ} (hγ : IsRoot .F4 γ)
     (h4 : iform γ γ = 4) {c : K} (hc : c ≠ 0) :
     ∃ v : adjointGroup .F4 K, v * F4Pilot.zT K * v⁻¹ =
@@ -329,7 +330,7 @@ section Tag
 
 theorem ggRootCentOTwoTag_F4 : GGRootCentOTwoTag .F4 := by
   intro G _ _ n f ψ hadm hrank hker hcomm hmodel hC hB r hr hnsolv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hinj : Function.Injective ψ := by

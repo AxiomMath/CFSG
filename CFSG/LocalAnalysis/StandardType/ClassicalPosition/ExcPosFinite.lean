@@ -96,7 +96,7 @@ private theorem exph_fin_card_mulAut_alt_five :
 
 theorem exc_A8_centralizer_solvable (σ : Equiv.Perm (Fin 8)) (hσ : σ ∈ alternatingGroup (Fin 8))
     (h : orderOf σ = 5 ∨ orderOf σ = 7 ∨ (orderOf σ = 3 ∧ σ.cycleType = {3, 3})) :
-    IsSolvable (Subgroup.centralizer ({⟨σ, hσ⟩} : Set (alternatingGroup (Fin 8)))) := by
+    Group.IsSolvable (Subgroup.centralizer ({⟨σ, hσ⟩} : Set (alternatingGroup (Fin 8)))) := by
   have hle := exph_fin_card_centA_le_centPerm σ hσ
   rcases h with h5 | h7 | ⟨_, h33⟩
   · have hct : σ.cycleType = {5} := exph_fin_cycleType_eq_five_of_orderOf_eq_five σ h5
@@ -135,7 +135,7 @@ private theorem exph_fin_a8_perfect_of_le_sup_alt_five
     (hcardH : Nat.card H = 60)
     (J : Subgroup G) (hJ : J ≤ C) (hperf : ⁅J, J⁆ = J) :
     Nat.card J = 1 ∨ Nat.card J = 60 := by
-  haveI : IsMulCommutative ↥A := hAcomm
+  have : IsMulCommutative ↥A := hAcomm
   have hAleC : A ≤ C := by rw [hC]; exact le_sup_left
   have hCnorm : C ≤ Subgroup.normalizer (H : Set G) := by
     rw [hC]
@@ -148,8 +148,8 @@ private theorem exph_fin_a8_perfect_of_le_sup_alt_five
     rw [← Subgroup.subgroupOf_sup hHleC hAleC, Subgroup.subgroupOf_eq_top, hC]
     exact le_of_eq (sup_comm A H)
   have hcomm_le : commutator ↥C ≤ H.subgroupOf C := by
-    haveI : (H.subgroupOf C).Normal := hNnormal
-    haveI : IsMulCommutative ↥(A.subgroupOf C) := hKcomm
+    have : (H.subgroupOf C).Normal := hNnormal
+    have : IsMulCommutative ↥(A.subgroupOf C) := hKcomm
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup_top
   have hCC_le_H : ⁅C, C⁆ ≤ H := exph_fin_commutator_le_of_subgroupOf_le C H hHleC hcomm_le
   have hJleH : J ≤ H :=
@@ -168,7 +168,7 @@ private theorem exph_fin_a8_perfect_of_le_sup_alt_five
     have hperfJ : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hperf
     have hsub : Subsingleton ↥J := by
       by_contra h
-      haveI : Nontrivial ↥J := not_subsingleton_iff_nontrivial.mp h
+      have : Nontrivial ↥J := not_subsingleton_iff_nontrivial.mp h
       exact Group.IsPerfect.not_isSolvable ↥J hsolv
     exact Nat.card_eq_one_iff_unique.mpr ⟨hsub, ⟨1⟩⟩
   · right
@@ -216,7 +216,7 @@ theorem exc_A5_aut_elementaryAbelian_card_le (p : ℕ) (hp : p.Prime) (hp2 : p �
     (H : Subgroup (MulAut (alternatingGroup (Fin 5))))
     (hcomm : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x) (hexp : ∀ x ∈ H, x ^ p = 1) :
     Nat.card H ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE : CFSG.Open.IsElemAbelian p H :=
     ⟨⟨⟨fun (x y : ↥H) => Subtype.ext (hcomm (x : MulAut (alternatingGroup (Fin 5))) x.2
       (y : MulAut (alternatingGroup (Fin 5))) y.2)⟩⟩, hexp⟩

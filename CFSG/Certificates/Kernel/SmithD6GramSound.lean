@@ -23,7 +23,7 @@ theorem selGo_sound (d : Nat) : ∀ (bs : List Nat) (k : Nat) (P : Nat → Prop)
     rw [e, fld_one_eq]
     cases d.testBit k
     · simpa using hr
-    · rw [cond_true, Nat.mul_one, Nat.xor_comm]
+    · rw [_root_.Bool.cond_true, Nat.mul_one, Nat.xor_comm]
       exact hcl _ hr b List.mem_cons_self
 
 theorem inFB_sound {x : Nat} (h : inFB x = true) : 0 < x ∧ x < 4096 ∧ x &&& 63 = 0 := by

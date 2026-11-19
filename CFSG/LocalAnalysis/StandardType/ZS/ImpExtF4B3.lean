@@ -65,8 +65,8 @@ theorem exists_signedPerm_of_mem_g2mmn {W : Type} [AddCommGroup W] [Module (ZMod
       · refine ⟨1, fun i => (((if i = 0 then (-1 : (ZMod p)ˣ) else 1) : (ZMod p)ˣ) : ZMod p),
           fun i => ?_, fun i => ?_⟩
         · by_cases h : i = 0
-          · right; dsimp only; rw [if_pos h]; rfl
-          · left; dsimp only; rw [if_neg h]; rfl
+          · right; dsimp only; rw [ite_eq_left h]; rfl
+          · left; dsimp only; rw [ite_eq_right h]; rfl
         · rw [diagMap_apply_basis]
           rfl
       · rw [Set.mem_singleton_iff] at hx
@@ -106,8 +106,8 @@ private lemma zsf4b_toMatrix {W : Type} [AddCommGroup W] [Module (ZMod p) W]
   rw [hσ b]
   rw [map_smul, Finsupp.smul_apply, Module.Basis.repr_self, Finsupp.single_apply, smul_eq_mul]
   by_cases h : σ b = a
-  · rw [if_pos h, if_pos h, mul_one]
-  · rw [if_neg h, if_neg h, mul_zero]
+  · rw [ite_eq_left h, ite_eq_left h, mul_one]
+  · rw [ite_eq_right h, ite_eq_right h, mul_zero]
 
 private lemma zsf4b_mapMatrix_reflB3 (k : Fin 9) :
     (Int.castRingHom (ZMod p)).mapMatrix (reflB3 k) =
@@ -119,7 +119,7 @@ private lemma zsf4b_mapMatrix_reflB3 (k : Fin 9) :
 private lemma zsf4b_reflB3_sign_cast (i a b : Fin 3) :
     (((reflB3 ⟨i.val, by omega⟩ a b : ℤ) : ZMod p)) =
       if b = a then (if b = i then (-1 : ZMod p) else 1) else 0 := by
-  fin_cases i <;> fin_cases a <;> fin_cases b <;> simp [reflB3] <;> rfl
+  fin_cases i <;> fin_cases a <;> fin_cases b <;> simp [reflB3]
 
 private def zsf4b_swapIndex (i j : Fin 3) (ε : ZMod p) : Fin 9 :=
   if ε = 1 then
@@ -138,7 +138,7 @@ private lemma zsf4b_reflB3_swap_cast (hp : p ≠ 2) (i j : Fin 3) (hij : i ≠ j
       (first
         | (exfalso; exact (hij rfl).elim)
         | (fin_cases a <;> fin_cases b <;>
-            simp [zsf4b_swapIndex, reflB3, zsf4b_neg_one_ne_one hp] <;> rfl))
+            simp [zsf4b_swapIndex, reflB3, zsf4b_neg_one_ne_one hp]))
 
 private lemma zsf4b_toMatrix_sign {W : Type} [AddCommGroup W] [Module (ZMod p) W]
     (e : Module.Basis (Fin 3) (ZMod p) W) {y : W ≃ₗ[ZMod p] W} {σ : Equiv.Perm (Fin 3)}
@@ -169,10 +169,10 @@ private lemma zsf4b_toMatrix_swap (hp : p ≠ 2) {W : Type} [AddCommGroup W]
   · by_cases hbj : b = j
     · subst hbj
       rw [Equiv.swap_apply_right, hsj_eq]
-      rw [if_neg (Ne.symm hij), if_pos rfl]
+      rw [ite_eq_right (Ne.symm hij), ite_eq_left rfl]
       by_cases hai : i = a
-      · rw [if_pos hai, if_pos hai.symm]
-      · rw [if_neg hai, if_neg (fun h => hai h.symm)]
+      · rw [ite_eq_left hai, ite_eq_left hai.symm]
+      · rw [ite_eq_right hai, ite_eq_right (fun h => hai h.symm)]
     · have hswap : Equiv.swap i j b = b := Equiv.swap_apply_of_ne_of_ne hbi hbj
       have hsb : s b = 1 := hsk b hbi hbj
       by_cases hab : a = b
@@ -198,8 +198,8 @@ theorem exists_reflB3_of_isRefl (hp : p ≠ 2) {W : Type} [AddCommGroup W] [Modu
   · have hsval : ∀ b : Fin 3, s b = if b = i then (-1 : ZMod p) else 1 := by
       intro b
       by_cases h : b = i
-      · rw [if_pos h, h]; exact hsi
-      · rw [if_neg h]; exact hsj b h
+      · rw [ite_eq_left h, h]; exact hsi
+      · rw [ite_eq_right h]; exact hsj b h
     exact ⟨⟨i.val, by omega⟩, zsf4b_toMatrix_sign e hσ hσ1 hsval⟩
   · subst σ
     have hsj_eq : s j = s i := by

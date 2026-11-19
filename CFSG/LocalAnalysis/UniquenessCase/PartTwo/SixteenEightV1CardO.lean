@@ -25,10 +25,10 @@ theorem s16e_card_eq_two_mul_of_isOMinus {X Y : Type} [Group X] [Group Y] {n : �
     Nat.card X = 2 * Nat.card Y := by
   obtain ⟨-, K, hKfield, hKfinite, b, c, hKcard, hpoly, ⟨eX⟩⟩ := hX
   obtain ⟨-, K', hK'field, hK'finite, b', c', hK'card, hpoly', ⟨eY⟩⟩ := hY
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Field K' := hK'field
-  letI : Finite K' := hK'finite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Field K' := hK'field
+  let : Finite K' := hK'finite
   rw [pow_one] at hKcard hK'card
   have hXcard : Nat.card X =
       Nat.card ↥(CFSG.MatrixModel.isometryCore (StatedQuadMinus (n / 2) (ZMod 2) 1 1)) := by

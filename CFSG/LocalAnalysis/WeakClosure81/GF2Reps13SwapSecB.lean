@@ -13,11 +13,13 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W] {U₂ U₁ : Subgroup W}
 
+omit [Finite W] in
 private theorem w16f_rk_subgroupOf {A U : Subgroup W} (hAU : A ≤ U) :
     rk ↥(A.subgroupOf U) = rk ↥A := by
   unfold rk
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAU).toEquiv]
 
+omit [Finite W] in
 private theorem w16f_secImg_zpowers {t : MulAut W} (hts : t ∈ secStabAll U₂ U₁) :
     secImg (Subgroup.zpowers t) U₂ U₁ = Subgroup.zpowers (secAut U₂ U₁ ⟨t, hts⟩) := by
   have hsub : (Subgroup.zpowers t).subgroupOf (secStabAll U₂ U₁) =
@@ -31,10 +33,11 @@ private theorem w16f_secImg_zpowers {t : MulAut W} (hts : t ∈ secStabAll U₂ 
       exact ⟨k, by simpa [Subgroup.coe_zpow] using congrArg Subtype.val hk⟩
   rw [secImg, hsub, MonoidHom.map_zpowers]
 
+omit [Finite W] in
 theorem isQuasisimple_secImg {K : Subgroup (MulAut W)} (hK : IsQuasisimple ↥K)
     (hKs : K ≤ secStabAll U₂ U₁) (hnt : ¬ commSub U₂ K ≤ U₁) :
     IsQuasisimple ↥(secImg K U₂ U₁) := by
-  haveI : Nontrivial ↥(secImg K U₂ U₁) :=
+  have : Nontrivial ↥(secImg K U₂ U₁) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr fun hbot => hnt ((secImg_eq_bot_iff hKs).mp hbot)
   refine (CFSG.Foundations.SteinbergCA.quasisimple_iff ↥(secImg K U₂ U₁)).2.2.1.mpr ?_
   refine CFSG.LocalAnalysis.UniquenessCase.UC22.uc22br4_isQuasisimple_of_surjective
@@ -47,6 +50,7 @@ theorem isQuasisimple_secImg {K : Subgroup (MulAut W)} (hK : IsQuasisimple ↥K)
   show secAut U₂ U₁ (⟨g.1, hKs hg⟩ : ↥(secStabAll U₂ U₁)) = φ
   rw [show (⟨g.1, hKs hg⟩ : ↥(secStabAll U₂ U₁)) = g from Subtype.ext rfl, hgφ]
 
+omit [Finite W] in
 theorem orderOf_secAut {t : MulAut W} (ht2 : orderOf t = 2) (hts : t ∈ secStabAll U₂ U₁)
     (hnt : ¬ commSub U₂ (Subgroup.zpowers t) ≤ U₁) :
     orderOf (secAut U₂ U₁ ⟨t, hts⟩) = 2 := by
@@ -64,6 +68,7 @@ theorem orderOf_secAut {t : MulAut W} (ht2 : orderOf t = 2) (hts : t ∈ secStab
       w16f_secImg_zpowers hts, h1, Subgroup.zpowers_one_eq_bot]
   exact orderOf_eq_prime hpow hne
 
+omit [Finite W] in
 theorem commV_secAut {t : MulAut W} (hts : t ∈ secStabAll U₂ U₁) :
     commV (Subgroup.zpowers (secAut U₂ U₁ ⟨t, hts⟩)) =
       ((commSub U₂ (Subgroup.zpowers t) ⊔ U₁).subgroupOf U₂).map
@@ -172,7 +177,8 @@ theorem rkIdx_fixV_secAut (hle : U₁ ≤ U₂) {t : MulAut W} (hts : t ∈ secS
     rkIdx (fixV (Subgroup.zpowers (secAut U₂ U₁ ⟨t, hts⟩))) = secCost t U₂ U₁ := by
   rw [rkIdx_fixV_zpowers (secAut U₂ U₁ ⟨t, hts⟩), rk_commV_secAut hle hts]
 
-theorem secImg_diag {K : Subgroup (MulAut W)} {t : MulAut W} (hKs : K ≤ secStabAll U₂ U₁)
+omit [Finite W] in
+theorem secImg_diag {K : Subgroup (MulAut W)} {t : MulAut W} (_hKs : K ≤ secStabAll U₂ U₁)
     (hts : t ∈ secStabAll U₂ U₁)
     (htr : ∀ a ∈ K, ∀ u ∈ commSub ⊤ (Subgroup.zpowers t), (a * (t * a * t⁻¹)) u = u) :
     ∀ x ∈ secImg K U₂ U₁, ∀ w ∈ commV (Subgroup.zpowers (secAut U₂ U₁ ⟨t, hts⟩)),

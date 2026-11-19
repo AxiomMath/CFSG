@@ -68,7 +68,7 @@ public theorem firstCase_exists_t2_order_four_swap
   let W : Subgroup G := if h : U1 = c.U then U2 else U1
   have hUeq : U = c.U := by
     by_cases h : U1 = c.U
-    · simpa [U, h]
+    · simp [U, h]
     · rcases hU1eq with h1 | h2
       · exact False.elim (h h1)
       · simpa [U, h]
@@ -158,7 +158,6 @@ public theorem firstCase_exists_t2_order_four_swap
     apply haH
     rw [← hNormU]
     apply Subgroup.mem_normalizer_iff_map_conj_eq.mpr
-    change c.U.map (MulAut.conj a) = c.U
     rw [← hUeq]
     simpa [conjugateSubgroup] using hfix
   have haU : conjugateSubgroup U a = W := by
@@ -304,7 +303,7 @@ public theorem firstCase_exists_t2_order_four_swap
   have haord1 : orderOf a ≠ 1 := by
     intro h1
     apply haH
-    simpa [orderOf_eq_one_iff.mp h1] using c.Hhat.one_mem
+    simp [orderOf_eq_one_iff.mp h1]
   have haDvd4 : orderOf a ∣ 4 := by
     have hd := Subgroup.orderOf_dvd_natCard Tg haTg
     rwa [hTg4] at hd

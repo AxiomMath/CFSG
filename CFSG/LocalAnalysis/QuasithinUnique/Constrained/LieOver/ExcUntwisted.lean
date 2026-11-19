@@ -66,8 +66,8 @@ theorem lb_Q_le_P (J : Set (Fin τ.rank)) : parabolicRadical τ K J ≤ paraboli
 
 theorem lb_sylow [Finite K] [CharP K 2] :
     IsSylowTwoOf ((posUnipotent τ K).subgroupOf (adjointGroup τ K)) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL τ K) := finite_modGL (τ := τ) (K := K)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL τ K) := finite_modGL (τ := τ) (K := K)
   exact CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_subgroupOf_top
     (CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.2
       (unique_Chevalley_positive_Sylow (τ := τ) (K := K) 2).1)
@@ -229,7 +229,7 @@ theorem lb_sylowFacts (hτ : 2 ≤ τ.rank) {S : Type} [Group S] [Finite S] {f :
     · exact h0
   have hcp : CharP Kf 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hf hK
-  haveI : Finite (ModGL τ Kf) := finite_modGL (τ := τ) (K := Kf)
+  have : Finite (ModGL τ Kf) := finite_modGL (τ := τ) (K := Kf)
   exact CFSG.QuasithinUnique.B113Lie.SylowFacts.of_mulEquiv_isSylow e
     (lb_parabolicData τ Kf hτ).sylowFacts hT
 

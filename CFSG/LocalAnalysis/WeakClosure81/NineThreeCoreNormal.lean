@@ -28,8 +28,8 @@ theorem nine3_Z_normal_form (hc : Nine3Choice V T A K S X p g x) {n : ℕ}
     refine iSup₂_le fun D hD => ?_
     exact (inf_le_left : D ⊓ pCoreOf 2 K ≤ D).trans (le_iSup₂_of_le D hD le_rfl)
   have hJW : J ≤ W := hJZ.trans hZW
-  haveI : IsMulCommutative ↥W := hc.core.nineW_isElemAbelian.1
-  letI : CommGroup ↥W := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥W := hc.core.nineW_isElemAbelian.1
+  let : CommGroup ↥W := IsMulCommutative.instCommGroup
   have hbbW : ∀ k, bb k ∈ W := by
     intro k
     by_cases hk : k = 0

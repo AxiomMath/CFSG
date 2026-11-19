@@ -17,7 +17,7 @@ theorem rMinus_injective_of_cover
     (hbc : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (L' : Type) [Group L'] [Finite L']
     (ψ : L' →* OrthRest.RMinus K m b c) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤) : Function.Injective ψ := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK
   have h4 : 4 ≤ Nat.card K := by
@@ -37,7 +37,7 @@ theorem rMinus_injective_of_cover
   obtain ⟨σ, hσ⟩ :=
     CFSG.LieType.Steinberg.CentralExt.SpinMinusClosed.spinMinus_exists_section_of_central
       hbc (by omega) h4 hψ' hker'
-  haveI : Group.IsPerfect L' := ⟨hperf⟩
+  have : Group.IsPerfect L' := ⟨hperf⟩
   have hbot : ψ'.ker = ⊥ := SL2Closed.ker_eq_bot_of_section ψ' hker' σ hσ
   exact fun x y hxy => (MonoidHom.ker_eq_bot_iff ψ').mp hbot (by
     change e.symm (ψ x) = e.symm (ψ y)

@@ -44,8 +44,8 @@ theorem choiceNormalizer_of_covers {T : Type} [Group T] [IsSimpleGroup T] {𝓢 
   have hAN := h𝒦 hA𝒦
   have hH₀top : normalizer ((sSup 𝒦 : Subgroup G) : Set G) ≠ ⊤ := by
     intro htop
-    haveI := hsimp
-    haveI : (sSup 𝒦 : Subgroup G).Normal := normalizer_eq_top_iff.mp htop
+    have := hsimp
+    have : (sSup 𝒦 : Subgroup G).Normal := normalizer_eq_top_iff.mp htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (sSup 𝒦 : Subgroup G) with hbot | htop'
     · have hAbot : A = ⊥ := eq_bot_iff.mpr (hbot ▸ le_sSup hA𝒦)
       have := GSThmB.B5a.nontrivial_of_isPComponent_subgroupOf hAN.1.1 hAN.1.2
@@ -117,7 +117,7 @@ end Assembly
 theorem footeMarkedChoiceNormalizer_of_factorCover (hF : FooteMarkedFactorCover)
     (hS : FooteMarkedChoiceSemisimple) : FooteMarkedChoiceNormalizer := by
   intro G _ _ t L 𝓢 hset N hNc 𝒦 h𝒦 hne
-  haveI : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
+  have : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
     (GrSLit.fusionZStar_quotient_of_isPComponent hset.2.1.1.2.2.1.2.1
       hset.2.1.1.2.2.1.2.2).1
   obtain ⟨hQ, hO⟩ := hS G t L 𝓢 hset N hNc

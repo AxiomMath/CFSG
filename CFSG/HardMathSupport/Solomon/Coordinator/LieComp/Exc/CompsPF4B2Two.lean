@@ -64,11 +64,11 @@ theorem exists_inner_cover_derived_two (hT : rootDiagUnit τ ta ∈ S.D.torus)
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := r) (n := e * s)
     (Nat.mul_pos he hs0) σ hσ'
@@ -129,7 +129,7 @@ theorem lieCompData_of_f4B2_two {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ
   classical
   obtain ⟨K', hfin, C, D, hC, hD, hcard, f, hf1, hker, hf2⟩ :=
     exists_inner_cover_derived_two S hT i hinner hQ
-  haveI : Fintype ↥K' := Fintype.ofFinite _
+  have : Fintype ↥K' := Fintype.ofFinite _
   have hcard' : Fintype.card ↥K' = 2 := by rw [← Nat.card_eq_fintype_card]; exact hcard
   have hch : ringChar L = 2 := by
     have h2 := ringChar_eq_of_natCard_eq_pow Nat.prime_two (K := ↥K') (f := 1)
@@ -187,7 +187,7 @@ theorem lieCompData_of_f4B2_two {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ
     intro h
     have hsimple : IsSimpleGroup (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := hqs.2.1
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x

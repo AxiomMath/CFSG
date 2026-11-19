@@ -21,6 +21,7 @@ private lemma w183k3diag2_finite_lgl : Finite (LGL 2 V) :=
   Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
     (fun _ _ h => LinearEquiv.ext (congrFun h))
 
+omit [Finite V] in
 theorem false_of_three_members_quasi (h : Assumption131 G Γ VA i)
     (hVfix : ∀ A ∈ Γ, VA A ≤ fixSub A)
     {L₁ L₂ X₁ X₂ : Subgroup (LGL 2 V)} (hL₁ : CFSG.Open.IsQuasisimple ↥L₁)
@@ -170,7 +171,7 @@ theorem false_of_diagonal_member_quasi (h : Assumption131 G Γ VA i)
     (hD₀eq : ∀ d, d ∈ D₀ ↔ ∃ x : ↥X₁, d = (x : LGL 2 V) * (φ x : LGL 2 V))
     {n : LGL 2 V} (hn : n ∈ L₁) (hnX : ∀ x ∈ X₁, n * x * n⁻¹ ∈ X₁)
     (hfpf : ∀ x ∈ X₁, x ≠ 1 → n * x * n⁻¹ ≠ x) : False := by
-  haveI : Finite (LGL 2 V) := w183k3diag2_finite_lgl
+  have : Finite (LGL 2 V) := w183k3diag2_finite_lgl
   have hX₁nc : ¬ X₁ ≤ quasiCentre L₁ := by
     intro hX₁z
     have hbot : X₁ = ⊥ := by

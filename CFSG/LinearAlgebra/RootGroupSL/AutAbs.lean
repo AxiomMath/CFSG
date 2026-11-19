@@ -86,7 +86,7 @@ theorem exists_semilinear_form_of_mulAut_sl {F V : Type} [Field F] [Finite F] [A
     (Matrix.SpecialLinearGroup.toLin_equiv b).symm
   let β : MulAut (Matrix.SpecialLinearGroup (Fin n) F) := MulAut.congr e α
   have hcongr : ∀ h : SpecialLinearGroup F V, e (α h) = β (e h) := fun h => by
-    simp [β, MulAut.congr, MulEquiv.trans_apply]
+    simp [β, MulEquiv.trans_apply]
   obtain ⟨A, σ, hA⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_matrix_form_of_mulAut_sl hn β
   let σa : (Fin n → F) ≃+ (Fin n → F) :=

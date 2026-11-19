@@ -21,7 +21,7 @@ theorem nonabelian_of_hData {G : Type} [Group G] [Finite G] {t z b z₁ : G}
     {S Eg T T' W0 : Subgroup G} {ι : Elem2 6 →* G}
     (hD : HData G t z b z₁ S Eg T T' W0 ι) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hab
-  push_neg at hab
+  push Not at hab
   have hcent : centralizer (ι.range : Set G) = ⊤ := by
     refine top_unique fun x _ => ?_
     rw [Subgroup.mem_centralizer_iff]

@@ -47,6 +47,7 @@ theorem elemAbelian_sup_card {p : ℕ} {A C : Subgroup Y} (hA : IsElemAbelian p 
   rw [hAC, Subgroup.card_bot, mul_one] at h
   exact h
 
+omit [Finite Y] in
 theorem card_zpowers_three {e : Y} (he : e ^ 3 = 1) (he1 : e ≠ 1) :
     Nat.card (zpowers e) = 3 := by
   rw [Nat.card_zpowers]
@@ -104,10 +105,10 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem exists_elemAbelian_lift {M W : Subgroup G} (hWM : W ≤ M)
+theorem exists_elemAbelian_lift {M W : Subgroup G} (_hWM : W ≤ M)
     {E : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)} (hE : IsElemAbelian 3 E) (hEW : E ≤ barM M W) :
     ∃ E' : Subgroup G, E' ≤ W ∧ IsElemAbelian 3 E' ∧ Nat.card E' = Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπ
   set Y : Subgroup ↥M := (W.subgroupOf M) ⊓ E.comap π with hY
   set f : ↥Y →* ↥E := (π.comp Y.subtype).codRestrict E (fun y => y.2.2) with hf
@@ -125,7 +126,7 @@ theorem exists_elemAbelian_lift {M W : Subgroup G} (hWM : W ≤ M)
     have hyk : ((y : ↥M)) ∈ CFSG.pCore 2 ↥M := by
       have : π (y : ↥M) = 1 := congrArg Subtype.val h1
       rwa [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at this
-    obtain ⟨k, hk⟩ := Q₀.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := Q₀.isPGroup ⟨y, hy⟩
     obtain ⟨j, hj⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥M)) ⟨_, hyk⟩
     have hk' : ((y : ↥M)) ^ 3 ^ k = 1 := by
       have := congrArg (fun z : (Q₀ : Subgroup ↥Y) => ((z : ↥Y) : ↥M)) hk
@@ -181,7 +182,7 @@ open CFSG.ComponentClassification.AS76b (oUpperTwo)
 theorem not_oUpperTwo_le_center {Q : Type} [Group Q] [Finite Q] (h : IsSymThreeOrSUThreeTwo Q) :
     ¬ oUpperTwo (⊤ : Subgroup Q) ≤ center Q := by
   intro hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcen : ∀ g : Q, (∃ k : ℕ, g ^ 3 ^ k = 1) → g ∈ center Q := by
     rintro g ⟨k, hk⟩
     apply hc
@@ -211,6 +212,7 @@ theorem not_oUpperTwo_le_center {Q : Type} [Group Q] [Finite Q] (h : IsSymThreeO
   have := Nat.Coprime.eq_one_of_dvd hcop h3
   omega
 
+omit [Finite G] in
 theorem eq_one_of_odd_of_isPGroup {P : Subgroup G} (hP : IsPGroup 2 P) {y : G} (hy : y ∈ P)
     (hodd : Odd (orderOf y)) : y = 1 := by
   obtain ⟨k, hk⟩ := hP ⟨y, hy⟩
@@ -226,7 +228,7 @@ theorem eq_one_of_odd_of_isPGroup {P : Subgroup G} (hP : IsPGroup 2 P) {y : G} (
 theorem exists_noncentral {M L X I₀ : Subgroup G} (hLM : L ≤ M) (hI₀ : I₀ ∈ cZero X)
     (hI₀L : I₀ ≤ L) (h3 : 3 ∣ Nat.card (oUpperTwo I₀)) :
     ∃ e ∈ barM M (oUpperTwo I₀), e ^ 3 = 1 ∧ e ∉ centralizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hI₀M : I₀ ≤ M := hI₀L.trans hLM
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπ
   have hbarL : barM M I₀ ≤ barM M L := Subgroup.map_mono fun x hx => hI₀L hx
@@ -240,8 +242,8 @@ theorem exists_noncentral {M L X I₀ : Subgroup G} (hLM : L ≤ M) (hI₀ : I�
     have hψ : Function.Surjective ψ := by
       rintro ⟨_, ⟨y, hy, rfl⟩⟩
       exact ⟨⟨y, hy⟩, rfl⟩
-    haveI : Group.IsPerfect ↥I₀ := Subgroup.isPerfect_iff.mpr hperf
-    haveI hBp : Group.IsPerfect ↥B := Group.IsPerfect.ofSurjective (f := ψ) hψ
+    have : Group.IsPerfect ↥I₀ := Subgroup.isPerfect_iff.mpr hperf
+    have hBp : Group.IsPerfect ↥B := Group.IsPerfect.ofSurjective (f := ψ) hψ
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥I₀) 3 h3
     have hψy : orderOf (ψ y) = 3 := by
       apply orderOf_eq_prime
@@ -385,6 +387,7 @@ section Conj
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_conj_pow_ne {X : Subgroup G} {q : G} {p : ℕ} (hp : p.Prime) {k : ℕ}
     (hq : q ^ p ^ k = 1) (hX : X.map (MulAut.conj q).toMonoidHom ≠ X) {d : ℕ} (hd1 : 1 ≤ d)
     (hdp : d < p) : X.map (MulAut.conj (q ^ d)).toMonoidHom ≠ X := by
@@ -399,6 +402,7 @@ theorem map_conj_pow_ne {X : Subgroup G} {q : G} {p : ℕ} (hp : p.Prime) {k : �
   have hN : q ^ d ∈ normalizer (X : Set G) := Subgroup.mem_normalizer_iff_map_conj_eq.mpr h
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mp ((zpowers_le.mpr hN) hqmem)
 
+omit [Finite G] in
 theorem map_conj_pow_inj {X : Subgroup G} {q : G} {p : ℕ} (hp : p.Prime) {k : ℕ}
     (hq : q ^ p ^ k = 1) (hX : X.map (MulAut.conj q).toMonoidHom ≠ X) {i j : ℕ} (hij : i < j)
     (hjp : j < p) :
@@ -447,6 +451,7 @@ theorem barM_le_centralizer {M L₁ L₂ : Subgroup G} (h₁ : IsTwoPrimeCompone
   intro x hx
   exact commute_of_isComponentOf_ne h₁.component h₂.component hB x hx y hy
 
+omit [Finite G] in
 theorem conj_noncentral {M L : Subgroup G} {e : ↥M ⧸ CFSG.pCore 2 ↥M} (he : e ∈ barM M L)
     (h3 : e ^ 3 = 1) (hnc : e ∉ centralizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M)))
     {g : G} (hg : g ∈ M) :
@@ -501,7 +506,7 @@ theorem normalizer_facts (h98 : AGL81NineEightFour G) (hS : Setting G) {p : ℕ}
 
 theorem pRank_le_pRank_barM {M L : Subgroup G} (hLM : L ≤ M) :
     CFSG.Open.pRank 3 L ≤ CFSG.Open.pRank 3 (barM M L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEL, hE, hcard⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 3) L
   set E₁ : Subgroup ↥M := E.subgroupOf M with hE₁
   have hE₁p : IsPGroup 3 E₁ := fun x =>
@@ -537,6 +542,7 @@ theorem exists_E_conj {M L : Subgroup G} (hL : IsTwoPrimeComponent M L)
     (fun i => (conj_noncentral he h3 hnc (hg i)).1) (fun i => (conj_noncentral he h3 hnc (hg i)).2.1)
     (fun i => (conj_noncentral he h3 hnc (hg i)).2.2)
 
+omit [Finite G] in
 theorem barM_self (M : Subgroup G) : barM M M = ⊤ := by
   rw [barM, Subgroup.subgroupOf_self, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
 
@@ -550,10 +556,12 @@ theorem le_pRank_of_conj {M L : Subgroup G} (hL : IsTwoPrimeComponent M L)
   obtain ⟨E', hE'M, hE', hcard'⟩ := exists_elemAbelian_lift le_rfl hE ((barM_self M).symm ▸ le_top)
   exact CFSG.SectionRank.le_pRank (p := 3) (by norm_num) hE'M hE' (hcard'.trans hcard)
 
+omit [Finite G] in
 theorem map_conj_one (L : Subgroup G) : L.map (MulAut.conj (1 : G)).toMonoidHom = L := by
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
+omit [Finite G] in
 theorem map_one_mulAut (L : Subgroup G) : L.map (MulEquiv.toMonoidHom (1 : MulAut G)) = L := by
   ext x
   simp
@@ -570,7 +578,7 @@ open CFSG.ComponentClassification.AS76b (oUpperTwo) in
 theorem agl81TenTenClaimCfg_of (h1032 : AGL81TenThreeTwoRankCfg G) (h1031 : AGL81TenThreeOneAt G)
     (h98 : AGL81NineEightFour G) : AGL81TenTenClaimCfg G := by
   intro hS p P M H Q K hd L hL hNL I₀ hI₀
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set I := oUpperTwo I₀ with hIdef
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   have hp : p.Prime := he.prime

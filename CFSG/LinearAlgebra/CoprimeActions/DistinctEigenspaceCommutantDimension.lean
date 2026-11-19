@@ -20,20 +20,22 @@ variable {F V I : Type*} [Field F] [AddCommGroup V] [Module F V] [FiniteDimensio
   carrier := {S | S.comp T = T.comp S}
   add_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [LinearMap.add_comp, LinearMap.comp_add, ha, hb]
   zero_mem' := by simp
   smul_mem' := by
     intro c a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [LinearMap.smul_comp, LinearMap.comp_smul, ha]
 
+omit [FiniteDimensional F V] in
 theorem mem_commutant {T S : Module.End F V} : S ∈ commutant T ↔ S.comp T = T.comp S := Iff.rfl
 
 @[expose] noncomputable def decompEquiv (U : I → Submodule F V) (hU : DirectSum.IsInternal U) :
     (⨁ i, U i) ≃ₗ[F] V :=
   LinearEquiv.ofBijective (DirectSum.coeLinearMap U) hU
 
+omit [FiniteDimensional F V] in
 theorem decompEquiv_apply (U : I → Submodule F V) (hU : DirectSum.IsInternal U)
     (y : ⨁ i
 , U i) : decompEquiv U hU y = ∑ j, ((y j : U j) : V) := by
@@ -41,16 +43,18 @@ theorem decompEquiv_apply (U : I → Submodule F V) (hU : DirectSum.IsInternal U
   conv_lhs => rw [← DirectSum.sum_univ_of y]
   simp only [h, map_sum, DirectSum.coeLinearMap_of]
 
+omit [FiniteDimensional F V] in
 theorem decompEquiv_symm_of (U : I → Submodule F V) (hU : DirectSum.IsInternal U) (i : I)
     (u : U i) : (decompEquiv U hU).symm (u : V) = DirectSum.of (fun j => U j) i u := by
   rw [LinearEquiv.symm_apply_eq, decompEquiv_apply]
   rw [Finset.sum_eq_single i]
   · simp
   · intro j _ hj
-    simp only [Submodule.coe_zero] at *
+    simp only at *
     rw [DirectSum.of_eq_of_ne _ _ _ hj]; rfl
   · simp
 
+omit [FiniteDimensional F V] in
 theorem maps_to {lam : I → F} (hlam : Function.Injective lam) {U : I → Submodule F V}
     (hU : DirectSum.IsInternal U) {T : Module.End F V}
     (hT : ∀ i, ∀ u ∈ U i, T u = lam i • u) {S : Module.End F V} (hS : S ∈ commutant T)
@@ -79,8 +83,8 @@ theorem maps_to {lam : I → F} (hlam : Function.Injective lam) {U : I → Submo
   have h6 : ∀ j, j ≠ i → x j = 0 := by
     intro j hj
     have := congrArg (fun z => z j) h5
-    simp only [DirectSum.sum_univ_of] at this
-    rw [DFinsupp.finset_sum_apply, Finset.sum_eq_single j] at this
+    simp only at this
+    rw [_root_.DFinsupp.finsetSum_apply, Finset.sum_eq_single j] at this
     · simp only [DirectSum.of_eq_same, DirectSum.zero_apply, smul_eq_zero, sub_eq_zero] at this
       rcases this with h | h
       · exact absurd (hlam h) hj
@@ -94,10 +98,12 @@ theorem maps_to {lam : I → F} (hlam : Function.Injective lam) {U : I → Submo
     simp [h6 j hj]
   · simp
 
+omit [FiniteDimensional F V] in
 theorem decompEquiv_of (U : I → Submodule F V) (hU : DirectSum.IsInternal U) (i : I)
     (u : U i) : decompEquiv U hU (DirectSum.of (fun j => U j) i u) = (u : V) := by
   rw [← decompEquiv_symm_of U hU i u]; simp
 
+omit [FiniteDimensional F V] in
 theorem ext_U (U : I → Submodule F V) (hU : DirectSum.IsInternal U) {g h : Module.End F V}
     (H : ∀ i, ∀ u ∈ U i, g u = h u) : g = h := by
   ext v
@@ -127,6 +133,7 @@ theorem ext_U (U : I → Submodule F V) (hU : DirectSum.IsInternal U) {g h : Mod
     simp only [DirectSum.lmap_apply, Pi.smul_apply, LinearMap.smul_apply]
     rfl
 
+omit [FiniteDimensional F V] in
 theorem assemble_apply (U : I → Submodule F V) (hU : DirectSum.IsInternal U)
     (f : ∀ i, Module.End F (U i)) (i : I) (u : U i) :
     assemble U hU f (u : V) = (f i u : V) := by
@@ -134,9 +141,10 @@ theorem assemble_apply (U : I → Submodule F V) (hU : DirectSum.IsInternal U)
     decompEquiv_symm_of]
   have : DirectSum.lmap (fun i => f i) (DirectSum.of (fun j => U j) i u)
       = DirectSum.of (fun j => U j) i (f i u) := by
-    simpa [DirectSum.lof_eq_of] using DirectSum.lmap_lof (fun i => f i) i u
+    simp
   rw [this, decompEquiv_of]
 
+omit [FiniteDimensional F V] in
 theorem assemble_mem_commutant {lam : I → F} {U : I → Submodule F V}
     (hU : DirectSum.IsInternal U) {T : Module.End F V}
     (hT : ∀ i, ∀ u ∈ U i, T u = lam i • u) (f : ∀ i, Module.End F (U i)) :

@@ -72,7 +72,7 @@ theorem exists_conj_le_of_card_eq_mul [Finite G] {p : ℕ} [Fact p.Prime] {P Q M
   set M' := M.subgroupOf P
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p M'))
   set T' : Subgroup P := (T : Subgroup M').map M'.subtype
-  have hT'p : IsPGroup p T' := T.isPGroup'.map _
+  have hT'p : IsPGroup p T' := T.isPGroup.map _
   have hcardT' : Nat.card T' = Nat.card T :=
     Subgroup.card_map_of_injective M'.subtype_injective
   have hM' : Nat.card M' = Nat.card M := Nat.card_congr (Subgroup.subgroupOfEquivOfLe hMP).toEquiv

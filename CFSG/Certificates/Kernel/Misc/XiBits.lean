@@ -80,7 +80,7 @@ theorem testBit_fold_or (c : Nat → Bool) (f : Nat → Nat) (n j : Nat) :
       (fun i acc => if c i = true then Nat.lor acc (Nat.shiftLeft 1 (f i)) else acc) n).testBit j
         = true ↔ _
     by_cases hc : c n = true
-    · rw [if_pos hc, Nat.lor_eq, Nat.testBit_or, Bool.or_eq_true, ih,
+    · rw [ite_eq_left hc, Nat.lor_eq, Nat.testBit_or, Bool.or_eq_true, ih,
         show Nat.shiftLeft 1 (f n) = 2 ^ f n from Nat.one_shiftLeft _,
         Nat.testBit_two_pow, decide_eq_true_iff]
       constructor
@@ -91,7 +91,7 @@ theorem testBit_fold_or (c : Nat → Bool) (f : Nat → Nat) (n j : Nat) :
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
         · exact Or.inl ⟨i, hi, h1, h2⟩
         · exact Or.inr h2
-    · rw [if_neg hc, ih]
+    · rw [ite_eq_right hc, ih]
       constructor
       · rintro ⟨i, hi, h1, h2⟩
         exact ⟨i, by omega, h1, h2⟩
@@ -127,7 +127,7 @@ theorem or_two_pow_of_testBit_false {x p : Nat} (h : x.testBit p = false) :
   obtain ⟨q, r, hrlt, rfl⟩ : ∃ q r, r < 2 ^ (p + 1) ∧ x = 2 ^ (p + 1) * q + r :=
     ⟨x / 2 ^ (p + 1), x % 2 ^ (p + 1), Nat.mod_lt _ (Nat.two_pow_pos _),
       (Nat.div_add_mod _ _).symm⟩
-  rw [Nat.testBit_two_pow_mul_add q hrlt p, if_pos (Nat.lt_succ_self p)] at h
+  rw [Nat.testBit_two_pow_mul_add q hrlt p, ite_eq_left (Nat.lt_succ_self p)] at h
   have hr : r < 2 ^ p := by
     rcases Nat.lt_or_ge r (2 ^ p) with hlt | hge
     · exact hlt
@@ -168,7 +168,7 @@ theorem lorS_le_addS (d : Nat → Bool) (g : Nat → Nat) (n : Nat) :
       rw [show Nat.shiftLeft 1 (g n) = 2 ^ g n from Nat.one_shiftLeft _]
       rfl
     by_cases hd : d n = true
-    · rw [hl, ha, if_pos hd, if_pos hd]
+    · rw [hl, ha, ite_eq_left hd, ite_eq_left hd]
       refine ⟨ih1, fun heq i hi i' hi' hdi hdi' hg => ih2 heq i ?_ i' ?_ hdi hdi' hg⟩
       · rcases Nat.lt_succ_iff_lt_or_eq.1 hi with h | rfl
         · exact h
@@ -179,7 +179,7 @@ theorem lorS_le_addS (d : Nat → Bool) (g : Nat → Nat) (n : Nat) :
         · rw [hd] at hdi'
           exact absurd hdi' (by simp)
     · have hd' : d n = false := by simpa using hd
-      rw [hl, ha, if_neg hd, if_neg hd]
+      rw [hl, ha, ite_eq_right hd, ite_eq_right hd]
       have hpos : 0 < 2 ^ g n := Nat.two_pow_pos _
       cases hb : (lorS d g n).testBit (g n)
       · rw [or_two_pow_of_testBit_false hb]
@@ -303,7 +303,7 @@ theorem nzK_eq (c : Nat) : nzK c = nzC c := by
   unfold nzK
   rw [weightK_eq]
   unfold weightC nzC
-  simp only [List.range_succ, List.range_zero, List.nil_append, List.filter_cons, List.filter_nil]
+  simp only [List.range_succ, List.range_zero, List.nil_append]
   by_cases h0 : coord c 0 = 0 <;> by_cases h1 : coord c 1 = 0 <;> by_cases h2 : coord c 2 = 0 <;>
     by_cases h3 : coord c 3 = 0 <;> by_cases h4 : coord c 4 = 0 <;> by_cases h5 : coord c 5 = 0 <;>
     simp [h0, h1, h2, h3, h4, h5]
@@ -358,11 +358,11 @@ theorem flags_eq {F : Flags} {S : Nat} (hs : F.size = 693) (h : ∀ p < 693, F[p
 
 theorem push_getElem!_lt {α : Type} [Inhabited α] (a : Array α) (x : α) {i : Nat}
     (hi : i < a.size) : (a.push x)[i]! = a[i]! := by
-  simp [getElem!_def, Array.getElem?_push, hi, Nat.ne_of_lt hi, Array.getElem?_eq_getElem hi]
+  simp [getElem!_def, Array.getElem?_push, hi, Nat.ne_of_lt hi]
 
 theorem push_getElem!_size {α : Type} [Inhabited α] (a : Array α) (x : α) :
     (a.push x)[a.size]! = x := by
-  simp [getElem!_def, Array.getElem?_push]
+  simp
 
 theorem filterRange_eq (p : Nat → Bool) (n : Nat) (acc : List Nat) :
     filterRange p n acc = (List.range n).filter p ++ acc := by
@@ -420,7 +420,7 @@ theorem bitW_setBitW (a : Array UInt64) (ha : a.size = 11) {p q : Nat} (hp : p <
   unfold setBitW
   rw [Array.getElem_modify]
   by_cases hpq : p / 64 = q / 64
-  · rw [if_pos hpq, toNat_or_shl _ (Nat.mod_lt _ (by norm_num)), Nat.testBit_or,
+  · rw [ite_eq_left hpq, toNat_or_shl _ (Nat.mod_lt _ (by norm_num)), Nat.testBit_or,
       Nat.testBit_two_pow]
     have : (decide (p % 64 = q % 64)) = (decide (q = p)) := by
       apply decide_eq_decide.2
@@ -428,7 +428,7 @@ theorem bitW_setBitW (a : Array UInt64) (ha : a.size = 11) {p q : Nat} (hp : p <
       · intro h; omega
       · intro h; subst h; rfl
     rw [this]
-  · rw [if_neg hpq]
+  · rw [ite_eq_right hpq]
     have : decide (q = p) = false := by
       simp only [decide_eq_false_iff_not]
       intro h; subst h; exact hpq rfl
@@ -452,7 +452,7 @@ theorem bitW_foldl (L : List Nat) (hL : ∀ p ∈ L, p < 704) (a : Array UInt64)
       bitW_setBitW a ha (hL p List.mem_cons_self) hq]
     by_cases h1 : q = p
     · simp [h1]
-    · by_cases h2 : q ∈ t <;> simp [h1, h2, Bool.or_assoc]
+    · by_cases h2 : q ∈ t <;> simp [h1, h2]
 
 theorem bitW_replicate_zero (q : Nat) : bitW (Array.replicate 11 0) q = false := by
   unfold bitW
@@ -538,7 +538,7 @@ theorem famFold_getD (H : Array Flags) (n : Nat) :
         hjm (hinj j (by omega) m (by omega) h.symm)
       have : ¬ (packList (members H[m]!) == packList (members H[j]!)) = true := by
         simpa using hne
-      rw [if_neg this]
+      rw [ite_eq_right this]
       exact ih j (by omega)
 
 theorem famIndex_eq (H : Array Flags) : famIndex H = famFold H H.size := rfl

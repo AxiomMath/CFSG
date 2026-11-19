@@ -78,7 +78,7 @@ theorem exists_coord_homology (h : UnitaryFieldData ℓ f K) {a : K} (ha : order
     rw [map_pow, ← mul_pow, hx, one_pow]
   obtain ⟨g, hg⟩ := exists_homology_su h (ρ := a) (lam := a⁻¹ ^ 2) (n := 1) (Pi.single j 1)
     hna (hsqN _ (hinvN a hna)) (by field_simp) one_ne_zero
-    (by fin_cases j <;> simp [Pi.single_apply])
+    (by fin_cases j <;> simp)
   exact ⟨g, by rw [hg, div_one]⟩
 
 theorem conj_homology_mem (h : UnitaryFieldData ℓ f K) {Q : Subgroup (unitarySU ℓ f K 3)}
@@ -111,7 +111,7 @@ theorem circ_mem_exactClosure {w α : K} {y : unitarySU ℓ f K 3} {c0 c1 c2 : K
   exact Subgroup.subset_closure ⟨heisC α, hCm, hcomm⟩
 
 theorem coord_homology_mem_exactClosure (h : UnitaryFieldData ℓ f K) {w a α : K}
-    (hw3 : w ^ 3 = 1) {g : unitarySU ℓ f K 3} (j : Fin 3)
+    (_hw3 : w ^ 3 = 1) {g : unitarySU ℓ f K 3} (j : Fin 3)
     (hg : ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       homMat h a (a⁻¹ ^ 2 - a) (Pi.single j 1)) :
     g ∈ Subgroup.closure (outerHeisExactFix ℓ f K w α) := by

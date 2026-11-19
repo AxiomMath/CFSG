@@ -38,7 +38,7 @@ theorem exists_odd_pow_eq_one_normalizer_not_comm {G : Type*} [Group G] [Finite 
     rw [hindex] at h1
     exact P.not_dvd_index h1
   obtain ⟨p, hpP, hpS⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨p, hpP⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨p, hpP⟩
   have hord : orderOf p = 3 ^ k := by
     rw [← hk]
     exact Subgroup.orderOf_coe (⟨p, hpP⟩ : ↥(P : Subgroup _))

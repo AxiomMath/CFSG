@@ -115,7 +115,7 @@ theorem tag_of_markTag_PSp {lab : LargeEvenLabel} (hT : markTag lab = .PSp) :
     | exact Or.inl rfl
     | exact Or.inr rfl
     | simp at hT
-    | (by_cases h3 : l = 3 <;> simp [h3] at hT <;> done)
+    | (by_cases h3 : l = 3 <;> simp [h3] at hT; done)
     | (by_cases h2 : l = 2 <;> by_cases h3 : l = 3 <;> simp [h2, h3] at hT)
 
 theorem not_halfSplit_of_markPSp {lab : LargeEvenLabel} {p f : ℕ} (hp3 : p ≠ 3)

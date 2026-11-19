@@ -60,15 +60,15 @@ theorem k_OutL2U3Product_holds : K_OutL2U3Product := by
   have hn_even : Even (2 ^ a) := Nat.even_pow.mpr ⟨even_two, by omega⟩
   rcases hshape with ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ | ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩
   ·
-    letI : Group A := gA
-    letI : Group B := gB
-    haveI : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+    let : Group A := gA
+    let : Group B := gB
+    have : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
       (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hA)
-    haveI : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+    have : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
       (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB)
-    haveI : IsSimpleGroup A :=
+    have : IsSimpleGroup A :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA
-    haveI : IsSimpleGroup B :=
+    have : IsSimpleGroup B :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hB
     have hZA : Subgroup.center A = ⊥ := center_eq_bot_of_lieModel_psl2 hA
     have hZB : Subgroup.center B = ⊥ := center_eq_bot_of_lieModel_psl2 hB
@@ -76,7 +76,7 @@ theorem k_OutL2U3Product_holds : K_OutL2U3Product := by
       IsPGroup.of_card_dvd_pow (n := a) (by simpa using card_outer_dvd_of_isL2 hA)
     have hOutB : IsPGroup 2 (Outer B) :=
       IsPGroup.of_card_dvd_pow (n := a) (by simpa using card_outer_dvd_of_isL2 hB)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨eA⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 2 (2 ^ a))
       2 (2 ^ a) (by omega) (GaloisField.card 2 (2 ^ a) (by omega)) hA
     obtain ⟨eB⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 2 (2 ^ a))
@@ -93,14 +93,14 @@ theorem k_OutL2U3Product_holds : K_OutL2U3Product := by
         (exists_ne (1 : A)) hZA hOutA
     exact hOutAA.of_equiv (equivalence (e.trans eProd)).symm
   ·
-    letI : Group A := gA
-    letI : Group B := gB
-    haveI : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+    let : Group A := gA
+    let : Group B := gB
+    have : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
       (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hA)
-    haveI : Finite B := CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_PSU3 hB
-    haveI : IsSimpleGroup A :=
+    have : Finite B := CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_PSU3 hB
+    have : IsSimpleGroup A :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA
-    haveI : IsSimpleGroup B := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 hB
+    have : IsSimpleGroup B := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 hB
     have hZA : Subgroup.center A = ⊥ := center_eq_bot_of_lieModel_psl2 hA
     have hZB : Subgroup.center B = ⊥ := center_eq_bot_of_isU3 hB
     have hOutA : IsPGroup 2 (Outer A) :=

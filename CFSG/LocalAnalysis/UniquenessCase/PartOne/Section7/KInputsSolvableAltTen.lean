@@ -25,7 +25,7 @@ theorem altTen_alternative {X : Type} [Group X] [Finite X] {K N : Subgroup X} [K
       (∀ Y : Subgroup X, Y ≤ N → ⁅Y, Y⁆ = Y → Nat.card Y ≤ 3600) ∧
       ∀ Y : Subgroup X, Y ≤ N → ⁅Y, Y⁆ = Y → SectionsOrder60 ↥Y := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hKcard : Nat.card ↥K = 1814400 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
     norm_num
@@ -38,7 +38,7 @@ theorem altTen_alternative {X : Type} [Group X] [Finite X] {K N : Subgroup X} [K
     have h1 : Nat.card (X ⧸ K) ≤ 2 :=
       hQle.trans (Nat.le_of_dvd (by norm_num) hout)
     have h2 : Nat.card (X ⧸ K) = 1 ∨ Nat.card (X ⧸ K) = 2 := by omega
-    rcases h2 with h2 | h2 <;> rw [h2] <;> norm_num
+    rcases h2 with h2 | h2 <;> rw [h2]; norm_num
   have hX : Nat.card X ∣ 3628800 := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup K, hKcard]
     have h := Nat.mul_dvd_mul_right hQdvd 1814400

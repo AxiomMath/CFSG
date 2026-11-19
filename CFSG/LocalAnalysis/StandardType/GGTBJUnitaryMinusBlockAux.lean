@@ -39,7 +39,7 @@ theorem splitEntries_eq_pow_val (hp : p.Prime) {ζ : F} (hζ : IsPrimitiveRoot �
   · by_cases hi : t i = 0
     · simp [splitEntries, splitWeight, hi]
     · have hval : (-t i : ZMod p).val = p - (t i).val := by
-        rw [ZMod.neg_val, if_neg hi]
+        rw [ZMod.neg_val, ite_eq_right hi]
       rw [splitEntries, splitWeight, hval]
       have hvpos : 0 < (t i).val := ZMod.val_pos.mpr hi
       have hvlt : (t i).val < p := ZMod.val_lt _

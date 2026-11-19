@@ -473,7 +473,7 @@ theorem exists_sylow_le_of_not_dvd_index {G : Type*} [Group G] [Finite G] {p : �
     [Fact p.Prime] {T : Subgroup G} (hT : ¬ p ∣ T.index) :
     ∃ S : Sylow p G, (S : Subgroup G) ≤ T := by
   obtain ⟨S₀⟩ : Nonempty (Sylow p T) := inferInstance
-  have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup'.map T.subtype
+  have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup.map T.subtype
   have hSi : ¬ p ∣ ((S₀ : Subgroup T).map T.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hT

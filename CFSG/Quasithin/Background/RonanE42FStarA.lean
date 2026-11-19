@@ -19,13 +19,13 @@ theorem generalizedFitting_le_of_normal (hO2 : CFSG.pCore 2 Q = ⊥)
     {Y : Subgroup Q} [Y.Normal] {y : Q} (hyY : y ∈ Y) (hy1 : y ≠ 1) {n : ℕ}
     (hyn : y ^ (2 ^ n) = 1) :
     CFSG.generalizedFitting Q ≤ Y := by
-  haveI hFchar : (CFSG.generalizedFitting Q).Characteristic := by
+  have hFchar : (CFSG.generalizedFitting Q).Characteristic := by
     rw [CFSG.generalizedFitting_eq_componentClassification]
     exact CFSG.ComponentClassification.GeneralizedFitting.characteristic Q
-  haveI hFn : (CFSG.generalizedFitting Q).Normal := inferInstance
+  have hFn : (CFSG.generalizedFitting Q).Normal := inferInstance
   rcases hF with hQ | ⟨p, hp, hcard⟩
   ·
-    haveI : Group.IsPerfect ↥(CFSG.generalizedFitting Q) := hQ.1
+    have : Group.IsPerfect ↥(CFSG.generalizedFitting Q) := hQ.1
     have hQ' : CFSG.Open.IsQuasisimple ↥(CFSG.generalizedFitting Q) :=
       ⟨Group.IsPerfect.commutator_eq_top, hQ.2.1⟩
     rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hQ'
@@ -84,7 +84,7 @@ theorem generalizedFitting_le_of_normal (hO2 : CFSG.pCore 2 Q = ⊥)
       exact hy1 (Subgroup.mem_bot.mp (hPle.trans hO2.le hyP))
     · exact (Subgroup.subgroupOf_eq_top.mp ht).trans inf_le_left
   ·
-    haveI : Fact (Nat.card ↥(CFSG.generalizedFitting Q)).Prime := ⟨by rw [hcard]; exact hp⟩
+    have : Fact (Nat.card ↥(CFSG.generalizedFitting Q)).Prime := ⟨by rw [hcard]; exact hp⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card
       ((Y ⊓ CFSG.generalizedFitting Q).subgroupOf (CFSG.generalizedFitting Q)) with hb | ht
     · exfalso

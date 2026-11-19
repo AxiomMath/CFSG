@@ -98,7 +98,7 @@ theorem ggCartan_det_smul_ker {ι : Type} [Fintype ι] [DecidableEq ι] {m : ℕ
 
 theorem ggTor_central_coords {p m N : ℕ} {L' : Type} [Group L'] [Finite L']
     {A : Subgroup (MulAut L')} {C : Matrix (Fin N) (Fin N) ℤ} {M : CoxeterMatrix (Fin N)}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hm : Odd m) (hpm : p ∣ m)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hm : Odd m) (hpm : p ∣ m)
     (w : GGTorusTorWit m N L' A) (hw : w.Holds C M)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ))
     (z : L') (hz : z ∈ Subgroup.center L') (hzo : orderOf z = p) :
@@ -157,7 +157,7 @@ theorem ggTor_central_mem_closure_A {p m n : ℕ} {L' : Type} [Group L'] [Finite
     (z : L') (hz : z ∈ Subgroup.center L') (hzo : orderOf z = p) :
     z ∈ Subgroup.closure (Set.range fun k => w.cor k (ggZetaP p m)) := by
   have hm0 : m ≠ 0 := hm.pos.ne'
-  haveI : NeZero m := ⟨hm0⟩
+  have : NeZero m := ⟨hm0⟩
   obtain ⟨f, hf, hker⟩ := ggTor_central_coords hp hp2 hm hpm w hw hcomm z hz hzo
   set a : Fin n → ZMod m := fun k => Multiplicative.toAdd (f k) with ha
   have hcoord := cartanA_ker_coord a hker
@@ -166,7 +166,7 @@ theorem ggTor_central_mem_closure_A {p m n : ℕ} {L' : Type} [Group L'] [Finite
   have hak : ∀ k : Fin n, a k = ((k : ℕ) + 1 : ZMod m) * a0 := by
     intro k
     have h1 := hcoord k.1 k.2
-    simpa [dif_pos (show 0 < n from hn), ha0] using h1
+    simpa [dite_eq_left (show 0 < n from hn), ha0] using h1
   have hdet0 : ((n : ZMod m) + 1) * a0 = 0 := by
     have h1 := hdet ⟨0, hn⟩
     rw [CartanMatrix.A_det] at h1
@@ -219,16 +219,16 @@ theorem ggTor_central_mem_closure_A {p m n : ℕ} {L' : Type} [Group L'] [Finite
 
 theorem ggTor_central_mem_closure_E6 {m : ℕ} {L' : Type} [Group L'] [Finite L']
     {A : Subgroup (MulAut L')} {M : CoxeterMatrix (Fin 6)} (hm : Odd m) (hpm : 3 ∣ m)
-    (w : GGTorusTorWit m 6 L' A) (hw : w.Holds CartanMatrix.E₆ M)
+    (w : GGTorusTorWit m 6 L' A) (hw : w.Holds (CartanMatrix.E 6) M)
     (hcomm : ∀ j k ζ ξ, Commute (w.cor j ζ) (w.cor k ξ))
     (z : L') (hz : z ∈ Subgroup.center L') (hzo : orderOf z = 3) :
     z ∈ Subgroup.closure (Set.range fun k => w.cor k (ggZetaP 3 m)) := by
   have hm0 : m ≠ 0 := hm.pos.ne'
   obtain ⟨f, hf, hker⟩ := ggTor_central_coords Nat.prime_three (by norm_num) hm hpm w hw hcomm
     z hz hzo
-  have hdet := ggCartan_det_smul_ker CartanMatrix.E₆ (fun k => Multiplicative.toAdd (f k)) hker
-  have hdet3 : ((CartanMatrix.E₆).det : ZMod m) = 3 := by
-    have h1 : (CartanMatrix.E₆).det = 3 := by
+  have hdet := ggCartan_det_smul_ker (CartanMatrix.E 6) (fun k => Multiplicative.toAdd (f k)) hker
+  have hdet3 : (((CartanMatrix.E 6)).det : ZMod m) = 3 := by
+    have h1 : ((CartanMatrix.E 6)).det = 3 := by
       show (CartanMatrix.E 6).det = 3
       rw [CartanMatrix.E_det (by norm_num)]
       norm_num

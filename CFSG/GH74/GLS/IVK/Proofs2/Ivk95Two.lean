@@ -20,7 +20,7 @@ theorem cyc_sylow (h : Ivk95Cfg z)
     rintro _ ⟨u, -, rfl⟩ k hk
     exact (mem_centralizer_iff.mp u.2 k hk).symm
   have hT2 : IsPGroup 2 ↥((S : Subgroup ↥(centralizer ((Ez z : Subgroup J) : Set J))).map
-      (centralizer ((Ez z : Subgroup J) : Set J)).subtype) := S.isPGroup'.map _
+      (centralizer ((Ez z : Subgroup J) : Set J)).subtype) := S.isPGroup.map _
   have hTcyc := h.cyc _ hTc hT2
   exact isCyclic_of_surjective
     (((S : Subgroup ↥(centralizer ((Ez z : Subgroup J) : Set J))).equivMapOfInjective

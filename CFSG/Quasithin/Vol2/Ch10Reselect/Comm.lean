@@ -12,17 +12,21 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
 
+omit [Finite G] in
 theorem le_normalizer_fsuVM_of_L (T L I : Subgroup G) :
     L ≤ Subgroup.normalizer (fsuVM T L I : Set G) :=
   (le_fsuL0 T L).trans (fsuL0_le_normalizer_fsuVM T L I)
 
+omit [Finite G] in
 theorem L_le_normalizer_fsuUL (T L I : Subgroup G) :
     L ≤ Subgroup.normalizer (fsuUL T L I : Set G) :=
   le_normalizer_commutator (le_normalizer_fsuVM_of_L T L I) (Subgroup.le_normalizer)
 
+omit [Finite G] in
 theorem fsuUL_le_fsuVM (T L I : Subgroup G) : fsuUL T L I ≤ fsuVM T L I :=
   Subgroup.le_normalizer_iff_commutator_le_left.mp (le_normalizer_fsuVM_of_L T L I)
 
+omit [Finite G] in
 theorem conjugate_UL_le_fsuVM (T L I : Subgroup G) {t : G} (ht : t ∈ fsuM T L) :
     CFSG.conjugate (fsuUL T L I) t ≤ fsuVM T L I := by
   have h := conjugate_mono (fsuUL_le_fsuVM T L I) t

@@ -43,10 +43,10 @@ private theorem exists_normal_two_subgroup (G : Type) [Group G] [Finite G] [Grou
     (h2 : 2 ∣ Nat.card G) :
     ∃ P : Subgroup G, P ≠ ⊥ ∧ IsPGroup 2 P ∧ P.Normal ∧
       ∀ g : G, (∃ k : ℕ, g ^ 2 ^ k = 1) → g ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 G) := inferInstance
   have hSn : S.toSubgroup.Normal := inferInstance
-  refine ⟨S.toSubgroup, ?_, S.isPGroup', hSn, ?_⟩
+  refine ⟨S.toSubgroup, ?_, S.isPGroup, hSn, ?_⟩
   · intro hbot
     have h := S.not_dvd_index
     rw [hbot, Subgroup.index_bot] at h
@@ -58,7 +58,7 @@ private theorem exists_normal_two_subgroup (G : Type) [Group G] [Finite G] [Grou
     have hcard : Nat.card (Subgroup.zpowers g) = 2 ^ j := by
       rw [Nat.card_zpowers, hj]
     obtain ⟨Q, hQ⟩ := (IsPGroup.of_card hcard).exists_le_sylow
-    haveI := Sylow.unique_of_normal S inferInstance
+    have := Sylow.unique_of_normal S inferInstance
     have hQS : Q = S := Subsingleton.elim Q S
     rw [hQS] at hQ
     exact hQ (Subgroup.mem_zpowers g)
@@ -71,8 +71,8 @@ theorem exists_e9_normalizing_two_of_quotient {X : Type} [Group X] [Finite X] (Z
       E ≤ Subgroup.normalizer (V : Set X) := by
   obtain ⟨E, V, hE, hE9, hV, hV2, hEV⟩ := h
   obtain ⟨hEc, hEexp⟩ := hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Ee, hEe⟩ : ∃ S : Subgroup X, S = E.comap (QuotientGroup.mk' Z) := ⟨_, rfl⟩
   obtain ⟨Vv, hVv⟩ : ∃ S : Subgroup X, S = V.comap (QuotientGroup.mk' Z) := ⟨_, rfl⟩
   have memEe : ∀ x : X, x ∈ Ee ↔ QuotientGroup.mk' Z x ∈ E := fun x => by
@@ -126,7 +126,7 @@ theorem exists_e9_normalizing_two_of_quotient {X : Type} [Group X] [Finite X] (Z
       exact hEcomm _ _ (hπE _ a.2) (hπE _ b.2)
     · apply hinj _ (Q.pow_mem hx 3) 1 Q.one_mem
       rw [map_pow, hEexp _ (hπE x hx), map_one]
-  haveI : Group.IsNilpotent V := IsPGroup.isNilpotent hV2
+  have : Group.IsNilpotent V := IsPGroup.isNilpotent hV2
   have hnilVv : Group.IsNilpotent Vv := by
     subst hVv
     exact isNilpotent_comap Z hZc V

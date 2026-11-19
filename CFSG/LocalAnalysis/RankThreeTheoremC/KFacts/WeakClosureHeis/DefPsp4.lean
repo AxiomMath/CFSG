@@ -90,11 +90,11 @@ def pT2 : Matrix (Fin 2) (Fin 2) F := !![2, 0; 0, 0]
 
 theorem pA_S_Di : (pA * pS * pDi : Matrix (Fin 2) (Fin 2) F) + -pS = pT1 := by
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [pA, pS, pDi, pT1, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [pA, pS, pDi, pT1]
 
 theorem pA_T1_Di : (pA * pT1 * pDi : Matrix (Fin 2) (Fin 2) F) + -pT1 = pT2 := by
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [pA, pT1, pT2, pDi, Matrix.mul_apply, Fin.sum_univ_two, one_add_one_eq_two]
+    simp [pA, pT1, pT2, pDi, one_add_one_eq_two]
 
 theorem pYU_comm_Z_S : ⁅(pYU : GL PIx F), pZU (pS : Matrix (Fin 2) (Fin 2) F)⁆ = pZU pT1 := by
   rw [commutatorElement_def, pYU_conj, pZU_inv, pZU_mul, pA_S_Di]
@@ -234,9 +234,9 @@ theorem sylowDichotomyAt_proj_sp4 (h5 : 5 ≤ p) [Finite (StatedProj (StatedSp 2
       have h4 : pZ (pT2 : Matrix (Fin 2) (Fin 2) F) = (1 : Matrix PIx PIx F) :=
         congrArg Units.val h3
       have h5' := congrFun (congrFun h4 (Sum.inl 0)) (Sum.inr 0)
-      simp [pZ, pT2, Matrix.fromBlocks, Matrix.one_apply] at h5'
+      simp [pZ, pT2, Matrix.fromBlocks] at h5'
       exact hF2 h5'
-    haveI : IsCyclic ↥⁅U, U⁆ := hcyc
+    have : IsCyclic ↥⁅U, U⁆ := hcyc
     have hord : orderOf b' = p := orderOf_eq_prime hbp hb1
     have hcard : Nat.card (Subgroup.zpowers a') ∣ Nat.card (Subgroup.zpowers b') := by
       rw [Nat.card_zpowers, Nat.card_zpowers, hord]
@@ -268,10 +268,10 @@ end Psp4Aux
 theorem sdPsp4_holds : SDPsp4 := by
   intro K _ _ p hp h5 hmodel
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hmodel.statedClassicalModel_of_ne_zero (by norm_num)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hcard, pow_one])
-  haveI : Finite (StatedProj (StatedSp 2 F)) := Finite.of_equiv K e.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hcard, pow_one])
+  have : Finite (StatedProj (StatedSp 2 F)) := Finite.of_equiv K e.toEquiv
   exact SylowDichotomyAt.of_mulEquiv hp e (Psp4Aux.sylowDichotomyAt_proj_sp4 h5)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.WeakClosureHeis

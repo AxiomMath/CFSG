@@ -35,7 +35,7 @@ theorem Hyp1921.card_inf_Q_of (h : Hyp1921 G A M N L)
   rw [(h.isSylowOf_inf_Q_of hNL hQ).card_eq, Sec20.factorization_three_of_nonempty_quotient e]
   all_goals norm_num
 
-theorem Hyp1921.inf_pCoreOf_eq_bot_Q (h : Hyp1921 G A M N L) {Q : Subgroup G}
+theorem Hyp1921.inf_pCoreOf_eq_bot_Q (_h : Hyp1921 G A M N L) {Q : Subgroup G}
     (hQ : IsSylowOf 3 Q N) : (Q ⊓ L : Subgroup G) ⊓ CFSG.Open.pCoreOf 2 L = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h3 : IsPGroup 3 (Q ⊓ L : Subgroup G) := hQ.isPGroup.to_inf_left

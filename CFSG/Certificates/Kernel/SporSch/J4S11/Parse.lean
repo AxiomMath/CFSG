@@ -31,7 +31,7 @@ private theorem splitK_eq (c : Char) : ∀ cs : List Char, splitK c cs = cs.spli
     · subst hx; simp [splitK]
     · have hx' : (x == c) = false := by simpa using hx
       rw [hx']
-      simp only [splitK, hx, if_false, Bool.false_eq_true]
+      simp only [splitK, hx, ite_false, Bool.false_eq_true]
       cases h : splitK c xs
       · exact absurd h (splitK_ne_nil c xs)
       · rfl
@@ -43,7 +43,7 @@ private theorem digitsK_eq {ds : List Char} (hd : ∀ c ∈ ds, c.isDigit = true
   | cons x xs ih =>
     intro acc
     have hx := hd x (by simp)
-    simp only [digitsK, hx, if_true, Nat.ofDigitChars_eq_foldl, List.foldl_cons]
+    simp only [digitsK, hx, ite_true, Nat.ofDigitChars_eq_foldl, List.foldl_cons]
     have := ih (fun c hc => hd c (by simp [hc])) (10 * acc + (x.toNat - 48))
     simpa [Nat.ofDigitChars_eq_foldl] using this
 
@@ -74,9 +74,9 @@ private theorem digitsK_some {ds : List Char} {n : Nat} (h : digitsK ds 0 = some
       by_cases hx : x.isDigit = true
       · rcases List.mem_cons.1 hc with rfl | hc
         · exact hx
-        · rw [if_pos hx] at h
+        · rw [ite_eq_left hx] at h
           exact ih _ h c hc
-      · rw [if_neg hx] at h
+      · rw [ite_eq_right hx] at h
         cases h
   exact this ds 0 h
 
@@ -113,7 +113,7 @@ private theorem line_sound (ts : List (List Char)) (o : Option (List Nat))
       cases hi : natK i <;> cases hj : natK j <;> cases hk : natK k <;>
         simp [hi, hj, hk] at h
       subst h
-      simp only [List.map_cons, List.map_nil, mu_eq, slpLine, natK_toNat hi, natK_toNat hj,
+      simp only [List.map_cons, List.map_nil, slpLine, natK_toNat hi, natK_toNat hj,
         natK_toNat hk]
       rfl
     by_cases hiv : ∃ i k, t = ['i', 'v'] ∧ tail = [i, k]
@@ -121,7 +121,7 @@ private theorem line_sound (ts : List (List Char)) (o : Option (List Nat))
       simp only [lineK] at h
       cases hi : natK i <;> cases hk : natK k <;> simp [hi, hk] at h
       subst h
-      simp only [List.map_cons, List.map_nil, iv_eq, slpLine, natK_toNat hi, natK_toNat hk]
+      simp only [List.map_cons, List.map_nil, slpLine, natK_toNat hi, natK_toNat hk]
       rfl
     by_cases hpw : ∃ e i k, t = ['p', 'w', 'r'] ∧ tail = [e, i, k]
     · obtain ⟨e, i, k, rfl, rfl⟩ := hpw
@@ -129,13 +129,13 @@ private theorem line_sound (ts : List (List Char)) (o : Option (List Nat))
       cases he : natK e <;> cases hi : natK i <;> cases hk : natK k <;>
         simp [he, hi, hk] at h
       subst h
-      simp only [List.map_cons, List.map_nil, pwr_eq, slpLine, natK_toNat he, natK_toNat hi,
+      simp only [List.map_cons, List.map_nil, slpLine, natK_toNat he, natK_toNat hi,
         natK_toNat hk]
       rfl
     rw [lineK.eq_5 t tail (fun i j k a b => hmu ⟨i, j, k, a, b⟩) (fun i k a b => hiv ⟨i, k, a, b⟩)
       (fun e i k a b => hpw ⟨e, i, k, a, b⟩)] at h
     by_cases hh : t.head? = some '#'
-    · rw [if_pos hh] at h
+    · rw [ite_eq_left hh] at h
       cases h
       obtain ⟨t', rfl⟩ : ∃ t', t = '#' :: t' := by
         cases t with
@@ -149,7 +149,7 @@ private theorem line_sound (ts : List (List Char)) (o : Option (List Nat))
         exact absurd (ofList_inj (a.trans iv_eq)) (by simp)
       · intro e i k a _
         exact absurd (ofList_inj (a.trans pwr_eq)) (by simp)
-    · rw [if_neg hh] at h
+    · rw [ite_eq_right hh] at h
       cases h
 
 private theorem mapM_sound {L : List (List Char)} {os : List (Option (List Nat))}

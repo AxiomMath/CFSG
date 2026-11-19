@@ -38,11 +38,11 @@ theorem ggFixDer_eq_of_subfieldGrp {f : MulAut R} {D : Subgroup R} (h : FR.Subfi
 
 theorem commutator_eq_self_of_mulEquiv {D : Subgroup R} {R' : Type} [Group R'] [IsSimpleGroup R']
     (hna : ∃ a b : R', a * b ≠ b * a) (e : ↥D ≃* R') : ⁅D, D⁆ = D := by
-  haveI : Group.IsPerfect R' :=
+  have : Group.IsPerfect R' :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative fun hc => by
       obtain ⟨a, b, hab⟩ := hna
       exact hab (isMulCommutative_iff.mp hc a b)
-  haveI : Group.IsPerfect ↥D := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
+  have : Group.IsPerfect ↥D := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact Subgroup.commutator_eq_self
 
 theorem nonempty_ggFixDer_equiv {f : MulAut R} {D : Subgroup R} (h : FR.SubfieldGrp f D)
@@ -61,7 +61,7 @@ theorem isSolvable_ggFixSub_of_subfieldGrp {f : MulAut R} {D : Subgroup R} (h : 
   have e1 : ↥(commutator ↥F) ≃* ↥(⁅F, F⁆ : Subgroup R) :=
     ((commutator ↥F).equivMapOfInjective F.subtype F.subtype_injective).trans
       (MulEquiv.subgroupCongr (Subgroup.map_subtype_commutator F))
-  haveI : Group.IsSolvable ↥(commutator ↥F) :=
+  have : Group.IsSolvable ↥(commutator ↥F) :=
     Group.isSolvable_of_isSolvable_injective (f := e1.toMonoidHom) e1.injective
   exact Group.isSolvable_commutator_iff.mp this
 
@@ -79,8 +79,8 @@ theorem exists_mul_ne_of_isPerfect (G : Type*) [Group G] [Nontrivial G] [Group.I
 
 theorem exists_mul_ne_of_equiv_centerQuot {G H : Type*} [Group G] [Group H] [Nontrivial G]
     (hH : Group.IsPerfect H) (e : G ≃* H ⧸ Subgroup.center H) : ∃ a b : G, a * b ≠ b * a := by
-  haveI := hH
-  haveI : Group.IsPerfect G :=
+  have := hH
+  have : Group.IsPerfect G :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact exists_mul_ne_of_isPerfect G
 

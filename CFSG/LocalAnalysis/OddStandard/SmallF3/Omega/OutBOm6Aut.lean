@@ -45,7 +45,7 @@ theorem aor_card_outer_dvd_of_psl_four {T : Type} [Group T] (h : LieModel T .PSL
 theorem asc82OddInner_of_isOm6M [Finite G] {L : Subgroup G} (h : IsOm6M L) : Asc82OddInner L := by
   obtain ⟨hq, hm⟩ := h
   unfold IsOmega6Minus at hm
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   have hs : IsSimpleGroup (L ⧸ oddCore L) := by
     have hmodel := hm.statedClassicalModel_of_ne_zero (by norm_num : (4 : ℕ) ≠ 0)
     exact (CFSG.LieType.Simplicity.fam_classical_converse (L ⧸ oddCore L)
@@ -59,7 +59,7 @@ theorem asc82OddInner_of_isOm6M [Finite G] {L : Subgroup G} (h : IsOm6M L) : Asc
 theorem asc82OddInner_of_isOm6P [Finite G] {L : Subgroup G} (h : IsOm6P L) : Asc82OddInner L := by
   obtain ⟨hq, hm⟩ := h
   unfold IsOmega6Plus at hm
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   have hs : IsSimpleGroup (L ⧸ oddCore L) := by
     have hmodel := hm.statedClassicalModel_of_ne_zero (by norm_num : (4 : ℕ) ≠ 0)
     exact (CFSG.LieType.Simplicity.fam_classical_converse (L ⧸ oddCore L)
@@ -73,10 +73,10 @@ theorem asc82OddInner_of_isOm6P [Finite G] {L : Subgroup G} (h : IsOm6P L) : Asc
 theorem asc82OddInner_of_twoU43 [Finite G] {L : Subgroup G} (hq : IsQuasisimple L)
     (h : IsTwoU43 (L ⧸ oddCore L)) : Asc82OddInner L := by
   obtain ⟨hcard2, hmod⟩ := h
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   have hnt : oddCore ↥L ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (↥L ⧸ oddCore ↥L) := by
+    have : Subsingleton (↥L ⧸ oddCore ↥L) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
     have h1 : Nat.card (Subgroup.center (↥L ⧸ oddCore ↥L)) = 1 :=

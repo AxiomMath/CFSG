@@ -55,7 +55,7 @@ theorem BenderCounterexample.false
   obtain ⟨t, htT, ht⟩ : ∃ t ∈ (T : Subgroup G), orderOf t = 2 := by
     obtain ⟨E, hET, -, hcard⟩ := CFSG.SectionRank.exists_pRank one_lt_two (T : Subgroup G)
     have h3 := hG.three_le_rank_sylow T
-    rw [rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup'] at h3
+    rw [rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup] at h3
     have h2 : 2 ∣ Nat.card E := by
       rw [hcard]
       exact dvd_pow_self 2 (by omega)

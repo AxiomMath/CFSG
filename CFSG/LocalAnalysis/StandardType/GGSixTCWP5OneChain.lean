@@ -243,15 +243,15 @@ theorem componentLabel_chainSet_outer
   have hk : twistKindOf ρ (tcChainSet δ) = .suN := by
     unfold twistKindOf
     rw [h1]
-    rw [if_neg (by simpa using hout)]
-    rw [if_neg (by
+    rw [ite_eq_right (by simpa using hout)]
+    rw [ite_eq_right (by
       rintro (⟨h6, -⟩ | ⟨h4, -⟩)
       · rw [compRank_chainSet hδ.gram] at h6
         exact absurd h6 (by norm_num)
       · rw [compRank_chainSet hδ.gram] at h4
         exact absurd h4 (by norm_num))]
-    rw [if_neg (by rw [compRank_chainSet hδ.gram, ncard_chainSet hδ.gram]; norm_num)]
-    rw [if_pos (by rw [compRank_chainSet hδ.gram, ncard_chainSet hδ.gram]; norm_num)]
+    rw [ite_eq_right (by rw [compRank_chainSet hδ.gram, ncard_chainSet hδ.gram]; norm_num)]
+    rw [ite_eq_left (by rw [compRank_chainSet hδ.gram, ncard_chainSet hδ.gram]; norm_num)]
   rw [hk, compRank_chainSet hδ.gram, ncard_chainSet hδ.gram]
   simp [componentLabel]
 

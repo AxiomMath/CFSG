@@ -15,7 +15,7 @@ theorem map_pCoreOf_comap_eq_of_ker_le_center {Y Yb : Type*} [Group Y] [Group Yb
     {p : ℕ} [Fact p.Prime] (π : Y →* Yb) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center Y) (Nb : Subgroup Yb) :
     (pCoreOf p (Nb.comap π)).map π = pCoreOf p Nb := by
-  haveI : Finite Yb := Finite.of_surjective π hπ
+  have : Finite Yb := Finite.of_surjective π hπ
   set N : Subgroup Y := Nb.comap π with hN
   refine le_antisymm ?_ ?_
   · refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer p ?_ ?_ ?_
@@ -48,7 +48,7 @@ theorem map_pCoreOf_comap_eq_of_ker_le_center {Y Yb : Type*} [Group Y] [Group Yb
       have hyN : y ∈ N := hObN ho
       refine ⟨⟨⟨y, hyN⟩, (hmemT ⟨y, hyN⟩).mpr ho⟩, Subtype.ext ?_⟩
       rfl
-    haveI : Group.IsNilpotent ↥Ob := hOb2.isNilpotent
+    have : Group.IsNilpotent ↥Ob := hOb2.isNilpotent
     have hTnil : Group.IsNilpotent ↥T := by
       refine Subgroup.isNilpotent_of_ker_le_center φ fun t ht => ?_
       have ht1 : π ((t : ↥N) : Y) = 1 := by

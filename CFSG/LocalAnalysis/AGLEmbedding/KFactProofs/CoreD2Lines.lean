@@ -132,7 +132,7 @@ theorem glbCore_sup_of_coreGenerationVOf {G : Type*} [Group G] [Finite G] {p : �
   have hET0 : (T₀ : Subgroup G) = E :=
     (Subgroup.eq_of_le_of_card_ge hET (by rw [hEc, hS T₀])).symm
   obtain ⟨l, -, hl⟩ := CFSG.AGLEmbedding.exists_mem_map_conj_eq_of_card_eq
-    (L := ⊤) (le_top : (S : Subgroup G) ≤ ⊤) le_top S.isPGroup' T₀.isPGroup'
+    (L := ⊤) (le_top : (S : Subgroup G) ≤ ⊤) le_top S.isPGroup T₀.isPGroup
     (by
       change ¬ p ∣ (S : Subgroup G).relIndex ⊤
       rw [Subgroup.relIndex_top_right]

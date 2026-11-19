@@ -58,7 +58,7 @@ theorem exists_quot_glue2 [Finite G] {X : Subgroup G} {p : ℕ} [hp : Fact p.Pri
         (∀ x y : X, q (x * y) = q x + q y) ∧ Function.Surjective q ∧
         (∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X) := by
   classical
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hcomm : IsMulCommutative (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X)) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq
       (show Nat.card (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X)) = p ^ 2 from hYidx)
@@ -76,7 +76,7 @@ theorem exists_quot_glue2 [Finite G] {X : Subgroup G} {p : ℕ} [hp : Fact p.Pri
     exact (Nat.card_congr Additive.ofMul).symm
   have hfin : Finite (Additive (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X))) :=
     Finite.of_equiv _ Additive.ofMul
-  haveI : Module.Finite (ZMod p) (Additive (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X))) :=
+  have : Module.Finite (ZMod p) (Additive (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X))) :=
     Module.Finite.of_finite
   have hfr : Module.finrank (ZMod p)
       (Additive (↥X ⧸ Yof ((pCoreOf 2 X).subgroupOf X))) = 2 := by
@@ -107,6 +107,7 @@ variable {X : Subgroup G} {E : Type} [AddCommGroup E] {q : X → E}
 @[expose] noncomputable def liftGlue2 (hq : Function.Surjective q) (e : E) : X :=
   Function.surjInv hq e
 
+omit [AddCommGroup E] in
 theorem q_liftGlue2 (hq : Function.Surjective q) (e : E) : q (liftGlue2 hq e) = e :=
   Function.surjInv_eq hq e
 
@@ -114,6 +115,7 @@ theorem q_liftGlue2 (hq : Function.Surjective q) (e : E) : q (liftGlue2 hq e) = 
     (hγ : γ ∈ Subgroup.normalizer (X : Set G)) (e : E) : E :=
   q (conjXEquiv X hγ (liftGlue2 hq e))
 
+omit [AddCommGroup E] in
 theorem conjFunGlue2_q (hq : Function.Surjective q)
     (hker : ∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X)
     {γ : G} (hγ : γ ∈ Subgroup.normalizer (X : Set G)) (x : X) :
@@ -151,6 +153,7 @@ theorem conjFunGlue2_add (hq : Function.Surjective q)
     simpa using h
   map_add' := conjFunGlue2_add hq hq_add hker hγ
 
+omit [AddCommGroup E] in
 theorem conjFunGlue2_inv (hq : Function.Surjective q)
     (hker : ∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X)
     {γ : G} (hγ : γ ∈ Subgroup.normalizer (X : Set G)) (e : E) :
@@ -162,6 +165,7 @@ theorem conjFunGlue2_inv (hq : Function.Surjective q)
   rw [conjXEquiv_coe, conjXEquiv_coe]
   group
 
+omit [AddCommGroup E] in
 theorem conjFunGlue2_inv' (hq : Function.Surjective q)
     (hker : ∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X)
     {γ : G} (hγ : γ ∈ Subgroup.normalizer (X : Set G)) (e : E) :
@@ -177,7 +181,7 @@ theorem conjFunGlue2_inv' (hq : Function.Surjective q)
     (hq_add : ∀ x y : X, q (x * y) = q x + q y)
     (hker : ∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X)
     {γ : G} (hγ : γ ∈ Subgroup.normalizer (X : Set G)) : E ≃ₗ[ZMod p] E :=
-  LinearEquiv.ofLinear ((conjAddGlue2 hq hq_add hker hγ).toZModLinearMap p)
+  LinearEquiv.ofLinearMap ((conjAddGlue2 hq hq_add hker hγ).toZModLinearMap p)
     ((conjAddGlue2 hq hq_add hker (Subgroup.inv_mem _ hγ)).toZModLinearMap p)
     (LinearMap.ext fun e => conjFunGlue2_inv hq hker hγ e)
     (LinearMap.ext fun e => conjFunGlue2_inv' hq hker hγ e)
@@ -187,7 +191,7 @@ theorem conjLEGlue2_apply (p : ℕ) [Module (ZMod p) E] (hq : Function.Surjectiv
     (hker : ∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X)
     {γ : G} (hγ : γ ∈ Subgroup.normalizer (X : Set G)) (e : E) :
     conjLEGlue2 p hq hq_add hker hγ e = conjFunGlue2 hq hγ e := by
-  rw [conjLEGlue2, LinearEquiv.ofLinear_apply, AddMonoidHom.coe_toZModLinearMap,
+  rw [conjLEGlue2, LinearEquiv.coe_ofLinearMap, AddMonoidHom.coe_toZModLinearMap,
     conjAddGlue2]
   rfl
 

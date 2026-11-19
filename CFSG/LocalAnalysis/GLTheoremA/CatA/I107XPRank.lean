@@ -20,7 +20,7 @@ theorem simplyLaced_pRank_ge {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E
     Ψ.length * n ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (AdjointQuotient τ K)) := by
   have hS : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := Or.inr hτ
   obtain ⟨hroot, -, hpos⟩ := PsiOK_spec hΨ
-  haveI : IsMulCommutative (Subgroup.closure (rootSet τ K Ψ)) :=
+  have : IsMulCommutative (Subgroup.closure (rootSet τ K Ψ)) :=
     rootSet_isMulCommutative hS hroot hpos
   have h2 : (2 : K) = 0 := CFSG.LocalAnalysis.GLTheoremA.I107G.two_eq_zero_of_card hn hK
   let ψ : Fin Ψ.length → Fin τ.rank → ℤ := fun i => Ψ.get i

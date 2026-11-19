@@ -44,7 +44,7 @@ theorem perm5_normal_eq_bot_cv (N : Subgroup (Equiv.Perm (Fin 5))) [N.Normal]
 theorem perm5_alt_le_of_normal_ne_bot_cv (N : Subgroup (Equiv.Perm (Fin 5))) [N.Normal]
     (hN : N ≠ ⊥) : alternatingGroup (Fin 5) ≤ N := by
   by_contra hle
-  haveI : (N.subgroupOf (alternatingGroup (Fin 5))).Normal :=
+  have : (N.subgroupOf (alternatingGroup (Fin 5))).Normal :=
     Subgroup.Normal.subgroupOf inferInstance _
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf (alternatingGroup (Fin 5))) with hb | ht
   · exact hN (perm5_normal_eq_bot_cv N (disjoint_iff.1 (Subgroup.subgroupOf_eq_bot.1 hb)))
@@ -114,7 +114,7 @@ theorem le_ker_of_odd_index_cv {X : Type} [Group X] [Finite X] (θ : X →* Equi
     ring
   have hnodd : ¬ 2 ∣ Nat.card (J.map θ) := fun h2 =>
     hodd (by rw [hmk]; exact Dvd.dvd.mul_left h2 k)
-  haveI : (J.map θ).Normal := hJ.map θ hθ
+  have : (J.map θ).Normal := hJ.map θ hθ
   have hbot : J.map θ = ⊥ := perm5_normal_eq_bot_of_odd_cv (J.map θ) hnodd
   intro x hx
   rw [MonoidHom.mem_ker]
@@ -125,7 +125,7 @@ theorem le_ker_of_odd_index_cv {X : Type} [Group X] [Finite X] (θ : X →* Equi
 theorem le_ker_of_pgroup_normal_cv {X : Type} [Group X] (θ : X →* Equiv.Perm (Fin 5))
     (hθ : Function.Surjective θ) {S : Subgroup X} [hS : S.Normal]
     (hS2 : ∀ x ∈ S, ∃ k : ℕ, x ^ 2 ^ k = 1) : S ≤ θ.ker := by
-  haveI : (S.map θ).Normal := hS.map θ hθ
+  have : (S.map θ).Normal := hS.map θ hθ
   have hbot : S.map θ = ⊥ := by
     refine perm5_normal_eq_bot_of_pgroup_cv (S.map θ) ?_
     intro y hy
@@ -142,10 +142,10 @@ theorem kerIn_subgroupOf_le_ker_cv {G : Type} [Group G] [Finite G] {H T M : Subg
     (hmp : CFSG.Quasithin.MinParabolic H T M) (θ : ↥H →* Equiv.Perm (Fin 5))
     (hθ : Function.Surjective θ) :
     (CFSG.Quasithin.kerIn M H).subgroupOf H ≤ θ.ker := by
-  haveI hSn : ((CFSG.Open.pCoreOf 2 H).subgroupOf H).Normal :=
+  have hSn : ((CFSG.Open.pCoreOf 2 H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (CFSG.LieType.BorelTits.pCoreOf_le 2 H)).2
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H)
-  haveI hJn : ((CFSG.Quasithin.kerIn M H).subgroupOf H).Normal :=
+  have hJn : ((CFSG.Quasithin.kerIn M H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hmp.kerIn_le_H).2
       (CFSG.Quasithin.le_normalizer_kerIn M H)
   have hS2 : ∀ x ∈ (CFSG.Open.pCoreOf 2 H).subgroupOf H, ∃ k : ℕ, x ^ 2 ^ k = 1 := by

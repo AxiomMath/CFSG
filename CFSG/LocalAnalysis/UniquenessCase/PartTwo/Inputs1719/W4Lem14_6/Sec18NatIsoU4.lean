@@ -24,8 +24,8 @@ private theorem exists_statedSU_natTransport {K₁ K₂ : Type} [Field K₁] [Fi
         B (natAct (StatedSU n q K₁) γ x) =
           natAct (StatedSU n q K₂) (χ γ) (B x) := by
   classical
-  letI : Fintype K₁ := Fintype.ofFinite K₁
-  letI : Fintype K₂ := Fintype.ofFinite K₂
+  let : Fintype K₁ := Fintype.ofFinite K₁
+  let : Fintype K₂ := Fintype.ofFinite K₂
   obtain ⟨σ, -⟩ : ∃ σ : K₁ ≃+* K₂, True :=
     ⟨CFSG.ClassicalInvolution.Upgrade.fieldIsoOfCard hcard, trivial⟩
   have hmap : (StatedSU n q K₁).map
@@ -60,7 +60,7 @@ private theorem exists_natAct_intertwine_statedSU {K : Type} [Field K] [Finite K
   classical
   have hfield : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
     ⟨Nat.prime_two, hn, by rw [hK, pow_two, ← pow_add]; congr 1; omega⟩
-  haveI : CharP K 2 := hfield.charP
+  have : CharP K 2 := hfield.charP
   have hbot : (StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 (2 ^ n) K) = ⊥ :=
     CFSG.SectionRank.EvenCover.statedScalars_subgroupOf_statedSU_four_eq_bot (K := K) (2 ^ n)
   let eP : StatedProj (StatedSU 4 (2 ^ n) K) ≃* ↥(StatedSU 4 (2 ^ n) K) :=
@@ -104,8 +104,7 @@ private theorem exists_natAct_intertwine_statedSU {K : Type} [Field K] [Finite K
     intro w
     exact funext fun i => RingHom.map_mulVec (σ : K →+* K) M w i
   have hBB : (B⁻¹ : Matrix (Fin 4) (Fin 4) K) * (B : Matrix (Fin 4) (Fin 4) K) = 1 := by
-    simpa [Units.val_mul] using
-      congrArg (fun u : GL (Fin 4) K => (u : Matrix (Fin 4) (Fin 4) K)) (inv_mul_cancel B)
+    simp
   have hkey : (((α γ : StatedSU 4 (2 ^ n) K) : GL (Fin 4) K) :
         Matrix (Fin 4) (Fin 4) K) *
       (B : Matrix (Fin 4) (Fin 4) K) =
@@ -133,10 +132,10 @@ theorem k146NatIsoU4_holds : K146NatIsoU4 := by
   rcases hdisj with ⟨hI, hJ⟩ | ⟨hI, hJ⟩
   · obtain ⟨K₁, hKf₁, hKfin₁, hcard₁, hreal₁⟩ := hI
     obtain ⟨K₂, hKf₂, hKfin₂, hcard₂, hreal₂⟩ := hJ
-    letI := hKf₁
-    letI := hKfin₁
-    letI := hKf₂
-    letI := hKfin₂
+    let := hKf₁
+    let := hKfin₁
+    let := hKf₂
+    let := hKfin₂
     obtain ⟨π₁, hπ₁⟩ := hreal₁
     obtain ⟨π₂, hπ₂⟩ := hreal₂
     have hinj₁ := FFModel.RealizesVia.injective_of_faithful_on (FFModel.nat_faithful _) hπ₁
@@ -164,10 +163,10 @@ theorem k146NatIsoU4_holds : K146NatIsoU4 := by
       CFSG.LocalAnalysis.UniquenessCase.PartTwo.S18.k_Omega6Minus_natIsoMod_holds L I J n hI hJ
     obtain ⟨-, K₁, hKf₁, hKfin₁, b₁, c₁, hcard₁, hirr₁, hreal₁⟩ := hI
     obtain ⟨-, K₂, hKf₂, hKfin₂, b₂, c₂, hcard₂, hirr₂, hreal₂⟩ := hJ
-    letI := hKf₁
-    letI := hKfin₁
-    letI := hKf₂
-    letI := hKfin₂
+    let := hKf₁
+    let := hKfin₁
+    let := hKf₂
+    let := hKfin₂
     obtain ⟨π₁, hπ₁⟩ := hreal₁
     obtain ⟨π₂, hπ₂⟩ := hreal₂
     have hsI : StableUnder L I := fun x hx => hπ₁.2.2.2.1 ⟨x, hx⟩

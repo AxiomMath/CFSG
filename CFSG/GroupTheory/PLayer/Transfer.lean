@@ -32,7 +32,7 @@ theorem glaPLayer_ne_bot_iff_map_ne_bot_of_coprime_ker {p : ℕ} (hp : p.Prime)
         apply Subgroup.map_injective J.subtype_injective
         change GLAPPrimeCoreOf p J = (⊤ : Subgroup ↥J).map J.subtype
         rw [hself, Subgroup.map_top, Subgroup.range_subtype]
-      haveI : Subsingleton (PQuot p J) := by
+      have : Subsingleton (PQuot p J) := by
         change Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J)
         rw [hcore]
         exact QuotientGroup.subsingleton_quotient_top
@@ -59,7 +59,7 @@ theorem glaPLayer_ne_bot_iff_map_ne_bot_of_coprime_ker {p : ℕ} (hp : p.Prime)
 theorem zpowers_inf_eq_bot_of_not_mem {p : ℕ} (hp : p.Prime) {b : G}
     (hbp : b ^ p = 1) (hb1 : b ≠ 1) {H : Subgroup G} (hbH : b ∉ H) :
     Subgroup.zpowers b ⊓ H = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbord : orderOf b = p := orderOf_eq_prime hbp hb1
   rw [eq_bot_iff]
   intro x hx
@@ -78,6 +78,7 @@ theorem zpowers_inf_eq_bot_of_not_mem {p : ℕ} (hp : p.Prime) {b : G}
     exact Subgroup.mem_zpowers b
   exact hbH ((Subgroup.zpowers_le.2 hx.2) hb_mem)
 
+omit [Finite G] in
 theorem card_sup_sup_mul_card_inf_eq {A C Z : Subgroup G}
     (hCA : C ≤ Subgroup.normalizer (A : Set G))
     (hZ : Z ≤ Subgroup.normalizer ((A ⊔ C : Subgroup G) : Set G))

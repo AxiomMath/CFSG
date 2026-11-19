@@ -49,7 +49,7 @@ theorem s16t3_natural_normal_form {n : ℕ} {H : Subgroup (MulAut W)} {U Z : Sub
       obtain ⟨u, hu⟩ := hfs (Multiplicative.ofAdd v)
       have hu' : ((π x : ↥H) : MulAut W) (u : W) ∈ U := by
         rw [hx]
-        simpa using u.2
+        simp
       have h1 := hEq x u hu'
       have hval : ((π x : ↥H) : MulAut W) (u : W) = (u : W) := by
         rw [hx]

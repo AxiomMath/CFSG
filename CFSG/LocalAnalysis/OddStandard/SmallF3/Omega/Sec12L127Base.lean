@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 theorem sec127_betaOf_of_mem {V : Subgroup G} {n : G} (hn : n ∈ normalizer (V : Set G)) :
     betaOf V n = V.normalizerMonoidHom ⟨n, hn⟩ := by
   unfold betaOf
-  rw [dif_pos hn]
+  rw [dite_eq_left hn]
 
 theorem sec127_betaOf_apply {V : Subgroup G} {n : G} (hn : n ∈ normalizer (V : Set G))
     (v : ↥V) : ((betaOf V n v : ↥V) : G) = n * v * n⁻¹ := by

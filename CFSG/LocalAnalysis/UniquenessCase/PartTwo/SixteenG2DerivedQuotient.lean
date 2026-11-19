@@ -103,7 +103,7 @@ theorem s168e3_g2_quotient_data
       (N := Mbar D.M V₀ V hV) hnorm Nat.prime_three
     rw [hcentH, inf_bot_eq, s13_Rank13_pRank_bot Nat.prime_three, Nat.zero_add] at h
     have haut := s16k_pRank_aut_u33 hB42 Nat.prime_three (by norm_num)
-    rw [if_pos rfl] at haut
+    rw [ite_eq_left rfl] at haut
     exact h.trans haut
   have hsig : D.sig = {3} := by
     refine c.sig_eq_singleton_of_pRank_lt_two 3 ?_
@@ -112,7 +112,7 @@ theorem s168e3_g2_quotient_data
       (N := Mbar D.M V₀ V hV) hnorm hq
     rw [hcentH, inf_bot_eq, s13_Rank13_pRank_bot hq, Nat.zero_add] at h
     have haut := s16k_pRank_aut_u33 hB42 hq hq2
-    rw [if_neg hq3] at haut
+    rw [ite_eq_right hq3] at haut
     omega
   have hM3 : CFSG.Open.pRank 3 D.M = 3 :=
     c.std.pRank_eq_three (p := 3) (by rw [hsig]; exact Set.mem_singleton 3)

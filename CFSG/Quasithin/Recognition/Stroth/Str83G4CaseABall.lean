@@ -15,6 +15,7 @@ open CFSG.Quasithin.F112R
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 theorem caseA_X_le_Qy {k : ℕ} (hb : caseABoundAt L1 L2 S k) {α ε : f112Gamma L1 L2 S}
     (hα : CosetGeom.vtype α = false) (hd : CosetGeom.dist α ε + 1 ≤ k) :
     caseAX α ≤ CosetGeom.Qy ε := by
@@ -29,6 +30,7 @@ theorem caseA_X_le_Qy {k : ℕ} (hb : caseABoundAt L1 L2 S k) {α ε : f112Gamma
   have hwα : CosetGeom.dist w α = 1 := CosetGeom.dist_eq_one_iff_adj.mpr hw.symm
   omega
 
+omit [Finite G] in
 theorem caseA_R_le_Qy {k : ℕ} (hb : caseABoundAt L1 L2 S k) {β ε : f112Gamma L1 L2 S}
     (hβ : CosetGeom.vtype β = true) (hd : CosetGeom.dist β ε + 2 ≤ k) :
     caseAR β ≤ CosetGeom.Qy ε := by
@@ -43,8 +45,9 @@ theorem caseA_R_le_Qy {k : ℕ} (hb : caseABoundAt L1 L2 S k) {β ε : f112Gamma
   have hwβ : CosetGeom.dist w β = 1 := CosetGeom.dist_eq_one_iff_adj.mpr hw.symm
   omega
 
+omit [Finite G] in
 theorem caseA_commute_Z {k : ℕ} (hb : caseABoundAt L1 L2 S k) {β β' : f112Gamma L1 L2 S}
-    (hβ : CosetGeom.vtype β = true) (hβ' : CosetGeom.vtype β' = true)
+    (hβ : CosetGeom.vtype β = true) (_hβ' : CosetGeom.vtype β' = true)
     (h : CosetGeom.dist β β' ≤ k) {x y : (f112Amalgam L1 L2 S).Ghat}
     (hx : x ∈ caseAZ β) (hy : y ∈ caseAZ β') : Commute x y := by
   have hxQ : x ∈ CosetGeom.Qy β' := hb β β' hβ h hx

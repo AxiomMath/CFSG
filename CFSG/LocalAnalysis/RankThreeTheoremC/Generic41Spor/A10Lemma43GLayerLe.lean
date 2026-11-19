@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem a10t1_ll_le_of_fiveElt {X : Type} [Group X] [Finite X] {C K : Subgroup X}
     (hC : CFSG.IsPComponent 5 C)
     (hK : ∀ g ∈ C, (∃ k : ℕ, g ^ 5 ^ k = 1) → g ∈ K) : C ≤ K := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have htop := CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual_eq_top_of_pComponent
     5 C hC
   rw [CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual_eq_closure] at htop
@@ -48,7 +48,7 @@ theorem a10_layer_le {W O N D E₁ E₂ : Subgroup G} (h : A10EData W O N D E₁
     (hc₁ : GLAPComponent 5 W E₁) (hc₂ : GLAPComponent 5 W E₂) {C : Subgroup G}
     (hC : GLAPComponent 5 W C) : C = E₁ ∨ C = E₂ := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hCW : C ≤ W := hC.1
   have hE₁W : E₁ ≤ W := hc₁.1
   have hE₂W : E₂ ≤ W := hc₂.1
@@ -59,10 +59,10 @@ theorem a10_layer_le {W O N D E₁ E₂ : Subgroup G} (h : A10EData W O N D E₁
     ((CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hc₁).2
   have hE₂' : CFSG.IsPComponent 5 (E₂.subgroupOf W) :=
     ((CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hc₂).2
-  haveI hEsn : ((E₁ ⊔ E₂).subgroupOf W).Normal :=
+  have hEsn : ((E₁ ⊔ E₂).subgroupOf W).Normal :=
     ⟨fun n hn g => h.base.E_norm g g.2 n hn⟩
-  haveI hNsn : (N.subgroupOf W).Normal := ⟨fun n hn g => h.kd.N_norm g g.2 n hn⟩
-  haveI hDcyc : IsCyclic ↥D := h.kd.D_cyc
+  have hNsn : (N.subgroupOf W).Normal := ⟨fun n hn g => h.kd.N_norm g g.2 n hn⟩
+  have hDcyc : IsCyclic ↥D := h.kd.D_cyc
   have hperf : ⁅C.subgroupOf W, C.subgroupOf W⁆ = C.subgroupOf W :=
     Subgroup.isPerfect_iff.1
       (CFSG.ComponentClassification.CatalogueBAlternating.pComponent_perfect hC')
@@ -133,7 +133,7 @@ theorem a10_layer_abstract {W O N D E₁ E₂ : Subgroup G} (h : A10EData W O N 
   refine ⟨hc₁, hc₂, hne, ?_, hA₁, hA₂⟩
   have hset : {L : Subgroup G | GLAPComponent 5 W L} = {E₁, E₂} := by
     ext L
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · intro hL
       exact a10_layer_le h hc₁ hc₂ hL

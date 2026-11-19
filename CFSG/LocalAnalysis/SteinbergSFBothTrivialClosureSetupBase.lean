@@ -92,13 +92,13 @@ theorem exists_sylow_le_two (hτK : τ ∈ centralizer (K : Set M)) (hτ2 : τ *
   have hτP : τ' ∈ P := hP (mem_zpowers τ')
   refine ⟨P, hτP, ?_⟩
   set PM := (P : Subgroup Y).map Y.subtype with hPM
-  have hPM2 : IsPGroup 2 PM := P.isPGroup'.map _
+  have hPM2 : IsPGroup 2 PM := P.isPGroup.map _
   have hPMY : PM ≤ Y := map_subtype_le _
   have hcard : Nat.card PM = Nat.card P := card_map_of_injective Y.subtype_injective
   have hC0 : Nat.card (PM ⊓ centralizer ({τ} : Set M) : Subgroup M) ≤ 2 :=
     h2 _ (le_inf inf_le_right (inf_le_left.trans hPMY)) (hPM2.to_le inf_le_left)
   have : Nontrivial P := ⟨⟨⟨τ', hτP⟩, 1, fun e => hτ'1 (congrArg Subtype.val e)⟩⟩
-  have : Nontrivial (center P) := P.isPGroup'.center_nontrivial
+  have : Nontrivial (center P) := P.isPGroup.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : center P)
   have hzc : ∀ x : P, x * z = z * x := mem_center_iff.mp z.2
   have hzτ : ((((z : P) : Y) : M)) = τ := by

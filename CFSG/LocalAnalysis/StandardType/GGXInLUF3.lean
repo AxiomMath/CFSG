@@ -103,10 +103,12 @@ private lemma frame3Aux_mat_cube_mem_scalars
   exact GGL45TG.SU.mem_scalars_of_commute_su (n := 1) (d := n) h hd ((F.mat b) ^ 3)
     (fun g hg => hcomm ⟨g, hg⟩)
 
-private def frame3Aux_fieldData (M : lup8f_UnitaryMarking Bs L n K) :
+omit [Finite G] in
+private theorem frame3Aux_fieldData (M : lup8f_UnitaryMarking Bs L n K) :
     UnitaryFieldData 2 1 K :=
   ⟨Nat.prime_two, le_rfl, by rw [M.card_K]; norm_num⟩
 
+omit [Finite G] in
 private lemma frame3Aux_mat_mem_unitary (M : lup8f_UnitaryMarking Bs L n K)
     (C : lup8f_CentralCover (lup8f_HT L Bs) (lup8f_L' L Bs) (lup8f_E' L Bs)) [C.N.Normal]
     (F : lup8f_UFrame2 (lup8f_HT L Bs) C.N (lup8f_L' L Bs) (lup8f_E' L Bs) n K)
@@ -127,6 +129,7 @@ private lemma frame3Aux_mat_mem_unitary (M : lup8f_UnitaryMarking Bs L n K)
   rw [mem_primeFormUnitary, hbar]
   simpa [idGram, hμ1] using hμ
 
+omit [Finite G] in
 private lemma frame3Aux_mem_GUSet_of_mem_unitary (M : lup8f_UnitaryMarking Bs L n K)
     {P : GL (Fin n) K} (hP : P ∈ primeFormUnitary (frame3Aux_fieldData M) (idGram K n)) :
     P ∈ LargeEvenGUSet (Fin n) K 2 := by
@@ -138,6 +141,7 @@ private lemma frame3Aux_mem_GUSet_of_mem_unitary (M : lup8f_UnitaryMarking Bs L 
   refine ⟨1, one_ne_zero, by norm_num, ?_⟩
   simpa [LargeEvenGUSet, idGram, one_smul] using hP
 
+omit [Finite K] in
 private lemma frame3Aux_diag_of_isDiag (g : GL (Fin n) K)
     (hM : ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).IsDiag) :
     ∃ σ : Fin n → Kˣ,
@@ -150,6 +154,7 @@ private lemma frame3Aux_diag_of_isDiag (g : GL (Fin n) K)
     exact CFSG.StandardType.TypeA.PGLTor.diag_ne_zero_of_eq_diagonal (D := g) hd i
   exact ⟨fun i => Units.mk0 _ (hne i), hd⟩
 
+omit [Finite G] in
 private lemma frame3Aux_caseB (M : lup8f_UnitaryMarking Bs L n K)
     (C : lup8f_CentralCover (lup8f_HT L Bs) (lup8f_L' L Bs) (lup8f_E' L Bs)) [C.N.Normal]
     (F : lup8f_UFrame2 (lup8f_HT L Bs) C.N (lup8f_L' L Bs) (lup8f_E' L Bs) n K)
@@ -175,16 +180,18 @@ private lemma frame3Aux_caseB (M : lup8f_UnitaryMarking Bs L n K)
   obtain ⟨σ, hσ⟩ := frame3Aux_diag_of_isDiag (P⁻¹ * F.mat b * P) (hPd (F.mat b) ⟨b, rfl⟩)
   exact ⟨σ, by simpa only [Units.val_mul] using hσ⟩
 
+omit [Finite G] in
 private lemma frame3Aux_card_units (M : lup8f_UnitaryMarking Bs L n K) : Nat.card Kˣ = 3 := by
   rw [Nat.card_units, M.card_K]
 
+omit [Finite G] in
 private lemma frame3Aux_no_cube_root (M : lup8f_UnitaryMarking Bs L n K) {u : Kˣ} (hu1 : u ≠ 1) :
     ∀ μ : K, μ ^ 3 ≠ (u : K) := by
   intro μ hμ
   have hcard : Nat.card Kˣ = 3 := frame3Aux_card_units M
   by_cases hμ0 : μ = 0
   · rw [hμ0] at hμ
-    simp only [Nat.cast_ofNat, ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow] at hμ
+    simp only [ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow] at hμ
     exact (Units.ne_zero u) hμ.symm
   · let μu : Kˣ := Units.mk0 μ hμ0
     have h3 : μ ^ 3 = 1 := by
@@ -213,6 +220,7 @@ private def frame3Aux_Hp
     Subgroup ↥(frame3Aux_Gp (n := n) (K := K)) :=
   Subgroup.closure (Set.range (frame3Aux_gen C F))
 
+omit [Finite G] in
 private lemma frame3Aux_Hp_comm
     (C : lup8f_CentralCover (lup8f_HT L Bs) (lup8f_L' L Bs) (lup8f_E' L Bs)) [C.N.Normal]
     (F : lup8f_UFrame2 (lup8f_HT L Bs) C.N (lup8f_L' L Bs) (lup8f_E' L Bs) n K) :
@@ -322,6 +330,7 @@ private lemma frame3Aux_caseC_lift
   · intro a h
     simpa [gl] using hg a
 
+omit [Finite G] in
 private lemma frame3Aux_caseC_count
     (C : lup8f_CentralCover (lup8f_HT L Bs) (lup8f_L' L Bs) (lup8f_E' L Bs)) [C.N.Normal]
     [CharP K 2]
@@ -364,6 +373,7 @@ private lemma frame3Aux_caseC_count
     (F := K) (N := n) (p := 3) Nat.prime_three (by norm_num : (3 : ℕ) ≠ 2)
     (F.mat b0) u hu_eq hu gl hcomm hga hpow hginj
 
+omit [Finite G] in
 private lemma frame3Aux_caseC_contra
     (C : lup8f_CentralCover (lup8f_HT L Bs) (lup8f_L' L Bs) (lup8f_E' L Bs)) [C.N.Normal]
     (F : lup8f_UFrame2 (lup8f_HT L Bs) C.N (lup8f_L' L Bs) (lup8f_E' L Bs) n K)
@@ -385,7 +395,7 @@ private lemma frame3Aux_caseC
     (hp : p = 3) (hn : 6 ≤ n)
     (b0 : ↥(lup8f_E' L Bs)) (hb0 : (F.mat b0) ^ 3 ≠ 1) : False := by
   classical
-  haveI : CharP K 2 := (frame3Aux_fieldData M).charP
+  have : CharP K 2 := (frame3Aux_fieldData M).charP
   have hmem := frame3Aux_mat_cube_mem_scalars hS M C F hp hn b0
   rw [CFSG.Assembly.largeEvenScalars_def, MonoidHom.mem_range] at hmem
   obtain ⟨u, hu_eq⟩ := hmem
@@ -403,11 +413,11 @@ private lemma frame3Aux_caseC
 
 end Frame3Aux
 
-noncomputable def lup8f_frame3 (hS : GGQTwoSetting p B Bs x L D J) (hxL : x ∈ L)
+noncomputable def lup8f_frame3 (hS : GGQTwoSetting p B Bs x L D J) (_hxL : x ∈ L)
     (M : lup8f_UnitaryMarking Bs L n K)
     (C : lup8f_CentralCover (lup8f_HT L Bs) (lup8f_L' L Bs) (lup8f_E' L Bs)) [C.N.Normal]
     (F : lup8f_UFrame2 (lup8f_HT L Bs) C.N (lup8f_L' L Bs) (lup8f_E' L Bs) n K)
-    (hp : p = 3) (hdvd : 3 ∣ n) (hn : 6 ≤ n) :
+    (hp : p = 3) (_hdvd : 3 ∣ n) (hn : 6 ≤ n) :
     lup8f_UFrame3 (lup8f_HT L Bs) C.N (lup8f_L' L Bs) (lup8f_E' L Bs) n K := by
   classical
   by_cases hB : ∀ b : ↥(lup8f_E' L Bs), (F.mat b) ^ 3 = 1

@@ -439,7 +439,7 @@ theorem ip_T_normal_twisted (h : SitFacts x Kb e N T) (hrk : Rank2Le (Cx x) 3) (
 omit [Finite G] [Kb.Normal] in
 theorem orderOf_NT (a : MulAut ↥Kb) (ha : a ∈ (N.T : Subgroup (MulAut ↥Kb))) :
     ∃ m : ℕ, orderOf a = 2 ^ m := by
-  have hp : IsPGroup 2 ↥(N.T : Subgroup (MulAut ↥Kb)) := N.T.isPGroup'
+  have hp : IsPGroup 2 ↥(N.T : Subgroup (MulAut ↥Kb)) := N.T.isPGroup
   obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.1 hp) ⟨a, ha⟩
   exact ⟨m, by rw [← hm]; exact Subgroup.orderOf_coe (⟨a, ha⟩ : ↥(N.T : Subgroup _))⟩
 

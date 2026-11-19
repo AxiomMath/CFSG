@@ -92,7 +92,7 @@ theorem forSl_spec {H D : Nat → Nat} {lo len : Nat} (h : forSl H D lo len = tr
   have e : Nat.add lo (q - lo) = q := by
     change lo + (q - lo) = q
     omega
-  rw [e, bIf_eq, if_pos (by simpa [Nat.blt_eq] using hq)] at h'
+  rw [e, bIf_eq, ite_eq_left (by simpa [Nat.blt_eq] using hq)] at h'
   exact h'
 
 theorem shiftRight_three (k : Nat) : Nat.shiftRight k (nat_lit 3) = k / 8 :=
@@ -117,7 +117,7 @@ theorem lgK_spec {D : Nat → Nat} (h : lgK D = true) {k : Nat} (hk : k < 144) :
       have := beq_true hb
       rw [land_seven] at this
       exact h7 this
-    rw [if_neg hb] at h3
+    rw [ite_eq_right hb] at h3
     exact blt_true h3
 
 theorem trK_spec {A : Nat → Nat → Nat} {ok : Nat → Bool} {D : Nat → Nat} {o r n : Nat}
@@ -134,10 +134,10 @@ theorem trK_spec {A : Nat → Nat → Nat} {ok : Nat → Bool} {D : Nat → Nat}
   · have hb : Nat.beq k 0 = true := by
       rw [h0]
       rfl
-    rw [if_pos hb] at h2
+    rw [ite_eq_left hb] at h2
     exact beq_true h2
   · have hb : ¬ Nat.beq k 0 = true := fun hb => h0 (beq_true hb)
-    rw [if_neg hb, strictB_eq, strictB_eq, bAnd_eq, bAnd_eq] at h2
+    rw [ite_eq_right hb, strictB_eq, strictB_eq, bAnd_eq, bAnd_eq] at h2
     simp only [Bool.and_eq_true] at h2
     obtain ⟨ha, hb', hc⟩ := h2
     exact ⟨blt_true ha, hb', beq_true hc⟩
@@ -153,7 +153,7 @@ theorem srtK_spec {D : Nat → Nat} {o s n : Nat} (h : srtK D o s n = true) {j :
     bIf_eq] at h'
   obtain ⟨h1, h2, h3⟩ := h'
   refine ⟨blt_true h1, beq_true h2, fun hj1 => ?_⟩
-  rw [if_pos (by simpa [Nat.blt_eq] using hj1)] at h3
+  rw [ite_eq_left (by simpa [Nat.blt_eq] using hj1)] at h3
   exact blt_true h3
 
 theorem memL_iff (p : Nat) : ∀ s : List Nat, memL p s = true ↔ p ∈ s
@@ -165,7 +165,7 @@ theorem memL_iff (p : Nat) : ∀ s : List Nat, memL p s = true ↔ p ∈ s
     · subst hp
       simp
     · have hb : ¬ Nat.beq p a = true := fun hb => hp (beq_true hb)
-      rw [if_neg hb]
+      rw [ite_eq_right hb]
       simp [hp]
 
 theorem mapsL_iff (f : Nat → Nat) (t : List Nat) : ∀ s : List Nat,

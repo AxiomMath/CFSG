@@ -21,6 +21,7 @@ theorem z18_lam_mem_M (h : L41GPh14 t L S x₁ x₂ lam rho) : lam ∈ l41M t x�
   rw [h.qfacts.M_eq]
   exact Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
 
+omit [Finite G] in
 theorem z18_t_mem_M (t x₁ x₂ rho : G) : t ∈ l41M t x₁ x₂ rho :=
   Subgroup.le_normalizer (Subgroup.mem_sup_right (Subgroup.mem_zpowers t))
 

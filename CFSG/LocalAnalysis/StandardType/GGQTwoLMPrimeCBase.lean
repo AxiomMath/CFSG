@@ -13,6 +13,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem qTwoLMPrimeC_base_card_outer_centerQuot {L : Subgroup G} {m : ℕ}
     (h3 : ¬ 3 ∣ m) (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1) :
     Nat.card (Outer (L ⧸ Subgroup.center L)) = 2 := by
@@ -64,7 +65,7 @@ theorem qTwoLMPrimeC_inner {B Bs L : Subgroup G} {x : G} {m : ℕ} (hG : GGThmIH
     change (ggGamma L hN β) ^ 3 = 1
     rw [← map_pow, hβ3, map_one]
   have hcard_dvd : Nat.card (Outer ↥L) ∣ 2 := by
-    haveI : Group.IsPerfect ↥L := ⟨qTwoLMFrameC_perfect hG⟩
+    have : Group.IsPerfect ↥L := ⟨qTwoLMFrameC_perfect hG⟩
     have h1 := Subgroup.card_dvd_of_injective (centerQuotientOuterHom ↥L)
       (centerQuotient_outer_injective ↥L)
     rwa [qTwoLMPrimeC_base_card_outer_centerQuot h3 hL] at h1

@@ -11,7 +11,7 @@ open scoped Pointwise
 
 theorem burnsideA315y_cartan : burnsideA315y_CartanStatement := by
   intro X _ _ p hp L I U Q hLI hU hpLI hQI hQN hpQ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hUL, hUp, hpUL⟩ := hU
   set M : Subgroup X := I ⊓ Subgroup.normalizer (U : Set X) with hMdef
   have hUM : U ≤ M := le_inf (hUL.trans hLI) Subgroup.le_normalizer
@@ -30,7 +30,7 @@ theorem burnsideA315y_cartan : burnsideA315y_CartanStatement := by
     rw [ha]
     exact Nat.Coprime.pow_left a ((Nat.Prime.coprime_iff_not_dvd hp).2 hn)
   set N : Subgroup ↥M := U.subgroupOf M with hNdef
-  haveI hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUM).2 inf_le_right
+  have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUM).2 inf_le_right
   have hNcard : Nat.card ↥N = Nat.card ↥U :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUM).toEquiv
   have hcopM : Nat.Coprime (Nat.card ↥N) N.index := by
@@ -59,10 +59,10 @@ theorem burnsideA315y_cartan : burnsideA315y_CartanStatement := by
     (Subgroup.set_mul_normalizer_comm (Q : Set X) U (fun x hx => hQN hx)).symm
   have hTcard : Nat.card ↥T = Nat.card ↥U * Nat.card ↥Q := burnsideA315x_card_sup hperm hUQbot
   set NT : Subgroup ↥T := U.subgroupOf T with hNTdef
-  haveI : NT.Normal :=
+  have : NT.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUT).2 (sup_le Subgroup.le_normalizer hQN)
   have eNT : ↥NT ≃* ↥U := Subgroup.subgroupOfEquivOfLe hUT
-  haveI : Group.IsNilpotent ↥NT := (hUp.of_equiv eNT.symm).isNilpotent
+  have : Group.IsNilpotent ↥NT := (hUp.of_equiv eNT.symm).isNilpotent
   have hNTsolv : Group.IsSolvable ↥NT := inferInstance
   have hNTcard : Nat.card ↥NT = Nat.card ↥U := Nat.card_congr eNT.toEquiv
   have hNTidx : NT.index = Nat.card ↥Q := by

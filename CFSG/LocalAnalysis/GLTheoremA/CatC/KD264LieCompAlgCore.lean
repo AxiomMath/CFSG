@@ -113,7 +113,7 @@ theorem card_eq_card_centerQuotient_mul_card_center_of_surjective {G K : Type*} 
     [Group K] (hperf : commutator G = ⊤) (f : G →* K) (hf : Function.Surjective f)
     (hker : f.ker ≤ Subgroup.center G) :
     Nat.card G = Nat.card (K ⧸ Subgroup.center K) * Nat.card (Subgroup.center G) := by
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center G),
     Nat.card_congr
       (CFSG.ComponentClassification.PerfectCentralQuotient.equivalence f hf hker).toEquiv]
@@ -126,7 +126,7 @@ theorem pow_dvd_card_centerQuotient_of_surjective_specialLinear {E : Type} [Fiel
     2 ^ (e * (m * (m - 1) / 2)) ∣ Nat.card (K ⧸ Subgroup.center K) := by
   classical
   let G := SpecialLinearGroup (Fin m) E
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   have heven : Even (Nat.card E) := by
     rw [hE]
     exact (Nat.even_pow' (by omega : e ≠ 0)).mpr even_two
@@ -155,10 +155,10 @@ theorem pow_dvd_card_centerQuotient_of_surjective_statedSU {E : Type} [Field E] 
     2 ^ (f * (m * (m - 1) / 2)) ∣ Nat.card (T ⧸ Subgroup.center T) := by
   classical
   let G := ↥(StatedSU m (2 ^ f) E)
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hE
-  haveI := hchar
+  have := hchar
   have hUF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f E :=
     CFSG.RankThree.PartOne.KFU.unitaryFieldData_two hE (by omega)
   have hq8 : 8 ≤ 2 ^ f := by
@@ -220,7 +220,7 @@ theorem card_centerQuotient_eq_504_of_surjective_SL_two {F : Type} [Field F] [Fi
     j = 1 ∧ Nat.card (T ⧸ Subgroup.center T) = 504 := by
   classical
   let G := SpecialLinearGroup (Fin 2) F
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   have hdvd : 2 ^ (3 * j) ∣ Nat.card (T ⧸ Subgroup.center T) := by
     simpa using pow_dvd_card_centerQuotient_of_surjective_specialLinear (E := F) (m := 2)
       (e := 3 * j) (by norm_num) (by omega) hF g hg hker hperf
@@ -261,13 +261,13 @@ theorem card_centerQuotient_statedSU_three_eight {E : Type} [Field E] [Finite E]
     Nat.card (T ⧸ Subgroup.center T) = 5515776 := by
   classical
   let G := ↥(StatedSU 3 8 E)
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h8 : (2 : ℕ) ^ 3 = 8 := by norm_num
   have hE8 : Nat.card E = (2 ^ 3) ^ 2 := by rw [hE]; norm_num
   have hchar : CharP E 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 3) hE8
-  haveI := hchar
+  have := hchar
   have hUF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 3 E :=
     CFSG.RankThree.PartOne.KFU.unitaryFieldData_two hE8 (by norm_num)
   have hne : (3, 2 ^ 3) ≠ (3, 2) := by norm_num
@@ -310,7 +310,7 @@ theorem card_centerQuotient_eq_5515776_of_surjective_statedSU {E : Type} [Field 
     m = 3 ∧ j = 1 ∧ Nat.card (T ⧸ Subgroup.center T) = 5515776 := by
   classical
   let G := ↥(StatedSU m (2 ^ (3 * j)) E)
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   have hdvd : 2 ^ (3 * j * (m * (m - 1) / 2)) ∣ Nat.card (T ⧸ Subgroup.center T) :=
     pow_dvd_card_centerQuotient_of_surjective_statedSU (f := 3 * j) hm (by omega) hE g hg hker
       hperf
@@ -371,7 +371,7 @@ theorem card_centerQuotient_SL_two_six {E : Type} [Field E] [Finite E]
     Nat.card (T ⧸ Subgroup.center T) = 262080 := by
   classical
   let G := SpecialLinearGroup (Fin 2) E
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   have hprod : ∏ i ∈ Finset.Icc 2 2, (64 ^ i - 1) = 4095 := by
     rw [Finset.Icc_self, Finset.prod_singleton]
     norm_num
@@ -400,7 +400,7 @@ theorem false_of_surjective_SL_of_card_eq_two_pow_six_mul {E : Type} [Field E] [
       Nat.card (T ⧸ Subgroup.center T) = 5515776) : False := by
   classical
   let G := SpecialLinearGroup (Fin m) E
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   have hE6 : Nat.card E = 2 ^ (6 * j) := by
     rw [hE, show 2 * (3 * j) = 6 * j by ring]
   have hdvd : 2 ^ (6 * j * (m * (m - 1) / 2)) ∣ Nat.card (T ⧸ Subgroup.center T) :=
@@ -597,7 +597,7 @@ theorem centerQuotientHom_mem_innAutDerived_of_primeFormConjSU {ℓ f N p : ℕ}
   let G := ↥(gramSU hE C)
   let Q := primeFormP hE C
   let ρ : G →* Q := QuotientGroup.mk' (normOneScalars hE (gramSU hE C) N)
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   have hρsurj : Function.Surjective ρ := QuotientGroup.mk'_surjective _
   have hρker : ρ.ker ≤ Subgroup.center G := by
     have hker_eq : ρ.ker = normOneScalars hE (gramSU hE C) N :=
@@ -620,7 +620,7 @@ theorem centerQuotientHom_mem_innAutDerived_of_primeFormConjSU {ℓ f N p : ℕ}
     rw [show (⁅(⊤ : Subgroup G), ⊤⁆ : Subgroup G) = ⊤ from hperf,
       Subgroup.map_top_of_surjective ρ hρsurj] at h
     exact h.symm
-  haveI : Group.IsPerfect Q := Group.isPerfect_def.mpr hQperf
+  have : Group.IsPerfect Q := Group.isPerfect_def.mpr hQperf
   have hcMp : (primeFormConjHom hE C M) ^ p = 1 := by
     apply CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective Q
     rw [map_pow, map_one]

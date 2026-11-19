@@ -26,9 +26,9 @@ theorem a10_false (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (
     (hI : KFactI1434) (hU : KFactU44Data) {P : Sylow 5 G} {M : Subgroup G} {x : G}
     {J : Subgroup G} (hX : A10Facts) (hXe : A10Ext) (hc : PointConfig IsA10Type G 5 P M x J) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hB := a10_fusion_core hS hD1 hU0 hK.sig hX hXe hc ψ hψ hker hQ
   obtain ⟨U, hUP, hγ⟩ := a10_plane hX hXe hc ψ hψ hker hQ
   have hL42i := a10_lemma42_i ψ hB hUP hγ

@@ -215,7 +215,7 @@ theorem f7_apT (R t : ℕ) {j : ℕ} (hj : j < 7) : f7 (apT R t) j = f7 R (f7 t 
   rw [f7_eq (apT R t), apT, orN_digit (fun i _ => f7_lt _ _) hj]
 
 theorem apT_lt (R t : ℕ) : apT R t < 2 ^ 49 :=
-  (orN_spec (n := 7) (w := 7) fun i _ => f7_lt _ _).2
+  (orN_spec (n := 7) (w := 7) fun _i _ => f7_lt _ _).2
 
 theorem keyRep_apT {R t : ℕ} {z y : WeylGroup .E7} (hR : RowRep R z) (ht : KeyRep t y) :
     KeyRep (apT R t) (z * y) := fun j hj => by
@@ -270,7 +270,7 @@ theorem rowRep_rowW : ∀ w : List ℕ, (∀ i ∈ w, i < 7) →
     obtain ⟨ih, -⟩ := rowRep_rowW w fun j hj => hw j (List.mem_cons_of_mem i hj)
     have e : toFinWord (τ := .E7) (i :: w) = (⟨i, hi⟩ : Fin Tag.E7.rank) :: toFinWord w := by
       have hi' : i < Tag.E7.rank := hi
-      simp [toFinWord, List.filterMap_cons, hi']
+      simp [toFinWord, hi']
     change RowRep (compL _ _) _ ∧ compL _ _ < _
     rw [compL_eq, e, CoxeterSystem.wordProd_cons]
     exact ⟨rowRep_comp (rowRep_simple hi) ih, comp_lt _ _⟩
@@ -369,7 +369,7 @@ theorem eq_zero_of_lin {v : Fin Tag.E7.rank → ℤ} (hv : ∀ j, |v j| ≤ 127)
   have h4 := abs_le.1 (hv ⟨4, by decide⟩)
   have h5 := abs_le.1 (hv ⟨5, by decide⟩)
   have h6 := abs_le.1 (hv ⟨6, by decide⟩)
-  simp only [Fin.val_mk] at h
+  simp only at h
   norm_num only at h
   funext j
   match j with
@@ -603,7 +603,6 @@ theorem testBit_posm (k : ℕ) : (posm (vrt e7Certificate.roots)).testBit k = tr
   rw [toN_eq_one, Nat.blt_eq, fld_vrt hk, lsum_nib hk, height_root]
   constructor
   · intro h
-    push_cast
     omega
   · intro h
     omega
@@ -790,7 +789,7 @@ theorem testBit_KB {RKF c d k : ℕ} :
   tauto
 
 theorem hardB_sound {row p F H : ℕ} {y : WeylGroup .E7} (hR : RowRep row y) (hyp : y ^ p = 1)
-    (hp : 0 < p) (hF : ∀ z, F.testBit z = true → z < 2187)
+    (hp : 0 < p) (_hF : ∀ z, F.testBit z = true → z < 2187)
     (h : hardB (vrt e7Certificate.roots) (krt (vrt e7Certificate.roots))
       (posm (vrt e7Certificate.roots)) row p F H = true)
     {f b : Fin Tag.E7.rank → ZMod 3} (hf : F.testBit (charN f) = true)
@@ -993,7 +992,7 @@ theorem sylK_facts {p n i0 : ℕ} {W : List (List ℕ)} {R : List ℕ} (hp : 0 <
     ?_⟩
   ·
     have htree := (hr i0 hi0).2.1
-    rw [if_pos rfl] at htree
+    rw [ite_eq_left rfl] at htree
     have := hy i0 hi0
     rw [htree] at this
     exact rowRep_unique this rowRep_idrow
@@ -1008,7 +1007,7 @@ theorem sylK_facts {p n i0 : ℕ} {W : List (List ℕ)} {R : List ℕ} (hp : 0 <
   ·
     intro i hi hii
     have htree := (hr i hi).2.1
-    rw [if_neg hii] at htree
+    rw [ite_eq_right hii] at htree
     obtain ⟨hl, hq, hd, hrow⟩ := htree
     refine ⟨_, hq, _, hl, ?_, ?_⟩
     · exact hdep i _ hq hd

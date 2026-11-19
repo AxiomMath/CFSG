@@ -123,7 +123,7 @@ theorem exists_fixed_orderOf_three_d4b {S : Type} [Group S] [Finite S] {K : Subg
     {x : MulAut S} (hxK : x ∈ CFSG.GroupActions.subgroupStabAut K) (hx3 : x ^ 3 = 1)
     (h3K : 3 ∣ Nat.card K) : ∃ y ∈ K, orderOf y = 3 ∧ x y = y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set α : MulAut K := CFSG.GroupActions.subgroupStabRestrict K ⟨x, hxK⟩ with hα
   have hα3 : α ^ 3 = 1 := by
     rw [hα, ← map_pow]
@@ -155,7 +155,7 @@ theorem exists_elemAbelian_twentySeven_d4b {S : Type} [Group S] [Finite S] {b : 
     (h3K : 3 ∣ Nat.card K) (h3K' : 3 ∣ Nat.card K') :
     ∃ A : Subgroup S, IsElemAbelian 3 A ∧ (∀ a ∈ A, x a = a) ∧ ¬ Nat.card A ≤ 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hyK, hy3, hxy⟩ := exists_fixed_orderOf_three_d4b hxK hx3 h3K
   obtain ⟨y', hy'K, hy'3, hxy'⟩ := exists_fixed_orderOf_three_d4b hxK' hx3 h3K'
   have hbc : ∀ g ∈ fixSubgroup (MulAut.conj b), b * g = g * b := by
@@ -302,8 +302,8 @@ variable {F : Type} [Field F] [Finite F]
 theorem exists_inv_conj_sl2_d4b (hF : Nat.card F = 2 ^ 3) {B : SL2 F} (hB3 : B ^ 3 = 1)
     (hB1 : B ≠ 1) : ∃ A : SL2 F, A * B * A⁻¹ = B⁻¹ ∧ A * A = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 3) (by norm_num) hF
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have htr := CFSG.HardMathSupport.Seitz.Proving.trace_eq_neg_one_of_cube hB3 hB1
@@ -325,7 +325,7 @@ theorem exists_inv_conj_sl2_d4b (hF : Nat.card F = 2 ^ 3) {B : SL2 F} (hB3 : B ^
       rw [h0] at hq
       norm_num at hq
     have hcard : Nat.card Fˣ = 7 := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hF]
       norm_num
     have h7 : a ^ 7 = 1 := by
@@ -605,8 +605,8 @@ theorem exists_inv_fix_d4b [Finite F] (hF : Nat.card F = 2 ^ 3) (hP : PGU38Order
       _ = x⁻¹ := by rw [hδx]; exact conj_inv_conj_of_fix_d4b hc
   rcases CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.OuterFourSeitz2.graphFix_cases hF hx3 hA
     with ⟨F', hF'f, hF'fin, hF'card, ⟨eG⟩⟩ | hPGU
-  · letI := hF'f
-    letI := hF'fin
+  · let := hF'f
+    let := hF'fin
     set eC : C ≃* adjointGroup Tag.G2 F' := (MulEquiv.subgroupCongr hfix).symm.trans eG with heC
     obtain ⟨-, Θ, -, -, hker, hinv⟩ :=
       CFSG.ComponentClassification.UnbalancedCatalog.even_G2_exact_automorphism_normal_form
@@ -667,7 +667,7 @@ theorem d4EightTrialityInnerPairs_of_pgu38 (hP : PGU38OrderThreeAutClasses) :
     D4EightTrialityInnerPairs := by
   intro F _ _ hF β hβmem hβ3 hβ1 K hK e he hiso x hxmem hx3 hβx hR hxstab
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : ringChar F = 2 :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.OuterFourSeitz.ringChar_eq_two_of_card hF
   have hZ : Subgroup.center (adjointGroup Tag.D4 F) = ⊥ := center_adjointGroup_eq_bot
@@ -723,7 +723,7 @@ theorem d4EightTrialityInnerPairs_of_pgu38 (hP : PGU38OrderThreeAutClasses) :
           Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 3) :=
         (eK.trans eP.symm).trans (QuotientGroup.quotientMulEquivOfEq
           (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.scalars_eq_center 2 _))
-      haveI : Finite ↥K := inferInstance
+      have : Finite ↥K := inferInstance
       have hZK : Subgroup.center ↥K = ⊥ :=
         CFSG.AGLEmbedding.L28Parabolic.center_eq_bot hK.2.2 ePSL
       have hZL : Subgroup.center ↥L = ⊥ := by

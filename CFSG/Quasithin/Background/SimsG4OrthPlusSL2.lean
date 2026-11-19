@@ -187,6 +187,7 @@ theorem eq_bot_of_isPGroup {L P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)
       exact ⟨x * p * x⁻¹, hPL x hx p hp, by simp only [map_mul, map_inv]⟩)
   exact (Subgroup.map_eq_bot_iff_of_injective _ Matrix.SpecialLinearGroup.toLin'_injective).mp h
 
+omit [CharP K 2] in
 theorem card_SL2 :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = Nat.card K * (Nat.card K ^ 2 - 1) := by
   have : Fintype K := Fintype.ofFinite K
@@ -198,6 +199,7 @@ theorem card_SL2 :
   have e1 : (k + 2) ^ 2 - (k + 2) = (k + 2) * (k + 1) := Nat.sub_eq_of_eq_add (by ring)
   rw [e1, show k + 2 - 1 = k + 1 by omega, ← mul_assoc, Nat.mul_div_cancel _ (by omega), mul_comm]
 
+omit [CharP K 2] in
 theorem odd_data_of_card_two (hK : Nat.card K = 2)
     (L : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)) :
     ∃ T : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K), (∀ a ∈ T, ∀ b ∈ T, a * b = b * a) ∧
@@ -206,7 +208,7 @@ theorem odd_data_of_card_two (hK : Nat.card K = 2)
   have h6 : Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = 6 := by
     rw [card_SL2, hK]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := Matrix.SpecialLinearGroup (Fin 2) K) 3
     (by rw [h6]; norm_num)
   set T₀ := Subgroup.zpowers g
@@ -234,6 +236,7 @@ theorem odd_data_of_card_two (hK : Nat.card K = 2)
     have := Subgroup.sq_mem_of_index_two hidx x
     rwa [sq] at this
 
+omit [CharP K 2] in
 theorem card_le_four (h : ∀ y : K, y ^ 4 = y) : Nat.card K ≤ 4 := by
   classical
   have : Fintype K := Fintype.ofFinite K
@@ -314,6 +317,7 @@ private noncomputable def toPSL :
       rw [CFSG.Timmesfeld.RankOne.center_SL2_eq_bot K, Subgroup.mem_bot] at h
       exact inv_mul_eq_one.mp h, QuotientGroup.mk'_surjective _⟩
 
+omit [Finite K] in
 private theorem toPSL_apply (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     toPSL x = QuotientGroup.mk' (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) K)) x := rfl
 
@@ -369,7 +373,7 @@ theorem sl2_trace_field_cases
   have hodd2 := CFSG.GH74.Uniqueness.Bender.odd_two_pow_add_one n hn1
   have hg : Nat.gcd (2 ^ (n : ℕ) - 1) 2 = 1 :=
     Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).2 hodd1.not_two_dvd_nat)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases CFSG.Glauberman.Dickson.huppert_II_8_27_dickson_psl2_subgroup_classification_with_subfield
       (p := 2) (f := n) hcard M with
     hEl | ⟨z, hz, hzc, hcyc⟩ | ⟨z, hz, -, ⟨eD⟩⟩ | ⟨-, ⟨eA4⟩⟩ | ⟨h16, -⟩ | ⟨-, ⟨eA5⟩⟩ |
@@ -386,7 +390,7 @@ theorem sl2_trace_field_cases
     right
     rw [hcard, hg, Nat.div_one, Nat.div_one] at hz
     refine ⟨L, odd_data_of_comm (hcommL fun a b => ?_) ?_⟩
-    · haveI := hcyc
+    · have := hcyc
       exact IsCyclic.isMulCommutative.is_comm.comm a b
     · rw [hcardLM, hzc]
       exact hz.elim (Odd.of_dvd_nat hodd1) (Odd.of_dvd_nat hodd2)
@@ -465,7 +469,7 @@ theorem sl2_trace_field_cases
     · right
       have hC : C = ⊤ := by rw [hNb, bot_sup_eq] at hsup; exact hsup
       refine ⟨L, odd_data_of_comm (hcommL fun a b => ?_) ?_⟩
-      · haveI := hCcyc
+      · have := hCcyc
         have h := IsCyclic.isMulCommutative.is_comm.comm
           (⟨a, hC ▸ Subgroup.mem_top a⟩ : C) ⟨b, hC ▸ Subgroup.mem_top b⟩
         exact congrArg Subtype.val h

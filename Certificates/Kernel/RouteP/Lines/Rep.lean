@@ -33,7 +33,7 @@ theorem progRep_of {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {ls L : Arra
         rw [getElem!_pos _ r (by rw [hsize]; omega), getElem!_pos (mTabs ()) r (by omega),
           Array.getElem_append_left]
       rw [e]
-      simp only [regsG, if_pos h2]
+      simp only [regsG, ite_eq_left h2]
       rcases (by omega : r = 0 ∨ r = 1) with rfl | rfl
       · exact hm.1
       · exact hm.2
@@ -41,7 +41,7 @@ theorem progRep_of {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {ls L : Arra
         rw [getElem!_pos _ r (by rw [hsize]; omega), Array.getElem_append_right (by omega)]
         simp
       rw [e]
-      simp only [regsG, if_neg h2]
+      simp only [regsG, ite_eq_right h2]
       exact Rep.idT hn
   have hprog' : ∀ ins ∈ compileSLP 2 ls, instrRegsLt regsT.size ins := by
     rw [hsize]
@@ -49,7 +49,7 @@ theorem progRep_of {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {ls L : Arra
   obtain ⟨-, -, hrep⟩ := runSLP_rep' hn (compileSLP 2 ls) regsT regsG hprog' hregs
   have hsz : L.size = ls.size := by rw [hL]
   have hlines := prog_spec (NW := NW) (KA := KA) (KB := KB) (g := 2) (o := 0) (ls := ls)
-    (t := fun ℓ => 2 + ℓ) hls (regs := regsG) (fun r hr => by simp only [regsG, if_pos hr, Nat.add_zero])
+    (t := fun ℓ => 2 + ℓ) hls (regs := regsG) (fun r hr => by simp only [regsG, ite_eq_left hr, Nat.add_zero])
     (fun ℓ hℓ => hlok _ (by omega))
     (fun ℓ hℓ z hz => by rw [hL] at hz; exact hw ℓ hℓ z hz)
     (fun ℓ hℓ k hk => by
@@ -64,7 +64,7 @@ theorem progRep_of {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {ls L : Arra
   have e : runSLPG (compileSLP 2 ls) regsG r = gT NW KA KB r := by
     by_cases h2 : r < 2
     · rw [runSLPG_compileSLP_lt 2 _ hls regsG h2]
-      simp only [regsG, if_pos h2]
+      simp only [regsG, ite_eq_left h2]
     · have := hlines (r - 2) (by omega)
       rw [show 2 + (r - 2) = r by omega] at this
       exact this

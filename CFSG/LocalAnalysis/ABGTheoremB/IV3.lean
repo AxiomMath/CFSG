@@ -158,7 +158,7 @@ private theorem exists_sylow_two_normalizing_aux (hσ : σ.IsValid) (hII : σ.Ch
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, -, ⟨P, hPH⟩, -, -⟩ := σ.familyL_properties hσ hII hr hdiv hH
   have hDH : σ.D ≤ H := hH.2.2.1
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨S₀, hS₀, hDS₀⟩ := exists_isSylowOf_ge_aux (le_inf hDH hDRs) hD2
   have hfr : H ≤ oddCoreIn H ⊔ (H ⊓ Subgroup.normalizer (Rs : Set G)) :=
     le_sup_inf_normalizer_of_isSylowOf (oddCoreIn_le H) (le_normalizer_oddCoreIn H) hRs
@@ -212,9 +212,9 @@ theorem lemmaIV33 (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) : σ.LemmaIV33 :=
         (hS₁Rs.trans (normalizer_le_normalizer_centralizer_aux Rs))).trans
           Subgroup.inf_normalizer_le_normalizer_inf)).trans
         Subgroup.inf_normalizer_le_normalizer_inf
-    have hW := inf_centerOf_ne_bot_aux S₁.isPGroup' hXS hnorm hne
+    have hW := inf_centerOf_ne_bot_aux S₁.isPGroup hXS hnorm hne
     have hW2 : IsPGroup 2 (X ⊓ centerOf (S₁ : Subgroup G) : Subgroup G) :=
-      S₁.isPGroup'.to_le (inf_le_left.trans hXS)
+      S₁.isPGroup.to_le (inf_le_left.trans hXS)
     have hdvd : 2 ∣ Nat.card (X ⊓ centerOf (S₁ : Subgroup G) : Subgroup G) :=
       hW2.card_eq_or_dvd.resolve_left fun h => hW (Subgroup.card_eq_one.mp h)
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
@@ -252,7 +252,7 @@ theorem lemmaIV32 (hσ : σ.IsValid) (hII : σ.ChapterIIFacts)
   have hO : oddCoreIn H ≠ ⊥ := oddCoreIn_ne_bot_of_isPLocal hr hr2 hHL.1
   have hRodd : Odd (Nat.card R) := σ.odd_card_ON.of_dvd_nat (Subgroup.card_dvd_of_le hR.le)
   have hRH : R ≤ oddCoreIn H := le_oddCoreIn Subgroup.le_normalizer le_rfl hRodd
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨Rs, hRs, hRRs, hDRs⟩ := exists_isSylowOf_normalized_ge_of_odd hr hD2
     (hHL.2.2.1.trans (le_normalizer_oddCoreIn H)) (odd_card_oddCoreIn H) hRH hR.isPGroup hDR
   by_cases hcon : σ.Constrained r
@@ -313,7 +313,7 @@ theorem exists_constrained_mem_familyL (hσ : σ.IsValid) (h32 : σ.LemmaIV32) {
     (hr : r.Prime) (hdiv : r ∣ Nat.card σ.ON)
     (hexc : σ.Exceptional r) :
     ∃ H ∈ σ.familyL r, PConstrainedWithin r H (CFSG.solvableRadical H) := by
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨R, hR, hDR⟩ := exists_isSylowOf_normalized_of_odd hr hD2
     ((σ.D_le_N hσ).trans σ.N_le_normalizer_ON) σ.odd_card_ON
   exact ⟨_, h32 r hr hdiv hexc R hR hDR⟩

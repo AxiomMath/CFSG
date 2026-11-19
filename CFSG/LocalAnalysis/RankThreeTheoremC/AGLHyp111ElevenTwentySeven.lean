@@ -65,7 +65,7 @@ theorem not_two_dvd_index_sup_of_centralizes {A T Y : Subgroup G} (hT2 : IsPGrou
   obtain ⟨S, hS⟩ := (hT2.comap_subtype (K := D)).exists_le_sylow
   set S' : Subgroup G := (S : Subgroup D).map D.subtype with hS'
   have hTS' : T ≤ S' := fun t ht => ⟨⟨t, (le_sup_left : T ≤ D) ht⟩, hS ht, rfl⟩
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have hS'D : S' ≤ D := Subgroup.map_subtype_le _
   have hDY : D ≤ Subgroup.normalizer (Y : Set G) := sup_le hTY Subgroup.le_normalizer
   have hOD : pCoreOf 2 Y ≤ D :=
@@ -111,7 +111,7 @@ theorem not_two_dvd_index_sup_of_centralizes {A T Y : Subgroup G} (hT2 : IsPGrou
 
 theorem isElemAbelian_sylow_of_isAltTwoP {K : Type} [Group K] [Finite K] (hK : IsAltTwoP 3 K)
     (S : Sylow 3 K) : IsElemAbelian 3 (S : Subgroup K) ∧ Nat.card (S : Subgroup K) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hK
   have hcard : Nat.card K = 360 := card_of_isAltTwoP_three ⟨e⟩
   have hS9 : Nat.card (S : Subgroup K) = 9 := by
@@ -122,7 +122,7 @@ theorem isElemAbelian_sylow_of_isAltTwoP {K : Type} [Group K] [Finite K] (hK : I
     rw [Sylow.card_eq_multiplicity, hf]
     norm_num
   have hcomm : ∀ a b : (S : Subgroup K), a * b = b * a :=
-    IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (by rw [hS9]; norm_num)
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hS9]; norm_num)).is_comm.comm
   refine ⟨⟨⟨⟨hcomm⟩⟩, fun x hx => ?_⟩, hS9⟩
   have h9 : (⟨x, hx⟩ : (S : Subgroup K)) ^ 9 = 1 := by
     have := pow_card_eq_one' (G := (S : Subgroup K)) (x := ⟨x, hx⟩)
@@ -145,7 +145,7 @@ theorem d1LiftX_facts {P : Sylow 3 G} {M H R : Subgroup G} (he : D1Escape 3 P M 
     d1LiftX 3 H R (d1KBar 3 M H) ⊓ d1PlusCore 3 H (d1KBar 3 M H) = ⊥ ∧
       IsElemAbelian 3 (d1LiftX 3 H R (d1KBar 3 M H)) ∧
       Nat.card (d1LiftX 3 H R (d1KBar 3 M H)) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K := d1KBar 3 M H with hKdef
   set O := primeComplementCore (G := H) 3 with hOdef
   set π := QuotientGroup.mk' O with hπ
@@ -156,7 +156,7 @@ theorem d1LiftX_facts {P : Sylow 3 G} {M H R : Subgroup G} (he : D1Escape 3 P M 
   have hA'3 : IsPGroup 3 A' := (he.isPGroup.to_le hAR).comap_subtype
   have hAO : A' ⊓ O = ⊥ := by
     obtain ⟨n, hn⟩ := hA'3.exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hn]
     exact (primeComplementCore_coprime (G := H) 3).pow_left n
   have hinj : ∀ a ∈ A', π a = 1 → a = 1 := fun a ha h1 => by
@@ -218,14 +218,14 @@ theorem d1LiftX_facts {P : Sylow 3 G} {M H R : Subgroup G} (he : D1Escape 3 P M 
 theorem exists_centralizing_of_three_dvd {A V : Subgroup G} (hA : IsPGroup 3 A)
     (hAV : A ≤ Subgroup.normalizer (V : Set G)) (h3 : 3 ∣ Nat.card V) :
     ∃ y ∈ V, orderOf y = 3 ∧ ∀ a ∈ A, a * y = y * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set W := A ⊔ V with hW
   have hWV : W ≤ Subgroup.normalizer (V : Set G) := sup_le hAV Subgroup.le_normalizer
   obtain ⟨P, hP⟩ := (hA.comap_subtype (K := W)).exists_le_sylow
   set P' : Subgroup G := (P : Subgroup W).map W.subtype with hP'
   have hP'W : P' ≤ W := Subgroup.map_subtype_le _
   have hAP' : A ≤ P' := fun a ha => ⟨⟨a, (le_sup_left : A ≤ W) ha⟩, hP ha, rfl⟩
-  have hP'3 : IsPGroup 3 P' := P.isPGroup'.map _
+  have hP'3 : IsPGroup 3 P' := P.isPGroup.map _
   have hP'V : P' ≤ Subgroup.normalizer (V : Set G) := hP'W.trans hWV
   have hne : P' ⊓ V ≠ ⊥ := by
     intro hb
@@ -244,9 +244,9 @@ theorem exists_centralizing_of_three_dvd {A V : Subgroup G} (hA : IsPGroup 3 A)
       show (P'.comap W.subtype).index = _
       rw [hP', Subgroup.comap_map_eq_self_of_injective W.subtype_injective]
     exact P.not_dvd_index (hPi ▸ (hri ▸ h3).trans hdvd)
-  haveI : Group.IsNilpotent P' := hP'3.isNilpotent
+  have : Group.IsNilpotent P' := hP'3.isNilpotent
   set N : Subgroup P' := (P' ⊓ V).subgroupOf P' with hN
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hnV : (n : G) ∈ V := hn.2
     refine ⟨P'.mul_mem (P'.mul_mem g.2 n.2) (P'.inv_mem g.2), ?_⟩
@@ -301,7 +301,7 @@ theorem normalizer_le_of_three_dvd (hS : Setting G) (h9 : AGL81NineCompetitorQ G
     (h3 : 3 ∣ Nat.card (Y ⊓ Subgroup.normalizer (C : Set G) : Subgroup G)) :
     Subgroup.normalizer (C : Set G) ≤ H := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hatH, -, -, hOH, hHM, hKX⟩ := escape_local hS h9 h98 h984 hKC he hA6
   have hNTC : Subgroup.normalizer (T : Set G) ≤ Subgroup.normalizer (C : Set G) :=
     normalizer_le_of_characteristic_subgroupOf
@@ -336,6 +336,7 @@ theorem normalizer_le_of_three_dvd (hS : Setting G) (h9 : AGL81NineCompetitorQ G
     hKX (hcovC.trans (Subgroup.map_mono fun x hx => ⟨hx.1, hNM hx.2⟩))
   exact habs _ ⟨C, hC1, hT.2.1.to_le hCT, rfl⟩ hNM hEC hcovC
 
+omit [Finite G] in
 theorem inf_pCoreOf_le {L X : Subgroup G} (hLX : L ≤ X) : L ⊓ pCoreOf 2 X ≤ pCoreOf 2 L := by
   intro x hx
   obtain ⟨hxL, hxT⟩ := Subgroup.mem_inf.mp hx
@@ -354,6 +355,7 @@ theorem inf_pCoreOf_le {L X : Subgroup G} (hLX : L ≤ X) : L ⊓ pCoreOf 2 X �
     exact hy
   exact CFSG.HardMathSupport.Cooperstein.Proving.mem_pCoreOf_iff.mpr ⟨⟨x, hxL⟩, hN hz, rfl⟩
 
+omit [Finite G] in
 theorem isTwoPrimeComponent_of_self {I D : Subgroup G} (hI : IsTwoPrimeComponent I I)
     (hID : I ≤ D) (hsub : IsSubnormal I D) : IsTwoPrimeComponent D I := by
   have hOI : pCoreOf 2 I ≤ I := CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 I
@@ -396,7 +398,7 @@ theorem prime_dvd_card_jZero {H L : Subgroup G}
   intro q hq hqd
   by_cases hq2 : q = 2
   · exact Or.inl hq2
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := jZero H L) q hqd
   obtain ⟨k, hk⟩ := exists_two_pow_mem_jOne H L x.2
   have hxk : orderOf ((x : G) ^ (2 ^ k)) = q := by
@@ -424,10 +426,10 @@ theorem normalizer_le_of_maxInvariant (hS : Setting G) (h9 : AGL81NineCompetitor
     (hOT : pCoreOf 2 H ≤ T) :
     Subgroup.normalizer (T : Set G) ≤ H := by
   have hg := aglGlobal_of_setting hS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hatH, -, -, -, -, -⟩ := escape_local hS h9 h98 h984 hKC he hA6
-  haveI := hatH.nineThree.normal
+  have := hatH.nineThree.normal
   set K := d1KBar 3 M H with hKdef
   set X := d1PlusCore 3 H K with hXdef
   set A := d1LiftX 3 H R K with hAdef
@@ -581,8 +583,8 @@ theorem isMaxInvariantTwo_of_normalizer_le {A T H X : Subgroup G}
   by_contra hST
   have hlt : T.subgroupOf S ≠ ⊤ := fun htop =>
     hST (le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hTS)
-  haveI : Group.IsNilpotent S := hS2.isNilpotent
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt
+  have : Group.IsNilpotent S := hS2.isNilpotent
+  obtain ⟨x, hxN, hxT⟩ := _root_.IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (T.subgroupOf S) (lt_top_iff_ne_top.mpr hlt))
   have hmapT : (T.subgroupOf S).map S.subtype = T := by
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTS]
@@ -609,9 +611,9 @@ theorem le_of_maxInvariant (hS : Setting G) (h9 : AGL81NineCompetitorQ G)
     (hOT : pCoreOf 2 H ≤ T) (hNT : Subgroup.normalizer (T : Set G) ≤ H)
     (hb3A : Hyp111B3 3 H (d1LiftX 3 H R (d1KBar 3 M H)) (d1KBar 3 M H)) : L ≤ H := by
   have hg := aglGlobal_of_setting hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hatH, -, -, hOH, -, -⟩ := escape_local hS h9 h98 h984 hKC he hA6
-  haveI := hatH.nineThree.normal
+  have := hatH.nineThree.normal
   set K := d1KBar 3 M H with hKdef
   set X := d1PlusCore 3 H K with hXdef
   set A := d1LiftX 3 H R K with hAdef
@@ -672,11 +674,11 @@ theorem elevenTwentyConcl_of_isAltTwoP (hS : Setting G) (h9 : AGL81NineCompetito
     (h4 : AGL81ElevenTwelveOne G) {P : Sylow 3 G} {M H R : Subgroup G}
     (he : D1Escape 3 P M H R) (hA6 : IsAltTwoP 3 (d1KBar 3 M H)) : ElevenTwentyConcl M := by
   by_contra hcex
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd := cfgData_of_escape hS h9 h98 h984 h101 h115 h3σ hKR hKA hKC he hA6 hcex
   obtain ⟨hatH, hb3R, hsylR, hOH, hHM, hKX⟩ := escape_local hS h9 h98 h984 hKC he hA6
-  haveI := hatH.nineThree.normal
+  have := hatH.nineThree.normal
   set K := d1KBar 3 M H with hKdef
   set X := d1PlusCore 3 H K with hXdef
   set A := d1LiftX 3 H R K with hAdef

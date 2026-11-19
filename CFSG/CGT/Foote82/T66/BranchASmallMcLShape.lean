@@ -50,7 +50,7 @@ theorem eq_alt_of_isComponentOf_perm {N : ℕ} {K : Subgroup (Equiv.Perm (Fin N)
     (by rw [Subgroup.coe_bot, Subgroup.centralizer_eq_top_iff_subset.2 (by simp)]) hK
   have hset : {i : Fin N | ∀ r ∈ (⊥ : Subgroup (Equiv.Perm (Fin N))), r i = i} = Set.univ := by
     ext i
-    simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true, Subgroup.mem_bot]
+    simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true, Subgroup.mem_bot]
     rintro r rfl
     rfl
   obtain ⟨h5, hK'⟩ := h
@@ -61,7 +61,7 @@ theorem eq_alt_of_isComponentOf_perm {N : ℕ} {K : Subgroup (Equiv.Perm (Fin N)
     omega
   · rw [hK', hset, altOn]
     ext σ
-    simp [mem_fixingSubgroup_iff]
+    simp
 
 theorem isComponentOf_transfer {Γ Y : Type*} [Group Γ] [Group Y] {K C : Subgroup Γ}
     (hK : IsComponentOf K C) (Φ : ↥C ≃* Y) :
@@ -74,6 +74,7 @@ theorem isComponentOf_transfer {Γ Y : Type*} [Group Γ] [Group Y] {K C : Subgro
   rw [Nat.card_congr ((K.subgroupOf C).equivMapOfInjective _ Φ.injective).toEquiv.symm,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hK.1).toEquiv]
 
+omit [Finite V] in
 theorem injective_of_witness {L : Subgroup (GLV V)} {X M : Type} [Group X] [AddGroup M]
     {R : X → M → M → Prop} (hR : ∀ a b, R 1 a b → b = a) (hfaith : FaithfulTildeV L)
     {α : ↥L →* X} {β : ↥(commSpace L ⊤) →+ M}
@@ -96,6 +97,7 @@ theorem injective_of_witness {L : Subgroup (GLV V)} {X M : Type} [Group X] [AddG
   rw [hker] at h3
   exact h3
 
+omit [Finite V] in
 theorem mulEquiv_of_alt6 {L : Subgroup (GLV V)} (h : IsAltNaturalModule L 6)
     (hfaith : FaithfulTildeV L) : Nonempty (↥L ≃* alternatingGroup (Fin 6)) := by
   obtain ⟨α, hα, β, -, hker, hrel⟩ := h
@@ -108,6 +110,7 @@ theorem mulEquiv_of_alt6 {L : Subgroup (GLV V)} (h : IsAltNaturalModule L 6)
       congr 1) hfaith hker hrel
   exact ⟨MulEquiv.ofBijective α ⟨hinj, hα⟩⟩
 
+omit [Finite V] in
 theorem mulEquiv_of_omegaMinus {L : Subgroup (GLV V)} {m : ℕ} (h : IsOmegaMinusModule L m)
     (hfaith : FaithfulTildeV L) : Nonempty (↥L ≃* ↥(omegaMinusTwo m)) := by
   obtain ⟨α, hα, β, -, hker, hrel⟩ := h
@@ -176,6 +179,7 @@ theorem card_statedSp_cases {r : ℕ} (hr : 3 ≤ r) :
         _ ≤ r ^ 2 := Nat.pow_le_pow_left h4 2
     exact Dvd.dvd.mul_right (pow_dvd_pow 2 h16) _
 
+omit [Finite V] in
 theorem mapGL_centralizer_singleton (t : GLV V) :
     mapGL (Subgroup.centralizer ({t} : Set (GLV V))) =
       Subgroup.centralizer ({toGL t} : Set (LinearMap.GeneralLinearGroup (ZMod 2) V)) := by

@@ -14,7 +14,7 @@ namespace CFSG.HardMathSupport.Solomon.Coordinator.YS08
 open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.LocalBalance
   CFSG.HardMathSupport.Solomon.UniquenessMaximal CFSG.HardMathSupport.Solomon.Coordinator
 
-theorem alt_down_core {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsQuasisimple Y)
+theorem alt_down_core {Y : Type} [Group Y] [Finite Y] (_hY : CFSG.Open.IsQuasisimple Y)
     (hAlt : Lemma25Ns.IsAltType (Y ⧸ Subgroup.center Y)) {α : MulAut Y} (hα : α ^ 3 = 1)
     {J : Subgroup Y} (hJ : GLAPComponent 3 (Lemma510Ns.fixSub α) J) :
     Nat.card (barOf 3 J ⧸ Subgroup.center (barOf 3 J)) ≤ 5040 ∨
@@ -120,7 +120,7 @@ theorem l34Alt_holds :
   intro Y _ _ hY hAlt α hα J hJ hL34
   have hcard : Nat.card (barOf 3 J) = 20160 := card_eq_of_isLThreeFour hL34
   obtain ⟨hs, hna⟩ := isSimpleGroup_of_isLThreeFour hL34
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center (barOf 3 J) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (barOf 3 J)) with h | h
     · exact h

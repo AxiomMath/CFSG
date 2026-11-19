@@ -228,7 +228,7 @@ theorem exists_le_thetaP_ys (hπ : π = false → UnitaryFieldData p f K) (hK : 
             Subgroup.zpowers (ProjGenLinGroup.mk y)).map (MulAut.conj G⁻¹).toMonoidHom := by
         intro u hu
         refine ⟨G * u * G⁻¹, hu, ?_⟩
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       refine sup_le (Subgroup.zpowers_le.mpr (hmem _ ?_)) (Subgroup.zpowers_le.mpr (hmem _ ?_))
       · rw [hs']
         exact Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
@@ -240,7 +240,7 @@ theorem exists_le_thetaP_ys (hπ : π = false → UnitaryFieldData p f K) (hK : 
     obtain ⟨u, hu, hub⟩ := hle hbE
     have e : u = G * b * G⁻¹ := by
       rw [← hub]
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     rw [← e]
     exact hu
   · calc b = G⁻¹ * (G * b * G⁻¹) * G := by group

@@ -37,6 +37,7 @@ variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
     MulAction.fixedBy X a ∩ MulAction.fixedBy X b = {r} ∧
     (exceptionalFixedSet (X := X) a b).ncard = 7
 
+omit [Finite G] in
 theorem exists_hall_configuration
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (hX : 8 ≤ Fintype.card X)

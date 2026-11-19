@@ -19,7 +19,7 @@ theorem steinberg_commutator {i j k : ι} (hij : i ≠ j) (hjk : j ≠ k) (hik :
   rw [commutatorElement_def, SpecialLinearGroup.transvection_inv,
     SpecialLinearGroup.transvection_inv]
   refine Subtype.ext ?_
-  simp [SpecialLinearGroup.transvection_coe, mul_add, add_mul, hij, hjk, hik, hij.symm, hjk.symm,
+  simp [SpecialLinearGroup.transvection_coe, mul_add, add_mul, hij.symm, hjk.symm,
     hik.symm, ← single_neg]
   abel
 

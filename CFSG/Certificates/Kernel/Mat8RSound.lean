@@ -79,12 +79,12 @@ theorem bfsR_eq (gens : List ℕ) (cap : ℕ) :
           acc (Nat.ble cap (lenR acc)) = _
       rw [lenR_eq, layerR_eq, prodRec3]
       cases hb : Nat.ble cap acc.length with
-      | true => exact (if_pos (Nat.le_of_ble_eq_true hb)).symm
+      | true => exact (ite_eq_left (Nat.le_of_ble_eq_true hb)).symm
       | false =>
         have h : ¬ cap ≤ acc.length := fun h' => by
           rw [Nat.ble_eq_true_of_le h'] at hb
           exact absurd hb (by decide)
-        rw [if_neg h]
+        rw [ite_eq_right h]
         exact ih _ _ _
 
 theorem elemsR_eq (gens : List ℕ) (cap : ℕ) : elemsR gens cap = elemsP gens cap :=
@@ -99,15 +99,15 @@ theorem land_two_pow (b u : ℕ) : b &&& 2 ^ u = if b.testBit u then 2 ^ u else 
   rw [Nat.testBit_and, Nat.testBit_two_pow]
   by_cases h : u = j
   · subst h
-    cases hb : b.testBit u <;> simp [Nat.testBit_two_pow]
-  · cases hb : b.testBit u <;> simp [Nat.testBit_two_pow, h]
+    cases hb : b.testBit u <;> simp
+  · cases hb : b.testBit u <;> simp [h]
 
 theorem bitB_eq (b u : ℕ) : bitB b u = b.testBit u := by
   change Nat.blt 0 (b &&& 1 <<< u) = _
   rw [Nat.one_shiftLeft, land_two_pow]
   cases hb : b.testBit u with
   | true =>
-    rw [if_pos rfl, Nat.blt_eq]
+    rw [ite_eq_left rfl, Nat.blt_eq]
     exact Nat.two_pow_pos u
   | false => rfl
 
@@ -140,13 +140,13 @@ theorem spanStep_eq (p : List ℕ × ℕ) (hp : SpanInv p) (v : ℕ) :
   cases hc : S.contains v
   · refine ⟨?_, ?_⟩
     · change S ++ S.map (· ^^^ v) = if S.contains v = true then S else S ++ S.map (· ^^^ v)
-      rw [if_neg (by rw [hc]; exact Bool.false_ne_true)]
+      rw [ite_eq_right (by rw [hc]; exact Bool.false_ne_true)]
     intro u
     change (insAll b (S.map (· ^^^ v))).testBit u = (S ++ S.map (· ^^^ v)).contains u
     rw [testBit_insAll, hp u, List.contains_append]
   · refine ⟨?_, hp⟩
     change S = if S.contains v = true then S else S ++ S.map (· ^^^ v)
-    rw [if_pos hc]
+    rw [ite_eq_left hc]
 
 theorem spanT_aux (vs : List ℕ) :
     ∀ p, SpanInv p → (foldR spanStep p vs).1 =

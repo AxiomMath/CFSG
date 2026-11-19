@@ -121,7 +121,7 @@ theorem twistedLine_hex_shape (hrel : ∀ δ, IsRoot τ δ → S.ρ (S.ρ δ) = 
   have hπ : ∀ i j, i ≠ j → S.ρ (σ i j) = σ (finRotate 3 j) (finRotate 3 i) := by
     intro i j hij
     fin_cases i <;> fin_cases j
-    all_goals first | exact absurd rfl hij | skip
+    all_goals try exact absurd rfl hij
     · show S.ρ (σ 0 1) = σ (finRotate 3 1) (finRotate 3 0)
       rw [r0, r1, h01, h21]
     · show S.ρ (σ 0 2) = σ (finRotate 3 2) (finRotate 3 0)
@@ -159,7 +159,7 @@ theorem twistedLine_hex_shape (hrel : ∀ δ, IsRoot τ δ → S.ρ (S.ρ δ) = 
       show S.ρ (S.ρ (S.ρ (S.ρ (S.ρ γ)))) = γ - S.ρ γ
       rw [e1, e2, e4, e5]
     fin_cases i <;> fin_cases j
-    all_goals first | exact absurd rfl hij | skip
+    all_goals try exact absurd rfl hij
     · exact ⟨0, h01.trans i0.symm⟩
     · exact ⟨5, h02.trans i5.symm⟩
     · exact ⟨3, h10.trans i3.symm⟩

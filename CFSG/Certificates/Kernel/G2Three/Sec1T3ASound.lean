@@ -97,6 +97,7 @@ theorem recLorIf_bit (c : ℕ → Bool) (F : ℕ → ℕ) (k : ℕ) : ∀ n,
 
 variable {G : Type} [Group G] {elt : ℕ → G}
 
+omit [Group G] in
 theorem mset_recMask (c : ℕ → Bool) (g : ℕ → ℕ) (hg : ∀ i < 128, g i < 128) :
     mset elt (Nat.rec (motive := fun _ => Nat) 0
       (fun i acc => nIf(c i, Nat.lor acc (Nat.shiftLeft 1 (g i)), acc)) 128) =
@@ -114,6 +115,7 @@ theorem mset_recMask (c : ℕ → Bool) (g : ℕ → ℕ) (hg : ∀ i < 128, g i
   · rintro ⟨i, hi, hc, rfl⟩
     exact ⟨g i, hg i hi, (hb _).2 ⟨i, hi, hc, rfl⟩, rfl⟩
 
+omit [Group G] in
 theorem mset_recMaskId (c : ℕ → Bool) :
     mset elt (Nat.rec (motive := fun _ => Nat) 0
       (fun i acc => nIf(c i, Nat.lor acc (Nat.shiftLeft 1 i), acc)) 128) =
@@ -122,7 +124,7 @@ theorem mset_recMaskId (c : ℕ → Bool) :
 
 theorem mset_one (h1 : elt 0 = 1) : mset elt 1 = {1} := by
   ext g
-  simp only [mset, Set.mem_setOf_eq, Set.mem_singleton_iff, hasB_eq,
+  simp only [mset, Set.mem_ofPred_eq, Set.mem_singleton_iff, hasB_eq,
     Nat.testBit_one_eq_true_iff_self_eq_zero]
   constructor
   · rintro ⟨i, -, rfl, rfl⟩
@@ -130,10 +132,11 @@ theorem mset_one (h1 : elt 0 = 1) : mset elt 1 = {1} := by
   · rintro rfl
     exact ⟨0, by decide, rfl, h1⟩
 
+omit [Group G] in
 theorem lstM_mset {l : List ℕ} (hl : ∀ x ∈ l, x < 128) :
     mset elt (lstM l) = {g | ∃ x ∈ l, elt x = g} := by
   ext g
-  simp only [mset, Set.mem_setOf_eq, hasB_eq, lstM_bit]
+  simp only [mset, Set.mem_ofPred_eq, hasB_eq, lstM_bit]
   constructor
   · rintro ⟨i, -, hi, rfl⟩
     exact ⟨i, hi, rfl⟩
@@ -313,11 +316,12 @@ theorem clsE_mset (X : ℕ) {y : ℕ} (hy : y < 128) :
     exact ⟨i, hi, hb, conjR_elt hR hi hy⟩
 
 omit hR in
+omit [Group G] in
 theorem mset_recLorIf (B : ℕ) (F : ℕ → ℕ) :
     mset elt (Nat.rec (motive := fun _ => Nat) 0 (fun b acc => nIf(hasB B b, Nat.lor acc (F b), acc))
       128) = ⋃ b ∈ {b | b < 128 ∧ hasB B b = true}, mset elt (F b) := by
   ext g
-  simp only [Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+  simp only [Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
   constructor
   · rintro ⟨k, hk, hb, rfl⟩
     rw [hasB_eq, recLorIf_bit] at hb
@@ -336,7 +340,7 @@ theorem prodM_mset (A B : ℕ) :
     simp only [prodM, strictN_eq]
   rw [e, mset_recLorIf]
   ext g
-  simp only [Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+  simp only [Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
   constructor
   · rintro ⟨b, ⟨hb, h1⟩, hg⟩
     rw [mset_imgR_right hR hb] at hg
@@ -354,7 +358,7 @@ theorem lprodM_mset (B A : ℕ) :
     simp only [lprodM, strictN_eq]
   rw [e, mset_recLorIf]
   ext g
-  simp only [Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+  simp only [Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
   constructor
   · rintro ⟨b, ⟨hb, h1⟩, hg⟩
     rw [mset_imgR_left hR hb] at hg

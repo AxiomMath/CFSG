@@ -57,7 +57,7 @@ theorem commutator_RmodN {t : S.O} (hs : IsSimpleGroup (RmodN S g t))
     have hPi : P.relIndex X = (P₀ : Subgroup X).index := by
       rw [Subgroup.relIndex, hP, Subgroup.subgroupOf,
         comap_map_eq_self_of_injective X.subtype_injective]
-    obtain ⟨x, hx, y, hy, hxy⟩ := hn P (map_subtype_le _) (P₀.isPGroup'.map _)
+    obtain ⟨x, hx, y, hy, hxy⟩ := hn P (map_subtype_le _) (P₀.isPGroup.map _)
       (hPi ▸ P₀.not_dvd_index)
     obtain ⟨x', -, rfl⟩ := hx
     obtain ⟨y', -, rfl⟩ := hy

@@ -23,7 +23,7 @@ theorem s16_C4FrameM_commSp_top {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
     (hcard : Nat.card K = 4) :
     commSp (⊤ : Subgroup (SUid σ 4)) = ⊤ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard' : Fintype.card K = 4 := by rwa [Nat.card_eq_fintype_card] at hcard
   have hc1 : (1 : K) + σ (1 : K) = 0 := by
     rw [map_one, one_add_one_eq_two]
@@ -143,6 +143,7 @@ theorem UFrame.mSub_V (F : UFrame V₀ V hV L) (hS : Sect16 D V₀ V L hV) :
   rw [hcardV, hcardV0, ← pow_add] at h
   exact Nat.pow_right_injective (by norm_num : 2 ≤ 2) h
 
+omit [Finite G] in
 theorem UFrame.wTil_eq_top (F : UFrame V₀ V hV L) :
     wTil V₀ V hV L = ⊤ := by
   have hwt : wTil V₀ V hV L = commV (lBar V₀ V hV L) := by

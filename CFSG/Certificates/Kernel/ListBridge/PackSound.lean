@@ -108,7 +108,7 @@ theorem prep_pwordK {ng : Nat} {P : Nat → Nat} {gens : List (Equiv.Perm (Fin n
     obtain ⟨⟨hz, hzn⟩, hwd⟩ := h
     have ih := prep_pwordK hn hw hG wd (by simpa [posW] using hwd)
     change PRep n w (pcomp n w (mask w) (P (Nat.sub (Int.toNat z) 1)) (pwordK n w P wd)) _
-    rw [evalCodes, if_pos hz]
+    rw [evalCodes, ite_eq_left hz]
     exact prep_pcomp (by omega) (hG (z.toNat - 1) (by omega)) ih
 
 theorem inK_spec {N : Nat} {T : Nat → Nat} {x : Nat} (h : inK N T x = true) :

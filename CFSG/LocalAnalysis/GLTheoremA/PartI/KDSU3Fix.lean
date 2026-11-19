@@ -67,7 +67,7 @@ private theorem exists_fixed_isotropic_core (h : UnitaryFieldData 2 n K)
     have := hB.eq v w
     rwa [hBvw, map_zero, eq_comm] at this
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hli : LinearIndependent K ![v, w] :=
     linearIndependent_fin2.mpr ⟨hw0, fun a ha => hcon a ha.symm⟩
   have hT : ∀ x ∈ Set.range ![v, w], ∀ y ∈ Set.range ![v, w], B x y = 0 := by
@@ -94,7 +94,7 @@ theorem exists_fixed_isotropic (h : UnitaryFieldData 2 n K) (g : GL (Fin 3) K)
     rwa [Units.val_one] at this
   have hne : ∃ x₀ : Fin 3 → K, (g : Matrix (Fin 3) (Fin 3) K) *ᵥ x₀ ≠ x₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hg1
     refine Units.ext (Matrix.ext fun a b => ?_)
     have := congrFun (hcon (Pi.single b 1)) a

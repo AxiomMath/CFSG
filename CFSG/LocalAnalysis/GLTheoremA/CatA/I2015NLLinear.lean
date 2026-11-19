@@ -71,6 +71,7 @@ section Witness
 
 variable {d : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem fixed_of_subfield {σ : K ≃+* K}
     {f : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin d) K))}
     (hσ : ∀ x : LargeEvenSLGroup (Fin d) K, f (QuotientGroup.mk x) =
@@ -154,7 +155,7 @@ theorem i2015NLOnD3_holds : I2015NLOnD3 := by
   subst hC
   subst ht
   intro Q hQ
-  simp only [CFSG.Assembly.LargeEvenRawDatum, if_true] at hQ ⊢
+  simp only [CFSG.Assembly.LargeEvenRawDatum, ite_true] at hQ ⊢
   obtain ⟨K, hF, hfin, hK, hQ'⟩ := hQ
   refine ⟨K, hF, hfin, hK, hQ', fun _ _ _ f hf _ _ _ => nlWitness_linear (by norm_num) hf⟩
 
@@ -165,7 +166,7 @@ theorem i2015NLOnTwD2_holds : I2015NLOnTwD2 := by
   subst hC
   subst ht
   intro Q hQ
-  simp only [CFSG.Assembly.LargeEvenRawDatum, if_true] at hQ ⊢
+  simp only [CFSG.Assembly.LargeEvenRawDatum, ite_true] at hQ ⊢
   obtain ⟨K, hF, hfin, hK, hQ'⟩ := hQ
   refine ⟨K, hF, hfin, hK, hQ', fun _ _ f _ _ _ => noLocalTwo_linear_two hp f⟩
 

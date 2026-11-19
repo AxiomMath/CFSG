@@ -59,10 +59,10 @@ private theorem gk6_omegaOneCenter_ne_bot {G : Type*} [Group G] [Finite G] {p : 
 
 theorem ggSporK_pCore_eq_bot {W : Type} [Group W] [Finite W] {p : ℕ}
     (hCen : BMNoLiePComp p W) (hG1 : BMPPrimeCore p W) (hZ : BMCentreZ p W) {H E : Subgroup W}
-    (hyp : GGHypThreeSixteenFlat p H E) (hP' : LargeEvenPPrimeCore p ↥H = ⊥)
+    (hyp : GGHypThreeSixteenFlat p H E) (_hP' : LargeEvenPPrimeCore p ↥H = ⊥)
     (hJ : ∃ J : Subgroup W, IsComponentOf J H) : CFSG.pCore p ↥H = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hyp.1.1⟩
+  have : Fact p.Prime := ⟨hyp.1.1⟩
   by_contra hP0bot
   set P0 : Subgroup ↥H := CFSG.pCore p ↥H with hP0def
   have hP0ne : P0 ≠ ⊥ := by rwa [hP0def]
@@ -115,7 +115,7 @@ theorem ggSporK_pCore_eq_bot {W : Type} [Group W] [Finite W] {p : ℕ}
     hHnorm (hyp.1.2.2.2.2.1 heE)
   have hzp_norm : Subgroup.zpowers (e : W) ≤ Subgroup.normalizer (P0map : Set W) :=
     Subgroup.zpowers_le.mpr he_norm
-  letI : MulDistribMulAction (Subgroup.zpowers (e : W)) P0map :=
+  let : MulDistribMulAction (Subgroup.zpowers (e : W)) P0map :=
     MulDistribMulAction.compHom P0map
       (P0map.normalizerMonoidHom.comp (Subgroup.inclusion hzp_norm))
   have hact : ∀ (a : Subgroup.zpowers (e : W)) (x : P0map),
@@ -203,7 +203,7 @@ theorem ggSporK_pCore_eq_bot {W : Type} [Group W] [Finite W] {p : ℕ}
   obtain ⟨J, hJcomp⟩ := hJ
   have hJH : J ≤ H := hJcomp.1
   have hP0solv : Group.IsSolvable P0 := by
-    haveI : Group.IsNilpotent P0 := hP0p.isNilpotent
+    have : Group.IsNilpotent P0 := hP0p.isNilpotent
     infer_instance
   have hJq : CFSG.IsQuasisimple (J.subgroupOf H) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hJH).symm

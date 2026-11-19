@@ -120,9 +120,9 @@ theorem exists_symplTransv_basis [CharP F 2] (hb : IsSympBasis B b) (G₀ : Subg
     rw [Module.Basis.equiv_apply, hσdef]
     rfl
   have hB : ∀ i j : Fin 4, i.val + j.val ≠ 3 → B (b i) (b j) = 0 := fun i j h => by
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
   have hB' : ∀ i j : Fin 4, i.val + j.val = 3 → B (b i) (b j) = 1 := fun i j h => by
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
   have hcomm : symplTransv B halt (b 0) 1 * symplTransv B halt (b 1) 1 =
       symplTransv B halt (b 1) 1 * symplTransv B halt (b 0) 1 :=
     (SimsG45.transv_commute_iff B halt hnd (b.ne_zero 0) one_ne_zero one_ne_zero
@@ -145,10 +145,8 @@ theorem exists_symplTransv_basis [CharP F 2] (hb : IsSympBasis B b) (G₀ : Subg
   ·
     intro h
     have h1 := congrArg (fun φ : V ≃ₗ[F] V => φ (b 0)) h
-    simp only [LinearEquiv.mul_apply, symplTransv_apply, map_add, LinearMap.add_apply,
-      hB 0 2 (by decide), hB' 0 3 (by decide), hB 0 1 (by decide), hB 3 1 (by decide),
-      hB 0 0 (by decide), hB' 3 0 (by decide), mul_zero, mul_one, zero_smul, one_smul, add_zero,
-      zero_add] at h1
+    simp only [LinearEquiv.mul_apply, symplTransv_apply, map_add, hB 0 2 (by decide), hB' 0 3 (by decide), hB 0 1 (by decide), hB 3 1 (by decide),
+      hB 0 0 (by decide), hB' 3 0 (by decide), mul_zero, mul_one, zero_smul, one_smul, add_zero] at h1
     have h2 : b 0 + b 3 + b 0 = b 0 + b 3 := by rw [add_assoc]; exact h1
     exact b.ne_zero 0 (add_eq_left.mp h2)
 

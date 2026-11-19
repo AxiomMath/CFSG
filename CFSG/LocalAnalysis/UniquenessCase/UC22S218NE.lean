@@ -24,7 +24,7 @@ theorem uc22s218n_pRank_le_three (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
   have hsp := UC6S846.sp_of_mem_sig hSg hns hp
   have hLM : L ≤ D.M := hL.1.le
-  haveI : (L.subgroupOf D.M).Normal := uc22s218n_normal D Ch hSg h211 hH c hL hX hn
+  have : (L.subgroupOf D.M).Normal := uc22s218n_normal D Ch hSg h211 hH c hL hX hn
   have hML : D.M ≤ normalizer (L : Set G) := le_normalizer_of_normal_subgroupOf hLM
   obtain ⟨s, hs, hs1, hsn⟩ := PartTwo.s13_exists_odd_divisor hn
   have hCL : ∀ q : ℕ, q.Prime → q ≠ 2 → q ∣ 2 ^ s - 1 → ¬ IsStronglyPEmbedded q D.M :=

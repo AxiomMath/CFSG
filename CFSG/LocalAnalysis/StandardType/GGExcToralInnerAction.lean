@@ -34,7 +34,7 @@ theorem exists_orderOf_eq_three (K : Type) [Field K] [CharP K 2] :
     have h32 : ((3 : ℕ) : K) = ((2 : ℕ) : K) + 1 := by push_cast; ring
     rw [h32, h2, zero_add]
     exact one_ne_zero
-  haveI : NeZero ((3 : ℕ) : K) := ⟨h3⟩
+  have : NeZero ((3 : ℕ) : K) := ⟨h3⟩
   obtain ⟨z, hz⟩ := HasEnoughRootsOfUnity.prim (M := AlgebraicClosure K) (n := 3)
   refine ⟨(hz.isUnit (by norm_num)).unit, ?_⟩
   rw [← orderOf_units, IsUnit.unit_spec, ← hz.eq_orderOf]
@@ -117,7 +117,7 @@ theorem exists_rational_of_frob_fixed {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {
   let X : Subgroup (ModGL τ (AlgebraicClosure K)) :=
     adjointGroup τ (AlgebraicClosure K) ⊓
       (entrywiseFrobGL τ (AlgebraicClosure K) 2 f).eqLocus (MonoidHom.id _)
-  haveI : Finite X := Set.Finite.to_subtype
+  have : Finite X := Set.Finite.to_subtype
     ((finite_setOf_entrywiseFrobGL_eq (τ := τ) (k := AlgebraicClosure K) 2 hf).subset
       fun g hg => (Subgroup.mem_inf.1 hg).2)
   have hFr : ∀ c : AlgebraicClosure K,
@@ -137,8 +137,8 @@ theorem exists_conj_eq_of_toral {τ : Tag} (hτ : τ = .E7 ∨ τ = .E8) {K : Ty
     ∃ r : adjointGroup τ K, ∀ x ∈ E, β x = r * x * r⁻¹ := by
   classical
   obtain ⟨w₀, hw₀⟩ := exists_smul_eq_neg_E7_E8 hτ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let : Fintype K := Fintype.ofFinite K
   obtain ⟨f, _, hKf⟩ := FiniteField.card K 2

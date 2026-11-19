@@ -85,7 +85,7 @@ theorem exists_g2Inv {g : Equiv.Perm (Fin 4060)} (hg : g ∈ ruS) (h2 : orderOf 
   rw [hke]
   exact hrep
 
-@[expose] def g2InvElt (k : ℕ) : Equiv.Perm (Fin 4060) := permOfArr 4060 g2Inv[k]!
+def g2InvElt (k : ℕ) : Equiv.Perm (Fin 4060) := permOfArr 4060 g2Inv[k]!
 
 theorem rep_g2InvElt {k : ℕ} (hk : k < g2Inv.size) : Rep 4060 g2Inv[k]! (g2InvElt k) := by
   obtain ⟨g, -, -, hg⟩ := g2Inv_spec hk
@@ -124,7 +124,7 @@ theorem g2Com_iff {t u : Array ℕ} {g h : Equiv.Perm (Fin 4060)} (ht : Rep 4060
   rw [beq_iff_eq, h1, h2, hgh]
 
 open scoped Classical in
-@[expose] def g2Idx (E : Subgroup (Equiv.Perm (Fin 4060))) : Finset ℕ :=
+def g2Idx (E : Subgroup (Equiv.Perm (Fin 4060))) : Finset ℕ :=
   (Finset.range g2Inv.size).filter fun k => g2InvElt k ∈ E
 
 theorem mem_g2Idx {E : Subgroup (Equiv.Perm (Fin 4060))} {k : ℕ} :

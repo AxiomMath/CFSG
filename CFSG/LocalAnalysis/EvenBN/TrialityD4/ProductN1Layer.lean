@@ -120,7 +120,7 @@ theorem not_isSimpleGroup_prod_self {N B : Type*} [Group N] [Group B] [Nontrivia
   have hn' : (((⊤ : Subgroup B).prod (⊥ : Subgroup B)).comap e.toMonoidHom).Normal :=
     hn.comap e.toMonoidHom
   obtain ⟨b, hb⟩ := exists_ne (1 : B)
-  haveI := hn'
+  have := hn'
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (((⊤ : Subgroup B).prod (⊥ : Subgroup B)).comap e.toMonoidHom) with h | h
   · have hmem : e.symm (b, 1) ∈ ((⊤ : Subgroup B).prod (⊥ : Subgroup B)).comap e.toMonoidHom := by
@@ -244,7 +244,7 @@ theorem closureSelection_of_layerList
     ·
       exfalso
       obtain ⟨e⟩ := hAA
-      haveI : Nontrivial (A.map π) := αA.toEquiv.nontrivial
+      have : Nontrivial (A.map π) := αA.toEquiv.nontrivial
       exact not_isSimpleGroup_prod_self e
     ·
       obtain ⟨F, _, _, _, -, ⟨ψ₀⟩⟩ := exists_sl2_of_lieModel (by omega) hL2
@@ -338,16 +338,18 @@ theorem t_mem_normalizer_D₅ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
 theorem tBar_eq (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) :
     tBar d t = NormalizerQuotient.proj (yamadaD₅ d t) ⟨t, t_mem_normalizer_D₅ h d⟩ := by
   unfold tBar
-  rw [dif_pos (t_mem_normalizer_D₅ h d)]
+  rw [dite_eq_left (t_mem_normalizer_D₅ h d)]
 
 theorem cLV_le_centralizer_t (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) :
     cLV d ≤ centralizer ({t} : Set G) := by
   rintro _ ⟨l, -, rfl⟩
   exact h.L_le_centralizer l.2
 
+omit [Finite G] in
 theorem S_le_cLV (d : TrialityD4Data L (2 ^ f)) : d.S.map L.subtype ≤ cLV d :=
   map_mono d.S_le_centralizer_V
 
+omit [Finite G] in
 theorem J₆_le_cLV (d : TrialityD4Data L (2 ^ f)) : d.J₆.map L.subtype ≤ cLV d :=
   map_mono (d.J₆_le_leviShort.trans d.leviShort_le_centralizer_V)
 
@@ -377,7 +379,7 @@ theorem isKGroupCat_H1bar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (normalizer_D₅_ne_top h d hp) _
 
 theorem kBar_le_centralizer_tBar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
-    (hp : ProductHyp h d) : kBar d t ≤ centralizer ({tBar d t} : Set (H1bar d t)) := by
+    (_hp : ProductHyp h d) : kBar d t ≤ centralizer ({tBar d t} : Set (H1bar d t)) := by
   rintro _ ⟨⟨x, hxN⟩, hx, rfl⟩
   have hxc : x ∈ cLV d := hx
   have hxt : x * t = t * x := mem_centralizer_singleton_iff.1 (cLV_le_centralizer_t h d hxc)
@@ -388,6 +390,7 @@ theorem kBar_le_centralizer_tBar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ 
   congr 1
   exact Subtype.ext hxt
 
+omit [Finite G] in
 theorem mem_cLV_iff (d : TrialityD4Data L (2 ^ f)) {x : G} :
     x ∈ cLV d ↔ ∃ hx : x ∈ L, (⟨x, hx⟩ : L) ∈ centralizer (d.V : Set L) := by
   constructor
@@ -396,6 +399,7 @@ theorem mem_cLV_iff (d : TrialityD4Data L (2 ^ f)) {x : G} :
   · rintro ⟨hx, hc⟩
     exact ⟨⟨x, hx⟩, hc, rfl⟩
 
+omit [Finite G] in
 theorem conj_mem_cLV (d : TrialityD4Data L (2 ^ f)) {γ x : G}
     (hγL : γ ∈ normalizer (L : Set G))
     (hγV : γ ∈ normalizer ((d.V.map L.subtype : Subgroup G) : Set G))
@@ -463,9 +467,11 @@ theorem tBar_mem_normalizer_pBar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ 
   rw [this]
   exact NormalizerQuotient.proj_mem_bar ((mem_normalizer_iff.1 htP x).1 hxP)
 
+omit [Finite G] in
 theorem jSixBar_le_kBar (d : TrialityD4Data L (2 ^ f)) : jSixBar d t ≤ kBar d t :=
   NormalizerQuotient.bar_mono (J₆_le_cLV d)
 
+omit [Finite G] in
 theorem sBar_le_kBar (d : TrialityD4Data L (2 ^ f)) :
     NormalizerQuotient.bar (yamadaD₅ d t) (d.S.map L.subtype) ≤ kBar d t :=
   NormalizerQuotient.bar_mono (S_le_cLV d)
@@ -507,7 +513,7 @@ theorem closure_data
   classical
   obtain ⟨-, ⟨hC1, hC2, hord⟩, ⟨⟨α⟩, hsyl⟩, ⟨hPel, hPcard, hPfree, hPfix, hSbar, hPcomm⟩⟩ :=
     D1_centralizer_tbar h d hp
-  haveI : Fintype d.Γ := Fintype.ofFinite d.Γ
+  have : Fintype d.Γ := Fintype.ofFinite d.Γ
   have hf := hp.two_le
   have hn : 4 ≤ 3 * f := by omega
   have hk : Fintype.card d.Γ = 2 ^ (3 * f) := by
@@ -807,10 +813,11 @@ end Corr
 
 theorem perfectResidual_eq_top_of_perfect {X : Type*} [Group X] (hX : Group.IsPerfect X) :
     CFSG.perfectResidual X = ⊤ := by
-  haveI := hX
+  have := hX
   unfold CFSG.perfectResidual
   simp [Group.IsPerfect.derivedSeries_eq_top]
 
+omit [Finite G] in
 theorem nOneBar_eq_xBar (d : TrialityD4Data L (2 ^ f)) (t : G)
     (hperf : Group.IsPerfect ↥(xBar d t)) : nOneBar d t = xBar d t := by
   unfold nOneBar
@@ -1028,7 +1035,7 @@ theorem exists_mem_inf_of_normal {G' : Type*} [Group G'] [Finite G'] {P Z W F : 
     (hS3 : Subgroup.map P.subtype (Subgroup.upperCentralSeries ↥P 3) = W)
     (hS4 : Subgroup.map P.subtype (Subgroup.upperCentralSeries ↥P 4) = F) :
     ∃ x ∈ Z ⊓ F, x ∉ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxZ, hxW, hxc⟩ := exists_mem_forall_conj_mem_of_isPGroup (p := 2) hP2
     (hP2.to_le hZP) hWZ hne hPZ hPW (hZP.trans hPW)
   exact ⟨x, ⟨hxZ, mem_of_commutators_mem hS3 hS4 hPW (hZP hxZ) hxc⟩, hxW⟩
@@ -1226,7 +1233,7 @@ theorem orderOf_dvd_card_sub_one {X : Type*} [Group X] [Finite X] {W : Subgroup 
     (fun u hu h hh hc => by
       obtain ⟨i, rfl⟩ := mem_zpowers_iff.1 hh
       exact hfree u hu.1 hu.2 i hc)
-  rw [Nat.card_zpowers, Set.ncard_diff_singleton_of_mem W.one_mem, ← Nat.card_coe_set_eq] at h
+  rw [Nat.card_zpowers, Set.ncard_sdiff_singleton_of_mem W.one_mem, ← Nat.card_coe_set_eq] at h
   exact h
 
 theorem two_pow_sub_one_mul_add_one {m : ℕ} :
@@ -1252,7 +1259,7 @@ theorem exists_torus_element {k : Type*} [Field k] [CharP k 2] [Finite k] {m : �
     (hk : Nat.card k = 2 ^ (2 * m)) {d : SL(2, k)} (hd1 : d ≠ 1)
     (hd : d ^ (Nat.card k - 1) = 1) :
     ∃ z ∈ centralizer (zpowers d : Set SL(2, k)), orderOf z = 2 ^ m + 1 := by
-  haveI := isCyclic_centralizer_zpowers hd1 hd
+  have := isCyclic_centralizer_zpowers hd1 hd
   have hT : Nat.card (centralizer (zpowers d : Set SL(2, k))) = 2 ^ (2 * m) - 1 := by
     rw [card_centralizer_zpowers (MulEquiv.refl SL(2, k)) hd1 hd, hk]
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := centralizer (zpowers d : Set SL(2, k)))
@@ -1318,15 +1325,15 @@ theorem exists_odd_lift {G X : Type*} [Group G] [Finite G] [Group X] {N D J : Su
     let ψ0 : M →* X := φ.comp (Subgroup.inclusion hMN)
     have hψ0z : ∀ m : M, ψ0 m ∈ zpowers z := fun m => ((hMmem m).1 m.2).choose_spec
     let ψ : M →* zpowers z := ψ0.codRestrict (zpowers z) hψ0z
-    haveI : Group.IsNilpotent D := hD2.isNilpotent
-    haveI : Group.IsSolvable (zpowers z) := inferInstance
+    have : Group.IsNilpotent D := hD2.isNilpotent
+    have : Group.IsSolvable (zpowers z) := inferInstance
     refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hDM) ψ (fun m hm => ?_)
     have h1 : ψ0 m = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hm)
     have h2 : (m : G) ∈ D := (hker_mem ⟨m, hMN m.2⟩).1 h1
     exact ⟨⟨m, h2⟩, rfl⟩
   have hcop : (Nat.card J).Coprime (Nat.card M) := by
     refine Nat.coprime_of_dvd fun p hp hpJ hpM => ?_
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hpM
     have hgN : (g : G) ∈ N := hMN g.2
     obtain ⟨hgN', hgz⟩ := (hMmem g).1 g.2
@@ -1644,7 +1651,7 @@ theorem mem_normalizer_oTwoPrimeRes {A : Subgroup G} {g : G} (hA : g ∈ normali
   rw [MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   constructor
   · rintro ⟨y, ⟨hy, k, hk⟩, rfl⟩
     refine ⟨(mem_normalizer_iff.1 hA y).1 hy, k, ?_⟩
@@ -1846,8 +1853,8 @@ theorem D6_of_D5 {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t :
   · exfalso
     have hlay := hp.layer
     have hf2 := hp.two_le
-    haveI : Fintype k := Fintype.ofFinite k
-    haveI : CharP k 2 := by
+    have : Fintype k := Fintype.ofFinite k
+    have : CharP k 2 := by
       obtain ⟨n, hn1, hn2⟩ := FiniteField.card k (ringChar k)
       have h1 : Fintype.card k = 2 ^ (6 * f) := by
         rw [← Nat.card_eq_fintype_card, hkcard, ← pow_mul, mul_comm]

@@ -26,7 +26,7 @@ private theorem psuKind_dag_ne {f n : ℕ} {K : Type} [Field K] (h : UnitaryFiel
     psuDag h e ≠ e := by
   intro hd
   unfold psuKind at hk
-  simp only [hd, if_true] at hk
+  simp only [hd, ite_true] at hk
   split_ifs at hk <;> omega
 
 theorem psuGraph_core {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -125,7 +125,7 @@ theorem psuGraphNone_holds : PSUGraphNone := by
   classical
   intro f K _ _ _ h n hn i β hi hβ hodd α hα2 hcomm hfix L₁ hL₁
   obtain ⟨X, B, hβB, hS⟩ := psuGraph_setting_of_hyps h hn i β hi hβ hodd hα2 hcomm hfix
-  haveI : Group.IsSolvable ↥(psuChat h (B : GL (Fin n) K)) := psuGraph_core hS
+  have : Group.IsSolvable ↥(psuChat h (B : GL (Fin n) K)) := psuGraph_core hS
   have hle : L₁ ≤ (psuChat h (B : GL (Fin n) K)).map
       (QuotientGroup.mk' (normOneScalars h (AutPSU.XJ h n) n)) := by
     intro g hg
@@ -134,9 +134,9 @@ theorem psuGraphNone_holds : PSUGraphNone := by
     refine psuGraph_mem_chat_of_fixed h B x ?_
     rw [← hβB]
     exact hL₁ _ hg
-  haveI : Group.IsSolvable ↥((psuChat h (B : GL (Fin n) K)).map
+  have : Group.IsSolvable ↥((psuChat h (B : GL (Fin n) K)).map
       (QuotientGroup.mk' (normOneScalars h (AutPSU.XJ h n) n))) :=
-    solvable_of_surjective (MonoidHom.subgroupMap_surjective _ _)
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective _ _)
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 end CFSG.StandardType

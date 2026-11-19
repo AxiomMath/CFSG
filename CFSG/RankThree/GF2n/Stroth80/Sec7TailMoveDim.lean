@@ -41,7 +41,7 @@ theorem finrank_range_le_seven (Tv Tw W Lm : Submodule K E) (u : E →ₗ[K] E)
   omega
 
 theorem two_mul_finrank_le_of_isotropic (B : LinearMap.BilinForm K E) (hnd : B.Nondegenerate)
-    (hrefl : B.IsRefl) (W : Submodule K E) (hW : ∀ x ∈ W, ∀ y ∈ W, B x y = 0) :
+    (_hrefl : B.IsRefl) (W : Submodule K E) (hW : ∀ x ∈ W, ∀ y ∈ W, B x y = 0) :
     2 * Module.finrank K W ≤ Module.finrank K E := by
   have hle : W ≤ B.orthogonal W := fun x hx =>
     LinearMap.BilinForm.mem_orthogonal_iff.2 (fun n hn => hW n hn x hx)

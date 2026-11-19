@@ -65,8 +65,8 @@ theorem exists_factors_of_minInv {M : Type} [Group M] [Finite M] (σ : MulAut M)
   let Γ : Type := M ⋊[ψ] G
   let ι : M →* Γ := SemidirectProduct.inl
   have hιinj : Function.Injective ι := SemidirectProduct.inl_injective
-  haveI hGfin : Finite G := IsOfFinOrder.finite_zpowers ⟨3, by norm_num, hσ⟩
-  haveI hΓfin : Finite Γ := Finite.of_equiv (M × G) SemidirectProduct.equivProd.symm
+  have hGfin : Finite G := IsOfFinOrder.finite_zpowers ⟨3, by norm_num, hσ⟩
+  have hΓfin : Finite Γ := Finite.of_equiv (M × G) SemidirectProduct.equivProd.symm
   have hInv : ∀ g : G, ∀ x ∈ N, ψ g x ∈ N := fun g x hx =>
     zpow_mem_of_mem_of_invariant hN.invariant g.2 hx
   let N' : Subgroup Γ := N.map ι
@@ -104,7 +104,7 @@ theorem exists_factors_of_minInv {M : Type} [Group M] [Finite M] (σ : MulAut M)
       rw [hLmap, h]
   obtain ⟨r, S', hr, hS'le, hS'simple, hS'conj, hS'norm, e, he⟩ :=
     CFSG.LocalCores.minimal_normal_simple_factors hN'normal hN'ne hN'min
-  haveI hS'simpleI : ∀ i, IsSimpleGroup ↥(S' i) := hS'simple
+  have hS'simpleI : ∀ i, IsSimpleGroup ↥(S' i) := hS'simple
   let S : Fin r → Subgroup M := fun i => (S' i).comap ι
   have hSmap : ∀ i, (S i).map ι = S' i := fun i =>
     Subgroup.map_comap_eq_self (f := ι) (H := S' i)
@@ -129,19 +129,19 @@ theorem exists_factors_of_minInv {M : Type} [Group M] [Finite M] (σ : MulAut M)
       (Subgroup.equivMapOfInjective (S i) ι hιinj).trans (MulEquiv.subgroupCongr (hSmap i))
     exact MulEquiv.isSimpleGroup hiso
   · intro i hi
-    haveI : IsMulCommutative ↥(S i) := hi
-    haveI hS'i : IsMulCommutative ↥(S' i) := hSmap i ▸ inferInstance
+    have : IsMulCommutative ↥(S i) := hi
+    have hS'i : IsMulCommutative ↥(S' i) := hSmap i ▸ inferInstance
     have hcomm_all : ∀ j, IsMulCommutative ↥(S' j) := fun j => by
       obtain ⟨g, hg⟩ := hS'conj i j
       rw [hg]
       exact Subgroup.map_isMulCommutative (H := S' i) (MulAut.conj g⁻¹).toMonoidHom
-    haveI : ∀ j, IsMulCommutative ↥(S' j) := hcomm_all
-    haveI hN'comm : IsMulCommutative ↥N' := IsMulCommutative.of_comm (fun a b => by
+    have : ∀ j, IsMulCommutative ↥(S' j) := hcomm_all
+    have hN'comm : IsMulCommutative ↥N' := IsMulCommutative.of_comm (fun a b => by
       obtain ⟨x, rfl⟩ := e.surjective a
       obtain ⟨y, rfl⟩ := e.surjective b
       rw [← map_mul, ← map_mul, mul_comm'])
     let eN : ↥N ≃* ↥N' := Subgroup.equivMapOfInjective N ι hιinj
-    haveI : IsMulCommutative ↥N := IsMulCommutative.of_comm (fun a b => by
+    have : IsMulCommutative ↥N := IsMulCommutative.of_comm (fun a b => by
       apply eN.injective
       rw [map_mul, map_mul, mul_comm'])
     exact hna inferInstance

@@ -11,6 +11,7 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.Vol2.Ch11
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_odd_of_two_dvd_card {H : Subgroup G} (h : 2 ∣ Nat.card H) : ¬ Odd (Nat.card G) := by
   intro hodd
   have h1 := Odd.of_dvd_nat hodd (Subgroup.card_subgroup_dvd_card H)

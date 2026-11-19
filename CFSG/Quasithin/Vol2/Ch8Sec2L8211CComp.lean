@@ -30,7 +30,7 @@ theorem isSubnormal_fsuM_of_fsu {G : Type} [Group G] [Finite G] {T L I : Subgrou
 theorem ne_bot_of_surjective {G : Type} [Group G] (L : Subgroup G) {R : Type} [Group R]
     [Nontrivial R] (f : ↥L →* R) (hf : Function.Surjective f) : L ≠ ⊥ := by
   intro h
-  haveI : Nontrivial ↥L := hf.nontrivial
+  have : Nontrivial ↥L := hf.nontrivial
   have hsub : Subsingleton ↥L := by
     rw [h]
     infer_instance
@@ -67,32 +67,32 @@ theorem stmt8_2_11_comp_of
       obtain ⟨α, β, hαs, hαk, -, -, -⟩ :=
         stmt8_2_11_L34_of h3228 h3109 h37 h38 h39 h711n h822 h825 h828 h829 kg82CoverL34_holds
           kg82CoverM22_holds hm24 G T L I hyp h731 h821 hc hrow0 hnot24 z hz hzV hn
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hp : IsPGroup 2 ↥α.ker := by
         rw [hαk]
         exact CFSG.LieType.BorelTits.pCore_isPGroup 2
-      haveI : Group.IsNilpotent ↥α.ker := hp.isNilpotent
+      have : Group.IsNilpotent ↥α.ker := hp.isNilpotent
       exact ⟨isQS_of_surjective α hαs (perfect_top_subgroup hperf) (isQS_of_isSimpleGroup _),
         ne_bot_of_surjective _ α hαs⟩
     ·
       obtain ⟨hnt, hQP⟩ := isQS_parz22 (hM22 hM22c) hz1 hSV
-      haveI := hnt
+      have := hnt
       have hsurj := L8211M.actTo_surjective hLzN hPz
       have hp : IsPGroup 2 ↥(L8211M.actTo hLzN hPz).ker :=
         L8211M.isPGroup_ker_actTo hLzN hPz hXC
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Group.IsNilpotent ↥(L8211M.actTo hLzN hPz).ker := hp.isNilpotent
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Group.IsNilpotent ↥(L8211M.actTo hLzN hPz).ker := hp.isNilpotent
       exact ⟨isQS_of_surjective (L8211M.actTo hLzN hPz) hsurj (perfect_top_subgroup hperf) hQP,
         ne_bot_of_surjective _ (L8211M.actTo hLzN hPz) hsurj⟩
     · exact absurd hM24code hnot24
     ·
       obtain ⟨hnt, hQP⟩ := isQS_parz24 (hM24 hM24cc) hz1 hSV
-      haveI := hnt
+      have := hnt
       have hsurj := L8211M.actTo_surjective hLzN hPz
       have hp : IsPGroup 2 ↥(L8211M.actTo hLzN hPz).ker :=
         L8211M.isPGroup_ker_actTo hLzN hPz hXC
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Group.IsNilpotent ↥(L8211M.actTo hLzN hPz).ker := hp.isNilpotent
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Group.IsNilpotent ↥(L8211M.actTo hLzN hPz).ker := hp.isNilpotent
       exact ⟨isQS_of_surjective (L8211M.actTo hLzN hPz) hsurj (perfect_top_subgroup hperf) hQP,
         ne_bot_of_surjective _ (L8211M.actTo hLzN hPz) hsurj⟩
   exact mem_cComp_of_isQS hLX key.2 hperf key.1

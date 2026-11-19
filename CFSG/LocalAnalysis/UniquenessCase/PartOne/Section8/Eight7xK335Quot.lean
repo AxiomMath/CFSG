@@ -139,7 +139,7 @@ theorem k335_quot_closed {G : Type} [Group G] [Finite G] {P S : Subgroup G}
     exact Subgroup.map_mono hPS ha
   have haz : Subgroup.zpowers a ≤ (Tbar : Subgroup (G ⧸ N)) := Subgroup.zpowers_le.mpr haS
   have hap : IsPGroup 3 (Subgroup.zpowers a) :=
-    Tbar.isPGroup'.of_injective (Subgroup.inclusion haz) (Subgroup.inclusion_injective haz)
+    Tbar.isPGroup.of_injective (Subgroup.inclusion haz) (Subgroup.inclusion_injective haz)
   obtain ⟨b, hbK, hbconj⟩ := k335qcl_conj_into_sylow Tbar
     (Subgroup.normalizer ((P.map mk' : Subgroup (G ⧸ N)) : Set (G ⧸ N))) hTbar_le hxK
     (k335qcl_isPGroup_zpowers_conj (g := g) hap)

@@ -164,7 +164,7 @@ theorem y63_U (hΘ : Y63Model D k P Q Θ) (hC : D.CenSpec k) (hU : D.USpec k) :
       obtain ⟨i, hi, hig⟩ := hΘ.surj g (hU'Q hg)
       exact ⟨i, hA_u0 i (Finset.mem_filter.mpr
         ⟨Finset.mem_range.mpr hi, by rw [hig]; exact hg⟩), hig⟩
-    haveI : Finite ↥U := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
+    have : Finite ↥U := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
     exact Subgroup.eq_of_le_of_card_ge hle (by rw [hZcard, hZ'card])
 
 end CFSG.OddStandard.HigherRank.YamadaG23

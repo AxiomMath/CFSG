@@ -47,10 +47,10 @@ theorem heisCoord_conj_pinnedX_of_deg_zero [CharP K 2] (hτ : τ = .E6 ∨ τ = 
   congr 1
   by_cases h2 : IsRoot τ ν
   · by_cases h1 : ν - γ ∈ Deg1 τ
-    · rw [if_pos ⟨h1, h2⟩, if_pos (mem_rootFinset.2 h2)]
-    · rw [if_neg (fun h => h1 h.1), if_pos (mem_rootFinset.2 h2),
+    · rw [ite_eq_left ⟨h1, h2⟩, ite_eq_left (mem_rootFinset.2 h2)]
+    · rw [ite_eq_right (fun h => h1 h.1), ite_eq_left (mem_rootFinset.2 h2),
         hs.support q hq (ν - γ) h1, mul_zero]
-  · rw [if_neg (fun h => h2 h.2), if_neg (fun h => h2 (mem_rootFinset.1 h))]
+  · rw [ite_eq_right (fun h => h2 h.2), ite_eq_right (fun h => h2 (mem_rootFinset.1 h))]
 
 theorem heisCoord_eq_zero_of_forall_conj_single [CharP K 2]
     (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {q : ModGL τ K} (hq : q ∈ Qθ τ K)
@@ -65,7 +65,7 @@ theorem heisCoord_eq_zero_of_forall_conj_single [CharP K 2]
       exists_add_single_mem_rootFinset_of_deg_one hτ μ (mem_rootFinset.2 hμr) hμ1 hμ
     have h1 := (heisCoord_conj_pinnedX_of_deg_zero hτ (isRoot_single τ j)
       (by simp [Ne.symm hj]) 1 hq).2 (μ + Pi.single j 1)
-    rw [hfix j hj, if_pos hjr, one_mul, add_sub_cancel_right] at h1
+    rw [hfix j hj, ite_eq_left hjr, one_mul, add_sub_cancel_right] at h1
     exact left_eq_add.1 h1
   · exact (heisCoord_spec τ K).support q hq μ hμD
 
@@ -83,7 +83,7 @@ theorem heisCoord_eq_zero_of_forall_conj_neg_single [CharP K 2]
     have h1 := (heisCoord_conj_pinnedX_of_deg_zero hτ
       (CFSG.LieType.Chevalley.IsRoot.neg (isRoot_single τ j))
       (by simp [Ne.symm hj]) 1 hq).2 (μ - Pi.single j 1)
-    rw [hfix j hj, if_pos hjr, one_mul, sub_neg_eq_add, sub_add_cancel] at h1
+    rw [hfix j hj, ite_eq_left hjr, one_mul, sub_neg_eq_add, sub_add_cancel] at h1
     exact left_eq_add.1 h1
   · exact (heisCoord_spec τ K).support q hq μ hμD
 

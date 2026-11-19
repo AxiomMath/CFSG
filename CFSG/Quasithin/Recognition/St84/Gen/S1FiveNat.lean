@@ -31,7 +31,7 @@ theorem NatQuot.exists_conj_mul_mem {L E Z : Subgroup G} [Finite ↥L] {n : ℕ}
   have hLE : L ≤ Subgroup.normalizer (E : Set G) := fun l hl => (h.normal hl).1
   have hLZ : L ≤ Subgroup.normalizer (Z : Set G) := fun l hl => (h.normal hl).2
   have hEZ : E ≤ Subgroup.normalizer (Z : Set G) := h.E_le.trans hLZ
-  haveI : (Z.subgroupOf E).Normal :=
+  have : (Z.subgroupOf E).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.Z_le).mpr hEZ
   let Q := ↥E ⧸ Z.subgroupOf E
   let q : ℕ := 2 ^ n
@@ -44,8 +44,8 @@ theorem NatQuot.exists_conj_mul_mem {L E Z : Subgroup G} [Finite ↥L] {n : ℕ}
       show (2 ^ n) ^ 2 = 2 ^ (2 * n)
       rw [← pow_mul, mul_comm n 2]
     exact hidx.trans hpow.symm
-  haveI hQfin : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcardQ]; positivity)
-  letI : MulAction ↥L Q := MulAction.compHom Q (CFSG.GroupTheory.conjQuotHom hLE hLZ)
+  have hQfin : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcardQ]; positivity)
+  let : MulAction ↥L Q := MulAction.compHom Q (CFSG.GroupTheory.conjQuotHom hLE hLZ)
   have hsmul : ∀ (l : ↥L) (e : ↥E),
       l • (e : Q) = ((⟨(l : G) * e * (l : G)⁻¹, (hLE l.2 e).mp e.2⟩ : ↥E) : Q) := by
     intro l e

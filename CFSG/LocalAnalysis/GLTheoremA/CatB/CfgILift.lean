@@ -14,7 +14,7 @@ section Lift
 variable {H : Type} [Group H]
 
 theorem isElemAbelian_map_of_injective {p : ℕ} {K : Type} [Group K] {f : H →* K}
-    (hf : Function.Injective f) {S : Subgroup H} (hS : IsElemAbelian p S) :
+    (_hf : Function.Injective f) {S : Subgroup H} (hS : IsElemAbelian p S) :
     IsElemAbelian p (S.map f) := by
   obtain ⟨hc, he⟩ := hS
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩

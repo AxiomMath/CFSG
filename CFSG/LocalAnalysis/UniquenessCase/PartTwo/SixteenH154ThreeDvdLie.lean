@@ -16,7 +16,7 @@ open scoped commutatorElement
 
 private theorem s16h_three_dvd_card_alternatingGroup {n : ℕ} (hn : 3 ≤ n) :
     3 ∣ Nat.card (alternatingGroup (Fin n)) := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let a : Fin n := ⟨0, by omega⟩
   let b : Fin n := ⟨1, by omega⟩
   let c : Fin n := ⟨2, by omega⟩
@@ -37,14 +37,14 @@ private theorem s16h_three_dvd_card_alternatingGroup {n : ℕ} (hn : 3 ≤ n) :
 theorem s16h_three_dvd_of_isSLn {X : Type} [Group X] {n a : ℕ} (hX : CFSG.Open.IsQuasisimple X)
     (h : IsSLn X n a) : 3 ∣ Nat.card X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hnt : Nontrivial X := s16h_nontrivial_of_isQuasisimple hX
   have hn2 : 2 ≤ n := by
     by_contra hlt
     have hn1 : n ≤ 1 := by omega
-    haveI : Subsingleton ↥(StatedSL n K) := s16h_subsingleton_statedSL_of_le_one hn1
-    haveI : Subsingleton X := ⟨fun x y => e.injective (Subsingleton.elim (e x) (e y))⟩
+    have : Subsingleton ↥(StatedSL n K) := s16h_subsingleton_statedSL_of_le_one hn1
+    have : Subsingleton X := ⟨fun x y => e.injective (Subsingleton.elim (e x) (e y))⟩
     exact (not_subsingleton_iff_nontrivial.mpr hnt) inferInstance
   have hformula : Nat.card X = Nat.card K ^ (n * (n - 1) / 2) *
       ∏ i ∈ Finset.Icc 2 n, (Nat.card K ^ i - 1) := by
@@ -59,15 +59,15 @@ theorem s16h_three_dvd_of_isSLn {X : Type} [Group X] {n a : ℕ} (hX : CFSG.Open
 theorem s16h_three_dvd_of_isSpn {X : Type} [Group X] {n a : ℕ} (hX : CFSG.Open.IsQuasisimple X)
     (h : IsSpn X n a) : 3 ∣ Nat.card X := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hnt : Nontrivial X := s16h_nontrivial_of_isQuasisimple hX
   have hk1 : 1 ≤ n / 2 := by
     by_contra hlt
     have hk0 : n / 2 = 0 := by omega
     have hcard : Nat.card X = 1 := by
       rw [Nat.card_congr e.toEquiv, hk0, s16h_card_statedSp_zero K]
-    haveI : Subsingleton X := (Nat.card_eq_one_iff_unique.mp hcard).1
+    have : Subsingleton X := (Nat.card_eq_one_iff_unique.mp hcard).1
     exact (not_subsingleton_iff_nontrivial.mpr hnt) inferInstance
   have hformula : Nat.card X = Nat.card K ^ ((n / 2) ^ 2) *
       ∏ j ∈ Finset.Icc 1 (n / 2), (Nat.card K ^ (2 * j) - 1) := by
@@ -135,7 +135,7 @@ private lemma s16h_isometry_quadPlus_one_class {K : Type} [Field K]
   have hquad : ∀ v : Fin 1 ⊕ Fin 1 → K,
       StatedQuadPlus 1 K v = v (Sum.inl 0) * v (Sum.inr 0) := by
     intro v
-    simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_one]
+    simp [StatedQuadPlus]
   set p := (g : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) K) (Sum.inl 0) (Sum.inl 0) with hp
   set q := (g : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) K) (Sum.inl 0) (Sum.inr 0) with hq
   set r := (g : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) K) (Sum.inr 0) (Sum.inl 0) with hr
@@ -156,7 +156,7 @@ private lemma s16h_isometry_quadPlus_one_class {K : Type} [Field K]
     rw [hquad, hquad] at h
     simp only [Matrix.mulVec_add, Matrix.mulVec_single_one, Pi.add_apply, Matrix.col_apply,
       Pi.single_eq_same, Pi.single_eq_of_ne (by simp : (Sum.inl 0 : Fin 1 ⊕ Fin 1) ≠ Sum.inr 0),
-      add_zero, mul_one, zero_mul, hp, hq, hr, hs] at h
+      add_zero] at h
     simpa using h
   have h3' : p * s + q * r = 1 := by
     have e : (p + q) * (r + s) = p * s + q * r + (p * r + q * s) := by ring
@@ -259,7 +259,7 @@ private lemma s16h_three_dvd_statedOmega_quadPlus_two {K : Type} [Field K] [Char
   have hM : M = ⁅A, σ⁆ := by
     rw [commutatorElement_def, hAinv, hσinv]
     ext i j
-    simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one]
+    simp only [Matrix.SpecialLinearGroup.coe_mul]
     fin_cases i <;> fin_cases j <;>
       simp [M, A, σ, Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]
   have hM3 : M ^ 3 = 1 := by
@@ -271,7 +271,7 @@ private lemma s16h_three_dvd_statedOmega_quadPlus_two {K : Type} [Field K] [Char
     intro h
     have h00 := congrArg (fun x : Matrix.SpecialLinearGroup (Fin 2) K =>
       (x : Matrix (Fin 2) (Fin 2) K) 0 0) h
-    simp only [M, Units.val_one, Matrix.cons_val_zero, Matrix.of_apply, Matrix.one_apply_eq] at h00
+    simp only [M, Matrix.cons_val_zero, Matrix.of_apply] at h00
     exact zero_ne_one h00
   have hmem : CFSG.HardMathSupport.Curtis.NaturalModuleCensus.AltIb.OmegaPlusCell.j1 M ∈
       StatedOmega (StatedQuadPlus 2 K) := by
@@ -304,13 +304,13 @@ private lemma s16h_card_proj_omega_quadPlus {K : Type} [Field K] [Finite K] [Cha
     {k : ℕ} (hk : 1 ≤ k) :
     Nat.card (StatedProj (StatedOmega (StatedQuadPlus k K))) =
       Nat.card (StatedOmega (StatedQuadPlus k K)) := by
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   refine CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedOmega
     (Q := CFSG.LieType.Universal.Spin.quadPlus k K) (Q₀ := StatedQuadPlus k K)
     (CFSG.LieType.Universal.Spin.coe_quadPlus k K) ?_
   refine ⟨Pi.single (Sum.inl (0 : Fin k)) 1 + Pi.single (Sum.inr (0 : Fin k)) 1, ?_⟩
   rw [CFSG.LieType.Universal.Spin.quadPlus_apply]
-  simp [Pi.single_apply, Finset.sum_eq_single]
+  simp [Pi.single_apply]
 
 private lemma s16h_three_dvd_proj_omegaPlus_ge_three {K : Type} [Field K] [Finite K] [CharP K 2]
     {a k : ℕ} (hK : Nat.card K = 2 ^ a) (hk : 3 ≤ k) :
@@ -337,20 +337,20 @@ private lemma s16h_three_dvd_proj_omegaPlus_ge_three {K : Type} [Field K] [Finit
 theorem s16h_three_dvd_of_isOmegaPlus {X : Type} [Group X] {n a : ℕ}
     (hX : CFSG.Open.IsQuasisimple X) (h : IsOmegaPlus X n a) : 3 ∣ Nat.card X := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hnc := s16h_not_isMulCommutative_of_isQuasisimple hX
   by_cases hk1 : n / 2 ≤ 1
   · exfalso
-    haveI hΩ : IsMulCommutative ↥(StatedOmega (StatedQuadPlus (n / 2) K)) := by
+    have hΩ : IsMulCommutative ↥(StatedOmega (StatedQuadPlus (n / 2) K)) := by
       rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hk1 with h0 | h1
       · rw [h0]
-        haveI : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) :=
+        have : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) :=
           Subsingleton.units_of_isUnit fun a _ => Subsingleton.elim a 1
         exact IsMulCommutative.of_comm fun x y => Subsingleton.elim _ _
       · rw [h1]
         exact s16h_isMulCommutative_statedOmega_quadPlus_one
-    haveI hP : IsMulCommutative (StatedProj (StatedOmega (StatedQuadPlus (n / 2) K))) := by
+    have hP : IsMulCommutative (StatedProj (StatedOmega (StatedQuadPlus (n / 2) K))) := by
       refine IsMulCommutative.of_comm fun x y => ?_
       obtain ⟨x', rfl⟩ := QuotientGroup.mk'_surjective _ x
       obtain ⟨y', rfl⟩ := QuotientGroup.mk'_surjective _ y
@@ -364,7 +364,7 @@ theorem s16h_three_dvd_of_isOmegaPlus {X : Type} [Group X] {n a : ℕ}
         have h1 := Finite.one_lt_card (α := K)
         omega
       · exact h0
-    haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+    have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
     by_cases hk3 : 3 ≤ n / 2
     · have hproj := s16h_three_dvd_proj_omegaPlus_ge_three (K := K) (a := a) (k := n / 2)
         hKcard hk3
@@ -378,7 +378,7 @@ theorem s16h_three_dvd_of_isOmegaPlus {X : Type} [Group X] {n a : ℕ}
       exact hproj2
 
 private lemma s16h_card_proj_omega_quadMinus {K : Type} [Field K] [Finite K] [CharP K 2]
-    {k : ℕ} {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
+    {k : ℕ} {b c : K} (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Nat.card (StatedProj (StatedOmega (StatedQuadMinus k K b c))) =
       Nat.card (StatedOmega (StatedQuadMinus k K b c)) := by
   refine CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedOmega
@@ -386,7 +386,7 @@ private lemma s16h_card_proj_omega_quadMinus {K : Type} [Field K] [Finite K] [Ch
     (CFSG.LieType.Universal.Spin.coe_quadMinus k K b c) ?_
   refine ⟨Pi.single (Sum.inr (Sum.inr 0)) 1, ?_⟩
   rw [CFSG.LieType.Universal.Spin.quadMinus_apply]
-  simp [Pi.single_apply, Finset.sum_eq_single]
+  simp
 
 private lemma s16h_three_dvd_proj_omegaMinus_ge_two {K : Type} [Field K] [Finite K] [CharP K 2]
     {a k : ℕ} (hK : Nat.card K = 2 ^ a) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
@@ -414,8 +414,8 @@ private lemma s16h_three_dvd_proj_omegaMinus_ge_two {K : Type} [Field K] [Finite
 theorem s16h_three_dvd_of_isOmegaMinus {X : Type} [Group X] {n a : ℕ}
     (hX : CFSG.Open.IsQuasisimple X) (h : IsOmegaMinus X n a) : 3 ∣ Nat.card X := by
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hirr, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hnc := s16h_not_isMulCommutative_of_isQuasisimple hX
   have ha1 : 1 ≤ a := by
     rcases Nat.eq_zero_or_pos a with h0 | h0
@@ -423,17 +423,17 @@ theorem s16h_three_dvd_of_isOmegaMinus {X : Type} [Group X] {n a : ℕ}
       have h1 := Finite.one_lt_card (α := K)
       omega
     · exact h0
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   by_cases hk2 : 2 ≤ n / 2
   · have hproj := s16h_three_dvd_proj_omegaMinus_ge_two (K := K) (a := a) (k := n / 2)
       hKcard hirr hk2
     rw [Nat.card_congr e.toEquiv]
     exact hproj
   · have hkle : n / 2 ≤ 1 := Nat.lt_succ_iff.mp (not_le.1 hk2)
-    haveI hΩ : IsMulCommutative ↥(StatedOmega (StatedQuadMinus (n / 2) K b c)) :=
+    have hΩ : IsMulCommutative ↥(StatedOmega (StatedQuadMinus (n / 2) K b c)) :=
       IsMulCommutative.of_comm fun a b => Subtype.ext
         (s16h_comm_statedOmega_quadMinus_of_le_one (k := n / 2) hirr hkle a a.2 b b.2)
-    haveI hP : IsMulCommutative (StatedProj (StatedOmega (StatedQuadMinus (n / 2) K b c))) := by
+    have hP : IsMulCommutative (StatedProj (StatedOmega (StatedQuadMinus (n / 2) K b c))) := by
       refine IsMulCommutative.of_comm fun x y => ?_
       obtain ⟨x', rfl⟩ := QuotientGroup.mk'_surjective _ x
       obtain ⟨y', rfl⟩ := QuotientGroup.mk'_surjective _ y
@@ -445,14 +445,14 @@ theorem s16h_three_dvd_of_isOmegaMinus {X : Type} [Group X] {n a : ℕ}
 theorem s16h_three_dvd_of_isSUn {X : Type} [Group X] {n a : ℕ} (hX : CFSG.Open.IsQuasisimple X)
     (h : IsSUn X n a) : 3 ∣ Nat.card X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hnt : Nontrivial X := s16h_nontrivial_of_isQuasisimple hX
   have hn2 : 2 ≤ n := by
     by_contra hlt
     have hn1 : n ≤ 1 := by omega
-    haveI : Subsingleton ↥(StatedSU n (2 ^ a) K) := s16h_subsingleton_statedSU_of_le_one hn1
-    haveI : Subsingleton X := ⟨fun x y => e.injective (Subsingleton.elim (e x) (e y))⟩
+    have : Subsingleton ↥(StatedSU n (2 ^ a) K) := s16h_subsingleton_statedSU_of_le_one hn1
+    have : Subsingleton X := ⟨fun x y => e.injective (Subsingleton.elim (e x) (e y))⟩
     exact (not_subsingleton_iff_nontrivial.mpr hnt) inferInstance
   have ha1 : 1 ≤ a := by
     rcases Nat.eq_zero_or_pos a with h0 | h0
@@ -526,8 +526,8 @@ theorem s16h_three_dvd_of_isLn {X : Type} [Group X] {n a : ℕ} (h : IsLn X n a)
   have hSCM : StatedClassicalModel X .PSL n 2 a :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by simp [CFSG.Blueprint.classicalTags])
   obtain ⟨hadm, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hSCM
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hn2 : 2 ≤ n := hadm.2.2.1
   have hformula : Nat.card X = Nat.card K ^ (n * (n - 1) / 2) *
       (∏ i ∈ Finset.Icc 2 n, (Nat.card K ^ i - 1)) /
@@ -578,10 +578,10 @@ theorem s16h_three_dvd_of_isAlt {X : Type} [Group X] {n : ℕ} (hX : CFSG.Open.I
   have hnt : Nontrivial X := s16h_nontrivial_of_isQuasisimple hX
   have hn3 : 3 ≤ n := by
     by_contra hlt
-    have hcard : Nat.card (Fin n) ≤ 2 := by simp [Nat.card_fin]; omega
+    have hcard : Nat.card (Fin n) ≤ 2 := by simp; omega
     have hbot : alternatingGroup (Fin n) = ⊥ := alternatingGroup.eq_bot_of_card_le_two hcard
-    haveI : Subsingleton ↥(alternatingGroup (Fin n)) := by rw [hbot]; infer_instance
-    haveI : Subsingleton X := ⟨fun x y => e.injective (Subsingleton.elim (e x) (e y))⟩
+    have : Subsingleton ↥(alternatingGroup (Fin n)) := by rw [hbot]; infer_instance
+    have : Subsingleton X := ⟨fun x y => e.injective (Subsingleton.elim (e x) (e y))⟩
     exact (not_subsingleton_iff_nontrivial.mpr hnt) inferInstance
   rw [Nat.card_congr e.toEquiv]
   exact s16h_three_dvd_card_alternatingGroup hn3

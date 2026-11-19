@@ -21,9 +21,9 @@ theorem s16h_H5_row_O4_two_rank [Finite W] {A L : Subgroup (MulAut W)} {t : MulA
   intro q hq hq2 E hE hEab
   obtain ⟨K, hKf, hKfin, hKchar, b, c, hKcard, hirr, D, hDN, hDab, hcard⟩ :=
     s16h_H5_bridge_omegaMinus4 hc h hq hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   rw [← hcard]
   exact s16h_natNorm_elemAbelian_le_omegaMinus4 (K := K) (a := 2)
     ⟨by norm_num, by norm_num⟩ hKcard hirr hq hq2 hDN hDab

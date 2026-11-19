@@ -35,9 +35,9 @@ theorem nonempty_mulEquiv_projSL_of_lie_A2_four (d : TauCeti.ValidLieTypeIndex)
     Or.inl ⟨by decide, hStated⟩
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eK⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hLieB
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard4 : Nat.card K = 2 ^ 2 := by
     rw [hKcard, ← TauCeti.PrimePower.card_def, hQ]
     norm_num
@@ -103,11 +103,11 @@ theorem not_le_of_isSylowOf_two {K M A S : Subgroup G}
   set Abar : Subgroup (↥K ⧸ N) := A'.map π with hAbardef
   set Y : Subgroup (↥K ⧸ N) := ((K ⊓ M).subgroupOf K).map π with hYdef
   have hNnormal : N.Normal := hNdef ▸ CFSG.pPrimeCore_normal (p := 3) (G := ↥K)
-  haveI : N.Normal := hNnormal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : N.Normal := hNnormal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA'p : IsPGroup 3 ↥A' := hA'def ▸ hA.isPGroup.comap_subtype
-  haveI : Fact (IsPGroup 3 ↥A') := ⟨hA'p⟩
+  have : Fact (IsPGroup 3 ↥A') := ⟨hA'p⟩
   have hnorm : Subgroup.normalizer Abar = (Subgroup.normalizer A').map π := by
     rw [hAbardef]
     exact normalizer_map_quotient_eq_map_normalizer 3 A' N
@@ -188,7 +188,7 @@ theorem not_le_of_isSylowOf_two {K M A S : Subgroup G}
     have hGM : ((m⁻¹ * (⟨k, hk⟩ : ↥K) : ↥K) : G) ∈ M :=
       hO (Subgroup.mem_map_of_mem K.subtype hker)
     have hk_eq : (k : G) = (m : G) * ((m⁻¹ * (⟨k, hk⟩ : ↥K) : ↥K) : G) := by
-      simp [mul_assoc]
+      simp
     rw [hk_eq]
     exact M.mul_mem hm.2 hGM
   exact hKM hKM'

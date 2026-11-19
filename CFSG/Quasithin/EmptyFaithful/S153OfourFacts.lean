@@ -963,7 +963,6 @@ theorem offender_classification [Finite W] (h : OfourStruct X L₁ L₂ t) {T' :
       rw [h1, h2] <;>
       first
         | rfl
-        | simp only [one_mul, mul_one]
         | exact hc12
         | exact hc12.symm
         | rw [e1, e2]

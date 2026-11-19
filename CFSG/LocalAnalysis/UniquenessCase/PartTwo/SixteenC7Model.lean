@@ -14,7 +14,7 @@ section Model
 
 theorem s16c7_exists_seven_fix :
     ∃ Q : Subgroup (MulAut WMod), Q ≤ img ∧ Nat.card Q = 7 ∧ 8 ≤ Nat.card (fixV Q) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ : ∃ a : ↥SL32, mat a = s7m := ⟨slOfMat s7m det_s7m, mat_slOfMat _ _⟩
   obtain ⟨b, hb⟩ : ∃ b : ↥SL32, mat b = s7iᵀ :=
     ⟨slOfMat s7iᵀ (by decide), mat_slOfMat _ _⟩
@@ -64,8 +64,8 @@ theorem exists_sub_of_isPGroup_seven_norm {S : Subgroup (MulAut WMod)} (hS : S �
     (h7 : IsPGroup 7 S) :
     ∃ Q : Subgroup (MulAut WMod), Q ≤ S ∧ Nat.card S ≤ 7 * Nat.card Q ∧
       8 ≤ Nat.card (fixV Q) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (MulAut WMod) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (MulAut WMod) := MulEquiv.finite_left
   have hSdvd : Nat.card S ∣ 2 * 168 ^ 2 := by
     rw [← card_norm]
     exact Subgroup.card_dvd_of_le hS

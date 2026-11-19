@@ -57,7 +57,7 @@ theorem ggF4TwoCentre_holds :
   rw [h.1]
   have hpos : 0 < Nat.card ψ.ker := Nat.card_pos
   have hcases : Nat.card ψ.ker = 1 ∨ Nat.card ψ.ker = 2 := by omega
-  rcases hcases with hh | hh <;> rw [hh] <;> norm_num
+  rcases hcases with hh | hh <;> rw [hh]; norm_num
 
 theorem ggF4TwoOutTwo_holds :
     GGF4TwoOutTwo := by
@@ -65,7 +65,7 @@ theorem ggF4TwoOutTwo_holds :
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.I1434Exc.exists_mulEquiv_adjointGroup hR
   obtain ⟨hfin, hle2⟩ := SeitzReduction.SeitzQ2.card_outer_le_two_of_mulEquiv_F4_two hK e
-  haveI : Finite (Outer R) := hfin
+  have : Finite (Outer R) := hfin
   set φ : T →* Outer R := (QuotientGroup.mk' (inner R)).comp T.subtype with hφ
   have hinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -80,11 +80,11 @@ theorem ggF4TwoRankFour_holds :
   intro R _ _ hR
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.I1434Exc.exists_mulEquiv_adjointGroup hR
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Finite (adjointGroup .F4 K) := Subtype.finite
+  have : Finite (adjointGroup .F4 K) := Subtype.finite
   set E : Subgroup (adjointGroup .F4 K) := (TableBF4Two.torus3 K).range with hE
   have hEea : IsElemAbelian 3 E := by
     rw [hE]
@@ -116,9 +116,9 @@ theorem ggF4TwoInvolutionCommutes_holds :
   intro R _ _ hR
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.I1434Exc.exists_mulEquiv_adjointGroup hR
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card, hK])
   have hcomm : Commute (TableBF4Two.torusGen K 0) (TableBF4Two.rootInv K) :=
     TableBF4Two.commute_rho (TableBF4Two.castSucc_ne_three 0) (uSL 1 * vSL 1) (uSL 1)

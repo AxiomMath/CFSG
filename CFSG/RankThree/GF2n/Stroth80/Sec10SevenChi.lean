@@ -23,6 +23,7 @@ theorem Good103.comm_mem_Vt_iff (h34 : Stroth34Statement) (h311a : Stroth311aSta
   have h := hc.comm_mem_Tt_iff ht.1.mem_LB (hVT.le.trans hTU) hx
   rwa [← hVT] at h
 
+omit [Finite G] in
 theorem mem_centralizer_of_comm_mem_Z {t : G} (htZ : ∀ z ∈ Z, t * z = z * t)
     (hnf : ∀ w ∈ Q, ∀ z ∈ Z, w * t * w⁻¹ = t * z → z = 1) {x : G} (hx : x ∈ Q)
     (hxt : ⁅x, t⁆ ∈ Z) : x ∈ Subgroup.centralizer ({t} : Set G) := by
@@ -45,7 +46,7 @@ theorem Ctx.card_centralizer_mul_card_Ut (hc : Ctx M Q Z B) {t : G} (ht : t ∈ 
     Nat.card ↥(Q ⊓ Subgroup.centralizer ({t} : Set G)) * Nat.card ↥(Ut Q Z t) =
       Nat.card Q * Nat.card Z := by
   obtain ⟨K, hK, hfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI := hfin
+  have := hfin
   obtain ⟨φ, hφπ, -, -⟩ := exists_actionHom_H0 hc.hyp hD
   let τ := φ ⟨t, hc.LB_le_H0 ht⟩
   have htM : t ∈ M := hc.LB_le_M ht

@@ -100,9 +100,9 @@ theorem vecPerm_indVec_of_mem_setStab {I : Finset (Fin n)} {σ : Perm (Fin n)}
   have e : σ (σ⁻¹ i) = i := by simp
   rw [e] at h
   by_cases hi : σ⁻¹ i ∈ I
-  · rw [show indVec I (σ⁻¹ i) = 1 from if_pos hi, show indVec I i = 1 from if_pos (h.2 hi)]
-  · rw [show indVec I (σ⁻¹ i) = 0 from if_neg hi,
-      show indVec I i = 0 from if_neg fun hi' => hi (h.1 hi')]
+  · rw [show indVec I (σ⁻¹ i) = 1 from ite_eq_left hi, show indVec I i = 1 from ite_eq_left (h.2 hi)]
+  · rw [show indVec I (σ⁻¹ i) = 0 from ite_eq_right hi,
+      show indVec I i = 0 from ite_eq_right fun hi' => hi (h.1 hi')]
 
 theorem evenWeightPerm_eq_self_of_mem_setStab {I : Finset (Fin n)} {σ : Perm (Fin n)}
     (hσ : σ ∈ setStab I) {u : evenWeight n}
@@ -132,7 +132,7 @@ theorem comm_of_barAct_eq_len_two (hR : Nat.card ↥(Rc X) ≤ 2) {y : G}
   obtain ⟨I, hIc, hvI⟩ := exists_supp_of_len (Multiplicative.toAdd (D.piQ ⟨y, hy⟩))
   rw [hl] at hIc
   have hsum : ∑ i, indVec I i = 0 := by
-    have h : ∑ i, indVec I i = (I.card : ZMod 2) := by simp [indVec, Finset.sum_boole]
+    have h : ∑ i, indVec I i = (I.card : ZMod 2) := by simp [indVec]
     rw [h, hIc]
     decide
   have hrange : Multiplicative.toAdd (D.piQ ⟨y, hy⟩) ∈ Set.range (heartToBar (n := 6)) := by

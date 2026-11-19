@@ -34,7 +34,7 @@ private lemma ggWTEven_fin_ne_succ {k : ℕ} {i : Fin k} (hi : i.val + 1 < k) :
   intro hh
   have h2 : i.val = i.val + 1 := by
     have := congrArg Fin.val hh
-    simpa using this
+    simp at this
   omega
 
 private lemma ggWTEven_isRefl_sgnAut {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {k : ℕ}
@@ -67,7 +67,7 @@ private theorem ggWTEven_weylReflGroup_B {p : ℕ} {L' : Type} [Group L'] [Finit
         (MulAut.congr Θ).toMonoidHom) :
     GGWeylReflectionGroup p (ggAutomizer (MulAut.conj : L' →* MulAut L').range A) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let V := Fin k → Multiplicative (ZMod p)
   let Φ : MulAut V ≃* MulAut ↥A := MulAut.congr Θ
   let Aut : Subgroup (MulAut ↥A) :=
@@ -146,8 +146,8 @@ private theorem ggWTEven_weylReflGroup_B {p : ℕ} {L' : Type} [Group L'] [Finit
     intro i
     by_cases hi : i.val + 1 < k
     · rw [show g i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-        simp only [g, dif_pos hi], ggWTEven_toPerm_permAut, SpJoin.spReflPerm_of_lt k p i hi]
-    · rw [show g i = sgnAut i from by simp only [g, dif_neg hi],
+        simp only [g, dite_eq_left hi], ggWTEven_toPerm_permAut, SpJoin.spReflPerm_of_lt k p i hi]
+    · rw [show g i = sgnAut i from by simp only [g, dite_eq_right hi],
         ggWTEven_toPerm_sgnAut, SpJoin.spReflPerm_of_not_lt k p i hi]
   have hg_mem : ∀ i, g i ∈ H := by
     intro i
@@ -157,10 +157,10 @@ private theorem ggWTEven_weylReflGroup_B {p : ℕ} {L' : Type} [Group L'] [Finit
     · refine Or.inr ⟨⟨(i, ⟨i.val + 1, hi⟩), ?_⟩, ?_⟩
       · exact ggWTEven_fin_ne_succ hi
       · show permAut (Equiv.swap i ⟨i.val + 1, hi⟩) = g i
-        simp only [g, dif_pos hi]
+        simp only [g, dite_eq_left hi]
     · refine Or.inl ⟨i, ?_⟩
       show sgnAut i = g i
-      simp only [g, dif_neg hi]
+      simp only [g, dite_eq_right hi]
   have hf_simple : ∀ i, (f ((CoxeterMatrix.B k).simple i) : MulAut ↥A) = Φ (g i) := by
     intro i
     have hei : e ((CoxeterMatrix.B k).simple i) =
@@ -186,15 +186,15 @@ private theorem ggWTEven_weylReflGroup_B {p : ℕ} {L' : Type} [Group L'] [Finit
     rw [hf_simple i]
     by_cases hi : i.val + 1 < k
     · rw [show g i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-        simp only [g, dif_pos hi]]
+        simp only [g, dite_eq_left hi]]
       exact ggWTEven_isRefl_permAut_swap hp hp2 Θ (ggWTEven_fin_ne_succ hi)
-    · rw [show g i = sgnAut i from by simp only [g, dif_neg hi]]
+    · rw [show g i = sgnAut i from by simp only [g, dite_eq_right hi]]
       exact ggWTEven_isRefl_sgnAut hp hp2 Θ i
 
 private theorem ggWTEven_weylReflGroup {p : ℕ} {L' : Type} [Group L'] [Finite L']
     {A : Subgroup (MulAut L')} {k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hk4 : 4 ≤ k)
     (Θ : (Fin k → Multiplicative (ZMod p)) ≃* ↥A)
-    (hW : ∀ n : L', MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L')) →
+    (_hW : ∀ n : L', MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L')) →
       GGTorusWeylElt p A n)
     (hD : ∀ i j : Fin k, i ≠ j → ∃ (n : L')
       (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))),
@@ -202,14 +202,14 @@ private theorem ggWTEven_weylReflGroup {p : ℕ} {L' : Type} [Group L'] [Finite 
     (hP : ∀ σ : Equiv.Perm (Fin k), ∃ (n : L')
       (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))),
       ggConjAut A hn = MulAut.congr Θ (permAut σ))
-    (hST : ∀ i j : Fin k, i ≠ j → ∃ (n : L')
+    (_hST : ∀ i j : Fin k, i ≠ j → ∃ (n : L')
       (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))),
       ggConjAut A hn = MulAut.congr Θ (sgnAut i * sgnAut j * permAut (Equiv.swap i j)))
     (hN : ∀ (n : L') (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))),
       IsSignedPerm ⇑((MulAut.congr Θ).symm (ggConjAut A hn))) :
     GGWeylReflectionGroup p (ggAutomizer (MulAut.conj : L' →* MulAut L').range A) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let V := Fin k → Multiplicative (ZMod p)
   let Aut : Subgroup (MulAut ↥A) :=
     ggAutomizer (MulAut.conj : L' →* MulAut L').range A
@@ -293,8 +293,8 @@ private theorem ggWTEven_weylReflGroup {p : ℕ} {L' : Type} [Group L'] [Finite 
     have hι_single : ∀ i : Fin k, ι (Additive.ofMul (Θ (Pi.mulSingle i (ofAdd 1)))) = b i := by
       intro i; ext j
       by_cases hji : j = i
-      · rw [hji]; simp [ι, b, Pi.mulSingle_apply, Pi.single_apply]
-      · simp [ι, b, Pi.mulSingle_apply, Pi.single_apply, hji]
+      · rw [hji]; simp [ι, b]
+      · simp [ι, b, hji]
     have hggLin : ∀ (u : MulAut V) (l : Fin k),
         ggLin (p := p) ι (MulAut.congr Θ u) (b l)
           = fun m => toAdd (u (Pi.mulSingle l (ofAdd 1)) m) := by
@@ -405,8 +405,8 @@ theorem ggTorusWeylTypeW_of_evenSignedPermEltSC {p r : ℕ} {R : Type} [Group R]
   obtain ⟨ι, M, hM, f, hf⟩ := ggWTEven_weylReflGroup hp hp2 hk4 Θ hW hD hP hST hN
   refine ⟨ι, M, f, hM, ?_, fun i => ?_⟩
   ·
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Finite (MulAut (Fin k → Multiplicative (ZMod p))) :=
+    have : Fact p.Prime := ⟨hp⟩
+    have : Finite (MulAut (Fin k → Multiplicative (ZMod p))) :=
       Finite.of_injective
         (fun f : MulAut (Fin k → Multiplicative (ZMod p)) =>
           (f : (Fin k → Multiplicative (ZMod p)) → (Fin k → Multiplicative (ZMod p))))
@@ -457,7 +457,7 @@ theorem ggTorusWeylTypeW_of_evenSignedPermEltSC {p r : ℕ} {R : Type} [Group R]
         exact hm
       omega
     have hpos : 0 < Nat.card H := by
-      haveI : Nonempty ↥H := ⟨1⟩
+      have : Nonempty ↥H := ⟨1⟩
       exact Nat.card_pos
     have hle : 2 ^ (k - 1) * k.factorial ≤ Nat.card H := Nat.le_of_dvd hpos hdvd
     rw [← hcardH]

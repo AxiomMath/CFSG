@@ -19,7 +19,7 @@ theorem subgroupOf_theta_le {H : Type*} [Group H] [Finite H] (X : Subgroup H) :
     (aschbacherSolvableCore 3 H).subgroupOf X ≤ aschbacherSolvableCore 3 X := by
   have hH := solvable_prime_complement_core_characterization (H := H) Nat.prime_three
   have hX := solvable_prime_complement_core_characterization (H := ↥X) Nat.prime_three
-  haveI : Group.IsSolvable (aschbacherSolvableCore 3 H) := hH.1
+  have : Group.IsSolvable (aschbacherSolvableCore 3 H) := hH.1
   let ι : ↥((aschbacherSolvableCore 3 H).subgroupOf X) →* ↥(aschbacherSolvableCore 3 H) :=
     (X.subtype.comp ((aschbacherSolvableCore 3 H).subgroupOf X).subtype).codRestrict
       (aschbacherSolvableCore 3 H) fun x => Subgroup.mem_subgroupOf.mp x.2

@@ -36,7 +36,7 @@ theorem spPairedBlockModel_of_dvd (hmodel : SpPairedBlockModelDvd) : SpPairedBlo
   intro m n p K _ _ hK hm hp hp2 x y hxp hyp hxy hx1 h hh h1 hne hb J hJeq hN
   by_cases hpJ : p ∣ Nat.card J
   · exact hmodel hK hm hp hp2 x y hxp hyp hxy hx1 hh h1 hne hb J hJeq hN hpJ
-  · haveI := subsingleton_pSimple_of_not_dvd hp hpJ
+  · have := subsingleton_pSimple_of_not_dvd hp hpJ
     exact Or.inr (mem_inner_of_subsingleton _)
 
 end CFSG.LocalAnalysis.GLTheoremA.T171Sh

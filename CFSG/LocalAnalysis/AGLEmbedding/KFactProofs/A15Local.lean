@@ -87,7 +87,7 @@ theorem kFactA15Local : KFactA15Local := by
   obtain ⟨e⟩ := e
   obtain ⟨φ₁, hφ₁, hA₁⟩ := exists_embedding_pt K e hC
   have hTcard : Nat.card (T : Subgroup Y) = 5 ^ 3 := card_sylow_five hφ₁ hA₁ T
-  have hP : IsPGroup 5 ((T : Subgroup Y).map φ₁) := T.isPGroup'.map φ₁
+  have hP : IsPGroup 5 ((T : Subgroup Y).map φ₁) := T.isPGroup.map φ₁
   obtain ⟨g, hg⟩ := exists_conj_eq_sylowT hP
     (by rw [Subgroup.card_map_of_injective hφ₁, hTcard])
   let φ : Y →* Perm Pt := (MulAut.conj g).toMonoidHom.comp φ₁

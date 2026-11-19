@@ -59,12 +59,12 @@ theorem t120_u_a_half (m : ℕ) (hm : 3 ≤ m) :
       Torus.ofInt (Type120.k m) ![0, (2 : ℤ) ^ m, 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.a, gen]
   have hvb : (2 ^ m : ℕ) • Torus.b (k := Type120.k m) =
       Torus.ofInt (Type120.k m) ![0, 0, (2 : ℤ) ^ m] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.b, gen]
   change (Type120.action hd).φu ((2 ^ m : ℕ) • Torus.a (k := Type120.k m)) =
     (2 ^ m : ℕ) • Torus.b (k := Type120.k m)
   rw [hva, hvb]
@@ -98,7 +98,7 @@ theorem t120_uv_fixes_a_half (m : ℕ) (hm : 3 ≤ m) :
       Torus.ofInt (Type120.k m) ![0, (2 : ℤ) ^ m, 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.a, gen]
   change (Type120.action hd).φuv ((2 ^ m : ℕ) • Torus.a (k := Type120.k m)) =
     (2 ^ m : ℕ) • Torus.a (k := Type120.k m)
   rw [hva]
@@ -170,8 +170,7 @@ theorem t120_φuv_a_add_b {m : ℕ} {i F G : ℤ} (hd : Type120.Data m i F G) :
   rw [map_add, Type120.uv_a hd, Type120.uv_b hd]
   funext j
   fin_cases j <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, Torus.ofInt, zsmul_eq_mul]
-  all_goals ring
+    simp [Torus.a, Torus.b, Torus.c, gen, Torus.ofInt, zsmul_eq_mul]
 
 theorem t120_preimage_coord_zero {m : ℕ} (hm : 3 ≤ m) (t b G : ℤ) :
     (2 : ℤ) ^ m ∣ 0 - (3 * 2 ^ (m - 2)) *
@@ -271,23 +270,18 @@ theorem t120_uv_preimage_of_data {m : ℕ} {i F G : ℤ} (hd : Type120.Data m i 
       N • (Torus.a (k := Type120.k m) + Torus.b (k := Type120.k m)) := by
     rw [Torus.ofInt_eq_zsmul_gens, smul_add]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.a, Torus.b, gen]
   have hw : (2 ^ (m - 1) : ℕ) •
         (Torus.a (k := Type120.k m) + Torus.b (k := Type120.k m)) =
       Torus.ofInt (Type120.k m) ![0, (2 : ℤ) ^ (m - 1), (2 : ℤ) ^ (m - 1)] := by
     rw [Torus.ofInt_eq_zsmul_gens, smul_add]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.a, Torus.b, gen]
   rw [hv, map_zsmul, hφ, ← Torus.ofInt_zsmul, hw, ← hv, ← Torus.ofInt_sub,
     Torus.ofInt_eq_ofInt_iff]
   intro j
-  fin_cases j <;> simp [N, Type120.k, Pi.sub_apply, Pi.smul_apply, zsmul_eq_mul]
+  fin_cases j <;> simp [N, Type120.k, Pi.sub_apply]
   · rw [Int.modEq_iff_dvd]
-    change (2 : ℤ) ^ m ∣
-      0 - (3 * 2 ^ (m - 2)) *
-        (2 * (2 * b + 1) * (8 * t + 3) +
-          (2 * (2 * b + 1) * (8 * t + 3) ^ 2 - 8 * (2 * b + 1) * (8 * t + 3) -
-            20 * G * (8 * t + 3) ^ 2 - 60 * (8 * t + 3) ^ 2))
     exact t120_preimage_coord_zero hm t b G
   · rw [Int.modEq_iff_dvd]
     change (2 : ℤ) ^ (m + 1) ∣
@@ -337,6 +331,7 @@ theorem t120_φuv_ab_half {m : ℕ} (hm : 3 ≤ m) :
     abel
   rwa [hv] at h2
 
+omit [Finite G] in
 theorem t120_u_swaps_a_half {D : Subgroup G} {m : ℕ} (hm : 3 ≤ m)
     (dD : StrothWeakTypeData D (StrothTypeIndex.t120 m hm)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ m) * dD.u = (dD.b : G) ^ 2 ^ m := by
@@ -360,12 +355,12 @@ theorem t120_u_fixes_ab_half {m : ℕ} {i F G : ℤ} (hd : Type120.Data m i F G)
       Torus.ofInt (Type120.k m) ![0, (2 : ℤ) ^ (m - 1), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.a, gen]
   have hvb : (2 ^ (m - 1) : ℕ) • Torus.b (k := Type120.k m) =
       Torus.ofInt (Type120.k m) ![0, 0, (2 : ℤ) ^ (m - 1)] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+    fin_cases j <;> simp [Torus.b, gen]
   have hab : (2 ^ (m - 1) : ℕ) •
         (Torus.a (k := Type120.k m) + Torus.b (k := Type120.k m)) =
       Torus.ofInt (Type120.k m)
@@ -416,8 +411,8 @@ theorem t120_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
   set bh : G := (dD.b : G) ^ 2 ^ m with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (m - 1) * ab ^ 2 ^ (m - 1) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (m + 1) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -580,12 +575,12 @@ theorem t120_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
         Torus.ofInt (StrothTypeIndex.t120 m hm).k ![0, (2 : ℤ) ^ m, 0] := by
       rw [Torus.ofInt_eq_zsmul_gens]
       funext j
-      fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+      fin_cases j <;> simp [Torus.a, gen]
     have hvb : (2 ^ m : ℕ) • Torus.b (k := (StrothTypeIndex.t120 m hm).k) =
         Torus.ofInt (StrothTypeIndex.t120 m hm).k ![0, 0, (2 : ℤ) ^ m] := by
       rw [Torus.ofInt_eq_zsmul_gens]
       funext j
-      fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply]
+      fin_cases j <;> simp [Torus.b, gen]
     intro htor
     rw [hva, hvb, Torus.ofInt_eq_ofInt_iff] at htor
     have h2 := htor 2
@@ -641,6 +636,7 @@ theorem t120_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t120_d2_ofTorus {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t120 m hm)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t120 m hm).n - 2) =
@@ -660,8 +656,8 @@ theorem t120_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

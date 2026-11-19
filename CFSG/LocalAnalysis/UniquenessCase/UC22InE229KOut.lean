@@ -19,7 +19,7 @@ theorem kOddOutInner_holds : KOddOutInner := by
     rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv,
       CFSG.RankThree.PartTwo.Sec18.card_outer_projSL_two Nat.one_le_two_pow]
     exact hθ.coprime_two_right.pow_right k
-  · haveI : Fact q.Prime := ⟨hq⟩
+  · have : Fact q.Prime := ⟨hq⟩
     obtain ⟨g, hg⟩ := CFSG.Quasithin.H13.mulAut_odd_inner_of_isPSL (by omega) (by omega)
       (CFSG.Blueprint.LieModel.statedClassicalModel hL (by decide)) θ hθ
     exact ⟨g, hg.symm⟩

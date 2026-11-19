@@ -18,8 +18,8 @@ section Sz
 theorem t263_suzuki_odd_not_comm_invol {S' : Type} [Group S'] [Finite S'] {f : ℕ}
     (hS : CFSG.Blueprint.SuzukiModel S' 2 f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {s w : S'}
     (hsp : s ^ p = 1) (hs1 : s ≠ 1) (hw : orderOf w = 2) (hc : w * s = s * w) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, a, ha, K, _, _, hfa, hKcard, ⟨e⟩⟩ := hS
   have hK : Nat.card K = 2 ^ (2 * a + 1) := by rw [← hfa]; exact hKcard
   have hyo : orderOf (e w) = 2 := by rw [MulEquiv.orderOf_eq]; exact hw
@@ -31,7 +31,7 @@ theorem t263_suzuki_odd_not_comm_invol {S' : Type} [Group S'] [Finite S'] {f : �
   have hsord : orderOf (e s) = p :=
     orderOf_eq_prime (by rw [← map_pow, hsp, map_one])
       (fun h1 => hs1 (e.injective (h1.trans (map_one e).symm)))
-  have hpS : IsPGroup 2 (S₂ : Subgroup (CFSG.Blueprint.suzukiGroup a K)) := S₂.isPGroup'
+  have hpS : IsPGroup 2 (S₂ : Subgroup (CFSG.Blueprint.suzukiGroup a K)) := S₂.isPGroup
   obtain ⟨k, hk⟩ := hpS ⟨e s, hsS⟩
   have hdvd : p ∣ 2 ^ k := by
     have h1 : orderOf (⟨e s, hsS⟩ : (S₂ : Subgroup (CFSG.Blueprint.suzukiGroup a K))) ∣ 2 ^ k :=
@@ -39,19 +39,19 @@ theorem t263_suzuki_odd_not_comm_invol {S' : Type} [Group S'] [Finite S'] {f : �
     rwa [Subgroup.orderOf_mk, hsord] at h1
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp (hp.dvd_of_dvd_pow hdvd))
 
-theorem t263_sz_inner_elt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω}
+theorem t263_sz_inner_elt {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω}
     (hSn : S.Normal) (hSq : CFSG.Open.IsQuasisimple ↥S) (hSp : GLAPPrimeCore p ↥S = ⊥)
     (hcat : catalogIs (PSimple p S) K155X.l154ExcSuz) {x : Ω} (hxp : x ^ p = 1)
     (hInn : InnDiagOn p (Subgroup.zpowers x) S) (hxC : x ∉ Subgroup.centralizer (S : Set Ω)) :
     ∃ s : PSimple p S, MI.indAut p S x (t263_normalizer_of_normal hSn) = MulAut.conj s ∧ s ^ p = 1 ∧ s ≠ 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxN : x ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal hSn
   have hxN' : x⁻¹ ∈ Subgroup.normalizer (S : Set Ω) := Subgroup.inv_mem _ hxN
   have hcomp : GLAPComponent p S S := glaPComponent_self_p hSq hSp
   obtain ⟨s, hs⟩ := K155X.l154_inner_of_innDiagOn_suz hp hcomp hcat hxN hInn
-  haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
-  haveI : IsSimpleGroup (PSimple p S) := (pSimpleEquiv hSp).isSimpleGroup
+  have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : IsSimpleGroup (PSimple p S) := (pSimpleEquiv hSp).isSimpleGroup
   have hnab : ∃ a b : PSimple p S, a * b ≠ b * a := by
     have := CFSG.StandardType.exists_mul_ne_mul_centerQuot_of_perfect hSq.1 inferInstance
     obtain ⟨a, b, hab⟩ := this
@@ -89,8 +89,8 @@ theorem t263Desc_szAll : T263Desc t263GSzAll := by
     hBT' hker x hxB₀ hxC hxcomm
   exfalso
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxN : x ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal hSn
   have hxN' : x⁻¹ ∈ Subgroup.normalizer (S : Set Ω) := Subgroup.inv_mem _ hxN
   have hcomp : GLAPComponent p S S := glaPComponent_self_p hSq hSp
@@ -142,8 +142,8 @@ theorem t263Desc_szAll : T263Desc t263GSzAll := by
       rw [← hs, MulAut.conj_apply] at this
       exact this
     exact (mul_inv_eq_iff_eq_mul.1 h1).symm
-  haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
-  haveI : IsSimpleGroup (PSimple p S) := (pSimpleEquiv hSp).isSimpleGroup
+  have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : IsSimpleGroup (PSimple p S) := (pSimpleEquiv hSp).isSimpleGroup
   have hnab : ∃ a b : PSimple p S, a * b ≠ b * a := by
     have := CFSG.StandardType.exists_mul_ne_mul_centerQuot_of_perfect hSq.1 inferInstance
     obtain ⟨a, b, hab⟩ := this
@@ -184,7 +184,7 @@ theorem t263Vac_sz32 : T263Vac t263GSz32 := by
   intro p hp hp2 Ω _ _ S B hSn hSq hSp hQ hF2 hB h4 hT hC
   classical
   have hvh := t263VHyp_of_data hSn hSq hSp hB hp h4 hT
-  haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
   obtain ⟨i, hi, ⟨e⟩⟩ := hQ
   cases i with
   | cyclic _ _ => exact hi.elim
@@ -193,7 +193,7 @@ theorem t263Vac_sz32 : T263Vac t263GSz32 := by
   | lie d =>
     obtain ⟨x, hv⟩ := d
     have hx : x = .suzuki 2 := by
-      cases x <;> first | exact hi.elim | skip
+      cases x <;> try exact hi.elim
       rename_i k
       rcases k with _ | _ | _ | k <;> first | exact hi.elim | rfl
     subst hx

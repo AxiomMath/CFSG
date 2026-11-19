@@ -31,17 +31,17 @@ theorem coord_exists [Finite G] {S A B C : Subgroup G} (hS : IsElemAb 2 6 S) (hA
       (∀ x : ↥S, Multiplicative.toAdd (E x) 1 = 0 ↔ (x : G) ∈ A ⊔ C) ∧
       (∀ x : ↥S, Multiplicative.toAdd (E x) 2 = 0 ↔ (x : G) ∈ A ⊔ B) := by
   obtain ⟨hEA, hS64⟩ := hS
-  haveI := hEA
-  haveI : IsElementaryAbelian 2 A := isEA_of_le hEA hA
-  haveI : IsElementaryAbelian 2 B := isEA_of_le hEA hB
-  haveI : IsElementaryAbelian 2 C := isEA_of_le hEA hC
+  have := hEA
+  have : IsElementaryAbelian 2 A := isEA_of_le hEA hA
+  have : IsElementaryAbelian 2 B := isEA_of_le hEA hB
+  have : IsElementaryAbelian 2 C := isEA_of_le hEA hC
   obtain ⟨fA⟩ := CFSG.RankThree.PartOne.LinAlg.exists_coords (p := 2) A (n := 2)
     (by rw [cA]; norm_num)
   obtain ⟨fB⟩ := CFSG.RankThree.PartOne.LinAlg.exists_coords (p := 2) B (n := 2)
     (by rw [cB]; norm_num)
   obtain ⟨fC⟩ := CFSG.RankThree.PartOne.LinAlg.exists_coords (p := 2) C (n := 2)
     (by rw [cC]; norm_num)
-  letI : CommGroup ↥S :=
+  let : CommGroup ↥S :=
     { (inferInstance : Group ↥S) with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
   let proj : Fin 3 → (Multiplicative (Fin 3 → Fin 2 → ZMod 2) →* Multiplicative (Fin 2 → ZMod 2)) :=
     fun i => AddMonoidHom.toMultiplicative (Pi.evalAddMonoidHom (fun _ : Fin 3 => Fin 2 → ZMod 2) i)
@@ -61,10 +61,10 @@ theorem coord_exists [Finite G] {S A B C : Subgroup G} (hS : IsElemAb 2 6 S) (hA
     by_cases hij : i = j
     · subst hij
       simp [hproj, ι]
-    · simp only [hij, if_false]
+    · simp only [hij, ite_false]
       rw [hproj]
       have : Multiplicative.toAdd (ι i y) j = 0 := by
-        simp [ι, AddMonoidHom.single_apply, Pi.single_apply, Ne.symm hij]
+        simp [ι, AddMonoidHom.single_apply, Ne.symm hij]
       simp [this]
   have hFA : ∀ y, F (ι 0 y) = Subgroup.inclusion hA (fA y) := by
     intro y
@@ -117,7 +117,7 @@ theorem coord_exists [Finite G] {S A B C : Subgroup G} (hS : IsElemAb 2 6 S) (hA
     rw [← hFC, hEF]
   have hιz : ∀ (i j : Fin 3) y, i ≠ j → Multiplicative.toAdd (ι i y) j = 0 := by
     intro i j y hij
-    simp [ι, AddMonoidHom.single_apply, Pi.single_apply, Ne.symm hij]
+    simp [ι, AddMonoidHom.single_apply, Ne.symm hij]
   have hmem1 : ∀ x : ↥S, (x : G) = (fA (proj 0 (E x)) : G) * (fB (proj 1 (E x)) : G) *
       (fC (proj 2 (E x)) : G) := fun x => by rw [← hF, hFE]
   refine ⟨E, ?_, ?_, ?_⟩

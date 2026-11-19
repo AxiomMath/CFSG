@@ -32,7 +32,7 @@ theorem exists_transvection_of_SC_small {R : Type} [Group R] [Finite R] {p : ℕ
     (hSC : ∀ g ∈ Subgroup.centralizer (E : Set R), g ^ p = 1 → g ∈ E) :
     ∃ φ ∈ ggInduced ⊤ E, GGIsTransvection p φ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C := Subgroup.centralizer (E : Set R) with hC
   have hEC : E ≤ C := fun x hx => Subgroup.mem_centralizer_iff.2 fun y hy =>
     congrArg Subtype.val (hE.1.is_comm.comm ⟨y, hy⟩ ⟨x, hx⟩)
@@ -68,16 +68,16 @@ theorem exists_transvection_of_SC_small {R : Type} [Group R] [Finite R] {p : ℕ
     have h2 : p ^ 2 < p ^ 3 := Nat.pow_lt_pow_right hp.one_lt (by norm_num)
     omega
   · have hlt : Q < P := lt_of_le_of_ne hQP hQP'
-    obtain ⟨n, hnP, hnN, hnQ⟩ := exists_mem_normalizer_not_mem P.isPGroup' hlt
+    obtain ⟨n, hnP, hnN, hnQ⟩ := exists_mem_normalizer_not_mem P.isPGroup hlt
     have hnE := hNE n hnN
     have hnC : n ∉ C := by
       intro hnC
       have hmem : Q ⊔ Subgroup.zpowers n ∈ S :=
         ⟨sup_le hQC (Subgroup.zpowers_le.2 hnC),
-          P.isPGroup'.to_le (sup_le hQP (Subgroup.zpowers_le.2 hnP)), hEQ.trans le_sup_left⟩
+          P.isPGroup.to_le (sup_le hQP (Subgroup.zpowers_le.2 hnP)), hEQ.trans le_sup_left⟩
       exact hnQ (hQmax.2 hmem le_sup_left
         (le_sup_right (a := Q) (Subgroup.mem_zpowers n)))
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
     have hnk : n ^ p ^ k = 1 := by
       have := congrArg Subtype.val hk
       rwa [Subgroup.coe_pow, OneMemClass.coe_one] at this
@@ -92,7 +92,7 @@ theorem exists_transvection_of_SC_small {R : Type} [Group R] [Finite R] {p : ℕ
           rw [h, Subgroup.card_bot] at hEp
           exact hEp hp.one_lt.le
         obtain ⟨z, hz, hz1, hzc⟩ := CFSG.Quasithin.S15223.exists_centralized_ne_one
-          (P.isPGroup'.to_le (Subgroup.zpowers_le.2 hnP)) hE.isPGroup
+          (P.isPGroup.to_le (Subgroup.zpowers_le.2 hnP)) hE.isPGroup
           (Subgroup.zpowers_le.2 hnE) hE1
         have hzn : Commute z n := (hzc n (Subgroup.mem_zpowers n)).symm
         refine ⟨Subgroup.zpowers z, Subgroup.zpowers_le.2 hz, ?_, ?_⟩
@@ -108,7 +108,7 @@ theorem exists_transvection_of_SC_small {R : Type} [Group R] [Finite R] {p : ℕ
 theorem ggF4ThreeSCTransvInput_of_cube
     (hb : GGF4ThreeSCCubeInput) : GGF4ThreeSCTransvInput := by
   intro K _ _ _ hq E hE hle hSC
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases h9 : Nat.card E ≤ 3 ^ 2
   · have hd : 3 ∣ Nat.card K ^ 2 - 1 := by
       have h := Nat.sq_sub_sq (Nat.card K) 1
@@ -118,7 +118,7 @@ theorem ggF4ThreeSCTransvInput_of_cube
     obtain ⟨A, hA, hA3⟩ :=
       ExcFieldAutCentRankF4.exists_elemAbelian_pow_three_le Nat.prime_three (by norm_num) hd
     exact exists_transvection_of_SC_small Nat.prime_three hA hA3 hE h9 hSC
-  · haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  · have : Finite E := Nat.finite_of_card_ne_zero (by omega)
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hE.isPGroup
     have hk3 : k = 3 := by
       rw [hk] at hle h9

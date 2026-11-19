@@ -57,9 +57,9 @@ theorem rhyp_mulAut {A : Type*} [Group A] [IsSimpleGroup A]
       (MulAut.conj : A →* MulAut A) b, ⟨b, rfl⟩, fun h => hab ?_⟩
     exact hinj (by rw [map_mul, map_mul]; exact h)
   · intro N hN hNne
-    haveI : IsSimpleGroup ↥(MulAut.conj : A →* MulAut A).range :=
+    have : IsSimpleGroup ↥(MulAut.conj : A →* MulAut A).range :=
       (MonoidHom.ofInjective hinj).symm.isSimpleGroup
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     rcases Subgroup.Normal.eq_bot_or_eq_top
         ((N ⊓ (MulAut.conj : A →* MulAut A).range).subgroupOf
           (MulAut.conj : A →* MulAut A).range) with hbot | htop
@@ -96,7 +96,7 @@ theorem rhyp_mulAut {A : Type*} [Group A] [IsSimpleGroup A]
 theorem commutator_mulAut_alt6 :
     commutator (MulAut (alternatingGroup (Fin 6))) =
       (MulAut.conj : alternatingGroup (Fin 6) →* MulAut (alternatingGroup (Fin 6))).range := by
-  haveI hsimple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have hsimple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hcenter : Subgroup.center (alternatingGroup (Fin 6)) = ⊥ :=
     alternatingGroup.center_eq_bot (by simp)

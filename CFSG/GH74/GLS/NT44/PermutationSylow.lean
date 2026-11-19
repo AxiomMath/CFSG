@@ -145,17 +145,17 @@ private theorem p0_lift_coe
   have hksInv := (bridge_checks hcheck).1
   have hksRep : ∀ h < 2, Rep 2688 D.ks[h]! (ksFam h) := by
     intro h hh
-    rw [ksFam, dif_pos hh]
+    rw [ksFam, dite_eq_left hh]
     exact (rep_permOfArr (allLt_spec hksInv hh)).1
   have hksInvRep : ∀ h < 2, Rep 2688 KI[h]! (ksFam h)⁻¹ := by
     intro h hh
-    rw [ksFam, dif_pos hh]
+    rw [ksFam, dite_eq_left hh]
     exact (rep_permOfArr (allLt_spec hksInv hh)).2
   have hword := rep_wordA (n := 2688) (S := D.ks) (Sinv := KI) (gs := ksFam)
     (j := 2) hksRep hksInvRep w hletters
   have hfun : (fun j : Fin 2 => ksFam j.val) = fun j : Fin 2 => ksPerm j := by
     funext j
-    rw [ksFam, dif_pos j.isLt]
+    rw [ksFam, dite_eq_left j.isLt]
   rw [hfun] at hword
   have hp0Rep : Rep 2688 D.p0[i.val]! (p0Perm i) :=
     (rep_permOfArr (allLt_spec ((bridge_checks hcheck).2.1) i.isLt)).1
@@ -285,7 +285,7 @@ private theorem card_P0448
     have hset : {g | g ∈ Q.original.toList} = Set.range restrictedP0Perm := by
       ext g
       dsimp only [Q]
-      rw [Set.mem_setOf_eq, Set.mem_range, RawSchreierDatum.mem_ofArrays_original]
+      rw [Set.mem_ofPred_eq, Set.mem_range, RawSchreierDatum.mem_ofArrays_original]
       constructor
       · rintro ⟨i, hi, hg⟩
         exact ⟨⟨i, hi⟩, hg⟩

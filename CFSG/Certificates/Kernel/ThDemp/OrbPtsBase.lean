@@ -19,7 +19,7 @@ local notation "𝕄" g:max =>
 
 variable {J : Subgroup (GL (Fin 248) (ZMod 2))} {D : DempData} {O : OrbData}
 
-@[expose] def RegJ (D : DempData) (J : Subgroup (GL (Fin 248) (ZMod 2))) : Prop :=
+def RegJ (D : DempData) (J : Subgroup (GL (Fin 248) (ZMod 2))) : Prop :=
   ∀ r, 0 < r → r < D.nreg → ∃ x : J, 𝕄 x = pkMat (D.RB r)
 
 theorem mem_lgetL : ∀ (l : List (List ℕ)) (i : ℕ) (r : ℕ), r ∈ lgetL l i → ∃ w ∈ l, r ∈ w

@@ -48,7 +48,7 @@ theorem char_eq_iff_iso
     V.character = W.character ↔ Nonempty (V ≅ W) := by
   constructor
   · intro hchar
-    haveI : NeZero (Nat.card G : k) := by
+    have : NeZero (Nat.card G : k) := by
       refine ⟨?_⟩
       have hNat : Nat.card G ≠ 0 := by
         exact (Nat.card_ne_zero).mpr ⟨⟨1⟩, inferInstance⟩
@@ -57,8 +57,8 @@ theorem char_eq_iff_iso
       ⟨ι, f, instι, hf, ⟨eV⟩⟩
     rcases exists_simple_decomposition W with
       ⟨κ, g, instκ, hg, ⟨eW⟩⟩
-    letI : Fintype ι := instι
-    letI : Fintype κ := instκ
+    let : Fintype ι := instι
+    let : Fintype κ := instκ
     have hcount :
         ∀ (S : FDRep k G) [Simple S],
           (∑ i, if Nonempty (S ≅ f i) then 1 else 0)
@@ -99,7 +99,7 @@ theorem char_eq_iff_iso
             =
           (∑ j, if Nonempty (f i₀ ≅ g j) then 1 else 0) := by
       intro i₀
-      haveI : Simple (f i₀) := hf i₀
+      have : Simple (f i₀) := hf i₀
       exact hcount (f i₀)
     have hcount_g :
         ∀ j₀ : κ,
@@ -107,7 +107,7 @@ theorem char_eq_iff_iso
             =
           (∑ j, if Nonempty (g j₀ ≅ g j) then 1 else 0) := by
       intro j₀
-      haveI : Simple (g j₀) := hg j₀
+      have : Simple (g j₀) := hg j₀
       exact hcount (g j₀)
     rcases FDRep.biproduct_iso_of_iso_counts
         (k := k) (G := G) (f := f) (g := g)

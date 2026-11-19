@@ -133,7 +133,7 @@ theorem stL_walkStep_spec (hy : stL_Hyp LP RD RW PW N H x u) {r : ℕ} (hr : r <
     have hl : wLen w + wLen (wOne 7) < 2 ^ 32 := by rw [stL_wLen_wOne]; omega
     refine ⟨stL_wInH_wCat hl hw (stL_wInH_wOne (by norm_num)), by
       rw [stL_wLen_wCat hl, stL_wLen_wOne]; omega, ?_⟩
-    rw [stL_val_wCat x hl (stL_wOK_of_wInH hw), stL_val_wOne x (by norm_num), stL_E, if_pos hp]
+    rw [stL_val_wCat x hl (stL_wOK_of_wInH hw), stL_val_wOne x (by norm_num), stL_E, ite_eq_left hp]
     exact stL_rc_congr (stL_rc_refl _) (by group) rfl
   · rw [stL_walkStep_odd w hs hp] at hf ⊢
     generalize hF : hNat (wsJ s) 20 = f at hf ⊢
@@ -159,7 +159,7 @@ theorem stL_walkStep_spec (hy : stL_Hyp LP RD RW PW N H x u) {r : ℕ} (hr : r <
         (X (wsK (wsMk (dN2 (RD f)) 0 (hAfterWord (hDrop (wsJ s) 20)))) *
           evalWord x (wList (wCat (RW f) (wTh tw))))
       rw [stL_wsK_wsMk _ (stL_dN2_lt _) (by norm_num), stL_val_wCat x hl (stL_wOK_of_wInH
-        (hy.rwH f hfN)), stL_val_wTh hy.uu hy.θ hT, stL_E, if_neg (by omega), e1]
+        (hy.rwH f hfN)), stL_val_wTh hy.uu hy.θ hT, stL_E, ite_eq_right (by omega), e1]
       have hff := (ih f hfr).1 hfa
       rw [h1] at hff
       exact stL_rc_congr (stL_rc_ustep hy.uu (evalWord x (wList tw)) hff) (by group) (by group)
@@ -334,7 +334,7 @@ theorem stL_walk_sem (hy : stL_Hyp LP RD RW PW N H x u) {r J : ℕ} (hr : r < N)
       have : Nat.land (f + 1) 1 = (f + 1) % 2 := Nat.and_one_is_mod (f + 1)
       rw [this] at hodd; omega
     have hgap := stL_rel_gap hy.xx hy.uu hy.rel hf7
-    rw [stL_E, if_neg (by omega)] at hgap
+    rw [stL_E, ite_eq_right (by omega)] at hgap
     have htl : wLen (hWord (wsJ sb)) < 2 ^ 16 := stL_wLen_hWord _
     obtain ⟨hT, e1⟩ := stL_ptOK hy hxfH (by omega) htl hpt
     have e2 := stL_newOK hy hr hxbH (by omega) hT htl hnew

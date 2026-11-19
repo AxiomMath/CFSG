@@ -100,7 +100,7 @@ private theorem map_bilinIsometryGroup_eq_fischerMatrixGroup (B : LinearMap.Bili
       B x y} = ((bilinIsometryGroup B).map
         (mclt_glMatrixEquiv (Pi.basisFun K ι)).toMonoidHom : Set (GL ι K)) := by
     ext A
-    rw [Set.mem_setOf_eq, SetLike.mem_coe, Subgroup.mem_map_equiv, mem_bilinIsometryGroup]
+    rw [Set.mem_ofPred_eq, SetLike.mem_coe, Subgroup.mem_map_equiv, mem_bilinIsometryGroup]
     simp only [glMatrixEquiv_symm_apply]
   rw [fischerMatrixGroup, hset, Subgroup.closure_eq]
 

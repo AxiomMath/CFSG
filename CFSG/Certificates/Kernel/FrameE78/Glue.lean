@@ -96,7 +96,7 @@ private theorem normV_lead {n x : ℕ} (hn : n ≤ 8) (hx : VOK n x) (hx0 : x �
   · have hle := hx.2 q0 hq0
     rw [normV_ite]
     by_cases h2 : lead n x = 2
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       refine ⟨VOK_negL hn hx, ?_⟩
       have hneg : ∀ q < n, (ln (negL x) q = 0 ↔ ln x q = 0) := fun q hq => by
         rw [ln_negL (by omega) (hx.2 q hq)]
@@ -108,7 +108,7 @@ private theorem normV_lead {n x : ℕ} (hn : n ≤ 8) (hx : VOK n x) (hx0 : x �
         · exact absurd ((hneg q1 hq1).2 (hbelow q1 h)) hne1
         · rw [hl1, ln_negL (by omega) hle, ← hl, h2]
         · exact absurd ((hneg q0 hq0).1 (hbelow1 q0 h)) hne
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       refine ⟨hx, ?_⟩
       rw [hl] at h2 ⊢
       omega

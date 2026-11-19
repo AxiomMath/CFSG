@@ -89,7 +89,7 @@ theorem perfect_le_of_le_sup_solvable {C E S P : Subgroup G} (hEC : E ≤ C) (hS
       _ ≤ ⁅C, C⁆ := Subgroup.commutator_mono hPC hPC
       _ ≤ E ⊔ S := hcomm
   have hXC : E ⊔ S ≤ C := sup_le hEC hSC
-  haveI : (E.subgroupOf (E ⊔ S)).Normal := by
+  have : (E.subgroupOf (E ⊔ S)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff le_sup_left]
     intro e k he hk
     exact hEn k (hXC hk) e he
@@ -165,8 +165,8 @@ theorem isSolvable_iSup_of_commute {ι : Type*} [Finite ι] (H : ι → Subgroup
     (hsol : ∀ i, Group.IsSolvable ↥(H i)) : Group.IsSolvable ↥(⨆ i, H i) := by
   classical
   cases nonempty_fintype ι
-  haveI := hsol
-  haveI : Group.IsSolvable (∀ i, ↥(H i)) := isSolvable_pi_of_finite_index
+  have := hsol
+  have : Group.IsSolvable (∀ i, ↥(H i)) := isSolvable_pi_of_finite_index
   have h1 : Group.IsSolvable ↥(Subgroup.noncommPiCoprod hcomm).range :=
     Group.isSolvable_of_surjective (Subgroup.noncommPiCoprod hcomm).rangeRestrict_surjective
   rwa [Subgroup.noncommPiCoprod_range] at h1
@@ -289,7 +289,7 @@ theorem quasisimple_or_solvable_specialBlock_selfDual (hx : OddOrderIsometry Q p
           exact_mod_cast hcard.trans e
         rw [h216]
         decide +kernel
-    haveI := hsolv
+    have := hsolv
     exact Group.isSolvable_of_isSolvable_injective (f := e₁.toMonoidHom) e₁.injective
   · left
     refine CFSG.LocalCores.isQuasisimple_of_mulEquiv e₁.symm ?_
@@ -351,7 +351,7 @@ theorem isSolvable_orthogonalGroup_of_smallFixedException {K : Type} [Field K] [
     have hrp : r.Prime := Nat.prime_of_mem_primeFactors hr
     have hdvd : r ∣ Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
       Nat.dvd_of_mem_primeFactors hr
-    haveI : Fact r.Prime := ⟨hrp⟩
+    have : Fact r.Prime := ⟨hrp⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' r hdvd
     by_contra hne
     have h3r : 3 < r := by
@@ -368,17 +368,18 @@ theorem isSolvable_supportedFixedDerived_of_smallFixedException
     (hx : OddOrderIsometry Q p x) (h3 : 3 ≤ finrank K (fixedSpace x))
     (hS : SmallFixedException (Q.comp (fixedSpace x).subtype)) :
     Group.IsSolvable ↥(supportedFixedDerived Q x) := by
-  haveI := isSolvable_orthogonalGroup_of_smallFixedException (Q.comp (fixedSpace x).subtype)
+  have := isSolvable_orthogonalGroup_of_smallFixedException (Q.comp (fixedSpace x).subtype)
     hx.polarBilin_fixed_nondegenerate h3 hS
   have hle : orthDerived (Q.comp (fixedSpace x).subtype) ≤
       TauCeti.QuadraticMap.orthogonalGroup (Q.comp (fixedSpace x).subtype) :=
     orthDerived_le_orthogonalGroup
-  haveI : Group.IsSolvable ↥(orthDerived (Q.comp (fixedSpace x).subtype)) :=
+  have : Group.IsSolvable ↥(orthDerived (Q.comp (fixedSpace x).subtype)) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   exact Group.isSolvable_of_isSolvable_injective (f := (supportedFixedDerivedEquiv hx).toMonoidHom)
     (supportedFixedDerivedEquiv hx).injective
 
+omit [Finite K] in
 theorem X_sub_one_mem_rep (hx : OddOrderIsometry Q p x) {Rep : Finset K[X]}
     (hRep : IsOrbitRepresentatives x Rep) (h1 : 1 ≤ finrank K (fixedSpace x)) :
     (X - 1 : K[X]) ∈ Rep := by
@@ -440,10 +441,10 @@ theorem exists_solvable_comm_le
   have hJfsol : Group.IsSolvable ↥Jf := by
     by_cases h : 3 ≤ finrank K (fixedSpace xe) ∧
         SmallFixedException (Q.comp (fixedSpace xe).subtype)
-    · have e : Jf = supportedFixedDerived Q xe := by simp only [hJf, if_pos h]
+    · have e : Jf = supportedFixedDerived Q xe := by simp only [hJf, ite_eq_left h]
       rw [e]
       exact isSolvable_supportedFixedDerived_of_smallFixedException hx h.1 h.2
-    · have e : Jf = ⊥ := by simp only [hJf, if_neg h]
+    · have e : Jf = ⊥ := by simp only [hJf, ite_eq_right h]
       rw [e]
       infer_instance
   set G : ↥Rep → Subgroup (V ≃ₗ[K] V) := fun r =>
@@ -461,14 +462,14 @@ theorem exists_solvable_comm_le
   have hGsol : ∀ r : ↥Rep, Group.IsSolvable ↥(G r) := by
     intro r
     by_cases h1 : r.1 = X - 1
-    · have e : G r = Jf := by simp only [hG, if_pos h1]
+    · have e : G r = Jf := by simp only [hG, ite_eq_left h1]
       rw [e]
       exact hJfsol
     · by_cases h2 : CFSG.IsQuasisimple ↥(specialBlock Q xe r.1)
-      · have e : G r = ⊥ := by simp only [hG, if_neg h1, if_pos h2]
+      · have e : G r = ⊥ := by simp only [hG, ite_eq_right h1, ite_eq_left h2]
         rw [e]
         infer_instance
-      · have e : G r = specialBlock Q xe r.1 := by simp only [hG, if_neg h1, if_neg h2]
+      · have e : G r = specialBlock Q xe r.1 := by simp only [hG, ite_eq_right h1, ite_eq_right h2]
         rw [e]
         exact (quasisimple_or_solvable_specialBlock hx hp hp2 (hRep.1 r.2) h1).resolve_left h2
   set Sg : Subgroup (V ≃ₗ[K] V) := ⨆ r, G r with hSg
@@ -482,7 +483,7 @@ theorem exists_solvable_comm_le
     rintro _ ⟨u, hu, rfl⟩
     exact ⟨u, Subgroup.mem_subgroupOf.mpr (hSgM (Subgroup.mem_subgroupOf.mp hu)), rfl⟩
   have hS₀sol : Group.IsSolvable ↥S₀ := by
-    haveI : Group.IsSolvable ↥(Sg.subgroupOf (orthDerived Q)) :=
+    have : Group.IsSolvable ↥(Sg.subgroupOf (orthDerived Q)) :=
       Group.isSolvable_of_isSolvable_injective
         (f := ((orthDerived Q).subtype.comp (Sg.subgroupOf (orthDerived Q)).subtype).codRestrict Sg
           (fun u => u.2))
@@ -513,7 +514,7 @@ theorem exists_solvable_comm_le
     intro r
     simp only [hBterm]
     split_ifs with h1
-    · have e : G r = specialBlock Q xe r.1 := by simp only [hG, if_neg h1.1, if_neg h1.2]
+    · have e : G r = specialBlock Q xe r.1 := by simp only [hG, ite_eq_right h1.1, ite_eq_right h1.2]
       rw [e]
     · exact bot_le
   have hAB : ∀ r s : ↥Rep, ∀ u ∈ Aterm r, ∀ v ∈ Bterm s, Commute u v := by
@@ -523,13 +524,13 @@ theorem exists_solvable_comm_le
       by_cases hq : CFSG.IsQuasisimple ↥(specialBlock Q xe r.1)
       · have e : Bterm r = ⊥ := by
           simp only [hBterm]
-          rw [if_neg (fun h => h.2 hq)]
+          rw [ite_eq_right (fun h => h.2 hq)]
         rw [e, Subgroup.mem_bot] at hv
         rw [hv]
         exact Commute.one_right _
       · have e : Aterm r = ⊥ := by
           simp only [hAterm]
-          rw [if_neg (fun h => hq h.2)]
+          rw [ite_eq_right (fun h => hq h.2)]
         rw [e, Subgroup.mem_bot] at hu
         rw [hu]
         exact Commute.one_left _
@@ -542,10 +543,10 @@ theorem exists_solvable_comm_le
     by_cases hq : CFSG.IsQuasisimple ↥(specialBlock Q xe h)
     · refine le_sup_of_le_left (le_iSup_of_le ⟨h, hh⟩ ?_)
       simp only [hAterm]
-      rw [if_pos ⟨hne, hq⟩]
+      rw [ite_eq_left ⟨hne, hq⟩]
     · refine le_sup_of_le_right (le_iSup_of_le ⟨h, hh⟩ ?_)
       simp only [hBterm]
-      rw [if_pos ⟨hne, hq⟩]
+      rw [ite_eq_left ⟨hne, hq⟩]
   set K₀ : Subgroup (V ≃ₗ[K] V) := (EN.comap ρ).map (orthDerived Q).subtype with hK₀
   have hAK : ∀ r : ↥Rep, Aterm r ≤ K₀ := by
     intro r
@@ -588,11 +589,11 @@ theorem exists_solvable_comm_le
         · have hXRep := X_sub_one_mem_rep hx hRep (by omega)
           have hfJf : f ∈ Jf := by
             have e : Jf = supportedFixedDerived Q xe := by
-              simp only [hJf, if_pos (And.intro hdim hSE)]
+              simp only [hJf, ite_eq_left (And.intro hdim hSE)]
             rw [e]
             exact hf
           have hfG : f ∈ G ⟨X - 1, hXRep⟩ := by
-            have e : G ⟨X - 1, hXRep⟩ = Jf := by simp only [hG, if_pos rfl]
+            have e : G ⟨X - 1, hXRep⟩ = Jf := by simp only [hG, ite_eq_left rfl]
             rw [e]
             exact hfJf
           exact Subgroup.mem_sup_right ⟨⟨f, hfΩ⟩,

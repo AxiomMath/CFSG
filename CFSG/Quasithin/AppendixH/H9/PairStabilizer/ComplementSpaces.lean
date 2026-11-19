@@ -35,15 +35,15 @@ private def polarAnn (x : PairN (m + 1)) : Subgroup (PairN (m + 1)) where
   carrier := {y | polarN (m + 1) x y = 0}
   mul_mem' := by
     intro y z hy hz
-    simp only [Set.mem_setOf_eq] at hy hz ⊢
+    simp only [Set.mem_ofPred_eq] at hy hz ⊢
     rw [polarN_comm x (y * z), polarN_mul_left y z x, polarN_comm y x,
       polarN_comm z x, hy, hz, add_zero]
   one_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     simp [polarN]
   inv_mem' := by
     intro y hy
-    simp only [Set.mem_setOf_eq] at hy ⊢
+    simp only [Set.mem_ofPred_eq] at hy ⊢
     calc polarN (m + 1) x y⁻¹ = polarN (m + 1) y⁻¹ x := polarN_comm x y⁻¹
       _ = polarN (m + 1) y x := polarN_inv_left y x
       _ = polarN (m + 1) x y := polarN_comm y x
@@ -315,7 +315,7 @@ theorem polar_W1_W2 : ∀ w ∈ W1sub m, w ≠ 1 → ∃ w' ∈ W2sub m, polarN 
     rintro rfl
     exact hi ha0
   refine ⟨pairVec 0 (Pi.single i 1), (mem_W2sub_iff).mpr ⟨Pi.single i 1, ?_, rfl⟩, ?_⟩
-  · simp [Pi.single_apply, hi0]
+  · simp [hi0]
   · rw [polarN_pairVec]
     simp [dotProduct_single, hai]
 
@@ -336,7 +336,7 @@ theorem polar_W2_W1 : ∀ w' ∈ W2sub m, w' ≠ 1 → ∃ w ∈ W1sub m, polarN
     rintro rfl
     exact hi hb0
   refine ⟨pairVec (Pi.single i 1) 0, (mem_W1sub_iff).mpr ⟨Pi.single i 1, ?_, rfl⟩, ?_⟩
-  · simp [Pi.single_apply, hi0]
+  · simp [hi0]
   · rw [polarN_pairVec]
     simp [single_dotProduct, hbi]
 

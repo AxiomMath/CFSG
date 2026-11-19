@@ -19,9 +19,11 @@ private noncomputable def s15k_trt_pf (Q : QuadraticForm (ZMod 2) (ι → ZMod 2
     (a : ι → ZMod 2) : (ι → ZMod 2) →ₗ[ZMod 2] ZMod 2 :=
   (QuadraticMap.polarBilin Q).flip a
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem s15k_trt_pf_apply (Q : QuadraticForm (ZMod 2) (ι → ZMod 2)) (a v : ι → ZMod 2) :
     s15k_trt_pf Q a v = QuadraticMap.polar Q v a := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem s15k_trt_isPolar (Q : QuadraticForm (ZMod 2) (ι → ZMod 2)) {a : ι → ZMod 2}
     (ha : Q a = 1) : IsPolar (⇑Q) a (s15k_trt_pf Q a) 1 := by
   intro v t

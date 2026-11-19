@@ -50,7 +50,7 @@ theorem mem_Lgrp {g : G} {ℓ : S.Mbar} : ℓ ∈ Lgrp S g ↔ (ℓ : S.O) ∈ S
   Subgroup.mem_subgroupOf
 
 theorem Lgrp_comm {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG) :
-    ∀ a ∈ Lgrp S g, ∀ a' ∈ Lgrp S g, a * a' = a' * a := fun a ha a' ha' =>
+    ∀ _a ∈ Lgrp S g, ∀ _a' ∈ Lgrp S g, _a * _a' = _a' * _a := fun _a ha _a' ha' =>
   Subtype.ext (S.Lbar_comm haQ ((mem_Lgrp S).mp ha) ((mem_Lgrp S).mp ha'))
 
 theorem Lgrp_sq {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG) : ∀ a ∈ Lgrp S g, a * a = 1 :=
@@ -70,8 +70,8 @@ theorem eight_le_card_Lgrp {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG) (hne : g * 
   exact le_of_eq_of_le (by norm_num) h1
 
 theorem Lgrp_fix {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG) :
-    ∀ ℓ ∈ Lgrp S g, rhoM S ℓ (S.cl (g * S.z * g⁻¹)) = S.cl (g * S.z * g⁻¹) :=
-  fun ℓ hℓ => S.s12_Lbar_apply_cl_a haQ ((mem_Lgrp S).mp hℓ)
+    ∀ _ℓ ∈ Lgrp S g, rhoM S _ℓ (S.cl (g * S.z * g⁻¹)) = S.cl (g * S.z * g⁻¹) :=
+  fun _ℓ hℓ => S.s12_Lbar_apply_cl_a haQ ((mem_Lgrp S).mp hℓ)
 
 theorem Lgrp_normalized {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG) (hne : g * S.z * g⁻¹ ≠ S.z)
     (hw : S.width = 4) : ∀ m : S.Mbar, rhoM S m (S.cl (g * S.z * g⁻¹)) = S.cl (g * S.z * g⁻¹) →
@@ -101,7 +101,7 @@ theorem false_of_spSixSpin {g : G}
     (haQ : g * S.z * g⁻¹ ∈ S.QG) (hne : g * S.z * g⁻¹ ≠ S.z) (hred : ¬ S.IsReducible12)
     (hSp : S.S12SpSixSpin g) : False := by
   obtain ⟨hw, hXM, b, hb₁, hb₂, ⟨eX⟩⟩ := hSp
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   have hO : ∀ m : S.Mbar, rhoM S m ∈ TauCeti.QuadraticMap.orthogonalGroup S.q :=
     fun m => (m : S.O).2
   have hV : finrank (ZMod 2) S.Qt = 8 := by rw [S.finrank_Qt_eq_two_mul_width, hw]

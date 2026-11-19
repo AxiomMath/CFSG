@@ -120,10 +120,10 @@ theorem twoResidual_eq_pCoreOf (hA23 : A23SQTKListFact)
       (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hk)
     obtain ⟨S, hS⟩ := hz.exists_le_sylow
     have hScomm : ∀ a ∈ (S : Subgroup ↥C), ∀ b ∈ (S : Subgroup ↥C), a * b = b * a := by
-      have hS'5 : IsPGroup 5 ↥((S : Subgroup ↥C).map C.subtype) := S.isPGroup'.map C.subtype
+      have hS'5 : IsPGroup 5 ↥((S : Subgroup ↥C).map C.subtype) := S.isPGroup.map C.subtype
       obtain ⟨hcard, -⟩ := card_le_and_pow_five hB h2 (Subgroup.map_subtype_le _) hS'5
       rw [Subgroup.card_map_of_injective C.subtype_injective] at hcard
-      obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 S.isPGroup'
+      obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 S.isPGroup
       have hcm : IsMulCommutative ↥(S : Subgroup ↥C) := by
         rcases m with _ | _ | _ | m
         · rw [pow_zero] at hm

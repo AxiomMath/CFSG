@@ -64,12 +64,14 @@ theorem eqA_keyCK_keyK {ps : List ℕ} {c : ArrCert} (hps : ∀ p ∈ ps, p < n)
     beq_iff_keyK hw hps h (permB_pcomp hw hP hQ) hR (mem_mul hw hP hQ hmP hmQ) hmR,
     keyK_pcomp hn P Q hps]
 
+omit hw in
 theorem mem_of_pt {ps : List ℕ} {c : ArrCert} (hps : ∀ p ∈ ps, p < n)
     (h : enumOK n gs ps c = true) {N : ℕ} {T : ℕ → ℕ} (hN : c.pts.size = N)
     (hT : ∀ i < N, c.pts[i]! = unpack n w (T i)) {i : ℕ} (hi : i < N) :
     permOfArr n (unpack n w (T i)) ∈ Subgroup.closure (permsA n gs) :=
   ((enumOK_spec hps h).1 _).2 ⟨i, by rw [hN]; exact hi, by rw [hT i hi]⟩
 
+omit hw in
 theorem mem_of_memK {ps : List ℕ} {c : ArrCert} (hps : ∀ p ∈ ps, p < n)
     (h : enumOK n gs ps c = true) {N : ℕ} {T : ℕ → ℕ} (hN : c.pts.size = N)
     (hT : ∀ i < N, c.pts[i]! = unpack n w (T i)) {P : ℕ} (hm : memK N T P = true) :
@@ -77,7 +79,7 @@ theorem mem_of_memK {ps : List ℕ} {c : ArrCert} (hps : ∀ p ∈ ps, p < n)
   rw [memK, anyNP_eq, List.any_eq_true] at hm
   obtain ⟨i, hi, e⟩ := hm
   rw [Nat.eq_of_beq_eq_true e]
-  exact mem_of_pt hw hps h hN hT (List.mem_range.1 hi)
+  exact mem_of_pt hps h hN hT (List.mem_range.1 hi)
 
 end CFSG.KC.PGrp
 

@@ -64,7 +64,7 @@ private theorem exists_splitData (hD : G2qLocalData L1 L2 S f) (c : G2qCoordRigh
     letI := c.field
     ∃ nv zv : G → Fin 2 → c.F,
       G2qSplitData L2 (pCoreOf 2 L2) (centerOf (pCoreOf 2 L2)) c.W c.α nv zv := by
-  letI := c.field
+  let := c.field
   have hQn : ∀ ℓ ∈ L2, ∀ x ∈ pCoreOf 2 L2, ℓ * x * ℓ⁻¹ ∈ pCoreOf 2 L2 := fun ℓ hℓ x hx =>
     CFSG.ClassicalGroups.PCoreSection.conj_mem_pCoreOf hℓ hx
   have hZn : ∀ ℓ ∈ L2, ∀ x ∈ centerOf (pCoreOf 2 L2),
@@ -87,10 +87,10 @@ theorem G2qCoordRight.commute_of_commutator_inf_W_eq (hD : G2qLocalData L1 L2 S 
     (c : G2qCoordRight L2 S f)
     (hsplit : ⁅pCoreOf 2 L2, L2⁆ ⊓ c.W = centerOf (pCoreOf 2 L2)) :
     ∀ a ∈ ⁅pCoreOf 2 L2, L2⁆, ∀ b ∈ ⁅pCoreOf 2 L2, L2⁆, a * b = b * a := by
-  letI := c.field
-  letI := c.fintype
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP c.F 2 :=
+  let := c.field
+  let := c.fintype
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP c.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c.card])
   obtain ⟨nv, zv, hd⟩ := exists_splitData hD c
   exact hd.commute_of_commutator_inf_eq hsplit
@@ -120,8 +120,8 @@ theorem G2qCoordRight.commutator_inf_W_eq_or (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S
     (h2 : IsL2Quot f (oTwoQuot ↥L2)) (c : G2qCoordRight L2 S f) :
     ⁅pCoreOf 2 L2, L2⁆ ⊓ c.W = centerOf (pCoreOf 2 L2) ∨ c.W ≤ ⁅pCoreOf 2 L2, L2⁆ := by
   classical
-  letI := c.field
-  letI := c.fintype
+  let := c.field
+  let := c.fintype
   obtain ⟨nv, zv, hd⟩ := exists_splitData hD c
   obtain ⟨H₀, hH₀B, -, hcard, htriv, hinf, -⟩ := hD.exists_torus_right hf hH h1 h2
   have hS1 : S ≤ L1 :=

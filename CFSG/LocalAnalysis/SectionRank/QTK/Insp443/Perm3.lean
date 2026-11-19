@@ -15,8 +15,8 @@ theorem perm3_perfect_eq_bot {P : Subgroup (Equiv.Perm (Fin 3))} (hP : ⁅P, P�
   have hcard : Nat.card (alternatingGroup (Fin 3)) = 3 := by
     rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
     rfl
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : IsCyclic (alternatingGroup (Fin 3)) := isCyclic_of_prime_card hcard
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : IsCyclic (alternatingGroup (Fin 3)) := isCyclic_of_prime_card hcard
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := alternatingGroup (Fin 3))
   rw [← hP, Subgroup.commutator_eq_bot_iff_le_centralizer]
   intro x hx
@@ -83,7 +83,7 @@ include hinj hperm in
 theorem le_normalizer_of_perm3 {L : Subgroup G} (hLW : L ≤ Subgroup.normalizer (W : Set G))
     (hL : ⁅L, L⁆ = L) (i : Fin 3) : L ≤ Subgroup.normalizer (A i : Set G) := by
   let φ : ↥L →* Equiv.Perm (Fin 3) := (psi3 hinj hperm).comp (Subgroup.inclusion hLW)
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL
   have hperf : ⁅φ.range, φ.range⁆ = φ.range := Subgroup.isPerfect_iff.mp (Group.IsPerfect.range φ)
   have hbot := perm3_perfect_eq_bot hperf
   intro l hl

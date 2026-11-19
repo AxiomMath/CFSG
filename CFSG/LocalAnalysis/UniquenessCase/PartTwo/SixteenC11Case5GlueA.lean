@@ -84,8 +84,8 @@ theorem s16c11_case5_commV_rho_eq_top {K : Type} [Field K] :
 theorem s16c11_case5_commV_eq_top {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
     (h : NatOmegaPlus H ⊤ ⊥ 4 2) : commV H = ⊤ := by
   obtain ⟨K, hKf, hKfin, β, hKcard, hL⟩ := s16c11_case5_tensor h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hmap : (commV H).map β.toMonoidHom = ⊤ := by
     have h1 := commV_map_congr_equiv β H
     rw [hL, s16c11_case5_commV_rho_eq_top] at h1
@@ -102,10 +102,10 @@ theorem s16c11_case5_commV_eq_top {W : Type} [CommGroup W] {H : Subgroup (MulAut
 theorem s16c11_case5_card_natOmegaPlus {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
     (h : NatOmegaPlus H ⊤ ⊥ 4 2) : Nat.card ↥H = 3600 := by
   obtain ⟨K, hKf, hKfin, β, hKcard, hL⟩ := s16c11_case5_tensor h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := s16c11_case5_charP hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := s16c11_case5_charP hKcard
   have hH : Nat.card ↥H = Nat.card ↥((rho (K := K)).range) := by
     have hcard := Subgroup.card_map_of_injective (K := H)
       (f := (MulAut.congr β).toMonoidHom) (MulAut.congr β).injective
@@ -118,7 +118,7 @@ theorem s16c11_case5_card_natOmegaPlus {W : Type} [CommGroup W] {H : Subgroup (M
       Subgroup.card_top]
   rw [hrho, Nat.card_prod]
   have hSL : Nat.card (SpecialLinearGroup (Fin 2) K) = 60 := by
-    haveI : NeZero 2 := ⟨by norm_num⟩
+    have : NeZero 2 := ⟨by norm_num⟩
     rw [Matrix.card_SL_field]
     rw [show Fintype.card K = 4 by rw [← Nat.card_eq_fintype_card, hKcard]]
     rw [Fin.prod_univ_two]
@@ -144,7 +144,7 @@ private theorem s16c11_case5_scal_eq_range (K : Type) [Field K] :
       x = lr (Units.map (Matrix.scalar (Fin 2) (α := K)).toMonoidHom c) 1} =
       Set.range (s16c11_case5_scalHom K) := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_range, s16c11_case5_scalHom]
+    simp only [Set.mem_ofPred_eq, Set.mem_range, s16c11_case5_scalHom]
     constructor
     · rintro ⟨c, hc⟩; exact ⟨c, hc.symm⟩
     · rintro ⟨c, hc⟩; exact ⟨c, hc.symm⟩
@@ -193,7 +193,7 @@ theorem s16c11_case5_normalizer_le_normalizer_scal {K : Type} [Field K] [Finite 
     (hK : Nat.card K = 4) :
     Subgroup.normalizer ((rho (K := K)).range : Set (MulAut (VM K))) ≤
       Subgroup.normalizer (s16c11C5Scal K : Set (MulAut (VM K))) := by
-  haveI : CharP K 2 := s16c11_case5_charP hK
+  have : CharP K 2 := s16c11_case5_charP hK
   rw [s16c11C5Scal, Subgroup.le_normalizer_closure_iff]
   intro x hx z hz
   obtain ⟨c, rfl⟩ := hz
@@ -211,7 +211,7 @@ theorem s16c11_case5_scal_le_of_dvd {K : Type} [Field K] [Finite K] (hK : Nat.ca
     (hYN : Y ≤ Subgroup.normalizer ((rho (K := K)).range : Set (MulAut (VM K))))
     (h27 : 3 ^ 3 ∣ Nat.card ↥Y) : s16c11C5Scal K ≤ Y := by
   classical
-  haveI : CharP K 2 := s16c11_case5_charP hK
+  have : CharP K 2 := s16c11_case5_charP hK
   let N : Subgroup (MulAut (VM K)) :=
     Subgroup.normalizer ((rho (K := K)).range : Set (MulAut (VM K)))
   let Z : Subgroup (MulAut (VM K)) := s16c11C5Scal K
@@ -220,7 +220,7 @@ theorem s16c11_case5_scal_le_of_dvd {K : Type} [Field K] [Finite K] (hK : Nat.ca
     rw [s16c11_case5_N1, s16c11_case5_Omega]
   have hZ3 : Nat.card ↥Z = 3 := s16c11_case5_card_scal K hK
   have hautZ : Nat.card (MulAut ↥Z) = 2 := by
-    haveI : IsCyclic ↥Z := isCyclic_of_prime_card hZ3
+    have : IsCyclic ↥Z := isCyclic_of_prime_card hZ3
     rw [IsCyclic.card_mulAut, hZ3]
     decide
   have hZ3group : IsPGroup 3 ↥Z :=

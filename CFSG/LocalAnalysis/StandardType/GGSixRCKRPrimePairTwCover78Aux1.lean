@@ -196,7 +196,7 @@ theorem rckTw78_endMap_xu
     have hM := congrFun (congrFun (rckTw78_rootOp_map e D γ) i) j
     simp only [Matrix.map_apply] at hM
     simp only [Matrix.map_apply, Matrix.add_apply, Matrix.one_apply, Matrix.smul_apply,
-      Pi.smul_apply, smul_eq_mul, map_add, map_mul, map_one, map_zero]
+      smul_eq_mul, map_add, map_mul]
     rw [hM]
     split_ifs <;> simp
   exact key

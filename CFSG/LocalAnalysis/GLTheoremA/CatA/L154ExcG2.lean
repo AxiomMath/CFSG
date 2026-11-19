@@ -15,7 +15,7 @@ section Rigidity
 
 theorem frobRootNotConjG2_holds : FrobRootNotConjG2 := by
   intro L _ _ _ p₀ S p R e a i z hp hp2 he hq0 hT _ _ _ _ _ hz
-  haveI : ExpChar L 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar L 2 := ExpChar.prime Nat.prime_two
   have hp3 : 3 ≤ p := by
     have := hp.two_le
     omega

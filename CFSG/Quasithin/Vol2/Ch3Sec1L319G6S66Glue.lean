@@ -33,7 +33,7 @@ theorem exists_block_eq_theta {G : Type} [Group G] [Finite G] {H T M₂ U A L N 
         (@CFSG.Quasithin.commV ↥(chiefMod L' N') (chiefCG (h.hE hstep')) K₀) 2) ∧
       chiefPsi (Setting.hHL hstep') (Setting.hHN hstep') ⟨y, hyH⟩ ∈ K₀ := by
   classical
-  haveI : Finite ↥(chiefMod L N) := inferInstance
+  have : Finite ↥(chiefMod L N) := inferInstance
   let _ : CommGroup ↥(chiefMod L N) := chiefCG (h.hE hstep)
   let _ : CommGroup ↥(chiefMod L' N') := chiefCG (h.hE hstep')
   obtain ⟨θ, hθ⟩ := chiefAut_mulEquiv_of_centralizerMod_eq (Setting.hHL hstep) (Setting.hHN hstep)
@@ -110,7 +110,7 @@ theorem exists_block_eq_theta {G : Type} [Group G] [Finite G] {H T M₂ U A L N 
     subst hxg'
     refine Subgroup.mem_map.mpr ⟨θ (x * s₀ * x⁻¹), Subgroup.mem_map_of_mem _ hmem, ?_⟩
     simp
-  haveI : IsSimpleGroup ↥H' := natBlock_isSimpleGroup le_rfl hNat
+  have : IsSimpleGroup ↥H' := natBlock_isSimpleGroup le_rfl hNat
   have eS : ↥H' ≃* ↥S := by
     rw [hS]
     exact (Subgroup.subgroupOfEquivOfLe (hctx.mem_le hH')).symm.trans

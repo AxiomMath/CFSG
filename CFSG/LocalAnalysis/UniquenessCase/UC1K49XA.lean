@@ -11,19 +11,23 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem cj_mul (g h a : G) : cj g (cj h a) = cj (h * g) a := by
   simp only [cj]
   group
 
+omit [Finite G] in
 theorem cj_pow_three (x a : G) (hx : x ^ 3 = 1) : cj x (cj x (cj x a)) = a := by
   rw [cj_mul, cj_mul, show x * (x * x) = x ^ 3 by rw [pow_three], hx]
   simp [cj]
 
+omit [Finite G] in
 theorem conjugate_cj (L : Subgroup G) (a y : G) (ha : a ∈ L) :
     cj y a ∈ CFSG.conjugate L y := by
   rw [CFSG.conjugate]
-  exact ⟨a, ha, by simp [cj, MulAut.conj_apply]⟩
+  exact ⟨a, ha, by simp [cj]⟩
 
+omit [Finite G] in
 theorem orderOf_eq_three_of_zpowers {X : Subgroup G} {x : G}
     (hx : X = Subgroup.zpowers x) (hcard : Nat.card X = 3) : orderOf x = 3 := by
   have h : Nat.card (Subgroup.zpowers x) = 3 := by rw [← hx]; exact hcard
@@ -63,6 +67,7 @@ theorem eq_sup_Lc {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
       exact le_iSup (fun z : X => CFSG.conjugate L (z : G)) ⟨x ^ 2, hx2X⟩
 
 
+omit [Finite G] in
 theorem map_conj_subtype_eq_of_mem {K : Subgroup G} {P : Subgroup K} {x : G} (hxK : x ∈ K)
     (hxP : (⟨x, hxK⟩ : K) ∈ P) :
     (P.map K.subtype).map (MulAut.conj x⁻¹).toMonoidHom = P.map K.subtype := by
@@ -71,19 +76,19 @@ theorem map_conj_subtype_eq_of_mem {K : Subgroup G} {P : Subgroup K} {x : G} (hx
     obtain ⟨p, hp, rfl⟩ := Subgroup.mem_map.mp hq
     refine ⟨(⟨x, hxK⟩ : K)⁻¹ * p * ⟨x, hxK⟩,
       P.mul_mem (P.mul_mem (P.inv_mem hxP) hp) hxP, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
   · rintro y ⟨p, hp, rfl⟩
     refine ⟨x * (p : G) * x⁻¹,
       Subgroup.mem_map.mpr ⟨(⟨x, hxK⟩ : K) * p * ⟨x, hxK⟩⁻¹,
         P.mul_mem (P.mul_mem hxP hp) (P.inv_mem hxP), by simp⟩, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
     group
 
 theorem exists_sylow_three_normalized {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {x : G} (hxX : x ∈ X) :
     ∃ T : Subgroup G, IsSylowOf 3 T I ∧ x ∈ Subgroup.normalizer (T : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := X ⊔ I
   have hXK : X ≤ K := le_sup_left
   have hIK : I ≤ K := le_sup_right
@@ -94,7 +99,7 @@ theorem exists_sylow_three_normalized {H X L Q I : Subgroup G} (h : Setup49 H X 
   have hX3 : IsPGroup 3 (X.subgroupOf K) := IsPGroup.of_card (n := 1) (by simpa using hXcard)
   obtain ⟨P, hXleP⟩ := hX3.exists_le_sylow
   have hPtop : IsSylowOf 3 (P : Subgroup K) ⊤ := by
-    refine isSylowOf_iff.mpr ⟨le_top, P.isPGroup', ?_⟩
+    refine isSylowOf_iff.mpr ⟨le_top, P.isPGroup, ?_⟩
     simpa only [Subgroup.relIndex_top_right] using P.not_dvd_index
   have hPmap : IsSylowOf 3 ((P : Subgroup K).map K.subtype) K := by
     have := (isSylowOf_map_subtype_iff (p := 3) K (A := (P : Subgroup K)) (B := ⊤)).mpr hPtop
@@ -122,6 +127,7 @@ theorem exists_sylow_three_normalized {H X L Q I : Subgroup G} (h : Setup49 H X 
   simpa using (Subgroup.normalizer (T : Set G)).inv_mem hxinv
 
 
+omit [Finite G] in
 theorem card_bar2_L {L : Subgroup G} (halt : IsAlt (Bar2 L) 5) :
     Nat.card (Bar2 L) = 60 := by
   obtain ⟨e⟩ := halt
@@ -153,7 +159,7 @@ theorem factorization_three_card_L {L : Subgroup G} (halt : IsAlt (Bar2 L) 5) :
 theorem card_inf_sylow_L {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {T : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 3 T I) :
     Nat.card ↥(T ⊓ L) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTL : CFSG.ABGLocalTools.IsSylowOf 3 (T ⊓ L) L :=
     hT.inf_of_le_normalizer (le_I h) (I_le_normalizer_L h)
   have hcard := hTL.card_eq (p := 3)
@@ -161,6 +167,7 @@ theorem card_inf_sylow_L {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
   simpa using hcard
 
 
+omit [Finite G] in
 theorem H_le_normalizer_Q {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
     H ≤ Subgroup.normalizer (Q : Set G) := by
   rw [h.Q_eq]
@@ -171,6 +178,7 @@ theorem isPGroup_Q {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
   rw [h.Q_eq]
   exact CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H
 
+omit [Finite G] in
 theorem Lc_le_H {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G} {i : ℕ}
     (hxi : x ^ i ∈ X) : Lc L x i ≤ H :=
   CFSG.RankThree.PartTwo.le_of_mem_oTwoComponentsIn
@@ -199,13 +207,14 @@ theorem commutator_sup_Lc_le {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x
 
 theorem inf_T_Q_eq_bot {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {T : Subgroup G} (hT3 : IsPGroup 3 T) : T ⊓ Q = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact disjoint_iff.mp (IsPGroup.disjoint_of_ne 3 2 (by norm_num) T Q hT3 (isPGroup_Q h))
 
 
+omit [Finite G] in
 theorem conjugates_distinct {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
-    (hxX : x ∈ X) (hgen : X = Subgroup.zpowers x) (hord : orderOf x = 3) :
+    (_hxX : x ∈ X) (hgen : X = Subgroup.zpowers x) (hord : orderOf x = 3) :
     Lc L x 0 ≠ Lc L x 1 ∧ Lc L x 0 ≠ Lc L x 2 ∧ Lc L x 1 ≠ Lc L x 2 := by
   have hx3 : x ^ 3 = 1 := by rw [← hord]; exact pow_orderOf_eq_one x
   have hxN : x ∉ Subgroup.normalizer (L : Set G) := by
@@ -249,6 +258,7 @@ theorem conjugates_distinct {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x 
   exact ⟨hne01, hne02, hne12⟩
 
 
+omit [Finite G] in
 theorem false_of_mul_pow_eq_one {H S K T Q : Subgroup G} {y c : G} {k : ℕ}
     (hyS : y ∈ S) (hcK : c ∈ K) (hc3 : orderOf c = 3)
     (hbound : ⁅S, K⁆ ≤ Q) (halt : IsAlt (Bar2 K) 5)
@@ -283,7 +293,7 @@ theorem independence {H X L Q I T : Subgroup G} (h : Setup49 H X L Q I) {x a b c
     (hxX : x ∈ X) (hgen : X = Subgroup.zpowers x) (hord : orderOf x = 3)
     (haL : a ∈ L) (hbL : b ∈ Lc L x 1) (hcL : c ∈ Lc L x 2)
     (ha3 : orderOf a = 3) (hb3 : orderOf b = 3) (hc3 : orderOf c = 3)
-    (haT : a ∈ T) (hbT : b ∈ T) (hcT : c ∈ T) (hTQ : T ⊓ Q = ⊥)
+    (_haT : a ∈ T) (hbT : b ∈ T) (hcT : c ∈ T) (hTQ : T ⊓ Q = ⊥)
     {i j k : ℕ} (hi : i < 3) (hj : j < 3) (hk : k < 3)
     (hrel : a ^ i * b ^ j * c ^ k = 1) : i = 0 ∧ j = 0 ∧ k = 0 := by
   have hne := conjugates_distinct h hxX hgen hord
@@ -325,6 +335,7 @@ theorem independence {H X L Q I T : Subgroup G} (h : Setup49 H X L Q I) {x a b c
       (Lc_le_H h hx2X) hTQ hcT hrel hk0 hk
 
 
+omit [Finite G] in
 theorem isElemAbelian_closure_three {S : Set G} (hcube : ∀ x ∈ S, x ^ 3 = 1)
     (hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) :
     IsElemAbelian 3 (Subgroup.closure S) := by
@@ -358,6 +369,7 @@ theorem isElemAbelian_closure_three {S : Set G} (hcube : ∀ x ∈ S, x ^ 3 = 1)
   · intro x _ hx
     rw [inv_pow, hx, inv_one]
 
+omit [Finite G] in
 theorem closure_three_eq_sup (a b c : G) :
     Subgroup.closure ({a, b, c} : Set G) =
       (Subgroup.zpowers a ⊔ Subgroup.zpowers b) ⊔ Subgroup.zpowers c := by
@@ -379,6 +391,7 @@ theorem closure_three_eq_sup (a b c : G) :
       exact Subgroup.subset_closure (by simp)
 
 
+omit [Finite G] in
 theorem commutes_zpowers {a b : G} (hab : Commute a b) :
     ∀ x ∈ Subgroup.zpowers a, ∀ y ∈ Subgroup.zpowers b, x * y = y * x := by
   intro x hx y hy
@@ -386,6 +399,7 @@ theorem commutes_zpowers {a b : G} (hab : Commute a b) :
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   exact (hab.zpow_zpow i j).eq
 
+omit [Finite G] in
 theorem le_normalizer_of_commutes {A B : Subgroup G}
     (h : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x) :
     B ≤ Subgroup.normalizer (A : Set G) := by
@@ -409,6 +423,7 @@ theorem le_normalizer_of_commutes {A B : Subgroup G}
     rw [this]
     exact hx
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_normal {A L : Subgroup G} [L.Normal] :
     Nat.card (A ⊔ L : Subgroup G) * Nat.card (A ⊓ L : Subgroup G) = Nat.card A * Nat.card L := by
   have h1 := Subgroup.relIndex_mul_card (H := L) (K := A ⊔ L)
@@ -418,6 +433,7 @@ theorem card_sup_mul_card_inf_normal {A L : Subgroup G} [L.Normal] :
   rw [← h1, ← h2]
   ring
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_normalizes {A B : Subgroup G}
     (hB : B ≤ Subgroup.normalizer (A : Set G)) :
     Nat.card (A ⊔ B : Subgroup G) * Nat.card (A ⊓ B : Subgroup G) = Nat.card A * Nat.card B := by
@@ -535,6 +551,7 @@ theorem inf_zpowers_sup_eq_bot {a b c : G} (ha3 : orderOf a = 3) (hb3 : orderOf 
     have := hind i j (3 - k) (by simpa [ha3] using hi) (by simpa [hb3] using hj) h3k hrel
     omega
 
+omit [Finite G] in
 theorem card_sup_zpowers_pair {a b : G} (ha3 : orderOf a = 3) (hb3 : orderOf b = 3)
     (hab : Commute a b) (hinf : Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥) :
     Nat.card ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers b) = 9 := by
@@ -544,7 +561,8 @@ theorem card_sup_zpowers_pair {a b : G} (ha3 : orderOf a = 3) (hb3 : orderOf b =
   rw [hinf, Subgroup.card_bot, mul_one, Nat.card_zpowers, Nat.card_zpowers, ha3, hb3] at h
   simpa using h
 
-theorem card_sup_zpowers_three {a b c : G} (ha3 : orderOf a = 3) (hb3 : orderOf b = 3)
+omit [Finite G] in
+theorem card_sup_zpowers_three {a b c : G} (_ha3 : orderOf a = 3) (_hb3 : orderOf b = 3)
     (hc3 : orderOf c = 3) (hac : Commute a c) (hbc : Commute b c)
     (hpair : Nat.card ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers b) = 9)
     (hinf : Subgroup.zpowers c ⊓ (Subgroup.zpowers a ⊔ Subgroup.zpowers b) = ⊥) :
@@ -562,12 +580,14 @@ theorem card_sup_zpowers_three {a b c : G} (ha3 : orderOf a = 3) (hb3 : orderOf 
   simpa using h
 
 
+omit [Finite G] in
 theorem pow_eq_of_lt_of_orderOf_eq_three {x : G} (hx : orderOf x = 3) {i j : ℕ}
     (hi : i < 3) (hj : j < 3) (h : x ^ i = x ^ j) : i = j := by
   have hmod := (pow_eq_pow_iff_modEq).mp h
   rw [hx] at hmod
   exact Nat.ModEq.eq_of_lt_of_lt hmod hi hj
 
+omit [Finite G] in
 private theorem inverting_a_pow_eq_of_normal_form_eq {a b c : G}
     (hpair : Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥)
     {i j k i' j' : ℕ}
@@ -596,6 +616,7 @@ private theorem inverting_a_pow_eq_of_normal_form_eq {a b c : G}
   rw [Subgroup.mem_bot] at hbot
   exact (inv_mul_eq_one.mp hbot).symm
 
+omit [Finite G] in
 private theorem inverting_c_pow_eq_of_normal_form_eq {a b c : G}
     (hsup : Subgroup.zpowers c ⊓ (Subgroup.zpowers a ⊔ Subgroup.zpowers b) = ⊥)
     {i j k i' j' k' : ℕ}
@@ -628,6 +649,7 @@ private theorem inverting_c_pow_eq_of_normal_form_eq {a b c : G}
   rw [Subgroup.mem_bot] at hbot
   exact mul_inv_eq_one.mp hbot
 
+omit [Finite G] in
 theorem normal_form_unique {a b c : G} (ha3 : orderOf a = 3) (hb3 : orderOf b = 3)
     (hc3 : orderOf c = 3)
     (hpair : Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥)
@@ -650,6 +672,7 @@ theorem normal_form_unique {a b c : G} (ha3 : orderOf a = 3) (hb3 : orderOf b = 
   exact ⟨rfl, hjj', rfl⟩
 
 
+omit [Finite G] in
 theorem commute_of_commutator_mem {T Q : Subgroup G} {u v : G} (hu : u ∈ T) (hv : v ∈ T)
     (hQ : ⁅u, v⁆ ∈ Q) (hTQ : T ⊓ Q = ⊥) : u * v = v * u := by
   have hT : ⁅u, v⁆ ∈ T := by
@@ -660,14 +683,17 @@ theorem commute_of_commutator_mem {T Q : Subgroup G} {u v : G} (hu : u ∈ T) (h
     rwa [hTQ, Subgroup.mem_bot] at hmem
   exact commutatorElement_eq_one_iff_mul_comm.mp hbot
 
+omit [Finite G] in
 theorem cj_mul_cj (x u v : G) : cj x (u * v) = cj x u * cj x v := by
   simp only [cj]
   group
 
+omit [Finite G] in
 theorem cj_pow (x u : G) (n : ℕ) : cj x (u ^ n) = (cj x u) ^ n := by
   have := MonoidHom.map_pow (MulAut.conj x⁻¹).toMonoidHom u n
   simpa [cj, MulAut.conj_apply, inv_inv] using this
 
+omit [Finite G] in
 theorem map_conj_closure_three (x a b c : G) :
     (Subgroup.closure ({a, b, c} : Set G)).map (MulAut.conj x⁻¹).toMonoidHom =
       Subgroup.closure ({cj x a, cj x b, cj x c} : Set G) := by
@@ -678,27 +704,30 @@ theorem map_conj_closure_three (x a b c : G) :
     simp only [Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨z, (rfl | rfl | rfl), rfl⟩
-      · exact Or.inl (by simp [cj, MulAut.conj_apply])
-      · exact Or.inr (Or.inl (by simp [cj, MulAut.conj_apply]))
-      · exact Or.inr (Or.inr (by simp [cj, MulAut.conj_apply]))
+      · exact Or.inl (by simp [cj])
+      · exact Or.inr (Or.inl (by simp [cj]))
+      · exact Or.inr (Or.inr (by simp [cj]))
     · rintro (rfl | rfl | rfl)
-      · exact ⟨a, Or.inl rfl, by simp [cj, MulAut.conj_apply]⟩
-      · exact ⟨b, Or.inr (Or.inl rfl), by simp [cj, MulAut.conj_apply]⟩
-      · exact ⟨c, Or.inr (Or.inr rfl), by simp [cj, MulAut.conj_apply]⟩
+      · exact ⟨a, Or.inl rfl, by simp [cj]⟩
+      · exact ⟨b, Or.inr (Or.inl rfl), by simp [cj]⟩
+      · exact ⟨c, Or.inr (Or.inr rfl), by simp [cj]⟩
   rw [himg]
 
 
+omit [Finite G] in
 theorem cj_normal_form {x a b c : G} (hxa : cj x a = b) (hxb : cj x b = c)
     (hxc : cj x c = a) (i j k : ℕ) :
     cj x (a ^ i * b ^ j * c ^ k) = b ^ i * c ^ j * a ^ k := by
   rw [cj_mul_cj, cj_mul_cj, cj_pow, cj_pow, cj_pow, hxa, hxb, hxc]
 
+omit [Finite G] in
 private theorem xreg_mul_three_mem_closure (a b c : G) :
     a * b * c ∈ Subgroup.closure ({a, b, c} : Set G) :=
   Subgroup.mul_mem _ (Subgroup.mul_mem _
     (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp)))
     (Subgroup.subset_closure (by simp))
 
+omit [Finite G] in
 private theorem xreg_mul_three_mem_centralizer {X : Subgroup G} {x a b c : G}
     (hX : X = Subgroup.zpowers x) (hab : Commute a b) (hac : Commute a c)
     (hxa : cj x a = b) (hxb : cj x b = c) (hxc : cj x c = a) :
@@ -718,6 +747,7 @@ private theorem xreg_mul_three_mem_centralizer {X : Subgroup G} {x a b c : G}
   rw [← hyn]
   exact (hczx.zpow_right n).eq.symm
 
+omit [Finite G] in
 private theorem xreg_cj_eq_self_of_mem_centralizer {X : Subgroup G} {x m : G}
     (hxX : x ∈ X) (hmC : m ∈ Subgroup.centralizer (X : Set G)) : cj x m = m := by
   have hmx : m * x = x * m := ((Subgroup.mem_centralizer_iff.mp hmC) x hxX).symm
@@ -779,6 +809,7 @@ theorem inf_centralizer_eq_zpowers {A X : Subgroup G} {x a b c z : G}
   rwa [hz]
 
 
+omit [Finite G] in
 theorem card_conjugate_eq (L : Subgroup G) (g : G) :
     Nat.card (CFSG.conjugate L g) = Nat.card L := by
   exact (Nat.card_congr
@@ -880,7 +911,7 @@ private theorem xreg_sylow_inf_L_gen {H X L Q I : Subgroup G} (h : Setup49 H X L
   have hTQ : T ⊓ Q = ⊥ := inf_T_Q_eq_bot h hT3
   have hTI : T ≤ I := hTsyl.le
   have hcardTL : Nat.card ↥(T ⊓ L) = 3 := card_inf_sylow_L h hTsyl
-  haveI : Nontrivial ↥(T ⊓ L) := by
+  have : Nontrivial ↥(T ⊓ L) := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcardTL
@@ -898,6 +929,7 @@ private theorem xreg_sylow_inf_L_gen {H X L Q I : Subgroup G} (h : Setup49 H X L
     · exact h3
   exact ⟨T, a, hTsyl, hxNT, haTL, ha3, hTQ, hTI, hT3, hcardTL⟩
 
+omit [Finite G] in
 private theorem xreg_cycle_mem {T L : Subgroup G} {x a : G} (haT : a ∈ T) (haL : a ∈ L)
     (hxNT : x ∈ Subgroup.normalizer (T : Set G)) :
     cj x a ∈ T ∧ cj x a ∈ Lc L x 1 ∧ cj (x ^ 2) a ∈ T ∧ cj (x ^ 2) a ∈ Lc L x 2 := by
@@ -915,6 +947,7 @@ private theorem xreg_cycle_mem {T L : Subgroup G} {x a : G} (haT : a ∈ T) (haL
     exact h.mp haT
   exact ⟨hbT, hbL, hcT, hcL⟩
 
+omit [Finite G] in
 private theorem xreg_cycle_order_conj {x a : G} (ha3 : orderOf a = 3) (hx3 : x ^ 3 = 1) :
     orderOf (cj x a) = 3 ∧ orderOf (cj (x ^ 2) a) = 3 ∧
       cj x (cj x a) = cj (x ^ 2) a ∧ cj x (cj (x ^ 2) a) = a := by
@@ -985,6 +1018,7 @@ private theorem xreg_independence_and_inf {H X L Q I T : Subgroup G} (h : Setup4
     inf_zpowers_sup_eq_bot ha3 hb3 hc3 hab hind
   exact ⟨hind, hpairinf, hsupinf⟩
 
+omit [Finite G] in
 private theorem xreg_closure_card_27 {a b c : G} (ha3 : orderOf a = 3) (hb3 : orderOf b = 3)
     (hc3 : orderOf c = 3) (hab : Commute a b) (hac : Commute a c) (hbc : Commute b c)
     (hpairinf : Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥)
@@ -998,6 +1032,7 @@ private theorem xreg_closure_card_27 {a b c : G} (ha3 : orderOf a = 3) (hb3 : or
   rw [closure_three_eq_sup]
   exact hcardsup
 
+omit [Finite G] in
 private theorem xreg_isElemAbelian_closure {a b c : G} (hab : Commute a b) (hac : Commute a c)
     (hbc : Commute b c) (ha3 : orderOf a = 3) (hb3 : orderOf b = 3) (hc3 : orderOf c = 3) :
     IsElemAbelian 3 (Subgroup.closure ({a, b, c} : Set G)) := by
@@ -1014,7 +1049,6 @@ private theorem xreg_isElemAbelian_closure {a b c : G} (hab : Commute a b) (hac 
     intro y hy z hz
     rcases hy with hy | hy | hy <;> rcases hz with hz | hz | hz <;> rw [hy, hz] <;>
       first
-        | rfl
         | exact hab.eq
         | exact hab.eq.symm
         | exact hac.eq
@@ -1023,6 +1057,7 @@ private theorem xreg_isElemAbelian_closure {a b c : G} (hab : Commute a b) (hac 
         | exact hbc.eq.symm
   exact isElemAbelian_closure_three hcube hcommS
 
+omit [Finite G] in
 private theorem xreg_normalizer_closure {X : Subgroup G} {x a b c : G}
     (hX : X = Subgroup.zpowers x) (hxa : cj x a = b) (hxb : cj x b = c)
     (hxc : cj x c = a) :
@@ -1101,7 +1136,7 @@ private theorem xreg_closure_eq_sylow_and_index {H X L Q I T : Subgroup G}
       (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three
         (Nat.card_pos (α := ↥I)).ne').mpr h4
     exact hnot81 (by simpa using h81)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTcard_le : Nat.card T ≤ 27 := by
     have hcard := hTsyl.card_eq (p := 3)
     rw [hcard]
@@ -1174,7 +1209,8 @@ theorem alternating_five_inversion (g : alternatingGroup (Fin 5)) (hg : g ^ 3 = 
   alternating_five_inversion_all g hg
 
 
-theorem exists_inverting_pCoreOf {L Q : Subgroup G} (halt : IsAlt (Bar2 L) 5)
+omit [Finite G] in
+theorem exists_inverting_pCoreOf {L _Q : Subgroup G} (halt : IsAlt (Bar2 L) 5)
     {a : G} (haL : a ∈ L) (ha3 : orderOf a = 3) :
     ∃ n₀ : G, n₀ ∈ L ∧ n₀ * a * n₀⁻¹ * a ∈ CFSG.Open.pCoreOf 2 L := by
   classical
@@ -1186,7 +1222,7 @@ theorem exists_inverting_pCoreOf {L Q : Subgroup G} (halt : IsAlt (Bar2 L) 5)
   have hā3 : ā ^ 3 = 1 := by
     have h : aL ^ 3 = 1 := by
       apply Subtype.ext
-      simpa [aL, ha3']
+      simp [aL, ha3']
     simpa [ā, π] using congrArg π h
   obtain ⟨h, hh⟩ := alternating_five_inversion (e ā) (by rw [← map_pow, hā3, map_one])
   let g : Bar2 L := e.symm h
@@ -1208,18 +1244,21 @@ theorem isPGroup_inf_I_Q {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
     IsPGroup 2 ↥(I ⊓ Q) :=
   (isPGroup_Q h).to_le inf_le_right
 
+omit [Finite G] in
 theorem I_le_normalizer_inf_I_Q {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
     I ≤ Subgroup.normalizer ((I ⊓ Q : Subgroup G) : Set G) := by
   have h1 : I ≤ Subgroup.normalizer (I : Set G) := Subgroup.le_normalizer
   have h2 : I ≤ Subgroup.normalizer (Q : Set G) := (I_le_H h).trans (H_le_normalizer_Q h)
   exact (le_inf h1 h2).trans Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite G] in
 theorem inf_eq_bot_of_isPGroup_three_two {A R : Subgroup G} (hA : IsPGroup 3 A)
     (hR : IsPGroup 2 R) : A ⊓ R = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact disjoint_iff.mp (IsPGroup.disjoint_of_ne 3 2 (by norm_num) A R hA hR)
 
+omit [Finite G] in
 private theorem inverting_card_sup_eq_mul {A R : Subgroup G}
     (hAR : A ≤ Subgroup.normalizer (R : Set G)) (hA_inf_R : A ⊓ R = ⊥) :
     Nat.card ↥(A ⊔ R) = Nat.card A * Nat.card R := by
@@ -1236,7 +1275,7 @@ private theorem inverting_exists_conj_subgroupOf_eq {A A' R : Subgroup G} {k : �
     (hRcard : Nat.card R = 2 ^ k) :
     ∃ c₀ : ↥(A ⊔ R),
       MulAut.conj c₀ • (A.subgroupOf (A ⊔ R)) = A'.subgroupOf (A ⊔ R) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHA3 : IsPGroup 3 (A.subgroupOf (A ⊔ R)) := hA3.comap_subtype
   have hHA'3 : IsPGroup 3 (A'.subgroupOf (A ⊔ R)) := hA'3.comap_subtype
   have hHAidx : ¬ 3 ∣ (A.subgroupOf (A ⊔ R)).index := by
@@ -1269,6 +1308,7 @@ private theorem inverting_exists_conj_subgroupOf_eq {A A' R : Subgroup G} {k : �
   have := congrArg (fun P : Sylow 3 ↥(A ⊔ R) => (P : Subgroup ↥(A ⊔ R))) hc₀
   simpa [Sylow.coe_subgroup_smul, IsPGroup.toSylow_coe] using this
 
+omit [Finite G] in
 private theorem inverting_conjugate_le_sup {A R : Subgroup G} {n₀ a b c : G}
     (hA : A = Subgroup.closure ({a, b, c} : Set G))
     (haA : a ∈ A) (hbA : b ∈ A) (hcA : c ∈ A)
@@ -1319,10 +1359,11 @@ private theorem inverting_map_conj_eq_and_inv {A A' : Subgroup G} {c₀ : G}
   have hz' : z ∈ A.map (MulAut.conj c₀).toMonoidHom := by rwa [heqmap]
   obtain ⟨y, hy, hyz⟩ := Subgroup.mem_map.mp hz'
   rw [← hyz]
-  simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+  simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   group
   exact hy
 
+omit [Finite G] in
 private theorem inverting_conj_mem_of_eq_mul {A A' : Subgroup G} {bc r c₀ : G}
     (hbcA : bc ∈ A) (hbcrc : bc * r = c₀⁻¹)
     (hmem_inv : ∀ z ∈ A', c₀⁻¹ * z * c₀ ∈ A) :
@@ -1339,6 +1380,7 @@ private theorem inverting_conj_mem_of_eq_mul {A A' : Subgroup G} {bc r c₀ : G}
     A.mul_mem (A.mul_mem (A.inv_mem hbcA) h2) hbcA
   simpa [mul_assoc] using h3
 
+omit [Finite G] in
 private theorem inverting_mul_conj_mul_mem {R I : Subgroup G} {r n₀ a : G}
     (hrR : r ∈ R) (hRnorm : I ≤ Subgroup.normalizer (R : Set G))
     (haI : a ∈ I) (hcomm : n₀ * a * n₀⁻¹ * a ∈ R) :
@@ -1351,6 +1393,7 @@ private theorem inverting_mul_conj_mul_mem {R I : Subgroup G} {r n₀ a : G}
   rw [hcalc]
   exact R.mul_mem (R.mul_mem hrR hcomm) (by simpa using hconjR r⁻¹ (R.inv_mem hrR))
 
+omit [Finite G] in
 private theorem inverting_mul_conj_mul_inv_mem {R I : Subgroup G} {r n₀ b : G}
     (hrR : r ∈ R) (hRnorm : I ≤ Subgroup.normalizer (R : Set G))
     (hbI : b ∈ I) (hcomm : n₀ * b * n₀⁻¹ * b⁻¹ ∈ R) :
@@ -1363,6 +1406,7 @@ private theorem inverting_mul_conj_mul_inv_mem {R I : Subgroup G} {r n₀ b : G}
   rw [hcalc]
   exact R.mul_mem (R.mul_mem hrR hcomm) (hconjR r⁻¹ (R.inv_mem hrR))
 
+omit [Finite G] in
 private theorem inverting_eq_inv_of_mul_mem {A R : Subgroup G} {m a : G}
     (haA : a ∈ A) (hA_inf_R : A ⊓ R = ⊥) (hmaA : m * a * m⁻¹ ∈ A)
     (hmaR : m * a * m⁻¹ * a ∈ R) : m * a * m⁻¹ = a⁻¹ := by
@@ -1371,6 +1415,7 @@ private theorem inverting_eq_inv_of_mul_mem {A R : Subgroup G} {m a : G}
   have := congrArg (fun t => t * a⁻¹) hmem
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem inverting_eq_self_of_mul_mem {A R : Subgroup G} {m a : G}
     (haA : a ∈ A) (hA_inf_R : A ⊓ R = ⊥) (hmaA : m * a * m⁻¹ ∈ A)
     (hmaR : m * a * m⁻¹ * a⁻¹ ∈ R) : m * a * m⁻¹ = a := by
@@ -1438,8 +1483,9 @@ private theorem inverting_exists_r_conj {A R : Subgroup G} {n₀ a b c : G}
     rw [← hc₁]; rfl
   exact ⟨r, hrR, inverting_conj_mem_of_eq_mul hbcA hbcrc hmem_inv⟩
 
+omit [Finite G] in
 private theorem inverting_exists_conj_of_mod_R {A R I : Subgroup G} {n₀ a b c r : G}
-    (hA : A = Subgroup.closure ({a, b, c} : Set G))
+    (_hA : A = Subgroup.closure ({a, b, c} : Set G))
     (haA : a ∈ A) (hbA : b ∈ A) (hcA : c ∈ A)
     (hAI : A ≤ I) (hRnorm : I ≤ Subgroup.normalizer (R : Set G)) (hR_le_I : R ≤ I)
     (hA_inf_R : A ⊓ R = ⊥) (hn₀I : n₀ ∈ I)
@@ -1505,7 +1551,7 @@ private theorem inverting_exists_inverting_mod_R {H X L Q I : Subgroup G} (h : S
   have hcI : c ∈ I := hle21 hcL
   have hLQ : L ⊓ Q = CFSG.Open.pCoreOf 2 L := by
     simpa only [conjugate_one] using conjugate_inf_pCoreOf_eq h (X.one_mem : (1 : G) ∈ X)
-  obtain ⟨n₀, hn₀L, hn₀inv⟩ := exists_inverting_pCoreOf (Q := Q) h.L_alt haL ha3
+  obtain ⟨n₀, hn₀L, hn₀inv⟩ := exists_inverting_pCoreOf (_Q := Q) h.L_alt haL ha3
   have hn₀I : n₀ ∈ I := le_I h hn₀L
   have hpCore_le_Q : CFSG.Open.pCoreOf 2 L ≤ Q := by rw [← hLQ]; exact inf_le_right
   have hle01Q : ⁅Lc L x 0, Lc L x 1⁆ ≤ Q :=

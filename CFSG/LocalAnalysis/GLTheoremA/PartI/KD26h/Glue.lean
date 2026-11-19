@@ -79,7 +79,6 @@ theorem exists_block_map {G K : Type} [Group G] [Group K] (e : G ≃* K) {p : �
     have hg' : g' ∈ Subgroup.centralizer ({d} : Set G) := by
       rw [Subgroup.mem_centralizer_singleton_iff] at hg ⊢
       apply e.injective
-      change e (g' * d) = e (d * g')
       rw [map_mul, map_mul]
       exact hg
     exact ⟨g' * f * g'⁻¹, hLn g' hg' f hf, by simp⟩

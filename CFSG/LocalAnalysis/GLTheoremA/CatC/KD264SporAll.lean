@@ -31,7 +31,7 @@ theorem kd264RowData_of_not_sq_dvd {p : ℕ} (hp : p.Prime) {T : Type} [Group T]
   intro A hA _ k hk1 _ hAk
   exfalso
   apply h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := (isPGroup_of_isElemAbelian hA).exists_card_eq
   have hkn : k + 1 ≤ n := (Nat.pow_le_pow_iff_right hp.one_lt).1 (hn ▸ hAk)
   exact (pow_dvd_pow p (by omega)).trans (hn ▸ Subgroup.card_subgroup_dvd_card A)
@@ -57,7 +57,7 @@ theorem fullCoverLevel_ne_four_of_k2 {p : ℕ} {s : TauCeti.SporadicName} {K : T
     fullCoverLevel p K ≠ 4 := by
   have hK2 : K2Cover p K := ⟨hq, Or.inl ⟨hZ, ⟨TauCeti.CFSGIndex.sporadic s, (show k2 p (TauCeti.CFSGIndex.sporadic s) from h2), ⟨e⟩⟩⟩⟩
   unfold fullCoverLevel
-  split_ifs <;> first | omega | contradiction
+  split_ifs <;> first | omega
 
 theorem fullCoverLevel_ne_four_of_k3 {s : TauCeti.SporadicName} {K : Type} [Group K]
     (hq : CFSG.Open.IsQuasisimple K) (hZ : Subgroup.center K = ⊥)
@@ -65,7 +65,7 @@ theorem fullCoverLevel_ne_four_of_k3 {s : TauCeti.SporadicName} {K : Type} [Grou
     fullCoverLevel 3 K ≠ 4 := by
   have hK3 : K3Cover 3 K := ⟨hq, Or.inl ⟨hZ, ⟨TauCeti.CFSGIndex.sporadic s, (show k3 3 (TauCeti.CFSGIndex.sporadic s) from ⟨rfl, h3⟩), ⟨e⟩⟩⟩⟩
   unfold fullCoverLevel
-  split_ifs <;> first | omega | contradiction
+  split_ifs <;> first | omega
 
 theorem kd264SporAt_of_model
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) {p : ℕ}
@@ -83,7 +83,7 @@ theorem kd264SporAt_of_model
     obtain ⟨x, hx, -⟩ := CFSG.HardMathSupport.Solomon.Coordinator.exists_conj_of_pow hp hp2 hZQ
       (hOut Q inferInstance hnc s ⟨b⟩) α hα
     exact ⟨x, hx.symm⟩
-  haveI : IsSimpleGroup ↥K := (MulEquiv.isSimpleGroup_congr e').2 inferInstance
+  have : IsSimpleGroup ↥K := (MulEquiv.isSimpleGroup_congr e').2 inferInstance
   have hncK : ∃ a c : ↥K, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     exact ⟨e'.symm a, e'.symm c, fun h => hac (by simpa using congrArg e' h)⟩

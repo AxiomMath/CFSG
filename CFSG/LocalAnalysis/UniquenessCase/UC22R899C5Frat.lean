@@ -27,7 +27,7 @@ theorem uc22r899c5_exists_orderOf_mem_normalizer {Γ Q : Type} [Group Γ] [Finit
   have haS := htop.symm ▸ Subgroup.mem_top (⟨a, haH⟩ : ↥H)
   rw [← SetLike.mem_coe, Subgroup.mul_normal] at haS
   obtain ⟨n, hn, k, hk, hnk⟩ := haS
-  obtain ⟨j, hj⟩ := (IsPGroup.iff_card (p := q)).1 S.isPGroup'
+  obtain ⟨j, hj⟩ := (IsPGroup.iff_card (p := q)).1 S.isPGroup
   set m := Nat.card ↥(S : Subgroup ↥H) with hm
   have hk1 : ψ k ^ m = 1 := by
     obtain ⟨s, hs, hsk⟩ := Subgroup.mem_comap.1 hk

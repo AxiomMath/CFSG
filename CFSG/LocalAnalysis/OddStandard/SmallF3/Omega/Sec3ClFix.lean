@@ -100,7 +100,7 @@ theorem asc82ClosureAt_of_closureFix {P : (Q : Type) → [Group Q] → Prop}
     (h : ∀ (X : Type) [Group X] [Finite X], CFSG.IsQuasisimple X → P X → ClosureFix X) :
     Asc82ClosureAt P := by
   intro G _ _ L w hL hP hw hwN J hJ
-  haveI : Finite ↥L := Finite.of_injective L.subtype L.subtype_injective
+  have : Finite ↥L := Finite.of_injective L.subtype L.subtype_injective
   have hw2 : w * w = 1 := by
     have h2 : w ^ 2 = 1 := by
       rw [← hw]
@@ -119,11 +119,11 @@ theorem asc82ClosureAt_of_closureFix {P : (Q : Type) → [Group Q] → Prop}
     rw [← sec63PT_isComponentIn_map_iff L.subtype L.subtype_injective]
     rw [hJ0map, hfixσ]
     exact hJ
-  haveI : Finite (↥L ⧸ oddCore ↥L) :=
+  have : Finite (↥L ⧸ oddCore ↥L) :=
     Finite.of_surjective (QuotientGroup.mk' (oddCore ↥L)) (QuotientGroup.mk'_surjective _)
   have hqL : CFSG.IsQuasisimple ↥L := hL.1
   have hqX : CFSG.IsQuasisimple (↥L ⧸ oddCore ↥L) := isQuasisimple_quotient_oddCore hqL
-  haveI : Nontrivial (↥L ⧸ oddCore ↥L) := CFSG.LocalCores.isQuasisimple_nontrivial hqX
+  have : Nontrivial (↥L ⧸ oddCore ↥L) := CFSG.LocalCores.isQuasisimple_nontrivial hqX
   let ρ : ↥L →* (↥L ⧸ oddCore ↥L) := QuotientGroup.mk' (oddCore ↥L)
   have hρker : ρ.ker = oddCore ↥L := QuotientGroup.ker_mk' (oddCore ↥L)
   have hρcov : OddCentralCover ρ := by
@@ -144,8 +144,8 @@ theorem asc82ClosureAt_of_closureFix {P : (Q : Type) → [Group Q] → Prop}
     rwa [hmapfix] at h1
   have hFmap : IsFStarGroup ↥(J₀.map ρ) :=
     h (↥L ⧸ oddCore ↥L) hqX hP α hα2 (J₀.map ρ) hJmap
-  haveI : Finite ↥J₀ := Finite.of_injective J₀.subtype J₀.subtype_injective
-  haveI : Finite ↥(J₀.map ρ) :=
+  have : Finite ↥J₀ := Finite.of_injective J₀.subtype J₀.subtype_injective
+  have : Finite ↥(J₀.map ρ) :=
     Finite.of_injective (J₀.map ρ).subtype (J₀.map ρ).subtype_injective
   have hFJ0 : IsFStarGroup ↥J₀ :=
     l34g_x_isFStarGroup_of_cover (sec63PT_oddCentralCover_subgroupMap hρcov J₀)
@@ -162,9 +162,9 @@ theorem asc82ClosureAt_of_omegaStar_all {P : (Q : Type) → [Group Q] → Prop} 
   refine asc82ClosureAt_of_closureFix ?_
   intro X _ _ hq hPX
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨f⟩⟩ := hP X hPX
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   exact closureFix_of_mulEquiv f.symm (hM V Q hQ hdim hs)
 
 theorem asc82ClosureAt_of_omegaStar {P : (Q : Type) → [Group Q] → Prop} {n : ℕ} {ε : ℤˣ}

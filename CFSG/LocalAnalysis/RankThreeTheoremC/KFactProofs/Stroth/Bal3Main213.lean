@@ -48,14 +48,14 @@ theorem RedConfig.card_components_le (h : RedConfig p P z D) (S : Finset (Subgro
 theorem RedConfig.le_normalizer_component_of_five_le (h : RedConfig p P z D) (hp5 : 5 ≤ p)
     {K : Subgroup X} (hK : IsComponentOf K ⊤) : (P : Subgroup X) ≤ normalizer (K : Set X) :=
   le_normalizer_of_card_components_le h.prime (m := 3) (by omega) h.card_components_le
-    P.isPGroup' hK
+    P.isPGroup hK
 
 end Reduced
 
 theorem kFactLemma213_of_inputs (h294 : Input29_4Rank3) (hperm : Bal3NoPermute) :
     KFactLemma213 := by
   intro p hp hodd H _ _ hcat hcon hQ P z D hconf hg hemb
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O : Subgroup H := primeComplementCore (G := H) p with hOdef
   have hred := Lemma212Config.reduce hodd hconf
   obtain ⟨K, hK⟩ := exists_isComponentOf_of_not_hasPrimeConstraint hp hcon
@@ -72,14 +72,14 @@ theorem kFactLemma213_of_inputs (h294 : Input29_4Rank3) (hperm : Bal3NoPermute) 
         omega) hK'
   have huniq : ∀ K' : Subgroup (H ⧸ O), IsComponentOf K' ⊤ → K' = K := fun K' hK' =>
     hred.eq_of_normalized hQ hK hK' (hall K hK) (hall K' hK')
-  haveI hKn : K.Normal :=
+  have hKn : K.Normal :=
     Subgroup.Normal.of_conjugate_fixed (fun g => huniq _ (isComponentOf_conj_smul hK g))
   have hZ : center K = ⊥ := center_eq_bot_of_isComponentOf hp hred.core hQ hK
   have hsimple : IsSimpleGroup K := by
     have h1 : IsSimpleGroup (K ⧸ center K) := hK.2.2.2
     have e : (K ⧸ center K) ≃* K := (QuotientGroup.quotientMulEquivOfEq hZ).trans
       QuotientGroup.quotientBot
-    haveI := h1
+    have := h1
     exact MulEquiv.isSimpleGroup e.symm
   have hnonab : ∃ a b : K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ :=

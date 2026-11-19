@@ -28,7 +28,7 @@ theorem OuterS16Hyp.card_fusionOddCore_D (h : OuterS16Hyp G L z t T E Q x B β) 
     have hb3 : orderOf b = 3 := by rw [← Subgroup.orderOf_coe]; exact hβ3
     have hcentral : ∀ y : ↥D, y * b = b * y := fun y =>
       Subtype.ext (mem_centralizer_singleton_iff.1 y.2.2)
-    haveI : (zpowers b).Normal := by
+    have : (zpowers b).Normal := by
       refine ⟨fun n hn g => ?_⟩
       obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hn
       have : g * b ^ k * g⁻¹ = b ^ k := by

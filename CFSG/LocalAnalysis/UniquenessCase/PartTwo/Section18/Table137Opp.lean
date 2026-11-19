@@ -215,7 +215,7 @@ theorem sl2_inputs {F : Type} [Field F] [Finite F] [CharP F 2] (h4 : 4 ≤ Nat.c
     CFSG.Open.IsQuasisimple SL(2, F) ∧ CFSG.pCore 2 SL(2, F) = ⊥ ∧
       ∃ x : SL(2, F), x ∉ Subgroup.center SL(2, F) ∧ ∃ k : ℕ, orderOf x = p ^ k := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hq : CFSG.Open.IsQuasisimple SL(2, F) := by
     obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset F)) (n := 4)
       (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h4)

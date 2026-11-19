@@ -117,7 +117,7 @@ private theorem IsBenderQuot.of_map {q i : ℕ} (f : K →* K') (hf : Function.S
   trans := by
     intro P x y hx hy
     obtain ⟨P', hP'⟩ := hsyl P
-    have hN := normalizer_eq_comap_map hker hodd (P := (P : Subgroup K)) P.isPGroup'
+    have hN := normalizer_eq_comap_map hker hodd (P := (P : Subgroup K)) P.isPGroup
     rw [← hP'] at hN
     rw [hN, Subgroup.mem_comap] at hx hy
     obtain ⟨u', hu', hmem⟩ := h.trans P' (f x) (f y) hx hy
@@ -129,7 +129,7 @@ private theorem IsBenderQuot.of_map {q i : ℕ} (f : K →* K') (hf : Function.S
   reg := by
     intro P u hu x hx hxu
     obtain ⟨P', hP'⟩ := hsyl P
-    have hN := normalizer_eq_comap_map hker hodd (P := (P : Subgroup K)) P.isPGroup'
+    have hN := normalizer_eq_comap_map hker hodd (P := (P : Subgroup K)) P.isPGroup
     rw [← hP'] at hN
     rw [hN, Subgroup.mem_comap] at hx hxu
     rw [map_mul, map_mul, map_inv] at hxu
@@ -137,12 +137,12 @@ private theorem IsBenderQuot.of_map {q i : ℕ} (f : K →* K') (hf : Function.S
       rw [hP']
       exact Subgroup.mem_map_of_mem f hu
     have h1 : f u = 1 := h.reg P' (f u) hu' (f x) hx hxu
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨u, hu⟩
     exact eq_one_of_odd_orderOf_of_pow (hodd u h1) (congrArg Subtype.val hk)
   index_eq := by
     intro P
     obtain ⟨P', hP'⟩ := hsyl P
-    have hN := normalizer_eq_comap_map hker hodd (P := (P : Subgroup K)) P.isPGroup'
+    have hN := normalizer_eq_comap_map hker hodd (P := (P : Subgroup K)) P.isPGroup
     rw [← hP'] at hN
     rw [hN, Subgroup.index_comap_of_surjective _ hf]
     exact h.index_eq P'
@@ -162,7 +162,7 @@ theorem IsBenderQuot.of_mulEquiv {K K' : Type*} [Group K] [Group K'] {q i : ℕ}
 private theorem closure_odd_eq_top_of_simple {L : Type*} [Group L] [IsSimpleGroup L] {x : L}
     (hx1 : x ≠ 1) (hx : Odd (orderOf x)) :
     Subgroup.closure {y : L | Odd (orderOf y)} = ⊤ := by
-  haveI := normal_closure_odd L
+  have := normal_closure_odd L
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.closure {y : L | Odd (orderOf y)})
     with h | h
   · exact absurd (Subgroup.mem_bot.mp (h ▸ Subgroup.subset_closure hx)) hx1
@@ -195,7 +195,7 @@ private theorem exists_odd_ne_one_of_benderType {K : Type*}
 theorem BenderType.isBenderQuot {K : Type*} [Group K] [Finite K]
     {n i e : ℕ} (h : BenderType K n i e) : IsBenderQuot K (2 ^ n) i where
   oddGen := by
-    haveI := h.isSimple
+    have := h.isSimple
     obtain ⟨x, hx1, hx⟩ := exists_odd_ne_one_of_benderType h
     exact closure_odd_eq_top_of_simple hx1 hx
   trans := by
@@ -219,7 +219,7 @@ theorem BenderType.isBenderQuot {K : Type*} [Group K] [Finite K]
       refine Subgroup.mem_inf.mpr ⟨le_borel _ hu, ?_⟩
       rw [mem_conjugate_iff_mul_inv, inv_inv]
       exact hxu
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨u, hu⟩
     exact eq_one_of_odd_orderOf_of_pow
       (Odd.of_dvd_nat hodd (Subgroup.orderOf_dvd_natCard _ hmem)) (congrArg Subtype.val hk)
   index_eq := fun P => (h.exists_benderCore P).choose_spec.index_eq
@@ -283,7 +283,7 @@ private theorem exists_cover_statedSU (hn : 2 ≤ n) (hF : Nat.card F = (2 ^ n) 
 private theorem isBenderQuot_statedSU (hn : 2 ≤ n)
     (hF : Nat.card F = (2 ^ n) ^ 2) : IsBenderQuot (StatedSU 3 (2 ^ n) F) (2 ^ n) 3 := by
   obtain ⟨e, π, hπ, hker, hodd, hB⟩ := exists_cover_statedSU hn hF
-  haveI : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
+  have : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
   exact IsBenderQuot.of_surjective π hπ hker hodd (BenderType.isBenderQuot hB)
 
 end Unitary
@@ -317,7 +317,7 @@ private theorem isQuasisimple_of_central_cover {G Q : Type*} [Group G] [Group Q]
     (π : G →* Q) (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center G)
     (hperf : Group.IsPerfect G) (hnc : ∃ a b : Q, a * b ≠ b * a) : CFSG.IsQuasisimple G := by
   let e : G ⧸ π.ker ≃* Q := QuotientGroup.quotientKerEquivOfSurjective π hπ
-  haveI : IsSimpleGroup (G ⧸ π.ker) := e.isSimpleGroup
+  have : IsSimpleGroup (G ⧸ π.ker) := e.isSimpleGroup
   refine CFSG.LieType.CurtisTits.isQuasisimple_of_isSimpleGroup_quotient π.ker hker hperf
     inferInstance ?_
   obtain ⟨a, b, hab⟩ := hnc
@@ -340,16 +340,16 @@ private theorem isQuasisimple_of_equiv_statedSU {n : ℕ} {F : Type} [Field F] [
     {K : Type*} [Group K] (hn : 2 ≤ n) (hF : Nat.card F = (2 ^ n) ^ 2)
     (e : K ≃* StatedSU 3 (2 ^ n) F) : CFSG.IsQuasisimple K := by
   obtain ⟨e', π, hπ, hker, -, hB⟩ := exists_cover_statedSU hn hF
-  haveI : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
-  haveI := hB.isSimple
+  have : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
+  have := hB.isSimple
   have hnq : (3, 2 ^ n) ≠ (3, 2) := fun h => by
     have h2 : 2 ^ n = 2 ^ 1 := by simpa using congrArg Prod.snd h
     have := Nat.pow_right_injective le_rfl h2
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect (StatedSU 3 (2 ^ n) F) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect (StatedSU 3 (2 ^ n) F) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hF (n := 3) le_rfl hnq
-  haveI : Group.IsPerfect K :=
+  have : Group.IsPerfect K :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   refine isQuasisimple_of_central_cover (π.comp e.toMonoidHom) (hπ.comp e.surjective) ?_
     inferInstance ?_
@@ -368,14 +368,14 @@ theorem isQuasisimple_of_listed {K : Type} [Group K] [Finite K]
     (hK : IsRankOneListed K) (hs : ¬ Group.IsSolvable K) : CFSG.IsQuasisimple K := by
   rcases cases_of_listed_of_not_isSolvable hK hs with ⟨n, hn, ⟨e⟩⟩ | ⟨a, ha, ⟨e⟩⟩ |
     ⟨n, hn, F, i1, i2, hF, ⟨e⟩⟩ | ⟨n, hn, F, i1, i2, hF, ⟨e⟩⟩
-  · haveI := (BenderType.linear n hn e).isSimple
+  · have := (BenderType.linear n hn e).isSimple
     exact isQuasisimple_of_isSimpleGroup hs
-  · haveI := (BenderType.suzuki a ha
+  · have := (BenderType.suzuki a ha
       (e.trans (MulEquiv.subgroupCongr (szModel_eq_open_sz a).symm))).isSimple
     exact isQuasisimple_of_isSimpleGroup hs
   · exact isQuasisimple_of_equiv_statedSU hn hF e
   · obtain ⟨e', hB⟩ := benderType_statedProj hn hF
-    haveI := (hB.of_mulEquiv e.symm).isSimple
+    have := (hB.of_mulEquiv e.symm).isSimple
     exact isQuasisimple_of_isSimpleGroup hs
 
 end Listed

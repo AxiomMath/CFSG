@@ -741,8 +741,7 @@ private theorem lemma12_restricted_square_monomial
     let SK := S.baseChange (ZMod 2) (BinaryGaloisField n) W W
     have hqK_equivariant (x : BinaryGaloisField n ⊗[ZMod 2] V) :
         qK (TK x) = SK (qK x) := by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, hx, hy]
       | tmul a x =>
           simp only [qK, TK, SK, qLinear, LinearMap.baseChange_tmul,
@@ -751,8 +750,7 @@ private theorem lemma12_restricted_square_monomial
           rw [hq_equivariant]
     have hqK_surjective : Function.Surjective qK := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => exact ⟨0, by simp⟩
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           obtain ⟨x', rfl⟩ := hx
           obtain ⟨y', rfl⟩ := hy
@@ -1181,10 +1179,10 @@ private theorem lemma12_linear_pair_case_core
       rcases lt_or_gt_of_ne (Fin.val_ne_of_ne hijuRaw) with hlt | hgt
       · by_cases hsmall : d ≤ n / 2
         · refine ⟨iuRaw, juRaw, hijuRaw, hUseedRaw, hUformulaRaw, ?_, ?_⟩
-          · simp only [forwardGap, if_pos hlt.le]
+          · simp only [forwardGap, ite_eq_left hlt.le]
             dsimp only [d, lemma6_finPairGap] at hd_pos
             omega
-          · simp only [forwardGap, if_pos hlt.le]
+          · simp only [forwardGap, ite_eq_left hlt.le]
             dsimp only [d, lemma6_finPairGap] at hsmall
             omega
         · have hseedSwap :
@@ -1203,10 +1201,10 @@ private theorem lemma12_linear_pair_case_core
             simpa only [add_comm] using hUformulaRaw a
           refine ⟨juRaw, iuRaw, hijuRaw.symm, hseedSwap,
             hformulaSwap, ?_, ?_⟩
-          · simp only [forwardGap, if_neg (Nat.not_le.mpr hlt)]
+          · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hlt)]
             dsimp only [d, lemma6_finPairGap] at hd_lt
             omega
-          · simp only [forwardGap, if_neg (Nat.not_le.mpr hlt)]
+          · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hlt)]
             dsimp only [d, lemma6_finPairGap] at hsmall hd_lt
             omega
       · by_cases hsmall : d ≤ n / 2
@@ -1226,16 +1224,16 @@ private theorem lemma12_linear_pair_case_core
             simpa only [add_comm] using hUformulaRaw a
           refine ⟨juRaw, iuRaw, hijuRaw.symm, hseedSwap,
             hformulaSwap, ?_, ?_⟩
-          · simp only [forwardGap, if_pos hgt.le]
+          · simp only [forwardGap, ite_eq_left hgt.le]
             omega
-          · simp only [forwardGap, if_pos hgt.le]
+          · simp only [forwardGap, ite_eq_left hgt.le]
             dsimp only [d, lemma6_finPairGap] at hsmall
             omega
         · refine ⟨iuRaw, juRaw, hijuRaw, hUseedRaw, hUformulaRaw, ?_, ?_⟩
-          · simp only [forwardGap, if_neg (Nat.not_le.mpr hgt)]
+          · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hgt)]
             dsimp only [d, lemma6_finPairGap] at hd_lt
             omega
-          · simp only [forwardGap, if_neg (Nat.not_le.mpr hgt)]
+          · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hgt)]
             dsimp only [d, lemma6_finPairGap] at hsmall hd_lt
             omega
     obtain ⟨iu, ju, hiju, hUseed, hUformula,
@@ -1734,12 +1732,12 @@ private theorem lemma12_linear_pair_case_core
         · change sigma ^ (ju : ℕ) * (sigma ^ (iu : ℕ))⁻¹ = sigma ^ r
           rw [← pow_sub sigma hij]
           congr 1
-          simp only [r, forwardGap, if_pos hij]
+          simp only [r, forwardGap, ite_eq_left hij]
         · have hji : (ju : ℕ) ≤ (iu : ℕ) := by omega
           have hd_le : (iu : ℕ) - (ju : ℕ) ≤ n := by omega
           change sigma ^ (ju : ℕ) * (sigma ^ (iu : ℕ))⁻¹ = sigma ^ r
           rw [show r = n - ((iu : ℕ) - (ju : ℕ)) by
-            simp only [r, forwardGap, if_neg hij]]
+            simp only [r, forwardGap, ite_eq_right hij]]
           calc
             sigma ^ (ju : ℕ) * (sigma ^ (iu : ℕ))⁻¹ =
                 (sigma ^ ((iu : ℕ) - (ju : ℕ)))⁻¹ := by
@@ -2748,11 +2746,11 @@ private theorem lemma12_distinct_pair_gap_of_cross_seed
       by_cases hab : (a : ℕ) ≤ (b : ℕ)
       · rw [← pow_sub sigma hab]
         congr 1
-        simp only [forwardGap, if_pos hab]
+        simp only [forwardGap, ite_eq_left hab]
       · have hba : (b : ℕ) ≤ (a : ℕ) := by omega
         have hd_le : (a : ℕ) - (b : ℕ) ≤ n := by omega
         rw [show forwardGap a b = n - ((a : ℕ) - (b : ℕ)) by
-          simp only [forwardGap, if_neg hab]]
+          simp only [forwardGap, ite_eq_right hab]]
         calc
           sigma ^ (b : ℕ) * (sigma ^ (a : ℕ))⁻¹ =
               (sigma ^ ((a : ℕ) - (b : ℕ)))⁻¹ := by
@@ -3369,11 +3367,11 @@ private theorem lemma12_same_pair_typeB_core
         by_cases hij : (i : ℕ) ≤ (j : ℕ)
         · rw [← pow_sub sigma hij]
           congr 1
-          simp only [forwardGap, if_pos hij]
+          simp only [forwardGap, ite_eq_left hij]
         · have hji : (j : ℕ) ≤ (i : ℕ) := by omega
           have hd_le : (i : ℕ) - (j : ℕ) ≤ n := by omega
           rw [show forwardGap i j = n - ((i : ℕ) - (j : ℕ)) by
-            simp only [forwardGap, if_neg hij]]
+            simp only [forwardGap, ite_eq_right hij]]
           calc
             sigma ^ (j : ℕ) * (sigma ^ (i : ℕ))⁻¹ =
                 (sigma ^ ((i : ℕ) - (j : ℕ)))⁻¹ := by
@@ -3733,12 +3731,12 @@ private theorem lemma12_same_pair_typeB_core
         by_cases hij : (iu : ℕ) ≤ (ju : ℕ)
         · rw [← pow_sub sigma hij]
           congr 1
-          simp only [forwardGap, if_pos hij]
+          simp only [forwardGap, ite_eq_left hij]
         · have hji : (ju : ℕ) ≤ (iu : ℕ) := by omega
           have hd_le : (iu : ℕ) - (ju : ℕ) ≤ n := by omega
           rw [show forwardGap iu ju =
             n - ((iu : ℕ) - (ju : ℕ)) by
-              simp only [forwardGap, if_neg hij]]
+              simp only [forwardGap, ite_eq_right hij]]
           calc
             sigma ^ (ju : ℕ) * (sigma ^ (iu : ℕ))⁻¹ =
                 (sigma ^ ((iu : ℕ) - (ju : ℕ)))⁻¹ := by
@@ -3863,11 +3861,11 @@ private theorem lemma12_same_pair_typeB_core
             by_cases hcoeff : normalizedCoeff i j = 0
             · simp [hcoeff]
             · by_cases hfirst : firstSupport i j
-              · simp only [if_pos hfirst, hfirst.1 a, hfirst.2 b,
+              · simp only [ite_eq_left hfirst, hfirst.1 a, hfirst.2 b,
                   zero_mul, add_zero]
               · have hsecond :=
                   (hsameSupportedPowers i j hcoeff).resolve_left hfirst
-                simp only [if_neg hfirst, hsecond.1 a, hsecond.2 b,
+                simp only [ite_eq_right hfirst, hsecond.1 a, hsecond.2 b,
                   zero_mul, zero_add]
           _ = epsilon * a * theta b + delta * theta a * b := by
             simp only [epsilon, delta, Finset.sum_add_distrib,
@@ -4216,11 +4214,11 @@ private theorem lemma12_distinct_pair_typeD_forward_data
         by_cases hij : (i : ℕ) ≤ (j : ℕ)
         · rw [← pow_sub sigma hij]
           congr 1
-          simp only [forwardGap, if_pos hij]
+          simp only [forwardGap, ite_eq_left hij]
         · have hji : (j : ℕ) ≤ (i : ℕ) := by omega
           have hle : (i : ℕ) - (j : ℕ) ≤ n := by omega
           rw [show forwardGap i j = n - ((i : ℕ) - (j : ℕ)) by
-            simp only [forwardGap, if_neg hij]]
+            simp only [forwardGap, ite_eq_right hij]]
           calc
             sigma ^ (j : ℕ) * (sigma ^ (i : ℕ))⁻¹ =
                 (sigma ^ ((i : ℕ) - (j : ℕ)))⁻¹ := by
@@ -8580,10 +8578,10 @@ public theorem lemma12_chain_typeBCD_with_isomorphic_criterion
           rcases lt_or_gt_of_ne (Fin.val_ne_of_ne hijuRaw) with hlt | hgt
           · by_cases hsmall : d ≤ n / 2
             · refine ⟨iuRaw, juRaw, hijuRaw, hUseedRaw, hUformulaRaw, ?_, ?_⟩
-              · simp only [forwardGap, if_pos hlt.le]
+              · simp only [forwardGap, ite_eq_left hlt.le]
                 dsimp only [d, lemma6_finPairGap] at hd_pos
                 omega
-              · simp only [forwardGap, if_pos hlt.le]
+              · simp only [forwardGap, ite_eq_left hlt.le]
                 dsimp only [d, lemma6_finPairGap] at hsmall
                 omega
             · have hseedSwap :
@@ -8602,10 +8600,10 @@ public theorem lemma12_chain_typeBCD_with_isomorphic_criterion
                 simpa only [add_comm] using hUformulaRaw a
               refine ⟨juRaw, iuRaw, hijuRaw.symm, hseedSwap,
                 hformulaSwap, ?_, ?_⟩
-              · simp only [forwardGap, if_neg (Nat.not_le.mpr hlt)]
+              · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hlt)]
                 dsimp only [d, lemma6_finPairGap] at hd_lt
                 omega
-              · simp only [forwardGap, if_neg (Nat.not_le.mpr hlt)]
+              · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hlt)]
                 dsimp only [d, lemma6_finPairGap] at hsmall hd_lt
                 omega
           · by_cases hsmall : d ≤ n / 2
@@ -8625,16 +8623,16 @@ public theorem lemma12_chain_typeBCD_with_isomorphic_criterion
                 simpa only [add_comm] using hUformulaRaw a
               refine ⟨juRaw, iuRaw, hijuRaw.symm, hseedSwap,
                 hformulaSwap, ?_, ?_⟩
-              · simp only [forwardGap, if_pos hgt.le]
+              · simp only [forwardGap, ite_eq_left hgt.le]
                 omega
-              · simp only [forwardGap, if_pos hgt.le]
+              · simp only [forwardGap, ite_eq_left hgt.le]
                 dsimp only [d, lemma6_finPairGap] at hsmall
                 omega
             · refine ⟨iuRaw, juRaw, hijuRaw, hUseedRaw, hUformulaRaw, ?_, ?_⟩
-              · simp only [forwardGap, if_neg (Nat.not_le.mpr hgt)]
+              · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hgt)]
                 dsimp only [d, lemma6_finPairGap] at hd_lt
                 omega
-              · simp only [forwardGap, if_neg (Nat.not_le.mpr hgt)]
+              · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hgt)]
                 dsimp only [d, lemma6_finPairGap] at hsmall hd_lt
                 omega
         have hVCanonicalPairOrientation :
@@ -8656,10 +8654,10 @@ public theorem lemma12_chain_typeBCD_with_isomorphic_criterion
           rcases lt_or_gt_of_ne (Fin.val_ne_of_ne hijvRaw) with hlt | hgt
           · by_cases hsmall : d ≤ n / 2
             · refine ⟨ivRaw, jvRaw, hijvRaw, hVseedRaw, hVformulaRaw, ?_, ?_⟩
-              · simp only [forwardGap, if_pos hlt.le]
+              · simp only [forwardGap, ite_eq_left hlt.le]
                 dsimp only [d, lemma6_finPairGap] at hd_pos
                 omega
-              · simp only [forwardGap, if_pos hlt.le]
+              · simp only [forwardGap, ite_eq_left hlt.le]
                 dsimp only [d, lemma6_finPairGap] at hsmall
                 omega
             · have hseedSwap :
@@ -8678,10 +8676,10 @@ public theorem lemma12_chain_typeBCD_with_isomorphic_criterion
                 simpa only [add_comm] using hVformulaRaw a
               refine ⟨jvRaw, ivRaw, hijvRaw.symm, hseedSwap,
                 hformulaSwap, ?_, ?_⟩
-              · simp only [forwardGap, if_neg (Nat.not_le.mpr hlt)]
+              · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hlt)]
                 dsimp only [d, lemma6_finPairGap] at hd_lt
                 omega
-              · simp only [forwardGap, if_neg (Nat.not_le.mpr hlt)]
+              · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hlt)]
                 dsimp only [d, lemma6_finPairGap] at hsmall hd_lt
                 omega
           · by_cases hsmall : d ≤ n / 2
@@ -8701,16 +8699,16 @@ public theorem lemma12_chain_typeBCD_with_isomorphic_criterion
                 simpa only [add_comm] using hVformulaRaw a
               refine ⟨jvRaw, ivRaw, hijvRaw.symm, hseedSwap,
                 hformulaSwap, ?_, ?_⟩
-              · simp only [forwardGap, if_pos hgt.le]
+              · simp only [forwardGap, ite_eq_left hgt.le]
                 omega
-              · simp only [forwardGap, if_pos hgt.le]
+              · simp only [forwardGap, ite_eq_left hgt.le]
                 dsimp only [d, lemma6_finPairGap] at hsmall
                 omega
             · refine ⟨ivRaw, jvRaw, hijvRaw, hVseedRaw, hVformulaRaw, ?_, ?_⟩
-              · simp only [forwardGap, if_neg (Nat.not_le.mpr hgt)]
+              · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hgt)]
                 dsimp only [d, lemma6_finPairGap] at hd_lt
                 omega
-              · simp only [forwardGap, if_neg (Nat.not_le.mpr hgt)]
+              · simp only [forwardGap, ite_eq_right (Nat.not_le.mpr hgt)]
                 dsimp only [d, lemma6_finPairGap] at hsmall hd_lt
                 omega
         obtain ⟨iu, ju, hiju, hUseed, hUformula,

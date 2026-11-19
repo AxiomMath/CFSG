@@ -33,9 +33,9 @@ private lemma ztriv_irreducible_eq_bot {W : Type} [CommGroup W] [Finite W]
     CFSG.QuasithinUnique.Setup.Layer.Actor.exists_binModel_of_binary (V := U) (fun v => by
       apply Subtype.ext
       simpa [pow_two, Subgroup.coe_mul, Subgroup.coe_one] using hW (v : W))
-  letI : AddCommGroup U' := hU'add
-  letI : Module (ZMod 2) U' := hU'mod
-  letI : Finite U' := hU'fin
+  let : AddCommGroup U' := hU'add
+  let : Module (ZMod 2) U' := hU'mod
+  let : Finite U' := hU'fin
   have hmapU : ∀ l ∈ L, U.map l.toMonoidHom = U := by
     intro l hl
     apply Subgroup.eq_of_le_of_card_ge
@@ -116,8 +116,8 @@ private lemma ztriv_irreducible_eq_bot {W : Type} [CommGroup W] [Finite W]
     intro h
     apply hzcenter_ne
     rw [← hAα, h, map_one]
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Fintype K := Fintype.ofFinite K
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   let f := Module.finrank (ZMod 2) K
   have hF : Fintype.card K = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card, ← FiniteField.pow_finrank_eq_natCard 2 K]
@@ -239,7 +239,7 @@ private lemma ztriv_irreducible_eq_bot {W : Type} [CommGroup W] [Finite W]
       rw [← h2, ← hψAeq]
       exact hfixE
     have h4 := congrFun h3 i
-    simp only [Pi.smul_apply, smul_eq_mul, one_mul] at h4
+    simp only [Pi.smul_apply, smul_eq_mul] at h4
     exact mul_right_cancel₀ hi (by simpa using h4)
   have hψAone : ψ A = 1 := by
     apply Subtype.ext
@@ -261,7 +261,7 @@ theorem fixV_zpowers_eq_bot_of_center {W : Type} [CommGroup W] [Finite W]
     (hzc : ∀ l ∈ L, z * l = l * z) (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) :
     fixV (Subgroup.zpowers z) = ⊥ := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hzord : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have hcard3 : Nat.card (Subgroup.zpowers z) = 3 := by
@@ -332,7 +332,6 @@ theorem fixV_zpowers_eq_bot_of_center {W : Type} [CommGroup W] [Finite W]
       (Or.inl hL)).trans hdmin
   have h6 : 6 ≤ rk ↥(commV (Subgroup.zpowers z)) := by
     rcases heven with ⟨k, hk⟩
-    change 6 ≤ rk ↥(commV (Subgroup.zpowers z))
     omega
   have hrkW : rk W ≤ 12 := by
     rw [← rk_top]

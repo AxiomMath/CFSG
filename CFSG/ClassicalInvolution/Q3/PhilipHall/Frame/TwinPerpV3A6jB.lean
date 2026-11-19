@@ -58,7 +58,7 @@ theorem map_conjSub {X X' : Type*} [Group X] [Group X'] (e : X ≃* X') (c : X) 
 
 theorem smallQ8_map {X X' : Type} [Group X] [Group X'] [Finite X] (e : X ≃* X') {a : X}
     {J : Subgroup X} (h : AE6SmallQ8 a J) : AE6SmallQ8 (e a) (J.map e.toMonoidHom) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨q⟩, hu, hO, hcard⟩ := h
   have hcent : ∀ c : X', c ∈ Subgroup.centralizer ({e a} : Set X') →
       e.symm c ∈ Subgroup.centralizer ({a} : Set X) := by
@@ -118,7 +118,7 @@ theorem smallQ8_subgroupOf {Y : Type} [Group Y] [Finite Y] {H J : Subgroup Y} {a
     (hu : IsUniqueInvolution J a) (hO : J ≤ pCoreOf 2 (Subgroup.centralizer ({a} : Set Y)))
     (hT : ∀ c ∈ Subgroup.centralizer ({a} : Set Y), conjSub c J ∈ T) (hTc : T.ncard ≤ 4) :
     AE6SmallQ8 (⟨a, hJH hu.mem⟩ : ↥H) (J.subgroupOf H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q⟩ := hq
   set a' : ↥H := ⟨a, hJH hu.mem⟩ with ha'
   have hcent : ∀ c : ↥H, c ∈ Subgroup.centralizer ({a'} : Set ↥H) →
@@ -297,7 +297,7 @@ theorem v3AE6OmegaHB_of (hQ8 : AE6ModelQ8) : V3AE6OmegaHB n := by
         exact ⟨i, Subtype.ext hi⟩
     rw [hrange]
     exact Subgroup.closure_closure_coe_preimage
-  haveI : Nontrivial ↥Hε :=
+  have : Nontrivial ↥Hε :=
     ⟨⟨⟨t, hKH hd.hz.mem⟩, 1, fun h1 => hd.hz.ne_one (congrArg Subtype.val h1)⟩⟩
   obtain ⟨e⟩ := A6.curtisD42_recognition ε' hrel' hgen'
   obtain ⟨a, ha⟩ := Sec6Gen.exists_uniqueInvolution hΩ hJ

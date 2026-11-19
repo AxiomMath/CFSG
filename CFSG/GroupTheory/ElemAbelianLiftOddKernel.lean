@@ -57,6 +57,7 @@ private theorem exists_isPGroup_two_map_mk_eq_of_odd_card {N : Subgroup H} [N.No
     exact Subgroup.mem_comap.mp (hS'P hh)
   exact ⟨S', hS'2, hS'disj.eq_bot, le_antisymm hle_T hT_le⟩
 
+omit [Finite H] in
 private theorem isElemAbelian_of_map_mk_eq_of_disjoint {N : Subgroup H} [N.Normal]
     {S' : Subgroup H} (hdisj : S' ⊓ N = ⊥) {T : Subgroup (H ⧸ N)}
     (hT : IsElemAbelian 2 T) (hmap : S'.map (QuotientGroup.mk' N) = T) :

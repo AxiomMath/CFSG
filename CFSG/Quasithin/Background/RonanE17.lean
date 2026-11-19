@@ -218,7 +218,7 @@ theorem nParam_top_le_twoRank (G : Type) [Group G] [Finite G] :
   by_cases hodd : Odd (Nat.card G)
   · have h : Odd (Nat.card (⊤ : Subgroup G)) := by rwa [Subgroup.card_top]
     unfold E1.nParam
-    rw [if_pos h]
+    rw [ite_eq_left h]
     exact zero_le
   · rw [E1.nParam_le_iff (twoRank_pos hodd)]
     exact fun T hT => InEFor.twoRank (inE_top G T hT)

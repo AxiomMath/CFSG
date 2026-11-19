@@ -107,7 +107,7 @@ theorem isComponentOf_map_rPlusEquiv (hK : Nat.card K = 2) {Bs L : Subgroup G} {
         (Set.singleton (OrthTorus.rPlusEquiv K (by norm_num : 1 ≤ 4) (qMap (K := K) θ ⟨e, heL⟩)) :
           Set ↥(CFSG.RankThree.Classical2.orthDerived
             (TableBOrth.qPlusForm K 4)))) := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   have h := isComponentOf_map_qMap hZ2 hBs hcard hcardE hx1 hLx hBL hDB hDcard hxD hJ
     heD heL he1 θ
@@ -143,7 +143,7 @@ theorem isComponentOf_map_projOrth (hK : Nat.card K = 2) {Bs L : Subgroup G} {x 
           (OrthTorus.rPlusEquiv K (by norm_num : 1 ≤ 4) (qMap (K := K) θ ⟨e, heL⟩))) :
           Set (CFSG.RankThree.Classical2.ProjOrthDerived
             (TableBOrth.qPlusForm K 4)))) := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   have h := isComponentOf_map_rPlusEquiv hK hZ2 hBs hcard hcardE hx1 hLx hBL hDB hDcard hxD
     hJ heD heL he1 θ
@@ -162,6 +162,7 @@ theorem isComponentOf_map_projOrth (hK : Nat.card K = 2) {Bs L : Subgroup G} {x 
   rw [hmap] at h'
   exact h'
 
+omit [Finite K] [CharP K 2] in
 theorem exists_totallySingular_three_qPlusForm :
     ∃ T : Submodule K (Fin 4 ⊕ Fin 4 → K), Module.finrank K T = 3 ∧
       ∀ v ∈ T, TableBOrth.qPlusForm K 4 v = 0 := by
@@ -176,7 +177,7 @@ theorem exists_totallySingular_three_qPlusForm :
     rw [Finset.sum_eq_single_of_mem i hi] at h1
     · simpa using h1
     · intro j hj hji
-      rw [if_neg]
+      rw [ite_eq_right]
       · ring
       · intro h
         exact hji (Fin.ext (by simpa using congrArg Fin.val (Sum.inl_injective h))).symm
@@ -197,12 +198,13 @@ theorem exists_totallySingular_three_qPlusForm :
     rw [TableBOrth.qPlusForm, CFSG.LieType.Universal.Spin.quadPlus_apply]
     exact Finset.sum_eq_zero fun k _ => by rw [hsupp x hx k, mul_zero]
 
-theorem orderOf_rPlusEquiv_qMap_of_mem_Bs (hK : Nat.card K = 2) {Bs L : Subgroup G} {x : G}
+omit [Finite G] in
+theorem orderOf_rPlusEquiv_qMap_of_mem_Bs (hK : Nat.card K = 2) {Bs L : Subgroup G} {_x : G}
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
     {D : Subgroup G} (hDB : D ≤ Bs) {e : G} (heD : e ∈ D) (heL : e ∈ L) (he1 : e ≠ 1)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) :
     orderOf (OrthTorus.rPlusEquiv K (by norm_num : 1 ≤ 4) (qMap (K := K) θ ⟨e, heL⟩)) = 3 := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   have he3 : e ^ 3 = 1 := hBs.2 e (hDB heD)
   have heord : orderOf e = 3 := orderOf_eq_prime he3 he1
@@ -228,7 +230,7 @@ theorem orderOf_rPlusEquiv_qMap_of_mem_Bs (hK : Nat.card K = 2) {Bs L : Subgroup
     · norm_num at hk
     · rw [pow_succ] at hk
       have hdvd : 2 ∣ 3 := by
-        simpa [hk] using dvd_mul_right 2 (2 ^ k)
+        simp [hk]
       norm_num at hdvd
   have hordq : orderOf (qMap (K := K) θ ⟨e, heL⟩) = 3 := orderOf_eq_prime hq3 hqne
   calc orderOf (OrthTorus.rPlusEquiv K (by norm_num : 1 ≤ 4) (qMap (K := K) θ ⟨e, heL⟩))
@@ -237,6 +239,7 @@ theorem orderOf_rPlusEquiv_qMap_of_mem_Bs (hK : Nat.card K = 2) {Bs L : Subgroup
           (OrthTorus.rPlusEquiv K (by norm_num : 1 ≤ 4)).injective _
     _ = 3 := hordq
 
+omit [CharP K 2] in
 theorem fixedSpace_omPlusLin_cases (hK : Nat.card K = 2)
     {x' : ↥(CFSG.RankThree.Classical2.orthDerived (TableBOrth.qPlusForm K 4))}
     (hx3 : orderOf x' = 3)
@@ -259,7 +262,7 @@ theorem fixedSpace_omPlusLin_cases (hK : Nat.card K = 2)
       L' = CFSG.RankThree.PartOne.KCOrthogonal.fixedComponentImage (TableBOrth.qPlusForm K 4)
         (x' : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K))) := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   have hQ := TableBOrth.nondegenerate_qPlusForm (K := K) 4
   have hdim : Module.finrank K (Fin 4 ⊕ Fin 4 → K) = 2 * 4 := by simp
@@ -272,11 +275,11 @@ theorem fixedSpace_omPlusLin_cases (hK : Nat.card K = 2)
   obtain ⟨hx, -, hmem, s, hs, hsm, htype⟩ :=
     CFSG.HardMathSupport.Dickson.Bal207.OrthFix.dims_of_orderOf_three (Or.inl hK) hQ hdim hV
       x' hx3
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
     ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hmem⟩
   have hm1 : 1 ≤ primaryMultiplicity ((x' : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K))).toLinearMap (X ^ 2 + X + 1) :=
     hx.primaryMultiplicity_pos hmem
-  haveI : Nontrivial (Fin 4 ⊕ Fin 4 → K) := by
+  have : Nontrivial (Fin 4 ⊕ Fin 4 → K) := by
     obtain ⟨U, hU, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K)
       (lt_of_lt_of_le (by norm_num : 0 < 3) (hU ▸ Submodule.finrank_le U))

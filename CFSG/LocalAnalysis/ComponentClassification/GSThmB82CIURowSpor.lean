@@ -59,7 +59,7 @@ theorem l4u4_eq_B_of_le
   have h6 : (p ^ f) ^ 6 ∣ 2 * QPUSpor.sporOrder s := (Dvd.intro A rfl).trans h2
   have h4 := QPUSpor.psp4_allowed s hp hp2 hf h5 h3
   cases s <;> simp only [QPUSpor.psp4Allowed, beq_iff_eq, Bool.false_eq_true] at h4
-  all_goals first | exact absurd rfl hM | exact ⟨rfl, h4⟩ | skip
+  all_goals try first | exact absurd rfl hM | exact ⟨rfl, h4⟩
   rw [h4] at h6
   exact absurd h6 (by decide)
 

@@ -44,7 +44,7 @@ theorem mem_C_H_of_mem_coreLayer {x : G} (hx : x ∈ coreLayer Ω c) :
   obtain ⟨a, ha, rfl⟩ := hx
   exact ⟨a.2, ha⟩
 
-theorem chiLayer_perm_mem (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c))
+theorem chiLayer_perm_mem (_hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c))
     (hgen : TC.Thin.pSpan (TwinDisc.secFam Ω c) = ⊤) (I : TC.Thin.AEIdent (TwinDisc.secFam Ω c) 5)
     {J T : Subgroup G} (hJ : J ∈ tqMembers3 Ω c) (hT : IsSylow2In T J)
     (hTc : T ≤ Subgroup.centralizer ({c} : Set G)) {α : Finset (Fin 5)} {h : α.card = 4} {b : Bool}

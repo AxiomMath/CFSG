@@ -85,10 +85,10 @@ theorem reflData_langCube {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite 
     (hg : g ∈ adjointGroup Tag.E6 Ω) (hgn : g⁻¹ * twistE6 Ω Fr g = TwistedDiag.n0 Ω) :
     ReflData (langCube hn hK σ hσ Fr hFr g) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have h30 : (3 : Ω) ≠ 0 := three_ne_zero_of_dvd_card_add_one (ℓ := 2) hn h3
   obtain ⟨ζ, hζ, hζo⟩ := TwistedDiag.exists_cube_root (Ω := Ω) h30
   set Φ := rgrpConjAut hn hK σ hσ Fr hFr with hΦ
@@ -144,7 +144,7 @@ theorem reflData_langCube {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite 
   have hinn : ∀ j, Φ (M j ^ 3) ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)
       →* MulAut ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)).range := by
     intro j
-    haveI := hCn
+    have := hCn
     have h1 := Subgroup.pow_index_mem
       ((TwistedDiag.Cgrp K σ.toRingHom Ω).subgroupOf (TwistedDiag.Rgrp Ω Fr)) (M j)
     have hidx : ((TwistedDiag.Cgrp K σ.toRingHom Ω).subgroupOf

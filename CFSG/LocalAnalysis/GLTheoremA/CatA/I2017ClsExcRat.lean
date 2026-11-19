@@ -138,7 +138,7 @@ private theorem ordPSU_ne_alt8 {d a : ℕ} (hd : 3 ≤ d) (ha : 1 ≤ a) :
     refine Finset.prod_congr rfl fun i _ => Int.toNat_of_nonneg ?_
     have h1 : (1 : ℤ) ≤ ((2 ^ a : ℕ) : ℤ) ^ i := one_le_pow₀ (by exact_mod_cast (by omega))
     have h2 : ((-1 : ℤ)) ^ i ≤ 1 := by
-      rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h] <;> norm_num
+      rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h]; norm_num
     linarith
   have hgdvd : Nat.gcd d (2 ^ a + 1) ∣ (2 ^ a) ^ (d * (d - 1) / 2) *
       ∏ i ∈ Finset.Icc 2 d, (((2 ^ a : ℕ) : ℤ) ^ i - (-1) ^ i).toNat := by
@@ -203,7 +203,7 @@ private theorem typeA_not_alt8 {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {
     (e : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ≃*
         alternatingGroup (Fin 8)) : False := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   obtain ⟨f, hf1, hmodel⟩ :=
     rationalComponent_typeA_model_dim S Nat.prime_three hT hap h1 i hA hqs
   rw [ringChar.eq L 2] at hmodel
@@ -241,10 +241,10 @@ private theorem two_pow_twelve_dvd_of_inner_exc {τ : Tag} {L : Type} [Field L] 
   classical
   have hk : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [if_pos hinner]
+    rw [ite_eq_left hinner]
   obtain ⟨D⟩ := nonempty_innerData S hT i hk
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf := isPerfect_componentRootSpan_of_big hτ D (by omega)
   obtain ⟨g, hg, hgk⟩ := exists_surjective_central_of_perfect D hperf
   have hΨ := isRootComponent_componentRoots (χ := rootCharHom a) i
@@ -273,7 +273,7 @@ private theorem outerD_not_alt8 {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
         (componentRoots (rootCharHom a) i)]))
     (hcq : Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) = 20160) : False := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   obtain ⟨m, e, -, hlie⟩ :=
     lieModel_rationalComponent_of_twoD_highG Nat.prime_three S hT hap h1 i h5 hn hout
       (fun _ _ => True)
@@ -302,7 +302,7 @@ private theorem outerE_not_alt8 {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
         (componentRoots (rootCharHom a) i)]))
     (hcq : Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) = 20160) : False := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have h3L : ((3 : ℕ) : L) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_three
       (ringChar_ne_of_pow_eq_one Nat.prime_three hap h1)
@@ -338,7 +338,7 @@ private theorem d4Class_E6_not_alt8 {L : Type} [Field L] [IsAlgClosed L] {p₀ :
     (hcq : Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) = 20160) : False := by
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have h3L : ((3 : ℕ) : L) ≠ 0 := by
     have h2 : ((2 : ℕ) : L) = 0 := CharP.cast_eq_zero L 2
     have h3 : ((3 : ℕ) : L) = 1 := by
@@ -379,11 +379,11 @@ private theorem d4Class_E6_not_alt8 {L : Type} [Field L] [IsAlgClosed L] {p₀ :
     have hs := componentOrbitLength_eq_one hfin hρ'
     rw [hs, Function.iterate_one] at hinner
     have hsub := kernelRoots_subset_of_ncard24_exc h3L hap i hcard
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq21 : S.D.q = 2 ^ 1 := by rw [hq2, pow_one]
     obtain ⟨⟨e⟩, hZ⟩ := d4t2out_rationalComponent_equiv (ℓ := 2) (f := 1) S
       ⟨t, ht, Fr, hFr, hΦ⟩ (by norm_num) hq21 (by norm_num) hT hap i v hv hsub hρ' hinner
-    haveI := finite_rationalComponent S a i
+    have := finite_rationalComponent S a i
     have hcardR : Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) =
         CFSG.Open.orderTrialityD4 (2 ^ 1) := by
       have h := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds _ _ ⟨e⟩
@@ -418,13 +418,13 @@ private theorem bc3Class_F4_not_alt8 {L : Type} [Field L] [IsAlgClosed L] {p₀ 
     · exact hin
     · have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
         unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega),
-          if_neg (fun h => by have := h.2; rw [hrank, hcard] at this; omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega),
+          ite_eq_right (fun h => by have := h.2; rw [hrank, hcard] at this; omega)]
       exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨σ, hfin, hcardσ, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
-  haveI := hfin
+  have := hfin
   rw [hq2] at hcardσ
   have hperf :=
     isPerfect_componentRootSpan_f4_card_eighteen i hcard (Nat.succ_le_of_lt hs0) hcardσ
@@ -450,7 +450,7 @@ theorem excRatNoA8_E8 : ExcRatNoA8 .E8 := by
   intro L _ _ p₀ S hq2 a hT hap h1 i hqs
   classical
   refine ⟨fun e => ?_⟩
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have hcq := card_eq_of_alt8 e
   have h3L : ((3 : ℕ) : L) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_three
@@ -512,7 +512,7 @@ theorem excRatNoA8_E7 : ExcRatNoA8 .E7 := by
   intro L _ _ p₀ S hq2 a hT hap h1 i hqs
   classical
   refine ⟨fun e => ?_⟩
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have hcq := card_eq_of_alt8 e
   have h3L : ((3 : ℕ) : L) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_three
@@ -571,7 +571,7 @@ theorem excRatNoA8_E6 : ExcRatNoA8 .E6 := by
   intro L _ _ p₀ S hq2 a hT hap h1 i hqs
   classical
   refine ⟨fun e => ?_⟩
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have hcq := card_eq_of_alt8 e
   have h3L : ((3 : ℕ) : L) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_three

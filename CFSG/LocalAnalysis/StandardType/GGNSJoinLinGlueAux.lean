@@ -81,9 +81,9 @@ theorem nsLG_odd_of_three_dvd_two_pow_add_one {n : ℕ} (h : 3 ∣ 2 ^ n + 1) : 
   have h0 : (2 ^ n + 1) % 3 = 0 := Nat.dvd_iff_mod_eq_zero.mp h
   rw [h3] at h0
   by_cases h4 : n % 2 = 0
-  · rw [if_pos h4] at h0
+  · rw [ite_eq_left h4] at h0
     norm_num at h0
-  · rw [if_neg h4] at h0
+  · rw [ite_eq_right h4] at h0
     rw [Nat.odd_iff]
     omega
 

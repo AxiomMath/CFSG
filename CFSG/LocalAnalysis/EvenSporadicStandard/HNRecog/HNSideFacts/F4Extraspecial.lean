@@ -36,7 +36,7 @@ theorem isExtraspecial_two_of_central_involution {G : Type*} [Group G] {Q : Subg
       simpa [z'] using hk⟩
   have hcenter_eq : Subgroup.center ↥Q = Subgroup.zpowers z' := le_antisymm hge hle
   have hord : orderOf z' = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hz'2 hz'1
   have hcard : Nat.card (Subgroup.center ↥Q) = 2 := by
     rw [hcenter_eq, Nat.card_zpowers, hord]
@@ -66,7 +66,7 @@ theorem isExtraspecial_two_of_central_involution {G : Type*} [Group G] {Q : Subg
     refine nontrivial_of_ne (QuotientGroup.mk (⟨q, hq⟩ : ↥Q)) 1 fun h => hqr ?_
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_center_iff] at h
     exact (congrArg Subtype.val (h ⟨r, hr⟩)).symm
-  haveI : IsMulCommutative (↥Q ⧸ Subgroup.center ↥Q) := IsMulCommutative.of_comm hcommQ
+  have : IsMulCommutative (↥Q ⧸ Subgroup.center ↥Q) := IsMulCommutative.of_comm hcommQ
   exact ⟨hcard, CFSG.IsElementaryAbelian.mk hexp, hnontriv⟩
 
 end CFSG.EvenSporadicStandard.HNRecog.SideF4

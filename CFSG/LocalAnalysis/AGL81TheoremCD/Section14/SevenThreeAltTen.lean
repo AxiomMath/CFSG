@@ -16,6 +16,7 @@ open Subgroup
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private lemma card_quotient_pCore_two_of_perm_nine {Hs : Subgroup X}
     (h : Nonempty (↥Hs ⧸ CFSG.pCore 2 ↥Hs ≃* Equiv.Perm (Fin 9))) :
     Nat.card (↥Hs ⧸ CFSG.pCore 2 ↥Hs) = Nat.factorial 9 := by
@@ -43,7 +44,7 @@ private lemma index_le_ten_of_perm_nine_quotient {Hs : Subgroup X}
   omega
 
 private lemma card_alternating_ten : Nat.card (alternatingGroup (Fin 10)) = 1814400 := by
-  haveI : Nontrivial (Fin 10) := Fin.nontrivial_iff_two_le.mpr (by norm_num)
+  have : Nontrivial (Fin 10) := Fin.nontrivial_iff_two_le.mpr (by norm_num)
   rw [nat_card_alternatingGroup, Nat.card_fin]
   norm_num
 
@@ -64,7 +65,7 @@ private lemma alternating_ten_not_isPGroup_two :
 
 private lemma subgroupOf_index_le_index {L Hs : Subgroup X} (hL : L.Normal) :
     (Hs.subgroupOf L).index ≤ Hs.index := by
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   have hsup : Hs.relIndex (L ⊔ Hs) = Hs.relIndex L :=
     CFSG.ABGLocalTools.relIndex_sup_eq_relIndex_of_normal L Hs
   have hle : Hs.relIndex (L ⊔ Hs) ≤ Hs.relIndex ⊤ :=
@@ -95,7 +96,7 @@ theorem false_of_fstar_alternating_ten {L : Subgroup X}
     (hHsQuot : Nonempty (↥Hs ⧸ CFSG.pCore 2 ↥Hs ≃* Equiv.Perm (Fin 9))) : False := by
   have hLnorm : L.Normal :=
     hFstar ▸ (CFSG.LocalCores.generalized_fitting_characteristic (G := X)).2
-  haveI : L.Normal := hLnorm
+  have : L.Normal := hLnorm
   have hC : Subgroup.centralizer (L : Set X) ≤ L := by
     simpa [hFstar] using CFSG.centralizer_generalizedFitting_le X
   have hXle : Nat.card X ≤ Nat.card (MulAut ↥L) :=
@@ -108,9 +109,9 @@ theorem false_of_fstar_alternating_ten {L : Subgroup X}
     index_le_nine_of_perm_nine_quotient hTsyl hTHs hHsQuot hXle
   have hrel : (Hs.subgroupOf L).index ≤ 9 :=
     (subgroupOf_index_le_index hLnorm).trans hidx9
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   have hKtop : Hs.subgroupOf L = ⊤ := by
     by_contra hK
     have h10 := CFSG.ComponentClassification.Sol78.le_index_of_mulEquiv_alternating
@@ -118,12 +119,12 @@ theorem false_of_fstar_alternating_ten {L : Subgroup X}
     omega
   have hLH : L ≤ Hs := Subgroup.subgroupOf_eq_top.mp hKtop
   let R : Subgroup ↥Hs := CFSG.pCore 2 ↥Hs
-  haveI hRnorm : R.Normal := CFSG.pCore_normal (G := ↥Hs) (p := 2)
+  have hRnorm : R.Normal := CFSG.pCore_normal (G := ↥Hs) (p := 2)
   let q : ↥Hs →* ↥Hs ⧸ R := QuotientGroup.mk' R
   let ι : ↥L →* ↥Hs := Subgroup.inclusion hLH
   obtain ⟨f⟩ := hHsQuot
   let ψ : ↥L →* Equiv.Perm (Fin 9) := f.toMonoidHom.comp (q.comp ι)
-  haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have : ψ.ker.Normal := MonoidHom.normal_ker ψ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ψ.ker with hker | hker
   · have hinj : Function.Injective ψ := (MonoidHom.ker_eq_bot_iff ψ).mp hker
     have hcard_le : Nat.card ↥L ≤ Nat.card (Equiv.Perm (Fin 9)) :=

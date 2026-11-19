@@ -26,7 +26,7 @@ theorem orbit_card_three
   have hfixed : Nat.card (fixedPoints Q X) = 6 := by rw [← hfixeq]; exact hF
   obtain ⟨g,hg,_⟩ := Degree36SylowThreeFiveLift.exists_five P hcard h5 hnotAlt s hs S hS
   exact Degree36ThreeOrbitGeometry.orbit_card_three P hcard h5 hnotAlt Q
-    (S.isPGroup'.map (fixingSubgroup P s).subtype) hfixed g hg x hx
+    (S.isPGroup.map (fixingSubgroup P s).subtype) hfixed g hg x hx
 
 end FiveTransitive.Degree36SylowThreeStructure
 

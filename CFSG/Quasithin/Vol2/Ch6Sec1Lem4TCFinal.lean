@@ -13,7 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 @[expose] def NZVNormalFact : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (T M L V M₁ K₁ X : Subgroup G),
+  ∀ (G : Type) [Group G] [Finite G] (T M L V M₁ K₁ _X : Subgroup G),
     Hyp611 G T M L V 4 → IsOrthCh5 L V 4 → quasithinIsMaxTwoLocal M₁ →
     Subgroup.centralizer (quasithinOmegaOneCenter T : Set G) ≤ M₁ → K₁ ∈ cComp M₁ →
     IsTits (ModO2 K₁) → T ≤ Subgroup.normalizer (K₁ : Set G) →
@@ -42,7 +42,7 @@ theorem charTwo_sup614 {T M L V M₁ K₁ : Subgroup G} (h : Hyp611 G T M L V 4)
 theorem not_mem_K614 (hB : TitsBasicFact) {K : Subgroup G} (htits : IsTits (ModO2 K))
     {d : G} (hord : orderOf d = 3) (hdK : d ∈ Subgroup.normalizer (K : Set G))
     (hΦ : actModO2_614 K ⟨d, hdK⟩ = 1) : d ∉ K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hdKm
   have h0 : actModO2_614 K ⟨d, hdK⟩ = MulAut.conj (mk614 K ⟨d, hdKm⟩) :=
     actModO2_614_of_mem K hdKm
@@ -59,6 +59,7 @@ theorem not_mem_K614 (hB : TitsBasicFact) {K : Subgroup G} (htits : IsTits (ModO
   have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hdvd
   norm_num at h32
 
+omit [Finite G] in
 theorem normalizes_of_normal614 {H K : Subgroup G} (hn : (K.subgroupOf H).Normal) {d : G}
     (hd : d ∈ H) (hKH : K ≤ H) : d ∈ Subgroup.normalizer (K : Set G) := by
   rw [Subgroup.mem_normalizer_iff]

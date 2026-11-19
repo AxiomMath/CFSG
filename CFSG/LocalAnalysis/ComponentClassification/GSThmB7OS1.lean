@@ -122,7 +122,7 @@ theorem secSylow_of_noFusion (haG : h.a ∈ h.secG0 y)
     intro w hw
     have : (⟨w, hw⟩ : ↥R) ∈ S'.subgroupOf R := he ▸ mem_top _
     exact this
-  have hnil : Group.IsNilpotent ↥R := R.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥R := R.isPGroup.isNilpotent
   obtain ⟨r, hrN, hrS⟩ := Set.exists_of_ssubset
     (Group.normalizerCondition_of_isNilpotent _ hlt)
   set gb : h.secBar y := ((r : ↥C) : h.secBar y) with hgb
@@ -142,7 +142,7 @@ theorem secSylow_of_noFusion (haG : h.a ∈ h.secG0 y)
       have h1 := hfwd r⁻¹ (inv_mem hrN) _ ht
       simp only [InvMemClass.coe_inv] at h1
       rwa [show gb⁻¹ * (gb * t * gb⁻¹) * gb⁻¹⁻¹ = t by group] at h1
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup') r
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup) r
   have hgbk : gb ^ 2 ^ k = 1 := by
     have h1 : r ^ 2 ^ k = 1 := by rw [← hk, pow_orderOf_eq_one]
     have h2 := congrArg (fun w : ↥R => (((w : ↥C) : h.secBar y))) h1

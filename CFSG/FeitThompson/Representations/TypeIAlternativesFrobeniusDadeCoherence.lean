@@ -83,7 +83,7 @@ theorem cfInner_tau_sub_star_nu (hτ : IsAntirealIsometry S tau)
   rw [hkey, hν.inner_eq]
   change cfInner (ζ - star ζ) ζ = 1
   rw [cfInner_sub_left, cfInner_self_of_mem_Irr hζIrr,
-    cfInner_eq_ite_of_mem_Irr (star_mem_Irr hζIrr) hζIrr, if_neg (hτ.star_ne ζ hζS), sub_zero]
+    cfInner_eq_ite_of_mem_Irr (star_mem_Irr hζIrr) hζIrr, ite_eq_right (hτ.star_ne ζ hζS), sub_zero]
 
 theorem coe_nu_eq_or_eq_neg_star (hτ : IsAntirealIsometry S tau)
     (hτcoe : ∀ f : charSpanZero S, (τ f : G → ℂ) = tau (f : L → ℂ))
@@ -96,7 +96,7 @@ theorem coe_nu_eq_or_eq_neg_star (hτ : IsAntirealIsometry S tau)
   have hstarIrr := star_mem_Irr hηIrr
   have horth : cfInner (antirealRoot (tau (ζ - star ζ)))
       (star (antirealRoot (tau (ζ - star ζ)))) = 0 := by
-    rw [cfInner_eq_ite_of_mem_Irr hηIrr hstarIrr, if_neg fun hcon => hηne hcon.symm]
+    rw [cfInner_eq_ite_of_mem_Irr hηIrr hstarIrr, ite_eq_right fun hcon => hηne hcon.symm]
   have hsub : cfInner (antirealRoot (tau (ζ - star ζ)) - star (antirealRoot (tau (ζ - star ζ))))
       (ν ⟨ζ, Submodule.subset_span hζS⟩ : G → ℂ) = 1 := by
     rw [← hτ.map_sub_star_eq hζS]

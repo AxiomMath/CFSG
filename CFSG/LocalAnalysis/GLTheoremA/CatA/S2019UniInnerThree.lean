@@ -21,8 +21,8 @@ theorem s2019UniInner_three : S2019UniInner (· = 3) := by
   classical
   change q = 3 at hq3
   subst hq3
-  haveI := h.finite
-  haveI : CharP K 3 := h.charP
+  have := h.finite
+  have : CharP K 3 := h.charP
   have hq' : 2 ≤ 3 ^ f := le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num) h.one_le)
   have hpq : p ≠ 3 := Ne.symm hqp
   have hperf : ⁅L, L⁆ = L := glaPComponent_perfect hL

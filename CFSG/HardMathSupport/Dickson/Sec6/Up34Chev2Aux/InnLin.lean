@@ -29,13 +29,13 @@ variable {n : ℕ} {k : Type} [Field k] [Finite k]
 
 theorem exists_card_adjoinRoot_eq_pow_c2 {p f : ℕ} (hp : p.Prime) (hk : Nat.card k = p ^ f)
     {h : k[X]} [Fact (Irreducible h)] : ∃ f' : ℕ, 1 ≤ f' ∧ Nat.card (AdjoinRoot h) = p ^ f' := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : CharP k p := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hk)
-  haveI : CharP (AdjoinRoot h) p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype k := Fintype.ofFinite k
+  have : CharP k p := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hk)
+  have : CharP (AdjoinRoot h) p :=
     charP_of_injective_algebraMap (algebraMap k (AdjoinRoot h)).injective p
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite k
-  haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite k
+  have : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   obtain ⟨m, -, hm⟩ := FiniteField.card (AdjoinRoot h) p
   exact ⟨m, m.pos, by rw [Nat.card_eq_fintype_card, hm]⟩
 
@@ -165,10 +165,10 @@ theorem proj_ne_one_of_block (hk : Nat.card k = 2 ^ e) (hn : 4 ≤ n) {A : GL (F
       (fun h' => absurd (Finset.mem_univ _) h')]
     show h.natDegree * primaryMultiplicity (glA A : Module.End k (Fin n → k)) h = h.natDegree * 3
     rw [hm3]
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hcard := natCard_adjoinRoot (K := k) h
   rw [hE4, hk, ← pow_mul] at hcard
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hk3 : 2 < Fintype.card k := by
     rw [Fintype.two_lt_card_iff]
     refine ⟨0, 1, (c : k), zero_ne_one, ?_, ?_⟩
@@ -198,8 +198,8 @@ theorem exists_central_of_isLThreeFour_specialFactor (hO : LieOrderFormulasInput
     (hL : IsLThreeFour (↥(specialFactor A h) ⧸ Subgroup.center ↥(specialFactor A h))) :
     ∃ z : Matrix.SpecialLinearGroup (Fin n) k, z ∈ specialFactor A h ∧
       (∀ g ∈ specialFactor A h, g * z = z * g) ∧ z ^ 3 = 1 ∧ LinearFlag.proj n k z ≠ 1 := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite k
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite k
   obtain ⟨e', he'1, hE⟩ := exists_card_adjoinRoot_eq_pow_c2 (p := 2) Nat.prime_two hk (h := h)
   obtain ⟨e1⟩ := nonempty_specialFactor_equiv_sl_c2 hsq hh
   have hm2 : 2 ≤ primaryMultiplicity (glA A : Module.End k (Fin n → k)) h := by
@@ -237,20 +237,20 @@ theorem noL34Layer_conjAut_psl_two (hO : LieOrderFormulasInput)
     (hn : 4 ≤ n) (hK : Nat.card K = 2 ^ e) {A : GL (Fin n) K} {c : Kˣ}
     (hA : A ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     NoL34Layer (LinearFlag.conjAut n K A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have hpk : ((3 : ℕ) : K) ≠ 0 := by
     intro h0
     have := (CharP.cast_eq_zero_iff K 2 3).1 h0
     omega
   have hsq := squarefree_minpoly_glA hpk hA
-  haveI : ∀ b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) // ¬ IsGoodFactor A b},
+  have : ∀ b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) // ¬ IsGoodFactor A b},
       Group.IsSolvable (blockGL (glA A : Module.End K (Fin n → K)) b.1.1) := fun b =>
     isSolvable_blockGL_of_not_good b.1.2 b.2
-  haveI : Group.IsSolvable ((b : primaryFactors (glA A : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (glA A : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) //
       ¬ IsGoodFactor A b}) → blockGL (glA A : Module.End K (Fin n → K)) b.1.1) :=
     isSolvable_pi_of_finite_c2
   exact noL34Layer_of_centralQuotient_two (LinearFlag.proj n K) (LinearFlag.proj_surjective n K)

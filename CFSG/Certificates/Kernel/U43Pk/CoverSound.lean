@@ -91,15 +91,15 @@ theorem clsK_inv (P : ℕ) : Nat.beq (Nat.div (clsK P) 2) 1 = (isZK (mulK P P) &
 
 theorem dg_mapK (B P : ℕ) {m : ℕ} (hm : m < 16) : dg (mapK B P) m = dg B (dg P m) := by
   unfold mapK
-  rw [dg_packK (fun k => dg_lt _ _), if_pos hm]
+  rw [dg_packK (fun k => dg_lt _ _), ite_eq_left hm]
 
 theorem ydK_eq (G P : ℕ) {m : ℕ} (hm : m < 16) :
     ydK G P m = dg (if dg G 16 = 1 then mapK BT P else P) m := by
   unfold ydK
   by_cases h : dg G 16 = 1
-  · rw [if_pos h, dg_mapK _ _ hm, h]
+  · rw [ite_eq_left h, dg_mapK _ _ hm, h]
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have : Nat.beq (dg G 16) 1 = false := Bool.eq_false_iff.2 fun h' => h (Nat.eq_of_beq_eq_true h')
     rw [this]
 
@@ -109,7 +109,7 @@ theorem enK_eq (G P : ℕ) {k : ℕ} (hk : k < 16) : enK G P k = dg (mulK G P) k
       (Nat.shiftLeft ((dg G 16 + dg P 16) % 2) 64) := by
     rw [mulK_eq]
     rfl
-  rw [hm, dg_pack16 (fun k => entK_lt _ _ _ _) (by omega), if_pos hk]
+  rw [hm, dg_pack16 (fun k => entK_lt _ _ _ _) (by omega), ite_eq_left hk]
   unfold enK enIJ entK
   have hj : Nat.mod k 4 < 4 := Nat.mod_lt _ (by norm_num)
   have e0 : ∀ c, c ≤ 12 → ydK G P (Nat.add c (Nat.mod k 4)) = dg Y (Nat.add c (Nat.mod k 4)) :=
@@ -150,7 +150,7 @@ theorem dg_nrmK {R : ℕ} {k : ℕ} (hk : k < 16) : dg (nrmK R) k = mT (dg MCT (
   unfold nrmK
   simp only [strictN_eq]
   unfold mapK
-  rw [dg_pack16 (fun k => dg_lt _ _) (dg_lt _ _), if_pos hk, dg_shr]
+  rw [dg_pack16 (fun k => dg_lt _ _) (dg_lt _ _), ite_eq_left hk, dg_shr]
   rfl
 
 theorem dig_lt16 {R : ℕ} (hR : Dig R) {k : ℕ} (hk : k < 16) : dg R k < 9 := hR k hk
@@ -186,11 +186,11 @@ theorem pairK_spec {W x t : ℕ} (hx : Dig x) (ht : Dig t) (h : pairK W x t = tr
   unfold pairK at h
   rw [bIf_eq] at h
   by_cases hw : Nat.beq W 65535 = true
-  · rw [if_pos hw] at h
+  · rw [ite_eq_left hw] at h
     rw [hw]
     unfold commK at h
     rwa [strictB_eq] at h
-  · rw [if_neg hw] at h
+  · rw [ite_eq_right hw] at h
     rw [Bool.not_eq_true] at hw
     rw [hw]
     obtain ⟨hlt, hc⟩ := bAnd_spec h

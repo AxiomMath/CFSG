@@ -77,7 +77,7 @@ theorem rckRetTwE6_holds
     exact h2
   obtain ⟨w', hw'⟩ := rckRet_outer_transport hτ hβroot hι hbij (fun γ _ => S.frob.neg_eq γ)
     (fun γ _ δ _ => S.frob.iform_eq γ δ) hout
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g0, hg0, hlangg⟩ :=
     CFSG.RankThree.PartOne.KE.lang_conjugator_twisted (ZMod 2) (ℓ := 2) (f := h) hh GGL w'
   let g1 : ModGL Tag.E6 GGL := g0

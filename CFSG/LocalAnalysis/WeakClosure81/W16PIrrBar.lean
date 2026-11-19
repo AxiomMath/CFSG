@@ -15,6 +15,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem normalizer_UAOf_le_normalizer_wHat_sup_aHat (h : Assumption131 G Γ VA i)
     (hrank : ∀ B ∈ Γ, mRank B ≤ i) {A B₀ : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hB₀ : B₀ ≤ A)
     (hN : G ⊓ Subgroup.normalizer (A : Set (LGL 2 V)) ≤
@@ -78,7 +79,7 @@ theorem normalizer_UAOf_le_normalizer_wHat_sup_aHat (h : Assumption131 G Γ VA i
   exact Subgroup.mul_mem _ hinlS hinrS
 
 private theorem barSub_le_sup_inf {G : Type*} [Group G] {K S U : Subgroup G} {X : Type} [Group X]
-    {φ : ↥K →* X} (hφ : IsBarMap K (pCoreOf 2 K) φ) (hS : S ≤ K) (hU : U ≤ K) (hSU : S ≤ U)
+    {φ : ↥K →* X} (hφ : IsBarMap K (pCoreOf 2 K) φ) (_hS : S ≤ K) (hU : U ≤ K) (hSU : S ≤ U)
     (heq : barSub K φ S = barSub K φ U) : U ≤ S ⊔ (U ⊓ pCoreOf 2 K) := by
   intro u huU
   have huK : u ∈ K := hU huU
@@ -112,6 +113,7 @@ private theorem eq_bot_or_eq_of_card_le_two {H : Type*} [Group H] [Finite H] {B 
       omega
     exact Subgroup.eq_of_le_of_card_ge hle (le_trans hB h2)
 
+omit [Finite V] in
 theorem eq_bot_or_eq_of_barSub_UAOf (h : Assumption131 G Γ VA i) {A B₀ : Subgroup (LGL 2 V)}
     (hA : A ∈ Γ) (hB₀ : B₀ ≤ A) (h711 : Hyp711 (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G))
     {X : Type} [Group X] {φ : ↥(kSub (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G)) →* X}
@@ -186,7 +188,7 @@ theorem eq_bot_or_eq_of_hyp711 (hTim : TimmesfeldTIRootInput) (h : Assumption131
     (hφ : IsBarMap (kSub (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G))
       (pCoreOf 2 (kSub (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G))) φ) :
     B₀ = ⊥ ∨ B₀ = A := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let K : Subgroup (VG G) := kSub (UAOf G VA A) (⊤ : Subgroup (VG G)) (vHat G)
   let U : Subgroup (VG G) := UAOf G VA A
   let S : Subgroup (VG G) := wHat G (VA A) ⊔ aHat G B₀

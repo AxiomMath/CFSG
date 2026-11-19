@@ -40,7 +40,7 @@ theorem key_identity (σ : K →+* K) {ζ : K} (hσζ : σ ζ = -ζ) :
   simp only [Matrix.smul_apply, antiDiag_apply, smul_eq_mul]
   by_cases h : j = Fin.rev i
   · subst h
-    simp only [if_true, mul_one]
+    simp only [ite_true, mul_one]
     fin_cases i <;> simp [eDiag, hσζ] <;> ring
   · simp [h]
 
@@ -163,7 +163,7 @@ theorem mem_SUM_conjDiag_iff (σ : K ≃+* K) {ζ : K} (hζ : ζ ≠ 0) (hσζ :
       diagonal (fun i => σ (e i)) * hm.map σ * diagonal (fun i => (σ (e i))⁻¹) := by
     rw [Matrix.map_mul, Matrix.map_mul, Matrix.diagonal_map (map_zero σ),
       Matrix.diagonal_map (map_zero σ)]
-    simp [Function.comp_def]
+    simp
   have hL : ((diagonal e * hm * diagonal (fun i => (e i)⁻¹)).map σ)ᵀ *
         signAntiInv K * (diagonal e * hm * diagonal (fun i => (e i)⁻¹)) =
       diagonal (fun i => (σ (e i))⁻¹) * (ζ • ((hm.map σ)ᵀ * J * hm)) *
@@ -247,6 +247,7 @@ variable (K) in
 @[expose] def fixA (σ : K →+* K) : Subgroup (groupA K) :=
   MonoidHom.eqLocus (twistA K σ) (MonoidHom.id _)
 
+omit [Finite K] in
 theorem mem_fixA_iff {σ : K →+* K} {g : groupA K} : g ∈ fixA K σ ↔ twistA K σ g = g := Iff.rfl
 
 @[expose] def leviHomA : SU σ 6 →* groupA K := (liftA K).comp (conjSU σ hζ)

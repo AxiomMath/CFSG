@@ -75,9 +75,9 @@ theorem commute_of_mem_heldGU (h : UnitaryFieldData 2 n K) [Finite K]
         TableB.projConj (unitarySU 2 n K d) ⟨D, hDN⟩) :
     D * B = B * D := by
   classical
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   have hXN : (⁅D, B⁆ : GL (Fin d) K) ∈
       Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)) := by
     rw [commutatorElement_def]
@@ -178,7 +178,7 @@ theorem commute_of_mem_heldGU (h : UnitaryFieldData 2 n K) [Finite K]
   have hcd : c ^ d = 1 := by
     have hdet : Matrix.GeneralLinearGroup.det (⁅D, B⁆ : GL (Fin d) K) = 1 := by
       rw [commutatorElement_def, map_mul, map_mul, map_mul, map_inv, map_inv]
-      simp [mul_comm, mul_left_comm, mul_assoc]
+      simp [mul_assoc]
     have h1 : Matrix.GeneralLinearGroup.det (Matrix.GeneralLinearGroup.scalar (Fin d) c) =
         Matrix.GeneralLinearGroup.det (⁅D, B⁆ : GL (Fin d) K) := by rw [hc]
     rw [hdet, Matrix.GeneralLinearGroup.det_scalar, Fintype.card_fin] at h1
@@ -202,11 +202,11 @@ theorem commute_of_mem_heldGU (h : UnitaryFieldData 2 n K) [Finite K]
     _ = B * D := by rw [hX1, one_mul]
 
 theorem exists_pow_eq_of_scalar_pow (h : UnitaryFieldData 2 n K) [Finite K]
-    (hd : 3 ≤ d) (hdq : (d, 2 ^ n) ≠ (3, 2)) (hp : p.Prime)
+    (hd : 3 ≤ d) (_hdq : (d, 2 ^ n) ≠ (3, 2)) (hp : p.Prime)
     (hnd : ¬ p ∣ 2 ^ n + 1 ∨ ¬ p ∣ d)
     {B : GL (Fin d) K} (hB : B ∈ LargeEvenGUSet (Fin d) K (2 ^ n))
     (hBN : B ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)))
-    (hBp : (TableB.projConj (unitarySU 2 n K d) ⟨B, hBN⟩) ^ p = 1)
+    (_hBp : (TableB.projConj (unitarySU 2 n K d) ⟨B, hBN⟩) ^ p = 1)
     {c : Kˣ} (hc : B ^ p = Matrix.GeneralLinearGroup.scalar (Fin d) c) :
     ∃ lam : Kˣ, lam ^ p = c := by
   rcases hnd with hpq | hpd
@@ -253,7 +253,7 @@ theorem exists_pow_eq_one_of_projConj_pow_eq_one_of_not_shape (h : UnitaryFieldD
         TableB.projConj (unitarySU 2 n K d) ⟨B', hB'N⟩ =
           TableB.projConj (unitarySU 2 n K d) ⟨B, hBN⟩ := by
   classical
-  haveI := h.finite
+  have := h.finite
   obtain ⟨c, hc⟩ := exists_scalar_of_projConj_pow_eq_one h hd hdq hp hB hBN hBp
   obtain ⟨lam, hlam⟩ := exists_pow_eq_of_scalar_pow h hd hdq hp hnd hB hBN hBp hc
   let B' : GL (Fin d) K := Matrix.GeneralLinearGroup.scalar (Fin d) lam⁻¹ * B

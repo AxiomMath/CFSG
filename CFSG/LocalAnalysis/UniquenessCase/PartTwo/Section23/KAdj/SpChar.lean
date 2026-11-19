@@ -49,7 +49,7 @@ theorem coe_spCharTwo_of_mem_borelSubgroup (m : ℕ) {K : Type} [Field K]
     fun _ => Fin.ext (by simp [coe_spFlagShift])
   rw [Matrix.det_fin_two]
   simp only [spFlagCutMat_apply, hent, h0, h1]
-  have h10 : A 1 0 = 0 := hA (by simp [Fin.lt_def])
+  have h10 : A 1 0 = 0 := hA (by simp)
   rw [h10, mul_zero, sub_zero, hd, hd]
 
 theorem coe_spCharOne_of_mem_borelSubgroup (m : ℕ) {K : Type} [Field K] (i : Fin (m + 2))
@@ -113,7 +113,7 @@ theorem exists_diagHom_eq_coroot_of_mem_hinf_sp {K : Type} [Field K] (m : ℕ)
   have hc : ((diagHom (m + 2) K ⟨g, hB⟩ 0 : Kˣ) : K) = diagEntry g 0 := rfl
   by_cases h0 : i = 0
   · subst h0
-    simp [Pi.mulSingle_apply, hc]
+    simp [hc]
   by_cases h1 : i = 1
   · subst h1
     have h11 : diagEntry g 1 = ((diagHom (m + 2) K ⟨g, hB⟩ 0 : Kˣ) : K)⁻¹ := by
@@ -130,6 +130,6 @@ theorem exists_diagHom_eq_coroot_of_mem_hinf_sp {K : Type} [Field K] (m : ℕ)
     have h0' : (0 : Fin (m + 2)) ≠ i := fun h => h0 h.symm
     have h1' : (1 : Fin (m + 2)) ≠ i := fun h => h1 h.symm
     rw [hone i hi]
-    simp [Pi.mulSingle_apply, h0', h1']
+    simp [h0', h1']
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KAdjE

@@ -15,7 +15,7 @@ namespace S8
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
-theorem co2_odd_core (hc : S8Ctx G 3) (hrk : GLATwoLocalRank 3 G = 4) {x : G} (hx : orderOf x = 3)
+theorem co2_odd_core (_hc : S8Ctx G 3) (hrk : GLATwoLocalRank 3 G = 4) {x : G} (hx : orderOf x = 3)
     {L : Subgroup G} (hL : GLAPComponent 3 (cx x) L) (hZ : Nat.card (Subgroup.center (PQuot 3 L)) = 1)
     {E : Subgroup G} (hEL : E ≤ L) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 3 ^ 4) :
     Odd (Nat.card (GLAPPrimeCoreOf 3 (cx x))) := by
@@ -54,10 +54,12 @@ theorem co2_odd_core (hc : S8Ctx G 3) (hrk : GLATwoLocalRank 3 G = 4) {x : G} (h
   exact odd_core_of_big_rank hp3 hB (sup_le hEx (Subgroup.zpowers_le.2 hxcx)) hE5
     (by rw [hBc, ← hEc]; exact hcardlt)
 
+omit [Finite G] in
 theorem mem_core_iff {L : Subgroup G} (x : ↥L) :
     x ∈ GLAPPrimeCore p ↥L ↔ (x : G) ∈ GLAPPrimeCoreOf p L :=
   (Subgroup.mem_map_iff_mem (f := L.subtype) L.subtype_injective).symm
 
+omit [Finite G] in
 theorem mk_mem_center_of_forall {L : Subgroup G} {l : G} (hl : l ∈ L)
     (hcen : ∀ y ∈ L, ⁅y, l⁆ ∈ GLAPPrimeCoreOf p L) :
     (QuotientGroup.mk ⟨l, hl⟩ : PQuot p L) ∈ Subgroup.center (PQuot p L) := by
@@ -79,7 +81,7 @@ theorem mk_mem_center_of_forall {L : Subgroup G} {l : G} (hl : l ∈ L)
 theorem card_map_mk_of_coprime {Z : Type*} [Group Z] [Finite Z] (hp : p.Prime) {K : Subgroup Z}
     (hK : IsPGroup p K) (N : Subgroup Z) [N.Normal] (hN : ¬ p ∣ Nat.card N) :
     Nat.card (K.map (QuotientGroup.mk' N)) = Nat.card K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hK.exists_card_eq
   have hdisj : Disjoint K N := Subgroup.disjoint_of_coprime_natCard (by
     rw [hk]; exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd hp).2 hN))
@@ -101,7 +103,7 @@ theorem exists_elemAbelian_lift_prod (hp : p.Prime) {L E A : Subgroup G}
     (hAcm : ∀ a ∈ A, CentMod p L a) (hZ : Subgroup.center (PQuot p L) = ⊥) :
     ∃ S : Subgroup G, S ≤ E ⊔ A ⊔ GLAPPrimeCoreOf p L ∧ IsElemAbelian p S ∧
       Nat.card S = Nat.card E * Nat.card A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := GLAPPrimeCoreOf p L with hO
   have hOp : ¬ p ∣ Nat.card O := not_dvd_card_glaPPrimeCoreOf hp L
   have hNO : Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer (O : Set G) :=
@@ -109,7 +111,7 @@ theorem exists_elemAbelian_lift_prod (hp : p.Prime) {L E A : Subgroup G}
   have hEN : E ≤ Subgroup.normalizer (O : Set G) := fun e he => hNO (Subgroup.le_normalizer (hEL he))
   have hAN : A ≤ Subgroup.normalizer (O : Set G) := fun a ha => hNO (hAcm a ha).1
   set M := Subgroup.normalizer (O : Set G) with hM
-  haveI hNn : (O.subgroupOf M).Normal := Subgroup.normal_in_normalizer
+  have hNn : (O.subgroupOf M).Normal := Subgroup.normal_in_normalizer
   have hOM : Nat.card (O.subgroupOf M) = Nat.card O :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe Subgroup.le_normalizer).toEquiv
   have hN : ¬ p ∣ Nat.card (O.subgroupOf M) := by rw [hOM]; exact hOp
@@ -263,8 +265,8 @@ theorem card_mul_le_pow_of_lift (hp : p.Prime) (hp2 : p ≠ 2) {L E V A : Subgro
   have h6 := card_le_pow_glaTwoLocalRank hp hSel hTne hT2 hST
   rwa [hScard] at h6
 
-theorem co2_rank_one (hc : S8Ctx G 3) (hrk : GLATwoLocalRank 3 G = 4) {x : G} {L : Subgroup G}
-    (hL : GLAPComponent 3 (cx x) L) (hZ : Nat.card (Subgroup.center (PQuot 3 L)) = 1)
+theorem co2_rank_one (_hc : S8Ctx G 3) (hrk : GLATwoLocalRank 3 G = 4) {x : G} {L : Subgroup G}
+    (_hL : GLAPComponent 3 (cx x) L) (hZ : Nat.card (Subgroup.center (PQuot 3 L)) = 1)
     {E V : Subgroup G} (hEL : E ≤ L) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 3 ^ 3) (hVL : V ≤ L)
     (hV2 : IsPGroup 2 V) (hVO : ¬ V ≤ GLAPPrimeCoreOf 3 L) (hEV : E ≤ Subgroup.normalizer (V : Set G)) :
     ∀ A : Subgroup G, IsElemAbelian 3 A → A ≤ cx x → (∀ a ∈ A, CentMod 3 L a) → Nat.card A ≤ 3 := by

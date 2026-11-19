@@ -39,7 +39,7 @@ theorem sylow_involution_centralizer_rank
   let : Nontrivial (S : Subgroup G) :=
     ⟨⟨⟨t, htS⟩, 1, fun h => (orderOf_eq_prime_iff.mp ht).2 (congrArg Subtype.val h)⟩⟩
   obtain ⟨z, hz, hzcenter⟩ :=
-    exists_central_involution_of_two_group (S : Subgroup G) S.isPGroup'
+    exists_central_involution_of_two_group (S : Subgroup G) S.isPGroup
   have hzG : orderOf (z : G) = 2 := (Subgroup.orderOf_coe z).trans hz
   have htz : Commute t (z : G) := by
     exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hzcenter ⟨t, htS⟩)
@@ -101,7 +101,7 @@ theorem full_core_involution_centralizer_sylow
   refine ⟨hDrank, ?_⟩
   intro T
   let R := (T : Subgroup D).map D.subtype
-  have hRtwo : IsPGroup 2 R := T.isPGroup'.map D.subtype
+  have hRtwo : IsPGroup 2 R := T.isPGroup.map D.subtype
   have hRD : R ≤ D := Subgroup.map_subtype_le _
   have hRC : R ≤ C := hRD.trans inf_le_right
   have hRrank : 2 ≤ pRank 2 R := by
@@ -113,14 +113,14 @@ theorem full_core_involution_centralizer_sylow
     rw [← Subgroup.map_subgroupOf_eq_of_le hRC]
     exact Subgroup.map_mono hRU
   have hPH : P ≤ H := pGroup_le_of_large_intersection S H 2 hSH hcore P
-    (U.isPGroup'.map C.subtype)
+    (U.isPGroup.map C.subtype)
     (hRrank.trans (pRank_mono 2 (by decide) (le_inf hRP (hRD.trans inf_le_left))))
   have hPD : P ≤ D := le_inf hPH (Subgroup.map_subtype_le _)
   have hTP : (T : Subgroup D) ≤ P.subgroupOf D := by
     intro x hx
     exact hRP (Subgroup.mem_map_of_mem D.subtype hx)
   have heq : P.subgroupOf D = (T : Subgroup D) :=
-    T.maximal_isPGroup.eq_of_ge ((U.isPGroup'.map C.subtype).comap_subtype) hTP
+    T.maximal_isPGroup.eq_of_ge ((U.isPGroup.map C.subtype).comap_subtype) hTP
   have himage := congrArg (Subgroup.map D.subtype) heq
   change (P.subgroupOf D).map D.subtype = R at himage
   rw [Subgroup.map_subgroupOf_eq_of_le hPD] at himage

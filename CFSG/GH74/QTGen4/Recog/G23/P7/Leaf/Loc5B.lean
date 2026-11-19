@@ -75,14 +75,14 @@ theorem loc5_card_fix_modEq (τ : G) (hτ3 : τ ^ 3 = 1) (hτ1 : τ ≠ 1) (X : 
     (hX : τ ∈ Subgroup.normalizer (X : Set G)) :
     Nat.card ↥(X ⊓ Subgroup.centralizer ({τ} : Set G)) ≡ Nat.card ↥X [MOD 3] := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hτord : orderOf τ = 3 := orderOf_eq_prime hτ3 hτ1
   have hG : IsPGroup 3 ↥(Subgroup.zpowers τ) := by
     apply IsPGroup.of_card (n := 1)
     rw [Nat.card_zpowers, hτord]
     norm_num
   have hzN : Subgroup.zpowers τ ≤ Subgroup.normalizer (X : Set G) := Subgroup.zpowers_le.mpr hX
-  letI : MulAction ↥(Subgroup.zpowers τ) ↥X :=
+  let : MulAction ↥(Subgroup.zpowers τ) ↥X :=
     { smul := fun q x => ⟨(q : G) * (x : G) * (q : G)⁻¹,
         (Subgroup.mem_normalizer_iff.mp (hzN q.2) x).mp x.2⟩
       one_smul := fun x => by
@@ -103,13 +103,13 @@ theorem loc5_card_fix_modEq (τ : G) (hτ3 : τ ^ 3 = 1) (hτ1 : τ ≠ 1) (X : 
     · intro ha
       have h1 := ha ⟨τ, Subgroup.mem_zpowers τ⟩
       have h2 : τ * (a : G) * τ⁻¹ = a := congrArg Subtype.val h1
-      rw [Set.mem_setOf_eq, Subgroup.mem_centralizer_singleton_iff]
+      rw [Set.mem_ofPred_eq, Subgroup.mem_centralizer_singleton_iff]
       have h3 : τ * (a : G) = (a : G) * τ := by
         calc τ * (a : G) = (τ * (a : G) * τ⁻¹) * τ := by group
           _ = (a : G) * τ := by rw [h2]
       exact h3.symm
     · intro ha
-      rw [Set.mem_setOf_eq, Subgroup.mem_centralizer_singleton_iff] at ha
+      rw [Set.mem_ofPred_eq, Subgroup.mem_centralizer_singleton_iff] at ha
       intro g
       obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp g.2
       apply Subtype.ext
@@ -217,7 +217,7 @@ theorem loc5_inv_part (z σ : G) (M : Subgroup G) [Finite G]
       ∀ a ∈ M ⊓ Subgroup.centralizer (M : Set G), ∃ p ∈ Subgroup.zpowers σ, ∃ q ∈ Am,
         a = p * q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A : Subgroup G := M ⊓ Subgroup.centralizer (M : Set G) with hAdef
   have hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := by
     intro x hx y hy
@@ -377,7 +377,7 @@ theorem loc5_tau_part (z σ τ : G) (M : Subgroup G) [Finite G] (Am : Subgroup G
     (hAm9 : Nat.card ↥Am = 9)
     (hdec : ∀ a ∈ M ⊓ Subgroup.centralizer (M : Set G), ∃ p ∈ Subgroup.zpowers σ,
       ∃ q ∈ Am, a = p * q)
-    (hzN : z ∈ Subgroup.normalizer (M : Set G)) (hτN : τ ∈ Subgroup.normalizer (M : Set G))
+    (_hzN : z ∈ Subgroup.normalizer (M : Set G)) (hτN : τ ∈ Subgroup.normalizer (M : Set G))
     (hτz : z * τ = τ * z) (hτ3 : τ ^ 3 = 1) (hτ1 : τ ≠ 1) (hστ : σ * τ = τ * σ)
     (hzσ : z * σ = σ * z) (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (hτnot : ¬ ∀ a ∈ M ⊓ Subgroup.centralizer (M : Set G), τ * a = a * τ) :
@@ -385,7 +385,7 @@ theorem loc5_tau_part (z σ τ : G) (M : Subgroup G) [Finite G] (Am : Subgroup G
         z * x * z⁻¹ = x⁻¹ ∧ x ∈ Subgroup.centralizer ({τ} : Set G))) ∧ Nat.card ↥F = 3 ∧
       Nat.card ↥(M ⊓ Subgroup.centralizer (M : Set G) ⊓ Subgroup.centralizer ({τ} : Set G)) = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A : Subgroup G := M ⊓ Subgroup.centralizer (M : Set G) with hAdef
   have hconjAm : ∀ g ∈ Subgroup.normalizer (M : Set G), z * g = g * z →
       ∀ x ∈ Am, g * x * g⁻¹ ∈ Am := by
@@ -444,7 +444,7 @@ theorem loc5_tau_part (z σ τ : G) (M : Subgroup G) [Finite G] (Am : Subgroup G
         _ = σ ^ k * q * τ := by group
     generalize hn : Nat.card ↥(Am ⊓ Subgroup.centralizer ({τ} : Set G)) = n at *
     have hle : n ≤ 9 := Nat.le_of_dvd (by norm_num) hdvd9
-    interval_cases n <;> first | rfl | omega | (norm_num at hdvd9)
+    interval_cases n <;> first | rfl | omega
   refine ⟨Am ⊓ Subgroup.centralizer ({τ} : Set G), ?_, hF3, ?_⟩
   · intro x
     rw [Subgroup.mem_inf, hAm x]
@@ -504,7 +504,7 @@ theorem loc5_tau_part (z σ τ : G) (M : Subgroup G) [Finite G] (Am : Subgroup G
   have hle : Nat.card ↥(A ⊓ Subgroup.centralizer ({τ} : Set G)) ≤ 27 :=
     Nat.le_of_dvd (by norm_num) hdvd27
   generalize hn : Nat.card ↥(A ⊓ Subgroup.centralizer ({τ} : Set G)) = n at *
-  interval_cases n <;> first | rfl | omega | (norm_num at hdvd27)
+  interval_cases n <;> first | rfl | omega
 
 theorem loc5_comm_of_rel {a b : G} (h : a⁻¹ * b⁻¹ * a * b = 1) : a * b = b * a := by
   have h' : b⁻¹ * a * b = a := by
@@ -543,7 +543,7 @@ theorem loc5_conj_commute {g y s : G} (hg : g * s = s * g) (hy : y * s = s * y) 
 theorem loc5_inter_bot [Finite G] {s t : G} (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) (ht3 : t ^ 3 = 1)
     (ht1 : t ≠ 1) (hP : Nat.card ↥(Subgroup.closure ({s, t} : Set G)) = 9) :
     Subgroup.zpowers s ⊓ Subgroup.zpowers t = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsord : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   have htord : orderOf t = 3 := orderOf_eq_prime ht3 ht1
   rw [eq_bot_iff]
@@ -579,7 +579,7 @@ theorem loc5_P_cases [Finite G] {s t : G} (hst : s * t = t * s) (hs3 : s ^ 3 = 1
     (hp : p ∈ Subgroup.closure ({s, t} : Set G)) (hp1 : p ≠ 1) :
     ∃ q ∈ ({s, t, s * t, s * t⁻¹} : Set G), ∃ k : ℕ, p ^ k = q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsord : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   have hto : orderOf t = 3 := orderOf_eq_prime ht3 ht1
   have hcomm : ∀ x ∈ Subgroup.zpowers t, ∀ y ∈ Subgroup.zpowers s,

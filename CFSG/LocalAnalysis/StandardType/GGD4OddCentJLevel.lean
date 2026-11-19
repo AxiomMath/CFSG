@@ -48,6 +48,7 @@ section Clause3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggInducedInn_of_clause3 {B L : Subgroup G} (hBN : B ≤ Subgroup.normalizer (L : Set G))
     {R : Type} [Group R] (θ : L ⧸ Subgroup.center L ≃* R) {I : Set (MulAut R)}
     (h3 : ∀ b ∈ B, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ) :

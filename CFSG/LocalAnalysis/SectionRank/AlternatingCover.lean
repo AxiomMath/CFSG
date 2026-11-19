@@ -113,7 +113,7 @@ variable {J : Type*} [Group J] [Finite J]
 
 theorem sylow_isCyclic_of_not_sq_dvd {r : ℕ} [hr : Fact r.Prime] (h : ¬ r ^ 2 ∣ Nat.card J)
     (P : Sylow r J) : IsCyclic (P : Subgroup J) := by
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup
   have hdvd : r ^ k ∣ Nat.card J := hk ▸ Subgroup.card_subgroup_dvd_card _
   have hk1 : k ≤ 1 := by
     by_contra hk1
@@ -265,7 +265,7 @@ theorem exists_sylow_eq_sylowThreeAlt (hn8 : n ≤ 8) :
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
   refine ⟨Q, (Subgroup.eq_of_le_of_card_ge hQ ?_).symm⟩
   rw [card_sylowThreeAlt]
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup
   have hdvd : 3 ^ k ∣ Nat.card (alternatingGroup (Fin n)) := hk ▸ Subgroup.card_subgroup_dvd_card _
   have hcard : Nat.card (alternatingGroup (Fin n)) ∣ 20160 := by
     have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)

@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uniqueSetting_of_hypE61 {T M V : Subgroup G} (h : HypE61 T M V) (hu : IsUniqueM T M) :
     UniqueSetting G T M := by
-  haveI := h.simple
+  have := h.simple
   exact ⟨h.simple, h.nonabelian, qtkeCore_of_cat h.nonabelian h.qtke,
     ⟨le_top, h.sylow.1, fun hd => h.sylow.2 (by
       rw [← Subgroup.relIndex_top_right]; exact hd)⟩,
@@ -42,6 +42,7 @@ theorem ConjCrit.of_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y) (h
   have := congrArg e h
   simpa using this
 
+omit [Finite G] in
 theorem mem_pair_of_conjCrit {T V : Subgroup G} (hV : IsElemAbelian 2 V) (hVT : V ≤ T)
     (hN : T ≤ Subgroup.normalizer (V : Set G)) {z : ↥T}
     (hz : ∀ t : ↥T, t ^ 2 = 1 → t ≠ 1 → t ≠ z → ∃ s : ↥T, (t * (s * t * s⁻¹)) ^ 2 ≠ 1)
@@ -70,7 +71,7 @@ theorem rParam_le_one_of_conjCrit {T M V : Subgroup G} (h : HypE61 T M V) (hc : 
   exact hle.trans (by exact_mod_cast hm)
 
 theorem conjCrit_dihedral {n : ℕ} (hn0 : 0 < n) (hn : ¬ n ∣ 4) : ConjCrit (DihedralGroup n) := by
-  haveI : NeZero n := ⟨hn0.ne'⟩
+  have : NeZero n := ⟨hn0.ne'⟩
   refine ⟨DihedralGroup.r ((n / 2 : ℕ) : ZMod n), fun t ht2 ht1 htz => ?_⟩
   rcases t with i | i
   · exfalso
@@ -112,7 +113,7 @@ theorem conjCrit_sylow (P Q : Sylow 2 G) (h : ConjCrit ↥(P : Subgroup G)) :
 
 theorem conjCrit_sylow_of_mulEquiv {H : Type*} [Group H] [Finite H] (e : G ≃* H) (Q : Sylow 2 H)
     (hQ : ConjCrit ↥(Q : Subgroup H)) (T : Sylow 2 G) : ConjCrit ↥(T : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 G := Q.comapOfInjective e.toMonoidHom e.injective (by
     rw [MonoidHom.range_eq_top.mpr e.surjective]; exact le_top)
   have hP : ((P : Subgroup G).map e.toMonoidHom) = Q := by
@@ -166,8 +167,8 @@ theorem four_le_factorization_psl2 {p : ℕ} (hp7 : 7 < p)
 theorem conjCrit_psl2 {p : ℕ} (hp : p.Prime) (hp7 : 7 < p)
     (hpF : (∃ k : ℕ, p = 2 ^ 2 ^ k + 1) ∨ (∃ k : ℕ, 2 ≤ k ∧ p = 2 ^ k - 1)) :
     ∃ Q : Sylow 2 PSL(2, ZMod p), ConjCrit ↥(Q : Subgroup PSL(2, ZMod p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : GorensteinWalter.IsOddPrimePower (Nat.card (ZMod p)) :=
     ⟨p, 1, hp, hp.odd_of_ne_two (by omega), le_rfl, by rw [Nat.card_zmod, pow_one]⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 PSL(2, ZMod p)) := inferInstance
@@ -243,11 +244,11 @@ theorem m11SdS_card_eq_sylow :
   rw [h2]; norm_num
 
 theorem conjCrit_m11 : ∃ Q : Sylow 2 ↥M11, ConjCrit ↥(Q : Subgroup ↥M11) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let e : ↥CFSG.Blueprint.NativeSporadic.M11 ≃* ↥M11 :=
     (MulEquiv.subgroupCongr CFSG.Semidihedral.GL2Recognition.statedM11_eq_nativeM11).symm.trans
       CFSG.Adapters.RankTwoModelTransports.statedM11EquivM11
-  haveI : Finite ↥M11 := Finite.of_equiv _ e.toEquiv
+  have : Finite ↥M11 := Finite.of_equiv _ e.toEquiv
   let P₀ : Sylow 2 ↥CFSG.Blueprint.NativeSporadic.M11 := Sylow.ofCard m11SdS m11SdS_card_eq_sylow
   have hP₀ : ConjCrit ↥(P₀ : Subgroup ↥CFSG.Blueprint.NativeSporadic.M11) := conjCrit_m11SdS
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥M11) := inferInstance
@@ -268,7 +269,7 @@ theorem center_sl33_eq_bot : Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) 
 
 theorem conjCrit_psl33 :
     ∃ Q : Sylow 2 PSL(3, ZMod 3), ConjCrit ↥(Q : Subgroup PSL(3, ZMod 3)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let e : PSL(3, ZMod 3) ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 3) :=
     (QuotientGroup.quotientMulEquivOfEq center_sl33_eq_bot).trans QuotientGroup.quotientBot
   obtain ⟨-, hP2, hPi⟩ := CFSG.QuasithinUnique.Unc25L33.isSylowTwoOf_P0
@@ -283,19 +284,19 @@ theorem conjCrit_psl33 :
 theorem not_uniqueSmallModel
     {T M V : Subgroup G} (h : HypE61 T M V) (hr : 1 < E3.rParam V) :
     ¬ UniqueSmallModel G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Sylow 2 G := IsPGroup.toSylow h.sylow.1 h.sylow.2
   have hS : (S : Subgroup G) = T := IsPGroup.toSylow_coe _ _
   have key : ConjCrit ↥T → False := fun hc =>
     absurd (rParam_le_one_of_conjCrit h hc) (not_le.mpr hr)
   rintro (⟨p, hp, hp7, hpF, ⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩)
-  · haveI : Finite PSL(2, ZMod p) := Finite.of_equiv G e.toEquiv
+  · have : Finite PSL(2, ZMod p) := Finite.of_equiv G e.toEquiv
     obtain ⟨Q, hQ⟩ := conjCrit_psl2 hp hp7 hpF
     exact key (hS ▸ conjCrit_sylow_of_mulEquiv e Q hQ S)
-  · haveI : Finite PSL(3, ZMod 3) := Finite.of_equiv G e.toEquiv
+  · have : Finite PSL(3, ZMod 3) := Finite.of_equiv G e.toEquiv
     obtain ⟨Q, hQ⟩ := conjCrit_psl33
     exact key (hS ▸ conjCrit_sylow_of_mulEquiv e Q hQ S)
-  · haveI : Finite ↥M11 := Finite.of_equiv G e.toEquiv
+  · have : Finite ↥M11 := Finite.of_equiv G e.toEquiv
     obtain ⟨Q, hQ⟩ := conjCrit_m11
     exact key (hS ▸ conjCrit_sylow_of_mulEquiv e Q hQ S)
 
@@ -313,7 +314,7 @@ theorem borelTorus_of_bender {T M V : Subgroup G}
       (∀ t ∈ T, t * t = 1 → t ∈ P) ∧ K ≤ M ∧ IsCyclic K ∧ Odd (Nat.card K) ∧
       K ≤ Subgroup.normalizer (T : Set G) ∧ K ≤ Subgroup.normalizer (P : Set G) ∧
       (∀ p ∈ P, ∀ q ∈ P, p ≠ 1 → q ≠ 1 → ∃ k ∈ K, k⁻¹ * p * k = q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Sylow 2 G := IsPGroup.toSylow h.sylow.1 h.sylow.2
   have hS : (S : Subgroup G) = T := IsPGroup.toSylow_coe _ _
   obtain ⟨q, k, -, hBB⟩ := (BenderExt.benderData_of_isBenderGroup hB).borel

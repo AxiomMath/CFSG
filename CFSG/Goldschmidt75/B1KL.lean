@@ -59,7 +59,7 @@ theorem normalClosure_le_of_le_centralizer (T : Sylow 2 G) {A : Subgroup G} (hAT
     | mem x hx =>
       obtain ⟨a, ha, hax⟩ := Group.mem_conjugatesOfSet_iff.mp hx
       obtain ⟨c, rfl⟩ := isConj_iff.mp hax
-      obtain ⟨k, hk⟩ := T.isPGroup' ⟨a, hAT ha⟩
+      obtain ⟨k, hk⟩ := T.isPGroup ⟨a, hAT ha⟩
       refine ⟨k, ?_⟩
       have hk' : a ^ (2 ^ k) = 1 := congrArg Subtype.val hk
       rw [conj_pow, hk']

@@ -101,7 +101,7 @@ private theorem rank_bound_of_raw
 private theorem exists_marking_data
     {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgroup Ω} {x : Ω}
     (hcfg : Cfg173 p S B N D K x) :
-    ∃ (lab : GLALabel) (R : Type) (_ : Group R) (I F : Set (MulAut R))
+    ∃ (lab : GLALabel) (R : Type) (_ : Group R) (I _F : Set (MulAut R))
       (θ : ↥S ⧸ Subgroup.center ↥S ≃* R),
       GLAInLambda2 lab ∧ GLASplit16 p lab ∧ MarkedModel lab R ∧ commutator ↥S = ⊤ ∧
       B ≤ Subgroup.normalizer (S : Set Ω) ∧
@@ -112,15 +112,15 @@ private theorem exists_marking_data
       3 ≤ rk2Mult lab (rk2Ord p lab.n) := by
   obtain ⟨hperf, lab, hlab, hraw⟩ := hcfg.split
   have hrawM := CFSG.StandardType.Canonical.largeEvenRawDatum_markedModel hlab
-    (fun R _ I F hq => hq.2.1) hraw
-  obtain ⟨R, hR, I, F, hQ, hM⟩ := rk2_rawDatum_exists hrawM
+    (fun R _ I _F hq => hq.2.1) hraw
+  obtain ⟨R, hR, I, _F, hQ, hM⟩ := rk2_rawDatum_exists hrawM
   obtain ⟨hs, hna, θ, hspl, hN, hind⟩ := hQ
   have h3 := rank_bound_of_raw hcfg.prime hcfg.odd hcfg.elem hcfg.four hcfg.mem hcfg.ne_one
     hcfg.cent hperf hlab hraw
     (by
       rintro R' _ I' F' ⟨hs', hna', θ', hspl', hN', hind'⟩
       exact ⟨θ', hs', hN', hind'⟩)
-  refine ⟨lab, R, hR, I, F, θ, hlab, hspl, hM, hperf, hN, hind, ?_, h3⟩
+  refine ⟨lab, R, hR, I, _F, θ, hlab, hspl, hM, hperf, hN, hind, ?_, h3⟩
   refine ⟨hperf, lab, hlab, ?_⟩
   refine CFSG.StandardType.Canonical.largeEvenRawDatum_mono ?_ hraw
   rintro R' _ I' F' ⟨hs', hna', θ', hspl', hN', hind'⟩
@@ -148,7 +148,7 @@ private theorem rk2Mult_le_two_of_small_tag {lab : GLALabel} {m : ℕ} (hm : 0 <
     rk2Mult lab m ≤ 2 :=
   CFSG.LocalAnalysis.GLTheoremA.rk2Mult_le_two_of_small ht hm
 
-private theorem rk2Mult_A1_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+private theorem rk2Mult_A1_two {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
     (hspl : GLASplit16 p (⟨.A, 1, 2⟩ : GLALabel)) :
     rk2Mult (⟨.A, 1, 2⟩ : GLALabel) (rk2Ord p 2) ≤ 2 := by
   have hdiv : p ∣ 2 ^ 2 - 1 := by
@@ -233,17 +233,17 @@ private theorem rk2Mult_le_two_of_linear_small {lab : GLALabel} {N f p : ℕ}
   obtain ⟨t, r, n⟩ := lab
   rcases htag with rfl | rfl | rfl | rfl
   · rcases hNf with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-    · simp only [markTag, markRank, markDeg] at hr hd
+    · simp only [markRank, markDeg] at hr hd
       have hr1 : r = 1 := by omega
       subst hr1
       subst hd
       exact rk2Mult_A1_two hp hp2 (by simpa using hspl)
-    · simp only [markTag, markRank, markDeg] at hr hd
+    · simp only [markRank, markDeg] at hr hd
       have hr2 : r = 2 := by omega
       subst hr2
       subst hd
       exact rk2Mult_A2_one hp hp2 (by simpa using hspl)
-    · simp only [markTag, markRank, markDeg] at hr hd
+    · simp only [markRank, markDeg] at hr hd
       have hr3 : r = 3 := by omega
       subst hr3
       subst hd
@@ -252,7 +252,7 @@ private theorem rk2Mult_le_two_of_linear_small {lab : GLALabel} {N f p : ℕ}
     exact absurd hm (by decide)
   · by_cases h3 : r = 3
     · subst h3
-      simp only [markRank, markDeg, if_true] at hr hd
+      simp only [markRank, markDeg, ite_true] at hr hd
       rcases hNf with hNf | hNf | hNf
       · omega
       · omega
@@ -261,11 +261,11 @@ private theorem rk2Mult_le_two_of_linear_small {lab : GLALabel} {N f p : ℕ}
         subst hn
         subst hf
         exact rk2Mult_D3_one hp hp2 (by simpa using hspl)
-    · simp only [markTag, h3, if_false] at hm
+    · simp only [markTag, h3, ite_false] at hm
       exact absurd hm (by decide)
   · by_cases h2 : r = 2
     · subst h2
-      simp only [markRank, markDeg, if_true] at hr hd
+      simp only [markRank, markDeg, ite_true] at hr hd
       rcases hNf with hNf | hNf | hNf
       · obtain ⟨-, hf⟩ := hNf
         have hn : n = 1 := by omega
@@ -274,9 +274,8 @@ private theorem rk2Mult_le_two_of_linear_small {lab : GLALabel} {N f p : ℕ}
         exact rk2Mult_twD2_one hp hp2 (by simpa using hspl)
       · omega
       · omega
-    · simp only [markTag, h2, if_false] at hm
+    · simp only [markTag, h2, ite_false] at hm
       split_ifs at hm
-      all_goals exact absurd hm (by decide)
 
 
 private theorem onLie_A_of_tagOf_eq_PSL {d : TauCeti.LieTypeIndex} (h : tagOf d = .PSL) :
@@ -289,11 +288,11 @@ private theorem onLie_A_of_tagOf_eq_PSU {d : TauCeti.LieTypeIndex} (h : tagOf d 
 
 private theorem onLie_D_of_tagOf_eq_POmegaPlus {d : TauCeti.LieTypeIndex}
     (h : tagOf d = .POmegaPlus) : T173ClassD d := by
-  cases d <;> simp [tagOf, T173ClassA, T173ClassD, T173ClassTD] at h ⊢
+  cases d <;> simp [tagOf, T173ClassD] at h ⊢
 
 private theorem onLie_TD_of_tagOf_eq_POmegaMinus {d : TauCeti.LieTypeIndex}
     (h : tagOf d = .POmegaMinus) : T173ClassTD d := by
-  cases d <;> simp [tagOf, T173ClassA, T173ClassD, T173ClassTD] at h ⊢
+  cases d <;> simp [tagOf, T173ClassTD] at h ⊢
 
 private theorem catalogIs_of_classical_markedModel {R : Type} [Group R] {lab : GLALabel} {p : ℕ}
     (hlab : GLAInLambda2 lab)
@@ -356,7 +355,7 @@ private theorem catalogIs_of_classical_markedModel {R : Type} [Group R] {lab : G
           ⟨.lie d, onLie_A_of_tagOf_eq_PSL hPSL, ⟨eiso⟩⟩⟩
       · by_cases h3r : r = 3
         · have hPSU : tagOf d.1 = .PSU := by simpa [markTag, h2r, h3r] using htagEq
-          exact Or.inr (Or.inl ⟨by simp [markTag, h2r, h3r],
+          exact Or.inr (Or.inl ⟨by simp [markTag, h3r],
             ⟨.lie d, onLie_A_of_tagOf_eq_PSU hPSU, ⟨eiso⟩⟩⟩)
         · have hM'' : tagOf d.1 = .POmegaMinus := by
             simpa [markTag, h2r, h3r] using htagEq

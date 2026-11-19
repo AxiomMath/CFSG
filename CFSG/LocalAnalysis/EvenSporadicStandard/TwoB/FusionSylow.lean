@@ -35,7 +35,7 @@ theorem exists_isPGroup_card_le (H : Subgroup G) :
   obtain ⟨S0⟩ := (inferInstance : Nonempty (Sylow 2 ↥H))
   refine ⟨(S0 : Subgroup ↥H).map H.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
   · exact Subgroup.map_mono (CFSG.pCore_isPGroup.le_sylow_of_normal S0)
-  · exact S0.isPGroup'.map _
+  · exact S0.isPGroup.map _
   · rw [Subgroup.card_map_of_injective H.subtype_injective, S0.card_eq_multiplicity]
 
 theorem Level55.mem_pair_iff_of_le (d : Level55 G t z) (h54 : IsTwoConstrained (centZ z))
@@ -147,7 +147,7 @@ theorem exists_sylow_centZ (d : Level55 G t z) (h54 : IsTwoConstrained (centZ z)
     have hyL : y ∈ centralizer ({t} : Set G) :=
       mem_centralizer_singleton_iff.2 (mul_inv_eq_iff_eq_mul.1 hyt)
     have hX : IsPGroup 2 ↥(S ⊔ zpowers y) :=
-      T.isPGroup'.to_le (sup_le hST (zpowers_le.2 hyT))
+      T.isPGroup.to_le (sup_le hST (zpowers_le.2 hyT))
     have hXL : S ⊔ zpowers y ≤ centralizer ({t} : Set G) :=
       sup_le (hSK.trans hle) (zpowers_le.2 hyL)
     have hSL : Nat.card S = 2 ^ (Nat.card (centralizer ({t} : Set G))).factorization 2 := by

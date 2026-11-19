@@ -55,9 +55,9 @@ theorem finrank_weightSpace_eq_one_unitForm (h : UnitaryFieldData ℓ f K) (h2K 
         Module.finrank K (weightSpace (glRep Aε) H'.1) = 1 := by
   classical
   intro Aε _ hA hAεβ hmax ⟨c, hc1, hcp, hcβ⟩ H' hH'
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI := Fact.mk hp
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
+  have := Fact.mk hp
   have hd : p ∣ ℓ ^ f + 1 := by
     rw [← orderOf_eq_prime hcp hc1]
     exact orderOf_dvd_of_pow_eq_one (pow_succ_eq_one_of_scalar_mem h hcβ)
@@ -135,11 +135,11 @@ theorem concA_caseL_uni (hLU : ConcACaseLLUStatement)
     (h : UnitaryFieldData ℓ f K) (hℓ2 : ℓ ≠ 2) (hdiag : p ∣ Nat.gcd n (ℓ ^ f + 1))
     (e : PSimple p S ≃* StatedProj (StatedSU n (ℓ ^ f) K)) : S267ConcA p S B := by
   classical
-  haveI : Finite K := h.finite
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
-  haveI : CharP K ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : CharP K ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
   have hℓ := h.prime
   have hpq : p ∣ ℓ ^ f + 1 := hdiag.trans (Nat.gcd_dvd_right _ _)
   have hpn : p ∣ n := hdiag.trans (Nat.gcd_dvd_left _ _)

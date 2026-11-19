@@ -19,6 +19,7 @@ variable (K : Type*) [Field K] {α β : Type*} [Fintype α] [DecidableEq α] [Fi
 
 variable {K}
 
+omit [Fintype α] in
 theorem inclMat_transpose_mul {j : α → β} (hj : Function.Injective j) :
     (inclMat K j)ᵀ * inclMat K j = 1 := by
   ext a a'
@@ -30,6 +31,7 @@ theorem inclMat_transpose_mul {j : α → β} (hj : Function.Injective j) :
   · intro h
     exact absurd (Finset.mem_univ _) h
 
+omit [Fintype α] [DecidableEq α] in
 theorem inclMat_transpose_mul_disjoint {j j' : α → β} (h : ∀ a a', j a ≠ j' a') :
     (inclMat K j)ᵀ * inclMat K j' = 0 := by
   ext a a'
@@ -42,6 +44,7 @@ theorem inclMat_transpose_mul_disjoint {j j' : α → β} (h : ∀ a a', j a ≠
     simp [hne]
   · simp [hb]
 
+omit [Fintype α] [DecidableEq α] [Fintype β] in
 theorem inclMat_map {L : Type*} [Field L] (f : K → L) (hf0 : f 0 = 0) (hf1 : f 1 = 1)
     (j : α → β) : (inclMat K j).map f = inclMat L j := by
   ext b a

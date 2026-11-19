@@ -296,11 +296,13 @@ variable {G : Type*} [Group G] [MulAction G (Fin 306936)]
 
 @[expose] def letH (g : ℕ → G) : Subgroup G := Subgroup.closure (Set.range fun k : Fin 18 => g k)
 
+omit [MulAction G (Fin 306936)] in
 theorem g_mem_letH (g : ℕ → G) {k : ℕ} (hk : k < 18) : g k ∈ letH g :=
   Subgroup.subset_closure ⟨⟨k, hk⟩, rfl⟩
 
 @[expose] def wordG (g : ℕ → G) (v : List ℕ) : G := (v.map g).prod
 
+omit [MulAction G (Fin 306936)] in
 theorem wordG_mem (g : ℕ → G) {v : List ℕ} (hv : ∀ t ∈ v, t < 18) : wordG g v ∈ letH g := by
   induction v with
   | nil => exact Subgroup.one_mem _

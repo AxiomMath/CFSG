@@ -83,7 +83,7 @@ theorem preserves_of_comm_supported [FiniteDimensional K V] {I : Finset (Hyperpl
       rintro ⟨w, hw⟩ h0
       have h1 : ρ x w = w := by
         have := congrArg Subtype.val h0
-        simp only [T, LinearMap.restrict_coe_apply, LinearMap.sub_apply, Module.End.one_apply,
+        simp only [T, _root_.LinearMap.coe_restrict_apply, LinearMap.sub_apply, Module.End.one_apply,
           ZeroMemClass.coe_zero] at this
         exact sub_eq_zero.mp this
       have h2 : projI ρ I w = 0 := (hfix w).mp h1
@@ -93,7 +93,7 @@ theorem preserves_of_comm_supported [FiniteDimensional K V] {I : Finset (Hyperpl
     obtain ⟨⟨w', hw'⟩, hTw'⟩ := (LinearMap.injective_iff_surjective.mp hTinj) ⟨w, hw⟩
     have hww' : w = ρ x w' - w' := by
       have := congrArg Subtype.val hTw'
-      simp only [T, LinearMap.restrict_coe_apply, LinearMap.sub_apply, Module.End.one_apply] at this
+      simp only [T, _root_.LinearMap.coe_restrict_apply, LinearMap.sub_apply, Module.End.one_apply] at this
       exact this.symm
     rw [hww', map_sub, hg]
     have hsub : ∀ v, ρ x v - v ∈ W := by
@@ -174,7 +174,7 @@ theorem concA_of_weights (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelian p B
           centGL {(ModelGen.semiMap Dat.A Dat.σ).toAddMonoidHom}) ≠ ⊥)) :
     S267ConcA p S B := by
   classical
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   set ρ := glRep Aε with hρdef
   set U := wtU Aε I with hUdef
   set W := wtW Aε I with hWdef

@@ -71,7 +71,7 @@ theorem ofMulEquiv
     (hG : IsBrauerElementary G) (φ : G ≃* G') :
     IsBrauerElementary G' := by
   rcases hG with ⟨p, hp, hpelem⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact ⟨p, hp, IsPElementary.ofMulEquiv p hpelem φ⟩
 
 /--
@@ -84,7 +84,7 @@ theorem ofSubgroup
     (hG : IsBrauerElementary G) (K : Subgroup G) :
     IsBrauerElementary K := by
   rcases hG with ⟨p, hp, ⟨eG⟩⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact ⟨p, hp, ⟨PElementary.ofSubgroup eG K⟩⟩
 
 /--
@@ -94,8 +94,8 @@ theorem of_isCyclic
     [Finite G] (hG : IsCyclic G) :
     IsBrauerElementary G := by
   let p : ℕ := 2
-  haveI : Fact p.Prime := ⟨Nat.prime_two⟩
-  haveI : IsCyclic G := hG
+  have : Fact p.Prime := ⟨Nat.prime_two⟩
+  have : IsCyclic G := hG
   exact ⟨p, Nat.prime_two, IsPElementary.of_isCyclic (p := p) (G := G)⟩
 
 /--
@@ -105,7 +105,7 @@ theorem isNilpotent
     [Finite G] (hG : IsBrauerElementary G) :
     Group.IsNilpotent G := by
   rcases hG with ⟨p, hp, ⟨eG⟩⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact eG.isNilpotent
 
 /--

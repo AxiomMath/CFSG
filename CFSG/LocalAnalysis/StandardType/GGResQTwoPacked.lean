@@ -185,11 +185,11 @@ theorem pkLane_pkSet (x j y l : ℕ) (hy : y < 4) :
   have hq : x / 4 ^ (j + 1) = x / 4 ^ j / 4 := by rw [Nat.div_div_eq_div_mul, pow_succ]
   rw [pkLane_eq, pkLane_eq, pkSet_eq]
   rcases lt_trichotomy l j with h | rfl | h
-  · rw [if_neg h.ne, pk_div_mod_lt h]
+  · rw [ite_eq_right h.ne, pk_div_mod_lt h]
     conv_rhs => rw [hx]
     rw [pk_div_mod_lt h]
-  · rw [if_pos rfl, pk_div_eq hr, Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hy]
-  · rw [if_neg h.ne']
+  · rw [ite_eq_left rfl, pk_div_eq hr, Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hy]
+  · rw [ite_eq_right h.ne']
     have e4 : 4 ^ (l - j) = 4 * 4 ^ (l - j - 1) := by
       rw [← pow_succ', Nat.sub_add_cancel (by omega)]
     have e1 : (x % 4 ^ j + (y + 4 * (x / 4 ^ (j + 1))) * 4 ^ j) / 4 ^ l =
@@ -206,20 +206,20 @@ theorem pkLane_zero (i : ℕ) : pkLane 0 i = 0 := by simp [pkLane_eq]
 theorem pkLane_pkNeg (x l : ℕ) :
     ∀ n, pkLane (pkNeg n x) l = if l < n then (3 - pkLane x l) % 3 else pkLane x l
   | 0 => by
-    rw [if_neg (Nat.not_lt_zero l)]
+    rw [ite_eq_right (Nat.not_lt_zero l)]
     rfl
   | n + 1 => by
     have ih := pkLane_pkNeg x l n
     have hn := pkLane_pkNeg x n n
-    rw [if_neg (lt_irrefl n)] at hn
+    rw [ite_eq_right (lt_irrefl n)] at hn
     change pkLane (pkSet (pkNeg n x) n ((3 - pkLane (pkNeg n x) n) % 3)) l = _
     rw [pkLane_pkSet _ _ _ _ (by omega)]
     rcases eq_or_ne l n with rfl | h
-    · rw [if_pos rfl, hn, if_pos (Nat.lt_succ_self _)]
-    · rw [if_neg h, ih]
+    · rw [ite_eq_left rfl, hn, ite_eq_left (Nat.lt_succ_self _)]
+    · rw [ite_eq_right h, ih]
       by_cases h' : l < n
-      · rw [if_pos h', if_pos (by omega)]
-      · rw [if_neg h', if_neg (by omega)]
+      · rw [ite_eq_left h', ite_eq_left (by omega)]
+      · rw [ite_eq_right h', ite_eq_right (by omega)]
 
 theorem pkSumN_eq (f : ℕ → ℕ) : ∀ k, pkSumN f k = ∑ i ∈ Finset.range k, f i
   | 0 => rfl
@@ -244,8 +244,8 @@ theorem pkDRefl_eq (tab n j c : ℕ) :
 theorem pkDelta_eq (l m : ℕ) : pkDelta l m = if l = m then 1 else 0 := by
   unfold pkDelta
   cases hb : Nat.beq l m
-  · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
 
 abbrev PkRep (n : ℕ) {L : ℕ} (x : ℕ) (z : Vector (ZMod 3) L) : Prop :=
   ∀ l : Fin L, z.get l = if l.val < n then ((pkLane x l.val : ℕ) : ZMod 3) else 0
@@ -288,10 +288,10 @@ theorem pk_ggFDualAt {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)}
   rw [pkDotC_eq, Nat.cast_sum, ← pk_sum_fin_ite (L := n + 1) (by omega)]
   unfold ggFDualAt
   refine Finset.sum_congr rfl fun o _ => ?_
-  have hj' : (j.castSucc : Fin (n + 2)).val < n := by rw [Fin.coe_castSucc]; exact hj
+  have hj' : (j.castSucc : Fin (n + 2)).val < n := by rw [Fin.val_castSucc]; exact hj
   rw [hw o]
   split_ifs with ho
-  · rw [hT o j.castSucc ho hj', Fin.coe_castSucc, Nat.cast_mul]
+  · rw [hT o j.castSucc ho hj', Fin.val_castSucc, Nat.cast_mul]
   · simp
 
 theorem pkRep_refl {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)} (hT : PkTab n tab T)
@@ -302,15 +302,15 @@ theorem pkRep_refl {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)} (
   have hlt : (pkLane x j.val + 2 * pkDotR tab n j.val x) % 3 < 4 := by omega
   rw [ggFRefl, Vector.get_ofFn, pkRefl_eq, pkLane_pkSet _ _ _ _ hlt]
   by_cases hl : l = j.castSucc
-  · have hv : l.val = j.val := by rw [hl, Fin.coe_castSucc]
+  · have hv : l.val = j.val := by rw [hl, Fin.val_castSucc]
     have hln : l.val < n := by omega
-    have hzl : z.get l = ((pkLane x l.val : ℕ) : ZMod 3) := (hz l).trans (if_pos hln)
-    rw [if_pos hl, if_pos hv, if_pos hln, hzl, hd, ZMod.natCast_mod, hv]
+    have hzl : z.get l = ((pkLane x l.val : ℕ) : ZMod 3) := (hz l).trans (ite_eq_left hln)
+    rw [ite_eq_left hl, ite_eq_left hv, ite_eq_left hln, hzl, hd, ZMod.natCast_mod, hv]
     push_cast
     rw [pk_two]
     ring
-  · have hv : l.val ≠ j.val := fun h => hl (Fin.ext (by rw [h, Fin.coe_castSucc]))
-    rw [if_neg hl, if_neg hv, hz l]
+  · have hv : l.val ≠ j.val := fun h => hl (Fin.ext (by rw [h, Fin.val_castSucc]))
+    rw [ite_eq_right hl, ite_eq_right hv, hz l]
 
 theorem pkRep_drefl {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)} (hT : PkTab n tab T)
     {j : Fin (n + 1)} (hj : j.val < n) {c : ℕ} {w : Vector (ZMod 3) (n + 1)}
@@ -322,25 +322,25 @@ theorem pkRep_drefl {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)} 
   by_cases ho : o = j
   · have hv : o.val = j.val := by rw [ho]
     have hon : o.val < n := by omega
-    have hwo : w.get o = ((pkLane c o.val : ℕ) : ZMod 3) := (hw o).trans (if_pos hon)
-    rw [if_pos ho, if_pos hv, if_pos hon, hwo, hd, ZMod.natCast_mod, hv]
+    have hwo : w.get o = ((pkLane c o.val : ℕ) : ZMod 3) := (hw o).trans (ite_eq_left hon)
+    rw [ite_eq_left ho, ite_eq_left hv, ite_eq_left hon, hwo, hd, ZMod.natCast_mod, hv]
     push_cast
     rw [pk_two]
     ring
   · have hv : o.val ≠ j.val := fun h => ho (Fin.ext h)
-    rw [if_neg ho, if_neg hv, hw o]
+    rw [ite_eq_right ho, ite_eq_right hv, hw o]
 
 theorem pkRep_unitH {n : ℕ} (k : Fin (n + 1)) (hk : k.val < n) :
     PkRep n (pkUnit k.val) (ggFUnit (R := ZMod 3) (N := n + 1) k.castSucc) := by
   intro l
   rw [ggFUnit, Vector.get_ofFn, pkUnit, pkLane_pkSet _ _ _ _ (by norm_num)]
   by_cases hl : l = k.castSucc
-  · have hv : l.val = k.val := by rw [hl, Fin.coe_castSucc]
+  · have hv : l.val = k.val := by rw [hl, Fin.val_castSucc]
     have hln : l.val < n := by omega
-    rw [if_pos hl, if_pos hv, if_pos hln]
+    rw [ite_eq_left hl, ite_eq_left hv, ite_eq_left hln]
     simp
-  · have hv : l.val ≠ k.val := fun h => hl (Fin.ext (by rw [h, Fin.coe_castSucc]))
-    rw [if_neg hl, if_neg hv, pkLane_zero]
+  · have hv : l.val ≠ k.val := fun h => hl (Fin.ext (by rw [h, Fin.val_castSucc]))
+    rw [ite_eq_right hl, ite_eq_right hv, pkLane_zero]
     simp
 
 theorem pkRep_unitC {n : ℕ} (k : Fin (n + 1)) (hk : k.val < n) :
@@ -350,10 +350,10 @@ theorem pkRep_unitC {n : ℕ} (k : Fin (n + 1)) (hk : k.val < n) :
   by_cases ho : o = k
   · have hv : o.val = k.val := by rw [ho]
     have hon : o.val < n := by omega
-    rw [if_pos ho, if_pos hv, if_pos hon]
+    rw [ite_eq_left ho, ite_eq_left hv, ite_eq_left hon]
     simp
   · have hv : o.val ≠ k.val := fun h => ho (Fin.ext h)
-    rw [if_neg ho, if_neg hv, pkLane_zero]
+    rw [ite_eq_right ho, ite_eq_right hv, pkLane_zero]
     simp
 
 theorem pkRep_ggFH {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)} (hT : PkTab n tab T)
@@ -380,7 +380,7 @@ theorem pkRep_neg {n L x : ℕ} {z z' : Vector (ZMod 3) L} (hz : PkRep n x z)
     (hz' : PkRep n (pkNeg n x) z') (l : Fin L) : z'.get l = -z.get l := by
   rw [hz l, hz' l]
   split_ifs with hl
-  · rw [pkLane_pkNeg, if_pos hl, pk_cast_three_sub (pkLane_lt x l.val)]
+  · rw [pkLane_pkNeg, ite_eq_left hl, pk_cast_three_sub (pkLane_lt x l.val)]
   · simp
 
 theorem pk_refMat_eq {n : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)}
@@ -424,14 +424,14 @@ theorem pkBlkM_refMat {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)
   have hm' : m < n + 1 := by omega
   have hD := pk_ggFDualAt hT (j := ⟨l, hl'⟩) hl hc
   have hH : (ggFH T t).get (⟨m, hm'⟩ : Fin (n + 1)).castSucc = ((pkLane h m : ℕ) : ZMod 3) :=
-    (hh _).trans (if_pos hm)
+    (hh _).trans (ite_eq_left hm)
   have hif : (if (⟨l, hl'⟩ : Fin (n + 1)) = ⟨m, hm'⟩ then (1 : ZMod 3) else 0) =
       ((pkDelta l m : ℕ) : ZMod 3) := by
     rw [pkDelta_eq]
     by_cases hlm : l = m
     · subst hlm
       simp
-    · rw [if_neg (fun e => hlm (Fin.mk.inj e)), if_neg hlm]
+    · rw [ite_eq_right (fun e => hlm (Fin.mk.inj e)), ite_eq_right hlm]
       simp
   have e : ((ggFRefMat T t).getD l []).getD m 0 =
       ((pkDelta l m + 2 * (pkDotC tab n l c * pkLane h m) : ℕ) : ZMod 3) := by
@@ -440,7 +440,6 @@ theorem pkBlkM_refMat {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)
     push_cast
     rw [pk_two]
     ring
-  beta_reduce
   rw [e, ZMod.val_natCast]
   rfl
 
@@ -486,7 +485,6 @@ theorem pkShared_sound {n tab : ℕ} {side : List (Fin (n + 1))}
       ∃ r ∈ R, ggFMat T (ggConjWord r) = ggFRefMat T t := by
     intro t c h hc hh hm
     obtain ⟨d, hd, hm⟩ := pkAnyL_sound hm
-    beta_reduce at hm
     obtain ⟨r, hr, hc', hh'⟩ := hD d hd
     refine ⟨r, hr, ?_⟩
     rw [ggFMat_conjWord_eq_ggFRefMat h2 hx r]
@@ -560,7 +558,7 @@ theorem pkTab_std {n tab : ℕ} {C : Matrix (Fin n) (Fin n) ℤ}
   intro j l hj hl
   simp only [ggStdTableI, Vector.get_ofFn]
   unfold ggStdEntryI
-  rw [dif_pos hj, dif_pos hl]
+  rw [dite_eq_left hj, dite_eq_left hl]
   exact hC ⟨j.val, hj⟩ ⟨l.val, hl⟩
 
 end CFSG.StandardType.GGResQTwoPacked

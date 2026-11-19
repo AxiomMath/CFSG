@@ -160,7 +160,7 @@ theorem leafDSACaseIIStep3 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [
         (CFSG.Quasithin.F7.isSylowTwoOf_pCoreOf_le hT2) inf_le_right
     have hodd : ¬ 2 ∣ (S ⊓ L2).relIndex L2 := CFSG.Quasithin.F7.isSylowTwoOf_odd_relIndex hT2
     have hO4 : (pCoreOf 2 L2).relIndex (S ⊓ L2) = 4 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ : ∃ n : ℕ, (pCoreOf 2 L2).relIndex (S ⊓ L2) = 2 ^ n :=
         hT2.2.1.index ((pCoreOf 2 L2).subgroupOf (S ⊓ L2))
       rw [hn] at hmul ⊢
@@ -179,7 +179,7 @@ theorem leafDSACaseIIStep3 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [
         norm_num at h1
         omega
       have hn2 : n = 2 := by
-        interval_cases n <;> first | rfl | (norm_num at hmul <;> omega)
+        interval_cases n <;> first | rfl | (norm_num at hmul; omega)
       subst hn2
       norm_num
     have hQ2inf : dsQ L2 L1 S ⊓ (S ⊓ L2) = pCoreOf 2 L2 := by

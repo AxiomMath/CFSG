@@ -163,9 +163,9 @@ theorem mem_center_of_conj_statedSU (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n
 
 theorem commutator_statedSU_eq_top (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
     (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) : commutator ↥(StatedSU n (ℓ ^ f) K) = ⊤ := by
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : Finite K := h.finite
-  haveI : CharP K ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : Finite K := h.finite
+  have : CharP K ℓ := h.charP
   exact (CFSG.ClassicalGroups.Unitary.isPerfect_statedSU h.card_eq_sq hn
     (fun h3 => hq ⟨congrArg Prod.fst h3, congrArg Prod.snd h3⟩)).commutator_eq_top
 
@@ -190,7 +190,7 @@ private theorem ne_of_dvd_pow_add_one (h : UnitaryFieldData ℓ f K) {p : ℕ} (
 
 private theorem card_units_eq (h : UnitaryFieldData ℓ f K) :
     Nat.card Kˣ = (ℓ ^ f + 1) * (ℓ ^ f - 1) := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hq : 1 ≤ ℓ ^ f := Nat.one_le_pow _ _ h.prime.pos
   obtain ⟨r, hr⟩ : ∃ r, ℓ ^ f = r + 1 := ⟨ℓ ^ f - 1, by omega⟩
   rw [Nat.card_units, h.card, mul_comm 2 f, pow_mul, hr,
@@ -211,7 +211,7 @@ private theorem scalar_mem_unitaryI_of_pow (h : UnitaryFieldData ℓ f K) {p : �
 private theorem norm_eq_one_of_norm_pow (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ ℓ ^ f + 1) {μ : Kˣ} (hμ : h.norm ((μ ^ p : Kˣ) : K) = 1) :
     h.norm (μ : K) = 1 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hN : ∀ c : Kˣ, h.norm (c : K) = ((c ^ (ℓ ^ f + 1) : Kˣ) : K) := fun c => by
     rw [UnitaryFieldData.norm, h.bar_apply, Units.val_pow_eq_pow_val, pow_succ']
   set ν := μ ^ (ℓ ^ f + 1) with hν
@@ -265,9 +265,9 @@ theorem exists_cover_statedSU {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : 
     (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) (e : PSimple p S ≃* StatedProj (StatedSU n (ℓ ^ f) K)) :
     ∃ φ : ↥(StatedSU n (ℓ ^ f) K) →* Ω, φ.range = S ∧
       φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSU n (ℓ ^ f) K) := by
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : Finite K := h.finite
-  haveI : CharP K ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : Finite K := h.finite
+  have : CharP K ℓ := h.charP
   have hF : Nat.card K = (ℓ ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hq' : (n, ℓ ^ f) ≠ (3, 2) := fun h3 => hq ⟨congrArg Prod.fst h3, congrArg Prod.snd h3⟩
   by_cases ho : Even n
@@ -275,7 +275,7 @@ theorem exists_cover_statedSU {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : 
     have hn4 : 4 ≤ n := by
       obtain ⟨k, hk⟩ := ho
       omega
-    haveI : Group.IsPerfect ↥S := ⟨S267.perfect_of_commutator_self_eq hperf⟩
+    have : Group.IsPerfect ↥S := ⟨S267.perfect_of_commutator_self_eq hperf⟩
     set ε := (S267.BadExc.psimpleEquivCenterQuotOfCore hcore).symm.trans e with hε
     set ρ : ↥S →* StatedProj (StatedSU n (ℓ ^ f) K) :=
       ε.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥S)) with hρ
@@ -285,7 +285,7 @@ theorem exists_cover_statedSU {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : 
       rw [MonoidHom.mem_ker, hρ, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
         map_eq_one_iff _ ε.injective, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     have hcop : Even n → ℓ.Coprime (Nat.card ρ.ker) := fun _ => by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1
         (MovingAround.SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot hp hcore)
       rw [hρk, hk]
@@ -311,6 +311,7 @@ section Aut
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Normal]
 variable {ℓ f n : ℕ} {K : Type} [Field K]
 
+omit [Finite Ω] in
 theorem ker_barCover_statedSU (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
     {φ : ↥(StatedSU n (ℓ ^ f) K) →* Ω} (hφS : φ.range = S)
     (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSU n (ℓ ^ f) K)) :
@@ -332,12 +333,14 @@ private noncomputable def gammaSU (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
   (MulAut.congr (barModelSU h hn hφS hφk).symm).toMonoidHom.comp
     (MulAut.conjNormal.comp (barMk S))
 
+omit [Finite Ω] in
 private theorem gammaSU_apply (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
     {φ : ↥(StatedSU n (ℓ ^ f) K) →* Ω} (hφS : φ.range = S)
     (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSU n (ℓ ^ f) K)) (x : Ω) :
     gammaSU h hn hφS hφk x = transAut (barModelSU h hn hφS hφk) (barMk S x) :=
   rfl
 
+omit [Finite Ω] in
 private theorem gammaSU_eq_conjHom_iff (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
     (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) {φ : ↥(StatedSU n (ℓ ^ f) K) →* Ω} (hφS : φ.range = S)
     (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSU n (ℓ ^ f) K)) (x : Ω)
@@ -369,6 +372,7 @@ private theorem gammaSU_eq_conjHom_iff (h : UnitaryFieldData ℓ f K) (hn : 3 �
       barMk S (φ (c.symm ⟨M * g * (M : GL (Fin n) K)⁻¹, conj_mem_gramSU h _ M.2 g.2⟩))
     rw [← hkk, hφ, map_mul, map_mul, map_inv]
 
+omit [Finite Ω] in
 private theorem mem_innerDiag_iff_uni (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
     (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) {φ : ↥(StatedSU n (ℓ ^ f) K) →* Ω} (hφS : φ.range = S)
     (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSU n (ℓ ^ f) K))
@@ -391,8 +395,8 @@ private theorem innerDiag_split_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime
       ∃ b ∈ B, b ∉ innerDiag φ (unitaryI h n) (unitaryI_le_normalizer h) B ∧
         B = innerDiag φ (unitaryI h n) (unitaryI_le_normalizer h) B ⊔ Subgroup.zpowers b ∧
         Subgroup.zpowers b ⊓ innerDiag φ (unitaryI h n) (unitaryI_le_normalizer h) B = ⊥ := by
-  haveI : Finite K := h.finite
-  haveI := isCyclic_ringEquiv'' (K := K)
+  have : Finite K := h.finite
+  have := isCyclic_ringEquiv'' (K := K)
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   obtain ⟨-, -, -, -, -, -, -, hFker, -, -, -⟩ :=
     unitary_prime_form_full_semilinear_realization h hC hn hq
@@ -403,6 +407,7 @@ private theorem innerDiag_split_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime
   simp only [MonoidHom.comp_apply, Subgroup.coe_subtype]
   exact ⟨fun h1 => ⟨x.2, h1⟩, fun h1 => h1.2⟩
 
+omit [Finite Ω] in
 private theorem exists_fieldAct_caseL_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime)
     (hp2 : p ≠ 2) (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) (hpℓ : p ≠ ℓ)
     {φ : ↥(StatedSU n (ℓ ^ f) K) →* Ω} (hφS : φ.range = S)
@@ -411,8 +416,8 @@ private theorem exists_fieldAct_caseL_uni (h : UnitaryFieldData ℓ f K) (hp : p
     (hbD : gammaSU h hn hφS hφk b ∉
       primeFormD h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :
     ∃ (A : GL (Fin n) K) (σ : K ≃+* K), A ∈ unitaryI h n ∧ FieldAct p φ b A σ := by
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨hp⟩
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   set e := barModelSU h hn hφS hφk with he
   set γ := gammaSU h hn hφS hφk b with hγ
@@ -492,7 +497,7 @@ private theorem torus_rank_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime)
     (hB₂fix : ∀ y ∈ B₂, ∀ k : ↥(StatedSU (m + 2) (ℓ ^ f) K),
       glFieldAut (Fin (m + 2)) K σ (A⁻¹ * k * A) = A⁻¹ * k * A → y * φ k = φ k * y) :
     m + s ≤ GLATwoLocalRank p Ω := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hAN := unitaryI_le_normalizer h hA
   set c := MulAut.conj A with hc
   set X := (diagTorus m p K).map c.toMonoidHom with hX
@@ -568,7 +573,7 @@ theorem card_le_of_caseL_uni (hp : p.Prime) (hp2 : p ≠ 2) (hperf : ⁅S, S⁆ 
     (hdiag : p ∣ Nat.gcd n (ℓ ^ f + 1)) (e : PSimple p S ≃* StatedProj (StatedSU n (ℓ ^ f) K))
     {B : Subgroup Ω} (hB : IsElemAbelian p B) (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p) :
     Nat.card B ≤ p ^ (n + 1) := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hpq : p ∣ ℓ ^ f + 1 := hdiag.trans (Nat.gcd_dvd_right _ _)
   have hq : ¬(n = 3 ∧ ℓ ^ f = 2) := fun h3 => pow_ne_two h hℓ2 h3.2
   obtain ⟨φ, hφS, hφk⟩ := exists_cover_statedSU h hp hp2 (ne_of_dvd_pow_add_one h hp hpq) hperf
@@ -597,7 +602,7 @@ theorem card_le_of_caseL_uni (hp : p.Prime) (hp2 : p ≠ 2) (hperf : ⁅S, S⁆ 
     exact hB₁c.trans (Nat.pow_le_pow_right hp.pos (Nat.le_succ n))
   · have hcomm : ∀ x ∈ B₁, ∀ y ∈ Subgroup.zpowers b, x * y = y * x := fun x hx y hy =>
       hB.comm (innerDiag_le hx) (Subgroup.zpowers_le.2 hbB hy)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hb1 : b ≠ 1 := fun h1 => hbB₁ (h1 ▸ one_mem _)
     have hzc : Nat.card (Subgroup.zpowers b) = p := by
       rw [Nat.card_zpowers, orderOf_eq_prime (hB.2 b hbB) hb1]
@@ -626,8 +631,8 @@ theorem exists_caseLData_uni (hp : p.Prime) (hp2 : p ≠ 2) (hperf : ⁅S, S⁆ 
             FormRel (Cls.unitForm (ι := Fin n) h.bar) A σ ∧
             ∀ x : ↥B₁, semiConj A σ (θ x) * (θ x)⁻¹ ∈ StatedScalars (Fin n) K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := h.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
   have hn3 : 3 ≤ n := by omega
   have hpq : p ∣ ℓ ^ f + 1 := hdiag.trans (Nat.gcd_dvd_right _ _)
   have hn5 : 5 ≤ n := by
@@ -649,7 +654,7 @@ theorem exists_caseLData_uni (hp : p.Prime) (hp2 : p ≠ 2) (hperf : ⁅S, S⁆ 
     rw [card_units_eq h]
     exact hpq.mul_right _
   have h2K : (2 : K) ≠ 0 := by
-    haveI : CharP K ℓ := h.charP
+    have : CharP K ℓ := h.charP
     intro h0
     have := (CharP.cast_eq_zero_iff K ℓ 2).1 (by exact_mod_cast h0)
     exact hℓ2 ((Nat.prime_dvd_prime_iff_eq h.prime Nat.prime_two).1 this)

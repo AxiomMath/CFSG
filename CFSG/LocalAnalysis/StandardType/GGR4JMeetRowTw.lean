@@ -58,8 +58,8 @@ theorem ggR4RowFact_twE6
         rw [frobQ_apply]
   intro Q hQ
   obtain ⟨K, hField, hFinite, hK, hq⟩ := hQ
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   refine ⟨K, hField, hFinite, hK, hq, ?_⟩
   refine ⟨?_, ?_⟩
   · intro φ hφ
@@ -71,7 +71,7 @@ theorem ggR4RowFact_twE6
     exact ⟨r, hr.symm⟩
   · intro L' _ _ ψ hψ hker hperf g hg
     obtain ⟨q', hq'surj, hq'ker⟩ := TwE6Delta.exists_sc_surjection hf hK
-    haveI : Finite (twistedE6Group 2 f) := by
+    have : Finite (twistedE6Group 2 f) := by
       have : Finite (Module.End (GaloisField 2 (2 * f))
           (Fin e6Data.d →₀ GaloisField 2 (2 * f))) :=
         Module.finite_of_finite (GaloisField 2 (2 * f))

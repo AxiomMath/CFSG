@@ -14,7 +14,7 @@ open CFSG.Quasithin.AutQ8D8 (fixSub mem_fixSub fixedPoints_zpowers card_fixSub_e
 theorem three_le_card_fixSub_of_order_three {Q : Type*} [Group Q] [Finite Q]
     (hT : Nat.card {x : Q // x * x = 1} = 12) {g : MulAut Q} (hg : orderOf g = 3) :
     3 ≤ Nat.card (fixSub g) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 (Subgroup.zpowers g) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hg]; simp)
   let Tsub : SubMulAction (Subgroup.zpowers g) Q :=
@@ -36,13 +36,13 @@ theorem three_le_card_fixSub_of_order_three {Q : Type*} [Group Q] [Finite Q]
       have h2 := congrArg (fun z : fixSub g => (z : Q)) hxy
       exact Subtype.ext (Subtype.ext h2)
   have hpos : 0 < Nat.card (fixedPoints (Subgroup.zpowers g) Tsub) := by
-    haveI : Nonempty (fixedPoints (Subgroup.zpowers g) Tsub) := by
+    have : Nonempty (fixedPoints (Subgroup.zpowers g) Tsub) := by
       refine ⟨⟨⟨(1 : Q), ?_⟩, ?_⟩⟩
       · show (1 : Q) * (1 : Q) = 1
         simp
       · intro c
         apply Subtype.ext
-        simpa using map_one (c : MulAut Q)
+        simp
     exact Nat.card_pos
   rw [hcard] at h
   unfold Nat.ModEq at h
@@ -91,8 +91,8 @@ theorem threeTenCase4ExtSylowFiveNontrivialInput_holds :
     ThreeTenCase4ExtSylowFiveNontrivialInput := by
   intro X _ _ N _ P E hNtype hA5 hP hE hPn hEn
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hNcard : Nat.card N = 32 := natCard_of_isQ8D8Type hNtype
   have hZcard : Nat.card (Subgroup.center N) = 2 := natCard_center_of_isQ8D8Type hNtype
   have hInvol : Nat.card {x : N // x * x = 1} = 12 :=
@@ -110,7 +110,7 @@ theorem threeTenCase4ExtSylowFiveNontrivialInput_holds :
   have hEcard : Nat.card E = 5 := by
     rw [hE.card_eq, Subgroup.card_top, hXcard]
     decide +kernel
-  haveI hPnt : Nontrivial P :=
+  have hPnt : Nontrivial P :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hPcard]; norm_num)
   obtain ⟨p0, hp0ne⟩ := exists_ne (1 : P)
   have hp0ordP : orderOf p0 = 3 := by
@@ -125,7 +125,7 @@ theorem threeTenCase4ExtSylowFiveNontrivialInput_holds :
   have hPzX : Subgroup.zpowers ((p0 : P) : X) = P := by
     refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr p0.2) ?_
     rw [Nat.card_zpowers, hp0ordX, hPcard]
-  haveI hEnt : Nontrivial E :=
+  have hEnt : Nontrivial E :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hEcard]; norm_num)
   obtain ⟨e0, he0ne⟩ := exists_ne (1 : E)
   have he0ordE : orderOf e0 = 5 := by
@@ -224,7 +224,7 @@ theorem threeTenCase4ExtSylowFiveNontrivialInput_holds :
       have hp' : p ∈ Subgroup.zpowers ((p0 : P) : X) := by rwa [hPzX]
       obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hp'
       have hval : ((βP x : N) : X) = ((p0 : P) : X) * (x : X) * ((p0 : P) : X)⁻¹ := by
-        simpa [βP] using MulAut.conjNormal_apply (H := N) ((p0 : P) : X) x
+        simp [βP]
       have h := congrArg (fun y : N => (y : X)) hxfix
       rw [hval] at h
       have hcomm0 : ((p0 : P) : X) * (x : X) = (x : X) * ((p0 : P) : X) := by
@@ -254,7 +254,7 @@ theorem threeTenCase4ExtSylowFiveNontrivialInput_holds :
     have hmem : ((e0 : E) : X) * (x : X) * ((e0 : E) : X)⁻¹ ∈ W :=
       W.mul_mem (W.mul_mem heW hx) (W.inv_mem heW)
     have hval : ((βE x : N) : X) = ((e0 : E) : X) * (x : X) * ((e0 : E) : X)⁻¹ := by
-      simpa [βE] using MulAut.conjNormal_apply (H := N) ((e0 : E) : X) x
+      simp [βE]
     rwa [hval]
   have hHNmap : HN.map βE.toMonoidHom = HN := by
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_

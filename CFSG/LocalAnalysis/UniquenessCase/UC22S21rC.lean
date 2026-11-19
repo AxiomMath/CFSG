@@ -16,8 +16,8 @@ theorem uc22s21rc_exists_complement {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {S 
     (hΦL : fratSub R ≤ L) (hLR : L ≤ R) (hSL : S ≤ normalizer (L : Set K)) :
     ∃ N : Subgroup K, fratSub R ≤ N ∧ N ≤ R ∧ S ≤ normalizer (N : Set K) ∧
       L ⊔ N = R ∧ L ⊓ N = fratSub R := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : fratSub R = fratGen q R := fratSub_eq_fratGen hq hR
   obtain ⟨n, hn⟩ := hS.exists_card_eq
   have hcop : Nat.Coprime q (Nat.card S) := by

@@ -38,7 +38,7 @@ private theorem p_dvd_natCard_units {p n : ℕ} {F : Type} [Field F] [Finite F]
 private theorem card_rootsOfUnity_eq {p n : ℕ} {F : Type} [Field F] [Finite F]
     (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) (hcardF : Nat.card F = (2 ^ n) ^ 2) :
     Nat.card (rootsOfUnity p F) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_dvd_card : p ∣ Nat.card Fˣ := p_dvd_natCard_units hpq hcardF
   obtain ⟨ω, hωorder⟩ := exists_prime_orderOf_dvd_card' p hp_dvd_card
   have hmem : ω ∈ rootsOfUnity p F := by
@@ -86,7 +86,7 @@ private theorem diagProd_surjective {p d : ℕ} {F : Type} [Field F] (hd : 1 ≤
 private theorem card_diagPTorsion_le {p d : ℕ} {F : Type} [Field F] [Finite F]
     (hp : p.Prime) (hμ : Nat.card (rootsOfUnity p F) = p) (hd : 1 ≤ d) :
     Nat.card (diagPTorsion p d F) ≤ p ^ (d - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let prod := diagProd p d F
   have hsurj : Function.Surjective prod := diagProd_surjective hd
   have hrange : Nat.card prod.range = p := by
@@ -276,7 +276,7 @@ private theorem exists_pair_element {p n d : ℕ} {F : Type} [Field F] [Finite F
   have hp : p.Prime := h.1
   have hpq : p ∣ 2 ^ n + 1 := h.2.1
   have hcardF : Nat.card F = (2 ^ n) ^ 2 := h.2.2.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_dvd_card : p ∣ Nat.card Fˣ := p_dvd_natCard_units hpq hcardF
   obtain ⟨ω, hωorder⟩ := exists_prime_orderOf_dvd_card' p hp_dvd_card
   have hωp : ω ^ p = 1 := by simpa [hωorder] using pow_orderOf_eq_one ω

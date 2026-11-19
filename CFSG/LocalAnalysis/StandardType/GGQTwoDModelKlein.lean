@@ -17,74 +17,92 @@ section Klein
 variable {F K : Type} [Field F] [Field K] [Algebra F K] [CharP K 2] {σ : K ≃+* K}
   (E : QuadExt F K σ)
 
+omit [CharP K 2] in
 private theorem pmk_alt_row0_zero (σ : K ≃+* K) (x : Fin 3 → K) :
     Klein.alt (Sum.elim x fun t => σ (x t)) 0 0 = 0 := by
   simp [Klein.alt, CFSG.LocalAnalysis.antiMat]
 
+omit [CharP K 2] in
 private theorem pmk_alt_row0_one (σ : K ≃+* K) (x : Fin 3 → K) :
     Klein.alt (Sum.elim x fun t => σ (x t)) 0 1 = x 0 := by
   simp [Klein.alt, CFSG.LocalAnalysis.antiMat]
 
+omit [CharP K 2] in
 private theorem pmk_alt_row0_two (σ : K ≃+* K) (x : Fin 3 → K) :
     Klein.alt (Sum.elim x fun t => σ (x t)) 0 2 = x 1 := by
   simp [Klein.alt, CFSG.LocalAnalysis.antiMat]
 
+omit [CharP K 2] in
 private theorem pmk_alt_row0_three (σ : K ≃+* K) (x : Fin 3 → K) :
     Klein.alt (Sum.elim x fun t => σ (x t)) 0 3 = x 2 := by
   simp [Klein.alt, CFSG.LocalAnalysis.antiMat]
 
+omit [CharP K 2] in
 private theorem pmk_alt_col3_one (σ : K ≃+* K) (x : Fin 3 → K) :
     Klein.alt (Sum.elim x fun t => σ (x t)) 1 3 = σ (x 1) := by
   simp [Klein.alt, CFSG.LocalAnalysis.antiMat]
 
+omit [CharP K 2] in
 private theorem pmk_alt_col3_two (σ : K ≃+* K) (x : Fin 3 → K) :
     Klein.alt (Sum.elim x fun t => σ (x t)) 2 3 = σ (x 0) := by
   simp [Klein.alt, CFSG.LocalAnalysis.antiMat]
 
+omit [CharP K 2] in
 private theorem pmk_alt_col3_three (σ : K ≃+* K) (x : Fin 3 → K) :
     Klein.alt (Sum.elim x fun t => σ (x t)) 3 3 = 0 := by
   simp [Klein.alt, CFSG.LocalAnalysis.antiMat]
 
+omit [CharP K 2] in
 private theorem pmk_bm1_row0 (M : Matrix (Fin 3) (Fin 3) K) (b : Fin 4) :
     blockMat 4 1 M 0 b = (1 : Matrix (Fin 4) (Fin 4) K) 0 b :=
   blockMat_apply_of_not_mem_left (F := K) (m := 4) (k := 3) (i := 1) (a := 0) M (by decide) b
 
+omit [CharP K 2] in
 private theorem pmk_bm1_succ_zero (M : Matrix (Fin 3) (Fin 3) K) (i : Fin 3) :
     blockMat 4 1 M i.succ 0 = 0 := by
   rw [blockMat_apply_of_not_mem_right (F := K) (m := 4) (k := 3) (i := 1) (a := i.succ) M
     (by decide), Matrix.one_apply]
   simp [Fin.succ_ne_zero i]
 
+omit [CharP K 2] in
 private theorem pmk_bm1_succ_succ (M : Matrix (Fin 3) (Fin 3) K) (i t : Fin 3) :
     blockMat 4 1 M i.succ t.succ = M i t := by
   rw [blockMat_apply, dite_eq_left]
   · exact congrArg₂ M (Fin.ext (by simp [Fin.val_succ])) (Fin.ext (by simp [Fin.val_succ]))
   · refine ⟨⟨?_, ?_⟩, ⟨?_, ?_⟩⟩ <;> simp only [Fin.val_succ] <;> omega
 
+omit [CharP K 2] in
 private theorem pmk_bm1_succ_one (M : Matrix (Fin 3) (Fin 3) K) (i : Fin 3) :
     blockMat 4 1 M i.succ 1 = M i 0 := pmk_bm1_succ_succ M i 0
 
+omit [CharP K 2] in
 private theorem pmk_bm1_succ_two (M : Matrix (Fin 3) (Fin 3) K) (i : Fin 3) :
     blockMat 4 1 M i.succ 2 = M i 1 := pmk_bm1_succ_succ M i 1
 
+omit [CharP K 2] in
 private theorem pmk_bm1_succ_three (M : Matrix (Fin 3) (Fin 3) K) (i : Fin 3) :
     blockMat 4 1 M i.succ 3 = M i 2 := pmk_bm1_succ_succ M i 2
 
+omit [CharP K 2] in
 private theorem pmk_bm0_apply_lt (M : Matrix (Fin 3) (Fin 3) K) (a d : Fin 3) :
     blockMat 4 0 M a.castSucc d.castSucc = M a d := by
   rw [blockMat_apply, dite_eq_left]
   · exact congrArg₂ M (Fin.ext (by simp [Fin.val_castSucc])) (Fin.ext (by simp [Fin.val_castSucc]))
   · refine ⟨⟨?_, ?_⟩, ⟨?_, ?_⟩⟩ <;> simp only [Fin.val_castSucc] <;> omega
 
+omit [CharP K 2] in
 private theorem pmk_bm0_apply_zero (M : Matrix (Fin 3) (Fin 3) K) (a : Fin 3) :
     blockMat 4 0 M a.castSucc 0 = M a 0 := pmk_bm0_apply_lt M a 0
 
+omit [CharP K 2] in
 private theorem pmk_bm0_apply_one (M : Matrix (Fin 3) (Fin 3) K) (a : Fin 3) :
     blockMat 4 0 M a.castSucc 1 = M a 1 := pmk_bm0_apply_lt M a 1
 
+omit [CharP K 2] in
 private theorem pmk_bm0_apply_two (M : Matrix (Fin 3) (Fin 3) K) (a : Fin 3) :
     blockMat 4 0 M a.castSucc 2 = M a 2 := pmk_bm0_apply_lt M a 2
 
+omit [CharP K 2] in
 private theorem pmk_bm0_apply_three (M : Matrix (Fin 3) (Fin 3) K) (a : Fin 3) :
     blockMat 4 0 M a.castSucc 3 = 0 := by
   rw [blockMat_apply_of_not_mem_right (F := K) (m := 4) (k := 3) (i := 0) (a := a.castSucc) M
@@ -95,6 +113,7 @@ private theorem pmk_bm0_apply_three (M : Matrix (Fin 3) (Fin 3) K) (a : Fin 3) :
     omega
   simp [hne]
 
+omit [CharP K 2] in
 private theorem pmk_entry_one (σ : K ≃+* K) (M : Matrix (Fin 3) (Fin 3) K)
     (x : Fin 3 → K) (i : Fin 3) :
     (blockMat 4 1 M * Klein.alt (Sum.elim x fun t => σ (x t)) *
@@ -116,6 +135,7 @@ private theorem pmk_entry_one (σ : K ≃+* K) (M : Matrix (Fin 3) (Fin 3) K)
     pmk_bm1_succ_three, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
   ring
 
+omit [CharP K 2] in
 private theorem pmk_entry_zero_three (σ : K ≃+* K) (M : Matrix (Fin 3) (Fin 3) K)
     (x : Fin 3 → K) (a : Fin 3) :
     (blockMat 4 0 M * Klein.alt (Sum.elim x fun t => σ (x t)) * (blockMat 4 0 M)ᵀ)
@@ -135,6 +155,7 @@ private theorem pmk_entry_zero_three (σ : K ≃+* K) (M : Matrix (Fin 3) (Fin 3
     pmk_bm0_apply_three]
   ring
 
+omit [CharP K 2] in
 private theorem pmk_cong_blockMat_one (σ : K ≃+* K) (M : Matrix (Fin 3) (Fin 3) K)
     (x : Fin 3 → K) (i : Fin 3) :
     Klein.cong (blockMat 4 1 M) (Sum.elim x fun t => σ (x t)) (Sum.inl i) = (M *ᵥ x) i := by
@@ -165,15 +186,18 @@ private theorem pmk_swapMat_conj_apply (N : Matrix (Fin 3) (Fin 3) K) (a b : Fin
     (Fin 3 → K) →ₗ[F] (Fin 3 → K) :=
   kleinP ∘ₗ (Klein.cong g).restrictScalars F ∘ₗ kleinJ E
 
+omit [CharP K 2] in
 theorem kleinPsi_apply (g : Matrix (Fin 4) (Fin 4) K) (x : Fin 3 → K) (i : Fin 3) :
     kleinPsi E g x i = Klein.cong g (Sum.elim x fun t => σ (x t)) (Sum.inl i) :=
   rfl
 
+omit [CharP K 2] in
 theorem dFlip_kleinJ (x : Fin 3 → K) : dFlip σ (kleinJ E x) = kleinJ E x := by
   funext s
   rcases s with i | i <;>
     simp [kleinJ, dFlip_apply_inl, dFlip_apply_inr, E.isUnitary.invol]
 
+omit [CharP K 2] in
 theorem kleinJ_kleinP_of_flip {w : Fin 3 ⊕ Fin 3 → K} (hw : dFlip σ w = w) :
     kleinJ E (kleinP (F := F) w) = w := by
   ext (i | i)
@@ -183,6 +207,7 @@ theorem kleinJ_kleinP_of_flip {w : Fin 3 ⊕ Fin 3 → K} (hw : dFlip σ w = w) 
     simp only [dFlip_apply_inl] at h
     rw [← h, E.isUnitary.invol]
 
+omit [CharP K 2] in
 theorem kleinPsi_one : kleinPsi E (1 : Matrix (Fin 4) (Fin 4) K) = LinearMap.id := by
   apply LinearMap.ext
   intro x
@@ -238,8 +263,6 @@ theorem kleinPsiHom_blockEmb_one_eq (h : Su K 2 1 3) :
   apply LinearMap.ext
   intro x
   rw [kleinPsiHom_blockEmb_one]
-  change ((h : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ x =
-    (suEndN (F := F) (unitaryInvolution K 2 1) 3 h).toLinearMap x
   rw [show (suEndN (F := F) (unitaryInvolution K 2 1) 3 h).toLinearMap x =
       suEndN (F := F) (unitaryInvolution K 2 1) 3 h x from rfl, suEndN_apply]
   rfl

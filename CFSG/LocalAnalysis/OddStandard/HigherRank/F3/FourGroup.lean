@@ -29,8 +29,8 @@ theorem isTwoQuasisimple_of_classBMember {L : Type} [Group L] {J : Subgroup L} {
   rcases hJ.mtype with ⟨hq, -⟩ | ⟨-, ⟨e⟩⟩
   · exact hq
   · exfalso
-    haveI : Group.IsPerfect ↥J := hJ.perfect
-    haveI : Group.IsPerfect (↥J ⧸ pPrimeCore 2 ↥J) :=
+    have : Group.IsPerfect ↥J := hJ.perfect
+    have : Group.IsPerfect (↥J ⧸ pPrimeCore 2 ↥J) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (pPrimeCore 2 ↥J))
         (QuotientGroup.mk'_surjective _)
     exact not_isPerfect_sl2_zmod3 (Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective)
@@ -44,7 +44,7 @@ theorem exists_fourGroup_of_classBMember
       t ∉ zpowers (u : G) ∧ (u : G) ≠ 1 ∧ (u : G) ∈ J.map L.subtype ∧
       IsTwoComponentIn (J.map L.subtype) (centralizer (W : Set G)) ∧
       IsMTypeSchur 3 ↥(J.map L.subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu'2 : orderOf ((u : ↥L) : G) = 2 := by
     rw [Subgroup.orderOf_coe, hJ.orderOf_eq_two]
   have ht1 : t ≠ 1 := by

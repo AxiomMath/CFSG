@@ -90,7 +90,7 @@ theorem FS79Hyp.exists_normal_three_complement (h : FS79Hyp b t b₁ b₂ J)
       Nat.Coprime 3 (Nat.card X) ∧
       ∀ o ∈ CFSG.oddCore H, ∃ x ∈ X, ∃ m : ℤ, o = x * b ^ m := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup H := CFSG.oddCore H with hO
   have hOn : O.Normal := CFSG.oddCore_normal H
   have hOodd : Odd (Nat.card O) := odd_card_oddCore' H
@@ -159,7 +159,7 @@ theorem FS79Hyp.conclusion_of_isolated (h : FS79Hyp b t b₁ b₂ J)
     (hiso : ∀ g : H, (g * t * g⁻¹) * t = t * (g * t * g⁻¹) → g * t * g⁻¹ = t) :
     setMul (Opp 3 (⊤ : Subgroup H)) (Nor (Subgroup.zpowers b)) = Set.univ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb := h.mem_oddCore_of_isolated hiso
   obtain ⟨X, hXO, hXn, hXc, hXdec⟩ := h.exists_normal_three_complement hb
   have hXopp : X ≤ Opp 3 (⊤ : Subgroup H) :=

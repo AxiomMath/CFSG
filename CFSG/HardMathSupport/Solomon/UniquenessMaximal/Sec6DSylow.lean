@@ -91,7 +91,7 @@ theorem exists_invariant_sylow [Finite G] {p : ℕ} [hp : Fact p.Prime] {M B : S
   have hBP' : B ≤ P' := by
     intro b hb
     exact ⟨⟨b, hBH hb⟩, hP (Subgroup.mem_subgroupOf.2 hb), rfl⟩
-  have hP'p : IsPGroup p ↥P' := (P.isPGroup').map _
+  have hP'p : IsPGroup p ↥P' := (P.isPGroup).map _
   have hP'c : Nat.card P' = p ^ (Nat.card H).factorization p := by
     rw [hP', Subgroup.card_map_of_injective H.subtype_injective, Sylow.card_eq_multiplicity]
   refine ⟨P' ⊓ M, inf_le_right, hP'p.to_inf_left, card_inf_sylow hHM hMH hP'H hP'p hP'c, ?_⟩

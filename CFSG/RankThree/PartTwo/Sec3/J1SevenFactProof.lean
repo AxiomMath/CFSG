@@ -22,7 +22,7 @@ theorem wJ_pow_seven : wJ ^ 7 = 1 := by
 
 theorem b_mul_wJ : b * wJ = wJ ^ 4 * b := by
   apply mat_injective
-  simp only [wJ, mat_pow, mat_mul, mat_one, mat_a, mat_b]
+  simp only [wJ, mat_pow, mat_mul, mat_a, mat_b]
   decide +kernel
 
 theorem wJ_ne_one : wJ ≠ 1 := by
@@ -41,7 +41,7 @@ theorem sylow_three_eq {Γ : Type*} [Group Γ] [Finite Γ] (hcard : Nat.card Γ 
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
   obtain ⟨Q, hQ⟩ := hxP.exists_le_sylow
   refine ⟨Q, (Subgroup.eq_of_le_of_card_ge hQ ?_).symm⟩
-  obtain ⟨n, hn⟩ := (Q.isPGroup').exists_card_eq
+  obtain ⟨n, hn⟩ := (Q.isPGroup).exists_card_eq
   have hdvd : Nat.card (Q : Subgroup Γ) ∣ Nat.card Γ := Subgroup.card_subgroup_dvd_card _
   rw [Nat.card_zpowers, hx, hn]
   rw [hn, hcard] at hdvd

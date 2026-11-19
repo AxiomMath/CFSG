@@ -42,8 +42,8 @@ private theorem gkw_component_of_l33
     (hI : ∀ u : G, u * u = 1 → u ≠ 1 → u * x = x * u →
       Nat.card ↥(Subgroup.centralizer ({u} : Set G) ⊓ Subgroup.centralizer ({x} : Set G)) ≤ 936) :
     ∃ J : Subgroup G, CFSG.Open.GLAPComponent 13 (Subgroup.centralizer ({x} : Set G)) J := by
-  haveI hp : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI hsQ : IsSimpleGroup ↥Q := isSimple_of_equiv_sl e
+  have hp : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have hsQ : IsSimpleGroup ↥Q := isSimple_of_equiv_sl e
   have hnab : ∃ a b : ↥Q, a * b ≠ b * a := noncomm_of_equiv_sl e
   have hQcard : Nat.card ↥Q = 5616 := card_of_equiv_sl e
   have hxcard : Nat.card ↥(Subgroup.zpowers x) = 13 := by rw [Nat.card_zpowers, hx]
@@ -81,8 +81,8 @@ private theorem gkw_component_conj_xE
     (φ : Gmat ≃* MGriess) {s m : Gmat} {k : ℕ}
     (hk : k % 13 ≠ 0) (h : m * s * m⁻¹ = gw thirteenX ^ k) :
     ∃ J : Subgroup Gmat, CFSG.Open.GLAPComponent 13 (Subgroup.centralizer ({s} : Set Gmat)) J := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hk1 : gw thirteenX ^ k ≠ 1 := by
     intro h1
     have := orderOf_dvd_of_pow_eq_one h1
@@ -98,13 +98,13 @@ private theorem gkw_component_conj_xE
   have h2 := glaPComponent_map_equiv (by norm_num : Nat.Prime 13) (MulAut.conj m⁻¹) h1
   have hs : (MulAut.conj m⁻¹) (gw thirteenX ^ k) = s := by
     rw [← h]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [map_centralizer_singleton, hs] at h2
   exact ⟨_, h2⟩
 
 theorem ggSporK_bmPCentralF1F4_gmat_thirteen
     : BMPCentralF1 13 Gmat ∧ BMPCentralF4 13 Gmat := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   obtain ⟨⟨φ, -⟩⟩ := exists_M_equivs
   have key : ∀ s : Gmat, orderOf s = 13 →
       (∀ C : Subgroup Gmat, ¬ LargeEvenPComponent 13 (Subgroup.centralizer ({s} : Set Gmat)) C) →
@@ -124,12 +124,12 @@ theorem ggSporK_bmPCentralF1F4_M_thirteen_of_simple
     BMPCentralF1 13 (TauCeti.CFSGIndex.sporadic .M).Group ∧
       BMPCentralF4 13 (TauCeti.CFSGIndex.sporadic .M).Group := by
   obtain ⟨e⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
-  haveI := hS
+  have := hS
   let e' : (TauCeti.CFSGIndex.sporadic .M).Group ≃* CFSG.Blueprint.NativeSporadic.Carrier .M :=
     e.symm.trans (MulEquiv.refl _)
   obtain ⟨f⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := (TauCeti.CFSGIndex.sporadic .M).Group) e'
-  haveI : Finite CFSG.Monster.Generated.Gmat :=
+  have : Finite CFSG.Monster.Generated.Gmat :=
     CFSG.Monster.Generated.generated_rational_group_finite_simple.2.2
   exact ⟨bmPCentralF1_of_mulEquiv 13 f.symm ggSporK_bmPCentralF1F4_gmat_thirteen.1,
     bmPCentralF4_of_mulEquiv 13 f.symm ggSporK_bmPCentralF1F4_gmat_thirteen.2⟩

@@ -32,7 +32,7 @@ theorem conj_mem_map_subtype (D : Subgroup H6) {K : Subgroup ↥D} (hK : K.Norma
 
 theorem pPrimeCore_eq_bot_of_dvd (D : Subgroup H6) (h81 : 81 ∣ Nat.card D) :
     CFSG.pPrimeCore 3 ↥D = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro K hK hcop
   obtain ⟨K', hK'⟩ : ∃ K' : Subgroup H6, K' = K.map D.subtype := ⟨_, rfl⟩
@@ -45,7 +45,7 @@ theorem pPrimeCore_eq_bot_of_dvd (D : Subgroup H6) (h81 : 81 ∣ Nat.card D) :
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hcop
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥D) := inferInstance
   have hDpos : Nat.card D ≠ 0 := by
-    haveI : Finite ↥D := inferInstance
+    have : Finite ↥D := inferInstance
     exact Nat.card_pos.ne'
   have hv : (Nat.card D).factorization 3 = 4 := by
     have h1 : 4 ≤ (Nat.card D).factorization 3 := by

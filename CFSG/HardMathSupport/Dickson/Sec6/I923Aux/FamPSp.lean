@@ -62,14 +62,14 @@ theorem noL2Layer_fieldAut_psp (hO : LieOrderFormulasInput) {r : ℕ} (hr : 2 �
       rw [this, hkcard', h2]; norm_num⟩
   have hmodelk : StatedClassicalModel (StatedProj (StatedSp r ↥k)) .PSp r p (f / 3) :=
     ⟨hadm, ↥k, inferInstance, inferInstance, hkcard', ⟨MulEquiv.refl _⟩⟩
-  haveI hsk : IsSimpleGroup (StatedProj (StatedSp r ↥k)) :=
+  have hsk : IsSimpleGroup (StatedProj (StatedSp r ↥k)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp _ r p (f / 3)
       hmodelk
   have hs : IsSimpleGroup ↥(fixSubgroup (fieldAut r K σ)) := eD.isSimpleGroup
   have hmodel : LieModel ↥(fixSubgroup (fieldAut r K σ)) .PSp r p (f / 3) :=
     (lieModel_classical_iff (by decide)).mpr ⟨hadm, ↥k, inferInstance, inferInstance, hkcard',
       ⟨eD⟩⟩
-  haveI : Finite ↥(fixSubgroup (fieldAut r K σ)) := Finite.of_equiv _ eD.symm.toEquiv
+  have : Finite ↥(fixSubgroup (fieldAut r K σ)) := Finite.of_equiv _ eD.symm.toEquiv
   obtain ⟨-, hM, -⟩ := hO _ .PSp r p (f / 3) hadm hmodel
   have hnab := exists_noncomm_of_simple_of_order hadm hM (by
     show 2 ≤ (f / 3) * (r ^ 2)
@@ -93,7 +93,7 @@ theorem famOK_psp_of_field {r : ℕ} (hr : 2 ≤ r) {K : Type} [Field K] [Finite
     intro hD
     have hrel2 : (inner (StatedProj (StatedSp r K))).relIndex (spLinearAutGroup r K) ∣ 2 :=
       hrel.trans (Nat.gcd_dvd_left _ _)
-    haveI := inner_normal (StatedProj (StatedSp r K))
+    have := inner_normal (StatedProj (StatedSp r K))
     have hmem : ψ ∈ inner (StatedProj (StatedSp r K)) := by
       rcases (Nat.dvd_prime Nat.prime_two).1 hrel2 with hk | hk
       · exact KCOrthogonalNoninner.mem_of_pow_eq_one_of_relIndex_eq_two_pow
@@ -135,18 +135,18 @@ theorem noL2Layer_fieldAut_psp_two_eight {K : Type} [Field K] [Finite K] (hK : N
   have hD : fixSubgroup (fieldAut 2 K σ) = subfieldFixedGroup K 2 σ :=
     Subgroup.ext fun x => (hfixiff x).symm
   have h5 : 5 ≤ Nat.card (Fin 6) := by rw [Nat.card_fin]; norm_num
-  haveI hsA : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h5
+  have hsA : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h5
   have hcardA : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide
   set S : Subgroup (StatedProj (StatedSp 2 K)) :=
     ⁅subfieldFixedGroup K 2 σ, subfieldFixedGroup K 2 σ⁆ with hS
-  haveI hs : IsSimpleGroup ↥S := eA.isSimpleGroup
+  have hs : IsSimpleGroup ↥S := eA.isSimpleGroup
   have hcardS : Nat.card ↥S = 360 := by rw [Nat.card_congr eA.toEquiv, hcardA]
   have hnab : ∃ a b : ↥S, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥S := { (inferInstance : Group ↥S) with mul_comm := fun a b => hcon a b }
+    let : CommGroup ↥S := { (inferInstance : Group ↥S) with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card ↥S).Prime := IsSimpleGroup.prime_card
     rw [hcardS] at hprime
     exact absurd hprime (by norm_num)

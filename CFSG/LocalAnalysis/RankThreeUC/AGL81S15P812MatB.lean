@@ -18,14 +18,14 @@ theorem caseB_mem_cline_iff (i : Fin 3) (v : Fin 3 → ZMod 3) :
   rw [Submodule.mem_span_singleton]
   constructor
   · rintro ⟨a, rfl⟩ j hj
-    simp [ev, Pi.single_apply, hj]
+    simp [ev, hj]
   · intro h
     refine ⟨v i, ?_⟩
     ext j
     by_cases hj : j = i
     · subst hj
       simp [ev]
-    · simp [ev, Pi.single_apply, hj, h j hj]
+    · simp [ev, hj, h j hj]
 
 theorem caseB_mem_cplane_iff (i : Fin 3) (v : Fin 3 → ZMod 3) : v ∈ cplane i ↔ v i = 0 := by
   unfold cplane
@@ -34,7 +34,7 @@ theorem caseB_mem_cplane_iff (i : Fin 3) (v : Fin 3 → ZMod 3) : v ∈ cplane i
     induction hv using Submodule.span_induction with
     | mem x hx =>
       obtain ⟨j, hj, rfl⟩ := hx
-      simp [ev, Pi.single_apply, Ne.symm hj]
+      simp [ev, Ne.symm hj]
     | zero => simp
     | add x y _ _ hx hy => simp [hx, hy]
     | smul a x _ hx => simp [hx]
@@ -185,26 +185,26 @@ theorem caseB_rU_zero : caseB_rU 0 = 1 := by
 theorem caseB_dA_val : ((dA : GL (Fin 3) (ZMod 3)) : Matrix (Fin 3) (Fin 3) (ZMod 3)) =
     !![1, 0, 0; 0, -1, 0; 0, 0, 1] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [dA, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [dA]
 
 theorem caseB_dB_val : ((dB : GL (Fin 3) (ZMod 3)) : Matrix (Fin 3) (Fin 3) (ZMod 3)) =
     !![1, 0, 0; 0, 1, 0; 0, 0, -1] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [dB, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [dB]
 
 theorem caseB_xiK_one_val :
     ((xiK 1 (by decide) : GL (Fin 3) (ZMod 3)) : Matrix (Fin 3) (Fin 3) (ZMod 3)) =
       !![1, 0, 0; 1, 1, 0; 0, 0, 1] := by
   rw [xiK_val]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem caseB_xiK_two_val :
     ((xiK 2 (by decide) : GL (Fin 3) (ZMod 3)) : Matrix (Fin 3) (Fin 3) (ZMod 3)) =
       !![1, 0, 0; 0, 1, 0; 1, 0, 1] := by
   rw [xiK_val]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem caseB_mat_conj_rU (a b c d p₀ p₁ s u₀ u₁ : ZMod 3) (hs : s * s = 1) :
     (!![a, b, p₀; c, d, p₁; 0, 0, s] : Matrix (Fin 3) (Fin 3) (ZMod 3)) *

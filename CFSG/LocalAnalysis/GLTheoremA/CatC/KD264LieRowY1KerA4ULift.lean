@@ -68,7 +68,7 @@ theorem conjSU_val (h : UnitaryFieldData p f K) (Q : GL (Fin 4) K)
     ((conjSU h Q hQ x : unitarySU p f K 4) : GL (Fin 4) K) = Q * x * Q⁻¹ := rfl
 
 theorem conjSU_scalar (h : UnitaryFieldData p f K) (Q : GL (Fin 4) K)
-    (hQ : Q ∈ primeFormUnitary h (idGram K 4)) {y : GL (Fin 4) K}
+    (_hQ : Q ∈ primeFormUnitary h (idGram K 4)) {y : GL (Fin 4) K}
     (hy : y ∈ StatedScalars (Fin 4) K) : Q * y * Q⁻¹ = y := by
   rw [commute_of_scalar hy Q, mul_assoc, mul_inv_cancel, mul_one]
 
@@ -135,7 +135,7 @@ theorem lift_of_elemAbelian_U [Finite K] (h : UnitaryFieldData p f K)
     have hq := Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective ρ hρ).toEquiv
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup ρ.ker, hq, hc]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := Sylow.exists_subgroup_card_pow_prime (G := E') 3 h27
   let P : Subgroup (unitarySU p f K 4) := Q.map E'.subtype
   have hcardP : Nat.card P = 27 := by

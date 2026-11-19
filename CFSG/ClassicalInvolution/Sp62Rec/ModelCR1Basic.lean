@@ -46,7 +46,7 @@ theorem yword_append (v w : List ℕ) : yword (v ++ w) = yword v * yword w := by
   simp only [yword, List.map_append, List.prod_append]
 
 theorem ysp_eq (i : Fin 12) : ysp i.val = yamakiSp i := by
-  rw [ysp, dif_pos i.2]
+  rw [ysp, dite_eq_left i.2]
 
 theorem ysp_mul_self (i : ℕ) : ysp i * ysp i = 1 := by
   unfold ysp
@@ -113,15 +113,15 @@ theorem A0_eq_closure : A0 = Subgroup.closure (a0Gen '' Set.Iio (gA0 ()).size) :
   rw [size_gA0, A0]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_Iio]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_Iio]
   constructor
   · rintro ⟨i, ⟨h₁, h₂⟩, rfl⟩
     refine ⟨i.val - 3, by omega, ?_⟩
-    rw [a0Gen, ysp, dif_pos (show i.val - 3 + 3 < 12 by omega)]
+    rw [a0Gen, ysp, dite_eq_left (show i.val - 3 + 3 < 12 by omega)]
     exact congrArg yamakiSp (Fin.ext (show i.val - 3 + 3 = i.val by omega))
   · rintro ⟨j, hj, rfl⟩
     exact ⟨⟨j + 3, by omega⟩, ⟨show 3 ≤ j + 3 by omega, show j + 3 ≤ 8 by omega⟩,
-      by rw [a0Gen, ysp, dif_pos (show j + 3 < 12 by omega)]⟩
+      by rw [a0Gen, ysp, dite_eq_left (show j + 3 < 12 by omega)]⟩
 
 end Enum
 
@@ -205,7 +205,7 @@ theorem exists_four_of_commute {G : Type*} [Group G] {x y : G} (hx : x * x = 1)
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb ⊢
     rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl <;>
       simp only [one_mul, mul_one, hx, hy, hxyx, hxyy, hxxy, hyxy, hxyxy, ← hxy,
-        eq_self_iff_true, true_or, or_true]
+        true_or, or_true]
   have hsq : ∀ a ∈ ({1, x, y, x * y} : Set G), a * a = 1 := by
     intro a ha
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha

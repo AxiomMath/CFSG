@@ -25,8 +25,8 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem ne_top_of_hyp97' {D : Data G} {Y H D₃ S : Subgroup G} (hY : Hyp97 D Y H D₃ S) :
     H ≠ ⊤ := by
-  haveI := D.standing.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.standing.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH : H ≠ ⊥ := by
     intro h
     have hD : D₃ ≤ ⊥ := h ▸ hY.1.2.2.1.trans ((opp_le_self 3 Y).trans hY.1.2.1.1)
@@ -40,12 +40,14 @@ private theorem ne_top_of_hyp97' {D : Data G} {Y H D₃ S : Subgroup G} (hY : Hy
       ⟨pCoreOf 2 H, hne, CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H, rfl⟩) ?_
   exact top_le_iff.1 (htop.ge.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H))
 
+omit [Finite G] in
 private theorem chiefFactor_subgroupOf_normal {H A B : Subgroup G}
     (hc : IsChiefFactorOf H A B) :
     (B.subgroupOf H).Normal ∧ (A.subgroupOf H).Normal :=
   ⟨Subgroup.normal_subgroupOf_of_le_normalizer hc.1.2,
     Subgroup.normal_subgroupOf_of_le_normalizer hc.2.1.2⟩
 
+omit [Finite G] in
 private theorem chiefFactor_map_minimal {H A B : Subgroup G}
     [hB : (B.subgroupOf H).Normal] (hc : IsChiefFactorOf H A B) :
     ∀ N : Subgroup (↥H ⧸ B.subgroupOf H), N.Normal →
@@ -79,7 +81,7 @@ private theorem chiefFactor_map_minimal {H A B : Subgroup G}
   have hKn : (K.subgroupOf H).Normal := by
     rw [hKsub]
     exact hNn.comap π
-  haveI : (K.subgroupOf H).Normal := hKn
+  have : (K.subgroupOf H).Normal := hKn
   have hKnorm : H ≤ normalizer (K : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hKH
   have hBK : B ≤ K := by
@@ -121,6 +123,7 @@ private theorem chiefFactor_map_minimal {H A B : Subgroup G}
           (Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) N).symm
       _ = (A.subgroupOf H).map π := by rw [hNpre_eq]
 
+omit [Finite G] in
 private theorem chiefFactor_map_not_isMulCommutative {H A B : Subgroup G}
     [hB : (B.subgroupOf H).Normal] [hBA : (B.subgroupOf A).Normal]
     (hc : IsChiefFactorOf H A B)
@@ -138,7 +141,7 @@ private theorem chiefFactor_map_not_isMulCommutative {H A B : Subgroup G}
         exact map_one (QuotientGroup.mk' (B.subgroupOf H))
       map_mul' := fun a b => by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_mk, map_mul]
+        simp only [Subgroup.coe_mul]
         rfl }
   have hf : Function.Surjective f := by
     intro y
@@ -168,7 +171,7 @@ private theorem chiefFactor_map_not_isMulCommutative {H A B : Subgroup G}
     (QuotientGroup.quotientMulEquivOfEq hker).symm.trans
       (QuotientGroup.quotientKerEquivOfSurjective f hf)
   intro hcomm
-  haveI : Group.IsSolvable ↥((A.subgroupOf H).map π) :=
+  have : Group.IsSolvable ↥((A.subgroupOf H).map π) :=
     Group.isSolvable_of_comm fun a b => hcomm.is_comm.comm a b
   exact hns (CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_of_mulEquiv e.symm)
 
@@ -194,9 +197,9 @@ private theorem chiefFactor_three_not_dvd {H A B : Subgroup G}
 theorem r9_14S_holds
     (D : Data G) : R9_14S D := by
   intro Y H D₃ S h97 S₀ hS₀ hS₀M A B hBinst hc hAI hns
-  haveI : (B.subgroupOf A).Normal := hBinst
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (B.subgroupOf A).Normal := hBinst
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHtop : H ≠ ⊤ := ne_top_of_hyp97' h97
   have hD₃H : D₃ ≤ H :=
     h97.1.2.2.1.trans ((opp_le_self 3 Y).trans h97.1.2.1.1)
@@ -207,7 +210,7 @@ theorem r9_14S_holds
     (Subgroup.centralizer_le_normalizer (s := (D₃ : Set G))).trans
       (normalizer_le_of_mem_uniqueSet D.maxLocal hD₃U)
   obtain ⟨hBnor, hAnor⟩ := chiefFactor_subgroupOf_normal hc
-  haveI : (B.subgroupOf H).Normal := hBnor
+  have : (B.subgroupOf H).Normal := hBnor
   have hBA : B ≤ A := hc.2.2.1.le
   have hAH : A ≤ H := hc.2.1.1
   have hBH : B ≤ H := hc.1.1
@@ -248,14 +251,14 @@ theorem r9_14S_holds
     (CFSG.LocalAnalysis.RankThreeTheoremC.isKGroup_of_ne_top_of_isKProper
       D.standing.kProper hHtop).quotient (B.subgroupOf H)
   have hcat : ∀ i, CFSG.Assembly.InCatalog ↥(Sfac i) := fun i => by
-    haveI : IsSimpleGroup ↥(Sfac i) := hSfacSimple i
+    have : IsSimpleGroup ↥(Sfac i) := hSfacSimple i
     exact hKΓ.inCatalog_of_surjective (Sfac i) (MonoidHom.id _) Function.surjective_id
   have hSz : ∀ i, ∃ f : ℕ, CFSG.Blueprint.SuzukiModel ↥(Sfac i) 2 f := fun i => by
-    haveI : IsSimpleGroup ↥(Sfac i) := hSfacSimple i
+    have : IsSimpleGroup ↥(Sfac i) := hSfacSimple i
     exact CFSG.RankThree.PartTwo.KFacts.KS14.suzukiModel_of_inCatalog_of_not_three_dvd
       ↥(Sfac i) (hSfacNCN i) (hcat i) fun h =>
         h3Kbar (h.trans (Subgroup.card_dvd_of_le (hSfacK i)))
-  haveI : IsCyclic D₃ := isCyclic_of_prime_card hD₃3
+  have : IsCyclic D₃ := isCyclic_of_prime_card hD₃3
   obtain ⟨d, hd⟩ := IsCyclic.exists_generator (α := ↥D₃)
   have hd3 : (d : G) ^ 3 = 1 := by
     have h : d ^ Nat.card D₃ = 1 := pow_card_eq_one'

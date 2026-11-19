@@ -21,7 +21,7 @@ private theorem pk1_A8_mod (i j : Fin 8) (hij : i ≠ j) :
     ((CartanMatrix.A 8 i j : ℤ) : ZMod 3) =
       (if (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) then (2 : ZMod 3) else 0) := by
   rw [pk1_cartanA_entry]
-  simp only [hij, if_false]
+  simp only [hij, ite_false]
   split_ifs <;> decide
 
 private theorem pk1_S_card (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
@@ -203,7 +203,7 @@ theorem ninedep_kopts (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
     (hW : CFSG.StandardType.GGIsWeylMatrix MK) (hC : CFSG.StandardType.GGIntCartan MK CK)
     (hchain : ∀ i j : ↥S, ((CK (some i) (some j) : ℤ) : ZMod 3) =
       ((CartanMatrix.A 8 (i : Fin 8) (j : Fin 8) : ℤ) : ZMod 3))
-    (hself : ((CK none none : ℤ) : ZMod 3) = 2)
+    (_hself : ((CK none none : ℤ) : ZMod 3) = 2)
     (hc : ∃ c : ↥S, ∀ j : ↥S, CK none (some j) ≠ 0 ↔ j = c) :
     ∃ o ∈ kopts (), ∀ j : ↥S,
       ((CK (some j) none : ℤ) : ZMod 3) = (((if (j : ℕ) - s = o.1 then o.2.1 else 0 : ℕ)) : ZMod 3) ∧
@@ -217,17 +217,17 @@ theorem ninedep_kopts (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
     intro i j hij h
     have h8 : (i : Fin 8) ≠ (j : Fin 8) := fun he => hij (Subtype.ext he)
     exact pk1_adj_vals hC (by simp [hij])
-      (by rw [hchain i j, pk1_A8_mod (i : Fin 8) (j : Fin 8) h8, if_pos h])
-      (by rw [hchain j i, pk1_A8_mod (j : Fin 8) (i : Fin 8) (Ne.symm h8), if_pos (Or.symm h)])
+      (by rw [hchain i j, pk1_A8_mod (i : Fin 8) (j : Fin 8) h8, ite_eq_left h])
+      (by rw [hchain j i, pk1_A8_mod (j : Fin 8) (i : Fin 8) (Ne.symm h8), ite_eq_left (Or.symm h)])
   have hnonadj_entry : ∀ i j : ↥S, i ≠ j →
       ¬((i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ)) →
       CK (some i) (some j) = 0 ∧ MK (some i) (some j) = 2 := by
     intro i j hij h
     have h8 : (i : Fin 8) ≠ (j : Fin 8) := fun he => hij (Subtype.ext he)
     exact pk1_nonadj_vals hC (by simp [hij]) (pk1_no_label6 hcard hW (some i) (some j))
-      (by rw [hchain i j, pk1_A8_mod (i : Fin 8) (j : Fin 8) h8, if_neg h])
+      (by rw [hchain i j, pk1_A8_mod (i : Fin 8) (j : Fin 8) h8, ite_eq_right h])
       (by rw [hchain j i, pk1_A8_mod (j : Fin 8) (i : Fin 8) (Ne.symm h8),
-        if_neg (fun hh => h (Or.symm hh))])
+        ite_eq_right (fun hh => h (Or.symm hh))])
   set pos : ℕ := (c : ℕ) - s with hposdef
   have hcS : s ≤ (c : ℕ) ∧ (c : ℕ) < s + 6 := (hS (c : Fin 8)).mp c.2
   have hpos_lt : pos < 6 := by
@@ -257,7 +257,7 @@ theorem ninedep_kopts (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
       constructor
       · by_cases hjc : j = c
         · subst j
-          rw [hx1, if_pos ((hposj c).mpr rfl)]
+          rw [hx1, ite_eq_left ((hposj c).mpr rfl)]
           dsimp only; decide
         · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
           have hzj : CK none (some j) = 0 := by
@@ -265,17 +265,17 @@ theorem ninedep_kopts (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
             exact hjc ((hc j).mp hcon)
           have hz : CK (some j) none = 0 :=
             CFSG.StandardType.GGIntCartan.eq_zero_symm hC (a := some j) (b := none) (by simp) hzj
-          rw [hz, if_neg hne]
+          rw [hz, ite_eq_right hne]
           decide
       · by_cases hjc : j = c
         · subst j
-          rw [hy1, if_pos ((hposj c).mpr rfl)]
+          rw [hy1, ite_eq_left ((hposj c).mpr rfl)]
           dsimp only; decide
         · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
           have hzj : CK none (some j) = 0 := by
             by_contra hcon
             exact hjc ((hc j).mp hcon)
-          rw [hzj, if_neg hne]
+          rw [hzj, ite_eq_right hne]
           decide
   ·
     have hcases : (CK (some c) none = -1 ∧ CK none (some c) = -2) ∨
@@ -356,7 +356,7 @@ theorem ninedep_kopts (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
         constructor
         · by_cases hjc : j = c
           · subst j
-            rw [hx, if_pos ((hposj c).mpr rfl)]
+            rw [hx, ite_eq_left ((hposj c).mpr rfl)]
             dsimp only; decide
           · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
             have hzj : CK none (some j) = 0 := by
@@ -364,17 +364,17 @@ theorem ninedep_kopts (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
               exact hjc ((hc j).mp hcon)
             have hz : CK (some j) none = 0 :=
               CFSG.StandardType.GGIntCartan.eq_zero_symm hC (a := some j) (b := none) (by simp) hzj
-            rw [hz, if_neg hne]
+            rw [hz, ite_eq_right hne]
             decide
         · by_cases hjc : j = c
           · subst j
-            rw [hy, if_pos ((hposj c).mpr rfl)]
+            rw [hy, ite_eq_left ((hposj c).mpr rfl)]
             dsimp only; decide
           · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
             have hzj : CK none (some j) = 0 := by
               by_contra hcon
               exact hjc ((hc j).mp hcon)
-            rw [hzj, if_neg hne]
+            rw [hzj, ite_eq_right hne]
             decide
     · refine ⟨(pos, 1, 2), ?_, ?_⟩
       · rcases hend with hp | hp
@@ -384,7 +384,7 @@ theorem ninedep_kopts (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
         constructor
         · by_cases hjc : j = c
           · subst j
-            rw [hx, if_pos ((hposj c).mpr rfl)]
+            rw [hx, ite_eq_left ((hposj c).mpr rfl)]
             dsimp only; decide
           · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
             have hzj : CK none (some j) = 0 := by
@@ -392,17 +392,17 @@ theorem ninedep_kopts (s : ℕ) (hs : s ≤ 2) (S : Finset (Fin 8))
               exact hjc ((hc j).mp hcon)
             have hz : CK (some j) none = 0 :=
               CFSG.StandardType.GGIntCartan.eq_zero_symm hC (a := some j) (b := none) (by simp) hzj
-            rw [hz, if_neg hne]
+            rw [hz, ite_eq_right hne]
             decide
         · by_cases hjc : j = c
           · subst j
-            rw [hy, if_pos ((hposj c).mpr rfl)]
+            rw [hy, ite_eq_left ((hposj c).mpr rfl)]
             dsimp only; decide
           · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
             have hzj : CK none (some j) = 0 := by
               by_contra hcon
               exact hjc ((hc j).mp hcon)
-            rw [hzj, if_neg hne]
+            rw [hzj, ite_eq_right hne]
             decide
   · exact absurd hm6 (pk1_no_label6 hcard hW (some c) none)
 

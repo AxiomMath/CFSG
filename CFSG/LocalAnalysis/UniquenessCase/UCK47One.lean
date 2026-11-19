@@ -267,11 +267,11 @@ theorem k47_one {G : Type} [Group G] [Finite G]
     (ρ : Representation (ZMod 2) G V) (hρ : Function.Injective ρ)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (D : Subgroup G) (hD : Nat.card D = r) (hfix : Module.finrank (ZMod 2) (fixSub ρ D) ≤ 1)
-    (R : Subgroup G) (hR : IsPGroup r R) (hDR : D ≤ R) (c : G) (hc : c ∈ R)
+    (R : Subgroup G) (_hR : IsPGroup r R) (hDR : D ≤ R) (c : G) (hc : c ∈ R)
     (hcz : ∀ d ∈ D, c * d * c⁻¹ * d⁻¹ ∈ (Subgroup.center ↥R).map R.subtype) :
     ∀ d ∈ D, c * d = d * c := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   intro d hd
   by_contra hne
   have hd1 : d ≠ 1 := by rintro rfl; exact hne (by simp)
@@ -394,7 +394,7 @@ theorem k47_one {G : Type} [Group G] [Finite G]
     exact hz1 (hρ (by rw [hz_id, map_one]))
   push Not at harith
   obtain ⟨i, hi⟩ := harith
-  simp only [SetLike.le_def] at hi
+  simp only [_root_.IsConcreteLE.le_iff] at hi
   push Not at hi
   obtain ⟨w, hwB, hwZ⟩ := hi
   have hzw : ρ z w ≠ w := by

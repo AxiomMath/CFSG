@@ -221,7 +221,7 @@ theorem invariant_prime_index_criterion {group : Type*} [Group group] [Finite gr
   constructor
   · rintro ⟨sylow, invariant⟩
     let image := (sylow : Subgroup subgroup).map subgroup.subtype
-    refine ⟨image, sylow.isPGroup'.map subgroup.subtype, ?_, invariant, ?_⟩
+    refine ⟨image, sylow.isPGroup.map subgroup.subtype, ?_, invariant, ?_⟩
     · intro element mem_image
       obtain ⟨original, _, equal_image⟩ := Subgroup.mem_map.mp mem_image
       exact equal_image ▸ original.property

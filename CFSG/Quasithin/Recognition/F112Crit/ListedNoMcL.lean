@@ -53,14 +53,14 @@ open ListedNoMcLProof in
 theorem listedNoMcL : ListedNoMcL := by
   intro K _ _ hK hns hA5 W _ hW f hker _ hidx
   have hw := mcLArith_of_isMcLaughlinGroup hW
-  haveI : Finite W := Nat.finite_of_card_ne_zero hw.1.ne'
+  have : Finite W := Nat.finite_of_card_ne_zero hw.1.ne'
   obtain ⟨c, hc, hcW⟩ := card_eq_of_index_le_two f hidx
   have hrk := card_range_mul_card_ker f
   have hsK : Nat.card f.range ∣ Nat.card K := hrk ▸ dvd_mul_right _ _
   rcases cases_of_listed_of_not_isSolvable hK hns with ⟨n, hn, ⟨e⟩⟩ | ⟨a, -, ⟨e⟩⟩ |
     ⟨n, hn, F, _, _, hF, ⟨e⟩⟩ | ⟨n, hn, F, _, _, hF, ⟨e⟩⟩
   ·
-    haveI := (BenderType.linear n hn e).isSimple
+    have := (BenderType.linear n hn e).isSimple
     have hk1 : f.ker = ⊥ := le_bot_iff.mp (hker.trans (center_eq_bot hns).le)
     have hs : Nat.card f.range = 2 ^ n * ((2 ^ n) ^ 2 - 1) := by
       have h := hrk
@@ -88,10 +88,10 @@ theorem listedNoMcL : ListedNoMcL := by
     rw [Nat.card_congr e.toEquiv] at h3K
     exact CFSG.SignalizerFunctorTheorem.CatalogBridge.not_three_dvd_card_sz a h3K
   ·
-    haveI : Finite (StatedSU 3 (2 ^ n) F) := Finite.of_equiv K e.toEquiv
+    have : Finite (StatedSU 3 (2 ^ n) F) := Finite.of_equiv K e.toEquiv
     set Z₀ := (StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ n) F) with hZ₀
     obtain ⟨i, hB⟩ := benderType_statedProj hn hF
-    haveI := hB.isSimple
+    have := hB.isSimple
     have hcent : Subgroup.center (StatedSU 3 (2 ^ n) F) ≤ Z₀ := by
       intro z hz
       have hz' : (QuotientGroup.mk' Z₀ z : StatedProj (StatedSU 3 (2 ^ n) F)) ∈
@@ -115,7 +115,7 @@ theorem listedNoMcL : ListedNoMcL := by
       exact Subgroup.card_dvd_of_le hkerZ
     have hZp : ∀ q, q.Prime → q ∣ Nat.card Z₀ → q = 3 := by
       intro q hq hqd
-      haveI := Fact.mk hq
+      have := Fact.mk hq
       obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' q hqd
       have h3 : z ^ 3 = 1 := Subtype.ext (statedSU_three_kernel z.1 z.2)
       exact (Nat.prime_dvd_prime_iff_eq hq Nat.prime_three).mp
@@ -144,7 +144,7 @@ theorem listedNoMcL : ListedNoMcL := by
         omega
   ·
     obtain ⟨i, hB⟩ := benderType_statedProj hn hF
-    haveI := (hB.of_mulEquiv e.symm).isSimple
+    have := (hB.of_mulEquiv e.symm).isSimple
     have hk1 : f.ker = ⊥ := le_bot_iff.mp (hker.trans (center_eq_bot hns).le)
     have hs : Nat.card f.range = ordTwistedA 2 (2 ^ n) := by
       have h := hrk

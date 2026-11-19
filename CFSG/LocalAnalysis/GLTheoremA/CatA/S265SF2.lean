@@ -57,7 +57,7 @@ theorem exists_aut_nl {p : ℕ} {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup �
       ∀ α ∈ X, α ≠ 1 → GLAPLayer p (fixSubgroup α) = ⊥ := by
   obtain ⟨hDB, -, -, -, -, hKcomp, hDK⟩ := h.cfg.std
   have hperf : Group.IsPerfect ↥K := ⟨hKcomp.2.2.1⟩
-  haveI : Finite R := Finite.of_equiv _ θ.toEquiv
+  have : Finite R := Finite.of_equiv _ θ.toEquiv
   have hSN : B ≤ Subgroup.normalizer (S : Set Ω) := fun g _ =>
     (Subgroup.normalizer_eq_top_iff.2 h.cfg.normal) ▸ Subgroup.mem_top g
   have hBN := S171.B_norm_K h.cfg.elem hSN h.cfg.std

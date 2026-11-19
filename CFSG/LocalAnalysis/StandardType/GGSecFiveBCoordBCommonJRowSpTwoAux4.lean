@@ -43,13 +43,13 @@ theorem ggCommonJSpTwo_hcomp {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
           (r = 3 ∧ LargeEvenInLambda2 ⟨.B2der, 0, 1⟩ ∧
             GGHasLabel ⟨.B2der, 0, 1⟩ (↥J ⧸ Subgroup.center ↥J)))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   have hp : Nat.Prime 3 := by norm_num
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
   have hpq : 3 ∣ Nat.card K + 1 := by rw [hK]
   have hq : 4 ≤ Nat.card K ∨ Nat.card K = 2 := Or.inr hK
   have hm3 : Nat.card K = 2 → 3 ≤ r := fun _ => hr
@@ -210,7 +210,7 @@ theorem ggCommonJSpTwo_hcomp {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
         rw [hkerdim, Module.finrank_pi, Fintype.card_sum, Fintype.card_fin] at h
         omega
       have hmult : primaryMultiplicity (spEnd (spPlaneTorus r ζ f)) (SpFin.h3 K) = 3 := by
-        haveI : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
+        have : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
         have h1 : finrank K (primaryComponent (spEnd (spPlaneTorus r ζ f)) (SpFin.h3 K)) =
             2 * r := by
           rw [SpFin.primaryComponent_h3 hK hx3, hrange]
@@ -219,7 +219,7 @@ theorem ggCommonJSpTwo_hcomp {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
         change 2 * r = 2 * primaryMultiplicity (spEnd (spPlaneTorus r ζ f))
           (SpFin.h3 K) at h2
         omega
-      haveI hUsolv : Group.IsSolvable
+      have hUsolv : Group.IsSolvable
           ↥(spSupported (spPlaneTorus r ζ f) ({SpFin.h3 K} : Set K[X])) :=
         SpFour.selfDual_solvable_of_le hK hblocks hmem (by omega) (by omega)
       have hquadmem : SympMinus.smuQuad
@@ -243,11 +243,11 @@ theorem ggCommonJSpTwo_hcomp {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
             have hv0 : v = 0 := funext fun x => hv x (Finset.mem_univ (WitSpNs.plane x))
             simp [hv0])
         rwa [hquadeq] at hmemJ
-      haveI : Group.IsSolvable ↥J :=
+      have : Group.IsSolvable ↥J :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJU)
           (Subgroup.inclusion_injective hJU)
-      haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
-      haveI : Nontrivial ↥J :=
+      have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
+      have : Nontrivial ↥J :=
         (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
       exact absurd hJ.2.2.1
         (ne_of_lt (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J))

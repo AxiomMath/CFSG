@@ -69,7 +69,7 @@ theorem exists_pair_of_finrank_eq_two [Finite F] {X : Submodule F (Fin 4 → F)}
     refine lt_of_le_of_ne ((Submodule.span_singleton_le_iff_mem _ _).mpr hx₁X) fun h => ?_
     rw [← h, finrank_span_singleton hx₁0] at hX2
     omega
-  obtain ⟨x₂, hx₂X, hx₂⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x₂, hx₂X, hx₂⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hspan : Submodule.span F {x₁, x₂} = X := by
     refine Submodule.eq_of_le_of_finrank_le ?_ ?_
     · rw [Submodule.span_le]

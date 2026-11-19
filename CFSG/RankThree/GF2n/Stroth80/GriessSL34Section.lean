@@ -24,7 +24,7 @@ theorem liftIn_spec {ρ : E →* H} {A : Subgroup E} {g : H} (hg : g ∈ A.map �
   classical
   have h : ∃ a ∈ A, ρ a = g := Subgroup.mem_map.1 hg
   unfold liftIn
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 theorem eq_of_map_eq_of_inf_ker {ρ : E →* H} {A : Subgroup E} (hA : A ⊓ ρ.ker = ⊥) {a b : E}
@@ -43,7 +43,7 @@ variable {K : Type} [Field K]
 theorem sl_x_eq_transvection {γ : Fin 2 → ℤ} (h : (SL.pairOf 2 γ).1 ≠ (SL.pairOf 2 γ).2) (c : K) :
     SL.x 2 K γ c = SpecialLinearGroup.transvection h c := by
   unfold SL.x
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem sl_x_mem_transvectionGroup (γ : Fin 2 → ℤ) (c : K) :
     SL.x 2 K γ c ∈
@@ -52,7 +52,7 @@ theorem sl_x_mem_transvectionGroup (γ : Fin 2 → ℤ) (c : K) :
   · rw [sl_x_eq_transvection h]
     exact transvection_mem_single h c
   · unfold SL.x
-    rw [dif_neg h]
+    rw [dite_eq_right h]
     exact Subgroup.one_mem _
 
 omit [Field K] in
@@ -86,7 +86,7 @@ theorem sl_x_add (γ : Fin 2 → ℤ) (c d : K) : SL.x 2 K γ (c + d) = SL.x 2 K
   · rw [sl_x_eq_transvection h, sl_x_eq_transvection h, sl_x_eq_transvection h,
       SpecialLinearGroup.transvection_add]
   · unfold SL.x
-    rw [dif_neg h, dif_neg h, dif_neg h, mul_one]
+    rw [dite_eq_right h, dite_eq_right h, dite_eq_right h, mul_one]
 
 variable [Finite K]
 

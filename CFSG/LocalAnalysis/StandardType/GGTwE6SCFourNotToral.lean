@@ -26,8 +26,8 @@ theorem not_e6AdToral_of_selfCent_derived
       u ^ 3 = 1 → (∀ x ∈ X, x * u = u * x) → u ∈ X) :
     ¬ E6AdToral X := by
   intro htor
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcard81 : 81 ≤ Nat.card X := by rw [hcard]; norm_num
   have hLang : E6AdLangToral Fr X := e6AdLangToral_of_toral hn Fr hFr hXR htor
   obtain ⟨g0, hg0, hgn, hX⟩ :=
@@ -84,16 +84,16 @@ theorem not_e6AdToral_rgrpModel
     (hSC : GGTorusSelfCent 3 A) :
     ¬ E6AdToral (rgrpModel hn hK σ hσ Fr hFr ε (TypeA.inducedSub ψ A)) := by
   intro htor
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hcardH : Nat.card (rgrpModel hn hK σ hσ Fr hFr ε (TypeA.inducedSub ψ A)) = 3 ^ 4 := by
     rw [card_rgrpModel hn hK σ hσ Fr hFr ε hε (inducedSub_subset hψ hAI),
       TypeA.card_inducedSub hψ hker hperf fun a ha => (hAI a ha).imp fun _ hφ => hφ.2, hcard]
-  haveI : Finite (rgrpModel hn hK σ hσ Fr hFr ε (TypeA.inducedSub ψ A)) :=
+  have : Finite (rgrpModel hn hK σ hσ Fr hFr ε (TypeA.inducedSub ψ A)) :=
     Nat.finite_of_card_ne_zero (by rw [hcardH]; norm_num)
   have hX3 : ∀ x ∈ rgrpModel hn hK σ hσ Fr hFr ε (TypeA.inducedSub ψ A), x ^ 3 = 1 := by
     intro x hx

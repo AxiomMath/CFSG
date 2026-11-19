@@ -129,7 +129,7 @@ theorem fiveStarR_le {S : Subgroup G} {w : G} (hw : w ∈ normalizer (S : Set G)
   have hXS : Subgroup.zpowers w ≤ Subgroup.normalizer (S : Set G) := Subgroup.zpowers_le.mpr hw
   exact (Subgroup.le_normalizer_iff_commutator_le_left (H := Subgroup.zpowers w) (K := S)).mp hXS
 
-theorem le_normalizer_fiveStarR {S : Subgroup G} {w : G} (hw : w ∈ normalizer (S : Set G)) :
+theorem le_normalizer_fiveStarR {S : Subgroup G} {w : G} (_hw : w ∈ normalizer (S : Set G)) :
     S ≤ normalizer (fiveStarR S w : Set G) := by
   exact Subgroup.normalizer_commutator_ge_left S (Subgroup.zpowers w)
 

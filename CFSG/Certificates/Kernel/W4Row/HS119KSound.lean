@@ -92,7 +92,7 @@ theorem evS_rep {G : ℕ → ℕ} {g : ℕ → Equiv.Perm (Fin n)}
       exact fun _ _ => rfl
     · obtain ⟨hp, hl⟩ := ht k hk h0
       have h := (ih _ (lt_trans hp hk)).comp (hg _ hl)
-      rw [eF_succ, if_neg h0]
+      rw [eF_succ, ite_eq_right h0]
       intro x hx
       rw [evS_succ PA G f k x h0]
       exact h x hx
@@ -111,7 +111,7 @@ theorem evSI_rep {GI : ℕ → ℕ} {g : ℕ → Equiv.Perm (Fin n)}
       exact fun _ _ => rfl
     · obtain ⟨hp, hl⟩ := ht k hk h0
       have h := (hg _ hl).comp (ih _ (lt_trans hp hk))
-      rw [eF_succ, if_neg h0, mul_inv_rev]
+      rw [eF_succ, ite_eq_right h0, mul_inv_rev]
       intro x hx
       rw [evSI_succ PA GI f k x h0]
       exact h x hx
@@ -260,7 +260,7 @@ theorem parK_mem {G : Type*} [Group G] {g : ℕ → G} {K R : Subgroup G} {gout 
       exact ⟨fun _ => rfl, fun _ => K.one_mem⟩
     · obtain ⟨hp, hl⟩ := ht k hk hk0
       have hp2 := parK_par h hk0
-      rw [eF_succ, if_neg hk0, hK _ (eF_mem ht hR f _ (lt_trans hp hk)) _ (hR _ hl),
+      rw [eF_succ, ite_eq_right hk0, hK _ (eF_mem ht hR f _ (lt_trans hp hk)) _ (hR _ hl),
         ih _ (lt_trans hp hk) hp2, hO _ hl, parK_succ PA gout f k hk0]
       have hb := bit_lt_two gout (Nat.shiftRight (PA k) 24)
       generalize parK PA gout f (Nat.land (PA k) 16777215) = x at hp2 ⊢
@@ -286,11 +286,11 @@ theorem conjP_spec {G : Type*} [Group G] {g ι : ℕ → G} {CG : ℕ → ℕ}
     intro c hc h a ha
     by_cases hc0 : c = 0
     · subst hc0
-      exact ⟨ha, by rw [eF_succ, if_pos rfl, one_mul, inv_one, mul_one]; rfl⟩
+      exact ⟨ha, by rw [eF_succ, ite_eq_left rfl, one_mul, inv_one, mul_one]; rfl⟩
     · obtain ⟨hp, hl⟩ := ht c hc hc0
       obtain ⟨hb, hg⟩ := hCG _ hl a ha
       obtain ⟨h1, h2⟩ := ih _ (lt_trans hp hc) (parK_par h hc0) _ hb
-      rw [conjP_succ CG f c a hc0, eF_succ, if_neg hc0]
+      rw [conjP_succ CG f c a hc0, eF_succ, ite_eq_right hc0]
       refine ⟨h1, ?_⟩
       rw [← h2, ← hg]
       group
@@ -318,7 +318,7 @@ theorem evL_rep {G GI A AI : ℕ → ℕ} {e a : ℕ → Equiv.Perm (Fin n)}
   · exact (he v hv).1 x hx
   · exact (he v hv).2 x hx
   · exact (ha v (hc (by omega))).1 x hx
-  · rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     exact (ha v (hc (by omega))).2 x hx
 
 theorem letE_xor {G : Type*} [Group G] (e a : ℕ → G) {c : ℕ} (hc : c < 4096) :

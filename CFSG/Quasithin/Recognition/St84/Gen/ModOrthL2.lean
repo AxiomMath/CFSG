@@ -216,20 +216,20 @@ theorem isOmega4MinusType_of_irreducible_of_not_quadratic {G : Type} [Group G]
     rw [hker₀] at hℓ
     exact hℓ
   obtain ⟨W, _, _, ρ, cls, hcls, hact⟩ := exists_modOrthL2_conjRep hQ hLQ α₀ hα₀ hkerQ
-  haveI : Finite ↥(pCoreOf 2 L) :=
+  have : Finite ↥(pCoreOf 2 L) :=
     Finite.of_injective _ (Subgroup.inclusion_injective (CFSG.LieType.BorelTits.pCoreOf_le 2 L))
-  haveI : Finite W := Finite.of_surjective (fun u => Multiplicative.toAdd (cls u)) fun w => by
+  have : Finite W := Finite.of_surjective (fun u => Multiplicative.toAdd (cls u)) fun w => by
     obtain ⟨u, hu⟩ := hcls.2 (Multiplicative.ofAdd w)
     exact ⟨u, by simp only [hu, toAdd_ofAdd]⟩
   have hWcard : Nat.card W = 2 ^ (4 * f) := by
     rw [← hcard]
     exact (Nat.card_congr ((Equiv.ofBijective cls hcls).trans Multiplicative.toAdd)).symm
-  haveI : Nontrivial W := by
+  have : Nontrivial W := by
     rw [← Finite.one_lt_card_iff_nontrivial, hWcard]
     exact Nat.one_lt_two_pow (by omega)
-  haveI : Fact ρ.IsIrreducible := ⟨modOrthL2_isIrreducible hcls.2 hact hLQ hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨modOrthL2_isIrreducible hcls.2 hact hLQ hirr⟩
   have hntρ : ∃ g, ρ g ≠ 1 := modOrthL2_exists_ne_one hcls.1 hact hLQ hnt
-  letI : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 (2 * f)) = 2 ^ (2 * f) := by
     rw [Fintype.card_eq_nat_card]
     exact GaloisField.card 2 (2 * f) (by omega)

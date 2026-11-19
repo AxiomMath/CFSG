@@ -112,7 +112,7 @@ theorem exists_frame_for [CharP K 2] (hK : Nat.card K = 2) (hd : 6 ≤ d) {L' : 
   have hp3 : ((3 : ℕ) : K) ≠ 0 :=
     TableBSymp.natCast_ne_zero_of_charTwo Nat.prime_three (by norm_num)
   obtain ⟨g, hg, hgd⟩ := LineL2.exists_irreducible_factor_cyclotomic_three K
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hnsplit : ¬ 3 ∣ Nat.card K - 1 := by rw [hK]; decide
   have hC : (rootMat g).det = 1 := det_rootMat Nat.prime_three hnsplit hp3 hgd
   have hCp : rootMat g ^ 3 = 1 := rootMat_pow_eq_one Nat.prime_three hp3 hgd

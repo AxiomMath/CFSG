@@ -64,6 +64,7 @@ theorem exists_order_p_fix_std (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n : 
     funext i
     fin_cases i <;> simp [t, triMul_apply, h2]
 
+omit [Finite F] [CharP F 2] in
 theorem conj_mulVec_fix {ι : Type} [Fintype ι] [DecidableEq ι] {G₀ g₀ : GL ι F} {x' x : ι → F}
     (hG : (G₀ : Matrix ι ι F) *ᵥ x' = x) (hg : (g₀ : Matrix ι ι F) *ᵥ x' = x') :
     ((G₀ * g₀ * G₀⁻¹ : GL ι F) : Matrix ι ι F) *ᵥ x = x := by
@@ -78,41 +79,49 @@ theorem conj_mulVec_fix {ι : Type} [Fintype ι] [DecidableEq ι] {G₀ g₀ : G
 @[expose] def stdTwo (d a : F) : OW F :=
   Sum.elim (Pi.single idx1 1) (Sum.elim (fun j => if j = idx0 then d else a) 0)
 
+omit [Finite F] [CharP F 2] in
 theorem quad_stdOne (a : F) : StatedQuadMinus 3 F b c (stdOne a) = a := by
   rw [← quadMinus_eq_stated, CFSG.LieType.Universal.Spin.quadMinus_apply,
     Fin.sum_univ_two (fun i : Fin 2 => stdOne a (Sum.inl i) * stdOne a (Sum.inr (Sum.inl i)))]
-  simp [stdOne, idx0, Pi.single_apply]
+  simp [stdOne, idx0]
 
+omit [Finite F] [CharP F 2] in
 theorem quad_stdTwo (d a : F) : StatedQuadMinus 3 F b c (stdTwo d a) = a := by
   rw [← quadMinus_eq_stated, CFSG.LieType.Universal.Spin.quadMinus_apply,
     Fin.sum_univ_two (fun i : Fin 2 => stdTwo d a (Sum.inl i) * stdTwo d a (Sum.inr (Sum.inl i)))]
-  simp [stdTwo, idx0, idx1, Pi.single_apply]
+  simp [stdTwo, idx0, idx1]
 
+omit [Finite F] [CharP F 2] in
 theorem polar_stdOne_stdTwo (a d a' : F) :
     polar (quadMinus 3 F b c) (stdOne a) (stdTwo d a') = d := by
   rw [CFSG.LieType.Universal.Spin.polar_quadMinus,
     Fin.sum_univ_two (fun i : Fin 2 => stdOne a (Sum.inl i) * stdTwo d a' (Sum.inr (Sum.inl i)) +
       stdTwo d a' (Sum.inl i) * stdOne a (Sum.inr (Sum.inl i)))]
-  simp [stdOne, stdTwo, idx0, idx1, Pi.single_apply]
+  simp [stdOne, stdTwo, idx0, idx1]
 
+omit [Finite F] [CharP F 2] in
 theorem stdOne_ne_zero (a : F) : stdOne a ≠ 0 := by
   intro h
   have := congrFun h (Sum.inl idx0)
   simp [stdOne] at this
 
+omit [Finite F] [CharP F 2] in
 theorem linearIndependent_std (a d a' : F) :
     LinearIndependent F ![stdOne a, stdTwo d a'] := by
   rw [LinearIndependent.pair_iff]
   intro s t hst
   have h0 := congrFun hst (Sum.inl idx0)
   have h1 := congrFun hst (Sum.inl idx1)
-  simp [stdOne, stdTwo, idx0, idx1, Pi.single_apply] at h0 h1
+  simp [stdOne, stdTwo, idx0, idx1] at h0 h1
   exact ⟨h0, h1⟩
 
+omit [Finite F] [CharP F 2] in
 theorem stdOne_inr_inr (a : F) (j : Fin 2) : stdOne a (Sum.inr (Sum.inr j)) = 0 := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem stdTwo_inr_inr (d a : F) (j : Fin 2) : stdTwo d a (Sum.inr (Sum.inr j)) = 0 := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem conj_mem_order (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {h : OW F ≃ₗ[F] OW F} (hh : h ∈ orthogonalGroup (quadMinus 3 F b c))
     {g₀ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}

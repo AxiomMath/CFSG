@@ -50,12 +50,12 @@ def fibre : Subgroup (G × Mns) where
   carrier := {p | θ p.1 = θns p.2}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Prod.fst_mul, Prod.snd_mul, map_mul] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_mul, Prod.snd_mul, map_mul] at *
     rw [ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, Prod.fst_inv, Prod.snd_inv, map_inv] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_inv, Prod.snd_inv, map_inv] at *
     rw [ha]
 
 theorem mem_fibre {p : G × Mns} : p ∈ fibre θ ↔ θ p.1 = θns p.2 := Iff.rfl
@@ -97,7 +97,7 @@ variable {t hθt}
 
 theorem tauD_coe {k : ℕ} (hk : k < 5) : (tauD θ t hθt k : G × Mns) = (t k, tits k) := by
   unfold tauD
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
 
 theorem tauD_mul_coe {k l : ℕ} (hk : k < 5) (hl : l < 5) :
     ((tauD θ t hθt k * tauD θ t hθt l : fibre θ) : G × Mns) = (t k * t l, tits k * tits l) := by
@@ -111,13 +111,13 @@ theorem tauD_mul_mul_coe {k l : ℕ} (hk : k < 5) (hl : l < 5) :
 theorem exists_subgroup
     (hconj : ∀ (g : G) (v : Multiplicative (altHeart 6)), g * (ψ v : G) * g⁻¹ =
       (ψ (Multiplicative.ofAdd (altAct (θ g) v.toAdd)) : G))
-    (hsq : ∀ (k : ℕ) (hk : k < 5), t k * t k = (ψ (Multiplicative.ofAdd
+    (hsq : ∀ (k : ℕ) (_hk : k < 5), t k * t k = (ψ (Multiplicative.ofAdd
       ((pairEW ⟨k, by omega⟩ ⟨k + 1, by omega⟩ : evenWeight 6) : altHeart 6)) : G))
     (hbraid : ∀ k, k + 1 < 5 → t k * t (k + 1) * t k = t (k + 1) * t k * t (k + 1))
     (hcomm : ∀ k l, k + 2 ≤ l → l < 5 → t k * t l = t l * t k) :
     ∃ E : Subgroup (fibre θ), Nat.card E ≤ 11520 ∧ (∀ v, deltaHom θ ψ v ∈ E) ∧
-      ∀ k (hk : k < 5), tauD θ t hθt k ∈ E := by
-  haveI := delta_normal θ hconj
+      ∀ k (_hk : k < 5), tauD θ t hθt k ∈ E := by
+  have := delta_normal θ hconj
   set Δ := (deltaHom θ ψ).range with hΔ
   have hx : IsCoxeterA 5 (fun k => (QuotientGroup.mk (tauD θ t hθt k) : fibre θ ⧸ Δ)) := by
     refine ⟨fun i hi => ?_, fun i hi => ?_, fun i j hij hj => ?_⟩
@@ -162,7 +162,7 @@ theorem exists_subgroup
       have h' := Subtype.ext_iff.1 he
       exact Subtype.ext (Subtype.ext h')
     have hrange : Nat.card φ.range ≤ 720 := by
-      haveI : Finite h.range := Finite.of_surjective _ h.rangeRestrict_surjective
+      have : Finite h.range := Finite.of_surjective _ h.rangeRestrict_surjective
       have hle : φ.range ≤ h.range := by
         rintro _ ⟨e, rfl⟩
         exact e.2
@@ -180,9 +180,9 @@ theorem exists_subgroup
       (QuotientGroup.eq_one_iff _).2 ⟨v, rfl⟩
     rw [this]
     exact h.range.one_mem
-  · intro k hk
+  · intro k _hk
     rw [Subgroup.mem_comap]
-    exact ⟨adjSwap 5 k, hh k hk⟩
+    exact ⟨adjSwap 5 k, hh k _hk⟩
 
 end Fibre
 
@@ -203,8 +203,8 @@ theorem exists_mulEquiv_Mns_tits {G : Type*} [Group G] (θ : G →* Perm (Fin 6)
   obtain ⟨E, hE, hδ, hτ⟩ := exists_subgroup θ hconj hsq hbraid hcomm (hθt := hθt)
   have hcG : Nat.card G = 11520 := card_eq_of_ker θ hθ ψ
   have hcM : Nat.card Mns = 11520 := card_Mns
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [hcG]; norm_num)
-  haveI : Finite Mns := Nat.finite_of_card_ne_zero (by rw [hcM]; norm_num)
+  have : Finite G := Nat.finite_of_card_ne_zero (by rw [hcG]; norm_num)
+  have : Finite Mns := Nat.finite_of_card_ne_zero (by rw [hcM]; norm_num)
   let pG : E →* G := (MonoidHom.fst G Mns).comp ((fibre θ).subtype.comp E.subtype)
   let pM : E →* Mns := (MonoidHom.snd G Mns).comp ((fibre θ).subtype.comp E.subtype)
   have sG : Function.Surjective pG := by

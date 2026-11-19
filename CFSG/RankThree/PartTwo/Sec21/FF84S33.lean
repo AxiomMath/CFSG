@@ -16,6 +16,7 @@ open CFSG.RankThree.LocalRank (aschbacherSolvableCore)
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B : Subgroup G}
 
+omit [Finite G] in
 theorem commute_of_mem_elemAb {x y : G} (hB : IsElementaryAbelian 3 B)
     (hx : x ∈ B) (hy : y ∈ B) : Commute x y := by
   have h := (IsMulCommutative.is_comm (M := B)).comm ⟨x, hx⟩ ⟨y, hy⟩
@@ -39,7 +40,7 @@ theorem mem_B_b₂ (hs : FF84Sec3 b L B b₁ b₂) : b₂ ∈ B := by
   rw [hs.mono.2.1]; exact Subgroup.subset_closure (by simp)
 
 theorem pow3_of_mem_B (hs : FF84Sec3 b L B b₁ b₂) {x : G} (hx : x ∈ B) : x ^ 3 = 1 := by
-  haveI := hs.mono.1.1
+  have := hs.mono.1.1
   exact elemPow_eq_one_of_isElementaryAbelian x hx
 
 theorem comm_of_mem_B (hs : FF84Sec3 b L B b₁ b₂) {x y : G} (hx : x ∈ B) (hy : y ∈ B) :
@@ -117,6 +118,7 @@ theorem fusion_eq_b_or (hs : FF84Sec3 b L B b₁ b₂) {g : G} (hg : g * b * g�
   · rw [h] at hK; exact absurd hK (b₂_notin_K hs)
   · rw [h] at hK; exact absurd hK (b₂_inv_notin_K hs)
 
+omit [Finite G] in
 theorem isPGroup_of_map_subtype {p : ℕ} {K : Subgroup G} {N : Subgroup K}
     (h : IsPGroup p (N.map K.subtype)) : IsPGroup p N := by
   intro g
@@ -125,6 +127,7 @@ theorem isPGroup_of_map_subtype {p : ℕ} {K : Subgroup G} {N : Subgroup K}
   have h1 := congrArg Subtype.val hk
   simpa using h1
 
+omit [Finite G] in
 theorem conj_mem_opp3 {a x h : G} (hx : x ∈ Subgroup.centralizer ({a} : Set G))
     (hh : h ∈ Opp 3 (Subgroup.centralizer ({a} : Set G))) :
     x * h * x⁻¹ ∈ Opp 3 (Subgroup.centralizer ({a} : Set G)) := by
@@ -138,7 +141,7 @@ theorem exists_sylow_map_eq {B : Subgroup G} (hB : IsSylowOf 3 B (Subgroup.centr
     ∃ P : Sylow 3 ↥(Subgroup.centralizer ({b} : Set G)),
       (P : Subgroup ↥(Subgroup.centralizer ({b} : Set G))).map
         (Subgroup.centralizer ({b} : Set G)).subtype = B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hH : IsPGroup 3 ↥(B.subgroupOf (Subgroup.centralizer ({b} : Set G))) :=
     isPGroup_of_map_subtype (by
       rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hB.1]; exact hB.2.1)
@@ -153,7 +156,7 @@ theorem opp_three_eq_bot (hs : FF84Sec3 b L B b₁ b₂)
     (h2 : IsPGroup 2 (Opp 3 (Subgroup.centralizer ({b₁ * b₂} : Set G))))
     (hSb : Opp 3 (Subgroup.centralizer ({b₁ * b₂} : Set G)) ⊓ Subgroup.centralizer ({b} : Set G) = ⊥) :
     Opp 3 (Subgroup.centralizer ({b₁ * b₂} : Set G)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : b₁ * b₂ ∈ B := mul_mem (mem_B_b₁ hs) (mem_B_b₂ hs)
   have hBa : ∀ x ∈ B, x ∈ Subgroup.centralizer ({b₁ * b₂} : Set G) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.2 (comm_of_mem_B hs hx hc).eq
@@ -207,6 +210,7 @@ theorem opp_three_eq_bot (hs : FF84Sec3 b L B b₁ b₂)
     exact (Nat.not_even_iff_odd.2 hoddS) heven
   exact Subgroup.eq_bot_of_card_eq S (by rw [hn, hn0, pow_zero])
 
+omit [Finite G] in
 theorem mem_nor_zpowers_of_conj {b n : G} (hn : n * b * n⁻¹ = b ∨ n * b * n⁻¹ = b⁻¹) :
     n ∈ Nor (Subgroup.zpowers b) := by
   have hz : n⁻¹ * b * n⁻¹⁻¹ ∈ Subgroup.zpowers b := by
@@ -223,7 +227,7 @@ theorem mem_nor_zpowers_of_conj {b n : G} (hn : n * b * n⁻¹ = b ∨ n * b * n
         calc n⁻¹ * b * n = (n⁻¹ * b⁻¹ * n)⁻¹ := by group
           _ = b⁻¹ := by rw [h3]
       rw [e2]; exact Subgroup.inv_mem _ (Subgroup.mem_zpowers b)
-  simp only [Subgroup.mem_normalizer_iff, SetLike.mem_coe]
+  simp only [Subgroup.mem_normalizer_iff]
   intro h
   constructor
   · intro hh
@@ -238,6 +242,7 @@ theorem mem_nor_zpowers_of_conj {b n : G} (hn : n * b * n⁻¹ = b ∨ n * b * n
       rw [conj_zpow, hk]; group
     rw [hh']; exact Subgroup.zpow_mem _ hz k
 
+omit [Finite G] in
 theorem nor_zpowers_transfer {m n c c' : G} (hm : m * c * m⁻¹ = c')
     (hn : n ∈ Nor (Subgroup.zpowers c')) : m⁻¹ * n * m ∈ Nor (Subgroup.zpowers c) := by
   have key : ∀ x : G, x ∈ Subgroup.zpowers c ↔ m * x * m⁻¹ ∈ Subgroup.zpowers c' := by
@@ -252,7 +257,7 @@ theorem nor_zpowers_transfer {m n c c' : G} (hm : m * c * m⁻¹ = c')
       refine Subgroup.mem_zpowers_iff.2 ⟨k, ?_⟩
       rw [← hm, conj_zpow] at hk
       exact mul_left_cancel (mul_right_cancel hk)
-  simp only [Subgroup.mem_normalizer_iff, SetLike.mem_coe] at hn ⊢
+  simp only [Subgroup.mem_normalizer_iff] at hn ⊢
   intro h
   rw [key h, hn (m * h * m⁻¹), key ((m⁻¹ * n * m) * h * (m⁻¹ * n * m)⁻¹)]
   rw [show m * ((m⁻¹ * n * m) * h * (m⁻¹ * n * m)⁻¹) * m⁻¹ = n * (m * h * m⁻¹) * n⁻¹ by group]
@@ -317,8 +322,9 @@ theorem nor_zpowers_mul_inv_le (hs : FF84Sec3 b L B b₁ b₂)
   rw [e] at key
   exact key
 
+omit [Finite G] in
 theorem zpow_mod3 {x : G} (hx3 : x ^ 3 = 1) (hxne : x ≠ 1) (k : ℤ) : x ^ (k % 3) = x ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf x = 3 := orderOf_eq_prime hx3 hxne
   have := zpow_mod_orderOf x k
   rw [hord] at this
@@ -376,6 +382,7 @@ theorem cen_b_of_nor (hs : FF84Sec3 b L B b₁ b₂) {U : Subgroup G} (hU2 : IsP
     have h3 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hd
     norm_num at h3
 
+omit [Finite G] in
 theorem cen_le_of_mem_zpowers {a w : G} (hw : w ∈ Subgroup.zpowers a) :
     Subgroup.centralizer ({a} : Set G) ≤ Subgroup.centralizer ({w} : Set G) := by
   intro x hx
@@ -385,7 +392,7 @@ theorem cen_le_of_mem_zpowers {a w : G} (hw : w ∈ Subgroup.zpowers a) :
 
 theorem mem_zpowers_of_mem_zpowers_ne_one {a w : G} (ha : a ∈ Subgroup.zpowers w)
     (hw3 : w ^ 3 = 1) (hw1 : w ≠ 1) (ha1 : a ≠ 1) : w ∈ Subgroup.zpowers a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hw : orderOf w = 3 := orderOf_eq_prime hw3 hw1
   have hdvd : orderOf a ∣ 3 := hw ▸ orderOf_dvd_of_mem_zpowers ha
   have ha3 : orderOf a = 3 :=
@@ -397,6 +404,7 @@ theorem mem_zpowers_of_mem_zpowers_ne_one {a w : G} (ha : a ∈ Subgroup.zpowers
   rw [heq]
   exact Subgroup.mem_zpowers w
 
+omit [Finite G] in
 theorem exists_zpow_mul_of_mem_sup {x y : G} (hc : Commute x y) {a : G}
     (ha : a ∈ Subgroup.zpowers x ⊔ Subgroup.zpowers y) :
     ∃ i j : ℤ, a = x ^ i * y ^ j := by
@@ -459,9 +467,9 @@ theorem b₁b₂inv_ne_one (hs : FF84Sec3 b L B b₁ b₂) : b₁ * b₂⁻¹ �
 
 theorem elemAb_sup (hs : FF84Sec3 b L B b₁ b₂) :
     IsElementaryAbelian 3 ↥(Subgroup.zpowers b₁ ⊔ Subgroup.zpowers b₂ : Subgroup G) := by
-  haveI : IsElementaryAbelian 3 ↥(Subgroup.zpowers b₁) :=
+  have : IsElementaryAbelian 3 ↥(Subgroup.zpowers b₁) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (pow3_of_mem_B hs (mem_B_b₁ hs))
-  haveI : IsElementaryAbelian 3 ↥(Subgroup.zpowers b₂) :=
+  have : IsElementaryAbelian 3 ↥(Subgroup.zpowers b₂) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (pow3_of_mem_B hs (mem_B_b₂ hs))
   have hcomm12 : Commute b₁ b₂ := comm_of_mem_B hs (mem_B_b₁ hs) (mem_B_b₂ hs)
   have hCE : Subgroup.zpowers b₂ ≤ Subgroup.centralizer ((Subgroup.zpowers b₁ : Subgroup G) : Set G) := by
@@ -475,8 +483,8 @@ theorem elemAb_sup (hs : FF84Sec3 b L B b₁ b₂) :
 
 theorem nine_le_card_sup (hs : FF84Sec3 b L B b₁ b₂) :
     9 ≤ Nat.card ↥(Subgroup.zpowers b₁ ⊔ Subgroup.zpowers b₂ : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := elemAb_sup hs
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := elemAb_sup hs
   have hb1_3 := pow3_of_mem_B hs (mem_B_b₁ hs)
   have hb1ne := b₁_ne_one hs
   have hpg : IsPGroup 3 ↥(Subgroup.zpowers b₁ ⊔ Subgroup.zpowers b₂ : Subgroup G) :=
@@ -502,10 +510,11 @@ theorem nine_le_card_sup (hs : FF84Sec3 b L B b₁ b₂) :
     calc 9 = 3 ^ 2 := by norm_num
       _ ≤ 3 ^ n := Nat.pow_le_pow_right (by norm_num) hge
 
+omit [Finite G] in
 theorem nor_zpowers_of_cen {c x : G} (hx : x ∈ Subgroup.centralizer ({c} : Set G)) :
     x ∈ Nor (Subgroup.zpowers c) := by
   rw [Subgroup.mem_centralizer_singleton_iff] at hx
-  simp only [Subgroup.mem_normalizer_iff, SetLike.mem_coe]
+  simp only [Subgroup.mem_normalizer_iff]
   intro h
   constructor
   · intro hh
@@ -532,7 +541,7 @@ theorem key_cen (hs : FF84Sec3 b L B b₁ b₂)
     {a x : G} (ha : a ∈ Subgroup.zpowers b₁ ⊔ Subgroup.zpowers b₂) (ha1 : a ≠ 1)
     (hxU : x ∈ U) (hxa : x ∈ Subgroup.centralizer ({a} : Set G)) :
     x ∈ (U ⊓ Cen b₁) ⊔ (U ⊓ Cen b₂) ⊔ (U ⊓ Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm12 : Commute b₁ b₂ := comm_of_mem_B hs (mem_B_b₁ hs) (mem_B_b₂ hs)
   have hb1_3 := pow3_of_mem_B hs (mem_B_b₁ hs)
   have hb2_3 := pow3_of_mem_B hs (mem_B_b₂ hs)
@@ -604,9 +613,9 @@ theorem gen_nor (hs : FF84Sec3 b L B b₁ b₂)
     (hL2 : Nor (Subgroup.zpowers (b₁ * b₂)) ≤ Nor (Subgroup.zpowers b))
     {U : Subgroup G} (hU2 : IsPGroup 2 U) (hBU : B ≤ Nor U) :
     (U ⊓ Cen b₁) ⊔ (U ⊓ Cen b₂) ⊔ (U ⊓ Cen b) = U := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := elemAb_sup hs
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := elemAb_sup hs
   have hAB : Subgroup.zpowers b₁ ⊔ Subgroup.zpowers b₂ ≤ B :=
     sup_le (Subgroup.zpowers_le.2 (mem_B_b₁ hs)) (Subgroup.zpowers_le.2 (mem_B_b₂ hs))
   have hAU : Subgroup.zpowers b₁ ⊔ Subgroup.zpowers b₂ ≤ Nor U := hAB.trans hBU

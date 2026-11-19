@@ -58,7 +58,7 @@ theorem sylow_isQuaternionTwoGroup (hq : CFSG.IsQuasisimple Q)
       have := congrArg (fun x : ↥(P : Subgroup Q) => (x : Q)) huv
       simpa using this
     exact Subtype.ext (Subtype.ext (hno _ _ hu hv hcomm))
-  rcases rank_one_two_cyclic_or_quaternion P.isPGroup' hrank with hc | ⟨e, he1, ⟨ε⟩⟩
+  rcases rank_one_two_cyclic_or_quaternion P.isPGroup hrank with hc | ⟨e, he1, ⟨ε⟩⟩
   · exact absurd hc hncyc
   · refine ⟨e + 2, by omega, ?_⟩
     rw [Nat.add_sub_cancel]

@@ -57,7 +57,7 @@ theorem s22_5_1RStarSn_dataOfSetup (hS : Standing G) (hUC : CFSG.Open.rankThreeU
     have hp3 : p ≠ 3 := by
       intro h
       subst p
-      exact hk (by unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam; rw [if_pos hsp])
+      exact hk (by unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam; rw [ite_eq_left hsp])
     have hpp := hpP.two_le
     have hp4 : p ≠ 4 := by intro h; subst p; norm_num at hpP
     omega

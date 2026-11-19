@@ -22,7 +22,7 @@ theorem typed_sets (R : Set G) (P Q : G → Prop) (S₁ S₂ : Finset G)
       (by rw [hP4, Set.ncard_coe_finset, h1]) (Set.finite_of_ncard_pos (by omega))
   have hP : ∀ x, (x ∈ R ∧ x ≠ 1 ∧ P x) ↔ x ∈ S₁ := fun x => by
     have := Set.ext_iff.mp e1 x
-    simp only [Set.mem_setOf_eq, Finset.mem_coe] at this
+    simp only [Set.mem_ofPred_eq, Finset.mem_coe] at this
     exact this.symm
   refine ⟨hP, ?_⟩
   have e2 : (↑S₂ : Set G) = {x | x ∈ R ∧ x ≠ 1 ∧ Q x} := by
@@ -35,7 +35,7 @@ theorem typed_sets (R : Set G) (P Q : G → Prop) (S₁ S₂ : Finset G)
     · exact hq
   intro x
   have := Set.ext_iff.mp e2 x
-  simp only [Set.mem_setOf_eq, Finset.mem_coe] at this
+  simp only [Set.mem_ofPred_eq, Finset.mem_coe] at this
   exact this.symm
 
 @[expose] def cs₁ : Finset (ℤ × ℤ × ℤ) := {(0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1)}
@@ -47,14 +47,16 @@ namespace BGen
 variable [Finite G] {b b₁ b₂ : G} {B : Subgroup G} (hB : BGen b b₁ b₂ B)
 include hB
 
+omit [Finite G] in
 theorem crd_neg (p : ℤ × ℤ × ℤ) : (crd b b₁ b₂ p)⁻¹ = crd b b₁ b₂ (-p) := by
   have : crd b b₁ b₂ p * crd b b₁ b₂ (-p) = 1 := by
-    rw [hB.crd_mul, ← hB.crd_zero]
+    rw [hB.crd_mul, ← CFSG.RankThree.PartTwo.Sec21.FF79.BGen.crd_zero]
     congr 1
     simp
     rfl
   exact inv_eq_of_mul_eq_one_right this
 
+omit [Finite G] in
 theorem injOn_cs :
     Set.InjOn (crd b b₁ b₂) (↑(cs₁ ∪ cs₂) : Set (ℤ × ℤ × ℤ)) := by
   intro p hp q hq h

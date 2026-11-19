@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_sl4_fpf_conj {L : Subgroup (MulAut W)} {U Z : Subgroup W}
     (hrow : s16h_H5RowSL2 L U Z 2) (f : MulAut W) {b : MulAut W}
     (hb : b ∈ L.map (MulAut.conj f).toMonoidHom) (hb3 : b ^ 3 = 1) (hb1 : b ≠ 1) :

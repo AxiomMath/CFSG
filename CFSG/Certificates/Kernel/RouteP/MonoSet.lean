@@ -37,25 +37,25 @@ theorem testBit_mk3 {a b : Nat} (ha : Small a) (hb : Small b) (c q : Nat) :
   rw [nlor, nlor, nshl, nshl, Nat.testBit_or, Nat.testBit_or, Nat.testBit_shiftLeft,
     Nat.testBit_shiftLeft, r1, r2]
   by_cases h1 : q < 524288
-  · rw [if_pos h1, decide_eq_false (by omega), decide_eq_false (by omega)]
+  · rw [ite_eq_left h1, decide_eq_false (by omega), decide_eq_false (by omega)]
     simp
-  · rw [if_neg h1, ha q (by omega), decide_eq_true (by omega)]
+  · rw [ite_eq_right h1, ha q (by omega), decide_eq_true (by omega)]
     by_cases h2 : q < 1048576
-    · rw [if_pos h2, decide_eq_false (by omega)]
+    · rw [ite_eq_left h2, decide_eq_false (by omega)]
       simp
-    · rw [if_neg h2, hb _ (by omega), decide_eq_true (by omega)]
+    · rw [ite_eq_right h2, hb _ (by omega), decide_eq_true (by omega)]
       simp
 
-theorem sh_mk3 {a b c : Nat} (ha : Small a) (hb : Small b) (hc : Small c) {p : Nat} (hp : p < 524288) :
+theorem sh_mk3 {a b c : Nat} (ha : Small a) (hb : Small b) (_hc : Small c) {p : Nat} (hp : p < 524288) :
     (sh (mk3 a b c) 0).testBit p = a.testBit p ∧ (sh (mk3 a b c) 1).testBit p = b.testBit p ∧
       (sh (mk3 a b c) 2).testBit p = c.testBit p := by
   rw [testBit_sh, testBit_sh, testBit_sh, decide_eq_true hp, testBit_mk3 ha hb, testBit_mk3 ha hb,
     testBit_mk3 ha hb]
   refine ⟨?_, ?_, ?_⟩
-  · rw [if_pos (by omega), Nat.zero_mul, Nat.zero_add, Bool.true_and]
-  · rw [if_neg (by omega), if_pos (by omega), Bool.true_and,
+  · rw [ite_eq_left (by omega), Nat.zero_mul, Nat.zero_add, Bool.true_and]
+  · rw [ite_eq_right (by omega), ite_eq_left (by omega), Bool.true_and,
       show 1 * 524288 + p - 524288 = p by omega]
-  · rw [if_neg (by omega), if_neg (by omega), Bool.true_and,
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), Bool.true_and,
       show 2 * 524288 + p - 1048576 = p by omega]
 
 theorem small_and_left {a b : Nat} (ha : Small a) : Small (Nat.land a b) := by
@@ -126,7 +126,7 @@ theorem memS_imgS {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : Int} (hz
     · subst hm
       have e : eL NW KA KB (Int.ofNat 0) M = M := by
         unfold eL
-        rw [if_pos hM]
+        rw [ite_eq_left hM]
         change 3 * (M / 3) + (M % 3 + 0) % 3 = M
         omega
       rw [e]
@@ -138,14 +138,14 @@ theorem memS_imgS {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : Int} (hz
       obtain ⟨hkd, hka, hkb⟩ := kapOK_spec hk'
       have hka' : Small (KA (m - 1)) := fun q hq => hka q (by omega)
       have hkb' : Small (KB (m - 1)) := fun q hq => hkb q (by omega)
-      have eF : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := if_neg hm
-      have eK : lK NW KA KB (Int.ofNat m) (M / 3) = kv (KA (m - 1)) (KB (m - 1)) (M / 3) := if_neg hm
+      have eF : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := ite_eq_right hm
+      have eK : lK NW KA KB (Int.ofNat m) (M / 3) = kv (KA (m - 1)) (KB (m - 1)) (M / 3) := ite_eq_right hm
       have hπ := (hpt _ hp).2 hp3
       set κ := kv (KA (m - 1)) (KB (m - 1)) (M / 3) with hκ
       have hκ3 : κ < 3 := kv_lt _ _ _ (hkd _)
       have e : eL NW KA KB (Int.ofNat m) M = 3 * pF (NW (m - 1)) (M / 3) + (M % 3 + κ) % 3 := by
         unfold eL
-        rw [if_pos hM, eF, eK]
+        rw [ite_eq_left hM, eF, eK]
       rw [e]
       have hd : (3 * pF (NW (m - 1)) (M / 3) + (M % 3 + κ) % 3) / 3 = pF (NW (m - 1)) (M / 3) := by
         omega
@@ -170,11 +170,11 @@ theorem memS_imgS {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : Int} (hz
         intro i hi3
         rw [testBit_mk3 (hs 0) (hs 1)]
         rcases (by omega : i = 0 ∨ i = 1 ∨ i = 2) with rfl | rfl | rfl
-        · rw [if_pos (by omega), Nat.zero_mul, Nat.zero_add, testBit_netR hv, pR_pF hv]
-        · rw [if_neg (by omega), if_pos (by omega), testBit_netR hv,
+        · rw [ite_eq_left (by omega), Nat.zero_mul, Nat.zero_add, testBit_netR hv, pR_pF hv]
+        · rw [ite_eq_right (by omega), ite_eq_left (by omega), testBit_netR hv,
             show 1 * 524288 + pF (NW (m - 1)) (M / 3) - 524288 = pF (NW (m - 1)) (M / 3) by omega,
             pR_pF hv]
-        · rw [if_neg (by omega), if_neg (by omega), testBit_netR hv,
+        · rw [ite_eq_right (by omega), ite_eq_right (by omega), testBit_netR hv,
             show 2 * 524288 + pF (NW (m - 1)) (M / 3) - 1048576 = pF (NW (m - 1)) (M / 3) by omega,
             pR_pF hv]
       rw [key _ (Nat.mod_lt _ (by decide)),
@@ -196,7 +196,7 @@ theorem memS_imgS {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : Int} (hz
     have hκ3 : κ < 3 := kv_lt _ _ _ (hkd _)
     have e : eL NW KA KB (Int.negSucc n) M = 3 * pR (NW n) (M / 3) + (M % 3 + (2 * κ) % 3) % 3 := by
       unfold eL
-      rw [if_pos hM]
+      rw [ite_eq_left hM]
       rfl
     rw [e]
     have hd : (3 * pR (NW n) (M / 3) + (M % 3 + (2 * κ) % 3) % 3) / 3 = pR (NW n) (M / 3) := by omega
@@ -239,7 +239,7 @@ theorem memS_imgS {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : Int} (hz
 theorem eL_zero (NW : Nat → Nat → Nat) (KA KB : Nat → Nat) {N : Nat} (hN : N < 920808) :
     eL NW KA KB (Int.ofNat 0) N = N := by
   unfold eL
-  rw [if_pos hN]
+  rw [ite_eq_left hN]
   change 3 * (N / 3) + (N % 3 + 0) % 3 = N
   omega
 
@@ -259,19 +259,19 @@ theorem eL_pos_neg {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {n : Nat} (h
   have e1 : eL NW KA KB (Int.negSucc n) N =
       3 * pR (NW n) (N / 3) + (N % 3 + (2 * kv (KA n) (KB n) (pR (NW n) (N / 3))) % 3) % 3 := by
     unfold eL
-    rw [if_pos hN]
+    rw [ite_eq_left hN]
     rfl
   have e2 : ∀ M, M < 920808 → eL NW KA KB (Int.ofNat (n + 1)) M =
       3 * pF (NW n) (M / 3) + (M % 3 + kv (KA n) (KB n) (M / 3)) % 3 := by
     intro M hM
     unfold eL
-    rw [if_pos hM]
+    rw [ite_eq_left hM]
     rfl
   have e3 : ∀ M, M < 920808 → eL NW KA KB (Int.negSucc n) M =
       3 * pR (NW n) (M / 3) + (M % 3 + (2 * kv (KA n) (KB n) (pR (NW n) (M / 3))) % 3) % 3 := by
     intro M hM
     unfold eL
-    rw [if_pos hM]
+    rw [ite_eq_left hM]
     rfl
   have l1 : eL NW KA KB (Int.negSucc n) N < 920808 := by rw [e1]; omega
   have l2 : eL NW KA KB (Int.ofNat (n + 1)) N < 920808 := by rw [e2 N hN]; omega
@@ -454,10 +454,10 @@ theorem sumBelow_eq (m hi : Nat) (f : Nat → Nat) (h : m ≤ 64 * hi) : sumBelo
         omega
       rw [e]
       by_cases hl : 64 * h' + n < m
-      · rw [if_pos hl]
+      · rw [ite_eq_left hl]
         change Bool.rec (motive := fun _ => Nat) 0 (f (64 * h' + n)) (Nat.blt (64 * h' + n) m) = _
         rw [Nat.blt_eq.mpr hl]
-      · rw [if_neg hl]
+      · rw [ite_eq_right hl]
         change Bool.rec (motive := fun _ => Nat) 0 (f (64 * h' + n)) (Nat.blt (64 * h' + n) m) = _
         rw [show Nat.blt (64 * h' + n) m = false from
           Bool.eq_false_iff.mpr fun e => hl (Nat.blt_eq.mp e)]
@@ -475,8 +475,8 @@ theorem sumBelow_eq (m hi : Nat) (f : Nat → Nat) (h : m ≤ 64 * hi) : sumBelo
       Nat.rec (motive := fun _ => Nat) 0 (fun l ih2 =>
         Nat.add ((fun i => nIf(Nat.blt i m, f i, 0)) (Nat.add (Nat.shiftLeft h' 6) l)) ih2) 64) ih) hi : Nat) = _
   rw [outer, show 64 * hi = m + (64 * hi - m) by omega, cnt_add,
-    cnt_zero_fun (64 * hi - m) (fun i _ => by rw [if_neg (by omega)]), Nat.add_zero]
-  exact cnt_congr m fun i hi => if_pos hi
+    cnt_zero_fun (64 * hi - m) (fun i _ => by rw [ite_eq_right (by omega)]), Nat.add_zero]
+  exact cnt_congr m fun i hi => ite_eq_left hi
 
 theorem pcount_eq (v : Nat) : pcount v = cnt (fun q => if v.testBit q then 1 else 0) 1572864 := by
   unfold pcount
@@ -513,7 +513,7 @@ theorem pcount_pts (S : Nat) :
       cnt (fun f => if S.testBit (i * 524288 + f) then 1 else 0) 306936 := by
     intro i hi
     rw [show (524288 : Nat) = 306936 + 217352 from rfl, cnt_add,
-      cnt_zero_fun 217352 (fun x hx => by rw [hb, if_neg (by simp; omega)]), Nat.add_zero]
+      cnt_zero_fun 217352 (fun x hx => by rw [hb, ite_eq_right (by simp; omega)]), Nat.add_zero]
     refine cnt_congr _ fun f hf => ?_
     rw [hb, decide_eq_true (by omega), decide_eq_true (by omega), Bool.and_true, Bool.and_true]
   have e0 := sheet 0 (by decide)

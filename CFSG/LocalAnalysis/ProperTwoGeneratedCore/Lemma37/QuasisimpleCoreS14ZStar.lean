@@ -88,7 +88,7 @@ theorem exists_cover_of_isolated (hz : FourGen Q z) (h : Setting J Q B) {w : J}
   set M := quasiNormalizer w with hM
   set T := (Q : Subgroup J) ⊓ M with hT
   have hTM : T ≤ M := inf_le_right
-  have hT2 : IsPGroup 2 T := Q.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 T := Q.isPGroup.to_le inf_le_left
   have hzM : z ∈ M := h.mem_quasiNormalizer_of_mul_eq hw hwz.symm
   have hzT : z ∈ T := ⟨hz.mem, hzM⟩
   have hZM : Subgroup.center J ≤ M := fun c hc => by

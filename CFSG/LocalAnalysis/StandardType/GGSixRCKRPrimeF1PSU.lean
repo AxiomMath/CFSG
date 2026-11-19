@@ -42,7 +42,7 @@ private theorem rckRPf1su_odd_order {F : Type} [Field F] [Finite F] [CharP F 2] 
     (hdp : d ^ p = 1) {s : GL (Fin n) F}
     (hs : IsGLLift (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) n).subtype
       ψ s d) : Odd (orderOf s) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hsp : IsGLLift (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) n).subtype
       ψ (s ^ p) 1 := by
     have h := hs.pow p

@@ -34,8 +34,8 @@ def fourGroup {r z : Γ} (h1 : r * r = 1) (h2 : z * z = 1) (h3 : z * r = r * z) 
         _ = z * z := by rw [q3]
         _ = 1 := h2
     rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl <;>
-      simp only [Set.mem_setOf_eq, one_mul, mul_one, h1, h2, h3, q1, q2, q3, q4, q5, true_or,
-        or_true, or_self, eq_self_iff_true, mul_assoc] <;> simp_all
+      simp only [Set.mem_ofPred_eq, one_mul, mul_one, h1, h2, h3, q1, q2, q3, q4, q5, true_or,
+        or_true]
   one_mem' := Or.inl rfl
   inv_mem' := by
     intro a ha

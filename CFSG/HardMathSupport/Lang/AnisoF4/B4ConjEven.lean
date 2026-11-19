@@ -24,7 +24,7 @@ theorem factorization_card_F4_le_card_b4_even {K : Type} [Field K] [Finite K] [C
     (Nat.card (adjointGroup .F4 K)).factorization p ≤
       (Nat.card ↥(⨆ k, b4Chain K k)).factorization p := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hcard⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   obtain ⟨Ψ, -, -, -, hlie⟩ := exists_psi_B4_F4_frame_even hK hK4
@@ -36,7 +36,7 @@ theorem factorization_card_F4_le_card_b4_even {K : Type} [Field K] [Finite K] [C
   have hcardQ : Nat.card (↥X ⧸ Subgroup.center ↥X) = CFSG.Open.ordBC 4 (Nat.card K) := by
     rcases hlie with ⟨-, hc⟩ | ⟨h0, -, -⟩ | ⟨h0, -, -⟩ | ⟨h0, -, -⟩
     · obtain ⟨-, K', _, _, hK', ⟨e⟩⟩ := hc
-      haveI : Fintype K' := Fintype.ofFinite K'
+      have : Fintype K' := Fintype.ofFinite K'
       have : CharP K' 2 := charP_of_card_eq_prime_pow (p := 2) (f := n.val)
         (by rw [← Nat.card_eq_fintype_card, hK', ← hK])
       have hKK : Nat.card K' = Nat.card K := by rw [hK', hK]

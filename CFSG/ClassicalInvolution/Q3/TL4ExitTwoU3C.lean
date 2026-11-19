@@ -97,6 +97,7 @@ theorem eq_sylow_of_oddCore [Finite G] {Δ : Set (Subgroup G)}
 
 variable {M : Type} [Group M] [DecidableEq M] {ψ : G →* M}
 
+omit [DecidableEq M] in
 theorem pair_of_qpair {A : Subgroup M} (hL : ∀ y, ψ y ∈ A) {K : Subgroup G} {t a b : G}
     (hp : QPair K t a b) :
     ψ a ∈ A ∧ ψ b ∈ A ∧ ψ a * ψ a = ψ t ∧ ψ b * ψ b = ψ t ∧ ψ b * ψ a = ψ t * ψ a * ψ b := by
@@ -105,6 +106,7 @@ theorem pair_of_qpair {A : Subgroup M} (hL : ∀ y, ψ y ∈ A) {K : Subgroup G}
   · rw [← map_mul, hp.hbb]
   · simp only [← map_mul, hp.hba]
 
+omit [DecidableEq M] in
 theorem eq_of_same_type [Finite G] (hψi : Function.Injective ψ) {P A : Subgroup M}
     (hL : ∀ y, ψ y ∈ A) {t : G} (hF : ExitFacts P A (ψ t)) {Δ : Set (Subgroup G)}
     (hΔ : PhilipHall.Frame.Thm4Twin.TwinT4Hyp 3 G Δ)

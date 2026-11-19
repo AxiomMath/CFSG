@@ -29,9 +29,9 @@ theorem alt_two_trans (S : Finset (Fin 10)) (hS : S.card = 5) {x y x' y' : Fin 1
     ∃ t : Perm (Fin 10), t ∈ alternatingGroup (Fin 10) ∧ (∀ i, i ∉ S → t i = i) ∧
       t x = x' ∧ t y = y' := by
   have hcard : Nat.card ↥S = 5 := by simp [hS]
-  haveI h3 : MulAction.IsMultiplyPretransitive (alternatingGroup ↥S) ↥S (Nat.card ↥S - 2) :=
+  have h3 : MulAction.IsMultiplyPretransitive (alternatingGroup ↥S) ↥S (Nat.card ↥S - 2) :=
     alternatingGroup.isMultiplyPretransitive ↥S
-  haveI h2 : MulAction.IsMultiplyPretransitive (alternatingGroup ↥S) ↥S 2 :=
+  have h2 : MulAction.IsMultiplyPretransitive (alternatingGroup ↥S) ↥S 2 :=
     MulAction.isMultiplyPretransitive_of_le (n := Nat.card ↥S - 2) (by omega) (by omega)
   have h2' : ∀ {a b c d : ↥S}, a ≠ b → c ≠ d →
       ∃ g : alternatingGroup ↥S, g • a = c ∧ g • b = d :=
@@ -124,7 +124,7 @@ theorem gen_of_bridge (T : Subgroup (Perm (Fin 10)))
     refine ⟨s * t₁, T.mul_mem hs ht₁, ?_, ?_⟩
     · simp [Perm.mul_apply, e₁, e0]
     · simp [Perm.mul_apply, e1]
-  haveI h2t : MulAction.IsMultiplyPretransitive T (Fin 10) 2 := by
+  have h2t : MulAction.IsMultiplyPretransitive T (Fin 10) 2 := by
     rw [MulAction.is_two_pretransitive_iff]
     intro x y z w hxy hzw
     obtain ⟨t, ht, e1, e2⟩ := norm hxy
@@ -195,14 +195,14 @@ theorem two_fixed_of_stable (σ : Perm (Fin 10)) (h : σ ^ 3 = 1 ∨ σ ^ 7 = 1)
       calc f.supportᶜ.card ≤ Fintype.card {x // x ∈ S} := Finset.card_le_univ _
         _ = 5 := hcardS
     rcases h with h | h
-    · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hf : f ^ 3 ^ 1 = 1 := by
         simp only [f, pow_one, Equiv.Perm.subtypePerm_pow, h]; rfl
       have := Equiv.Perm.card_compl_support_modEq hf
       rw [hcardS] at this
       unfold Nat.ModEq at this
       omega
-    · haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    · have : Fact (Nat.Prime 7) := ⟨by decide⟩
       have hf : f ^ 7 ^ 1 = 1 := by
         simp only [f, pow_one, Equiv.Perm.subtypePerm_pow, h]; rfl
       have := Equiv.Perm.card_compl_support_modEq hf

@@ -103,7 +103,7 @@ theorem i1416Spor_of_SK (h : I1416QSporSK) {G : Type} [Group G] [Finite G] {p : 
   have hq0 : CFSG.Open.IsQuasisimple (PQuot p K) := isQuasisimple_pQuot_of_glaPComponent hp hK
   have hq' : CFSG.Open.IsQuasisimple ↥K' :=
     CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv eK.symm hq0
-  haveI : Group.IsPerfect ↥K' := ⟨hq'.1⟩
+  have : Group.IsPerfect ↥K' := ⟨hq'.1⟩
   have eS : (↥K' ⧸ Subgroup.center ↥K') ≃* PSimple p K :=
     QuotientGroup.congr _ _ eK (Subgroup.map_center_eq eK)
   obtain ⟨β, hβp, hβfix⟩ := kf_exists_conjAut hnorm (hpow p hyp)
@@ -235,7 +235,7 @@ theorem i1416TwoSpor_of_SK (h : I1416TwoSporSK) (G : Type) [Group G] [Finite G] 
   have hq : CFSG.Open.IsQuasisimple (PQuot p J) := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hq' : CFSG.Open.IsQuasisimple ↥K' :=
     CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv eJ.symm hq
-  haveI : Group.IsPerfect ↥K' := ⟨hq'.1⟩
+  have : Group.IsPerfect ↥K' := ⟨hq'.1⟩
   have eS : (↥K' ⧸ Subgroup.center ↥K') ≃* PSimple p J :=
     QuotientGroup.congr _ _ eJ (Subgroup.map_center_eq eJ)
   obtain ⟨i, ⟨s, rfl⟩, ⟨e⟩⟩ := hcat
@@ -284,7 +284,7 @@ theorem i1416TwoSpor_of_SK (h : I1416TwoSporSK) (G : Type) [Group G] [Finite G] 
       CFSG.HardMathSupport.Timmesfeld.ComponentBalance.IsL2TwoPowOdd (PSimple p KS)) := by
     rintro ⟨rfl, n, hn, hn1, ⟨eL⟩⟩
     obtain ⟨hs, hnc⟩ := chev_pSimple_simple_nonabelian hp hK
-    haveI := hs
+    have := hs
     exact i112d_l2_false hK hA hinn hcard (chev_center_eq_bot_of_simple_nonabelian hnc)
       ⟨n, hn, hn1, ⟨eKS.trans eL⟩⟩
   obtain ⟨hB, hM⟩ := kRows_of_isKGroup (isKGroup_pSimple hX hJ) e

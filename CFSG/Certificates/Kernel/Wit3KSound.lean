@@ -27,10 +27,10 @@ theorem pi_mul (hw : szOK n w = true) {p q : ℕ} (hp : permB n w p = true)
   rw [← comp_unpack hw hp hq]
   exact permOfArr_eq_of_rep (rep_compA (rep_pi hp) (rep_pi hq))
 
-theorem pi_inv (hw : szOK n w = true) {p : ℕ} (hp : permB n w p = true) :
+theorem pi_inv (_hw : szOK n w = true) {p : ℕ} (hp : permB n w p = true) :
     pi n w (pinvS n w (mask w) p) = (pi n w p)⁻¹ := by
   unfold pi
-  rw [← inv_unpack hw hp]
+  rw [← inv_unpack hp]
   exact permOfArr_eq_of_rep (rep_inv_of_validA (CFSG.KC.BfsPin.validA_unpack hp))
 
 theorem pi_one (hw : szOK n w = true) : pi n w (pidn n w) = 1 := by

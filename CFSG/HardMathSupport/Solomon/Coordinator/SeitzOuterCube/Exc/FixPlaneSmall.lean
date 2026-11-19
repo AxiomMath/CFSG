@@ -20,8 +20,7 @@ theorem not_sq_dvd_card_G2_two {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) : ¬ p ^
   have hp110 : p ≤ 110 := by nlinarith
   interval_cases p <;> first
     | (exfalso; revert hp; norm_num; done)
-    | (revert h; norm_num; done)
-    | omega
+    | (revert h; norm_num)
 
 section G2Descent
 

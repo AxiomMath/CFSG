@@ -19,9 +19,9 @@ namespace CFSG.EvenSporadicStandard.TwoHS.GH312
 theorem gh312AlmostSimple_of_gh74
     (hGH : AS35W.GH74Models) : GH312AlmostSimple := by
   intro X _ _ hO hZ hP hU T hTn hTs hTna hC
-  haveI := hTn
-  haveI := hTs
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hTn
+  have := hTs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, ⟨ι⟩⟩ := hP
   obtain ⟨u, hu2, hu1, ⟨e⟩⟩ := hU
   have hPcard : Nat.card (P : Subgroup X) = 2 ^ 7 := by
@@ -34,7 +34,7 @@ theorem gh312AlmostSimple_of_gh74
   have hTeven : Even (Nat.card ↥T) := by
     by_contra hodd
     rw [Nat.not_even_iff_odd] at hodd
-    haveI := CFSG.Milestones.odd_order_solvable hodd
+    have := CFSG.Milestones.odd_order_solvable hodd
     obtain ⟨a, b, hab⟩ := hTna
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance a b)
   obtain ⟨huT, hKT, -⟩ := mem_and_altCentralizer_le_and_card_dvd hu2 hu1 e P hPcard hTn hTeven

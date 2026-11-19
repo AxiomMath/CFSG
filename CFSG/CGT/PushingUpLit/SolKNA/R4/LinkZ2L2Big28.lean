@@ -16,6 +16,7 @@ section SylowIn
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSylow2In_subgroupOf_top {P S : Subgroup G} (hS : IsSylow2In S P) :
     IsSylow2In (S.subgroupOf P) ⊤ := by
   refine ⟨le_top, hS.2.1.comap_of_injective P.subtype P.subtype_injective, ?_⟩
@@ -36,7 +37,7 @@ theorem isSylow2In_subgroupOf_top {P S : Subgroup G} (hS : IsSylow2In S P) :
 
 theorem exists_conj_le_of_isSylow2In {P S H : Subgroup G} (hS : IsSylow2In S P)
     (hH : IsPGroup 2 ↥H) (hHP : H ≤ P) : ∃ g : G, H ≤ conjSub g S := by
-  haveI : Finite ↥P := Subtype.finite
+  have : Finite ↥P := Subtype.finite
   have hS' : IsSylow2In (S.subgroupOf P) ⊤ := isSylow2In_subgroupOf_top hS
   have hH' : IsPGroup 2 ↥(H.subgroupOf P) :=
     hH.comap_of_injective P.subtype P.subtype_injective

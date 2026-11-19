@@ -165,8 +165,8 @@ theorem exists_center_conj_of_suN (hT : rootDiagUnit τ ta ∈ S.D.torus)
       ∃ A ∈ Subgroup.center SL(ν, L), A ^ ν = 1 ∧ (z : ModGL τ L) = z₀ * ψ A * z₀⁻¹ := by
   classical
   have hν3 : 3 ≤ ν := by omega
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2, z₀, hfz⟩ :=
     two_suN_exists_hom_conj S hT i hν3 hψ hΨ π hπ hr hchar he hq hs1
   rw [hs1, Nat.mul_one] at hσc
@@ -193,7 +193,7 @@ theorem exists_center_conj_of_suN (hT : rootDiagUnit τ ta ∈ S.D.torus)
     rw [MonoidHom.mem_ker] at hc ⊢
     exact congrArg Subtype.val hc
   obtain ⟨F, hFcard, eC, hlink⟩ := two_suN_exists_equiv_link hr he σQ hσc hν3
-  haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos hr.pos _) 2).ne')
   obtain ⟨-, hZ⟩ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
@@ -210,7 +210,7 @@ theorem exists_center_conj_of_suN (hT : rootDiagUnit τ ta ∈ S.D.torus)
 theorem not_three_dvd_card_center_of_pow {R : Type*} [Group R] [Finite R] {n : ℕ} (hn : ¬ 3 ∣ n)
     (h : ∀ z ∈ Subgroup.center R, z ^ n = 1) : ¬ 3 ∣ Nat.card (Subgroup.center R) := by
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center R)) 3 h3
   have hxn : (x : R) ^ n = 1 := h x x.2
   have : orderOf (x : R) ∣ n := orderOf_dvd_of_pow_eq_one hxn

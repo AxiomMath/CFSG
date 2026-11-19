@@ -12,7 +12,7 @@ open Subgroup CFSG CFSG.EvenSporadicStandard.SolomonRed
 variable {G : Type*} [Group G] {B : Type*} [Group B] {t : G} {B₀ : Subgroup B}
   {ψ : ↥(centralizer ({t} : Set G)) →* Multiplicative (ZMod 2) × B}
 
-theorem sup_conj_perfect [Finite G] (h : ModData t B₀ ψ) {L₁ : Subgroup G}
+theorem sup_conj_perfect [Finite G] (_h : ModData t B₀ ψ) {L₁ : Subgroup G}
     (hL₁ : IsComponent L₁) :
     ⁅L₁ ⊔ L₁.map (MulAut.conj t).toMonoidHom, L₁ ⊔ L₁.map (MulAut.conj t).toMonoidHom⁆ =
         L₁ ⊔ L₁.map (MulAut.conj t).toMonoidHom ∧

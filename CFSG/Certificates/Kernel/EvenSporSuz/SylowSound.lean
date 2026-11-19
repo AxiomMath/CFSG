@@ -237,7 +237,7 @@ theorem mem_monG {T : KTree (Nat × Nat)} {OT : KTree (Nat × Nat)} {G GI : List
   | zero =>
     intro p hp hd
     have h := hall p hp
-    simp only [elemK, Bool.and_eq_true, hd, Nat.beq_refl, cond_true, Nat.beq_eq] at h
+    simp only [elemK, Bool.and_eq_true, hd, Nat.beq_refl, _root_.Bool.cond_true, Nat.beq_eq] at h
     refine ⟨canon3_of_canonK h.1.1.1, ?_⟩
     rw [h.1.2, canon3_one3.2]
     exact one_mem _
@@ -245,7 +245,7 @@ theorem mem_monG {T : KTree (Nat × Nat)} {OT : KTree (Nat × Nat)} {G GI : List
     intro p hp hd
     have h := hall p hp
     have hb : Nat.beq (p.2 / 4) 0 = false := by rw [hd]; rfl
-    simp only [elemK, Bool.and_eq_true, hb, cond_false] at h
+    simp only [elemK, Bool.and_eq_true, hb, Bool.cond_false] at h
     obtain ⟨⟨⟨hc, -⟩, hpar⟩, -⟩ := h
     have hce := canon3_of_canonK hc
     have hk : p.2 % 4 < 4 := Nat.mod_lt _ (by omega)
@@ -276,14 +276,14 @@ theorem conj_monG {OT : KTree (Nat × Nat)} {G GI R : List Nat} {OD : List (Nat 
   | zero =>
     intro p hp hd
     have h := hall p hp
-    simp only [orbK, Bool.and_eq_true, hd, Nat.beq_refl, cond_true, Nat.beq_eq, Nat.blt_eq] at h
+    simp only [orbK, Bool.and_eq_true, hd, Nat.beq_refl, _root_.Bool.cond_true, Nat.beq_eq, Nat.blt_eq] at h
     refine ⟨canon3_of_canonK h.1.1, h.1.2, 1, one_mem _, ?_⟩
     rw [h.2, Matrix.mul_one, Matrix.one_mul]
   | succ d ih =>
     intro p hp hd
     have h := hall p hp
     have hb : Nat.beq (p.2 / 4 % 64) 0 = false := by rw [hd]; rfl
-    simp only [orbK, Bool.and_eq_true, hb, cond_false, Nat.blt_eq] at h
+    simp only [orbK, Bool.and_eq_true, hb, Bool.cond_false, Nat.blt_eq] at h
     obtain ⟨⟨hc, hlt⟩, hpar⟩ := h
     have hcv := canon3_of_canonK hc
     have hk : p.2 % 4 < 4 := Nat.mod_lt _ (by omega)

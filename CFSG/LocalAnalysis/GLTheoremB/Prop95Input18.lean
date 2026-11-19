@@ -24,7 +24,7 @@ theorem input18Two_holds :
           IsPGroup 2 H →
           ∀ K : Subgroup X, GLAPComponent p ⊤ K → H ≤ Subgroup.normalizer (K : Set X) := by
   intro X _ _ _ p hp hp2 hO d hd H hHC hHn hH2 K hK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKc : IsComponentOf K ⊤ :=
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.i116n_isComponentOf_of_glaPComponent hO hK
   have hB : IsPGroup p (Subgroup.zpowers d) := input18_isPGroup_zpowers hd

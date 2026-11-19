@@ -355,7 +355,7 @@ theorem fullCore_escape_sylow_center_isCyclic
     (sylow : Subgroup ambient).subtype.comp center.subtype
   have hinjective : Function.Injective hom :=
     Subtype.val_injective.comp Subtype.val_injective
-  have hcenterGroup : IsPGroup prime center := sylow.isPGroup'.to_subgroup center
+  have hcenterGroup : IsPGroup prime center := sylow.isPGroup.to_subgroup center
   let : CommGroup center := IsMulCommutative.instCommGroup
   apply commutative_pGroup_isCyclic_of_rank_le_one (source := center) prime hprime hcenterGroup
   apply csSup_le'
@@ -417,7 +417,7 @@ theorem fullCore_escape_cyclic_center_or_maximal_elementary
     escaping_rank_two_center_bound_or_elementary prime hprime hcore hcontained hrank hnormalizer
   · exact Or.inl ⟨subgroup, hcontained, hrank,
       subgroup_center_isCyclic_of_rank_le_one prime hprime subgroup
-        (sylow.isPGroup'.to_le hcontained) hsmall, hnormalizer⟩
+        (sylow.isPGroup.to_le hcontained) hsmall, hnormalizer⟩
   · exact Or.inr ⟨elementary, helementaryContained.trans hcontained, helementary, hcard,
       helementaryNormalizer, hmaximal⟩
 

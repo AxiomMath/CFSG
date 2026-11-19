@@ -118,7 +118,7 @@ theorem canon_lane {t : Nat} (ht0 : 0 < t) (ht : t < 6720) {l : Nat} (hl : l < N
     | succ n => rfl
   unfold canonF at hc
   rw [bIf_eq, hz] at hc
-  simp only [Bool.false_eq_true, if_false] at hc
+  simp only [Bool.false_eq_true, ite_false] at hc
   obtain ⟨h1, h2⟩ := canonAt_spec hc
   have hlen : RT.length = (appW NL ONES (trJ t0 t1 t2 t3 t4 t5 t6 (CFSG.KD.X0O.MSF t)) TSR
       (112 - 16) 16).length := by
@@ -201,12 +201,12 @@ theorem laneV_target0 {l : Nat} (hl : l < NL) : laneV (targetK 0) l = v2N rootV 
   change (laneV (bcF ONES (v2N rootV) 112 0) l).testBit j = _
   rw [testBit_laneV, getD_bcF, Nat.zero_add]
   by_cases hj : j < 112
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     cases h : (v2N rootV).testBit j
     · simp
     · simp [ones_bit hl]
   · have hr : rootV.wf = true := by decide
-    rw [if_neg hj, Nat.zero_testBit,
+    rw [ite_eq_right hj, Nat.zero_testBit,
       Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le (v2N_lt112 hr)
         (Nat.pow_le_pow_right (n := 2) (by omega) (show 112 ≤ j by omega)))]
 
@@ -323,7 +323,7 @@ theorem des_lane {l : Nat} (h : l ∈ DL) : l = LF ∨ ∃ j < 30, (WD.getD j (0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h') hl
     rw [hb, anyB_eq] at h1
-    simp only [Bool.false_eq_true, if_false, List.any_eq_true, Nat.beq_eq] at h1
+    simp only [Bool.false_eq_true, ite_false, List.any_eq_true, Nat.beq_eq] at h1
     obtain ⟨p, hp, hpl⟩ := h1
     obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hp
     refine ⟨j, by rw [← hd.2.2.2.1]; exact hj, ?_⟩

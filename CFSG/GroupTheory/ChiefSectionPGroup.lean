@@ -23,7 +23,7 @@ theorem le_normalizer_closure_pow {G : Type*} [Group G] {N X : Subgroup G} {n : 
       have hzX : g * z * g⁻¹ ∈ X := (Subgroup.mem_normalizer_iff.mp (hNX hg) z).mp hz
       rw [← conj_pow]
       exact Subgroup.subset_closure ⟨g * z * g⁻¹, hzX, rfl⟩
-    · simpa using P.one_mem
+    · simp
     · rw [show g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) by group]
       exact P.mul_mem ha hb
     · rw [show g * a⁻¹ * g⁻¹ = (g * a * g⁻¹)⁻¹ by group]
@@ -50,7 +50,7 @@ theorem commutator_sup_lt_of_isPGroup {G : Type*} [Group G] [Finite G] {p : ℕ}
   let Qg := ↥Q
   let Xq : Subgroup Qg := X.subgroupOf Q
   let Vq : Subgroup Qg := V.subgroupOf Q
-  haveI hVqN : Vq.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQV
+  have hVqN : Vq.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQV
   have hVqcomm : ⁅Vq, ⊤⁆ ≤ Vq := Subgroup.commutator_le_left (H₁ := Vq) (H₂ := ⊤)
   let C : Subgroup Qg := ⁅Xq, ⊤⁆
   have hmap : C.map Q.subtype = ⁅X, Q⁆ := by

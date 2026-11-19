@@ -37,7 +37,7 @@ theorem printedHull (r : ℕ) : PrintedHull r where
     have hΛ : HypOmegaGen (hullFam Ω w) :=
       hypOmegaGen_restrict (TwinADescent.hypOmegaGen_coreFamily hΩ hc2) (coreHull Ω w)
     have hT₁2 : IsPGroup 2 ((S₁ : Subgroup ↥(coreHull Ω w)).map (secEmb Ω w)) :=
-      S₁.isPGroup'.map (secEmb Ω w)
+      S₁.isPGroup.map (secEmb Ω w)
     have hcomm : Commutes (Subgroup.zpowers w) ((S₁ : Subgroup ↥(coreHull Ω w)).map (secEmb Ω w)) := by
       rintro x hx _ ⟨y, -, rfl⟩
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx

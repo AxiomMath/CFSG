@@ -23,7 +23,7 @@ theorem card_le_of_sylow_conj {C : Type*} [Group C] [Finite C] {p₁ p₂ : C} (
           (p₁ ^ i * p₂ ^ j * u * (p₁ ^ i * p₂ ^ j)⁻¹) * u}.ncard ≤ n) :
     Nat.card ↥A ≤ n + 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz1 := isPGroup_zpowers_of_pow_three h1
   have hz2 := isPGroup_zpowers_of_pow_three h2
   have hnorm : Subgroup.zpowers p₁ ≤ Subgroup.normalizer (Subgroup.zpowers p₂ : Set C) := by
@@ -87,7 +87,7 @@ theorem card_le_of_mulEquiv_of_sylow {G G' : Type*} [Group G] [Finite G] [Group 
     (P : Sylow 3 G) (A : Subgroup G) (hA2 : ∀ e ∈ A, e * e = 1)
     (hAc : ∀ e ∈ A, ∀ f ∈ A, e * f = f * e) (hAP : ∀ t ∈ P, ∀ x ∈ A, t * x * t⁻¹ ∈ A) :
     Nat.card ↥A ≤ n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsurj : Function.Surjective ε.toMonoidHom := ε.surjective
   set P' : Sylow 3 G' := Sylow.mapSurjective (f := ε.toMonoidHom) hsurj P with hP'
   have hmem : ∀ t' ∈ P', ∃ t ∈ P, ε t = t' := by

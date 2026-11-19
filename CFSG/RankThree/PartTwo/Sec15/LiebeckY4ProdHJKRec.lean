@@ -50,20 +50,23 @@ theorem le_of_map_le_of_nonabelian {Y J J' K : Subgroup G} (hJ : J ∈ thetaComp
     rw [hcomm', Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
     exact hmem
 
+omit [Finite G] in
 theorem not_isSolvable_oPrimeResidual_delta_of {A : Subgroup G} {LB : Subgroup G → Subgroup G}
     {J K : Subgroup G} (hKJ : K ≤ J) (hKΔ : K = deltaZero A LB K)
     (hKns : ¬ Group.IsSolvable ↥(oPrimeResidualOf 3 K)) :
     ¬ Group.IsSolvable ↥(oPrimeResidualOf 3 (delta A LB J)) := fun hsol => by
-  haveI := hsol
+  have := hsol
   exact hKns (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
     (oPrimeResidualOf_mono 3 (hKΔ.le.trans ((deltaZero_mono hKJ).trans
       (deltaZero_le_delta J))))))
 
+omit [Finite G] in
 theorem pPrimeCoreOf_subgroupOf (Y : Subgroup G) :
     (pPrimeCoreOf 3 Y).subgroupOf Y = CFSG.pPrimeCore 3 ↥Y := by
   rw [pPrimeCoreOf, Subgroup.subgroupOf,
     Subgroup.comap_map_eq_self_of_injective Y.subtype_injective]
 
+omit [Finite G] in
 theorem map_le_of_forall_exists_mem {Y J K : Subgroup G} (hJY : J ≤ Y)
     (h : ∀ k ∈ K, ∃ j ∈ J, j⁻¹ * k ∈ pPrimeCoreOf 3 Y) :
     (K.subgroupOf Y).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥Y)) ≤

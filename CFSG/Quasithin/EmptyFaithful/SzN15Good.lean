@@ -25,7 +25,7 @@ theorem exists_sylow_cover {Γ X : Type*} [Group Γ] [Finite Γ] [Group X] (π :
     ∃ T : Subgroup Γ, IsSylowTwoOf T ⊤ ∧ T.map π = S := by
   have : Finite X := Finite.of_surjective π hπ
   obtain ⟨P⟩ : Nonempty (Sylow 2 Γ) := inferInstance
-  have hP2 : IsPGroup 2 (P : Subgroup Γ) := P.isPGroup'
+  have hP2 : IsPGroup 2 (P : Subgroup Γ) := P.isPGroup
   have hPidx : ¬ 2 ∣ (P : Subgroup Γ).index := P.not_dvd_index
   have hA2 : IsPGroup 2 ((P : Subgroup Γ).map π) := hP2.map π
   have hAidx : ¬ 2 ∣ ((P : Subgroup Γ).map π).index := fun h =>

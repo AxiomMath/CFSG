@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem commutator_sup_centerIn_le_H : ⁅H z, H z⁆ ⊔ centerIn (J z) ≤ H z := by
   apply sup_le
   · rw [Subgroup.commutator_le]

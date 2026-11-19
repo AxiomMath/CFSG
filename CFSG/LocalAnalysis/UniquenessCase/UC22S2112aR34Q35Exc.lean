@@ -723,9 +723,9 @@ theorem uc22s2112r34q35_orderOf_dvd_three_of_shape_of_odd {X : Type} [Group X] [
     have hPnt : Nontrivial ↥(P : Subgroup X) := (Subgroup.nontrivial_iff_ne_bot _).mpr hPne
     let : Nontrivial ↥(P : Subgroup X) := hPnt
     have hcenter : Nontrivial ↥(Subgroup.center ↥(P : Subgroup X)) :=
-      IsPGroup.center_nontrivial P.isPGroup'
+      IsPGroup.center_nontrivial P.isPGroup
     have hcentP : IsPGroup 2 (Subgroup.center ↥(P : Subgroup X)) :=
-      P.isPGroup'.to_subgroup (Subgroup.center ↥(P : Subgroup X))
+      P.isPGroup.to_subgroup (Subgroup.center ↥(P : Subgroup X))
     have hcard : 2 ∣ Nat.card ↥(Subgroup.center ↥(P : Subgroup X)) := by
       rcases hcentP.card_eq_or_dvd with h | h
       · exfalso

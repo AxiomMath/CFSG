@@ -103,7 +103,7 @@ theorem dc2Check_sound {Γ : Type} [Group Γ] [Finite Γ] {n : ℕ} [MulAction �
   by_cases hZ : Z = P.S
   · exact Or.inl hZ
   right
-  obtain ⟨g, hgZ, hgS⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hSZ' (Ne.symm hZ))
+  obtain ⟨g, hgZ, hgS⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hSZ' (Ne.symm hZ))
   obtain ⟨t, ht, htc, s₁, hs₁, s₂, hs₂, rfl⟩ := P.cover g
   rcases P.root_wit ht htc with hr | ⟨hss, h3⟩
   · rw [hr, P.elt_nil, mul_one] at hgS

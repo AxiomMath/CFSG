@@ -60,13 +60,13 @@ theorem CME_le_CMETilde {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch) :
       rw [← hcomm]
       group
     rw [hxu]
-    simpa using D.Z.one_mem
+    simp
 
 theorem inf_CME_eq_bot_of_mem_sig {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     (h201 : S23_20_1 D Ch) (h1930 : H1930 D) {q : ℕ} (hqsig : q ∈ D.sig)
     {Q : Subgroup G} (hQ : IsPGroup q ↥Q) : Q ⊓ c.CME = ⊥ := by
   have hq : q.Prime := (D.sig_prime q hqsig).1
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine le_antisymm ?_ bot_le
   intro x hx
   rw [Subgroup.mem_bot]
@@ -86,7 +86,7 @@ theorem inf_CME_eq_bot_of_one_lt_pRank {D : Data G} {Ch : Choice2011 G} (c : Ctx
     (hrk : 1 < CFSG.Open.pRank q (barPreimage D.M (CFSG.pCore q (Bar2 D.M))))
     {Q : Subgroup G} (hQP : Q ≤ barPreimage D.M (CFSG.pCore q (Bar2 D.M)))
     (hQ : IsPGroup q ↥Q) : Q ⊓ c.CME = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine le_antisymm ?_ bot_le
   intro x hx
   rw [Subgroup.mem_bot]
@@ -123,7 +123,7 @@ theorem one_lt_pRank_barPreimage_of_not_isCyclic {M : Subgroup G} {q : ℕ} (hq 
     (hq2 : q ≠ 2) (hnc : ¬ IsCyclic ↥(CFSG.pCore q (Bar2 M))) :
     1 < CFSG.Open.pRank q (barPreimage M (CFSG.pCore q (Bar2 M))) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let P : Subgroup G := barPreimage M (CFSG.pCore q (Bar2 M))
   obtain ⟨Q0, hQ0syl⟩ := CFSG.ABGLocalTools.exists_isSylowOf q P
   have hQ0p : IsPGroup q ↥Q0 := hQ0syl.isPGroup
@@ -157,7 +157,7 @@ namespace Ctx2311
 
 theorem commute_bar_pCore_of_semiregular {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     (hE2 : IsPGroup 2 ↥c.E) (hEM : c.E ≤ D.M)
-    (hME : D.M ≤ Subgroup.normalizer (c.E : Set G)) (h1930 : H1930 D) {d : G} (hdM : d ∈ D.M)
+    (hME : D.M ≤ Subgroup.normalizer (c.E : Set G)) (_h1930 : H1930 D) {d : G} (hdM : d ∈ D.M)
     {r q : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hdr : orderOf d = r)
     (hdE : c.E ⊓ Subgroup.centralizer ({d} : Set G) = ⊥) (hq : q.Prime) (hq2 : q ≠ 2)
     (hqr : q ≠ r)
@@ -167,8 +167,8 @@ theorem commute_bar_pCore_of_semiregular {D : Data G} {Ch : Choice2011 G} (c : C
     QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨d, hdM⟩ * y =
       y * QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨d, hdM⟩ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact r.Prime := ⟨hr⟩
   let P : Subgroup G := barPreimage D.M (CFSG.pCore q (Bar2 D.M))
   have hPM : P ≤ D.M := uc22p21c_barPreimage_le D.M _
   have hPnorm : D.M ≤ Subgroup.normalizer (P : Set G) :=
@@ -217,7 +217,7 @@ private theorem commute_bar_pCore_of_factor {D : Data G} {Ch : Choice2011 G} (c 
       IsPGroup q ↥Q → Q ⊓ c.CME = ⊥) :
     CFSG.pCore q (Bar2 D.M) ≤ Subgroup.centralizer
       ({QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨b, hbM⟩} : Set (Bar2 D.M)) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro y hy
   rw [Subgroup.mem_centralizer_iff]
   intro z hz
@@ -284,7 +284,7 @@ theorem pCore_bar_eq_bot_of_mem_sig {D : Data G} {Ch : Choice2011 G} (c : Ctx231
   obtain ⟨b, hb, d, a, r, hr, hr2, hr3, hbr, hbZ, hbd, haK, hdM, hdord, hdE⟩ :=
     c.exists_semiregular_factor_of_isL2 hE h207 h52 h53 h4 h1930 h3 hL2K h17
   obtain ⟨hq, hq2⟩ := D.sig_prime q hqsig
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hbM : b ∈ D.M := c.hBM hb
   have hKM : c.K ≤ D.M := (uc22p21c_Hinf_le (D.M ⊓ c.L)).trans inf_le_left
   have haM : a ∈ D.M := hKM haK
@@ -331,7 +331,7 @@ private theorem not_isCyclic_pCore_bar_of_noncyclic {D : Data G} {Ch : Choice201
     (hbar : orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨b, hbM⟩) = r)
     (hbZ : b ∉ Subgroup.centralizer (D.Z : Set G))
     (hnc : ¬ IsCyclic ↥(CFSG.pCore q (Bar2 D.M))) : False := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨W, hWle, hWne, hWnc, hWexp, hWcl, hWnorm⟩ :=
     CFSG.GroupTheory.exists_noncyclic_exponent_classTwo_normalized (p := q) hq2
       CFSG.pCore_isPGroup hnc
@@ -377,7 +377,7 @@ theorem isCyclic_pCore_bar {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
         (CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot (H := ↥D.M) (p := 2))
     rw [hbot]
     infer_instance
-  · haveI : Fact q.Prime := ⟨hq⟩
+  · have : Fact q.Prime := ⟨hq⟩
     obtain ⟨_, h3⟩ := c.n_eq_pRank_and_three_le hE h207 h52 h1930
     obtain ⟨b, hb, d, a, r, hr, hr2, hr3, hbr, hbZ, hbd, haK, hdM, hdord, hdE⟩ :=
       c.exists_semiregular_factor_of_isL2 hE h207 h52 h53 h4 h1930 h3 hL2K h17
@@ -427,7 +427,7 @@ theorem s23_21_2_of (D : Data G) (Ch : Choice2011 G) (hE : UC22P20gExcFacts) (h2
   rintro p ⟨hpsig, hppi⟩
   rw [piSet] at hppi
   obtain ⟨hpprime, hpdvd⟩ := hppi
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   obtain ⟨h3m, hV, hSL, hnatSL, hker⟩ :=
     c.sl3Line_of h1930 hE h207 h2 h3 h4 hline hKN KOrdNat.kOrdNatural_holds hS hS3 hN1 hN2 hN3
   have hL2K := c.isL2_bar2_K h1930 h4 hTd (hV := hV) h3m hSL hnatSL hker

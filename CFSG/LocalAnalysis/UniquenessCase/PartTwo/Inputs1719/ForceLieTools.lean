@@ -97,7 +97,7 @@ theorem isPGroup_three_of_wreath {Q : Type} [Group Q] {a b : Q} (ha : a ^ 3 = 1)
     · rw [show b⁻¹ * a * b = b⁻¹ * a * b⁻¹⁻¹ by group, conj_pow, ha]; group
   have hK : IsPGroup 3 ↥(closure s) := by
     have hc : ∀ x ∈ closure s, ∀ y ∈ closure s, Commute x y := by
-      haveI : IsMulCommutative ↥(closure s) := Subgroup.isMulCommutative_closure hpair
+      have : IsMulCommutative ↥(closure s) := Subgroup.isMulCommutative_closure hpair
       intro x hx y hy
       have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(closure s)) (⟨y, hy⟩))
       exact this
@@ -177,7 +177,7 @@ theorem not_cubesCommute_of_cover {X Q : Type} [Group X] [Finite X] [Group Q]
   have hvL : v ∈ L := by rw [hL, mem_comap, hvb]; exact hbS
   have hwP := hmem ⟨w, hwL⟩ (Subtype.ext (by simpa using hw3))
   have hvP := hmem ⟨v, hvL⟩ (Subtype.ext (by simpa using hv3))
-  have hc := hT1 ((P : Subgroup L).map L.subtype) (P.isPGroup'.map _) w ⟨⟨w, hwL⟩, hwP, rfl⟩
+  have hc := hT1 ((P : Subgroup L).map L.subtype) (P.isPGroup.map _) w ⟨⟨w, hwL⟩, hwP, rfl⟩
     v ⟨⟨v, hvL⟩, hvP, rfl⟩ hw3 hv3
   apply hab
   rw [← hwa, ← hvb, ← map_mul, ← map_mul, hc]

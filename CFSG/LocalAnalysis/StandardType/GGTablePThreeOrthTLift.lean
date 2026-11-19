@@ -270,7 +270,7 @@ private theorem orthTLift_comp_iff {K : Type} [Field K] [Finite K]
 private theorem orthTLift_block_comp {K : Type} [Field K] [Finite K]
     {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V}
     {x : orthDerived Q} {h : K[X]}
-    (hh : h ∈ primaryFactors ((x : V ≃ₗ[K] V).toLinearMap)) (hne1 : h ≠ X - 1)
+    (_hh : h ∈ primaryFactors ((x : V ≃ₗ[K] V).toLinearMap)) (_hne1 : h ≠ X - 1)
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h)) :
     CFSG.Open.IsComponentOf (componentImage Q (x : V ≃ₗ[K] V) h)
       (centralizerImage Q (x : V ≃ₗ[K] V)) := by
@@ -394,7 +394,7 @@ theorem orthT_lift {K : Type} [Field K] [Finite K] [CharP K 2]
     obtain ⟨U, hU, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K)
       (lt_of_lt_of_le (by omega) (Submodule.finrank_le U))
-  haveI : Nontrivial V := hV
+  have : Nontrivial V := hV
   obtain ⟨Â, x, hxÂ, hcard, hexp, hcomm, -, hconj, hmap⟩ :=
     orthTLift_liftA hQ hT hR hĀI
   have hx3 : x ^ 3 = 1 := hexp x hxÂ

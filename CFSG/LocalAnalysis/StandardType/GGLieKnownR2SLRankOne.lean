@@ -76,7 +76,7 @@ theorem pCoreOf_normalizer_rootSubgroup_le {F : Type} [Field F] [CharP F 2] {i j
   refine Matrix.SpecialLinearGroup.ext _ _ fun p q => ?_
   rcases fin_two_eq_or hij p with hp | hp <;> rcases fin_two_eq_or hij q with hq | hq <;>
     subst hp <;> subst hq <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply, Matrix.single_apply, hii,
+    simp [Matrix.SpecialLinearGroup.transvection_coe, hii,
       hjj, hji, hij, hij.symm]
 
 end CFSG.StandardType.LieKnownR2.SpecialLinearNC

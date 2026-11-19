@@ -77,7 +77,7 @@ theorem even_card_fusionZStar {K : Type} [Group K] [Finite K] {w : K} (hw : orde
 
 theorem orderOf_mk_pPrimeCore_two {K : Type} [Group K] [Finite K] {w : K} (hw : orderOf w = 2) :
     orderOf (QuotientGroup.mk' (pPrimeCore 2 K) w) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hw2 : w ^ 2 = 1 := by
     rw [← hw]
     exact pow_orderOf_eq_one w
@@ -113,7 +113,7 @@ theorem exists_cover_with_lift (hGA : ComponentClassification.TBLit.GriessMultip
       Function.Surjective f ∧ Group.IsPerfect P ∧ f.ker ≤ center P ∧
         (∃ a : ℕ, orderOf x = 2 ^ a) ∧ x ^ 2 ≠ 1 ∧
         f x = QuotientGroup.mk' (pPrimeCore 2 ↥J) ⟨w, hwJ⟩ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hstar, hdef⟩ := exists_deficiency hGA hK2 hKchev hnot (even_card_fusionZStar hw hwc)
   obtain ⟨S, _, _, π, hπs, hSp, hπk, hlift⟩ := exists_hopf_cover_data hK2.2
     (mk_mem_center (pPrimeCore 2 K) hwc) (orderOf_mk_pPrimeCore_two hw) hstar hdef

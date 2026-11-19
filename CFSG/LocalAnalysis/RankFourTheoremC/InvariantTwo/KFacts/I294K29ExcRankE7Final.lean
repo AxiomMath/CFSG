@@ -17,12 +17,12 @@ section E7
 theorem crossRankE7SevenSplit_holds : CrossRankE7SevenSplit := by
   intro q hv h7
   refine ExcRank.crossRankAtPrime_of_model fun hp hp5 hdp => ?_
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨φ⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
     (GaloisField q.p q.exponent) hK
-  haveI : Finite (adjointGroup Tag.E7 (GaloisField q.p q.exponent)) :=
+  have : Finite (adjointGroup Tag.E7 (GaloisField q.p q.exponent)) :=
     generated_group_finite Tag.E7 _
   refine ⟨adjointGroup Tag.E7 (GaloisField q.p q.exponent), inferInstance, inferInstance,
     ⟨φ.symm.trans (adjointQuotientEquiv Tag.E7 _)⟩, fun y hy => ?_⟩

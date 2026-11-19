@@ -29,11 +29,11 @@ theorem good427_of_compShape {T : ∀ (Q : Type) [Group Q], Prop}
     Good427 (fixSubgroup β) := by
   set C := fixSubgroup β with hCdef
   intro K hKC hKq hKs hA5
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   set T' := K ⧸ CFSG.pCore 2 K
-  haveI : Group.IsPerfect T' := inferInstance
-  haveI hTs : IsSimpleGroup T' := hA5.isSimpleGroup
-  haveI : Nontrivial T' := hA5.nontrivial
+  have : Group.IsPerfect T' := inferInstance
+  have hTs : IsSimpleGroup T' := hA5.isSimpleGroup
+  have : Nontrivial T' := hA5.nontrivial
   have hcompN : ∀ L : Subgroup S, CFSG.Open.IsComponentOf L C →
       ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L := by
     intro L hL g hg l hl
@@ -86,10 +86,10 @@ theorem good427_of_compShape {T : ∀ (Q : Type) [Group Q], Prop}
     have hab : ⁅K, K⁆ = ⊥ :=
       Subgroup.commutator_eq_bot_iff_le_centralizer.mpr (hlay.trans hcent)
     rw [Subgroup.commutator_eq_self] at hab
-    haveI : Subsingleton K := by
+    have : Subsingleton K := by
       rw [hab]
       infer_instance
-    haveI : Subsingleton T' := QuotientGroup.mk'_surjective (CFSG.pCore 2 K) |>.subsingleton
+    have : Subsingleton T' := QuotientGroup.mk'_surjective (CFSG.pCore 2 K) |>.subsingleton
     exact not_subsingleton T' inferInstance
   have hLq : IsQuasisimple L := isQuasisimple_of_open hL.2.2
   set π : K →* T' := QuotientGroup.mk' (CFSG.pCore 2 K)
@@ -102,8 +102,8 @@ theorem good427_of_compShape {T : ∀ (Q : Type) [Group Q], Prop}
     show π (Subgroup.inclusion hLK _) = π k * π (Subgroup.inclusion hLK l) * (π k)⁻¹
     rw [← map_inv, ← map_mul, ← map_mul]
     rfl
-  haveI : Group.IsPerfect L := hLq.1
-  haveI : Nontrivial L := CFSG.LocalCores.isQuasisimple_nontrivial hLq
+  have : Group.IsPerfect L := hLq.1
+  have : Nontrivial L := CFSG.LocalCores.isQuasisimple_nontrivial hLq
   have hψs : Function.Surjective ψ := by
     rcases hψn.eq_bot_or_eq_top with h1 | h1
     · exfalso
@@ -111,7 +111,7 @@ theorem good427_of_compShape {T : ∀ (Q : Type) [Group Q], Prop}
         have : ψ l ∈ ψ.range := ⟨l, rfl⟩
         rw [h1, Subgroup.mem_bot] at this
         exact this
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h2 : IsPGroup 2 L := by
         intro l
         have hl : (Subgroup.inclusion hLK l) ∈ CFSG.pCore 2 K := by

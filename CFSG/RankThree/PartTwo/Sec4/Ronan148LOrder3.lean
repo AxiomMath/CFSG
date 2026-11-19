@@ -107,8 +107,8 @@ private theorem three_dvd_orderTwistedA (n q : ℕ) (hn : 1 ≤ n) (hq : 2 ≤ q
       ∏ i ∈ Icc 2 (n + 1), (if Even i then q ^ i - 1 else q ^ i + 1) := by
     have h := Finset.prod_dvd_prod_of_subset ({2, 3} : Finset ℕ) (Icc 2 (n + 1))
       (fun i => if Even i then q ^ i - 1 else q ^ i + 1) hsub
-    rw [Finset.prod_pair (by norm_num : (2 : ℕ) ≠ 3), if_pos (even_two : Even (2 : ℕ)),
-      if_neg (show ¬Even (3 : ℕ) by decide)] at h
+    rw [Finset.prod_pair (by norm_num : (2 : ℕ) ≠ 3), ite_eq_left (even_two : Even (2 : ℕ)),
+      ite_eq_right (show ¬Even (3 : ℕ) by decide)] at h
     exact h
   have hgg0 : Nat.gcd (n + 1) (q + 1) * Nat.gcd (n + 1) (q + 1) ∣ (q + 1) * (q + 1) :=
     mul_dvd_mul (Nat.gcd_dvd_right (n + 1) (q + 1)) (Nat.gcd_dvd_right (n + 1) (q + 1))

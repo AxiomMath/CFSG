@@ -29,11 +29,11 @@ theorem exists_mem_sylow_evenVec {Y : Type} [Group Y] [Finite Y] {n : ℕ} (ψ :
     (S : Sylow 2 Y) {v : Wr n} (hv : v ∈ evenVec n) (hvr : mkQ n v ∈ ψ.range) :
     ∃ s ∈ (S : Subgroup Y), ψ s = mkQ n v := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup (AEQ n) := (evenVec n).map (mkQ n)
-  haveI hN : N.Normal := Subgroup.Normal.map inferInstance (mkQ n) (QuotientGroup.mk'_surjective _)
+  have hN : N.Normal := Subgroup.Normal.map inferInstance (mkQ n) (QuotientGroup.mk'_surjective _)
   let N' : Subgroup ψ.range := N.subgroupOf ψ.range
-  haveI : N'.Normal := Subgroup.Normal.subgroupOf hN _
+  have : N'.Normal := Subgroup.Normal.subgroupOf hN _
   have h2 : IsPGroup 2 N' := by
     intro g
     refine ⟨1, ?_⟩

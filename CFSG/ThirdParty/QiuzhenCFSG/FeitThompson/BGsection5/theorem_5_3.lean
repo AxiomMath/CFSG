@@ -22,9 +22,9 @@ public theorem CFSG.groupRank_le_one_of_isCyclic
     · exact ⟨0, ⊥, IsPGroup.of_bot (p := q) (G := G), inferInstance, Nat.zero_le _⟩
     · intro n hn
       rcases hn with ⟨A, _hApA, hAcomm, hnA⟩
-      letI : IsMulCommutative A := hAcomm
+      let : IsMulCommutative A := hAcomm
       have hAle : generatorRank A ≤ 1 := by
-        haveI : IsCyclic A := isCyclic_of_injective A.subtype A.subtype_injective
+        have : IsCyclic A := isCyclic_of_injective A.subtype A.subtype_injective
         exact generatorRank_le_one_of_isCyclic (G := A) (by infer_instance)
       exact hnA.trans hAle
   rw [groupRank]
@@ -37,7 +37,7 @@ public theorem CFSG.groupRank_le_one_of_isCyclic
 public theorem CFSG.generatorRank_le_natCard
     (G : Type*) [Group G] [Finite G] :
     generatorRank G ≤ Nat.card G := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   obtain ⟨S, hS_card, _hS_top⟩ := Group.rank_spec G
   calc
     generatorRank G = Group.rank G := generatorRank_eq_group_rank G
@@ -72,7 +72,7 @@ private theorem CFSG.primeRank_top_subgroup_eq
           (Subgroup.equivMapOfInjective (f := (⊤ : Subgroup G).subtype)
             A (⊤ : Subgroup G).subtype_injective)
       have hAmap_comm : IsMulCommutative Amap := by
-        letI : IsMulCommutative A := hAcomm
+        let : IsMulCommutative A := hAcomm
         simpa [Amap] using
           (Subgroup.map_isMulCommutative (f := (⊤ : Subgroup G).subtype) (H := A))
       have hgen_eq : generatorRank A = generatorRank Amap := by
@@ -95,7 +95,7 @@ private theorem CFSG.primeRank_top_subgroup_eq
         exact hAp.of_equiv
           (Subgroup.subgroupOfEquivOfLe (G := G) (H := A) (K := (⊤ : Subgroup G)) le_top).symm
       have hAtop_comm : IsMulCommutative Atop := by
-        letI : IsMulCommutative A := hAcomm
+        let : IsMulCommutative A := hAcomm
         simpa [Atop] using
           Subgroup.subgroupOf_isMulCommutative (H := A) (K := (⊤ : Subgroup G))
       have hgen_eq : generatorRank A = generatorRank Atop := by
@@ -150,7 +150,7 @@ public theorem CFSG.isElementaryAbelian_of_prime_card_isCyclic
     {G : Type*} [Group G] [Finite G] [IsCyclic G]
     (hcard : Nat.card G = p) :
     IsElementaryAbelian p G := by
-  letI : CommGroup G := IsCyclic.commGroup
+  let : CommGroup G := IsCyclic.commGroup
   refine
     { toIsMulCommutative := { is_comm := ⟨mul_comm⟩ }
       exponent_dvd_p := ?_ }
@@ -164,7 +164,7 @@ public theorem CFSG.isElementaryAbelian_top
     {G : Type*} [Group G] [IsElementaryAbelian p G] :
     IsElementaryAbelian p (⊤ : Subgroup G) := by
   let hG : IsElementaryAbelian p G := inferInstance
-  letI : IsMulCommutative G := hG.toIsMulCommutative
+  let : IsMulCommutative G := hG.toIsMulCommutative
   refine
     { toIsMulCommutative := by
         exact
@@ -225,8 +225,8 @@ public theorem CFSG.narrow_witness_centralizer_not_cyclic
   classical
   let C : Subgroup R := Subgroup.centralizer (R₀ : Set R)
   intro hCcyc
-  letI : IsCyclic C := hCcyc
-  letI : CommGroup C := IsCyclic.commGroup
+  let : IsCyclic C := hCcyc
+  let : CommGroup C := IsCyclic.commGroup
   have hR₀_le_C : R₀ ≤ C := by
     dsimp [C]
     rw [hcent]
@@ -236,7 +236,7 @@ public theorem CFSG.narrow_witness_centralizer_not_cyclic
     have hp_ne_one : p ≠ 1 := (Fact.out : Nat.Prime p).ne_one
     exact hp_ne_one <| by simpa [hR₀_bot] using hR₀card.symm
   have hR_nontrivial : Nontrivial R := by
-    haveI : Nontrivial R₀ := (Subgroup.nontrivial_iff_ne_bot R₀).2 hR₀_ne_bot
+    have : Nontrivial R₀ := (Subgroup.nontrivial_iff_ne_bot R₀).2 hR₀_ne_bot
     obtain ⟨x, hx⟩ := exists_ne (1 : R₀)
     refine ⟨⟨1, x.1, ?_⟩⟩
     intro h
@@ -261,7 +261,7 @@ public theorem CFSG.narrow_witness_centralizer_not_cyclic
       ⟨n, hn, hcard⟩
     rw [hcard]
     exact dvd_pow_self p (Nat.ne_of_gt hn)
-  letI : Fintype (Subgroup.center R) := Fintype.ofFinite (Subgroup.center R)
+  let : Fintype (Subgroup.center R) := Fintype.ofFinite (Subgroup.center R)
   have hpdvd_center_fintype : p ∣ Fintype.card (Subgroup.center R) := by
     simpa [Nat.card_eq_fintype_card] using hpdvd_center
   obtain ⟨z₀, hz₀_order⟩ :=
@@ -369,7 +369,7 @@ private theorem CFSG.narrow_forward_exists_rank_two_maximal
   have hCncyc : ¬ IsCyclic C := by
     simpa [C] using
       narrow_witness_centralizer_not_cyclic (p := p) (R := R) hpR hR hR₀card hR₁cyc hdisj hcent
-  letI : Fact (IsPGroup p C) := ⟨hpR.to_subgroup C⟩
+  let : Fact (IsPGroup p C) := ⟨hpR.to_subgroup C⟩
   have hindex : ∃ S : Subgroup C, IsCyclic S ∧ Nat.card (C ⧸ S) = p := by
     let R₁sub : Subgroup C := R₁.subgroupOf C
     refine ⟨R₁sub, ?_, ?_⟩
@@ -382,7 +382,7 @@ private theorem CFSG.narrow_forward_exists_rank_two_maximal
       have hR₀sub_normal : (R₀.subgroupOf C).Normal := by
         rw [Subgroup.normal_subgroupOf_iff_le_normalizer hR₀_le_C]
         simpa [C] using (centralizer_le_normalizer (R := R₀))
-      letI : (R₀.subgroupOf C).Normal := hR₀sub_normal
+      let : (R₀.subgroupOf C).Normal := hR₀sub_normal
       have hsupC : R₀.subgroupOf C ⊔ R₁.subgroupOf C = ⊤ := by
         rw [← Subgroup.subgroupOf_sup (A := R₀) (A' := R₁) (B := C)
           (by simp [C, hcent])
@@ -412,7 +412,7 @@ private theorem CFSG.narrow_forward_exists_rank_two_maximal
   have hEelem : IsElementaryAbelian p E := by
     obtain ⟨_hΩcard, hΩelem⟩ := lemma_4_5_b (R := C) (p := p) hpodd hCncyc hindex
     let Ω : Subgroup C := omega₁ (G := C) (p := p)
-    letI : IsElementaryAbelian p Ω := hΩelem
+    let : IsElementaryAbelian p Ω := hΩelem
     refine
       { toIsMulCommutative := by
           simpa [E, Ω] using (Subgroup.map_isMulCommutative (f := C.subtype) (H := Ω))
@@ -435,7 +435,7 @@ private theorem CFSG.narrow_forward_exists_rank_two_maximal
   have hEmax : E ∈ maximalElementaryAbelianSubgroups p R := by
     refine ⟨hEelem, ?_⟩
     intro B hEB hBelem
-    letI : IsElementaryAbelian p B := hBelem
+    let : IsElementaryAbelian p B := hBelem
     have hB_le_ΩR : B ≤ omega₁ (G := R) (p := p) := elementaryAbelian_le_omega₁
     have hB_le_C : B ≤ C := by
       intro b hb
@@ -448,7 +448,7 @@ private theorem CFSG.narrow_forward_exists_rank_two_maximal
           rw [omega₁, omega]
           refine Subgroup.subset_closure ?_
           have hr₀powR : r₀ ^ p = 1 := by
-            haveI : Fact (IsPGroup p R₀) := ⟨IsPGroup.of_card (p := p) (G := R₀)
+            have : Fact (IsPGroup p R₀) := ⟨IsPGroup.of_card (p := p) (G := R₀)
               (n := 1) (by simpa [pow_one] using hR₀card)⟩
             have hr₀pow : (⟨r₀, hr₀⟩ : R₀) ^ p = 1 := by
               simpa [hR₀card] using pow_card_eq_one' (x := (⟨r₀, hr₀⟩ : R₀))
@@ -484,9 +484,9 @@ public theorem CFSG.omega1Z_isElementaryAbelian
     IsElementaryAbelian p (Ω₁Z p R) := by
   let Ωc : Subgroup (Subgroup.center R) := omega₁ (G := Subgroup.center R) (p := p)
   have hΩcelem : IsElementaryAbelian p Ωc := by
-    letI : IsMulCommutative (Subgroup.center R) := inferInstance
+    let : IsMulCommutative (Subgroup.center R) := inferInstance
     simpa [Ωc] using omega1_isElementaryAbelian_of_commutative (p := p) (Subgroup.center R)
-  letI : IsElementaryAbelian p Ωc := hΩcelem
+  let : IsElementaryAbelian p Ωc := hΩcelem
   refine
     { toIsMulCommutative := by
         have hΩZ_le_center : Ω₁Z p R ≤ Subgroup.center R := by
@@ -539,11 +539,11 @@ public theorem CFSG.omega1Z_le_of_rank_two_maximal
     Ω₁Z p R ≤ E := by
   classical
   rcases hEmax with ⟨_hEelem', hEmax'⟩
-  letI : IsElementaryAbelian p E := hEelem
+  let : IsElementaryAbelian p E := hEelem
   let Z : Subgroup R := Ω₁Z p R
   have hZelem : IsElementaryAbelian p Z := by
     simpa [Z] using omega1Z_isElementaryAbelian (p := p) (R := R)
-  letI : IsElementaryAbelian p Z := hZelem
+  let : IsElementaryAbelian p Z := hZelem
   have hZcentE : Z ≤ Subgroup.centralizer (E : Set R) := by
     exact (omega1Z_le_center p R).trans (Subgroup.center_le_centralizer (E : Set R))
   have hEcentZ : E ≤ Subgroup.centralizer (Z : Set R) := by
@@ -595,7 +595,7 @@ public theorem CFSG.exists_order_p_subgroup_of_rank_two_maximal_not_le
     intro x hxZ hxS
     by_contra hx_ne_one
     have hZS : (Ω₁Z p R).subgroupOf S = ⊤ := by
-      haveI : Fact (Nat.card S).Prime := ⟨by simpa [hScard] using (Fact.out : Nat.Prime p)⟩
+      have : Fact (Nat.card S).Prime := ⟨by simpa [hScard] using (Fact.out : Nat.Prime p)⟩
       have hxsub_ne_bot : (Ω₁Z p R).subgroupOf S ≠ ⊥ := by
         intro hbot
         have hx_sub : (⟨x, hxS⟩ : S) ∈ (Ω₁Z p R).subgroupOf S := hxZ
@@ -625,7 +625,7 @@ public theorem CFSG.exists_order_p_subgroup_of_rank_two_maximal_not_le
   have hcomp :
       ((Ω₁Z p R).subgroupOf (Ω₁Z p R ⊔ S)).IsComplement'
         (S.subgroupOf (Ω₁Z p R ⊔ S)) := by
-    letI : (Ω₁Z p R).Normal := hZ_normal
+    let : (Ω₁Z p R).Normal := hZ_normal
     let ZS : Subgroup R := Ω₁Z p R ⊔ S
     refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
     · rw [Subgroup.disjoint_def]
@@ -644,7 +644,7 @@ public theorem CFSG.exists_order_p_subgroup_of_rank_two_maximal_not_le
       apply Subtype.ext
       simpa using hmul
   have hsup_card : Nat.card (Ω₁Z p R ⊔ S : Subgroup R) = p ^ 2 := by
-    have hmul := hcomp.card_mul
+    have hmul := hcomp.card_mul_card
     rw [natCard_subgroupOf_eq (Ω₁Z p R) (Ω₁Z p R ⊔ S) le_sup_left,
       natCard_subgroupOf_eq S (Ω₁Z p R ⊔ S) le_sup_right, hZcard, hScard] at hmul
     simpa [pow_two] using hmul.symm
@@ -665,7 +665,7 @@ public theorem CFSG.groupRank_centralizer_le_two_of_rank_two_maximal
   let C : Subgroup R := Subgroup.centralizer (S : Set R)
   rcases hE with ⟨hEcard, hEelem⟩
   rcases hEmax with ⟨_hEelem', hEmax'⟩
-  letI : IsElementaryAbelian p E := hEelem
+  let : IsElementaryAbelian p E := hEelem
   have hZ_le_E : Ω₁Z p R ≤ E :=
     omega1Z_le_of_rank_two_maximal hEelem ⟨hEelem, hEmax'⟩
   have hS_le_E : S ≤ E := by
@@ -691,9 +691,9 @@ public theorem CFSG.groupRank_centralizer_le_two_of_rank_two_maximal
     rw [natCard_subgroupOf_eq E C hE_le_C, hEcard]
   have hEsub_elem : IsElementaryAbelian p Esub :=
     IsElementaryAbelian.subgroupOf (p := p) hE_le_C
-  letI : IsElementaryAbelian p Esub := hEsub_elem
+  let : IsElementaryAbelian p Esub := hEsub_elem
   have hZsub_norm : ((Ω₁Z p R).subgroupOf C).Normal := by
-    letI : (Ω₁Z p R).Normal := omega1Z_normal p R
+    let : (Ω₁Z p R).Normal := omega1Z_normal p R
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hZ_le_C]
     exact Subgroup.le_normalizer_of_normal (H := Ω₁Z p R)
   have hSsub_norm : (S.subgroupOf C).Normal := by
@@ -704,18 +704,18 @@ public theorem CFSG.groupRank_centralizer_le_two_of_rank_two_maximal
     rw [hE_eq]
     exact Subgroup.subgroupOf_sup hZ_le_C hS_le_C
   have hEsub_norm : Esub.Normal := by
-    letI : ((Ω₁Z p R).subgroupOf C).Normal := hZsub_norm
-    letI : (S.subgroupOf C).Normal := hSsub_norm
+    let : ((Ω₁Z p R).subgroupOf C).Normal := hZsub_norm
+    let : (S.subgroupOf C).Normal := hSsub_norm
     rw [hEsub_eq]
     infer_instance
-  letI : Esub.Normal := hEsub_norm
+  let : Esub.Normal := hEsub_norm
   obtain ⟨B, _hBnorm, hBelem, hBcard, hEsub_le_B⟩ :=
     exists_normal_elementaryAbelian_card_p3_containing_rank_two_normal
       (p := p) hpodd (R := C) (hpR.to_subgroup C) hC_rank
       (hE := ⟨hEsub_card, hEsub_elem⟩)
   let BR : Subgroup R := B.map C.subtype
   have hBR_elem : IsElementaryAbelian p BR := by
-    letI : IsElementaryAbelian p B := hBelem
+    let : IsElementaryAbelian p B := hBelem
     simpa [BR] using IsElementaryAbelian.map_subtype (p := p) (K := C) (H := B)
   have hBR_card : Nat.card BR = p ^ 3 := by
     calc
@@ -749,8 +749,8 @@ private theorem CFSG.rank_two_maximal_implies_narrow
   let T : Subgroup R := CΩ₁Z₂ p R
   obtain ⟨hZcard, _hWmem⟩ := lemma_5_2_b (p := p) hpodd (R := R) hpR hR hErank hEmax
   obtain ⟨hTchar, hTindex⟩ := lemma_5_2_c (p := p) hpodd (R := R) hpR hR hErank hEmax
-  letI : T.Characteristic := hTchar
-  letI : T.Normal := by infer_instance
+  let : T.Characteristic := hTchar
+  let : T.Normal := by infer_instance
   have hZ_le_E : Ω₁Z p R ≤ E := omega1Z_le_of_rank_two_maximal hEelem hEmax
   have hZ_le_T : Ω₁Z p R ≤ T := by
     exact (omega1Z_le_center p R).trans (Subgroup.center_le_centralizer (Ω₁Z₂ p R : Set R))
@@ -763,7 +763,7 @@ private theorem CFSG.rank_two_maximal_implies_narrow
     groupRank_centralizer_le_two_of_rank_two_maximal
       (p := p) hpodd (R := R) hpR hErank hEmax hE_eq
   have hTS_bot : T.subgroupOf S = ⊥ := by
-    haveI : Fact (Nat.card S).Prime := ⟨by simpa [hScard] using (Fact.out : Nat.Prime p)⟩
+    have : Fact (Nat.card S).Prime := ⟨by simpa [hScard] using (Fact.out : Nat.Prime p)⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (T.subgroupOf S) with hbot | htop
     · exact hbot
     · exact False.elim (hS_not_le_T ((Subgroup.subgroupOf_eq_top).1 htop))
@@ -813,11 +813,11 @@ private theorem CFSG.rank_two_maximal_implies_narrow
   have hR1_cyclic : IsCyclic (subgroupCentralizerIn T S) := by
     by_contra hR1_ncyc
     let R₁ : Subgroup R := subgroupCentralizerIn T S
-    letI : Fact (IsPGroup p R₁) := ⟨hpR.to_subgroup R₁⟩
+    let : Fact (IsPGroup p R₁) := ⟨hpR.to_subgroup R₁⟩
     obtain ⟨U, _hUnorm, hUcard, hUelem⟩ := lemma_4_5_a (R := R₁) (p := p) hpodd hR1_ncyc
     let Umap : Subgroup R := U.map R₁.subtype
     have hUmap_elem : IsElementaryAbelian p Umap := by
-      letI : IsElementaryAbelian p U := hUelem
+      let : IsElementaryAbelian p U := hUelem
       simpa [Umap] using IsElementaryAbelian.map_subtype (p := p) (K := R₁) (H := U)
     have hUmap_card : Nat.card Umap = p ^ 2 := by
       calc
@@ -832,17 +832,17 @@ private theorem CFSG.rank_two_maximal_implies_narrow
       exact (Subgroup.map_subtype_le U).trans inf_le_right
     have hdisjSU : Disjoint S Umap := hdisjST.mono_right hUmap_le_T
     have hSelem : IsElementaryAbelian p S := by
-      letI : IsCyclic S := isCyclic_of_prime_card hScard
+      let : IsCyclic S := isCyclic_of_prime_card hScard
       exact isElementaryAbelian_of_prime_card_isCyclic (p := p) (G := S) hScard
     let D : Subgroup R := S ⊔ Umap
     have hDelem : IsElementaryAbelian p D := by
-      letI : IsElementaryAbelian p S := hSelem
-      letI : IsElementaryAbelian p Umap := hUmap_elem
+      let : IsElementaryAbelian p S := hSelem
+      let : IsElementaryAbelian p Umap := hUmap_elem
       exact isElementaryAbelian_sup_of_le_centralizer' (p := p) (E := S) (C := Umap) hUmap_le_C
     have hD_le_C : D ≤ C := sup_le hS_le_C hUmap_le_C
     have hDcard : Nat.card D = p ^ 3 := by
-      letI : IsElementaryAbelian p D := hDelem
-      letI : CommGroup D := IsMulCommutative.instCommGroup
+      let : IsElementaryAbelian p D := hDelem
+      let : CommGroup D := IsMulCommutative.instCommGroup
       have hdisj_sub : Disjoint (S.subgroupOf D) (Umap.subgroupOf D) := by
         rw [Subgroup.disjoint_def]
         intro x hxS hxU
@@ -852,11 +852,11 @@ private theorem CFSG.rank_two_maximal_implies_narrow
         simpa [D] using
           (Subgroup.subgroupOf_sup (A := S) (A' := Umap) (B := D)
             le_sup_left le_sup_right).symm
-      letI : (S.subgroupOf D).Normal := by infer_instance
+      let : (S.subgroupOf D).Normal := by infer_instance
       have hcompDU : (S.subgroupOf D).IsComplement' (Umap.subgroupOf D) :=
         isComplement'_of_disjoint_sup_eq_top_of_normal (S.subgroupOf D) (Umap.subgroupOf D)
           hdisj_sub hsup_sub
-      have hmul := hcompDU.card_mul
+      have hmul := hcompDU.card_mul_card
       rw [natCard_subgroupOf_eq S D le_sup_left,
         natCard_subgroupOf_eq Umap D le_sup_right, hScard, hUmap_card] at hmul
       simpa [pow_succ', Nat.mul_assoc] using hmul.symm
@@ -865,7 +865,7 @@ private theorem CFSG.rank_two_maximal_implies_narrow
       rw [natCard_subgroupOf_eq D C hD_le_C, hDcard]
     have hDsub_elem : IsElementaryAbelian p Dsub :=
       IsElementaryAbelian.subgroupOf (p := p) hD_le_C
-    letI : IsElementaryAbelian p Dsub := hDsub_elem
+    let : IsElementaryAbelian p Dsub := hDsub_elem
     have hC_rank_ge : 3 ≤ groupRank C :=
       groupRank_at_least_three_of_elementaryAbelian_subgroup_card_p3'
         (p := p) (G := C) (B := Dsub) hDsub_card

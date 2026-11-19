@@ -12,6 +12,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace PartC
 
+omit [Finite G] in
 theorem exists_mem_not_mem_finset {V : Subgroup G} (s : Finset G) (h : s.card < Nat.card V) :
     ∃ t ∈ V, t ∉ s := by
   by_contra hcon
@@ -23,6 +24,7 @@ theorem exists_mem_not_mem_finset {V : Subgroup G} (s : Finset G) (h : s.card < 
   have h2 : Nat.card V = Set.ncard (V : Set G) := Nat.card_coe_set_eq (V : Set G)
   omega
 
+omit [Finite G] in
 theorem exists_independent {z : G} {V : Subgroup G} (hVc : Nat.card V = 8) :
     ∃ t₁ ∈ V, ∃ t₂ ∈ V, t₁ ≠ 1 ∧ t₁ ≠ z ∧ t₂ ≠ 1 ∧ t₂ ≠ z ∧ t₂ ≠ t₁ ∧ t₂ ≠ t₁ * z := by
   classical
@@ -37,6 +39,7 @@ section Klein
 
 variable {z : G} {Z A : Subgroup G} {T V : Subgroup G}
 
+omit [Finite G] in
 theorem mem_Dinv_of_mem_V (hV : HSV z T V) {t : G} (ht : t ∈ V) (h1 : t ≠ 1) (hz : t ≠ z) :
     t ∈ Dinv z :=
   ⟨hV.isConj t ht h1, hz, (hV.ZF_le t ht h1).trans hV.le_H⟩

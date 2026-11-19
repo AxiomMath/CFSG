@@ -26,15 +26,18 @@ variable {H E : Subgroup G} (Mo : ModDataE H E) (V : Subgroup G)
 @[expose] def hatBarSub (J : Subgroup G) : Subgroup (hatX Mo V ⧸ Subgroup.center (hatX Mo V)) :=
   ((Mo.img J).subgroupOf (hatK Mo V)).map (hatBar Mo V)
 
+omit [Finite G] in
 theorem hatBar_surjective : Function.Surjective (hatBar Mo V) :=
   (QuotientGroup.mk'_surjective _).comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem mem_hatBarSub_iff {J : Subgroup G} {y : hatX Mo V ⧸ Subgroup.center (hatX Mo V)} :
     y ∈ hatBarSub Mo V J ↔
       ∃ x : ↥(hatK Mo V), (x : LGL 2 Mo.W) ∈ Mo.img J ∧ hatBar Mo V x = y := by
   unfold hatBarSub
   simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem hatS_map_eq_hatBarSub :
     (hatS Mo V).map (QuotientGroup.mk' (Subgroup.center (hatX Mo V))) = hatBarSub Mo V V := by
   unfold hatS hatBarSub hatBar
@@ -52,7 +55,7 @@ theorem pCore_hatK_le_center (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen 
     (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     CFSG.pCore 2 ↥(hatK Mo V) ≤ Subgroup.center ↥(hatK Mo V) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro a ha
   rw [Subgroup.mem_center_iff]
   intro x
@@ -107,7 +110,7 @@ theorem pCore_hatK_le_center (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen 
     Subgroup.normal_subgroupOf_of_le_normalizer (hXH.trans hCHnormH)
   have hdvd : (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)).relIndex Y ∣
       (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)).relIndex X := by
-    haveI : (((H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)).subgroupOf X)).Normal :=
+    have : (((H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)).subgroupOf X)).Normal :=
       hCHsubNormal
     have hdvd' := Subgroup.relIndex_dvd_index_of_normal
       (H := (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)).subgroupOf X)
@@ -214,7 +217,7 @@ theorem isPerfect_hatL (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h5 
     (h15 : W16Fifteen G) (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     Group.IsPerfect ↥(Mo.img (V ⊔ conjSubgroup V g)) := by
-  haveI hsimple : IsSimpleGroup ↥(Mo.img (V ⊔ conjSubgroup V g)) :=
+  have hsimple : IsSimpleGroup ↥(Mo.img (V ⊔ conjSubgroup V g)) :=
     isSimpleGroup_hatL hn h1 h5 h15 hS c Mo
   rw [Group.isPerfect_def]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -238,14 +241,14 @@ theorem inf_center_hatL (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h5
     ∀ x : ↥(hatK Mo V), (x : LGL 2 Mo.W) ∈ Mo.img (V ⊔ conjSubgroup V g) →
       x ∈ Subgroup.center ↥(hatK Mo V) → x = 1 := by
   intro x hxL hxcenter
-  haveI hsimple : IsSimpleGroup ↥(Mo.img (V ⊔ conjSubgroup V g)) :=
+  have hsimple : IsSimpleGroup ↥(Mo.img (V ⊔ conjSubgroup V g)) :=
     isSimpleGroup_hatL hn h1 h5 h15 hS c Mo
   let Lhat : Subgroup (LGL 2 Mo.W) := Mo.img (V ⊔ conjSubgroup V g)
   let Khat : Subgroup (LGL 2 Mo.W) := hatK Mo V
   have hLK : Lhat ≤ Khat := Mo.img_mono c.L_le_conjClosure
   let ι : ↥Lhat →* ↥Khat := Subgroup.inclusion hLK
   let N : Subgroup ↥Lhat := (Subgroup.center ↥Khat).comap ι
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hNbot | hNtop
   · have hxN : (⟨x, hxL⟩ : ↥Lhat) ∈ N := by
       rw [Subgroup.mem_comap]

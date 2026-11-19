@@ -16,7 +16,7 @@ theorem twelveTwo_one_top (hNat : NatSumL2Input)
     (B : Subgroup G) (Z : Submodule (ZMod 2) V) (A : Subgroup G) (n m : ℕ)
     (hS : Setting12One ρ B Z A n m) (hmin : ∀ L : Subgroup G, A ≤ L → ¬ L ≤ B → L = ⊤) :
     IsSumNatSection ρ ⊥ (commSub ((⊤ : Subgroup G).map ρ)) (cE ((⊤ : Subgroup G).map ρ)) n := by
-  haveI : Finite G := rankOne_finite hS.type
+  have : Finite G := rankOne_finite hS.type
   have hK : (⊤ : Subgroup G).map ρ = ρ.range := (MonoidHom.range_eq_map ρ).symm
   rw [hK]
   have h₁ : ∀ g : G, ∀ w ∈ commSub ρ.range, ρ g w ∈ commSub ρ.range :=

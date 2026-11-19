@@ -105,7 +105,7 @@ theorem not_fusN_of_lt {i j : Fin 9}
             group
         _ = g⁻¹ * (D.toG (SE.invRep j) * c) * g := by rw [hcw]
         _ = g⁻¹ * D.toG (SE.invRep j) * g * (g⁻¹ * c * g) := by group
-    have hQ2 : IsPGroup 2 Q := (D.S.isPGroup'.to_le inf_le_left).map _
+    have hQ2 : IsPGroup 2 Q := (D.S.isPGroup.to_le inf_le_left).map _
     obtain ⟨c, -, hc⟩ := exists_conj_le_of_isSylowOf hi hQ hQ2
     have hle : Q.map (MulAut.conj c).toMonoidHom ≤
         (D.S : Subgroup G) ⊓ centralizer ({D.toG (SE.invRep i)} : Set G) := by

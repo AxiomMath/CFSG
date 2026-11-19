@@ -39,6 +39,7 @@ private theorem card_centralizer_eq_of_isConj {G : Type*} [Group G] {a b : G}
     _ = Nat.card (Subgroup.centralizer ({b} : Set G)) :=
         (Subgroup.nat_card_centralizer_nat_card_stabilizer b).symm
 
+omit [Finite X] in
 private theorem mulAut_conj_mul (φ : MulAut ↥L) (a : ↥L) :
     φ * MulAut.conj a * φ⁻¹ = MulAut.conj (φ a) := by
   ext u
@@ -202,7 +203,7 @@ private theorem card_cent_psi_range {k' : X}
     exact SD.card_H8_inf_centralizer_k8
 
 private theorem card_inf_chat_eq_comap_psi {k' : X}
-    (hk' : k' = ctx.C.k ∨ k' = ctx.S.z * ctx.C.k) (hk'T : k' ∈ ctx.A.T) :
+    (_hk' : k' = ctx.C.k ∨ k' = ctx.S.z * ctx.C.k) (hk'T : k' ∈ ctx.A.T) :
     Nat.card ↥((ctx.A.syl : Subgroup ↥(centralizer ({t} : Set X))) ⊓ ctx.chat k') =
       Nat.card ↥((Subgroup.centralizer ({ctx.A.ψ ⟨k', hk'T⟩} : Set (Perm (ZMod 8)))).comap
         ctx.A.ψ) := by

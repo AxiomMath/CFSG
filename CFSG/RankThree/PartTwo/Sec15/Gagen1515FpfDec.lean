@@ -84,7 +84,7 @@ theorem sup_inf_centralizer_le
   have hdN : d ∈ Subgroup.normalizer (V : Set G) := hLV hdL
   have hd3 : orderOf d = 3 :=
     orderOf_eq_prime (h.conf.sec15R.isElemAbelian.2 d h.mem_d) h.ne_d
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hV3 : ¬ 3 ∣ Nat.card ↥V :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (coprime_card_pPrimeCoreOf 3 H)
   have hK3 : ¬ 3 ∣ Nat.card ↥(L ⊓ V) := fun h3 =>

@@ -195,8 +195,8 @@ theorem Psi_conj_Cbar (n : T.H) {x : S.O} (hx : x ∈ D.Cbar) :
         D.t * ((c'' : S.O) * x * (c'' : S.O)⁻¹) * D.t⁻¹ := by group
       _ = (c'' : S.O) * x * (c'' : S.O)⁻¹ := by rw [hcomm]; group
 
-theorem exists_lift_data (p q : T.P.perp) (hp : D.QV (p : Vt S D.g D.t) = 0)
-    (hpq : polar D.QV (p : Vt S D.g D.t) (q : Vt S D.g D.t) = 0) :
+theorem exists_lift_data (p q : T.P.perp) (_hp : D.QV (p : Vt S D.g D.t) = 0)
+    (_hpq : polar D.QV (p : Vt S D.g D.t) (q : Vt S D.g D.t) = 0) :
     ∃ n : T.H,
       (∀ τ : T.P.perp, T.Psi n * T.psi τ * (T.Psi n)⁻¹ =
         T.psi (eichler (D.QV.restrict T.P.perp) p q τ)) ∧
@@ -252,7 +252,7 @@ theorem psi_mem_Cbar (hw6 : 6 ≤ S.width) (τ : T.P.perp) : T.psi τ ∈ D.Cbar
     hinv with h | h
   · exfalso
     have hfr := T.three_le_finrank_Z hw6
-    haveI : Nontrivial T.P.perp := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+    have : Nontrivial T.P.perp := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
     obtain ⟨τ₁, hτ₁⟩ := exists_ne (0 : T.P.perp)
     obtain ⟨τ₂, hτ₂⟩ : ∃ τ₂ : T.P.perp, τ₂ ∉ (ZMod 2) ∙ τ₁ := by
       by_contra hcon

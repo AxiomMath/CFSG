@@ -15,7 +15,7 @@ open CFSG.Open CFSG.HardMathSupport.Solomon.LocalBalance CFSG.HardMathSupport.Ti
 
 theorem reeF4InnerThreeBalance_holds : ReeF4InnerThreeBalance := by
   intro a K _ _ _ ha hK E hEin hE hEc H hH
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective
       (MulAut.conj : ReeTag.F4.reeGamma K a →* MulAut (ReeTag.F4.reeGamma K a)) :=
     CFSG.LieType.SeitzGeneration.conj_injective_of_center_eq_bot

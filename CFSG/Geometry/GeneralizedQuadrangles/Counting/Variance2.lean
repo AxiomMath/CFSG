@@ -27,15 +27,18 @@ section Basic
 
 variable [Fintype V] [DecidableRel Γ.Adj]
 
+omit [DecidableRel Γ.Adj] in
 @[simp] theorem mem_varianceTrace {x y u : V} :
     u ∈ varianceTrace Γ x y ↔ Γ.dist x u = 2 ∧ Γ.dist y u = 2 := by
   simp [varianceTrace]
 
+omit [DecidableRel Γ.Adj] in
 @[simp] theorem mem_varianceZ {c : Γ.Coloring (Fin 2)} {X : Finset V} {z : V} :
     z ∈ varianceZ Γ c X ↔ c z = 0 ∧ ∀ a ∈ X, 2 < Γ.dist z a := by
   classical
   simp [varianceZ]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem mem_varianceTz_iff {T : Finset V} {z u : V} :
     u ∈ T.filter (fun u => Γ.dist z u ≤ 2) ↔ u ∈ T ∧ Γ.dist z u ≤ 2 := by
   simp
@@ -43,12 +46,12 @@ variable [Fintype V] [DecidableRel Γ.Adj]
 theorem degree_eq_t_add_one_of_color_zero {c : Γ.Coloring (Fin 2)} {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) {v : V}
     (hv : c v = 0) : Γ.degree v = t + 1 := by
-  rw [hdeg v, if_pos hv]
+  rw [hdeg v, ite_eq_left hv]
 
 theorem degree_eq_s_add_one_of_color_one {c : Γ.Coloring (Fin 2)} {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) {v : V}
     (hv : c v = 1) : Γ.degree v = s + 1 := by
-  rw [hdeg v, if_neg (by rw [hv]; decide)]
+  rw [hdeg v, ite_eq_right (by rw [hv]; decide)]
 
 theorem varianceTrace_card (hP : IsGeneralizedPolygon Γ 4)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
@@ -62,6 +65,7 @@ theorem varianceTrace_card (hP : IsGeneralizedPolygon Γ 4)
   rw [← Set.ncard_coe_finset, hcoe, ncard_trace hP hxy]
   exact degree_eq_t_add_one_of_color_zero hdeg hx
 
+omit [DecidableRel Γ.Adj] in
 theorem color_eq_zero_of_mem_varianceTrace (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {x y u : V} (hx : c x = 0)
     (hu : u ∈ varianceTrace Γ x y) : c u = 0 := by
@@ -75,6 +79,7 @@ theorem color_eq_zero_of_mem_span (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
   rw [← hx]
   exact color_eq_of_mem_span hP hT c hxy hz
 
+omit [DecidableRel Γ.Adj] in
 theorem dist_eq_four_of_mem_varianceTrace (hP : IsGeneralizedPolygon Γ 4)
     {x y u v : V} (hxy : Γ.dist x y = 4) (hu : u ∈ varianceTrace Γ x y)
     (hv : v ∈ varianceTrace Γ x y) (huv : u ≠ v) : Γ.dist u v = 4 := by
@@ -157,6 +162,7 @@ theorem not_mem_varianceTrace_of_mem_varianceZ (hP : IsGeneralizedPolygon Γ 4)
   have hzlt : 2 < Γ.dist z a := hz.2 a haX
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem two_lt_dist_of_ne_of_not_dist_two (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {z a : V} (hz : c z = 0) (ha : c a = 0)
     (hne : z ≠ a) (h2 : Γ.dist z a ≠ 2) : 2 < Γ.dist z a := by
@@ -168,13 +174,14 @@ theorem two_lt_dist_of_ne_of_not_dist_two (hP : IsGeneralizedPolygon Γ 4)
   obtain ⟨k, hk⟩ := heven
   omega
 
+omit [DecidableRel Γ.Adj] in
 theorem mem_varianceZ_of_forall {c : Γ.Coloring (Fin 2)} {X : Finset V} {z : V}
     (hz0 : c z = 0) (hz : ∀ a ∈ X, 2 < Γ.dist z a) : z ∈ varianceZ Γ c X := by
   classical
   rw [mem_varianceZ]
   exact ⟨hz0, hz⟩
 
-@[expose] noncomputable def varianceLinesMissing (Γ : SimpleGraph V) [Fintype V]
+@[expose] noncomputable def varianceLinesMissing (Γ : SimpleGraph V)
     [DecidableEq V] [DecidableRel Γ.Adj] (u : V) (X : Finset V) : Finset V :=
   (Γ.neighborFinset u).filter fun L => ∀ a ∈ X, ¬ Γ.Adj L a
 
@@ -270,6 +277,7 @@ theorem varianceLinesMissing_card [DecidableEq V] (hP : IsGeneralizedPolygon Γ 
     rw [hMeetEq, Finset.card_image_of_injOn hfinj, Finset.card_attach]
   rw [hmiss, hcardMiss, hMeetCard, hNcard]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem eq_of_adj_of_dist_two_of_not_adj (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {a L z u : V} (haL : ¬ Γ.Adj a L)
     (hLz : Γ.Adj L z) (hLu : Γ.Adj L u) (haz : Γ.dist a z = 2)
@@ -283,7 +291,7 @@ theorem eq_of_adj_of_dist_two_of_not_adj (hP : IsGeneralizedPolygon Γ 4)
 
 theorem dist_eq_two_of_le_two_of_mem_varianceZ_of_mem_varianceTrace
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {s t : ℕ} (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    {s t : ℕ} (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     {x y : V} (hx : c x = 0) (hxy : Γ.dist x y = 4) {X : Finset V}
     (hX : (X : Set V) ⊆ spanSet Γ x y) (hm : 2 ≤ X.card) {z u : V}
     (hz : z ∈ varianceZ Γ c X) (hu : u ∈ varianceTrace Γ x y)
@@ -302,7 +310,7 @@ theorem dist_eq_two_of_le_two_of_mem_varianceZ_of_mem_varianceTrace
 
 theorem varianceZ_filter_eq_biUnion [DecidableEq V]
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {s t : ℕ} (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    {s t : ℕ} (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     {x y : V} (hx : c x = 0) (hxy : Γ.dist x y = 4) {X : Finset V}
     (hX : (X : Set V) ⊆ spanSet Γ x y) {u : V} (hu : u ∈ varianceTrace Γ x y) :
     (varianceZ Γ c X).filter (fun z => Γ.dist z u = 2)
@@ -404,8 +412,8 @@ theorem sum_centres (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     have hiff := dist_eq_two_of_le_two_of_mem_varianceZ_of_mem_varianceTrace
       hP hT c hdeg hx hxy hX hm hz hu
     by_cases h2 : Γ.dist z u = 2
-    · rw [if_pos (le_of_eq h2), if_pos h2]
-    · rw [if_neg (by intro hle; exact h2 (hiff hle)), if_neg h2]
+    · rw [ite_eq_left (le_of_eq h2), ite_eq_left h2]
+    · rw [ite_eq_right (by intro hle; exact h2 (hiff hle)), ite_eq_right h2]
   rw [Finset.sum_congr rfl hstep, Finset.sum_comm]
   have hinner : ∀ u ∈ varianceTrace Γ x y,
       ∑ z ∈ varianceZ Γ c X, (if Γ.dist z u = 2 then 1 else 0)
@@ -441,6 +449,7 @@ theorem sum_centres (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     varianceTrace_card hP c hdeg hx hxy, smul_eq_mul]
   ring
 
+omit [Fintype V] in
 theorem sum_ite_pair_ne [DecidableEq V] (T : Finset V) (p : V → Prop) [DecidablePred p] :
     (∑ u ∈ T, ∑ u' ∈ T, if u' ≠ u ∧ p u ∧ p u' then 1 else 0)
       = (T.filter p).card * ((T.filter p).card - 1) := by
@@ -450,7 +459,7 @@ theorem sum_ite_pair_ne [DecidableEq V] (T : Finset V) (p : V → Prop) [Decidab
       = if p u then (S.erase u).card else 0 := by
     intro u
     by_cases hu : p u
-    · rw [if_pos hu]
+    · rw [ite_eq_left hu]
       have hS : (S.erase u).card = (T.filter fun u' => p u' ∧ u' ≠ u).card := by
         congr 1
         ext u'
@@ -458,7 +467,7 @@ theorem sum_ite_pair_ne [DecidableEq V] (T : Finset V) (p : V → Prop) [Decidab
       rw [hS, Finset.card_filter]
       refine Finset.sum_congr rfl fun u' _ => ?_
       by_cases h1 : p u' <;> by_cases h2 : u' ≠ u <;> simp [h1, h2, hu]
-    · rw [if_neg hu]
+    · rw [ite_eq_right hu]
       refine Finset.sum_eq_zero fun u' _ => ?_
       simp [hu]
   calc
@@ -475,7 +484,7 @@ theorem sum_ite_pair_ne [DecidableEq V] (T : Finset V) (p : V → Prop) [Decidab
 
 theorem varianceZ_filter_eq_trace_sdiff [DecidableEq V]
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {s t : ℕ} (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    {s t : ℕ} (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     {x y : V} (hx : c x = 0) (hxy : Γ.dist x y = 4) {X : Finset V}
     (hX : (X : Set V) ⊆ spanSet Γ x y) {u u' : V}
     (hu : u ∈ varianceTrace Γ x y) (hu' : u' ∈ varianceTrace Γ x y) (hne : u ≠ u') :
@@ -583,10 +592,10 @@ theorem sum_centres_choose_two (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ
         = if u' = u then 0 else t + 1 - X.card := by
     intro u hu u' hu'
     by_cases heq : u' = u
-    · rw [if_pos heq]
+    · rw [ite_eq_left heq]
       refine Finset.sum_eq_zero fun z _ => ?_
       simp [heq]
-    · rw [if_neg heq]
+    · rw [ite_eq_right heq]
       have hne : u ≠ u' := fun h => heq h.symm
       rw [← Finset.card_filter]
       have hfilter : (varianceZ Γ c X).filter
@@ -604,9 +613,9 @@ theorem sum_centres_choose_two (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ
     intro u hu
     rw [← Finset.sum_erase_add (varianceTrace Γ x y)
       (fun u' => if u' = u then 0 else t + 1 - X.card) hu]
-    simp only [if_true, add_zero]
+    simp only [ite_true, add_zero]
     rw [Finset.sum_congr rfl (fun x hx => by
-      rw [if_neg]
+      rw [ite_eq_right]
       exact (Finset.mem_erase.mp hx).1)]
     rw [Finset.sum_const, Finset.card_erase_of_mem hu,
       varianceTrace_card hP c hdeg hx hxy, smul_eq_mul]

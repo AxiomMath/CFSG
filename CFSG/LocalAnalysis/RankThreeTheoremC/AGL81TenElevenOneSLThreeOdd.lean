@@ -17,7 +17,7 @@ open CFSG.Open Subgroup
 
 theorem center_eq_bot_of_odd {n : ℕ} (hn : Odd n) :
     Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 n)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn0 : n ≠ 0 := by rintro rfl; exact (Nat.not_odd_zero hn)
   refine eq_bot_iff.2 fun A hA => ?_
   obtain ⟨r, hr, hrA⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 hA
@@ -76,7 +76,7 @@ theorem exists_mem_centralizer_sylow_of_inf_ne_bot (P : Sylow p Y) (K : Subgroup
     (hK : (P : Subgroup Y) ⊓ K ≠ ⊥) :
     ∃ z ∈ K, z ∈ centralizer ((P : Subgroup Y) : Set Y) ∧ orderOf z = p := by
   set S₀ := (P : Subgroup Y) ⊓ K
-  have hSp : IsPGroup p (P : Subgroup Y) := P.isPGroup'
+  have hSp : IsPGroup p (P : Subgroup Y) := P.isPGroup
   have : Group.IsNilpotent (P : Subgroup Y) := hSp.isNilpotent
   have hN : (S₀.subgroupOf P).Normal := by
     refine ⟨fun x hx g => ?_⟩

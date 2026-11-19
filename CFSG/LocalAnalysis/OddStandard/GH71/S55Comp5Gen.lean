@@ -79,7 +79,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 theorem exists_conj_mem_of_not_dvd_index {p : ℕ} [hp : Fact p.Prime] {M : Subgroup Y}
     (hM : ¬ p ∣ M.index) {y : Y} (hy : orderOf y = p) : ∃ g : Y, g * y * g⁻¹ ∈ M := by
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥M) := inferInstance
-  have hQ : IsPGroup p ↥((Q : Subgroup ↥M).map M.subtype) := Q.isPGroup'.map M.subtype
+  have hQ : IsPGroup p ↥((Q : Subgroup ↥M).map M.subtype) := Q.isPGroup.map M.subtype
   have hidx : ¬ p ∣ ((Q : Subgroup ↥M).map M.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro hd

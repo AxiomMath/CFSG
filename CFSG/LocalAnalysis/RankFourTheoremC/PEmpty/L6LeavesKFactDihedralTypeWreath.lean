@@ -55,7 +55,7 @@ theorem index_wreathBaseSub (m : ℕ) : (wreathBaseSub m).index = 2 := by
 
 theorem zmod_two_mul_eq_zero {n : ℕ} (hn : 1 ≤ n) {x : ZMod (2 ^ n)} (hx : 2 * x = 0) :
     x = 0 ∨ x = ((2 ^ (n - 1) : ℕ) : ZMod (2 ^ n)) := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   set k := x.val with hk
   have hkx : x = (k : ZMod (2 ^ n)) := (ZMod.natCast_zmod_val x).symm
   have hlt : k < 2 ^ n := ZMod.val_lt x

@@ -216,7 +216,7 @@ private def s16e_two_idx {W : Type} [CommGroup W] [DecidableEq (Subgroup W)]
   if I = J₀ then 0 else if I = J₁ then 1 else 2
 
 private lemma s16e_two_idx_eq_zero {W : Type} [CommGroup W] [DecidableEq (Subgroup W)]
-    {J₀ J₁ I : Subgroup W} (h : J₀ ≠ J₁) : s16e_two_idx J₀ J₁ I = 0 ↔ I = J₀ := by
+    {J₀ J₁ I : Subgroup W} (_h : J₀ ≠ J₁) : s16e_two_idx J₀ J₁ I = 0 ↔ I = J₀ := by
   unfold s16e_two_idx
   split_ifs with h0 h1
   · exact iff_of_true rfl h0
@@ -365,6 +365,7 @@ section Counting
 
 variable {W : Type} [CommGroup W] [Finite W] {X H : Subgroup (MulAut W)} {J₀ J₁ : Subgroup W}
 
+omit [Finite W] in
 theorem s16e_two_irrSet_card_le_three (F : Cfg2Setting X H J₀ J₁)
     (hE₀ : Z391.EndUnitsTrivial H J₀) : Nat.card ↥(irrSet H) ≤ 3 := by
   classical
@@ -407,8 +408,8 @@ theorem s16e_two_irrSet_card_le_three (F : Cfg2Setting X H J₀ J₁)
 theorem s16e_two_card_cent_dvd_six (F : Cfg2Setting X H J₀ J₁)
     (hE₀ : Z391.EndUnitsTrivial H J₀) (hE₁ : Z391.EndUnitsTrivial H J₁) :
     Nat.card ↥(s16e_two_cent X H) ∣ 6 := by
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
-  haveI : Finite ↥(irrSet H) := Finite.of_injective _ Subtype.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite ↥(irrSet H) := Finite.of_injective _ Subtype.coe_injective
   have h1 : Nat.card ↥(s16e_two_cent X H) ∣ Nat.card (Equiv.Perm ↥(irrSet H)) :=
     Subgroup.card_dvd_of_injective _ (s16e_two_irrAct_cent_injective F hE₀ hE₁)
   rw [Nat.card_perm] at h1
@@ -418,6 +419,7 @@ theorem s16e_two_card_cent_dvd_six (F : Cfg2Setting X H J₀ J₁)
   rw [h3] at h2
   exact h2
 
+omit [Finite W] in
 theorem s16e_two_card_dvd_mul_aut (F : Cfg2Setting X H J₀ J₁) :
     Nat.card ↥X ∣ Nat.card ↥(s16e_two_cent X H) * Nat.card (MulAut ↥H) := by
   have hker : Nat.card ↥((s16e_two_conjAut F).ker) = Nat.card ↥(s16e_two_cent X H) := by
@@ -434,8 +436,8 @@ theorem s16e_two_card_dvd_mul_aut (F : Cfg2Setting X H J₀ J₁) :
 theorem s16e_two_isSym_of_card_six (F : Cfg2Setting X H J₀ J₁)
     (hE₀ : Z391.EndUnitsTrivial H J₀) (hE₁ : Z391.EndUnitsTrivial H J₁)
     (h6 : Nat.card ↥(s16e_two_cent X H) = 6) : IsSym ↥(s16e_two_cent X H) 3 := by
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
-  haveI : Finite ↥(irrSet H) := Finite.of_injective _ Subtype.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite ↥(irrSet H) := Finite.of_injective _ Subtype.coe_injective
   let f : ↥(s16e_two_cent X H) →* Equiv.Perm ↥(irrSet H) :=
     (s16e_two_irrAct F).comp (Subgroup.inclusion (inf_le_left : s16e_two_cent X H ≤ X))
   have hf : Function.Injective f := s16e_two_irrAct_cent_injective F hE₀ hE₁
@@ -456,7 +458,8 @@ theorem s16e_two_isSym_of_card_six (F : Cfg2Setting X H J₀ J₁)
   have hbij : Function.Bijective f := hf.bijective_of_nat_card_le (le_of_eq hcard)
   exact ⟨(MulEquiv.ofBijective f hbij).trans (Finite.equivFinOfCardEq hn3).permCongrHom⟩
 
-theorem s16e_two_rk_irr_ge (F : Cfg2Setting X H J₀ J₁) (hE₀ : Z391.EndUnitsTrivial H J₀)
+omit [Finite W] in
+theorem s16e_two_rk_irr_ge (F : Cfg2Setting X H J₀ J₁) (_hE₀ : Z391.EndUnitsTrivial H J₀)
     {m : ℕ} (h₀ : m ≤ rk ↥J₀) (h₁ : m ≤ rk ↥J₁) : ∀ I ∈ irrSet H, m ≤ rk ↥I := by
   intro I hI
   by_cases hI0 : I = J₀

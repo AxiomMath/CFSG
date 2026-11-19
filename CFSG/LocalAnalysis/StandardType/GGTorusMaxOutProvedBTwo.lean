@@ -28,7 +28,7 @@ theorem tmOut_B_two_even (d : TauCeti.ValidLieTypeIndex) (q : TauCeti.PrimePower
       rw [hp] at h0
       simpa [hg] using h0
     have ht : tmLieOut (.B 2 q) = 2 * q.exponent := by
-      rw [tmLieOut.eq_3, if_pos ⟨rfl, hp⟩, TauCeti.PrimePower.card_def, hp, hg]
+      rw [tmLieOut.eq_3, ite_eq_left ⟨rfl, hp⟩, TauCeti.PrimePower.card_def, hp, hg]
       ring
     rw [ht]
     exact CFSG.StandardType.SporadicShape.bmOut_card_aut_dvd hout

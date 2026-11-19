@@ -82,7 +82,7 @@ theorem mulC_aux (c : Nat → Nat) (hc : ∀ i, c i < 256) : ∀ n,
         Nat.ofDigits 256 ((List.range n).map c) + 256 ^ n * c n := by
       rw [List.range_succ, List.map_append, Nat.ofDigits_append, List.length_map,
         List.length_range]
-      simp [Nat.ofDigits]
+      simp
     refine ⟨?_, ?_⟩
     · change Nat.lor _ (Nat.shiftLeft (c n) (8 * n)) = _
       rw [ih, hsum]
@@ -114,8 +114,7 @@ theorem unkey_key {m : List Nat} (hm : m.length = 8) (hlt : ∀ x ∈ m, x < 256
     have h5 := hlt a5 (by simp)
     have h6 := hlt a6 (by simp)
     have h7 := hlt a7 (by simp)
-    simp only [unkey, List.range_succ, List.range_zero, List.nil_append, List.map_append,
-      List.map_cons, List.map_nil, List.cons_append, byteK_eq, co1RowsKeyC, List.take,
+    simp only [unkey, List.range_succ, List.range_zero, List.nil_append, List.map_cons, List.map_nil, List.cons_append, byteK_eq, co1RowsKeyC, List.take,
       Nat.ofDigits, Nat.cast_id, Nat.reducePow]
     refine List.cons_eq_cons.2 ⟨by omega, List.cons_eq_cons.2 ⟨by omega,
       List.cons_eq_cons.2 ⟨by omega, List.cons_eq_cons.2 ⟨by omega, List.cons_eq_cons.2 ⟨by omega,
@@ -143,10 +142,10 @@ theorem stepF_eq (g : Nat) {p q : Nat} (hq : q < 256) :
   · have h' : ¬ Q < (Q ^^^ P) := fun h2 => by
       rw [show Nat.xor Q P = Q ^^^ P from rfl, Nat.blt_eq.mpr h2] at h
       cases h
-    simp only [h', if_false]
+    simp only [h', ite_false]
     rfl
   · have h' : Q < (Q ^^^ P) := Nat.blt_eq.mp h
-    simp only [h', if_true]
+    simp only [h', ite_true]
     rfl
 
 end CFSG.KC.Co1Nine

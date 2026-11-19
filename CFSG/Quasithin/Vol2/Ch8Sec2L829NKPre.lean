@@ -207,7 +207,7 @@ theorem nk_prelude (hmod : StmtFSUModule) (hD4 : StmtD4L3M22) (hS3 : Step828Thre
   have hKsub : IsSubnormal K H := subnormal_of_mem_cComp hKc
   have hKnot2 : ¬ IsPGroup 2 ↥K := by
     intro hp
-    haveI : Group.IsNilpotent ↥K := hp.isNilpotent
+    have : Group.IsNilpotent ↥K := hp.isNilpotent
     exact not_isSolvable_of_mem_cComp hKc inferInstance
   have hKO : K ≤ oTwoUpper H := by
     have h1 := CFSG.Quasithin.S153E58.oTwoUpper_eq_of_perfect hKperf

@@ -105,7 +105,7 @@ theorem double_cosets (hW : Nat.card (Hgen gensWD) = 51840) (hc : dcCosetsCheck 
   simp only [φ] at hx
   by_cases hk : (k : ℕ) = 0
   · left
-    rw [← hx, tE, if_pos hk, mul_one]
+    rw [← hx, tE, ite_eq_left hk, mul_one]
     exact w.2
   · right
     obtain ⟨h, hh, he⟩ := (rep_tE hc k.2).2 hk

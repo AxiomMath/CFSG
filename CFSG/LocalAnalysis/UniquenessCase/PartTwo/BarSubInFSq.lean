@@ -26,6 +26,7 @@ noncomputable def barSubActHom {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {X
   ((actTil V₀ V hV).comp (Subgroup.inclusion hXS)).codRestrict
     (barSub V₀ V hV X) (fun x => actTil_mem_barSub V₀ V hV x.2 (hXS x.2))
 
+omit [Finite G] in
 theorem barSubActHom_surjective {V₀ V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hXS : X ≤ stabTil V₀ V) : Function.Surjective (barSubActHom hV hXS) := by
   rintro ⟨ψ, hψ⟩

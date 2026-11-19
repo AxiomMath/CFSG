@@ -108,7 +108,7 @@ private theorem ltrsm1_center_eq_bot {R : Type*} [Group R]
 private theorem ltrsm1_ne_bot_of_isQuasisimple {G : Type*} [Group G] {K : Subgroup G}
     (h : Assembly.IsQuasisimple ↥K) : K ≠ ⊥ := by
   intro hK
-  haveI : Nontrivial (↥K ⧸ Subgroup.center ↥K) := h.2.toNontrivial
+  have : Nontrivial (↥K ⧸ Subgroup.center ↥K) := h.2.toNontrivial
   obtain ⟨a, b, hab⟩ := exists_pair_ne (↥K ⧸ Subgroup.center ↥K)
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -125,8 +125,8 @@ theorem smallComposition_holds : S2MathAs51600SmallCompose.SmallComposition := b
   obtain ⟨hXperf, lab, hlabMark, hraw⟩ := hmark
   obtain ⟨R, _, I, F, hRsimple, hRnonab, θ, hP⟩ := largeEvenRawDatum_exists hraw
   obtain ⟨hSmall, hInnA⟩ := hP
-  haveI : Finite R := by
-    haveI : Finite (X ⧸ Subgroup.center X) := inferInstance
+  have : Finite R := by
+    have : Finite (X ⧸ Subgroup.center X) := inferInstance
     exact Finite.of_surjective θ θ.surjective
   have hcenterR : Subgroup.center R = ⊥ := ltrsm1_center_eq_bot hRsimple hRnonab
   let π : X →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
@@ -198,8 +198,8 @@ theorem smallComposition_holds : S2MathAs51600SmallCompose.SmallComposition := b
     obtain ⟨hR2simple, hR2nonab, θ2, hP2⟩ := hQ2
     obtain ⟨-, hInnA2⟩ := hP2
     have hPtable := hPtable2 hR2simple hR2nonab
-    haveI : Finite R2 := by
-      haveI : Finite (X ⧸ Subgroup.center X) := inferInstance
+    have : Finite R2 := by
+      have : Finite (X ⧸ Subgroup.center X) := inferInstance
       exact Finite.of_surjective θ2 θ2.surjective
     have hcenterR2 : Subgroup.center R2 = ⊥ := ltrsm1_center_eq_bot hR2simple hR2nonab
     let π2 : X →* R2 := θ2.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
@@ -244,8 +244,8 @@ theorem smallComposition_holds : S2MathAs51600SmallCompose.SmallComposition := b
     obtain ⟨hR2simple, hR2nonab, θ2, hP2⟩ := hQ2
     obtain ⟨-, hInnA2⟩ := hP2
     have hInner := hInnerGuard hR2simple hR2nonab
-    haveI : Finite R2 := by
-      haveI : Finite (X ⧸ Subgroup.center X) := inferInstance
+    have : Finite R2 := by
+      have : Finite (X ⧸ Subgroup.center X) := inferInstance
       exact Finite.of_surjective θ2 θ2.surjective
     have hcenterR2 : Subgroup.center R2 = ⊥ := ltrsm1_center_eq_bot hR2simple hR2nonab
     let π2 : X →* R2 := θ2.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
@@ -303,8 +303,8 @@ theorem smallComposition_holds : S2MathAs51600SmallCompose.SmallComposition := b
     obtain ⟨-, hInnA2⟩ := hP2
     have hOrder : Nat.card R2 = S2MathAs51600Small.DerivedOrder lab.tag :=
       hPder2 hR2simple hR2nonab
-    haveI : Finite R2 := by
-      haveI : Finite (X ⧸ Subgroup.center X) := inferInstance
+    have : Finite R2 := by
+      have : Finite (X ⧸ Subgroup.center X) := inferInstance
       exact Finite.of_surjective θ2 θ2.surjective
     let π2 : X →* R2 := θ2.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
     let β2 : MulAut R2 := ggInducedAut θ2 σ

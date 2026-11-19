@@ -25,7 +25,7 @@ theorem le_of_orderOf_eq_two_pow {n k : ℕ} (hk : 0 < k) {σ : Equiv.Perm (Fin 
     omega
   obtain ⟨x, hx⟩ : ∃ x : Fin n, (σ ^ (2 ^ (k - 1))) x ≠ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (Equiv.ext fun x => by simp [h x])
   have hx' : σ^[2 ^ (k - 1)] x ≠ x := by
     simpa [Equiv.Perm.coe_pow] using hx
@@ -57,7 +57,7 @@ theorem lt_relIndex_of_perm {E : Type} [Group E] [Finite E] {n : ℕ} (f : E →
     (hn : n < 2 ^ (k - 1)) : ∀ M : Subgroup E, M ≤ S → IsCyclic ↥M → 2 < M.relIndex S := by
   intro M hMS hcyc
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have hcardS : M.relIndex S * Nat.card M = 2 ^ k := by
     have h1 := Subgroup.relIndex_mul_card M S
     rwa [inf_of_le_left hMS, hS] at h1
@@ -77,7 +77,7 @@ theorem lt_relIndex_of_perm {E : Type} [Group E] [Finite E] {n : ℕ} (f : E →
   have htop : Subgroup.zpowers g = ⊤ := le_antisymm le_top fun x _ => hgmem x
   have horder_g : orderOf g = Nat.card M := by
     classical
-    haveI : Fintype ↥M := Fintype.ofFinite ↥M
+    have : Fintype ↥M := Fintype.ofFinite ↥M
     rw [← Fintype.card_zpowers (x := g), ← Nat.card_eq_fintype_card, htop,
       Subgroup.card_top]
   have horder_gE : orderOf (g : E) = orderOf g := Subgroup.orderOf_coe g

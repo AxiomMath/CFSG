@@ -31,8 +31,8 @@ theorem uc22p22r_exists_rbar {Mb : Type} [Group Mb] [Finite Mb] {Vmod : Type} [A
     ∃ (R : Subgroup Mb) (z : Mb), Tb ≤ normalizer (R : Set Mb) ∧ ((R ⊓ Tb).subgroupOf R).Normal ∧ z ∈ R ∧
       orderOf z = p ∧ R = (R ⊓ Tb) ⊔ Subgroup.zpowers z ∧ ∃ w : Vmod, w ≠ 0 ∧ ∀ r ∈ R ⊔ Tb, ρ r w = w := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Kt := Kb.map (MulAut.conj t).toMonoidHom with hKt
   set X := Kb ⊔ Kt with hX
   set C := centralizer (X : Set Mb) with hC
@@ -69,7 +69,7 @@ theorem uc22p22r_exists_rbar {Mb : Type} [Group Mb] [Finite Mb] {Vmod : Type} [A
     rw [← h1, mul_inv_cancel_right]
     exact hk
   set XC := X ⊔ C with hXC
-  haveI hXCn : XC.Normal := Subgroup.sup_normal X C
+  have hXCn : XC.Normal := Subgroup.sup_normal X C
   have hXCle : XC ≤ normalizer (Kb : Set Mb) := sup_le (uc22p22r_sup_le_normalizer_left hcomm) hCK
   have hXle : X ≤ CFSG.RankThree.PartOne.pElementSubgroup p ⊤ := by
     obtain ⟨z₁, hz₁⟩ := uc22p22r_L2_exists_orderOf hKb hp hpn
@@ -168,7 +168,7 @@ theorem uc22p22r_exists_rbar {Mb : Type} [Group Mb] [Finite Mb] {Vmod : Type} [A
     obtain ⟨k, hk, hkx⟩ := uc22p22r_comm_inner hKb hg.2 hh.2
     obtain ⟨l, hl, hlx⟩ := uc22p22r_comm_inner hKtL2 (hNKt hg.2) (hNKt hh.2)
     exact uc22p22r_mem_of_inner hcomm hk hl hkx hlx
-  haveI hQn : (N₂.subgroupOf N₁).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hN₂N₁).2 hN₁N₂
+  have hQn : (N₂.subgroupOf N₁).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hN₂N₁).2 hN₁N₂
   set q : ↥N₁ →* ↥N₁ ⧸ N₂.subgroupOf N₁ := QuotientGroup.mk' (N₂.subgroupOf N₁) with hq
   have hq1 : ∀ x : ↥N₁, q x = 1 ↔ (x : Mb) ∈ N₂ := fun x => by
     rw [hq, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -301,7 +301,7 @@ theorem uc22p22r_exists_rbar {Mb : Type} [Group Mb] [Finite Mb] {Vmod : Type} [A
     apply Nat.eq_of_mul_eq_mul_right hS'pos
     rw [hN₃rel, hN₃card, ← hN₂rel]
     ring
-  haveI hS'n : (S'.subgroupOf N₃).Normal :=
+  have hS'n : (S'.subgroupOf N₃).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hS'N₃).2 (hN₃N₁.trans inf_le_left)
   have hcardQ : Nat.card (↥N₃ ⧸ S'.subgroupOf N₃) = S'.relIndex N₂ * p := by
     rw [← hrel, Subgroup.relIndex, Subgroup.index_eq_card]

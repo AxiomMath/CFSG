@@ -78,10 +78,10 @@ theorem u6KeyDiag {D : GL (Fin 6) F4} {d : Fin 6 → F4}
     apply Subtype.ext
     rw [hαD, hc, (commute_scalar c D).eq, mul_inv_cancel_right]
   obtain ⟨Tq, _, f, hf, hTs, hTc, hker⟩ := hPq
-  haveI : IsSimpleGroup Tq := hTs
-  haveI : Finite Tq := Nat.finite_of_card_ne_zero (by rw [hTc]; norm_num)
-  haveI : Group.IsPerfect Tq := CatB.I1431YD4.isPerfect_of_simple (by rw [hTc]; norm_num)
-  haveI : Finite S6 := Finite.of_surjective π hπs
+  have : IsSimpleGroup Tq := hTs
+  have : Finite Tq := Nat.finite_of_card_ne_zero (by rw [hTc]; norm_num)
+  have : Group.IsPerfect Tq := CatB.I1431YD4.isPerfect_of_simple (by rw [hTc]; norm_num)
+  have : Finite S6 := Finite.of_surjective π hπs
   obtain ⟨LP, hLPperf, hLPfix, hLPP, hLPs⟩ := exists_perfect_lift hπs hZc hαβ P hPβ f hf
   have hLPC : LP ≤ CenD D := by rw [← hCenFix]; exact hLPfix
   have hdvdLP : 25920 ∣ Nat.card LP := by
@@ -94,8 +94,8 @@ theorem u6KeyDiag {D : GL (Fin 6) F4} {d : Fin 6 → F4}
     rwa [hTc] at this
   obtain ⟨A₀, S₆, hS₆g, fA, hA₀H, hSc, hfA⟩ := hA6
   obtain ⟨hSsimp, hS360⟩ := CatB.I1431YU5.isA6_isSimpleGroup hSc
-  haveI : IsSimpleGroup S₆ := hSsimp
-  haveI : Group.IsPerfect S₆ := CatB.I1431YD4.isPerfect_of_simple (by rw [hS360]; norm_num)
+  have : IsSimpleGroup S₆ := hSsimp
+  have : Group.IsPerfect S₆ := CatB.I1431YD4.isPerfect_of_simple (by rw [hS360]; norm_num)
   obtain ⟨LA, hLAperf, hLAfix, hLAP, hLAs⟩ :=
     exists_perfect_lift hπs hZc hαβ A₀ (fun x hx => hHβ x (hA₀H hx)) fA hfA
   have hLAC : LA ≤ CenD D := by rw [← hCenFix]; exact hLAfix
@@ -202,7 +202,7 @@ theorem u6KeyDiag {D : GL (Fin 6) F4} {d : Fin 6 → F4}
       calc t = t * (t * t) := by rw [ht2, mul_one]
         _ = t ^ 3 := (pow_three t).symm
         _ = 1 := h3
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h2g : IsPGroup 2 ↥(Subgroup.zpowers t) :=
         IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; norm_num)
       exact h2g.map π

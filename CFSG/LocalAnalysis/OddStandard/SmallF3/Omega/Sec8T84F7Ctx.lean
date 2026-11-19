@@ -13,6 +13,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma sec8t84_f7_zpowers_eq_one_or {u x : G} (hu : u * u = 1)
     (hx : x ∈ zpowers u) : x = 1 ∨ x = u := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -22,6 +23,7 @@ private lemma sec8t84_f7_zpowers_eq_one_or {u x : G} (hu : u * u = 1)
   · right
     rw [zpow_add, zpow_mul, zpow_two, hu, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private lemma sec8t84_f7_mem_sup_of_le_normalizer {H K : Subgroup G}
     (hHK : H ≤ Subgroup.normalizer (K : Set G)) {x : G} :
     x ∈ H ⊔ K ↔ ∃ a ∈ H, ∃ b ∈ K, a * b = x := by
@@ -42,10 +44,11 @@ private lemma sec8t84_f7_mem_sup_of_le_normalizer {H K : Subgroup G}
             by group⟩ }
     have hHP : H ≤ P := fun a ha => ⟨a, ha, 1, K.one_mem, by simp⟩
     have hKP : K ≤ P := fun b hb => ⟨1, H.one_mem, b, hb, by simp⟩
-    exact SetLike.le_def.mp (sup_le hHP hKP) hx
+    exact _root_.IsConcreteLE.le_iff.mp (sup_le hHP hKP) hx
   · rintro ⟨a, ha, b, hb, rfl⟩
     exact Subgroup.mul_mem_sup ha hb
 
+omit [Finite G] in
 private lemma sec8t84_f7_mem_normalizer_inf {A B : Subgroup G} {x : G}
     (hA : x ∈ normalizer (A : Set G)) (hB : x ∈ normalizer (B : Set G)) :
     x ∈ normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -54,9 +57,10 @@ private lemma sec8t84_f7_mem_normalizer_inf {A B : Subgroup G} {x : G}
   simp only [Subgroup.mem_inf]
   rw [hA y, hB y]
 
+omit [Finite G] in
 private lemma sec8t84_f7_isElemAb2_map_conj {E : Subgroup G} (u : G)
     (hE : IsElemAb2 E 4) : IsElemAb2 (E.map (MulAut.conj u).toMonoidHom) 4 := by
-  haveI : IsMulCommutative E := hE.1.1
+  have : IsMulCommutative E := hE.1.1
   refine ⟨⟨inferInstance, ?_⟩, ?_⟩
   · rintro x hx
     obtain ⟨e, he, rfl⟩ := hx

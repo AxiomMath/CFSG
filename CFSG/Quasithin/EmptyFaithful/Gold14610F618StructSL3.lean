@@ -19,12 +19,12 @@ theorem statedScalars_subgroupOf_le_center {ι : Type} [Fintype ι] [DecidableEq
     (CFSG.Assembly.LowTwoRank.StatedScalars ι K).subgroupOf H ≤ Subgroup.center H :=
   CFSG.Open.StatedAPI.statedScalars_subgroupOf_le_center _
 
-theorem isSimpleGroup_statedProj_statedSL_three {p : ℕ} (hp : p.Prime) (K : Type) [Field K]
-    [Finite K] (hK : Nat.card K = p) : IsSimpleGroup (StatedProj (StatedSL 3 K)) :=
+theorem isSimpleGroup_statedProj_statedSL_three {p : ℕ} (_hp : p.Prime) (K : Type) [Field K]
+    [Finite K] (_hK : Nat.card K = p) : IsSimpleGroup (StatedProj (StatedSL 3 K)) :=
   CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
 
-theorem isQuasisimple_statedSL_three {p : ℕ} (hp : p.Prime) (K : Type) [Field K] [Finite K]
-    (hK : Nat.card K = p) : CFSG.IsQuasisimple ↥(StatedSL 3 K) :=
+theorem isQuasisimple_statedSL_three {p : ℕ} (_hp : p.Prime) (K : Type) [Field K] [Finite K]
+    (_hK : Nat.card K = p) : CFSG.IsQuasisimple ↥(StatedSL 3 K) :=
   CFSG.Open.StatedAPI.isQuasisimple_statedSL_of_two_le le_rfl K
 
 theorem isSimpleGroup_statedProj_statedSU_three {p : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p)

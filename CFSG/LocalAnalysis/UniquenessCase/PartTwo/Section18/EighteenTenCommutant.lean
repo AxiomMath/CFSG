@@ -117,7 +117,7 @@ theorem commutant_section_of_matrix {ι : Type} [Fintype ι] [DecidableEq ι] [N
     (hcopK : Nat.Coprime (orderOf c) (Nat.card K - 1)) :
     ∀ w : W, c w * w⁻¹ ∈ Z := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hker : β.ker ≤ (β.comp c.toMonoidHom).ker := by
     intro w hw
     rw [MonoidHom.mem_ker] at hw ⊢
@@ -249,7 +249,7 @@ theorem commutant_section_of_coord {K M : Type} [Field K] [Finite K] [AddCommGro
     (hcopK : Nat.Coprime (orderOf c) (Nat.card K - 1)) :
     ∀ w : W, c w * w⁻¹ ∈ Z := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hf1 : f 1 = 0 := by
     have h := hfadd 1 1
     rw [mul_one] at h
@@ -375,9 +375,9 @@ theorem k_18_10_commutant :
     obtain ⟨hEven, hrest⟩ := hsp
     obtain ⟨K, hKf, hKfin, hrest⟩ := hrest
     obtain ⟨hKcard, hR⟩ := hrest
-    letI := hKf
-    letI := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
+    let := hKf
+    let := hKfin
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨π, hπ⟩ := hR
     have hNat : CFSG.Quasithin.SzN15.NatReal H ⊤ Z (StatedSp (4 / 2) K) π :=
       CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
@@ -395,11 +395,11 @@ theorem k_18_10_commutant :
   ·
     obtain ⟨K, hKf, hKfin, hrest⟩ := hg2
     obtain ⟨hKcard, hR⟩ := hrest
-    letI := hKf
-    letI := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
+    let := hKf
+    let := hKfin
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
       rw [← Nat.card_eq_fintype_card]
       exact hKcard)
     have hG2le : CFSG.Open.quasithinG2 K ≤ CFSG.Quasithin.Explicit.cayleyGroup K := by
@@ -417,7 +417,7 @@ theorem k_18_10_commutant :
         f (((π γ : ↥H) : MulAut W) v) = (LM.lin γ).toAddMonoidHom (f v) := by
       intro γ v
       exact hfeU γ v trivial
-    haveI : Nontrivial (Ix3 → K) := by
+    have : Nontrivial (Ix3 → K) := by
       refine ⟨⟨0, Pi.single (Sum.inl 0) 1, ?_⟩⟩
       intro h
       have := congrFun h (Sum.inl 0)
@@ -437,9 +437,9 @@ theorem k_18_10_commutant :
   ·
     obtain ⟨K, hKf, hKfin, hrest⟩ := hsl
     obtain ⟨hKcard, hR⟩ := hrest
-    letI := hKf
-    letI := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
+    let := hKf
+    let := hKfin
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨π, hπ⟩ := hR
     have hNat : CFSG.Quasithin.SzN15.NatReal H ⊤ Z (StatedSL 2 K) π :=
       CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
@@ -460,11 +460,11 @@ theorem k_18_10_commutant :
     obtain ⟨K, hKf, hKfin, b, c₀, hrest⟩ := hrest
     obtain ⟨hKcard, hrest⟩ := hrest
     obtain ⟨hirr, hR⟩ := hrest
-    letI := hKf
-    letI := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f / 2) (by
+    let := hKf
+    let := hKfin
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f / 2) (by
       rw [← Nat.card_eq_fintype_card]
       exact hKcard)
     obtain ⟨π, hπ⟩ := hR

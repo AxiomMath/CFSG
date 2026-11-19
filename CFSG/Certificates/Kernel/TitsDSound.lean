@@ -24,7 +24,7 @@ theorem anyN_iffD {n : ℕ} {f : ℕ → Bool} : anyN n f = true ↔ ∃ i < n, 
     simp only [Bool.false_eq_true, false_iff, not_exists, not_and]
     intro i hi hf
     have := h i hi
-    rw [bIf_d, if_pos hf] at this
+    rw [bIf_d, ite_eq_left hf] at this
     exact Bool.false_ne_true this
   · rename_i h
     rw [allN_iff'] at h
@@ -49,11 +49,11 @@ theorem recR_sound {A : ℕ → ℕ} {k : ℕ} {isRoot : ℕ → Bool} {L cnt LA
   · obtain ⟨hx, h'⟩ := h1 i hi
     rw [bIf_d] at h'
     refine ⟨hx, fun hr => ?_, fun hr => ?_⟩
-    · rwa [if_pos (decide_eq_true hr)] at h'
-    · rw [if_neg (by simpa using hr)] at h'
+    · rwa [ite_eq_left (decide_eq_true hr)] at h'
+    · rw [ite_eq_right (by simpa using hr)] at h'
       simpa only [Bool.and_eq_true, decide_eq_true_eq] using h'
   · have h' := h2 x hx
-    rw [bIf_d, if_pos (decide_eq_true hL)] at h'
+    rw [bIf_d, ite_eq_left (decide_eq_true hL)] at h'
     simpa only [Bool.and_eq_true, decide_eq_true_eq] using h'
 
 theorem recR_reach {X V : Type*} [Group X] [MulAction X V] {c : ℕ → V} {a : ℕ → X} {S : Set X}
@@ -109,9 +109,9 @@ theorem exactK_sound {e w b k0 : ℕ} (h : exactK lp PL e w b k0 = true) :
   have h' := h3 k hk
   rw [bIf_d] at h'
   by_cases hkk : k = k0
-  · rw [if_pos (decide_eq_true hkk)] at h'
+  · rw [ite_eq_left (decide_eq_true hkk)] at h'
     exact ⟨fun _ => hkk, fun _ => h'⟩
-  · rw [if_neg (by simpa using hkk)] at h'
+  · rw [ite_eq_right (by simpa using hkk)] at h'
     simp only [Bool.not_eq_true'] at h'
     exact ⟨fun ha => absurd (ha.symm.trans h') (by decide), fun h'' => absurd h'' hkk⟩
 

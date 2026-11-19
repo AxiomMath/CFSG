@@ -39,8 +39,8 @@ theorem odd_eq_bot_of_fixed {V : Type*} [Group V] [Finite V] (hVc : ∀ a b : V,
     exact h
   ·
     exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : MulAction P R :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : MulAction P R :=
       { smul := fun p r => ⟨(p : MulAut V) r, apply_mem_closure_mul_inv_of_mem_normalizer (hPQ p.2) r.2⟩
         one_smul := fun _ => rfl
         mul_smul := fun _ _ _ => rfl }
@@ -58,7 +58,7 @@ theorem eq_of_odd_free {Γ : Type*} [Group Γ] [Finite Γ] {D C₀ W : Subgroup 
   refine hSyl.2.2 D hDC (IsPGroup.of_card (Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' ?_)) hWD
   intro p hp hpd
   by_contra hp2
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hpd
   have h1 : (g : Γ) = 1 := hfree g g.2 p hp hp2 ((Subgroup.orderOf_coe g).trans hg)
   rw [← Subgroup.orderOf_coe, h1, orderOf_one] at hg

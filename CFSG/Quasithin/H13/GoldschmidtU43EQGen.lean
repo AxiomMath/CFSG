@@ -23,7 +23,7 @@ theorem u43_exists_sylow_eq {p : ℕ} [Fact p.Prime] {Y : Subgroup K} (hY : IsPG
       rw [htop]
       trivial
     exact this
-  have : Group.IsNilpotent ↥(P : Subgroup K) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(P : Subgroup K) := P.isPGroup.isNilpotent
   have hnc : NormalizerCondition ↥(P : Subgroup K) :=
     Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup K))
   obtain ⟨x, hxN, hxn⟩ := IsConcreteLE.exists_of_lt (hnc _ hIlt)
@@ -34,7 +34,7 @@ theorem u43_exists_sylow_eq {p : ℕ} [Fact p.Prime] {Y : Subgroup K} (hY : IsPG
     exact Subgroup.mem_subgroupOf.mp this
   have hxY : (x : K) ∉ Y := fun hx => hxn (Subgroup.mem_subgroupOf.mpr hx)
   have hpg : IsPGroup p (Subgroup.zpowers (x : K)) :=
-    P.isPGroup'.to_le (Subgroup.zpowers_le.mpr x.2)
+    P.isPGroup.to_le (Subgroup.zpowers_le.mpr x.2)
   exact hxY (h _ hxNorm hpg)
 
 theorem u43_frattini_quaternion (P : Sylow 2 K)

@@ -41,7 +41,7 @@ theorem theta_cubeBasis (I : Set.powersetCard (Fin 6) 3) :
     rw [this, map_one, one_smul]
   · intro J _ hJ
     have : coord K (cubeBasis K I) J = 0 := by
-      simp [coord, Finsupp.single_apply, Ne.symm hJ]
+      simp [coord, Ne.symm hJ]
     rw [this, map_zero, zero_smul]
   · intro h; exact absurd (Finset.mem_univ I) h
 
@@ -108,7 +108,7 @@ theorem pt0_ne_zero : pt0 K ≠ 0 := by
   have h1 := congrArg (fun ξ => coord K ξ (tripleSet 0 2 4 (by decide) (by decide) (by decide))) h
   rw [pt0_eq] at h1
   simp only [coord_add, coord_cubeBasis, coord_zero] at h1
-  simp (config := {decide := true}) [Subtype.ext_iff, tripleSet] at h1
+  simp (config := {decide := true}) at h1
 
 theorem pt0_mem_RootPt : pt0 K ∈ RootPt σ :=
   ⟨theta_pt0, pt0_ne_zero, isPure_pt0⟩

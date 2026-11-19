@@ -75,9 +75,9 @@ theorem three_le_rk (V : Type) [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 =
     (t : MulAut V) (htM : t ∈ M) (ht2 : orderOf t = 2) :
     3 ≤ rk ↥(commV (Subgroup.zpowers t)) := by
   classical
-  haveI : Finite (MulAut V) :=
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun f : MulAut V => (f : V → V)) fun f g h => MulEquiv.ext (congrFun h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hL
   set F : Subgroup ↥M := CFSG.generalizedFitting ↥M with hFdef
   set L : Subgroup (MulAut V) := F.map M.subtype with hLdef

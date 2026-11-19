@@ -31,7 +31,7 @@ theorem kxSection_of_g2_equiv {A : Type} [Group A] [Finite A] {L S : Subgroup A}
     (hp : p.Prime) (hp2 : p ≠ 2) (hzp : orderOf z = p) (hzL : z ∈ L)
     (hrank : CFSG.Open.pRank p L ≤ 1) (hSL : S ≤ L) (hS2 : IsPGroup 2 S) (hS1 : S ≠ ⊥)
     (hzS : z ∈ normalizer (S : Set A)) : KxSection z (normalizer (S : Set A) ⊓ L) 3 := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hqpos := q.exponent_pos
   let F := GaloisField q.p q.exponent
   have hFcard : Nat.card F = q.card := by
@@ -42,7 +42,7 @@ theorem kxSection_of_g2_equiv {A : Type} [Group A] [Finite A] {L S : Subgroup A}
   obtain ⟨b⟩ := CFSG.TauCetiBridge.untwistedBridge_G2 q hv hq2 F hFcard
   let eK : ↥L ≃* ↥(adjointGroup .G2 F) :=
     (e.trans b.symm).trans (CFSG.RankThree.Chevalley.adjointQuotientEquiv .G2 F)
-  haveI := finite_adjointGroup_G2 (F := F) (Finite.one_lt_card)
+  have := finite_adjointGroup_G2 (F := F) (Finite.one_lt_card)
   have hrank' : CFSG.Open.pRank p (⊤ : Subgroup ↥(adjointGroup .G2 F)) ≤ 1 := by
     rw [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt eK,
       ← CFSG.SectionRank.pRank_eq_pRank_top_subgroup L]

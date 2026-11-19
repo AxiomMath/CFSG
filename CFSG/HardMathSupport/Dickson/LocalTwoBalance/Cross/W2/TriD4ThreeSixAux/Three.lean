@@ -58,7 +58,7 @@ theorem iform_rho_three (S : LangSetup Tag.D4 L p) (hρ : RhoIs S triD4ThreeMat)
 
 theorem dvd_q2_add_q_add_one_of_orderOf_three {p q : ℕ} (hp : p.Prime)
     (he : orderOf ((q : ℕ) : ZMod p) = 3) : p ∣ q ^ 2 + q + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3 : ((q : ℕ) : ZMod p) ^ 3 = 1 := by
     rw [← he]
     exact pow_orderOf_eq_one _
@@ -86,7 +86,7 @@ theorem frame_adj {τ : Tag} (hsl : SimplyLacedTag τ) {ρ' : SL(3, L) →* ModG
   have h' : iform (σ 1 2) (σ 0 1) = -1 := by rw [iform_comm]; exact h
   rintro α ⟨i, j, hij, rfl⟩
   fin_cases i <;> fin_cases j
-  all_goals first | exact absurd rfl hij | skip
+  all_goals try exact absurd rfl hij
   · refine ⟨σ 2 1, ⟨2, 1, by decide, rfl⟩, ?_⟩
     show iform (σ 0 1) (σ 2 1) = 1
     rw [h21, iform_neg_right_tri, h]
@@ -131,7 +131,7 @@ theorem isGoodRoot_triD4_three (S : LangSetup Tag.D4 L p) (hp7 : 7 ≤ p) (hAlg 
     have h := S.hqpow.2
     rw [hq2] at h
     exact_mod_cast h
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by exact_mod_cast h2L)
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by exact_mod_cast h2L)
   refine h2 L (frameRoots σ) hfr.frameRoots_isRoot ?_ hadj ?_ hz
   · rintro _ ⟨i, j, hij, rfl⟩
     exact ⟨j, i, hij.symm, (hfr.neg i j).symm⟩
@@ -154,7 +154,7 @@ theorem setupRigid_triD4_three (S : LangSetup TwistTag.D4.tag L p) (hp7 : 7 ≤ 
     (hAlg : S.IsAlgebraic) (he : orderOf ((S.D.q : ℕ) : ZMod p) = 3) (hρ : RhoIs S triD4ThreeMat)
     (h2 : D4TwoPoly) : SetupRigid S :=
   setupRigid_triD4_of_goodRoots S hΦ hAlg
-    (fun γ hγ => ReflClosure.base (isGoodRoot_triD4_three S hp7 hAlg he hρ h2 hγ))
+    (fun _γ hγ => ReflClosure.base (isGoodRoot_triD4_three S hp7 hAlg he hρ h2 hγ))
     noTriCosetCentralizes_D4
 
 end Rigid

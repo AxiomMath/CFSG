@@ -26,10 +26,10 @@ variable {G : Type} [Group G] [Finite G] {M L : Subgroup G} {R : Subgroup G}
   {rep : Fin 64 → G}
 
 theorem index_ne_two (S : Setting G M L) (K : Subgroup G) : K.index ≠ 2 := by
-  haveI : IsSimpleGroup G := S.simple
+  have : IsSimpleGroup G := S.simple
   exact CFSG.Quasithin.I4.index_ne_two_of_isSimpleGroup S.nonab K
 
-theorem exists_sylow_le (S : Setting G M L) :
+theorem exists_sylow_le (_S : Setting G M L) :
     ∃ P : Sylow 2 M,
       CFSG.Open.pCoreOf 2 M ≤ (P : Subgroup M).map M.subtype := by
   have hJp : IsPGroup 2 (CFSG.Open.pCoreOf 2 M) :=
@@ -104,7 +104,7 @@ theorem exists_conj (S : Setting G M L)
   exact CFSG.EvenSmallLie.UnitarySix.SolomonWong.solomon_wong_one_of_index S.index_ne_two P hP
     hAn hAc hA4 hNA (S.exists_conj_eq_of_le hF hc hW2 hWab hW1) hM₁ hM₁M
 
-theorem card_le_two_mul_card_inf (S : Setting G M L) {g : G}
+theorem card_le_two_mul_card_inf (_S : Setting G M L) {g : G}
     (h : M.relIndex (CFSG.Quasithin.conjSubgroup (CFSG.Open.pCoreOf 2 M) g) ≤ 2) :
     Nat.card (CFSG.Open.pCoreOf 2 M) ≤
       2 * Nat.card ↥(CFSG.Quasithin.conjSubgroup (CFSG.Open.pCoreOf 2 M) g ⊓ M) := by

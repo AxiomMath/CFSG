@@ -24,7 +24,7 @@ private theorem rckTwAut_iform_single_single_E6
     CFSG.LieType.Steinberg.Adjoint.iform (Pi.single i 1 : Fin Tag.E6.rank → ℤ)
       (Pi.single j 1) = Tag.E6.cartan i j := by
   rw [rckIo_iform_single_left_eq_E6]
-  rw [Finset.sum_eq_single j (fun k _ hk => by simp [Pi.single_apply, hk])
+  rw [Finset.sum_eq_single j (fun k _ hk => by simp [hk])
     (fun h => absurd (Finset.mem_univ j) h)]
   simp
 
@@ -114,7 +114,7 @@ private theorem rckTwAut_permLattice_neg (π : Equiv.Perm (Fin Tag.E6.rank))
 private theorem rckTwAut_permLattice_one (v : Fin Tag.E6.rank → ℤ) :
     permLattice (τ := Tag.E6) (1 : Equiv.Perm (Fin Tag.E6.rank)) v = v := by
   ext j
-  simp [permLattice, Equiv.Perm.one_symm]
+  simp [permLattice, ← Equiv.Perm.inv_def 1, inv_one]
 
 private theorem rckTwAut_iform_permLattice_E6
     {π : Equiv.Perm (Fin Tag.E6.rank)}

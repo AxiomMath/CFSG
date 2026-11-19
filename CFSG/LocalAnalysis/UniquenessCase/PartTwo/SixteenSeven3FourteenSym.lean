@@ -36,10 +36,10 @@ theorem s16c1614_not_dvd_of_symSumOfConj {W : Type} [CommGroup W] [Finite W]
   classical
   intro hdiv
   obtain ⟨Z, hZrk, _hind, hsup, hXcard, _hS4⟩ := hS
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun f g h => MulEquiv.ext (congrFun h))
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) ℓ hdiv
   let a' : MulAut W := (a : MulAut W)
   have ha'ord : orderOf a' = ℓ := by
@@ -47,7 +47,7 @@ theorem s16c1614_not_dvd_of_symSumOfConj {W : Type} [CommGroup W] [Finite W]
   have hcard4 : Nat.card ↥(conjSubs A Z) = 4 := by
     rw [Nat.card_coe_set_eq]
     omega
-  haveI hfinX : Finite ↥(conjSubs A Z) :=
+  have hfinX : Finite ↥(conjSubs A Z) :=
     Finite.of_surjective
       (fun g : ↥A => (⟨Z.map (g : MulAut W).toMonoidHom,
         ⟨(g : MulAut W), g.2, rfl⟩⟩ : ↥(conjSubs A Z)))
@@ -67,7 +67,7 @@ theorem s16c1614_not_dvd_of_symSumOfConj {W : Type} [CommGroup W] [Finite W]
     refine ⟨(p : MulAut W) * g, A.mul_mem (hPA p.2) hg, ?_⟩
     rw [hgY, Subgroup.map_map]
     rfl
-  letI : MulAction ↥P ↥(conjSubs A Z) :=
+  let : MulAction ↥P ↥(conjSubs A Z) :=
     { smul := fun p Y => ⟨(Y : Subgroup W).map (p : MulAut W).toMonoidHom, hmem p Y⟩
       one_smul := by
         intro Y

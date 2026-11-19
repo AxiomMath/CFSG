@@ -42,7 +42,7 @@ theorem q_ne_two {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCommGro
 
 theorem q_ne_p {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}
-    (hc : ExtraspecialBinaryActionCounterexample G p P T B e ρ) {q : ℕ} (hq : q.Prime) {A : Subgroup G}
+    (hc : ExtraspecialBinaryActionCounterexample G p P T B e ρ) {q : ℕ} (_hq : q.Prime) {A : Subgroup G}
     (hAB : A ≤ B) (hA : Nat.card A = q) : q ≠ p := by
   intro h
   apply prime_not_dvd_card_actor_of_irreducible_counterexample hc
@@ -52,7 +52,7 @@ theorem q_ne_p {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCommGroup
 
 theorem card_image {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}
-    (hc : ExtraspecialBinaryActionCounterexample G p P T B e ρ) {q : ℕ} (hq : q.Prime) {A : Subgroup G}
+    (hc : ExtraspecialBinaryActionCounterexample G p P T B e ρ) {q : ℕ} (_hq : q.Prime) {A : Subgroup G}
     (hAB : A ≤ B) (hA : Nat.card A = q) : Nat.card (Bstar P A) = q := by
   rw [Bstar_eq_map hc.oddPrimeClassTwoAction hAB,
     Subgroup.card_map_of_injective (BstarFaithful.injective hc.oddPrimeClassTwoAction hc.faithfulBinaryIrreducibleAction)]
@@ -67,9 +67,9 @@ theorem fixedSpace_eq_bot {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [A
     haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
     haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
     BinaryRepresentations.fixedSpace (sigma p P) (Bstar P A) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   have hp12 : p ∉ piOf B := prime_not_dvd_card_actor_of_irreducible_counterexample hc
   have hq1 : 1 < Nat.card A := hA ▸ hq.one_lt
   obtain ⟨a, ha1⟩ := (Subgroup.one_lt_card_iff_ne_bot A).1 hq1 |> fun h => Subgroup.ne_bot_iff_exists_ne_one.1 h

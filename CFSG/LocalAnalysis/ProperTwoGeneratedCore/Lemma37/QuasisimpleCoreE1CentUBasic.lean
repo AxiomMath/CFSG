@@ -36,11 +36,11 @@ theorem StarLift.exists_e1Data (hu : StarLift B z u) (h : Setting J Q B) (hz : F
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : ∀ x, x ∈ Subgroup.center J ↔ x = 1 ∨ x = centralElt J := fun x => h.mem_center_iff
   obtain ⟨y', hy'⟩ := hP.exists_caseC3 (partCSylow_le_normalizer T) hyT hy hyy hφ hψ
-  obtain ⟨S, hTS⟩ := (T.isPGroup'.map (quasiNormalizer u).subtype).exists_le_sylow
+  obtain ⟨S, hTS⟩ := (T.isPGroup.map (quasiNormalizer u).subtype).exists_le_sylow
   by_cases hTSeq : partCSylow T = (S : Subgroup J)
   · exact (hy'.false_of_sylow h.perfect _ hZ S hTSeq.symm).elim
   · obtain ⟨x, hs⟩ := hy'.exists_caseC3Top (Subgroup.center J) hZ
-      (partCSylow_maxInNormalizer T) S.isPGroup' hTS hTSeq
+      (partCSylow_maxInNormalizer T) S.isPGroup hTS hTSeq
     have hx2 := hs.mul_self_mem_of_sylow h.perfect (Subgroup.center J) hZ S rfl
     obtain ⟨x', hs', hx'1, hx'y⟩ := hs.exists_normalized (Subgroup.center J) hZ hx2
     obtain ⟨m, hm, hm1, hm2⟩ := hs'.moved
@@ -202,7 +202,7 @@ theorem yBar_not_mem : d.yBar ∉ L ⊔ Subgroup.centralizer (L : Set (QuasiQuot
   rw [hT'] at hlT hkT
   obtain ⟨t₁, ht₁T, rfl⟩ := Subgroup.mem_map.mp hlT
   obtain ⟨t₂, ht₂T, rfl⟩ := Subgroup.mem_map.mp hkT
-  have heq : t₁ * t₂ = ⟨y, d.y_mem⟩ := quasiMk_injOn_twoGroup u T.isPGroup'
+  have heq : t₁ * t₂ = ⟨y, d.y_mem⟩ := quasiMk_injOn_twoGroup u T.isPGroup
     ((T : Subgroup (quasiNormalizer u)).mul_mem ht₁T ht₂T)
     (mem_sylow_of_mem_partCSylow d.caseC3BCD.mem) (by rw [map_mul]; exact hlk)
   apply d.caseC3BCD.not_mem

@@ -126,7 +126,7 @@ theorem s16h_blockBound_one_of_a7Four_of_five_le_p
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
     s16h_BlockBound (Mbar D.M V₀ V hV) (lBar V₀ V hV L) p 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let W := Vtil V₀ V hV
   let H : Subgroup (MulAut W) := lBar V₀ V hV L
   let U₁ : Subgroup W := commSub (⊤ : Subgroup W) H

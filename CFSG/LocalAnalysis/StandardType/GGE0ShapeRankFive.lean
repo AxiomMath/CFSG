@@ -29,7 +29,7 @@ private theorem card_le_of_le_sylow_unique {p : ℕ} (hp : p.Prime) {G : Type} [
     (huniq : ∀ E : Subgroup G, E ≤ P → IsElemAbelian p E → Nat.card E = Nat.card Bs → E = Bs)
     {E : Subgroup G} (hEP : E ≤ P) (hE : IsElemAbelian p E) :
     Nat.card E ≤ Nat.card Bs := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hle
   rw [not_le] at hle
   obtain ⟨s, hs⟩ := GGSFCore.exists_card_eq_pow (A := G) hBs
@@ -55,7 +55,7 @@ private theorem card_le_card_of_sylow_unique {p : ℕ} (hp : p.Prime) {G : Type}
       Nat.card E = Nat.card Bs → E = Bs)
     {E : Subgroup G} (hEM : E ≤ M) (hE : IsElemAbelian p E) :
     Nat.card E ≤ Nat.card Bs := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp : IsPGroup p E := GGSFCore.isElemAbelian_isPGroup hE
   have hE'p : IsPGroup p (E.subgroupOf M) := hEp.comap_subtype (K := M)
   obtain ⟨S, hE'S⟩ := hE'p.exists_le_sylow

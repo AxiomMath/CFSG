@@ -16,6 +16,7 @@ namespace Sit16
 
 variable {Ω : Set (Subgroup G)} {K K' W : Subgroup G} {z u e g : G}
 
+omit [Finite G] in
 private theorem e16h_conjSub_le {H K : Subgroup G} (hK : K ≤ H) {x : G} (hx : x ∈ H) :
     conjSub x K ≤ H := by
   intro m hm
@@ -24,16 +25,19 @@ private theorem e16h_conjSub_le {H K : Subgroup G} (hK : K ≤ H) {x : G} (hx : 
   have e1 : x * (x⁻¹ * m * x) * x⁻¹ = m := by group
   rwa [e1] at h1
 
+omit [Finite G] in
 private theorem e16h_le_centralizer_of_mem {K : Subgroup G} {e : G}
     (he : e ∈ Subgroup.centralizer (K : Set G)) : K ≤ Subgroup.centralizer ({e} : Set G) := by
   intro k hk
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact (Subgroup.mem_centralizer_iff.mp he) k hk
 
+omit [Finite G] in
 private theorem e16h_comm_mul {x u t : G} (hu : x * u = u * x) (ht : x * t = t * x) :
     x * (u * t) = u * t * x := by
   rw [← mul_assoc, hu, mul_assoc u x t, ht, ← mul_assoc]
 
+omit [Finite G] in
 private theorem e16h_le_centralizer_e {L : Subgroup G} {u e : G} (hu2 : u * u = 1)
     (hLu : L ≤ Subgroup.centralizer ({u} : Set G)) (hLt : IsUniqueInvolution L (u * e)) :
     L ≤ Subgroup.centralizer ({e} : Set G) := by
@@ -47,7 +51,7 @@ private theorem e16h_le_centralizer_e {L : Subgroup G} {u e : G} (hu2 : u * u = 
     _ = e * x := by rw [he]
 
 theorem exists_mul_eq_of_mem_centralizer_u (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω)
-    (h9 : Perp9 Ω) (h13 : zGroup Ω ≠ eGroup Ω K) {x : G}
+    (h9 : Perp9 Ω) (_h13 : zGroup Ω ≠ eGroup Ω K) {x : G}
     (hx : x ∈ Subgroup.centralizer ({u} : Set G)) :
     ∃ y ∈ pSpan (centMembers Ω u), x * e * x⁻¹ = y * e * y⁻¹ := by
   have hd : Hyp23bData Ω K K' W z u e g := c.data
@@ -183,7 +187,7 @@ theorem pSpan_sup_eq_top_of_X (c : Sit16 Ω K K' W z u e g)
     intro N hN
     obtain ⟨W', u', e', g', c', hD, -⟩ := exists_frame_of_omegaStarNbr c h h9 hN
     have hcen' : e' ∈ centres Ω K K' z := by
-      simp only [centres, Set.mem_setOf_eq]
+      simp only [centres, Set.mem_ofPred_eq]
       exact ⟨W', u', g', c'⟩
     have hNc : N ∈ centMembers Ω e' := dSet_subset_centMembers c' h hD
     have hKc' : K ∈ centMembers Ω e' :=

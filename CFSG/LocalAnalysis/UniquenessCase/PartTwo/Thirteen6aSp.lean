@@ -33,6 +33,7 @@ private theorem s136a_isCyclic_barImage_Sp {D : Data G} {V₀ V : Subgroup G}
     s13_pRank_barImage hpp hp2 (s13_Sp_le D.M p)]
   exact hS.hyp131.smallS p hp
 
+omit [Finite G] in
 private theorem s136a_comm_of_isCyclic {M P : Subgroup G} (hPM : P ≤ M)
     [((pCoreOf 2 M).subgroupOf (P ⊔ pCoreOf 2 M)).Normal]
     (hcyc : IsCyclic ↥(barImage M P)) :

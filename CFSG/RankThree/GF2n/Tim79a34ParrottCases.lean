@@ -20,9 +20,10 @@ private theorem card_oMinusSixTwo : Nat.card OMinusSixTwo = 51840 := by
   have h2 : (Nat.card (TauCeti.QuadraticMap.orthogonalGroup
       (CFSG.LieType.Universal.Spin.quadMinus 3 (ZMod 2) 1 1)) : ℤ) = ((51840 : ℕ) : ℤ) := by
     rw [h, Nat.card_zmod]
-    first | decide | norm_num [Finset.prod_Icc_succ_top]
+    first | decide
   exact_mod_cast h2
 
+omit [Finite G] in
 private theorem qa_le_centralizer (x : G) :
     Qa x ≤ Subgroup.centralizer ({x} : Set G) := by
   intro g hg
@@ -47,7 +48,7 @@ theorem parrottCaseII_false {M V Q P H : Subgroup G} {n : ℕ}
   obtain ⟨z₁, -, -, hord, hnorm, -⟩ := h
   have hc : MinCex M V Q P H := cfg.hyp.setup.mc.toMinCex
   have hpg : IsPGroup 2 ↥(Subgroup.zpowers z₁) :=
-    IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord] <;> norm_num)
+    IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; norm_num)
   have hle : Subgroup.zpowers z₁ ≤ pCore 2 G := le_sSup ⟨hnorm, hpg⟩
   have hz : z₁ ∈ pCore 2 G := hle (Subgroup.mem_zpowers z₁)
   rw [hc.o2, Subgroup.mem_bot] at hz
@@ -72,7 +73,7 @@ theorem fi22_false {M V Q P H : Subgroup G} {n : ℕ}
   have hPcard : Nat.card ↥P = 2 ^ (4 * n - 2) :=
     (h11a G M V Q P H hH cfg.centre cfg.iw Φ ψ cfg.nat a T cfg.ne cfg.trans cfg.point).2.2.2
   have hP1024 : Nat.card ↥P = 1024 := by
-    rw [hPcard, hn3] <;> norm_num
+    rw [hPcard, hn3]; norm_num
   have hQP : Q = P := le_antisymm cfg.qp hc.P_le_Q
   have hQa : Qa cfg.aG = Q := qa_aG_eq h12 cfg
   have hK : Nat.card ↥((Qa cfg.aG).subgroupOf
@@ -87,7 +88,7 @@ theorem fi22_false {M V Q P H : Subgroup G} {n : ℕ}
   have hMcard : Nat.card ↥M = 53084160 := by
     rw [← hcent]
     exact hCa
-  obtain ⟨v, hvV, hvW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v, hvV, hvW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   have hv1 : v ≠ 1 := fun h => hvW (by rw [h]; exact (wOf V H).one_mem)
   have hv2 : orderOf v = 2 := by
     have hsq : v ^ 2 = 1 := by

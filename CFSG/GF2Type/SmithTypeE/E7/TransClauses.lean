@@ -43,8 +43,8 @@ theorem twoRankMbar_of_TD6 (hO : Nonempty (S.Mbar ≃* timmesfeldOmegaPlus 6))
     TwoRankMbar S := by
   obtain ⟨e⟩ := hO
   intro E hE hel
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hel
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hel
   have h1 : CFSG.IsElementaryAbelian 2 (E.subgroupOf S.Mbar) :=
     CFSG.IsElementaryAbelian.subgroupOf hE
   have h2 : CFSG.IsElementaryAbelian 2 ((E.subgroupOf S.Mbar).map (e.trans omegaTD6).toMonoidHom) :=
@@ -54,6 +54,7 @@ theorem twoRankMbar_of_TD6 (hO : Nonempty (S.Mbar ≃* timmesfeldOmegaPlus 6))
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hE).toEquiv] at h3
   exact h3
 
+omit [IsSimpleGroup G] in
 theorem exists_Phi_eq_rhoMod (hO : Nonempty (S.Mbar ≃* timmesfeldOmegaPlus 6))
     {φ : S.Qt ≃ₗ[ZMod 2] (Fin 32 → ZMod 2)} (hφ : SmithE7Clauses1235 S φ) :
     ∃ ψ : S.Mbar ≃* TD6, ∀ m : S.M, Phi S φ m = rhoMod (ψ (rhoM S m)) := by

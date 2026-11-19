@@ -116,7 +116,7 @@ variable {A : Subgroup G} {c : G} {L E T : Subgroup G} {d : G}
 
 theorem exists_L_fusion (F : Frame611 G A c L E T d) {b : G} (hbA : b ∈ A) (hbL : b ∈ L)
     (hb1 : b ≠ 1) : ∃ u ∈ L, u⁻¹ * b * u = b ∧ u⁻¹ * d * u = d * b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hdN, hnot⟩ := KFacts.InducesStdKind.inducesOuterTheta L F.d_field (by decide)
   obtain ⟨φ⟩ := F.iso_L
   have hF : Nat.card (GaloisField 3 (3 * 2)) = 3 ^ 6 :=

@@ -36,8 +36,8 @@ theorem exists_invariant_complement_of_odd_index
     (hWR : ∀ r : R, ∀ w ∈ W, ρ (r : C) w ∈ W) :
     ∃ U : Subgroup V, V₀.IsComplement' U ∧ ∀ c : C, ∀ u ∈ U, ρ c u ∈ U := by
   classical
-  letI : Fintype C := Fintype.ofFinite C
-  letI : Fintype (C ⧸ R) := Fintype.ofFinite _
+  let : Fintype C := Fintype.ofFinite C
+  let : Fintype (C ⧸ R) := Fintype.ofFinite _
   let projFun : V → V₀ := fun v => (hW.equiv v).1
   have hprojFun_mul : ∀ a b : V, projFun (a * b) = projFun a * projFun b := by
     intro a b
@@ -115,7 +115,7 @@ theorem exists_invariant_complement_of_odd_index
       simpa only [smul_eq_mul] using h
     have hout : (QuotientGroup.mk ((c • q).out) : C ⧸ R) = c • (q : C ⧸ R) := by
       have h := MulAction.Quotient.mk_smul_out (b := (1 : C)) (q := c • q)
-      simpa using h
+      simp
     have heq : (QuotientGroup.mk (c * q.out) : C ⧸ R) =
         (QuotientGroup.mk ((c • q).out) : C ⧸ R) := by
       rw [hc, hout]
@@ -209,7 +209,7 @@ theorem exists_mem_normalizer_mul_of_isSylowIn
     {C M R : Subgroup G} (hCM : C ≤ M) (hMC : M ≤ Subgroup.normalizer (C : Set G))
     (hR : CFSG.Quasithin.IsSylowIn 2 R C) :
     ∀ m ∈ M, ∃ n ∈ M ⊓ Subgroup.normalizer (R : Set G), ∃ c ∈ C, m = c * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro m hm
   let φ : MulAut ↥C := (Subgroup.normalizerMonoidHom C) ⟨m, hMC hm⟩
   have hφ : ∀ x : ↥C, (φ x : G) = m * (x : G) * m⁻¹ := by
@@ -258,6 +258,7 @@ variable {G : Type} [Group G] [Finite G]
 
 open CFSG.Open CFSG.Quasithin CFSG.LocalAnalysis.UniquenessCase.UC22 CFSG.LocalAnalysis.UniquenessCase.PartTwo
 
+omit [Finite G] in
 theorem cTilde_le_M (M V₀ V : Subgroup G) : F11.CTilde M V₀ V ≤ M := by
   intro g hg
   rw [F11.CTilde] at hg
@@ -268,6 +269,7 @@ noncomputable def actMTil {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     ↥M →* MulAut (Vtil V₀ V hV) :=
   (actTil V₀ V hV).comp (Subgroup.inclusion (le_stabTil hM hM₀))
 
+omit [Finite G] in
 theorem cTilde_subgroupOf_eq_ker {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G)) :
     (F11.CTilde M V₀ V).subgroupOf M = (actMTil hV hM hM₀).ker := by
@@ -283,12 +285,14 @@ theorem cTilde_subgroupOf_eq_ker {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
   · intro h
     exact ⟨m.2, le_stabTil hM hM₀ m.2, h⟩
 
+omit [Finite G] in
 theorem cTilde_subgroupOf_normal {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G)) :
     ((F11.CTilde M V₀ V).subgroupOf M).Normal := by
   rw [cTilde_subgroupOf_eq_ker hV hM hM₀]
   infer_instance
 
+omit [Finite G] in
 theorem mem_cTilde_mul_inv {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) {c x : G}
     (hc : c ∈ F11.CTilde M V₀ V) (hx : x ∈ V) :
@@ -296,6 +300,7 @@ theorem mem_cTilde_mul_inv {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
   obtain ⟨-, h, h1⟩ := (mem_cTilde_iff hV hM).1 hc
   exact (actTil_eq_one_iff V₀ V hV ⟨c, h⟩).1 h1 x hx
 
+omit [Finite G] in
 theorem cTilde_le_normalizer₀ {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) :
     F11.CTilde M V₀ V ≤ Subgroup.normalizer (V₀ : Set G) := by
@@ -308,12 +313,12 @@ theorem exists_invariant_complement_of_odd_index_subgroup
     (hV₀le : V₀ ≤ V) (hWle : W ≤ V)
     (hC : C ≤ Subgroup.normalizer (V : Set G))
     (hC₀ : C ≤ Subgroup.normalizer (V₀ : Set G))
-    (hRC : R ≤ C) (hRodd : Odd (R.subgroupOf C).index)
+    (_hRC : R ≤ C) (hRodd : Odd (R.subgroupOf C).index)
     (hWinf : V₀ ⊓ W = ⊥) (hWsup : V₀ ⊔ W = V)
     (hWinv : ∀ r ∈ R, ∀ w ∈ W, r * w * r⁻¹ ∈ W) :
     ∃ U : Subgroup G, U ≤ V ∧ V₀ ⊓ U = ⊥ ∧ V₀ ⊔ U = V ∧
       (∀ c ∈ C, ∀ u ∈ U, c * u * c⁻¹ ∈ U) := by
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
   let V₀' : Subgroup ↥V := V₀.subgroupOf V
   let W' : Subgroup ↥V := W.subgroupOf V
   let ρ : ↥C →* MulAut ↥V := (convI hV).comp (Subgroup.inclusion hC)
@@ -438,7 +443,7 @@ theorem fourteen_four
           (hV.1.is_comm.comm (⟨(a : G), hE_le_V a.2⟩ : V) ⟨(b : G), hE_le_V b.2⟩)
         simpa using hc)⟩⟩,
       fun x hx => hV.2 x (hE_le_V hx)⟩
-  letI : CommGroup ↥E := commGroupOfElemAbelian hE_elem
+  let : CommGroup ↥E := commGroupOfElemAbelian hE_elem
   obtain ⟨W'', hW''⟩ := CFSG.SignalizerFunctor.Helpers.elementary_abelian_complement_exists
     2 Nat.prime_two ↥E (fun y => Subtype.ext (by
       show (y : G) ^ 2 = 1

@@ -27,7 +27,7 @@ theorem census_linear_reduce
         catalogIs (↥J₂ ⧸ Subgroup.center ↥J₂) (S10.isL2n r) →
         catalogIs (↥J₃ ⧸ Subgroup.center ↥J₃) (S10.isL2n r) →
       ∃ (k : Type) (_ : Field k) (_ : Fintype k)
-        (e : (TauCeti.CFSGIndex.lie d).Group ≃* LinearFlag.projectiveSL (n + 1) k)
+        (_e : (TauCeti.CFSGIndex.lie d).Group ≃* LinearFlag.projectiveSL (n + 1) k)
         (A : GL (Fin (n + 1)) k) (c : kˣ)
         (K₁ K₂ K₃ : Subgroup (LinearFlag.projectiveSL (n + 1) k)),
         Nat.card k = q.card ∧
@@ -47,7 +47,7 @@ theorem census_linear_reduce
     ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1).1
   have hn2 : 2 ≤ n + 1 := Nat.succ_le_succ hn1
   have hpq : q.p = 2 := by simpa using hchar
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let k := GaloisField q.p q.exponent
   have hcardk : Nat.card k = q.card := by
     dsimp only [k]

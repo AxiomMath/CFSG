@@ -137,7 +137,7 @@ theorem TwCompFrames.twMem_of_fix (F : TwCompFrames K σ h₀ L T n hU Fr g₀ H
   have hcard27 : Nat.card E = 27 := by rw [hcard]; norm_num
   have hZ : Subgroup.center (twistedE6RootGroup K σ) = ⊥ :=
     exceptional_fixed_center_trivial TwistTag.E6 K σ
-  obtain ⟨ε, hεE, hεi⟩ := SetLike.not_le_iff_exists.1 hEi
+  obtain ⟨ε, hεE, hεi⟩ := IsConcreteLE.not_le_iff_exists.1 hEi
   obtain ⟨e, he, heT, he3⟩ := F.twExists_outer_torsion hl hs (hED hεE) hεi
     (congrArg Subtype.val (hE.1.is_comm.comm (⟨ε, hεE⟩ : E) ⟨_, hsE⟩))
     (fun i => by rw [twComp_range_eq F.range]; exact hfix ε hεE i)

@@ -13,9 +13,9 @@ open CFSG CFSG.Assembly
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-private theorem ggTP_charP_two {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
+private theorem ggTP_charP_two {K : Type} [Field K] [Finite K] {n : ℕ} (_hn : 1 ≤ n)
     (hK : Nat.card K = 2 ^ n) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hprime, hm⟩ := FiniteField.card K (ringChar K)
   have hcard : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card]; exact hK
   rw [hcard] at hm
@@ -44,7 +44,7 @@ private theorem ggTP_false_linear {G : Type} [Group G] [Finite G] {J K' : Subgro
   obtain ⟨ι, _, _, K, _, _, H, ⟨eK⟩, hι, hchar, hZ⟩ := ggTPRowData hrow h3K hhK
   obtain ⟨X, π, hXH, hπ, hker⟩ := ggTPLift H hZ hJK eK hJ hZJ
   obtain ⟨Kf, _, _, hKf, ⟨eJ⟩⟩ := hhJ
-  haveI : CharP Kf 2 := ggTP_charP_two hn hKf
+  have : CharP Kf 2 := ggTP_charP_two hn hKf
   have h3Kf : 3 ∣ Nat.card Kf - 1 := by rw [hKf]; exact h3
   obtain ⟨ρ, hρ⟩ := ggTP_natural_rep X
   have hπ' : Function.Surjective (eJ.toMonoidHom.comp π) := eJ.surjective.comp hπ
@@ -69,7 +69,7 @@ private theorem ggTP_false_unitary {G : Type} [Group G] [Finite G] {J K' : Subgr
   obtain ⟨ι, _, _, K, _, _, H, ⟨eK⟩, hι, hchar, hZ⟩ := ggTPRowData hrow h3K hhK
   obtain ⟨X, π, hXH, hπ, hker⟩ := ggTPLift H hZ hJK eK hJ hZJ
   obtain ⟨Kf, _, _, hKf, ⟨eJ⟩⟩ := hhJ
-  haveI : CharP Kf 2 := by
+  have : CharP Kf 2 := by
     refine ggTP_charP_two (n := 2 * n) (by omega) ?_
     rw [hKf, ← pow_mul, Nat.mul_comm]
   obtain ⟨ρ, hρ⟩ := ggTP_natural_rep X

@@ -24,7 +24,7 @@ theorem cntRec_eq (P : ℕ → Bool) (n : ℕ) :
     have hn : n ∉ (Finset.range n).filter fun q => P q = true := by simp
     cases h : P n with
     | false => simp
-    | true => rw [if_pos rfl, Finset.card_insert_of_notMem hn]
+    | true => rw [ite_eq_left rfl, Finset.card_insert_of_notMem hn]
 
 theorem cntFix_eq (f : ℕ → ℕ) (n : ℕ) :
     cntFix f n = ((Finset.range n).filter fun q => f q = q).card := by

@@ -11,11 +11,13 @@ open Subgroup
 
 variable {X A B : Type} [Group X] [Finite X] [Group A] [Group B] [IsSimpleGroup A]
 
+omit [Finite X] in
 theorem component_le_genFittingFStar {C : Subgroup X} (hC : CFSG.IsComponent C) :
     C ≤ CFSG.Open.genFittingFStar X := by
   rw [CFSG.Adapters.genFittingFStar_eq_foundations, CFSG.generalizedFitting.eq_sup]
   exact (CFSG.LocalCores.component_le_layer hC).trans le_sup_right
 
+omit [Finite X] in
 private theorem image_component_map_eq_range_inl (hB : ∀ a b : B, a * b = b * a)
     (φ : ↥(CFSG.Open.genFittingFStar X) ≃* A × B) {C : Subgroup X}
     (hC : CFSG.IsComponent C) :
@@ -45,7 +47,7 @@ private theorem image_component_map_eq_range_inl (hB : ∀ a b : B, a * b = b * 
       (CFSG.LocalCores.isQuasisimple_nontrivial hE.1)
   have hcomapne : E.comap (MonoidHom.inl A B) ≠ ⊥ := by
     intro hbot
-    haveI : Nontrivial ↥E := CFSG.LocalCores.isQuasisimple_nontrivial hE.1
+    have : Nontrivial ↥E := CFSG.LocalCores.isQuasisimple_nontrivial hE.1
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥E)
     have hx1 : (x : A × B) ≠ 1 := fun h => hx (Subtype.ext h)
     have hxE : (x : A × B) ∈ E := x.2
@@ -66,6 +68,7 @@ private theorem image_component_map_eq_range_inl (hB : ∀ a b : B, a * b = b * 
     have ha : a ∈ E.comap (MonoidHom.inl A B) := h ▸ Subgroup.mem_top a
     exact ha
 
+omit [Finite X] in
 theorem eq_of_isComponent_of_mulEquiv_prod (hB : ∀ a b : B, a * b = b * a)
     (φ : ↥(CFSG.Open.genFittingFStar X) ≃* A × B) {C₁ C₂ : Subgroup X}
     (h₁ : CFSG.IsComponent C₁) (h₂ : CFSG.IsComponent C₂) : C₁ = C₂ := by

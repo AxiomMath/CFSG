@@ -12,7 +12,7 @@ open scoped commutatorElement Pointwise
 theorem three_le_pRank_of_card {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {A : Subgroup G} (hA : CFSG.Open.IsElemAbelian p A) (h3 : p ^ 3 ≤ Nat.card A) :
     3 ≤ CFSG.Open.pRank p (⊤ : Subgroup G) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hpg : IsPGroup p A := by
     intro g
     exact ⟨1, by rw [pow_one]; exact Subtype.ext (by simpa using hA.2 g.1 g.2)⟩

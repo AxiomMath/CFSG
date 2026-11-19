@@ -52,6 +52,6 @@ theorem i166On_famTwA5_of_transport
 
 theorem i166On_famTwA5_holds : I166On i166FamTwA5 :=
   i166On_famTwA5_of_transport
-    (fun {K R} _ _ _ _ e {p} h => exists_concl166S_of_mulEquiv e h)
+    (fun {_K _R} _ _ _ _ e {_p} h => exists_concl166S_of_mulEquiv e h)
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10F

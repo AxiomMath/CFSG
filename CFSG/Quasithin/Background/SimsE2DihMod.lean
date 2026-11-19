@@ -50,7 +50,6 @@ theorem mem_fixSub {σ : MulAut N} {x : N} : x ∈ fixSub σ ↔ σ x = x := Iff
   toFun x := x⁻¹ * σ x
   map_one' := by rw [inv_one, map_one, one_mul]
   map_mul' x y := by
-    change (x * y)⁻¹ * σ (x * y) = x⁻¹ * σ x * (y⁻¹ * σ y)
     calc (x * y)⁻¹ * σ (x * y) = x⁻¹ * (y⁻¹ * σ x) * σ y := by
           rw [map_mul, mul_inv_rev, hc y⁻¹ x⁻¹]
           simp only [mul_assoc]
@@ -140,7 +139,7 @@ theorem dvd_card_sub_one [Finite N] {p a : ℕ} (hp : p.Prime) (ha : 1 ≤ a) {�
   have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [Nat.card_zpowers, hγ]
     exact pow_ne_zero _ hp.ne_zero)
-  letI act : MulAction K U :=
+  let act : MulAction K U :=
     { smul := fun k u => ⟨(k : MulAut N) u, hK k k.2 u u.2⟩
       one_smul := fun u => rfl
       mul_smul := fun k k' u => rfl }

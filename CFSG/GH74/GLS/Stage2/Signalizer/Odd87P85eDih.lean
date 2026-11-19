@@ -60,7 +60,7 @@ theorem dih_mulAut_trivial {M : Type} [Group M] [Finite M]
   · push Not at hcard
     obtain ⟨S, hDS⟩ := hD.exists_le_sylow
     obtain ⟨m, hm1, ⟨e⟩⟩ := hM S
-    have hS2 : IsPGroup 2 ↥(S : Subgroup M) := S.isPGroup'
+    have hS2 : IsPGroup 2 ↥(S : Subgroup M) := S.isPGroup
     have hdih : IsDihedral ↥(S : Subgroup M) :=
       (P27.S45.isDihedral_iff_two_group hS2).2 ⟨m, hm1, ⟨e⟩⟩
     have hK : ¬ IsKleinFour ↥D := fun h => by have := h.card_four; omega

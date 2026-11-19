@@ -111,7 +111,7 @@ theorem cover_pt {p : Nat} (hp : p < 31671) : (p == 0 ||
     rw [Bool.eq_false_iff]
     intro e
     exact h0 (Nat.eq_of_beq_eq_true e)
-  rw [bIf_eq, e0, if_neg Bool.false_ne_true, bIf_eq] at h
+  rw [bIf_eq, e0, ite_eq_right Bool.false_ne_true, bIf_eq] at h
   by_cases h1 : r32 (TT 1 1) p < CNT 1 ∧ r32 (TT 1 0) (r32 (TT 1 1) p) = p
   · refine Or.inl (Or.inr ⟨h1.1, ?_⟩)
     have e := pts_ap (n := 31671) (CNT := CNT) (PTS := PTSJ) (POS := POSJ) (PAR := PARJ)
@@ -125,7 +125,7 @@ theorem cover_pt {p : Nat} (hp : p < 31671) : (p == 0 ||
     intro e
     rw [bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at e
     exact h1 ⟨e.1, Nat.eq_of_beq_eq_true e.2⟩
-  rw [e1, if_neg Bool.false_ne_true, bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at h
+  rw [e1, ite_eq_right Bool.false_ne_true, bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at h
   refine Or.inr ⟨h.1, ?_⟩
   have e := pts_ap (n := 31671) (CNT := CNT) (PTS := PTSJ) (POS := POSJ) (PAR := PARJ)
     (LAB := LABJ) h.1

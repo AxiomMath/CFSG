@@ -64,7 +64,7 @@ theorem comm_zpowers_iff {Z : Subgroup G} {γ u : G} (hγ : γ ∈ Nor Z) :
           have := Z.mul_mem h1 hdz
           rwa [show d * (e * u * e⁻¹ * u⁻¹) * d⁻¹ * (d * u * d⁻¹ * u⁻¹) =
             d * e * u * (d * e)⁻¹ * u⁻¹ by group] at this
-        one_mem' := ⟨Subgroup.one_mem _, by simpa using Z.one_mem⟩
+        one_mem' := ⟨Subgroup.one_mem _, by simp⟩
         inv_mem' := by
           rintro d ⟨hd, hdz⟩
           refine ⟨Subgroup.inv_mem _ hd, ?_⟩
@@ -98,9 +98,11 @@ structure TSetup (T : Subgroup G) (γ h₁ h₂ : G) : Prop where
 
 variable {T : Subgroup G} {γ h₁ h₂ : G}
 
+omit [Finite G] in
 theorem TSetup.isPGroup (h : TSetup T γ h₁ h₂) : IsPGroup 2 T :=
   IsPGroup.of_card (n := 15) h.card_T
 
+omit [Finite G] in
 theorem TSetup.orderOf_γ (h : TSetup T γ h₁ h₂) : orderOf γ = 7 := by
   have hd : orderOf γ ∣ 7 := orderOf_dvd_of_pow_eq_one h.γ7
   rcases (Nat.dvd_prime (by norm_num)).mp hd with h1 | h7
@@ -110,6 +112,7 @@ theorem TSetup.orderOf_γ (h : TSetup T γ h₁ h₂) : orderOf γ = 7 := by
     rw [orderOf_eq_one_iff.mp h1, one_mul, mul_one]
   · exact h7
 
+omit [Finite G] in
 theorem le_nor_inf_cenS : T ≤ Nor (T ⊓ CenS T) := fun t ht =>
   mem_nor_inf_cenS (Subgroup.mem_normalizer_iff.mpr fun x => ⟨fun hx => by
     have := T.mul_mem (T.mul_mem ht hx) (T.inv_mem ht)
@@ -126,9 +129,9 @@ theorem mem_Cbar (h : TSetup T γ h₁ h₂) {n : G} :
   have hcop : Nat.Coprime (Nat.card (Subgroup.zpowers γ)) (Nat.card T) := by
     rw [hord, h.card_T]
     exact Nat.Coprime.pow_right _ (by norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsolv : Group.IsSolvable ↥T := by
-    haveI : Group.IsNilpotent ↥T := h.isPGroup.isNilpotent
+    have : Group.IsNilpotent ↥T := h.isPGroup.isNilpotent
     infer_instance
   have hDN : Subgroup.zpowers γ ≤ Nor T := Subgroup.zpowers_le.mpr h.γT
   have hDM : Subgroup.zpowers γ ≤ Nor (T ⊓ CenS T) := Subgroup.zpowers_le.mpr hγZ
@@ -150,6 +153,7 @@ section Inn
 
 variable {G : Type} [Group G] [Finite G] {T : Subgroup G} {γ h₁ h₂ : G}
 
+omit [Finite G] in
 theorem center_eq : Subgroup.center ↥T = (T ⊓ CenS T).subgroupOf T := by
   ext x
   rw [Subgroup.mem_center_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
@@ -161,12 +165,13 @@ theorem center_eq : Subgroup.center ↥T = (T ⊓ CenS T).subgroupOf T := by
   · rintro ⟨-, h⟩ y
     exact Subtype.ext (h y y.2)
 
+omit [Finite G] in
 theorem mem_center_iff' {x : ↥T} : x ∈ Subgroup.center ↥T ↔ (x : G) ∈ T ⊓ CenS T := by
   rw [center_eq, Subgroup.mem_subgroupOf]
 
 theorem relIndex_Cbar (h : TSetup T γ h₁ h₂) :
     ((T ⊓ Cen γ) ⊔ (T ⊓ CenS T)).relIndex T = 64 := by
-  haveI : Finite (MulAut ↥T) :=
+  have : Finite (MulAut ↥T) :=
     Finite.of_injective (fun f : MulAut ↥T => (f : ↥T → ↥T)) DFunLike.coe_injective
   set π : ↥T →* MulAut ↥T := MulAut.conj with hπ
   set E : Subgroup (MulAut ↥T) := π.range with hE

@@ -21,6 +21,7 @@ private noncomputable def kSubStarMap :
   (QuotientGroup.mk' (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q)).comp
     (Subgroup.inclusion (AGL81C.kSub_le q M H))
 
+omit [Finite G] in
 private theorem kSubStarMap_range :
     (kSubStarMap (q := q) (M := M) (H := H)).range = AGL81C.kStar q M H := by
   have hincl_range : (Subgroup.inclusion (AGL81C.kSub_le q M H)).range =
@@ -83,7 +84,7 @@ private theorem kSubStarMapToKStar_ker (hq : q.Prime) :
 private theorem inf_relPPrimeCore_subgroupOf_normal (hq : q.Prime) {L : Subgroup G}
     (hLH : L ≤ H) :
     ((L ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf L).Normal := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hOle : CFSG.Open.relPPrimeCore q H ≤ H :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le
       (p := q) H
@@ -97,10 +98,11 @@ private theorem inf_relPPrimeCore_subgroupOf_normal (hq : q.Prime) {L : Subgroup
   have hNK : (L ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf L =
       (CFSG.Open.relPPrimeCore q H).subgroupOf L := by
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [Subgroup.mem_subgroupOf]
   rw [hNK]
   exact hOK
 
+omit [Finite G] in
 private theorem kSubStarMap_surj :
     Function.Surjective (kSubStarMapToKStar (q := q) (M := M) (H := H)) := by
   intro y
@@ -115,12 +117,12 @@ private theorem kSubStarMap_inf_ne_top (s : Setting1417 G M Q H F q) (h1 : NineF
     (AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf
       (AGL81C.kSub q M H) ≠ ⊤ := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let g : ↥(AGL81C.kSub q M H) →* ↥(AGL81C.kStar q M H) := kSubStarMapToKStar
   have hgsurj : Function.Surjective g := kSubStarMap_surj
   have hker : g.ker = (AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf
       (AGL81C.kSub q M H) := kSubStarMapToKStar_ker s.qPrime
-  haveI : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
+  have : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
   intro htop
   have hker_top : g.ker = ⊤ := by rw [hker, htop]
   have hrange_bot : g.range = ⊥ := by
@@ -136,29 +138,29 @@ private theorem solvableRadical_map_le_inf (s : Setting1417 G M Q H F q)
     (CFSG.solvableRadical ↥(AGL81C.kSub q M H)).map (AGL81C.kSub q M H).subtype ≤
       AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let K : Subgroup G := AGL81C.kSub q M H
   let R : Subgroup ↥K := CFSG.solvableRadical ↥K
   let g : ↥K →* ↥(AGL81C.kStar q M H) := kSubStarMapToKStar
   have hgsurj : Function.Surjective g := kSubStarMap_surj
   have hker : g.ker = (AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf
       (AGL81C.kSub q M H) := kSubStarMapToKStar_ker s.qPrime
-  haveI : Group.IsPerfect ↥K := s.isPerfect_kSub h1
+  have : Group.IsPerfect ↥K := s.isPerfect_kSub h1
   have hgperf : Group.IsPerfect ↥(AGL81C.kStar q M H) :=
     Group.IsPerfect.ofSurjective (f := g) hgsurj
-  haveI : Group.IsPerfect ↥(AGL81C.kStar q M H) := hgperf
-  haveI : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
+  have : Group.IsPerfect ↥(AGL81C.kStar q M H) := hgperf
+  have : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
   have hRn : R.Normal := CFSG.ABGLocalTools.solvableRadical_normal
   have hDnormal : (R.map g).Normal := hRn.map g hgsurj
-  haveI : Group.IsSolvable ↥R := CFSG.ABGLocalTools.solvableRadical_isSolvable
+  have : Group.IsSolvable ↥R := CFSG.ABGLocalTools.solvableRadical_isSolvable
   have hDsolv : Group.IsSolvable ↥(R.map g) :=
     Group.isSolvable_of_surjective (f := g.subgroupMap R) (g.subgroupMap_surjective R)
-  haveI : (R.map g).Normal := hDnormal
+  have : (R.map g).Normal := hDnormal
   have hDbot : R.map g = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (R.map g) with h | h
     · exact h
     · exfalso
-      haveI : Group.IsSolvable ↥(⊤ : Subgroup ↥(AGL81C.kStar q M H)) := by
+      have : Group.IsSolvable ↥(⊤ : Subgroup ↥(AGL81C.kStar q M H)) := by
         rw [← h]
         exact hDsolv
       have hsolv : Group.IsSolvable ↥(AGL81C.kStar q M H) :=
@@ -194,12 +196,12 @@ private theorem inf_le_solvableRadical_map (s : Setting1417 G M Q H F q)
     exact solvableRadical_map_le_inf s h1 hzG
   have hNproper : N ≠ ⊤ := kSubStarMap_inf_ne_top s h1
   obtain ⟨eA⟩ := hA6
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (↥K ⧸ R) := eA.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (↥K ⧸ R) := eA.isSimpleGroup
   let qπ : ↥K →* (↥K ⧸ R) := QuotientGroup.mk' R
   let D : Subgroup (↥K ⧸ R) := N.map qπ
   have hDnormal : D.Normal := hNn.map qπ (QuotientGroup.mk'_surjective R)
-  haveI : D.Normal := hDnormal
+  have : D.Normal := hDnormal
   have hDbot : D = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal D with h | h
     · exact h
@@ -234,6 +236,7 @@ private theorem solvableRadical_map_eq_inf (s : Setting1417 G M Q H F q)
   rw [hEq]
   exact Subgroup.map_subgroupOf_eq_of_le inf_le_left
 
+omit [Finite G] in
 private theorem card_inf_subgroupOf :
     Nat.card ((AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf
       (AGL81C.kSub q M H)) =
@@ -243,7 +246,7 @@ private theorem card_inf_subgroupOf :
 private theorem coprime_six_inf_subgroupOf (s : Setting1417 G M Q H F q) (hq3 : q = 3) :
     Nat.Coprime (Nat.card ((AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf
       (AGL81C.kSub q M H))) 6 := by
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   set K : Subgroup G := AGL81C.kSub q M H
   set O : Subgroup G := CFSG.Open.relPPrimeCore q H
   have hoddN : Odd (Nat.card ↥(K ⊓ O)) :=
@@ -270,12 +273,12 @@ private theorem pRank_inf_subgroupOf_le_three (s : Setting1417 G M Q H F q) {r :
     (hr : r.Prime) :
     CFSG.Open.pRank r ((AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf
       (AGL81C.kSub q M H)) ≤ 3 := by
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   set K : Subgroup G := AGL81C.kSub q M H
   set O : Subgroup G := CFSG.Open.relPPrimeCore q H
   have hNK : (K ⊓ O).subgroupOf K = O.subgroupOf K := by
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [Subgroup.mem_subgroupOf]
   rw [hNK]
   calc CFSG.Open.pRank r (O.subgroupOf K)
       ≤ CFSG.Open.pRank r ((O.subgroupOf K).map K.subtype) :=
@@ -291,7 +294,7 @@ private theorem isQuasisimple_of_altSix (s : Setting1417 G M Q H F q)
       CFSG.solvableRadical ↥(AGL81C.kSub q M H) ≃* alternatingGroup (Fin 6))) :
     CFSG.IsQuasisimple ↥(AGL81C.kSub q M H) := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   set K : Subgroup G := AGL81C.kSub q M H
   let R : Subgroup ↥K := CFSG.solvableRadical ↥K
   let N : Subgroup ↥K := (K ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf K
@@ -316,7 +319,7 @@ private theorem isQuasisimple_of_altSix (s : Setting1417 G M Q H F q)
   have hNleCenter : N ≤ Subgroup.center ↥K :=
     hA6 K (s.isPerfect_kSub h1) N hNnormal hNsolv hNcop
       ⟨(QuotientGroup.quotientMulEquivOfEq hReq.symm).trans (Classical.choice hA6e)⟩ hNrank
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hA6q : CFSG.IsQuasisimple (alternatingGroup (Fin 6)) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.ParabCensus.isQuasisimple_alternatingGroup_six
   let eN : (↥K ⧸ N) ≃* alternatingGroup (Fin 6) :=
@@ -331,22 +334,22 @@ private theorem kStar_center_eq_bot (s : Setting1417 G M Q H F q)
     (h1 : NineFourTwoSigmaGen) :
     Subgroup.center ↥(AGL81C.kStar q M H) = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let K : Subgroup G := AGL81C.kSub q M H
   let g : ↥K →* ↥(AGL81C.kStar q M H) := kSubStarMapToKStar
   have hgsurj : Function.Surjective g := kSubStarMap_surj
-  haveI : Group.IsPerfect ↥K := s.isPerfect_kSub h1
-  haveI : Group.IsPerfect ↥(AGL81C.kStar q M H) :=
+  have : Group.IsPerfect ↥K := s.isPerfect_kSub h1
+  have : Group.IsPerfect ↥(AGL81C.kStar q M H) :=
     Group.IsPerfect.ofSurjective (f := g) hgsurj
-  haveI : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
+  have : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (Subgroup.center ↥(AGL81C.kStar q M H)) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative ↥(AGL81C.kStar q M H) := ⟨⟨fun a b => by
+    have : IsMulCommutative ↥(AGL81C.kStar q M H) := ⟨⟨fun a b => by
       have hb : b ∈ Subgroup.center ↥(AGL81C.kStar q M H) := h ▸ Subgroup.mem_top b
       exact Subgroup.mem_center_iff.mp hb a⟩⟩
-    haveI : Subsingleton ↥(AGL81C.kStar q M H) :=
+    have : Subsingleton ↥(AGL81C.kStar q M H) :=
       Group.IsPerfect.subsingleton_of_isMulCommutative
     exact (not_subsingleton_iff_nontrivial (α := ↥(AGL81C.kStar q M H))).mpr
       inferInstance inferInstance
@@ -357,7 +360,7 @@ private theorem center_le_inf_subgroupOf (s : Setting1417 G M Q H F q)
       (AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H).subgroupOf
         (AGL81C.kSub q M H) := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let K : Subgroup G := AGL81C.kSub q M H
   let g : ↥K →* ↥(AGL81C.kStar q M H) := kSubStarMapToKStar
   have hgsurj : Function.Surjective g := kSubStarMap_surj
@@ -391,8 +394,8 @@ private theorem isQuasisimple_of_twoPrime (s : Setting1417 G M Q H F q)
     {L : Subgroup G} (hTwo : AGL81C.IsTwoPrimeComponentIn L H) :
     CFSG.IsQuasisimple ↥L := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLH : L ≤ H := hTwo.1
   have hLsn : (L.subgroupOf H).IsSubnormal := hTwo.2.1
   have hq : CFSG.IsQuasisimple (↥L ⧸ CFSG.pCore 2 ↥L) := hTwo.2.2.1
@@ -486,7 +489,7 @@ theorem Setting1417.nineFourListGroup_quot_center_of_isQuasisimple (s : Setting1
   let O : Subgroup G := CFSG.Open.relPPrimeCore q H
   let N : Subgroup ↥K := (K ⊓ O).subgroupOf K
   have hNn : N.Normal := inf_relPPrimeCore_subgroupOf_normal s.qPrime (AGL81C.kSub_le q M H)
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hcenter : Subgroup.center ↥K = N := by
     apply Subgroup.map_injective K.subtype_injective
     exact (s.map_center_kSub_of_isQuasisimple h1 hK).trans

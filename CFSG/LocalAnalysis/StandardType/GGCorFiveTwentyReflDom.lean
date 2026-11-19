@@ -127,7 +127,7 @@ theorem ggBeta_range_rank_three_of_innerDiag {G : Type} [Group G] [Finite G] {p 
     IsElemAbelian p (ggBeta X θ hN).range ∧
       ((ggBeta X θ hN).range : Set (MulAut R)) ⊆ I ∧
       p ^ 3 ≤ Nat.card (ggBeta X θ hN).range := by
-  haveI : Finite R := Finite.of_injective θ.symm.toFun θ.symm.injective
+  have : Finite R := Finite.of_injective θ.symm.toFun θ.symm.injective
   have hBBs : B ≤ Bs := hcfg.2.1.1
   have hBelBs : IsElemAbelian p Bs := hcfg.2.1.2.1
   have hBN : B ≤ Subgroup.normalizer (X : Set G) := hBBs.trans hN

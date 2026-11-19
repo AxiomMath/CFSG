@@ -75,7 +75,7 @@ private theorem exists3_psu_primeFormP {p f n : ℕ} {K : Type} [Field K]
       exact hID hmem
     exact hσne (hfac ▸ h1)
 
-theorem exists3_psu {X : Type} [Group X] [Finite X] {n r f : ℕ} (hn : 4 ≤ n) (hr : r.Prime)
+theorem exists3_psu {X : Type} [Group X] [Finite X] {n r f : ℕ} (hn : 4 ≤ n) (_hr : r.Prime)
     (h : LieModel X .PSU n r f) (h3 : ¬ 3 ∣ Nat.gcd n (r ^ f + 1)) : Exists3 X := by
   have hn0 : n ≠ 0 := by omega
   have hscm : StatedClassicalModel X .PSU n r f :=

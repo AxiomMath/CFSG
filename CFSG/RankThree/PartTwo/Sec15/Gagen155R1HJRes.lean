@@ -23,13 +23,14 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_pPrimeCore_of_commute_quotient {C : Subgroup G} {c : G}
     {c' g0 : ↥C} (hc' : (c' : G) = c) {t : ↥C ⧸ CFSG.pPrimeCore 3 ↥C}
     (htc : Commute t (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C) c'))
     (hg0 : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C) g0 = t) :
     (g0 : G)⁻¹ * (c * (g0 : G) * c⁻¹) ∈ pPrimeCoreOf 3 C := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : ↥C →* ↥C ⧸ CFSG.pPrimeCore 3 ↥C := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C)
   have hcommt : t * π c' = π c' * t := by
     simpa [π, hg0] using htc.eq
@@ -49,7 +50,7 @@ private theorem sec14Std_c_mem_res1C {A L : Subgroup G} {c : G} (hS : Sec14Std G
     c ∈ Res1C A L := by
   have hAab : CFSG.Assembly.IsElemAbelian 3 A := hS.mem_partTwoF.1
   have hcA : c ∈ A := (zpowers_mem_omegaA_iff.mp hS.zpowers_mem_omegaA).1
-  haveI : IsMulCommutative ↥A := hAab.1
+  have : IsMulCommutative ↥A := hAab.1
   exact (Subgroup.le_centralizer A).trans
     (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr inf_le_left)) hcA
 
@@ -57,7 +58,7 @@ theorem exists_fixed_mem_coset_of_pPrimeCore {C : Subgroup G} {c : G}
     (hcC : c ∈ C) (hc3 : orderOf c = 3) {g0 : ↥C}
     (hg : (g0 : G)⁻¹ * (c * (g0 : G) * c⁻¹) ∈ pPrimeCoreOf 3 C) :
     ∃ n ∈ pPrimeCoreOf 3 C, c * ((g0 : G) * n) * c⁻¹ = (g0 : G) * n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Θ : Subgroup G := pPrimeCoreOf 3 C
   have hN : ∀ n ∈ Θ, c * n * c⁻¹ ∈ Θ := by
     intro n hn
@@ -75,7 +76,7 @@ private theorem res1_exists_centralizing_lift {A L : Subgroup G} {c : G}
     ∃ g : ↥(Res1C A L), (g : G) ∈ Subgroup.centralizer (A : Set G) ∧
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) g = t := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Res1C A L
   let π : ↥(Res1C A L) →* ↥(Res1C A L) ⧸ CFSG.pPrimeCore 3 ↥(Res1C A L) :=
     QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L))
@@ -116,7 +117,7 @@ theorem res1_exists_five_lift {A L : Subgroup G} {c : G} (hS : Sec14Std G A c L)
     ∃ f : ↥(Res1C A L), (f : G) ∈ Subgroup.centralizer (A : Set G) ∧
       (∃ k : ℕ, orderOf f = 5 ^ k) ∧ QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) f = t := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Res1C A L
   let π : ↥(Res1C A L) →* ↥(Res1C A L) ⧸ CFSG.pPrimeCore 3 ↥(Res1C A L) :=
     QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L))
@@ -195,7 +196,7 @@ private theorem mem_pPrimeCore_centralizer_of_mem_pPrimeCore_of_mem_centralizer
     (hthetaB : theta ∈ Subgroup.centralizer (B : Set G)) :
     theta ∈ pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Res1C A L
   let Θ : Subgroup G := pPrimeCoreOf 3 C
   let D : Subgroup G := pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))
@@ -233,7 +234,7 @@ private theorem exists_mem_pPrimeCore_mul_of_mem_sup_of_mem_centralizer
     ∃ theta ∈ pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G)),
       ∃ d ∈ pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G)), theta * d = w := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Res1C A L
   let Θ : Subgroup G := pPrimeCoreOf 3 C
   let D : Subgroup G := pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))
@@ -266,7 +267,7 @@ theorem mem_scriptQ_of_le_sup {A L : Subgroup G} {c : G} (hS : Sec14Std G A c L)
     (hQ : Q ≤ pPrimeCoreOf 3 (Res1C A L) ⊔ pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))) :
     Q ∈ scriptQ A (lB A) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Res1C A L
   let Θ : Subgroup G := pPrimeCoreOf 3 C
   let D : Subgroup G := pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))
@@ -324,7 +325,7 @@ private theorem mem_sup_pPrimeCore_of_wE155_conj_mem {A L : Subgroup G} {c : G}
     w ∈ pPrimeCoreOf 3 (Res1C A L) ⊔
       pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Res1C A L
   let Θ : Subgroup G := pPrimeCoreOf 3 C
   let D : Subgroup G := pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))
@@ -371,7 +372,7 @@ private theorem wE155_le_sup_of_forall_conj {A L : Subgroup G} {c : G} {M : Subg
     wE155 A M ≤ pPrimeCoreOf 3 (Res1C A L) ⊔
       pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Res1C A L
   let Θ : Subgroup G := pPrimeCoreOf 3 C
   let W : Subgroup G := wE155 A M
@@ -412,7 +413,7 @@ theorem res1_exists_commutator_ne_one {A L : Subgroup G} {c : G} {X K Y M T : Su
     ∃ w ∈ wE155 A M, ∃ x : ↥(Res1C A L), (x : G) = w * c * w⁻¹ * c⁻¹ ∧
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) x ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨hAW, hWleC, hW2⟩ := wE155_normalizer_le_res1C (A := A) (L := L) (M := M) hC hLX

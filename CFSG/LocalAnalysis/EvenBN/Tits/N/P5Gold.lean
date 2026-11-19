@@ -71,7 +71,7 @@ theorem normal_of_layer_bot (hTop : TopStatement) (S : Sylow 2 X) {A : Subgroup 
     have hprod : (⟨m, hm⟩ : ↥(nc A)) = a * (a⁻¹ * (⟨m, hm⟩ : ↥(nc A))) := by group
     have hm' : m = (a : X) * ((a⁻¹ * (⟨m, hm⟩ : ↥(nc A)) : ↥(nc A)) : X) := by
       have := congrArg (fun y : ↥(nc A) => (y : X)) hprod
-      simpa using this
+      simp
     rw [hm']
     exact Subgroup.mul_mem_sup ham (map_oddCore_le A ⟨_, hker, rfl⟩)
   refine ⟨hAbar, hle, ?_⟩

@@ -87,7 +87,7 @@ theorem prod_iterate_eq_one {Y : Type*} [CommGroup Y] (p : ℕ) [hp : Fact p.Pri
   have hexp : ∀ x : Additive Y, p • x = 0 := fun x => by
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero, hY]
-  letI : Module (ZMod p) (Additive Y) := AddCommGroup.zmodModule hexp
+  let : Module (ZMod p) (Additive Y) := AddCommGroup.zmodModule hexp
   exact prod_iterate_eq_one_aux p α β hαβ hβα hnil hr h
 
 end CFSG.LocalAnalysis.GLTheoremB.MovingAround.GlaubermanB

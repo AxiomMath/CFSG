@@ -70,8 +70,8 @@ theorem letterG_neg (gs : List GL24) {j : ℤ} (hj : j ≠ 0) :
     letterG gs (-j) = (letterG gs j)⁻¹ := by
   unfold letterG
   rcases lt_or_gt_of_ne hj with h | h
-  · rw [if_pos (by omega), if_neg (by omega), inv_inv]
-  · rw [if_neg (by omega), if_pos h, neg_neg]
+  · rw [ite_eq_left (by omega), ite_eq_right (by omega), inv_inv]
+  · rw [ite_eq_right (by omega), ite_eq_left h, neg_neg]
 
 theorem wordG_single (gs : List GL24) (j : ℤ) : wordG gs [j] = letterG gs j := by
   simp [wordG]
@@ -143,7 +143,7 @@ section Comp
 
 theorem exists_component :
     ∃ J0 : Subgroup ↥GA, GLAPComponent 7 (Subgroup.centralizer ({tE} : Set ↥GA)) J0 := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   have hS : sylowOK Native.aR Native.bR = true := Certificates.certificate13696
   set L : Subgroup ↥GA := Subgroup.closure (s '' Set.Iio 6) with hL
   have hLC : L ≤ Subgroup.centralizer ({tE} : Set ↥GA) := by
@@ -168,7 +168,7 @@ theorem exists_component :
     CFSG.HardMathSupport.Solomon.Coordinator.Co1Spor.card_centralizer_tE hLC hperf hne
 
 theorem kd264RowData_Co1_seven : KD264RowData 7 ↥GA := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   have hS : sylowOK Native.aR Native.bR = true := Certificates.certificate13696
   obtain ⟨J0, hJ0⟩ := exists_component
   exact kd264RowData_of_sq (by norm_num) factorization_card_GA_seven (orderOf_tE hS) hJ0
@@ -184,8 +184,8 @@ set_option maxRecDepth 100000 in
 theorem kd264SporAt_Co1_seven
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     KD264SporAt 7 .Co1 := by
-  haveI : Finite ↥GA := finite_GA
-  haveI : IsSimpleGroup ↥GA := CFSG.HardMathSupport.Dickson.I271.co1_isSimple
+  have : Finite ↥GA := finite_GA
+  have : IsSimpleGroup ↥GA := CFSG.HardMathSupport.Dickson.I271.co1_isSimple
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.Co1.nonempty_mulEquiv
   have hp : ¬ (Nat.card ↥GA).Prime := by
     intro h

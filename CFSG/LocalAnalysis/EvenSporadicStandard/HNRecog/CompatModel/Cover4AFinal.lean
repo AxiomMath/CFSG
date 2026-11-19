@@ -132,7 +132,7 @@ theorem cover_card_K (h : F5Std a z) {y : G} (hy : y ∈ orb4A a z a) :
 
 theorem cover_card_KQ (h : F5Std a z) {y : G} (hy : y ∈ orb4A a z a) :
     Nat.card ↥(Gxy a y ⊓ Qz ((a * y) ^ 2)) = 2 ^ 7 := by
-  haveI := h.finite
+  have := h.finite
   have hw : F5Std a ((a * y) ^ 2) := h.of_isConj (IsConj.refl a) hy.2
   have haa := cover_mul_self_eq_one h.typ.orderOf_a
   have hw2 := cover_orderOf_w h hy
@@ -159,7 +159,7 @@ theorem cover_card_KQ (h : F5Std a z) {y : G} (hy : y ∈ orb4A a z a) :
 
 theorem cover_inv_mem_Qz (h : F5Std a z) {y : G} (hy : y ∈ orb4A a z a) {t : G}
     (ht : t ∈ InvIn (Gxy a y)) : t ∈ Qz ((a * y) ^ 2) := by
-  haveI := h.finite
+  have := h.finite
   have hKw := cover_K_le a y
   have hNn : ((Qz ((a * y) ^ 2)).subgroupOf (Gxy a y)).Normal :=
     ⟨fun n hn g => by
@@ -185,8 +185,8 @@ theorem cover_inv_mem_Qz (h : F5Std a z) {y : G} (hy : y ∈ orb4A a z a) {t : G
 
 theorem cover_exists_rho (h : F5Std a z) {y : G} (hy : y ∈ orb4A a z a) :
     ∃ ρ ∈ Gxy a y, orderOf ρ = 5 := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := h.finite
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hdvd : 5 ∣ Nat.card ↥(Gxy a y) := by
     rw [cover_card_K h hy]
     norm_num
@@ -210,7 +210,7 @@ theorem cover_self_mem_Qz {w : G} (hw2 : orderOf w = 2)
 theorem cover_fixed (h : F5Std a z) {y : G} (hy : y ∈ orb4A a z a) {ρ : G}
     (hρK : ρ ∈ Gxy a y) (hρ : orderOf ρ = 5) {s : G} (hs : s ∈ InvIn (Gxy a y))
     (hρs : ρ * s = s * ρ) : s = (a * y) ^ 2 := by
-  haveI := h.finite
+  have := h.finite
   by_contra hsw
   have hw : F5Std a ((a * y) ^ 2) := h.of_isConj (IsConj.refl a) hy.2
   have hw2 := cover_orderOf_w h hy
@@ -316,7 +316,7 @@ variable {G : Type} [Group G] {a z : G}
 theorem cover_main (h : F5Std a z) {y : G} (hy : y ∈ orb4A a z a) {d t : G}
     (hd : d ∈ InvIn (Gxy a y)) (hdw : d ≠ (a * y) ^ 2) (ht : t ∈ InvIn (Gxy a y)) :
     ∃ k ∈ Gxy a y, k * d * k⁻¹ * t = t * (k * d * k⁻¹) := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨ρ, hρK, hρ⟩ := cover_exists_rho h hy
   have hw : F5Std a ((a * y) ^ 2) := h.of_isConj (IsConj.refl a) hy.2
   have hQ := isExtraspecialPlusByA5WrTwoWith_pCore (z := (a * y) ^ 2) hw.typ.cent_z

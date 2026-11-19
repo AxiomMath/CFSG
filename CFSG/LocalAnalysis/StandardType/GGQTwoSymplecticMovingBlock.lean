@@ -79,9 +79,9 @@ theorem mat_longBlock_four_range (hi : Function.Injective i) (W : Fin n → SL(2
   · obtain ⟨a, ha⟩ := hj
     subst ha
     fin_cases a
-    · simp [h01, h02, h03]
-    · simp [h01.symm, h12, h13]
-    · simp [h02.symm, h12.symm, h23]
+    · simp
+    · simp [h01.symm]
+    · simp [h02.symm, h12.symm]
     · simp [h03.symm, h13.symm, h23.symm]
   · have h0 : j ≠ i 0 := fun h => hj ⟨0, h.symm⟩
     have h1 : j ≠ i 1 := fun h => hj ⟨1, h.symm⟩
@@ -140,16 +140,16 @@ theorem mat_conj_four_longBlock {n : ℕ} (i : Fin 4 → Fin n)
   funext j
   by_cases hj : j ∈ Set.range i
   · have hj' : ∃ y, i y = j := hj
-    simp [Q, hj', if_true]
+    simp [Q, hj']
   · have hj' : ¬ ∃ y, i y = j := hj
-    simp [Q, hj', if_false]
+    simp [Q, hj']
 
 end FourBlocks
 
 section PermSp
 
 theorem spIncl_mul_of_injective {m n p : ℕ} {σ : Fin n → Fin p} {τ : Fin m → Fin n}
-    (hσ : Function.Injective σ) (hτ : Function.Injective τ) :
+    (_hσ : Function.Injective σ) (_hτ : Function.Injective τ) :
     CFSG.ClassicalInvolution.Models.SymplecticPairs.spIncl (K := K) σ *
       CFSG.ClassicalInvolution.Models.SymplecticPairs.spIncl (K := K) τ =
       CFSG.ClassicalInvolution.Models.SymplecticPairs.spIncl (K := K) (σ ∘ τ) := by
@@ -191,7 +191,7 @@ theorem WSL_mul_self_of_char_two [CharP K 2] : (WSL : SL(2, K)) * WSL = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one,
     CFSG.LieType.Chevalley.coe_WSL]
-  ext i j <;> fin_cases i <;> fin_cases j <;>
+  ext i j; fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two, CharTwo.neg_eq]
 
 section WSLConj
@@ -200,7 +200,7 @@ theorem WSL_conj_M [Finite K] (hK : Nat.card K = 2) {M : Matrix (Fin 2) (Fin 2) 
     (hdet : M.det = 1) (hM : M * M + M + 1 = 0) :
     ((WSL : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) * M *
       ((WSL : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = M ^ 2 := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by simpa using hK)
   have hW2 : (WSL : SL(2, K)) * WSL = 1 := WSL_mul_self_of_char_two
   have hWi : (WSL : SL(2, K))⁻¹ = WSL := inv_eq_of_mul_eq_one_right hW2
@@ -223,7 +223,7 @@ theorem WSL_conj_M_sq [Finite K] (hK : Nat.card K = 2) {M : Matrix (Fin 2) (Fin 
     (hdet : M.det = 1) (hM : M * M + M + 1 = 0) :
     ((WSL : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) * M ^ 2 *
       ((WSL : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = M := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by simpa using hK)
   have hW : ((WSL : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) *
       ((WSL : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = 1 := by

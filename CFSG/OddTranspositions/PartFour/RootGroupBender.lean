@@ -49,7 +49,7 @@ private theorem mem_sylow_of_commute_of_involution (hX : IsBenderGroup X) (Q : S
   have hyp : IsPGroup 2 (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy, pow_one])
   have h2 : IsPGroup 2 ((Q : Subgroup X) ⊔ Subgroup.zpowers y : Subgroup X) :=
-    (Q.isPGroup').to_sup_of_normal_left' hyp (Subgroup.zpowers_le.mpr hyM)
+    (Q.isPGroup).to_sup_of_normal_left' hyp (Subgroup.zpowers_le.mpr hyM)
   have heq := Q.maximal_isPGroup.eq_of_ge h2 le_sup_left
   show y ∈ (Q : Subgroup X)
   rw [← heq]

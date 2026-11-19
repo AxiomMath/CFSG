@@ -33,7 +33,7 @@ theorem i248_of_factsM (hI : GL83.I_7_13_1) (hR1 : RankOneFact) (hC : CoreFact) 
   by_cases hU : IsU3Case p q K
   · exact Or.inr hU
   refine Or.inl ?_
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hKX : K ≤ X := hK.1
   have hKbar : CFSG.Open.IsQuasisimple (PQuot p K) :=
     CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hK
@@ -41,7 +41,7 @@ theorem i248_of_factsM (hI : GL83.I_7_13_1) (hR1 : RankOneFact) (hC : CoreFact) 
     commutator_eq_top_of_commutator_eq K (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hK)
   have hKlayer : GLAPLayer p K = K := glaPLayer_eq_self_of_component hp hK
   have hKG : CFSG.Open.IsKGroup ↥K := isKGroup_subgroup X K hKX hX
-  haveI : IsSimpleGroup (PSimple p K) := hKbar.2
+  have : IsSimpleGroup (PSimple p K) := hKbar.2
   obtain ⟨A, hAab, hAcard⟩ := hA
   obtain ⟨AS, hASab, hAScard⟩ :=
     exists_elemAbelian_mulAut_of_perfect hKbar.1 (MulEquiv.refl (PSimple p K)) A hAab

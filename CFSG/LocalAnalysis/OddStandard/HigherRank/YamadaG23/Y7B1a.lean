@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma zpow_eq_one_or_self {v : G} (hv : v * v = 1) (m : ℤ) :
     v ^ m = 1 ∨ v ^ m = v := by
   have hv2 : v ^ (2 : ℤ) = 1 := by rw [zpow_two]; exact hv
@@ -22,6 +23,7 @@ private lemma zpow_eq_one_or_self {v : G} (hv : v * v = 1) (m : ℤ) :
   · left; rw [hj, zpow_mul, hv2, one_zpow]
   · right; rw [hj, zpow_add, zpow_mul, hv2, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private lemma eq_one_or_eq_of_mem_zpowers {v g : G} (hv : v * v = 1)
     (hg : g ∈ zpowers v) : g = 1 ∨ g = v := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
@@ -178,7 +180,7 @@ theorem y7b_V1_le_M4 (c : Ctx7 G L) (hb : B5Std c) : V1 c.e ≤ M4 c.e := by
     · exact y7b_z_d_comm c hb
     · exact (y7b_z_d_comm c hb).symm
     · exact absurd rfl hxy
-  haveI : IsMulCommutative ↥(closure ({c.s.fr.z, c.d} : Set G)) :=
+  have : IsMulCommutative ↥(closure ({c.s.fr.z, c.d} : Set G)) :=
     Subgroup.isMulCommutative_closure hpair
   have hV1C : V1 c.e ≤ Subgroup.centralizer (V1 c.e : Set G) := by
     rw [c.hV]
@@ -308,7 +310,7 @@ theorem y7b_comm_V1_t (c : Ctx7 G L) (hb : B5Std c) :
     rw [← hset]; exact hv
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hv'
   rcases hv' with rfl | rfl | rfl | rfl
-  · exact ⟨by simpa using (V1 c.e).one_mem,
+  · exact ⟨by simp,
       by rw [hcomm_one]; exact (c.s.fr.Z).one_mem⟩
   · exact ⟨by rw [htz]; exact hzV1,
       by rw [hcomm_zt]; exact (c.s.fr.Z).one_mem⟩

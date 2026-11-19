@@ -24,21 +24,27 @@ noncomputable def FS79Hyp.std (h : FS79Hyp b t b₁ b₂ J) : Std b t b₁ b₂ 
 noncomputable def Std.ι (S : Std b t b₁ b₂ J) : J6.S6 →* H :=
   J.subtype.comp S.φ.symm.toMonoidHom
 
+omit [Finite H] in
 theorem Std.ι_apply (S : Std b t b₁ b₂ J) (σ : J6.S6) : S.ι σ = (S.φ.symm σ : H) := rfl
 
+omit [Finite H] in
 theorem Std.ι_injective (S : Std b t b₁ b₂ J) : Function.Injective S.ι := by
   intro σ τ hστ
   exact S.φ.symm.injective (Subtype.ext hστ)
 
+omit [Finite H] in
 theorem Std.ι_mem (S : Std b t b₁ b₂ J) (σ : J6.S6) : S.ι σ ∈ J := (S.φ.symm σ).2
 
+omit [Finite H] in
 theorem Std.exists_ι (S : Std b t b₁ b₂ J) {j : H} (hj : j ∈ J) : ∃ σ, S.ι σ = j :=
   ⟨S.φ ⟨j, hj⟩, by simp [Std.ι_apply]⟩
 
+omit [Finite H] in
 theorem Std.ι_c₁ (S : Std b t b₁ b₂ J) : S.ι J6.c₁ = b₁ := by
   rw [Std.ι_apply, ← S.φ₁]
   simp
 
+omit [Finite H] in
 theorem Std.ι_c₂ (S : Std b t b₁ b₂ J) : S.ι J6.c₂ = b₂ := by
   rw [Std.ι_apply, ← S.φ₂]
   simp
@@ -83,14 +89,14 @@ theorem FS79Hyp.B_inf_J (h : FS79Hyp b t b₁ b₂ J) {w : H}
 theorem FS79Hyp.isSylowOf_B_top (h : FS79Hyp b t b₁ b₂ J) :
     IsSylowOf 3 (Subgroup.closure ({b, b₁, b₂} : Set H)) ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set B : Subgroup H := Subgroup.closure ({b, b₁, b₂} : Set H) with hB
   have hE := h.isElemAb_B
   rw [← hB] at hE
-  haveI := hE.1
+  have := hE.1
   have hB3 : IsPGroup 3 B := IsElementaryAbelian.isPGroup 3 B
   obtain ⟨P, hBP⟩ := hB3.exists_le_sylow
-  have hPp : IsPGroup 3 (P : Subgroup H) := P.isPGroup'
+  have hPp : IsPGroup 3 (P : Subgroup H) := P.isPGroup
   have hbB : b ∈ B := FS79Hyp.zpowers_le_B b b₁ b₂ (Subgroup.mem_zpowers b)
   have hPC : (P : Subgroup H) ≤ Cen b := h.pgroup_le_cen hPp (hBP hbB)
   have hPN : (P : Subgroup H) ≤ Nor (Subgroup.zpowers b) := hPC.trans h.cen_le_nor
@@ -129,14 +135,14 @@ theorem FS79Hyp.fusion_B (h : FS79Hyp b t b₁ b₂ J) {x y g : H}
     (hx : x ∈ Subgroup.closure ({b, b₁, b₂} : Set H))
     (hy : y ∈ Subgroup.closure ({b, b₁, b₂} : Set H)) (hg : g * x * g⁻¹ = y) :
     ∃ n ∈ Nor (Subgroup.closure ({b, b₁, b₂} : Set H)), n * x * n⁻¹ = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPs := h.isSylowOf_B_top
   have hcop' : ¬ 3 ∣ (Subgroup.closure ({b, b₁, b₂} : Set H)).index := by
     rw [← Subgroup.relIndex_top_right]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hPs.2.2
   obtain ⟨S, hS⟩ : ∃ S : Sylow 3 H, (S : Subgroup H) = Subgroup.closure ({b, b₁, b₂} : Set H) :=
     ⟨hPs.2.1.toSylow hcop', IsPGroup.toSylow_coe hPs.2.1 hcop'⟩
-  haveI hcomm' : IsMulCommutative (S : Subgroup H) :=
+  have hcomm' : IsMulCommutative (S : Subgroup H) :=
     ⟨⟨fun a c => Subtype.ext (h.B_comm (by rw [← hS]; exact a.2) (by rw [← hS]; exact c.2))⟩⟩
   have hxS : x ∈ (S : Subgroup H) := by rw [hS]; exact hx
   have hyS : y ∈ (S : Subgroup H) := by rw [hS]; exact hy

@@ -16,17 +16,21 @@ variable {F : Type} [Field F] [Finite F] {σ : F ≃+* F}
 @[expose] def IsSelfAdj (σ : F ≃+* F) (f : Module.End F (Fin 4 → F)) : Prop :=
   ∀ x y, herm σ (f x) y = herm σ x (f y)
 
+omit [Finite F] in
 theorem IsSelfAdj.add {f g : Module.End F (Fin 4 → F)} (hf : IsSelfAdj σ f) (hg : IsSelfAdj σ g) :
     IsSelfAdj σ (f + g) := fun x y => by
   simp only [LinearMap.add_apply, herm_add_left, herm_add_right, hf x y, hg x y]
 
+omit [Finite F] in
 theorem IsSelfAdj.neg {f : Module.End F (Fin 4 → F)} (hf : IsSelfAdj σ f) :
     IsSelfAdj σ (-f) := fun x y => by
   simp only [LinearMap.neg_apply, herm_neg_left, herm_neg_right, hf x y]
 
+omit [Finite F] in
 theorem isSelfAdj_zero : IsSelfAdj σ (0 : Module.End F (Fin 4 → F)) := fun x y => by
   simp
 
+omit [Finite F] in
 theorem selfAdj_split {ω : F} (hω : σ ω ≠ ω) (hσ : ∀ c, σ (σ c) = c)
     {f₁ f₂ : Module.End F (Fin 4 → F)} (h₁ : IsSelfAdj σ f₁) (h₂ : IsSelfAdj σ f₂)
     (h : f₁ + ω • f₂ = 0) : f₁ = 0 ∧ f₂ = 0 := by
@@ -95,6 +99,7 @@ theorem card_sq_le_of_separating {ω : F} (hω : σ ω ≠ ω) (hσ : ∀ c, σ 
     simp only [RingHom.id_apply]
     rw [smul_comm a c x, smul_sub]
 
+omit [Finite F] in
 @[simp] theorem nilEnd_apply (a : SUid σ 4) (x : Fin 4 → F) : nilEnd a x = a • x - x := rfl
 
 @[expose] def JJ (E : Subgroup (SUid σ 4)) : Submodule F (Module.End F (Fin 4 → F)) where
@@ -111,11 +116,12 @@ theorem card_sq_le_of_separating {ω : F} (hω : σ ω ≠ ω) (hσ : ∀ c, σ 
      fun a ha x => by simp [hf.2.2 a ha x, smul_comm a c]⟩
 
 @[expose] def SS (E : Subgroup (SUid σ 4)) : AddSubgroup (Module.End F (Fin 4 → F)) where
-  carrier := {f | f ∈ JJ E ∧ IsSelfAdj σ f}
-  add_mem' := fun {f g} hf hg => ⟨add_mem hf.1 hg.1, hf.2.add hg.2⟩
+  carrier := {_f | _f ∈ JJ E ∧ IsSelfAdj σ _f}
+  add_mem' := fun {_f _g} hf hg => ⟨add_mem hf.1 hg.1, hf.2.add hg.2⟩
   zero_mem' := ⟨zero_mem _, isSelfAdj_zero⟩
-  neg_mem' := fun {f} hf => ⟨neg_mem hf.1, hf.2.neg⟩
+  neg_mem' := fun {_f} hf => ⟨neg_mem hf.1, hf.2.neg⟩
 
+omit [Finite F] in
 theorem nilEnd_mem_SS {E : Subgroup (SUid σ 4)} (hE2 : ∀ a ∈ E, a * a = 1)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) {a : SUid σ 4} (ha : a ∈ E) :
     nilEnd a ∈ SS E := by
@@ -127,7 +133,7 @@ theorem nilEnd_mem_SS {E : Subgroup (SUid σ 4)} (hE2 : ∀ a ∈ E, a * a = 1)
 
 theorem card_le_card_SS {E : Subgroup (SUid σ 4)} (hE2 : ∀ a ∈ E, a * a = 1)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) : Nat.card ↥E ≤ Nat.card ↥(SS E) := by
-  haveI : Finite (Module.End F (Fin 4 → F)) :=
+  have : Finite (Module.End F (Fin 4 → F)) :=
     Finite.of_injective (fun f : Module.End F (Fin 4 → F) => (f : (Fin 4 → F) → (Fin 4 → F)))
       DFunLike.coe_injective
   refine Nat.card_le_card_of_injective (fun a => ⟨nilEnd (a : SUid σ 4), nilEnd_mem_SS hE2 hEc a.2⟩) ?_
@@ -138,6 +144,7 @@ theorem card_le_card_SS {E : Subgroup (SUid σ 4)} (hE2 : ∀ a ∈ E, a * a = 1
   simp only [nilEnd_apply] at this
   exact sub_left_injective this
 
+omit [Finite F] in
 theorem JJ_eq_zero_of_family {E : Subgroup (SUid σ 4)} {r : ℕ} (t : Fin r → (Fin 4 → F))
     (ht : Submodule.span F (Set.range t) ⊔ fixSp E = ⊤) {g : Module.End F (Fin 4 → F)}
     (hg : g ∈ JJ E) (h0 : ∀ i, g (t i) = 0) : g = 0 := by
@@ -156,6 +163,7 @@ theorem JJ_eq_zero_of_family {E : Subgroup (SUid σ 4)} {r : ℕ} (t : Fin r →
   rw [map_add, h1 s hs, hg.2.1 k hk, add_zero]
   rfl
 
+omit [Finite F] in
 theorem exists_family (K : Submodule F (Fin 4 → F)) :
     ∃ t : Fin (Module.finrank F ((Fin 4 → F) ⧸ K)) → (Fin 4 → F),
       Submodule.span F (Set.range t) ⊔ K = ⊤ := by

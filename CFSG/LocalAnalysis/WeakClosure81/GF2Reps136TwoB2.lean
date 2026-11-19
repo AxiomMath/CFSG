@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_commSub_le_iff {U C : Subgroup W} {X : Subgroup (MulAut W)} :
     commSub U X ≤ C ↔ ∀ x ∈ X, ∀ u ∈ U, x u * u⁻¹ ∈ C := by
   constructor
@@ -26,6 +27,7 @@ private theorem w1369_commSub_le_iff {U C : Subgroup W} {X : Subgroup (MulAut W)
     rintro _ ⟨x, hx, u, hu, rfl⟩
     exact h x hx u hu
 
+omit [Finite W] in
 private theorem w1369_stableUnder_commSub_self {X : Subgroup (MulAut W)} {U : Subgroup W}
     (hU : StableUnder X U) : StableUnder X (commSub U X) := by
   intro x hx c hc
@@ -41,9 +43,11 @@ private theorem w1369_stableUnder_commSub_self {X : Subgroup (MulAut W)} {U : Su
   · intro a b _ _ iha ihb; rw [map_mul]; exact (commSub U X).mul_mem iha ihb
   · intro a _ iha; rw [map_inv]; exact (commSub U X).inv_mem iha
 
+omit [Finite W] in
 private theorem w1369_stableUnder_Wd (L : Subgroup (MulAut W)) : StableUnder L (Wd L) :=
   w1369_stableUnder_commSub_self (X := L) (U := ⊤) (fun _ _ _ _ => Subgroup.mem_top _)
 
+omit [Finite W] in
 private theorem w1369_commSub_Wd_self {L : Subgroup (MulAut W)} (hLp : ⁅L, L⁆ = L) :
     commSub (Wd L) L = Wd L := by
   refine le_antisymm (commSub_le_of_invariant (w1369_stableUnder_Wd L)) ?_
@@ -217,7 +221,6 @@ theorem swap_structure (hw2 : ∀ w : W, w ^ 2 = 1)
     have hC_le_CdX : Cd L ≤ Cd (Lc L g) := by
       have h1 : Cd L ⊓ Wd (Lc L g) ≤ Cd (Lc L g) := hM'_eq ▸ le_sup_right
       have h2 : Cd L ≤ Wd (Lc L g) := by
-        change Cd L ≤ Wd (Lc L g)
         rw [hWdX]
         exact inf_le_left
       rwa [inf_eq_left.mpr h2] at h1

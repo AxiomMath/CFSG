@@ -27,7 +27,7 @@ theorem exists_inv_mod_centralizer_of_psl2_quotient
       Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField p e)) :
     ∃ t ∈ T ⊓ K, ∀ b ∈ B, t * b * t⁻¹ * b ∈ Subgroup.centralizer (K : Set X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup X := Subgroup.centralizer (K : Set X)
   let H : Subgroup X := K ⊔ C
   have hBH : B ≤ H := hBK
@@ -131,7 +131,7 @@ theorem exists_inv_mod_centralizer_of_psl2_quotient
     have hSK2 : CFSG.QuasithinUnique.IsSylowTwoOf ((T ⊓ K).subgroupOf K) ⊤ := by
       obtain ⟨Q, hQ⟩ := hSK.exists_sylow_eq_subgroupOf
       rw [← hQ]
-      refine ⟨le_top, Q.isPGroup', ?_⟩
+      refine ⟨le_top, Q.isPGroup, ?_⟩
       rw [show ((Q : Subgroup ↥K).subgroupOf ⊤).index = (Q : Subgroup ↥K).index from
         Subgroup.relIndex_top_right (Q : Subgroup ↥K)]
       exact Q.not_dvd_index

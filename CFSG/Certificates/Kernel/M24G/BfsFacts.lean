@@ -28,18 +28,18 @@ theorem forIn_range'_loop {β : Type} (c : β → Prop) [DecidablePred c] (F : �
   | n + 1, a, init => by
     rw [List.range'_succ, List.forIn_cons, hf]
     by_cases h : c init
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       change forIn (List.range' (a + 1) n) (F init) f = _
       rw [forIn_range'_loop c F f hf n (a + 1) (F init)]
-      simp only [loopG, if_pos h]
-    · rw [if_neg h]
-      simp only [loopG, if_neg h]
+      simp only [loopG, ite_eq_left h]
+    · rw [ite_eq_right h]
+      simp only [loopG, ite_eq_right h]
       rfl
 
 theorem loopG_stop {β : Type} {c : β → Prop} [DecidablePred c] {F : β → β} {b : β} (h : ¬ c b) :
     ∀ n, loopG c F n b = b
   | 0 => rfl
-  | _ + 1 => by simp only [loopG, if_neg h]
+  | _ + 1 => by simp only [loopG, ite_eq_right h]
 
 theorem loopG_add {β : Type} (c : β → Prop) [DecidablePred c] (F : β → β) :
     ∀ (a d : Nat) (b : β), loopG c F (a + d) b = loopG c F d (loopG c F a b)
@@ -47,9 +47,9 @@ theorem loopG_add {β : Type} (c : β → Prop) [DecidablePred c] (F : β → β
   | a + 1, d, b => by
     rw [Nat.add_right_comm]
     by_cases h : c b
-    · simp only [loopG, if_pos h]
+    · simp only [loopG, ite_eq_left h]
       exact loopG_add c F a d (F b)
-    · simp only [loopG, if_neg h]
+    · simp only [loopG, ite_eq_right h]
       exact (loopG_stop h d).symm
 
 theorem loopG_inv {β : Type} {c : β → Prop} [DecidablePred c] {F : β → β} (P : β → Prop)
@@ -188,6 +188,7 @@ theorem bfs_tree (key : α → Nat) (steps : List (α → α)) (base : α) (fuel
   change j < 1 at h2
   omega
 
+omit [Inhabited α] in
 theorem fold_prefix (key : α → Nat) (x : α) (h : Nat) :
     ∀ (ss : List (α → α)) (st : BSt α), st.1.toList <+: (ss.foldl (bfsAdd key x h) st).1.toList
   | [], _ => List.prefix_refl _

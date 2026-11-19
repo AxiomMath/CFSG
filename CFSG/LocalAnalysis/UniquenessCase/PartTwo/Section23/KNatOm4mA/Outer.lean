@@ -59,7 +59,7 @@ theorem exists_witness_outer [Fintype F] (ha : 1 ≤ a) (hF : Fintype.card F = 2
     have h2 : 2 * Nat.card (fixV (A ⊓ LH hσ)) ≤ (2 ^ a) ^ 3 :=
       Nat.le_of_mul_le_mul_right h1 hq
     have hd : 0 < Nat.card (fixV (A ⊓ LH hσ)) := by
-      haveI : Nonempty ↥(fixV (A ⊓ LH hσ)) := ⟨1, Subgroup.one_mem _⟩
+      have : Nonempty ↥(fixV (A ⊓ LH hσ)) := ⟨1, Subgroup.one_mem _⟩
       exact Nat.card_pos
     have hlt : Nat.card (fixV (A ⊓ LH hσ)) < (2 ^ a) ^ 3 := by omega
     have hltA : Nat.card (fixV A) < (2 ^ a) ^ 3 := lt_of_le_of_lt hCle hlt

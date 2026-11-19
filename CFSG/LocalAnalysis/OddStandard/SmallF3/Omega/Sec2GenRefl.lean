@@ -19,28 +19,33 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   letI : Invertible (Q u) := invertibleOfNonzero hu
   TauCeti.QuadraticMap.reflectionOrthogonal Q u
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem reflOf_eq (u : V) (hu : Q u ≠ 0) [Invertible (Q u)] :
     reflOf Q u hu = TauCeti.QuadraticMap.reflectionOrthogonal Q u := by
   unfold reflOf
   congr 1
   exact Subsingleton.elim _ _
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem reflOf_mul_self (u : V) (hu : Q u ≠ 0) : reflOf Q u hu * reflOf Q u hu = 1 := by
-  letI : Invertible (Q u) := invertibleOfNonzero hu
+  let : Invertible (Q u) := invertibleOfNonzero hu
   rw [reflOf_eq u hu]
   exact TauCeti.QuadraticMap.reflectionOrthogonal_mul_self Q u
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem reflOf_inv (u : V) (hu : Q u ≠ 0) : (reflOf Q u hu)⁻¹ = reflOf Q u hu :=
   inv_eq_of_mul_eq_one_left (reflOf_mul_self u hu)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem map_ogroup_apply (g : OGroup Q) (u : V) : Q ((g : V ≃ₗ[ZMod 3] V) u) = Q u :=
   TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp g.2 u
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mul_reflOf_mul_inv (g : OGroup Q) (u : V) (hu : Q u ≠ 0) :
     g * reflOf Q u hu * g⁻¹ =
       reflOf Q ((g : V ≃ₗ[ZMod 3] V) u) (by rw [map_ogroup_apply]; exact hu) := by
-  letI : Invertible (Q u) := invertibleOfNonzero hu
-  letI : Invertible (Q ((g : V ≃ₗ[ZMod 3] V) u)) :=
+  let : Invertible (Q u) := invertibleOfNonzero hu
+  let : Invertible (Q ((g : V ≃ₗ[ZMod 3] V) u)) :=
     invertibleOfNonzero (by rw [map_ogroup_apply]; exact hu)
   rw [reflOf_eq u hu, reflOf_eq _ (by rw [map_ogroup_apply]; exact hu)]
   exact TauCeti.QuadraticMap.mul_reflectionOrthogonal_mul_inv Q g u
@@ -48,10 +53,12 @@ theorem mul_reflOf_mul_inv (g : OGroup Q) (u : V) (hu : Q u ≠ 0) :
 @[expose] def reflPairs (Q : QuadraticForm (ZMod 3) V) : Set (OGroup Q) :=
   {g | ∃ (u v : V) (hu : Q u ≠ 0) (hv : Q v ≠ 0), Q u = Q v ∧ g = reflOf Q u hu * reflOf Q v hv}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem reflOf_mul_reflOf_mem (u v : V) (hu : Q u ≠ 0) (hv : Q v ≠ 0) (huv : Q u = Q v) :
     reflOf Q u hu * reflOf Q v hv ∈ reflPairs Q :=
   ⟨u, v, hu, hv, huv, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem normal_closure_reflPairs : (Subgroup.closure (reflPairs Q)).Normal := by
   refine ⟨fun n hn g => ?_⟩
   induction hn using Subgroup.closure_induction with
@@ -79,7 +86,7 @@ theorem omegaGroup_le_of_reflection_pairs (hQ : Q.Nondegenerate)
     (hH : ∀ (u v : V) (hu : Q u ≠ 0) (hv : Q v ≠ 0), Q u = Q v →
       reflOf Q u hu * reflOf Q v hv ∈ H) : omegaGroup hQ ≤ H := by
   set H₀ : Subgroup (OGroup Q) := Subgroup.closure (reflPairs Q) with hH₀def
-  haveI hN : H₀.Normal := normal_closure_reflPairs
+  have hN : H₀.Normal := normal_closure_reflPairs
   have hH₀ : H₀ ≤ H := by
     refine (Subgroup.closure_le H).mpr ?_
     rintro g ⟨u, v, hu, hv, huv, rfl⟩

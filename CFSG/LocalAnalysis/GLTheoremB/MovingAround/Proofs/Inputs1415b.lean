@@ -174,6 +174,7 @@ theorem centNoAlt_of_centShapeRk (hp : p.Prime) {Good Rk : ∀ (T : Type) [Group
   · rw [hu I hI]
     exact hG _ hg
 
+omit [Finite Q] in
 theorem centNoAlt_of_centShapeRk' (hp : p.Prime) {Good Rk : ∀ (T : Type) [Group T], Prop}
     (h : CentShapeRk' p Good Rk Q)
     (hG : ∀ (T : Type) [Group T], Good T → IsEmpty (T ≃* alternatingGroup (Fin m))) :
@@ -227,7 +228,7 @@ theorem sporNoAltDown37_of_order
       name = .HS) : SporNoAltDown 3 7 name := by
   refine sporNoAltDown_of_not_dvd hOrd Nat.prime_three (by norm_num) ?_
   rcases h with rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-    simp [CFSG.HardMathSupport.Solomon.Coordinator.sporOrd, Nat.factorial, orderJ3] <;> decide
+    simp [CFSG.HardMathSupport.Solomon.Coordinator.sporOrd, Nat.factorial, orderJ3]
 
 theorem sporNoAltDown37_of_leafShape (hBr : SporadicBridges) (hnl : Prop1116Design.InputAltNotLie)
     {name : TauCeti.SporadicName} [Finite (CFSG.Blueprint.NativeSporadic.Carrier name)]
@@ -481,7 +482,7 @@ theorem card_facts_of_alt7 {G : Type} [Group G] [Finite G] {C K : Subgroup G}
   have hcore := YS08.glaPPrimeCore_eq_bot_of_glaPComponent hO hcomp
   have hZ3 : IsPGroup 3 ↥(Subgroup.center ↥K) :=
     AltFacts2.isPGroup_center_of_core_eq_bot Nat.prime_three hcore
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := hZ3.exists_card_eq
   refine ⟨hKcard, ?_, ?_⟩
   · rw [hKcard, ha]
@@ -513,7 +514,7 @@ theorem false_of_alt7_of_invertedByTwoA {G : Type} [Group G] (hE : MonsterExiste
     {s : G} (hs : orderOf s = 3) (hinv : InvertedByTwoA s) {K : Subgroup G}
     (hK : IsComponentOf K (Subgroup.centralizer ({s} : Set G)))
     (eK : (↥K ⧸ Subgroup.center ↥K) ≃* alternatingGroup (Fin 7)) : False := by
-  haveI : Finite G := hE.1.1
+  have : Finite G := hE.1.1
   have hO := gLAPPrimeCoreOf_eq_bot_of_invertedByTwoA hE Nat.prime_three (by norm_num) hs hinv
   obtain ⟨α, H, hα, hαs, hH, -, hcard, hHα, hHs, hHn, hCQ⟩ := M_inverted_data hE hs hinv
   have hG : Nat.card G = 808017424794512875886459904961710757005754368000000000 := by
@@ -545,7 +546,7 @@ section ThreeB
 theorem false_of_alt7_tbw (K : Subgroup Gmat)
     (hK : IsComponentOf K (Subgroup.centralizer ({CFSG.AGLEmbedding.Norton.MON5_7.tbw} : Set Gmat)))
     (eK : (↥K ⧸ Subgroup.center ↥K) ≃* alternatingGroup (Fin 7)) : False := by
-  haveI : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   rw [← CFSG.HardMathSupport.MathTwE6.M3BIrr.centralizer_zpowers_tbw] at hK
   have h9 : 9 ∣ (Subgroup.center ↥K).index := by
     rw [Subgroup.index, Nat.card_congr eK.toEquiv, card_alt 7 (by norm_num)]
@@ -571,7 +572,7 @@ theorem centNoAlt37_gmat
     CentNoAlt 3 7 Gmat := by
   intro s hs I hI
   refine ⟨fun e => ?_⟩
-  haveI : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   have hO := hOm s hs
   have hK := YS08.isComponentOf_of_glaPComponent' hO hI
   have hcore := YS08.glaPPrimeCore_eq_bot_of_glaPComponent hO hI
@@ -594,7 +595,7 @@ section BAssembly
 theorem centNoAlt37_B (hB3 : TabBThreeBNoComp) (hBcard :
     Nat.card CFSG.Blueprint.NativeSporadic.B = 4154781481226426191177580544000000) :
     CentNoAlt 3 7 CFSG.Blueprint.NativeSporadic.B := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   intro s hs I hI
   refine ⟨fun e => ?_⟩
   by_cases hinv : ∃ d : CFSG.Blueprint.NativeSporadic.B, CFSG.Monster.GMS.BabyInv 0 d ∧
@@ -641,7 +642,7 @@ section MCat
 open CFSG.Monster.Generated CFSG.Monster.Existence CFSG.HardMathSupport.Timmesfeld.SporadicBalance
 
 theorem sporNoAltDown37_M : SporNoAltDown 3 7 .M := by
-  haveI : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   obtain ⟨e1⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   have hOm : OPrimeCoreTrivialAt 3 Gmat :=
@@ -706,14 +707,14 @@ theorem finite_carrier (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.Sporadic
     cases name <;> simp [CFSG.HardMathSupport.Solomon.Coordinator.sporOrd, orderJ3, orderJ4, orderRu,
       orderON, orderCo1, orderFi23, orderFi24Prime, orderHN, orderLy, orderTh, orderBabyMonster,
       orderMonster]
-  haveI : Finite (TauCeti.CFSGIndex.sporadic name).Group := Nat.finite_of_card_ne_zero h
+  have : Finite (TauCeti.CFSGIndex.sporadic name).Group := Nat.finite_of_card_ne_zero h
   exact Finite.of_equiv _ (hBr name).some.symm.toEquiv
 
 theorem sporNoAltDown37_of_facts (h : Facts37) (hCo1 : SporNoAltDown 3 7 .Co1) :
     ∀ name : TauCeti.SporadicName, name ≠ .He →
       CFSG.Open.IsKGroup (TauCeti.CFSGIndex.sporadic name).Group → SporNoAltDown 3 7 name := by
   intro name hne hK
-  haveI := finite_carrier h.ord h.br name
+  have := finite_carrier h.ord h.br name
   cases name with
   | M11 => exact sporNoAltDown37_of_order h.ord (by simp)
   | M12 => exact sporNoAltDown37_of_order h.ord (by simp)
@@ -745,7 +746,7 @@ theorem sporNoAltDown37_of_facts (h : Facts37) (hCo1 : SporNoAltDown 3 7 .Co1) :
 theorem sporNoAltDown37_Co1_of_table (h : Facts37)
     (hT : CentShapeRk 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz])
       (CFSG.Blueprint.NativeSporadic.Carrier .Co1)) : SporNoAltDown 3 7 .Co1 := by
-  haveI := finite_carrier h.ord h.br .Co1
+  have := finite_carrier h.ord h.br .Co1
   exact sporNoAltDown37_of_goodSpor h.br h.altNotLie h.ord hT
 
 theorem input14_15_3_of_facts (h : Facts37) (hCo1 : SporNoAltDown 3 7 .Co1) :
@@ -841,7 +842,7 @@ theorem two_lt_kLevel_alt (hnl : Prop1116Design.InputAltNotLie) (hOrd : Sporadic
       rw [card_alt m (by omega), hOrd t] at h1
       exact hspor t h1
   unfold kLevel
-  rw [if_neg hC, if_neg hK2]
+  rw [ite_eq_right hC, ite_eq_right hK2]
   split_ifs <;> omega
 
 theorem sporNoAltDown_of_downLe {p m : ℕ} (hp : p.Prime) {name : TauCeti.SporadicName}
@@ -1046,7 +1047,7 @@ theorem sporNoAltDown_of_lines {name : TauCeti.SporadicName} {p m k B : ℕ} (hp
       Set.range (fun j => Subgroup.zpowers (L j)))
     (hB : ∀ j, Nat.card ↥(Subgroup.centralizer ({L j} : Set G₀) ⊓ R) ≤ B)
     (hBm : B < p * (m.factorial / 2)) : SporNoAltDown p m name := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine sporNoAltDown_of_subgroup_model hp e (centNoAlt_of_card hp fun s hs hdvd => ?_)
   have h1 := card_centralizer_le_of_lines hPR hQP hsyl hlines hB s hs
   have h2 := Nat.le_of_dvd Nat.card_pos hdvd
@@ -1110,7 +1111,7 @@ theorem exists_orderOf_mul_of_comp {T : Type} [Group T] [Finite T] {p r m : ℕ}
     (hs : orderOf s = p) {I : Subgroup T}
     (hI : GLAPComponent p (Subgroup.centralizer ({s} : Set T)) I)
     (e : PSimple p I ≃* alternatingGroup (Fin m)) : ∃ g : T, orderOf g = p * r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcard : Nat.card (PSimple p I) ∣ Nat.card I :=
     (Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_quotient_dvd_card _)
   rw [Nat.card_congr e.toEquiv, card_alt m hm] at hcard
@@ -1369,8 +1370,8 @@ theorem sporNoAltDown7_Fi24 {m : ℕ} (hm : 9 ≤ m)
     SporNoAltDown 7 m .Fi24Prime := by
   have e : (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group ≃* ↥CFSG.Sporadic.Fi24.J :=
     (hBr .Fi24Prime).some.symm.trans CFSG.Sporadic.Fi24.fi24EquivJ
-  haveI := finite_spor hOrd .Fi24Prime
-  haveI : Finite ↥CFSG.Sporadic.Fi24.J := Finite.of_equiv _ e.toEquiv
+  have := finite_spor hOrd .Fi24Prime
+  have : Finite ↥CFSG.Sporadic.Fi24.J := Finite.of_equiv _ e.toEquiv
   refine sporNoAltDown_of_subgroup_model (by norm_num) e
     (centNoAlt_of_reps (by norm_num) (by omega) (B := 17640) (fun s hs => ?_)
       (lt_mul_half_factorial hm (by decide)))
@@ -1428,7 +1429,7 @@ theorem sporNoAltDown7_B
     {m : ℕ} (hm : 9 ≤ m)
     (hBr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     SporNoAltDown 7 m .B := by
-  haveI : Finite (NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
+  have : Finite (NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
   refine sporNoAltDown_of_model (by norm_num) (hBr .B).some
     (centNoAlt_of_card (by norm_num) fun s hs hdvd => ?_)
   have h3 := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BSevenLocal.card_centralizer_seven_three s hs
@@ -1470,7 +1471,7 @@ theorem sporNoAltDown5_Co1 {m : ℕ} (hm : 7 ≤ m) (hm8 : m ≠ 8) (h5 : ¬ 5 �
     (hBr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges)
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     SporNoAltDown 5 m .Co1 := by
-  haveI := finite_carrier hOrd hBr .Co1
+  have := finite_carrier hOrd hBr .Co1
   exact sporNoAltDown_of_model Nat.prime_five (hBr .Co1).some
     (centNoAlt_of_centShapeMulti Nat.prime_five (TabCo1.centShapeMulti_Co1_five hOut)
       fun _ _ hg => ⟨fun e => not_goodSpor_alt hnl hOrd hm hm8 h5
@@ -1488,7 +1489,7 @@ theorem sporNoAltDown7_M
     (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable)
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     SporNoAltDown 7 m .M := by
-  haveI : Finite CFSG.Monster.Generated.Gmat :=
+  have : Finite CFSG.Monster.Generated.Gmat :=
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   obtain ⟨e1⟩ : Nonempty (CFSG.Monster.Generated.Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
@@ -1585,7 +1586,7 @@ theorem sq_dvd_mul_half_factorial {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp
 
 theorem two_lt_kLevel_alt_ge10 (hnl : Prop1116Design.InputAltNotLie)
     (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable) {p m : ℕ} (hm : 10 ≤ m)
-    (hp : p = 3 ∨ p = 5) : 2 < kLevel p (alternatingGroup (Fin m)) :=
+    (_hp : p = 3 ∨ p = 5) : 2 < kLevel p (alternatingGroup (Fin m)) :=
   two_lt_kLevel_alt hnl hOrd (by omega) (by omega) (by omega) (by omega) (by omega)
     (factorial_half_ne_sporOrd m)
 
@@ -1594,14 +1595,14 @@ theorem sporNoAltDown_of_row (hnl : Prop1116Design.InputAltNotLie)
     (hp35 : p = 3 ∨ p = 5) (hm : 10 ≤ m) {name : TauCeti.SporadicName}
     (hrow : CFSG.LocalAnalysis.GLTheoremA.KDSporRow name p)
     (hk2 : k2 p (TauCeti.CFSGIndex.sporadic name)) : SporNoAltDown p m name := by
-  haveI := finite_spor hOrd name
+  have := finite_spor hOrd name
   exact sporNoAltDown_of_downLe hp (hrow.1 hk2) (two_lt_kLevel_alt_ge10 hnl hOrd hm hp35)
 
 theorem sporNoAltDown3_HN_of_leafShape (hnl : Prop1116Design.InputAltNotLie)
     (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable)
     (hBr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) {m : ℕ} (hm : 7 ≤ m)
     (hm8 : m ≠ 8) (h3 : ¬ 3 ∣ m) (hL : LeafShape .HN 3) : SporNoAltDown 3 m .HN := by
-  haveI := finite_carrier hOrd hBr .HN
+  have := finite_carrier hOrd hBr .HN
   exact sporNoAltDown_of_model Nat.prime_three (hBr .HN).some
     (centNoAlt_of_centShape Nat.prime_three hL fun _ _ hg => ⟨fun e => not_leafType_alt hnl hm hm8 h3 e hg⟩)
 
@@ -1611,7 +1612,7 @@ theorem sporNoAltDown3_Co1_of_table (hnl : Prop1116Design.InputAltNotLie)
     (hm8 : m ≠ 8) (h3 : ¬ 3 ∣ m)
     (hT : CentShapeRk 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz]) (CFSG.Blueprint.NativeSporadic.Carrier .Co1)) :
     SporNoAltDown 3 m .Co1 := by
-  haveI := finite_carrier hOrd hBr .Co1
+  have := finite_carrier hOrd hBr .Co1
   exact sporNoAltDown_of_model Nat.prime_three (hBr .Co1).some
     (centNoAlt_of_centShapeRk Nat.prime_three hT fun _ _ hg =>
       ⟨fun e => not_goodSpor_alt hnl hOrd hm hm8 h3 (factorial_half_ne_sporOrd m) [.Suz] e hg⟩)
@@ -1623,7 +1624,7 @@ theorem centNoAlt3_B_of_tab (hnl : Prop1116Design.InputAltNotLie)
       ∀ d : CFSG.Blueprint.NativeSporadic.B, CFSG.Monster.GMS.BabyInv 0 d → d * s * d⁻¹ = s⁻¹ →
         ShapeRkAt' 3 (GoodSpor 3 [.Fi22]) (RkSpor 3 [.Fi22]) s)
     (hB3 : TabBThreeBNoComp) : CentNoAlt 3 m CFSG.Blueprint.NativeSporadic.B := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   intro s hs I hI
   refine ⟨fun e => ?_⟩
   by_cases hinv : ∃ d : CFSG.Blueprint.NativeSporadic.B, CFSG.Monster.GMS.BabyInv 0 d ∧ d * s * d⁻¹ = s⁻¹
@@ -1698,33 +1699,30 @@ theorem sporResidualAt_of_open
   | McL =>
     have hmk : m ≤ 12 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 12 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.LocalAnalysis.GLTheoremA.KDSpor.kdSporRow_McL_three hOut hBr) (by simp [k2, k2Spor])
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inr rfl) hm10 hR.mcl (by simp [k2, k2Spor])
   | Suz =>
     have hmk : m ≤ 13 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 13 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.HardMathSupport.Dickson.I271.KDLevelSuz.kdSporRow_Suz_three hOut hBr)
         (by simp [k2, k2Spor])
   | Co3 =>
     have hmk : m ≤ 12 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 12 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.HardMathSupport.Dickson.I271.KDLevelCo3.kdSporRow_Co3_three hOut hBr)
         (by simp [k2, k2Spor])
@@ -1732,11 +1730,10 @@ theorem sporResidualAt_of_open
   | Co2 =>
     have hmk : m ≤ 12 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 12 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.HardMathSupport.Dickson.I271.KDLevelCo2.kdSporRow_Co2_three hOut hBr)
         (by simp [k2, k2Spor])
@@ -1744,11 +1741,9 @@ theorem sporResidualAt_of_open
   | Co1 =>
     have hmk : m ≤ 16 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 16 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
-      | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · by_cases h3 : 3 ∣ m
       · rcases (show m = 12 ∨ m = 15 by omega) with rfl | rfl
         · exact h.co1_3.1
@@ -1764,33 +1759,30 @@ theorem sporResidualAt_of_open
   | Fi22 =>
     have hmk : m ≤ 13 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 13 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.HardMathSupport.Dickson.I271.KDLevelFi22.kdSporRow_Fi22_three hOut hBr)
         (by simp [k2, k2Spor])
   | Fi23 =>
     have hmk : m ≤ 13 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 13 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.HardMathSupport.Dickson.I271.KDLevelFi23.kdSporRow_Fi23_three hOut hBr)
         (by simp [k2, k2Spor])
   | Fi24Prime =>
     have hmk : m ≤ 14 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 14 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.HardMathSupport.Dickson.I271.TabFi24.kdSporRow_Fi24_three hOut hBr)
         (by simp [k2, k2Spor])
@@ -1798,11 +1790,10 @@ theorem sporResidualAt_of_open
   | HN =>
     have hmk : m ≤ 12 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 12 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · by_cases h3 : 3 ∣ m
       · obtain rfl : m = 12 := by omega
         exact h.hn_3
@@ -1812,11 +1803,8 @@ theorem sporResidualAt_of_open
   | Th =>
     have hmk : m ≤ 10 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 10 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
-      | (exfalso; revert h10; decide +kernel)
-      | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.LocalAnalysis.GLTheoremA.KDSpor.kdSporRow_Th_three hOut hBr) (by simp [k2, k2Spor])
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inr rfl) hm10 hR.th (by simp [k2, k2Spor])
@@ -1824,11 +1812,10 @@ theorem sporResidualAt_of_open
   | Ly =>
     have hmk : m ≤ 11 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 11 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
       | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inl rfl) hm10
         (CFSG.LocalAnalysis.GLTheoremA.KDSpor.kdSporRow_Ly_three hOut hBr) (by simp [k2, k2Spor])
     · exact sporNoAltDown_of_row hnl hOrd hp (Or.inr rfl) hm10 hR.ly (by simp [k2, k2Spor])
@@ -1837,11 +1824,9 @@ theorem sporResidualAt_of_open
     have hpk : p ≤ 20 := by omega
     have hX : CFSG.Open.IsKGroup (CFSG.Blueprint.NativeSporadic.Carrier .B) :=
       hK.of_surjective (hBr .B).some.symm.toMonoidHom (hBr .B).some.symm.surjective
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
-      | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · by_cases h1215 : m = 12 ∨ m = 15
       · rcases h1215 with rfl | rfl
         · exact (h.b_3 hK).1
@@ -1862,11 +1847,9 @@ theorem sporResidualAt_of_open
   | M =>
     have hmk : m ≤ 32 := le_of_mul_half_factorial_dvd (by norm_num) hd (by decide +kernel)
     have hpk : p ≤ 32 := by omega
-    interval_cases p <;> first
+    interval_cases p <;> try first
       | (exfalso; revert hp; norm_num; done)
-      | (exfalso; revert h10; decide +kernel)
       | (exfalso; revert hsq; decide +kernel)
-      | skip
     · exact h.m_3 m hm10 hmk hK
     · exact h.m_5 m hm10 hmk hK
     · by_cases h7 : 7 ∣ m

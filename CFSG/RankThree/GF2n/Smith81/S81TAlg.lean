@@ -96,27 +96,20 @@ theorem sl2_torus_conj {K A : Type*} [Field K] [CharP K 2] [Ring A] [Algebra K A
   have probeA : ∀ t : K, t ≠ 0 → (1 + t • X) * (1 + t⁻¹ • Y) * (1 + t • X) * X = t⁻¹ • (Y * X) := by
     intro t ht
     simp only [mul_assoc, add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm,
-      smul_smul, hxx, hyy, hXYX', hYXY', hXXY, hYYX, smul_zero, smul_add, add_zero, zero_add,
-      mul_zero, zero_mul, one_smul, hA2, hcan1, hcan2, hcan4, hcan5, inv_mul_cancel₀ ht, mul_inv_cancel₀ ht]
-    done
+      smul_smul, hxx, hXYX', smul_zero, smul_add, add_zero, mul_zero, one_smul, hcan2, inv_mul_cancel₀ ht, mul_inv_cancel₀ ht]
   have probeB : ∀ t : K, t ≠ 0 → (1 + t • X) * (1 + t⁻¹ • Y) * (1 + t • X) * (Y * X) = t • X := by
     intro t ht
     simp only [mul_assoc, add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm,
-      smul_smul, hxx, hyy, hXYX', hYXY', hXXY, hYYX, smul_zero, smul_add, add_zero, zero_add,
-      mul_zero, zero_mul, one_smul, hA2, hcan1, hcan2, hcan4, hcan5, inv_mul_cancel₀ ht, mul_inv_cancel₀ ht]
-    done
+      smul_smul, hxx, hXYX', hYYX, smul_zero, smul_add, add_zero, mul_zero, one_smul, hA2, hcan1, hcan2, inv_mul_cancel₀ ht, mul_inv_cancel₀ ht]
   have probeC : ∀ t : K, t ≠ 0 → X * ((1 + t • X) * (1 + t⁻¹ • Y) * (1 + t • X)) = t⁻¹ • (X * Y) := by
     intro t ht
     simp only [mul_assoc, add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm,
-      smul_smul, hxx, hyy, hXYX', hYXY', hXXY, hYYX, smul_zero, smul_add, add_zero, zero_add,
-      mul_zero, zero_mul, one_smul, hA2, hcan1, hcan2, hcan4, hcan5, inv_mul_cancel₀ ht, mul_inv_cancel₀ ht]
-    done
+      smul_smul, hxx, hXYX', hXXY, smul_zero, smul_add, add_zero, one_smul, hcan1, hcan2, inv_mul_cancel₀ ht, mul_inv_cancel₀ ht]
   have probeD : ∀ t : K, t ≠ 0 → X * Y * ((1 + t • X) * (1 + t⁻¹ • Y) * (1 + t • X)) = t • X := by
     intro t ht
     simp only [mul_assoc, add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm,
-      smul_smul, hxx, hyy, hXYX', hYXY', hXXY, hYYX, smul_zero, smul_add, add_zero, zero_add,
-      mul_zero, zero_mul, one_smul, hA2, hcan1, hcan2, hcan4, hcan5, inv_mul_cancel₀ ht, mul_inv_cancel₀ ht]
-    done
+      smul_smul, hxx, hyy, hXYX', hYXY', hYYX, smul_zero, smul_add, add_zero, zero_add,
+      mul_zero, one_smul, hcan1, hcan2, inv_mul_cancel₀ ht, mul_inv_cancel₀ ht]
   have key : ∀ W V : A, V * X = Y * X → W * (Y * X) = c • X → X * W = c⁻¹ • (X * Y) →
       X * Y * V = X → W * V * (1 + s • X) = (1 + (c ^ 2 * s) • X) * (W * V) := by
     intro W V hVX hWYX hXW hXYV

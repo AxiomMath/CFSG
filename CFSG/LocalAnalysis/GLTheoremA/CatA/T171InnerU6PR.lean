@@ -33,8 +33,8 @@ private theorem ne_one_of_isPR {g : PGU6} (hg : IsPR g) : g ≠ 1 := by
   have hii := congrFun (congrFun hmat' i) i
   have hjj := congrFun (congrFun hmat' j) j
   simp only [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply,
-    Function.update_self, if_true] at hii hjj
-  rw [Function.update_apply, if_neg hji] at hjj
+    Function.update_self, ite_true] at hii hjj
+  rw [Function.update_apply, ite_eq_right hji] at hjj
   exact hab (hjj.symm.trans hii)
 
 theorem stepPR_holds :
@@ -49,7 +49,7 @@ theorem stepPR_holds :
   have hx1 : x ≠ 1 := hc.ne_one
   have hb3 : b ^ 3 = 1 := hBel.2 b hbB
   have hLperf : Group.IsPerfect ↥L := isPerfect_of_cfg hc
-  haveI : Group.IsPerfect ↥L := hLperf
+  have : Group.IsPerfect ↥L := hLperf
   have hxL : x ∈ Subgroup.centralizer (L : Set Ω) :=
     (hc.cent x hc.mem).mpr (Subgroup.mem_zpowers x)
   have hg1 : g ≠ 1 := ne_one_of_isPR hPR
@@ -95,7 +95,7 @@ theorem stepPR_holds :
     dsimp [F]
     rw [hPsi]
   have hFsimple : IsSimpleGroup ↥F := (hPRfix g hPR).1
-  haveI : IsSimpleGroup ↥F := hFsimple
+  have : IsSimpleGroup ↥F := hFsimple
   have hFperf : ⁅F, F⁆ = F := (hPRfix g hPR).2.1
   have h11F : 11 ∣ Nat.card ↥F := (hPRfix g hPR).2.2.1
   have hPRcent := (hPRfix g hPR).2.2.2
@@ -145,7 +145,7 @@ theorem stepPR_holds :
     exact congrArg (fun x : ↥L => (x : Ω))
       (Subgroup.mem_center_iff.mp hmZ ⟨(m' : Ω), hML m'.2⟩)
   have htopPerf : Group.IsPerfect ↥F := Subgroup.isPerfect_iff.mpr hFperf
-  haveI : Group.IsPerfect ↥F := htopPerf
+  have : Group.IsPerfect ↥F := htopPerf
   have hFtopPerf : Group.IsPerfect ↥(⊤ : Subgroup ↥F) :=
     Group.IsPerfect.ofSurjective (f := Subgroup.topEquiv.symm.toMonoidHom)
       (fun x => ⟨Subgroup.topEquiv x, Subgroup.topEquiv.symm_apply_apply x⟩)

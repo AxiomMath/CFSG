@@ -94,11 +94,11 @@ theorem tcIsSolvable_PSUYsd_of_rank_three_two {T : Matrix (Fin n) (Fin n) (PSUF 
     rintro k rfl
     subst hg
     have := CFSG.Quasithin.isSolvable_statedSU_one (F := PSUF 0) (card_PSUF 0)
-    exact solvable_of_solvable_injective
+    exact Group.isSolvable_of_isSolvable_injective
       (f := (Unitary.equivStatedSU (F := PSUF 0) (p := 2) (f := 1) (card_PSUF 0) 3).toMonoidHom)
       (Unitary.equivStatedSU (F := PSUF 0) (p := 2) (f := 1) (card_PSUF 0) 3).injective
   have := key _ hr
-  exact solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+  exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
 theorem PSUBlock.exists_model_of_selfDual_one [Finite X] (hH : PSULiftHyp n g ψ p B)
     {S : Set (GL (Fin n) (PSUF g))} {e : Matrix (Fin n) (Fin n) (PSUF g)}
@@ -141,9 +141,9 @@ theorem PSUBlock.exists_model_of_selfDual_one [Finite X] (hH : PSULiftHyp n g ψ
       omega
     have := tcIsSolvable_PSUYsd_of_rank_three_two heid hTa h1 hg0
     have : Group.IsSolvable ↥J' :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hJ'Y)
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJ'Y)
     have : Nontrivial ↥J' := (Subgroup.nontrivial_iff_ne_bot J').mpr hJ'ne
-    have := IsSolvable.commutator_lt_top_of_nontrivial ↥J'
+    have := Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J'
     rw [hJ'g.2.2.1] at this
     exact lt_irrefl _ this
   have hYq := isQuasisimple_PSUYsd heid hTa hr3 hrq

@@ -67,7 +67,7 @@ theorem false_of_three_components_split {Q R : Type} [Group Q] [Finite Q] [Group
     (hArank : ∀ i, i < 3 → CFSG.Open.pRank 7 (A i) = 1)
     (hAne : ∀ i j, i < 3 → j < 3 → i ≠ j → A i ≠ A j)
     (hall : (∀ i, i < 3 → A i ≤ μ.ker) ∨ (∀ i, i < 3 → ¬ A i ≤ μ.ker)) : False := by
-  haveI hF7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have hF7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hp7 : Nat.Prime 7 := hF7.out
   have hcomm : ∀ i j : ℕ, i < 3 → j < 3 → i ≠ j → ∀ a ∈ A i, ∀ b ∈ A j, a * b = b * a := by
     intro i j hi hj hij a ha b hb
@@ -121,7 +121,7 @@ theorem false_of_three_components_split {Q R : Type} [Group Q] [Finite Q] [Group
         · rintro ⟨a, ha, rfl⟩
           exact ⟨⟨a, ha⟩, Subgroup.mem_top _, rfl⟩
       refine ⟨?_, ?_⟩
-      · haveI : Group.IsPerfect ↥(A i) := (hAc i hi).1.1
+      · have : Group.IsPerfect ↥(A i) := (hAc i hi).1.1
         rw [← hmap]
         exact Group.IsPerfect.map f
       · rw [← hmap, pRank_map_eq_of_ker hp7 f hker7 ⊤,
@@ -162,11 +162,11 @@ theorem index_normalizer_le_two_of_rank_bounds {Y₀ C : Subgroup X} [Y₀.Norma
     (hD : CFSG.Open.pRank 7 (C ⊓ Y₀) ≤ 1) {I : Subgroup X} (hI : I ≤ C)
     (hIc : CFSG.IsPComponent 7 (I.subgroupOf C)) (hI1 : CFSG.Open.pRank 7 I = 1) :
     (Subgroup.normalizer (I : Set X)).index ≤ 2 := by
-  haveI hF7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have hF7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hp7 : Nat.Prime 7 := hF7.out
   by_contra hlt
   classical
-  letI : Fintype (X ⧸ Subgroup.normalizer (I : Set X)) := Fintype.ofFinite _
+  let : Fintype (X ⧸ Subgroup.normalizer (I : Set X)) := Fintype.ofFinite _
   have hcard : 2 < Fintype.card (X ⧸ Subgroup.normalizer (I : Set X)) := by
     have : 2 < Nat.card (X ⧸ Subgroup.normalizer (I : Set X)) := not_le.1 hlt
     rwa [Nat.card_eq_fintype_card] at this
@@ -211,7 +211,7 @@ theorem index_normalizer_le_two_of_rank_bounds {Y₀ C : Subgroup X} [Y₀.Norma
       exact Subgroup.mem_map_of_mem _ hy
     exact ⟨_, hy', rfl⟩
   let N' : Subgroup (X ⧸ Y₀) := Nh.map (QuotientGroup.mk' Y₀)
-  haveI hN' : N'.Normal := Subgroup.Normal.map hNh _ (QuotientGroup.mk'_surjective Y₀)
+  have hN' : N'.Normal := Subgroup.Normal.map hNh _ (QuotientGroup.mk'_surjective Y₀)
   have hN'7 : ¬ 7 ∣ Nat.card N' := by
     intro hdvd
     have h1 : Nat.card N' ∣ Nat.card Nh := Subgroup.card_map_dvd Nh _
@@ -317,7 +317,7 @@ theorem mem_of_odd_order_of_index_le_two {X : Type} [Group X] [Finite X] {N : Su
     rcases (by omega : N.index = 1 ∨ N.index = 2) with h1 | h2
     · rw [Subgroup.index_eq_one.1 h1]
       exact Subgroup.mem_top _
-    · haveI := Subgroup.normal_of_index_eq_two h2
+    · have := Subgroup.normal_of_index_eq_two h2
       have := Subgroup.pow_index_mem N x
       rwa [h2] at this
   obtain ⟨m, hm⟩ := hx
@@ -343,7 +343,7 @@ theorem index_normalizer_I_le_two_of_row1527 (hKSML3 : KSML3) {G : Type} [Group 
     exact h27
   have hY : (Y0 (T.subgroupOf M) T₁ T₂).Normal :=
     (ystar_normal_of_row1527 ctx h7 h27).comap (toStar (T.subgroupOf M))
-  haveI := hY
+  have := hY
   have hQ := pRank_quotient_Y0_le_two ctx.factor hY Nat.prime_seven (by norm_num)
     (ctx.rank_N₁ 7 h7) (ctx.rank_N₂ 7 h7)
   have hY0 : CFSG.Open.pRank 7 (Y0 (T.subgroupOf M) T₁ T₂) ≤ 2 := by
@@ -361,7 +361,7 @@ theorem index_normalizer_I_le_two_of_row1527 (hKSML3 : KSML3) {G : Type} [Group 
     change toStar (T.subgroupOf M) x ∈ Ystar (T.subgroupOf M) T₁ T₂
     rw [← hLsY, ← hL.2]
     exact Subgroup.mem_map_of_mem _ hx
-  haveI : (cMHat L).Normal := cMHat_normal hLn
+  have : (cMHat L).Normal := cMHat_normal hLn
   have hD : CFSG.Open.pRank 7 (cMHat L ⊓ Y0 (T.subgroupOf M) T₁ T₂) ≤ 1 := by
     have h1 := pRank_seven_succ_le_of_le_cMHat (L := L)
       (R := cMHat L ⊓ Y0 (T.subgroupOf M) T₁ T₂) hL.1 hbar hZ (b := 2)

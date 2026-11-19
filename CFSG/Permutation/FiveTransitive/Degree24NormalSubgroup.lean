@@ -31,13 +31,13 @@ private theorem twentyThree_dvd_card_of_large_normal_subgroup
     ext i
     exact hq i
   have hP2 : MulAction.IsMultiplyPretransitive P X 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 2) (n := 5)
         (by omega) (by
           rw [Nat.card_eq_fintype_card, hcard]
           omega)
-  letI : MulAction.IsPreprimitive P X :=
+  let : MulAction.IsPreprimitive P X :=
     MulAction.isPreprimitive_of_is_two_pretransitive hP2
   have hQfixedNe :
       MulAction.fixedPoints Q X ≠ Set.univ := by
@@ -65,14 +65,14 @@ private theorem twentyThree_dvd_card_of_large_normal_subgroup
       MulAction.IsPretransitive Q X :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal
       hQfixedNe
-  letI : MulAction.IsPretransitive Q X := hQtrans
+  let : MulAction.IsPretransitive Q X := hQtrans
   have hxNonempty : Nonempty X :=
     Fintype.card_pos_iff.mp (by omega)
   let x : X := Classical.choice hxNonempty
   let K : Subgroup P := MulAction.stabilizer P x
   let Y := SubMulAction.ofStabilizer P x
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -83,10 +83,10 @@ private theorem twentyThree_dvd_card_of_large_normal_subgroup
     simpa only [K, Y] using
       (SubMulAction.ofStabilizer.isMultiplyPretransitive
         (G := P) (α := X) (a := x) (n := 2)).mp hP3
-  letI : MulAction.IsPreprimitive K Y :=
+  let : MulAction.IsPreprimitive K Y :=
     MulAction.isPreprimitive_of_is_two_pretransitive hK2
   let L : Subgroup K := Subgroup.comap K.subtype Q
-  letI : L.Normal :=
+  let : L.Normal :=
     Subgroup.Normal.comap (inferInstance : Q.Normal) K.subtype
   have hLfixedNe :
       MulAction.fixedPoints L Y ≠ Set.univ := by
@@ -140,7 +140,7 @@ private theorem twentyThree_dvd_card_of_large_normal_subgroup
       exact congrArg (fun q : L => q.1.1)
         (hLsubsingleton.elim
           (stabilizerToL a) (stabilizerToL b))
-    letI : Subsingleton (MulAction.stabilizer Q x) :=
+    let : Subsingleton (MulAction.stabilizer Q x) :=
       hstabilizerSubsingleton
     have hstabilizerCard :
         Nat.card (MulAction.stabilizer Q x) = 1 :=
@@ -164,7 +164,7 @@ private theorem twentyThree_dvd_card_of_large_normal_subgroup
       MulAction.IsPretransitive L Y :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal
       hLfixedNe
-  letI : MulAction.IsPretransitive L Y := hLtrans
+  let : MulAction.IsPretransitive L Y := hLtrans
   have hYcard : Nat.card Y = 23 := by
     rw [SubMulAction.nat_card_ofStabilizer_eq P x,
       Nat.card_eq_fintype_card, hcard]
@@ -235,7 +235,7 @@ theorem five_point_stabilizer_card_mod_twentyThree_ne_nineteen
   have hPcard : Nat.card P = 5100480 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 23) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 23) := ⟨by norm_num⟩
   have hPfactorization :
       (5100480 * h).factorization 23 = 1 := by
     rw [show 5100480 = 23 * 221760 by norm_num,
@@ -299,14 +299,14 @@ theorem five_point_stabilizer_card_mod_twentyThree_ne_nineteen
   let transfer : P →* S :=
     MonoidHom.transferSylow S hnormalizer
   let Q : Subgroup P := transfer.ker
-  letI : Q.Normal := by
+  let : Q.Normal := by
     dsimp only [Q, transfer]
     infer_instance
   have hcomplement : IsComplement' Q S := by
     simpa only [Q, transfer] using
       MonoidHom.ker_transferSylow_isComplement'
         S hnormalizer
-  have hcardMul := hcomplement.card_mul
+  have hcardMul := hcomplement.card_mul_card
   have hQcard : Nat.card Q = 221760 * h := by
     rw [hScard, hPcard] at hcardMul
     nlinarith

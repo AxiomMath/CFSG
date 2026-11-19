@@ -39,8 +39,8 @@ theorem exists_sp_config [Finite U] (hf : IsSymplectic f) (hd : 4 ≤ Module.fin
   have e11 := h3 1 1
   have e01 := h3 0 1
   have e10 := h3 1 0
-  simp only [if_true] at e00 e11
-  rw [if_neg (by decide)] at e01 e10
+  simp only [ite_true] at e00 e11
+  rw [ite_eq_right (by decide)] at e01 e10
   have hFE0 : f (F 0) (E 0) = 1 := by rw [hf.symm']; exact e00
   refine ⟨E 0, F 0 + E 1, F 1, ?_, ?_, ?_, ?_⟩
   · rw [map_add, h1, e00, add_zero]
@@ -80,15 +80,15 @@ theorem lift_f (hf : IsSymplectic f) {e x y : U} (hxe : f x e = 0) (hye : f y e 
   have hex : f e x = 0 := by rw [hf.symm']; exact hxe
   have hey : f e y = 0 := by rw [hf.symm']; exact hye
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hf.1, hxe,
-    hye, hex, hey, mul_zero, add_zero]
+    hey, mul_zero, add_zero]
 
 theorem exists_orth_config [Finite U] (hf : IsSymplectic f) {q : U → ZMod 2}
     (hq : ∀ x y, q (x + y) = q x + q y + f x y) (hd : 6 ≤ Module.finrank (ZMod 2) U) :
     ∃ a b c e : U, q a = 1 ∧ q b = 1 ∧ q c = 1 ∧ q e = 1 ∧ f a b = 1 ∧ f b c = 1 ∧ f a c = 0 ∧
       a ≠ c ∧ f a e = 0 ∧ f b e = 0 ∧ f c e = 0 := by
   obtain ⟨E, F, h1, h2, h3⟩ := exists_hyp_pairs hf 3 (by omega)
-  have z : ∀ i j : Fin 3, i ≠ j → f (E i) (F j) = 0 := fun i j h => by rw [h3, if_neg h]
-  have d : ∀ i : Fin 3, f (E i) (F i) = 1 := fun i => by rw [h3, if_pos rfl]
+  have z : ∀ i j : Fin 3, i ≠ j → f (E i) (F j) = 0 := fun i j h => by rw [h3, ite_eq_right h]
+  have d : ∀ i : Fin 3, f (E i) (F i) = 1 := fun i => by rw [h3, ite_eq_left rfl]
   have zs : ∀ i j : Fin 3, i ≠ j → f (F j) (E i) = 0 := fun i j h => by rw [hf.symm']; exact z i j h
   have ds : ∀ i : Fin 3, f (F i) (E i) = 1 := fun i => by rw [hf.symm']; exact d i
   obtain ⟨e, he1, he2⟩ := exists_nonsing_pair hq (x := E 2) (y := F 2) (d 2)
@@ -108,8 +108,7 @@ theorem exists_orth_config [Finite U] (hf : IsSymplectic f) {q : U → ZMod 2}
   · rw [lift_f hf hE0 hF1, z 0 1 (by decide)]
   · intro h
     have h' := congrArg (fun w => f (F 0) w) h
-    simp only [map_add, map_smul, hF0, hee, smul_eq_mul, mul_zero, add_zero, ds 0, h2,
-      zs 0 1 (by decide)] at h'
+    simp only [map_add, map_smul, hF0, smul_eq_mul, mul_zero, add_zero, ds 0, h2] at h'
     exact one_ne_zero h'
   · simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hE0, hee,
       mul_zero, add_zero]

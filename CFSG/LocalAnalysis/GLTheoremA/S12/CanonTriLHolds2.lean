@@ -1178,7 +1178,7 @@ theorem false_of_G2_adjointE {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E
     False := by
   classical
   obtain ⟨h, hh, hβh, hp1, hh1⟩ := exists_inndiag_of_mem_innAutDerived_E hτ hp β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hpℓ : p ≠ ringChar K := by rw [hK2]; exact hp2
@@ -1219,7 +1219,7 @@ theorem false_of_G2_of_adjointEquiv {S : Type} [Group S] [Finite S] {τ : Tag}
     (hJl : CFSG.LocalAnalysis.GLTheoremA.Y10F.HasLabel ↥J (fun l : GLALabel => l = ⟨.G2, 0, m⟩)) :
     False := by
   have hK2 : ringChar K = 2 := by
-    haveI := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+    have := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
     exact ringChar.eq K 2
   have hβ'mem : MulAut.congr ψ β ∈ innAutDerived _ := (mem_innAutDerived_congr ψ).2 hβmem
   have hβ'p : (MulAut.congr ψ β) ^ p = 1 := by rw [← map_pow, hβp, map_one]
@@ -1292,11 +1292,11 @@ theorem false_of_G2_twE6 {S : Type} [Group S] [Finite S] {labL : GLALabel} {β :
   obtain ⟨b⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.twistedE6 q hv K₀ (by rw [hK₀, hq])
     σ₀ (fun x => by rw [hq]; exact hσ₀ x)
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   let ψ : S ≃* ↥(twistedE6RootGroup K σ) :=
     ((CFSG.LocalAnalysis.GLTheoremA.CanonInn.quotCenterEquivOfBot hcen).symm.trans e₀).trans
       (b.trans eK)

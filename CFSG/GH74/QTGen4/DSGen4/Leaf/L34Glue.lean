@@ -14,7 +14,7 @@ private def dslgRestrict {G H : Type} [Group G] [Group H] {P : Subgroup G} {M : 
     (e : ↥P ≃* ↥M) {K : Subgroup G} (hK : K ≤ P) {K' : Subgroup H} (hK' : K' ≤ M)
     (h : ∀ x : ↥P, (x : G) ∈ K ↔ ((e x : ↥M) : H) ∈ K') : ↥K ≃* ↥K' where
   toFun x := ⟨((e ⟨x.1, hK x.2⟩ : ↥M) : H), (h ⟨x.1, hK x.2⟩).1 x.2⟩
-  invFun y := ⟨(e.symm ⟨y.1, hK' y.2⟩ : G), (h (e.symm ⟨y.1, hK' y.2⟩)).2 (by simpa using y.2)⟩
+  invFun y := ⟨(e.symm ⟨y.1, hK' y.2⟩ : G), (h (e.symm ⟨y.1, hK' y.2⟩)).2 (by simp)⟩
   left_inv x := by
     apply Subtype.ext
     simp

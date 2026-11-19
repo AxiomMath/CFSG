@@ -94,6 +94,7 @@ theorem conjAut_eq_one_iff_scalar (B : GL (Fin 3) F) :
   · rintro ⟨c, rfl⟩
     exact conjAut_scalar c
 
+omit [Finite F] in
 theorem iota_eq_scalar (σ : F ≃+* F) {g : GL (Fin 3) (fixSub σ)} {c : Fˣ}
     (h : iotaGL σ g = Matrix.GeneralLinearGroup.scalar (Fin 3) c) :
     g ∈ Subgroup.center (GL (Fin 3) (fixSub σ)) := by
@@ -119,6 +120,7 @@ theorem iota_eq_scalar (σ : F ≃+* F) {g : GL (Fin 3) (fixSub σ)} {c : Fˣ}
   simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply, hc₀]
   split_ifs <;> rfl
 
+omit [Finite F] in
 theorem iotaGL_diagHom (σ : F ≃+* F) (d : Fin 3 → (fixSub σ)ˣ) :
     iotaGL σ (CFSG.SectionRank.OddCover.diagHom 3 d) =
       diagGL (fun i => Units.map (fixSub σ).subtype.toMonoidHom (d i)) := by

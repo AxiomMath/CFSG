@@ -55,7 +55,7 @@ theorem inv_eq_xI {c : P45} (hc : c ∈ T0g) (h2 : c * c = 1) (h1 : c ≠ 1) :
   let idx : ℕ → ℕ := fun j => if h : j < 43 then Classical.choose (idx_I h) else 0
   have hidx : ∀ j < 43, idx j < 128 ∧ T0Z.T (idx j) = iE j ∧ isInvK 45 6 (T0Z.T (idx j)) = true :=
     fun j hj => by
-      simp only [idx, dif_pos hj]
+      simp only [idx, dite_eq_left hj]
       exact Classical.choose_spec (idx_I hj)
   let F := (Finset.range 128).filter fun i => isInvK 45 6 (T0Z.T i) = true
   have hF : F.card = 43 := by rw [← c17_inv.2.2.2.2, cntN_eq]

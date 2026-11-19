@@ -45,7 +45,7 @@ theorem treeP_induction_of_depth {root : Gp} {step : Gp → ℕ → Gp} {par lab
     · rw [hk0]
       exact h0
     · obtain ⟨hp, hdp, hv⟩ := hs k hk hk0
-      rw [treeP, if_neg hk0]
+      rw [treeP, ite_eq_right hk0]
       exact hv _ (ih _ hp (by omega))
 
 @[expose] def WalkOfP (R : ℕ → ℕ) (Gr Gk : ℕ → ℕ → ℕ) (k : ℕ) (g : Gp) : Prop :=
@@ -60,7 +60,7 @@ theorem k4Rec_zero {R : ℕ → ℕ} {Gk : ℕ → ℕ → ℕ} (h : k4Rec R Gk 
 theorem k4Rec_succ {R : ℕ → ℕ} {Gk : ℕ → ℕ → ℕ} {k : ℕ} (hk : k ≠ 0) (h : k4Rec R Gk k = true) :
     f4 (R k) = Gk (klab (R k)) (f4 (R (kpar (R k)))) := by
   unfold k4Rec at h
-  simp only [strictB_eq, beq_false hk, bIf_f] at h
+  simp only [strictB_eq, beq_false hk] at h
   exact beq_iff.1 h
 
 theorem key_tree4 {R : ℕ → ℕ} {n nl : ℕ} {Gk Gr : ℕ → ℕ → ℕ} {gs : List Gp} {par lab : Array ℕ}

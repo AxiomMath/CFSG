@@ -80,7 +80,7 @@ theorem cartan_on_quotient :
   classical
   obtain ⟨-, -, -, k, hkM, hko, hkreg⟩ := H.base_facts
   have hBM : B ≤ M := H.B_le_M
-  haveI hnorm : (B.subgroupOf M).Normal :=
+  have hnorm : (B.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hBM).mpr H.M_le_normalizer_B
   set π := QuotientGroup.mk' (B.subgroupOf M) with hπ
   have hTM : T ≤ M := H.T_le_Q.trans H.Q_le_M
@@ -229,6 +229,7 @@ theorem cartan_on_quotient :
     refine ⟨k ^ j, hkjM, ?_⟩
     simpa [mul_assoc] using h3
 
+omit [Finite G] in
 theorem eq_B_of_normal_comm {N : Subgroup G} (hBN : B ≤ N) (hNT : N ≤ T)
     (hMN : M ≤ Subgroup.normalizer (N : Set G))
     (hN : ∀ a ∈ N, ∀ b ∈ N, a * b = b * a) : N = B := by
@@ -280,7 +281,7 @@ theorem false_of_index_two {T₀ : Subgroup G} (hBT₀ : B ≤ T₀) (hT₀T : T
     have := hE1.1
     rw [hidx] at this
     omega
-  · obtain ⟨m, hmM, hm⟩ := SetLike.not_le_iff_exists.mp hnorm
+  · obtain ⟨m, hmM, hm⟩ := IsConcreteLE.not_le_iff_exists.mp hnorm
     have hmT : m ∈ Subgroup.normalizer (T : Set G) := H.M_le_normalizer_T hmM
     set T₁ := conjSubgroup m T₀ with hT₁
     have hT₁ne : T₁ ≠ T₀ := fun h => hm (conjSubgroup_eq_self_iff.mp h)
@@ -351,7 +352,7 @@ theorem false_of_index_two {T₀ : Subgroup G} (hBT₀ : B ≤ T₀) (hT₀T : T
       refine lt_of_le_of_ne hBT₀ fun h => hnorm ?_
       rw [← h]
       exact H.M_le_normalizer_B
-    obtain ⟨x₀, hx₀, hx₀B⟩ := SetLike.exists_of_lt hBlt
+    obtain ⟨x₀, hx₀, hx₀B⟩ := _root_.IsConcreteLE.exists_of_lt hBlt
     exact H.false_of_regular (hT₀T hx₀) hx₀B
       (CFSG.Open.IsElemAbelian.mul_self_eq_one hT₀e hx₀) (hE1.2 hq)
 

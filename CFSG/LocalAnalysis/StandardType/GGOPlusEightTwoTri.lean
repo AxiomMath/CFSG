@@ -95,10 +95,12 @@ section Dim
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem eq_one_of_pow_three_eq_one (hK : Nat.card K = 2) : ∀ c : K, c ^ 3 = 1 → c = 1 :=
   OrthRestOdd.eq_one_of_pow_eq_one_of_dvd (n := 1) (p := 3) (by rw [hK, pow_one])
     Nat.prime_three (by norm_num)
 
+omit [Finite K] [CharP K 2] in
 theorem omFixDim_eq_finrank_fixedSpace (t : Om8 K) :
     omFixDim t = Module.finrank K (CFSG.RankThree.PartOne.LIT.fixedSpace
       ((CFSG.RankThree.PartOne.KCOrthComm.matrixDerivedEquiv (coordinateQuadPlus 4 K) t :
@@ -202,6 +204,7 @@ theorem midClassInput_of_solvable (h : MidClassSolvableInput) : MidClassInput :=
     ClNonsplit.not_isQuasisimple_of_le (h K hK t ht3 hd) hcomp.1
       ((isQuasisimple_iff _).mp hcomp.2.2)
 
+omit [Finite K] [CharP K 2] in
 theorem eq_one_of_omFixDim_eq_eight {t : Om8 K} (h : omFixDim t = 8) : t = 1 := by
   have htop : LinearMap.ker (omRep t - 1) = ⊤ := by
     apply Submodule.eq_top_of_finrank_eq
@@ -216,6 +219,7 @@ theorem eq_one_of_omFixDim_eq_eight {t : Om8 K} (h : omFixDim t = 8) : t = 1 := 
     show Pi.single j 1 = (1 : Matrix (Fin (2 * 4)) (Fin (2 * 4)) K) *ᵥ Pi.single j 1
     rw [Matrix.one_mulVec]
 
+omit [Finite K] [CharP K 2] in
 theorem omFixDim_le_eight (t : Om8 K) : omFixDim t ≤ 8 := by
   have := Submodule.finrank_le (LinearMap.ker (omRep t - 1))
   rwa [Module.finrank_fin_fun] at this

@@ -46,8 +46,8 @@ theorem trivial_on_stable_of_normalForm (Dg : Subgroup (ModGL τ K)) [Finite Dg]
     {Bs : Subgroup (adjointGroup τ K)} (hBs : IsElemAbelian p Bs) (hBsc : p ^ m ≤ Nat.card Bs)
     (hstable : ∀ b ∈ Bs, α b ∈ Bs) : ∀ b ∈ Bs, α b = b := by
   classical
-  haveI : Finite (adjointGroup τ K) := generated_group_finite τ K
-  haveI : Finite ↥(adjointGroup τ K ⊔ Dg) := finite_sup_of_le_normalizer _ _ hDg
+  have : Finite (adjointGroup τ K) := generated_group_finite τ K
+  have : Finite ↥(adjointGroup τ K ⊔ Dg) := finite_sup_of_le_normalizer _ _ hDg
   set s : ModGL τ K →* ModGL τ K := Units.map (entrywiseHom σ.toRingHom) with hs
   have hSyl : SylowTorus (adjointGroup τ K) p m := hdata K rfl
   have hxN : x ∈ Subgroup.normalizer (adjointGroup τ K : Set (ModGL τ K)) :=
@@ -116,8 +116,8 @@ theorem centralizes_of_induced_exists {G : Type} [Group G] (hk : ¬ p ∣ k)
     (hgB : g ∈ Subgroup.normalizer (Bs : Set G)) (hgp : g ^ p = 1) :
     g ∈ Subgroup.centralizer (Bs : Set G) := by
   classical
-  haveI : Finite (adjointGroup τ K) := generated_group_finite τ K
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (adjointGroup τ K) := generated_group_finite τ K
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨α, hα⟩ := exists_inducedAut ψ hψ hgN
   have hαp : α ^ p = 1 := inducedAut_pow_eq_one ψ hψ hα hgp
   obtain ⟨Dg, x, σ, hDg, hkDg, hx, hσ, hαx⟩ := hNF α hαp

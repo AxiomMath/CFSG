@@ -2,7 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.OffenderBasic
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Tactic.Basify
 public import Std.Tactic.BVDecide.Normalize.Prop
 

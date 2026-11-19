@@ -34,7 +34,7 @@ theorem nosuz_of_mulEquiv_centralizer {S T : Type} [Group S] [Group T] (f : S �
     rw [Subgroup.mem_centralizer_singleton_iff]
     show f y * f x = f x * f y
     rw [← map_mul, ← map_mul, hy']
-  haveI : Group.IsPerfect (Y.map f.toMonoidHom) := Group.IsPerfect.map _
+  have : Group.IsPerfect (Y.map f.toMonoidHom) := Group.IsPerfect.map _
   have hcard : Nat.card (Y.map f.toMonoidHom) = Nat.card Y :=
     Subgroup.card_map_of_injective f.injective
   exact h _ hmap inferInstance a ha (by rw [hcard]; exact hdvd)
@@ -72,7 +72,7 @@ theorem perfect_le_of_simple_small_index {G : Type} [Group G] [Finite G] {C E : 
     [hKp : Group.IsPerfect K] : K ≤ E := by
   set E' : Subgroup C := E.subgroupOf C with hE'def
   have eE : E' ≃* E := Subgroup.subgroupOfEquivOfLe hEC
-  haveI : IsSimpleGroup E' := eE.isSimpleGroup
+  have : IsSimpleGroup E' := eE.isSimpleGroup
   have hE'card : Nat.card E' = Nat.card E := Nat.card_congr eE.toEquiv
   have hidx : E'.index ≤ 14 := by
     have hmul := Subgroup.card_mul_index E'
@@ -102,19 +102,19 @@ theorem perfect_le_of_simple_small_index {G : Type} [Group G] [Finite G] {C E : 
         _ ∣ E'.index.factorial := hdiv
         _ ∣ Nat.factorial 14 := Nat.factorial_dvd_factorial hidx
     · exact le_antisymm hNE (Subgroup.subgroupOf_eq_top.mp h)
-  haveI hE'n : E'.Normal := hNeq ▸ E'.normalCore_normal
+  have hE'n : E'.Normal := hNeq ▸ E'.normalCore_normal
   set K' : Subgroup C := K.subgroupOf C with hK'def
-  haveI : Group.IsPerfect K' :=
+  have : Group.IsPerfect K' :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKC).symm.toMonoidHom)
       (MulEquiv.surjective _)
-  haveI : Group.IsPerfect (K'.map (QuotientGroup.mk' E')) := Group.IsPerfect.map _
+  have : Group.IsPerfect (K'.map (QuotientGroup.mk' E')) := Group.IsPerfect.map _
   have hpf : (Nat.card (K'.map (QuotientGroup.mk' E'))).primeFactors.card ≤ 2 := by
     have hd : Nat.card (K'.map (QuotientGroup.mk' E')) ∣ E'.index :=
       Subgroup.card_subgroup_dvd_card _
     have h1 : E'.index.primeFactors.card ≤ 2 := by
       interval_cases h : E'.index <;> exact primeFactors_card_le_two_of_twoPrimeOK (by decide)
     exact (Finset.card_le_card (Nat.primeFactors_mono hd (by omega))).trans h1
-  haveI := subsingleton_of_isPerfect_of_card_primeFactors hpf
+  have := subsingleton_of_isPerfect_of_card_primeFactors hpf
   have hbot : K'.map (QuotientGroup.mk' E') = ⊥ := Subgroup.eq_bot_of_subsingleton _
   rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot
   intro k hk
@@ -244,11 +244,11 @@ theorem hNoSz_of_centralizers {S : Type} [Group S] [Finite S] (hS : IsSimpleGrou
     have hg1 : g ≠ 1 := by
       rintro rfl
       exact hβ1 (by rw [map_one])
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hgo : orderOf g = 3 := orderOf_eq_prime hg3 hg1
     rw [autFix_conj] at hYfix
     by_contra hYne
-    haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
+    have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
     obtain ⟨N, _, f, hf⟩ := exists_suzuki_section_of_isPerfect hYK hYperf hY3 inferInstance
     obtain ⟨a, ha, hcard⟩ := card_eq_suzukiOrder hf
     have hdvd : suzukiOrder a ∣ Nat.card ↥Y := by
@@ -271,13 +271,13 @@ theorem row143_of_centralizers {S : Type} [Group S] [Finite S] (hS : IsSimpleGro
 section ThCerts
 
 theorem nosuz_thS : NoSuzPerfect (Subgroup.centralizer ({thS} : Set ↥J)) := by
-  haveI : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
+  have : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
   obtain ⟨hrel, hcomm, hne⟩ := th_letters_spec
   have hε : SatisfiesG23Words thEps := fun r hr =>
     (CFSG.RankThree.PartTwo.Sec4.Census.CoverCenterThreeRest.lift_mk_eq_evalW _ r).trans
       (hrel r hr)
   obtain ⟨-, hsimp, -, hcard⟩ := leaf_closure_of_six thEps hε hne
-  haveI := hsimp
+  have := hsimp
   have hEC : Subgroup.closure (Set.range thEps) ≤ Subgroup.centralizer ({thS} : Set ↥J) := by
     rw [Subgroup.closure_le]
     rintro _ ⟨i, rfl⟩
@@ -301,14 +301,14 @@ theorem nosuz_thS : NoSuzPerfect (Subgroup.centralizer ({thS} : Set ↥J)) := by
   exact (by norm_num : ¬ 5 ∣ 4245696) ((five_dvd_suzukiOrder a).trans (hdvd.trans hd))
 
 theorem nosuz_thZ : NoSuzPerfect (Subgroup.centralizer ({thZ} : Set ↥J)) := by
-  haveI : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
+  have : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
   intro Y hY _ a _ hdvd
   have hd : Nat.card Y ∣ 2 ^ 3 * 3 ^ 10 :=
     (Subgroup.card_dvd_of_le hY).trans CFSG.HardMathSupport.Dickson.I271.card_centralizer_zJ_dvd
   exact (by norm_num : ¬ 5 ∣ 2 ^ 3 * 3 ^ 10) ((five_dvd_suzukiOrder a).trans (hdvd.trans hd))
 
 theorem nosuz_thU : NoSuzPerfect (Subgroup.centralizer ({thU} : Set ↥J)) := by
-  haveI : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
+  have : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
   intro Y hY _ a ha hdvd
   have hC : Nat.card ↥(Subgroup.centralizer ({thU} : Set ↥J)) = 174960 :=
     CFSG.RankThree.PartTwo.Sec4.RonanK432.th_card_centralizer_U
@@ -376,13 +376,13 @@ theorem row143_of_ruP {S : Type} [Group S] [Finite S]
     exact CFSG.RankThree.PartTwo.Sec6.BThreeCensus.false_of_commute (f x).2 (f y).2 hfx hfy hcom
   have hC : ∀ x : S, orderOf x = 3 → NoSuzPerfect (Subgroup.centralizer ({x} : Set S)) := by
     intro x hx Y hY hYp a ha hdvd
-    haveI := hYp
+    have := hYp
     have hdvdS : suzukiOrder a ∣ 145926144000 := by
       rw [← hcard]
       exact hdvd.trans (Subgroup.card_subgroup_dvd_card Y)
     obtain rfl : a = 1 := eq_one_of_suzukiOrder_dvd_ru ha hdvdS
     have h7 : 7 ∣ Nat.card ↥Y := (show 7 ∣ suzukiOrder 1 by decide).trans hdvd
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨y, hy7⟩ := exists_prime_orderOf_dvd_card' 7 h7
     have hyC : (y : S) ∈ Subgroup.centralizer ({x} : Set S) := hY y.2
     have hord : orderOf (y : S) = 7 := by

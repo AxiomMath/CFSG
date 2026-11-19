@@ -155,14 +155,14 @@ private theorem e6SplitRefl_e6_zero :
     rw [hroot, permLattice_e6Perm_single, e6Perm_five]
   have hperm : permLattice (τ := .E6) TwistTag.E6.perm (e6SplitRoot (e6RootIdx 0)) =
       Pi.single (e6SimpleIdx 0) 1 := hperm'
-  rw [e6SplitRefl, if_neg (by decide), hperm, hroot]
+  rw [e6SplitRefl, ite_eq_right (by decide), hperm, hroot]
   rw [rootReflection_single_e6, rootReflection_single_e6]
 
 private theorem e6SplitRefl_e6_one :
     e6SplitRefl (e6RootIdx 1) = (coxeterSystem .E6).simple (e6SimpleIdx 3) := by
   have hroot : e6SplitRoot (e6RootIdx 1) = Pi.single (e6SimpleIdx 3) 1 := by
     decide +kernel
-  rw [e6SplitRefl, if_pos (by decide), hroot, rootReflection_single_e6]
+  rw [e6SplitRefl, ite_eq_left (by decide), hroot, rootReflection_single_e6]
 
 private theorem e6SplitRefl_e6_eight :
     e6SplitRefl (e6RootIdx 8) =
@@ -174,14 +174,14 @@ private theorem e6SplitRefl_e6_eight :
     rw [hroot, permLattice_e6Perm_single, e6Perm_four]
   have hperm : permLattice (τ := .E6) TwistTag.E6.perm (e6SplitRoot (e6RootIdx 8)) =
       Pi.single (e6SimpleIdx 2) 1 := hperm'
-  rw [e6SplitRefl, if_neg (by decide), hperm, hroot]
+  rw [e6SplitRefl, ite_eq_right (by decide), hperm, hroot]
   rw [rootReflection_single_e6, rootReflection_single_e6]
 
 private theorem e6SplitRefl_e6_twelve :
     e6SplitRefl (e6RootIdx 12) = (coxeterSystem .E6).simple (e6SimpleIdx 1) := by
   have hroot : e6SplitRoot (e6RootIdx 12) = -Pi.single (e6SimpleIdx 1) 1 := by
     decide +kernel
-  rw [e6SplitRefl, if_pos (by decide), hroot,
+  rw [e6SplitRefl, ite_eq_left (by decide), hroot,
     rootReflection_neg (isRoot_single .E6 (e6SimpleIdx 1))]
   rw [rootReflection_single_e6]
 

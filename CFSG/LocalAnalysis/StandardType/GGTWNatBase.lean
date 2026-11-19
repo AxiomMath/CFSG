@@ -16,7 +16,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
   | .ends => 0
   | .adj => 1
 
-@[expose] abbrev ggTWNToZ (p N : ℕ) (l : List ℕ) : GGTWE p N := ggDepANToZ p (N - 1) l
+abbrev ggTWNToZ (p N : ℕ) (l : List ℕ) : GGTWE p N := ggDepANToZ p (N - 1) l
 
 @[simp] private lemma l05nE1_getD_map_range {N : ℕ} (F : ℕ → ℕ) (j : ℕ) (hj : j < N) :
     (((List.range N).map F).getD j 0) = F j := by
@@ -120,9 +120,9 @@ theorem ggTWNZ_toZ {p N : ℕ} [Fact p.Prime] (pos : GGTWPos) :
 theorem ggTWNInJ_iff {N : ℕ} (pos : GGTWPos) (c : ℕ) :
     ggTWNInJ N (ggTWPosNat pos) c = true ↔ ggTWInJ N pos c := by
   cases pos <;>
-    simp [ggTWNInJ, ggTWInJ, ggTWPosNat, Bool.and_eq_true, decide_eq_true_iff]
+    simp [ggTWNInJ, ggTWInJ, ggTWPosNat, Bool.and_eq_true]
 
-theorem ggTWNPlace_eq {N : ℕ} (pos : GGTWPos) (c : ℕ) :
+theorem ggTWNPlace_eq {_N : ℕ} (pos : GGTWPos) (c : ℕ) :
     ggTWNPlace (ggTWPosNat pos) c = ggTWPlace pos c := by
   cases pos <;> simp [ggTWNPlace, ggTWPlace, ggTWPosNat]
 
@@ -146,14 +146,14 @@ theorem ggTWNPat1B_iff {N : ℕ} (pos : GGTWPos) (c0 mi ni : ℕ) (hmi : mi = 1 
   cases pos <;>
     rcases hmi with rfl | rfl <;> rcases hni with rfl | rfl <;>
     simp [ggTWNPat1B, GGTWPat1, ggTWNInJ, ggTWInJ, ggTWNPlace, ggTWPlace, ggTWPosNat,
-      Bool.and_eq_true, Bool.or_eq_true, decide_eq_true_iff] <;>
+      Bool.and_eq_true, Bool.or_eq_true] <;>
     tauto
 
 theorem ggTWNPat2B_iff {N : ℕ} (pos : GGTWPos) (c : ℕ) (c2 : Option ℕ) :
     ggTWNPat2B N (ggTWPosNat pos) c c2 = true ↔ GGTWPat2 N pos c c2 := by
   cases pos <;> cases c2 <;>
     simp [ggTWNPat2B, GGTWPat2, ggTWNInJ, ggTWInJ, ggTWNPlace, ggTWPlace, ggTWPosNat,
-      Bool.and_eq_true, Bool.or_eq_true, decide_eq_true_iff] <;>
+      Bool.and_eq_true, Bool.or_eq_true] <;>
     tauto
 
 theorem ggTWNDecode_length (p n k : ℕ) : (ggTWNDecode p n k).length = n := by
@@ -163,7 +163,7 @@ theorem ggTWNDecode_length (p n k : ℕ) : (ggTWNDecode p n k).length = n := by
 
 theorem ggTWNDecode_surj {p : ℕ} [Fact p.Prime] (n : ℕ) (v : Fin n → ZMod p) :
     ∃ k < p ^ n, ggDepANToZ p n (ggTWNDecode p n k) = v := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp : 0 < p := (Fact.out : p.Prime).pos
   induction n with
   | zero =>
@@ -182,7 +182,7 @@ theorem ggTWNDecode_surj {p : ℕ} [Fact p.Prime] (n : ℕ) (v : Fin n → ZMod 
       rw [l05nE1_decode_succ, hmod, hdiv, l05nE1_toZ_cons, hk'eq]
       funext j
       refine Fin.cases ?_ ?_ j
-      · simp [ZMod.natCast_zmod_val]
+      · simp
       · intro i
         simp
 

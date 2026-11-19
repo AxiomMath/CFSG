@@ -73,11 +73,11 @@ private theorem s136a_pairF_exists_lift {M A₀ : Subgroup G} {Y : Subgroup (Bar
     uc22ine229_mem_normalizer_barPreimage (x := ⟨a, hA₀M ha⟩)
       (Subgroup.centralizer_le_normalizer (Y : Set (Bar2 M)) (hA₀C a ha))
   have hnotdvd := s136a_pairF_not_dvd_sylow hp hr hfact hp2 hr2 hYcard
-  obtain ⟨S, hS⟩ := @uc22ine229_exists_sylow_le_normalizer G _ _ p r hp hfact
+  obtain ⟨S, hS⟩ := @uc22ine229_exists_sylow_le_normalizer G _ p r hp hfact
     (barPreimage M Y) A₀ hA₀ hA₀Y hnotdvd
   let E : Subgroup G := (S : Subgroup ↥(barPreimage M Y)).map (barPreimage M Y).subtype
   have hEM : E ≤ M := (Subgroup.map_subtype_le _).trans (uc22p21c_barPreimage_le M Y)
-  have hEr : IsPGroup r E := S.isPGroup'.map _
+  have hEr : IsPGroup r E := S.isPGroup.map _
   have hbar : barImage M E = Y :=
     @uc22ine229_barImage_map_sylow G _ _ M r hfact Y hYr S
   have hdisj : Disjoint (E.subgroupOf M) (QuotientGroup.mk' (CFSG.pCore 2 ↥M)).ker := by

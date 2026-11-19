@@ -71,7 +71,7 @@ theorem ffOutFF6PSDef_lift_normalE16 (hQ : Q.Nondegenerate)
       change omegaToProj hQ (⟨(a : OGroup Q), haΩ⟩ * ⟨(b : OGroup Q), hbΩ⟩) =
         omegaToProj hQ (⟨(b : OGroup Q), hbΩ⟩ * ⟨(a : OGroup Q), haΩ⟩)
       rw [map_mul, map_mul]
-      haveI : IsMulCommutative ↥U := hU.2.1.1.1
+      have : IsMulCommutative ↥U := hU.2.1.1.1
       exact congrArg Subtype.val (mul_comm' (⟨_, haU⟩ : U) (⟨_, hbU⟩ : U))
     exact Subtype.ext (congrArg (fun x : ↥(omegaGroup hQ) => (x : OGroup Q)) hEq)
   have hsq : ∀ x ∈ ffLift hQ U, x * x = 1 := by

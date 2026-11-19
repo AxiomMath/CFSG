@@ -133,7 +133,7 @@ theorem TBJOmData.blockData [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A
   let ye : V ≃ₗ[K] V := Δ.τ f₀
   let y : ↥(orthDerived Q) := Δ.τΩ hA f₀
   have hy : OddOrderIsometry Q p ye := Δ.oddOrderIsometry hp2 hQ hA f₀
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by
     obtain ⟨T, hT3, -⟩ := hT
     have hle := Submodule.finrank_le T
     omega)
@@ -243,7 +243,7 @@ theorem TBJOmData.blockData [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A
         intro hn0
         apply hPne
         rw [← hF'sup hlist]
-        haveI : IsEmpty (Fin n) := ⟨fun i => by
+        have : IsEmpty (Fin n) := ⟨fun i => by
           have := i.isLt
           omega⟩
         exact iSup_of_empty _
@@ -254,15 +254,15 @@ theorem TBJOmData.blockData [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A
       have hqP : CFSG.IsQuasisimple ↥(supportedFixedDerived Q ye) := hF'i0 ▸ (hF'q i0).1
       let A : Subgroup ↥(supportedFixedDerived Q ye) :=
         F.subgroupOf (supportedFixedDerived Q ye)
-      haveI : A.Normal := hFn
+      have : A.Normal := hFn
       have hqPopen : CFSG.Open.IsQuasisimple ↥(supportedFixedDerived Q ye) :=
         (CFSG.Foundations.SteinbergCA.quasisimple_iff
           ↥(supportedFixedDerived Q ye)).2.2.1.mp hqP
       rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hqPopen A
         with hc | ht
       · exfalso
-        haveI : Group.IsPerfect ↥F := hFq.1
-        haveI : Group.IsPerfect ↥A :=
+        have : Group.IsPerfect ↥F := hFq.1
+        have : Group.IsPerfect ↥A :=
           Group.IsPerfect.ofSurjective
             (f := (Subgroup.subgroupOfEquivOfLe hFle).symm.toMonoidHom)
             (Subgroup.subgroupOfEquivOfLe hFle).symm.surjective

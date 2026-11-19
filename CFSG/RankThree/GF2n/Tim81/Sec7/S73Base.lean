@@ -113,7 +113,7 @@ private theorem exists_twoElement_lift (hS : Sec6Hyp M V)
     rwa [h4] at h3
   exact ⟨t, htM, ht_notP, ht2P, htcent⟩
 
-private theorem m0Of_conj_mem_commMemSubgroup (hS : Sec6Hyp M V) {t : G} (htM : t ∈ M)
+private theorem m0Of_conj_mem_commMemSubgroup (hS : Sec6Hyp M V) {t : G} (_htM : t ∈ M)
     (htcent : ∀ m ∈ m0Of M V, ⁅t, m⁆ ∈ Pc M V)
     (hPV : Pc M V ≤ Subgroup.normalizer (V : Set G)) :
     ∀ m ∈ m0Of M V, ∀ y ∈ CFSG.GroupTheory.commMemSubgroup (Pc M V) V hPV t,
@@ -222,12 +222,12 @@ private theorem exists_central_coset (hS : Sec6Hyp M V) {t : G} (htM : t ∈ M)
   have hPT_normal : ((Pc M V).subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_right : Pc M V ≤ T)).mpr
       (hT_le_M.trans h.le_normalizer_Pc)
-  letI : (V.subgroupOf T).Normal := hVnormal
+  let : (V.subgroupOf T).Normal := hVnormal
   let E : Type := ↥T ⧸ V.subgroupOf T
-  haveI : Finite E := inferInstance
+  have : Finite E := inferInstance
   have hE2 : IsPGroup 2 E := hT2.to_quotient (V.subgroupOf T)
   let Nq : Subgroup E := ((Pc M V).subgroupOf T).map (QuotientGroup.mk' (V.subgroupOf T))
-  haveI : Nq.Normal := hPT_normal.map (QuotientGroup.mk' (V.subgroupOf T))
+  have : Nq.Normal := hPT_normal.map (QuotientGroup.mk' (V.subgroupOf T))
     (QuotientGroup.mk'_surjective _)
   have hNq_ne : Nq ≠ ⊥ := by
     intro hbot
@@ -277,7 +277,7 @@ theorem Sec6Hyp.odd_card_centralizer_imgQ_m0Of (hS : Sec6Hyp M V) (h71 : Sec7.St
   have h : Hyp M V := hS.sec5.toRootHyp.toHyp
   by_contra hodd
   rw [Nat.not_odd_iff_even] at hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hzord⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer (imgQ M (m0Of M V) : Set (MBar M))))
       2 hodd.two_dvd

@@ -29,15 +29,18 @@ private def conjEquiv (g : G) {A B : Subgroup G} (h : ∀ w, w ∈ B ↔ g⁻¹ 
   right_inv b := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem conj_mem_centralizer_iff (g w a : G) :
     g⁻¹ * w * g ∈ centralizer ({g⁻¹ * a * g} : Set G) ↔ w ∈ centralizer ({a} : Set G) := by
   rw [mem_centralizer_singleton_iff, mem_centralizer_singleton_iff,
     show g⁻¹ * w * g * (g⁻¹ * a * g) = g⁻¹ * (w * a) * g by group,
     show g⁻¹ * a * g * (g⁻¹ * w * g) = g⁻¹ * (a * w) * g by group, mul_left_inj, mul_right_inj]
 
+omit [Finite G] in
 private theorem orderOf_conj_inv (g a : G) : orderOf (g⁻¹ * a * g) = orderOf a := by
-  rw [show g⁻¹ * a * g = MulAut.conj g⁻¹ a by simp [MulAut.conj_apply], MulEquiv.orderOf_eq]
+  rw [show g⁻¹ * a * g = MulAut.conj g⁻¹ a by simp, MulEquiv.orderOf_eq]
 
+omit [Finite G] in
 private theorem comm_of_sq {T : Subgroup G} (hT : ∀ x ∈ T, x ^ 2 = 1) {a b : G} (ha : a ∈ T)
     (hb : b ∈ T) : a * b = b * a := by
   have hi : ∀ w ∈ T, w⁻¹ = w := fun w hw =>
@@ -45,6 +48,7 @@ private theorem comm_of_sq {T : Subgroup G} (hT : ∀ x ∈ T, x ^ 2 = 1) {a b :
   calc a * b = (a * b)⁻¹ := (hi _ (T.mul_mem ha hb)).symm
     _ = b * a := by rw [mul_inv_rev, hi b hb, hi a ha]
 
+omit [Finite G] in
 private theorem isPGroup_of_sq {T : Subgroup G} (hT : ∀ x ∈ T, x ^ 2 = 1) : IsPGroup 2 T :=
   fun x => ⟨1, Subtype.ext (by simpa using hT x x.2)⟩
 
@@ -78,7 +82,7 @@ private theorem exists_mem_normalizer_not_mem {P : Subgroup G} (hP : IsPGroup 2 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S', hPS'⟩ := hP.exists_le_sylow
   have hne : P ≠ (S' : Subgroup G) := fun heq => S'.not_dvd_index (heq ▸ h2)
-  have hnil : Group.IsNilpotent (S' : Subgroup G) := S'.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (S' : Subgroup G) := S'.isPGroup.isNilpotent
   have hlt : P.subgroupOf (S' : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne (le_antisymm hPS' fun s hs => ?_)
     have : (⟨s, hs⟩ : (S' : Subgroup G)) ∈ P.subgroupOf (S' : Subgroup G) := by
@@ -88,7 +92,7 @@ private theorem exists_mem_normalizer_not_mem {P : Subgroup G} (hP : IsPGroup 2 
   obtain ⟨⟨y, hyS'⟩, hyN, hyP⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (P.subgroupOf (S' : Subgroup G)) hlt)
   refine ⟨y, mem_normalizer_iff.2 fun h => ⟨fun hh => ?_, fun hh => ?_⟩, fun h => hyP h,
-    S'.isPGroup'.to_le (zpowers_le.2 hyS')⟩
+    S'.isPGroup.to_le (zpowers_le.2 hyS')⟩
   · exact (mem_normalizer_iff.1 hyN ⟨h, hPS' hh⟩).1 hh
   · have hhS' : h ∈ (S' : Subgroup G) := by
       rw [show h = y⁻¹ * (y * h * y⁻¹) * y by group]
@@ -100,6 +104,7 @@ end Group
 variable {L Q : Subgroup G} {n : ℕ} {θ : L ≃* alternatingGroup (Fin n)} {z : G}
   {c : Config G L Q n θ z} {T S₀ D : Subgroup G}
 
+omit [Finite G] in
 private theorem E_le (hn : 8 ≤ n) : E θ hn ≤ L := by
   unfold E
   exact map_subtype_le _
@@ -174,8 +179,10 @@ private theorem card_cent_T (c : Config G L Q n θ z) (hH : HData θ c.hn8 z T) 
     (inf_le_left : T ⊓ centralizer ({z} : Set G) ≤ T)).toEquiv, hH.n0.card_eq] at hcard
   exact Nat.mul_self_inj.1 (hcard.trans (by norm_num))
 
+omit [Finite G] in
 private theorem T_le_TB : T ≤ TB T S₀ := le_sup_left
 
+omit [Finite G] in
 private theorem S₀_le_TB : S₀ ≤ TB T S₀ := le_sup_right
 
 private theorem exists_of_mem_MB (hd : G1Data c T S₀ D) {x : G} (hx : x ∈ MB T D) :

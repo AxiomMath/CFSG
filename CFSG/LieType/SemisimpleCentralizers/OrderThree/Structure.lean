@@ -44,7 +44,7 @@ theorem exists_centralizer_factors {n : ℕ} {K : Type} [Field K] (h : UnitaryFi
       (∀ x y : ↥(StatedSU d (2 ^ n) K), Commute (x : GL (Fin d) K) B →
         Commute (y : GL (Fin d) K) B → ⁅x, y⁆ ∈ L₁ ⊔ L₂) ∧
       Nonempty (L₁ ≃* StatedSU k (2 ^ n) K) ∧ Nonempty (L₂ ≃* StatedSL a K) := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨ω, hω, hωbar⟩ := exists_cube_root h hn
   have hω1 : ω ≠ 1 := by
     intro hω1

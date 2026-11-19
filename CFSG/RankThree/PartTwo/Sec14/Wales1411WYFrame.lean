@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G] {A Y : Subgroup G} [(ker148 A Y).Normal
     Subgroup G :=
   (U.comap (QuotientGroup.mk' (ker148 A Y))).map (Y ⊔ A).subtype ⊓ Z
 
+omit [Finite G] in
 theorem mem_pbY {U : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)} {Z : Subgroup G} {g : G} :
     g ∈ pbY U Z ↔
       ∃ hg : g ∈ Y ⊔ A, QuotientGroup.mk' (ker148 A Y) ⟨g, hg⟩ ∈ U ∧ g ∈ Z := by
@@ -29,6 +30,7 @@ theorem mem_pbY {U : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)} {Z : Subgroup G} {g
   · rintro ⟨hg, hU, hZ⟩
     exact ⟨⟨⟨g, hg⟩, hU, rfl⟩, hZ⟩
 
+omit [Finite G] in
 theorem mk_mem_img_A {a : G} (ha : a ∈ A) :
     QuotientGroup.mk' (ker148 A Y) ⟨a, (le_sup_right : A ≤ Y ⊔ A) ha⟩ ∈ img148 A Y A :=
   ⟨⟨a, (le_sup_right : A ≤ Y ⊔ A) ha⟩, Subgroup.mem_subgroupOf.mpr ha, rfl⟩
@@ -47,10 +49,12 @@ theorem le_normalizer_pbY {U : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)} {Z : Subg
   rw [← map_inv, ← map_mul, ← map_mul] at h
   exact h
 
+omit [Finite G] in
 theorem le_pbY_img {X Z : Subgroup G} (hXK : X ≤ Y ⊔ A) (hXZ : X ≤ Z) :
     X ≤ pbY (img148 A Y X) Z := fun x hx =>
   mem_pbY.mpr ⟨hXK hx, ⟨⟨x, hXK hx⟩, Subgroup.mem_subgroupOf.mpr hx, rfl⟩, hXZ hx⟩
 
+omit [Finite G] in
 theorem img_map_conj {X : Subgroup G} (hX : X ≤ Y ⊔ A) {n : G} (hn : n ∈ Y ⊔ A) :
     img148 A Y (X.map (MulAut.conj n).toMonoidHom) =
       (img148 A Y X).map
@@ -81,14 +85,17 @@ theorem img_le_normalizer_img {U V : Subgroup G} (hUV : U ≤ Subgroup.normalize
     simpa using (Subgroup.mem_normalizer_iff.mp (hUV (Subgroup.mem_subgroupOf.mp hu)) v).mp hv
   exact (Subgroup.map_mono h1).trans (Subgroup.le_normalizer_map _)
 
+omit [Finite G] in
 theorem isPGroup_img {p : ℕ} {X : Subgroup G} (hX : IsPGroup p X) :
     IsPGroup p (img148 A Y X) :=
   hX.comap_subtype.map _
 
+omit [Finite G] in
 theorem img_sup {S T : Subgroup G} (hS : S ≤ Y ⊔ A) (hT : T ≤ Y ⊔ A) :
     img148 A Y (S ⊔ T) = img148 A Y S ⊔ img148 A Y T := by
   rw [img148, img148, img148, Subgroup.subgroupOf_sup hS hT, Subgroup.map_sup]
 
+omit [(ker148 A Y).Normal] in
 theorem eq_one_of_mem_ker {k : ↥(Y ⊔ A)} (hk : k ∈ ker148 A Y) {m : ℕ} (hkm : k ^ 3 ^ m = 1) :
     (k : G) = 1 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -104,7 +111,7 @@ theorem eq_one_of_mem_ker {k : ↥(Y ⊔ A)} (hk : k ∈ ker148 A Y) {m : ℕ} (
   exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp h3)
 
 theorem not_three_dvd_card_pbY {U : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)} (hU : IsPGroup 2 U)
-    {Z : Subgroup G} (hZY : Z ≤ Y) : ¬ 3 ∣ Nat.card (pbY U Z) := by
+    {Z : Subgroup G} (_hZY : Z ≤ Y) : ¬ 3 ∣ Nat.card (pbY U Z) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h3
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := pbY U Z) 3 h3

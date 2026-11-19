@@ -69,9 +69,9 @@ theorem caseA_relIndex_centralizer_le_card_of_comm_mem {B Z : Subgroup G} [Finit
         Nat.card_le_card_of_injective (fun x : f.range => (x : Z)) Subtype.coe_injective
 
 theorem caseA_relIndex_centralizerMod_section_le {Z L N X : Subgroup G} [Finite X] {u : G}
-    (hZL : Z ≤ L) (hLN : L ≤ N) (hNX : N ≤ X) (hNZ : N ≤ Subgroup.normalizer (Z : Set G))
-    (hNL : N ≤ Subgroup.normalizer (L : Set G)) (huZ : u ∈ Subgroup.normalizer (Z : Set G))
-    (huL : u ∈ Subgroup.normalizer (L : Set G)) :
+    (hZL : Z ≤ L) (_hLN : L ≤ N) (hNX : N ≤ X) (_hNZ : N ≤ Subgroup.normalizer (Z : Set G))
+    (hNL : N ≤ Subgroup.normalizer (L : Set G)) (_huZ : u ∈ Subgroup.normalizer (Z : Set G))
+    (_huL : u ∈ Subgroup.normalizer (L : Set G)) :
     (centralizerMod L N (Subgroup.zpowers u)).relIndex N ≤
       (centralizerMod Z X (Subgroup.zpowers u)).relIndex X := by
   set C := centralizerMod Z N (Subgroup.zpowers u) with hC
@@ -89,7 +89,7 @@ theorem caseA_relIndex_centralizerMod_section_le {Z L N X : Subgroup G} [Finite 
     intro x hx
     rw [mem_centralizerMod] at hx ⊢
     exact ⟨hx.1, hNL hx.1, fun v hv => hZL (hx.2.2 v hv)⟩
-  haveI : Finite ↥N :=
+  have : Finite ↥N :=
     Finite.of_injective (Subgroup.inclusion hNX) (Subgroup.inclusion_injective hNX)
   have hle : CL.relIndex N ≤ C.relIndex N :=
     Subgroup.relIndex_le_of_le_left hCCL Subgroup.index_ne_zero_of_finite
@@ -122,7 +122,7 @@ section Finite
 variable {G : Type} [Group G] [Finite G]
 
 theorem caseA_exists_chiefStep_of_not_le_centralizerMod {H U X N : Subgroup G}
-    (hU : IsPGroup 2 U) (hUH : U ≤ H) (hUQ : U ≤ pCoreOf 2 H) (hXU : IsNormalIn H U X)
+    (_hU : IsPGroup 2 U) (hUH : U ≤ H) (hUQ : U ≤ pCoreOf 2 H) (hXU : IsNormalIn H U X)
     (hNU : IsNormalIn H U N) (hXN : X ≤ N)
     (hnot : ¬ twoResidual H ≤ centralizerMod X H N) :
     ∃ L K : Subgroup G, IsChiefStep H U L K ∧ X ≤ L ∧ K ≤ N ∧

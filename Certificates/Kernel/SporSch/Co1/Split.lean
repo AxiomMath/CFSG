@@ -100,12 +100,11 @@ theorem zq_eq : zq = zqP zR Data.f4vecs := by
   unfold zq zqP
   rw [zqT_eq]
 
-theorem msSearchB_match_eq : @msSearchB.match_1 = @msSearchP.match_1 := rfl
 
 theorem msSearchB_P (Z : Rows) (fv : List (List Nat)) (X : Rows) (j : Nat) :
     msSearchB (zqP Z fv) (zqTP Z fv) X j = msSearchP Z fv X j := by
-  unfold msSearchB msSearchP
-  rw [msSearchB_match_eq]
+  simp only [msSearchB, msSearchP]
+  cases (List.range 36).find? (fun i => (zqTP Z fv).getD i 0 == act X (zqP Z fv 0 j)) <;> rfl
 
 theorem msSearch_eq : msSearch = msSearchP zR Data.f4vecs := by
   funext X j

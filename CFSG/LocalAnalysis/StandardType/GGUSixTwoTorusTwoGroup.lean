@@ -21,6 +21,7 @@ private noncomputable def diagVecUnit {ω : K} (hω : ω ^ 2 + ω + 1 = 0) {i j 
     rw [hk, zero_pow (by norm_num : 3 ≠ 0)] at h3
     exact zero_ne_one h3)
 
+omit [Finite K] in
 private theorem prod_diagVecUnit {ω : K} (hω : ω ^ 2 + ω + 1 = 0) {i j : Fin 6}
     (hij : i ≠ j) : ∏ k, diagVecUnit (K := K) hω hij k = 1 := by
   apply Units.ext
@@ -28,12 +29,14 @@ private theorem prod_diagVecUnit {ω : K} (hω : ω ^ 2 + ω + 1 = 0) {i j : Fin
   rw [Units.coe_prod]
   simpa [diagVecUnit] using diagVec_prod (K := K) hω hij
 
+omit [Finite K] in
 private theorem diagGL_diagVecUnit {ω : K} (hω : ω ^ 2 + ω + 1 = 0) {i j : Fin 6}
     (hij : i ≠ j) :
     TauCeti.diagGL (diagVecUnit (K := K) hω hij) = diagHom 6 (diagVecUnit hω hij) := by
   apply Units.ext
   rw [TauCeti.diagGL_coe, coe_diagHom]
 
+omit [Finite K] in
 private theorem diagVecUnit_ne (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     {i j : Fin 6} (hij : i ≠ j) : diagVecUnit (K := K) hω hij i ≠
       diagVecUnit (K := K) hω hij j := by

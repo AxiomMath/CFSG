@@ -16,10 +16,10 @@ section S16End
 variable {G : Type} [Group G] [Finite G] {d : Data G} {z₀ : G}
 
 
-theorem card_CK_le (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h10 : Node10 d z₀) :
+theorem card_CK_le (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (_h10 : Node10 d z₀) :
     Nat.card ↥(Cv d ⊓ centralizer ({d.t} : Set G)) ≤ 2 ^ 6 ∧
       (Nat.card ↥(Cv d ⊓ centralizer ({d.t} : Set G)) = 2 ^ 6 → d.ρ.range = ⊤) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCA := hd.s56_centralizer_A
   have hVc : ∀ v ∈ d.s56V, ∀ k ∈ Cv d, v * k = k * v := fun v hv k hk =>
     (Subgroup.mem_centralizer_iff.1 hk) v hv

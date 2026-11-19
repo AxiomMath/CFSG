@@ -40,13 +40,13 @@ private theorem polar_Qn_pi_single {m : ℕ} (i j : Fin m) (x y : K) :
   rw [polar_Qn]
   by_cases h : i = j
   · subst j
-    rw [if_pos rfl, Finset.sum_eq_single i]
+    rw [ite_eq_left rfl, Finset.sum_eq_single i]
     · simp
     · intro b _ hb
       simp [Pi.single_eq_of_ne hb]
     · intro hmem
       exact absurd (Finset.mem_univ i) hmem
-  · rw [if_neg h, Finset.sum_eq_zero]
+  · rw [ite_eq_right h, Finset.sum_eq_zero]
     intro b _
     by_cases hb : b = i
     · subst b
@@ -84,6 +84,7 @@ private theorem polar_normWVec_normPlaneVec {m : ℕ} (s : Bool) (i : Fin m) (x 
     polar (normHypForm E m) (normWVec K m s) (normPlaneVec F i x) = 0 := by
   cases s <;> simp [normHypForm, normWVec, normPlaneVec, polar_hypSum]
 
+omit [Finite K] [CharP K 2] in
 private theorem castLin_apply_eq_self {k m : ℕ} (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K)))
     (v : (F × F) × (Fin m → K))
@@ -93,9 +94,9 @@ private theorem castLin_apply_eq_self {k m : ℕ} (h : k ≤ m)
   change (if hj : (j : ℕ) < k then
     (castRestr h v).2 ⟨(j : ℕ), hj⟩ else v.2 j) = v.2 j
   by_cases hj : (j : ℕ) < k
-  · rw [dif_pos hj]
+  · rw [dite_eq_left hj]
     rfl
-  · rw [dif_neg hj]
+  · rw [dite_eq_right hj]
 
 include hω in
 private theorem qTwoYLin_e1 :
@@ -348,7 +349,7 @@ private theorem exists_mem_normBlock_eichler {k : Fin 4} {s : Bool} {x y : K} {c
   have hTxy : polar (normHypForm E 4) (c • normPlaneVec F k x) (c • normPlaneVec F k y) =
       normHypForm E 4 (c • normPlaneVec F k x) := by
     rw [polar_smul_left_eq, polar_smul_right_eq, polar_normPlaneVec_normPlaneVec,
-      if_pos rfl, hxy, map_smul_eq_sq, normHypForm_normPlaneVec]
+      ite_eq_left rfl, hxy, map_smul_eq_sq, normHypForm_normPlaneVec]
     ring_nf
   have hmemΩ : eichler (normHypForm E 4) (normWVec K 4 s) (c • normPlaneVec F k x) ∈
       normOmega E 4 :=

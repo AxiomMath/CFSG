@@ -26,7 +26,7 @@ theorem exists_torusHom_four (hσ : IsUnitaryInvolution σ) (hp : p.Prime) (hp2 
       Function.Injective F ∧
       (∀ x, s * ((F x : SUid σ 4) : GL (Fin 4) K) = ((F x : SUid σ 4) : GL (Fin 4) K) * s) ∧
       ∀ x, ((F x : SUid σ 4) : GL (Fin 4) K) ∈ StatedScalars (Fin 4) K → F x = 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp0 : (p : K) ≠ 0 := (hζ.neZero').out
   set sM : Matrix (Fin 4) (Fin 4) K := ((s : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) with hsM
   have hspow : sM ^ p = 1 := by
@@ -70,11 +70,11 @@ theorem exists_torusHom_four (hσ : IsUnitaryInvolution σ) (hp : p.Prime) (hp2 
       (hms _ _ _ (norm_charHom hζ hσζ _))
   have hdet : ∀ x, ∏ j, T x j = 1 := by
     intro x
-    simp only [hTx, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.mem_univ, if_true]
+    simp only [hTx, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.mem_univ, ite_true]
     rw [← map_mul, ← map_mul, ← map_mul, mul_inv_cancel, map_one]
   obtain ⟨F, hF⟩ := exists_hom_conjDiag hσ.invol hP T hT hdet
   have hone : ∀ (i j : Fin 4) (a : K), j ≠ i → (Pi.mulSingle i a : Fin 4 → K) j = 1 :=
-    fun i j a h => by simp [Pi.mulSingle_apply, h]
+    fun i j a h => by simp [h]
   have hT0 : ∀ x, T x 0 = charHom hζ (x 0) := by
     intro x
     rw [hTx, Pi.mulSingle_eq_same, hone 1 0 _ (by decide), hone 2 0 _ (by decide),
@@ -180,8 +180,8 @@ theorem i294CrossModelPSU4_holds : I294CrossModelPSU4 := by
   intro q K _ _ hK h3 x hx
   have hx3 : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   obtain ⟨r, f, hr, hchar, rfl⟩ := CrossUni.exists_prime_pow_of_card_sq hK
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   obtain ⟨g, hg3, rfl⟩ := exists_lift_pow_three (H := StatedSU 4 (r ^ f) K) (N := 4)
     (by norm_num) (fun z hz => (CrossUni.statedSU_scalar_pow hr hK (by norm_num) z hz).1)
     hx3

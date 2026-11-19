@@ -191,7 +191,7 @@ theorem isPGroup_three_centralizer (hrank : Open.pRank 3 (⊤ : Subgroup Γ) ≤
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 ↥C))
   have hPcyc : IsCyclic ↥(P : Subgroup ↥C) := by
     by_contra hnc
-    have : Fact (IsPGroup 3 ↥(P : Subgroup ↥C)) := ⟨P.isPGroup'⟩
+    have : Fact (IsPGroup 3 ↥(P : Subgroup ↥C)) := ⟨P.isPGroup⟩
     obtain ⟨S, -, hS9, hSel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
     have hpow : ∀ s : ↥S, ((s : ↥(P : Subgroup ↥C)) : ↥C) ^ 3 = 1 := by
       intro s
@@ -231,7 +231,7 @@ theorem isPGroup_three_centralizer (hrank : Open.pRank 3 (⊤ : Subgroup Γ) ≤
       rw [hzp.inf_normalizer_sylow P] at hmem
       exact hmem.2
     have hcop : Nat.Coprime 3 m := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hm3
-    have key := conj_eq_of_coprime hPc P.isPGroup' hg hcop
+    have key := conj_eq_of_coprime hPc P.isPGroup hg hcop
       (fun z hz => by rw [hPc _ hgmP _ hz]; group)
       (fun z _ hz3 => by rw [hZC z hz3 g]; group) hy
     calc y * g = g * y * g⁻¹ * g := by rw [key]
@@ -245,7 +245,7 @@ theorem isPGroup_three_centralizer (hrank : Open.pRank 3 (⊤ : Subgroup Γ) ≤
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hK3
   have hK : Kc = ⊥ := (Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective).mp hKbot
   rw [hK, Subgroup.index_bot] at hKidx
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   exact IsPGroup.of_card (hKidx.trans hn)
 
 end Gen

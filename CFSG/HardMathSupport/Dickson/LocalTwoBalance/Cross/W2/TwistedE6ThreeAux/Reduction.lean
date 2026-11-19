@@ -37,8 +37,8 @@ theorem innerPlaneBalance_twistedE6_three_R3 {ℓ f : ℕ} (hℓ : ℓ.Prime) (K
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   let Ω := AlgebraicClosure K
-  haveI : CharP Ω ℓ := charP_of_injective_algebraMap (algebraMap K Ω).injective ℓ
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω ℓ := charP_of_injective_algebraMap (algebraMap K Ω).injective ℓ
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hFr : ∀ c, (iterateFrobenius Ω ℓ f) c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   obtain ⟨g, hg, hgn⟩ := exists_inv_mul_twistE6_eq hf hFr
     (canonicalRep_mem_adjointGroup (coxeterSystem Tag.E6) Ω phi3V)

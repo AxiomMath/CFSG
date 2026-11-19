@@ -24,7 +24,7 @@ theorem exists_le_centralizer_surjective {W Y K : Type*} [Group W] [Group Y] [Gr
   set C := Subgroup.centralizer (E : Set Y)
   set Q : Subgroup Y := E ⊔ P.map ρ with hQ
   have hρQ : ∀ x : P, ρ x ∈ Q := fun x => Subgroup.mem_sup_right (Subgroup.mem_map_of_mem ρ x.2)
-  haveI hEQn : (E.subgroupOf Q).Normal := Subgroup.Normal.subgroupOf hE Q
+  have hEQn : (E.subgroupOf Q).Normal := Subgroup.Normal.subgroupOf hE Q
   set ρQ : P →* Q := (ρ.comp P.subtype).codRestrict Q hρQ
   set σ : P →* Q ⧸ E.subgroupOf Q := (QuotientGroup.mk' (E.subgroupOf Q)).comp ρQ
   have hσs : Function.Surjective σ := by
@@ -128,7 +128,7 @@ theorem d1KBar_ne_bot_of_pRank_le_two (h31 : KFactThreeOne) (h75 : KFactSevenFiv
       CFSG.Open.pRank p R ≤ 2) :
     d1KBar p M N ≠ ⊥ := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hKN
   have hKH : d1KBar p M H ≠ ⊥ := fun h =>
     not_le_bot_of_isComponentOf hL (h ▸ le_d1KBar hL hLX)
@@ -150,7 +150,7 @@ theorem d1KBar_ne_bot_of_pRank_le_two (h31 : KFactThreeOne) (h75 : KFactSevenFiv
     have hL'c : IsComponentOf L' ⊤ := (CFSG.isComponent_iff_open L').mp hL'
     by_contra hL'X
     exact not_le_bot_of_isComponentOf hL'c (hKN ▸ le_d1KBar hL'c hL'X)
-  haveI := CFSG.LocalCores.layer_characteristic (G := N ⧸ O)
+  have := CFSG.LocalCores.layer_characteristic (G := N ⧸ O)
   set W₀ : Subgroup G := (H ⊓ N) ⊓ ((d1KBar p M H).comap πH).map H.subtype with hW₀def
   have hW₀ : W₀ ≤ H ⊓ N := inf_le_left
   have hW₀H : W₀ ≤ H := hW₀.trans inf_le_left
@@ -164,7 +164,7 @@ theorem d1KBar_ne_bot_of_pRank_le_two (h31 : KFactThreeOne) (h75 : KFactSevenFiv
     obtain ⟨h, hh, rfl⟩ := hcov hk
     exact ⟨⟨h, Subgroup.mem_subgroupOf.mp hh, h, hk, rfl⟩, rfl⟩
   set ρ : W₀ →* N ⧸ O := πN.comp (Subgroup.inclusion hW₀N)
-  haveI : Group.IsPerfect (d1KBar p M H) := Subgroup.isPerfect_iff.mpr (commutator_d1KBar p M H)
+  have : Group.IsPerfect (d1KBar p M H) := Subgroup.isPerfect_iff.mpr (commutator_d1KBar p M H)
   have hPψ := CFSG.LocalAnalysis.RankThreeTheoremC.map_perfectCore_comap ψ hψs ⊤
     Group.IsPerfect.commutator_eq_top
   rw [Subgroup.comap_top] at hPψ

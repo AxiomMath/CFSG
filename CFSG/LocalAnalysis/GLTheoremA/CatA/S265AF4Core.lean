@@ -18,7 +18,7 @@ theorem f4two_core {G : Type} [Group G] [Finite G] (hG : catalogIs G S9.isF4two)
       Bb ≤ Subgroup.normalizer (W : Set G) → W = ⊥)
     {W : Subgroup G} (hW : IsPGroup 2 W) (hBW : Bb ≤ Subgroup.normalizer (W : Set G)) :
     W = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hW1
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := CatB.I2610.exists_adjointGroup_of_catalogIs_isF4two hG
   obtain ⟨R', hR'card, hR'N⟩ := exists_radical_of_normalizes_F4two hK

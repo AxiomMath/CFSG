@@ -125,7 +125,7 @@ theorem no_class4 [Fact (Nat.Prime 2)] {y m' : M} (hy2 : y * y = 1)
   obtain ⟨a, ha⟩ := hpg.exists_card_eq
   have h9 : 9 ≤ a := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : 2 ^ a ≤ 2 ^ 8 := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [ha] at hcard
     omega
@@ -182,7 +182,7 @@ theorem clauses : ∃ Q' P : Subgroup M, IsPGroup 2 Q' ∧ ¬ 2 ∣ Q'.index ∧
       R ≤ Subgroup.centralizer ({η} : Set M) ∧ 1024 ≤ Nat.card R) ∧
     (∀ y ∈ Q', y * y = 1 → y ∉ P → 512 ≤ Nat.card ↥(Q' ⊓ Subgroup.centralizer ({y} : Set M)) →
       ∃ m : M, y = m * z * m⁻¹) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Φ := h.ctx.Phi with hΦdef
   have hsurj : Function.Surjective Φ := h.Phi_surj
   have hker : Φ.ker = N ⊔ zpowers t := h.Phi_ker
@@ -196,7 +196,7 @@ theorem clauses : ∃ Q' P : Subgroup M, IsPGroup 2 Q' ∧ ¬ 2 ∣ Q'.index ∧
     exact orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hz2)
   obtain ⟨Qs, hzQ⟩ := hzp.exists_le_sylow
   set Q' : Subgroup M := (Qs : Subgroup M) with hQ'
-  have hQ2 : IsPGroup 2 Q' := Qs.isPGroup'
+  have hQ2 : IsPGroup 2 Q' := Qs.isPGroup
   have hzQ' : z ∈ Q' := hzQ (mem_zpowers z)
   let δ' : M →* ℤˣ := delta.comp Φ
   have hδz : δ' z = -1 := by
@@ -212,7 +212,7 @@ theorem clauses : ∃ Q' P : Subgroup M, IsPGroup 2 Q' ∧ ¬ 2 ∣ Q'.index ∧
   have hrel : P.relIndex Q' = 2 := by
     have hsub : P.subgroupOf Q' = (δ'.comp Q'.subtype).ker := by
       ext x
-      simp [P, Subgroup.mem_subgroupOf, x.2]
+      simp [P, Subgroup.mem_subgroupOf]
     rw [Subgroup.relIndex, hsub, Subgroup.index_ker]
     have hrange : (δ'.comp Q'.subtype).range = ⊤ := by
       rw [eq_top_iff]
@@ -258,7 +258,7 @@ theorem clauses : ∃ Q' P : Subgroup M, IsPGroup 2 Q' ∧ ¬ 2 ∣ Q'.index ∧
       have hj4 : (j : ℕ) ≠ 4 ∧ (j : ℕ) ≠ 7 ∧ (j : ℕ) ≠ 8 := by
         by_contra hcon
         have hc : (j : ℕ) = 4 ∨ (j : ℕ) = 7 ∨ (j : ℕ) = 8 := by omega
-        rw [if_pos hc] at hδj
+        rw [ite_eq_left hc] at hδj
         exact absurd hδj (by decide)
       obtain ⟨R, hR2, hRc, hRcard⟩ := exists_two_subgroup_cent Φ hsurj h.oddN ht2 ht1 htc hker
         hη2 (k := 10) (by
@@ -280,7 +280,7 @@ theorem clauses : ∃ Q' P : Subgroup M, IsPGroup 2 Q' ∧ ¬ 2 ∣ Q'.index ∧
       rw [hom_conj_units, hyδ']
     have hjδ : (j : ℕ) = 4 ∨ (j : ℕ) = 7 ∨ (j : ℕ) = 8 := by
       by_contra hcon
-      rw [delta_repPg, if_neg hcon] at hδj
+      rw [delta_repPg, ite_eq_right hcon] at hδj
       exact absurd hδj (by decide)
     set y' := m'⁻¹ * y * m' with hy'
     have hy'2 : y' * y' = 1 := by

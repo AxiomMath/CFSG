@@ -116,14 +116,12 @@ theorem refl_braid_five (hsym : ∀ x y, b x y = b y x) {v w : Fin n → ZMod 5}
   rcases ht with ht | ht
   · refine (refl_eq_refl_iff hn1 hn2).mpr (Or.inl ?_)
     rw [act_mul, act_mul, act_refl hw, act_refl hv, act_refl hv, act_refl hw]
-    simp only [LinearMap.BilinForm.add_left, LinearMap.BilinForm.add_right,
-      LinearMap.BilinForm.smul_left, LinearMap.BilinForm.smul_right, hv, hw]
+    simp only [LinearMap.BilinForm.add_left, LinearMap.BilinForm.smul_left, hv, hw]
     rw [hsym w v, ht]
     linear_combination (norm := module) h5 • (w - v)
   · refine (refl_eq_refl_iff hn1 hn2).mpr (Or.inr ?_)
     rw [act_mul, act_mul, act_refl hw, act_refl hv, act_refl hv, act_refl hw]
-    simp only [LinearMap.BilinForm.add_left, LinearMap.BilinForm.add_right,
-      LinearMap.BilinForm.smul_left, LinearMap.BilinForm.smul_right, hv, hw]
+    simp only [LinearMap.BilinForm.add_left, LinearMap.BilinForm.smul_left, hv, hw]
     rw [hsym w v, ht]
     linear_combination (norm := module) h5 • (v + w)
 
@@ -199,7 +197,7 @@ theorem refl_commute_iff (hsym : ∀ x y, b x y = b y x) {v w : Fin n → ZMod 5
   · rintro (h | rfl | rfl)
     · exact refl_comm_of_perp hsym h
     · rfl
-    · simpa [refl_neg] using Commute.refl (refl b v)
+    · simp [refl_neg]
 
 theorem refl_commute_iff_of_ne (hsym : ∀ x y, b x y = b y x) {v w : Fin n → ZMod 5}
     (hv : b v v = 1) (hw : b w w = 1) (hne1 : w ≠ v) (hne2 : w ≠ -v) :
@@ -225,11 +223,11 @@ theorem refl_mul_refl_order (hsym : ∀ x y, b x y = b y x) {v w : Fin n → ZMo
     · exact hne1 h2
     · exact hne2 h2
   by_cases ht2 : (b v w) ^ 2 = 1
-  · rw [if_pos ht2]
+  · rw [ite_eq_left ht2]
     have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime (refl_mul_refl_pow_five hsym hv hw ht2) hne
-  · rw [if_neg ht2]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · rw [ite_eq_right ht2]
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (refl_mul_refl_pow_three hsym hv hw ht ht2) hne
 
 end FiveChartModel

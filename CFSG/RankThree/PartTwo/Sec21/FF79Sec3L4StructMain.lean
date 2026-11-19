@@ -22,7 +22,7 @@ theorem ap_K_comp : IsComponent (K.subgroupOf (apFix β (layer H))) := by
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup alt5_nonab).1
   refine ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv
     (e.symm.trans (Subgroup.subgroupOfEquivOfLe (K_le_apFix hd)).symm) hq, ?_⟩
-  haveI : (K.subgroupOf (apFix β (layer H))).Normal := ⟨fun n hn g => by
+  have : (K.subgroupOf (apFix β (layer H))).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hd.K_nor g (by simpa using g.2.2) n hn⟩
   exact Subgroup.Normal.isSubnormal inferInstance
@@ -30,7 +30,7 @@ theorem ap_K_comp : IsComponent (K.subgroupOf (apFix β (layer H))) := by
 theorem ap_others : ∀ K' : Subgroup H, K' ≤ apFix β (layer H) →
     IsComponent (K'.subgroupOf (apFix β (layer H))) → K' ≠ K → Nat.Coprime 3 (Nat.card K') := by
   intro K' hK'M hK'c hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcop
   have hdvd : 3 ∣ Nat.card K' := by
     by_contra h
@@ -61,8 +61,8 @@ theorem ap_others : ∀ K' : Subgroup H, K' ≤ apFix β (layer H) →
     omega
 
 theorem ap_catalog : InCatalog ↥(layer H) := by
-  haveI := L_facts_simple hd
-  haveI := layer_normal_of_ap (H := H)
+  have := L_facts_simple hd
+  have := layer_normal_of_ap (H := H)
   have hq := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (L_nonab hd)).1
   exact hd.catalog (layer H) ⟨hq, Subgroup.Normal.isSubnormal inferInstance⟩ (L_facts_simple hd)
 

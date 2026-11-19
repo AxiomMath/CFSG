@@ -29,6 +29,7 @@ noncomputable def coordsE {A : Subgroup (MulAut W)} (hAH : A ≤ H)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) : Subgroup (SUid σ 4) :=
   ((coordsEps (ε := ε) hS).toMonoidHom.comp (Subgroup.inclusion hAH)).range
 
+omit [Finite W] [Finite F] in
 theorem coords_psi_smul (hψ : NatCoordsSU4 H n F ε ψ)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (l : ↥H) (s : W) :
     Multiplicative.toAdd (ψ ((l : MulAut W) s)) =
@@ -40,6 +41,7 @@ theorem coords_psi_smul (hψ : NatCoordsSU4 H n F ε ψ)
   rw [hcoe]
   rfl
 
+omit [Finite W] [Finite F] in
 theorem mem_fixV_coords {A : Subgroup (MulAut W)} (hAH : A ≤ H)
     (hψ : NatCoordsSU4 H n F ε ψ) (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (w : W) :
     w ∈ fixV A ↔ Multiplicative.toAdd (ψ w) ∈ fixSp (coordsE (ε := ε) hAH hS) := by
@@ -68,6 +70,7 @@ theorem mem_fixV_coords {A : Subgroup (MulAut W)} (hAH : A ≤ H)
     have h5 : Multiplicative.toAdd (ψ (a w)) = Multiplicative.toAdd (ψ w) := h2.trans h
     exact ψ.injective (Multiplicative.toAdd.injective h5)
 
+omit [Finite W] [Finite F] in
 theorem mem_commV_coords {A : Subgroup (MulAut W)} (hAH : A ≤ H)
     (hψ : NatCoordsSU4 H n F ε ψ) (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (w : W) :
     w ∈ commV A ↔ Multiplicative.toAdd (ψ w) ∈ commSp (coordsE (ε := ε) hAH hS) := by
@@ -108,7 +111,7 @@ theorem mem_commV_coords {A : Subgroup (MulAut W)} (hAH : A ≤ H)
     | mem z hz =>
       obtain ⟨z0, hz0, x, rfl⟩ := hz
       exact AddSubgroup.subset_closure ⟨z0, hz0, c • x, by rw [smul_sub, smul_comm]⟩
-    | zero => simpa using AddSubgroup.zero_mem _
+    | zero => simp
     | add a b ha hb iha ihb => rw [smul_add]; exact AddSubgroup.add_mem _ iha ihb
     | neg a ha iha => rw [smul_neg]; exact AddSubgroup.neg_mem _ iha
   let Smod : Submodule F (Fin 4 → F) :=
@@ -140,18 +143,18 @@ theorem mem_commV_coords {A : Subgroup (MulAut W)} (hAH : A ≤ H)
           rfl
         simpa using congrArg Multiplicative.ofAdd h2'
       rw [h1]
-      simp [map_sub, toAdd_mul, div_eq_mul_inv]
+      simp [div_eq_mul_inv]
     rw [hcomp]
     exact Subgroup.subset_closure ⟨(a : MulAut W), a.2, ψ.symm (Multiplicative.ofAdd x), rfl⟩
   have hbwd : ∀ y ∈ AddSubgroup.closure T, ψ.symm (Multiplicative.ofAdd y) ∈ commV A := by
     intro y hy
     induction hy using AddSubgroup.closure_induction with
     | mem z hz => exact hTmem z hz
-    | zero => simpa using (commV A).one_mem
+    | zero => simp
     | add a b ha hb iha ihb =>
       have h : ψ.symm (Multiplicative.ofAdd (a + b)) =
           ψ.symm (Multiplicative.ofAdd a) * ψ.symm (Multiplicative.ofAdd b) := by
-        simp [map_add]
+        simp
       rw [h]; exact (commV A).mul_mem iha ihb
     | neg a ha iha =>
       have h : ψ.symm (Multiplicative.ofAdd (-a)) = (ψ.symm (Multiplicative.ofAdd a))⁻¹ := by
@@ -168,6 +171,7 @@ theorem mem_commV_coords {A : Subgroup (MulAut W)} (hAH : A ≤ H)
     have hmem := hbwd (e w) hcl
     simpa [e] using hmem
 
+omit [Finite W] [Finite F] in
 theorem card_fixV_coords {A : Subgroup (MulAut W)} (hAH : A ≤ H)
     (hψ : NatCoordsSU4 H n F ε ψ) (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) :
     Nat.card ↥(fixV A) = Nat.card ↥(fixSp (coordsE (ε := ε) hAH hS)) := by
@@ -177,7 +181,7 @@ theorem card_fixV_coords {A : Subgroup (MulAut W)} (hAH : A ≤ H)
         (mem_fixV_coords hAH hψ hS x.1).mp x.2⟩
       invFun := fun y => ⟨ψ.symm (Multiplicative.ofAdd y.1), by
         refine (mem_fixV_coords hAH hψ hS _).mpr ?_
-        simpa using y.2⟩
+        simp⟩
       left_inv := fun x => by apply Subtype.ext; simp
       right_inv := fun y => by apply Subtype.ext; simp }
 
@@ -386,7 +390,6 @@ theorem k_18_21_Q_unipotent_holds :
       have hys : (Subgroup.inclusion hBwH y : ↥H) = (coordsEps (ε := ε) hS).symm z0 := by
         apply Subtype.ext
         rw [Subgroup.coe_inclusion]
-        change (y : MulAut W) = ((coordsEps (ε := ε) hS).symm z0 : MulAut W)
         rw [← hz0x]
         rfl
       change coordsEps (ε := ε) hS (Subgroup.inclusion hBwH y) ∈ B₁

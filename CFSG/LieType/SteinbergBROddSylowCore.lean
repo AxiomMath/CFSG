@@ -55,7 +55,7 @@ theorem eq_one_of_odd [Finite G] (U : Sylow 2 G) (hN : Subgroup.normalizer (U : 
         have he' : s * h' * s⁻¹ = s * h * s⁻¹ := he
         simpa using he'
       exact this ▸ hh'
-  obtain ⟨k, hk⟩ := U.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := U.isPGroup ⟨s, hs⟩
   have hsk : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
   have hdvd : orderOf (MulAut.conj s) ∣ 2 ^ k :=
     orderOf_dvd_of_pow_eq_one (by rw [← map_pow, hsk, map_one])

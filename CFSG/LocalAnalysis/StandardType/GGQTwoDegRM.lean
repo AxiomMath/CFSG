@@ -19,7 +19,7 @@ private theorem qTwoDegRM_card_coxA (n : ℕ) :
 theorem qTwoDeg_rm_of_equal_degree
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)}
     (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦)
-    {k : QTwoRowKind} {m d c : ℕ} (hrow : QTwoRowData k m d c Bs L x) (hm : 5 ≤ m)
+    {k : QTwoRowKind} {m d c : ℕ} (hrow : QTwoRowData k m d c Bs L x) (_hm : 5 ≤ m)
     {ι : Type} {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hP : GGCoxeterPres 3 (ggAutomizerJoin L Bs 𝒦) M e)
     {N : ℕ} (hN : 6 ≤ N) {e' : Fin (N - 1) ≃ ι}

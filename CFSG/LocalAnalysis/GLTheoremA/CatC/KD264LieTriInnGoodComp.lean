@@ -48,14 +48,14 @@ theorem rankOne_perfect_dvd_three {ta : Fin τ.rank → Lˣ}
           ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom ta) i)])
       · unfold twistKind
-        rw [if_pos hin]
+        rw [ite_eq_left hin]
       · unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega), if_neg (fun h => by omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega), ite_eq_right (fun h => by omega)]
     exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ4 : 4 ≤ r ^ (e * s) := by
     rw [pow_mul]
@@ -108,8 +108,8 @@ theorem splitFrame_perfect_dvd_three {ta : Fin τ.rank → Lˣ}
     3 ∣ Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) := by
   classical
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := split_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
   have hperf : Group.IsPerfect SL(ν, ↥(fixSubfield σQ)) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hν
@@ -133,8 +133,8 @@ theorem unitaryFrame_perfect_dvd_three {ta : Fin τ.rank → Lˣ}
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq

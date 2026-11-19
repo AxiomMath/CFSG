@@ -25,7 +25,7 @@ theorem exists_model_data {G : Type} [Group G] [Finite G] {L T : Subgroup G} [hL
         CFSG.LieType.BorelTits.Holds X 2 ∧ Nat.card K = 2 ^ (3 * n) ∧
         ∃ φ : ↥L ≃* X, ((T ⊓ L).subgroupOf L).map φ.toMonoidHom = D.U := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hn, K, hF, hFin, σ, hK, hσ, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_triality_model hL
   have hq : 2 ≤ 2 ^ n :=
@@ -34,12 +34,12 @@ theorem exists_model_data {G : Type} [Group G] [Finite G] {L T : Subgroup G} [hL
   have hσq : ∀ c, σ.toRingHom c = c ^ (2 ^ n) := hσ
   obtain ⟨e₁⟩ := CFSG.Quasithin.H13.F431.D4q.Hex.exists_d4Model_equiv σ hn hK hσq
   have hK3 : Nat.card K = 2 ^ (3 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK3
   let φ₀ : ↥L ≃* (twistedGroup σ.toRingHom ⧸ Subgroup.center (twistedGroup σ.toRingHom)) :=
     e₀.trans e₁.symm
-  haveI : Finite (twistedGroup σ.toRingHom ⧸ Subgroup.center (twistedGroup σ.toRingHom)) :=
+  have : Finite (twistedGroup σ.toRingHom ⧸ Subgroup.center (twistedGroup σ.toRingHom)) :=
     Finite.of_equiv _ φ₀.toEquiv
   have hU := CFSG.Quasithin.H13.F431.D4q.Hex.d4ModelSystem_isSylow σ hn hK hσq hq
   have hψ := d4Coords_model (σ := σ.toRingHom) hq hK hσq

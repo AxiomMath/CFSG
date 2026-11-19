@@ -18,7 +18,7 @@ section Generic
 theorem sec3102_sylow_inter_eq {G : Type} [Group G] [Finite G] {S C M : Subgroup G}
     (hS : IsPGroup 2 S) (hsyl : IsSylowOf 2 (S ⊓ C) M) :
     S ⊓ C = S ⊓ M ∧ IsSylowOf 2 (S ⊓ M) M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : S ⊓ C ≤ S ⊓ M := le_inf inf_le_left hsyl.le
   have heq : S ⊓ M = S ⊓ C := hsyl.eq_of_le hle inf_le_right hS.to_inf_left
   refine ⟨heq.symm, ?_⟩
@@ -28,7 +28,7 @@ theorem sec3102_sylow_inter_eq {G : Type} [Group G] [Finite G] {S C M : Subgroup
 theorem sec3102_isSylowOf_of_card_mul {G : Type} [Group G] [Finite G] {X M : Subgroup G}
     (hXM : X ≤ M) (hX : IsPGroup 2 X) {m : ℕ} (hm : Odd m)
     (hcard : Nat.card M = Nat.card X * m) : IsSylowOf 2 X M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨hXM, hX, ?_⟩
   have h1 := Subgroup.relIndex_mul_card (H := X) (K := M)
@@ -72,7 +72,7 @@ theorem sec3102_eq_of_map_eq {A B : Type} [Group A] [Group B] [Finite A] (κ : A
   have hmem : x⁻¹ * y ∈ R := MulMemClass.mul_mem (InvMemClass.inv_mem hx) hy
   have h1 : κ (x⁻¹ * y) = 1 := by
     rw [_root_.map_mul, _root_.map_inv, hxy, inv_mul_cancel]
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp R.isPGroup' ⟨x⁻¹ * y, hmem⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp R.isPGroup ⟨x⁻¹ * y, hmem⟩
   rw [Subgroup.orderOf_mk] at hk
   have hpow : (x⁻¹ * y) ^ 2 ^ k = 1 := by
     rw [← hk]
@@ -216,8 +216,8 @@ open scoped Pointwise in
 theorem sec3102_exists_conj_of_isSylowOf {G : Type} [Group G] [Finite G] {N P Q : Subgroup G}
     (hP : IsSylowOf 2 P N) (hQ : IsSylowOf 2 Q N) :
     ∃ g : G, Q = P.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 N) := sec3102_finite_sylow N 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 N) := sec3102_finite_sylow N 2
   obtain ⟨PS, rfl⟩ := hP
   obtain ⟨QS, rfl⟩ := hQ
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq N PS QS
@@ -239,7 +239,7 @@ theorem sec3102_card_centerIn_le_of_isSylowOf {G : Type} [Group G] [Finite G]
 theorem sec3102_isSylowOf_map_conj {G : Type} [Group G] [Finite G] {P K : Subgroup G} (g : G)
     (hP : IsSylowOf 2 P K) :
     IsSylowOf 2 (P.map (MulAut.conj g).toMonoidHom) (K.map (MulAut.conj g).toMonoidHom) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj : Function.Injective (MulAut.conj g).toMonoidHom := (MulAut.conj g).injective
   obtain ⟨hle, hP2, hdvd⟩ := (CFSG.ABGLocalTools.isSylowOf_iff).1 hP
   refine (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨Subgroup.map_mono hle, hP2.map _, ?_⟩
@@ -289,7 +289,7 @@ theorem sec3102_card_center_le_of_surj {X Y : Type} [Group X] [Group Y] [Finite 
     intro x hx
     have hφx : φ (x : X) = 1 := by
       simpa using congrArg Subtype.val hx
-    obtain ⟨k, hk⟩ := P.isPGroup' x
+    obtain ⟨k, hk⟩ := P.isPGroup x
     have hk' : (x : X) ^ 2 ^ k = 1 := by
       simpa using congrArg Subtype.val hk
     exact Subtype.ext (sec3102_eq_one_of_mem_of_pow_two_pow hker (MonoidHom.mem_ker.2 hφx) hk')
@@ -340,6 +340,7 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
+omit [Finite G] in
 theorem sec3102_centerIn_CPI₂_le (d : Data G h) : CFSG.centerIn d.CPI₂ ≤ d.CPI₆ := by
   intro z hz
   simp only [CFSG.centerIn, Subgroup.mem_inf, Subgroup.mem_centralizer_iff] at hz
@@ -398,12 +399,14 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
+omit [Finite G] in
 theorem sec3102_M₄_eq (d : Data G h) : d.M₄ = d.M₁.map (MulAut.conj d.s).toMonoidHom := by
   have hI : d.I₄ = d.I₁.map (MulAut.conj d.s).toMonoidHom := (sec2_1_five d).2.2.2.1
   show normalClosureIn (centralizer (d.I₄ : Set G)) d.N₄ = _
   rw [hI, d.N₄_eq, sec3102_centralizer_map_conj, sec3102_normalClosureIn_map_conj]
   rfl
 
+omit [Finite G] in
 theorem sec3102_M₅_eq (d : Data G h) : d.M₅ = d.M₂.map (MulAut.conj d.r).toMonoidHom := by
   have hI : d.I₅ = d.I₂.map (MulAut.conj d.r).toMonoidHom := (sec2_1_five d).2.2.2.2.1
   show normalClosureIn (centralizer (d.I₅ : Set G)) d.N₅ = _
@@ -420,7 +423,7 @@ theorem sec3102_card_centerIn_le_of_layer {H H' : Type} [Group H] [Group H'] [Fi
     (ψ : ↥(normalClosure ((N.map θ : Subgroup H') : Set H')) ≃* ↥(N.map θ) × ↥(N.map θ))
     (m : ℕ) (hN : ∀ P : Subgroup H, IsSylowOf 2 P N → Nat.card (CFSG.centerIn P) ≤ m)
     {R : Subgroup H} (hR : IsSylowOf 2 R M) : Nat.card (CFSG.centerIn R) ≤ m ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Jb : Subgroup H' := N.map θ with hJb
   set Dn : Subgroup H' := normalClosure (Jb : Set H') with hDn
   have hmem : ∀ x : ↥M, θ x ∈ Dn := fun x => by
@@ -469,7 +472,7 @@ theorem sec3102_card_centerIn_map_subtype {H : Type} [Group H] (K' : Subgroup H)
 
 theorem sec3102_card_centerIn_M₂ (hp : d.ProductCaseHyp) {R : Subgroup G}
     (hR : IsSylowOf 2 R d.M₂) : Nat.card (CFSG.centerIn R) ≤ (2 ^ f) ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hGMS := hp.gms
   have hd := hp.hyp
   obtain ⟨hout, hM⟩ := hd.sec3_3_two hGMS
@@ -569,7 +572,7 @@ theorem sec3102_main (hp : d.CaseHyp) (k : d.Know93) (hO : d.Sec3101OrdersAll)
     (hZ : ∀ {R : Subgroup G}, IsSylowOf 2 R d.M₂ → Nat.card (CFSG.centerIn R) ≤ (2 ^ f) ^ 2) :
     d.Sec3_10_two := by
   intro S hS hPS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hGMS := hp.gms
   have hd := hp.hyp
   have O := hO S hS hPS
@@ -660,11 +663,11 @@ theorem sec3102_main (hp : d.CaseHyp) (k : d.Know93) (hO : d.Sec3101OrdersAll)
     rw [hF₅, O.cF₅]
   have hSE : S ≤ normalizer (d.E : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hES).1 (by
-      haveI : (d.E.subgroupOf S).Characteristic := hEchar
+      have : (d.E.subgroupOf S).Characteristic := hEchar
       infer_instance)
   have hSD : S ≤ normalizer (d.D : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hDS).1 (by
-      haveI : (d.D.subgroupOf S).Characteristic := hDchar
+      have : (d.D.subgroupOf S).Characteristic := hDchar
       infer_instance)
   have hV₁D : d.V₁ ≤ normalizer (d.D : Set G) := hV₁S.trans hSD
   have hDV : d.D ⊓ d.V₁ = ⊥ := by

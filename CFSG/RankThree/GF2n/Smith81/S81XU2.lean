@@ -46,21 +46,25 @@ section Bridge2
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {ω : F}
 
+omit [Finite F] [CharP F 2] in
 theorem imgS0_mul' (H G : GL (Fin 6) F) :
     imgS0 (H * G) = (imgS0 G).map (Matrix.mulVecLin (H : Matrix (Fin 6) (Fin 6) F)) := by
   unfold imgS0
   rw [← Submodule.map_comp, Units.val_mul, Matrix.mulVecLin_mul]
 
+omit [Finite F] [CharP F 2] in
 private theorem mulVecLin_injective (g : GL (Fin 6) F) :
     Function.Injective (Matrix.mulVecLin (g : Matrix (Fin 6) (Fin 6) F)) := by
   rw [Matrix.coe_mulVecLin]
   exact Matrix.mulVec_injective_iff_isUnit.2 g.isUnit
 
+omit [Finite F] [CharP F 2] in
 private theorem finrank_map_mulVecLin (g : GL (Fin 6) F) (X : Submodule F (Fin 6 → F)) :
     Module.finrank F ↥(X.map (Matrix.mulVecLin (g : Matrix (Fin 6) (Fin 6) F))) =
       Module.finrank F ↥X :=
   (Submodule.equivMapOfInjective _ (mulVecLin_injective g) X).finrank_eq.symm
 
+omit [Finite F] in
 theorem kdimU_eq (hω : ω + σ ω = 1) (g : GL (Fin 6) F) :
     kdimU σ hω g =
       Module.finrank F ↥(imgS0 (g * frameGL σ ω hω) ⊓ imgS0 (frameGL σ ω hω)) := by
@@ -76,11 +80,13 @@ theorem kdimU_eq (hω : ω + σ ω = 1) (g : GL (Fin 6) F) :
   rw [← finrank_map_mulVecLin S (imgS0 (ucF σ hω g) ⊓ S0 F),
     Submodule.map_inf _ (mulVecLin_injective S), h2, h3]
 
+omit [Finite F] in
 theorem u3_val_wact_p0 {K : Type} [Field K] {e : K ≃+* Fσ σ} (h : SUid σ 6) :
     e3uVal (e3uWact σ e h (e3uP0 σ e)) = rho F (h : GL (Fin 6) F) (pt0 F) := by
   rw [e3uWact_val]
   rfl
 
+omit [Finite F] in
 theorem u6_not_mem_W0 {K : Type} [Field K] (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1)
     (e : K ≃+* Fσ σ) (g : SUid σ 6) (hk : kdimU σ hω (g : GL (Fin 6) F) ≤ 1) :
     e3uWact σ e g (e3uP0 σ e) ∉ Wsp (Submodule.span K {e3uP0 σ e}) (e3uU0 σ e) := by
@@ -103,6 +109,7 @@ theorem u6_not_mem_W0 {K : Type} [Field K] (hσ : IsUnitaryInvolution σ) (hω :
   unfold kdimU at hk
   omega
 
+omit [Finite F] in
 theorem specialAt_wact_iff {K : Type} [Field K] (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1)
     (e : K ≃+* Fσ σ) (g : SUid σ 6) :
     SpecialAt (betaU e hσ.invol) (e3uP0 σ e) (e3uU0 σ e) (e3uWact σ e g) ↔
@@ -133,6 +140,7 @@ theorem specialAt_wact_iff {K : Type} [Field K] (hσ : IsUnitaryInvolution σ) (
   · intro hk
     exact ⟨hbeta.mpr (by omega), u6_not_mem_W0 hσ hω e g (by omega)⟩
 
+omit [Finite F] in
 theorem kdimU_inv_mul (hω : ω + σ ω = 1) (x y : SUid σ 6) :
     kdimU σ hω ((x⁻¹ * y : SUid σ 6) : GL (Fin 6) F) =
       Module.finrank F ↥(imgS0 ((y : GL (Fin 6) F) * frameGL σ ω hω) ⊓
@@ -148,6 +156,7 @@ theorem kdimU_inv_mul (hω : ω + σ ω = 1) (x y : SUid σ 6) :
     (imgS0 (((x⁻¹ * y : SUid σ 6) : GL (Fin 6) F) * S) ⊓ imgS0 S),
     Submodule.map_inf _ (mulVecLin_injective (x : GL (Fin 6) F)), ← imgS0_mul', ← imgS0_mul', e1]
 
+omit [Finite F] [CharP F 2] in
 theorem two_le_finrank_of_li {V : Type} [AddCommGroup V] [Module F V] [Module.Finite F V] {A : Submodule F V} {x y : V}
     (hx : x ∈ A) (hy : y ∈ A) (hli : LinearIndependent F ![x, y]) : 2 ≤ Module.finrank F ↥A := by
   have hle : Submodule.span F (Set.range ![x, y]) ≤ A := by
@@ -160,6 +169,7 @@ theorem two_le_finrank_of_li {V : Type} [AddCommGroup V] [Module F V] [Module.Fi
   rw [finrank_span_eq_card hli] at h1
   simpa using h1
 
+omit [Finite F] in
 theorem imgS0_frame_eq_span (hω : ω + σ ω = 1) :
     imgS0 (frameGL σ ω hω) = Submodule.span F (Set.range (e3uT0Vec (F := F))) := by
   apply le_antisymm
@@ -189,11 +199,13 @@ theorem imgS0_frame_eq_span (hω : ω + σ ω = 1) :
     rw [Matrix.mulVecLin_apply]
     exact frameMat_mulVec_even (σ := σ) ω j
 
+omit [Finite F] in
 theorem herm_e3uT0Vec (σ : F ≃+* F) (i j : Fin 3) :
     herm σ (e3uT0Vec (F := F) i) (e3uT0Vec j) = 0 := by
   fin_cases i <;> fin_cases j <;>
     simp [herm, e3uT0Vec, Fin.sum_univ_six, CharTwo.add_self_eq_zero]
 
+omit [Finite F] in
 theorem herm_T0_zero (σ : F ≃+* F) (hω : ω + σ ω = 1) {x y : Fin 6 → F}
     (hx : x ∈ imgS0 (frameGL σ ω hω)) (hy : y ∈ imgS0 (frameGL σ ω hω)) : herm σ x y = 0 := by
   rw [imgS0_frame_eq_span] at hx hy
@@ -215,6 +227,7 @@ theorem herm_T0_zero (σ : F ≃+* F) (hω : ω + σ ω = 1) {x y : Fin 6 → F}
   | add x x' _ _ h1 h2 => rw [herm_add_left, h1, h2, add_zero]
   | smul c x _ h => rw [herm_smul_left, h, mul_zero]
 
+omit [Finite F] in
 theorem herm_Tg_zero (σ : F ≃+* F) (hω : ω + σ ω = 1) (g : SUid σ 6) {x y : Fin 6 → F}
     (hx : x ∈ imgS0 ((g : GL (Fin 6) F) * frameGL σ ω hω))
     (hy : y ∈ imgS0 ((g : GL (Fin 6) F) * frameGL σ ω hω)) : herm σ x y = 0 := by
@@ -225,6 +238,7 @@ theorem herm_Tg_zero (σ : F ≃+* F) (hω : ω + σ ω = 1) (g : SUid σ 6) {x 
   rw [((CFSG.ClassicalGroups.Unitary.mem_SUid_iff σ).mp g.2).2 x₀ y₀]
   exact herm_T0_zero σ hω hx₀ hy₀
 
+omit [Finite F] in
 theorem imgS0_su_eq_span (hω : ω + σ ω = 1) (h : SUid σ 6) {l : F} (hl : l ≠ 0)
     {v : Fin 3 → Fin 6 → F}
     (h0 : ((h : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).mulVec (e3uT0Vec 0) = l • v 0)
@@ -265,6 +279,7 @@ theorem imgS0_su_eq_span (hω : ω + σ ω = 1) (h : SUid σ 6) {l : F} (hl : l 
       rw [← h2]
       exact hmem 2
 
+omit [Finite F] [CharP F 2] in
 theorem finrank_inf_span_eq_one {a b c d e : Fin 6 → F} (hli : LinearIndependent F ![a, b, c, d, e]) :
     Module.finrank F ↥(Submodule.span F (Set.range ![a, c, e]) ⊓
       Submodule.span F (Set.range ![a, b, d])) = 1 := by
@@ -300,6 +315,7 @@ theorem finrank_inf_span_eq_one {a b c d e : Fin 6 → F} (hli : LinearIndepende
     · intro h
       exact ha0 (congrArg Subtype.val h)
 
+omit [Finite F] in
 theorem u6_lemmaS_group (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (g : SUid σ 6)
     (hk : kdimU σ hω (g : GL (Fin 6) F) = 1) :
     ∃ h₁ h₂ : SUid σ 6, 2 ≤ kdimU σ hω (h₁ : GL (Fin 6) F) ∧ 2 ≤ kdimU σ hω (h₂ : GL (Fin 6) F) ∧
@@ -419,6 +435,7 @@ section WLevel
 
 variable {K : Type} [Field K]
 
+omit [Finite F] in
 theorem u6_lemmaS_W (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (e : K ≃+* Fσ σ) :
     ∀ g ∈ e3uGam σ e, SpecialAt (betaU e hσ.invol) (e3uP0 σ e) (e3uU0 σ e) g →
       ∃ h₁ ∈ e3uGam σ e, ∃ h₂ ∈ e3uGam σ e,
@@ -446,6 +463,7 @@ theorem u6_lemmaS_W (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (e : K
     rw [e2]
     exact (specialAt_wact_iff hσ hω e _).mpr hk₁₂
 
+omit [Finite F] in
 theorem u6_lemmaT_W (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (e : K ≃+* Fσ σ) :
     ∀ g ∈ e3uGam σ e, SpecialAt (betaU e hσ.invol) (e3uP0 σ e) (e3uU0 σ e) g →
       ∀ u ∈ e3uU0 σ e ⊓ conjSub g (e3uU0 σ e), u ≠ 1 →
@@ -467,6 +485,7 @@ theorem u6_lemmaT_W (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (e : K
     rw [this, map_one]
   exact ⟨ũ, u6_transvec_of_kdim_one hσ hω e hũ hũ₂ heq hk hne, rfl⟩
 
+omit [Finite F] in
 theorem u6_transvec_conj (e : K ≃+* Fσ σ) {g : E3UWspace σ e ≃ₗ[K] E3UWspace σ e}
     (hg : g ∈ e3uGam σ e) {u : E3UWspace σ e ≃ₗ[K] E3UWspace σ e}
     (hu : ∃ t : SUid σ 6, IsTransvec F (t : GL (Fin 6) F) ∧ u = e3uWact σ e t) :

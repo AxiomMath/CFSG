@@ -108,8 +108,8 @@ theorem rckPairE6_holds
       exact absurd this not_isPrimePow_one
     · exact h0
   have hg : 0 < h * s := Nat.mul_pos hh hs0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(fixSubfield σ) := hfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(fixSubfield σ) := hfin
   have hKcard : Nat.card ↥(fixSubfield σ) = 2 ^ (h * s) := by rw [hcard, hq, pow_mul]
   have hτ' : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by
     rcases hτ with h | h | h <;> simp [h]
@@ -121,7 +121,7 @@ theorem rckPairE6_holds
     show 2 ≤ (e6Datum (GaloisField 2 (h * s))).rank
     show 2 ≤ 6
     norm_num
-  haveI hfinM : Finite (ggU .E6 0 (h * s)).K :=
+  have hfinM : Finite (ggU .E6 0 (h * s)).K :=
     ggU_finite_exc (Or.inr (Or.inl rfl)) ⟨hadm, hrk⟩
   obtain ⟨hcommM, -⟩ := ggU_perfect_lieModel hadm hrk
   have hsplit := CFSG.StandardType.LieOddCover.oddCentralSplit_ggU_pos (t := .E6) (n := 0)

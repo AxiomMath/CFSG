@@ -29,7 +29,7 @@ theorem burnsideF48s_dihedral_pow {Q : Type*} [Group Q] [Finite Q] {σ τ : Q} (
   have hconj' : ∀ c ∈ C, σ⁻¹ * c * σ ∈ C := by
     intro c hc
     have := hconj c hc
-    rwa [hσi] at this ⊢
+    rw [hσi] at this ⊢; assumption
   have key : ∀ q : Q, q ∈ C ∨ q * σ ∈ C := by
     intro q
     have hq : q ∈ Subgroup.closure ({σ, τ} : Set Q) := by rw [hgen]; trivial
@@ -58,7 +58,7 @@ theorem burnsideF48s_dihedral_pow {Q : Type*} [Group Q] [Finite Q] {σ τ : Q} (
       · right
         have e : x⁻¹ * σ = σ * (x * σ)⁻¹ * σ⁻¹ := by rw [hσi]; group
         rw [e]; exact hconj _ (C.inv_mem hx)
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   set n := orderOf ρ with hn
   have hCcard : Nat.card C = n := Nat.card_zpowers ρ
   have hle : 2 * m ≤ 2 * n := by
@@ -118,7 +118,7 @@ theorem burnsideF48s_dihedral_mem {G : Type*} [Group G] {σ τ : G} {N : Subgrou
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hnorm w w.2 n hn⟩
   set Q := W ⧸ N.subgroupOf W
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hcard]; omega)
   have hσW : σ ∈ W := Subgroup.subset_closure (Set.mem_insert _ _)
   have hτW : τ ∈ W := Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)
   let σ' : W := ⟨σ, hσW⟩
@@ -155,7 +155,7 @@ theorem burnsideF48s_apartment_other {α : RankTwoAmalgam.{0}} {Y : Type} [Group
     (c : α.Completion Y) {m : ℕ} (hm : 2 ≤ m) {S : Set c.Γ} (hS : c.IsApartment m S) {u : c.Γ}
     (hu : u ∈ S) : ∃ v ∈ S, v ≠ u ∧ CosetGeom.vtype v = CosetGeom.vtype u := by
   obtain ⟨e⟩ := hS
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   obtain ⟨i, hi⟩ := e.surjective ⟨u, hu⟩
   have hone : ((1 : Fin (2 * m)) : ℕ) = 1 := by
     rw [Fin.val_one']
@@ -317,7 +317,7 @@ theorem burnsideF48s_iota12_injective {E : Type} [Group E] {M₁ M₂ : Subgroup
   (f1_injective β hβ).comp (Subgroup.inclusion_injective inf_le_left)
 
 theorem burnsideF48s_range_iota12 {E : Type} [Group E] {M₁ M₂ : Subgroup E} {Y : Type} [Group Y]
-    {β : Cpl M₁ M₂ Y} (hβ : β.IsFaithful) :
+    {β : Cpl M₁ M₂ Y} (_hβ : β.IsFaithful) :
     (burnsideF48s_iota12 β).range = stv β β.xv ⊓ stv β β.lv := by
   apply le_antisymm
   · rintro _ ⟨d, rfl⟩

@@ -68,6 +68,6 @@ theorem r16_14_corr_holds (D : Data G) (hSg : UC6S846.SigmaStd D)
         · exact hex
   · push Not at hne
     rw [s16c1614_rMV_eq_top D hne]
-    exact ⟨le_top, fun h => absurd h (ENat.top_ne_coe _)⟩
+    exact ⟨le_top, fun h => absurd h (ENat.top_ne_natCast _)⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

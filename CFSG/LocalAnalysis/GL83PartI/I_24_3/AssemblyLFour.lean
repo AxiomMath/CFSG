@@ -105,7 +105,7 @@ theorem isLThreeFour_of_l34Index {d : ValidLieTypeIndex} (hd : IsL34Index d) :
   obtain ⟨F, hF, hcard, ⟨ψ⟩⟩ :=
     CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.exists_equiv_projectiveSL_of_l34Index hd
       (MulEquiv.refl (CFSGIndex.lie d).Group)
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact ⟨F, hF, inferInstance, hcard,
     ⟨ψ.trans (CFSG.CGT.Timmesfeld75.projectiveSLMulEquivStatedProj 3 F)⟩⟩
 

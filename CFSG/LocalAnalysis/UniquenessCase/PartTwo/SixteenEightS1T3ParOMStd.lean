@@ -76,7 +76,7 @@ theorem s16t3_omminus_std_of_census {K : Type} [Field K] [Finite K] (hK : Nat.ca
       Nat.card ↥P = 3 ^ ((m + 1) / 2) *
         2 ^ (Nat.card ↥(StatedOmega (StatedQuadMinus m K b c))).factorization 2 ∧
       ∀ p ∈ P, ∀ k : ℕ, p ^ 3 ^ k = 1 → p ^ 3 = 1 := by
-  haveI : IsF2 K := IsF2.of_natCard_eq_two hK
+  have : IsF2 K := IsF2.of_natCard_eq_two hK
   have hc : c = 1 := by
     apply IsF2.eq_one_of_ne_zero
     intro hc0

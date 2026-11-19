@@ -24,6 +24,7 @@ theorem add_self_vec (K : Type*) [Field K] [CharP K 2] {V : Type*} [AddCommGroup
 noncomputable def tvMap (Q : QuadraticForm K V) (a : V) : V →ₗ[K] V :=
   LinearMap.id + (QuadraticMap.polarBilin Q a).smulRight a
 
+omit [CharP K 2] in
 theorem tvMap_apply (Q : QuadraticForm K V) (a v : V) :
     tvMap Q a v = v + polar Q a v • a := by
   simp [tvMap, QuadraticMap.polarBilin_apply_apply]
@@ -74,8 +75,7 @@ theorem tv_braid {a b : V} (hab : polar Q a b = 1) :
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hba : polar Q b a = 1 := by rw [polar_comm]; exact hab
   ext v
-  simp only [LinearEquiv.mul_apply, tv_apply, map_add, map_smul, polar_add_right,
-    polar_smul_right, smul_eq_mul, hab, hba, polar_self_eq_zero, mul_zero, add_zero, mul_one]
+  simp only [LinearEquiv.mul_apply, tv_apply, map_add, map_smul, hab, hba, polar_self_eq_zero]
   match_scalars <;>
     first
       | ring1
@@ -88,8 +88,7 @@ theorem tv_braid {a b : V} (hab : polar Q a b = 1) :
 
 theorem rot_apply {a b : V} (hab : polar Q a b = 1) (v : V) :
     rot Q a b v = v + polar Q a v • a + polar Q b v • (a + b) := by
-  simp only [rot, LinearEquiv.mul_apply, tv_apply, map_add, map_smul, polar_add_right,
-    polar_smul_right, smul_eq_mul, hab, mul_one]
+  simp only [rot, LinearEquiv.mul_apply, tv_apply, map_add, map_smul, hab]
   module
 
 theorem rot_a {a b : V} (hab : polar Q a b = 1) : rot Q a b a = b := by

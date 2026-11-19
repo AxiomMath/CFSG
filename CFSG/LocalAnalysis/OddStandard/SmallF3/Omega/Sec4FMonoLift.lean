@@ -76,13 +76,13 @@ theorem sec4F_mono_frame {G : Type} [Group G] [Finite G] {L P B : Subgroup G}
   have hT_even : ∀ (v : Fin 7 → ZMod 2) (hv : IsEvenVec v), IsEvenVec (T v) := by
     intro v hv
     dsimp only [T]
-    rw [dif_pos hv]
+    rw [dite_eq_left hv]
     exact (Classical.choose_spec (hex v hv)).1
   have hT_psi : ∀ (v : Fin 7 → ZMod 2) (hv : IsEvenVec v),
       sec4IPsi fr (T v) = sec4IRho e ⟨φ v, hφL v hv⟩ := by
     intro v hv
     dsimp only [T]
-    rw [dif_pos hv]
+    rw [dite_eq_left hv]
     exact (Classical.choose_spec (hex v hv)).2
   have hT_add : ∀ v w, IsEvenVec v → IsEvenVec w → T (v + w) = T v + T w := by
     intro v w hv hw

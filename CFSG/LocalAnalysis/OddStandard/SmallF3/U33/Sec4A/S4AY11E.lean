@@ -131,11 +131,11 @@ theorem m11_exists_complement (Y F₂ : Subgroup G) (hY16 : Nat.card Y = 16)
     refine orderOf_eq_prime ha3 ?_
     intro h1
     obtain ⟨y, hy⟩ : ∃ y : ↥Y, y ≠ 1 := by
-      haveI : Nontrivial ↥Y := Finite.one_lt_card_iff_nontrivial.mp (by rw [hY16]; norm_num)
+      have : Nontrivial ↥Y := Finite.one_lt_card_iff_nontrivial.mp (by rw [hY16]; norm_num)
       exact exists_ne 1
     have h2 : a y = y := by rw [h1]; rfl
     exact hy (hfixa y h2)
-  haveI : Finite (MulAut ↥Y) := MulEquiv.finite_left
+  have : Finite (MulAut ↥Y) := MulEquiv.finite_left
   obtain ⟨e⟩ := nonempty_closure_mulEquiv_perm_three hord hb2 hba
   set H : Subgroup (MulAut ↥Y) := closure ({a, b} : Set (MulAut ↥Y)) with hH
   have haH : a ∈ H := Subgroup.subset_closure (by simp)
@@ -177,8 +177,8 @@ theorem m11_exists_complement (Y F₂ : Subgroup G) (hY16 : Nat.card Y = 16)
   let T := {W : Subgroup ↥Y // Nat.card W = 4 ∧
     ∀ g ∈ H, ∀ w ∈ W, (MonoidHom.id (MulAut ↥Y)) g w ∈ W}
   have h3 : Nat.card T = 3 := lemma38 hρ16 ⟨e⟩ hV
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [h3]; norm_num)
-  haveI : Nontrivial T := Finite.one_lt_card_iff_nontrivial.mp (by rw [h3]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [h3]; norm_num)
+  have : Nontrivial T := Finite.one_lt_card_iff_nontrivial.mp (by rw [h3]; norm_num)
   set W₀ : Subgroup ↥Y := F₂.subgroupOf Y with hW₀
   have hW₀card : Nat.card W₀ = 4 := by
     rw [hW₀, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hF₂Y).toEquiv]

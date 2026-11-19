@@ -154,7 +154,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
   {B : LinearMap.BilinForm (ZMod 3) V}
 
 private theorem e6ModelForm_comm (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
-    (hV : Nat.card V = 3 ^ 5) (hB : ∀ i v, B (h i) v = α i v) (hα : ∀ i, α i (h i) = 2)
+    (hV : Nat.card V = 3 ^ 5) (hB : ∀ i v, B (h i) v = α i v) (_hα : ∀ i, α i (h i) = 2)
     {x y : Fin Tag.E6.rank → ZMod 3} (hx : x ∈ hypE6) (hy : y ∈ hypE6) :
     e6ModelForm x y = e6ModelForm y x := by
   obtain ⟨a, ha⟩ := (e6ModelCoord hP hV).bijective.2 ⟨x, show x ∈ e6ModelHyp from hx⟩
@@ -165,7 +165,7 @@ private theorem e6ModelForm_comm (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i
     e6ModelForm_e6Coord hP hV hB b a, bilinForm_symm hP hV hB a b]
 
 @[expose] def e6ModelReflMap (a : Fin Tag.E6.rank → ZMod 3)
-    (ha : e6ModelForm a a = 2) (x : Fin Tag.E6.rank → ZMod 3) :
+    (_ha : e6ModelForm a a = 2) (x : Fin Tag.E6.rank → ZMod 3) :
     Fin Tag.E6.rank → ZMod 3 := x - e6ModelForm a x • a
 
 theorem e6ModelReflMap_involutive (a : Fin Tag.E6.rank → ZMod 3)

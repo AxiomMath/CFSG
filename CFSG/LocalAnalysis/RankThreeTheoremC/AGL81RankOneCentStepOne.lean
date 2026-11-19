@@ -17,6 +17,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mul_ne_of_mem_sup {p : ℕ} {y a b : G} (hnc : a * y ≠ y * a)
     (hEb : Subgroup.zpowers (y ^ p) ⊔ Subgroup.zpowers b =
       Subgroup.zpowers (y ^ p) ⊔ Subgroup.zpowers a) : b * y ≠ y * b := by
@@ -50,8 +51,8 @@ theorem kbar_ne_bot_of_not_le (hS : Setting G) (h1014 : AGL81TenFourteenCentCfg 
     d1KBar p M (Subgroup.centralizer ({b} : Set G)) ≠ ⊥ := by
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hp : p.Prime := hesc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hKs
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hKs
   have hWH' : W ≤ H := hWH.trans inf_le_left
   have hWM : W ≤ M := hWH.trans inf_le_right
   obtain ⟨hbo, hEb, hE', hE'c, hE'W⟩ := elemAbelian_triple hKn hWH' hzW.1 hzW.2 hzo hzc hyl hyo

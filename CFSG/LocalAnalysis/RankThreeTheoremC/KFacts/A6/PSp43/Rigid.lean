@@ -77,11 +77,11 @@ theorem fix_of_closeStep {π : Equiv.Perm (Fin 45)} (hπ : IsEquivariant π) {S 
     rwa [e] at h
 
 theorem fix_of_closeIter {π : Equiv.Perm (Fin 45)} (hπ : IsEquivariant π) :
-    ∀ (n : ℕ) {S : List ℕ}, (∀ j ∈ S, j < 45) →
-      (∀ j (hj : j < 45), j ∈ S → π ⟨j, hj⟩ = ⟨j, hj⟩) →
-      ∀ l (hl : l < 45), l ∈ closeIter n S → π ⟨l, hl⟩ = ⟨l, hl⟩
+    ∀ (n : ℕ) {_S : List ℕ}, (∀ j ∈ _S, j < 45) →
+      (∀ j (hj : j < 45), j ∈ _S → π ⟨j, hj⟩ = ⟨j, hj⟩) →
+      ∀ l (hl : l < 45), l ∈ closeIter n _S → π ⟨l, hl⟩ = ⟨l, hl⟩
   | 0, _, _, hS => hS
-  | n + 1, S, h45, hS => fix_of_closeIter hπ n (fun _ h => lt_of_mem_closeStep h)
+  | n + 1, _S, h45, hS => fix_of_closeIter hπ n (fun _ h => lt_of_mem_closeStep h)
       (fix_of_closeStep hπ h45 hS)
 
 theorem eq_one_of_closeIter {π : Equiv.Perm (Fin 45)} (hπ : IsEquivariant π) {n : ℕ}
@@ -130,7 +130,7 @@ theorem comm_of_gen {ws : List (List (Fin 45))} {π : Equiv.Perm (Fin 45)}
   have hle : gen (ws.map wperm) ≤ centralizer ({π} : Set (Equiv.Perm (Fin 45))) := by
     rw [Subgroup.closure_le]
     intro g hg
-    simp only [Set.mem_setOf_eq, List.mem_map] at hg
+    simp only [Set.mem_ofPred_eq, List.mem_map] at hg
     obtain ⟨w, hw, rfl⟩ := hg
     exact mem_centralizer_singleton_iff.2 (h w hw).symm
   intro u hu

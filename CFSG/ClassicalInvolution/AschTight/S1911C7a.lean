@@ -47,7 +47,7 @@ theorem isSL2Three_sup_member (hd : Sec19DataT p f K z S W L t V) :
   cyclic := by
     obtain ⟨v, hvV, hV⟩ := exists_eq_zpowers_V hd
     refine ⟨v, (le_sup_left : W ≤ W ⊔ K) (hd.leW hvV), ?_, ?_⟩
-    · exact S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hd.hWS (hd.leW hvV)))
+    · exact S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hd.hWS (hd.leW hvV)))
     · rw [sup_member_eq hd, hV]
   wreathed := fun P hP => by
     have h₀ : IsSylow2In ((S : Subgroup G) ⊓ K ⊔ V) (W ⊔ K) := by

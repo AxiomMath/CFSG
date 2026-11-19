@@ -130,7 +130,7 @@ theorem three_pow_three_le_card_inf_centralizer
       (hu h hh _ (hhv.trans (hE v.1)).symm ?_).symm⟩, hhv⟩
     exact (rootChar_val_eq_one_iff_wk hζ v.1 α).2 (mem_dotOrth_mod3.1 hv.2)
   choose g hg hgv using hmem
-  haveI : Finite ↥(H ⊓ Subgroup.centralizer {u}) :=
+  have : Finite ↥(H ⊓ Subgroup.centralizer {u}) :=
     Finite.of_injective _ (Subgroup.inclusion_injective (inf_le_left : H ⊓ _ ≤ H))
   have hinj : Function.Injective fun v => (⟨g v, hg v⟩ : ↥(H ⊓ Subgroup.centralizer {u})) :=
     fun v v' hvv => Subtype.ext (Multiplicative.ofAdd.injective (hEi (by

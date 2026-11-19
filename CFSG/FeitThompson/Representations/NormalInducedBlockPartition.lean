@@ -180,7 +180,7 @@ theorem iUnion_irrConstituents [H.Normal] :
     refine ⟨(Irr_eq_irrChar L) ▸ hχIrr, fun hker => ?_⟩
     have hpos := (mem_resConstituents.1 hres).2
     rw [resClassFun_eq_smul_one_of_subset_charValueKernel hker, cfInner_smul_left,
-      cfInner_eq_ite_of_mem_Irr one_mem_Irr hlamIrr, if_neg (Ne.symm hlamne), mul_zero] at hpos
+      cfInner_eq_ite_of_mem_Irr one_mem_Irr hlamIrr, ite_eq_right (Ne.symm hlamne), mul_zero] at hpos
     exact absurd hpos (lt_irrefl 0)
   · rintro ⟨hχ, hker⟩
     have hχIrr : χ ∈ Irr L := (Irr_eq_irrChar L).symm ▸ hχ

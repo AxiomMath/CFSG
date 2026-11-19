@@ -61,7 +61,7 @@ public theorem isKleinFour_subgroupOf
 
 public theorem centralizer_subgroupOf_le
     {G : Type*} [Group G] {M A V : Subgroup G}
-    (hAM : A ≤ M) (hVM : V ≤ M)
+    (_hAM : A ≤ M) (_hVM : V ≤ M)
     (hVleC : V ≤ Subgroup.centralizer (A : Set G)) :
     V.subgroupOf M ≤
       Subgroup.centralizer ((A.subgroupOf M : Subgroup M) : Set M) := by

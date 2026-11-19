@@ -32,25 +32,27 @@ noncomputable def map : ↥H →* Quotient ρ H :=
 noncomputable def rep : Representation (ZMod p) (Quotient ρ H) V :=
   Theory.Representation.kerRepresentation (ρ.comp H.subtype)
 
+omit [Finite Γ] [Finite V] in
 theorem rep_faithful : Function.Injective (rep ρ H) :=
   Theory.Representation.kerRepresentation_faithful _
 
+omit [Finite Γ] [Finite V] in
 @[simp] theorem rep_map (h : ↥H) : rep ρ H (map ρ H h) = ρ (h : Γ) := by
   rw [show rep ρ H =
     Representation.ofQuotient (ρ.comp H.subtype) (ρ.comp H.subtype).ker from
     kerRepresentation_eq_ofQuotient (ρ.comp H.subtype)]
   ext v
-  simpa [map] using
-    (Representation.ofQuotient_coe_apply (ρ := ρ.comp H.subtype)
-      (S := (ρ.comp H.subtype).ker) h v)
+  simp [map]
 
 noncomputable abbrev image (A : Subgroup Γ) : Subgroup (Quotient ρ H) :=
   (A.subgroupOf H).map (map ρ H)
 
+omit [Finite Γ] [Finite V] in
 theorem image_sup (A B : Subgroup Γ) (hA : A ≤ H) (hB : B ≤ H) :
     image ρ H (A ⊔ B) = image ρ H A ⊔ image ρ H B := by
   rw [image, image, image, Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
+omit [Finite Γ] [Finite V] in
 theorem mem_image {A : Subgroup Γ} {x : Quotient ρ H} :
     x ∈ image ρ H A ↔ ∃ a : ↥H, (a : Γ) ∈ A ∧ map ρ H a = x := by
   rw [image, Subgroup.mem_map]
@@ -60,10 +62,12 @@ theorem mem_image {A : Subgroup Γ} {x : Quotient ρ H} :
   · rintro ⟨a, ha, rfl⟩
     exact ⟨a, Subgroup.mem_subgroupOf.mpr ha, rfl⟩
 
+omit [Finite Γ] [Finite V] in
 theorem image_mem {A : Subgroup Γ} (hA : A ≤ H) {a : Γ} (ha : a ∈ A) :
     map ρ H ⟨a, hA ha⟩ ∈ image ρ H A :=
   (mem_image ρ H).mpr ⟨⟨a, hA ha⟩, ha, rfl⟩
 
+omit [Finite Γ] [Finite V] in
 theorem fixV_image {A : Subgroup Γ} (hA : A ≤ H) :
     fixV (rep ρ H) (image ρ H A) = fixV ρ A := by
   ext v
@@ -77,19 +81,23 @@ theorem fixV_image {A : Subgroup Γ} (hA : A ≤ H) :
     obtain ⟨a, ha, rfl⟩ := hx
     simpa using hv (a : Γ) ha
 
-theorem isPGroup_image {q : ℕ} {A : Subgroup Γ} (hA : A ≤ H) (h : IsPGroup q A) :
+omit [Finite Γ] [Finite V] in
+theorem isPGroup_image {q : ℕ} {A : Subgroup Γ} (_hA : A ≤ H) (h : IsPGroup q A) :
     IsPGroup q (image ρ H A) := by
   have h' : IsPGroup q (A.subgroupOf H) := h.comap_subtype (K := H)
   exact h'.map (map ρ H)
 
+omit [Finite Γ] [Finite V] in
 theorem le_normalizer_image {A B : Subgroup Γ} (h : A ≤ normalizer B) :
     image ρ H A ≤ normalizer (image ρ H B) :=
   CFSG.GroupTheory.map_subgroupOf_le_normalizer (map ρ H) h
 
+omit [Finite Γ] [Finite V] in
 theorem commutator_image (A B : Subgroup Γ) (hA : A ≤ H) (hB : B ≤ H) :
     ⁅image ρ H A, image ρ H B⁆ = image ρ H ⁅A, B⁆ := by
   rw [image, image, image, ← Subgroup.map_commutator, commutator_subgroupOf_eq hA hB]
 
+omit [Finite Γ] [Finite V] in
 theorem image_ne_bot_of_exists {A : Subgroup Γ} (hA : A ≤ H)
     (h : ∃ a ∈ A, ρ a ≠ 1) : image ρ H A ≠ ⊥ := by
   intro hbot
@@ -99,8 +107,9 @@ theorem image_ne_bot_of_exists {A : Subgroup Γ} (hA : A ≤ H)
   have h1 : map ρ H ⟨a, hA ha⟩ = 1 := Subgroup.mem_bot.mp hmem
   exact hane (by rw [← rep_map ρ H ⟨a, hA ha⟩, h1, map_one])
 
+omit [Finite V] [Finite Γ] in
 theorem inf_ker_eq_bot_of_fixV_eq_bot {r : ℕ} (hr : r.Prime) {A : Subgroup Γ}
-    (hA : A ≤ H) (hcard : Nat.card A = r) (hfix : fixV ρ A = ⊥) (hV : Nontrivial V) :
+    (_hA : A ≤ H) (hcard : Nat.card A = r) (hfix : fixV ρ A = ⊥) (hV : Nontrivial V) :
     A.subgroupOf H ⊓ (ρ.comp H.subtype).ker = ⊥ := by
   rw [eq_bot_iff]
   rintro ⟨a, haH⟩ ⟨haA, haN⟩
@@ -111,7 +120,7 @@ theorem inf_ker_eq_bot_of_fixV_eq_bot {r : ℕ} (hr : r.Prime) {A : Subgroup Γ}
     apply hne
     rw [Subgroup.mem_bot]
     exact Subtype.ext (by simpa using congrArg Subtype.val h)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have htop : Subgroup.zpowers (⟨a, haA'⟩ : A) = ⊤ :=
     zpowers_eq_top_of_prime_card hcard hane
   have hone : ρ a = 1 := MonoidHom.mem_ker.mp haN
@@ -126,6 +135,7 @@ theorem inf_ker_eq_bot_of_fixV_eq_bot {r : ℕ} (hr : r.Prime) {A : Subgroup Γ}
       (by simp [hone])
   exact (top_ne_bot : (⊤ : Submodule (ZMod p) V) ≠ ⊥) (hfixA.symm.trans hfix)
 
+omit [Finite Γ] [Finite V] in
 theorem card_image_of_prime {r : ℕ} (hr : r.Prime) {A : Subgroup Γ} (hA : A ≤ H)
     (hcard : Nat.card A = r) (hdisj : A.subgroupOf H ⊓ (ρ.comp H.subtype).ker = ⊥) :
     Nat.card (image ρ H A) = r := by
@@ -155,34 +165,37 @@ theorem card_image_of_prime {r : ℕ} (hr : r.Prime) {A : Subgroup Γ} (hA : A �
     exact hr.ne_one (by omega)
   · exact hr'
 
+omit [Finite V] in
 theorem isKGroup_quotient_sup {q r : ℕ} {P D : Subgroup Γ} (hq : q.Prime) (hr : r.Prime)
     (hP : IsPGroup q P) (hD : Nat.card D = r)
     (hDP : D ≤ Subgroup.normalizer (P : Set Γ)) :
     CFSG.Open.IsKGroup (Quotient ρ (P ⊔ D)) := by
   let H : Subgroup Γ := P ⊔ D
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hPsolv : Group.IsSolvable ↥P := by
-    haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+    have : Group.IsNilpotent ↥P := hP.isNilpotent
     infer_instance
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hDsolv : Group.IsSolvable ↥D := by
-    haveI : IsCyclic ↥D := isCyclic_of_prime_card hD
+    have : IsCyclic ↥D := isCyclic_of_prime_card hD
     infer_instance
   have hHsolv : Group.IsSolvable ↥H := by
     have hcomm : H = D ⊔ P := by simp [H, sup_comm]
     rw [hcomm]
     exact CFSG.SignalizerFunctorTheorem.McBride.Near.Thm210.isSolvable_sup_of_le_normalizer
       hDP hPsolv hDsolv
-  haveI : Group.IsSolvable ↥H := hHsolv
-  haveI : Group.IsSolvable (Quotient ρ H) := inferInstance
+  have : Group.IsSolvable ↥H := hHsolv
+  have : Group.IsSolvable (Quotient ρ H) := inferInstance
   exact CFSG.Quasithin.SimsD1.FourGeneral.isKGroup_of_isSolvable _
 
+omit [Finite V] [Finite Γ] in
 theorem card_image_eq_of_fixV_eq_bot {r : ℕ} (hr : r.Prime) {D : Subgroup Γ}
     (hDH : D ≤ H) (hD : Nat.card D = r) (hfix : fixV ρ D = ⊥) [Nontrivial V] :
     Nat.card (image ρ H D) = r :=
   card_image_of_prime (ρ := ρ) (H := H) hr hDH hD
     (inf_ker_eq_bot_of_fixV_eq_bot (ρ := ρ) (H := H) hr hDH hD hfix inferInstance)
 
+omit [Finite Γ] [Finite V] in
 theorem image_data {q : ℕ} {P D : Subgroup Γ} (hP : IsPGroup q P)
     (hDP : D ≤ Subgroup.normalizer (P : Set Γ))
     (hPD : ⁅D, P⁆ = P) (hfix : fixV ρ D = ⊥) (hPne : ∃ p ∈ P, ρ p ≠ 1) :
@@ -210,12 +223,14 @@ noncomputable def imageHom {A : Subgroup Γ} (hA : A ≤ H) : ↥A →* ↥(imag
   ((map ρ H).subgroupMap (A.subgroupOf H)).comp
     (Subgroup.subgroupOfEquivOfLe hA).symm.toMonoidHom
 
+omit [Finite Γ] [Finite V] in
 @[simp] theorem imageHom_apply {A : Subgroup Γ} (hA : A ≤ H) (a : ↥A) :
     (imageHom ρ H hA a : Quotient ρ H) = map ρ H ⟨a, hA a.2⟩ := by
   simp only [imageHom, MonoidHom.comp_apply, MonoidHom.subgroupMap_apply_coe]
   exact congrArg (map ρ H)
     (Subtype.ext (Subgroup.subgroupOfEquivOfLe_symm_apply_coe_coe hA a))
 
+omit [Finite Γ] [Finite V] in
 theorem imageHom_surjective {A : Subgroup Γ} (hA : A ≤ H) :
     Function.Surjective (imageHom ρ H hA) :=
   (MonoidHom.subgroupMap_surjective (map ρ H) (A.subgroupOf H)).comp
@@ -223,11 +238,13 @@ theorem imageHom_surjective {A : Subgroup Γ} (hA : A ≤ H) :
 
 variable {T D : Subgroup Γ}
 
+omit [Finite Γ] [Finite V] in
 theorem mem_image_sup_iff (hTH : T ≤ H) (hDH : D ≤ H) {g : Quotient ρ H} :
     g ∈ image ρ H T ⊔ image ρ H D ↔
       ∃ gH : ↥H, (gH : Γ) ∈ T ⊔ D ∧ map ρ H gH = g := by
   rw [← image_sup (ρ := ρ) (H := H) (A := T) (B := D) hTH hDH, mem_image]
 
+omit [Finite Γ] [Finite V] in
 theorem image_invariant_of_sup (hTH : T ≤ H) (hDH : D ≤ H) {W : Submodule (ZMod p) V}
     (h : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     ∀ g ∈ image ρ H T ⊔ image ρ H D, ∀ w ∈ W, rep ρ H g w ∈ W := by
@@ -235,6 +252,7 @@ theorem image_invariant_of_sup (hTH : T ≤ H) (hDH : D ≤ H) {W : Submodule (Z
   obtain ⟨gH, hgTD, rfl⟩ := (mem_image_sup_iff (ρ := ρ) (H := H) hTH hDH).mp hg
   simpa using h (gH : Γ) hgTD w hw
 
+omit [Finite Γ] [Finite V] in
 theorem image_simple_of_sup (hTH : T ≤ H) (hDH : D ≤ H) {W : Submodule (ZMod p) V}
     (h : ∀ W' : Submodule (ZMod p) V, W' ≤ W →
       (∀ g ∈ T ⊔ D, ∀ w ∈ W', ρ g w ∈ W') → W' = ⊥ ∨ W' = W) :
@@ -249,6 +267,7 @@ theorem image_simple_of_sup (hTH : T ≤ H) (hDH : D ≤ H) {W : Submodule (ZMod
     (mem_image_sup_iff (ρ := ρ) (H := H) hTH hDH).mpr ⟨gH, hg, rfl⟩
   simpa [gH] using hinv _ hmem w hw
 
+omit [Finite Γ] [Finite V] in
 theorem image_nontrivial_of_sup (hTH : T ≤ H) {W : Submodule (ZMod p) V}
     (h : ∃ t ∈ T, ∃ w ∈ W, ρ t w ≠ w) :
     ∃ t ∈ image ρ H T, ∃ w ∈ W, rep ρ H t w ≠ w := by
@@ -257,6 +276,7 @@ theorem image_nontrivial_of_sup (hTH : T ≤ H) {W : Submodule (ZMod p) V}
 
 end FaithfulQuotient
 
+omit [Finite Γ] [Finite V] in
 theorem nontrivial_of_exists_ne_one {ρ : Representation (ZMod p) Γ V}
     (h : ∃ g : Γ, ρ g ≠ 1) : Nontrivial V := by
   obtain ⟨g, hg⟩ := h
@@ -274,7 +294,7 @@ theorem k42_unfaithful (ρ : Representation (ZMod p) Γ V) {q r : ℕ} (hq : q.P
   have hDH : D ≤ H := le_sup_right
   have hK : CFSG.Open.IsKGroup (FaithfulQuotient.Quotient ρ H) :=
     FaithfulQuotient.isKGroup_quotient_sup (ρ := ρ) (P := Q) (D := D) hq hr hQ hD hDQ
-  haveI : Nontrivial V :=
+  have : Nontrivial V :=
     nontrivial_of_exists_ne_one (ρ := ρ) ⟨hQρ.choose, hQρ.choose_spec.2⟩
   have hcardD : Nat.card (FaithfulQuotient.image ρ H D) = r :=
     FaithfulQuotient.card_image_eq_of_fixV_eq_bot (ρ := ρ) (H := H) hr hDH hD hfix
@@ -299,7 +319,7 @@ theorem k43gen_unfaithful (ρ : Representation (ZMod p) Γ V) (hp : 2 < p)
   let H : Subgroup Γ := T ⊔ D
   have hTH : T ≤ H := le_sup_left
   have hDH : D ≤ H := le_sup_right
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     obtain ⟨t, -, w, -, hne⟩ := hWt
     exact ⟨(w : V), 0, fun h => hne (by rw [h, map_zero])⟩
   have hK : CFSG.Open.IsKGroup (FaithfulQuotient.Quotient ρ H) :=
@@ -344,7 +364,7 @@ theorem orderOf_two_eq_two_pow_of_fixV_eq_bot (ρ : Representation (ZMod p) Γ V
     ∃ k : ℕ, orderOf (2 : ZMod r) = 2 ^ k := by
   have hV : Nontrivial V :=
     nontrivial_of_exists_ne_one (ρ := ρ) ⟨hnt.choose, hnt.choose_spec.2⟩
-  haveI : Nontrivial V := hV
+  have : Nontrivial V := hV
   have hrp : r ≠ p := by
     intro hrp
     have hpgroup : IsPGroup p (Subgroup.zpowers b) := by
@@ -357,6 +377,7 @@ theorem orderOf_two_eq_two_pow_of_fixV_eq_bot (ρ : Representation (ZMod p) Γ V
   exact (k42_unfaithful (ρ := ρ) (q := 2) (r := r) Nat.prime_two hr (Ne.symm hp2) hrp
     (Ne.symm hr2) (D := Subgroup.zpowers b) (Q := T) hcard hfix hT hnt hDQ hTb).2
 
+omit [Finite V] in
 theorem exists_irreducible_unfaithful (ρ : Representation (ZMod p) Γ V) {r : ℕ}
     (hp2 : p ≠ 2) (hr : r.Prime) (hr2 : r ≠ 2) (hrp : r ≠ p)
     {D T : Subgroup Γ} (hD : Nat.card D = r) (hT : IsPGroup 2 T)
@@ -372,11 +393,11 @@ theorem exists_irreducible_unfaithful (ρ : Representation (ZMod p) Γ V) {r : �
   have hp : p.Prime := Fact.out
   have hpdvdH : ¬ p ∣ Nat.card ↥H :=
     UC6.not_dvd_card_sup_uc6 hp hp2 hr hr2 hrp hD hT hDT
-  haveI : NeZero (Nat.card ↥H : ZMod p) := ⟨by
+  have : NeZero (Nat.card ↥H : ZMod p) := ⟨by
     intro h
     exact hpdvdH ((ZMod.natCast_eq_zero_iff (Nat.card ↥H) p).1 h)⟩
-  haveI hss : Representation.IsSemisimpleRepresentation ρH := inferInstance
-  haveI hssmod : IsSemisimpleModule (MonoidAlgebra (ZMod p) ↥H) ρH.asModule :=
+  have hss : Representation.IsSemisimpleRepresentation ρH := inferInstance
+  have hssmod : IsSemisimpleModule (MonoidAlgebra (ZMod p) ↥H) ρH.asModule :=
     (Representation.isSemisimpleRepresentation_iff_isSemisimpleModule_asModule ρH).mp hss
   have hTne : ¬ T.subgroupOf H ≤ ρH.ker := by
     intro hle
@@ -406,7 +427,7 @@ theorem exists_irreducible_unfaithful (ρ : Representation (ZMod p) Γ V) {r : �
       W' = ⊥ ∨ W' = M.toSubmodule := by
     intro W' hle hinv
     let S : Subrepresentation ρH :=
-      ⟨W', fun h v hv => hinv (h : Γ) (by simpa [H] using h.2) v hv⟩
+      ⟨W', fun h v hv => hinv (h : Γ) (by simp [H]) v hv⟩
     have hSM : S ≤ M := fun v hv => hle hv
     by_cases hSbot : S = ⊥
     · left

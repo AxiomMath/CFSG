@@ -24,7 +24,7 @@ private theorem chevTools_normal_subgroupOf_sup {G : Type} [Group G] {K A : Subg
 private theorem chevTools_isSolvable_quotient_pGroup {Y Pg : Type} [Group Y] [Group Pg]
     [Finite Pg] {p : ℕ} [Fact p.Prime] (N : Subgroup Y) [N.Normal] (hP : IsPGroup p Pg)
     (φ : Pg →* Y ⧸ N) (hφ : Function.Surjective φ) : Group.IsSolvable (Y ⧸ N) := by
-  haveI := hP.isNilpotent
+  have := hP.isNilpotent
   exact Group.isSolvable_of_surjective hφ
 
 private theorem chevTools_isSolvable_quotient_sup {G : Type} [Group G] [Finite G] {p : ℕ}
@@ -104,8 +104,8 @@ private theorem chevTools_isKGroup_sup_of_prime {G : Type} [Group G] [Finite G] 
     (hpr : p.Prime) {K A : Subgroup G} (hK : CFSG.Open.IsKGroup ↥K)
     (hA : A ≤ Subgroup.normalizer (K : Set G)) (hp : IsPGroup p ↥A) :
     CFSG.Open.IsKGroup ↥(K ⊔ A) := by
-  haveI : Fact p.Prime := ⟨hpr⟩
-  haveI := chevTools_normal_subgroupOf_sup hA
+  have : Fact p.Prime := ⟨hpr⟩
+  have := chevTools_normal_subgroupOf_sup hA
   have hN : CFSG.Open.IsKGroup ↥(K.subgroupOf (K ⊔ A)) :=
     hK.of_injective (Subgroup.subgroupOfEquivOfLe (le_sup_left : K ≤ K ⊔ A)).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe (le_sup_left : K ≤ K ⊔ A)).injective
@@ -113,15 +113,15 @@ private theorem chevTools_isKGroup_sup_of_prime {G : Type} [Group G] [Finite G] 
       ↥(K ⊔ A) →* ↥(K ⊔ A) ⧸ K.subgroupOf (K ⊔ A)).ker := by
     rw [QuotientGroup.ker_mk']
     exact hN
-  haveI := chevTools_isSolvable_quotient_sup hA hp
+  have := chevTools_isSolvable_quotient_sup hA hp
   exact chevTools_isKGroup_of_hom (QuotientGroup.mk' (K.subgroupOf (K ⊔ A))) hk
 
 private theorem chevTools_perfect_le_of_sup_of_prime {G : Type} [Group G] [Finite G] {p : ℕ}
     (hpr : p.Prime) {K A L : Subgroup G} (hA : A ≤ Subgroup.normalizer (K : Set G))
     (hp : IsPGroup p ↥A) (hL : L ≤ K ⊔ A) (hperf : ⁅L, L⁆ = L) : L ≤ K := by
-  haveI : Fact p.Prime := ⟨hpr⟩
-  haveI := chevTools_normal_subgroupOf_sup hA
-  haveI := chevTools_isSolvable_quotient_sup hA hp
+  have : Fact p.Prime := ⟨hpr⟩
+  have := chevTools_normal_subgroupOf_sup hA
+  have := chevTools_isSolvable_quotient_sup hA hp
   have hPperf : ⁅L.subgroupOf (K ⊔ A), L.subgroupOf (K ⊔ A)⁆ = L.subgroupOf (K ⊔ A) := by
     apply Subgroup.map_injective (K ⊔ A).subtype_injective
     rw [Subgroup.map_commutator, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hL]

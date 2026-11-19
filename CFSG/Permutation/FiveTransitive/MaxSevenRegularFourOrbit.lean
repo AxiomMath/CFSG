@@ -44,6 +44,7 @@ private theorem exists_regular_point
   obtain ⟨z, _, hz⟩ := Set.exists_mem_notMem_of_ncard_lt_ncard hlt
   exact ⟨z, hz⟩
 
+omit [Finite G] in
 theorem exists_regular_four_set
     (hcard : 22 ≤ Fintype.card X)
     (hmax : ∀ t : G, orderOf t = 2 → (fixedBy X t).ncard ≤ 7)

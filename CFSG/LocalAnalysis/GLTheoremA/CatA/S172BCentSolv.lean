@@ -78,7 +78,7 @@ section Restriction
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
-theorem finrank_omega_movedSpace {c : V ≃ₗ[ZMod 2] V} (hc3 : orderOf c = 3)
+theorem finrank_omega_movedSpace {c : V ≃ₗ[ZMod 2] V} (_hc3 : orderOf c = 3)
     {hc : c.toLinearMap ^ 3 = 1} (hdim : finrank (ZMod 2) V = 10)
     (hfix : finrank (ZMod 2) (fixedSpace c) = 2) :
     finrank OmegaField (MovedSpace c.toLinearMap hc) = 4 := by
@@ -86,7 +86,7 @@ theorem finrank_omega_movedSpace {c : V ≃ₗ[ZMod 2] V} (hc3 : orderOf c = 3)
   have h2 : finrank (ZMod 2) (movedSpace c.toLinearMap) = 8 := by
     have : finrank (ZMod 2) (OrderThreeHermitian.fixedSpace c.toLinearMap) = 2 := hfix
     omega
-  haveI : IsScalarTower (ZMod 2) OmegaField (MovedSpace c.toLinearMap hc) :=
+  have : IsScalarTower (ZMod 2) OmegaField (MovedSpace c.toLinearMap hc) :=
     IsScalarTower.of_algebraMap_smul fun a x => OrderThreeHermitian.algebraMap_smul' a x
   have h3 := Module.finrank_mul_finrank (ZMod 2) OmegaField (MovedSpace c.toLinearMap hc)
   rw [finrank_omegaField] at h3
@@ -94,7 +94,8 @@ theorem finrank_omega_movedSpace {c : V ≃ₗ[ZMod 2] V} (hc3 : orderOf c = 3)
     at h3
   omega
 
-theorem not_isScalar_of_not_mem_zpowers {c e : V ≃ₗ[ZMod 2] V} (hc3 : orderOf c = 3)
+omit [FiniteDimensional (ZMod 2) V] in
+theorem not_isScalar_of_not_mem_zpowers {c e : V ≃ₗ[ZMod 2] V} (_hc3 : orderOf c = 3)
     {hc : c.toLinearMap ^ 3 = 1} (hefix : ∀ v ∈ fixedSpace c, e v = v)
     (hnot : e ∉ Subgroup.zpowers c)
     {eL : LinearMap.GeneralLinearGroup OmegaField (MovedSpace c.toLinearMap hc)}
@@ -172,7 +173,7 @@ private theorem eq_one_of_pow_five_of_commute_nonscalar {W : Type} [AddCommGroup
     (hbr : b ^ 5 = 1) : b = 1 := by
   classical
   by_contra hb1
-  haveI : CharP OmegaField 2 :=
+  have : CharP OmegaField 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) OmegaField).injective 2
   have h2 : (2 : OmegaField) = 0 := omegaField_two_eq_zero
   have hsq : CFSG.LinearAlgebra.omega ^ 2 = CFSG.LinearAlgebra.omega + 1 := omega_sq
@@ -198,8 +199,8 @@ private theorem card_sesqUnitaryGroup {W : Type} [AddCommGroup W] [Module OmegaF
     [FiniteDimensional OmegaField W] (hW : finrank OmegaField W = 4)
     {B : W →ₛₗ[unitaryFieldData_omegaField.bar] W →ₗ[OmegaField] OmegaField} (hBs : B.IsSymm)
     (hBl : B.SeparatingLeft) : Nat.card ↥(sesqUnitaryGroup B) = 77760 := by
-  haveI : Finite OmegaField := unitaryFieldData_omegaField.finite
-  haveI : Finite W := Module.finite_of_finite OmegaField
+  have : Finite OmegaField := unitaryFieldData_omegaField.finite
+  have : Finite W := Module.finite_of_finite OmegaField
   have hcard := (CFSG.LinearGroups.unitary_full_group_order unitaryFieldData_omegaField hBs hBl hW
     (by norm_num)).1
   have h : ((Nat.card ↥(sesqUnitaryGroup B) : ℕ) : ℤ) = 77760 := by
@@ -239,6 +240,7 @@ theorem eq_one_of_pow_eq_one_of_commute_nonscalar {W : Type} [AddCommGroup W] [M
     rw [card_sesqUnitaryGroup hW hBs hBl] at hdvd
     exact hr5' (le_antisymm (le_five_of_prime_dvd_77760 hr hdvd) hr5)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_unitary_restrict {c : V ≃ₗ[ZMod 2] V} (hc3 : orderOf c = 3) {hc : c.toLinearMap ^ 3 = 1}
     (hq : ∀ v, Q (c.toLinearMap v) = Q v) {x : V ≃ₗ[ZMod 2] V}
     (hxO : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hxc : x * c = c * x) :
@@ -255,6 +257,7 @@ theorem exists_unitary_restrict {c : V ≃ₗ[ZMod 2] V} (hc3 : orderOf c = 3) {
   obtain ⟨-, xL, hxL, hxU⟩ := hgL (by rw [hxc, mul_inv_cancel_right])
   exact ⟨xL, hxU, fun w => by rw [hxL, hgW]⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem toV_pow_apply {c : V ≃ₗ[ZMod 2] V} {hc : c.toLinearMap ^ 3 = 1} {x : V ≃ₗ[ZMod 2] V}
     {xL : LinearMap.GeneralLinearGroup OmegaField (MovedSpace c.toLinearMap hc)}
     (hx : ∀ w, toV c.toLinearMap hc ((xL : Module.End OmegaField _) w) = x (toV c.toLinearMap hc w))
@@ -266,6 +269,7 @@ theorem toV_pow_apply {c : V ≃ₗ[ZMod 2] V} {hc : c.toLinearMap ^ 3 = 1} {x :
   | succ k ih =>
     rw [pow_succ, Units.val_mul, Module.End.mul_apply, ih, hx, pow_succ, LinearEquiv.mul_apply]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow_eq_one_of_restrict {c : V ≃ₗ[ZMod 2] V} {hc : c.toLinearMap ^ 3 = 1} {x : V ≃ₗ[ZMod 2] V}
     {xL : LinearMap.GeneralLinearGroup OmegaField (MovedSpace c.toLinearMap hc)}
     (hx : ∀ w, toV c.toLinearMap hc ((xL : Module.End OmegaField _) w) = x (toV c.toLinearMap hc w))
@@ -274,6 +278,7 @@ theorem pow_eq_one_of_restrict {c : V ≃ₗ[ZMod 2] V} {hc : c.toLinearMap ^ 3 
   rw [toV_pow_apply hx k w, hk]
   rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem eq_one_of_fixes_fixed_moved {c g : V ≃ₗ[ZMod 2] V} {hc : c.toLinearMap ^ 3 = 1}
     (hfix : ∀ v ∈ fixedSpace c, g v = v)
     (hmov : ∀ v ∈ movedSpace c.toLinearMap, g v = v) : g = 1 := by
@@ -302,7 +307,7 @@ private theorem fixes_movedSpace_of_commute (hQ : (QuadraticMap.polarBilin Q).No
   obtain ⟨eL, heU, heL⟩ := exists_unitary_restrict (hc := hc3') hc3 hq heO hec
   obtain ⟨gL, hgU, hgL⟩ := exists_unitary_restrict (hc := hc3') hc3 hq hgO hgc
   have hW := finrank_omega_movedSpace (hc := hc3') hc3 hdim hcfix
-  haveI : FiniteDimensional OmegaField (MovedSpace c.toLinearMap hc3') :=
+  have : FiniteDimensional OmegaField (MovedSpace c.toLinearMap hc3') :=
     Module.finite_of_finrank_pos (by rw [hW]; norm_num)
   have hBs := hermForm_isSymm (c := c) (hc := hc3') hq
   have hBl := hermForm_separatingLeft (c := c.toLinearMap) (hc := hc3') hQ hq
@@ -355,6 +360,7 @@ section Burnside
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixes_fixedSpace_of_mem_torus {l : List (V × V)} (hl : IsFrame Q l)
     {d e : V ≃ₗ[ZMod 2] V} (hdt : d ∈ torus Q l) (hfull : ∀ p ∈ l, d p.1 ≠ p.1)
     (het : e ∈ torus Q l) : ∀ v ∈ fixedSpace d, e v = v := by
@@ -405,9 +411,9 @@ theorem isSolvable_centralizer_pair_of_fullSupport (hQ : (QuadraticMap.polarBili
     (hF : FrameOf Q Bb 4 l) {d e : ↥(orthDerived Q)} (hd : d ∈ Bb) (he : e ∈ Bb)
     (hfull : ∀ p ∈ l, (d : V ≃ₗ[ZMod 2] V) p.1 ≠ p.1) (hed : e ∉ Subgroup.zpowers d) :
     Group.IsSolvable ↥(Subgroup.centralizer ({d, e} : Set ↥(orthDerived Q))) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.ComponentClassification.Burgoyne.C.isSolvable_of_prime_dvd_two_three fun r hr hdvd => ?_
   by_contra hne
   have hr5 : 5 ≤ r := by
@@ -416,7 +422,7 @@ theorem isSolvable_centralizer_pair_of_fullSupport (hQ : (QuadraticMap.polarBili
       rintro rfl
       exact absurd hr (by norm_num)
     omega
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' r hdvd
   have hgd : (d : ↥(orthDerived Q)) * (g : ↥(orthDerived Q)) = (g : ↥(orthDerived Q)) * d :=
     Subgroup.mem_centralizer_iff.1 g.2 d (by simp)

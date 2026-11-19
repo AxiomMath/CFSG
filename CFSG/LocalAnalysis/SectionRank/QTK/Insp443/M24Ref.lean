@@ -42,49 +42,49 @@ theorem k_g4 :
 theorem k_g_inv :
     invOK 24 gT (invT 24 gT) = true := by
   have h₀ := k_g1
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true] at h₀
   obtain ⟨h, -⟩ := h₀
   exact h
 
 theorem k_g_conj :
     (conjAll gT tT).all (inSpan 24 etT) = true := by
   have h₀ := k_g1
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true] at h₀
   obtain ⟨-, h⟩ := h₀
   exact h
 
 theorem k_z_inv :
     invOK 24 zT (invT 24 zT) = true := by
   have h₀ := k_g2
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨h, -⟩ := h₀
   exact h
 
 theorem k_l_inv :
     invOK 24 lT (invT 24 lT) = true := by
   have h₀ := k_g2
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, h, -⟩ := h₀
   exact h
 
 theorem k_l_sift :
     lqChain.sift (tab (wordG gensG lW)) 0 = true := by
   have h₀ := k_g2
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, h, -⟩ := h₀
   exact h
 
 theorem k_six_eb :
     ebasisOK 24 sixT = true := by
   have h₀ := k_g2
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, -, h, -⟩ := h₀
   exact h
 
 theorem k_six_span :
     sixT.all (inSpan 24 etT) = true := by
   have h₀ := k_g2
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, -, -, h⟩ := h₀
   exact h
 
@@ -126,14 +126,14 @@ theorem k_cb_order :
 theorem k_n_inv :
     invOK 24 nT (invT 24 nT) = true := by
   have h₀ := k_g4
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨h, -⟩ := h₀
   exact h
 
 theorem k_n_masks :
     masksOK 24 etT nT nMasks = true := by
   have h₀ := k_g4
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, h, -⟩ := h₀
   exact h
 
@@ -142,42 +142,42 @@ theorem k_n_comm :
       inSpan 24 etT
         (compT 24 (conjTab 24 (toTable g) (invT 24 (toTable g)) nT) (invT 24 nT))) = true := by
   have h₀ := k_g4
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, h, -⟩ := h₀
   exact h
 
 theorem k_n_eb :
     ebasisOK 24 (u5T ++ conjAll nT u5T) = true := by
   have h₀ := k_g4
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, -, h, -⟩ := h₀
   exact h
 
 theorem k_u5_span :
     u5T.all (inSpan 24 etT) = true := by
   have h₀ := k_g4
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, -, -, h, -⟩ := h₀
   exact h
 
 theorem k_nq_masks :
     ((nqGen.zip nqEtMasks).all fun p => masksOK 24 etT (toTable p.1) p.2) = true := by
   have h₀ := k_g4
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, -, -, -, h, -⟩ := h₀
   exact h
 
 theorem k_y7_masks :
     masksOK 24 etT y7T y7EtMasks = true := by
   have h₀ := k_g4
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, -, -, -, -, h, -⟩ := h₀
   exact h
 
 theorem k_mj_masks :
     ((mjT.zip mjEtMasks).all fun p => masksOK 24 etT p.1 p.2) = true := by
   have h₀ := k_g4
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc] at h₀
+  simp only [Bool.and_eq_true, and_assoc] at h₀
   obtain ⟨-, -, -, -, -, -, -, h⟩ := h₀
   exact h
 

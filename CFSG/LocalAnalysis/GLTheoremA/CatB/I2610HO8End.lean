@@ -54,7 +54,7 @@ private theorem orderD_ne_168 {n q : ℕ} (hn : 3 ≤ n) (hq : Even q) (hq2 : 2 
   rw [h] at hdvd
   norm_num at hdvd
 
-private theorem orderTwistedD_ne_168 {n q : ℕ} (hn : 3 ≤ n) (hq : Even q) (hq2 : 2 ≤ q) :
+private theorem orderTwistedD_ne_168 {n q : ℕ} (hn : 3 ≤ n) (hq : Even q) (_hq2 : 2 ≤ q) :
     orderTwistedD n q ≠ 168 := by
   intro h
   have hodd : Odd (q ^ n + 1) := by
@@ -256,7 +256,7 @@ theorem not_catalogIs_isL2prime_of_quot_o8plus {L : Type} [Group L] [Finite L]
     CFSG.LocalAnalysis.GLTheoremA.nonempty_pSimple_equiv_map Nat.prime_three π hJ hJ'
   have hcard : Nat.card (PSimple 3 J) = Nat.card (PSimple 3 J') :=
     Nat.card_congr eJ.toEquiv
-  haveI hSsimple : IsSimpleGroup S := hL.2
+  have hSsimple : IsSimpleGroup S := hL.2
   have hS : Nat.card S = 174182400 := by
     have h := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds
       ⟨.D 4 q, hv⟩ S ⟨e⟩
@@ -272,7 +272,7 @@ theorem not_catalogIs_isL2prime_of_quot_o8plus {L : Type} [Group L] [Finite L]
     simpa [hS] using
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.InputsL33.card_pSimple_dvd 3 J'
   have hM : StatedClassicalModel S .POmegaPlus 4 2 1 := by
-    haveI : Finite (TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) :=
+    have : Finite (TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) :=
       CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
     have hK : Nat.card (TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) = 2 ^ 1 := by
       rw [TauCeti.ValidLieTypeIndex.card_fixedField]

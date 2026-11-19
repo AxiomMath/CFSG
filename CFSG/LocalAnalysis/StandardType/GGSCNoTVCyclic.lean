@@ -166,7 +166,7 @@ theorem ggSCNoTV_isCyclic (hp2 : p ≠ 2) {E C : Subgroup G} (hE : IsElemAbelian
   let S : Subgroup G := (T : Subgroup F).map F.subtype
   have hES : E ≤ S := fun e he => ⟨⟨e, mem_sup_left he⟩, hET he, rfl⟩
   have hSF : S ≤ E ⊔ C := Subgroup.map_subtype_le _
-  have hS : IsPGroup p S := T.isPGroup'.map F.subtype
+  have hS : IsPGroup p S := T.isPGroup.map F.subtype
   have hSE : S ≤ centralizer (E : Set G) :=
     le_centralizer_of_mem_sup_of_noTransvection hE hSC hNT hEC hcard hS hES hSF
   have hSCcyc : IsCyclic (S ⊓ C : Subgroup G) :=

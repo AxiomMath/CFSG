@@ -43,7 +43,7 @@ theorem q8EltK_canon {x y s : ℕ} (hsz : szOK n w = true) (hx : Cn n w x) (hy :
         omega
     have e : q8EltK n w x y s (j + 8) = pcomp n w (mask w) y (pcomp n w (mask w) s x) := by
       simp only [q8EltK, hb 0 (by omega), hb 1 (by omega), hb 2 (by omega), hb 3 (by omega),
-        hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), cond_false]
+        hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), Bool.cond_false]
     rw [e]
     exact canonK_pcomp hy (canonK_pcomp hs hx)
 
@@ -80,15 +80,15 @@ theorem pg_q8EltK {x y s p : ℕ} (hsz : szOK n w = true) (hx : Cn n w x) (hy : 
         omega
     have e : q8EltK n w x y s (j + 8) = pcomp n w (mask w) y (pcomp n w (mask w) s x) := by
       simp only [q8EltK, hb 0 (by omega), hb 1 (by omega), hb 2 (by omega), hb 3 (by omega),
-        hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), cond_false]
+        hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), Bool.cond_false]
     have e2 : q8AtK w x y s (j + 8) p =
         pg w (mask w) y (pg w (mask w) s (pg w (mask w) x p)) := by
       simp only [q8AtK, hb 0 (by omega), hb 1 (by omega), hb 2 (by omega), hb 3 (by omega),
-        hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), cond_false]
+        hb 4 (by omega), hb 5 (by omega), hb 6 (by omega), Bool.cond_false]
     rw [e, e2, pg_pcomp' hy hp, pg_pcomp' hs hp]
 
 theorem outsideK_of_P {x y s c a P : ℕ} (hsz : szOK n w = true) (hx : Cn n w x) (hy : Cn n w y)
-    (hs : Cn n w s) (hc : Cn n w c) (ha : Cn n w a) (h : outsidePK n w x y s c a P = true) :
+    (hs : Cn n w s) (hc : Cn n w c) (_ha : Cn n w a) (h : outsidePK n w x y s c a P = true) :
     outsideK n w x y s c a = true := by
   unfold outsidePK at h
   unfold outsideK
@@ -127,23 +127,23 @@ theorem wit4K_of_P {x y s c ci f P N : ℕ} (hsz : szOK n w = true) (hx : Cn n w
   refine ⟨⟨h1, ?_⟩, ?_⟩
   · simp only [Bool.or_eq_true]
     cases hf : Nat.beq f 1
-    · rw [hf, cond_false] at h2
+    · rw [hf, Bool.cond_false] at h2
       exact Or.inr (outsideK_of_P hsz hx hy hs hc hy h2)
-    · rw [hf, cond_true] at h2
+    · rw [hf, _root_.Bool.cond_true] at h2
       exact Or.inl (outsideK_of_P hsz hx hy hs hc hx h2)
   · simp only [Bool.or_eq_true, Bool.not_eq_true']
     cases h0 : Nat.beq (Nat.div N 8192) 0
-    · rw [h0, cond_false] at h4
+    · rw [h0, Bool.cond_false] at h4
       cases h1' : Nat.beq (Nat.div N 8192) 1
-      · rw [h1', cond_false] at h4
+      · rw [h1', Bool.cond_false] at h4
         cases h2' : Nat.beq (Nat.div N 8192) 2
-        · rw [h2', cond_false] at h4
+        · rw [h2', Bool.cond_false] at h4
           exact Or.inr (commK_of_nc hy hy hc hci hp h4)
-        · rw [h2', cond_true] at h4
+        · rw [h2', _root_.Bool.cond_true] at h4
           exact Or.inl (Or.inr (commK_of_nc hy hx hc hci hp h4))
-      · rw [h1', cond_true] at h4
+      · rw [h1', _root_.Bool.cond_true] at h4
         exact Or.inl (Or.inl (Or.inr (commK_of_nc hx hy hc hci hp h4)))
-    · rw [h0, cond_true] at h4
+    · rw [h0, _root_.Bool.cond_true] at h4
       exact Or.inl (Or.inl (Or.inl (commK_of_nc hx hx hc hci hp h4)))
 
 end CFSG.KC.Q8Wit

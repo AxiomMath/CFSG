@@ -43,7 +43,7 @@ private theorem qTwoChartHub_extendDomain_swap (ε0 : Fin m ↪ Fin (n + 1)) (i 
       (fun h => hy ⟨j, h.symm⟩)).symm
 
 theorem qTwoChartHub_swap (S : QTwoChartSetting B Bs x L D J 𝒦 m n)
-    {ψ : Su F0 2 1 m →* G} (hψ : QTwoOrdModel Bs L ψ) {ε0 : Fin m ↪ Fin (n + 1)}
+    {ψ : Su F0 2 1 m →* G} (_hψ : QTwoOrdModel Bs L ψ) {ε0 : Fin m ↪ Fin (n + 1)}
     (hε0 : QTwoFrameMatch S ψ ε0)
     (hlifts : ∀ π : Equiv.Perm (Fin (n + 1)), ∃ g : G, QTwoLiftsPerm Bs (QTwoH L 𝒦) S.ρA g π)
     {blk : Finset (Fin (n + 1)) → Subgroup G} (hblk : qTwoChartHub_spec S ψ ε0 blk) :
@@ -128,9 +128,9 @@ theorem qTwoChartHub_swap (S : QTwoChartSetting B Bs x L D J 𝒦 m n)
             rw [Equiv.swap_apply_right]
           rw [hq]; simp
       have hrne : r ≠ σ c := fun h => hr (h ▸ hσc)
-      rw [if_neg hrne]
+      rw [ite_eq_right hrne]
       have hrc' : r ≠ c := fun h => hr (h ▸ hc)
-      rw [if_neg hrc']
+      rw [ite_eq_right hrc']
     · have hσc : σ c = c := by
         have hcp : c ≠ p := fun h => hc (by rw [h]; simp)
         have hcq : c ≠ q := fun h => hc (by rw [h]; simp)

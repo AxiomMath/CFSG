@@ -23,7 +23,7 @@ theorem sylow_centralizes_of_ppd (N : Subgroup Y) [N.Normal] {m k r : ℕ}
   have : Fact r.Prime := ⟨hr.prime⟩
   let ρ : ↥(P : Subgroup Y) →* MulAut ↥N :=
     (MulAut.conjNormal : Y →* MulAut N).comp (P : Subgroup Y).subtype
-  have hρr : IsPGroup r ρ.range := P.isPGroup'.of_surjective ρ.rangeRestrict
+  have hρr : IsPGroup r ρ.range := P.isPGroup.of_surjective ρ.rangeRestrict
     (MonoidHom.rangeRestrict_surjective ρ)
   have hk : 0 < k := by
     by_contra h0

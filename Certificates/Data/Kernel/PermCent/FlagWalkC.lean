@@ -43,10 +43,12 @@ theorem walkC_cons (body : CV n → Bool) (T : List (CV n)) (M : Nat) (tl : List
       strictB (t⁻¹).1 fun ti => strictB (img n ti a) fun a' => strictB (img n ti b) fun b' =>
         Bool.rec true (Bool.rec true (walkC body tl (p * t) a' b') (inM M b')) (inM M a') := rfl
 
+omit [Small n] in
 theorem masksC_cons (f₁ f₂ : Nat) (T : List (CV n)) (M : Nat) (tl : List (List (CV n) × Nat)) :
     masksC f₁ f₂ ((T, M) :: tl) =
       (inM M f₁ && inM M f₂ && (tl.all fun e => e.1.all (closedC M)) && masksC f₁ f₂ tl) := rfl
 
+omit [Small n] in
 theorem fixC_sub {f₁ f₂ : Nat} {S G : List (CV n)} (hf : fixC f₁ f₂ S G = true) :
     (G.all fun s => decide (s ∈ S)) = true := by
   rw [fixC, Bool.and_eq_true, Bool.and_eq_true] at hf

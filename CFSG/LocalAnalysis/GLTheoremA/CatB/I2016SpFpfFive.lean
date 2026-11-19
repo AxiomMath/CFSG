@@ -122,7 +122,7 @@ theorem fixed_eq_zero_of_order_five {V : Type*} [AddCommGroup V] [Module (ZMod 2
     Subtype.ext (hWfpf w w.2 (congrArg Subtype.val hw))
   have hgWfpf : ∀ w : W, gW w = w → w = 0 := fun w hw =>
     Subtype.ext (hgfix w (congrArg Subtype.val hw))
-  haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hWbot
+  have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hWbot
   have hxW1 : xW ≠ 1 := by
     intro h
     obtain ⟨w, hw⟩ := exists_ne (0 : W)
@@ -131,8 +131,8 @@ theorem fixed_eq_zero_of_order_five {V : Type*} [AddCommGroup V] [Module (ZMod 2
     intro h
     obtain ⟨w, hw⟩ := exists_ne (0 : W)
     exact hw (hgWfpf w (by rw [h]; rfl))
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxWord : orderOf xW = 5 := orderOf_eq_prime hxW5 hxW1
   have hgWord : orderOf gW = 3 := orderOf_eq_prime hgW3 hgW1
   have hWcomm : Commute xW gW := by

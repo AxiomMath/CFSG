@@ -935,7 +935,7 @@ private theorem section13_containing_complement_of_solvable_mf
     (hKinfH : K ⊓ H = ⊥) :
     ∃ E : Subgroup G, section12ComplementIn L H E ∧ K ≤ E := by
   classical
-  letI : MulDistribMulAction Unit L := {
+  let : MulDistribMulAction Unit L := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -1000,7 +1000,7 @@ private theorem section13_coprime_card_of_prime_not_mem_subgroupPrimeSet
   exact (hq.coprime_iff_not_dvd).2 (by
     intro hdiv
     have hmem : (⟨q, hq⟩ : Nat.Primes) ∈ subgroupPrimeSet H := by
-      apply Set.mem_setOf.mpr
+      apply Set.mem_ofPred.mpr
       simpa using hdiv
     exact hnot hmem)
 
@@ -1147,7 +1147,7 @@ public theorem section13_coprime_card_typeI_mf_of_typeP_prime
   exact (hr.coprime_iff_not_dvd).2 (by
     intro hrH
     have hmem : (⟨r, hr⟩ : Nat.Primes) ∈ subgroupPrimeSet H := by
-      apply Set.mem_setOf.mpr
+      apply Set.mem_ofPred.mpr
       simpa using hrH
     exact hrNotH hmem)
 
@@ -1664,7 +1664,7 @@ private theorem section13_theorem_13_17_q_not_mem_H_primeSet_of_sourceContext
     intro x hx
     exact (hW1le hx).1
   have hqQ : (⟨q, hq⟩ : Nat.Primes) ∈ subgroupPrimeSet Q := by
-    apply Set.mem_setOf.mpr
+    apply Set.mem_ofPred.mpr
     have hcard : Nat.card W1 ∣ Nat.card Q :=
       Subgroup.card_dvd_of_le hW1leQ
     simpa [hq_card] using hcard
@@ -2090,7 +2090,7 @@ private theorem section13_prime_order_subgroup_normal_of_centralizes_fitting
       exact ConjAct.normal_of_characteristic_of_normal
     have hS_p : IsPGroup p ((S : Subgroup (fittingSubgroup E)).map
         (fittingSubgroup E).subtype) :=
-      S.isPGroup'.map (fittingSubgroup E).subtype
+      S.isPGroup.map (fittingSubgroup E).subtype
     exact le_sSup ⟨hS_normal_ambient, hS_p⟩
   have hP_le_pCore : P ≤ pCore p E := by
     intro x hx
@@ -2124,13 +2124,13 @@ private theorem section13_huppert_prime_order_subgroup_le_centralizer_fitting_of
     W.subgroupOf E ≤ Subgroup.centralizer (fittingSubgroup E : Set E) := by
   classical
   let : (H.subgroupOf L).Normal := _hfrobE.normal
-  letI : MulDistribMulAction (E.subgroupOf L) (H.subgroupOf L) :=
+  let : MulDistribMulAction (E.subgroupOf L) (H.subgroupOf L) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (G := L)
       (E.subgroupOf L) (H.subgroupOf L)
       (Subgroup.le_normalizer_of_normal (H := H.subgroupOf L))
   let e : E ≃* E.subgroupOf L :=
     (Subgroup.subgroupOfEquivOfLe (H := E) (K := L) _hEleL).symm
-  letI : MulDistribMulAction E (H.subgroupOf L) :=
+  let : MulDistribMulAction E (H.subgroupOf L) :=
     MulDistribMulAction.compHom (H.subgroupOf L) e.toMonoidHom
   have hregularSub : ActsRegularly (E.subgroupOf L) (H.subgroupOf L) :=
     _hfrobE.regular_conj_action
@@ -2350,7 +2350,7 @@ private theorem section13_sylow_isCyclic_of_odd_frobenius_complement
   let : IsZGroup E := hZE
   let : Fact r.val.Prime := ⟨r.2⟩
   exact IsPGroup.isCyclic_of_isZGroup (G := E) (P := (R : Subgroup E))
-    R.isPGroup'
+    R.isPGroup
 
 private def theorem_13_17_QW2ClassifierSourceData
     {G : Type u} [Group G] [Finite G]

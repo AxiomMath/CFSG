@@ -14,7 +14,7 @@ theorem sec5g8_exists_sylow_bar {X : Type} [Group X] [Finite X] {Tb : Subgroup X
         Tb.subgroupOf (normalClosure (Tb : Set X))) :
     ∃ Pb : Sylow 2 (Sec5GBar Tb), (Pb : Subgroup (Sec5GBar Tb)) = Sec5GImg Tb := by
   obtain ⟨Pm, hPm⟩ := hSyl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Pb : Sylow 2 (Sec5GBar Tb) :=
     Pm.mapSurjective (f := sec5g_pi Tb) (QuotientGroup.mk'_surjective _)
   have hPb : (Pb : Subgroup (Sec5GBar Tb)) =

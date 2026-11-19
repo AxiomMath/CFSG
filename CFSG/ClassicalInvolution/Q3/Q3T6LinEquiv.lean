@@ -171,7 +171,7 @@ theorem exists_quaternion_of_quotEquiv_sl2Three
     have : e (QuotientGroup.mk' O x) = 1 := hx
     rwa [MulEquiv.map_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at this
   have hT2 : ∀ x : (T : Subgroup K), ∃ n : ℕ, (x : K) ^ 2 ^ n = 1 := fun x => by
-    obtain ⟨n, hn⟩ := T.isPGroup' x
+    obtain ⟨n, hn⟩ := T.isPGroup x
     exact ⟨n, congrArg Subtype.val hn⟩
   have hinj : Function.Injective (ρ.comp (T : Subgroup K).subtype) := by
     rw [injective_iff_map_eq_one]
@@ -186,7 +186,7 @@ theorem exists_quaternion_of_quotEquiv_sl2Three
   have hcardK : Nat.card K = 24 * Nat.card O := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup O, Nat.card_congr e.toEquiv,
       natCard_sl2Three]
-  obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp T.isPGroup'
+  obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp T.isPGroup
   have hidx : Odd (T : Subgroup K).index := Nat.odd_iff.mpr (by have := T.not_dvd_index; omega)
   have h8 : Nat.card T = 8 := by
     have h3m : Odd (3 * Nat.card O) := (by decide : Odd 3).mul hO

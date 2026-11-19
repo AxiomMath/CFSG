@@ -28,7 +28,7 @@ private theorem g5_add_one_add_one (x : GGL) : x + 1 + 1 = x := by
 theorem ggLang_sl2 {f : ℕ} (hf : 1 ≤ f) :
     ∃ z : SL2 GGL, Matrix.SpecialLinearGroup.map (ggFrobT f) z = z * nSL (1 : GGLˣ) := by
   have h2 : (2 : GGL) = 0 := CharP.cast_eq_zero GGL 2
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hpow : 1 < 2 ^ f := by
     calc 1 < 2 ^ 1 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf

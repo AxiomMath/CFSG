@@ -218,10 +218,10 @@ theorem card_mul_sq_eq_prod_of_klein {N : Subgroup G} [Finite N] (hodd : ¬ 2 �
         · rw [hx]; exact V.one_mem
     rw [hVeq]
     exact isKleinFour_kleinFourOfCommutingInvolutions a u ha hu ha1 hu1 hne hcu
-  haveI : IsKleinFour V := hVK
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hVK.card_four]; norm_num)
-  haveI : Fintype V := Fintype.ofFinite V
-  letI : MulDistribMulAction V N := conjActOfLeNormalizer V N hVN
+  have : IsKleinFour V := hVK
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hVK.card_four]; norm_num)
+  have : Fintype V := Fintype.ofFinite V
+  let : MulDistribMulAction V N := conjActOfLeNormalizer V N hVN
   have hsmul : ∀ (v : V) (n : N),
       (((v • n : N) : G)) = (v : G) * (n : G) * (v : G)⁻¹ := by
     intro v n

@@ -105,7 +105,7 @@ theorem I2018U38Char2_holds : I2018U38Char2 := by
           omega
         · obtain ⟨h2, h3⟩ := hn23
           simp only [ambiguousChev] at hi
-          split at hi <;> first | omega | simp_all | exact absurd hi id
+          split at hi <;> first | omega | simp_all
       | _ => simp [ambiguousChev] at hi
 
 end CFSG.LocalAnalysis.GLTheoremA.I2018

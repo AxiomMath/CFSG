@@ -80,7 +80,7 @@ theorem not_twoB_pair (hB : FactB) {D : Subgroup J} (hD : IsElemAbelian 3 D)
     (hc : Nat.card D = 81) {v w : J} (hv : IsConj (d * d1) v) (hw : IsConj (d * d1) w)
     (hvw : v ≠ w) (hcomm : v * w = w * v) (hDv : D ≤ Subgroup.centralizer ({v} : Set J))
     (hDw : D ≤ Subgroup.centralizer ({w} : Set J)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQH, hQ, h3, -⟩ := hB
   obtain ⟨h, hh⟩ := isConj_iff.1 hv
   have hh' : h * (d * d1) * h⁻¹ = v := hh

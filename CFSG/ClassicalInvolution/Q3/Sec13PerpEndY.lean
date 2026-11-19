@@ -36,6 +36,7 @@ private theorem endY_mem_kPerp_iff (hs : StarHyp Ω) {L J : Subgroup G} (hL : L 
             ⟨hJ, hJL, Asc77.AscL62.le_normalizer_of_commutes hc.symm⟩
         exact Set.mem_insert_of_mem _ hJn
 
+omit [Finite G] in
 private theorem endY_mem_dComp_of_commutes {N M : Subgroup G} (hM : M ∈ Ω) (hne : N ≠ M)
     (hc : Commutes N M) : M ∈ dComp Ω N :=
   Relation.ReflTransGen.single ⟨hM, Disconnected.dAdj_of_commutes hM hne hc⟩
@@ -44,6 +45,7 @@ section Ident
 
 variable {P : Set (Subgroup G)} {n : ℕ}
 
+omit [Finite G] in
 private theorem endY_map_comm (I : AEIdent P n) {L M : Subgroup G} (hL : L ∈ P) (hM : M ∈ P)
     (hc : Commutes L M) :
     ∀ x ∈ (L.subgroupOf (pSpan P)).map I.φ, ∀ y ∈ (M.subgroupOf (pSpan P)).map I.φ,
@@ -55,6 +57,7 @@ private theorem endY_map_comm (I : AEIdent P n) {L M : Subgroup G} (hL : L ∈ P
   congr 1
   exact Subtype.ext (hc l hl m hm)
 
+omit [Finite G] in
 private theorem endY_comm_of_map_comm (I : AEIdent P n) (hinj : Function.Injective I.φ)
     {L M : Subgroup G} (hL : L ∈ P) (hM : M ∈ P)
     (hc : ∀ x ∈ (L.subgroupOf (pSpan P)).map I.φ, ∀ y ∈ (M.subgroupOf (pSpan P)).map I.φ,
@@ -64,6 +67,7 @@ private theorem endY_comm_of_map_comm (I : AEIdent P n) (hinj : Function.Injecti
   rw [← map_mul, ← map_mul] at h1
   exact congrArg Subtype.val (hinj h1)
 
+omit [Finite G] in
 private theorem endY_eq_of_map_eq (I : AEIdent P n) (hinj : Function.Injective I.φ)
     {L M : Subgroup G} (hL : L ∈ P) (hM : M ∈ P)
     (he : (L.subgroupOf (pSpan P)).map I.φ = (M.subgroupOf (pSpan P)).map I.φ) : L = M := by
@@ -75,6 +79,7 @@ private theorem endY_eq_of_map_eq (I : AEIdent P n) (hinj : Function.Injective I
     exact Subgroup.mem_subgroupOf.mp hy
   exact le_antisymm (hle hL he.le) (hle hM he.ge)
 
+omit [Finite G] in
 private theorem endY_not_commutes_self (I : AEIdent P 5) {L : Subgroup G} (hL : L ∈ P) :
     ¬ Commutes L L := by
   intro hc
@@ -86,6 +91,7 @@ private theorem endY_not_commutes_self (I : AEIdent P 5) {L : Subgroup G} (hL : 
 
 end Ident
 
+omit [Finite G] in
 private theorem endY_twin {P : Set (Subgroup G)} (I : AEIdent P 5) (hI : I.φ.ker = ⊥)
     {L : Subgroup G} (hL : L ∈ P) :
     ∃ L' ∈ P, L' ≠ L ∧ ∀ M ∈ P, Commutes L M ↔ M = L' := by
@@ -132,6 +138,7 @@ namespace CaseBU
 
 variable {K : Subgroup G} {P₁ P₂ : Set (Subgroup G)} {g u h e : G} {T : Subgroup G}
 
+omit [Finite G] in
 private theorem endY_mem_omega₂ (c : CaseBU Ω K P₁ P₂ g u h e T) {M : Subgroup G}
     (hM : M ∈ P₂) : M ∈ Ω := by
   have key : ∀ {N : Subgroup G},
@@ -146,14 +153,17 @@ private theorem endY_mem_omega₂ (c : CaseBU Ω K P₁ P₂ g u h e T) {M : Sub
     exact Set.mem_union_right _ hM
   exact key hd hM
 
+omit [Finite G] in
 private theorem endY_mem_centMembers₂ (c : CaseBU Ω K P₁ P₂ g u h e T) {M : Subgroup G}
     (hM : M ∈ P₂) : M ∈ Generic.centMembers Ω u :=
   ⟨endY_mem_omega₂ c hM, c.P₂_u M hM⟩
 
+omit [Finite G] in
 private theorem endY_not_mem_P₁ (c : CaseBU Ω K P₁ P₂ g u h e T) {M : Subgroup G}
     (hM : M ∈ Generic.centMembers Ω u) : M ∉ P₁ :=
   fun h1 => c.P₁_u M h1 hM.2
 
+omit [Finite G] in
 private theorem endY_image_eq (c : CaseBU Ω K P₁ P₂ g u h e T) : conjSub g '' P₁ = P₂ := by
   ext L
   constructor
@@ -162,10 +172,12 @@ private theorem endY_image_eq (c : CaseBU Ω K P₁ P₂ g u h e T) : conjSub g 
   · intro hL
     exact ⟨conjSub g⁻¹ L, (c.swap L).mp hL, conjSub_conjSub_inv g L⟩
 
+omit [Finite G] in
 private theorem endY_mem₂_of_mem₁ (c : CaseBU Ω K P₁ P₂ g u h e T) {L : Subgroup G}
     (hL : L ∈ P₁) : conjSub g L ∈ P₂ :=
   (c.swap _).mpr (by rw [conjSub_inv_conjSub]; exact hL)
 
+omit [Finite G] in
 private theorem endY_conj_mem₂ (c : CaseBU Ω K P₁ P₂ g u h e T) {M M' : Subgroup G}
     (hM : M ∈ P₂) (hM' : M' ∈ P₂) :
     ∃ x ∈ pSpan (Generic.centMembers Ω u), conjSub x M = M' := by
@@ -252,10 +264,10 @@ private theorem endY_ncard_conj (hs : StarHyp Ω) {N : Subgroup G} {x : G}
   rw [key]
   exact Set.ncard_image_of_injective _ (conjSub_injective x)
 
-theorem oneClass (c : CaseBU Ω K P₁ P₂ g u h e T) (I : AEIdent P₁ 5) (hI : I.φ.ker = ⊥) :
+theorem oneClass (c : CaseBU Ω K P₁ P₂ g u h e T) (I : AEIdent P₁ 5) (_hI : I.φ.ker = ⊥) :
     ∀ L ∈ Generic.centMembers Ω u, ∀ L' ∈ Generic.centMembers Ω u,
       ∃ x ∈ pSpan (Generic.centMembers Ω u), conjSub x L = L' := by
-  clear hI I
+  clear _hI I
   have hsec : SectionConcl (Generic.centMembers Ω u) :=
     c.hyp.toStarHyp.sectionConcl_centMembers c.u_ne
   rcases hsec with ⟨⟨A, hA, B, hB, hAB⟩, hcomm⟩ | ⟨htr, -, -⟩

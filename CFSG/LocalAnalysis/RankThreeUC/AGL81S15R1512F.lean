@@ -21,7 +21,7 @@ variable {X : Type} [Group X] [Finite X]
       CFSG.pCore 2 ↥(pElementSubgroup p (⊤ : Subgroup X))) ≃* (TauCeti.CFSGIndex.lie d).Group)
 
 theorem pElementSubgroup_eq_of_isComponent_at {Y : Type} [Group Y] [Finite Y] {Ls : Subgroup Y}
-    {q : ℕ} (hq : q.Prime) (hLs : IsComponentOf Ls ⊤)
+    {q : ℕ} (_hq : q.Prime) (hLs : IsComponentOf Ls ⊤)
     (hy : ¬ pElementSubgroup q Ls ≤ (Subgroup.center ↥Ls).map Ls.subtype) :
     pElementSubgroup q Ls = Ls := by
   obtain ⟨-, -, hperf, hsimp⟩ := hLs
@@ -41,7 +41,7 @@ theorem pElementSubgroup_eq_of_isComponent_at {Y : Type} [Group Y] [Finite Y] {L
         refine ⟨k, ?_⟩
         have := orderOf_injective (MulAut.conj (g : Y)).toMonoidHom (MulAut.conj (g : Y)).injective x
         simpa [MulAut.conj_apply, hk] using this
-      | one => simpa using Subgroup.one_mem _
+      | one => simp
       | mul x y _ _ hx hy =>
         have : (g : Y) * (x * y) * (g : Y)⁻¹ = ((g : Y) * x * (g : Y)⁻¹) * ((g : Y) * y * (g : Y)⁻¹) := by group
         rw [this]
@@ -52,8 +52,8 @@ theorem pElementSubgroup_eq_of_isComponent_at {Y : Type} [Group Y] [Finite Y] {L
         exact Subgroup.inv_mem _ hx
     show ((g * n * g⁻¹ : ↥Ls) : Y) ∈ pElementSubgroup q Ls
     simpa using key _ hn'
-  haveI := hOn
-  haveI : (O.map (QuotientGroup.mk' (Subgroup.center ↥Ls))).Normal :=
+  have := hOn
+  have : (O.map (QuotientGroup.mk' (Subgroup.center ↥Ls))).Normal :=
     hOn.map _ (QuotientGroup.mk'_surjective _)
   have hbt := hsimp.eq_bot_or_eq_top_of_normal (O.map (QuotientGroup.mk' (Subgroup.center ↥Ls)))
   rcases hbt with hbot | htop
@@ -145,7 +145,7 @@ theorem pRank_le_pRank_of_le_comap_at {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC
     (hq : q.Prime) (hC : ¬ q ∣ Nat.card (gnC T))
     (hle : pElementSubgroup q (⊤ : Subgroup X) ≤ Ls.comap (toStar T)) :
     CFSG.Open.pRank q (⊤ : Subgroup X) ≤ CFSG.Open.pRank q Ls := by
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   obtain ⟨E, -, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hq.one_lt (⊤ : Subgroup X)
   have hEle : E ≤ Ls.comap (toStar T) := by
     intro x hx
@@ -177,6 +177,7 @@ theorem three_le_pRank_of_le_comap_at {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC
     (hX : CFSG.Open.pRank q (⊤ : Subgroup X) = 3) : 3 ≤ CFSG.Open.pRank q Ls := by
   simpa [hX] using pRank_le_pRank_of_le_comap_at hq hC hle
 
+omit [Finite X] in
 theorem pElement_le_lift_aux1_at {L C : Subgroup X} [L.Normal] [C.Normal] {q : ℕ} (hq : q.Prime)
     (hC : ¬ q ∣ Nat.card C) {x : X} (hx : x ∈ L ⊔ C) {k : ℕ} (hk : orderOf x = q ^ k) : x ∈ L := by
   obtain ⟨l, hl, c, hc, rfl⟩ := Subgroup.mem_sup_of_normal_right.1 hx
@@ -200,7 +201,7 @@ theorem pElement_le_lift_at {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} {q 
     (hC : ¬ q ∣ Nat.card (gnC T))
     (hle : pElementSubgroup q (⊤ : Subgroup X) ≤ Ls.comap (toStar T)) :
     L.Normal ∧ pElementSubgroup q (⊤ : Subgroup X) ≤ L := by
-  haveI := hnorm
+  have := hnorm
   have hLn : L.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hg : toStar T g ∈ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)) := by
@@ -217,7 +218,7 @@ theorem pElement_le_lift_at {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} {q 
   have hx : x ∈ Ls.comap (toStar T) :=
     hle (Subgroup.subset_closure ⟨Subgroup.mem_top x, k, hk⟩)
   rw [hcomap] at hx
-  haveI := hLn
+  have := hLn
   exact pElement_le_lift_aux1_at hq hC hx hk
 
 theorem lift_inf_gnC_le_pCore_of_isUFour (hKSMU4 : KSMU4) {T L : Subgroup X}
@@ -306,7 +307,7 @@ theorem pElement_quot_equiv_at {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} 
       have h1 : toStar T d = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hd)
       have h2 : (d : X) ∈ gnC T := (QuotientGroup.eq_one_iff (d : X)).1 h1
       have h3 : (d : X) ∈ CFSG.pCore 2 X := hker ⟨hDL d.2, h2⟩
-      haveI : ((CFSG.pCore 2 X).subgroupOf D).Normal :=
+      have : ((CFSG.pCore 2 X).subgroupOf D).Normal :=
         Subgroup.Normal.subgroupOf CFSG.pCore_normal D
       have hN2 : IsPGroup 2 ↥((CFSG.pCore 2 X).subgroupOf D) :=
         (CFSG.pCore_isPGroup (p := 2) (G := X)).comap_subtype

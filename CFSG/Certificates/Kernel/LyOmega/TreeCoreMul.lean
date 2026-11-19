@@ -129,7 +129,6 @@ private theorem tcm_sum {w r h m d : ℕ} {a b : ℕ → ℕ} (hw : 0 < w)
         rw [pk_rows]
         refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j hj => ?_
         obtain ⟨e1, e2⟩ := dm_eq (i := i) (Finset.mem_range.1 hj)
-        beta_reduce
         rw [e1, e2, Finset.sum_mul]
 
 private theorem tcm_core {w r h m d S CM RM : ℕ} {a b : ℕ → ℕ} (hw : 0 < w) (hS : S = w * r)
@@ -157,7 +156,7 @@ private theorem tcm_rowsMulU (w S g q CM RM X B : ℕ) : rowsMulU w S g q CM RM 
   | zero => simp
   | succ q ih =>
     rw [Finset.sum_range_succ, ← ih]
-    simp only [Nat.rec_add_one, strictN_eqO]
+    simp only [strictN_eqO]
     rw [tcm_rec_add]
     rfl
 

@@ -31,7 +31,7 @@ private theorem exists_cubeRoot_units_e6Two {L : Type} [Field L] [IsAlgClosed L]
   have hx0 : x ≠ 0 := by
     intro hx0
     rw [hx0] at hx
-    have h1 : (1 : L) = 0 := by simpa using hx
+    have h1 : (1 : L) = 0 := by simp at hx
     exact one_ne_zero h1
   let ω : Lˣ := Units.mk0 x hx0
   have hω : (ω : L) ^ 2 + ω + 1 = 0 := by simpa [ω] using hx
@@ -63,12 +63,12 @@ theorem exists_langSetup_e6Two {K : Type} [Field K] [Finite K] (hK : Nat.card K 
         ι x = rootDiagUnit .E6 a → rootDiagUnit .E6 a ∈ S.D.torus := by
   classical
   let L := AlgebraicClosure K
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num)
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have h2 : (2 : L) = 0 := CharP.cast_eq_zero L 2
   obtain ⟨ω, hω, hω3, hωord⟩ := exists_cubeRoot_units_e6Two (L := L) h2
   have hω2inv : ω ^ 2 = ω⁻¹ :=

@@ -23,7 +23,7 @@ theorem K534_holds : K534 := by
   have hQT : pCoreOf 2 (⊤ : Subgroup X) ≤ T :=
     CFSG.Quasithin.B6.pCoreOf_two_le_of_isSylowTwoOf hX.sylow
   have hV : IsElemAbelian 2 (gnV T) := isElemAbelian_gnV_of_le hC hQT
-  letI : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
     binModule (fun v : IntMod (gnV T) hV => IntMod.sq_eq_one v)
   have hVT : gnV T ≤ T := gnV_le_of_le hC hQT
   obtain ⟨A, hA, hAN, hLA⟩ := exists_offender_of_le hV hVT Ls hL hJ

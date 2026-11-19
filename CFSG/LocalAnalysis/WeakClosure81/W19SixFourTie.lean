@@ -103,6 +103,7 @@ section Group
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_conjSubgroup {E : Subgroup G} {j : G} (hj : j ∈ normalizer (E : Set G))
     (B : Subgroup G) : ⁅E, conjSubgroup B j⁆ = conjSubgroup ⁅E, B⁆ j := by
   unfold conjSubgroup
@@ -111,10 +112,11 @@ theorem commutator_conjSubgroup {E : Subgroup G} {j : G} (hj : j ∈ normalizer 
     Subgroup.mem_normalizer_iff_map_conj_eq.1 hj'
   rw [Subgroup.map_commutator, hE]
 
+omit [Finite G] in
 theorem inf_centralizer_le_pCoreOf {J E : Subgroup G} (hJ : J ≤ normalizer (E : Set G))
     (hC : IsPGroup 2 ↥(J ⊓ centralizer (E : Set G))) :
     J ⊓ centralizer (E : Set G) ≤ pCoreOf 2 J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ j ∈ J, ∀ h ∈ J ⊓ centralizer (E : Set G),
       j * h * j⁻¹ ∈ J ⊓ centralizer (E : Set G) := by
     intro j hj h hh
@@ -154,10 +156,12 @@ variable {J E A : Subgroup G} (T : TieData J E A) (M : ModDataE J E)
 
 include T
 
+omit [Finite G] in
 theorem card_img_A : Nat.card (M.img A) = 2 := by
   rw [M.card_img T.A_le]
   exact T.relIndex
 
+omit [Finite G] in
 theorem conjSubgroup_le {j : G} (hj : j ∈ J) : conjSubgroup A j⁻¹ ≤ J := by
   intro x hx
   rw [mem_conjSubgroup_iff] at hx
@@ -165,6 +169,7 @@ theorem conjSubgroup_le {j : G} (hj : j ∈ J) : conjSubgroup A j⁻¹ ≤ J := 
     J.mul_mem (J.mul_mem hj (T.A_le hx)) (J.inv_mem hj)
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 theorem mem_orbit_iff {B : Subgroup (LGL 2 M.W)} :
     B ∈ {B | ∃ g ∈ M.img J, B = cj g (M.img A)} ↔
       ∃ j : ↥J, B = M.img (conjSubgroup A (j : G)⁻¹) := by
@@ -175,6 +180,7 @@ theorem mem_orbit_iff {B : Subgroup (LGL 2 M.W)} :
   · rintro ⟨j, rfl⟩
     exact ⟨M.ρ j, M.mem_img.2 ⟨j, j.2, rfl⟩, (M.img_conj T.A_le j).symm⟩
 
+omit [Finite G] in
 theorem commSub_inf_eq_bot {j₁ j₂ : ↥J}
     (hne : M.img (conjSubgroup A (j₁ : G)⁻¹) ≠ M.img (conjSubgroup A (j₂ : G)⁻¹)) :
     commSub (M.img (conjSubgroup A (j₁ : G)⁻¹)) ⊓ commSub (M.img (conjSubgroup A (j₂ : G)⁻¹)) =
@@ -254,7 +260,7 @@ theorem assumption131 :
     have hcO : ((a⁻¹ * r : ↥J) : G) ∈ pCoreOf 2 J :=
       inf_centralizer_le_pCoreOf T.le_normalizer T.isPGroup_cent ⟨(a⁻¹ * r).2, hcC⟩
     have haO : (a : G) ∈ pCoreOf 2 J := by
-      have e : (a : G) = (r : G) * ((a⁻¹ * r : ↥J) : G)⁻¹ := by simp [mul_assoc]
+      have e : (a : G) = (r : G) * ((a⁻¹ * r : ↥J) : G)⁻¹ := by simp
       rw [e]
       exact Subgroup.mul_mem _ hrO (Subgroup.inv_mem _ hcO)
     have haC : (a : G) ∈ centralizer (E : Set G) := T.inf_pCore ⟨haA, haO⟩
@@ -327,6 +333,7 @@ theorem assumption131 :
         exact commSpace_commSub_eq_bot_of_card_two (hcard g)
       equivariant := fun B _ g _ => commSub_cj (A := B) g }
 
+omit [Finite G] in
 theorem isPGroup_inf_normalizer :
     IsPGroup 2 ↥(M.img J ⊓ normalizer ((M.img A : Subgroup (LGL 2 M.W)) : Set (LGL 2 M.W))) := by
   refine (M.isPGroup_img T.isPGroup_norm).to_le ?_

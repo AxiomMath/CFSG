@@ -328,15 +328,15 @@ public theorem theorem1_typeB_actor_of_isomorphic_summands
     ∃ (B : Subgroup P) (actor : K),
       Lemma12TypeBActorBranchData K P actor B := by
   classical
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
   rcases hIso with
     ⟨hQAction, Uq, Vq, hUq, hVq, eUV, hQAction_mk,
       hUqcard, hVqcard, hUqVqinf, hUqVqsup, heUV⟩
-  letI : MulDistribMulAction K (P ⧸ Subgroup.center P) := hQAction
+  let : MulDistribMulAction K (P ⧸ Subgroup.center P) := hQAction
   have hQdata := theorem1_center_quotient_orders_and_exponent hP
-  letI : IsMulCommutative (P ⧸ Subgroup.center P) := hQdata.1
-  letI : CommGroup (P ⧸ Subgroup.center P) := IsMulCommutative.instCommGroup
-  letI : Uq.Normal := Subgroup.normal_of_isMulCommutative Uq
+  let : IsMulCommutative (P ⧸ Subgroup.center P) := hQdata.1
+  let : CommGroup (P ⧸ Subgroup.center P) := IsMulCommutative.instCommGroup
+  let : Uq.Normal := Subgroup.normal_of_isMulCommutative Uq
   have hUqVqcompl : Uq.IsComplement' Vq := by
     refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
     · rw [disjoint_iff]
@@ -350,7 +350,7 @@ public theorem theorem1_typeB_actor_of_isomorphic_summands
   have hquotient_card :
       Nat.card (P ⧸ Subgroup.center P) =
         Nat.card (Subgroup.center P) ^ 2 := by
-    have hmul := hUqVqcompl.card_mul
+    have hmul := hUqVqcompl.card_mul_card
     rw [hUqcard, hVqcard] at hmul
     simpa [pow_two] using hmul.symm
   have hPcard : Nat.card P = Nat.card (Subgroup.center P) ^ 3 := by
@@ -400,7 +400,7 @@ public theorem theorem1_typeB_actor_of_isomorphic_summands
       hxiU_irreducible, hxiV_irreducible, hU_card, hV_card,
       hB_le_center, hB_card, hfactor0_card, _hinvolution_card,
       hcriterion⟩
-  letI : B.Normal := by
+  let : B.Normal := by
     rw [← hq0_ker]
     infer_instance
   let eB : P ⧸ B ≃* LowerCentralFactor P 0 :=

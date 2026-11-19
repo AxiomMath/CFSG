@@ -36,7 +36,7 @@ theorem evenSU_central_odd_extension_splitting_stated
     (hcen : π.ker ≤ Subgroup.center E) (hodd : Odd (Nat.card π.ker)) :
     ∃ s : CFSG.Open.StatedSU n (2 ^ f) K →* E, (∀ g, π (s g) = g) ∧
       ∀ τ : CFSG.Open.StatedSU n (2 ^ f) K →* E, (∀ g, π (τ g) = g) → τ = s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ε := CFSG.LieType.Universal.Unitary.equivStatedSU hK n
   set π' := ε.symm.toMonoidHom.comp π with hπ'
   have hker : π'.ker = π.ker := by
@@ -78,10 +78,10 @@ theorem idPSU_holds :
   intro Y _ _ f hR hm hf
   have hproj := CFSG.RankThree.PartOne.projSU_of_statedClassicalModel hm
   obtain ⟨⟨-, -, -, -⟩, K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI hp2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP K 2 :=
+  have hp2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP K 2 :=
     CFSG.SectionRank.ClassicalOdd.charP_of_card (f := f * 2) (by rw [hK, pow_mul])
-  haveI : Group.IsPerfect Y := hR.quasisimple.1
+  have : Group.IsPerfect Y := hR.quasisimple.1
   have hodd : Odd (Nat.card (Subgroup.center Y)) := odd_card_center_of_pCore_eq_bot hR.pCore_two
   obtain ⟨φ, -, -, hmap⟩ :=
     evenSU_perfect_odd_cover_map (n := 4) hK (by norm_num) (by decide) hodd e

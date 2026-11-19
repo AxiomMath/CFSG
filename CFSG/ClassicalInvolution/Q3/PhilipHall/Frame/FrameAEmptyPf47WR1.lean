@@ -49,7 +49,7 @@ theorem aStar_restrict_top {Δ : Set (Subgroup Y)} (hΔ : HypOmegaGen Δ) {K : S
   exact hL
 
 theorem w_struct {Δ : Set (Subgroup Y)} (hΔ : TypeRHyp Δ) {K : Subgroup Y} (hK : K ∈ Δ)
-    (hA : ¬ AEmpty Δ K) (hall : aStar Δ K = Δ) (hV : vStar Δ K = Δ) (hgen : omegaGen Δ = ⊤)
+    (hA : ¬ AEmpty Δ K) (hall : aStar Δ K = Δ) (_hV : vStar Δ K = Δ) (_hgen : omegaGen Δ = ⊤)
     {W : Subgroup (SecQuot (⊤ : Subgroup Y))} [W.Normal]
     (hW : WSet (oddQuotientFamily (restrictFamily Δ ⊤)) = {W})
     (hD : Nonempty ((SecQuot (⊤ : Subgroup Y) ⧸ W) ≃* DihedralGroup 6)) :

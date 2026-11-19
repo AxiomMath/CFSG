@@ -20,12 +20,12 @@ theorem act_inv_fix (g : PG) {i : ℕ} (hi : i < 100) {j : ℕ} (h : act 100 g i
   mul_mem' {g h} hg hh := by
     have e0 := act_mul g h (show 0 < 100 by norm_num)
     have e1 := act_mul g h (show 1 < 100 by norm_num)
-    simp only [Set.mem_setOf_eq] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq] at hg hh ⊢
     rw [e0, e1]
     rcases hg with ⟨g0, g1⟩ | ⟨g0, g1⟩ <;> rcases hh with ⟨h0, h1⟩ | ⟨h0, h1⟩ <;>
       simp only [h0, h1, g0, g1] <;> simp
   inv_mem' {g} hg := by
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     rcases hg with ⟨g0, g1⟩ | ⟨g0, g1⟩
     · exact Or.inl ⟨act_inv_fix g (by norm_num) g0, act_inv_fix g (by norm_num) g1⟩
     · exact Or.inr ⟨act_inv_fix g (by norm_num) g1, act_inv_fix g (by norm_num) g0⟩
@@ -36,7 +36,7 @@ theorem act_inv_fix (g : PG) {i : ℕ} (hi : i < 100) {j : ℕ} (h : act 100 g i
   mul_mem' {g h} hg hh := by
     have e0 := act_mul g h (show 0 < 100 by norm_num)
     have e1 := act_mul g h (show 1 < 100 by norm_num)
-    simp only [Set.mem_setOf_eq] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq] at hg hh ⊢
     rw [e0, e1, hh.1, hh.2, hg.1, hg.2]
     exact ⟨rfl, rfl⟩
   inv_mem' {g} hg := ⟨act_inv_fix g (by norm_num) hg.1, act_inv_fix g (by norm_num) hg.2⟩
@@ -61,12 +61,12 @@ theorem comm_fix01 {g₁ g₂ : PG} (h₁ : g₁ ∈ Q01) (h₂ : g₂ ∈ Q01) 
     rw [key 0 (by norm_num)]
     rcases Q01_cases h₁ with ⟨a1, a2, a3, a4⟩ | ⟨a1, a2, a3, a4⟩ <;>
       rcases Q01_cases h₂ with ⟨b1, b2, b3, b4⟩ | ⟨b1, b2, b3, b4⟩ <;>
-      simp only [a1, a2, a3, a4, b1, b2, b3, b4]
+      simp only [a1, a2, a3, a4, b1, b2, b3]
   · show act 100 (g₁ * g₂ * g₁⁻¹ * g₂⁻¹) 1 = 1
     rw [key 1 (by norm_num)]
     rcases Q01_cases h₁ with ⟨a1, a2, a3, a4⟩ | ⟨a1, a2, a3, a4⟩ <;>
       rcases Q01_cases h₂ with ⟨b1, b2, b3, b4⟩ | ⟨b1, b2, b3, b4⟩ <;>
-      simp only [a1, a2, a3, a4, b1, b2, b3, b4]
+      simp only [a1, a2, a3, a4, b1, b2, b4]
 
 
 theorem Mg_le_Q01 : Mg ≤ Q01 := by

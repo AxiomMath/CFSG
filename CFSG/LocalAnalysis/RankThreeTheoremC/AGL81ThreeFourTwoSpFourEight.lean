@@ -25,9 +25,9 @@ variable {X Y : Type*} [Group X] [Group Y]
 private theorem commutator_le_of_relIndex_eq_two_sp48 {S T : Subgroup X}
     (h : S.relIndex T = 2) : ⁅T, T⁆ ≤ S := by
   have h2 : (S.subgroupOf T).index = 2 := h
-  haveI : (S.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic (T ⧸ S.subgroupOf T) :=
+  have : (S.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two h2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic (T ⧸ S.subgroupOf T) :=
     isCyclic_of_prime_card (p := 2) (by rw [← Subgroup.index_eq_card, h2])
   have h1 := Abelianization.commutator_subset_ker (QuotientGroup.mk' (S.subgroupOf T))
   rw [QuotientGroup.ker_mk'] at h1
@@ -77,7 +77,7 @@ private theorem fr_pow_apply_of_mem_spE (j : ℕ) {s : Sp8} (hs : s ∈ spE) : (
     exact (fr_eq_self_iff_mem_spE (spE_le_spT0 hs)).2 hs
 
 private theorem pow_eight_mem_spT0 {g : Sp8} (hg : g ∈ wrp slD) : g ^ 8 ∈ spT0 := by
-  haveI : (spT0.subgroupOf (wrp slD)).Normal := ⟨fun n hn x =>
+  have : (spT0.subgroupOf (wrp slD)).Normal := ⟨fun n hn x =>
     Subgroup.mem_subgroupOf.2 (wrp_normalizes_spT0 x.2 (Subgroup.mem_subgroupOf.1 hn))⟩
   have hidx : (spT0.subgroupOf (wrp slD)).index = 8 := by
     have h := Subgroup.card_mul_index (spT0.subgroupOf (wrp slD))
@@ -147,7 +147,7 @@ private theorem fixes_spE_of_pow_eq_one {α : MulAut Sp8} {n : ℕ} (hα : α ^ 
 private theorem exists_surj_of_isSubnormal_wrp_top {J : Subgroup Sp8}
     (hJs : IsSubnormal J (wrp (⊤ : Subgroup Sl28))) (hne : J ≠ ⊥) (hJp : ⁅J, J⁆ = J) :
     ∃ g : J →* Sl28, Function.Surjective g := by
-  haveI := sl28_isSimpleGroup
+  have := sl28_isSimpleGroup
   set V : Subgroup Sp8 := blkHom.range with hV
   have hVW : V ≤ wrp (⊤ : Subgroup Sl28) := blkRange_le_wrp
   have hcardV : Nat.card V = 504 * 504 := by
@@ -217,7 +217,7 @@ private theorem exists_surj_sl28_of_sp48 (hcard : Nat.card Sp8 = 3 ^ 4 * 1304576
     (hQ : ∃ (Q : Type) (_ : Group Q) (f : J →* Q), Function.Surjective f ∧ IsPGroup 2 f.ker ∧
       CFSG.Open.IsQuasisimple Q) :
     ∃ g : J →* Sl28, Function.Surjective g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT0p : IsPGroup 3 spT0 := IsPGroup.of_card (n := 4) (by rw [card_spT0]; norm_num)
   have hT0i : ¬ 3 ∣ spT0.index := by
     have h := Subgroup.card_mul_index spT0
@@ -259,7 +259,7 @@ private theorem exists_surj_sl28_of_sp48 (hcard : Nat.card Sp8 = 3 ^ 4 * 1304576
   have hRA : ∀ r ∈ (R : Subgroup Y), ∀ a ∈ A, r * a = a * r := by
     intro r hr a ha
     obtain ⟨s, hs, rfl⟩ := ha
-    obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
     have hrn : r ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hα : (adHom K ε r) ^ (3 ^ n) = 1 := by rw [← map_pow, hrn, map_one]
     have hTα : ∀ t ∈ spT0, adHom K ε r t ∈ spT0 := by
@@ -285,7 +285,7 @@ private theorem exists_surj_sl28_of_sp48 (hcard : Nat.card Sp8 = 3 ^ 4 * 1304576
     norm_num
   have hNA : normalizer (A : Set Y) ≤ Y₀ := by
     by_cases h3 : 3 ≤ pRank 3 (R : Subgroup Y)
-    · rw [if_pos h3] at hcore
+    · rw [ite_eq_left h3] at hcore
       refine (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore 3 hAR
         (CFSG.SectionRank.le_pRank (by norm_num) le_rfl hAel hAc) ?_).trans hcore
       rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
@@ -293,7 +293,7 @@ private theorem exists_surj_sl28_of_sp48 (hcard : Nat.card Sp8 = 3 ^ 4 * 1304576
       intro r hr
       refine Subgroup.mem_sup_right ⟨hr, Subgroup.mem_centralizer_iff.2 fun a ha => ?_⟩
       exact (hRA r hr a ha).symm
-    · rw [if_neg h3] at hcore
+    · rw [ite_eq_right h3] at hcore
       have hR2 : CFSG.Open.pRank 3 (R : Subgroup Y) ≤ 2 := by
         rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
         omega
@@ -369,7 +369,7 @@ theorem threeFourTwoAt_sp48 : ∀ (q : TauCeti.PrimePower) (d : TauCeti.ValidLie
     obtain ⟨a, b, hab⟩ := sl28_nonabelian
     refine ⟨eX.symm (blkHom (a, 1)), eX.symm (blkHom (b, 1)), fun h => hab ?_⟩
     have h1 := congrArg eX h
-    simp only [map_mul, MulEquiv.apply_symm_apply, ← map_mul] at h1
+    simp only [MulEquiv.apply_symm_apply, ← map_mul] at h1
     have h2 := blkHom_injective h1
     simpa using congrArg Prod.fst h2
   have hXout : Group.IsSolvable (Outer (TauCeti.CFSGIndex.lie ⟨.B 2 q, hv⟩).Group) :=
@@ -377,12 +377,12 @@ theorem threeFourTwoAt_sp48 : ∀ (q : TauCeti.PrimePower) (d : TauCeti.ValidLie
       (CFSG.QuasithinUnique.SQTK.statedClassicalModel_typeB2 q hv (MulEquiv.refl _))
   refine threeFourTwoAt_of_forall hXs hXnab hXout ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ _ hER hE hEc hcore _ hKY J hJ hne hJp hJs hQ
-  haveI := hKn
+  have := hKn
   obtain ⟨e⟩ := hKX
   obtain ⟨g, hg⟩ :=
     exists_surj_sl28_of_sp48 hcard hsimple R (e.trans eX) hER hE hEc hcore hKY hJ hne hJp hJs hQ
   obtain rfl : q = ⟨2, 3, Nat.prime_two, by norm_num⟩ := TauCeti.PrimePower.ext hqp hqe
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let dJ : TauCeti.ValidLieTypeIndex := ⟨.A 1 ⟨2, 3, Nat.prime_two, by norm_num⟩,
     valid_A_one_eight⟩
   obtain ⟨eP⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex (p := 2) (n := 3) (d := dJ)

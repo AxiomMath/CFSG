@@ -591,6 +591,7 @@ private theorem u4q_trivOTwoQuot_relIndex_P_dvd_two (hF : F112HypW L1 L2 S) (hm 
     (f112sa_T_sylow_oTwoPrime_P2'_of_hyp111R hF hR) hD'le hD'card2 hDLβ hDT hDD' hDidx
     hP2 hPLβ hPT hPD
 
+omit [Finite H] in
 private theorem u4q_relIndex_eq_of_forall_mul
     (hSNT : S ≤ Subgroup.normalizer ((S ⊓ f112saK L1 L2 S : Subgroup H) : Set H))
     {P : Subgroup H} (hPS : P ≤ S)

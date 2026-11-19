@@ -96,7 +96,7 @@ theorem uM_row {m : ℕ} (hm : 2 ≤ m) : Odd ((StrothTypeIndex.t310 m hm).actio
     Even ((StrothTypeIndex.t310 m hm).action.u 0 1) ∧
     Even ((StrothTypeIndex.t310 m hm).action.u 0 2) := by
   show Odd (Type310.uM m 0 0) ∧ Even (Type310.uM m 0 1) ∧ Even (Type310.uM m 0 2)
-  refine ⟨⟨2 ^ (m - 2), ?_⟩, ?_, ?_⟩ <;> simp [Type310.uM, uMat] <;> ring
+  refine ⟨⟨2 ^ (m - 2), ?_⟩, ?_, ?_⟩ <;> simp [Type310.uM, uMat]
 
 theorem par_u {m : ℕ} (hm : 2 ≤ m) (x : Torus (StrothTypeIndex.t310 m hm).k) :
     (((StrothTypeIndex.t310 m hm).action.φu x) 0).val % 2 = (x 0).val % 2 :=

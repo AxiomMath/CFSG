@@ -123,7 +123,7 @@ private lemma H1_le_conj (F : Facts) (H₁ : Subgroup (GL (Fin 4) (ZMod 2)))
       exact Subgroup.mem_map.mpr ⟨R F b,
         Subgroup.mem_map.mpr ⟨b, Equiv.Perm.mem_alternatingGroup.mpr hb, rfl⟩,
         by simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using hy_eq.symm⟩
-  · simpa using Subgroup.one_mem _
+  · simp
   · intro x y _ _ ihx ihy
     simpa using Subgroup.mul_mem _ ihx ihy
   · intro x _ ih

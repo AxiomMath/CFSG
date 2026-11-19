@@ -317,7 +317,7 @@ theorem not_u4 {M p e s g d : ℕ} (hX : XInfo M p e) (hs : s.Prime) (hg : 1 ≤
     have : d ∣ 4 := hd4
     have hd' : d = 1 ∨ d = 2 ∨ d = 4 := by
       have : d ≤ 4 := hdle
-      interval_cases d <;> simp_all <;> omega
+      interval_cases d <;> simp_all
     rcases hd' with h1 | h2 | h4
     · exact h1
     · exact absurd hdodd (by rw [h2]; decide)

@@ -16,7 +16,7 @@ abbrev UG : Subgroup (GL (Fin 6) F4) := primeFormUnitary hF4 (idGram F4 6)
 
 theorem isSolvable_of_no_perfect {H : Type} [Group H] [Finite H]
     (h : ∀ K : Subgroup H, ⁅K, K⁆ = K → K = ⊥) : Group.IsSolvable H := by
-  rw [isSolvable_iff_commutator_lt]
+  rw [Group.isSolvable_iff_commutator_lt]
   intro K hK
   refine lt_of_le_of_ne ?_ ?_
   · refine Subgroup.commutator_le.2 fun a ha b hb => ?_
@@ -30,8 +30,8 @@ theorem card_blk_add_rank (d : Fin 6 → F4) (c : F4) :
   have hD : Matrix.diagonal d - Matrix.scalar (Fin 6) c = Matrix.diagonal (fun i => d i - c) := by
     ext i j
     by_cases hij : i = j
-    · subst hij; simp [Matrix.diagonal_apply, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply_ne _ hij, Matrix.scalar_apply, Matrix.one_apply_ne hij]
+    · subst hij; simp [Matrix.scalar_apply]
+    · simp [Matrix.diagonal_apply_ne _ hij, Matrix.scalar_apply]
   rw [hD, Matrix.rank_diagonal]
   have h1 : Fintype.card {i // d i - c ≠ 0} = Fintype.card {i : Fin 6 // ¬ d i = c} :=
     Fintype.card_congr (Equiv.subtypeEquivRight fun i => by simp [sub_eq_zero])
@@ -72,7 +72,7 @@ theorem bot_of_perfect_rank {J : Subgroup M6} (hperf : ⁅J, J⁆ = J) {h : GL (
   have hDd : (((Q : GL (Fin 6) F4) * h * (Q : GL (Fin 6) F4)⁻¹ : GL (Fin 6) F4) :
       Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal d := by
     rw [← hd]
-    simp [hQ, Subgroup.coe_mul, Subgroup.coe_inv, mul_assoc]
+    simp [hQ, Subgroup.coe_mul, mul_assoc]
   have hJle : J ≤ (CenD h) := fun u hu => mem_CenD.2 (hJ u hu)
   have hJ' : J.map (conjM6 Q).toMonoidHom ≤ CenD ((Q : GL (Fin 6) F4) * h * (Q : GL (Fin 6) F4)⁻¹) := by
     rw [← map_CenD_conj]

@@ -31,7 +31,6 @@ private theorem map_centralizer_singleton_eq {K K' : Type} [Group K] [Group K'] 
   refine le_antisymm ?_ ?_
   · rintro y ⟨c, hc, rfl⟩
     change c ∈ Subgroup.centralizer ({z} : Set K) at hc
-    change π c ∈ Subgroup.centralizer ({π z} : Set K')
     rw [Subgroup.mem_centralizer_iff] at hc ⊢
     intro s hs
     have hsz : s = π z := by simpa using hs
@@ -105,10 +104,10 @@ theorem conclKLeft_of_map {K K' : Type} [Group K] [Group K'] [Finite K] (π : K 
     · refine Or.inl ⟨?_, ?_, ?_, ?_, ?_⟩
       ·
         obtain ⟨hcommV', hFF'⟩ := hFF
-        haveI : IsMulCommutative ↥V := hV.1
-        haveI : IsMulCommutative ↥(V.map π) := hcommV'
-        letI : CommGroup ↥V := IsMulCommutative.instCommGroup
-        letI : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
+        have : IsMulCommutative ↥V := hV.1
+        have : IsMulCommutative ↥(V.map π) := hcommV'
+        let : CommGroup ↥V := IsMulCommutative.instCommGroup
+        let : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
         have hN : Subgroup.normalizer ((V.map π : Subgroup K') : Set K') =
             (Subgroup.normalizer (V : Set K)).map π := by
           refine le_antisymm ?_ (Subgroup.le_normalizer_map π)
@@ -141,10 +140,10 @@ theorem conclKLeft_of_map {K K' : Type} [Group K] [Group K'] [Finite K] (π : K 
           exact IsNaturalSumUnder.of_map π hVbot hLV hnat
         · right
           obtain ⟨hcommV', hSL'⟩ := hSL
-          haveI : IsMulCommutative ↥V := hV.1
-          haveI : IsMulCommutative ↥(V.map π) := hcommV'
-          letI : CommGroup ↥V := IsMulCommutative.instCommGroup
-          letI : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
+          have : IsMulCommutative ↥V := hV.1
+          have : IsMulCommutative ↥(V.map π) := hcommV'
+          let : CommGroup ↥V := IsMulCommutative.instCommGroup
+          let : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
           refine ⟨hV.1, ?_⟩
           unfold SLExteriorTwo at hSL' ⊢
           have haut := autOn_map_of_equiv π eV heV hLV
@@ -274,10 +273,10 @@ theorem conclKLeft_of_map {K K' : Type} [Group K] [Group K'] [Finite K] (π : K 
       refine Or.inr (Or.inl ⟨m, hm, ?_, ?_⟩)
       · exact E443.lieModel_of_mulEquiv' ψ hLie2
       · obtain ⟨hcommV', hBO⟩ := hBO
-        haveI : IsMulCommutative ↥V := hV.1
-        haveI : IsMulCommutative ↥(V.map π) := hcommV'
-        letI : CommGroup ↥V := IsMulCommutative.instCommGroup
-        letI : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
+        have : IsMulCommutative ↥V := hV.1
+        have : IsMulCommutative ↥(V.map π) := hcommV'
+        let : CommGroup ↥V := IsMulCommutative.instCommGroup
+        let : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
         refine ⟨hV.1, ?_⟩
         unfold BinaryOrthogonalFour TwistedTensorSL at hBO ⊢
         obtain ⟨K₀, hK₀field, hK₀finite, hK₀char, hK₀card, hReal⟩ := hBO
@@ -295,10 +294,10 @@ theorem conclKLeft_of_map {K K' : Type} [Group K] [Group K'] [Finite K] (π : K 
       refine Or.inr (Or.inr ⟨?_, ?_⟩)
       · exact E443.lieModel_of_mulEquiv' ψ hLie3
       · obtain ⟨hcommV', hFano⟩ := hFano
-        haveI : IsMulCommutative ↥V := hV.1
-        haveI : IsMulCommutative ↥(V.map π) := hcommV'
-        letI : CommGroup ↥V := IsMulCommutative.instCommGroup
-        letI : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
+        have : IsMulCommutative ↥V := hV.1
+        have : IsMulCommutative ↥(V.map π) := hcommV'
+        let : CommGroup ↥V := IsMulCommutative.instCommGroup
+        let : CommGroup ↥(V.map π) := IsMulCommutative.instCommGroup
         refine ⟨hV.1, ?_⟩
         unfold FanoCoreModule at hFano ⊢
         have haut := autOn_map_of_equiv π eV heV hLV

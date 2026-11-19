@@ -77,7 +77,7 @@ theorem pt_cyclic [Fact p.Prime] (hs : PtSchurBound) (hG : FrobGlobal G) (hl : P
     have h4 : ((Subgroup.inclusion hSC s : centralizer ({x} : Set G)) : G) = 1 :=
       congrArg Subtype.val h3
     exact Subtype.ext h4
-  haveI : IsCyclic (centralizer (K : Set (RedCent p x))) := hD.isCyclic
+  have : IsCyclic (centralizer (K : Set (RedCent p x))) := hD.isCyclic
   exact isCyclic_of_injective g hinj
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PPointFrobenius

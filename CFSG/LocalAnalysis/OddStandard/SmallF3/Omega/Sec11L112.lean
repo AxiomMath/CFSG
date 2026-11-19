@@ -8,7 +8,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 
 open Subgroup CFSG.Blueprint
 
-theorem asc82Lemma112_of (hp : Asc82Pre11) (h111N : Asc82Lemma111N) : Asc82Lemma112 := by
+theorem asc82Lemma112_of (hp : Asc82Pre11) (_h111N : Asc82Lemma111N) : Asc82Lemma112 := by
   intro G _ _ t L S z K1 K2 T R hctx
   obtain ⟨Alt, φ, hm⟩ := sec11_model_of hp hctx
   have e : ↥(secMstar t S L) ≃* ↥Alt := hm.perm.autInEquiv le_rfl

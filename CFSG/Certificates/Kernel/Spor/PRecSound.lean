@@ -86,7 +86,7 @@ theorem penumSlK_pt {m nw : ℕ} {conj : Bool} {G GI T PL POS SRT SRI : ℕ → 
   have e : Nat.add lo (i - lo) = i := by
     change lo + (i - lo) = i
     omega
-  rw [e, bIf_eq, if_pos (Nat.blt_eq.mpr hi)] at h1
+  rw [e, bIf_eq, ite_eq_left (Nat.blt_eq.mpr hi)] at h1
   exact h1
 
 theorem penumLeft_group (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {k cnt cap : ℕ}
@@ -124,7 +124,7 @@ theorem penumLeft_group (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {k cnt cap : �
   let x : ℕ → Equiv.Perm (Fin n) := fun i => if h : i < cnt then (hex i h).choose else 1
   have hx : ∀ i < cnt, PRep n w (T i) (x i) := by
     intro i hi
-    simp only [x, dif_pos hi]
+    simp only [x, dite_eq_left hi]
     exact (hex i hi).choose_spec
   have hx0 : x 0 = 1 := CFSG.KC.OrbGroup.prep_eq (hx 0 hc0) (by rw [hT0']; exact hid)
   have htree : ∀ i, 0 < i → i < cnt → ∃ p < i, ∃ j < k, x i = g j * x p := by
@@ -152,7 +152,7 @@ theorem penumLeft_group (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {k cnt cap : �
   exact ⟨x, hx, hinj, CFSG.KS.RecGroup.mem_closure_iff_of_left_record hc0 hx0 htree hcl,
     CFSG.KS.RecGroup.card_closure_of_left_record hc0 hx0 htree hcl hinj⟩
 
-theorem penumConj_class (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {k cnt cap X : ℕ}
+theorem penumConj_class (hn : n < 16777216) (_hw : n + 1 < 2 ^ w) {k cnt cap X : ℕ}
     {G GI T PL POS SRT SRI : ℕ → ℕ} {g : ℕ → Equiv.Perm (Fin n)} {r : Equiv.Perm (Fin n)}
     (hg : ∀ j < k, PRep n w (G j) (g j)) (hgi : ∀ j < k, PRep n w (GI j) (g j)⁻¹)
     (hr : PRep n w X r) (hh : penumHdK X cnt cap T PL = true)
@@ -187,7 +187,7 @@ theorem penumConj_class (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {k cnt cap X : 
   let c : ℕ → Equiv.Perm (Fin n) := fun i => if h : i < cnt then (hex i h).choose else 1
   have hc : ∀ i < cnt, PRep n w (T i) (c i) := by
     intro i hi
-    simp only [c, dif_pos hi]
+    simp only [c, dite_eq_left hi]
     exact (hex i hi).choose_spec
   have hc0r : c 0 = r := CFSG.KC.OrbGroup.prep_eq (hc 0 hc0) (by rw [hT0']; exact hr)
   have hgH : ∀ j < k, g j ∈ closure (g '' {j | j < k}) := fun j hj => subset_closure ⟨j, hj, rfl⟩
@@ -352,7 +352,7 @@ theorem sqCoverK_spec {m idn z : ℕ} {S : ℕ → ℕ} {L : List (ℕ × (ℕ �
   unfold sqCoverK at h
   have hpt := allN_iff.1 h i hi
   unfold sqCoverPtK at hpt
-  simp only [CFSG.KS.Raw.Orb.strictB_eq, bIf_eq, bAnd_eq] at hpt
+  simp only [CFSG.KS.Raw.Orb.strictB_eq, bIf_eq] at hpt
   have hn : inPairK idn z (S i) = false := by
     cases e : inPairK idn z (S i)
     · rfl

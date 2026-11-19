@@ -14,7 +14,7 @@ theorem s16e_d5_index_dvd_48 {G : Type*} [Group G] {L A : Subgroup G} (hL : Nat.
     have h := hL
     rw [h0] at h
     exact absurd h (by norm_num)
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero hLne
+  have : Finite ↥L := Nat.finite_of_card_ne_zero hLne
   have hA : A ≤ Subgroup.normalizer (L : Set G) := hLn
   let ψ : ↥A →* MulAut ↥L :=
     (Subgroup.normalizerMonoidHom L).comp (Subgroup.inclusion hA)

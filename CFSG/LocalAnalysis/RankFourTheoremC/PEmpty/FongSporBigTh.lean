@@ -17,7 +17,7 @@ theorem card_mul_le_of_normalizing_extraspecial {G : Type*} [Group G] [Finite G]
     (hSc : Nat.card S = 2 ^ e * m) (hm : Odd m) :
     Nat.card E * 2 ^ (1 + 2 * w) ≤ 2 ^ e * 2 ^ (w + 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hprod := CFSG.GH74.GLS.Stage1.Thm3.Sec4.M.card_sup_mul_card_inf (A := Q) (B := E) hEQ
   have hinf : Nat.card ↥(Q ⊓ E) ≤ 2 ^ (w + 1) := by
     have h := CFSG.LocalAnalysis.GorensteinLyons.SteinbergBQ.HigherCenter.card_le_of_commute_extraspecial

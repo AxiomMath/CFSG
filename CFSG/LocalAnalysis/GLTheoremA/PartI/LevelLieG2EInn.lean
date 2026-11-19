@@ -13,7 +13,7 @@ theorem g2e_inner_not73 (K : Type) [Field K] [Finite K] [CharP K 2] (hK : Nat.ca
     (g : adjointGroup .G2 K) (hg : orderOf g = 3) :
     ¬ 73 ∣ Nat.card ↥(Subgroup.centralizer ({g} : Set (adjointGroup .G2 K))) := by
   intro h73
-  haveI : Fact (Nat.Prime 73) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 73) := ⟨by norm_num⟩
   obtain ⟨x', hx'⟩ := exists_prime_orderOf_dvd_card' 73 h73
   set x : adjointGroup .G2 K := (x' : adjointGroup .G2 K) with hx
   have hx73 : orderOf x = 73 := by rw [hx, Subgroup.orderOf_coe]; exact hx'

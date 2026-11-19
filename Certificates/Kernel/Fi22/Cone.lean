@@ -75,7 +75,7 @@ theorem lab_h {j : ℕ} {R : Bool}
   · change Multiplicative.ofAdd (Pi.single (M := fun _ : Fin 7 => ℤ) ⟨j, hj⟩ 1) = _
     rw [hn]
 
-theorem lab_e {j : ℕ} (g : ℕ) (hg : g < 6) (hj : j = 7 + g) (hST : CFSG.KD.Fi22KC.selST j = subY (7 + g))
+theorem lab_e {j : ℕ} (g : ℕ) (hg : g < 6) (_hj : j = 7 + g) (hST : CFSG.KD.Fi22KC.selST j = subY (7 + g))
     (hX : Nat.beq (lX (CFSG.KD.Fi22KC.LETs j)) (CFSG.KD.Fi22KM.FIs g) = true)
     (hp : lP (CFSG.KD.Fi22KC.LETs j) = 1) (hn : decN (lN (CFSG.KD.Fi22KC.LETs j)) = 0)
     (hN : nOK (lN (CFSG.KD.Fi22KC.LETs j)) = true) :

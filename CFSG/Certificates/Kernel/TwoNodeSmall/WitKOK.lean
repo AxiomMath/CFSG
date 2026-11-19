@@ -74,7 +74,7 @@ theorem cloK_spec [Fact P.p.Prime] (hp : P.p = 3) (hD : P.D ≤ 10) (C C' : List
       rw [List.getD_eq_getElem _ _ hqC, List.getD_eq_getElem _ _ hq]
       have := congrArg (fun l => l[e.2.1]?) hacc
       simp only [List.getElem?_map, List.getElem?_eq_getElem hq, List.getElem?_take,
-        if_pos hq, List.getElem?_eq_getElem hqC,
+        ite_eq_left hq, List.getElem?_eq_getElem hqC,
         Option.map_some, Option.some.injEq] at this
       exact this.symm
     have hGj : nthK (0, 0) (P.gens.map (packR P)) e.1 = packR P (P.gens.getD e.1 ⟨[], []⟩) := by
@@ -93,7 +93,7 @@ theorem cloK_spec [Fact P.p.Prime] (hp : P.p = 3) (hD : P.D ≤ 10) (C C' : List
       exact sem_step hx hj
     have hacc' : (acc ++ [stepC P acc e]).map (fun x => packR P x.1) =
         C.take (acc ++ [stepC P acc e]).length := by
-      rw [List.map_append, hacc, List.length_append, List.length_singleton, List.take_succ]
+      rw [List.map_append, hacc, List.length_append, List.length_singleton, List.take_add_one]
       have h0 : C[acc.length]? = some (ent e) := by
         have := congrArg (fun l => l[0]?) hdrop
         simpa using this
@@ -255,7 +255,7 @@ theorem WF_of_gens (hp : P.p = 3) (hD : P.D ≤ 10) [Fact P.p.Prime]
 theorem chk_common {P : Pt} {k : Nat} (hk : k ≠ 0) {sm : List Nat}
     {clo : List (Nat × Nat × Nat × Nat)} {lv : List (Nat × List Nat × List Nat)}
     {ex : List (List Nat)} (h : chkPt P (k, sm, clo, lv, ex) = true) :
-    ∃ (hp : P.p = 3) (hD : P.D ≤ 10) (_ : 1 ≤ P.D) (_ : Fact P.p.Prime), P.WF ∧ wfCheck P = true ∧
+    ∃ (_hp : P.p = 3) (_hD : P.D ≤ 10) (_ : 1 ≤ P.D) (_ : Fact P.p.Prime), P.WF ∧ wfCheck P = true ∧
       ∃ Dl : List CE, (∀ x ∈ Dl, Sem P x) ∧ Dl.length = P.gens.length + clo.length ∧
         P.gens.map (packR P) ++ clo.map ent = Dl.map (fun x => packR P x.1) ∧
         (bif Nat.beq k 1 then tK P.D (Nat.mul 3 (ones P.D)) (Nat.mul 16 (Nat.sub P.D 1)) Dl.length
@@ -267,22 +267,22 @@ theorem chk_common {P : Pt} {k : Nat} (hk : k ≠ 0) {sm : List Nat}
           else false) = true := by
   have hk0 : Nat.beq k 0 = false := Bool.eq_false_iff.mpr fun h' => hk (Nat.eq_of_beq_eq_true h')
   unfold chkPt at h
-  simp only [hk0, cond_false, Bool.and_eq_true, Nat.beq_eq, Nat.ble_eq] at h
-  obtain ⟨⟨⟨hp, hD1⟩, hD⟩, ⟨hG, hclo⟩, hkind⟩ := h
-  have hfact : Fact P.p.Prime := ⟨by rw [hp]; norm_num⟩
-  rw [gensK_eqW hp] at hG hclo hkind
-  obtain ⟨hWF, hwf⟩ := WF_of_gens hp hD hG
+  simp only [hk0, Bool.cond_false, Bool.and_eq_true, Nat.beq_eq, Nat.ble_eq] at h
+  obtain ⟨⟨⟨_hp, hD1⟩, _hD⟩, ⟨hG, hclo⟩, hkind⟩ := h
+  have hfact : Fact P.p.Prime := ⟨by rw [_hp]; norm_num⟩
+  rw [gensK_eqW _hp] at hG hclo hkind
+  obtain ⟨hWF, hwf⟩ := WF_of_gens _hp _hD hG
   have hclo' : cloK (Nat.mul 3 (ones P.D)) (Nat.mul 16 (Nat.sub P.D 1)) P.gens.length
       (P.gens.map (packR P)) (P.gens.map (packR P) ++ clo.map ent) clo P.gens.length 0
       (P.gens.map (packR P) ++ clo.map ent) = true := by
     rw [List.length_map] at hclo
     exact hclo
-  obtain ⟨hDl, hsem⟩ := clo_specW hp hD clo _ hclo'
+  obtain ⟨hDl, hsem⟩ := clo_specW _hp _hD clo _ hclo'
   have hlen : (cloD P (baseD P) clo).length = P.gens.length + clo.length := by
     have := congrArg List.length hDl
     simp only [List.length_map, List.length_append] at this
     exact this
-  refine ⟨hp, hD, hD1, hfact, hWF, hwf, cloD P (baseD P) clo, hsem, hlen, hDl.symm, ?_⟩
+  refine ⟨_hp, _hD, hD1, hfact, hWF, hwf, cloD P (baseD P) clo, hsem, hlen, hDl.symm, ?_⟩
   have e1 : (P.gens.map (packR P) ++ clo.map fun e => (e.2.2.1, e.2.2.2)) =
       (cloD P (baseD P) clo).map (fun x => packR P x.1) := hDl.symm
   have e2 : Nat.add (P.gens.map (packR P)).length clo.length = (cloD P (baseD P) clo).length := by
@@ -315,7 +315,7 @@ theorem tK_verify [Fact P.p.Prime] (hp : P.p = 3) (hD : P.D ≤ 10) (hwf : P.WF)
   · have h1 := sw_ok hS
     have h2 := sw_ok hT
     unfold tWord
-    cases Nat.beq sq 0 <;> simp only [cond_false, cond_true, wordOK_app, h1, h2, Bool.and_self]
+    cases Nat.beq sq 0 <;> simp only [Bool.cond_false, _root_.Bool.cond_true, wordOK_app, h1, h2, Bool.and_self]
   · rw [← dotKW_pk hp hD]
     exact hd
   · intro i hi j hj
@@ -331,11 +331,11 @@ theorem tK_verify [Fact P.p.Prime] (hp : P.p = 3) (hD : P.D ≤ 10) (hwf : P.WF)
             (P.applyRefl Dl[s].1 (P.applyRefl Dl[t].1 (P.unit i))))) := by
       unfold tWord
       cases Nat.beq sq 0
-      · simp only [cond_false, applyWord_append]
+      · simp only [Bool.cond_false, applyWord_append]
         rw [sw_act hwf hS, vec_congr_refl _ (sw_act hwf hT _), vec_congr_refl _ (vec_congr_refl _
           (sw_act hwf hS _)), vec_congr_refl _ (vec_congr_refl _ (vec_congr_refl _
             (sw_act hwf hT _)))]
-      · simp only [cond_true, applyWord_append]
+      · simp only [_root_.Bool.cond_true, applyWord_append]
         rw [sw_act hwf hS, vec_congr_refl _ (sw_act hwf hT _)]
     rw [ent_of_vec hw hj]
     have key : ∀ g : Vec, pk P.D g = fw P.D (fun l => (ln (P.unit i) l + nthK 0 φ i % 3 * ln u l) % 3) →
@@ -355,17 +355,17 @@ theorem tK_verify [Fact P.p.Prime] (hp : P.p = 3) (hD : P.D ≤ 10) (hwf : P.WF)
         Option.map_some, Option.getD_some, ln, Pt.unit, nthK_eq']
       by_cases hij : i = j
       · subst hij
-        simp only [if_pos rfl]
+        simp only
         omega
-      · rw [if_neg (Ne.symm hij), if_neg hij]
-        simp only [Nat.zero_mod, Nat.zero_add, Nat.mod_mod, Nat.mul_mod (List.getD φ i 0 % 3)]
+      · rw [ite_eq_right (Ne.symm hij), ite_eq_right hij]
+        simp only [Nat.zero_mod, Nat.zero_add, Nat.mod_mod]
     cases hb : Nat.beq sq 0
     · rw [hb] at hc
-      simp only [cond_false] at hc
+      simp only [Bool.cond_false] at hc
       rw [appKW_pk hp hD, appKW_pk hp hD] at hc
       exact key _ hc
     · rw [hb] at hc
-      simp only [cond_true] at hc
+      simp only [_root_.Bool.cond_true] at hc
       exact key _ hc
 
 theorem minor_aux : ∀ a < 3, ∀ b < 3, ∀ c < 3, ∀ d < 3, d ≠ 0 → (a * d) % 3 = (c * b) % 3 →
@@ -550,10 +550,10 @@ theorem kids_specW (hp : P.p = 3) (hD : P.D ≤ 10) {Sv : List Refl} {root : Vec
     rw [List.map_cons, kidsK_cons] at hfl ⊢
     cases hm : Nat.beq m 0
     · rw [hm] at hfl
-      simp only [cond_false] at hfl ⊢
+      simp only [Bool.cond_false] at hfl ⊢
       cases hb : Nat.beq (Nat.land m 1) 0
       · rw [hb] at hfl
-        simp only [cond_false] at hfl ⊢
+        simp only [Bool.cond_false] at hfl ⊢
         have hw : appK (Nat.mul 3 (ones P.D)) (Nat.mul 16 (Nat.sub P.D 1)) (packR P r) (pk P.D V) =
             pk P.D (P.applyRefl r V) := by
           rw [packR3 hp]
@@ -619,9 +619,9 @@ theorem kids_specW (hp : P.p = 3) (hD : P.D ≤ 10) {Sv : List Refl} {root : Vec
           hpar' (by rw [getD_append_left _ _ _ hpar, hV]) hI' hfl
         exact ⟨T', ⟨e :: new, by rw [hT']; simp⟩, hI''⟩
       · rw [hb] at hfl
-        simp only [cond_true] at hfl ⊢
+        simp only [_root_.Bool.cond_true] at hfl ⊢
         exact kids_specW hp hD rs (k + 1) _ bk bs cnt fl T hk' hpar hV hI hfl
-    · simp only [cond_true]
+    · simp only [_root_.Bool.cond_true]
       exact ⟨T, ⟨[], by simp⟩, hI⟩
 
 @[expose] noncomputable def tloopW (m3 sh y : Nat) (S : List (Nat × Nat)) (ms : List Nat) :
@@ -672,7 +672,7 @@ theorem tloop_specW (hp : P.p = 3) (hD : P.D ≤ 10) {Sv : List Refl} {root : Ve
     rw [tloopW_nil] at h ⊢
     cases hf : st.2.2.2.2
     · rw [hf] at h; exact absurd rfl h
-    · exact ⟨T, ⟨hI.q3, hI.q5, hI.q6⟩, by rw [cond_true, hI.q2]⟩
+    · exact ⟨T, ⟨hI.q3, hI.q5, hI.q6⟩, by rw [_root_.Bool.cond_true, hI.q2]⟩
   | m :: ms, st, T, np, hI, h => by
     rw [tloopW_cons] at h ⊢
     have hk : (kidsK (Nat.mul 3 (ones P.D)) (Nat.mul 16 (Nat.sub P.D 1)) (yK P.D)
@@ -794,7 +794,7 @@ theorem chainK_spec [Fact P.p.Prime] (hp : P.p = 3) (hD : P.D ≤ 10) (hwf : P.W
     · rw [hc] at h
       exact absurd rfl h
     rw [hc] at h
-    simp only [cond_true] at h ⊢
+    simp only [_root_.Bool.cond_true] at h ⊢
     simp only [Bool.and_eq_true, Nat.blt_eq, Bool.not_eq_true', List.all_eq_true, Nat.beq_eq] at hc
     obtain ⟨⟨⟨hb, hsort⟩, hall⟩, ht0⟩ := hc
     have ht : treeK (Nat.mul 3 (ones P.D)) (Nat.mul 16 (Nat.sub P.D 1)) (yK P.D) (selK L.2.1 0 C)
@@ -834,7 +834,7 @@ theorem chainK_spec [Fact P.p.Prime] (hp : P.p = 3) (hD : P.D ≤ 10) (hwf : P.W
       · rw [List.mem_singleton.mp hc]; exact hb
     obtain ⟨Ls, hLs⟩ := chainK_spec hp hD hwf Dl hs lv (bs ++ [L.1]) _ _ hbs' hE' h
     refine ⟨lev P Dl L.1 L.2.1 T :: Ls, ?_⟩
-    rw [Pt.chainProd, if_pos (levelOK_ofW hwf hs hbs hidx hfix hT)]
+    rw [Pt.chainProd, ite_eq_left (levelOK_ofW hwf hs hbs hidx hfix hT)]
     rw [List.map_append, List.map_singleton] at hLs
     change P.chainProd (bs.map P.unit ++ [P.unit L.1]) Ls (prod * T.length) = _
     rw [← htl]

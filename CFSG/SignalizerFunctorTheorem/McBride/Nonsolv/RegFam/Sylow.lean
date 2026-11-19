@@ -35,7 +35,7 @@ theorem coprime_relIndex_of_maximal [Finite G] {r : ℕ} (hr : r.Prime) {H P : S
     rw [← Subgroup.map_subgroupOf_eq_of_le hPH]
     exact Subgroup.map_mono hS
   have hSP : (S : Subgroup H).map H.subtype = P :=
-    hmax _ (Subgroup.map_subtype_le _) (S.isPGroup'.map _) hPS
+    hmax _ (Subgroup.map_subtype_le _) (S.isPGroup.map _) hPS
   have h2 : P.subgroupOf H = S := by
     rw [← hSP]
     exact Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
@@ -163,7 +163,7 @@ theorem isSylow_of_isSrSubgroupOf [Finite G] {p r : ℕ} (hp : p.Prime) (hr : r.
   have hPle : P ≤ (Q : Subgroup U).map U.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hPU]
     exact Subgroup.map_mono hPQ
-  have hle := hmax ⟨hQ', Q.isPGroup'.map U.subtype, Subgroup.map_subtype_le _⟩ hPle
+  have hle := hmax ⟨hQ', Q.isPGroup.map U.subtype, Subgroup.map_subtype_le _⟩ hPle
   have h2 : P.subgroupOf U = Q := by
     have : (Q : Subgroup U).map U.subtype = P := le_antisymm hle hPle
     rw [← this]

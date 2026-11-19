@@ -53,7 +53,7 @@ theorem ExtData.fixedSub_torus (H : ExtData K n M₀ M V₀ π P) (hK : 2 < Nat.
       P.Q_e P.Q_f R.Q_e R.Q_f P.polar_ef R.polar_ef
   have hdec := H.dec_map g
   rw [hge, hgf] at hdec
-  haveI := H.nontrivial
+  have := H.nontrivial
   have hfix := torus_fixedSub_eq_bot hK hn H.two₀ H.irr R hdec hs hs1
   refine le_antisymm (fun m hm => ?_) (fun v hv t ht => ?_)
   · have h1 : π m ∈ fixedSub M₀ {torusG (by omega) R hs} := by

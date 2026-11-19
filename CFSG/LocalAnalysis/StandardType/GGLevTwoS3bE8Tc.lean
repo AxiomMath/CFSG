@@ -41,13 +41,13 @@ private theorem levTwoS3b_e8_foldl_testBit_imp (inPat : List ℤ → Bool) (root
       rw [List.foldl_cons] at h
       rcases ih (if inPat (roots.getD j []) then acc ||| (1 <<< j) else acc) i h with h1 | h2
       · by_cases hj : inPat (roots.getD j [])
-        · rw [if_pos hj] at h1
+        · rw [ite_eq_left hj] at h1
           rw [Nat.testBit_lor, Bool.or_eq_true] at h1
           rcases h1 with h1 | h1
           · exact Or.inl h1
           · rw [levTwoS3b_testBit_one_shiftLeft] at h1
             exact Or.inr ⟨by rw [h1]; exact List.mem_cons_self .., by rw [h1]; exact hj⟩
-        · rw [if_neg hj] at h1
+        · rw [ite_eq_right hj] at h1
           exact Or.inl h1
       · exact Or.inr ⟨List.mem_cons_of_mem j h2.1, h2.2⟩
 

@@ -49,6 +49,7 @@ theorem mono_of_stab (hB : FF81Basis b L B b₁ b₂ b₃) :
     rw [conjBy_zpowers, hnb]
   exact (hB.stab n hnB hz).2 x hx
 
+omit [Finite G] in
 theorem conjBy_closure_four (g a c d e : G) :
     conjBy g (Subgroup.closure ({a, c, d, e} : Set G)) =
       Subgroup.closure ({g * a * g⁻¹, g * c * g⁻¹, g * d * g⁻¹, g * e * g⁻¹} : Set G) := by

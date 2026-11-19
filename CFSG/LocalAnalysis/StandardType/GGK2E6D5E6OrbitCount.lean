@@ -58,7 +58,7 @@ theorem linear_orbit_card_add_one_le
         congr 1
         exact Subtype.ext (congrArg (fun z : Y => (z : V)) hab)
   have hcard : Nat.card (Option O) = Nat.card O + 1 := by
-    letI : Fintype O := Fintype.ofFinite O
+    let : Fintype O := Fintype.ofFinite O
     simp [Nat.card_eq_fintype_card]
   rw [← hcard]
   exact Nat.card_le_card_of_injective f hf
@@ -91,14 +91,14 @@ theorem d5_e6_join_false_of_actual_counts
     {t : V ≃ₗ[ZMod 3] V} (ht : t ∈ H) (hty : t y ≠ y)
     (ho : 72 ≤ Nat.card (MulAction.orbit Q (t y))) : False := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun a b h => LinearEquiv.ext (congrFun h))
-  letI : Fintype H := Fintype.ofFinite H
-  letI : Fintype (MulAction.orbit H x) := Fintype.ofFinite _
-  letI : Fintype (MulAction.stabilizer H x) := Fintype.ofFinite _
-  letI : Fintype (MulAction.orbit H y) := Fintype.ofFinite _
-  letI : Fintype (MulAction.stabilizer H y) := Fintype.ofFinite _
+  let : Fintype H := Fintype.ofFinite H
+  let : Fintype (MulAction.orbit H x) := Fintype.ofFinite _
+  let : Fintype (MulAction.stabilizer H x) := Fintype.ofFinite _
+  let : Fintype (MulAction.orbit H y) := Fintype.ofFinite _
+  let : Fintype (MulAction.stabilizer H y) := Fintype.ofFinite _
   have hxcount : Nat.card (MulAction.orbit H x) *
       Nat.card (MulAction.stabilizer H x) = Nat.card H := by
     simpa only [Nat.card_eq_fintype_card] using

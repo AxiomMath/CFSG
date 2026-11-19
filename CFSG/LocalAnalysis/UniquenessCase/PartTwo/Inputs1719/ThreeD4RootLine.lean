@@ -282,7 +282,7 @@ theorem k_3D4RootLine_holds : K_3D4RootLine := by
   obtain ⟨P, hEP⟩ := hEel.isPGroup.exists_le_sylow
   let PJ0 : Sylow r ↥d.J := Classical.arbitrary _
   let PJ : Subgroup Y := Subgroup.map d.J.subtype (PJ0 : Subgroup ↥d.J)
-  have hPJp : IsPGroup r PJ := PJ0.isPGroup'.map d.J.subtype
+  have hPJp : IsPGroup r PJ := PJ0.isPGroup.map d.J.subtype
   have hPJindex : PJ.index = PJ0.index * d.J.index :=
     Subgroup.index_map_subtype (PJ0 : Subgroup ↥d.J)
   have hPJ0_cop : Nat.Coprime r PJ0.index := (hr.coprime_iff_not_dvd).2 PJ0.not_dvd_index

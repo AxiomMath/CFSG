@@ -18,7 +18,7 @@ theorem diagMap_apply_basis (b : Module.Basis (Fin n) (ZMod p) U) (d : Fin n →
       DistribMulAction.toLinearEquiv_apply, Module.Basis.equivFun_self]
     by_cases hjk : j = k
     · subst hjk; simp [Units.smul_def]
-    · rw [if_neg (Ne.symm hjk), smul_zero, Pi.single_eq_of_ne hjk]
+    · rw [ite_eq_right (Ne.symm hjk), smul_zero, Pi.single_eq_of_ne hjk]
   rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply, h1, Module.Basis.equivFun_symm_apply,
     Finset.sum_eq_single k]
   · simp

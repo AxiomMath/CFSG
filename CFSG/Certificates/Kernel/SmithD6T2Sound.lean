@@ -161,8 +161,8 @@ theorem d6_pt_count (h : d6PtCnt = 2079) :
   rw [← h, d6PtCnt, pkSumBelow_eq _ (by decide), Finset.card_filter]
   exact Finset.sum_congr rfl fun x _ => by
     by_cases hx : d6IsPt x = true
-    · rw [if_pos hx, if_pos (d6IsPt_iff.mp hx)]
-    · rw [if_neg hx, if_neg (fun h' => hx (d6IsPt_iff.mpr h'))]
+    · rw [ite_eq_left hx, ite_eq_left (d6IsPt_iff.mp hx)]
+    · rw [ite_eq_right hx, ite_eq_right (fun h' => hx (d6IsPt_iff.mpr h'))]
 
 theorem d6_perp_count {D G : Nat} (hP : d6PtTreeOK D G = true) (h : d6RsCnt = 1054) {p : Nat}
     (hp : p < 4096) (hp0 : p ≠ 0) (hpq : qf p = false) :
@@ -175,19 +175,19 @@ theorem d6_perp_count {D G : Nat} (hP : d6PtTreeOK D G = true) (h : d6RsCnt = 10
     rw [← h, d6RsCnt, pkSumBelow_eq _ (by decide), Finset.card_filter]
     exact Finset.sum_congr rfl fun x _ => by
       by_cases hx : d6IsRs x = true
-      · rw [if_pos hx, if_pos (d6IsRs_iff.mp hx)]
-      · rw [if_neg hx, if_neg (fun h' => hx (d6IsRs_iff.mpr h'))]
+      · rw [ite_eq_left hx, ite_eq_left (d6IsRs_iff.mp hx)]
+      · rw [ite_eq_right hx, ite_eq_right (fun h' => hx (d6IsRs_iff.mpr h'))]
   | @tail c' c _ hbc ih =>
     obtain ⟨g, hg, rfl, hc⟩ := hbc
     rw [← ih]
     refine Finset.card_nbij' (d6Step g) (d6Step g) ?_ ?_ ?_ ?_
     · intro x hx
-      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hx ⊢
+      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hx ⊢
       obtain ⟨hx4, hx0, hxc, hxq, hxb⟩ := hx
       exact ⟨d6Step_lt hg hx4, d6Step_ne_zero hg hx4 hx0, fun e => hxc (d6Step_inj hg hx4 hc e),
         by rw [d6Step_qf hg]; exact hxq, by rw [d6Step_bf hg]; exact hxb⟩
     · intro y hy
-      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hy ⊢
+      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hy ⊢
       obtain ⟨hy4, hy0, hyc, hyq, hyb⟩ := hy
       refine ⟨d6Step_lt hg hy4, d6Step_ne_zero hg hy4 hy0, fun e => hyc ?_,
         by rw [d6Step_qf hg]; exact hyq, ?_⟩
@@ -195,10 +195,10 @@ theorem d6_perp_count {D G : Nat} (hP : d6PtTreeOK D G = true) (h : d6RsCnt = 10
       · rw [← d6Step_bf hg, d6Step_step hg hy4]
         exact hyb
     · intro x hx
-      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hx
+      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hx
       exact d6Step_step hg hx.1
     · intro y hy
-      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hy
+      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hy
       exact d6Step_step hg hy.1
 
 end CFSG.KC.SmithD6T2

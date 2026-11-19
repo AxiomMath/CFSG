@@ -196,10 +196,10 @@ theorem exists_endNode_lang {K : Type} [Field K] [Finite K] {n : ℕ}
         D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) t * D.g0 ∧
       (∀ γ, IsRoot TwistTag.E6.tag γ → S.ρ γ = -γ) ∧
       Q.map ι = rationalComponent S.ρ S.Γ (rootCharHom aT) i := by
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n * 2) (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨φ, hφ⟩ : ∃ φ : ModGL TwistTag.E6.tag K →* ModGL TwistTag.E6.tag (AlgebraicClosure K),
       φ = (MulAut.conj D.g0⁻¹).toMonoidHom.comp

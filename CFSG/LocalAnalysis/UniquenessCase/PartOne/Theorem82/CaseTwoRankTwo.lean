@@ -22,7 +22,7 @@ variable {c : Ctx812E G} (t : CaseTwoTransitive c)
 private theorem exists_orderOf_three_mem_S_centralizer_y :
     ∃ z ∈ t.d.S, z ∈ Subgroup.centralizer ({t.y} : Set G) ∧ orderOf z = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbase : CFSG.GroupTheory.WreathThree.base (t.d.H 0) t.y = t.d.S := t.base_eq
   have hcardD0 : Nat.card (t.d.S ⊓ Subgroup.centralizer ({t.y} : Set G) : Subgroup G) =
       Nat.card (t.d.H 0) := by
@@ -58,15 +58,15 @@ theorem centralizer_y_le_of_two_le_pRank {p : ℕ}
     (h2 : 2 ≤ CFSG.Open.pRank p (c.S.M ⊓ Subgroup.centralizer ({t.y} : Set G))) :
     Subgroup.centralizer ({t.y} : Set G) ≤ c.S.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hHM
   let H : Subgroup G := Subgroup.centralizer ({t.y} : Set G)
   let Q : Subgroup G := CFSG.Open.pCoreOf 2 c.S.M
   have hHM' : ¬ H ≤ c.S.M := by simpa [H] using hHM
   have hH_ne_top : H ≠ ⊤ := by
     intro htop
-    haveI : IsSimpleGroup G := c.standing.simple
+    have : IsSimpleGroup G := c.standing.simple
     have hycenter : t.y ∈ Subgroup.center G := by
       rw [Subgroup.mem_center_iff]
       intro g

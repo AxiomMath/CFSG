@@ -103,7 +103,7 @@ private theorem sp_mul {ι : Type} [Fintype ι] [DecidableEq ι] (K : Type) [Sem
         refine Fintype.sum_eq_single (g α) ?_
         intro b hb
         have hb' : ¬ (b = g α ∧ q α) := fun hc => hb hc.1
-        rw [sp_apply, sp_apply, if_neg hb', mul_zero]
+        rw [sp_apply, sp_apply, ite_eq_right hb', mul_zero]
     _ = sp K (f ∘ g) (fun α => q α ∧ p (g α)) β α := by
         rw [sp_apply, sp_apply, sp_apply]
         by_cases hq : q α <;> by_cases hp : p (g α) <;>
@@ -116,7 +116,7 @@ private theorem sp_transpose_id {ι : Type} [DecidableEq ι] (K : Type) [Semirin
   by_cases h : β = α
   · rw [h]
   · have h' : α ≠ β := fun e => h e.symm
-    rw [if_neg (fun hc => h' hc.1), if_neg (fun hc => h hc.1)]
+    rw [ite_eq_right (fun hc => h' hc.1), ite_eq_right (fun hc => h hc.1)]
 
 private theorem sp_transpose_sigma {ι : Type} [DecidableEq ι] (K : Type) [Semiring K]
     {σ : ι → ι} (hσ : ∀ α, σ (σ α) = α) {p : ι → Prop} [DecidablePred p] :
@@ -129,21 +129,21 @@ private theorem sp_transpose_sigma {ι : Type} [DecidableEq ι] (K : Type) [Semi
   · have h' : α ≠ σ β := by
       intro hc
       exact h (by rw [hc]; exact (hσ β).symm)
-    rw [if_neg (fun hc => h' hc.1), if_neg (fun hc => h hc.1)]
+    rw [ite_eq_right (fun hc => h' hc.1), ite_eq_right (fun hc => h hc.1)]
 
 private theorem sp_zero {ι : Type} [DecidableEq ι] (K : Type) [Semiring K]
     {f : ι → ι} {p : ι → Prop} [DecidablePred p] (h : ∀ α, ¬ p α) : sp K f p = 0 := by
   ext β α
   rw [sp_apply, Matrix.zero_apply]
-  exact if_neg (fun hc => h α hc.2)
+  exact ite_eq_right (fun hc => h α hc.2)
 
 private theorem sp_one {ι : Type} [DecidableEq ι] (K : Type) [Semiring K]
     {f : ι → ι} (h : ∀ α, f α = α) : sp K f (fun _ => True) = 1 := by
   ext β α
   rw [sp_apply, Matrix.one_apply]
   by_cases hβα : β = α
-  · rw [if_pos ⟨hβα.trans (h α).symm, trivial⟩, if_pos hβα]
-  · rw [if_neg (fun hc => hβα (hc.1.trans (h α))), if_neg hβα]
+  · rw [ite_eq_left ⟨hβα.trans (h α).symm, trivial⟩, ite_eq_left hβα]
+  · rw [ite_eq_right (fun hc => hβα (hc.1.trans (h α))), ite_eq_right hβα]
 
 private theorem sp_add {ι : Type} [DecidableEq ι] (K : Type) [Semiring K]
     {f : ι → ι} {p q : ι → Prop} [DecidablePred p] [DecidablePred q]
@@ -167,10 +167,10 @@ private theorem sp_congr {ι : Type} [DecidableEq ι] (K : Type) [Semiring K]
   rw [sp_apply, sp_apply, hf α]
   by_cases hβ : β = f' α
   · by_cases hp : p α
-    · rw [if_pos ⟨hβ, hp⟩, if_pos ⟨hβ, (h α).1 hp⟩]
+    · rw [ite_eq_left ⟨hβ, hp⟩, ite_eq_left ⟨hβ, (h α).1 hp⟩]
     · have hp' : ¬ p' α := fun h' => hp ((h α).2 h')
-      rw [if_neg (fun hc => hp hc.2), if_neg (fun hc => hp' hc.2)]
-  · rw [if_neg (fun hc => hβ hc.1), if_neg (fun hc => hβ hc.1)]
+      rw [ite_eq_right (fun hc => hp hc.2), ite_eq_right (fun hc => hp' hc.2)]
+  · rw [ite_eq_right (fun hc => hβ hc.1), ite_eq_right (fun hc => hβ hc.1)]
 
 private theorem sp_congr_of {ι : Type} [DecidableEq ι] (K : Type) [Semiring K]
     {f f' : ι → ι} {p p' : ι → Prop} [DecidablePred p] [DecidablePred p']
@@ -181,11 +181,11 @@ private theorem sp_congr_of {ι : Type} [DecidableEq ι] (K : Type) [Semiring K]
   · have hfα := hf α hp
     have hp' : p' α := (h α).1 hp
     by_cases hβ : β = f α
-    · rw [if_pos ⟨hβ, hp⟩, if_pos ⟨by rw [← hfα]; exact hβ, hp'⟩]
-    · rw [if_neg (fun hc => hβ hc.1),
-        if_neg (fun hc => hβ (by rw [hfα]; exact hc.1))]
+    · rw [ite_eq_left ⟨hβ, hp⟩, ite_eq_left ⟨by rw [← hfα]; exact hβ, hp'⟩]
+    · rw [ite_eq_right (fun hc => hβ hc.1),
+        ite_eq_right (fun hc => hβ (by rw [hfα]; exact hc.1))]
   · have hp' : ¬ p' α := fun h' => hp ((h α).2 h')
-    rw [if_neg (fun hc => hp hc.2), if_neg (fun hc => hp' hc.2)]
+    rw [ite_eq_right (fun hc => hp hc.2), ite_eq_right (fun hc => hp' hc.2)]
 
 private theorem gram_eq_sp [CharP K 2] : gram K n = sp K Sum.swap (fun _ => True) := by
   ext β α
@@ -193,13 +193,13 @@ private theorem gram_eq_sp [CharP K 2] : gram K n = sp K Sum.swap (fun _ => True
   by_cases h : β = Sum.swap α
   · have h' : α = par β := by
       rw [show par β = Sum.swap β from rfl, h, Sum.swap_swap]
-    rw [if_pos h', if_pos ⟨h, trivial⟩]
+    rw [ite_eq_left h', ite_eq_left ⟨h, trivial⟩]
     cases β <;> simp [sgn, CharTwo.neg_eq]
   · have h' : ¬ (α = par β) := by
       intro hc
       rw [show par β = Sum.swap β from rfl] at hc
       exact h (by rw [hc, Sum.swap_swap])
-    rw [if_neg h', if_neg (fun hc => h hc.1)]
+    rw [ite_eq_right h', ite_eq_right (fun hc => h hc.1)]
 
 private def E11 (σ : Equiv.Perm (Fin n ⊕ Fin n)) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K :=
   sp K id (first σ)
@@ -528,9 +528,9 @@ private theorem permMatrix_eq_sp {σ : Equiv.Perm (Fin n ⊕ Fin n)} (hσ : σ *
   rw [sp_apply, permMatrix_apply]
   by_cases h : β = σ α
   · have h' : σ β = α := by rw [h, sigma_apply_apply hσ α]
-    rw [if_pos ⟨h, trivial⟩, if_pos h']
-  · rw [if_neg (fun hc => h hc.1),
-      if_neg (fun hc => h ((sigma_apply_apply hσ β).symm.trans (congrArg σ hc)))]
+    rw [ite_eq_left ⟨h, trivial⟩, ite_eq_left h']
+  · rw [ite_eq_right (fun hc => h hc.1),
+      ite_eq_right (fun hc => h ((sigma_apply_apply hσ β).symm.trans (congrArg σ hc)))]
 
 private theorem E12_add_E21_add_R {σ : Equiv.Perm (Fin n ⊕ Fin n)} (hσ : σ * σ = 1) :
     E12 (K := K) σ + E21 (K := K) σ + R (K := K) σ = sp K σ (fun _ => True) := by

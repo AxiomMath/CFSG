@@ -116,7 +116,7 @@ private lemma owR35g_conj_mem_classRefl {p : ℕ} (hp : p.Prime) {U V : Type} [A
     {Q' : QuadraticForm (ZMod p) V} (e : U ≃ₗ[ZMod p] V) (he : ∀ v, Q' (e v) = Q v)
     {c : ZMod p} {t : U ≃ₗ[ZMod p] U} (ht : t ∈ ClassRefl p Q c) :
     e.symm.trans (t.trans e) ∈ ClassRefl p Q' c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   change autConj e t ∈ ClassRefl p Q' c
   rcases ht with ⟨hr, hiso, a, hQa, hta⟩
   refine ⟨⟨?_, ?_⟩, ?_, e a, ?_, ?_⟩
@@ -161,7 +161,7 @@ theorem owR35g_e6_frame {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type} [Add
       ∀ t ∈ ClassRefl p Q 1, ∃ g ∈ closure (Set.range fun i => Module.reflection (hφ i)), ∃ i,
         t = g * Module.reflection (hφ i) * g⁻¹ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Q' : QuadraticForm (ZMod p) (Fin 5 → ZMod p) := QuadraticMap.weightedSumSquares (ZMod p) W
   have he' : ∀ v, Q' (e v) = Q v := by
     intro v
@@ -323,7 +323,7 @@ theorem owR35_neg_mem_even {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
       simp only [he, LinearEquiv.apply_symm_apply]
       rw [Fin.sum_univ_five, Fin.sum_univ_five, Fin.sum_univ_five]
       simp only [B, owR35_wcan, Pi.single_apply]
-      fin_cases i <;> fin_cases j <;> simp_all <;> decide +kernel
+      fin_cases i <;> fin_cases j <;> simp_all
     exact neg_mem_closure_classRefl_of_orthogonal (by norm_num) hQ one_ne_zero
       (fun i => e.symm (B i)) horth hb hspan
   ·
@@ -332,7 +332,7 @@ theorem owR35_neg_mem_even {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
     have hB : Submodule.span (ZMod 3) (Set.range B) = ⊤ := by
       apply LinearIndependent.span_eq_top_of_card_eq_finrank
       · change LinearIndependent (ZMod 3) (Matrix.of B).row
-        rw [Matrix.linearIndependent_rows_iff_isUnit]
+        rw [Matrix.linearIndependent_row_iff_isUnit]
         rw [Matrix.isUnit_iff_isUnit_det]
         rw [isUnit_iff_ne_zero]
         decide +kernel +revert
@@ -364,7 +364,7 @@ theorem owR35_neg_mem_even {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
     have hB : Submodule.span (ZMod 3) (Set.range B) = ⊤ := by
       apply LinearIndependent.span_eq_top_of_card_eq_finrank
       · change LinearIndependent (ZMod 3) (Matrix.of B).row
-        rw [Matrix.linearIndependent_rows_iff_isUnit]
+        rw [Matrix.linearIndependent_row_iff_isUnit]
         rw [Matrix.isUnit_iff_isUnit_det]
         rw [isUnit_iff_ne_zero]
         decide +kernel +revert
@@ -417,7 +417,7 @@ theorem owR35_e6Frame {U : Type} [AddCommGroup U] [Module (ZMod 3) U] [Module.Fi
     exact hcases _ h0
   have he1 : ∀ v, (c⁻¹ • Q) v = ∑ i, (c⁻¹ * w i) * (e v i) ^ 2 := by
     intro v
-    rw [QuadraticMap.smul_apply, he v, smul_eq_mul, Finset.mul_sum]
+    rw [_root_.smul_apply, he v, smul_eq_mul, Finset.mul_sum]
     exact Finset.sum_congr rfl fun i _ => by ring
   obtain ⟨π, hπ⟩ := owR35_perm_exists (fun i => c⁻¹ * w i) hw1
   let e' : U ≃ₗ[ZMod 3] (Fin 5 → ZMod 3) := e.trans (owR35_permIso π)

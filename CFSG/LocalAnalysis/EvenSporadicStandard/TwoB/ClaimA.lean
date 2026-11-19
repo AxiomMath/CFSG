@@ -41,7 +41,7 @@ theorem isPGroup_sup_zpowers [Finite G] {C P : Subgroup G} (hPC : P ≤ C)
   obtain ⟨S, hS⟩ := ht'.exists_le_sylow
   have hP' : IsPGroup 2 (P.subgroupOf C) := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPC).symm
   have hPS : P.subgroupOf C ≤ S := hP'.le_sylow_of_normal S
-  have hX' : IsPGroup 2 ↥(P.subgroupOf C ⊔ zpowers t') := S.isPGroup'.to_le (sup_le hPS hS)
+  have hX' : IsPGroup 2 ↥(P.subgroupOf C ⊔ zpowers t') := S.isPGroup.to_le (sup_le hPS hS)
   have hmap : (P.subgroupOf C ⊔ zpowers t').map C.subtype = P ⊔ zpowers t := by
     rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hPC, MonoidHom.map_zpowers]
     rfl

@@ -167,7 +167,7 @@ theorem ggQ2_weyl_centralizer_scalar {p : ℕ} [Fact p.Prime] (hp : p = 3) (D : 
     (hbas : D.Basis) (h4 : 4 ≤ Fintype.card D.ι) (z : D.V ≃ₗ[ZMod p] D.V)
     (hz : ∀ w ∈ D.weyl, z * w = w * z) : ∃ μ : ZMod p, ∀ v, z v = μ • v := by
   subst hp
-  haveI : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
   have hlameq : ∀ k l : D.ι, ggQ2xS_lam D z k = ggQ2xS_lam D z l := by
     intro k l
     obtain ⟨cv, hcvk, hcvl⟩ := ggQ2xS_exists_ne_zero_pair D k l
@@ -222,7 +222,7 @@ theorem ggQ2_lemmaN {p : ℕ} [Fact p.Prime] (hp : p = 3) (D : GGQ2Lin p) (hbas 
   obtain ⟨μ, hμ⟩ := ggQ2_weyl_centralizer_scalar (p := 3) rfl D hbas h4 c hz
   have hμ0 : μ ≠ 0 := by
     intro h0
-    haveI : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
+    have : Nonempty D.ι := Fintype.card_pos_iff.mp (by omega)
     let k0 := Classical.choice ‹Nonempty D.ι›
     have hk : D.coroot k0 ≠ 0 := LinearIndependent.ne_zero k0 hbas.1
     have hc0 : c (D.coroot k0) = 0 := by rw [hμ (D.coroot k0), h0, zero_smul]

@@ -27,11 +27,11 @@ private theorem h81Choice_torus {F : Type} [Field F] [Finite F] {p : ℕ} (hp : 
     {P : Subgroup (projectiveSL 4 F)}
     (hP : ∀ (d : Fin 4 → F) (hd : ∏ i, d i = 1), (∀ i, d i ^ p = 1) → proj 4 F (diagSL d hd) ∈ P) :
     H81Choice p P JType := by
-  have hμ0 := ne_zero_of_root hp hp2 hμ
-  refine ⟨proj 4 F (ySL hμ0), hP _ _ (yd_pow hp hp2 hμ), ?_, JH F,
+  have hμ0 := ne_zero_of_root hp hμ
+  refine ⟨proj 4 F (ySL hμ0), hP _ _ (yd_pow hμ), ?_, JH F,
     glaPComponent_centralizer_proj_ySL hp hp2 hμ hF,
     fun K hK => eq_of_glaPComponent_centralizer_proj_ySL hp hp2 hμ hF hK, hJT,
-    ⟨proj 4 F (zSL hμ0), hP _ _ (zd_pow hp hp2 hμ), proj_zSL_not_mem_zpowers hp hp2 hμ,
+    ⟨proj 4 F (zSL hμ0), hP _ _ (zd_pow hμ), proj_zSL_not_mem_zpowers hp hμ,
       glaPLayer_JH_inf_centralizer_ne_bot hp hp2 hμ hF⟩,
     fun α hα hc => aut_eq_conj_ySL_zpow hp hp2 hμ hF α hα hc⟩
   intro h1
@@ -47,8 +47,8 @@ private theorem h81Choice_torus {F : Type} [Field F] [Finite F] {p : ℕ} (hp : 
 theorem h81FactA3_holds : H81FactA3 := by
   intro p Q hp hp2 hQ2 hdiv H _ _ hcat P hPel hPcard
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, hi, ⟨e₀⟩⟩ := hcat
   rcases i with _ | _ | ⟨⟨d, hv⟩⟩ | _
   · exact absurd hi id

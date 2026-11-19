@@ -66,7 +66,6 @@ private theorem evenRotations_relIndex_eq_four
       simpa [hsx] using hs
     · intro hx
       rw [Subgroup.mem_subgroupOf]
-      change (x : G) ∈ B
       exact Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
   have hindex : (B.subgroupOf (S : Subgroup G)).index = 4 := by
     rw [hBS]
@@ -120,7 +119,6 @@ private theorem indexTwoSubgroup_relIndex_eq_two
       simpa [hsx] using hs
     · intro hx
       rw [Subgroup.mem_subgroupOf]
-      change (x : G) ∈ E
       exact Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
   rw [Subgroup.relIndex, hE]
   rw [Subgroup.index_comap_of_surjective E' e.surjective]
@@ -168,7 +166,7 @@ private theorem grunKernel_eq_evenRotations_of_normal_index_four
       norm_num at this
     · exfalso
       have : 4 ∣ (1 : ℕ) := by
-        simpa [D, hS, Subgroup.relIndex] using hdvd
+        simp [D, hS, Subgroup.relIndex] at hdvd
       norm_num at this
   · have hm1 : m = 1 := by omega
     have hSle : D ≤ (S : Subgroup G) := by
@@ -190,7 +188,7 @@ private theorem grunKernel_eq_evenRotations_of_normal_index_four
           Subgroup.card_mul_index (H := D.subgroupOf (S : Subgroup G))
         refine ⟨Nat.card (D.subgroupOf (S : Subgroup G)), ?_⟩
         rw [Subgroup.relIndex]
-        simpa [mul_comm] using hprod.symm
+        simp [mul_comm]
       have hle4 : D.relIndex (S : Subgroup G) ∣ 4 := by simpa [hcardS] using hrel_dvd_card
       exact Nat.dvd_antisymm hle4 hdvd
     have hDbot : D = ⊥ := by
@@ -206,7 +204,7 @@ private theorem grunKernel_eq_evenRotations_of_normal_index_four
         exact Nat.eq_of_mul_eq_mul_left (by norm_num : 0 < 4) (by simpa [mul_comm] using hprod)
       have hcardD : Nat.card D = 1 := by
         exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe (H := D) (K := S) hSle).toEquiv).symm.trans hcardDsub
-      simpa [hcardD]
+      simp [hcardD]
     have hBbot : evenRotations S e = ⊥ := by
       apply (Subgroup.card_eq_one (H := evenRotations S e)).mp
       have hc := card_dihedralRotationSubgroup (m := m) (k := 1) hm
@@ -310,7 +308,7 @@ private theorem evenRotations_eq_sylow_inf_normal_of_normal_index_four
 subgroup `N`. -/
 private theorem evenRotations_is_sylow_of_normal_index_four
     {G : Type u} [Group G] [Finite G]
-    (S : Sylow 2 G) (N : Subgroup G) (hN : N.Normal) (hindex : N.index = 4)
+    (S : Sylow 2 G) (N : Subgroup G) (_hN : N.Normal) (hindex : N.index = 4)
     {m : ℕ} (hm : 1 ≤ m) (e : S ≃* DihedralGroup (2 ^ m))
     (hSN : (S : Subgroup G) ⊓ N = evenRotations S e) :
     ∃ P : Sylow 2 (↥N), (P : Subgroup (↥N)) = (evenRotations S e).subgroupOf N := by
@@ -329,7 +327,7 @@ private theorem evenRotations_is_sylow_of_normal_index_four
       exact hx
     exact hxSN.1
   have hBp : IsPGroup 2 ↥(B.subgroupOf N) := by
-    have hBpG : IsPGroup 2 ↥B := (S.isPGroup').to_le hBleS
+    have hBpG : IsPGroup 2 ↥B := (S.isPGroup).to_le hBleS
     have eB : ↥(B.subgroupOf N) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBleN
     exact hBpG.of_equiv eB.symm
   obtain ⟨Q, hBQ⟩ := IsPGroup.exists_le_sylow (p := 2) (G := ↥N) hBp
@@ -354,7 +352,7 @@ private theorem evenRotations_is_sylow_of_normal_index_four
     intro hEven
     exact h2ndvd (even_iff_two_dvd.mp hEven)
   have hrelpow : ∃ k, (B.subgroupOf N).relIndex (Q : Subgroup (↥N)) = 2 ^ k := by
-    have hQp : IsPGroup 2 ↥(Q : Subgroup (↥N)) := Q.isPGroup'
+    have hQp : IsPGroup 2 ↥(Q : Subgroup (↥N)) := Q.isPGroup
     rcases hQp.index ((B.subgroupOf N).subgroupOf (Q : Subgroup (↥N))) with ⟨k, hk⟩
     refine ⟨k, ?_⟩
     simpa [Subgroup.relIndex] using hk
@@ -672,9 +670,9 @@ private theorem grunKernel_eq_sylow_of_no_normal_index_two
       · rw [hrelpow]
         norm_num
       · exfalso
-        exact hne2 (by simpa [hrelpow])
+        exact hne2 (by simp [hrelpow])
       · exfalso
-        exact hne4 (by simpa [hrelpow])
+        exact hne4 (by simp [hrelpow])
     have hSleD : (S : Subgroup G) ≤ D := Subgroup.relIndex_eq_one.mp hrel1
     exact le_antisymm hSle hSleD
 
@@ -806,7 +804,7 @@ private lemma sr_ne_dCentral {m : ℕ} (i : ZMod (2 ^ m)) :
 private lemma half_ne_zero {m : ℕ} (hm : 1 ≤ m) : (2 : ZMod (2 ^ m)) ^ (m - 1) ≠ 0 := by
   intro h0
   apply dCentral_ne_one hm
-  simpa [dCentral, h0]
+  simp [dCentral, h0]
 
 private lemma sr_half_ne_sr {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m)) :
     DihedralGroup.sr (i + (2 : ZMod (2 ^ m)) ^ (m - 1)) ≠ DihedralGroup.sr i := by
@@ -855,7 +853,7 @@ private lemma dKlein_card_four {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m)) :
             · constructor
               · exact (sr_half_ne_sr hm i).symm
               · ext x
-                simp [dKleinCarrier]
+                simp
   exact hset.trans hfour
 
 private lemma dKlein_sq_one {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m)) :
@@ -864,14 +862,11 @@ private lemma dKlein_sq_one {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m)) :
   have hx : (x : DihedralGroup (2 ^ m)) ∈ dKlein m hm i := x.property
   rw [mem_dKlein_iff hm i (x : DihedralGroup (2 ^ m))] at hx
   rcases hx with h1 | h2 | h3 | h4
-  · simpa [h1, pow_two]
-  · simp [h2, pow_two, dCentral, DihedralGroup.r_mul_r, DihedralGroup.r_mul_sr,
-      DihedralGroup.sr_mul_r, DihedralGroup.sr_mul_sr, DihedralGroup.r_zero,
-      half_add_self hm, half_neg hm, sr_i_half hm i]
-  · simpa [h3, pow_two]
-  · simp [h4, pow_two, dCentral, DihedralGroup.r_mul_r, DihedralGroup.r_mul_sr,
-      DihedralGroup.sr_mul_r, DihedralGroup.sr_mul_sr, DihedralGroup.r_zero,
-      half_add_self hm, half_neg hm, sr_i_half hm i]
+  · simp [h1]
+  · simp [h2, pow_two, dCentral, DihedralGroup.r_mul_r, DihedralGroup.r_zero,
+      half_add_self hm]
+  · simp [h3, pow_two]
+  · simp [h4, pow_two, DihedralGroup.sr_mul_sr, DihedralGroup.r_zero]
 
 private lemma dKlein_not_cyclic {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m)) :
     ¬ IsCyclic ↥(dKlein m hm i) := by
@@ -883,7 +878,7 @@ private lemma dKlein_not_cyclic {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m)) :
     orderOf_injective (dKlein m hm i).subtype (dKlein m hm i).subtype_injective g
   have hord2' : orderOf g ∣ 2 := by simpa [hord_eq] using hord2
   have hord4 : orderOf g = 4 := hg.trans (dKlein_card_four hm i)
-  have : 4 ∣ 2 := by simpa [hord4] using hord2'
+  have : 4 ∣ 2 := by simp [hord4] at hord2'
   norm_num at this
 
 private lemma isKleinFour_dKlein {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m)) :
@@ -901,7 +896,7 @@ private lemma dCentral_mem_center {m : ℕ} (hm : 2 ≤ m) :
   intro x
   rcases dihedralGroup_cases x with ⟨i, rfl⟩ | ⟨i, rfl⟩
   · simp [dCentral, DihedralGroup.r_mul_r, add_comm]
-  · simp [dCentral, DihedralGroup.r_mul_r, DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r,
+  · simp [dCentral, DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r,
       sr_i_half (by omega : 1 ≤ m) i]
 
 private lemma dKlein_le_of_mem {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m))
@@ -911,7 +906,7 @@ private lemma dKlein_le_of_mem {m : ℕ} (hm : 1 ≤ m) (i : ZMod (2 ^ m))
   intro x hx
   rw [mem_dKlein_iff hm i x] at hx
   rcases hx with h1 | h2 | h3 | h4
-  · simpa [h1] using W.one_mem
+  · simp [h1]
   · simpa [h2] using hz
   · simpa [h3] using hsr
   · rw [h4]
@@ -942,7 +937,7 @@ private lemma isKleinFour_eq_dKlein {m : ℕ} (hm : 2 ≤ m)
     intro hle
     exact hWnc (@Subgroup.isCyclic_of_le (DihedralGroup (2 ^ m)) _ W
       (dihedralRotationSubgroup m 0) hle hRcyc)
-  rcases SetLike.not_le_iff_exists.mp hnotR with ⟨x, hxW, hxR⟩
+  rcases IsConcreteLE.not_le_iff_exists.mp hnotR with ⟨x, hxW, hxR⟩
   rcases dihedralGroup_cases x with ⟨i, hi⟩ | ⟨i, hi⟩
   · exfalso
     exact hxR (by
@@ -990,7 +985,7 @@ public theorem exists_kleinFour_disjoint_from_reflection_zpowers
         (1 : ZMod (2 ^ m)) + h := by
       rw [Nat.cast_add]
       have hp : ((2 ^ (m - 1) : ℕ) : ZMod (2 ^ m)) = h := by
-        simpa [h, Nat.cast_pow]
+        simp [h, Nat.cast_pow]
       simp [hp]
     have hval : (((1 + 2 ^ (m - 1) : ℕ) : ZMod (2 ^ m)).val = 0) := by
       rw [hcast, hz]
@@ -1043,7 +1038,7 @@ public theorem exists_kleinFour_disjoint_from_noncentral_involution_of_kleinFour
     {K : Type u} [Group K] [Finite K] {m : ℕ} (hm : 2 ≤ m)
     (e : K ≃* DihedralGroup (2 ^ m))
     (V : Subgroup K) (hV : IsKleinFour V)
-    (z : K) (hzV : z ∈ V)
+    (z : K) (_hzV : z ∈ V)
     (hzModel : e z = DihedralGroup.r ((2 : ZMod (2 ^ m)) ^ (m - 1)))
     (u : K) (huV : u ∈ V) (hu : IsInvolution u)
     (huNotCentral : u ≠ z) :
@@ -1067,7 +1062,6 @@ public theorem exists_kleinFour_disjoint_from_noncentral_involution_of_kleinFour
   · exfalso
     apply huNotCentral
     apply e.injective
-    change e u = e z
     rw [heuC, hzModel]
   · let j : ZMod (2 ^ m) := i
     obtain ⟨Wm, hWm, hdisj⟩ :=
@@ -1184,7 +1178,7 @@ private lemma dKlein_conj_r {m : ℕ} (hm : 2 ≤ m) (i : ZMod (2 ^ m)) (k : ZMo
     rcases hy with h1 | h2 | h3 | h4
     · left
       rw [← hx, h1]
-      simpa [MulAut.conj_apply]
+      simp [MulAut.conj_apply]
     · right; left
       rw [← hx, h2]
       have hzcomm : DihedralGroup.r k * dCentral m = dCentral m * DihedralGroup.r k := by
@@ -1566,7 +1560,7 @@ private lemma reflClass_zero_union_evenRotations {m : ℕ} (hm : 1 ≤ m) (j : Z
     · left
       refine ⟨(k : ZMod (2 ^ m)), hk⟩
 
-private lemma reflClass_eq_sr_mul_evenRotations {m : ℕ} (hm : 1 ≤ m) (j : ZMod (2 ^ m)) :
+private lemma reflClass_eq_sr_mul_evenRotations {m : ℕ} (_hm : 1 ≤ m) (j : ZMod (2 ^ m)) :
     reflClass m j = {x | ∃ b ∈ (dihedralRotationSubgroup m 1 : Set (DihedralGroup (2 ^ m))),
       x = DihedralGroup.sr j * b} := by
   ext x
@@ -1781,7 +1775,6 @@ private lemma sameClass_isConj_model {m : ℕ} (i k : ZMod (2 ^ m)) :
     DihedralGroup.sr (i + (2 : ZMod (2 ^ m)) * k) * DihedralGroup.r t
   rw [DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r]
   congr 1
-  change i - t = i + (2 : ZMod (2 ^ m)) * k + t
   dsimp [t]
   ring
 
@@ -1859,7 +1852,7 @@ private lemma isConj_z_sr_of_sameClass
 
 /-- The difference of two reflections in the same class is an even rotation. -/
 private lemma reflection_sub_mem_even_of_same_reflClass
-    {m : ℕ} (hm : 1 ≤ m) {i j : ZMod (2 ^ m)}
+    {m : ℕ} (_hm : 1 ≤ m) {i j : ZMod (2 ^ m)}
     (h : (DihedralGroup.sr i ∈ reflClass m 0 ∧
           DihedralGroup.sr j ∈ reflClass m 0) ∨
         (DihedralGroup.sr i ∈ reflClass m 1 ∧
@@ -1938,7 +1931,7 @@ private lemma r_k_conj_sr_i {m : ℕ} (hm : 2 ≤ m) (i k : ZMod (2 ^ m))
 
 /-- The inverse of the previous calculation: conjugation by the same
 rotation sends `sr (i + half)` back to `sr i`. -/
-private lemma r_k_conj_sr_i_half {m : ℕ} (hm : 2 ≤ m) (i k : ZMod (2 ^ m))
+private lemma r_k_conj_sr_i_half {m : ℕ} (_hm : 2 ≤ m) (i k : ZMod (2 ^ m))
     (hk : (2 : ZMod (2 ^ m)) * k = (2 : ZMod (2 ^ m)) ^ (m - 1)) :
     DihedralGroup.r k *
         DihedralGroup.sr (i + (2 : ZMod (2 ^ m)) ^ (m - 1)) *
@@ -1952,7 +1945,7 @@ private lemma r_k_conj_sr_i_half {m : ℕ} (hm : 2 ≤ m) (i k : ZMod (2 ^ m))
   ring
 
 /-- Rotations of the dihedral model centralize the central involution. -/
-private lemma r_k_centralizes_dCentral {m : ℕ} (hm : 2 ≤ m) (k : ZMod (2 ^ m)) :
+private lemma r_k_centralizes_dCentral {m : ℕ} (_hm : 2 ≤ m) (k : ZMod (2 ^ m)) :
     DihedralGroup.r k * dCentral m * (DihedralGroup.r k)⁻¹ = dCentral m := by
   have hcomm : DihedralGroup.r k * dCentral m =
       dCentral m * DihedralGroup.r k := by
@@ -2018,7 +2011,7 @@ private lemma exists_dihedral_transposition_of_kleinFour_le_sylow
             (e.symm (DihedralGroup.r k) : P)⁻¹ =
         (e.symm (dCentral m) : P) := by
       apply e.injective
-      simp [r_k_centralizes_dCentral hm k]
+      simp
     dsimp [τ, zAmbient]
     exact congrArg (fun y : P => (y : G)) hP
   have hmoveAll : ∀ U : Subgroup G, U ≤ (P : Subgroup G) → IsKleinFour U →
@@ -2047,14 +2040,14 @@ private lemma exists_dihedral_transposition_of_kleinFour_le_sylow
       have hxM1 : xM = 1 := h1
       have hxP1 : xP = 1 := by
         apply e.injective
-        simpa [xM, hxM1]
+        simp [xM, hxM1]
       simpa [hxP1] using hxval.symm
     · exfalso
       apply hxz
       have hxM2 : xM = dCentral m := h2
       have hxP2 : xP = e.symm (dCentral m) := by
         apply e.injective
-        simpa [xM, hxM2]
+        simp [xM, hxM2]
       simpa [zAmbient, hxP2] using hxval.symm
     · intro hEq
       have hτx' : τ * x * τ⁻¹ =
@@ -2065,8 +2058,8 @@ private lemma exists_dihedral_transposition_of_kleinFour_le_sylow
         rw [← hxval]
         have hxP : xP = e.symm (DihedralGroup.sr j) := by
           apply e.injective
-          simpa [xM, h3]
-        simpa [hxP]
+          simp [xM, h3]
+        simp [hxP]
       have hM : DihedralGroup.sr (j + (2 : ZMod (2 ^ m)) ^ (m - 1)) =
           DihedralGroup.sr j := by
         have hG : (e.symm (DihedralGroup.sr
@@ -2090,8 +2083,8 @@ private lemma exists_dihedral_transposition_of_kleinFour_le_sylow
         have hxP : xP = e.symm (DihedralGroup.sr
             (j + (2 : ZMod (2 ^ m)) ^ (m - 1))) := by
           apply e.injective
-          simpa [xM, h4]
-        simpa [hxP]
+          simp [xM, h4]
+        simp [hxP]
       have hM : DihedralGroup.sr j =
           DihedralGroup.sr (j + (2 : ZMod (2 ^ m)) ^ (m - 1)) := by
         have hG : (e.symm (DihedralGroup.sr j) : G) =
@@ -2234,8 +2227,8 @@ private lemma kleinFour_action_fix_move
 subgroup generate the full action, so their product lies outside `C'(Z)`. -/
 private lemma normalizerContainsCPrime_of_two_transpositions
     {G : Type u} [Group G] (Z : Subgroup G) (hZ : IsKleinFour Z)
-    {z a γ γ' : G} (hzZ : z ∈ Z) (haZ : a ∈ Z)
-    (hz1 : z ≠ 1) (ha1 : a ≠ 1) (hza : z ≠ a)
+    {z a γ γ' : G} (hzZ : z ∈ Z) (_haZ : a ∈ Z)
+    (_hz1 : z ≠ 1) (ha1 : a ≠ 1) (_hza : z ≠ a)
     (hγN : γ ∈ Subgroup.normalizer (Z : Set G))
     (hγ'N : γ' ∈ Subgroup.normalizer (Z : Set G))
     (hγz : γ * z * γ⁻¹ = z) (hγa : γ * a * γ⁻¹ = z * a)
@@ -2408,7 +2401,7 @@ private lemma zAmbient_ne_one {G : Type u} [Group G]
       orderOf (e.symm (dCentral m) : S) := by
     have hsub := orderOf_injective (S : Subgroup G).subtype
       (S : Subgroup G).subtype_injective (e.symm (dCentral m))
-    simpa [zAmbient] using hsub
+    simp [zAmbient]
   have hordG : orderOf (zAmbient S e) = 2 := by
     calc
       orderOf (zAmbient S e) = orderOf (e.symm (dCentral m) : S) := h2
@@ -2435,7 +2428,7 @@ private lemma exists_centralizer_sylow_alignment
     {G : Type u} [Group G] [Finite G]
     (S : Sylow 2 G) {m : ℕ} (hm : 2 ≤ m)
     (e : S ≃* DihedralGroup (2 ^ m))
-    {Z : Subgroup G} (hZle : Z ≤ (S : Subgroup G)) (hZ : IsKleinFour Z)
+    {Z : Subgroup G} (_hZle : Z ≤ (S : Subgroup G)) (hZ : IsKleinFour Z)
     {a : G} (haZ : a ∈ Z) (σ : G)
     (hσ : σ * zAmbient S e * σ⁻¹ = a) :
     ∃ μ : G, μ ∈ Subgroup.centralizer ({a} : Set G) ∧
@@ -2803,7 +2796,6 @@ private lemma r_mem_rotation_all {m : ℕ} (i : ZMod (2 ^ m)) :
     DihedralGroup.r i ∈ dihedralRotationSubgroup m 0 := by
   rw [dihedralRotationSubgroup_def]
   norm_num
-  change DihedralGroup.r i ∈ Subgroup.zpowers (DihedralGroup.r 1)
   rw [Subgroup.mem_zpowers_iff]
   refine ⟨i.val, ?_⟩
   rw [DihedralGroup.r_zpow]
@@ -3066,7 +3058,7 @@ zero reflection extension. -/
 private lemma fusedReflSet_subset_indexTwo_of_fused0_not1
     {G : Type u} [Group G] (S : Sylow 2 G) {m : ℕ} (hm : 2 ≤ m)
     (e : S ≃* DihedralGroup (2 ^ m))
-    (h0 : fusedClass S e 0) (h1 : ¬ fusedClass S e 1)
+    (_h0 : fusedClass S e 0) (h1 : ¬ fusedClass S e 1)
     {p : DihedralGroup (2 ^ m)} (hp : p ∈ fusedReflSet S e) :
     p ∈ dihedralIndexTwoSubgroup m 0 := by
   rcases dihedralGroup_cases p with ⟨i, rfl⟩ | ⟨i, rfl⟩
@@ -3092,7 +3084,7 @@ one reflection extension. -/
 private lemma fusedReflSet_subset_indexTwo_of_fused1_not0
     {G : Type u} [Group G] (S : Sylow 2 G) {m : ℕ} (hm : 2 ≤ m)
     (e : S ≃* DihedralGroup (2 ^ m))
-    (h1 : fusedClass S e 1) (h0 : ¬ fusedClass S e 0)
+    (_h1 : fusedClass S e 1) (h0 : ¬ fusedClass S e 0)
     {p : DihedralGroup (2 ^ m)} (hp : p ∈ fusedReflSet S e) :
     p ∈ dihedralIndexTwoSubgroup m 1 := by
   rcases dihedralGroup_cases p with ⟨i, rfl⟩ | ⟨i, rfl⟩
@@ -3611,7 +3603,7 @@ private lemma order_two_mem_evenRotations_eq_dCentral {m : ℕ} (hm : 2 ≤ m)
     apply hne1
     rw [h0]
     rfl
-  · simpa [dCentral, hpow, Nat.cast_pow]
+  · simp [dCentral, hpow, Nat.cast_pow]
 
 private lemma center_le_evenRotations {m : ℕ} (hm : 2 ≤ m) :
     (Subgroup.center (DihedralGroup (2 ^ m)) : Set (DihedralGroup (2 ^ m))) ≤
@@ -3963,7 +3955,7 @@ private lemma grun_eq_sylow_of_both_fused
         · rcases hxR with rfl | rfl
           · exact reflection_of_fusedClass_mem_grun S hm e 0 h0
           · exact reflection_of_fusedClass_mem_grun S hm e 1 h1
-      · simpa using D.one_mem
+      · simp
       · intro x y _hx _hy hxP hyP
         have hmul : (e.symm (x * y) : G) = (e.symm x : G) * (e.symm y : G) := by
           rw [← Subgroup.coe_mul, ← map_mul]
@@ -4004,7 +3996,7 @@ private lemma fused_one_of_grun_eq_indexTwo_one
       have hsS : (e.symm (DihedralGroup.r 1) : G) ∈ (S : Subgroup G) :=
         (e.symm (DihedralGroup.r 1)).property
       have hsE : (e.symm (DihedralGroup.r 1) : G) ∈ indexTwoAmbient S e 1 := by
-        simpa [hS] using hsS
+        simp [hS]
       exact not_mem_indexTwoAmbient_of_model_not S e 1
         (r_one_not_mem_dihedralIndexTwoSubgroup (by omega : 1 ≤ m) 1) hsE
   · exfalso
@@ -4049,7 +4041,7 @@ private lemma fused_zero_of_grun_eq_indexTwo_zero
       have hsS : (e.symm (DihedralGroup.r 1) : G) ∈ (S : Subgroup G) :=
         (e.symm (DihedralGroup.r 1)).property
       have hsE : (e.symm (DihedralGroup.r 1) : G) ∈ indexTwoAmbient S e 0 := by
-        simpa [hS] using hsS
+        simp [hS]
       exact not_mem_indexTwoAmbient_of_model_not S e 0
         (r_one_not_mem_dihedralIndexTwoSubgroup (by omega : 1 ≤ m) 0) hsE
   · exfalso
@@ -4258,8 +4250,8 @@ private lemma kleinFour_aut_orbit_all
   rcases hmem with hb2 | hb1 | hbφ | hb0
   · refine ⟨2, ?_⟩
     simpa [pow_two, hb2] using hφ2a_eq
-  · exact ⟨0, by simpa [hb1]⟩
-  · exact ⟨1, by simpa [hbφ]⟩
+  · exact ⟨0, by simp [hb1]⟩
+  · exact ⟨1, by simp [hbφ]⟩
   · exfalso
     exact hb hb0
 
@@ -4370,7 +4362,7 @@ private theorem case1_no_index_two_fusion_and_normalizer
       have hm2' : 2 ≤ m' := by
         by_contra h
         have hsmall : 2 * 2 ^ m' ≤ 4 := by
-          interval_cases m' <;> norm_num
+          interval_cases m'; norm_num
         have hpow : 4 ≤ 2 ^ m := by
           exact Nat.pow_le_pow_right (by decide : 0 < 2) hm2
         have hbig : 8 ≤ 2 * 2 ^ m := by nlinarith
@@ -4557,7 +4549,7 @@ private theorem case1_no_index_two_fusion_and_normalizer
           exact Nat.card_congr (Sylow.equiv S0 S').toEquiv
         have hsmallS' : Nat.card (S' : Subgroup G) ≤ 4 := by
           rw [← hcardEq]
-          simpa [S] using hScard.le
+          simp [S]
         omega
       have hm1' : m' = 1 := by omega
       let T : Subgroup G := (S' : Subgroup G)
@@ -4651,21 +4643,21 @@ private lemma not_normalizerContainsCPrime_of_not_fused
     apply ha1
     have hxS1 : xS = 1 := by
       apply e.injective
-      simpa [p, h1]
+      simp [p, h1]
     rw [← hxval, hxS1]
     simp
   · exfalso
     apply haz
     have hxS2 : xS = e.symm (dCentral m) := by
       apply e.injective
-      simpa [p, h2]
+      simp [p, h2]
     rw [← hxval, hxS2]
     simp [zAmbient]
   · apply hnot
     have ha_eq : a = (e.symm (DihedralGroup.sr j) : G) := by
       have hxS3 : xS = e.symm (DihedralGroup.sr j) := by
         apply e.injective
-        simpa [p, h3]
+        simp [p, h3]
       rw [← hxval, hxS3]
       rfl
     simpa [fusedClass, ha_eq] using hconj
@@ -4677,7 +4669,7 @@ private lemma not_normalizerContainsCPrime_of_not_fused
       have hxS4 : xS = e.symm (DihedralGroup.sr
           (j + (2 : ZMod (2 ^ m)) ^ (m - 1))) := by
         apply e.injective
-        simpa [p, h4]
+        simp [p, h4]
       rw [← hxval, hxS4]
       rfl
     have hAB : IsConj (e.symm (DihedralGroup.sr j) : G)
@@ -4705,7 +4697,7 @@ private lemma sylow_card_two_of_card_two_mul_odd
     rw [hcard]
     exact dvd_mul_right 2 n
   have h2dvdP : 2 ∣ Nat.card (P : Subgroup G) := P.dvd_card_of_dvd_card h2dvdG
-  rcases (IsPGroup.iff_card (p := 2) (G := P)).mp P.isPGroup' with ⟨a, ha⟩
+  rcases (IsPGroup.iff_card (p := 2) (G := P)).mp P.isPGroup with ⟨a, ha⟩
   have hale : a ≤ 1 := by
     by_contra h
     have h4 : 4 ∣ Nat.card (P : Subgroup G) := by
@@ -4726,7 +4718,7 @@ private lemma sylow_card_two_of_card_two_mul_odd
     have hcardP1 : Nat.card (P : Subgroup G) = 1 := by
       rw [ha, h0]
       norm_num
-    have : 2 ∣ (1 : ℕ) := by simpa [hcardP1] using h2dvdP
+    have : 2 ∣ (1 : ℕ) := by simp [hcardP1] at h2dvdP
     norm_num at this
   have ha1 : a = 1 := by omega
   rw [ha, ha1]
@@ -4823,8 +4815,6 @@ private theorem case2_index_two_no_index_four_two_class
     · exfalso
       have hrel : (huppertIV34GrunKernelSubgroup (Q := G) (S0 : Subgroup G)).relIndex
           (S0 : Subgroup G) = 4 := by
-        change (huppertIV34GrunKernelSubgroup (Q := G) (S0 : Subgroup G)).relIndex
-          (S0 : Subgroup G) = 4
         rw [hB]
         exact evenRotations_relIndex_eq_four S0 hm e
       exact hno4 (exists_normal_index_four_of_grun_relIndex_eq_four S0 hrel)
@@ -4897,8 +4887,6 @@ private theorem case2_index_two_no_index_four_two_class
     · exfalso
       have hrel : (huppertIV34GrunKernelSubgroup (Q := G) (S0 : Subgroup G)).relIndex
           (S0 : Subgroup G) = 1 := by
-        change (huppertIV34GrunKernelSubgroup (Q := G) (S0 : Subgroup G)).relIndex
-          (S0 : Subgroup G) = 1
         rw [hS]
         simp [Subgroup.relIndex]
       exact no_normal_index_two_of_grun_relIndex_eq_one S0 hrel h2

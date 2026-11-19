@@ -43,7 +43,7 @@ theorem exists_sylow_le_NLbar :
   obtain ⟨P, hLP, hPN⟩ := S11.exists_sylow_le_normalizer H.conj_mem C
   have hTsyl : S5.IsSylowTwoIn ((P : Subgroup S.Mbar).map S.Mbar.subtype) S.Mbar := by
     have h1 : S5.IsSylowTwoIn (P : Subgroup S.Mbar) ⊤ :=
-      ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+      ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
     have h2 := h1.map S.Mbar.subtype
     rwa [Subgroup.map_top, Subgroup.range_subtype] at h2
   exact ⟨_, hTsyl, hLP, fun x hx => ⟨hTsyl.le hx, hPN hx⟩⟩

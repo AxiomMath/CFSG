@@ -24,8 +24,8 @@ theorem mem_closureStab {g : H} :
 namespace IsTransvectionClass
 
 theorem conjSub_mem_gen (hΔ : IsTransvectionClass Δ) :
-    ∀ X ∈ Δ, ∀ g ∈ gen Δ, conjSub X g ∈ Δ :=
-  fun X hX g _ => hΔ.root.conjSub_mem hX g
+    ∀ _X ∈ Δ, ∀ g ∈ gen Δ, conjSub _X g ∈ Δ :=
+  fun _X hX g _ => hΔ.root.conjSub_mem hX g
 
 theorem stabSet_eq_top (hΔ : IsTransvectionClass Δ) : stabSet Δ = ⊤ :=
   eq_top_iff.2 fun g _ => Degen.mem_stabSet_of_mem_gen hΔ.conjSub_mem_gen
@@ -112,7 +112,7 @@ theorem pointsDetermined_of_forall_nilpotent [Finite H]
     PointsDetermined Δ := by
   have hZ : Subgroup.center H = ⊥ := hN _ inferInstance inferInstance
   have hiso := hΔ.noIsolated_of_center_eq_bot hZ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : pCoreOf 2 (closureStab Δ) = ⊥ :=
     hN _ hΔ.pCoreOf_closureStab_normal
       (CFSG.ClassicalGroups.PCoreSection.isPGroup_pCoreOf 2 _).isNilpotent

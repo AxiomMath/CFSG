@@ -121,7 +121,7 @@ theorem res1_normalizer_sylow_map_of_le {Q : Type*} [Group Q] [Finite Q]
   let φ : MulAut Y := MulAut.conjNormal n
   let U' : Sylow 2 Y := Sylow.mapSurjective (G' := Y) (f := φ.toMonoidHom) φ.surjective U
   have hU'coe : (U' : Subgroup Y) = (U : Subgroup Y).map φ.toMonoidHom := by
-    simpa [U'] using Sylow.coe_mapSurjective (f := φ.toMonoidHom) (P := U)
+    simp [U']
   have hmemR_iff : ∀ x : Y, (x : Q) ∈ Rhat ↔ (φ.symm x : Q) ∈ Rhat := by
     intro x
     have hninv : n⁻¹ ∈ Subgroup.normalizer (Rhat : Set Q) :=
@@ -217,11 +217,11 @@ private theorem res1_exists_sylow_two_candidate {A L M : Subgroup G} {c : G}
         Subgroup.centralizer (Yc : Set (Res1Q A L))) ∧
       (Rhat.subgroupOf Yc) ≠ ⊥ ∧ (Rhat.subgroupOf Yc) ≤ (U : Subgroup ↥Yc) := by
   classical
-  haveI hYn : Yc.Normal :=
+  have hYn : Yc.Normal :=
     Sylow155R1.res1_isComponent_normal hS hY.1 hY.2.2.2.1.1
   let π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L))
   let Cc : Subgroup (Res1Q A L) := Subgroup.centralizer (Yc : Set (Res1Q A L))
-  haveI hCc : Cc.Normal := Subgroup.normal_centralizer
+  have hCc : Cc.Normal := Subgroup.normal_centralizer
   let Oh : Subgroup ↥(Res1C A L) := (CFSG.Open.pCoreOf 2 M).subgroupOf (Res1C A L)
   let Rhat : Subgroup (Res1Q A L) := Yc ⊓ (Oh.map π ⊔ Cc)
   let R : Subgroup ↥Yc := Rhat.subgroupOf Yc
@@ -287,12 +287,12 @@ theorem res1_exists_sylow_two_normalized {A L M : Subgroup G} {c : G}
     res1_exists_sylow_two_candidate hS hAM h142 hY hsimple
   refine ⟨U, ?_⟩
   intro w hwO
-  haveI hYn : Yc.Normal :=
+  have hYn : Yc.Normal :=
     Sylow155R1.res1_isComponent_normal hS hY.1 hY.2.2.2.1.1
   let π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L))
   let Cc : Subgroup (Res1Q A L) := Subgroup.centralizer (Yc : Set (Res1Q A L))
   let Oh : Subgroup ↥(Res1C A L) := (CFSG.Open.pCoreOf 2 M).subgroupOf (Res1C A L)
-  haveI hCc : Cc.Normal := Subgroup.normal_centralizer
+  have hCc : Cc.Normal := Subgroup.normal_centralizer
   let n : Res1Q A L := π w
   have hwOh : w ∈ Subgroup.normalizer (Oh : Set ↥(Res1C A L)) := by
     simpa [Oh] using mem_normalizer_subgroupOf_of_mem_normalizer w.2 hwO
@@ -334,7 +334,7 @@ theorem res1_commutator_mem_sup {A L M : Subgroup G} {c : G} {Yc : Subgroup (Res
   classical
   let π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L))
   let y : Res1Q A L := π c'
-  haveI hYn : Yc.Normal :=
+  have hYn : Yc.Normal :=
     Sylow155R1.res1_isComponent_normal hS hY.1 hY.2.2.2.1.1
   have hyY : y ∈ Yc := mem_of_mem_map_comap_subtype hY.2.2.2.1.2.1 hc'
   have hy3 : orderOf y = 3 := by

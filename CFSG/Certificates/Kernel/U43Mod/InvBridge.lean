@@ -35,7 +35,7 @@ theorem treeG_induction_of_depth {root : X₀} {step : X₀ → ℕ → X₀} {p
     · rw [hk0]
       exact h0
     · obtain ⟨hp, hdp, hv⟩ := hs k hk hk0
-      rw [treeG, if_neg hk0]
+      rw [treeG, ite_eq_right hk0]
       exact hv _ (ih _ hp (by omega))
 
 theorem closedOK_of {T : ℕ → Array ℕ} {tbl : Array ℕ} {n nl : ℕ}

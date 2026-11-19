@@ -45,7 +45,7 @@ theorem kaTwoY_of_narrow (hL : Lemma31Narrow) {z : G} {k : Kind} {S : Subgroup G
   have hι₀ : Function.Injective ι₀ := Subgroup.inclusion_injective hJC
   let T'' : Subgroup ↥C := (T : Subgroup ↥J).map ι₀
   have hT''p : IsPGroup 2 ↥T'' :=
-    IsPGroup.of_equiv T.isPGroup' (Subgroup.equivMapOfInjective (T : Subgroup ↥J) ι₀ hι₀)
+    IsPGroup.of_equiv T.isPGroup (Subgroup.equivMapOfInjective (T : Subgroup ↥J) ι₀ hι₀)
   obtain ⟨Q, hQ⟩ := hT''p.exists_le_sylow
   let R : Subgroup G := (Q : Subgroup ↥C).map C.subtype
   have hRsyl : IsSylowOf 2 R C := ⟨Q, rfl⟩

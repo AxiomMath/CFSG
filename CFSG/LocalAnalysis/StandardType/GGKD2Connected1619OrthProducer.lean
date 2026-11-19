@@ -59,11 +59,11 @@ theorem orthProducer_holds :
     intro Q hQ
     have h3 : ¬ rank = 3 := by omega
     dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg h3] at hQ ⊢
+    rw [ite_eq_right h3] at hQ ⊢
     obtain ⟨K, hKf, hKfin, hcard, hQF⟩ := hQ
-    letI := hKf
-    letI := hKfin
-    haveI hChar : CharP K 2 :=
+    let := hKf
+    let := hKfin
+    have hChar : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn1
         hcard
     let e : Fin rank ⊕ Fin rank ≃ Fin (2 * rank) := ltromp_ePlus rank
@@ -90,11 +90,11 @@ theorem orthProducer_holds :
     have h2 : ¬ rank = 2 := by omega
     have h3 : ¬ rank = 3 := by omega
     dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg h2, if_neg h3] at hQ ⊢
+    rw [ite_eq_right h2, ite_eq_right h3] at hQ ⊢
     obtain ⟨K, hKf, hKfin, hcard, b, c, hirr, hQF⟩ := hQ
-    letI := hKf
-    letI := hKfin
-    haveI hChar : CharP K 2 :=
+    let := hKf
+    let := hKfin
+    have hChar : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn1
         hcard
     let e : LargeEvenMinusIdx (rank - 1) ≃ Fin (2 * rank) :=

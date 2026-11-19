@@ -78,9 +78,10 @@ theorem H_le : HH G L v ≤ H₁ := by
 
 theorem H_le_G : HH G L v ≤ G := c.H_le.trans c.H₁_le_G
 
+omit [Finite V] c in
 theorem L_le_H : L ≤ HH G L v := le_normalClosure _ _
 
-theorem L_le_G : L ≤ G := c.L_le_H.trans c.H_le_G
+theorem L_le_G : L ≤ G := CFSG.CGT.Foote82.CaseII.Ctx.L_le_H.trans c.H_le_G
 
 theorem z_mem : z ∈ H₁ := c.data.z_mem
 
@@ -98,7 +99,7 @@ theorem comm_z {l : GLV V} (hl : l ∈ L) : l * z = z * l := by
   exact (Subgroup.mem_centralizer_iff.1 h z (Subgroup.mem_zpowers z)).symm
 
 theorem z_mem_K : z ∈ KK G L :=
-  ⟨c.z_mem_G, Subgroup.mem_centralizer_iff.2 fun l hl => c.comm_z hl⟩
+  ⟨c.z_mem_G, Subgroup.mem_centralizer_iff.2 fun _l hl => c.comm_z hl⟩
 
 theorem conj_mem_H {h x : GLV V} (hh : h ∈ H₁) (hx : x ∈ HH G L v) :
     h * x * h⁻¹ ∈ HH G L v := by

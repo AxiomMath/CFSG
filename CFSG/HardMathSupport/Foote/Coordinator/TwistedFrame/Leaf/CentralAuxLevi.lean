@@ -44,7 +44,7 @@ theorem Ipre_zero {k : ℕ} (ω : Fin k → WeylGroup τ) :
 theorem Ipre_succ_of_lt {k n : ℕ} (ω : Fin k → WeylGroup τ) (hn : n < k) :
     Ipre ω (n + 1) = Ipre ω n ∩ (fun γ => ω ⟨n, hn⟩ • γ) '' parabolicPosRoots τ (Jθ τ) := by
   ext β
-  simp only [Ipre, Set.mem_inter_iff, Set.mem_setOf_eq]
+  simp only [Ipre, Set.mem_inter_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hA, hall⟩
     exact ⟨⟨hA, fun i hi => hall i (by omega)⟩, hall ⟨n, hn⟩ (by simp)⟩
@@ -59,7 +59,7 @@ theorem Ipre_succ_of_lt {k n : ℕ} (ω : Fin k → WeylGroup τ) (hn : n < k) :
 theorem Ipre_succ_of_le {k n : ℕ} (ω : Fin k → WeylGroup τ) (hn : k ≤ n) :
     Ipre ω (n + 1) = Ipre ω n := by
   ext β
-  simp only [Ipre, Set.mem_inter_iff, Set.mem_setOf_eq]
+  simp only [Ipre, Set.mem_inter_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hA, hall⟩
     exact ⟨hA, fun i hi => hall i (by omega)⟩
@@ -70,7 +70,7 @@ theorem Ipre_k {k : ℕ} (ω : Fin k → WeylGroup τ) :
     Ipre ω k = parabolicPosRoots τ (Jθ τ) ∩
       {β | ∀ i : Fin k, β ∈ (fun γ => ω i • γ) '' parabolicPosRoots τ (Jθ τ)} := by
   ext β
-  simp only [Ipre, Set.mem_inter_iff, Set.mem_setOf_eq]
+  simp only [Ipre, Set.mem_inter_iff, Set.mem_ofPred_eq]
   exact and_congr_right fun _ => ⟨fun h i => h i i.2, fun h i _ => h i⟩
 
 theorem rootClosed_Ipre {k : ℕ} (ω : Fin k → WeylGroup τ) (n : ℕ) : RootClosed τ (Ipre ω n) := by
@@ -85,8 +85,8 @@ theorem rootClosed_Ipre {k : ℕ} (ω : Fin k → WeylGroup τ) (n : ℕ) : Root
       exact ih
 
 theorem Ipre_pos {k : ℕ} (ω : Fin k → WeylGroup τ) (n : ℕ) :
-    ∀ α ∈ Ipre ω n, IsRoot τ α ∧ 0 < height α :=
-  fun α hα => Heis.parabolicPosRoots_pos hα.1
+    ∀ _α ∈ Ipre ω n, IsRoot τ _α ∧ 0 < height _α :=
+  fun _α hα => Heis.parabolicPosRoots_pos hα.1
 
 theorem mem_rootSpan_Ipre {k : ℕ} (ω : Fin k → WeylGroup τ)
     (hmin : ∀ i, ∀ β ∈ parabolicPosRoots τ (Jθ τ), 0 < height (ω i • β)) {u : ModGL τ K}

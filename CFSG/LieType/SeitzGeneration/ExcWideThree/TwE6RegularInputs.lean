@@ -18,12 +18,12 @@ section Pure
 theorem mem_fixUnion_of_fixed {G : Type*} [Group G] {E : Subgroup (MulAut G)} {y : MulAut G}
     (hy : y ∈ E) (hy1 : y ≠ 1) {g : G} (hg : y g = g) : g ∈ fixUnion E :=
   ⟨Subgroup.zpowers y, Subgroup.zpowers_le.2 hy, mt Subgroup.zpowers_eq_bot.1 hy1,
-    fun φ hφ => (Subgroup.zpowers_le.2 (mem_fixAut.2 hg)) hφ⟩
+    fun _φ hφ => (Subgroup.zpowers_le.2 (mem_fixAut.2 hg)) hφ⟩
 
 theorem twE6_exists_pow_ringChar_of_card_sq (K : Type) [Field K] [Finite K] (q : ℕ)
     (hK : Nat.card K = q ^ 2) (hq : 2 ≤ q) :
     Nat.Prime (ringChar K) ∧ ∃ f : ℕ, 1 ≤ f ∧ q = ringChar K ^ f := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   have hdvd : q ∣ ringChar K ^ (n : ℕ) := by
     rw [← hcard, ← Nat.card_eq_fintype_card, hK]

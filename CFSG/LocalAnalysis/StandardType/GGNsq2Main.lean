@@ -42,6 +42,7 @@ namespace NsQuot
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q]
 variable {p : ℕ} {N : Subgroup G} {f : ↥N →* Q} {L Bs Z : Subgroup G}
 
+omit [Finite G] in
 theorem Datum.f_mem_normalizer_img (hD : Datum p N f L Bs Z)
     (hBsL : Bs ≤ Subgroup.normalizer (L : Set G)) {b : G} (hb : b ∈ Bs) :
     f ⟨b, hD.BsN hb⟩ ∈ Subgroup.normalizer ((img N f L : Subgroup Q) : Set Q) := by

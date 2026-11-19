@@ -35,7 +35,7 @@ theorem pFix_iff {wd : List ℤ} (hw : ∀ l ∈ wd, l = 1 ∨ l = -1 ∨ l = 2 
 theorem wordG_rep_two (k : ℕ) : wordG (pairG aY bY) (List.replicate k 2) = bY ^ k := by
   have h : pairG aY bY 2 = bY := by
     unfold pairG
-    rw [if_neg (by decide), if_neg (by decide), if_pos rfl]
+    rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl]
   unfold wordG
   rw [List.map_replicate, h, List.prod_replicate]
 
@@ -121,8 +121,8 @@ theorem fixCnt_eq {X : ℕ} {σ : Perm (Fin 1080)} (h : Raw.Orb.PRep 1080 11 X �
   dsimp only
   rw [h p, Raw.Orb.beq_dec]
   by_cases e : ((σ p : Fin 1080) : ℕ) = p
-  · rw [decide_eq_true e, if_pos (Fin.ext e)]
-  · rw [decide_eq_false e, if_neg fun h' => e (congrArg Fin.val h')]
+  · rw [decide_eq_true e, ite_eq_left (Fin.ext e)]
+  · rw [decide_eq_false e, ite_eq_right fun h' => e (congrArg Fin.val h')]
 
 theorem nFix_conj (γ σ : Perm (Fin 1080)) : nFix (γ * σ * γ⁻¹) = nFix σ := by
   unfold nFix

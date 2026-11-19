@@ -88,7 +88,7 @@ private theorem r925_three_le_pRank_bar2 {X : Type} [Group X] [Finite X] (h : Is
 private theorem r925_pCore_two_not_dvd_three (L : Subgroup G) :
     ¬ 3 ∣ Nat.card (pCoreOf 2 L) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L)
   rw [hk] at h
   have h2 : 3 ∣ 2 := Nat.prime_three.dvd_of_dvd_pow h
@@ -97,7 +97,7 @@ private theorem r925_pCore_two_not_dvd_three (L : Subgroup G) :
 private theorem r925_pCore_not_dvd_three (L : Subgroup G) :
     ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥L) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 (CFSG.pCore_isPGroup (G := ↥L) (p := 2))
   rw [hk] at h
   have h2 : 3 ∣ 2 := Nat.prime_three.dvd_of_dvd_pow h
@@ -106,21 +106,22 @@ private theorem r925_pCore_not_dvd_three (L : Subgroup G) :
 private theorem r925_three_le_pRank_L {L : Subgroup G} (hU : IsU4 (Bar2 L) 1) :
     3 ≤ CFSG.Open.pRank 3 L := by
   have hbar := r925_three_le_pRank_bar2 hU
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq := CFSG.SectionRank.pRank_quotient_eq (G := ↥L) (p := 3) (N := CFSG.pCore 2 ↥L)
     (r925_pCore_not_dvd_three L)
   calc 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (Bar2 L)) := hbar
     _ = CFSG.Open.pRank 3 (⊤ : Subgroup ↥L) := hq
     _ = CFSG.Open.pRank 3 L := (CFSG.SectionRank.pRank_eq_pRank_top_subgroup L).symm
 
+omit [Finite G] in
 private theorem r925_center_bar2_eq_bot {L : Subgroup G} (hU : IsU4 (Bar2 L) 1) :
     Subgroup.center (Bar2 L) = ⊥ := by
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (Bar2 L)) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative (Bar2 L) := Subgroup.center_eq_top_iff.mp h
+    have : IsMulCommutative (Bar2 L) := Subgroup.center_eq_top_iff.mp h
     have hprime : (Nat.card (Bar2 L)).Prime :=
       (Group.is_simple_iff_prime_card (α := Bar2 L)).mp inferInstance
     obtain ⟨F, _, hFcard⟩ :=
@@ -133,6 +134,7 @@ private theorem r925_center_bar2_eq_bot {L : Subgroup G} (hU : IsU4 (Bar2 L) 1) 
     · rw [← h1] at hprime
       norm_num at hprime
 
+omit [Finite G] in
 private theorem r925_commutator_zpowers_le_of_mem {A N : Subgroup G} {y : G}
     (hyN : y ∈ Subgroup.normalizer (N : Set G)) (hAy : ∀ a ∈ A, ⁅a, y⁆ ∈ N) :
     ⁅A, Subgroup.zpowers y⁆ ≤ N := by
@@ -164,7 +166,7 @@ private theorem r925_commutator_zpowers_le_of_mem {A N : Subgroup G} {y : G}
 theorem r925_centOverO2_orderOf (D : Data G) {L : Subgroup G} (hL : L ∈ calC D.M)
     (hU : IsU4 (Bar2 L) 1) (h3 : CFSG.Open.pRank 3 D.M = 3) :
     ∀ x ∈ F08.CentOverO2 D.M L, ¬ 3 ∣ orderOf x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hx hx3
   have hC3 : 3 ∣ Nat.card (F08.CentOverO2 D.M L) :=
     dvd_trans (by rw [Nat.card_zpowers]; exact hx3)
@@ -289,7 +291,7 @@ theorem r925_centOverO2_orderOf (D : Data G) {L : Subgroup G} (hL : L ∈ calC D
 theorem r925_calC_normal (D : Data G) {L : Subgroup G} (hL : L ∈ calC D.M)
     (hU : IsU4 (Bar2 L) 1) (h : ∀ x ∈ F08.CentOverO2 D.M L, ¬ 3 ∣ orderOf x) :
     (L.subgroupOf D.M).Normal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer hL.1.le]
   intro m hm
   by_contra hmn
@@ -351,7 +353,7 @@ theorem r925_exists_normal_quot (D : Data G) {L : Subgroup G}
 theorem r925_kGroupNonab_of_kernel {X : Type} [Group X] [Finite X] (C : Subgroup X) [C.Normal]
     (hC : ∀ x ∈ C, ¬ 3 ∣ orderOf x) (hq : Nat.card (X ⧸ C) ∣ 51840) :
     CFSG.KCore.KGroupNonab (DvdOrThreeFree 51840) X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro K L hLK hLnorm hsimple hnonab
   let mk : ↥K →* (↥K ⧸ L.subgroupOf K) := QuotientGroup.mk' (L.subgroupOf K)
   let D : Subgroup ↥K := (K ⊓ C).subgroupOf K
@@ -365,7 +367,7 @@ theorem r925_kGroupNonab_of_kernel {X : Type} [Group X] [Finite X] (C : Subgroup
     rw [hDeq]
     exact Subgroup.Normal.subgroupOf (inferInstance : C.Normal) K
   have hNnorm : N.Normal := Subgroup.Normal.map hDnorm mk hmksurj
-  haveI := hNnorm
+  have := hNnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hN | hN
   ·
     left
@@ -417,7 +419,7 @@ theorem r925_m_catalogue (D : Data G) {L : Subgroup G}
     CFSG.KCore.KGroupNonab (DvdOrThreeFree 51840) ↥D.M := by
   have h := r925_centOverO2_orderOf D hL hU h3
   obtain ⟨C, hC, hCc, hCq⟩ := r925_exists_normal_quot D (r925_calC_normal D hL hU h) hU
-  haveI := hC
+  have := hC
   exact r925_kGroupNonab_of_kernel C
     (fun x hx => by rw [← Subgroup.orderOf_coe]; exact h _ (hCc x hx)) hCq
 

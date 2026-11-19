@@ -13,7 +13,8 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem Ctx.B_le_Vt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
+omit [Finite G] in
+theorem Ctx.B_le_Vt (_hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
     B ≤ Vt M (LB M Q B) B Z t := by
   have h := sec39_conjB_le_Vt (M := M) (L := LB M Q B) (B := B) (Z := Z) M.one_mem
     (show t ∈ conjSubgroup (1 : G) (LB M Q B) by rw [conjSubgroup_one]; exact ht)

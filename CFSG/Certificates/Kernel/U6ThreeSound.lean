@@ -95,7 +95,7 @@ theorem enc_gen (k : Nat) : enc (U6Mon.gen k) = genC k := by
   by_cases hk : k < 6
   · interval_cases k <;> decide
   · have hg : U6Mon.gen k = U6Mon.one := by
-      rw [U6Mon.gen, if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+      rw [U6Mon.gen, ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     rw [hg, enc_one, genC, List.getD_eq_getElem?_getD, List.getElem?_eq_none (by simp; omega)]
     rfl
 

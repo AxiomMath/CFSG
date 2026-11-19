@@ -102,7 +102,7 @@ theorem colMat_mulVec_single (b : Fin 5 → V5) (j : Fin 5) :
 theorem isConj_of_basis {x y : G52} (b : Fin 5 → V5) (hb : LinearIndependent (ZMod 2) b)
     (h : ∀ j, (x : M5) *ᵥ b j = ∑ i, (y : M5) i j • b i) : IsConj y x := by
   have hB : IsUnit (colMat b) := by
-    rw [← linearIndependent_cols_iff_isUnit]
+    rw [← linearIndependent_col_iff_isUnit]
     exact hb
   obtain ⟨c, hc⟩ := hB
   have hxc : (x : M5) * (c : M5) = (c : M5) * (y : M5) := by

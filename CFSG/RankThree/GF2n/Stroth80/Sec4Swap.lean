@@ -119,8 +119,10 @@ variable {Y : Subgroup Γ} {t : Γ}
 
 variable (hc : ∀ x ∈ Y, ∀ y ∈ conjSubgroup t Y, x * y = y * x)
 
+omit [Finite Γ] in
 theorem swapChi_apply (g : ↥Y) : swapChi Y t hc g = (g : Γ) * (t * (g : Γ) * t⁻¹) := rfl
 
+omit [Finite Γ] in
 theorem swapChi_injective (hinf : Y ⊓ conjSubgroup t Y = ⊥) :
     Function.Injective (swapChi Y t hc) := by
   rw [injective_iff_map_eq_one]
@@ -135,9 +137,11 @@ theorem swapChi_injective (hinf : Y ⊓ conjSubgroup t Y = ⊥) :
   rw [hinf, Subgroup.mem_bot] at h4
   exact Subtype.ext h4
 
+omit [Finite Γ] in
 theorem swapChi_mem_conj (g : ↥Y) : t * (g : Γ) * t⁻¹ ∈ conjSubgroup t Y :=
   mul_mem_conjSubgroup_iff.mpr g.2
 
+omit [Finite Γ] in
 theorem swapChi_comm_t (ht2 : t ^ 2 = 1) (g : ↥Y) :
     t * swapChi Y t hc g * t⁻¹ = swapChi Y t hc g := by
   rw [swapChi_apply]
@@ -151,6 +155,7 @@ theorem swapChi_comm_t (ht2 : t ^ 2 = 1) (g : ↥Y) :
     _ = (t * t) * (g : Γ) * t * (g : Γ) * t := by group
     _ = (g : Γ) * (t * (g : Γ) * t) := by rw [htt]; group
 
+omit [Finite Γ] in
 theorem swapChi_conj (n : Γ) (hnt : n * t = t * n) (hnY : conjSubgroup n Y = Y) (g : ↥Y) :
     ∃ g' : ↥Y, (g' : Γ) = n * (g : Γ) * n⁻¹ ∧ n * swapChi Y t hc g * n⁻¹ = swapChi Y t hc g' := by
   have hmem : n * (g : Γ) * n⁻¹ ∈ Y := by
@@ -174,6 +179,7 @@ variable (hΛ : SwapHyp Γ Λ) (hcs : CompSimple Γ) {Y : Subgroup Γ} (hY : IsC
 
 include hΛ hcs hY ht hne
 
+omit ht in
 theorem swap_sq_eq_one_of_mem {s : Γ} (hsY : s ∈ Y) (hψ : s⁻¹ * (t * s * t⁻¹) ∈ Λ) :
     s ^ 2 = 1 := by
   have hc := swap_comm hY hne
@@ -206,7 +212,7 @@ theorem swap_not_le_normalizer : ¬ Y ≤ Subgroup.normalizer (Λ : Set Γ) := b
   obtain ⟨a, b, hab⟩ := exists_noncomm_of_isComponent hY
   have hsq : ∀ s ∈ Y, s ^ 2 = 1 := by
     intro s hs
-    refine swap_sq_eq_one_of_mem hΛ hcs hY ht hne hs ?_
+    refine swap_sq_eq_one_of_mem hΛ hcs hY hne hs ?_
     have h1 : s⁻¹ * t * s⁻¹⁻¹ ∈ Λ :=
       (Subgroup.mem_normalizer_iff.mp (hN (Y.inv_mem hs)) t).mp ht
     have e : s⁻¹ * (t * s * t⁻¹) = (s⁻¹ * t * s⁻¹⁻¹) * t⁻¹ := by group
@@ -236,10 +242,10 @@ include hΛ hcs hY ht hne
 theorem swap_sylow_data : ∃ S : Sylow 2 Γ, Λ ≤ (S : Subgroup Γ) ∧
     (∀ s ∈ (S : Subgroup Γ) ⊓ Y, s ^ 2 = 1 ∧ s⁻¹ * (t * s * t⁻¹) ∈ Λ) ∧
     ∃ s ∈ (S : Subgroup Γ) ⊓ Y, s ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hΛ2 : IsPGroup 2 ↥Λ := fun x => ⟨1, Subtype.ext (by simpa using hΛ.sq x x.2)⟩
   obtain ⟨S, hS⟩ := hΛ2.exists_le_sylow
-  have hSN : (S : Subgroup Γ) ≤ Subgroup.normalizer (Λ : Set Γ) := hΛ.sylow S S.isPGroup' hS
+  have hSN : (S : Subgroup Γ) ≤ Subgroup.normalizer (Λ : Set Γ) := hΛ.sylow S S.isPGroup hS
   have hc := swap_comm hY hne
   refine ⟨S, hS, ?_, ?_⟩
   · intro s hs
@@ -251,17 +257,17 @@ theorem swap_sylow_data : ∃ S : Sylow 2 Γ, Λ ≤ (S : Subgroup Γ) ∧
       have e : s⁻¹ * (t * s * t⁻¹) = (s⁻¹ * t * s⁻¹⁻¹) * t⁻¹ := by group
       rw [e]
       exact Λ.mul_mem h1 (Λ.inv_mem ht)
-    exact ⟨swap_sq_eq_one_of_mem hΛ hcs hY ht hne hsY hψ, hψ⟩
+    exact ⟨swap_sq_eq_one_of_mem hΛ hcs hY hne hsY hψ, hψ⟩
   · have hev : 2 ∣ Nat.card ↥Y := by
       by_contra hn
       have hodd : Odd (Nat.card ↥Y) := Nat.odd_iff.mpr (by omega)
-      haveI := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥Y hodd
+      have := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥Y hodd
       obtain ⟨a, b, hab⟩ := exists_noncomm_of_isComponent hY
-      haveI : Nontrivial ↥Y := by
+      have : Nontrivial ↥Y := by
         by_contra hnt
         rw [not_nontrivial_iff_subsingleton] at hnt
         exact hab (Subsingleton.elim _ _)
-      haveI : Group.IsPerfect ↥Y := hY.1.1
+      have : Group.IsPerfect ↥Y := hY.1.1
       exact Group.IsPerfect.not_isSolvable ↥Y inferInstance
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 2 hev
     have hy2 : (y : Γ) ^ 2 ^ 1 = 1 := by
@@ -379,6 +385,7 @@ theorem swap_orbit : ∀ r ∈ Λ, conjSubgroup r Y = Y ∨ conjSubgroup r Y = c
   rw [hbot, Subgroup.mem_bot] at this
   exact hd1 this
 
+omit hΛ hcs ht in
 theorem swapChi_range_le_sup :
     (swapChi Y t (swap_comm hY hne)).range ≤ Y ⊔ conjSubgroup t Y := by
   rintro _ ⟨g, rfl⟩
@@ -445,7 +452,7 @@ theorem swap_mem_range_of_comm_t : ∀ k ∈ Y ⊔ conjSubgroup t Y, t * k * t�
 theorem swap_Lam_inf_range_eq_map :
     ∃ P : Sylow 2 ↥Y, Λ ⊓ (swapChi Y t (swap_comm hY hne)).range =
       (P : Subgroup ↥Y).map (swapChi Y t (swap_comm hY hne)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc := swap_comm hY hne
   obtain ⟨S, -, hdata, -⟩ := swap_sylow_data hΛ hcs hY ht hne
   obtain ⟨P, hP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal S hY.2
@@ -523,12 +530,14 @@ theorem swap_card_eq_two_mul :
   rw [hidx, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNΛ).toEquiv] at h1
   exact h1.symm
 
+omit hΛ ht in
 theorem swap_range_isSimpleGroup :
     IsSimpleGroup ↥(swapChi Y t (swap_comm hY hne)).range := by
-  haveI := isSimpleGroup_of_center_eq_bot hY (hcs Y hY)
+  have := isSimpleGroup_of_center_eq_bot hY (hcs Y hY)
   exact (MulEquiv.isSimpleGroup_congr (MonoidHom.ofInjective
     (swapChi_injective (swap_comm hY hne) (swap_inf_eq_bot hcs hY hne)))).mp inferInstance
 
+omit hΛ ht in
 theorem swap_range_nonabelian :
     ∃ a b : ↥(swapChi Y t (swap_comm hY hne)).range, a * b ≠ b * a := by
   obtain ⟨a, b, hab⟩ := exists_noncomm_of_isComponent hY

@@ -118,36 +118,36 @@ theorem coxN_prod_left (c c' : PhanCode) {i j : ℕ} (hi : i < c.rank) (hj : j <
     (prod c c').coxN i j = c.coxN i j := by
   show (if i < c.rank ∧ j < c.rank then c.coxN i j else
     if c.rank ≤ i ∧ c.rank ≤ j then c'.coxN (i - c.rank) (j - c.rank) else 2) = c.coxN i j
-  rw [if_pos ⟨hi, hj⟩]
+  rw [ite_eq_left ⟨hi, hj⟩]
 
 theorem coxN_prod_cross (c c' : PhanCode) {i j : ℕ} (hi : i < c.rank) :
     (prod c c').coxN i (c.rank + j) = 2 := by
   show (if i < c.rank ∧ c.rank + j < c.rank then c.coxN i (c.rank + j) else
     if c.rank ≤ i ∧ c.rank ≤ c.rank + j then c'.coxN (i - c.rank) ((c.rank + j) - c.rank)
       else 2) = 2
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem coreN_prod_left (c c' : PhanCode) {i : ℕ} (hi : i < c.rank) :
     (prod c c').coreN i = c.coreN i := by
   show (if i < c.rank then c.coreN i else c'.coreN (i - c.rank)) = c.coreN i
-  rw [if_pos hi]
+  rw [ite_eq_left hi]
 
 theorem coreN_prod_right (c c' : PhanCode) (i : ℕ) :
     (prod c c').coreN (c.rank + i) = c'.coreN i := by
   show (if c.rank + i < c.rank then c.coreN (c.rank + i) else
     c'.coreN ((c.rank + i) - c.rank)) = c'.coreN i
-  rw [if_neg (by omega), Nat.add_sub_cancel_left]
+  rw [ite_eq_right (by omega), Nat.add_sub_cancel_left]
 
 theorem permN_prod_left (c c' : PhanCode) {i : ℕ} (hi : i < c.rank) :
     (prod c c').permN i = c.permN i := by
   show (if i < c.rank then c.permN i else c.rank + c'.permN (i - c.rank)) = c.permN i
-  rw [if_pos hi]
+  rw [ite_eq_left hi]
 
 theorem permN_prod_right (c c' : PhanCode) (i : ℕ) :
     (prod c c').permN (c.rank + i) = c.rank + c'.permN i := by
   show (if c.rank + i < c.rank then c.permN (c.rank + i) else
     c.rank + c'.permN ((c.rank + i) - c.rank)) = c.rank + c'.permN i
-  rw [if_neg (by omega), Nat.add_sub_cancel_left]
+  rw [ite_eq_right (by omega), Nat.add_sub_cancel_left]
 
 end PhanCode
 

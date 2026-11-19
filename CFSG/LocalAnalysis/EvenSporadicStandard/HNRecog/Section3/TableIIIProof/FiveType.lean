@@ -18,7 +18,7 @@ theorem tableIII_five_type {a z : G} (h : IsF5Type a z) (hSGz : StructGzFacts a 
   have hqmem : q ∈ Qz z ⊓ Gx (ρ : G) := Subgroup.mem_inf.2 ⟨hq, mem_Gx.2 hρq⟩
   have hnot : q ∉ Subgroup.zpowers z := by
     rw [tableIII_mem_zpowers_iff h]
-    push_neg
+    push Not
     exact ⟨hq1, hqz⟩
   rcases hSGz.five.1 ρ hρ with ⟨-, h1⟩ | h2 | ⟨-, h3⟩
   · exact absurd (h1 ▸ hqmem) hnot

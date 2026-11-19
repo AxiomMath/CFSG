@@ -42,8 +42,6 @@ theorem s39d_sharp_outcome (hL : GMSK.GMSLinearStandardLayerListKRankOneStatemen
       centralizer (((A.map (QuotientGroup.mk' (standardComponentOddCore X)) :
         Subgroup (X ⧸ standardComponentOddCore X)) : Set (X ⧸ standardComponentOddCore X))) := by
     rintro _ ⟨a, ha, rfl⟩
-    change QuotientGroup.mk' (standardComponentOddCore X) a *
-      QuotientGroup.mk' (standardComponentOddCore X) t = _
     rw [← map_mul, ← map_mul, mem_centralizer_iff.1 htA a ha]
   exact GMSK.oneOrTwoLayer_of_stdLinearData (GMSK.standardComponentOddCore_quotient_eq_bot X)
     hstd hθt hθA hrel
@@ -321,7 +319,7 @@ theorem s39d_ar_UL_pow {f : ℕ} (hf : 2 ≤ f) {L g m : ℕ} (hg : g ∣ 3)
     have h3 := (hcopP.pow_right 2).eq_one_of_dvd h2
     omega
   · rw [hm] at hQm
-    have h1 : Q ^ 2 * Q ∣ Q ^ 2 * (P * (Q ^ 2 + 1)) := by convert hQm using 1 <;> ring
+    have h1 : Q ^ 2 * Q ∣ Q ^ 2 * (P * (Q ^ 2 + 1)) := by convert hQm using 1; ring
     have h2 := Nat.dvd_of_mul_dvd_mul_left (by positivity) h1
     have h3 := (Nat.Coprime.mul_right hcopP hcopS).eq_one_of_dvd h2
     omega
@@ -368,7 +366,7 @@ theorem s39d_I₁_le_H (hp : d.CaseHyp) :
   fun _ hx => hp.hyp.I_le_H (d.I₁_le_I hx)
 
 theorem s39d_I₁_le_B₂ (hp : d.CaseHyp) :
-    d.I₁ ≤ normalizer (d.B₂ : Set G) ⊓ centralizer ({d.t} : Set G) := fun x hx =>
+    d.I₁ ≤ normalizer (d.B₂ : Set G) ⊓ centralizer ({d.t} : Set G) := fun _x hx =>
   ⟨mem_normalizer_fintype fun _ hb => hp.hyp.conj_mem_B₂ (s39d_I₁_le_H hp hx).1
     (s39d_I₁_le_H hp hx).2 hb, (s39d_I₁_le_H hp hx).2⟩
 
@@ -376,7 +374,7 @@ theorem s39d_I₁_le_E (hp : d.CaseHyp) : d.I₁ ≤ normalizer (d.E : Set G) :=
   hp.hyp.normalizer_B₄_le_normalizer_E hp.gms (hp.hyp.I_le_normalizer_B₄ (d.I₁_le_I hx))
 
 theorem s39d_I₁_le_VA (hp : d.CaseHyp) :
-    d.I₁ ≤ normalizer ((d.V ⊔ d.A₂ : Subgroup G) : Set G) := fun x hx =>
+    d.I₁ ≤ normalizer ((d.V ⊔ d.A₂ : Subgroup G) : Set G) := fun _x hx =>
   Common.mem_normalizer_sup (hp.hyp.I_le_normalizer_V (d.I₁_le_I hx))
     (mem_normalizer_fintype fun _ ha => hp.hyp.conj_mem_A₂ (s39d_I₁_le_H hp hx).1
       (s39d_I₁_le_H hp hx).2 ha)
@@ -403,7 +401,7 @@ theorem s39d_card_C_E_I₁ (hp : d.CaseHyp) :
   have hVAE : d.V ⊔ d.A₂ ≤ d.E := hp.hyp.VA_le_E hp.gms
   have hEn : d.E ≤ normalizer ((d.V ⊔ d.A₂ : Subgroup G) : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVAE).1 (hψk ▸ MonoidHom.normal_ker ψ)
-  haveI : Group.IsNilpotent d.E := IsPGroup.isNilpotent (hp.hyp.isPGroup_E hp.gms)
+  have : Group.IsNilpotent d.E := IsPGroup.isNilpotent (hp.hyp.isPGroup_E hp.gms)
   have hsolv : Group.IsSolvable d.E := inferInstance
   have hcop : (Nat.card d.I₁).Coprime (Nat.card d.E) := by
     rw [hp.hyp.card_E hp.gms]
@@ -489,6 +487,7 @@ section S3dBar
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s39d_card_bar {A Y : Subgroup G} (hYN : Y ≤ normalizer (A : Set G)) (hYA : Y ⊓ A = ⊥) :
     Nat.card (bar A Y) = Nat.card Y := by
   have hinj : Function.Injective
@@ -649,6 +648,7 @@ section S3dK
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
+omit [Finite G] in
 theorem s39d_mem_bar {A X : Subgroup G} {y : Bar A} :
     y ∈ bar A X ↔ ∃ x : normalizer (A : Set G), (x : G) ∈ X ∧ proj A x = y := by
   unfold bar
@@ -662,7 +662,7 @@ theorem s39d_normalClosure_le (hp : d.CaseHyp) :
     normalClosure ((((bar d.D d.N₁).subgroupOf (s39dH₁ d) : Subgroup ↥(s39dH₁ d))) :
         Set ↥(s39dH₁ d)) ≤
       (bar d.D (normalClosureIn (s39dC₁ d) d.N₁)).subgroupOf (s39dH₁ d) := by
-  haveI : ((bar d.D (normalClosureIn (s39dC₁ d) d.N₁)).subgroupOf (s39dH₁ d)).Normal := by
+  have : ((bar d.D (normalClosureIn (s39dC₁ d) d.N₁)).subgroupOf (s39dH₁ d)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hn' : ((n : ↥(s39dH₁ d)) : Bar d.D) ∈ bar d.D (normalClosureIn (s39dC₁ d) d.N₁) := hn
     obtain ⟨z, hzY, hz⟩ := s39d_mem_bar.1 hn'
@@ -690,9 +690,11 @@ theorem s39d_Y₁_le_M₁ (d : Data G h) : normalClosureIn (s39dC₁ d) d.N₁ �
   normalClosureIn_le d.N₁_le_M₁ fun _ hc =>
     d.centralizer_I₁_le_normalizer_M₁ (Subgroup.mem_inf.1 hc).2
 
+omit [Finite G] in
 theorem s39d_Y₁_le_C₁ (d : Data G h) : normalClosureIn (s39dC₁ d) d.N₁ ≤ s39dC₁ d :=
   normalClosureIn_le_self _ _
 
+omit [Finite G] in
 theorem s39d_Y₁_inf_D (he : d.Sec39e) : normalClosureIn (s39dC₁ d) d.N₁ ⊓ d.D = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -949,7 +951,7 @@ theorem s39d_M₁_card (hp : d.CaseHyp) :
     ring_nf
 
 theorem sec39_reduced (hp : d.CaseHyp) (k : d.Know92) (he : d.Sec39e)
-    (hi : d.Sec39Input) (hnn : d.Sec39NotNormal) (ho : d.Sec39Outcome) : d.Sec39Reduced :=
+    (hi : d.Sec39Input) (_hnn : d.Sec39NotNormal) (ho : d.Sec39Outcome) : d.Sec39Reduced :=
   s39d_main hp k he hi ho (s39d_M₁_card hp)
 
 end Data

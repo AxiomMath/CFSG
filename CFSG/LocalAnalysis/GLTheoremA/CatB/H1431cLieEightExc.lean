@@ -188,7 +188,7 @@ theorem lieSEight_four_le_E6
     (hq : q.card = 8) [hfin : Finite (CFSGIndex.lie ⟨.E6 q, hv⟩).Group] :
     4 ≤ CFSG.Open.twoLocalPrimeRank 3 (CFSGIndex.lie ⟨.E6 q, hv⟩).Group := by
   let d : TypeE6LieIndex := ⟨⟨.E6 q, hv⟩, (LieTypeIndex.isTypeE6_iff _).2 trivial⟩
-  haveI : Finite (FixedPointCandidate d.steinberg) := hfin
+  have : Finite (FixedPointCandidate d.steinberg) := hfin
   exact lieSEight_four_le_e6Index d (lieSEight_ringChar_two (by
     change Even (LieTypeIndex.E6 q).fieldOrder
     rw [LieTypeIndex.fieldOrder_E6, hq]
@@ -229,11 +229,11 @@ theorem lieSEightAt_E
       · exact fun h => h
       · exact fun h => h) e
   rcases hdq with rfl | rfl | rfl
-  · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+  · have : Finite (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
     exact (lieSEight_false_of_rkY_of_four_le hRk hZ e (lieSEight_four_le_E6 q hv hq8)).elim
-  · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+  · have : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
     exact (lieSEight_false_of_rkY_of_four_le hRk hZ e (lieSEight_four_le_E7 q hv hq8)).elim
-  · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+  · have : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
     exact (lieSEight_false_of_rkY_of_four_le hRk hZ e (lieSEight_four_le_E8 q hv hq8)).elim
 
 theorem lieSEightAt_twistedE6 :

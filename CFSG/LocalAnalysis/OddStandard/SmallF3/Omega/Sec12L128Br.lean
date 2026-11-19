@@ -18,7 +18,7 @@ theorem sec128_oTwoRes_cent {Y0 : Type} [Group Y0] {τ0 : Y0} {X0 : Subgroup Y0}
   have hset : {x : Y0 | x ∈ centralizer ({τ0} : Set Y0) ∧ Odd (orderOf x)} =
       {x : Y0 | x ∈ X0 ∧ Odd (orderOf x)} := by
     ext y
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hyC, hodd⟩
       refine ⟨?_, hodd⟩

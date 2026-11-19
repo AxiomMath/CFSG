@@ -44,7 +44,7 @@ theorem exists_elemAbelian_fortyNine_le_of_is3D4
     exact CFSG.pCore_isPGroup
   obtain ⟨Q, -, hQmap, hQdisj⟩ :=
     UC6S846.exists_lift_pGroup π (QuotientGroup.mk'_surjective _) hker
-      Nat.prime_seven (by norm_num) (P : Subgroup (Bar2 L)) P.isPGroup'
+      Nat.prime_seven (by norm_num) (P : Subgroup (Bar2 L)) P.isPGroup
   refine ⟨Q.map L.subtype, Subgroup.map_subtype_le _, ?_, ?_⟩
   · exact CFSG.SectionRank.isElemAbelian_map
       (UC6S846.isElemAbelian_of_disjoint_ker π Q hQdisj (by rw [hQmap]; exact hPel)) _
@@ -122,7 +122,7 @@ theorem one_lt_pRank_normalizer_of_is3D4
   have hybar_cent : ybar ∈ Subgroup.centralizer (barImage M L : Set (Bar2 M)) :=
     mem_centralizer_barImage_of_mem_centOverO2 hLM hMN hyC hyM
   obtain ⟨xE, hxE⟩ := @exists_prime_orderOf_dvd_card' ↥X _ _ 7 ⟨Nat.prime_seven⟩
-    (by simpa [hX] using dvd_rfl)
+    (by simp [hX])
   let x : G := xE
   have hxX : x ∈ X := xE.2
   have hxord : orderOf x = 7 := by

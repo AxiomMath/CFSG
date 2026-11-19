@@ -24,14 +24,14 @@ theorem mem_conj_iff_of_mul_self {g : Γ} (hg : g * g = 1) {A : Subgroup Γ} {x 
   rw [Subgroup.mem_map]
   constructor
   · rintro ⟨y, hy, rfl⟩
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv, hgi]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, hgi]
     have : g * (g * y * g) * g = y := by
       calc g * (g * y * g) * g = (g * g) * y * (g * g) := by group
         _ = y := by rw [hg, one_mul, mul_one]
     rwa [this]
   · intro h
     refine ⟨g * x * g, h, ?_⟩
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv, hgi]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, hgi]
     calc g * (g * x * g) * g = (g * g) * x * (g * g) := by group
       _ = x := by rw [hg, one_mul, mul_one]
 
@@ -109,6 +109,7 @@ variable
 
 namespace ProductWeylAux
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem mem_rootGroup_iff (d : G2Data L K) {s : Fin Tag.G2.rank → ℤ} {x : G} :
     x ∈ d.rootGroup s ↔
       ∃ c : K, x = d.emb ⟨pinnedX .G2 K s c, pinnedX_mem_adjointGroup s c⟩ := by
@@ -120,6 +121,7 @@ theorem mem_rootGroup_iff (d : G2Data L K) {s : Fin Tag.G2.rank → ℤ} {x : G}
   · rintro ⟨c, rfl⟩
     exact ⟨_, mem_rootSubgroup.2 ⟨c, rfl⟩, rfl⟩
 
+omit [Finite G] in
 theorem rootGroup_conj_wa (d : G2Data L K) (hK : 4 ≤ Nat.card K)
     {s t : Fin Tag.G2.rank → ℤ} (hs : IsRoot .G2 s) (ht : IsRoot .G2 t)
     (h1 : reflect .G2 g2ir s = t) (h2 : reflect .G2 g2ir t = s) :
@@ -140,6 +142,7 @@ theorem rootGroup_conj_wa (d : G2Data L K) (hK : 4 ≤ Nat.card K)
     rw [h2] at this
     exact this
 
+omit [Finite G] in
 theorem rootGroup_conj_wb (d : G2Data L K) (hK : 4 ≤ Nat.card K)
     {s t : Fin Tag.G2.rank → ℤ} (hs : IsRoot .G2 s) (ht : IsRoot .G2 t)
     (h1 : reflect .G2 g2ia s = t) (h2 : reflect .G2 g2ia t = s) :
@@ -160,14 +163,17 @@ theorem rootGroup_conj_wb (d : G2Data L K) (hK : 4 ≤ Nat.card K)
     rw [h2] at this
     exact this
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem wa_mem_leviA (d : G2Data L K) : d.wa ∈ d.leviA :=
   d.emb_mem_image (g := ⟨Model.wa K, Model.wa_mem_adjointGroup K⟩)
     (weylElt_mem_g2RankOne g2ir 1)
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem wb_mem_leviB (d : G2Data L K) : d.wb ∈ d.leviB :=
   d.emb_mem_image (g := ⟨Model.wb K, Model.wb_mem_adjointGroup K⟩)
     (weylElt_mem_g2RankOne g2ia 1)
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem leviA_eq (d : G2Data L K) : d.leviA = d.rootGroup g2r ⊔ d.rootGroup g2nr := by
   rw [G2Data.leviA, G2Data.rootGroup, G2Data.rootGroup,
     ← d.image_sup (rootSubgroup_le_adjointGroup _) (rootSubgroup_le_adjointGroup _)]
@@ -175,6 +181,7 @@ theorem leviA_eq (d : G2Data L K) : d.leviA = d.rootGroup g2r ⊔ d.rootGroup g2
   rw [Model.leviA, g2RankOne_r_eq, Subgroup.closure_union]
   rfl
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem leviB_eq (d : G2Data L K) : d.leviB = d.rootGroup g2a ⊔ d.rootGroup g2na := by
   rw [G2Data.leviB, G2Data.rootGroup, G2Data.rootGroup,
     ← d.image_sup (rootSubgroup_le_adjointGroup _) (rootSubgroup_le_adjointGroup _)]
@@ -182,6 +189,7 @@ theorem leviB_eq (d : G2Data L K) : d.leviB = d.rootGroup g2a ⊔ d.rootGroup g2
   rw [Model.leviB, g2RankOne_a_eq, Subgroup.closure_union]
   rfl
 
+omit [Finite G] [Finite K] in
 theorem S_eq_rootGroup_r_sup_D (d : G2Data L K) : d.S = d.rootGroup g2r ⊔ d.D := by
   obtain ⟨-, -, -, -, -, hM, -, -, hS⟩ := d.yamada_defs
   obtain ⟨-, -, -, -, -, hFD, -, -, -, -⟩ := d.inclusions
@@ -189,6 +197,7 @@ theorem S_eq_rootGroup_r_sup_D (d : G2Data L K) : d.S = d.rootGroup g2r ⊔ d.D 
   exact le_antisymm (sup_le le_sup_right (sup_le le_sup_left (hFD.trans le_sup_right)))
     (sup_le (le_sup_left.trans le_sup_right) le_sup_left)
 
+omit [Finite G] [Finite K] in
 theorem S_eq_rootGroup_a_sup_M (d : G2Data L K) : d.S = d.rootGroup g2a ⊔ d.M := by
   obtain ⟨-, -, -, -, hD, -, -, -, hS⟩ := d.yamada_defs
   obtain ⟨-, -, -, -, -, -, hFM, -, -, -⟩ := d.inclusions
@@ -196,6 +205,7 @@ theorem S_eq_rootGroup_a_sup_M (d : G2Data L K) : d.S = d.rootGroup g2a ⊔ d.M 
   exact le_antisymm (sup_le (sup_le le_sup_left (hFM.trans le_sup_right)) le_sup_right)
     (sup_le (le_sup_left.trans le_sup_left) le_sup_right)
 
+omit [Finite G] in
 theorem yamadaK₁_eq_sup_conj (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
     yamadaK₁ d = d.S ⊔ d.Sᵍ[d.wa] := by
   obtain ⟨-, -, -, -, -, -, -, hDS, -, -⟩ := d.inclusions
@@ -203,6 +213,7 @@ theorem yamadaK₁_eq_sup_conj (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
     (wa_mem_leviA d) hDS
   rw [leviA_eq d, rootGroup_conj_wa d hK isRoot_g2r isRoot_g2nr reflect_r_r reflect_r_nr]
 
+omit [Finite G] in
 theorem yamadaK₂_eq_sup_conj (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
     yamadaK₂ d = d.S ⊔ d.Sᵍ[d.wb] := by
   obtain ⟨-, -, -, -, -, -, -, -, hMS, -⟩ := d.inclusions
@@ -210,6 +221,7 @@ theorem yamadaK₂_eq_sup_conj (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
     (wb_mem_leviB d) hMS
   rw [leviB_eq d, rootGroup_conj_wb d hK isRoot_g2a isRoot_g2na reflect_a_a reflect_a_na]
 
+omit [Finite G] in
 theorem yamadaK₁_sup_yamadaK₂ (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
     yamadaK₁ d ⊔ yamadaK₂ d = L := by
   obtain ⟨-, -, -, -, -, -, -, hDS, hMS, hSL⟩ := d.inclusions
@@ -229,6 +241,7 @@ theorem yamadaK₁_sup_yamadaK₂ (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
         d.image_sup (Model.leviA_le_adjointGroup K) (Model.leviB_le_adjointGroup K)
     _ ≤ yamadaK₁ d ⊔ yamadaK₂ d := hle
 
+omit [Finite G] in
 theorem yamadaK₁_le_normalizer_D (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
     yamadaK₁ d ≤ normalizer (d.D : Set G) := by
   rw [yamadaK₁_eq d hK]
@@ -237,6 +250,7 @@ theorem yamadaK₁_le_normalizer_D (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
     _ = L ⊓ normalizer (d.D : Set G) := (d.yamada_3_13_2_G).2.1.symm
     _ ≤ normalizer (d.D : Set G) := inf_le_right
 
+omit [Finite G] in
 theorem yamadaK₂_le_normalizer_M (d : G2Data L K) (hK : 4 ≤ Nat.card K) :
     yamadaK₂ d ≤ normalizer (d.M : Set G) := by
   rw [yamadaK₂_eq d hK]
@@ -251,6 +265,7 @@ namespace G2Data
 
 variable (d : G2Data L K)
 
+omit [Finite G] in
 theorem weyl_facts (hK : 4 ≤ Nat.card K) :
     (d.wa * d.wa = 1 ∧ d.wb * d.wb = 1 ∧ (d.wa * d.wb) ^ 3 = (d.wb * d.wa) ^ 3) ∧
     ((d.rootGroup g2r)ᵍ[d.wb] = d.rootGroup g2u ∧ (d.rootGroup g2u)ᵍ[d.wb] = d.rootGroup g2r ∧

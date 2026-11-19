@@ -74,7 +74,7 @@ theorem ubPowK_sound {n w kS kO nb BP NS CH : Nat} {PS PSI LR TR TRI : Nat → N
       refine ⟨fun j => ⟨κ j, hκ j j.2⟩, ?_⟩
       rw [e]
       exact congrArg List.prod (List.map_congr_left fun j hj => by
-        rw [dif_pos (List.mem_range.1 hj)])
+        rw [dite_eq_left (List.mem_range.1 hj)])
     calc Nat.card (Gen n S kO) ≤ Nat.card (Set.range F) := Nat.card_mono (Set.toFinite _) hsub
       _ ≤ Nat.card ((j : Fin base.size) → Fin (lev n S base j).pts.size) := Finite.card_range_le F
       _ = ∏ i ∈ Finset.range base.size, (lev n S base i).pts.size := by
@@ -113,7 +113,7 @@ theorem ubPowK_sound {n w kS kO nb BP NS CH : Nat} {PS PSI LR TR TRI : Nat → N
             hasBit (O l i) ((stp n S base (i + 1) j x : Fin n) : Nat) = true := by
         intro x hx j hj
         have e := hcl x x.2
-        rw [Orb.bIf_eq, if_pos hx, Orb.allN_iff] at e
+        rw [Orb.bIf_eq, ite_eq_left hx, Orb.allN_iff] at e
         have e2 := e j (by rw [hcnt']; exact hj)
         rwa [hstp j hj x] at e2
       have e0 : pg w (mask w) (RS l) (pg w (mask w) BP i) = ((ρ l bi : Fin n) : Nat) := by
@@ -160,7 +160,6 @@ theorem ubPowK_sound {n w kS kO nb BP NS CH : Nat} {PS PSI LR TR TRI : Nat → N
           (siftA_fix hd hcard (base.size - (i + 1)) (i + 1) (by omega) _ _ hrep hu)
       refine ⟨k, Finset.mem_filter.2 ⟨Finset.mem_range.2 hkc, Orb.allN_iff.2 fun l hlL => ?_⟩,
         hck⟩
-      beta_reduce
       have hcomm : ρ l * c = c * ρ l := Subgroup.mem_centralizer_iff.1 hcZ (ρ l) ⟨l, hlL, rfl⟩
       have e1 : rpt w (mask w) (LR i) k = ((c bi : Fin n) : Nat) := (A.pt k hk).trans hck.symm
       have e3 : (trP n S base i k)⁻¹ (ρ l (c bi)) = ((trP n S base i k)⁻¹ * c) (ρ l bi) := by

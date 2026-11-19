@@ -62,7 +62,7 @@ theorem sec10_comm_mem_L [Finite G] {t : G} {L S : Subgroup G}
     (hSN : S ≤ normalizer (L : Set G))
     (hI : (L ⊔ centralizer (L : Set G)).relIndex (normalizer (L : Set G)) ≤ 2)
     (hU : S ⊓ (L ⊔ centralizer (L : Set G)) ≤ (S ⊓ L) ⊔ zpowers t)
-    (htS : t ∈ S) (hc : ∀ s ∈ S, s * t = t * s) :
+    (_htS : t ∈ S) (hc : ∀ s ∈ S, s * t = t * s) :
     ∀ s₁ ∈ S, ∀ s₂ ∈ S, s₁ * s₂ * s₁⁻¹ * s₂⁻¹ ∈ L := by
   intro s₁ hs₁ s₂ hs₂
   have hs₁N : s₁ ∈ normalizer (L : Set G) := hSN hs₁

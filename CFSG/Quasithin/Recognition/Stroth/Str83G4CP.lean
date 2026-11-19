@@ -29,6 +29,7 @@ theorem str83G4_isSzU3Quot_sup_left
   rw [hsup1]
   exact IsSzU3Quot.of_mulEquiv (oTwoQuotSupEquiv hF.1) hqU3
 
+omit [Finite G] in
 theorem str83G4_conjugate_q2_eq {L1 L2 S : Subgroup G} (d : Str83G4Data L1 L2 S) :
     CFSG.conjugate (Q2 L1 L2 S) d.w = Q2 L1 L2 S := by
   apply CFSG.conjugate_eq_self_of_mem_normalizer
@@ -86,6 +87,7 @@ theorem str83G4_conjugate_x_le_s
   (conjugate_str83X_le_q2 hfr d hX).trans
     (CFSG.Quasithin.F7.isSylowTwoOf_pCoreOf_le (f112_isSylowTwoOf_P2 hfr.1))
 
+omit [Finite G] in
 theorem str83G4_isElemAbelian_conjugate_x
     {L1 L2 S : Subgroup G} (d : Str83G4Data L1 L2 S)
     (hX : IsElemAbelian 2 (str83X L1 L2 S)) :
@@ -96,7 +98,7 @@ theorem str83G4_isElemAbelian_conjugate_x
 theorem relIndex_centralizerMod_le_relIndex_centralizer
     {H U U' V : Subgroup G} {t : G}
     (hUV : U ≤ V) (hU'U : U' < U)
-    (hHU : H ≤ Subgroup.normalizer (U : Set G))
+    (_hHU : H ≤ Subgroup.normalizer (U : Set G))
     (hHU' : H ≤ Subgroup.normalizer (U' : Set G))
     [(U'.subgroupOf U).Normal] (htH : t ∈ H) :
     (centralizerMod U' U (Subgroup.zpowers t)).relIndex U ≤
@@ -298,7 +300,7 @@ theorem str83G4_cp_counts
       hstep hnc htH (by rw [hpCore1, ht2]; exact (Q1 L1 L2 S).one_mem) htO
     have hHNL : L1 ⊔ S ≤ Subgroup.normalizer (L : Set G) :=
       D14.le_normalizer_of_isNormalIn hstep.2.1
-    haveI : (L.subgroupOf N).Normal :=
+    have : (L.subgroupOf N).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr
         (hstep.1.1.trans (hXleH.trans hHNL))
     have hrel : (centralizerMod L N (Subgroup.zpowers t)).relIndex N ≤
@@ -423,6 +425,7 @@ theorem str83G4_cp_counts
   · rw [hXdef]
     exact hcommEq
 
+omit [Finite G] in
 private theorem exists_conjugate_not_mem_q1
     {L1 L2 S : Subgroup G} {d : Str83G4Data L1 L2 S}
     (hB : ¬ CFSG.conjugate (str83X L1 L2 S) d.w ≤ Q1 L1 L2 S) :

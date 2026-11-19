@@ -76,7 +76,7 @@ theorem x2e6TorusComponentP_selNA : X2E6TorusComponentP SelNA := by
     rwa [toAdd_mul, toAdd_inv, ← sub_eq_add_neg] at this
   have hp3L : ((3 : ℕ) : Ω) ≠ 0 := by
     have h2 : ((2 : ℕ) : Ω) = 0 := by
-      haveI := charP_two_of_card (K := K) (Ω := Ω) hK
+      have := charP_two_of_card (K := K) (Ω := Ω) hK
       exact CharP.cast_eq_zero Ω 2
     have h3 : ((3 : ℕ) : Ω) = 1 := by
       push_cast at h2 ⊢

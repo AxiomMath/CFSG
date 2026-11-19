@@ -125,6 +125,7 @@ theorem fixV_inf_commV_zpowers_eq_bot (hV : ∀ v : V, v ^ 2 = 1) {x : MulAut V}
     (hx : x ^ 3 = 1) : fixV (Subgroup.zpowers x) ⊓ commV (Subgroup.zpowers x) = ⊥ :=
   fixV_inf_commV_eq_bot hV (odd_card_zpowers_of_pow_three hx)
 
+omit [Finite V] in
 theorem apply_mem_commV_zpowers_of_commute {x g : MulAut V} (hgx : g * x = x * g)
     {w : V} (hw : w ∈ commV (Subgroup.zpowers x)) : g w ∈ commV (Subgroup.zpowers x) :=
   CFSG.Quasithin.apply_mem_commV_zpowers_of_commute hgx hw

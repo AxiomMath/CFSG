@@ -215,7 +215,7 @@ theorem Om4Frame.Hc [Finite G] (F : Om4Frame Q Z V W R N L L' A A' q) {w : G} (h
       group
     rw [key]
     exact V.mul_mem hc hv
-  haveI : (V.subgroupOf A').Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAN
+  have : (V.subgroupOf A').Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAN
   obtain ⟨f, hf⟩ : ∃ f : ↥L' →* ↥A' ⧸ V.subgroupOf A',
       ∀ y : ↥L', f y = QuotientGroup.mk (⟨⁅(y : G), w⁆, hmem y⟩ : ↥A') := by
     refine ⟨MonoidHom.mk' (fun y : ↥L' => QuotientGroup.mk (⟨⁅(y : G), w⁆, hmem y⟩ : ↥A')) ?_,

@@ -39,14 +39,14 @@ theorem KD264Y1KerU6_of_witt
     with hp
   set f := TauCeti.ValidLieTypeIndex.fieldExponent ⟨TauCeti.LieTypeIndex.twistedA 5 q, hd1⟩
     with hf
-  haveI : Fact p.Prime := ⟨hPrime⟩
+  have : Fact p.Prime := ⟨hPrime⟩
   have hf0 : f ≠ 0 := by omega
   have hQ : p ^ f = q.card := by rw [hpq, hfq, TauCeti.PrimePower.card_def q]
   have hdiv : 3 ∣ p ^ f - 1 := by rw [hQ]; exact h3
   have hUcard : Nat.card (GaloisField p (2 * f)) = p ^ (2 * f) :=
     GaloisField.card p (2 * f) (by omega)
   have hU : UnitaryFieldData p f (GaloisField p (2 * f)) := ⟨hPrime, by omega, hUcard⟩
-  haveI : Finite (GaloisField p (2 * f)) := hU.finite
+  have : Finite (GaloisField p (2 * f)) := hU.finite
   have hdvd : 3 ∣ Nat.card (GaloisField p (2 * f)) - 1 := by
     rw [hUcard, two_mul, pow_add]
     have key := Nat.mul_self_sub_mul_self_eq (p ^ f) 1

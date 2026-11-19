@@ -256,7 +256,7 @@ theorem sec92_alpha (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     exact Subtype.ext hab
   have hP : AlphaPair ρ ψ LB' LA' U₁ U₂ U₁' U₂' :=
     ⟨hcommB, hcommA, hprodB, hprodA, hNeq, hgen, hne U₂ hU₂c, hne U₁' hU₁'c⟩
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) :=
+  have : IsSimpleGroup ↥(StatedSL 2 K) :=
     CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_two_charTwo h4
   refine ⟨fun g hg m hm w hw => ?_, fun m hm hmW => ?_⟩
   · set mR : ↥(Rt M (LB M Q B) t) := ⟨m, hNR hm⟩

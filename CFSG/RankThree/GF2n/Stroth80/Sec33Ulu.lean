@@ -22,6 +22,7 @@ private theorem ulu_weyl_eq (K : Type*) [Field K] [CharP K 2] :
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]
 
+omit [Finite G] in
 private theorem ulu_coord_zero_of_mem_U {V Q₀ : Subgroup G} {g : G} {n : ℕ}
     (N : Tim79.NatData V Q₀ g n)
     (hUc : ∀ q ∈ conjSubgroup g Q₀, ∀ u ∈ conjSubgroup g V, q * u = u * q)
@@ -42,6 +43,7 @@ private theorem ulu_coord_zero_of_mem_U {V Q₀ : Subgroup G} {g : G} {n : ℕ}
     exact h1.symm
   exact (ARS.NaturalModule.forall_lowerElt_mulVec_eq_iff _).mp hv
 
+omit [Finite G] in
 private theorem ulu_mem_U_iff {V Q₀ : Subgroup G} {g : G} {n : ℕ}
     (N : Tim79.NatData V Q₀ g n) (hVn : Nat.card V = 2 ^ n) (hn : n ≠ 0)
     (hUc : ∀ q ∈ conjSubgroup g Q₀, ∀ u ∈ conjSubgroup g V, q * u = u * q)

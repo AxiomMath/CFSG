@@ -78,8 +78,8 @@ theorem s1614_central_eq {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x 
     (hcard : Nat.card W = 2 ^ 6) {L : Subgroup (MulAut W)} (hL : IsPOnePlusTwo 3 ↥L) {ℓ : ↥L}
     (hℓ : ℓ ∈ Subgroup.center ↥L) (hℓ1 : ℓ ≠ 1) {v : MulAut W} (hv3 : v * v * v = 1)
     (hvL : ∀ y ∈ L, v * y = y * v) : v ∈ Subgroup.zpowers (ℓ : MulAut W) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsExtraspecial 3 ↥L := hL.1
   let z : MulAut W := (ℓ : MulAut W)
   have hz3 : z * z * z = 1 := by
     have h := congrArg (fun y : ↥L => (y : MulAut W)) (hL.2.2 ℓ)
@@ -150,8 +150,8 @@ theorem s1614_inf_card {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x * 
     (hA27 : Nat.card ↥A = 27) :
     Nat.card ↥(A ⊓ L) = 9 ∧ ∀ ℓ : ↥L, ℓ ∈ Subgroup.center ↥L → (ℓ : MulAut W) ∈ A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hLcard : Nat.card ↥L = 27 := by
     rw [hL.2.1]
     norm_num

@@ -32,18 +32,18 @@ theorem cStar_normal (D : Data G) : (cStar D).Normal :=
   uc22p22u_barImage_normal (uc22p22u_normalizes_cent (P22x.uc22p22xf_hV D))
 
 theorem layer_cStar_normal (D : Data G) : ((CFSG.layer ↥(cStar D)).map (cStar D).subtype).Normal := by
-  haveI := cStar_normal D
-  haveI : (CFSG.layer ↥(cStar D)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have := cStar_normal D
+  have : (CFSG.layer ↥(cStar D)).Characteristic := CFSG.LocalCores.layer_characteristic
   infer_instance
 
 theorem fStar_normal (D : Data G) : (fStar D).Normal := by
-  haveI := cStar_normal D
-  haveI := layer_cStar_normal D
-  haveI : ((CFSG.fittingSubgroup ↥(cStar D)).map (cStar D).subtype).Normal := inferInstance
+  have := cStar_normal D
+  have := layer_cStar_normal D
+  have : ((CFSG.fittingSubgroup ↥(cStar D)).map (cStar D).subtype).Normal := inferInstance
   exact Subgroup.sup_normal _ _
 
 theorem centralizer_fStar_normal (D : Data G) : (centralizer (fStar D : Set (Bar2 D.M))).Normal := by
-  haveI := fStar_normal D
+  have := fStar_normal D
   exact uc22p21c_normal_centralizer (fStar D)
 
 end P22k2
@@ -63,7 +63,7 @@ theorem pCoreOf_le_rad118 (D : Data G) : pCoreOf 2 D.M ≤ rad118 D := by
   exact one_mem _
 
 theorem M_le_normalizer_rad118 (D : Data G) : D.M ≤ normalizer (rad118 D : Set G) := by
-  haveI := centralizer_fStar_normal D
+  have := centralizer_fStar_normal D
   exact uc22p22u_barPreimage_normalizes
 
 theorem rad118_centr (D : Data G) {x r : G} (hx : x ∈ rad118 D) (hxC : x ∈ centralizer (D.U : Set G))
@@ -87,7 +87,7 @@ theorem rad118_centr (D : Data G) {x r : G} (hx : x ∈ rad118 D) (hxC : x ∈ c
 theorem rad118_lift (D : Data G) (h118U : C118 D ⊥ D.U) :
     ∀ y ∈ ⁅D.M, D.M⁆, ∃ r ∈ rad118 D, ∃ c ∈ D.M ⊓ centralizer (D.U : Set G), y = r * c := by
   intro y hy
-  haveI := layer_cStar_normal D
+  have := layer_cStar_normal D
   have h118 : ⁅(⊤ : Subgroup (Bar2 D.M)), (⊤ : Subgroup (Bar2 D.M))⁆ ≤
       centralizer (fStar D : Set (Bar2 D.M)) ⊔ (CFSG.layer ↥(cStar D)).map (cStar D).subtype := by
     unfold C118 at h118U

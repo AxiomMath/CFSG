@@ -114,8 +114,8 @@ theorem solvable_or_aSix_of_not_dvd_index
   have hcardS : Nat.card ↥S = 20160 := by
     rw [← L34Sylow.closureTabs_gensS]
     exact hF.card_S
-  haveI : Finite ↥S := Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥S := Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPcard : Nat.card ↥((closureTabs pGens).subgroupOf S) = 9 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPS).toEquiv]
     exact hF.card_P
@@ -135,7 +135,7 @@ theorem solvable_or_aSix_of_not_dvd_index
     let e := (Subgroup.equivMapOfInjective Y (MulAut.conj g).toMonoidHom (MulAut.conj g).injective)
     beta_reduce at h ⊢
     rcases h with h | h
-    · exact Or.inl (solvable_of_solvable_injective (f := e.toMonoidHom) e.injective)
+    · exact Or.inl (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
     · obtain ⟨a⟩ := h
       exact Or.inr ⟨e.trans a⟩
   · intro Y hPY hYtop
@@ -163,7 +163,7 @@ theorem solvable_or_aSix_of_not_dvd_index
       rwa [this] at hy'
     · obtain ⟨-, ⟨a6⟩⟩ := hF.aSix j hj
       exact Or.inr ⟨(e.trans (MulEquiv.subgroupCongr hZj)).trans a6⟩
-    · exact Or.inl (solvable_of_solvable_injective (f := e.toMonoidHom) e.injective)
+    · exact Or.inl (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactL34Sec
 

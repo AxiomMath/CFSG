@@ -127,7 +127,7 @@ theorem fieldCoreAt_eight {x : MulAut ↥(adjointGroup Tag.F4 (GaloisField 2 3))
     (hxo : x ∉ innerAut ↥(adjointGroup Tag.F4 (GaloisField 2 3))) :
     CFSG.HardMathSupport.Timmesfeld.CrossChar.FieldCoreAt 3 x := by
   have hKcard : Nat.card (GaloisField 2 3) = 2 ^ 3 := GaloisField.card 2 3 (by norm_num)
-  haveI : CharP (GaloisField 2 3) CFSG.LieType.Ree.ReeTag.F4.prime :=
+  have : CharP (GaloisField 2 3) CFSG.LieType.Ree.ReeTag.F4.prime :=
     inferInstanceAs (CharP (GaloisField 2 3) 2)
   have hdvd : ∀ σ : GaloisField 2 3 ≃+* GaloisField 2 3, orderOf σ = 3 →
       ¬ Nat.Coprime 3 (Nat.card (adjointGroup CFSG.LieType.Ree.ReeTag.F4.tag
@@ -148,7 +148,7 @@ theorem isLocallyBalancedAbs_one_eight (hCore : F4EightOPrimeCore) (hOut : F4Eig
     IsLocallyBalancedAbs 3 1 ↥(adjointGroup Tag.F4 (GaloisField 2 3)) := by
   classical
   have hKcard : Nat.card (GaloisField 2 3) = 2 ^ 3 := GaloisField.card 2 3 (by norm_num)
-  haveI : CharP (GaloisField 2 3) CFSG.LieType.Ree.ReeTag.F4.prime :=
+  have : CharP (GaloisField 2 3) CFSG.LieType.Ree.ReeTag.F4.prime :=
     inferInstanceAs (CharP (GaloisField 2 3) 2)
   have hcen : Subgroup.center ↥(adjointGroup Tag.F4 (GaloisField 2 3)) = ⊥ :=
     center_adjointGroup_eq_bot
@@ -168,8 +168,8 @@ theorem isLocallyBalancedAbs_one_eight (hCore : F4EightOPrimeCore) (hOut : F4Eig
     exact h
   intro D hD hcard H hH hDH
   have hD1 : 1 < Nat.card D := by rw [hcard]; norm_num
-  haveI : Finite D := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial D := Finite.one_lt_card_iff_nontrivial.mp hD1
+  have : Finite D := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial D := Finite.one_lt_card_iff_nontrivial.mp hD1
   obtain ⟨d, hd⟩ := exists_ne (1 : D)
   have hd1 : (d : MulAut ↥(adjointGroup Tag.F4 (GaloisField 2 3))) ≠ 1 := fun h => hd (Subtype.ext h)
   have hdp : (d : MulAut ↥(adjointGroup Tag.F4 (GaloisField 2 3))) ^ 3 = 1 := hD.2 d d.2
@@ -215,7 +215,7 @@ theorem f4LocalOne_of_inputs (hCore : F4LocalOneAux.F4EightOPrimeCore)
       GaloisField.card 2 3 (by norm_num)]
     norm_num [CFSG.Open.ordF4]
   have hbot : GLAPPrimeCore 3 ↥K = ⊥ := by
-    haveI := GLAPPrimeCore.normal 3 ↥K
+    have := GLAPPrimeCore.normal 3 ↥K
     rcases hsimple.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 ↥K) with h | h
     · exact h
     · exfalso

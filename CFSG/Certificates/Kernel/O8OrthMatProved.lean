@@ -131,10 +131,8 @@ theorem bIsId_of_bmulK {A B : ℕ} (h : bmulK A B = ID6) : bIsId 6 (bmul 6 6 (de
         (xorN (nat_lit 6) fun l => nIf(Nat.beq (bitN (frow A i) l) (nat_lit 1), frow B l, nat_lit 0))
         (Nat.mul (nat_lit 6) i)))) = _
     rw [strictN_eq]
-    beta_reduce
-    rw [nIf_eq, if_neg (fun h' => hA (Nat.eq_of_beq_eq_true h')), strictN_eq]
-    beta_reduce
-    rw [nIf_eq, if_neg (fun h' => hB (Nat.eq_of_beq_eq_true h'))]
+    rw [nIf_eq, ite_eq_right (fun h' => hA (Nat.eq_of_beq_eq_true h')), strictN_eq]
+    rw [nIf_eq, ite_eq_right (fun h' => hB (Nat.eq_of_beq_eq_true h'))]
     rfl
   have hrow : ∀ i < 6, ∀ j < 6,
       (xorFold 6 fun l => (frow A i).testBit l && (frow B l).testBit j) = decide (i = j) := by
@@ -273,12 +271,6 @@ theorem cone_sound_proved {q : ℕ → Bool} {X Xi Y Yi : Array ℕ × ℕ} {C :
         cases dickC ((List.range 6).map fun j => colAt CC j) <;> rfl
       rw [hdk]
       congr 1
-      all_goals first
-        | rfl
-        | (apply all_congr_mem
-           intro j hj
-           rw [hL j (List.mem_range.1 hj), pw2_eq]
-           rfl)
   rw [e, h]
 
 end CFSG.KC.O8.OrthPf

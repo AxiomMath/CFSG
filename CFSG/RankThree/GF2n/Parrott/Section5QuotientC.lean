@@ -129,6 +129,7 @@ theorem isPGroup_ker_quotHH₁ (h : Tim79a.ParrottHyp z) (hZ : centerIn (J z) �
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz₁2]; norm_num)
   exact h2.comap_subtype
 
+omit [Finite G] in
 theorem J_le_inf_centralizer_z1 (hz₁ : z₁ ∈ centerIn (J z)) :
     J z ≤ H z ⊓ Subgroup.centralizer ({z₁} : Set G) := by
   intro j hj

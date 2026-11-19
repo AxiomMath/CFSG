@@ -145,8 +145,7 @@ private theorem eq_zero_of_fixed_on_natural {K : Type} [Field K] [CharP K 2] {W 
 
 theorem higmanQuad (n₀ : ℕ) : HigmanQuad n₀ := by
   unfold HigmanQuad
-  intro G _ _ L V Z P hL2 hP hsec hVL hLV hLZ hcent hfixL hquad hgen k hkL hkodd hk1
-  intro e heV heZ
+  intro G _ _ L V Z P hL2 hP hsec hVL hLV hLZ hcent hfixL hquad hgen k hkL hkodd hk1 e heV heZ
   let K := GaloisField 2 n₀
   obtain ⟨φ', hφ's, hφ'ker, hU'eq⟩ :=
     CFSG.GroupTheory.exists_SL2_hom_map_sylowTwo_eq_upperUnipotent hL2 hP
@@ -162,7 +161,7 @@ theorem higmanQuad (n₀ : ℕ) : HigmanQuad n₀ := by
     rw [hφ'ker] at hmem
     exact hcent (a : G) (Subgroup.mem_subgroupOf.mp hmem) x hx
   obtain ⟨S'⟩ := CFSG.RankThree.GF2n.exists_sectionModule φ' hφ's hsec.1 hXX hAX hAC hker'
-  haveI : Finite S'.W := Finite.of_surjective S'.π S'.surjective
+  have : Finite S'.W := Finite.of_surjective S'.π S'.surjective
   have hfix : ∀ v : S'.W, (∀ x : Matrix.SpecialLinearGroup (Fin 2) K, x • v = v) → v = 0 := by
     intro v hv
     obtain ⟨x, rfl⟩ := S'.surjective v

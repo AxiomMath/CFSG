@@ -230,7 +230,7 @@ theorem a2l_e7_datum_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3)
   have hcp : CharP K 3 :=
     finite_field_prime_power_characteristic Nat.prime_three le_rfl hK'
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
-  haveI : Finite (ModGL .E7 K) := finite_modGL
+  have : Finite (ModGL .E7 K) := finite_modGL
   have ha : ∀ i, bitsTuple (K := K) e7BitsA1D6 i = 1 ∨ bitsTuple (K := K) e7BitsA1D6 i = -1 :=
     bitsTuple_mem _
   set H := subsystemGroup .E7 K e7LeviD6 with hH_def

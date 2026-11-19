@@ -65,7 +65,7 @@ theorem layerUnitaryModelP_of_model {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : �
     (hx : threeSixEmb X Ω σ x = g * rootDiagUnit TwistTag.D4.tag a * g⁻¹) :
     LayerUnitaryModelP σ ℓ f x := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hε : (-1 : ℤ) = 1 ∨ (-1 : ℤ) = -1 := Or.inr rfl
   have hq0 : ℓ ^ f ≠ 0 := pow_ne_zero _ hℓ.ne_zero
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed X
@@ -79,7 +79,7 @@ theorem layerUnitaryModelP_of_model {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : �
   obtain ⟨s, hs, hΦfix, hact⟩ := layer_embedding_of_model hℓ hℓ3 hf σ hK hσ Ω Fr hFr
     g hgG hFg a hord v hv x hx hε hFrs hstab hD
   obtain ⟨hcl, h₀⟩ := setup_k₀ (Ω := Ω) hℓ hf hK hσ
-  haveI := hcl
+  have := hcl
   set k₀ := RingHom.eqLocusField σ.toRingHom (RingHom.id X) with hk₀
   obtain ⟨π, b, hb⟩ := threeSix_phi_unitary Fr hFrs v hstab
   obtain ⟨-, ⟨H₀, hH₀⟩, -⟩ :=

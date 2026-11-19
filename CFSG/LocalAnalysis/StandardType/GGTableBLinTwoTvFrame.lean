@@ -15,6 +15,7 @@ open Polynomial Matrix Multiplicative CoordSL CFSG.Assembly
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ}
 
+omit [Finite K] in
 theorem two_le_rootPB_dim {g : K[X]} [Fact (Irreducible g)]
     (hunit : ∀ c : K, IsUnit (rootMat g ^ 1 - c • (1 : Matrix _ _ K))) : 2 ≤ (rootPB g).dim := by
   by_contra hlt
@@ -29,11 +30,12 @@ theorem two_le_rootPB_dim {g : K[X]} [Fact (Irreducible g)]
   have h0 : (rootMat g ^ 1 - (rootMat g i0 i0) • (1 : Matrix _ _ K)) = 0 := by
     ext a b
     rw [hsub a, hsub b]
-    simp [Matrix.one_apply]
+    simp
   rw [h0] at hu
-  haveI : Nonempty (Fin (rootPB g).dim) := ⟨i0⟩
+  have : Nonempty (Fin (rootPB g).dim) := ⟨i0⟩
   exact not_isUnit_zero hu
 
+omit [Finite K] in
 theorem coe_frameHom_toGL {s r : ℕ} {g : K[X]} [Fact (Irreducible g)]
     (ε : Fin d ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) (A₀ : SpecialLinearGroup (Fin d) K)
     (hC : (rootMat g).det = 1) (hCp : rootMat g ^ 3 = 1) (t : Fin s → ZMod 3) :
@@ -95,7 +97,7 @@ theorem eq_of_rank_pres_sq (hK : Nat.card K = 2) {E : Subgroup (GL (Fin d) K)}
   have hp3 : ((3 : ℕ) : K) ≠ 0 :=
     TableBSymp.natCast_ne_zero_of_charTwo Nat.prime_three (by norm_num)
   obtain ⟨g, hg, hgd⟩ := LineL2.exists_irreducible_factor_cyclotomic_three K
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hnsplit : ¬ 3 ∣ Nat.card K - 1 := by rw [hK]; decide
   have hC : (rootMat g).det = 1 := det_rootMat Nat.prime_three hnsplit hp3 hgd
   have hCp : rootMat g ^ 3 = 1 := rootMat_pow_eq_one Nat.prime_three hp3 hgd

@@ -30,8 +30,8 @@ private theorem sec11_odd_card_sup [Finite G] {K H : Subgroup G}
     (hHK : H ≤ normalizer (K : Set G)) (hK : Odd (Nat.card K)) (hH : Odd (Nat.card H)) :
     Odd (Nat.card (K ⊔ H : Subgroup G)) := by
   rw [sup_comm]
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hHK
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hHK
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hHK
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hHK
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient H K hHK
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (K.subgroupOf (H ⊔ K)),
     ← Nat.card_congr e.toEquiv,
@@ -105,7 +105,7 @@ theorem sec11KB_Ot_le [Finite G] {t z : G} {X : Subgroup G} (ht2 : t * t = 1) (h
       one_mem' := by
         refine ⟨Subgroup.one_mem _, ?_⟩
         intro x hx
-        simpa using O.one_mem
+        simp
       mul_mem' := by
         rintro a b ⟨haH, haX⟩ ⟨hbH, hbX⟩
         refine ⟨Subgroup.mul_mem _ haH hbH, ?_⟩

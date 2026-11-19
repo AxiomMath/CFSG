@@ -278,7 +278,7 @@ theorem s5_sound {n w : Nat} {US LS : Array (Array ℕ)} {UB LB a : Array ℕ}
     rcases hcls' i hi with h0 | h0
     · simp [h0]
     · have hne : clsAt CLS i ≠ 0 := fun h' => h0 (by rw [h'])
-      simp only [hne, if_false, Option.map_some, Option.some.injEq]
+      simp only [hne, ite_false, Option.map_some, Option.some.injEq]
       omega
   have hadjK : ∀ c' t, c' < NC → t < NC →
       ((adjTabG n S D).getD c' #[]).getD t false = true → adjAt ADJ NC c' t = true := by
@@ -306,7 +306,7 @@ theorem s5_sound {n w : Nat} {US LS : Array (Array ℕ)} {UB LB a : Array ℕ}
     have h3 := (h2 t ht).resolve_left (by rw [hA]; exact Bool.false_ne_true)
     rw [ctAnyN_iff] at h3
     obtain ⟨y, hy, hy2⟩ := h3
-    simp only [ctAndB_eq, Bool.and_eq_true, ctNotB_eq, Bool.not_eq_true'] at hy2
+    simp only [ctAndB_eq, Bool.and_eq_true, Bool.not_eq_true'] at hy2
     set r := fget REPS c' 12 with hr
     have hr4 : r < 4096 := fget_lt2 _ _ 12
     have hrc : Nat.beq (Nat.land (clsAt CLS r) 127) (Nat.succ c') = true := by
@@ -385,7 +385,7 @@ theorem s5_sound {n w : Nat} {US LS : Array (Array ℕ)} {UB LB a : Array ℕ}
     by_cases h0 : clsAt CLS i = 0
     · simp [h0, selB]
     · have : Nat.beq (clsAt CLS i) 0 = false := beq_false_of_ne h0
-      simp [h0, selB, this, toArray_getD']
+      simp [h0, selB, this]
   unfold s5CheckG
   simp only [Bool.and_eq_true]
   refine ⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
@@ -426,13 +426,13 @@ theorem s5_sound {n w : Nat} {US LS : Array (Array ℕ)} {UB LB a : Array ℕ}
     rw [hclsG i hi, hSget i hi]
     unfold decCls
     by_cases h0 : clsAt CLS i = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       simp only [h0, Nat.beq_refl] at h2
       rw [ctNotB_eq] at h2
       simp only [Bool.not_eq_true']
       rw [isInvol_unpack h32 hn hw' (hcan i hi)]
       simpa using h2
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       have hb0 : Nat.beq (clsAt CLS i) 0 = false := beq_false_of_ne h0
       simp only [hb0, ctAndB_eq, Bool.and_eq_true] at h2
       obtain ⟨hcN, hinv, heq⟩ := h2

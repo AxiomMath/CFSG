@@ -135,6 +135,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit hf [CharP K 3] in
 private theorem exists_graphFixed_canonicalRep {w : WeylGroup TwistTag.D4.tag}
     (hw : weylTwist TwistTag.D4 w = w) :
     ∃ n : graphFixedRootGroup TwistTag.D4 K σ.toRingHom,
@@ -151,11 +152,12 @@ private theorem exists_graphFixed_canonicalRep {w : WeylGroup TwistTag.D4.tag}
   rw [coe_fieldActor]
   exact entrywise_canonicalRep σ w
 
+omit hf [CharP K 3] in
 theorem exists_weyl_rootB_to_rootD : ∃ (n : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (ε : K),
     fieldActor (t := TwistTag.D4) σ σ n = n ∧ (ε = 1 ∨ ε = -1) ∧
       ∀ s : K, (n : ModGL TwistTag.D4.tag K) * pinnedX TwistTag.D4.tag K rootB s *
         (n : ModGL TwistTag.D4.tag K)⁻¹ = pinnedX TwistTag.D4.tag K rootD (ε * s) := by
-  obtain ⟨n, hn, hfix⟩ := exists_graphFixed_canonicalRep hf hK σ hσ weylTwist_wB
+  obtain ⟨n, hn, hfix⟩ := exists_graphFixed_canonicalRep hK σ hσ weylTwist_wB
   obtain ⟨ε, hε, hconj⟩ := exists_canonicalRep_mul_pinnedX_mul_inv K wB isRoot_B
   refine ⟨n, ε, hfix, mul_self_eq_one_iff.mp hε, fun s => ?_⟩
   rw [hn]
@@ -163,11 +165,12 @@ theorem exists_weyl_rootB_to_rootD : ∃ (n : graphFixedRootGroup TwistTag.D4 K 
   rw [smul_B_eq_D] at h
   exact h
 
+omit hf [CharP K 3] in
 theorem exists_weyl_rootC_to_rootD : ∃ (n : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (ε : K),
     fieldActor (t := TwistTag.D4) σ σ n = n ∧ (ε = 1 ∨ ε = -1) ∧
       ∀ r : K, (n : ModGL TwistTag.D4.tag K) * pinnedX TwistTag.D4.tag K rootC r *
         (n : ModGL TwistTag.D4.tag K)⁻¹ = pinnedX TwistTag.D4.tag K rootD (ε * r) := by
-  obtain ⟨n, hn, hfix⟩ := exists_graphFixed_canonicalRep hf hK σ hσ weylTwist_s2
+  obtain ⟨n, hn, hfix⟩ := exists_graphFixed_canonicalRep hK σ hσ weylTwist_s2
   obtain ⟨ε, hε, hconj⟩ :=
     exists_canonicalRep_mul_pinnedX_mul_inv K (simple TwistTag.D4.tag n2) isRoot_C
   refine ⟨n, ε, hfix, mul_self_eq_one_iff.mp hε, fun r => ?_⟩

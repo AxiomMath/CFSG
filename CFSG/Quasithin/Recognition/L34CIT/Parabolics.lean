@@ -88,7 +88,7 @@ theorem comap_Tbar (C : Config A) [Finite A] :
       simpa [mul_assoc] using C.L.inv_mem hxL'
     have hxT : (x : A) ∈ C.T := by
       have hxeq : (x : A) = (t : C.K₁) * (((t : C.K₁)⁻¹ * (x : C.K₁) : C.K₁) : A) := by
-        simp [mul_assoc]
+        simp
       rw [hxeq]
       exact C.T.mul_mem ht (C.L_le hmem)
     exact hxT
@@ -265,7 +265,7 @@ theorem comap_image_point (C : Config A) [Finite A] {P : Sylow 2 A}
       simpa [mul_assoc] using C.L.inv_mem hxL'
     have hxP : (x : A) ∈ P := by
       have hxeq : (x : A) = (t : C.K₁) * (((t : C.K₁)⁻¹ * (x : C.K₁) : C.K₁) : A) := by
-        simp [mul_assoc]
+        simp
       rw [hxeq]
       exact P.mul_mem ht (hP hmem)
     exact hxP
@@ -396,7 +396,7 @@ theorem eq_line_of_two_points_geom (C : Config A) [Finite A]
     have := hX'ea.2 f f.2.1
     simpa [pow_two] using this
   have hcomm : (e : A) * (f : A) = (f : A) * (e : A) := by
-    haveI := hX'ea.1
+    have := hX'ea.1
     exact congrArg Subtype.val (mul_comm' (⟨(e : A), e.2.1⟩ : ↥(MulAut.conj b • C.L))
       ⟨(f : A), f.2.1⟩)
   have heN : (e : A) ∈ normalizer ((MulAut.conj a • C.L : Subgroup A) : Set A) :=

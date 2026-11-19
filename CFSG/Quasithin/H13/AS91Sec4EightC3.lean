@@ -77,6 +77,7 @@ theorem card_img {L : Subgroup G} (hLN : L ≤ normalizer (D.E : Set G)) (hEL : 
   rw [Nat.card_congr (QuotientGroup.quotientKerEquivRange f).toEquiv, hrange, hker] at h1
   exact h1.symm
 
+omit hHat in
 theorem Mz_eq_img : D.Mz = D.img D.G13 := by
   ext φ
   rw [D.mem_Mz_iff hOut hTw, D.mem_img]
@@ -88,7 +89,7 @@ theorem Mz_eq_img : D.Mz = D.img D.G13 := by
 
 theorem card_Mz : Nat.card D.Mz = 138240 := by
   have h1 := D.card_img hOut hTw hHat D.G13_le_N (D.E_le_G13 hOut hTw)
-  rw [← D.Mz_eq_img hOut hTw hHat, D.card_E hOut hTw, D.card_G13 hOut hTw] at h1
+  rw [← D.Mz_eq_img hOut hTw, D.card_E hOut hTw, D.card_G13 hOut hTw] at h1
   omega
 
 end Card
@@ -137,7 +138,7 @@ theorem wc_conj {m : G} (hm : m ∈ h.setting.M) {x : G} (hx : x ∈ h.setting.Q
     D.wc (m * x * m⁻¹) = codeOf (D.Φo (h.setting.ρ ⟨m, hm⟩) (vecOf (D.wc x))) := by
   rw [wc, ← h.setting.ρ_cl ⟨m, hm⟩ hx, ← Φo_apply_ψV, wc, vecOf_codeOf]
 
-theorem appN_rowsOf (U : V12 ≃ₗ[ZMod 2] V12) {n : ℕ} (hn : n < 4096) :
+theorem appN_rowsOf (U : V12 ≃ₗ[ZMod 2] V12) {n : ℕ} (_hn : n < 4096) :
     appN (rowsOf U) n = codeOf (U (vecOf n)) := by
   have h1 : vecOf (appN (rowsOf U) n) = U (vecOf n) := by
     rw [vecOf_appN, linOfRows_rowsOf]
@@ -152,6 +153,7 @@ variable
 
 include hOut hTw
 
+omit hOut hTw in
 theorem kap_toMb {m : G} (hm : m ∈ D.G13) :
     D.kap (D.toMb ⟨m, D.G13_le_N hm⟩ : MulAut ↥D.E) =
       Two.mk7 (Two.lam6 (D.kap (D.toMb ⟨m, D.G13_le_N hm⟩ : MulAut ↥D.E)))
@@ -161,7 +163,7 @@ theorem kap_toMb {m : G} (hm : m ∈ D.G13) :
     rw [D.kap_getElem φ (by norm_num)]
     have : ((φ (D.bEE 0) : ↥D.E) : G) = z := by
       change m * D.bE 0 * m⁻¹ = z
-      rw [bE, if_pos rfl]
+      rw [bE, ite_eq_left rfl]
       have := h.setting.z_comm (D.G13_le_M hm)
       rw [h.setting_z] at this
       rw [this, mul_inv_cancel_right]
@@ -173,13 +175,13 @@ theorem kap_toMb {m : G} (hm : m ∈ D.G13) :
       have hi : i < 6 := by simpa [Two.res6, Two.w1Basis] using h2
       have e1 : (Two.aPart (D.kap φ))[i] = (D.kap φ)[i + 1]! / 2 := by
         rw [getElem!_pos _ (i + 1) (by rw [kap_size]; omega)]
-        simp [Two.aPart, kap_size, hi]
+        simp [Two.aPart]
       refine e1.trans ?_
       rw [D.kap_getElem φ (by omega), crd_div_two]
       have e2 : ((φ (D.bEE (i + 1)) : ↥D.E) : G) =
           m * D.rep (Two.w1Basis.getD i 0) * m⁻¹ := by
         change m * D.bE (i + 1) * m⁻¹ = _
-        rw [bE, if_neg (by omega)]
+        rw [bE, ite_eq_right (by omega)]
         rfl
       rw [e2, D.wc_conj (D.G13_le_M hm) (D.rep_mem _), wc, D.ψV_cl_rep,
         codeOf_vecOf (Two.w1List_lt _ (Two.w1Basis_getD_mem i))]
@@ -308,7 +310,7 @@ theorem kap_mem_c3List {φ : ↥D.Mb} (hφ : φ ∈ D.C3) : D.kap (φ : MulAut �
   obtain ⟨x, hx, hxU⟩ := complete hid hc _ hS
   have hrow : rowsOf (D.Φo (h.setting.ρ ⟨m, D.G13_le_M hm⟩)) = x :=
     rowsOf_eq (enumGrp_sound Two.gensOK_stab48 x hx).1 hxU
-  rw [D.kap_toMb hOut hTw hm, hrow]
+  rw [D.kap_toMb hm, hrow]
   refine Two.mem_c3List.mpr ⟨Two.res6 x, ?_, _, Two.lam6_lt _, rfl⟩
   simp only [Two.s48, List.mem_dedup, List.mem_map]
   exact ⟨x, hx, rfl⟩

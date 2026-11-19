@@ -682,7 +682,7 @@ private theorem huppert_XI_6_8_odd_theta_inverse
     have hvNotSq : ¬ IsSquare ((v : K)) := by
       intro hvSq
       have heq := hEquiv k v hvSq
-      have hkv : k * v = m := by simp [v, mul_comm]
+      have hkv : k * v = m := by simp [v]
       rw [hkv] at heq
       have heqVal := congrArg (fun z : Kˣ => (z : K)) heq
       change (theta m : K) = (theta k : K) * ((v⁻¹ : Kˣ) : K) at heqVal
@@ -889,11 +889,11 @@ private theorem huppert_XI_6_8_odd_pslRange_of_tau
     have hr0 : r ≠ 0 := by
       intro hrz
       subst r
-      exact Units.ne_zero a (by simpa using hr)
+      exact Units.ne_zero a (by simp at hr)
     let rU : Kˣ := Units.mk0 r hr0
     let M : GL (Fin 2) K :=
       Matrix.GeneralLinearGroup.mkOfDetNeZero !![(a : K), b; 0, 1] (by
-        simpa [Matrix.det_fin_two] using Units.ne_zero a)
+        simp [Matrix.det_fin_two])
     let S : Matrix.SpecialLinearGroup (Fin 2) K :=
       ⟨!![r, b * r⁻¹; 0, r⁻¹], by
         simp [Matrix.det_fin_two, hr0]⟩
@@ -903,7 +903,7 @@ private theorem huppert_XI_6_8_odd_pslRange_of_tau
       ext i j
       fin_cases i <;> fin_cases j
       · simpa [M, S, rU, Matrix.mul_apply] using hr
-      · simp [M, S, rU, Matrix.mul_apply, hr0]
+      · simp [M, S, rU, Matrix.mul_apply]
         field_simp
       · simp [M, S, rU, Matrix.mul_apply]
       · simp [M, S, rU, Matrix.mul_apply, hr0]
@@ -943,11 +943,11 @@ private theorem huppert_XI_6_8_odd_pslRange_of_tau
     have hr0 : r ≠ 0 := by
       intro hrz
       subst r
-      exact Units.ne_zero c (by simpa using hr)
+      exact Units.ne_zero c (by simp at hr)
     let rU : Kˣ := Units.mk0 r hr0
     let W : GL (Fin 2) K :=
       Matrix.GeneralLinearGroup.mkOfDetNeZero !![0, (c : K); 1, 0] (by
-        simpa [Matrix.det_fin_two] using Units.ne_zero c)
+        simp [Matrix.det_fin_two])
     let S : Matrix.SpecialLinearGroup (Fin 2) K :=
       ⟨!![0, -r; r⁻¹, 0], by
         simp [Matrix.det_fin_two, hr0]⟩
@@ -1180,7 +1180,7 @@ private theorem huppert_XI_6_8_odd_swap_coordinates
           subst y
           have hxnone := tau.injective (h.trans hTauInf.symm)
           exact (Option.some_ne_none (x : K)) hxnone
-        exact ⟨Units.mk0 y hy, by simpa⟩
+        exact ⟨Units.mk0 y hy, by simp⟩
   choose theta hTheta using hTauSome
   have hThetaInv (x : Kˣ) : theta (theta x) = x := by
     apply Units.ext
@@ -1203,7 +1203,7 @@ private theorem huppert_XI_6_8_odd_swap_coordinates
       rcases huSq with ⟨r, hr⟩
       have hr0 : r ≠ 0 := by
         intro hrz
-        exact Units.ne_zero u (by simpa [hrz] using hr)
+        exact Units.ne_zero u (by simp [hrz] at hr)
       let ru : Kˣ := Units.mk0 r hr0
       refine ⟨ru, ?_⟩
       apply Units.ext
@@ -1316,7 +1316,7 @@ private theorem huppert_XI_6_8_odd_swap_coordinates
       | some z =>
           have hz : ell + z = 0 := Option.some.inj (by simpa [hm] using h.symm)
           have hzneg : z = -ell := eq_neg_of_add_eq_zero_right hz
-          simpa [hm, hzneg]
+          simp [hzneg]
     have hm0 : m0 ≠ 0 := by
       intro hm
       rw [hm, hTauZero] at hTauM
@@ -1379,7 +1379,7 @@ private theorem huppert_XI_6_8_odd_swap_coordinates
     have hdOrder : orderOf d = 2 := by
       rw [← orderOf_injective scalar hscalar d, hd, ← orderOf_units]
       change orderOf (-1 : K) = 2
-      rw [orderOf_neg_one, if_neg hchar]
+      rw [orderOf_neg_one, ite_eq_right hchar]
     have htwoDvd : 2 ∣ Nat.card D := by
       rw [← hdOrder]
       exact orderOf_dvd_natCard d
@@ -1748,7 +1748,7 @@ private theorem huppert_XI_6_8_even_complement_commutative
         have hz : 0 = ell x + z := Option.some.inj (by simpa [hm] using hx)
         have hzeq : z = -(ell x) := by
           exact eq_neg_of_add_eq_zero_right hz.symm
-        simpa [hm, hzeq]
+        simp [hzeq]
   have hMeq (x : F0) : m x = -(k x) := by
     have hTauNegK : tau (some (-(k x))) = some (-(ell x)) := by
       simpa [hTauK] using hTauNeg (some (k x))
@@ -1963,7 +1963,7 @@ private theorem huppert_XI_6_8_even_complement_commutative
     have hac0 : a ≠ c0 := by
       intro hac
       have heq := congrArg ePoint hac
-      simpa [c0, hPointA] using heq
+      simp [c0, hPointA] at heq
     have hbc0 : b ≠ c0 := by
       intro hbc
       have heq := congrArg ePoint hbc
@@ -2035,7 +2035,7 @@ private theorem huppert_XI_6_8_even_swap_coordinates
             (x : MulAction.stabilizer G a) x.property
             (d : MulAction.stabilizer G a)⟩ : F)) =
         eAdd (Additive.ofMul x) * (scalar d : K))
-    (s : G) (hsne : s ≠ 1) (hssq : s ^ 2 = 1)
+    (s : G) (_hsne : s ≠ 1) (hssq : s ^ 2 = 1)
     (hsa : s • a = b) (hsb : s • b = a)
     (hsfix : ∃ z : Omega, s • z = z)
     (hswapInv : ∀ d : MulAction.stabilizer (MulAction.stabilizer G a)
@@ -2149,7 +2149,7 @@ private theorem huppert_XI_6_8_even_swap_coordinates
           subst y
           have hxnone := tau.injective (h.trans hTauInf.symm)
           exact (Option.some_ne_none (x : K)) hxnone
-        exact ⟨Units.mk0 y hy, by simpa⟩
+        exact ⟨Units.mk0 y hy, by simp⟩
   choose theta hTheta using hTauSome
   have hThetaInv (x : Kˣ) : theta (theta x) = x := by
     apply Units.ext
@@ -2172,7 +2172,7 @@ private theorem huppert_XI_6_8_even_swap_coordinates
       rcases huSq with ⟨r, hr⟩
       have hr0 : r ≠ 0 := by
         intro hrz
-        exact Units.ne_zero u (by simpa [hrz] using hr)
+        exact Units.ne_zero u (by simp [hrz] at hr)
       let ru : Kˣ := Units.mk0 r hr0
       refine ⟨ru, ?_⟩
       apply Units.ext
@@ -2345,7 +2345,7 @@ private theorem huppert_XI_6_8_even_swap_coordinates
     rcases hu0Sq with ⟨r, hr⟩
     have hr0 : r ≠ 0 := by
       intro hrz
-      exact Units.ne_zero u0 (by simpa [hrz] using hr)
+      exact Units.ne_zero u0 (by simp [hrz] at hr)
     let ru : Kˣ := Units.mk0 r hr0
     refine ⟨ru, ?_⟩
     apply Units.ext
@@ -2425,7 +2425,7 @@ private theorem huppert_XI_6_8_even_swap_coordinates
     have hc : theta x = c0 * x⁻¹ := by simpa [c0] using heq
     dsimp [theta0]
     rw [hc]
-    simp [u0, negOne, mul_assoc, mul_comm, mul_left_comm]
+    simp [u0, negOne, mul_assoc, mul_comm]
   obtain ⟨nK, hnK⟩ := FiniteField.exists_nonsquare hchar
   have hn0 : nK ≠ 0 := by
     intro hn
@@ -2540,15 +2540,15 @@ private theorem huppert_XI_6_8_even_swap_coordinates
   have hInfZero : pInf ≠ pZero := by
     intro h
     have heq := congrArg ePoint h
-    simpa [pInf, pZero] using heq
+    simp [pInf, pZero] at heq
   have hInfOne : pInf ≠ pOne := by
     intro h
     have heq := congrArg ePoint h
-    simpa [pInf, pOne] using heq
+    simp [pInf, pOne] at heq
   have hZeroOne : pZero ≠ pOne := by
     intro h
     have heq := congrArg ePoint h
-    simpa [pZero, pOne] using heq
+    simp [pZero, pOne] at heq
   have hFixInf : (gammaG ^ 3) • pInf = pInf := by
     rw [show pInf = ePoint.symm none by rfl, hGammaPow3Point,
       hPhiInf, hPhiOne, hPhiZero]
@@ -2695,7 +2695,7 @@ private theorem huppert_XI_6_8_even_swap_coordinates
         have ht : tau0 (some x) = some (theta0 xu : K) := by
           simpa [xu] using hTau0Theta xu
         rw [ht, hTheta0Formula]
-        simp only [if_neg hx]
+        simp only [ite_eq_right hx]
         apply congrArg some
         dsimp [negOne]
         rw [Units.val_inv_eq_inv_val]
@@ -2944,7 +2944,7 @@ public theorem huppert_XI_6_8_abelianKernel_psl
             hsRawA hsRawB hsRawFix hsRawInv
     let c : Kˣ := Units.mk0 (-1 : K) (neg_ne_zero.mpr one_ne_zero)
     have hnegc : IsSquare (-(c : K)) := by
-      simpa [c] using (show IsSquare (1 : K) from ⟨1, by simp⟩)
+      simp [c]
     have hKernelAction :=
       huppert_blackburn_XI_projectivePointEquiv_kernel_action
         a b F eAdd ePoint hPointA hPointF

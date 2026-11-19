@@ -43,7 +43,7 @@ theorem r4PkgOdd4
   set θ : K₁ ≃* PSL2 F := φ.trans (ψ₀.trans
     (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm) with hθ
   have := P3.isSimpleGroup_of hp hp8 hF' θ
-  have hS2 : IsPGroup 2 S := T'.isPGroup'.map π
+  have hS2 : IsPGroup 2 S := T'.isPGroup.map π
   have hSsyl : IsSylowTwoOf S ⊤ := by
     refine ⟨le_top, hS2, ?_⟩
     show ¬ 2 ∣ S.relIndex ⊤

@@ -116,9 +116,9 @@ theorem exists_e8T3_JQ_layers (hE6 : E6Layer Tag.E8) {ε : ℤ} (hε : ε = 1 �
       (Q.subgroupOf (J ⊓ Subgroup.centralizer ({z} : Set (adjointGroup Tag.E8 K)))).Normal ∧
       CFSG.IsQuasisimple Q ∧ p ∣ Nat.card Q := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   let Φ : ModGL Tag.E8 L →* ModGL Tag.E8 L :=
     Units.map (entrywiseHom (iterateFrobenius L ℓ f))
   let Cx : Subgroup (adjointGroup Tag.E8 K) :=

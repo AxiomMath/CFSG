@@ -30,9 +30,9 @@ theorem lieSEight_orderTwistedA_ne {r g : ℕ} (hr : 2 ≤ r) (hg : 1 ≤ g) :
     have h1 : 1 ≤ (2 ^ g) ^ i := Nat.one_le_pow _ _ hQ
     have hc : (((2 ^ g) ^ i : ℕ) : ℤ) = ((2 ^ g : ℕ) : ℤ) ^ i := Nat.cast_pow _ i
     rcases Nat.even_or_odd i with hi | hi
-    · rw [if_pos hi, hi.neg_one_pow]
+    · rw [ite_eq_left hi, hi.neg_one_pow]
       omega
-    · rw [if_neg (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
+    · rw [ite_eq_right (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
       omega
   refine CFSG.SeitzReduction.SymplecticPilot.ordTwistedA_ne_ordBC (u := r) (g := g) (m := 2)
     (f := 3) hr hg le_rfl (by norm_num) ?_
@@ -73,7 +73,7 @@ theorem lieSEightNoAt_unitary (hLO : LieOrderBridge) :
     rw [hq8, hp2] at h8
     exact Nat.pow_right_injective (le_refl 2) (h8.symm.trans (by norm_num : 8 = 2 ^ 3))
   let θ : Y ⧸ Subgroup.center Y ≃* primeFormP h (idGram K (r + 1)) := e.trans eP.symm
-  haveI : Finite (primeFormP h (idGram K (r + 1))) := Finite.of_equiv _ θ.toEquiv
+  have : Finite (primeFormP h (idGram K (r + 1))) := Finite.of_equiv _ θ.toEquiv
   have hβmem : MulAut.congr θ α ∈ innAutDerived (primeFormP h (idGram K (r + 1))) :=
     (CFSG.ComponentClassification.OuterAutomorphisms.mem_innAutDerived_congr θ).2 hα
   have hβ3 : MulAut.congr θ α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
@@ -102,16 +102,16 @@ theorem lieSEightNoAt_unitary (hLO : LieOrderBridge) :
       ⟨F, hF, hFt, -, hcardF, -, g, hg, hk⟩ |
       ⟨E, hE, hEt, m, -, hcardE, hm, hne', g, hg, hk⟩ |
       ⟨E, hE, hEt, m, -, hcardE, hm2, -, g, hg, hk⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     rw [hp2, hexp] at hcardF
     exact lieSEight_slQuot_card_ne hLO le_rfl (by omega) hcardF g hg hk hcardJ
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     have hQ : q'.p ^ (q'.exponent * dd) = 2 ^ (3 * dd) := by rw [hp2, hexp]
     exact lieSEight_suQuot_card_ne hLO hQ hm (by omega) hcardE hne' g hg hk hcardJ
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     rw [hp2, hexp] at hcardE
     exact lieSEight_slQuot_card_ne hLO hm2 (g := 2 * (3 * dd)) (by omega) hcardE g hg hk hcardJ
 

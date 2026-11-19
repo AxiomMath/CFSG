@@ -25,7 +25,7 @@ theorem le_normalizer_component_of_centralizer_le {X : Type} [Group X] [Finite X
     {u : X} (huR : u ∈ R) (huL : u ∈ L) (hup : orderOf u = p) (hunc : ∃ c ∈ L, u * c ≠ c * u) :
     R ≤ Subgroup.normalizer (L : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro r hr
   by_contra hrN
   set L₂ : Subgroup X := L.map (MulAut.conj r).toMonoidHom with hL₂

@@ -227,7 +227,7 @@ theorem exists_normalComplement_of_central_three {G : Type} [Group G] [Finite G]
       intro t ht
       rcases Subgroup.mem_map.mp ht with ⟨q, _hq, rfl⟩
       exact q.2
-    have hTp : IsPGroup 3 (Q.toSubgroup.map Z.subtype) := Q.isPGroup'.map Z.subtype
+    have hTp : IsPGroup 3 (Q.toSubgroup.map Z.subtype) := Q.isPGroup.map Z.subtype
     have hcardT : Nat.card (Q.toSubgroup.map Z.subtype) = Nat.card Q.toSubgroup :=
       Subgroup.card_map_of_injective (K := Q.toSubgroup) Subtype.coe_injective
     have h := hS (Q.toSubgroup.map Z.subtype) hTle hTp

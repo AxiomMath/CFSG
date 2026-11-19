@@ -43,10 +43,10 @@ theorem exists_sym3_centralizing_of_dim28
                 (m : ModGL TwistTag.E6.tag K) : ModGL Tag.E6 (AlgebraicClosure K)) * g =
               rootDiagUnit Tag.E6 (CFSG.StandardType.TwE6RootAs.corootTuple β ζ) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hK3 : ringChar K ≠ 3 := by rw [ringChar.eq K 2]; decide
   obtain ⟨DI⟩ := d4t2pl_nonempty_lineLangIota K σ 2 hK3 hσ (by rw [hK]; norm_num)

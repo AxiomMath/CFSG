@@ -89,6 +89,7 @@ theorem radU_eq_bot_of_card [Finite X] (hQ : Q.polarBilin.Nondegenerate)
   have hrad : finrank (ZMod 2) (AS35YS.radU Q (commSpaceOf ρ ⊤)) = 0 := by omega
   exact ⟨Submodule.finrank_eq_zero.mp hrad, by omega⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem singular_of_radU_eq_bot (h : AS35YS.radU Q (commSpaceOf ρ ⊤) = ⊥) :
     ∀ v ∈ commSpaceOf ρ ⊤, (∀ u ∈ commSpaceOf ρ ⊤, polar Q v u = 0) → Q v = 0 := by
   intro v hv hpol
@@ -98,11 +99,13 @@ theorem singular_of_radU_eq_bot (h : AS35YS.radU Q (commSpaceOf ρ ⊤) = ⊥) :
   have : v = 0 := congrArg Subtype.val hmem
   rw [this, map_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem natAct_mem_orthSubgroup (hiso : ∀ x v, Q (ρ x v) = Q v)
     (h : ∀ v ∈ commSpaceOf ρ ⊤, (∀ u ∈ commSpaceOf ρ ⊤, polar Q v u = 0) → Q v = 0) (x : X) :
     natAct hiso x ∈ orthSubgroup (AS35YS.qQuo h) := fun w =>
   AS35YS.qQuo_quoHom (hiso := range_isometry hiso) (hU := range_mem_commSpaceOf) h _ w
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem range_natAct_le_commutator (hiso : ∀ x v, Q (ρ x v) = Q v)
     (h : ∀ v ∈ commSpaceOf ρ ⊤, (∀ u ∈ commSpaceOf ρ ⊤, polar Q v u = 0) → Q v = 0)
     (hperf : commutator X = ⊤) :
@@ -127,6 +130,7 @@ theorem card_commutator_eq {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
   exact Nat.card_congr (MonoidHom.ofInjective
     (b.toGL.injective.comp (Subgroup.subtype_injective _))).toEquiv
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_coords_of_range_eq [Finite X] (hQ : Q.polarBilin.Nondegenerate)
     (hiso : ∀ x v, Q (ρ x v) = Q v) (hinj : Function.Injective ρ)
     (h2 : ∀ N : Subgroup X, N.Normal → IsPGroup 2 N → N = ⊥)

@@ -33,7 +33,7 @@ theorem sw_struct :
     (∀ k ∈ K, k * (tG hb a.toPA6.toPA5 * k * (tG hb a.toPA6.toPA5)⁻¹) ∈ JG hb a.toPA6.toPA5) :=
   swapped_structure (tG_mul_tG hb a.toPA6.toPA5) (JG_simple hb a.toPA6.toPA5)
     (JG_nonab hb a.toPA6.toPA5) (JG_perfect hb a.toPA6.toPA5)
-    (fun j hj => JG_comm_t hb a.toPA6.toPA5 hj)
+    (fun _j hj => JG_comm_t hb a.toPA6.toPA5 hj)
     (fun Q _ hQt hQ => JG_hHJ hb a.toPA6.toPA5 Q hQt hQ) hK hne
     (layer_eq_of_orbit hb a.toPA6.toPA5 hK horb)
     ((layer_eq_of_orbit hb a.toPA6.toPA5 hK horb) ▸ JG_le_layer hb a)

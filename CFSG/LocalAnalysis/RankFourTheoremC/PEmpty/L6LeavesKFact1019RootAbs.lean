@@ -15,7 +15,7 @@ section Counting
 variable {K : Type*} [Group K] [Finite K] {D : UniversalRootDatum K} {n : Fin D.rank → K}
   {H : Fin D.rank → Subgroup K}
 
-theorem exists_card_ge_of_commRoots (hext : SteinbergExtras D n H) {p : ℕ} (hp : p.Prime)
+theorem exists_card_ge_of_commRoots (hext : SteinbergExtras D n H) {p : ℕ} (_hp : p.Prime)
     (t : K) (w : (Fin D.rank → ℤ) → ℕ) (S : Finset (Fin D.rank → ℤ))
     (hS : ∀ γ ∈ S, γ ∈ D.roots ∧ 0 < ht γ ∧ ∀ δ ∈ D.roots, γ ≠ 2 • δ)
     (hcomm : ∀ γ ∈ S, ∀ δ ∈ S, γ ≠ δ → CommRoots D γ δ)
@@ -35,7 +35,7 @@ theorem exists_card_ge_of_commRoots (hext : SteinbergExtras D n H) {p : ℕ} (hp
   have hEX' : ∀ γ ∈ S, E γ ≤ D.rootGroup γ := fun γ hγ => (hEX γ hγ).trans inf_le_left
   have hcount := prod_card_le_card_closure hinj S hSL E hEX'
   have hlow : ∏ γ ∈ S, p ^ w γ ≤ ∏ γ ∈ S, Nat.card (E γ) :=
-    Finset.prod_le_prod' fun γ hγ => hEcard γ hγ
+    Finset.prod_le_prod fun γ hγ => hEcard γ hγ
   rw [Finset.prod_pow_eq_pow_sum] at hlow
   have hab : IsElemAbelian p (Subgroup.closure (⋃ γ ∈ S, (E γ : Set K))) := by
     refine isElemAbelian_closure_iUnion S E (fun γ hγ x hx => (hEab γ hγ).2 x hx) ?_
@@ -61,7 +61,7 @@ end Counting
 theorem exists_subgroup_card_of_isElemAbelian {G : Type*} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) {E : Subgroup G} (hE : IsElemAbelian p E) {m : ℕ} (hm : p ^ m ≤ Nat.card E) :
     ∃ E' ≤ E, IsElemAbelian p E' ∧ Nat.card E' = p ^ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p E := fun g => ⟨1, by
     apply Subtype.ext
     simpa using hE.2 g g.2⟩
@@ -76,13 +76,13 @@ theorem exists_subgroup_card_of_isElemAbelian {G : Type*} [Group G] [Finite G] {
   exact Subtype.ext (congrArg Subtype.val h : (a : G) * b = b * a)
 
 theorem exists_involution_of_central_cover {K X : Type*} [Group K] [Finite K] [Group X] [Finite X]
-    {p : ℕ} (hp : p.Prime) (hcen : ∀ z ∈ Subgroup.center K, z ^ p = 1 → z = 1) (ψ : K →* X)
+    {p : ℕ} (_hp : p.Prime) (hcen : ∀ z ∈ Subgroup.center K, z ^ p = 1 → z = 1) (ψ : K →* X)
     (hker : ψ.ker ≤ Subgroup.center K) {t : K} (ht2 : t ^ 2 = 1) (ht1 : ψ t ≠ 1)
     {E : Subgroup K} (hEc : E ≤ Subgroup.centralizer {t}) (hEa : IsElemAbelian p E)
     (hEcard : Nat.card E = p ^ 4) :
     ∃ t' : X, orderOf t' = 2 ∧ ∃ E' : Subgroup X, E' ≤ Subgroup.centralizer {t'} ∧
       IsElemAbelian p E' ∧ Nat.card E' = p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   have hinjE : Function.Injective (ψ.comp E.subtype) := by
     rw [injective_iff_map_eq_one]
     intro x hx
@@ -105,7 +105,7 @@ theorem exists_involution_of_central_cover {K X : Type*} [Group K] [Finite K] [G
 theorem exists_isElemAbelian_of_isPGroup {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {X : Subgroup G} (hX : IsPGroup p X) (hne : X ≠ ⊥) :
     ∃ E ≤ X, IsElemAbelian p E ∧ p ^ 1 ≤ Nat.card E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hX
   have hk1 : k ≠ 0 := by
     rintro rfl

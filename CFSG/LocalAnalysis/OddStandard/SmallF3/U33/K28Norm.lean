@@ -107,7 +107,7 @@ private instance finiteSubgroup (H : Subgroup Pm) : Finite H :=
 
 private theorem baseGrp_comm {a b : Pm} (ha : a ∈ baseGrp fx₁ fx₂)
     (hb : b ∈ baseGrp fx₁ fx₂) : a * b = b * a := by
-  haveI := wreathRel_frame.baseGrp_eq.1
+  have := wreathRel_frame.baseGrp_eq.1
   simpa using congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : baseGrp fx₁ fx₂) ⟨b, hb⟩)
 
 private theorem baseGrp_le_P : baseGrp fx₁ fx₂ ≤ QP.originalSubgroup := by
@@ -549,7 +549,7 @@ private theorem card_closure_x1x2rholam :
     rw [Nat.Coprime.lcm_eq_mul (by decide : Nat.Coprime 32 3)] at h
     norm_num at h
     exact h
-  haveI : Nonempty ↥Cl := ⟨1, Subgroup.one_mem _⟩
+  have : Nonempty ↥Cl := ⟨1, Subgroup.one_mem _⟩
   have hge : 96 ≤ Nat.card ↥Cl := Nat.le_of_dvd Nat.card_pos h96
   have hle : Nat.card ↥Cl ≤ Nat.card ↥(QP.originalSubgroup ⊓
       Subgroup.normalizer (baseGrp fx₁ fx₂)) := Subgroup.card_le_of_le hClN

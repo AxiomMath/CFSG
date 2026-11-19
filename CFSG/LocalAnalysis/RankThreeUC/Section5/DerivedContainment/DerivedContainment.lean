@@ -42,8 +42,8 @@ theorem derived_le {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G
     rw [← heq]
     exact (Subgroup.zpowers_le).2 haZ
   have hs := h51.setting
-  haveI : Fact p.Prime := ⟨hs.prime⟩
-  haveI hPn : P.Normal := h53.normal
+  have : Fact p.Prime := ⟨hs.prime⟩
+  have hPn : P.Normal := h53.normal
   by_cases hr : 1 < CFSG.Open.pRank p (P ⊓ commutator G)
   · have := h53.minimal (P ⊓ commutator G) inferInstance hr inf_le_left
     exact this ▸ inf_le_right
@@ -60,10 +60,10 @@ theorem derived_le {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G
   have hexpP : ∀ x : ↥P, x ^ p = 1 := fun x => by
     have := Monoid.pow_exponent_eq_one x
     rwa [hs.exponent] at this
-  haveI : IsCyclic (N.subgroupOf P) :=
+  have : IsCyclic (N.subgroupOf P) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hNP).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hNP).symm.surjective
-  haveI : (N.subgroupOf P).Normal := Subgroup.Normal.subgroupOf inferInstance P
+  have : (N.subgroupOf P).Normal := Subgroup.Normal.subgroupOf inferInstance P
   have hcen := cyclic_normal_le_center hs.pGroup hexpP (N.subgroupOf P)
   obtain ⟨b, hb1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 h51.actor_ne_bot
   have hb1' : (b : G) ≠ 1 := fun h => hb1 (Subtype.ext h)
@@ -110,9 +110,9 @@ theorem derived_le {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G
       simpa [f] using this
   have hkercard : Nat.card f.ker ≤ p := by
     rw [hker]
-    haveI : IsCyclic ↥(P ⊓ Subgroup.centralizer ({(b : G)} : Set G)) :=
+    have : IsCyclic ↥(P ⊓ Subgroup.centralizer ({(b : G)} : Set G)) :=
       h51.cyclic_centralizer b b.2 hb1'
-    haveI : IsCyclic ((P ⊓ Subgroup.centralizer ({(b : G)} : Set G)).subgroupOf P) :=
+    have : IsCyclic ((P ⊓ Subgroup.centralizer ({(b : G)} : Set G)).subgroupOf P) :=
       isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe inf_le_left).symm.toMonoidHom
         (Subgroup.subgroupOfEquivOfLe inf_le_left).symm.surjective
     exact card_le_of_cyclic hs.prime _ (fun x _ => hexpP x)

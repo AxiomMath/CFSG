@@ -21,8 +21,8 @@ theorem exists_elemAbelian_two_of_isoLie_sz32
       Nat.card E = 32 := by
   obtain ⟨-, a, ha, K, hKfield, hKfin, hfa, hKcard, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.CTP.suzukiModel_of_isoLie 2 hL
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain rfl : a = 2 := by omega
   obtain ⟨hZab, hZexp⟩ :=
     CFSG.ShultStronglyClosedTI.SuzukiModel.isElemAbelian_suzukiZ0 (a := 2) (K := K) hKcard
@@ -56,12 +56,12 @@ theorem good_sz32
     (hL : CFSG.RankThree.PartOne.Census3.IsoLie ↥(CFSG.generalizedFitting X) (.suzuki 2)) :
     Good 5 N := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set K : Subgroup X := CFSG.generalizedFitting X with hKdef
   obtain ⟨hKs, hKnab, hKn, hKC⟩ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar (p := 5) (by norm_num) hO hN
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   obtain ⟨hv, ⟨e⟩⟩ := hL
   have hSz := CFSG.AGLEmbeddingD2.sz32Normal_of_mulEquiv ⟨.suzuki 2, hv⟩ rfl hKn hKC e
   obtain ⟨P, hP, hPN⟩ := hN.exists_isSylowOf_le
@@ -116,7 +116,7 @@ theorem good_sz32
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact ((Subgroup.mem_centralizer_iff.mp hx) z hzR).symm
   constructor
-  · exact pPrimeCore_eq_bot_of_centralizer_le hRN R.isPGroup' hNnorm hCXR
+  · exact pPrimeCore_eq_bot_of_centralizer_le hRN R.isPGroup hNnorm hCXR
   ·
     intro x y hxN hyN hx1 hxp hyprime hy2 hyp hxy
     exfalso
@@ -184,7 +184,7 @@ theorem good_sz32
     have hyR : y ∈ (R : Subgroup X) := hCZ ⟨hyM, hyC⟩
     have h5order : 5 ∣ orderOf y := by
       obtain ⟨n, hn⟩ :=
-        (IsPGroup.iff_orderOf (p := 5) (G := ↥(R : Subgroup X))).mp R.isPGroup'
+        (IsPGroup.iff_orderOf (p := 5) (G := ↥(R : Subgroup X))).mp R.isPGroup
           ⟨y, hyR⟩
       have hyord : orderOf y = 5 ^ n := by simpa [Subgroup.orderOf_coe] using hn
       have hn0 : n ≠ 0 := by

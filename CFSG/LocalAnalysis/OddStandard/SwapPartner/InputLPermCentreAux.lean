@@ -50,7 +50,7 @@ private theorem swap_triple_apply_left {x p q : Fin 12} (hxp : x ≠ p) (hxq : x
   rw [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne hxp hxq, Equiv.swap_apply_left]
 
 private theorem mem_triple_of_commute {c : Perm (Fin 12)} {x p q : Fin 12}
-    (hxp : x ≠ p) (hxq : x ≠ q) (hpq : p ≠ q)
+    (hxp : x ≠ p) (hxq : x ≠ q) (_hpq : p ≠ q)
     (hcomm : (swap x p * swap p q) * c = c * (swap x p * swap p q)) :
     c x = x ∨ c x = p ∨ c x = q := by
   by_contra hmem

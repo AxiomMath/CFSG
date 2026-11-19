@@ -10,6 +10,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
+omit [Finite G] in
 theorem K_decomp (hK : IsTypeLnq 2 2 2 K) :
     ∀ x ∈ K, ∃ k ∈ ⁅K, K⁆, ∃ z ∈ K, (∀ g ∈ K, g * z = z * g) ∧ x = k * z := by
   obtain ⟨e5⟩ := CFSG.ComponentClassification.RankTwoClassical.nonempty_equiv_a5_of_psl hK

@@ -31,15 +31,15 @@ private theorem s16k_su4_center_mult (hGA : CFSG.Open.GriessAllModelsStatement)
     {X : Type} [Group X] (h : IsSUn X 4 1) :
     Subgroup.center X = ⊥ ∧ Nat.card (CFSG.Open.griessHopfMultiplier X) = 2 := by
   obtain ⟨E, hEfield, hEfinite, hE, ⟨e⟩⟩ := h
-  letI : Field E := hEfield
-  letI : Finite E := hEfinite
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hE
+  let : Field E := hEfield
+  let : Finite E := hEfinite
+  have : Fintype E := Fintype.ofFinite E
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hE
   have hnq : ((4 : ℕ), 2 ^ 1) ≠ (3, 2) := by decide
   have hSU := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (p := 2) (f := 1) (n := 4) hE (by norm_num) hnq
-  haveI : Group.IsPerfect ↥(StatedSU 4 (2 ^ 1) E) := hSU.1.1
+  have : Group.IsPerfect ↥(StatedSU 4 (2 ^ 1) E) := hSU.1.1
   have hSUbot : (StatedScalars (Fin 4) E).subgroupOf (StatedSU 4 (2 ^ 1) E) = ⊥ :=
     CFSG.Quasithin.H13.F431.Un.statedScalars_inf_eq_bot (f := 1) hE
   have hprojSU : StatedProj (StatedSU 4 (2 ^ 1) E) ≃* ↥(StatedSU 4 (2 ^ 1) E) :=
@@ -58,11 +58,11 @@ private theorem s16k_su4_center_mult (hGA : CFSG.Open.GriessAllModelsStatement)
 
 private theorem s16k_fixOrd_statedSU_four {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ 1) ^ 2) : FixOrd (StatedSU 4 (2 ^ 1) K) 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hK
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hK
   let σ : K ≃+* K := unitaryInvolution K 2 1
   have hσ : IsUnitaryInvolution σ :=
     isUnitaryInvolution_unitaryInvolution (p := 2) (f := 1) hK
@@ -88,8 +88,8 @@ theorem s16k_false_of_su4_kernel (h : S16gRowCtx D V₀ V L hV)
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 4 1)
     (hσ : 3 ∈ D.sig) (hrk : CFSG.Open.pRank 3 (Mbar D.M V₀ V hV) ≤ 3) : False := by
   obtain ⟨K, hF, hFin, hK, hR⟩ := hN
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨hcenter, hmultcard⟩ := s16k_su4_center_mult hGA hSU
   refine h.false_of_fixOrd hR hσ ?_ ?_ hrk ?_
   · rw [hcenter, Subgroup.card_bot]

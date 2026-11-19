@@ -87,7 +87,7 @@ variable (S : HypCoord Q)
 private theorem tA1_polar_star_single {a : Fin d} (ha : a ∈ S.hyp) {c : Fin d} (hc : c ≠ a)
     (t : K) : polar Q (Pi.single (S.star a) 1 : Fin d → K) (t • (Pi.single c 1 : Fin d → K)) = 0 := by
   rw [polar_smul_right_eq, S.polar_single_single (S.star_mem a ha) c, S.star_star a ha,
-    if_neg (Ne.symm hc), mul_zero]
+    ite_eq_right (Ne.symm hc), mul_zero]
 
 theorem eichler_star_single_apply {a : Fin d} (ha : a ∈ S.hyp) {c : Fin d} (hc : c ≠ a) (t : K)
     (x : Fin d → K) :
@@ -137,11 +137,11 @@ theorem exists_clear_fix (hext : IsExtension k Q₀ Q) {b : Fin d} (hb : b ∈ S
     have hEc : eichler Q (Pi.single (S.star b) 1 : Fin d → K)
         (t • (Pi.single c 1 : Fin d → K)) x c = 0 := by
       rw [hEx]
-      simp [Pi.single_apply, hcs, hxb, ht_def]
+      simp [hcs, hxb, ht_def]
     have hEb : eichler Q (Pi.single (S.star b) 1 : Fin d → K)
         (t • (Pi.single c 1 : Fin d → K)) x b = 1 := by
       rw [hEx]
-      simp [Pi.single_apply, hcb.symm, (S.star_ne b hb).symm, hxb]
+      simp [hcb.symm, (S.star_ne b hb).symm, hxb]
     have hEu : eichler Q (Pi.single (S.star b) 1 : Fin d → K)
         (t • (Pi.single c 1 : Fin d → K)) u = u := by
       apply eichler_apply_of_polar_eq_zero
@@ -152,7 +152,7 @@ theorem exists_clear_fix (hext : IsExtension k Q₀ Q) {b : Fin d} (hb : b ∈ S
           (t • (Pi.single c 1 : Fin d → K)) x j = x j := by
       intro j hjc hjs
       rw [hEx]
-      simp [Pi.single_apply, hjc, hjs]
+      simp [hjc, hjs]
     obtain ⟨h', hh'mem, hh'u, hh'T, hh'b, hh'out⟩ := ih hT' hu' _ hyrat hEb
     refine ⟨h' * eichler Q (Pi.single (S.star b) 1 : Fin d → K)
       (t • (Pi.single c 1 : Fin d → K)), mul_mem hh'mem hEmem, ?_, ?_, ?_, ?_⟩
@@ -178,11 +178,11 @@ theorem eq_single_of_support_pair {a : Fin d} (ha : a ∈ S.hyp) {x : Fin d → 
     funext c
     by_cases hca : c = a
     · rw [hca]
-      simp [Pi.single_apply, hne.symm, hxa]
+      simp [hne.symm, hxa]
     · by_cases hcs : c = S.star a
       · rw [hcs]
-        simp [Pi.single_apply, hne]
-      · simp [Pi.single_apply, hca, hcs, hsupp c hca hcs]
+        simp [hne]
+      · simp [hca, hcs, hsupp c hca hcs]
   have hs : x (S.star a) = 0 := by
     have h1 := hQx
     rw [hdecomp, QuadraticMap.map_add Q, map_smul_eq_sq, polar_smul_right_eq,

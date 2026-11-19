@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V : Subgroup G}
 
+omit [Finite G] in
 private theorem mul_ne_one_of_mem_of_components {X Y : Subgroup G} (hinf : X ⊓ Y = ⊥)
     {a b : G} (ha : a ∈ X) (hb : b ∈ Y) (ha1 : a ≠ 1) : a * b ≠ 1 := by
   intro h
@@ -24,6 +25,7 @@ private theorem mul_ne_one_of_mem_of_components {X Y : Subgroup G} (hinf : X ⊓
     rw [h']; exact Y.inv_mem hb
   exact ha1 (Subgroup.mem_bot.mp (hinf ▸ Subgroup.mem_inf.mpr ⟨ha, haY⟩))
 
+omit [Finite G] in
 private theorem exists_conjSubgroup_ne_of_not_le_normalizer {H P : Subgroup G}
     (h : ¬ P ≤ Subgroup.normalizer (H : Set G)) :
     ∃ x ∈ P, conjSubgroup x H ≠ H := by
@@ -36,6 +38,7 @@ private theorem exists_conjSubgroup_ne_of_not_le_normalizer {H P : Subgroup G}
   obtain ⟨x, hxP, hxN⟩ := hex
   exact ⟨x, hxP, fun heq => hxN (mem_normalizer_iff_conjSubgroup_eq.mpr heq)⟩
 
+omit [Finite G] in
 private theorem normalizes_of_normalizes_of_two_components {X Y : Subgroup G}
     (hXY : X ≠ Y) (hY : IsComponent Y)
     (honly : ∀ Z : Subgroup G, IsComponent Z → Z = X ∨ Z = Y)
@@ -54,6 +57,7 @@ private theorem normalizes_of_normalizes_of_two_components {X Y : Subgroup G}
     exact hXY (h1.trans h2).symm
   · exact mem_normalizer_iff_conjSubgroup_eq.mpr h
 
+omit [Finite G] in
 private theorem conjSubgroup_eq_of_not_normalizes_of_two_components {X Y : Subgroup G}
     (hX : IsComponent X)
     (honly : ∀ Z : Subgroup G, IsComponent Z → Z = X ∨ Z = Y)
@@ -63,6 +67,7 @@ private theorem conjSubgroup_eq_of_not_normalizes_of_two_components {X Y : Subgr
   · exact absurd (mem_normalizer_iff_conjSubgroup_eq.mpr h) hp
   · exact h
 
+omit [Finite G] in
 private theorem conjSubgroup_eq_of_not_normalizes_of_two_components' {X Y : Subgroup G}
     (hXY : X ≠ Y) (hX : IsComponent X) (hY : IsComponent Y)
     (honly : ∀ Z : Subgroup G, IsComponent Z → Z = X ∨ Z = Y)
@@ -82,6 +87,7 @@ private theorem conjSubgroup_eq_of_not_normalizes_of_two_components' {X Y : Subg
         _ = Y := by rw [conjSubgroup_conjSubgroup, inv_mul_cancel, conjSubgroup_one]
     exact hXY (h1.trans h2)
 
+omit [Finite G] in
 private theorem commute_list_prod {ι : Type*} {x : ι → G} {v : G} {l : List ι}
     (h : ∀ i ∈ l, Commute v (x i)) : Commute v ((l.map x).prod) := by
   induction l with
@@ -90,6 +96,7 @@ private theorem commute_list_prod {ι : Type*} {x : ι → G} {v : G} {l : List 
       rw [List.map_cons, List.prod_cons]
       exact (h a (by simp)).mul_right (ih (fun i hi => h i (by simp [hi])))
 
+omit [Finite G] in
 private theorem list_prod_mul_self_eq_one {ι : Type*} {x : ι → G} {l : List ι}
     (hl : l.Nodup) (hsq : ∀ i ∈ l, x i * x i = 1)
     (hcomm : ∀ i ∈ l, ∀ j ∈ l, i ≠ j → Commute (x i) (x j)) :
@@ -129,6 +136,7 @@ private noncomputable def diagonalHom (X : Subgroup G) (v : G)
           rw [hcomm_ab]
       _ = ((a : G) * (v * (a : G) * v⁻¹)) * ((b : G) * (v * (b : G) * v⁻¹)) := by group
 
+omit [Finite G] in
 private theorem diagonalHom_apply (X : Subgroup G) (v : G)
     (hcomm : ∀ a b : X, Commute (a : G) (v * (b : G) * v⁻¹)) (a : X) :
     diagonalHom X v hcomm a = (a : G) * (v * (a : G) * v⁻¹) := rfl
@@ -474,6 +482,7 @@ private theorem sq_eq_one_of_mem_sylow_inf_component (h : Hyp M V) (hV : 4 ≤ N
     ((components_commute_inf hF hX hY' hXY').2)
     (X.mul_mem hsX hsX) (Y'.mul_mem hsxY hsxY) hs2 hpair
 
+omit [Finite G] in
 private theorem diagonalHom_injective {X : Subgroup G} {v : G}
     (hcomm : ∀ a b : X, Commute (a : G) (v * (b : G) * v⁻¹))
     (hinf : X ⊓ conjSubgroup v X = ⊥) :
@@ -569,7 +578,7 @@ private theorem diagonal_range_contradiction (h : Hyp M V) (hV : 4 ≤ Nat.card 
     intro g hg
     exact Subgroup.inf_normalizer_le_normalizer_inf
       ⟨Subgroup.le_normalizer hg, h.le_normalizer (hfM hg)⟩
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   rcases hsimple.eq_bot_or_eq_top_of_normal N with hNbot | hNtop
   · have hinfbot : f.range ⊓ V = ⊥ := by
       rw [eq_bot_iff]
@@ -661,7 +670,7 @@ private theorem mem_sylow_of_layerMul_eq_coord (T : Sylow 2 G)
   let S0 : Subgroup G := (T : Subgroup G) ⊓ layer G
   let P0 : Subgroup (∀ K : ComponentIndex G, K.1) :=
     Subgroup.comap (layerMul G) S0
-  have hS02 : IsPGroup 2 S0 := T.isPGroup'.to_le inf_le_left
+  have hS02 : IsPGroup 2 S0 := T.isPGroup.to_le inf_le_left
   have hP02 : IsPGroup 2 P0 := by
     intro y
     obtain ⟨k, hk⟩ := hS02 ⟨layerMul G y, y.2⟩
@@ -818,7 +827,7 @@ private theorem commutator_Pc_sylow_inf_layer_aux (h : Hyp M V) (hV : 4 ≤ Nat.
     (hQT : inSubgroup (pCore 2) M ≤ (T : Subgroup G))
     {X Y : Subgroup G} (hX : IsComponent X) (hY : IsComponent Y) (hXY : X ≠ Y) :
     Pc M V ⊓ layer G ≤ V := by
-  haveI hlayerChar : (layer G).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hlayerChar : (layer G).Characteristic := CFSG.LocalCores.layer_characteristic
   let P : Subgroup G := Pc M V
   let S0 : Subgroup G := (T : Subgroup G) ⊓ layer G
   let PS : Subgroup G := P ⊓ layer G
@@ -834,7 +843,7 @@ private theorem commutator_Pc_sylow_inf_layer_aux (h : Hyp M V) (hV : 4 ≤ Nat.
       ⟨h.le_normalizer_Pc hm, hM_layer hm⟩
   have hS0elem : Assembly.IsElemAbelian 2 S0 :=
     sylow_inf_layer_isElemAbelian h hV T hTM hQT hX hY hXY
-  haveI hS0class : IsElementaryAbelian 2 S0 :=
+  have hS0class : IsElementaryAbelian 2 S0 :=
     { toIsMulCommutative := hS0elem.1
       exponent_dvd_p :=
         Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x =>
@@ -842,8 +851,8 @@ private theorem commutator_Pc_sylow_inf_layer_aux (h : Hyp M V) (hV : 4 ≤ Nat.
   have hPS_le_S0 : PS ≤ S0 := by
     show P ⊓ layer G ≤ (T : Subgroup G) ⊓ layer G
     exact inf_le_inf hPT le_rfl
-  haveI hPSclass : IsElementaryAbelian 2 PS := CFSG.IsElementaryAbelian.of_le hS0class hPS_le_S0
-  haveI hVclass : IsElementaryAbelian 2 V :=
+  have hPSclass : IsElementaryAbelian 2 PS := CFSG.IsElementaryAbelian.of_le hS0class hPS_le_S0
+  have hVclass : IsElementaryAbelian 2 V :=
     { toIsMulCommutative := h.maxAb.prop.2.2
       exponent_dvd_p :=
         Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x =>
@@ -880,7 +889,7 @@ private theorem commutator_Pc_sylow_inf_layer_le_V (h : Hyp M V) (hV : 4 ≤ Nat
   have hS0_M : (T : Subgroup G) ⊓ layer G ≤ M := inf_le_left.trans hTM
   have hPS_le_V : Pc M V ⊓ layer G ≤ V :=
     commutator_Pc_sylow_inf_layer_aux h hV T hTM hQT hX hY hXY
-  haveI hlayerChar : (layer G).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hlayerChar : (layer G).Characteristic := CFSG.LocalCores.layer_characteristic
   have hM_layer : M ≤ Subgroup.normalizer ((layer G : Subgroup G) : Set G) := by
     rw [Subgroup.normalizer_eq_top_iff.mpr (inferInstance : (layer G).Normal)]
     exact le_top

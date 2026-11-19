@@ -103,9 +103,9 @@ theorem j4SylowCenterCyclic_holds :
   have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J4J]; norm_num)
   have : Finite (Carrier .J4) := Finite.of_equiv J (seedEquiv j4Facts.mat).symm.toEquiv
   have hS0 : IsSylowTwoOf (S0Sylow : Subgroup J) ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨S0Sylow.isPGroup', S0Sylow.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨S0Sylow.isPGroup, S0Sylow.not_dvd_index⟩
   have hT : IsSylowTwoOf (T : Subgroup (Carrier .J4)) ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨T.isPGroup', T.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨T.isPGroup, T.not_dvd_index⟩
   let eJ : Carrier .J4 ≃* J := seedEquiv j4Facts.mat
   obtain ⟨ψ, hψ⟩ := @KG1468.exists_map_sylow_eq J (Subgroup.toGroup J) _ _ hS0 (Carrier .J4) _ _
     eJ _ hT

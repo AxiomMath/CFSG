@@ -47,7 +47,6 @@ theorem sec54_vone_eq_Wt_of_53a (h34 : Stroth34Statement) (hRoot : Stroth310Root
   have hR : Nat.card Z ^ (2 * (2 * m + 1) + 1) * Nat.card Z =
       Nat.card Z ^ (2 * m + 2) * Nat.card Z ^ (2 * m + 2) := by
     rw [← pow_succ]
-    congr 1
     ring
   rw [hL, hR] at h3
   have hW1card : Nat.card ↥W1 = Nat.card Z ^ (2 * m + 2) := by

@@ -41,7 +41,7 @@ private lemma s16h_dc_disjoint_third {W : Type} [Group W] {Δ : Fin 3 → Subgro
   exact h.symm
 
 theorem s16h_dc_fixed_of_rank {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    {t : MulAut W} (ht2 : t ^ 2 = 1)
+    {t : MulAut W} (_ht2 : t ^ 2 = 1)
     (htr : rk ↥(commSub (⊤ : Subgroup W) (Subgroup.zpowers t)) ≤ 3)
     {Δ : Fin 3 → Subgroup W} (hinj : Function.Injective Δ) (hind : sSupIndep (Set.range Δ))
     (hrk : ∀ i, rk ↥(Δ i) = 3) {π : Equiv.Perm (Fin 3)} (hπ : π.IsSwap)
@@ -93,7 +93,7 @@ theorem s16h_dc_fixed_of_rank {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : 
   have hZ_rk : rk ↥Z = 1 := by
     unfold rk
     rw [hZcard]
-    simpa using (padicValNat.prime_pow (p := 2) (n := 1))
+    simp
   let φ : W →* W := s16h_dc_commHom t
   let I : Subgroup W := (Δ a).map φ
   have hφ_ker : ∀ y ∈ Δ a, φ y = 1 → y = 1 := by

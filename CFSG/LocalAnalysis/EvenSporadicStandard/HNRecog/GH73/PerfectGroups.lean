@@ -25,7 +25,7 @@ theorem perfect_sylow_two_not_cyclic {Y : Type*} [Group Y] [Finite Y] [Nontrivia
   have hcomp :
       (MonoidHom.transferSylow P (hP.normalizer_le_centralizer hp)).ker.IsComplement' P :=
     hP.isComplement' hp
-  letI : IsMulCommutative (P : Subgroup Y) := hP.isMulCommutative
+  let : IsMulCommutative (P : Subgroup Y) := hP.isMulCommutative
   have hker : (MonoidHom.transferSylow P (hP.normalizer_le_centralizer hp)).ker = ⊤ := by
     apply le_antisymm le_top
     rw [← Group.IsPerfect.commutator_eq_top (G := Y)]
@@ -69,11 +69,11 @@ theorem perfect_card_ne_eighty_four {Y : Type*} [Group Y] [Finite Y] [Group.IsPe
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     norm_num
   have hsol : Group.IsSolvable Y := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     let N : Sylow 7 Y := default
-    haveI : Finite (Sylow 7 Y) := Sylow.finite_of_finiteIndex N
+    have : Finite (Sylow 7 Y) := Sylow.finite_of_finiteIndex N
     have hNcard : Nat.card (N : Subgroup Y) = 7 := by
-      obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := 7) N.isPGroup'
+      obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := 7) N.isPGroup
       have hkpos : 0 < k := by
         have h7 : 7 ∣ Nat.card (N : Subgroup Y) := by
           have := N.dvd_card_of_dvd_card (p := 7) (by rw [hcard]; norm_num)
@@ -103,7 +103,7 @@ theorem perfect_card_ne_eighty_four {Y : Type*} [Group Y] [Finite Y] [Group.IsPe
       have h := N.card_dvd_index
       rwa [hind] at h
     have hmod : Nat.card (Sylow 7 Y) ≡ 1 [MOD 7] := card_sylow_modEq_one 7 Y
-    haveI hsub : Subsingleton (Sylow 7 Y) := by
+    have hsub : Subsingleton (Sylow 7 Y) := by
       rw [← Finite.card_le_one_iff_subsingleton]
       set n := Nat.card (Sylow 7 Y) with hn
       have hmod' : n % 7 = 1 := by
@@ -116,7 +116,7 @@ theorem perfect_card_ne_eighty_four {Y : Type*} [Group Y] [Finite Y] [Group.IsPe
         exact Nat.one_le_iff_ne_zero.mpr Nat.card_pos.ne'
       interval_cases n <;> omega
     have hNnormal : N.Normal := Sylow.normal_of_subsingleton N
-    haveI : (N : Subgroup Y).Normal := hNnormal
+    have : (N : Subgroup Y).Normal := hNnormal
     have hNsol : Group.IsSolvable (N : Subgroup Y) := by
       apply CFSG.GroupTheory.groups_order_below_sixty_solvable
       rw [hNcard]; norm_num
@@ -154,7 +154,7 @@ theorem exists_sylow_dihedral_two_of_card_four_mul_odd {Y : Type*} [Group Y] [Fi
     rw [h, hfac]
     norm_num
   have hnotcyc : ¬ IsCyclic (P : Subgroup Y) := perfect_sylow_two_not_cyclic P
-  haveI hntP : Nontrivial (P : Subgroup Y) := by
+  have hntP : Nontrivial (P : Subgroup Y) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hPcard]
     norm_num
   have hexp : Monoid.exponent (P : Subgroup Y) = 2 := by
@@ -172,7 +172,7 @@ theorem exists_sylow_dihedral_two_of_card_four_mul_odd {Y : Type*} [Group Y] [Fi
     · have hcyc : IsCyclic (P : Subgroup Y) :=
         isCyclic_of_orderOf_eq_card g (by rw [hk, hPcard]; norm_num)
       exact absurd hcyc hnotcyc
-  haveI : IsKleinFour (P : Subgroup Y) := ⟨hPcard, hexp⟩
+  have : IsKleinFour (P : Subgroup Y) := ⟨hPcard, hexp⟩
   exact ⟨P, IsKleinFour.nonempty_mulEquiv⟩
 
 end CFSG.EvenSporadicStandard.HNRecog.GH73

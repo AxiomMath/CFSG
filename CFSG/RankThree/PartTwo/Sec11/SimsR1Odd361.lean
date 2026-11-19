@@ -21,10 +21,11 @@ private theorem not_isSolvable_of_isQuasisimple {Q : Type*} [Group Q] (hQ : IsQu
     ¬ Group.IsSolvable Q := by
   intro hs
   obtain ⟨-, hsimple, a, b, hab⟩ := hQ
-  haveI := hsimple
+  have := hsimple
   have : Group.IsSolvable (Q ⧸ Subgroup.center Q) := inferInstance
   exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr this a b)
 
+omit [Finite G] in
 private theorem exists_surjective_hom_of_cover {F : Type} [Group F] {L H : Subgroup G}
     (e : L ⧸ aschbacherSolvableCore 3 L ≃* F) (hHL : H ≤ L)
     (hcov : ∀ l ∈ L, ∃ t ∈ inSubgroup (aschbacherSolvableCore 3) L, t * l ∈ H) :
@@ -37,7 +38,7 @@ private theorem exists_surjective_hom_of_cover {F : Type} [Group F] {L H : Subgr
   have h1 : Subgroup.inclusion hHL (⟨(t' : G) * l, htl⟩ : H) = t' * l := rfl
   have h2 : (QuotientGroup.mk' (aschbacherSolvableCore 3 L)) t' = 1 :=
     (QuotientGroup.eq_one_iff t').mpr ht'
-  simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+  simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
   rw [h1, map_mul, h2, one_mul]
   change e (QuotientGroup.mk' _ l) = f
   rw [QuotientGroup.mk'_apply, hl, MulEquiv.apply_symm_apply]
@@ -119,11 +120,11 @@ private theorem five_le_of_prime {p : ℕ} (hp : p.Prime) (h3 : 3 < p) : 5 ≤ p
   subst this
   exact absurd hp (by norm_num)
 
-theorem pCore_two_centralizer_c_eq_bot_odd (hB : KFacts.BlackburnRankTwo) (h45 : Sec4.Item4_5)
-    (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G) (hodd : IsL2OddCharOne L) :
+theorem pCore_two_centralizer_c_eq_bot_odd (hB : KFacts.BlackburnRankTwo) (_h45 : Sec4.Item4_5)
+    (h : ResidueConfig G A c L a R Y d) (_hT : A ∉ partTwoT G) (hodd : IsL2OddCharOne L) :
     inSubgroup (CFSG.pCore 2) (Subgroup.centralizer ({c} : Set G)) = ⊥ := by
   obtain ⟨p, hp, hp3, ⟨e⟩⟩ := hodd
-  haveI := hp
+  have := hp
   refine eq_bot_of_normalized_by_cover hB h (five_le_of_prime hp.out hp3) e (H := L) le_rfl
     (fun l hl => ⟨1, Subgroup.one_mem _, by simpa using hl⟩)
     (SteinbergBY.isPGroup_inSubgroup_pCore 2 _) ?_
@@ -131,16 +132,16 @@ theorem pCore_two_centralizer_c_eq_bot_odd (hB : KFacts.BlackburnRankTwo) (h45 :
   exact SteinbergBY.le_normalizer_inSubgroup_pCore 2 _
     (TwoStarProof.le_centralizer_of_config h hl)
 
-theorem odd_card_theta_L_odd (hB : KFacts.BlackburnRankTwo) (hDk : SimsR1L2CubeTwoLocal)
-    (h45 : Sec4.Item4_5) (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G)
+theorem odd_card_theta_L_odd (hB : KFacts.BlackburnRankTwo) (_hDk : SimsR1L2CubeTwoLocal)
+    (_h45 : Sec4.Item4_5) (h : ResidueConfig G A c L a R Y d) (_hT : A ∉ partTwoT G)
     (hodd : IsL2OddCharOne L) : Odd (Nat.card (aschbacherSolvableCore 3 L)) := by
   obtain ⟨p, hp, hp3, ⟨e⟩⟩ := hodd
-  haveI := hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set θ : Subgroup G := inSubgroup (aschbacherSolvableCore 3) L
   obtain ⟨P⟩ : Nonempty (Sylow 2 θ) := inferInstance
   set S : Subgroup G := (P : Subgroup θ).map θ.subtype
-  have hS2 : IsPGroup 2 S := P.isPGroup'.map θ.subtype
+  have hS2 : IsPGroup 2 S := P.isPGroup.map θ.subtype
   have hcov : ∀ l ∈ L, ∃ t ∈ θ, t * l ∈ L ⊓ Subgroup.normalizer (S : Set G) := by
     intro l hl
     obtain ⟨x, hx, hxl⟩ :=
@@ -167,7 +168,7 @@ theorem le_thetaQuotCentralizer_of_twoSubgroup_normalized_odd (hDk : SimsR1L2Cub
     (hxB : x ∉ Subgroup.closure ({c, d} : Set G))
     (hKX : sec11K L x ≤ Subgroup.normalizer (X : Set G)) : X ≤ Sec4.thetaQuotCentralizer L := by
   obtain ⟨p, hp, hp3, ⟨e⟩⟩ := hodd
-  haveI := hp
+  have := hp
   have hp5 := five_le_of_prime hp.out hp3
   have hXN : X ≤ Subgroup.normalizer (L : Set G) :=
     hXc.trans (TwoStarProof.centralizer_le_normalizer_of_config h45 h hT)
@@ -226,8 +227,8 @@ theorem eq_bot_of_twoSubgroup_normalized_odd (hB : KFacts.BlackburnRankTwo)
   have hX1 := le_thetaQuotCentralizer_of_twoSubgroup_normalized_odd hDk h45 h hT hodd hX hXc hxA
     hxB hKX
   obtain ⟨p, hp, hp3, ⟨e⟩⟩ := hodd
-  haveI := hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hθ2 : ¬ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) L) := by
     rw [inSubgroup, Subgroup.card_map_of_injective L.subtype_injective]
     rintro ⟨m, hm⟩

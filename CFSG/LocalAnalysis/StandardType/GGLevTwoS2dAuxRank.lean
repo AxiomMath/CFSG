@@ -41,16 +41,16 @@ theorem levTwoS2d_toStdDQ_eq_zero (n : ℕ) (hn : 4 ≤ n) {z : Fin n → ℚ}
         intro _
         have h0 := congrFun h ⟨0, by omega⟩
         rw [levTwoS2d_toStdDQ_apply, Pi.zero_apply,
-          dif_neg (show ¬ 0 < (0 : ℕ) by omega),
-          dif_neg (show ¬ 0 + 2 = n by omega), sub_zero, add_zero] at h0
+          dite_eq_right (show ¬ 0 < (0 : ℕ) by omega),
+          dite_eq_right (show ¬ 0 + 2 = n by omega), sub_zero, add_zero] at h0
         exact h0
     | succ m ih =>
         intro hm
         have hm' : m ≤ n - 3 := by omega
         have hz := congrFun h ⟨m + 1, by omega⟩
         rw [levTwoS2d_toStdDQ_apply, Pi.zero_apply,
-          dif_pos (show 0 < m + 1 by omega),
-          dif_neg (show ¬ m + 1 + 2 = n by omega)] at hz
+          dite_eq_left (show 0 < m + 1 by omega),
+          dite_eq_right (show ¬ m + 1 + 2 = n by omega)] at hz
         have hprev : (⟨(m + 1) - 1, by omega⟩ : Fin n) = ⟨m, by omega⟩ := by
           apply Fin.ext; simp only; omega
         rw [hprev, add_zero, sub_eq_zero] at hz
@@ -58,8 +58,8 @@ theorem levTwoS2d_toStdDQ_eq_zero (n : ℕ) (hn : 4 ≤ n) {z : Fin n → ℚ}
   have hsum : z ⟨n - 2, by omega⟩ + z ⟨n - 1, by omega⟩ = 0 := by
     have hz := congrFun h ⟨n - 2, by omega⟩
     rw [levTwoS2d_toStdDQ_apply, Pi.zero_apply,
-      dif_pos (show 0 < (n - 2 : ℕ) by omega),
-      dif_pos (show (n - 2) + 2 = n by omega)] at hz
+      dite_eq_left (show 0 < (n - 2 : ℕ) by omega),
+      dite_eq_left (show (n - 2) + 2 = n by omega)] at hz
     have h3 : z ⟨n - 3, by omega⟩ = 0 := hlow (n - 3) (by omega)
     have hprev : (⟨(n - 2) - 1, by omega⟩ : Fin n) = ⟨n - 3, by omega⟩ := by
       apply Fin.ext; simp only; omega
@@ -70,8 +70,8 @@ theorem levTwoS2d_toStdDQ_eq_zero (n : ℕ) (hn : 4 ≤ n) {z : Fin n → ℚ}
   have hlast1 : z ⟨n - 1, by omega⟩ = z ⟨n - 2, by omega⟩ := by
     have hz := congrFun h ⟨n - 1, by omega⟩
     rw [levTwoS2d_toStdDQ_apply, Pi.zero_apply,
-      dif_pos (show 0 < (n - 1 : ℕ) by omega),
-      dif_neg (show ¬ (n - 1) + 2 = n by omega)] at hz
+      dite_eq_left (show 0 < (n - 1 : ℕ) by omega),
+      dite_eq_right (show ¬ (n - 1) + 2 = n by omega)] at hz
     have hprev : (⟨(n - 1) - 1, by omega⟩ : Fin n) = ⟨n - 2, by omega⟩ := by
       apply Fin.ext; simp only; omega
     rw [hprev, add_zero, sub_eq_zero] at hz
@@ -143,8 +143,8 @@ theorem levTwoS2d_sigma_spec {p : ℕ} [Fact p.Prime] (n : ℕ) (hn : 4 ≤ n)
     ((levTwoS2d_sigma n hn c c₀ a : ℤ) : ZMod p) * c₀ = levTwoS2d_d n hn c a := by
   unfold levTwoS2d_sigma
   by_cases h : levTwoS2d_d n hn c a = c₀
-  · rw [if_pos h]; simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]; simp [h]
+  · rw [ite_eq_right h]
     rcases hda with h' | h'
     · exact absurd h' h
     · rw [h', Int.cast_neg, Int.cast_one, neg_one_mul]

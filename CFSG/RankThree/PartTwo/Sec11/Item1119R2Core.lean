@@ -66,7 +66,7 @@ theorem card_comap_commutator_aux {A M X : Type*} [Group A] [Finite A] [Group M]
     exact Prod.ext h1 hyc
   have hcard : Nat.card (Multiplicative (ZMod 3)) = 3 :=
     (Nat.card_congr Multiplicative.ofAdd).symm.trans (Nat.card_zmod 3)
-  haveI : Fact (Nat.card (Multiplicative (ZMod 3))).Prime :=
+  have : Fact (Nat.card (Multiplicative (ZMod 3))).Prime :=
     ⟨by rw [hcard]; exact Nat.prime_three⟩
   have hrange : φ.range = ⊤ := by
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card φ.range with h | h

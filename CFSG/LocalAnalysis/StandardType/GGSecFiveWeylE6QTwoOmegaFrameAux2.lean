@@ -35,9 +35,9 @@ theorem exists_baseFrame (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMo
     have h := cv_form (α := α) hP hV hB (E i) (E j)
     rw [hE i, hE j, bE_gram] at h
     by_cases hij : i = j
-    · rw [if_pos hij] at h ⊢
+    · rw [ite_eq_left hij] at h ⊢
       exact (by decide : ∀ t : ZMod 3, 2 = 2 * t → t = 1) _ h
-    · rw [if_neg hij] at h ⊢
+    · rw [ite_eq_right hij] at h ⊢
       exact (by decide : ∀ t : ZMod 3, 0 = 2 * t → t = 0) _ h
   refine ⟨E, hBij, ?_⟩
   simp only [LinearMap.BilinForm.add_left, LinearMap.BilinForm.add_right, hBij]

@@ -105,9 +105,9 @@ private theorem exists_unipotent_of_cube_scalar {n : ℕ} {K : Type} [Field K] [
     (hA : A ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     ∃ u : Matrix.SpecialLinearGroup (Fin n) K, u ^ 3 = 1 ∧
       LinearFlag.conjAut n K A = MulAut.conj (LinearFlag.proj n K u) := by
-  haveI : CharP K 3 :=
+  have : CharP K 3 :=
     (CharP.charP_iff_prime_eq_zero (R := K) Nat.prime_three).2 (by exact_mod_cast h3)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨l₀, hl₀⟩ : ∃ l : K, l ^ 3 = c := by
     obtain ⟨l, hl⟩ := Finite.surjective_of_injective (frobenius_inj K 3) (c : K)
     exact ⟨l, hl⟩
@@ -174,7 +174,7 @@ theorem lieCompCase_linear
     (hv : (TauCeti.LieTypeIndex.A r q).Valid)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group))
     (β : MulAut S) (hβ : β ^ 3 = 1) : LieCompExport q.p β ∨ NoThreeComponents β := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact Or.inl (lieCompExport_one hna ⟨.A r q, hv⟩ he (isEmpty_mulEquiv_alternating_six hb _ he))

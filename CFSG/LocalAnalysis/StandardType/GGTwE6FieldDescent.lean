@@ -71,8 +71,8 @@ theorem mem_twistedE6InndiagGL_of_baseChangeGL {K₀ K : Type} [Field K₀] [Fin
     apply baseChangeGL_injective ι
     rw [← twistHom_baseChangeGL ι (σ := σ.toRingHom) (RingHom.ext fun c => (hι c).symm), h1]
   set L₀ := AlgebraicClosure K₀
-  haveI : CharP K₀ 2 := charP_two_of_card_sq hK₀
-  haveI : CharP L₀ 2 := charP_of_injective_algebraMap (algebraMap K₀ L₀).injective 2
+  have : CharP K₀ 2 := charP_two_of_card_sq hK₀
+  have : CharP L₀ 2 := charP_of_injective_algebraMap (algebraMap K₀ L₀).injective 2
   set Fr₀ : L₀ →+* L₀ := iterateFrobenius L₀ 2 m with hFrdef
   have hFr₀ : ∀ c, Fr₀ c = c ^ 2 ^ m := fun c => by rw [hFrdef, iterateFrobenius_def]
   have hcomm : (algebraMap K₀ L₀).comp σ₀.toRingHom = Fr₀.comp (algebraMap K₀ L₀) :=

@@ -662,7 +662,7 @@ public theorem hkt_centerIn_sylow_map_quotient_pPrimeCore
   have hqinj : Function.Injective (π.comp (S : Subgroup Q).subtype) := by
     simpa [π, M] using
       quotient_pPrimeCore_subgroupMap_injective
-        (G := Q) (p := p) (H := (S : Subgroup Q)) S.isPGroup'
+        (G := Q) (p := p) (H := (S : Subgroup Q)) S.isPGroup
   let f : S →* ((S : Subgroup Q).map π) :=
     (π.comp (S : Subgroup Q).subtype).codRestrict ((S : Subgroup Q).map π) (by
       intro x
@@ -755,7 +755,7 @@ public theorem hkt_centralizer_center_sylow_hasNormalPComplement_quotient_pPrime
   classical
   intro M π Sbar
   have : Fact (IsPGroup p (↥(centerIn (G := Q) (S : Subgroup Q)))) :=
-    ⟨IsPGroup.to_le S.isPGroup' (show centerIn (G := Q) (S : Subgroup Q) ≤ (S : Subgroup Q) from inf_le_left)⟩
+    ⟨IsPGroup.to_le S.isPGroup (show centerIn (G := Q) (S : Subgroup Q) ≤ (S : Subgroup Q) from inf_le_left)⟩
   have hcenter_map :
       (centerIn (G := Q) (S : Subgroup Q)).map π =
         centerIn (G := Q ⧸ M) (Sbar : Subgroup (Q ⧸ M)) := by
@@ -821,7 +821,7 @@ public theorem sylow_le_center_normalizer_of_quotient_pPrimeCore
   have hπS_inj : Function.Injective (π.comp (S : Subgroup Q).subtype) := by
     simpa [π, M] using
       quotient_pPrimeCore_subgroupMap_injective
-        (G := Q) (p := q) (H := (S : Subgroup Q)) S.isPGroup'
+        (G := Q) (p := q) (H := (S : Subgroup Q)) S.isPGroup
   intro x hxS
   refine ⟨Subgroup.le_normalizer hxS, ?_⟩
   change x ∈ Subgroup.centralizer
@@ -833,7 +833,7 @@ public theorem sylow_le_center_normalizer_of_quotient_pPrimeCore
       (Subgroup.mem_map_of_mem π hxS)
   have hπn_norm :
       π n ∈ Subgroup.normalizer ((Sbar : Subgroup (Q ⧸ M)) : Set (Q ⧸ M)) := by
-    have : Fact (IsPGroup q (↥(S : Subgroup Q))) := ⟨S.isPGroup'⟩
+    have : Fact (IsPGroup q (↥(S : Subgroup Q))) := ⟨S.isPGroup⟩
     have hnorm :
         Subgroup.normalizer ((Sbar : Subgroup (Q ⧸ M)) : Set (Q ⧸ M)) =
           (Subgroup.normalizer (S : Subgroup Q)).map π := by
@@ -937,7 +937,7 @@ public theorem hkt_transferFocal_restrict_surjective
   let H : Subgroup Q := S
   intro y
   have hquot_p : IsPGroup q (H ⧸ H.feitThompsonFocalSubgroupOf) := by
-    simpa [H] using S.isPGroup'.to_quotient ((S : Subgroup Q).feitThompsonFocalSubgroupOf)
+    simpa [H] using S.isPGroup.to_quotient ((S : Subgroup Q).feitThompsonFocalSubgroupOf)
   have hindex : ¬ q ∣ H.index := by
     simpa [H] using S.not_dvd_index
   obtain ⟨z, hz⟩ := (hquot_p.powEquiv' hindex).surjective y

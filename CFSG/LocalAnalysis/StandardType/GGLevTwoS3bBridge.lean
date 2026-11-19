@@ -53,7 +53,7 @@ theorem levTwoS3b_foldl_inv {P : ℕ → Prop} (l : List ℕ) (v : ℕ) (q : Lis
   | cons c l ih =>
       rw [List.foldl_cons]
       by_cases hc : v.testBit c
-      · simp only [levTwoS3b_foldStep, hc, if_true]
+      · simp only [levTwoS3b_foldStep, hc, ite_true]
         exact ih v q (fun i hi => hP i (List.mem_cons_of_mem c hi)) hv hq
       · simp only [levTwoS3b_foldStep, hc]
         refine ih (v ||| (1 <<< c)) (c :: q) (fun i hi => hP i (List.mem_cons_of_mem c hi)) ?_ ?_

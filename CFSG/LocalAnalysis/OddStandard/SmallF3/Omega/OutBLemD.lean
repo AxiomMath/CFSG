@@ -68,7 +68,7 @@ theorem aor_le_of_le_sup_odd {M W P : Subgroup G}
 theorem aor_exists_subgroup_odd_elems [Finite G] (Y : Subgroup G)
     (hcyc : ∀ P : Subgroup G, IsPGroup 2 P → P ≤ Y → IsCyclic P) :
     ∃ N : Subgroup G, ∀ x : G, x ∈ N ↔ x ∈ Y ∧ Odd (orderOf x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hodd : Odd (Nat.card Y)
   · refine ⟨Y, fun x => ⟨fun hx => ⟨hx, ?_⟩, fun h => h.1⟩⟩
     exact Odd.of_dvd_nat hodd (Subgroup.orderOf_dvd_natCard Y hx)
@@ -78,9 +78,9 @@ theorem aor_exists_subgroup_odd_elems [Finite G] (Y : Subgroup G)
     have hcyc' : ∀ P : Sylow 2 ↥Y, IsCyclic (P : Subgroup ↥Y) := by
       intro Q
       have hQp : IsPGroup 2 ((Q : Subgroup ↥Y).map Y.subtype) :=
-        Q.isPGroup'.map Y.subtype
+        Q.isPGroup.map Y.subtype
       have hQle : (Q : Subgroup ↥Y).map Y.subtype ≤ Y := Subgroup.map_subtype_le _
-      haveI : IsCyclic ↥((Q : Subgroup ↥Y).map Y.subtype) := hcyc _ hQp hQle
+      have : IsCyclic ↥((Q : Subgroup ↥Y).map Y.subtype) := hcyc _ hQp hQle
       exact isCyclic_of_surjective
         (Subgroup.equivMapOfInjective (Q : Subgroup ↥Y) Y.subtype Y.subtype_injective).symm
         (MulEquiv.surjective _)
@@ -88,7 +88,7 @@ theorem aor_exists_subgroup_odd_elems [Finite G] (Y : Subgroup G)
     obtain ⟨Kc, hKn, hcomp⟩ :
         ∃ Kc : Subgroup ↥Y, Kc.Normal ∧ Kc.IsComplement' (Sy : Subgroup ↥Y) :=
       ⟨_, MonoidHom.normal_ker _, IsCyclic.isComplement' hmin (hcyc' Sy)⟩
-    haveI : Kc.Normal := hKn
+    have : Kc.Normal := hKn
     have hKodd : Odd (Nat.card Kc) := by
       rw [← hcomp.index_eq_card]
       exact Nat.not_even_iff_odd.mp

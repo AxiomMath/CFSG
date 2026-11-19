@@ -21,8 +21,8 @@ theorem exists_norm_one_generator {k E : Type} [Field k] [Field E] [Algebra k E]
   let d := Module.finrank k E
   let φ : Eˣ →* kˣ := Units.map (Algebra.norm k)
   let N₁ : Subgroup Eˣ := φ.ker
-  haveI : Finite N₁ := inferInstance
-  haveI : IsCyclic N₁ := isCyclic_subgroup_units (R := E) N₁
+  have : Finite N₁ := inferInstance
+  have : IsCyclic N₁ := isCyclic_subgroup_units (R := E) N₁
   obtain ⟨ν₀, hgen⟩ := IsCyclic.exists_generator (α := N₁)
   let ν : Eˣ := (ν₀ : Eˣ)
   have hQ2 : 2 ≤ Q := by

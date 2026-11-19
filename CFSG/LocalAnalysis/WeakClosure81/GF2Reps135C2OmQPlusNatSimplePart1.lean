@@ -14,23 +14,27 @@ section Helpers
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {k : Type} [Field k] [CharP k 2]
 
+omit [Finite F] in
 theorem c2slomqns_neg_eq {ι : Type*} (v : ι → F) : -v = v := by
   ext a
   exact CharTwo.neg_eq (v a)
 
+omit [Finite F] [CharP F 2] [CharP k 2] in
 theorem c2slomqns_phi_single {n : ℕ} (φ : F →+* k) (b : Fin n ⊕ Fin n) :
     (fun a => φ ((Pi.single b (1 : F) : Fin n ⊕ Fin n → F) a)) = Pi.single b (1 : k) := by
   ext a
-  by_cases h : a = b <;> simp [Pi.single_apply, h]
+  by_cases h : a = b <;> simp [h]
 
 noncomputable def c2slomqns_mat {n : ℕ} (φ : F →+* k) (g : spinGroup (quadPlus n F)) :
     Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) k :=
   (spinMatrix (quadPlus n F) g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F).map φ
 
+omit [Finite F] [CharP F 2] [CharP k 2] in
 theorem c2slomqns_mat_mulVec {n : ℕ} (φ : F →+* k) (g : spinGroup (quadPlus n F))
     (x : Fin n ⊕ Fin n → k) : c2slomqns_mat φ g *ᵥ x = (omPlusNatRep n φ) g x := by
   simp [c2slomqns_mat, omPlusNatRep, Matrix.toLin'_apply]
 
+omit [Finite F] [CharP F 2] [CharP k 2] in
 theorem c2slomqns_mapVec {n : ℕ} (φ : F →+* k)
     (g : spinGroup (quadPlus n F)) (v : Fin n ⊕ Fin n → F) :
     (omPlusNatRep n φ) g (fun a => φ (v a)) =
@@ -46,6 +50,7 @@ theorem c2slomqns_mapVec {n : ℕ} (φ : F →+* k)
   exact (RingHom.map_mulVec φ
     (spinMatrix (quadPlus n F) g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) v i).symm
 
+omit [Finite F] in
 theorem c2slomqns_spinAction_longRoot_plusVec {n : ℕ} (hn : 3 ≤ n)
     {i j : Fin n} (hij : i ≠ j) (s t : Bool) (c : F) (m : Fin n) (r : Bool) :
     spinAction (quadPlus n F) ((plusFrame n F hn).longRoot hij s t (.ofAdd c))
@@ -57,6 +62,7 @@ theorem c2slomqns_spinAction_longRoot_plusVec {n : ℕ} (hn : 3 ≤ n)
     polar_quadPlus_plusVec, sub_eq_add_neg, c2slomqns_neg_eq]
   by_cases h1 : m = j ∧ r = !t <;> by_cases h2 : m = i ∧ r = !s <;> simp [h1, h2]
 
+omit [Finite F] in
 theorem c2slomqns_longRoot_row_inl_F {n : ℕ} (hn : 3 ≤ n) {i j : Fin n} (hij : i ≠ j)
     (t : Bool) (m : Fin n ⊕ Fin n) :
     (spinMatrix (quadPlus n F) ((plusFrame n F hn).longRoot hij true t (.ofAdd 1)) :
@@ -68,12 +74,13 @@ theorem c2slomqns_longRoot_row_inl_F {n : ℕ} (hn : 3 ≤ n) {i j : Fin n} (hij
   · rw [show Pi.single (Sum.inl m) (1 : F) = plusVec n F m true from rfl]
     erw [c2slomqns_spinAction_longRoot_plusVec (F := F) hn hij true t 1 m true]
     cases t <;> by_cases h1 : m = i <;> by_cases h2 : m = j <;>
-      simp_all [plusVec_true, plusVec_false, Pi.single_apply, ite_apply, one_smul, eq_comm]
+      simp_all [plusVec_true, Pi.single_apply, one_smul, eq_comm]
   · rw [show Pi.single (Sum.inr m) (1 : F) = plusVec n F m false from rfl]
     erw [c2slomqns_spinAction_longRoot_plusVec (F := F) hn hij true t 1 m false]
     cases t <;> by_cases h1 : m = i <;> by_cases h2 : m = j <;>
-      simp_all [plusVec_true, plusVec_false, Pi.single_apply, ite_apply, one_smul, eq_comm]
+      simp_all [plusVec_true, plusVec_false, ite_apply, one_smul, eq_comm]
 
+omit [CharP k 2] [Finite F] in
 theorem c2slomqns_longRoot_row_inl {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k)
     {i j : Fin n} (hij : i ≠ j) (t : Bool) :
     ∀ m : Fin n ⊕ Fin n,
@@ -86,6 +93,7 @@ theorem c2slomqns_longRoot_row_inl {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k)
     by_cases h2 : m = (if t then Sum.inr j else Sum.inl j) <;>
     simp [h1, h2, one_apply, map_add, map_one, map_zero]
 
+omit [Finite F] in
 theorem c2slomqns_diffRoot_row_inr_F {n : ℕ} (hn : 3 ≤ n) {i j : Fin n} (hij : i ≠ j)
     (m : Fin n ⊕ Fin n) :
     (spinMatrix (quadPlus n F) ((plusFrame n F hn).longRoot hij true false (.ofAdd 1)) :
@@ -97,12 +105,13 @@ theorem c2slomqns_diffRoot_row_inr_F {n : ℕ} (hn : 3 ≤ n) {i j : Fin n} (hij
   · rw [show Pi.single (Sum.inl m) (1 : F) = plusVec n F m true from rfl]
     erw [c2slomqns_spinAction_longRoot_plusVec (F := F) hn hij true false 1 m true]
     by_cases h1 : m = i <;> by_cases h2 : m = j <;>
-      simp_all [plusVec_true, plusVec_false, Pi.single_apply, ite_apply, one_smul, eq_comm]
+      simp_all [plusVec_true, one_smul, eq_comm]
   · rw [show Pi.single (Sum.inr m) (1 : F) = plusVec n F m false from rfl]
     erw [c2slomqns_spinAction_longRoot_plusVec (F := F) hn hij true false 1 m false]
     by_cases h1 : m = i <;> by_cases h2 : m = j <;>
-      simp_all [plusVec_true, plusVec_false, Pi.single_apply, ite_apply, one_smul, eq_comm]
+      simp_all [plusVec_false, ite_apply, one_smul, eq_comm]
 
+omit [CharP k 2] [Finite F] in
 theorem c2slomqns_diffRoot_row_inr {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k)
     {i j : Fin n} (hij : i ≠ j) :
     ∀ m : Fin n ⊕ Fin n,
@@ -122,6 +131,7 @@ theorem c2slomqns_coord_eq_zero {ι : Type*} [Fintype ι] [DecidableEq ι]
     one_mul, zero_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
   exact add_eq_left.mp h
 
+omit [CharP k 2] in
 theorem c2slomqns_fixU_mem {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k)
     (x : Fin n ⊕ Fin n → k)
     (hx : x ∈ (omPlusCurtisDatum n F hn).fixU (omPlusNatRep n φ)) :

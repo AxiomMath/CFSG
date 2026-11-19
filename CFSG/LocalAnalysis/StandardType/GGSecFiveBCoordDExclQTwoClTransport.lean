@@ -532,14 +532,14 @@ private theorem ggQTwoCl_card_fixed_neg (t : ℕ) (i : Fin t) :
     constructor
     · intro h
       have h1 := congrFun h i
-      rw [PlaneRaw.negEquiv_apply, if_pos rfl] at h1
+      rw [PlaneRaw.negEquiv_apply, ite_eq_left rfl] at h1
       exact (by decide : ∀ x : ZMod 3, -x = x → x = 0) _ h1
     · intro h
       funext k
       rw [PlaneRaw.negEquiv_apply]
       by_cases hk : k = i
-      · rw [if_pos hk, hk, h, neg_zero]
-      · rw [if_neg hk]
+      · rw [ite_eq_left hk, hk, h, neg_zero]
+      · rw [ite_eq_right hk]
   rw [hfix]
   exact ggQTwoCl_card_ker
     { toFun := fun v : PlaneRaw.V t => v i
@@ -837,7 +837,7 @@ private theorem ggQTwoCl_fixed_clause {Bs K : Subgroup G} {t : ℕ}
       rw [← hTe]
       exact h1
     have h2 := congrFun hTw k
-    rw [PlaneRaw.negEquiv_apply, if_pos rfl] at h2
+    rw [PlaneRaw.negEquiv_apply, ite_eq_left rfl] at h2
     exact (by decide : ∀ x : ZMod 3, -x = x → x = 0) _ h2
   have hcoord0 : coord (Additive.ofMul (ggQTwoClPr hsplit v)) = 0 := funext hzero
   have h0 : Additive.ofMul (ggQTwoClPr hsplit v) = 0 := by
@@ -882,7 +882,7 @@ private theorem ggQTwoCl_single_support [Finite G] {Bs K : Subgroup G} {t : ℕ}
     rw [← hTe]
     exact h1
   have h2 := congrFun hTw k
-  rw [PlaneRaw.negEquiv_apply, if_neg hk] at h2
+  rw [PlaneRaw.negEquiv_apply, ite_eq_right hk] at h2
   exact (by decide : ∀ x : ZMod 3, x = -x → x = 0) _ h2
 
 private theorem ggQTwoCl_inf_centralizer_subgroupOf {K : Subgroup G} {v : G} (hvK : v ∈ K) :

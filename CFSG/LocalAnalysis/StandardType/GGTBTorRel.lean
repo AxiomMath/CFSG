@@ -26,7 +26,7 @@ def ggFoldCartan {n k : ℕ} (C : Matrix (Fin n) (Fin n) ℤ) (rep : Fin k → F
     (orb : Fin n → Fin k) : Matrix (Fin k) (Fin k) ℤ :=
   Matrix.of fun i j => ∑ j' ∈ Finset.univ.filter (fun j' => orb j' = j), C (rep i) j'
 
-theorem ggFoldE₆_eq : ggFoldCartan CartanMatrix.E₆ ![1, 3, 2, 0] ![3, 0, 2, 1, 2, 3] =
+theorem ggFoldE₆_eq : ggFoldCartan (CartanMatrix.E 6) ![1, 3, 2, 0] ![3, 0, 2, 1, 2, 3] =
     CartanMatrix.F₄ := by
   decide
 

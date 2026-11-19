@@ -108,7 +108,7 @@ theorem quarter_reflection_commute_first
 
 theorem quarter_reflection_intertwines_second
     {G : Type} [Group G]
-    (a b u : G) (hbTwo : b ^ 2 = 1) (hab : Commute a b)
+    (a b u : G) (_hbTwo : b ^ 2 = 1) (hab : Commute a b)
     (hub : u * b = (a * b) * u) :
     (b * u) * b = (a * b) * (b * u) := by
   calc
@@ -214,7 +214,7 @@ theorem exists_hallCentralizer_maps_regular_orbit
     (sigma : X → X) (hsigmaE : Set.MapsTo sigma E E)
     (hsigmaSq : ∀ z ∈ E, sigma (sigma z) = z)
     (hoddC : Odd (Nat.card (hallCentralizer (X := X) a b)))
-    (x y : X) (hx : x ∉ E) (hy : y ∉ E)
+    (x y : X) (hx : x ∉ E) (_hy : y ∉ E)
     (vx vy : G)
     (hvx : HallReflectionAt E sigma a b x vx)
     (hvy : HallReflectionAt E sigma a b y vy) :
@@ -342,7 +342,7 @@ theorem exists_sylow_element_moves_of_prime_dvd_orbit
     (hdvd : p ∣ (MulAction.orbit C x).ncard) :
     ∃ u : P, ((u : P) : C) • x ≠ x := by
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hle : (P : Subgroup C) ≤ MulAction.stabilizer C x := by
     intro u hu
     change (u : C) • x = x

@@ -83,7 +83,6 @@ theorem ggKGUs_signedElt_of_centralQuotient {p r : ℕ} (hp : p.Prime) {G R : Ty
     obtain ⟨f'', hf''⟩ := h1
     have hqf : q (τG f'') = τ f' := by
       rw [hf'']
-      change q (ĝ * τG f * ĝ⁻¹) = τ f'
       rw [map_mul, map_mul, map_inv]
       exact hff'
     have hff'' : f'' = f' := hτinj hqf

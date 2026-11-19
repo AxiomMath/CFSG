@@ -16,8 +16,8 @@ variable {F V : Type*} [Field F] [Finite F] [AddCommGroup V] [Module F V] [Finit
 
 omit [CharP F q] hq in
 theorem finite_generalLinearGroup : Finite (LinearMap.GeneralLinearGroup F V) := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V →ₗ[F] V) :=
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V →ₗ[F] V) :=
     Finite.of_injective (fun f : V →ₗ[F] V => (f : V → V)) fun f g h => LinearMap.ext (congrFun h)
   exact Finite.of_injective (fun x : LinearMap.GeneralLinearGroup F V => (x : V →ₗ[F] V))
     Units.val_injective
@@ -30,14 +30,14 @@ theorem commute_of_quadratic_of_normalizes (hq5 : 5 ≤ q) {x : LinearMap.Genera
   by_cases hx1 : x = 1
   · intro g _
     rw [hx1, mul_one, one_mul]
-  haveI := finite_generalLinearGroup (F := F) (V := V)
+  have := finite_generalLinearGroup (F := F) (V := V)
   have hxo : orderOf x = q := orderOf_eq_prime hxq hx1
   have hle : Subgroup.zpowers x ≤ Subgroup.normalizer (Tt : Set (LinearMap.GeneralLinearGroup F V)) := by
     rw [Subgroup.zpowers_le]
     exact mem_normalizer_of_pow_eq_one hq.out.pos hxq hnorm
   set G : Subgroup (LinearMap.GeneralLinearGroup F V) := Subgroup.zpowers x ⊔ Tt with hG
   set NG : Subgroup ↥G := Tt.subgroupOf G with hNG
-  haveI : NG.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
+  have : NG.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
   have hxG : x ∈ G := Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
   have hTG : Tt ≤ G := le_sup_right
   have hidx : NG.index ∣ q := by

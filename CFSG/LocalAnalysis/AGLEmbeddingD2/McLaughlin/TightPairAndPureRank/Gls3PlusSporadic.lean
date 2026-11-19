@@ -46,7 +46,7 @@ theorem sporGammaOneAt_of_core {s : TauCeti.SporadicName} [Finite (NativeSporadi
   obtain ⟨f⟩ := hbr
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S⟩ : Nonempty (Sylow p (NativeSporadic.Carrier s)) := inferInstance
-  refine glbCore_eq_top_of_mulEquiv hp (e.trans f.symm) S.isPGroup' ?_ T
+  refine glbCore_eq_top_of_mulEquiv hp (e.trans f.symm) S.isPGroup ?_ T
   exact eq_top_iff.mpr (by rw [← h S]; exact glbCore_anti p (by norm_num) _)
 
 theorem sporGammaOneAt_of_coreSup {s : TauCeti.SporadicName} [Finite (NativeSporadic.Carrier s)]
@@ -80,7 +80,7 @@ theorem sporGammaOneAt_of_coreSup {s : TauCeti.SporadicName} [Finite (NativeSpor
     eq_top_iff.mpr (by
       rw [← h S A hAS hAa hAc]
       exact sup_le (glbCore_anti 3 (by norm_num) _) (glbCore_mono 3 1 hAS))
-  exact glbCore_eq_top_of_mulEquiv Nat.prime_three (e.trans f.symm) S.isPGroup' hcore T
+  exact glbCore_eq_top_of_mulEquiv Nat.prime_three (e.trans f.symm) S.isPGroup hcore T
 
 end Core
 

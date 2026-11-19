@@ -37,7 +37,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   (twDF2Pairs s a dg).all fun p => (twDF2Pairs s a dg).all fun q => p.1 != q.1 || p.2 == q.2
 
 theorem twDF2_getD_ofFn (e : TwN → ℤ) (c : TwN) : (List.ofFn e).getD c 0 = e c := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_ofFn]
+  simp [List.getD_eq_getElem?_getD]
 
 theorem twDF2_ofFn_twRefl (f : ℕ) (a : TwN) (e : TwN → ℤ) :
     List.ofFn (twRefl f a e) = twDF2Refl f a (List.ofFn e) := by

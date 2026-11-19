@@ -109,12 +109,12 @@ theorem isSimpleGroup_projImage_slPi (hK : PiField π p f K) (hq : π = true ∨
     IsSimpleGroup (projImage (slPi π 3 (p ^ f) K)) := by
   cases π with
   | true =>
-    haveI := CFSG.ComponentClassification.OutcomeLocal.isSimpleGroup_projectiveSL
+    have := CFSG.ComponentClassification.OutcomeLocal.isSimpleGroup_projectiveSL
       (k := K) (n := 3) le_rfl
     exact (Sec4.pslEquivProjective (p ^ f) K).isSimpleGroup
   | false =>
     have hq2 : 2 < p ^ f := by simpa using hq
-    haveI := CFSG.RankThree.PartTwo.Sec21.Item211Lie2Proof.isSimpleGroup_unitaryPSU_three
+    have := CFSG.RankThree.PartTwo.Sec21.Item211Lie2Proof.isSimpleGroup_unitaryPSU_three
       (h := hK.unitary) hq2
     exact (Sec4.psuEquivUnitary hK.unitary).isSimpleGroup
 
@@ -163,7 +163,7 @@ theorem pglCase {G : Type} [Group G] {n : ℕ} (hK : PiField π 2 n K) (hq : Mod
   have hcube : ∀ x : projImage (glPi π 3 (2 ^ n) K), x ^ 3 ∈ Q := fun x =>
     pow_three_mem_projImage_slPi hK x.2
   by_cases hq2 : π = true ∨ 2 < 2 ^ n
-  · haveI := isSimpleGroup_projImage_slPi hK hq2
+  · have := isSimpleGroup_projImage_slPi hK hq2
     have hQs : IsSimpleGroup Q := hQe.isSimpleGroup
     obtain ⟨⟨eJ⟩, hO2⟩ := eq_of_subnormal_of_equiv ε hQs hcomm hcube hJC hsub h3
     exact ⟨isoLThreePi_of_projImage_slPi hK hq hq2 (eJ.trans hQe), hO2⟩
@@ -188,9 +188,9 @@ theorem pglCase {G : Type} [Group G] {n : ℕ} (hK : PiField π 2 n K) (hq : Mod
     have hPQ : P ≃* Q :=
       ((Q.comap ε.toMonoidHom).equivMapOfInjective C.subtype
         (Subgroup.subtype_injective C)).symm.trans (comapEquiv ε Q)
-    haveI : Group.IsSolvable Q :=
+    have : Group.IsSolvable Q :=
       Group.isSolvable_of_surjective (f := hQe.symm.toMonoidHom) hQe.symm.surjective
-    haveI : Group.IsSolvable P :=
+    have : Group.IsSolvable P :=
       Group.isSolvable_of_surjective (f := hPQ.symm.toMonoidHom) hPQ.symm.surjective
     have hsolJ : Group.IsSolvable J :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJP)
@@ -200,7 +200,7 @@ theorem pglCase {G : Type} [Group G] {n : ℕ} (hK : PiField π 2 n K) (hq : Mod
       intro hb
       rw [hb, Subgroup.mem_bot] at hk
       exact hk1 hk
-    haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hnt
+    have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hnt
     exact Group.IsPerfect.not_isSolvable J hsolJ
 
 end PGL

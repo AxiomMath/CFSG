@@ -63,7 +63,7 @@ theorem eq_top_of_theta_twD4 {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
     rw [(hφ (μ₁ * c)).1]
     have e : (ε₁ : K) * (μ₁ * c) = t * c := by
       rw [hμ₁def]
-      rcases h1 with rfl | rfl <;> simp <;> ring
+      rcases h1 with rfl | rfl <;> simp
     rw [e]
     exact hcomm c hc
   have hl : ∀ c ∈ fixSubfield σ, φ (l2 ((ε₂ : K) * c)) ∈ H := by

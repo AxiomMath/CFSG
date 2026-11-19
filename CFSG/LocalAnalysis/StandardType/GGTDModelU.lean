@@ -41,7 +41,7 @@ private theorem l48u1_diag_prod {K : Type} [Field K] {n d : ℕ}
   exact hunit.1
 
 private theorem l48u1_ratio_norm_one {K : Type} [Field K] {n d : ℕ}
-    (hK : UnitaryFieldData 2 n K) (hd : 3 ≤ d) {L' : Type} [Group L']
+    (hK : UnitaryFieldData 2 n K) (_hd : 3 ≤ d) {L' : Type} [Group L']
     {φ : ↥(unitarySU 2 n K d) →* L'} {a : MulAut L'} {t : Fin d → K}
     (ha : LineU.ActsDiagU φ a t) (i j : Fin d) : (t i / t j) ^ (2 ^ n + 1) = 1 := by
   by_cases hij : i = j
@@ -61,7 +61,7 @@ private theorem l48u1_ratio_norm_one {K : Type} [Field K] {n d : ℕ}
   have hYmat : ((Y : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) =
       diagonal (fun k => t k * (t (σ⁻¹ k))⁻¹) := by
     rw [hYeq]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul]
+    simp only [Subgroup.coe_inv, Units.val_mul]
     rw [hDt, hP, LineU.coe_permSU, LineU.coe_permGL_matrix, LineU.coe_inv_diag hDt,
         LineU.coe_permGL_inv_matrix, LineU.permMatrix_conj_diag σ (fun k => (t k)⁻¹),
         diagonal_mul_diagonal]
@@ -73,9 +73,9 @@ private theorem l48u1_mu_card {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = (2 ^ n) ^ 2) :
     Nat.card (l48u1_mu K (2 ^ n + 1)) = 2 ^ n + 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hm_pos : 0 < 2 ^ n + 1 := by positivity
-  haveI hcyc : IsCyclic (l48u1_mu K (2 ^ n + 1)) := isCyclic_subgroup_units _
+  have hcyc : IsCyclic (l48u1_mu K (2 ^ n + 1)) := isCyclic_subgroup_units _
   have hpow : ∀ a : l48u1_mu K (2 ^ n + 1), a ^ (2 ^ n + 1) = 1 :=
     fun a => Subtype.ext a.2
   have hub : Nat.card (l48u1_mu K (2 ^ n + 1)) ≤ 2 ^ n + 1 := by
@@ -101,7 +101,7 @@ private theorem l48u1_mu_card {K : Type} [Field K] [Finite K] {n : ℕ}
       ring
     rw [e1, e2]
     omega
-  haveI : IsCyclic (⊤ : Subgroup Kˣ) := isCyclic_subgroup_units ⊤
+  have : IsCyclic (⊤ : Subgroup Kˣ) := isCyclic_subgroup_units ⊤
   have htop : Fintype.card (⊤ : Subgroup Kˣ) = Fintype.card Kˣ :=
     Fintype.card_congr (Subgroup.topEquiv : (⊤ : Subgroup Kˣ) ≃* Kˣ).toEquiv
   have hm_dvd_top : (2 ^ n + 1) ∣ Fintype.card (⊤ : Subgroup Kˣ) := by
@@ -178,7 +178,7 @@ private theorem l48u1_perm_diag {K : Type} [Field K] {d : ℕ} (σ : Equiv.Perm 
     _ = diagonal s * σ.permMatrix K := one_mul _
 
 theorem exists_ggTDModel_U {K : Type} [Field K] [Finite K] {n p N : ℕ}
-    (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
+    (hK : Nat.card K = (2 ^ n) ^ 2) (_hn : 1 ≤ n) (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
     (hN : 3 ≤ N) {L' : Type} [Group L']
     {φ : ↥(ClassicalGroups.UnitaryFlag.unitarySU 2 n K (N + 1)) →* L'} (hM : UnitTB.Model φ) :
     ∃ M : GGTDModel K N (2 ^ n + 1) L',
@@ -187,7 +187,7 @@ theorem exists_ggTDModel_U {K : Type} [Field K] [Finite K] {n p N : ℕ}
       ∀ σ : Equiv.Perm (Fin (N + 1)), M.φ (M.Pm σ) = φ (LineU.permSU hM.field σ⁻¹) := by
   classical
   have hKf : UnitaryFieldData 2 n K := hM.field
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hd3 : 3 ≤ N + 1 := by omega
   have hd4 : 4 ≤ N + 1 := by omega
   let μ : Subgroup Kˣ := l48u1_mu K (2 ^ n + 1)
@@ -353,7 +353,7 @@ theorem exists_ggTDModel_U {K : Type} [Field K] [Finite K] {n p N : ℕ}
           · exact μ.mul_mem hζ (μ.inv_mem hζ)
           · simpa using hζ
           · simpa using μ.inv_mem hζ
-          · simpa using μ.one_mem, by
+          · simp, by
           simp [Pi.mul_apply, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle']⟩⟩
       have hdgm : dgm s = D := by
         apply Subtype.ext
@@ -362,7 +362,7 @@ theorem exists_ggTDModel_U {K : Type} [Field K] [Finite K] {n p N : ℕ}
         congr 1
         funext i
         by_cases hil : i = l <;> by_cases hik : i = k <;>
-          simp [s, TypeA.ggPairVec, Pi.mul_apply, Pi.mulSingle_apply, hil, hik, hkl]
+          simp [s, TypeA.ggPairVec, Pi.mul_apply, hil, hik, hkl]
       rw [← hdgm]
       exact hg k l hkl s rfl
     have hgw : ((g : GL (Fin (N + 1)) K) : Matrix (Fin (N + 1)) (Fin (N + 1)) K) =

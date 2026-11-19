@@ -522,7 +522,7 @@ theorem false_of_ncyc_sylow_stage (h : U3Start G L f t T)
       rw [hs₀', e]
       exact hby
   obtain ⟨S, hSeq⟩ := hsyl
-  have hP2 : IsPGroup 2 (T ⊔ U : Subgroup G) := hSeq ▸ S.isPGroup'
+  have hP2 : IsPGroup 2 (T ⊔ U : Subgroup G) := hSeq ▸ S.isPGroup
   have hPidx : ¬ 2 ∣ (T ⊔ U).index := hSeq ▸ S.not_dvd_index
   have hG : IsSimpleGroup G := h.setting.1
   obtain ⟨a₀, b₀, hab⟩ : ∃ a b : G, a * b ≠ b * a := h.setting.2.1

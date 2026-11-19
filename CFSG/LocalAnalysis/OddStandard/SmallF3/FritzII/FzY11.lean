@@ -41,6 +41,7 @@ theorem fz_sq_a31 (h : Ctx0 t L S x₁ x₂ lam rho) : ((x₁ * x₂)⁻¹ * t) 
   rw [(hu.symm.inv_left).mul_pow, ht2, mul_one, inv_pow]
   exact inv_eq_of_mul_eq_one_right h.wreath.sq_x₁x₂_mul_self
 
+omit [Finite G] in
 theorem fz_closure_le_centralizer {s s' : Set G} (h : ∀ u ∈ s, ∀ v ∈ s', v * u = u * v) :
     closure s ≤ centralizer ((closure s' : Subgroup G) : Set G) := by
   rw [centralizer_closure, closure_le]

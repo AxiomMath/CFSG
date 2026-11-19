@@ -27,7 +27,7 @@ private theorem kgLangS1AUniCoreAux_zpow_pow_eq_one {G : Type*} [Group G] (u : G
 
 private theorem kgLangS1AUniCoreAux_dvd_add_one {p x : ℕ} (hp : p.Prime)
     (h : p ∣ x ^ p + 1) : p ∣ x + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : ((x ^ p + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).mpr h
   rw [Nat.cast_add, Nat.cast_pow, ZMod.pow_card, Nat.cast_one] at h1
   rw [← ZMod.natCast_eq_zero_iff]
@@ -104,10 +104,10 @@ theorem kgLangS1A_uni_core {d n p : ℕ} {F : Type} [Field F] [Finite F]
           ((U⁻¹ * B * U : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) i j = 0) →
         B * e = e * B ∧ B * s = s * B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 1 ≤ n := h.one_le
-  haveI : CharP F 2 := h.charP
-  haveI : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := h.charP
+  have : Fintype F := Fintype.ofFinite F
   have hF : Nat.card F = (2 ^ n) ^ 2 := by
     rw [h.card, ← pow_mul]
     congr 1

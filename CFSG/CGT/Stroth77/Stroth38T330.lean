@@ -51,26 +51,26 @@ theorem psi_uv {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
   intro r c
   rw [h2m r]
   fin_cases r <;> fin_cases c
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (-48*n - 72) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (1024*n^3 + 1536*n^2 + 768*n*G + 1760*n + 1152*G + 3600) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (
       -16384*n^5 - 32768*n^4 - 12288*n^3*G - 52224*n^3 - 24576*n^2*G - 9216*n*G^2 - 24832*n^2 -
         60672*n*G - 13824*G^2 - 92048*n - 40320*G - 16920) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (-144*n + 216) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (
       -4096*n^4 - 14848*n^3 - 3072*n^2*G + 2176*n^2 - 11136*n*G - 26528*n + 6912*G + 16704) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (-240*n + 288) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (
       -2048*n^4 - 14336*n^3 - 1536*n^2*G + 12608*n^2 - 10752*n*G - 25888*n + 12096*G + 29088) * hG'
 
@@ -86,23 +86,23 @@ theorem psi_t {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
   intro r c
   rw [h2m r]
   fin_cases r <;> fin_cases c
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (-48*n - 72) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (512*n^3 + 768*n^2 + 384*n*G + 16*n + 576*G + 1368) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (1024*n^3 + 1536*n^2 + 768*n*G + 1376*n + 1152*G + 2448) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (-720*n - 216) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (-432*n - 288) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (-336*n + 144) * hG'
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     linear_combination (-96*n - 72) * hG'
 
 theorem psi_ρ {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
@@ -115,23 +115,19 @@ theorem psi_ρ {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
   intro r c
   rw [h2m r]
   fin_cases r <;> fin_cases c
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
-    ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
-    ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
-    ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
-    ring1
-  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;>
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
+  · simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff];
     ring1
 
 theorem psiAdj_mul (m : ℕ) (N : ℤ) :
@@ -173,7 +169,7 @@ theorem psi_φρ {m : ℕ} (hm : 3 ≤ m) (x : Torus (StrothTypeIndex.t330 m hm)
 theorem psiM_row {m : ℕ} (hm : 2 ≤ m) : Odd (psiM (2 ^ (m - 1)) 0 0) ∧
     Even (psiM (2 ^ (m - 1)) 0 1) ∧ Even (psiM (2 ^ (m - 1)) 0 2) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, by omega⟩
-  refine ⟨⟨1 + 2 ^ s, ?_⟩, ⟨-4, ?_⟩, ?_⟩ <;> simp [psiM, pow_succ] <;> ring
+  refine ⟨⟨1 + 2 ^ s, ?_⟩, ⟨-4, ?_⟩, ?_⟩ <;> simp [psiM, pow_succ]; ring
 
 theorem psi_val_mod_two {m : ℕ} (hm : 3 ≤ m) (x : Torus (StrothTypeIndex.t330 m hm).k) :
     ((psi m hm x) 0).val % 2 = (x 0).val % 2 :=

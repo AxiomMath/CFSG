@@ -22,7 +22,7 @@ theorem tenFourteenOneGroup_of_nineThreeList (hKF : KFactTenFourteenNarrow) (hS 
     (hZ : Subgroup.center ↥(d1KBar p M (Subgroup.centralizer ({a} : Set G))) = ⊥) :
     TenFourteenOneGroup p ↥(d1KBar p M (Subgroup.centralizer ({a} : Set G))) := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N := Subgroup.centralizer ({a} : Set G) with hN
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ

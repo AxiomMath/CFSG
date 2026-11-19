@@ -163,7 +163,7 @@ theorem unipElem_sq_not_mem_scalars : unipElem F ^ 2 ∉ scalars 3 F := by
   rintro ⟨c, -, hc⟩
   rw [coe_unipElem_sq] at hc
   have h := congrFun (congrFun hc 0) 2
-  simp [Matrix.scalar_apply, Matrix.diagonal_apply] at h
+  simp [Matrix.scalar_apply] at h
 
 theorem unipProj_pow_four : unipProj F ^ 4 = 1 := by
   unfold unipProj

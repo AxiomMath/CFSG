@@ -320,7 +320,7 @@ private theorem exists_algebraMap_of_pow_three_aux (k K : Type) [Field k] [Field
     [Finite K] (h3 : 3 ∣ Nat.card k - 1) (c : K) (hc : c ^ 3 = 1) :
     ∃ a : k, algebraMap k K a = c := by
   have : Finite k := Finite.of_injective _ (algebraMap k K).injective
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := kˣ) 3 (by rwa [Nat.card_units])
   have hprim : IsPrimitiveRoot (ω : k) 3 :=
     IsPrimitiveRoot.coe_units_iff.mpr (hω ▸ IsPrimitiveRoot.orderOf ω)

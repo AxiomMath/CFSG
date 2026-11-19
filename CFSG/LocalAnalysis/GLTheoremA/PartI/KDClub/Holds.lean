@@ -43,11 +43,11 @@ theorem kdClub_holds : KDClub := by
       ·
         have hi1 : q.card % 3 ≠ 0 ∧ q.card % 9 ≠ 1 ∧ q.card % 9 ≠ 8 := by
           simpa [clubIndex, excIndex] using hi
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
           rw [TauCeti.PrimePower.card_def]
           exact GaloisField.card q.p q.exponent q.exponent_pos.ne'
-        letI : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
+        let : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
         have hc : Fintype.card (GaloisField q.p q.exponent) = q.card :=
           (Nat.card_eq_fintype_card).symm.trans hK
         have e := (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv).trans
@@ -59,7 +59,7 @@ theorem kdClub_holds : KDClub := by
       ·
         have hi2 : q.card % 9 = 4 ∨ q.card % 9 = 7 := by
           simpa [clubIndex, excIndex] using hi
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
           rw [TauCeti.PrimePower.card_def]
           exact GaloisField.card q.p q.exponent q.exponent_pos.ne'

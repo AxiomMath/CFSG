@@ -33,7 +33,7 @@ theorem j3ThreeCentralizer_native
   obtain ⟨P, Z, hP, hZP, hZc, hZ⟩ := j3Native_sylow_central
   have hfin : Finite NativeSporadic.J3 :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.J3.card_J3]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine pow_three_dvd_card_centralizer_of_sylow_central (p := 3) ?_ ?_ hZP hZc hZ hx
   · rw [hP, CFSG.Sporadic.J3.card_J3, factorization_three_j3]
   · rw [hP]

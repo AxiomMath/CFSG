@@ -14,13 +14,13 @@ theorem owEm_ctList_sound : ∀ w ∈ ctList (), w ∈ ctRoots := by
   simp only [ctList, List.mem_append, List.mem_flatMap, List.mem_finRange, true_and] at hw
   rcases hw with ⟨i, j, hw⟩ | ⟨t1, ht1, t2, ht2, t3, ht3, t4, ht4, t5, ht5, hw⟩
   · by_cases hij : i < j
-    · rw [if_pos hij, List.mem_map] at hw
+    · rw [ite_eq_left hij, List.mem_map] at hw
       obtain ⟨k, hk, rfl⟩ := hw
       exact Or.inl ⟨i, j, hij, k, List.mem_range.mp hk, rfl⟩
-    · rw [if_neg hij] at hw
+    · rw [ite_eq_right hij] at hw
       simp at hw
   · by_cases hs : (t1 + t2 + t3 + t4 + t5) % 3 = 0
-    · rw [if_pos hs, List.mem_singleton] at hw
+    · rw [ite_eq_left hs, List.mem_singleton] at hw
       subst hw
       refine Or.inr ⟨![0, t1, t2, t3, t4, t5], rfl, ?_, ?_, rfl⟩
       · intro i
@@ -28,7 +28,7 @@ theorem owEm_ctList_sound : ∀ w ∈ ctList (), w ∈ ctRoots := by
         fin_cases i <;> simp <;> omega
       · simp [Fin.sum_univ_succ]
         omega
-    · rw [if_neg hs] at hw
+    · rw [ite_eq_right hs] at hw
       simp at hw
 
 theorem owEm_ctList_complete : ∀ w ∈ ctRoots, w ∈ ctList () := by
@@ -36,7 +36,7 @@ theorem owEm_ctList_complete : ∀ w ∈ ctRoots, w ∈ ctList () := by
   · simp only [ctList, List.mem_append, List.mem_flatMap, List.mem_finRange, true_and]
     left
     refine ⟨i, j, ?_⟩
-    rw [if_pos hij, List.mem_map]
+    rw [ite_eq_left hij, List.mem_map]
     exact ⟨k, List.mem_range.mpr hk, rfl⟩
   · simp only [ctList, List.mem_append, List.mem_flatMap, List.mem_finRange, true_and]
     right
@@ -53,7 +53,7 @@ theorem owEm_ctList_complete : ∀ w ∈ ctRoots, w ∈ ctList () := by
     have h5 := hlt 5
     refine ⟨t 1, by simp; omega, t 2, by simp; omega, t 3, by simp; omega, t 4, by simp; omega, t 5,
       by simp; omega, ?_⟩
-    rw [if_pos hsum', List.mem_singleton]
+    rw [ite_eq_left hsum', List.mem_singleton]
     rw [← ht]
 
 theorem owEm_rank_vecMulVec_field {K : Type*} [Field K] {n : ℕ} (u v : Fin n → K) (hu : u ≠ 0) (hv : v ≠ 0) :
@@ -77,7 +77,7 @@ theorem owEm_rank_vecMulVec_field {K : Type*} [Field K] {n : ℕ} (u v : Fin n �
 
 theorem owEm_rank_vecMulVec {n : ℕ} (u v : Fin n → ZMod 13) (hu : u ≠ 0) (hv : v ≠ 0) :
     (Matrix.vecMulVec u v).rank = 1 := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   exact owEm_rank_vecMulVec_field u v hu hv
 
 theorem owEm_isReflMat_of_outer {n : ℕ} (g : Matrix.GeneralLinearGroup (Fin n) (ZMod 13))

@@ -99,7 +99,7 @@ theorem exists_pow_four_eq_of_doubleCover_alt8 {B : Type} [Group B] [Finite B]
     (hz1 : z ≠ 1) : ∃ w : B, w ^ 4 = z := by
   obtain ⟨hq, hcard, ⟨e⟩⟩ := hB
   obtain ⟨hperf, -, -⟩ := hq
-  haveI : Group.IsPerfect B := hperf
+  have : Group.IsPerfect B := hperf
   let η : B →* alternatingGroup (Fin (6 + 2)) :=
     (e : (B ⧸ Subgroup.center B) ≃* alternatingGroup (Fin (6 + 2))).toMonoidHom.comp
       (QuotientGroup.mk' (Subgroup.center B))

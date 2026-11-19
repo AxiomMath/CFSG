@@ -52,11 +52,13 @@ theorem IsWitnessedPConfiguration.fixesOnlyCommutatorCoset_subgroupOf
   PrimeFixedTIPGroupCoherence.fixesOnlyCommutatorCoset_of_isPrimeCyclicTIHyp
     (hc.isPrimeCyclicTIHyp_subgroupOf hodd) hc.subgroupOf_W₂_le_commutator_derivedOf
 
+omit [Finite G] in
 theorem map_subtype_subgroupOf_of_le {H M : Subgroup G} (h : H ≤ M) :
     Subgroup.map M.subtype (H.subgroupOf M) = H := by
   rw [Subgroup.subgroupOf, Subgroup.map_comap_eq_self]
   simpa using h
 
+omit [Finite G] in
 theorem cyclicTIDiff_map_subgroupOf (h₁ : W₁ ≤ M) (h₂ : W₂ ≤ M) :
     cyclicTIDiff (Subgroup.map M.subtype (W₁.subgroupOf M ⊔ W₂.subgroupOf M))
         (Subgroup.map M.subtype (W₁.subgroupOf M)) (Subgroup.map M.subtype (W₂.subgroupOf M))
@@ -161,16 +163,19 @@ section Family
 variable [Fintype G]
 
 open scoped Classical in
+omit [Finite G] in
 theorem indFamNonprincipal_eq_indFam_sdiff (M : Subgroup G) (K : Subgroup ↥M) :
     indFamNonprincipal M K = indFam K (Irr ↥K \ {1}) := by
   rw [indFamNonprincipal_eq, nonprincipalIrr_eq_sdiff_singleton]
 
 open scoped Classical in
+omit [Finite G] in
 theorem indFamNonprincipal_eq_kerLayerIndFam (M : Subgroup G) (K : Subgroup ↥M) :
     indFamNonprincipal M K = NormalInducedFamily.kerLayerIndFam ⊥ K := by
   rw [indFamNonprincipal_eq_indFam_sdiff, CentralSectionCoherence.kerLayerIndFam_bot]
 
 open scoped Classical in
+omit [Finite G] in
 theorem coe_fullFamily_eq_kerLayerIndFam (M : Subgroup G) (K : Subgroup ↥M) :
     (CentralSectionFullExtension.fullFamily K : Set (↥M → ℂ))
       = NormalInducedFamily.kerLayerIndFam ⊥ K := by

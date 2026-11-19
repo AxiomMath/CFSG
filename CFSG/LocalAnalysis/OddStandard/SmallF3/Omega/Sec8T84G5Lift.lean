@@ -22,7 +22,7 @@ theorem sec8t84g5_fixed_coset [Finite G] {p : ℕ} [Fact p.Prime] {A O : Subgrou
     rw [hρ]; exact hAO b b.2 r hr
   have hx : ∀ b : ↥A, ρ b m * m⁻¹ ∈ O := fun b => by
     rw [hρ]; exact hm b b.2
-  letI : MulAction ↥A (Coset O m) := cosetAction ρ O hR m hx
+  let : MulAction ↥A (Coset O m) := cosetAction ρ O hR m hx
   obtain ⟨y, hy⟩ := hA.nonempty_fixed_point_of_prime_not_dvd_card (Coset O m)
     (by rw [natCard_coset]; exact hp)
   refine ⟨y.1, y.2, fun a ha => ?_⟩

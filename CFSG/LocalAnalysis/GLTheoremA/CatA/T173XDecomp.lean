@@ -151,7 +151,7 @@ theorem eq_zpowers_sup_inf (hcfg : Cfg173 p S B N D K x) (M : S172X.S172Model S 
 
 theorem card_eq_mul_card_range (hcfg : Cfg173 p S B N D K x) (M : S172X.S172Model S B G₀) :
     Nat.card B = p * Nat.card M.β.range := by
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have hker : M.β.ker = (Subgroup.zpowers x).subgroupOf B := by
     rw [M.ker_β]
     ext b
@@ -179,7 +179,7 @@ private theorem exists_pLift_aux1 {R : Type*} [Group R] {p : ℕ} (hp : p.Prime)
     (hQp : IsPGroup p Q) {x : R} (hx : ∃ k, x ^ p ^ k = 1)
     (hxZ : ∃ z ∈ Z, ∃ q ∈ Q, z * q = x) : x ∈ Q := by
   obtain ⟨z, hz, q, hq, rfl⟩ := hxZ
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZc
+  have : Z.Normal := Subgroup.normal_of_le_center hZc
   have hZr : Nat.Coprime (Nat.card Z) p := (hp.coprime_iff_not_dvd.mpr hZ).symm
   obtain ⟨k, hk⟩ := hx
   have hz1 : QuotientGroup.mk' Z z = 1 := (QuotientGroup.eq_one_iff z).mpr hz
@@ -194,7 +194,7 @@ private theorem exists_pLift_aux2 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {
     ∃ (R : Subgroup ↥S) (πR : ↥R →* E) (Q : Sylow p ↥R),
       R = E.comap M.π ∧ ((Q : Subgroup ↥R).map πR : Subgroup E) = ⊤ ∧
       (∀ r, (πR r : G₀) = M.π (r : ↥S)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let R : Subgroup ↥S := E.comap M.π
   have hRmap : R.map M.π = E := Subgroup.map_comap_eq_self_of_surjective M.surj E
   let πR : ↥R →* E :=
@@ -278,7 +278,7 @@ private theorem exists_pLift_aux3 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {
       Disjoint (Q : Subgroup ↥R) ((Subgroup.center ↥S).subgroupOf R) ∧
       (πR.comp (Q : Subgroup ↥R).subtype).range = ⊤ := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let f : ↥Q →* E := πR.comp (Q : Subgroup ↥R).subtype
   have hf_range : f.range = ⊤ := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
@@ -288,7 +288,7 @@ private theorem exists_pLift_aux3 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {
     not_dvd_card_center_subgroupOf hZ R
   have hQZ : Disjoint (Q : Subgroup ↥R) ((Subgroup.center ↥S).subgroupOf R) :=
     (TauCeti.disjoint_of_not_dvd_natCard_of_isPGroup
-      (C := (Subgroup.center ↥S).subgroupOf R) (Q := (Q : Subgroup ↥R)) hZR Q.isPGroup').symm
+      (C := (Subgroup.center ↥S).subgroupOf R) (Q := (Q : Subgroup ↥R)) hZR Q.isPGroup).symm
   have hf_inj : Function.Injective f := by
     intro a b hab
     have hmem : ((a⁻¹ * b : ↥Q) : ↥R) ∈ (Q : Subgroup ↥R) ⊓ πR.ker := by
@@ -344,7 +344,7 @@ private theorem exists_pLift_aux4 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {
   exact ⟨P, hPleS, hP_el, hpiP, hPcard, rfl⟩
 
 private theorem exists_pLift_aux8 {Ω : Type} [Group Ω] {S B : Subgroup Ω}
-    {G₀ : Type} [Group G₀] (M : S172X.S172Model S B G₀)
+    {G₀ : Type} [Group G₀] (_M : S172X.S172Model S B G₀)
     {R : Subgroup ↥S} :
     (Subgroup.center ↥S).subgroupOf R ≤ Subgroup.center ↥R := by
   intro z hz
@@ -354,7 +354,7 @@ private theorem exists_pLift_aux8 {Ω : Type} [Group Ω] {S B : Subgroup Ω}
   exact Subgroup.mem_center_iff.1 (Subgroup.mem_subgroupOf.1 hz) (y : ↥S)
 
 private theorem exists_pLift_aux9 {p : ℕ} {Ω : Type} [Group Ω] {S B : Subgroup Ω}
-    {G₀ : Type} [Group G₀] (M : S172X.S172Model S B G₀) (hp : p.Prime)
+    {G₀ : Type} [Group G₀] (_M : S172X.S172Model S B G₀) (hp : p.Prime)
     {E : Subgroup G₀} {R : Subgroup ↥S} (πR : ↥R →* E) (Q : Sylow p ↥R)
     (hker : πR.ker = (Subgroup.center ↥S).subgroupOf R)
     (hf_range : (πR.comp (Q : Subgroup ↥R).subtype).range = ⊤)
@@ -380,21 +380,21 @@ private theorem exists_pLift_aux9 {p : ℕ} {Ω : Type} [Group Ω] {S B : Subgro
   have hxZ : ∃ z0 ∈ (Subgroup.center ↥S).subgroupOf R,
       ∃ q0 ∈ (Q : Subgroup ↥R), z0 * q0 = x :=
     ⟨z, hzZ, (q.1 : ↥R), q.2, by dsimp [z]; group⟩
-  exact exists_pLift_aux1 hp hZR hZRc Q.isPGroup' hxp hxZ
+  exact exists_pLift_aux1 hp hZR hZRc Q.isPGroup hxp hxZ
 
 private theorem exists_pLift_aux5 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
     {G₀ : Type} [Group G₀] {N D K : Subgroup Ω} {x : Ω} (hcfg : Cfg173 p S B N D K x)
     (M : S172X.S172Model S B G₀) (hZ : ¬ p ∣ Nat.card (Subgroup.center ↥S)) {E : Subgroup G₀}
     {R : Subgroup ↥S} (πR : ↥R →* E) (Q : Sylow p ↥R) {P : Subgroup Ω}
-    (hPS : P ≤ S) (hP_el : IsElemAbelian p P) (hPpi : piImg M P = E)
-    (hPcard : Nat.card P = Nat.card E)
+    (_hPS : P ≤ S) (_hP_el : IsElemAbelian p P) (_hPpi : piImg M P = E)
+    (_hPcard : Nat.card P = Nat.card E)
     (hker : πR.ker = (Subgroup.center ↥S).subgroupOf R)
     (hf_range : (πR.comp (Q : Subgroup ↥R).subtype).range = ⊤)
     (hR : R = E.comap M.π)
     (hPdef : P = ((Q : Subgroup ↥R).map R.subtype).map S.subtype) :
     ∀ Q₁ : Subgroup Ω, Q₁ ≤ S → IsPGroup p Q₁ → piImg M Q₁ ≤ E → Q₁ ≤ P := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let f : ↥Q →* E := πR.comp (Q : Subgroup ↥R).subtype
   intro Q₁ hQ₁S hQ₁p hQ₁E
   let Q₁S : Subgroup ↥S := Q₁.subgroupOf S
@@ -428,14 +428,14 @@ theorem exists_pLift (hcfg : Cfg173 p S B N D K x) (M : S172X.S172Model S B G₀
 private lemma map_pCore_two_eq_top_of_ker_le_center {V T : Type*} [Group V] [Finite V] [Group T] [Finite T]
     (f : V →* T) (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center V) (hT : IsPGroup 2 T) :
     (pCore 2 V).map f = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent T := hT.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent T := hT.isNilpotent
   have hnil : Group.IsNilpotent V := Subgroup.isNilpotent_of_ker_le_center f hker
   let Q : Sylow 2 V := default
   have hQn : (Q : Subgroup V).Normal := inferInstance
   have hQeq : (Q : Subgroup V) = pCore 2 V := by
     refine le_antisymm ?_ (IsPGroup.le_sylow_of_normal (CFSG.pCore_isPGroup (p := 2) (G := V)) Q)
-    exact le_sSup ⟨hQn, Q.isPGroup'⟩
+    exact le_sSup ⟨hQn, Q.isPGroup⟩
   have hQmap : (Q : Subgroup V).map f = ⊤ := by
     have h := (Sylow.mapSurjective hf Q).maximal_isPGroup.eq_of_ge (hT.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
@@ -449,8 +449,8 @@ theorem exists_twoCore_preimage_lift {Ω : Type} [Group Ω] [Finite Ω] {S B : S
     ∃ U : Subgroup Ω, U ≤ X ∧ U ≠ ⊥ ∧ IsPGroup 2 U ∧ piImg M U = T' ∧
       ∀ s : ↥S, (s : Ω) ∈ Subgroup.normalizer (X : Set Ω) →
         M.π s ∈ Subgroup.normalizer (T' : Set G₀) → (s : Ω) ∈ Subgroup.normalizer (U : Set Ω) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite G₀ := Finite.of_surjective M.π M.surj
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G₀ := Finite.of_surjective M.π M.surj
   let XS : Subgroup ↥S := X.subgroupOf S
   let TS : Subgroup ↥S := T'.comap M.π
   let V : Subgroup ↥S := XS ⊓ TS
@@ -533,7 +533,7 @@ private theorem exists_twoLocal_lift_aux1 {p : ℕ} {Ω : Type} [Group Ω] [Fini
       Nat.card P = Nat.card E ∧ IsElemAbelian p E' ∧ Nat.card E' = p * Nat.card E ∧
       E' = Subgroup.zpowers x ⊔ P := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hPS, hP_el, hPpi, hPcard, -⟩ := exists_pLift hcfg M hZ hE
   have hxp : x ^ p = 1 := hcfg.elem.2 x hcfg.mem
   have hxord : orderOf x = p := orderOf_eq_prime hxp hcfg.ne_one
@@ -606,7 +606,7 @@ theorem exists_twoLocal_lift
 theorem pow_rank_le_card_range [Finite G₀] (hcfg : Cfg173 p S B N D K x) (M : S172X.S172Model S B G₀)
     (hZ : ¬ p ∣ Nat.card (Subgroup.center ↥S)) : p ^ GLATwoLocalRank p G₀ ≤ Nat.card M.β.range := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T₀, hT₀1, hT₀2, -⟩ := exists_two_subgroup_of_hb hcfg M
   obtain ⟨T', hT'1, hT'2, E, hET, hE, hEcard⟩ :=
     CFSG.HardMathSupport.Timmesfeld.Proving.exists_twoLocal_attaining_GLATwoLocalRank hp
@@ -689,13 +689,13 @@ private theorem piImg_normalizer_eq_aux2 {p : ℕ} {Ω : Type} [Group Ω] [Finit
     exact piImg_normalizer_eq_aux1 M hsBS.1 s.2
 
 private theorem piImg_normalizer_eq_aux3 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
-    {G₀ : Type} [Group G₀] {N D K : Subgroup Ω} {x : Ω} (hcfg : Cfg173 p S B N D K x)
+    {G₀ : Type} [Group G₀] {N D K : Subgroup Ω} {x : Ω} (_hcfg : Cfg173 p S B N D K x)
     (M : S172X.S172Model S B G₀) {P : Subgroup Ω} (hPS : P ≤ S) (hP_el : IsElemAbelian p P)
     (hPpi : piImg M P = M.β.range)
     (hPmax : ∀ Q : Subgroup Ω, Q ≤ S → IsPGroup p Q → piImg M Q ≤ M.β.range → Q ≤ P)
     {s : ↥S} (hyN : M.π s ∈ Subgroup.normalizer (M.β.range : Set G₀)) :
     (s : Ω) ∈ Subgroup.normalizer (P : Set Ω) := by
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨_hcfg.prime⟩
   let Pconj : Subgroup Ω := P.map (MulAut.conj (s : Ω))
   have hPconjS : Pconj ≤ S := by
     rintro _ ⟨p, hp, rfl⟩
@@ -738,7 +738,7 @@ private theorem piImg_normalizer_eq_aux4 {p : ℕ} {Ω : Type} [Group Ω] [Finit
     (hxord : orderOf x = p) (hxc : x ∈ Subgroup.centralizer (S : Set Ω)) :
     Nat.card ↥(B ⊓ S) = Nat.card M.β.range := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ∀ a ∈ Subgroup.zpowers x, ∀ b ∈ B ⊓ S, Commute a b := by
     intro a ha b hb
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
@@ -786,7 +786,7 @@ private theorem piImg_normalizer_eq_aux5 {p : ℕ} {Ω : Type} [Group Ω] [Finit
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [hPcard, hcardBS])
 
 private theorem piImg_normalizer_eq_aux6 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
-    {G₀ : Type} [Group G₀] {N D K : Subgroup Ω} {x : Ω} (hcfg : Cfg173 p S B N D K x)
+    {G₀ : Type} [Group G₀] {N D K : Subgroup Ω} {x : Ω} (_hcfg : Cfg173 p S B N D K x)
     (M : S172X.S172Model S B G₀) {P : Subgroup Ω} (hPS : P ≤ S)
     (hPpi : piImg M P = M.β.range) (hBinfP : B ⊓ S = P) :
     piImg M (Subgroup.normalizer (B : Set Ω)) ≤ Subgroup.normalizer (M.β.range : Set G₀) := by
@@ -866,7 +866,7 @@ private theorem piImg_normalizer_eq_aux7 {p : ℕ} {Ω : Type} [Group Ω] [Finit
 theorem piImg_normalizer_eq (hcfg : Cfg173 p S B N D K x) (M : S172X.S172Model S B G₀)
     (hZ : ¬ p ∣ Nat.card (Subgroup.center ↥S)) :
     piImg M (Subgroup.normalizer (B : Set Ω)) = Subgroup.normalizer (M.β.range : Set G₀) := by
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have hβpi := piImg_normalizer_eq_aux2 hcfg M hZ
   obtain ⟨P, hPS, hP_el, hPpi, hPcard, hPmax⟩ :=
     exists_pLift hcfg M hZ (M.isElemAbelian_range_β hcfg.elem)

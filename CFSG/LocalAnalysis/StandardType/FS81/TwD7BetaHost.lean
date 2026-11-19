@@ -69,7 +69,7 @@ theorem mem_normalizer_twD7BetaHost {G : Type} [Group G]
   have hgH : g ∈ normalizer ((centralizer ({b₀ * B.b 1} : Set G) ⊓
       normalizer (E : Set G) : Subgroup G) : Set G) :=
     Subgroup.inf_normalizer_le_normalizer_inf ⟨hgC, Subgroup.le_normalizer hgE⟩
-  exact Subgroup.normalizer_inf_normalizer_le_normalizer_sup _ _ ⟨hgM, hgH⟩
+  exact inf_normalizer_le_normalizer_sup _ _ ⟨hgM, hgH⟩
 
 theorem exists_attached_e7_of_twD7BetaHost_projection
     {G : Type} [Group G] [Finite G] (b₀ : G) (K E : Subgroup G)

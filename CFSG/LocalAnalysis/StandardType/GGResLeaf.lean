@@ -22,8 +22,8 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
     GGScalarsOrWeyl' p B Bs x D J
 
 abbrev GGResCase : Type 1 :=
-  ∀ (G : Type) [Group G] [Finite G] (p : ℕ) [Fact p.Prime] (B Bs : Subgroup G) (x : G)
-    (L D J : Subgroup G) (y : G) (K : Subgroup G), Prop
+  ∀ (G : Type) [Group G] [Finite G] (p : ℕ) [Fact p.Prime] (_B _Bs : Subgroup G) (_x : G)
+    (_L _D _J : Subgroup G) (_y : G) (_K : Subgroup G), Prop
 
 @[expose] def GGResLeaf (P : GGResCase) : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)

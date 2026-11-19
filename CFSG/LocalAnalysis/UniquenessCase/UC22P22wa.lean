@@ -33,8 +33,8 @@ theorem rankThreeLayer_eq_self {A : Type} [Group A] {L : Subgroup A} (hq : CFSG.
 theorem not_isPGroup_of_quasisimple {A : Type} [Group A] [Finite A] (hq : CFSG.Open.IsQuasisimple A) {p : ℕ}
     [Fact p.Prime] : ¬ IsPGroup p A := by
   intro hp
-  haveI : Group.IsPerfect A := ⟨hq.1⟩
-  haveI : Nontrivial A := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+  have : Group.IsPerfect A := ⟨hq.1⟩
+  have : Nontrivial A := CFSG.ComponentClassification.Quasisimple.nontrivial hq
   exact Group.IsPerfect.not_isNilpotent A hp.isNilpotent
 
 theorem isPerfect_map {A B : Type} [Group A] [Group B] {K : Subgroup A} (hK : ⁅K, K⁆ = K) (f : A →* B) :
@@ -44,6 +44,7 @@ theorem isPerfect_map {A B : Type} [Group A] [Group B] {K : Subgroup A} (hK : �
     rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
   rw [commutator_def, Subgroup.map_commutator, htop, ← Subgroup.map_commutator, hK]
 
+omit [Finite G] in
 theorem commutator_subgroupOf {Y K : Subgroup G} (hKY : K ≤ Y) (hK : ⁅K, K⁆ = K) :
     ⁅K.subgroupOf Y, K.subgroupOf Y⁆ = K.subgroupOf Y := by
   apply Subgroup.map_injective Y.subtype_injective
@@ -55,10 +56,10 @@ theorem uc22p22wa_lift (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h119 : 
     (hU : ¬ CFSG.CGT.Timmesfeld75.IsTI D.U) {Lb : Subgroup (MBar D.M D.U)} (hLb : IsComponentOf Lb ⊤) :
     ∃ K ∈ calC D.M, mbarImage D.M D.U K = Lb := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW := uc22p22o_inCalW_U_of_not_isTI D hx h61 hU
   have hMU : D.M ≤ normalizer (D.U : Set G) := (uc22p22e_inCalV_U D).2.2.1
-  haveI hN := cTilde_bot_normal D.M D.U hMU
+  have hN := cTilde_bot_normal D.M D.U hMU
   set e := mbarEquiv D.M D.U with he
   set L' : Subgroup (F11.MBar11 D.M ⊥ D.U) := Lb.map e.toMonoidHom with hL'
   have hL'q : CFSG.Open.IsQuasisimple ↥L' :=
@@ -120,7 +121,7 @@ theorem uc22p22wa_lift (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h119 : 
     obtain ⟨y, hy⟩ := (hfrange.symm ▸ z.2 : (z : F11.MBar11 D.M ⊥ D.U) ∈ f.range)
     exact ⟨y, Subtype.ext hy⟩
   set P : Subgroup ↥L' := (CFSG.pCore 2 ↥Y).map g with hP
-  haveI hPn : P.Normal := (CFSG.pCore_normal (p := 2) (G := ↥Y)).map g hgs
+  have hPn : P.Normal := (CFSG.pCore_normal (p := 2) (G := ↥Y)).map g hgs
   have hPne : P ≠ ⊤ := by
     intro hPt
     have h2 : IsPGroup 2 ↥P := (CFSG.pCore_isPGroup (p := 2) (G := ↥Y)).map g
@@ -137,7 +138,7 @@ theorem uc22p22wa_lift (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h119 : 
     intro C hC
     obtain ⟨K, hK, hKC⟩ := uc22p21c_exists_calC_of_component Y hC
     have hKY : K ≤ Y := hK.1.le
-    haveI : Group.IsPerfect ↥((K.subgroupOf Y).map g) :=
+    have : Group.IsPerfect ↥((K.subgroupOf Y).map g) :=
       P22w.isPerfect_map (P22w.commutator_subgroupOf hKY hK.2.1) g
     have hsubn : CFSG.Open.IsSubnormal ((K.subgroupOf Y).map g) ⊤ :=
       CFSG.Open.IsSubnormal.of_mathlib (hK.1.subgroupOf.map hgs)
@@ -182,7 +183,7 @@ theorem uc22p22wa_lift (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h119 : 
 theorem uc22p22wa_onto (D : Data G) {K : Subgroup G} (hK : K ∈ calC D.M) (hne : mbarImage D.M D.U K ≠ ⊥) :
     ∃ ψ : Bar2 K →* ↥(mbarImage D.M D.U K), Function.Surjective ψ ∧ ψ.ker ≤ Subgroup.center (Bar2 K) ∧
       ∀ k : ↥K, ((ψ (QuotientGroup.mk k) : MBar D.M D.U)) = QuotientGroup.mk (Subgroup.inclusion hK.1.le k) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : K ≤ D.M := hK.1.le
   have hMU : D.M ≤ normalizer (D.U : Set G) := (uc22p22e_inCalV_U D).2.2.1
   set φ := uc22br4_phi D.M D.U K hKM with hφ

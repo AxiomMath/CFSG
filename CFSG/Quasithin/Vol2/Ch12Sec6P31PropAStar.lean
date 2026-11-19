@@ -99,6 +99,7 @@ section Finite
 
 variable [Finite G] {H : Subgroup G}
 
+omit [Finite G] in
 theorem mk_not_mem_pCoreOf {g : ↥H} (hg : ∀ k : ℕ, (g : G) ^ (2 ^ k) ≠ 1)
     (Y : Subgroup (HStar H)) :
     (QuotientGroup.mk g : HStar H) ∉ pCoreOf 2 Y := by
@@ -184,16 +185,19 @@ section Setting
 
 variable [Finite G] {T L V : Subgroup G} [IsMulCommutative ↥V] {H K : Subgroup G}
 
+omit [Finite G] in
 theorem T_le_H (F : Frame126 T L V) (hHK : S126.IsHK T L F.V1 H K) : T ≤ H := by
   rw [hHK.2.2]
   exact le_sup_right.trans le_sup_right
 
+omit [Finite G] in
 theorem L1_le_H (F : Frame126 T L V) (hHK : S126.IsHK T L F.V1 H K) :
     S126.Li L F.V1 ≤ H := by
   rw [hHK.2.2]
   change L₁Of L F.V1 ≤ conjClosure K T ⊔ (L₁Of L F.V1 ⊔ T)
   exact le_sup_left.trans le_sup_right
 
+omit [Finite G] in
 theorem normal_star_K (F : Frame126 T L V) (h918 : HypF918 T V L F.V1 F.V5 H K)
     (hK₀ : conjClosure K T = K) : (star H K).Normal := by
   have h : H ≤ Subgroup.normalizer (K : Set G) := by
@@ -201,11 +205,13 @@ theorem normal_star_K (F : Frame126 T L V) (h918 : HypF918 T V L F.V1 F.V5 H K)
     exact h918.K₀_normal
   exact S126P31.normal_star h
 
+omit [Finite G] in
 theorem commutator_star_K (F : Frame126 T L V) (h918 : HypF918 T V L F.V1 F.V5 H K) :
     ⁅star H K, star H K⁆ = star H K := by
   have hK : K ≤ H := le_of_mem_cComp h918.K_cComp
   rw [← star_commutator hK hK, perfect_of_mem_cComp h918.K_cComp]
 
+omit [Finite G] in
 theorem commutator_star_K_eq_top (F : Frame126 T L V)
     (h918 : HypF918 T V L F.V1 F.V5 H K) :
     commutator ↥(star H K) = ⊤ :=

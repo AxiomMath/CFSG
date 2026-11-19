@@ -46,8 +46,8 @@ theorem eq_bot_of_top_le_normalizer (hQ : (QuadraticMap.polarBilin Q).Nondegener
     (hT : (⊤ : Subgroup ↥(orthDerived Q)) ≤ Subgroup.normalizer (T : Set ↥(orthDerived Q))) :
     T = ⊥ := by
   obtain ⟨T3, hT3, hTs⟩ := exists_finrank_three_singular hQ hdim hl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hnormal : T.Normal := Subgroup.normalizer_eq_top_iff.1 (top_le_iff.1 hT)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hnormal : T.Normal := Subgroup.normalizer_eq_top_iff.1 (top_le_iff.1 hT)
   have hq := isQuasisimple_orthDerived hQ ⟨T3, hT3, hTs⟩
   have hne : ∃ v, Q v ≠ 0 := by
     obtain ⟨e, f, hef⟩ := exists_isHypFamily_wittRank hQ hdim
@@ -66,13 +66,14 @@ theorem eq_bot_of_top_le_normalizer (hQ : (QuadraticMap.polarBilin Q).Nondegener
     have hP : IsPGroup 2 ↥(orthDerived Q) := by
       have h1 : IsPGroup 2 ↥(⊤ : Subgroup ↥(orthDerived Q)) := h ▸ hT2
       exact h1.of_equiv Subgroup.topEquiv
-    haveI : Nontrivial (↥(orthDerived Q) ⧸ Subgroup.center ↥(orthDerived Q)) := hq.2.1.toNontrivial
-    haveI : Nontrivial ↥(orthDerived Q) :=
+    have : Nontrivial (↥(orthDerived Q) ⧸ Subgroup.center ↥(orthDerived Q)) := hq.2.1.toNontrivial
+    have : Nontrivial ↥(orthDerived Q) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(orthDerived Q))).nontrivial
     have hcn := hP.center_nontrivial
     rw [hcen] at hcn
     exact not_nontrivial_iff_subsingleton.mpr inferInstance hcn
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_swap_aux1 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {j k : Fin m} (hjk : j ≠ k) :
     Q (e j + e k) = 0 ∧ polar Q (e j + e k) (f j + f k) = 0 := by
@@ -80,10 +81,11 @@ private theorem exists_mem_normalizer_swap_aux1 {m : ℕ} {e f : Fin m → V}
   · rw [QuadraticMap.map_add (⇑Q), hef.map_e j, hef.map_e k, hef.polar_ee j k, add_zero, add_zero]
   · rw [QuadraticMap.polar_add_left, QuadraticMap.polar_add_right,
       QuadraticMap.polar_add_right, hef.polar_ef j j, hef.polar_ef j k, hef.polar_ef k j,
-      hef.polar_ef k k, if_pos rfl, if_neg hjk, if_neg (Ne.symm hjk), if_pos rfl]
+      hef.polar_ef k k, ite_eq_left rfl, ite_eq_right hjk, ite_eq_right (Ne.symm hjk), ite_eq_left rfl]
     simp only [add_zero, zero_add]
     exact CharTwo.add_self_eq_zero (1 : F)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_swap_aux2 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {j k : Fin m} (hjk : j ≠ k) :
     ∀ i, eichler Q (e j + e k) (f j + f k) (e i) = e (Equiv.swap j k i) := by
@@ -99,17 +101,18 @@ private theorem exists_mem_normalizer_swap_aux2 {m : ℕ} {e f : Fin m → V}
   rw [Equiv.swap_apply_def]
   by_cases hij : i = j
   · subst i
-    rw [if_pos rfl, if_neg hjk, if_pos rfl]
-    simp only [one_smul, zero_smul, add_zero, sub_zero]
+    rw [ite_eq_left rfl, ite_eq_right hjk, ite_eq_left rfl]
+    simp only [one_smul, zero_smul, add_zero]
     rw [show e j - (e j + e k) = -e k by abel, hnegv]
   · by_cases hik : i = k
     · subst i
-      rw [if_neg (Ne.symm hjk), if_pos rfl, if_neg (Ne.symm hjk), if_pos rfl]
-      simp only [one_smul, zero_smul, zero_add, add_zero, sub_zero]
+      rw [ite_eq_right (Ne.symm hjk), ite_eq_left rfl, ite_eq_right (Ne.symm hjk), ite_eq_left rfl]
+      simp only [one_smul, zero_smul, zero_add, add_zero]
       rw [show e k - (e j + e k) = -e j by abel, hnegv]
-    · rw [if_neg hij, if_neg hik, if_neg hij, if_neg hik]
+    · rw [ite_eq_right hij, ite_eq_right hik, ite_eq_right hij, ite_eq_right hik]
       simp only [add_zero, zero_smul, sub_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_swap_aux3 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {j k : Fin m} (hjk : j ≠ k) :
     ∀ i, eichler Q (e j + e k) (f j + f k) (f i) = f (Equiv.swap j k i) := by
@@ -126,19 +129,20 @@ private theorem exists_mem_normalizer_swap_aux3 {m : ℕ} {e f : Fin m → V}
   rw [Equiv.swap_apply_def]
   by_cases hij : i = j
   · subst i
-    rw [if_pos rfl, if_neg (Ne.symm hjk), if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_right (Ne.symm hjk), ite_eq_left rfl]
     simp only [add_zero, one_smul, zero_smul, sub_zero]
     rw [show f j + (f j + f k) = f k + (f j + f j) by abel,
       show f j + f j = 0 by rw [← two_smul F (f j), CharTwo.two_eq_zero, zero_smul], add_zero]
   · by_cases hik : i = k
     · subst i
-      rw [if_neg hjk, if_pos rfl, if_neg (Ne.symm hjk), if_pos rfl]
+      rw [ite_eq_right hjk, ite_eq_left rfl, ite_eq_right (Ne.symm hjk), ite_eq_left rfl]
       simp only [zero_add, one_smul, zero_smul, sub_zero]
       rw [show f k + (f j + f k) = f j + (f k + f k) by abel,
         show f k + f k = 0 by rw [← two_smul F (f k), CharTwo.two_eq_zero, zero_smul], add_zero]
-    · rw [if_neg (Ne.symm hij), if_neg (Ne.symm hik), if_neg hij, if_neg hik]
-      simp only [add_zero, zero_add, zero_smul, sub_zero]
+    · rw [ite_eq_right (Ne.symm hij), ite_eq_right (Ne.symm hik), ite_eq_right hij, ite_eq_right hik]
+      simp only [add_zero, zero_smul, sub_zero]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_swap_aux4 {m : ℕ} {e f : Fin m → V} {j k : Fin m}
     {n0 : V ≃ₗ[F] V} (hn0O : n0 ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hn0inv : n0⁻¹ = n0)
     (he : ∀ i, n0 (e i) = e (Equiv.swap j k i))
@@ -165,6 +169,7 @@ private theorem exists_mem_normalizer_swap_aux4 {m : ℕ} {e f : Fin m → V} {j
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hdiag.2.2 (n0⁻¹ v) h1 h2]
     exact LinearEquiv.apply_symm_apply n0 v
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_swap_aux5 {m : ℕ} {e f : Fin m → V} {j k : Fin m}
     {p : ℕ} {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
@@ -200,8 +205,9 @@ private theorem exists_mem_normalizer_swap_aux5 {m : ℕ} {e f : Fin m → V} {j
           = (⟨n0, hn0mem⟩ * ⟨n0, hn0mem⟩) * a * (⟨n0, hn0mem⟩⁻¹ * ⟨n0, hn0mem⟩⁻¹) := by group
         _ = a := by rw [hnsq, hninv, hnsq, one_mul, mul_one]] at h2
 
+omit [FiniteDimensional F V] in
 theorem exists_mem_normalizer_swap (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F - 1) {m : ℕ} {e f : Fin m → V}
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpq : p ∣ Nat.card F - 1) {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
     {j k : Fin m} (hjk : j ≠ k) :
@@ -223,7 +229,7 @@ theorem exists_mem_normalizer_swap (hQ : (QuadraticMap.polarBilin Q).Nondegenera
     congr 1
     exact hnegv (f j + f k)
   have hn0mem : n0 ∈ orthDerived Q := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p (by rwa [Nat.card_units])
     refine CFSG.SeitzReduction.OmegaPilot.eichler_mem_orthDerived_of_ne_zero_ne_one hQ
       (Units.ne_zero ζ) ?_ (e j + e k) (f j + f k)
@@ -239,22 +245,25 @@ theorem exists_mem_normalizer_swap (hQ : (QuadraticMap.polarBilin Q).Nondegenera
   · show n0 (f j) = f k
     rw [hf_img j, Equiv.swap_apply_left]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux1 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) (i : Fin m) :
     Q (e i + f i) = 1 := by
-  rw [QuadraticMap.map_add (⇑Q), hef.map_e i, hef.map_f i, hef.polar_ef i i, if_pos rfl]
+  rw [QuadraticMap.map_add (⇑Q), hef.map_e i, hef.map_f i, hef.polar_ef i i, ite_eq_left rfl]
   simp only [add_zero, zero_add]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux2 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) {i j : Fin m}
     (h : j ≠ i) : reflect Q (e i + f i) (e j) = e j ∧ reflect Q (e i + f i) (f j) = f j := by
   have hQ := exists_mem_normalizer_flip_aux1 hef i
   have hpj : polar Q (e i + f i) (e j) = 0 := by
     rw [QuadraticMap.polar_add_left, hef.polar_ee i j, QuadraticMap.polar_comm,
-      hef.polar_ef j i, if_neg h, zero_add]
+      hef.polar_ef j i, ite_eq_right h, zero_add]
   have hqj : polar Q (e i + f i) (f j) = 0 := by
-    rw [QuadraticMap.polar_add_left, hef.polar_ef i j, hef.polar_ff i j, if_neg (Ne.symm h),
+    rw [QuadraticMap.polar_add_left, hef.polar_ef i j, hef.polar_ff i j, ite_eq_right (Ne.symm h),
       add_zero]
   exact ⟨reflect_apply_of_polar_eq_zero hpj, reflect_apply_of_polar_eq_zero hqj⟩
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux3 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) (i : Fin m) :
     reflect Q (e i + f i) (e i) = f i ∧ reflect Q (e i + f i) (f i) = e i := by
   have hQ := exists_mem_normalizer_flip_aux1 hef i
@@ -264,24 +273,27 @@ private theorem exists_mem_normalizer_flip_aux3 {m : ℕ} {e f : Fin m → V} (h
     rw [← neg_one_smul F x, hneg, one_smul]
   constructor
   · rw [reflect_apply hQ0, QuadraticMap.polar_add_left, hef.polar_ee i i,
-      QuadraticMap.polar_comm, hef.polar_ef i i, if_pos rfl, zero_add, hQ, div_one, one_smul,
+      QuadraticMap.polar_comm, hef.polar_ef i i, ite_eq_left rfl, zero_add, hQ, div_one, one_smul,
       show e i - (e i + f i) = -f i by abel, hnegv]
   · rw [reflect_apply hQ0, QuadraticMap.polar_add_left, hef.polar_ef i i, hef.polar_ff i i,
-      if_pos rfl, add_zero, hQ, div_one, one_smul,
+      ite_eq_left rfl, add_zero, hQ, div_one, one_smul,
       show f i - (e i + f i) = -e i by abel, hnegv]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux4 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) {i j : Fin m}
     (hij : i ≠ j) : polar Q (e i + f i) (e j + f j) = 0 := by
   rw [QuadraticMap.polar_add_left, QuadraticMap.polar_add_right, QuadraticMap.polar_add_right,
     hef.polar_ee i j, hef.polar_ef i j, QuadraticMap.polar_comm, hef.polar_ef j i,
-    hef.polar_ff i j, if_neg hij, if_neg (Ne.symm hij)]
-  simp only [add_zero, zero_add]
+    hef.polar_ff i j, ite_eq_right hij, ite_eq_right (Ne.symm hij)]
+  simp only [add_zero]
 
-private def exists_mem_normalizer_flip_aux5 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) (S : Finset (Fin m)) :
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem exists_mem_normalizer_flip_aux5 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) (S : Finset (Fin m)) :
     (S : Set (Fin m)).Pairwise (Function.onFun Commute (fun k => reflect Q (e k + f k))) :=
   fun i _ j _ hij => CFSG.RankThree.PartOne.KCOrthogonal.reflectPair_comm (exists_mem_normalizer_flip_aux1 hef i) (exists_mem_normalizer_flip_aux1 hef j)
     (exists_mem_normalizer_flip_aux4 hef hij)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux6 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) :
     ∀ S : Finset (Fin m), ∀ i,
       (S.noncommProd (fun k => reflect Q (e k + f k)) (exists_mem_normalizer_flip_aux5 hef S)) (e i) =
@@ -299,14 +311,15 @@ private theorem exists_mem_normalizer_flip_aux6 {m : ℕ} {e f : Fin m → V} (h
         LinearEquiv.mul_apply]
       by_cases hik : i = k
       · subst i
-        rw [ih k, if_neg hk, (exists_mem_normalizer_flip_aux3 hef k).1, if_pos (Finset.mem_insert_self k S)]
+        rw [ih k, ite_eq_right hk, (exists_mem_normalizer_flip_aux3 hef k).1, ite_eq_left (Finset.mem_insert_self k S)]
       · rw [ih i]
         by_cases his : i ∈ S
-        · rw [if_pos his, (exists_mem_normalizer_flip_aux2 hef (i := k) (j := i) hik).2,
-            if_pos (Finset.mem_insert_of_mem his)]
-        · rw [if_neg his, (exists_mem_normalizer_flip_aux2 hef (i := k) (j := i) hik).1,
-            if_neg (by simp [hik, his])]
+        · rw [ite_eq_left his, (exists_mem_normalizer_flip_aux2 hef (i := k) (j := i) hik).2,
+            ite_eq_left (Finset.mem_insert_of_mem his)]
+        · rw [ite_eq_right his, (exists_mem_normalizer_flip_aux2 hef (i := k) (j := i) hik).1,
+            ite_eq_right (by simp [hik, his])]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux7 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) :
     ∀ S : Finset (Fin m), ∀ i,
       (S.noncommProd (fun k => reflect Q (e k + f k)) (exists_mem_normalizer_flip_aux5 hef S)) (f i) =
@@ -324,15 +337,16 @@ private theorem exists_mem_normalizer_flip_aux7 {m : ℕ} {e f : Fin m → V} (h
         LinearEquiv.mul_apply]
       by_cases hik : i = k
       · subst i
-        rw [ih k, if_neg hk, (exists_mem_normalizer_flip_aux3 hef k).2, if_pos (Finset.mem_insert_self k S)]
+        rw [ih k, ite_eq_right hk, (exists_mem_normalizer_flip_aux3 hef k).2, ite_eq_left (Finset.mem_insert_self k S)]
       · rw [ih i]
         by_cases his : i ∈ S
-        · rw [if_pos his, (exists_mem_normalizer_flip_aux2 hef (i := k) (j := i) hik).1,
-            if_pos (Finset.mem_insert_of_mem his)]
-        · rw [if_neg his, (exists_mem_normalizer_flip_aux2 hef (i := k) (j := i) hik).2,
-            if_neg (by simp [hik, his])]
+        · rw [ite_eq_left his, (exists_mem_normalizer_flip_aux2 hef (i := k) (j := i) hik).1,
+            ite_eq_left (Finset.mem_insert_of_mem his)]
+        · rw [ite_eq_right his, (exists_mem_normalizer_flip_aux2 hef (i := k) (j := i) hik).2,
+            ite_eq_right (by simp [hik, his])]
 
-private theorem exists_mem_normalizer_flip_aux8b {m : ℕ} {e f : Fin m → V} {S : Finset (Fin m)}
+omit [AddCommGroup V] in
+private theorem exists_mem_normalizer_flip_aux8b {m : ℕ} {_e _f : Fin m → V} {S : Finset (Fin m)}
     (hEven : Even S.card) (hne : S.Nonempty) :
     ∃ x y : Fin m, ∃ S' : Finset (Fin m), S = insert x (insert y S') ∧
       x ∉ insert y S' ∧ y ∉ S' ∧ S' ⊂ S ∧ S'.card = S.card - 2 := by
@@ -382,7 +396,7 @@ private theorem exists_mem_normalizer_flip_aux8a {m : ℕ} {e f : Fin m → V}
     (S.noncommProd (fun k => reflect Q (e k + f k)) (exists_mem_normalizer_flip_aux5 hef S)) ∈
       orthDerived Q := by
   obtain ⟨x, y, S', hsplit, hnot1, hnot2, hsub, hcardS'⟩ :=
-    exists_mem_normalizer_flip_aux8b (V := V) (e := e) (f := f) hEven hne
+    exists_mem_normalizer_flip_aux8b (V := V) (_e := e) (_f := f) hEven hne
   obtain ⟨t, ht⟩ := hEven
   have hevenS' : Even S'.card := by
     rw [hcardS']
@@ -439,6 +453,7 @@ private theorem exists_mem_normalizer_flip_aux9 {m : ℕ} {e f : Fin m → V}
     rw [Finset.card_erase_of_mem hx]
     exact Nat.Odd.sub_odd hOdd odd_one
 
+omit [Finite F] in
 private theorem exists_mem_normalizer_flip_aux10 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ}
     (hdim : finrank F V = 2 * l) {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
     (hm : 1 ≤ wittRank Q l) (hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
@@ -450,7 +465,7 @@ private theorem exists_mem_normalizer_flip_aux10 (hQ : (QuadraticMap.polarBilin 
         finrank_span_eq_card hef.linearIndependent]
       simp only [Fintype.card_sum, Fintype.card_fin]
       ring
-    have hwr : wittRank Q l = l - 1 := by unfold wittRank; rw [if_neg hminus]
+    have hwr : wittRank Q l = l - 1 := by unfold wittRank; rw [ite_eq_right hminus]
     rw [hfin, hdim, hwr]
     omega
   have hHtop : H ≠ ⊤ := fun htop => by
@@ -466,14 +481,16 @@ private theorem exists_mem_normalizer_flip_aux10 (hQ : (QuadraticMap.polarBilin 
     (Submodule.smul_mem _ _ (Submodule.subset_span ⟨Sum.inl i, rfl⟩))
     (Submodule.smul_mem _ _ (Submodule.subset_span ⟨Sum.inr i, rfl⟩))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux11 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
     (S : Finset (Fin m)) :
-    S.noncommProd (fun k => reflect Q (e k + f k)) (exists_mem_normalizer_flip_aux5 hef S) ∈
+    S.noncommProd (fun _k => reflect Q (e _k + f _k)) (exists_mem_normalizer_flip_aux5 hef S) ∈
       TauCeti.QuadraticMap.orthogonalGroup Q :=
   Finset.noncommProd_induction S _ (exists_mem_normalizer_flip_aux5 hef S) _
-    (fun a b ha hb => mul_mem ha hb) (one_mem _)
-    (fun k _ => reflect_mem_orthogonalGroup Q _)
+    (fun _a _b ha hb => mul_mem ha hb) (one_mem _)
+    (fun _k _ => reflect_mem_orthogonalGroup Q _)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux12 {m : ℕ} {e f : Fin m → V} {S : Finset (Fin m)}
     {g : V ≃ₗ[F] V} (hgO : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hge : ∀ i, g (e i) = if i ∈ S then f i else e i)
@@ -485,16 +502,16 @@ private theorem exists_mem_normalizer_flip_aux12 {m : ℕ} {e f : Fin m → V} {
   refine ⟨fun i => ?_, fun i => ?_, fun v hv1 hv2 => ?_⟩
   · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hginve i]
     by_cases his : i ∈ S
-    · rw [if_pos his, hdiag.2.1 i, map_smul, hgf i]
-      simp only [his, if_true, inv_inv]
-    · rw [if_neg his, hdiag.1 i, map_smul, hge i]
-      simp only [his, if_false, inv_inv]
+    · rw [ite_eq_left his, hdiag.2.1 i, map_smul, hgf i]
+      simp only [his, ite_true]
+    · rw [ite_eq_right his, hdiag.1 i, map_smul, hge i]
+      simp only [his, ite_false]
   · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hginvf i]
     by_cases his : i ∈ S
-    · rw [if_pos his, hdiag.1 i, map_smul, hge i]
-      simp only [his, if_true, inv_inv]
-    · rw [if_neg his, hdiag.2.1 i, map_smul, hgf i]
-      simp only [his, if_false, inv_inv]
+    · rw [ite_eq_left his, hdiag.1 i, map_smul, hge i]
+      simp only [his, ite_true, inv_inv]
+    · rw [ite_eq_right his, hdiag.2.1 i, map_smul, hgf i]
+      simp only [his, ite_false]
   · have h1 : ∀ i, polar Q (e i) (g⁻¹ v) = 0 := by
       intro i
       have hpol := TauCeti.QuadraticMap.polar_apply_of_mem_orthogonalGroup hgO (e i) (g⁻¹ v)
@@ -510,6 +527,7 @@ private theorem exists_mem_normalizer_flip_aux12 {m : ℕ} {e f : Fin m → V} {
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hdiag.2.2 (g⁻¹ v) h1 h2]
     exact LinearEquiv.apply_symm_apply g v
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux13 {m : ℕ} {e f : Fin m → V} {S : Finset (Fin m)}
     {p : ℕ} {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
@@ -547,6 +565,7 @@ private theorem exists_mem_normalizer_flip_aux13 {m : ℕ} {e f : Fin m → V} {
     refine ⟨fun i => if i ∈ S then (c i)⁻¹ else c i, fun i => ?_, hdiag''⟩
     by_cases his : i ∈ S <;> simp [his, hcp i]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux17 {m : ℕ} {e f : Fin m → V} {S : Finset (Fin m)}
     {n0 : V ≃ₗ[F] V} (h0e : ∀ i, n0 (e i) = if i ∈ S then f i else e i)
     (h0f : ∀ i, n0 (f i) = if i ∈ S then e i else f i) :
@@ -554,10 +573,11 @@ private theorem exists_mem_normalizer_flip_aux17 {m : ℕ} {e f : Fin m → V} {
       ∀ i, i ∉ S → n0 (e i) = e i ∧ n0 (f i) = f i := by
   constructor
   · intro i hi
-    exact ⟨by rw [h0e i, if_pos hi], by rw [h0f i, if_pos hi]⟩
+    exact ⟨by rw [h0e i, ite_eq_left hi], by rw [h0f i, ite_eq_left hi]⟩
   · intro i hi
-    exact ⟨by rw [h0e i, if_neg hi], by rw [h0f i, if_neg hi]⟩
+    exact ⟨by rw [h0e i, ite_eq_right hi], by rw [h0f i, ite_eq_right hi]⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_mem_normalizer_flip_aux16 {m : ℕ} {e f : Fin m → V} {S : Finset (Fin m)}
     {p : ℕ} {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
@@ -572,14 +592,14 @@ private theorem exists_mem_normalizer_flip_aux16 {m : ℕ} {e f : Fin m → V} {
     intro i
     rw [h0e i]
     by_cases his : i ∈ S
-    · rw [if_pos his, h0f i, if_pos his]
-    · rw [if_neg his, h0e i, if_neg his]
+    · rw [ite_eq_left his, h0f i, ite_eq_left his]
+    · rw [ite_eq_right his, h0e i, ite_eq_right his]
   have h0f2 : ∀ i, n0 (n0 (f i)) = f i := by
     intro i
     rw [h0f i]
     by_cases his : i ∈ S
-    · rw [if_pos his, h0e i, if_pos his]
-    · rw [if_neg his, h0f i, if_neg his]
+    · rw [ite_eq_left his, h0e i, ite_eq_left his]
+    · rw [ite_eq_right his, h0f i, ite_eq_right his]
   have hinve : ∀ i, n0⁻¹ (e i) = if i ∈ S then f i else e i := by
     intro i
     rw [show n0⁻¹ (e i) = n0 (e i) from by
@@ -648,20 +668,20 @@ private theorem exists_mem_normalizer_flip_aux15 {l : ℕ}
     show reflect Q w (P (e i)) = _
     rw [hPe i]
     by_cases his : i ∈ S
-    · rw [if_pos his, hwfixf i]
-    · rw [if_neg his, hwfixe i]
+    · rw [ite_eq_left his, hwfixf i]
+    · rw [ite_eq_right his, hwfixe i]
   have h0f : ∀ i, n0 (f i) = if i ∈ S then e i else f i := by
     intro i
     show reflect Q w (P (f i)) = _
     rw [hPf i]
     by_cases his : i ∈ S
-    · rw [if_pos his, hwfixe i]
-    · rw [if_neg his, hwfixf i]
+    · rw [ite_eq_left his, hwfixe i]
+    · rw [ite_eq_right his, hwfixf i]
   exact exists_mem_normalizer_flip_aux16 hAeq hn0mem hn0O h0e h0f
 
 theorem exists_mem_normalizer_flip (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ}
-    (hdim : finrank F V = 2 * l) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hpq : p ∣ Nat.card F - 1) {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
+    (hdim : finrank F V = 2 * l) {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hpq : p ∣ Nat.card F - 1) {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
     {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
     (S : Finset (Fin (wittRank Q l)))
@@ -674,6 +694,7 @@ theorem exists_mem_normalizer_flip (hQ : (QuadraticMap.polarBilin Q).Nondegenera
   · exact exists_mem_normalizer_flip_aux15 hQ hdim hef hAeq S (Nat.not_even_iff_odd.mp hEven)
       (hS.resolve_left hEven)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux1 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {j : Fin m} (hcj : c j ≠ 1) (hc1 : ∀ i, i ≠ j → c i = 1)
@@ -697,6 +718,7 @@ private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux1 {m : ℕ} {e
     · rw [hc1 i hij]; simp
   rw [hv, map_add, hdw, hsum]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux2 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {j : Fin m} (hcj : c j ≠ 1) (hc1 : ∀ i, i ≠ j → c i = 1)
@@ -731,6 +753,7 @@ private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux2 {m : ℕ} {e
   · rintro ⟨h1, h2⟩
     exact eichler_mem_supportedFixedDerived_of_weightOne_aux1 hef hd hcj hc1 h1 h2
 
+omit [Finite F] [CharP F 2] in
 private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux4 {d : V ≃ₗ[F] V} {a b : V}
     (hEsub : ∀ x : V, eichler Q a b x - x ∈ fixedSpace d)
     (hEcent : eichler Q a b ∈ Subgroup.centralizer ({d} : Set (V ≃ₗ[F] V))) :
@@ -755,6 +778,7 @@ private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux4 {d : V ≃�
   · rw [fixedSpace_eq_bot_of_not_mem hmem, Submodule.mem_bot] at hEdiff
     exact sub_eq_zero.mp hEdiff
 
+omit [Finite F] [CharP F 2] in
 private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux3 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {j : Fin m} (hcj : c j ≠ 1) (hc1 : ∀ i, i ≠ j → c i = 1)
@@ -793,6 +817,7 @@ private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux3 {m : ℕ} {e
   exact mem_supportedBlock.mpr ⟨Subgroup.mem_inf.mpr ⟨hEorth, hEcent⟩,
     eichler_mem_supportedFixedDerived_of_weightOne_aux4 hEsub hEcent⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux5 {d : ↥(orthDerived Q)} {a b : V}
     (haW : a ∈ fixedSpace (d : V ≃ₗ[F] V)) (hbW : b ∈ fixedSpace (d : V ≃ₗ[F] V))
     (hg : eichler Q a b ∈ supportedBlock Q (d : V ≃ₗ[F] V) (X - 1)) :
@@ -822,6 +847,7 @@ private theorem eichler_mem_supportedFixedDerived_of_weightOne_aux5 {d : ↥(ort
     rw [eichler_of_not hgen']
     rfl
 
+omit [Finite F] [CharP F 2] in
 theorem eichler_mem_supportedFixedDerived_of_weightOne
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : ↥(orthDerived Q)}
@@ -851,6 +877,7 @@ theorem eichler_mem_supportedFixedDerived_of_weightOne
     (nondegenerate_polarBilin_restrict hWnd) (Units.ne_zero (c j)) ?_ _ _
   exact fun h => hcj (Units.ext h)
 
+omit [FiniteDimensional F V] in
 private theorem eichler_mem_specialBlock_aux6 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {d : ↥(orthDerived Q)} (hdp : (d : V ≃ₗ[F] V) ^ p = 1) :
     OddOrderIsometry Q p (d : V ≃ₗ[F] V) := by
@@ -864,6 +891,7 @@ private theorem eichler_mem_specialBlock_aux6 (hQ : (QuadraticMap.polarBilin Q).
   · exact hℓ.one_lt.ne' h2
   · exact hp2 (by rw [← h2]; exact ringChar.eq F 2)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem eichler_mem_specialBlock_aux1 {u : Fˣ} (hu : u ≠ 1) {d : ↥(orthDerived Q)}
     (hdO : (d : V ≃ₗ[F] V) ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     {x y : V} (hx : x ∈ primaryComponent (d : V ≃ₗ[F] V).toLinearMap (X - C (u : F)))
@@ -894,6 +922,7 @@ private theorem eichler_mem_specialBlock_aux1 {u : Fˣ} (hu : u ≠ 1) {d : ↥(
   · exact absurd (sub_eq_zero.mp h3) hu2
   · exact h3
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eichler_mem_specialBlock_aux2 {u : Fˣ} {d : ↥(orthDerived Q)} {a b : V}
     (hdO : (d : V ≃ₗ[F] V) ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (ha : (d : V ≃ₗ[F] V) a = ((u : Fˣ) : F) • a)
@@ -914,7 +943,7 @@ private theorem eichler_mem_specialBlock_aux2 {u : Fˣ} {d : ↥(orthDerived Q)}
 
 private theorem eichler_mem_specialBlock_aux3 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d : ↥(orthDerived Q)} (hdp : (d : V ≃ₗ[F] V) ^ p = 1)
-    {u : Fˣ} (hu : u ≠ 1) {a b : V} (ha : (d : V ≃ₗ[F] V) a = ((u : Fˣ) : F) • a)
+    {u : Fˣ} (_hu : u ≠ 1) {a b : V} (ha : (d : V ≃ₗ[F] V) a = ((u : Fˣ) : F) • a)
     (hb : (d : V ≃ₗ[F] V) b = (((u⁻¹ : Fˣ)) : F) • b)
     (hgen : Q a = 0 ∧ QuadraticMap.polar Q a b = 0) (ha0 : a ≠ 0) :
     eichler Q a b ∈ supportedBlock Q (d : V ≃ₗ[F] V) (X - C (u : F)) := by
@@ -960,9 +989,10 @@ private theorem eichler_mem_specialBlock_aux3 (hQ : (QuadraticMap.polarBilin Q).
     TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup (eichler_mem_orthogonalGroup Q a b) v
   exact hx.mem_supportedBlock_of_block hh hT hfix hQpres
 
+omit [Finite F] in
 private theorem eichler_mem_specialBlock_aux5 {u : Fˣ} (hu : u ≠ 1) {d : ↥(orthDerived Q)} {a b : V}
-    (ha : (d : V ≃ₗ[F] V) a = ((u : Fˣ) : F) • a)
-    (hb : (d : V ≃ₗ[F] V) b = (((u⁻¹ : Fˣ)) : F) • b)
+    (_ha : (d : V ≃ₗ[F] V) a = ((u : Fˣ) : F) • a)
+    (_hb : (d : V ≃ₗ[F] V) b = (((u⁻¹ : Fˣ)) : F) • b)
     (hgen : Q a = 0 ∧ QuadraticMap.polar Q a b = 0)
     (hdO : (d : V ≃ₗ[F] V) ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (ha_comp : a ∈ primaryComponent (d : V ≃ₗ[F] V).toLinearMap (X - C (u : F)))
@@ -970,7 +1000,7 @@ private theorem eichler_mem_specialBlock_aux5 {u : Fˣ} (hu : u ≠ 1) {d : ↥(
       (primaryComponent (d : V ≃ₗ[F] V).toLinearMap (X - C (u : F))))
     (hfapp : ∀ w, (f w : V) = eichler Q a b (w : V)) :
     LinearMap.det f = 1 := by
-  haveI : Fact (Irreducible (X - C (u : F))) := ⟨irreducible_X_sub_C (u : F)⟩
+  have : Fact (Irreducible (X - C (u : F))) := ⟨irreducible_X_sub_C (u : F)⟩
   refine CFSG.RankThree.PartOne.KCLinPlane.det_eq_one_of_restrictScalars
     (natDegree_X_sub_C (u : F)) f ?_
   let a' : primaryComponent (d : V ≃ₗ[F] V).toLinearMap (X - C (u : F)) := ⟨a, ha_comp⟩
@@ -1000,6 +1030,7 @@ private theorem eichler_mem_specialBlock_aux5 {u : Fˣ} (hu : u ≠ 1) {d : ↥(
   obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hu'
   simp [LinearMap.smulRight_apply, φ, a', hgen.2]
 
+omit [Finite F] in
 private theorem eichler_mem_specialBlock_aux4 {u : Fˣ} (hu : u ≠ 1) {d : ↥(orthDerived Q)} {a b : V}
     (ha : (d : V ≃ₗ[F] V) a = ((u : Fˣ) : F) • a)
     (hb : (d : V ≃ₗ[F] V) b = (((u⁻¹ : Fˣ)) : F) • b)
@@ -1037,6 +1068,7 @@ theorem eichler_mem_specialBlock (hQ : (QuadraticMap.polarBilin Q).Nondegenerate
       exact mem_specialBlock.mpr ⟨hg, eichler_mem_specialBlock_aux4 hu ha hb hgen hg⟩
   · rw [eichler_of_not hgen]; exact one_mem _
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_weightOne_aux1 {l : ℕ} {j : Fin (wittRank Q l)} (hm3 : 3 ≤ wittRank Q l) :
     ∃ k i : Fin (wittRank Q l), k ≠ j ∧ i ≠ j ∧ i ≠ k := by
   obtain ⟨k, hkj⟩ : ∃ k : Fin (wittRank Q l), k ≠ j :=
@@ -1056,6 +1088,7 @@ private theorem closureIn_eq_top_of_weightOne_aux1 {l : ℕ} {j : Fin (wittRank 
     omega
   exact ⟨k, i, hkj, fun h => hi (by simp [h]), fun h => hi (by simp [h])⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_weightOne_aux2 {Pj Pk : HypPair Q} (hek : Pk.e ∈ Pj.perp) (hfk : Pk.f ∈ Pj.perp) :
     CFSG.LieType.SeitzGeneration.OrthBlk.perp Q Pj.perp ≤ Pk.perp := by
   intro x hx
@@ -1063,6 +1096,7 @@ private theorem closureIn_eq_top_of_weightOne_aux2 {Pj Pk : HypPair Q} (hek : Pk
     ⟨CFSG.LieType.SeitzGeneration.OrthBlk.mem_perp.mp hx Pk.e hek,
      CFSG.LieType.SeitzGeneration.OrthBlk.mem_perp.mp hx Pk.f hfk⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_weightOne_aux3 {m : ℕ} {e f : Fin m → V} {j k : Fin m}
     {K N : Subgroup ↥(orthDerived Q)}
     {Pj Pk : HypPair Q} (hPje : Pj.e = e j) (hPjf : Pj.f = f j)
@@ -1094,6 +1128,7 @@ private theorem closureIn_eq_top_of_weightOne_aux3 {m : ℕ} {e f : Fin m → V}
   · change n0 * (g : V ≃ₗ[F] V) * n0.symm = eichler Q c d
     rw [hgval]; exact hconj
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_weightOne_aux5 {K N : Subgroup ↥(orthDerived Q)}
     (hEq : orthDerived Q = elementaryGroup Q)
     (hle : elementaryGroup Q ≤ (closureIn K N).map (orthDerived Q).subtype) :
@@ -1106,6 +1141,7 @@ private theorem closureIn_eq_top_of_weightOne_aux5 {K N : Subgroup ↥(orthDeriv
   have hxg : x = g := Subtype.ext hxval
   rwa [hxg] at hx
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_weightOne_aux4 {m : ℕ} {e f : Fin m → V} {j : Fin m}
     {K N : Subgroup ↥(orthDerived Q)} (hEq : orthDerived Q = elementaryGroup Q)
     {Pj : HypPair Q} (hPje : Pj.e = e j) (hPjf : Pj.f = f j)
@@ -1148,8 +1184,8 @@ theorem closureIn_eq_top_of_weightOne (hQ : (QuadraticMap.polarBilin Q).Nondegen
   let Pk : HypPair Q := ⟨e k, f k, hef.map_e k, hef.map_f k, by simpa using hef.polar_ef k k⟩
   let Pi : HypPair Q := ⟨e i, f i, hef.map_e i, hef.map_f i, by simpa using hef.polar_ef i i⟩
   have hek : Pk.e ∈ Pj.perp := HypPair.mem_perp.mpr ⟨hef.polar_ee j k, by
-    rw [QuadraticMap.polar_comm, hef.polar_ef k j, if_neg hkj]⟩
-  have hfk : Pk.f ∈ Pj.perp := HypPair.mem_perp.mpr ⟨by rw [hef.polar_ef j k, if_neg hjk],
+    rw [QuadraticMap.polar_comm, hef.polar_ef k j, ite_eq_right hkj]⟩
+  have hfk : Pk.f ∈ Pj.perp := HypPair.mem_perp.mpr ⟨by rw [hef.polar_ef j k, ite_eq_right hjk],
     hef.polar_ff j k⟩
   have hperp := closureIn_eq_top_of_weightOne_aux2 hek hfk
   have hW1 : PolarNondegOn Q Pj.perp := Pj.polarNondegOn_perp hQ
@@ -1164,16 +1200,17 @@ theorem closureIn_eq_top_of_weightOne (hQ : (QuadraticMap.polarBilin Q).Nondegen
     (rfl : Pj.f = f j) (rfl : Pk.e = e k) (rfl : Pk.f = f k) hnN hne hnf h1K
   have hPe : Pi.e ∈ Pj.perp ⊓ Pk.perp := Submodule.mem_inf.mpr
     ⟨HypPair.mem_perp.mpr ⟨hef.polar_ee j i, by rw [QuadraticMap.polar_comm, hef.polar_ef i j,
-      if_neg hij]⟩,
+      ite_eq_right hij]⟩,
      HypPair.mem_perp.mpr ⟨hef.polar_ee k i, by rw [QuadraticMap.polar_comm, hef.polar_ef i k,
-      if_neg hik]⟩⟩
+      ite_eq_right hik]⟩⟩
   have hPf : Pi.f ∈ Pj.perp ⊓ Pk.perp := Submodule.mem_inf.mpr
-    ⟨HypPair.mem_perp.mpr ⟨by rw [hef.polar_ef j i, if_neg (Ne.symm hij)], hef.polar_ff j i⟩,
-     HypPair.mem_perp.mpr ⟨by rw [hef.polar_ef k i, if_neg (Ne.symm hik)], hef.polar_ff k i⟩⟩
+    ⟨HypPair.mem_perp.mpr ⟨by rw [hef.polar_ef j i, ite_eq_right (Ne.symm hij)], hef.polar_ff j i⟩,
+     HypPair.mem_perp.mpr ⟨by rw [hef.polar_ef k i, ite_eq_right (Ne.symm hik)], hef.polar_ff k i⟩⟩
   have hle := CFSG.LieType.SeitzGeneration.elementaryGroup_le_of_two hH hQ hW1 hperp h1mem h2mem
     Pi hPe hPf
   exact closureIn_eq_top_of_weightOne_aux5 hEq hle
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux1 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f) :
     IsHypFamily Q f e where
   map_e := hef.map_f
@@ -1183,9 +1220,10 @@ private theorem closureIn_eq_top_of_plus_aux1 {m : ℕ} {e f : Fin m → V} (hef
   polar_ef i j := by
     rw [polar_comm, hef.polar_ef]
     by_cases h : i = j
-    · rw [if_pos h.symm, if_pos h]
-    · rw [if_neg (Ne.symm h), if_neg h]
+    · rw [ite_eq_left h.symm, ite_eq_left h]
+    · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux2 {A K : Subgroup ↥(orthDerived Q)} {n : ↥(orthDerived Q)}
     (hn : n ∈ Subgroup.normalizer (A : Set ↥(orthDerived Q))) {a b a' b' : V}
     (ha : (n : V ≃ₗ[F] V) a = a') (hb : (n : V ≃ₗ[F] V) b = b')
@@ -1199,7 +1237,8 @@ private theorem closureIn_eq_top_of_plus_aux2 {A K : Subgroup ↥(orthDerived Q)
   rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, hg',
     eichler_conj (orthDerived_le_orthogonalGroup n.2) a b, ha, hb]
 
-private theorem closureIn_eq_top_of_plus_aux3 {M : Subgroup (V ≃ₗ[F] V)} {u : V} (hu : Q u = 0) (S : Set V)
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem closureIn_eq_top_of_plus_aux3 {M : Subgroup (V ≃ₗ[F] V)} {u : V} (_hu : Q u = 0) (S : Set V)
     (hS : ∀ x ∈ S, polar Q u x = 0 ∧ eichler Q u x ∈ M) :
     ∀ w ∈ AddSubgroup.closure S, polar Q u w = 0 ∧ eichler Q u w ∈ M := by
   intro w hw
@@ -1213,6 +1252,7 @@ private theorem closureIn_eq_top_of_plus_aux3 {M : Subgroup (V ≃ₗ[F] V)} {u 
       exact ⟨by rw [polar_neg_right, hx.1, neg_zero],
         by rw [← eichler_inv hx.1]; exact M.inv_mem hx.2⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux4 (S : Set V) (hS : ∀ c : F, ∀ x ∈ S, c • x ∈ S) :
     ∀ w ∈ Submodule.span F S, w ∈ AddSubgroup.closure S := by
   have hcl : ∀ c : F, ∀ x ∈ AddSubgroup.closure S, c • x ∈ AddSubgroup.closure S := by
@@ -1234,7 +1274,7 @@ private theorem closureIn_eq_top_of_plus_aux11 (hQ : (QuadraticMap.polarBilin Q)
     (hpq : p ∣ Nat.card F - 1) {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
     {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
-    (i k : Fin (wittRank Q l)) (hik : i ≠ k) :
+    (i k : Fin (wittRank Q l)) (_hik : i ≠ k) :
     ∃ (r : Fin (wittRank Q l)) (ni nk : ↥(orthDerived Q)),
       r ∉ ({i, k} : Finset (Fin (wittRank Q l))) ∧
       ni ∈ Subgroup.normalizer (A : Set ↥(orthDerived Q)) ∧
@@ -1265,6 +1305,7 @@ private theorem closureIn_eq_top_of_plus_aux11 (hQ : (QuadraticMap.polarBilin Q)
     exists_mem_normalizer_flip hQ hdim hp hp2 hpq hef hAeq {k, r} (Or.inl hcardk)
   exact ⟨r, ni, nk, hr, hniN, hnkN, hniS, hniNot, hnkS, hnkNot⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux12 {l : ℕ} {e f : Fin (wittRank Q l) → V}
     {a b : Fin (wittRank Q l) → V} {ni nk : ↥(orthDerived Q)} {i k r : Fin (wittRank Q l)}
     (hpair : ∀ j, (a j = e j ∧ b j = f j) ∨ (a j = f j ∧ b j = e j))
@@ -1306,6 +1347,7 @@ private theorem closureIn_eq_top_of_plus_aux12 {l : ℕ} {e f : Fin (wittRank Q 
     · rw [hb1]; exact (hnkNot i hiS).2
     · rw [hb1]; exact (hnkNot i hiS).1
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux13 {l : ℕ}
     {a b : Fin (wittRank Q l) → V} {d : ↥(orthDerived Q)} {u : Fˣ}
     {K : Subgroup ↥(orthDerived Q)} (hΩE : orthDerived Q = elementaryGroup Q)
@@ -1328,8 +1370,8 @@ private theorem closureIn_eq_top_of_plus_aux5 (hQ : (QuadraticMap.polarBilin Q).
     {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
     {c : Fin (wittRank Q l) → Fˣ} {d : ↥(orthDerived Q)}
-    (hd : IsHypDiag Q e f c (d : V ≃ₗ[F] V)) {u : Fˣ} (hu : u ≠ 1)
-    (hcu : ∀ i, c i = u ∨ c i = u⁻¹) {K : Subgroup ↥(orthDerived Q)}
+    (_hd : IsHypDiag Q e f c (d : V ≃ₗ[F] V)) {u : Fˣ} (_hu : u ≠ 1)
+    (_hcu : ∀ i, c i = u ∨ c i = u⁻¹) {K : Subgroup ↥(orthDerived Q)}
     (hK : ∀ a b : V, (d : V ≃ₗ[F] V) a = ((u : Fˣ) : F) • a →
       (d : V ≃ₗ[F] V) b = (((u⁻¹ : Fˣ)) : F) • b →
       ∀ g : ↥(orthDerived Q), (g : V ≃ₗ[F] V) = eichler Q a b → g ∈ K)
@@ -1410,6 +1452,7 @@ private theorem closureIn_eq_top_of_plus_aux6 (hQ : (QuadraticMap.polarBilin Q).
   · exact (h4 α).2.2.2
   · exact (h4 α).2.1
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux7 {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) :
     PolarNondegOn Q (Submodule.span F (Set.range e ∪ Set.range f)) := by
@@ -1419,8 +1462,8 @@ private theorem closureIn_eq_top_of_plus_aux7 {m : ℕ} {e f : Fin m → V} (hef
     intro i j hij
     refine ⟨?_, ?_, ?_, ?_⟩
     · exact hef.polar_ee i j
-    · rw [hef.polar_ef, if_neg hij]
-    · rw [polar_comm, hef.polar_ef, if_neg (Ne.symm hij)]
+    · rw [hef.polar_ef, ite_eq_right hij]
+    · rw [polar_comm, hef.polar_ef, ite_eq_right (Ne.symm hij)]
     · exact hef.polar_ff i j
   intro x hx hxorth
   have hxP : x ∈ pairsPerp P := by
@@ -1432,6 +1475,7 @@ private theorem closureIn_eq_top_of_plus_aux7 {m : ℕ} {e f : Fin m → V} (hef
   rw [pairsSpan_inf_pairsPerp hPo hQ] at hinf
   simpa using hinf
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux8 {l : ℕ} {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (i : Fin (wittRank Q l)) :
     ∀ w ∈ Submodule.span F (Set.range e ∪ Set.range f), polar Q (e i) w = 0 →
@@ -1468,6 +1512,7 @@ private theorem closureIn_eq_top_of_plus_aux8 {l : ℕ} {e f : Fin (wittRank Q l
       exact Submodule.zero_mem _
     · exact Submodule.smul_mem _ _ (Submodule.subset_span (Or.inl (Or.inr ⟨j, hji, 1, by simp⟩)))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux9 {l : ℕ} {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {M : Subgroup (V ≃ₗ[F] V)}
     (hshared : ∀ (i k : Fin (wittRank Q l)), i ≠ k →
@@ -1489,7 +1534,7 @@ private theorem closureIn_eq_top_of_plus_aux9 {l : ℕ} {e f : Fin (wittRank Q l
     rcases hx with (⟨j, hj, t, hx⟩ | ⟨j, hj, t, hx⟩) | ⟨t, hx⟩
     · rw [hx]; exact ⟨by rw [polar_smul_right_eq, hef.polar_ee i j, mul_zero],
         hshared i j (Ne.symm hj) (e i) (by simp) (e j) (by simp) t⟩
-    · rw [hx]; exact ⟨by rw [polar_smul_right_eq, hef.polar_ef i j, if_neg (Ne.symm hj), mul_zero],
+    · rw [hx]; exact ⟨by rw [polar_smul_right_eq, hef.polar_ef i j, ite_eq_right (Ne.symm hj), mul_zero],
         hshared i j (Ne.symm hj) (e i) (by simp) (f j) (by simp) t⟩
     · rw [hx]; refine ⟨by rw [polar_smul_right_eq, hef.polar_ee i i, mul_zero], ?_⟩
       have h1 := eichler_add_smul_self (hef.map_e i) 0 t
@@ -1498,6 +1543,7 @@ private theorem closureIn_eq_top_of_plus_aux9 {l : ℕ} {e f : Fin (wittRank Q l
   intro w hwH hw
   exact (closureIn_eq_top_of_plus_aux3 (hef.map_e i) S hS w (closureIn_eq_top_of_plus_aux4 S hSsmul w (closureIn_eq_top_of_plus_aux8 hef hQ i w hwH hw))).2
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux10 {l : ℕ} {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {M : Subgroup (V ≃ₗ[F] V)}
     (hshared : ∀ (i k : Fin (wittRank Q l)), i ≠ k →
@@ -1519,7 +1565,7 @@ private theorem closureIn_eq_top_of_plus_aux10 {l : ℕ} {e f : Fin (wittRank Q 
     rcases hx with (⟨j, hj, t, hx⟩ | ⟨j, hj, t, hx⟩) | ⟨t, hx⟩
     · rw [hx]; exact ⟨by rw [polar_smul_right_eq, hef.polar_ff i j, mul_zero],
         hshared i j (Ne.symm hj) (f i) (by simp) (f j) (by simp) t⟩
-    · rw [hx]; exact ⟨by rw [polar_smul_right_eq, polar_comm, hef.polar_ef, if_neg hj, mul_zero],
+    · rw [hx]; exact ⟨by rw [polar_smul_right_eq, polar_comm, hef.polar_ef, ite_eq_right hj, mul_zero],
         hshared i j (Ne.symm hj) (f i) (by simp) (e j) (by simp) t⟩
     · rw [hx]; refine ⟨by rw [polar_smul_right_eq, hef.polar_ff i i, mul_zero], ?_⟩
       have h1 := eichler_add_smul_self (hef.map_f i) 0 t
@@ -1531,6 +1577,7 @@ private theorem closureIn_eq_top_of_plus_aux10 {l : ℕ} {e f : Fin (wittRank Q 
   exact (closureIn_eq_top_of_plus_aux3 (hef.map_f i) S hS w
     (closureIn_eq_top_of_plus_aux4 S hSsmul w (closureIn_eq_top_of_plus_aux8 (e := f) (f := e) (closureIn_eq_top_of_plus_aux1 hef) hQ i w hwH' hw))).2
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux14 {l : ℕ} {e f : Fin (wittRank Q l) → V}
     {c : Fin (wittRank Q l) → Fˣ} {d : ↥(orthDerived Q)}
     (hd : IsHypDiag Q e f c (d : V ≃ₗ[F] V)) {u : Fˣ}
@@ -1562,6 +1609,7 @@ private theorem closureIn_eq_top_of_plus_aux14 {l : ℕ} {e f : Fin (wittRank Q 
     · exact Or.inr ⟨by simp [a, h], by simp [b, h]⟩
   exact ⟨a, b, ha, hb, hpair⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem closureIn_eq_top_of_plus_aux15 {l : ℕ} (hdim : finrank F V = 2 * l)
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q) {e f : Fin (wittRank Q l) → V}
     (hef : IsHypFamily Q e f) :
@@ -1574,6 +1622,7 @@ private theorem closureIn_eq_top_of_plus_aux15 {l : ℕ} (hdim : finrank F V = 2
   rw [hplus_m, hdim]
   ring
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem closureIn_eq_top_of_plus_aux16 {l : ℕ} {e f : Fin (wittRank Q l) → V}
     (hef : IsHypFamily Q e f) (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {M : Subgroup (V ≃ₗ[F] V)}
@@ -1620,7 +1669,7 @@ theorem closureIn_eq_top_of_plus (hQ : (QuadraticMap.polarBilin Q).Nondegenerate
       ∀ y ∈ ({e i, f i} : Set V), ∀ y' ∈ ({e k, f k} : Set V), ∀ α : F,
         eichler Q y (α • y') ∈ M := fun i k hik =>
     closureIn_eq_top_of_plus_aux6 hQ hdim hl hp hp2 hpq hef hAeq hd hu hcu hK ha hb hpair i k hik
-  have hm3 : 3 ≤ wittRank Q l := by unfold wittRank; split_ifs <;> omega
+  have hm3 : 3 ≤ wittRank Q l := by unfold wittRank; split_ifs; omega
   let i : Fin (wittRank Q l) := ⟨0, by omega⟩
   have hspan_top := closureIn_eq_top_of_plus_aux15 hdim hplus hef
   obtain ⟨he, hf⟩ := closureIn_eq_top_of_plus_aux16 hef hQ hshared hspan_top i
@@ -1664,7 +1713,7 @@ theorem eichler_mem_closureIn_of_minus (hQ : (QuadraticMap.polarBilin Q).Nondege
       ∀ y ∈ ({e i, f i} : Set V), ∀ y' ∈ ({e k, f k} : Set V), ∀ α : F,
         eichler Q y (α • y') ∈ M := fun i k hik =>
     closureIn_eq_top_of_plus_aux6 hQ hdim hl hp hp2 hpq hef hAeq hd hu hcu hK ha hb hpair i k hik
-  have hm3 : 3 ≤ wittRank Q l := by unfold wittRank; split_ifs <;> omega
+  have hm3 : 3 ≤ wittRank Q l := by unfold wittRank; split_ifs; omega
   let i0 : Fin (wittRank Q l) := ⟨0, by omega⟩
   have hU : PolarNondegOn Q (Submodule.span F (Set.range e ∪ Set.range f)) :=
     closureIn_eq_top_of_plus_aux7 hef hQ
@@ -1680,9 +1729,10 @@ theorem eichler_mem_closureIn_of_minus (hQ : (QuadraticMap.polarBilin Q).Nondege
   have : g = h := Subtype.ext (hg.trans hx.symm)
   simpa [this] using hh
 
+omit [CharP F 2] in
 private theorem eq_bot_of_invariant_totallySingular_aux1
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ} (hdim : finrank F V = 2 * l)
-    (hl : 4 ≤ l) {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
+    (hl : 4 ≤ l) {e f : Fin (wittRank Q l) → V} (_hef : IsHypFamily Q e f)
     {X : Subgroup ↥(orthDerived Q)}
     (hX : ∀ a b : V, a ∈ Submodule.span F (Set.range e ∪ Set.range f) →
       b ∈ Submodule.span F (Set.range e ∪ Set.range f) →
@@ -1722,10 +1772,11 @@ private theorem eq_bot_of_invariant_totallySingular_aux1
   have hQval : Q ((g : V ≃ₗ[F] V) w - w) = (polar Q w a) ^ 2 * Q (e k + f k) := by
     rw [hD, hQsub, QuadraticMap.map_smul, QuadraticMap.map_smul,
       QuadraticMap.polar_smul_left, QuadraticMap.polar_smul_right, haQ, hQba]
-    simp only [smul_zero, mul_zero, sub_zero, add_zero, smul_eq_mul]
+    simp only [mul_zero, sub_zero, add_zero, smul_eq_mul]
     ring
   exact ⟨g, hgX, hdiffW, hQval⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eq_bot_of_invariant_totallySingular_aux2
     {l : ℕ} {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)
     {X : Subgroup ↥(orthDerived Q)} {W : Submodule F V}
@@ -1737,7 +1788,7 @@ private theorem eq_bot_of_invariant_totallySingular_aux2
   obtain ⟨g, -, hdiffW, hQval⟩ := hres
   have hQb : Q (e k + f k) = 1 := by
     rw [QuadraticMap.map_add (⇑Q) (e k) (f k), hef.map_e, hef.map_f, hef.polar_ef,
-      if_pos rfl]
+      ite_eq_left rfl]
     ring
   have hQzero : Q ((g : V ≃ₗ[F] V) w - w) = 0 := hWs _ hdiffW
   have hprod : (polar Q w a) ^ 2 * Q (e k + f k) = 0 := by rw [← hQval, hQzero]
@@ -1745,6 +1796,7 @@ private theorem eq_bot_of_invariant_totallySingular_aux2
   have hsq : (polar Q w a) * (polar Q w a) = 0 := by simpa [pow_two] using hprod
   exact haB (mul_self_eq_zero.mp hsq)
 
+omit [CharP F 2] in
 private theorem eq_bot_of_invariant_totallySingular_aux3
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ} (hdim : finrank F V = 2 * l)
     (hl : 4 ≤ l) {e f : Fin (wittRank Q l) → V} (hef : IsHypFamily Q e f)

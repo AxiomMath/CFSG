@@ -11,6 +11,7 @@ namespace CFSG.LocalAnalysis.AGL81TheoremCD.Section14
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem minParabolic_comap_of_relIndex_eq_three {S : Type*} [Group S] (φ : X →* S)
     (hφ : Function.Surjective φ) (hker : IsPGroup 2 φ.ker) {E P : Subgroup S}
     (hE : IsPGroup 2 E) (hEP : E ≤ P) (hidx : E.relIndex P = 3)
@@ -60,7 +61,7 @@ theorem minParabolic_comap_of_relIndex_eq_three {S : Type*} [Group S] (φ : X �
       · exact absurd h hN.1.ne⟩
 
 theorem perfectCore_comap_eq_bot {S : Type*} [Group S] (φ : X →* S)
-    (hker : IsSolvable φ.ker) {P : Subgroup S} (hP : IsSolvable P) :
+    (hker : Group.IsSolvable φ.ker) {P : Subgroup S} (hP : Group.IsSolvable P) :
     CFSG.Quasithin.perfectCore (P.comap φ) = ⊥ := by
   classical
   have hle : φ.ker ≤ P.comap φ := MonoidHom.ker_le_comap φ P
@@ -73,12 +74,12 @@ theorem perfectCore_comap_eq_bot {S : Type*} [Group S] (φ : X →* S)
     exact ⟨fun hp => congrArg Subtype.val hp, fun hp => Subtype.ext hp⟩
   have hfg : g.ker ≤ f.range := by
     rw [hker_g, Subgroup.range_subtype]
-  haveI : Group.IsSolvable ↥φ.ker := hker
-  haveI : Group.IsSolvable ↥QP :=
+  have : Group.IsSolvable ↥φ.ker := hker
+  have : Group.IsSolvable ↥QP :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hle).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hle).injective
-  haveI : Group.IsSolvable ↥P := hP
+  have : Group.IsSolvable ↥P := hP
   have hsolv : Group.IsSolvable ↥(P.comap φ) := Group.isSolvable_of_ker_le_range f g hfg
   exact (CFSG.Quasithin.isSolvable_iff_perfectCore_eq_bot (P.comap φ)).mp hsolv
 

@@ -29,8 +29,8 @@ theorem exists_frame_coords {G : Type*} [Group G] {Bs : Subgroup G} [Finite Bs] 
       ((e ((coxeterMatrix (isFiniteType_cartanC (m + 1))).toCoxeterSystem.simple k) : ↥A) :
           MulAut ↥Bs) (Φ a) = Φ (spReflPerm (m + 1) p k a) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative ↥Bs := hBs.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative ↥Bs := hBs.1
   have hp2' : (2 : ZMod p) ≠ 0 := by
     intro h
     have h1 : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h
@@ -42,8 +42,8 @@ theorem exists_frame_coords {G : Type*} [Group G] {Bs : Subgroup G} [Finite Bs] 
     refine Subtype.ext ?_
     rw [Subgroup.coe_pow, Subgroup.coe_one]
     exact hBs.2 x.toMul x.toMul.2
-  letI : Module (ZMod p) (Additive ↥Bs) := AddCommGroup.zmodModule (n := p) hV
-  haveI hfin : Module.Finite (ZMod p) (Additive ↥Bs) := Module.Finite.of_finite
+  let : Module (ZMod p) (Additive ↥Bs) := AddCommGroup.zmodModule (n := p) hV
+  have hfin : Module.Finite (ZMod p) (Additive ↥Bs) := Module.Finite.of_finite
   let lin : MulAut ↥Bs →* Module.End (ZMod p) (Additive ↥Bs) :=
     { toFun := fun φ => (MonoidHom.toAdditive φ.toMonoidHom).toZModLinearMap p
       map_one' := by ext x; rfl
@@ -86,7 +86,7 @@ theorem exists_frame_coords {G : Type*} [Group G] {Bs : Subgroup G} [Finite Bs] 
       rw [← map_mul, ← pow_two, hφ2, map_one]
     · let E₁ := Module.End.eigenspace
         (ρ ((coxeterMatrix (isFiniteType_cartanC (m + 1))).toCoxeterSystem.simple i)) 1
-      haveI : Module.Finite (ZMod p) E₁ := Module.Finite.of_finite
+      have : Module.Finite (ZMod p) E₁ := Module.Finite.of_finite
       have hEcard : Nat.card E₁ = Nat.card {b : ↥Bs //
           (((e ((coxeterMatrix (isFiniteType_cartanC (m + 1))).toCoxeterSystem.simple i) : ↥A) :
             MulAut ↥Bs)) b = b} := by
@@ -208,13 +208,13 @@ theorem exists_frame_coords {G : Type*} [Group G] {Bs : Subgroup G} [Finite Bs] 
         intro j _
         by_cases hj : j = Fin.last m
         · subst hj
-          rw [if_pos rfl, Function.update_self]
+          rw [ite_eq_left rfl, Function.update_self]
           have hneg : Multiplicative.toAdd (a (Fin.last m)) • (-f (Fin.last m)) =
               (-Multiplicative.toAdd (a (Fin.last m))) • f (Fin.last m) := by
             conv_lhs => rw [← neg_neg (Multiplicative.toAdd (a (Fin.last m)))]
             rw [neg_smul_neg]
           exact hneg
-        · rw [if_neg hj, Function.update_of_ne hj]
+        · rw [ite_eq_right hj, Function.update_of_ne hj]
       rw [h1, hd, hsum]
       exact (Module.Basis.equivFun_symm_apply f _).symm
   have hstep :

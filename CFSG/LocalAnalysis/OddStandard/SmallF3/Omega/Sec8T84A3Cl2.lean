@@ -73,7 +73,7 @@ theorem Cl2.comm_mul (h : Cl2 K B) {x y z : G} (hx : x ∈ K) (hy : y ∈ K) (hz
 theorem Cl2.sq_cube (h : Cl2 K B) {x y z : G} (hx : x ∈ K) (hy : y ∈ K) (hz : z ∈ K) :
     (x * y * z) * (x * y * z) * ((x * x) * (y * y) * (z * z)) =
       ((x * y) * (x * y)) * ((x * z) * (x * z)) * ((y * z) * (y * z)) := by
-  haveI : IsMulCommutative ↥B := ⟨⟨fun a b => Subtype.ext (h.comm_B a.2 b.2)⟩⟩
+  have : IsMulCommutative ↥B := ⟨⟨fun a b => Subtype.ext (h.comm_B a.2 b.2)⟩⟩
   have h1 := h.sq_mul (K.mul_mem hx hy) hz
   have h2 := h.sq_mul hx hy
   have h3 := h.sq_mul hx hz

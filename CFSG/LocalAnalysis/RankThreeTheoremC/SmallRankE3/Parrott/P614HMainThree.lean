@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 3 G} {M H S K : Subgroup G} 
 
 theorem kbarL32_of_lieCase_three (k136 : KFact136Three) (hyp : Hyp P M x z H S)
     (h618 : Stage618 M H K z) (hL : LieCase M H S K x z) : KbarL32 H K := by
-  haveI := isSimpleGroup_kbar hyp h618
+  have := isSimpleGroup_kbar hyp h618
   have hidx : 2 ∣ (bar K (kRad H S K)).index := by
     rw [index_bar_kRad hyp h618]
     exact hL.rad_not_sylow

@@ -29,8 +29,8 @@ theorem false_of_fixes_ker (D : Subgroup (StatedSp n F)) [Fintype D] (hodd : Odd
   let C : Subgroup (StatedSp n F) := Subgroup.centralizer (D : Set (StatedSp n F))
   have hJC : J ≤ C := hJ.le
   have hJ' : CFSG.Assembly.IsSubnormal J C := hJ
-  haveI : Finite (StatedSp n F) := inferInstance
-  haveI : Finite ↥J := inferInstance
+  have : Finite (StatedSp n F) := inferInstance
+  have : Finite ↥J := inferInstance
   have hinj : ∀ g (hg : g ∈ J), res ⟨g, hJC hg⟩ = 1 → g = 1 := by
     intro g hg hres1
     have h := hιres ⟨g, hJC hg⟩ (hfix g hg)
@@ -42,7 +42,7 @@ theorem false_of_fixes_ker (D : Subgroup (StatedSp n F)) [Fintype D] (hodd : Odd
       refine le_antisymm (fun g hg => ?_) bot_le
       rw [Subgroup.mem_bot]
       exact hinj g hg (hkill g hg)
-    haveI : Subsingleton ↥J := by
+    have : Subsingleton ↥J := by
       rw [hbot]
       infer_instance
     obtain ⟨a, b, hab⟩ := (CFSG.StandardType.IsAlternatingEightCover.nontrivial hA).exists_pair_ne
@@ -60,7 +60,7 @@ theorem false_of_fixes_ker (D : Subgroup (StatedSp n F)) [Fintype D] (hodd : Odd
     exact h1
   ·
     have hm3 : 3 ≤ m := by omega
-    haveI : IsSimpleGroup (StatedSp m F) := isSimpleGroup_statedSp hm3
+    have : IsSimpleGroup (StatedSp m F) := isSimpleGroup_statedSp hm3
     have hsurj : Function.Surjective res := fun M => ⟨ι M, hresι M⟩
     have hK : CFSG.Assembly.IsSubnormal (J.subgroupOf C) ⊤ :=
       CFSG.Assembly.IsSubnormal.of_mathlib (CFSG.Assembly.IsSubnormal.subgroupOf hJ')
@@ -113,7 +113,7 @@ theorem false_of_isSubnormal_centralizer_eightCover (hn : n ≤ 4 ∨ (n = 5 ∧
     (hJ : CFSG.Assembly.IsSubnormal J (Subgroup.centralizer (D : Set (StatedSp n F))))
     (hA : IsAlternatingEightCover ↥J) : False := by
   classical
-  haveI : Fintype D := Fintype.ofFinite D
+  have : Fintype D := Fintype.ofFinite D
   have hDc' : Fintype.card D = 9 := by rw [← Nat.card_eq_fintype_card]; exact hDc
   have hodd : Odd (Fintype.card D) := by rw [hDc']; decide
   exact false_of_fixes_ker D hodd hJ hA (fixes_of_ker hn D hDc' hcomm hexp hJ.le hA)

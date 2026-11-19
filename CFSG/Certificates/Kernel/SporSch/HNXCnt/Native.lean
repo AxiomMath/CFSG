@@ -82,7 +82,7 @@ theorem toOrbit_keys_size (P : PackedOrbitData) :
 theorem toOrbit_keys_get (P : PackedOrbitData) {i : Nat} (hi : i < P.vectors.values.length) :
     P.toOrbit.keys[i]! = orbitVector P.dimension (P.vectors.values[i]!) := by
   rw [toOrbit_keys]
-  simp [List.getElem!_eq_getElem?_getD, hi]
+  simp [hi]
 
 theorem toOrbit_alpha_size (P : PackedOrbitData) : P.toOrbit.alpha.size = P.alpha.values.length := by
   simp [PackedOrbitData.toOrbit]
@@ -152,6 +152,7 @@ theorem orbitVector_inj {d x y : Nat} (hx : x < 2 ^ (3 * d)) (hy : y < 2 ^ (3 * 
   refine eq_of_fields hx hy fun j hj => ?_
   rw [← orbitVector_get d x hj, ← orbitVector_get d y hj, h]
 
+set_option exponentiation.threshold 399 in
 theorem xv_lt (T : Nat → Nat) (i : Nat) : xv T i < 2 ^ (3 * 133) := by
   unfold xv
   rw [fldW_eq]

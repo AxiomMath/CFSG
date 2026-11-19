@@ -29,13 +29,13 @@ private lemma hdRo7CGenAux_diagMap_apply {p : ℕ} {V : Type} [AddCommGroup V]
     funext j
     rw [Module.Basis.equivFun_self, Pi.single_apply]
     by_cases h : k = j
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
   rw [hk]
   funext j
   by_cases h : j = k
   · subst h; rfl
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private noncomputable def hdRo7CGenAux_sgn {p : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {m : ℕ} (b : Module.Basis (Fin m) (ZMod p) V) (k : Fin m) :
@@ -81,13 +81,13 @@ private lemma hdRo7CGenAux_conj_sgn {p : ℕ} {V : Type} [AddCommGroup V] [Modul
           rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
       _ = s0 (hdRo7CGenAux_sgn b i (ε • b i)) := by rw [h0]
       _ = s0 (ε • hdRo7CGenAux_sgn b i (b i)) := by rw [map_smul]
-      _ = s0 (ε • ((-1 : ZMod p) • b i)) := by rw [hdRo7CGenAux_sgn_apply, if_pos rfl]
+      _ = s0 (ε • ((-1 : ZMod p) • b i)) := by rw [hdRo7CGenAux_sgn_apply, ite_eq_left rfl]
       _ = s0 ((ε * -1) • b i) := by rw [smul_smul]
       _ = (ε * -1) • s0 (b i) := by rw [map_smul]
       _ = (ε * -1) • (ε • b 0) := by rw [hi]
       _ = ((ε * -1) * ε) • b 0 := by rw [smul_smul]
       _ = (-1 : ZMod p) • b 0 := by rcases hε with h | h <;> rw [h] <;> simp
-      _ = hdRo7CGenAux_sgn b 0 (b 0) := by rw [hdRo7CGenAux_sgn_apply, if_pos rfl]
+      _ = hdRo7CGenAux_sgn b 0 (b 0) := by rw [hdRo7CGenAux_sgn_apply, ite_eq_left rfl]
   · by_cases hki : k = i
     · rw [hki]
       calc (s0 * hdRo7CGenAux_sgn b i * s0) (b i)
@@ -96,21 +96,21 @@ private lemma hdRo7CGenAux_conj_sgn {p : ℕ} {V : Type} [AddCommGroup V] [Modul
         _ = s0 (hdRo7CGenAux_sgn b i (ε • b 0)) := by rw [hi]
         _ = s0 (ε • hdRo7CGenAux_sgn b i (b 0)) := by rw [map_smul]
         _ = s0 (ε • ((1 : ZMod p) • b 0)) := by
-              rw [hdRo7CGenAux_sgn_apply, if_neg (fun h : (0 : Fin (n + 1)) = i => hi0 h.symm)]
+              rw [hdRo7CGenAux_sgn_apply, ite_eq_right (fun h : (0 : Fin (n + 1)) = i => hi0 h.symm)]
         _ = s0 (ε • b 0) := by rw [one_smul]
         _ = ε • s0 (b 0) := by rw [map_smul]
         _ = ε • (ε • b i) := by rw [h0]
         _ = (ε * ε) • b i := by rw [smul_smul]
         _ = (1 : ZMod p) • b i := by rcases hε with h | h <;> rw [h] <;> simp
-        _ = hdRo7CGenAux_sgn b 0 (b i) := by rw [hdRo7CGenAux_sgn_apply, if_neg hi0, one_smul]
+        _ = hdRo7CGenAux_sgn b 0 (b i) := by rw [hdRo7CGenAux_sgn_apply, ite_eq_right hi0, one_smul]
     · calc (s0 * hdRo7CGenAux_sgn b i * s0) (b k)
           = s0 (hdRo7CGenAux_sgn b i (s0 (b k))) := by
             rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
         _ = s0 (hdRo7CGenAux_sgn b i (b k)) := by rw [hj k hk0 hki]
-        _ = s0 ((1 : ZMod p) • b k) := by rw [hdRo7CGenAux_sgn_apply, if_neg hki]
+        _ = s0 ((1 : ZMod p) • b k) := by rw [hdRo7CGenAux_sgn_apply, ite_eq_right hki]
         _ = s0 (b k) := by rw [one_smul]
         _ = b k := by rw [hj k hk0 hki]
-        _ = hdRo7CGenAux_sgn b 0 (b k) := by rw [hdRo7CGenAux_sgn_apply, if_neg hk0, one_smul]
+        _ = hdRo7CGenAux_sgn b 0 (b k) := by rw [hdRo7CGenAux_sgn_apply, ite_eq_right hk0, one_smul]
 
 private lemma hdRo7CGenAux_permMap_apply {p : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {m : ℕ} (b : Module.Basis (Fin m) (ZMod p) V)
@@ -157,13 +157,13 @@ private lemma hdRo7CGenAux_list_prod_sign {p : ℕ} {m : ℕ} (l : List (Fin m))
     rw [List.map_cons, List.prod_cons, ih hnd']
     by_cases hki : k = i
     · subst hki
-      rw [if_pos rfl, if_neg hnot, if_pos (List.mem_cons_self)]
+      rw [ite_eq_left rfl, ite_eq_right hnot, ite_eq_left (List.mem_cons_self)]
       ring
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
       by_cases hmem : k ∈ l
-      · rw [if_pos hmem, if_pos (List.mem_cons_of_mem i hmem)]
+      · rw [ite_eq_left hmem, ite_eq_left (List.mem_cons_of_mem i hmem)]
         ring
-      · rw [if_neg hmem, if_neg (fun h => by
+      · rw [ite_eq_right hmem, ite_eq_right (fun h => by
             rcases List.mem_cons.mp h with h' | h'
             · exact hki h'
             · exact hmem h')]
@@ -184,8 +184,8 @@ private lemma hdRo7CGenAux_signX_to_full {p : ℕ} {V : Type} [AddCommGroup V]
     change a (b k) = (if k = 0 then -1 else 1 : ZMod p) • b k
     by_cases hk : k = 0
     · subst hk
-      rw [if_pos rfl, h.1]; simp
-    · rw [if_neg hk, h.2 k hk, one_smul]
+      rw [ite_eq_left rfl, h.1]; simp
+    · rw [ite_eq_right hk, h.2 k hk, one_smul]
 
 private lemma hdRo7CGenAux_swap_to_full {p : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} {b : Module.Basis (Fin (n + 1)) (ZMod p) V}
@@ -196,20 +196,20 @@ private lemma hdRo7CGenAux_swap_to_full {p : ℕ} {V : Type} [AddCommGroup V]
     change (if k = 0 then ε else if k = i then ε else 1) = 1 ∨
       (if k = 0 then ε else if k = i then ε else 1) = -1
     by_cases hk0 : k = 0
-    · rw [if_pos hk0]; exact hε
-    · rw [if_neg hk0]
+    · rw [ite_eq_left hk0]; exact hε
+    · rw [ite_eq_right hk0]
       by_cases hki : k = i
-      · rw [if_pos hki]; exact hε
-      · rw [if_neg hki]; exact Or.inl rfl
+      · rw [ite_eq_left hki]; exact hε
+      · rw [ite_eq_right hki]; exact Or.inl rfl
   · intro k
     change a (b k) = (if k = 0 then ε else if k = i then ε else 1) • b (Equiv.swap 0 i k)
     by_cases hk0 : k = 0
     · subst hk0
-      rw [if_pos rfl, h0, Equiv.swap_apply_left]
+      rw [ite_eq_left rfl, h0, Equiv.swap_apply_left]
     · by_cases hki : k = i
       · subst hki
-        rw [if_neg hi0, if_pos rfl, hi, Equiv.swap_apply_right]
-      · rw [if_neg hk0, if_neg hki, hj k hk0 hki, Equiv.swap_apply_of_ne_of_ne hk0 hki,
+        rw [ite_eq_right hi0, ite_eq_left rfl, hi, Equiv.swap_apply_right]
+      · rw [ite_eq_right hk0, ite_eq_right hki, hj k hk0 hki, Equiv.swap_apply_of_ne_of_ne hk0 hki,
           one_smul]
 
 private noncomputable def hdRo7CGenAux_fullSubgroup (p : ℕ) {V : Type} [AddCommGroup V]
@@ -271,7 +271,7 @@ theorem c2_gen_holds :
     refine ⟨1, fun l => if l = k then -1 else 1, ?_, ?_, ?_, ?_⟩
     · rfl
     · change (if (0 : Fin (n + 1)) = k then -1 else 1 : ZMod p) = 1
-      rw [if_neg (fun h => hk h.symm)]
+      rw [ite_eq_right (fun h => hk h.symm)]
     · intro l
       change (if l = k then -1 else 1 : ZMod p) = 1 ∨
         (if l = k then -1 else 1 : ZMod p) = -1
@@ -322,7 +322,7 @@ theorem c2_gen_holds :
             simp [hdRo7CGenAux_permMap_apply, Equiv.swap_apply_right, LinearEquiv.mul_apply,
               hdRo7CGenAux_sgn_apply, hai', h0i]
           · simp [hdRo7CGenAux_permMap_apply, Equiv.swap_apply_of_ne_of_ne hk0 hki,
-              LinearEquiv.mul_apply, hdRo7CGenAux_sgn_apply, haj k hk0 hki, hk0, hki]
+              LinearEquiv.mul_apply, hdRo7CGenAux_sgn_apply, haj k hk0 hki, hki]
       rw [hui]
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hEiM hs0M) hEiM
   have huM : ∀ j, j ≠ 0 → ZS.permMap p b (Equiv.swap 0 j) ∈ M := by
@@ -412,8 +412,8 @@ theorem c2_gen_holds :
         hdRo7CGenAux_permMap_apply, ha' k, hdRo7CGenAux_list_prod_sign l hnd k]
       congr 1
       by_cases hkl : k ∈ l
-      · rw [if_pos hkl]; exact (hmem k).mp hkl
-      · rw [if_neg hkl]
+      · rw [ite_eq_left hkl]; exact (hmem k).mp hkl
+      · rw [ite_eq_right hkl]
         have hcne : c k ≠ -1 := fun h => hkl ((hmem k).mpr h)
         rcases hc k with h | h
         · exact h

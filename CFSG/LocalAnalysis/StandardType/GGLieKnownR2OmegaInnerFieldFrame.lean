@@ -165,7 +165,7 @@ theorem fieldPart_eq_one_frame {ι F : Type} [Fintype ι] [DecidableEq ι] [Fiel
     [CharP F 2] {Q : QuadraticForm F (ι → F)} (hS : SpinOmegaData Q)
     {P P' : HypPair Q} (h : P.Orth P') (hV : 6 ≤ Module.finrank F (ι → F))
     (hW : GGSiegelWIrreducible Q P P')
-    {A : GL ι F} {φ : F ≃+* F} {μ : Fˣ} (hsim : GGSemilinearSimilitude Q A φ μ)
+    {A : GL ι F} {φ : F ≃+* F} {μ : Fˣ} (_hsim : GGSemilinearSimilitude Q A φ μ)
     {y : MulAut ↥(spinGroup Q)}
     (htriv : GGTrivialOnNormalizer (siegelRoot Q P.e P'.e) y)
     (hmat : GGMatrixSemilinearAction Q A φ μ y) :

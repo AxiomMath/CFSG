@@ -135,11 +135,11 @@ theorem exists_rootLine_hypSU {n : ℕ} {K : Type} [Field K]
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [Commute.mul_pow (hTcomm a b), ha, hb, one_mul]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [inv_pow, ha, inv_one] }
   have hRT_eq : RT = CFSG.LocalAnalysis.UniquenessCase.UC22.F11.Omega1p r (⊤ : Subgroup T) := by
     apply le_antisymm
@@ -435,10 +435,10 @@ theorem exists_rootLine_hypSU {n : ℕ} {K : Type} [Field K]
     apply Units.ext
     rw [Subgroup.coe_pow, Units.val_pow_eq_pow_val, hd1mat, Matrix.diagonal_pow]
     rw [show (torusEntries h a d0 ^ p) = (1 : Ix → K) from funext hEntryPow]
-    simpa using Matrix.diagonal_one
+    simp
   have hd1_entry : ((d1 : GL Ix K) : Matrix Ix Ix K) ie1 ie1 = (ν : K) := by
     rw [hd1mat]
-    simp [Matrix.diagonal_apply, torusEntries, ha0, ie1]
+    simp [torusEntries, ha0, ie1]
   have hd1_entry_ne : ((d1 : GL Ix K) : Matrix Ix Ix K) ie1 ie1 ≠ 1 := by
     rw [hd1_entry]
     intro hK
@@ -516,7 +516,7 @@ theorem exists_rootLine_hypSU {n : ℕ} {K : Type} [Field K]
     intro hmem
     have hmap : Subgroup.map (MulAut.conj γ).toMonoidHom (Subgroup.zpowers d1) =
         Subgroup.zpowers d1c := by
-      simpa [d1c] using MonoidHom.map_zpowers (MulAut.conj γ).toMonoidHom d1
+      simp [d1c]
     have hmem' : d2c ∈ Subgroup.map (MulAut.conj γ).toMonoidHom (Subgroup.zpowers d1) := by
       rw [hmap]; exact hmem
     obtain ⟨z, hz, hze⟩ := Subgroup.mem_map.mp hmem'
@@ -588,8 +588,7 @@ theorem k_U4RootLine_holds : K_U4RootLine := by
         (Subgroup.centralizer ((B0.map e.toMonoidHom : Subgroup Y) : Set Y))
     rw [CFSG.GroupTheory.CoprimeTransport.pRank_centralizer_map_mulEquiv e B0]
     exact hpB
-  · change p ∣ Nat.card (Subgroup.centralizer (E : Set Y))
-    rw [← hEHmap, CFSG.GroupTheory.CoprimeTransport.card_centralizer_map_mulEquiv e EH]
+  · rw [← hEHmap, CFSG.GroupTheory.CoprimeTransport.card_centralizer_map_mulEquiv e EH]
     exact hpE
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719

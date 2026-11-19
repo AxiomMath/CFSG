@@ -51,7 +51,7 @@ theorem not_dvd_card_normalizer_graphFixed_E6 {F : Type} [Field F] [Finite F] [C
     ¬ r ∣ Nat.card
       (Subgroup.normalizer (U : Set (graphFixedRootGroup TwistTag.E6 F σ.toRingHom))) := by
   classical
-  haveI : Fintype (WeylGroup TwistTag.E6.tag) := Fintype.ofFinite _
+  have : Fintype (WeylGroup TwistTag.E6.tag) := Fintype.ofFinite _
   obtain ⟨a, ha⟩ := exists_card_normalizer_dvd_card_maximal_parabolic TwistTag.E6 σ hH hU hU2
   have hq : ∀ b, Nat.card (orbitField TwistTag.E6 F σ.toRingHom b) =
       (2 ^ f) ^ (TwistTag.E6.orbit b).card := card_orbitField Nat.prime_two hf hF hσ
@@ -103,12 +103,12 @@ theorem twoLocalWhen_twistedE6
   obtain ⟨F, hFf, hFfin, σ, hFcard, hσ, ⟨e⟩⟩ :=
     exists_mulEquiv_graphFixedRootGroup_card .E6 Nat.prime_two hf1 hchev.2
   have hF : Nat.card F = (2 ^ f) ^ 2 := hFcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF2 : Fintype.card F = 2 ^ (2 * f) := by
     rw [← Nat.card_eq_fintype_card, hF, ← pow_mul, mul_comm]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hF2
-  haveI : Finite (ModGL TwistTag.E6.tag F) := finite_modGL
+  have : CharP F 2 := charP_of_card_eq_prime_pow hF2
+  have : Finite (ModGL TwistTag.E6.tag F) := finite_modGL
   have hH : Holds (graphFixedRootGroup TwistTag.E6 F σ.toRingHom) 2 :=
     (holds_of_chevalleyExceptionalModel hchev).of_mulEquiv e
   refine ⟨r, hr, fun R hR2 hR1 => ?_⟩

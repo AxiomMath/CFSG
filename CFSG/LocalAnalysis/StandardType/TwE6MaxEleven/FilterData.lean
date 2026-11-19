@@ -76,7 +76,7 @@ open CFSG.Assembly.LowTwoRank CFSG.EvenSmallLie.CatalogOrders CFSG.EvenSmallLie.
 @[expose] def twE6Primes : List (ℕ × ℕ) :=
   [(2, 36), (3, 9), (5, 2), (7, 2), (11, 1), (13, 1), (17, 1), (19, 1)]
 
-@[expose] def filterCheckE (t : StatedLieTag) (n p f o : ℕ) : Bool :=
+@[expose] def filterCheckE (_t : StatedLieTag) (_n _p _f o : ℕ) : Bool :=
   decide (11 ∣ o → o < twE6Ord → ¬ 3 ^ 6 ∣ o ∨ o = 9196830720 ∨ o = 25015379558400)
 
 @[expose] def sporadicCheckE (s : TauCeti.SporadicName) : Bool :=

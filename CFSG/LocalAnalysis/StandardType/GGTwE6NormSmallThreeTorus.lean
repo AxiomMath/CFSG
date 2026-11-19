@@ -94,8 +94,8 @@ theorem rootDiagUnit_corootTuple_mem_rationalComponent {K : Type} [Field K] [Fin
     {γ : Fin TwistTag.E6.tag.rank → ℤ} (hγ : γ ∈ componentRoots (rootCharHom a) i) :
     rootDiagUnit TwistTag.E6.tag (TwE6RootAs.corootTuple γ ζ) ∈
       rationalComponent S.ρ S.Γ (rootCharHom a) i := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hγr : IsRoot TwistTag.E6.tag γ := (isRootComponent_componentRoots i).isRoot γ hγ
   have hstep : ∀ δ, IsRoot TwistTag.E6.tag δ → ∀ c,

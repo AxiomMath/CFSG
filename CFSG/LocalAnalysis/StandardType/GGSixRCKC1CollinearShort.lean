@@ -136,14 +136,14 @@ private theorem rckPSU_toStd_eq_weight_of_two_smul_mem {m : ℕ}
         · exfalso
           exact hc.elim (fun hc1 => hji (Fin.ext (by rw [Fin.val_rev]; omega)))
             (fun hc2 => hij (Fin.ext (by omega)))
-        · rw [if_neg h1, if_neg h2]
+        · rw [ite_eq_right h1, ite_eq_right h2]
     have hi1 : CFSG.LieType.Universal.Unitary.weight m i c = 1 ∨
         CFSG.LieType.Universal.Unitary.weight m i c = -1 := by
       rw [CFSG.LieType.Universal.Unitary.SUExtras.weight_apply']
       by_cases h1 : i.val = c.val
-      · left; rw [if_pos h1]
+      · left; rw [ite_eq_left h1]
       · by_cases h2 : i.val + c.val + 1 = m
-        · right; rw [if_neg h1, if_pos h2]
+        · right; rw [ite_eq_right h1, ite_eq_left h2]
         · exfalso
           exact hc.elim (fun hc1 => h1 hc1) (fun hc2 => h2 hc2)
     have hEq : (2 : ℤ) * CFSG.LieType.Universal.Unitary.toStd m β c =
@@ -165,9 +165,9 @@ private theorem rckPSU_toStd_eq_weight_of_two_smul_mem {m : ℕ}
         CFSG.LieType.Universal.Unitary.weight m i c = -1 := by
       rw [CFSG.LieType.Universal.Unitary.SUExtras.weight_apply']
       by_cases h1 : i.val = c.val
-      · left; rw [if_pos h1]
+      · left; rw [ite_eq_left h1]
       · by_cases h2 : i.val + c.val + 1 = m
-        · right; rw [if_neg h1, if_pos h2]
+        · right; rw [ite_eq_right h1, ite_eq_left h2]
         · exfalso
           exact hc.elim (fun hc1 => h1 hc1) (fun hc2 => h2 hc2)
     have hEq : (2 : ℤ) * CFSG.LieType.Universal.Unitary.toStd m β c =
@@ -478,7 +478,7 @@ private theorem rckTwE6_card_rootGroup_short
     have hc1 : MulAut.conj (1 : fixedGroup k θ) = 1 := by
       apply MulEquiv.ext
       intro x
-      simp [MulAut.conj_apply]
+      simp
     have h1 : (MulEquiv.toMonoidHom (1 : MulAut (fixedGroup k θ))) =
         MonoidHom.id (fixedGroup k θ) := by
       ext x

@@ -95,9 +95,9 @@ private theorem i1912_catalog_SL (n : ℕ) (hn : 2 ≤ n) (heven : Even n)
     (K : Type) [Group K] (F : Type) [Field F] [Finite F] (hcard : Nat.card F = 2 ^ n)
     (e : K ≃* StatedSL 3 F) :
     catalogIs (K ⧸ Subgroup.center K) (k2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hqc : q.card = 2 ^ n := by rw [PrimePower.card_def]
   have hv : (LieTypeIndex.A 2 q).Valid := by
     refine (LieTypeIndex.valid_iff _).2 ⟨(LieTypeIndex.inStandardRange_iff _).2 ⟨by norm_num, ?_⟩, ?_⟩
@@ -124,9 +124,9 @@ private theorem i1912_catalog_SU3 (n : ℕ) (hn : 2 ≤ n) (hodd : Odd n)
     (K : Type) [Group K] (F : Type) [Field F] [Finite F] (hcard : Nat.card F = (2 ^ n) ^ 2)
     (e : K ≃* StatedSU 3 (2 ^ n) F) :
     catalogIs (K ⧸ Subgroup.center K) (k2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hv : (LieTypeIndex.twistedA 2 q).Valid := by
     refine (LieTypeIndex.valid_iff _).2 ⟨(LieTypeIndex.inStandardRange_iff _).2 ⟨le_rfl, fun _ => ?_⟩,
       fun h => (LieTypeIndex.isDuplicateRepresentative_iff _).1 h⟩
@@ -153,16 +153,16 @@ private theorem i1912_catalog_SU3 (n : ℕ) (hn : 2 ≤ n) (hodd : Odd n)
 private theorem i1912_catalog_SU6 (K : Type) [Group K] (F : Type) [Field F] [Finite F]
     (hcard : Nat.card F = 2 ^ 2) (e : K ≃* StatedSU 6 2 F) :
     catalogIs (K ⧸ Subgroup.center K) (k2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : PrimePower := ⟨2, 1, Nat.prime_two, by norm_num⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hv : (LieTypeIndex.twistedA 5 q).Valid :=
     (LieTypeIndex.valid_iff _).2 ⟨(LieTypeIndex.inStandardRange_iff _).2 ⟨by norm_num,
       fun h => absurd h (by norm_num)⟩, fun h => (LieTypeIndex.isDuplicateRepresentative_iff _).1 h⟩
-  have hF1 : Nat.card F = (2 ^ 1) ^ 2 := by rw [hcard] <;> norm_num
+  have hF1 : Nat.card F = (2 ^ 1) ^ 2 := by rw [hcard]; norm_num
   have hdq : ((6 : ℕ), 2 ^ 1) ≠ (3, 2) := by decide
-  have hF' : Nat.card F = 2 ^ (2 * 1) := by rw [hcard] <;> norm_num
-  have hcq : q.card = 2 := by rw [PrimePower.card_def] <;> norm_num
+  have hF' : Nat.card F = 2 ^ (2 * 1) := by rw [hcard]
+  have hcq : q.card = 2 := by rw [PrimePower.card_def]; norm_num
   refine ⟨.lie ⟨LieTypeIndex.twistedA 5 q, hv⟩, ⟨rfl, hcq⟩, ?_⟩
   exact ⟨((i1912_quotCenter_SU hF1 (by norm_num) hdq e).trans
     (CFSG.Open.StatedSUFieldChange.statedProjSUEquiv

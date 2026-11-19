@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 theorem y5_centHA {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     centIn s.H s.fr.A = zt s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
   have hA : LFactsA s := lfactsA_of_setting hH.hS hH.hZ s
   apply le_antisymm
   ·

@@ -89,7 +89,7 @@ theorem exists_conj_mem_Q0 (hq : Nat.card K % 3 = 1) (hK4 : 4 ≤ Nat.card K) {�
       have h1 := Subgroup.card_le_of_le hP'
       rw [card_subgroupOf_of_le hQC, Sylow.card_eq_multiplicity] at h1
       exact h1
-    · have hR : IsPGroup 3 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map _
+    · have hR : IsPGroup 3 ((P : Subgroup C).map C.subtype) := P.isPGroup.map _
       have h2 := hbound _ hR (Subgroup.map_subtype_le _)
       rw [← hP]
       calc Nat.card (P : Subgroup C) = Nat.card ((P : Subgroup C).map C.subtype) :=
@@ -106,7 +106,7 @@ theorem exists_conj_mem_Q0 (hq : Nat.card K % 3 = 1) (hK4 : 4 ≤ Nat.card K) {�
   have hxP : (⟨x, hxC⟩ : C) ∈ (P : Subgroup C) := hP (Subgroup.mem_zpowers _)
   rw [← hc, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem,
     Sylow.coe_ofCard, Subgroup.mem_subgroupOf] at hxP
-  simp only [MulAut.smul_def, map_inv, MulAut.conj_inv_apply] at hxP
+  simp only [MulAut.smul_def, MulAut.conj_inv_apply] at hxP
   refine ⟨c, c.2, ?_⟩
   simpa [mul_assoc] using hxP
 
@@ -140,6 +140,7 @@ theorem pairGenAt_gammaP_HSL (hq : Nat.card K % 3 = 1) (hK4 : 4 ≤ Nat.card K) 
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
     exact h.symm
 
+omit [Finite K] in
 theorem conj_gammaP (P B : SL2 K) :
     MulAut.conj (sl2At K ⟨2, by decide⟩ P) * gammaP K B *
         (MulAut.conj (sl2At K ⟨2, by decide⟩ P))⁻¹ =

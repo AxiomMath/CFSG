@@ -63,7 +63,7 @@ theorem pCoreOf_inf_le [Finite G] {K L : Subgroup G}
   exact le_pCoreOf_of_le_normalizer 2 hN hK' (pCoreOf_isPGroup 2 (K ⊓ L))
 
 theorem solvableRadical_inf_le [Finite G] {K L : Subgroup G}
-    (hKL : K ≤ Subgroup.normalizer (L : Set G)) :
+    (_hKL : K ≤ Subgroup.normalizer (L : Set G)) :
     (CFSG.solvableRadical ↥K).map K.subtype ⊓ L ≤
       (CFSG.solvableRadical ↥(K ⊓ L)).map (K ⊓ L).subtype := by
   let ψ : ↥(K ⊓ L) →* ↥K := Subgroup.inclusion inf_le_left

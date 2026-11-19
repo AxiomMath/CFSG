@@ -14,12 +14,13 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uc22pw_disjoint_of_odd {N A : Subgroup G} (hN : IsPGroup 2 N) (hA : Odd (Nat.card A)) :
     Disjoint N A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hN
   refine Subgroup.disjoint_of_coprime_natCard ?_
   rw [hk]
   exact Nat.Coprime.pow_left k (Nat.coprime_two_left.2 hA)
 
+omit [Finite G] in
 theorem uc22pw_permutes_of_split {T S Ê A : Subgroup G} (hST : S ≤ T)
     (hTÊ : T ≤ normalizer (Ê : Set G)) (hsplit : (S : Set G) * (A : Set G) = (Ê : Set G)) :
     Permutes A T := by
@@ -58,6 +59,7 @@ theorem uc22pw_permutes_of_split {T S Ê A : Subgroup G} (hST : S ≤ T)
       _ = (t * a * t⁻¹) * t := by rw [← h]
       _ = t * a := by group
 
+omit [Finite G] in
 theorem uc22pw_mem_normalizer_of_fixed {T S : Subgroup G} (hST : S ≤ T) {b : G}
     (hbS : b ∈ normalizer (S : Set G)) (hfix : ∀ t ∈ T, ∃ s ∈ S, t * b * t⁻¹ = b * s) :
     b ∈ normalizer (T : Set G) := by
@@ -103,8 +105,8 @@ theorem uc22pw_exists_complement {S Ê : Subgroup G} (hSÊ : S ≤ Ê) (hSn : (S
     ∃ A : Subgroup G, A ≤ Ê ∧ Odd (Nat.card A) ∧ Disjoint S A ∧
       (S : Set G) * (A : Set G) = (Ê : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hSn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hSn
   have hSp : IsPGroup 2 (S.subgroupOf Ê) := h2.of_equiv (Subgroup.subgroupOfEquivOfLe hSÊ).symm
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hSp
   have hcop : Nat.Coprime (Nat.card (S.subgroupOf Ê)) (S.subgroupOf Ê).index := by
@@ -141,8 +143,8 @@ theorem uc22pw_conj_complements {N K A₁ A₂ : Subgroup G} (hNK : N ≤ K) (hN
     (hodd₂ : Odd (Nat.card A₂)) (hsup : N ⊔ A₂ = N ⊔ A₁) :
     ∃ e ∈ N, A₂.map (MulAut.conj e).toMonoidHom = A₁ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hNn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hNn
   have hN'2 : IsPGroup 2 (N.subgroupOf K) := hN2.of_equiv (Subgroup.subgroupOfEquivOfLe hNK).symm
   have hZ : ¬ 2 ∣ Nat.card (A₁.subgroupOf K) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe h₁K).toEquiv]
@@ -259,8 +261,8 @@ theorem uc22pw_exists_inverting {L A : Subgroup G} (hAL : A ≤ L) (hAodd : Odd 
     ∃ r : ↥L, (∃ k : ℕ, orderOf (r : G) = 2 ^ k) ∧ QuotientGroup.mk r = w ∧
       ∀ a ∈ A, (r : G) * a * (r : G)⁻¹ = a⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 (CFSG.pCore 2 ↥L) := CFSG.pCore_isPGroup
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : ↥L, (QuotientGroup.mk w₀ : Bar2 L) = w := QuotientGroup.mk_surjective w
   set N : Subgroup ↥L := CFSG.pCore 2 ↥L with hN
@@ -343,7 +345,7 @@ theorem uc22pw_not_mem_M (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D) {
     (hgen : normalizer ((uc22p20iSylowBar D L : Subgroup (Bar2 L)) : Set (Bar2 L)) ⊔
       Subgroup.zpowers (QuotientGroup.mk r : Bar2 L) = ⊤) : (r : G) ∉ D.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hrM
   set π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L) with hπ
   set Mb : Subgroup (Bar2 L) := ((D.M ⊓ L).subgroupOf L).map π with hMb

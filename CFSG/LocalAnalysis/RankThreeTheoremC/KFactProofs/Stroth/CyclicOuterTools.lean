@@ -107,7 +107,7 @@ theorem gamma_eq_top_of_le {p : ℕ} (hp : p.Prime) (P : Sylow p X) (K : Subgrou
     exact hfr
   have hN : Subgroup.normalizer (((P : Subgroup X) ⊓ K : Subgroup X) : Set X) ≤
       rankThreeGamma 1 p (P : Subgroup X) :=
-    normalizer_le_gamma hp inf_le_left (P.isPGroup'.to_inf_left) hT
+    normalizer_le_gamma hp inf_le_left (P.isPGroup.to_inf_left) hT
   rw [eq_top_iff, ← hfr']
   exact sup_le hN hKΓ
 
@@ -166,7 +166,7 @@ theorem closure_fixed_eq_top_of_seitz (hS : SeitzOuterRankOne) {p : ℕ} (hp : p
   have hninner : ¬ InnerPlane d p ((E.map φ).map (MulAut.congr e).toMonoidHom) := by
     intro hin
     have h1 := InnerPlane.of_map_congr e hin
-    obtain ⟨x, hxE, hxK⟩ := SetLike.not_le_iff_exists.1 hEK
+    obtain ⟨x, hxE, hxK⟩ := IsConcreteLE.not_le_iff_exists.1 hEK
     exact hxK (mem_of_conjNormal_mem_inner K hKC (h1 (Subgroup.mem_map_of_mem φ hxE)))
   have hpg := hS d p hp hp2 hpd hex ((E.map φ).map (MulAut.congr e).toMonoidHom)
     (CFSG.Open.IsElemAbelian.map hφE _)
@@ -196,6 +196,7 @@ section Config
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem card_le_of_isCyclic_of_pow_eq_one {p : ℕ} (hp : 0 < p) {A : Subgroup X} (hA : IsCyclic A)
     (hAp : ∀ a ∈ A, a ^ p = 1) : Nat.card A ≤ p := by
   have hC : ∀ c : A, c ^ p = 1 := fun c => Subtype.ext (by simpa using hAp c c.2)
@@ -234,12 +235,12 @@ theorem exists_plane {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hK3 : KFactOutCyc
     rw [hEc] at this
     nlinarith [hp.two_le]
   have hEK : ¬ E ≤ K := fun h => hEnc (by
-    haveI := hPK
+    have := hPK
     exact Subgroup.isCyclic_of_le (le_inf hEP h))
   refine ⟨E, hEP, hE, hEc, hEK, fun hbot => ?_⟩
   obtain ⟨T, hT⟩ := exists_sylow_cyclic hp P K hPK
   have hout := hK3 K hs hnab hcat p hp hp2 T hT
-  have hq := isCyclic_quotient_of_outer hp hp2 K hKC (P : Subgroup X) P.isPGroup' hout
+  have hq := isCyclic_quotient_of_outer hp hp2 K hKC (P : Subgroup X) P.isPGroup hout
   have hbot' : K.subgroupOf (P : Subgroup X) = ⊥ := by
     rw [Subgroup.subgroupOf_eq_bot, disjoint_iff, inf_comm]
     exact hbot

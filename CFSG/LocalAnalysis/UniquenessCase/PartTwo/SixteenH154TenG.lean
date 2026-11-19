@@ -82,6 +82,7 @@ theorem s16h_ten_exists_E (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V
     Subgroup.closure_mono fun x hx => ⟨hST hx.1, hx.2⟩
   exact ⟨E, hEΩ.trans hΩT, hEΩ.trans (hΩS.trans inf_le_right), hEe, hEc⟩
 
+omit [Finite G] in
 theorem s16h_ten_normalizer_le {M V₀ V P : Subgroup G}
     [((F11.CTilde M V₀ V).subgroupOf M).Normal] {Xbar : Subgroup (F11.MBar11 M V₀ V)}
     [Xbar.Normal] :
@@ -107,7 +108,7 @@ theorem s16h_ten_gamma (D : Data G) (hSig : UC6S846.SigmaStd D) (h77 : F07.R77Eq
     (hclT : ⁅⁅T, T⁆, T⁆ = ⊥) (hN : D.M ⊓ normalizer (P : Set G) ≤ normalizer (T : Set G))
     (hE : E ≤ F11.Omega1p p T) (hEe : IsElemAbelian p E) (hEc : Nat.card ↥E = p ^ 2) :
     rankThreeGamma 1 p E ≤ D.M ∨ p ∈ D.sig := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTp : IsPGroup p ↥T := ((CFSG.ABGLocalTools.isSylowOf_iff.1 hP).2.1).to_le hTP
   by_cases hpσ : p ∈ D.sig
   · exact Or.inr hpσ
@@ -125,14 +126,14 @@ theorem s16h_ten_gamma (D : Data G) (hSig : UC6S846.SigmaStd D) (h77 : F07.R77Eq
   have hEnc : ¬ IsCyclic ↥E := uc22p22u_not_isCyclic_of_card_sq hp hEe hEc
   have hYnc : ¬ IsCyclic ↥Y := by
     intro hc
-    haveI := hc
+    have := hc
     exact hEnc (isCyclic_of_injective (Subgroup.inclusion hEY) (Subgroup.inclusion_injective hEY))
   have hYexp : ∀ x ∈ Y, x ^ p = 1 := uc22p22u_omega1p_exponent hp hp2 hTp hclT
   have hYcl : ⁅⁅Y, Y⁆, Y⁆ = ⊥ :=
     le_bot_iff.1 ((Subgroup.commutator_mono (Subgroup.commutator_mono hYT hYT) hYT).trans hclT.le)
   have hNY : D.M ⊓ normalizer (P : Set G) ≤ D.M ⊓ normalizer (Y : Set G) :=
     le_inf inf_le_left fun g hg => uc22p22u_mem_normalizer_Omega1p (hN hg)
-  haveI : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
   have hOn : D.M ≤ normalizer ((F11.O2p p D.M : Subgroup G) : Set G) :=
     uc22p22u_barPreimage_normalizes (D := CFSG.pCore p (Bar2 D.M))
   have hp₁O : ¬ p₁ ∣ Nat.card ↥(F11.O2p p D.M) := by
@@ -160,10 +161,11 @@ theorem s16h_ten_gamma (D : Data G) (hSig : UC6S846.SigmaStd D) (h77 : F07.R77Eq
     (le_antisymm (hrk.trans hrk'') hrk')
   exact (uc22p22u_gamma_mono hEY).trans hΓY
 
+omit [Finite G] in
 theorem s16h_exists_conj_le_of_not_dvd_relIndex {p : ℕ} (hp : p.Prime) {K H B : Subgroup G}
     (hBK : B ≤ K) (hindex : ¬ p ∣ H.relIndex K) (hB : IsPGroup p B) :
     ∃ k ∈ K, conjSubgroup B k ≤ H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Hk : Subgroup ↥K := H.subgroupOf K
   have hBk : IsPGroup p (B.subgroupOf K) :=
     hB.of_equiv (Subgroup.subgroupOfEquivOfLe hBK).symm
@@ -198,6 +200,7 @@ theorem s16h_exists_conj_le_of_not_dvd_relIndex {p : ℕ} (hp : p.Prime) {K H B 
   have h5 : (k : G)⁻¹ * ((k : G) * x * (k : G)⁻¹) * (k : G) = x := by group
   rwa [h5] at h4'
 
+omit [Finite G] in
 private theorem s16h_conjSubgroup_eq_self_of_mem {M : Subgroup G} {y : G} (hy : y ∈ M) :
     conjSubgroup M y = M := by
   ext x

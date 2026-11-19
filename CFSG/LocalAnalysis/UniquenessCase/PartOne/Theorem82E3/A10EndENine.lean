@@ -94,7 +94,7 @@ theorem card_eNine : Nat.card eNine = 9 := by
       subst hx
       exact ⟨(i, j), rfl⟩
   rw [← Nat.card_eq_of_bijective f hf]
-  simp [Nat.card_prod]
+  simp
 
 theorem isElemAbelian_eNine : CFSG.Open.IsElemAbelian 3 eNine := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
@@ -133,7 +133,7 @@ private theorem sign_oddSig : Equiv.Perm.sign oddSig = -1 := by decide +kernel
 
 private theorem oddSig_mul_sigma : oddSig * sigma * oddSig⁻¹ = sigma := by decide +kernel
 
-private theorem exists_even_conj_sigma {x : Perm (Fin 10)} (hx : x ∈ alternatingGroup (Fin 10))
+private theorem exists_even_conj_sigma {x : Perm (Fin 10)} (_hx : x ∈ alternatingGroup (Fin 10))
     (hc : x.cycleType = Multiset.replicate 3 3) :
     ∃ g ∈ alternatingGroup (Fin 10), g * x * g⁻¹ = sigma := by
   obtain ⟨g, hg⟩ := isConj_iff.mp
@@ -275,7 +275,7 @@ private theorem exists_sylow_le_Ynine_map :
           MonoidHom.domRestrict_apply, Subtype.ext_iff, OneMemClass.coe_one]
       rw [hker]
       exact F.isPGroup_ker_phiL.comap_subtype
-    exact (IsPGroup.disjoint_of_coprime S.isPGroup' h2
+    exact (IsPGroup.disjoint_of_coprime S.isPGroup h2
       (by norm_num : Nat.Coprime 3 2)).eq_bot
   have hcardS : Nat.card ↥(S : Subgroup ↥P) = 9 := by
     have h1 : Nat.card ↥((S : Subgroup ↥P).map φ) = Nat.card ↥(S : Subgroup ↥P) :=
@@ -288,7 +288,7 @@ private theorem exists_sylow_le_Ynine_map :
     rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, htop, Subgroup.map_top,
       Subgroup.range_subtype]
   exact ⟨(S : Subgroup ↥P).map P.subtype, Subgroup.map_subtype_le (S : Subgroup ↥P),
-    S.isPGroup'.map P.subtype,
+    S.isPGroup.map P.subtype,
     (Subgroup.card_map_of_injective (K := (S : Subgroup ↥P))
       P.subtype_injective).trans hcardS, hSmap⟩
 
@@ -357,7 +357,7 @@ private theorem cycleType_phiL_of_deg_nine (F : A10Frame c) {x : ↥c.L} (hx3 : 
     (ne_one_of_support_card_nine hsupp) hsupp
 
 private theorem exists_conj_zpowers_of_deg_nine {x y : ↥c.L}
-    (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (hx1 : x ≠ 1) (hy1 : y ≠ 1)
+    (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (_hx1 : x ≠ 1) (hy1 : y ≠ 1)
     (hxd : F.deg (Subgroup.zpowers (x : G)) = 9)
     (hyd : F.deg (Subgroup.zpowers (y : G)) = 9) :
     ∃ l : ↥c.L, l * x * l⁻¹ ∈ Subgroup.zpowers y := by
@@ -401,7 +401,7 @@ private theorem exists_conj_zpowers_of_deg_nine {x y : ↥c.L}
     rw [heq]
     exact hmem
 
-private theorem exists_mem_centralizer_ne_bot (F : A10Frame c) {U : Subgroup G}
+private theorem exists_mem_centralizer_ne_bot (_F : A10Frame c) {U : Subgroup G}
     (hU : IsPGroup 2 U) (hU1 : U ≠ ⊥) (hLU : c.L ≤ Subgroup.normalizer (U : Set G))
     {E : Subgroup ↥c.L} (hEea : CFSG.Open.IsElemAbelian 3 E) (hEcard : Nat.card E = 9) :
     ∃ e ∈ E, (e : G) ≠ 1 ∧ U ⊓ Subgroup.centralizer ({(e : G)} : Set G) ≠ ⊥ := by

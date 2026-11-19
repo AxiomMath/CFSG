@@ -50,7 +50,7 @@ theorem onl_bits_inj {A B : ℕ} (hA : A < 2 ^ 120) (hB : B < 2 ^ 120)
   intro i
   by_cases hi : i < 120
   · have := congrArg (fun s : Set (Fin 120) => (⟨i, hi⟩ : Fin 120) ∈ s) h
-    simp only [onl_bits, Set.mem_setOf_eq, eq_iff_iff] at this
+    simp only [onl_bits, Set.mem_ofPred_eq, eq_iff_iff] at this
     exact Bool.eq_iff_iff.2 this
   · have h120 : 2 ^ 120 ≤ 2 ^ i := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le hA h120),
@@ -484,7 +484,7 @@ theorem onl_forest
       obtain ⟨i, hi, he⟩ := List.getElem_of_mem hr
       refine ⟨i, by rw [onl_forest_check.2.1] at hi; exact hi, 1, one_mem _, ?_⟩
       rw [one_smul, List.getD_eq_getElem _ _ hi, he]
-    · rw [if_neg hr] at hc
+    · rw [ite_eq_right hr] at hc
       simp only [Bool.and_eq_true, decide_eq_true_eq] at hc
       obtain ⟨⟨⟨hp, hdp⟩, hj⟩, hmap⟩ := hc
       rw [hd] at hdp
@@ -514,7 +514,7 @@ theorem onl_gR_rep
   have h := List.all_eq_true.1 onl_forest_check.2.2.2.2.2.2.1 i (List.mem_range.2 hi)
   rw [onl_smul_RM]
   have hv : (onl_gR i : Equiv.Perm (Fin 120)) = onl_gP i := by
-    unfold onl_gR; rw [dif_pos hi]
+    unfold onl_gR; rw [dite_eq_left hi]
   rw [hv]
   apply onl_smul_om (onl_gP_img hi)
   show onl_chk2 (onl_A 0) (onl_B 0) _ _ _ = true
@@ -572,7 +572,7 @@ theorem onl_lat_RM
     · exact Or.inl h
     · exact Or.inr (Or.inl h)
   · right; right
-    obtain ⟨x, hxX, hxB⟩ := SetLike.not_le_iff_exists.1 hA
+    obtain ⟨x, hxX, hxB⟩ := IsConcreteLE.not_le_iff_exists.1 hA
     have hxO : x • onl_bits onl_mO ≠ onl_bits onl_mO := fun h =>
       hxB (MulAction.mem_stabilizer_iff.2 h)
     obtain ⟨k, hk, hkx⟩ : x • onl_om 0 ∈ onl_Om := by

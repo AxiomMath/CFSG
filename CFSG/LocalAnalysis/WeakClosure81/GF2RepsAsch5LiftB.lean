@@ -38,7 +38,7 @@ theorem false_of_psp4_overgroups {p : ℕ}
     (hX : HasQuotShape L (OInf H : Set Q)
       (fun X _ => LieModel X .PSp 2 p 1)) : False := by
   obtain ⟨hNn, hNL, hLH, hLsub, hq⟩ := hL
-  haveI := hNn
+  have := hNn
   let N' : Subgroup ↥H := (OInf H).subgroupOf H
   let π : ↥H →* ↥H ⧸ N' := QuotientGroup.mk' N'
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N'

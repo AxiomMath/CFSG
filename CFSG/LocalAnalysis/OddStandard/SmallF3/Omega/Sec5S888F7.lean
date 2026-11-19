@@ -19,7 +19,7 @@ open Subgroup CFSG.Blueprint
 private lemma f7_comm_of_mem_sup {G : Type} [Group G] {r z : G} {B : Subgroup G}
     (hB : CFSG.Open.IsElemAbelian 2 B) (hBr : B ≤ centralizer ({r} : Set G))
     (hz : z ∈ zpowers r ⊔ B) : ∀ b ∈ B, b * z = z * b := by
-  haveI : IsMulCommutative ↥B := hB.1
+  have : IsMulCommutative ↥B := hB.1
   have hle : zpowers r ⊔ B ≤ centralizer (B : Set G) := by
     refine sup_le (Subgroup.zpowers_le.mpr ?_) ?_
     · rw [Subgroup.mem_centralizer_iff]

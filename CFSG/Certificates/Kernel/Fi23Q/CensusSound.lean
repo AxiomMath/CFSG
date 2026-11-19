@@ -122,7 +122,7 @@ theorem maskF_step {C s0 t : ℕ} (h : s0 ≤ 4) :
     have n1 : ¬ 1 + i < 4 := by omega
     have e2 : 2 + i - 4 = 2 + (i - 4) := by omega
     have e1 : 1 + i - 4 = 1 + (i - 4) := by omega
-    simp only [if_neg hi, if_neg n2, if_neg n1, e1, e2]
+    simp only [ite_eq_right hi, ite_eq_right n2, ite_eq_right n1, e1, e2]
 
 @[expose] def mC : ℕ → ℕ
   | 0 => 0
@@ -276,7 +276,7 @@ theorem nSc_eq (e x : ℕ) : nSc e x = if e = 0 then 0 else if e = 1 then x else
       rfl
     · have a : Nat.beq e 0 = false := Bool.eq_false_iff.2 fun h => h0 (Nat.eq_of_beq_eq_true h)
       have b : Nat.beq e 1 = false := Bool.eq_false_iff.2 fun h => h1 (Nat.eq_of_beq_eq_true h)
-      rw [if_neg h0, if_neg h1, a, b]
+      rw [ite_eq_right h0, ite_eq_right h1, a, b]
 
 theorem Gd_zero (m : ℕ) : Gd m 0 := ⟨by positivity, fun k _ => by simp [nib]⟩
 
@@ -292,7 +292,7 @@ theorem nSc_spec {e x : ℕ} (he : e < 3) (hx : Gd 5 x) :
     · have h2 : e = 2 := by omega
       subst h2
       obtain ⟨g, hh⟩ := nAdd_spec hx hx
-      simp only [if_neg h0, if_neg h1]
+      simp only [ite_eq_right h0, ite_eq_right h1]
       exact ⟨g, fun k hk => by rw [hh k hk]; push_cast; ring⟩
 
 @[expose] noncomputable def mulMR (MV b m : ℕ) : ℕ :=
@@ -515,7 +515,7 @@ theorem CG_nv {x : ℕ → G} (hA : ElemAb x) (hN : NormA x) (u : ℕ) : CG x (n
   intro v
   choose μ hμ using hN k hk
   exact ⟨_, conj_aEl hA (μ := fun l => if h : l < 5 then μ l h else 0)
-    (fun l hl => by simp only [dif_pos hl]; exact hμ l hl) v⟩
+    (fun l hl => by simp only [dite_eq_left hl]; exact hμ l hl) v⟩
 
 theorem nv_split (x : ℕ → G) (v : ℕ) :
     nv x 13 v = ((List.range 8).map fun k => x k ^ dg v k).prod *
@@ -585,17 +585,17 @@ theorem nv_coset (x : ℕ → G) {u : ℕ} (hd : ∀ k, dg u k < 3) :
   have hb : ∀ k, dg (b3v 8 2 (fromD u 8)) k = if k < 8 then dg u k else 0 := fun k => by
     rw [b3v2]
     by_cases hk : k < 8
-    · rw [if_pos hk, if_pos hk, h2 k hk]
-    · rw [if_neg hk, if_neg hk]
+    · rw [ite_eq_left hk, ite_eq_left hk, h2 k hk]
+    · rw [ite_eq_right hk, ite_eq_right hk]
   generalize b3v 8 2 (fromD u 8) = T at hb ⊢
   have e1 : ((List.range 5).map fun l => x (8 + l) ^ dg T (8 + l)).prod = 1 := by
     rw [List.map_congr_left (g := fun _ => (1 : G))]
     · simp
     · intro l _
-      rw [hb, if_neg (by omega), pow_zero]
+      rw [hb, ite_eq_right (by omega), pow_zero]
   have e2 : ((List.range 8).map fun k => x k ^ dg T k) =
       ((List.range 8).map fun k => x k ^ dg u k) :=
-    List.map_congr_left fun k hk => by rw [hb, if_pos (List.mem_range.1 hk)]
+    List.map_congr_left fun k hk => by rw [hb, ite_eq_left (List.mem_range.1 hk)]
   rw [nv_split x u, nv_split x T, tail_aEl x hd, e1, mul_one, e2]
 
 @[expose] def EqHRep (H : ℕ → ℕ) (x : ℕ → G) : Prop :=
@@ -701,7 +701,7 @@ theorem encD_spec : ∀ m (v : ℕ → ZMod 3), encD v m < 3 ^ m ∧ ∀ k < m, 
       rw [encD, ← d3_div, e, h2 k (by omega)]
 
 theorem list_prod_mem {S : Subgroup G} : ∀ L : List G, (∀ g ∈ L, g ∈ S) → L.prod ∈ S
-  | [], _ => by simpa using S.one_mem
+  | [], _ => by simp
   | a :: L, h => by
     rw [List.prod_cons]
     exact S.mul_mem (h a (by simp)) (list_prod_mem L fun g hg => h g (by simp [hg]))

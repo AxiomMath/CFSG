@@ -119,7 +119,7 @@ theorem centralizer_le_of_sup_eq_top [Finite X] {K T : Subgroup X} (hO2 : CFSG.p
     have hPc : (P : Subgroup ↥D).Characteristic := Sylow.characteristic_of_normal P hPn
     have hmapn : ((P : Subgroup ↥D).map D.subtype).Normal :=
       ConjAct.normal_of_characteristic_of_normal
-    have hmap2 : IsPGroup 2 ((P : Subgroup ↥D).map D.subtype) := P.isPGroup'.map _
+    have hmap2 : IsPGroup 2 ((P : Subgroup ↥D).map D.subtype) := P.isPGroup.map _
     have hle : (P : Subgroup ↥D).map D.subtype ≤ CFSG.pCore 2 X :=
       CFSG.LieType.BorelTits.le_pCore 2 hmapn hmap2
     rw [hO2, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ D.subtype_injective] at hle

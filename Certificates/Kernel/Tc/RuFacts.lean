@@ -140,7 +140,7 @@ theorem hF2 : ∀ x ∈ ruP, ∀ y ∈ ruP, (x ∈ ruP ↔ y ∈ ruP) →
   exact (inv_mul_eq_one.1 h1).symm
 
 theorem hmul : ∀ a ∈ ruP, ∀ b ∈ ruP, (a * b ∈ ruP ↔ (a ∈ ruP ↔ b ∈ ruP)) :=
-  fun a ha b hb => iff_of_true (ruP.mul_mem ha hb) (iff_of_true ha hb)
+  fun _a ha _b hb => iff_of_true (ruP.mul_mem ha hb) (iff_of_true ha hb)
 
 theorem q0_iff {gpk : Nat → Equiv.Perm (Fin 4060)} {m : Nat} (h : ∀ k < m, gpk k ∈ ruP) :
     ∀ k < m, (gpk k ∈ ruP ↔ q0 k = 0) := fun k hk => iff_of_true (h k hk) rfl
@@ -232,11 +232,11 @@ theorem hgQ : ∀ k < 2, RepF 4060 (gq k) (gpq k) := fun k hk => repFT (by omega
 
 theorem hgK : ∀ k < 3, RepF 4060 (gk k) (gpk k) := fun k hk => by
   interval_cases k
-  · rw [gpk, if_neg (by norm_num)]
+  · rw [gpk, ite_eq_right (by norm_num)]
     exact repFT (k := 6) (by norm_num)
-  · rw [gpk, if_neg (by norm_num)]
+  · rw [gpk, ite_eq_right (by norm_num)]
     exact repFT (k := 7) (by norm_num)
-  · rw [gpk, if_pos rfl]
+  · rw [gpk, ite_eq_left rfl]
     exact repF3 (k := 0) (by norm_num)
 
 theorem hgC : ∀ k < 2, RepF 4060 (gc k) (gpc k) := fun k hk => repF3 (k := 1 + k) (by omega)
@@ -406,11 +406,11 @@ theorem tc_ok : tcOK 4060 6 ruKeys ruX ruTcD (ruTcCQ ()) (ruTcCK ()) (ruTcCS ())
     exact elFT (by omega)
   · rw [gK_get hl]
     interval_cases l
-    · rw [if_neg (by norm_num)]
+    · rw [ite_eq_right (by norm_num)]
       exact (elFT (k := 6) (by norm_num)).1
-    · rw [if_neg (by norm_num)]
+    · rw [ite_eq_right (by norm_num)]
       exact (elFT (k := 7) (by norm_num)).1
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact (elF3 (k := 0) (by norm_num)).1
   · interval_cases j
     · exact elF_id

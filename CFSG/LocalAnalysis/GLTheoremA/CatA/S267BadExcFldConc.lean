@@ -50,7 +50,7 @@ theorem natCast_ne_zero_of_dvd_sq_sub_one {K : Type} [Field K] [Finite K] {p : �
 
 theorem orderOf_eq_two_of_dvd_sq_sub_one {p Q : ℕ} (hp : p.Prime) (hQ : 1 ≤ Q)
     (hpQ : p ∣ Q ^ 2 - 1) (hpQ1 : ¬ p ∣ Q - 1) : orderOf ((Q : ℕ) : ZMod p) = 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ2 : 1 ≤ Q ^ 2 := Nat.one_le_pow _ _ (by omega)
   refine orderOf_eq_prime ?_ ?_
   · have h := (ZMod.natCast_eq_zero_iff (Q ^ 2 - 1) p).2 hpQ
@@ -106,7 +106,7 @@ theorem concA_of_adjointGroup_of_outer_of_nf {τ : Tag}
     (hX : ∀ F : Subgroup ↥(adjointGroup τ K), IsElemAbelian p F →
       Nat.card F ≤ p ^ frameSize τ) :
     S267ConcA p S B := by
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   set eS : PSimple p S ≃* ↥S := (psimpleEquivCenterQuotOfCore hcore).trans
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot) with heS
   set φ : ↥(adjointGroup τ K) →* Ω := S.subtype.comp (eX.trans eS).toMonoidHom with hφdef
@@ -145,7 +145,7 @@ theorem concA_badExcCore_F4_of_outer {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
     S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_F4] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
@@ -153,7 +153,7 @@ theorem concA_badExcCore_F4_of_outer {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
   have hK5 := five_le_card_of_dvd_sq_sub_one hK2 hp hp2 hpK
   set eX : ↥(adjointGroup .F4 K) ≃* PSimple p S := eC.symm.trans e.symm with heX
   have hZ : Subgroup.center ↥S = ⊥ := center_eq_bot_of_adjointGroup hp hperf hcore eX (by
-    haveI := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.f4_hopfMultiplier hK5).2
+    have := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.f4_hopfMultiplier hK5).2
     rw [Nat.card_of_subsingleton
       (1 : CFSG.Open.griessHopfMultiplier (CFSG.Blueprint.AdjointQuotient .F4 K))]
     exact hp.not_dvd_one)
@@ -170,7 +170,7 @@ theorem concA_badExcCore_E6_of_outer {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
     (hBc : Nat.card B = p ^ (frameSize .E6 + 2)) : S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_E6] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
@@ -196,7 +196,7 @@ theorem concA_badExcCore_E7_of_outer {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
     S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_E7] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
@@ -223,7 +223,7 @@ theorem concA_badExcCore_E8_of_outer {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
     S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_E8] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
@@ -231,7 +231,7 @@ theorem concA_badExcCore_E8_of_outer {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
   have hK5 := five_le_card_of_dvd_sq_sub_one hK2 hp hp2 hpK
   set eX : ↥(adjointGroup .E8 K) ≃* PSimple p S := eC.symm.trans e.symm with heX
   have hZ : Subgroup.center ↥S = ⊥ := center_eq_bot_of_adjointGroup hp hperf hcore eX (by
-    haveI := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.e8_hopfMultiplier hK5).2
+    have := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.e8_hopfMultiplier hK5).2
     rw [Nat.card_of_subsingleton
       (1 : CFSG.Open.griessHopfMultiplier (CFSG.Blueprint.AdjointQuotient .E8 K))]
     exact hp.not_dvd_one)

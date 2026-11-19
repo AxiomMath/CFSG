@@ -100,7 +100,7 @@ theorem L33Good.of_mulEquiv {G H : Type} [Group G] [Group H] (e : G ≃* H) (h :
     refine ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv e'.symm hq, fun hL => hno ?_⟩
     exact isLpType_of_mulEquiv (QuotientGroup.congr _ _ e' (Subgroup.map_center_eq e')).symm hL
   · right
-    haveI := hs
+    have := hs
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 theorem l33Good_of_commutator_eq {H : Type} [Group H] (N : Subgroup H) (hN : commutator H = N)
@@ -158,10 +158,10 @@ theorem not_isLpType_of_l33Good {X : Type} [Group X] (A : Subgroup X) (h : L33Go
       refine Subgroup.commutator_le.mpr fun a ha b hb => ?_
       rw [commutatorElement_def]
       exact A.mul_mem (A.mul_mem (A.mul_mem ha hb) (A.inv_mem ha)) (A.inv_mem hb)
-    haveI : Group.IsSolvable ↥⁅A, A⁆ := Group.isSolvable_of_isSolvable_injective
+    have : Group.IsSolvable ↥⁅A, A⁆ := Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hle) (Subgroup.inclusion_injective _)
-    haveI : Group.IsPerfect ↥⁅A, A⁆ := hq.1
-    haveI : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Group.IsPerfect ↥⁅A, A⁆ := hq.1
+    have : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
     exact Group.IsPerfect.not_isSolvable _ ‹_›
 
 end Good
@@ -209,7 +209,7 @@ theorem l33Good_sesqUnitaryGroup {ℓ g : ℕ} (hℓ3 : ℓ = 3) {E : Type} [Fie
     (hE : UnitaryFieldData ℓ g E) (hq : 4 ≤ ℓ ^ g) {W : Type} [AddCommGroup W] [Module E W]
     [FiniteDimensional E W] {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (hHf : Hf.IsSymm)
     (hHfl : Hf.SeparatingLeft) : L33Good ↥(sesqUnitaryGroup Hf) := by
-  haveI := hE.finite
+  have := hE.finite
   by_cases hm : 2 ≤ Module.finrank E W
   · obtain ⟨-, -, -, -, hker, -⟩ :=
       CFSG.LinearGroups.unitary_full_group_order hE hHf hHfl rfl (by omega)
@@ -228,17 +228,17 @@ theorem l33Good_sesqUnitaryGroup {ℓ g : ℕ} (hℓ3 : ℓ = 3) {E : Type} [Fie
       exact commutator_eq_ker_of_perfect (CFSG.LinearGroups.unitaryDet Hf)
         (by rw [hker]; exact hNq.1)
     refine l33Good_of_commutator_eq _ hcomm hNq fun hL => ?_
-    haveI : Fact ℓ.Prime := ⟨hE.prime⟩
+    have : Fact ℓ.Prime := ⟨hE.prime⟩
     rcases Nat.lt_or_ge (Module.finrank E W) 3 with h2 | h3
     · have hV : Module.finrank E W = 2 := by omega
       obtain ⟨φ⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite ↥hE.fixedField := inferInstance
-      letI : Fintype ↥hE.fixedField := Fintype.ofFinite _
+      have : Finite ↥hE.fixedField := inferInstance
+      let : Fintype ↥hE.fixedField := Fintype.ofFinite _
       have hcardF : Fintype.card ↥hE.fixedField = ℓ ^ g := by
         rw [← Nat.card_eq_fintype_card]
         exact hE.card_fixedField
-      haveI : CharP ↥hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
+      have : CharP ↥hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
       have hcharF : ringChar ↥hE.fixedField = 3 := by rw [ringChar.eq _ ℓ, hℓ3]
       exact not_isLpType_of_equiv_sl_two hcharF (eN.trans φ).symm hL
     · obtain ⟨b, hb⟩ := hE.exists_orthonormal_basis hHf hHfl
@@ -268,15 +268,15 @@ open CFSG.RankThree.PartOne.KCOrthogonal (reciprocalPolynomial)
 
 variable {r : ℕ} {K : Type} [Field K]
 
-theorem l33Good_spSupported_of_factor [Finite K] {ℓ f p : ℕ} (hℓ3 : ℓ = 3) (hf : 1 ≤ f)
+theorem l33Good_spSupported_of_factor [Finite K] {ℓ f p : ℕ} (hℓ3 : ℓ = 3) (_hf : 1 ≤ f)
     (hK : Nat.card K = ℓ ^ f) (hK4 : 4 ≤ Nat.card K) {x : StatedSp r K}
     {a : StatedProj (StatedSp r K)} (hsq : Squarefree (minpoly K (spEnd x)))
     (blocks : SpPrimaryBlocks ℓ f p x a) (h : primaryFactors (spEnd x)) :
     L33Good ↥(spSupported x {(h : K[X]), reciprocalPolynomial (h : K[X])}) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : Fact ℓ.Prime := ⟨hℓ3 ▸ Nat.prime_three⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
+  have : Fact ℓ.Prime := ⟨hℓ3 ▸ Nat.prime_three⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
   have hKℓ : ringChar K = 3 := by rw [ringChar.eq K ℓ, hℓ3]
   have hdeg : 1 ≤ (h : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors h.2)
@@ -308,7 +308,7 @@ theorem l33Good_spSupported_of_factor [Finite K] {ℓ f p : ℕ} (hℓ3 : ℓ = 
       exact L33Good.of_mulEquiv φ (l33Good_sesqUnitaryGroup hℓ3 hE hq hHf hHfl)
   · have hP := blocks.paired h (fun e => hself e.symm)
     obtain ⟨φ⟩ := hP.matrixFactor
-    haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+    have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
     have hEℓ : ringChar (AdjoinRoot (h : K[X])) = 3 :=
       (Algebra.ringChar_eq K (AdjoinRoot (h : K[X]))).symm.trans hKℓ
     have h4 : 4 ≤ Nat.card (AdjoinRoot (h : K[X])) := by
@@ -322,12 +322,12 @@ theorem noL33_conj_sp [Finite K] {ℓ f p : ℕ} (hℓ3 : ℓ = 3) (hf : 1 ≤ f
     (hK' : IsComponentOf K' (fixSubgroup (MulAut.conj (SymplecticFlag.proj r K x)))) :
     ¬ IsLpType 3 3 (↥K' ⧸ Subgroup.center ↥K') := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hℓ : ℓ.Prime := hℓ3 ▸ Nat.prime_three
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
   have hKℓ : ringChar K = 3 := by rw [ringChar.eq K ℓ, hℓ3]
   have hZc : (SymplecticFlag.proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [SymplecticHigher.ker_proj]
@@ -360,7 +360,7 @@ theorem noL33_conj_sp [Finite K] {ℓ f p : ℕ} (hℓ3 : ℓ = 3) (hf : 1 ≤ f
         rw [CharP.cast_eq_zero_iff K ℓ] at h
         exact hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ hp).mp h).symm
       have hsq := (altPrimaryData_spLin hpK hx).squarefree
-      haveI : Finite (reciprocalOrbits (spEnd x)) :=
+      have : Finite (reciprocalOrbits (spEnd x)) :=
         (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
       obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
       refine ⟨reciprocalOrbits (spEnd x), inferInstance,
@@ -369,7 +369,7 @@ theorem noL33_conj_sp [Finite K] {ℓ f p : ℕ} (hℓ3 : ℓ = 3) (hf : 1 ≤ f
         hjoin, ?_⟩
       rintro ⟨O, h, hh, rfl⟩
       exact l33Good_spSupported_of_factor hℓ3 hf hK hK4 hsq blocks ⟨h, hh⟩
-  haveI := hι
+  have := hι
   obtain ⟨i, hq, rfl⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.components_conj_of_orbit_family
       (SymplecticFlag.proj r K) SymplecticHigher.proj_surjective hZc x A hc hjoin
@@ -478,12 +478,12 @@ theorem noL33_symplectic {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (hfo : idx.1.fieldOrder ≠ 3) (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group))
     {α : MulAut S} (hα : α ^ 13 = 1) {K : Subgroup S} (hK : IsComponentOf K (fixSubgroup α)) :
     ¬ IsLpType 3 3 (↥K ⧸ Subgroup.center ↥K) := by
-  haveI := hs
+  have := hs
   obtain ⟨e⟩ := he
   obtain ⟨r, f, k, _, _, hr, hf, hk, hk4, ⟨e'⟩⟩ := exists_model_psp idx hsp hc3 hfo e
   have hp13 : (13 : ℕ).Prime := by norm_num
-  haveI : Fact (13 : ℕ).Prime := ⟨hp13⟩
-  haveI : Finite (StatedProj (StatedSp r k)) := Finite.of_equiv S e'.toEquiv
+  have : Fact (13 : ℕ).Prime := ⟨hp13⟩
+  have : Finite (StatedProj (StatedSp r k)) := Finite.of_equiv S e'.toEquiv
   have hchar : ringChar k = 3 := by
     obtain ⟨a, ha, hpa, hka⟩ := exists_card_eq_pow_ringChar (K := k)
     have h1 : ringChar k ∣ 3 ^ f := by

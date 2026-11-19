@@ -61,7 +61,7 @@ theorem flagTyp_eq_iff_even (hm : 1 ≤ m) {U W : FlagVert σ m}
     simp only [Fin.val_last] at this
     omega
   unfold flagTyp
-  rw [if_pos hU, if_pos hW]
+  rw [ite_eq_left hU, ite_eq_left hW]
   split_ifs with h₁ h₂ h₂
   · simp only [true_iff]
     tauto
@@ -108,18 +108,18 @@ private theorem stdDChamber_sub_succ (σ : K ≃+* K) (m : ℕ) :
 
 theorem coe_flagChamber_of_lt (E : QuadExt F K σ) {i : Fin (m + 1)} (hi : (i : ℕ) + 1 < m) :
     (flagChamber E m i).1 = (stdDChamber σ (m + 1)).toFlipFrame.sub ((i : ℕ) + 1) := by
-  rw [coe_flagChamber, FlipFrame.elt, if_neg, if_neg (by omega)]
+  rw [coe_flagChamber, FlipFrame.elt, ite_eq_right, ite_eq_right (by omega)]
   intro h
   rw [h, Fin.val_last] at hi
   omega
 
 theorem coe_flagChamber_last (E : QuadExt F K σ) :
     (flagChamber E m (Fin.last m)).1 = stdLag (m + 1) K := by
-  rw [coe_flagChamber, FlipFrame.elt, if_pos rfl, stdDChamber_sub_succ]
+  rw [coe_flagChamber, FlipFrame.elt, ite_eq_left rfl, stdDChamber_sub_succ]
 
 theorem coe_flagChamber_of_succ_eq (E : QuadExt F K σ) {i : Fin (m + 1)} (hi : (i : ℕ) + 1 = m) :
     (flagChamber E m i).1 = (stdDChamber σ (m + 1)).toFlipFrame.alt := by
-  rw [coe_flagChamber, FlipFrame.elt, if_neg, if_pos hi]
+  rw [coe_flagChamber, FlipFrame.elt, ite_eq_right, ite_eq_left hi]
   intro h
   rw [h, Fin.val_last] at hi
   omega
@@ -128,25 +128,25 @@ theorem flagTyp_flagChamber (E : QuadExt F K σ) (i : Fin (m + 1)) :
     flagTyp (flagChamber E m i) = i := by
   have hfin := finrank_flagChamber E i
   by_cases hi : (i : ℕ) + 1 < m
-  · rw [if_pos hi] at hfin
+  · rw [ite_eq_left hi] at hfin
     unfold flagTyp
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     ext
     simp only [hfin]
     omega
-  · rw [if_neg hi] at hfin
+  · rw [ite_eq_right hi] at hfin
     unfold flagTyp
-    rw [if_pos hfin]
+    rw [ite_eq_left hfin]
     by_cases hlast : i = Fin.last m
     · subst hlast
-      rw [if_pos]
+      rw [ite_eq_left]
       rw [coe_flagChamber_last, inf_idem, finrank_stdLag, Nat.sub_self]
       exact ⟨0, rfl⟩
     · have hi' : (i : ℕ) + 1 = m := by
         have := i.is_lt
         have : (i : ℕ) ≠ m := fun h => hlast (Fin.ext (by simp [h]))
         omega
-      rw [if_neg]
+      rw [ite_eq_right]
       · ext
         simp only
         omega
@@ -167,7 +167,7 @@ theorem flagChamber_adj (E : QuadExt F K σ) {i j : Fin (m + 1)} (hij : i ≠ j)
     intro k hk
     by_cases hlast : k = Fin.last m
     · subst hlast
-      rw [coe_flagChamber, FlipFrame.elt, if_pos rfl]
+      rw [coe_flagChamber, FlipFrame.elt, ite_eq_left rfl]
       exact hsub (by omega)
     · have hk' : (k : ℕ) + 1 = m := by
         have := k.is_lt
@@ -187,14 +187,14 @@ theorem flagChamber_adj (E : QuadExt F K σ) {i j : Fin (m + 1)} (hij : i ≠ j)
         · rw [coe_flagChamber_of_lt E hj]
           exact hsub (by omega)
         · exact (hsub (by omega)).trans (hsol hj)
-      · rw [hfi, hfj, if_pos hi]
+      · rw [hfi, hfj, ite_eq_left hi]
         split_ifs <;> omega
     ·
       have hj : j = Fin.last m := Fin.ext (by simp only [Fin.val_last]; omega)
       have hi' : (i : ℕ) + 1 = m := by omega
       subst hj
-      rw [if_neg hi] at hfi
-      rw [if_neg (by simp only [Fin.val_last]; omega)] at hfj
+      rw [ite_eq_right hi] at hfi
+      rw [ite_eq_right (by simp only [Fin.val_last]; omega)] at hfj
       refine Or.inr (Or.inr ⟨hfi, hfj, ?_⟩)
       rw [coe_flagChamber_of_succ_eq E hi', coe_flagChamber, inf_comm,
         FlipFrame.elt_last_inf_alt hσ, FlipFrame.finrank_sub _ (by omega)]
@@ -220,7 +220,7 @@ private theorem flagResidue_lt_of_level (E : QuadExt F K σ) {J : Set (Fin (m + 
     (dLevel m (flagTyp z.1) < j → z.1.1 < (flagChamber E m j).1) ∧
       ((j : ℕ) < dLevel m (flagTyp z.1) → (flagChamber E m j).1 < z.1.1) := by
   have hF : Module.finrank K (flagChamber E m j).1 = (j : ℕ) + 1 := by
-    rw [finrank_flagChamber, if_pos (by omega)]
+    rw [finrank_flagChamber, ite_eq_left (by omega)]
   have hadj : (flagGraph σ m).Adj z.1 (flagChamber E m j) := z.2.2 j hj
   unfold dLevel
   refine ⟨fun hlt => ?_, fun hlt => ?_⟩
@@ -246,7 +246,7 @@ theorem flagResidue_adj_of_sep (E : QuadExt F K σ) {J : Set (Fin (m + 1))}
   · exact Or.inr (Or.inl (((flagResidue_lt_of_level E y hj hjm).1 h.1).trans
       ((flagResidue_lt_of_level E x hj hjm).2 h.2)))
   · have hF : Module.finrank K (flagChamber E m j).1 = (j : ℕ) + 1 := by
-      rw [finrank_flagChamber, if_pos (by omega)]
+      rw [finrank_flagChamber, ite_eq_left (by omega)]
     have hxs := FlagVert.finrank_eq_of_le_flagTyp hs
     have hys := FlagVert.finrank_eq_of_le_flagTyp ht
     have hx : (flagChamber E m j).1 < x.1.1 :=

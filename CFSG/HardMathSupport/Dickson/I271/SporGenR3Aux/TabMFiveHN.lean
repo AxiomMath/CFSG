@@ -81,7 +81,7 @@ theorem hnClassData :
 
 theorem HNInvolutions.of_classData {K : Type} [Group K] (hK : HNClassData K) {H : Subgroup G}
     (e : ↥H ≃* K) : HNInvolutions H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcard, ⟨S, ⟨θ⟩⟩, t₂, t₄, sq₂, ne₂, sq₄, ne₄, hcov, hc₂, hc₄⟩ := hK
   have hcent : ∀ s : ↥H, Nat.card ↥(H ⊓ Subgroup.centralizer ({(s : G)} : Set G)) =
       Nat.card ↥(Subgroup.centralizer ({e s} : Set K)) := fun s =>
@@ -190,7 +190,7 @@ theorem centFiveA_of_bounds'
   intro k hk hinv
   obtain ⟨hfin, α, hα2, hαc, hαk, i, hi, hsh⟩ :=
     invertedByTwoA_data' hE Nat.prime_five (by norm_num) hk hinv
-  haveI : Finite G := hfin
+  have : Finite G := hfin
   have hHN : Nonempty (↥(Subgroup.centralizer ({α} : Set G) ⊓
       Subgroup.centralizer ({k} : Set G)) ≃* NativeSporadic.HN) := by
     fin_cases i <;> first | exact hsh | (exfalso; simp [suborbitClassOrder] at hi)

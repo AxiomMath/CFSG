@@ -278,7 +278,7 @@ theorem om6m_exists_mulEquiv_pointStab {W : Type} [CommGroup W] [Finite W]
           (orthElementaryGroup (quadTail 2 (minusTailForm K b c)))).map φ.toMonoidHom =
         (S : Subgroup ↥H) ∧
       KTabD.pointStab H S = (orthParab 2 (minusTailForm K b c) ![0, 1]).map φ.toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ψ, hψ⟩ : ∃ ψ : ↥(StatedOmega (StatedQuadMinus 3 K b c)) ≃*
       ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c))),
       (KTabD.lineStab (StatedOmega (StatedQuadMinus 3 K b c))
@@ -326,12 +326,12 @@ theorem kAdjAt_of_realizes_om6m {W : Type} [CommGroup W] [Finite W] (H : Subgrou
 theorem kAdjAt_om6m {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) {n : ℕ}
     (h : IsOmegaMinus ↥H 6 n ∧ NatOmegaMinus H ⊤ ⊥ 6 n) : KAdjAt W H n := by
   obtain ⟨-, K, hKf, hKfin, b, c, hK, hirr, hreal⟩ := h.2
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [show (6 : ℕ) / 2 = 3 by norm_num] at hreal
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   exact kAdjAt_of_realizes_om6m H hK hirr hreal
 

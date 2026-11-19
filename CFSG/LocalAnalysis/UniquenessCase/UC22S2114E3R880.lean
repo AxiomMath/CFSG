@@ -81,7 +81,7 @@ theorem s21_14D4T_of_r891 {D : Data G} {Ch : Choice2011 G}
         exact h891 L hL f (by omega) hD
     apply hk
     show CFSG.LocalAnalysis.RankThreeUC.kParam D.M = 1
-    rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_pos hsp]
+    rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_left hsp]
 
 end
 

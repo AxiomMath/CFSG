@@ -35,9 +35,9 @@ theorem w135c2_psu_four_all
   have hf : 1 ≤ f := hlie.admissible.2.1
   have hI := hctx.2.2.2.2.2
   have hirr : CFSG.LocalAnalysis.RankThreeUC.IsIrrOn L := fun J hJ => hI.2.2.2 J hJ bot_le le_top
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
-  haveI : Fact (∀ s : W, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hW s⟩
+  have : Fact (∀ s : W, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hW s⟩
   have htt : t * t = 1 := by
     have h1 := pow_orderOf_eq_one t
     rwa [ht2, pow_two] at h1

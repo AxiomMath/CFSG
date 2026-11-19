@@ -165,10 +165,10 @@ private def s16t3_spStarts (m : ℕ) : Finset (Fin (m + 1)) :=
 private def s16t3_spSix (m : ℕ) : Finset (Fin (m + 1)) :=
   s16t3_spStarts m ∪ (if Odd m then {0} else ∅)
 
-private theorem s16t3_spCuts_le {m : ℕ} (hm : 2 ≤ m) : ∀ i ∈ s16t3_spCuts m, i ≤ m :=
+private theorem s16t3_spCuts_le {m : ℕ} (_hm : 2 ≤ m) : ∀ i ∈ s16t3_spCuts m, i ≤ m :=
   fun _ hi => hi.2.1
 
-private theorem s16t3_spCuts_one {m : ℕ} (hm : 2 ≤ m) : ∀ i ∈ s16t3_spCuts m, 1 ≤ i :=
+private theorem s16t3_spCuts_one {m : ℕ} (_hm : 2 ≤ m) : ∀ i ∈ s16t3_spCuts m, 1 ≤ i :=
   fun _ hi => by have := hi.1; omega
 
 private theorem s16t3_sp_t_mem {m : ℕ} (hm : 2 ≤ m) : 2 * (m / 2) ∈ s16t3_spCuts m := by
@@ -179,7 +179,7 @@ private theorem s16t3_sp_t_mem {m : ℕ} (hm : 2 ≤ m) : 2 * (m / 2) ∈ s16t3_
     omega
   · exact ⟨m / 2, by omega⟩
 
-private theorem s16t3_spCuts_max {m : ℕ} (hm : 2 ≤ m) :
+private theorem s16t3_spCuts_max {m : ℕ} (_hm : 2 ≤ m) :
     ∀ c ∈ s16t3_spCuts m, c ≤ 2 * (m / 2) := by
   intro c hc
   obtain ⟨h2, hle, hev⟩ := hc
@@ -223,7 +223,7 @@ private theorem s16t3_spSix_mem {m : ℕ} (j : Fin (m + 1)) :
     j ∈ s16t3_spSix m ↔ (j : ℕ) ∈ s16t3_spCuts m ∨ ((j : ℕ) = 0 ∧ Odd m) := by
   rw [s16t3_spSix]
   by_cases ho : Odd m
-  · simp only [if_pos ho, Finset.mem_union, Finset.mem_singleton, s16t3_spStarts_mem]
+  · simp only [ite_eq_left ho, Finset.mem_union, Finset.mem_singleton, s16t3_spStarts_mem]
     constructor
     · rintro (h | h)
       · exact Or.inl h
@@ -231,7 +231,7 @@ private theorem s16t3_spSix_mem {m : ℕ} (j : Fin (m + 1)) :
     · rintro (h | ⟨h0, -⟩)
       · exact Or.inl h
       · exact Or.inr (Fin.ext h0)
-  · rw [if_neg ho]
+  · rw [ite_eq_right ho]
     simp [ho, s16t3_spStarts_mem]
 
 private theorem s16t3_spStarts_card (m : ℕ) : (s16t3_spStarts m).card = m / 2 := by
@@ -280,7 +280,7 @@ private theorem s16t3_spSix_card (m : ℕ) : (s16t3_spSix m).card = (m + 1) / 2 
     intro h
     exact absurd h.1 (by simp)
   by_cases ho : Odd m
-  · rw [s16t3_spSix, if_pos ho,
+  · rw [s16t3_spSix, ite_eq_left ho,
       Finset.card_union_of_disjoint (Finset.disjoint_singleton_right.mpr hnot),
       s16t3_spStarts_card, Finset.card_singleton]
     have hm1 : m + 1 = 2 * (m / 2 + 1) := by
@@ -288,7 +288,7 @@ private theorem s16t3_spSix_card (m : ℕ) : (s16t3_spSix m).card = (m + 1) / 2 
       omega
     rw [hm1]
     exact (Nat.mul_div_right (m / 2 + 1) (by norm_num : 0 < 2)).symm
-  · rw [s16t3_spSix, if_neg ho, Finset.union_empty, s16t3_spStarts_card]
+  · rw [s16t3_spSix, ite_eq_right ho, Finset.union_empty, s16t3_spStarts_card]
     have hev : Even m := Nat.not_odd_iff_even.mp ho
     have hm1 : m + 1 = 1 + 2 * (m / 2) := by
       have := Nat.two_mul_div_two_of_even hev
@@ -299,14 +299,14 @@ private theorem s16t3_spSix_card (m : ℕ) : (s16t3_spSix m).card = (m + 1) / 2 
 private theorem s16t3_sp_card_gl_le_two {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) {k : ℕ} (hk : k ≤ 2) :
     Nat.card (GL (Fin k) K) = if k = 2 then 6 else 1 := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hq : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   rcases (by omega : k = 0 ∨ k = 1 ∨ k = 2) with rfl | rfl | rfl
-  · rw [if_neg (by norm_num : ¬ (0 : ℕ) = 2), Matrix.card_GL_field]
+  · rw [ite_eq_right (by norm_num : ¬ (0 : ℕ) = 2), Matrix.card_GL_field]
     simp
-  · rw [if_neg (by norm_num : ¬ (1 : ℕ) = 2), Matrix.card_GL_field, Fin.prod_univ_one]
+  · rw [ite_eq_right (by norm_num : ¬ (1 : ℕ) = 2), Matrix.card_GL_field, Fin.prod_univ_one]
     norm_num [hq, Fin.val_zero]
-  · rw [if_pos rfl, Matrix.card_GL_field, Fin.prod_univ_two]
+  · rw [ite_eq_left rfl, Matrix.card_GL_field, Fin.prod_univ_two]
     norm_num [hq, Fin.val_zero, Fin.val_one]
 
 private theorem s16t3_sp_res_card {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
@@ -315,12 +315,12 @@ private theorem s16t3_sp_res_card {K : Type} [Field K] [Finite K] (hK : Nat.card
   · have h0 : m - 2 * (m / 2) = 0 := by
       have := Nat.two_mul_div_two_of_even hev
       omega
-    rw [h0, SymplecticFlag.card_statedSp, if_pos hev]
+    rw [h0, SymplecticFlag.card_statedSp, ite_eq_left hev]
     simp
   · have h1 : m - 2 * (m / 2) = 1 := by
       have := Nat.two_mul_div_two_add_one_of_odd ho
       omega
-    rw [h1, SymplecticFlag.card_statedSp, hK, if_neg (Nat.not_even_iff_odd.mpr ho)]
+    rw [h1, SymplecticFlag.card_statedSp, hK, ite_eq_right (Nat.not_even_iff_odd.mpr ho)]
     rw [show Finset.Icc 1 1 = {1} by decide, Finset.prod_singleton]
     norm_num
 
@@ -343,8 +343,8 @@ private theorem s16t3_sp_block_card {K : Type} [Field K] [Finite K] (hK : Nat.ca
         · exact ho
       · exact fun ho => Or.inr ⟨hj0, ho⟩
     by_cases ho : Odd m
-    · rw [if_neg (Nat.not_even_iff_odd.mpr ho), if_pos (hsix.mpr ho)]
-    · rw [if_pos (Nat.not_odd_iff_even.mp ho), if_neg (fun h => ho (hsix.mp h))]
+    · rw [ite_eq_right (Nat.not_even_iff_odd.mpr ho), ite_eq_left (hsix.mpr ho)]
+    · rw [ite_eq_left (Nat.not_odd_iff_even.mp ho), ite_eq_right (fun h => ho (hsix.mp h))]
   · by_cases hjI : (j : ℕ) ∈ s16t3_spCuts m
     · rw [spFlagLeviCoordBlock_of_mem (s16t3_spCuts_le hm) (2 * (m / 2)) hj0 hjI]
       have hprev : spFlagPrev (s16t3_spCuts m) j = (j : ℕ) - 2 := s16t3_sp_prev hjI
@@ -356,11 +356,11 @@ private theorem s16t3_sp_block_card {K : Type} [Field K] [Finite K] (hK : Nat.ca
         (f := spFlagCutEmb (spFlagPrev (s16t3_spCuts m) j) (j : ℕ)
           (s16t3_spCuts_le hm j hjI)) (spFlagCutEmb_injective _ _ _)).toEquiv, hk]
       have hgl := s16t3_sp_card_gl_le_two hK (show (2 : ℕ) ≤ 2 by norm_num)
-      rw [if_pos ((s16t3_spSix_mem j).mpr (Or.inl hjI))]
+      rw [ite_eq_left ((s16t3_spSix_mem j).mpr (Or.inl hjI))]
       simpa using hgl
     · rw [spFlagLeviCoordBlock_of_not_mem (s16t3_spCuts_le hm) (2 * (m / 2)) hj0 hjI,
         Subgroup.card_bot]
-      rw [if_neg (fun h => by
+      rw [ite_eq_right (fun h => by
         rcases (s16t3_spSix_mem j).mp h with h' | ⟨h0, -⟩
         · exact hjI h'
         · exact hj0 h0)]
@@ -448,9 +448,9 @@ theorem s16t3_sp_std {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : 
       Nat.card ↥P = 3 ^ ((m + 1) / 2) * 2 ^ (Nat.card ↥(StatedSp m K)).factorization 2 ∧
       ∀ p ∈ P, ∀ k : ℕ, p ^ 3 ^ k = 1 → p ^ 3 = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   obtain ⟨S, hS⟩ := SymplecticFlag.exists_sylow_unipotent (K := K) 2 m
   let Q : Subgroup ↥(StatedSp m K) := SymplecticHigher.flagStabilizer m K (s16t3_spCuts m)

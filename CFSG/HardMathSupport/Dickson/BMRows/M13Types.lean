@@ -40,7 +40,7 @@ theorem typeOK_goodL33 : ∀ (T : Type) [Group T], GoodL33 T → I1416Rows.TypeO
 
 theorem qtypeOK_goodL33 : ∀ (T : Type) [Group T], GoodL33 T → I1416QRows.QTypeOK 13 T := by
   intro T _ ⟨e⟩
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [card_of_equiv_sl e]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [card_of_equiv_sl e]; norm_num)
   refine I1416QRows.qtypeOK_of_not_sq_dvd_aut (by norm_num) ?_
   rw [card_mulAut_of_equiv_sl e]
   norm_num
@@ -48,7 +48,7 @@ theorem qtypeOK_goodL33 : ∀ (T : Type) [Group T], GoodL33 T → I1416QRows.QTy
 theorem ctypeOK_goodL33 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     ∀ (T : Type) [Group T], GoodL33 T → Chev2Rows.CTypeOK 13 T := by
   intro T _ ⟨e⟩
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [card_of_equiv_sl e]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [card_of_equiv_sl e]; norm_num)
   exact Chev2Rows.ctypeOK_of_card_eq hb (card_of_equiv_sl e)
 
 end Aut

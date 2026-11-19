@@ -21,15 +21,15 @@ namespace CertificateChecks.KernelD43
 
 theorem σhat_two : σhat 2 = burnsideF48d_frob := by
   unfold σhat
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem σhat_lt {j : ℕ} (hj : j < 2) : σhat j = burnsideF48d_σ j := by
   unfold σhat
-  rw [if_neg (by omega), if_pos hj]
+  rw [ite_eq_right (by omega), ite_eq_left hj]
 
 theorem σhat_gt {j : ℕ} (hj : 2 < j) : σhat j = burnsideF48d_σ (j - 1) := by
   unfold σhat
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem γ_spec {k : ℕ} (hk : k < 8) :
     (∀ p : Fin 26572, (burnsideF48d_γ k p : ℕ) = tabAt GX.F k p) ∧ burnsideF48d_γ k ^ 3 = 1 := by
@@ -86,19 +86,19 @@ theorem wV_flatL (l : Fin 18 × Bool) :
   obtain ⟨j, b⟩ := l
   unfold flatL
   by_cases h2 : (j : ℕ) = 2
-  · rw [if_pos h2]
+  · rw [ite_eq_left h2]
     have e : σhat j = burnsideF48d_frob := by rw [h2]; exact σhat_two
     rw [e]
     cases b <;> simp [wV, dV]
-  · rw [if_neg h2]
+  · rw [ite_eq_right h2]
     have e : σhat j = burnsideF48d_σ (if (j : ℕ) < 2 then j else j - 1) := by
       unfold σhat
-      rw [if_neg h2]
+      rw [ite_eq_right h2]
     rw [e]
     cases b
-    · simp only [cond_false]
+    · simp only [Bool.cond_false]
       rw [wV_flatG, ev_invW, burnsideF48d_σ]
-    · simp only [cond_true]
+    · simp only [_root_.Bool.cond_true]
       rw [wV_flatG, burnsideF48d_σ]
 
 theorem ev_flatX (r : List (Fin 18 × Bool)) :

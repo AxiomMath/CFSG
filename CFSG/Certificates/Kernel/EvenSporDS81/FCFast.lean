@@ -303,7 +303,7 @@ theorem famF_eq (fam : List (List Nat)) (L : List Nat) :
     · rfl
     · simp only [beq_iff_eq] at hb
       subst hb
-      simp [List.contains_iff_mem, hL']
+      simp [hL']
   · rfl
 
 theorem extOKG_tabK {K : List Nat} {t : KTree Nat} (h : treeOK K t = true) (d e n : Nat)

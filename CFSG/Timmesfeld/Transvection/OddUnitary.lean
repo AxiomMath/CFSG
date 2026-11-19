@@ -23,7 +23,7 @@ open CFSG.Timmesfeld.ARS CFSG.LieType CFSG.LieType.Universal CFSG.LieType.BorelT
 
 theorem transvectionStatement_of_oddUnitary (h : OddUnitaryStatement) : TransvectionStatement := by
   intro H _ Δ hyp
-  haveI : Finite H := hyp.finite
+  have : Finite H := hyp.finite
   obtain ⟨A, hA, -⟩ := hyp.rank
   by_cases h2 : Nat.card A = 2
   · exact ⟨1, le_rfl,

@@ -71,7 +71,7 @@ theorem toM_oneZ : toM oneZ = 1 := by
 theorem gramRefl_toM (n : Z9) (k : Fin 3) : gramRefl (toM n) k = toM (reflZ n k) := by
   rw [gramRefl]
   ext i j
-  fin_cases k <;> fin_cases i <;> fin_cases j <;> simp [reflZ, toM, Matrix.one_apply]
+  fin_cases k <;> fin_cases i <;> fin_cases j <;> simp [reflZ, toM]
 
 @[expose] def gensZ (n : Z9) : List Z9 := [reflZ n 0, reflZ n 1, reflZ n 2]
 

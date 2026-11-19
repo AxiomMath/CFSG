@@ -49,12 +49,12 @@ theorem eq_neg_one_of_commute {K : Type} [Field K] {P : Subgroup (GL σ K)}
     ⟨{ carrier := {v | (z : Matrix σ σ K) *ᵥ v = -v}
        add_mem' := by
          intro a b ha hb
-         simp only [Set.mem_setOf_eq] at ha hb ⊢
+         simp only [Set.mem_ofPred_eq] at ha hb ⊢
          rw [Matrix.mulVec_add, ha, hb, neg_add]
        zero_mem' := by simp
        smul_mem' := by
          intro c v hv
-         simp only [Set.mem_setOf_eq] at hv ⊢
+         simp only [Set.mem_ofPred_eq] at hv ⊢
          rw [Matrix.mulVec_smul, hv, smul_neg] }, fun _ => Iff.rfl⟩
   have hinv : ∀ g ∈ P, ∀ v ∈ Vm, (g : Matrix σ σ K) *ᵥ v ∈ Vm := by
     intro g hg v hv

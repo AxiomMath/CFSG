@@ -258,7 +258,7 @@ theorem centralizer_le_of_borel {X : Type*} [Group X] [Finite X] [hs : IsSimpleG
     rw [hker, Subgroup.mem_bot] at this
     exact this
   have hle : (Q : Subgroup X) ≤ B := Subgroup.le_normalizer
-  have hj := two_power_of_centralizer B (Q : Subgroup X) Q.isPGroup' hfaith
+  have hj := two_power_of_centralizer B (Q : Subgroup X) Q.isPGroup hfaith
     (fun α β hα hβ => by
       obtain ⟨⟨r, hr⟩, hrβ, -⟩ := hreg hα hβ
       exact ⟨r, hr, hrβ⟩) hbase hx hc
@@ -328,7 +328,7 @@ theorem benderBorelFacts : BenderBorelFacts := by
       L ⊓ Subgroup.normalizer (P : Set G) := by
     rw [hQ]; exact map_normalizer_subgroupOf hP.1
   have hsolv : Group.IsSolvable (Subgroup.normalizer ((Q : Subgroup ↥L) : Set ↥L)) :=
-    isSolvable_normalizer_of_sup_cyclic Q.isPGroup' hDcyc hsup
+    isSolvable_normalizer_of_sup_cyclic Q.isPGroup hDcyc hsup
   refine ⟨?_, ?_⟩
   · apply charTwo_of_normal_pGroup (E := P)
     · exact fun x hx => ⟨hP.1 hx, Subgroup.le_normalizer hx⟩

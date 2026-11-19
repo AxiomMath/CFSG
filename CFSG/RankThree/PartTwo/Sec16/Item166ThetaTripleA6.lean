@@ -36,7 +36,7 @@ private theorem ker_comp_sigma_isSolvable {Y T : Type} [Group Y] [Group T]
     (hT : Sec4.IsTripleCover T (alternatingGroup (Fin 6))) (π : Y →* T)
     (hK : Group.IsSolvable π.ker) :
     Group.IsSolvable ((sigmaOfTripleCover hT).comp π).ker := by
-  haveI : Group.IsSolvable π.ker := hK
+  have : Group.IsSolvable π.ker := hK
   set N : Subgroup Y := (Subgroup.center T).comap π
   have hker : ((sigmaOfTripleCover hT).comp π).ker = N := by
     rw [← MonoidHom.comap_ker (sigmaOfTripleCover hT) π, sigmaOfTripleCover_ker]
@@ -56,7 +56,7 @@ private theorem isSimpleGroup_quotient_ker_comp {Y T : Type} [Group Y] [Group T]
     (hT : Sec4.IsTripleCover T (alternatingGroup (Fin 6))) (π : Y →* T)
     (hπ : Function.Surjective π) :
     IsSimpleGroup (Y ⧸ ((sigmaOfTripleCover hT).comp π).ker) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   exact MulEquiv.isSimpleGroup
     (QuotientGroup.quotientKerEquivOfSurjective _
       ((sigmaOfTripleCover_surjective hT).comp hπ))
@@ -65,7 +65,7 @@ private theorem ker_comp_sigma_ne_top {Y T : Type} [Group Y] [Group T]
     (hT : Sec4.IsTripleCover T (alternatingGroup (Fin 6))) (π : Y →* T)
     (hπ : Function.Surjective π) :
     ((sigmaOfTripleCover hT).comp π).ker ≠ ⊤ := by
-  haveI hs : IsSimpleGroup (Y ⧸ ((sigmaOfTripleCover hT).comp π).ker) :=
+  have hs : IsSimpleGroup (Y ⧸ ((sigmaOfTripleCover hT).comp π).ker) :=
     isSimpleGroup_quotient_ker_comp hT π hπ
   exact QuotientGroup.nontrivial_iff.mp hs.toNontrivial
 
@@ -101,8 +101,8 @@ private theorem ker_le_center_of_isQuasisimple {Y T : Type} [Group Y] [Group T]
     (hq : IsQuasisimple Y) (π : Y →* T) (hK : Group.IsSolvable π.ker) :
     π.ker ≤ Subgroup.center Y := by
   obtain ⟨-, hZs, a, b, hab⟩ := hq
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hZs
-  haveI : Group.IsSolvable π.ker := hK
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hZs
+  have : Group.IsSolvable π.ker := hK
   have hn : (π.ker.map (QuotientGroup.mk' (Subgroup.center Y))).Normal :=
     (MonoidHom.normal_ker π).map _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -155,7 +155,7 @@ private theorem ker_eq_bot_of_isQuasisimple {Y T : Type} [Group Y] [Finite Y]
 
 private theorem pCore_three_inf_ker {Y T : Type} [Group Y] [Finite Y] [Group T]
     (π : Y →* T) (h3 : ¬ 3 ∣ Nat.card π.ker) : CFSG.pCore 3 Y ⊓ π.ker = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (pCore_isPGroup (p := 3) (G := Y)).to_le inf_le_left |>.exists_card_eq
   have hdvd : 3 ^ k ∣ Nat.card π.ker := hk ▸ Subgroup.card_dvd_of_le inf_le_right
   rcases Nat.eq_zero_or_pos k with rfl | hk0
@@ -167,28 +167,28 @@ private theorem pCore_three_image_sigma_eq_bot {Y T : Type} [Group Y] [Group T]
     (hT : Sec4.IsTripleCover T (alternatingGroup (Fin 6))) (π : Y →* T)
     (hπ : Function.Surjective π) :
     ((CFSG.pCore 3 Y).map π).map (sigmaOfTripleCover hT) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnorm : ((CFSG.pCore 3 Y).map π).Normal :=
     (pCore_normal (p := 3) (G := Y)).map π hπ
   have hnorm' : (((CFSG.pCore 3 Y).map π).map (sigmaOfTripleCover hT)).Normal :=
     hnorm.map _ (sigmaOfTripleCover_surjective hT)
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (((CFSG.pCore 3 Y).map π).map (sigmaOfTripleCover hT)) with h | h
   · exact h
   · exfalso
-    haveI hperf : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+    have hperf : Group.IsPerfect (alternatingGroup (Fin 6)) :=
       ⟨commutator_alternatingGroup_eq_top (by simp)⟩
     have hsol : Group.IsSolvable
         (((CFSG.pCore 3 Y).map π).map (sigmaOfTripleCover hT)) := by
       have hpg : IsPGroup 3
           (((CFSG.pCore 3 Y).map π).map (sigmaOfTripleCover hT)) :=
         ((pCore_isPGroup (p := 3) (G := Y)).map π).map (sigmaOfTripleCover hT)
-      haveI : Group.IsNilpotent
+      have : Group.IsNilpotent
           (((CFSG.pCore 3 Y).map π).map (sigmaOfTripleCover hT)) := hpg.isNilpotent
       infer_instance
-    haveI : Group.IsSolvable (⊤ : Subgroup (alternatingGroup (Fin 6))) := h ▸ hsol
+    have : Group.IsSolvable (⊤ : Subgroup (alternatingGroup (Fin 6))) := h ▸ hsol
     have hsolA : Group.IsSolvable (alternatingGroup (Fin 6)) :=
       Group.isSolvable_of_surjective
         (f := (Subgroup.topEquiv (G := alternatingGroup (Fin 6))).toMonoidHom)
@@ -239,7 +239,7 @@ private theorem pCore_three_le_center {Y T : Type} [Group Y] [Finite Y] [Group.I
     have heq : Nat.card (CFSG.pCore 3 Y) = Nat.card ((CFSG.pCore 3 Y).map π) :=
       Nat.card_congr (Equiv.ofBijective _ hbij)
     rwa [heq]
-  haveI : IsCyclic ↥(CFSG.pCore 3 Y) := isCyclic_of_card_dvd_prime hcarddvd
+  have : IsCyclic ↥(CFSG.pCore 3 Y) := isCyclic_of_card_dvd_prime hcarddvd
   exact CFSG.RankThree.PartTwo.KFacts.K412.le_center_of_isCyclic
     (Group.IsPerfect.commutator_eq_top (G := Y))
 
@@ -252,10 +252,10 @@ private theorem exists_critical_of_not_isQuasisimple {Y T : Type} [Group Y] [Fin
       hD.frattiniKer ≤ ((sigmaOfTripleCover hT).comp π).ker := by
   set ψ := (sigmaOfTripleCover hT).comp π
   have hK'sol : Group.IsSolvable ψ.ker := ker_comp_sigma_isSolvable hT π hK
-  haveI hsimple : IsSimpleGroup (Y ⧸ ψ.ker) := isSimpleGroup_quotient_ker_comp hT π hπ
+  have hsimple : IsSimpleGroup (Y ⧸ ψ.ker) := isSimpleGroup_quotient_ker_comp hT π hπ
   have htop : ψ.ker ≠ ⊤ := ker_comp_sigma_ne_top hT π hπ
   obtain ⟨p, hp, hpS⟩ := Sec4.Census.exists_centralizer_pCore_le (K := ψ.ker) hK'sol hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPne : CFSG.pCore p Y ≠ ⊥ := by
     intro h
     apply htop
@@ -337,7 +337,7 @@ private theorem ker_eq_bot_of_pRank_le_two {Y T : Type}
     (hrank : ∀ p : ℕ, p.Prime → 3 < p → CFSG.pRank p Y ≤ 2) : π.ker = ⊥ := by
   by_contra hne
   obtain ⟨p, hp, hp3, D, hD, hDK⟩ := exists_critical hT π hπ hK h3 hO2 hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDr : CFSG.pRank p D ≤ 2 := by
     have h1 := Sec4.Census.pRank_le_pRank_top hp D
     rw [← CFSG.SectionRank.pRank_eq_open_pRank_top] at h1
@@ -351,8 +351,8 @@ theorem ker_le_pCore_two_of_pRank_le_two {Y : Type} [Group Y]
     (hrank : ∀ p : ℕ, p.Prime → 3 < p → CFSG.pRank p Y ≤ 2) : π.ker ≤ CFSG.pCore 2 Y := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := CFSG.pCore 2 Y
-  haveI : Q.Normal := pCore_normal
-  haveI hsimple : IsSimpleGroup (Y ⧸ ((sigmaOfTripleCover hT).comp π).ker) :=
+  have : Q.Normal := pCore_normal
+  have hsimple : IsSimpleGroup (Y ⧸ ((sigmaOfTripleCover hT).comp π).ker) :=
     isSimpleGroup_quotient_ker_comp hT π hπ
   have hQψ : Q ≤ ((sigmaOfTripleCover hT).comp π).ker := Sec4.Census.pCore_le 2
   have hQK : Q ≤ π.ker := by

@@ -146,7 +146,7 @@ theorem commutator_values_in_C
     {L Q Φ Z K C U : Subgroup G} {F : Type} [Field F] [Fintype F] (hF : Fintype.card F = 2)
     (α : ↥L →* ↥(StatedSL 3 F)) (hα : Function.Surjective α)
     (hΦQ : Φ ≤ Q) (hZQ : Z ≤ Q) (hZc : ∀ z ∈ Z, ∀ q ∈ Q, z * q = q * z)
-    (hKQ : K ≤ Q) (hKdef : ∀ k ∈ K, ∀ φ ∈ Φ, k * φ = φ * k)
+    (_hKQ : K ≤ Q) (hKdef : ∀ k ∈ K, ∀ φ ∈ Φ, k * φ = φ * k)
     (hQtriv : ∀ q ∈ Q, ∃ l : ↥L, (l : G) = q ∧ α l = 1)
     (hnatQ : IsSumOfNaturalModulesVia L Q K α false 2)
     (hnatΦ : IsSumOfNaturalModulesVia L Φ Z α true 1)
@@ -187,7 +187,7 @@ theorem commutator_values_in_C
     have hy := hZc _ (T q' φ).2 q q.2
     have e1 : ((q * q' : ↥Q) : G) * (φ : G) * ((q * q' : ↥Q) : G)⁻¹ * (φ : G)⁻¹ =
         (q : G) * ((q' : G) * φ * (q' : G)⁻¹ * (φ : G)⁻¹) * (φ : G) * (q : G)⁻¹ * (φ : G)⁻¹ := by
-      simp only [Subgroup.coe_mul, InvMemClass.coe_inv]; group
+      simp only [Subgroup.coe_mul]; group
     have e2 : (q : G) * ((q' : G) * φ * (q' : G)⁻¹ * (φ : G)⁻¹) =
         ((q' : G) * φ * (q' : G)⁻¹ * (φ : G)⁻¹) * (q : G) := hy.symm
     show ((q * q' : ↥Q) : G) * (φ : G) * ((q * q' : ↥Q) : G)⁻¹ * (φ : G)⁻¹ =
@@ -253,7 +253,7 @@ theorem commutator_values_in_C
     have e1 : q' = q * (q⁻¹ * q') := by group
     have e2 : φ' = φ * (φ⁻¹ * φ') := by group
     rw [e1, e2, hΘ_left, hΘ_right, hΘ_K (q⁻¹ * q') _ (by simpa using hk), hΘ_Z _ (φ⁻¹ * φ') (by simpa using hz)]
-    simp [hΘ_K (q⁻¹ * q') φ (by simpa using hk)]
+    simp
   let conjQ : ↥L → ↥Q → ↥Q := fun l q =>
     ⟨(l : G) * q * (l : G)⁻¹, (Subgroup.mem_normalizer_iff.mp (hLNQ l.2) q).mp q.2⟩
   let conjΦ : ↥L → ↥Φ → ↥Φ := fun l φ =>
@@ -345,7 +345,7 @@ theorem commutator_values_in_C
       rw [this, hq0β, hlg]
       by_cases hj : j = i
       · subst hj; simp [moduleAct]
-      · simp [moduleAct, Pi.single_apply, hj]
+      · simp [moduleAct, hj]
     have hc2 : βΦ (conjΦ l φ0) = Multiplicative.ofAdd (fun _ => (((g⁻¹ : Matrix.GeneralLinearGroup
         (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)ᵀ).mulVec y) := by
       apply Multiplicative.toAdd.injective
@@ -487,7 +487,7 @@ theorem comm_frattini_eq [Finite G]
   have hcard : Nat.card (Fin 2 → Fin 3 → F) ≤ Nat.card (Fin 3 → ↥W) :=
     Nat.card_le_card_of_injective m hinj
   have h64 : Nat.card (Fin 2 → Fin 3 → F) = 64 := by
-    simp [Nat.card_fun, Nat.card_eq_fintype_card, hF]
+    simp [Nat.card_eq_fintype_card, hF]
   have hW3 : Nat.card (Fin 3 → ↥W) = Nat.card ↥W ^ 3 := by
     simp [Nat.card_fun]
   rw [h64, hW3] at hcard

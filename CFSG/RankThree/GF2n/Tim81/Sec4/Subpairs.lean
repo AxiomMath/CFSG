@@ -22,6 +22,7 @@ abbrev subpairImage (M V H : Subgroup G) (Z : Subgroup (HBar V H)) [Z.Normal] (g
     Subgroup (HBar V H ⧸ Z) :=
   (imgK V H (subpair M V g)).map (QuotientGroup.mk' Z)
 
+omit [Finite G] in
 theorem imgK_subpair (hPH : Pc M V ≤ H) {g : G} (hg : g ∈ H) :
     imgK V H (subpair M V g) =
       imgK V H (Pc M V) ⊔
@@ -29,6 +30,7 @@ theorem imgK_subpair (hPH : Pc M V ≤ H) {g : G} (hg : g ∈ H) :
   have hPgH : conjSubgroup g (Pc M V) ≤ H := conjSubgroup_le_of_le_of_mem hPH hg
   rw [subpair, ← imgK_sup hPH hPgH, imgK_conjSubgroup hg hPH]
 
+omit [Finite G] in
 theorem map_imgK_subpair (hPH : Pc M V ≤ H) {g : G} (hg : g ∈ H)
     {Z : Subgroup (HBar V H)} [Z.Normal] :
     subpairImage M V H Z g =
@@ -37,6 +39,7 @@ theorem map_imgK_subpair (hPH : Pc M V ≤ H) {g : G} (hg : g ∈ H)
           ((imgK V H (Pc M V)).map (QuotientGroup.mk' Z)) := by
   rw [subpairImage, imgK_subpair hPH hg, Subgroup.map_sup, map_conjSubgroup]
 
+omit [Finite G] in
 private theorem imgK_le_normalizer_of_le_normalizer {S : Subgroup G} (hPH : Pc M V ≤ H)
     (hSN : S ≤ Subgroup.normalizer (Pc M V : Set G)) :
     imgK V H S ≤ Subgroup.normalizer (imgK V H (Pc M V) : Set (HBar V H)) := by
@@ -120,7 +123,7 @@ theorem solvable_quotient_of_commutator_ker_le {X B : Type*} [Group X] [Group B]
   have hL_normal : L.Normal := by
     dsimp [L]
     infer_instance
-  haveI : L.Normal := hL_normal
+  have : L.Normal := hL_normal
   have hL_ab : IsMulCommutative ↥L := by
     refine ⟨⟨fun y z => Subtype.ext ?_⟩⟩
     obtain ⟨a, ha, hay⟩ := Subgroup.mem_map.mp y.2
@@ -133,7 +136,7 @@ theorem solvable_quotient_of_commutator_ker_le {X B : Type*} [Group X] [Group B]
     have h1 : (QuotientGroup.mk' D) ⁅a, b⁆ = 1 := (QuotientGroup.eq_one_iff _).mpr hc
     rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm] at h1
     simpa using h1
-  haveI : Group.IsSolvable ↥L := inferInstance
+  have : Group.IsSolvable ↥L := inferInstance
   have hquot_iso : (X ⧸ D) ⧸ L ≃* B := by
     have e1 : X ⧸ MonoidHom.ker ψ ≃* B :=
       QuotientGroup.quotientKerEquivOfSurjective ψ hψ
@@ -144,7 +147,7 @@ theorem solvable_quotient_of_commutator_ker_le {X B : Type*} [Group X] [Group B]
   have hquot_solv : Group.IsSolvable ((X ⧸ D) ⧸ L) :=
     Group.isSolvable_of_surjective (f := hquot_iso.symm.toMonoidHom)
       hquot_iso.symm.surjective
-  haveI : Group.IsSolvable (X ⧸ D) :=
+  have : Group.IsSolvable (X ⧸ D) :=
     Group.isSolvable_of_subgroup_quotient (G := X ⧸ D) L
   let π : X ⧸ D →* X ⧸ K :=
     QuotientGroup.lift D (QuotientGroup.mk' K)
@@ -166,12 +169,12 @@ private theorem isSolvable_map_comap_of_commutator_ker_le {X B : Type*} [Group X
   have hS_normal : S.Normal := by
     dsimp [S]
     infer_instance
-  haveI : S.Normal := hS_normal
+  have : S.Normal := hS_normal
   let R' : Subgroup (X ⧸ K) := S.map (QuotientGroup.mk' K)
   have hR'_normal : R'.Normal := by
     dsimp [R']
     infer_instance
-  haveI : R'.Normal := hR'_normal
+  have : R'.Normal := hR'_normal
   let ψ' : ↥S →* ↥R := MonoidHom.codRestrict (ψ.comp S.subtype) R (fun x => x.2)
   have hψ'_surj : Function.Surjective ψ' := by
     intro r
@@ -198,7 +201,7 @@ private theorem isSolvable_map_comap_of_commutator_ker_le {X B : Type*} [Group X
     apply Subgroup.commutator_mem_commutator
     · exact MonoidHom.mem_ker.mpr (congrArg Subtype.val (MonoidHom.mem_ker.mp hx))
     · exact MonoidHom.mem_ker.mpr (congrArg Subtype.val (MonoidHom.mem_ker.mp hy))
-  haveI : Group.IsSolvable ↥R := hR
+  have : Group.IsSolvable ↥R := hR
   have hSK_solv : Group.IsSolvable (↥S ⧸ K') :=
     solvable_quotient_of_commutator_ker_le D' K' hD'_le_K' ψ' hψ'_surj hD'_le_ker hcomm'
   let f : ↥S →* X ⧸ K := (QuotientGroup.mk' K).comp S.subtype
@@ -225,7 +228,7 @@ private theorem nonempty_quotient_alt5_of_surjective {Y : Type*} [Group Y]
     (hsolv : ¬ Group.IsSolvable Y) :
     Nonempty (Y ⧸ R' ≃* alternatingGroup (Fin 5)) := by
   classical
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (MonoidHom.ker α) with hbot | htop
   · have hα_inj : Function.Injective α := by
       refine (injective_iff_map_eq_one α).mpr ?_
@@ -235,7 +238,7 @@ private theorem nonempty_quotient_alt5_of_surjective {Y : Type*} [Group Y]
       exact Subgroup.mem_bot.mp hmem
     exact ⟨(MulEquiv.ofBijective α ⟨hα_inj, hα_surj⟩).symm⟩
   · exfalso
-    haveI : Subsingleton (Y ⧸ R') := by
+    have : Subsingleton (Y ⧸ R') := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨x, rfl⟩ := hα_surj a
       obtain ⟨y, rfl⟩ := hα_surj b
@@ -264,12 +267,12 @@ private theorem exists_alt5_quotient_of_commutator_ker_le {X B : Type*} [Group X
   have hS_normal : S.Normal := by
     dsimp [S]
     infer_instance
-  haveI : S.Normal := hS_normal
+  have : S.Normal := hS_normal
   let R' : Subgroup (X ⧸ K) := S.map (QuotientGroup.mk' K)
   have hR'_normal : R'.Normal := by
     dsimp [R']
     infer_instance
-  haveI : R'.Normal := hR'_normal
+  have : R'.Normal := hR'_normal
   have hR'_solv : Group.IsSolvable ↥R' := by
     dsimp [R', S]
     exact isSolvable_map_comap_of_commutator_ker_le D K hDK ψ hψ hDψ hcomm R hR
@@ -325,12 +328,14 @@ theorem alt5_quotient_of_commutator_ker_le {X B : Type*} [Group X] [Group B]
   · exact Or.inl hsolv
   · exact Or.inr (exists_alt5_quotient_of_commutator_ker_le D K hDK ψ hψ hDψ hcomm R hR e hsolv)
 
+omit [Finite G] in
 private theorem xOf_subpair_le {V H X : Subgroup G} (hXH : X ≤ H) :
     Tim79a.xOf V X ≤ Tim79a.xOf V H := by
   refine iSup₂_le fun U hU => ?_
   obtain ⟨x, hx, rfl⟩ := hU
   exact Tim79a.le_xOf (Tim79a.conjSubgroup_mem_omegaOf (hXH hx))
 
+omit [Finite G] in
 private theorem subgroupOf_le_ker_comp_mk {X : Subgroup G} (hXH : X ≤ H)
     {Z : Subgroup (HBar V H)} [Z.Normal] :
     (kOf V H).subgroupOf X ≤
@@ -344,6 +349,7 @@ private theorem subgroupOf_le_ker_comp_mk {X : Subgroup G} (hXH : X ≤ H)
   change (QuotientGroup.mk' Z) (piK V H (Subgroup.inclusion hXH x)) = 1
   rw [h1, map_one]
 
+omit [Finite G] in
 private theorem commutator_ker_comp_mk_le {Y : Type*} [Group Y] (π : Y →* HBar V H)
     {Z : Subgroup (HBar V H)} [Z.Normal] (hZ : Z ≤ Subgroup.center (HBar V H))
     (D : Subgroup Y) (hD : ∀ x, π x = 1 → x ∈ D) :
@@ -362,12 +368,13 @@ private theorem commutator_ker_comp_mk_le {Y : Type*} [Group Y] (π : Y →* HBa
   rw [map_commutatorElement]
   exact hcommZ
 
-theorem RootHyp.isSolvable_hBar_of_isSolvable_map (h : RootHyp M V) (hPH : Pc M V ≤ H)
+omit [Finite G] in
+theorem RootHyp.isSolvable_hBar_of_isSolvable_map (_h : RootHyp M V) (hPH : Pc M V ≤ H)
     {g : G} (hg : g ∈ H)
     {Z : Subgroup (HBar V H)} [Z.Normal] (hZ : Z ≤ Subgroup.center (HBar V H))
     (hsolv : Group.IsSolvable (subpairImage M V H Z g)) :
     Group.IsSolvable (HBar V (subpair M V g)) := by
-  haveI : Group.IsSolvable (subpairImage M V H Z g) := hsolv
+  have : Group.IsSolvable (subpairImage M V H Z g) := hsolv
   classical
   let X : Subgroup G := subpair M V g
   have hXH : X ≤ H := sup_le hPH (conjSubgroup_le_of_le_of_mem hPH hg)
@@ -377,10 +384,10 @@ theorem RootHyp.isSolvable_hBar_of_isSolvable_map (h : RootHyp M V) (hPH : Pc M 
     have hX_le : X ≤ Subgroup.normalizer (kOf V H ⊓ X : Set G) :=
       (le_inf (hXH.trans (le_normalizer_kOf V H)) Subgroup.le_normalizer).trans
         (Subgroup.inf_normalizer_le_normalizer_inf (H := kOf V H) (K := X))
-    have h : D = (kOf V H ⊓ X).subgroupOf X := by
+    have _h : D = (kOf V H ⊓ X).subgroupOf X := by
       dsimp [D]
       exact (Subgroup.inf_subgroupOf_right (kOf V H) X).symm
-    rw [h]
+    rw [_h]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr hX_le
   have hKX_normal : KX.Normal := by
     dsimp [KX]
@@ -422,11 +429,12 @@ theorem RootHyp.isSolvable_hBar_of_isSolvable_map (h : RootHyp M V) (hPH : Pc M 
     rw [hker]
     exact commutator_ker_comp_mk_le πH hZ D (fun x hx =>
       Subgroup.mem_subgroupOf.mpr ((piK_eq_one_iff (Subgroup.inclusion hXH x)).mp hx))
-  have h := solvable_quotient_of_commutator_ker_le (X := ↥X) D KX hDK ψ hψ_surj
+  have _h := solvable_quotient_of_commutator_ker_le (X := ↥X) D KX hDK ψ hψ_surj
     hD_le_ker hcomm_ker
-  simpa [KX, HBar, X] using h
+  simpa [KX, HBar, X] using _h
 
-theorem RootHyp.isSolvable_or_alt5_hBar (h : RootHyp M V) (hPH : Pc M V ≤ H)
+omit [Finite G] in
+theorem RootHyp.isSolvable_or_alt5_hBar (_h : RootHyp M V) (hPH : Pc M V ≤ H)
     {g : G} (hg : g ∈ H)
     {Z : Subgroup (HBar V H)} [Z.Normal] (hZ : Z ≤ Subgroup.center (HBar V H))
     (R : Subgroup (subpairImage M V H Z g)) [R.Normal]
@@ -445,10 +453,10 @@ theorem RootHyp.isSolvable_or_alt5_hBar (h : RootHyp M V) (hPH : Pc M V ≤ H)
     have hX_le : X ≤ Subgroup.normalizer (kOf V H ⊓ X : Set G) :=
       (le_inf (hXH.trans (le_normalizer_kOf V H)) Subgroup.le_normalizer).trans
         (Subgroup.inf_normalizer_le_normalizer_inf (H := kOf V H) (K := X))
-    have h : D = (kOf V H ⊓ X).subgroupOf X := by
+    have _h : D = (kOf V H ⊓ X).subgroupOf X := by
       dsimp [D]
       exact (Subgroup.inf_subgroupOf_right (kOf V H) X).symm
-    rw [h]
+    rw [_h]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr hX_le
   have hKX_normal : KX.Normal := by
     dsimp [KX]
@@ -490,9 +498,9 @@ theorem RootHyp.isSolvable_or_alt5_hBar (h : RootHyp M V) (hPH : Pc M V ≤ H)
     rw [hker]
     exact commutator_ker_comp_mk_le πH hZ D (fun x hx =>
       Subgroup.mem_subgroupOf.mpr ((piK_eq_one_iff (Subgroup.inclusion hXH x)).mp hx))
-  have h := alt5_quotient_of_commutator_ker_le (X := ↥X) D KX hDK ψ hψ_surj
+  have _h := alt5_quotient_of_commutator_ker_le (X := ↥X) D KX hDK ψ hψ_surj
     hD_le_ker hcomm_ker R hR e
-  simpa [KX, HBar, X] using h
+  simpa [KX, HBar, X] using _h
 
 theorem RootHyp.false_of_solvable_subpair (h79 : Tim79aStatementWCQ) (h : RootHyp M V)
     (hPH : Pc M V ≤ H) (hVH : V ≤ inSubgroup (pCore 2) H)
@@ -506,12 +514,13 @@ theorem RootHyp.false_of_solvable_subpair (h79 : Tim79aStatementWCQ) (h : RootHy
     isSolvable_hBar_of_isSolvable_map h hPH hg hZ hsolv
   exact not_isSolvable_HBar h hmem.2.1 hVX rfl hmem.2.2 hsolvX
 
+omit [Finite G] in
 private theorem not_isPGroup_subpairImage_of_alt5
     {g : G} {Z : Subgroup (HBar V H)} [Z.Normal]
     (R : Subgroup (subpairImage M V H Z g)) [R.Normal]
     (e : subpairImage M V H Z g ⧸ R ≃* alternatingGroup (Fin 5)) :
     ¬ IsPGroup 2 (subpairImage M V H Z g) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h2
   have h2q : IsPGroup 2 (subpairImage M V H Z g ⧸ R) := h2.to_quotient R
   have h2A : IsPGroup 2 (alternatingGroup (Fin 5)) := h2q.of_equiv e
@@ -550,7 +559,7 @@ private theorem center_eq_bot_of_alt5_injective
       (imgK_conjSubgroup (V := V) (H := X) (S := Pc M V) x.2 hPX).symm
     rw [hconj] at hgbar ⊢
     exact weaklyClosed_imgK h hPX x.2 hgbar
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hL2 : IsL2OrSzGroup (HBar V X ⧸ Subgroup.center (HBar V X)) := by
     refine Or.inl ⟨GaloisField 2 2, inferInstance, inferInstance, inferInstance, ?_, ?_⟩
     · rw [← Nat.card_eq_fintype_card, card_gf4]
@@ -579,7 +588,7 @@ private theorem center_eq_bot_of_alt5_quotient
     πR.comp e'.symm.toMonoidHom
   have hα_surj : Function.Surjective α :=
     hπR_surj.comp e'.symm.surjective
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (MonoidHom.ker α) with hbot | htop
   · have hα_inj : Function.Injective α := by
       refine (injective_iff_map_eq_one α).mpr ?_
@@ -589,7 +598,7 @@ private theorem center_eq_bot_of_alt5_quotient
       exact Subgroup.mem_bot.mp hmem
     exact center_eq_bot_of_alt5_injective h hPX hVX hyX hXyX hα_inj hα_surj hCT
   · exfalso
-    haveI : Subsingleton (HBar V X ⧸ Subgroup.center (HBar V X)) := by
+    have : Subsingleton (HBar V X ⧸ Subgroup.center (HBar V X)) := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨x, rfl⟩ := hα_surj a
       obtain ⟨y, rfl⟩ := hα_surj b
@@ -601,7 +610,7 @@ private theorem center_eq_bot_of_alt5_quotient
       have h1 : QuotientGroup.mk' (Subgroup.center (HBar V X)) x = 1 :=
         Subsingleton.elim _ _
       exact (QuotientGroup.eq_one_iff x).mp h1
-    haveI : IsMulCommutative (HBar V X) :=
+    have : IsMulCommutative (HBar V X) :=
       Subgroup.center_eq_top_iff.mp hcenter_top
     exact hX_not_solv inferInstance
 
@@ -623,7 +632,7 @@ theorem RootHyp.false_of_alt5_subpair (h79 : Tim79aStatementWCQ) (hA5 : HA5State
   have hcases := isSolvable_or_alt5_hBar h hPH hg hZ R hR e
   rcases hcases with hsolvX | ⟨R', hR'_normal, hR'_solv, ⟨e'⟩⟩
   · exact hXbar_not_solv hsolvX
-  · haveI : R'.Normal := hR'_normal
+  · have : R'.Normal := hR'_normal
     have hR'_center : R' ≤ Subgroup.center (HBar V (subpair M V g)) :=
       le_center_of_isSolvable_normal h hmem.2.1 hVX rfl hmem.2.2 R' hR'_solv
     obtain ⟨yX, hyX, -, -, hXyX⟩ := h.exists_mem_conj_eq_of_eq_sup hmem.2.1 rfl

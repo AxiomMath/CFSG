@@ -117,8 +117,8 @@ theorem qOf_map {N : Subgroup (V ≃ₗ[ZMod 2] V)} [Finite N] {g : V ≃ₗ[ZMo
     simpa using this
   unfold qOf
   by_cases hx : x = 0 ∨ FreeVec N x
-  · rw [if_pos (hx.imp h0.2 hf.2), if_pos hx]
-  · rw [if_neg (fun h => hx (h.imp h0.1 hf.1)), if_neg hx]
+  · rw [ite_eq_left (hx.imp h0.2 hf.2), ite_eq_left hx]
+  · rw [ite_eq_right (fun h => hx (h.imp h0.1 hf.1)), ite_eq_right hx]
 
 theorem getD_range_map (f : ℕ → ℕ) {z : ℕ} (hz : z < 16) :
     ((List.range 16).map f).getD z 0 = f z := by
@@ -136,7 +136,7 @@ include h1 h2 h3 halt hN hiso
 
 theorem pow_three_eq_one : ∀ n ∈ N, n ^ 3 = 1 := by
   intro n hn
-  haveI := finite_aut bs
+  have := finite_aut bs
   have h9 : n ^ 9 = 1 := by
     have h := pow_card_eq_one' (G := N) (x := ⟨n, hn⟩)
     rw [hN] at h
@@ -152,9 +152,9 @@ theorem pow_three_eq_one : ∀ n ∈ N, n ^ 3 = 1 := by
   exact h3' _ (cc_lt bs y)
 
 theorem qOf_quad (x y : V) : qOf N (x + y) = qOf N x + qOf N y + β x y := by
-  haveI := finite_aut bs
+  have := finite_aut bs
   have hp3 := pow_three_eq_one bs β h1 h2 h3 halt N hN hiso
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, haN, c, hcN, ha1, hcz, hamin, hcmin⟩ :=
     exists_gen_pair (fun g => keyT (tupOf bs g)) N hN hp3
   have hcomm : a * c = c * a :=
@@ -205,11 +205,11 @@ theorem qOf_quad (x y : V) : qOf N (x + y) = qOf N x + qOf N y + β x y := by
     by_cases hz : z = 0 ∨ FreeVec N z
     · have h' : cc bs z = 0 ∨ FreeC (tupOf bs a) (tupOf bs c) (cc bs z) :=
         hz.imp (fun h => (cc_eq_zero_iff bs).2 h) (fun h => (hfree z).1 h)
-      rw [if_pos h', if_pos hz]
+      rw [ite_eq_left h', ite_eq_left hz]
       simp
     · have h' : ¬ (cc bs z = 0 ∨ FreeC (tupOf bs a) (tupOf bs c) (cc bs z)) := fun h =>
         hz (h.imp (fun h => (cc_eq_zero_iff bs).1 h) (fun h => (hfree z).2 h))
-      rw [if_neg h', if_neg hz]
+      rw [ite_eq_right h', ite_eq_right hz]
       simp
   have hq' := congrArg (fun m : ℕ => (m : ZMod 2)) hq
   simp only [Nat.cast_add, ZMod.natCast_mod, ZMod.natCast_zmod_val] at hq'
@@ -220,13 +220,13 @@ theorem finW_core :
       (∀ g : V ≃ₗ[ZMod 2] V, (∀ x y : V, β (g x) (g y) = β x y) → (∀ n ∈ N, g * n * g⁻¹ ∈ N) →
         ∀ x : V, q (g x) = q x) ∧
       ∀ v : V, v ≠ 0 → (∀ n ∈ N, n ≠ 1 → n v ≠ v) → q v = 0 := by
-  haveI := finite_aut bs
+  have := finite_aut bs
   refine ⟨qOf N, ?_, qOf_quad bs β h1 h2 h3 halt N hN hiso, fun g _ hg x => qOf_map hg x, ?_⟩
   · unfold qOf
-    rw [if_pos (Or.inl rfl)]
+    rw [ite_eq_left (Or.inl rfl)]
   · intro v _ hv
     unfold qOf
-    rw [if_pos (Or.inr (show FreeVec N v from hv))]
+    rw [ite_eq_left (Or.inr (show FreeVec N v from hv))]
 
 end Core
 

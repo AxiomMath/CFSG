@@ -12,6 +12,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec9u_associated_isOrtho {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     (hpol : ∀ i j : Fin n, i ≠ j → QuadraticMap.polar Q (b i) (b j) = 0) :
     (QuadraticMap.associated Q).IsOrthoᵢ b := by
@@ -21,6 +22,7 @@ private lemma sec9u_associated_isOrtho {n : ℕ} {b : Module.Basis (Fin n) (ZMod
     QuadraticMap.polarBilin_apply_apply]
   exact hpol i j hij
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec9u_quad_sum {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     (hpol : ∀ i j : Fin n, i ≠ j → QuadraticMap.polar Q (b i) (b j) = 0)
     (c : Fin n → ZMod 3) :
@@ -35,6 +37,7 @@ private lemma sec9u_quad_sum {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
   rw [smul_eq_mul, pow_two]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9u_exists_diag {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     (hpol : ∀ i j : Fin n, i ≠ j → QuadraticMap.polar Q (b i) (b j) = 0) (T : Finset (Fin n)) :
     ∃ g : OGroup Q, ∀ i, (g : V ≃ₗ[ZMod 3] V) (b i) =
@@ -73,7 +76,6 @@ theorem sec9u_exists_diag {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
   refine ⟨⟨f, hisom⟩, fun i => ?_⟩
   change f (b i) = (if i ∈ T then (-1 : ZMod 3) else 1) • b i
   rw [hf i]
-  change (w i : ZMod 3) • b i = (if i ∈ T then (-1 : ZMod 3) else 1) • b i
   rw [hw i]
 
 end CFSG.OddStandard.SmallF3.Omega

@@ -395,7 +395,7 @@ theorem q1E8Model_exists_connectedAction
     hdp hd1 ρ.range (Subgroup.map ψ J) hE hρp (by
       have hker : familyKernel (fun _ : Unit => d) = rootCharKernel d := by
         ext α
-        simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq]
+        simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq]
         exact ⟨fun h => ⟨h.1, h.2 ()⟩, fun h => ⟨h.1, fun _ => h.2⟩⟩
       have hEq : familyGroup (fun _ : Unit => d) = toralRootGroup .E8 L d := by
         rw [familyGroup, toralRootGroup, hker]

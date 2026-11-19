@@ -19,6 +19,7 @@ structure SimpleCore (R L : Subgroup (LGL 2 V)) : Prop where
   nonab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a
   cent : ∀ y ∈ R, (∀ l ∈ L, y * l = l * y) → y = 1
 
+omit [Finite V] in
 theorem Br2OneComp.core (h : Br2OneComp Y T L) : SimpleCore Y L :=
   ⟨h.le, h.normal, h.simple, h.nonab, h.cent⟩
 
@@ -34,10 +35,12 @@ theorem Br2OneComp.core (h : Br2OneComp Y T L) : SimpleCore Y L :=
   map_one' := by ext; simp
   map_mul' := fun a b => by ext; simp [mul_assoc]
 
+omit [Finite V] in
 theorem psiOf_apply (hn : ∀ y ∈ R, ∀ l ∈ L, y * l * y⁻¹ ∈ L) (r : ↥R) (l : ↥L) :
     ((psiOf R L hn r l : ↥L) : LGL 2 V) = (r : LGL 2 V) * l * (r : LGL 2 V)⁻¹ :=
   rfl
 
+omit [Finite V] in
 theorem psiOf_injective (h : SimpleCore R L) : Function.Injective (psiOf R L h.normal) := by
   intro r₁ r₂ hr
   have h1 : psiOf R L h.normal (r₁⁻¹ * r₂) = 1 := by
@@ -59,6 +62,7 @@ theorem psiOf_injective (h : SimpleCore R L) : Function.Injective (psiOf R L h.n
   have hrr : r₁⁻¹ * r₂ = 1 := Subtype.coe_injective h2
   exact inv_mul_eq_one.mp hrr
 
+omit [Finite V] in
 theorem psiOf_eq_conj (h : SimpleCore R L) {l : LGL 2 V} (hl : l ∈ L) :
     psiOf R L h.normal ⟨l, h.le hl⟩ = MulAut.conj (⟨l, hl⟩ : ↥L) := by
   apply MulEquiv.ext
@@ -67,6 +71,7 @@ theorem psiOf_eq_conj (h : SimpleCore R L) {l : LGL 2 V} (hl : l ∈ L) :
   ext v
   simp [psiOf_apply, MulAut.conj_apply]
 
+omit [Finite V] in
 theorem imgOf_psiOf_L (h : SimpleCore R L) :
     imgOf (psiOf R L h.normal) L = innAutOf ↥L := by
   apply le_antisymm
@@ -83,6 +88,7 @@ theorem imgOf_psiOf_L (h : SimpleCore R L) :
     exact ⟨⟨(l : LGL 2 V), h.le l.2⟩, by rw [Subgroup.mem_subgroupOf]; exact l.2,
       psiOf_eq_conj h l.2⟩
 
+omit [Finite V] in
 theorem exists_psiOf_eq_of_mem_innAutOf (h : SimpleCore R L) {g : MulAut ↥L}
     (hg : g ∈ innAutOf ↥L) : ∃ (l : LGL 2 V) (hl : l ∈ L), psiOf R L h.normal ⟨l, h.le hl⟩ = g := by
   rw [← imgOf_psiOf_L h] at hg
@@ -91,6 +97,7 @@ theorem exists_psiOf_eq_of_mem_innAutOf (h : SimpleCore R L) {g : MulAut ↥L}
   rw [Subgroup.mem_subgroupOf] at hr
   exact ⟨(r : LGL 2 V), hr, by simpa using hrg⟩
 
+omit [Finite V] in
 theorem psiOf_conj_mem_innAutOf (h : SimpleCore R L) (r : ↥R) {x : MulAut ↥L}
     (hx : x ∈ innAutOf ↥L) :
     psiOf R L h.normal r * x * (psiOf R L h.normal r)⁻¹ ∈ innAutOf ↥L := by
@@ -102,6 +109,7 @@ theorem psiOf_conj_mem_innAutOf (h : SimpleCore R L) (r : ↥R) {x : MulAut ↥L
   simp only [MulAut.mul_apply, MulAut.conj_apply, MulAut.inv_apply, map_mul, map_inv]
   rw [MulEquiv.apply_symm_apply]
 
+omit [Finite V] in
 theorem psiOf_dynkin (h : SimpleCore R L) {t : LGL 2 V} (ht : t ∈ R)
     (hd : ActsOnDynkinMod ⊥ L t) :
     ActsOnDynkinMod ⊥ (innAutOf ↥L) (psiOf R L h.normal ⟨t, ht⟩) := by
@@ -112,9 +120,9 @@ theorem SimpleCore.not_isPGroup (h : SimpleCore R L) : ¬ IsPGroup 2 ↥R := by
   intro hR
   have hL2 : IsPGroup 2 ↥L :=
     hR.of_injective (Subgroup.inclusion h.le) (Subgroup.inclusion_injective h.le)
-  haveI : Finite ↥L := Subtype.finite
-  haveI : IsSimpleGroup ↥L := h.simple
-  haveI : Group.IsNilpotent ↥L := hL2.isNilpotent
+  have : Finite ↥L := Subtype.finite
+  have : IsSimpleGroup ↥L := h.simple
+  have : Group.IsNilpotent ↥L := hL2.isNilpotent
   have hcomm : ∀ a b : ↥L, a * b = b * a :=
     IsSimpleGroup.comm_iff_isSolvable.mpr (inferInstance : Group.IsSolvable ↥L)
   obtain ⟨a, ha, b, hb, hab⟩ := h.nonab
@@ -143,8 +151,8 @@ theorem w183b2_normalizer_sylow_ne (hL : Br2OneComp Y T L) (hT : IsSylowIn 2 T Y
     obtain ⟨k, hk⟩ := hpow s s.2
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
   have hSylowS : IsSylowIn 2 S L := ⟨hSL, hSpgroup, hodd⟩
-  haveI : Finite ↥L := Subtype.finite
-  haveI : Finite (Sylow 2 ↥L) := Sylow.finite_of_finiteIndex hSylowTL.toSylow
+  have : Finite ↥L := Subtype.finite
+  have : Finite (Sylow 2 ↥L) := Sylow.finite_of_finiteIndex hSylowTL.toSylow
   have hP₁norm : hSylowTL.toSylow.Normal := by
     rw [IsSylowIn.coe_toSylow]
     exact hnormTL
@@ -157,7 +165,7 @@ theorem w183b2_normalizer_sylow_ne (hL : Br2OneComp Y T L) (hT : IsSylowIn 2 T Y
   have hSnorm : (S.subgroupOf L).Normal := by
     rw [hsub]
     exact hnormTL
-  haveI : (S.subgroupOf L).Normal := hSnorm
+  have : (S.subgroupOf L).Normal := hSnorm
   have hLSnorm : L ≤ Subgroup.normalizer (S : Set (LGL 2 V)) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hSL
   have hLP : L ≤ P := le_trans (le_inf le_rfl hLSnorm) hSupP

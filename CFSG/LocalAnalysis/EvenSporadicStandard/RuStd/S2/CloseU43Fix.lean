@@ -29,7 +29,7 @@ theorem nine_dvd_card_fix
     (e : ↥N ≃* U43) (hC : ∀ x : X ⧸ CFSG.oddCore X, (∀ n ∈ N, x * n = n * x) → x = 1)
     (α : MulAut X) (hα : α * α = 1) :
     9 ∣ Nat.card {q : X // q ∈ ⁅N.comap (proj X), N.comap (proj X)⁆ ∧ α q = q} := by
-  haveI := hN
+  have := hN
   have hNS := u43_nonabSimple e
   have hπs := proj_surjective X
   set O := CFSG.oddCore X with hO

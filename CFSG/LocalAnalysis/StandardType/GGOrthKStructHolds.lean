@@ -29,9 +29,9 @@ theorem ggSecFiveOrthD4KStructInput_holds :
   have hB : GGBstar 3 B Bs := hcfg.1.1.2.1
   have hinn : GGInnerDiagOn Bs K := hcfg.1.2.2.1.2 y K hnb
   have hcard : Nat.card Bs = 3 ^ 5 := by
-    haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-    haveI : Fintype V := Fintype.ofFinite V
-    haveI : Fact (Nat.Prime 3) := hFact
+    have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+    have : Fintype V := Fintype.ofFinite V
+    have : Fact (Nat.Prime 3) := hFact
     calc Nat.card Bs = Nat.card (Additive ↥Bs) := rfl
       _ = Nat.card V := Nat.card_congr ι.toEquiv
       _ = Fintype.card V := Nat.card_eq_fintype_card

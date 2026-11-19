@@ -103,17 +103,17 @@ theorem kAdjAt_of_realizes_sp {W : Type} [CommGroup W] [Finite W] (H : Subgroup 
 theorem kAdjAt_sp4 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) {n : ℕ}
     (h : IsSp4 ↥H n ∧ NatSpn H ⊤ ⊥ 4 n) (hn : 3 ≤ n) : KAdjAt W H n := by
   obtain ⟨-, -, K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
   exact kAdjAt_of_realizes_sp H 0 hKcard (by omega) hreal
 
 theorem kAdjAt_sp6 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) {n : ℕ}
     (h : IsSpn ↥H 6 n ∧ NatSpn H ⊤ ⊥ 6 n) (hn : 3 ≤ n) : KAdjAt W H n := by
   obtain ⟨-, -, K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
   exact kAdjAt_of_realizes_sp H 1 hKcard (by omega) hreal
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KAdjE

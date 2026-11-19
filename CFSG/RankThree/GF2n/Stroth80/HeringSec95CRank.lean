@@ -18,6 +18,7 @@ namespace HS9
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conjSubgroup_sup95 (g : G) (A B' : Subgroup G) :
     conjSubgroup g (A ⊔ B') = conjSubgroup g A ⊔ conjSubgroup g B' :=
   Subgroup.map_sup _ _ _
@@ -88,7 +89,7 @@ theorem rank95_le_six (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
   obtain ⟨K', fK', finK', chK', γ, M₀, h⟩ := stroth_globalModelData hc.hyp
   obtain ⟨φ₀, hφπ, hφQ, hφiso⟩ := exists_actionHom_H0 hc.hyp h
   obtain ⟨φ, hφπ', hφker, hφadd, hφsemi⟩ := exists_actionHom_M hc.hyp h
-  haveI : Finite M₀.E := Module.finite_of_finite K'
+  have : Finite M₀.E := Module.finite_of_finite K'
   have hKZ : Nat.card K' = Nat.card Z := h.card
   have hK2' : 1 < Nat.card K' := by rw [hKZ]; omega
   obtain ⟨U, hUmem, hUdim, hE, hUsing, hUperp⟩ := exists_lagrangian95 h34 hs h

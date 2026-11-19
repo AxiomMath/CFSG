@@ -90,6 +90,7 @@ theorem range_eq_commutator (Q : QuadraticForm K W) (hdim : finrank K W = 4)
   have hrange : P = ⁅O, O⁆ := le_antisymm hperf hcomm
   exact ⟨hrange, hrange ▸ hidx2⟩
 
+omit [Finite K] in
 theorem reflK_not_mem_commutator (Q : QuadraticForm K W) (hdim : finrank K W = 4)
     (hnd : ∀ x, (∀ y, polar Q x y = 0) → x = 0) {r : W} (hr : r ≠ 0) :
     reflK Q r ∉
@@ -113,6 +114,7 @@ theorem reflK_not_mem_commutator (Q : QuadraticForm K W) (hdim : finrank K W = 4
   rw [hc, finrank_span_singleton hr] at h
   exact Nat.not_even_one h
 
+omit [Finite K] in
 theorem reflK_mul_mem_commutator (Q : QuadraticForm K W) (hdim : finrank K W = 4)
     (hnd : ∀ x, (∀ y, polar Q x y = 0) → x = 0)
     (hidx : ((⁅TauCeti.QuadraticMap.orthogonalGroup Q,

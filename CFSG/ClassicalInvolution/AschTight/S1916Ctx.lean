@@ -53,7 +53,7 @@ theorem Ctx12.W_le_X (c : Ctx12 p f K z S W L t) : W ≤ sec19X K z :=
 theorem Ctx12.isWreathed_Q_sup_W (c : Ctx12 p f K z S W L t) :
     IsWreathed (W ⊔ ((S : Subgroup G) ⊓ sec19Y K z)) := by
   have hd := c.hd
-  have hWW : IsSylow2In W W := ⟨le_rfl, S.isPGroup'.to_le hd.hWS, fun V' hV' _ _ => le_antisymm
+  have hWW : IsSylow2In W W := ⟨le_rfl, S.isPGroup.to_le hd.hWS, fun V' hV' _ _ => le_antisymm
     hV' (by assumption)⟩
   obtain ⟨heq, h1⟩ := inf_sup_eq_and_isSylow2In S hd.hSz (sd_le_centralizer_Y hd)
     (hd.hWS.trans hd.hSz) (sd_centralizer_le_normalizer_Y hd) hWW hd.hWS
@@ -70,7 +70,7 @@ theorem Ctx12.mem_R_of_centralizes (c : Ctx12 p f K z S W L t) {x : G}
   refine mem_of_centralizes_of_isWreathed (M := K ⊔ sec19Y K z) c.rel
     (fun u hu huM => (sd_inf_sup_R_Q hd) ▸ ⟨hu, huM⟩) (sd_commute_R_Q hd) inf_le_left
     (inf_le_right.trans (sec19Y_le_sec19X K z)) hd.hWS c.W_le_X c.isWreathed_Q_sup_W c.quat
-    (S.isPGroup'.to_le inf_le_left) (sd_isUniqueInvolution_Q hd c.quat) (sd_mem_R hd)
+    (S.isPGroup.to_le inf_le_left) (sd_isUniqueInvolution_Q hd c.quat) (sd_mem_R hd)
     (IsQuaternionSub.noncomm c.quat) hxX hxS hxQ
 
 theorem Ctx12.exists_not_mem (c : Ctx12 p f K z S W L t) :
@@ -80,7 +80,7 @@ theorem Ctx12.exists_not_mem (c : Ctx12 p f K z S W L t) :
     (fun u hu huM => (sd_inf_sup_R_Q hd) ▸ ⟨hu, huM⟩) (sd_commute_R_Q hd)
     (inf_le_right.trans hd.hWS) (fun v hv => mem_normalizer_inf_of_mem
       (hd.hWS hv.2) (sd_normalizer_eq hd ▸ hd.hSz (hd.hWS hv.2))) c.wrRV
-    (S.isPGroup'.to_le inf_le_left) (sd_isUniqueInvolution_R hd) (sd_noncomm_R hd)
+    (S.isPGroup.to_le inf_le_left) (sd_isUniqueInvolution_R hd) (sd_noncomm_R hd)
 
 theorem Ctx12.L_ne_K (c : Ctx12 p f K z S W L t) : L ≠ K := by
   intro h
@@ -117,7 +117,7 @@ theorem Ctx12.isSylow2In_V [IsSimpleGroup G] (c : Ctx12 p f K z S W L t) :
   have hd := c.hd
   have ht := hd.tight
   have hΩ := hypOmegaMod_of_tightD ht
-  refine isSylow2In_inf_of_half (S.isPGroup'.to_le (inf_le_right.trans hd.hWS))
+  refine isSylow2In_inf_of_half (S.isPGroup.to_le (inf_le_right.trans hd.hWS))
     (inf_le_inf_left _ (hd.hWS.trans hd.hSz)) (fun T hT => ?_) (fun T hT hTz => ?_)
   · rw [hΩ.natCard_isSylow2In c.data.memL hT, ← hΩ.natCard_isSylow2In
       (CoreAssembly.mem_conjClass_self K) (sd_isSylow2In_R hd), c.card_R]

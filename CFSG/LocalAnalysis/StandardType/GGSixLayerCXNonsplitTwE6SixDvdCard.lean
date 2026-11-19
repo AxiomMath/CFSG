@@ -137,7 +137,7 @@ theorem tw6_D4_layer_card {K : Type} [Field K] [Finite K] [Algebra K Ω]
         twistedFixedPoints (tw6N Ω) (twistE6 Ω Fr)) =
       (ℓ ^ f) ^ 12 * ((ℓ ^ f) ^ 2 - 1) * ((ℓ ^ f) ^ 6 - 1) *
         ((ℓ ^ f) ^ 8 + (ℓ ^ f) ^ 4 + 1) := by
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hℓ : ℓ.Prime := Fact.out
   obtain ⟨-, -, -, -, -, e, g, he, -, ⟨hequiv⟩⟩ :=
     CFSG.HardMathSupport.Lang.SeitzPlane.tw6_D4_layer_data' (K := K) (Ω := Ω) (Fr := Fr)

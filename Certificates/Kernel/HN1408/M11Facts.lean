@@ -80,9 +80,9 @@ theorem mem_closure_flatMap :
     rw [List.flatMap_cons, elemW_append]
     refine mul_mem ?_ (mem_closure_flatMap l)
     by_cases h : a = 0
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact subset_closure (Set.mem_insert _ _)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
 theorem v_eq : elemW vWord = elemW vWordYI := by

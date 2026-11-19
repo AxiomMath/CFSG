@@ -75,7 +75,7 @@ theorem ggWAut_orth_norm [Module.Finite (ZMod 3) V] (hn : 2 ≤ Module.finrank (
       rw [hgen]
       have hset : {r : V ≃ₗ[ZMod 3] V | r ∈ R ∧ GGLinRefl r} = ∅ := by
         ext r
-        simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false]
+        simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false]
         exact ⟨fun hh => h' r hh.1 hh.2, fun hf => hf.elim⟩
       rw [hset, Subgroup.closure_empty]
     exact hR1 hbot

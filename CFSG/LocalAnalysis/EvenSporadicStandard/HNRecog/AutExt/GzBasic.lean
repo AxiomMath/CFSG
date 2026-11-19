@@ -46,7 +46,7 @@ theorem IsIsoOn.mem_Qz_iff {φ : G → G'} {w : G} {w' : G'} (hφ : IsIsoOn (Gx 
 theorem eq_one_or_eq_of_central_Gz (h : F5Std a z) {g : G} (hg : g ∈ Gx z)
     (hc : ∀ x ∈ Gx z, g * x = x * g) : g = 1 ∨ g = z := by
   obtain ⟨Q, hQn, hAH⟩ := h.loc.gz9.self.aschbacher
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   have hE : IsExtraspecialPGroup 2 Q := hAH.plus.isExtraspecialPGroup
   let u : Q := ⟨⟨g, hg⟩, hAH.centralizer_le (by
     rw [Subgroup.mem_centralizer_iff]
@@ -95,9 +95,9 @@ theorem eq_one_or_eq_of_central_Gz (h : F5Std a z) {g : G} (hg : g ∈ Gx z)
     simpa only [huG, hvG] using h
 
 theorem sq_mem_Qz (h : F5Std a z) {q : G} (hq : q ∈ Qz z) : q ^ 2 = 1 ∨ q ^ 2 = z := by
-  haveI : Finite G := h.finite
+  have : Finite G := h.finite
   obtain ⟨Q, hQn, hAH⟩ := h.loc.gz9.self.aschbacher
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   have hE : IsExtraspecialPGroup 2 Q := hAH.plus.isExtraspecialPGroup
   have hQz : Qz z = Q.map (Gx z).subtype := by
     change (CFSG.pCore 2 ↥(Gx z)).map (Gx z).subtype = Q.map (Gx z).subtype

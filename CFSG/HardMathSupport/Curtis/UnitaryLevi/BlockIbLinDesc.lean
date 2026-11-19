@@ -163,7 +163,7 @@ theorem exists_elt_of_dvd {D : Subgroup Y}
   obtain ⟨P, hP⟩ := hpx.exists_le_sylow
   set A : Subgroup Y := (P : Subgroup D).map D.subtype with hA
   have hAD : A ≤ D := by rintro _ ⟨a, -, rfl⟩; exact a.2
-  have hAp : IsPGroup 3 A := (P.isPGroup').map D.subtype
+  have hAp : IsPGroup 3 A := (P.isPGroup).map D.subtype
   have hAc : IsCyclic A := Dcyc A hAD hAp
   have hxA : x ∈ A := ⟨xD, hP (Subgroup.mem_zpowers xD), rfl⟩
   refine ⟨A, hAD, hAp, hAc, hxA, ?_⟩

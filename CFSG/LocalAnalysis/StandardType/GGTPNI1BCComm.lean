@@ -59,9 +59,9 @@ theorem tpbcB_card_of_hasLabel_C {X : Type} [Group X] {m n : ℕ}
     {K : Type} [Field K] [Finite K] (hm : 1 ≤ m) (hK : Nat.card K = 2 ^ n)
     (hlab : GGHasLabel ⟨.C, m, n⟩ X) :
     Nat.card X = Nat.card (StatedSp m K) := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   obtain ⟨K', hF, hfin, hK', ⟨e⟩⟩ := (tpbc_hasLabel_C_iff m n X).mp hlab
-  haveI : CharP K' 2 := charP_two_of_card_eq_pow hK'
+  have : CharP K' 2 := charP_two_of_card_eq_pow hK'
   have hbij : Function.Bijective (proj m K') :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo (r := m)
   have h1 : Nat.card X = Nat.card (StatedProj (StatedSp m K')) := Nat.card_congr e.toEquiv
@@ -111,7 +111,7 @@ theorem tpbcB_spFixedDim_pos {r ℓ f p : ℕ} {K : Type} [Field K]
   have hSbot := tpbcB_spSupported_fixed_eq_bot_of_dim_zero H h0
   have hJbot : J ≤ ⊥ := hJfix.trans (le_of_eq hSbot)
   have hJeq : J = ⊥ := le_bot_iff.mp hJbot
-  haveI : Nontrivial J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
+  have : Nontrivial J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
   rw [hJeq] at this
   exact (not_subsingleton_iff_nontrivial.mpr this) inferInstance
 
@@ -124,8 +124,8 @@ theorem tpbcB_ker_sub_one_ne_top {r : ℕ} {K : Type} [Field K] {x : StatedSp r 
   have h2 : spLin r K x = 1 := Units.ext h1
   exact spLin_injective (by rw [h2, map_one])
 
-theorem tpbcB_J_eq_fixed {p m n : ℕ} (hp : p.Prime) (hm : 3 ≤ m) (hn : 1 ≤ n)
-    {K : Type} [Field K] [Finite K] (hchar : CharP K 2) (hK : Nat.card K = 2 ^ n)
+theorem tpbcB_J_eq_fixed {p m n : ℕ} (hp : p.Prime) (hm : 3 ≤ m) (_hn : 1 ≤ n)
+    {K : Type} [Field K] [Finite K] (_hchar : CharP K 2) (hK : Nat.card K = 2 ^ n)
     {x : StatedSp (m + 1) K} {J : Subgroup (StatedSp (m + 1) K)}
     (H : SpPrimaryBlocks 2 n p x (proj (m + 1) K x))
     (hxord : orderOf x = p)
@@ -155,7 +155,7 @@ theorem tpbcB_J_eq_fixed {p m n : ℕ} (hp : p.Prime) (hm : 3 ≤ m) (hn : 1 ≤
     exact hcard_quot_le.trans hcard_J_le
   have hms : m ≤ s := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := (tpbcB_card_statedSp_strictMono K).lt_iff_lt.mpr h
     omega
   have hsm : s ≤ m := by
@@ -229,7 +229,7 @@ theorem tpbcB_spFixedDim_eq {p m n : ℕ} (hp : p.Prime) (hm : 3 ≤ m) (hn : 1 
   unfold CFSG.RankThree.PartOne.spFixedDim
   rw [hs, hs_eq]
 
-theorem tpbcB_fix_action {p m n : ℕ} (hp : p.Prime)
+theorem tpbcB_fix_action {p m n : ℕ} (_hp : p.Prime)
     {K : Type} [Field K] [Finite K] (hchar : CharP K 2)
     {x : StatedSp (m + 1) K} {J E : Subgroup (StatedSp (m + 1) K)}
     (H : SpPrimaryBlocks 2 n p x (proj (m + 1) K x))
@@ -367,7 +367,6 @@ theorem tpbcB_card_le_of_fixed_action {p m n : ℕ} (hp : p.Prime) (hp2 : p ≠ 
       trivial
     obtain ⟨u, hu, w, hw, huv⟩ := Submodule.mem_sup.mp hv
     rw [← huv, map_add, hfix a a.2 u hu]
-    congr 1
     have hw_id : ((ψ a : sesqUnitaryGroup ((spForm (m + 1) K).restrict W)) :
         LinearMap.GeneralLinearGroup K ↥W) = 1 := by
       simpa using congrArg Subtype.val ha
@@ -415,7 +414,7 @@ theorem tpbcB_card_le_of_fixed_action {p m n : ℕ} (hp : p.Prime) (hp2 : p ≠ 
 theorem tpbcc_le_zpowers_of_fixed {p m n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm : 3 ≤ m)
     (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] (hchar : CharP K 2) (hK : Nat.card K = 2 ^ n)
     {x : StatedSp (m + 1) K} {J E : Subgroup (StatedSp (m + 1) K)}
-    (H : SpPrimaryBlocks 2 n p x (proj (m + 1) K x)) (hprojinj : Function.Injective (proj (m + 1) K))
+    (H : SpPrimaryBlocks 2 n p x (proj (m + 1) K x)) (_hprojinj : Function.Injective (proj (m + 1) K))
     (hxp : x ^ p = 1) (hxord : orderOf x = p) (hxE : x ∈ E) (hE : IsElemAbelian p E)
     (hJ : CFSG.Assembly.IsComponentOf J (Subgroup.centralizer {x}))
     (hJfix : J ≤ spSupported x {X - 1})
@@ -434,7 +433,7 @@ theorem tpbcc_le_zpowers_of_fixed {p m n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
     exact hp.ne_one this
   have hcard : Nat.card E ≤ p :=
     tpbcB_card_le_of_fixed_action hp hp2 hchar H hdim hE hfix
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : Subgroup.zpowers x ≤ E := Subgroup.zpowers_le.mpr hxE
   have h2 : Nat.card (Subgroup.zpowers x) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hxp hxne]

@@ -349,7 +349,7 @@ private theorem CFSG.section13_hall_sylow_map_to_overgroup_sylow
   let _ : Fact p.val.Prime := ⟨p.property⟩
   let Psub : Subgroup H := (P : Subgroup K).map K.subtype
   have hPsubp : IsPGroup p.val Psub :=
-    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup' K.subtype
+    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup K.subtype
   have hnot_index : ¬ p.val ∣ Psub.index := by
     intro hpidx
     have hidx : Psub.index = (P : Subgroup K).index * K.index := by
@@ -374,7 +374,7 @@ public theorem CFSG.section13_sylowSubgroupIn_of_subgroup_sylow_with_ambient_syl
   let _ : Fact q.val.Prime := ⟨q.property⟩
   let Smap : Subgroup K := (S : Subgroup C).map C.subtype
   have hSmap_p : IsPGroup q.val Smap :=
-    IsPGroup.map (p := q.val) (H := (S : Subgroup C)) S.isPGroup' C.subtype
+    IsPGroup.map (p := q.val) (H := (S : Subgroup C)) S.isPGroup C.subtype
   rcases hfull with ⟨SK₀, hSK₀C⟩
   let SK₀C : Subgroup C := (SK₀ : Subgroup K).subgroupOf C
   have hSK₀_index :

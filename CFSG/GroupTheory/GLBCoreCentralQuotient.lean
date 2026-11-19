@@ -12,6 +12,7 @@ open CFSG.Open
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem mem_of_mem_comap_of_orderOf_dvd_pow {Z : Subgroup H} [Z.Normal]
     (hZc : Z ≤ Subgroup.center H) {q : ℕ} (hq : q.Prime) (hZ : ¬ q ∣ Nat.card Z)
     {Q : Subgroup H} (hQ : IsPGroup q Q) {Rbar : Subgroup (H ⧸ Z)} {R : Subgroup H}
@@ -135,7 +136,7 @@ theorem glbCore_map_le_of_central_quotient {Z : Subgroup H} [Z.Normal]
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective Z y
   set R : Subgroup H := Q ⊓ Rbar.comap (QuotientGroup.mk' Z) with hR
   have hxN := mem_normalizer_of_mem_normalizer_comap hZc hq hZ hQ hR hRbarQ hy
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdisj : Disjoint Q Z := by
     obtain ⟨n, hn⟩ := hQ.exists_card_eq
     refine Subgroup.disjoint_of_coprime_natCard ?_

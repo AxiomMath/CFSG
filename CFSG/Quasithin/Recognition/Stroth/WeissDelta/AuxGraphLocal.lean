@@ -12,12 +12,14 @@ variable {V : Type} {Γ : SimpleGraph V} {H : Type} [Group H] [MulAction H V] [G
 
 attribute [local instance] auxAction
 
+omit [GraphAction H Γ] in
 theorem auxComp_eq_of_mem {K : Subgroup H} {u₀ v : V}
     (hv : v ∈ auxComp Γ K u₀) : auxComp Γ K v = auxComp Γ K u₀ := by
   have hv' := hv
   rw [auxComp, SimpleGraph.ConnectedComponent.mem_supp_iff] at hv'
   rw [auxComp, auxComp, hv']
 
+omit [GraphAction H Γ] in
 theorem mem_auxSet_of_mem_auxComp {K : Subgroup H} {u₀ : V} (h₀ : u₀ ∈ auxSet Γ K)
     {u : V} (hu : u ∈ auxComp Γ K u₀) : u ∈ auxSet Γ K := by
   have hreach : (auxGraph Γ K).Reachable u₀ u := by
@@ -39,7 +41,7 @@ theorem no_triangle (hG : (4 : ℕ∞) < Γ.egirth)
     rw [SimpleGraph.Walk.cons_isCycle_iff, SimpleGraph.Walk.isPath_def]
     simp [hab.ne, hab.ne.symm, hbc.ne, hca.ne, hca.ne.symm]
   have hle : Γ.egirth ≤ (3 : ℕ∞) := by
-    have h := SimpleGraph.egirth_le_length hcyc
+    have h := SimpleGraph.Walk.IsCycle.egirth_le_length hcyc
     simpa using h
   have hlt : (4 : ℕ∞) < (3 : ℕ∞) := lt_of_lt_of_le hG hle
   norm_num at hlt
@@ -52,7 +54,7 @@ theorem no_four_cycle (hG : (4 : ℕ∞) < Γ.egirth)
     rw [SimpleGraph.Walk.cons_isCycle_iff, SimpleGraph.Walk.isPath_def]
     simp [hab.ne, hab.ne.symm, hbc.ne, hcd.ne, hda.ne, hda.ne.symm, hac, hac.symm, hbd]
   have hle : Γ.egirth ≤ (4 : ℕ∞) := by
-    have h := SimpleGraph.egirth_le_length hcyc
+    have h := SimpleGraph.Walk.IsCycle.egirth_le_length hcyc
     simpa using h
   have hlt : (4 : ℕ∞) < (4 : ℕ∞) := lt_of_lt_of_le hG hle
   norm_num at hlt
@@ -66,9 +68,9 @@ theorem no_five_cycle (hG : (5 : ℕ∞) < Γ.egirth)
         (SimpleGraph.Walk.cons hea SimpleGraph.Walk.nil))))).IsCycle := by
     rw [SimpleGraph.Walk.cons_isCycle_iff, SimpleGraph.Walk.isPath_def]
     simp [hab.ne, hab.ne.symm, hbc.ne, hcd.ne, hde.ne, hea.ne, hea.ne.symm, hac, hac.symm,
-      had, had.symm, hbd, hbe, hbe.symm, hce, hce.symm]
+      had, had.symm, hbd, hbe, hce]
   have hle : Γ.egirth ≤ (5 : ℕ∞) := by
-    have h := SimpleGraph.egirth_le_length hcyc
+    have h := SimpleGraph.Walk.IsCycle.egirth_le_length hcyc
     simpa using h
   have hlt : (5 : ℕ∞) < (5 : ℕ∞) := lt_of_lt_of_le hG hle
   norm_num at hlt
@@ -344,10 +346,10 @@ theorem exists_lift [Finite V] [Finite H] {W : ClosedGoodPath H Γ} (hQ : W.Quar
           else if i = 4 then (p 2).1 else if i = 5 then midOf hQ (p 2) (p 3) h23
           else if i = 6 then (p 3).1 else if i = 7 then midOf hQ (p 3) (p 4) h34
           else (p 4).1) = (p 4).1
-        rw [if_neg (by omega : ¬ i = 0), if_neg (by omega : ¬ i = 1),
-          if_neg (by omega : ¬ i = 2), if_neg (by omega : ¬ i = 3),
-          if_neg (by omega : ¬ i = 4), if_neg (by omega : ¬ i = 5),
-          if_neg (by omega : ¬ i = 6), if_neg (by omega : ¬ i = 7)] }
+        rw [ite_eq_right (by omega : ¬ i = 0), ite_eq_right (by omega : ¬ i = 1),
+          ite_eq_right (by omega : ¬ i = 2), ite_eq_right (by omega : ¬ i = 3),
+          ite_eq_right (by omega : ¬ i = 4), ite_eq_right (by omega : ¬ i = 5),
+          ite_eq_right (by omega : ¬ i = 6), ite_eq_right (by omega : ¬ i = 7)] }
   have hP0 : P 0 = (p 0).1 := rfl
   have hP1 : P 1 = midOf hQ (p 0) (p 1) h01 := rfl
   have hP2 : P 2 = (p 1).1 := rfl
@@ -459,7 +461,7 @@ theorem auxProj_smul (W : ClosedGoodPath H Γ)
     (g : ↥(auxGroup Γ (W.kernelAt 0) (W.x 0)))
     (v : ↥(auxComp Γ (W.kernelAt 0) (W.x 0))) :
     (auxProj W g) • v = g • v := by
-  letI := auxAction Γ (W.kernelAt 0) (W.x 0)
+  let := auxAction Γ (W.kernelAt 0) (W.x 0)
   rw [Subgroup.smul_def, Equiv.Perm.smul_def]
   show MulAction.toPerm (g : ↥(auxGroup Γ (W.kernelAt 0) (W.x 0))) v = g • v
   rw [MulAction.toPerm_apply]
@@ -467,7 +469,7 @@ theorem auxProj_smul (W : ClosedGoodPath H Γ)
 theorem ClosedGoodPath.QuarterHyp.moufangCondition_aux [Finite V] [Finite H]
     {W : ClosedGoodPath H Γ} (hQ : W.QuarterHyp) : MoufangCondition ↥W.auxS W.auxI 4 := by
   classical
-  letI := auxAction Γ (W.kernelAt 0) (W.x 0)
+  let := auxAction Γ (W.kernelAt 0) (W.x 0)
   intro p hp y y' hy hy' hne hne'
   obtain ⟨P, hPnb, hP2, hPodd, hPfix⟩ := exists_lift hQ p hp
   have h34 : W.auxI.Adj (p 3) (p 4) := p.adj 3 (by omega)

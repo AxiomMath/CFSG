@@ -361,7 +361,7 @@ theorem tr_trL_spec (hy : TrHyp LP RD RW PW N H x u X) {c s v : ℕ} (hs : wsFai
       have hl' : wLen v + wLen (wOne c) < 2 ^ 32 := by rw [stL_wLen_wOne]; omega
       refine ⟨stL_wInH_wCat hl' hv (stL_wInH_wOne hc), by
         rw [stL_wLen_wCat hl', stL_wLen_wOne]; omega, ?_⟩
-      rw [stL_val_wCat x hl' (stL_wOK_of_wInH hv), stL_val_wOne x (by omega), trGen, if_pos hc]
+      rw [stL_val_wCat x hl' (stL_wOK_of_wInH hv), stL_val_wOne x (by omega), trGen, ite_eq_left hc]
       exact stL_rc_congr (stL_rc_refl _) rfl (by group)
     · obtain ⟨s1, v1, h1⟩ : ∃ s1 v1, trU LP RD RW PW N (s, v) = (s1, v1) := ⟨_, _, rfl⟩
       rw [tr_trL_ten hl h1] at hf ⊢
@@ -380,7 +380,7 @@ theorem tr_trL_spec (hy : TrHyp LP RD RW PW N H x u X) {c s v : ℕ} (hs : wsFai
         (by rw [stL_wLen_wCat hl7, stL_wLen_wOne]; omega) hf
       refine ⟨hv2, by omega, ?_⟩
       rw [stL_val_wCat x hl7 (stL_wOK_of_wInH hv1), stL_val_wOne x (by norm_num)] at hrc2
-      rw [trGen, if_neg (by norm_num)]
+      rw [trGen, ite_eq_right (by norm_num)]
       exact stL_rc_trans (stL_rc_congr (stL_rc_mul hrc1 (x 7 * u)) (by group) (by group)) hrc2
     · rw [tr_trL_big hl hc] at hf
       rw [hf1] at hf
@@ -421,7 +421,7 @@ end
 
 theorem tr_sound {LP RD RW PW : ℕ → ℕ} {N : ℕ} {G : Type*} [Group G] (H : Subgroup G)
     (x : ℕ → G) (u : G) (X : ℕ → G)
-    (hxH : ∀ c < 10, x c ∈ H) (hx : ∀ c, x c * x c = 1) (hu : u * u = 1)
+    (_hxH : ∀ c < 10, x c ∈ H) (hx : ∀ c, x c * x c = 1) (hu : u * u = 1)
     (hθ : ∀ c < 10, c ≠ 7 → u * x c * u = x (fld THM (4 * c) 15))
     (hone : ∀ w, wInH w = true → isOne LP w = true → wVal x w = 1)
     (hfact : ∀ r < N, isFact (dKind (RD r)) = true →

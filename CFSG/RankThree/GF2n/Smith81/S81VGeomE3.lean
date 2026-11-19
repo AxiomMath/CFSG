@@ -19,7 +19,7 @@ theorem lemmaE_caseI [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     {p₄ : Fin 6 → F} (hp4S : p₄ ∈ S) (hp4P : p₄ ∈ P4) (hp4P3 : p₄ ∉ P3)
     (hperp : P3 ⊓ orth σ (Submodule.span F {p₄}) = P2)
     (hE0 : ∀ z ∈ P3, z ≠ 0 → herm σ z z = 0 → z ∈ S)
-    {p : Fin 6 → F} (hpP : p ∈ P4) (hp0 : p ≠ 0) (hpi : herm σ p p = 0) (hpP3 : p ∉ P3)
+    {p : Fin 6 → F} (hpP : p ∈ P4) (hp0 : p ≠ 0) (hpi : herm σ p p = 0) (_hpP3 : p ∉ P3)
     (hj : herm σ p p₄ ≠ 0) : p ∈ S := by
   have hp4i : herm σ p₄ p₄ = 0 := (hS.iso p₄ hp4S).2
   have hsup : P3 ⊔ Submodule.span F {p₄} = P4 :=

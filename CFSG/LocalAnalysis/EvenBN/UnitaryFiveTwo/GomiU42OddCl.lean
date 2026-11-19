@@ -54,30 +54,39 @@ section Basic
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {J : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem U42Hyp.normal (h : U42Hyp σ J) : J.Normal := h.1
 
+omit [Finite S] in
 theorem U42Hyp.isSimpleGroup (h : U42Hyp σ J) : IsSimpleGroup ↥J := h.2.1
 
+omit [Finite S] in
 theorem U42Hyp.card_J (h : U42Hyp σ J) : Nat.card ↥J = 25920 := h.2.2.1
 
+omit [Finite S] in
 theorem U42Hyp.card_inner (h : U42Hyp σ J) (hσ : σ ∈ inner S) :
     Nat.card ↥(fixedSubgroup σ) = 51840 := h.2.2.2.1 hσ
 
+omit [Finite S] in
 theorem U42Hyp.card_outer (h : U42Hyp σ J) (hσ : σ ∉ inner S) :
     Nat.card ↥(fixedSubgroup σ) = 25920 := h.2.2.2.2 hσ
 
+omit [Finite S] in
 theorem U42Hyp.card_mem (h : U42Hyp σ J) :
     Nat.card ↥(fixedSubgroup σ) = 25920 ∨ Nat.card ↥(fixedSubgroup σ) = 51840 := by
   by_cases hσ : σ ∈ inner S
   · exact Or.inr (h.card_inner hσ)
   · exact Or.inl (h.card_outer hσ)
 
+omit [Finite S] in
 theorem U42Hyp.card_dvd (h : U42Hyp σ J) : Nat.card ↥(fixedSubgroup σ) ∣ 51840 := by
-  rcases h.card_mem with h1 | h1 <;> rw [h1] <;> norm_num
+  rcases h.card_mem with h1 | h1 <;> rw [h1]; norm_num
 
+omit [Finite S] in
 theorem U42Hyp.dvd_card (h : U42Hyp σ J) : 25920 ∣ Nat.card ↥(fixedSubgroup σ) := by
-  rcases h.card_mem with h1 | h1 <;> rw [h1] <;> norm_num
+  rcases h.card_mem with h1 | h1 <;> rw [h1]; norm_num
 
+omit [Finite S] in
 theorem U42Hyp.card_dvd_mul (h : U42Hyp σ J) {Q : Type} [Group Q] [Finite Q]
     (φ : Q →* ↥(fixedSubgroup σ)) : Nat.card Q ∣ 51840 * Nat.card ↥φ.ker := by
   have h1 : Nat.card ↥φ.range ∣ 51840 :=

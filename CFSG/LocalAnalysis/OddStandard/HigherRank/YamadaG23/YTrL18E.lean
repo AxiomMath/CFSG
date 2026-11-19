@@ -82,7 +82,7 @@ private theorem frame_A_le_normalizer {Γ : Type} [Group Γ] [Finite Γ] (fr : F
 
 theorem lf18_4e_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_4e s := by
-  haveI := isPerfect_of_hrSetting hS
+  have := isPerfect_of_hrSetting hS
   obtain ⟨-, -, -, h14, -, -, -, h18, -, -⟩ := s.facts
   obtain ⟨h18_1, -, -, h18E, -⟩ := h18
   obtain ⟨-, -, hSecE, -, hRegE⟩ := h18E
@@ -128,7 +128,7 @@ theorem lf18_4e_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_5f_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_5f s := by
-  haveI := isPerfect_of_hrSetting hS
+  have := isPerfect_of_hrSetting hS
   obtain ⟨-, -, -, h14, -, -, -, h18, -, -⟩ := s.facts
   obtain ⟨h18_1, -, -, -, h18F⟩ := h18
   obtain ⟨-, -, -, hSecAF, hRegAF⟩ := h18F

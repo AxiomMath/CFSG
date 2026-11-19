@@ -435,12 +435,12 @@ theorem s14FactsGen_of_open_inputs
       CFSG.LocalAnalysis.RankThreeUC.AGL81C.sevenOneOne_holds
       Section14.kFactA9NotInvolvedK34Classical_holds)
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.sevenOneOne_holds
-    (fun G _ _ hC =>
+    (fun _G _ _ hC =>
       noXBlockFor_of_inputsK
         CFSG.HardMathSupport.Foote.Coordinator.aschbacherTheoremOneK_proved
         CFSG.CGT.PushingUpLit.aschbacherTheoremTwoK_holds
         CFSG.CGT.PushingUpLit.solomonAlternatingBlockK_holds hC.toStandingGen)
-    (fun G _ _ _ M _ _ => fourteenFiveThreeAt_of_inputs nineFourTwoSigmaGen_holds
+    (fun _G _ _ _ M _ _ => fourteenFiveThreeAt_of_inputs nineFourTwoSigmaGen_holds
       (nineTwelveOneSigmaStrong_holds CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
       kFactNineFourRankOneAut_holds kFactNineFourStronglyEmbedded_holds M)
 

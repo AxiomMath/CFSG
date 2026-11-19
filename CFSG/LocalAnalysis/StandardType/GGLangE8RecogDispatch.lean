@@ -171,7 +171,7 @@ private theorem recogd_main
             have h4 : 4 ≤ 2 ^ N := by rw [← hKcard]; exact hK4
             by_contra h
             have hle : N ≤ 1 := by omega
-            interval_cases N <;> norm_num at h4
+            interval_cases N; norm_num at h4
           have hlab' : GGHasLabel ⟨.A, 1, N⟩
               (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
                 Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) :=
@@ -213,7 +213,7 @@ private theorem recogd_main
             have h := congrArg LargeEvenLabel.rank heq
             simp at h
             omega
-          refine ⟨hr8, ?_, Or.inl ⟨?_, by simp only [hk]⟩⟩
+          refine ⟨hr8, ?_, Or.inl ⟨?_, by simp only⟩⟩
           · rw [hr8] at hnA
             norm_num at hnA
             exact hnA
@@ -316,7 +316,7 @@ private theorem recogd_main
           have h := congrArg LargeEvenLabel.rank heq
           simp at h
           omega
-        refine ⟨hr8, ?_, Or.inr ⟨?_, by simp only [hk]⟩⟩
+        refine ⟨hr8, ?_, Or.inr ⟨?_, by simp only⟩⟩
         · rw [hr8] at hnA
           norm_num at hnA
           exact hnA
@@ -389,7 +389,7 @@ theorem recoga_kind_dispatch
       ((labJ.tag = .A ∧ twistKind B.setup.ρ (rootCharHom (B.a b)) i = .inner) ∨
         (labJ.tag = .twA ∧ twistKind B.setup.ρ (rootCharHom (B.a b)) i = .suN)) := by
   have hf : 1 ≤ f := by rw [← hn]; exact hΛJ.1
-  haveI : CharP L 2 := recoga_charP B hf
+  have : CharP L 2 := recoga_charP B hf
   have hN : B.setup.D.q ^ componentOrbitLength B.setup.ρ
       (componentRoots (rootCharHom (B.a b)) i) = 2 ^ f := by
     rw [recoga_orbitLength_eq_one B hτ b i, pow_one, B.q_eq]

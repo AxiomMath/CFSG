@@ -38,7 +38,7 @@ theorem kernelTrivialAt_thirteen_Gmat
     [Finite ↥CFSG.Monster.Generated.Gmat]
     (hS : ¬ 13 ^ 4 ∣ Nat.card ↥CFSG.Monster.Generated.Gmat) :
     KernelTrivialAt ↥CFSG.Monster.Generated.Gmat 13 := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨x, y, h, hx, hy, hz1, hzx, hzy, hh, hhx, hhy⟩ := thirteen_heisenberg_inversion
   have hinv : h⁻¹ = h := inv_eq_of_mul_eq_one_right hh
   have hx12 : x ^ 12 = x⁻¹ := by
@@ -58,7 +58,7 @@ theorem kernelTrivialAt_thirteen_Gmat
 theorem kernelTrivialAt_thirteen_of_mulEquiv_Gmat
     {T : Type} [Group T] [Finite T] (e : T ≃* ↥CFSG.Monster.Generated.Gmat)
     (hS : ¬ 13 ^ 4 ∣ Nat.card T) : KernelTrivialAt T 13 := by
-  haveI : Finite ↥CFSG.Monster.Generated.Gmat := Finite.of_equiv T e.toEquiv
+  have : Finite ↥CFSG.Monster.Generated.Gmat := Finite.of_equiv T e.toEquiv
   rw [Nat.card_congr e.toEquiv] at hS
   exact kernelTrivialAt_of_mulEquiv e (kernelTrivialAt_thirteen_Gmat hS)
 
@@ -67,7 +67,7 @@ theorem monsterBetaData_of_thirteen_cubic :
   have :IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) := carrier_M_simple
   obtain ⟨ε⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := CFSG.Blueprint.NativeSporadic.Carrier .M) (MulEquiv.refl _)
-  exact monsterBetaData_of_monster13 CFSG.Open.Open.monster_y443_derived_card
+  exact monsterBetaData_of_monster13 CFSG.Open.Thm.monster_y443_derived_card
       (Or.inl (hasNoncommPair_thirteen_of_mulEquiv_Gmat ε))
 
 end CFSG.AGLEmbedding.Norton.OrdinaryProofs

@@ -99,7 +99,7 @@ theorem lg_uRootMat_apply_diag (h : UnitaryFieldData p f K) {a b : Fin r ⊕ Fin
     rw [Sum.swap_swap, Sum.swap_swap] at e'
     exact hab e'.symm
   rw [uRootMat, Matrix.add_apply, one_apply_eq, uRootNil]
-  split_ifs <;> simp [Matrix.single_apply, h1, h2]
+  split_ifs <;> simp [h1, h2]
 
 theorem lg_uRootSubgroup_le_hypUnitriangular (h : UnitaryFieldData p f K) {α : Fin r → ℤ}
     (hα : α ∈ posRoots r) : uRootSubgroup ε h α ≤ hypUnitriangular h r ε := by
@@ -277,7 +277,7 @@ theorem psu42SylowFacts_of_torus (hT : PSUTorusOvergroup) : PSU42SylowFacts := b
   unfold PSU42SylowFacts
   intro K _ h
   have hsimp : IsSimpleGroup (hypPSU h 2 0) := by
-    haveI := CFSG.Quasithin.H13.U4Par.isSimpleGroup_hypSU h
+    have := CFSG.Quasithin.H13.U4Par.isSimpleGroup_hypSU h
     exact (CFSG.Quasithin.H13.U4Par.hypSUEquivPSU h).symm.isSimpleGroup
   exact le_sylowFacts_generic h 2 0 (le_refl 2) (Nat.zero_le 1)
     (fun A hA hU => psuCover_all_of_torus hT 1 K h 2 0 (le_refl 2) (Nat.zero_le 1) A hA hU)

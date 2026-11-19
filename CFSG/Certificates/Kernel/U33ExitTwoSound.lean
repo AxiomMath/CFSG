@@ -218,7 +218,7 @@ theorem mem_iff_innerW {P : Subgroup (Equiv.Perm (Fin 28))} {S : List (Equiv.Per
       exact hi rfl
     have hl : w.getLast hne = 2 := by
       have h := beq_iff.1 hw'.2
-      rwa [List.getLastD_eq_getLast?, List.getLast?_eq_getLast hne, Option.getD_some] at h
+      rwa [List.getLastD_eq_getLast?, List.getLast?_eq_some_getLast hne, Option.getD_some] at h
     have e : w = w.dropLast ++ [2] := by
       conv_lhs => rw [← List.dropLast_append_getLast hne]
       rw [hl]
@@ -466,9 +466,11 @@ section Conj
 
 variable {M : Type*} [Group M] [DecidableEq M]
 
+omit [DecidableEq M] in
 theorem q8B_map (f : M →* M) (t a b : M) : q8B (f t) (f a) (f b) = (q8B t a b).map f := by
   simp [q8B, map_mul, map_one]
 
+omit [DecidableEq M] in
 theorem conj_mem_iff {A H : Subgroup M} (hH : ∀ s ∈ A, ∀ x ∈ H, s * x * s⁻¹ ∈ H) {σ : M}
     (hσ : σ ∈ A) (x : M) : MulAut.conj σ x ∈ H ↔ x ∈ H := by
   rw [MulAut.conj_apply]

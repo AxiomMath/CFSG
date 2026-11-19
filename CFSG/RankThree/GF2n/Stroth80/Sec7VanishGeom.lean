@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem vanishGeom_conj_le_of_le {g : G} {A C : Subgroup G} (h : A ≤ conjSubgroup g C) :
     conjSubgroup g⁻¹ A ≤ C := by
   intro y hy
@@ -266,12 +267,12 @@ theorem step71VanishGeom_of_omega3 (h34 : Stroth34Statement) (hRoot : Stroth310R
       have h2 : m = 2 := by omega
       subst h2
       exact hs.notPlus4 ⟨K, fK, finK, hK, hnat⟩
-    haveI : CharP K 2 := sec7ctr_charP hc hK
+    have : CharP K 2 := sec7ctr_charP hc hK
     have hnat' := hnat
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨-, hn, ψ, hψ⟩ := hact
-    haveI := hn
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have := hn
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
       omega
@@ -290,12 +291,12 @@ theorem step71VanishGeom_of_omega3 (h34 : Stroth34Statement) (hRoot : Stroth310R
       exact hOm4 G M Q Z B hc n t hs hno ⟨K, fK, finK, hK, b, c, hirr, hnat⟩ x hx hxt hmov
     ·
       have hm3 : 3 ≤ m := by omega
-      haveI : CharP K 2 := sec7ctr_charP hc hK
+      have : CharP K 2 := sec7ctr_charP hc hK
       have hnat' := hnat
       obtain ⟨φ, hφ, hker, hact⟩ := hnat
       obtain ⟨-, hn, ψ, hψ⟩ := hact
-      haveI := hn
-      haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+      have := hn
+      have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
       have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
         rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
           Fintype.card_fin, Fintype.card_fin]

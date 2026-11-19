@@ -201,7 +201,7 @@ theorem mem_of_commute_of_pow_eq_one (hF : UnitaryFieldData 2 m F) (h5 : 5 ∣ 2
     (A := ⟨S, S.2.1⟩) S.2.2 (by rw [hρS]; exact hrX) (by rw [hρS]; exact hS1)
   have hQ' : ((Q⁻¹ * (S : GL (Fin 5) F) * Q : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F) =
       diagonal t := hQ
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hc : IsPrimitiveRoot c 5 := IsPrimitiveRoot.iff_orderOf.2 (orderOf_eq_prime hc5 hc1)
   obtain ⟨μ, hμ, hMS⟩ := exists_conj_eq_scalar_mul_of_commute hF (N := M) (R := ⟨S, S.2.1⟩)
     (by rw [hρS]; exact hαX _ hrX)

@@ -103,7 +103,7 @@ theorem ggE6NonsplitCoreInput_holds : GGE6NonsplitCoreInput := by
   have hp3' : 3 < p := by
     have := hp.two_le
     omega
-  haveI : Finite ↥(e6Data_valid.minGroup K) :=
+  have : Finite ↥(e6Data_valid.minGroup K) :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' e6Data_valid
   by_cases hpC : p ∣ Nat.card ↥(adjointGroup .E6 K)
   · obtain ⟨m, hm, hpf⟩ :=

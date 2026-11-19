@@ -126,7 +126,7 @@ theorem exists_isPGroup_sup_map_eq_top_of_isAlt_five {X : Type} [Group X] (hX : 
       apply Sylow.ext
       rw [hcoe]
       exact h.symm
-  refine ⟨(Q : Subgroup _).map e.symm.toMonoidHom, Q.isPGroup'.map _, ?_⟩
+  refine ⟨(Q : Subgroup _).map e.symm.toMonoidHom, Q.isPGroup.map _, ?_⟩
   have hcomp : ((Q : Subgroup (alternatingGroup (Fin 5))).map e.symm.toMonoidHom).map
       α.toMonoidHom = ((Q : Subgroup _).map α'.toMonoidHom).map e.symm.toMonoidHom := by
     rw [Subgroup.map_map, Subgroup.map_map]

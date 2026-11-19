@@ -409,7 +409,7 @@ theorem splitShapeAt_xA : SplitShapeAt 3 (⟨fuseXA, fuseXA_mem⟩ : ↥suzM) :=
   have hord : orderOf (⟨fuseXA, aX_mem⟩ : ↥aSub) = 3 := orderOf_eq_prime hz3 hz1
   refine splitShapeAt_of_centralizer_equiv e hq ?_ ?_ (leafType_three_of_equiv_X₀' eT)
   · have h3 : IsPGroup 3 ↥(Subgroup.zpowers (⟨fuseXA, aX_mem⟩ : ↥aSub)) := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord, pow_one])
     exact h3.of_equiv (MulEquiv.subgroupCongr hcen.symm)
   · exact ⟨3265920, by rw [card_aSub]⟩

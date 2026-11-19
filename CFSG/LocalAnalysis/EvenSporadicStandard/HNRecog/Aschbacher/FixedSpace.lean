@@ -19,8 +19,8 @@ theorem AschbacherHyp.exists_eq_add_of_fixed (hC : AschbacherHyp C Q) {τ : C}
     (hτ : τ ∉ commutator C) (hτ2 : τ ^ 2 ∈ centerOf Q) (x : Additive (Abelianization Q))
     (hx : conjLinEquiv hQn τ x = x) : ∃ y : Additive (Abelianization Q), x = y + conjLinEquiv hQn τ y := by
   classical
-  haveI : Finite Q := hC.plus.finite
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite Q := hC.plus.finite
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   obtain ⟨t, ht⟩ := hC.exists_isOuterInvolution

@@ -23,9 +23,9 @@ theorem oddPCoreInClosure_of_map_component {C G : Type*} [Group C] [Finite C] [G
     (W : Subgroup G) (hW : ∀ c : C, (∀ q ∈ Q, F c * q = q * F c) → F c ∈ W)
     (hWodd : Odd (Nat.card W)) : OddPCoreInClosure p C := by
   classical
-  haveI := hQs
+  have := hQs
   set Q' : Subgroup C := Q.comap F with hQ'
-  haveI : Q'.Normal := ⟨fun q hq c => by
+  have : Q'.Normal := ⟨fun q hq c => by
     rw [hQ', Subgroup.mem_comap] at hq ⊢
     rw [map_mul, map_mul, map_inv]
     exact hQn c _ hq⟩

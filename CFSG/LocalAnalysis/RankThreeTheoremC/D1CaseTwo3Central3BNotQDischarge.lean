@@ -33,12 +33,12 @@ theorem InnerNotQConfig.nineThree (hOut : KFactOutCyclic)
 
 theorem InnerNotQConfig.innerNotQJ_eq (hOut : KFactOutCyclic)
     (hC : InnerNotQConfig p P M H R Rbar z L E) : innerNotQJ p H L = L := by
-  haveI := (hC.nineThree hOut).normal
+  have := (hC.nineThree hOut).normal
   exact innerNotQJ_eq_of_normal p H L
 
 theorem InnerNotQConfig.b3 (hOut : KFactOutCyclic) (hS : KFactSeitzCyc) (hNo2 : KFactCaseTwoNoTwo)
     (hC : InnerNotQConfig p P M H R Rbar z L E) : Hyp111B3 p H E (innerNotQJ p H L) := by
-  haveI := (hC.nineThree hOut).normal
+  have := (hC.nineThree hOut).normal
   have hcase : IsCaseTwoGroup p L :=
     hC.cfg.red.isCaseTwoGroup_of_not_le3 hC.cfg.catalog hOut hS hC.cyclic
       hC.cfg.pRank_rbar_eq_three hC.isComponent hC.not_le

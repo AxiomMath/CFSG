@@ -152,9 +152,9 @@ private lemma center_map_eq_zpowers {C H : Type*} [Group C] [Group H] [Finite C]
     (hcent : ∀ y ∈ P, (∀ p ∈ P, p * y = y * p) → ∃ j : ℕ, φ y = φ T ^ j) :
     (Subgroup.center P).map P.subtype = Subgroup.zpowers T := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPp : IsPGroup 3 P := by
-    have := (Sylow.ofCard P hPcard).isPGroup'
+    have := (Sylow.ofCard P hPcard).isPGroup
     rwa [Sylow.coe_ofCard] at this
   have h3dvd : 3 ∣ Nat.card C := by
     rw [← hT]
@@ -164,7 +164,7 @@ private lemma center_map_eq_zpowers {C H : Type*} [Group C] [Group H] [Finite C]
   have hcardP1 : 1 < Nat.card P := by
     rw [hPcard]
     exact Nat.one_lt_pow hfacpos.ne' (by norm_num)
-  haveI : Nontrivial P := Finite.one_lt_card_iff_nontrivial.mp hcardP1
+  have : Nontrivial P := Finite.one_lt_card_iff_nontrivial.mp hcardP1
   have hZnt : Nontrivial (Subgroup.center P) := hPp.center_nontrivial
   have hZle : (Subgroup.center P).map P.subtype ≤ Subgroup.zpowers T := by
     rintro y ⟨u, hu, rfl⟩
@@ -210,7 +210,7 @@ theorem triD4Line_kgX
       ∀ (y : Subgroup.centralizer {z₀}) (hy : α y ∈ Subgroup.centralizer {z₀}),
         (Θ ⟨α y, hy⟩ : TriD4LineX k K) = triD4LineSigma k K σ (Θ y) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hn : 0 < n := by
     rcases Nat.eq_zero_or_pos n with hn | hn
     · exfalso
@@ -221,9 +221,9 @@ theorem triD4Line_kgX
       exact absurd hnt (by norm_num)
     · exact hn
   have h1n : 1 ≤ n := hn
-  haveI : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
-  haveI : Finite k := Finite.of_injective _ (algebraMap k K).injective
-  letI : Fintype k := Fintype.ofFinite k
+  have : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
+  have : Finite k := Finite.of_injective _ (algebraMap k K).injective
+  let : Fintype k := Fintype.ofFinite k
   have hcardk : ∀ a : k, a ^ Nat.card k = a := fun a => by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card a
@@ -238,7 +238,7 @@ theorem triD4Line_kgX
       rw [CFSG.Timmesfeld.ExceptionalOrders.two_pow_mod_three]
       simp [hev]
     simpa [hmod] using Nat.dvd_sub_mod (n := 3) (2 ^ n)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ωk, hωk⟩ :=
     exists_prime_orderOf_dvd_card' (G := kˣ) 3 (by rwa [Nat.card_units])
   let ω : Kˣ := Units.map (algebraMap k K).toMonoidHom ωk
@@ -297,7 +297,7 @@ theorem triD4Line_kgX
   have hz0'ord : orderOf z0' = 3 := hzord
   have hz0'fix : fieldActor (t := TwistTag.D4) σ₀ σ₀ z0' = z0' := hzfix
   obtain ⟨e⟩ := TableBExcSmallRest.nonempty_triD4_equiv (n := n) h1n K hK σ₀ hσ
-  haveI : Finite (GGTriD4R n K) :=
+  have : Finite (GGTriD4R n K) :=
     Finite.of_equiv (graphFixedRootGroup TwistTag.D4 K σ₀.toRingHom) e.symm.toEquiv
   let z0 : GGTriD4R n K := e.symm z0'
   let φ : MulAut (graphFixedRootGroup TwistTag.D4 K σ₀.toRingHom) :=

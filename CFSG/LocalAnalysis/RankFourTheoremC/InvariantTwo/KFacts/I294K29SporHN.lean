@@ -33,7 +33,7 @@ theorem sporadicClassWitnessNative_HN_five :
       Nonempty (S ≃* CFSG.Blueprint.NativeSporadic.Carrier .HN) →
       ∀ x : S, orderOf x = 5 → RankThreeWitness 5 x := by
   intro S _ _ ⟨eS⟩ s hs
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let e : CFSG.Blueprint.NativeSporadic.HN ≃* CFSG.Sporadic.GLQ.HNTwoRank.J :=
     CFSG.Sporadic.GLQ.HNTwoRank.hnEquivJ
   let ι : CFSG.Blueprint.NativeSporadic.HN →* CFSG.Sporadic.GLQ.HNTwoRank.GLHN :=

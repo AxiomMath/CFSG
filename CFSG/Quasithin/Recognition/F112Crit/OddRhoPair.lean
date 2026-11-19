@@ -32,8 +32,8 @@ theorem exists_pCoreOf_moves_pair_of_nonconst (hc : CritAmalgam G₀ G₁ G₂ T
       ∀ δ ∈ nbrs μ, δ ≠ δ' → δ ≠ δ'' → k ∈ ballStab 1 δ := by
   classical
   let Ω := ↥(nbrs μ)
-  haveI : Fintype Ω := Fintype.ofFinite Ω
-  letI : MulAction ↥(stab μ) Ω := T723.instMulActionNbrs μ
+  have : Fintype Ω := Fintype.ofFinite Ω
+  let : MulAction ↥(stab μ) Ω := T723.instMulActionNbrs μ
   have hsmul_coe : ∀ (g : ↥(stab μ)) (ω : Ω),
       ((g • ω : Ω) : CosetGeom G₀ G₁ G₂) =
         T723.stabToG₀ μ g • (ω : CosetGeom G₀ G₁ G₂) := fun g ω => rfl

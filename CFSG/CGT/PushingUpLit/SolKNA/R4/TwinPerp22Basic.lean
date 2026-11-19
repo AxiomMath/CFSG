@@ -51,6 +51,7 @@ variable {G : Type} [Group G] [Finite G]
     induction q using QuotientGroup.induction_on with
     | H y => exact congrArg QuotientGroup.mk (Subtype.ext (by simp [conjAutOfNormalizer, mul_assoc]))
 
+omit [Finite G] in
 theorem actQuot_apply_mk (J : Subgroup G) (x : ↥(Subgroup.normalizer (J : Set G))) (y : ↥J) :
     actQuot J x (QuotientGroup.mk y) =
       QuotientGroup.mk (⟨(x : G) * y * (x : G)⁻¹,
@@ -84,6 +85,7 @@ section Datum
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K K' K₃ : Subgroup G}
   {z u₁ u₂ u₃ : G}
 
+omit [Finite G] in
 theorem orderOf_mul_z {z u : G} (hz2 : z * z = 1) (hz1 : z ≠ 1) (hu2 : u * u = z)
     (hc : z * u = u * z) : orderOf (u * z) = 4 := by
   have h2 : (u * z) ^ 2 = z := by

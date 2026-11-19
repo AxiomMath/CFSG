@@ -17,10 +17,12 @@ variable {F : Type} [Field F] [Finite F] {σ : F ≃+* F} {n p : ℕ}
 private def baerVec_T1J5 (a b : Fˣ) : Fin 4 → F :=
   ![(a : F), ((a⁻¹ : Fˣ) : F), (b : F), ((b⁻¹ : Fˣ) : F)]
 
+omit [Finite F] in
 private theorem baerVec_det_T1J5 (a b : Fˣ) : ∏ i, baerVec_T1J5 a b i = 1 := by
   rw [Fin.prod_univ_four]
   simp [baerVec_T1J5]
 
+omit [Finite F] in
 private theorem baerVec_norm_T1J5 {Z : Subgroup Fˣ} (hZ : ∀ a ∈ Z, σ (a : F) * a = 1)
     {a b : Fˣ} (ha : a ∈ Z) (hb : b ∈ Z) (i : Fin 4) :
     σ (baerVec_T1J5 a b i) * baerVec_T1J5 a b i = 1 := by
@@ -30,9 +32,10 @@ private theorem baerVec_norm_T1J5 {Z : Subgroup Fˣ} (hZ : ∀ a ∈ Z, σ (a : 
   · exact hZ b hb
   · exact hZ b⁻¹ (Z.inv_mem hb)
 
+omit [Finite F] in
 private theorem baerVec_mul_T1J5 (a a' b b' : Fˣ) (i : Fin 4) :
     baerVec_T1J5 (a * a') (b * b') i = baerVec_T1J5 a b i * baerVec_T1J5 a' b' i := by
-  fin_cases i <;> simp [baerVec_T1J5, Units.val_mul, mul_inv, mul_comm]
+  fin_cases i <;> simp [baerVec_T1J5, Units.val_mul, mul_comm]
 
 private noncomputable def baerTorusSU_T1J5 (Z : Subgroup Fˣ)
     (hZ : ∀ a ∈ Z, σ (a : F) * a = 1) : ↥Z × ↥Z →* ↥(SUid σ 4) where
@@ -52,12 +55,14 @@ private noncomputable def baerTorusSU_T1J5 (Z : Subgroup Fˣ)
     simp only [Prod.fst_mul, Prod.snd_mul, Subgroup.coe_mul]
     rw [baerVec_mul_T1J5, mul_assoc]
 
+omit [Finite F] in
 private theorem baerTorusSU_smul_T1J5 (Z : Subgroup Fˣ)
     (hZ : ∀ a ∈ Z, σ (a : F) * a = 1) (x : ↥Z × ↥Z) (v : Fin 4 → F) :
     baerTorusSU_T1J5 Z hZ x • v =
       fun i => baerVec_T1J5 (x.1 : Fˣ) (x.2 : Fˣ) i * v i :=
   diagSU_smul σ _ (baerVec_norm_T1J5 hZ x.1.2 x.2.2) (baerVec_det_T1J5 _ _) v
 
+omit [Finite F] in
 private theorem baerTorusSU_injective_T1J5 (Z : Subgroup Fˣ)
     (hZ : ∀ a ∈ Z, σ (a : F) * a = 1) : Function.Injective (baerTorusSU_T1J5 Z hZ) := by
   intro x y h
@@ -69,6 +74,7 @@ private theorem baerTorusSU_injective_T1J5 (Z : Subgroup Fˣ)
   simp [baerVec_T1J5] at e1 e2
   exact Prod.ext (Subtype.ext (Units.ext e1)) (Subtype.ext (Units.ext e2))
 
+omit [Finite F] in
 private theorem baerTorusSU_smul_e0_T1J5 (Z : Subgroup Fˣ)
     (hZ : ∀ a ∈ Z, σ (a : F) * a = 1) (x : ↥Z × ↥Z) :
     baerTorusSU_T1J5 Z hZ x • (Pi.single 0 1 : Fin 4 → F) =
@@ -77,6 +83,7 @@ private theorem baerTorusSU_smul_e0_T1J5 (Z : Subgroup Fˣ)
   funext i
   fin_cases i <;> simp [baerVec_T1J5]
 
+omit [Finite F] in
 private theorem baerTorusSU_smul_e1_T1J5 (Z : Subgroup Fˣ)
     (hZ : ∀ a ∈ Z, σ (a : F) * a = 1) (x : ↥Z × ↥Z) :
     baerTorusSU_T1J5 Z hZ x • (Pi.single 1 1 : Fin 4 → F) =
@@ -92,11 +99,13 @@ private def baerAdd_T1J5 (σ : F ≃+* F) (z : Fin 4 → Fin 4 → F) : F →+ (
     simp only [map_add, add_smul]
     abel
 
+omit [Finite F] in
 private theorem baerAdd_mem_T1J5 (σ : F ≃+* F) (z : Fin 4 → Fin 4 → F) (x : Fin 4 → F) :
     x ∈ (baerAdd_T1J5 σ z).range ↔ ∃ α : F, x = α • z 0 + σ α • z 1 := by
   rw [AddMonoidHom.mem_range]
   exact exists_congr fun α => eq_comm
 
+omit [Finite F] in
 private theorem baerBasisMat_T1J5 (z : Fin 4 → Fin 4 → F)
     (hz : ∀ i j, herm σ (z i) (z j) = if i = j then 1 else 0) :
     ∃ T : Matrix (Fin 4) (Fin 4) F,
@@ -122,6 +131,7 @@ private theorem baerBasisMat_T1J5 (z : Fin 4 → Fin 4 → F)
     rwa [h2] at h
   exact ⟨T, hTiso, hTsmul, hδ⟩
 
+omit [Finite F] in
 private theorem baerDiagMat_T1J5 (δ : F) (hδ : σ δ * δ = 1) :
     ∃ D : Matrix (Fin 4) (Fin 4) F,
       D.det = δ⁻¹ ∧ conjTr σ D * D = 1 ∧
@@ -150,6 +160,7 @@ private theorem baerDiagMat_T1J5 (δ : F) (hδ : σ δ * δ = 1) :
     simp
   exact ⟨D, hDdet, hDiso, hD0, hD1⟩
 
+omit [Finite F] in
 private theorem baerFrameMat_T1J5 (z : Fin 4 → Fin 4 → F)
     (hz : ∀ i j, herm σ (z i) (z j) = if i = j then 1 else 0) :
     ∃ T' : Matrix (Fin 4) (Fin 4) F,
@@ -174,6 +185,7 @@ private theorem baerFrameMat_T1J5 (z : Fin 4 → Fin 4 → F)
   · rw [← Matrix.mulVec_mulVec (Pi.single 0 1 : Fin 4 → F) T D, hD0, hTsmul 0]
   · rw [← Matrix.mulVec_mulVec (Pi.single 1 1 : Fin 4 → F) T D, hD1, hTsmul 1]
 
+omit [Finite F] in
 private theorem baerFrame_T1J5 (z : Fin 4 → Fin 4 → F)
     (hz : ∀ i j, herm σ (z i) (z j) = if i = j then 1 else 0) :
     ∃ t : ↥(SUid σ 4),
@@ -185,6 +197,7 @@ private theorem baerFrame_T1J5 (z : Fin 4 → Fin 4 → F)
     rw [herm_mulVec, hiso', Matrix.one_mulVec]
   exact ⟨mkSU σ T' hdet hiso, by rw [mkSU_smul]; exact h0, by rw [mkSU_smul]; exact h1⟩
 
+omit [Finite F] in
 private theorem baerStab_T1J5 {Z : Subgroup Fˣ} (hZ : ∀ a ∈ Z, σ (a : F) * a = 1)
     (t : ↥(SUid σ 4)) (z : Fin 4 → Fin 4 → F)
     (ht0 : t • (Pi.single 0 1 : Fin 4 → F) = z 0)
@@ -216,6 +229,7 @@ private theorem baerStab_T1J5 {Z : Subgroup Fˣ} (hZ : ∀ a ∈ Z, σ (a : F) *
   rw [← smul_def, hgz]
   exact (baerAdd_mem_T1J5 σ z _).mpr ⟨α * a, rfl⟩
 
+omit [Finite F] in
 private theorem baerStab_iff_T1J5 {Z : Subgroup Fˣ} (hZ : ∀ a ∈ Z, σ (a : F) * a = 1)
     (t : ↥(SUid σ 4)) (z : Fin 4 → Fin 4 → F)
     (ht0 : t • (Pi.single 0 1 : Fin 4 → F) = z 0)
@@ -240,7 +254,7 @@ private theorem baerStab_iff_T1J5 {Z : Subgroup Fˣ} (hZ : ∀ a ∈ Z, σ (a : 
   · intro h
     simpa only [hg] using baerStab_T1J5 hZ t z ht0 ht1 ab x h
 
-theorem exists_stab_baerLine (hσ : IsUnitaryInvolution σ) (hσpow : ∀ c, σ c = c ^ 2 ^ n)
+theorem exists_stab_baerLine (_hσ : IsUnitaryInvolution σ) (hσpow : ∀ c, σ c = c ^ 2 ^ n)
     (hF : Nat.card F = (2 ^ n) ^ 2) (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
     (z : Fin 4 → Fin 4 → F) (hz : ∀ i j, herm σ (z i) (z j) = if i = j then 1 else 0) :
     ∃ (X : AddSubgroup (Fin 4 → F)) (P : Subgroup (GL (Fin 4) F)),

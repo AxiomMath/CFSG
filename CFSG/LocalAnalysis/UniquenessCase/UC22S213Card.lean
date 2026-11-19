@@ -16,7 +16,7 @@ theorem uc22s213_card_simple_dvd_card_range {P S Q : Type*} [Group P] [Group S] 
     [Finite P] [IsSimpleGroup S] (φ : P →* S) (hφ : Function.Surjective φ) (f : P →* Q)
     {p : ℕ} (hpS : p ∣ Nat.card S) (hker : ¬ p ∣ Nat.card f.ker) :
     Nat.card S ∣ Nat.card f.range := by
-  haveI : (f.ker.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
+  have : (f.ker.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (f.ker.map φ) with h | h
   ·
     obtain ⟨c, hc⟩ := Subgroup.card_dvd_of_le ((Subgroup.map_eq_bot_iff _).mp h)
@@ -36,7 +36,7 @@ theorem uc22s213_card_barInf_dvd {L Y H : Subgroup G} (hq : CFSG.Open.IsQuasisim
     Nat.card (BarInf L) ∣
       Nat.card (CFSG.Quasithin.perfectCore ((Y.subgroupOf H).map (QuotientGroup.mk' N))) := by
   obtain ⟨e⟩ := uc22p21k_barInf_equiv hq
-  haveI : IsSimpleGroup (Bar2 L ⧸ center (Bar2 L)) := hq.2
+  have : IsSimpleGroup (Bar2 L ⧸ center (Bar2 L)) := hq.2
   have hsub : ∀ {K : Subgroup G}, Y ≤ K → (CFSG.Quasithin.perfectCore Y).subgroupOf K =
       CFSG.Quasithin.perfectCore (Y.subgroupOf K) := fun {K} hYK => by
     apply Subgroup.map_injective K.subtype_injective
@@ -82,7 +82,7 @@ theorem uc22s213_normalizer_le_of_card_barInf (hG : IsSimpleGroup G) {p r : ℕ}
         Y ≤ ((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) →
         ⁅Y, Y⁆ = Y → Nat.card Y ≤ 3600) :
     normalizer (A : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hHM
   have hYL : L ⊓ centralizer (A : Set G) ≤ L := inf_le_left
   have hYH : L ⊓ centralizer (A : Set G) ≤ normalizer (A : Set G) :=
@@ -92,7 +92,7 @@ theorem uc22s213_normalizer_le_of_card_barInf (hG : IsSimpleGroup G) {p r : ℕ}
     h2.trans ((UC6.R869S.pRank_le_of_sup_pCore hYL hY hp hp2).trans
       (CFSG.SectionRank.pRank_mono hp.one_lt (le_inf hYH hYM)))
   have htop : normalizer (A : Set G) ≠ ⊤ := fun htop => by
-    haveI : A.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+    have : A.Normal := Subgroup.normalizer_eq_top_iff.mp htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal A with hA | hA
     · rw [hA, Subgroup.card_bot] at hAr
       exact hr.one_lt.ne hAr

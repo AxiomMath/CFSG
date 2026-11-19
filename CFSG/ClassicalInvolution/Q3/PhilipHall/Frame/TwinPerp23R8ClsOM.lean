@@ -18,7 +18,7 @@ variable {Y : Type*} [Group Y]
 
 variable {C O Q : Subgroup Y}
 
-theorem InM.one : InM C O Q 1 := ⟨C.one_mem, fun l _ => by simpa using O.one_mem⟩
+theorem InM.one : InM C O Q 1 := ⟨C.one_mem, fun l _ => by simp⟩
 
 theorem InM.mul (hO : ∀ c ∈ C, ∀ o ∈ O, c * o * c⁻¹ ∈ O) {m₁ m₂ : Y} (h₁ : InM C O Q m₁)
     (h₂ : InM C O Q m₂) : InM C O Q (m₁ * m₂) := by

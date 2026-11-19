@@ -12,8 +12,8 @@ theorem exists_fixedPoint_of_pow_two_pow_eq_one {α : Type*} [Finite α]
     (hodd : Odd (Nat.card α)) (f : Equiv.Perm α) {m : ℕ} (hf : f ^ 2 ^ m = 1) :
     ∃ a, f a = a := by
   classical
-  letI : Fintype α := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype α := Fintype.ofFinite α
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnd : ¬ 2 ∣ Fintype.card α := by
     rw [← Nat.card_eq_fintype_card, ← even_iff_two_dvd]
     exact Nat.not_even_iff_odd.mpr hodd
@@ -26,21 +26,21 @@ theorem not_two_dvd_index_of_two_elements [Finite G] {T : Subgroup G} (hT : IsPG
     (h : ∀ x ∈ normalizer (T : Set G), (∃ m : ℕ, x ^ 2 ^ m = 1) →
       ∃ H : Subgroup G, T ≤ H ∧ x ∈ H ∧ ¬ 2 ^ (a + 1) ∣ Nat.card H) :
     ¬ 2 ∣ T.index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hd
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
   by_cases hTPeq : T = (P : Subgroup G)
   · rw [hTPeq] at hd
     exact P.not_dvd_index hd
   · have hTPlt : T < (P : Subgroup G) := lt_of_le_of_ne hTP hTPeq
-    haveI : Group.IsNilpotent (↥(P : Subgroup G)) := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (↥(P : Subgroup G)) := P.isPGroup.isNilpotent
     have hNC : NormalizerCondition (↥(P : Subgroup G)) :=
       Group.normalizerCondition_of_isNilpotent
     have hproper : T.subgroupOf (P : Subgroup G) < ⊤ := by
       rw [lt_top_iff_ne_top]
       intro hh
       exact hTPeq (le_antisymm hTP (Subgroup.subgroupOf_eq_top.mp hh))
-    obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (hNC (T.subgroupOf (P : Subgroup G)) hproper)
+    obtain ⟨x, hxN, hxT⟩ := _root_.IsConcreteLE.exists_of_lt (hNC (T.subgroupOf (P : Subgroup G)) hproper)
     have hxN' : (x : G) ∈ normalizer (T : Set G) := by
       have hEq := Subgroup.subgroupOf_normalizer_eq hTP
       rw [← hEq] at hxN
@@ -48,7 +48,7 @@ theorem not_two_dvd_index_of_two_elements [Finite G] {T : Subgroup G} (hT : IsPG
     have hxnT : (x : G) ∉ T := fun hh => hxT (Subgroup.mem_subgroupOf.2 hh)
     have hxP : (x : G) ∈ (P : Subgroup G) := x.2
     have hx2 : ∃ m : ℕ, (x : G) ^ 2 ^ m = 1 := by
-      obtain ⟨m, hm⟩ := P.isPGroup' x
+      obtain ⟨m, hm⟩ := P.isPGroup x
       exact ⟨m, by simpa using congrArg Subtype.val hm⟩
     obtain ⟨H, hTH, hxH, hHcard⟩ := h (x : G) hxN' hx2
     let M : Subgroup G := T ⊔ Subgroup.zpowers (x : G)
@@ -60,7 +60,7 @@ theorem not_two_dvd_index_of_two_elements [Finite G] {T : Subgroup G} (hT : IsPG
       rw [← hTM'] at hxM
       exact hxnT hxM
     have hMP : M ≤ (P : Subgroup G) := sup_le hTP (Subgroup.zpowers_le.2 hxP)
-    have hM2 : IsPGroup 2 M := P.isPGroup'.to_le hMP
+    have hM2 : IsPGroup 2 M := P.isPGroup.to_le hMP
     obtain ⟨b, hb⟩ := (IsPGroup.iff_card (p := 2) (G := M)).1 hM2
     have hlt : a < b := by
       have h1 : 2 ^ a < Nat.card M := by

@@ -33,7 +33,7 @@ theorem card_barLen_two : Nat.card {v : permBar 6 // barLen v = 2} = 15 := by
 
 theorem card_barLen_three : Nat.card {v : permBar 6 // barLen v = 3} = 10 := by
   classical
-  haveI : Fintype (permBar 6) := Fintype.ofFinite _
+  have : Fintype (permBar 6) := Fintype.ofFinite _
   have htot : Fintype.card (permBar 6) = 32 := by
     rw [← Nat.card_eq_fintype_card, Comb.card_permBar (by norm_num)]
     norm_num
@@ -346,6 +346,7 @@ theorem four_le_card_qB_six (hR : Nat.card ↥(Rc X) ≤ 2) : 4 ≤ Nat.card ↥
   omega
 
 include D in
+omit D in
 theorem qB_ne_bot_sym (hR : Nat.card ↥(Rc X) ≤ 2) : C.qB ≠ ⊥ := by
   intro h
   have h4 := four_le_card_qB_six (C := C) hR
@@ -381,7 +382,7 @@ theorem qB_weaklyClosed_sym (hR : Nat.card ↥(Rc X) ≤ 2)
     (hH : ∀ x ∈ CFSG.Open.pCoreOf 2 M, x ≠ 1 → Subgroup.centralizer ({x} : Set G) ≤ M) :
     WeaklyClosedIn C.qB (Subgroup.normalizer ((C.qB : Subgroup G) : Set G)) := by
   have hQ := C.Q_comm hR
-  refine TI.weaklyClosed_of_cent C.qB_le_Q (D.qB_ne_bot_sym hR) (isPGroup_pCoreOf' M) ?_
+  refine TI.weaklyClosed_of_cent C.qB_le_Q (PiData.qB_ne_bot_sym hR) (isPGroup_pCoreOf' M) ?_
     ((C.normalizer_qB_eq hR).trans C.S.normalizer_Q_eq.symm)
     (fun _ hg => D.conj_eq_of_inf_ne_bot_sym hR hH hg)
   intro c hc
@@ -406,7 +407,7 @@ theorem inCatalog_of_centInM_sym
     (hH : ∀ x ∈ CFSG.Open.pCoreOf 2 M, x ≠ 1 → Subgroup.centralizer ({x} : Set G) ≤ M) :
     CFSG.Assembly.InCatalog G :=
   CFSG.CGT.Hall82.inCatalog_of_isTI_of_weaklyClosedIn hNode C.S.simple C.S.nonab
-    (C.isElemAbelian_qB (C.Q_comm hR)) (D.qB_ne_bot_sym hR) (D.qB_isTI_sym hR hH)
+    (C.isElemAbelian_qB (C.Q_comm hR)) (PiData.qB_ne_bot_sym hR) (D.qB_isTI_sym hR hH)
     (D.qB_weaklyClosed_sym hR hH)
 
 end Cfg.PiData

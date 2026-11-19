@@ -31,8 +31,8 @@ theorem smallSections_of_kGroup {X : Type} [Group X] [Finite X]
     (hL : SmallSimpleLookup) (hdvd : Nat.card X ∣ 348364800) (hle : Nat.card X ≤ 16200) :
     SmallSections X := by
   intro K L hLnorm hsimple hnonab
-  haveI : L.Normal := hLnorm
-  haveI : IsSimpleGroup (K ⧸ L) := hsimple
+  have : L.Normal := hLnorm
+  have : IsSimpleGroup (K ⧸ L) := hsimple
   have hCat : CFSG.Blueprint.Catalog (K ⧸ L) :=
     CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hX K (QuotientGroup.mk' L)
       (QuotientGroup.mk'_surjective L)
@@ -48,14 +48,14 @@ theorem Ngrp_ne_top [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a)
     (h : Setting25 G t z z₁ ι zv R0 F) : Ngrp h ≠ ⊤ := by
   intro hN
   have hnorm : (Rgrp h).Normal := Subgroup.normalizer_eq_top_iff.mp hN
-  haveI : (Rgrp h).Normal := hnorm
+  have : (Rgrp h).Normal := hnorm
   rcases Subgroup.Normal.eq_bot_or_eq_top (Rgrp h) with hbot | htop
   · exact h.z_ne_one (Subgroup.mem_bot.mp (hbot ▸ z_mem_Rgrp h))
   · have hcard : Nat.card G = 2 ^ 9 := by
       rw [← Subgroup.card_top (G := G), ← htop]
       exact card_Rgrp h
     have hpG : IsPGroup 2 G := IsPGroup.of_card hcard
-    haveI : Group.IsNilpotent G := hpG.isNilpotent
+    have : Group.IsNilpotent G := hpG.isNilpotent
     have hsolv : Group.IsSolvable G := inferInstance
     obtain ⟨a, b, hab⟩ := hnonab
     exact hab ((IsSimpleGroup.comm_iff_isSolvable).2 hsolv a b)

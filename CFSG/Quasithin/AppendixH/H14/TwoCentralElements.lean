@@ -20,7 +20,7 @@ private lemma factorization_two_card_le_of_le [Finite X] {H K : Subgroup X} (h :
 theorem isTwoCentralElt_of_dvd_card [Finite X] {M : Subgroup X} {a : X}
     (h : 2 ^ (Nat.card M).factorization 2 ∣ Nat.card (centralizerIn M a)) :
     IsTwoCentralElt M a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hSC, -⟩ :=
     exists_isSylowIn_ge 2 (H := centralizerIn M a) (P := ⊥) bot_le IsPGroup.of_bot
   have hSM : S ≤ M := hSC.le.trans inf_le_left
@@ -37,7 +37,7 @@ theorem not_isTwoCentralElt_of_not_dvd_card [Finite X] {M : Subgroup X} {a : X}
     (h : ¬ 2 ^ (Nat.card M).factorization 2 ∣ Nat.card (centralizerIn M a)) :
     ¬ IsTwoCentralElt M a := by
   rintro ⟨S, hSyl, hcomm⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSC : S ≤ centralizerIn M a :=
     fun s hs => mem_centralizerIn.2 ⟨hSyl.le hs, hcomm s hs⟩
   have hdvd : Nat.card S ∣ Nat.card (centralizerIn M a) := Subgroup.card_dvd_of_le hSC

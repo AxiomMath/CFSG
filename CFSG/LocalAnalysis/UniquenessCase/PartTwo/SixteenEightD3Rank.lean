@@ -99,6 +99,7 @@ theorem s16e_d3_three_le_pRank_seven (h : s16e_d3_Ctx A L r Δ σ) (hr : 3 ≤ r
   have hle := CFSG.SectionRank.le_pRank (p := 7) (H := A) (E := L) (by norm_num) h.le hE hcard
   omega
 
+omit [Finite W] in
 theorem s16e_d3_le_pCoreOf (h : s16e_d3_Ctx A L r Δ σ) : L ≤ pCoreOf 7 A := by
   have hcard : Nat.card ↥L = 7 ^ r :=
     CFSG.Quasithin.A38.card_eq_of_isElemAbelianOfRank (by norm_num : Nat.Prime 7) h.elem

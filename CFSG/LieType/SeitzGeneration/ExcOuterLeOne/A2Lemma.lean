@@ -34,32 +34,32 @@ theorem t32_zero : t32 (0 : K) = 1 := SpecialLinearGroup.transvection_coeff_zero
 theorem t12_coe (a : K) : (t12 a : Matrix (Fin 3) (Fin 3) K) = !![1, a, 0; 0, 1, 0; 0, 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [t12, SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [t12, SpecialLinearGroup.transvection_coe]
 
 theorem t13_coe (a : K) : (t13 a : Matrix (Fin 3) (Fin 3) K) = !![1, 0, a; 0, 1, 0; 0, 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [t13, SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [t13, SpecialLinearGroup.transvection_coe]
 
 theorem t23_coe (a : K) : (t23 a : Matrix (Fin 3) (Fin 3) K) = !![1, 0, 0; 0, 1, a; 0, 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [t23, SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [t23, SpecialLinearGroup.transvection_coe]
 
 theorem t31_coe (a : K) : (t31 a : Matrix (Fin 3) (Fin 3) K) = !![1, 0, 0; 0, 1, 0; a, 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [t31, SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [t31, SpecialLinearGroup.transvection_coe]
 
 theorem t21_coe (a : K) : (t21 a : Matrix (Fin 3) (Fin 3) K) = !![1, 0, 0; a, 1, 0; 0, 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [t21, SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [t21, SpecialLinearGroup.transvection_coe]
 
 theorem t32_coe (a : K) : (t32 a : Matrix (Fin 3) (Fin 3) K) = !![1, 0, 0; 0, 1, 0; 0, a, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [t32, SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [t32, SpecialLinearGroup.transvection_coe]
 
 theorem t12_inv (a : K) : (t12 a)⁻¹ = t12 (-a) := SpecialLinearGroup.transvection_inv _ a
 theorem t13_inv (a : K) : (t13 a)⁻¹ = t13 (-a) := SpecialLinearGroup.transvection_inv _ a
@@ -75,7 +75,7 @@ theorem comm_t12_t23 (a b : K) : ⁅t12 a, t23 b⁆ = t13 (a * b) := by
   rw [t12_coe, t23_coe, t12_coe, t23_coe, t13_coe]
   simp only [Matrix.mul_fin_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem comm_t23_t31 (a b : K) : ⁅t23 a, t31 b⁆ = t21 (a * b) := by
   rw [commutatorElement_def, t23_inv, t31_inv]
@@ -84,7 +84,7 @@ theorem comm_t23_t31 (a b : K) : ⁅t23 a, t31 b⁆ = t21 (a * b) := by
   rw [t23_coe, t31_coe, t23_coe, t31_coe, t21_coe]
   simp only [Matrix.mul_fin_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem comm_t31_t12 (a b : K) : ⁅t31 a, t12 b⁆ = t32 (a * b) := by
   rw [commutatorElement_def, t31_inv, t12_inv]
@@ -93,7 +93,7 @@ theorem comm_t31_t12 (a b : K) : ⁅t31 a, t12 b⁆ = t32 (a * b) := by
   rw [t31_coe, t12_coe, t31_coe, t12_coe, t32_coe]
   simp only [Matrix.mul_fin_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem comm_t32_t21 (a b : K) : ⁅t32 a, t21 b⁆ = t31 (a * b) := by
   rw [commutatorElement_def, t32_inv, t21_inv]
@@ -102,7 +102,7 @@ theorem comm_t32_t21 (a b : K) : ⁅t32 a, t21 b⁆ = t31 (a * b) := by
   rw [t32_coe, t21_coe, t32_coe, t21_coe, t31_coe]
   simp only [Matrix.mul_fin_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp
 
 end A2Basic
 
@@ -175,7 +175,7 @@ theorem t23_eq_u3 (a : K) : t23 a = u3 0 a 0 := by
 
 theorem comm_z_aux (f s c : K) : ⁅t12 f * t13 s, t23 1 * t13 c⁆ = t13 f := by
   rw [t12_eq_u3, t13_eq_u3, t23_eq_u3, t13_eq_u3, t13_eq_u3, u3_mul, u3_mul, comm_u3]
-  congr 1 <;> ring
+  congr 1; ring
 
 theorem zero_or_one_of_mem_card_two {k : Subfield K} (hk : Nat.card k = 2) {c : K} (hc : c ∈ k) :
     c = 0 ∨ c = 1 := by
@@ -370,7 +370,7 @@ theorem mem_rowTwo {g : SL(3, K)} :
     rw [Matrix.mul_fin_two]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, h0, h1, h2]
+      simp [Matrix.mul_apply, Fin.sum_univ_three, h0, h2]
 
 theorem blockHom_coe (g : rowTwo K) :
     (blockHom K g : Matrix (Fin 2) (Fin 2) K) =
@@ -538,7 +538,7 @@ theorem a2_caseI_alpha {lam c₁ c₂ : K}
     rw [t12_coe, t32_coe]
     simp only [Matrix.mul_fin_three]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp <;> ring
+    fin_cases i <;> fin_cases j <;> simp
   have hadd : ∀ a b σ : K, t12 (a + σ) * t32 b = t12 a * t32 b * t12 σ := by
     intro a b σ
     calc t12 (a + σ) * t32 b = t12 a * (t12 σ * t32 b) := by rw [t12_add, mul_assoc]
@@ -550,7 +550,7 @@ theorem a2_caseI_alpha {lam c₁ c₂ : K}
     have hconj := rowTwo_conj_n2 y a b
     rw [hB, u2_coe] at hconj
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, one_mul, zero_mul, zero_add] at hconj
+      Matrix.empty_val', Matrix.cons_val_fin_one, one_mul, zero_mul, zero_add] at hconj
     rw [div_mul_cancel₀ σ hb, hadd] at hconj
     have hmem : (y : SL(3, K)) * (t12 a * t32 b) * (y : SL(3, K))⁻¹ ∈ Yc1 lam c₁ :=
       Subgroup.mul_mem _ (Subgroup.mul_mem _ hy hab) (Subgroup.inv_mem _ hy)
@@ -565,8 +565,7 @@ theorem a2_caseI_alpha {lam c₁ c₂ : K}
       have hconj := rowTwo_conj_n2 y α 0
       rw [hB, l2_coe] at hconj
       simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-        Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, one_mul, zero_mul, zero_add,
-        mul_zero, add_zero] at hconj
+        Matrix.empty_val', Matrix.cons_val_fin_one, one_mul, mul_zero, add_zero] at hconj
       have h1 : t12 α * t32 α ∈ Yc1 lam c₁ := by
         rw [← hconj]
         exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hy hn) (Subgroup.inv_mem _ hy)
@@ -611,10 +610,10 @@ private theorem a2cc_isCocycle (y : SpecialLinearGroup (Fin 2) K →* rowTwo K)
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_three, a00, a01, a10, a11,
-      g10, g11, g12, h10, h11, h12] <;> ring
+      h11] <;> ring
 
 theorem a2_cocycle_core [Finite K] [CharP K 2] {k : Subfield K} (hk : Nat.card k = 2) {d : ℕ}
-    (hd : d.Prime) (hd2 : d ≠ 2) (hK : Nat.card K = Nat.card k ^ d) {c₁ : K} (hc₁ : c₁ ∉ k)
+    (hd : d.Prime) (hd2 : d ≠ 2) (hK : Nat.card K = Nat.card k ^ d) {c₁ : K} (_hc₁ : c₁ ∉ k)
     (y : SpecialLinearGroup (Fin 2) K →* rowTwo K) (hblk : ∀ A, blockHom K (y A) = A)
     (h1 : (y (u2 1) : SL(3, K)) = t13 1) (h2 : (y (u2 c₁) : SL(3, K)) = t12 1 * t13 c₁) :
     ∃ s f : K, f ∉ k ∧ (y (u2 s) : SL(3, K)) = t12 f * t13 s := by

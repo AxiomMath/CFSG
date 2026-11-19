@@ -204,8 +204,10 @@ structure PencilData (K : Type) [Field K] (N M : Type) [CommGroup N] [CommGroup 
 variable {K : Type} [Field K] {N M : Type} [CommGroup N] [CommGroup M] [Finite N] [Finite M]
   {Lines : Finset (Subgroup M)} {Γ : Subgroup (MulAut (N × M))}
 
+omit [Finite N] [Finite M] in
 theorem N0_mem_Orb : N0 N M ∈ Orb Γ := ⟨1, Γ.one_mem, (mapA_one _).symm⟩
 
+omit [Finite N] [Finite M] in
 theorem mapA_mem_Orb {S : Subgroup (N × M)} (hS : S ∈ Orb Γ) {γ : MulAut (N × M)} (hγ : γ ∈ Γ) :
     mapA γ S ∈ Orb Γ := by
   obtain ⟨δ, hδ, rfl⟩ := hS
@@ -216,10 +218,12 @@ section WithData
 variable (D : PencilData K N M Lines Γ)
 include D
 
+omit [Finite N] [Finite M] in
 theorem PencilData.Orb_card {S : Subgroup (N × M)} (hS : S ∈ Orb Γ) : Nat.card S = Nat.card K := by
   obtain ⟨γ, -, rfl⟩ := hS
   rw [card_mapA, card_N0, D.cardN]
 
+omit [Finite N] [Finite M] in
 theorem PencilData.Orb_inf {S T : Subgroup (N × M)} (hS : S ∈ Orb Γ) (hT : T ∈ Orb Γ)
     (hne : S ≠ T) : S ⊓ T = ⊥ := by
   obtain ⟨γ₁, h1, rfl⟩ := hS
@@ -236,15 +240,18 @@ theorem PencilData.Orb_inf {S T : Subgroup (N × M)} (hS : S ∈ Orb Γ) (hT : T
   rw [mapA_inf, mapA_bot, ← e] at h3
   exact h3
 
+omit [Finite N] [Finite M] in
 theorem PencilData.Orb_inf_N0 {S : Subgroup (N × M)} (hS : S ∈ Orb Γ) (hne : S ≠ N0 N M) :
     S ⊓ N0 N M = ⊥ :=
   D.Orb_inf hS N0_mem_Orb hne
 
+omit [Finite N] [Finite M] in
 theorem PencilData.Orb_line {S : Subgroup (N × M)} (hS : S ∈ Orb Γ) (hne : S ≠ N0 N M) :
     ∃ ℓ ∈ Lines, S ≤ Nsub N ℓ := by
   obtain ⟨γ, hγ, rfl⟩ := hS
   exact D.lineOf γ hγ hne
 
+omit [Finite N] in
 theorem PencilData.Orb_surj {S : Subgroup (N × M)} (hS : S ∈ Orb Γ) (hne : S ≠ N0 N M)
     {ℓ : Subgroup M} (hℓ : ℓ ∈ Lines) (hle : S ≤ Nsub N ℓ) (e : M) (he : e ∈ ℓ) :
     ∃ n : N, (n, e) ∈ S := by
@@ -272,6 +279,7 @@ theorem PencilData.Orb_surj {S : Subgroup (N × M)} (hS : S ∈ Orb Γ) (hne : S
     rw [← this]
     exact s.2⟩
 
+omit [Finite N] [Finite M] in
 theorem PencilData.Orb_line_unique (hq : 2 ≤ Nat.card K) {S : Subgroup (N × M)} (hS : S ∈ Orb Γ)
     (hne : S ≠ N0 N M) {ℓ ℓ' : Subgroup M} (hℓ : ℓ ∈ Lines) (hℓ' : ℓ' ∈ Lines)
     (h1 : S ≤ Nsub N ℓ) (h2 : S ≤ Nsub N ℓ') : ℓ = ℓ' := by
@@ -297,23 +305,27 @@ variable {ℓ : Subgroup M}
 @[expose] noncomputable def muMap (θ : ℓ ≃* Multiplicative K) (c : K) (e : ℓ) : ℓ :=
   θ.symm (Multiplicative.ofAdd (c * Multiplicative.toAdd (θ e)))
 
+omit [Finite M] in
 theorem theta_muMap (θ : ℓ ≃* Multiplicative K) (c : K) (e : ℓ) :
     Multiplicative.toAdd (θ (muMap θ c e)) = c * Multiplicative.toAdd (θ e) := by
   unfold muMap
   rw [MulEquiv.apply_symm_apply]
   rfl
 
+omit [Finite M] in
 theorem muMap_mul_comp (θ : ℓ ≃* Multiplicative K) (c d : K) (e : ℓ) :
     muMap θ c (muMap θ d e) = muMap θ (c * d) e := by
   apply θ.injective
   apply Multiplicative.toAdd.injective
   rw [theta_muMap, theta_muMap, theta_muMap, mul_assoc]
 
+omit [Finite M] in
 theorem muMap_one (θ : ℓ ≃* Multiplicative K) (e : ℓ) : muMap θ 1 e = e := by
   apply θ.injective
   apply Multiplicative.toAdd.injective
   rw [theta_muMap, one_mul]
 
+omit [Finite N] [Finite M] in
 theorem apply_of_torus {θ : ℓ ≃* Multiplicative K} {c : K} {γ : MulAut (N × M)}
     (hN : ∀ n : N, γ (n, 1) = (n, 1))
     (hE : ∀ e : ℓ, γ (1, (e : M)) = (1, ((muMap θ c e : ℓ) : M))) (n : N) (e : ℓ) :
@@ -378,6 +390,7 @@ variable (D : PencilData K N M Lines Γ) {ℓ : Subgroup M}
 @[expose] def Sset (Γ : Subgroup (MulAut (N × M))) (ℓ : Subgroup M) : Set (Subgroup (N × M)) :=
   {S | S ∈ Pset Γ ℓ ∧ S ≠ Esub N ℓ}
 
+omit [Finite N] [Finite M] in
 theorem mapA_N0_eq {γ : MulAut (N × M)} (hN : ∀ n : N, γ (n, 1) = (n, 1)) :
     mapA γ (N0 N M) = N0 N M := by
   apply le_antisymm
@@ -399,12 +412,14 @@ theorem mapA_N0_eq {γ : MulAut (N × M)} (hN : ∀ n : N, γ (n, 1) = (n, 1)) :
     exact mem_N0.mpr rfl
 
 include D in
+omit [CommGroup N] [Finite N] D [Finite M] in
 theorem PencilData.muMap_surj {θ : ℓ ≃* Multiplicative K} {c : K} (hc : c ≠ 0) (e' : ℓ) :
     ∃ e : ℓ, muMap θ c e = e' := by
   refine ⟨muMap θ c⁻¹ e', ?_⟩
   rw [muMap_mul_comp, mul_inv_cancel₀ hc, muMap_one]
 
 include D in
+omit D [Finite N] [Finite M] in
 theorem PencilData.torus_le {θ : ℓ ≃* Multiplicative K} {c : K} {γ : MulAut (N × M)}
     (hN : ∀ n : N, γ (n, 1) = (n, 1))
     (hE : ∀ e : ℓ, γ (1, (e : M)) = (1, ((muMap θ c e : ℓ) : M))) :
@@ -417,6 +432,7 @@ theorem PencilData.torus_le {θ : ℓ ≃* Multiplicative K} {c : K} {γ : MulAu
   exact mem_Nsub.mpr (muMap θ c _).2
 
 include D in
+omit [Finite N] D [Finite M] in
 theorem PencilData.torus_Esub {θ : ℓ ≃* Multiplicative K} {c : K} (hc : c ≠ 0)
     {γ : MulAut (N × M)} (hE : ∀ e : ℓ, γ (1, (e : M)) = (1, ((muMap θ c e : ℓ) : M))) :
     mapA γ (Esub N ℓ) = Esub N ℓ := by
@@ -429,7 +445,7 @@ theorem PencilData.torus_Esub {θ : ℓ ≃* Multiplicative K} {c : K} (hc : c �
     exact mem_Esub.mpr ⟨rfl, (muMap θ c _).2⟩
   · intro x hx
     obtain ⟨hx1, hx2⟩ := mem_Esub.mp hx
-    obtain ⟨e, he⟩ := D.muMap_surj (θ := θ) hc ⟨x.2, hx2⟩
+    obtain ⟨e, he⟩ := PencilData.muMap_surj (θ := θ) hc ⟨x.2, hx2⟩
     refine ⟨(1, (e : M)), mem_Esub.mpr ⟨rfl, e.2⟩, ?_⟩
     show γ (1, (e : M)) = x
     rw [hE, he]
@@ -442,7 +458,8 @@ section Count2
 variable [Finite K] (D : PencilData K N M Lines Γ) {ℓ : Subgroup M}
 include D
 
-theorem PencilData.torus_mem_Sset (hℓ : ℓ ∈ Lines) {θ : ℓ ≃* Multiplicative K} {c : K}
+omit [Finite K] [Finite N] D [Finite M] in
+theorem PencilData.torus_mem_Sset (_hℓ : ℓ ∈ Lines) {θ : ℓ ≃* Multiplicative K} {c : K}
     (hc : c ≠ 0) {γ : MulAut (N × M)} (hγΓ : γ ∈ Γ) (hN : ∀ n : N, γ (n, 1) = (n, 1))
     (hE : ∀ e : ℓ, γ (1, (e : M)) = (1, ((muMap θ c e : ℓ) : M))) {S : Subgroup (N × M)}
     (hS : S ∈ Sset Γ ℓ) : mapA γ S ∈ Sset Γ ℓ := by
@@ -452,15 +469,16 @@ theorem PencilData.torus_mem_Sset (hℓ : ℓ ∈ Lines) {θ : ℓ ≃* Multipli
     apply hSne
     rw [← mapA_N0_eq hN] at h
     exact mapA_inj γ h
-  · exact ((mapA_le_iff γ).mpr hSle).trans (D.torus_le hN hE)
+  · exact ((mapA_le_iff γ).mpr hSle).trans (PencilData.torus_le hN hE)
   · intro h
     apply hSE
-    rw [← D.torus_Esub hc hE] at h
+    rw [← CFSG.RankThree.GF2n.Stroth80.HS6.PencilData.torus_Esub hc hE] at h
     exact mapA_inj γ h
 
+omit [CommGroup N] [CommGroup M] [Finite N] [Finite M] D in
 theorem PencilData.exists_ne_zero_one (hq : 4 ≤ Nat.card K) : ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_contra h
   push Not at h
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1} := by
@@ -478,10 +496,10 @@ theorem PencilData.not_mem_of_Sset (hq : 4 ≤ Nat.card K) (hℓ : ℓ ∈ Lines
     (1, e₀) ∉ S := by
   intro h1
   obtain ⟨θ, hT⟩ := D.torus ℓ hℓ
-  obtain ⟨c, hc0, hc1⟩ := D.exists_ne_zero_one hq
+  obtain ⟨c, hc0, hc1⟩ := PencilData.exists_ne_zero_one hq
   obtain ⟨γ, hγΓ, hγN, hγE⟩ := hT c hc0
   have hγE' : ∀ e : ℓ, γ (1, (e : M)) = (1, ((muMap θ c e : ℓ) : M)) := hγE
-  have hS' : mapA γ S ∈ Sset Γ ℓ := D.torus_mem_Sset hℓ hc0 hγΓ hγN hγE' hS
+  have hS' : mapA γ S ∈ Sset Γ ℓ := CFSG.RankThree.GF2n.Stroth80.HS6.PencilData.torus_mem_Sset hℓ hc0 hγΓ hγN hγE' hS
   have hne' : mapA γ S ≠ S := by
     intro h
     exact D.free hℓ hS.1.1 hS.1.2.1 hS.1.2.2 hS.2 hc1 hγN hγE' h
@@ -532,6 +550,7 @@ theorem PencilData.not_mem_of_Sset (hq : 4 ≤ Nat.card K) (hℓ : ℓ ∈ Lines
   have h11 : e₀' = 1 := θ.injective (h10.trans (map_one θ).symm)
   exact hne (congrArg Subtype.val h11)
 
+omit [Finite N] [Finite M] [Finite K] in
 theorem PencilData.exists_ne_one_of_line (hq : 4 ≤ Nat.card K) (hℓ : ℓ ∈ Lines) :
     ∃ e₀ : M, e₀ ∈ ℓ ∧ e₀ ≠ 1 := by
   have hbot : ℓ ≠ ⊥ := by
@@ -561,7 +580,7 @@ theorem PencilData.Sset_card (hq : 4 ≤ Nat.card K) (hℓ : ℓ ∈ Lines) :
       obtain ⟨n, hn⟩ := D.Orb_surj hS.1.1 hS.1.2.1 hℓ hS.1.2.2 e₀ he₀
       have h : ∃ n : N, (n, e₀) ∈ S := ⟨n, hn⟩
       show (if h : ∃ n : N, (n, e₀) ∈ S then h.choose else 1, e₀) ∈ S
-      rw [dif_pos h]
+      rw [dite_eq_left h]
       exact h.choose_spec
     have hmaps : Set.MapsTo ev (Sset Γ ℓ) {n : N | n ≠ 1} := by
       intro S hS h1
@@ -579,7 +598,7 @@ theorem PencilData.Sset_card (hq : 4 ≤ Nat.card K) (hℓ : ℓ ∈ Lines) :
       have : ({n : N | n ≠ 1} : Set N) = Set.univ \ {1} := by
         ext n
         simp
-      rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ 1), Set.ncard_univ, D.cardN]
+      rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ 1), Set.ncard_univ, D.cardN]
     rw [← hcardT]
     exact Set.ncard_le_ncard_of_injOn ev hmaps hinj (Set.toFinite _)
   have hlow : Nat.card K - 1 ≤ (Sset Γ ℓ).ncard := by
@@ -589,7 +608,7 @@ theorem PencilData.Sset_card (hq : 4 ≤ Nat.card K) (hℓ : ℓ ∈ Lines) :
     let f : K → Subgroup (N × M) := fun c => mapA (γ c) S₀
     have hmaps : Set.MapsTo f {c : K | c ≠ 0} (Sset Γ ℓ) := by
       intro c hc
-      exact D.torus_mem_Sset hℓ hc (hγΓ c hc) (hγN c hc) (hγE' c hc) hS₀
+      exact CFSG.RankThree.GF2n.Stroth80.HS6.PencilData.torus_mem_Sset hℓ hc (hγΓ c hc) (hγN c hc) (hγE' c hc) hS₀
     have hinj : Set.InjOn f {c : K | c ≠ 0} := by
       intro c hc c' hc' hcc
       by_contra hne
@@ -624,7 +643,7 @@ theorem PencilData.Sset_card (hq : 4 ≤ Nat.card K) (hℓ : ℓ ∈ Lines) :
       have : ({c : K | c ≠ 0} : Set K) = Set.univ \ {0} := by
         ext c
         simp
-      rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ 0), Set.ncard_univ]
+      rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ 0), Set.ncard_univ]
     rw [← hcardK]
     exact Set.ncard_le_ncard_of_injOn f hmaps hinj hfin
   omega
@@ -636,6 +655,7 @@ section Global
 variable [Finite K] (D : PencilData K N M Lines Γ)
 include D
 
+omit [Field K] [Finite K] D [Finite N] [Finite M] in
 theorem PencilData.Orb_mapA_iff {γ : MulAut (N × M)} (hγ : γ ∈ Γ) {S : Subgroup (N × M)} :
     mapA γ S ∈ Orb Γ ↔ S ∈ Orb Γ := by
   constructor
@@ -645,6 +665,7 @@ theorem PencilData.Orb_mapA_iff {γ : MulAut (N × M)} (hγ : γ ∈ Γ) {S : Su
   · intro h
     exact mapA_mem_Orb h hγ
 
+omit [Finite K] [Finite N] [Finite M] in
 theorem PencilData.Esub_mem_iff {ℓ ℓ' : Subgroup M} (hℓ : ℓ ∈ Lines) (hℓ' : ℓ' ∈ Lines) :
     Esub N ℓ ∈ Orb Γ → Esub N ℓ' ∈ Orb Γ := by
   intro h
@@ -652,11 +673,13 @@ theorem PencilData.Esub_mem_iff {ℓ ℓ' : Subgroup M} (hℓ : ℓ ∈ Lines) (
   rw [← hγE]
   exact mapA_mem_Orb h hγΓ
 
+omit [Field K] [Finite K] D [Finite N] [Finite M] in
 theorem PencilData.mapA_Nsub {ℓ ℓ' : Subgroup M} {γ : MulAut (N × M)}
     (hγN : ∀ n : N, γ (n, 1) = (n, 1)) (hγE : mapA γ (Esub N ℓ) = Esub N ℓ') :
     mapA γ (Nsub N ℓ) = Nsub N ℓ' := by
   rw [← N0_sup_Esub, ← N0_sup_Esub, mapA_sup, mapA_N0_eq hγN, hγE]
 
+omit [Finite K] in
 theorem PencilData.Pset_ncard_le {ℓ ℓ' : Subgroup M} (hℓ : ℓ ∈ Lines) (hℓ' : ℓ' ∈ Lines) :
     (Pset Γ ℓ).ncard ≤ (Pset Γ ℓ').ncard := by
   obtain ⟨γ, hγΓ, hγN, hγE⟩ := D.trans ℓ hℓ ℓ' hℓ'
@@ -667,21 +690,23 @@ theorem PencilData.Pset_ncard_le {ℓ ℓ' : Subgroup M} (hℓ : ℓ ∈ Lines) 
       apply hSne
       rw [← mapA_N0_eq hγN] at h
       exact mapA_inj γ h
-    · rw [← D.mapA_Nsub hγN hγE]
+    · rw [← PencilData.mapA_Nsub hγN hγE]
       exact (mapA_le_iff γ).mpr hSle
   · intro S _ T _ h
     exact mapA_inj γ h
 
+omit [Finite K] in
 theorem PencilData.Pset_ncard_eq {ℓ ℓ' : Subgroup M} (hℓ : ℓ ∈ Lines) (hℓ' : ℓ' ∈ Lines) :
     (Pset Γ ℓ).ncard = (Pset Γ ℓ').ncard :=
   le_antisymm (D.Pset_ncard_le hℓ hℓ') (D.Pset_ncard_le hℓ' hℓ)
 
+omit [Finite M] [Finite K] in
 theorem PencilData.Esub_mem_Pset {ℓ : Subgroup M} (hq : 2 ≤ Nat.card K) (h : Esub N ℓ ∈ Orb Γ) :
     Esub N ℓ ∈ Pset Γ ℓ := by
   refine ⟨h, ?_, (Esub_le_Nsub).mpr le_rfl⟩
   intro h0
   have hN : 1 < Nat.card N := by rw [D.cardN]; omega
-  haveI : Nontrivial N := Finite.one_lt_card_iff_nontrivial.mp hN
+  have : Nontrivial N := Finite.one_lt_card_iff_nontrivial.mp hN
   obtain ⟨n, hn⟩ := exists_ne (1 : N)
   have hmem : ((n, 1) : N × M) ∈ Esub N ℓ := by
     rw [h0]
@@ -689,10 +714,11 @@ theorem PencilData.Esub_mem_Pset {ℓ : Subgroup M} (hq : 2 ≤ Nat.card K) (h :
   exact hn (mem_Esub.mp hmem).1
 
 open _root_.Classical in
+omit [Finite K] in
 theorem PencilData.Pset_ncard {ℓ : Subgroup M} (hq : 2 ≤ Nat.card K) :
     (Pset Γ ℓ).ncard = (Sset Γ ℓ).ncard + (if Esub N ℓ ∈ Orb Γ then 1 else 0) := by
   by_cases hE : Esub N ℓ ∈ Orb Γ
-  · rw [if_pos hE]
+  · rw [ite_eq_left hE]
     have : Pset Γ ℓ = insert (Esub N ℓ) (Sset Γ ℓ) := by
       ext S
       constructor
@@ -709,7 +735,7 @@ theorem PencilData.Pset_ncard {ℓ : Subgroup M} (hq : 2 ≤ Nat.card K) :
       rintro ⟨-, h⟩
       exact h rfl
     rw [this, Set.ncard_insert_of_notMem hnot (Set.toFinite _)]
-  · rw [if_neg hE]
+  · rw [ite_eq_right hE]
     have : Pset Γ ℓ = Sset Γ ℓ := by
       ext S
       constructor
@@ -721,23 +747,26 @@ theorem PencilData.Pset_ncard {ℓ : Subgroup M} (hq : 2 ≤ Nat.card K) :
     rw [this]
     simp
 
+omit [Finite N] [Finite M] [Finite K] in
 theorem PencilData.exists_Pset_nonempty : ∃ ℓ ∈ Lines, (Pset Γ ℓ).Nonempty := by
   obtain ⟨γ, hγ, hne⟩ := D.nontriv
   obtain ⟨ℓ, hℓ, hle⟩ := D.lineOf γ hγ hne
   exact ⟨ℓ, hℓ, ⟨mapA γ (N0 N M), ⟨γ, hγ, rfl⟩, hne, hle⟩⟩
 
+omit [Finite K] in
 theorem PencilData.Pset_ncard_pos {ℓ : Subgroup M} (hℓ : ℓ ∈ Lines) : 1 ≤ (Pset Γ ℓ).ncard := by
   obtain ⟨ℓ₁, hℓ₁, hne⟩ := D.exists_Pset_nonempty
   rw [D.Pset_ncard_eq hℓ hℓ₁]
   exact Nat.succ_le_of_lt ((Set.ncard_pos (Set.toFinite _)).mpr hne)
 
+omit [Finite K] in
 theorem PencilData.Orb_ncard (hq : 2 ≤ Nat.card K) (c : ℕ)
     (hc : ∀ ℓ ∈ Lines, (Pset Γ ℓ).ncard = c) : (Orb Γ).ncard = 1 + Lines.card * c := by
   classical
   let F : Subgroup M → Finset (Subgroup (N × M)) := fun ℓ => (Set.toFinite (Pset Γ ℓ)).toFinset
   have hU : Orb Γ \ {N0 N M} = ↑(Lines.biUnion F) := by
     ext S
-    simp only [Set.mem_diff, Set.mem_singleton_iff, Finset.coe_biUnion, Finset.mem_coe,
+    simp only [Set.mem_sdiff, Set.mem_singleton_iff, Finset.coe_biUnion, Finset.mem_coe,
       Set.mem_iUnion, Set.Finite.mem_toFinset, F]
     constructor
     · rintro ⟨hS, hne⟩
@@ -758,7 +787,7 @@ theorem PencilData.Orb_ncard (hq : 2 ≤ Nat.card K) (c : ℕ)
       rw [← Set.ncard_eq_toFinset_card (Pset Γ ℓ) (Set.toFinite _)]
       exact hc ℓ hℓ
     rw [Finset.sum_congr rfl this, Finset.sum_const, smul_eq_mul]
-  have h1 := Set.ncard_diff_singleton_add_one (N0_mem_Orb (N := N) (M := M) (Γ := Γ))
+  have h1 := Set.ncard_sdiff_singleton_add_one (N0_mem_Orb (N := N) (M := M) (Γ := Γ))
     (Set.toFinite _)
   rw [hU, Set.ncard_coe_finset, hcard] at h1
   omega
@@ -767,21 +796,25 @@ theorem PencilData.Orb_ncard (hq : 2 ≤ Nat.card K) (c : ℕ)
     Set (Subgroup (N × M)) :=
   {S | S ∈ Orb Γ ∧ S ≤ T}
 
+omit [Field K] [Finite K] D [Finite N] [Finite M] in
 theorem PencilData.Inside_mapA {γ : MulAut (N × M)} (hγ : γ ∈ Γ) (T : Subgroup (N × M)) :
     Inside Γ (mapA γ T) = mapA γ '' Inside Γ T := by
   ext S
   constructor
   · rintro ⟨hS, hle⟩
-    refine ⟨mapA γ⁻¹ S, ⟨(D.Orb_mapA_iff (Γ.inv_mem hγ)).mpr hS, ?_⟩, mapA_mapA_inv γ S⟩
+    refine ⟨mapA γ⁻¹ S, ⟨(PencilData.Orb_mapA_iff (Γ.inv_mem hγ)).mpr hS, ?_⟩, mapA_mapA_inv γ S⟩
     have := (mapA_le_iff γ⁻¹).mpr hle
     rwa [mapA_inv_mapA] at this
   · rintro ⟨S', ⟨hS', hle⟩, rfl⟩
-    exact ⟨(D.Orb_mapA_iff hγ).mpr hS', (mapA_le_iff γ).mpr hle⟩
+    exact ⟨(PencilData.Orb_mapA_iff hγ).mpr hS', (mapA_le_iff γ).mpr hle⟩
 
+omit [Field K] [Finite K] D [Finite N] in
+omit [Finite M] in
 theorem PencilData.ncard_Inside_mapA {γ : MulAut (N × M)} (hγ : γ ∈ Γ) (T : Subgroup (N × M)) :
     (Inside Γ (mapA γ T)).ncard = (Inside Γ T).ncard := by
-  rw [D.Inside_mapA hγ, Set.ncard_image_of_injective _ (fun S T h => mapA_inj γ h)]
+  rw [CFSG.RankThree.GF2n.Stroth80.HS6.PencilData.Inside_mapA hγ, Set.ncard_image_of_injective _ (fun S T h => mapA_inj γ h)]
 
+omit [Field K] [Finite K] D [Finite N] [Finite M] in
 theorem PencilData.Inside_Nsub {ℓ : Subgroup M} :
     Inside Γ (Nsub N ℓ) = insert (N0 N M) (Pset Γ ℓ) := by
   ext S
@@ -796,13 +829,15 @@ theorem PencilData.Inside_Nsub {ℓ : Subgroup M} :
     · exact ⟨N0_mem_Orb, N0_le_Nsub ℓ⟩
     · exact ⟨hS, hle⟩
 
+omit [Field K] [Finite K] D in
 theorem PencilData.ncard_Inside_Nsub {ℓ : Subgroup M} :
     (Inside Γ (Nsub N ℓ)).ncard = (Pset Γ ℓ).ncard + 1 := by
   have hnot : N0 N M ∉ Pset Γ ℓ := by
     rintro ⟨-, h, -⟩
     exact h rfl
-  rw [D.Inside_Nsub, Set.ncard_insert_of_notMem hnot (Set.toFinite _)]
+  rw [PencilData.Inside_Nsub, Set.ncard_insert_of_notMem hnot (Set.toFinite _)]
 
+omit [Finite K] [Finite N] in
 theorem PencilData.N0_sup_eq_Nsub {ℓ : Subgroup M} (hℓ : ℓ ∈ Lines) {S : Subgroup (N × M)}
     (hS : S ∈ Pset Γ ℓ) : N0 N M ⊔ S = Nsub N ℓ := by
   obtain ⟨hSO, hSne, hSle⟩ := hS
@@ -815,11 +850,12 @@ theorem PencilData.N0_sup_eq_Nsub {ℓ : Subgroup M} (hℓ : ℓ ∈ Lines) {S :
   have e : ((x.1 * n'⁻¹, 1) : N × M) * (n', x.2) = x := Prod.ext (by simp) (by simp)
   rwa [e] at this
 
+omit [Finite K] in
 theorem PencilData.Inside_Esub_sup (hq : 2 ≤ Nat.card K) {ℓ₀ ℓ₁ : Subgroup M} (h₀ : ℓ₀ ∈ Lines)
     (h₁ : ℓ₁ ∈ Lines) (hne : ℓ₀ ≠ ℓ₁) (hE₀ : Esub N ℓ₀ ∈ Orb Γ) (hE₁ : Esub N ℓ₁ ∈ Orb Γ) :
     Inside Γ (Esub N (ℓ₀ ⊔ ℓ₁)) = {Esub N ℓ₀, Esub N ℓ₁} := by
   have hN : 1 < Nat.card N := by rw [D.cardN]; omega
-  haveI : Nontrivial N := Finite.one_lt_card_iff_nontrivial.mp hN
+  have : Nontrivial N := Finite.one_lt_card_iff_nontrivial.mp hN
   obtain ⟨n, hn⟩ := exists_ne (1 : N)
   ext T
   constructor
@@ -847,6 +883,7 @@ theorem PencilData.Inside_Esub_sup (hq : 2 ≤ Nat.card K) {ℓ₀ ℓ₁ : Subg
     · exact ⟨hE₀, (Esub_le_Esub).mpr le_sup_left⟩
     · exact ⟨hE₁, (Esub_le_Esub).mpr le_sup_right⟩
 
+omit [Finite K] in
 theorem PencilData.E_case_false (hq : 4 ≤ Nat.card K) (hE : ∀ ℓ ∈ Lines, Esub N ℓ ∈ Orb Γ) :
     False := by
   have hq2 : 2 ≤ Nat.card K := by omega
@@ -863,15 +900,15 @@ theorem PencilData.E_case_false (hq : 4 ≤ Nat.card K) (hE : ∀ ℓ ∈ Lines,
   have hmapT : mapA k T = Esub N ℓ₁ := by rw [hTdef, mapA_mapA_inv]
   have hT : T ∈ Orb Γ := by
     rw [hTdef]
-    exact (D.Orb_mapA_iff (Γ.inv_mem hkΓ)).mpr (hE ℓ₁ h₁)
+    exact (PencilData.Orb_mapA_iff (Γ.inv_mem hkΓ)).mpr (hE ℓ₁ h₁)
   have hTne : T ≠ N0 N M := by
     intro h
     rw [h] at hmapT
     exact hEne (hk.trans hmapT)
   obtain ⟨ℓ, hℓ, hTle⟩ := D.Orb_line hT hTne
   have hsup := D.N0_sup_eq_Nsub hℓ ⟨hT, hTne, hTle⟩
-  have h1 := D.ncard_Inside_Nsub (ℓ := ℓ)
-  have h2 := D.ncard_Inside_mapA hkΓ (N0 N M ⊔ T)
+  have h1 := CFSG.RankThree.GF2n.Stroth80.HS6.PencilData.ncard_Inside_Nsub (N := N) (M := M) (Γ := Γ) (ℓ := ℓ)
+  have h2 := CFSG.RankThree.GF2n.Stroth80.HS6.PencilData.ncard_Inside_mapA hkΓ (N0 N M ⊔ T)
   have hmap : mapA k (N0 N M ⊔ T) = Esub N (ℓ₀ ⊔ ℓ₁) := by
     rw [mapA_sup, ← hk, hmapT, Esub_sup]
   rw [hmap, hsup, D.Inside_Esub_sup hq2 h₀ h₁ hne' (hE ℓ₀ h₀) (hE ℓ₁ h₁), Set.ncard_pair hEne,
@@ -896,7 +933,7 @@ theorem PencilData.E_case_false (hq : 4 ≤ Nat.card K) (hE : ∀ ℓ ∈ Lines,
     exact (Esub_le_Esub).mpr le_top
   have hkU : ∀ T' ∈ Orb Γ, T' ≠ Esub N ℓ₀ → T' ≤ mapA k (Esub N ⊤) := by
     intro T' hT' hne2
-    have h3 : mapA k⁻¹ T' ∈ Orb Γ := (D.Orb_mapA_iff (Γ.inv_mem hkΓ)).mpr hT'
+    have h3 : mapA k⁻¹ T' ∈ Orb Γ := (PencilData.Orb_mapA_iff (Γ.inv_mem hkΓ)).mpr hT'
     have h4 : mapA k⁻¹ T' ≠ N0 N M := by
       intro h
       apply hne2
@@ -929,7 +966,7 @@ theorem PencilData.E_case_false (hq : 4 ≤ Nat.card K) (hE : ∀ ℓ ∈ Lines,
     ext x
     simp [mem_mapA]
   have hN : 1 < Nat.card N := by rw [D.cardN]; omega
-  haveI : Nontrivial N := Finite.one_lt_card_iff_nontrivial.mp hN
+  have : Nontrivial N := Finite.one_lt_card_iff_nontrivial.mp hN
   obtain ⟨n, hn⟩ := exists_ne (1 : N)
   have : ((n, 1) : N × M) ∈ Esub N ⊤ := by rw [hU1top]; exact Subgroup.mem_top _
   exact hn (mem_Esub.mp this).1
@@ -945,9 +982,9 @@ theorem orderOf_mulAut_ne_prime {A : Type} [CommGroup A] [Finite A] (hA : ∀ x 
     intro x
     apply Additive.toMul.injective
     simp [two_nsmul, hA (Additive.toMul x)]
-  letI : Module (ZMod 2) (Additive A) := AddCommGroup.zmodModule h2
-  haveI : Finite (Additive A) := inferInstanceAs (Finite A)
-  haveI : FiniteDimensional (ZMod 2) (Additive A) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive A) := AddCommGroup.zmodModule h2
+  have : Finite (Additive A) := inferInstanceAs (Finite A)
+  have : FiniteDimensional (ZMod 2) (Additive A) := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod 2) (Additive A) = d := by
     have := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive A)
     rw [Nat.card_zmod] at this
@@ -982,8 +1019,9 @@ variable {K : Type} [Field K] [Finite K] {N M : Type} [CommGroup N] [CommGroup M
   (D : PencilData K N M Lines Γ)
 include D
 
+omit [Field K] [Finite K] [Finite N] [Finite M] D in
 theorem PencilData.Orb_ncard_dvd : (Orb Γ).ncard ∣ Nat.card Γ := by
-  letI : MulAction Γ (Subgroup (N × M)) :=
+  let : MulAction Γ (Subgroup (N × M)) :=
     { smul := fun γ S => mapA γ S
       one_smul := fun S => mapA_one S
       mul_smul := fun γ δ S => mapA_mul γ δ S }
@@ -1009,13 +1047,13 @@ theorem PencilData.false_of_data {s : ℕ} (hs : 2 ≤ s) (hq : Nat.card K = 2 ^
   have hc : ∀ ℓ ∈ Lines, (Pset Γ ℓ).ncard = Nat.card K - 1 := by
     intro ℓ hℓ
     have h1 := D.Pset_ncard (ℓ := ℓ) (by omega)
-    rw [if_neg (hE ℓ hℓ), add_zero] at h1
+    rw [ite_eq_right (hE ℓ hℓ), add_zero] at h1
     have h2 := D.Pset_ncard_pos hℓ
     rcases D.Sset_card hq4 hℓ with h | h <;> omega
   have hOrb := D.Orb_ncard (by omega) _ hc
   rw [D.cardLines] at hOrb
   obtain ⟨p, hp, hp2, hord⟩ := exists_prime_orderOf_two_eq (e := 6 * s) (by omega) (by omega)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpdvd : p ∣ (Orb Γ).ncard := by
     rw [← ZMod.natCast_eq_zero_iff]
     set t : ZMod p := (2 : ZMod p) ^ s with ht
@@ -1046,7 +1084,7 @@ theorem PencilData.false_of_data {s : ℕ} (hs : 2 ≤ s) (hq : Nat.card K = 2 ^
     push_cast [Nat.cast_sub hq1]
     rw [hqt]
     linear_combination t * h4
-  have hΓ := dvd_trans hpdvd D.Orb_ncard_dvd
+  have hΓ := dvd_trans hpdvd PencilData.Orb_ncard_dvd
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := Γ) p hΓ
   have hA : ∀ x : N × M, x * x = 1 := fun x => Prod.ext (D.N2 x.1) (D.M2 x.2)
   have hd : Nat.card (N × M) = 2 ^ (5 * s) := by

@@ -66,7 +66,7 @@ theorem barSub_twoResidual (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {H : S
   rw [h2, h3]
 
 theorem barSub_lO3 (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hS : Setting16 D V₀ V L) :
+    (_hS : Setting16 D V₀ V L) :
     barSub V₀ V hV (lO3 D V₀ V hV) = pCoreOf 3 (Mbar D.M V₀ V hV) := by
   have hle : preBarSub D.M V₀ V hV (pCoreOf 3 (Mbar D.M V₀ V hV)) ≤ stabTil V₀ V := fun g hg =>
     ((mem_preBarSub _ V₀ V hV _).1 hg).2.1
@@ -108,12 +108,12 @@ theorem case168_3_lO3 (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2
   · show IsPOnePlusTwo 3 ↥(barSub V₀ V hV (lO3 D V₀ V hV))
     rw [barSub_lO3 D hV hS]
     exact hO
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hd : dParam 3 = 2 := by
       unfold dParam
       exact orderOf_eq_prime (by decide) (by decide)
     obtain ⟨ι, hι, Y, hfam⟩ := s16c1610_symSumFamily_of_symSumOfConj h4.2.1
-    letI := hι
+    let := hι
     have h1 := rk_iSup_biSup_eq_sum Y hfam.indep Finset.univ
     have h2 : (⨆ i ∈ (Finset.univ : Finset ι), Y i) = ⊤ := by simpa using hfam.sup
     rw [h2] at h1
@@ -122,7 +122,7 @@ theorem case168_3_lO3 (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2
 
 theorem not_isQuasisimple_of_comm {X : Type*} [Group X] (h : CFSG.Open.IsQuasisimple X)
     (hc : ∀ a b : X, a * b = b * a) : False := by
-  haveI := h.2
+  have := h.2
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (X ⧸ Subgroup.center X)
   induction x using QuotientGroup.induction_on
   induction y using QuotientGroup.induction_on
@@ -150,11 +150,11 @@ theorem commSub_map_le {W : Type} [CommGroup W] {A O L : Subgroup (MulAut W)} (h
   simp [MulAut.mul_apply, map_mul, map_inv]
 
 theorem conc4_136_lO3 (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hS : Setting16 D V₀ V L) (hne : barSub V₀ V hV L ≠ ⊥) (hconc : Conc4_136 D V₀ V hV L)
+    (hS : Setting16 D V₀ V L) (_hne : barSub V₀ V hV L ≠ ⊥) (hconc : Conc4_136 D V₀ V hV L)
     (h4 : Case168_4At D V₀ V hV L 3 2) (hsig : D.sig = {3})
     (hO : IsPOnePlusTwo 3 ↥(pCoreOf 3 (Mbar D.M V₀ V hV))) :
     Conc4_136 D V₀ V hV (lO3 D V₀ V hV) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨t, htM, ht2, ht1, htrk, hW⟩ := hconc
   set Mb := Mbar D.M V₀ V hV
   set Lb := lBar V₀ V hV L
@@ -171,13 +171,13 @@ theorem conc4_136_lO3 (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2
     · exact (hcommL Lb le_rfl hcomp.2.2).elim
   obtain ⟨p, hp, hLp, hcomm, -⟩ := h133
   have hLO : Lb ≤ O := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hpg : IsPGroup p ↥Lb := (isPGroup_pCoreOf p Mb).to_le hLp
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hpg
     have h9 : Nat.card ↥Lb = 3 ^ 2 := by
       obtain ⟨e⟩ := hab
       rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card]
-      simp [Fintype.card_multiplicative, Fintype.card_fun, ZMod.card]
+      simp [Fintype.card_multiplicative, ZMod.card]
     have h3 : 3 ∣ p ^ n := hn ▸ h9 ▸ dvd_pow_self 3 two_ne_zero
     have : p = 3 := ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).1
       (Nat.prime_three.dvd_of_dvd_pow h3)).symm
@@ -192,7 +192,7 @@ theorem conc4_136_lO3 (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2
   have hconj : conjSubs Mb (commSub ⊤ O) = {⊤} := by
     rw [htop]
     ext X
-    simp only [conjSubs, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [conjSubs, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨g, -, rfl⟩
       exact Subgroup.map_top_of_surjective _ g.surjective
@@ -228,7 +228,7 @@ theorem not_elemAbelianOfRank_two_of_isPOnePlusTwo {X : Type*} [Group X]
   have h27 : Nat.card X = 3 ^ 3 := h1.2.1
   have h9 : Nat.card X = 3 ^ 2 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card]
-    simp [Fintype.card_multiplicative, Fintype.card_fun, ZMod.card]
+    simp [Fintype.card_multiplicative, ZMod.card]
   omega
 
 theorem exists_counterex16_norm (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V)

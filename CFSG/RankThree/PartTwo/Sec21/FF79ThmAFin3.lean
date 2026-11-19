@@ -63,12 +63,12 @@ theorem false_of_commuting_involution (hNo : FF79KNoInvA5) {n : ℕ} (hn : n = 4
     (hK : StatedClassicalModel K .PSL 2 2 2)
     (hnz : ∀ t ∈ J, orderOf t = 2 → ¬ ∀ j ∈ J, t * j = j * t) {ζ : G} (hζJ : ζ ∈ J)
     (hζ : orderOf ζ = 2) (hζK : ∀ k ∈ K, ζ * k = k * ζ) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup K := (CFSG.LieType.Simplicity.fam_PSL_simplicity K 2 2 2 hK).2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup K := (CFSG.LieType.Simplicity.fam_PSL_simplicity K 2 2 2 hK).2
   let φ : ↥(K.subgroupOf J) →* ↥J ⧸ Subgroup.center ↥J :=
     (QuotientGroup.mk' (Subgroup.center ↥J)).comp (K.subgroupOf J).subtype
   let e : ↥(K.subgroupOf J) ≃* K := Subgroup.subgroupOfEquivOfLe hKJ
-  haveI : IsSimpleGroup ↥(K.subgroupOf J) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(K.subgroupOf J) := e.isSimpleGroup
   have hinj : Function.Injective φ := by
     rw [injective_iff_map_eq_one]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h | h
@@ -78,7 +78,7 @@ theorem false_of_commuting_involution (hNo : FF79KNoInvA5) {n : ℕ} (hn : n = 4
       simpa using this
     · exfalso
       have h60 := l24_card_eq K hK
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨k0, hk0⟩ := exists_prime_orderOf_dvd_card' (G := K) 2 (by rw [h60]; norm_num)
       have hk0J : (k0 : G) ∈ J := hKJ k0.2
       have hk0ord : orderOf (k0 : G) = 2 := by rw [Subgroup.orderOf_coe]; exact hk0

@@ -18,8 +18,8 @@ variable {K : Type} [Field K] {ι : Type}
 
 @[expose] def cTensor (c : Fin 2 → K) : (ι → K) →ₗ[K] (ι → K) × (ι → K) where
   toFun v := (c 0 • v, c 1 • v)
-  map_add' v w := Prod.ext (smul_add _ _ _) (smul_add _ _ _)
-  map_smul' a v := Prod.ext (smul_comm _ _ _).symm (smul_comm _ _ _).symm
+  map_add' _v _w := Prod.ext (smul_add _ _ _) (smul_add _ _ _)
+  map_smul' _a _v := Prod.ext (smul_comm _ _ _).symm (smul_comm _ _ _).symm
 
 theorem cTensor_apply (c : Fin 2 → K) (v : ι → K) : cTensor c v = (c 0 • v, c 1 • v) := rfl
 
@@ -116,6 +116,7 @@ theorem orthG_sub_mem_span {g : Matrix (Fin 2) (Fin 2) K} (hgg : g * g = 1) {c :
     rw [h0]
     simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthTensor_fix_pure {g : Matrix (Fin 2) (Fin 2) K} (hgg : g * g = 1)
     {o : (ι → K) ≃ₗ[K] (ι → K)} {c : Fin 2 → K} (hc : c ≠ 0) {u : ι → K} (hu : u ≠ 0)
     (hfix : orthTensor g o (c 0 • u, c 1 • u) = (c 0 • u, c 1 • u)) :
@@ -192,6 +193,7 @@ theorem orthTensor_fix_pure {g : Matrix (Fin 2) (Fin 2) K} (hgg : g * g = 1)
   · rw [hgcμ, hμ1, inv_one, one_smul]
   · rw [hμ, hμ1, one_smul]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem orthTensor_sub_core {g : Matrix (Fin 2) (Fin 2) K} (hgg : g * g = 1) {c : Fin 2 → K}
     (hc : c ≠ 0) (hgc : g *ᵥ c = c) {o : (ι → K) →ₗ[K] (ι → K)} {u : ι → K} (hou : o u = u)
     (w : ι → K) (s t : K) :
@@ -216,6 +218,7 @@ theorem orthTensor_sub_core {g : Matrix (Fin 2) (Fin 2) K} (hgg : g * g = 1) {c 
   · simp only [orthTensor, map_add, map_smul, hou, Prod.snd_sub, cTensor_apply]
     linear_combination (norm := module) (-hc1) • o w + (-ha1) • u
 
+omit [CharP K 2] [DecidableEq ι] in
 theorem odd_finrank_commSpace_add_uRange {qU : QuadraticForm K (ι → K)}
     (hnd : qU.polarBilin.Nondegenerate) {o : (ι → K) ≃ₗ[K] (ι → K)}
     (hO : o ∈ TauCeti.QuadraticMap.orthogonalGroup qU) (hoo : o * o = 1) {u : ι → K}
@@ -333,6 +336,7 @@ variable {G : Type} [Group G]
 
 variable [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem conjSubgroup_Wgrp (H : StrothHyp M Q Z) (g x : G) :
     conjSubgroup g⁻¹ (Wgrp Q Z (conjSubgroup g Z) x) =
       Wgrp Q Z (conjSubgroup g⁻¹ Z) (g⁻¹ * x * g) := by
@@ -347,7 +351,7 @@ theorem conjSubgroup_Wgrp (H : StrothHyp M Q Z) (g x : G) :
   unfold conjSubgroup at *
   rw [Subgroup.map_sup, Subgroup.map_sup, Subgroup.map_commutator, Subgroup.map_inf _ _ _
     (MulAut.conj g⁻¹).injective, e1, e2, MonoidHom.map_zpowers, inf_comm, sup_comm (Z.map _)]
-  simp [MulAut.conj_apply]
+  simp
 
 @[expose] def preimSub {K : Type} [Field K] {γ : G → K} {Q Z : Subgroup G}
     (M₀ : Tim79.QuadModel Q Z K γ) {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -368,6 +372,7 @@ theorem conjSubgroup_Wgrp (H : StrothHyp M Q Z) (g x : G) :
     rw [Tim79.QuadModel.pi_inv M₀ hxQ, map_neg]
     exact R.neg_mem hx
 
+omit [Finite G] in
 theorem mem_preimSub {K : Type} [Field K] {γ : G → K} {Q Z : Subgroup G}
     {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι] [DecidableEq ι]
     {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)} {R : Submodule K ((ι → K) × (ι → K))} {x : G} :
@@ -387,7 +392,7 @@ theorem exists_root_data {B A : Subgroup G} (C : OrthCtx M Q Z B) (hcA : Ctx M Q
   have hz1' : (z : G) ≠ 1 := fun h => hz1 (Subtype.ext h)
   have haA : g₀ * (z : G) * g₀⁻¹ ∈ A := by
     rw [hg₀, mem_conjSubgroup]
-    simpa [mul_assoc] using z.2
+    simp [mul_assoc]
   have ha1 : g₀ * (z : G) * g₀⁻¹ ≠ 1 := by
     intro h
     apply hz1'
@@ -511,7 +516,7 @@ theorem card_Wgrp_eq {B A : Subgroup G} (hc : SmithOrthCfg M Q Z B) (C : OrthCtx
     have hx''Q : ⁅v, y⁆ * a'' ∈ Q := Q.mul_mem hcvQ ha''Q
     have hx'' : C.φ (C.M₀.π (⁅v, y⁆ * a'')) = C.φ (C.M₀.π x) := by
       rw [C.M₀.π_mul _ hcvQ _ ha''Q, map_add, hπcv, ha''π, map_smul, hpa', ← hrx]
-      simp only [cTensor_apply, map_neg, neg_sub, Prod.mk_add_mk, Prod.smul_mk, smul_add,
+      simp only [cTensor_apply, map_neg, Prod.mk_add_mk, Prod.smul_mk, smul_add,
         LinearMap.sub_apply, LinearEquiv.coe_coe, Module.End.one_apply, add_smul]
       refine Prod.ext ?_ ?_ <;> dsimp only <;> module
     have hπ : C.M₀.π (⁅v, y⁆ * a'') = C.M₀.π x := C.φ.injective hx''

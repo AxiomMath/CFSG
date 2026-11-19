@@ -45,10 +45,10 @@ theorem not_isLThreeFour_of_layerGood {X : Type} [Group X] (A : Subgroup X) (h :
   rcases dich_of_layerGood A h with ⟨-, hno⟩ | hs
   · exact hno
   · exfalso
-    haveI : Group.IsSolvable ↥⁅A, A⁆ := Group.isSolvable_of_isSolvable_injective
+    have : Group.IsSolvable ↥⁅A, A⁆ := Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion (commutator_le_self' A)) (Subgroup.inclusion_injective _)
-    haveI : Group.IsPerfect ↥⁅A, A⁆ := hq.1
-    haveI : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Group.IsPerfect ↥⁅A, A⁆ := hq.1
+    have : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
     exact Group.IsPerfect.not_isSolvable _ ‹_›
 
 section Blocks
@@ -99,8 +99,8 @@ theorem noL34Layer_conj_sp_of_prime (hO : LieOrderFormulasInput) {ℓ f p : ℕ}
     NoL34Layer (MulAut.conj (SymplecticFlag.proj r K x)) := by
   classical
   have hq0 : ℓ ^ f ≠ 0 := pow_ne_zero f hℓ.ne_zero
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq0)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq0)
+  have : Fact p.Prime := ⟨hp⟩
   have hZc : (SymplecticFlag.proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [SymplecticHigher.ker_proj]
     exact SymplecticHigher.spScalars_le_center
@@ -137,7 +137,7 @@ theorem noL34Layer_conj_sp_of_prime (hO : LieOrderFormulasInput) {ℓ f p : ℕ}
       rw [CharP.cast_eq_zero_iff K ℓ] at h
       exact hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ hp).mp h).symm
     have hsq := (CFSG.RankThree.Classical.altPrimaryData_spLin hpK hx).squarefree
-    haveI : Finite (reciprocalOrbits (spEnd x)) :=
+    have : Finite (reciprocalOrbits (spEnd x)) :=
       (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
     obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
     have hgood : ∀ O : reciprocalOrbits (spEnd x), LayerGood ↥(spSupported x (O : Set K[X])) := by
@@ -167,7 +167,7 @@ theorem noL34InnAt_psp (hO : LieOrderFormulasInput) :
   obtain ⟨rfl, hn2⟩ := hF
   have hC : StatedClassicalModel P .PSp n p f := (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC
-  haveI : Finite (StatedProj (StatedSp n K)) := Finite.of_equiv P e0.toEquiv
+  have : Finite (StatedProj (StatedSp n K)) := Finite.of_equiv P e0.toEquiv
   refine noL34Layer_congr e0 ?_
   have hψ3' : MulAut.congr e0 ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   obtain ⟨g, hg⟩ := (congr_mem_inner_iff_of_equiv e0 ψ).mpr hψ
@@ -189,8 +189,8 @@ theorem noL34InnAt_psp (hO : LieOrderFormulasInput) :
   have hqs := CFSG.LieType.Universal.Symplectic.isQuasisimple n K (by omega)
     (Or.inl (Or.inr hq4))
   let eP := CFSG.LieType.Universal.Symplectic.centerQuotientEquiv n K
-  haveI : IsSimpleGroup (StatedSp n K ⧸ Subgroup.center (StatedSp n K)) := hqs.2.1
-  haveI : IsSimpleGroup (StatedProj (StatedSp n K)) := eP.symm.isSimpleGroup
+  have : IsSimpleGroup (StatedSp n K ⧸ Subgroup.center (StatedSp n K)) := hqs.2.1
+  have : IsSimpleGroup (StatedProj (StatedSp n K)) := eP.symm.isSimpleGroup
   have hcenter : Subgroup.center (StatedProj (StatedSp n K)) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center (StatedProj (StatedSp n K))) with h' | h'

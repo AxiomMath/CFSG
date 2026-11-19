@@ -92,7 +92,7 @@ theorem thompson_cyclic_hom {G : Type} [Group G] [Finite G] {S : Sylow 2 G} (hs 
           ⟨s, hsS⟩⁻¹ * ⟨g⁻¹ * s * g, hg⟩ := rfl
       rw [this, map_mul, map_inv, h]
       simp
-  rcases CFSG.GH74.GLS.Bg.Thompson.thompson_transfer_1515 (p := 2) S.isPGroup' S.not_dvd_index
+  rcases CFSG.GH74.GLS.Bg.Thompson.thompson_transfer_1515 (p := 2) S.isPGroup S.not_dvd_index
     hQn hcyc hsS hsQ hb2 hc with ⟨N, hN, hcycN, -, hsN⟩ | ⟨g, hg, -, hcg⟩
   · exfalso
     rcases hs.eq_bot_or_eq_top_of_normal N with h0 | h0

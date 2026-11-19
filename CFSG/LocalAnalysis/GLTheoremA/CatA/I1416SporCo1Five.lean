@@ -91,7 +91,7 @@ include hGood in
 theorem five_good (hJ2 : ∀ (T : Type) [Group T], T ≃* NativeSporadic.J2 → Good T)
     (hA5 : Good ↥(alternatingGroup (Fin 5))) (x : ↥GA) (hx : orderOf x = 5) :
     CompGood (Good := Good) 5 x := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   have hG : GOK := Certificates.certificate13670
   have hshape : ∀ y : ↥GA, (MRep repD0 (y : GL24) ∨ MRep repD1 (y : GL24) ∨ MRep repZ (y : GL24)) →
       CompGood (Good := Good) 5 y := by
@@ -132,7 +132,7 @@ theorem co1_model_five (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.Spor
 theorem not_isChevSimple_J2 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge)
     {T : Type} [Group T] (e : T ≃* NativeSporadic.J2) (q : ℕ) : ¬ IsChevSimple q T := by
   obtain ⟨-, hc, -⟩ := J2_facts_of_equiv e
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   exact CFSG.LocalAnalysis.GLTheoremA.I1416QRows.not_isChevSimple_of_not_lieOrder hb hc
     (fun d hd => CFSG.LocalAnalysis.GLTheoremA.I1416Rows.OrderDvd604800.lieOrderFormula_ne_604800 hd)
     (by decide) (by decide) (by decide) q

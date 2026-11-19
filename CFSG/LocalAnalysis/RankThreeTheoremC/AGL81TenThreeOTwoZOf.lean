@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TenThreeOTwoZ
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_le {X Y : Subgroup G} (hYX : Y ≤ X) {y : G} (hy : y ∈ Y)
     (hyX : y ∈ pCoreOf 2 X) : y ∈ pCoreOf 2 Y := by
   set N : Subgroup ↥Y := (pCoreOf 2 X).subgroupOf Y
@@ -30,6 +31,7 @@ theorem mem_pCoreOf_of_le {X Y : Subgroup G} (hYX : Y ≤ X) {y : G} (hy : y ∈
   have hle : N ≤ CFSG.pCore 2 ↥Y := le_sSup ⟨hN, hP⟩
   exact ⟨⟨y, hy⟩, hle (Subgroup.mem_subgroupOf.mpr hyX), rfl⟩
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_symThree {I₀ L : Subgroup G} (hIL : I₀ ≤ L)
     (e : ↥I₀ ⧸ CFSG.pCore 2 ↥I₀ ≃* Equiv.Perm (Fin 3)) {x : G} (hx : x ∈ I₀)
     (hxL : ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ pCoreOf 2 L) : x ∈ pCoreOf 2 I₀ := by
@@ -44,7 +46,7 @@ theorem mem_pCoreOf_of_symThree {I₀ L : Subgroup G} (hIL : I₀ ≤ L)
     have hceq : c = ⟨x, hx⟩ * t * (⟨x, hx⟩ : ↥I₀)⁻¹ * t⁻¹ := Subtype.ext (by simpa using hcc)
     rw [hceq, map_mul, map_mul, map_mul, map_inv, map_inv] at hc1
     have := congrArg (· * π t * π ⟨x, hx⟩) hc1
-    simp only [one_mul, inv_mul_cancel_right, mul_assoc] at this
+    simp only [one_mul, mul_assoc] at this
     rw [← this]
     group
   have h1 : e (π ⟨x, hx⟩) = 1 := by

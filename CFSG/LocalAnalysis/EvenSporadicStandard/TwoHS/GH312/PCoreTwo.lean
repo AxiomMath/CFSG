@@ -82,7 +82,7 @@ private theorem d8_normal_contains_r2 (M : Subgroup (DihedralGroup 4)) (hM : M.N
     (hne : M ≠ ⊥) : DihedralGroup.r 2 ∈ M := by
   have hcard : Nat.card (DihedralGroup 4) = 2 ^ 3 := by
     rw [DihedralGroup.nat_card]; norm_num
-  haveI hnil : Group.IsNilpotent (DihedralGroup 4) := (IsPGroup.of_card hcard).isNilpotent
+  have hnil : Group.IsNilpotent (DihedralGroup 4) := (IsPGroup.of_card hcard).isNilpotent
   have hinf : M ⊓ Subgroup.center (DihedralGroup 4) ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hne
   obtain ⟨x, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hinf
@@ -145,16 +145,16 @@ theorem pCore_two_eq_bot_of_centralizer_equiv {X : Type} [Group X] [Finite X]
   by_contra hQ
   let Q : Subgroup X := CFSG.pCore 2 X
   have hQne : Q ≠ ⊥ := hQ
-  haveI hQnormal : Q.Normal := CFSG.pCore_normal
+  have hQnormal : Q.Normal := CFSG.pCore_normal
   have hQp : IsPGroup 2 Q := CFSG.pCore_isPGroup
-  haveI hQnt : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+  have hQnt : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
   let Z : Subgroup ↥Q := Subgroup.center ↥Q
   have hZnt : Nontrivial ↥Z := hQp.center_nontrivial
   have hZne : Z ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot Z).mp hZnt
   let N : Subgroup X := Z.map Q.subtype
   have hNleQ : N ≤ Q := Subgroup.map_subtype_le Z
   have hNp : IsPGroup 2 N := hQp.to_le hNleQ
-  haveI hNnormal : N.Normal := inferInstance
+  have hNnormal : N.Normal := inferInstance
   have hNne : N ≠ ⊥ := by
     intro h
     apply hZne
@@ -189,7 +189,7 @@ theorem pCore_two_eq_bot_of_centralizer_equiv {X : Type} [Group X] [Finite X]
       { toFun := fun x => (e (x : ↥C)).1
         map_one' := by simp
         map_mul' := by intro x y; simp [map_mul] }
-    haveI : Fintype ↥KC := Fintype.ofFinite ↥KC
+    have : Fintype ↥KC := Fintype.ofFinite ↥KC
     have hfinj : Function.Injective f := by
       intro x y hxy
       apply Subtype.ext
@@ -272,7 +272,7 @@ theorem pCore_two_eq_bot_of_centralizer_equiv {X : Type} [Group X] [Finite X]
         rw [Subgroup.mem_center_iff]
         intro c
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+        simp only [Subgroup.coe_mul]
         have hgc : g⁻¹ * (c : X) * g ∈ C := by
           simpa using hCnormal.conj_mem (c : X) c.2 g⁻¹
         have hcomm : u * (g⁻¹ * (c : X) * g) = (g⁻¹ * (c : X) * g) * u :=
@@ -344,7 +344,7 @@ theorem pCore_two_eq_bot_of_centralizer_equiv {X : Type} [Group X] [Finite X]
       rw [h2, Subgroup.map_bot] at h1
       exact h1.symm
     obtain ⟨T, hKCT⟩ := IsPGroup.exists_le_sylow hKCp
-    have hTp : IsPGroup 2 (T.map C.subtype) := T.isPGroup'.map C.subtype
+    have hTp : IsPGroup 2 (T.map C.subtype) := T.isPGroup.map C.subtype
     obtain ⟨P1, hTP1⟩ := IsPGroup.exists_le_sylow hTp
     have hP1card : Nat.card (P1 : Subgroup X) = 2 ^ 7 := by
       rw [Sylow.card_eq_multiplicity P1, ← Sylow.card_eq_multiplicity P, hP]

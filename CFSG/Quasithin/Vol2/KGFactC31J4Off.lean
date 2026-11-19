@@ -41,11 +41,13 @@ attribute [local irreducible] invMask
   ∀ g, rem.testBit g = true → ∀ nd', Relation.ReflTransGen Step (childOf nd g) nd' →
     nodeOK5 nd' = true
 
+set_option exponentiation.threshold 1024 in
 private theorem topBit_spec {r : ℕ} (h0 : r ≠ 0) (h1 : r < 2 ^ 1024) :
     r.testBit (topBit r) = true ∧ topBit r < 1024 := by
   rw [topBit_eq_log2 (Nat.pos_of_ne_zero h0) h1]
   exact ⟨Nat.testBit_log2 h0, (Nat.log2_lt h0).2 h1⟩
 
+set_option exponentiation.threshold 1024 in
 private theorem xor_pow_lt {r g : ℕ} (h1 : r < 2 ^ 1024) (hg : g < 1024) : r ^^^ 2 ^ g < 2 ^ 1024 :=
   Nat.xor_lt_two_pow h1 (Nat.pow_lt_pow_right Nat.one_lt_two hg)
 
@@ -136,6 +138,7 @@ theorem run5_sound (h : run5 = true) : ∀ nd, Reach nd → nodeOK5 nd = true :=
 
 attribute [local irreducible] D35Chk.cmTab D35Chk.fxTab D35Chk.fdTab D35Chk.nbTab D35Chk.full
 
+set_option exponentiation.threshold 1024 in
 private theorem isSub_land {a b : ℕ} (ha : D35Chk.IsSub a) (hb : D35Chk.IsSub b) :
     D35Chk.IsSub (a &&& b) := by
   refine ⟨Nat.and_lt_two_pow a hb.1, fun c d hc hd => ?_⟩
@@ -166,6 +169,7 @@ private theorem isSub_full : D35Chk.IsSub D35Chk.full ∧ D35Chk.full.testBit 0 
   rw [full_eq]
   exact D35Chk.isSub_kerMask _
 
+set_option exponentiation.threshold 1024 in
 private theorem card_le_pivot {α : Type*} [Finite α] {S : ℕ} (hS : D35Chk.IsSub S)
     (h0 : S.testBit 0 = true) (f : α → ℕ) (hf : Function.Injective f)
     (hmem : ∀ a, S.testBit (f a) = true) : Nat.card α ≤ 2 ^ D35Chk.pivotDim S := by
@@ -224,6 +228,7 @@ private theorem corr_root {E : Subgroup ↥(StatedSL 5 (ZMod 2))} (hEU : E ≤ u
     rw [D35Chk.testBit_invMask]
     exact ⟨codeOf_lt x, isInv_codeOf (hEU hxE) (hsq x hxE) (by simpa using hxF)⟩
 
+set_option exponentiation.threshold 1024 in
 private theorem Corr5.step {E F : Subgroup ↥(StatedSL 5 (ZMod 2))} {nd : D35Chk.Node} [Finite E]
     (hEU : E ≤ unitri5) (hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hsq : ∀ a ∈ E, a * a = 1)
     (hC : Corr5 E F nd) (hne : ∃ x ∈ E, x ∉ F) :

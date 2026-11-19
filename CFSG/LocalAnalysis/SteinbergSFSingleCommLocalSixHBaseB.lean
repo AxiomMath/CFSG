@@ -17,11 +17,13 @@ section Irreducible
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2]
   [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [CharP K 2] [Finite K] in
 theorem sixH_conj_symm (φ : L ≃* antiSp K) (g y : antiSp K) :
     ((φ.symm g : L) : G) * ((φ.symm y : L) : G) * ((φ.symm g : L) : G)⁻¹ =
       ((φ.symm (g * y * g⁻¹) : L) : G) := by
   simp [map_mul, map_inv]
 
+omit [Finite G] in
 theorem sixH_i1_conj_coord (φ : L ≃* antiSp K) (k : Axis) {b b' : K} (hb : b ≠ 0)
     (hb' : b' ≠ 0) :
     ∃ j ∈ J₀ φ, j * RootAxisTwoCore.coordG φ k b * j⁻¹ = RootAxisTwoCore.coordG φ k b' := by
@@ -40,13 +42,14 @@ theorem sixH_i1_conj_coord (φ : L ≃* antiSp K) (k : Axis) {b b' : K} (hb : b 
     rw [inv_inv, hconj] at key
     exact key
 
+omit [Finite G] in
 theorem sixH_i1_irreducible_U (k : Axis) {X : Subgroup G} (hXU : X ≤ U φ k)
     (hJ : ∀ j ∈ J₀ φ, ∀ x ∈ X, j * x * j⁻¹ ∈ X) : X = ⊥ ∨ X = U φ k := by
   by_cases hX : X = ⊥
   · exact Or.inl hX
   · right
     rw [Subgroup.eq_bot_iff_forall] at hX
-    push_neg at hX
+    push Not at hX
     obtain ⟨x0, hx0X, hx0⟩ := hX
     obtain ⟨b0, rfl⟩ := RootAxisTwoCore.exists_coordG_eq φ k (hXU hx0X)
     have hb0 : b0 ≠ 0 := by
@@ -85,7 +88,7 @@ theorem sixH_i2_aux (h : FullCenter.FCHyp L K n φ t) (k : Axis) {X : Subgroup G
     pull_mono φ ((FullCenter.rootU_le_center (K := K) k.swap).trans
       (FullCenter.center_le_rootA (K := K) k))
   obtain ⟨hN, θ, -, hθ2⟩ := FullCenterTorus.quotient_W h k
-  haveI := hN
+  have := hN
   obtain ⟨ψ, hψ⟩ : ∃ ψ : ↥(Wk φ t k) →* G, ∀ z : ↥(Wk φ t k),
       ψ z = ((θ (QuotientGroup.mk z) : ↥(U φ k)) : G) :=
     ⟨(U φ k).subtype.comp (θ.toMonoidHom.comp (QuotientGroup.mk' ((U φ k).subgroupOf (Wk φ t k)))),

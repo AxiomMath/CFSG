@@ -362,8 +362,8 @@ private theorem dictOrb_rho_mem_kernelRoots_pi
     {π : Equiv.Perm (Fin (ggU (absTag t) 6 f).D.rank)}
     {coord : Bs →* Multiplicative (Fin (ggU (absTag t) 6 f).D.rank → ZMod p)}
     (B : GGLangData L t n f p Bs S π coord) (Us : Set Bs) :
-    ∀ γ ∈ kernelRoots (Pi.monoidHom fun u : Us => rootCharHom (B.a u.1)),
-      B.setup.ρ γ ∈ kernelRoots (Pi.monoidHom fun u : Us => rootCharHom (B.a u.1)) := by
+    ∀ γ ∈ kernelRoots (_root_.MonoidHom.pi fun u : Us => rootCharHom (B.a u.1)),
+      B.setup.ρ γ ∈ kernelRoots (_root_.MonoidHom.pi fun u : Us => rootCharHom (B.a u.1)) := by
   rintro γ ⟨hγ, hchar⟩
   refine ⟨(B.setup.frob.isRoot_iff γ).2 hγ, funext fun u : Us => ?_⟩
   have h : rootChar (B.a u.1) γ = 1 := congrFun hchar u
@@ -397,7 +397,7 @@ private theorem dictOrb_mem_latPhi_family
     v ∈ {α | α ∈ (ggU (absTag t) 6 f).D.roots ∧
         ∀ u ∈ Us, latChar p (Multiplicative.toAdd (coord u)) α = 0} ↔
       ggLangReidx B.rank_eq v ∈
-        kernelRoots (Pi.monoidHom fun u : Us => rootCharHom (B.a u.1)) := by
+        kernelRoots (_root_.MonoidHom.pi fun u : Us => rootCharHom (B.a u.1)) := by
   constructor
   · rintro ⟨hvroot, hvchar⟩
     refine ⟨(B.roots_iff v).1 hvroot, funext fun u : Us => ?_⟩
@@ -449,7 +449,7 @@ private theorem dictOrb_orbit_set_eq_of_char
     (σ := latPerm (ggLangPerm B.rank_eq π)) (ε := B.ε) B.ε_cases hker
     B.setup.frob.iform_eq hαker (fun k => dictOrb_latPerm_iterate_eq_smul B hαker.1 k)
   ext β
-  simp only [Set.mem_setOf_eq, Set.mem_preimage, hcore]
+  simp only [Set.mem_ofPred_eq, Set.mem_preimage, hcore]
   constructor
   · rintro ⟨k, hlink⟩
     refine ⟨k, ?_⟩
@@ -508,13 +508,13 @@ theorem isCompOrbit_iff_rationalRoots_family
     (O : Set (Fin (ggU (absTag t) 6 f).D.rank → ℤ)) :
     IsCompOrbit S π {α | α ∈ (ggU (absTag t) 6 f).D.roots ∧
         ∀ u ∈ Us, latChar p (Multiplicative.toAdd (coord u)) α = 0} O ↔
-      ∃ i : KernelComponent (Pi.monoidHom fun u : Us => rootCharHom (B.a u.1)),
+      ∃ i : KernelComponent (_root_.MonoidHom.pi fun u : Us => rootCharHom (B.a u.1)),
         O = ggLangReidx B.rank_eq ⁻¹' {γ | ∃ (k : ℕ) (δ : Fin B.τ.rank → ℤ),
-          δ ∈ componentRoots (Pi.monoidHom fun u : Us => rootCharHom (B.a u.1)) i ∧
+          δ ∈ componentRoots (_root_.MonoidHom.pi fun u : Us => rootCharHom (B.a u.1)) i ∧
             γ = (B.setup.ρ : (Fin B.τ.rank → ℤ) → (Fin B.τ.rank → ℤ))^[k] δ} := by
   classical
   let χU : Multiplicative (Fin B.τ.rank → ℤ) →* (Us → Lˣ) :=
-    Pi.monoidHom fun u : Us => rootCharHom (B.a u.1)
+    _root_.MonoidHom.pi fun u : Us => rootCharHom (B.a u.1)
   have hmem := dictOrb_mem_latPhi_family B hp Us
   have hker := dictOrb_rho_mem_kernelRoots_pi B Us
   constructor

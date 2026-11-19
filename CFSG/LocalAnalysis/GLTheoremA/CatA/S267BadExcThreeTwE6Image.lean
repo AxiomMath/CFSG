@@ -36,7 +36,7 @@ variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP K
 theorem exists_orderOf_three_twE6 (hK : Nat.card K = (ℓ ^ f) ^ 2) (h3 : 3 ∣ ℓ ^ f + 1) :
     ∃ c : Kˣ, orderOf c = 3 ∧ unitaryInvolution K ℓ f ((c : K) + ((c⁻¹ : Kˣ) : K)) =
       (c : K) + ((c⁻¹ : Kˣ) : K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK3 : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     have h : (ℓ ^ f) ^ 2 % 3 = 1 := by
@@ -74,8 +74,8 @@ theorem concA_of_twE6_vtw_image (hVtw : TwE6VtwInput) (hJc : TwE6JCompInput)
   have hℓ : ℓ.Prime := Fact.out
   have hσ : ∀ c, unitaryInvolution K ℓ f c = c ^ (ℓ ^ f) := unitaryInvolution_apply K ℓ f
   have h3' : ¬ 3 ∣ ℓ ^ f := fun h => by omega
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
   obtain ⟨ζ, hζ, hσζ⟩ := CFSG.LieType.BorelTits.exists_unitaryInvolution_eq_neg hK
   obtain ⟨P, hP⟩ := CFSG.LieType.Universal.Unitary.exists_wittMatrix hK 6
   obtain ⟨c, hc, hct⟩ := exists_orderOf_three_twE6 hK h3

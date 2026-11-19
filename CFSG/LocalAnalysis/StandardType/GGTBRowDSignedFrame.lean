@@ -29,7 +29,7 @@ theorem ggWeylFrame_of_dSignedModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
           toAdd ((MulAut.congr Θ).symm (ggConjAut A hn) f (π i)) = ε i * toAdd (f i)) :
     GGWeylFrame p A (ggCoxeterMatrixD k) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨eS, heS⟩ := DScalarTorus.exists_evenSignedCoxeterEquiv (p := p) (N := k) hp2 hk
   let H : Subgroup (MulAut (Fin k → Multiplicative (ZMod p))) :=
     (ggAutomizer (MulAut.conj : L' →* MulAut L').range A).comap (MulAut.congr Θ).toMonoidHom
@@ -74,7 +74,7 @@ theorem ggWeylFrame_of_dSignedModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     by_cases hi : i.val + 1 < k
     · rw [show DScalarTorus.simpleReflection hk i =
           SpCoord.permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-        simp only [DScalarTorus.simpleReflection, dif_pos hi]]
+        simp only [DScalarTorus.simpleReflection, dite_eq_left hi]]
       have hne : i ≠ (⟨i.val + 1, hi⟩ : Fin k) := by
         intro hh
         have : i.val = i.val + 1 := congrArg Fin.val hh
@@ -85,7 +85,7 @@ theorem ggWeylFrame_of_dSignedModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     · rw [show DScalarTorus.simpleReflection hk i =
           SpCoord.sgnAut ⟨k - 2, by omega⟩ * SpCoord.sgnAut ⟨k - 1, by omega⟩ *
             SpCoord.permAut (Equiv.swap ⟨k - 2, by omega⟩ ⟨k - 1, by omega⟩) from by
-        simp only [DScalarTorus.simpleReflection, dif_neg hi]]
+        simp only [DScalarTorus.simpleReflection, dite_eq_right hi]]
       have hne : (⟨k - 2, by omega⟩ : Fin k) ≠ ⟨k - 1, by omega⟩ := by
         intro hh
         have h' : k - 2 = k - 1 := congrArg Fin.val hh

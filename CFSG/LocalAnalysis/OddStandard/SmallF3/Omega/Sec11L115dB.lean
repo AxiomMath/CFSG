@@ -34,14 +34,17 @@ variable {D Y : Subgroup G} {t z : G} (h : Sec11dCl D Y t z)
 
 include h
 
+omit [Finite G] in
 theorem idx2 {a b : G} (ha : a ∈ D) (hb : b ∈ D) (haY : a ∉ Y) (hbY : b ∉ Y) : a⁻¹ * b ∈ Y :=
   sec10A2_idx2_mul h.idx ha hb haY hbY
 
+omit [Finite G] in
 theorem mem_or {g d : G} (hg : g ∈ D) (hgY : g ∉ Y) (hd : d ∈ D) : d ∈ Y ∨ g⁻¹ * d ∈ Y := by
   by_cases hdY : d ∈ Y
   · exact Or.inl hdY
   · exact Or.inr (h.idx2 hg hd hgY hdY)
 
+omit [Finite G] in
 theorem normal {d y : G} (hd : d ∈ D) (hy : y ∈ Y) : d * y * d⁻¹ ∈ Y := by
   by_cases hdY : d ∈ Y
   · exact Y.mul_mem (Y.mul_mem hdY hy) (Y.inv_mem hdY)
@@ -51,11 +54,13 @@ theorem normal {d y : G} (hd : d ∈ D) (hy : y ∈ Y) : d * y * d⁻¹ ∈ Y :=
     have := h.idx2 (D.inv_mem (D.mul_mem hd (h.le hy))) (D.inv_mem hd) h2 h3
     simpa using this
 
+omit [Finite G] in
 theorem comm_Y {a b : G} (ha : a ∈ Y) (hb : b ∈ Y) : a * b = b * a := by
-  haveI := h.cyc
+  have := h.cyc
   exact congrArg Subtype.val
     ((inferInstance : IsMulCommutative ↥Y).is_comm.comm (⟨a, ha⟩ : ↥Y) ⟨b, hb⟩)
 
+omit [Finite G] in
 theorem z_mem_Y : z ∈ Y := by
   by_contra hzY
   apply h.big
@@ -93,7 +98,7 @@ theorem t_not_mem_Y : t ∉ Y := by
     rw [inf_of_le_left h.le, h.idx] at h1
     exact h1.symm
   have hY2 : Nat.card ↥Y ≤ 2 := by
-    haveI := h.cyc
+    have := h.cyc
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥Y)
     have hg2 : (g : G) * (g : G) = 1 :=
       sec11L114_pair_sq h.t_sq h.z_sq h.tz_comm (hYW g.2)
@@ -220,7 +225,7 @@ theorem gen_of_not_cl {u : G} (hu : u ∈ D) (huY : u ∉ Y) (hut : ∀ d ∈ D,
     zpowers t ⊔ zpowers u = D := by
   set c : ↥Y := ⟨u * t⁻¹, h.mul_t_mem hu huY⟩ with hc
   have hcM : c ∉ (h.phi).range := h.not_mem_range hu huY hut
-  haveI := h.cyc
+  have := h.cyc
   obtain ⟨r, hr⟩ := IsCyclic.exists_generator (α := ↥Y)
   obtain ⟨j, hj⟩ := (Submonoid.mem_powers_iff _ _).mp
     ((mem_powers_iff_mem_zpowers (x := r) (y := c)).mpr (hr c))
@@ -262,9 +267,9 @@ theorem gen_of_not_cl {u : G} (hu : u ∈ D) (huY : u ∉ Y) (hut : ∀ d ∈ D,
 
 theorem not_mem_Y {u : G} (hu2 : u * u = 1) (hu1 : u ≠ 1) (huz : u ≠ z) : u ∉ Y := by
   intro huY
-  haveI := h.cyc
+  have := h.cyc
   classical
-  haveI : Fintype ↥Y := Fintype.ofFinite _
+  have : Fintype ↥Y := Fintype.ofFinite _
   have hsq : ∀ x : G, x * x = 1 → x ^ 2 = 1 := fun x hx => by rw [pow_two]; exact hx
   let a : ↥Y := ⟨u, huY⟩
   let b : ↥Y := ⟨z, h.z_mem_Y⟩

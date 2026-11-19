@@ -10,6 +10,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_fstar_inf_centralizer_eq_card_fixedPoints {H : Subgroup G} {n : ℕ}
     (e : ↥(Fstar H) ≃* alternatingGroup (Fin n)) (φ : ↥H →* MulAut (alternatingGroup (Fin n)))
     (hφ : ∀ (x : ↥H) (f : ↥(Fstar H)),

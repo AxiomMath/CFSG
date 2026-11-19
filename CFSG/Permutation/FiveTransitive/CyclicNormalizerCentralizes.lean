@@ -27,7 +27,7 @@ private theorem local_kernel_centralizes
   let ψ := φ.comp f.ker.subtype
   have hQp : IsPGroup 2 Q := by
     rw [← hS]
-    exact S.isPGroup'.map (fixingSubgroup G (fixedPoints Q X)).subtype
+    exact S.isPGroup.map (fixingSubgroup G (fixedPoints Q X)).subtype
   have hAut : IsPGroup 2 (MulAut Q) := CyclicTwoAutomorphismKernel.automorphism_two_group hQp
   have hIker : Inside Q ≤ φ.ker := by
     change Inside Q ≤ Q.normalizerMonoidHom.ker

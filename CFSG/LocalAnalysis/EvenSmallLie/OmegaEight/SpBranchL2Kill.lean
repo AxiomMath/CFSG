@@ -174,10 +174,10 @@ theorem false_of_L2 [Finite G] (hH : Hyp ε t TH E₁ S)
         exact absurd h (by decide))
   have hL2 : L2Data t TH T₁ (T₁ ⊔ zpowers y) := ⟨hB, fun v hv hvT hv2 => by
     have := hC v hv hvT hv2; rw [hcardTH]; omega, hD⟩
-  set M := chiSub Φ h0 hinv hgens hG₁ hchi
-  obtain ⟨hMT, hM2, -, htM, hmemM⟩ := chiSub_spec htT₁ Φ h0 hinv hgens hG₁ hchi htχ
+  set M := chiSub Φ h0 hgens hG₁ hchi
+  obtain ⟨hMT, hM2, -, htM, hmemM⟩ := chiSub_spec htT₁ Φ h0 hgens hG₁ hchi htχ
   have hχB : ∀ x : T₁, (chiS 131072)[Φ.f (conjEquiv hyN x)]! = (chiS 131072)[Φ.f x]! :=
-    chi_conj Φ h0 hinv hgens hG₁ hchi hyN hact hchiB
+    chi_conj Φ h0 hgens hG₁ hchi hyN hact hchiB
   have hyM : ∀ x ∈ M, y * x * y⁻¹ ∈ M := by
     intro x hx
     have hxT := hMT hx

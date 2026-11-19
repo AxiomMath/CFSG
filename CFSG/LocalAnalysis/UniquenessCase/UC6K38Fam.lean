@@ -42,7 +42,7 @@ theorem mem_normalizer_map_iff (S : Subgroup K) (k : K) :
       k ∈ normalizer (S : Set K) := by
   have hmem : ∀ y : K, (y : X) ∈ S.map K.subtype ↔ y ∈ S := fun y =>
     mem_map_iff_mem K.subtype_injective
-  simp only [mem_normalizer_iff, SetLike.mem_coe]
+  simp only [mem_normalizer_iff]
   constructor
   · intro h y
     rw [← hmem y, h, ← hmem]
@@ -109,7 +109,7 @@ theorem BorelConfig.ti (hB : BorelConfig q Hb K T) :
     have hdvd := Subgroup.card_dvd_of_le hsub
     rw [Subgroup.card_map_of_injective K.subtype_injective] at hdvd
     have hp : IsPGroup q (((k • T : Sylow q K) : Subgroup K) ⊓ T : Subgroup K) :=
-      T.isPGroup'.to_inf_right
+      T.isPGroup.to_inf_right
     rcases hp.card_eq_or_dvd with h1 | h1
     · exact Subgroup.card_eq_one.mp h1
     · exact absurd (h1.trans hdvd) hs
@@ -154,7 +154,7 @@ theorem card_sylow_psu {F : Type} [Field F] [Finite F] (J : HermitianForm 3 F)
     Nat.card (Sylow p (ProjectiveSpecialUnitaryMatrixGroup J)) = Nat.card S + 1 := by
   obtain ⟨R, hR⟩ := UnitaryModel.exists_sylow_eq_rootGroup J hJ hF hfix hf
   have h2 := isMultiplyPretransitive_two J hJ (p ^ f) hF hfix
-  haveI : MulAction.IsPretransitive (ProjectiveSpecialUnitaryMatrixGroup J) (IsoPoint J) :=
+  have : MulAction.IsPretransitive (ProjectiveSpecialUnitaryMatrixGroup J) (IsoPoint J) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have h1 : Nat.card (Sylow p (ProjectiveSpecialUnitaryMatrixGroup J)) =
       (normalizer (((R : Subgroup (ProjectiveSpecialUnitaryMatrixGroup J)) :
@@ -211,6 +211,7 @@ theorem outPChain_of_unitary {L : Type} [Group L] {q : ℕ} (hq : q.Prime)
 
 variable {X : Type} [Group X] [Finite X] {q : ℕ} [hq : Fact q.Prime]
 
+omit [Finite X] in
 theorem BorelConfig.outPChain {Hb K : Subgroup X} {T : Sylow q K} (hq2 : q ≠ 2) (hq3 : q ≠ 3)
     (hB : BorelConfig q Hb K T) : OutPChain q K := by
   obtain ⟨d, hd, he⟩ := hB.model

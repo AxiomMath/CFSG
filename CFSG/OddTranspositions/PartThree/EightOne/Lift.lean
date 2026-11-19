@@ -22,7 +22,7 @@ namespace CFSG.OddTranspositions.PartThree.EightOne
 open CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 theorem commSet_image_subset {X : Type} [Group X] [Finite X] {D : Set X}
-    (hD : IsOddTransp D) {N : Subgroup X} [N.Normal] (hNo : Odd (Nat.card N)) {u : X}
+    (hD : IsOddTransp D) {N : Subgroup X} [N.Normal] (_hNo : Odd (Nat.card N)) {u : X}
     (hu : u ∈ D) :
     commSet (QuotientGroup.mk' N '' D) (QuotientGroup.mk' N u) ⊆
       QuotientGroup.mk' N '' commSet D u := by

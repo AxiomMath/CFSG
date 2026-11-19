@@ -28,17 +28,20 @@ variable {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r) {t m : ℕ} (ht : t = 0 �
 
 variable {hD ht htm}
 
+omit [Finite K] [CharP K 2] in
 theorem mem_leviKer {g : ↥(plusFlagStab K r D)} :
     g ∈ leviKer hD ht htm ↔ (∀ (b : ℕ) (hb : b ∈ D), plusEBlockHom hD hb g = 1) ∧
       plusResBlockHom hD ht htm g = 1 := by
   simp only [leviKer, Subgroup.mem_inf, Subgroup.mem_iInf, MonoidHom.mem_ker, Subtype.forall]
 
+omit [Finite K] [CharP K 2] in
 theorem leviKer_normal : (leviKer (K := K) hD ht htm).Normal := by
-  haveI h1 : (⨅ b : ↥D, (plusEBlockHom (K := K) hD b.2).ker).Normal :=
+  have h1 : (⨅ b : ↥D, (plusEBlockHom (K := K) hD b.2).ker).Normal :=
     Subgroup.normal_iInf_normal fun b => MonoidHom.normal_ker _
-  haveI h2 := MonoidHom.normal_ker (plusResBlockHom (K := K) hD ht htm)
+  have h2 := MonoidHom.normal_ker (plusResBlockHom (K := K) hD ht htm)
   exact Subgroup.normal_inf_normal _ _
 
+omit [Finite K] in
 theorem isPGroup_leviKer (hD1 : ∀ d ∈ D, 1 ≤ d) (hDt : ∀ d ∈ D, d ≤ t) :
     IsPGroup 2 (leviKer (K := K) hD ht htm) := by
   have hsup : D.sup id = t := sup_id_eq ht hDt
@@ -94,7 +97,7 @@ theorem plusResAut_eq_one_of_normal_three (hDt : ∀ d ∈ D, d ≤ t) (hm : 3 �
       have h2 := mul_mem ht' h1
       simpa [mul_assoc] using h2
     let N' : Subgroup ↥Em := T.subgroupOf Em
-    haveI hN' : N'.Normal := ⟨fun n hn g => by
+    have hN' : N'.Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hTE g.1 g.2 n.1 hn⟩
     have hN'2 : IsPGroup 2 N' := hT2.comap_subtype
@@ -105,8 +108,8 @@ theorem plusResAut_eq_one_of_normal_three (hDt : ∀ d ∈ D, d ≤ t) (hm : 3 �
         have := hN'2
         rw [htop] at this
         exact this.of_equiv Subgroup.topEquiv
-      haveI : Finite ↥Em := finite_orthElementaryGroup
-      haveI := hP.isNilpotent
+      have : Finite ↥Em := finite_orthElementaryGroup
+      have := hP.isNilpotent
       exact not_isSolvable_of_isQuasisimple hQ inferInstance
     · have hmem : (⟨_, hcE⟩ : ↥Em) ∈ N' := Subgroup.mem_subgroupOf.2 hcT
       have := hc hmem
@@ -168,7 +171,7 @@ theorem le_leviKer_of_normal_isPGroup (hr : 3 ≤ r) (hD1 : ∀ d ∈ D, 1 ≤ d
   intro q hq
   refine mem_leviKer.2 ⟨fun b hb => le_ker_plusEBlockHom_of_normal hD R hR hr hb hq, ?_⟩
   rcases hm with rfl | hm2
-  · haveI := gl_subsingleton_zero (K := K)
+  · have := gl_subsingleton_zero (K := K)
     exact Subsingleton.elim _ _
   · rcases hm2.eq_or_lt with rfl | hm3
     · exact plusResBlockHom_eq_one_of_normal_two hD ht R hR hr

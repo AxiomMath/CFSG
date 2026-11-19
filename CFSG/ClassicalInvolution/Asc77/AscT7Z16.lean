@@ -105,6 +105,7 @@ theorem alphaOf_ut_eq_bot (hs : Hyp23Setting p f Ω K K' z) (hd : Hyp23bData Ω 
   obtain ⟨⟨ht1, htu⟩, -⟩ := T7L.B_ne hs hd
   exact alphaOf_pair_eq_bot hs hd hα huB htB hd.hu1 ht1 (Ne.symm htu)
 
+omit [IsSimpleGroup G] in
 theorem g_mem_E (hs : Hyp23Setting p f Ω K K' z) (hd : Hyp23bData Ω K K' W z u e g) :
     g ∈ exactLayer Ω e := by
   have hst := hs.stand

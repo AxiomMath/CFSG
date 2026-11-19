@@ -12,11 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem gLBConj_iSup₂_eq (g : G) {H : Subgroup G} (F : G → Subgroup G) :
     GLBConj g (⨆ x ∈ H, F x) = ⨆ x ∈ H, GLBConj g (F x) := by
   unfold GLBConj
   simp only [Subgroup.map_iSup]
 
+omit [Finite G] in
 theorem le_normalizer_closureIn (I H : Subgroup G) :
     H ≤ Subgroup.normalizer (closureIn I H : Set G) := by
   intro h hh
@@ -31,6 +33,7 @@ theorem le_normalizer_closureIn (I H : Subgroup G) :
     rw [e]
     exact le_biSup (fun g' => GLBConj h (GLBConj g' I)) (H.mul_mem hg (H.inv_mem hh))
 
+omit [Finite G] in
 theorem gLBConj_closureIn_of_commute {I A : Subgroup G} {b : G} (hb : ∀ a ∈ A, a * b = b * a) :
     GLBConj b (closureIn I A) = closureIn (GLBConj b I) A := by
   rw [closureIn_eq_iSup_gLBConj I A, closureIn_eq_iSup_gLBConj (GLBConj b I) A,
@@ -182,7 +185,7 @@ theorem pumpRel_facts {p : ℕ} (hp : p.Prime) (h183 : Input18_3_4) (hKP : CFSG.
       (GLAPLayer p (t.2.2 ⊓ Subgroup.centralizer ({t'.2.1} : Set G))) ∧
     GLAPLayer p (t.2.2 ⊓ Subgroup.centralizer ({t'.2.1} : Set G)) ≤ closureIn t'.2.2 t'.1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨-, -, hL⟩, ⟨hB', hx', hL'c⟩, hxB', -, hx'B', hx'L, hL'⟩ := hrel
   set L := t.2.2
   set L' := t'.2.2

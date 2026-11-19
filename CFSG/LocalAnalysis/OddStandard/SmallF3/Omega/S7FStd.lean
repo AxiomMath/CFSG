@@ -19,7 +19,7 @@ theorem asc82StandardInput_of_rk2 (hRk2 : Asc82StandardInputRk2)
     (hC : OddLieCharUnique) (hM11 : Nat.card NativeSporadic.M11 = 7920)
     (hM12 : Nat.card NativeSporadic.M12 = 95040) : Asc82StandardInput := by
   intro G _ _ hs hK hn hA1 hA2 hLC X hX hXF hS
-  haveI := hs
+  have := hs
   by_cases hrk : 2 ≤ pRank 2 ↥(centralizer (X : Set G))
   · exact hRk2 G hs hK hn hA1 hA2 hLC X hX hXF hrk
   obtain ⟨L, hLF, hLC'⟩ := hLC

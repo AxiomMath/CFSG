@@ -70,7 +70,7 @@ private lemma nine3_zmod3_cover {ca cb x : ZMod 3} (h : ca ≠ cb) :
 
 theorem zmodRefl_inj (hp : p.Prime) (hp2 : p ≠ 2) {c c' : ZMod p}
     (h : zmodRefl p c = zmodRefl p c') : c = c' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h0 := congrArg (fun f : Equiv.Perm (ZMod p) => f 0) h
   simp only [zmodRefl, Equiv.subLeft_apply, sub_eq_add_neg] at h0
   exact mul_left_cancel₀ (nine3_two_ne_zero hp hp2) (add_right_cancel h0)
@@ -99,7 +99,7 @@ private theorem nine3_two_p_aux (hp : p.Prime) (hp2 : p ≠ 2)
     ∃ z : ZMod p → Γ, (∀ c, z c * z c = 1) ∧ (∀ c, z c ≠ 1) ∧
       (∀ a b, a ≠ b → z a * z b * z (2 * a - b) = 1) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let F : ZMod p → Set Γ := nine3FibreSet π D
   have hFcard : ∀ c, (F c).ncard = 2 := by
     intro c
@@ -207,8 +207,8 @@ private theorem nine3_two_p_aux (hp : p.Prime) (hp2 : p ≠ 2)
 
 theorem nine3OddFrame_two_p (hp : p.Prime) (hp2 : p ≠ 2) {π : Γ →* Equiv.Perm (ZMod p)}
     {D : Set Γ} (h : Nine3OddFrame p 2 π D) : p = 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨z, hzsq, hzne, hzrel⟩ := nine3_two_p_aux hp hp2 h
   by_contra hp3
   have h3 : (3 : ZMod p) ≠ 0 := by
@@ -344,7 +344,7 @@ private lemma nine3_pi_eq_of_comm_three {π : Γ →* Equiv.Perm (ZMod 3)} {D : 
   exact hne (by rw [hxy1])
 
 private lemma nine3_conn_pi_eq_three {π : Γ →* Equiv.Perm (ZMod 3)} {D : Set Γ}
-    (h : Nine3OddFrame 3 m π D) {x y : Γ} (hx : x ∈ D) (hy : y ∈ D)
+    (h : Nine3OddFrame 3 m π D) {x y : Γ} (_hx : x ∈ D) (_hy : y ∈ D)
     (hc : Star3T.Conn D x y) : π x = π y := by
   have aux : ∀ z, Star3T.Conn D x z → π x = π z := by
     intro z hz

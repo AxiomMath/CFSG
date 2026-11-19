@@ -17,8 +17,9 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS93
 
+omit [Finite G] in
 theorem eq_or_eq_of_simple {R X Y D Q : Subgroup G}
-    (hXR : X ≤ R) (hYR : Y ≤ R) (hXY : X ⊔ Y = R) (hQ : X ⊓ Y = Q)
+    (_hXR : X ≤ R) (hYR : Y ≤ R) (hXY : X ⊔ Y = R) (hQ : X ⊓ Y = Q)
     (hXYn : X ≤ Subgroup.normalizer (Y : Set G))
     (hDR : D ≤ R) (hDnorm : R ≤ Subgroup.normalizer (D : Set G)) (hXD : X ≤ D)
     (hsimple : ∃ _ : (Q.subgroupOf Y).Normal, IsSimpleGroup (↥Y ⧸ Q.subgroupOf Y)) :
@@ -79,10 +80,12 @@ theorem eq_or_eq_of_simple {R X Y D Q : Subgroup G}
     exact D.mul_mem (hXD hx) (hYD' hy)
 
 
+omit [Finite G] in
 theorem norm_Q (hc : Ctx M Q Z B) {g : G} (hgM : g ∈ M) {a : G} (ha : a ∈ Q) :
     g * a * g⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hgM) a).mp ha
 
+omit [Finite G] in
 theorem conj_mem' {S : Subgroup G} {x : G} (g : G) (hx : x ∈ S) :
     g * x * g⁻¹ ∈ conjSubgroup g S := by
   rw [mem_conjSubgroup]
@@ -90,6 +93,7 @@ theorem conj_mem' {S : Subgroup G} {x : G} (g : G) (hx : x ∈ S) :
   rw [e]
   exact hx
 
+omit [Finite G] in
 theorem mem_normalizer_of {H : Subgroup G} {g : G} (hg : ∀ h ∈ H, g * h * g⁻¹ ∈ H)
     (hg' : ∀ h ∈ H, g⁻¹ * h * g ∈ H) : g ∈ Subgroup.normalizer (H : Set G) :=
   Subgroup.mem_normalizer_iff.mpr fun h => ⟨fun hh => hg h hh, fun hh => by

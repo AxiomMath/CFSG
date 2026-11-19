@@ -87,7 +87,7 @@ theorem fixedFreeFive_psl2GF {p n : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hn : 2 
       obtain ⟨y, hy, hxy⟩ := Subgroup.mem_map.mp hx'
       have hyx : y = x := (MulAut.conj c).injective hxy
       simpa [hyx] using hy
-  refine ⟨(T : Subgroup (PSL2GF p n)), T.isPGroup', ?_, ?_, c, hcN, ?_⟩
+  refine ⟨(T : Subgroup (PSL2GF p n)), T.isPGroup, ?_, ?_, c, hcN, ?_⟩
   ·
     intro hbot
     rw [hbot, Subgroup.card_bot] at hTcard

@@ -25,7 +25,7 @@ private theorem action_on_line_of_mem_sup_centOverO2
     (hLcalM : L ∈ calC D.M) (hKcalM : K ∈ calC D.M)
     (hLcalX : L ∈ calC X) (hKcalX : K ∈ calC X)
     (hNleK : X ⊔ F08.CentOverO2 D.M X ≤ Subgroup.normalizer (K : Set G))
-    (hker : φ.ker = (X ⊔ F08.CentOverO2 D.M X).subgroupOf D.M)
+    (_hker : φ.ker = (X ⊔ F08.CentOverO2 D.M X).subgroupOf D.M)
     (hSzK : IsSz (Bar2 K) 5)
     (hA₂K : A₂ ≤ K) (hA₂card : Nat.card A₂ = 31)
     (hA₂disj : A₂ ⊓ CFSG.Open.pCoreOf 2 K = ⊥)
@@ -33,7 +33,7 @@ private theorem action_on_line_of_mem_sup_centOverO2
     (hnA₂ : n ∈ Subgroup.normalizer (A₂ : Set G)) :
     (∀ a ∈ A₂, n * a * n⁻¹ = a) ∨ (∀ a ∈ A₂, n * a * n⁻¹ = a⁻¹) := by
   classical
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hNleM : X ⊔ F08.CentOverO2 D.M X ≤ D.M := by
     refine sup_le hXM ?_
     intro c hc
@@ -109,7 +109,7 @@ private theorem action_on_line_of_mem_sup_centOverO2
   · left
     intro a ha
     refine hcentral ⟨a, ha⟩ ?_
-    haveI : IsMulCommutative ↥(barImage K A₂) :=
+    have : IsMulCommutative ↥(barImage K A₂) :=
       (isCyclic_of_prime_card hCcard).isMulCommutative
     have hmemC : f ⟨a, ha⟩ ∈ barImage K A₂ := by
       rw [hCeq]
@@ -134,7 +134,7 @@ private theorem action_on_line_of_mem_sup_centOverO2
 
 
 private theorem phi_not_rotations_of_map_conj_eq
-    (D : Data G) {X L K N : Subgroup G} {φ : ↥D.M →* DihedralGroup 5}
+    (D : Data G) {_X L K N : Subgroup G} {φ : ↥D.M →* DihedralGroup 5}
     (hNM : N ≤ D.M) (hNleL : N ≤ Subgroup.normalizer (L : Set G))
     (hker : φ.ker = N.subgroupOf D.M) (hφ : Function.Surjective φ)
     (hMLrel : (D.M ⊓ Subgroup.normalizer (L : Set G)).relIndex D.M = 2)
@@ -283,7 +283,7 @@ theorem lines_of_case8100Four (D : Data G)
   have hLmemSelf : L ∈ conjSetOf D.M L := by
     refine ⟨1, D.M.one_mem, ?_⟩
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hLcalX : L ∈ calC X := by
     rw [ctx.X_eq]; exact hsubset L hLmemSelf
   have hKcalX : K ∈ calC X := by
@@ -297,7 +297,7 @@ theorem lines_of_case8100Four (D : Data G)
     rcases (Nat.dvd_prime (by norm_num : Nat.Prime 31)).mp hdvd31 with h | h
     · exact absurd h hr.ne_one
     · exact h
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hAsyl31 : CFSG.ABGLocalTools.IsSylowOf 31 A X := by
     rw [← hr31]; exact hAsyl
   have hXfact : (Nat.card X).factorization 31 = 2 := by
@@ -353,7 +353,7 @@ theorem lines_of_case8100Four (D : Data G)
     sup_centOverO2_le_normalizer_of_component hXM hMX (by rw [hXeq, sup_comm])
       hLKne.symm hsetK hKcalX hLcalX hZimgK
   have hA31 : IsPGroup 31 ↥A := hAsyl31.isPGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO2L : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 L) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L
   have hO2K : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 K) :=
@@ -605,7 +605,7 @@ theorem lines_of_case8100Four (D : Data G)
   have hMLrel : (D.M ⊓ Subgroup.normalizer (L : Set G)).relIndex D.M = 2 :=
     s17_45_relIndex_inf_normalizer_eq_two (by rw [← hset]; simp [hLKne])
   have hφg_not_rot : φ ⟨g, hgM⟩ ∉ TauCeti.dihedralRotations 5 :=
-    phi_not_rotations_of_map_conj_eq (D := D) (X := X) hNleM hNleL hker hφ hMLrel hgM hLg hLKne
+    phi_not_rotations_of_map_conj_eq (D := D) (_X := X) hNleM hNleL hker hφ hMLrel hgM hLg hLKne
   let h : G := g * y * g⁻¹ * y
   have hhM : h ∈ D.M := by
     exact D.M.mul_mem (D.M.mul_mem (D.M.mul_mem hgM hyM) (D.M.inv_mem hgM)) hyM
@@ -743,7 +743,7 @@ theorem lines_of_case8100Four (D : Data G)
             group
       _ = g * (a₁ : G) ^ c₁ * g⁻¹ := by rw [hc₁y]
       _ = (g * (a₁ : G) * g⁻¹) ^ c₁ := by
-            simpa [MulAut.conj_apply] using (map_zpow (MulAut.conj g) (a₁ : G) c₁)
+            simp
       _ = b ^ c₁ := by simp [b]
   have hgy_a₂ : (g * y * g⁻¹) * (a₂ : G) * (g * y * g⁻¹)⁻¹ = (a₂ : G) ^ c₁ := by
     have h1 : (MulAut.conj (g * y * g⁻¹)) (a₂ : G) = (a₂ : G) ^ c₁ := by
@@ -838,7 +838,7 @@ theorem lines_of_case8100Four (D : Data G)
     rw [Nat.card_zpowers, hd0ord, hD'card]
   have hd0A : (d₀ : G) ∈ A := hD'A d₀.2
   have hAab : IsMulCommutative ↥A := IsPGroup.isMulCommutative_of_card_eq_prime_sq hAcard
-  letI : CommGroup ↥A := IsMulCommutative.instCommGroup
+  let : CommGroup ↥A := IsMulCommutative.instCommGroup
   have hsupA : (A ⊓ L).subgroupOf A ⊔ (A ⊓ K).subgroupOf A = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hA₁leA hA₂leA, hAeq, Subgroup.subgroupOf_self]
   let d0A : ↥A := ⟨(d₀ : G), hd0A⟩
@@ -883,9 +883,9 @@ theorem lines_of_case8100Four (D : Data G)
       _ = (((MulAut.conj y) (a₁ : G)) ^ m) *
             (((MulAut.conj y) (a₂ : G)) ^ n) := by
             rw [show y * (a₁ : G) ^ m * y⁻¹ = ((MulAut.conj y) (a₁ : G)) ^ m by
-                  simpa [MulAut.conj_apply] using map_zpow (MulAut.conj y) (a₁ : G) m,
+                  simp [MulAut.conj_apply],
                 show y * (a₂ : G) ^ n * y⁻¹ = ((MulAut.conj y) (a₂ : G)) ^ n by
-                  simpa [MulAut.conj_apply] using map_zpow (MulAut.conj y) (a₂ : G) n]
+                  simp [MulAut.conj_apply]]
       _ = ((a₁ : G) ^ c₁) ^ m * ((a₂ : G) ^ c₂) ^ n := by rw [hc₁', hc₂']
       _ = (a₁ : G) ^ (c₁ * m) * (a₂ : G) ^ (c₂ * n) := by
             rw [← zpow_mul, ← zpow_mul]

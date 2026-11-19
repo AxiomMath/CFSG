@@ -643,7 +643,7 @@ theorem exists_sylow_center [Finite F] (M : ModelData F) (h2 : (2 : F) ≠ 0)
     obtain ⟨h5, -⟩ := diagGL_inj hκ
     exact hc κ h5.symm
   have : Nontrivial ↥(Subgroup.center ↥(S : Subgroup (PG M))) :=
-    (S.isPGroup').center_nontrivial
+    (S.isPGroup).center_nontrivial
   refine ⟨S, ?_⟩
   obtain ⟨⟨z, hzcen⟩, hz1⟩ := exists_ne (1 : ↥(Subgroup.center ↥(S : Subgroup (PG M))))
   have hzcen' := Subgroup.mem_center_iff.1 hzcen

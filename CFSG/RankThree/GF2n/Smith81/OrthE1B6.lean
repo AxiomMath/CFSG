@@ -19,6 +19,7 @@ section Basic
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {t : G}
 
+omit [Finite G] in
 theorem conj_le_Lgen {X : Subgroup G} {h : G} (hh : h ∈ Lgen M (LB M Q B))
     (hX : X ≤ Lgen M (LB M Q B)) : conjSubgroup h X ≤ Lgen M (LB M Q B) := by
   intro x hx
@@ -37,6 +38,7 @@ theorem LB_le_E0 (hSplit : RtSplitStatement) (hH : E1Hyp M Q Z B t)
     rw [← hsup]
     exact sup_le (le_sup_right.trans le_sup_left) le_sup_right
 
+omit [Finite G] in
 theorem X_le_E0 (D : E1CaseBData M Q Z B t) : E1Xpre M Q B t ≤ D.Y ⊔ D.Fb ⊔ D.Fc := by
   obtain ⟨-, -, -, -, hsup, -⟩ := D.two
   rw [← hsup]
@@ -84,7 +86,7 @@ theorem conjX_le_X_of_conjN_eq (hCt : CtStructureStatement) (hSplit : RtSplitSta
   have hhM : h ∈ M := hhH.1
   have hXL : E1Xpre M Q B t ≤ Lgen M (LB M Q B) := E1Xpre_le_Lgen hc hH.mem
   obtain ⟨hNL, hNX, hNR, hXR⟩ := b2_nt_facts hSplit hH
-  have hcommNX := b2_comm_NX (Z := Z) hNX hNR hXR
+  have hcommNX := b2_comm_NX (_Z := Z) hNX hNR hXR
   obtain ⟨-, -, -, -, hperf, -⟩ := hSplit G M Q Z B t hH
   obtain ⟨-, -, hperfle⟩ := hCt G M Q Z B t hH
   have hQ : conjSubgroup h Q = Q := hc.conj_Q_eq hhM
@@ -189,7 +191,7 @@ theorem conj_E0_eq (hCt : CtStructureStatement) (hSplit : RtSplitStatement)
   intro x hx
   have h2 : n⁻¹ * x * n ∈ D.Y ⊔ D.Fb ⊔ D.Fc := by
     have := h1 (show n⁻¹ * x * n⁻¹⁻¹ ∈ conjSubgroup n⁻¹ (D.Y ⊔ D.Fb ⊔ D.Fc) from
-      ⟨x, hx, by simp [MulAut.conj_apply]⟩)
+      ⟨x, hx, by simp⟩)
     simpa using this
   exact mem_conjSubgroup.mpr h2
 
@@ -209,7 +211,7 @@ theorem exists_sylow_index_two {K : Type} [Field K] [Finite K] [CharP K 2] (hq :
     ∃ S : Sylow 2 H, L ≤ S ∧ L.relIndex S ≤ 2 := by
   obtain ⟨S, hS⟩ := hL.exists_le_sylow
   refine ⟨S, hS, ?_⟩
-  have hP : IsPGroup 2 (Subgroup.map ρ (S : Subgroup H)) := S.isPGroup'.map ρ
+  have hP : IsPGroup 2 (Subgroup.map ρ (S : Subgroup H)) := S.isPGroup.map ρ
   have hUP : cubeU 3 K ≤ Subgroup.map ρ (S : Subgroup H) := by
     rw [← hρL]; exact Subgroup.map_mono hS
   have key := b6_index_two hq (Subgroup.map ρ (S : Subgroup H)) hP hUP (fun s hs hsN => by
@@ -275,7 +277,7 @@ theorem exists_S1 (hCt : CtStructureStatement) (hSplit : RtSplitStatement)
   obtain ⟨C, hCE, hC⟩ := exists_conj_cubeU 3 AM.K (L.map ρ0) hLE hcardL
   let cj : (Cube 3 AM.K ≃ₗ[AM.K] Cube 3 AM.K) →* (Cube 3 AM.K ≃ₗ[AM.K] Cube 3 AM.K) :=
     (MulAut.conj C⁻¹).toMonoidHom
-  have hcj : ∀ g, cj g = C⁻¹ * g * C := fun g => by simp [cj, MulAut.conj_apply]
+  have hcj : ∀ g, cj g = C⁻¹ * g * C := fun g => by simp [cj]
   let ι : ↥(Lgen M (LB M Q B)) →* ↥(H0 M Z) := Subgroup.inclusion hLH
   let ρ : ↥(Lgen M (LB M Q B)) →* (Cube 3 AM.K ≃ₗ[AM.K] Cube 3 AM.K) := (cj.comp ρ0).comp ι
   have hρ : ∀ x, ρ x = C⁻¹ * ρ0 (ι x) * C := fun x => hcj _
@@ -369,11 +371,11 @@ theorem exists_S1 (hCt : CtStructureStatement) (hSplit : RtSplitStatement)
   have hLS₁ : LB M Q B ≤ S₁ := fun x hx =>
     ⟨⟨x, hLBL hx⟩, hLS ((hmemL' _).mpr hx), rfl⟩
   have hS₁L : S₁ ≤ Lgen M (LB M Q B) := Subgroup.map_subtype_le _
-  have hS₁pg : IsPGroup 2 ↥S₁ := S.isPGroup'.map (Lgen M (LB M Q B)).subtype
+  have hS₁pg : IsPGroup 2 ↥S₁ := S.isPGroup.map (Lgen M (LB M Q B)).subtype
   have hS₁sub : S₁.subgroupOf (Lgen M (LB M Q B)) = (S : Subgroup ↥(Lgen M (LB M Q B))) :=
     Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) _
   refine ⟨S₁, ⟨hQLB.trans hLS₁, hS₁L, ?_, ?_⟩, hLS₁, ?_⟩
-  · haveI hN : (Q.subgroupOf S₁).Normal := Subgroup.normal_subgroupOf_of_le_normalizer
+  · have hN : (Q.subgroupOf S₁).Normal := Subgroup.normal_subgroupOf_of_le_normalizer
       fun x hx => hc.hyp.Q_normal.2 (hLH (hS₁L hx)).1
     exact ⟨hN, hS₁pg.to_quotient (Q.subgroupOf S₁)⟩
   · rw [Subgroup.relIndex, hS₁sub]

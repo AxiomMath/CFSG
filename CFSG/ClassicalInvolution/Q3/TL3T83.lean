@@ -34,6 +34,7 @@ theorem labHyp' (hn : 5 ≤ n) :
   loc := fun L hL l hl => ctx.lab₁_loc (by omega) hL hl
   cent := fun L hL α hα b hαO hlab σ hσ l hl => ctx.centralizes (by omega) hL hαO hlab hσ l hl
 
+omit [Finite G] in
 private theorem exists_label_of_label_conj {L : Subgroup G} {γ : Finset (Fin (n + 2))}
     {hγ : γ.card = 4} {b : Bool}
     (hl : ((conjSub ctx.E.g⁻¹ L).subgroupOf (pSpan (centMembers Ω ctx.D.u))).map ctx.D.IY.φ =
@@ -51,6 +52,7 @@ private theorem exists_label_of_label_conj {L : Subgroup G} {γ : Finset (Fin (n
   · exact ⟨true, e.trans h⟩
   · exact ⟨false, e.trans h⟩
 
+omit [Finite G] in
 theorem exists_label_self_of_lab₁ (hn : 5 ≤ n) {L : Subgroup G}
     (hL : L ∈ centMembers Ω ctx.D.u) {α : Finset (Fin (n + 4))} {hα : α.card = 4} {b : Bool}
     (hlab : ctx.lab₁ L = memBar α hα b) :
@@ -61,6 +63,7 @@ theorem exists_label_self_of_lab₁ (hn : 5 ≤ n) {L : Subgroup G}
   obtain ⟨b'', hb''⟩ := ctx.exists_label_of_label_conj hl
   exact ⟨γ, hγ, b'', hb'', hγα⟩
 
+omit [Finite G] in
 theorem lab₁_of_label (hn : 5 ≤ n) {M : Subgroup G} (hM : M ∈ centMembers Ω ctx.D.u)
     {δ : Finset (Fin (n + 2))} {hδ : δ.card = 4} {e : Bool}
     (hlab : (M.subgroupOf (pSpan (centMembers Ω ctx.D.u))).map ctx.D.IY.φ = memBar δ hδ e) :
@@ -140,6 +143,7 @@ theorem chart2' (hS : CSetting 3 IH Ω K J) (hn : 5 ≤ n) (τ : alternatingGrou
   congr 1
   group
 
+omit [Finite G] in
 theorem mem_orb_of_disjoint (hn : 5 ≤ n)
     (hmove : ∀ i : Fin n, ctx.E.c₁ i ∈ Finset.univ.map ctx.D.ι →
       ctx.E.c₂ i ∉ ctx.D.γ.map ctx.D.ι)
@@ -190,6 +194,7 @@ theorem mem_orb_of_disjoint (hn : 5 ≤ n)
   have hPL : P = L := ctx.D.hHY.label_inj P hP L (ctx.D.hπY hLπ) (hlabP.trans hLlab.symm)
   exact hPL ▸ hLπ
 
+omit [Finite G] in
 theorem exists_alt_to_common (hn : 5 ≤ n) {γ : Finset (Fin (n + 2))} (hγ : γ.card = 4) (b : Bool) :
     ∃ (τ : alternatingGroup (Fin (n + 2))) (γ₂ : Finset (Fin (n + 2))) (hγ₂ : γ₂.card = 4),
       (γ₂ : Set (Fin (n + 2))) ⊆ Set.range ctx.E.c₂ ∧
@@ -206,6 +211,7 @@ theorem exists_alt_to_common (hn : 5 ≤ n) {γ : Finset (Fin (n + 2))} (hγ : �
     (memBar_mem_memLabels γ hγ b) (memBar_mem_memLabels γ₂ hγ₂ true)
   exact ⟨τ, γ₂, hγ₂, hγ₂c, hτ⟩
 
+omit [Finite G] in
 theorem subHyp_common :
     SubHyp ctx.D.IY
       (ctx.D.IY.over ({ctx.D.ι ctx.D.a, ctx.D.ι ctx.D.c} : Finset (Fin (n + 2)))ᶜ) ctx.E.c₁ := by
@@ -222,6 +228,7 @@ theorem subHyp_common :
   exact ctx.D.IY.subHyp_over_emb ctx.E.c₁ hc₁r hpΓ ctx.D.hHY.card ctx.D.hHY.conj_mem
     ctx.D.hHY.label_inj
 
+omit [Finite G] in
 theorem over_common_subset :
     ctx.D.IY.over ({ctx.D.ι ctx.D.a, ctx.D.ι ctx.D.c} : Finset (Fin (n + 2)))ᶜ ⊆
       conjSub ctx.D.t '' centMembers Ω ctx.D.u := by

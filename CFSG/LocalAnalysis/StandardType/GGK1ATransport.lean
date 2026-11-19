@@ -327,8 +327,8 @@ private lemma orbit_head_false (nf : ℕ) (m0 : ℕ) :
   by_cases h0 : 0 < m0
   · by_cases h2 : 2 ≤ m0
     · have hm1 : m0 ≠ 1 := by omega
-      simp only [h0, h2, if_true, List.filter_cons, List.filter_nil, List.map_cons, List.map_nil]
-      rw [if_pos (by simp [ggK1ACo_Kind.hasOrbit, hm1])]
+      simp only [h0, h2, ite_true, List.filter_cons, List.filter_nil]
+      rw [ite_eq_left (by simp [ggK1ACo_Kind.hasOrbit, hm1])]
       change [ggK1ACo_kindOrbit nf (ggK1ACo_Kind.sl m0 1)] = _
       rw [kindOrbit_sl_one nf _ h2]
     · have hm1 : m0 = 1 := by omega
@@ -344,8 +344,8 @@ private lemma orbit_head_true (nf : ℕ) (m0 : ℕ) :
   by_cases h0 : 0 < m0
   · by_cases h2 : 2 ≤ m0
     · have hm1 : m0 ≠ 1 := by omega
-      simp only [h0, h2, if_true, List.filter_cons, List.filter_nil, List.map_cons, List.map_nil]
-      rw [if_pos (by simp [ggK1ACo_Kind.hasOrbit, hm1])]
+      simp only [h0, h2, ite_true, List.filter_cons, List.filter_nil]
+      rw [ite_eq_left (by simp [ggK1ACo_Kind.hasOrbit, hm1])]
       change [ggK1ACo_kindOrbit nf (ggK1ACo_Kind.su m0 1)] = _
       rw [kindOrbit_su_one nf _ h2]
     · have hm1 : m0 = 1 := by omega
@@ -359,7 +359,7 @@ private lemma orbitList_false_one (p nf : ℕ) (m : List ℕ) (hd : ggMultOrd p 
       (ggMultDatumA p nf 1 false m).orbits := by
   rw [ggMultDatumA_orbits]
   simp only [ggK1ACo_orbitKindList, ggK1ACo_expectedKindList, hd, Bool.false_eq_true,
-    if_true, if_false, List.filter_append, List.map_append]
+    ite_true, ite_false]
   exact orbit_trivial_false nf p m
 
 private lemma orbitList_false_ne_one (p nf : ℕ) (m : List ℕ) (hd : ggMultOrd p nf ≠ 1) :
@@ -367,9 +367,9 @@ private lemma orbitList_false_ne_one (p nf : ℕ) (m : List ℕ) (hd : ggMultOrd
       (ggMultDatumA p nf (ggMultOrd p nf) false m).orbits := by
   rw [ggMultDatumA_orbits]
   simp only [ggK1ACo_orbitKindList, ggK1ACo_expectedKindList, hd, Bool.false_eq_true,
-    if_true, if_false, List.filter_append, List.map_append]
+    ite_true, ite_false]
   have hcond : ¬ (True ∧ False ∨ False ∧ ggMultOrd p nf = 2) := by simp
-  simp only [if_neg hcond, List.filter_append, List.map_append]
+  simp only [ite_eq_right hcond, List.filter_append, List.map_append]
   exact congrArg₂ (· ++ ·) (orbit_head_false nf (m.headD 0))
     (orbit_tail nf m (List.range ((p - 1) / 2 + 1)))
 
@@ -378,7 +378,7 @@ private lemma orbitList_true_two (p nf : ℕ) (m : List ℕ) (hd : ggMultOrd p n
       (ggMultDatumA p nf 2 true m).orbits := by
   rw [ggMultDatumA_orbits]
   simp only [ggK1ACo_orbitKindList, ggK1ACo_expectedKindList, hd, Bool.true_eq_false,
-    if_true, if_false, List.filter_append, List.map_append]
+    ite_true, ite_false]
   exact orbit_trivial_true nf p m
 
 private lemma orbitList_true_ne_two (p nf : ℕ) (m : List ℕ) (hd : ggMultOrd p nf ≠ 2) :
@@ -386,9 +386,9 @@ private lemma orbitList_true_ne_two (p nf : ℕ) (m : List ℕ) (hd : ggMultOrd 
       (ggMultDatumA p nf (ggMultOrd p nf) true m).orbits := by
   rw [ggMultDatumA_orbits]
   simp only [ggK1ACo_orbitKindList, ggK1ACo_expectedKindList, hd, Bool.true_eq_false,
-    if_true, if_false, List.filter_append, List.map_append]
+    ite_true, ite_false]
   have hcond : ¬ (False ∧ ggMultOrd p nf = 1 ∨ True ∧ False) := by simp
-  simp only [if_neg hcond, List.filter_append, List.map_append]
+  simp only [ite_eq_right hcond, List.filter_append, List.map_append]
   exact congrArg₂ (· ++ ·) (orbit_head_true nf (m.headD 0))
     (orbit_tail nf m (List.range ((p - 1) / 2 + 1)))
 
@@ -438,7 +438,7 @@ private lemma kindOrbit_su_of_two (nf m e : ℕ) (hm : 2 ≤ m) :
 private lemma kindOrbit_sl_qs_of_two (nf m e : ℕ) (hm : 2 ≤ m) :
     (ggK1ACo_kindOrbit nf (.sl m e)).qs = decide (¬ (m = 2 ∧ e * nf = 1)) := by
   rw [kindOrbit_sl_of_two nf m e hm]
-  simp only [ggMultBlockA, if_pos rfl, if_true, decide_eq_decide]
+  simp only [ggMultBlockA, ite_true, decide_eq_decide]
   constructor
   · rintro h ⟨h1, h2⟩; exact h ⟨by omega, h2⟩
   · rintro h ⟨h1, h2⟩; exact h ⟨by omega, h2⟩
@@ -446,14 +446,14 @@ private lemma kindOrbit_sl_qs_of_two (nf m e : ℕ) (hm : 2 ≤ m) :
 private lemma kindOrbit_su_two_qs (nf e : ℕ) :
     (ggK1ACo_kindOrbit nf (.su 2 e)).qs = decide (e * nf ≠ 1) := by
   rw [kindOrbit_su_of_two nf 2 e (by norm_num)]
-  simp only [ggMultBlockA, if_neg (by norm_num : ¬ (2 = 1)),
-    if_neg (by norm_num : ¬ 2 ≤ 2 - 1), if_false, decide_eq_decide]
+  simp only [ggMultBlockA, ite_eq_right (by norm_num : ¬ (2 = 1)),
+    ite_eq_right (by norm_num : ¬ 2 ≤ 2 - 1)]
 
 private lemma kindOrbit_su_three_qs (nf m e : ℕ) (hm : 3 ≤ m) :
     (ggK1ACo_kindOrbit nf (.su m e)).qs = decide (¬ (m = 3 ∧ e * nf = 1)) := by
   rw [kindOrbit_su_of_two nf m e (by omega)]
-  simp only [ggMultBlockA, if_neg (by norm_num : ¬ (2 = 1)),
-    if_pos (by omega : 2 ≤ m - 1), if_true, decide_eq_decide]
+  simp only [ggMultBlockA, ite_eq_right (by norm_num : ¬ (2 = 1)),
+    ite_eq_left (by omega : 2 ≤ m - 1), decide_eq_decide]
   constructor
   · rintro h ⟨h1, h2⟩; exact h ⟨by omega, h2⟩
   · rintro h ⟨h1, h2⟩; exact h ⟨by omega, h2⟩
@@ -461,7 +461,7 @@ private lemma kindOrbit_su_three_qs (nf m e : ℕ) (hm : 3 ≤ m) :
 
 
 private lemma subsingleton_statedSL_one (K : Type) [Field K] : Subsingleton ↥(StatedSL 1 K) := by
-  haveI : Subsingleton (Fin 1) := inferInstance
+  have : Subsingleton (Fin 1) := inferInstance
   rw [StatedAPI.statedSL_eq_range_toGL]
   refine ⟨fun a b => ?_⟩
   obtain ⟨x, hx⟩ := MonoidHom.mem_range.mp a.2
@@ -470,7 +470,7 @@ private lemma subsingleton_statedSL_one (K : Type) [Field K] : Subsingleton ↥(
 
 private lemma solvable_sl_two_card_two {E : Type} [Field E] [Finite E] (hE : Nat.card E = 2) :
     Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hq : Fintype.card E = 2 := by rw [← Nat.card_eq_fintype_card]; exact hE
   have h6 : Nat.card (Matrix.SpecialLinearGroup (Fin 2) E) = 6 := by
     rw [Matrix.card_SL_field (n := 2) (𝔽 := E)]
@@ -479,12 +479,12 @@ private lemma solvable_sl_two_card_two {E : Type} [Field E] [Finite E] (hE : Nat
 
 private lemma solvable_su_two_four {E : Type} [Field E] [Finite E] (hE : Nat.card E = 4) :
     Group.IsSolvable ↥(StatedSU 2 2 E) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : Nat.card E = (2 ^ 1) ^ 2 := by norm_num; exact hE
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hE' : Fintype.card E = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hE]; norm_num
-  haveI : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hE'
+  have : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hE'
   obtain ⟨e⟩ := CFSG.GH74.GLS.Stage4.Rest.FieldU3.sdwU_nonempty_sl2_mulEquiv_statedSU_two
     (F := E) (r := 2) (f := 1) h4
   have hk : Nat.card ↥(CFSG.LieType.Steinberg.fixedSubfield E 2 1) = 2 := by
@@ -492,7 +492,7 @@ private lemma solvable_su_two_four {E : Type} [Field E] [Finite E] (hE : Nat.car
   have hsolv : Group.IsSolvable
       (Matrix.SpecialLinearGroup (Fin 2) ↥(CFSG.LieType.Steinberg.fixedSubfield E 2 1)) :=
     solvable_sl_two_card_two hk
-  haveI := hsolv
+  have := hsolv
   exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
 
 private lemma solvable_su_three_four {E : Type} [Field E] [Finite E] (hE : Nat.card E = 4) :
@@ -517,13 +517,13 @@ private theorem ggK1A_isQuasisimple_map {G R : Type} [Group G] [Group R] (π : G
 
 private theorem ggK1A_isSolvable_map {G R : Type} [Group G] [Group R] (π : G →* R)
     {H : Subgroup G} (hH : Group.IsSolvable ↥H) : Group.IsSolvable ↥(H.map π) := by
-  haveI := hH
+  have := hH
   exact Group.isSolvable_of_surjective (f := π.subgroupMap H) (π.subgroupMap_surjective H)
 
 private theorem ggK1A_not_isSolvable_of_isQuasisimple {Q : Type} [Group Q]
     (hQ : CFSG.IsQuasisimple Q) : ¬ Group.IsSolvable Q := by
-  haveI : Nontrivial Q := CFSG.LocalCores.isQuasisimple_nontrivial hQ
-  haveI : Group.IsPerfect Q := hQ.1
+  have : Nontrivial Q := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+  have : Group.IsPerfect Q := hQ.1
   exact Group.IsPerfect.not_isSolvable Q
 
 private lemma hasOrbit_of_kindOrbit_qs_true {nf : ℕ} {k : ggK1ACo_Kind}
@@ -611,11 +611,11 @@ private lemma solvable_sl_le_one (m : ℕ) (hm : m ≤ 1) (E : Type) [Field E] :
 private lemma solvable_su_le_one (m q : ℕ) (hm : m ≤ 1) (E : Type) [Field E] :
     Group.IsSolvable ↥(StatedSU m q E) := by
   interval_cases m
-  · haveI : Subsingleton (GL (Fin 0) E) := inferInstance
-    haveI : Subsingleton ↥(StatedSU 0 q E) := inferInstance
+  · have : Subsingleton (GL (Fin 0) E) := inferInstance
+    have : Subsingleton ↥(StatedSU 0 q E) := inferInstance
     infer_instance
-  · haveI : Subsingleton ↥(StatedSL 1 E) := subsingleton_statedSL_one E
-    haveI : Subsingleton ↥(StatedSU 1 q E) :=
+  · have : Subsingleton ↥(StatedSL 1 E) := subsingleton_statedSL_one E
+    have : Subsingleton ↥(StatedSU 1 q E) :=
       (Subgroup.inclusion_injective (StatedAPI.statedSU_le_statedSL 1 q E)).subsingleton
     infer_instance
 private lemma ggK1A_kindOrbit_qs_false_of_not_quasisimple {p nf N : ℕ} {K : Type} [Field K]
@@ -635,8 +635,8 @@ private lemma ggK1A_solvable_sl_of_le_one {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, _, _, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
-  haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin m') E) :=
+  let := hfield
+  have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin m') E) :=
     solvable_sl_le_one m' hm E
   exact Group.isSolvable_of_surjective (f := eiso.symm.toMonoidHom) eiso.symm.surjective
 
@@ -649,22 +649,22 @@ private lemma ggK1A_solvable_sl_two_two {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, hfinite, hcard, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hfe : e * nf = 1 := by
     by_contra hne
     rw [kindOrbit_sl_qs_of_two nf 2 e (by norm_num)] at horb
-    simpa [hne] using horb
+    simp [hne] at horb
   have h2 : Nat.card E = 2 := by
     rw [Nat.card_eq_fintype_card, hcard, ← pow_mul]
     rw [Nat.mul_comm nf e, hfe, pow_one]
-  haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
+  have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
     solvable_sl_two_card_two h2
   exact Group.isSolvable_of_surjective (f := eiso.symm.toMonoidHom) eiso.symm.surjective
 
 private lemma ggK1A_solvable_sl_large {p nf N : ℕ} {K : Type} [Field K]
     {G : Type} [Group G] {tw : Bool} {xhat : G} {m : List ℕ}
-    (B : ggK1ACo_Blocks p nf tw K N G xhat m) {m' e : ℕ}
+    (_B : ggK1ACo_Blocks p nf tw K N G xhat m) {m' e : ℕ}
     (horb : (ggK1ACo_kindOrbit nf (.sl m' e)).qs = false) (hm3 : 3 ≤ m') :
     False := by
   have hqsT : (ggK1ACo_kindOrbit nf (.sl m' e)).qs = true := by
@@ -697,8 +697,8 @@ private lemma ggK1A_solvable_su_of_le_one {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, _, _, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
-  haveI : Group.IsSolvable ↥(StatedSU m' ((2 ^ nf) ^ e) E) :=
+  let := hfield
+  have : Group.IsSolvable ↥(StatedSU m' ((2 ^ nf) ^ e) E) :=
     solvable_su_le_one m' ((2 ^ nf) ^ e) hm E
   exact Group.isSolvable_of_surjective (f := eiso.symm.toMonoidHom) eiso.symm.surjective
 
@@ -711,18 +711,18 @@ private lemma ggK1A_solvable_su_two {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, hfinite, hcard, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hfe : e * nf = 1 := by
     by_contra hne
     rw [kindOrbit_su_two_qs nf e] at horb
-    simpa [hne] using horb
+    simp [hne] at horb
   have hfe' : nf * e = 1 := by rw [Nat.mul_comm]; exact hfe
   have h4 : Nat.card E = 4 := by
     rw [Nat.card_eq_fintype_card, hcard, ← pow_mul]
     rw [show nf * (2 * e) = 2 * (nf * e) by ring, hfe', mul_one, pow_two]
     norm_num
-  haveI : Group.IsSolvable ↥(StatedSU 2 2 E) := solvable_su_two_four h4
+  have : Group.IsSolvable ↥(StatedSU 2 2 E) := solvable_su_two_four h4
   have hq : (2 ^ nf) ^ e = 2 := by
     rw [← pow_mul, Nat.mul_comm nf e, hfe, pow_one]
   rw [hq] at eiso
@@ -737,18 +737,18 @@ private lemma ggK1A_solvable_su_three {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, hfinite, hcard, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hfe : e * nf = 1 := by
     by_contra hne
     rw [kindOrbit_su_three_qs nf 3 e (by norm_num)] at horb
-    simpa [hne] using horb
+    simp [hne] at horb
   have hfe' : nf * e = 1 := by rw [Nat.mul_comm]; exact hfe
   have h4 : Nat.card E = 4 := by
     rw [Nat.card_eq_fintype_card, hcard, ← pow_mul]
     rw [show nf * (2 * e) = 2 * (nf * e) by ring, hfe', mul_one, pow_two]
     norm_num
-  haveI : Group.IsSolvable ↥(StatedSU 3 2 E) := solvable_su_three_four h4
+  have : Group.IsSolvable ↥(StatedSU 3 2 E) := solvable_su_three_four h4
   have hq : (2 ^ nf) ^ e = 2 := by
     rw [← pow_mul, Nat.mul_comm nf e, hfe, pow_one]
   rw [hq] at eiso
@@ -756,7 +756,7 @@ private lemma ggK1A_solvable_su_three {p nf N : ℕ} {K : Type} [Field K]
 
 private lemma ggK1A_solvable_su_large {p nf N : ℕ} {K : Type} [Field K]
     {G : Type} [Group G] {tw : Bool} {xhat : G} {m : List ℕ}
-    (B : ggK1ACo_Blocks p nf tw K N G xhat m) {m' e : ℕ}
+    (_B : ggK1ACo_Blocks p nf tw K N G xhat m) {m' e : ℕ}
     (horb : (ggK1ACo_kindOrbit nf (.su m' e)).qs = false) (hm4 : 4 ≤ m') :
     False := by
   have hqsT : (ggK1ACo_kindOrbit nf (.su m' e)).qs = true := by
@@ -898,10 +898,10 @@ private lemma ggK1A_sl_two_le {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, _, _, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
+  let := hfield
   by_contra h
   have hmle : m' ≤ 1 := by omega
-  haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin m') E) :=
+  have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin m') E) :=
     solvable_sl_le_one m' hmle E
   have hsolvB : Group.IsSolvable ↥(B.A i) :=
     Group.isSolvable_of_surjective (f := eiso.symm.toMonoidHom) eiso.symm.surjective
@@ -915,10 +915,10 @@ private lemma ggK1A_su_two_le {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, _, _, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
+  let := hfield
   by_contra h
   have hmle : m' ≤ 1 := by omega
-  haveI : Group.IsSolvable ↥(StatedSU m' ((2 ^ nf) ^ e) E) :=
+  have : Group.IsSolvable ↥(StatedSU m' ((2 ^ nf) ^ e) E) :=
     solvable_su_le_one m' ((2 ^ nf) ^ e) hmle E
   have hsolvB : Group.IsSolvable ↥(B.A i) :=
     Group.isSolvable_of_surjective (f := eiso.symm.toMonoidHom) eiso.symm.surjective
@@ -936,8 +936,8 @@ private lemma ggK1A_label_sl {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, hfinite, hcard, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
-  haveI : Finite E := Finite.of_fintype E
+  let := hfield
+  have : Finite E := Finite.of_fintype E
   have hcardNat : Nat.card E = 2 ^ (e * nf) := by
     rw [Nat.card_eq_fintype_card, hcard, ← pow_mul, Nat.mul_comm nf e]
   have hblk : ggK1A_blk B i = ggMultBlockA (m' - 1) (e * nf) 1 := by
@@ -948,7 +948,7 @@ private lemma ggK1A_label_sl {p nf N : ℕ} {K : Type} [Field K]
     rw [hblk]
     rfl
   rw [hlabEq]
-  simp only [GGHasLabel, Assembly.LargeEvenRawDatum, Assembly.LargeEvenRecipeLinear]
+  simp only [GGHasLabel]
   refine ⟨E, hfield, Finite.of_fintype E, hcardNat, ?_⟩
   rw [show m' - 1 + 1 = m' by omega]
   exact ⟨(hcompIso.trans (QuotientGroup.congr _ _ eiso (Subgroup.map_center_eq eiso))).trans
@@ -981,8 +981,8 @@ private lemma ggK1A_label_su_two {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, hfinite, hcard, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
-  haveI : Finite E := Finite.of_fintype E
+  let := hfield
+  have : Finite E := Finite.of_fintype E
   have hq : (2 ^ nf) ^ e = 2 ^ (e * nf) := by
     rw [← pow_mul, Nat.mul_comm nf e]
   have hcardNat : Nat.card E = (2 ^ (e * nf)) ^ 2 := by
@@ -998,15 +998,15 @@ private lemma ggK1A_label_su_two {p nf N : ℕ} {K : Type} [Field K]
     rw [hblk]
     simp [ggMultBlockA]
   rw [hlabEq]
-  simp only [GGHasLabel, Assembly.LargeEvenRawDatum, Assembly.LargeEvenRecipeLinear]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  simp only [GGHasLabel]
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardF : Nat.card E = (2 ^ (e * nf)) ^ 2 := hcardNat
   rw [hq] at eiso
   have hEfin : Fintype.card E = 2 ^ (2 * (e * nf)) := by
     rw [← Nat.card_eq_fintype_card, hcardNat, ← pow_mul]
     congr 1
     ring
-  haveI : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * (e * nf)) hEfin
+  have : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * (e * nf)) hEfin
   obtain ⟨e2⟩ := CFSG.GH74.GLS.Stage4.Rest.FieldU3.sdwU_nonempty_sl2_mulEquiv_statedSU_two
     (F := E) (r := 2) (f := e * nf) hcardF
   have hcardFix : Nat.card ↥(CFSG.LieType.Steinberg.fixedSubfield E 2 (e * nf)) =
@@ -1051,13 +1051,13 @@ private lemma ggK1A_label_su_large {p nf N : ℕ} {K : Type} [Field K]
   have hmodel := B.hmodel i
   rw [hk] at hmodel
   obtain ⟨E, hfield, hfinite, hcard, ⟨eiso⟩⟩ := hmodel
-  letI := hfield
-  haveI : Finite E := Finite.of_fintype E
+  let := hfield
+  have : Finite E := Finite.of_fintype E
   have hcardNat : Nat.card E = (2 ^ (e * nf)) ^ 2 := by
     rw [Nat.card_eq_fintype_card, hcard, ← pow_mul, ← pow_mul]
     congr 1
     ring
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (p := 2) (f := e * nf) (F := E) hcardNat hm3 hpair).2
   have hblk : ggK1A_blk B i = ggMultBlockA (m' - 1) (e * nf) 2 := by
@@ -1066,10 +1066,10 @@ private lemma ggK1A_label_su_large {p nf N : ℕ} {K : Type} [Field K]
     exact kindOrbit_su_of_two nf m' e h2m
   have hlabEq : (ggK1A_blk B i).lab = ⟨.twA, m' - 1, e * nf⟩ := by
     rw [hblk]
-    simp only [ggMultBlockA, if_neg (by norm_num : ¬ (2 = 1)),
-      if_pos (by omega : 2 ≤ m' - 1)]
+    simp only [ggMultBlockA, ite_eq_right (by norm_num : ¬ (2 = 1)),
+      ite_eq_left (by omega : 2 ≤ m' - 1)]
   rw [hlabEq]
-  simp only [GGHasLabel, Assembly.LargeEvenRawDatum, Assembly.LargeEvenRecipeUnitary]
+  simp only [GGHasLabel]
   have hq : (2 ^ nf) ^ e = 2 ^ (e * nf) := by
     rw [← pow_mul, Nat.mul_comm nf e]
   rw [hq] at eiso
@@ -1222,7 +1222,7 @@ private lemma ggK1A_image_hbij {p nf N : ℕ} {K : Type} [Field K]
           (ggK1A_datum p nf tw m).orbits[k].qs = true},
       ∀ i, (ggK1A_datum p nf tw m).orbits[(g i).1] = ggK1A_blk B i.1 := by
   classical
-  letI : Fintype B.ι := B.fintype
+  let : Fintype B.ι := B.fintype
   let D : GGKacDatum := ggK1A_datum p nf tw m
   let P : B.ι → Prop := fun i => CFSG.IsQuasisimple ↥(ggK1A_image π B i)
   let Q : Fin D.orbits.length → Prop := fun k => D.orbits[k].qs = true
@@ -1283,13 +1283,13 @@ theorem ggK1A_transport {p nf N : ℕ} {K : Type} [Field K] {G : Type} [Group G]
     {R : Type} [Group R] (π : G →* R) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center G)
     {tw : Bool} {xhat : G} {m : List ℕ}
-    (hnoglue : Subgroup.centralizer ({π xhat} : Set R) =
+    (_hnoglue : Subgroup.centralizer ({π xhat} : Set R) =
       (Subgroup.centralizer ({xhat} : Set G)).map π)
     (B : ggK1ACo_Blocks p nf tw K N G xhat m) :
     Nonempty (ggK1ACo_Family p R (π xhat) (ggMultDatumA p nf (ggMultOrd p nf) tw m)) := by
   classical
-  letI : Fintype B.ι := B.fintype
-  haveI : Finite B.ι := Finite.of_fintype B.ι
+  let : Fintype B.ι := B.fintype
+  have : Finite B.ι := Finite.of_fintype B.ι
   change Nonempty (ggK1ACo_Family p R (π xhat) (ggK1A_datum p nf tw m))
   refine ⟨B.ι, ggK1A_image π B, ggK1A_blk B, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · exact ggK1A_image_hcomm π B
@@ -1307,7 +1307,7 @@ theorem ggK1A_transport {p nf N : ℕ} {K : Type} [Field K] {G : Type} [Group G]
 
 theorem ggK1ACo_component_inj {p : ℕ} {R : Type} [Group R] {x : R} {D : GGKacDatum}
     (F : ggK1ACo_Family p R x D) {i j : F.ι}
-    (hi : CFSG.IsQuasisimple ↥(F.A i)) (hj : CFSG.IsQuasisimple ↥(F.A j))
+    (hi : CFSG.IsQuasisimple ↥(F.A i)) (_hj : CFSG.IsQuasisimple ↥(F.A j))
     (h : F.A i = F.A j) : i = j := by
   by_contra hij
   have hcomm : ∀ a b : ↥(F.A i), a * b = b * a := by

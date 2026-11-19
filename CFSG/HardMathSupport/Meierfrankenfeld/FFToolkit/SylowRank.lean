@@ -10,7 +10,7 @@ open scoped Pointwise
 
 theorem card_le_two_pow_pred_of_orderOf_four {G : Type} [Group G] [Finite G] {k m : ℕ}
     (hG : Nat.card G = 2 ^ k * m) (hm : Odd m) {y : G} (hy : orderOf y = 4)
-    (B : Subgroup G) (hBc : ∀ x ∈ B, ∀ z ∈ B, x * z = z * x) (hB2 : ∀ x ∈ B, x * x = 1) :
+    (B : Subgroup G) (_hBc : ∀ x ∈ B, ∀ z ∈ B, x * z = z * x) (hB2 : ∀ x ∈ B, x * x = 1) :
     Nat.card B ≤ 2 ^ (k - 1) := by
   have hy2 : y * y ≠ 1 := by
     intro h

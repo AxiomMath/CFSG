@@ -47,8 +47,9 @@ variable [Finite K]
   toFun A := ⟨Matrix.GeneralLinearGroup.map (fixF σ).subtype A.1,
     (sl_map_subtype_iff σ A.1).2 A.2⟩
   map_one' := Subtype.ext (map_one _)
-  map_mul' A B := Subtype.ext (map_mul _ _ _)
+  map_mul' _A _B := Subtype.ext (map_mul _ _ _)
 
+omit [Finite K] in
 theorem coe_subfieldInclusion (σ : K ≃+* K) (A : LargeEvenSLGroup (Fin d) (fixF σ)) :
     ((subfieldInclusion σ A : LargeEvenSLGroup (Fin d) K) : GL (Fin d) K) =
       Matrix.GeneralLinearGroup.map (fixF σ).subtype A.1 :=
@@ -58,10 +59,11 @@ theorem coe_subfieldInclusion (σ : K ≃+* K) (A : LargeEvenSLGroup (Fin d) (fi
     LargeEvenSLGroup (Fin d) (fixF σ) →* LargeEvenProj (LargeEvenSLGroup (Fin d) K) :=
   (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K)).comp (subfieldInclusion σ)
 
+omit [Finite K] in
 theorem ker_subfieldHom (hd : 1 ≤ d) (σ : K ≃+* K) :
     (subfieldHom (d := d) σ).ker =
       (LargeEvenScalars (Fin d) (fixF σ)).subgroupOf (LargeEvenSLGroup (Fin d) (fixF σ)) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   unfold subfieldHom
   rw [← MonoidHom.comap_ker (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K)) (subfieldInclusion σ),
     QuotientGroup.ker_mk']
@@ -73,7 +75,7 @@ theorem range_subfieldHom (hd : 3 ≤ d) {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card
     {σ : K ≃+* K} {f : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin d) K))} (hf : Induced σ f) :
     (subfieldHom σ).range = ggFixDer f := by
   classical
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   let H : Subgroup (GL (Fin d) K) := LargeEvenSLGroup (Fin d) K
   let π : H →* LargeEvenProj H := LargeEvenProjMk H
   let ρ : MulAut H := matAct H (slMapStable d K) σ
@@ -114,7 +116,7 @@ theorem range_subfieldHom (hd : 3 ≤ d) {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card
   have hmem : ∀ x : H, f (QuotientGroup.mk x) = QuotientGroup.mk (ρ x) := hf
   obtain ⟨hDT, hcomm, -⟩ := FR.subfield_core ((LargeEvenScalars (Fin d) K).subgroupOf H)
     hZc hZodd ρ f hmem
-  haveI hperf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin d) (fixF σ)) :=
+  have hperf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin d) (fixF σ)) :=
     Subgroup.isPerfect_iff.2 (commutator_slGroup (K := fixF σ) hd)
   have hDperf : Group.IsPerfect ↥D := by
     have h1 : Group.IsPerfect ↥((subfieldHom (d := d) σ).range) :=
@@ -125,7 +127,7 @@ theorem range_subfieldHom (hd : 3 ≤ d) {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card
   unfold ggFixDer
   rw [hT]
   refine le_antisymm ?_ hcomm
-  · haveI := hDperf
+  · have := hDperf
     rw [← Subgroup.commutator_eq_self (H := D)]
     exact Subgroup.commutator_mono hDT hDT
 

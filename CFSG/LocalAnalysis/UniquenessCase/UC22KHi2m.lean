@@ -50,6 +50,7 @@ variable {k : X}
 theorem KleinNat.W0_le (hk : k ∈ Y) : kleinW0 ρ A k ≤ A :=
   commOn_le_of_invariant fun a ha u hu => K.invA a (Subgroup.zpowers_le.2 hk ha) u hu
 
+omit [Field F] K in
 theorem KleinNat.W0_sum_eq_zero (hk3 : orderOf k = 3) :
     ∀ x ∈ kleinW0 ρ A k, x + ρ k x + ρ k (ρ k x) = 0 := by
   have hkk : k * k * k = 1 := by
@@ -74,19 +75,20 @@ theorem KleinNat.W0_sum_eq_zero (hk3 : orderOf k = 3) :
     · simp only [pow_one, map_sub]
       rw [h3 u]
       abel
-    · simp only [pow_two, map_mul, Module.End.mul_apply, map_sub, map_add]
+    · simp only [pow_two, map_mul, Module.End.mul_apply, map_sub]
       have e1 : ρ k (ρ k (ρ k (ρ k u))) = ρ k u := by rw [h3 (ρ k u)]
       have e2 := h3 u
       calc _ = (ρ k (ρ k u) - u) + (ρ k (ρ k (ρ k u)) - ρ k u) +
-            (ρ k (ρ k (ρ k (ρ k u))) - ρ k (ρ k u)) := by simp [map_sub]
+            (ρ k (ρ k (ρ k (ρ k u))) - ρ k (ρ k u)) := by simp
         _ = 0 := by rw [e1, e2]; abel
   intro x hx
   exact hle hx
 
+omit [Field F] K in
 theorem KleinNat.W0_inf_B (hk3 : orderOf k = 3) (hBfix : ∀ b ∈ B, ρ k b = b) : kleinW0 ρ A k ⊓ B = ⊥ := by
   rw [eq_bot_iff]
   rintro x ⟨hx0, hxB⟩
-  have h := K.W0_sum_eq_zero hk3 x hx0
+  have h := KleinNat.W0_sum_eq_zero hk3 x hx0
   rw [hBfix x hxB, hBfix x hxB] at h
   have h2 : x + x = 0 := by
     rw [← two_smul (ZMod 2) x]
@@ -117,11 +119,12 @@ theorem KleinNat.psi_W0_surj [CharP F 2] (hk : k ∈ Y) (hk3 : orderOf k = 3) (y
   rw [map_sub, K.equi ⟨k, hk⟩ u huA, huψ]
   exact hw
 
+omit [Finite F] in
 theorem KleinNat.psi_inj_W0 (hk : k ∈ Y) (hk3 : orderOf k = 3) (hBfix : ∀ b ∈ B, ρ k b = b) {x : V}
     (hx : x ∈ kleinW0 ρ A k) (h0 : K.ψ x = 0) : x = 0 := by
   have hxB : x ∈ B := K.memB x (K.W0_le hk hx) h0
   have hmem : x ∈ kleinW0 ρ A k ⊓ B := ⟨hx, hxB⟩
-  rw [K.W0_inf_B hk3 hBfix] at hmem
+  rw [CFSG.LocalAnalysis.UniquenessCase.UC22.P22k2.KleinNat.W0_inf_B hk3 hBfix] at hmem
   exact (Submodule.mem_bot _).1 hmem
 
 theorem KleinNat.card_W0 [CharP F 2] (hF : Nat.card F = 2) (hk : k ∈ Y) (hk3 : orderOf k = 3)
@@ -160,6 +163,7 @@ theorem KleinNat.faithful_W0 [CharP F 2] (hk : k ∈ Y) (hk3 : orderOf k = 3) {a
   have := K.φ.injective (h1.trans (map_one K.φ).symm)
   exact congrArg Subtype.val this
 
+omit [Finite F] in
 theorem KleinNat.fixfree_W0 [CharP F 2] (hk : k ∈ Y) (hk3 : orderOf k = 3) (hBfix : ∀ b ∈ B, ρ k b = b) {a : X}
     (ha : a ∈ Y) (ha1 : a ≠ 1) (ha3 : a ^ 3 = 1) {x : V} (hx : x ∈ kleinW0 ρ A k) (hfix : ρ a x = x) : x = 0 := by
   have hψ : ((K.φ ⟨a, ha⟩ : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) *ᵥ K.ψ x = K.ψ x := by
@@ -183,6 +187,7 @@ theorem KleinNat.commOn_le [CharP F 2] {Q : Subgroup X} (hBQ : ∀ q ∈ Q, ∀ 
   rw [e]
   exact sub_mem_commOn ha hw
 
+omit [Field F] K [Finite F] in
 theorem KleinNat.W0_inv {g : X} (hg : ∀ a ∈ Subgroup.zpowers k, g * a * g⁻¹ ∈ Subgroup.zpowers k)
     (hgA : ∀ u ∈ A, ρ g u ∈ A) : ∀ w ∈ kleinW0 ρ A k, ρ g w ∈ kleinW0 ρ A k :=
   commOn_invariant hg hgA
@@ -272,6 +277,7 @@ structure KleinPkg (D : Data G) (Y : Subgroup (MBar D.M D.U)) (V₀ : Subgroup G
     (∃ l ∈ L, l ∉ centralizer (V₀ : Set G) ∧ l ^ 3 ∈ centralizer (V₀ : Set G)) →
       CFSG.Quasithin.IsNaturalL2Prime 1 L V₀
 
+omit [Finite G] in
 theorem bsub_bsup_eq {V : Subgroup G} {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod]
     (e : ↥V ≃* Multiplicative Vmod) (S : Submodule (ZMod 2) Vmod) : bsub e (bsup e S) = S := by
   ext x
@@ -282,8 +288,8 @@ theorem uc22k_klein_exists (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) 
     (hNb : NbarSplit D Nb) (i : Fin m) (hS3 : IsL2Ev ↥(Nb i) 1) :
     ∃ (V₀ : Subgroup G) (K₃ : Subgroup (MBar D.M D.U)), KleinPkg D (Nb i) V₀ K₃ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Umod, _, _, _, e, ρ, hc⟩ :=
     uc22br4_exists_conjModule D.M D.U (uc22p22xf_hV D) (uc22p22xf_hel D)
   have d := natDec_of_data D Ch h3 h51 hH c hNb e ρ hc
@@ -307,7 +313,7 @@ theorem uc22k_klein_exists (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) 
     interval_cases h : Nat.card F
     · rfl
     all_goals (exfalso; norm_num at hq)
-  haveI : CharP F 2 := P22y.charP_two_of_card (n := 1) (by rw [hF2, pow_one])
+  have : CharP F 2 := P22y.charP_two_of_card (n := 1) (by rw [hF2, pow_one])
   have hZ : Subgroup.center ↥Y = ⊥ := P22y.center_eq_bot_of_isL2Ev hS3
   have hcom3 : Nat.card ↥⁅Y, Y⁆ = 3 := P22y.card_commutator_factor Y hY6 hZ
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 (show 3 ∣ Nat.card ↥⁅Y, Y⁆ by rw [hcom3])
@@ -368,7 +374,7 @@ theorem uc22k_klein_exists (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) 
       commOn_invariant (A := Nbar) (U := ⊤) (fun a ha => (uc22p22ya_nbar_normal D).conj_mem a ha _)
         (fun w _ => trivial)
     have hgA : ∀ w ∈ A, ρ (QuotientGroup.mk ⟨x, hx⟩) w ∈ A := commOn_invariant (A := Y) (U := natI ρ Nbar) hgY hI
-    have hu' := K.W0_inv hg hgA u hu
+    have hu' := KleinNat.W0_inv hg hgA u hu
     have := iota_rho hV e ρ hc ⟨x, hx⟩ u
     rw [← this]
     exact hiotaV₀ _ hu'
@@ -387,7 +393,7 @@ theorem uc22k_klein_exists (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) 
       (∃ l ∈ L, l ∉ centralizer (V₀ : Set G) ∧ l ^ 3 ∈ centralizer (V₀ : Set G)) →
         CFSG.Quasithin.IsNaturalL2Prime 1 L V₀ := by
     intro L hLM hLK hLV ⟨l₃, hl₃L, hl₃nc, hl₃c⟩
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     have hF2' : Fintype.card F = 2 := by rw [← Nat.card_eq_fintype_card, hF2]
     have hVL : ⁅V₀, L⁆ ≤ V₀ := commutator_le_of_normalizer le_rfl hLV
     have hVLU : ⁅V₀, L⁆ ≤ D.U := hVL.trans hV₀U

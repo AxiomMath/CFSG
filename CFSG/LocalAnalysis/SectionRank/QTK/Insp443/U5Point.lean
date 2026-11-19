@@ -14,8 +14,8 @@ theorem KConfig.not_u5PtP {K : Type} [Field K]
     {L V : Subgroup (CFSG.ClassicalGroups.UnitaryFlag.hypPSU h 2 1)}
     (hc : KConfig (CFSG.ClassicalGroups.UnitaryFlag.hypPSU h 2 1) L V
       (CFSG.Quasithin.H13.Sec53F.Unit.u5PtP h)) : False := by
-  haveI := h.finite
-  haveI := CFSG.Quasithin.H13.Sec53F.Unit.finite_hypPSU_five h
+  have := h.finite
+  have := CFSG.Quasithin.H13.Sec53F.Unit.finite_hypPSU_five h
   have hLne : L ≠ ⊥ := fun hL =>
     hc.ne_bot (by rw [hc.eq_commutator, hL, Subgroup.commutator_bot_right])
   have hLeq : L = perfectCore (CFSG.Quasithin.H13.Sec53F.Unit.u5PtP h) :=

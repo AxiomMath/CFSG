@@ -567,7 +567,7 @@ private theorem f112sa_relCent_le_pCoreOf_right_of_g24
 
 private theorem f112sa_commutator_mem_pCoreOf_right_of_g24
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) (h1 : VA5 L1) (h2 : VA5 L2)
-    (hD : G24TransferData L1 L2 S) {c : H} (hcS : c ∈ S)
+    (_hD : G24TransferData L1 L2 S) {c : H} (hcS : c ∈ S)
     (hcQW : ∀ q ∈ pCoreOf 2 (f112saP2' L1 L2 S),
       ⁅c, q⁆ ∈ relCent (pCoreOf 2 (f112saP2' L1 L2 S))
         (centerOf (pCoreOf 2 (f112saP2' L1 L2 S))) (oTwoPrime (f112saP2' L1 L2 S)))
@@ -683,8 +683,8 @@ theorem f112sa_le_K_of_g24 {L1 L2 S : Subgroup H}
     S ≤ f112saK L1 L2 S :=
   f112sa_le_K_of_core_steps hF h1 h2
     (f112_isL2Quot_oTwoPrime_P1' hF h1 h2) (f112_isL2Quot_oTwoPrime_P2' hF h1 h2)
-    (fun c hcS hcQ => (Subgroup.mem_inf.mp (f112sa_mem_T_of_g24_left hF h1 h2 hD hcS hcQ)).2)
-    (fun c hcS hcQ => (Subgroup.mem_inf.mp (f112sa_mem_T_of_g24_right hF h1 h2 hD hcS hcQ)).2)
+    (fun _c hcS hcQ => (Subgroup.mem_inf.mp (f112sa_mem_T_of_g24_left hF h1 h2 hD hcS hcQ)).2)
+    (fun _c hcS hcQ => (Subgroup.mem_inf.mp (f112sa_mem_T_of_g24_right hF h1 h2 hD hcS hcQ)).2)
 
 theorem f112_g24LocalData_of_g24TransferData
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) (h1 : VA5 L1) (h2 : VA5 L2)

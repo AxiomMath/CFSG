@@ -78,7 +78,7 @@ theorem exists_conjAut_diagSL_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     ∃ g : GL (Fin 4) F, ∀ (d : Fin 4 → F) (hd : ∏ i, d i = 1), (∀ i, d i ^ p = 1) →
       proj 4 F (diagSL d hd) ∈ P.map (conjAut 4 F g).toMonoidHom := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnp : ∀ z ∈ (proj 4 F).ker, z ^ p = 1 → z = 1 := fun z hz hzp => by
     rw [ker_proj] at hz
     exact eq_one_of_mem_scalars_of_pow_eq_one hp hp2 hz hzp

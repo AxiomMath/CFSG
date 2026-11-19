@@ -191,11 +191,11 @@ theorem ggTorusModelAt_of_coherentFrame_of_iSup_pairBlock
       (⨆ (x : OmPlusIdx k) (_ : x ≠ x₀), pairBlock Q e t x.1.1.1 x.1.1.2 x.2) = ⊤) :
     GGTorusModelAt p E := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h3 : 3 ≤ ℓ := by omega
   obtain ⟨τ, hτinj, hτrange, hτc, _hact⟩ := exists_frameTorus hF.toIsPlaneFrame hp
   have hk4 : 4 ≤ k := by omega
-  haveI : Nonempty (OmPlusIdx k) := by
+  have : Nonempty (OmPlusIdx k) := by
     refine ⟨(⟨(⟨0, by omega⟩, ⟨1, by omega⟩), ?_⟩, false)⟩
     simp [Fin.lt_def]
   let w : OmPlusIdx k → ↥(orthDerived Q) := fun x =>

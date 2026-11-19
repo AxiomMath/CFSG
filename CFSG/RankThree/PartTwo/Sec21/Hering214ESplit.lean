@@ -19,6 +19,7 @@ private theorem barAct_of_mem_split {L : Subgroup G} {l : G} (hl : l ∈ L) :
   induction q using QuotientGroup.induction_on with
   | H w => rfl
 
+omit [Finite G] in
 private theorem isPGroup_zpowers_pow_of_dvd {p : ℕ} (hp : p.Prime) {x : G} {b r k : ℕ}
     (hx : x ^ (p ^ b * r) = 1) (hk : r ∣ k) : IsPGroup p (Subgroup.zpowers (x ^ k)) := by
   have h1 : (x ^ k) ^ (p ^ b) = 1 := by

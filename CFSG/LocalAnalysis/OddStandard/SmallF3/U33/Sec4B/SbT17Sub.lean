@@ -54,7 +54,7 @@ theorem normalIn_of_unique_normal_E16 {𝒮 Y : Subgroup G} (hY : IsE16In 𝒮 Y
           exact Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
       have hR1normalIn : (R₁.subgroupOf R).Normal := by
         rw [hsub]
-        haveI : Group.IsNilpotent ↥R := IsPGroup.isNilpotent hR
+        have : Group.IsNilpotent ↥R := IsPGroup.isNilpotent hR
         exact Group.normalizerCondition_of_isNilpotent.normal_of_coatom M hMcoat
       have hR1conj : ∀ h k : G, h ∈ R₁ → k ∈ R → k * h * k⁻¹ ∈ R₁ :=
         (Subgroup.normal_subgroupOf_iff hR1le).mp hR1normalIn
@@ -75,7 +75,7 @@ theorem normalIn_of_unique_normal_E16 {𝒮 Y : Subgroup G} (hY : IsE16In 𝒮 Y
           simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using
             hR1conj y r hyR1 hr
         have hAelem : CFSG.Open.IsElemAbelian 2 A := by
-          haveI : IsMulCommutative Y := hY.2.1.1
+          have : IsMulCommutative Y := hY.2.1.1
           refine ⟨?_, ?_⟩
           · change IsMulCommutative (Y.map (MulAut.conj r).toMonoidHom)
             infer_instance

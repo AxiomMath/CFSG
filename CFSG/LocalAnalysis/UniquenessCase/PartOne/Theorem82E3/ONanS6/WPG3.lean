@@ -15,9 +15,9 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Data G}
 
 theorem alpha_const_of_local'' (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     (hlocal : ∀ A : Subgroup G, CFSG.Open.IsElemAbelian 3 A → Nat.card A = 27 →
       zSub P c.L ≤ A → A ≤ P ⊓ c.L →
       ∀ E ∈ CFSG.LocalAnalysis.UniquenessCase.UC22.InS3.hyperplanes 3 A,

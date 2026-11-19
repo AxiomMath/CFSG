@@ -21,6 +21,7 @@ section Lattice
 variable (hs : QuotMod.Hyp H N N₀)
 variable [Module (ZMod 2) (SecMod hs)]
 
+omit [Finite G] in
 theorem subSec_inf_subSec_eq_bot {E F : Subgroup G} (hEF : E ⊓ (F ⊔ N₀) ≤ N₀) :
     subSec hs E ⊓ subSec hs F = ⊥ := by
   rw [Submodule.eq_bot_iff]
@@ -63,7 +64,7 @@ theorem natCard_subSec_mul_natCard_inf {E : Subgroup G} (hEN : E ≤ N)
     calc Nat.card ↥(subSec hs E) * Nat.card ↥(E ⊓ N₀) * Nat.card N₀
         = Nat.card ↥(subSec hs E) * Nat.card N₀ * Nat.card ↥(E ⊓ N₀) := by ring
       _ = Nat.card E * Nat.card N₀ := by rw [h1, h2]
-  haveI : Nonempty ↥N₀ := ⟨⟨1, N₀.one_mem⟩⟩
+  have : Nonempty ↥N₀ := ⟨⟨1, N₀.one_mem⟩⟩
   exact Nat.mul_right_cancel Nat.card_pos h3
 
 end Lattice

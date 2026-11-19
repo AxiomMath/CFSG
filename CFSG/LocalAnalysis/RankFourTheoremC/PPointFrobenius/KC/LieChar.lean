@@ -18,7 +18,7 @@ private theorem kcLie_exp_eq {p a k m : ℕ} (hp : p.Prime) (hm : ¬ p ∣ m)
   have h2 : k ≤ a := (Nat.pow_dvd_pow_iff_le_right hp.one_lt).1 h1
   refine le_antisymm h2 ?_
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   exact hk' (dvd_mul_of_dvd_left (pow_dvd_pow p (by omega : k + 1 ≤ a)) m)
 
 private theorem kcLie_two_mul_half {x : ℕ} (hx : x % 2 = 1) :

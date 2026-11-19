@@ -56,12 +56,12 @@ theorem wJ_cons (G : Nat → Nat) (p : Nat) (w : List Nat) (x : Nat) :
 
 theorem lJ_pt {G : Nat → Nat} {p : Nat} (x : Nat) (hp : p < 31671) : lJ G p x = cJ G p x := by
   unfold lJ
-  rw [nIf_eq, if_pos (blt_iff.2 hp)]
+  rw [nIf_eq, ite_eq_left (blt_iff.2 hp)]
 
 theorem lJ_reg {G : Nat → Nat} {p : Nat} (x : Nat) (hp : ¬ p < 31671) :
     lJ G p x = tb G (p - 31671) x := by
   unfold lJ
-  rw [nIf_eq, if_neg (fun h => hp (blt_iff.1 h))]
+  rw [nIf_eq, ite_eq_right (fun h => hp (blt_iff.1 h))]
   rfl
 
 theorem listK_spec {H : Nat → Nat} {rl rp c bd : Nat} (h : listK H rl rp c bd = true) :
@@ -72,16 +72,16 @@ theorem listK_spec {H : Nat → Nat} {rl rp c bd : Nat} (h : listK H rl rp c bd 
   simp only [bAnd_eq, Bool.and_eq_true] at h
   refine ⟨fun i hi => ?_, fun i hi => ?_, fun x hx => ?_⟩
   · have h1 := allN_iff.1 h.1 i hi
-    simp only [strictB_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h1
+    simp only [strictB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h1
     exact h1
   · have h2 := allN_iff.1 h.2.1 i (by rw [Nat.pred_eq_sub_one]; omega)
     exact blt_iff.1 h2
   · have h3 := allN_iff.1 h.2.2 x hx
     rw [strictB_eq, bIf_eq] at h3
     by_cases hm : tb H rp x < c
-    · rw [if_pos (blt_iff.2 hm)] at h3
+    · rw [ite_eq_left (blt_iff.2 hm)] at h3
       exact Or.inl ⟨hm, Nat.eq_of_beq_eq_true h3⟩
-    · rw [if_neg (fun e => hm (blt_iff.1 e))] at h3
+    · rw [ite_eq_right (fun e => hm (blt_iff.1 e))] at h3
       exact Or.inr (Nat.eq_of_beq_eq_true h3)
 
 theorem presK_spec {G H : Nat → Nat} {s c : Nat} {w : List Nat} (h : presK G H s c w = true) :
@@ -113,8 +113,8 @@ theorem foldr_count (p : Nat → Bool) (L : List Nat) :
   | cons a L ih =>
     rw [List.foldr_cons, ih, List.filter_cons]
     by_cases hp : p a = true
-    · rw [if_pos hp, if_pos hp, List.length_cons]
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_left hp, ite_eq_left hp, List.length_cons]
+    · rw [ite_eq_right hp, ite_eq_right hp]
 
 theorem cntK_spec {G H : Nat → Nat} {w : List Nat} {c : Nat} (h : cntK G H w c = true) :
     ((List.range 3240).filter fun i => memS H 0 3240 (wJ G w (tb H 0 i))).length = c := by
@@ -140,9 +140,9 @@ theorem trK_spec {G H : Nat → Nat} {b gr ng : Nat} {dom : Nat → Bool} {s lo 
   obtain ⟨hp, hd, hpos, hr⟩ := h1
   rw [bIf_eq] at hr
   refine ⟨blt_iff.1 hp, hd, Nat.eq_of_beq_eq_true hpos, fun e => ?_, fun e => ?_⟩
-  · rw [if_pos (by rw [e]; exact Nat.beq_refl s)] at hr
+  · rw [ite_eq_left (by rw [e]; exact Nat.beq_refl s)] at hr
     exact Nat.eq_of_beq_eq_true hr
-  · rw [if_neg (fun hb => e (Nat.eq_of_beq_eq_true hb)), strictB_eq, bAnd_eq, bAnd_eq,
+  · rw [ite_eq_right (fun hb => e (Nat.eq_of_beq_eq_true hb)), strictB_eq, bAnd_eq, bAnd_eq,
       bAnd_eq] at hr
     simp only [Bool.and_eq_true] at hr
     exact ⟨Nat.le_of_ble_eq_true hr.1, blt_iff.1 hr.2.1, blt_iff.1 hr.2.2.1,
@@ -152,7 +152,7 @@ theorem covK_spec {H : Nat → Nat} {b n : Nat} {dom : Nat → Bool} (h : covK H
     {x : Nat} (hx : x < 31671) (hd : dom x = true) :
     tb H (b + 3) x < n ∧ tb H b (tb H (b + 3) x) = x := by
   have h1 := allN_iff.1 h x hx
-  rw [bIf_eq, if_pos hd, strictB_eq, bAnd_eq, Bool.and_eq_true] at h1
+  rw [bIf_eq, ite_eq_left hd, strictB_eq, bAnd_eq, Bool.and_eq_true] at h1
   exact ⟨blt_iff.1 h1.1, Nat.eq_of_beq_eq_true h1.2⟩
 
 theorem ctK_spec {G H : Nat → Nat} {b lo c : Nat} (h : ctK G H b lo c = true) {j : Nat}
@@ -168,9 +168,9 @@ theorem ctK_spec {G H : Nat → Nat} {b lo c : Nat} (h : ctK G H b lo c = true) 
   obtain ⟨hp, hm, hpos, hr⟩ := h1
   rw [bIf_eq] at hr
   refine ⟨blt_iff.1 hp, memS_iff.1 hm, Nat.eq_of_beq_eq_true hpos, fun e => ?_, fun e => ?_⟩
-  · rw [if_pos (by rw [e]; rfl)] at hr
+  · rw [ite_eq_left (by rw [e]; rfl)] at hr
     exact Nat.eq_of_beq_eq_true hr
-  · rw [if_neg (fun hb => e (Nat.eq_of_beq_eq_true hb)), bAnd_eq] at hr
+  · rw [ite_eq_right (fun hb => e (Nat.eq_of_beq_eq_true hb)), bAnd_eq] at hr
     simp only [Bool.and_eq_true] at hr
     exact ⟨blt_iff.1 hr.1, Nat.eq_of_beq_eq_true hr.2⟩
 
@@ -195,10 +195,10 @@ theorem genK_spec {G H : Nat → Nat} {gr n : Nat} {fx : Bool} {f : Nat} {w : Li
   rw [strictB_eq, bAnd_eq, Bool.and_eq_true, bIf_eq] at h1
   refine ⟨memS_iff.1 h1.1, fun e => ?_, fun e => ?_⟩
   · have h2 := h1.2
-    rw [if_pos e] at h2
+    rw [ite_eq_left e] at h2
     exact Nat.eq_of_beq_eq_true h2
   · have h2 := h1.2
-    rw [if_neg (by rw [e]; decide)] at h2
+    rw [ite_eq_right (by rw [e]; decide)] at h2
     exact memS_iff.1 h2
 
 end CertificateChecks.KernelFi23T

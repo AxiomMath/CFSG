@@ -178,6 +178,7 @@ theorem mem_normalizer_of_conj_mem {S : Subgroup G} {x : G}
   rintro _ ⟨s, hs, rfl⟩
   exact hx s hs
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge {R K : Subgroup G} (hRK : R ≤ K) (hR : IsPGroup 3 R) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P K ∧ R ≤ P := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩

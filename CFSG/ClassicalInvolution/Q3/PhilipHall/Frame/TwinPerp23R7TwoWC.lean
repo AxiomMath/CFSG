@@ -158,7 +158,7 @@ theorem cent_twin (hc : P23Cfg n Y R S t K' W u e g) (hWP : P23WProd n) {W₁ : 
 
 theorem centPairs_of_wProd (hc : P23Cfg n Y R S t K' W u e g) (hWP : P23WProd n)
     {W₁ : Subgroup Y} (hW₁ : W₁ ∈ WSet (Om R)) (htW₁ : t ∈ W₁) {S₀ : Subgroup Y}
-    (hS₀ : IsPGroup 2 S₀) (hWS : W₁ ≤ S₀) (hSN : S₀ ≤ Subgroup.normalizer (W₁ : Set Y)) :
+    (_hS₀ : IsPGroup 2 S₀) (_hWS : W₁ ≤ S₀) (hSN : S₀ ≤ Subgroup.normalizer (W₁ : Set Y)) :
     TwinThmEW.CentPairs (Om R) S₀ W₁
       (Subgroup.centralizer ({u} : Set Y) ⊔ Subgroup.centralizer ({t} : Set Y)) := by
   intro M hM _ J hJ R₁ R₂ hR₁ hR₁M hR₁S hR₂ hR₂J _ hcm a ha haW ha1 ha2
@@ -252,7 +252,7 @@ theorem p23Two_of_wTrans (hE : TwinThmEW.ThmEQ8) (hcit : CIT3Below n)
   have htW' : t ∈ W' := (Q3CL.Thompson.uniqueInvolution_mem_W hΩ hW' hK
     ⟨mem_RSet_of_isSylow2In hK hR₀, hR₀S.trans hSN⟩ hR₀ hz).2
   have htrans := trans_of_cx hs le_sup_right (cx_of_wProd hc hWP)
-  have hcent := centPairs_of_wProd hc hWP hW' htW' S₀.isPGroup' hW'S hSN
+  have hcent := centPairs_of_wProd hc hWP hW' htW' S₀.isPGroup hW'S hSN
   exact TwinThmEW.twinThmEPrintedAllT_of_thmEQ8 hE hcit hP Y R S t hc.std.perp.core.toHyp
     (tightCore R) _ W' S₀ hK ⟨R₀, hR₀, hR₀S, hW', hW'S, hWn, K'', hK'', hne'', R', hR', hR'K, hR'S⟩
     ⟨htrans, hcent⟩

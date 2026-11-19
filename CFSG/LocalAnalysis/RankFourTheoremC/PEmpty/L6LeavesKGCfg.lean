@@ -60,6 +60,7 @@ structure KGData3 {G : Type} [Group G] [Finite G] (p : ℕ) (H D S B L M : Subgr
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {H D S B L M : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem mem_normalizer_zpowers_coe {H : Subgroup G} {z' n : ↥H}
     (hn : n ∈ normalizer ((zpowers z' : Subgroup ↥H) : Set ↥H)) :
     (n : G) ∈ normalizer ((zpowers (z' : G) : Subgroup G) : Set G) := by
@@ -96,7 +97,7 @@ include d
 theorem z_mem_H : z ∈ H := d.B_le_H d.z_mem_B
 
 theorem not_dvd_D : ¬ p ∣ Nat.card D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp d.D_two
   intro h
   rw [hk] at h
@@ -109,13 +110,15 @@ theorem normal_subgroupOf : (D.subgroupOf H).Normal :=
 
 variable [hDn : (D.subgroupOf H).Normal]
 
+omit hDn in
 theorem coprime_D' : Nat.Coprime p (Nat.card (D.subgroupOf H)) := by
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe d.D_le_H).toEquiv]
   exact (Nat.Prime.coprime_iff_not_dvd d.prime).mpr d.not_dvd_D
 
+omit hDn in
 theorem z_not_mem_D : z ∉ D := by
   intro hz
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : p ∣ Nat.card D := by
     have : orderOf (⟨z, hz⟩ : D) = p := by rw [Subgroup.orderOf_mk]; exact d.z_order
     rw [← this]
@@ -123,7 +126,7 @@ theorem z_not_mem_D : z ∉ D := by
   exact d.not_dvd_D h1
 
 theorem zb_order : orderOf (qmk H D ⟨z, d.z_mem_H⟩) = p := by
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   have hzp : z ^ p = 1 := by
     have := pow_orderOf_eq_one z
     rwa [d.z_order] at this
@@ -226,6 +229,7 @@ theorem rank_img : CFSG.Open.pRank p (img H D L) ≤ 1 := by
     exact SU1.le_pRank hp.one_lt hle (CFSG.Open.IsElemAbelian.map hEel _) hcard
   exact h1.trans (h2.trans d.L_rank)
 
+omit hDn in
 theorem B_isElemAbelian_subgroupOf : IsElemAbelian p (B.subgroupOf H) := by
   obtain ⟨hc, hp⟩ := SU1.isElemAbelian_iff.mp d.B_elem
   refine SU1.isElemAbelian_iff.mpr ⟨fun a ha b hb => Subtype.ext (hc _ ha _ hb), fun a ha => ?_⟩
@@ -247,7 +251,7 @@ theorem img_S_two : IsPGroup 2 (img H D S) :=
   (d.S_two.comap_subtype).map (qmk H D)
 
 theorem img_S_ne : img H D S ≠ ⊥ := by
-  obtain ⟨s, hsS, hsD⟩ := SetLike.exists_of_lt d.D_lt_S
+  obtain ⟨s, hsS, hsD⟩ := _root_.IsConcreteLE.exists_of_lt d.D_lt_S
   intro h
   have hmem : qmk H D ⟨s, d.S_le_H hsS⟩ ∈ img H D S := mem_img.mpr ⟨⟨s, _⟩, hsS, rfl⟩
   rw [h, Subgroup.mem_bot] at hmem
@@ -334,7 +338,7 @@ theorem cover_Z_img : normalizer ((zpowers (qmk H D ⟨z, d.z_mem_H⟩) : Subgro
     Set (QA H D)) ≤ img H D M := by
   set z' : ↥H := ⟨z, d.z_mem_H⟩ with hz'
   have hzo : orderOf z' = p := by rw [hz', Subgroup.orderOf_mk]; exact d.z_order
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   have hzp : IsPGroup p (zpowers z') :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hzo, pow_one])
   have hmap : (zpowers z').map (qmk H D) = zpowers (qmk H D z') := MonoidHom.map_zpowers _ _

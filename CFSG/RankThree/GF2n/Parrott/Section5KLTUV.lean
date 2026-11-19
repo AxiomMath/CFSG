@@ -38,14 +38,14 @@ private theorem mem_closure_t_uv_iff_kl (e : A45) :
         one_mem' := Or.inl rfl
         mul_mem' := by
           intro y w hy hw
-          simp only [Set.mem_setOf_eq] at hy hw ⊢
+          simp only [Set.mem_ofPred_eq] at hy hw ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
             rcases hw with rfl | rfl | rfl | rfl <;>
             simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_one] <;>
             decide +kernel
         inv_mem' := by
           intro y hy
-          simp only [Set.mem_setOf_eq] at hy ⊢
+          simp only [Set.mem_ofPred_eq] at hy ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
             simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one] <;>
             decide +kernel }

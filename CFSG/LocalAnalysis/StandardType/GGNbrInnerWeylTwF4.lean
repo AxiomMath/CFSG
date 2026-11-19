@@ -24,7 +24,7 @@ theorem largeEvenLabelAll_noLine_twF4 {p : ℕ} (hp : p.Prime) {lab : LargeEvenL
     hp hlab ht hs).mono fun _ _ _ _ hX _ _ => ⟨0, Or.inr rfl, ggTorusNoLine_of_card_lt hX⟩
 
 theorem ggNbrInnerWeylOn_twF4 : GGNbrInnerWeylOn GGNbrWeylTwF4Label :=
-  ggNbrInnerWeylOn_of_labels fun p lab hp hp2 hlab ⟨hpow, ht, hp3, hpq⟩ =>
+  ggNbrInnerWeylOn_of_labels fun _p _lab hp hp2 hlab ⟨hpow, ht, hp3, hpq⟩ =>
     largeEvenLabelAll_weylInnerKLevel_of_noLine_or
       (largeEvenLabelAll_pow_mem_powMem hp hp2 hlab hpow)
       (largeEvenLabelAll_noLine_twF4 hp hlab ⟨ht, hp3, hpq⟩)

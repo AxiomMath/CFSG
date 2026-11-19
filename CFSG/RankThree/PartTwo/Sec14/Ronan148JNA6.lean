@@ -83,7 +83,7 @@ theorem exists_noncentral_mem_of_tripleCover {Q : Type} [Group Q] [Finite Q]
     have h3 : (⟨e, hAJ heA⟩ : Subgroup.normalizer (Jq : Set Q)) ^ 3 = 1 :=
       Subtype.ext (by simpa using hA3 e heA)
     rw [h3, map_one]
-  haveI := hJp
+  have := hJp
   obtain ⟨y, hy⟩ := Sec19.Item19Res4Proof.exists_eq_conj_of_isTripleA6 hJ6 σ hσ3
   have hact : ∀ x ∈ Jq, e * x * e⁻¹ = (y : Q) * x * (y : Q)⁻¹ := by
     intro x hx

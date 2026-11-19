@@ -31,7 +31,7 @@ theorem ggRootInvolCountTag_PSL : GGRootInvolCountTag .PSL := by
   obtain ⟨ψ', hrange, hker', hr'⟩ :=
     RCSPSL.exists_conj (F := GaloisField 2 f) (by omega) ψs hkers hrs
   have hm1 : 1 ≤ m := by omega
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   refine ⟨[ordA (m - 2) (2 ^ f)], ?_, ?_⟩
   · have hnm : (m + 1) - 3 = m - 2 := by omega
     simp [ggRootFactorOrders, hnm]
@@ -115,7 +115,7 @@ theorem ggRootInvolCountTag_PSL : GGRootInvolCountTag .PSL := by
 theorem ggRootInvolCountTag_PSU : GGRootInvolCountTag .PSU := by
   intro X _ _ n f
   by_cases hf : 1 ≤ f
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have e : ggU .PSU n f =
         ⟨Unitary.SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) n,
           Unitary.rootDatum (card_galoisField_two_mul 2 f hf) n⟩ := by
@@ -189,7 +189,7 @@ theorem ggRootInvolCountTag_PSU : GGRootInvolCountTag .PSU := by
           (m := k))).range ≤
         normalizer (((RCSTSU.suRad (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) k).map ψ') :
           Set X) := hL₀X.trans hXQ
-    haveI : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
+    have : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
     have hSU : IsChevTwoLayeredBy (SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) k)
         [ordTwistedA (k - 1) (2 ^ f)] := by
       have hcard : Fintype.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 := by
@@ -304,7 +304,7 @@ theorem ggRootInvolCountTag_PSp : GGRootInvolCountTag .PSp := by
   have hr' : GGRootInvolution (rootDatum n (GaloisField 2 f)) .PSp ψ' r := hr
   change ∃ o ∈ ggRootFactorOrders .PSp n f, GGInvolCentTypedBy ψ'.range r o
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have hcardF : Fintype.card (GaloisField 2 f) = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 f (by omega)]
   have hψ : Function.Injective ψ' := by

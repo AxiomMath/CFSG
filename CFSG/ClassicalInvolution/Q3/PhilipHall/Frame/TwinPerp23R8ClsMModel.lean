@@ -62,9 +62,9 @@ theorem mkQ_embed_w0 (ι : Fin 4 ↪ Fin 5) :
   · show (embed ι w0).vec x = if x = ι 0 ∨ x = ι 1 then (1 : ZMod 2) else 0
     have key := embed_w0_vec_eq_one_iff ι x
     by_cases hx : x = ι 0 ∨ x = ι 1
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       exact key.mpr hx
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       have hne : (embed ι w0).vec x ≠ 1 := fun h' => hx (key.mp h')
       generalize (embed ι w0).vec x = a at hne ⊢
       revert a

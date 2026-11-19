@@ -5760,7 +5760,7 @@ public theorem lemma13_no_length_greater_than_three
             · intro x hx
               exact hCD.le hx
             · intro heq
-              rcases SetLike.exists_of_lt hCD with ⟨x, hxD, hxC⟩
+              rcases _root_.IsConcreteLE.exists_of_lt hCD with ⟨x, hxD, hxC⟩
               let xH : H := ⟨x, hD hxD⟩
               have hxD' : xH ∈ D.subgroupOf H := hxD
               have hxC' : xH ∈ C.subgroupOf H := by rw [heq]; exact hxD'
@@ -5773,7 +5773,7 @@ public theorem lemma13_no_length_greater_than_three
           have hB4_lt_B3 : B4 < B3 :=
             subgroupOf_lt_subgroupOf hB4Q_le_H hB3Q_le_H hB4Q_lt
           have hB4_ne_bot : B4 ≠ ⊥ := by
-            rcases SetLike.exists_of_lt hB5Q_lt with ⟨x, hxB4, hxB5⟩
+            rcases _root_.IsConcreteLE.exists_of_lt hB5Q_lt with ⟨x, hxB4, hxB5⟩
             have hx_ne_one : x ≠ 1 := by
               intro hx
               subst x
@@ -5913,7 +5913,7 @@ public theorem lemma13_no_length_greater_than_three
               exact congrArg Subtype.val hcase
         have hH_card_lt : Nat.card H < Nat.card Q := by
           have hnot : ¬ (⊤ : Subgroup Q) ≤ H := not_le_of_gt hH_lt_top
-          rw [SetLike.not_le_iff_exists] at hnot
+          rw [IsConcreteLE.not_le_iff_exists] at hnot
           rcases hnot with ⟨q, _hqtop, hqH⟩
           simpa using (Finite.card_subtype_lt hqH)
         have hH_card_lt_n : Nat.card H < n := by

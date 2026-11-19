@@ -74,7 +74,7 @@ theorem gLAPPrimeCoreOf_eq_bot_of_card_bound [Finite S] (hp : p.Prime) {C : Subg
   obtain ⟨Pc⟩ : Nonempty (Sylow p C) := inferInstance
   set P : Subgroup S := (Pc : Subgroup C).map C.subtype with hP
   have hPC : P ≤ C := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := Pc.isPGroup'.map C.subtype
+  have hPp : IsPGroup p P := Pc.isPGroup.map C.subtype
   have hr0 : r ≠ 0 := by
     rintro rfl
     have := Nat.card_pos (α := C)

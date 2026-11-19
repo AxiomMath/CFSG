@@ -97,7 +97,7 @@ private theorem isTI_sylow_of_psl2 {G : Type} [Group G] [Finite G] [IsSimpleGrou
         CFSG.Timmesfeld.Bridge.card_psl_two_galoisField_two 1 (by norm_num)]
       norm_num
     have hsolv : Group.IsSolvable G := by
-      haveI : Fintype G := Fintype.ofFinite G
+      have : Fintype G := Fintype.ofFinite G
       exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
         (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num)
         (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
@@ -122,7 +122,7 @@ private theorem isTI_sylow_of_psu3 {G : Type} [Group G] [Finite G] [IsSimpleGrou
       norm_num at h
       omega
     have hsolv : Group.IsSolvable G := by
-      haveI : Fintype G := Fintype.ofFinite G
+      have : Fintype G := Fintype.ofFinite G
       exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
         (p := 2) (q := 3) (a := 3) (b := 2) Nat.prime_two Nat.prime_three (by norm_num)
         (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)

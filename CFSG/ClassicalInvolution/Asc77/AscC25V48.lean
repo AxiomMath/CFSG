@@ -35,7 +35,7 @@ theorem gcs25z_of_g1 (h11 : C25_11 p f) (h9 : p ^ f ≠ 9) (hG1 : G1_25 p f) : G
   have hodd := hG1 G Ω K K' W S R R' z t u₁ u₂ t' h h9 a haS ha2 hFa' hat hZ hp hq e d hdN hdz hda
     hdN'
   rw [hχd, hχd'] at hodd
-  obtain ⟨i, hi⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' (⟨n, hnS⟩ : (S : Subgroup G))
+  obtain ⟨i, hi⟩ := IsPGroup.iff_orderOf.mp S.isPGroup (⟨n, hnS⟩ : (S : Subgroup G))
   have hi' : n ^ 2 ^ i = 1 := by
     have := pow_orderOf_eq_one (⟨n, hnS⟩ : (S : Subgroup G))
     rw [hi] at this

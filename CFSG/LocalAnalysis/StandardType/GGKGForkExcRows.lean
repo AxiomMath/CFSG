@@ -59,7 +59,7 @@ private theorem ggKGRg_recipe_two
     LargeEvenRecipeChevalley τ.cartan (2 ^ n) false
       (fun R _ I F => Q R I F ∧ ∃ r, GGTorusLift p r R ∧ GGTorusLattice p r R I) := by
   obtain ⟨K, _, _, hK, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hpq : p ∣ Nat.card K - 1 ∨ p ∣ Nat.card K + 1 := by rw [hK]; exact hpn
   have hlat : GGKGLatticeElt p r₀ (TableBExc.RecipeGroup τ K) :=
     ggKGLatticeElt_of_mulEquiv (TableBExc.recipeEquiv τ K)
@@ -84,7 +84,7 @@ theorem ggKGRg_recipe_one
     LargeEvenRecipeChevalley τ.cartan (2 ^ n) false
       (fun R _ I F => Q R I F ∧ ∃ r, GGTorusLift p r R ∧ GGTorusRootSL2 p r R I) := by
   obtain ⟨K, _, _, hK, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hpq : p ∣ Nat.card K - 1 := by rw [hK]; exact hpn
   have hroot : GGKGRootDatum p r₀ (TableBExc.RecipeGroup τ K) :=
     ggKGRootDatum_of_mulEquiv (TableBExc.recipeEquiv τ K)

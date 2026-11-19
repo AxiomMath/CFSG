@@ -75,7 +75,7 @@ theorem card_eq_pow_of_sl2_embedding {E : Type*} [Field E] [Finite E] [CharP E 2
     · rintro _ ⟨x, ⟨s, rfl⟩, rfl⟩
       exact hL s
     · rw [Subgroup.card_map_of_injective hπ, card_sl2LowerSub, card_Lom, hcL]
-  letI : DistribMulAction SL(2, E) M := DistribMulAction.compHom M π
+  let : DistribMulAction SL(2, E) M := DistribMulAction.compHom M π
   have hdec' : IsCompl (fixedSub M (sl2UpperSub E : Set SL(2, E)))
       (fixedSub M (sl2LowerSub E : Set SL(2, E))) := by
     rw [fixedSub_compHom, fixedSub_compHom, ← Subgroup.coe_map, ← Subgroup.coe_map, hmapU, hmapL]

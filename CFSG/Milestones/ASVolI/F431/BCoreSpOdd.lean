@@ -19,6 +19,7 @@ section OddIndex
 
 variable {E : Type} [Group E] [Finite E]
 
+omit [Finite E] in
 theorem burnsideF4m_core_mem_of_odd (Gp : Subgroup E) [Gp.Normal] (hodd : Odd Gp.index)
     {x : E} {k : ℕ} (hx : x ^ 2 ^ k = 1) : x ∈ Gp := by
   have h1 : orderOf (x : E ⧸ Gp) ∣ 2 ^ k :=
@@ -69,7 +70,7 @@ theorem burnsideF4m_core_spModel (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) :
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   have hinj : Function.Injective marking.transport := by
     refine (injective_iff_map_eq_one marking.transport).2 fun a ha => ?_
@@ -139,7 +140,7 @@ theorem burnsideF4m_sp4_core_odd [Finite E] (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M�
       GLKind.Sp4 = .Sp4 ∧ x ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) ∧
     pCoreOf 2 M₁ = pCoreOf 2 (Gp ⊓ M₁) ∧ pCoreOf 2 M₂ = pCoreOf 2 (Gp ⊓ M₂) ∧
     pCoreOf 2 (M₁ ⊓ M₂) = pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, _, _, _, θ, hKc, hθ, -, h1, h2⟩ := burnsideF4m_core_spModel hyp
   have hK4 : ∃ s : Finset K, s.card = 4 := by
     have := Fintype.ofFinite K

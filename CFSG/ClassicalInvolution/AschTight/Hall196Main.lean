@@ -51,7 +51,7 @@ theorem mem_inf_of_commute [IsSimpleGroup G] (hstar : C19_11aTmp p f) {K : Subgr
       _ = v * x := by rw [h4, one_mul]
   have hxK : ∀ u ∈ W ⊓ K, x * u = u * x := by
     intro u hu
-    have h1 := mem_centralizer_inf_of_mem_cStar S.isPGroup'
+    have h1 := mem_centralizer_inf_of_mem_cStar S.isPGroup
       (centralizerModOdd_le_cStar _ _ hx.2) hx.1
     exact ((Subgroup.mem_centralizer_iff.mp h1) u ⟨hd.hWS hu.1, hu.2⟩).symm
   have hxW : x ∈ (S : Subgroup G) ⊓ sec19Y K z ⊓ Subgroup.centralizer (W : Set G) := by
@@ -90,7 +90,7 @@ theorem c19_6_of (hstar : C19_11aTmp p f) (hdih : C19_6DihTmp p f) : C19_6Tmp p 
     exact Subgroup.mul_mem _ hx.2 hw'
   rcases eq_or_isQuaternionSub_or_isDihedralSub ef.comm hDT.leW inf_le_left ef.cyclic hVcyc
       ef.card.symm (ef.card ▸ ef.four)
-      (S.isPGroup'.to_le (inf_le_left.trans hd.hWS)) (S.isPGroup'.to_le (hDT.leW.trans hd.hWS))
+      (S.isPGroup.to_le (inf_le_left.trans hd.hWS)) (S.isPGroup.to_le (hDT.leW.trans hd.hWS))
       hDT.memT hDT.invL.ne_one hDT.invL.sq (inf_le_inf_right _ hd.hWS) ef.normalizes hcomm
       (fun x hx hxt => mem_inf_of_commute hstar hDT ef hx hxt) with h | h | h
   ·

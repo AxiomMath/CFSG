@@ -30,7 +30,7 @@ theorem tmOut_A_higher (d : TauCeti.ValidLieTypeIndex) (n : ℕ) (q : TauCeti.Pr
   have htm : tmLieOut (.A n q) =
       2 * q.exponent * Nat.gcd (n + 1) (q.p ^ q.exponent - 1) := by
     simp only [tmLieOut, TauCeti.PrimePower.card_def]
-    rw [if_neg (by omega : ¬ n = 1)]
+    rw [ite_eq_right (by omega : ¬ n = 1)]
     ring
   rw [htm]
   exact haut

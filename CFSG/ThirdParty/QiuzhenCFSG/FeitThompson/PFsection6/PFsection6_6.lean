@@ -989,7 +989,7 @@ theorem theorem_6_6_scalarProduct_regularCharacter_left_of_value_one
   let : Fintype G := Fintype.ofFinite G
   unfold Section1.scalarProduct regularCharacter
   rw [Finset.sum_eq_single (1 : G)]
-  · simp only [if_true]
+  · simp only [ite_true]
     rw [hχ]
     have hcard : (Fintype.card G : ℂ) ≠ 0 := by
       exact_mod_cast (Fintype.card_ne_zero : Fintype.card G ≠ 0)

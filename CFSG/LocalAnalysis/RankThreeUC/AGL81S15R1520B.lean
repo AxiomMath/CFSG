@@ -35,7 +35,7 @@ theorem two_le_pRank_centralizer_aux_card_le {A B : Type} [Group A] [Group B] [F
 
 theorem two_le_pRank_centralizer_aux_card_pow {Z : Type} [Group Z] [Finite Z] {p : ℕ}
     (hp : p.Prime) {E : Subgroup Z} (hE : IsElemAbelian p E) : ∃ k : ℕ, Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact IsPGroup.iff_card.1 fun g => ⟨1, Subtype.ext (by
     rw [pow_one, SubgroupClass.coe_pow, OneMemClass.coe_one]
     exact hE.2 _ g.2)⟩
@@ -65,10 +65,12 @@ theorem two_le_pRank_centralizer_aux_prod {A B : Type} [Group A] [Group B] [Fini
   S.subtype.noncommCoprod (Subgroup.centralizer (S : Set Y)).subtype
     (fun s c => (Subgroup.mem_centralizer_iff.1 c.2) (s : Y) s.2)
 
+omit [Finite Y] in
 theorem two_le_pRank_centralizer_aux_prodHom_apply (S : Subgroup Y) (s : ↥S)
     (c : ↥(Subgroup.centralizer (S : Set Y))) :
     two_le_pRank_centralizer_aux_prodHom S (s, c) = (s : Y) * (c : Y) := rfl
 
+omit [Finite Y] in
 theorem two_le_pRank_centralizer_aux_prodHom_ker_card_dvd (S : Subgroup Y) :
     Nat.card (two_le_pRank_centralizer_aux_prodHom S).ker ∣ Nat.card (Subgroup.center ↥S) := by
   set φ := two_le_pRank_centralizer_aux_prodHom S with hφ
@@ -127,7 +129,7 @@ theorem two_le_pRank_centralizer_aux_sup {p : ℕ} (hp : p.Prime) {S : Subgroup 
 theorem two_le_pRank_centralizer_aux_sylow {p : ℕ} (hp : p.Prime) {P : Subgroup Y}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P ⊤) :
     CFSG.Open.pRank p P = CFSG.Open.pRank p (⊤ : Subgroup Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hPg, hdvd⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hP
   have hdvd' : ¬ p ∣ P.index := by rwa [Subgroup.relIndex_top_right] at hdvd
   exact (CFSG.SectionRank.pRank_sylow (hPg.toSylow hdvd')).1
@@ -156,7 +158,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem two_le_pRank_cMBar_aux_sylow_of_pElements {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     (hp : p.Prime) {H : Subgroup Y} (hH : ∀ x : Y, (∃ k : ℕ, orderOf x = p ^ k) → x ∈ H) :
     ∃ P : Subgroup Y, CFSG.ABGLocalTools.IsSylowOf p P ⊤ ∧ P ≤ H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (⊤ : Subgroup Y)
   refine ⟨P, hP, fun x hx => hH x ?_⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hP.isPGroup) ⟨x, hx⟩
@@ -168,7 +170,7 @@ theorem two_le_pRank_cMBar_aux_sylow_of_outTwo {Y : Type} [Group Y] [Finite Y] {
     (hOut : OutTwoGroup ↥S) :
     ∃ P : Subgroup Y, CFSG.ABGLocalTools.IsSylowOf p P ⊤ ∧
       P ≤ S ⊔ Subgroup.centralizer (S : Set Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP, hPN⟩ := exists_sylow_le_normalizer hp hk hconj
   refine ⟨P, hP, fun x hx => ?_⟩
   obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.1 hP.isPGroup) ⟨x, hx⟩
@@ -184,15 +186,17 @@ theorem two_le_pRank_cMBar_aux_outList {S : Type} [Group S] (h : IsLThreeOfExp 1
   · exact Or.inr (Or.inr ⟨d, Or.inr (Or.inr ⟨q, hq, hd⟩), he⟩)
   · omega
 
+omit [Finite X] in
 theorem two_le_pRank_cMBar_aux_barO2_top : barO2 (⊤ : Subgroup X) = ⊤ := by
   unfold barO2
   rw [Subgroup.map_top, QuotientGroup.range_mk']
 
+omit [Finite X] in
 theorem two_le_pRank_cMBar_aux_no_index (p : ℕ)
     (hno : ∀ N : Subgroup X, N.Normal → N.index ≠ p) :
     ∀ N : Subgroup (X ⧸ CFSG.pCore 2 X), N.Normal → N.index ≠ p := by
   intro N hN hNi
-  haveI := Subgroup.normal_comap (H := N) (QuotientGroup.mk' (CFSG.pCore 2 X))
+  have := Subgroup.normal_comap (H := N) (QuotientGroup.mk' (CFSG.pCore 2 X))
   exact hno (N.comap (QuotientGroup.mk' (CFSG.pCore 2 X))) this
     (by rw [Subgroup.index_comap_of_surjective _ (QuotientGroup.mk'_surjective _), hNi])
 
@@ -236,10 +240,10 @@ theorem two_le_pRank_cMBar_gen (hK7145 : K7145) (hKOut : KOut) (hXK : CFSG.Open.
   have hsyl : ∃ P : Subgroup (X ⧸ CFSG.pCore 2 X), CFSG.ABGLocalTools.IsSylowOf p P ⊤ ∧
       P ≤ barO2 L ⊔ Subgroup.centralizer (barO2 L : Set (X ⧸ CFSG.pCore 2 X)) := by
     rcases h15 with h | h | ⟨h3, hcnt⟩
-    · haveI hn : L.Normal := by
+    · have hn : L.Normal := by
         rw [h]
         exact Subgroup.normalClosure_normal
-      haveI : (barO2 L).Normal := Subgroup.Normal.map hn _ (QuotientGroup.mk'_surjective _)
+      have : (barO2 L).Normal := Subgroup.Normal.map hn _ (QuotientGroup.mk'_surjective _)
       exact two_le_pRank_cMBar_aux_sylow_of_pElements hp fun x hx =>
         pElement_mem_sup_centralizer hK7145 hYK hp hp2 hL.component.2.2 hS1 hnoY hx
     · obtain ⟨hA6, hcnt⟩ := isAltSixCoverThree_of_centralProd hL h

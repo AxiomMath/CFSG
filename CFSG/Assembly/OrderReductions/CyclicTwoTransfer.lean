@@ -13,7 +13,7 @@ theorem transfer_restriction_bijective {group : Type*} [Group group] [Finite gro
     Function.Bijective ((MonoidHom.transferSylow sylow normalizer_centralizes).domRestrict
       (sylow : Subgroup group)) := by
   rw [MonoidHom.transferSylow_domRestrict_eq_pow]
-  exact (sylow.isPGroup'.powEquiv' sylow.not_dvd_index).bijective
+  exact (sylow.isPGroup.powEquiv' sylow.not_dvd_index).bijective
 
 theorem transfer_surjective {group : Type*} [Group group] [Finite group]
     (prime : ℕ) [Fact (Nat.Prime prime)] (sylow : Sylow prime group)

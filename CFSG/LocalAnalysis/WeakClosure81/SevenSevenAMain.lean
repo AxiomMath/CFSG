@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
 theorem card_eq_two_pow_of_pRank_eq {X : Type} [Group X] [Finite X] {A : Subgroup X}
     (hA : IsElemAbelian 2 A) {n : ℕ} (h : CFSG.pRank 2 ↥A = n) : Nat.card A = 2 ^ n := by
-  haveI : CFSG.IsElementaryAbelian 2 ↥A := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hA
+  have : CFSG.IsElementaryAbelian 2 ↥A := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hA
   obtain ⟨k, hk⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 ↥A).exists_card_eq
   rw [CFSG.pRank_eq_of_card_eq_pow one_lt_two hk] at h
   rw [h] at hk

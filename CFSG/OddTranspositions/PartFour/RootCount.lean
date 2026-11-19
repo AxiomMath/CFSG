@@ -11,6 +11,7 @@ open CFSG.Timmesfeld.Connectivity
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem ncard_blockImage_blockLine_diff_eq_one_of_eq_insert (hC : HypothesisC D) {β : Set G}
     (hβ : β ∈ Dalpha D hC.alpha)
     (hline : blockLine D hC.alpha β =
@@ -32,6 +33,7 @@ theorem ncard_blockImage_blockLine_diff_eq_one_of_eq_insert (hC : HypothesisC D)
       exact ⟨β, hβmem, rfl⟩
   rw [hset, Set.ncard_singleton]
 
+omit [Finite G] in
 private theorem rootCount_map_closure_subtype_eq (hC : HypothesisC D) {α' : Set G}
     (hα' : α' ∈ Dalpha D hC.alpha) :
     (Subgroup.closure {c : Halpha D hC.alpha | (c : G) ∈ α'}).map
@@ -45,6 +47,7 @@ private theorem rootCount_map_closure_subtype_eq (hC : HypothesisC D) {α' : Set
   · intro hx
     exact ⟨⟨x, Subgroup.subset_closure (mem_DalphaStar_iff.mpr ⟨α', hα', hx⟩)⟩, hx, rfl⟩
 
+omit [Finite G] in
 private theorem rootCount_injective_mk_closure (hC : HypothesisC D) {α' : Set G}
     (hα' : α' ∈ Dalpha D hC.alpha)
     (hker : ∀ z ∈ Subgroup.closure α', z ∈ Malpha D hC.alpha → z = 1)
@@ -96,7 +99,7 @@ private theorem rootCount_card_closure_le_card_root (hC : HypothesisC D)
     (hker : ∀ z ∈ Subgroup.closure α', z ∈ Malpha D hC.alpha → z = 1)
     {V : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     (hV : V ⊆ imageClass hC) (hblockV : blockImage hC α' ⊆ V)
-    (hVcard : V.ncard = α'.ncard)
+    (_hVcard : V.ncard = α'.ncard)
     {R₀ : Subgroup (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     (hR₀ : (R₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))) =
       insert 1 V) :

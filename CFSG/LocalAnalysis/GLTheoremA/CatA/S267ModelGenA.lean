@@ -108,6 +108,7 @@ section Transport
 
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
+omit [Finite Ω] in
 theorem comm_of_mem_centMod (hSn : S.Normal) (hcore : GLAPPrimeCore p ↥S = ⊥) {b : Ω}
     (hb : b ∈ centModSubgroup p S) {s : Ω} (hs : s ∈ S) : b * s = s * b := by
   have h1 := (mem_centModSubgroup.1 hb).2 s hs
@@ -119,6 +120,7 @@ theorem comm_of_mem_centMod (hSn : S.Normal) (hcore : GLAPPrimeCore p ↥S = ⊥
   have h3 : ⁅s, b⁆ = 1 := congrArg Subtype.val h2
   exact ((commutatorElement_eq_one_iff_mul_comm).1 h3).symm
 
+omit [Finite Ω] in
 theorem eq_one_of_mem_centMod (hSn : S.Normal) (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) {s : Ω} (hs : s ∈ S) (hc : s ∈ centModSubgroup p S) : s = 1 := by
   have h : (⟨s, hs⟩ : ↥S) ∈ Subgroup.center ↥S := Subgroup.mem_center_iff.2 fun g =>
@@ -133,7 +135,7 @@ theorem concA_of_modelAGen {n : ℕ} (hp : p.Prime) (hn : 3 ≤ n) (hSn : S.Norm
     (hM : ModelAGen p n X) : S267ConcA p S B := by
   obtain ⟨A, A₁, A₁₂, J, t, hA, hAc, h1, h12, hA₁c, hA₁₂c, hJ, hAN, hcent, hlay, ht1, ht2, hJt,
     hAt⟩ := hM
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set B₀ := B ⊓ centModSubgroup p S with hB₀
   have hmapS : ∀ (K : Subgroup X), K.map φ ≤ S := fun K => by
     rw [← hφS]

@@ -172,7 +172,7 @@ theorem blockU_le_K : blockU X ≤ C.K := by
   have huX : u ∈ X := blockU_le_self X hu
   rw [C.mem_K]
   refine ⟨C.S.le huX, ?_⟩
-  rw [C.θ_X ⟨u, huX⟩, (C.α_eq_one_iff ⟨u, huX⟩).2 (C.S.W_le_Y hu)]
+  rw [C.θ_X ⟨u, huX⟩, (C.α_eq_one_iff ⟨u, huX⟩).2 (CFSG.RankThree.PartTwo.Sec19.SolEven.Setting.W_le_Y hu)]
   rfl
 
 theorem comm_mem_Y (k : ↥C.K) {x : G} (hx : x ∈ X) :
@@ -297,7 +297,7 @@ theorem cobound_of_α_eq_one (k : ↥C.K) (y : ↥X) (hy : C.α y = 1) : C.cobou
       have : ((⁅x, y⁆ : ↥X) : G) = ⁅(x : G), (y : G)⁆ := rfl
       rw [this, ← commutator_inv']
       exact (blockU X).inv_mem (Subgroup.commutator_mem_commutator hyY x.2)
-    have hα1 : C.α ⁅x, y⁆ = 1 := (C.α_eq_one_iff _).2 (C.S.W_le_Y hcomm)
+    have hα1 : C.α ⁅x, y⁆ = 1 := (C.α_eq_one_iff _).2 (CFSG.RankThree.PartTwo.Sec19.SolEven.Setting.W_le_Y hcomm)
     rw [C.cobound_of_mem_W k _ hcomm, hα1] at e3
     simp only [Subgroup.coe_one, altAct_one, zero_add] at e3
     have e4 : ⁅x, y⁆ * y = x * y * x⁻¹ := (conj_eq_commutator_mul x y).symm
@@ -354,7 +354,7 @@ theorem IsPi.unique {k : ↥C.K} {v v' : permBar n} (h : C.IsPi k v) (h' : C.IsP
     have h0 : (v - v') - barAct σ (v - v') = 0 := by
       rw [map_sub]
       calc (v - v') - (barAct σ v - barAct σ v') = (v - barAct σ v) - (v' - barAct σ v') := by
-            letI := permBarAddCommGroup n
+            let := permBarAddCommGroup n
             abel
         _ = 0 := by rw [← e1, ← e2]; exact sub_self _
     exact (sub_eq_zero.1 h0).symm
@@ -383,7 +383,7 @@ theorem IsPi.mul {k k' : ↥C.K} {v v' : permBar n} (h : C.IsPi k v) (h' : C.IsP
   have e' : u = ⟨_, hu₂'⟩ * ⟨_, hu₁⟩ := Subtype.ext e
   rw [e', map_mul, toAdd_mul, C.β_conj_K k ⟨_, hu₂⟩ ⟨_, hu₂'⟩ rfl, map_add, h' x ⟨_, hu₂⟩ rfl,
     h x ⟨_, hu₁⟩ rfl, map_add]
-  letI := permBarAddCommGroup n
+  let := permBarAddCommGroup n
   abel
 
 theorem IsPi.of_centralizes {k : ↥C.K} (hk : (k : G) ∈ Subgroup.centralizer (X : Set G)) :
@@ -431,7 +431,7 @@ theorem IsPi.of_blockU (k : ↥C.K) (u : ↥(blockU X)) (h : (k : G) = u) :
   have e : u' = u * (⟨(x : G) * (u : G) * (x : G)⁻¹, hxu⟩ : ↥(blockU X))⁻¹ := by
     apply Subtype.ext
     rw [hu', h]
-    simp only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     group
   rw [e, map_mul, map_inv, toAdd_mul, toAdd_inv, C.β_conj_X x u ⟨_, hxu⟩ rfl, map_add, map_neg,
     heartToBar_altAct, sub_eq_add_neg]
@@ -446,13 +446,13 @@ theorem exists_isPi (hn : 6 ≤ n) (hev : Even n) (k : ↥C.K) : ∃ v, C.IsPi k
   intro x u hu
   rw [C.toAdd_β_eq_cobound k x u hu, ← hfα x, hfw (C.α x)]
   cases b
-  · simp only [Bool.false_eq_true, if_false, zero_add, map_sub, heartToBar_altAct,
+  · simp only [Bool.false_eq_true, ite_false, zero_add, map_sub, heartToBar_altAct,
       permBar_sub_eq_add]
-    letI := permBarAddCommGroup n
+    let := permBarAddCommGroup n
     abel
-  · simp only [if_true, map_add, map_sub, heartToBar_altAct, heartToBar_pairEW, barAct_single,
+  · simp only [ite_true, map_add, map_sub, heartToBar_altAct, heartToBar_pairEW, barAct_single,
       permBar_sub_eq_add]
-    letI := permBarAddCommGroup n
+    let := permBarAddCommGroup n
     abel
 
 theorem centralizes_of_isPi_zero {k : ↥C.K} (h : C.IsPi k 0) :
@@ -470,7 +470,7 @@ theorem centralizes_of_isPi_zero {k : ↥C.K} (h : C.IsPi k 0) :
     rw [C.β_ker, Subgroup.mem_subgroupOf] at e3
     exact e3
   have hZ2 : IsPGroup 2 ↥(blockZ X) :=
-    isPGroup_of_le (isPGroup_pCoreOf' X) (inf_le_left.trans C.S.W_le_Y)
+    isPGroup_of_le (isPGroup_pCoreOf' X) (inf_le_left.trans CFSG.RankThree.PartTwo.Sec19.SolEven.Setting.W_le_Y)
   let f : ↥X →* ↥(blockZ X) :=
     { toFun := fun x => ⟨⁅(k : G), (x : G)⁆, hZ x⟩
       map_one' := Subtype.ext (by simp)

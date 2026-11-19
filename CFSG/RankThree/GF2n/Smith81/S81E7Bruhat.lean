@@ -64,7 +64,7 @@ theorem pr_zero_ne_neg_one_of_pos {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoo
 
 theorem rootOp_w0_eq_zero_of_pos [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ)
     (hpos : 0 < ht γ) : e7Data.rootOp K γ (w0 : V K) = 0 := by
-  rw [rootOp_single (K := K) hγ ⟨0, by decide⟩, if_neg (pr_zero_ne_neg_one_of_pos hγ hpos)]
+  rw [rootOp_single (K := K) hγ ⟨0, by decide⟩, ite_eq_right (pr_zero_ne_neg_one_of_pos hγ hpos)]
 
 theorem endo_nW_single [CharP K 2] (w : W7 K) (a : Fin e7Data.d) :
     ∃ b : Fin e7Data.d, endoE (nW K w) (Finsupp.single a 1) = Finsupp.single b 1 := by

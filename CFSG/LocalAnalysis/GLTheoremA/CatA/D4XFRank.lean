@@ -15,7 +15,7 @@ theorem exists_E27_of_three_le_twoLocalPrimeRank {G : Type} [Group G] [Finite G]
     (h : 3 ≤ CFSG.Open.twoLocalPrimeRank 3 G) :
     ∃ E W : Subgroup G, CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3 ∧ IsPGroup 2 W ∧ W ≠ ⊥ ∧
       E ≤ Subgroup.normalizer (W : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : 1 < 3 := by norm_num
   have hbdd : BddAbove {k : ℕ | ∃ H : Subgroup G, CFSG.Open.IsTwoLocal H ∧ CFSG.Open.pRank 3 H = k} := by
     refine ⟨Nat.card G, ?_⟩
@@ -53,7 +53,7 @@ theorem d4two_rank3 {K : Type} [Group K] [Finite K] (h : catalogIs K S9.isD4two)
     ∃ E W : Subgroup K, CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3 ∧ IsPGroup 2 W ∧ W ≠ ⊥ ∧
       E ≤ Subgroup.normalizer (W : Set K) := by
   obtain ⟨e⟩ := equiv_projOmegaPlus h
-  haveI : Finite (CFSG.PGLModel.projOmegaPlus 4 (GaloisField 2 1)) := Finite.of_equiv K e.toEquiv
+  have : Finite (CFSG.PGLModel.projOmegaPlus 4 (GaloisField 2 1)) := Finite.of_equiv K e.toEquiv
   apply exists_E27_of_three_le_twoLocalPrimeRank
   have hloc := CFSG.RankThree.PartTwo.Census.localRank_eq_of_mulEquiv e Nat.prime_three
   change 3 ≤ CFSG.Assembly.RankThreeEven.localRank 3 K

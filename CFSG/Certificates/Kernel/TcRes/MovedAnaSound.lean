@@ -311,7 +311,7 @@ theorem jbOK_spec {vec : ℕ → Fin Tag.E6.rank → ℤ} {neg : ℕ → ℕ}
     rw [hq, hx] at hcb
     obtain ⟨ψ', d', r1, hk', hc', hkd'⟩ := compRaw_of_cbK hvec hD hX hpos hdec hph
       (hsub _ (Or.inr ⟨x, rfl⟩)) hcb
-    simp only [andB_eq, Bool.and_eq_true, nbeq_eq, decide_eq_true_eq] at hk'
+    simp only [Bool.and_eq_true, nbeq_eq, decide_eq_true_eq] at hk'
     obtain ⟨rfl, rfl⟩ := hk'
     exact ⟨hx, ⟨hg0, hb⟩, ⟨_, r1, hc'⟩, hkd'⟩
   obtain ⟨q0, x0, b0, hk⟩ := leK_spec hk
@@ -514,9 +514,9 @@ theorem sel6_map (f : ℕ → ℕ) (a b c d e g i : ℕ) :
   simp only [sel6, brecN_eq, nbeq_eq, nblt_eq]
   by_cases h2 : i < 2
   · by_cases h0 : i = 0
+    · simp [h0]
     · simp [h2, h0]
-    · simp [h2, h0]
-  · simp only [h2, decide_false, cond_false]
+  · simp only [h2, decide_false, Bool.cond_false]
     exact sel4_map f c d e g (i - 2)
 
 theorem leK8_spec {LS : ℕ → ℕ} {s g0 blk j x : ℕ} {k : ℕ → ℕ → ℕ → Bool}

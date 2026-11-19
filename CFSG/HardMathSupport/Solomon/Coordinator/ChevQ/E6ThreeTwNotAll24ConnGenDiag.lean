@@ -30,7 +30,7 @@ variable {ν : ℕ} {L : Type} [Field L]
     · rw [hX _ _ hik, zero_mul]
   one_mem' := by
     intro i j hij
-    simp [Matrix.one_apply, hij]
+    simp [hij]
   inv_mem' := by
     intro X hX i j hij
     have hd : (X : Matrix (Fin ν) (Fin ν) L) =
@@ -90,7 +90,7 @@ theorem exists_units_of_mem_diagSL {X : SL(ν, L)} (hX : X ∈ diagSL ν L) :
 
 theorem conjUni_apply (B : SL(ν, L)) (σ : L →+* L) (X : SL(ν, L)) :
     conjUni B σ X = B⁻¹ * stdUnitary σ X * B := by
-  simp [conjUni, MulAut.conj_apply]
+  simp [conjUni]
 
 theorem coe_conjUni_diagSLOf {B : SL(ν, L)} {ρ : Equiv.Perm (Fin ν)} (hB : PermDiag B ρ)
     (σ : L →+* L) (x : Fin ν → Lˣ) (hx : ∏ i, x i = 1) :
@@ -122,7 +122,7 @@ theorem lang_diagSL [IsAlgClosed L] [NeZero ν] {Q : ℕ} (hQ : 2 ≤ Q) (σ : L
     ∀ δ ∈ diagSL ν L, ∃ δ' ∈ diagSL ν L, conjUni B σ δ' * δ'⁻¹ = δ := by
   intro δ hδ
   obtain ⟨w, hw, rfl⟩ := exists_units_of_mem_diagSL hδ
-  haveI : Nonempty (Fin ν) := ⟨0⟩
+  have : Nonempty (Fin ν) := ⟨0⟩
   have hw' : ∏ i, (w i)⁻¹ = 1 := by
     rw [Finset.prod_inv_distrib, hw, inv_one]
   obtain ⟨x, hx, hxw⟩ := exists_lang_monomial ρ (e := (Q : ℤ)) (by simpa using hQ)

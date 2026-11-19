@@ -78,16 +78,16 @@ theorem false_of_two_projections {X : Type} [Group X] (hX : CFSG.Quasithin.IsPSL
       (φ₁ g : Matrix (Fin 2) (Fin 2) K₁).mulVec (T v))
     (hne : ∃ w : W, Ψ₁ w = 0 ∧ Ψ₂ w ≠ 0) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXcard : Nat.card X = 60 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_four hX
-  haveI hXfin : Finite X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
+  have hXfin : Finite X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
   have hBcard : Nat.card B = 12 := by
     have h := Subgroup.card_mul_index (H := B)
     rw [hB, hXcard] at h
     omega
   have h3 : 3 ∣ Nat.card B := by rw [hBcard]; norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨x, hx3⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) 3 h3
   have hx3' : orderOf (x : X) = 3 := by rw [Subgroup.orderOf_coe, hx3]
   have hxodd : Odd (orderOf (x : X)) := by rw [hx3']; norm_num
@@ -151,7 +151,7 @@ theorem false_of_two_projections {X : Type} [Group X] (hX : CFSG.Quasithin.IsPSL
       simp
     have h10 : (1 : K₁) = 0 := by
       have h := congrFun hsingle 0
-      simpa using h
+      simp at h
     exact one_ne_zero h10
   let Ψ₂' : W →+ (Fin 2 → K₁) := (T : (Fin 2 → K₂) →+ (Fin 2 → K₁)).comp Ψ₂
   have hΨ₂'apply : ∀ w, Ψ₂' w = T (Ψ₂ w) := fun w => rfl

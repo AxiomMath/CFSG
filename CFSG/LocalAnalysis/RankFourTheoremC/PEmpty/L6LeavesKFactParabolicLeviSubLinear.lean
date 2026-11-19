@@ -26,6 +26,7 @@ theorem dvd_of_sq_dvd_mul {z t q : ℕ} (hz : 0 < z) (hzq : z ∣ q) (hq : q ^ 2
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [CharP K 2] in
 theorem card_linBlock_eq {I : Set ℕ} (a : Fin n) (hm : 1 ≤ linBlockLen n I a) :
     Nat.card ↥(linBlockSL K n I a) =
       Nat.card K ^ (linBlockLen n I a * (linBlockLen n I a - 1) / 2) *
@@ -33,11 +34,13 @@ theorem card_linBlock_eq {I : Set ℕ} (a : Fin n) (hm : 1 ≤ linBlockLen n I a
   rw [← Nat.card_congr (slEquivToGLRange (K := K) (linBlockLen n I a)).toEquiv]
   exact card_SL_eq hm
 
+omit [Finite K] [CharP K 2] in
 theorem card_linBlock_mul {I : Set ℕ} (a : Fin n) :
     Nat.card ↥(linBlockSL K n I a) = Nat.card (blockQuot K n I a) *
       Nat.card (Subgroup.center ↥(linBlockSL K n I a)) :=
   Subgroup.card_eq_card_quotient_mul_card_subgroup _
 
+omit [CharP K 2] in
 theorem dvd_card_blockQuot {I : Set ℕ} (a : Fin n) (hm : 2 ≤ linBlockLen n I a) {p j : ℕ}
     (hp : p.Prime) (hj2 : 2 ≤ j) (hjm : j ≤ linBlockLen n I a) (hpj : p ∣ Nat.card K ^ j - 1)
     (hnd : ¬ p ∣ Nat.card K - 1) : p ∣ Nat.card (blockQuot K n I a) := by
@@ -50,6 +53,7 @@ theorem dvd_card_blockQuot {I : Set ℕ} (a : Fin n) (hm : 2 ≤ linBlockLen n I
   · exact h
   · exact absurd (h.trans (card_center_linBlockSL_dvd a (by omega))) hnd
 
+omit [Finite K] in
 theorem card_center_linBlockSL_eq_one {I : Set ℕ} (a : Fin n)
     (hm : linBlockLen n I a = 2) : Nat.card (Subgroup.center ↥(linBlockSL K n I a)) = 1 := by
   have key : ∀ m : ℕ, m = 2 → scalars m K = ⊥ := by
@@ -93,6 +97,7 @@ theorem dvd_card_blockQuot_of_dvd_sub_one {I : Set ℕ} (a : Fin n)
     rw [hmul, mul_comm] at hsq
     exact hf.trans (dvd_of_sq_dvd_mul hzpos hz hsq)
 
+omit [CharP K 2] in
 theorem three_dvd_card_blockQuot {I : Set ℕ} (a : Fin n) (hm : 2 ≤ linBlockLen n I a)
     (hq : Nat.card K = 2) : 3 ∣ Nat.card (blockQuot K n I a) := by
   have hX := card_linBlock_eq (K := K) (I := I) a (by omega)
@@ -108,14 +113,14 @@ theorem three_dvd_card_blockQuot {I : Set ℕ} (a : Fin n) (hm : 2 ≤ linBlockL
     Finset.dvd_prod_of_mem (fun j => 2 ^ j - 1) (Finset.mem_Icc.2 ⟨le_rfl, hm⟩)
   simpa using h2
 
-theorem leviAt_projectiveSL [CharP K 2] (hn : 3 ≤ n) (K₀ : Subgroup (projectiveSL n K)) (p : ℕ)
+theorem leviAt_projectiveSL (hn : 3 ≤ n) (K₀ : Subgroup (projectiveSL n K)) (p : ℕ)
     (hNB : projUpperTriangular n K ≤ K₀) : LeviAt K₀ p := by
   intro hB hp h5 hrank hpar hne hsyl
   classical
   have hn1 : 1 ≤ n := by omega
   have hnd : ¬ p ∣ Nat.card K - 1 := not_dvd_sub_one_of_pRank_le_one hn hp h5 hrank
   obtain ⟨k, hk⟩ : ∃ k : ℕ, Nat.card K = 2 ^ k := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨k, -, hk⟩ := FiniteField.card K 2
     exact ⟨k, by rw [Nat.card_eq_fintype_card, hk]⟩
   have hpq : ¬ p ∣ Nat.card K := by
@@ -162,11 +167,11 @@ theorem leviAt_projectiveSL [CharP K 2] (hn : 3 ≤ n) (K₀ : Subgroup (project
         ∏ b : Fin n, Nat.card (GL (Fin (linBlockLen n I b)) K) := by
       rw [← Nat.card_pi]
       exact Subgroup.card_subgroup_dvd_card _
-    obtain ⟨b, -, hb⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 (hprange.trans hrange_dvd)
+    obtain ⟨b, -, hb⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 (hprange.trans hrange_dvd)
     rw [card_GL_eq] at hb
     rcases (Nat.Prime.dvd_mul hp).1 hb with h1 | h1
     · exact absurd (hp.dvd_of_dvd_pow h1) hpq
-    · obtain ⟨j, hj, hpj⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 h1
+    · obtain ⟨j, hj, hpj⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 h1
       rw [Finset.mem_Icc] at hj
       refine ⟨b, j, ?_, hj.2, hpj⟩
       by_contra hj1
@@ -218,7 +223,7 @@ theorem leviAt_projectiveSL [CharP K 2] (hn : 3 ≤ n) (K₀ : Subgroup (project
         have h3 : p ∣ 3 := by simpa using hpj
         have := Nat.le_of_dvd (by norm_num) h3
         omega
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset K)) (n := 4)
         (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact hq4)
       exact ⟨s, hs⟩
@@ -268,7 +273,7 @@ theorem leviAt_projectiveSL [CharP K 2] (hn : 3 ≤ n) (K₀ : Subgroup (project
       exact hpT
 
 theorem leviSubAt_projectiveSL (hn : 3 ≤ n) : LeviSubAt (projectiveSL n K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀, hT₀⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := n) (by omega)
   refine leviSubAt_of_standard_sylow T₀ fun K₀ p hN => leviAt_projectiveSL hn K₀ p ?_
   have h1 := normalizer_projUnitriangular (K := K) (n := n) 2
@@ -286,9 +291,9 @@ theorem leviSubAt_of_psl {S : Type} [Group S] [Finite S] {n f : ℕ}
     have hn3 : 3 ≤ n := by
       obtain ⟨-, -, h2n, -⟩ := hadm
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := f)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
     exact LeviSubAt.of_mulEquiv
       (e.trans (CFSG.QuasithinUnique.Id2519.projectiveSLEquivStatedProj n K).symm)

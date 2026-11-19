@@ -182,7 +182,6 @@ theorem isSimpleGroup_KA5 : IsSimpleGroup ↥KA5 := by
     obtain ⟨v, hv, hvy⟩ := exists_conj_of_kAP (List.mem_of_mem_filter hp) (y : GL (Fin 8) (ZMod 2))
     refine ⟨v * y * v⁻¹, KA5.mul_mem (KA5.mul_mem hv y.2) (KA5.inv_mem hv),
       hN.conj_mem y hyN ⟨v, hv⟩, ?_⟩
-    change _ = dec8 (mul8 (mul8 p.1 r) p.2)
     rw [← hyc, ← hvy, dec8_colsOf]
   set gs := conjA r with hgs
   have hunit : ∀ g ∈ gs, ∃ u : GL (Fin 8) (ZMod 2),

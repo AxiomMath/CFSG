@@ -54,6 +54,6 @@ theorem borel_overgroup_classification
   refine ⟨fun A hB hA => eq_parabolicSubgroup_of_borelGroup_le hB hA, fun A hB hA =>
     ⟨_, eq_parabolicSubgroup_of_borelGroup_le hB hA, fun J hJ => ?_⟩⟩
   ext i
-  simp only [Set.mem_ofPred_eq, hJ, weylElt_mem_parabolicSubgroup_iff, Set.mem_eq_mem]
+  simp only [Set.mem_ofPred_eq, hJ, weylElt_mem_parabolicSubgroup_iff]
 
 end CFSG.LieType.Chevalley

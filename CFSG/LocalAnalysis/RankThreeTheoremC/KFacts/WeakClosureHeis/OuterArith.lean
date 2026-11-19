@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.WeakClosureHeis
 
 open CFSG.ComponentClassification.CatLeaf CFSG.Assembly.LowTwoRank
 
-theorem dvd_lieOrderDivisor_cases {t : StatedLieTag} {n q p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p)
+theorem dvd_lieOrderDivisor_cases {t : StatedLieTag} {n q p : ℕ} (_hp : p.Prime) (h5 : 5 ≤ p)
     (hd : p ∣ lieOrderDivisor t n q) :
     (t = .PSL ∧ p ∣ n ∧ p ∣ q - 1) ∨ (t = .PSU ∧ p ∣ n ∧ p ∣ q + 1) := by
   cases t
@@ -36,7 +36,7 @@ private theorem not_dvd_of_dvd_add_one {p x : ℕ} (hp : p.Prime) (h : p ∣ x +
 
 private theorem pow_dvd_pow_sub_one {p x m : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hx : 2 ≤ x)
     (hm : m ≠ 0) (hpx : p ∣ x - 1) : p ^ (1 + m.factorization p) ∣ x ^ m - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   have hnx : ¬ p ∣ x := not_dvd_of_dvd_sub_one hp (by omega) hpx
   have hlte := padicValNat.pow_sub_pow hodd (by omega : 1 < x) hpx hnx hm
@@ -50,7 +50,7 @@ private theorem pow_dvd_pow_sub_one {p x m : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) 
 
 private theorem pow_dvd_pow_add_one {p x m : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hm : Odd m)
     (hpx : p ∣ x + 1) : p ^ (1 + m.factorization p) ∣ x ^ m + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   have hnx : ¬ p ∣ x := not_dvd_of_dvd_add_one hp hpx
   have hlte := padicValNat.pow_add_pow hodd hpx hnx hm
@@ -74,11 +74,11 @@ private theorem dvd_pow_sub_one_of_dvd_sub_one {p q i : ℕ} (h : p ∣ q - 1) :
 private theorem dvd_psu_factor {p q i : ℕ} (hpq : p ∣ q + 1) :
     p ∣ (if Even i then q ^ i - 1 else q ^ i + 1) := by
   by_cases he : Even i
-  · rw [if_pos he]
+  · rw [ite_eq_left he]
     obtain ⟨m, hm⟩ := he
     have h := dvd_pow_sub_one_of_dvd_sub_one (i := m) (dvd_sq_sub_one hpq)
     rwa [← pow_mul, show 2 * m = i by omega] at h
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     have h := Odd.nat_add_dvd_pow_add_pow q 1 (Nat.not_even_iff_odd.mp he)
     rw [one_pow] at h
     exact hpq.trans h
@@ -87,7 +87,7 @@ private theorem pow_dvd_psu_factor {p q n : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (
     (hn : n ≠ 0) (hpq : p ∣ q + 1) :
     p ^ (1 + n.factorization p) ∣ (if Even n then q ^ n - 1 else q ^ n + 1) := by
   by_cases he : Even n
-  · rw [if_pos he]
+  · rw [ite_eq_left he]
     obtain ⟨m, hm⟩ := he
     have hm0 : m ≠ 0 := by omega
     have hn2 : n = 2 * m := by omega
@@ -101,7 +101,7 @@ private theorem pow_dvd_psu_factor {p q n : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (
         Nat.factorization_eq_zero_of_not_dvd h2, zero_add]
     rw [hfac, hn2, pow_mul]
     exact h
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     exact pow_dvd_pow_add_one hp h5 (Nat.not_even_iff_odd.mp he) hpq
 
 private theorem pow_dvd_prod_Icc {p n a : ℕ} {f : ℕ → ℕ} (hn : 5 ≤ n)

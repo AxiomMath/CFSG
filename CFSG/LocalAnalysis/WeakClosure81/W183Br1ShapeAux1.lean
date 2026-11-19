@@ -25,8 +25,8 @@ open scoped IsMulCommutative commutatorElement
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 theorem w183_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
 theorem w183_center_eq_bot_of_simple {X : Type} [Group X] (hs : IsSimpleGroup X)
     (hnab : ∃ a b : X, a * b ≠ b * a) : Subgroup.center X = ⊥ := by
@@ -44,7 +44,7 @@ private theorem w183_open_isQuasisimple_of_simple {X : Type} [Group X]
   refine ⟨?_, ?_⟩
   · rcases hs.eq_bot_or_eq_top_of_normal (commutator X) with h | h
     · exfalso
-      haveI := (commutator_eq_bot_iff X).mp h
+      have := (commutator_eq_bot_iff X).mp h
       obtain ⟨a, b, hab⟩ := hnab
       exact hab (mul_comm a b)
     · exact h
@@ -64,7 +64,7 @@ theorem w183_exists_mul_ne_of_isL3_two {X : Type} [Group X] (h : IsL3 X 2) :
   have hcomm : IsMulCommutative X := IsMulCommutative.of_comm (fun a b => by
     by_contra hab
     exact hnab ⟨a, b, hab⟩)
-  letI : IsMulCommutative X := hcomm
+  let : IsMulCommutative X := hcomm
   have hp : (Nat.card X).Prime := CommGroup.is_simple_iff_prime_card.mp hsimple
   rw [hcard] at hp
   norm_num at hp

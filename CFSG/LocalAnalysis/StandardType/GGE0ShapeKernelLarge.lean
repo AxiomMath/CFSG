@@ -20,8 +20,8 @@ theorem KernelContext.large
     6 < (familyKernel a).ncard := by
   by_contra hn
   have hsmall : (familyKernel a).ncard ≤ 6 := Nat.le_of_not_gt hn
-  haveI : Finite S.D.model := S.finite
-  haveI : Finite B := Finite.of_injective (Subgroup.inclusion h.B_model)
+  have : Finite S.D.model := S.finite
+  have : Finite B := Finite.of_injective (Subgroup.inclusion h.B_model)
     (Subgroup.inclusion_injective _)
   have hgen : ∀ i, rootDiagUnit .E6 (a i) ∈ B := by
     intro i

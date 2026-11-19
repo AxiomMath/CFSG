@@ -20,19 +20,24 @@ variable {G : Type} [Group G] [Finite G]
         ((H ⊓ Subgroup.normalizer (V : Set G) : Subgroup G) : Set G) *
         ((H ⊓ Subgroup.normalizer (E3.wClos V 0 T : Set G) : Subgroup G) : Set G)
 
+omit [Finite G] in
 theorem conjClosure_le_of_le_H {V H : Subgroup G} (hVH : V ≤ H) : conjClosure V H ≤ H :=
-  conjClosure_le fun h hh _ hz => H.mul_mem (H.mul_mem hh (hVH hz)) (H.inv_mem hh)
+  conjClosure_le fun _h hh _ hz => H.mul_mem (H.mul_mem hh (hVH hz)) (H.inv_mem hh)
 
+omit [Finite G] in
 theorem conjSubgroup_le_kGenIn {V H : Subgroup G} {k : G} (hk : k ∈ conjClosure V H) :
     conjSubgroup V k ≤ kGenIn V H :=
   le_iSup₂_of_le k hk le_rfl
 
+omit [Finite G] in
 theorem le_kGenIn_self (V H : Subgroup G) : V ≤ kGenIn V H := by
   simpa only [conjSubgroup_one] using conjSubgroup_le_kGenIn (V := V) (H := H) (one_mem _)
 
+omit [Finite G] in
 theorem kGenIn_le_H {V H : Subgroup G} (hVH : V ≤ H) : kGenIn V H ≤ H :=
   iSup₂_le fun _ hk => conjSubgroup_le_of_le hVH (conjClosure_le_of_le_H hVH hk)
 
+omit [Finite G] in
 theorem kGenIn_le_conjClosure (V H : Subgroup G) : kGenIn V H ≤ conjClosure V H :=
   iSup₂_le fun _ hk => conjSubgroup_le_of_le (le_conjClosure V H) hk
 
@@ -74,6 +79,7 @@ theorem pCoreOf_kGenIn_le {V H : Subgroup G} (hVH : V ≤ H) :
   exact (conjClosure_le_normalizer_kGenIn V H).trans
     (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 _)
 
+omit [Finite G] in
 theorem not_kGenIn_le_normalizer {V H T : Subgroup G} (hV : IsElemAbelian 2 V) (hH : IsCalH V H)
     (hH0 : ¬ IsCalH0 V H) (hTM : T ≤ Subgroup.normalizer (V : Set G))
     (hKT : H = kGenIn V H ⊔ T) : ¬ kGenIn V H ≤ Subgroup.normalizer (V : Set G) :=

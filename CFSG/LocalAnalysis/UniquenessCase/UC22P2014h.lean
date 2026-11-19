@@ -31,8 +31,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem s20_14N_of_strongParab207 {D : Data G} (hB : ListBNonabelian) (h66 : UC6.R6_6 D)
     (h204 : S20_4 D) (h207 : S20_7 D) (hSP : StrongParab207) : S20_14N D := by
   intro h1930 p hp hp2 hsp H hH hpH
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (H ⊓ D.M)
   have hpP : p ∣ Nat.card P := by
     rw [hP.card_eq]

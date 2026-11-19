@@ -59,7 +59,7 @@ theorem sec4I5Goldschmidt_of_noLayer (hG : Goldschmidt1974) (hL : Sec4I5NoLayer)
   obtain ⟨S, hAS⟩ := (isPGroup_two_of_isElemAbelian hAab).exists_le_sylow
   have hcl : ∀ x ∈ sec4A T T₁ T₂, ∀ k : NQuot T,
       k⁻¹ * x * k ∈ (S : Subgroup (NQuot T)) → k⁻¹ * x * k ∈ sec4A T T₁ T₂ :=
-    fun x hx k hk => h.sec4A_stronglyClosed hP S.isPGroup' hAS hx k hk
+    fun x hx k hk => h.sec4A_stronglyClosed hP S.isPGroup hAS hx k hk
   have hlayer := hL G hnab hind T T₁ T₂ a h hq h16 h4 hP
   have hcent : ∀ n ∈ oddCoreOf (Subgroup.normalClosure (sec4A T T₁ T₂ : Set (NQuot T))),
       ∀ m ∈ Subgroup.normalClosure (sec4A T T₁ T₂ : Set (NQuot T)), m * n = n * m := by

@@ -80,7 +80,7 @@ theorem not_jStarElimDataOf_unitary_of_order_nine {L : Type} [Group L] [Finite L
   rw [hn] at hdata
   obtain ⟨U, D, D₀, hDU, ⟨f⟩, hcard⟩ := hdata.exists_inner_copy hZ h6
   have hU6 : 3 ^ 6 ∣ Nat.card U := U.pow_dvd_card_of_pow_dvd_card hT6
-  have hDp : IsPGroup 3 D := U.isPGroup'.to_le hDU
+  have hDp : IsPGroup 3 D := U.isPGroup.to_le hDU
   have hD0p : IsPGroup 3 D₀ := hDp.of_equiv f.symm
   obtain ⟨k, hk⟩ := hD0p.exists_card_eq
   have hD6 : 3 ^ 6 ∣ Nat.card D := by

@@ -170,7 +170,7 @@ theorem factorization_three_CV : (Nat.card d.CV).factorization 3 = 2 * d.n := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply le_antisymm
   · obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 3 d.CV))
-    have hT := d.sylow_centralizer ((T : Subgroup d.CV).map d.CV.subtype) (T.isPGroup'.map _)
+    have hT := d.sylow_centralizer ((T : Subgroup d.CV).map d.CV.subtype) (T.isPGroup.map _)
       (Subgroup.map_subtype_le _)
     rw [Subgroup.card_map_of_injective d.CV.subtype_injective, Sylow.card_eq_multiplicity] at hT
     exact (Nat.pow_le_pow_iff_right (by norm_num)).mp hT
@@ -234,7 +234,7 @@ theorem exists_Q {Qbar : Subgroup (MulAut d.V)} (hQbar : Qbar ≤ d.Nbar)
     d.V_isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hVQ).symm
   obtain ⟨T, hT⟩ := hVp.exists_le_sylow
   refine ⟨(T : Subgroup Qpre).map Qpre.subtype, (Subgroup.map_subtype_le _).trans hQpreN,
-    fun x hx => ⟨⟨x, hVQ hx⟩, hT hx, rfl⟩, T.isPGroup'.map _, ?_, ?_⟩
+    fun x hx => ⟨⟨x, hVQ hx⟩, hT hx, rfl⟩, T.isPGroup.map _, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective Qpre.subtype_injective, Sylow.card_eq_multiplicity,
       Nat.Prime.factorization_pow Nat.prime_three, Finsupp.single_eq_same, hcard,
       Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne', Finsupp.add_apply, hQcard,

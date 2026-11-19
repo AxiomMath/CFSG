@@ -172,9 +172,9 @@ theorem E_fusion_free (h : Ctx t L S x₁ x₂ lam rho tau) (hS : ¬ 2 ∣ S.ind
     (Subgroup.mem_inf.mp (h.center_ge hxE)).2
   have hgC : g⁻¹ * x * g ∈ Subgroup.centralizer (S : Set G) :=
     (Subgroup.mem_inf.mp (h.center_ge hgE)).2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Sy, hSy⟩ := exists_sylow_coe_eq (S := S) h.isPGroup hS
-  haveI : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex Sy
+  have : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex Sy
   have hSySet : (Sy : Set G) = (S : Set G) := by
     show ((Sy : Subgroup G) : Set G) = (S : Set G)
     rw [hSy]

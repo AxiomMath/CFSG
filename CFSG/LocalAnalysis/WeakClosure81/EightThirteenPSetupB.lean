@@ -32,16 +32,19 @@ section BarSetupB
 
 variable {H : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q}
 
+omit [Finite G] in
 private theorem wc813psb_barSub_mono {A B : Subgroup G} (hAB : A ≤ B) :
     barSub H φ A ≤ barSub H φ B := by
   change (A.subgroupOf H).map φ ≤ (B.subgroupOf H).map φ
   exact Subgroup.map_mono (Subgroup.subgroupOf_mono H hAB)
 
+omit [Finite G] in
 private theorem wc813psb_barPre_top : barPre H φ (⊤ : Subgroup Q) = H := by
   ext g
   rw [mem_barPre]
   exact ⟨fun h => h.1, fun h => ⟨h, trivial⟩⟩
 
+omit [Finite G] in
 private theorem wc813psb_barSub_top {C : Subgroup G} (hφ : IsBarMap H C φ) :
     barSub H φ H = ⊤ := by
   change (H.subgroupOf H).map φ = ⊤
@@ -168,7 +171,7 @@ theorem maxT_bar (h5_11 : Asch5_11AS) (h5_13 : Asch5_13AS) {V H T A : Subgroup G
 theorem isSylowIn_barSub_T {V H T A : Subgroup G} {i : ℕ} (h : Pre813 V H T i A)
     {Q : Type} [Group Q] {φ : ↥H →* Q} (hφ : IsBarMap H (cGrp H T) φ) :
     IsSylowIn 2 (barSub H φ T) (⊤ : Subgroup Q) := by
-  haveI : Finite Q := Finite.of_surjective φ hφ.surjective
+  have : Finite Q := Finite.of_surjective φ hφ.surjective
   have hTH : IsSylowIn 2 T H := isSylowIn_of_isCalH h.minCex.hyp.calH h.minCex.hyp.sylow
   have hTsyl : IsSylowIn 2 (T.subgroupOf H) ⊤ := by
     have := (E1.isSylowIn_subgroupOf_iff (H := H) hTH.le le_rfl).mpr hTH
@@ -202,10 +205,10 @@ theorem barSub_A_basic {V H T A : Subgroup G} {i : ℕ} (h : Pre813 V H T i A)
   refine ⟨wc813psb_barSub_mono hAT, isElemAbelian_barSub hAab φ, ?_⟩
   rw [card_barSub_eq_relIndex_of_isBarMap hAH hCH hφ, hrel, hcardA]
 
-theorem kerMV_bar (h5_11 : Asch5_11AS) (h5_13 : Asch5_13AS) {V H T A : Subgroup G} {i : ℕ}
-    (h : Pre813 V H T i A) (hK : OInf H = kerMV V H) {Q : Type} [Group Q] {φ : ↥H →* Q}
+theorem kerMV_bar (_h5_11 : Asch5_11AS) (_h5_13 : Asch5_13AS) {V H T A : Subgroup G} {i : ℕ}
+    (_h : Pre813 V H T i A) (hK : OInf H = kerMV V H) {Q : Type} [Group Q] {φ : ↥H →* Q}
     (hφ : IsBarMap H (cGrp H T) φ) :
-    (barSub H φ (kerMV V H)).Normal ∧ IsSolvable (barSub H φ (kerMV V H)) ∧
+    (barSub H φ (kerMV V H)).Normal ∧ Group.IsSolvable (barSub H φ (kerMV V H)) ∧
       barSub H φ (kerMV V H) ≤ barSub H φ (H ⊓ normalizer (V : Set G)) := by
   have hKH : kerMV V H ≤ H := kerMV_le_self V H
   have hnorm : ((kerMV V H).subgroupOf H).Normal := by
@@ -223,8 +226,8 @@ theorem kerMV_bar (h5_11 : Asch5_11AS) (h5_13 : Asch5_13AS) {V H T A : Subgroup 
   have hnormal : (barSub H φ (kerMV V H)).Normal := by
     have h' := hnorm.map φ hφ.surjective
     simpa [barSub] using h'
-  have hsol : IsSolvable (barSub H φ (kerMV V H)) := by
-    haveI : Group.IsSolvable (CFSG.solvableRadical ↥H) :=
+  have hsol : Group.IsSolvable (barSub H φ (kerMV V H)) := by
+    have : Group.IsSolvable (CFSG.solvableRadical ↥H) :=
       CFSG.Timmesfeld.Bridge.isSolvable_solvableRadical'
     let f : ↥(CFSG.solvableRadical ↥H) →* ↥(barSub H φ (kerMV V H)) :=
       (φ.comp (Subgroup.subtype (CFSG.solvableRadical ↥H))).codRestrict _

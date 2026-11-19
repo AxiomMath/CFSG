@@ -15,16 +15,19 @@ open scoped commutatorElement
 
 variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] [Finite Γ₁] [Finite Γ₂] {f : Γ₁ →* Γ₂}
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_closure_singleton (x : Γ₁) :
     (closure {x}).map f = closure {f x} := by
   rw [MonoidHom.map_closure, Set.image_singleton]
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_image_insert_sdiff (hf : Function.Injective f) (A B : Subgroup Γ₁)
     (S : Set (Subgroup Γ₁)) :
     Subgroup.map f '' (insert A S \ {B}) =
       insert (A.map f) (Subgroup.map f '' S) \ {B.map f} := by
   rw [Set.image_sdiff (Subgroup.map_injective hf), Set.image_insert_eq, Set.image_singleton]
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma isMulCommutative_map_iff (hf : Function.Injective f) (U : Subgroup Γ₁) :
     IsMulCommutative (U.map f) ↔ IsMulCommutative U := by
   constructor
@@ -40,6 +43,7 @@ private lemma isMulCommutative_map_iff (hf : Function.Injective f) (U : Subgroup
   · intro _
     infer_instance
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem f15b_map_iff (hf : Function.Injective f) (gf : GFrame Γ₁) :
     (gf.map f).F15b ↔ gf.F15b := by
   have hS : (gf.map f).S = gf.S.map f := GFrame.map_S f gf

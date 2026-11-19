@@ -25,6 +25,7 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   {Γ : Subgroup (V ≃ₗ[K] V)} {p₀ : V} {U₀ : Subgroup (V ≃ₗ[K] V)}
   {IsRt : (V ≃ₗ[K] V) → Prop} {z : G}
 
+omit [Finite K] [CharP K 2] in
 theorem isPure_of_isConj_gen (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) (Hs : StrothHyp M Q Z)
     {z a : G} (hz : z ∈ Z) (hza : IsConj z a) (haQ : a ∈ Q) (haZ : a ∉ Z) :
     IsPurePt Γ p₀ (ψ (M₀.π a)) := by
@@ -52,6 +53,7 @@ theorem isPure_of_isConj_gen (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) (Hs 
   apply hζ0
   rw [← hs, zero_smul]
 
+omit [Finite K] [CharP K 2] in
 theorem isConj_of_isPure_gen (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) (Hs : StrothHyp M Q Z)
     (hg : GlobalModelData M Q Z γ M₀) {z a : G} (hz : z ∈ Z) (hz1 : z ≠ 1) (haQ : a ∈ Q)
     (haZ : a ∉ Z) (hpure : IsPurePt Γ p₀ (ψ (M₀.π a))) : IsConj z a := by
@@ -81,6 +83,7 @@ theorem isConj_of_isPure_gen (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) (Hs 
       _ = a := by group
   exact hconj₁.trans (isConj_iff.mpr ⟨q, hqa⟩)
 
+omit [Finite K] in
 theorem concl_Q_left_gen (Dt : GDat M Q Z B K γ M₀ ψ φ Γ p₀ U₀ IsRt z) {x y : G}
     (hxc : IsConj z x) (hxQ : x ∈ Q) (hyc : IsConj z y) (hyM : y ∈ M) (hyQ : y ∉ Q) :
     (orderOf (x * y) = 2 ∨ orderOf (x * y) = 4 ∨ Odd (orderOf (x * y))) ∧

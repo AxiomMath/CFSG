@@ -102,7 +102,7 @@ theorem sec4ILift_centK (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥
     obtain ⟨hbL, -, hbρ⟩ := (mem_sec4ILiftB_iff e fr P).mp hbB
     obtain ⟨w, hw, hwb⟩ := (mem_sec4IB0_iff fr).mp hbρ
     have h7 := sec4I_seven_dvd_map hL e hKL hK
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card'
       (G := ((K.subgroupOf L).map (sec4IRho e))) 7 h7
     have hy' : orderOf (y : ProjOrth Sec4IQ) = 7 := by rw [Subgroup.orderOf_coe]; exact hy

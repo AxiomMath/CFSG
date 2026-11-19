@@ -44,15 +44,15 @@ theorem exists_pComponent_of_normal
       Open.pRank p I = 1 ∧ 1 ≤ Open.pRank 3 I := by
   have hpp : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hno : ∀ N : Subgroup ↥M, N.Normal → N.index ≠ p := fun N hN => by
-    haveI := hN
+    have := hN
     exact no_normal_index_p_of_ctx_gen ctx hp N
   have hN : ∀ T₀ : Subgroup ↥M, T₀ ≠ ⊥ → T₀ ≤ T.subgroupOf M →
       (T₀.subgroupOf (T.subgroupOf M)).Characteristic →
       Open.pRank p (normalizer (T₀ : Set ↥M)) ≤ 1 := fun T₀ hne hle hchar =>
     pRank_normalizer_pair_le_one ctx.sylow.le hle hchar hne hpp (ctx.rank_char p hp)
-  haveI hHn : (cMHat L).Normal := cMHat_normal hLn
+  have hHn : (cMHat L).Normal := cMHat_normal hLn
   have hrkH : 2 ≤ Open.pRank p (cMHat L) := by
     have hbar : barO2 (cMHat L) = cMBar L :=
       Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) _

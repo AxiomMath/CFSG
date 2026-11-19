@@ -89,8 +89,8 @@ theorem kgTransvCent_holds : KGTransvCent := by
   have haN' : a' ∉ N' := haN
   have hidx : N'.index = 2 :=
     Subgroup.index_eq_two_iff_exists_notMem_and.2 ⟨a', haN', fun b => (hX' b).symm⟩
-  haveI : N'.Normal := Subgroup.normal_of_index_eq_two hidx
-  haveI hNs' : IsSimpleGroup ↥N' := eN.isSimpleGroup
+  have : N'.Normal := Subgroup.normal_of_index_eq_two hidx
+  have hNs' : IsSimpleGroup ↥N' := eN.isSimpleGroup
   have hNn' : ∃ x y : ↥N', x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hNn
     exact ⟨eN.symm x, eN.symm y, fun h => hxy (eN.symm.injective (by
@@ -102,7 +102,7 @@ theorem kgTransvCent_holds : KGTransvCent := by
     intro x hx
     have := hC x.1 x.2 (fun n hn => congrArg Subtype.val (hx ⟨n, hNX hn⟩ hn))
     exact Subtype.ext this
-  letI : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule fun x => by
+  let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule fun x => by
     rw [two_nsmul]
     apply Additive.toMul.injective
     rw [toMul_add, toMul_zero]
@@ -137,7 +137,7 @@ theorem kgTransvCent_holds : KGTransvCent := by
     refine ⟨hyN, ?_⟩
     rw [Subgroup.mem_centralizer_singleton_iff] at hya ⊢
     exact congrArg Subtype.val hya
-  · haveI := hY's
+  · have := hY's
     exact e.symm.isSimpleGroup
   · obtain ⟨x, y, hxy⟩ := hY'n
     exact ⟨e x, e y, fun h => hxy (e.injective (by rw [map_mul, map_mul]; exact h))⟩

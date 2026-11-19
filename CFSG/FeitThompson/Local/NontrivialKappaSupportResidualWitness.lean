@@ -38,7 +38,7 @@ theorem one_lt_sigmaMultiplicity_of_centralizer_not_le [Finite G] [IsSimpleGroup
     (hna : ¬ IsMulCommutative G) {M : Subgroup G} (hM : IsCoatom M) {x : G}
     (hxS : x ∈ sigmaCore M) (hnle : ¬ centralizer ({x} : Set G) ≤ M) :
     1 < sigmaMultiplicity x := by
-  obtain ⟨y, hy, hyM⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨y, hy, hyM⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   have hcomm : x * y = y * x := (Subgroup.mem_centralizer_iff.1 hy) x rfl
   have hfix : y⁻¹ * x * y = x := by
     calc y⁻¹ * x * y = y⁻¹ * (x * y) := by group

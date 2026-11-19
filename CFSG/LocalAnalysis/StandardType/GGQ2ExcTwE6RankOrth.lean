@@ -34,8 +34,8 @@ private theorem gamma_card_eq_ggLAut_range {G : Type} [Group G] [Finite G]
   have h1 := Subgroup.card_ker_mul_card_range ψ
   have h2 := Subgroup.card_ker_mul_card_range (ggGamma J hN)
   rw [hker] at h1
-  haveI : Finite ↥(ggGamma J hN).ker := Subtype.finite
-  haveI : Finite ↥ψ.ker := Subtype.finite
+  have : Finite ↥(ggGamma J hN).ker := Subtype.finite
+  have : Finite ↥ψ.ker := Subtype.finite
   exact (Nat.eq_of_mul_eq_mul_left Nat.card_pos (h1.trans h2.symm)).symm
 
 private theorem false_of_actor_autR_bound_three {G : Type} [Group G] [Finite G]

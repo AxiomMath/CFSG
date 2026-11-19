@@ -19,8 +19,8 @@ theorem gk7c_stdGroup_exists_not_dvd_nine :
     ∀ P : Subgroup Rgrp, Nat.card P = 49 →
       ∃ s ∈ P, s ≠ 1 ∧ ¬ 9 ∣ Nat.card (Subgroup.centralizer ({s} : Set Rgrp)) := by
   intro P hP
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite Rgrp := rgrp_finite
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite Rgrp := rgrp_finite
   have h343 : ¬ 343 ∣ Nat.card Rgrp := by
     rw [card_stdGroup]
     norm_num
@@ -36,7 +36,7 @@ theorem gk7c_stdGroup_exists_not_dvd_nine :
   have hzpow7 : IsPGroup 7 (Subgroup.zpowers rep7B) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_rep7B]; norm_num)
   obtain ⟨S, hS⟩ := hzpow7.exists_le_sylow
-  haveI : Finite (Sylow 7 Rgrp) :=
+  have : Finite (Sylow 7 Rgrp) :=
     Finite.of_injective (fun S : Sylow 7 Rgrp => (S : Set Rgrp)) SetLike.coe_injective
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Rgrp S Psyl
   have hconj : IsConj rep7B (g * rep7B * g⁻¹) := by

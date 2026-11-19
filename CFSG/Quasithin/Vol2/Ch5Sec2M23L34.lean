@@ -435,7 +435,7 @@ theorem exists_sylow_borelBar
     T0 ≤ borelBar ∧ Nat.card T0 = 64 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥borelBar))
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have h1 := Subgroup.card_mul_index (P : Subgroup ↥borelBar)
   rw [hk, card_borelBar] at h1
   have hk6 := eq_six_of_two_pow_mul_eq h1 P.not_dvd_index

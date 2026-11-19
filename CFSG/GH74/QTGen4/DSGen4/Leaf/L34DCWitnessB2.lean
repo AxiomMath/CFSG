@@ -79,6 +79,7 @@ variable {F : Type} [Field F] [CharP F 2]
 @[expose] def wbEmbMat (A : Matrix.SpecialLinearGroup (Fin 2) F) : Matrix (Fin 3) (Fin 3) F :=
   !![A.1 0 0, A.1 0 1, 0; A.1 1 0, A.1 1 1, 0; 0, 0, 1]
 
+omit [CharP F 2] in
 theorem wbEmbMat_det (A : Matrix.SpecialLinearGroup (Fin 2) F) : (wbEmbMat A).det = 1 := by
   have h := A.2
   rw [Matrix.det_fin_two] at h
@@ -89,19 +90,22 @@ theorem wbEmbMat_det (A : Matrix.SpecialLinearGroup (Fin 2) F) : (wbEmbMat A).de
 @[expose] def wbEmb (A : Matrix.SpecialLinearGroup (Fin 2) F) : Matrix.SpecialLinearGroup (Fin 3) F :=
   ⟨wbEmbMat A, wbEmbMat_det A⟩
 
+omit [CharP F 2] in
 theorem wbEmbMat_mul (A B : Matrix.SpecialLinearGroup (Fin 2) F) :
     wbEmbMat (A * B) = wbEmbMat A * wbEmbMat B := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wbEmbMat, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_three, wb_mul_00,
+    simp [wbEmbMat, Matrix.mul_apply, Fin.sum_univ_three, wb_mul_00,
       wb_mul_01, wb_mul_10, wb_mul_11]
 
+omit [CharP F 2] in
 theorem wbEmb_mul (A B : Matrix.SpecialLinearGroup (Fin 2) F) :
     wbEmb (A * B) = wbEmb A * wbEmb B := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
   exact wbEmbMat_mul A B
 
+omit [CharP F 2] in
 theorem wbEmb_one : wbEmb (1 : Matrix.SpecialLinearGroup (Fin 2) F) = 1 := by
   apply Subtype.ext
   ext i j
@@ -110,10 +114,12 @@ theorem wbEmb_one : wbEmb (1 : Matrix.SpecialLinearGroup (Fin 2) F) = 1 := by
 @[expose] def wbK (A : Matrix.SpecialLinearGroup (Fin 2) F) : projectiveSL 3 F :=
   proj 3 F (wbEmb A)
 
+omit [CharP F 2] in
 theorem wbK_mul (A B : Matrix.SpecialLinearGroup (Fin 2) F) : wbK (A * B) = wbK A * wbK B := by
   unfold wbK
   rw [wbEmb_mul, map_mul]
 
+omit [CharP F 2] in
 theorem wbK_one : wbK (1 : Matrix.SpecialLinearGroup (Fin 2) F) = 1 := by
   unfold wbK
   rw [wbEmb_one, map_one]
@@ -126,11 +132,13 @@ theorem wbV_mem_V2 (v : F × F) : wbV v ∈ V2 :=
 theorem wbV_mem_Ln [Finite F] (v : F × F) : wbV v ∈ Ln F :=
   Subgroup.le_normalizer (wbV_mem_V2 v)
 
+omit [CharP F 2] in
 theorem wbV_add (v w : F × F) : wbV (v + w) = wbV v * wbV w := by
   unfold wbV
   rw [V2_mul]
   rfl
 
+omit [CharP F 2] in
 theorem wbV_zero : wbV (0 : F × F) = 1 := by
   unfold wbV
   simp [yP_zero, wP_zero]
@@ -151,6 +159,7 @@ theorem wbK_mem_Ln [Finite F] (A : Matrix.SpecialLinearGroup (Fin 2) F) : wbK A 
     simp
     linear_combination h⟩
 
+omit [CharP F 2] in
 theorem yM_mul_wM_mul_embMat (b c : F) (A : Matrix.SpecialLinearGroup (Fin 2) F) :
     yM b * wM c * wbEmbMat A =
       !![A.1 0 0, A.1 0 1, c; A.1 1 0, A.1 1 1, b; 0, 0, 1] := by
@@ -158,6 +167,7 @@ theorem yM_mul_wM_mul_embMat (b c : F) (A : Matrix.SpecialLinearGroup (Fin 2) F)
   fin_cases i <;> fin_cases j <;>
     simp [yM, wM, wbEmbMat, Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [CharP F 2] in
 theorem wbV_mul_wbK (v : F × F) (A : Matrix.SpecialLinearGroup (Fin 2) F) :
     wbV v * wbK A = proj 3 F (wbBlock v A) := by
   unfold wbV wbK yP wP
@@ -168,6 +178,7 @@ theorem wbV_mul_wbK (v : F × F) (A : Matrix.SpecialLinearGroup (Fin 2) F) :
   rw [yM_mul_wM_mul_embMat]
   rfl
 
+omit [CharP F 2] in
 theorem wbK_mul_wbV (A : Matrix.SpecialLinearGroup (Fin 2) F) (v : F × F) :
     wbK A * wbV v = wbV (wbAct A v) * wbK A := by
   unfold wbK wbV yP wP
@@ -179,10 +190,12 @@ theorem wbK_mul_wbV (A : Matrix.SpecialLinearGroup (Fin 2) F) (v : F × F) :
   fin_cases i <;> fin_cases j <;>
     simp [wbAct, yM, wM, wbEmbMat, Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [CharP F 2] in
 theorem wbK_conj_wbV (A : Matrix.SpecialLinearGroup (Fin 2) F) (v : F × F) :
     wbK A * wbV v * (wbK A)⁻¹ = wbV (wbAct A v) := by
   rw [wbK_mul_wbV, mul_inv_cancel_right]
 
+omit [CharP F 2] in
 theorem sl3_eq_of_proj_eq {X Y : Matrix.SpecialLinearGroup (Fin 3) F} (hX : X.1 2 2 = 1)
     (hY : Y.1 2 2 = 1) (h : proj 3 F X = proj 3 F Y) : X = Y := by
   obtain ⟨c, -, hc⟩ := mem_scalars.mp (proj_eq_proj_iff.mp h)
@@ -200,6 +213,7 @@ theorem sl3_eq_of_proj_eq {X Y : Matrix.SpecialLinearGroup (Fin 3) F} (hX : X.1 
   ext i j
   rw [hij i j, hc1, mul_one]
 
+omit [CharP F 2] in
 theorem wbV_mul_wbK_inj {v w : F × F} {A B : Matrix.SpecialLinearGroup (Fin 2) F}
     (h : wbV v * wbK A = wbV w * wbK B) : v = w ∧ A = B := by
   rw [wbV_mul_wbK, wbV_mul_wbK] at h
@@ -247,7 +261,7 @@ theorem ln_normal_form [Finite F] (hq : Nat.card F = 4) {g : projectiveSL 3 F} (
     ⟨!![lam * M.1 0 0, lam * M.1 0 1; lam * M.1 1 0, lam * M.1 1 1], by
       rw [Matrix.det_fin_two]
       simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-        Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_fin_const]
+        Matrix.empty_val', Matrix.cons_val_fin_one]
       linear_combination lam ^ 3 * hD - lam ^ 2 * (M.1 0 0 * M.1 1 1 - M.1 0 1 * M.1 1 0) * hlamd
         + hlam3⟩ with hA_def
   refine ⟨(lam * M.1 0 2, lam * M.1 1 2), A, ?_⟩

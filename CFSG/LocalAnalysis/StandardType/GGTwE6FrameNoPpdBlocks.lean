@@ -481,7 +481,7 @@ private theorem dvd_of_orbit {K : Type} [Field K] {c : Fin Tag.E6.rank → Kˣ} 
     refine Finset.prod_eq_one fun i _ => ?_
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hcr i, one_zpow]
   have hord : orderOf (rootChar c lam) = r := by
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     exact orderOf_eq_prime hpow hne
   rw [← hord]
   exact orderOf_dvd_iff_zpow_eq_one.mpr

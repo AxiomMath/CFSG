@@ -62,14 +62,14 @@ private theorem false_of_recipeUnitary {Ω : Type} [Group Ω] [Finite Ω] {S B T
         (MulAut.congr Φ).toMonoidHom) (hXe.map _) (by rintro _ ⟨β, hβ, rfl⟩; exact hXD β hβ)
       (by rw [Subgroup.card_map_of_injective (MulAut.congr Φ).injective]; exact hXc)
       (Subgroup.mem_map_of_mem _ hdX)
-    haveI := hA
+    have := hA
     exact SG.false_of_simple_fix_congr h hcat hB Φ hdD hdx (hSN d₀)
       (perfectInLayer_of_congr (InndiagSU.projEquiv hFd hd1) _ hpl) hnc h3A hAd hY hYA
   · obtain ⟨A, hA, hnc, h3A, hAd, Y, hY, hYA⟩ := SG.uniN_core hFd h3 hd6
       (X := ((B.subgroupOf (Subgroup.normalizer (S : Set Ω))).map (chevAut 3 S)).map
         (MulAut.congr (Φ.trans (InndiagSU.projEquiv hFd hd1))).toMonoidHom) (hXe.map _)
       (by rintro _ ⟨β, hβ, rfl⟩; exact hXD β hβ) (Subgroup.mem_map_of_mem _ hdX)
-    haveI := hA
+    have := hA
     exact SG.false_of_simple_fix_congr h hcat hB _ hdD hdx (hSN d₀) hpl hnc h3A hAd hY hYA
 
 theorem qsF3ResUni_holds : QSF3ResUni := by
@@ -85,7 +85,7 @@ theorem qsF3ResUni_holds : QSF3ResUni := by
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
     exact false_of_recipeUnitary h hcat hB hn (.inr ⟨hm, by omega⟩) hraw
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-    rw [if_neg (by decide), if_pos (by decide)] at hraw
+    rw [ite_eq_right (by decide), ite_eq_left (by decide)] at hraw
     exact false_of_recipeUnitary h hcat hB hn (.inl ⟨hp, le_rfl, by norm_num⟩) hraw
 
 end CFSG.LocalAnalysis.GLTheoremA.S265

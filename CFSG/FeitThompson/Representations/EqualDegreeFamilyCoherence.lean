@@ -44,8 +44,8 @@ theorem cfInner_finsuppSum_finsuppSum {X ι : Type*} [Fintype X] (v : ι → X �
     · rw [h0 i j (Ne.symm h)]; simp [h]
   rw [Finset.sum_congr rfl key, Finset.sum_ite_eq' c.support i (fun _ => (c i : ℂ))]
   by_cases hic : i ∈ c.support
-  · rw [if_pos hic]
-  · rw [if_neg hic]
+  · rw [ite_eq_left hic]
+  · rw [ite_eq_right hic]
     have hci : c i = 0 := Finsupp.notMem_support_iff.mp hic
     simp [hci]
 
@@ -83,7 +83,7 @@ theorem linearIndependent_of_subset_Irr (hS : S ⊆ Irr L) :
   simp only [hij] at key
   rw [Finset.sum_congr rfl (fun i _ => by rw [mul_ite, mul_one, mul_zero] :
     ∀ i ∈ t, (g i : ℂ) * (if i = j then 1 else 0) = if i = j then (g i : ℂ) else 0),
-    Finset.sum_ite_eq' t j (fun i => (g i : ℂ)), if_pos hj] at key
+    Finset.sum_ite_eq' t j (fun i => (g i : ℂ)), ite_eq_left hj] at key
   exact_mod_cast key
 
 noncomputable def spanBasis (hS : S ⊆ Irr L) : Module.Basis S ℤ (Submodule.span ℤ S) :=
@@ -237,7 +237,7 @@ theorem isCoherent_of_forall_apply_one_eq (hSfin : S.Finite) (hS : S ⊆ Irr L)
   set r : (L → ℂ) → G → ℂ := fun χ =>
     if h : χ - χ₀ ∈ charSpanZero S then (τ ⟨χ - χ₀, h⟩ : G → ℂ) else 0 with hrdef
   have hrval : ∀ (χ : L → ℂ) (h : χ - χ₀ ∈ charSpanZero S), r χ = (τ ⟨χ - χ₀, h⟩ : G → ℂ) :=
-    fun χ h => dif_pos h
+    fun χ h => dite_eq_left h
   have hmemz : ∀ χ ∈ Tf, χ - χ₀ ∈ charSpanZero S :=
     fun χ hχ => sub_mem_charSpanZero hdeg ((hmemTf χ).1 hχ).1 hχ₀
   have hrinner : ∀ χ ∈ Tf, ∀ ψ ∈ Tf, cfInner (r χ) (r ψ) = cfInner (χ - χ₀) (ψ - χ₀) := by
@@ -302,23 +302,23 @@ theorem isCoherent_of_forall_apply_one_eq (hSfin : S.Finite) (hS : S ⊆ Irr L)
   set εZ : ℤ := if ε = 1 then 1 else -1 with hεZ
   have hεZeq : ((εZ : ℝ)) = ε := by
     rcases hε with h | h
-    · rw [hεZ, if_pos h, h]; norm_num
-    · rw [hεZ, if_neg (by rw [h]; norm_num), h]; norm_num
+    · rw [hεZ, ite_eq_left h, h]; norm_num
+    · rw [hεZ, ite_eq_right (by rw [h]; norm_num), h]; norm_num
   have hεZsign : εZ = 1 ∨ εZ = -1 := by
     rcases hε with h | h
-    · exact Or.inl (by rw [hεZ, if_pos h])
-    · exact Or.inr (by rw [hεZ, if_neg (by rw [h]; norm_num)])
+    · exact Or.inl (by rw [hεZ, ite_eq_left h])
+    · exact Or.inr (by rw [hεZ, ite_eq_right (by rw [h]; norm_num)])
   set w : (L → ℂ) → G → ℂ := fun χ =>
     if h : χ ∈ Tf then ((jj ⟨vec ⟨χ, h⟩, hmemR ⟨χ, h⟩⟩ : Irr G) : G → ℂ) else ((j₀ : Irr G) : G → ℂ)
     with hw
   have hwTf : ∀ (χ : L → ℂ) (h : χ ∈ Tf),
-      w χ = ((jj ⟨vec ⟨χ, h⟩, hmemR ⟨χ, h⟩⟩ : Irr G) : G → ℂ) := fun χ h => dif_pos h
-  have hwχ₀ : w χ₀ = ((j₀ : Irr G) : G → ℂ) := dif_neg hχ₀nTf
+      w χ = ((jj ⟨vec ⟨χ, h⟩, hmemR ⟨χ, h⟩⟩ : Irr G) : G → ℂ) := fun χ h => dite_eq_left h
+  have hwχ₀ : w χ₀ = ((j₀ : Irr G) : G → ℂ) := dite_eq_right hχ₀nTf
   refine isCoherent_of_injOn_signed_map hSfin hS hχ₀ hdeg τ w ?_ ?_ hεZsign ?_
   · intro χ _
     by_cases hχ : χ ∈ Tf
     · rw [hwTf χ hχ]; exact Subtype.coe_prop _
-    · rw [show w χ = ((j₀ : Irr G) : G → ℂ) from dif_neg hχ]; exact Subtype.coe_prop _
+    · rw [show w χ = ((j₀ : Irr G) : G → ℂ) from dite_eq_right hχ]; exact Subtype.coe_prop _
   · intro χ hχS ψ hψS hwe
     by_cases hχ : χ ∈ Tf
     · by_cases hψ : ψ ∈ Tf

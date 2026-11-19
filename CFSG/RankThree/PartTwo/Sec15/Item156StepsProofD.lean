@@ -33,7 +33,7 @@ theorem commute_of_mk_mem_inf_centralizer {L : Subgroup G} (S : Sylow 3 ↥L) {b
     QuotientGroup.eq] at h1
   have hmemS : (s * b)⁻¹ * (b * s) ∈ (S : Subgroup ↥L) :=
     mul_mem (inv_mem (mul_mem hs hbS)) (mul_mem hbS hs)
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨_, hmemS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨_, hmemS⟩
   have hk' : ((s * b)⁻¹ * (b * s)) ^ 3 ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using this

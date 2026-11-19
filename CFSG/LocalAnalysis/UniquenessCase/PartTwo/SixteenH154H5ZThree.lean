@@ -18,7 +18,7 @@ theorem s16h_L3World_three {U : Type} [CommGroup U] [Finite U] {N L : Subgroup (
         ∀ u v : Fin 3 → ZMod 2, u ≠ 0 → v ≠ 0 →
           ∃ a : ↥N, ((r a : Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :
             Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec u = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 N
   have hThree : ThreeNat N L T :=
     { elem := h.elem, le := h.le, normal := h.normal, sylow := hT, quasi := h.quasi,

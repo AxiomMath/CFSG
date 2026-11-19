@@ -199,7 +199,7 @@ private theorem p3lg_sRefl_single {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     · intro k hk
       have h : (Pi.single (some i) (1 : ℤ) : Option Λ → ℤ) k = 0 := by
         rw [Pi.single_apply]
-        exact if_neg hk
+        exact ite_eq_right hk
       rw [h, mul_zero]
   simp only [ggSRefl, Pi.sub_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul]
   rw [hsum]
@@ -225,7 +225,7 @@ theorem ggFork_false_of_lineTest (ha₀ : GGLNoncyclicInput) {G : Type} [Group G
     (hAL : ggAutomizer L Bs = Subgroup.closure (Set.range fun i : Λ => φ' (some i)))
     (hT : GGLineTest X p) : False := by
   obtain ⟨ψ, k, ρ, hρ, ha, htest⟩ := hT
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
   have hFT : TauCeti.IsFiniteType (fun i j => X (some i) (some j)) :=
     isFiniteType_of_ggIsWeylMatrixFixed hM hC
   have hind : LinearIndependent (ZMod p) (fun i : Λ => h' (some i)) :=

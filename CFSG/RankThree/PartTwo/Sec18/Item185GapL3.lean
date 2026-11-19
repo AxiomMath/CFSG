@@ -98,17 +98,17 @@ private theorem eq_one_of_commute_range_linFix {K : Type} [Field K] (φ : K ≃+
 
 private theorem fixedFactsAt_fieldAut {K : Type} [Field K] (φ : K ≃+* K) :
     FixedFactsAt (fieldAut 3 K φ) := by
-  haveI hsimple := isSimpleGroup_range_linFix φ
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) (fixedField φ)) :=
+  have hsimple := isSimpleGroup_range_linFix φ
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) (fixedField φ)) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le le_rfl
-  haveI : Group.IsPerfect (linFix φ).range := Group.IsPerfect.range _
+  have : Group.IsPerfect (linFix φ).range := Group.IsPerfect.range _
   refine fixedFactsAt_of_normal (P := (linFix φ).range) ?_ ?_ hsimple ?_ ?_
   · rintro _ ⟨g₀, rfl⟩
     exact linFix_fixed φ g₀
   · intro a ha b hb
     exact commutator_mem_range_linFix φ ha hb
   · intro hc
-    haveI : Nontrivial ↥(linFix φ).range := hsimple.toNontrivial
+    have : Nontrivial ↥(linFix φ).range := hsimple.toNontrivial
     have hcomm : IsMulCommutative ↥(linFix φ).range := ⟨⟨hc⟩⟩
     exact Group.IsPerfect.not_isMulCommutative _ hcomm
   · intro x _ hx

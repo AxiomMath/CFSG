@@ -77,7 +77,7 @@ theorem fam_A {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag
   have he3 := e_three hp hp2 hn
   rcases m0_cases (n := lab.n) hp hp2 with ⟨h1, hd1⟩ | ⟨h2, hd2⟩ | h3
   · rw [h1, rk2Mult_A ht] at hA hg'
-    simp only [if_true] at hA hg'
+    simp only [ite_true] at hA hg'
     have hn2 : 2 ≤ lab.n := by
       by_contra hc
       have h1n : lab.n = 1 := by omega
@@ -85,26 +85,26 @@ theorem fam_A {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag
       norm_num at hd1
       exact hp.ne_one hd1
     by_cases hpn : p ∣ lab.n
-    · simp only [hpn, if_true] at hA hg'
+    · simp only [hpn, ite_true] at hA hg'
       exact arithA_m1 lab.rank lab.n 1 le_rfl hn2 (fun _ => he3 hpn) hA hg'
-    · simp only [hpn, if_false] at hA hg'
+    · simp only [hpn, ite_false] at hA hg'
       exact arithA_m1 lab.rank lab.n 0 (by norm_num) hn2 (fun h => absurd h (by norm_num)) hA hg'
   · rw [h2, rk2Mult_A ht] at hA hg'
-    simp only [show (2 : ℕ) ≠ 1 by norm_num, if_false] at hA hg'
+    simp only [show (2 : ℕ) ≠ 1 by norm_num, ite_false] at hA hg'
     by_cases hpn : p ∣ lab.n
-    · simp only [hpn, if_true] at hA hg'
+    · simp only [hpn, ite_true] at hA hg'
       exact arithA_m2 lab.rank lab.n 1 hn le_rfl (fun _ => he3 hpn) hA hg'
-    · simp only [hpn, if_false] at hA hg'
+    · simp only [hpn, ite_false] at hA hg'
       exact arithA_m2 lab.rank lab.n 0 hn (by norm_num) (fun h => absurd h (by norm_num)) hA hg'
   · rw [rk2Mult_A ht] at hA hg'
     have hm1 : rk2Ord p lab.n ≠ 1 := by omega
-    simp only [hm1, if_false] at hA hg'
+    simp only [hm1, ite_false] at hA hg'
     have hdiv : (lab.rank + 1) / rk2Ord p lab.n ≤ (lab.rank + 1) / 3 :=
       Nat.div_le_div_left h3 (by norm_num)
     by_cases hpn : p ∣ lab.n
-    · simp only [hpn, if_true] at hA hg'
+    · simp only [hpn, ite_true] at hA hg'
       exact arithA_m3 lab.rank lab.n 1 _ hn le_rfl hdiv hA hg'
-    · simp only [hpn, if_false] at hA hg'
+    · simp only [hpn, ite_false] at hA hg'
       exact arithA_m3 lab.rank lab.n 0 _ hn (by norm_num) hdiv hA hg'
 
 
@@ -115,7 +115,7 @@ theorem e_facts {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 1 ≤ n) :
   · intro h
     by_cases hd : p ∣ n
     · exact three_le_of_dvd hp hp2 hd hn
-    · rw [if_neg hd] at h; omega
+    · rw [ite_eq_right hd] at h; omega
 
 theorem fam_twA {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .twA) (hp : p.Prime)
     (hp2 : p ≠ 2) (hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
@@ -154,7 +154,7 @@ theorem fam_twA {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.t
         intro h
         have hd : p ∣ lab.n := by
           by_contra hc
-          rw [if_neg hc] at h
+          rw [ite_eq_right hc] at h
           omega
         refine ⟨hE3 h, ?_, ?_⟩
         · intro h4
@@ -176,7 +176,7 @@ theorem fam_twA {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.t
     · obtain ⟨hn1, hsurv⟩ := hex
       have hl3 : lab.rank = 3 := by simpa [ht] using hsurv
       have he0 : (if p ∣ lab.n then 1 else 0) = 0 := by
-        rw [if_neg]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
+        rw [ite_eq_right]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
       rw [he0] at hA
       rw [hl3] at hr3
       omega

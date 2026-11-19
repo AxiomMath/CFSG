@@ -51,15 +51,15 @@ theorem commutator_reeGamma_F4_zero_data {k : Type} [Field k] [Finite k]
       (∃ x y : ↥(commutator (ReeTag.F4.reeGamma k 0)), x * y ≠ y * x) ∧
       Nonempty (↥(commutator (ReeTag.F4.reeGamma k 0)) ≃*
         (TauCeti.CFSGIndex.lie ⟨.tits, tits_valid⟩).Group) := by
-  haveI : Fact (Nat.card k = 2) := ⟨hk⟩
+  have : Fact (Nat.card k = 2) := ⟨hk⟩
   let e₁ : ↥(commutator (reeFixed ReeTag.F4 k 0)) ≃* ↥(commutator (ReeTag.F4.reeGamma k 0)) :=
     commutatorEquiv' (ReeTag.reeFixedEquivReeGamma k 0)
   let e₂ : ↥(commutator (reeFixed ReeTag.F4 k 0)) ≃* titsD := titsDerivedIso (K := k)
   obtain ⟨e₃⟩ := titsModelEquiv (TauCeti.CFSGIndex.lie ⟨.tits, tits_valid⟩).Group 2 1
     (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨tits_valid, ⟨MulEquiv.refl _⟩⟩)
   let e : ↥(commutator (ReeTag.F4.reeGamma k 0)) ≃* titsD := e₁.symm.trans e₂
-  haveI : IsSimpleGroup titsD := titsD_simple
-  haveI hs : IsSimpleGroup ↥(commutator (ReeTag.F4.reeGamma k 0)) := e.isSimpleGroup
+  have : IsSimpleGroup titsD := titsD_simple
+  have hs : IsSimpleGroup ↥(commutator (ReeTag.F4.reeGamma k 0)) := e.isSimpleGroup
   refine ⟨hs, ?_, ⟨e.trans e₃.symm⟩⟩
   by_contra hcon
   push Not at hcon
@@ -70,7 +70,7 @@ theorem commutator_reeGamma_F4_zero_data {k : Type} [Field k] [Finite k]
   have hcen : Subgroup.center titsD = ⊤ :=
     eq_top_iff.2 fun x _ => Subgroup.mem_center_iff.2 fun y => hcomm y x
   rw [titsD_center] at hcen
-  haveI := titsD_nontrivial
+  have := titsD_nontrivial
   exact bot_ne_top hcen
 
 theorem exists_fixSubgroup_fieldAut_equiv' {a : ℕ} {K : Type} [Field K] [Finite K]
@@ -90,7 +90,7 @@ theorem exists_fixSubgroup_fieldAut_equiv' {a : ℕ} {K : Type} [Field K] [Finit
     exact charP_of_card_eq_prime_pow (f := 2 * b + 1) (by
       rw [← Nat.card_eq_fintype_card, hkcard]
       rfl)
-  haveI := hchar
+  have := hchar
   have hFix : fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ) =
       (ReeTag.F4.reeGammaFieldAut K a σ).toMonoidHom.eqLocus (MonoidHom.id _) := rfl
   refine ⟨b, hkcard, hchar, ⟨?_⟩⟩
@@ -104,18 +104,18 @@ theorem srtOut_fieldAut_F4 {a : ℕ} {K : Type} [Field K] [Finite K] [CharP K Re
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (σ : K ≃+* K)
     (hσ : orderOf σ = p) : SRTOut 2 (ReeTag.F4.reeGammaFieldAut K a σ) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨b, hkcard, hchar, ⟨eC⟩⟩ := exists_fixSubgroup_fieldAut_equiv' hK hp hp2 σ hσ
-  haveI := hchar
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
+  have := hchar
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
   rcases Nat.eq_zero_or_pos b with rfl | hb
   ·
     have hk2 : Nat.card (fixSubfield σ) = 2 := by simpa using hkcard
     obtain ⟨hs, hnc, ⟨hcat⟩⟩ := commutator_reeGamma_F4_zero_data hk2
-    haveI := hs
+    have := hs
     refine srtOut_of_fixed_equiv_derived _ eC hs hnc ?_ fun hb => ?_
     · exact Or.inl ⟨.lie ⟨.tits, tits_valid⟩, TauCeti.LieTypeIndex.characteristic_tits,
         ⟨hcat⟩⟩
@@ -149,13 +149,13 @@ theorem srtOut_reeGamma_F4_inner_three {a : ℕ} (ha : 1 ≤ a) {K : Type} [Fiel
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2 ^ (2 * a + 1)) (y : ReeTag.F4.reeGamma K a)
     (hy : orderOf y = 3) : SRTOut 2 (MulAut.conj y) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨e⟩ :=
     CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.centralizer_mulEquiv_unitarySU a K hK y hy
   have hF'card : Nat.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [GaloisField.card 2 _ (by omega), ← pow_mul, mul_comm]
-  haveI : Fintype (GaloisField 2 (2 * (2 * a + 1))) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * (2 * a + 1))) := Fintype.ofFinite _
   have hF'fcard : Fintype.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF'card
@@ -195,9 +195,9 @@ theorem reeF4_inner_or_field {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Fini
       ∃ (σ : K ≃+* K) (g : ReeTag.F4.reeGamma K a), orderOf σ = p ∧
         β = MulAut.conj g * ReeTag.F4.reeGammaFieldAut K a σ * (MulAut.conj g)⁻¹ := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hNF, ⟨Ψ, hΨ⟩, -⟩ := large_Ree_full_inner_field_automorphism_normal_form a ha K hK
   obtain ⟨⟨x, σ⟩, hxσ, -⟩ := hNF β
   have hΨα : Ψ ⟨x, σ⟩ = β := by rw [hΨ x σ]; exact hxσ.symm
@@ -229,7 +229,7 @@ theorem reeF4_inner_or_field {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Fini
 theorem srtOut_reeGamma_F4_three {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2 ^ (2 * a + 1))
     {β : MulAut (ReeTag.F4.reeGamma K a)} (hβ : β ^ 3 = 1) (hβ1 : β ≠ 1) : SRTOut 2 β := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases reeF4_inner_or_field ha hK Nat.prime_three hβ hβ1 with ⟨y, rfl, hy3, hy1⟩ |
     ⟨σ, g, hσ, rfl⟩
   · exact srtOut_reeGamma_F4_inner_three ha hK y (orderOf_eq_prime hy3 hy1)

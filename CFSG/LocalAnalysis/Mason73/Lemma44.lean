@@ -27,6 +27,7 @@ theorem exists_two_le_derivedSeries_succ_eq (H : Type*) [Group H] [Finite H] :
   refine ⟨k + 2, by omega, ?_⟩
   rw [show k + 2 + 1 = k + 3 by omega, hstab 3, hstab 2]
 
+omit [Finite G] in
 theorem commutator_map_subtype_derivedSeries_eq_top {C : Subgroup G} {m : ℕ}
     (hm : derivedSeries C (m + 1) = derivedSeries C m) :
     commutator ((derivedSeries C m).map C.subtype) = ⊤ := by
@@ -35,6 +36,7 @@ theorem commutator_map_subtype_derivedSeries_eq_top {C : Subgroup G} {m : ℕ}
     rw [← map_subtype_derivedSeries_succ, hm]
   exact Group.isPerfect_def.1 (Subgroup.isPerfect_iff.2 hY)
 
+omit [Finite G] in
 theorem map_subtype_derivedSeries_subgroupOf_normal (C : Subgroup G) (m : ℕ) :
     (((derivedSeries C m).map C.subtype).subgroupOf C).Normal := by
   have h : ((derivedSeries C m).map C.subtype).subgroupOf C = derivedSeries C m :=
@@ -163,7 +165,7 @@ theorem lemma44 [IsSimpleGroup G] (hn : 3 ≤ n)
   obtain ⟨K, hKn, hzK, hK⟩ := exists_classical_component_of_quaternion_central_product
     (commutator_quotient_eq_top hYperf) (oddCore_quotient_oddCore_eq_bot Y) hzX hz2X hcommX
     hinfX SX hSX (k := n - 1) (by omega) e₁ e₂ hDD
-  haveI := hKn
+  have := hKn
   have hzJ : z ∈ preimageOddCore Y K := mem_preimageOddCore (y := ιY z') hzK
   have hsub : CFSG.Open.IsSubnormal (preimageOddCore Y K) C :=
     CFSG.Open.IsSubnormal.step (preimageOddCore_le Y K) (preimageOddCore_subgroupOf_normal Y K)

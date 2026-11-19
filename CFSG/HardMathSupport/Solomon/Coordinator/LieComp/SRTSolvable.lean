@@ -32,16 +32,16 @@ private theorem three_dvd_mul_sq_sub_one (q : ℕ) : 3 ∣ q * (q ^ 2 - 1) := by
 private theorem isSolvable_of_odd_normal_two_quotient {C : Type} [Group C] [Finite C]
     (N : Subgroup C) [N.Normal] (hN : Nat.Coprime 2 (Nat.card N)) (hQ : IsPGroup 2 (C ⧸ N)) :
     Group.IsSolvable C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.coprime_two_left.mp hN)
-  haveI : Group.IsNilpotent (C ⧸ N) := hQ.isNilpotent
-  exact solvable_of_ker_le_range N.subtype (QuotientGroup.mk' N) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.coprime_two_left.mp hN)
+  have : Group.IsNilpotent (C ⧸ N) := hQ.isNilpotent
+  exact Group.isSolvable_of_ker_le_range N.subtype (QuotientGroup.mk' N) (by
     rw [QuotientGroup.ker_mk']
     exact fun x hx => ⟨⟨x, hx⟩, rfl⟩)
 
 private theorem hasNormalPComplement_two_of_cyclic {C : Type} [Group C] [Finite C]
     (hcyc : ∀ S : Sylow 2 C, IsCyclic S) : CFSG.HasNormalPComplement 2 C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases h2 : 2 ∣ Nat.card C
   · let S : Sylow 2 C := Classical.choice Sylow.nonempty
     have hmin : (Nat.card C).minFac = 2 := (Nat.minFac_eq_two_iff (Nat.card C)).2 h2
@@ -72,7 +72,7 @@ section Dihedral
 private theorem isPGroup_two_quotient_of_dihedral {C : Type} [Group C] [Finite C]
     (h3 : ¬ 3 ∣ Nat.card C) (hD : CFSG.GorensteinWalter.HasDihedralSylowTwo C) :
     IsPGroup 2 (C ⧸ CFSG.pPrimeCore 2 C) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases (CFSG.GorensteinWalter.gorensteinWalter : CFSG.GorensteinWalter.gorensteinWalterStatement)
       C hD with ⟨_, hq⟩ | ⟨_, ⟨e⟩⟩ | ⟨_, K, hKp, L, hLn, hLi, hLm⟩
   · exact hq
@@ -111,7 +111,7 @@ private theorem isSolvable_of_three_not_dvd_of_sylow_two_small {C : Type} [Group
     (hT : ∀ T : Sylow 2 C, Nat.card T ≤ 4 ∧
       ∀ a ∈ (T : Subgroup C), ∀ b ∈ (T : Subgroup C), a * b = b * a ∧ a * a = 1) :
     Group.IsSolvable C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀⟩ : Nonempty (Sylow 2 C) := inferInstance
   have hcard : ∀ T : Sylow 2 C, Nat.card T = Nat.card T₀ := fun T =>
     Nat.card_congr (Sylow.equiv T T₀).toEquiv
@@ -124,9 +124,8 @@ private theorem isSolvable_of_three_not_dvd_of_sylow_two_small {C : Type} [Group
       have hT4 : Nat.card T = 4 := (hcard T).trans h4
       have hK : IsKleinFour ↥(T : Subgroup C) := by
         refine ⟨hT4, ?_⟩
-        haveI : Nontrivial ↥(T : Subgroup C) := by
+        have : Nontrivial ↥(T : Subgroup C) := by
           rw [← Finite.one_lt_card_iff_nontrivial]
-          change 1 < Nat.card (T : Subgroup C)
           rw [hT4]
           norm_num
         rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
@@ -152,12 +151,12 @@ private theorem isSolvable_of_three_not_dvd_of_sylow_two_small {C : Type} [Group
         omega
       rcases Nat.le_one_iff_eq_zero_or_eq_one.mp hk with h0 | h1
       · have : Nat.card T = 1 := by rw [hpow T, h0]; rfl
-        haveI : Subsingleton T := (Nat.card_eq_one_iff_unique.mp this).1
+        have : Subsingleton T := (Nat.card_eq_one_iff_unique.mp this).1
         infer_instance
       · have : Nat.card T = 2 := by rw [hpow T, h1]; rfl
         exact isCyclic_of_prime_card this
     obtain ⟨N, hNn, hNc, hNq⟩ := hasNormalPComplement_two_of_cyclic hcycT
-    haveI := hNn
+    have := hNn
     exact isSolvable_of_odd_normal_two_quotient N hNc hNq
 
 end Dihedral
@@ -172,10 +171,10 @@ private theorem not_three_dvd_card_centralizer {G : Type} [Group G] [Finite G]
     (hx : orderOf x = p) : ¬ 3 ∣ Nat.card (Subgroup.centralizer ({x} : Set G)) := by
   classical
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨k, hk, hq⟩, hG⟩ := ward_order h
-  letI : Fintype G := Fintype.ofFinite G
-  haveI : CharP h.F 3 := ree_charP_three h hq
+  let : Fintype G := Fintype.ofFinite G
+  have : CharP h.F 3 := ree_charP_three h hq
   obtain ⟨S, D, B, -⟩ := exists_data h hq hG
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer ({x} : Set G))) 3 h3
@@ -211,7 +210,7 @@ private theorem sylow_two_centralizer_small {G : Type} [Group G] [Finite G] (hJ 
     (hJ2 : hJ.p ≠ 2) {x : G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hx : orderOf x = p)
     (C : Subgroup G) (hC : ∀ c ∈ C, c * x = x * c) (T : Sylow 2 C) :
     Nat.card T ≤ 4 ∧ ∀ a ∈ (T : Subgroup C), ∀ b ∈ (T : Subgroup C), a * b = b * a ∧ a * a = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hSyl, -, hcent, -⟩ := lemma_2_1 hJ hJ2
   have hcardT' : Nat.card ((T : Subgroup C).map C.subtype) = Nat.card T := by
     rw [Subgroup.card_map_of_injective C.subtype_injective]
@@ -220,7 +219,7 @@ private theorem sylow_two_centralizer_small {G : Type} [Group G] [Finite G] (hJ 
       (by rw [hcardT']; exact T.card_eq_multiplicity)
   obtain ⟨E, hTE⟩ := hT'p.exists_le_sylow
   obtain ⟨hEA, hE8⟩ := hSyl E
-  haveI := hEA
+  have := hEA
   have hT'C : ∀ e ∈ (T : Subgroup C).map C.subtype, e * x = x * e := by
     intro e he
     obtain ⟨c, -, rfl⟩ := Subgroup.mem_map.mp he
@@ -313,7 +312,7 @@ private theorem isSolvable_centralizer_of_orderOf_three {x : titsD} (hx : orderO
     Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set titsD)) := by
   obtain ⟨a, b, hcard, -⟩ :=
     CFSG.RankThree.PartTwo.Sec4.Res417Seven.exists_card_centralizer_of_titsD hx
-  haveI := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set titsD))
+  have := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set titsD))
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
     (p := 2) (q := 3) (a := a) (b := b) Nat.prime_two Nat.prime_three (by norm_num)
     (by rw [Nat.card_eq_fintype_card] at hcard; exact hcard)
@@ -322,9 +321,9 @@ private theorem tits_isCyclic_of_card_le_two {G : Type*} [Group G] [Finite G]
     (h : Nat.card G ≤ 2) : IsCyclic G := by
   have hpos : 0 < Nat.card G := Nat.card_pos
   rcases (show Nat.card G = 1 ∨ Nat.card G = 2 by omega) with h1 | h1
-  · haveI := (Nat.card_eq_one_iff_unique.mp h1).1
+  · have := (Nat.card_eq_one_iff_unique.mp h1).1
     exact isCyclic_of_subsingleton
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card h1
 
 private theorem isSolvable_centralizer_of_orderOf_five {x : titsD} (hx : orderOf x = 5) :
@@ -367,7 +366,7 @@ private theorem isSolvable_centralizer_of_orderOf_thirteen {x : titsD} (hx : ord
 private theorem isSolvable_centralizer_of_orderOf_prime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {x : titsD} (hx : x ^ p = 1) (hx1 : x ≠ 1) :
     Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set titsD)) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hord : orderOf x = p := orderOf_eq_prime hx hx1
   have hdvd : p ∣ Nat.card titsD := by
     rw [← hord]

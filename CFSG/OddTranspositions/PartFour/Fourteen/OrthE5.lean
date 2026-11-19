@@ -291,7 +291,7 @@ private theorem refl3_mem {t t' : K × K × K} (ht : t ∈ TT) (ht' : t' ∈ TT)
   have h22 : (2 : K) = 0 := CharTwo.two_eq_zero
   obtain ⟨h1, -⟩ := ht
   obtain ⟨h1', h2'⟩ := ht'
-  simp only [TT, refl3, bil, Set.mem_setOf_eq] at h1 h1' h2' ⊢
+  simp only [TT, refl3, bil, Set.mem_ofPred_eq] at h1 h1' h2' ⊢
   refine ⟨?_, ?_⟩
   · linear_combination h1' + (a * b' + b * a') ^ 2 * h1 +
       ((a * b' + b * a') ^ 2 + (a * b' + b * a') * l * l') * h22
@@ -407,7 +407,7 @@ private theorem unu_mem {a : K × K × K} (ha : a ∈ TT) {ν : K} (hν : ν ≠
   obtain ⟨l, α, β⟩ := a
   obtain ⟨h1, h2⟩ := ha
   have h22 : (2 : K) = 0 := CharTwo.two_eq_zero
-  simp only [TT, unu, Set.mem_setOf_eq] at h1 h2 ⊢
+  simp only [TT, unu, Set.mem_ofPred_eq] at h1 h2 ⊢
   refine ⟨?_, ?_⟩
   · linear_combination ν ^ 2 * h1 + (ν + ν ^ 2 + (1 + ν) * ν * l) * h22
   · exact h2.imp (mul_ne_zero hν ·) (mul_ne_zero hν ·)

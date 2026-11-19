@@ -484,7 +484,7 @@ theorem exists_sylow_of_no_involution (hinv : ∀ y ∈ V ⊔ T, y * y = 1 → y
     have hle : V ⊔ T ⊔ zpowers z ≤ normalizer ((U ⊔ zpowers t : Subgroup H) : Set H) :=
       sup_le hsyl.le (zpowers_le.mpr hzB)
     have hp' : IsPGroup 2 (V ⊔ T ⊔ zpowers z : Subgroup H) :=
-      P.isPGroup'.to_le (sup_le hPS (zpowers_le.mpr hzP))
+      P.isPGroup.to_le (sup_le hPS (zpowers_le.mpr hzP))
     have heq := hsyl.eq_of_le le_sup_left hle hp'
     exact hzS (heq ▸ mem_sup_right (mem_zpowers z))
   obtain ⟨-, hp, hidx⟩ := isSylowOf_iff.mp hSyl

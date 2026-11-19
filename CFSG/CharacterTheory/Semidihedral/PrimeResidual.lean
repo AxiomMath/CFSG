@@ -128,7 +128,7 @@ theorem primeResidual_quotient_card {p : ℕ} [Fact p.Prime]
     abelian_pGroup_quotient_card_dvd S hS hP (QuotientGroup.mk' (primeResidual p H))
       (QuotientGroup.mk'_surjective (primeResidual p H))
   let T := S ⧸ (S : Subgroup H).focalSubgroupOf
-  have hT : IsPGroup p T := S.isPGroup'.to_quotient _
+  have hT : IsPGroup p T := S.isPGroup.to_quotient _
   have hker : primeResidual p H ≤ (S : Subgroup H).transferFocal.ker :=
     primeResidual_le_ker hT _
   let f : P →* T :=
@@ -203,7 +203,7 @@ theorem sylow_inf_primeResidual {p : ℕ} [Fact p.Prime]
           rw [inf_comm, Subgroup.index_inf]
         _ = S.index * p := by rw [sylow_primeResidual_relIndex S hS, mul_comm]
     exact mul_right_cancel₀ (Fact.out : p.Prime).ne_zero hprod
-  have hT : IsPGroup p ((S : Subgroup H).subgroupOf K) := S.isPGroup'.comap_subtype
+  have hT : IsPGroup p ((S : Subgroup H).subgroupOf K) := S.isPGroup.comap_subtype
   have hindex : ¬ p ∣ ((S : Subgroup H).subgroupOf K).index := by
     change ¬ p ∣ (S : Subgroup H).relIndex K
     rw [hrel]

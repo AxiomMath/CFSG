@@ -174,7 +174,7 @@ theorem quadraticForm_ne_zero {q : QuadraticForm K X}
     q ≠ 0 := by
   rintro rfl
   have h0 : ∀ x : X, x = 0 := fun x => hnd x fun x' => by simp [QuadraticMap.polar]
-  haveI : Subsingleton X := ⟨fun a b => by rw [h0 a, h0 b]⟩
+  have : Subsingleton X := ⟨fun a b => by rw [h0 a, h0 b]⟩
   rw [finrank_zero_of_subsingleton] at hX
   exact absurd hX (by norm_num)
 
@@ -476,8 +476,8 @@ theorem exists_act_ne_one {X : Type} [AddCommGroup X] [Module K X] {ρX : H →*
   have h1 : ∀ h, ρX h = 1 := fun h => by
     by_contra hh
     exact hcon ⟨h, hh⟩
-  haveI : Module.Finite K X := Module.finite_of_finrank_pos (by omega)
-  haveI : Nontrivial X := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Module.Finite K X := Module.finite_of_finrank_pos (by omega)
+  have : Nontrivial X := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   obtain ⟨x, hx⟩ := exists_ne (0 : X)
   rcases hirr (K ∙ x) (fun h y hy => by rw [h1 h]; exact hy) with h0 | h0
   · exact hx ((Submodule.span_singleton_eq_bot).mp h0)
@@ -617,7 +617,7 @@ theorem isPairConfigA_of_iso (hP : PairSplitHyp φ ρM ρN β Y₁ Y₂ Z₁ Z�
     have hrow : ∀ i, ∑ j, Ψ i j * v j = 0 := fun i => by
       have := congrFun hv i
       simpa [Matrix.mulVec, dotProduct] using this
-    haveI : Nontrivial ↥Z₁ := Submodule.nontrivial_iff_ne_bot.mpr hP.irrZ₁.1
+    have : Nontrivial ↥Z₁ := Submodule.nontrivial_iff_ne_bot.mpr hP.irrZ₁.1
     obtain ⟨c₁, hc₁⟩ := exists_ne (0 : ↥Z₁)
     have hf : eN₀.symm (fun j => v j • c₁) = 0 := by
       refine hP.sepR _ fun m => ?_
@@ -799,7 +799,7 @@ theorem exists_kappa_of_adjoint (q₃ : QuadraticForm K L₃)
     simp only [LinearEquiv.apply_symm_apply] at h
     convert h using 1
     · fin_cases j <;>
-        simp [Fin.sum_univ_two, QuadraticMap.polar_zero_right, QuadraticMap.polar_zero_left]
+        simp [Fin.sum_univ_two, QuadraticMap.polar_zero_right]
     · fin_cases j <;> simp [Fin.sum_univ_two]
   have hstep3 : ∀ f u l a, QuadraticMap.polar q₃ (eM (X f u) l) a =
       ∑ j, ψ j l * -π u (μ a (eN f j)) := by
@@ -812,7 +812,7 @@ theorem exists_kappa_of_adjoint (q₃ : QuadraticForm K L₃)
       refine Finset.sum_congr rfl fun j _ => ?_
       ring
     simp_rw [this, hφψ, Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
   have hstep4 : ∀ f f' u u', BM (X f u) (X f' u') =
       ∑ i, ∑ j, ψ j i * π u' (μ (R u (eN f i)) (eN f' j)) := by
     intro f f' u u'

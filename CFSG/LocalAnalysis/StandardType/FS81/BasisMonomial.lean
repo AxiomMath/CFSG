@@ -81,7 +81,7 @@ private theorem spMat_succ_succ {σ : Equiv.Perm (Fin (n + 1))} {σ' : Equiv.Per
 
 private theorem spMat_succ_zero {σ : Equiv.Perm (Fin (n + 1))} (h0 : σ 0 = 0)
     (s : Fin (n + 1) → ZMod 3) (i : Fin n) : spMat σ s i.succ 0 = 0 := by
-  simp only [spMat, h0, Fin.succ_ne_zero, if_false]
+  simp only [spMat, h0, Fin.succ_ne_zero, ite_false]
 
 theorem exists_eq_or_eq_inv_of_realized_evenFix0 [Finite G] (hn : 5 ≤ n)
     (hdisj : Disjoint (Subgroup.zpowers b₀) K) {B B' : Basis3 G (n + 1)}

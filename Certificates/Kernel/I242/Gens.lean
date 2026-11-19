@@ -79,7 +79,7 @@ theorem hArr_eq {i : Nat} (hi : i < 6) : fi22FiveHArr i = unpack 3510 12 (hK H.F
   · have e0 : hK H.F 0 = pid := rfl
     rw [e0, ← idA_eq]
     unfold fi22FiveHArr
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   · have hb : Nat.beq i 0 = false := by
       cases e : Nat.beq i 0
       · rfl
@@ -89,7 +89,7 @@ theorem hArr_eq {i : Nat} (hi : i < 6) : fi22FiveHArr i = unpack 3510 12 (hK H.F
       rw [hb]
     rw [e, ← fiveArr_eq (by omega)]
     unfold fi22FiveHArr
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 theorem q2_cn : cn (H.F 1) = true :=
   ((bAnd_iff (cn (CertificateChecks.KernelSpor.Fi22OutT.L 1)) (cn (H.F 1))).1 kQA).2

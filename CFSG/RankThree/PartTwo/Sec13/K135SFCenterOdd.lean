@@ -111,18 +111,18 @@ theorem not_two_dvd_card_map_center {N : Type*} [Group N] [Finite N] (W : Subgro
     (hN2 : ∀ T : Subgroup N, T.Normal → (∃ k : ℕ, Nat.card T = 2 ^ k) → T = ⊥) :
     ¬ 2 ∣ Nat.card ((Subgroup.center W).map W.subtype) := by
   set Q : Subgroup N := (Subgroup.center W).map W.subtype with hQdef
-  haveI hQn : Q.Normal := sf_center_normal_map_of_characteristic W (Subgroup.center W)
-  haveI hQc : IsMulCommutative Q :=
+  have hQn : Q.Normal := sf_center_normal_map_of_characteristic W (Subgroup.center W)
+  have hQc : IsMulCommutative Q :=
     ⟨⟨fun a b => Subtype.ext (comm_of_mem_map_center W a.2 b.2)⟩⟩
-  haveI hfin : Finite (Sylow 2 Q) :=
+  have hfin : Finite (Sylow 2 Q) :=
     Finite.of_injective (fun P : Sylow 2 Q => (P : Set Q)) SetLike.coe_injective
   let S : Sylow 2 Q := default
   have hSn : (S : Subgroup Q).Normal := inferInstance
-  haveI hSc : (S : Subgroup Q).Characteristic := Sylow.characteristic_of_normal S hSn
-  haveI hPn : ((S : Subgroup Q).map Q.subtype).Normal :=
+  have hSc : (S : Subgroup Q).Characteristic := Sylow.characteristic_of_normal S hSn
+  have hPn : ((S : Subgroup Q).map Q.subtype).Normal :=
     sf_center_normal_map_of_characteristic Q (S : Subgroup Q)
   have hP2 : ∃ k : ℕ, Nat.card ((S : Subgroup Q).map Q.subtype) = 2 ^ k := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
     exact ⟨k, by rw [Subgroup.card_subtype Q (S : Subgroup Q)]; exact hk⟩
   have hPbot : (S : Subgroup Q).map Q.subtype = ⊥ := hN2 _ hPn hP2
   have hSone : Nat.card (S : Subgroup Q) = 1 := by
@@ -143,8 +143,8 @@ theorem not_two_dvd_card_center_component {M : Type*} [Group M] [Finite M] {p : 
     (hp2 : p ≠ 2) (R : Subgroup M) [R.Normal] (hRp : Nat.Coprime p (Nat.card R))
     (hR : ∀ K : Subgroup M, K.Normal → Nat.Coprime p (Nat.card K) → K ≤ R)
     (J : Subgroup (M ⧸ R)) (hJ : CFSG.IsComponent J) : ¬ 2 ∣ Nat.card (Subgroup.center J) := by
-  haveI hWc : (CFSG.layer (M ⧸ R)).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hWn : (CFSG.layer (M ⧸ R)).Normal := inferInstance
+  have hWc : (CFSG.layer (M ⧸ R)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hWn : (CFSG.layer (M ⧸ R)).Normal := inferInstance
   have hN2 : ∀ T : Subgroup (M ⧸ R), T.Normal → (∃ k : ℕ, Nat.card T = 2 ^ k) → T = ⊥ :=
     fun T hT hk => eq_bot_of_normal_two_group hp hp2 R hRp hR T hk
   have hQodd := not_two_dvd_card_map_center (CFSG.layer (M ⧸ R)) hN2

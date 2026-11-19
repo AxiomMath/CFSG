@@ -34,19 +34,19 @@ theorem allN_iff' {n : ℕ} {f : ℕ → Bool} : allN n f = true ↔ ∀ i < n, 
 @[expose] noncomputable def ev (g : Pm) (n : ℕ) : ℕ := if h : n < 1755 then (g ⟨n, h⟩ : ℕ) else n
 
 theorem ev_lt (g : Pm) {n : ℕ} (h : n < 1755) : ev g n < 1755 := by
-  simp only [ev, h, dif_pos]
+  simp only [ev, h, dite_eq_left]
   exact (g ⟨n, h⟩).2
 
 theorem ev_fin (g : Pm) (p : Fin 1755) : ev g p = g p := by simp [ev, p.2]
 
 theorem ev_mul (g h : Pm) {n : ℕ} (hn : n < 1755) : ev (g * h) n = ev g (ev h n) := by
   have := ev_lt h hn
-  simp [ev, hn, this, Equiv.Perm.mul_apply]
+  simp [ev, hn, Equiv.Perm.mul_apply]
 
 theorem ev_one (n : ℕ) : ev 1 n = n := by unfold ev; split <;> simp
 
 theorem ev_inj (g : Pm) {n m : ℕ} (hn : n < 1755) (hm : m < 1755) (h : ev g n = ev g m) : n = m := by
-  simp only [ev, hn, hm, dif_pos] at h
+  simp only [ev, hn, hm, dite_eq_left] at h
   have := g.injective (Fin.ext h)
   exact congrArg Fin.val this
 
@@ -87,18 +87,18 @@ theorem adjK_iff {x y : ℕ} : adjK lp x y = true ↔ y < 4680 ∧ x < 4680 ∧
       (1755 ≤ x ∧ y < 1755 ∧ onLine lp y (x - 1755) = true)) := by
   simp only [adjK, bIf_d, blt_d, ble_d, Nat.sub_eq]
   by_cases hx : x < 1755 <;> by_cases hy : y < 1755 <;> by_cases hy' : y < 4680 <;>
-    by_cases hx' : x < 4680 <;> simp [hx, hy, hy', hx'] <;> omega
+    by_cases hx' : x < 4680 <;> simp [hx, hy, hy', hx']; omega
 
 theorem degK_eq (x : ℕ) : degK x = if x < 1755 then 5 else 3 := by
   simp only [degK, nIf_d, blt_d]
   by_cases hx : x < 1755 <;> simp [hx]
 
 theorem nbK_pt {x k : ℕ} (hx : x < 1755) : nbK lp PL x k = plK PL x k + 1755 := by
-  simp [nbK, nIf_d, blt_d, hx]
+  simp [nbK, blt_d, hx]
 
 theorem nbK_ln {x k : ℕ} (hx : 1755 ≤ x) : nbK lp PL x k = lp (3 * (x - 1755) + k) := by
   have : ¬ x < 1755 := by omega
-  simp [nbK, nIf_d, blt_d, this]
+  simp [nbK, blt_d, this]
 
 theorem exists_of_anyN {n : ℕ} {f : ℕ → Bool} (hf : anyN n f = true) : ∃ i < n, f i = true := by
   unfold anyN at hf
@@ -139,7 +139,7 @@ theorem nbOK_of_incK (hlp : ∀ i < 8775, lp i < 1755)
   refine ⟨fun x hx y => ?_, fun x hx k hk j hj e => ?_⟩
   · rw [adjK_iff, degK_eq]
     by_cases hxp : x < 1755
-    · rw [if_pos hxp]
+    · rw [ite_eq_left hxp]
       simp only [nbK_pt hxp]
       constructor
       · rintro ⟨hy, -, ⟨-, hy1, hon⟩ | ⟨h', -⟩⟩
@@ -152,7 +152,7 @@ theorem nbOK_of_incK (hlp : ∀ i < 8775, lp i < 1755)
         obtain ⟨hv, hon⟩ := h1 x hxp k hk
         refine ⟨by omega, hx, Or.inl ⟨hxp, by omega, ?_⟩⟩
         simpa using hon
-    · rw [if_neg hxp]
+    · rw [ite_eq_right hxp]
       simp only [nbK_ln (show 1755 ≤ x by omega)]
       constructor
       · rintro ⟨-, -, ⟨h', -⟩ | ⟨-, hy, hon⟩⟩
@@ -165,14 +165,14 @@ theorem nbOK_of_incK (hlp : ∀ i < 8775, lp i < 1755)
         exact onLine_iff.2 ⟨k, hk, rfl⟩
   · rw [degK_eq] at hk hj
     by_cases hxp : x < 1755
-    · simp only [hxp, if_true] at hk hj
+    · simp only [hxp, ite_true] at hk hj
       rw [nbK_pt hxp, nbK_pt hxp] at e
       have e' : plK PL x k = plK PL x j := by omega
       rcases lt_trichotomy k j with hkj | hkj | hkj
       · exact absurd e'.symm (h2 x hxp j hj k hkj)
       · exact hkj
       · exact absurd e' (h2 x hxp k hk j hkj)
-    · simp only [hxp, if_false] at hk hj
+    · simp only [hxp, ite_false] at hk hj
       rw [nbK_ln (by omega), nbK_ln (by omega)] at e
       exact hlpd (x - 1755) (by omega) k hk j hj e
 
@@ -247,14 +247,12 @@ theorem layK_sound {b cnt LAY PAR : ℕ} (h : layK lp PL b cnt LAY PAR = true) :
     simp only [allNb, allN_iff'] at hxx
     obtain ⟨hl8, hpar, hnb, hlast⟩ := hxx
     refine ⟨by simpa using hl8, fun hxb => ?_, fun k hk => ?_, fun h1 h7 k hk e => ?_⟩
-    · simp only [bIf_d, beq_d, hxb, decide_false, Bool.false_eq_true, if_false,
-        Bool.and_eq_true, decide_eq_true_eq] at hpar
+    · simp only [beq_d, hxb, decide_false, Bool.and_eq_true, decide_eq_true_eq] at hpar
       exact ⟨hpar.1, hpar.2⟩
     · simpa using hnb k hk
     · have c0 : ¬ layAt LAY x = 0 := by omega
       have c7 : ¬ 7 < layAt LAY x := by omega
-      simp only [bIf_d, beq_d, blt_d, c0, c7, decide_false, Bool.false_eq_true, if_false,
-        allN_iff'] at hlast
+      simp only [bIf_d, beq_d, blt_d, c0, c7, decide_false, allN_iff'] at hlast
       have := hlast k hk
       simpa [e] using this
 
@@ -296,7 +294,7 @@ theorem layers_of_layK (hc : ∀ x, c x < 4680) (hdc : ∀ x, d (c x) = x)
   have hset : c '' {y | Γ.dist (d b) y = 8} =
       ↑((Finset.range 4680).filter (fun x => layAt LAY x = 8)) := by
     ext n
-    simp only [Set.mem_image, Set.mem_setOf_eq, Finset.coe_filter, Finset.mem_range]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Finset.coe_filter, Finset.mem_range]
     constructor
     · rintro ⟨y, hy, rfl⟩
       rw [hL.dist_eq] at hy
@@ -343,7 +341,7 @@ theorem actV_ln {f : ℕ → ℕ} {y x : ℕ} (hy : 1755 ≤ y) :
     actV lp f y x = true ↔ 1755 ≤ x ∧ x < 4680 ∧
       ∀ k < 3, onLine lp (f (lp (3 * (y - 1755) + k))) (x - 1755) = true := by
   have : ¬ y < 1755 := by omega
-  simp only [actV, bIf_d, blt_d, ble_d, this, decide_false, if_false, Nat.sub_eq]
+  simp only [actV, bIf_d, blt_d, ble_d, this, decide_false, Nat.sub_eq]
   rw [← lineMap_iff]
   by_cases h1 : 1755 ≤ x <;> by_cases h2 : x < 4680 <;> simp [h1, h2]
 
@@ -352,7 +350,7 @@ theorem fixV_sound {f : ℕ → ℕ} {a : ℕ} (h : fixV lp PL f a = true) :
   unfold fixV allNb at h
   rw [bIf_d] at h
   by_cases h1 : actV lp f a a = true
-  · rw [if_pos h1, allN_iff'] at h
+  · rw [ite_eq_left h1, allN_iff'] at h
     exact ⟨h1, h⟩
   · simp [h1] at h
 
@@ -368,15 +366,13 @@ theorem recK_sound {A : ℕ → ℕ} {k root cnt LAY ORD PA LB PS : ℕ}
   refine ⟨Nat.eq_of_beq_eq_true h0, fun i hi => ?_, fun x hx hl => ?_⟩
   · have hi' := hst i hi
     by_cases hi0 : i = 0
-    · simp only [bIf_d, blt_d, beq_d, hi0, decide_true, if_true, Bool.and_true,
-        decide_eq_true_eq] at hi'
+    · simp only [blt_d, beq_d, hi0, decide_true, decide_eq_true_eq] at hi'
       rw [hi0]
       exact ⟨hi'.1, fun h => absurd rfl h⟩
-    · simp only [bIf_d, bAnd_eq', blt_d, beq_d, hi0, decide_false, Bool.false_eq_true, if_false,
-        Bool.and_eq_true, decide_eq_true_eq] at hi'
+    · simp only [blt_d, beq_d, hi0, decide_false, Bool.and_eq_true, decide_eq_true_eq] at hi'
       exact ⟨hi'.1, fun _ => hi'.2⟩
   · have hx' := hcov x hx
-    simp only [bIf_d, bAnd_eq', blt_d, beq_d, hl, decide_true, if_true, Bool.and_eq_true,
+    simp only [blt_d, beq_d, hl, decide_true, Bool.and_eq_true,
       decide_eq_true_eq] at hx'
     exact hx'
 
@@ -424,11 +420,11 @@ theorem locK_sound {F FI : ℕ → ℕ} {a b0 d : ℕ} {ws : List (List ℕ)} {p
     rw [e, Nat.beq_refl] at this
     exact Bool.false_ne_true this
   · have := h6 u hu u' hu'
-    simp only [bIf_d, beq_d, hne, decide_false, Bool.false_eq_true, if_false] at this
+    simp only [beq_d, hne, decide_false] at this
     exact memK_iff.1 this
   · have hr := (allL_iff ws 0).1 h7 i hi
     rw [Nat.zero_add] at hr
-    simp only [strictB_eq', bAnd_eq', Bool.and_eq_true, bIf_d, blt_d, beq_d,
+    simp only [Bool.and_eq_true, bIf_d, blt_d, beq_d,
       decide_eq_true_eq] at hr
     obtain ⟨hu, hne, a1, a2, a3, a4⟩ := hr
     refine ⟨hu, fun e => ?_, a1, a2, a3, a4⟩
@@ -448,13 +444,12 @@ theorem smallK_sound {A : ℕ → ℕ} {n1 t q0 : ℕ} (h : smallK lp A PL n1 t 
   refine ⟨fun x hx => Nat.eq_of_beq_eq_true (h1 x hx), Nat.eq_of_beq_eq_true h2,
     Nat.eq_of_beq_eq_true h3, h4, h5, fun k hk hne => ?_, fun j hj => ?_, fun p hp hp0 htp => ?_⟩
   · have hk' := h6 k hk
-    simp only [bIf_d, beq_d, hne, decide_false, Bool.false_eq_true, if_false] at hk'
+    simp only [beq_d, hne, decide_false] at hk'
     exact exists_of_anyN hk'
   · obtain ⟨e1, e2⟩ := h7 j hj
     exact ⟨Nat.eq_of_beq_eq_true e1, e2⟩
   · have hp' := h8 p hp
-    simp only [bIf_d, beq_d, hp0, htp, decide_false, decide_true, Bool.false_eq_true, if_false,
-      if_true] at hp'
+    simp only [bIf_d, beq_d, hp0, htp, decide_false, decide_true] at hp'
     obtain ⟨j, hj, e⟩ := exists_of_anyN hp'
     refine ⟨j, hj, fun e' => ?_⟩
     simp [e'] at e
@@ -468,7 +463,7 @@ theorem farK_sound {LAY : ℕ} (h : farK LAY = true) :
   simp only [bIf_d, ble_d, beq_d] at hp'
   by_cases h6 : layAt LAY p ≤ 6
   · exact Or.inl h6
-  · simp only [h6, decide_false, Bool.false_eq_true, if_false, decide_eq_true_eq] at hp'
+  · simp only [h6, decide_false, Bool.false_eq_true, ite_false, decide_eq_true_eq] at hp'
     exact Or.inr hp'
 
 theorem cycFrom_iff {g : ℕ → ℕ} {x : ℕ} :
@@ -479,10 +474,10 @@ theorem cycFrom_iff {g : ℕ → ℕ} {x : ℕ} :
       (Nat.beq y x) = true ↔ _
     rw [strictB_eq', bIf_d, beq_d]
     by_cases hy : y = x
-    · simp only [hy, decide_true, if_true, Bool.false_eq_true, false_iff, not_and]
+    · simp only [hy, decide_true, ite_true, Bool.false_eq_true, false_iff, not_and]
       intro h
       exact absurd rfl (h 0 (by omega))
-    · rw [if_neg (by simpa using hy), cycFrom_iff n (g y)]
+    · rw [ite_eq_right (by simpa using hy), cycFrom_iff n (g y)]
       simp only [Function.iterate_succ_apply]
       constructor
       · rintro ⟨h1, h2⟩
@@ -517,7 +512,7 @@ theorem witRow_sound {A : ℕ → ℕ} {LAY ORD PA LB PS n1 q0 i : ℕ} {r : Lis
   have hx' : r.getD 1 0 < 1755 := by simpa using hx
   by_cases hk1 : r.headD 0 = 1
   · rw [hk1, Nat.beq_refl] at hrest
-    simp only [strictB_eq'] at hrest
+    simp only at hrest
     refine Or.inr (Or.inl ⟨r.getD 1 0, hx', fun e => ?_⟩)
     rw [e, Nat.beq_refl] at hrest
     exact Bool.false_ne_true hrest
@@ -526,7 +521,7 @@ theorem witRow_sound {A : ℕ → ℕ} {LAY ORD PA LB PS n1 q0 i : ℕ} {r : Lis
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true e) hk1
   rw [hb1] at hrest
-  simp only [bAnd_eq', Bool.and_eq_true, strictB_eq'] at hrest
+  simp only [Bool.and_eq_true] at hrest
   obtain ⟨-, hL0, hdiv, hcyc⟩ := hrest
   have hL : 0 < r.getD 2 0 := by simpa using hL0
   refine Or.inr (Or.inr ⟨r.getD 1 0, hx', r.getD 2 0, hL, fun hd => ?_, ?_, ?_⟩)
@@ -598,8 +593,8 @@ theorem sig_eq (hA : ∀ j < 5, PR (A j) (a j))
       rw [sigR_succ]
       by_cases hi0 : i = 0
       · subst hi0
-        rw [if_pos rfl, h0]
-      · rw [if_neg hi0]
+        rw [ite_eq_left rfl, h0]
+      · rw [ite_eq_right hi0]
         obtain ⟨hpi, hlb, -⟩ := (hst i hi).2 hi0
         have hp := (hpts (fw 11 PA i) (by omega)).1
         rw [← ih _ hpi (by omega) n (by omega), gp_ev (hA _ hlb) (ev_lt σ hp),
@@ -609,9 +604,9 @@ theorem sig_eq (hA : ∀ j < 5, PR (A j) (a j))
   unfold sigK
   rw [nIf_d, ble_d, strictN_eq']
   by_cases hl : layAt LAY x ≤ 6
-  · rw [if_pos (by simpa using hl)]
+  · rw [ite_eq_left (by simpa using hl)]
     exact h6 x hx hl
-  · rw [if_neg (by simpa using hl)]
+  · rw [ite_eq_right (by simpa using hl)]
     have h8 : layAt LAY x = 8 := (hfar' x hx).resolve_left hl
     obtain ⟨hq, e⟩ := hcov x (by omega) h8
     rw [← hrecσ _ hq (fw 13 PS x + 1) (by omega), e]

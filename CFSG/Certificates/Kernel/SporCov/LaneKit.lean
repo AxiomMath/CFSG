@@ -49,6 +49,7 @@ theorem mwLn_sound {lt : ℕ → ℕ} {f : ℕ → G}
     refine ⟨v2, ?_⟩
     rw [e2, e1, (hl c).2, wE_cons, map_mul, mul_assoc]
 
+omit hc hnb in
 theorem let4_sound {a b : G} {MA MAi MB MBi : ℕ}
     (hA : validM p nb L H MA = true ∧ ordMat p d w S MA = ρ a)
     (hAi : validM p nb L H MAi = true ∧ ordMat p d w S MAi = ρ a⁻¹)
@@ -96,6 +97,7 @@ theorem regR_sound {a b : G} {MA MAi MB MBi : ℕ}
       rw [e2, e1, mul_one]
     · exact hR i
 
+omit hc hnb in
 private theorem inv_of_mul {a : G} {X Y : ℕ}
     (hX : ordMat p d w S X = ρ a) (hXY : ordMat p d w S X * ordMat p d w S Y = 1) :
     ordMat p d w S Y = ρ a⁻¹ := by
@@ -118,8 +120,8 @@ theorem kitLn_sound {a b : G} {MA MAi MB MBi : ℕ} (vA : validM p nb L H MA = t
     rw [← (mul_sound' hc hnb vA vAi).2, Nat.eq_of_beq_eq_true h1, eO]
   have i2 : ordMat p d w S MB * ordMat p d w S MBi = 1 := by
     rw [← (mul_sound' hc hnb vB vBi).2, Nat.eq_of_beq_eq_true h2, eO]
-  have hl := let4_sound hc hnb ⟨vA, hA⟩ ⟨vAi, inv_of_mul hc hnb hA i1⟩ ⟨vB, hB⟩
-    ⟨vBi, inv_of_mul hc hnb hB i2⟩
+  have hl := let4_sound ⟨vA, hA⟩ ⟨vAi, inv_of_mul hA i1⟩ ⟨vB, hB⟩
+    ⟨vBi, inv_of_mul hB i2⟩
   obtain ⟨Rg, hk, hR⟩ := regR_sound hc hnb hl Ws _ h3
   refine ⟨_, hk, fun u => ?_⟩
   have hlt : ∀ c, validM p nb L H (letLn MA MAi MB MBi ONE Rg c) = true ∧
@@ -128,10 +130,10 @@ theorem kitLn_sound {a b : G} {MA MAi MB MBi : ℕ} (vA : validM p nb L H MA = t
     unfold letLn fLn
     by_cases h4 : c < 4
     · have e : Nat.blt c 4 = true := Nat.ble_eq_true_of_le h4
-      rw [e, if_pos h4]
+      rw [e, ite_eq_left h4]
       exact hl c
     · have e : Nat.blt c 4 = false := Bool.eq_false_iff.2 fun e => h4 (Nat.le_of_ble_eq_true e)
-      rw [e, if_neg h4]
+      rw [e, ite_eq_right h4]
       exact hR (c - 4)
   obtain ⟨v, e⟩ := mwLn_sound hc hnb hlt u ONE vO
   exact ⟨v, by rw [e, eO, mul_one]⟩

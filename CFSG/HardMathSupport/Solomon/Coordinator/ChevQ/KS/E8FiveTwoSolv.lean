@@ -79,7 +79,7 @@ theorem isSolvable_familyCentralizer_plane {L : Type} [Field L] {ζ : L}
   classical
   set H := dualWeylStabilizer (fun i => ((czVec i : ℕ) : ZMod 5)) ⊓
     dualWeylStabilizer (fun i => ((cxVec i : ℕ) : ZMod 5)) with hH
-  haveI hHs : Group.IsSolvable ↥H := isSolvable_inf_dualWeylStabilizer plane_regular_charVal
+  have hHs : Group.IsSolvable ↥H := isSolvable_inf_dualWeylStabilizer plane_regular_charVal
   have hgroup : familyGroup (K := L) (planeFamily hζ) = torusGroup Tag.E8 L := by
     rw [familyGroup, planeFamily_kernel hζ, rootSpan]
     simp
@@ -116,7 +116,7 @@ theorem isSolvable_familyCentralizer_plane {L : Type} [Field L] {ζ : L}
     exact hw
   let ψ' : familyCentralizer Tag.E8 L (planeFamily hζ) →* ↥(H.comap ρ) :=
     ψ.codRestrict (H.comap ρ) hρψ
-  haveI := hsolv
+  have := hsolv
   refine Group.isSolvable_of_isSolvable_injective (f := ψ') ?_
   intro g g' h
   have h' : ψ g = ψ g' := congrArg Subtype.val h

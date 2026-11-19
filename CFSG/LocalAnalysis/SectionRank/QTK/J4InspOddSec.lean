@@ -27,12 +27,12 @@ theorem two_pow_nine_le_card_frattini (hFM : FaithfulL34ModDim) {L : Type} [Grou
     (hperf : ⁅(⊤ : Subgroup L), (⊤ : Subgroup L)⁆ = ⊤)
     (hPSL : CFSG.Quasithin.IsPSL 3 2 2 (L ⧸ Q)) (hnt : ⁅Q, (⊤ : Subgroup L)⁆ ≠ ⊥) :
     2 ^ 9 ≤ Nat.card (↥Q ⧸ frattini ↥Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimp : IsSimpleGroup (L ⧸ Q) := CFSG.Quasithin.H13.A5.isSimpleGroup_of_isPSL34 hPSL
   have hfe := CFSG.GroupTheory.frattini_elementary_quotient (p := 2) (P := ↥Q) hQ
   have hcomm : IsMulCommutative (↥Q ⧸ frattini ↥Q) := hfe.2.1
   have hexp : ∀ v : ↥Q ⧸ frattini ↥Q, v ^ 2 = 1 := hfe.2.2.1
-  haveI := hcomm
+  have := hcomm
   have hQC : Q ≤ (frattiniConjAct Q).ker := by
     intro q hq
     exact MonoidHom.mem_ker.mpr (frattiniConjAct_of_mem Q hQ ⟨q, hq⟩)
@@ -60,7 +60,7 @@ theorem odd_branch_false_of_sectional (hSec : OddCharSectionalTwoRankQTK) (hFM :
     (CFSG.GH74.SectionalTwoRankLE.of_injective j hj (hSec S hB)).subgroup Q
   have hquot : CFSG.GH74.SectionalTwoRankLE (↥Q ⧸ frattini ↥Q) 8 :=
     hsec.quotient (frattini ↥Q)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfe := CFSG.GroupTheory.frattini_elementary_quotient (p := 2) (P := ↥Q) hQ
   have hEab : CFSG.Open.IsElemAbelian 2 (⊤ : Subgroup (↥Q ⧸ frattini ↥Q)) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩

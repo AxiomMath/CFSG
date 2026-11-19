@@ -18,8 +18,8 @@ private lemma rckRPsl_toLin_single {K : Type} [Field K] {W : Type} [AddCommGroup
   have hmat : Matrix.single i j t = Matrix.vecMulVec (b.repr (t • b i)) (b.coord j ∘ b) := by
     ext i' l
     by_cases hi : i = i' <;> by_cases hj : j = l <;>
-      simp_all [Matrix.single_apply, Matrix.vecMulVec_apply, Module.Basis.coord_apply,
-        Module.Basis.repr_self, map_smul, Finsupp.smul_apply, Finsupp.single_apply]
+      simp_all [Matrix.vecMulVec_apply, Module.Basis.coord_apply,
+        Module.Basis.repr_self, map_smul]
   rw [← Matrix.toLin_toMatrix b b ((b.coord j).smulRight (t • b i)),
     LinearMap.toMatrix_smulRight, hmat]
 
@@ -33,7 +33,7 @@ private lemma rckRPsl_toLin'_coe {K : Type} [Field K] {W : Type} [AddCommGroup W
     Matrix.toLin b b (M : Matrix (Fin n) (Fin n) K) (b i)
   rw [Matrix.GeneralLinearGroup.toLin'_apply, Matrix.toLin_self]
   simp [Fintype.linearCombination_apply, Module.Basis.repr_self,
-    Finsupp.single_eq_pi_single, Matrix.mulVec_single_one]
+    Finsupp.single_eq_pi_single]
 
 private noncomputable def rckRPsl_rho {K : Type} [Field K] {W : Type} [AddCommGroup W]
     [Module K W] {q k : ℕ} (tau : GaloisField 2 q ≃+* K)
@@ -75,7 +75,7 @@ private lemma rckRPsl_map_transvection {R S : Type} [CommRing R] [CommRing S] {n
   rw [Matrix.SpecialLinearGroup.transvection_coe]
   ext a b
   by_cases h : i = a ∧ j = b <;>
-    simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, h, map_one, map_zero]
+    simp [Matrix.transvection, Matrix.one_apply, h]
 
 private lemma rckRPsl_rho_transvection_sub {K : Type} [Field K] {W : Type} [AddCommGroup W]
     [Module K W] {q k : ℕ} (tau : GaloisField 2 q ≃+* K)
@@ -168,9 +168,9 @@ private lemma rckRPsl_injective {K : Type} [Field K] {W : Type} [AddCommGroup W]
   exact h1 (h2 (h3 (h4 (by simpa [rckRPsl_rho] using hxy))))
 
 private lemma rckRPsl_hcond {K : Type} [Field K] [Finite K] {q k : ℕ}
-    (hK : Nat.card K = 2 ^ q) (hq : 2 ≤ q) (hk1 : 1 ≤ k) :
+    (hK : Nat.card K = 2 ^ q) (hq : 2 ≤ q) (_hk1 : 1 ≤ k) :
     3 ≤ k + 1 ∨ ∃ s : Finset K, s.card = 4 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rcases Nat.lt_or_ge (k + 1) 3 with h3 | h3
   · right
     have h4 : 4 ≤ Nat.card K := by
@@ -219,7 +219,7 @@ private lemma rckRPsl_coord_ne_zero {K : Type} [Field K] {W : Type} [AddCommGrou
   intro h
   have h1 : b.coord j (b j) = 1 := by
     rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
-  simpa [h] using h1
+  simp [h] at h1
 
 private lemma rckRPsl_span_le_ker {K : Type} [Field K] {W : Type} [AddCommGroup W]
     [Module K W] {n : ℕ} (b : Module.Basis (Fin n) K W) {i j : Fin n} (hij : i ≠ j) :
@@ -274,8 +274,8 @@ private lemma rckRPsl_ker_transvection {K : Type} [Field K] {W : Type} [AddCommG
     rw [hv, zero_smul]
 
 private lemma rckRPsl_rootGroup_involution {K : Type} [Field K] {W : Type} [AddCommGroup W]
-    [Module K W] {q k : ℕ} (tau : GaloisField 2 q ≃+* K)
-    (b : Module.Basis (Fin (k + 1)) K W)
+    [Module K W] {q k : ℕ} (_tau : GaloisField 2 q ≃+* K)
+    (_b : Module.Basis (Fin (k + 1)) K W)
     {β : Fin k → ℤ} (hβ : β ∈ roots (SpecialLinear.isFiniteType_A k) ∅) :
     ∀ y ∈ (SpecialLinear.rootDatum k (GaloisField 2 q)).rootGroup β, y * y = 1 := by
   let i := (SpecialLinear.idx k β).1
@@ -289,7 +289,7 @@ private lemma rckRPsl_rootGroup_involution {K : Type} [Field K] {W : Type} [AddC
   obtain ⟨c, rfl⟩ := (SpecialLinear.mem_rootSubgroup hij y).mp hy
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.transvection_coe]
-  haveI : CharP (GaloisField 2 q) 2 := inferInstance
+  have : CharP (GaloisField 2 q) 2 := inferInstance
   have h : (Matrix.transvection i j c) * (Matrix.transvection i j c) = 1 := by
     rw [Matrix.transvection_mul_transvection_same i j hij, CharTwo.add_self_eq_zero,
       Matrix.transvection_zero]
@@ -338,10 +338,10 @@ theorem exists_slModel_linearEquiv {K : Type} [Field K] [Finite K] {q k : ℕ}
   by_cases hk : k = 0
   · subst hk
     have hdim : Module.finrank K W = 1 := by simpa using hW
-    haveI : IsMulCommutative (W ≃ₗ[K] W) :=
+    have : IsMulCommutative (W ≃ₗ[K] W) :=
       rckRPsl_isMulCommutative_finrank_one hdim
-    haveI : Subsingleton (Fin (0 + 1)) := ⟨fun a b => by ext; omega⟩
-    haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin (0 + 1)) (GaloisField 2 q)) :=
+    have : Subsingleton (Fin (0 + 1)) := ⟨fun a b => by ext; omega⟩
+    have : Subsingleton (Matrix.SpecialLinearGroup (Fin (0 + 1)) (GaloisField 2 q)) :=
       Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
     refine ⟨1, ?_, ?_, ?_⟩
     · intro x y _
@@ -360,8 +360,8 @@ theorem exists_slModel_linearEquiv {K : Type} [Field K] [Finite K] {q k : ℕ}
     have hq0 : q ≠ 0 := by omega
     have hcard : Nat.card (GaloisField 2 q) = Nat.card K := by
       rw [GaloisField.card 2 q hq0, hK]
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fintype (GaloisField 2 q) := Fintype.ofFinite _
+    have : Fintype K := Fintype.ofFinite K
+    have : Fintype (GaloisField 2 q) := Fintype.ofFinite _
     have hcard' : Fintype.card (GaloisField 2 q) = Fintype.card K := by
       rwa [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     let tau : GaloisField 2 q ≃+* K := FiniteField.ringEquivOfCardEq hcard'

@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc59_pCoreOf_le (q : ℕ) (H : Subgroup G) : CFSG.Open.pCoreOf q H ≤ H := by
   intro x hx
   unfold CFSG.Open.pCoreOf at hx
@@ -21,6 +22,7 @@ private theorem uc59_pCoreOf_le (q : ℕ) (H : Subgroup G) : CFSG.Open.pCoreOf q
   rw [← ha]
   exact a.2
 
+omit [Finite G] in
 private theorem uc59_mem_centerP_iff (P : Subgroup G) (x : G) :
     x ∈ centerP P ↔ x ∈ P ∧ ∀ y ∈ P, x * y = y * x := by
   constructor
@@ -38,6 +40,7 @@ private theorem uc59_mem_centerP_iff (P : Subgroup G) (x : G) :
     have := hc g.1 g.2
     simpa using this.symm
 
+omit [Finite G] in
 private theorem uc59_conj_mem (P : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (P : Set G))
     {x : G} (hx : x ∈ centerP P) : g * x * g⁻¹ ∈ centerP P := by
   rw [uc59_mem_centerP_iff] at hx ⊢
@@ -64,8 +67,8 @@ theorem commutator_actorTwoCore_sup_actor_center_eq_bot {p : ℕ} {P T B : Subgr
       Subgroup.card_map_of_injective P.subtype_injective]
     exact h1
   have hXodd : Odd (Nat.card (centerP P)) := by rw [hZcard]; exact hodd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hXcyc : IsCyclic (centerP P) := isCyclic_of_prime_card hZcard
+  have : Fact p.Prime := ⟨hp⟩
+  have hXcyc : IsCyclic (centerP P) := isCyclic_of_prime_card hZcard
   have hBT : B ⊔ T ≤ Subgroup.normalizer (P : Set G) :=
     sup_le h.oddPrimeClassTwoAction.setting.normB h.oddPrimeClassTwoAction.setting.normT
   have hNX : ∀ g ∈ Subgroup.normalizer (P : Set G),

@@ -57,7 +57,7 @@ theorem w183_dual_vector {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     simp only [HypPair.proj, polar_add_left]
     module
   have hsmul : ∀ (t : K) (x : V), P.proj (t • x) = t • P.proj x := fun t x => by
-    simp only [HypPair.proj, polar_smul_left_eq, smul_eq_mul]
+    simp only [HypPair.proj, polar_smul_left_eq]
     module
   have hfix : ∀ u ∈ P.perp, P.proj u = u := fun u hu => by
     obtain ⟨h1, h2⟩ := HypPair.mem_perp.mp hu

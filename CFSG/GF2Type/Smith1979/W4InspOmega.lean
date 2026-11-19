@@ -59,7 +59,7 @@ theorem exists_mem_Xbar_of_mem_omega
 theorem clSub_eq_span (hc : Ctx S g t)
     (hM : S.Mbar.map S.O.subtype = omegaGroup S.q S.q_nondegenerate) :
     S.clSub (S.QG ⊓ S.Qa g) = (ZMod 2) ∙ S.cl (g * S.z * g⁻¹) := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   obtain ⟨hV, hx0, hxq⟩ := cl_facts hc
   refine eq_span_of_invariant S.q_nondegenerate hV hx0 hxq (S6.cl_mem_clSub_self hc.haQ)
     (fun v hv => S.q_eq_zero_of_mem_clSub_QG_inf_Qa hc.hne hv) fun k hk hkx v hv => ?_
@@ -81,7 +81,7 @@ theorem Lbar_map_eq_pointRadical (hc : Ctx S g t)
     (hD : S.clSub (S.QG ⊓ S.Qa g) = (ZMod 2) ∙ S.cl (g * S.z * g⁻¹))
     (hcard : Nat.card (S.Lbar g) = 2 ^ 6) :
     (S.Lbar g).map S.O.subtype = pointRadical S.q (S.cl (g * S.z * g⁻¹)) := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   obtain ⟨hV, hx0, hxq⟩ := cl_facts hc
   have hle : (S.Lbar g).map S.O.subtype ≤ pointRadical S.q (S.cl (g * S.z * g⁻¹)) := by
     rintro _ ⟨ℓ, hℓ, rfl⟩
@@ -103,7 +103,7 @@ theorem line_of_omega (hc : Ctx S g t)
     ∀ u ∈ commSpace (t : S.Qt ≃ₗ[ZMod 2] S.Qt), u ≠ 0 →
       ∃ h : S.M, ((S.ρ h : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) (S.cl (g * S.z * g⁻¹)) = u := by
   intro u hu hu0
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   obtain ⟨hV, hx0, hxq⟩ := cl_facts hc
   obtain ⟨γ, hγ, hγx⟩ :=
     exists_omega_apply_eq S.q_nondegenerate hV hx0 hu0 hxq (hc.htA.2.2.2.2 u hu)
@@ -114,7 +114,7 @@ theorem line_of_omega (hc : Ctx S g t)
 theorem rank_of_omega (hc : Ctx S g t)
     (hM : S.Mbar.map S.O.subtype = omegaGroup S.q S.q_nondegenerate) : S.S12RankThree g := by
   intro h₁ h₂ h₁x h₂x hp₁ hp₂
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   obtain ⟨hV, hx0, hxq⟩ := cl_facts hc
   have hq₁ : S.q (((S.ρ h₁ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) (S.cl (g * S.z * g⁻¹))) = 0 := by
     rw [TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup (S.ρ h₁).2]
@@ -135,7 +135,7 @@ theorem exists_mem_Ebar_inter_normalizer (hc : Ctx S g t)
     {τ : S.Qt ≃ₗ[ZMod 2] S.Qt} (hτΩ : τ ∈ omegaGroup S.q S.q_nondegenerate)
     (hτx : τ (S.cl (g * S.z * g⁻¹)) = S.cl (g * S.z * g⁻¹)) (hτA : IsTypeA S.q τ 2) :
     ∃ τ' ∈ S.Ebar12 g ∩ normalizer (S.Lbar g : Set S.O), (τ' : S.Qt ≃ₗ[ZMod 2] S.Qt) = τ := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   obtain ⟨hV, hx0, hxq⟩ := cl_facts hc
   have hn3 : 3 ≤ S.width := by rw [hc.hw]; norm_num
   obtain ⟨τ', hτ'M, rfl⟩ := exists_mem_Mbar_of_mem_omega hM hτΩ
@@ -153,7 +153,7 @@ theorem normalizer_gen_of_omega (hc : Ctx S g t)
     (hL : (S.Lbar g).map S.O.subtype = pointRadical S.q (S.cl (g * S.z * g⁻¹))) :
     S.Xbar12 g ⊓ normalizer (S.Lbar g : Set S.O) ≤
       closure (S.Ebar12 g ∩ normalizer (S.Lbar g : Set S.O)) := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   obtain ⟨hV, hx0, hxq⟩ := cl_facts hc
   have hn3 : 3 ≤ S.width := by rw [hc.hw]; norm_num
   rintro y ⟨hyX, hyN⟩
@@ -172,7 +172,7 @@ theorem odd_gen_of_omega (hc : Ctx S g t)
     (hL : (S.Lbar g).map S.O.subtype = pointRadical S.q (S.cl (g * S.z * g⁻¹))) :
     S.Lbar g ≤
       closure {y | y ∈ S.Xbar12 g ⊓ normalizer (S.Lbar g : Set S.O) ∧ Odd (orderOf y)} := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   obtain ⟨hV, hx0, hxq⟩ := cl_facts hc
   have hn3 : 3 ≤ S.width := by rw [hc.hw]; norm_num
   intro ℓ hℓ
@@ -197,7 +197,7 @@ theorem model_of_omega (hc : Ctx S g t)
         Nat.card (S.Lbar g) = 2 ^ (2 * m - 1)) ∨
       (∃ q : QuadraticForm (ZMod 2) (Fin (2 * m) → ZMod 2), timmesfeldNondegenerate q ∧
         Nonempty (S.Xbar12 g ≃* timmesfeldOmega q) ∧ Nat.card (S.Lbar g) = 2 ^ (2 * m - 2))) := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   have hV : finrank (ZMod 2) S.Qt = 2 * 4 := (cl_facts hc).1
   obtain ⟨q', hnd, -, ⟨eΩ⟩, -⟩ := Bridge.exists_fin_form S.q hV
   have e1 : S.Xbar12 g ≃* (S.Xbar12 g).map S.O.subtype :=

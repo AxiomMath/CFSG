@@ -81,10 +81,10 @@ private theorem okKer_closure_gen_eq_top (n : ℕ) :
     funext k
     rw [Finset.prod_apply]
     rw [Finset.prod_eq_single k]
-    · simp only [Pi.pow_apply, okKer_gen, Pi.mulSingle_apply, if_pos rfl]
+    · simp only [Pi.pow_apply, okKer_gen, Pi.mulSingle_apply]
       exact (okKer_ofAdd_one_pow (v k)).symm
     · intro b _ hb
-      rw [Pi.pow_apply, okKer_gen, Pi.mulSingle_apply, if_neg (fun h => hb h.symm)]
+      rw [Pi.pow_apply, okKer_gen, Pi.mulSingle_apply, ite_eq_right (fun h => hb h.symm)]
       simp
     · intro hk; exact absurd (Finset.mem_univ k) hk
   rw [hv]
@@ -177,23 +177,23 @@ private theorem okKer_omegaBlock_submatrix (n : ℕ) (j : Fin ((n + 1) / 2)) :
       Matrix.diagonal_apply, okKer_omegaBlock_apply_val, okKer_E_inl_val, okKer_E_inl_val,
       finProdFinEquiv_apply_val, finProdFinEquiv_apply_val, Pi.mulSingle_apply]
     fin_cases e <;> fin_cases e' <;>
-      simp only [Fin.ext_iff, Fin.val_mk] <;>
+      simp only [Fin.ext_iff] <;>
       split_ifs <;>
       first
         | (exfalso; omega)
-        | simp [omega2, f2_one_add_one, Matrix.one_apply]
+        | simp [omega2, f2_one_add_one]
   · rw [Matrix.submatrix_apply, Matrix.fromBlocks_apply₁₂, Matrix.zero_apply,
       okKer_omegaBlock_apply_val, okKer_E_inl_val, okKer_E_inr_val]
-    simp only [Fin.ext_iff, Fin.val_mk]
-    split_ifs <;> first | (exfalso; omega) | simp [omega2, f2_one_add_one]
+    simp only
+    split_ifs <;> first | (exfalso; omega) | simp
   · rw [Matrix.submatrix_apply, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply,
       okKer_omegaBlock_apply_val, okKer_E_inr_val, okKer_E_inl_val]
-    simp only [Fin.ext_iff, Fin.val_mk]
-    split_ifs <;> first | (exfalso; omega) | simp [omega2, f2_one_add_one]
+    simp only
+    split_ifs <;> first | (exfalso; omega) | simp
   · rw [Matrix.submatrix_apply, Matrix.fromBlocks_apply₂₂, Matrix.one_apply,
       okKer_omegaBlock_apply_val, okKer_E_inr_val, okKer_E_inr_val]
-    simp only [Fin.ext_iff, Fin.val_mk]
-    split_ifs <;> first | (exfalso; omega) | simp [omega2, f2_one_add_one]
+    simp only [Fin.ext_iff]
+    split_ifs <;> first | (exfalso; omega) | simp
 
 private theorem okKer_ker_eq_range {V : Type*} [AddCommGroup V] [Module F2 V] (T : V →ₗ[F2] V)
     (hT : T.comp (T.comp T) = LinearMap.id) :
@@ -350,8 +350,8 @@ private theorem okKer_rank_resBlocks_diagonal (k : ℕ)
       simp [e, Equiv.prodComm_apply]
     rw [resBlocks_apply, Matrix.submatrix_apply, he, he']
     by_cases h : i = i'
-    · subst h; simp [Matrix.diagonal_apply, Matrix.blockDiagonal_apply]
-    · simp [Matrix.diagonal_apply, Matrix.blockDiagonal_apply, h]
+    · subst h; simp [Matrix.blockDiagonal_apply]
+    · simp [Matrix.blockDiagonal_apply, h]
   rw [hreindex]
   exact Matrix.rank_submatrix (Matrix.blockDiagonal g) e e
 
@@ -378,7 +378,7 @@ private theorem okKer_rank_eq (n : ℕ)
       simp only [Pi.mulSingle_apply]
       by_cases h : j' = j
       · subst h; simp [ZMod.val_one]
-      · rw [if_neg h, if_neg h]; simp [ZMod.val_zero]
+      · rw [ite_eq_right h, ite_eq_right h]; simp [ZMod.val_zero]
     show (((Φ (okKer_gen n j) : ↥(halfTorus n)) : SpecialLinearGroup (Fin (n + 1)) F2) :
         Matrix (Fin (n + 1)) (Fin (n + 1)) F2).submatrix (okKer_E n) (okKer_E n) =
       Matrix.fromBlocks (okKer_blk n (okKer_gen n j)) 0 0 1

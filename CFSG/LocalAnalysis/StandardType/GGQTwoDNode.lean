@@ -247,7 +247,7 @@ theorem exists_root_ggRankOne [Finite G] {Bs : Subgroup G} (hBs : IsElemAbelian 
     intro h
     rw [← h, Subgroup.card_bot] at hP3
     norm_num at hP3
-  obtain ⟨x, hxP, hxbot⟩ := SetLike.exists_of_lt hPbot
+  obtain ⟨x, hxP, hxbot⟩ := _root_.IsConcreteLE.exists_of_lt hPbot
   have hx1 : x ≠ 1 := by simpa using hxbot
   have hxcube : x ^ 3 = 1 := (hPy x).1 hxP
   have hxord : orderOf x = 3 := by

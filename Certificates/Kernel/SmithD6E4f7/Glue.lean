@@ -50,7 +50,7 @@ theorem e4_mf7ApAux_two_pow (cols : Array Nat) (m : Nat) : ∀ n,
     by_cases h : m = n
     · subst h
       simp
-    · simp only [h, decide_false, Bool.false_eq_true, if_false, Nat.xor_zero]
+    · simp only [h, decide_false, Bool.false_eq_true, ite_false, Nat.xor_zero]
       by_cases hm : m < n
       · have : m < n + 1 := by omega
         simp [hm, this]
@@ -59,7 +59,7 @@ theorem e4_mf7ApAux_two_pow (cols : Array Nat) (m : Nat) : ∀ n,
 
 theorem e4_applyCols_two_pow {cols : Array Nat} {m : Nat} (hm : m < cols.size) :
     applyCols cols (2 ^ m) = cols[m]! := by
-  rw [← mf7Ap_eq, mf7Ap, e4_mf7ApAux_two_pow, if_pos hm]
+  rw [← mf7Ap_eq, mf7Ap, e4_mf7ApAux_two_pow, ite_eq_left hm]
 
 theorem comm_of_commL {A B : Array Nat} (hA : A.size = 32) (hB : B.size = 32)
     (h : commL A B = true) : ∀ c < 2 ^ 32,
@@ -72,7 +72,6 @@ theorem comm_of_commL {A B : Array Nat} (hA : A.size = 32) (hB : B.size = 32)
   · unfold commL at h
     have h' := List.all_eq_true.1 h m (List.mem_range.2 hm)
     rw [beq_iff_eq, mf7Ap_eq, mf7Ap_eq] at h'
-    beta_reduce
     rw [e4_applyCols_two_pow (hA ▸ hm), e4_applyCols_two_pow (hB ▸ hm)]
     exact h'.symm
 
@@ -93,8 +92,7 @@ theorem inE0_mask : ∀ c < 2 ^ 32, (applyCols (tvCols 0) c ^^^ c) &&& e4Out = 0
   intro c hc
   refine eq_of_xor_of_two_pow (F := fun c => (applyCols (tvCols 0) c ^^^ c) &&& e4Out)
     (G := fun _ => 0) (fun a b => ?_) (fun _ _ => by simp) (fun m hm => ?_) hc
-  · beta_reduce
-    rw [← xor_and_distrib, e4_applyCols_xor, e4_xor_swap]
+  · rw [← xor_and_distrib, e4_applyCols_xor, e4_xor_swap]
   · unfold e4BasisOK at hb
     have h' := List.all_eq_true.1 hb m (List.mem_range.2 hm)
     rw [beq_iff_eq, mf7Ap_eq, ← tvCols_zero hK] at h'

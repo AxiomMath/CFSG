@@ -22,7 +22,7 @@ namespace Hyp
 variable {M V : Subgroup G}
 
 theorem mul_self_mem_of_mem_Pc (h : Hyp M V) {x : G} (hx : x ∈ Pc M V) : x * x ∈ V := by
-  letI : Fact (IsPGroup 2 (Pc M V)) :=
+  let : Fact (IsPGroup 2 (Pc M V)) :=
     ⟨(inSubgroup_pCore_two M).1.to_le inf_le_left⟩
   have hfr : (⟨x, hx⟩ : Pc M V) ^ 2 ∈ frattini (Pc M V) :=
     CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) (⟨x, hx⟩ : Pc M V)
@@ -35,6 +35,7 @@ namespace Sec45Shape
 
 variable {M V H : Subgroup G} {h₀ : G}
 
+omit [Finite G] in
 private theorem fixedSub_zpowers_piK {V H : Subgroup G}
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -56,6 +57,7 @@ private theorem fixedSub_zpowers_piK {V H : Subgroup G}
     Subgroup.centralizer ({x} : Set G) by
       rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]]
 
+omit [Finite G] in
 theorem commutator_zpowers_eq_range {V H : Subgroup G}
     {A : Subgroup G} {x : G}
     (hZA : Tim79a.xOf V H ≤ Subgroup.centralizer (A : Set G))
@@ -141,12 +143,12 @@ theorem xOf_inf_centralizer_le_and_card (h : RootHyp M V) (hS : Sec45Shape M V H
       Nat.card ↥(Tim79a.xOf V H ⊓ Subgroup.centralizer ({x} : Set G)) = Nat.card V ^ 2 := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  haveI hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have horth : Sec2.IsOrthModule hl (repW (hW := hW) ψ) :=
     IsOrthModule.repW_of_subRepW hW ψ hl (hw.orth_subRepW hW)
@@ -189,6 +191,7 @@ theorem xOf_inf_centralizer_le_and_card (h : RootHyp M V) (hS : Sec45Shape M V H
       rw [hfix, natCard_subW hW inf_le_left]
     rw [h1, hcardfix, hw.card_V, ← pow_mul, mul_comm]
 
+omit [Finite G] in
 private theorem commutator_conj_zpowers_le_xOf {V H : Subgroup G} {y x : G}
     (hy : y ∈ H) (hxH : x ∈ H) :
     ⁅conjSubgroup y V, Subgroup.zpowers x⁆ ≤ Tim79a.xOf V H := by
@@ -264,6 +267,7 @@ private theorem plane_model_eq {M V H : Subgroup G} {h₀ : G} (h : RootHyp M V)
   exact Sec2.IsOrthModule.fixedSub_zpowers_inf_commSub_eq_sup_map hl horth A A'
     hA2 hAcard hA'2 hA'card hne hxbar_mem hxbar1
 
+omit [Finite G] in
 private theorem plane_left_eq {M V H : Subgroup G}
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -283,6 +287,7 @@ private theorem plane_left_eq {M V H : Subgroup G}
   congr 1
   exact inf_eq_left.mpr (le_inf hle inf_le_left)
 
+omit [Finite G] in
 private theorem plane_right_eq {V H : Subgroup G}
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -322,12 +327,12 @@ private theorem plane_eq_sup_commutator {M V : Subgroup G} (h : RootHyp M V)
   classical
   have hxH : x ∈ H := hS.Pc_le hx
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  haveI hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have horth : Sec2.IsOrthModule hl (repW (hW := hW) ψ) :=
     IsOrthModule.repW_of_subRepW hW ψ hl (hw.orth_subRepW hW)
@@ -376,12 +381,12 @@ private theorem card_commutator_conj_le_card_V (h : RootHyp M V)
     Nat.card ↥⁅conjSubgroup y V, Subgroup.zpowers x⁆ ≤ Nat.card V := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  haveI hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have hxH : x ∈ H := hS.Pc_le hx
   have hZA : Tim79a.xOf V H ≤ Subgroup.centralizer (conjSubgroup y V : Set G) := fun z hz =>
@@ -422,10 +427,10 @@ theorem sup_commutator_eq (h : RootHyp M V) (hS : Sec45Shape M V H h₀) {y x : 
       Nat.card ↥⁅conjSubgroup y V, Subgroup.zpowers x⁆ = Nat.card V := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
   have hEq1 : Tim79a.xOf V H ⊓ Subgroup.centralizer ({x} : Set G) =
       V ⊔ ⁅conjSubgroup y V, Subgroup.zpowers x⁆ :=
@@ -497,6 +502,7 @@ theorem mem_kOf_of_commutator_mem (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
     exact Subgroup.mem_bot.mp this
   exact hv1 (congrArg Subtype.val hv1')
 
+omit [Finite G] in
 private theorem centralizer_iff_mem_fixator {V H : Subgroup G}
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -536,6 +542,7 @@ private theorem centralizer_iff_mem_fixator {V H : Subgroup G}
         _ = b := by group
   exact hconj_iff.symm.trans (hCfix _ hb_mem hb_not _ hψA)
 
+omit [Finite G] in
 private theorem card_Pc_inf_centralizer_range {M V H : Subgroup G} {h₀ : G}
     (hS : Sec45Shape M V H h₀) {x a : G}
     (ha : a ∈ Tim79a.xOf V H ⊓ Subgroup.centralizer ({x} : Set G)) (haV : a ∉ V)
@@ -587,6 +594,7 @@ private theorem card_Pc_inf_centralizer_range {M V H : Subgroup G} {h₀ : G}
     · rw [hφcoe]
       exact hψ
 
+omit [Finite G] in
 private theorem card_Pc_inf_centralizer_ker {M V H : Subgroup G} {h₀ : G}
     (hS : Sec45Shape M V H h₀) {a : G} {F : Type} [Field F] [Fintype F] [CharP F 2]
     {ψ : HBar V H ≃* SL(2, F)}
@@ -607,6 +615,7 @@ private theorem card_Pc_inf_centralizer_ker {M V H : Subgroup G} {h₀ : G}
     obtain ⟨-, hpK⟩ := Subgroup.mem_inf.mp hp
     rw [(piK_eq_one_iff _).mpr hpK, map_one]
 
+omit [Finite G] in
 private theorem Pc_inf_kOf_le_centralizer {M V : Subgroup G} {a : G}
     (ha : a ∈ Tim79a.xOf V H) :
     Pc M V ⊓ kOf V H ≤ Pc M V ⊓ Subgroup.centralizer ({a} : Set G) := by
@@ -621,12 +630,12 @@ private theorem card_Pc_inf_centralizer_eq (h : RootHyp M V) (hS : Sec45Shape M 
       Nat.card V * Nat.card ↥(Pc M V ⊓ kOf V H) := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  haveI hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have horth : Sec2.IsOrthModule hl (repW (hW := hW) ψ) :=
     IsOrthModule.repW_of_subRepW hW ψ hl (hw.orth_subRepW hW)
@@ -681,12 +690,12 @@ private theorem Pc_inf_centralizer_le_of_mem (h : RootHyp M V) (hS : Sec45Shape 
         (↑(Tim79a.xOf V H ⊓ Subgroup.centralizer ({x} : Set G)) : Set G) := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  haveI hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have horth : Sec2.IsOrthModule hl (repW (hW := hW) ψ) :=
     IsOrthModule.repW_of_subRepW hW ψ hl (hw.orth_subRepW hW)
@@ -890,6 +899,7 @@ theorem Pc_inf_centralizer_commutator (h : RootHyp M V) (hS : Sec45Shape M V H h
       Pc M V ⊓ kOf V H := by
   rw [commutator_Pc_conj_eq h hS hy hyV, hS.Pc_inf_centralizer_inf_xOf h]
 
+omit [Finite G] in
 private theorem conj_pow_mem_kOf {V H : Subgroup G} {b : G}
     (hbK : ∀ x ∈ H, ⁅b, x⁆ ∈ kOf V H) {k : ℕ} (hb : b ^ 2 ^ k = 1) :
     (∀ n : ℕ, ∀ x ∈ kOf V H, b ^ n * x * (b ^ n)⁻¹ ∈ kOf V H) ∧
@@ -919,6 +929,7 @@ private theorem conj_pow_mem_kOf {V H : Subgroup G} {b : G}
   have h := hconj (2 ^ k - 1) x hx
   rwa [← hbinv, inv_inv] at h
 
+omit [Finite G] in
 private theorem normalizes_xOf_of_commutator_mem_kOf {V H : Subgroup G} {b : G}
     (hbK : ∀ x ∈ H, ⁅b, x⁆ ∈ kOf V H) {k : ℕ} (hb : b ^ 2 ^ k = 1)
     (hcenter : kOf V H ⊓ Subgroup.centralizer (kOf V H : Set G) = Tim79a.xOf V H) :
@@ -982,6 +993,7 @@ private noncomputable def conjAddEnd {V H : Subgroup G}
       intro u v
       simp only [toW_add, map_mul, ofW_mul] }
 
+omit [Finite G] in
 private theorem conjAddEnd_commute_repW {V H : Subgroup G}
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -1021,6 +1033,7 @@ private theorem conjAddEnd_commute_repW {V H : Subgroup G}
     _ = (z : G) * (b * ((toW hW v : ↥(Tim79a.xOf V H)) : G) * b⁻¹) * (z : G)⁻¹ := by
         rw [hcent]; group
 
+omit [Finite G] in
 private theorem conjAddEnd_iterate_eq {V H : Subgroup G}
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -1063,12 +1076,12 @@ theorem mem_centralizer_xOf_of_commutator_mem_kOf (h : RootHyp M V) (hS : Sec45S
     b ∈ Subgroup.centralizer (Tim79a.xOf V H : Set G) := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  haveI hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have horth : Sec2.IsOrthModule hl (repW (hW := hW) ψ) :=
     IsOrthModule.repW_of_subRepW hW ψ hl (hw.orth_subRepW hW)

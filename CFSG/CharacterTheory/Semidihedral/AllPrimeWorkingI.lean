@@ -201,7 +201,7 @@ private theorem not_hasWreathedSylow [Finite G] {n : ℕ} (hn : 4 ≤ n) (S : Sy
   obtain ⟨hh2, hP⟩ := hW
   obtain ⟨P⟩ : Nonempty (Sylow 2 H) := inferInstance
   obtain ⟨eP⟩ := hP P
-  have hQ : IsPGroup 2 ((P : Subgroup H).map H.subtype) := P.isPGroup'.map H.subtype
+  have hQ : IsPGroup 2 ((P : Subgroup H).map H.subtype) := P.isPGroup.map H.subtype
   obtain ⟨S', hS'⟩ := hQ.exists_le_sylow
   let f' : SemidihedralGroup n ≃* (S' : Subgroup G) := fS.trans (Sylow.equiv S S')
   let φ : Wreathed.Wreath (2 ^ h) →* G :=

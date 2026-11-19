@@ -81,7 +81,7 @@ theorem innerAut_inf_centralizer_conj {S : Type*} [Group S]
   change (MulAut.conj s : S →* S) x = (MonoidHom.id S) x ↔
     x ∈ Subgroup.centralizer ({s} : Set S)
   rw [Subgroup.mem_centralizer_singleton_iff]
-  simp only [MulAut.conj_apply, MonoidHom.id_apply]
+  simp only [MonoidHom.id_apply]
   constructor
   · intro h
     have h'' : s * x * s⁻¹ = x := h

@@ -39,11 +39,13 @@ variable {Γ : Type} [Group Γ] [Finite Γ]
   ((chevQuotHom 3 K).subgroupMap (J.subgroupOf K)).comp
     (Subgroup.subgroupOfEquivOfLe hJK).symm.toMonoidHom
 
+omit [Finite Γ] in
 theorem u9TransferHom_surjective {K J : Subgroup Γ} (hJK : J ≤ K) :
     Function.Surjective (u9TransferHom K J hJK) :=
   (MonoidHom.subgroupMap_surjective _ _).comp (MulEquiv.surjective _)
 
-theorem u9_mem_stab {K J : Subgroup Γ} {a : Γ} (hJK : J ≤ K)
+omit [Finite Γ] in
+theorem u9_mem_stab {K J : Subgroup Γ} {a : Γ} (_hJK : J ≤ K)
     (haN : a ∈ Subgroup.normalizer (K : Set Γ)) (haJ : a ∈ Subgroup.normalizer (J : Set Γ)) :
     chevAut 3 K ⟨a, haN⟩ ∈ CFSG.GroupActions.subgroupStabAut (chevTransfer 3 K J) := by
   have key : ∀ (b : Γ) (hbN : b ∈ Subgroup.normalizer (K : Set Γ))
@@ -87,7 +89,7 @@ theorem indAut_mem_innAutDerived_of_restrict {K J X : Subgroup Γ} {a : Γ} (hJK
   have hψ : Function.Surjective ψ := u9TransferHom_surjective hJK
   have hJq := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hTq' := isQuasisimple_pQuot_of_glaPComponent hp hT
-  haveI : Nontrivial (PQuot 3 T) := isQuasisimple_nontrivial hTq'
+  have : Nontrivial (PQuot 3 T) := isQuasisimple_nontrivial hTq'
   let ψbar := pQuotMapOfSurjective hp ψ hψ
   have hker1 : ψbar.ker ≤ Subgroup.center (PQuot 3 J) :=
     ker_pQuotMapOfSurjective_le_center hp ψ hψ hJq inferInstance
@@ -104,7 +106,7 @@ theorem indAut_mem_innAutDerived_of_restrict {K J X : Subgroup Γ} {a : Γ} (hJK
     congr 1
   have hne : GLAPPrimeCore 3 ↥T ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (PQuot 3 T) := by
+    have : Subsingleton (PQuot 3 T) := by
       rw [show PQuot 3 T = (↥T ⧸ GLAPPrimeCore 3 ↥T) from rfl, htop]
       exact QuotientGroup.subsingleton_quotient_top
     exact not_subsingleton (PQuot 3 T) ‹_›
@@ -113,8 +115,8 @@ theorem indAut_mem_innAutDerived_of_restrict {K J X : Subgroup Γ} {a : Γ} (hJK
     exact le_center_of_normal_of_isQuasisimple hTq inferInstance hne
   have hc2 : ∀ t, δbar (QuotientGroup.mk' (GLAPPrimeCore 3 ↥T) t) =
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥T) (δ t) := fun t => rfl
-  haveI : Group.IsPerfect (PQuot 3 J) := ⟨hJq.1⟩
-  haveI : Group.IsPerfect ↥T := ⟨hTq.1⟩
+  have : Group.IsPerfect (PQuot 3 J) := ⟨hJq.1⟩
+  have : Group.IsPerfect ↥T := ⟨hTq.1⟩
   have h2 := (CFSG.ComponentClassification.PerfectCentralQuotient.centerQuotientHom_mem_innAutDerived_iff_of_surjective
     (QuotientGroup.mk' (GLAPPrimeCore 3 ↥T)) (QuotientGroup.mk'_surjective _) hker2 hc2).2 h
   have h1 := (CFSG.ComponentClassification.PerfectCentralQuotient.centerQuotientHom_mem_innAutDerived_iff_of_surjective
@@ -161,7 +163,7 @@ theorem eq_bot_or_top_of_isSubnormal_of_simple {S : Type} [Group S] [IsSimpleGro
         have := hn.conj_mem ⟨n, Subgroup.mem_top n⟩ (Subgroup.mem_subgroupOf.2 hn')
           ⟨g, Subgroup.mem_top g⟩
         exact Subgroup.mem_subgroupOf.1 this
-      haveI := hnorm
+      have := hnorm
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H'
 
 end Bridge
@@ -353,7 +355,7 @@ theorem i141U9Fam_of_sLevel {Q : TauCeti.CFSGIndex → Prop} {P : TauCeti.LieTyp
     CFSG.StandardType.Canonical.largeEvenMarking_mono (fun _ _ _ _ _ _ _ => trivial) hIx.2
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 K) := Y10F.hasLabel_isQuasisimple hlabAll
   have hcen : Subgroup.center (PSimple 3 K) = ⊥ := Y10F.center_centerQuot_eq_bot hq
-  haveI hsimple : IsSimpleGroup (PSimple 3 K) := hq.2
+  have hsimple : IsSimpleGroup (PSimple 3 K) := hq.2
   have hnc : ∃ u v : PSimple 3 K, u * v ≠ v * u :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq
   obtain ⟨labL, -, hinβ⟩ := I141F.innDiagKind_chevAut hxN hq hIx
@@ -418,7 +420,7 @@ theorem i141U9Fam_of_sLevel {Q : TauCeti.CFSGIndex → Prop} {P : TauCeti.LieTyp
     have hTtop : chevTransfer 3 K J = ⊤ := by
       rcases eq_bot_or_top_of_isSubnormal_of_simple hsub rfl with h | h
       · exfalso
-        haveI := isQuasisimple_nontrivial hTc.2.2
+        have := isQuasisimple_nontrivial hTc.2.2
         have : Nontrivial ↥(chevTransfer 3 K J) := inferInstance
         rw [h] at this
         exact not_nontrivial _ this
@@ -443,7 +445,7 @@ theorem i141U9Fam_unit : I141F.I141U9Fam I141F.u9FamUnit := by
     | lie d =>
       refine ⟨d, rfl, ?_⟩
       obtain ⟨dd, hv⟩ := d
-      cases dd <;> first | exact hi | exact hi.elim
+      cases dd <;> first | exact hi
     | _ => exact hi.elim
   · intro d hd h8
     obtain ⟨dd, hv⟩ := d
@@ -565,9 +567,9 @@ private theorem u9_noU38_symp {S : Type} [Group S] [Finite S] (hcen : Subgroup.c
       rw [hcard, h0, pow_zero] at this
       omega
     · exact h0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (f := labL.n) (by rw [Fintype.card_eq_nat_card, hcard])
   have h2 : (2 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 2
   obtain ⟨x, hx⟩ := Y10GInnSympRed.exists_conjAut_eq_conj h2 A
@@ -699,7 +701,7 @@ theorem i141U9Fam_class : I141F.I141U9Fam I141F.u9FamClass := by
   | lie d =>
     refine ⟨d, rfl, ?_⟩
     obtain ⟨dd, hv⟩ := d
-    cases dd <;> first | exact hi | exact hi.elim
+    cases dd <;> first | exact hi
   | _ => exact hi.elim
 
 end Main

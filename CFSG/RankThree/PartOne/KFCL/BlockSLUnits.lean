@@ -49,7 +49,7 @@ theorem unitary_ext1 {K : Type*} [Field K] {ι : Type*} [Fintype ι] [DecidableE
   rw [Matrix.reindex_apply, Matrix.reindex_apply, Matrix.submatrix_mul_equiv]
   rw [Matrix.fromBlocks_map, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply]
   simp only [Matrix.map_zero f hf0, Matrix.map_one f hf0 hf1, Matrix.transpose_zero,
-    Matrix.transpose_one, Matrix.zero_mul, Matrix.mul_zero, add_zero, zero_add, one_mul, mul_one,
+    Matrix.transpose_one, Matrix.zero_mul, Matrix.mul_zero, add_zero, zero_add, mul_one,
     hA, Matrix.fromBlocks_one]
   rw [Matrix.submatrix_one_equiv]
 

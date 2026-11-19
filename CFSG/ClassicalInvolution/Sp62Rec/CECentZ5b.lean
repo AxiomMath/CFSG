@@ -20,7 +20,7 @@ theorem I1Six.centralizer_eq_zpowers_of_Z5b (P : I1Six z e E B)
     (hQ2 : ∀ Q : Subgroup G, IsPGroup 2 Q → Q ≤ Subgroup.centralizer (E : Set G) →
       Nat.card ↥Q ≤ 2) :
     Subgroup.centralizer (E : Set G) = Subgroup.zpowers e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Ce, hCe⟩ : ∃ C : Subgroup G, C = Subgroup.centralizer ({e} : Set G) := ⟨_, rfl⟩
   obtain ⟨Y, hY⟩ : ∃ C : Subgroup G, C = Subgroup.centralizer (E : Set G) := ⟨_, rfl⟩
   rw [← hCe] at hodd
@@ -86,14 +86,14 @@ theorem I1Six.centralizer_eq_zpowers_of_Z5b (P : I1Six z e E B)
     obtain ⟨S⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
     have hSle : Nat.card S ≤ 2 := by
       have hQ2' : IsPGroup 2 ((S : Subgroup ↥Y).map Y.subtype) :=
-        S.isPGroup'.map Y.subtype
+        S.isPGroup.map Y.subtype
       have hle := hQ2y _ hQ2' (Subgroup.map_subtype_le _)
       rwa [Subgroup.card_map_of_injective Y.subtype_injective] at hle
     have hcyc : IsCyclic S := by
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
       rcases n with _ | _ | n
       · have h1 : Nat.card S = 1 := by simpa using hn
-        haveI : Subsingleton S := (Nat.card_eq_one_iff_unique.mp h1).1
+        have : Subsingleton S := (Nat.card_eq_one_iff_unique.mp h1).1
         exact isCyclic_of_subsingleton
       · have h2 : Nat.card S = 2 := by simpa using hn
         exact isCyclic_of_prime_card (p := 2) h2

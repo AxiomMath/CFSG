@@ -123,7 +123,7 @@ theorem isPerfect_of_simple {S : Type*} [Group S] [IsSimpleGroup S]
 
 theorem inSubgroup_perfectResidual_eq {X : Type*} [Group X] (Y : Subgroup X) [IsSimpleGroup Y]
     (hnab : ∃ a b : Y, a * b ≠ b * a) : inSubgroup perfectResidual Y = Y := by
-  haveI : Group.IsPerfect Y := isPerfect_of_simple hnab
+  have : Group.IsPerfect Y := isPerfect_of_simple hnab
   have hP : perfectResidual Y = ⊤ := by
     unfold perfectResidual
     simp

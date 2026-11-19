@@ -58,7 +58,7 @@ lemma conjSub_inv_conjSub (c : Γ) (X : Subgroup Γ) :
   have h : (MulAut.conj c⁻¹).toMonoidHom.comp (MulAut.conj c).toMonoidHom
       = MonoidHom.id Γ := by
     ext x
-    simp [conj_apply', mul_assoc]
+    simp [mul_assoc]
   rw [h, Subgroup.map_id]
 
 lemma conjSub_conjSub_inv (c : Γ) (X : Subgroup Γ) :

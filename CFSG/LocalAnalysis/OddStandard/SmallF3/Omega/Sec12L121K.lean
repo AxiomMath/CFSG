@@ -87,7 +87,7 @@ theorem sec121_closure_ker (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCMB t S
       (sec120_f_eq_one_iff F hE n.2).2 (Subgroup.mem_sup_left hnB)
     rw [hf, hξ0]
     rfl
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   let Q := ↥E ⧸ N
   let ℓ : Q → Fin 5 → ZMod 2 :=
     fun x => Multiplicative.toAdd

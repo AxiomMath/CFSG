@@ -22,7 +22,7 @@ variable {G : Type*} [Group G] [Finite G]
 theorem D1Escape.isPGroup {p : ℕ} {P : Sylow p G} {M H R : Subgroup G}
     (h : D1Escape p P M H R) : IsPGroup p R := by
   obtain ⟨T, rfl⟩ := h.isSylow
-  exact T.isPGroup'.map H.subtype
+  exact T.isPGroup.map H.subtype
 
 theorem card_le_card_map_sylow {p : ℕ} [Fact p.Prime] {K X : Subgroup G} (T : Sylow p K)
     (hX : IsPGroup p X) (hXK : X ≤ K) :
@@ -59,7 +59,7 @@ theorem le_of_card_le_of_pRank_lt (h : D1Extremal p P M H R) {X H' : Subgroup G}
 
 theorem le_of_sylow_le (h : D1Extremal p P M H R) (hRP : R ≠ (P : Subgroup G))
     {H' : Subgroup G} (hH' : IsTwoLocal H') (hPH' : (P : Subgroup G) ≤ H') : H' ≤ M :=
-  h.le_of_card_lt h.sylow_le P.isPGroup' (h.three_le_pRank.trans (pRank_mono p h.prime h.le_P))
+  h.le_of_card_lt h.sylow_le P.isPGroup (h.three_le_pRank.trans (pRank_mono p h.prime h.le_P))
     (Subgroup.card_lt_of_lt (lt_of_le_of_ne h.le_P hRP)) hH' hPH'
 
 theorem normalizer_le_of_sylow_le (h : D1Extremal p P M H R)
@@ -111,7 +111,7 @@ theorem odd_card_of_twoLocals_le {p : ℕ} (hp : p.Prime) {P C O M : Subgroup G}
     exact T.ne_bot_of_dvd_card
       (hcardO ▸ even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hev))
   have hNT : Subgroup.normalizer ((TC.map C.subtype : Subgroup G) : Set G) ≤ M := by
-    refine h2 _ ((T.isPGroup'.map _).map _) hT1 fun x hx => ?_
+    refine h2 _ ((T.isPGroup.map _).map _) hT1 fun x hx => ?_
     exact Subgroup.le_normalizer_map C.subtype
       (Subgroup.mem_map_of_mem C.subtype (hT (show ⟨x, hPC hx⟩ ∈ P.subgroupOf C from hx)))
   apply hCM
@@ -144,7 +144,7 @@ theorem D1Escape.exists_extremal {p : ℕ} {P : Sylow p G} {M H R : Subgroup G}
   obtain ⟨T, hTM, hTrank, -⟩ := intersecting_local_has_contained_sylow p h.prime P h.sylow_le
     h.weakCore_le hKrank
   have hXK : X ≤ K := (hXH₁.trans inf_le_left).trans hH₁K
-  obtain ⟨hTX, hTXr⟩ := hmax' _ ⟨T.isPGroup'.map K.subtype, K, hK.1, hKM, hKrank,
+  obtain ⟨hTX, hTXr⟩ := hmax' _ ⟨T.isPGroup.map K.subtype, K, hK.1, hKM, hKrank,
     _root_.le_inf (Subgroup.map_subtype_le _) hTM⟩
   have hcard : Nat.card ((T : Subgroup K).map K.subtype) = Nat.card X :=
     le_antisymm hTX (card_le_card_map_sylow T hX hXK)

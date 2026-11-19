@@ -115,7 +115,7 @@ theorem b7c_of : B7cStatement := by
   have hQL : Q ≤ L := hQS.trans hS1L
   have hQnorm : L ≤ Subgroup.normalizer (Q : Set G) :=
     fun s hs => hH.ctx.hyp.Q_normal.2 (hLM hs)
-  haveI hQsN : (Q.subgroupOf L).Normal :=
+  have hQsN : (Q.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQL).mpr hQnorm
   have hmapTop : Subgroup.map L.subtype (⊤ : Subgroup ↥L) = L := by
     rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
@@ -126,7 +126,7 @@ theorem b7c_of : B7cStatement := by
     exact hperf
   let p : ↥L →* ↥L ⧸ Q.subgroupOf L := QuotientGroup.mk' (Q.subgroupOf L)
   have hsurj : Function.Surjective p := QuotientGroup.mk'_surjective _
-  haveI hXperf : Group.IsPerfect (↥L ⧸ Q.subgroupOf L) := by
+  have hXperf : Group.IsPerfect (↥L ⧸ Q.subgroupOf L) := by
     refine ⟨?_⟩
     have htop : Subgroup.map p (⊤ : Subgroup ↥L) = ⊤ := Subgroup.map_top_of_surjective p hsurj
     have hcomm : Subgroup.map p ⁅(⊤ : Subgroup ↥L), (⊤ : Subgroup ↥L)⁆ =
@@ -213,8 +213,8 @@ theorem b7c_of : B7cStatement := by
     exact hdvd (h.trans (Subgroup.index_map_dvd (f := p) (S₁.subgroupOf L) hsurj))
   rcases b7c_thompson hP2 hPidx hTP hcos huP huT hu2 with ⟨N, hN, hcycN, huN⟩ | ⟨g, hg⟩
   ·
-    haveI := hN
-    haveI := hcycN
+    have := hN
+    have := hcycN
     have hNtop : N = ⊤ := b7c_eq_top_of_cyclic N
     exact huN (by rw [hNtop]; exact Subgroup.mem_top u)
   ·

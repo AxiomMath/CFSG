@@ -171,7 +171,7 @@ theorem centralizer_le_W (hW : Nat.card (Hgen gensWD) = 51840) (hc : dcCosetsChe
     have := List.inj_on_of_nodup_map hnd (List.mem_range.2 k.2) (List.mem_range.2 (by norm_num))
       (e1.symm.trans (hq1.trans e0))
     exact this
-  rw [← hxk, tE, if_pos hk, mul_one]
+  rw [← hxk, tE, ite_eq_left hk, mul_one]
   exact w.2
 
 end CFSG.KC.Sp62F

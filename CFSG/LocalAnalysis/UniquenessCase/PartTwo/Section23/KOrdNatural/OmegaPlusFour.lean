@@ -98,17 +98,17 @@ private theorem exists_commutatorElement_ne_one_SL2 (K : Type) [Field K] [CharP 
   have hy : (y : Matrix (Fin 2) (Fin 2) K) = !![1, 0; 1, 1] := rfl
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hx, hy,
     Matrix.mul_fin_two, Matrix.mul_fin_two] at h00
-  simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.head_fin_const] at h00
+  simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val', Matrix.cons_val_fin_one] at h00
   have h2 : (1 : K) + 1 = 0 := by
     rw [show (1 : K) + 1 = (2 : K) by norm_num]
     exact CharP.cast_eq_zero K 2
-  simp only [mul_one, mul_zero, zero_mul, add_zero] at h00
+  simp only [mul_one, mul_zero, add_zero] at h00
   rw [h2] at h00
   exact zero_ne_one h00
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem nontrivial_statedOmega_quadPlus_two : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 K)) := by
   obtain ⟨x, y, hxy⟩ := exists_commutatorElement_ne_one_SL2 K
   have h1 : j1 ⁅x, y⁆ ∈ StatedOmega (StatedQuadPlus 2 K) := by
@@ -119,6 +119,7 @@ theorem nontrivial_statedOmega_quadPlus_two : Nontrivial ↥(StatedOmega (Stated
   rw [map_one]
   exact congrArg Subtype.val h
 
+omit [CharP K 2] in
 theorem card_statedOmega_quadPlus_two_dvd :
     Nat.card ↥(StatedOmega (StatedQuadPlus 2 K)) ∣
       2 * Nat.card K ^ 2 * (Nat.card K ^ 2 - 1) ^ 2 := by

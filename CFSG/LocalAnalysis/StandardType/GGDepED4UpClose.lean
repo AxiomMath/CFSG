@@ -43,15 +43,15 @@ theorem ggDepED4Up_false_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
     _hJauto⟩ := hcore
   have hp3 : p = 3 := hF.p3
   subst hp3
-  letI := iΛ1
-  letI := iΛ2
-  letI := iΛa1
-  letI := iΛa2
-  letI := iV1
-  letI := iV2
-  haveI : FiniteDimensional (ZMod 3) V :=
+  let := iΛ1
+  let := iΛ2
+  let := iΛa1
+  let := iΛa2
+  let := iV1
+  let := iV2
+  have : FiniteDimensional (ZMod 3) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
-  haveI : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcardk).1
+  have : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcardk).1
   obtain ⟨a⟩ := (Nat.card_eq_one_iff_unique.mp hcardk).2
   let eJ := l05nEC_eJ b₁ b₂ e hb₁ hb₂
   let F : ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) ≃ Option {c : Fin 6 // GGDepED4In c} :=
@@ -84,7 +84,7 @@ theorem ggDepED4Up_false_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
       (CK' (some i) (some j) : ZMod 3) = (CartanMatrix.E 6 i.1 j.1 : ZMod 3) := by
     intro i j
     have hpk := hpairK (Sum.inl (eJ i)) (Sum.inl (eJ j))
-    simp only [Sum.map_inl, id_eq] at hpk
+    simp only [Sum.map_inl] at hpk
     have hck : CK' (some i) (some j) = CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) := by
       simp only [CK', Matrix.reindex_apply, Matrix.submatrix_apply, hF_some i, hF_some j]
     have hgoal : α (Sum.inl (eJ i).1) (h (Sum.inl (eJ j).1)) =
@@ -158,13 +158,13 @@ theorem ggDepED4Up_false_two {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
     _hJauto⟩ := hcore
   have hp3 : p = 3 := hF.p3
   subst hp3
-  letI := iΛ1
-  letI := iΛ2
-  letI := iΛa1
-  letI := iΛa2
-  letI := iV1
-  letI := iV2
-  haveI : FiniteDimensional (ZMod 3) V :=
+  let := iΛ1
+  let := iΛ2
+  let := iΛa1
+  let := iΛa2
+  let := iV1
+  let := iV2
+  have : FiniteDimensional (ZMod 3) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
   let eJ := l05nEC_eJ b₁ b₂ e hb₁ hb₂
   let ee : ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ≃ ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) :=
@@ -186,10 +186,9 @@ theorem ggDepED4Up_false_two {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
       (CK' (Sum.inl i) (Sum.inl j) : ZMod 3) = (CartanMatrix.E 6 i.1 j.1 : ZMod 3) := by
     intro i j
     have hpk := hpairK (Sum.inl (eJ i)) (Sum.inl (eJ j))
-    simp only [Sum.map_inl, id_eq] at hpk
+    simp only [Sum.map_inl] at hpk
     have hck : CK' (Sum.inl i) (Sum.inl j) = CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) := by
-      simp only [CK', Matrix.submatrix_apply, ee, Equiv.sumCongr_apply, Sum.map_inl,
-        Sum.map_inr, Equiv.refl_apply]
+      simp only [CK', Matrix.submatrix_apply, ee, Equiv.sumCongr_apply, Sum.map_inl]
     have hgoal : α (Sum.inl (eJ i).1) (h (Sum.inl (eJ j).1)) =
         (CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) : ZMod 3) := hpk
     rw [hck, ← hgoal]

@@ -28,16 +28,16 @@ private theorem ltrspa_of_recipe (lab : LargeEvenLabel) (Q : LargeEvenRawCont)
     LargeEvenRecipeSymplectic lab.rank (2 ^ lab.n) false
       (fun R _ I F => Q R I F ∧ SpRawRealization lab R I) := by
   obtain ⟨K, hField, hFinite, hcard, hQ⟩ := hraw
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   have h2 : (2 : K) = 0 := by
     have h0 : Nat.card K • (1 : K) = 0 := card_nsmul_eq_zero'
     rw [nsmul_one, hcard, Nat.cast_pow, Nat.cast_ofNat] at h0
     exact (pow_eq_zero_iff (by omega : lab.n ≠ 0)).mp h0
   have hchar : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
-  letI : CharP K 2 := hchar
+  let : CharP K 2 := hchar
   have hft : ¬ (false = true) := by simp
-  simp only [LargeEvenRecipeSymplectic, if_neg hft] at hQ ⊢
+  simp only [LargeEvenRecipeSymplectic] at hQ ⊢
   refine ⟨K, hField, hFinite, hcard, hQ, ?_⟩
   let theta : LargeEvenProj (LargeEvenSpGroup K lab.rank) ≃* StatedSp lab.rank K :=
     ltrspa_spProjEquiv lab.rank K

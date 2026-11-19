@@ -37,7 +37,7 @@ private theorem eleven_transfer_contradiction
     (hnormalizer : Subgroup.normalizer (T : Set (fixingSubgroup P (Set.range e))) ≤
       Subgroup.centralizer (T : Set (fixingSubgroup P (Set.range e)))) : False := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let J := fixingSubgroup P (Set.range e)
   have hh : h ≠ 0 := by
     rintro rfl
@@ -48,14 +48,14 @@ private theorem eleven_transfer_contradiction
   let transfer : J →* T :=
     MonoidHom.transferSylow T hnormalizer
   let Q : Subgroup J := transfer.ker
-  letI : Q.Normal := by
+  let : Q.Normal := by
     dsimp only [Q, transfer]
     infer_instance
   have hcomplement : IsComplement' Q T := by
     simpa only [Q, transfer] using
       MonoidHom.ker_transferSylow_isComplement'
         T hnormalizer
-  have hcardMul := hcomplement.card_mul
+  have hcardMul := hcomplement.card_mul_card
   have hQcard : Nat.card Q = 42 * h := by
     rw [hTcard, hJcard] at hcardMul
     nlinarith only [hcardMul]
@@ -70,7 +70,7 @@ private theorem eleven_transfer_contradiction
     omega
   have hJ2 :
       MulAction.IsMultiplyPretransitive J Z 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     change
       MulAction.IsMultiplyPretransitive
         (fixingSubgroup P (Set.range e))
@@ -78,9 +78,9 @@ private theorem eleven_transfer_contradiction
     apply SubMulAction.ofFixingSubgroup.isMultiplyPretransitive
       (m := 2) (n := 5) P (Set.range e)
     omega
-  letI : MulAction.IsPreprimitive J Z :=
+  let : MulAction.IsPreprimitive J Z :=
     MulAction.isPreprimitive_of_is_two_pretransitive hJ2
-  letI : Nonempty Z :=
+  let : Nonempty Z :=
     Fintype.card_pos_iff.mp (by
       rw [← Nat.card_eq_fintype_card, hZcard]
       norm_num)
@@ -151,7 +151,7 @@ theorem five_point_stabilizer_mod_eleven_ne_five
     ext i
     exact hq i
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -191,7 +191,7 @@ theorem five_point_stabilizer_mod_eleven_ne_five
   have hJcard : Nat.card J = 462 * h := by
     rw [hJindex, hPcard] at hJindexCard
     omega
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hJfactorization : (462 * h).factorization 11 = 1 := by
     simpa only [show 11 * 42 = 462 by norm_num] using
       LongPrimeArithmetic.factorization_prime_mul_once 11 42 h

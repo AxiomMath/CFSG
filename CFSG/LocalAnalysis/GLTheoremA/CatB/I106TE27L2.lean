@@ -33,8 +33,8 @@ section Field
 variable {K : Type*} [Field K] [Fintype K] [CharP K 3]
 
 theorem exists_cubic3_root (hK : Fintype.card K = 3 ^ 6) : ∃ μ : K, μ ^ 3 = μ + 1 := by
-  letI := ZMod.algebra K 3
-  haveI : Fact (Irreducible cubic3) := ⟨irreducible_cubic3⟩
+  let := ZMod.algebra K 3
+  have : Fact (Irreducible cubic3) := ⟨irreducible_cubic3⟩
   have hf0 : cubic3 ≠ 0 := irreducible_cubic3.ne_zero
   have h1 : Module.finrank (ZMod 3) (AdjoinRoot cubic3) = 3 := by
     rw [(AdjoinRoot.powerBasis hf0).finrank, AdjoinRoot.powerBasis_dim, natDegree_cubic3]
@@ -50,10 +50,11 @@ theorem exists_cubic3_root (hK : Fintype.card K = 3 ^ 6) : ∃ μ : K, μ ^ 3 = 
   simp only [cubic3, map_sub, map_pow, aeval_X, map_one] at h
   linear_combination h
 
+omit [Fintype K] in
 theorem cubic3_root_indep {μ : K} (hμ : μ ^ 3 = μ + 1) {a b c : ℤ}
     (h : (a : K) + b * μ + c * μ ^ 2 = 0) :
     (a : ZMod 3) = 0 ∧ (b : ZMod 3) = 0 ∧ (c : ZMod 3) = 0 := by
-  letI := ZMod.algebra K 3
+  let := ZMod.algebra K 3
   have hroot : aeval μ cubic3 = 0 := by
     simp only [cubic3, map_sub, map_pow, aeval_X, map_one]
     linear_combination hμ
@@ -69,7 +70,7 @@ theorem cubic3_root_indep {μ : K} (hμ : μ ^ 3 = μ + 1) {a b c : ℤ}
     norm_num at h0 h1 h2
     exact ⟨h0, h1, h2⟩
   have hpa : aeval μ (C (a : ZMod 3) + C (b : ZMod 3) * X + C (c : ZMod 3) * X ^ 2) = 0 := by
-    simp only [map_add, map_mul, aeval_C, aeval_X, map_pow, map_intCast]
+    simp only [map_add, map_mul, aeval_X, map_pow, map_intCast]
     exact h
   have hdeg := natDegree_le_natDegree (minpoly.degree_le_of_ne_zero (ZMod 3) μ hp0 hpa)
   rw [← hmin, natDegree_cubic3] at hdeg
@@ -164,10 +165,10 @@ private theorem fin3_eq {i j : Fin 3} (h : ((((i : ℕ) : ℤ) - ((j : ℕ) : �
 
 theorem e27Lifts_psl2 [Finite K] (hK : Nat.card K = 3 ^ 6) :
     E27Lifts (ProjectiveSpecialLinearGroup (Fin 2) K) := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK' : Fintype.card K = 3 ^ 6 := by rw [← Nat.card_eq_fintype_card, hK]
-  haveI : CharP K 3 := charP_of_card_eq_prime_pow hK'
+  have : CharP K 3 := charP_of_card_eq_prime_pow hK'
   have h3 : (3 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 3
   obtain ⟨μ, hμ⟩ := exists_cubic3_root hK'
   have hμ0 : μ ≠ 0 := by
@@ -221,7 +222,7 @@ end PSL
 
 theorem e27Lifts_l2_729 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.A 1 q).Valid)
     (hq : q.card = 729) : E27Lifts (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hc : q.p ^ q.exponent = 3 ^ 6 := by rw [← TauCeti.PrimePower.card_def, hq]; norm_num
   have hK : Nat.card (GaloisField q.p q.exponent) = 3 ^ 6 := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', hc]

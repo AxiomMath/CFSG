@@ -24,7 +24,7 @@ theorem l34g_x_orderOf_map {A P : Type} [Group A] [Group P] {ρ : A →* P}
     have h1' : a = 1 := h.eq_one_of_mul_self_eq_one (MonoidHom.mem_ker.mpr h1) ha2
     rw [h1', orderOf_one] at ha
     exact absurd ha (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime ?_ hne
   rw [pow_two, ← map_mul, ha2, map_one]
 

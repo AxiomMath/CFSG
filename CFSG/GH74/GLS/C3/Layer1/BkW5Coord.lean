@@ -489,7 +489,7 @@ theorem exists_coord1 :
     rw [Nat.card_congr (Subgroup.topEquiv (G := ↥(Fgrp 5))).toEquiv, hcardF, hTmcard]
     norm_num
   have hP0' : IsSylowOf 2 (P0 : Subgroup (Fgrp 5)) ⊤ :=
-    isSylowOf_iff.2 ⟨le_top, P0.isPGroup', by
+    isSylowOf_iff.2 ⟨le_top, P0.isPGroup, by
       rw [Subgroup.relIndex_top_right]; exact P0.not_dvd_index⟩
   obtain ⟨g, -, hg⟩ := hTmSyl.exists_mem_conj hP0'
   have hP0mem : ∀ y : Fgrp 5, y ∈ (P0 : Subgroup (Fgrp 5)) ↔ ((y : Fgrp 5) : Amb 5) ∈ T5 := by

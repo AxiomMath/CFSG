@@ -62,7 +62,7 @@ theorem toAdd_eq_of_mem {c : Multiplicative (ZMod p)} {f₀ : Fin m → Multipli
   by_cases h : f₀ i = c
   · simp [h]
   · have h' : f₀ i = c⁻¹ := ((hS i).mp hi).resolve_left h
-    rw [if_neg h, h']
+    rw [ite_eq_right h, h']
     simp [toAdd_inv]
 
 theorem smu_exists_pow_eq [Fact p.Prime] {c : Multiplicative (ZMod p)} (hc : c ≠ 1)
@@ -101,7 +101,7 @@ theorem sympMinus_block_unitary {K : Type} [Field K] [Finite K] [CharP K 2]
           (∀ τ ∈ FrameBs.sectionFrameAut (spPlaneTorus m ζ) J₀, τ f = f) →
             ∀ j ∈ J₀, spPlaneTorus m ζ f * j = j * spPlaneTorus m ζ f := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set S : Finset (Fin m) := Finset.univ.filter fun i : Fin m => f₀ i = c ∨ f₀ i = c⁻¹ with hSdef
   have hS : ∀ i, i ∈ S ↔ f₀ i = c ∨ f₀ i = c⁻¹ := fun i => by simp [hSdef]
   have hsupp' : ∀ j ∈ J₀, SmuOffFix S
@@ -198,7 +198,7 @@ theorem sympMinus_block_unitary {K : Type} [Field K] [Finite K] [CharP K 2]
     intro x hx
     refine mul_inv_eq_iff_eq_mul.mpr (hcomm_pow N₁ _ (fun i' hi' => ?_) x hx)
     have := hN₁ i' hi'
-    simp only [hi', if_true]
+    simp only [hi', ite_true]
     rw [← this, mul_one]
   have hEq : FrameBs.sectionFrameAut (spPlaneTorus m ζ) J₀ =
       TypeBDatum.twistedPermAut m p S s hs :=

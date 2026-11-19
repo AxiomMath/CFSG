@@ -27,7 +27,7 @@ theorem le_relIndex_of_not_le [Finite G] {p : ℕ} [Fact p.Prime] {M E : Subgrou
 
 theorem card_le_three_of_isCyclic [Finite G] {S F : Subgroup G} (hS : IsCyclic S) (hFS : F ≤ S)
     (hF : ∀ e ∈ F, e ^ 3 = 1) : Nat.card F ≤ 3 := by
-  haveI : IsCyclic (F.subgroupOf S) := Subgroup.isCyclic _
+  have : IsCyclic (F.subgroupOf S) := Subgroup.isCyclic _
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := F.subgroupOf S)
   have hg3 : g ^ 3 = 1 := by
     apply Subtype.ext

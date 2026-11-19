@@ -51,8 +51,8 @@ private theorem kfPar_pow_odd_inverts {S : Type} [Group S] {s : S} {D : Subgroup
 
 private theorem kfPar_solvable_oTwoP (Y : Type) [Group Y] [Finite Y] :
     Group.IsSolvable ↥(Sec4.oTwoP 3 Y) := by
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 Y) := CFSG.pCore_isNilpotent
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 3 (Y ⧸ CFSG.pCore 2 Y)) := CFSG.pCore_isNilpotent
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 Y) := CFSG.pCore_isNilpotent
+  have : Group.IsNilpotent ↥(CFSG.pCore 3 (Y ⧸ CFSG.pCore 2 Y)) := CFSG.pCore_isNilpotent
   refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion (Sec4.pCore_two_le_oTwoP 3 Y))
     (((QuotientGroup.mk' (CFSG.pCore 2 Y)).comp (Sec4.oTwoP 3 Y).subtype).codRestrict
       (CFSG.pCore 3 (Y ⧸ CFSG.pCore 2 Y)) (fun x => Subgroup.mem_comap.1 x.2)) ?_
@@ -63,17 +63,17 @@ private theorem kfPar_solvable_oTwoP (Y : Type) [Group Y] [Finite Y] :
 
 private theorem kfPar_solvable_oTwoP_sup {Y : Type} [Group Y] [Finite Y] (C : Subgroup Y)
     (hC : IsPGroup 2 C) : Group.IsSolvable ↥(Sec4.oTwoP 3 Y ⊔ C) := by
-  haveI hOn : (Sec4.oTwoP 3 Y).Normal := by
+  have hOn : (Sec4.oTwoP 3 Y).Normal := by
     unfold Sec4.oTwoP
     infer_instance
-  haveI := kfPar_solvable_oTwoP Y
-  haveI : Group.IsNilpotent ↥C := hC.isNilpotent
+  have := kfPar_solvable_oTwoP Y
+  have : Group.IsNilpotent ↥C := hC.isNilpotent
   have hle : Sec4.oTwoP 3 Y ≤ Sec4.oTwoP 3 Y ⊔ C := le_sup_left
   have hCle : C ≤ Sec4.oTwoP 3 Y ⊔ C := le_sup_right
-  haveI hsol1 : Group.IsSolvable ↥((Sec4.oTwoP 3 Y).subgroupOf (Sec4.oTwoP 3 Y ⊔ C)) :=
+  have hsol1 : Group.IsSolvable ↥((Sec4.oTwoP 3 Y).subgroupOf (Sec4.oTwoP 3 Y ⊔ C)) :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hle).symm.surjective
-  haveI hsol2 : Group.IsSolvable (↥(Sec4.oTwoP 3 Y ⊔ C) ⧸
+  have hsol2 : Group.IsSolvable (↥(Sec4.oTwoP 3 Y ⊔ C) ⧸
       (Sec4.oTwoP 3 Y).subgroupOf (Sec4.oTwoP 3 Y ⊔ C)) := by
     refine Group.isSolvable_of_surjective
       (f := (QuotientGroup.mk' _).comp (Subgroup.inclusion hCle)) ?_
@@ -100,7 +100,7 @@ private theorem kfPar_solvable_comap_conj {X : Type} [Group X] (S : Subgroup (Mu
     ((MulAut.conj : X →* MulAut X).comp
       (S.comap (MulAut.conj : X →* MulAut X)).subtype).codRestrict S
       (fun x => Subgroup.mem_comap.1 x.2)
-  haveI : Group.IsSolvable ↥ψ.ker := by
+  have : Group.IsSolvable ↥ψ.ker := by
     apply Group.isSolvable_of_comm
     intro a b
     apply Subtype.ext
@@ -121,7 +121,7 @@ private theorem kfPar_solvable_map_subtype {X : Type} [Group X] (H : Subgroup X)
 private theorem kfPar_isSylow_top_of_sylow {X : Type} [Group X] [Finite X] (T : Sylow 2 X) :
     IsSylowOf 2 (T : Subgroup X) ⊤ := by
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  exact ⟨le_top, T.isPGroup', by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
+  exact ⟨le_top, T.isPGroup, by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
 
 private theorem kfPar_not_two_dvd_index {X : Type} [Group X] [Finite X] {P T : Subgroup X}
     (hT : IsSylowOf 2 T ⊤) (hTP : T ≤ P) : ¬ 2 ∣ P.index := by
@@ -174,7 +174,7 @@ private theorem kfPar_isSylow_top_of_parabolic {X : Type} [Group X] [Finite X] {
     have hK : Nat.card K = 16 := by
       rw [Nat.card_congr eK.toEquiv]
       show Nat.card (Fin 4 → ZMod 2) = 16
-      simp [Nat.card_fun, Nat.card_eq_fintype_card, ZMod.card]
+      simp [Nat.card_eq_fintype_card, ZMod.card]
     have hQ' : Nat.card (↥P ⧸ K) = 120 := by
       rw [Nat.card_congr eQ.toEquiv, Nat.card_perm]
       simp [Nat.factorial]
@@ -199,7 +199,7 @@ private theorem kfPar_exists_solv_overgroup {G' : Type} [Group G'] [Finite G']
   have hC : IsPGroup 2 (CQ.subgroupOf H) := by
     rw [← Subgroup.comap_subtype]
     exact hC2.comap_subtype
-  haveI := kfPar_solvable_oTwoP_sup (CQ.subgroupOf H) hC
+  have := kfPar_solvable_oTwoP_sup (CQ.subgroupOf H) hC
   refine ⟨(Sec4.oTwoP 3 ↥H ⊔ CQ.subgroupOf H).map H.subtype, Subgroup.map_subtype_le _,
     kfPar_solvable_map_subtype H _, ?_, ?_⟩
   · intro c hc
@@ -212,7 +212,7 @@ private theorem kfPar_exists_solv_overgroup {G' : Type} [Group G'] [Finite G']
 private theorem kfPar_normalizes {X : Type} [Group X]
     (h : ∀ T D : Subgroup X, IsSylowOf 2 T ⊤ → T ≤ D → Group.IsSolvable ↥D →
       D ≤ Subgroup.normalizer (T : Set X))
-    {P Q : Subgroup X} (hQ : IsSylowOf 2 Q ⊤) (hQP : Q ≤ P)
+    {P Q : Subgroup X} (hQ : IsSylowOf 2 Q ⊤) (_hQP : Q ≤ P)
     {S : Subgroup (MulAut X)} (hSP : S ≤ P.map (MulAut.conj : X →* MulAut X))
     [Group.IsSolvable ↥S] (hQS : Q.map (MulAut.conj : X →* MulAut X) ≤ S)
     {e : MulAut X} (he : e ∈ S) :
@@ -240,7 +240,7 @@ private theorem kfPar_noInv_core {X : Type} [Group X] [Finite X]
       D ≤ Subgroup.normalizer (T : Set X))
     {P : Subgroup X} (hP : ParabolicShape X P) {D : Subgroup (MulAut X)}
     (hD3 : CFSG.Assembly.IsElemAbelian 3 D) (hD9 : Nat.card D = 9)
-    (hDH : D ≤ P.map (MulAut.conj : X →* MulAut X))
+    (_hDH : D ≤ P.map (MulAut.conj : X →* MulAut X))
     (hDO : D ≤ (Sec4.oTwoP 3 ↥(P.map (MulAut.conj : X →* MulAut X))).map
       (P.map (MulAut.conj : X →* MulAut X)).subtype)
     {z : X} (hzP : z ∈ P) {k : ℕ} (hzk : z ^ 2 ^ k = 1)

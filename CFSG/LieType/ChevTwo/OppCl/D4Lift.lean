@@ -78,7 +78,7 @@ theorem d4Chat_le_normalizer :
 theorem mem_sup_zpowers_d4P_iff {H : Subgroup (ModGL Tag.D4 K)}
     (hH : d4P K ∈ Subgroup.normalizer (H : Set (ModGL Tag.D4 K))) {x : ModGL Tag.D4 K} :
     x ∈ H ⊔ Subgroup.zpowers (d4P K) ↔ ∃ h ∈ H, ∃ i : ℕ, x = h * d4P K ^ i := by
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   have hLE : Subgroup.zpowers (d4P K) ≤ Subgroup.normalizer (H : Set (ModGL Tag.D4 K)) :=
     Subgroup.zpowers_le.2 hH
   have hco := Subgroup.coe_mul_of_right_le_normalizer_left H (Subgroup.zpowers (d4P K)) hLE
@@ -241,7 +241,7 @@ theorem exists_lift_group (hK : ringChar K = 2) {p : ℕ} (hp : p.Prime) (hp2 : 
         Subgroup.card_map_of_injective d4LiftHom_injective
       rw [← h3, hT0, Subgroup.map_comap_eq, inf_of_le_right hrange] 
     rw [h1, h2]
-    haveI : Finite R := inferInstance
+    have : Finite R := inferInstance
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hR
     rw [hk]
     exact hodd.pow

@@ -30,7 +30,7 @@ private theorem ncard_conjSetOf_eq_two {D : Data G} {Ch : Choice2011 G}
   have hrdvdK : r ∣ Nat.card K := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥K)]
     exact dvd_mul_of_dvd_left hrdvdBar2 _
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) r hrdvdK
   let A : Subgroup G := Subgroup.zpowers (y : G)
   have hAcard : Nat.card A = r := by

@@ -54,7 +54,7 @@ theorem key_pair (ρ : Representation (ZMod 2) G V) (X : Subgroup G) [Fintype X]
         = (if c a then ρ (a⁻¹ : X) u else 0) + (if c a then ρ a u else 0) := by
       intro a
       by_cases h : c a
-      · simp only [h, if_true, h1]
+      · simp only [h, ite_true, h1]
         have := two_v (ρ a u)
         rw [sub_eq_add_neg, neg_eq_of_add_eq_zero_right this]
       · simp [h]
@@ -77,7 +77,7 @@ theorem key_pair (ρ : Representation (ZMod 2) G V) (X : Subgroup G) [Fintype X]
             simpa [pow_two] using this
           exact Subtype.ext (hX2 a a.2 h2)
         have hr : (r a : ℕ) ≠ r a⁻¹ := fun h => hne (r.injective (Fin.ext h)).symm
-        simp only [c, inv_inv, ha, if_false]
+        simp only [c, inv_inv, ha, ite_false]
         rcases lt_or_gt_of_ne hr with h | h
         · simp [h, not_lt.2 h.le]
         · simp [h, not_lt.2 h.le]
@@ -295,7 +295,7 @@ theorem relIndex_map_sub {X : Subgroup G} (D' : Subgroup X) :
 
 theorem finrank_commSpace_eq_two_mul_iterated_commutator [Finite G] [FiniteDimensional (ZMod 2) V] (ρ : Representation (ZMod 2) G V)
     (X : Subgroup G) [Fintype X] (t : G) (ht : orderOf t = 2)
-    (hodd : Odd (Fintype.card X)) (hX2 : ∀ x ∈ X, x ^ 2 = 1 → x = 1)
+    (_hodd : Odd (Fintype.card X)) (hX2 : ∀ x ∈ X, x ^ 2 = 1 → x = 1)
     (hinv : ∀ x ∈ X, t * x * t⁻¹ = x⁻¹) (hcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x) :
     Module.finrank (ZMod 2) ↥(commSpace ρ X) =
         2 * Module.finrank (ZMod 2) ↥(commOn ρ (zpowers t) (commSpace ρ X)) := by
@@ -363,8 +363,8 @@ theorem minHyperplaneOrbit_degree_le_finrank_commSpace [Finite G] [FiniteDimensi
     ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext (hcomm a.1.1 a.1.2 b.1.1 b.1.2))⟩⟩,
       fun x _ => Subtype.ext (hXp x.1 x.2)⟩
   have hint := coprime_hyperplane_decomposition (q := 2) hp2 ρ' ⊤ hA htop
-  haveI : Finite (Subgroup X) := inferInstance
-  haveI : Fintype (hyperplanes p (⊤ : Subgroup X)) := Fintype.ofFinite _
+  have : Finite (Subgroup X) := inferInstance
+  have : Fintype (hyperplanes p (⊤ : Subgroup X)) := Fintype.ofFinite _
   have hsum : Module.finrank (ZMod 2) W =
       ∑ D : hyperplanes p (⊤ : Subgroup X), Module.finrank (ZMod 2) (fixedSpace ρ' D.1) := by
     have e := LinearEquiv.ofBijective
@@ -530,8 +530,8 @@ theorem finrank_commutator_eq_two_mul_and_involution_rank_bound [Finite G] [Modu
         2 * Module.finrank (ZMod 2) ↥(commOn ρ (zpowers t) (commSpace ρ X)) ∧
       max n (minHyperplaneOrbit p X) * eOfPrime p ≤
         2 * Module.finrank (ZMod 2) ↥(commSpace ρ (zpowers t)) := by
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype X := Fintype.ofFinite X
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x := fun x hx y hy => by
     have := hXab.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
     simpa using congrArg Subtype.val this

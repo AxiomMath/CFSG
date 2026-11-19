@@ -23,9 +23,10 @@ private theorem le_right_of_g2q (hH : Hyp111 L1 L2 S) (hD : G2qLocalData L1 L2 S
     (h1 : IsL2Quot f (oTwoQuot ↥L1)) (h2 : IsL2Quot f (oTwoQuot ↥L2)) : S ≤ L2 :=
   (hD.borelOf_inf_borelOf hH h1 h2).symm.le.trans (inf_le_right.trans (borelOf_le L2 S))
 
+omit [Finite G] in
 theorem G2qCoord.one_le_f {L : Subgroup G} (c : G2qCoord L S f) : 1 ≤ f := by
-  letI := c.field
-  letI := c.fintype
+  let := c.field
+  let := c.fintype
   have htwo : 1 < Nat.card c.F := Finite.one_lt_card
   rw [c.card] at htwo
   by_contra hf
@@ -33,15 +34,17 @@ theorem G2qCoord.one_le_f {L : Subgroup G} (c : G2qCoord L S f) : 1 ≤ f := by
   rw [hf0, pow_zero] at htwo
   exact lt_irrefl 1 htwo
 
+omit [Finite G] in
 private theorem comm_of_mem_centerOf_left (hD : G2qLocalData L1 L2 S f) {z y : G}
     (hz : z ∈ centerOf (pCoreOf 2 L1)) (hy : y ∈ L1) : y * z = z * y := by
   rw [hD.center_left] at hz
   exact mul_comm_of_mem_centerOf hz hy
 
+omit [Finite G] in
 private theorem card_centerOf_right (c : G2qCoordRight L2 S f) :
     Nat.card (centerOf (pCoreOf 2 L2)) = 2 ^ (2 * f) := by
-  letI := c.field
-  letI := c.fintype
+  let := c.field
+  let := c.fintype
   obtain ⟨β, hβs, hβker, -⟩ := c.nat
   have hβinj : Function.Injective β := by
     rw [← MonoidHom.ker_eq_bot_iff, hβker, Subgroup.bot_subgroupOf]
@@ -50,6 +53,7 @@ private theorem card_centerOf_right (c : G2qCoordRight L2 S f) :
   rw [Nat.card_fun, c.card, Nat.card_eq_fintype_card (α := Fin 2), Fintype.card_fin]
   ring
 
+omit [Finite G] in
 theorem G2qLocalData.commutator_mem_centerOf_left (hD : G2qLocalData L1 L2 S f) {x y : G}
     (hx : x ∈ pCoreOf 2 L1) (hy : y ∈ pCoreOf 2 L1) : ⁅x, y⁆ ∈ centerOf (pCoreOf 2 L1) := by
   rcases hD.special_left.1.2 with ⟨hcomm, -⟩ | ⟨hcomm, -, -⟩
@@ -80,6 +84,7 @@ theorem G2qLocalData.pCoreOf_left_sup_right (hH : Hyp111 L1 L2 S) (hD : G2qLocal
     ring_nf
   exact Subgroup.eq_of_le_of_card_ge (sup_le hH.pCoreOf_le_left hH.pCoreOf_le_right) hcard'.ge
 
+omit [Finite G] in
 theorem G2qCoordRight.mem_W_iff (c : G2qCoordRight L2 S f) {x : G} :
     x ∈ c.W ↔ x ∈ pCoreOf 2 L2 ∧ ∀ l ∈ L2, ⁅l, x⁆ ∈ centerOf (pCoreOf 2 L2) := by
   constructor
@@ -88,7 +93,7 @@ theorem G2qCoordRight.mem_W_iff (c : G2qCoordRight L2 S f) {x : G} :
     rw [Subgroup.commutator_comm]
     exact Subgroup.commutator_mem_commutator hl hx
   · rintro ⟨hxQ, hcomm⟩
-    letI := c.field
+    let := c.field
     obtain ⟨β, -, hβker, hβeq⟩ := c.natW
     have hfix : ∀ g : SL(2, c.F),
         (g : Matrix (Fin 2) (Fin 2) c.F) *ᵥ natSecVec β x = natSecVec β x := by
@@ -101,6 +106,7 @@ theorem G2qCoordRight.mem_W_iff (c : G2qCoordRight L2 S f) {x : G} :
       exact sub_eq_zero.mp h0
     exact (natSecVec_eq_zero_iff hβker hxQ).mp (eq_zero_of_forall_sl2_mulVec_eq hfix)
 
+omit [Finite G] in
 private theorem conj_mem_W_of_mem_normalizer (c : G2qCoordRight L2 S f) {g x : G}
     (hg : g ∈ Subgroup.normalizer (L2 : Set G)) (hx : x ∈ c.W) : g * x * g⁻¹ ∈ c.W := by
   rw [c.mem_W_iff] at hx ⊢
@@ -114,6 +120,7 @@ private theorem conj_mem_W_of_mem_normalizer (c : G2qCoordRight L2 S f) {g x : G
   rw [e]
   exact mem_centerOf_conj_of_mem_normalizer hgQ (hx.2 _ hl')
 
+omit [Finite G] in
 theorem G2qCoordRight.normalizer_le_normalizer_W (c : G2qCoordRight L2 S f) :
     Subgroup.normalizer (L2 : Set G) ≤ Subgroup.normalizer (c.W : Set G) := by
   intro g hg
@@ -123,6 +130,7 @@ theorem G2qCoordRight.normalizer_le_normalizer_W (c : G2qCoordRight L2 S f) :
   have := conj_mem_W_of_mem_normalizer c (inv_mem hg) hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem G2qCoordRight.bigB_le_normalizer_W (hH : Hyp111 L1 L2 S) (c : G2qCoordRight L2 S f) :
     bigB L1 L2 S ≤ Subgroup.normalizer (c.W : Set G) :=
   (sup_le (sup_le hH.h2.borel_le ((borelOf_le L2 S).trans Subgroup.le_normalizer))
@@ -134,10 +142,10 @@ private theorem exists_mem_W_inv_mul_mem (hH : Hyp111 L1 L2 S) (hD : G2qLocalDat
     (hs : s ∈ S) : ∃ w ∈ c.W, w⁻¹ * s ∈ pCoreOf 2 L1 := by
   classical
   obtain ⟨c1⟩ := hD.exists_coordLeft hH h1
-  letI := c1.field
-  letI := c1.fintype
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP c1.F 2 :=
+  let := c1.field
+  let := c1.fintype
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP c1.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c1.card])
   have hSL1 : S ≤ L1 := le_left_of_g2q hH hD h1 h2
   have hw₀S : w₀ ∈ S := hH.pCoreOf_le_right (c.le_pCoreOf hw₀)
@@ -173,7 +181,7 @@ theorem G2qCoordRight.W_le_pCoreOf_left (hH : Hyp111 L1 L2 S) (hD : G2qLocalData
     (h1 : IsL2Quot f (oTwoQuot ↥L1)) (h2 : IsL2Quot f (oTwoQuot ↥L2))
     (c : G2qCoordRight L2 S f) : c.W ≤ pCoreOf 2 L1 := by
   by_contra hle
-  obtain ⟨w₀, hw₀, hw₀Q⟩ := SetLike.not_le_iff_exists.mp hle
+  obtain ⟨w₀, hw₀, hw₀Q⟩ := IsConcreteLE.not_le_iff_exists.mp hle
   have hSL2 : S ≤ L2 := le_right_of_g2q hH hD h1 h2
   have hcomm : ∀ y ∈ pCoreOf 2 L1, ∀ a ∈ pCoreOf 2 L2, ⁅y, a⁆ ∈ centerOf (pCoreOf 2 L2) := by
     intro y hy a ha
@@ -191,11 +199,11 @@ theorem G2qCoordRight.W_le_pCoreOf_left (hH : Hyp111 L1 L2 S) (hD : G2qLocalData
       group
     rw [e]
     exact mul_mem h1' (mem_centerOf_conj_of_mem_normalizer (Subgroup.le_normalizer hwQ) h2')
-  letI := c.field
+  let := c.field
   obtain ⟨β, hβs, hβker, hβeq⟩ := c.natW
   have hf := c.one_le_f
   obtain ⟨x, hxQ1, hxQ2⟩ : ∃ x ∈ pCoreOf 2 L1, x ∉ pCoreOf 2 L2 := by
-    refine SetLike.not_le_iff_exists.mp fun hle' => ?_
+    refine IsConcreteLE.not_le_iff_exists.mp fun hle' => ?_
     have hcard := hD.card_inf
     rw [inf_eq_left.mpr hle', hD.card_left] at hcard
     have := Nat.pow_right_injective (le_refl 2) hcard
@@ -224,7 +232,7 @@ theorem G2qLocalData.centerOf_pCoreOf_right_le_left (hH : Hyp111 L1 L2 S)
 
 theorem G2qCoordRight.false_of_le_normalizer_W (hH : Hyp111 L1 L2 S) (c : G2qCoordRight L2 S f)
     (hW : L1 ≤ Subgroup.normalizer (c.W : Set G)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL2 : L2 ≤ Subgroup.normalizer (c.W : Set G) :=
     Subgroup.le_normalizer.trans c.normalizer_le_normalizer_W
   have hS : S ≤ Subgroup.normalizer (c.W : Set G) :=
@@ -240,9 +248,10 @@ theorem G2qCoordRight.false_of_le_normalizer_W (hH : Hyp111 L1 L2 S) (c : G2qCoo
   have hlt : 1 < 2 ^ (3 * f) := Nat.one_lt_two_pow (by omega)
   omega
 
+omit [Finite G] in
 theorem G2qCoordRight.commutator_sup_W (c : G2qCoordRight L2 S f) :
     ⁅pCoreOf 2 L2, L2⁆ ⊔ c.W = pCoreOf 2 L2 := by
-  letI := c.field
+  let := c.field
   obtain ⟨β, hβs, hβker, hβeq⟩ := c.natW
   refine le_antisymm (sup_le (commutator_pCoreOf_le_pCoreOf L2) c.le_pCoreOf) fun x hx => ?_
   obtain ⟨y, hyc, hyQ, hy⟩ :=
@@ -251,11 +260,13 @@ theorem G2qCoordRight.commutator_sup_W (c : G2qCoordRight L2 S f) :
   rw [show x = y * (y⁻¹ * x) by group]
   exact Subgroup.mul_mem_sup (by rwa [Subgroup.commutator_comm]) hyx
 
+omit [Finite G] in
 theorem G2qCoordRight.commutator_eq_of_W_le (c : G2qCoordRight L2 S f)
     (hW : c.W ≤ ⁅pCoreOf 2 L2, L2⁆) : ⁅pCoreOf 2 L2, L2⁆ = pCoreOf 2 L2 := by
   have h := c.commutator_sup_W
   rwa [sup_eq_left.mpr hW] at h
 
+omit [Finite G] in
 theorem G2qCoordRight.conj_commutator_W (c : G2qCoordRight L2 S f) {l w a : G} (hl : l ∈ L2)
     (hw : w ∈ c.W) (ha : a ∈ pCoreOf 2 L2) : l * ⁅w, a⁆ * l⁻¹ = ⁅w, l * a * l⁻¹⁆ := by
   have hz : ⁅l, w⁆ ∈ centerOf (pCoreOf 2 L2) := c.commutator_le (by
@@ -267,9 +278,10 @@ theorem G2qCoordRight.conj_commutator_W (c : G2qCoordRight L2 S f) {l w a : G} (
     _ = ⁅w, l * a * l⁻¹⁆ := commutator_mul_left_eq_of_mem_centerOf hz (c.le_pCoreOf hw)
         (conj_mem_pCoreOf_of_mem hl ha)
 
+omit [Finite G] in
 theorem G2qCoordRight.commute_of_mem_W (c : G2qCoordRight L2 S f) {w w' : G} (hw : w ∈ c.W)
     (hw' : w' ∈ c.W) : w * w' = w' * w := by
-  letI := c.field
+  let := c.field
   obtain ⟨β, -, hβker, hβeq⟩ := c.nat
   have hwQ := c.le_pCoreOf hw
   have hw'Q := c.le_pCoreOf hw'
@@ -293,6 +305,7 @@ theorem G2qCoordRight.commute_of_mem_W (c : G2qCoordRight L2 S f) {w w' : G} (hw
   have h1 : ⁅w, w'⁆ ∈ (⊥ : Subgroup G) := (natSecVec_eq_zero_iff hβker hZ).mp h0
   rwa [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at h1
 
+omit [Finite G] in
 private theorem conj_mem_closure_commutator_W (c : G2qCoordRight L2 S f) {l : G} (hl : l ∈ L2)
     {y : G} (hy : y ∈ Subgroup.closure {x | ∃ w ∈ c.W, ∃ a ∈ pCoreOf 2 L2, x = ⁅w, a⁆}) :
     l * y * l⁻¹ ∈ Subgroup.closure {x | ∃ w ∈ c.W, ∃ a ∈ pCoreOf 2 L2, x = ⁅w, a⁆} := by
@@ -312,12 +325,12 @@ private theorem conj_mem_closure_commutator_W (c : G2qCoordRight L2 S f) {l : G}
 theorem G2qCoordRight.centerOf_le_closure_commutator_W (c : G2qCoordRight L2 S f) :
     centerOf (pCoreOf 2 L2) ≤
       Subgroup.closure {x | ∃ w ∈ c.W, ∃ a ∈ pCoreOf 2 L2, x = ⁅w, a⁆} := by
-  letI := c.field
+  let := c.field
   obtain ⟨β, -, hβker, hβeq⟩ := c.nat
   have hβinj : Function.Injective β := by
     rw [← MonoidHom.ker_eq_bot_iff, hβker, Subgroup.bot_subgroupOf]
   obtain ⟨w, hw, hwZ⟩ : ∃ w ∈ c.W, w ∉ centerOf (pCoreOf 2 L2) := by
-    refine SetLike.not_le_iff_exists.mp fun hle => ?_
+    refine IsConcreteLE.not_le_iff_exists.mp fun hle => ?_
     have hle' := Subgroup.card_le_of_le hle
     rw [c.card_W, card_centerOf_right c] at hle'
     have hf := c.one_le_f
@@ -345,7 +358,7 @@ theorem G2qCoordRight.mem_centerOf_of_commutator_mem (hH : Hyp111 L1 L2 S)
     (h2 : IsL2Quot f (oTwoQuot ↥L2)) (c : G2qCoordRight L2 S f) {w : G} (hw : w ∈ c.W)
     (hc : ∀ a ∈ pCoreOf 2 L2, ⁅w, a⁆ ∈ centerOf (pCoreOf 2 L1)) :
     w ∈ centerOf (pCoreOf 2 L2) := by
-  letI := c.field
+  let := c.field
   obtain ⟨β, -, hβker, hβeq⟩ := c.nat
   have hSL1 := le_left_of_g2q hH hD h1 h2
   have hwQ : w ∈ pCoreOf 2 L2 := c.le_pCoreOf hw

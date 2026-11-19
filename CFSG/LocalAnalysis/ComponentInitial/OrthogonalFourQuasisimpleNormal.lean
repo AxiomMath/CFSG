@@ -118,7 +118,7 @@ theorem card_centerQuotient_of_nonsplitFour (hodd : Odd (Nat.card K))
       Nat.card K ^ 2 * ((Nat.card K ^ 2) ^ 2 - 1) := by
   obtain ⟨δ, hns, _, _, e, _, _, hcomm, hq, -⟩ :=
     orthogonal_nonsplit_four_derived hodd R hR h4 hno
-  haveI : Fact (¬ IsSquare (δ : K)) := ⟨hns⟩
+  have : Fact (¬ IsSquare (δ : K)) := ⟨hns⟩
   have h2 : (2 : K) ≠ 0 :=
     CFSG.ComponentClassification.CatalogueBOddQuadratic.two_ne_zero_of_odd_card hodd
   have hMtop : M = ⊤ := by
@@ -128,15 +128,15 @@ theorem card_centerQuotient_of_nonsplitFour (hodd : Odd (Nat.card K))
       have hcommM : ∀ a b : ↥M, a * b = b * a := by
         intro a b
         exact Subtype.ext ((Subgroup.mem_center_iff.1 (h a.2) b.1).symm)
-      haveI : Group.IsSolvable ↥M := isSolvable_of_comm hcommM
-      haveI : Group.IsPerfect ↥M := hMq.1
-      haveI : Nontrivial ↥M := CFSG.LocalCores.isQuasisimple_nontrivial hMq
+      have : Group.IsSolvable ↥M := _root_.Group.isSolvable_of_comm hcommM
+      have : Group.IsPerfect ↥M := hMq.1
+      have : Nontrivial ↥M := CFSG.LocalCores.isQuasisimple_nontrivial hMq
       exact (Group.IsPerfect.not_isSolvable ↥M) inferInstance
   have hMeq : ↥M ≃* ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R)) := by
     rw [hMtop]
     exact Subgroup.topEquiv
-  haveI hsimple : IsSimpleGroup ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R)) := by
-    haveI : IsSimpleGroup ↥(specialImage (δ : K) h2) :=
+  have hsimple : IsSimpleGroup ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R)) := by
+    have : IsSimpleGroup ↥(specialImage (δ : K) h2) :=
       CFSG.ComponentClassification.GSThmB.X10Orth.isSimpleGroup_specialImage (δ := (δ : K)) h2
     have h1 : ↥(specialImage (δ : K) h2) ≃*
         ↥((specialImage (δ : K) h2).map e.symm.toMonoidHom) :=
@@ -145,7 +145,7 @@ theorem card_centerQuotient_of_nonsplitFour (hodd : Odd (Nat.card K))
     exact h1.symm.isSimpleGroup
   have hZbot : Subgroup.center ↥(commutator
       ↥(TauCeti.QuadraticMap.orthogonalGroup R)) = ⊥ := by
-    haveI : Group.IsPerfect ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R)) := hq.1
+    have : Group.IsPerfect ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R)) := hq.1
     refine (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup ?_).2
     simpa only [isMulCommutative_iff, not_forall] using
       Group.IsPerfect.not_isMulCommutative ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R))
@@ -178,15 +178,15 @@ theorem false_of_splitFour_card_three (hR : (QuadraticMap.polarBilin R).Nondegen
     False := by
   have hdiv := (orthogonal_low_dimensional_fixed_derived_component_coverage R hR
     (Or.inr (Or.inr ⟨h4, hS⟩))).1 (Or.inr ⟨⟨h4, hS⟩, Or.inr h3⟩)
-  haveI : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
+  have : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
     CFSG.ComponentClassification.Burgoyne.C.isSolvable_of_prime_dvd_two_three hdiv.1
-  haveI : Group.IsSolvable ↥M :=
+  have : Group.IsSolvable ↥M :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subtype (commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R))).comp
         M.subtype)
       ((Subgroup.subtype_injective _).comp (Subgroup.subtype_injective _))
-  haveI : Group.IsPerfect ↥M := hMq.1
-  haveI : Nontrivial ↥M := CFSG.LocalCores.isQuasisimple_nontrivial hMq
+  have : Group.IsPerfect ↥M := hMq.1
+  have : Nontrivial ↥M := CFSG.LocalCores.isQuasisimple_nontrivial hMq
   exact (Group.IsPerfect.not_isSolvable ↥M) inferInstance
 
 end CFSG.LocalAnalysis.ComponentInitial

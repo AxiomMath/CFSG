@@ -27,7 +27,7 @@ section Two
 theorem kF418ModelOn_L2Two : KF418ModelOn (fun X _ => IsLTwoTwoGe X) := by
   refine kF418ModelOn_of_bound ?_
   intro X _ _ ⟨k, hk, ⟨φ⟩⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := GaloisField 2 k with hF
   have hFcard : Nat.card F = 2 ^ k := GaloisField.card 2 k (by omega)
   have hchar : ringChar F ≠ 3 := by
@@ -50,7 +50,7 @@ theorem kF418ModelOn_L2Two : KF418ModelOn (fun X _ => IsLTwoTwoGe X) := by
       Nonempty (X ≃* CFSG.Assembly.LowTwoRank.StatedSL 3 K)
 
 theorem kF418ModelOn_L3Two : KF418ModelOn (fun X _ => IsLThreeNotDvd X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine kF418ModelOn_of_bound ?_
   intro X _ _ hX
   rcases hX with ⟨k, hk, h3k, ⟨φ⟩⟩ | ⟨k, hk, h3k, F, _, _, hF, ⟨φ⟩⟩
@@ -117,7 +117,7 @@ theorem kF418ModelOn_G2Two : KF418ModelOn (fun X _ => IsGTwoNotDvd X) := by
         by_contra hf
         exact h (calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) (by omega))
-      interval_cases f <;> omega
+      interval_cases f; omega
     have : Fintype K := Fintype.ofFinite K
     have hcharP : CharP K 2 := charP_of_card_eq_prime_pow (f := f)
       (by rw [← Nat.card_eq_fintype_card, hK])

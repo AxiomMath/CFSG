@@ -68,7 +68,7 @@ theorem tFrame_cartanGen (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLa
     (hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) : Nonempty (CartanGen D (rootsOfUnity (2 ^ n + 1) Ω)) := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   let Ψ : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) →* ModGL Tag.E6 Ω :=
     (baseChangeGL (algebraMap K Ω) (τ := Tag.E6)).comp
       (graphFixedRootGroup TwistTag.E6 K σ.toRingHom).subtype
@@ -177,7 +177,7 @@ theorem tFrame_modules (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang
     (hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) : D.ModuleOK := by
   obtain ⟨G⟩ := tFrame_cartanGen hn hK σ hσ Fr hFr h3 hL hζ hζo hD
-  exact moduleOK_of_cartanGen D (tFrame_center hn hK σ hσ) (tFrame_faithful hn hK σ hσ Fr hFr h3 hL hζ hζo hD)
+  exact moduleOK_of_cartanGen D (tFrame_center σ) (tFrame_faithful hn hK σ hσ Fr hFr h3 hL hζ hζo hD)
     (tFrame_weyl hn hK σ hσ Fr hFr h3 hL hζ hζo hD) G
 
 end CFSG.StandardType.E6ThreeModel

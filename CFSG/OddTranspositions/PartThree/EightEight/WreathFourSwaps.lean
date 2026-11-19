@@ -56,7 +56,7 @@ private theorem conj_mem_swapSet_iff_w4w {f m : ℕ} (g : L2Wreath f m) {x : L2W
 private theorem mem_commSet_commSet_iff_w4w {f k : ℕ} {a b x : L2Wreath f k} :
     x ∈ commSet (commSet (swapSet f k) a) b ↔
       x ∈ {c | c ∈ swapSet f k ∧ Commute a c ∧ Commute b c ∧ c ≠ a ∧ c ≠ b} := by
-  simp only [commSet, Set.mem_setOf_eq]
+  simp only [commSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨⟨hxS, hxa, hxane⟩, hxb, hxbne⟩
     exact ⟨hxS, hxa.symm, hxb.symm, hxane, hxbne⟩
@@ -67,7 +67,7 @@ private theorem conj_mem_commSet_commSet_iff_w4w {f k : ℕ} (c : L2Wreath f k)
     (a b x : L2Wreath f k) :
     c * x * c⁻¹ ∈ commSet (commSet (swapSet f k) a) b ↔
       x ∈ commSet (commSet (swapSet f k) (c⁻¹ * a * c)) (c⁻¹ * b * c) := by
-  simp only [commSet, Set.mem_setOf_eq]
+  simp only [commSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨⟨hxS, hxa, hxane⟩, hxb, hxbne⟩
     refine ⟨⟨(conj_mem_swapSet_iff_w4w c).1 hxS, ?_, ?_⟩, ?_, ?_⟩

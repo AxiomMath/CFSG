@@ -54,7 +54,7 @@ theorem rcFor_of_lt (IH : ∀ (H : Type u) [Group H] [Finite H], Nat.card H < Na
       rw [← Subgroup.card_top (G := G)]
       exact Subgroup.card_lt_of_lt (lt_top_iff_ne_top.mpr hN)
     have hS₁ : Nat.card S₀ < Nat.card ↥(S ⊓ normalizer (S₀ : Set G)) :=
-      Subgroup.card_lt_of_lt (lt_inf_normalizer (P.isPGroup'.to_le hSP) hlt)
+      Subgroup.card_lt_of_lt (lt_inf_normalizer (P.isPGroup.to_le hSP) hlt)
     exact localRc_of_lt P hSP hS hS₀ hfn (IH _ hcard) (hlarger _ inf_le_left hS₁)
 
 theorem rcFor (p : ℕ) [Fact p.Prime] (G : Type u) [Group G] [Finite G] : RcFor p G := by

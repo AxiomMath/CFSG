@@ -49,7 +49,7 @@ theorem commutator_sup_le {R A : Subgroup G} (hn : A ≤ Subgroup.normalizer (R 
     rw [Subgroup.normal_subgroupOf_iff hRM]
     intro h g hh hg
     exact ((Subgroup.mem_normalizer_iff.mp (hMN hg)) h).mp hh
-  haveI : IsMulCommutative (A.subgroupOf (R ⊔ A)) :=
+  have : IsMulCommutative (A.subgroupOf (R ⊔ A)) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (hA a.1.1 a.2 b.1.1 b.2))⟩⟩
   have hsup : R.subgroupOf (R ⊔ A) ⊔ A.subgroupOf (R ⊔ A) = ⊤ := by
     apply Subgroup.map_injective (R ⊔ A).subtype_injective

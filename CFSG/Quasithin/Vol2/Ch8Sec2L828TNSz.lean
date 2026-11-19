@@ -34,7 +34,7 @@ theorem szEnd_eq_top (hE3 : E3_828) {X : Type} [Group X] [Finite X] {n : ℕ}
     (hC : ∀ x : X, (∀ y ∈ Y₀, x * y = y * x) → x = 1)
     (T₀ : Subgroup X) (hT₂ : IsPGroup 2 ↥T₀) (hXY : ∀ x : X, ∃ y ∈ Y₀, ∃ t ∈ T₀, x = y * t) :
     Y₀ = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card (X ⧸ Y₀)) := (hE3 n ↥Y₀ hY).1 X Y₀ ⟨MulEquiv.refl _⟩ hC
   have hpi : IsPGroup 2 (X ⧸ Y₀) := by
     refine hT₂.of_surjective ((QuotientGroup.mk' Y₀).comp T₀.subtype) ?_
@@ -56,11 +56,11 @@ theorem szEnd_eq_top (hE3 : E3_828) {X : Type} [Group X] [Finite X] {n : ℕ}
 
 theorem szEnd_card_V (hE3 : E3_828) {X : Type} [Group X] [Finite X] {n : ℕ} (hX : IsSz n X)
     (T₀ : Subgroup X) (hT₂ : IsPGroup 2 ↥T₀) (hT₀ : ¬ 2 ∣ T₀.index)
-    (M₀ : Subgroup X) (hTM : T₀ ≤ M₀) (hM₀ : ∀ B : Subgroup X, T₀ ≤ B → B ≠ ⊤ → B ≤ M₀)
+    (M₀ : Subgroup X) (_hTM : T₀ ≤ M₀) (hM₀ : ∀ B : Subgroup X, T₀ ≤ B → B ≠ ⊤ → B ≤ M₀)
     (V₀ : Subgroup X) (hVT : V₀ ≤ T₀) (hV2 : CFSG.Open.IsElemAbelian 2 V₀)
     (hVM : ∀ m ∈ M₀, ∀ v ∈ V₀, m * v * m⁻¹ ∈ V₀) (hV1 : V₀ ≠ ⊥) :
     Nat.card ↥V₀ = 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hb⟩ := hE3 n X hX
   have hST : ((hT₂.toSylow hT₀ : Sylow 2 X) : Subgroup X) = T₀ := rfl
   obtain ⟨⟨Z, -, hZcard, -, hZmax, hZtrans⟩, -, -⟩ := hb (hT₂.toSylow hT₀)
@@ -108,7 +108,7 @@ theorem szEnd_dihedral (hE3 : E3_828) {X : Type} [Group X] [Finite X] {n : ℕ} 
     (V₀ I₀ P₀ : Subgroup X) (hVI : V₀ ≤ I₀) (hV2 : CFSG.Open.IsElemAbelian 2 V₀)
     (hV8 : 8 ≤ Nat.card ↥V₀) (hPI : P₀ ≤ I₀) [(P₀.subgroupOf I₀).Normal]
     (hP2 : IsPGroup 2 ↥P₀) (eI : ↥I₀ ⧸ P₀.subgroupOf I₀ ≃* DihedralGroup 5) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hb⟩ := hE3 n X hX
   have hPne : P₀ ≠ ⊥ := by
     intro hP
@@ -182,11 +182,11 @@ theorem szEnd_dihedral (hE3 : E3_828) {X : Type} [Group X] [Finite X] {n : ℕ} 
     rw [map_commutatorElement, ha, hb']
     decide
   have h5 : orderOf (DihedralGroup.r 2 : DihedralGroup 5) = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · decide
     · decide
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨((⁅a, b⁆ : ↥I₀) : X), hcommI a b⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨((⁅a, b⁆ : ↥I₀) : X), hcommI a b⟩
   have hord : orderOf (⁅a, b⁆ : ↥I₀) = 2 ^ k :=
     ((Subgroup.orderOf_coe _).symm.trans (Subgroup.orderOf_mk _ (hcommI a b)).symm).trans hk
   have hdvd : orderOf (φ ⁅a, b⁆) ∣ orderOf (⁅a, b⁆ : ↥I₀) := orderOf_map_dvd φ _

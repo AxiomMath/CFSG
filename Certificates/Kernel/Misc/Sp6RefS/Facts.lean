@@ -46,11 +46,11 @@ theorem conj_of_mul {g x y : H6} (h : g * x = y * g) : g * x * g⁻¹ = y := by
 
 theorem mem_cen_of {g x : H6} (h : g * x = x * g) : g ∈ Cen x := by
   rw [Cen, Subgroup.mem_centralizer_singleton_iff]
-  first | exact h | exact h.symm
+  first | exact h
 
 theorem comm_of_mem_cen {g x : H6} (h : g ∈ Cen x) : g * x = x * g := by
   rw [Cen, Subgroup.mem_centralizer_singleton_iff] at h
-  first | exact h | exact h.symm
+  first | exact h
 
 theorem P2K_enc (g : H6) : ∀ k, P2K (enc6 g) k = enc6 (g ^ 2 ^ k)
   | 0 => by rw [pow_zero, pow_one]; rfl
@@ -169,7 +169,7 @@ theorem Hyp.enc_wg (H : Hyp z t f0 f2 sw c0 c1) {s : ℕ} (hs : s < 3) : WG s = 
   · exact H.esw.symm
   · exact H.et.symm
 
-theorem Hyp.wg_mem (H : Hyp z t f0 f2 sw c0 c1) (s : ℕ) : wgE t f0 sw s ∈ nGrp z t f0 sw := by
+theorem Hyp.wg_mem (_H : Hyp z t f0 f2 sw c0 c1) (s : ℕ) : wgE t f0 sw s ∈ nGrp z t f0 sw := by
   unfold wgE
   split_ifs
   · exact Subgroup.subset_closure (by simp)

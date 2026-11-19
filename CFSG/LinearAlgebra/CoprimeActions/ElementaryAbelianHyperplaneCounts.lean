@@ -17,7 +17,7 @@ open CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations
 theorem coatom_iff_index {p : ℕ} [Fact p.Prime] {V : Type*} [AddCommGroup V]
     [Module (ZMod p) V] [Finite V] (H : Submodule (ZMod p) V) :
     IsCoatom H ↔ H.toAddSubgroup.index = p := by
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   rw [← isSimpleModule_iff_isCoatom, isSimpleModule_iff_finrank_eq_one]
   have h1 : Nat.card V = Nat.card H * Nat.card (V ⧸ H) :=
     Submodule.card_eq_card_quotient_mul_card H
@@ -56,8 +56,8 @@ set_option warn.classDefReducibility false in
 
 theorem natCard_hyperplanes_abstract (hB : ∀ x : B, x ^ p = 1) {n : ℕ} (hn : Nat.card B = p ^ n) :
     Nat.card {D : Subgroup B // D.index = p} = ∑ i ∈ Finset.range n, p ^ i := by
-  letI := moduleOf hB
-  haveI : Module.Finite (ZMod p) (Additive B) := Module.Finite.of_finite
+  let := moduleOf hB
+  have : Module.Finite (ZMod p) (Additive B) := Module.Finite.of_finite
   have hrank : Module.finrank (ZMod p) (Additive B) = n := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := Additive B)
     rw [Nat.card_zmod] at h
@@ -96,10 +96,10 @@ namespace CoprimeActions.ElementaryAbelianHyperplaneCounts
 open CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations
 
 theorem card_hyperplanes {G : Type} [Group G] {p : ℕ} [Fact p.Prime] {A : Subgroup G}
-    [Finite A] (hA : CFSG.Open.IsElemAbelian p A) {n : ℕ} (hn : 0 < n)
+    [Finite A] (hA : CFSG.Open.IsElemAbelian p A) {n : ℕ} (_hn : 0 < n)
     (hcard : Nat.card A = p ^ n) :
     Nat.card (hyperplanes p A) = ∑ i ∈ Finset.range n, p ^ i := by
-  letI : CommGroup A := { (inferInstance : Group A) with mul_comm := fun a b => hA.1.is_comm.comm a b }
+  let : CommGroup A := { (inferInstance : Group A) with mul_comm := fun a b => hA.1.is_comm.comm a b }
   rw [Nat.card_congr (hyperplanesEquiv p A)]
   exact natCard_hyperplanes_abstract (B := A) (fun x => Subtype.ext (hA.2 x x.2)) hcard
 

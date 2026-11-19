@@ -12,6 +12,7 @@ open QuadraticMap LinearMap Module
 
 variable {K E : Type*} [Field K] [CharP K 2] [AddCommGroup E] [Module K E]
 
+omit [CharP K 2] in
 theorem rootEnd_ne_zero_of_independent {Q : QuadraticForm K E}
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {a b : E}
     (hli : LinearIndependent K ![a, b]) : rootEnd Q a b ≠ 0 := by
@@ -62,23 +63,23 @@ theorem isLongRootElement_iff_exists_mem_longRootGroup {Q : QuadraticForm K E}
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {x : E ≃ₗ[K] E} :
     IsLongRootElement Q x ↔
       ∃ (a b : E) (ha : Q a = 0) (hb : Q b = 0)
-        (hab : QuadraticMap.polarBilin Q a b = 0) (hli : LinearIndependent K ![a, b]),
+        (hab : QuadraticMap.polarBilin Q a b = 0) (_hli : LinearIndependent K ![a, b]),
         x ∈ longRootGroup Q a b ha hb hab ∧ x ≠ 1 := by
   constructor
   · intro hx
     unfold IsLongRootElement at hx
-    obtain ⟨a, b, ha, hb, hab, -, -, hli, hform⟩ := hx
+    obtain ⟨a, b, ha, hb, hab, -, -, _hli, hform⟩ := hx
     have hab' : QuadraticMap.polarBilin Q a b = 0 := hab
     have hx_eq : x = rootEquiv Q a b ha hb hab := by
       ext v
       rw [rootEquiv_apply]
       exact hform v
-    refine ⟨a, b, ha, hb, hab', hli, ?_, ?_⟩
+    refine ⟨a, b, ha, hb, hab', _hli, ?_, ?_⟩
     · rw [hx_eq]
       exact siegelEquiv_mem_longRootGroup 1
     · rw [hx_eq]
-      exact rootEquiv_ne_one_of_independent hQ ha hb hab hli
-  · rintro ⟨a, b, ha, hb, hab, hli, hx, hx1⟩
-    exact (mem_longRootGroup_isLongRootElement hQ.1 hli hx hx1).1
+      exact rootEquiv_ne_one_of_independent hQ ha hb hab _hli
+  · rintro ⟨a, b, ha, hb, hab, _hli, hx, hx1⟩
+    exact (mem_longRootGroup_isLongRootElement hQ.1 _hli hx hx1).1
 
 end CFSG.HardMathSupport.Kantor79

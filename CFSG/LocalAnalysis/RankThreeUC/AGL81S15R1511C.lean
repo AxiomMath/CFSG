@@ -92,7 +92,7 @@ theorem exists_noncomm_of_simple_of_dvd {S : Type} [Group S] [Finite S] [IsSimpl
     have hle : Subgroup.closure {x : S | ∃ k : ℕ, orderOf x = 2 ^ k} ≤ ⊥ :=
       (Subgroup.closure_le ⊥).2 fun y hy => Subgroup.mem_bot.2 (hcon y hy)
     rw [hgen] at hle
-    haveI : Nontrivial S := IsSimpleGroup.toNontrivial
+    have : Nontrivial S := IsSimpleGroup.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne S
     exact hab ((Subgroup.mem_bot.1 (hle (Subgroup.mem_top a))).trans
       (Subgroup.mem_bot.1 (hle (Subgroup.mem_top b))).symm)
@@ -141,7 +141,7 @@ theorem pElementSubgroup_top_normal {Y : Type} [Group Y] (p : ℕ) :
     refine ⟨k, ?_⟩
     have := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
     simpa [MulAut.conj_apply, hk] using this
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [this]

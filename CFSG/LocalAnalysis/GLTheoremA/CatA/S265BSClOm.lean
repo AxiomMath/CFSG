@@ -75,11 +75,11 @@ theorem qsBRes_om10m {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup Ω} {x
       exact hp.ne_one (Nat.dvd_one.1 (CFSG.HardMathSupport.Dickson.Bal207.OrthFix.orth_outer_dvd
         (Or.inr rfl) le_rfl hS' hp hp2 (β := Φ g) (by rw [← map_pow, hg, map_one]) hne)))
   have hBW : B ≤ W := fun b hb => hinn b 3 Nat.prime_three (by norm_num) (h.elem.2 b hb)
-  haveI := hWn
+  have := hWn
   obtain ⟨F, _, _, _, V, _, _, _, Q, hF, hQ, hdim, -, hmod⟩ :=
     S172C.exists_omegaMinus_model (n := 5) (k := 1) (by norm_num) le_rfl
   obtain ⟨ψ⟩ := hmod (PSimple 3 S) (isOmMA_of_tyOm10m hS)
-  haveI : Finite ↥(orthDerived Q) := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥(orthDerived Q) := Finite.of_equiv _ ψ.toEquiv
   refine qsConcl_of_section h hK hB hc (eS := ψ.toMonoidHom) ψ.injective (W := W)
     (ψ.toMonoidHom.comp ρ₀) (fun w hw z => ?_)
     (fun w hw => (ψ.map_eq_one_iff).trans ((hρ₀1 w).trans (by rw [hΦ w hw]))) hBW

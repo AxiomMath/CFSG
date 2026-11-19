@@ -57,8 +57,8 @@ theorem isType429_u38_of_dvd {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
           have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by omega)
           obtain ⟨rfl, rfl⟩ := (Nat.prime_two.pow_eq_iff).mp hq2
           have hs := Sec13.isSolvable_projSU_two
-          have hsolv : IsSolvable X :=
-            solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+          have hsolv : Group.IsSolvable X :=
+            Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
           exact Group.IsPerfect.not_isSolvable X hsolv
         · rw [hc] at h3d
           exact hU _ (lt_of_dvd_ordU (by omega) hB h3d) h2 hq2 hq8 h3d
@@ -139,8 +139,8 @@ theorem not_isType429_of_dvd_of_dvd {X : Type} [Group X] [Finite X] [Group.IsPer
         have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by omega)
         obtain ⟨rfl, rfl⟩ := (Nat.prime_two.pow_eq_iff).mp hq2
         have hs := Sec13.isSolvable_projSU_two
-        have hsolv : IsSolvable X :=
-          solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+        have hsolv : Group.IsSolvable X :=
+          Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
         exact Group.IsPerfect.not_isSolvable X hsolv
       · rw [hc] at h3d h3M
         exact hU _ (lt_of_dvd_ordU (by omega) hB h3d) h2 hq2 h3d h3M

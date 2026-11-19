@@ -54,9 +54,8 @@ theorem sup_eq_top_of_T7
     exact hE le_top
   · rw [hcM] at hYM hdvd
     rw [hcY] at hYtop hYM hdvd
-    interval_cases i <;> interval_cases j <;> first
+    interval_cases i <;> interval_cases j <;> try first
       | (revert hYtop hYM hdvd; decide)
-      | skip
     have hs : Equiv.Perm.sign (Equiv.swap (0 : Fin 7) 1 * Equiv.swap 1 6) = 1 := by
       rw [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap (by decide),
         Equiv.Perm.sign_swap (by decide)]

@@ -26,9 +26,8 @@ theorem blueprintLieModel_of_models_of_ne_tits {X : Type} [Group X] {t : StatedL
     cases t <;> first | decide | exact hcl.2.elim
   · subst h0
     cases t
-    all_goals first
+    all_goals try first
       | (exfalso; cases idx <;> simp only [CFSG.Models.NamesTag] at hnames; done)
-      | skip
     case G2 =>
       cases idx <;> simp only [CFSG.Models.NamesTag] at hnames
       rename_i q

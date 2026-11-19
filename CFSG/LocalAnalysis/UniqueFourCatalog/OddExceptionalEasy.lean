@@ -78,7 +78,7 @@ theorem false_of_reeG2
     (h : CFSG.Blueprint.ReeTitsModel G .twistedG2 p f) : False := by
   obtain ⟨⟨-, -, -, rfl, -, hf3⟩, a, rfl, K, hKF, hKfin, hKf, ⟨e⟩⟩ := h
   have ha : 1 ≤ a := by omega
-  haveI : CharP K 3 := CFSG.SectionRank.ClassicalOdd.charP_of_card hKf
+  have : CharP K 3 := CFSG.SectionRank.ClassicalOdd.charP_of_card hKf
   exact hS.false_of_not_isCharTwoType e
     (CFSG.RankThree.PartTwo.Census.not_isCharTwoType_derivedCentralQuotient_reeG2 a ha K hKf)
 
@@ -90,7 +90,7 @@ theorem false_of_G2_odd
     rw [hK]
     exact (hpp.odd_of_ne_two hp).pow
   by_cases hq : Nat.card K = 3
-  · letI : Fintype K := Fintype.ofFinite K
+  · let : Fintype K := Fintype.ofFinite K
     have hKcard : Fintype.card K = 3 := by
       rwa [Nat.card_eq_fintype_card] at hq
     have eK : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_three hKcard

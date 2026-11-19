@@ -12,9 +12,11 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
   [AddCommGroup V₀] [Module k V₀]
 variable [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀]
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelIota_apply (e₀ : VJ) (t : E) : modelIota k V₀ e₀ t = (t • e₀, 0) := by
   rfl
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelPi_apply (l₀ : VJ →ₗ[E] E) (v : VJ) (w : V₀) : modelPi k V₀ l₀ (v, w) = l₀ v := by
   rfl
 
@@ -31,14 +33,14 @@ theorem modelA1Elt_add (φ φ' : V₀ →ₗ[k] VJ) :
   apply SpecialLinearGroup.ext
   intro p
   obtain ⟨v, w⟩ := p
-  simp [modelA1Elt_apply, add_assoc, add_comm, add_left_comm]
+  simp [modelA1Elt_apply, add_comm, add_left_comm]
 
 theorem modelA2Elt_add (ψ ψ' : VJ →ₗ[k] V₀) :
     modelA2Elt (ψ + ψ') = modelA2Elt ψ * modelA2Elt ψ' := by
   apply SpecialLinearGroup.ext
   intro p
   obtain ⟨v, w⟩ := p
-  simp [modelA2Elt_apply, add_assoc, add_comm, add_left_comm]
+  simp [modelA2Elt_apply, add_comm, add_left_comm]
 
 theorem modelA1Elt_injective :
     Function.Injective (modelA1Elt : (V₀ →ₗ[k] VJ) → SpecialLinearGroup k (VJ × V₀)) := by
@@ -125,10 +127,10 @@ theorem modelK1_eq_range : modelK1 k VJ V₀ = (blockSLk (VJ := VJ) k V₀).rang
       rfl
     have hcancel_left (v : VJ) : g⁻¹ (g (v, 0)) = (v, 0) := by
       have h := LinearEquiv.symm_apply_apply (SpecialLinearGroup.toLinearEquiv g) (v, 0)
-      simpa [SpecialLinearGroup.toLinearEquiv_symm_apply] using h
+      simp
     have hcancel_right (v : VJ) : g (g⁻¹ (v, 0)) = (v, 0) := by
       have h := LinearEquiv.apply_symm_apply (SpecialLinearGroup.toLinearEquiv g) (v, 0)
-      simpa [SpecialLinearGroup.toLinearEquiv_symm_apply] using h
+      simp
     have hleft (v : VJ) : f' (f v) = v := by
       calc
         f' (f v) = (g⁻¹ (f v, 0)).1 := rfl
@@ -188,9 +190,9 @@ theorem modelK1_eq_range : modelK1 k VJ V₀ = (blockSLk (VJ := VJ) k V₀).rang
   · rintro g ⟨B, rfl⟩
     constructor
     · intro v
-      simpa [blockSLk_apply_aux]
+      simp [blockSLk_apply_aux]
     · intro w
-      simpa [blockSLk_apply_aux]
+      simp [blockSLk_apply_aux]
 
 theorem blockSLk_injective : Function.Injective (blockSLk (VJ := VJ) k V₀) := by
   intro B B' h
@@ -234,22 +236,27 @@ theorem modelJ_le_modelK1 : modelJ k E VJ V₀ ≤ modelK1 k VJ V₀ := by
   rw [modelK1_eq_range]
   exact ⟨restrictSL (E := E) (VJ := VJ) k B, rfl⟩
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelK1_le_modelP1 : modelK1 k VJ V₀ ≤ modelP1 k VJ V₀ := by
   rintro g ⟨hzero, hone⟩
   exact ⟨hzero, fun w => by rw [hone w]⟩
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelK1_le_modelP2 : modelK1 k VJ V₀ ≤ modelP2 k VJ V₀ := by
   rintro g ⟨hzero, hone⟩
   exact hone
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelA1_le_modelP1 : modelA1 k VJ V₀ ≤ modelP1 k VJ V₀ := by
   rintro g ⟨hfix, hsecond⟩
   exact ⟨fun v => by rw [hfix v], hsecond⟩
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelA2_le_modelP2 : modelA2 k VJ V₀ ≤ modelP2 k VJ V₀ := by
   rintro g ⟨hfix, hfirst⟩
   exact hfix
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem datumU1_le_modelP1 (e₀ : VJ) :
     datumU1 (modelIota (E := E) k V₀ e₀) ≤ modelP1 k VJ V₀ := by
   rintro g ⟨hsub, hfix⟩
@@ -267,6 +274,7 @@ theorem datumU1_le_modelP1 (e₀ : VJ) :
     have hsnd := congrArg Prod.snd hg
     simpa using hsnd
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem datumU2_le_modelP2 (l₀ : VJ →ₗ[E] E) :
     datumU2 (modelPi k V₀ l₀) ≤ modelP2 k VJ V₀ := by
   rintro g ⟨hsub, hfix⟩

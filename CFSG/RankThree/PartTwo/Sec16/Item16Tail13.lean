@@ -87,7 +87,7 @@ theorem nonempty_l34_of_even (h1612 : Step1612) {A M : Subgroup G} {a : G}
         3 2 Nat.prime_three Nat.prime_two A X (isPGroup_three_of_isElemAbelian h.isElemAbelian)
         hAX hX3 h2X
     exact hP1 (hT _ ⟨(Subgroup.map_subtype_le _).trans hXC,
-      (isPiSubgroup_piOf_iff Nat.prime_two _).mpr (P.isPGroup'.map _), hAP⟩)
+      (isPiSubgroup_piOf_iff Nat.prime_two _).mpr (P.isPGroup.map _), hAP⟩)
   · exact h2
 
 theorem facts_l34 {A M : Subgroup G} {a : G} (h : Ctx169 G A a M)

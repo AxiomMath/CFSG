@@ -138,9 +138,9 @@ theorem nqU_mem (hF : NQFactsAt g n m u) {W : Subgroup Pv} (hN : M1 ⊓ G2 ≤ W
   refine evalWord_mem (K := W) (ι := fun h : Fin 5 =>
     if (h : ℕ) < 4 then nqN n h else nqGamma g m a i) (fun h => ?_) (u a i)
   by_cases h4 : (h : ℕ) < 4
-  · rw [if_pos h4]
+  · rw [ite_eq_left h4]
     exact hN ⟨nqN_mem_M1 n h, nqN_mem_G2 hF h4⟩
-  · rw [if_neg h4]
+  · rw [ite_eq_right h4]
     exact hγ
 
 theorem nqU_wit (hF : NQFactsAt g n m u) {a i : ℕ} (ha : a < 35) (hi : i < 456) :

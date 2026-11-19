@@ -145,7 +145,7 @@ theorem quotCent_mem_of_commutes (hΩ : HypOmegaGen Ω) {M R' U : Subgroup G} (h
 
 private theorem inf_sylow_eq {S : Sylow 2 G} {M R' : Subgroup G} (hR' : IsSylow2In R' M)
     (hR'S : R' ≤ (S : Subgroup G)) : M ⊓ (S : Subgroup G) = R' :=
-  hR'.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left (le_inf hR'.1 hR'S)
+  hR'.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left (le_inf hR'.1 hR'S)
 
 theorem quotCent_mem_inf_W_of_commutes (hΩ : HypOmegaGen Ω) {S : Sylow 2 G} {W M R' : Subgroup G}
     (hM : M ∈ Ω) (hR'M : IsSylow2In R' M) (hR'S : R' ≤ (S : Subgroup G)) (hWS : W ≤ (S : Subgroup G))
@@ -452,7 +452,7 @@ theorem quotCent_exists_W (c : MinCexQ8 Ω K S R W H)
   exact Subgroup.mem_map_of_mem _ (mem_of_conj_mem_dstar' c hMsg huM hu4 hgH)
 
 theorem printedQuotCent_proved : PrintedQuotCent :=
-  ⟨fun G _ _ Ω K S R W H N _ c hNc hN2 _ hmeet => quotCent_exists_W c hNc hN2 hmeet⟩
+  ⟨fun _G _ _ _Ω _K _S _R _W _H _N _ c hNc hN2 _ hmeet => quotCent_exists_W c hNc hN2 hmeet⟩
 
 end Main
 

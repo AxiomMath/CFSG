@@ -73,6 +73,7 @@ section Enc
 
 variable {E : Type*} [DecidableEq E] {ec : X12 → E}
 
+omit [DecidableEq E] in
 theorem mem_map_inj (hec : ∀ x y, ec x = ec y → x = y) (L : List X12) (x : X12) :
     ec x ∈ L.map ec ↔ x ∈ L := by
   simp only [List.mem_map]
@@ -87,9 +88,9 @@ theorem foldl_dedup (hec : ∀ x y, ec x = ec y → x = y) (l acc : List X12) :
   | cons y l ih =>
     simp only [List.foldl_cons, dstep, mem_map_inj hec]
     by_cases hy : y ∈ acc
-    · simp only [hy, if_true]
+    · simp only [hy, ite_true]
       exact ih acc
-    · simp only [hy, if_false]
+    · simp only [hy, ite_false]
       exact ih (y :: acc)
 
 theorem foldl_filter (hec : ∀ x y, ec x = ec y → x = y) (L M acc : List X12) :
@@ -103,7 +104,7 @@ theorem foldl_filter (hec : ∀ x y, ec x = ec y → x = y) (L M acc : List X12)
   | cons y M ih =>
     by_cases hL : y ∈ L
     · rw [List.filter_cons_of_neg (by simpa using hL), List.foldl_cons, ih]
-      have hn : nstep L acc y = acc := if_pos (Or.inl hL)
+      have hn : nstep L acc y = acc := ite_eq_left (Or.inl hL)
       rw [hn]
     · rw [List.filter_cons_of_pos (by simpa using hL), List.foldl_cons, List.foldl_cons, ih]
       congr 1
@@ -132,12 +133,12 @@ theorem foldl_newGo (L M acc : List X12) :
     · have hb : orB (decide (y ∈ L)) (decide (y ∈ acc)) = true := by
         rw [P.orB_iff, decide_eq_true_iff, decide_eq_true_iff]
         exact h
-      have hn : nstep L acc y = acc := if_pos h
+      have hn : nstep L acc y = acc := ite_eq_left h
       rw [hn, hb, ih]
     · have hb : orB (decide (y ∈ L)) (decide (y ∈ acc)) = false := by
         rw [← Bool.not_eq_true, P.orB_iff, decide_eq_true_iff, decide_eq_true_iff]
         exact h
-      have hn : nstep L acc y = y :: acc := if_neg h
+      have hn : nstep L acc y = y :: acc := ite_eq_right h
       rw [hn, hb, ih, List.map_cons]
 
 theorem flatMap_gen (nrm : X12 → X12) (hn : ∀ x, nrm x = x) (m : ℕ → ℕ → ℕ)

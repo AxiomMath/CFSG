@@ -58,7 +58,6 @@ theorem conj_lo_xAB [CharP F 2] (u : F) :
     simp [lo2, pairMat, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, single_apply,
       Matrix.one_apply, CharTwo.neg_eq]
   all_goals first
-    | ring1
     | linear_combination (-u) * (CharTwo.two_eq_zero : (2 : F) = 0)
 
 variable [Finite F] [CharP F 2] {n : ℕ}

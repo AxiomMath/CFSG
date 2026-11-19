@@ -15,6 +15,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma k18m_zpow_eq_one_or_self {a : G} (ha : a * a = 1) (m : ℤ) :
     a ^ m = 1 ∨ a ^ m = a := by
   have h2 : a ^ (2 : ℕ) = 1 := by rw [pow_two, ha]
@@ -23,6 +24,7 @@ private lemma k18m_zpow_eq_one_or_self {a : G} (ha : a * a = 1) (m : ℤ) :
   · left; rw [hm, h]; simp
   · right; rw [hm, h]; simp
 
+omit [Finite G] in
 private lemma k18m_zpowers_sup_le_centralizer_zpowers {a b c : G}
     (ha : a * c = c * a) (hb : b * c = c * b) :
     Subgroup.zpowers a ⊔ Subgroup.zpowers b ≤
@@ -69,6 +71,7 @@ private lemma k18m_t_om_conj (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
         group
     _ = om * tau := h3
 
+omit [Finite G] in
 theorem comm_le_of_abelian_mod {N A B : Subgroup G}
     (hN : ∀ g ∈ A ⊔ B, ∀ n ∈ N, g * n * g⁻¹ ∈ N)
     (hAA : ∀ a ∈ A, ∀ a' ∈ A, a * a' * a⁻¹ * a'⁻¹ ∈ N)

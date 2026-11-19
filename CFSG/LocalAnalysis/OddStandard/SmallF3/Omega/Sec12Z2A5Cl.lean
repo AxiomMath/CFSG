@@ -15,7 +15,7 @@ theorem sec128_not_psu34 {G : Type} [Group G] [Finite G] {V : Subgroup G} (hV : 
     (Z : Subgroup (MulAut ↥V)) : ¬ LieModel ↥Z .PSU 3 2 2 := by
   intro h
   have h13 : 13 ∣ Nat.card ↥Z := sec128_lieModelPSU34_dvd13 h
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 13 h13
   have hy13 : ((y : MulAut ↥V)) ^ 13 = 1 := by
     have h1 := pow_orderOf_eq_one y
@@ -44,13 +44,13 @@ theorem sec128_closure_typeK {G : Type} [Group G] [Finite G] (V : Subgroup G)
   set Xy : Subgroup ↥Y := Xt.subgroupOf Y with hXy
   set Zy : Subgroup ↥Y := normalClosure (Xy : Set ↥Y) with hZy
   set O : Subgroup ↥Y := oddCore ↥Y with hO
-  haveI hZn : Zy.Normal := Subgroup.normalClosure_normal
+  have hZn : Zy.Normal := Subgroup.normalClosure_normal
   let eXy : ↥Xy ≃* ↥(alternatingGroup (Fin 5)) := (Subgroup.subgroupOfEquivOfLe hXY).trans eX
   have hXperf : ⁅Xy, Xy⁆ = Xy :=
     sec128_comm_eq_of_perfect Xy (sec128_commutator_top_of_mulEquiv eXy sec128_A5_perfect)
   have hXne : Xy ≠ ⊥ := by
     intro hbot
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(alternatingGroup (Fin 5)))
     have hy := (Subgroup.eq_bot_iff_forall Xy).mp hbot _ (eXy.symm x).2
     have h1 : eXy.symm x = 1 := Subtype.ext hy
@@ -69,7 +69,7 @@ theorem sec128_closure_typeK {G : Type} [Group G] [Finite G] (V : Subgroup G)
   let π : ↥Y →* ↥Y ⧸ O := QuotientGroup.mk' O
   have hker : π.ker = O := QuotientGroup.ker_mk' O
   let P : Subgroup (↥Y ⧸ O) := Zy.map π
-  haveI hPn : P.Normal := hZn.map π (QuotientGroup.mk'_surjective O)
+  have hPn : P.Normal := hZn.map π (QuotientGroup.mk'_surjective O)
   have hPperf : ⁅P, P⁆ = P := by
     rw [← Subgroup.map_commutator, hZperf]
   have hP1 : P ≠ ⊥ := by

@@ -68,7 +68,7 @@ theorem noL34Layer_fieldActor_twE6 {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K]
   obtain ⟨-, hkcard, hJC, hδord, hderived, hsimple, hnc, -⟩ :=
     twisted_E6_canonical_odd_field_derived_subgroup_and_pointwise_centralizer hℓ hd le_rfl
       (by decide) K hK κ hκ σ hσ (fixSubfieldRestrict T κ) hσ₀ ε hε
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hεne : ε ≠ 1 := fun h => by
     rw [h, fieldActor_one, orderOf_one] at hδord
     exact absurd hδord (by norm_num)
@@ -96,7 +96,7 @@ theorem noL34Layer_fieldActor_twE6 {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K]
     rw [hfix, hΓ]
     exact hderived.symm
   have e1 : ↥(J.subgroupOf C) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJC
-  haveI : IsSimpleGroup ↥J := hsimple
+  have : IsSimpleGroup ↥J := hsimple
   have hs : IsSimpleGroup ↥(J.subgroupOf C) := e1.isSimpleGroup
   have hnab : ∃ a b : ↥(J.subgroupOf C), a * b ≠ b * a := by
     by_contra hcon
@@ -110,7 +110,7 @@ theorem noL34Layer_fieldActor_twE6 {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K]
   have hcardk : Nat.card k = (2 ^ d) ^ 2 := by rw [hkcard, ← pow_mul, mul_comm]
   have hσ₀' : ∀ c, σ₀ c = c ^ (2 ^ d) := fun c => Subtype.ext (by
     rw [hσ₀ c, SubmonoidClass.coe_pow])
-  haveI : Finite k := Subtype.finite
+  have : Finite k := Subtype.finite
   have eJ : ↥J ≃* twistedE6RootGroup k σ₀ :=
     (Subgroup.equivMapOfInjective (twistedE6RootGroup k σ₀) _
       (baseChangeGL_injective (τ := TwistTag.E6.tag) k.subtype)).symm

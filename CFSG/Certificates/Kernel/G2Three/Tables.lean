@@ -146,7 +146,7 @@ theorem step_facts {X G PA PB C POS : ℕ → ℕ} {n k hi : ℕ}
   obtain ⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩ := e
   refine ⟨a, b, c, d, fun hpc => ?_, fun hpc => ?_⟩
   · have hb : Nat.beq (POS i) (C i) = true := Nat.beq_eq.mpr hpc
-    rw [hb, cond_true] at e
+    rw [hb, _root_.Bool.cond_true] at e
     simp only [Bool.and_eq_true, Nat.beq_eq] at e
     obtain ⟨⟨e1, e2⟩, e3⟩ := e
     rw [Nat.pred_eq_sub_one] at e2 e3
@@ -155,7 +155,7 @@ theorem step_facts {X G PA PB C POS : ℕ → ℕ} {n k hi : ℕ}
       cases hq : Nat.beq (POS i) (C i)
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hq) hpc
-    rw [hb, cond_false] at e
+    rw [hb, Bool.cond_false] at e
     exact Nat.eq_of_beq_eq_true e
 
 theorem sort_inj {X SRT SRI : ℕ → ℕ} {n hi : ℕ} (h : sortK X SRT SRI n hi = true)
@@ -170,7 +170,7 @@ theorem sort_inj {X SRT SRI : ℕ → ℕ} {n hi : ℕ} (h : sortK X SRT SRI n h
     simp only [Bool.and_eq_true] at e
     have e2 := e.2
     have hb : Nat.blt (Nat.succ i) n = true := Nat.blt_eq.mpr hi1
-    rw [hb, cond_true] at e2
+    rw [hb, _root_.Bool.cond_true] at e2
     exact Nat.blt_eq.mp e2
 
 include hc in
@@ -316,7 +316,7 @@ theorem invTest_of {S O : Array (List ℕ)} {XS XO IDX : ℕ → ℕ} {nS nO hi 
   rw [e1, e2]
   cases hq : Nat.beq (MUL (XS t) (XS t)) ONE
   · rfl
-  · rw [hq, cond_true] at hb
+  · rw [hq, _root_.Bool.cond_true] at hb
     cases hq2 : Nat.beq (XS t) ONE
     · rw [hq2, Bool.false_or, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hb
       obtain ⟨hlt, heq⟩ := hb
@@ -357,7 +357,7 @@ theorem centTest_of {E : Array (List ℕ)} {X : ℕ → ℕ} {n hi A U T : ℕ} 
   cases hq : (Nat.beq (MUL (X t) A) (MUL A (X t)) && Nat.beq (MUL (X t) U) (MUL U (X t)) &&
       Nat.beq (SQ6 (X t)) ONE)
   · rfl
-  · rw [hq, cond_true] at hb
+  · rw [hq, _root_.Bool.cond_true] at hb
     simpa using hb
 
 end CFSG.KC.G2Three

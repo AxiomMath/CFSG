@@ -26,7 +26,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_twenty_five
     alternatingGroup X ≤ P := by
   classical
   by_contra hnotAlt
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let R : Subgroup P :=
     (S : Subgroup H).map H.subtype
@@ -190,13 +190,13 @@ private theorem alternatingGroup_le_of_sylow_five_card_twenty_five
   have hAlt :
       alternatingGroup F ≤ ρ.range :=
     hAltNested.trans hNestedLe
-  letI : IsSimpleGroup (alternatingGroup F) :=
+  let : IsSimpleGroup (alternatingGroup F) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card, hFtype]
       norm_num)
   have hAltCard :
       Nat.card (alternatingGroup F) = 181440 := by
-    letI : Nontrivial F :=
+    let : Nontrivial F :=
       Fintype.one_lt_card_iff_nontrivial.mp (by
         rw [hFtype]
         norm_num)
@@ -526,7 +526,7 @@ theorem five_point_stabilizer_card_ne_remaining_five_squared_cases
       Nat.card (fixingSubgroup P s) = 8294400) :
     False := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let S : Sylow 5 H := Sylow.nonempty.some
   have hScard : Nat.card S = 25 := by

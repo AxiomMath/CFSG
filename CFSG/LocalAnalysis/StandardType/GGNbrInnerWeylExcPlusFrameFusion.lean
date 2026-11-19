@@ -22,8 +22,8 @@ theorem exists_mem_normalizer_conj_of_commutative_sylow {R : Type} [Group R] [Fi
     (hx : x ∈ (P : Subgroup R)) (hy : y ∈ (P : Subgroup R)) (hg : g * x * g⁻¹ = y)
     (hp : p.Prime := by assumption) :
     ∃ n ∈ Subgroup.normalizer ((P : Subgroup R) : Set R), n * x * n⁻¹ = y := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hP
+  have : Fact p.Prime := ⟨hp⟩
+  have := hP
   have hy' : g⁻¹⁻¹ * x * g⁻¹ ∈ (P : Subgroup R) := by rwa [inv_inv, hg]
   obtain ⟨n, hn, h⟩ := P.conj_eq_normalizer_conj_of_mem x g⁻¹ hx hy'
   refine ⟨n⁻¹, Subgroup.inv_mem _ hn, ?_⟩
@@ -41,10 +41,10 @@ theorem exists_sylow_of_sylowTorus_elemAbelian {R : Type} [Group R] [Finite R] {
     (hcard : Nat.card E = p ^ N) :
     ∃ P : Sylow p R, E ≤ (P : Subgroup R) ∧ IsMulCommutative (P : Subgroup R) ∧
       ∀ x ∈ (P : Subgroup R), x ^ p = 1 → x ∈ E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hEP⟩ := (isPGroup_of_isElemAbelian_frame hE).exists_le_sylow
   obtain ⟨T, E₀, hTc, hconj, -, -, -, -⟩ := hT.exists_torus
-  obtain ⟨g, hg⟩ := hconj (P : Subgroup R) P.isPGroup'
+  obtain ⟨g, hg⟩ := hconj (P : Subgroup R) P.isPGroup
   have hPc : IsMulCommutative (P : Subgroup R) := by
     refine IsMulCommutative.of_comm fun a b => ?_
     obtain ⟨s, hs, hsa⟩ := Subgroup.mem_map.1 (hg a.2)
@@ -82,7 +82,7 @@ theorem map_conj_map_conj_sylowTorusFusion {R : Type} [Group R] (H : Subgroup R)
   group
 
 theorem exists_conj_eq_of_selfCentralizing_of_sylowTorus {R : Type} [Group R] [Finite R]
-    {p N : ℕ} (hp : p.Prime) (hT : SylowTorus R p N) {E E' : Subgroup R}
+    {p N : ℕ} (_hp : p.Prime) (hT : SylowTorus R p N) {E E' : Subgroup R}
     (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ N) (hE' : IsElemAbelian p E')
     (hsc : ∀ g : R, (∀ e ∈ E', g * e = e * g) → g ^ p = 1 → g ∈ E') :
     ∃ c : R, E' = E.map (MulAut.conj c).toMonoidHom := by

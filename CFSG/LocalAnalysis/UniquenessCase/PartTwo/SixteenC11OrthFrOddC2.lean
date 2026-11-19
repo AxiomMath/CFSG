@@ -204,8 +204,8 @@ theorem s16c11_fr_QZ4_spec : ∀ v : Fin 256,
     1843774, 1385015, 1319478]
 
 theorem s16c11_fr_enc4_inj {t s : ℕ × ℕ × ℕ}
-    (ht1 : t.1 < 256) (ht2 : t.2.1 < 256) (ht3 : t.2.2 < 256)
-    (hs1 : s.1 < 256) (hs2 : s.2.1 < 256) (hs3 : s.2.2 < 256)
+    (_ht1 : t.1 < 256) (ht2 : t.2.1 < 256) (ht3 : t.2.2 < 256)
+    (_hs1 : s.1 < 256) (hs2 : s.2.1 < 256) (hs3 : s.2.2 < 256)
     (h : s16c11_fr_enc4 t = s16c11_fr_enc4 s) : t = s := by
   unfold s16c11_fr_enc4 at h
   have h1 : t.1 = s.1 := by omega

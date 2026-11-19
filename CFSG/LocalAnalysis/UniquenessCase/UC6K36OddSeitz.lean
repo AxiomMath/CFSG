@@ -33,7 +33,7 @@ end Odd
 
 namespace Hyp36
 
-open Odd
+open _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
@@ -42,12 +42,12 @@ theorem le_of_seitz (hS : AGLEmbeddingD2.KFactSeitzRankTwo) (h : Hyp36 G M p E) 
     (φ : ↥L ⧸ Subgroup.center ↥L ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hp : p ≠ d.1.characteristic) (hex : ¬ AGLEmbeddingD2.IsD2SeitzException p d.1) : L ≤ M := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hLc : commutator ↥L = ⊤ := hL.commutator_eq_top
   by_cases hfaith : ∀ e ∈ E, e ≠ 1 → ∃ y ∈ L, e * y * e⁻¹ * y⁻¹ ∉ centerOf L
   swap
   ·
-    push_neg at hfaith
+    push Not at hfaith
     obtain ⟨e, he, he1, hall⟩ := hfaith
     have hcent := centralizes_of_forall_comm_mem L hLc hall
     intro y hy
@@ -106,7 +106,6 @@ theorem le_of_seitz (hS : AGLEmbeddingD2.KFactSeitzRankTwo) (h : Hyp36 G M p E) 
     rw [← QuotientGroup.eq]
     exact hc'
   refine ⟨m', ⟨hm', m'.2⟩, ((m'⁻¹ * ⟨y, hy⟩ : ↥L) : G), (mem_center_iff_mem_centerOf L _).1 hz, ?_⟩
-  change y = (m' : G) * ((m'⁻¹ : ↥L) * ⟨y, hy⟩ : ↥L)
   simp
 
 end Hyp36

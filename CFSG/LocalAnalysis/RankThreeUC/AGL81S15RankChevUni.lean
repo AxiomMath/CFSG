@@ -59,7 +59,7 @@ theorem pRank_statedSU_of_not_dvd {F : Type} [Field F] [Fintype F] {q r : ℕ} (
     (hr2 : r ≠ 2) (hF : Fintype.card F = q ^ 2) (hrq : ¬ r ∣ q) (hrq1 : ¬ r ∣ q + 1) (m : ℕ)
     (hm : 1 ≤ m) :
     CFSG.Open.pRank r (⊤ : Subgroup ↥(StatedSU m q F)) = m / orderOf (-(q : ZMod r)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨f, hqf, h⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData F hF
   have hq2 : 2 ≤ q := by
     by_contra h'
@@ -93,7 +93,7 @@ theorem chevU_reduce_to_SU (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} 
     ∃ (F : Type) (_ : Field F) (_ : Fintype F), Fintype.card F = Q.card ^ 2 ∧
       CFSG.Open.pRank r (⊤ : Subgroup K) =
         CFSG.Open.pRank r (⊤ : Subgroup ↥(StatedSU (l + 1) Q.card F)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hm : CFSG.Open.StatedClassicalModel (K ⧸ Subgroup.center K) .PSU (l + 1) Q.p Q.exponent :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA l Q hv e
   have hLM : CFSG.Models.LieModel (K ⧸ Subgroup.center K) .PSU (l + 1) Q.p Q.exponent :=
@@ -110,7 +110,7 @@ theorem chevU_reduce_to_SU (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} 
     · exact hZ (by rwa [hQc])
     · exact hr2 h1
   obtain ⟨-, F, instF, instFin, hcard, ⟨φ⟩⟩ := hm
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFc : Fintype.card F = Q.card ^ 2 := by
     rw [Fintype.card_eq_nat_card, hcard, TauCeti.PrimePower.card_def]
   refine ⟨F, instF, inferInstance, hFc, ?_⟩
@@ -139,7 +139,7 @@ theorem pRank_chev_twistedA_largeE (hG : CFSG.Open.GriessAllModelsStatement) {K 
   rw [hrank, pRank_statedSU_of_not_dvd hr hr2 hF hrq hc (l + 1) (by omega)]
   have hne : eM Q.card r ≠ 1 := fun h => hc (eM_eq_one_iff.1 h)
   unfold rkLin
-  simp only [Bool.false_eq_true, if_false, hne]
+  simp only [Bool.false_eq_true, ite_false, hne]
   rfl
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

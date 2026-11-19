@@ -27,6 +27,7 @@ private theorem e16i_map_conjSub' {X Q : Type*} [Group X] [Group Q] (φ : X →*
     · rw [map_mul, map_mul, map_inv, hmq]
       group
 
+omit [Finite G] in
 private theorem e16i_map_conjSub {X : Subgroup G} {L : Subgroup G} {n : ℕ}
     (φ : ↥X →* AE.AEQ n) (x : ↥X) :
     ((conjSub (x : G) L).subgroupOf X).map φ = conjSub (φ x) ((L.subgroupOf X).map φ) := by
@@ -60,15 +61,15 @@ private theorem e16i_zBar_normalizes {n : ℕ} (hn : 5 ≤ n) {α β : Finset (F
   rfl
 
 private theorem e16i_exists_inter {n : ℕ} (hn : 6 ≤ n) {α : Finset (Fin n)} (hα : α.card = 4) :
-    ∃ β : Finset (Fin n), ∃ hβ : β.card = 4, (α ∩ β).card = 2 := by
+    ∃ β : Finset (Fin n), ∃ _hβ : β.card = 4, (α ∩ β).card = 2 := by
   obtain ⟨S, hSα, hS⟩ := Finset.exists_subset_card_eq (s := α) (n := 2) (by omega)
   obtain ⟨T, hTα, hT⟩ := Finset.exists_subset_card_eq (s := αᶜ) (n := 2) (by
     rw [Finset.card_compl, Fintype.card_fin, hα]; omega)
   have hdisj : Disjoint S T :=
     Finset.disjoint_of_subset_left hSα (Finset.disjoint_of_subset_right hTα disjoint_compl_right)
-  have hβ : (S ∪ T).card = 4 := by
+  have _hβ : (S ∪ T).card = 4 := by
     rw [Finset.card_union_of_disjoint hdisj, hS, hT]
-  refine ⟨S ∪ T, hβ, ?_⟩
+  refine ⟨S ∪ T, _hβ, ?_⟩
   have hI : α ∩ (S ∪ T) = S := by
     ext i
     simp only [Finset.mem_inter, Finset.mem_union]
@@ -82,7 +83,7 @@ private theorem e16i_exists_inter {n : ℕ} (hn : 6 ≤ n) {α : Finset (Fin n)}
   rw [hI, hS]
 
 private theorem e16i_e64_inter {α : Finset (Fin 7)} (hα : α ∈ AE.e64Sets) :
-    ∃ β ∈ AE.e64Sets, ∃ hβ : β.card = 4, (α ∩ β).card = 2 := by
+    ∃ β ∈ AE.e64Sets, ∃ _hβ : β.card = 4, (α ∩ β).card = 2 := by
   obtain ⟨ℓ, hℓ, rfl⟩ := hα
   have hex : ∀ ℓ ∈ AE.fanoLines, ∃ m ∈ AE.fanoLines, m ≠ ℓ := by decide +kernel
   have hint : ∀ ℓ ∈ AE.fanoLines, ∀ m ∈ AE.fanoLines, ℓ ≠ m → (ℓᶜ ∩ mᶜ).card = 2 := by
@@ -683,7 +684,7 @@ theorem false_of_uniqueW_Y (c : Sit16 Ω K K' W z u e g)
   have hC4 : Nat.card ↥(J ⊓ W₀) = 4 := by
     rw [← hCeq, ← Nat.card_congr hequiv.toEquiv]
     exact hU₀card
-  haveI := hCcyc
+  have := hCcyc
   obtain ⟨a', ha'⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥(J ⊓ W₀))
   rw [hC4] at ha'
   obtain ⟨a, ha_def⟩ : ∃ a : G, a = (a' : G) := ⟨_, rfl⟩
@@ -726,7 +727,7 @@ theorem false_of_uniqueW_Y (c : Sit16 Ω K K' W z u e g)
     norm_num at hdvd
 
 theorem exists_adjacent_Y (c : Sit16 Ω K K' W z u e g)
-    (h : EndHyp Ω) (h9 : Perp9 Ω) (h13 : zGroup Ω ≠ eGroup Ω K)
+    (h : EndHyp Ω) (h9 : Perp9 Ω) (_h13 : zGroup Ω ≠ eGroup Ω K)
     (hn : (∃ n : ℕ, 6 ≤ n ∧ n ≤ 7 ∧ Nonempty (AEIdent (centMembers Ω u) n)) ∨
       Nonempty (AEIdentOn (centMembers Ω u) 7 AE.e64Sets AE.e64Sub)) :
     ∃ R ∈ centMembers Ω u, R ∈ omegaStarNbr Ω (conjSub g K) ∧
@@ -840,7 +841,7 @@ private theorem e16ib_ind_add (α β : Finset (Fin 6)) :
     e16ib_ind β + e16ib_ind α = e16ib_ind (symmDiff α β) := by
   funext i
   simp only [e16ib_ind, Pi.add_apply, Finset.mem_symmDiff]
-  by_cases hα : i ∈ α <;> by_cases hβ : i ∈ β <;> simp [hα, hβ] <;> decide
+  by_cases hα : i ∈ α <;> by_cases hβ : i ∈ β <;> simp [hα, hβ]; decide
 
 private theorem e16ib_sum_ind (γ α : Finset (Fin 6)) :
     ∑ i ∈ γ, e16ib_ind α i = ((γ ∩ α).card : ZMod 2) := by
@@ -868,6 +869,7 @@ private theorem e16ib_c3 : ∀ α β : Finset (Fin 6), α.card = 4 → β.card =
     (α ∩ β).card = 2 → (symmDiff α β).card = 4 ∧ (symmDiff α β ∩ β).card = 2 := by
   decide +kernel
 
+omit [Finite G] in
 private theorem e16ib_inv_eq {e₀ : G} (I : AEIdent (centMembers Ω e₀) 6)
     (ψ : ↥(pSpan (centMembers Ω e₀)) ≃* ↥(AE.aeSub 6))
     (hmem : ∀ L ∈ centMembers Ω e₀, ∀ (α : Finset (Fin 6)) (hα : α.card = 4) (b : Bool),
@@ -1192,6 +1194,7 @@ private theorem e16ib_residue {K₀ K₀' W₀ : Subgroup G}
   refine ⟨?_, hclos, hnp⟩
   rw [hP1, Set.InjOn.ncard_image hYinj, Set.ncard_coe_finset, hLbcard]
 
+omit [Finite G] in
 private theorem e16ib_cent_of_le {L : Subgroup G} {a : G}
     (hL : L ≤ Subgroup.centralizer ({a} : Set G)) : a ∈ Subgroup.centralizer (L : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -1434,8 +1437,8 @@ theorem false_of_aeIdent_six_Y (c : Sit16 Ω K K' W z u e g)
     · exact absurd h64 (by norm_num)
     · norm_num
   obtain ⟨bf, hbf⟩ := EndHyp.exists_endForm h h9 c.twin h13
-  haveI : Fact (EndHyp Ω) := ⟨h⟩
-  haveI : Fact (Perp9 Ω) := ⟨h9⟩
+  have : Fact (EndHyp Ω) := ⟨h⟩
+  have : Fact (Perp9 Ω) := ⟨h9⟩
   obtain ⟨a, hS⟩ := EndHyp.exists_pointSet c.twin h13 hbf
   have hB : Polar.SympForm bf := hbf.sympForm
   have hres := e16ib_residue c h h9 h13 hbf hJe hJt htD
@@ -1621,7 +1624,7 @@ private theorem e16ic_g_mem (i : Fin 7) (hi : i ≠ 0) :
     mkQ 7 (Wr.ofVec (e16ic_g i)) ∈ e16ic_Kz := by
   have hc2 : ({0, i} : Finset (Fin 7)).card = 2 := Finset.card_pair (Ne.symm hi)
   have hc5 : 3 ≤ (Finset.univ \ ({0, i} : Finset (Fin 7))).card := by
-    rw [Finset.card_univ_diff, Fintype.card_fin, hc2]
+    rw [Finset.card_univ_sdiff, Fintype.card_fin, hc2]
     norm_num
   obtain ⟨T, hT, hTc⟩ := Finset.exists_subset_card_eq hc5
   have hT0 : (0 : Fin 7) ∉ T := fun h => by
@@ -1689,7 +1692,7 @@ private theorem e16ic_even_inj (f g : Fin 7 → ZMod 2) (hf : ∑ i, f i = 0) (h
     decide
 
 private theorem e16ic_preimage_even {G : Type} [Group G] (Y S : Subgroup G) (φ : ↥Y →* AEQ 7)
-    (hS : S ≤ Y)
+    (_hS : S ≤ Y)
     (hz : ∀ (α : Finset (Fin 7)) (h : α.card = 4), ∃ x ∈ S, ∃ hx : x ∈ Y,
       φ ⟨x, hx⟩ = zBar α h)
     (f : Fin 7 → ZMod 2) (hf : ∑ i, f i = 0) :
@@ -1868,7 +1871,7 @@ private theorem e16ic_norm {γ : Finset (Fin 6)} (hγ : γ.card = 4) {p q : Fin 
     · have hxp : x ≠ p := fun h => hpγ (h ▸ hx)
       have hxq : x ≠ q := fun h => hqγ (h ▸ hx)
       have hvx : v x = c0 := hv x hx i0 hi0
-      simp only [Pi.add_apply, e16ic_w, if_neg hxp, if_neg hxq, hvx, add_zero]
+      simp only [Pi.add_apply, e16ic_w, ite_eq_right hxp, ite_eq_right hxq, hvx, add_zero]
       exact hc2 c0
     · rcases hout x hx with h | h
       · rw [h]
@@ -1892,7 +1895,7 @@ private theorem e16ic_exists_avoid (p q : Fin 6) (hpq : p ≠ q) :
     ∃ α : Finset (Fin 6), α.card = 4 ∧ p ∉ α ∧ q ∈ α := by
   obtain ⟨k, hk1, hk2⟩ : ∃ k : Fin 6, k ≠ p ∧ k ≠ q := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (Finset.univ : Finset (Fin 6)) ⊆ {p, q} := by
       intro x _
       by_cases hx : x = p
@@ -1902,7 +1905,7 @@ private theorem e16ic_exists_avoid (p q : Fin 6) (hpq : p ≠ q) :
     rw [Finset.card_pair hpq, Finset.card_univ, Fintype.card_fin] at h1
     omega
   refine ⟨Finset.univ \ {p, k}, ?_, ?_, ?_⟩
-  · rw [Finset.card_univ_diff, Fintype.card_fin, Finset.card_pair (Ne.symm hk1)]
+  · rw [Finset.card_univ_sdiff, Fintype.card_fin, Finset.card_pair (Ne.symm hk1)]
   · simp
   · simp only [Finset.mem_sdiff, Finset.mem_univ, Finset.mem_insert, Finset.mem_singleton,
       true_and, not_or]
@@ -1911,7 +1914,7 @@ private theorem e16ic_exists_avoid (p q : Fin 6) (hpq : p ≠ q) :
 private theorem e16ic_exists_ne {α : Finset (Fin 6)} (hα : α.card = 4) (a : Fin 6) :
     ∃ j ∈ α, j ≠ a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : α ⊆ {a} := fun x hx => Finset.mem_singleton.mpr (hcon x hx)
   have := Finset.card_le_card hsub
   rw [hα, Finset.card_singleton] at this
@@ -1925,7 +1928,7 @@ private theorem e16ic_exists_alpha {A : Type} [Group A] [Finite A] (F : A →* A
       (∀ v : Fin 6 → ZMod 2, F n = mkQ 6 (Wr.ofVec v) → ∀ i ∈ α, ∀ j ∈ α, v i = v j) ∧
       (∀ v : Fin 6 → ZMod 2, F u = mkQ 6 (Wr.ofVec v) → ¬ ∀ i ∈ α, ∀ j ∈ α, v i = v j) := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   let V : Finset (AEQ 6) := Finset.univ.image
     (fun st : ZMod 2 × ZMod 2 => mkQ 6 (Wr.ofVec (e16ic_w p q st.1 st.2)))
   have hV : V.card ≤ 4 := by
@@ -2062,11 +2065,11 @@ private theorem e16ic_card_le_ker_mul {D : Type} [Group D] [Finite D] (f : D →
   exact Nat.mul_le_mul_right _ (e16ic_card_range_le f hf)
 
 private theorem e16ic_card_le_four {A : Type} [Group A] [Finite A] (F : A →* AEQ 6)
-    (hinj : Function.Injective F) {p q : Fin 6} (hpq : p ≠ q)
+    (hinj : Function.Injective F) {p q : Fin 6} (_hpq : p ≠ q)
     (hF : ∀ a : A, ∃ s t : ZMod 2, F a = mkQ 6 (Wr.ofVec (e16ic_w p q s t))) :
     Nat.card A ≤ 4 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   let V : Finset (AEQ 6) := Finset.univ.image
     (fun st : ZMod 2 × ZMod 2 => mkQ 6 (Wr.ofVec (e16ic_w p q st.1 st.2)))
   have hV : V.card ≤ 4 := by
@@ -2220,7 +2223,7 @@ theorem false_of_aeIdent_seven_Y (c : Sit16 Ω K K' W z u e g)
   have hD : Nat.card (zGroup Ω) = 256 := by
     have hm4 : m ≤ 4 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have : 4 ^ 5 ≤ 4 ^ m := Nat.pow_le_pow_right (by norm_num) hc
       omega
     interval_cases m <;> omega

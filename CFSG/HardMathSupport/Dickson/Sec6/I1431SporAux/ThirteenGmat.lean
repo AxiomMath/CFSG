@@ -42,7 +42,7 @@ theorem involution_of_isConj_tGmat {t : Gmat} (ht : IsConj tGmat t) : t * t = 1 
 theorem not_commute_c_of_twoA {t : Gmat} (ht : IsConj tGmat t) :
     t * gw genD13W1 ≠ gw genD13W1 * t := by
   intro htc
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   obtain ⟨htt, ht1⟩ := involution_of_isConj_tGmat ht
   have hcx : gw genD13W1 * xGmat = xGmat * gw genD13W1 :=
     Subgroup.mem_centralizer_singleton_iff.1 c_mem_cent
@@ -72,10 +72,10 @@ theorem not_commute_c_of_twoA {t : Gmat} (ht : IsConj tGmat t) :
 
 theorem isConj_tGmat_of_commute_xE {u : Gmat} (hu2 : u * u = 1) (hu1 : u ≠ 1)
     (hux : u * gw thirteenX = gw thirteenX * u) : IsConj tGmat u := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hu : orderOf u = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hu2) hu1
   rcases CFSG.Monster.Existence.Census.generated_group_two_involution_classes u hu with h | h
   swap
@@ -144,7 +144,7 @@ theorem hlines_Gmat : ∀ e ∈ censusLines, ∃ W : Gmat,
   rw [← hrep, h, ← htgt, mul_inv_cancel_right]
 
 theorem ncard_twoA_class : {t : Gmat | IsConj tGmat t}.ncard = 97239461142009186000 := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   have h1 := card_isConj_mul_card_centralizer tGmat
   rw [CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterFiveGmat.natCard_centralizer_tGmat,
     CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder] at h1
@@ -158,7 +158,7 @@ theorem ncard_twoA_class : {t : Gmat | IsConj tGmat t}.ncard = 97239461142009186
 
 theorem invComm_xE_congruence :
     ∃ K : ℕ, 12 * 97239461142009186000 = 1248 * (invComm (gw thirteenX)).ncard + 13 ^ 3 * K := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   obtain ⟨hg13, hd13, hc13, hcg, hcd, hdg, hc1, -⟩ := d13_gw_facts
   have hD : ∀ w t : Gmat, t ∈ {t : Gmat | IsConj tGmat t} →
       w * t * w⁻¹ ∈ {t : Gmat | IsConj tGmat t} :=

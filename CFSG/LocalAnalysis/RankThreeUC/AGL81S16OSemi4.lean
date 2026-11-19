@@ -15,6 +15,7 @@ section Final
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F} {θ : F →+* F} {σ : OW F → OW F}
 
+omit [Finite F] in
 theorem semi_le_of_fixed (hadd : ∀ x y, σ (x + y) = σ x + σ y)
     (hsm : ∀ (r : F) x, σ (r • x) = θ r • σ x) (hσσ : ∀ x, σ (σ x) = x) {t : F}
     (ht : t + θ t = 1) {P S : Submodule F (OW F)} (hP : ∀ x ∈ P, σ x ∈ P)
@@ -42,7 +43,7 @@ theorem semi_plane_false (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hθ : θ �
     have h1 := finrank_span_eq_card hli
     have h2 : Set.range ![w, u] = ({w, u} : Set (OW F)) := by
       ext x
-      simp [Fin.exists_fin_two, eq_comm, or_comm]
+      simp [eq_comm, or_comm]
     rw [h2] at h1
     simpa using h1
   obtain ⟨P, hPdim, hPmem⟩ : ∃ P : Submodule F (OW F), 4 ≤ Module.finrank F P ∧
@@ -60,7 +61,7 @@ theorem semi_plane_false (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hθ : θ �
         rw [Module.finrank_fintype_fun_eq_card]
         simp
       omega
-    · simp [Φ, LinearMap.mem_ker, Prod.ext_iff, polarBilin_apply_apply]
+    · simp [Φ, LinearMap.mem_ker, polarBilin_apply_apply]
   have hPσ : ∀ x ∈ P, σ x ∈ P := by
     intro x hx
     obtain ⟨hxw, hxu⟩ := (hPmem x).mp hx
@@ -154,7 +155,7 @@ theorem semi_plane_false (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hθ : θ �
   have hle : (Y ⊔ Submodule.span F {z} : Submodule F (OW F)) ≤ U := fun x hx => hTU x hx
   have h1 := Submodule.finrank_mono hle
   have hlt : Y < (Y ⊔ Submodule.span F {z} : Submodule F (OW F)) :=
-    SetLike.lt_iff_le_and_exists.mpr
+    IsConcreteLE.lt_iff_le_and_exists.mpr
       ⟨le_sup_left, z, Submodule.mem_sup_right (Submodule.mem_span_singleton_self z), hzY⟩
   have h2 := Submodule.finrank_lt_finrank_of_lt hlt
   omega

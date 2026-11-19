@@ -119,14 +119,13 @@ theorem bindA : BindA 1782 11 (aGens ()) AE.ng AE.G := by
 
 theorem qSize : qGs.size = 3 := by
   first
-  | rfl
   | simp [qGs, hGs, hT]
 
 theorem qGet : ∀ k < 3, qGs[k]! = unpack 1782 11 (QE.G k) := by
   intro k hk
   have e : qGs[k]! = hGs[k + 1]! := by
     first
-    | (interval_cases k <;> rfl)
+    | (interval_cases k <;> done)
     | (rw [getElem!_pos qGs k (by rw [qSize]; exact hk),
         getElem!_pos hGs (k + 1) (by simp [hGs, hT]; omega)]
        simp [qGs, Array.getElem_extract, Nat.add_comm])
@@ -318,10 +317,10 @@ theorem class_y : ∃ c : Nat → Equiv.Perm (Fin 1782),
     (N := KC.N) (r := KC.r0) (G := KC.G) (GI := KC.GI) (T := KC.T) (E := KC.E) (D := KC.D0)
     (S := KC.S) (ps := ps) (g := fun k => pp (KC.G k)) (t := pp (H 4)) (by norm_num)
     KC.h (fun k hk => prep_pp (pK k hk))
-    (fun i hi => KC.cl i (lt_of_lt_of_eq hi (by rw [kN] <;> rfl)))
+    (fun i hi => KC.cl i (lt_of_lt_of_eq hi (by rw [kN])))
     (fun i hi => by
       rw [kNg]
-      exact KC.tr0 i (lt_of_lt_of_eq hi (by rw [kN] <;> rfl)))
+      exact KC.tr0 i (lt_of_lt_of_eq hi (by rw [kN])))
     (by rw [kN]; decide) ht (by decide) KC.k
   exact ⟨c, hr, hi⟩
 
@@ -392,14 +391,13 @@ theorem countP_bits (M : Nat) : ∀ k, (List.range k).countP (fun i => Nat.testB
     rw [Nat.and_one_is_mod, Nat.shiftRight_eq_div_pow]
     simp only [List.countP_cons, List.countP_nil, Nat.testBit_eq_decide_div_mod_eq]
     rcases Nat.mod_two_eq_zero_or_one (M / 2 ^ k) with h | h <;>
-      simp [Nat.testBit_eq_decide_div_mod_eq, h]
+      simp [h]
 
 theorem bits_eq (M k : Nat) :
     ((List.finRange k).filter fun a : Fin k => Nat.testBit M a.val).length = bits M k := by
   rw [← countP_bits M k, ← List.countP_eq_length_filter]
   have e : (List.finRange k).map Fin.val = List.range k := by
     first
-    | exact List.map_coe_finRange k
     | simp
   rw [← e, List.countP_map]
   rfl

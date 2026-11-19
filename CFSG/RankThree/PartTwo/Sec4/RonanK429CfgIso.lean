@@ -44,7 +44,7 @@ theorem CfgS429.map [Finite S] [Finite T] {A : Subgroup (MulAut S)} {σ : MulAut
       faithful := ?_ }
   · rw [hfix, ← map_subgroupOf_equivMap]
     exact h.isSubnormal.map (MulEquiv.surjective _)
-  · haveI := h.isPerfect
+  · have := h.isPerfect
     exact Group.IsPerfect.map _
   · rintro _ ⟨a, ha, rfl⟩ _ ⟨k, hk, rfl⟩
     refine ⟨a k, h.map_mem a ha k hk, ?_⟩

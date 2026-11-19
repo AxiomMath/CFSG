@@ -223,7 +223,7 @@ private theorem ordTwistedF4_ne_card_alternating {f m : ℕ} (hf : 1 ≤ f) :
     ordTwistedF4 (2 ^ f) ≠ Nat.card (alternatingGroup (Fin m)) := by
   intro h
   have hm2 : 2 ≤ m := two_le_of_eq_alt_card (one_lt_ordTwistedF4 hf) h
-  haveI : Nontrivial (Fin m) :=
+  have : Nontrivial (Fin m) :=
     ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by
       intro hcon
       exact Nat.zero_ne_one (congrArg Fin.val hcon)⟩
@@ -241,7 +241,7 @@ private theorem ordTwistedF4_ne_card_alternating {f m : ℕ} (hf : 1 ≤ f) :
         norm_num at h2
       norm_num at h26
     exact (hprof.prim p (12 * f) hprim (by omega)).2
-      (Or.inl ⟨by simpa [show 2 * (f * 6) = 12 * f by ring] using dvd_rfl, hnot⟩)
+      (Or.inl ⟨by simp [show 2 * (f * 6) = 12 * f by ring], hnot⟩)
   have hp2 : p ≠ 2 := hprim.ne_two (by omega)
   have hpdvd : p ∣ Nat.factorial m := by
     have hpdiv : p ∣ Nat.factorial m / 2 := h ▸ hpord
@@ -253,7 +253,7 @@ private theorem ordTwistedF4_ne_card_alternating {f m : ℕ} (hf : 1 ≤ f) :
   have hpge : 12 * f + 1 ≤ p := by
     have hord : orderOf (2 : ZMod p) = 12 * f :=
       CFSG.Quasithin.orderOf_two_eq_of_isPrimitivePrimeDivisor hprim (by omega)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hdvd : 12 * f ∣ p - 1 := by
       rw [← hord]
       exact ZMod.orderOf_dvd_card_sub_one (CFSG.Timmesfeld.Bang.two_ne_zero_zmod hp2)
@@ -273,7 +273,7 @@ private theorem ordTrialityD4_ne_card_alternating {f m : ℕ} (hf : 1 ≤ f) :
     ordTrialityD4 (2 ^ f) ≠ Nat.card (alternatingGroup (Fin m)) := by
   intro h
   have hm2 : 2 ≤ m := two_le_of_eq_alt_card (one_lt_ordTrialityD4_of_6048 hf) h
-  haveI : Nontrivial (Fin m) :=
+  have : Nontrivial (Fin m) :=
     ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by
       intro hcon
       exact Nat.zero_ne_one (congrArg Fin.val hcon)⟩
@@ -291,7 +291,7 @@ private theorem ordTrialityD4_ne_card_alternating {f m : ℕ} (hf : 1 ≤ f) :
         norm_num at h3
       norm_num at h31
     exact (hprof.prim p (12 * f) hprim (by omega)).2
-      (Or.inl ⟨by simpa [show f * 12 = 12 * f by ring] using dvd_rfl, hnot4⟩)
+      (Or.inl ⟨by simp [show f * 12 = 12 * f by ring], hnot4⟩)
   have hp2 : p ≠ 2 := hprim.ne_two (by omega)
   have hpdvd : p ∣ Nat.factorial m := by
     have hpdiv : p ∣ Nat.factorial m / 2 := h ▸ hpord
@@ -303,7 +303,7 @@ private theorem ordTrialityD4_ne_card_alternating {f m : ℕ} (hf : 1 ≤ f) :
   have hpge : 12 * f + 1 ≤ p := by
     have hord : orderOf (2 : ZMod p) = 12 * f :=
       CFSG.Quasithin.orderOf_two_eq_of_isPrimitivePrimeDivisor hprim (by omega)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hdvd : 12 * f ∣ p - 1 := by
       rw [← hord]
       exact ZMod.orderOf_dvd_card_sub_one (CFSG.Timmesfeld.Bang.two_ne_zero_zmod hp2)
@@ -323,7 +323,7 @@ private theorem ordTits_ne_card_alternating {m : ℕ} :
     ordTits ≠ Nat.card (alternatingGroup (Fin m)) := by
   intro h
   have hm2 : 2 ≤ m := two_le_of_eq_alt_card (by norm_num [F4Pilot.evenLieOrder, ordTits]) h
-  haveI : Nontrivial (Fin m) :=
+  have : Nontrivial (Fin m) :=
     ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by
       intro hcon
       exact Nat.zero_ne_one (congrArg Fin.val hcon)⟩
@@ -366,7 +366,7 @@ private theorem false_of_classicalEvenAlt {X : Type} [Group X] {t₀ : StatedLie
       LieModel (X ⧸ Subgroup.center X) t m 2 f) : False := by
   obtain ⟨hq, t, m, f, ht, hLie⟩ := h
   have hqo : CFSG.Open.IsQuasisimple X := ⟨(Group.isPerfect_def).1 hq.1, hq.2.1⟩
-  haveI : IsSimpleGroup X := hsimple
+  have : IsSimpleGroup X := hsimple
   obtain ⟨e⟩ := uc22p2214_quotCenter_of_simple hqo
   have hLieX : LieModel X t m 2 f := Blueprint.LieModel.of_mulEquiv e.symm hLie
   have hsc : StatedClassicalModel X t m 2 f :=
@@ -450,7 +450,7 @@ theorem not_classicalEvenAltG2Der_of_is2F4 {X : Type} [Group X] {n : ℕ}
             hn1 (by norm_num) hf)
     · obtain ⟨hq, a, hAlt⟩ := hAlt
       have hqo : CFSG.Open.IsQuasisimple X := ⟨(Group.isPerfect_def).1 hq.1, hq.2.1⟩
-      haveI : IsSimpleGroup X := hsimple
+      have : IsSimpleGroup X := hsimple
       obtain ⟨e⟩ := uc22p2214_quotCenter_of_simple hqo
       obtain ⟨f⟩ := hAlt
       have hcardAlt : Nat.card X = Nat.card (alternatingGroup (Fin a)) :=
@@ -490,7 +490,7 @@ theorem not_classicalEvenAltG2Der_of_isTits {X : Type} [Group X]
           (CFSG.Timmesfeld.Orders.ordTits_ne_ordTwistedA (u := 2) (g := f) (by norm_num) hf)
     · obtain ⟨hq, a, hAlt⟩ := hAlt
       have hqo : CFSG.Open.IsQuasisimple X := ⟨(Group.isPerfect_def).1 hq.1, hq.2.1⟩
-      haveI : IsSimpleGroup X := hsimple
+      have : IsSimpleGroup X := hsimple
       obtain ⟨e⟩ := uc22p2214_quotCenter_of_simple hqo
       obtain ⟨f⟩ := hAlt
       have hcardAlt : Nat.card X = Nat.card (alternatingGroup (Fin a)) :=
@@ -534,7 +534,7 @@ theorem not_classicalEvenAltG2Der_of_is3D4 {X : Type} [Group X] {n : ℕ}
             hn1 (by norm_num) hf)
     · obtain ⟨hq, a, hAlt⟩ := hAlt
       have hqo : CFSG.Open.IsQuasisimple X := ⟨(Group.isPerfect_def).1 hq.1, hq.2.1⟩
-      haveI : IsSimpleGroup X := hsimple
+      have : IsSimpleGroup X := hsimple
       obtain ⟨e⟩ := uc22p2214_quotCenter_of_simple hqo
       obtain ⟨f⟩ := hAlt
       have hcardAlt : Nat.card X = Nat.card (alternatingGroup (Fin a)) :=

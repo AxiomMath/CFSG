@@ -23,7 +23,7 @@ theorem noL34Layer_entrywiseAdjointAut_D4 (hO : LieOrderFormulasInput) {ℓ d : 
     (hk : Nat.card (fixSubfield σ) = ℓ ^ d) :
     NoL34Layer (entrywiseAdjointAut Tag.D4 σ) := by
   classical
-  haveI := D4Aux.finite_adjointD4 K
+  have := D4Aux.finite_adjointD4 K
   set β := entrywiseAdjointAut Tag.D4 σ with hβ
   obtain ⟨hs, hnc⟩ := D4Aux.isSimple_adjointD4 (fixSubfield σ)
   obtain ⟨-, -, -, hJΓ, -, hnormal, hcomm⟩ :=
@@ -44,7 +44,7 @@ theorem noL34Layer_entrywiseAdjointAut_D4 (hO : LieOrderFormulasInput) {ℓ d : 
     refine Subtype.ext ?_
     rw [coe_entrywiseAdjointAut]
     exact (hJΓ ((hmemJ x).1 hx)).2
-  haveI hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
+  have hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf, hmemJ] at hn ⊢
     have h1 := hnormal.conj_mem ⟨((n : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K), hΓ n⟩
@@ -52,8 +52,8 @@ theorem noL34Layer_entrywiseAdjointAut_D4 (hO : LieOrderFormulasInput) {ℓ d : 
     simpa using Subgroup.mem_subgroupOf.1 h1
   let eJ : ↥J ≃* adjointGroup Tag.D4 (fixSubfield σ) :=
     (Subgroup.subgroupOfEquivOfLe hJA).trans (fixedFieldImageEquiv σ).symm
-  haveI := hs
-  haveI : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have := hs
+  have : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eJ.symm x, eJ.symm y, fun h => hxy (by simpa using congrArg eJ h)⟩

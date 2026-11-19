@@ -92,7 +92,7 @@ theorem l3EpsAlt_holds :
       simp only [MonoidHom.mem_ker, η, MonoidHom.coe_comp, Function.comp_apply,
         MulEquiv.coe_toMonoidHom, QuotientGroup.mk'_apply, map_eq_one_iff _ (MulEquiv.injective _)]
       exact QuotientGroup.eq_one_iff x
-    haveI : Group.IsPerfect (barOf 3 J) := ⟨hKq.1⟩
+    have : Group.IsPerfect (barOf 3 J) := ⟨hKq.1⟩
     have hodd : Odd (Nat.card η.ker) := by rw [hker, hZ3]; decide
     have := CFSG.Alternating.Multipliers.card_ker_eq_one_of_odd (by omega) η hη hker.le hodd
     rw [hker, hZ3] at this

@@ -62,8 +62,8 @@ theorem exists_mulEquiv_P43 {F : Type} [Group F] (h : CFSG.Blueprint.LieModel F 
 theorem pairWit_P43 : ∀ x t : MulAut P43, orderOf x = 8 → orderOf t = 2 → x * t = t * x →
     PairWit (inner P43) x t := by
   intro x t hx ht hxt
-  haveI : Finite P43 := Nat.finite_of_card_ne_zero (by rw [card_P43]; norm_num)
-  haveI : Finite (MulAut P43) :=
+  have : Finite P43 := Nat.finite_of_card_ne_zero (by rw [card_P43]; norm_num)
+  have : Finite (MulAut P43) :=
     Finite.of_injective (fun f : MulAut P43 => (f : P43 → P43)) DFunLike.coe_injective
   have hs : sylowOK u43Data = true := Certificates.certificate320330
   have hc : coverOK u43Data = true := Certificates.certificate320331

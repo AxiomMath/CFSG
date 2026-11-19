@@ -28,7 +28,7 @@ include hι
 
 theorem f_le_normalizer (hP : Nat.card ↥P1408 = 177408000) :
     wordSubgroupP fWords ≤ normalizer (ι.range : Set ↥P1408) :=
-  ((f_le_centralizer hP).trans (centralizer_pZ₁_le_normGens ι hι hP)).trans
+  ((f_le_centralizer hP).trans (centralizer_pZ₁_le_normGens hP)).trans
     (wordSubgroupP_normGens_le_normalizer ι hι)
 
 end Coordinates

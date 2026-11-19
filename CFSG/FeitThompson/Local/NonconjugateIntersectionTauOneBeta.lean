@@ -106,7 +106,7 @@ theorem mem_betaPrimes_of_commutator_ne_bot [Finite G]
   have hYL' : Y ≤ (⁅L, L⁆ : Subgroup G) := Subgroup.map_subtype_le _
   have hYcard : Nat.card ↥Y = q ^ (Nat.card ↥(⁅L, L⁆ : Subgroup G)).factorization q := by
     rw [hYdef, Subgroup.card_subtype, Q.card_eq_multiplicity]
-  have hYq : IsPGroup q ↥Y := Q.isPGroup'.map _
+  have hYq : IsPGroup q ↥Y := Q.isPGroup.map _
   have hYne : Y ≠ ⊥ := by
     intro h
     have hfac : 0 < (Nat.card ↥(⁅L, L⁆ : Subgroup G)).factorization q :=

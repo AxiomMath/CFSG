@@ -29,6 +29,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_sup_pPrimeCoreOf_le {A : Subgroup G} {a : G} (ha : a ∈ A)
     (hAab : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) :
     ⁅pPrimeCoreOf 3 (Subgroup.centralizer ({a} : Set G)) ⊔
@@ -356,7 +357,7 @@ theorem zpowers_mem_omegaA_of_kType148 {A Y : Subgroup G} [(ker148 A Y).Normal] 
 theorem step148FieldTopPointTw_holds (h143 : Ronan148Q.Item143QS14) (h134 : Item134)
     (h48 : Sec4.Item4_8) (h415 : Sec4.Item4_15) : Step148FieldTopPointTw := by
   intro G _ _ A c L hS Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hField hAeq hJY
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   by_contra hno
   push Not at hno
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := hS.mem_partTwoF.1.2
@@ -405,7 +406,7 @@ theorem step148RankImgGeFieldTopNotK_of_twistR (h422 : Sec4.Item4_22) (h45 : Sec
     (h142 : Item142AllS14) (hTw : Step148FieldTopPointTw) (hKF : KF148FieldTopTwistR) :
     Step148RankImgGeFieldTopNotK := by
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hField hAeq hJY
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   intro hXK
   obtain ⟨j, hjA, hjJ, hje, hejΩ, R, hR, hRKj, hRα⟩ :=
     hTw G A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hField hAeq hJY

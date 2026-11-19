@@ -18,12 +18,12 @@ theorem not_mem_thetaQuotCentralizer_of_central_sq {c : G} {X Y : Subgroup G}
     (hZ2 : ∀ z ∈ Subgroup.center (↥X ⧸ aschbacherSolvableCore 3 ↥X), z ^ 2 = 1) :
     c ∉ Sec4.thetaQuotCentralizer Y := by
   intro hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθsol, hθchar, hθ3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥X) Nat.prime_three
   set θ := aschbacherSolvableCore 3 ↥X with hθ
-  haveI : θ.Characteristic := hθchar
-  haveI : θ.Normal := inferInstance
+  have : θ.Characteristic := hθchar
+  have : θ.Normal := inferInstance
   let cX : X := ⟨c, hcX⟩
   have hcent : (QuotientGroup.mk cX : ↥X ⧸ θ) ∈ Subgroup.center (↥X ⧸ θ) := by
     rw [Subgroup.mem_center_iff]

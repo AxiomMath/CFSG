@@ -34,10 +34,10 @@ theorem ggDepED4_card_le_oneNode (hFix : GGTBFixInput) {G : Type} [Group G] [Fin
   obtain ⟨Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb1, hb2, hcardΛa, hMLeq, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hKall, hLgen, hJgen⟩ := hA
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   obtain ⟨hCfg, hOp, hInner, hNoTr, hNbr, hReflK, hScal⟩ := hH
   have hx : x ∈ Bs := hCfg.tableB_facts.2.2.1
   let Idx := {j : Λ // j ≠ b₁ ∧ j ≠ b₂} ⊕ Λa

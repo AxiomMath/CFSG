@@ -60,13 +60,13 @@ theorem weaklyClosedIn_Z0_S'
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3) (haZ : a ∉ zSub P c.L)
-    {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : 3 ∣ Nat.card J)
+    (_haL : a ∈ P ⊓ c.L) (_ha3 : orderOf a = 3) (_haZ : a ∉ zSub P c.L)
+    {J : Subgroup G} (_hJ : J ∈ thetaComponentsAt 3 a) (_h3 : 3 ∣ Nat.card J)
     (S : Subgroup ↥(G0 c P J)) (hS : CFSG.ABGLocalTools.IsSylowOf 3 S ⊤)
     (hZ0S : Z0 c P J ≤ S) :
     IsWeaklyClosedIn (Z0 c P J) S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let G₀ : Subgroup G := G0 c P J
   let Z : Subgroup G := zSub P c.L
   have hPtop : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤ :=
@@ -103,7 +103,7 @@ theorem exists_sylow_setup'
       CFSG.Open.pRank 3 S ≤ 3 ∧ Z0 c P J ≤ S ∧ IsWeaklyClosedIn (Z0 c P J) S ∧
       CFSG.Open.pRank 3 (Xbar c P J) ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcard : Nat.card (zSub P c.L) = 3 := c.card_inf_centralizer_of_onan hON hP
   have hZ0card : Nat.card (Z0 c P J) = 3 := by
     change Nat.card ((zSub P c.L).subgroupOf (G0 c P J)) = 3
@@ -114,7 +114,7 @@ theorem exists_sylow_setup'
   obtain ⟨S, hZ0S⟩ := hZ0p.exists_le_sylow
   have hS : CFSG.ABGLocalTools.IsSylowOf 3 (S : Subgroup ↥(G0 c P J)) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by
+    exact ⟨le_top, S.isPGroup, by
       simpa [Subgroup.relIndex_top_right] using S.not_dvd_index⟩
   have hpS : CFSG.Open.pRank 3 (S : Subgroup ↥(G0 c P J)) ≤ 3 := by
     have h1 : CFSG.Open.pRank 3 (S : Subgroup ↥(G0 c P J)) ≤

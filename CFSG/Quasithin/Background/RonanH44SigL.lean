@@ -99,7 +99,7 @@ private theorem rho_smul_eq (hK : Nat.card K = (2 ^ n) ^ 2) {μ : K} (hμ0 : μ 
   rw [hgl, map_mul, rhoT_eq_one_of_smul hK (B := scalGL (Units.mk0 μ hμ0)) (d := μ)
     (coe_scalGL (Units.mk0 μ hμ0)) hμμ, one_mul]
 
-theorem rhoF_injective (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
+theorem rhoF_injective (_hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     Function.Injective (rhoF hK) := by
   rw [injective_iff_map_eq_one]
   intro h hh
@@ -130,7 +130,7 @@ theorem rhoF_injective (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
   rw [one_smul] at hd
   exact Subtype.ext (hd.trans Matrix.SpecialLinearGroup.coe_one.symm)
 
-theorem mem_range_rhoF_iff (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
+theorem mem_range_rhoF_iff (_hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (r : MulAut (HMod n K)) :
     r ∈ (rhoF hK).range ↔
       r ∈ img hK ∧ r ∈ Subgroup.centralizer ({sig n K} : Set (MulAut (HMod n K))) := by

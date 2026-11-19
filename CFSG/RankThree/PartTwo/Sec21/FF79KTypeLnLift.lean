@@ -28,7 +28,7 @@ theorem exists_conj_of_card {S : Type} [Group S] [Finite S] {R R' : Subgroup S}
     (h : Nat.card R = 3 ^ (Nat.card S).factorization 3)
     (h' : Nat.card R' = 3 ^ (Nat.card S).factorization 3) :
     ∃ s : S, ∀ x : S, x ∈ R' ↔ s⁻¹ * x * s ∈ R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S (Sylow.ofCard R h) (Sylow.ofCard R' h')
   refine ⟨g, fun x => ?_⟩
   have h1 : ((g • Sylow.ofCard R h : Sylow 3 S) : Subgroup S) = R' := by
@@ -131,7 +131,7 @@ theorem conj_mem_of_image {j : ↥J} (hj : L.ϕ j ∈ Subgroup.normalizer (R : S
       rw [this]
       have h2 : (j * (⟨p, L.le hp⟩ : ↥J) * j⁻¹) ^ (3 ^ k) =
           j * (⟨p, L.le hp⟩ : ↥J) ^ (3 ^ k) * j⁻¹ := by
-        simpa [MulAut.conj_apply] using (map_pow (MulAut.conj j) (⟨p, L.le hp⟩ : ↥J) (3 ^ k))
+        simp
       rw [h2, hk]; group
   rw [← hq']
   exact hqP
@@ -140,11 +140,11 @@ variable [Finite G]
 
 theorem mem_nor_of_image {j : ↥J} (hj : L.ϕ j ∈ Subgroup.normalizer (R : Set S)) :
     (j : G) ∈ Subgroup.normalizer (P : Set G) :=
-  mem_normalizer_of_forall_conj_mem fun p hp => L.conj_mem_of_image hj hp
+  mem_normalizer_of_forall_conj_mem fun _p hp => L.conj_mem_of_image hj hp
 
 theorem image_mem_nor {j : ↥J} (hj : (j : G) ∈ Subgroup.normalizer (P : Set G)) :
     L.ϕ j ∈ Subgroup.normalizer (R : Set S) := by
-  haveI : Finite S := Finite.of_surjective L.ϕ L.surj
+  have : Finite S := Finite.of_surjective L.ϕ L.surj
   refine mem_normalizer_of_forall_conj_mem fun x hx => ?_
   obtain ⟨p, hpP, rfl⟩ := (L.img x).mp hx
   have hpP' : (p : G) ∈ P := hpP
@@ -278,6 +278,7 @@ private def conjQuot (J : Subgroup G) (g : G) (hg : g ∈ Subgroup.normalizer (J
 @[expose] def Acts (g : G) (α : MulAut S) : Prop :=
   ∀ j : ↥J, ∃ h : g * (j : G) * g⁻¹ ∈ J, α (L.ϕ j) = L.ϕ ⟨g * (j : G) * g⁻¹, h⟩
 
+omit [Finite G] in
 theorem acts_exists {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G)) :
     ∃ α : MulAut S, L.Acts g α := by
   refine ⟨MulAut.congr L.e (conjQuot J g hg),
@@ -286,6 +287,7 @@ theorem acts_exists {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G)) :
   simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
   rfl
 
+omit [Finite G] in
 theorem acts_unique {g : G} {α β : MulAut S} (hα : L.Acts g α) (hβ : L.Acts g β) : α = β := by
   ext s
   obtain ⟨j, rfl⟩ := L.surj s
@@ -293,8 +295,10 @@ theorem acts_unique {g : G} {α β : MulAut S} (hα : L.Acts g α) (hβ : L.Acts
   obtain ⟨h2, e2⟩ := hβ j
   rw [e1, e2]
 
+omit [Finite G] in
 theorem acts_one : L.Acts 1 (1 : MulAut S) := fun j => ⟨by simp, by simp⟩
 
+omit [Finite G] in
 theorem acts_mul {g h : G} {α β : MulAut S} (hα : L.Acts g α) (hβ : L.Acts h β) :
     L.Acts (g * h) (α * β) := by
   intro j
@@ -306,12 +310,14 @@ theorem acts_mul {g h : G} {α β : MulAut S} (hα : L.Acts g α) (hβ : L.Acts 
   congr 1
   exact Subtype.ext hmem.symm
 
+omit [Finite G] in
 theorem acts_conj (j₀ : ↥J) : L.Acts (j₀ : G) (MulAut.conj (L.ϕ j₀)) := by
   intro j
   refine ⟨J.mul_mem (J.mul_mem j₀.2 j.2) (J.inv_mem j₀.2), ?_⟩
   rw [MulAut.conj_apply, ← map_inv, ← map_mul, ← map_mul]
   rfl
 
+omit [Finite G] in
 theorem acts_inv {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G)) {α : MulAut S}
     (h : L.Acts g α) : L.Acts g⁻¹ α⁻¹ := by
   obtain ⟨β, hβ⟩ := L.acts_exists (inv_mem hg)
@@ -323,6 +329,7 @@ theorem acts_inv {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G)) {α : MulA
     simpa using this
   rwa [← hβ']
 
+omit [Finite G] in
 theorem centralizes_of_acts_one {g : G} (h : L.Acts g (1 : MulAut S)) :
     g ∈ Subgroup.centralizer (J : Set G) := by
   have hcond : ∀ j ∈ J, ∃ c ∈ J, (∀ g' ∈ J, c * g' = g' * c) ∧ g * j * g⁻¹ = c * j := by
@@ -346,6 +353,7 @@ theorem centralizes_of_acts_one {g : G} (h : L.Acts g (1 : MulAut S)) :
   exact (mul_inv_eq_iff_eq_mul.mp (this h hh)).symm
 
 
+omit [Finite G] in
 theorem ϕ_conj (j : ↥J) {x : G} (hx : x ∈ J) (hJ : (j : G) * x * (j : G)⁻¹ ∈ J) :
     L.ϕ ⟨(j : G) * x * (j : G)⁻¹, hJ⟩ = L.ϕ j * L.ϕ ⟨x, hx⟩ * (L.ϕ j)⁻¹ := by
   rw [← map_inv, ← map_mul, ← map_mul]
@@ -373,18 +381,19 @@ theorem nor_act_lift (M : TModel S R) {g : G} (hgJ : g ∈ Subgroup.normalizer (
   exact (L.ϕ_conj j (L.le hx) hJ').symm
 
 
+omit [Finite G] in
 theorem exists_cent_lift [Finite G] (M : TModel S R)
     (hsyl : Nat.card R = 3 ^ (Nat.card S).factorization 3) {g : G}
     (hg : g ∈ Subgroup.normalizer (J : Set G)) :
     ∃ j : ↥J, (j : G)⁻¹ * g ∈ Subgroup.centralizer (P : Set G) := by
-  haveI : Finite S := Finite.of_surjective L.ϕ L.surj
+  have : Finite S := Finite.of_surjective L.ϕ L.surj
   obtain ⟨α, hα⟩ := L.acts_exists hg
   have hcard : Nat.card (R.map α.toMonoidHom) = 3 ^ (Nat.card S).factorization 3 := by
     rw [Subgroup.card_map_of_injective α.injective]; exact hsyl
   obtain ⟨s, hs⟩ := exists_conj_of_card hsyl hcard
   set β : MulAut S := MulAut.conj s⁻¹ * α with hβ
   have hβx : ∀ x, β x = s⁻¹ * α x * s := fun x => by
-    simp [hβ, MulAut.conj_apply]
+    simp [hβ]
   have hmem : ∀ x ∈ R, β x ∈ R := by
     intro x hx
     rw [hβx]
@@ -425,7 +434,8 @@ theorem exists_cent_lift [Finite G] (M : TModel S R)
   simp only [inv_mul_cancel_right] at h5
   exact h5.symm
 
-theorem mem_sup_of_acts_conj {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G)) {r : S}
+omit [Finite G] in
+theorem mem_sup_of_acts_conj {g : G} (_hg : g ∈ Subgroup.normalizer (J : Set G)) {r : S}
     (hr : r ∈ R) {α : MulAut S} (hα : L.Acts g α) (hαr : α = MulAut.conj r) :
     g ∈ P ⊔ Subgroup.centralizer (J : Set G) := by
   obtain ⟨p, hpP, hpr⟩ := (L.img r).mp hr
@@ -440,6 +450,7 @@ theorem mem_sup_of_acts_conj {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G)
   rw [this]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_right h5) (Subgroup.mem_sup_left hpP)
 
+omit [Finite G] in
 theorem fix_of_cent {g : G} (hg : g ∈ Subgroup.centralizer (P : Set G)) {α : MulAut S}
     (hα : L.Acts g α) : ∀ x ∈ R, α x = x := by
   intro x hx
@@ -452,6 +463,7 @@ theorem fix_of_cent {g : G} (hg : g ∈ Subgroup.centralizer (P : Set G)) {α : 
   congr 1
   exact Subtype.ext this
 
+omit [Finite G] in
 theorem relIndex_le_two [Finite G] (M : TModel S R) :
     (P ⊔ Subgroup.centralizer (J : Set G)).relIndex
       (Subgroup.normalizer (J : Set G) ⊓ Subgroup.centralizer (P : Set G)) ≤ 2 := by
@@ -509,16 +521,17 @@ theorem relIndex_le_two [Finite G] (M : TModel S R) :
     | H x =>
       rcases hg₀ x with h | h
       · refine ⟨false, ?_⟩
-        simp only [Bool.false_eq_true, if_false]
+        simp only [Bool.false_eq_true, ite_false]
         rw [QuotientGroup.eq]
         simpa [Subgroup.mem_subgroupOf] using inv_mem h
       · refine ⟨true, ?_⟩
-        simp only [if_true]
+        simp only [ite_true]
         rw [QuotientGroup.eq]
         simpa [Subgroup.mem_subgroupOf] using h
   have := Nat.card_le_card_of_surjective _ hsurj
   simpa using this
 
+omit [Finite G] in
 theorem cube_P (M : TModel S R) {x : G} (hx : x ∈ P) : x ^ 3 = 1 := by
   have h3 := L.three_pow_of_mem (p := ⟨x, L.le hx⟩) hx
   have h1 : L.ϕ ((⟨x, L.le hx⟩ : ↥J) ^ 3) = L.ϕ 1 := by
@@ -528,6 +541,7 @@ theorem cube_P (M : TModel S R) {x : G} (hx : x ∈ P) : x ^ 3 = 1 := by
     exact ⟨k, by rw [← pow_mul, mul_comm, pow_mul, hk, one_pow]⟩) ⟨0, by simp⟩
   simpa using congrArg Subtype.val this
 
+omit [Finite G] in
 theorem comm_P (M : TModel S R) {x y : G} (hx : x ∈ P) (hy : y ∈ P) : x * y = y * x := by
   have h1 : L.ϕ (⟨x, L.le hx⟩ * ⟨y, L.le hy⟩) = L.ϕ (⟨y, L.le hy⟩ * ⟨x, L.le hx⟩) := by
     rw [map_mul, map_mul]; exact M.comm _ (L.img_of_mem hx) _ (L.img_of_mem hy)
@@ -535,12 +549,14 @@ theorem comm_P (M : TModel S R) {x y : G} (hx : x ∈ P) (hy : y ∈ P) : x * y 
     (L.three_pow_of_mem (p := ⟨y, L.le hy⟩ * ⟨x, L.le hx⟩) (P.mul_mem hy hx))
   exact congrArg Subtype.val this
 
+omit [Finite G] in
 theorem acts_pow {g : G} {α : MulAut S} (h : L.Acts g α) (k : ℕ) : L.Acts (g ^ k) (α ^ k) := by
   induction k with
   | zero => simpa using L.acts_one
   | succ k ih => rw [pow_succ, pow_succ]; exact L.acts_mul ih h
 
-theorem centAlpha_lift {n : ℕ} (M : TModel S R) (hS : CentAlphaS S R n) {α : G} (hα : α ∈ P)
+omit [Finite G] in
+theorem centAlpha_lift {n : ℕ} (_M : TModel S R) (hS : CentAlphaS S R n) {α : G} (hα : α ∈ P)
     (hα3 : orderOf α = 3) {Y : Subgroup G} (hY1 : Y ≤ Subgroup.normalizer (J : Set G))
     (hY2 : Y ≤ Subgroup.centralizer ({α} : Set G)) (hcop : Nat.Coprime 3 (Nat.card Y))
     (hnorm : ∀ j ∈ J ⊓ Subgroup.centralizer ({α} : Set G), ∀ y ∈ Y, j * y * j⁻¹ ∈ Y) :
@@ -587,7 +603,7 @@ theorem centAlpha_lift {n : ℕ} (M : TModel S R) (hS : CentAlphaS S R n) {α : 
       · obtain ⟨k, hk⟩ := ha3
         exact ⟨k, by
           have : (j * a * j⁻¹) ^ (3 ^ k) = j * a ^ (3 ^ k) * j⁻¹ := by
-            simpa [MulAut.conj_apply] using (map_pow (MulAut.conj j) a (3 ^ k))
+            simp
           rw [this, hk]; group⟩
     have hjα : (j : G) ∈ J ⊓ Subgroup.centralizer ({α} : Set G) := by
       refine ⟨j.2, Subgroup.mem_centralizer_iff.mpr ?_⟩

@@ -21,7 +21,7 @@ open CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerp23.YGam
 open CFSG.ClassicalInvolution.Q3.AE
 
 theorem triple_comm_aux {G : Type*} [Group G] {u e a b : G} (hu : u * u = 1) (hue : u * e = e * u)
-    (hua : u * a = a * u) (hub : u * b = b * u) : u * e * (u * a) * (u * b) = u * (e * a * b) := by
+    (hua : u * a = a * u) (_hub : u * b = b * u) : u * e * (u * a) * (u * b) = u * (e * a * b) := by
   calc u * e * (u * a) * (u * b) = u * (e * u) * a * (u * b) := by group
     _ = u * (u * e) * a * (u * b) := by rw [← hue]
     _ = (u * u) * e * a * (u * b) := by group

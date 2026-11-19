@@ -11,6 +11,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {E X1 X2 E1 E2 : Subgroup G}
 
+omit [Finite G] in
 private theorem sec8d3_mem_sup_of_commute {A B : Subgroup G}
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {x : G} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, x = a * b := by

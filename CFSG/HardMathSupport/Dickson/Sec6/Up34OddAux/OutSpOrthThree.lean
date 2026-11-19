@@ -56,7 +56,7 @@ theorem noL34Layer_fieldAut_psp_odd (hO : LieOrderFormulasInput) {r : ℕ} (hr :
       omega⟩
   have hmodelk : StatedClassicalModel (StatedProj (StatedSp r ↥k)) .PSp r p (f / 3) :=
     ⟨hadm, ↥k, inferInstance, inferInstance, hkcard', ⟨MulEquiv.refl _⟩⟩
-  haveI hsk : IsSimpleGroup (StatedProj (StatedSp r ↥k)) :=
+  have hsk : IsSimpleGroup (StatedProj (StatedSp r ↥k)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp _ r p (f / 3)
       hmodelk
   have hmodel : LieModel (StatedProj (StatedSp r ↥k)) .PSp r p (f / 3) :=
@@ -73,7 +73,7 @@ theorem noL34Layer_psp_outer_odd (hO : LieOrderFormulasInput) {P : Type} [Group 
     (hψ : ψ ∉ inner P) : NoL34Layer ψ := by
   have hC : StatedClassicalModel P .PSp n p f := (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC
-  haveI : Finite (StatedProj (StatedSp n K)) := Finite.of_equiv P e0.toEquiv
+  have : Finite (StatedProj (StatedSp n K)) := Finite.of_equiv P e0.toEquiv
   refine noL34Layer_congr e0 ?_
   have hψ3' : MulAut.congr e0 ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hninn : ¬ IsInnerAut (MulAut.congr e0 ψ) := fun h =>

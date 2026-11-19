@@ -21,7 +21,7 @@ theorem exists_injective_rankTwo_sl {F : Type} [Field F] [Finite F] {r : ℕ} [F
   have hdvd : r ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' r hdvd
   have hζr : ζ ^ r = 1 := hζ ▸ pow_orderOf_eq_one ζ
-  haveI : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
+  have : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
   exact ⟨rankTwoHom (torusSL F) r (powZMod r ζ hζr),
     rankTwoHom_injective torusSL_injective (powZMod_injective hζr hζ)⟩
 
@@ -52,7 +52,7 @@ theorem exists_prank_sl {m : ℕ} (hm : 3 ≤ m) (hq : 2 ^ m % 3 = 2) :
     · rw [h] at hdvd; omega
     · rw [h] at hdvd; omega
     · rw [h] at hpr; norm_num at hpr
-  haveI : Fact (N - 1).minFac.Prime := ⟨hpr⟩
+  have : Fact (N - 1).minFac.Prime := ⟨hpr⟩
   have hF : Nat.card (GaloisField 2 m) = 2 ^ m := GaloisField.card 2 m (by omega)
   obtain ⟨ψ, hψ⟩ := exists_injective_rankTwo_sl (F := GaloisField 2 m) (r := (N - 1).minFac)
     (by rw [hF]; exact hdvd)
@@ -67,8 +67,8 @@ theorem exists_prank_sl_one :
   have hcard : Nat.card (projSL 3 (GaloisField 2 1)) = 168 := by
     rw [← Nat.card_congr ν.toEquiv, card_sl_three_eq, hF]
     norm_num
-  haveI : Finite (projSL 3 (GaloisField 2 1)) := Finite.of_equiv _ ν.toEquiv
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (projSL 3 (GaloisField 2 1)) := Finite.of_equiv _ ν.toEquiv
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := projSL 3 (GaloisField 2 1)) 7
     (by rw [hcard]; norm_num)
   have hx7 : x ^ 7 = 1 := hx ▸ pow_orderOf_eq_one x

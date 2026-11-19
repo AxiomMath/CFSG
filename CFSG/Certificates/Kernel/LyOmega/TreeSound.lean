@@ -182,6 +182,7 @@ private theorem key_fld (KX : ℕ → ℕ) (b r e : ℕ) (hr : r < 64) (he : e <
   have e2 : (64 * b + r) % 64 = r := by omega
   rw [e1, e2, Nat.mul_comm r]
 
+set_option exponentiation.threshold 196608 in
 private theorem spread_small {MS : List ℕ} (hMS : spMasksOK MS = true) {x : ℕ}
     (hx : x < 2 ^ (3 * 49728)) :
     spreadB MS x = pk 12 49728 (fun e => x / 2 ^ (3 * e) % 8) := by
@@ -229,6 +230,7 @@ private theorem lab_eq (PT : ℕ → ℕ) (b r : ℕ) (hr : r < 64) :
     exact this
   exact Nat.mod_eq_of_lt h2
 
+set_option exponentiation.threshold 149184 in
 private theorem label_case {C : Consts} (hC : constsOK C = true) {KX PT : ℕ → ℕ} {G n b r s : ℕ}
     (hG : LCanon 12 111 111 G)
     (hK : ∀ j < n, ∀ e < 777, getRec KX 2331 j / 2 ^ (3 * e) % 8 < 5) (hKb : KX b < 2 ^ 196608)
@@ -301,7 +303,6 @@ private theorem label_case {C : Consts} (hC : constsOK C = true) {KX PT : ℕ �
       (∑ k ∈ Finset.range 7, yy (111 * (t / 111) + k) * m (111 * k + t % 111)) % 5 = yy t := by
     intro t ht
     have := congrArg (fun z => z / 2 ^ (12 * t) % 2 ^ 12) hmul
-    try simp only at this
     rwa [lane12 (fun e _ => lt_of_lt_of_le (Nat.mod_lt _ (by norm_num)) (by norm_num)) ht,
       lane12 (fun e he => lt_of_lt_of_le (hyy e he) (by norm_num)) ht] at this
   have hxk : ∀ q < 7, ∀ k < 111, x (111 * (7 * c + q) + k) =
@@ -383,7 +384,6 @@ private theorem treeLeaf' {C : Consts} (hC : constsOK C = true) {KX PT : ℕ →
         (by omega)
     funext q l
     have hql := congrArg (fun z => z / 2 ^ (12 * (111 * q.val + l.val)) % 2 ^ 12) hmask
-    try simp only at hql
     change (rows7 (spreadB C.MS (KX b)) r &&& C.MASK7) / _ % _ = _ at hql
     rw [lane_and, hM7 q.val q.isLt l.val l.isLt, hO7 q.val q.isLt l.val l.isLt, hN,
       lane12 (fun e _ => lt_of_lt_of_le (Nat.mod_lt _ (by norm_num)) (by norm_num)) (by omega),
@@ -395,14 +395,14 @@ private theorem treeLeaf' {C : Consts} (hC : constsOK C = true) {KX PT : ℕ →
     rw [← key_fld KX b r _ hr (by omega), hql, Matrix.one_apply]
     by_cases hqe : q.val = l.val
     · have : q = ⟨l.val, by omega⟩ := Fin.ext hqe
-      simp [hqe, this]
+      simp [this]
     · have : q ≠ ⟨l.val, by omega⟩ := fun h => hqe (by rw [h])
       simp [hqe, this]
   · by_cases hl : labL PT b r = 0
-    · rw [if_pos hl]
+    · rw [ite_eq_left hl]
       exact label_case hC hG0 hK hKb hpar hr (hch r hr hi0 hin) hl hin (h0 hl)
     · have hl1 : labL PT b r = 1 := by have := labL_lt PT b r; omega
-      rw [if_neg hl]
+      rw [ite_eq_right hl]
       exact label_case hC hG1 hK hKb hpar hr (hch r hr hi0 hin) hl1 hin (h1 hl1)
 
 end Leaf

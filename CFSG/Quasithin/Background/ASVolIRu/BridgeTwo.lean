@@ -86,7 +86,7 @@ theorem S_le_T (h : RuType G L V T) : SRu L ≤ T := by
   have hP : IsPGroup 2 ↥((T ⊓ L).subgroupOf L) :=
     hp.of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
   let P : Sylow 2 ↥L := IsPGroup.toSylow hP hidx
-  haveI : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   have hcore : CFSG.pCore 2 ↥L ≤ (P : Subgroup ↥L) :=
     (CFSG.LieType.BorelTits.pCore_isPGroup (G := ↥L) 2).le_sylow_of_normal P
   have hmap := Subgroup.map_mono (f := L.subtype) hcore
@@ -112,7 +112,7 @@ theorem V_le_H (h : RuType G L V T)
   refine Subgroup.mem_centralizer_iff.mpr fun z hz => ?_
   exact ((mem_V_iff h).mp hv).2 z (V_le_S h (Z_le_V h hCV hz))
 
-theorem V_le_URu (h : RuType G L V T) : V ≤ URu V T := by
+theorem V_le_URu (_h : RuType G L V T) : V ≤ URu V T := by
   rw [URu, conjClosure_eq]
   exact CFSG.Quasithin.le_conjClosure V (HRu T)
 
@@ -149,7 +149,7 @@ theorem frobF4_iterate (i : ℕ) (y : F4c) :
     rw [Function.iterate_succ_apply', ih]
     rcases zmod2_cases (i : ZMod 2) with h0 | h1
     · have h1' : ((i + 1 : ℕ) : ZMod 2) ≠ 0 := by rw [Nat.cast_succ, h0]; decide
-      simp [h0, h1']
+      simp [h0]
     · have h0' : (i : ZMod 2) ≠ 0 := by rw [h1]; decide
       have h1' : ((i + 1 : ℕ) : ZMod 2) = 0 := by rw [Nat.cast_succ, h1]; decide
       simp [h0', h1', frobF4_frobF4]

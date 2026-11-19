@@ -378,9 +378,9 @@ theorem pow_three_eq_one_of_eq_two {X : Type} [Group X] [Finite X] {p e : ℕ} [
     omega
   have hσS : ∀ s ∈ (S : Subgroup X), σ s ∈ (S : Subgroup X) := by
     intro s hs
-    have hmap : IsPGroup 3 ((S : Subgroup X).map σ.toMonoidHom) := S.isPGroup'.map _
+    have hmap : IsPGroup 3 ((S : Subgroup X).map σ.toMonoidHom) := S.isPGroup.map _
     obtain ⟨P, hP⟩ := hmap.exists_le_sylow
-    have hSP : (S : Subgroup X) ≤ P := IsPGroup.le_sylow_of_normal S.isPGroup' P
+    have hSP : (S : Subgroup X) ≤ P := IsPGroup.le_sylow_of_normal S.isPGroup P
     have hPS : (P : Subgroup X) = S := (Subgroup.eq_of_le_of_card_ge hSP (by
       rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity])).symm
     exact hPS ▸ hP ⟨s, hs, rfl⟩

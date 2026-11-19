@@ -13,7 +13,7 @@ open CFSG.Open CFSG.ClassicalInvolution.Asc77
 
 variable {G : Type} [Group G]
 
-@[expose] abbrev Kbar (K : Subgroup G) : Type := ↥K ⧸ classicalInvolutionOddCore ↥K
+abbrev Kbar (K : Subgroup G) : Type := ↥K ⧸ classicalInvolutionOddCore ↥K
 
 @[expose] def conjK (K : Subgroup G) (x : G) (hx : x ∈ Subgroup.normalizer (K : Set G)) : MulAut ↥K where
   toFun k := ⟨x * k * x⁻¹, (Subgroup.mem_normalizer_iff.mp hx k.1).mp k.2⟩

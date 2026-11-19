@@ -51,7 +51,7 @@ theorem mem_RSet_iff {R : Subgroup G} : R ∈ RSet Ω ↔ ∃ J ∈ Ω, R ≤ J 
     ∀ R' : Subgroup G, R' ≤ J → IsPGroup 2 R' → R ≤ R' → R' = R := by
   constructor
   · rintro ⟨J, hJ, P, rfl⟩
-    refine ⟨J, hJ, Subgroup.map_subtype_le _, P.isPGroup'.map _, fun R' hR'J hR'2 hle => ?_⟩
+    refine ⟨J, hJ, Subgroup.map_subtype_le _, P.isPGroup.map _, fun R' hR'J hR'2 hle => ?_⟩
     have hP : (P : Subgroup J) ≤ R'.subgroupOf J := Subgroup.map_le_iff_le_comap.mp hle
     have hQ : IsPGroup 2 (R'.subgroupOf J) := hR'2.comap_subtype
     have heq : R'.subgroupOf J = (P : Subgroup J) :=

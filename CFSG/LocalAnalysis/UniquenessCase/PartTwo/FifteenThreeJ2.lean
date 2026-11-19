@@ -14,6 +14,7 @@ section Abstract
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s15_Three_blocks_map {A : Subgroup (MulAut W)} {R₁ X : Subgroup W}
     {a : MulAut W} (ha : a ∈ A) (hX : X ∈ s15Blocks A R₁) :
     X.map a.toMonoidHom ∈ s15Blocks A R₁ := by
@@ -22,6 +23,7 @@ private theorem s15_Three_blocks_map {A : Subgroup (MulAut W)} {R₁ X : Subgrou
   rw [Subgroup.map_map]
   exact congrArg (fun f : W →* W => Subgroup.map f R₁) (MonoidHom.ext fun w => rfl)
 
+omit [Finite W] in
 private theorem s15_Three_tconj_fix {A : Subgroup (MulAut W)} {t a : MulAut W} {R₁ : Subgroup W}
     (ha : a ∈ A) (hfix : ∀ X ∈ s15Blocks A R₁, X ≠ R₁ → X ≤ fixV (Subgroup.zpowers t))
     {X : Subgroup W} (hX : X ∈ s15Blocks A R₁) (haX : X.map a.toMonoidHom ≠ R₁) :
@@ -33,15 +35,17 @@ private theorem s15_Three_tconj_fix {A : Subgroup (MulAut W)} {t a : MulAut W} {
     (mem_fixV.1 ((hfix _ hX' haX) hmem)) t (Subgroup.mem_zpowers t)
   simp [MulAut.mul_apply, MulAut.inv_apply, hta]
 
+omit [Finite W] in
 private theorem s15_Three_stab_iff {R₁ : Subgroup W} {a : MulAut W}
     (hR₁ : R₁.map a.toMonoidHom = R₁) : R₁.map (a⁻¹).toMonoidHom = R₁ := by
   have hcomp : (a⁻¹).toMonoidHom.comp a.toMonoidHom = MonoidHom.id W := by
     ext w
-    simp [MulAut.inv_apply]
+    simp
   have h := congrArg (Subgroup.map (a⁻¹).toMonoidHom) hR₁
   rw [Subgroup.map_map, hcomp, Subgroup.map_id] at h
   exact h.symm
 
+omit [Finite W] in
 private theorem s15_Three_sSup_blocks_of_stab {A : Subgroup (MulAut W)} {R₁ : Subgroup W}
     (h : ∀ a ∈ A, R₁.map a.toMonoidHom = R₁) : sSup (s15Blocks A R₁) = R₁ := by
   have hone : (1 : MulAut W).toMonoidHom = MonoidHom.id W := by ext w; rfl
@@ -54,6 +58,7 @@ private theorem s15_Three_sSup_blocks_of_stab {A : Subgroup (MulAut W)} {R₁ : 
       exact ⟨1, A.one_mem, by rw [hone, Subgroup.map_id]⟩
   rw [hset, sSup_singleton]
 
+omit [Finite W] in
 theorem s15_Three_J_split {A : Subgroup (MulAut W)} {t : MulAut W} {R S R₁ : Subgroup W}
     (hRS' : R ⊔ S = ⊤) (hSfix : S ≤ fixV (s15TGroup A t))
     (hJ : IsIrrOn (s15TGroup A t) R₁ ⊥) (hsup : sSup (s15Blocks A R₁) = R)
@@ -117,7 +122,7 @@ theorem s15_Three_J_split {A : Subgroup (MulAut W)} {t : MulAut W} {R S R₁ : S
       have h1 : (X.map a.toMonoidHom).map (a⁻¹).toMonoidHom =
           R₁.map (a⁻¹).toMonoidHom := by rw [h]
       have hcomp : (a⁻¹).toMonoidHom.comp a.toMonoidHom = MonoidHom.id W := by
-        ext w; simp [MulAut.inv_apply]
+        ext w; simp
       rw [Subgroup.map_map, hcomp, Subgroup.map_id] at h1
       rw [h1, s15_Three_stab_iff hR₁a]
     · intro X hX hXR u hu
@@ -160,12 +165,12 @@ theorem s15_Three_J_split {A : Subgroup (MulAut W)} {t : MulAut W} {R S R₁ : S
     exact s15_Three_tgroup_faithful hRS' hSfix x hxK.1 hRfix
   exact ⟨J₁, K, hJ₁J, hKJ, hKn, hdisj, hsup', htJ₁, hmove⟩
 
-theorem s15_Three_one_block_quot (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)}
-    {t : MulAut W} (ht : InducesTransvection t ⊤) {R S R₁ : Subgroup W} (hRS' : R ⊔ S = ⊤)
+theorem s15_Three_one_block_quot (_hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)}
+    {t : MulAut W} (_ht : InducesTransvection t ⊤) {R S R₁ : Subgroup W} (hRS' : R ⊔ S = ⊤)
     (hSfix : S ≤ fixV (s15TGroup A t)) (hJ : IsIrrOn (s15TGroup A t) R₁ ⊥)
     (hsup : sSup (s15Blocks A R₁) = R)
     (hfix : ∀ X ∈ s15Blocks A R₁, X ≠ R₁ → X ≤ fixV (Subgroup.zpowers t))
-    (hBA : ⁅A, Subgroup.zpowers t⁆ ≤ A) (hBJ : ⁅A, Subgroup.zpowers t⁆ ≤ s15TGroup A t)
+    (_hBA : ⁅A, Subgroup.zpowers t⁆ ≤ A) (hBJ : ⁅A, Subgroup.zpowers t⁆ ≤ s15TGroup A t)
     (hBn : ((⁅A, Subgroup.zpowers t⁆).subgroupOf (s15TGroup A t)).Normal)
     (hidx : ((⁅A, Subgroup.zpowers t⁆).subgroupOf (s15TGroup A t)).index ≤ 2)
     (hno2 : ∀ N : Subgroup ↥(⁅A, Subgroup.zpowers t⁆), N.Normal → (∃ n : ℕ, N.index = 2 ^ n) →
@@ -219,7 +224,7 @@ theorem s15_Three_jnat (hMcL : RMcLaughlin) (hW : ∀ w : W, w ^ 2 = 1) {A : Sub
     {t : MulAut W} (ht : InducesTransvection t ⊤) (htA : s15Normalizes t A) (hF : Fstar A = A)
     (hO : s15TwoCoreTrivial A) {R S : Subgroup W} (hR : IsIrrOn A R ⊥)
     (hRt : StableUnder (Subgroup.zpowers t) R) (hS : StableUnder A S)
-    (hRS : R ⊓ S = ⊥) (hRS' : R ⊔ S = ⊤) (htS : S ≤ fixV (Subgroup.zpowers t))
+    (_hRS : R ⊓ S = ⊥) (hRS' : R ⊔ S = ⊤) (htS : S ≤ fixV (Subgroup.zpowers t))
     (htR : commSub R (Subgroup.zpowers t) ≠ ⊥) : s15JNat (s15TGroup A t) R := by
   have hJ : s15TGroup A t ≠ ⊥ := by
     intro hbot

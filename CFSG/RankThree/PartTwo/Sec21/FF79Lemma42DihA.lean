@@ -149,7 +149,7 @@ theorem m42_mem_closure_inv_pair {u v : G} (hu2 : u * u = 1) (hv2 : v * v = 1)
   | one => exact Or.inl rfl
   | mul x y _ _ hx hy =>
     rcases hx with hx | hx | hx | hx <;> rcases hy with hy | hy | hy | hy <;> rw [hx, hy] <;>
-      simp [mul_assoc, hu2, hv2, e1, e2, hvu, e4]
+      simp [mul_assoc, hu2, hv2, e1, hvu, e4]
   | inv x _ hx =>
     have hi : (u * v)⁻¹ = u * v := by
       rw [mul_inv_rev, inv_eq_of_mul_eq_one_right hu2, inv_eq_of_mul_eq_one_right hv2, hc]
@@ -171,9 +171,9 @@ theorem m42_U_cen_V [Finite G] {u v b : G} {V : Subgroup G} (hVp : IsPGroup 2 V)
     rw [hU, Subgroup.closure_le]
     rintro z (rfl | rfl)
     exacts [hu, hv]
-  haveI : Group.IsNilpotent ↥V := hVp.isNilpotent
+  have : Group.IsNilpotent ↥V := hVp.isNilpotent
   let Ub : Subgroup ↥V := U.subgroupOf V
-  haveI : Ub.Normal := ⟨fun n hn g => by
+  have : Ub.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hVn g.1 g.2 n hn⟩
   have hUb : Ub ≠ ⊥ := by

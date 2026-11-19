@@ -71,7 +71,7 @@ theorem hasBQ_or_residual {Y : Type} [Group Y] (h : IsChevTwo Y) : HasBQ Y ∨ M
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.e6 q hv hq e
       have : CharP K 2 := hq ▸ CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         q.prime_p q.exponent_pos hK
-      haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup e6Data_valid K
+      have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup e6Data_valid K
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_e6 φ⟩
     | E7 q =>
@@ -80,7 +80,7 @@ theorem hasBQ_or_residual {Y : Type} [Group Y] (h : IsChevTwo Y) : HasBQ Y ∨ M
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.e7 q hv hq e
       have : CharP K 2 := hq ▸ CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         q.prime_p q.exponent_pos hK
-      haveI : Finite ↥(e7Data_valid.minGroup K) := finite_minGroup e7Data_valid K
+      have : Finite ↥(e7Data_valid.minGroup K) := finite_minGroup e7Data_valid K
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_e7 φ⟩
     | E8 q =>
@@ -89,7 +89,7 @@ theorem hasBQ_or_residual {Y : Type} [Group Y] (h : IsChevTwo Y) : HasBQ Y ∨ M
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.e8 q hv hq e
       have : CharP K 2 := hq ▸ CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         q.prime_p q.exponent_pos hK
-      haveI : Finite ↥(adjointGroup .E8 K) := generated_group_finite .E8 K
+      have : Finite ↥(adjointGroup .E8 K) := generated_group_finite .E8 K
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_e8 φ⟩
     | F4 q =>
@@ -98,7 +98,7 @@ theorem hasBQ_or_residual {Y : Type} [Group Y] (h : IsChevTwo Y) : HasBQ Y ∨ M
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.f4 q hv hq e
       have : CharP K 2 := hq ▸ CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         q.prime_p q.exponent_pos hK
-      haveI : Finite ↥(adjointGroup .F4 K) := generated_group_finite .F4 K
+      have : Finite ↥(adjointGroup .F4 K) := generated_group_finite .F4 K
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_f4 φ⟩
     | twistedE6 q =>
@@ -116,8 +116,8 @@ theorem hasBQ_or_residual {Y : Type} [Group Y] (h : IsChevTwo Y) : HasBQ Y ∨ M
         calc 2 = 2 ^ 1 := by norm_num
           _ ≤ 2 ^ q.exponent := Nat.pow_le_pow_right (by norm_num) q.exponent_pos
       have hθ := Exceptional.involutive_of_card hK' hσ
-      haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup e6Data_valid K
-      haveI : Finite ↥(CFSG.LieType.Steinberg.TwistedE6.fixedGroup K σ) := Subtype.finite
+      have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup e6Data_valid K
+      have : Finite ↥(CFSG.LieType.Steinberg.TwistedE6.fixedGroup K σ) := Subtype.finite
       have hK4 : 4 ≤ Nat.card K := by
         rw [hK']
         calc 4 ≤ 2 ^ 2 := by norm_num
@@ -138,8 +138,8 @@ theorem hasBQ_or_residual {Y : Type} [Group Y] (h : IsChevTwo Y) : HasBQ Y ∨ M
         rw [hq]
         calc 2 = 2 ^ 1 := by norm_num
           _ ≤ 2 ^ q.exponent := Nat.pow_le_pow_right (by norm_num) q.exponent_pos
-      haveI : Finite ↥(adjointGroup d4 K) := generated_group_finite d4 K
-      haveI : Finite ↥(twistedGroup σ) := Subtype.finite
+      have : Finite ↥(adjointGroup d4 K) := generated_group_finite d4 K
+      have : Finite ↥(twistedGroup σ) := Subtype.finite
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_d4tw h2le hK' hσ φ⟩
     | suzuki m => exact Or.inr (Or.inr (Or.inr ⟨⟨_, hv⟩, Or.inl ⟨m, rfl⟩, ⟨e⟩⟩))

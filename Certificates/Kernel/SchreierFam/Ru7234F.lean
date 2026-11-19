@@ -295,9 +295,9 @@ theorem relA_fold : ∀ (r : List (Fin 5 × Bool)) (a : Nat), cn a = true →
         U (cond l.2 (UU l.1.val) (UU (5 + l.1.val))) ∧
         cn (cond l.2 (UU l.1.val) (UU (5 + l.1.val))) = true := by
       cases hb : l.2
-      · exact ⟨by rw [if_neg (by simp), ruInv, u33A_get l.1.2, u33A_inv l.1.2]; rfl,
+      · exact ⟨by rw [ite_eq_right (by simp), ruInv, u33A_get l.1.2, u33A_inv l.1.2]; rfl,
           cnU (by have := l.1.2; omega)⟩
-      · exact ⟨by rw [if_pos rfl, u33A_get l.1.2]; rfl, cnU (by have := l.1.2; omega)⟩
+      · exact ⟨by rw [ite_eq_left rfl, u33A_get l.1.2]; rfl, cnU (by have := l.1.2; omega)⟩
     rw [List.foldl_cons, List.foldl_cons, hl.1, compA_unpack ha hl.2]
     exact relA_fold r _ (canonK_pcomp ha hl.2)
 

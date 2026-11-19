@@ -63,7 +63,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4
 theorem card_lt_sq_of_not_dvd {p : ℕ} (hp : p.Prime) {M : Type*} [Group M] [Finite M]
     (hM : ¬ p ^ 2 ∣ Nat.card M) {A : Subgroup M} (hA : IsElemAbelian p A) :
     Nat.card A < p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p A := by
     intro g
     refine ⟨1, ?_⟩

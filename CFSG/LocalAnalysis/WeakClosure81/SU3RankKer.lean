@@ -14,24 +14,24 @@ theorem mem_statedScalars_of_map_eq_one {n : ℕ} {F₀ : Type} [Field F₀] [Fi
     (hn : 2 ≤ n) (hcard : Nat.card F₀ = (2 ^ n) ^ 2) {X : Type} [Group X]
     (σ : ↥(StatedSU 3 (2 ^ n) F₀) →* X) (hσ : σ ≠ 1) {x : ↥(StatedSU 3 (2 ^ n) F₀)}
     (hx : σ x = 1) : (x : GL (Fin 3) F₀) ∈ StatedScalars (Fin 3) F₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2n : 2 ^ n ≠ 2 := by
     intro h
     have h4 : 4 ≤ 2 ^ n := by
       simpa using Nat.pow_le_pow_right (show 0 < 2 by norm_num) hn
     omega
   have hnq : (3, 2 ^ n) ≠ (3, 2) := fun h => h2n (congrArg Prod.snd h)
-  haveI : Group.IsPerfect ↥(StatedSU 3 (2 ^ n) F₀) :=
+  have : Group.IsPerfect ↥(StatedSU 3 (2 ^ n) F₀) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcard le_rfl hnq
   let Z : Subgroup ↥(StatedSU 3 (2 ^ n) F₀) :=
     (StatedScalars (Fin 3) F₀).subgroupOf (StatedSU 3 (2 ^ n) F₀)
-  haveI hZnormal : Z.Normal :=
+  have hZnormal : Z.Normal :=
     Subgroup.Normal.subgroupOf (StatedScalars.normal (Fin 3) F₀) (StatedSU 3 (2 ^ n) F₀)
   let N : Subgroup ↥(StatedSU 3 (2 ^ n) F₀) := σ.ker
-  haveI hNnormal : N.Normal := MonoidHom.normal_ker σ
+  have hNnormal : N.Normal := MonoidHom.normal_ker σ
   let q : ↥(StatedSU 3 (2 ^ n) F₀) →* (↥(StatedSU 3 (2 ^ n) F₀) ⧸ Z) :=
     QuotientGroup.mk' Z
-  haveI : IsSimpleGroup (↥(StatedSU 3 (2 ^ n) F₀) ⧸ Z) :=
+  have : IsSimpleGroup (↥(StatedSU 3 (2 ^ n) F₀) ⧸ Z) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F₀ 2 n hcard 3 le_rfl hnq
   let M : Subgroup (↥(StatedSU 3 (2 ^ n) F₀) ⧸ Z) := N.map q
   have hqker : q.ker = Z := QuotientGroup.ker_mk' Z

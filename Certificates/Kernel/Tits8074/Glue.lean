@@ -34,9 +34,9 @@ theorem L_eq (c : Nat) :
   have e2 : Nat.shiftRight c 1 = c / 2 := (Nat.shiftRight_eq_div_pow c 1).trans (by norm_num)
   rw [e1, e2]
   rcases Nat.mod_two_eq_zero_or_one c with h | h
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     rfl
-  · rw [h, if_neg (by decide)]
+  · rw [h, ite_eq_right (by decide)]
     rfl
 
 theorem prep_sg {j : Nat} (hj : j < 12) :
@@ -60,8 +60,8 @@ theorem hL : LRep L gl := by
     unfold gl
     rw [h1]
     by_cases h : c % 2 = 0
-    · rw [if_neg (fun h' => (h2.1 h') h), if_pos h]
-    · rw [if_pos (h2.2 h), if_neg h, inv_inv]
+    · rw [ite_eq_right (fun h' => (h2.1 h') h), ite_eq_left h]
+    · rw [ite_eq_left (h2.2 h), ite_eq_right h, inv_inv]
 
 theorem sg_mem {k : Nat} (hk : k < 12) : sg k ∈ P := by
   have h : sg k ∈ titsPairQ.strong.toList := by
@@ -72,7 +72,7 @@ theorem sg_mem {k : Nat} (hk : k < 12) : sg k ∈ P := by
   have e : P = titsPairQ.levelSubgroup 0 :=
     (titsPairQ.levelSubgroup_zero_eq_original titsPairQ_valid).symm
   rw [e]
-  exact Subgroup.subset_closure (by rw [Set.mem_setOf_eq, RawSchreierDatum.levelGenerators_zero]; exact h)
+  exact Subgroup.subset_closure (by rw [Set.mem_ofPred_eq, RawSchreierDatum.levelGenerators_zero]; exact h)
 
 theorem gl_mem {c : Nat} (hc : c < 24) : gl c ∈ P := by
   unfold gl
@@ -154,7 +154,7 @@ theorem level_gen {i : Nat} {s : Perm (Fin 1755)} (hs : s ∈ titsPairQ.levelGen
   rw [CertificateChecks.TitsStrong8077.strong_get.1] at hj
   refine ⟨2 * j, by omega, ?_, fun q hq => hs2 q ((base_take i q).2 hq)⟩
   unfold gl
-  rw [if_pos (by omega), show 2 * j / 2 = j by omega]
+  rw [ite_eq_left (by omega), show 2 * j / 2 = j by omega]
   rfl
 
 theorem fix_nat {c : Nat} (hc : c < 24) {pre : List Nat} (hpre : ∀ p ∈ pre, p < 1755)

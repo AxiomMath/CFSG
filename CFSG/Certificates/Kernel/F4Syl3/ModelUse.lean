@@ -25,7 +25,7 @@ theorem card_le_filter {S : Type*} {s : Fin 4 → G} (Q : ℕ → Bool) (e : S �
   classical
   choose x hx hQ hxe using h
   have hmem : ∀ v, x v ∈ ((List.range 81).filter Q).toFinset := fun v => by
-    simp [List.mem_filter, hx v, hQ v]
+    simp [hx v, hQ v]
   refine le_trans (Nat.card_le_card_of_injective
     (fun v => (⟨x v, hmem v⟩ : ((List.range 81).filter Q).toFinset)) ?_) ?_
   · intro v w hvw
@@ -110,11 +110,13 @@ theorem phi_cube_mem (m : ℕ) : phi s g4 g5 m ^ 3 ∈ Subgroup.closure (Set.ran
   rw [e, phi, pmul_div, pmul_div, hq, gQ_zero, mul_one]
   exact fS_mem_T s _
 
+omit hp in
 theorem phi_div_mem {n p : ℕ} (h : n / 81 = p / 81) :
     phi s g4 g5 n * (phi s g4 g5 p)⁻¹ ∈ Subgroup.closure (Set.range s) := by
   simp only [phi, h, mul_inv_rev, mul_assoc, mul_inv_cancel_left]
   exact Subgroup.mul_mem _ (fS_mem_T s _) (Subgroup.inv_mem _ (fS_mem_T s _))
 
+omit hp in
 theorem phi_not_mem_T {m : ℕ} (h : phi s g4 g5 m ∉ Subgroup.closure (Set.range s)) :
     m / 81 ≠ 0 := by
   intro h0
@@ -165,7 +167,7 @@ theorem e81_unique (hm : ModelOK) {B : Subgroup G} (hBP : B ≤ Subgroup.closure
     rw [Subgroup.mem_subgroupOf] at hg
     obtain ⟨m, hm729, hme⟩ := hP g
     rw [← hme] at hg
-    have hq := phi_not_mem_T hp hg
+    have hq := phi_not_mem_T hg
     rw [← hm.2.2.2.2.2.2.2.2.2.1 (m / 81) (by omega) hq]
     refine card_le_filter (s := s) _ (fun v => ((v.1 : Subgroup.closure (gensP s g4 g5)) : G))
       (fun v w h => Subtype.ext (Subtype.ext h)) fun v => ?_
@@ -186,7 +188,7 @@ theorem e81_unique (hm : ModelOK) {B : Subgroup G} (hBP : B ≤ Subgroup.closure
     obtain ⟨m, hm729, hme⟩ := hP g
     obtain ⟨n, hn729, hne⟩ := hP h
     rw [← hme] at hg
-    have hq := phi_not_mem_T hp hg
+    have hq := phi_not_mem_T hg
     have hk : ∀ (k p : ℕ), phi s g4 g5 p = (g : G) ^ k → n / 81 = p / 81 → False := by
       intro k p hpk hr
       refine hout k ⟨(h : G) * ((g : G) ^ k)⁻¹, Subgroup.mul_mem _ h.2
@@ -194,10 +196,10 @@ theorem e81_unique (hm : ModelOK) {B : Subgroup G} (hBP : B ≤ Subgroup.closure
       · rw [Subgroup.mem_subgroupOf]
         simp only
         rw [← hpk, ← hne]
-        exact phi_div_mem hp hr
+        exact phi_div_mem hr
       · apply Subtype.ext
         simp
-    have hr0 : n / 81 ≠ 0 := fun e => hk 0 0 (by rw [phi_zero hp, pow_zero]) (by rw [e])
+    have hr0 : n / 81 ≠ 0 := fun e => hk 0 0 (by rw [phi_zero, pow_zero]) (by rw [e])
     have hrq : n / 81 ≠ m / 81 := fun e => hk 1 m (by rw [hme, pow_one]) e
     have hrqq : n / 81 ≠ qadd (m / 81) (m / 81) := fun e =>
       hk 2 (pmul m m) (by rw [phi_pmul hp, hme, pow_two]) (by rw [pmul_div, e])
@@ -275,10 +277,10 @@ theorem conj_rep (hm : ModelOK) {reps tgt : List ℕ} {cover : List (ℕ × ℕ)
   obtain ⟨m, hm729, rfl⟩ := mem_P hp hx
   have h0 : m ≠ 0 := by
     rintro rfl
-    exact h1 (phi_zero hp)
+    exact h1 (phi_zero)
   have hc : pmul (pmul m m) m = 0 := by
     refine phi_injOn hp hm (pmul_lt _ _) (by decide : (0 : ℕ) < 729) ?_
-    rw [phi_pmul hp, phi_pmul hp, phi_zero hp, ← h3, pow_succ, pow_two]
+    rw [phi_pmul hp, phi_pmul hp, phi_zero, ← h3, pow_succ, pow_two]
   obtain ⟨hk, he⟩ := cover_spec hcov hm729 h0 hc
   refine ⟨m, hm729, rfl, hk, isConj_iff.2 ⟨phi s g4 g5 (cover.getD m (0, 0)).1, ?_⟩⟩
   rw [← phi_pmul hp, he, phi_pmul hp, mul_inv_cancel_right]

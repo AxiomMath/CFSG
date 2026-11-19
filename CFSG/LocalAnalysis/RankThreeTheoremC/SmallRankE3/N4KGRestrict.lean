@@ -14,6 +14,7 @@ open CFSG.GH74.Uniqueness.SU
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem n4_normalizer_subgroupOf {Gs X : Subgroup G} (hX : X ≤ Gs) :
     normalizer ((X.subgroupOf Gs : Subgroup ↥Gs) : Set ↥Gs) =
       (normalizer (X : Set G)).subgroupOf Gs := by
@@ -35,6 +36,7 @@ theorem n4_normalizer_subgroupOf {Gs X : Subgroup G} (hX : X ≤ Gs) :
   · intro h h'
     exact h (h' : G)
 
+omit [Finite G] in
 theorem n4_isSimpleSection_subgroupOf {Gs L D : Subgroup G} (hL : L ≤ Gs)
     (h : S622IsSimpleSection L D) :
     S622IsSimpleSection (L.subgroupOf Gs) (D.subgroupOf Gs) := by
@@ -92,10 +94,11 @@ theorem n4_isSimpleSection_subgroupOf {Gs L D : Subgroup G} (hL : L ≤ Gs)
     rw [Subgroup.mem_subgroupOf] at key
     simpa using key
 
+omit [Finite G] in
 theorem n4_characteristic_map {Gs S : Subgroup G} (hS : S ≤ Gs) {S₀ : Subgroup ↥Gs}
-    (hS₀ : S₀ ≤ S.subgroupOf Gs) (h : (S₀.subgroupOf (S.subgroupOf Gs)).Characteristic) :
+    (_hS₀ : S₀ ≤ S.subgroupOf Gs) (h : (S₀.subgroupOf (S.subgroupOf Gs)).Characteristic) :
     ((S₀.map Gs.subtype).subgroupOf S).Characteristic := by
-  clear hS₀
+  clear _hS₀
   set e : ↥(S.subgroupOf Gs) ≃* ↥S := Subgroup.subgroupOfEquivOfLe hS
   have key : ∀ y : ↥S, y ∈ (S₀.map Gs.subtype).subgroupOf S ↔
       e.symm y ∈ S₀.subgroupOf (S.subgroupOf Gs) := by
@@ -124,7 +127,8 @@ theorem n4_characteristic_map {Gs S : Subgroup G} (hS : S ≤ Gs) {S₀ : Subgro
   rw [Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, key (ϕ y), key y, ← hψy]
   exact hmem (e.symm y)
 
-theorem n4_isElemAbelian_subgroupOf {p : ℕ} {Gs B : Subgroup G} (hB : B ≤ Gs)
+omit [Finite G] in
+theorem n4_isElemAbelian_subgroupOf {p : ℕ} {Gs B : Subgroup G} (_hB : B ≤ Gs)
     (h : IsElemAbelian p B) : IsElemAbelian p (B.subgroupOf Gs) := by
   obtain ⟨hc, hp⟩ := SU1.isElemAbelian_iff.mp h
   refine SU1.isElemAbelian_iff.mpr ⟨fun a ha b hb => Subtype.ext (hc _ ha _ hb), fun a ha => ?_⟩
@@ -148,7 +152,7 @@ theorem KGData3Pre.restrict (d : KGData3Pre p H D S B L M z) {Gs : Subgroup G} (
   have hDS : D.subgroupOf Gs < S.subgroupOf Gs := by
     refine lt_of_le_of_ne (fun x hx => d.D_lt_S.le hx) ?_
     intro heq
-    obtain ⟨s, hsS, hsD⟩ := SetLike.exists_of_lt d.D_lt_S
+    obtain ⟨s, hsS, hsD⟩ := _root_.IsConcreteLE.exists_of_lt d.D_lt_S
     have hs' : (⟨s, hS hsS⟩ : ↥Gs) ∈ S.subgroupOf Gs := hsS
     rw [← heq] at hs'
     exact hsD hs'
@@ -194,7 +198,7 @@ theorem KGData3Pre.restrict (d : KGData3Pre p H D S B L M z) {Gs : Subgroup G} (
     have hDS₀G : D < S₀.map Gs.subtype := by
       refine lt_of_le_of_ne (fun x hx => ⟨⟨x, hD hx⟩, hDS₀.le hx, rfl⟩) ?_
       intro heq
-      obtain ⟨y, hyS₀, hyD⟩ := SetLike.exists_of_lt hDS₀
+      obtain ⟨y, hyS₀, hyD⟩ := _root_.IsConcreteLE.exists_of_lt hDS₀
       have : (y : G) ∈ S₀.map Gs.subtype := ⟨y, hyS₀, rfl⟩
       rw [← heq] at this
       exact hyD this

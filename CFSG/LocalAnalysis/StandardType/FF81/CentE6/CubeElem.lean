@@ -20,7 +20,7 @@ theorem cubeAct_elem_cubeBasis {i j : Fin 6} (hij : i ≠ j) (I : Set.powersetCa
   have hmat : ((elem i j : SL(6, ZMod 2)) : Matrix (Fin 6) (Fin 6) (ZMod 2)) =
       Matrix.transvection i j 1 := by
     unfold elem
-    rw [dif_neg hij]
+    rw [dite_eq_right hij]
     exact Matrix.SpecialLinearGroup.transvection_coe hij 1
   have helem : Matrix.SpecialLinearGroup.toGL (elem i j) =
       A5Cube.transvGL (ZMod 2) i j hij 1 := by
@@ -32,7 +32,7 @@ theorem cubeAct_elem_cubeBasis {i j : Fin 6} (hij : i ≠ j) (I : Set.powersetCa
     rw [helem]
   rw [hcube, A5Cube.rho_transvGL_cubeBasis_gen (K := ZMod 2) i j hij 1 I]
   by_cases h : j ∈ I.val ∧ i ∉ I.val
-  · simp only [dif_pos h, one_smul]
-  · simp only [dif_neg h]
+  · simp only [dite_eq_left h, one_smul]
+  · simp only [dite_eq_right h]
 
 end CFSG.StandardType.FF81.CentE6

@@ -3138,17 +3138,17 @@ theorem cell_D4_b0 :
   intro s hs
   simp only [GGResIDisp.D4.shapes_D4_b0, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
-  · simp only [wits_D4_b0, if_pos rfl]
+  · simp only [wits_D4_b0]
     exact hwits_D4b0c2
-  · simp only [wits_D4_b0, if_neg (by decide : ¬ (((2, -1, -2)) = ((2, -1, -1)))), if_pos rfl]
+  · simp only [wits_D4_b0]
     exact hwits_D4b0c2w12
-  · simp only [wits_D4_b0, if_neg (by decide : ¬ (((2, -2, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((2, -2, -1)) = ((2, -1, -2)))), if_pos rfl]
+  · simp only [wits_D4_b0]
     exact hwits_D4b0c2w21
-  · simp only [wits_D4_b0, if_neg (by decide : ¬ (((3, -1, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((2, -1, -2)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((2, -2, -1)))), if_pos rfl]
+  · simp only [wits_D4_b0]
     exact hwits_D4b0c3
-  · simp only [wits_D4_b0, if_neg (by decide : ¬ (((3, -1, -2)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((2, -1, -2)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((2, -2, -1)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((3, -1, -1)))), if_pos rfl]
+  · simp only [wits_D4_b0]
     exact hwits_D4b0c3w12
-  · simp only [wits_D4_b0, if_neg (by decide : ¬ (((3, -2, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((2, -1, -2)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((2, -2, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((3, -1, -2)))), if_pos rfl]
+  · simp only [wits_D4_b0]
     exact hwits_D4b0c3w21
 theorem hsideOK_D4_b0 :
     ∀ s ∈ GGResIDisp.D4.shapes_D4_b0, ∀ w ∈ wits_D4_b0 s,
@@ -3181,17 +3181,17 @@ theorem cell_D4_b2 :
   intro s hs
   simp only [GGResIDisp.D4.shapes_D4_b2, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
-  · simp only [wits_D4_b2, if_pos rfl]
+  · simp only [wits_D4_b2]
     exact hwits_D4b2c0
-  · simp only [wits_D4_b2, if_neg (by decide : ¬ (((0, -1, -2)) = ((0, -1, -1)))), if_pos rfl]
+  · simp only [wits_D4_b2]
     exact hwits_D4b2c0w12
-  · simp only [wits_D4_b2, if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -2)))), if_pos rfl]
+  · simp only [wits_D4_b2]
     exact hwits_D4b2c0w21
-  · simp only [wits_D4_b2, if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -2, -1)))), if_pos rfl]
+  · simp only [wits_D4_b2]
     exact hwits_D4b2c3
-  · simp only [wits_D4_b2, if_neg (by decide : ¬ (((3, -1, -2)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((3, -1, -2)) = ((3, -1, -1)))), if_pos rfl]
+  · simp only [wits_D4_b2]
     exact hwits_D4b2c3w12
-  · simp only [wits_D4_b2, if_neg (by decide : ¬ (((3, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((3, -2, -1)) = ((3, -1, -2)))), if_pos rfl]
+  · simp only [wits_D4_b2]
     exact hwits_D4b2c3w21
 theorem hsideOK_D4_b2 :
     ∀ s ∈ GGResIDisp.D4.shapes_D4_b2, ∀ w ∈ wits_D4_b2 s,
@@ -3224,17 +3224,17 @@ theorem cell_D4_b3 :
   intro s hs
   simp only [GGResIDisp.D4.shapes_D4_b3, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
-  · simp only [wits_D4_b3, if_pos rfl]
+  · simp only [wits_D4_b3]
     exact hwits_D4b3c0
-  · simp only [wits_D4_b3, if_neg (by decide : ¬ (((0, -1, -2)) = ((0, -1, -1)))), if_pos rfl]
+  · simp only [wits_D4_b3]
     exact hwits_D4b3c0w12
-  · simp only [wits_D4_b3, if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -2)))), if_pos rfl]
+  · simp only [wits_D4_b3]
     exact hwits_D4b3c0w21
-  · simp only [wits_D4_b3, if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -2, -1)))), if_pos rfl]
+  · simp only [wits_D4_b3]
     exact hwits_D4b3c2
-  · simp only [wits_D4_b3, if_neg (by decide : ¬ (((2, -1, -2)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((2, -1, -2)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((2, -1, -2)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((2, -1, -2)) = ((2, -1, -1)))), if_pos rfl]
+  · simp only [wits_D4_b3]
     exact hwits_D4b3c2w12
-  · simp only [wits_D4_b3, if_neg (by decide : ¬ (((2, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((2, -2, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((2, -2, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((2, -2, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((2, -2, -1)) = ((2, -1, -2)))), if_pos rfl]
+  · simp only [wits_D4_b3]
     exact hwits_D4b3c2w21
 theorem hsideOK_D4_b3 :
     ∀ s ∈ GGResIDisp.D4.shapes_D4_b3, ∀ w ∈ wits_D4_b3 s,

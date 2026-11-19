@@ -55,7 +55,7 @@ theorem exists_fourFive_model_of_subgroup_card_one_hundred_twenty_five
                   ((a : A) :
                     Degree20.FourFiveBase) (d x) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hRpGroup : IsPGroup 5 R :=
     IsPGroup.of_card (n := 3)
       (hRcard.trans (by norm_num))

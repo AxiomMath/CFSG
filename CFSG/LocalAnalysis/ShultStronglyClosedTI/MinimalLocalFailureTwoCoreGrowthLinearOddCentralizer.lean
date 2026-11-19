@@ -77,7 +77,7 @@ theorem psl2_even_odd_element_full_centralizer
   let : IsCyclic U0 := hU0cyclic
   let : IsCyclic S0 := hS0cyclic
   obtain ⟨gU, hgU⟩ := reference_torus_matches_partition
-    (P : Subgroup (PSL2MatrixGroup K)) U S U0 P.isPGroup'
+    (P : Subgroup (PSL2MatrixGroup K)) U S U0 P.isPGroup
     (hU0card.trans hUcard.symm) (hUcard.symm ▸ hminusodd)
     (by rw [hUcard]; omega) hUS hcover
   have hreverse : ∀ y : PSL2MatrixGroup K, y ≠ 1 →
@@ -91,12 +91,12 @@ theorem psl2_even_odd_element_full_centralizer
     · exact ⟨V, hyV, Or.inr (Or.inr hVU)⟩
     · exact ⟨V, hyV, Or.inr (Or.inl hVS)⟩
   obtain ⟨gS, hgS⟩ := reference_torus_matches_partition
-    (P : Subgroup (PSL2MatrixGroup K)) S U S0 P.isPGroup'
+    (P : Subgroup (PSL2MatrixGroup K)) S U S0 P.isPGroup
     (hS0card.trans hScard.symm) (hScard.symm ▸ hplusodd)
     (by rw [hScard]; omega) hUS.symm hreverse
   obtain ⟨V, hxV, hVP | hVU | hVS⟩ := hcover x hx
   · obtain ⟨g, rfl⟩ := hVP
-    have htwo := P.isPGroup'.map (MulAut.conj g).toMonoidHom
+    have htwo := P.isPGroup.map (MulAut.conj g).toMonoidHom
     let y : (P : Subgroup (PSL2MatrixGroup K)).map (MulAut.conj g).toMonoidHom :=
       ⟨x, hxV⟩
     have hyodd : Odd (orderOf y) := (Subgroup.orderOf_coe y).symm ▸ hxodd

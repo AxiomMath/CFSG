@@ -16,7 +16,7 @@ theorem mem_fixV_zpowers {W : Type*} [CommGroup W] (t : MulAut W) (q : W) :
     q ∈ fixV (Subgroup.zpowers t) ↔ t q = q := by
   have key : ∀ X : Subgroup (MulAut W), q ∈ fixV X ↔ X ≤ MulAction.stabilizer (MulAut W) q := by
     intro X
-    simp only [mem_fixV, SetLike.le_def, MulAction.mem_stabilizer_iff, MulAut.smul_def]
+    simp only [mem_fixV, _root_.IsConcreteLE.le_iff, MulAction.mem_stabilizer_iff, MulAut.smul_def]
   rw [key, Subgroup.zpowers_le, MulAction.mem_stabilizer_iff, MulAut.smul_def]
 
 theorem two_pow_mul_le_iff {b c n : ℕ} (hb : ∃ e, b = 2 ^ e) (hc : 0 < c) :
@@ -30,13 +30,14 @@ section Card
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_IntMod (V : Subgroup G) (hV : IsElemAbelian 2 V) :
     Nat.card (IntMod V hV) = Nat.card V := rfl
 
 theorem exists_pow_card (V : Subgroup G) (hV : IsElemAbelian 2 V) :
     ∃ a, Nat.card (IntMod V hV) = 2 ^ a := by
   have h2 : IsPGroup 2 V := CFSG.Open.IsElemAbelian.isPGroup hV
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (IsPGroup.iff_card).1 h2
 
 theorem exists_pow_index (V : Subgroup G) (hV : IsElemAbelian 2 V) (H : Subgroup (IntMod V hV)) :
@@ -46,6 +47,7 @@ theorem exists_pow_index (V : Subgroup G) (hV : IsElemAbelian 2 V) (H : Subgroup
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 h1
   exact ⟨k, hk⟩
 
+omit [Finite G] in
 theorem centMod_eq_image (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (g : stabTil V₀ V) :
     centMod V₀ V g = IntMod.val '' (((fixV (Subgroup.zpowers (actTil V₀ V hV g))).comap
       (mkTil V₀ V hV) : Subgroup (IntMod V hV)) : Set (IntMod V hV)) := by
@@ -78,6 +80,7 @@ theorem centMod_card_iff (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (g : sta
   exact two_pow_mul_le_iff hpow hpos
 
 
+omit [Finite G] in
 theorem card_Vtil_eq (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V) :
     Nat.card V = Nat.card V₀ * Nat.card (Vtil V₀ V hV) := by
   have h1 : Nat.card (modNull V₀ V hV) * (modNull V₀ V hV).index = Nat.card (IntMod V hV) :=
@@ -108,7 +111,7 @@ variable [Finite G]
 theorem even_card_barSub_iff (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (hMs : M ≤ stabTil V₀ V) :
     Even (Nat.card (Mbar M V₀ V hV)) ↔
       ∃ m ∈ M, ¬ CentralizesMod V₀ V m ∧ CentralizesMod V₀ V (m * m) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   constructor
   · intro hev
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Mbar M V₀ V hV) 2 (even_iff_two_dvd.1 hev)
@@ -146,7 +149,7 @@ variable [Finite G]
 theorem mBarGT_iff_lt_mParam (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G)) (n : ℕ) :
     MBarGT M V₀ V n ↔ n < E3.mParam (Mbar M V₀ V hV) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMs : M ≤ stabTil V₀ V := le_inf hM hM₀
   have hA : (∀ m ∈ M, ¬ CentralizesMod V₀ V m → CentralizesMod V₀ V (m * m) →
         2 ^ (n + 1) * Nat.card (centMod V₀ V m) ≤ Nat.card V) ↔
@@ -173,7 +176,7 @@ theorem mBarGT_iff_lt_mParam (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (h
       exact (centMod_card_iff V₀ V hV g n).2 (h _ ⟨_, ht, ho, rfl⟩)
   unfold E3.mParam MBarGT
   by_cases hev : Even (Nat.card (Mbar M V₀ V hV))
-  · rw [if_pos hev]
+  · rw [ite_eq_left hev]
     obtain ⟨m0, hm0, hn0, hn1⟩ := (even_card_barSub_iff M V₀ V hV hMs).1 hev
     have hne : {k : ℕ | ∃ t ∈ Mbar M V₀ V hV, orderOf t = 2 ∧
         k = rkIdx (fixV (Subgroup.zpowers t))}.Nonempty := by
@@ -191,7 +194,7 @@ theorem mBarGT_iff_lt_mParam (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (h
       exact (hA.1 h1) _ (Nat.sInf_mem hne)
     · intro hlt
       refine ⟨hA.2 fun k hk => lt_of_lt_of_le hlt (Nat.sInf_le hk), fun h => absurd (h m0 hm0 hn1) hn0⟩
-  · rw [if_neg hev]
+  · rw [ite_eq_right hev]
     have hno : ∀ m ∈ M, CentralizesMod V₀ V (m * m) → CentralizesMod V₀ V m := by
       intro m hm hC2
       by_contra hC

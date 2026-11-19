@@ -93,11 +93,11 @@ theorem spinAction_o8mWordElt {w : List ℕ} (hw : o8mEvenWord w = true) (x : �
       have hu : o8mNormBit u = true := hw.2.1
       have hv : o8mNormBit v = true := hw.2.2.1
       have hnorm : quadMinus 4 K 1 1 (o8mVec u) * quadMinus 4 K 1 1 (o8mVec v) = 1 := by
-        rw [quadMinus_o8mVec, quadMinus_o8mVec, if_pos hu, if_pos hv, one_mul]
+        rw [quadMinus_o8mVec, quadMinus_o8mVec, ite_eq_left hu, ite_eq_left hv, one_mul]
       rw [o8mWordElt.eq_1]
       simp only [o8mWordBit, List.foldr_cons]
       rw [map_mul, LinearEquiv.mul_apply, ih hw']
-      rw [o8mPairElt, dif_pos hnorm,
+      rw [o8mPairElt, dite_eq_left hnorm,
         CFSG.ComponentClassification.GSThmB.Cent516.spinAction_pairElt hnorm,
         LinearEquiv.mul_apply, reflect_o8mVec hv, reflect_o8mVec hu]
       rfl
@@ -161,7 +161,7 @@ theorem o8mMinorProd_mat_of_spinAction {g : spinGroup (quadMinus 4 K 1 1)} {w : 
       (o8mDeltaBit (o8mWordCol w) 0) (o8mDeltaBit (o8mWordCol w) 1)
       (o8mDeltaBit (o8mWordCol w) 2)
   by_cases h : (∀ i ∈ J, o8mDeltaBit (o8mWordCol w) i)
-  · rw [if_pos h, if_pos (hiff.mp h)]
-  · rw [if_neg h, if_neg (fun hq => h (hiff.mpr hq))]
+  · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hq => h (hiff.mpr hq))]
 
 end CFSG.LocalAnalysis.WeakClosure81

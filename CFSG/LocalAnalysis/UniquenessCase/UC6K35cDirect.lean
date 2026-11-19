@@ -26,8 +26,8 @@ theorem isPSolvable_of_k35c_reduced (hTor : CFSG.AGLEmbedding.KFactOneLieTorus) 
     CFSG.HallHigman.IsPSolvable p ↥N := by
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp.out hO hN
   set K := CFSG.generalizedFitting Y with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hcat : CFSG.Open.IsCatalogGroup ↥K :=
     hY.isCatalogGroup_of_surjective K hKnab (MonoidHom.id _) Function.surjective_id
   obtain ⟨P₀, ⟨-, hP₀p, hP₀i⟩, hP₀N⟩ := hN.exists_isSylowOf_le
@@ -52,7 +52,7 @@ theorem isPSolvable_of_k35c_reduced (hTor : CFSG.AGLEmbedding.KFactOneLieTorus) 
       exact CFSG.AGLEmbedding.card_le_of_isElemAbelian_of_isCyclic_sylow T hcyc hE
     have hge1 : 1 ≤ CFSG.Open.pRank p K :=
       (CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.CyclicOuter.one_le_pRank_of_isPGroup
-        hp.out P.isPGroup'.to_inf_left hPK).trans
+        hp.out P.isPGroup.to_inf_left hPK).trans
         (CFSG.SectionRank.pRank_mono hp.out.one_lt inf_le_right)
     have hnc : ¬ IsMulCommutative ↥K := fun h => by
       obtain ⟨a, b, hab⟩ := hKnab
@@ -68,7 +68,7 @@ theorem isPSolvable_of_k35c_reduced (hTor : CFSG.AGLEmbedding.KFactOneLieTorus) 
     have hco := hF.borel_coatom
     set Q : Subgroup Y := (P : Subgroup Y) ⊓ K with hQdef
     have hQN : Q ≤ N := inf_le_left.trans hPN
-    have hQp : IsPGroup p ↥Q := P.isPGroup'.to_inf_left
+    have hQp : IsPGroup p ↥Q := P.isPGroup.to_inf_left
     have hNK : N.subgroupOf K = normalizer ((T : Subgroup ↥K) : Set ↥K) := by
       have hle : normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
         intro k hk
@@ -128,18 +128,18 @@ theorem isPSolvable_of_k35c_reduced (hTor : CFSG.AGLEmbedding.KFactOneLieTorus) 
       apply CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.CyclicOuter.conjNormal_injective
         K hKC
       exact congrArg Subtype.val hab
-    haveI := hsolA
-    haveI : Group.IsSolvable ↥N := solvable_of_solvable_injective hinj
+    have := hsolA
+    have : Group.IsSolvable ↥N := Group.isSolvable_of_isSolvable_injective hinj
     exact CFSG.RankThree.PartTwo.Sec14.isPSolvable_of_isSolvable hp.out inferInstance
 
 end Reduced
 
 theorem k35c_of_kfacts (hTor : CFSG.AGLEmbedding.KFactOneLieTorus) (hK631 : K631) : K35c := by
   intro X _ _ hX p hp hp2 N hN h2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hNq, hrk, hcore⟩ := quotient_of_stronglyPEmbedded hN h2
   have hYN := pPrimeCore_le_of_stronglyPEmbedded hN h2.le
-  haveI : (CFSG.pPrimeCore p X).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore p X).Normal := CFSG.pPrimeCore_normal
   exact isPSolvable_of_quotient_pPrimeCore hYN
     (isPSolvable_of_k35c_reduced hTor hK631 (hX.quotient _) hp2 hNq hrk hcore)
 

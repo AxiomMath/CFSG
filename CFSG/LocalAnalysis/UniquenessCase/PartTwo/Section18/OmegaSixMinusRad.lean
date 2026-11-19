@@ -350,9 +350,9 @@ theorem k_Omega6Minus_singComm_rank :
             rk ↥E ≤ n := by
   intro W _ _ H n F _ _ b c hn hF hbc ε ψ hψ E hEH hE hcomm
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   let φ : ↥H →* GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F :=
     (StatedOmega (StatedQuadMinus 3 F b c)).subtype.comp ε.toMonoidHom
   let E₁ : Subgroup ↥H := (⊤ : Subgroup ↥E).map (Subgroup.inclusion hEH)

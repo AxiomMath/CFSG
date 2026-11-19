@@ -105,7 +105,7 @@ theorem inf_centralizer_le_of [hp : Fact p.Prime] (h : GGControlsStrongFusion H 
     exact le_sup_left.trans hj
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p ↥C))
   have hPR : (P : Subgroup C).map C.subtype ≤ R :=
-    hC1 _ (Subgroup.map_subtype_le _) (P.isPGroup'.map _)
+    hC1 _ (Subgroup.map_subtype_le _) (P.isPGroup.map _)
   have hPcen : (P : Subgroup C) ≤ Subgroup.center C := by
     intro x hx
     rw [Subgroup.mem_center_iff]

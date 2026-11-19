@@ -13,6 +13,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [(Q.subgroupOf M).Normal] in
 theorem Ctx.LB_le_conj_Rt (hZt : Sec7ZtStatement) (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     (hs : Sec7Hyp hc n t) {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     {g s : G} (hg : g ∈ M) (hsZ : s ∈ Z0) (hsQ : s ∉ Q) (hgs : g * s * g⁻¹ ∈ LB M Q B) :

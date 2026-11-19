@@ -125,7 +125,7 @@ theorem k324Simple_lie (h2 : K324Two) {S : Type} [Group S] [Finite S] (hS : IsSi
     rw [← hso]
     exact orderOf_dvd_natCard s
   by_cases hr2 : idx.1.characteristic = 2
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3S
     exact k324Simple_lie_two h2 hS idx e hr2 h3 hx hso hYC hYn hY
   rcases CFSG.LocalAnalysis.GLTheoremB.MovingAround.Prop1116Design.alt_chev_cases
@@ -180,7 +180,7 @@ theorem k324Simple_of_two
     (h2 : K324Two) : K324Simple := by
   intro S _ _ hS hK h3 h125 s hso Y hYC hYn hY
   obtain ⟨hnab, -, h25, hcomp, hYP⟩ := k324Simple_data hS hso hYC hYn hY
-  haveI := hS
+  have := hS
   obtain ⟨i, ⟨e⟩⟩ := hK.isCatalogGroup_of_surjective ⊤ hnab
     (Subgroup.topEquiv : ↥(⊤ : Subgroup S) ≃* S).toMonoidHom
     (Subgroup.topEquiv : ↥(⊤ : Subgroup S) ≃* S).surjective

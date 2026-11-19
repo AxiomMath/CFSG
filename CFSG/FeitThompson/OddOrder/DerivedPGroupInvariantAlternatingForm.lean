@@ -239,8 +239,8 @@ theorem exists_ne_zero_isAlt_invariant_bilinForm_of_commutator_ne_bot
       β ≠ 0 ∧ β.IsAlt ∧
         ∀ u : U, ∀ v w : Additive (Abelianization H),
           β (abelianizationLinearAut p ρ u v) (abelianizationLinearAut p ρ u w) = β v w := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfin : Finite H :=
+  have : Fact p.Prime := ⟨hp⟩
+  have hfin : Finite H :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.pos.ne')
   have hPG : IsPGroup p H := IsPGroup.of_card hcard
   obtain ⟨n, hn⟩ := (hPG.to_subgroup (commutator H)).exists_card_eq
@@ -253,9 +253,9 @@ theorem exists_ne_zero_isAlt_invariant_bilinForm_of_commutator_ne_bot
   obtain ⟨Q, hQle, hQnorm, hQcard⟩ :=
     exists_normal_le_natCard_eq_pow_of_isPGroup hp hPG (commutator H)
       (d := n - 1) (by rw [hn]; exact pow_dvd_pow _ (by omega))
-  haveI := hQnorm
-  haveI : Finite (H ⧸ Q) := Quotient.finite _
-  haveI : ((commutator H).map (QuotientGroup.mk' Q)).Normal :=
+  have := hQnorm
+  have : Finite (H ⧸ Q) := Quotient.finite _
+  have : ((commutator H).map (QuotientGroup.mk' Q)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective Q)
   have hcs : Nat.card (Q.subgroupOf (commutator H)) = p ^ (n - 1) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQle).toEquiv, hQcard]
@@ -285,13 +285,13 @@ theorem exists_ne_zero_isAlt_invariant_bilinForm_of_commutator_ne_bot
     rw [← hSeq]
     exact le_trans hSle inf_le_right
   have hmc : Nat.card (Multiplicative (ZMod p)) = p := by
-    haveI : NeZero p := ⟨hp.pos.ne'⟩
+    have : NeZero p := ⟨hp.pos.ne'⟩
     rw [Nat.card_congr (Multiplicative.ofAdd (α := ZMod p)).symm, Nat.card_eq_fintype_card,
       ZMod.card]
   have e := mulEquivOfPrimeCardEq (p := p) hRcard hmc
   have hne : ∃ x y : H, quotientCommForm Q e x y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : commutator H ≤ Q := by
       rw [commutator_def, Subgroup.commutator_le]
       intro x _ y _

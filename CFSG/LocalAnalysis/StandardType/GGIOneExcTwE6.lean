@@ -38,7 +38,7 @@ open scoped commutatorElement
 section Certs
 
 
-theorem ggIE_innerAll_of_bound2L {p r : ℕ} (hp : p.Prime) {R : Type} [Group R]
+theorem ggIE_innerAll_of_bound2L {p r : ℕ} (_hp : p.Prime) {R : Type} [Group R]
     {I : Set (MulAut R)} (hZ : Subgroup.center R = ⊥)
     (hB : (∃ φ : MulAut R, φ ^ p = 1 ∧ φ ∉ I) → GGInnerDiagBound2L p r R I)
     (L' : Type) [Group L'] [Finite L'] (ψ : L' →* R) (hψ : Function.Surjective ψ)

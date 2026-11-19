@@ -48,7 +48,7 @@ theorem inner_classX_four (P : D4Par n F σ) (hn : 2 ≤ n) (hev : Even n) {g₁
       calc 2 = 2 ^ 1 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
     exact eq_of_sl3Order_eq (by omega) hq4 hD'
-  haveI : CharP Fq 2 :=
+  have : CharP Fq 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hcard
   obtain ⟨ω, hω, hω1⟩ := exists_primitive_cube_root h3
@@ -114,7 +114,7 @@ theorem inner_classX_four (P : D4Par n F σ) (hn : 2 ≤ n) (hev : Even n) {g₁
     refine ⟨e.symm (h * u * h⁻¹), ⟨h * u * h⁻¹, hUn u hu, rfl⟩, ?_⟩
     have : e.symm h = d₂ := by rw [hh]; exact e.symm_apply_apply d₂
     simp only [Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom, map_mul, map_inv, this,
-      Subgroup.coe_mul, InvMemClass.coe_inv, hd₂c]
+      hd₂c]
     rw [MulAut.conj_apply]
   · refine ⟨((e.symm u₀ : Sec4.E27.layerSub σ g₁) : C0 σ), ⟨_, ⟨u₀, hu₀, rfl⟩, rfl⟩,
       fun hcon => hmove ?_⟩

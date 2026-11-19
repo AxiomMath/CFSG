@@ -20,7 +20,7 @@ section ClassTwo
 
 variable {G : Type*} [Group G]
 
-theorem class_two_pow_aux (x y : G) (hx : Commute ⁅y, x⁆ x) (hy : Commute ⁅y, x⁆ y) (n : ℕ) :
+theorem class_two_pow_aux (x y : G) (_hx : Commute ⁅y, x⁆ x) (hy : Commute ⁅y, x⁆ y) (n : ℕ) :
     y ^ n * x = ⁅y, x⁆ ^ n * (x * y ^ n) := by
   have hc : y * x = ⁅y, x⁆ * (x * y) := by
     rw [commutatorElement_def]; group
@@ -78,8 +78,8 @@ theorem pow_eq_one_closure {p : ℕ} (hp : p.Prime) (hp3 : 2 < p) (S : Set G) (Z
     intro x hx y hy
     induction hx, hy using Subgroup.closure_induction₂ with
     | mem x y hx hy => exact hSS x hx y hy
-    | one_left y hy => simpa using Z.one_mem
-    | one_right x hx => simpa using Z.one_mem
+    | one_left y hy => simp
+    | one_right x hx => simp
     | mul_left x y z hx hy hz h1 h2 =>
       have key : x * y * z * (x * y)⁻¹ * z⁻¹ =
           (x * (y * z * y⁻¹ * z⁻¹) * x⁻¹) * (x * z * x⁻¹ * z⁻¹) := by group
@@ -192,11 +192,11 @@ section Certs
 
 theorem sdSpor_M5 : SDSporAt .M 5 := by
   intro K _ _ ⟨e⟩
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .M) :=
+  have : IsSimpleGroup (NativeSporadic.Carrier .M) :=
     CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
   obtain ⟨e'⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := NativeSporadic.Carrier .M) (MulEquiv.refl _)
-  haveI : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K (e.trans e').toEquiv
+  have : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K (e.trans e').toEquiv
   exact SylowDichotomyAt.of_mulEquiv Nat.prime_five (e.trans e') SporM5.sylowDichotomyAt_Gmat_five
 
 end Certs

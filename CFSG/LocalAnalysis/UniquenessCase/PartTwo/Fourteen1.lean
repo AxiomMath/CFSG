@@ -177,7 +177,7 @@ theorem F1exists_inverting_zpowers_ga3 :
 
 theorem F1exists_conj_zpowers_of_card_three (Q : Subgroup F1GL32) (hQ : Nat.card Q = 3) :
     ∃ g : F1GL32, Q = (Subgroup.zpowers F1ga3).map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac : (Nat.card F1GL32).factorization 3 = 1 := by
     rw [show Nat.card F1GL32 = 168 from CFSG.ComponentClassification.GHarris.card_GL32_gh]
     decide +kernel
@@ -238,6 +238,7 @@ theorem F1centralizer_eq_of_card_three_GL32 (Q : Subgroup F1GL32) (hQ : Nat.card
   rw [← F1map_centralizer_equiv (MulAut.conj g) (Subgroup.zpowers F1ga3),
     F1centralizer_zpowers_ga3]
 
+omit [Finite Y] in
 theorem F1centralizer_eq_via (e : Y ≃* F1GL32) {P : Subgroup Y} (hP : Nat.card P = 3) :
     Subgroup.centralizer (P : Set Y) = P := by
   let Q : Subgroup F1GL32 := P.map e.toMonoidHom
@@ -250,6 +251,7 @@ theorem F1centralizer_eq_via (e : Y ≃* F1GL32) {P : Subgroup Y} (hP : Nat.card
   exact le_antisymm ((Subgroup.map_le_map_iff_of_injective e.injective).mp hmap.le)
     ((Subgroup.map_le_map_iff_of_injective e.injective).mp hmap.ge)
 
+omit [Finite Y] in
 theorem F1exists_inverting_via (e : Y ≃* F1GL32) {P : Subgroup Y} (hP : Nat.card P = 3) :
     ∃ t ∈ Subgroup.normalizer (P : Set Y),
       orderOf t = 2 ∧ ∀ x ∈ P, t * x * t⁻¹ = x⁻¹ := by
@@ -269,27 +271,30 @@ theorem F1exists_inverting_via (e : Y ≃* F1GL32) {P : Subgroup Y} (hP : Nat.ca
     simp only [map_mul, map_inv, e.apply_symm_apply]
     exact htin (e x) (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩)
 
+omit [Finite Y] in
 theorem card_eq_of_isL3 (h : IsL3 Y 1) : Nat.card Y = 168 :=
   CFSG.SeitzReduction.LinearPilot.card_of_lieModel_PSL_three_two h
 
+omit [Finite Y] in
 theorem isSimpleGroup_of_isL3 (h : IsL3 Y 1) : IsSimpleGroup Y := by
   obtain ⟨e⟩ := CFSG.SeitzReduction.LinearPilot.nonempty_equiv_GL32_of_lieModel h
-  haveI : IsSimpleGroup F1GL32 := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have : IsSimpleGroup F1GL32 := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   exact e.isSimpleGroup
 
+omit [Finite Y] in
 theorem center_eq_bot_of_isL3 (h : IsL3 Y 1) : Subgroup.center Y = ⊥ := by
-  haveI hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
+  have hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Y) with hc | hc
   · exact hc
   · exfalso
-    haveI : IsMulCommutative Y := Subgroup.center_eq_top_iff.mp hc
+    have : IsMulCommutative Y := Subgroup.center_eq_top_iff.mp hc
     have hp : (Nat.card Y).Prime := Group.is_simple_iff_prime_card.mp hs
     rw [card_eq_of_isL3 h] at hp
     norm_num at hp
 
 theorem card_pGroup_dvd_of_isL3 (h : IsL3 Y 1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {P : Subgroup Y} (hP : IsPGroup p P) : Nat.card P ∣ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hdvd : p ^ k ∣ 168 := by
     have hcard := Subgroup.card_subgroup_dvd_card P
@@ -313,15 +318,17 @@ theorem card_pGroup_dvd_of_isL3 (h : IsL3 Y 1) {p : ℕ} (hp : p.Prime) (hp2 : p
   · rw [hk, pow_one]
 
 theorem card_sylow_three_of_isL3 (h : IsL3 Y 1) (P : Sylow 3 Y) : Nat.card P = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [P.card_eq_multiplicity, card_eq_of_isL3 h]
   decide +kernel
 
+omit [Finite Y] in
 theorem exists_inverting_of_isL3 (h : IsL3 Y 1) {P : Subgroup Y} (hP : Nat.card P = 3) :
     ∃ t ∈ normalizer (P : Set Y), orderOf t = 2 ∧ ∀ x ∈ P, t * x * t⁻¹ = x⁻¹ := by
   obtain ⟨e⟩ := CFSG.SeitzReduction.LinearPilot.nonempty_equiv_GL32_of_lieModel h
   exact F1exists_inverting_via e hP
 
+omit [Finite Y] in
 theorem centralizer_eq_of_isL3 (h : IsL3 Y 1) {P : Subgroup Y} (hP : Nat.card P = 3) :
     centralizer (P : Set Y) = P := by
   obtain ⟨e⟩ := CFSG.SeitzReduction.LinearPilot.nonempty_equiv_GL32_of_lieModel h
@@ -329,17 +336,17 @@ theorem centralizer_eq_of_isL3 (h : IsL3 Y 1) {P : Subgroup Y} (hP : Nat.card P 
 
 theorem card_normalizer_seven_of_isL3 (h : IsL3 Y 1) {P : Subgroup Y} (hP : Nat.card P = 7) :
     Nat.card (normalizer (P : Set Y)) = 21 := by
-  haveI := isSimpleGroup_of_isL3 h
+  have := isSimpleGroup_of_isL3 h
   exact CFSG.GF2Type.Aschbacher1976Full.HS.card_normalizer_of_card_seven_simple168
     (card_eq_of_isL3 h) P hP
 
 theorem centralizer_eq_of_isL3_seven (h : IsL3 Y 1) {P : Subgroup Y} (hP : Nat.card P = 7) :
     centralizer (P : Set Y) = P := by
-  haveI hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hN := card_normalizer_seven_of_isL3 h hP
   have hle : P ≤ centralizer (P : Set Y) := by
-    haveI : IsCyclic P := isCyclic_of_prime_card (p := 7) hP
+    have : IsCyclic P := isCyclic_of_prime_card (p := 7) hP
     exact Subgroup.le_centralizer (H := P)
   have hCN : centralizer (P : Set Y) ≤ normalizer (P : Set Y) :=
     Subgroup.centralizer_le_normalizer _
@@ -384,6 +391,7 @@ theorem centralizer_eq_of_isL3_seven (h : IsL3 Y 1) {P : Subgroup Y} (hP : Nat.c
     · rw [hbot, Subgroup.card_bot] at hKcard; omega
     · rw [htop, Subgroup.card_top, card_eq_of_isL3 h] at hKcard; omega
 
+omit [Finite Y] in
 theorem card_mulAut_dvd_of_isL3 (h : IsL3 Y 1) : Nat.card (MulAut Y) ∣ 336 := by
   rw [CFSG.SeitzReduction.LinearPilot.card_mulAut_of_lieModel_PSL_three_two h]
 
@@ -393,9 +401,10 @@ section Component
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_of_isElemAbelian {p : ℕ} (hp : p.Prime) {A : Subgroup G}
     (hA : IsElemAbelian p A) : IsPGroup p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [IsPGroup.iff_orderOf]
   intro x
   have hx : x ^ p = 1 := Subtype.ext (hA.2 x.1 x.2)
@@ -406,8 +415,8 @@ theorem isPGroup_of_isElemAbelian {p : ℕ} (hp : p.Prime) {A : Subgroup G}
 
 theorem pRank_le_one_of_isL3 {L : Subgroup G} (h : IsL3 (Bar2 L) 1) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) : Open.pRank p L ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.SectionRank.pRank_le hp.one_lt ?_
   intro E hEL hE
   have hE_p : IsPGroup p E := isPGroup_of_isElemAbelian hp hE
@@ -450,7 +459,7 @@ theorem pRank_le_one_of_isL3 {L : Subgroup G} (h : IsL3 (Bar2 L) 1) {p : ℕ} (h
 
 theorem card_sylow_three_of_isL3_bar2 {L P : Subgroup G} (h : IsL3 (Bar2 L) 1)
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P L) : Nat.card P = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [hP.card_eq]
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).exists_card_eq
   have hcardL : Nat.card L = 2 ^ k * 168 := by
@@ -467,11 +476,11 @@ theorem card_sylow_three_of_isL3_bar2 {L P : Subgroup G} (h : IsL3 (Bar2 L) 1)
 theorem pRank_three_of_isL3 {L : Subgroup G} (h : IsL3 (Bar2 L) 1) : Open.pRank 3 L = 1 := by
   apply le_antisymm
   · exact pRank_le_one_of_isL3 h Nat.prime_three (by norm_num)
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 L
     have hPcard : Nat.card P = 3 := card_sylow_three_of_isL3_bar2 h hP
     have hle : P ≤ L := hP.le
-    haveI : IsCyclic P := isCyclic_of_prime_card (p := 3) hPcard
+    have : IsCyclic P := isCyclic_of_prime_card (p := 3) hPcard
     have hE : IsElemAbelian 3 P := by
       refine ⟨inferInstance, ?_⟩
       intro x hx
@@ -484,7 +493,7 @@ theorem pRank_three_of_isL3 {L : Subgroup G} (h : IsL3 (Bar2 L) 1) : Open.pRank 
     exact CFSG.SectionRank.le_pRank (by norm_num : 1 < 3) hle hE hk
 
 theorem thin8_of_isL3 {L : Subgroup G} (h : IsL3 (Bar2 L) 1) : Thin8 L :=
-  fun p hp hp2 => pRank_le_one_of_isL3 h hp hp2
+  fun _p hp hp2 => pRank_le_one_of_isL3 h hp hp2
 
 end Component
 

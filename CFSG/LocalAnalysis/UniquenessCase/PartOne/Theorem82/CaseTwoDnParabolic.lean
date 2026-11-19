@@ -121,7 +121,7 @@ theorem false_of_parabolic (hKF2 : L3EvenParabolic)
       rw [hy'']
     · rintro ⟨j, -, rfl⟩
       exact Subgroup.mem_map.mpr ⟨Subgroup.inclusion hJD j,
-        Subgroup.mem_subgroupOf.mpr (by simpa using j.property), rfl⟩
+        Subgroup.mem_subgroupOf.mpr (by simp), rfl⟩
   have hψ_Jhat : ∀ j : ↥J, ψ j ∈ Jhat := by
     intro j
     rw [hψ_range]
@@ -193,7 +193,7 @@ theorem false_of_parabolic (hKF2 : L3EvenParabolic)
     show π (Subgroup.inclusion hF_le_D y) ∈ CFSG.Open.pCoreOf 2 Jhat
     rw [hincl]
     exact hψ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPJ : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 Jhat) := by
     rw [CFSG.openPCoreOf_eq_map_pCore]
     exact (CFSG.pCore_isPGroup (p := 2) (G := Jhat)).map Jhat.subtype
@@ -239,7 +239,7 @@ theorem false_of_parabolic (hKF2 : L3EvenParabolic)
         (x : G) ^ n * k * ((x : G) ^ n)⁻¹ * k⁻¹ ∈ F := by
       intro n
       induction n with
-      | zero => simpa using F.one_mem
+      | zero => simp
       | succ n ih =>
         have hstep : (x : G) ^ (n + 1) * k * ((x : G) ^ (n + 1))⁻¹ * k⁻¹ =
             (x : G) * ((x : G) ^ n * k * ((x : G) ^ n)⁻¹ * k⁻¹) *

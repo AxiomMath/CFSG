@@ -31,7 +31,7 @@ theorem ggCentralizer_coordZeroOn_le_normalizer_of_component {p : ℕ}
     (houtside : ∃ j : Fin n, j ≠ i0 ∧ j ∉ S) :
     Subgroup.centralizer (ggBsCoordZeroOn Bs eta S : Set G) ≤
       Subgroup.normalizer (L : Set G) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   intro g hg
   have hLx := hComp.1
   have hxcoord : ∀ k, k ≠ i0 → eta ⟨x, hxBs⟩ k = 1 :=
@@ -65,7 +65,7 @@ theorem ggCentralizer_coordZeroOn_le_normalizer_of_component {p : ℕ}
       exact map_one eta
     have h10 : (1 : ZMod p) = 0 := by
       have h := congrArg toAdd (congrFun hv_eq_one j)
-      simpa [v] using h
+      simp [v] at h
     exact one_ne_zero h10
   have hbnc : (b : G) ∉ Subgroup.centralizer (L : Set G) := by
     intro hbC
@@ -340,7 +340,7 @@ theorem GGSecFiveBPermOmKFrame.blockComm
     ggBlockComm Bs eta ((fun i : Fin r => π i.castSucc) '' (S : Set (Fin r))) =
       (normBlock E r S).map κ := by
   classical
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs :=
     hcfg.2.1.2.2.2
   let I : Set (Fin n) := (fun i : Fin r => π i.castSucc) '' (S : Set (Fin r))
@@ -421,9 +421,9 @@ theorem GGSecFiveBPermOmKFrame.blockComm
     rw [← hDerived]
     change ⁅A, A⁆ ≤ C
     exact (Subgroup.commutator_le_self A).trans inf_le_right
-  haveI hSimpleM : IsSimpleGroup ↥M := by
+  have hSimpleM : IsSimpleGroup ↥M := by
     simpa [M] using isSimpleGroup_normBlock E hr S hSne
-  haveI hPerfectM : Group.IsPerfect ↥M := by
+  have hPerfectM : Group.IsPerfect ↥M := by
     simpa [M] using isPerfect_normBlock E hr S hSne
   let φ : ↥M →* ↥R :=
     { toFun := fun m => ⟨κ (m : normOmega E r), Subgroup.mem_map_of_mem κ m.2⟩
@@ -438,8 +438,8 @@ theorem GGSecFiveBPermOmKFrame.blockComm
     obtain ⟨m, hm, hmr⟩ := Subgroup.mem_map.mp r.2
     exact ⟨⟨m, hm⟩, Subtype.ext hmr⟩
   let eMR : ↥M ≃* ↥R := MulEquiv.ofBijective φ ⟨hφinj, hφsurj⟩
-  haveI hSimpleR : IsSimpleGroup ↥R := eMR.symm.isSimpleGroup
-  haveI hPerfectR : Group.IsPerfect ↥R :=
+  have hSimpleR : IsSimpleGroup ↥R := eMR.symm.isSimpleGroup
+  have hPerfectR : Group.IsPerfect ↥R :=
     Group.IsPerfect.ofSurjective (f := eMR.toMonoidHom) eMR.surjective
   have hcenterR : Subgroup.center ↥R = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
@@ -469,7 +469,7 @@ theorem GGSecFiveBPermOmKFrame.blockComm
       apply normPlaneTorus_injective E (by omega : 2 ≤ r) (by decide : 3 ∣ 2 ^ 1 + 1) hframe.2.2.1
       simpa using hτ1
     have hui : u i = 1 := by simpa using congrFun hu1 i
-    have hof : Multiplicative.ofAdd (1 : ZMod 3) = 1 := by simpa [u] using hui
+    have hof : Multiplicative.ofAdd (1 : ZMod 3) = 1 := by simp [u] at hui
     have h10 : (1 : ZMod 3) = 0 := by simpa using congrArg Multiplicative.toAdd hof
     exact one_ne_zero h10
   have hWne : W ≠ ⊥ := by
@@ -569,7 +569,7 @@ theorem GGSecFiveBPermOmKFrame.conj_normPerm_eq_of_dvd
   have hreorder : tv * t⁻¹ * (b : G) = (b : G) * t⁻¹ * tv := by
     let tbs : ↥Bs := ⟨t, htBs⟩
     let tvbs : ↥Bs := ⟨tv, htvBs⟩
-    letI : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with mul_comm := hbs_comm }
+    let : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with mul_comm := hbs_comm }
     have hbs : tvbs * tbs⁻¹ * b = b * tbs⁻¹ * tvbs := by ac_rfl
     simpa [tbs, tvbs] using congrArg Subtype.val hbs
   calc a * (b : G) * a⁻¹ = a * (t * (t⁻¹ * (b : G))) * a⁻¹ := by group
@@ -763,7 +763,7 @@ theorem GGSecFiveBPermOmKFrame.coords_normPerm_last
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod 3))} {i0 : Fin n}
     (hLeta : (ggAutomizer L Bs).map (MulAut.congr eta).toMonoidHom =
       bCoordinateBlock n 3 i0)
-    {π : Fin (r + 1) ≃ Fin n} (hpi : π (Fin.last r) = i0)
+    {π : Fin (r + 1) ≃ Fin n} (_hpi : π (Fin.last r) = i0)
     {κ : normOmega E r →* G} {χ : Multiplicative (ZMod 3) →* Kˣ}
     (hframe : GGSecFiveBPermOmKFrame E Bs L eta π κ χ)
     (σ : Equiv.Perm (Fin r)) (b : ↥Bs) :
@@ -842,7 +842,7 @@ theorem GGSecFiveBPermOmKFrame.congr_normPerm
   · rw [hcongr, hpi,
       GGSecFiveBPermOmKFrame.coords_normPerm_last (hframe := hframe)
         (hr := hr) (hcfg := hcfg) (hZ := hZ) (hN := hN) (hLeta := hLeta)
-        (hpi := hpi) (σ := σ) (b := b)]
+        (_hpi := hpi) (σ := σ) (b := b)]
     rw [SpCoord.permAut_apply]
     have hnot : i0 ∉ Set.range ι := by
       rintro ⟨i, hi⟩

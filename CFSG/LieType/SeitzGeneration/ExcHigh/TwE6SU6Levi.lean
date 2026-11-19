@@ -49,7 +49,7 @@ theorem exists_e6_sl6 {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f) (hK : Nat.card K
     LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
   have hinj : Function.Injective (simpleRootSL2 TwistTag.E6.tag K (a5Node 0)) := by
     by_cases h2 : ringChar K = 2
-    · haveI : CharP K 2 := ringChar.of_eq h2
+    · have : CharP K 2 := ringChar.of_eq h2
       exact CFSG.RankThree.Chevalley.simpleRootSL2_injective_of_charTwo _
     · exact simpleRootSL2_injective h2 _
   set H : Subgroup (ModGL TwistTag.E6.tag K) := Subgroup.closure (a5Gens K) with hHdef

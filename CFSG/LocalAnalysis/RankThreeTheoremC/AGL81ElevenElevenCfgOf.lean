@@ -34,6 +34,7 @@ variable (G) in
     ¬ 2 ∣ (jZero H L ⊔ pCoreOf 2 (H ⊓ L)).relIndex L →
     ⁅d1LiftX 3 H Q K, L⁆ ≤ pCoreOf 2 L
 
+omit [Finite G] in
 theorem le_normalizer_d1PlusCore_of_map_le {p : ℕ} {H B : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hBH : B ≤ H)
     (hBK : (B.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) p)) ≤ K) :
@@ -66,7 +67,7 @@ theorem d1LiftX_facts_cfg {P : Sylow 3 G} {M H Q : Subgroup G}
     (hA6 : IsAltTwoP 3 K) :
     d1LiftX 3 H Q K ⊓ d1PlusCore 3 H K = ⊥ ∧ IsElemAbelian 3 (d1LiftX 3 H Q K) ∧
       Nat.card (d1LiftX 3 H Q K) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := primeComplementCore (G := H) 3 with hOdef
   set π := QuotientGroup.mk' O with hπ
   set A := d1LiftX 3 H Q K with hA
@@ -76,7 +77,7 @@ theorem d1LiftX_facts_cfg {P : Sylow 3 G} {M H Q : Subgroup G}
   have hA'3 : IsPGroup 3 A' := (hd.base.2.1.to_le hAR).comap_subtype
   have hAO : A' ⊓ O = ⊥ := by
     obtain ⟨n, hn⟩ := hA'3.exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hn]
     exact (primeComplementCore_coprime (G := H) 3).pow_left n
   have hinj : ∀ a ∈ A', π a = 1 → a = 1 := fun a ha h1 => by
@@ -140,7 +141,7 @@ theorem agl81ElevenElevenCfg_of (h7 : AGL81ElevenSevenCfgThree G) (hX : AGL81Nin
     (h1031 : AGL81TenThreeOneAt G) : AGL81ElevenElevenCfg G := by
   intro hS P M H Q K hσ hd hA6 hnc L hL hLn hno
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hcore : GLBWeakCore 3 (P : Subgroup G) ≤ M := hesc.weakCore_le
   set X := d1PlusCore 3 H K with hXdef

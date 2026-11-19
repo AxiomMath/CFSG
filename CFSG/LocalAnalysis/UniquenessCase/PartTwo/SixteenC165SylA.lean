@@ -22,7 +22,7 @@ variable (K : Type) [Field K]
     apply Subtype.ext
     show !![1, Multiplicative.toAdd (a * b); 0, 1] =
       !![1, Multiplicative.toAdd a; 0, 1] * !![1, Multiplicative.toAdd b; 0, 1]
-    simp [Matrix.mul_fin_two, toAdd_mul, add_comm]
+    simp [toAdd_mul, add_comm]
 
 @[expose] def uTri : Subgroup SL(2, K) := (uHom K).range
 
@@ -86,13 +86,13 @@ private theorem diag2_mul_uHom_mul_diag2_inv {s : K} (hs : s ≠ 0) (a : Multipl
   simp only [coe_uHom]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp
 
 theorem exists_orderOf_eq_seven_mem_normalizer_uTri (hK : Nat.card K = 8) :
     ∃ d : SL(2, K), orderOf d = 7 ∧ d ∈ Subgroup.normalizer (uTri K : Set SL(2, K)) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 8 := by simpa [Nat.card_eq_fintype_card] using hK
   have hs : ∃ s : K, s ≠ 0 ∧ s ≠ 1 := by
     have hlt : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
@@ -112,7 +112,7 @@ theorem exists_orderOf_eq_seven_mem_normalizer_uTri (hK : Nat.card K = 8) :
   let d : SL(2, K) := Matrix.SpecialLinearGroup.diag2 s hs0
   have hd7 : d ^ 7 = 1 := diag2_pow_seven hs0 hs7
   have hd_ne : d ≠ 1 := diag2_ne_one hs0 hs1
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine ⟨d, orderOf_eq_prime hd7 hd_ne, ?_⟩
   rw [Subgroup.mem_normalizer_iff]
   intro h

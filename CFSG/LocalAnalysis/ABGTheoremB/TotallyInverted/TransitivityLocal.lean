@@ -212,7 +212,7 @@ theorem exists_three_element_of_three_dvd {K T₂ : Subgroup G} (hT₂K : T₂ �
     apply Q.not_dvd_index
     exact h3.trans (Subgroup.index_dvd_of_le hle)
   obtain ⟨q, hqQ, hqC⟩ := IsConcreteLE.not_le_iff_exists.mp hQ
-  obtain ⟨b, hb⟩ := Q.isPGroup' ⟨q, hqQ⟩
+  obtain ⟨b, hb⟩ := Q.isPGroup ⟨q, hqQ⟩
   refine ⟨((q : K) : G), (q : K).2, ?_, ?_, b, ?_⟩
   · rw [Subgroup.mem_normalizer_iff]
     intro g

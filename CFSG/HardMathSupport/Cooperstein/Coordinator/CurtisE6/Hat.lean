@@ -60,7 +60,7 @@ theorem exists_two_lift {G' L : Type} [Group G'] [Finite G'] [Group L] (π : G' 
     (E : Subgroup L) (hE : ∀ x ∈ E, x ^ 2 = 1) :
     ∃ A : Subgroup G', A.map π = E ∧ (∀ a ∈ A, a ^ 2 = 1) ∧ Nat.card A = Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G' := E.comap π
   let P : Sylow 2 H := Classical.arbitrary _
   let A : Subgroup G' := (P : Subgroup H).map H.subtype
@@ -69,7 +69,7 @@ theorem exists_two_lift {G' L : Type} [Group G'] [Finite G'] [Group L] (π : G' 
     exact x.2
   have hApow : ∀ a ∈ A, ∃ j : ℕ, a ^ (2 ^ j) = 1 := by
     rintro a ⟨x, hx, rfl⟩
-    obtain ⟨j, hj⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨j, hj⟩ := P.isPGroup ⟨x, hx⟩
     refine ⟨j, ?_⟩
     have h2 : (x : H) ^ (2 ^ j) = 1 := by
       have := congrArg (fun z : (P : Subgroup H) => (z : H)) hj

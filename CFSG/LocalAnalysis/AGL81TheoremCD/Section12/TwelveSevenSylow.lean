@@ -40,8 +40,8 @@ private theorem card_range_conjAction_le_three {B : Type} [Group B] [Finite B]
     (h9 : ¬ 3 ^ 2 ∣ Nat.card (MulAut ↥L)) :
     Nat.card (conjActionHom hXN).range ≤ 3 := by
   let φ := conjActionHom hXN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsPGroup 3 ↥X := hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsPGroup 3 ↥X := hX
   have hφ3 : IsPGroup 3 φ.range :=
     IsPGroup.of_equiv (IsPGroup.to_quotient hX φ.ker)
       (QuotientGroup.quotientKerEquivRange φ)
@@ -78,6 +78,7 @@ private theorem card_le_three_mul_card_inf_centralizer {B : Type} [Group B] [Fin
         Nat.mul_le_mul_left _ hφle
     _ = 3 * Nat.card ↥(X ⊓ Subgroup.centralizer (L : Set B)) := by ring
 
+omit [Finite G] in
 private theorem card_barM_eq_168 {M A : Subgroup G} (hA : IsTwoPrimeComponent M A)
     (hA3 : IsL3TwoPow 1 (↥A ⧸ pCore 2 ↥A)) :
     Nat.card ↥(barM M A) = 168 := by
@@ -95,12 +96,12 @@ private theorem not_sq_three_dvd_card_mulAut_barM {M A : Subgroup G}
     ¬ 3 ^ 2 ∣ Nat.card (MulAut ↥(barM M A)) := by
   subst hn
   have hcard := card_barM_eq_168 hA hL3
-  haveI hQsimple : IsSimpleGroup (↥A ⧸ pCore 2 ↥A) := hL3.isSimpleGroup
-  haveI : IsSimpleGroup ↥(barM M A) := by
+  have hQsimple : IsSimpleGroup (↥A ⧸ pCore 2 ↥A) := hL3.isSimpleGroup
+  have : IsSimpleGroup ↥(barM M A) := by
     obtain ⟨e⟩ := CFSG.RankThree.PartTwo.Sec19.Item194Proof.nonempty_barM_mulEquiv
       hA.le hA.inf_twoCore
     exact e.symm.isSimpleGroup
-  haveI : Group.IsPerfect ↥(barM M A) := ⟨hA.component.2.2.1⟩
+  have : Group.IsPerfect ↥(barM M A) := ⟨hA.component.2.2.1⟩
   have hnab : ∃ a b : ↥(barM M A), a * b ≠ b * a := by
     simpa only [isMulCommutative_iff, not_forall] using
       Group.IsPerfect.not_isMulCommutative (G := ↥(barM M A))
@@ -130,7 +131,7 @@ private theorem three_le_pRank_of_three_components {B : Type} [Group B] [Finite 
     fin_cases i <;> simp [L, hcmp₁, hcmp₂, hcmp₃]
   have hinj : Function.Injective L := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [L, h₁₂, h₁₃, h₂₃]
+    fin_cases i <;> fin_cases j <;> simp_all [L]
   have hyL : ∀ i, y i ∈ L i := by
     intro i
     fin_cases i <;> simp [L, y, hy₁, hy₂, hy₃]
@@ -139,7 +140,7 @@ private theorem three_le_pRank_of_three_components {B : Type} [Group B] [Finite 
     fin_cases i
     · simpa [L] using (le_sup_left.trans le_sup_left : A₁ ≤ A₁ ⊔ A₂ ⊔ A₃)
     · simpa [L] using (le_sup_right.trans le_sup_left : A₂ ≤ A₁ ⊔ A₂ ⊔ A₃)
-    · simpa [L] using (le_sup_right : A₃ ≤ A₁ ⊔ A₂ ⊔ A₃)
+    · simp [L]
   have hyA : ∀ i, y i ∈ A₁ ⊔ A₂ ⊔ A₃ := fun i => hLA i (hyL i)
   have hy0 : y 0 = y₁ := by simp [y]
   have hy1 : y 1 = y₂ := by simp [y]
@@ -261,8 +262,8 @@ private theorem eq_three_of_mul_mul_eq_twenty_seven {a b c : ℕ} (ha : a ≤ 3)
 
 private theorem isMulCommutative_of_card_three {X : Type} [Group X] (h : Nat.card X = 3) :
     IsMulCommutative X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic X := isCyclic_of_prime_card h
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic X := isCyclic_of_prime_card h
   exact IsMulCommutative.of_comm fun a b => (IsCyclic.commGroup (α := X)).mul_comm a b
 
 
@@ -359,8 +360,8 @@ private theorem relIndex_inf_normalizer_le_three {U L₁ L₂ L₃ : Subgroup G}
     (hperm : ∀ u : ↥U, L₁.map (MulAut.conj (u : G)).toMonoidHom ∈
       ({L₁, L₂, L₃} : Set (Subgroup G))) :
     (U ⊓ Subgroup.normalizer (L₁ : Set G)).relIndex U ≤ 3 := by
-  letI : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
-  letI : MulAction ↥U (Subgroup G) :=
+  let : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulAction ↥U (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp U.subtype)
   have hsmul : ∀ (u : ↥U) (P : Subgroup G),
       u • P = P.map (MulAut.conj (u : G)).toMonoidHom := by
@@ -398,6 +399,7 @@ private theorem relIndex_inf_normalizer_le_three {U L₁ L₂ L₃ : Subgroup G}
   rw [Subgroup.relIndex, ← hstab, MulAction.index_stabilizer]
   exact hcardOrbit
 
+omit [Finite G] in
 private theorem map_conj_mem_pair_of_mem_three {U L A B : Subgroup G}
     (hperm : ∀ u : ↥U, L.map (MulAut.conj (u : G)).toMonoidHom = A ∨
       L.map (MulAut.conj (u : G)).toMonoidHom = L ∨
@@ -422,8 +424,8 @@ private theorem map_conj_eq_self_of_orbit_pair {U L B : Subgroup G}
     (horbit : ∀ u : ↥U, L.map (MulAut.conj (u : G)).toMonoidHom ∈
       ({L, B} : Set (Subgroup G))) :
     ∀ u : ↥U, L.map (MulAut.conj (u : G)).toMonoidHom = L := by
-  letI : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
-  letI : MulAction ↥U (Subgroup G) :=
+  let : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulAction ↥U (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp U.subtype)
   have hsmul : ∀ (u : ↥U) (P : Subgroup G),
       u • P = P.map (MulAut.conj (u : G)).toMonoidHom := by
@@ -440,7 +442,7 @@ private theorem map_conj_eq_self_of_orbit_pair {U L B : Subgroup G}
     exact horbit u
   have hcard2 : (MulAction.orbit ↥U L).ncard ≤ 2 :=
     (Set.ncard_le_ncard hsub).trans (ncard_pair_le_two L B)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := IsPGroup.card_orbit hU L
   rw [Nat.card_coe_set_eq] at hn
   have hn0 : n = 0 := by
@@ -507,7 +509,7 @@ private theorem barM_le_centralizer_of_isTwoPrimeComponent_of_ne {M A B : Subgro
 theorem le_normalizer_jSub (hd : TwelveFiveData M H d L₁ L₂ L₃ n₁ n₂ n₃) :
     M ≤ normalizer (jSub M H : Set G) := by
   have hdprime : d.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime d hd.mem_sigma.1
-  haveI : Fact d.Prime := ⟨hdprime⟩
+  have : Fact d.Prime := ⟨hdprime⟩
   rw [hd.j_eq]
   intro m hm
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -538,18 +540,18 @@ theorem eq_of_isTwoPrimeComponent (hd : TwelveFiveData M H d L₁ L₂ L₃ n₁
   rw [barM_jSub_eq hd] at hleJ
   have hle_center : barM M L ≤ Subgroup.centralizer (barM M L : Set _) :=
     hcent.trans (Subgroup.centralizer_le hleJ)
-  haveI : IsMulCommutative ↥(barM M L) :=
+  have : IsMulCommutative ↥(barM M L) :=
     Subgroup.le_centralizer_iff_isMulCommutative.mp hle_center
-  haveI : Group.IsSolvable ↥(barM M L) :=
+  have : Group.IsSolvable ↥(barM M L) :=
     Group.isSolvable_of_comm fun a b => (IsMulCommutative.is_comm.comm a b)
-  haveI : Group.IsPerfect ↥(barM M L) := ⟨hL.component.2.2.1⟩
+  have : Group.IsPerfect ↥(barM M L) := ⟨hL.component.2.2.1⟩
   have hsub : Subsingleton ↥(barM M L) :=
     CFSG.ComponentClassification.SolvableKernelContainment.perfect_solvable_subsingleton
-  haveI : IsSimpleGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
+  have : IsSimpleGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
     hL.component.2.2.2
-  haveI hnt : Nontrivial (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
+  have hnt : Nontrivial (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
     hL.component.2.2.2.toNontrivial
-  haveI hsubq : Subsingleton (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
+  have hsubq : Subsingleton (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
     inferInstance
   exact (not_subsingleton_iff_nontrivial.mpr hnt) hsubq
 
@@ -675,7 +677,7 @@ private theorem eq_bot_of_isPGroup_three_le_centralizer_jSub
     (CFSG.SectionRank.pRank_mono (p := 3) (by norm_num) (le_top : Y ⊔ Jbar ≤ ⊤)).trans htop
   rw [hadd] at hsup_le
   have hYrank : CFSG.Open.pRank 3 Y = 0 := by omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnot : ¬ 3 ∣ Nat.card Y :=
     CFSG.GroupTheory.not_dvd_card_of_pRank_eq_zero Nat.prime_three hYrank
   exact Subgroup.card_eq_one.mp (hY.card_eq_or_dvd.resolve_right hnot)
@@ -867,7 +869,7 @@ private theorem le_card_of_isSylowOf_jSub
     (_hn : n₁ = 1 ∧ n₂ = 1 ∧ n₃ = 1) (hcard : (weakBlockSet M H).ncard = 3)
     {A : Subgroup G} (hA : CFSG.ABGLocalTools.IsSylowOf 3 A (jSub M H)) :
     27 ≤ Nat.card A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEJ, hE, hEcard⟩ :=
     CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (jSub M H)
   have h3J : 3 ≤ CFSG.Open.pRank 3 (jSub M H) := three_le_pRank_jSub hd hcard
@@ -895,14 +897,14 @@ private theorem isMulCommutative_of_action_data {B : Type} [Group B] [Finite B]
     IsMulCommutative ↥A := by
   obtain ⟨hR₁, hR₂, hR₃⟩ := range_conjAction_card_eq_three hA hAjoin
     hN₁ hN₂ hN₃ h9₁ h9₂ h9₃ hZ hAcard
-  haveI : IsMulCommutative ↥(conjActionHom hN₁).range :=
+  have : IsMulCommutative ↥(conjActionHom hN₁).range :=
     isMulCommutative_of_card_three hR₁
-  haveI : IsMulCommutative ↥(conjActionHom hN₂).range :=
+  have : IsMulCommutative ↥(conjActionHom hN₂).range :=
     isMulCommutative_of_card_three hR₂
-  haveI : IsMulCommutative ↥(conjActionHom hN₃).range :=
+  have : IsMulCommutative ↥(conjActionHom hN₃).range :=
     isMulCommutative_of_card_three hR₃
   let Ψ := (rangeActionHom hN₁).prod ((rangeActionHom hN₂).prod (rangeActionHom hN₃))
-  haveI hprodcomm : IsMulCommutative (↥(conjActionHom hN₁).range ×
+  have hprodcomm : IsMulCommutative (↥(conjActionHom hN₁).range ×
       (↥(conjActionHom hN₂).range × ↥(conjActionHom hN₃).range)) := inferInstance
   have hΨinj : Function.Injective Ψ :=
     (MonoidHom.ker_eq_bot_iff Ψ).mp (ker_rangeAction_prod_eq_bot hAjoin hN₁ hN₂ hN₃ hZ)

@@ -58,7 +58,7 @@ theorem centralizer_linear_character_extends
       (fun x q c _ _ => by
         rw [principalCharacterLabel_character, Pi.one_apply, thetaG_one, Units.val_one])
       (principalCharacterLabel basis)
-      (brauerNormalizer_principal_residue_image basis ideal 2 _ S.isPGroup' _
+      (brauerNormalizer_principal_residue_image basis ideal 2 _ S.isPGroup _
         (Subgroup.centralizer_le_normalizer _) le_rfl normalizerBasis _
         (principalCharacterLabel_character basis) _
         (principalCharacterLabel_character normalizerBasis))

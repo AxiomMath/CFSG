@@ -88,7 +88,7 @@ theorem q0_facts : Nat.card (Subgroup.closure (permsA 3510 (qGens 0))) = 27 ∧
   have hi' : i < 108 := by omega
   have h := q431009All i hi'
   unfold ch431009q at h
-  rw [bRec_eq, if_pos (Eq.mpr Nat.blt_eq hi)] at h
+  rw [bRec_eq, ite_eq_left (Eq.mpr Nat.blt_eq hi)] at h
   exact h
 
 theorem q1_facts : Nat.card (Subgroup.closure (permsA 3510 (qGens 1))) = 81 ∧
@@ -108,7 +108,7 @@ theorem q1_facts : Nat.card (Subgroup.closure (permsA 3510 (qGens 1))) = 81 ∧
     rw [Nat.blt_eq]
     omega
   have e : Nat.sub (27 + i) 27 = i := Nat.add_sub_cancel_left 27 i
-  rw [bRec_eq, if_neg hb, e] at h
+  rw [bRec_eq, ite_eq_right hb, e] at h
   exact h
 
 theorem sfG_hq {k : ℕ} (hk : k < 2) : sfG (21 + k) = KQ (108 + k) := by

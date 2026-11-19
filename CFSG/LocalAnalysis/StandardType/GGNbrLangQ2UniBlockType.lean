@@ -40,7 +40,7 @@ theorem q2Uni_linearBlock_false {H : Type} [Group H] {F C : Subgroup H}
     (θ : ↥C ⧸ Subgroup.center ↥C ≃* LargeEvenProj (LargeEvenSUGroup (Fin d) E (2 ^ m))) :
     False := by
   by_cases hb : 2 ≤ b
-  · haveI : Fintype D := Fintype.ofFinite D
+  · have : Fintype D := Fintype.ofFinite D
     have hb1 : 1 ≤ b := by omega
     obtain ⟨n, -, hcardF⟩ := FiniteField.card D 2
     let f : ℕ := (n : ℕ)
@@ -58,7 +58,7 @@ theorem q2Uni_linearBlock_false {H : Type} [Group H] {F C : Subgroup H}
       rw [CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSL (n := b) hb1, hDcard,
         Open.ordA, Nat.sub_add_cancel hb1, Nat.mul_comm (b - 1) b]
     have hEcard : Nat.card E = (2 ^ m) ^ 2 := unitaryFieldData_card_sq hE
-    haveI : Finite E := hE.finite
+    have : Finite E := hE.finite
     have hneR : (d, 2 ^ m) ≠ (3, 2) := by
       intro h
       obtain ⟨hd3, hq2⟩ := Prod.mk.inj h
@@ -81,13 +81,13 @@ theorem q2Uni_linearBlock_false {H : Type} [Group H] {F C : Subgroup H}
   · have hble1 : b ≤ 1 := by omega
     have hsubSL : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin b) D)) := by
       rw [largeEvenSLGroup_eq_statedSL, largeEvenProj_eq_statedProj]
-      haveI : Subsingleton ↥(Open.StatedSL b D) :=
+      have : Subsingleton ↥(Open.StatedSL b D) :=
         CFSG.LieType.SemisimpleCentralizers.Held.hct_subsingleton_statedSL_of_le_one hble1
       infer_instance
-    haveI : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin b) D)) := hsubSL
+    have : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin b) D)) := hsubSL
     have hsubq : Subsingleton (↥C ⧸ Subgroup.center ↥C) :=
       Equiv.subsingleton (linearBlockQuotientMarking e hC).toEquiv
-    haveI : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
+    have : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
     exact (not_subsingleton _ hsubq).elim
 
 private theorem cuq2ub_ordA_one_two_pow (k : ℕ) (hk : 1 ≤ k) :
@@ -101,13 +101,13 @@ private theorem cuq2ub_ordA_one_two_pow (k : ℕ) (hk : 1 ≤ k) :
 theorem q2Uni_unitaryBlock_params {H : Type} [Group H] {F C : Subgroup H}
     (hC : IsComponentOf C F) {a k : ℕ} {D : Type} [Field D] (hD : UnitaryFieldData 2 k D)
     (e : ↥F ≃* ↥(TableB.unitGroup (ι := Fin a) hD.bar)) {d m : ℕ} {E : Type} [Field E]
-    (hE : UnitaryFieldData 2 m E) (hd : 3 ≤ d) (hdm : ¬ (d = 3 ∧ m = 1))
+    (hE : UnitaryFieldData 2 m E) (hd : 3 ≤ d) (_hdm : ¬ (d = 3 ∧ m = 1))
     (θ : ↥C ⧸ Subgroup.center ↥C ≃* LargeEvenProj (LargeEvenSUGroup (Fin d) E (2 ^ m))) :
     3 ≤ a ∧ ¬ (a = 3 ∧ k = 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite D := hD.finite
-  haveI : CharP D 2 := hD.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite D := hD.finite
+  have : CharP D 2 := hD.charP
   let e' : ↥F ≃* ↥(GUFull a (2 ^ k) D) := e.trans (guFullEquivUnitGroup hD).symm
   let φ : ↥C ≃* ↥(LargeEvenSUGroup (Fin a) D (2 ^ k)) :=
     componentEquivLargeEvenSUOfUnitaryFull (unitaryFieldData_card_sq hD) e' hC
@@ -150,13 +150,13 @@ theorem q2Uni_unitaryBlock_params {H : Type} [Group H] {F C : Subgroup H}
     exact (CFSG.Timmesfeld.Orders.ordA_ne_ordTwistedA (n := 1) (f := k) (u := d - 1) (g := m)
       le_rfl hD.one_le (by omega) hE.one_le) hEq
   · rintro ⟨rfl, rfl⟩
-    haveI : Group.IsSolvable (LargeEvenSUGroup (Fin 3) D (2 ^ 1)) :=
+    have : Group.IsSolvable (LargeEvenSUGroup (Fin 3) D (2 ^ 1)) :=
       CFSG.Quasithin.isSolvable_statedSU_one (F := D) (unitaryFieldData_card_sq hD)
-    haveI hsolvC : Group.IsSolvable ↥C :=
+    have hsolvC : Group.IsSolvable ↥C :=
       Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective
-    haveI : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
-    haveI : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
-    haveI : Nontrivial ↥C := (QuotientGroup.mk'_surjective (Subgroup.center ↥C)).nontrivial
+    have : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
+    have : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
+    have : Nontrivial ↥C := (QuotientGroup.mk'_surjective (Subgroup.center ↥C)).nontrivial
     exact Group.IsPerfect.not_isSolvable ↥C hsolvC
 
 end CFSG.StandardType

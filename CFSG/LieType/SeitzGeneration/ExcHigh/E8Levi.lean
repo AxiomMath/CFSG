@@ -215,10 +215,10 @@ theorem quasisimple_of_mulEquiv_levi {G H : Type*} [Group G] [Group H] (e : G �
       rw [commutator_def, commutator_def, Subgroup.map_commutator, htop]
     rw [← h2, hG.1]
     exact htop
-  · haveI := hG.2
+  · have := hG.2
     have hz : (G ⧸ Subgroup.center G) ≃* (H ⧸ Subgroup.center H) :=
       QuotientGroup.congr (Subgroup.center G) (Subgroup.center H) e (Subgroup.map_center_eq e)
-    haveI : Nontrivial (H ⧸ Subgroup.center H) := hz.symm.surjective.nontrivial
+    have : Nontrivial (H ⧸ Subgroup.center H) := hz.symm.surjective.nontrivial
     exact IsSimpleGroup.isSimpleGroup_of_surjective hz.toMonoidHom hz.surjective
 
 theorem e8LeviPiece_of_datum {e : ℕ}
@@ -641,13 +641,13 @@ theorem e8LeviPiece_three_of_layer (hL : E8E6LayerInput) : E8LeviPiece 3 := by
   refine e8LeviPiece_of_datum
     (fun q hv p hp h7 hpq he => sylowTorus_cat_E8_three hv hp h7 hpq he) ?_
   intro q hv p hp h7 hpq he
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, A, π, hπ, hker, hcen, hQ, hAel, hAc, hcomm, hdisj⟩ := hL q hv p hp h7 hpq he
   have hp3 : Nat.Coprime 3 p := (Nat.coprime_primes (by norm_num) hp).2 (by omega)
   have hcop : Nat.Coprime (Nat.card π.ker) p := Nat.Coprime.coprime_dvd_left hker hp3
   obtain ⟨K8, _, _, -, -, ⟨e8⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e8 q hv
   have hfin8 : Finite (ModGL Tag.E8 K8) := CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (Cat ⟨.E8 q, hv⟩) := Finite.of_equiv _ e8.symm.toEquiv
+  have : Finite (Cat ⟨.E8 q, hv⟩) := Finite.of_equiv _ e8.symm.toEquiv
   obtain ⟨E, hEel, hEc, hEHG⟩ := e6Cube_hyperGen_three (LieTypeIndex.valid_E6 q) hp hpq he
   exact levi_datum_of_layer P A π hπ hcop hcen hQ hAel hAc hcomm hdisj E hEel hEc hEHG
     (ordTrialityD4_sq_lt_cat_E6 q)
@@ -877,13 +877,13 @@ theorem e8LeviPiece_six_of_layer (hL : E8E6LayerInput6) (hTw : TwE6SixLines) :
   refine e8LeviPiece_of_datum
     (fun q hv p hp h7 hpq he => sylowTorus_cat_E8_six hv hp h7 hpq he) ?_
   intro q hv p hp h7 hpq he
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, A, π, hπ, hker, hcen, hQ, hAel, hAc, hcomm, hdisj⟩ := hL q hv p hp h7 hpq he
   have hp3 : Nat.Coprime 3 p := (Nat.coprime_primes (by norm_num) hp).2 (by omega)
   have hcop : Nat.Coprime (Nat.card π.ker) p := Nat.Coprime.coprime_dvd_left hker hp3
   obtain ⟨K8, _, _, -, -, ⟨e8⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e8 q hv
   have hfin8 : Finite (ModGL Tag.E8 K8) := CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (Cat ⟨.E8 q, hv⟩) := Finite.of_equiv _ e8.symm.toEquiv
+  have : Finite (Cat ⟨.E8 q, hv⟩) := Finite.of_equiv _ e8.symm.toEquiv
   have hv6 := LieTypeIndex.valid_twistedE6 q
   obtain ⟨-, V0, -, -, -, -, hV0el, hV0c⟩ :=
     (sylowTorus_cat_twE6_six hv6 hp h7 hpq he).exists_torus

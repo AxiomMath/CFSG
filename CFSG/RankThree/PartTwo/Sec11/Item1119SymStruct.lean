@@ -36,8 +36,8 @@ theorem sym1119_pow_R (h : Sec11Data G A c L a R Y d x s r g) {u : G} (hu : u �
     ∃ k : ℕ, u ^ 3 ^ k = 1 := Item1116Proof.exists_pow_eq_one_of_mem h hu
 
 theorem sym1119_R_comm_c (h : Sec11Data G A c L a R Y d x s r g) :
-    ∀ u ∈ R, u * c = c * u :=
-  fun u hu => Subgroup.mem_centralizer_singleton_iff.mp (Item1119Proof.R_le_centralizer_c h hu)
+    ∀ _u ∈ R, _u * c = c * _u :=
+  fun _u hu => Subgroup.mem_centralizer_singleton_iff.mp (Item1119Proof.R_le_centralizer_c h hu)
 
 theorem sym1119_g_comm_a (h : Sec11Data G A c L a R Y d x s r g) : g * a = a * g := by
   have hg : g ∈ Y := (h.g_mem).1
@@ -58,7 +58,7 @@ theorem sym1119_x_a_action (h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x
   · have e : x * a * x⁻¹ = (x * a * x⁻¹ * a⁻¹) * a := by group
     rw [e, ← hm]
 
-theorem sym1119_x_comm (h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x s r g) :
+theorem sym1119_x_comm (_h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x s r g) :
     x * c = c * x ∧ x * d = d * x := by
   refine ⟨sym1119_R_comm_c h x (sym1119_x_mem_R h), ?_⟩
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp (Item1115Proof.d_mem_zpowers_x h)
@@ -95,7 +95,7 @@ theorem sym1119_g_c_action (h113 : Item113) (h117 : Item117)
     Item1119Proof.commute_of_mem_zpowers_d h113 h117 h (Subgroup.mem_zpowers d)
       (Item1119Proof.g_mem_P R g)
   have hgd' : g * d * g⁻¹ ∈ Subgroup.zpowers d := by
-    rw [hgd]; simpa using Subgroup.mem_zpowers d
+    rw [hgd]; simp
   obtain ⟨j, hj⟩ := Item1119Sym.conj_eq_of_three_power_order g c d h.pow_eq_one hc3 hcd hcd' hgd'
     h.conj_mem
   refine ⟨j, fun h3 => h.g_not_mem ?_, ?_⟩
@@ -152,12 +152,15 @@ theorem sym1119_A_comm_r (h113 : Item113) (h117 : Item117)
     · exact (Item1119Proof.commute_of_mem_zpowers_d h113 h117 h (Subgroup.mem_zpowers v)
         (Item1119Proof.R_le_P R g (sym1119_r_mem_R h))).symm
   exact Subgroup.mem_centralizer_singleton_iff.mp (hle hu)
-theorem sym1119_A_le_M (A : Subgroup G) (x r : G) : A ≤ sym1119M A x r := fun u hu =>
+omit [Finite G] in
+theorem sym1119_A_le_M (A : Subgroup G) (x r : G) : A ≤ sym1119M A x r := fun _u hu =>
   Subgroup.subset_closure (Or.inl hu)
 
+omit [Finite G] in
 theorem sym1119_y_mem_M (A : Subgroup G) (x r : G) : x ^ 3 ∈ sym1119M A x r :=
   Subgroup.subset_closure (Or.inr (by simp))
 
+omit [Finite G] in
 theorem sym1119_r_mem_M (A : Subgroup G) (x r : G) : r ∈ sym1119M A x r :=
   Subgroup.subset_closure (Or.inr (by simp))
 
@@ -287,6 +290,7 @@ theorem sym1119_yr_facts (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
     apply h3
     have e : r * x ^ 3 * r⁻¹ * (x ^ 3)⁻¹ = (x ^ 3 * r * (x ^ 3)⁻¹ * r⁻¹)⁻¹ := by group
     rw [e, h1', inv_one]
+omit [Finite G] in
 theorem sym1119_conj_comm {u y n : G} (hu : (n⁻¹ * u * n) * y = y * (n⁻¹ * u * n)) :
     u * (n * y * n⁻¹) = (n * y * n⁻¹) * u := by
   calc u * (n * y * n⁻¹) = n * ((n⁻¹ * u * n) * y) * n⁻¹ := by group

@@ -11,8 +11,8 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 private theorem s16h_e3_fp_finite_mulAut (W : Type) [Group W] [Finite W] : Finite (MulAut W) :=
-  Finite.of_injective (fun f : MulAut W => (f : W → W))
-    (fun f g h => MulEquiv.ext (congrFun h))
+  Finite.of_injective (fun _f : MulAut W => (_f : W → W))
+    (fun _f _g h => MulEquiv.ext (congrFun h))
 
 private theorem s16h_e3_fp_centralizer_sup {W : Type} [CommGroup W]
     (L L' : Subgroup (MulAut W)) :
@@ -100,7 +100,7 @@ private theorem s16h_e3_fp_ker_card {W : Type} [CommGroup W] [Finite W]
     (hAut : ¬ p ^ 2 ∣ Nat.card (MulAut ↥A)) :
     p ^ 2 ≤ Nat.card ↥(E ⊓ Subgroup.centralizer (A : Set (MulAut W))) := by
   classical
-  haveI : Finite (MulAut W) := s16h_e3_fp_finite_mulAut W
+  have : Finite (MulAut W) := s16h_e3_fp_finite_mulAut W
   let φ : E →* MulAut ↥A := (Subgroup.normalizerMonoidHom A).comp (Subgroup.inclusion hEN)
   have hker : φ.ker = (E ⊓ Subgroup.centralizer (A : Set (MulAut W))).subgroupOf E := by
     ext x
@@ -198,8 +198,8 @@ theorem s16h_e3_frame_p {W : Type} [CommGroup W] [Finite W]
       ∀ x ∈ X ⊓ Subgroup.centralizer ((L ⊔ L' : Subgroup (MulAut W)) : Set (MulAut W)),
         x ^ p = 1 → x ≠ 1 → (∃ u ∈ U, x u ≠ u) ∧ ∃ u ∈ U', x u ≠ u := by
   classical
-  haveI : Finite (MulAut W) := s16h_e3_fp_finite_mulAut W
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut W) := s16h_e3_fp_finite_mulAut W
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEX, hEab, hEcard⟩ := hrk
   obtain ⟨t, htT, hLt, hUt⟩ := F.swap
   have htX : t ∈ X := F.t_le htT

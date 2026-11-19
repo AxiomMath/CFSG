@@ -66,7 +66,7 @@ theorem rk2_twoLocal_add_one_le (hp : p.Prime) {K X : Subgroup G} (hKX : K ≤ X
     (h1 : 1 ≤ GLATwoLocalRank p ↥K) {c : G} (hcX : c ∈ X) (hcK : c ∈ Subgroup.centralizer (K : Set G))
     (hc1 : c ≠ 1) (hcp : c ^ p = 1) :
     GLATwoLocalRank p ↥K + 1 ≤ GLATwoLocalRank p ↥X + CFSG.Open.pRank p (Subgroup.center ↥K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A, Q, hA, hQ1, hQ2, hAQ, hAcard⟩ := rk2_exists_realizer hp h1
   let i : ↥K →* ↥X := Subgroup.inclusion hKX
   have hi : Function.Injective i := Subgroup.inclusion_injective hKX

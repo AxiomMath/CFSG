@@ -19,7 +19,7 @@ private theorem s1611e3_isInv_map_congrHom {V W : Type*} [CommGroup V] [CommGrou
   rintro l hl w ⟨u₀, hu₀, rfl⟩
   obtain ⟨l₀, hl₀, rfl⟩ := hl
   refine ⟨l₀ u₀, hI l₀ hl₀ u₀ hu₀, ?_⟩
-  simp [congrHom_apply]
+  simp
 
 private theorem s1611e3_isIrr_map_congrHom {V W : Type*} [CommGroup V] [CommGroup W]
     (e : V ≃* W) {L : Subgroup (MulAut V)} {I : Subgroup V} (hI : Pair.IsIrr L I) :
@@ -67,7 +67,7 @@ theorem s1611e3_six_swap_aut {W' : Type} [CommGroup W']
     ∃ ψ : MulAut W', (∀ ℓ ∈ L', ψ * ℓ * ψ⁻¹ ∈ L') ∧ I₁.map ψ.toMonoidHom = I₂ := by
   classical
   obtain ⟨e, he⟩ := s16t_exists_pair_model hinf hsup h₁ h₂ hne
-  haveI : Finite W' := Finite.of_equiv (PairMod (Fin 2 ⊕ Fin 2) (ZMod 2)) e.toEquiv.symm
+  have : Finite W' := Finite.of_equiv (PairMod (Fin 2 ⊕ Fin 2) (ZMod 2)) e.toEquiv.symm
   have hIrr₁ : I₁ ∈ irrSet L' := s16c167_mem_irrSet_alt (n := 6) (by norm_num) h₁
   have hIrr₂ : I₂ ∈ irrSet L' := s16c167_mem_irrSet_alt (n := 6) (by norm_num) h₂
   have hfix₁ : I₁ ⊓ fixV L' = ⊥ := s16c167_cfg2_fix_alt (n := 6) (by norm_num) h₁

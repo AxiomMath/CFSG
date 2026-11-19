@@ -188,7 +188,7 @@ theorem separated_pair_two {J R E : Subgroup Y} {x₁ y₁ x₂ y₂ : Y} (hRJ :
     have := hasInvolMod_map (MulAut.conj gJ) h2
     simpa [MulAut.conj_apply, mul_assoc] using this
 
-theorem not_nine_dvd_card_of_le_sup {J R : Subgroup Y} {x y : Y} (hRJ : R ≤ J)
+theorem not_nine_dvd_card_of_le_sup {J R : Subgroup Y} {x y : Y} (_hRJ : R ≤ J)
     (hJR : J ≤ Subgroup.normalizer (R : Set Y)) (hR2 : IsPGroup 2 R) (hxJ : x ∈ J) (hyJ : y ∈ J)
     (hJle : J ≤ R ⊔ Subgroup.closure {x, y}) (hx2 : x * x = 1) (hy2 : y * y = 1)
     (hxy3 : (x * y) ^ 3 = 1) (hxy1 : x * y ≠ 1) : ¬ 9 ∣ Nat.card J := by

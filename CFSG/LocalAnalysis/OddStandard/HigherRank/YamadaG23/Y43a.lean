@@ -41,11 +41,11 @@ private theorem le_f4X_of_le_normalizer {s : Setting3 G L} {A : Subgroup G}
 theorem y4_f4X_le_H (c : Ctx4 s e) (h42 : IsSylowIn 2 (⊤ : Subgroup G) s.T₂) :
     f4X s ≤ s.H := by
   classical
-  letI : MulAction ↥(f4X s) G :=
+  let : MulAction ↥(f4X s) G :=
     MulAction.compHom G ((MulAut.conj).comp (f4X s).subtype)
   have hsmul : ∀ (l : ↥(f4X s)) (x : G), l • x = (l : G) * x * (l : G)⁻¹ := fun _ _ => rfl
   by_contra hle
-  obtain ⟨x₀, hx₀X, hx₀H⟩ := SetLike.not_le_iff_exists.mp hle
+  obtain ⟨x₀, hx₀X, hx₀H⟩ := IsConcreteLE.not_le_iff_exists.mp hle
   have htt : s.t * s.t = 1 := by
     rw [← pow_two, ← s.t_order]
     exact pow_orderOf_eq_one s.t
@@ -136,12 +136,12 @@ theorem y4_f4X_le_H (c : Ctx4 s e) (h42 : IsSylowIn 2 (⊤ : Subgroup G) s.T₂)
     le_f4X_of_le_normalizer (y4_T_normF c.toF33) s.sylow_T.1
   have hT_le_H : s.T ≤ s.H := s.sylow_T.1
   have hT_le_inf : s.T ≤ f4X s ⊓ s.H := le_inf hT_le_X hT_le_H
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT'pg : IsPGroup 2 (s.T.subgroupOf (f4X s)) := s.sylow_T.2.1.comap_subtype
   obtain ⟨Q', hT'Q'⟩ := hT'pg.exists_le_sylow
   set Q : Subgroup G := (Q' : Subgroup ↥(f4X s)).map (f4X s).subtype with hQ
   have hQ_le_X : Q ≤ f4X s := by rw [hQ]; exact Subgroup.map_subtype_le _
-  have hQpg : IsPGroup 2 Q := by rw [hQ]; exact Q'.isPGroup'.map (f4X s).subtype
+  have hQpg : IsPGroup 2 Q := by rw [hQ]; exact Q'.isPGroup.map (f4X s).subtype
   have hT_le_Q : s.T ≤ Q := by
     rw [hQ]
     intro t ht
@@ -149,7 +149,7 @@ theorem y4_f4X_le_H (c : Ctx4 s e) (h42 : IsSylowIn 2 (⊤ : Subgroup G) s.T₂)
       hT'Q' (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
   have hQ_sylow : IsSylowIn 2 (f4X s) Q := by
     rw [hQ]
-    refine ⟨Subgroup.map_subtype_le _, Q'.isPGroup'.map (f4X s).subtype, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, Q'.isPGroup.map (f4X s).subtype, ?_⟩
     have h := Subgroup.relIndex_map_map_of_injective (f := (f4X s).subtype)
       (Q' : Subgroup ↥(f4X s)) (⊤ : Subgroup ↥(f4X s)) (f4X s).subtype_injective
     rw [Subgroup.map_top (f4X s).subtype, Subgroup.range_subtype,

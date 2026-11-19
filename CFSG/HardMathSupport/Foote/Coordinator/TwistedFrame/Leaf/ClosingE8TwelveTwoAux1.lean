@@ -23,7 +23,7 @@ theorem eq_zero_or_one_of_card_two {K : Type} [Field K] [Finite K] (hK : Nat.car
   classical
   by_contra h
   push Not at h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hc : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h1 : s ≠ 1 := h.2
   have h0 : s ≠ 0 := h.1
@@ -65,7 +65,7 @@ theorem uSL_mul_vSL_ne_one {K : Type} [Field K] : ((uSL (1 : K) * vSL 1 : SL2 K)
 theorem pow_four_ne_one_of_Uθ_Uneg {τ : Tag} {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) {a b : ModGL τ K} (ha : a ∈ Uθ τ K) (hb : b ∈ Heis.Uneg τ K)
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) : (a * b) ^ 4 ≠ 1 := by
-  haveI : CharP K 2 := charP_two_of_card_two hK
+  have : CharP K 2 := charP_two_of_card_two hK
   obtain ⟨s, rfl⟩ := mem_rootSubgroup.1 ha
   obtain ⟨t, rfl⟩ := mem_rootSubgroup.1 hb
   have hs : s = 1 := by

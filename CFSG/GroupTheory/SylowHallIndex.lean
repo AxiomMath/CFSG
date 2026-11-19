@@ -16,7 +16,7 @@ theorem relIndex_eq_of_isSylow_two {B C T Q : Subgroup G} {k : ℕ}
     (hk : C.relIndex B = 2 ^ k) (hodd : Odd (Q.relIndex C))
     (hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 T B) :
     Q.relIndex T = 2 ^ k ∧ Q.relIndex C = T.relIndex B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB1 : Nat.card B = 2 ^ k * Nat.card C := by
     have h := Subgroup.relIndex_mul_card C B
     rw [inf_eq_left.mpr hCB, hk] at h

@@ -74,10 +74,12 @@ theorem minFac_pow_eq {p a : ℕ} (hp : p.Prime) (ha : a ≠ 0) : (p ^ a).minFac
   have hdvd : (p ^ a).minFac ∣ p := hmf.dvd_of_dvd_pow (Nat.minFac_dvd _)
   exact (Nat.prime_dvd_prime_iff_eq hmf hp).mp hdvd
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem mem_orbit_subgroup_iff {P : Subgroup (Perm Ω)} {a v : Ω} :
     v ∈ orbit P a ↔ ∃ g ∈ P, g a = v :=
   ⟨fun ⟨g, hg⟩ => ⟨g, g.2, hg⟩, fun ⟨g, hg, h⟩ => ⟨⟨g, hg⟩, h⟩⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem orbit_subgroupOf_eq {H K : Subgroup (Perm Ω)} (hHK : H ≤ K) (z : Ω) :
     orbit (H.subgroupOf K) z = orbit H z := by
   ext v
@@ -87,11 +89,13 @@ theorem orbit_subgroupOf_eq {H K : Subgroup (Perm Ω)} (hHK : H ≤ K) (z : Ω) 
   · rintro ⟨h, rfl⟩
     exact ⟨⟨⟨(h : Perm Ω), hHK h.2⟩, h.2⟩, rfl⟩
 
+omit [DecidableEq Ω] in
 theorem ncard_orbit_pow {p : ℕ} [Fact p.Prime] {P : Subgroup (Perm Ω)} (hP : IsPGroup p P)
     (u : Ω) : ∃ k : ℕ, (orbit P u).ncard = p ^ k := by
   obtain ⟨k, hk⟩ := hP.card_orbit u
   exact ⟨k, by rw [← Nat.card_coe_set_eq]; exact hk⟩
 
+omit [DecidableEq Ω] in
 theorem ncard_orbit_eq_p {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) (hΩ : Nat.card Ω = 2 * p)
     {P : Subgroup (Perm Ω)} (hP : IsPGroup p P) (hPp : p ^ 2 ∣ Nat.card P) (u : Ω) :
     (orbit P u).ncard = p := by
@@ -115,7 +119,7 @@ theorem ncard_orbit_eq_p {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) (hΩ : Na
     obtain ⟨a, ha⟩ := Set.ncard_eq_one.mp hz
     obtain ⟨x, hx⟩ : ∃ x : Ω, (orbit P x).ncard ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hbot : P = ⊥ := by
         rw [Subgroup.eq_bot_iff_forall]
         intro g hg
@@ -199,6 +203,7 @@ section Core
 
 variable {Ω : Type} [Fintype Ω] [DecidableEq Ω]
 
+omit [DecidableEq Ω] in
 theorem stabilizer_normal {p : ℕ} [hp : Fact p.Prime] {P : Subgroup (Perm Ω)} (hP : IsPGroup p P)
     (hPp : p ^ 2 ∣ Nat.card P) (hpz : ∀ z : Ω, (orbit P z).ncard = p) (z : Ω) :
     (stabilizer P z).Normal := by
@@ -211,6 +216,7 @@ theorem stabilizer_normal {p : ℕ} [hp : Fact p.Prime] {P : Subgroup (Perm Ω)}
   apply Subgroup.normal_of_index_eq_minFac_card
   rw [index_stabilizer, hpz, ha, minFac_pow_eq hp.out ha1]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem two_block_absurd {p : ℕ} [hp : Fact p.Prime] {P W : Subgroup (Perm Ω)}
     (hPp : p ^ 2 ∣ Nat.card P) {z z' : Ω} (hne : z' ≠ z)
     (hpz : (orbit P z).ncard = p) (hsn : (stabilizer P z).Normal)
@@ -340,6 +346,7 @@ theorem two_block_absurd {p : ℕ} [hp : Fact p.Prime] {P W : Subgroup (Perm Ω)
   have := Nat.le_of_dvd hp.out.pos hPp
   nlinarith [hp.out.two_le]
 
+omit [DecidableEq Ω] in
 theorem core {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) (hΩ : Nat.card Ω = 2 * p)
     {P W : Subgroup (Perm Ω)} (hP : IsPGroup p P) (hPp : p ^ 2 ∣ Nat.card P)
     (hW : Nat.Coprime p (Nat.card W)) (hnorm : ∀ g ∈ P, ∀ w ∈ W, g * w * g⁻¹ ∈ W) :
@@ -380,7 +387,7 @@ theorem core {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) (hΩ : Nat.card Ω = 
         obtain ⟨g, hg, rfl⟩ := mem_orbit_subgroup_iff.mp hu
         exact mem_orbit_subgroup_iff.mpr ⟨g, Subgroup.mem_sup_left hg, rfl⟩
       · right
-        push_neg at hsub
+        push Not at hsub
         obtain ⟨u, huG, huP⟩ := hsub
         have hcompl : (orbit P z)ᶜ.ncard = p := by
           have h := Set.ncard_add_ncard_compl (orbit P z)
@@ -457,9 +464,9 @@ end AltCore
 theorem signalizerTrivialAlt_holds : SignalizerTrivialAlt := by
   intro p hp hp5 K _ _ hK P W hW hnorm
   obtain ⟨e⟩ := hK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 7 ≤ 2 * p := by omega
-  haveI : Nontrivial (Fin (2 * p)) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin (2 * p)) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hA : 2 * Nat.card (alternatingGroup (Fin (2 * p))) = (2 * p).factorial := by
     rw [two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_eq_fintype_card,
       Fintype.card_fin]
@@ -479,7 +486,7 @@ theorem signalizerTrivialAlt_holds : SignalizerTrivialAlt := by
   have hPcard : p ^ 2 ∣ Nat.card (P : Subgroup K) := by
     rw [Sylow.card_eq_multiplicity P]
     exact pow_dvd_pow p hfac
-  have hPgroup : IsPGroup p (P : Subgroup K) := P.isPGroup'
+  have hPgroup : IsPGroup p (P : Subgroup K) := P.isPGroup
   set θ : MulAut K →* Perm (Fin (2 * p)) := (altAutEquiv hn e).toMonoidHom with hθ
   set ψ : K →* Perm (Fin (2 * p)) := psiAlt e with hψ
   have hθinj : Function.Injective θ := (altAutEquiv hn e).injective

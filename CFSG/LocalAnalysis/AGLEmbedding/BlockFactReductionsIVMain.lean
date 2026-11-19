@@ -23,7 +23,7 @@ theorem card_le_three_of_cyclic_of_pow_three {P : Subgroup X}
     (hQ : IsCyclic (Q : Subgroup ↥P)) : Nat.card (Q : Subgroup ↥P) ≤ 3 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥(Q : Subgroup ↥P))
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hox : orderOf ((g : ↥P) : X) = Nat.card (Q : Subgroup ↥P) := by
     rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hg]
   have h3 := h _ (g : ↥P).2 ⟨k, by rw [← hk, ← hox]; exact pow_orderOf_eq_one _⟩
@@ -88,7 +88,7 @@ theorem commutator_mem_centralizer_of_threeSub {Lb P U : Subgroup X} (hPL : P �
       exact Subgroup.mem_top u
     rw [Subgroup.mul_normal] at hu
     exact Set.mem_mul.mp hu
-  have hQ3 : IsPGroup 3 ((Q : Subgroup ↥U).map U.subtype) := Q.isPGroup'.map _
+  have hQ3 : IsPGroup 3 ((Q : Subgroup ↥U).map U.subtype) := Q.isPGroup.map _
   have hQP : (Q : Subgroup ↥U).map U.subtype ≤ P := by
     rintro _ ⟨x, -, rfl⟩
     exact hUP x.2

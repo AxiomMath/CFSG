@@ -14,7 +14,7 @@ theorem card_units_end (V : Type) [AddCommGroup V] [Module K4 V] [FiniteDimensio
     Nat.card (LinearMap.GeneralLinearGroup K4 V) =
       ∏ i : Fin (Module.finrank K4 V), (4 ^ Module.finrank K4 V - 4 ^ (i : ℕ)) := by
   classical
-  letI : Fintype K4 := Fintype.ofFinite K4
+  let : Fintype K4 := Fintype.ofFinite K4
   have h4 : Fintype.card K4 = 4 := by
     rw [Fintype.card_eq_nat_card]
     exact K4_card
@@ -134,7 +134,7 @@ theorem core_false (P T₀ Z : Subgroup ↥(StatedSU 6 (2 ^ 1) K4))
     (hT₀ : IsPGroup 2 T₀) (hT₀ne : T₀ ≠ ⊥)
     (hN : ∀ p ∈ P, ∀ t ∈ T₀, p * t * p⁻¹ ∈ T₀) : False := by
   classical
-  haveI : Finite ↥(StatedSU 6 (2 ^ 1) K4) := HU42S.finite_SU K4
+  have : Finite ↥(StatedSU 6 (2 ^ 1) K4) := HU42S.finite_SU K4
   set C : Submodule K4 (Fin 6 → K4) := fixSub T₀ with hCdef
   set R : Submodule K4 (Fin 6 → K4) := C ⊓ perp C with hRdef
   have hRne : R ≠ ⊥ := by

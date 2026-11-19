@@ -225,7 +225,7 @@ theorem normalizer_zpowers_le {p : ℕ} [hp : Fact p.Prime] {P : Sylow p G} {M E
   have hT'C : T' ≤ C := Subgroup.map_subtype_le _
   have hET' : E ≤ T' := fun e he =>
     ⟨⟨e, hEC he⟩, hT (show (⟨e, hEC he⟩ : C) ∈ E.comap C.subtype from he), rfl⟩
-  have hT'p : IsPGroup p T' := T.isPGroup'.map _
+  have hT'p : IsPGroup p T' := T.isPGroup.map _
   have hNT : Subgroup.normalizer (T' : Set G) ≤ M :=
     normalizer_le_of_rank hPM hcore (hT'C.trans hC) hT'p hET' hE hEc
   intro n hn
@@ -275,6 +275,7 @@ theorem normalizer_zpowers_le {p : ℕ} [hp : Fact p.Prime] {P : Sylow p G} {M E
   rw [hn']
   exact M.mul_mem hcM (hNT hcn)
 
+omit [Finite G] in
 theorem inf_le_pCoreOf {L M : Subgroup G} (hLM : L ≤ M) : L ⊓ pCoreOf 2 M ≤ pCoreOf 2 L := by
   refine normal_pGroup_le_pCoreOf 2 _ L inf_le_left ?_
     ((CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 M).to_le inf_le_right)

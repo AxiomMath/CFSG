@@ -15,7 +15,7 @@ private theorem eq_of_forall_inv_mul_mem_of_perfect {L' : Type} [Group L'] {Z : 
     (h : ∀ l, (φ₁ l)⁻¹ * φ₂ l ∈ Z) : φ₁ = φ₂ := by
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZ hy) g
-  letI : CommGroup Z :=
+  let : CommGroup Z :=
     { (inferInstance : Group Z) with mul_comm := fun x y => Subtype.ext (hcen y y.2 x) }
   let f : L' →* Z :=
     { toFun := fun l => ⟨(φ₁ l)⁻¹ * φ₂ l, h l⟩
@@ -51,7 +51,7 @@ theorem ggTorusReflGenW_three_of_oddKernel {r : ℕ} {R : Type} [Group R] {I : S
   have hZc : Z ≤ Subgroup.center L' := fun z hz => hker ((hmemZ z).1 hz).1
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZc hy) g
-  haveI hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
+  have hZn : Z.Normal := ⟨fun y hy g => by rw [hcen y hy g, mul_inv_cancel_right]; exact hy⟩
   have hZ2 : IsPGroup 2 Z := fun g =>
     ⟨Nat.card L', Subtype.ext (by simpa using ((hmemZ g.1).1 g.2).2)⟩
   have hAp : ∀ a ∈ A, a ^ 3 = 1 := hA.2
@@ -139,7 +139,7 @@ theorem ggTorusReflGenW_three_of_oddKernel {r : ℕ} {R : Type} [Group R] {I : S
   have hodd : Odd (Nat.card ψ₁.ker) := by
     by_contra hne
     rw [Nat.not_odd_iff_even] at hne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hne)
     obtain ⟨l, hl⟩ := QuotientGroup.mk_surjective x.1
     have hx2 : x.1 ^ 2 = 1 := by

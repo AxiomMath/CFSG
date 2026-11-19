@@ -98,13 +98,14 @@ private lemma toGL_H :
       TauCeti.transvectionWeylElement (A := K) (show (0 : Fin 3) ≠ 2 by decide) := by
   simp only [H, xPlus, xMinus, map_mul, TauCeti.toGL_transvection_eq_transvectionUnit,
     TauCeti.transvectionWeylElement_def, CharTwo.neg_eq]
-  try rfl
 
+omit [CharP K 2] in
 private lemma toGL_xPlus (t : K) :
     Matrix.SpecialLinearGroup.toGL (xPlus t) =
       TauCeti.transvectionUnit (show (0 : Fin 3) ≠ 2 by decide) t := by
   rw [xPlus, TauCeti.toGL_transvection_eq_transvectionUnit]
 
+omit [CharP K 2] in
 private lemma toGL_xMinus (t : K) :
     Matrix.SpecialLinearGroup.toGL (xMinus t) =
       TauCeti.transvectionUnit (show (2 : Fin 3) ≠ 0 by decide) t := by
@@ -152,6 +153,7 @@ private lemma xPlus_one_mul_self : xPlus (1 : K) * xPlus 1 = 1 := by
   rw [xPlus, ← Matrix.SpecialLinearGroup.transvection_add, CharTwo.add_self_eq_zero]
   exact Matrix.SpecialLinearGroup.transvection_coeff_zero _
 
+omit [CharP K 2] in
 private lemma xMinus_add (a b : K) : xMinus (a + b) = xMinus a * xMinus b := by
   simp only [xMinus]
   exact Matrix.SpecialLinearGroup.transvection_add _ a b

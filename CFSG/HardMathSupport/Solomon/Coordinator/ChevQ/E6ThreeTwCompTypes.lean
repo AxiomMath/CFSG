@@ -52,8 +52,8 @@ theorem TwCompFrames.twCard_three_le_nine (F : TwCompFrames K σ h₀ L T n hU F
     {e : ModGL TwistTag.E6.tag K} (he : e ∈ twTorusHat K σ g₀) (heT : e ∉ T)
     (he3 : e ^ 3 = 1) :
     Nat.card {τ : ModGL TwistTag.E6.tag K // τ ∈ T ∧ τ ^ 3 = 1} ≤ 9 := by
-  haveI : Finite K := F.twFinite
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite K := F.twFinite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have h1 := twCard_three_mul_le F.twLe_torusHat twTorusHat_comm he heT he3
   have h2 := twTorusHat_card_three_le hU.prime hU.one_le F.pic F.twThree_dvd
   omega
@@ -62,8 +62,8 @@ theorem TwCompFrames.twComm_mem_layer (F : TwCompFrames K σ h₀ L T n hU Fr g�
     (hl : TwE6ThreeA2Line K σ h₀ L T n)
     (hX : Nat.card {τ : ModGL TwistTag.E6.tag K // τ ∈ T ∧ τ ^ 3 = 1} ≤ 9) :
     ∀ τ ∈ T, n * τ * n⁻¹ * τ⁻¹ ∈ T ⊓ ⨆ i, L i := by
-  haveI : Finite K := F.twFinite
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite K := F.twFinite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hTT := F.twLe_torusHat
   have hnT : ∀ τ, τ ∈ T ↔ n * τ * n⁻¹ ∈ T := F.pic.conj_mem_T hl.n_mem
   exact twConj_comm_mem_of_cube hl.T_comm inf_le_left
@@ -85,8 +85,8 @@ theorem TwCompFrames.twExists_outer_torsion (F : TwCompFrames K σ h₀ L T n hU
     (hcomm : ε * MulAut.conj s = MulAut.conj s * ε)
     (hrange : ∀ i, (ρ i).range.map ε.toMonoidHom = (ρ i).range) :
     ∃ e ∈ twTorusHat K σ g₀, e ∉ T ∧ e ^ 3 = 1 := by
-  haveI : Finite K := F.twFinite
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite K := F.twFinite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨ĝ, hĝ, hεĝ, hĝh, hĝL⟩ :=
     twDec_of_aut hU.prime hU.one_le F.pic.card_eq F.pic.σ_apply F.range hs hε hcomm hrange
   obtain ⟨τ, hτ, x, rfl⟩ := twDec_decomp hU.prime hU.one_le hl F.pic F.range hĝ hĝh hĝL

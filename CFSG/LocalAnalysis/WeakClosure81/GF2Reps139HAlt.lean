@@ -19,11 +19,11 @@ open scoped Matrix
 theorem lemmaH_alt {E V : Type} [Field E] [Finite E] [CharP E 2] [AddCommGroup V] [Module E V]
     [Module.Finite E V] (hdim : 3 ≤ Module.finrank E V) (A : Submodule E V)
     (hA : Module.finrank E A + 1 = Module.finrank E V) (b : LinearMap.BilinForm E V)
-    (hb : b.Nondegenerate) (halt : b.IsAlt) :
+    (hb : b.Nondegenerate) (_halt : b.IsAlt) :
     Nat.card {g : V ≃ₗ[E] V | (∀ v, g v - v ∈ A) ∧ (∀ a ∈ A, g a = a) ∧
       ∃ l : E, l ≠ 0 ∧ ∀ x y, b (g x) (g y) = l * b x y} ≤ Nat.card E := by
   classical
-  haveI : Finite V := Module.finite_of_finite E
+  have : Finite V := Module.finite_of_finite E
   have hA' : Module.finrank E V = Module.finrank E A + 1 := hA.symm
   have hfin : Module.finrank E (b.orthogonal A) = 1 := by
     rw [LinearMap.BilinForm.finrank_orthogonal hb A, hA']
@@ -95,7 +95,7 @@ theorem lemmaH_alt {E V : Type} [Field E] [Finite E] [CharP E 2] [AddCommGroup V
     simp only [map_add, map_smul]
     rw [g.2.2.1 y hyA, g'.2.2.1 y hyA, hx]
   have hcard := Nat.card_le_card_of_injective F hF_inj
-  haveI : Module.Finite E ↥(b.orthogonal A) := inferInstance
+  have : Module.Finite E ↥(b.orthogonal A) := inferInstance
   have hcard_orth : Nat.card (b.orthogonal A) = Nat.card E := by
     rw [Module.natCard_eq_pow_finrank (K := E) (V := ↥(b.orthogonal A)), hfin, pow_one]
   rw [hcard_orth] at hcard

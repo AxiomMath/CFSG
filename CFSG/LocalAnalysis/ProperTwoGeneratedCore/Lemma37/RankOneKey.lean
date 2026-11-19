@@ -42,7 +42,7 @@ theorem exists_sylow_inf {L : Subgroup (EscapingQuotient z)} (hL : CFSG.IsCompon
 
 theorem sylowImage_isPGroup : IsPGroup 2 (escapingSylowImage S z) := by
   rw [← h.coe_sylow]
-  exact (sylowBarSylow h.square.central).isPGroup'
+  exact (sylowBarSylow h.square.central).isPGroup
 
 theorem exists_sq_eq_bar {L : Subgroup (EscapingQuotient z)} (hL : CFSG.IsComponent L) :
     ∃ a ∈ escapingSylowImage S z, a ∈ L ∧ a ^ 2 = escapingBar z := by

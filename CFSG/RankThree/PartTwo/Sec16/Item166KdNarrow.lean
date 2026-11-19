@@ -132,7 +132,7 @@ theorem step166KCommD_of_thetaDComm
     (h1514 : Item1514S17) (hMeets : Claim1715Meets) (hθd : Step166ThetaDComm) :
     Step166KCommD := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro G _ _ A c L Y₀ h hJ d hdA hd1 hdc U hUQ hUC
   have hΩ : omegaA A = {Subgroup.zpowers c} :=
     Proof17Res10.omegaA_eq_of_j2 h (h1514 G A c L Y₀ h) (hMeets G A c L Y₀ h)

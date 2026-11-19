@@ -20,6 +20,7 @@ section BQ
 variable {K Y : Type} [Group K] [Finite K] [Group Y] [Finite Y] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* Y} {M : ℕ}
 
+omit [Finite K] [Finite Y] in
 theorem pElement_map_parJ (h : BorelQuotient D n H π M) (J : Set (Fin D.rank)) :
     pElementSubgroup 2 ((parJ D H J).map π) = (unipJ D J).map π := by
   apply le_antisymm
@@ -40,6 +41,7 @@ theorem unipJ_singleton (h : BorelQuotient D n H π M) (i : Fin D.rank) :
   · exact sup_le (sup_le le_sup_right (hX.trans le_sup_left)) le_sup_left
   · exact sup_le le_sup_right (le_sup_of_le_left le_sup_left)
 
+omit [Finite Y] in
 theorem leviAlt_map_parJ_singleton (h : BorelQuotient D n H π M) (i : Fin D.rank)
     (hnode : Group.IsSolvable ↥(rankOne D.rootGroup i) ∨
       Open.IsQuasisimple ↥(rankOne D.rootGroup i)) :

@@ -26,8 +26,8 @@ theorem sec96Flag_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement) :
   have hYR : Y ≤ Rt M (LB M Q B) t := hsplit.1.2.2.2.1
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, hflag, hdet, hu0⟩ :=
     sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   have hfac := sec97_factor h34 h311a hc hs hsplit hK φ hrange hker
   have hHY : ∀ h, h ∈ (Y.subgroupOf (Rt M (LB M Q B) t)).map ((Ψ K).toMonoidHom.comp φ) ↔
       ∃ s : ↥(Rt M (LB M Q B) t), (s : G) ∈ Y ∧ Ψ K (φ s) = h := by

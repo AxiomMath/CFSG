@@ -15,7 +15,7 @@ private def ggKGPm_projFun (p : ℕ) {d : ℕ} (f : Fin d → Multiplicative (ZM
 
 private theorem ggKGPm_projFun_mem {p d : ℕ} (hp : p.Prime) (hpd : ¬ p ∣ d)
     (f : Fin d → Multiplicative (ZMod p)) : ggKGPm_projFun p f ∈ sumZero d p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hd0 : (d : ZMod p) ≠ 0 := fun h => hpd ((ZMod.natCast_eq_zero_iff d p).mp h)
   rw [mem_sumZero]
   have hsplit : ∑ i, toAdd (ggKGPm_projFun p f i)
@@ -107,7 +107,7 @@ private def ggKGPm_pi {p d : ℕ} {L' : Type} [Group L'] {A : Subgroup (MulAut L
 private theorem ggKGPm_pi_surjective {p d : ℕ} {L' : Type} [Group L'] {A : Subgroup (MulAut L')}
     (hp : p.Prime) (hpd : ¬ p ∣ d) (Θ : ↥(sumZero d p) ≃* ↥A) :
     Function.Surjective (ggKGPm_pi hp hpd Θ) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro a
   refine ⟨fun i => ((crd (Θ.symm (Additive.toMul a)) i).val : ℤ), ?_⟩
   have hy : ggKGPm_red p (fun i => ((crd (Θ.symm (Additive.toMul a)) i).val : ℤ)) =
@@ -144,7 +144,7 @@ private theorem ggKGPm_dot_y_w {d : ℕ} (i j : Fin d) (y : Fin d → ℤ) :
 private theorem ggKGPm_dot_w_w {d : ℕ} {i j : Fin d} (hij : i ≠ j) :
     dotProduct (ggKGPm_w i j) (ggKGPm_w i j) = 2 := by
   simp only [ggKGPm_w, sub_dotProduct, dotProduct_sub, single_dotProduct, Pi.single_apply,
-    if_true, if_neg hij, if_neg (Ne.symm hij)]
+    ite_true, ite_eq_right hij, ite_eq_right (Ne.symm hij)]
   norm_num
 
 private theorem ggKGPm_cartan {d : ℕ} {i j : Fin d} (hij : i ≠ j) (y : Fin d → ℤ) :
@@ -160,10 +160,10 @@ private theorem ggKGPm_refl {d : ℕ} {i j : Fin d} (hij : i ≠ j) (y : Fin d �
   simp only [ggKGPm_w, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   by_cases hki : k = i
   · subst hki
-    simp [Pi.single_eq_same, Pi.single_eq_of_ne, hij, Ne.symm hij, Equiv.swap_apply_left]
+    simp [Pi.single_eq_same, Pi.single_eq_of_ne, hij, Equiv.swap_apply_left]
   · by_cases hkj : k = j
     · subst hkj
-      simp [Pi.single_eq_same, Pi.single_eq_of_ne, hij, Ne.symm hij, Equiv.swap_apply_right]
+      simp [Pi.single_eq_same, Pi.single_eq_of_ne, Ne.symm hij, Equiv.swap_apply_right]
     · simp [Pi.single_eq_of_ne, hki, hkj, Equiv.swap_apply_of_ne_of_ne hki hkj]
 
 private theorem ggKGPm_root {d : ℕ} {i j : Fin d} (hij : i ≠ j) :
@@ -210,7 +210,7 @@ private theorem ggKGPm_card_sumZero_le (m p : ℕ) [NeZero p] :
 private theorem ggKGPm_four_le_d {p d : ℕ} {L' : Type} [Group L'] {A : Subgroup (MulAut L')}
     (hp : p.Prime) (hpd : ¬ p ∣ d) (h3 : p ^ 3 ≤ Nat.card ↥A)
     (Θ : ↥(sumZero d p) ≃* ↥A) : 4 ≤ d := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hcard : p ^ 3 ≤ Nat.card ↥(sumZero d p) := by
     rw [Nat.card_congr Θ.toEquiv]; exact h3
   have hdpos : 0 < d := by

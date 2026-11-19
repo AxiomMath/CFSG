@@ -22,18 +22,18 @@ private theorem finite_rootSubtype (τ : Tag) :
   exact ⟨(w, j), rfl⟩
 
 private theorem finite_label (τ : Tag) : Finite (Label τ) := by
-  haveI : Finite {v : Fin τ.rank → ℤ // IsRoot τ v} := finite_rootSubtype τ
+  have : Finite {v : Fin τ.rank → ℤ // IsRoot τ v} := finite_rootSubtype τ
   infer_instance
 
 theorem exists_pos_nsmul_single_mem_closure_latGen (Ψ : Set (Fin τ.rank → ℤ)) :
     ∃ N : ℕ, 0 < N ∧ ∀ i, (N • Pi.single i 1 : Fin τ.rank → ℤ) ∈
       AddSubgroup.closure (latGen (τ := τ) Ψ) := by
   classical
-  haveI : Finite (Label τ) := finite_label τ
+  have : Finite (Label τ) := finite_label τ
   let ℓ : Fin τ.rank → Label τ := fun j => Sum.inr ⟨Pi.single j 1, IsRoot.basis j⟩
   let m : Fin τ.rank → ℕ := fun j => Nat.card (wtClass Ψ (ℓ j))
   refine ⟨∏ j, m j, Finset.prod_pos fun j _ => ?_, fun i => ?_⟩
-  · haveI : Nonempty (wtClass Ψ (ℓ j)) := ⟨ℓ j, fun lam _ => by simp [WtEquiv]⟩
+  · have : Nonempty (wtClass Ψ (ℓ j)) := ⟨ℓ j, fun lam _ => by simp⟩
     exact Nat.card_pos
   · have hgen : (m i : ℤ) • labelWt τ (ℓ i) ∈ AddSubgroup.closure (latGen (τ := τ) Ψ) :=
       AddSubgroup.subset_closure (Or.inr ⟨ℓ i, rfl⟩)

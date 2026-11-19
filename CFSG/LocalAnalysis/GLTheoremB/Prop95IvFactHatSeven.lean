@@ -122,7 +122,7 @@ theorem lifts_not_commute (hperf : commutator Y = ⊤) (hZ : Nat.card (Subgroup.
     (hker : ∀ y, ρ y = 1 ↔ y ∈ Subgroup.center Y) {x y : Y} (hx : ρ x = elA) (hy : ρ y = elB) :
     ¬ Commute x y := by
   intro hxy
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R₀ : Subgroup Y := sylowP.comap ρ with hR₀
   have hidx : R₀.index = 280 := by
     rw [hR₀, Subgroup.index_comap_of_surjective sylowP hρ, index_sylowP]
@@ -164,10 +164,10 @@ open HatSevenFact in
 theorem hatSevenOddInverts_holds : HatSevenOddInverts := by
   intro Y _ hY e φ σ hσ hind z hz
   obtain ⟨hperf, hZ, -⟩ := hY
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Subgroup.center Y) := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Finite (Y ⧸ Subgroup.center Y) := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite Y := Finite.of_equiv _ (Subgroup.groupEquivQuotientProdSubgroup (s := Subgroup.center Y)).symm
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Subgroup.center Y) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (Y ⧸ Subgroup.center Y) := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite Y := Finite.of_equiv _ (Subgroup.groupEquivQuotientProdSubgroup (s := Subgroup.center Y)).symm
   have hY : Nat.card Y = 7560 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center Y)
     rw [hZ, Nat.card_congr e.toEquiv, card_alt7] at h

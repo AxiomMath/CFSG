@@ -23,7 +23,7 @@ theorem not_threeRankLeOneInv_cat_untw {τ : Tag} {c : PrimePower → LieTypeInd
     (e : L ≃* (TauCeti.CFSGIndex.lie ⟨c q, hv⟩).Group) : ¬ ThreeRankLeOneInv L := by
   obtain ⟨K, _, _, -, hch, ⟨e'⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup hB q hv
-  haveI := hch
+  have := hch
   exact not_threeRankLeOneInv_of_mulEquiv_adjoint
     (hτ.imp id fun h => by rw [ringChar.eq K q.p]; exact h) (e.trans e')
 
@@ -37,10 +37,10 @@ theorem not_threeRankLeOneInv_cat_twistedE6 (q : PrimePower)
     (hv : (LieTypeIndex.twistedE6 q).Valid) {L : Type} [Group L]
     (e : L ≃* (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group) : ¬ ThreeRankLeOneInv L := by
   obtain ⟨K, _, σ, hK, -, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hfix : ∀ c : fixSubfield σ, σ (algebraMap (fixSubfield σ) K c) =
       algebraMap (fixSubfield σ) K c := fun c => c.2
   exact not_threeRankLeOneInv_of_adjoint (τ := .F4) (K := fixSubfield σ) (Or.inl (by decide))
@@ -56,7 +56,7 @@ theorem not_threeRankLeOneInv_cat_trialityD4 (q : PrimePower)
     ¬ ThreeRankLeOneInv L := by
   obtain ⟨K, _, _, σ, hK, hσ, -, ⟨eK⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have h5 : 5 ≤ q.p := by
     have h2 := q.prime_p.two_le
     have h4 : q.p ≠ 4 := fun h => by
@@ -67,7 +67,7 @@ theorem not_threeRankLeOneInv_cat_trialityD4 (q : PrimePower)
   obtain ⟨eG⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_fixSubgroup_fieldActor_equiv_G2
     (ℓ := q.p) (f := q.exponent) hq3 q.exponent_pos (Or.inr h5) hK σ hσ
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.charP_of_card_pow_three q.prime_p
       q.exponent_pos hK
   have hch : ringChar (fixSubfield σ) ≠ 2 := by

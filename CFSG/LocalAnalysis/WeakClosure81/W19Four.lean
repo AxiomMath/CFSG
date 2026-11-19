@@ -22,7 +22,7 @@ theorem sylow_normal_of_cyclic_of_lt {K : Type*} [Group K] [Finite K] {p : ℕ} 
       IsCyclic ↥Q) :
     (P : Subgroup K).Normal := by
   set N : Subgroup K := CFSG.pCore p K with hN
-  haveI hNnormal : N.Normal := by rw [hN]; exact CFSG.pCore_normal
+  have hNnormal : N.Normal := by rw [hN]; exact CFSG.pCore_normal
   have hNp : IsPGroup p N := by rw [hN]; exact CFSG.pCore_isPGroup
   have hchar : Subgroup.centralizer (N : Set K) ≤ N := by
     rw [hN]
@@ -67,7 +67,7 @@ theorem sylow_normal_of_cyclic_of_lt {K : Type*} [Group K] [Finite K] {p : ℕ} 
         rw [← hcardK]
         exact Subgroup.card_subgroup_dvd_card (P : Subgroup K)
       have hcopPS : Nat.Coprime (Nat.card ↥(P : Subgroup K)) (Nat.card ↥S) := by
-        obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 P.isPGroup'
+        obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 P.isPGroup
         rw [hj]
         exact hS.pow_left j
       have hdvdN : Nat.card ↥(P : Subgroup K) ∣ Nat.card ↥N :=
@@ -92,12 +92,12 @@ theorem sylow_normal_of_cyclic_of_lt {K : Type*} [Group K] [Finite K] {p : ℕ} 
         subst hn
         simp
       have htriv : (⊤ : Subgroup K) ≤ ⊥ := htop_le.trans (hchar.trans (le_of_eq hNbot))
-      haveI : Subsingleton K := ⟨fun a b => by
+      have : Subsingleton K := ⟨fun a b => by
         have ha : a ∈ (⊥ : Subgroup K) := htriv trivial
         have hb : b ∈ (⊥ : Subgroup K) := htriv trivial
         rw [Subgroup.mem_bot] at ha hb
         rw [ha, hb]⟩
-      haveI : Subsingleton ↥(P : Subgroup K) :=
+      have : Subsingleton ↥(P : Subgroup K) :=
         ⟨fun a b => Subtype.ext (Subsingleton.elim a.1 b.1)⟩
       exact hnc (isCyclic_of_subsingleton)
     · let f : K →* MulAut ↥N := MulAut.conjNormal (H := N)
@@ -113,13 +113,13 @@ theorem sylow_normal_of_cyclic_of_lt {K : Type*} [Group K] [Finite K] {p : ℕ} 
       have hker_le_p : Nat.card ↥f.ker ≤ p := by
         have := Subgroup.card_le_of_le hker_le
         rwa [hpN] at this
-      haveI : IsCyclic ↥N := hNcyc
+      have : IsCyclic ↥N := hNcyc
       have hrange_dvd : Nat.card ↥f.range ∣ p - 1 := by
         have h1 : Nat.card ↥f.range ∣ Nat.card (MulAut ↥N) := f.range.card_subgroup_dvd_card
         rw [IsCyclic.card_mulAut, hpN, Nat.totient_prime Fact.out] at h1
         exact h1
       have hcopP : Nat.Coprime (Nat.card ↥(P : Subgroup K)) (Nat.card ↥f.range) := by
-        obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 P.isPGroup'
+        obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 P.isPGroup
         rw [hj]
         have hp1 : Nat.Coprime p (p - 1) :=
           (Nat.coprime_self_sub_right (Fact.out : p.Prime).one_le).mpr (Nat.coprime_one_right p)
@@ -148,10 +148,10 @@ variable {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {X : Subgroup G}
 theorem le_normalizer_sup_pCoreOf (c : MinCex193 D V₀ V p X) :
     X ⊔ D.T ≤ normalizer ((X ⊔ pCoreOf 2 (X ⊔ D.T) : Subgroup G) : Set G) := by
   classical
-  haveI hp : Fact p.Prime := ⟨c.hyp.prime⟩
+  have hp : Fact p.Prime := ⟨c.hyp.prime⟩
   let H : Subgroup G := X ⊔ D.T
   let R : Subgroup ↥H := CFSG.pCore 2 ↥H
-  haveI hRnormal : R.Normal := CFSG.pCore_normal
+  have hRnormal : R.Normal := CFSG.pCore_normal
   have hR2 : IsPGroup 2 R := CFSG.pCore_isPGroup
   let K := ↥H ⧸ R
   let π : ↥H →* K := QuotientGroup.mk' R
@@ -169,11 +169,11 @@ theorem le_normalizer_sup_pCoreOf (c : MinCex193 D V₀ V p X) :
       rw [c.hyp.card_sup, ha, hb]
     exact CFSG.Quasithin.A312Ru.isSolvable_of_card_pq c.hyp.prime Nat.prime_two
       c.hyp.odd hcard
-  haveI : Group.IsSolvable ↥H := hHsolv
+  have : Group.IsSolvable ↥H := hHsolv
   have hcoreK : CFSG.pPrimeCore p K = ⊥ := by
     rw [CFSG.pPrimeCore_eq_bot_iff]
     intro N hNnormal hNcop
-    haveI : N.Normal := hNnormal
+    have : N.Normal := hNnormal
     obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 c.hyp.isPGroup
     obtain ⟨b, hb⟩ := IsPGroup.iff_card.1 D.sylowM.isPGroup
     have hcardH : Nat.card ↥H = p ^ a * 2 ^ b := by
@@ -341,13 +341,13 @@ theorem le_normalizer_sup_pCoreOf (c : MinCex193 D V₀ V p X) :
       dsimp only [Q₁G]
       rintro _ ⟨x, -, rfl⟩
       exact Subgroup.mem_map.mpr ⟨Q'.subtype x, hQ'L' x.2, rfl⟩
-    have hQ₁G_p : IsPGroup p Q₁G := Q₁.isPGroup'.map (H.subtype.comp Q'.subtype)
+    have hQ₁G_p : IsPGroup p Q₁G := Q₁.isPGroup.map (H.subtype.comp Q'.subtype)
     have hcycQ₁G : IsCyclic ↥Q₁G := c.cyclic L'' hTL'' hL''lt Q₁G hQ₁G_le hQ₁G_p
     have hcycQ₁ : IsCyclic ↥Q₁ := by
       have heq := Subgroup.equivMapOfInjective (Q₁ : Subgroup ↥Q')
         (H.subtype.comp Q'.subtype) hinj
       exact heq.isCyclic.mpr hcycQ₁G
-    haveI : IsCyclic ↥Q₁ := hcycQ₁
+    have : IsCyclic ↥Q₁ := hcycQ₁
     exact isCyclic_of_surjective (g.comp (Q₁ : Subgroup ↥Q').subtype) hg₁surj
   have hXbarNormal : Xbar.Normal := by
     have hPnormal := W19Aux.sylow_normal_of_cyclic_of_lt hcoreK P hncK hexpK hS hminK
@@ -375,7 +375,7 @@ theorem le_normalizer_sup_pCoreOf (c : MinCex193 D V₀ V p X) :
     refine Subgroup.mem_map.mpr ⟨cH, ?_, ?_⟩
     · rw [Subgroup.mem_comap]; exact hcbar
     · show (cH : G) = h * (z : G) * h⁻¹
-      simp only [cH, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [cH, Subgroup.coe_mul, Subgroup.coe_inv]
   · intro hy
     obtain ⟨z, hz, hzy⟩ := Subgroup.mem_map.mp hy
     have hzbar : π z ∈ Xbar := Subgroup.mem_comap.mp hz
@@ -387,7 +387,7 @@ theorem le_normalizer_sup_pCoreOf (c : MinCex193 D V₀ V p X) :
     refine Subgroup.mem_map.mpr ⟨w, ?_, ?_⟩
     · rw [Subgroup.mem_comap]; exact hwbar
     · calc (w : G) = h⁻¹ * (z : G) * h := by
-            simp only [w, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+            simp only [w, Subgroup.coe_mul, Subgroup.coe_inv]
         _ = h⁻¹ * (h * y * h⁻¹) * h := congrArg (fun t : G => h⁻¹ * t * h) hzy
         _ = y := by group
 

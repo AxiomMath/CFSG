@@ -34,20 +34,20 @@ theorem levTwoS2d_dNat_last {p : ℕ} [Fact p.Prime] (n : ℕ) (hn : 4 ≤ n) (c
     levTwoS2d_dNat n hn c (n - 1) =
       (c ⟨n - 1, by omega⟩ - c ⟨n - 2, by omega⟩) / (2 : ZMod p) := by
   unfold levTwoS2d_dNat
-  rw [dif_pos (by omega)]
+  rw [dite_eq_left (by omega)]
 
 theorem levTwoS2d_dNat_nm2 {p : ℕ} [Fact p.Prime] (n : ℕ) (hn : 4 ≤ n) (c : Fin n → ZMod p) :
     levTwoS2d_dNat n hn c (n - 2) =
       (c ⟨n - 1, by omega⟩ + c ⟨n - 2, by omega⟩) / (2 : ZMod p) := by
   unfold levTwoS2d_dNat
-  rw [dif_neg (by omega), show n - 2 - (n - 2) = 0 from by omega]
+  rw [dite_eq_right (by omega), show n - 2 - (n - 2) = 0 from by omega]
   rfl
 
 theorem levTwoS2d_dNat_rec {p : ℕ} [Fact p.Prime] (n : ℕ) (hn : 4 ≤ n) (c : Fin n → ZMod p) (m : ℕ)
     (hm : m + 2 < n) :
     levTwoS2d_dNat n hn c m = levTwoS2d_dNat n hn c (m + 1) + c ⟨m, by omega⟩ := by
   unfold levTwoS2d_dNat
-  rw [dif_neg (by omega), dif_neg (by omega)]
+  rw [dite_eq_right (by omega), dite_eq_right (by omega)]
   have hidx : n - 2 - m = (n - 3 - m) + 1 := by omega
   have hidx2 : n - 2 - (m + 1) = n - 3 - m := by omega
   rw [hidx, hidx2, levTwoS2d_e_succ]

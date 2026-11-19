@@ -21,7 +21,7 @@ theorem ggCentralImage_E6_four_labelOf {G : Type} [Group G] {X : Subgroup G}
       LieModel ((ggU .E6 0 2).K ⧸ Subgroup.center (ggU .E6 0 2).K) .E6 0 2 2 := by
     exact CFSG.ClassicalInvolution.ModelFacts.modelClauseZero .E6 0 2 2 Nat.prime_two
       (by trivial) hadm
-  letI : Group.IsPerfect (ggU .E6 0 2).K := ⟨hU.1.1⟩
+  let : Group.IsPerfect (ggU .E6 0 2).K := ⟨hU.1.1⟩
   subst hrange
   have hperf : commutator ↥ψ.range = ⊤ :=
     (Group.IsPerfect.ofSurjective (MonoidHom.rangeRestrict_surjective ψ)).commutator_eq_top
@@ -35,6 +35,6 @@ theorem ggCentralImage_E6_four_labelOf {G : Type} [Group G] {X : Subgroup G}
   refine ⟨hs, hna, θ, ?_⟩
   rcases lab with ⟨tag, rank, n⟩
   cases tag <;> simp_all [markTag, markDeg, LargeEvenInLambda2]
-  all_goals split_ifs at ht <;> simp_all
+  all_goals split_ifs at ht
 
 end CFSG.StandardType

@@ -59,7 +59,7 @@ theorem conj_A1_of_not_base {w : W5} (hw : w.right = g2) :
   · intro hx
     refine ⟨w⁻¹ * x * w, ?_, by simp [MulAut.conj_apply, mul_assoc]⟩
     obtain ⟨σ, hσ, rfl⟩ := hx
-    have hw' : (w⁻¹).right = g2 := by simp [inv_r, hw, Q2_inv]
+    have hw' : (w⁻¹).right = g2 := by simp [hw, Q2_inv]
     have := conj_incl2_of_not_base hw' σ
     rw [inv_inv] at this
     rw [this]
@@ -77,7 +77,7 @@ theorem conj_A2_of_not_base {w : W5} (hw : w.right = g2) :
   · intro hx
     refine ⟨w⁻¹ * x * w, ?_, by simp [MulAut.conj_apply, mul_assoc]⟩
     obtain ⟨σ, hσ, rfl⟩ := hx
-    have hw' : (w⁻¹).right = g2 := by simp [inv_r, hw, Q2_inv]
+    have hw' : (w⁻¹).right = g2 := by simp [hw, Q2_inv]
     have := conj_incl1_of_not_base hw' σ
     rw [inv_inv] at this
     rw [this]
@@ -99,8 +99,8 @@ structure WrData (π : Γ →* W5) : Prop where
   ker2 : IsPGroup 2 π.ker
 
 theorem WrData.solvable {π : Γ →* W5} (h : WrData π) : Group.IsSolvable π.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.ker2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.ker2.isNilpotent
   infer_instance
 
 theorem exists_components {π : Γ →* W5} (h : WrData π) :
@@ -111,11 +111,13 @@ theorem exists_components {π : Γ →* W5} (h : WrData π) :
   obtain ⟨K₂, hK₂, h2⟩ := map_surjOn_cComp_top π h.surj hs W5.A2_mem_cComp
   exact ⟨K₁, K₂, hK₁, hK₂, h1, h2⟩
 
+omit [Finite Γ] in
 theorem conj_mem_cComp_top {K : Subgroup Γ} (hK : K ∈ cComp (⊤ : Subgroup Γ)) (g : Γ) :
     K.map (MulAut.conj g).toMonoidHom ∈ cComp (⊤ : Subgroup Γ) := by
   have h1 := cComp_map_mulEquiv (MulAut.conj g) hK
   rwa [Subgroup.map_top_of_surjective _ (MulAut.conj g).surjective] at h1
 
+omit [Finite Γ] in
 theorem map_conj_map (π : Γ →* W5) (K : Subgroup Γ) (g : Γ) :
     (K.map (MulAut.conj g).toMonoidHom).map π = (K.map π).map (MulAut.conj (π g)).toMonoidHom := by
   rw [Subgroup.map_map, Subgroup.map_map]
@@ -166,6 +168,7 @@ theorem conj_eq_of_not_mem_base' {π : Γ →* W5} (hπ : WrData π) {K₁ K₂ 
   apply map_injOn_cComp_top π hπ.solvable (conj_mem_cComp_top hK₂ g) hK₁
   rw [map_conj_map, m₁, m₂, W5.conj_A2_of_not_base (W5.right_eq_g2_of_not_mem_base hg)]
 
+omit [Finite Γ] in
 theorem ker_le_of_sylow {π : Γ →* W5} (hπ : WrData π) {T : Subgroup Γ} (hT2 : IsPGroup 2 T)
     (hTi : ¬ 2 ∣ T.index) : π.ker ≤ T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -173,10 +176,12 @@ theorem ker_le_of_sylow {π : Γ →* W5} (hπ : WrData π) {T : Subgroup Γ} (h
   have h := hπ.ker2.le_sylow_of_normal (hT2.toSylow hTi)
   simpa using h
 
+omit [Finite Γ] in
 theorem map_sylow_odd {π : Γ →* W5} (hπ : WrData π) {T : Subgroup Γ} (hTi : ¬ 2 ∣ T.index) :
     ¬ 2 ∣ (T.map π).index := fun h =>
   hTi (h.trans (Subgroup.index_map_dvd T hπ.surj))
 
+omit [Finite Γ] in
 theorem sup_eq_top {π : Γ →* W5} (hπ : WrData π) {K₁ K₂ : Subgroup Γ}
     (m₁ : K₁.map π = W5.A1) (m₂ : K₂.map π = W5.A2) {T : Subgroup Γ}
     (hT2 : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index) : K₁ ⊔ K₂ ⊔ T = ⊤ := by
@@ -194,6 +199,7 @@ theorem sup_eq_top {π : Γ →* W5} (hπ : WrData π) {K₁ K₂ : Subgroup Γ}
 
 @[expose] def chi (π : Γ →* W5) : Γ →* Q2 := (RegularWreathProduct.rightHom : W5 →* Q2).comp π
 
+omit [Finite Γ] in
 theorem mem_ker_chi {π : Γ →* W5} {g : Γ} : g ∈ (chi π).ker ↔ π g ∈ W5.base := Iff.rfl
 
 theorem normalizer_eq_ker_chi {π : Γ →* W5} (hπ : WrData π) {K₁ : Subgroup Γ}
@@ -202,6 +208,7 @@ theorem normalizer_eq_ker_chi {π : Γ →* W5} (hπ : WrData π) {K₁ : Subgro
   ext g
   rw [mem_normalizer_iff_K1 hπ hK₁ m₁, mem_ker_chi]
 
+omit [Finite Γ] in
 theorem chi_range {π : Γ →* W5} (hπ : WrData π) : (chi π).range = ⊤ := by
   rw [MonoidHom.range_eq_top]
   intro q
@@ -224,6 +231,7 @@ theorem ker_le_inf_normalizer {π : Γ →* W5} (hπ : WrData π) {K₁ : Subgro
   rw [this]
   exact one_mem _
 
+omit [Finite Γ] in
 theorem exists_not_mem_base {π : Γ →* W5} (hπ : WrData π) {T : Subgroup Γ} (hT2 : IsPGroup 2 T)
     (hTi : ¬ 2 ∣ T.index) : ∃ t ∈ T, π t ∉ W5.base := by
   by_contra h

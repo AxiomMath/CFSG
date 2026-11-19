@@ -306,7 +306,7 @@ theorem kPZRef_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGDepELN
         Submonoid.closure ((fun i : {i : Fin 6 // GGDepED4In i} => ggDepELrefl i.1) ''
           Set.univ) := by
       have hgen : ggDepELNGen news e.1 = (ggDepELNH e.1, ggDepELNA e.1) := by
-        rw [ggDepELNGen, if_pos he1lt]
+        rw [ggDepELNGen, ite_eq_left he1lt]
       rw [hgen]
       refine Submonoid.subset_closure ⟨⟨⟨e.1, he1lt⟩, (ggDepELNInJ_iff ⟨e.1, he1lt⟩).mp heJ⟩,
         Set.mem_univ _, ?_⟩
@@ -321,7 +321,7 @@ theorem kPZRef_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGDepELN
       have hgJ : ggDepELNInJ g = true := heJw g hg
       have hglt : g < 6 := ggDepELNInJ_lt hgJ
       have hgen : ggDepELNGen news g = (ggDepELNH g, ggDepELNA g) := by
-        rw [ggDepELNGen, if_pos hglt]
+        rw [ggDepELNGen, ite_eq_left hglt]
       rw [hgen]
       refine Submonoid.subset_closure ⟨⟨⟨g, hglt⟩, (ggDepELNInJ_iff ⟨g, hglt⟩).mp hgJ⟩,
         Set.mem_univ _, ?_⟩
@@ -939,7 +939,7 @@ private theorem dk_cases1_extract (rt : List GGDepANPair → ℕ × ℕ → Bool
   have hc : (ggDepANDot 3 la lh == 2 && ggDepANDot 3 la ggDepELNX != 0) = true := by
     rw [Bool.and_eq_true]
     exact ⟨beq_iff_eq.mpr hd, bne_iff_ne.mpr hz⟩
-  rw [if_pos hc] at h2
+  rw [ite_eq_left hc] at h2
   cases hfind : exc.find?
       (fun e => ggTWLVecEq 3 e.1.1 lh && ggTWLVecEq 3 e.1.2 la) with
   | none =>
@@ -1022,9 +1022,9 @@ private theorem dk_cases2_extract (rt : List GGDepANPair → ℕ × ℕ → Bool
   simp only [kCases2] at h
   have e1 := List.all_eq_true.mp h lh1 hlh1
   have e2 := List.all_eq_true.mp e1 la1 hla1
-  rw [if_pos (beq_iff_eq.mpr hd1)] at e2
+  rw [ite_eq_left (beq_iff_eq.mpr hd1)] at e2
   have e3 := List.all_eq_true.mp e2 lh2 hlh2
-  rw [if_pos (beq_iff_eq.mpr hd2)] at e3
+  rw [ite_eq_left (beq_iff_eq.mpr hd2)] at e3
   have e4 := List.all_eq_true.mp e3 la2 hla2
   have hor : (ggDepANDot 3 la1 ggDepELNX != 0 || ggDepANDot 3 la2 ggDepELNX != 0) = true := by
     rw [Bool.or_eq_true_iff]
@@ -1035,7 +1035,7 @@ private theorem dk_cases2_extract (rt : List GGDepANPair → ℕ × ℕ → Bool
         (ggDepANDot 3 la1 ggDepELNZ * ggDepANDot 3 la2 ggDepELNX) % 3) = true := by
     rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true]
     exact ⟨⟨⟨beq_iff_eq.mpr hd3, beq_iff_eq.mpr hd4⟩, hor⟩, beq_iff_eq.mpr hdet⟩
-  rw [if_pos hcond] at e4
+  rw [ite_eq_left hcond] at e4
   cases hfind : exc.find? (fun e => ggTWLVecEq 3 e.1.1 lh1 && ggTWLVecEq 3 e.1.2.1 la1 &&
       ggTWLVecEq 3 e.1.2.2.1 lh2 && ggTWLVecEq 3 e.1.2.2.2 la2) with
   | none => rw [hfind] at e4; exact Or.inl (List.any_eq_true.mp e4)

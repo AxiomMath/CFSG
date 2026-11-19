@@ -61,7 +61,7 @@ theorem ggOrdPToralE8RestHard_of_fiveFour
     subst hp5
     push Not at hpq0
     exact h f hpq0.1 hpq0.2 hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have htor : ∀ a : Fin Tag.E8.rank → (AlgebraicClosure (GaloisField 2 f))ˣ,
       rootDiagUnit .E8 a ∈ adjointGroup .E8 (AlgebraicClosure (GaloisField 2 f)) := fun a =>
@@ -84,7 +84,7 @@ theorem ggOrdPToralE8RestHard_of_fiveFour
   have hmax : ∀ A : Subgroup (adjointGroup .E8 (GaloisField 2 f)), IsElemAbelian p A →
       Nat.card A ≤ p ^ Tag.E8.rank := by
     intro A hA
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rcases hpq' with h1 | h1
     · have he : orderOf ((Nat.card (GaloisField 2 f) : ℕ) : ZMod p) = 1 := by
         have h0 : ((Nat.card (GaloisField 2 f) - 1 : ℕ) : ZMod p) = 0 :=

@@ -11,21 +11,21 @@ namespace FiveTransitive.Degree24
 open MulAction SubMulAction Subgroup
 open scoped Pointwise
 
-@[expose] abbrev OrderFiveSupportElements
+abbrev OrderFiveSupportElements
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (d : ℕ) :=
   {u : P //
     orderOf u = 5 ∧
       (u.1 : Equiv.Perm X).support.card = d}
 
-@[expose] abbrev OrderFiveSupportFixesEmbedding
+abbrev OrderFiveSupportFixesEmbedding
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (d : ℕ)
     (e : Fin 5 ↪ X) :=
   {u : OrderFiveSupportElements X P d //
     (u.1 : P) ∈ fixingSubgroup P (Set.range e)}
 
-@[expose] abbrev LocalOrderFiveSupportElements
+abbrev LocalOrderFiveSupportElements
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (s : Set X)
     (d : ℕ) :=
@@ -386,7 +386,7 @@ theorem sylow_five_card_eq_five_of_card_eq_five_mul
     (hGcard : Nat.card G = 5 * m)
     (S : Sylow 5 G) :
     Nat.card S = 5 := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hfactorization :
       (5 * m).factorization 5 = 1 := by
     rw [Nat.factorization_mul (by norm_num) hm,
@@ -403,7 +403,7 @@ private theorem card_sylow_five_eq_one_of_card_eq_fifteen_or_one_hundred_forty
     (hGcard : Nat.card G = 15 ∨ Nat.card G = 140) :
     Nat.card (Sylow 5 G) = 1 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Sylow 5 G := Classical.arbitrary (Sylow 5 G)
   have hScard : Nat.card S = 5 := by
     rcases hGcard with hFifteen | hOneHundredForty
@@ -458,7 +458,7 @@ private theorem card_order_five_elements_of_card_sylow_eq_one
     (hSylowCount : Nat.card (Sylow 5 G) = 1) :
     Nat.card {u : G // orderOf u = 5} = 4 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let A := Degree15.NonidentitySylowElements 5 G
   let B := {u : G // orderOf u = 5}
   let f : A → B :=
@@ -530,7 +530,7 @@ theorem five_point_stabilizer_card_ne_fifteen_and_ne_one_hundred_forty
     Nat.card (fixingSubgroup P s) ≠ 15 ∧
       Nat.card (fixingSubgroup P s) ≠ 140 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hP5 :
       MulAction.IsMultiplyPretransitive P X 5 := by
@@ -541,7 +541,7 @@ theorem five_point_stabilizer_card_ne_fifteen_and_ne_one_hundred_forty
     refine ⟨q, ?_⟩
     ext i
     exact hq i
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]

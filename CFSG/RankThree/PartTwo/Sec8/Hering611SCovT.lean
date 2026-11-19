@@ -10,15 +10,17 @@ namespace CFSG.RankThree.PartTwo.Sec8.Hering611
 
 variable {X : Type*} [Group X] [Finite X] {Z R T : Subgroup X} {s : X}
 
+omit [Finite X] in
 private theorem card_R0 (h : CoverX X Z R T s) {R₀ : Subgroup X} (hdisj : Disjoint R₀ Z)
     (hsup : Z ⊔ R₀ = R) : Nat.card R₀ = 9 := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center h.Z_central
+  have : Z.Normal := Subgroup.normal_of_le_center h.Z_central
   have hnorm : R₀ ≤ Subgroup.normalizer (Z : Set X) := Subgroup.le_normalizer_of_normal
   have hc := CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer Z R₀ hnorm
     hdisj.symm
   rw [hsup, h.card_R, h.card_Z] at hc
   omega
 
+omit [Finite X] in
 private theorem card_P (h : CoverX X Z R T s) {R₀ : Subgroup X} (hR₀R : R₀ ≤ R)
     (hdisj : Disjoint R₀ Z) (hsup : Z ⊔ R₀ = R) {P : Type*} [Group P] (π : T →* P)
     (hπ : Function.Surjective π) (hker : ∀ t : T, π t = 1 ↔ (t : X) ∈ R₀) :
@@ -40,13 +42,16 @@ private theorem card_P (h : CoverX X Z R T s) {R₀ : Subgroup X} (hR₀R : R₀
   rw [← Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective π hπ).toEquiv]
   omega
 
+omit [Finite X] in
 private theorem conj_memT (h : CoverX X Z R T s) (t : T) : s * (t : X) * s⁻¹ ∈ T :=
   (Subgroup.mem_normalizer_iff.mp h.s_normT (t : X)).mp t.2
 
+omit [Finite X] in
 private theorem conj_pow_memT (h : CoverX X Z R T s) (k : ℕ) (t : T) :
     s ^ k * (t : X) * (s ^ k)⁻¹ ∈ T :=
   (Subgroup.mem_normalizer_iff.mp (pow_mem h.s_normT k) (t : X)).mp t.2
 
+omit [Finite X] in
 private theorem pow_conj_mem {R₀ : Subgroup X} (hsR₀ : ∀ x ∈ R₀, s * x * s⁻¹ ∈ R₀) (n : ℕ) :
     ∀ x ∈ R₀, s ^ n * x * (s ^ n)⁻¹ ∈ R₀ := by
   induction n with
@@ -59,6 +64,7 @@ private theorem pow_conj_mem {R₀ : Subgroup X} (hsR₀ : ∀ x ∈ R₀, s * x
     rw [pow_succ']
     simpa only [mul_inv_rev, mul_assoc] using h1
 
+omit [Finite X] in
 private theorem mem_of_conj_mem {R₀ : Subgroup X} (h8 : s ^ 8 = 1)
     (hsR₀ : ∀ x ∈ R₀, s * x * s⁻¹ ∈ R₀) {x : X} (hx : s * x * s⁻¹ ∈ R₀) : x ∈ R₀ := by
   have key := pow_conj_mem hsR₀ 7 _ hx
@@ -71,6 +77,7 @@ private theorem mem_of_conj_mem {R₀ : Subgroup X} (h8 : s ^ 8 = 1)
     group
   rwa [e] at key
 
+omit [Finite X] in
 private theorem exists_sigma (h : CoverX X Z R T s) {R₀ : Subgroup X}
     (hsR₀ : ∀ x ∈ R₀, s * x * s⁻¹ ∈ R₀) {P : Type*} [Group P] [Finite P] (π : T →* P)
     (hπ : Function.Surjective π) (hker : ∀ t : T, π t = 1 ↔ (t : X) ∈ R₀) :
@@ -97,6 +104,7 @@ private theorem exists_sigma (h : CoverX X Z R T s) {R₀ : Subgroup X}
   refine ⟨MulEquiv.ofBijective ψ (Finite.injective_iff_bijective.mp hinj), fun t ht => ?_⟩
   exact (hψ t).trans (congrArg π (Subtype.ext rfl))
 
+omit [Finite X] in
 private theorem sigma_pow_apply (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T →* P)
     (σ : MulAut P) (hσ : ∀ t : T, ∀ ht : s * (t : X) * s⁻¹ ∈ T, σ (π t) = π ⟨s * t * s⁻¹, ht⟩)
     (k : ℕ) (t : T) :
@@ -112,6 +120,7 @@ private theorem sigma_pow_apply (h : CoverX X Z R T s) {P : Type*} [Group P] (π
     apply Subtype.ext
     simp only [pow_succ', mul_inv_rev, mul_assoc]
 
+omit [Finite X] in
 private theorem sigma_pow_eight (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T →* P)
     (hπ : Function.Surjective π) (σ : MulAut P)
     (hσ : ∀ t : T, ∀ ht : s * (t : X) * s⁻¹ ∈ T, σ (π t) = π ⟨s * t * s⁻¹, ht⟩) :
@@ -123,7 +132,8 @@ private theorem sigma_pow_eight (h : CoverX X Z R T s) {P : Type*} [Group P] (π
   apply Subtype.ext
   simp [h.s_pow]
 
-private theorem ker_inf_Z (h : CoverX X Z R T s) {R₀ : Subgroup X} (hdisj : Disjoint R₀ Z)
+omit [Finite X] in
+private theorem ker_inf_Z (_h : CoverX X Z R T s) {R₀ : Subgroup X} (hdisj : Disjoint R₀ Z)
     {P : Type*} [Group P] (π : T →* P) (hker : ∀ t : T, π t = 1 ↔ (t : X) ∈ R₀) :
     ∀ t ∈ Z.subgroupOf T, π t = 1 → t = 1 := by
   intro t ht hπt
@@ -131,6 +141,7 @@ private theorem ker_inf_Z (h : CoverX X Z R T s) {R₀ : Subgroup X} (hdisj : Di
   rw [disjoint_iff.mp hdisj, Subgroup.mem_bot] at htR
   exact Subtype.ext htR
 
+omit [Finite X] in
 private theorem card_Zh (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T →* P)
     (hZ : ∀ t ∈ Z.subgroupOf T, π t = 1 → t = 1) :
     Nat.card ((Z.subgroupOf T).map π) = 3 := by
@@ -153,6 +164,7 @@ private theorem card_Zh (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T →
   have e2 := Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZT).toEquiv
   rw [← e1, e2, h.card_Z]
 
+omit [Finite X] in
 private theorem central_Zh (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T →* P)
     (hπ : Function.Surjective π) : (Z.subgroupOf T).map π ≤ Subgroup.center P := by
   intro y hy
@@ -166,6 +178,7 @@ private theorem central_Zh (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T 
   congr 1
   exact Subtype.ext hcomm
 
+omit [Finite X] in
 private theorem sigma_Zh (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T →* P)
     (σ : MulAut P)
     (hσ : ∀ t : T, ∀ ht : s * (t : X) * s⁻¹ ∈ T, σ (π t) = π ⟨s * t * s⁻¹, ht⟩) :
@@ -180,6 +193,7 @@ private theorem sigma_Zh (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T �
   show s * (t : X) * s⁻¹ = (t : X)
   rw [hst, mul_inv_cancel_right]
 
+omit [Finite X] in
 private theorem nonab_P (h : CoverX X Z R T s) {R₀ : Subgroup X} (hR₀R : R₀ ≤ R)
     {P : Type*} [Group P] (π : T →* P) (hker : ∀ t : T, π t = 1 ↔ (t : X) ∈ R₀) :
     ∃ x y : P, x * y * x⁻¹ * y⁻¹ ∉ (Z.subgroupOf T).map π := by
@@ -203,6 +217,7 @@ private theorem nonab_P (h : CoverX X Z R T s) {R₀ : Subgroup X} (hR₀R : R�
   rw [hXc] at hcR
   exact hcR
 
+omit [Finite X] in
 private theorem singer_P (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T →* P)
     (hπ : Function.Surjective π) (σ : MulAut P)
     (hσ2 : ∀ t : T, (σ ^ 2) (π t) = π ⟨s ^ 2 * (t : X) * (s ^ 2)⁻¹, conj_pow_memT h 2 t⟩)
@@ -271,6 +286,7 @@ private theorem singer_P (h : CoverX X Z R T s) {P : Type*} [Group P] (π : T �
       exact ⟨fun hh => absurd hh hnW, fun hh => absurd hh hn2⟩
   exact h.singer W' hW'T hZW' hrel hnorm
 
+omit [Finite X] in
 theorem coverP_of_coverX (h : CoverX X Z R T s) {R₀ : Subgroup X} (hR₀R : R₀ ≤ R)
     (hdisj : Disjoint R₀ Z) (hsup : Z ⊔ R₀ = R) (hsR₀ : ∀ x ∈ R₀, s * x * s⁻¹ ∈ R₀)
     {P : Type*} [Group P] [Finite P] (π : T →* P) (hπ : Function.Surjective π)

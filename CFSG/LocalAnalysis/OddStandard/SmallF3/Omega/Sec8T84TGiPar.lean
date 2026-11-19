@@ -13,7 +13,8 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
-private theorem sec8t84t_aux_twist_apply {ρ : ↥(simGroup Q)} {g : OGroup Q}
+omit [FiniteDimensional (ZMod 3) V] in
+private theorem sec8t84t_aux_twist_apply [FiniteDimensional (ZMod 3) V] {ρ : ↥(simGroup Q)} {g : OGroup Q}
     (htw : simAct Q ρ g = piOrth Q * g) (w : V) :
     (ρ : V ≃ₗ[ZMod 3] V) ((g : V ≃ₗ[ZMod 3] V) w) =
       -((g : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) w)) := by
@@ -27,7 +28,7 @@ private theorem sec8t84t_aux_twist_apply {ρ : ↥(simGroup Q)} {g : OGroup Q}
 
 theorem sec8t84t_gi_twisted_false (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) {ρ : ↥(simGroup Q)}
-    (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = -v) {g : OGroup Q}
+    (_hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = -v) {g : OGroup Q}
     (hgg : g * g = 1) (hgΩ : g ∈ omegaGroup hQ) (htw : simAct Q ρ g = piOrth Q * g) : False := by
   have hrel := sec8t84t_aux_twist_apply (Q := Q) htw
   have hmap₁ : (fixSp g).map ((ρ : V ≃ₗ[ZMod 3] V) : V →ₗ[ZMod 3] V) ≤ commSp g := by

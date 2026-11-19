@@ -74,7 +74,7 @@ noncomputable abbrev Ei : Matrix (Fin 781) (Fin 253) (ZMod 3) :=
 theorem Pp_Ei : Pp * Ei = 1 := by
   ext j l
   rw [Matrix.mul_apply, Matrix.one_apply, Finset.sum_eq_single (Fin.castLE (by norm_num) j)]
-  · simp only [Pp, Ei, Fin.coe_castLE, if_true, one_mul]
+  · simp only [Pp, Ei, Fin.val_castLE, ite_true, one_mul]
     by_cases h : j = l
     · subst h
       simp
@@ -90,7 +90,7 @@ theorem Rm_eq : Rm = Mb * Pp := by
   rw [Matrix.mul_apply]
   by_cases hj : j.val < 253
   · rw [Finset.sum_eq_single ⟨j.val, hj⟩]
-    · simp only [Pp, if_true, mul_one]
+    · simp only [Pp, ite_true, mul_one]
       rfl
     · intro l _ hl
       have : j.val ≠ l.val := fun h => hl (Fin.ext h.symm)
@@ -149,8 +149,8 @@ theorem wordMul_wU : ∀ (w : List ℕ), (∀ k ∈ w, k = 23 ∨ k = 24) → �
     rw [h4, h2, wU, Units.val_mul, Matrix.mul_assoc]
     congr 1
     rcases hk with rfl | rfl
-    · rw [if_pos rfl, mat_RB23]
-    · rw [if_neg (by norm_num), mat_RB24]
+    · rw [ite_eq_left rfl, mat_RB23]
+    · rw [ite_eq_right (by norm_num), mat_RB24]
 
 theorem wordMul_cons (k : ℕ) (w : List ℕ) (Y : ℕ) :
     CFSG.KC.Fi24Fix.wordMul CFSG.KD.BrFi24.MUL CFSG.KD.BrFi24.RB (k :: w) Y =
@@ -271,7 +271,7 @@ theorem ρ_val {w : List ℕ} {X C : ℕ} (hw : ∀ k ∈ w, k = 23 ∨ k = 24)
   rw [top_Ei]
   obtain ⟨a, b⟩ := agreeOK_spec hag i.val i.isLt j.val j.isLt
   unfold mat3
-  simp only [Fin.coe_castLE]
+  simp only [Fin.val_castLE]
   rw [a, b]
 
 theorem ρ_W1 : ((ρ ⟨W1u, W1_stab⟩ : GL (Fin 253) (ZMod 3)) : Matrix (Fin 253) (Fin 253) (ZMod 3)) =

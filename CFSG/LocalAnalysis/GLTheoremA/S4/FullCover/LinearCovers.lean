@@ -76,7 +76,7 @@ theorem isQuasisimple_of_mulEquiv_open {G H : Type} [Group G] [Group H] (e : G �
       rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top_of_surjective _ e.surjective,
         ← commutator_def]
     rw [← h, hG.1, Subgroup.map_top_of_surjective _ e.surjective]
-  · haveI := hG.2
+  · have := hG.2
     exact (QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)).symm.isSimpleGroup
 
 section SL
@@ -112,7 +112,7 @@ theorem fullLinearCover_false_of_cover (hM : ListedMultiplierBound 3) (q : Prime
     (e : Q ⧸ Subgroup.center Q ≃* (CFSGIndex.lie ⟨LieTypeIndex.A 2 q, hv⟩).Group)
     (hZ : Nat.card (Subgroup.center Q) = 3) :
     FullLinearCover false 3 q.card Q := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card :=
     GaloisField.card q.p q.exponent q.exponent_pos.ne'
   have h3' : 3 ∣ Nat.card (GaloisField q.p q.exponent) - 1 := by rwa [hK]
@@ -169,7 +169,7 @@ theorem fullLinearCover_true_of_cover (hM : ListedMultiplierBound 3) (q : PrimeP
     (e : Q ⧸ Subgroup.center Q ≃* (CFSGIndex.lie ⟨LieTypeIndex.twistedA 2 q, hv⟩).Group)
     (hZ : Nat.card (Subgroup.center Q) = 3) :
     FullLinearCover true 3 q.card Q := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨f⟩ := exists_mulEquiv_of_listed hM hi hQ (isQuasisimple_statedSU_three q hv).1 e
     (statedSUThreeEquivCatalog q hv) hZ
     (CFSG.Open.StatedCenterThree.card_center_statedSU_three (card_galoisField_two_mul_exponent q) h3)
@@ -202,7 +202,7 @@ theorem fullLinearCover_true_six_of_cover (hM : ListedMultiplierBound 3) (q : Pr
     (e : Q ⧸ Subgroup.center Q ≃* (CFSGIndex.lie ⟨LieTypeIndex.twistedA 5 q, hv⟩).Group)
     (hZ : Nat.card (Subgroup.center Q) = 3) :
     FullLinearCover true 6 2 Q := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK4 : Nat.card (GaloisField q.p (2 * q.exponent)) = 4 := by
     rw [card_galoisField_two_mul_exponent q, show q.p ^ q.exponent = 2 from hq]
     norm_num

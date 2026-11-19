@@ -3,7 +3,7 @@ module
 public import CFSG.LocalAnalysis.EvenSporadicStandard.M24Std.CResLift
 public import CFSG.LocalAnalysis.EvenSporadicStandard.M24Std.CResH4Count
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.Polynomial.Basic

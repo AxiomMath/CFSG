@@ -15,6 +15,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.AGLEmbeddingD2 Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem odd_orderOf_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G}
     (hB : IsPGroup p B) {b : G} (hb : b ∈ B) : Odd (orderOf b) := by
   obtain ⟨k, hk⟩ := hB ⟨b, hb⟩

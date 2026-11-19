@@ -23,7 +23,7 @@ variable {q : ℕ}
 theorem radRigid_classical_odd (hq : q.Prime) (hq2 : q ≠ 2) {S : Type} [Group S] [Finite S]
     {t : StatedLieTag} {n f : ℕ} (ht : t ∈ classicalTags) (h : StatedClassicalModel S t n q f)
     (hH : Holds S q) : RadRigid q S := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hI : RadRigidInner q S := radRigidInner_classical_odd hq hq2 ht h
   have hBT : HoldsTits S q := hH.holdsTits
   have hLI : ∀ R : Subgroup S, IsRadical q R → ∀ x : S, (∀ r ∈ R, x * r = r * x) → x ∈ R :=
@@ -37,7 +37,7 @@ theorem radRigid_classical_odd (hq : q.Prime) (hq2 : q ≠ 2) {S : Type} [Group 
     · obtain rfl : n = 2 := by omega
       exact radRigid_of_sylowRigid hBT hLI (sylowRigid_of_PSL_two h)
     · obtain ⟨-, K, _, hfin, hcard, ⟨e⟩⟩ := h
-      haveI : CharP K q := charP_of_natCard_eq hcard
+      have : CharP K q := charP_of_natCard_eq hcard
       exact radRigid_of_twoParabolics hBT hI
         ((twoParabolics_PSL (q := q) (F := K) hn).of_mulEquiv e.symm)
   ·
@@ -49,7 +49,7 @@ theorem radRigid_classical_odd (hq : q.Prime) (hq2 : q ≠ 2) {S : Type} [Group 
   ·
     obtain ⟨-, -, hn2, -⟩ := hadm
     obtain ⟨-, K, _, hfin, hcard, ⟨e⟩⟩ := h
-    haveI : CharP K q := charP_of_natCard_eq hcard
+    have : CharP K q := charP_of_natCard_eq hcard
     exact radRigid_of_twoParabolics hBT hI
       ((twoParabolics_PSp (q := q) (F := K) hn2).of_mulEquiv e.symm)
   ·
@@ -66,7 +66,7 @@ section Assembly
 
 theorem oddFamiliesFull {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (h28 : q = 3 → Psl28Full) :
     OddFamiliesFor q (fun S _ => RadRigid q S) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact
     { classical := fun S _ _ _ _ t n f ht h hH => radRigid_classical_odd hq hq2 ht h hH
       exceptional := fun S _ _ _ _ t f ht h _ => radRigid_exceptional_odd hq hq2 ht h

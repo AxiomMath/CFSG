@@ -369,7 +369,7 @@ theorem sqEven_E2 (hF : EFacts611 E t) (hM : OuterMFacts E S z t) {α : G}
     (hc : ∀ w ∈ Wsub h hα (zpowers α), ∀ w' ∈ Wsub h hα (zpowers α),
       w * w' * w⁻¹ * w'⁻¹ = 1 ∨ w * w' * w⁻¹ * w'⁻¹ = α) : ∀ e ∈ E2 E t, SqEven h hα e := by
   obtain ⟨x, hx, y, hy, z', hz', hxy, hxyz⟩ := h.exists_triple
-  refine orbit_parity (E := E) (E4 := E4 E t) (P0 := SqEven h hα) (P1 := SqOdd h hα) h.E2_sub
+  refine orbit_parity (E := E) (E4 := E4 E t) (P0 := SqEven h hα) (P1 := SqOdd h hα) (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E))
     ?_ ?_ ?_ ?_ ?_ ?_ ?_ hx hy hz' hxy hxyz
   · intro e he
     exact h.sqEven_or_sqOdd hF hM hα he.1

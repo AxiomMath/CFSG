@@ -19,7 +19,7 @@ variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : 
 
 private theorem w1369_commutator_eq_self_of_isQuasisimple {B : Type*} [Group B]
     {K : Subgroup B} (hq : CFSG.Open.IsQuasisimple K) : ⁅K, K⁆ = K := by
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   exact Subgroup.commutator_eq_self
 
 private theorem w1369_mulAut_comm_of_isCyclic {H : Type*} [Group H] [IsCyclic H] :
@@ -52,8 +52,8 @@ private theorem w1369_commSub_invariant_of_normalizes {V : Type*} [CommGroup V]
 
 private theorem w1369_commSub_invariant_self {V : Type*} [CommGroup V]
     {R : Subgroup (MulAut V)} : StableUnder R (commSub ⊤ R) :=
-  fun r hr => w1369_commSub_invariant_of_normalizes
-    (fun s hs => R.mul_mem (R.mul_mem hr hs) (R.inv_mem hr))
+  fun _r hr => w1369_commSub_invariant_of_normalizes
+    (fun _s hs => R.mul_mem (R.mul_mem hr hs) (R.inv_mem hr))
 
 private theorem w1369_component_le_commutator_swap {K A G : Subgroup (MulAut W)} {d : MulAut W}
     (hK : IsComponentOf K G) (hA : IsComponentOf A G) (hKA : K ≠ A)
@@ -184,6 +184,7 @@ theorem Std139.lemmaB (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
     commSub_le_of_invariant (fun y hy u hu => (mem_stabSub.mp (hzp hy) u).2 hu)
   exact ⟨heq, heq ▸ hleU⟩
 
+omit [Finite W] in
 theorem comm_eq_self_of_component {K : Subgroup (MulAut W)} (hK : IsComponentOf K G)
     {d : MulAut W} (hdK : K.map (MulAut.conj d).toMonoidHom = K)
     (hne : ⁅K, Subgroup.zpowers d⁆ ≠ ⊥) : ⁅K, Subgroup.zpowers d⁆ = K := by
@@ -193,7 +194,7 @@ theorem comm_eq_self_of_component {K : Subgroup (MulAut W)} (hK : IsComponentOf 
     Subgroup.zpowers_le.mpr hdmem
   have hNKle : ⁅K, Subgroup.zpowers d⁆ ≤ K :=
     Subgroup.le_normalizer_iff_commutator_le_left.mp hzd
-  haveI : ((⁅K, Subgroup.zpowers d⁆).subgroupOf K).Normal :=
+  have : ((⁅K, Subgroup.zpowers d⁆).subgroupOf K).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (Subgroup.normalizer_commutator_ge_left K (Subgroup.zpowers d))
   have hperf : ⁅K, K⁆ = K := w1369_commutator_eq_self_of_isQuasisimple hK.2.2
@@ -286,14 +287,14 @@ theorem Std139.component_commutes_X (S : Std139 G X D s Y n) {K : Subgroup (MulA
   have hcard3 : Nat.card ↥(X.subgroupOf G) = 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe S.XG).toEquiv]
     exact S.Xcard
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : IsCyclic ↥(X.subgroupOf G) := isCyclic_of_prime_card (p := 3) hcard3
-  haveI : IsMulCommutative (MulAut ↥(X.subgroupOf G)) :=
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : IsCyclic ↥(X.subgroupOf G) := isCyclic_of_prime_card (p := 3) hcard3
+  have : IsMulCommutative (MulAut ↥(X.subgroupOf G)) :=
     IsMulCommutative.of_comm (w1369_mulAut_comm_of_isCyclic)
   have hXGn : (X.subgroupOf G).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact S.Xnorm (g : MulAut W) g.2 (x : MulAut W) hx⟩
-  letI : (X.subgroupOf G).Normal := hXGn
+  let : (X.subgroupOf G).Normal := hXGn
   let φ : ↥K →* MulAut ↥(X.subgroupOf G) :=
     (MulAut.conjNormal (H := X.subgroupOf G)).comp (Subgroup.inclusion hK.1)
   have hφker : φ.ker = ⊤ := by

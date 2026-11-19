@@ -127,7 +127,7 @@ theorem D1A9DataCore.eq_one_of_mem_sylow (h : D1A9DataCore P M H R X σ z) (h84 
       simpa [mul_assoc] using key g⁻¹ (Subgroup.inv_mem _ hg) _ hw⟩
   by_contra hu1
   have hWP : W ≤ P := inf_le_left
-  have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup.isNilpotent
   have : (W.subgroupOf (P : Subgroup G)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWP).mpr hWn
   have hW1 : W.subgroupOf (P : Subgroup G) ≠ ⊥ := by
@@ -138,7 +138,7 @@ theorem D1A9DataCore.eq_one_of_mem_sylow (h : D1A9DataCore P M H R X σ z) (h84 
     exact hu1 (congrArg Subtype.val hmem)
   have hA := Group.IsNilpotent.inf_center_ne_bot_of_normal hW1
   have hA3 : 3 ∣ Nat.card ↥(W.subgroupOf (P : Subgroup G) ⊓ Subgroup.center ↥(P : Subgroup G)) := by
-    rcases (P.isPGroup'.to_subgroup _).card_eq_or_dvd with h1 | h1
+    rcases (P.isPGroup.to_subgroup _).card_eq_or_dvd with h1 | h1
     · exact absurd (Subgroup.card_eq_one.mp h1) hA
     · exact h1
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' 3 hA3
@@ -218,7 +218,7 @@ theorem D1A9DataCore.normalizer_subgroupOf_normal (h : D1A9DataCore P M H R X σ
       rw [h1]
       exact Subgroup.mem_top _
     exact hσL (Subgroup.mem_subgroupOf.mp hmem)
-  obtain ⟨n, hn⟩ := P.isPGroup'.index N₁
+  obtain ⟨n, hn⟩ := P.isPGroup.index N₁
   have hi : N₁.index = 3 := by
     rcases n with _ | _ | n
     · exact absurd (by rw [hn, pow_zero]) hne
@@ -227,7 +227,7 @@ theorem D1A9DataCore.normalizer_subgroupOf_normal (h : D1A9DataCore P M H R X σ
         (show 9 = 3 ^ 2 by norm_num).le.trans (Nat.pow_le_pow_right (by norm_num) (by omega))
       rw [← hn] at h9
       omega
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hk0 : k ≠ 0 := by
     rintro rfl
     have hdvd := N₁.index_dvd_card
@@ -277,7 +277,7 @@ theorem D1A9DataCore.eq_sylow_of_forall_card_le_three (h : D1A9DataCore P M H R 
   set P₁ : Subgroup G := N₁.map (P : Subgroup G).subtype with hP₁
   have hP₁P : P₁ ≤ P := Subgroup.map_subtype_le _
   have hP₁M : P₁ ≤ M := hP₁P.trans hPM
-  have hP₁3 : IsPGroup 3 P₁ := P.isPGroup'.to_le hP₁P
+  have hP₁3 : IsPGroup 3 P₁ := P.isPGroup.to_le hP₁P
   have hP₁L : ∀ g ∈ P₁, g ∈ Subgroup.normalizer (L : Set G) := by
     rintro _ ⟨g, hg, rfl⟩
     exact Subgroup.mem_subgroupOf.mp hg

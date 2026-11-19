@@ -12,7 +12,7 @@ open CFSG.ClassicalInvolution.Asc77 CFSG.ClassicalInvolution.Disconnected.AschTi
 
 variable {r : ℕ} {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
-theorem pair_cases (hΩ : TypeRFam r Ω) (hr : 3 ≤ r) {A B : Subgroup G} (hA : A ∈ Ω) (hB : B ∈ Ω)
+theorem pair_cases (hΩ : TypeRFam r Ω) (_hr : 3 ≤ r) {A B : Subgroup G} (hA : A ∈ Ω) (hB : B ∈ Ω)
     {a b : G} (ha : IsUniqueInvolution A a) (hb : IsUniqueInvolution B b) (hne : a ≠ b)
     {V : Subgroup G} (hV : IsSylow2In V (B ⊓ Subgroup.centralizer ({a} : Set G))) (hbV : b ∈ V) :
     B ∈ omegaNbr Ω A ∨

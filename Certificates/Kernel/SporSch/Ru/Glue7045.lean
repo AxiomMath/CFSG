@@ -128,7 +128,7 @@ theorem twK_reach : ∀ f x, reachK Ru7045.parK f x = true → ∀ g,
     by_cases hx : x = 0
     · subst hx
       rw [twK_zero, twK_zero]
-    · rw [if_neg hx] at h
+    · rw [ite_eq_right hx] at h
       rw [show f + 1 + g = (f + g) + 1 by omega, twK_succ _ _ hx, twK_succ _ _ hx,
         twK_reach f _ h g]
 
@@ -171,7 +171,7 @@ theorem P_letK {l : Int} (hl : l ≠ 0 ∧ l.natAbs ≤ 2) : P (letK Q7307.Af l)
 theorem T_step {x : Nat} (h0 : 0 < x) (hx : x < 4060) :
     T x = pc (letK Q7307.Af (ruTreeLetter (Ru7045.labK x))) (T (Ru7045.parK x)) := by
   have hr := reach32 h0 hx
-  rw [show (32 : Nat) = 31 + 1 from rfl, reachK_succ, if_neg (by omega)] at hr
+  rw [show (32 : Nat) = 31 + 1 from rfl, reachK_succ, ite_eq_right (by omega)] at hr
   have e1 : Iso7047.twK 32 (Ru7045.parK x) = Iso7047.twK 31 (Ru7045.parK x) := twK_reach 31 _ hr 1
   unfold T
   rw [e1, show (32 : Nat) = 31 + 1 from rfl, twK_succ 31 x (by omega)]
@@ -196,8 +196,8 @@ theorem net_of {NW A : Nat} (hv : nwValid NW = true) (h : Ru2259.arrK NW A = tru
   refine ⟨hv, fun s hs => ?_, fun s hs => hA.2.1 s hs, fun s hs t ht e => hA.2.2 s hs t ht e⟩
   rw [g s hs]
   by_cases hl : s < 4060
-  · rw [if_pos hl, if_pos hl, unpack_get' hl]
-  · rw [if_neg hl, if_neg hl]
+  · rw [ite_eq_left hl, ite_eq_left hl, unpack_get' hl]
+  · rw [ite_eq_right hl, ite_eq_right hl]
 
 theorem net0 : NetOf RuTD.NW0 (fun s => pf A0 s) := net_of Ru2259.nw0 Ru2259.arr0 (hPA 0 (by norm_num))
 
@@ -228,11 +228,11 @@ theorem hH4 : ∀ c, c ≠ 1 → c ≠ 2 → c ≠ 3 → ∀ y < 4060, Hf c y = 
   rw [e0, e]
   exact pinv_pinv (hPA 1 (by norm_num)) hy
 
-theorem rows : ∀ x < 4060, Nat.shiftRight (Ru7045.Row x) 4060 = 0 ∧
-    ∀ y < 4060, ((Ru7045.Row x).testBit y = true ↔ Q7307.Lf (TI x y) = Q7307.Lf 1) :=
-  rows_sound (D := fun y => Q7307.Lf y = Q7307.Lf 1) net0 net1 hH1 hH2 hH3 hH4 Ru7045.kRoot
-    (fun _ _ => Iff.rfl) (fun x h0 hx => row_at h0 hx) (fun x hx => par_lt hx)
-    (fun y hy => ti_zero hy) (fun x h0 hx y hy => ti_step h0 hx hy)
+theorem rows : ∀ _x < 4060, Nat.shiftRight (Ru7045.Row _x) 4060 = 0 ∧
+    ∀ _y < 4060, ((Ru7045.Row _x).testBit _y = true ↔ Q7307.Lf (TI _x _y) = Q7307.Lf 1) :=
+  rows_sound (D := fun _y => Q7307.Lf _y = Q7307.Lf 1) net0 net1 hH1 hH2 hH3 hH4 Ru7045.kRoot
+    (fun _ _ => Iff.rfl) (fun _x h0 hx => row_at h0 hx) (fun _x hx => par_lt hx)
+    (fun _y hy => ti_zero hy) (fun _x h0 hx _y hy => ti_step h0 hx hy)
 
 theorem rowA_eq {v x : Nat} (hv : v < 4060) (hx : x < 4060) :
     ruRowA (ruTI v) x = (Ru7045.Row v).testBit x := by
@@ -266,7 +266,7 @@ theorem mS_bit : ∀ n y, (Ru7045.mS n).testBit y = (decide (y < n) && Ru7045.in
       cases h : Ru7045.inS y
       · simp [mS_bit y y]
       · rw [show Nat.lor (Ru7045.mS y) (Nat.shiftLeft 1 y) = Ru7045.mS y ||| 1 <<< y from rfl]
-        simp [Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow_self, h]
+        simp [Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow_self]
     · have e : (decide (y < n + 1) && Ru7045.inS y) = (decide (y < n) && Ru7045.inS y) := by
         by_cases h : y < n
         · simp [h, show y < n + 1 by omega]
@@ -416,7 +416,7 @@ theorem gs : titsK0Gens.size = 3 := by simp [titsK0Gens]
 
 theorem roots_eq : (orbLabels 1755 titsK0Gens).2.size = KernelMisc.E7043.Mv ∧
     ∀ c < KernelMisc.E7043.Mv, (orbLabels 1755 titsK0Gens).2[c]! = KernelMisc.E7043.Rf c :=
-  orbRoots_of_K gs (fun k hk x hx => KernelMisc.E7043.g_get hk hx) KernelMisc.E7043.kOrb
+  orbRoots_of_K gs (fun _k hk _x hx => KernelMisc.E7043.g_get hk hx) KernelMisc.E7043.kOrb
 
 theorem qr : KernelMisc.E7043.Mv ≤ 1755 ∧ ∀ t < KernelMisc.E7043.Mv,
     K07045.Qf t = KernelMisc.E7043.Rf t := by
@@ -473,16 +473,16 @@ open Certificates in
 open CFSG CFSG.Quasithin CFSG.Quasithin.RuRank3 CFSG.Sporadic.Schreier.Tits CFSG.Sporadic.RuSchreier in
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certificates.Native in
 theorem c7045 :
-    ((CFSG.Monster.B.Co2.Native.allLt 1755 fun j => ruCountOK j) = true)
+    ((CFSG.Monster.B.Co2.Native.allLt 1755 fun _j => ruCountOK _j) = true)
     ∧ ((CFSG.Monster.B.Co2.Native.allLt 20 fun i => decide (CFSG.Quasithin.RuRank3.ruW[i]! < 1755) &&
          isInvA 4060 (ruTreeArr ruDArr[CFSG.Quasithin.RuRank3.ruW[i]!]!) ruWTI[i]!) = true ∧
        (CFSG.Monster.B.Co2.Native.allLt 4060 fun x => !(ruInS x) ||
          CFSG.Monster.B.Co2.Native.allLt x fun y => !(ruInS y) || ruFPArr[x]! != ruFPArr[y]!) = true)
     ∧ (orbCheck 1755 titsK0Gens = true ∧ labCount 1755 titsK0Lab titsK0Lab[0]! = 975 ∧
-       (CFSG.Monster.B.Co2.Native.allLt 1755 fun j => titsK0Lab[j]! == titsK0Lab[0]! ||
-         decide (labCount 1755 titsK0Lab titsK0Lab[j]! < 975)) = true ∧
-       (CFSG.Monster.B.Co2.Native.allLt 1755 fun j => (titsK0Lab[j]! != titsK0Lab[0]!) == ruRowA ruTIG0 ruDArr[j]!) = true) :=
-  ⟨CFSG.Monster.B.Co2.allLt_iff.2 fun j hj => count_ok hj, fp_ok, k0_ok⟩
+       (CFSG.Monster.B.Co2.Native.allLt 1755 fun _j => titsK0Lab[_j]! == titsK0Lab[0]! ||
+         decide (labCount 1755 titsK0Lab titsK0Lab[_j]! < 975)) = true ∧
+       (CFSG.Monster.B.Co2.Native.allLt 1755 fun _j => (titsK0Lab[_j]! != titsK0Lab[0]!) == ruRowA ruTIG0 ruDArr[_j]!) = true) :=
+  ⟨CFSG.Monster.B.Co2.allLt_iff.2 fun _j hj => count_ok hj, fp_ok, k0_ok⟩
 
 end CertificateChecks.KernelSporSch.Glue7045
 

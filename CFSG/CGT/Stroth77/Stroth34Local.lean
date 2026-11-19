@@ -19,7 +19,7 @@ theorem exists_odd_complement {D : Subgroup G}
     ∃ O : Subgroup G, O ≤ Subgroup.centralizer (D : Set G) ∧ Odd (Nat.card O) ∧
       ∀ k ∈ Subgroup.centralizer (D : Set G), ∃ d ∈ D, ∃ o ∈ O, k = d * o := by
   obtain ⟨hDK, hDp, hidx⟩ := hD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K := Subgroup.centralizer (D : Set G) with hK
   have hPp : IsPGroup 2 (D.subgroupOf K) :=
     hDp.comap_of_injective K.subtype K.subtype_injective
@@ -42,6 +42,7 @@ theorem exists_odd_complement {D : Subgroup G}
     refine ⟨p, hp, t, ⟨t, ht, rfl⟩, ?_⟩
     exact (congrArg Subtype.val hpt).symm
 
+omit [Finite G] in
 theorem mem_odd_complement_iff {D O : Subgroup G} (hDp : IsPGroup 2 D)
     (hOK : O ≤ Subgroup.centralizer (D : Set G)) (hO : Odd (Nat.card O))
     (hdec : ∀ k ∈ Subgroup.centralizer (D : Set G), ∃ d ∈ D, ∃ o ∈ O, k = d * o) (k : G) :
@@ -66,7 +67,7 @@ theorem mem_odd_complement_iff {D O : Subgroup G} (hDp : IsPGroup 2 D)
       rw [hcomm.mul_pow, hon, mul_one] at hkn
       exact hkn
     have hd1 : d = 1 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨j, hj⟩ := (hDp ⟨d, hd⟩)
       have hdj : d ^ 2 ^ j = 1 := congrArg Subtype.val hj
       have h1 : orderOf d ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one hdj
@@ -125,7 +126,7 @@ theorem odd_card_oddCentralizer : Odd (Nat.card (oddCentralizer D hD)) := by
 
 theorem eq_one_of_mem_oddCentralizer {d : G} (hd : d ∈ D) (hdo : d ∈ oddCentralizer D hD) :
     d = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := (hD.2.1 ⟨d, hd⟩)
   have hdj : d ^ 2 ^ j = 1 := congrArg Subtype.val hj
   have h1 : orderOf d ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one hdj
@@ -165,9 +166,11 @@ theorem conj_mem_oddCentralizer {g : G} (hg : g ∈ Subgroup.normalizer (D : Set
   right_inv x := Subtype.ext (by simp [mul_assoc])
   map_mul' x y := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 theorem conjAut_apply {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G)) (x : D) :
     ((conjAut hg x : D) : G) = g⁻¹ * x * g := rfl
 
+omit [Finite G] in
 theorem conjAut_pow_apply {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G)) (n : ℕ) (x : D) :
     (((conjAut hg ^ n) x : D) : G) = (g ^ n)⁻¹ * x * g ^ n := by
   induction n generalizing x with
@@ -180,7 +183,7 @@ theorem exists_two_pow_mem_centralizer (hDp : IsPGroup 2 D) (hcomm : IsMulCommut
     (hgN : g ∈ Subgroup.normalizer (D : Set G))
     (hgC : g ∈ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G)) :
     ∃ a : ℕ, g ^ 2 ^ a ∈ Subgroup.centralizer (D : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, m, hm, hgm⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos g).ne'
   refine ⟨a, ?_⟩
   set h := g ^ 2 ^ a with hh
@@ -223,6 +226,7 @@ section Decomposition
 
 variable {D S : Subgroup G}
 
+omit [Finite G] in
 theorem le_normalizer_centralizer :
     Subgroup.normalizer (D : Set G) ≤
       Subgroup.normalizer ((Subgroup.centralizer (D : Set G) : Subgroup G) : Set G) := by
@@ -245,6 +249,7 @@ theorem le_normalizer_centralizer :
   have := key g⁻¹ (inv_mem hg) _ hk
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem le_normalizer_Q :
     Subgroup.normalizer (D : Set G) ≤ Subgroup.normalizer ((Subgroup.normalizer (D : Set G) ⊓
       Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) : Subgroup G) : Set G) := by
@@ -275,7 +280,7 @@ theorem isSylowIn_centralizer
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D)
     (hns : IsSylowIn 2 (Subgroup.normalizer (D : Set G)) (S ⊓ Subgroup.normalizer (D : Set G))) :
     IsSylowIn 2 (Subgroup.centralizer (D : Set G)) D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hns' : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ Subgroup.normalizer (D : Set G))
       (Subgroup.normalizer (D : Set G)) := by
     exact CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hns.1, hns.2.1, hns.2.2⟩
@@ -290,7 +295,7 @@ theorem isSylowIn_centralizer
   exact ⟨h1, h2, h3⟩
 
 
-theorem exists_mul_of_mem_Q (hS : IsPGroup 2 S) (hDS : D ≤ S) (hcomm : IsMulCommutative D)
+theorem exists_mul_of_mem_Q (_hS : IsPGroup 2 S) (hDS : D ≤ S) (hcomm : IsMulCommutative D)
     (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D)
     (hns : IsSylowIn 2 (Subgroup.normalizer (D : Set G)) (S ⊓ Subgroup.normalizer (D : Set G)))
     {q : G} (hqN : q ∈ Subgroup.normalizer (D : Set G))
@@ -298,7 +303,7 @@ theorem exists_mul_of_mem_Q (hS : IsPGroup 2 S) (hDS : D ≤ S) (hcomm : IsMulCo
     ∃ r ∈ S ⊓ Subgroup.normalizer (D : Set G) ⊓
         Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G),
       ∃ o ∈ oddCentralizer D (isSylowIn_centralizer hcent hns), q = r * o := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set hD := isSylowIn_centralizer hcent hns
   set N := Subgroup.normalizer (D : Set G) with hN
   set C1 := Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) with hC1
@@ -373,7 +378,7 @@ theorem eq_one_of_mem_R_oddCentralizer (hS : IsPGroup 2 S)
     (hns : IsSylowIn 2 (Subgroup.normalizer (D : Set G)) (S ⊓ Subgroup.normalizer (D : Set G)))
     {x : G} (hxS : x ∈ S) (hxO : x ∈ oddCentralizer D (isSylowIn_centralizer hcent hns)) :
     x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := hS ⟨x, hxS⟩
   have hxj : x ^ 2 ^ j = 1 := congrArg Subtype.val hj
   obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hxj)
@@ -420,11 +425,14 @@ abbrev O : Subgroup G := oddCentralizer D (isSylowIn_centralizer h.cent h.nsylow
 abbrev R (_ : Setting S D) : Subgroup G := S ⊓ Subgroup.normalizer (D : Set G) ⊓
   Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G)
 
+omit [Finite G] in
 theorem R_le_normalizer : h.R ≤ Subgroup.normalizer (D : Set G) := fun _ hx =>
   (Subgroup.mem_inf.mp (Subgroup.mem_inf.mp hx).1).2
 
+omit [Finite G] in
 theorem R_le_S : h.R ≤ S := fun _ hx => (Subgroup.mem_inf.mp (Subgroup.mem_inf.mp hx).1).1
 
+omit [Finite G] in
 theorem D_le_R : D ≤ h.R := fun x hx => Subgroup.mem_inf.mpr ⟨Subgroup.mem_inf.mpr ⟨h.le hx,
   Subgroup.le_normalizer hx⟩, Subgroup.mem_centralizer_iff.mpr fun y hy =>
     congrArg Subtype.val (h.comm.is_comm.comm ⟨y, omegaIn_le 1 D hy⟩ ⟨x, hx⟩)⟩
@@ -440,7 +448,7 @@ theorem rPart_spec {q : G} (hqN : q ∈ Subgroup.normalizer (D : Set G))
     exists_mul_of_mem_Q h.isPGroup h.le h.comm h.cent h.nsylow hqN hqC
   have e : h.rPart q = hex.choose := by
     unfold rPart
-    rw [dif_pos hex]
+    rw [dite_eq_left hex]
   rw [e]
   exact hex.choose_spec
 
@@ -460,10 +468,12 @@ theorem O_le_centralizer : h.O ≤ Subgroup.centralizer (D : Set G) := oddCentra
 theorem O_le_normalizer : h.O ≤ Subgroup.normalizer (D : Set G) :=
   h.O_le_centralizer.trans (Subgroup.centralizer_le_normalizer _)
 
+omit [Finite G] in
 theorem R_le_centralizer_omega :
     h.R ≤ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) := fun _ hx =>
   (Subgroup.mem_inf.mp hx).2
 
+omit [Finite G] in
 theorem conj_mem_Q {g r : G} (hg : g ∈ Subgroup.normalizer (D : Set G)) (hr : r ∈ h.R) :
     g⁻¹ * r * g ∈ Subgroup.normalizer (D : Set G) ∧
       g⁻¹ * r * g ∈ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) := by
@@ -628,7 +638,7 @@ theorem orderOf_projAut_dvd {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G))
 theorem exists_proj_fixed {g r : G} (hg : g ∈ Subgroup.normalizer (D : Set G))
     (hodd : Odd (orderOf g)) (hr : r ∈ h.R) (hfix : r⁻¹ * h.proj g r ∈ D) :
     ∃ d ∈ D, h.proj g (r * d) = r * d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup h.R := D.subgroupOf h.R with hN
   have hND : ∀ n : h.R, n ∈ N ↔ (n : G) ∈ D := fun n => Subgroup.mem_subgroupOf
   have hNinv : ∀ n ∈ N, h.projAut hg n ∈ N := by
@@ -653,6 +663,7 @@ theorem exists_proj_fixed {g r : G} (hg : g ∈ Subgroup.normalizer (D : Set G))
   rw [h.proj_mul hg hr n.2]
   simpa [projAut_apply] using this
 
+omit [Finite G] in
 theorem mul_inv_mem_of_conj_eq {r r' : G} (hr : r ∈ h.R) (hr' : r' ∈ h.R)
     (hconj : ∀ d ∈ D, r⁻¹ * d * r = r'⁻¹ * d * r') : r' * r⁻¹ ∈ D := by
   rw [← h.cent]

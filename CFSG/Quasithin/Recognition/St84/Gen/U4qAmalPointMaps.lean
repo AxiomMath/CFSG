@@ -155,8 +155,8 @@ theorem U4qLocalData.exists_phiA {F K : Type} [Field F] [Field K] (hH : Hyp111 L
         φ (Multiplicative.toAdd (c₁.β ⟨a, ha⟩) 1) =
           (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 := by
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [c₂.card]; positivity)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [c₂.card]; positivity)
   obtain ⟨ρ, -, -, hA, -, -⟩ := hD.exists_ringEquiv_fixedField hH hS c₁ c₂ hU
   have hQ1L2 : ∀ {a : G}, a ∈ pCoreOf 2 L1 → a ∈ L2 := fun ha =>
     hD.le_right hH hS (hH.pCoreOf_le_left ha)

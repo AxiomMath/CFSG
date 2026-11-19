@@ -43,7 +43,7 @@ theorem d2IndexCaseAt3_lie_char_of (hrank : KFactLieCharRank) (hout : KFactLieCh
         omega
       · exact hsq d ⟨q, h2, hd⟩ hS hD1 M hM ha hb p hp hpc P A H R hMP hesc hmax Rbar K hRbar hK
           ⟨e⟩
-    · refine hK.not_le (hK.le_of_glbCore_eq_top (Rbar.subtype hRK).isPGroup' ?_
+    · refine hK.not_le (hK.le_of_glbCore_eq_top (Rbar.subtype hRK).isPGroup ?_
         (hL3 K d ⟨e⟩ p hK.prime hK.ne_two ⟨q, hqp, hq1, hd⟩ (Rbar.subtype hRK)))
       rw [Sylow.coe_subtype, Subgroup.map_subgroupOf_eq_of_le hRK]
     · exact hU3 d ⟨q, hq1, hd⟩ hS hD1 M hM ha hb p hp hpc P A H R hMP hesc hmax Rbar K hRbar hK

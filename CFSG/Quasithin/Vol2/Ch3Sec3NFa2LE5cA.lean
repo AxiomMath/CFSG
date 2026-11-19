@@ -19,7 +19,7 @@ theorem dih_relations {Kb : Type} [Group Kb] (A : Subgroup Kb) (xb ab sb : Kb)
     (hx3 : orderOf xb = 3) (hxa : ab * xb = xb * ab)
     (hsA : sb ∈ Subgroup.normalizer (A : Set Kb)) (hsxA : sb * xb * sb⁻¹ * xb ∈ A) :
     sb * ab = ab * sb ∧ sb * xb * sb⁻¹ = xb⁻¹ ∧ sb ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hab : orderOf ab = 2 := orderOf_eq_prime (by rw [pow_two]; exact hab2) hab1
   have hsx : sb * xb * sb⁻¹ = xb⁻¹ := by
     rcases hA _ hsxA with h | h
@@ -145,8 +145,8 @@ theorem A2Cfg.normalizer_Vp_le_normalizer_R
     a2G2 K T ⊓ Subgroup.normalizer (a2Vp L T H : Set G) ≤
       Subgroup.normalizer (pCoreOf 2 H : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨t, ht, htK⟩ : ∃ t ∈ T, t ∉ Subgroup.normalizer (K : Set G) := by
     by_contra hcon
     push Not at hcon
@@ -250,7 +250,7 @@ theorem A2Cfg.normalizer_Vp_le_normalizer_R
       have := c.q_mod
       have := c.q_prime.two_le
       omega
-    haveI hsimple : IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K) :=
+    have hsimple : IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K) :=
       isSimpleGroup_of_psl_two_model hq5 c.model
     let J : Subgroup (↥K ⧸ CFSG.pCore 2 ↥K) :=
       ((K ⊓ N₀).subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K))
@@ -274,7 +274,7 @@ theorem A2Cfg.normalizer_Vp_le_normalizer_R
       refine ⟨(Subgroup.mem_normalizer_iff.mp (hSK u.2) k').mp k'.2, ?_⟩
       have hu0 : (u : G) ∈ N₀ := u.2.1
       exact N₀.mul_mem (N₀.mul_mem hu0 hku.2) (N₀.inv_mem hu0)
-    haveI := hJn
+    have := hJn
     rcases hsimple.eq_bot_or_eq_top_of_normal J with hJ | hJ
     ·
       have hxJ : xb ∈ J := Subgroup.mem_map.mpr

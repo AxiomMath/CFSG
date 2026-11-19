@@ -51,7 +51,7 @@ private theorem pow_ker_sq_pow_three_eq_one {K : Type*} [Group K] [Finite K] {J 
 
 private theorem pow_card_sq_mod_three {K : Type*} [Group K] [Finite K] {J : Subgroup K}
     (hJ : IsPGroup 2 J) : (Nat.card J) ^ 2 % 3 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).mp hJ
   rw [hn]
   have h1 : (2 ^ n) ^ 2 ≡ ((2 : ℕ) ^ 2) ^ n [MOD 3] := by

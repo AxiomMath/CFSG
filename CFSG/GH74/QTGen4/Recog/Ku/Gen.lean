@@ -10,6 +10,7 @@ variable {G : Type} [Group G] [Finite G] {T M H P : Subgroup G} {z : G}
 
 namespace KuHyp
 
+omit [Finite G] in
 theorem orderOf_z (h : KuHyp G T M H P z) : orderOf z = 2 := by
   have h2 := h.orderOf_zP
   rwa [Subgroup.orderOf_mk] at h2
@@ -34,9 +35,11 @@ theorem center_T_eq (h : KuHyp G T M H P z) :
       exact h.z_mem_center_T.2 g g.2
     exact Subgroup.zpow_mem _ hzc k
 
+omit [Finite G] in
 theorem card_center_T (h : KuHyp G T M H P z) : Nat.card (Subgroup.center ↥T) = 2 := by
   rw [h.center_T_eq, Nat.card_zpowers, Subgroup.orderOf_mk, h.orderOf_z]
 
+omit [Finite G] in
 theorem exists_sylow_card_center_eq_two (h : KuHyp G T M H P z) :
     ∃ S : Sylow 2 G, Nat.card (Subgroup.center (S : Subgroup G)) = 2 := by
   refine ⟨h.sylow.1.toSylow h.sylow.2, ?_⟩

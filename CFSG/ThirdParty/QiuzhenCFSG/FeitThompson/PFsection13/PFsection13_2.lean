@@ -50,8 +50,8 @@ private theorem section13_exists_transformedIrreducibleFamily
   rcases Theory.Character.exists_completeIrreducibleCharacterFamily_sum_degree_normSq
       (G := W) with
     ⟨ι, hι, χrep, hχrep, _hsum⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let χ : ι → Section1.ClassFunction W :=
     fun i => Section1.ofConjClassFunction (χrep i)
   have hχirr : ∀ i, Section1.IsIrreducibleCharacterOnGroup (χ i) := by
@@ -158,7 +158,7 @@ private theorem section13_theorem_13_2_uBoundBranchData_of_caseA
     have ha0 : a = 0 := Nat.eq_zero_of_not_pos hnot
     rw [ha0, Nat.zero_dvd] at hadvd
     omega
-  haveI : NeZero a := ⟨ha_pos.ne'⟩
+  have : NeZero a := ⟨ha_pos.ne'⟩
   have hquot_le : Nat.card (U ⧸ C.subgroupOf U) ≤
       Nat.card (Fin (q - 1) → Multiplicative (ZMod a)) :=
     Nat.card_le_card_of_injective φ hφinj
@@ -305,7 +305,7 @@ private theorem section13_theorem_13_2_quotientBarUCardinality_of_sourceContext
     rw [hC]
     exact section13_subgroupCentralizerIn_subgroupOf_normal_of_le_normalizer hUnormP
   refine ⟨hCU, hnormal, ?_⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  let : (C.subgroupOf U).Normal := hnormal
   have hcard_sub : Nat.card (C.subgroupOf U) = Nat.card C :=
     natCard_subgroupOf_eq C U hCU
   have hlag : Nat.card U =
@@ -364,7 +364,7 @@ private theorem section13_frobenius_U_sup_W1_of_typePDefinitionData
       (by simp [S]) (by simp [S])]
     exact Subgroup.subgroupOf_eq_top.2 (by simp [S])
   have hUWcompSub : (U.subgroupOf S).IsComplement' (W1.subgroupOf S) := by
-    letI : (U.subgroupOf S).Normal := hUnormalS
+    let : (U.subgroupOf S).Normal := hUnormalS
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (U.subgroupOf S) (W1.subgroupOf S) hUWdisjSub hUWsupTop
   have hUsub_ne : U.subgroupOf S ≠ ⊥ := by
@@ -975,7 +975,7 @@ private theorem section12_exists_primeOrderSubgroup_of_ne_bot_for_final
     intro hcard
     exact hHne ((Subgroup.card_eq_one (H := H)).1 hcard)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨p, hpprime, hpdiv⟩
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   rcases exists_prime_orderOf_dvd_card' (G := H) p hpdiv with ⟨zH, hzH_order⟩
   let z : G := zH
   refine ⟨Subgroup.zpowers z, ?_⟩
@@ -993,10 +993,10 @@ private theorem isHallSubgroup_sylow_map_to_overgroup_sylow_for_final
     (P : Sylow p.val K) :
     ∃ PH : Sylow p.val H, (PH : Subgroup H) = (P : Subgroup K).map K.subtype := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Psub : Subgroup H := (P : Subgroup K).map K.subtype
   have hPsubp : IsPGroup p.val Psub :=
-    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup' K.subtype
+    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup K.subtype
   have hnot_index : ¬ p.val ∣ Psub.index := by
     intro hpidx
     have hidx : Psub.index = (P : Subgroup K).index * K.index := by
@@ -1017,9 +1017,9 @@ private theorem primeRank_le_one_of_cyclic_sylow_for_final
     primeRank p R ≤ 1 := by
   rw [primeRank]
   refine csSup_le ?_ ?_
-  · letI : IsCyclic (S : Subgroup R) := hS_cyc
+  · let : IsCyclic (S : Subgroup R) := hS_cyc
     refine ⟨0, ?_⟩
-    exact ⟨(S : Subgroup R), S.isPGroup', inferInstance, by simp⟩
+    exact ⟨(S : Subgroup R), S.isPGroup, inferInstance, by simp⟩
   · intro n hn
     rcases hn with ⟨A, hAp, _hAcomm, hnA⟩
     obtain ⟨T, hA_le_T⟩ := IsPGroup.exists_le_sylow (G := R) (p := p) hAp
@@ -1047,13 +1047,13 @@ private theorem primeRank_le_one_of_cyclic_hall_subgroup_for_final
     (hKcyc : IsCyclic K) :
     primeRank p.val R ≤ 1 := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let PK : Sylow p.val K := Classical.choice (Sylow.nonempty (p := p.val) (G := K))
   rcases isHallSubgroup_sylow_map_to_overgroup_sylow_for_final
       (H := R) (K := K) hKHall hpπ PK with
     ⟨PR, hPReq⟩
   have hPKcyclic : IsCyclic (PK : Subgroup K) := by
-    letI : IsCyclic K := hKcyc
+    let : IsCyclic K := hKcyc
     exact Subgroup.isCyclic_of_le (show (PK : Subgroup K) ≤ ⊤ from le_top)
   let Pmap : Subgroup R := (PK : Subgroup K).map K.subtype
   have hPmapCyclic : IsCyclic Pmap := by
@@ -1076,7 +1076,7 @@ private theorem natCard_eq_of_section12ComplementIn_same_normal_left_for_final
     (hKcomp : section12ComplementIn M K D) :
     Nat.card H = Nat.card K := by
   classical
-  letI : (D.subgroupOf M).Normal := hDnormal
+  let : (D.subgroupOf M).Normal := hDnormal
   have hKcompSymm : section12ComplementIn M D K := by
     refine ⟨hKcomp.2.1, hKcomp.1, ?_, hKcomp.2.2.2.symm⟩
     rw [sup_comm]
@@ -1118,7 +1118,7 @@ private theorem section12ComplementIn_right_isHall_compl_of_left_hall_for_final
     calc
       R = K ⊔ U := hsup
       _ = U ⊔ K := sup_comm K U
-  letI : (U.subgroupOf R).Normal := hUnormal.2
+  let : (U.subgroupOf R).Normal := hUnormal.2
   have hcompLocal : (K.subgroupOf R).IsComplement' (U.subgroupOf R) :=
     section12ComplementIn_isComplement'_subgroupOf_for_final
       (M := R) (H := U) (K := K) hcompSymm
@@ -1167,7 +1167,7 @@ private theorem source_typeP_MF_eq_msigma_of_not_le_msigma
     (hUnotσ : ¬ U ≤ section10Msigma M)
     (hsourceP : Section8.typePDefinitionData M MF U W1 W2) :
     MF = section10Msigma M := by
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   rcases hsourceP with
     ⟨_hMFsource, _hW1cyc, _hW1ne, _hW1Hall, _hMcomp, hUleD,
       _hUnil, _hW1norm, _hDercomp, _hMFnotcyc, _hSecond, _hFit,
@@ -1425,7 +1425,7 @@ private theorem source_typeP_tau13_of_W1_prime_for_final
     (hX : X ∈ section10PrimeOrderSubgroupsIn p W1) :
     p ∈ section12Tau1Primes M ∪ section12Tau3Primes M := by
   classical
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   rcases hsourceP with
     ⟨_hMFsource, hW1cyc, _hW1ne, hW1Hall, hMcomp, _hUleD,
       _hUnil, _hW1norm, _hDercomp, _hMFnotcyc, _hSecond, _hFit,
@@ -1445,7 +1445,7 @@ private theorem source_typeP_tau13_of_W1_prime_for_final
     natCard_subgroupOf_eq W1 M hW1M
   have hDnormal : ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   have hCompLocal : (W1.subgroupOf M).IsComplement'
       ((ambientDerivedSubgroup M).subgroupOf M) :=
     section12ComplementIn_isComplement'_subgroupOf_for_final
@@ -1539,7 +1539,7 @@ private theorem source_typeP_msigma_centralizer_ne_bot_of_W1_prime_for_final
       _hUnil, _hW1norm, _hDercomp, _hMFnotcyc, _hSecond, _hFit,
       _hFitDer, hW2leInf, _hW2cyc, hW2ne, hCent, _hNorm⟩
   rcases hX with ⟨hXW1, _hXcard⟩
-  haveI : Nontrivial W2 := (Subgroup.nontrivial_iff_ne_bot W2).2 hW2ne
+  have : Nontrivial W2 := (Subgroup.nontrivial_iff_ne_bot W2).2 hW2ne
   obtain ⟨yW2, hyW2ne⟩ := exists_ne (1 : W2)
   let y : G := yW2
   have hyW2 : y ∈ W2 := yW2.property
@@ -1624,7 +1624,7 @@ private theorem source_typeP_W1_KUData_hard_fields_core
     (hsourceP : Section8.typePDefinitionData M MF U W1 W2) :
     section12HallSubgroupIn (section14KappaPrimes M) W1 M := by
   classical
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   have hMP : M ∈ section14MFamilyP G :=
     source_typeP_MFamilyP_of_msigma_eq_for_final hmin hM hMFeq hsourceP
   rcases section15_exists_KUData_for_maximal (G := G) (M := M) hM with
@@ -1693,7 +1693,7 @@ private theorem source_typeP_T6_of_not_le_msigma_core
           section16ConjugateSubgroupsIn ⊤ A0 A1 →
             ¬ section16ConjugateSubgroupsIn M A0 A1 →
               subgroupCentralizerIn MF A0 = ⊥ ∨ subgroupCentralizerIn MF A1 = ⊥ := by
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   rcases source_typeP_exists_KUData_of_not_le_msigma_core
       hmin hM hMF hUne hUnotσ hsourceP with
     ⟨K, hKU⟩
@@ -1718,7 +1718,7 @@ private theorem source_typeP_T6_of_U_ne_bot_core
           section16ConjugateSubgroupsIn ⊤ A0 A1 →
             ¬ section16ConjugateSubgroupsIn M A0 A1 →
               subgroupCentralizerIn MF A0 = ⊥ ∨ subgroupCentralizerIn MF A1 = ⊥ := by
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   by_cases hUσ : U ≤ section10Msigma M
   · rcases section15_exists_KUData_for_maximal (G := G) (M := M) hM with
       ⟨K, U0, hKU15⟩
@@ -1768,7 +1768,7 @@ private theorem section13_theorem_13_2_typeCommonT6FusionData_of_sourceTypeP
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsource
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases hsource with
     ⟨hcase, _hptypeS, _hptypeT, _hp, _hq, _hC, _hD, _hc, _hd, _hUcard,
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hChar⟩
@@ -1957,7 +1957,7 @@ private theorem section13_typeII_theorem_8_12_conclusion
       (Section8.section8CentralizerUnion (ambientDerivedSubgroup M) MF)
       (Section8.a1Set MF) := by
   classical
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   let Abook : Set G := Section8.section8CentralizerUnion (ambientDerivedSubgroup M) MF
   let A0book : Set G :=
     Abook ∪ section16ConjugatesOfSetBySet (section16HatW W1 W2) (M : Set G)
@@ -2028,7 +2028,7 @@ private theorem section13_typeII_fusionData_of_theorem_8_12
     (hF : Section8.typeFData (ambientDerivedSubgroup M) MF U U1 U0) :
     theorem_13_2_typeCommonT6FusionData M MF U := by
   classical
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   have hConclusion :=
     section13_typeII_theorem_8_12_conclusion
       hMin hM hMs hP hcond hcomm hnorm hF
@@ -2099,7 +2099,7 @@ private theorem section13_typeII_normalizer_le_of_theorem_8_12
       A ⊆ section16NonidentityElements (U : Set G) →
         section16CentralizerInSet MF A ≠ ⊥ → Subgroup.normalizer A ≤ M := by
   classical
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   let Abook : Set G := Section8.section8CentralizerUnion (ambientDerivedSubgroup M) MF
   let A0book : Set G :=
     Abook ∪ section16ConjugatesOfSetBySet (section16HatW W1 W2) (M : Set G)
@@ -2200,7 +2200,7 @@ private theorem section13_theorem_13_2_typeIISourceBGRank_of_source
     (hF : Section8.typeFData (ambientDerivedSubgroup M) MF U U1 U0) :
     groupRank U ≤ 2 := by
   rcases hRankSource with ⟨hMin, hM, Ms, hMs⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   exact Section8.theorem_8_12_typeII_groupRank_le_two_of_source
     (G := G) (M := M) (MF := MF) (U := U) (Ms := Ms)
     hM hP.1 hMs ⟨W1, W2, U1, U0, hP, hcond, hcomm, hnorm, hF⟩
@@ -2478,7 +2478,7 @@ public theorem section13_theorem_13_2_case_9_7_hypothesis92SourceCondition_of_so
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases _hsource with
     ⟨hcase, hptypeS, _hptypeT, _hp, _hq, _hC, _hD, _hc, _hd, _hUcard,
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hChar⟩
@@ -2610,7 +2610,7 @@ private theorem section13_exists_conj_eq_of_typeP_complements
       intro x _hx
       exact hDleM (by simp [hDtop])
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvD : IsSolvable D :=
+  have hsolvD : Group.IsSolvable D :=
     IsMinCE.proper_subgroups_solvable D (lt_top_iff_ne_top.2 hDneTop)
   rcases exists_conj_eq_of_isHallSubgroup_of_solvable
       (G := D) hsolvD
@@ -2946,7 +2946,7 @@ private theorem section13_typeFData_of_eq_conjBy
     simpa [hDconj, hMFconj, hEq] using hCompConj
   · simpa [Subgroup.conjBy, hEq] using
       (Subgroup.map_mono (f := (MulAut.conj d).toMonoidHom) hU1le)
-  · letI : IsMulCommutative U1 := hU1comm
+  · let : IsMulCommutative U1 := hU1comm
     rw [Subgroup.conjBy]
     exact Subgroup.map_isMulCommutative
       (f := (MulAut.conj d).toMonoidHom) (H := U1)
@@ -3015,7 +3015,7 @@ private theorem section13_theorem_13_2_case_9_7_hypothesis92SourceImplicationsDa
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases _hsource with
     ⟨hcase, hptypeS, _hptypeT, _hp, _hq, _hC, _hD, _hc, _hd, _hUcard,
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hChar⟩
@@ -3111,7 +3111,7 @@ private theorem section13_theorem_13_2_case_9_7_hypothesis92BGTypes_of_sourceCon
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hsourceOrig := _hsource
   have hFusion : ∀ {U' W1' W2' : Subgroup G},
       Section8.typePDefinitionData Smax P U' W1' W2' →
@@ -3230,7 +3230,7 @@ private theorem section13_theorem_13_2_typeIIIIVVData_core_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hFusion : ∀ {U' W1' W2' : Subgroup G},
       Section8.typePDefinitionData Smax P U' W1' W2' →
         theorem_13_2_typeCommonT6FusionData Smax P U' := by
@@ -3326,10 +3326,10 @@ private theorem section13_theorem_13_2_hypothesis10_of_typeIIIIV_sourceContext
     ⟨I, instI, decI, J, instJ, decJ, Wloc, A, A0, i0, j0, μloc, δSign,
       ωloc, σloc, hNotation10, _hSigmaAgree,
       ⟨_H_cyclicA0, _hCyclicA0, _hTauCyclicA0, _hBookSource⟩⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   have hNotation10Full := hNotation10
   rcases hNotation10 with
     ⟨MFsrc, Ms, Abook, A0book, A1book, hSource, hWloc, _hA0,
@@ -3439,7 +3439,7 @@ private theorem section13_theorem_13_2_hypothesis11_of_typeIIIIV_hoReduction_sou
     · exact Or.inr
         (section13_section16TypeIV_of_source_typeIV_with_fusionData hIV hFusion)
   have hOddS : Odd (Nat.card Smax) := by
-    letI : IsMinCE G := hMin
+    let : IsMinCE G := hMin
     exact odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card Smax)
   have hSTypePcopy := hSTypeP
   rcases hSTypePcopy with
@@ -3466,7 +3466,7 @@ private theorem section13_theorem_13_2_hypothesis11_of_typeIIIIV_hoReduction_sou
         Nontrivial (P ⧸ H0.subgroupOf P) ∧
           IsElementaryAbelian hp.val (P ⧸ H0.subgroupOf P) := by
     refine ⟨hH0NormalP', ?_⟩
-    letI : (H0.subgroupOf P).Normal := hH0NormalP'
+    let : (H0.subgroupOf P).Normal := hH0NormalP'
     constructor
     · have hH0P_ne_top : H0.subgroupOf P ≠ ⊤ := by
         intro htop
@@ -3528,7 +3528,7 @@ private theorem section13_theorem_13_2_case_9_7_hoReductionBotData_of_sourceCont
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have h92Nat :
       Section9.hypothesis_9_2_statement Smax P U W1 W2 (Nat.card W1) :=
     section13_theorem_13_2_case_9_7_hypothesis92_of_sourceContext
@@ -3571,7 +3571,7 @@ private theorem section13_theorem_13_2_case_9_7_hoReductionBotData_of_sourceCont
       rcases hho with
         ⟨_hH0leP, _hPleS, _hH0NormalS, hH0NormalP, _hH0ltP,
           _hElem, _hTypeData⟩
-      haveI : (H0.subgroupOf P).Normal := hH0NormalP
+      have : (H0.subgroupOf P).Normal := hH0NormalP
       have hlag :
           Nat.card P =
             Nat.card (P ⧸ H0.subgroupOf P) * Nat.card (H0.subgroupOf P) :=
@@ -3744,7 +3744,7 @@ private theorem section13_typeP_ASet_le_setNormalizer_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hSmaxMax : Smax ∈ section9MaximalSubgroups G :=
     section13_theorem_13_2_Smax_maximal_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
@@ -3858,7 +3858,7 @@ private theorem section13_theorem_13_2_case_9_7_dadeASet_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsourceFull
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hSmax : Smax ∈ section9MaximalSubgroups G :=
     section13_theorem_13_2_Smax_maximal_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
@@ -4046,7 +4046,7 @@ private theorem section13_theorem_13_2_case_9_7_corePrereqData_of_hypothesis95Bo
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsourceFull
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases Section9.theorem_9_6_source_core_sec9 Smax P U W1 W2
       (⊥ : Subgroup G) C Cprime τS Sfam hp h95 hpdata with
     ⟨_hUC, hchief, hWbar2, hcard⟩
@@ -4130,7 +4130,7 @@ private theorem section13_theorem_13_2_case_9_7_sourceData_of_sourceContext
   have hMin : IsMinCE G :=
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   exact section13_theorem_13_2_case_9_7_sourceData_from_setupData
     (section13_theorem_13_2_case_9_7_setupData_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d _hsource)
@@ -4227,7 +4227,7 @@ private theorem section13_theorem_13_2_hypothesis11_of_typeIIIIV_sourceContext
     · exact Or.inr
         (section13_section16TypeIV_of_source_typeIV_with_fusionData hIV hFusion)
   have hOddS : Odd (Nat.card Smax) := by
-    letI : IsMinCE G := hMin
+    let : IsMinCE G := hMin
     exact odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card Smax)
   have hSTypePcopy := hSTypeP
   rcases hSTypePcopy with
@@ -4261,7 +4261,7 @@ private theorem section13_theorem_13_2_hypothesis11_of_typeIIIIV_sourceContext
         Nontrivial (P ⧸ (⊥ : Subgroup G).subgroupOf P) ∧
           IsElementaryAbelian p (P ⧸ (⊥ : Subgroup G).subgroupOf P) := by
     refine ⟨hBotNormalP', ?_⟩
-    letI : ((⊥ : Subgroup G).subgroupOf P).Normal := hBotNormalP'
+    let : ((⊥ : Subgroup G).subgroupOf P).Normal := hBotNormalP'
     constructor
     · have hBotP_ne_top : (⊥ : Subgroup G).subgroupOf P ≠ ⊤ := by
         intro htop
@@ -4320,7 +4320,7 @@ private theorem section13_theorem_13_2_pf119Output_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases section13_theorem_13_2_hypothesis10_of_typeIIIIV_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsource hTypeIIIIV with
@@ -4342,10 +4342,10 @@ private theorem section13_theorem_13_2_pf119Output_of_sourceContext
         h10 with
     ⟨I, instI, decI, J, instJ, decJ, Wloc, A, A0, i0, j0, μ, δSign,
       ω, σ, hNotation⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   have hHCle : P ⊔ C ≤ Smax := by
     have h11copy := h11
     rcases h11copy with
@@ -4462,7 +4462,7 @@ private theorem section13_theorem_13_2_not_typeV_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases _hsource with
     ⟨hcase, _hptypeS, _hptypeT, _hp_card, _hq_card, _hC, _hD, _hc_card,
       _hd_card, _hU_card, _hV_card, _hSfam, _hTfam, _hDadeS, _hDadeT,
@@ -4495,7 +4495,7 @@ public theorem section13_theorem_13_2_typeIIIIVVData_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hFusion : ∀ {U' W1' W2' : Subgroup G},
       Section8.typePDefinitionData Smax P U' W1' W2' →
         theorem_13_2_typeCommonT6FusionData Smax P U' := by
@@ -4855,7 +4855,7 @@ private theorem section13_theorem_13_2_caseBData_bg_classifier_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hChoice :=
     section13_theorem_13_2_caseBData_bg_classifierChoice_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
@@ -4900,7 +4900,7 @@ private theorem section13_theorem_13_2_caseBData_bg_hardFields_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsourceOrig
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases _hsource with
     ⟨hcase, hptypeS, hptypeT, _hp, _hq, _hC, _hD, _hc, _hd, _hUcard,
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hChar⟩
@@ -5161,7 +5161,7 @@ private theorem section13_theorem_13_2_typeIIElementaryConclusion_of_sourceConte
     section13_theorem_13_2_typeII_section16TypeII_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource _hII
-  haveI : IsMinCE G := by
+  have : IsMinCE G := by
     rcases _hsource with
       ⟨_h88, _hSP, _hTP, _hp, _hq, _hC, _hD, _hc, _hd, _hu, _hv,
         _hSfam, _hTfam, _hDadeS, _hDadeT, _hChar, _hDadeDiff, _hZeroDegree,
@@ -5185,10 +5185,10 @@ private theorem section13_theorem_13_2_typeIIElementaryConclusion_of_sourceConte
     refine ⟨⟨?_⟩⟩
     intro x y
     apply Subtype.ext
-    letI : IsMulCommutative U := hUcomm
+    let : IsMulCommutative U := hUcomm
     exact setLike_mul_comm
       (s := U) (hCU x.property) (hCU y.property)
-  haveI : IsMulCommutative C := hCcomm
+  have : IsMulCommutative C := hCcomm
   have hcommC : _root_.commutator C = ⊥ := commutator_eq_bot (G := C)
   have hCprimeBot : Cprime = (⊥ : Subgroup G) := by
     rw [h95.Cprime_eq_commutator, hcommC]
@@ -5215,7 +5215,7 @@ private theorem section13_isElementaryAbelian_of_mulEquiv
     IsElementaryAbelian p A →
       IsElementaryAbelian p B := by
   intro hElem
-  letI : IsElementaryAbelian p A := hElem
+  let : IsElementaryAbelian p A := hElem
   refine
     { toIsMulCommutative := { is_comm := Std.Commutative.mk ?_ }
       exponent_dvd_p := ?_ }
@@ -5254,7 +5254,7 @@ private theorem section13_theorem_13_2_typeIII_P_fields_of_sourceContext
   rcases hpdata with
     ⟨_hbot_le, _hP_le_S, _hbot_norm_S, hbot_norm_P, _hbot_lt,
       hquotElem, _hIIIIV⟩
-  letI : ((⊥ : Subgroup G).subgroupOf P).Normal := hbot_norm_P
+  let : ((⊥ : Subgroup G).subgroupOf P).Normal := hbot_norm_P
   have hbot_sub : (⊥ : Subgroup G).subgroupOf P = (⊥ : Subgroup P) := by
     rw [Subgroup.bot_subgroupOf]
   let e : P ⧸ (⊥ : Subgroup G).subgroupOf P ≃* P :=
@@ -5269,7 +5269,7 @@ private theorem section13_theorem_13_2_typeIII_P_fields_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsourceFull
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hquotCard :
       Nat.card (P ⧸ (⊥ : Subgroup G).subgroupOf P) = hp.val ^ Nat.card W1 := by
     rcases Section9.theorem_9_6_source_core_sec9 Smax P U W1 W2
@@ -5402,10 +5402,10 @@ private theorem section13_theorem_13_2_coherence911KernelFamily_of_sourceContext
     refine ⟨⟨?_⟩⟩
     intro x y
     apply Subtype.ext
-    letI : IsMulCommutative U := hUcomm
+    let : IsMulCommutative U := hUcomm
     exact setLike_mul_comm
       (s := U) (hCU x.property) (hCU y.property)
-  haveI : IsMulCommutative C := hCcomm
+  have : IsMulCommutative C := hCcomm
   have hcommC : _root_.commutator C = ⊥ := commutator_eq_bot (G := C)
   have hbot : Cprime = (⊥ : Subgroup G) := by
     rw [_h95.Cprime_eq_commutator, hcommC]
@@ -5434,7 +5434,7 @@ private theorem section13_theorem_13_2_coherence911Data_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hkernel :
       Section9.kernelInducedFamily Smax (ambientDerivedSubgroup Smax) P
         ((⊥ : Subgroup G) ⊔ Cprime) Sfam :=
@@ -5464,7 +5464,7 @@ private theorem section13_theorem_13_2_coherence_of_sourceContext
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       _hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   exact section13_theorem_13_2_coherence_from_911Data
     (section13_theorem_13_2_coherence911Data_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
@@ -5566,7 +5566,7 @@ public theorem section13_theorem_13_2_H_punctured_tiNormalizer_of_sourceContext
   have hMin : IsMinCE G :=
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hHfit : H = section8FittingSubgroup Smax := by
     rcases hsource with
       ⟨_hcase, hptypeS, _hptypeT, _hp, _hq, hC, _hD, _hc, _hd, _hUcard,
@@ -5792,10 +5792,10 @@ private theorem section13_bookAZeroData_of_typePFourSix_source
   rcases hFourSix with
     ⟨I, instI, decI, J, instJ, decJ, W46, A, A0, i0, j0, μ, δSign, ω, σ,
       _hNotation, _hSigmaAgree, ⟨_H_cyclicA0, _hCyclicA0, _hTauCyclicA0, hBookSource⟩⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases hBookSource with
     ⟨Ms, Abook, A0book, A1book, H_A0, hA0M, hNotationBook, hAbook,
       hA0book, hMFleMs, hQVU, hτDade⟩
@@ -6107,7 +6107,7 @@ private theorem section13_theorem_13_2_tau_agreesWithInductionOnTypeP_AZero_of_s
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases hsource with
     ⟨_hcase, hptypeS, _hptypeT, _hp_card, _hq_card, _hC, _hD, _hc_card,
       _hd_card, _hU_card, _hV_card, _hSfam, _hTfam, _hDadeS, _hDadeT,
@@ -6133,7 +6133,7 @@ private theorem section13_theorem_13_2_agreesWithInductionOnBookAZero_of_sourceC
     section13_theorem_13_2_global_isMinCE_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d
       hsource
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hSmax : Smax ∈ section9MaximalSubgroups G :=
     section13_theorem_13_2_Smax_maximal_of_sourceContext
       Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT p q u v c d

@@ -32,7 +32,7 @@ theorem not_ggResSideDatum_of_linear_of_label_D4
     simp_all
   have heq := ggTWR_iso_eq_D4 hiso hcanon
   have htag := congrArg LargeEvenLabel.tag heq
-  simp only [hJtag, LargeEvenLabel.tag] at htag
+  simp only [hJtag] at htag
   cases htag
 
 theorem not_ggResSideDatum_of_unitary_of_label_D4
@@ -57,7 +57,7 @@ theorem not_ggResSideDatum_of_unitary_of_label_D4
     simp_all
   have heq := ggTWR_iso_eq_D4 hiso hcanon
   have htag := congrArg LargeEvenLabel.tag heq
-  simp only [hJtag, LargeEvenLabel.tag] at htag
+  simp only [hJtag] at htag
   cases htag
 
 theorem not_ggResSideDatum_of_unitary_six_of_label_D4
@@ -79,7 +79,7 @@ theorem not_ggResSideDatum_of_unitary_six_of_label_D4
     simp_all
   have heq := ggTWR_iso_eq_D4 hiso hcanon
   have htag := congrArg LargeEvenLabel.tag heq
-  simp only [hJtag, LargeEvenLabel.tag] at htag
+  simp only [hJtag] at htag
   cases htag
 
 end CFSG.StandardType

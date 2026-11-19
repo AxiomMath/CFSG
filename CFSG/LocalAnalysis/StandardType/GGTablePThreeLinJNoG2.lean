@@ -18,12 +18,12 @@ open CFSG CFSG.Assembly
 
 private theorem finite_of_perfect_of_finite_centerQuotient {G : Type} [Group G]
     (hperf : commutator G = ⊤) (h : Finite (G ⧸ Subgroup.center G)) : Finite G := by
-  haveI hfi : (Subgroup.center G).FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
-  haveI hcs : Finite (commutatorSet G) :=
+  have hfi : (Subgroup.center G).FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  have hcs : Finite (commutatorSet G) :=
     CFSG.Certificates.finite_commutatorSet_of_finiteIndex_center
-  haveI hcomm : Finite ↥(commutator G) :=
+  have hcomm : Finite ↥(commutator G) :=
     Subgroup.instFiniteSubtypeMemCommutatorOfElemCommutatorSet G
-  haveI htop : Finite ↥(⊤ : Subgroup G) := by simpa [hperf] using hcomm
+  have htop : Finite ↥(⊤ : Subgroup G) := by simpa [hperf] using hcomm
   exact Finite.of_injective (Subgroup.topEquiv.symm : G → ↥(⊤ : Subgroup G))
     Subgroup.topEquiv.symm.injective
 
@@ -44,9 +44,9 @@ theorem linJNoG2_holds :
   rcases hLin with ⟨hm2, -, ⟨φ⟩⟩
   have hc : commutator J = ⊤ := hmark.1
   obtain ⟨lab, hG2, hmarkLab⟩ := CFSG.StandardType.FrameRoute.exists_glaLabel hmark
-  haveI hQfin : Finite (J ⧸ Subgroup.center J) :=
+  have hQfin : Finite (J ⧸ Subgroup.center J) :=
     Finite.of_injective (φ : J ⧸ Subgroup.center J → PSLg m E) φ.injective
-  haveI hJfin : Finite J := finite_of_perfect_of_finite_centerQuotient hc hQfin
+  have hJfin : Finite J := finite_of_perfect_of_finite_centerQuotient hc hQfin
   obtain ⟨f, _, hcard⟩ := CFSG.ABGLocalTools.card_eq_ringChar_pow (F := E)
   have hring : ringChar E = 2 := ringChar.eq E 2
   have hE : Nat.card E = 2 ^ f := by rw [hcard, hring]

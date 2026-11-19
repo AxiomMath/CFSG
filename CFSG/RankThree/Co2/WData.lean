@@ -72,11 +72,11 @@ theorem gensW_W_one : gensW wWords 1 = rCr := by
 
 theorem rep_one_mem_W : rep 1 ∈ subW wWords := by
   rw [← gensW_W_zero]
-  exact Subgroup.subset_closure ⟨0, by rw [Set.mem_setOf_eq, wWords_size]; norm_num, rfl⟩
+  exact Subgroup.subset_closure ⟨0, by rw [Set.mem_ofPred_eq, wWords_size]; norm_num, rfl⟩
 
 theorem rCr_mem_W : rCr ∈ subW wWords := by
   rw [← gensW_W_one]
-  exact Subgroup.subset_closure ⟨1, by rw [Set.mem_setOf_eq, wWords_size]; norm_num, rfl⟩
+  exact Subgroup.subset_closure ⟨1, by rw [Set.mem_ofPred_eq, wWords_size]; norm_num, rfl⟩
 
 theorem W_le_C1 : subW wWords ≤ Subgroup.centralizer ({rep 1} : Set Cr) := by
   intro y hy

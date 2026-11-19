@@ -126,14 +126,14 @@ theorem pairA_eq {A B : Nat} (hA : Cn2 A) (hB : Cn2 B) :
     simp only [pairA, Array.getElem_append, hs]
     by_cases h : i < 240
     · have e : Nat.blt i 240 = true := Nat.blt_eq.mpr h
-      rw [dif_pos h, e]
+      rw [dite_eq_left h, e]
       simp [unpack]
       rfl
     · have e : Nat.blt i 240 = false := by
         cases e' : Nat.blt i 240
         · rfl
         · exact absurd (Nat.blt_eq.mp e') h
-      rw [dif_neg h, e]
+      rw [dite_eq_right h, e]
       simp [unpack]
       rfl
 

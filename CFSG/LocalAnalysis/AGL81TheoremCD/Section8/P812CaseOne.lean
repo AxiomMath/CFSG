@@ -55,6 +55,7 @@ private theorem centralizes_of_card_three {S L A : Subgroup G} (hS : IsPGroup 3 
   exact Subgroup.mem_centralizer_iff.mp (hcent hs) x hx
 
 
+omit [Finite G] in
 private theorem commutator_le_pPrimeCore_of_subgroupOf {B K : Subgroup G} (hBM : B ≤ M)
     (hKM : K ≤ M)
     (h : ⁅B.subgroupOf M, K.subgroupOf M⁆ ≤
@@ -70,6 +71,7 @@ private theorem commutator_le_pPrimeCore_of_subgroupOf {B K : Subgroup G} (hBM :
   rw [← hmap, ← hcore]
   exact Subgroup.map_mono h
 
+omit [Finite G] in
 private theorem le_normalizer_of_subgroupOf {N K : Subgroup G} (hNM : N ≤ M) (hKM : K ≤ M)
     (h : N.subgroupOf M ≤ Subgroup.normalizer (K.subgroupOf M : Set ↥M)) :
     N ≤ Subgroup.normalizer (K : Set G) := by
@@ -81,6 +83,7 @@ private theorem le_normalizer_of_subgroupOf {N K : Subgroup G} (hNM : N ≤ M) (
   have hxN : (⟨x, hNM hx⟩ : ↥M) ∈ N.subgroupOf M := hx
   exact Subgroup.mem_subgroupOf.mp (h' hxN)
 
+omit [Finite G] in
 private theorem card_pPrimeCore_subgroupOf_eq {K : Subgroup G} (hKM : K ≤ M) :
     Nat.card (CFSG.pPrimeCore p ↥(K.subgroupOf M)) =
       Nat.card (CFSG.pPrimeCore p ↥K) := by
@@ -104,7 +107,7 @@ private theorem exists_inv_mem_inf_centralizer_sup_of_le_aux {K : Subgroup G} (h
       (((B₁.subgroupOf M) ⊔ (B₂.subgroupOf M) : Subgroup ↥M) : Set ↥M),
       ∀ a ∈ A.subgroupOf M, t * a * t⁻¹ = a⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K' : Subgroup ↥M := K.subgroupOf M
   let B₁' : Subgroup ↥M := B₁.subgroupOf M
   let B₂' : Subgroup ↥M := B₂.subgroupOf M
@@ -192,7 +195,7 @@ private theorem caseOne_left (h : P812Hyp G M p L₁ L₂)
     (h₁ : ⁅A₀, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype) :
     ∃ t : G, t ∈ L₁ ∧ t ∈ Subgroup.centralizer ((A₀ ⊔ A₂ : Subgroup G) : Set G) ∧
       ∀ a ∈ A₁, t * a * t⁻¹ = a⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA₀M : A₀ ≤ M := hA₀S.trans hS.le
   have hA₂M : A₂ ≤ M := hA₂.trans h.le₂
   have hSL₁ : S ≤ Subgroup.normalizer (L₁ : Set G) :=
@@ -244,7 +247,7 @@ private theorem caseOne_right (h : P812Hyp G M p L₁ L₂)
     (h₂ : ⁅A₀, L₂⁆ ≤ (CFSG.pPrimeCore p ↥L₂).map L₂.subtype) :
     ∃ t : G, t ∈ L₂ ∧ t ∈ Subgroup.centralizer ((A₀ ⊔ A₁ : Subgroup G) : Set G) ∧
       ∀ a ∈ A₂, t * a * t⁻¹ = a⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA₀M : A₀ ≤ M := hA₀S.trans hS.le
   have hA₁M : A₁ ≤ M := hA₁.trans h.le₁
   have hSL₂ : S ≤ Subgroup.normalizer (L₂ : Set G) := by
@@ -286,6 +289,7 @@ private theorem caseOne_right (h : P812Hyp G M p L₁ L₂)
     h₂ hcomm₂ hA₂ hA₂3 hAc
   exact ⟨t, ht.1, ht.2, htinv⟩
 
+omit [Finite G] in
 private theorem inf_eq_bot_of_inverting_centralizer {A B : Subgroup G} {t : G}
     (hA3 : Nat.card A = 3) (hT : t ∈ Subgroup.centralizer (B : Set G))
     (hinv : ∀ a ∈ A, t * a * t⁻¹ = a⁻¹) : A ⊓ B = ⊥ := by
@@ -308,12 +312,12 @@ private theorem inf_eq_bot_of_inverting_centralizer {A B : Subgroup G} {t : G}
   calc x = x ^ 3 := h3.symm
     _ = 1 := hx3
 
-private theorem omega_le_sup_of_card_27 {S A : Subgroup G} (hS3 : IsPGroup 3 S)
-    (hAS : A ≤ S) (hAel : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
+private theorem omega_le_sup_of_card_27 {S A : Subgroup G} (_hS3 : IsPGroup 3 S)
+    (_hAS : A ≤ S) (hAel : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
     (hSC : S ≤ Subgroup.centralizer (A : Set G)) (hAM : A ≤ M) (hSM : S ≤ M)
     (hrank : CFSG.Open.pRank 3 M ≤ 3) :
     ∀ x ∈ S, x ^ 3 = 1 → x ∈ A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hxS hx3
   by_contra hxA
   have hxne : x ≠ 1 := fun h1 => hxA (h1 ▸ A.one_mem)
@@ -355,8 +359,9 @@ private theorem omega_le_sup_of_card_27 {S A : Subgroup G} (hS3 : IsPGroup 3 S)
   have h4 := CFSG.SectionRank.le_pRank (by norm_num : 1 < 3) hEM hEel hEcard
   omega
 
+omit [Finite G] in
 private theorem caseOne_disjoint {A₀ A₁ A₂ : Subgroup G} {t₁ t₂ : G}
-    (hA₀3 : Nat.card A₀ = 3) (hA₁3 : Nat.card A₁ = 3) (hA₂3 : Nat.card A₂ = 3)
+    (_hA₀3 : Nat.card A₀ = 3) (hA₁3 : Nat.card A₁ = 3) (hA₂3 : Nat.card A₂ = 3)
     (ht₁C : t₁ ∈ Subgroup.centralizer ((A₀ ⊔ A₂ : Subgroup G) : Set G))
     (ht₁inv : ∀ a ∈ A₁, t₁ * a * t₁⁻¹ = a⁻¹)
     (ht₂C : t₂ ∈ Subgroup.centralizer ((A₀ ⊔ A₁ : Subgroup G) : Set G))
@@ -393,6 +398,7 @@ private theorem caseOne_commutations (h : P812Hyp G M p L₁ L₂) {S A₀ A₁ 
     exact centralizes_of_card_three hS.isPGroup hSL₁ (le_of_eq h.rank_three₁)
       hA₁ hA₁S hA₁3 x hx y (hA₂S hy)
 
+omit [Finite G] in
 private theorem caseOne_abelian_card {A₀ A₁ A₂ : Subgroup G}
     (hA₀3 : Nat.card A₀ = 3) (hA₁3 : Nat.card A₁ = 3) (hA₂3 : Nat.card A₂ = 3)
     (hc₀₁ : ∀ x ∈ A₀, ∀ y ∈ A₁, x * y = y * x)
@@ -401,7 +407,7 @@ private theorem caseOne_abelian_card {A₀ A₁ A₂ : Subgroup G}
     (hd₀₁ : A₀ ⊓ A₁ = ⊥) (hd₂ : (A₀ ⊔ A₁) ⊓ A₂ = ⊥) :
     CFSG.Open.IsElemAbelian 3 ((A₀ ⊔ A₁) ⊔ A₂) ∧
       Nat.card ((A₀ ⊔ A₁) ⊔ A₂ : Subgroup G) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAel : CFSG.Open.IsElemAbelian 3 ((A₀ ⊔ A₁) ⊔ A₂) := by
     refine CFSG.Open.IsElemAbelian.sup_of_commute
       (CFSG.Open.IsElemAbelian.sup_of_commute
@@ -430,7 +436,7 @@ private theorem caseOne_abelian_card {A₀ A₁ A₂ : Subgroup G}
 
 private theorem caseOne_centralizer (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M) {S A₀ A₁ A₂ : Subgroup G}
-    (hS : IsSylowOf 3 S M) (hA₀S : A₀ ≤ S) (hA₁ : A₁ ≤ L₁) (hA₁S : A₁ ≤ S)
+    (hS : IsSylowOf 3 S M) (_hA₀S : A₀ ≤ S) (hA₁ : A₁ ≤ L₁) (hA₁S : A₁ ≤ S)
     (hA₁3 : Nat.card A₁ = 3) (hA₂ : A₂ ≤ L₂) (hA₂S : A₂ ≤ S) (hA₂3 : Nat.card A₂ = 3)
     (hA₀Z : ∀ x ∈ A₀, ∀ s ∈ S, x * s = s * x) :
     S ≤ Subgroup.centralizer (((A₀ ⊔ A₁) ⊔ A₂ : Subgroup G) : Set G) := by
@@ -673,7 +679,7 @@ theorem mem_uniqueSet_of_caseOne
     A₁ ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M ∧
       A₂ ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA₀M : A₀ ≤ M := hA₀S.trans hS.le
   have hA₁M : A₁ ≤ M := hA₁.trans h.le₁
   have hA₂M : A₂ ≤ M := hA₂.trans h.le₂

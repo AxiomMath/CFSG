@@ -23,7 +23,7 @@ theorem rcfg_of_sylow {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G))
     {R : Subgroup G} (hR : IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R) (hQR : Q ≤ R) :
     RCfg E A e K Q R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have c := Ctx.of_cfg h hA
   have hEJ : E = thompsonJ 3 Q := hA.2.2.2.2.2.1
   have hQC : IsSylowIn 3 (Subgroup.centralizer ({e} : Set G)) Q := h.hQ.1

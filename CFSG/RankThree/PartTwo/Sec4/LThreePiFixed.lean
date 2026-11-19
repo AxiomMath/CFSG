@@ -282,7 +282,7 @@ theorem trace_eq_zero_of_type3 (hK : PiField π p f K) (hq : ModThree π (p ^ f)
     have hcol : P.col = b := by
       funext i r
       rfl
-    exact (Matrix.linearIndependent_cols_iff_isUnit (A := P)).mp (hcol ▸ hli)
+    exact (Matrix.linearIndependent_col_iff_isUnit (A := P)).mp (hcol ▸ hli)
   set C : Matrix (Fin 3) (Fin 3) K := !![0, 0, (ℓ : K); 1, 0, 0; 0, 1, 0] with hC
   have hXP : X * P = P * C := by
     have h3v : X *ᵥ (X *ᵥ (X *ᵥ v)) = (ℓ : K) • v := by

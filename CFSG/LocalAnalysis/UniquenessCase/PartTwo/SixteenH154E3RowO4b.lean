@@ -30,9 +30,9 @@ theorem s16h_H5_row_O4_three_fix {A L : Subgroup (MulAut W)} {t : MulAut W}
   have hq2 : q ≠ 2 := by rcases hq with h | h <;> omega
   obtain ⟨K, hKf, hKfin, b, c, hKcard, hirr, e, D, hDeq, hmapL, hDnorm, hDab, hDcard⟩ :=
     s16h_H5_row_O4_three_bridge_strong hc h hqprime hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by norm_num) hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by norm_num) hKcard
   have hEN : E ≤ normalizer (L : Set (MulAut W)) := fun e he => (mem_inf.mp (hE he)).2
   have hEU : E ≤ stabSub U := fun e he => s16h_H5E3_commSub_stab (L := L) (g := e) (hEN he)
   have hEfix : E ≤ stabSub (fixV L) := fun e he =>

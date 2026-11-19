@@ -18,8 +18,8 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V}
 
 private theorem w183k3_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
 private theorem w183k3_isQuasisimple_of_mulEquiv {A B : Type*} [Group A] [Group B]
     (e : A ≃* B) (h : CFSG.Open.IsQuasisimple B) : CFSG.Open.IsQuasisimple A := by
@@ -31,6 +31,7 @@ private theorem w183k3_isQuasisimple_of_mulEquiv {A B : Type*} [Group A] [Group 
     (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
       (Subgroup.map_center_eq e)).isSimpleGroup⟩
 
+omit [Finite V] in
 private theorem w183k3_sq_eq_one (v : Multiplicative V) : v ^ 2 = 1 := by
   have h : (v ^ 2).toAdd = 0 := by
     rw [toAdd_pow, two_nsmul, ZModModule.add_self]
@@ -44,8 +45,8 @@ theorem w183k3_four_mul_cent (h65f : Asch6_5Four) (c : QuasiCore R L N)
     (hq : CFSG.Quasithin.G11.commSpace A (CFSG.SignalizerFunctorTheorem.Quadratic.commSub A) = ⊥) :
     ∀ a ∈ A, ∃ l ∈ L, ∀ x ∈ L, (a * l⁻¹) * x = x * (a * l⁻¹) := by
   classical
-  haveI : Finite (LGL 2 V) := w183k3_finite_lgl
-  haveI : Finite ↥R := Finite.of_injective (fun r : ↥R => (r : LGL 2 V)) Subtype.val_injective
+  have : Finite (LGL 2 V) := w183k3_finite_lgl
+  have : Finite ↥R := Finite.of_injective (fun r : ↥R => (r : LGL 2 V)) Subtype.val_injective
   let Y₀ : Type := ↥L ⧸ Subgroup.center ↥L
   have hsub : IsSubnormal (L.subgroupOf R) ⊤ := by
     refine IsSubnormal.step le_top ?_ (IsSubnormal.refl ⊤)
@@ -150,7 +151,7 @@ theorem w183k3_inner_of_quadratic (h65f : Asch6_5Four) (c : QuasiCore R L N)
         intro heq
         rw [heq] at hcardzp
         omega
-      exact (SetLike.lt_iff_le_and_exists.mp (lt_of_le_of_ne hzple hne)).2
+      exact (IsConcreteLE.lt_iff_le_and_exists.mp (lt_of_le_of_ne hzple hne)).2
     let A : Subgroup (LGL 2 V) := Subgroup.closure ({dL, f} : Set (LGL 2 V))
     have hdA : dL ∈ A := Subgroup.subset_closure (by simp)
     have hA_le_D : A ≤ D := (Subgroup.closure_le D).mpr (by

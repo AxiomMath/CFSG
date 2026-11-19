@@ -152,27 +152,27 @@ theorem frameLab_mem_of_num {n : ℕ} {lab : LargeEvenLabel} (hΛ : LargeEvenInL
     by_cases hp : rank % 2 = 0
     · have h' : frameEndPair n (rank * (rank - 1)) (some (4 * (rank - 2))) := by
         have h'' : frameEndPair n (frameTagNum .D rank).1 (frameTagNum .D rank).2 := h
-        simp only [frameTagNum, if_pos hp] at h''
+        simp only [frameTagNum, ite_eq_left hp] at h''
         exact h''
       rcases frameEnd_D h' with ⟨rfl, hr⟩ | ⟨rfl, hr⟩
       · exact Or.inl ⟨rfl, Or.inr (Or.inl ⟨rfl, hr⟩), rfl⟩
       · exfalso
         omega
     · have h'' : frameEndPair n (frameTagNum .D rank).1 (frameTagNum .D rank).2 := h
-      simp only [frameTagNum, if_neg hp] at h''
+      simp only [frameTagNum, ite_eq_right hp] at h''
       simp [frameEndPair] at h''
   case twD =>
     by_cases hp : rank % 2 = 1
     · have h' : frameEndPair n (rank * (rank - 1)) (some (4 * (rank - 2))) := by
         have h'' : frameEndPair n (frameTagNum .twD rank).1 (frameTagNum .twD rank).2 := h
-        simp only [frameTagNum, if_pos hp] at h''
+        simp only [frameTagNum, ite_eq_left hp] at h''
         exact h''
       rcases frameEnd_D h' with ⟨rfl, hr⟩ | ⟨rfl, hr⟩
       · exfalso
         omega
       · exact Or.inr ⟨rfl, Or.inl ⟨rfl, hr⟩, rfl⟩
     · have h'' : frameEndPair n (frameTagNum .twD rank).1 (frameTagNum .twD rank).2 := h
-      simp only [frameTagNum, if_neg hp] at h''
+      simp only [frameTagNum, ite_eq_right hp] at h''
       simp [frameEndPair] at h''
   case twE6 =>
     have hr : rank = 0 := by simpa [LargeEvenInLambda2] using hΛ

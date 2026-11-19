@@ -24,7 +24,7 @@ private theorem count_primeFormD (h : UnitaryFieldData 2 n K) (h1 : 1 < n) :
       Nat.card A ≤ 3 * Nat.card ↥(A ⊓
         primeFormD h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hq := hq_aux h1
   intro A hA
   let D : Subgroup (MulAut (pI h)) :=
@@ -38,9 +38,9 @@ private theorem count_primeFormD (h : UnitaryFieldData 2 n K) (h1 : 1 < n) :
     rw [h1', Subgroup.comap_subtype, ← Subgroup.inf_subgroupOf_left D A]
     exact Nat.card_congr
       (Subgroup.subgroupOfEquivOfLe (H := A ⊓ D) (K := A) inf_le_left).toEquiv
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     (card_ringAut_and_isCyclic h.prime K h.card).2
-  haveI : Finite (RingAut K) :=
+  have : Finite (RingAut K) :=
     Nat.finite_of_card_ne_zero (by
       rw [(card_ringAut_and_isCyclic h.prime K h.card).1]
       exact (Nat.mul_pos (by norm_num) h.one_le).ne')
@@ -63,7 +63,7 @@ private theorem bend_primeFormD (h : UnitaryFieldData 2 n K) (h1 : 1 < n) :
       ∀ T : Subgroup (pI h), IsPGroup 2 T → T ≠ ⊥ →
         (∀ α ∈ E, ∀ y ∈ T, α y ∈ T) → Nat.card E ≤ 3 := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hq := hq_aux h1
   have hinner : CFSG.ComponentClassification.OuterAutomorphisms.inner (pI h) ≤
       primeFormD h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) :=
@@ -128,7 +128,7 @@ private theorem bend_primeFormD (h : UnitaryFieldData 2 n K) (h1 : 1 < n) :
 private theorem i1015U3Res_primeFormP (h : UnitaryFieldData 2 n K) (h1 : 1 < n) :
     I1015U3Res (pI h) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hq := hq_aux h1
   let D : Subgroup (MulAut (pI h)) :=
     primeFormD h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)

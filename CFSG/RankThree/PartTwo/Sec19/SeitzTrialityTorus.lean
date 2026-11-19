@@ -26,7 +26,7 @@ theorem closure_layer_two_X (n : ℕ) (hn : 2 ≤ n) (hX : Nat.card X = (2 ^ n) 
   classical
   have hD : D4Par n X σ := ⟨by omega, hX, hσ⟩
   obtain ⟨ε, p, hε, hp, hp5, hpd, h3⟩ := exists_prime_dvd_cyclotomic_three n hn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y₁, hy₁o, hy₁c⟩ := fibre_exists σ n hn hX hσ hε hp hp5 hpd h3 h1
   obtain ⟨y₂, hy₂o, hy₂c⟩ := fibre_exists σ n hn hX hσ hε hp hp5 hpd h3 h2
   have hy₁p : y₁ ^ p = 1 := by rw [← hy₁o]; exact pow_orderOf_eq_one y₁
@@ -59,7 +59,7 @@ theorem closure_layer_two_X (n : ℕ) (hn : 2 ≤ n) (hX : Nat.card X = (2 ^ n) 
     exact hne (classX_centralizer_inj σ hD hn h1 h2 hC)
   obtain ⟨hpow, hcard⟩ := plane_of_two_commuting_prime_elements hp hy₁p hy₁1 hy₂p hy₂1 hc12 hne'
   set E : Subgroup (C0 σ) := Subgroup.closure ({y₁, y₂} : Set (C0 σ)) with hE
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have hEpg : IsPGroup p E := IsPGroup.of_card (n := 2) hcard
   obtain ⟨S, hES⟩ := hEpg.exists_le_sylow
   obtain ⟨Y, Pf, hY, -, hPle, hYeven, hgen, hrot, hperf⟩ :=
@@ -98,6 +98,7 @@ theorem closure_cent_two_X (n : ℕ) (hn : 2 ≤ n) (hX : Nat.card X = (2 ^ n) ^
   closure_layer_two_X σ n hn hX hσ h1 h2 hc hne ((commutator_self_le _).trans hH1)
     ((commutator_self_le _).trans hH2)
 
+omit [Finite X] in
 theorem conj_ne_one_C0 (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {x : C0 σ} (hx : x ≠ 1) :
     (MulAut.conj x : MulAut (C0 σ)) ≠ 1 := fun h =>

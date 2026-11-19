@@ -13,8 +13,8 @@ section Kernel
 theorem mem_of_normal_of_center {P : Type*} [Group P] [Finite P] (hP : IsPGroup 2 P) {z : P}
     (hz : ∀ y ∈ Subgroup.center P, y = 1 ∨ y = z) (K : Subgroup P) [K.Normal] (hK : K ≠ ⊥) :
     z ∈ K := by
-  haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).2 hK
-  haveI : Fact (IsPGroup 2 P) := ⟨hP⟩
+  have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).2 hK
+  have : Fact (IsPGroup 2 P) := ⟨hP⟩
   obtain ⟨x, hx1, hxc⟩ := CFSG.exists_nontrivial_center_mem_normal (p := 2) K
   rcases hz _ hxc with h | h
   · exact absurd (Subtype.ext h) hx1
@@ -49,7 +49,7 @@ theorem mem_of_normal_of_selfCentralizing {M : Type*} [Group M] [Finite M] (E : 
   ·
     let P := E
     let K' : Subgroup E := (K ⊓ E).subgroupOf E
-    haveI : K'.Normal := by
+    have : K'.Normal := by
       refine ⟨fun k hk g => ?_⟩
       have hk' : (k : M) ∈ K ⊓ E := hk
       have : (g : M) * (k : M) * (g : M)⁻¹ ∈ K ⊓ E :=

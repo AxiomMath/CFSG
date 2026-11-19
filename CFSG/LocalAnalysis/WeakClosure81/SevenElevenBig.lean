@@ -15,7 +15,7 @@ open scoped commutatorElement
 
 theorem pCore_eq_bot_of_isL2OrSz {S : Type} [Group S] [Finite S] {n : ℕ} (hn : 1 < n)
     (hS : IsL2OrSz S n) : CFSG.pCore 2 S = ⊥ := by
-  haveI : IsSimpleGroup S := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz hS
+  have : IsSimpleGroup S := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 S) with hbot | htop
   · exact hbot
   · exfalso
@@ -76,7 +76,7 @@ theorem pRank_barSub_eq_of_isL2OrSz_sup (h : Hyp711 V H E) {X : Type} [Group X]
     (hL : IsL2OrSz
       ↥(barSub (kSub V H E) φ V ⊔ conjSubgroup (barSub (kSub V H E) φ V) (φ k)) n) :
     CFSG.pRank 2 ↥(barSub (kSub V H E) φ V) = n := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let K : Subgroup G := kSub V H E
   let J : Subgroup G := pCoreOf 2 K
   let Y : Subgroup G := V ⊔ conjSubgroup V (k : G)
@@ -185,7 +185,7 @@ theorem barSub_eq_of_le_root (hGen : TwoConjugateGeneration) (h : Hyp711 V H E) 
     (hVW : barSub (kSub V H E) φ V ≤ W) (hW : Nat.card W = 2 ^ n) {g : X}
     (hL : IsL2OrSz ↥(W ⊔ conjSubgroup W g) n) :
     barSub (kSub V H E) φ V = W := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let K : Subgroup G := kSub V H E
   let M : Subgroup X := W ⊔ conjSubgroup W g
   change IsBarMap K (pCoreOf 2 K) φ at hφ
@@ -204,7 +204,7 @@ theorem barSub_eq_of_le_root (hGen : TwoConjugateGeneration) (h : Hyp711 V H E) 
   have hcomp : M.subtype.comp (MulAut.conj (g')⁻¹).toMonoidHom =
       (MulAut.conj ((g' : X))⁻¹).toMonoidHom.comp M.subtype := by
     ext a
-    simp [MulAut.conj_apply]
+    simp
   have hconjmap : (conjSubgroup A g').map M.subtype =
       conjSubgroup (A.map M.subtype) (g' : X) := by
     change (conjSubgroup ((barSub K φ V).subgroupOf M) g').map M.subtype =
@@ -239,7 +239,7 @@ theorem seven_eleven_big (hTim : TimmesfeldTIRootInput) (hGen : TwoConjugateGene
     (hbig : 2 < Nat.card (barSub (kSub V H E) φ V)) :
     (∀ u ∈ dSet V H E, ∀ v ∈ dSet V H E, ∃ k ∈ kSub V H E, u = k * v * k⁻¹) ∧
       SevenElevenAlt X (barSub (kSub V H E) φ V) := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let S : Subgroup X := barSub (kSub V H E) φ V
   have hroot : CFSG.Timmesfeld.IsRootInvolutionSet
       (Group.conjugatesOfSet ((S : Set X) \ {1})) := by

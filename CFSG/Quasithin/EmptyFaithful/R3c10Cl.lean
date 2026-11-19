@@ -90,7 +90,7 @@ theorem borel_threeGroup_isCyclic {L Q E : Subgroup G}
     have hpow : (π (Subgroup.inclusion hEL e)) ^ 3 ^ a = 1 := by
       have : e ^ 3 ^ a = 1 := by rw [← ha]; exact pow_orderOf_eq_one e
       rw [← map_pow, ← map_pow, this, map_one, map_one]
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Tsyl.isPGroup')
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Tsyl.isPGroup)
       (⟨π (Subgroup.inclusion hEL e), h1⟩ : ↥T)
     have hk' : orderOf (π (Subgroup.inclusion hEL e)) = 2 ^ k := by
       rw [← hk]

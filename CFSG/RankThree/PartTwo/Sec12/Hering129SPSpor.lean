@@ -62,9 +62,9 @@ theorem not_prime_of_dvd_two {n : ℕ} (h2 : 2 ∣ n) (hn : 2 < n) : ¬ n.Prime 
 theorem nonabelian_of_simple_not_prime {W : Type} [Group W] [Finite W] (hs : IsSimpleGroup W)
     (hp : ¬ (Nat.card W).Prime) : ∃ a b : W, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
-  haveI := hs
-  letI : CommGroup W := { ‹Group W› with mul_comm := h }
+  push Not at h
+  have := hs
+  let : CommGroup W := { ‹Group W› with mul_comm := h }
   exact hp (IsSimpleGroup.prime_card (α := W))
 
 theorem noPerfectDoubleCover_of_trivialMultiplier {W : Type} [Group W] [Finite W]
@@ -73,11 +73,11 @@ theorem noPerfectDoubleCover_of_trivialMultiplier {W : Type} [Group W] [Finite W
       Nonempty (Q ⧸ Subgroup.center Q ≃* W) → Subgroup.center Q = ⊥) :
     CFSG.Monster.Schur.NoPerfectDoubleCover W := by
   intro E _ π hπ hperf hcard
-  haveI := hs
+  have := hs
   have hkerfin : Finite π.ker := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Finite (E ⧸ π.ker) :=
+  have : Finite (E ⧸ π.ker) :=
     Finite.of_equiv W (QuotientGroup.quotientKerEquivOfSurjective π hπ).toEquiv.symm
-  haveI : Finite E :=
+  have : Finite E :=
     Finite.of_equiv _ (Subgroup.groupEquivQuotientProdSubgroup (s := π.ker)).symm
   have hcentral : π.ker ≤ Subgroup.center E := fun x hx =>
     CFSG.Monster.Schur.mem_center_of_mem_ker π hcard hx
@@ -239,13 +239,13 @@ theorem sporLocal_He
     SporLocal X := by
   have hcard : Nat.card X = 4030387200 := by
     rw [Nat.card_congr e.toEquiv]; exact CFSG.Sporadic.He.card_He
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hs : IsSimpleGroup X := @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.He.isSimpleGroup_He e
   have hn : ∃ a b : X, a * b ≠ b * a :=
     nonabelian_of_simple_not_prime hs (by
       rw [hcard]
       exact not_prime_of_dvd_two (by norm_num) (by norm_num))
-  haveI : Finite NativeSporadic.He := Finite.of_equiv X e.toEquiv
+  have : Finite NativeSporadic.He := Finite.of_equiv X e.toEquiv
   have h3 : ∀ β : MulAut X, β ^ 3 = 1 → ∃ x : X, β = MulAut.conj x :=
     @inner3_of_mulEquiv X NativeSporadic.He _ _ e
       (@inner3_of_outer_le_two NativeSporadic.He _ _ CFSG.Sporadic.Schreier.AT_He_Schreier.1)

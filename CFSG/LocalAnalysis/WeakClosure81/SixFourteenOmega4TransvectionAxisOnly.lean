@@ -64,13 +64,13 @@ lemma eq_one_of_forall_isSymm_mul_isSymm {A : M₄} (hdet : Matrix.det A = 1)
   have hE : Matrix.IsSymm (A * Matrix.single 0 0 (1 : F₄)) :=
     h _ (Matrix.IsSymm.ext (by
       intro i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]))
+      fin_cases i <;> fin_cases j <;> simp))
   have hAlt : Matrix.IsSymm
       (A * (Matrix.single 0 1 (1 : F₄) + Matrix.single 1 0 (1 : F₄))) :=
     h _ (Matrix.IsSymm.ext (by
       intro i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.add_apply, Matrix.single_apply]))
+        simp [Matrix.add_apply]))
   have h10 : A 1 0 = A 0 1 := Matrix.IsSymm.apply hA 0 1
   have h10' : A 1 0 = 0 := by
     have := Matrix.IsSymm.apply hE 0 1
@@ -89,7 +89,7 @@ lemma eq_one_of_forall_isSymm_mul_isSymm {A : M₄} (hdet : Matrix.det A = 1)
   fin_cases i <;> fin_cases j <;> simp [h00, h01, h10', h11']
 
 theorem ncard_fTransvectionSet_fixed_axis_le_one
-    (H : Submodule F₄ M₄) (hH : Module.finrank F₄ H = 3) :
+    (H : Submodule F₄ M₄) (_hH : Module.finrank F₄ H = 3) :
     Nat.card { t : MulAut (VM F₄) |
       t ∈ Subgroup.normalizer ((Lm F₄ : Subgroup (MulAut (VM F₄))) : Set (MulAut (VM F₄)))
       ∧ IsFTransvectionOn F₄ M₄ t
@@ -139,7 +139,7 @@ theorem ncard_fTransvectionSet_fixed_axis_le_one
     calc (a : MulAut (VM F₄)) = rho (P₁, P₁⁻¹) * trn := hP₁
       _ = rho (P₂, P₂⁻¹) * trn := by rw [hPsub]
       _ = (b : MulAut (VM F₄)) := hP₂.symm
-  haveI : Finite { t : MulAut (VM F₄) |
+  have : Finite { t : MulAut (VM F₄) |
       t ∈ Subgroup.normalizer ((Lm F₄ : Subgroup (MulAut (VM F₄))) : Set (MulAut (VM F₄)))
       ∧ IsFTransvectionOn F₄ M₄ t
       ∧ fixVSub (F := F₄) (M := M₄) t = H } := Subtype.finite

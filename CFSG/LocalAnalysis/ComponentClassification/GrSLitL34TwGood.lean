@@ -48,10 +48,10 @@ private theorem exists_sylow_subgroupOf {H : Type*} [Group H] [Finite H] {p : �
     (N : Subgroup H) [N.Normal] (P : Sylow p H) :
     ∃ Q : Sylow p N, (Q : Subgroup N) = (P : Subgroup H).subgroupOf N := by
   let intersection := (P : Subgroup H).subgroupOf N
-  have hintersectionP : IsPGroup p intersection := P.isPGroup'.comap_subtype
+  have hintersectionP : IsPGroup p intersection := P.isPGroup.comap_subtype
   obtain ⟨relative, hrelative⟩ := hintersectionP.exists_le_sylow
   let mapped := (relative : Subgroup N).map N.subtype
-  have hmappedP : IsPGroup p mapped := relative.isPGroup'.map N.subtype
+  have hmappedP : IsPGroup p mapped := relative.isPGroup.map N.subtype
   obtain ⟨overgroup, hovergroup⟩ := hmappedP.exists_le_sylow
   obtain ⟨actor, hactor⟩ := MulAction.exists_smul_eq H overgroup P
   have hconjugateSylow : (overgroup : Subgroup H).map (MulAut.conj actor).toMonoidHom =
@@ -116,6 +116,7 @@ section Model
 
 variable {G : Type} [Group G] [Finite G] {M K T : Subgroup G} {t : G} {ρ : ↥M →* WrE}
 
+omit [Finite G] in
 private theorem ker_eq (hρ : TwModel M K t ρ) : ρ.ker = pPrimeCore 2 ↥M := by
   ext m
   rw [MonoidHom.mem_ker, hρ.ker_iff m]
@@ -125,6 +126,7 @@ private theorem odd_card_ker (hρ : TwModel M K t ρ) : Odd (Nat.card ρ.ker) :=
   rw [ker_eq hρ]
   exact Nat.coprime_two_left.mp pPrimeCore_coprime_card
 
+omit [Finite G] in
 private theorem normal_comap_ssS (hρ : TwModel M K t ρ) :
     (ssS.comap ρ).Normal :=
   ⟨fun n hn g => by
@@ -132,6 +134,7 @@ private theorem normal_comap_ssS (hρ : TwModel M K t ρ) :
     rw [map_mul, map_mul, map_inv]
     exact conj_mem_ssS (hρ.mem_wrR g) hn⟩
 
+omit [Finite G] in
 private theorem ssS_le_range (hρ : TwModel M K t ρ) : ssS ≤ ρ.range := by
   rintro ⟨xa, xb, xe⟩ hx
   obtain ⟨hxe, hxa, hxb⟩ := mem_ssS_iff.mp hx
@@ -148,7 +151,7 @@ private theorem card_ss_eq (hρ : TwModel M K t ρ)
     (hinj : ∀ a b : ↥M, a ∈ T.subgroupOf M → b ∈ T.subgroupOf M → ρ a = ρ b → a = b) :
     Nat.card ↥(imgT T M ρ ⊓ ssS) = 2 ^ 12 := by
   obtain ⟨P, hP⟩ := hsyl
-  haveI : (ssS.comap ρ).Normal := normal_comap_ssS hρ
+  have : (ssS.comap ρ).Normal := normal_comap_ssS hρ
   obtain ⟨Q, hQ⟩ := exists_sylow_subgroupOf (ssS.comap ρ) P
   have hrange : (ρ.comp (ssS.comap ρ).subtype).range = ssS := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype, Subgroup.map_comap_eq]
@@ -191,12 +194,14 @@ private theorem card_ss_eq (hρ : TwModel M K t ρ)
       Subgroup.card_map_of_injective (ssS.comap ρ).subtype_injective]
   rw [hQc, Q.card_eq_multiplicity, h2]
 
+omit [Finite G] in
 private theorem exists_lift_swap (hρ : TwModel M K t ρ) {g : WrE} (hg : g ∈ imgT T M ρ)
     (he : g.e = true) :
     ∃ y : ↥M, y ∈ T.subgroupOf M ∧ (y : G) ∉ normalizer (K : Set G) ∧ ρ y = g := by
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hg
   exact ⟨y, hy, (hρ.swap_iff y).mp he, rfl⟩
 
+omit [Finite G] in
 private theorem field_h13 (hρ : TwModel M K t ρ)
     (hinj : ∀ a b : ↥M, a ∈ T.subgroupOf M → b ∈ T.subgroupOf M → ρ a = ρ b → a = b)
     (hinv : ∀ y ∈ M, orderOf y = 2 → y ∈ normalizer (K : Set G)) :
@@ -214,6 +219,7 @@ private theorem field_h13 (hρ : TwModel M K t ρ)
       exact hyK (h1 ▸ (normalizer (K : Set G)).one_mem)
   exact hyK (hinv (y : G) y.2 hord)
 
+omit [Finite G] in
 private theorem field_h14 (hρ : TwModel M K t ρ) (hTM : T ≤ M)
     (hu : ∃ u ∈ T, u ∉ normalizer (K : Set G) ∧ u ^ 4 = 1) :
     ∃ g ∈ imgT T M ρ, g.e = true ∧ g ^ 4 = 1 := by
@@ -224,6 +230,7 @@ private theorem field_h14 (hρ : TwModel M K t ρ) (hTM : T ≤ M)
   have h4 : (⟨u, hTM huT⟩ : ↥M) ^ 4 = 1 := Subtype.ext hu4
   rw [h4, map_one]
 
+omit [Finite G] in
 private theorem field_h20 (hρ : TwModel M K t ρ)
     (hE5 : ∀ v ∈ T, v ∉ normalizer (K : Set G) → v * v ∉ withKernel K) :
     ∀ g ∈ imgT T M ρ, g.e = true → (g * g).a ∉ S := by
@@ -238,6 +245,7 @@ private theorem field_h20 (hρ : TwModel M K t ρ)
     (hρ.withKernel_iff (y * y) hyyK).mpr (by rwa [map_mul])
   exact hE5 (y : G) hy hyK hwk
 
+omit [Finite G] in
 private theorem field_h22 (hρ : TwModel M K t ρ) (hTM : T ≤ M)
     (hinj : ∀ a b : ↥M, a ∈ T.subgroupOf M → b ∈ T.subgroupOf M → ρ a = ρ b → a = b)
     (hE7 : ∀ v ∈ T, v ∉ normalizer (K : Set G) →
@@ -319,7 +327,7 @@ theorem goodX_of_twModel (h : TwHyp G a x J S' W K T t)
     GoodX ((T.subgroupOf (normalizer (W : Set G))).map ρ) := by
   obtain ⟨hTM, P, hP⟩ := h.hTsyl
   have hT2 : IsPGroup 2 ↥(T.subgroupOf (normalizer (W : Set G))) := by
-    rw [← hP]; exact P.isPGroup'
+    rw [← hP]; exact P.isPGroup
   have hinj : ∀ a b : ↥(normalizer (W : Set G)), a ∈ T.subgroupOf (normalizer (W : Set G)) →
       b ∈ T.subgroupOf (normalizer (W : Set G)) → ρ a = ρ b → a = b :=
     fun a b ha hb hab => Good.inj_of_odd_ker hT2 (Good.odd_card_ker hρ) ha hb hab

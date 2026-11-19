@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1G43_coset_of_card {H K : Subgroup G} (hH : Nat.card ↥H = 64)
     (hHK : Nat.card ↥(H ⊓ K) = 32) {x y : G} (hx : x ∈ H) (hy : y ∈ H) (hxK : x ∉ K)
     (hyK : y ∉ K) : x⁻¹ * y ∈ K := by
@@ -39,6 +40,7 @@ theorem s16c1G43_coset_of_card {H K : Subgroup G} (hH : Nat.card ↥H = 64)
   rw [he] at hprod
   exact hprod
 
+omit [Finite G] in
 private lemma s16c1G43_conjSubgroup_eq_of_mem {L K : Subgroup G} {l : G}
     (hKnorm : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K) (hl : l ∈ L) :
     conjSubgroup K l = K := by
@@ -51,6 +53,7 @@ private lemma s16c1G43_conjSubgroup_eq_of_mem {L K : Subgroup G} {l : G}
     rwa [h2] at h1
   · intro hx; exact hKnorm l hl x hx
 
+omit [Finite G] in
 private lemma s16c1G43_card_conj_inf {K W : Subgroup G} {l : G}
     (hKl : conjSubgroup K l = K) :
     Nat.card ↥(conjSubgroup W l ⊓ K) = Nat.card ↥(W ⊓ K) := by
@@ -60,6 +63,7 @@ private lemma s16c1G43_card_conj_inf {K W : Subgroup G} {l : G}
     rw [h₁, ← conjSubgroup_inf]
   rw [h, card_conjSubgroup]
 
+omit [Finite G] in
 private lemma s16c1G43_conjSubgroup_le {L W : Subgroup G} {l : G} (hl : l ∈ L)
     (hWL : W ≤ L) : conjSubgroup W l ≤ L := by
   intro x hx
@@ -70,6 +74,7 @@ private lemma s16c1G43_conjSubgroup_le {L W : Subgroup G} {l : G} (hl : l ∈ L)
   rw [show l⁻¹ * (l * x * l⁻¹) * l = x from by group] at hmem
   exact hmem
 
+omit [Finite G] in
 private lemma s16c1G43_conjSubgroup_ab {W : Subgroup G} {l : G}
     (hW : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x) :
     ∀ x ∈ conjSubgroup W l, ∀ y ∈ conjSubgroup W l, x * y = y * x := by
@@ -82,6 +87,7 @@ private lemma s16c1G43_conjSubgroup_ab {W : Subgroup G} {l : G}
     _ = (l⁻¹ * (l * y * l⁻¹) * l) * (l⁻¹ * (l * x * l⁻¹) * l) := by group
     _ = y * x := by group
 
+omit [Finite G] in
 private lemma s16c1G43_conjSubgroup_sq {W : Subgroup G} {l : G}
     (hW : ∀ x ∈ W, x * x = 1) :
     ∀ x ∈ conjSubgroup W l, x * x = 1 := by
@@ -93,6 +99,7 @@ private lemma s16c1G43_conjSubgroup_sq {W : Subgroup G} {l : G}
     _ = l⁻¹ * 1 * l := by rw [h]
     _ = 1 := by group
 
+omit [Finite G] in
 private lemma s16c1G43_conjSubgroup_cent {L K N W : Subgroup G} {l : G}
     (hKnorm : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K)
     (hNcent : ∀ n ∈ N, ∀ l ∈ L, l * n = n * l) (hl : l ∈ L)
@@ -127,6 +134,7 @@ private structure S16C1G43FamData (L K N W : Subgroup G) : Prop where
   cardK : Nat.card ↥(W ⊓ K) = 32
   cent : ∀ x ∈ W, x ∉ K → ∀ k ∈ K, ⁅k, x⁆ ∈ N → k ∈ W
 
+omit [Finite G] in
 private lemma s16c1G43FamData_conj {L K N W : Subgroup G} {l : G}
     (hKnorm : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K)
     (hNcent : ∀ n ∈ N, ∀ l ∈ L, l * n = n * l) (hl : l ∈ L)
@@ -141,6 +149,7 @@ private lemma s16c1G43FamData_conj {L K N W : Subgroup G} {l : G}
     exact h.cardK
   cent := s16c1G43_conjSubgroup_cent hKnorm hNcent hl h.cent
 
+omit [Finite G] in
 private lemma s16c1G43FamData_eps {V : Subgroup G} {g : G} {L K N : Subgroup G} {ε l : G}
     (hKnorm : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K)
     (hNcent : ∀ n ∈ N, ∀ l ∈ L, l * n = n * l)
@@ -154,6 +163,7 @@ private lemma s16c1G43FamData_eps {V : Subgroup G} {g : G} {L K N : Subgroup G} 
   · rw [← conjSubgroup_conjSubgroup]
     exact s16c1G43FamData_conj hKnorm hNcent hl hW
 
+omit [Finite G] in
 private lemma s16c1G43_commutator_mul_mem {L K : Subgroup G}
     (hKnorm : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K)
     {a b k₁ k₂ : G} (haL : a ∈ L) (hbL : b ∈ L) (hk₁ : k₁ ∈ K) (hk₂ : k₂ ∈ K)
@@ -182,6 +192,7 @@ private lemma s16c1G43_commutator_mul_mem {L K : Subgroup G}
   rw [commutatorElement_mul_left_eq_conj_mul]
   exact K.mul_mem (hKnorm a haL ⁅k₁, b * k₂⁆ h1) h2
 
+omit [Finite G] in
 private lemma s16c1G43_commutator_mem_of_coset {L K : Subgroup G}
     (hKnorm : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K)
     {a x b x' : G} (haL : a ∈ L) (hxL : x ∈ L) (hbL : b ∈ L) (hx'L : x' ∈ L)
@@ -205,6 +216,7 @@ private lemma s16c1G43_commutator_mem_of_coset {L K : Subgroup G}
       rw [hxeq, hx'eq]
       exact s16c1G43_commutator_mul_mem (L := L) (K := K) hKnorm haL hbL hxK hx'K hab
 
+omit [Finite G] in
 private lemma s16c1G43_not_le_K {W K : Subgroup G} (hcard : Nat.card ↥W = 64)
     (hcardK : Nat.card ↥(W ⊓ K) = 32) : ¬ W ≤ K := by
   intro hle
@@ -212,6 +224,7 @@ private lemma s16c1G43_not_le_K {W K : Subgroup G} (hcard : Nat.card ↥W = 64)
   rw [h, hcard] at hcardK
   exact absurd hcardK (by decide)
 
+omit [Finite G] in
 private lemma s16c1G43_fam_hD {V : Subgroup G} {p p' : G}
     (hTI : ∀ h : G, conjSubgroup V h ≠ V → Nat.card ↥(V ⊓ conjSubgroup V h) ≤ 4) :
     conjSubgroup V p ≠ conjSubgroup V p' →

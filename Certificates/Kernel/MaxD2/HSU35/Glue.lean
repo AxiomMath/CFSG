@@ -126,7 +126,6 @@ theorem tcent_ok : checkTCent = true := by
   simp only []
   rw [rE, rec_size, allBelow_iff']
   intro k hk
-  beta_reduce
   have ck := rt_canon hk
   rw [rec_get hk, tabT_eq, comp_u cT ck, comp_u ck cT, eq_u (cc cT ck) (cc ck cT), beq_id ck]
   exact (PK.allN_iff.1 k_tc) k hk
@@ -189,7 +188,6 @@ theorem kernel_ok : checkKernel = true := by
     exact beq_self_eq_true _
   rw [rec_size, allBelow_iff']
   intro k hk
-  beta_reduce
   have ck := nt_canon hk
   have hT : ∀ i < HSU.NE.cnt, Cn 100 7 (HSU.NE.T i) := fun i hi => nt_canon hi
   rw [rec_get hk, comp_u c1 ck, comp_u (cc c1 ck) c0, comp_u d1 ck, comp_u (cc d1 ck) d0,
@@ -247,17 +245,14 @@ theorem e9_ok : checkE9 e9Enum = true := by
   refine ⟨⟨by rw [hc']; rfl, ?_⟩, ?_⟩
   · rw [allBelow_iff']
     intro i hi
-    beta_reduce
     rw [allBelow_iff']
     intro j hj
-    beta_reduce
     rw [rec_get hi, rec_get hj, comp_u (ce i hi) (ce j hj), comp_u (ce j hj) (ce i hi),
       eq_u (cc (ce i hi) (ce j hj)) (cc (ce j hj) (ce i hi))]
     rw [hc'] at hi hj
     exact (PK.allN_iff.1 ((PK.allN_iff.1 hcm) i hi)) j hj
   · rw [allBelow_iff']
     intro i hi
-    beta_reduce
     rw [rec_get hi, beq_pw (ce i hi)]
     rw [hc'] at hi
     exact (PK.allN_iff.1 hcu) i hi

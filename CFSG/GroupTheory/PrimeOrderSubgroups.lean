@@ -11,8 +11,8 @@ namespace CFSG.GroupTheory
 theorem disjoint_of_card_eq_prime_of_ne {E : Type*} [Group E]
     {p : ℕ} (hp : p.Prime) {L M : Subgroup E} (hL : Nat.card L = p)
     (hM : Nat.card M = p) (hne : L ≠ M) : Disjoint L M := by
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [hL]; exact hp.ne_zero)
-  haveI : Finite M := Nat.finite_of_card_ne_zero (by rw [hM]; exact hp.ne_zero)
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [hL]; exact hp.ne_zero)
+  have : Finite M := Nat.finite_of_card_ne_zero (by rw [hM]; exact hp.ne_zero)
   rw [disjoint_iff]
   have hdvd : Nat.card (L ⊓ M : Subgroup E) ∣ p := by
     rw [← hL]
@@ -28,8 +28,8 @@ theorem disjoint_of_card_eq_prime_of_ne {E : Type*} [Group E]
 theorem exists_generator_of_card_prime {E : Type*} [Group E]
     {p : ℕ} (hp : p.Prime) {L : Subgroup E} (hL : Nat.card L = p) :
     ∃ x : E, x ∈ L ∧ orderOf x = p ∧ L = Subgroup.zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [hL]; exact hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [hL]; exact hp.ne_zero)
   have hLnt : Nontrivial L := by
     rw [← Finite.one_lt_card_iff_nontrivial, hL]
     exact hp.one_lt
@@ -53,8 +53,8 @@ theorem sup_eq_top_of_card_eq_prime_of_ne {E : Type*} [Group E]
     {p : ℕ} (hp : p.Prime) {L M : Subgroup E} (hL : Nat.card L = p)
     (hM : Nat.card M = p) (hne : L ≠ M) (hEcard : Nat.card E = p ^ 2) :
     L ⊔ M = ⊤ := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; exact pow_ne_zero 2 hp.ne_zero)
-  haveI : Finite (L ⊔ M : Subgroup E) := Subtype.finite
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; exact pow_ne_zero 2 hp.ne_zero)
+  have : Finite (L ⊔ M : Subgroup E) := Subtype.finite
   have hne_sup : L ≠ (L ⊔ M : Subgroup E) := by
     intro h
     have hMle : M ≤ L := by rw [h]; exact le_sup_right

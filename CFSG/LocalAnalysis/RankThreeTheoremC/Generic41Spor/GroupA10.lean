@@ -43,7 +43,7 @@ theorem a10_sylow : ∀ (K : Type) [Group K] [Finite K], IsA10Type 5 K → Sylow
   intro K _ _ hK
   obtain ⟨-, ⟨e⟩⟩ := hK
   have e' : K ≃* alternatingGroup (Fin 10) := e
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard : Nat.card K = 1814400 := by
     rw [Nat.card_congr e'.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
       Fintype.card_fin]

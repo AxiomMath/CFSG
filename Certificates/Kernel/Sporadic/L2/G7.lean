@@ -30,12 +30,12 @@ theorem qE_get {j x : Nat} (hj : j < 128) (hx : x < 1782) : (qElts[j]!)[x]! = qE
   rw [show Nat.div j 2 = j / 2 from rfl, show Nat.mod j 2 = j % 2 from rfl]
   rcases Nat.mod_two_eq_zero_or_one j with h | h
   · rw [h, Q3AG.nIf_eq]
-    simp only [show ((0 : Nat) == 1) = false from rfl, Bool.false_eq_true, if_false,
+    simp only [show ((0 : Nat) == 1) = false from rfl, Bool.false_eq_true, ite_false,
       show Nat.beq 0 1 = false from rfl]
     rw [CFSG.PSL3Four.Native.idTab, getElem!_pos _ x (by simpa using hx), Array.getElem_ofFn]
     exact SuzWF.qProd_get hx
   · rw [h, Q3AG.nIf_eq]
-    simp only [show ((1 : Nat) == 1) = true from rfl, if_true,
+    simp only [show ((1 : Nat) == 1) = true from rfl, ite_true,
       show Nat.beq 1 1 = true from rfl]
     have ht : tTab[x]! = pgk T1 x := by
       change t1Arr[x]! = _
@@ -68,7 +68,7 @@ theorem getD_absent (L : List (Nat × Nat)) (m : Std.HashMap Nat Nat) {k d : Nat
   | nil => rfl
   | cons a L ih =>
     rw [List.foldl_cons, ih _ fun p hp => h p (List.mem_cons_of_mem _ hp), Std.HashMap.getD_insert,
-      if_neg (by simpa using h a (List.mem_cons_self))]
+      ite_eq_right (by simpa using h a (List.mem_cons_self))]
 
 theorem aIdx_absent {f : Nat} (h : ∀ i < 2835, fA i ≠ f) : aIdx.getD f 2835 = 2835 := by
   unfold aIdx
@@ -176,7 +176,7 @@ theorem groupOK_true : groupOK = true := by
     rw [sB, hyk] at h
     simp only [Bool.not_true, Bool.false_or]
     by_cases hlt : y < 2835
-    · rw [if_pos hlt]
+    · rw [ite_eq_left hlt]
       rw [show Nat.blt y 2835 = true from nblt.2 hlt, band] at h
       obtain ⟨h1, h2⟩ := h
       refine Bool.and_eq_true_iff.2 ⟨by rw [bne_eq]; exact h1, ?_⟩
@@ -188,7 +188,7 @@ theorem groupOK_true : groupOK = true := by
       cases hb : eqQ y j
       · rfl
       · exact absurd ⟨j, List.mem_range.2 hj, by rw [eqA_qE hlt hj]; exact hb⟩ hno
-    · rw [if_neg hlt]
+    · rw [ite_eq_right hlt]
       rw [nblt_f hlt] at h
       have hj : y - 2835 < 162 := by omega
       rw [commA_P2 pT1 (pW hw hj)]
@@ -259,7 +259,7 @@ theorem groupOK_true : groupOK = true := by
     rw [hB.1, fp_unpack, ← g3]
     exact aIdx_get hv kSortA (by norm_num)
   unfold groupOK
-  simp only [Bool.and_eq_true, N, Q, W, true_and, and_true, decide_eq_true_eq]
+  simp only [Bool.and_eq_true, N, Q, W, and_true, decide_eq_true_eq]
   refine ⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩
   · rw [e2, e1, e0, eqA_P (p_comp T0 T1') T2', g1]
     exact Nat.beq_refl _

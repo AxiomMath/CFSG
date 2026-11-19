@@ -32,7 +32,7 @@ theorem ggTBJ_f4_torusJNoncomm
       ggConjAut A h₁ * ggConjAut A h₂ ≠ ggConjAut A h₂ * ggConjAut A h₁ := by
   classical
   obtain ⟨ζ, ψ, σ, Θ, hstd, hΘ⟩ := ggTBJ_f4_stdModel hp hp2 hpq ψ₀ A hA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let f₀ : Multiplicative (Fin 4 → ZMod p) := Θ.symm ⟨y, hy⟩
   have hΘf₀ : Θ f₀ = ⟨y, hy⟩ := MulEquiv.apply_symm_apply Θ _
   have hy_eq : y = MulAut.conj (σ f₀) := by rw [← hΘ f₀, hΘf₀]

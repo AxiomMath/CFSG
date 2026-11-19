@@ -42,7 +42,7 @@ theorem pow_finrank_le_card_sq {F : Type} [Field F] [Finite F] {W₀ W₁ : Type
     Nat.card F ^ Module.finrank F W₁ ≤
       Nat.card ↥(LinearMap.range ((τ : Module.End (ZMod 2) Y) - 1)) ^ 2 := by
   classical
-  haveI : Finite (W₀ ⊗[F] W₁) := Module.finite_of_finite F
+  have : Finite (W₀ ⊗[F] W₁) := Module.finite_of_finite F
   have hrank := CFSG.AGLEmbeddingD2.McLaughlin.finrank_le_finrank_range_tensor_sub_one_of_not_scalar
     A B hA
   have hpre : ∀ s : ↥(LinearMap.range (TensorProduct.map A B - LinearMap.id :
@@ -85,12 +85,12 @@ theorem ten_core [Nontrivial Y] {K₁ K₂ : Subgroup (GLV Y)}
     rw [hF₀n]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : IsSimpleGroup SL(2, F₀) := P22y.isSimpleGroup_sl2 h4
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F₀ h4
-  haveI : IsSimpleGroup ↥K₁ := e₁.isSimpleGroup
+  have : IsSimpleGroup SL(2, F₀) := P22y.isSimpleGroup_sl2 h4
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F₀ h4
+  have : IsSimpleGroup ↥K₁ := e₁.isSimpleGroup
   have hper₁ : Group.IsPerfect ↥K₁ :=
     Group.IsPerfect.ofSurjective (f := e₁.symm.toMonoidHom) e₁.symm.surjective
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hcard : Fintype.card F₀ = Fintype.card (GaloisField 2 n) := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hF₀n, GaloisField.card 2 n (by omega)]
   let eG : ↥K₁ ≃* SL(2, GaloisField 2 n) :=
@@ -107,13 +107,13 @@ theorem ten_core [Nontrivial Y] {K₁ K₂ : Subgroup (GLV Y)}
       left_inv := fun y => Subtype.ext (hττ y)
       right_inv := fun x => Subtype.ext (hττ x)
       map_mul' := fun y y' => Subtype.ext (hconj y y') }
-  haveI : IsSimpleGroup ↥K₂ := e₂.isSimpleGroup
+  have : IsSimpleGroup ↥K₂ := e₂.isSimpleGroup
   have hper₂ : Group.IsPerfect ↥K₂ :=
     Group.IsPerfect.ofSurjective (f := e₂.symm.toMonoidHom) e₂.symm.surjective
   have hZ : ∀ {K : Subgroup (GLV Y)} [IsSimpleGroup ↥K], Group.IsPerfect ↥K →
       ∀ z : ↥K, (∀ x : ↥K, z * x = x * z) → z = 1 := by
     intro K _ hK z hz
-    haveI := hK
+    have := hK
     have hc : z ∈ Subgroup.center ↥K := Subgroup.mem_center_iff.mpr fun g => (hz g).symm
     rwa [TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
       (Group.IsPerfect.not_isMulCommutative ↥K), Subgroup.mem_bot] at hc
@@ -186,9 +186,9 @@ theorem ten_core [Nontrivial Y] {K₁ K₂ : Subgroup (GLV Y)}
       _ = (τ * y * τ)⁻¹ v := by rw [LinearEquiv.mul_apply, h]
   obtain ⟨F, _, _, _, _, hcom, V₀, V₁, _, _, _, _, _, _, ρ₀, ρ₁, e, hnt₀, hnt₁, he₀, he₁⟩ :=
     exists_tensor_field hcomm hirr
-  haveI : Finite V₀ := Module.finite_of_finite F
-  haveI : Finite V₁ := Module.finite_of_finite F
-  haveI : Module.Finite (ZMod 2) F := Module.Finite.of_finite
+  have : Finite V₀ := Module.finite_of_finite F
+  have : Finite V₁ := Module.finite_of_finite F
+  have : Module.Finite (ZMod 2) F := Module.Finite.of_finite
   have hF2 : Nat.card F = 2 ^ Module.finrank (ZMod 2) F := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := F), Nat.card_zmod]
   have hR2 : Nat.card ↥R = 2 ^ Module.finrank (ZMod 2) ↥R := by
@@ -272,7 +272,7 @@ theorem ten_core [Nontrivial Y] {K₁ K₂ : Subgroup (GLV Y)}
     by_contra hne
     have hε1 : Module.finrank (ZMod 2) F = n + 1 := by omega
     let b₀ : Module.Basis (Fin 2) F V₀ := Module.finBasisOfFinrankEq F V₀ hd₀
-    haveI := hper₁
+    have := hper₁
     let R₀ : ↥K₁ →* StatedSL 2 F := ((basisGL b₀).comp ρ₀).codRestrict (StatedSL 2 F)
       (fun g => Subgroup.subset_closure (det_eq_one_of_perfect ((basisGL b₀).comp ρ₀) g))
     have hR₀ : Function.Injective R₀ := fun g g' h =>

@@ -45,11 +45,11 @@ theorem tableZ_exists_lift_su3
   obtain ⟨F, hFcard, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.two_suN_exists_equiv (ν := 3)
       Nat.prime_two hf1 σQ hσQ le_rfl
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by
+  have : Finite F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos (by norm_num : (0 : ℕ) < 2) f) 2).ne')
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := RingHom.charP (algebraMap F L) Subtype.coe_injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := RingHom.charP (algebraMap F L) Subtype.coe_injective 2
   let ρ₀' : CFSG.Open.StatedSU 3 (2 ^ f) F →* C := ρ₀.comp eC.toMonoidHom
   obtain ⟨s, hs⟩ :=
     CFSG.LieType.Steinberg.CentralExt.SUOdd.statedSU_odd_exists_section_of_central

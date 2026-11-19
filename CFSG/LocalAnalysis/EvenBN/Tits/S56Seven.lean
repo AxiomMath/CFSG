@@ -19,7 +19,7 @@ theorem s56_mem_Q2_iff {m : G} : m ∈ d.s56Q2 ↔ m ∈ d.M ∧ ∀ e ∈ d.E, 
   exact Iff.rfl
 
 theorem Hyp.s56_mem_A_iff (hd : d.Hyp) {a : G} : a ∈ d.A ↔ a ∈ d.E ∨ d.t * a ∈ d.E :=
-  mem_sup_zpowers_iff hd.t_mul_self fun p hp => hd.L_comm_t (s56_E_le_L d hp)
+  mem_sup_zpowers_iff hd.t_mul_self fun _p hp => hd.L_comm_t (s56_E_le_L d hp)
 
 end Data
 

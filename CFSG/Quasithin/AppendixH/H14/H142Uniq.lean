@@ -28,7 +28,7 @@ theorem stdEQ_ne_stdEH : stdEQ ≠ stdEH := by
   rw [h1 ⟨i, hi⟩, h2 ⟨i, hi⟩] at hval
   exact hval
 
-theorem inter_le_MY_sextet {a : Fin 24} {O : Finset (Fin 24)} {S : Finset (Finset (Fin 24))}
+theorem inter_le_MY_sextet {a : Fin 24} {_O : Finset (Fin 24)} {S : Finset (Finset (Fin 24))}
     {B : Finset (Fin 24)} {T₀ : Subgroup S24} (hS : IsSextet S) (hB : B ∈ S) (haB : a ∈ B)
     (hstS : ∀ g ∈ T₀, g • S = S) : T₀ ⊓ M23g a ≤ MY (M23g a) (S.erase B) := by
   intro g hg
@@ -156,7 +156,7 @@ theorem h142_part1
         (A = KY (M23g a) (S.erase B) ∨ A = KY (M23g a) (O.erase a)) := by
   obtain ⟨c, hcM24, hca, hcQ, hcH⟩ := exists_std_data hS hB haB haO hOu
   have hQle : T₀ ⊓ M23g a ≤ MY (M23g a) (S.erase B) :=
-    inter_le_MY_sextet (O := O) hS hB haB hstS
+    inter_le_MY_sextet (_O := O) hS hB haB hstS
   have hHle : T₀ ⊓ M23g a ≤ MY (M23g a) (O.erase a) :=
     inter_le_MY_octad hstO
   have hKQle : KY (M23g a) (S.erase B) ≤ T₀ ⊓ M23g a :=

@@ -132,7 +132,7 @@ theorem fixingSubgroup_eq_of_range_subset_fixedPoints
     refine ⟨q, ?_⟩
     ext i
     exact hq i
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]
@@ -215,7 +215,7 @@ theorem five_point_stabilizer_fixed_points_descFactorial_dvd
     refine ⟨q, ?_⟩
     ext i
     exact hq i
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]
@@ -309,7 +309,7 @@ theorem five_point_stabilizer_fixed_points_descFactorial_dvd
         apply Subgroup.eq_of_le_of_card_ge V.2
         rw [hFixingCard e, hConjugateCard V.1]
       exact hU.trans hV.symm
-    letI :
+    let :
         Unique
           (FiveStabilizerConjugateFixesEmbedding
             X P H e) :=
@@ -447,7 +447,7 @@ theorem five_point_stabilizer_fixed_points_card_cases
       have hb := hx b
       simpa [Subgroup.smul_def,
         Equiv.Perm.smul_def] using ha.trans hb.symm
-    letI : Subsingleton H := hHsubsingleton
+    let : Subsingleton H := hHsubsingleton
     have hHone : Nat.card H = 1 :=
       Nat.card_eq_one_iff_unique.mpr
         ⟨inferInstance, inferInstance⟩
@@ -472,8 +472,8 @@ theorem five_point_stabilizers_have_equal_card
     Nat.card (fixingSubgroup P s) =
       Nat.card (fixingSubgroup P t) := by
   classical
-  letI : Fintype s := Fintype.ofFinite s
-  letI : Fintype t := Fintype.ofFinite t
+  let : Fintype s := Fintype.ofFinite s
+  let : Fintype t := Fintype.ofFinite t
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]

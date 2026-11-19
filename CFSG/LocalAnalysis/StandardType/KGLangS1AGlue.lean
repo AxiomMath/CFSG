@@ -19,10 +19,10 @@ theorem kgLangS1A_setup_eq {R : Type} [Group R] {I : Set (MulAut R)} {K : Type} 
     (∀ β ∈ B₀, β ∈ A ∧ kgInducedAut θ β ∈ I) ∧
       X = B₀.map ((MulAut.conj u₀⁻¹).toMonoidHom.comp (kgInducedAut θ)) := by
   classical
-  haveI hfinK : Finite (MulAut K) :=
+  have hfinK : Finite (MulAut K) :=
     Finite.of_injective (fun f : MulAut K => (f : K → K)) DFunLike.coe_injective
-  haveI hfinR : Finite R := Finite.of_injective θ.symm θ.symm.injective
-  haveI hfinMR : Finite (MulAut R) :=
+  have hfinR : Finite R := Finite.of_injective θ.symm θ.symm.injective
+  have hfinMR : Finite (MulAut R) :=
     Finite.of_injective (fun f : MulAut R => (f : R → R)) DFunLike.coe_injective
   let φ : MulAut K →* MulAut R := (MulAut.conj u₀⁻¹).toMonoidHom.comp (kgInducedAut θ)
   have hinjθ : Function.Injective (kgInducedAut θ) := ggInducedAut_injective_of_perfect hK θ
@@ -97,7 +97,7 @@ theorem kgLangS1A_concl_of_xi {K : Type} [Group K] {p : ℕ} (hp : p.Prime)
     simp only [map_mul, map_inv, map_pow, hAe β₀ (hB₀A hβ₀), hBk β₀ hβ₀]
   refine ⟨e ^ j, ?_, ?_, ?_, ?_⟩
   · intro h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have horder : orderOf e = p := orderOf_eq_prime hep he
     exact hjp (by rw [← horder, orderOf_dvd_iff_pow_eq_one]; exact h)
   · rw [← pow_mul, mul_comm, pow_mul, hep, one_pow]

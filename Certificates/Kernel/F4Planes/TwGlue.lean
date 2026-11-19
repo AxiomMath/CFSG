@@ -39,9 +39,11 @@ section Pins
 variable {k K : Type} [Field k] [Finite k] [Field K] [Finite K] [Algebra k K] [CharP k 2]
   [CharP K 2] (σ : K ≃+* K) (S : Setup k K σ)
 
+omit [Finite k] [CharP k 2] in
 theorem hasP_X8 : HasP K S.ω (tmat (Xw0 σ S.hK S.hσ S.ω)) CFSG.KD.F4PlanesTw.X8 :=
   hasP_of_bits2 (hasBits2_Xw0 σ S.hK S.hσ S.hω) x89_ok.1
 
+omit [Finite k] [CharP k 2] in
 theorem hasP_X9 : HasP K S.ω (tmat (Xw1 σ S.hK S.hσ S.ω)) CFSG.KD.F4PlanesTw.X9 :=
   hasP_of_bits2 (hasBits2_Xw1 σ S.hK S.hσ S.hω) x89_ok.2
 

@@ -113,7 +113,7 @@ theorem orderOf_pgl_two_le {F₀ : Type} [Field F₀] [Finite F₀] {p m : ℕ} 
   ·
     have h2 : (2 : F₀) = 0 := by
       have h0 : ((Nat.card F₀ : ℕ) : F₀) = 0 := by
-        haveI : Fintype F₀ := Fintype.ofFinite F₀
+        have : Fintype F₀ := Fintype.ofFinite F₀
         rw [Nat.card_eq_fintype_card]
         exact FiniteField.cast_card_eq_zero (K := F₀)
       rw [hcard, Nat.cast_pow] at h0

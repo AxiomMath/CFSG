@@ -23,11 +23,13 @@ theorem commSub_top_eq_iSup_s13Supp (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : 
     commSub ⊤ L = ⨆ U ∈ s13Supp X L, U :=
   w16g_commSub_top_eq_iSup_s13Supp hW hp hp2 hX hLX
 
+omit [Finite W] in
 theorem map_mem_s13IsoComps {X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X) {U : Subgroup W}
     (hU : U ∈ s13IsoComps X) : U.map g.toMonoidHom ∈ s13IsoComps X :=
   w16g_map_mem_s13IsoComps hg hg' hU
 
+omit [Finite W] in
 theorem s13Supp_conj {X L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X) :
     s13Supp X (L.map (MulAut.conj g).toMonoidHom) =

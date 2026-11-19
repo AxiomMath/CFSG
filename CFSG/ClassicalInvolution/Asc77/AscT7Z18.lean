@@ -69,8 +69,7 @@ theorem wE_mul_diagConj2 (a b : Eˣ) (X : SL(2, E)) :
   ext i j
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_diagConj2, coe_wE, coe_wE_inv]
   rw [Matrix.eta_fin_two (X : Matrix (Fin 2) (Fin 2) E)]
-  simp only [Matrix.diagonal_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Matrix.mul_fin_two]
+  simp only [Matrix.diagonal_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.mul_fin_two]
   fin_cases i <;> fin_cases j <;> simp
 
 theorem diagConj2_swap_wE (μ : Eˣ) (B : SL(2, E)) :

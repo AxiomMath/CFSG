@@ -56,8 +56,8 @@ theorem exists_diagModel_of_frame_U5Five {L' : Type} [Group L'] [Finite L'] {K :
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
   ·
     intro a ha
     obtain ⟨xa, hxaI, hxa⟩ := hAI a ha

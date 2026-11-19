@@ -71,6 +71,7 @@ theorem conj_mem_movingFactor_of_fix_fixed (hK : Nat.card K = 2) (a : StatedSp n
       show a⁻¹ * (a * g * a⁻¹) = g * a⁻¹ by group, spEnd_mul, Module.End.mul_apply]
     exact hfix _ hw₀
 
+omit [Finite K] [CharP K 2] in
 theorem permSp_mem_spBlock_of_fix_outside {I : Finset (Fin n)}
     (π : Equiv.Perm (Fin n)) (hfix : ∀ j ∉ I, π j = j) : permSp K π ∈ spBlock K I := by
   rw [spBlock, mem_suppGroup_iff (parClosed_planeCoords I)]
@@ -84,6 +85,7 @@ theorem permSp_mem_spBlock_of_fix_outside {I : Finset (Fin n)}
       simp [hfix a hai]
   rw [hpa]
 
+omit [Finite K] [CharP K 2] in
 theorem permSp_commute_of_constant_planes
     {t : StatedSp n K} {P : Fin n → Matrix (Fin 2) (Fin 2) K}
     (ht : mat n K t = planeMat P) {I : Finset (Fin n)} {T : Matrix (Fin 2) (Fin 2) K}

@@ -18,7 +18,7 @@ open QuadraticMap
 theorem oddCore_sl2f3 : oddCore SL2F3 = ⊥ := by
   refine le_antisymm (sSup_le ?_) bot_le
   rintro N ⟨hN, hodd⟩
-  haveI := hN
+  have := hN
   exact (CFSG.SignalizerFunctorTheorem.Glauberman.eq_bot_of_normal_of_odd_card_sl_two_three
     N hodd).le
 

@@ -60,7 +60,7 @@ theorem sylow_quaternion_of_unique_involution [Finite H] [Finite G]
   have hSr : twoRank S ≤ 1 :=
     (CFSG.TwoRankLowerBound.Helpers.twoRank_subgroup_le (S : Subgroup H)).trans hrank
   obtain hcyc | hquat := CFSG.TwoRankLowerBound.Helpers.rank_one_two_group_cyclic_or_quaternion
-    S S.isPGroup' hSr
+    S S.isPGroup hSr
   · have hmap := isCyclic_map pi (S : Subgroup H) hcyc
     have himage : IsCyclic (S.mapSurjective hpi) := by
       change IsCyclic ↥((S : Subgroup H).map pi)

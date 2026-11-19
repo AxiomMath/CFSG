@@ -179,7 +179,7 @@ theorem no_fixed_flag {F : Type} [Field F] [CharP F 2] (hω : ∀ x : F, x ^ 2 +
       rw [hN]
       noncomm_ring
     have e0 : N * N * N - (N * N + N) = 0 := by
-      rw [e, hg3, hX2 (g * g), hX2 g] <;> simp
+      rw [e, hg3, hX2 (g * g), hX2 g]; simp
     exact sub_eq_zero.mp e0
   have hNv : N *ᵥ v = 0 := by
     rw [hN, Matrix.sub_mulVec, Matrix.one_mulVec, hgv, sub_self]

@@ -18,7 +18,7 @@ theorem fs81Nt_mem_commutator (hsimple : IsSimpleGroup G) {b₀ : G} {A : Subgro
   rcases hsimple.eq_bot_or_eq_top_of_normal (commutator G) with h | h
   · exfalso
     have : IsMulCommutative G := (commutator_eq_bot_iff G).mp h
-    have := Subgroup.normal_of_comm (Subgroup.zpowers b₀)
+    have := Subgroup.normal_of_isMulCommutative (Subgroup.zpowers b₀)
     rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.zpowers b₀) with h1 | h1
     · have hb : b₀ = 1 := (Subgroup.mem_bot).mp (h1 ▸ Subgroup.mem_zpowers b₀)
       rw [hb, orderOf_one] at hb₀

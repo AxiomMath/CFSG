@@ -21,8 +21,8 @@ theorem exists_pSimpleEquivCenterQuot_mk {Ω : Type} [Group Ω] [Finite Ω] {p :
     (hp : p.Prime) {K : Subgroup Ω} (hq : CFSG.Open.IsQuasisimple ↥K) (hd : p ∣ Nat.card ↥K) :
     ∃ e : (↥K ⧸ Subgroup.center ↥K) ≃* PSimple p K,
       ∀ l : ↥K, e (QuotientGroup.mk l) = QuotientGroup.mk (QuotientGroup.mk l) := by
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOne : GLAPPrimeCore p ↥K ≠ ⊤ := by
     intro htop
     have hc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥K)) :=
@@ -134,7 +134,7 @@ private theorem glapPrimeCore_le_center_image {G : Type} [Group G] [Finite G] {p
     {R : Type} [Group R] [Finite R] (θ : ↥L ⧸ Subgroup.center ↥L ≃* R) :
     GLAPPrimeCore p ↥((J.subgroupOf L).map (piCenterQuot θ)) ≤
       Subgroup.center ↥((J.subgroupOf L).map (piCenterQuot θ)) := by
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hpbar : p ∣ Nat.card ↥((J.subgroupOf L).map (piCenterQuot θ)) :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1110d.prime_dvd_card_of_glaPComponent
       hS.prime (glapComponent_image_piCenterQuot hS θ)
@@ -161,7 +161,7 @@ theorem exists_indAut_eq_centerQuotient {G : Type} [Group G] [Finite G] {p : ℕ
         centerQuotientHom ↥((J.subgroupOf L).map (piCenterQuot θ))
           (CFSG.GroupActions.subgroupStabRestrict _ ⟨MulAut.conj y, hstab⟩) := by
   classical
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   set Jbar : Subgroup R := (J.subgroupOf L).map (piCenterQuot θ) with hJbardef
   have hN : y ∈ Subgroup.normalizer (Jbar : Set R) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]

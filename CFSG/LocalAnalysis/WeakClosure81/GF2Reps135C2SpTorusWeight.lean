@@ -181,7 +181,7 @@ private theorem spTW_prod_corootVec_shift {K : Type} [Field K] {n : ℕ}
         Pi.mulSingle ⟨i.val + 1, h⟩ (d i)⁻¹ else 1 : Fin n → Kˣ) b)) =
       if hb : 0 < b.val then (d ⟨b.val - 1, by omega⟩)⁻¹ else 1 := by
   by_cases hb : 0 < b.val
-  · rw [dif_pos hb]
+  · rw [dite_eq_left hb]
     let i0 : Fin n := ⟨b.val - 1, by omega⟩
     have hi0 : i0.val + 1 = b.val := by
       simp only [i0]
@@ -190,12 +190,12 @@ private theorem spTW_prod_corootVec_shift {K : Type} [Field K] {n : ℕ}
       ((if h : i.val + 1 < n then Pi.mulSingle ⟨i.val + 1, h⟩ (d i)⁻¹ else 1 :
         Fin n → Kˣ) b)) i0 ?_ ?_]
     · have hi0lt : i0.val + 1 < n := by omega
-      rw [dif_pos hi0lt]
+      rw [dite_eq_left hi0lt]
       have hbi : b = (⟨i0.val + 1, hi0lt⟩ : Fin n) := by
         apply Fin.ext
         show b.val = i0.val + 1
         omega
-      rw [Pi.mulSingle_apply, if_pos hbi]
+      rw [Pi.mulSingle_apply, ite_eq_left hbi]
     · intro i _ hi
       have hne : i.val + 1 ≠ b.val := by
         intro h
@@ -204,22 +204,22 @@ private theorem spTW_prod_corootVec_shift {K : Type} [Field K] {n : ℕ}
         simp only [i0]
         omega
       by_cases h : i.val + 1 < n
-      · rw [dif_pos h, Pi.mulSingle_apply, if_neg]
+      · rw [dite_eq_left h, Pi.mulSingle_apply, ite_eq_right]
         intro hb_eq
         exact hne (congrArg Fin.val hb_eq).symm
-      · rw [dif_neg h]
+      · rw [dite_eq_right h]
         rfl
     · intro h
       exact absurd (Finset.mem_univ i0) h
-  · rw [dif_neg hb]
+  · rw [dite_eq_right hb]
     apply Finset.prod_eq_one
     intro i _
     have hne : i.val + 1 ≠ b.val := by omega
     by_cases h : i.val + 1 < n
-    · rw [dif_pos h, Pi.mulSingle_apply, if_neg]
+    · rw [dite_eq_left h, Pi.mulSingle_apply, ite_eq_right]
       intro hb_eq
       exact hne (congrArg Fin.val hb_eq).symm
-    · rw [dif_neg h]
+    · rw [dite_eq_right h]
       rfl
 
 private theorem spTW_prod_corootVec_prefixVec {K : Type} [Field K] {n : ℕ}
@@ -234,9 +234,9 @@ private theorem spTW_prod_corootVec_prefixVec {K : Type} [Field K] {n : ℕ}
   rw [Pi.mul_apply, Finset.prod_apply, Finset.prod_apply, Fintype.prod_pi_mulSingle,
     spTW_prod_corootVec_shift]
   by_cases hb : 0 < b.val
-  · rw [dif_pos hb, spTW_prefixVec_succ t hb]
+  · rw [dite_eq_left hb, spTW_prefixVec_succ t hb]
     group
-  · rw [dif_neg hb, mul_one]
+  · rw [dite_eq_right hb, mul_one]
     exact spTW_prefixVec_eq_of_val_eq_zero (by omega)
 
 private theorem spTW_prefixVec_eq_prefixProd {K : Type} [Field K] {n : ℕ}
@@ -246,9 +246,9 @@ private theorem spTW_prefixVec_eq_prefixProd {K : Type} [Field K] {n : ℕ}
     conv_lhs => rw [← spTW_prod_corootVec_prefixVec (K := K) t]
     rw [map_prod]
   rw [hprod]
-  rw [Finset.prod_eq_single i (fun j _ hj => by rw [prefixProd_corootVec, if_neg hj])
+  rw [Finset.prod_eq_single i (fun j _ hj => by rw [prefixProd_corootVec, ite_eq_right hj])
     (fun h => absurd (Finset.mem_univ i) h)]
-  rw [prefixProd_corootVec, if_pos rfl]
+  rw [prefixProd_corootVec, ite_eq_left rfl]
 
 theorem prod_corootVec_prefixProd {K : Type} [Field K] {n : ℕ} (t : Fin n → Kˣ) :
     ∏ i, corootVec n K i (prefixProd i t) = t := by

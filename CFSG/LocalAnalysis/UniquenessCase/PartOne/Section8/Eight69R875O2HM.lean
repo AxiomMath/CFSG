@@ -370,7 +370,7 @@ theorem r5o_graphField_quotTrivial : GraphFieldQuotTrivial := by
   have hαout : α ∉ r5oqt_inner := r5oqt_alpha_not_inner hOut1 hαeq
   have hαcen : ∀ β' : MulAut PSL(3, F4), β' * α * β'⁻¹ * α⁻¹ ∈ r5oqt_inner :=
     r5oqt_alpha_central hOut2 hαeq
-  have hsol : IsSolvable ↥(Subgroup.centralizer ({α} : Set (MulAut PSL(3, F4)))) :=
+  have hsol : Group.IsSolvable ↥(Subgroup.centralizer ({α} : Set (MulAut PSL(3, F4)))) :=
     isSolvable_centralizer_of_graphField_psl_three_four r5oqt_lieModel α hαsq hαout hαcen
   have hcomm : ∀ q : P, rhoBar q * α = α * rhoBar q := by
     intro q
@@ -381,7 +381,7 @@ theorem r5o_graphField_quotTrivial : GraphFieldQuotTrivial := by
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact hcomm q
   have : Group.IsSolvable ↥(Subgroup.centralizer ({α} : Set (MulAut PSL(3, F4)))) := hsol
-  have hslv : IsSolvable ↥(rhoBar.range) :=
+  have hslv : Group.IsSolvable ↥(rhoBar.range) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have hperfρ : Group.IsPerfect ↥(rhoBar.range) := Group.IsPerfect.range rhoBar
@@ -1326,7 +1326,7 @@ theorem r875O2HM_of_inputs {G : Type} [Group G] [Finite G] (D : Data G)
       exact hperf
     have : Nontrivial ↥X :=
       nontrivial_of_ne (⟨e, hEX heE⟩ : ↥X) 1 fun h => he1 (congrArg Subtype.val h)
-    exact (IsSolvable.commutator_lt_top_of_nontrivial ↥X).ne hXtop
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥X).ne hXtop
   have hsig : D.sig ⊆ D.sig1 := UC6S846.sig_subset_sig1 hSg hns
   obtain ⟨-, t, ht2, hpt, L₀, hL₀H, hL₀n, hHeq, hshape⟩ :=
     h67 hsig 3 Nat.prime_three (by norm_num) E hEM hEel hEcard hΓE H hEH hHtop hne hHM

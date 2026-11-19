@@ -40,12 +40,12 @@ private theorem i294Spor_card_centralizer_mulEquiv {A B : Type*} [Group A] [Grou
   rw [← hmap, Subgroup.card_map_of_injective (f := e.toMonoidHom) e.injective]
 
 private theorem i294Spor_p4_dvd_card {Y : Type} [Group Y] [Finite Y] {p : ℕ} [hp : Fact p.Prime]
-    {D : Subgroup Y} (hD : CFSG.Open.IsElemAbelian p D) (hcard : Nat.card D = p ^ 2)
+    {D : Subgroup Y} (_hD : CFSG.Open.IsElemAbelian p D) (hcard : Nat.card D = p ^ 2)
     (hrank : CFSG.Open.pRank p (⊤ : Subgroup Y) = 3) {x : Y} (hxD : x ∈ D)
     (hxsyl : CFSG.ABGLocalTools.IsSylowOf p D (Subgroup.centralizer ({x} : Set Y))) :
     p ^ 4 ∣ Nat.card Y := by
   obtain ⟨P, hDP⟩ := (IsPGroup.of_card hcard).exists_le_sylow
-  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup
   have hPrank : CFSG.Open.pRank p (P : Subgroup Y) = 3 :=
     (CFSG.SectionRank.pRank_sylow P).1.trans hrank
   obtain ⟨E, hEP, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.out.one_lt (P : Subgroup Y)
@@ -87,7 +87,7 @@ private theorem i294Spor_p4_dvd_card {Y : Type} [Group Y] [Finite Y] {p : ℕ} [
   exact h4.trans (Subgroup.card_subgroup_dvd_card _)
 
 private theorem i294Spor_p4_dvd_card_socle {Y : Type} [Group Y] {L : Subgroup Y} [L.Normal]
-    (hC : Subgroup.centralizer (L : Set Y) = ⊥) {p : ℕ} (hp : p.Prime) (hodd : p ≠ 2)
+    (hC : Subgroup.centralizer (L : Set Y) = ⊥) {p : ℕ} (hp : p.Prime) (_hodd : p ≠ 2)
     (hY : p ^ 4 ∣ Nat.card Y) {G : Type*} [Group G] (e : ↥L ≃* G)
     (hG : ¬ p ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer G)) :
     p ^ 4 ∣ Nat.card L := by
@@ -141,7 +141,7 @@ theorem i294_false_of_sporadic (hOut : SporadicOuterOddFree) (hC : SporadicCentr
     {p : ℕ} {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} [L.Normal] {z g : Y}
     {D : Subgroup Y} (h : I294Cfg p L z g D) (hDL : D ≤ L) (s : TauCeti.SporadicName)
     (e : ↥L ≃* (TauCeti.CFSGIndex.sporadic s).Group) : False := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨x, hxD, hx1, hxsyl⟩ := h.sylowLine
   have hxord : orderOf x = p := orderOf_eq_prime (h.elem.2 x hxD) hx1
   have hY : p ^ 4 ∣ Nat.card Y :=
@@ -158,7 +158,7 @@ theorem i294_false_of_sporadic (hOut : SporadicOuterOddFree) (hC : SporadicCentr
       rw [← hxLval]
       exact (Subgroup.orderOf_coe xL).symm
     rw [h1, h2, hxord]
-  haveI : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv _ e.toEquiv
   have hC3 := hC s p h.prime h.odd (i294Spor_pRank_socle h e (hOut s p h.prime h.odd)) hG
     (e xL) hxLord
   rw [i294Spor_card_centralizer_mulEquiv e xL] at hC3

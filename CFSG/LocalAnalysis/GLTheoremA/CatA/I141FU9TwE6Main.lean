@@ -70,7 +70,7 @@ theorem i141U9Fam_twE6Two_of (hB : TwE6U38Centre) (hC : TwE6CoverNoSU38) :
         hα1 ((MulAut.congr e).injective (by rw [map_one]; exact h))
       have hβ3 : MulAut.congr e (chevAut 3 K ⟨x, hxN⟩) ^ 3 = 1 := by
         rw [← map_pow, chevAut_pow_eq_one 3 K hxN hx, map_one]
-      haveI : Finite (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group :=
+      have : Finite (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group :=
         Finite.of_equiv _ e.toEquiv
       obtain ⟨hJp', hIc⟩ := u9_gf8_component hx hxN hq hJ ⟨.twistedE6 q, hv⟩ e hd2 hβ1
       obtain ⟨π, hπ, hπval⟩ := twE6_exists_surjection hJK e
@@ -84,7 +84,7 @@ theorem i141U9Fam_twE6Two_of (hB : TwE6U38Centre) (hC : TwE6CoverNoSU38) :
       have hIZ : Subgroup.center ↥((chevTransfer 3 K J).map e.toMonoidHom) = ⊥ :=
         hB (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group
           ⟨.lie ⟨.twistedE6 q, hv⟩, hi', ⟨MulEquiv.refl _⟩⟩ _ hβ3 hβ1 _ hIc hcardI
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hQcat : catalogIs (PQuot 3 K ⧸ Subgroup.center (PQuot 3 K)) S9.isTE6two :=
         ⟨.lie ⟨.twistedE6 q, hv⟩, hi', ⟨e⟩⟩
       have hZ3 : IsPGroup 3 (Subgroup.center (PQuot 3 K)) :=
@@ -112,7 +112,7 @@ theorem i141U9Fam_twE6Two_of (hB : TwE6U38Centre) (hC : TwE6CoverNoSU38) :
           ((π j : ↥((chevTransfer 3 K J).map e.toMonoidHom)) :
             (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group) := fun j => (hπval j).symm
       have hIq : CFSG.Open.IsQuasisimple ↥((chevTransfer 3 K J).map e.toMonoidHom) := hIc.2.2
-      haveI : IsSimpleGroup (↥((chevTransfer 3 K J).map e.toMonoidHom) ⧸
+      have : IsSimpleGroup (↥((chevTransfer 3 K J).map e.toMonoidHom) ⧸
           Subgroup.center ↥((chevTransfer 3 K J).map e.toMonoidHom)) := hIq.2
       have hIs : IsSimpleGroup ↥((chevTransfer 3 K J).map e.toMonoidHom) :=
         (((QuotientGroup.quotientMulEquivOfEq hIZ).trans QuotientGroup.quotientBot).symm).isSimpleGroup

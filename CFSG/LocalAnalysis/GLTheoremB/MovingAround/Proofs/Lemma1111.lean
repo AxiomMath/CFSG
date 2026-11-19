@@ -28,6 +28,7 @@ abbrev conjActOn (P U : Subgroup G) (hPU : P ≤ Subgroup.normalizer (U : Set G)
       (g : G) * ((h : G) * (u : G) * (h : G)⁻¹) * (g : G)⁻¹
     group
 
+omit [Finite G] in
 theorem card_fixed_eq_inf (P U : Subgroup G) :
     Nat.card {u : U // ∀ g : P, (g : G) * (u : G) * (g : G)⁻¹ = u} =
       Nat.card ↥(U ⊓ Subgroup.centralizer (P : Set G)) := by
@@ -50,7 +51,7 @@ theorem card_fixed_eq_inf (P U : Subgroup G) :
 theorem card_modEq_fixed (P U : Subgroup G) (hP : IsPGroup 3 ↥P)
     (hPU : P ≤ Subgroup.normalizer (U : Set G)) :
     Nat.card U ≡ Nat.card ↥(U ⊓ Subgroup.centralizer (P : Set G)) [MOD 3] := by
-  letI := conjActOn P U hPU
+  let := conjActOn P U hPU
   have h1 := hP.card_modEq_card_fixedPoints U
   have h2 : Nat.card (MulAction.fixedPoints P U) =
       Nat.card {u : U // ∀ g : P, (g : G) * (u : G) * (g : G)⁻¹ = u} := by
@@ -70,7 +71,7 @@ theorem lines_card_le (P U : Subgroup G) (hP : IsPGroup 3 ↥P)
     (hU9 : Nat.card U = 9) (hPU : P ≤ Subgroup.normalizer (U : Set G)) :
     Nat.card P ≤ 3 * Nat.card ↥(P ⊓ Subgroup.centralizer (U : Set G)) := by
   classical
-  letI := conjActOn P U hPU
+  let := conjActOn P U hPU
   have hSU : (U ⊓ Subgroup.centralizer (P : Set G)) ≤ U := inf_le_left
   have hmod := card_modEq_fixed P U hP hPU
   have hSdvd : Nat.card ↥(U ⊓ Subgroup.centralizer (P : Set G)) ∣ 9 := by
@@ -217,9 +218,9 @@ theorem lines_card_le (P U : Subgroup G) (hP : IsPGroup 3 ↥P)
       dsimp only at hxy
       simp only [Subtype.mk.injEq] at hxy
       exact Subtype.ext (Subtype.ext hxy)
-    haveI : Fintype P := Fintype.ofFinite _
-    haveI : Fintype (MulAction.orbit P v0') := Fintype.ofFinite _
-    haveI : Fintype (MulAction.stabilizer P v0') := Fintype.ofFinite _
+    have : Fintype P := Fintype.ofFinite _
+    have : Fintype (MulAction.orbit P v0') := Fintype.ofFinite _
+    have : Fintype (MulAction.stabilizer P v0') := Fintype.ofFinite _
     have horb := MulAction.card_orbit_mul_card_stabilizer_eq_card_group P v0'
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       horbcard] at horb
@@ -237,6 +238,7 @@ theorem lines_card_le (P U : Subgroup G) (hP : IsPGroup 3 ↥P)
     omega
 
 
+omit [Finite G] in
 theorem normal_inf_centralizer (P U : Subgroup G) (hPU : P ≤ Subgroup.normalizer (U : Set G)) :
     ((P ⊓ Subgroup.centralizer (U : Set G)).subgroupOf P).Normal := by
   constructor
@@ -258,7 +260,7 @@ theorem lines_comm (P U : Subgroup G) (hP : IsPGroup 3 ↥P) (hU9 : Nat.card U =
     (hPU : P ≤ Subgroup.normalizer (U : Set G)) :
     ⁅P, P⁆ ≤ P ⊓ Subgroup.centralizer (U : Set G) := by
   set K : Subgroup P := (P ⊓ Subgroup.centralizer (U : Set G)).subgroupOf P with hKdef
-  haveI : K.Normal := normal_inf_centralizer P U hPU
+  have : K.Normal := normal_inf_centralizer P U hPU
   have hKcard : Nat.card K = Nat.card ↥(P ⊓ Subgroup.centralizer (U : Set G)) :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
   have hlines := lines_card_le P U hP hU9 hPU
@@ -292,9 +294,9 @@ theorem lines_comm (P U : Subgroup G) (hP : IsPGroup 3 ↥P) (hU9 : Nat.card U =
           omega
         omega
       subst hj1'
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-      haveI : IsCyclic (P ⧸ K) := isCyclic_of_prime_card (by simpa using hj)
-      letI := IsCyclic.commGroup (α := P ⧸ K)
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : IsCyclic (P ⧸ K) := isCyclic_of_prime_card (by simpa using hj)
+      let := IsCyclic.commGroup (α := P ⧸ K)
       exact fun a b => mul_comm a b
   refine Subgroup.commutator_le.2 (fun x hx y hy => ?_)
   rw [commutatorElement_def]
@@ -324,6 +326,7 @@ def prodHom (H K : Subgroup G) (hc : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) : 
         _ = (p.1 : G) * ((p.2 : G) * (q.1 : G)) * (q.2 : G) := by rw [hcomm]
         _ = ((p.1 : G) * (p.2 : G)) * ((q.1 : G) * (q.2 : G)) := by group }
 
+omit [Finite G] in
 theorem range_prodHom (H K : Subgroup G) (hc : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) :
     (prodHom H K hc).range = H ⊔ K := by
   refine le_antisymm ?_ ?_
@@ -335,12 +338,14 @@ theorem range_prodHom (H K : Subgroup G) (hc : ∀ h ∈ H, ∀ k ∈ K, h * k =
     · intro k hk
       exact ⟨(1, ⟨k, hk⟩), by simp [prodHom]⟩
 
+omit [Finite G] in
 theorem mem_sup_prod {H K : Subgroup G} (hc : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) {x : G}
     (hx : x ∈ H ⊔ K) : ∃ h ∈ H, ∃ k ∈ K, x = h * k := by
   rw [← range_prodHom H K hc] at hx
   obtain ⟨⟨h, k⟩, hp⟩ := hx
   exact ⟨h, h.2, k, k.2, hp.symm⟩
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf (H K : Subgroup G) (hc : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) :
     Nat.card ↥(H ⊔ K) * Nat.card ↥(H ⊓ K) = Nat.card ↥H * Nat.card ↥K := by
   have hker : Nat.card (prodHom H K hc).ker = Nat.card ↥(H ⊓ K) := by
@@ -382,6 +387,7 @@ variable {G : Type} [Group G] [Finite G]
   Nat.card F = 3 ^ 5 ∧ (∀ x ∈ F, x ^ 3 = 1) ∧ a ≠ 1 ∧
     centerOf F = Subgroup.zpowers a ∧ ⁅F, F⁆ = Subgroup.zpowers a
 
+omit [Finite G] in
 theorem mem_centerOf_iff (H : Subgroup G) (z : G) :
     z ∈ centerOf H ↔ z ∈ H ∧ ∀ h ∈ H, h * z = z * h := by
   unfold centerOf
@@ -398,24 +404,28 @@ theorem mem_centerOf_iff (H : Subgroup G) (z : G) :
     apply Subtype.ext
     simpa using (hcomm g.1 g.2)
 
+omit [Finite G] in
 theorem comm_zpowers_mem {a x y : G} (hx : x ∈ Subgroup.zpowers a) (hy : y ∈ Subgroup.zpowers a) :
     x * y = y * x := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
   exact Commute.zpow_zpow_self a m n
 
+omit [Finite G] in
 theorem card_zpowers_three {a : G} (ha1 : a ≠ 1) (ha3 : a ^ 3 = 1) :
     Nat.card ↥(Subgroup.zpowers a) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime ha3 ha1
 
+omit [Finite G] in
 theorem central_of_mem {F : Subgroup G} {a : G} (hF : IsExtraspecialFive F a) {z f : G}
     (hz : z ∈ Subgroup.zpowers a) (hf : f ∈ F) : f * z = z * f := by
   obtain ⟨-, -, -, hcen, -⟩ := hF
   have : z ∈ centerOf F := by rw [hcen]; exact hz
   exact ((mem_centerOf_iff F z).1 this).2 f hf
 
+omit [Finite G] in
 theorem zpowers_le_of_ext {F : Subgroup G} {a : G} (hF : IsExtraspecialFive F a) :
     Subgroup.zpowers a ≤ F := by
   obtain ⟨-, -, -, hcen, -⟩ := hF
@@ -423,6 +433,7 @@ theorem zpowers_le_of_ext {F : Subgroup G} {a : G} (hF : IsExtraspecialFive F a)
   have : z ∈ centerOf F := by rw [hcen]; exact hz
   exact ((mem_centerOf_iff F z).1 this).1
 
+omit [Finite G] in
 theorem comm_mem {F : Subgroup G} {a : G} (hF : IsExtraspecialFive F a) {e f : G}
     (he : e ∈ F) (hf : f ∈ F) : e⁻¹ * f⁻¹ * e * f ∈ Subgroup.zpowers a := by
   obtain ⟨-, -, -, -, hder⟩ := hF
@@ -447,7 +458,7 @@ noncomputable def commHom {F : Subgroup G} {a : G} (hF : IsExtraspecialFive F a)
     have hcg : (w⁻¹ * (f : G)⁻¹ * w * (f : G)) * (g : G) =
         (g : G) * (w⁻¹ * (f : G)⁻¹ * w * (f : G)) := (central_of_mem hF hc g.2).symm
     have hfw : (f : G)⁻¹ * w * (f : G) = w * (w⁻¹ * (f : G)⁻¹ * w * (f : G)) := by group
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     calc w⁻¹ * ((f : G) * (g : G))⁻¹ * w * ((f : G) * (g : G))
         = (w⁻¹ * (g : G)⁻¹ * ((f : G)⁻¹ * w * (f : G)) * (g : G)) := by group
       _ = (w⁻¹ * (g : G)⁻¹ * (w * (w⁻¹ * (f : G)⁻¹ * w * (f : G))) * (g : G)) := by rw [hfw]
@@ -456,6 +467,7 @@ noncomputable def commHom {F : Subgroup G} {a : G} (hF : IsExtraspecialFive F a)
       _ = (w⁻¹ * (g : G)⁻¹ * w * (g : G)) * (w⁻¹ * (f : G)⁻¹ * w * (f : G)) := by group
       _ = (w⁻¹ * (f : G)⁻¹ * w * (f : G)) * (w⁻¹ * (g : G)⁻¹ * w * (g : G)) := hcd
 
+omit [Finite G] in
 theorem mul_comm_of_comm_eq_one {w h : G} (this : w⁻¹ * h⁻¹ * w * h = 1) : w * h = h * w := by
   have hkey : h⁻¹ * w * h = w := by
     calc h⁻¹ * w * h = w * (w⁻¹ * h⁻¹ * w * h) := by group
@@ -463,6 +475,7 @@ theorem mul_comm_of_comm_eq_one {w h : G} (this : w⁻¹ * h⁻¹ * w * h = 1) :
   calc w * h = h * (h⁻¹ * w * h) := by group
     _ = h * w := by rw [hkey]
 
+omit [Finite G] in
 theorem card_centralizer_inf {F : Subgroup G} {a : G} (hF : IsExtraspecialFive F a) {e : G}
     (he : e ∈ F) (he' : e ∉ Subgroup.zpowers a) :
     Nat.card ↥(F ⊓ Subgroup.centralizer ({e} : Set G)) = 81 := by
@@ -521,14 +534,16 @@ section Structure
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_three_of_mem_zpowers {a x : G} (ha3 : a ^ 3 = 1) (hx : x ∈ Subgroup.zpowers a) :
     x ^ 3 = 1 := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, ha3, one_zpow]
 
+omit [Finite G] in
 theorem card_zpowers_of_ne_one {a x : G} (ha3 : a ^ 3 = 1) (hx : x ∈ Subgroup.zpowers a)
     (hx1 : x ≠ 1) : Nat.card ↥(Subgroup.zpowers x) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime (pow_three_of_mem_zpowers ha3 hx) hx1
 
@@ -583,7 +598,7 @@ theorem zpowers_sup_card_le {F : Subgroup G} {a : G} (hF : IsExtraspecialFive F 
   have he3 : e ^ 3 = 1 := hexp e he
   have he1 : e ≠ 1 := fun h => he' (h ▸ Subgroup.one_mem _)
   have hce : Nat.card ↥(Subgroup.zpowers e) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime he3 he1
   rw [hce, card_zpowers_three ha1 ha3] at hprod
@@ -723,6 +738,7 @@ section Elementary
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_of_le {H K : Subgroup G} (hH : CFSG.Open.IsElemAbelian 3 H) (hKH : K ≤ H) :
     CFSG.Open.IsElemAbelian 3 K := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => hH.2 x (hKH hx)⟩
@@ -730,9 +746,11 @@ theorem isElemAbelian_of_le {H K : Subgroup G} (hH : CFSG.Open.IsElemAbelian 3 H
   have h' : (x : G) * (y : G) = (y : G) * (x : G) := congrArg Subtype.val h
   exact Subtype.ext h'
 
+omit [Finite G] in
 theorem isPGroup_of_elemAbelian {K : Subgroup G} (hK : CFSG.Open.IsElemAbelian 3 K) :
     IsPGroup 3 ↥K := fun g => ⟨1, Subtype.ext (by simpa using hK.2 g.1 g.2)⟩
 
+omit [Finite G] in
 theorem isElemAbelian_sup {H K : Subgroup G} (hH : CFSG.Open.IsElemAbelian 3 H)
     (hK : CFSG.Open.IsElemAbelian 3 K) (hc : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) :
     CFSG.Open.IsElemAbelian 3 (H ⊔ K) := by
@@ -768,7 +786,7 @@ theorem no_E4_contains {m : ℕ} {B M E A : Subgroup G} {a : G}
     (hnot : ∀ A1 : Subgroup G, inD 3 M A1 → a ∉ A1) (ha1 : a ≠ 1)
     {W : Subgroup G} (hWM : W ≤ M) (hW : CFSG.Open.IsElemAbelian 3 W) (ha : a ∈ W)
     (hW81 : 81 ≤ Nat.card ↥W) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpW := isPGroup_of_elemAbelian hW
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card.1 hpW)
   have hn4 : 4 ≤ n := by
@@ -794,7 +812,7 @@ theorem no_E4_contains {m : ℕ} {B M E A : Subgroup G} {a : G}
 theorem exists_conj_le_sylow {m : ℕ} {B M E A : Subgroup G} (h : Sec10Fails G m 3 B M)
     (hEA : IsDDpStar 3 M E A) {R : Subgroup G} (hR : IsSylowIn 3 M R) :
     ∃ B' : Subgroup G, inD 3 M B' ∧ B' ≤ R ∧ Nat.card ↥B' = Nat.card ↥B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBD : inD 3 M B := lemma101_ii_holds h
   have hBM : B ≤ M := hBD.1.1.1
   obtain ⟨x, hx, S, hSp, hSM, hRS, hBS⟩ := exists_conj_le_pGroup' (p := 3) (K := M) (X := R)
@@ -812,19 +830,23 @@ section Sylow3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_of_exponent3 {K : Subgroup G} (hK : ∀ x ∈ K, x ^ 3 = 1) : IsPGroup 3 ↥K :=
   fun g => ⟨1, Subtype.ext (by simpa using hK g.1 g.2)⟩
 
+omit [Finite G] in
 theorem le_centralizer_of_comm {H K : Subgroup G} (h : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) :
     H ≤ Subgroup.centralizer (K : Set G) := by
   intro x hx
   exact Subgroup.mem_centralizer_iff.2 (fun y hy => (h x hx y hy).symm)
 
+omit [Finite G] in
 theorem comm_of_le_centralizer {H K : Subgroup G} (h : H ≤ Subgroup.centralizer (K : Set G)) :
     ∀ x ∈ H, ∀ y ∈ K, x * y = y * x := by
   intro x hx y hy
   exact (Subgroup.mem_centralizer_iff.1 (h hx) y hy).symm
 
+omit [Finite G] in
 theorem exists_order_three_in {P : Subgroup G} (hP : IsPGroup 3 ↥P) {z : G} (hz : z ∈ P)
     (hz1 : z ≠ 1) : ∃ w ∈ Subgroup.zpowers z, w ≠ 1 ∧ w ^ 3 = 1 := by
   have hex : ∃ k : ℕ, z ^ (3 ^ k) = 1 := by
@@ -846,7 +868,7 @@ theorem exists_order_three_in {P : Subgroup G} (hP : IsPGroup 3 ↥P) {z : G} (h
 
 theorem inf_zpowers_trivial {V : Subgroup G} {u : G} (hu3 : u ^ 3 = 1) (hu1 : u ≠ 1)
     (huV : u ∉ V) : Nat.card ↥(V ⊓ Subgroup.zpowers u) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : Nat.card ↥(V ⊓ Subgroup.zpowers u) ∣ 3 := by
     have := Subgroup.card_subgroup_dvd_card ((V ⊓ Subgroup.zpowers u).subgroupOf (Subgroup.zpowers u))
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv,
@@ -862,11 +884,13 @@ theorem inf_zpowers_trivial {V : Subgroup G} {u : G} (hu3 : u ^ 3 = 1) (hu1 : u 
     have : u ∈ V ⊓ Subgroup.zpowers u := by rw [heq]; exact Subgroup.mem_zpowers u
     exact (Subgroup.mem_inf.1 this).1
 
+omit [Finite G] in
 theorem conj_mem_of_normal {R U : Subgroup G} (hUR : U ≤ R) (hn : (U.subgroupOf R).Normal)
     {r : G} (hr : r ∈ R) {u : G} (hu : u ∈ U) : r * u * r⁻¹ ∈ U := by
   have := hn.conj_mem ⟨u, hUR hu⟩ (Subgroup.mem_subgroupOf.2 hu) ⟨r, hr⟩
   exact Subgroup.mem_subgroupOf.1 this
 
+omit [Finite G] in
 theorem le_normalizer_of_normal {R U : Subgroup G} (hUR : U ≤ R) (hn : (U.subgroupOf R).Normal) :
     R ≤ Subgroup.normalizer (U : Set G) := by
   intro r hr
@@ -887,6 +911,7 @@ section ConjSylow
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_gLBConj {H : Subgroup G} (hH : IsPGroup 3 ↥H) (y : G) :
     IsPGroup 3 ↥(GLBConj y H) := by
   intro g
@@ -899,6 +924,7 @@ theorem isPGroup_gLBConj {H : Subgroup G} (hH : IsPGroup 3 ↥H) (y : G) :
   calc g.1 ^ (3 ^ k) = y⁻¹ * (y * g.1 ^ (3 ^ k) * y⁻¹) * y := by group
     _ = 1 := by rw [hk']; group
 
+omit [Finite G] in
 theorem isSylowIn_conj {M R : Subgroup G} (hR : IsSylowIn 3 M R) {x : G} (hx : x ∈ M) :
     IsSylowIn 3 M (GLBConj x R) := by
   have hxinv : x⁻¹ ∈ M := M.inv_mem hx
@@ -977,10 +1003,12 @@ section Helpers3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers {x : G} (hx3 : x ^ 3 = 1) :
     CFSG.Open.IsElemAbelian 3 (Subgroup.zpowers x) :=
-  ⟨⟨⟨fun a b => Subtype.ext (comm_zpowers_mem a.2 b.2)⟩⟩, fun a ha => pow_three_of_mem_zpowers hx3 ha⟩
+  ⟨⟨⟨fun _a b => Subtype.ext (comm_zpowers_mem _a.2 b.2)⟩⟩, fun _a ha => pow_three_of_mem_zpowers hx3 ha⟩
 
+omit [Finite G] in
 theorem mem_centralizer_zpowers {x y : G} (h : x * y = y * x) :
     y ∈ Subgroup.centralizer (Subgroup.zpowers x : Set G) := by
   refine Subgroup.mem_centralizer_iff.2 (fun k hk => ?_)
@@ -1000,7 +1028,7 @@ theorem piece3_contra {m : ℕ} {B M E A : Subgroup G} {a : G} (h : Sec10Fails G
     (hP2 : ∀ R : Subgroup G, IsSylowIn 3 M R → E ⊔ A ≤ R →
       ∀ e ∈ omegaOne 3 (centerOf R), e ≠ 1 → Cg e ≤ M)
     (hI31 : Input31_3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF' := hF
   obtain ⟨hcardF, hexpF, -, hcenF, hderF⟩ := hF'
   have ha3 : a ^ 3 = 1 := hexpF a (hAF ha)
@@ -1016,8 +1044,8 @@ theorem piece3_contra {m : ℕ} {B M E A : Subgroup G} {a : G} (h : Sec10Fails G
   obtain ⟨R0, hR0, hEAR0⟩ := Lemma113b.exists_sylowIn_above' hEAM hpEA
   have hER0 : E ≤ R0 := le_trans le_sup_left hEAR0
   have hAR0 : A ≤ R0 := le_trans le_sup_right hEAR0
-  haveI : Nontrivial ↥R0 := ⟨⟨⟨a, hAR0 ha⟩, 1, fun h' => ha1 (congrArg Subtype.val h')⟩⟩
-  haveI hcen : Nontrivial (Subgroup.center ↥R0) := IsPGroup.center_nontrivial hR0.2.1
+  have : Nontrivial ↥R0 := ⟨⟨⟨a, hAR0 ha⟩, 1, fun h' => ha1 (congrArg Subtype.val h')⟩⟩
+  have hcen : Nontrivial (Subgroup.center ↥R0) := IsPGroup.center_nontrivial hR0.2.1
   obtain ⟨⟨zR, hzc⟩, hz1⟩ := exists_ne (1 : Subgroup.center ↥R0)
   have hzG : zR.1 ∈ centerOf R0 := by
     refine (mem_centerOf_iff R0 zR.1).2 ⟨zR.2, fun h' hh => ?_⟩

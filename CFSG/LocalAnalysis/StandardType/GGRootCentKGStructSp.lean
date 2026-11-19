@@ -28,7 +28,7 @@ theorem ggRootCentKGStructTag_PSp : GGRootCentKGStructTag .PSp := by
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 3 := ⟨n - 3, by omega⟩
   have hf : 1 ≤ f := hadm.2.1
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
-  haveI : NeZero (m + 3) := ⟨by omega⟩
+  have : NeZero (m + 3) := ⟨by omega⟩
   have hcenter : Subgroup.center (ggU .PSp (m + 3) f).K = ⊥ := AutPSp.center_eq_bot
   have hψ : Function.Injective ψ :=
     (MonoidHom.ker_eq_bot_iff ψ).mp

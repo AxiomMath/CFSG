@@ -35,7 +35,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
 
 private lemma commutator_range_eq_self_L04 {G H : Type} [Group G] [Group H] (f : G →* H)
     (hG : Group.IsPerfect G) : ⁅f.range, f.range⁆ = f.range := by
-  haveI : Group.IsPerfect G := hG
+  have : Group.IsPerfect G := hG
   exact Subgroup.isPerfect_iff.mp (Group.IsPerfect.range f)
 
 theorem borelScalars_of_roots {Γ : Subgroup (GL ι K)} {U : Subgroup ↥Γ} {e₀ : ι → K}
@@ -94,7 +94,7 @@ theorem card_eq_two_or_four_le [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n) :
   rcases n with _ | _ | n
   · have h1 : Nat.card K = 1 := hK.trans (pow_zero 2)
     have hlt : 1 < Nat.card K := by
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     rw [h1] at hlt

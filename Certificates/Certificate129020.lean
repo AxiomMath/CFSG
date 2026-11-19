@@ -63,10 +63,10 @@ theorem holds : mclHeisCheck () = true := by
   have h := ok129020
   rw [bAnd_iff] at h
   have t0 : mclHeisTau 0 = tabT (unpack 275 9 (S 0)) := by
-    rw [mclHeisTau, if_pos rfl]
+    rw [mclHeisTau, ite_eq_left rfl]
     exact (pg_tabs.2 0 (by norm_num)).1
   have t1 : mclHeisTau 1 = tabT (unpack 275 9 (F 17)) := by
-    rw [mclHeisTau, if_neg (by norm_num)]
+    rw [mclHeisTau, ite_eq_right (by norm_num)]
     exact tabF (by norm_num)
   unfold mclHeisCheck
   rw [permF (k := 17) (by norm_num),

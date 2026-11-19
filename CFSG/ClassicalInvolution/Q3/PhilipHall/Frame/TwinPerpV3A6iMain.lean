@@ -65,7 +65,7 @@ theorem curtisOmegaT_isSimple : IsSimpleGroup omegaT :=
 theorem curtisD42_recognition {Y : Type u} [Group Y] [Nontrivial Y] (t : Fin 8 → Y)
     (hrel : ∀ r ∈ curtisRels, curtisEval (List.ofFn t) r = 1)
     (hgen : Subgroup.closure (Set.range t) = ⊤) : Nonempty (Y ≃* omegaT) := by
-  haveI := curtisOmegaT_isSimple
+  have := curtisOmegaT_isSimple
   have hφs := curtisToGroup_surjective hrel hgen
   have hψ := curtisToGroup_gen_bijective
   have hφi : Function.Injective (curtisToGroup hrel) := by

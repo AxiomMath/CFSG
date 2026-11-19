@@ -105,6 +105,7 @@ section Outer
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {π : Bool} {p f : ℕ} {K : Type}
   [Field K] {ν : ↥(slPi π 3 (p ^ f) K) →* ↥L}
 
+omit [Finite X] in
 theorem LModel.exists_scalar_tau (M : LModel L π p f K ν) {τ : K} (hτ : τ ^ 3 = 1) :
     ∃ t : Kˣ, (t : K) = τ ∧ Matrix.GeneralLinearGroup.scalar (Fin 3) t ∈ slPi π 3 (p ^ f) K := by
   have hτ0 : τ ≠ 0 := by
@@ -112,6 +113,7 @@ theorem LModel.exists_scalar_tau (M : LModel L π p f K ν) {τ : K} (hτ : τ ^
     simp at hτ
   exact ⟨Units.mk0 τ hτ0, rfl, scalar_mem_slPi_of_cube M.piField M.modThree hτ⟩
 
+omit [Finite X] in
 theorem LModel.exists_isE9Pair (M : LModel L π p f K ν) {g : GL (Fin 3) K}
     (hg : g ∈ glPi π 3 (p ^ f) K) {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) :
     ∃ (D : GL (Fin 3) K) (hD : D ∈ slPi π 3 (p ^ f) K),
@@ -206,6 +208,7 @@ section CoverInner
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} {x : X} {π : Bool} {p f : ℕ}
   {K : Type} [Field K] {ν : ↥(slPi π 3 (p ^ f) K) →* ↥L}
 
+omit [Finite X] in
 theorem LModel.exists_conj_diagTau_of_cover (M : LModel L π p f K ν)
     (hinj : Function.Injective ν) {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) {u : X} (huL : u ∈ L)
     (hu3 : u ^ 3 = 1) (hu1 : u ≠ 1) (huZ : u ∉ (center ↥L).map L.subtype) :
@@ -250,8 +253,8 @@ theorem LModel.exists_conj_diagTau_of_cover (M : LModel L π p f K ν)
 theorem LModel.false_of_cover_inner (h : T29Setup X L x) (M : LModel L π p f K ν)
     (hinj : Function.Injective ν) (hZ3 : Nat.card (center ↥L) ∣ 3) (hxL : x ∈ L)
     (hxZ : x ∉ (center ↥L).map L.subtype) : False := by
-  haveI hLn : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau M.piField M.modThree
   obtain ⟨P, hxP⟩ : ∃ P : Sylow 3 X, x ∈ (P : Subgroup X) := by
     have hp : IsPGroup 3 (zpowers x) :=
@@ -259,7 +262,7 @@ theorem LModel.false_of_cover_inner (h : T29Setup X L x) (M : LModel L π p f K 
     obtain ⟨P, hP⟩ := hp.exists_le_sylow
     exact ⟨P, hP (mem_zpowers x)⟩
   obtain ⟨z, hz⟩ := h.exists_omegaCentral hxP
-  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup'
+  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup
   have hnc : ¬ IsCyclic ↥((P : Subgroup X) ⊓ L) := by
     obtain ⟨D, hD, -, hpair⟩ := M.exists_isE9Pair (one_mem (glPi π 3 (p ^ f) K)) hτ hτ1
     obtain ⟨hE, hE9, hEL⟩ := hpair.elemAbelian
@@ -276,8 +279,8 @@ theorem LModel.false_of_cover_inner (h : T29Setup X L x) (M : LModel L π p f K 
       rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]
       exact ⟨e, hEQ he, rfl⟩
     intro hcyc
-    haveI : IsCyclic ↥(E'.subgroupOf ((P : Subgroup X) ⊓ L)) := Subgroup.isCyclic _
-    haveI : IsCyclic ↥E' := isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hE'P).toMonoidHom
+    have : IsCyclic ↥(E'.subgroupOf ((P : Subgroup X) ⊓ L)) := Subgroup.isCyclic _
+    have : IsCyclic ↥E' := isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hE'P).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hE'P).surjective
     have h3 : Nat.card E' ≤ 3 := card_le_three_of_isCyclic (fun w => by
       obtain ⟨_, ⟨e, he, rfl⟩⟩ := w

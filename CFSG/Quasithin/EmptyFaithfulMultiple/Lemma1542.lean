@@ -58,7 +58,7 @@ theorem exists_mem_cComp_of_not_isSolvable {H : Subgroup G} (hH : ¬ Group.IsSol
 theorem quasithinIsLocal_of_mem_cComp (T : Sylow 2 G) {H L : Subgroup G}
     (hH : InH (T : Subgroup G) H) (hL : L ∈ cComp H) : quasithinIsLocal (T : Subgroup G) L := by
   have hLTH : L ⊔ (T : Subgroup G) ≤ H := sup_le (le_of_mem_cComp hL) hH.1
-  refine ⟨T.isPGroup', cComp_subset_lFamily hH.1 hL, fun h2 => T.not_dvd_index
+  refine ⟨T.isPGroup, cComp_subset_lFamily hH.1 hL, fun h2 => T.not_dvd_index
     (h2.trans (Subgroup.relIndex_dvd_index_of_le le_sup_right)), ?_⟩
   exact (inH_of_le T le_sup_right hLTH hH).2
 
@@ -122,7 +122,7 @@ theorem stmt15411_of {G : Type} [Group G] [Finite G] {T : Subgroup G}
   ·
     refine le_pCoreOf_of_le_normalizer 2 inf_le_left
       (le_normalizer_inf_centralizer (le_normalizer_conjClosure _ M)) ?_
-    exact S.isPGroup'.to_le (inf_le_right.trans
+    exact S.isPGroup.to_le (inf_le_right.trans
       ((Subgroup.centralizer_le (le_conjClosure _ M)).trans hCZ.le))
 
 end CFSG.Quasithin.EmptyFaithfulMultiple

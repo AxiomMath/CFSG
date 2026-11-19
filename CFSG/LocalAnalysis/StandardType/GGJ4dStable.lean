@@ -385,7 +385,7 @@ theorem j4d_allStable_kills
       compRank_eq_two_of_ncard_eq_six hΨ h6
     have htk : twistKind S.ρ (rootCharHom a) i = .suN := by
       unfold twistKind
-      rw [hs1, if_neg hout]
+      rw [hs1, ite_eq_right hout]
       have hexc : ¬ ((compRank (componentRoots (rootCharHom a) i) = 6 ∧
             (componentRoots (rootCharHom a) i).ncard = 72) ∨
           (compRank (componentRoots (rootCharHom a) i) = 4 ∧
@@ -406,7 +406,7 @@ theorem j4d_allStable_kills
         constructor
         · omega
         · rw [h6, hc]
-      rw [if_neg hexc, if_neg htwoD, if_pos hsuN]
+      rw [ite_eq_right hexc, ite_eq_right htwoD, ite_eq_left hsuN]
     exact hnot (Or.inr ⟨hq2s, htk, h6⟩)
   obtain ⟨δ, hδ, hγδ⟩ :=
     j4d_exists_orthogonal_of_ncard (Or.inr hτ) hn2 hn6 (χ := rootCharHom a) (i := i) hγ

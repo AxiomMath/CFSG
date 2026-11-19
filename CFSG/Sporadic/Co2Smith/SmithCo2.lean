@@ -195,7 +195,7 @@ theorem orderOf_z0C :
 theorem exists_sylow_two_z0 :
     ∃ S : Sylow 2 K, z0 ∈ S ∧ ∀ g ∈ S, g * z0 = z0 * g := by
   obtain ⟨T⟩ : Nonempty (Sylow 2 Cz) := inferInstance
-  have hT' : IsPGroup 2 ((T : Subgroup Cz).map Cz.subtype) := T.isPGroup'.map Cz.subtype
+  have hT' : IsPGroup 2 ((T : Subgroup Cz).map Cz.subtype) := T.isPGroup.map Cz.subtype
   have hidx : ¬ 2 ∣ ((T : Subgroup Cz).map Cz.subtype).index := by
     rw [Subgroup.index_map_subtype, index_Cz]
     intro h

@@ -15,7 +15,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremA
 
 theorem comm_of_elemAbelian' {X : Type} [Group X] {p : ℕ} {E : Subgroup X} (hE : IsElemAbelian p E)
     {x y : X} (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
-  haveI := hE.1
+  have := hE.1
   have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩)
   simpa using this
 
@@ -55,7 +55,7 @@ theorem involution_data_of_conj {X : Type} [Group X] [Finite X] {a : X}
   obtain ⟨g, hg⟩ := isConj_iff.1 ht
   subst hg
   let c : X ≃* X := MulAut.conj g⁻¹
-  have hc : ∀ w : X, c w = g⁻¹ * w * g := fun w => by simp [c, MulAut.conj_apply]
+  have hc : ∀ w : X, c w = g⁻¹ * w * g := fun w => by simp [c]
   have hmap : ∀ F : Subgroup X, F ≤ Subgroup.centralizer ({g * a * g⁻¹} : Set X) →
       F.map c.toMonoidHom ≤ Subgroup.centralizer ({a} : Set X) := by
     rintro F hF _ ⟨f, hf, rfl⟩
@@ -132,7 +132,7 @@ theorem th_data_a (hQ : ThQCentFact) :
     (∀ F : Subgroup J, F ≤ Subgroup.centralizer ({a} : Set J) → IsElemAbelian 3 F →
       Nat.card F = 3 ^ 3 → ∀ u : J, orderOf u = 2 → u ∈ Subgroup.centralizer (F : Set J) →
         u * a = a * u → u = a) := by
-  haveI : Finite ↥J := Finite.of_equiv _ thEquivJ.toEquiv
+  have : Finite ↥J := Finite.of_equiv _ thEquivJ.toEquiv
   obtain ⟨hCM, -, -, -⟩ := CFSG.Sporadic.ThSchreier.ctuc_Th_full_central_involution_centralizer
   let φ : ↥M →* Equiv.Perm (Fin 9) :=
     (alternatingGroup (Fin 9)).subtype.comp
@@ -229,7 +229,7 @@ theorem th_isConj_a (hTh : Nat.card CFSG.Blueprint.NativeSporadic.Th = 907459438
 
 set_option maxRecDepth 100000 in
 theorem twoLocalBound27_J (hQ : ThQCentFact) : TwoLocalBound27 ↥J := by
-  haveI : Finite ↥J := Finite.of_equiv _ thEquivJ.toEquiv
+  have : Finite ↥J := Finite.of_equiv _ thEquivJ.toEquiv
   have hTh : Nat.card CFSG.Blueprint.NativeSporadic.Th = 90745943887872000 :=
     CFSG.RankThree.PartOne.CTP.card_Th
   intro R E hR hR2 hEN hE

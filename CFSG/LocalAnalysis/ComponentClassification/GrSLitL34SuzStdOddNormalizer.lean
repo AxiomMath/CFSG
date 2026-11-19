@@ -364,7 +364,7 @@ private theorem index_pPrimeCore_eq_two_of_card_le_two {Q : Subgroup G} {s : G} 
     exact orderOf_dvd_natCard _
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := ↥Q)
   have hSle2 : Nat.card ↥S ≤ 2 := by
-    have hmap := (S.isPGroup').map Q.subtype
+    have hmap := (S.isPGroup).map Q.subtype
     have h := hQ2 ((S : Subgroup ↥Q).map Q.subtype) (Subgroup.map_subtype_le _) hmap
     rwa [Subgroup.card_map_of_injective Q.subtype_injective] at h
   have hSdvd : 2 ∣ Nat.card ↥S := S.dvd_card_of_dvd_card h2dvdQ

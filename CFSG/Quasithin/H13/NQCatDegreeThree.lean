@@ -102,7 +102,7 @@ theorem commute_of_normal_coprime_of_finrank_three {k V : Type*} [Field k] {p : 
     rw [hHdef, ← Subgroup.map_commutator, h1]
   have hHle : H ≤ normalizer (P : Set Γ) := (map_subtype_le _).trans hBP
   have : Finite (P.map θ) := Finite.of_surjective _ (θ.subgroupMap_surjective P)
-  have hPp : IsPGroup ℓ (P.map θ) := (P₀.isPGroup'.map _).map θ
+  have hPp : IsPGroup ℓ (P.map θ) := (P₀.isPGroup.map _).map θ
   have hHθ : H.map θ ≤ normalizer ((P.map θ : Subgroup _) : Set _) :=
     (map_mono hHle).trans (le_normalizer_map θ)
   have hHθperf : ⁅H.map θ, H.map θ⁆ = H.map θ := by rw [← Subgroup.map_commutator, hHperf]

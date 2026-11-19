@@ -274,11 +274,10 @@ theorem compl1_spec {x : Q4} (h : compl1 x = true) :
 
 theorem dep3_spec {x y z : Q4} (h : dep3 x y z = true) :
     ∃ a b c : ℤ, ¬ (a = 0 ∧ b = 0 ∧ c = 0) ∧ a • x + b • y + c • z = 0 := by
-  simp only [dep3, List.any_eq_true, Bool.and_eq_true, Bool.not_eq_true', Bool.and_eq_false_iff,
-    beq_iff_eq] at h
+  simp only [dep3, List.any_eq_true, Bool.and_eq_true, Bool.not_eq_true', Bool.and_eq_false_iff] at h
   obtain ⟨a, -, b, -, c, -, hne, heq⟩ := h
   refine ⟨a, b, c, ?_, ?_⟩
-  · simp only [Bool.and_eq_false_iff, beq_eq_false_iff_ne, ne_eq] at hne
+  · simp only [beq_eq_false_iff_ne, ne_eq] at hne
     tauto
   · revert heq
     simp only [BEq.beq, beq_iff]

@@ -62,7 +62,7 @@ private theorem plh_conj_step {m : ℕ} {e : (ggCoxeterMatrixD m).Group ≃* dEv
   have hmem : (ggCoxeterMatrixD m).simple j ∈ Subgroup.closure
       ((ggCoxeterMatrixD m).simple '' {k : Fin m | (k : ℕ) ≠ 0}) := by
     refine Subgroup.subset_closure ⟨j, ?_, rfl⟩
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     omega
   let r' : (ggCoxeterMatrixD m).Group :=
     (ggCoxeterMatrixD m).simple j * r * ((ggCoxeterMatrixD m).simple j)⁻¹
@@ -91,7 +91,7 @@ private theorem plh_conj_step {m : ℕ} {e : (ggCoxeterMatrixD m).Group ≃* dEv
     _ = dTau m ε (Equiv.swap j j' a) (Equiv.swap j j' b) :=
           dPerm_conj_dTau m (Equiv.swap j j') ε a b
 
-private theorem plh_exists_false {m : ℕ} (hm : 4 ≤ m)
+private theorem plh_exists_false {m : ℕ} (_hm : 4 ≤ m)
     {e : (ggCoxeterMatrixD m).Group ≃* dEven m} (he : IsDEquiv m e) :
     ∀ {a b : Fin m}, 1 ≤ a.val → a.val < b.val →
       ∃ r ∈ qtwoParabRefl m,

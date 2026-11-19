@@ -51,7 +51,7 @@ theorem permOfArr_wA {w : List ℕ} (h : ∀ r ∈ w, r < 240) :
   else 1
 
 theorem coe_wpE {w : List ℕ} (h : wordOK w = true) : ((wpE w : WP) : Equiv.Perm (Fin 240)) = wordPerm w := by
-  rw [wpE, dif_pos h]
+  rw [wpE, dite_eq_left h]
 
 theorem rep_wpE {w : List ℕ} (h : wordOK w = true) :
     Rep 240 (wA (reflTab ()) w) ((wpE w : WP) : Equiv.Perm (Fin 240)) := by
@@ -121,7 +121,7 @@ theorem evenSub_mask {m : ℕ} (hm : m < 256) (he : framePop m % 2 = 0) :
 
 theorem coe_eW {m : ℕ} (h : m < 256 ∧ framePop m % 2 = 0) :
     ((eW m : WP) : Equiv.Perm (Fin 240)) = frameElt (frameDecode m) := by
-  rw [eW, dif_pos h]
+  rw [eW, dite_eq_left h]
 
 theorem rep_eW {m : ℕ} (h : m < 256 ∧ framePop m % 2 = 0) :
     Rep 240 (eA m) ((eW m : WP) : Equiv.Perm (Fin 240)) := by

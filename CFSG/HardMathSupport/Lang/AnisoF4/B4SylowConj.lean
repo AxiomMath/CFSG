@@ -45,7 +45,7 @@ theorem exists_conj_plane_le_of_factorization {G : Type*} [Group G] [Finite G] {
     rw [hg] at h2
     exact h2
   have hSab : ∀ a ∈ (SQ : Subgroup G), ∀ b ∈ (SQ : Subgroup G), a * b = b * a :=
-    fun a ha b hb => mul_comm_of_sylowTorus hT SQ.isPGroup' ha hb
+    fun a ha b hb => mul_comm_of_sylowTorus hT SQ.isPGroup ha hb
   let Ω : Subgroup G :=
     { carrier := {x | x ∈ (SQ : Subgroup G) ∧ x ^ P = 1}
       mul_mem' := fun {a b} ha hb => ⟨mul_mem ha.1 hb.1, by

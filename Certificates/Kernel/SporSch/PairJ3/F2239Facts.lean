@@ -76,6 +76,7 @@ theorem hInv : j3InvWord = INVW := by
   rw [j3InvWord, PJ3I.eq]
   simpa [PJ3I.chars] using h
 
+set_option exponentiation.threshold 3240 in
 theorem fF_lt {r : Nat} (h : fF r = true) : FW r < 2 ^ 3240 := by
   have h' : formsF c rm t0 t1 t2 t3 t4 t5 t6 usK dgK FW (PJ3.S 0) (PJ3.S 1) A1 A1T A2 A2T r = true :=
     h
@@ -91,6 +92,7 @@ theorem fF_all : ∀ r < 6156, fF r = true := slices_all (k := 162) (S := 38) FF
 open Certificates in
 open CFSG CFSG.Sporadic CFSG.Sporadic.Schreier CFSG.Sporadic.Schreier.PairJ3 in
 open CFSG.Sporadic.Schreier.PairF2 CFSG.Sporadic.SmallF2.Native CFSG.Monster.B.Co2.Native in
+set_option exponentiation.threshold 3240 in
 theorem facts : (formsCheckWith j3FormsHex.toUTF8 j3StrongArrs rowsA1 rowsA2 = true)
     ∧ (PairNative.strictInc (sortedWords j3FormsHex.toUTF8) = true)
     ∧ (pullOKZ 80 rowsA1 j3InvWord j3InvWord = true ∧ pullOKZ 80 rowsA2 j3InvWord j3InvWord = true ∧

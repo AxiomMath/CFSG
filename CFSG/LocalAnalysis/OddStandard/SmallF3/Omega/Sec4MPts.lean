@@ -65,13 +65,13 @@ theorem sec4MV_injective : Function.Injective sec4MV := by
       rw [sec4MV_some, sec4MV_some] at h
       have hi : sec4MW j i = 0 := by
         have h1 : sec4MW i i = sec4MW j i := congr_fun h i
-        have h0 : sec4MW i i = 0 := by rw [sec4MW_apply, if_pos rfl]
+        have h0 : sec4MW i i = 0 := by rw [sec4MW_apply, ite_eq_left rfl]
         rw [h0] at h1
         exact h1.symm
       by_cases hij : i = j
       · exact congrArg some hij
       · exfalso
-        have h2 : sec4MW j i = 1 := by rw [sec4MW_apply, if_neg hij]
+        have h2 : sec4MW j i = 1 := by rw [sec4MW_apply, ite_eq_right hij]
         rw [h2] at hi
         exact absurd hi (by decide)
 
@@ -84,10 +84,10 @@ theorem permVec_sec4MV (σ : Equiv.Perm (Fin 7)) (p : Option (Fin 7)) :
     simp only [permVec, Function.comp_apply, sec4MV_some, Equiv.optionCongr_apply,
       Option.map_some, sec4MW_apply]
     by_cases h : (σ.symm) j = i
-    · rw [if_pos h, if_pos ((Equiv.symm_apply_eq σ).mp h)]
-    · rw [if_neg h, if_neg (fun hj => h ((Equiv.symm_apply_eq σ).mpr hj))]
+    · rw [ite_eq_left h, ite_eq_left ((Equiv.symm_apply_eq σ).mp h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hj => h ((Equiv.symm_apply_eq σ).mpr hj))]
 
-theorem exists_sec4MW_of_weight_six {v : Fin 7 → ZMod 2} (hv : IsEvenVec v)
+theorem exists_sec4MW_of_weight_six {v : Fin 7 → ZMod 2} (_hv : IsEvenVec v)
     (h6 : vecWeight v = 6) : ∃ i, v = sec4MW i := by
   classical
   unfold vecWeight at h6
@@ -103,14 +103,14 @@ theorem exists_sec4MW_of_weight_six {v : Fin 7 → ZMod 2} (hv : IsEvenVec v)
     have hvi : v i = 0 := by
       have hmem : i ∈ (Finset.univ.filter fun j => ¬ v j ≠ 0) := by rw [hi]; simp
       simpa using hmem
-    rw [hvi, sec4MW_apply, if_pos rfl]
+    rw [hvi, sec4MW_apply, ite_eq_left rfl]
   · have hvj : v j = 1 := by
       apply zmod2_eq_one_of_ne_zero
       intro hv0
       have hmem : j ∈ (Finset.univ.filter fun j => ¬ v j ≠ 0) := by simp [hv0]
       rw [hi] at hmem
       exact hj (by simpa using hmem)
-    rw [hvj, sec4MW_apply, if_neg hj]
+    rw [hvj, sec4MW_apply, ite_eq_right hj]
 
 theorem sec4MV_weight_four {p q r s : Option (Fin 7)} (hpq : p ≠ q) (hpr : p ≠ r) (hps : p ≠ s)
     (hqr : q ≠ r) (hqs : q ≠ s) (hrs : r ≠ s) :
@@ -136,7 +136,7 @@ theorem sec4MPt_mem_A (hD : Sec4AData t L S z A B φ) (p : Option (Fin 7)) :
 
 theorem sec4MPt_mul (hD : Sec4AData t L S z A B φ) (p q : Option (Fin 7)) :
     sec4MPt t φ p * sec4MPt t φ q = φ (sec4MV p + sec4MV q) := by
-  haveI : IsMulCommutative ↥A := hD.isMax.2.1.1
+  have : IsMulCommutative ↥A := hD.isMax.2.1.1
   have htA : t ∈ A := by
     rw [hD.A_eq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers t)

@@ -31,11 +31,11 @@ theorem noSmallModel_minus_five (hQ : (polarBilin Q).Nondegenerate)
     NoSmallModel ↥(orthDerived Q) := by
   classical
   intro Bb h
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := CFSG.LargeExtraspecial.O62.finite_linearEquiv
-  haveI : Fintype ↥(orthImage Bb) := Fintype.ofFinite _
-  haveI : DecidableEq (Hyperplane (orthImage Bb) 3) := Classical.decEq _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) := CFSG.LargeExtraspecial.O62.finite_linearEquiv
+  have : Fintype ↥(orthImage Bb) := Fintype.ofFinite _
+  have : DecidableEq (Hyperplane (orthImage Bb) 3) := Classical.decEq _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAe : IsElemAbelian 3 (orthImage Bb) := isElemAbelian_orthImage (Ã := Bb) h.elem
   have hAcard : Nat.card ↥(orthImage Bb) = 3 ^ 4 := by
     change Nat.card ↥(Bb.map (orthDerived Q).subtype) = 3 ^ 4
@@ -96,27 +96,27 @@ theorem famOmM_holds : FamOmM := by
   intro n q hv hq hn
   obtain ⟨F, hFfield, hFfin, hFchar, V, hVadd, hVmod, hVfd, Q, hFcard, hQ, hdim, hminus, hθ⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.S172C.exists_omegaMinus_model (n := n) (k := 1) hn (by norm_num)
-  letI := hFfield
-  letI := hFfin
-  letI := hFchar
-  letI := hVadd
-  letI := hVmod
-  letI := hVfd
+  let := hFfield
+  let := hFfin
+  let := hFchar
+  let := hVadd
+  let := hVmod
+  let := hVfd
   have hcat : CFSG.Yardstones.Md0ec50421ce4.catalogIs
       (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hv⟩).Group
       (CFSG.LocalAnalysis.GLTheoremA.isOmMA n 2) :=
     ⟨TauCeti.CFSGIndex.lie ⟨.twistedD n q, hv⟩, Or.inl ⟨rfl, hq⟩, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨eθ⟩ := hθ _ hcat
   have hNo : NoSmallModel ↥(orthDerived Q) := by
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : Finite V := Module.finite_of_finite F
+    have : Fintype F := Fintype.ofFinite F
+    have : Finite V := Module.finite_of_finite F
     have hF2 : Nat.card F = 2 := by simpa using hFcard
     have hF2' : Fintype.card F = 2 := by rwa [← Nat.card_eq_fintype_card]
     let e : ZMod 2 ≃+* F := ZMod.ringEquivOfPrime F Nat.prime_two hF2'
-    letI : Module (ZMod 2) V := Module.compHom V (e : ZMod 2 →+* F)
+    let : Module (ZMod 2) V := Module.compHom V (e : ZMod 2 →+* F)
     have hsmul : ∀ (c : ZMod 2) (v : V), c • v = e c • v := fun _ _ => rfl
     let Q' : QuadraticForm (ZMod 2) V := formOfRingEquiv e hsmul Q
-    haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
     have hQ' : (polarBilin Q').Nondegenerate := nondegenerate_formOfRingEquiv hQ
     have hdim' : finrank (ZMod 2) V = 2 * n := by
       have h1 : Nat.card V = Nat.card F ^ finrank F V := Module.natCard_eq_pow_finrank
@@ -138,10 +138,10 @@ theorem famOmM_holds : FamOmM := by
           smul_mem' := fun c v hv => by
             have h := W.smul_mem (e.symm c) hv
             rwa [hsmul, RingEquiv.apply_symm_apply] at h }
-      haveI : Finite ↥W' := Subtype.finite
-      haveI : Finite ↥W := Subtype.finite
-      haveI : Module.Finite F ↥W' := Module.Finite.of_finite
-      haveI : Module.Finite (ZMod 2) ↥W := Module.Finite.of_finite
+      have : Finite ↥W' := Subtype.finite
+      have : Finite ↥W := Subtype.finite
+      have : Module.Finite F ↥W' := Module.Finite.of_finite
+      have : Module.Finite (ZMod 2) ↥W := Module.Finite.of_finite
       have hdimW : finrank F W' = finrank (ZMod 2) W := by
         have h1 : Nat.card ↥W' = Nat.card F ^ finrank F W' := Module.natCard_eq_pow_finrank
         have h2 : Nat.card ↥W = Nat.card (ZMod 2) ^ finrank (ZMod 2) W :=

@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec7ctr_hyp_frame (hc : Ctx M Q Z B) {n : ℕ} {t s : G} (hs : Sec7Hyp hc n t) {h : G}
     (hh : h ∈ M) (hsL : s ∈ LB M Q (conjSubgroup h B)) (hsQ : s ∉ Q)
     (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t)

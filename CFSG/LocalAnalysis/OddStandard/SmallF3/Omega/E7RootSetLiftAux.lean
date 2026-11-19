@@ -24,11 +24,9 @@ private theorem e7LiftP11_polarV_redV_aux (x y : Fin Tag.E7.rank → ℤ) :
   rw [polar_qForm, iform, hsym]
   change polarV (redV x) (redV y) =
     ((∑ i : Fin 7, ∑ j : Fin 7, x i * Tag.cartan Tag.E7 i j * y j : ℤ) : ZMod 3)
-  simp only [polarV, redV, Tag.cartan, Tag.cartanE, Matrix.mul_apply, Fin.sum_univ_seven,
-    Fin.isValue, Fin.val_zero, Fin.val_succ, Fin.val_one', Finset.sum_apply, Pi.smul_apply,
-    Matrix.of_apply]
+  simp only [polarV, redV, Tag.cartan, Tag.cartanE, Fin.sum_univ_seven,
+    Fin.isValue, Fin.val_zero, Fin.val_one']
   norm_num
-  push_cast
   rw [show (2 : ZMod 3) = -1 by decide]
   ring
 

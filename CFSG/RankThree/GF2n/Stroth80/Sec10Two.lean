@@ -18,6 +18,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem Good101.exists_eq_conj_mem_B (hc : Ctx M Q Z B) {t : G}
     (ht : Good101 M Q Z B t) : ∃ g : G, ∃ b ∈ B, t = g * b * g⁻¹ := by
   obtain ⟨g₀, hg₀⟩ := hc.conj
@@ -30,6 +31,7 @@ private theorem Good101.exists_eq_conj_mem_B (hc : Ctx M Q Z B) {t : G}
   rw [← hgt]
   group
 
+omit [Finite G] in
 theorem Good101.exists_sit (hc : Ctx M Q Z B) {t : G} (ht : Good101 M Q Z B t) :
     ∃ Y : Subgroup G, Sit M Q Z Y t := by
   obtain ⟨g, z, hz, hz1, hgt⟩ := ht.1
@@ -192,7 +194,7 @@ theorem Ctx.exists_comm_eq_of_mem_QB {X : Subgroup G} (hX : Ctx M Q Z X) {n : �
       conv_rhs => rw [show 2 * n + 2 = 2 * n + 1 + 1 by omega, pow_succ]
     rw [h1, h2]
   have hAab : ∀ a ∈ Q ⊓ QB X, ∀ b ∈ Q ⊓ QB X, a * b = b * a := by
-    haveI : IsMulCommutative ↥(Q ⊓ QB X) := hX.inf_QB_elemAbelian.1
+    have : IsMulCommutative ↥(Q ⊓ QB X) := hX.inf_QB_elemAbelian.1
     exact fun a ha b hb => setLike_mul_comm (s := Q ⊓ QB X) ha hb
   exact StrothHyp.exists_comm_eq_of_lagrangian (hX.hyp.conj h) (A := Q ⊓ QB X)
     (by rw [hQB]; exact inf_le_right)
@@ -202,6 +204,7 @@ theorem Ctx.exists_comm_eq_of_mem_QB {X : Subgroup G} (hX : Ctx M Q Z X) {n : �
     (fun hmem => htQ (Subgroup.mem_inf.mp hmem).1)
     (by rw [← hXh]; exact hv)
 
+omit [Finite G] in
 private theorem commute_inv_mul_of_commutator_eq {t a y : G} (h : ⁅t, a⁆ = ⁅t, y⁆) :
     t * (a⁻¹ * y) = (a⁻¹ * y) * t := by
   have h' : t * a * t⁻¹ * a⁻¹ = t * y * t⁻¹ * y⁻¹ := by

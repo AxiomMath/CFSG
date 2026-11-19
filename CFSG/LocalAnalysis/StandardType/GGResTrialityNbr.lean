@@ -19,7 +19,7 @@ private theorem l48d_join
     (hM : LargeEvenMarking ↥X (fun lab' _ _ I _ θ => lab' = (⟨.D, 4, n⟩ : LargeEvenLabel) ∧
       Bs ≤ Subgroup.normalizer (X : Set G) ∧
       ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ)) :
-    ∃ (R : Type) (_ : Group R) (I F : Set (MulAut R)) (θ : ↥X ⧸ Subgroup.center ↥X ≃* R),
+    ∃ (R : Type) (_ : Group R) (I _F : Set (MulAut R)) (θ : ↥X ⧸ Subgroup.center ↥X ≃* R),
       (Bs ≤ Subgroup.normalizer (X : Set G) ∧
         ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ) ∧
       (∀ (L' : Type) [Group L'] [Finite L'] (ψ : L' →* R), Function.Surjective ψ →
@@ -29,7 +29,7 @@ private theorem l48d_join
             ∀ labJ : LargeEvenLabel, LargeEvenInLambda2 labJ →
               GGHasLabel labJ (J ⧸ Subgroup.center J) → labJ.tag ≠ .G2 ∧ labJ.tag ≠ .triD4) := by
   obtain ⟨-, lab, hlab, hraw⟩ := hM
-  obtain ⟨R, hR, I, F, hs, hna, θ, hP⟩ := largeEvenRawDatum_exists hraw
+  obtain ⟨R, hR, I, _F, hs, hna, θ, hP⟩ := largeEvenRawDatum_exists hraw
   have hlab_eq : lab = (⟨.D, 4, n⟩ : LargeEvenLabel) := hP.1
   subst lab
   obtain ⟨-, hBs, hind⟩ := hP

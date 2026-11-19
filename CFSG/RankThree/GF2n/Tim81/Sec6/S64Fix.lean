@@ -52,7 +52,7 @@ theorem Sec6Hyp.exists_mem_sigmaSet_isPGroup_sup (hS : Sec6Hyp M V) {B : Subgrou
   obtain ⟨Q₀, hA₀Q⟩ := (hA₀2.comap_subtype (K := M)).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (↥M) Q₀ Q
   refine ⟨conjSubgroup (c : G) A₀, hS.sec5.conj_mem_sigmaSet c.2 hA₀,
-    (Q.isPGroup'.map M.subtype).to_le (sup_le ?_ ?_)⟩
+    (Q.isPGroup.map M.subtype).to_le (sup_le ?_ ?_)⟩
   · intro x hx
     have ha : (c : G)⁻¹ * x * c ∈ A₀ := mem_conjSubgroup.mp hx
     have hxM : x ∈ M := by
@@ -167,9 +167,9 @@ theorem Sec45Shape.exists_mem_Pc_commutator_mem_kOf (h : RootHyp M V) (hS : Sec4
     rw [hb1, inv_one, one_mul, commutatorElement_one_left]
     exact (kOf V H).one_mem
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hbH' : b ∈ Subgroup.normalizer (H : Set G) :=
     mem_normalizer_iff_conjSubgroup_eq.mpr (hBH b hb)
   have hbV : conjSubgroup b V = conjSubgroup 1 V := by

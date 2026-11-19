@@ -102,7 +102,7 @@ theorem coprime_pgroup_invariant_sylow_containment [Finite G]
     exact Subgroup.mem_map.mpr
       ⟨actor • original, hnormalizerSylowInvariant actor original horiginal, rfl⟩
   have hlargerMember : larger ∈ candidates :=
-    ⟨hsubgroupLe.trans hmaximalLe, normalizerSylow.isPGroup'.map normalizer.subtype,
+    ⟨hsubgroupLe.trans hmaximalLe, normalizerSylow.isPGroup.map normalizer.subtype,
       hlargerInvariant⟩
   have hlargerEq : larger = maximal := (hmaximal.eq_of_le hlargerMember hmaximalLe).symm
   have hnormalizerLe : Subgroup.normalizer (larger : Set G) ≤ normalizer := by

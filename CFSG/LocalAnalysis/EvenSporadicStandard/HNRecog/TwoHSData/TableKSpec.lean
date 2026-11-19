@@ -65,7 +65,7 @@ theorem centInOK_iff (hg : gensOK = true) (ws : List (List ℕ)) (hw : ws.all wo
       obtain ⟨w, hwm, rfl⟩ := List.mem_map.1 ht
       exact (commTT_iff hx (rep_elemW_of_gensOK hg (List.all_eq_true.1 hw w hwm))).2 (h w hwm)
   have hmem := hM.memT_iff hx
-  simp only [centInOK, Bool.or_eq_true, Bool.not_eq_true']
+  simp only [Bool.or_eq_true, Bool.not_eq_true']
   constructor
   · intro h hc
     rcases h with h | h
@@ -94,7 +94,7 @@ theorem centInPairOK_iff (hg : gensOK = true) (ws : List (List ℕ)) (hw : ws.al
       exact (commTT_iff hx (rep_elemW_of_gensOK hg (List.all_eq_true.1 hw w hwm))).2 (h w hwm)
   have h1 := tblEq_iff_eq hx (Rep.idT (by norm_num : 1408 < 2 ^ 32))
   have h2 := tblEq_iff_eq hx hc
-  simp only [centInPairOK, Bool.or_eq_true, Bool.not_eq_true', h1, h2]
+  simp only [Bool.or_eq_true, Bool.not_eq_true', h1, h2]
   constructor
   · intro h hcm
     rcases h with (h | h) | h

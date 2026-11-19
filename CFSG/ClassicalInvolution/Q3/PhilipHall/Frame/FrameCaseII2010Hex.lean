@@ -68,7 +68,7 @@ theorem Std20Frame.v_Y_odd (d : Std20Frame K K' J S R R' W V z t) {g x : G}
     (pairNormalizers_le_normalizer K J z t) d.late_hWc ?_
     (fun w hw w2 => d.late_inv_W w hw w2) d.late_z_mem_W d.late_t_mem_W hgY hgW hgz hgt hxY hxW hx
   intro w hw
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨w, d.hWS hw⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨w, d.hWS hw⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem Std20Frame.v_no_norm_four (d : Std20Frame K K' J S R R' W V z t) {σ ξ : G}
@@ -92,7 +92,7 @@ theorem Std20Frame.v_no_norm_four (d : Std20Frame K K' J S R R' W V z t) {σ ξ 
     · rw [h]
     · rw [h, hξinv2]
   have hA₂ : IsPGroup 2 ↥(Subgroup.zpowers ξ) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hWS hξW))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hWS hξW))
   have hA₄ : 4 ≤ Nat.card ↥(Subgroup.zpowers ξ) := by
     rw [Nat.card_zpowers, late_orderOf_four rfl hξ2 hξ4]
   have hnorm : ∀ w ∈ Subgroup.zpowers ξ, σ⁻¹ * w * σ ∈ Subgroup.zpowers ξ := by
@@ -381,7 +381,7 @@ theorem Std20Frame.v_exists_x (d : Std20Frame K K' J S R R' W V z t) {s : G} (hs
     have haQ' : (a : G) ∈ Q := haQ
     have haW' : (a : G) ∈ W := haW
     have hodd' : Odd (orderOf (a : G)) := odd_orderOf_of_mem_oddCoreOf C₀ haQ'
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨(a : G), d.hWS haW'⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨(a : G), d.hWS haW'⟩
     have hk' : (a : G) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hdvd : orderOf (a : G) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk'
     have hcop : Nat.Coprime (orderOf (a : G)) (2 ^ k) := hodd'.coprime_two_right.pow_right k

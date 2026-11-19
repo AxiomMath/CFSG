@@ -49,8 +49,8 @@ theorem uc22s21ru3b_exists_cov {Y T : Subgroup G} (hTY : T ≤ Y) (hsol : Group.
     have h1 : p ∣ Nat.card T := by rw [heq, hcardY']; exact hpH
     rw [hn] at h1
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h1))
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
-  haveI : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
   obtain ⟨X, hcov, hXY'⟩ := exists_covBy_le_of_lt hlt
   refine ⟨X, hcov, hXY'.trans hY'Y, fun q hq hqX => ?_⟩
   have hqY' : q ∣ Nat.card H := hcardY' ▸ hqX.trans (Subgroup.card_dvd_of_le hXY')
@@ -58,6 +58,7 @@ theorem uc22s21ru3b_exists_cov {Y T : Subgroup G} (hTY : T ≤ Y) (hsol : Group.
   · exact Or.inl (congrArg Subtype.val h)
   · exact Or.inr (congrArg Subtype.val h)
 
+omit [Finite G] in
 theorem uc22s21ru3b_dvd_card {X T : Subgroup G} (hTX : IsSylowIn 2 T X) (hcov : T ⋖ X) {p : ℕ}
     (hpi : ∀ q : ℕ, q.Prime → q ∣ Nat.card X → q = 2 ∨ q = p) : p ∣ Nat.card X := by
   have hne : T.relIndex X ≠ 1 := fun h =>
@@ -77,8 +78,8 @@ theorem uc22s21ru3b_false_of_le (D : Data G) (Ch : Choice2011 G) (st : Standing2
   classical
   have hpp : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI := hsol
+  have : Fact p.Prime := ⟨hpp⟩
+  have := hsol
   by_cases hnc : ∃ Q : Subgroup G, Q ≤ X ∧ IsPGroup p ↥Q ∧ ¬ IsCyclic ↥Q
   · obtain ⟨Q, hQX, hQp, hQnc⟩ := hnc
     exact uc22s21rn_not_le_of_uniqueMax D hH (st.r6_1 p hp Q (hQX.trans hXM) hQp hQnc)
@@ -97,7 +98,7 @@ theorem uc22s21ru3b_false_of_le (D : Data G) (Ch : Choice2011 G) (st : Standing2
   have hAU : Subgroup.zpowers (a : G) ∈ uniqueSet D.M :=
     uc22p22r_mem_uniqueSet_of_sp D hpp hsp (hAX.trans hXM) hAp hA1
   have hZX : Subgroup.zpowers (a : G) ⊔ D.T ≤ X := sup_le hAX hTX
-  have hsolZ : IsSolvable ↥(Subgroup.zpowers (a : G) ⊔ D.T) :=
+  have hsolZ : Group.IsSolvable ↥(Subgroup.zpowers (a : G) ⊔ D.T) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hZX)
   have hZpi : ∀ q : ℕ, q.Prime → q ∣ Nat.card ↥(Subgroup.zpowers (a : G) ⊔ D.T) → q = 2 ∨ q = p :=
     fun q hq hqZ => hpi q hq (hqZ.trans (Subgroup.card_dvd_of_le hZX))
@@ -106,7 +107,7 @@ theorem uc22s21ru3b_false_of_le (D : Data G) (Ch : Choice2011 G) (st : Standing2
       (Subgroup.zpowers (a : G) ⊔ D.T).subtype ≤ Subgroup.zpowers (a : G) ⊔ D.T :=
     Subgroup.map_subtype_le _
   have hAoddp : IsPGroup p ↥((P₀ : Subgroup ↥(Subgroup.zpowers (a : G) ⊔ D.T)).map
-      (Subgroup.zpowers (a : G) ⊔ D.T).subtype) := P₀.isPGroup'.map _
+      (Subgroup.zpowers (a : G) ⊔ D.T).subtype) := P₀.isPGroup.map _
   have hhall : IsHallOddIn ((P₀ : Subgroup ↥(Subgroup.zpowers (a : G) ⊔ D.T)).map
       (Subgroup.zpowers (a : G) ⊔ D.T).subtype) (Subgroup.zpowers (a : G) ⊔ D.T) := by
     refine ⟨hAoddZ, ?_, ?_⟩
@@ -126,7 +127,7 @@ theorem uc22s21ru3b_false_of_le (D : Data G) (Ch : Choice2011 G) (st : Standing2
       · exact absurd (h ▸ hdd) P₀.not_dvd_index
   have hcomm : IsMulCommutative ↥((P₀ : Subgroup ↥(Subgroup.zpowers (a : G) ⊔ D.T)).map
       (Subgroup.zpowers (a : G) ⊔ D.T).subtype) := by
-    haveI : IsCyclic ↥((P₀ : Subgroup ↥(Subgroup.zpowers (a : G) ⊔ D.T)).map
+    have : IsCyclic ↥((P₀ : Subgroup ↥(Subgroup.zpowers (a : G) ⊔ D.T)).map
       (Subgroup.zpowers (a : G) ⊔ D.T).subtype) := hnc _ (hAoddZ.trans hZX) hAoddp
     infer_instance
   have hrank : ∀ q ∈ piSet (Subgroup.zpowers (a : G) ⊔ D.T), q ≠ 2 →
@@ -158,7 +159,7 @@ theorem uc22s21ru3b_not_dvd_card (D : Data G) (Ch : Choice2011 G) (st : Standing
   obtain ⟨X, hcov, hXY, hpi⟩ := uc22s21ru3b_exists_cov hTY hsol D.sylowM.isPGroup hpp hp2 hpY
   have hTX : D.T ≤ X := hcov.lt.le
   have hXM : X ≤ D.M := hXY.trans hYM
-  haveI := hsol
+  have := hsol
   have hsolX : Group.IsSolvable ↥X :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hXY)
   have hTXs : IsSylowIn 2 D.T X := uc22p22ta_isSylowIn D hTX

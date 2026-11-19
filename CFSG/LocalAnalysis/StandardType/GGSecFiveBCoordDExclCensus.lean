@@ -26,7 +26,7 @@ theorem coxeterMatrixA_noFour {N : ℕ} (hN : 2 ≤ N) (i : Fin N) :
         simpa using congrArg Fin.val he
       omega
     have hji : (i : ℕ) + 1 = ((⟨i.val + 1, h⟩ : Fin N) : ℕ) := rfl
-    rw [coxeterMatrixA_apply, if_neg hne, if_pos (Or.inr hji)]
+    rw [coxeterMatrixA_apply, ite_eq_right hne, ite_eq_left (Or.inr hji)]
     norm_num
   · refine ⟨⟨i.val - 1, by omega⟩, ?_⟩
     have hne : i ≠ ⟨i.val - 1, by omega⟩ := by
@@ -37,14 +37,14 @@ theorem coxeterMatrixA_noFour {N : ℕ} (hN : 2 ≤ N) (i : Fin N) :
     have hji : ((⟨i.val - 1, by omega⟩ : Fin N) : ℕ) + 1 = i := by
       show i.val - 1 + 1 = i.val
       omega
-    rw [coxeterMatrixA_apply, if_neg hne, if_pos (Or.inl hji)]
+    rw [coxeterMatrixA_apply, ite_eq_right hne, ite_eq_left (Or.inl hji)]
     norm_num
 
 private lemma cartanD_apply_chain {N : ℕ} (i j : Fin N) (hne : i ≠ j)
     (h1 : (j : ℕ) = (i : ℕ) + 1) (h2 : (j : ℕ) + 2 < N) :
     CartanMatrix.D N i j = -1 := by
   simp only [CartanMatrix.D, Matrix.of_apply]
-  rw [if_neg hne, if_neg (by omega), if_pos ⟨h1.symm, h2⟩]
+  rw [ite_eq_right hne, ite_eq_right (by omega), ite_eq_left ⟨h1.symm, h2⟩]
 
 private lemma cartanD_apply_fork_left {N : ℕ} (i j : Fin N) (hne : i ≠ j)
     (h1 : (i : ℕ) + 3 = N) (h2 : (j : ℕ) + 2 = N) :
@@ -56,8 +56,8 @@ private lemma cartanD_apply_fork_left {N : ℕ} (i j : Fin N) (hne : i ≠ j)
   have hnot4 : ¬ ((j : ℕ) + 1 = (i : ℕ) ∧ (i : ℕ) + 2 < N) := by
     rintro ⟨hji, hi2⟩
     omega
-  rw [if_neg hne, if_neg (by omega), if_neg hnot3, if_neg hnot4,
-    if_pos ⟨h1, Or.inl h2⟩]
+  rw [ite_eq_right hne, ite_eq_right (by omega), ite_eq_right hnot3, ite_eq_right hnot4,
+    ite_eq_left ⟨h1, Or.inl h2⟩]
 
 private lemma cartanD_apply_fork_right {N : ℕ} (i j : Fin N) (hne : i ≠ j)
     (hlt : N < (i : ℕ) + 3) (h1 : (j : ℕ) + 3 = N)
@@ -73,8 +73,8 @@ private lemma cartanD_apply_fork_right {N : ℕ} (i j : Fin N) (hne : i ≠ j)
   have hnot5 : ¬ ((i : ℕ) + 3 = N ∧ ((j : ℕ) + 2 = N ∨ (j : ℕ) + 1 = N)) := by
     rintro ⟨h, -⟩
     omega
-  rw [if_neg hne, if_neg (by omega), if_neg hnot3, if_neg hnot4, if_neg hnot5,
-    if_pos ⟨h1, h2⟩]
+  rw [ite_eq_right hne, ite_eq_right (by omega), ite_eq_right hnot3, ite_eq_right hnot4, ite_eq_right hnot5,
+    ite_eq_left ⟨h1, h2⟩]
 
 theorem ggCoxeterMatrixD_noFour {N : ℕ} (hN : 3 ≤ N) (i : Fin N) :
     ∃ j, ¬ ggCoxeterMatrixD N i j ∣ 4 := by
@@ -87,7 +87,7 @@ theorem ggCoxeterMatrixD_noFour {N : ℕ} (hN : 3 ≤ N) (i : Fin N) :
     refine ⟨⟨i.val + 1, by omega⟩, ?_⟩
     have hD : CartanMatrix.D N i ⟨i.val + 1, by omega⟩ = -1 :=
       cartanD_apply_chain i ⟨i.val + 1, by omega⟩ hne rfl (by omega)
-    rw [ggCoxeterMatrixD_apply, if_neg hne, if_neg (by rw [hD]; norm_num)]
+    rw [ggCoxeterMatrixD_apply, ite_eq_right hne, ite_eq_right (by rw [hD]; norm_num)]
     norm_num
   · by_cases h2 : (i : ℕ) + 3 = N
     · have hne : i ≠ ⟨N - 2, by omega⟩ := by
@@ -99,7 +99,7 @@ theorem ggCoxeterMatrixD_noFour {N : ℕ} (hN : 3 ≤ N) (i : Fin N) :
       have hD : CartanMatrix.D N i ⟨N - 2, by omega⟩ = -1 :=
         cartanD_apply_fork_left i ⟨N - 2, by omega⟩ hne (by omega)
           (by show N - 2 + 2 = N; omega)
-      rw [ggCoxeterMatrixD_apply, if_neg hne, if_neg (by rw [hD]; norm_num)]
+      rw [ggCoxeterMatrixD_apply, ite_eq_right hne, ite_eq_right (by rw [hD]; norm_num)]
       norm_num
     · have hlt : N < (i : ℕ) + 3 := by omega
       have hne : i ≠ ⟨N - 3, by omega⟩ := by
@@ -115,7 +115,7 @@ theorem ggCoxeterMatrixD_noFour {N : ℕ} (hN : 3 ≤ N) (i : Fin N) :
       have hD : CartanMatrix.D N i ⟨N - 3, by omega⟩ = -1 :=
         cartanD_apply_fork_right i ⟨N - 3, by omega⟩ hne hlt
           (by show N - 3 + 3 = N; omega) h2'
-      rw [ggCoxeterMatrixD_apply, if_neg hne, if_neg (by rw [hD]; norm_num)]
+      rw [ggCoxeterMatrixD_apply, ite_eq_right hne, ite_eq_right (by rw [hD]; norm_num)]
       norm_num
 
 theorem coxeterMatrixE₆_noFour : ∀ i : Fin 6, ∃ j, ¬ CoxeterMatrix.E₆ i j ∣ 4 := by

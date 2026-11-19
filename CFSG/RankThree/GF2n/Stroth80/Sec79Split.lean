@@ -68,7 +68,7 @@ theorem sec79_split_of_hom (E : ElemMatrixIso Q X) (hQ : (polarBilin Q).Nondegen
   classical
   have hsec := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨M, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite M := hκ.finite
+  have : Finite M := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂
   have hdec' := hdec.symm
   have huu'' : polar Q u' u ≠ 0 := by rwa [polar_comm]

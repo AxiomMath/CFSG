@@ -42,7 +42,7 @@ theorem kd264InnGood_of_exc (hE6 : LieInnGood fun d => ∃ q, d = .E6 q)
   | B r q =>
     by_cases h : r = 2 ∨ q.p = 2
     · exact lieInnGood_symplectic ⟨_, he⟩ p hp hp2 hpc h3 h5 h
-    · push_neg at h
+    · push Not at h
       exact lieInnGood_orthogonal ⟨_, he⟩ p hp hp2 hpc h3 h5 h
   | C r q => exact lieInnGood_symplectic ⟨_, he⟩ p hp hp2 hpc h3 h5 trivial
   | D r q =>

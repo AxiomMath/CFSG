@@ -10,7 +10,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 
 variable {X : Type} [Group X] {V : Subgroup X} {W : Fin 4 → Subgroup X}
 
-private def s888SupportTwo (V : Subgroup X) (W : Fin 4 → Subgroup X) (c d : Fin 4) : Set X :=
+private def s888SupportTwo (_V : Subgroup X) (W : Fin 4 → Subgroup X) (c d : Fin 4) : Set X :=
   {v | ∃ a ∈ W c, ∃ b ∈ W d, a ≠ 1 ∧ b ≠ 1 ∧ v = a * b}
 
 private theorem s888SupportTwo_subset_V (hS : PlaneSys V W) {c d : Fin 4} :
@@ -21,8 +21,8 @@ private theorem s888SupportTwo_subset_V (hS : PlaneSys V W) {c d : Fin 4} :
 private theorem s888_card_subtype_ne_one (hS : PlaneSys V W) (i : Fin 4) :
     Nat.card {a : W i // a ≠ 1} = 3 := by
   classical
-  haveI : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hS.card i]; decide)
-  haveI : Fintype (W i) := Fintype.ofFinite (W i)
+  have : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hS.card i]; decide)
+  have : Fintype (W i) := Fintype.ofFinite (W i)
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl (fun a : W i => a = 1),
     Fintype.card_subtype_eq (1 : W i), Fintype.card_eq_nat_card, hS.card i]
 
@@ -139,7 +139,7 @@ theorem exists_fixed_support_two [Finite X] (hS : PlaneSys V W) {c d : Fin 4} (h
     { toFun := actR
       map_one' := hact_one
       map_mul' := fun y z => hact_mul y z }
-  letI : MulAction R S := MulAction.ofEndHom endR
+  let : MulAction R S := MulAction.ofEndHom endR
   let φ : R →* Equiv.Perm S := MulAction.toPermHom R S
   let P : Subgroup (Equiv.Perm S) := φ.range
   have hP2 : IsPGroup 2 P := by

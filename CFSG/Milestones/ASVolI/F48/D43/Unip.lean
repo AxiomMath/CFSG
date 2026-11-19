@@ -148,7 +148,7 @@ theorem burnsideF48d_hconj : ∀ K'' : Subgroup ↥burnsideF48d_X,
     K'' ≤ burnsideF48d_P1 ⊓ burnsideF48d_P2 → Nat.card ↥K'' = 52 →
       ∃ t ∈ burnsideF48d_P1 ⊓ burnsideF48d_P2, ∀ z, z ∈ K'' ↔ t * z * t⁻¹ ∈ burnsideF48d_T := by
   intro K'' hle hcard
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU3 : IsPGroup 3 burnsideF48d_U :=
     IsPGroup.of_card (n := 12) (by rw [burnsideF48d_card_U]; norm_num)
   have hKn : K'' ≤ Subgroup.normalizer (burnsideF48d_U : Set ↥burnsideF48d_X) :=

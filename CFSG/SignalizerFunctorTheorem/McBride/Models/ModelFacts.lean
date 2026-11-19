@@ -21,7 +21,7 @@ theorem Frame.sylow_le_conj_fixedNormalizer (hF : Frame p ℓ f) (R : Sylow ℓ 
     ∃ g : X, (R : Subgroup X) ≤ (fixedNormalizer f).map (MulAut.conj g).toMonoidHom := by
   have := Fact.mk hF.prime_ℓ
   obtain ⟨S, hS⟩ := hF.C0_pgroup.exists_le_sylow
-  have hSeq : (S : Subgroup X) = fixedFitting f := hF.C0_sylow S S.isPGroup' hS
+  have hSeq : (S : Subgroup X) = fixedFitting f := hF.C0_sylow S S.isPGroup hS
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X S R
   refine ⟨g, ?_⟩
   have hR : (R : Subgroup X) = (S : Subgroup X).map (MulAut.conj g).toMonoidHom := by

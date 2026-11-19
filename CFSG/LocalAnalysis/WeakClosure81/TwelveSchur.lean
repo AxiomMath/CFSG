@@ -31,8 +31,8 @@ theorem schurMultiplierInput_of_mult2Fact (h : CFSG.Quasithin.Mult2Fact) :
   obtain ⟨n, hn1, htype'⟩ := htype
   have hperf : commutator (X ⧸ K) = ⊤ :=
     CFSG.Quasithin.E2.commutator_eq_top_of_psl_or_sz hn1 htype'
-  haveI : Group.IsPerfect (X ⧸ K) := ⟨hperf⟩
-  haveI : IsSimpleGroup (X ⧸ K) := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz htype'
+  have : Group.IsPerfect (X ⧸ K) := ⟨hperf⟩
+  have : IsSimpleGroup (X ⧸ K) := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz htype'
   have hqXK : CFSG.Open.IsQuasisimple (X ⧸ K) :=
     CFSG.ComponentClassification.Quasisimple.simple_of_perfect (X ⧸ K)
   let D : Subgroup X := commutator X
@@ -105,7 +105,7 @@ theorem schurMultiplierInput_of_mult2Fact (h : CFSG.Quasithin.Mult2Fact) :
     have h2sub : IsPGroup 2 (K.subgroupOf D) := hcenterD_sub ▸ h2center
     have hsub : K.subgroupOf D = (D ⊓ K).subgroupOf D := by
       ext d
-      simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+      simp [Subgroup.mem_subgroupOf]
     exact (hsub ▸ h2sub).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_left)
   have hDK : D ⊓ K = ⊥ := by
     rw [eq_bot_iff]

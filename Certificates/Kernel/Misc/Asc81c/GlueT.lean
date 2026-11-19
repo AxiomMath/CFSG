@@ -38,11 +38,11 @@ theorem mem_partners {n : Nat} {x a : Array Nat} (h : a ∈ partners n x) :
   obtain ⟨c, hc, hs⟩ := h
   by_cases h1 : ord3V n c = true
   · by_cases h2 : pre1 n x (linA n c) = true
-    · rw [if_pos h1, if_pos h2] at hs
+    · rw [ite_eq_left h1, ite_eq_left h2] at hs
       exact ⟨c, hc, h1, h2, (Option.some.inj hs).symm⟩
-    · rw [if_pos h1, if_neg h2] at hs
+    · rw [ite_eq_left h1, ite_eq_right h2] at hs
       exact absurd hs (by simp)
-  · rw [if_neg h1] at hs
+  · rw [ite_eq_right h1] at hs
     exact absurd hs (by simp)
 
 theorem cand_of {m n v : Nat} {R : Nat → Nat} {c x : List Nat} (hv : decC n v = c)

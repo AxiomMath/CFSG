@@ -73,7 +73,7 @@ theorem le_centralizer_of_inf_eq_bot {V S : Subgroup M} {e : M} (hS2 : IsPGroup 
     show s⁻¹ * (1 * (s * (k : M)) * 1⁻¹) = (k : M)
     group
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype ↥K := Fintype.ofFinite _
+  have : Fintype ↥K := Fintype.ofFinite _
   have hcard := Equiv.Perm.card_fixedPoints_modEq (p := 3) (n := 1) hf3
   have hK2 : IsPGroup 2 K := hS2.to_le inf_le_left
   obtain ⟨m, hm⟩ := hK2.exists_card_eq
@@ -103,6 +103,7 @@ theorem le_centralizer_of_inf_eq_bot {V S : Subgroup M} {e : M} (hS2 : IsPGroup 
   rw [hs']
   exact inv_mem (Subgroup.mem_inf.mp k.2).2
 
+omit [Finite M] in
 theorem mem_centralizer_of_mul {V K T : Subgroup M} (hKV : K ≤ Subgroup.centralizer (V : Set M))
     (hTK : T ≤ Subgroup.normalizer (K : Set M)) (hT2 : IsPGroup 2 T) {k t : M} (hk : k ∈ K)
     (ht : t ∈ T) (h3 : (k * t) ^ 3 ∈ K) : k * t ∈ Subgroup.centralizer (V : Set M) := by
@@ -284,7 +285,7 @@ theorem a5_factor {Ybar Abar Xbar Rbar : Subgroup M} {abar : M}
       have h := Subgroup.card_le_of_le hle
       rw [Nat.card_zpowers, orderOf_eq_prime (hA3 abar hset.mem_A) hset.ne_one] at h
       omega
-    obtain ⟨e, ⟨ε, hε, rfl⟩, he⟩ := SetLike.not_le_iff_exists.mp hnle
+    obtain ⟨e, ⟨ε, hε, rfl⟩, he⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
     exact ⟨ε, ε.2, hkerC ε hε, he⟩
   ·
     have hWne : W ≠ ⊥ := by
@@ -331,7 +332,7 @@ theorem a5_factor {Ybar Abar Xbar Rbar : Subgroup M} {abar : M}
         rw [hWz] at hw'
         obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hw'
         have h := congrArg (fun α : MulAut ↥V => ((α (w : ↥V) : ↥V) : M)) hw'κ
-        simp only [MonoidHom.coe_coe, MulAut.conj_apply] at h
+        simp only [MulAut.conj_apply] at h
         rw [hκapp] at h
         have hc : ((w : ↥V) ^ n * (w : ↥V) * ((w : ↥V) ^ n)⁻¹ : ↥V) = w := by group
         rw [hc] at h

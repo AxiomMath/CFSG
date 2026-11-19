@@ -13,7 +13,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
   CFSG.LocalAnalysis.GLTheoremA
 open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup)
 
-@[expose] def ATypeOK (p : ℕ) (T : Type) [Group T] : Prop :=
+@[expose] def ATypeOK (_p : ℕ) (T : Type) [Group T] : Prop :=
   ∀ m : ℕ, 10 ≤ m → Nonempty (T ≃* alternatingGroup (Fin m)) → False
 
 theorem ATypeOK.of_mulEquiv {p : ℕ} {T T' : Type} [Group T] [Group T'] (e : T ≃* T')
@@ -51,7 +51,7 @@ theorem acompOK_of_no_comp {p : ℕ} {Q : Type} [Group Q] {k : Q}
 theorem acompOK_of_pConstrained {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finite Q] {k : Q}
     (h : CFSG.HardMathSupport.Timmesfeld.SporadicBalance.PConstrainedShape p
       (Subgroup.centralizer ({k} : Set Q))) : ACompOK p k :=
-  acompOK_of_no_comp fun I hI => KDSpor.false_of_glaPComponent_of_pConstrained hp h hI
+  acompOK_of_no_comp fun _I hI => KDSpor.false_of_glaPComponent_of_pConstrained hp h hI
 
 theorem acompOK_of_shapeRkAt {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finite Q]
     {Good Rk : ∀ (T : Type) [Group T], Prop} {k : Q}
@@ -86,7 +86,7 @@ theorem arow_of_model {s : TauCeti.SporadicName} {p : ℕ} {Q : Type} [Group Q] 
     (h : ∀ k : Q, orderOf k = p → ACompOK p k) : I1415Row s p := by
   intro S _ _ ⟨e⟩ hp hp2 β hβ hβ1 K hK
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩
@@ -98,7 +98,7 @@ theorem arow_of_model {s : TauCeti.SporadicName} {p : ℕ} {Q : Type} [Group Q] 
     · obtain ⟨a, c, hac⟩ := hncS
       exact absurd ((Subgroup.mem_center_iff.1 (h' ▸ Subgroup.mem_top c)) a) hac
   have hout := hOut S inferInstance hncS s ⟨e⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, rfl, hxp⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.exists_conj_of_pow hp hp2 hcen hout β hβ
   have hx1 : x ≠ 1 := by
@@ -116,7 +116,7 @@ theorem arow_of_model_not_sq_dvd {s : TauCeti.SporadicName} {p : ℕ} {Q : Type}
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (b : Q ≃* (TauCeti.CFSGIndex.sporadic s).Group) (hnc : ∃ a c : Q, a * c ≠ c * a)
     (hp : p.Prime) (hd : ¬ p ^ 2 ∣ Nat.card Q) : I1415Row s p :=
-  arow_of_model hOut b hnc fun k hk => acompOK_of_no_comp fun I hI =>
+  arow_of_model hOut b hnc fun _k hk => acompOK_of_no_comp fun _I hI =>
     CFSG.HardMathSupport.Solomon.Coordinator.no_glaPComponent_of_exact hp hk hd hI
 
 theorem dvd_card_alt {m : ℕ} (hm : 10 ≤ m) : 1814400 ∣ m.factorial / 2 := by
@@ -181,14 +181,14 @@ theorem atypeOK_A6 (_hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridg
 theorem acompOK_of_not_dvd_card {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finite Q] {k : Q}
     (hk : orderOf k = p)
     (h : ¬ p * 1814400 ∣ Nat.card (Subgroup.centralizer ({k} : Set Q))) : ACompOK p k :=
-  fun I hI => atypeOK_of_not_dvd_card fun hd => h ((Nat.mul_dvd_mul_left p hd).trans
+  fun _I hI => atypeOK_of_not_dvd_card fun hd => h ((Nat.mul_dvd_mul_left p hd).trans
     (CFSG.LocalAnalysis.GLTheoremA.I1416Rows.prime_mul_card_pSimple_dvd_cent hp hk hI.1))
 
 theorem arow_of_model_card {s : TauCeti.SporadicName} {p : ℕ} {Q : Type} [Group Q] [Finite Q]
     [IsSimpleGroup Q] (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (b : Q ≃* (TauCeti.CFSGIndex.sporadic s).Group) (hnc : ∃ a c : Q, a * c ≠ c * a)
     (hp : p.Prime) (hd : ¬ p * 1814400 ∣ Nat.card Q) : I1415Row s p :=
-  arow_of_model hOut b hnc fun k hk => acompOK_of_not_dvd_card hp hk fun h =>
+  arow_of_model hOut b hnc fun _k hk => acompOK_of_not_dvd_card hp hk fun h =>
     hd (h.trans (Subgroup.card_subgroup_dvd_card _))
 
 section NotSq

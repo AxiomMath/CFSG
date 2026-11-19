@@ -125,7 +125,7 @@ theorem exists_isUnit_mul_eq_mul_ggInvNil {N : Matrix (Fin n) (Fin n) F} (hN : N
   let f : Fin n → (Fin n → F) := fun j => Sum.elim w (Sum.elim v y) (ggBlockIdx l k hn j)
   have hf : LinearIndependent F f := hg.comp _ (ggBlockIdx_injective hn)
   let P : Matrix (Fin n) (Fin n) F := Matrix.of fun i j => f j i
-  have hP : IsUnit P := Matrix.linearIndependent_cols_iff_isUnit.mp hf
+  have hP : IsUnit P := Matrix.linearIndependent_col_iff_isUnit.mp hf
   have hact : ∀ j : Fin n,
       φ (f j) = if h : (j : ℕ) < l then f ⟨j + (n - l), by omega⟩ else 0 := by
     intro j

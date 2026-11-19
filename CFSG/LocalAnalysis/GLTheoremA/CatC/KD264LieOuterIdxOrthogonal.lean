@@ -90,7 +90,7 @@ theorem idxCoreAt_pomegaOdd_of_mem_image {n ℓ f p : ℕ} {K : Type} [Field K] 
   have hJN' : JJ ≤ NN := hJN
   have hJn' : (JJ.subgroupOf NN).Normal := hJn
   have hI : IsSimpleGroup ↥JJ := hJsimple
-  haveI := hI
+  have := hI
   have hJq : CFSG.IsQuasisimple JJ :=
     isQuasisimple_of_simple_nonabelian (fun hc => by
       obtain ⟨x, y, hxy⟩ := hJnab
@@ -104,7 +104,7 @@ theorem idxCoreAt_pomegaOdd_of_mem_image {n ℓ f p : ℕ} {K : Type} [Field K] 
     rw [← hΘa, h1, hkfix]
   have hkN : Θ c ∈ NN := (hN (Θ c)).1 hkδ
   have hkcJ : Θ c ∈ JJ := by
-    haveI : (JJ.subgroupOf NN).Normal := hJn'
+    have : (JJ.subgroupOf NN).Normal := hJn'
     let z : ↥NN ⧸ JJ.subgroupOf NN :=
       QuotientGroup.mk' (JJ.subgroupOf NN) (⟨Θ c, hkN⟩ : ↥NN)
     have hz : z = QuotientGroup.mk (⟨Θ c, hkN⟩ : ↥NN) := rfl
@@ -225,7 +225,7 @@ theorem idxCoreAt_pomegaPlus_of_mem_image {n ℓ f p : ℕ} {K : Type} [Field K]
   have hJN' : JJ ≤ NN := hJN
   have hJn' : (JJ.subgroupOf NN).Normal := hJn
   have hI : IsSimpleGroup ↥JJ := hJsimple
-  haveI := hI
+  have := hI
   have hJq : CFSG.IsQuasisimple JJ :=
     isQuasisimple_of_simple_nonabelian (fun hc => by
       obtain ⟨x, y, hxy⟩ := hJnab
@@ -239,7 +239,7 @@ theorem idxCoreAt_pomegaPlus_of_mem_image {n ℓ f p : ℕ} {K : Type} [Field K]
     rw [← hΘa, h1, hkfix]
   have hkN : Θ c ∈ NN := (hN (Θ c)).1 hkδ
   have hkcJ : Θ c ∈ JJ := by
-    haveI : (JJ.subgroupOf NN).Normal := hJn'
+    have : (JJ.subgroupOf NN).Normal := hJn'
     let z : ↥NN ⧸ JJ.subgroupOf NN :=
       QuotientGroup.mk' (JJ.subgroupOf NN) (⟨Θ c, hkN⟩ : ↥NN)
     have hz : z = QuotientGroup.mk (⟨Θ c, hkN⟩ : ↥NN) := rfl
@@ -359,7 +359,7 @@ theorem idxCoreAt_pomegaMinus_of_mem_image {n ℓ f p : ℕ} (hn : 1 ≤ n) {K :
   have hJN' : JJ ≤ NN := hJN
   have hJn' : (JJ.subgroupOf NN).Normal := hJn
   have hI : IsSimpleGroup ↥JJ := hJsimple
-  haveI := hI
+  have := hI
   have hJq : CFSG.IsQuasisimple JJ :=
     isQuasisimple_of_simple_nonabelian (fun hc => by
       obtain ⟨x, y, hxy⟩ := hJnab
@@ -374,7 +374,7 @@ theorem idxCoreAt_pomegaMinus_of_mem_image {n ℓ f p : ℕ} (hn : 1 ≤ n) {K :
     rw [← hΘa, h1, hkfix]
   have hkN : Θ c₀ ∈ NN := (hN (Θ c₀)).1 hkδ
   have hkcJ : Θ c₀ ∈ JJ := by
-    haveI : (JJ.subgroupOf NN).Normal := hJn'
+    have : (JJ.subgroupOf NN).Normal := hJn'
     let z : ↥NN ⧸ JJ.subgroupOf NN :=
       QuotientGroup.mk' (JJ.subgroupOf NN) (⟨Θ c₀, hkN⟩ : ↥NN)
     have hz : z = QuotientGroup.mk (⟨Θ c₀, hkN⟩ : ↥NN) := rfl
@@ -435,7 +435,7 @@ theorem idxCoreAt_pomegaOdd_of_outer {n ℓ f p : ℕ} {K : Type} [Field K] [Fin
     (hxo : x ∉ innAutDerived (matrixProjectiveDerived (coordinateQuadOdd n K)))
     (hpdvd : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadOdd n K))) :
     IdxCoreAt p (.B n q) x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have haH : x ∉ inner (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
     fun hmem => hxo (inner_le_innAutDerived _ hmem)
   obtain ⟨haE, haD⟩ := pomegaOdd_mem_image_not_linear h hp hp2 hpℓ hK e hxp haH
@@ -453,7 +453,7 @@ theorem idxCoreAt_pomegaPlus_of_outer {n ℓ f p : ℕ} {K : Type} [Field K] [Fi
     (hxo : x ∉ innAutDerived (matrixProjectiveDerived (coordinateQuadPlus n K)))
     (hpdvd : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadPlus n K))) :
     IdxCoreAt p (.D n q) x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have haH : x ∉ inner (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     fun hmem => hxo (inner_le_innAutDerived _ hmem)
   obtain ⟨haE, haD⟩ := pomegaPlus_mem_image_not_linear h hn hp hp2 hpℓ hK e hxp haH
@@ -472,7 +472,7 @@ theorem idxCoreAt_pomegaMinus_of_outer {n ℓ f p : ℕ} (hn : 1 ≤ n) {K : Typ
     (hxo : x ∉ innAutDerived (matrixProjectiveDerived (coordinateQuadMinus n K hn b c)))
     (hpdvd : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadMinus n K hn b c))) :
     IdxCoreAt p (.twistedD n q) x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have haH : x ∉ inner (matrixProjectiveDerived (coordinateQuadMinus n K hn b c)) :=
     fun hmem => hxo (inner_le_innAutDerived _ hmem)
   obtain ⟨haE, haD⟩ := pomegaMinus_mem_image_not_linear hn h hp hp2 hpℓ hK b c hirr e hxp haH
@@ -483,13 +483,13 @@ theorem idxCoreAt_pomegaMinus_of_outer {n ℓ f p : ℕ} (hn : 1 ≤ n) {K : Typ
 theorem outerIdxAt_pomegaOdd {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     (h : CFSG.Open.StatedClassicalModel G .POmegaOdd n ℓ f)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (hpdvd : p ∣ Nat.card G)
-    {q : TauCeti.PrimePower} (hq : q.card = ℓ ^ f) (hv : (TauCeti.LieTypeIndex.B n q).Valid) :
+    {q : TauCeti.PrimePower} (hq : q.card = ℓ ^ f) (_hv : (TauCeti.LieTypeIndex.B n q).Valid) :
     OuterIdxAt p (.B n q) G := by
   have hmodel := h
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h
-  letI := hfield
-  letI := hfinite
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
+  let := hfield
+  let := hfinite
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
     Finite.of_equiv G (coordinateOddWitnessEquiv K e).toEquiv
   have hpdvdM : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadOdd n K)) := by
     rw [← Nat.card_congr (coordinateOddWitnessEquiv K e).toEquiv]
@@ -503,13 +503,13 @@ theorem outerIdxAt_pomegaOdd {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
 theorem outerIdxAt_pomegaPlus {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     (h : CFSG.Open.StatedClassicalModel G .POmegaPlus n ℓ f) (hn : 5 ≤ n ∨ 3 < p)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (hpdvd : p ∣ Nat.card G)
-    {q : TauCeti.PrimePower} (hq : q.card = ℓ ^ f) (hv : (TauCeti.LieTypeIndex.D n q).Valid) :
+    {q : TauCeti.PrimePower} (hq : q.card = ℓ ^ f) (_hv : (TauCeti.LieTypeIndex.D n q).Valid) :
     OuterIdxAt p (.D n q) G := by
   have hmodel := h
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h
-  letI := hfield
-  letI := hfinite
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  let := hfield
+  let := hfinite
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv G (coordinatePlusWitnessEquiv K e).toEquiv
   have hpdvdM : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadPlus n K)) := by
     rw [← Nat.card_congr (coordinatePlusWitnessEquiv K e).toEquiv]
@@ -524,14 +524,14 @@ theorem outerIdxAt_pomegaMinus {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G]
     (h : CFSG.Open.StatedClassicalModel G .POmegaMinus n ℓ f)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (hpdvd : p ∣ Nat.card G)
     {q : TauCeti.PrimePower} (hq : q.card = ℓ ^ f)
-    (hv : (TauCeti.LieTypeIndex.twistedD n q).Valid) :
+    (_hv : (TauCeti.LieTypeIndex.twistedD n q).Valid) :
     OuterIdxAt p (.twistedD n q) G := by
   have hmodel := h
   have hn : 1 ≤ n := by have := h.1.2.2; omega
   obtain ⟨-, K, hfield, hfinite, hK, b, c, hirr, ⟨e⟩⟩ := h
-  letI := hfield
-  letI := hfinite
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn b c)) :=
+  let := hfield
+  let := hfinite
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn b c)) :=
     Finite.of_equiv G (coordinateMinusWitnessEquiv K hn b c e).toEquiv
   have hpdvdM : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadMinus n K hn b c)) := by
     rw [← Nat.card_congr (coordinateMinusWitnessEquiv K hn b c e).toEquiv]

@@ -44,7 +44,7 @@ theorem s16c1610_directData_of_calOStar (D : Data G) {V₀ V : Subgroup G} (h : 
       exact hb1 h1
     exact mem_imgTil_UOf_iff h64 hgen hβB hβC hβs w
   · have hcard := card_barSub_mul_index_eq h64 hgen
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hB0 : Nat.card (barSub V₀ V hV (BOf D.M V g)) ≠ 0 := Nat.card_pos.ne'
     have hU0 : (imgTil V₀ V hV (UOf D.M V g)).index ≠ 0 := Subgroup.index_ne_zero_of_finite
     unfold rk rkIdx

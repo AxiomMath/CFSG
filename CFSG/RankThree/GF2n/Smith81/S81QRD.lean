@@ -36,11 +36,13 @@ variable {K : Type} [Field K] [CharP K 2]
 
 @[expose] def n1D : ND K := Pi.single (⟨alphaA2, alphaA2_mem⟩ : ↥Psi0) 1
 
+omit [CharP K 2] in
 theorem tauD_n1D : tauD (n1D : ND K) = 1 := by
   simp [tauD, n1D]
 
 @[expose] def uΛ (n : ND K) : ↥(LamG K) := ⟨uD n, URge_Rd6_le_LamG (uD_mem_URge n)⟩
 
+omit [CharP K 2] in
 theorem uΛ_add (n m : ND K) : uΛ (n + m) = uΛ n * uΛ m := Subtype.ext (uD_add n m)
 
 @[expose] def PΛ (K : Type) [Field K] [CharP K 2] : Subgroup ↥(LamG K) :=
@@ -83,11 +85,12 @@ theorem Ad_dD (c : Kˣ) :
   by_cases hδ : δ = (⟨alphaA2, alphaA2_mem⟩ : ↥Psi0)
   · subst hδ
     simp
-  · simp [Pi.single_apply, hδ]
+  · simp [hδ]
 
 @[expose] def sD (K : Type) [Field K] : ↥(LamG K) :=
   ⟨e7Data_valid.nm K nodeA2, nm_mem_LamG nodeA2 (by decide)⟩
 
+omit [CharP K 2] in
 theorem coe_sD : ((sD K : ↥(LamG K)) : Gp K) = e7Data_valid.nm K nodeA2 := rfl
 
 theorem neg_one_unit' : (-1 : Kˣ) = 1 := Units.ext (by simp [CharTwo.neg_eq])
@@ -102,6 +105,7 @@ theorem sD_sq : sD K * sD K = 1 := by
 
 theorem sD_inv : (sD K)⁻¹ = sD K := inv_eq_of_mul_eq_one_right sD_sq
 
+omit [CharP K 2] in
 theorem hm_inv_unit' (i : Fin (Tag.rank .E7)) (c : Kˣ) :
     e7Data_valid.hm K i c⁻¹ = (e7Data_valid.hm K i c)⁻¹ := by
   apply eq_inv_of_mul_eq_one_right
@@ -248,7 +252,7 @@ theorem Ad_xE_neg_coord0 (γ : Rt) (hγP : γ ∈ Perp) (hpr : pr (a0 : Fin e7Da
     exact β.2
   have h3 : (⟨δ.1 - -γ, hmem⟩ : ↥Psi0) = β :=
     Subtype.ext (show δ.1 - -γ = β.1 by rw [sub_neg_eq_add, hδβ])
-  rw [dif_pos hmem, h3]
+  rw [dite_eq_left hmem, h3]
 
 theorem isRoot_cert0 (m : Fin 126) : IsRoot .E7 ((Tag.rootCertificate .E7).root m) := by
   have hlen : (Tag.rootCertificate .E7).roots.length = 126 := Tag.rootCertificate_length .E7

@@ -42,8 +42,8 @@ theorem mem_Qline_iff (hc : BinaryActionRankCounterexample G p P T B e ρ) (v : 
     Qline hc ≃ ↥(P ⊓ Subgroup.centralizer (B : Set G)) where
   toFun v := ⟨((v.1.val : P) : G), (v.1.val).2, (mem_Qline_iff hc v.1).mp v.2⟩
   invFun x := ⟨Space.mk hc ⟨x.1, x.2.1⟩, (mem_Qline_iff hc _).mpr x.2.2⟩
-  left_inv v := rfl
-  right_inv x := rfl
+  left_inv _v := rfl
+  right_inv _x := rfl
 
 theorem card_cyclic (hc : BinaryActionRankCounterexample G p P T B e ρ) :
     IsCyclic ↥(P ⊓ Subgroup.centralizer (B : Set G)) ∧
@@ -57,7 +57,7 @@ theorem card_cyclic (hc : BinaryActionRankCounterexample G p P T B e ρ) :
 
 theorem card_eq (hc : BinaryActionRankCounterexample G p P T B e ρ) :
     Nat.card ↥(P ⊓ Subgroup.centralizer (B : Set G)) = p := by
-  haveI : Fact p.Prime := ⟨prime hc⟩
+  have : Fact p.Prime := ⟨prime hc⟩
   obtain ⟨hcyc, hne⟩ := card_cyclic hc
   set C := P ⊓ Subgroup.centralizer (B : Set G) with hC
   obtain ⟨g, hg⟩ := hcyc.exists_generator
@@ -81,7 +81,7 @@ theorem card_eq (hc : BinaryActionRankCounterexample G p P T B e ρ) :
 
 theorem finrank_eq_one (hc : BinaryActionRankCounterexample G p P T B e ρ) :
     Module.finrank (ZMod p) (Qline hc) = 1 := by
-  haveI : Fact p.Prime := ⟨prime hc⟩
+  have : Fact p.Prime := ⟨prime hc⟩
   have h1 : Nat.card (Qline hc) = p := (Nat.card_congr (QlineEquiv hc)).trans (card_eq hc)
   have h2 : Nat.card (Qline hc) = Nat.card (ZMod p) ^ Module.finrank (ZMod p) (Qline hc) :=
     Module.natCard_eq_pow_finrank (K := ZMod p) (V := Qline hc)

@@ -37,9 +37,9 @@ theorem quotCenter_equiv {P Q : Type} [Group P] [Group Q] (hP : CFSG.Open.IsQuas
     obtain ⟨p, rfl⟩ := hψ q
     rw [← map_mul, ← map_mul, (Subgroup.mem_center_iff.1 hz) p]
   have hge : (Subgroup.center Q).comap ψ ≤ Subgroup.center P := by
-    haveI : ((Subgroup.center Q).comap ψ).Normal := Subgroup.Normal.comap inferInstance ψ
+    have : ((Subgroup.center Q).comap ψ).Normal := Subgroup.Normal.comap inferInstance ψ
     refine P22sj.le_center_of_quasisimple hP inferInstance fun htop => ?_
-    haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+    have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
     obtain ⟨a, ha⟩ := exists_ne (1 : Q ⧸ Subgroup.center Q)
     obtain ⟨q, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨p, rfl⟩ := hψ q
@@ -73,12 +73,12 @@ theorem uc22p22wb_compShape_of_shape (D : Data G) {K : Subgroup G}
   have hq : CFSG.Open.IsQuasisimple ↥(mbarImage D.M D.U K) := hcomp.2.2
   have hne : mbarImage D.M D.U K ≠ ⊥ := by
     intro h0
-    haveI : Nontrivial ↥(mbarImage D.M D.U K) := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+    have : Nontrivial ↥(mbarImage D.M D.U K) := CFSG.ComponentClassification.Quasisimple.nontrivial hq
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance h0
   obtain ⟨ψ, hψs, hψk, -⟩ := uc22p22wa_onto D hK hne
   have hKq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
   have hiso : IsSimpleGroup (Bar2 K) → Nonempty (Bar2 K ≃* ↥(mbarImage D.M D.U K)) := fun hs => by
-    haveI := hs
+    have := hs
     exact P22w.mulEquiv_of_isSimpleGroup hKq ψ hψs hψk
   rcases hshape with ⟨n, hn⟩ | ⟨n, hn⟩ | ⟨n, hn⟩ | ⟨p, hp, -, hn⟩ | hn
   · obtain ⟨e₁⟩ := P22w.quotCenter_equiv hKq hq ψ hψs
@@ -90,8 +90,8 @@ theorem uc22p22wb_compShape_of_shape (D : Data G) {K : Subgroup G}
   · obtain ⟨e₁⟩ := hiso (CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hn)
     exact Or.inr (Or.inr (Or.inl ⟨p, hp, CFSG.Blueprint.LieModel.of_mulEquiv e₁ hn⟩))
   · obtain ⟨e₀⟩ := hn
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J1) := CFSG.Sporadic.J1.isSimpleGroup_J1
-    haveI : IsSimpleGroup (Bar2 K) := e₀.isSimpleGroup
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J1) := CFSG.Sporadic.J1.isSimpleGroup_J1
+    have : IsSimpleGroup (Bar2 K) := e₀.isSimpleGroup
     obtain ⟨e₁⟩ := hiso inferInstance
     exact Or.inr (Or.inr (Or.inr ⟨e₁.symm.trans e₀⟩))
 

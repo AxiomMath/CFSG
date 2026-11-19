@@ -131,7 +131,7 @@ theorem uc22pwr1_sl2_frob [Finite k] [CharP k 2] (ψ : MulAut SL(2, k))
     obtain ⟨r, hr⟩ := FiniteField.isSquare_of_char_two (ringChar.eq k 2) (c : k)
     have hr0 : r ≠ 0 := by
       rintro rfl
-      exact c.ne_zero (by simpa using hr)
+      exact c.ne_zero (by simp at hr)
     obtain ⟨c', ν, -, hν⟩ := hrel (Units.mk0 r hr0)
     refine ⟨(ν : k) ^ 2, fun x => ?_⟩
     have hc : (c : k) = ((Units.mk0 r hr0 : kˣ) : k) ^ 2 := by rw [Units.val_mk0, sq]; exact hr
@@ -220,7 +220,7 @@ theorem uc22pwr1_concl_of_isL2G {X : Type} [Group X] [Finite X] {n : ℕ} (h : I
     ∃ E : Subgroup X, uc22pwlie_ConclAt uc22pwr1_shape X (U : Subgroup X) P ψ n m' E ∧
       uc22pwlie_Gal (U : Subgroup X) E ψ := by
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e₁⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   let e₀ : X ≃* SL(2, K) := e₁.trans
     ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm.trans
       (CFSG.Timmesfeld.RankOne.psl2EquivSL2 K))

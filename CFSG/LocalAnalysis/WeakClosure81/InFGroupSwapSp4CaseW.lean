@@ -76,6 +76,7 @@ private theorem le_stabilizer (h : Setting L T P₀ P₁ n w) {Ω : Set (Subgrou
   rw [← perfectCore_sup_perfectCore h, Subgroup.sup_eq_closure] at hg
   exact hclosure g hg
 
+omit [Finite Q] in
 private theorem le_normalizer_iSup_conjSubgroup {A D : Subgroup Q}
     (hD : D = ⨆ g : L, conjSubgroup A (g : Q)) : L ≤ Subgroup.normalizer (D : Set Q) := by
   have hmap : ∀ x : Q, conjSubgroup D x = ⨆ g : L, conjSubgroup A ((g : Q) * x) := by
@@ -93,6 +94,7 @@ private theorem le_normalizer_iSup_conjSubgroup {A D : Subgroup Q}
       exact le_iSup_of_le (g * ⟨x⁻¹, L.inv_mem hx⟩) (le_of_eq (by rw [hgx]))
   exact (hmap x).trans (hre.trans hD.symm)
 
+omit [Finite Q] in
 private theorem exists_supConj_le_T {Ω : Set (Subgroup Q)} {A : Subgroup Q}
     (hL : ∀ g ∈ L, ∀ B ∈ Ω, B ≤ T → conjSubgroup B g ≤ T)
     (hAΩ : A ∈ Ω) (hAT : A ≤ T) :
@@ -104,6 +106,7 @@ private theorem exists_supConj_le_T {Ω : Set (Subgroup Q)} {A : Subgroup Q}
   · exact iSup_le fun g => hL (g : Q) g.2 A hAΩ hAT
   · exact le_normalizer_iSup_conjSubgroup rfl
 
+omit [Finite Q] in
 private theorem normal_subgroupOf_inf_of_le_normalizer {D : Subgroup Q}
     (hN : L ≤ Subgroup.normalizer (D : Set Q)) : ((D ⊓ L).subgroupOf L).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -118,8 +121,8 @@ private theorem normal_subgroupOf_inf_of_le_normalizer {D : Subgroup Q}
 
 private theorem inf_eq_bot_or_eq_of_le_normalizer (h : Setting L T P₀ P₁ n w) {D : Subgroup Q}
     (hN : L ≤ Subgroup.normalizer (D : Set Q)) : D ⊓ L = ⊥ ∨ D ⊓ L = L := by
-  haveI := h.simple
-  haveI := normal_subgroupOf_inf_of_le_normalizer hN
+  have := h.simple
+  have := normal_subgroupOf_inf_of_le_normalizer hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((D ⊓ L).subgroupOf L) with hb | ht
   · left
     have hd : Disjoint (D ⊓ L) L := Subgroup.subgroupOf_eq_bot.mp hb
@@ -132,13 +135,13 @@ private theorem inf_eq_bot_or_eq_of_le_normalizer (h : Setting L T P₀ P₁ n w
 private theorem false_of_le_isPGroup (h : Setting L T P₀ P₁ n w) {D : Subgroup Q}
     (hDT : D ≤ T) (hLD : L ≤ D) : False := by
   have hLT : L ≤ T := hLD.trans hDT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL2 : IsPGroup 2 ↥L := IsPGroup.to_le h.sylow.isPGroup hLT
-  haveI : Nontrivial ↥L := by
+  have : Nontrivial ↥L := by
     obtain ⟨a, b, hab⟩ := h.nonabelian
     exact ⟨a, 1, fun ha => hab (by rw [ha]; simp)⟩
   have hlt := IsPGroup.bot_lt_center hL2
-  haveI := h.simple
+  have := h.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L) with hc | hc
   · rw [hc] at hlt
     exact lt_irrefl ⊥ hlt
@@ -148,7 +151,7 @@ private theorem false_of_le_isPGroup (h : Setting L T P₀ P₁ n w) {D : Subgro
 private theorem false_of_inf_eq_bot (h : Setting L T P₀ P₁ n w) {Ω : Set (Subgroup Q)}
     (hΩ : IsOmegaColl Ω) {A D : Subgroup Q} (hAΩ : A ∈ Ω) (hAD : A ≤ D)
     (hN : L ≤ Subgroup.normalizer (D : Set Q)) (hDinf : D ⊓ L = ⊥) : False := by
-  haveI := h.normal
+  have := h.normal
   have hDcomm : ⁅D, L⁆ ≤ D := by
     rw [Subgroup.commutator_le]
     intro d hd l hl

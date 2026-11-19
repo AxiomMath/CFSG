@@ -60,7 +60,7 @@ private theorem kizFive_commute_psl2 {p n : ℕ} [Fact p.Prime] (hn : 1 ≤ n) {
 private theorem kizFive_card_dvd_sq {p : ℕ} [Fact p.Prime] {K : Subgroup X} (P : Sylow p X)
     (hPK : (P : Subgroup X) ≤ K) (h3 : ¬ p ^ 3 ∣ Nat.card ↥K) :
     Nat.card (P : Subgroup X) ∣ p ^ 2 := by
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hdvd : Nat.card (P : Subgroup X) ∣ Nat.card ↥K := Subgroup.card_dvd_of_le hPK
   have hk3 : k ≤ 2 := by
     by_contra h
@@ -109,12 +109,12 @@ theorem eq_one_of_five_le_of_kFacts (hId : CFSG.AGLEmbedding.KFactSmallIdent)
     (hxP : x ∈ (P : Subgroup X))
     (hx : ∀ n ∈ normalizer ((P : Subgroup X) : Set X), x * n = n * x) : x = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp hO hN
   set K := CFSG.generalizedFitting X with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hident :=
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.identification_of_isStronglyPEmbedded
       hId hLie hCyc hp hp5 hX hO h2 hN
@@ -156,7 +156,7 @@ theorem eq_one_of_five_le_of_kFacts (hId : CFSG.AGLEmbedding.KFactSmallIdent)
         rw [hcard]
         exact CFSG.AGLEmbeddingD2.AltSurvivor.not_pow_three_dvd_card_alternatingGroup hp hp2
       exact eq_one_of_le_of_commute hKnab P hPK
-        (commute_of_card_dvd_sq P.isPGroup' (kizFive_card_dvd_sq P hPK h3)) hxP hx
+        (commute_of_card_dvd_sq P.isPGroup (kizFive_card_dvd_sq P hPK h3)) hxP hx
     ·
       obtain ⟨h3, -⟩ := hthree
       omega
@@ -165,7 +165,7 @@ theorem eq_one_of_five_le_of_kFacts (hId : CFSG.AGLEmbedding.KFactSmallIdent)
       ·
         subst p
         have hT' : CFSG.AGLEmbeddingD2.TorusLocal 5 (P : Subgroup X) := hTits X K hKC hT P
-        exact eq_one_of_torusLocal (by norm_num) (by norm_num) P.isPGroup' hT' hxP hx
+        exact eq_one_of_torusLocal (by norm_num) (by norm_num) P.isPGroup hT' hxP hx
       ·
         subst p
         obtain ⟨e⟩ := hMc
@@ -175,7 +175,7 @@ theorem eq_one_of_five_le_of_kFacts (hId : CFSG.AGLEmbedding.KFactSmallIdent)
         obtain ⟨hout, h3⟩ := hFi ↥K hKs hFi22
         have hPK : (P : Subgroup X) ≤ K := le_of_not_dvd_card_outer hKC hout P
         exact eq_one_of_le_of_commute hKnab P hPK
-          (commute_of_card_dvd_sq P.isPGroup' (kizFive_card_dvd_sq P hPK h3)) hxP hx
+          (commute_of_card_dvd_sq P.isPGroup (kizFive_card_dvd_sq P hPK h3)) hxP hx
     ·
       obtain ⟨h11, hJ⟩ := hj4
       subst p

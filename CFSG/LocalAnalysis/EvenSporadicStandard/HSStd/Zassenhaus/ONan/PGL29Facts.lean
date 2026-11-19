@@ -99,14 +99,14 @@ theorem center_pgl29_eq_bot : center ↥A6Models.pgl29 = ⊥ := by
 
 theorem isSimpleGroup_psl29 : IsSimpleGroup ↥A6Models.psl29 := by
   obtain ⟨ψ⟩ := Out21.A6.exists_psl29_equiv
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : Nontrivial ↥A6Models.psl29 := ψ.toEquiv.nontrivial
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : Nontrivial ↥A6Models.psl29 := ψ.toEquiv.nontrivial
   exact IsSimpleGroup.isSimpleGroup_of_surjective ψ.symm.toMonoidHom ψ.symm.surjective
 
 theorem commutator_psl29_eq_self : ⁅A6Models.psl29, A6Models.psl29⁆ = A6Models.psl29 := by
   have hperf : Group.IsPerfect ↥A6Models.psl29 := by
     obtain ⟨ψ⟩ := Out21.A6.exists_psl29_equiv
-    haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+    have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
       Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
     exact Group.IsPerfect.ofSurjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective
   exact Subgroup.isPerfect_iff.mp hperf
@@ -144,12 +144,12 @@ theorem pgl29_copy_facts {Y : Type*} [Group Y] {H : Subgroup Y} (e : ↥H ≃* �
   have hcardA : Nat.card A = 360 := by
     rw [Nat.card_congr isoA.toEquiv, A6Facts.card_psl29]
   have hsimpleA : IsSimpleGroup ↥A := by
-    haveI : IsSimpleGroup ↥A6Models.psl29 := isSimpleGroup_psl29
+    have : IsSimpleGroup ↥A6Models.psl29 := isSimpleGroup_psl29
     exact isoA.isSimpleGroup
   have hcommA : ⁅A, A⁆ = A := by
-    haveI : Group.IsPerfect ↥A6Models.psl29 :=
+    have : Group.IsPerfect ↥A6Models.psl29 :=
       Subgroup.isPerfect_iff.mpr commutator_psl29_eq_self
-    haveI : Group.IsPerfect ↥A :=
+    have : Group.IsPerfect ↥A :=
       Group.IsPerfect.ofSurjective (f := isoA.symm.toMonoidHom) isoA.symm.surjective
     exact Subgroup.isPerfect_iff.mp inferInstance
   have hsqA : ∀ x ∈ H, x ^ 2 ∈ A := by

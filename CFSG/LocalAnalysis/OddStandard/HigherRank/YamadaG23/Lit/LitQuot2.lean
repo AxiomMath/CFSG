@@ -72,7 +72,6 @@ theorem lit_bar (h : LitCtx Z A) (hπ : Function.Surjective π) (hk : π.ker = l
       rw [map_commutatorElement] at hkerZ
       exact (commutatorElement_eq_one_iff_mul_comm.mp hkerZ).symm
     · intro hcomm a ha
-      change ⁅a, (n : X)⁆ ∈ Z
       have hmem : π a ∈ A.map π := Subgroup.mem_map_of_mem π ha
       have h1 : π n * π a = π a * π n := hcomm (π a) hmem
       have h2 : ⁅π a, π n⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.mpr h1.symm

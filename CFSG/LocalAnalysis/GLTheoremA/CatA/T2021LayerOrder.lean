@@ -114,7 +114,7 @@ theorem t2021Layer_dvd_card_of_conj {R : Type} [Group R] (hs : IsSimpleGroup R)
   have hr : r ≠ 1 := by
     rintro rfl
     exact hr1 (map_one _)
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← orderOf_eq_prime hc hr]
   exact orderOf_dvd_natCard r
 

@@ -36,7 +36,7 @@ theorem card_fix_torusAct_eq_card_fix_zpowers {τ : Tag} {p : ℕ} [NeZero p]
     Nat.card {x : Fin τ.rank → ZMod p // TableBExc.torusAct τ p w x = x} =
     Nat.card {x : Fin τ.rank → ZMod p //
       ∀ a ∈ Subgroup.zpowers w, TableBExc.torusAct τ p a x = x} := by
-  letI : MulAction (WeylGroup τ) (Fin τ.rank → ZMod p) :=
+  let : MulAction (WeylGroup τ) (Fin τ.rank → ZMod p) :=
     MulAction.compHom _ (TableBExc.torusPerm τ p)
   refine Nat.card_congr (Equiv.subtypeEquivRight fun x => ?_)
   constructor

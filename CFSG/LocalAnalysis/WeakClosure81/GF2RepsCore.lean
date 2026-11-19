@@ -65,9 +65,9 @@ variable [Finite W]
 theorem exists_stableUnder_compl_of_odd (hW : ∀ w : W, w ^ 2 = 1) {X : Subgroup (MulAut W)}
     (hX : Odd (Nat.card X)) {U : Subgroup W} (hU : StableUnder X U) :
     ∃ P : Subgroup W, StableUnder X P ∧ U ⊓ P = ⊥ ∧ U ⊔ P = ⊤ := by
-  haveI : Finite (MulAut W) := Finite.of_injective (fun e : MulAut W => (e : W → W))
+  have : Finite (MulAut W) := Finite.of_injective (fun e : MulAut W => (e : W → W))
     (fun _ _ h => MulEquiv.ext (congrFun h))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : Nat.Coprime 2 (Nat.card X) := Nat.coprime_two_left.mpr hX
   obtain ⟨P, hP, hinf, hsup⟩ := gf2_Core_maschke_commGroup (p := 2) (D := ↥X) (Q := W)
     hcop hW X.subtype U (fun d x hx => hU d d.2 x hx)
@@ -158,10 +158,10 @@ theorem odd_card_of_abelian_normal {Y M : Subgroup (MulAut W)}
     (hO : ∀ P : Subgroup (MulAut W), P ≤ Y → (P.subgroupOf Y).Normal → IsPGroup 2 P → P = ⊥)
     (hMY : M ≤ Y) (hMn : ∀ y ∈ Y, ∀ m ∈ M, y * m * y⁻¹ ∈ M)
     (hab : ∀ m ∈ M, ∀ n ∈ M, m * n = n * m) : Odd (Nat.card M) := by
-  haveI : Finite (MulAut W) := Finite.of_injective (fun e : MulAut W => (e : W → W))
+  have : Finite (MulAut W) := Finite.of_injective (fun e : MulAut W => (e : W → W))
     (fun _ _ h => MulEquiv.ext (congrFun h))
-  haveI : Nonempty ↥M := ⟨⟨1, M.one_mem⟩⟩
-  haveI : Finite ↥M := inferInstance
+  have : Nonempty ↥M := ⟨⟨1, M.one_mem⟩⟩
+  have : Finite ↥M := inferInstance
   obtain ⟨k, m, hmodd, hcard⟩ :=
     Nat.exists_eq_two_pow_mul_odd (Nat.card_pos (α := ↥M)).ne'
   let P : Subgroup (MulAut W) :=
@@ -192,7 +192,7 @@ theorem odd_card_of_abelian_normal {Y M : Subgroup (MulAut W)}
     have h2dvd : 2 ∣ Nat.card M := by
       rw [hcard]
       exact dvd_mul_of_dvd_left (dvd_pow_self 2 hkpos.ne') m
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := ↥M) 2 h2dvd
     have hxpow : (x : MulAut W) ^ (2 ^ k) = 1 := by
       have h1 : x ^ (2 ^ k) = 1 :=
@@ -210,11 +210,11 @@ theorem exists_odd_orderOf_of_normal_ne_bot {Y N : Subgroup (MulAut W)}
     (hO : ∀ P : Subgroup (MulAut W), P ≤ Y → (P.subgroupOf Y).Normal → IsPGroup 2 P → P = ⊥)
     (hNY : N ≤ Y) (hNn : ∀ y ∈ Y, ∀ n ∈ N, y * n * y⁻¹ ∈ N) (hne : N ≠ ⊥) :
     ∃ x ∈ N, x ≠ 1 ∧ Odd (orderOf x) := by
-  haveI : Finite (MulAut W) := Finite.of_injective (fun e : MulAut W => (e : W → W))
+  have : Finite (MulAut W) := Finite.of_injective (fun e : MulAut W => (e : W → W))
     (fun _ _ h => MulEquiv.ext (congrFun h))
-  haveI : Nonempty ↥N := ⟨⟨1, N.one_mem⟩⟩
-  haveI : Finite ↥N := inferInstance
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty ↥N := ⟨⟨1, N.one_mem⟩⟩
+  have : Finite ↥N := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNn' : (N.subgroupOf Y).Normal :=
     ⟨fun a ha b => Subgroup.mem_subgroupOf.mpr (hNn b b.2 a (Subgroup.mem_subgroupOf.mp ha))⟩
   have hnotP : ¬ IsPGroup 2 ↥N := fun hP => hne (hO N hNY hNn' hP)
@@ -230,7 +230,7 @@ theorem exists_odd_orderOf_of_normal_ne_bot {Y N : Subgroup (MulAut W)}
   have hpdvd : p ∣ Nat.card N := by
     rw [hcard]
     exact dvd_mul_of_dvd_right hpm (2 ^ k)
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) p hpdvd
   refine ⟨(x : MulAut W), x.2, ?_, ?_⟩
   · intro hx1

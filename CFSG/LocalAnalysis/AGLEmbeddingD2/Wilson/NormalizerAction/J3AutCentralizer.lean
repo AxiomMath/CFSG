@@ -107,11 +107,11 @@ theorem centralizer_perfect_eq_zpowers {Q : Type*} [Group Q] (e : Q ≃* NativeS
     intro y hy hcomm
     have : y ∈ CY := ⟨hy, mem_centralizer_singleton_iff.2 hcomm⟩
     rwa [← hzCY] at this
-  haveI : Nontrivial ↥Y := ⟨⟨⟨x, hxY⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
-  haveI : Finite ↥Y := inferInstance
+  have : Nontrivial ↥Y := ⟨⟨⟨x, hxY⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
+  have : Finite ↥Y := inferInstance
   have hcenY : Nontrivial ↥(Subgroup.center ↥Y) := hY3.center_nontrivial
   obtain ⟨z, hz⟩ : ∃ z : ↥(Subgroup.center ↥Y), orderOf z = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hpg : IsPGroup 3 ↥(Subgroup.center ↥Y) := hY3.to_subgroup _
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hpg
     have hn1 : n ≠ 0 := by

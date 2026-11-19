@@ -27,7 +27,7 @@ private noncomputable def gl23SdHom : CFSG.Open.SemidihedralGroup 4 →* GL23 :=
   sdHom gl23SdR gl23SdS gl23SdR_pow gl23SdS_pow gl23SdS_conj
 
 private theorem card_range_gl23SdHom : Nat.card gl23SdHom.range ∣ 16 := by
-  haveI : Finite (CFSG.Open.SemidihedralGroup 4) :=
+  have : Finite (CFSG.Open.SemidihedralGroup 4) :=
     CFSG.Semidihedral.presentation_finite 4 (by norm_num)
   have hmul := Subgroup.card_ker_mul_card_range gl23SdHom
   rw [CFSG.Semidihedral.card 4 (by norm_num)] at hmul
@@ -36,7 +36,7 @@ private theorem card_range_gl23SdHom : Nat.card gl23SdHom.range ∣ 16 := by
 private theorem exists_semidihedral_subgroup :
     ∃ S : Subgroup GL23, Nonempty (↥S ≃* CFSG.Open.SemidihedralGroup 4) ∧
       Nat.card S = 16 := by
-  haveI : Finite (CFSG.Open.SemidihedralGroup 4) :=
+  have : Finite (CFSG.Open.SemidihedralGroup 4) :=
     CFSG.Semidihedral.presentation_finite 4 (by norm_num)
   obtain ⟨e⟩ := nonempty_mulEquiv_semidihedral (H := gl23SdHom.range)
     card_range_gl23SdHom
@@ -97,9 +97,9 @@ theorem gl23_two_subgroup_quaternion_or_semidihedral
     let SP : Sylow 2 GL23 := hP.toSylow hidxP_not
     let SS : Sylow 2 GL23 := hS2.toSylow hidxS_not
     have hSPcoe : (SP : Subgroup GL23) = P := by
-      simpa [SP] using IsPGroup.toSylow_coe hP hidxP_not
+      simp [SP]
     have hSScoe : (SS : Subgroup GL23) = S := by
-      simpa [SS] using IsPGroup.toSylow_coe hS2 hidxS_not
+      simp [SS]
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq GL23 SS SP
     have eSS : ↥SS ≃* CFSG.Open.SemidihedralGroup 4 :=
       (MulEquiv.subgroupCongr hSScoe).trans eS

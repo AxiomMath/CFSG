@@ -143,7 +143,7 @@ private theorem false_of_icosa_core_isotropic (hp7 : 7 ≤ p)
       (h.trans ((isoLeviBar_eq_one_iff _ _).mpr
         (Or.inl (by rw [Units.val_one, leviBlock_one]))).symm)
   have hxbar : orderOf (isoLeviBar hxZ hxC) = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     refine orderOf_eq_prime ?_ fun h => ?_
     · rw [isoLeviBar_pow, isoLeviBar_eq_one_iff, ← map_pow]
       rcases hx5 with h | h

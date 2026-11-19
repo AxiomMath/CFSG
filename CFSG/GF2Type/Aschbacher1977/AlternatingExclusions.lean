@@ -66,7 +66,7 @@ theorem eq_bot_of_odd_normal_centralizer_of_mulEquiv (S : Setting G) {H : Type} 
 
 private theorem false_of_isConj_altX (S : Setting G) {n : ℕ} (h8 : 8 ≤ n) (h11 : n ≤ 11)
     (e : G ≃* alternatingGroup (Fin n)) (hc : IsConj (altX h8) (e S.z)) : False := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have hG : Nat.card G = n.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]
@@ -194,6 +194,7 @@ private theorem false_of_eq_altY_eleven (S : Setting G) (e : G ≃* alternatingG
       decide
   exact alt3_ne_one (Subgroup.mem_bot.mp (hbot ▸ Subgroup.mem_zpowers alt3))
 
+omit [Finite G] in
 private theorem exists_mulEquiv_apply_eq_of_isConj {H : Type} [Group H] (e : G ≃* H) {g : G}
     {a : H} (h : IsConj a (e g)) : ∃ e' : G ≃* H, e' g = a := by
   obtain ⟨c, hc⟩ := isConj_iff.1 h

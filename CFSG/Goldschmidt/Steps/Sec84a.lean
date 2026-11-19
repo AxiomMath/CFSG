@@ -117,7 +117,7 @@ theorem exists_sylow_eq_subgroupOf {N K T : Subgroup G} (hT : fusionIsSylowIn 2 
   obtain ⟨P, hP⟩ := (hT.2.1.comap_subtype (K := K)).exists_le_sylow
   refine ⟨P, le_antisymm ?_ hP⟩
   have heq := hT.2.2 ((P : Subgroup K).map K.subtype) ((Subgroup.map_subtype_le _).trans hKN)
-    (P.isPGroup'.map _) (fun t ht => ⟨⟨t, hTK ht⟩, hP (Subgroup.mem_subgroupOf.mpr ht), rfl⟩)
+    (P.isPGroup.map _) (fun t ht => ⟨⟨t, hTK ht⟩, hP (Subgroup.mem_subgroupOf.mpr ht), rfl⟩)
   intro x hx
   exact Subgroup.mem_subgroupOf.mpr (heq ▸ ⟨x, hx, rfl⟩)
 

@@ -8,9 +8,9 @@ public section
 namespace CFSG.LinearAlgebra.CoprimeActions.BinaryInvariantHyperplanes
 
 theorem not_normalized {J : Type*} [Group J] [Finite J] (X A K : Subgroup J)
-    (hX : CFSG.Open.IsElemAbelian 2 X)
+    (_hX : CFSG.Open.IsElemAbelian 2 X)
     (hAX : A ≤ Subgroup.normalizer (X : Set J))
-    (hgen : ⁅X, A⁆ = X) (hKX : K ≤ X) (hidx : K.relIndex X = 2) :
+    (hgen : ⁅X, A⁆ = X) (_hKX : K ≤ X) (hidx : K.relIndex X = 2) :
     ¬ (A ≤ Subgroup.normalizer (K : Set J)) := by
   intro hAK
   obtain ⟨c, hcX, hc⟩ := Subgroup.relIndex_eq_two_iff.mp hidx

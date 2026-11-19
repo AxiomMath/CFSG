@@ -38,6 +38,7 @@ theorem Vmem_eq_setOf_commute_of_isBenderGroup (hX : IsBenderGroup X) {s : X}
     exact ⟨hvE, (mem_perpMem.mp hvperp).2⟩
   · exact mem_Vmem_of_commute_of_isBenderGroup hX hs hx hz.1 hz.2.symm
 
+omit [Finite X] in
 private theorem rankOneBender_sq_eq_one_of_mem_insert_Vmem {s : X} (hs : orderOf s = 2)
     {E : Set X} (hE : E = {y | IsConj s y}) {x y : X} (hy : y ∈ insert 1 (Vmem E x)) :
     y * y = 1 := by
@@ -267,7 +268,7 @@ private theorem rankOneBender_conj_Vmem_subset {E : Set X} {K0 : Subgroup X} {g 
 
 private theorem rankOneBender_conj_mem_not_commute {E : Set X} {K0 : Subgroup X}
     {g x₀ y₀ x : X} (hφx₀ : MulAut.conj g x₀ = x)
-    (hφE : ∀ y, y ∈ E ↔ MulAut.conj g y ∈ E) (hx₀E : x₀ ∈ E) (hy₀E : y₀ ∈ E)
+    (hφE : ∀ y, y ∈ E ↔ MulAut.conj g y ∈ E) (_hx₀E : x₀ ∈ E) (hy₀E : y₀ ∈ E)
     (hy₀K : y₀ ∈ K0) (hnc₀ : ¬ Commute x₀ y₀) :
     MulAut.conj g y₀ ∈ {y | y ∈ E ∧ y ∈ K0.map (MulAut.conj g).toMonoidHom} ∧
       ¬ Commute (MulAut.conj g y₀) x := by

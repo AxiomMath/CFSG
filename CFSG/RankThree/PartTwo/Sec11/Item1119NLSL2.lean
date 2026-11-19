@@ -42,7 +42,7 @@ theorem isQuasisimple_of_mulEquiv_sl2 {J : Type} [Group J] {F : Type} [Field F] 
 theorem card_center_le_two_of_mulEquiv {J : Type} [Group J] {F : Type} [Field F] [Finite F]
     (e : J ≃* Matrix.SpecialLinearGroup (Fin 2) F) : Nat.card (Subgroup.center J) ≤ 2 := by
   have hk : max (Fintype.card (Fin 2)) 1 = 2 := by simp
-  haveI : NeZero (max (Fintype.card (Fin 2)) 1) := ⟨by omega⟩
+  have : NeZero (max (Fintype.card (Fin 2)) 1) := ⟨by omega⟩
   have hmem : ∀ z : Subgroup.center J,
       e z.1 ∈ Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F) := by
     intro z

@@ -13,9 +13,11 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem conj_eq_of_comm {g x : G} (h : g * x = x * g) : g * x * g⁻¹ = x := by
   rw [h, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 private theorem conj_inv_eq {g x : G} (h : g * x = x * g) : g * x⁻¹ * g⁻¹ = x⁻¹ := by
   have hx : g * x * g⁻¹ = x := conj_eq_of_comm h
   calc g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ := by group

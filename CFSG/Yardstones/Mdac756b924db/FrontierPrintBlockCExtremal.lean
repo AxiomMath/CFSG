@@ -2065,7 +2065,7 @@ theorem agl81ElevenTwentyAtExtremal_of_blockC :
     KFactProofs.kFactBlockPerfectCoreThree_holds KFactProofs.kFactBlockSylowThreeAut_holds
     KFactProofs.kFactBlockHeisenbergAut_holds (kFactOutElemRank_of_odd kFactOutElemRankOdd) h85 h93
     hNX
-  haveI : KFactProofs.FieldIndexP.OddPrime 3 := ⟨Nat.prime_three, by decide⟩
+  have : KFactProofs.FieldIndexP.OddPrime 3 := ⟨Nat.prime_three, by decide⟩
   have hA3 : D1AlphaKFacts3 :=
     d1AlphaKFacts3_of_datum
       (kFactAlphaListM3_of_inputs
@@ -2191,7 +2191,7 @@ theorem agl81ElevenTwentyAtExtremal_of_blockC :
     exists_extremal_component_of_extremal h74 hOut hK3 hnone h84 hNX hres hS hpσ hM hext₁
   have he := hext.toD1Escape
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hp3, hcase⟩ := e16_of_escape h9 h98 h984 h101 h115 hKR hKA hKC hS hpσ he hK
   subst hp3
   refine ⟨rfl, ?_⟩
@@ -2223,8 +2223,8 @@ theorem agl81TheoremAResiduesE3_of_blockCExtremal
     (h231 : CFSG.RankThree.PartTwo.Sec21.Item231) (h233 : CFSG.RankThree.PartTwo.Sec21.Item233) :
     AGL81TheoremAResiduesE3 :=
   agl81TheoremAResiduesE3_of_printExtremal
-    (fun G _ _ => agl81ElevenTwentyAtExtremal_of_blockC)
-    fun G _ _ => agl81EightThirteen_of_rankThreeII
+    (fun _G _ _ => agl81ElevenTwentyAtExtremal_of_blockC)
+    fun _G _ _ => agl81EightThirteen_of_rankThreeII
       (agl81NineTwelveLThreeFour_of CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds
         kFactLThreeFourAutSection_holds)
       (CFSG.RankThree.PartTwo.item2012_of_not_hyp1921

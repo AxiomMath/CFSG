@@ -22,7 +22,7 @@ theorem j4_false (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (h
     (hMcL : ExtraFacts IsMcLType 5 McLShape) {P : Sylow 11 G} {M : Subgroup G} {x : G}
     {J : Subgroup G} (hX : ExtraFacts IsJ4Type 11 J4Shape) (hc : PointConfig IsJ4Type G 11 P M x J) :
     False := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hfus := typeII_fusion_core_of_se hS hD1 hU0 hK hX typeSE_j4 hc
   have hU := j4_plane hX hc
   have hL42 := j4_lemma42 hS hClass hD1 hU0 hTits hA10 hMcL hX hc hfus
@@ -41,7 +41,7 @@ theorem mcl_false (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (
     (hJ4 : ExtraFacts IsJ4Type 11 J4Shape) (hSz : Sz32Facts) (hSz' : Sz32OpenFacts)
     (hdata : Sz32DataFacts) {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
     (hX : ExtraFacts IsMcLType 5 McLShape) (hc : PointConfig IsMcLType G 5 P M x J) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hfus := typeII_fusion_core_of_se hS hD1 hU0 hK hX typeSE_mcl hc
   obtain ⟨U, hU, hnc⟩ := mcl_plane hX hc
   have hL42 := mcl_lemma42 hS hClass hD1 hU0 hTits hA10 hJ4 hSz hSz' hdata hX hc hfus hU

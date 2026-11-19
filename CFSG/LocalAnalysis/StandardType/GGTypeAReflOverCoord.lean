@@ -24,7 +24,7 @@ theorem reflection_mul_reflection_mul_self_apply (hf : f x = 2) (hg : g y = 2) (
       z - ((g - (g x) • f) z) • (y - (f y) • x) := by
   rw [mul_assoc, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   simp only [reflection_apply, map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply,
-    smul_eq_mul, hf, hg]
+    smul_eq_mul, hf]
   module
 
 theorem reflection_mul_reflection_mul_self_apply' (hf : f x = 2) (hg : g y = 2) (z : M) :
@@ -72,7 +72,7 @@ theorem linearIndependent_of_commute [NeZero (2 : K)] (hfx : f x = 2) (hgy : g y
       intro z
       have hz := congrArg (fun T : M ≃ₗ[K] M => T z) hsq
       rw [pow_two, LinearEquiv.mul_apply, hφ, hφ] at hz
-      simp only [map_add, map_smul, hφw, smul_eq_mul, mul_zero, zero_smul, add_zero,
+      simp only [map_add, map_smul, hφw, smul_eq_mul, mul_zero, add_zero,
         LinearEquiv.coe_one, id] at hz
       have h : z + 0 = z + (φ z • w + φ z • w) := by
         rw [add_zero]
@@ -230,7 +230,7 @@ theorem cartanA_comm (i j : Fin (n + 1)) : cartanA (p := p) i j = cartanA j i :=
   by_cases h : i = j
   · subst h; rfl
   · have h' : ¬ (j = i) := fun hh => h hh.symm
-    simp only [if_neg h, if_neg h']
+    simp only [ite_eq_right h, ite_eq_right h']
 
 @[expose] def cartanCol (i : Fin (n + 1)) : Fin (n + 1) → ZMod p := fun j => cartanA j i
 
@@ -241,14 +241,14 @@ theorem cartanA_succ (i : Fin n) : cartanA (p := p) i.castSucc i.succ = -1 := by
   have hne : i.castSucc ≠ i.succ := (Fin.castSucc_lt_succ (i := i)).ne
   have hval : (i.castSucc : Fin (n + 1)).val + 1 = (i.succ : Fin (n + 1)).val := by
     rw [val_castSucc_fin, val_succ_fin]
-  simp [cartanA, hne, hval]
+  simp [cartanA, hne]
 
 theorem cartanA_castSucc (i : Fin n) : cartanA (p := p) i.succ i.castSucc = -1 := by
   have hne : i.succ ≠ i.castSucc := (Fin.castSucc_lt_succ (i := i)).ne.symm
   have hval : (i.succ : Fin (n + 1)).val + 1 ≠ (i.castSucc : Fin (n + 1)).val := by
     rw [val_castSucc_fin, val_succ_fin]
     omega
-  simp [cartanA, hne, hval]
+  simp [cartanA, hne]
 
 theorem cartanA_of_ne {i j : Fin (n + 1)} (hij : i ≠ j)
     (hadj : ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val)) : cartanA (p := p) i j = 0 := by
@@ -295,7 +295,7 @@ theorem reflScale_ne_zero (f : Fin (n + 1) → Module.Dual (ZMod p) V) (h : Fin 
 theorem scaledCoroot_scaledRoot_self (f : Fin (n + 1) → Module.Dual (ZMod p) V)
     (h : Fin (n + 1) → V) (hf : ∀ i, f i (h i) = 2) (hc : ∀ i, reflScale (p := p) f h i ≠ 0)
     (i : Fin (n + 1)) : scaledCoroot f h i (scaledRoot f h i) = 2 := by
-  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul, smul_smul]
+  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul]
   rw [hf i, ← mul_assoc, mul_inv_cancel₀ (hc i), one_mul]
 
 theorem eq_scaled_smul (f : Fin (n + 1) → Module.Dual (ZMod p) V) (h : Fin (n + 1) → V)
@@ -304,7 +304,7 @@ theorem eq_scaled_smul (f : Fin (n + 1) → Module.Dual (ZMod p) V) (h : Fin (n 
   have hsc : (reflScale f h i)⁻¹ * (f i v) * reflScale f h i = f i v := by
     rw [mul_assoc, mul_comm (f i v) (reflScale f h i), ← mul_assoc, inv_mul_cancel₀ (hc i),
       one_mul]
-  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul, smul_smul]
+  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, smul_eq_mul, smul_smul]
   rw [hsc]
 
 theorem eq_reflection_scaled (f : Fin (n + 1) → Module.Dual (ZMod p) V) (h : Fin (n + 1) → V)
@@ -323,7 +323,7 @@ theorem scaledCoroot_scaledRoot_succ (f : Fin (n + 1) → Module.Dual (ZMod p) V
     have h1 := hcross i
     rw [h0, mul_zero] at h1
     exact zero_ne_one h1
-  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul, smul_smul]
+  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul]
   rw [reflScale_succ]
   field_simp
 
@@ -340,7 +340,7 @@ theorem scaledCoroot_scaledRoot_castSucc (f : Fin (n + 1) → Module.Dual (ZMod 
   have hprod : f i.succ (h i.castSucc) * f i.castSucc (h i.succ) = 1 := by
     rw [mul_comm]
     exact hcross i
-  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul, smul_smul]
+  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul]
   rw [reflScale_succ]
   field_simp
   rw [hprod]
@@ -348,8 +348,7 @@ theorem scaledCoroot_scaledRoot_castSucc (f : Fin (n + 1) → Module.Dual (ZMod 
 theorem scaledCoroot_scaledRoot_of_far (f : Fin (n + 1) → Module.Dual (ZMod p) V)
     (h : Fin (n + 1) → V) {i j : Fin (n + 1)} (hzero : f j (h i) = 0) :
     scaledCoroot f h j (scaledRoot f h i) = 0 := by
-  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul, smul_smul,
-    hzero, mul_zero]
+  simp only [scaledCoroot, scaledRoot, LinearMap.smul_apply, map_smul, smul_eq_mul, hzero, mul_zero]
 
 theorem cartanA_eq_scaledCoroot (f : Fin (n + 1) → Module.Dual (ZMod p) V)
     (h : Fin (n + 1) → V) (hf : ∀ i, f i (h i) = 2)
@@ -470,7 +469,7 @@ theorem cartanA_castSucc_castSucc_of_val {k i : Fin n} (h : k.val = i.val + 1) :
   have h2 : (i.castSucc : Fin (n + 1)).val + 1 = (k.castSucc : Fin (n + 1)).val := by
     rw [val_castSucc_fin, val_castSucc_fin]; omega
   unfold cartanA
-  rw [if_neg hne, if_pos (Or.inr h2)]
+  rw [ite_eq_right hne, ite_eq_left (Or.inr h2)]
 
 theorem cartanA_castSucc_castSucc_of_val' {k i : Fin n} (h : k.val + 1 = i.val) :
     cartanA (p := p) k.castSucc i.castSucc = -1 := by
@@ -482,7 +481,7 @@ theorem cartanA_castSucc_castSucc_of_val' {k i : Fin n} (h : k.val + 1 = i.val) 
   have hval : (k.castSucc : Fin (n + 1)).val + 1 = (i.castSucc : Fin (n + 1)).val := by
     rw [val_castSucc_fin, val_castSucc_fin]; omega
   unfold cartanA
-  rw [if_neg hne, if_pos (Or.inl hval)]
+  rw [ite_eq_right hne, ite_eq_left (Or.inl hval)]
 
 theorem diffFun_coordPerm (i : Fin n) (y : Fin (n + 1) → ZMod p) :
     diffFun (coordPerm p n (Equiv.swap i.castSucc i.succ) y) =
@@ -539,11 +538,11 @@ theorem diffFun_coordPerm (i : Fin n) (y : Fin (n + 1) → ZMod p) :
           refine hfix _ ?_ ?_
           · intro h
             have hh := congrArg (fun z : Fin (n + 1) => z.val) h
-            simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at hh
+            simp only [Fin.val_succ, Fin.val_castSucc] at hh
             omega
           · intro h
             have hh := congrArg (fun z : Fin (n + 1) => z.val) h
-            simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at hh
+            simp only [Fin.val_succ] at hh
             omega
         rw [cartanA_castSucc_castSucc_of_val h2, hk, Equiv.swap_apply_right, hk2]
         ring
@@ -554,11 +553,11 @@ theorem diffFun_coordPerm (i : Fin n) (y : Fin (n + 1) → ZMod p) :
             refine hfix _ ?_ ?_
             · intro h
               have hh := congrArg (fun z : Fin (n + 1) => z.val) h
-              simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at hh
+              simp only [Fin.val_castSucc] at hh
               omega
             · intro h
               have hh := congrArg (fun z : Fin (n + 1) => z.val) h
-              simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at hh
+              simp only [Fin.val_succ, Fin.val_castSucc] at hh
               omega
           rw [hk1, hk, Equiv.swap_apply_left, cartanA_castSucc_castSucc_of_val' h3]
           ring
@@ -568,26 +567,26 @@ theorem diffFun_coordPerm (i : Fin n) (y : Fin (n + 1) → ZMod p) :
               exact h1 (Fin.castSucc_injective n h)
             · intro h
               have hh := congrArg (fun z : Fin (n + 1) => z.val) h
-              simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at hh
+              simp only [Fin.val_succ, Fin.val_castSucc] at hh
               omega
           have hkb : (Equiv.swap i.castSucc i.succ) k.succ = k.succ := by
             refine hfix _ ?_ ?_
             · intro h
               have hh := congrArg (fun z : Fin (n + 1) => z.val) h
-              simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at hh
+              simp only [Fin.val_succ, Fin.val_castSucc] at hh
               omega
             · intro h
               have hh := congrArg (fun z : Fin (n + 1) => z.val) h
-              simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at hh
+              simp only [Fin.val_succ] at hh
               omega
           have hCl : cartanA (p := p) k.castSucc i.castSucc = 0 := by
             refine cartanA_of_ne (i := k.castSucc) (j := i.castSucc) ?_ ?_
             · intro h
               exact h1 (Fin.castSucc_injective n h)
             · rintro (h | h)
-              · simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at h
+              · simp only [Fin.val_castSucc] at h
                 omega
-              · simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last] at h
+              · simp only [Fin.val_castSucc] at h
                 omega
           rw [hka, hkb, hCl]
           ring
@@ -596,17 +595,17 @@ theorem kRoot_apply (j : Fin (n + 1)) :
     kRoot p n j = if j = Fin.last n then 2 else 1 := by
   by_cases hj : j = Fin.last n
   · subst hj
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp [kRoot, Pi.add_apply]
     norm_num
-  · rw [if_neg hj]
-    simp [kRoot, Pi.add_apply, hj, Pi.single_eq_of_ne hj]
+  · rw [ite_eq_right hj]
+    simp [kRoot, Pi.add_apply, hj]
 
 theorem diff_kRoot : diff (p := p) (n := n) (kRoot p n) = cartanCol (Fin.last n) := by
   funext j
   rw [diff_apply, cartanCol]
   refine Fin.lastCases ?_ ?_ j
-  · rw [diffFun_last, kRoot_apply, if_pos rfl, cartanA_self]
+  · rw [diffFun_last, kRoot_apply, ite_eq_left rfl, cartanA_self]
   · intro k
     rw [diffFun_castSucc]
     by_cases hk : k.succ = Fin.last n
@@ -615,7 +614,7 @@ theorem diff_kRoot : diff (p := p) (n := n) (kRoot p n) = cartanCol (Fin.last n)
         have := congrArg Fin.val h
         simp only [val_castSucc_fin, val_last_fin] at this
         omega
-      rw [kRoot_apply, kRoot_apply, if_neg hk', if_pos hk]
+      rw [kRoot_apply, kRoot_apply, ite_eq_right hk', ite_eq_left hk]
       have hC : cartanA (p := p) k.castSucc (Fin.last n) = -1 := by
         rw [← hk]
         exact cartanA_succ k
@@ -626,7 +625,7 @@ theorem diff_kRoot : diff (p := p) (n := n) (kRoot p n) = cartanCol (Fin.last n)
         have := congrArg Fin.val h
         simp only [val_castSucc_fin, val_last_fin] at this
         omega
-      rw [kRoot_apply, kRoot_apply, if_neg hk', if_neg hk]
+      rw [kRoot_apply, kRoot_apply, ite_eq_right hk', ite_eq_right hk]
       have hC : cartanA (p := p) k.castSucc (Fin.last n) = 0 := by
         refine cartanA_of_ne (i := k.castSucc) (j := Fin.last n) hk' ?_
         rintro (h | h)
@@ -728,9 +727,9 @@ theorem kRefl_one : kRefl p n (fun _ => (1 : ZMod p)) = -(Pi.single (Fin.last n)
   rw [Pi.sub_apply, Pi.smul_apply, Pi.neg_apply]
   by_cases hj : j = Fin.last n
   · subst hj
-    rw [kRoot_apply, if_pos rfl, Pi.single_eq_same]
+    rw [kRoot_apply, ite_eq_left rfl, Pi.single_eq_same]
     norm_num
-  · rw [kRoot_apply, if_neg hj, Pi.single_eq_of_ne hj]
+  · rw [kRoot_apply, ite_eq_right hj, Pi.single_eq_of_ne hj]
     ring
 
 end Eval
@@ -760,7 +759,7 @@ theorem exists_linearEquiv_of_typeA_refl {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
       ⇑κ ∘ ⇑(s (Fin.last n)) = ⇑(kRefl p n) ∘ ⇑κ ∧
       κ x ∈ Submodule.span (ZMod p) {1} := by
   classical
-  haveI : NeZero (2 : ZMod p) := ⟨zmod_two_ne_zero hp2⟩
+  have : NeZero (2 : ZMod p) := ⟨zmod_two_ne_zero hp2⟩
   choose h f hf hrepr using hrefl
   have hrepr' : ∀ i, s i = reflection (hf i) := fun i => LinearEquiv.ext fun v => by
     rw [hrepr i v, reflection_apply]
@@ -1101,13 +1100,13 @@ theorem GGFarCtx.exists_coordEquiv (hC : GGFarCtx p Bs φ₁ φ₂ x y) (hBs : I
         kRefl p n (κ (Additive.ofMul b))) ∧
       κ (Additive.ofMul ⟨x, hC.x_mem⟩) ∈ Submodule.span (ZMod p) {1} := by
   classical
-  haveI : Fact p.Prime := ⟨hC.prime⟩
+  have : Fact p.Prime := ⟨hC.prime⟩
   have hn3 : 3 ≤ n := hC.three_le
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := exists_ggLinData (p := p) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Fintype ↥Bs := Fintype.ofFinite ↥Bs
-  haveI : Fintype V := Fintype.ofEquiv (Additive ↥Bs) ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have : Fintype V := Fintype.ofEquiv (Additive ↥Bs) ι.toEquiv
   let slast : V ≃ₗ[ZMod p] V := ggLin (p := p) ι (hC.permAut₂ (Equiv.swap j.castSucc j.succ))
   let s : Fin (n + 1) → (V ≃ₗ[ZMod p] V) :=
     Fin.lastCases slast (fun k => ggLin (p := p) ι (hC.permAut₁ (Equiv.swap k.castSucc k.succ)))

@@ -17,8 +17,8 @@ section Perm
 theorem perm_eq_one_of_card_lt {α : Type*} [Finite α] {p : ℕ} (hp : p.Prime)
     (hα : Nat.card α < p) {σ : Equiv.Perm α} (hσ : σ ^ p = 1) : σ = 1 := by
   classical
-  haveI := Fintype.ofFinite α
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite α
+  have : Fact p.Prime := ⟨hp⟩
   have h : σ.supportᶜ.card ≡ Fintype.card α [MOD p] :=
     Equiv.Perm.card_compl_support_modEq (n := 1) (by simpa using hσ)
   have hα' : Fintype.card α < p := by rwa [Nat.card_eq_fintype_card] at hα
@@ -36,6 +36,7 @@ section Multi
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem card_comp_le_of_list {p : ℕ} {N : Subgroup X} {L : List (Subgroup X)}
     (h : ∀ J : Subgroup X, GLAPComponent p N J → J ∈ L) :
     Nat.card {I : Subgroup X // GLAPComponent p N I} ≤ L.length := by
@@ -97,7 +98,7 @@ theorem strong_of_dichotomy_multi {p : ℕ} {K B : Subgroup X} {name : TauCeti.S
     (hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K))
     (hIH : ∀ (Y : Type) [Group Y] [Finite Y] (J B' : Subgroup Y), CompHyp p J B' →
       Good (↥J ⧸ Subgroup.center ↥J) → Rk ↥J → IsStronglyBalancedIn p B' J)
-    (hD : ∀ (a k : X) (hk : k ∈ K), a ∈ B → k⁻¹ * a ∈ Subgroup.centralizer (K : Set X) →
+    (hD : ∀ (a k : X) (_hk : k ∈ K), a ∈ B → k⁻¹ * a ∈ Subgroup.centralizer (K : Set X) →
       a ∉ Subgroup.centralizer (K : Set X) →
         ∃ L : List (Subgroup X), L.length < p ∧
           (∀ J : Subgroup X, GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J →
@@ -112,7 +113,7 @@ theorem strong_of_dichotomy_multi {p : ℕ} {K B : Subgroup X} {name : TauCeti.S
     IsStronglyBalancedIn p B K := by
   have hp := hH.prime
   have hp2 := hH.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := hH.quasi
   have hO : GLAPPrimeCore p ↥K = ⊥ := hH.primeCore
   have hdvd : p ∣ Nat.card K := hH.dvd
@@ -130,8 +131,8 @@ theorem strong_of_dichotomy_multi {p : ℕ} {K B : Subgroup X} {name : TauCeti.S
       ∀ J : Subgroup X, GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J →
         Good (PSimple p (J.subgroupOf K)) ∧ Rk (PQuot p (J.subgroupOf K)) := by
     intro a ha ha1
-    obtain ⟨k, hk, hc⟩ := hin a ha
-    exact hD a k hk (hAB ha) hc (not_mem_centralizer_of_faithful hAf ha ha1)
+    obtain ⟨k, _hk, hc⟩ := hin a ha
+    exact hD a k _hk (hAB ha) hc (not_mem_centralizer_of_faithful hAf ha ha1)
   have hcomp : ∀ a ∈ A, a ≠ 1 → ∀ J : Subgroup X,
       GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J →
         B ≤ Subgroup.normalizer (J : Set X) ∧ IsStronglyLocallyOneBalanced p B a J := by

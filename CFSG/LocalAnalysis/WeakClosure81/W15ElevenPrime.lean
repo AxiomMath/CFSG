@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem b15_prime_isSylowIn_of_le_of_le {p : ℕ} {P A B : Subgroup G}
     (hP : IsSylowIn p P B) (hPA : P ≤ A) (hAB : A ≤ B) : IsSylowIn p P A := by
   refine ⟨hPA, hP.isPGroup, fun hdvd => hP.not_dvd_relIndex ?_⟩
@@ -31,7 +32,7 @@ private theorem b15_prime_exists_minimal {F : Subgroup G → Prop} {H₁ : Subgr
 
 private theorem b15_prime_zOmega15_comm (Q : Subgroup G) :
     ∀ x ∈ zOmega15 Q, ∀ y ∈ zOmega15 Q, x * y = y * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx y hy
   have hE : CFSG.IsElementaryAbelian 2 (elemCenterIn 2 Q) := elemCenterIn_isElementaryAbelian 2 Q
   have := hE.toIsMulCommutative.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
@@ -44,7 +45,7 @@ theorem Cex15.false_of_inputs {M V₀ V U S : Subgroup G}
     (hI : NamedInputs15 G) (hW : W15Eight1 G) (h2b : W15Ten2b G)
     (hD : W15Eleven3Dich G) (hS4 : W15Eleven3S4 G) (h4 : W15Eleven4Bar G)
     (hS : Std15 G) (h : Cex15 M V₀ V U S) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨H₀, hH₀C, hF₀, hmin₀⟩ :=
     b15_prime_exists_minimal (F := Fam15 V₀ V U S) (h.centralizer_mem_fam hI hS)
   have hS₀ : IsSylowIn 2 S H₀ :=

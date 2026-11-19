@@ -43,7 +43,7 @@ theorem s16kOm8_inner_of_stab {Ω : Type} [Group Ω] [Finite Ω]
   let t' : Outer Ω := π t
   let a' : Outer Ω := π α
   let θ' : Outer Ω := π θ
-  haveI : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal Ω
+  have : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal Ω
   have hNpos : 0 < Nat.card Ω := Nat.card_pos
   have hIcard : Nat.card I = Nat.card Ω := by
     simpa [I] using CFSG.Sporadic.Schreier.card_inner_of_center_eq_bot hZ
@@ -94,7 +94,7 @@ theorem s16kOm8_inner_of_stab {Ω : Type} [Group Ω] [Finite Ω]
     rw [ht'one] at ht'S'
     exact ht'S' S'.one_mem
   have hρ'order : orderOf ρ' = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by simpa [pow_two] using hρ'2) hρ'ne
   have h2dvd : 2 ∣ Nat.card S' := by
     have hle : Subgroup.zpowers ρ' ≤ S' := Subgroup.zpowers_le.mpr hρ'S'
@@ -180,7 +180,7 @@ theorem s16kOm8_inner_of_stab {Ω : Type} [Group Ω] [Finite Ω]
       have hCcomm : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
       have htopcomm : IsMulCommutative (⊤ : Subgroup (Outer Ω)) := hCtop ▸ hCcomm
       have hΓcomm : IsMulCommutative (Outer Ω) := by
-        haveI : IsMulCommutative (⊤ : Subgroup (Outer Ω)) := htopcomm
+        have : IsMulCommutative (⊤ : Subgroup (Outer Ω)) := htopcomm
         exact Function.Surjective.isMulCommutative
           (Subgroup.topEquiv (G := Outer Ω)).surjective
       have hcommρt : ρ' * t' = t' * ρ' := hΓcomm.is_comm.comm ρ' t'

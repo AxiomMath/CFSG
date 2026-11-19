@@ -45,10 +45,10 @@ theorem eq_of_complements {E : Subgroup G} {z : G} {A U R S : Subgroup G}
   let φ : G → G := fun p => if hp : p ∈ Pg E z then (rOf p)⁻¹ * (sOf p) else 1
   have hφ_in : ∀ p (hp : p ∈ Pg E z), φ p = (rOf p)⁻¹ * (sOf p) := by
     intro p hp
-    simp only [φ, dif_pos hp]
+    simp only [φ, dite_eq_left hp]
   have hφ_out : ∀ p, p ∉ Pg E z → φ p = 1 := by
     intro p hp
-    simp only [φ, dif_neg hp]
+    simp only [φ, dite_eq_right hp]
   have hnrmP : ∀ x ∈ Pg E z, ∀ y ∈ E, x * y * x⁻¹ ∈ E := by
     intro x hx y hy
     have hxN : x ∈ Nrm E := CNz_le_Nrm E z (Pg_le_CNz E z hx)

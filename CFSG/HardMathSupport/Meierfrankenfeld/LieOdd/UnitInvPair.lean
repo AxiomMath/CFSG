@@ -23,6 +23,7 @@ variable {K : Type} [Field K] {p f : ℕ} {ι : Type} [Fintype ι] [DecidableEq 
       (lam * h.bar lam = 1 ∨ hf h G u u = 0)
 
 open CFSG.LinearGroups in
+omit [DecidableEq ι] in
 theorem exists_isotropic_of_two_le' (hG : (G.map h.bar)ᵀ = G) {E : Submodule K (ι → K)}
     (hE : 2 ≤ Module.finrank K E) :
     ∃ w ∈ E, w ≠ 0 ∧ hf h G w w = 0 := by
@@ -65,13 +66,14 @@ variable (A : Matrix ι ι K) (l : K)
 @[expose] def eig (c : K) : Submodule K (ι → K) where
   carrier := {x | A *ᵥ x = c • x}
   add_mem' {x y} hx hy := by
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [Matrix.mulVec_add, hx, hy, smul_add]
   zero_mem' := by simp
   smul_mem' a x hx := by
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [Matrix.mulVec_smul, hx, smul_comm]
 
+omit [DecidableEq ι] in
 theorem mem_eig {A : Matrix ι ι K} {c : K} {x : ι → K} : x ∈ eig A c ↔ A *ᵥ x = c • x :=
   Iff.rfl
 
@@ -79,6 +81,7 @@ variable (hl0 : l ≠ 0) (hAA : ∀ x, A *ᵥ (A *ᵥ x) = (l ^ 2) • x) (h2 : 
 
 include hl0 hAA h2
 
+omit [DecidableEq ι] in
 theorem eig_isCompl : IsCompl (eig A l) (eig A (-l)) := by
   refine ⟨Submodule.disjoint_def.mpr fun x hx hx' => ?_,
     Submodule.codisjoint_iff_exists_add_eq.mpr fun x => ?_⟩
@@ -106,12 +109,14 @@ theorem eig_isCompl : IsCompl (eig A l) (eig A (-l)) := by
       field_simp
       ring
 
+omit [DecidableEq ι] in
 theorem eig_finrank (hcard : Fintype.card ι = 4) :
     Module.finrank K (eig A l) + Module.finrank K (eig A (-l)) = 4 := by
   have := Submodule.finrank_add_eq_of_isCompl (eig_isCompl A l hl0 hAA h2)
   rw [Module.finrank_fintype_fun_eq_card, hcard] at this
   exact this
 
+omit [DecidableEq ι] in
 theorem eig_ne_bot (hns : ∀ c : K, ∃ x, A *ᵥ x ≠ c • x) : eig A l ≠ ⊥ ∧ eig A (-l) ≠ ⊥ := by
   have hc := Submodule.codisjoint_iff_exists_add_eq.mp (eig_isCompl A l hl0 hAA h2).codisjoint
   constructor
@@ -132,7 +137,7 @@ theorem eig_ne_bot (hns : ∀ c : K, ∃ x, A *ᵥ x ≠ c • x) : eig A l ≠ 
     subst h12
     exact hx hy₁
 
-omit hl0 hAA in
+omit hl0 hAA [DecidableEq ι] in
 theorem hf_eq_zero_of_eig (hA : ∀ x y, hf h G (A *ᵥ x) (A *ᵥ y) = hf h G x y) {c d : K}
     (hcd : h.bar c * d = -1) {x y : ι → K} (hx : x ∈ eig A c) (hy : y ∈ eig A d) :
     hf h G x y = 0 := by
@@ -142,6 +147,7 @@ theorem hf_eq_zero_of_eig (hA : ∀ x y, hf h G (A *ᵥ x) (A *ᵥ y) = hf h G x
     linear_combination -h1 + hf h G x y * hcd
   exact (mul_eq_zero.1 h3).resolve_left h2
 
+omit [DecidableEq ι] in
 theorem pair_refl_one_of_dim (hG : (G.map h.bar)ᵀ = G)
     (hA : ∀ x y, hf h G (A *ᵥ x) (A *ᵥ y) = hf h G x y) (hN1 : h.bar l * l = 1)
     (hns : ∀ c : K, ∃ x, A *ᵥ x ≠ c • x) (hd : 2 ≤ Module.finrank K (eig A l)) :
@@ -170,6 +176,7 @@ theorem pair_refl_one_of_dim (hG : (G.map h.bar)ᵀ = G)
     rw [hk, hk0, zero_smul]
   · rw [mul_comm]; exact hN1
 
+omit [DecidableEq ι] in
 theorem pair_refl_one (hG : (G.map h.bar)ᵀ = G) (hcard : Fintype.card ι = 4)
     (hA : ∀ x y, hf h G (A *ᵥ x) (A *ᵥ y) = hf h G x y) (hN1 : h.bar l * l = 1)
     (hns : ∀ c : K, ∃ x, A *ᵥ x ≠ c • x) : ∃ v u, UnitPairData h G (fun x => A *ᵥ x) v u := by
@@ -180,7 +187,7 @@ theorem pair_refl_one (hG : (G.map h.bar)ᵀ = G) (hcard : Fintype.card ι = 4)
     exact pair_refl_one_of_dim h G A (-l) (neg_ne_zero.2 hl0)
       (fun x => by rw [hAA x, neg_sq]) h2 hG hA (by rw [map_neg, neg_mul_neg]; exact hN1) hns hd'
 
-theorem eig_pair_le (hG : (G.map h.bar)ᵀ = G) (hdet : G.det ≠ 0)
+theorem eig_pair_le (_hG : (G.map h.bar)ᵀ = G) (hdet : G.det ≠ 0)
     (hA : ∀ x y, hf h G (A *ᵥ x) (A *ᵥ y) = hf h G x y) (hN : h.bar l * l = -1) :
     Module.finrank K (eig A (-l)) ≤ Module.finrank K (eig A l) := by
   have hc := Submodule.codisjoint_iff_exists_add_eq.mp (eig_isCompl A l hl0 hAA h2).codisjoint
@@ -231,6 +238,7 @@ variable (σ : K ≃+* K) (hσ : ∀ c, σ c = h.bar c)
   map_add' x y := by rw [tau_add, smul_add]
   map_smul' c x := by rw [tau_smul, hσ, smul_comm]
 
+omit [DecidableEq ι] in
 theorem tauLin_apply (A : Matrix ι ι K) (a : K) (x : ι → K) :
     tauLin h σ hσ A a x = a • tau σ A x := rfl
 
@@ -289,6 +297,7 @@ theorem exists_perp_of_conjFixed (hdet : G.det ≠ 0) (hcard : Fintype.card ι =
     h5.trans (Finset.card_le_two (a := w₀) (b := v))
   omega
 
+omit [DecidableEq ι] in
 theorem exists_isotropic_conjFixed (hcard : Fintype.card ι = 4)
     {τ' : (ι → K) →ₛₗ[h.bar] (ι → K)} (hττ : ∀ v, τ' (τ' v) = v) {t : K} (ht : h.bar t = -t)
     (ht0 : t ≠ 0) (h2 : (2 : K) ≠ 0)
@@ -296,7 +305,7 @@ theorem exists_isotropic_conjFixed (hcard : Fintype.card ι = 4)
     ∃ v ∈ conjFixed h τ', v ≠ 0 ∧ hf h G v v = 0 := by
   classical
   have := h.finite
-  haveI : Fintype h.fixedField := Fintype.ofFinite _
+  have : Fintype h.fixedField := Fintype.ofFinite _
   have hfin : Module.finrank K (ι → K) = 4 := by
     rw [Module.finrank_fintype_fun_eq_card, hcard]
   have hW4 : Module.finrank h.fixedField (conjFixed h τ') = 4 := by
@@ -314,7 +323,7 @@ theorem exists_isotropic_conjFixed (hcard : Fintype.card ι = 4)
   obtain ⟨wW, hwW⟩ : ∃ wW : conjFixed h τ', wW = ∑ i, v i • b i := ⟨_, rfl⟩
   have hwcoe : (wW : ι → K) = ∑ i, ((v i : h.fixedField) : K) • (b i : ι → K) := by
     rw [hwW]
-    simp [Submodule.coe_sum, Submodule.coe_smul, Subfield.smul_def]
+    simp [Subfield.smul_def]
   refine ⟨wW, wW.2, ?_, ?_⟩
   · intro h0
     have h1 : wW = 0 := Subtype.ext h0
@@ -436,7 +445,7 @@ theorem pair_bar (h2 : (2 : K) ≠ 0) (hG : (G.map h.bar)ᵀ = G) (hGb : G.map h
       hbγ, Or.inr (hisoW w hwW)⟩
 
 include hσ in
-theorem bar_scalar_pm_one (hG : (G.map h.bar)ᵀ = G) (hGb : G.map h.bar = G) (hdet : G.det ≠ 0)
+theorem bar_scalar_pm_one (_hG : (G.map h.bar)ᵀ = G) (hGb : G.map h.bar = G) (hdet : G.det ≠ 0)
     (hcard : Fintype.card ι = 4) (A B : Matrix ι ι K) (hAB : A * B = 1)
     (hA : (A.map h.bar)ᵀ * G * A = G) (c : K) (hc : A * A.map h.bar = c • 1) :
     c = 1 ∨ c = -1 := by

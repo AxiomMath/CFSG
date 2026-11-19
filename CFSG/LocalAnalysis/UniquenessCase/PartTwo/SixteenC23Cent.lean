@@ -11,12 +11,14 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23_commute_of_commutator_mem_bot {a b : G}
     (h : a * b * a⁻¹ * b⁻¹ ∈ (⊥ : Subgroup G)) : a * b = b * a := by
   rw [Subgroup.mem_bot, mul_inv_eq_one] at h
   calc a * b = (a * b * a⁻¹) * a := by group
     _ = b * a := by rw [h]
 
+omit [Finite G] in
 theorem c23_commutator_mem_of_mem_preBarSub_barSub {M V₀ V L' : Subgroup G}
     (hV : IsElemAbelian 2 V) {g u : G}
     (hg : g ∈ preBarSub M V₀ V hV (barSub V₀ V hV L')) (hu : u ∈ V)

@@ -76,7 +76,7 @@ theorem card_range_commHom_mul_le [Finite M] (φ φ' : MulAut M) :
 theorem false_of_five [Finite M] (e : Γ ≃* alternatingGroup (Fin 5)) (hM2 : ∀ x : M, x ^ 2 = 1)
     (hfaith : ∀ γ : Γ, (∀ x : M, γ • x = x) → γ = 1) {t : Γ} (ht2 : t * t = 1) (ht1 : t ≠ 1)
     (hrange : Nat.card (commHom (MulDistribMulAction.toMulAut Γ M t)).range ≤ 2) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set k : Equiv.Perm (Fin 5) := ((e t : alternatingGroup (Fin 5)) : Equiv.Perm (Fin 5)) with hk
   have hk2 : k * k = 1 := by
     have : e t * e t = 1 := by rw [← map_mul, ht2, map_one]
@@ -129,7 +129,7 @@ theorem false_of_five [Finite M] (e : Γ ≃* alternatingGroup (Fin 5)) (hM2 : �
       _ ≤ 2 * 2 := Nat.mul_le_mul hrange hR2
   have hKinv : ∀ y ∈ (commHom ax).range, ax y ∈ (commHom ax).range := by
     rintro _ ⟨z, rfl⟩
-    exact ⟨ax z, by simp [commHom_apply, MulAut.mul_apply]⟩
+    exact ⟨ax z, by simp [commHom_apply]⟩
   have hax5 : ax ^ 5 = 1 := by rw [hax, ← map_pow, hx5', map_one]
   have hmod := card_fix_modEq 5 ax hax5 (commHom ax).range hKinv
   have hKall : (commHom ax).range ≤ fixSub ax := by

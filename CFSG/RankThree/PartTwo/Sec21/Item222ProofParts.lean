@@ -137,9 +137,8 @@ theorem star_four [Finite G] (h211 : Item211)
   rcases h211 G A E U c L hpair with ⟨-, -, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ |
       ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, -, he⟩ |
       ⟨hJ, -, -⟩ | ⟨-, h27, -⟩ | ⟨hSp, -, -⟩
-  all_goals first
+  all_goals try first
     | (rw [h81] at h27; norm_num at h27)
-    | skip
   · exact he
   · rcases hJ with heJ | hT
     · obtain ⟨eJ⟩ := heJ

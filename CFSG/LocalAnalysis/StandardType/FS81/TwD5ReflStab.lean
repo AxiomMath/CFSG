@@ -129,9 +129,9 @@ private theorem d5_mem : d5 ∈ evenFix0 5 :=
     (by
       intro i
       by_cases h : i = 4 ∨ i = 5
-      · simp only [h, if_true]
+      · simp only [h, ite_true]
         trivial
-      · simp only [h, if_false]
+      · simp only [h, ite_false]
         trivial),
     ⟨by decide, by decide +kernel, by decide +kernel⟩, rfl⟩
 

@@ -248,7 +248,7 @@ theorem card_centralizer_sq_le_of_psl2 {G : Type} [Group G]
     Q.mapSurjective (f := π) (QuotientGroup.mk'_surjective _)
   have hR : (R : Subgroup (RankTwoStandard.rankTwoQuot L)) = (Q : Subgroup L).map π := rfl
   have hbot : (Q : Subgroup L) ⊓ center L = ⊥ :=
-    AschbacherTightEmbedding.two_subgroup_of_odd_eq_bot _ (center L) Q.isPGroup'.to_inf_left hZ
+    AschbacherTightEmbedding.two_subgroup_of_odd_eq_bot _ (center L) Q.isPGroup.to_inf_left hZ
       inf_le_right
   have hπinj : ∀ x ∈ (Q : Subgroup L), ∀ y ∈ (Q : Subgroup L), π x = π y → x = y := by
     intro x hx y hy hxy
@@ -339,7 +339,7 @@ theorem isElemAbelian_of_psl2 {G : Type} [Group G] [Finite G]
     Q.mapSurjective (f := π) (QuotientGroup.mk'_surjective _)
   have hR : (R : Subgroup (RankTwoStandard.rankTwoQuot L)) = (Q : Subgroup L).map π := rfl
   have hbot : (Q : Subgroup L) ⊓ center L = ⊥ :=
-    AschbacherTightEmbedding.two_subgroup_of_odd_eq_bot _ (center L) Q.isPGroup'.to_inf_left hZ
+    AschbacherTightEmbedding.two_subgroup_of_odd_eq_bot _ (center L) Q.isPGroup.to_inf_left hZ
       inf_le_right
   have hπinj : ∀ x ∈ (Q : Subgroup L), ∀ y ∈ (Q : Subgroup L), π x = π y → x = y := by
     intro x hx y hy hxy

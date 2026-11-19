@@ -105,7 +105,7 @@ theorem LayerCtx.perm_of_mem_pCoreOf (L : LayerCtx Ω c) {y : Y}
 
 theorem LayerCtx.mem_pCoreOf_of_perm (L : LayerCtx Ω c) {y : Y} (hy : y ∈ pSpan (PY Ω c))
     (hp : TC.Thin.permQ 6 (L.I.φ ⟨y, hy⟩) = 1) : y ∈ pCoreOf 2 (pSpan (PY Ω c)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := pSpan (PY Ω c) with hX
   set N : Subgroup ↥X := ((TC.Thin.permQ 6).comp L.I.φ).ker with hN
   have hNn : N.Normal := MonoidHom.normal_ker _

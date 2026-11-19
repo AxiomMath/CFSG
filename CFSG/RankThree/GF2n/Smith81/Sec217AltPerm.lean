@@ -54,11 +54,13 @@ structure DiffCycles (a : Perm α) (x y : α) : Prop where
   hxy : y ≠ x
   hyx : y ≠ a x
 
+omit [Fintype α] [DecidableEq α] in
 theorem DiffCycles.ne_a (haa : ∀ w, a (a w) = w) {x y : α} (h : DiffCycles a x y) : a y ≠ x := by
   intro e
   apply h.hyx
   rw [← e, haa]
 
+omit [Fintype α] [DecidableEq α] in
 theorem DiffCycles.ne_aa (haa : ∀ w, a (a w) = w) {x y : α} (h : DiffCycles a x y) : a x ≠ a y := by
   intro e
   apply h.hxy
@@ -66,12 +68,14 @@ theorem DiffCycles.ne_aa (haa : ∀ w, a (a w) = w) {x y : α} (h : DiffCycles a
   rw [haa, haa] at this
   exact this.symm
 
+omit [Fintype α] in
 theorem dblSwap_apply_left (haa : ∀ w, a (a w) = w) {x y : α} (h : DiffCycles a x y) :
     dblSwap a x y x = y := by
   have h1 : x ≠ a x := h.hx.symm
   have h2 : x ≠ a y := (h.ne_a haa).symm
   simp [dblSwap, swap_apply_of_ne_of_ne h1 h2]
 
+omit [Fintype α] in
 theorem dblSwap_apply_a (haa : ∀ w, a (a w) = w) {x y : α} (h : DiffCycles a x y) :
     dblSwap a x y (a x) = a y := by
   have h1 : a y ≠ x := h.ne_a haa
@@ -79,6 +83,7 @@ theorem dblSwap_apply_a (haa : ∀ w, a (a w) = w) {x y : α} (h : DiffCycles a 
   simp only [dblSwap, Perm.mul_apply, swap_apply_left]
   exact swap_apply_of_ne_of_ne h1 h2
 
+omit [Fintype α] in
 theorem dblSwap_apply_of_notMem {x y w : α} (hw : w ∉ ({x, y, a x, a y} : Finset α)) :
     dblSwap a x y w = w := by
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hw
@@ -136,6 +141,7 @@ end PairSwap
 
 section CaseLarge
 
+omit [Fintype α] in
 theorem commute_swap_of_apply_eq_self {d : Perm α} {x y : α} (hx : d x = x) (hy : d y = y) :
     d * swap x y = swap x y * d := by
   have h := swap_apply_apply d x y
@@ -144,6 +150,7 @@ theorem commute_swap_of_apply_eq_self {d : Perm α} {x y : α} (hx : d x = x) (h
 
 variable {A : Subgroup (Perm α)}
 
+omit [Fintype α] in
 theorem apply_eq_of_commute_dblSwap {a b : Perm α} {x y : α}
     (hb : b * dblSwap a x y = dblSwap a x y * b) (hxy : dblSwap a x y x = y) :
     b y = dblSwap a x y (b x) := by
@@ -152,6 +159,7 @@ theorem apply_eq_of_commute_dblSwap {a b : Perm α} {x y : α}
   rw [hxy] at this
   exact this
 
+omit [Fintype α] in
 theorem mem_of_commute_dblSwap {a b : Perm α} {x y : α}
     (hb : b * dblSwap a x y = dblSwap a x y * b) (hxy : dblSwap a x y x = y) (hyx : y ≠ x) :
     b x ∈ ({x, y, a x, a y} : Finset α) := by
@@ -318,8 +326,8 @@ theorem isPerfect_altSupportedOn {F : Finset α} (h5 : 5 ≤ F.card) :
   have hcard : 5 ≤ Nat.card (↥F) := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe]
     exact h5
-  haveI : IsSimpleGroup (alternatingGroup (↥F)) := alternatingGroup.isSimpleGroup hcard
-  haveI : Group.IsPerfect (alternatingGroup (↥F)) := by
+  have : IsSimpleGroup (alternatingGroup (↥F)) := alternatingGroup.isSimpleGroup hcard
+  have : Group.IsPerfect (alternatingGroup (↥F)) := by
     refine TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative ?_
     rw [alternatingGroup.isMulCommutative_iff_card_le_three]
     omega
@@ -408,7 +416,7 @@ theorem false_of_many_fixed_points {A Q : Subgroup (Perm α)}
     rw [mem_altSupportedOn_iff]
     refine ⟨?_, ?_⟩
     · rw [Perm.mem_alternatingGroup] at hka ⊢
-      simpa [hka] using Perm.sign_conj t k
+      simp [hka]
     · rw [Perm.support_conj]
       intro w hw
       obtain ⟨w', hw', rfl⟩ := Finset.mem_map.mp hw
@@ -421,12 +429,12 @@ theorem false_of_many_fixed_points {A Q : Subgroup (Perm α)}
   let ι : alternatingGroup ↥F →* Perm α :=
     (alternatingGroup α).subtype.comp (alternatingGroup.ofSubtype F)
   let W : Subgroup (alternatingGroup ↥F) := Q.comap ι
-  haveI hWn : W.Normal := ⟨fun w hw g => by
+  have hWn : W.Normal := ⟨fun w hw g => by
     show ι (g * w * g⁻¹) ∈ Q
     rw [map_mul, map_mul, map_inv]
     have hgK : ι g ∈ altSupportedOn F := ⟨g, rfl⟩
     exact (Subgroup.mem_normalizer_iff.mp (hNQ (ι g) (hKalt hgK) (hKN hgK)) (ι w)).mp hw⟩
-  haveI : IsSimpleGroup (alternatingGroup ↥F) := alternatingGroup.isSimpleGroup (by
+  have : IsSimpleGroup (alternatingGroup ↥F) := alternatingGroup.isSimpleGroup (by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe]
     exact h5)
   have h3ord : orderOf (swap x y * swap x z) = 3 := hc3.orderOf
@@ -488,7 +496,7 @@ theorem thirteen_le_card_of_isPGroup {Q : Subgroup (Perm α)} (hQalt : Q ≤ alt
     have : (Nat.card α).factorial = 1 := by
       interval_cases (Nat.card α) <;> rfl
     omega
-  · haveI : Nontrivial α := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  · have : Nontrivial α := Finite.one_lt_card_iff_nontrivial.mp (by omega)
     obtain ⟨k, hk⟩ := hQ2.exists_card_eq
     have hk10 : 10 ≤ k := by
       rw [hk] at hQbig

@@ -56,7 +56,7 @@ theorem exists_modelVertex (hP : Nat.card ↥P1408 = 177408000) {τ : ↥P1408} 
       rw [← elemA_comm hxP, mul_assoc, mul_inv_cancel, mul_one])
   have hso : orderOf (x⁻¹ * (τ : Equiv.Perm (Fin 1408)) * x) = 2 := by
     have hs'o : orderOf s' = 2 := by
-      rw [show s' = MulAut.conj x'⁻¹ τ by simp [s', MulAut.conj_apply], MulEquiv.orderOf_eq]
+      rw [show s' = MulAut.conj x'⁻¹ τ by simp [s'], MulEquiv.orderOf_eq]
       exact hτ
     exact (Subgroup.orderOf_coe s').trans hs'o
   rcases hcov _ hxS hso with h | h | h | ⟨w, hw, hws⟩

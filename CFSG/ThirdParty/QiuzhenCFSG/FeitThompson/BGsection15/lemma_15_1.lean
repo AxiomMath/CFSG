@@ -104,7 +104,7 @@ private theorem CFSG.section15_primeSet_diff_sigma_nonempty
       rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
       simpa [hMbot] using y.property
     exact (theorem_10_2_e (G := G) hM) hMsigma_bot
-  haveI : Nontrivial M := (Subgroup.nontrivial_iff_ne_bot (H := M)).2 hM_ne_bot
+  have : Nontrivial M := (Subgroup.nontrivial_iff_ne_bot (H := M)).2 hM_ne_bot
   have hsolvM : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.2 hM.1)
   have hcomm_lt : commutator M < (⊤ : Subgroup M) :=
@@ -348,10 +348,10 @@ public theorem CFSG.section15_rankTwoMaximal_subgroupOf_of_le
     (hArankTwo : A ∈ elementaryAbelianSubgroupsOfRank p.val 2 G)
     (hAmax : A ∈ maximalElementaryAbelianSubgroups p.val G) :
     A.subgroupOf S ∈ section10RankTwoMaximalElementaryAbelianSubgroups p S := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hArankTwo with ⟨hAcard, hAelem⟩
   rcases hAmax with ⟨_hAelem', hAmax'⟩
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hAsub_card : Nat.card (A.subgroupOf S) = p.val ^ 2 := by
     simpa [hAcard] using
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe (H := A) (K := S) hAS).toEquiv
@@ -366,7 +366,7 @@ public theorem CFSG.section15_rankTwoMaximal_subgroupOf_of_le
       let aS : A.subgroupOf S := ⟨⟨a, hAS ha⟩, ha⟩
       exact Subgroup.mem_map.mpr ⟨aS, hAB aS.2, rfl⟩
     have hBmap_elem : IsElementaryAbelian p.val Bmap := by
-      letI : IsElementaryAbelian p.val B := hBelem
+      let : IsElementaryAbelian p.val B := hBelem
       simpa [Bmap] using
         section15_isElementaryAbelian_map (p := p.val) (A := B) S.subtype
     have hEq : A = Bmap := hAmax' Bmap hA_le_Bmap hBmap_elem
@@ -391,11 +391,11 @@ private theorem CFSG.section15_omega1Z_isElementaryAbelian
     IsElementaryAbelian p (Ω₁Z p R) := by
   let Ωc : Subgroup (Subgroup.center R) := omega₁ (G := Subgroup.center R) (p := p)
   have hΩcelem : IsElementaryAbelian p Ωc := by
-    letI : IsMulCommutative (Subgroup.center R) := inferInstance
+    let : IsMulCommutative (Subgroup.center R) := inferInstance
     simpa [Ωc] using
       section12_omega1_isElementaryAbelian_of_commutative
         (p := p) (Subgroup.center R)
-  letI : IsElementaryAbelian p Ωc := hΩcelem
+  let : IsElementaryAbelian p Ωc := hΩcelem
   change IsElementaryAbelian p (Ωc.map (Subgroup.center R).subtype)
   exact section15_isElementaryAbelian_map (p := p) (A := Ωc) (Subgroup.center R).subtype
 
@@ -411,10 +411,10 @@ omit [Finite G] [IsMinCE G] in
 public theorem CFSG.section15_omegaOneCenter_isElementaryAbelian
     {p : Nat.Primes} (P : Subgroup G) :
     IsElementaryAbelian p.val (section10OmegaOneCenter p P) := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hΩelem : IsElementaryAbelian p.val (Ω₁Z p.val P) :=
     section15_omega1Z_isElementaryAbelian (p := p.val) P
-  letI : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩelem
+  let : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩelem
   change IsElementaryAbelian p.val ((Ω₁Z p.val P).map P.subtype)
   exact section15_isElementaryAbelian_map (p := p.val) (A := Ω₁Z p.val P) P.subtype
 
@@ -424,7 +424,7 @@ public theorem CFSG.section15_isElementaryAbelian_of_prime_card_isCyclic
     {H : Type*} [Group H] [Finite H] [IsCyclic H]
     (hcard : Nat.card H = p) :
     IsElementaryAbelian p H := by
-  letI : CommGroup H := IsCyclic.commGroup
+  let : CommGroup H := IsCyclic.commGroup
   refine
     { toIsMulCommutative := { is_comm := ⟨mul_comm⟩ }
       exponent_dvd_p := ?_ }
@@ -479,9 +479,9 @@ public theorem CFSG.section15_isElementaryAbelian_sup_of_le_centralizer
           simpa using congrArg Subtype.val hypow) (by simp) (by
         intro y z hy hz hypow hzpow
         have hyz_comm : Commute y z := by
-          letI : IsMulCommutative (Subgroup.closure s) :=
+          let : IsMulCommutative (Subgroup.closure s) :=
             Subgroup.isMulCommutative_closure fun x hx y hy _ => hcomm_s x hx y hy
-          letI : CommGroup (Subgroup.closure s) := IsMulCommutative.instCommGroup
+          let : CommGroup (Subgroup.closure s) := IsMulCommutative.instCommGroup
           show y * z = z * y
           simpa using congrArg Subtype.val
             (mul_comm (⟨y, hy⟩ : Subgroup.closure s) (⟨z, hz⟩ : Subgroup.closure s))
@@ -507,7 +507,7 @@ public theorem CFSG.section15_omegaOneCenter_ne_bot_of_nontrivial_pSubgroup
     (hPp : IsPGroup p.val P) [Nontrivial P] :
     section10OmegaOneCenter p P ≠ ⊥ := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hZ_nontrivial : Nontrivial (Subgroup.center P) := hPp.center_nontrivial
   have hpdvd_center : p.val ∣ Nat.card (Subgroup.center P) := by
     have hcenter_p : IsPGroup p.val (Subgroup.center P) :=
@@ -528,7 +528,7 @@ public theorem CFSG.section15_exists_rankTwo_in_noncyclic_pSubgroup
     (hPp : IsPGroup p.val P) (hPnoncyc : ¬ IsCyclic P) :
     ∃ A : Subgroup G, A ∈ section12RankTwoElementaryAbelianIn p P := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hp_dvd_P : p.val ∣ Nat.card P := by
     rcases hPp.exists_card_eq with ⟨n, hn⟩
     cases n with
@@ -536,7 +536,7 @@ public theorem CFSG.section15_exists_rankTwo_in_noncyclic_pSubgroup
         have hcard_one : Nat.card P = 1 := by
           simpa using hn
         exact False.elim <| hPnoncyc <| by
-          letI : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard_one).1
+          let : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard_one).1
           exact isCyclic_of_subsingleton (α := P)
     | succ n =>
         rw [hn]
@@ -544,10 +544,10 @@ public theorem CFSG.section15_exists_rankTwo_in_noncyclic_pSubgroup
   have hp_dvd_G : p.val ∣ Nat.card G :=
     hp_dvd_P.trans (Subgroup.card_subgroup_dvd_card P)
   have hpodd : p.val ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hp_dvd_G
-  haveI : Fact (IsPGroup p.val P) := ⟨hPp⟩
+  have : Fact (IsPGroup p.val P) := ⟨hPp⟩
   obtain ⟨A₀, _hA₀norm, hA₀card, hA₀elem⟩ :=
     lemma_4_5_a (R := P) (p := p.val) hpodd hPnoncyc
-  haveI : IsElementaryAbelian p.val A₀ := hA₀elem
+  have : IsElementaryAbelian p.val A₀ := hA₀elem
   let A : Subgroup G := A₀.map P.subtype
   have hA_le_P : A ≤ P := by
     intro x hx
@@ -569,9 +569,9 @@ public theorem CFSG.section15_groupRank_at_least_two_of_rankTwo_elementary_le
     (hAK : A ≤ K) (hA : A ∈ elementaryAbelianSubgroupsOfRank p.val 2 G) :
     2 ≤ groupRank K := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hA with ⟨hAcard, hAelem⟩
-  letI : IsElementaryAbelian p.val A := hAelem
+  let : IsElementaryAbelian p.val A := hAelem
   have hAgen : 2 ≤ generatorRank A :=
     section12_generatorRank_at_least_two_of_elementaryAbelian_card_p_sq
       (p := p.val) (A := A) hAcard
@@ -580,7 +580,7 @@ public theorem CFSG.section15_groupRank_at_least_two_of_rankTwo_elementary_le
     (IsElementaryAbelian.isPGroup p.val A).of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := A) (K := K) hAK).symm
   have hA'comm : IsMulCommutative A' := by
-    letI : IsMulCommutative A := hAelem.toIsMulCommutative
+    let : IsMulCommutative A := hAelem.toIsMulCommutative
     exact Subgroup.subgroupOf_isMulCommutative (H := A) (K := K)
   have hgen_eq : generatorRank A' = generatorRank A := by
     rw [generatorRank_eq_group_rank, generatorRank_eq_group_rank]
@@ -603,10 +603,10 @@ public theorem CFSG.section15_primeRank_at_least_two_of_rankTwo
     (hA : A ∈ section12RankTwoElementaryAbelianIn p M) :
     2 ≤ primeRank p.val M := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hAM : A ≤ M := section12_rankTwo_le hA
   rcases section12_rankTwo_elementary hA with ⟨hcard, hElem⟩
-  haveI : IsElementaryAbelian p.val A := hElem
+  have : IsElementaryAbelian p.val A := hElem
   have hAcomm : IsMulCommutative A := inferInstance
   let A' : Subgroup M := A.subgroupOf M
   have hA'p : IsPGroup p.val A' :=
@@ -637,7 +637,7 @@ private theorem CFSG.section15_exists_noncyclic_sylow_of_noncyclic_nilpotent
   have hZ : IsZGroup X := ⟨fun p hp P => by
     by_contra hP
     exact hnone ⟨⟨p, hp⟩, P, hP⟩⟩
-  letI : IsZGroup X := hZ
+  let : IsZGroup X := hZ
   exact hXnoncyc (inferInstance : IsCyclic X)
 
 public theorem CFSG.section15_groupRank_at_least_two_of_not_isCyclic
@@ -648,12 +648,12 @@ public theorem CFSG.section15_groupRank_at_least_two_of_not_isCyclic
     odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card R)
   rcases section15_exists_noncyclic_sylow_of_noncyclic_nilpotent
       (X := R) hR with ⟨p, P, hPnoncyc⟩
-  haveI : Fact p.val.Prime := ⟨p.property⟩
-  rcases P.isPGroup'.exists_card_eq with ⟨n, hn⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
+  rcases P.isPGroup.exists_card_eq with ⟨n, hn⟩
   cases n with
   | zero =>
       have hcard : Nat.card P = 1 := by simp [hn]
-      haveI : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard).1
+      have : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard).1
       exact False.elim (hPnoncyc (by infer_instance))
   | succ n =>
       have hp_dvd_P : p.val ∣ Nat.card P := by
@@ -663,10 +663,10 @@ public theorem CFSG.section15_groupRank_at_least_two_of_not_isCyclic
         have hp_dvd_R : p.val ∣ Nat.card R := hp_dvd_P.trans P.card_subgroup_dvd_card
         exact Odd.ne_two_of_dvd_nat hRodd hp_dvd_R
       have hPrank : 2 ≤ groupRank (P : Subgroup R) := by
-        haveI : Fact (IsPGroup p.val P) := ⟨P.isPGroup'⟩
+        have : Fact (IsPGroup p.val P) := ⟨P.isPGroup⟩
         obtain ⟨A₀, _hA₀norm, hA₀card, hA₀elem⟩ :=
           lemma_4_5_a (R := P) (p := p.val) hpodd hPnoncyc
-        haveI : IsElementaryAbelian p.val A₀ := hA₀elem
+        have : IsElementaryAbelian p.val A₀ := hA₀elem
         let A : Subgroup R := A₀.map (P : Subgroup R).subtype
         have hA_le_P : A ≤ (P : Subgroup R) := by
           intro x hx
@@ -693,7 +693,7 @@ public theorem CFSG.section15_pPrimeCore_le
     {p : Nat.Primes} (H : Subgroup G) :
     section10PPrimeCore p H ≤ H := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hcore_eq :
       section10PPrimeCore p H = (pPrimeCore p.val H).map H.subtype := by
     have hp_eq : (⟨p.val, Fact.out⟩ : Nat.Primes) = p := Subtype.ext rfl
@@ -711,7 +711,7 @@ public theorem CFSG.section15_pPrimeCore_le_centralizer_pCoreIn
     section10PPrimeCore p H ≤
       Subgroup.centralizer (section15PCoreIn p H : Set G) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hcore_eq :
       section10PPrimeCore p H = (pPrimeCore p.val H).map H.subtype := by
     have hp_eq : (⟨p.val, Fact.out⟩ : Nat.Primes) = p := Subtype.ext rfl
@@ -816,9 +816,9 @@ private theorem CFSG.section15_tau2_piSubgroup_commutative
     have htop_le_M : (⊤ : Subgroup G) ≤ M := by
       simpa [hEtop] using hE.1.2.1
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hEsolv : IsSolvable E :=
+  have hEsolv : Group.IsSolvable E :=
     IsMinCE.proper_subgroups_solvable E (lt_top_iff_ne_top.2 hEproper)
-  letI : MulDistribMulAction Unit E := {
+  let : MulDistribMulAction Unit E := {
     smul := fun _ x => x
     one_smul := fun x => rfl
     mul_smul := fun _ _ x => rfl
@@ -841,7 +841,7 @@ private theorem CFSG.section15_tau2_piSubgroup_commutative
     (corollary_12_10_b (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) hM hE).1
   have hE2sub_comm : IsMulCommutative (E₂.subgroupOf E) := by
-    letI : IsMulCommutative E₂ := hE2comm
+    let : IsMulCommutative E₂ := hE2comm
     refine ⟨⟨fun x y => ?_⟩⟩
     apply Subtype.ext
     apply Subtype.ext
@@ -853,12 +853,12 @@ private theorem CFSG.section15_tau2_piSubgroup_commutative
   have hHcomm : IsMulCommutative H := by
     have hmapcomm :
         IsMulCommutative ((E₂.subgroupOf E).map (MulAut.conj g).toMonoidHom) := by
-      letI : IsMulCommutative (E₂.subgroupOf E) := hE2sub_comm
+      let : IsMulCommutative (E₂.subgroupOf E) := hE2sub_comm
       exact Subgroup.map_isMulCommutative
         (f := (MulAut.conj g).toMonoidHom) (H := E₂.subgroupOf E)
     rw [hHg]
     exact hmapcomm
-  letI : IsMulCommutative H := hHcomm
+  let : IsMulCommutative H := hHcomm
   refine ⟨⟨fun x y => ?_⟩⟩
   let xE : E := ⟨x, hXE x.property⟩
   let yE : E := ⟨y, hXE y.property⟩
@@ -885,10 +885,10 @@ private theorem CFSG.section15_exists_noncyclic_sylow_of_noncyclic_commutative
     intro p hp P
     by_contra hP
     exact hnone ⟨⟨p, hp⟩, P, hP⟩
-  haveI : IsZGroup X := hZ
-  letI : IsMulCommutative X := hXcomm
-  letI : CommGroup X := IsMulCommutative.instCommGroup
-  haveI : Group.IsNilpotent X := inferInstance
+  have : IsZGroup X := hZ
+  let : IsMulCommutative X := hXcomm
+  let : CommGroup X := IsMulCommutative.instCommGroup
+  have : Group.IsNilpotent X := inferInstance
   exact hXnoncyc (inferInstance : IsCyclic X)
 
 /-- Section 15 local copy of the Section 12 rank-two extraction used in
@@ -910,11 +910,11 @@ private theorem CFSG.section15_exists_rankTwo_in_noncyclic_tau2_piSubgroup
       (E₃ := E₃) (X := X) hM hE hXE hXπ
   rcases section15_exists_noncyclic_sylow_of_noncyclic_commutative
       (X := X) hXcomm hXnoncyc with ⟨p, P, hPnoncyc⟩
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Pamb : Subgroup G := (P : Subgroup X).map X.subtype
   have hPamb_p : IsPGroup p.val Pamb := by
     simpa [Pamb] using
-      (IsPGroup.map (p := p.val) (H := (P : Subgroup X)) P.isPGroup' X.subtype)
+      (IsPGroup.map (p := p.val) (H := (P : Subgroup X)) P.isPGroup X.subtype)
   have hPnoncyc_sub : ¬ IsCyclic (P : Subgroup X) := by
     simpa using hPnoncyc
   have hPamb_noncyc : ¬ IsCyclic Pamb := by
@@ -933,14 +933,14 @@ private theorem CFSG.section15_exists_rankTwo_in_noncyclic_tau2_piSubgroup
     exact y.property
   have hA_le_X : A ≤ X := hA_le_Pamb.trans hPamb_le_X
   have hp_dvd_X : p.val ∣ Nat.card X := by
-    rcases P.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases P.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hp_dvd_P : p.val ∣ Nat.card (P : Subgroup X) := by
       cases n with
       | zero =>
           have hcard_one : Nat.card (P : Subgroup X) = 1 := by
             simpa using hn
           exact False.elim <| hPnoncyc_sub <| by
-            letI : Subsingleton (P : Subgroup X) :=
+            let : Subsingleton (P : Subgroup X) :=
               (Nat.card_eq_one_iff_unique.mp hcard_one).1
             exact isCyclic_of_subsingleton (α := (P : Subgroup X))
       | succ n =>
@@ -1085,7 +1085,7 @@ private theorem CFSG.section15_frobeniusJoinWithKernel_of_regular_subgroup
   have hR_norm_K : R ≤ Subgroup.normalizer (K : Set G) := by
     intro r hr
     exact section15_msigma_le_normalizer (M := M) (hRM hr)
-  haveI : Ksub.Normal := by
+  have : Ksub.Normal := by
     have hS_le_normK : S ≤ Subgroup.normalizer (K : Set G) := by
       exact sup_le Subgroup.le_normalizer hR_norm_K
     simpa [Ksub, S] using
@@ -1177,8 +1177,8 @@ private theorem CFSG.section15_same_exponent_frobenius_of_regular_abelian
     ∃ V₀ : Subgroup G, V₀ ≤ V ∧ Monoid.exponent V₀ = Monoid.exponent V ∧
       section12FrobeniusJoinWithKernel (section10Msigma M) V₀ := by
   classical
-  letI : IsMulCommutative V := hVcomm
-  letI : CommGroup V := IsMulCommutative.instCommGroup
+  let : IsMulCommutative V := hVcomm
+  let : CommGroup V := IsMulCommutative.instCommGroup
   obtain ⟨v, hvexp⟩ :=
     Monoid.exists_orderOf_eq_exponent (G := V)
       (Monoid.ExponentExists.of_finite (G := V))
@@ -1189,7 +1189,7 @@ private theorem CFSG.section15_same_exponent_frobenius_of_regular_abelian
   have hvG_order : orderOf vG = Monoid.exponent V := by
     simpa [vG, Subgroup.orderOf_coe] using hvexp
   have hV₀_exp : Monoid.exponent V₀ = Monoid.exponent V := by
-    haveI : IsCyclic V₀ := by
+    have : IsCyclic V₀ := by
       dsimp [V₀]
       infer_instance
     calc
@@ -1231,7 +1231,7 @@ private theorem CFSG.section15_default_ambient_sylow_of_prime_dvd
     PG ≤ V ∧ PG ≠ ⊥ ∧ IsPGroup p.val PG ∧ IsMulCommutative PG ∧
       section10NormalIn PG V := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let P : Sylow p.val V := default
   let PG : Subgroup G := section10AmbientSylowSubgroup V P
   have hPGV : PG ≤ V := by
@@ -1255,7 +1255,7 @@ private theorem CFSG.section15_default_ambient_sylow_of_prime_dvd
     exact hP_ne ((Subgroup.card_eq_one (H := (P : Subgroup V))).1 hP_card)
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup V).map V.subtype)
-    exact IsPGroup.map (p := p.val) (H := (P : Subgroup V)) P.isPGroup' V.subtype
+    exact IsPGroup.map (p := p.val) (H := (P : Subgroup V)) P.isPGroup V.subtype
   have hPGcomm : IsMulCommutative PG := by
     refine ⟨⟨fun x y => ?_⟩⟩
     apply Subtype.ext
@@ -1263,7 +1263,7 @@ private theorem CFSG.section15_default_ambient_sylow_of_prime_dvd
       (hPGV x.property) (hPGV y.property)
   have hPGnorm : section10NormalIn PG V := by
     refine ⟨hPGV, ?_⟩
-    letI : IsMulCommutative V := hVcomm
+    let : IsMulCommutative V := hVcomm
     infer_instance
   exact ⟨hPGV, hPGne, hPGp, hPGcomm, hPGnorm⟩
 
@@ -1275,7 +1275,7 @@ public theorem CFSG.section15_pSubgroup_le_normal_hall_of_prime_mem
     (hAp : IsPGroup p.val A) :
     A ≤ H := by
   classical
-  letI : Fact p.val.Prime := ⟨p.property⟩
+  let : Fact p.val.Prime := ⟨p.property⟩
   rw [← QuotientGroup.ker_mk' H]
   rw [← Subgroup.map_eq_bot_iff (f := QuotientGroup.mk' H) (H := A)]
   by_contra hmap_ne_bot
@@ -1332,7 +1332,7 @@ public theorem CFSG.section15_rankTwo_not_isCyclic
     {M A : Subgroup G} {p : Nat.Primes}
     (hA : A ∈ section12RankTwoElementaryAbelianIn p M) :
     ¬ IsCyclic A := by
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   rcases section15_rankTwo_elementary hA with ⟨hcard, _hElem⟩
   exact section15_not_isCyclic_of_two_le_generatorRank
     (section12_generatorRank_at_least_two_of_elementaryAbelian_card_p_sq
@@ -1347,7 +1347,7 @@ public theorem CFSG.section15_rankTwo_subgroupOf_isPGroup
   rcases section15_rankTwo_elementary hA with ⟨_hcard, hElem⟩
   let e : A.subgroupOf M ≃* A := Subgroup.subgroupOfEquivOfLe hAM
   have hAp : IsPGroup p.val A := by
-    haveI : IsElementaryAbelian p.val A := hElem
+    have : IsElementaryAbelian p.val A := hElem
     exact IsElementaryAbelian.isPGroup p.val A
   exact hAp.of_equiv e.symm
 
@@ -1369,7 +1369,7 @@ private theorem CFSG.section15_rankTwo_le_normal_hall_of_prime_dvd
   have hAE : A ≤ E := section15_rankTwo_le hA
   have hAsub_p : IsPGroup p.val (A.subgroupOf E) :=
     section15_rankTwo_subgroupOf_isPGroup hA
-  haveI : (V.subgroupOf E).Normal := hVnorm.2
+  have : (V.subgroupOf E).Normal := hVnorm.2
   have hAsub_le_Vsub : A.subgroupOf E ≤ V.subgroupOf E :=
     section15_pSubgroup_le_normal_hall_of_prime_mem
       (R := E) (π := π) (H := V.subgroupOf E) (A := A.subgroupOf E)
@@ -1447,7 +1447,7 @@ private theorem CFSG.section15_exponent_eq_iSup_of_pairwise_coprime_order
     (hcoprime : Pairwise fun i j => Nat.Coprime (Nat.card (H i)) (Nat.card (H j))) :
     Monoid.exponent ↥(⨆ i, H i) = Finset.lcm Finset.univ (fun i => Monoid.exponent (H i)) := by
   classical
-  letI : ∀ i, Fintype (H i) := fun i => Fintype.ofFinite (H i)
+  let : ∀ i, Fintype (H i) := fun i => Fintype.ofFinite (H i)
   let e := section15_mulEquiv_iSup_of_pairwise_coprime_order (G := G) H hcomm hcoprime
   calc
     Monoid.exponent ↥(⨆ i, H i) = Monoid.exponent (∀ i, H i) := by
@@ -1462,8 +1462,8 @@ private theorem CFSG.section15_isCyclic_pi_of_pairwise_coprime_cyclic
     (hcoprime : Pairwise fun i j => Nat.Coprime (Nat.card (H i)) (Nat.card (H j))) :
     IsCyclic (∀ i, H i) := by
   classical
-  letI : ∀ i, Fintype (H i) := fun i => Fintype.ofFinite (H i)
-  letI : ∀ i, CommGroup (H i) := fun i => IsMulCommutative.instCommGroup
+  let : ∀ i, Fintype (H i) := fun i => Fintype.ofFinite (H i)
+  let : ∀ i, CommGroup (H i) := fun i => IsMulCommutative.instCommGroup
   have hexp_coprime :
       Set.Pairwise (↑(Finset.univ : Finset ι)) (Nat.Coprime.onFun fun i => Monoid.exponent (H i)) := by
     intro i hi j hj hij
@@ -1535,7 +1535,7 @@ private lemma CFSG.section15_unique_subgroup_of_prime_order_in_cyclic
       have hcard1 : Nat.card L = 1 := by
         simp [hbot]
       rw [hL] at hcard1; exact hp_prime.ne_one hcard1
-    haveI : Nontrivial L := (Subgroup.nontrivial_iff_ne_bot L).mpr hL_ne_bot
+    have : Nontrivial L := (Subgroup.nontrivial_iff_ne_bot L).mpr hL_ne_bot
     obtain ⟨h, hh⟩ := IsCyclic.exists_monoid_generator (α := L)
     have hh_order_L : orderOf (h : L) = p := by
       have h_eq : orderOf (h : L) = Nat.card L :=
@@ -1583,8 +1583,8 @@ private theorem CFSG.section15_exists_cyclic_full_exponent_subgroup_of_abelian_p
     ∃ Z : Subgroup G, Z ≤ P ∧ IsCyclic Z ∧ IsPGroup p.val Z ∧
       Monoid.exponent Z = Monoid.exponent P ∧ Z ≠ ⊥ := by
   classical
-  letI : IsMulCommutative P := hPcomm
-  letI : CommGroup P := IsMulCommutative.instCommGroup
+  let : IsMulCommutative P := hPcomm
+  let : CommGroup P := IsMulCommutative.instCommGroup
   obtain ⟨t, htord⟩ :=
     Monoid.exists_orderOf_eq_exponent (G := P)
       (Monoid.ExponentExists.of_finite (G := P))
@@ -1626,7 +1626,7 @@ public theorem CFSG.section15_exists_primeOrder_zpowers_of_prime_dvd_card
     ∃ z : G, z ∈ B ∧ z ≠ 1 ∧
       Subgroup.zpowers z ∈ section10PrimeOrderSubgroupsIn q B := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   obtain ⟨z₀, hz₀_order⟩ := exists_prime_orderOf_dvd_card' (G := B) q.val hqB
   let z : G := z₀
   have hzB : z ∈ B := z₀.property
@@ -1675,9 +1675,9 @@ public theorem CFSG.section15_natCard_omegaOne_cyclic_pGroup_eq_prime
     [Fact (IsPGroup p.val H)] (hcyc : IsCyclic H) [Nontrivial H] :
     Nat.card (omega₁ (G := H) (p := p.val)) = p.val := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
-  letI : IsCyclic H := hcyc
-  letI : CommGroup H := hcyc.commGroup
+  have : Fact p.val.Prime := ⟨p.2⟩
+  let : IsCyclic H := hcyc
+  let : CommGroup H := hcyc.commGroup
   have hOmega_eq_ker : omega₁ (G := H) (p := p.val) =
       (powMonoidHom p.val : H →* H).ker := by
     apply le_antisymm
@@ -1708,8 +1708,8 @@ public theorem CFSG.section15_omegaOneSubgroup_card_eq_prime_of_cyclic_pSubgroup
     (hHp : IsPGroup p.val H) (hHcyc : IsCyclic H) (hHne : H ≠ ⊥) :
     Nat.card (section12OmegaOneSubgroup p H) = p.val := by
   classical
-  haveI : Fact (IsPGroup p.val H) := ⟨hHp⟩
-  haveI : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).2 hHne
+  have : Fact (IsPGroup p.val H) := ⟨hHp⟩
+  have : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).2 hHne
   have hcard :
       Nat.card (section12OmegaOneSubgroup p H) =
         Nat.card (omega₁ (G := H) (p := p.val)) := by
@@ -1724,7 +1724,7 @@ private theorem CFSG.section15_normalizer_ne_top_of_ne_bot_ne_top
     Subgroup.normalizer (Q : Set G) ≠ ⊤ := by
   intro hNtop
   have hQnormal : Q.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-  letI : IsSimpleGroup G := IsMinCE.simple
+  let : IsSimpleGroup G := IsMinCE.simple
   rcases hQnormal.eq_bot_or_eq_top with hQbot | hQtop
   · exact hQ_ne_bot hQbot
   · exact hQ_ne_top hQtop
@@ -1737,8 +1737,8 @@ private theorem CFSG.section15_primeOrder_ne_top
   intro htop
   have hGcard : Nat.card G = p.val := by
     simpa [htop] using hXcard
-  haveI : Fact p.val.Prime := ⟨p.2⟩
-  haveI : IsCyclic G := by
+  have : Fact p.val.Prime := ⟨p.2⟩
+  have : IsCyclic G := by
     exact isCyclic_of_prime_card (α := G) (p := p.val) hGcard
   have hsolv : Group.IsSolvable G := by infer_instance
   exact IsMinCE.not_solvable (G := G) hsolv
@@ -1797,7 +1797,7 @@ private theorem CFSG.section15_zpowers_mem_primeOrderSubgroupsIn_of_pow_eq_one
     {B : Subgroup G} {p : Nat.Primes} {x : G}
     (hxB : x ∈ B) (hxpow : x ^ p.val = 1) (hxne : x ≠ 1) :
     Subgroup.zpowers x ∈ section10PrimeOrderSubgroupsIn p B := by
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hcard : Nat.card (Subgroup.zpowers x) = p.val := by
     rw [Nat.card_zpowers, orderOf_eq_prime hxpow hxne]
   exact ⟨Subgroup.zpowers_le.2 hxB, hcard⟩
@@ -1838,7 +1838,7 @@ public theorem CFSG.section15_omegaOneSubgroup_le_of_nontrivial_subgroup_of_cycl
   have hKsubp : IsPGroup p.val (K.subgroupOf H) := hHp.to_subgroup (K.subgroupOf H)
   have hKp : IsPGroup p.val K :=
     hKsubp.of_equiv (Subgroup.subgroupOfEquivOfLe (H := K) (K := H) hKH)
-  letI : IsCyclic H := hHcyc
+  let : IsCyclic H := hHcyc
   have hKsubcyc : IsCyclic (K.subgroupOf H) := by infer_instance
   have hKcyc : IsCyclic K :=
     (Subgroup.subgroupOfEquivOfLe (H := K) (K := H) hKH).isCyclic.mp hKsubcyc
@@ -1875,7 +1875,7 @@ private theorem CFSG.section15_isMulCommutative_ambientSylowSubgroup
     {M : Subgroup G} {p : Nat.Primes} (P : Sylow p.val M)
     (hPcomm : IsMulCommutative (P : Subgroup M)) :
     IsMulCommutative (section10AmbientSylowSubgroup M P) := by
-  letI : IsMulCommutative (P : Subgroup M) := hPcomm
+  let : IsMulCommutative (P : Subgroup M) := hPcomm
   change IsMulCommutative ((P : Subgroup M).map M.subtype)
   exact Subgroup.map_isMulCommutative (f := M.subtype) (H := (P : Subgroup M))
 
@@ -1905,9 +1905,9 @@ private theorem CFSG.section15_exists_tau2_cyclic_factor_of_abelian_m_sylow
       · exact bot_le
     have hAbot : A = ⊥ := hOmegaS.symm.trans hOmegaBot
     exact hAne hAbot
-  haveI : Nontrivial Ssub := (Subgroup.nontrivial_iff_ne_bot (H := Ssub)).2 hSne
-  haveI : Fact p.val.Prime := ⟨p.2⟩
-  letI : CommGroup Ssub := IsMulCommutative.instCommGroup
+  have : Nontrivial Ssub := (Subgroup.nontrivial_iff_ne_bot (H := Ssub)).2 hSne
+  have : Fact p.val.Prime := ⟨p.2⟩
+  let : CommGroup Ssub := IsMulCommutative.instCommGroup
   rcases (IsPGroup.nontrivial_iff_card (p := p.val) (G := Ssub) (hG := hSp)).mp inferInstance with
     ⟨n, hn_pos, hcardS⟩
   have hexp_dvd_card : Monoid.exponent Ssub ∣ p.val ^ n := by
@@ -1916,7 +1916,7 @@ private theorem CFSG.section15_exists_tau2_cyclic_factor_of_abelian_m_sylow
   have hExpS_ne_one : Monoid.exponent Ssub ≠ 1 := by
     intro hExp1
     have hsub : Subsingleton Ssub := (Monoid.exp_eq_one_iff).1 hExp1
-    letI : Subsingleton Ssub := hsub
+    let : Subsingleton Ssub := hsub
     have hcard1 : Nat.card Ssub = 1 := by simp
     exact hSne ((Subgroup.eq_bot_iff_card (H := Ssub)).2 hcard1)
   have hk_pos : 0 < k := by
@@ -2116,7 +2116,7 @@ private theorem CFSG.section15_exists_tau2_cyclic_factor_of_abelian_m_sylow
           hM hE hp hA I hIprime hCIne
       have hNormS_le_NI :
           Subgroup.normalizer (Ssub : Set G) ≤ Subgroup.normalizer (I : Set G) := by
-        haveI : Isub.Characteristic :=
+        have : Isub.Characteristic :=
           section15_powMonoidHom_range_characteristic (H := Ssub) d
         simpa [I] using
           (section8_normalizer_map_subtype_le_of_characteristic
@@ -2230,7 +2230,7 @@ private theorem CFSG.section15_tau13_regular_cyclic_factor_of_prime_dvd
         O ≤ Z ∧ Nat.card O = q.val ∧
           subgroupCentralizerIn (section10Msigma M) O = ⊥ := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let P : Sylow q.val V := default
   let PG : Subgroup G := section10AmbientSylowSubgroup V P
   rcases section15_default_ambient_sylow_of_prime_dvd
@@ -2241,7 +2241,7 @@ private theorem CFSG.section15_tau13_regular_cyclic_factor_of_prime_dvd
       (P := PG) (p := q) hPGcomm hPGp hPGne
   have hZleV : Z ≤ V := hZlePG.trans hPGV
   have hqZ : q.val ∣ Nat.card Z := by
-    haveI : Nontrivial Z := (Subgroup.nontrivial_iff_ne_bot Z).2 hZne
+    have : Nontrivial Z := (Subgroup.nontrivial_iff_ne_bot Z).2 hZne
     rcases (IsPGroup.nontrivial_iff_card (p := q.val) (G := Z) (hG := hZp)).mp inferInstance with
       ⟨n, hn_pos, hcardZ⟩
     rw [hcardZ]
@@ -2297,7 +2297,7 @@ private theorem CFSG.section15_tau2_regular_cyclic_factor_of_prime_dvd
   classical
   have hVE : V ≤ E := hVnorm.1
   have hVM : V ≤ M := hVE.trans hE.1.2.1
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   obtain ⟨A, hA_E⟩ :=
     section12_exists_rankTwo_in_E_of_tau2
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
@@ -2309,14 +2309,14 @@ private theorem CFSG.section15_tau2_regular_cyclic_factor_of_prime_dvd
     section12_rankTwo_of_EData hE hA_E
   have hA_V : A ∈ section12RankTwoElementaryAbelianIn q V := by
     exact ⟨hA_le_V, section15_rankTwo_elementary hA_E⟩
-  letI : CommGroup V := IsMulCommutative.instCommGroup
+  let : CommGroup V := IsMulCommutative.instCommGroup
   let AVsub : Subgroup V := A.subgroupOf V
   let QVsub : Subgroup V := ((default : Sylow q.val V) : Subgroup V)
   let Jsub : Subgroup V := AVsub ⊔ QVsub
   have hAVp : IsPGroup q.val AVsub :=
     section15_rankTwo_subgroupOf_isPGroup hA_V
   have hQVp : IsPGroup q.val QVsub :=
-    (default : Sylow q.val V).isPGroup'
+    (default : Sylow q.val V).isPGroup
   have hJp : IsPGroup q.val Jsub := by
     dsimp [Jsub]
     exact IsPGroup.to_sup_of_normal_right hAVp hQVp
@@ -2363,7 +2363,7 @@ private theorem CFSG.section15_tau2_regular_cyclic_factor_of_prime_dvd
       section15_isMulCommutative_ambientSylowSubgroup (G := G) (M := M) (p := q) P hPcomm
   have hSp : IsPGroup q.val Ssub := by
     change IsPGroup q.val ((P : Subgroup M).map M.subtype)
-    exact IsPGroup.map P.isPGroup' M.subtype
+    exact IsPGroup.map P.isPGroup M.subtype
   have hOmegaS :
       section12OmegaOneSubgroup q Ssub = A := by
     have hdata :=
@@ -2398,7 +2398,7 @@ private theorem CFSG.section15_tau2_regular_cyclic_factor_of_prime_dvd
   have hSsubE_p : IsPGroup q.val (Ssub.subgroupOf E) :=
     hSp.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := Ssub) (K := E) hSleE).symm
-  haveI : (V.subgroupOf E).Normal := hVnorm.2
+  have : (V.subgroupOf E).Normal := hVnorm.2
   have hSsubE_le_VE : Ssub.subgroupOf E ≤ V.subgroupOf E :=
     section15_pSubgroup_le_normal_hall_of_prime_mem
       (R := E) (π := π) (H := V.subgroupOf E) (A := Ssub.subgroupOf E)
@@ -2568,8 +2568,8 @@ private theorem CFSG.section15_exists_regular_full_exponent_subgroup_of_abelian_
   have hZfac_coprime :
       Pairwise fun i j => Nat.Coprime (Nat.card (Zfac i)) (Nat.card (Zfac j)) := by
     intro i j hij
-    haveI : Fact (qOf i).val.Prime := ⟨(qOf i).2⟩
-    haveI : Fact (qOf j).val.Prime := ⟨(qOf j).2⟩
+    have : Fact (qOf i).val.Prime := ⟨(qOf i).2⟩
+    have : Fact (qOf j).val.Prime := ⟨(qOf j).2⟩
     have hq_ne : (qOf i).val ≠ (qOf j).val := by
       intro hq
       apply hij
@@ -2578,16 +2578,16 @@ private theorem CFSG.section15_exists_regular_full_exponent_subgroup_of_abelian_
       (qOf i).val (qOf j).val hq_ne (Zfac i) (Zfac j) (hZfac_p i) (hZfac_p j)
   have hQfac_p : ∀ i : ι, IsPGroup (qOf i).val (Qfac i) := by
     intro i
-    haveI : Fact (qOf i).val.Prime := ⟨(qOf i).2⟩
+    have : Fact (qOf i).val.Prime := ⟨(qOf i).2⟩
     simpa [Qfac] using
       IsPGroup.map
         (show IsPGroup (qOf i).val ((default : Sylow (qOf i).val V) : Subgroup V) from
-          (default : Sylow (qOf i).val V).isPGroup') V.subtype
+          (default : Sylow (qOf i).val V).isPGroup) V.subtype
   have hQfac_coprime :
       Pairwise fun i j => Nat.Coprime (Nat.card (Qfac i)) (Nat.card (Qfac j)) := by
     intro i j hij
-    haveI : Fact (qOf i).val.Prime := ⟨(qOf i).2⟩
-    haveI : Fact (qOf j).val.Prime := ⟨(qOf j).2⟩
+    have : Fact (qOf i).val.Prime := ⟨(qOf i).2⟩
+    have : Fact (qOf j).val.Prime := ⟨(qOf j).2⟩
     have hq_ne : (qOf i).val ≠ (qOf j).val := by
       intro hq
       apply hij
@@ -2660,7 +2660,7 @@ private theorem CFSG.section15_exists_regular_full_exponent_subgroup_of_abelian_
       exact hR_ne ((Subgroup.card_eq_one (H := R)).mp hcard)
     obtain ⟨q0, hq0prime, hq0div⟩ := Nat.exists_prime_and_dvd hR_card_ne_one
     let q : Nat.Primes := ⟨q0, hq0prime⟩
-    haveI : Fact q.val.Prime := ⟨q.2⟩
+    have : Fact q.val.Prime := ⟨q.2⟩
     obtain ⟨z, hzR, hzne, hXprimeR⟩ :=
       section15_exists_primeOrder_zpowers_of_prime_dvd_card
         (G := G) (B := R) (q := q) hq0div
@@ -2684,7 +2684,7 @@ private theorem CFSG.section15_exists_regular_full_exponent_subgroup_of_abelian_
     have hO_le_V₀ : Ofac i ≤ V₀ :=
       (hOfac_le_Z i).trans (le_iSup Zfac i)
     have hX_le_V₀ : X ≤ V₀ := hX_le_R.trans hR_le_V₀
-    letI : IsCyclic V₀ := hV₀cyc
+    let : IsCyclic V₀ := hV₀cyc
     have hXsub_eq_OSub :
         X.subgroupOf V₀ = (Ofac i).subgroupOf V₀ :=
       section15_unique_subgroup_of_prime_order_in_cyclic
@@ -2990,13 +2990,13 @@ public theorem CFSG.section15_ambientDerived_le_centralizer_of_cyclic_normal
     ambientDerivedSubgroup M ≤ Subgroup.centralizer (Z : Set G) := by
   classical
   let ZM : Subgroup M := Z.subgroupOf M
-  haveI : ZM.Normal := hZnormM
+  have : ZM.Normal := hZnormM
   have hZMcyc : IsCyclic ZM :=
     (Subgroup.subgroupOfEquivOfLe (H := Z) (K := M) hZleM).isCyclic.2 hZcyc
-  letI : IsCyclic ZM := hZMcyc
+  let : IsCyclic ZM := hZMcyc
   let eAut : MulAut ZM ≃* (ZMod (Nat.card ZM))ˣ :=
     IsCyclic.mulAutMulEquiv (G := ZM)
-  letI : CommGroup (MulAut ZM) :=
+  let : CommGroup (MulAut ZM) :=
     MonoidHom.commGroupOfInjective eAut.toMonoidHom eAut.injective
   let φ : M →* MulAut ZM := MulAut.conjNormal (H := ZM)
   intro x hx
@@ -3028,8 +3028,8 @@ public theorem CFSG.section15_ambientDerived_eq_bot_of_isMulCommutative
     {M : Subgroup G} (hMcomm : IsMulCommutative M) :
     ambientDerivedSubgroup M = ⊥ := by
   classical
-  letI : IsMulCommutative M := hMcomm
-  letI : CommGroup M := IsMulCommutative.instCommGroup
+  let : IsMulCommutative M := hMcomm
+  let : CommGroup M := IsMulCommutative.instCommGroup
   have htop_le_cent :
       (⊤ : Subgroup M) ≤ Subgroup.centralizer (((⊤ : Subgroup M) : Set M)) := by
     intro x _hx
@@ -3058,7 +3058,7 @@ public theorem CFSG.section15_normal_complementIn_isComplement'
     (K.subgroupOf M).IsComplement' (N.subgroupOf M) := by
   classical
   rcases hcomp with ⟨hKM, hNM, hM, hdisj⟩
-  haveI : (N.subgroupOf M).Normal := hNnorm.2
+  have : (N.subgroupOf M).Normal := hNnorm.2
   have hsup_local : K.subgroupOf M ⊔ N.subgroupOf M = ⊤ := by
     calc
       K.subgroupOf M ⊔ N.subgroupOf M = (K ⊔ N).subgroupOf M := by
@@ -3145,7 +3145,7 @@ private theorem CFSG.section15_K_cyclic
   · have hMP : M ∈ section14MFamilyP G :=
       section15_familyP_of_nontrivial_K hM hKU hKbot
     have hZcyc : IsCyclic (section14Z M K) := (theorem_14_7_d hMP hKU.1).2.1
-    letI : IsCyclic (section14Z M K) := hZcyc
+    let : IsCyclic (section14Z M K) := hZcyc
     exact Subgroup.isCyclic_of_le (show K ≤ section14Z M K by
       exact le_sup_left)
 
@@ -3274,7 +3274,7 @@ private theorem CFSG.section15_centralizer_subgroups_tau2_pi
     IsPiSubgroup (G := G) (section12Tau2Primes M) X := by
   classical
   intro q hqX
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   obtain ⟨a, ha_order⟩ := exists_prime_orderOf_dvd_card' (G := X) q.val hqX
   let y : G := (a : X)
   have hyX : y ∈ X := a.property
@@ -3424,7 +3424,7 @@ private theorem CFSG.section15_derived_le_um_sigma_of_nontrivial_K
   let N : Subgroup G := U ⊔ section10Msigma M
   have hNnorm : section10NormalIn N M := by
     simpa [N] using section15_um_sigma_normal_of_nontrivial_K hM hKU hKne
-  haveI : (N.subgroupOf M).Normal := hNnorm.2
+  have : (N.subgroupOf M).Normal := hNnorm.2
   have hcomp :
       (K.subgroupOf M).IsComplement' (N.subgroupOf M) := by
     exact section15_normal_complementIn_isComplement'
@@ -3434,16 +3434,16 @@ private theorem CFSG.section15_derived_le_um_sigma_of_nontrivial_K
     have hKcyc : IsCyclic K := section15_K_cyclic hM hKU
     let eK : K.subgroupOf M ≃* K :=
       Subgroup.subgroupOfEquivOfLe (H := K) (K := M) hKU.1.1
-    letI : IsCyclic K := hKcyc
+    let : IsCyclic K := hKcyc
     exact isCyclic_of_surjective eK.symm.toMonoidHom eK.symm.surjective
   have hquot_cyclic : IsCyclic (M ⧸ N.subgroupOf M) := by
     let eQ : M ⧸ N.subgroupOf M ≃* K.subgroupOf M :=
       hcomp.QuotientMulEquiv
-    letI : IsCyclic (K.subgroupOf M) := hKsub_cyclic
+    let : IsCyclic (K.subgroupOf M) := hKsub_cyclic
     exact isCyclic_of_surjective eQ.symm.toMonoidHom eQ.symm.surjective
   have hquot_comm :
       IsMulCommutative (M ⧸ N.subgroupOf M) := by
-    letI : IsCyclic (M ⧸ N.subgroupOf M) := hquot_cyclic
+    let : IsCyclic (M ⧸ N.subgroupOf M) := hquot_cyclic
     exact IsCyclic.isMulCommutative
   have hcomm_le : _root_.commutator M ≤ N.subgroupOf M :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le
@@ -3579,7 +3579,7 @@ private theorem CFSG.section15_quotient_abelian_fixed_complement
       exact trivial
     have hSNormM : section10NormalIn S M := by
       simpa [S] using (section15_msigma_normalIn (M := M))
-    haveI : (S.subgroupOf M).Normal := hSNormM.2
+    have : (S.subgroupOf M).Normal := hSNormM.2
     rcases (Subgroup.mem_sup_of_normal_left
         (s := S.subgroupOf M) (t := A.subgroupOf M) (x := xM)).1 hxlocal with
       ⟨sM, hsS, aM, haA, hsaM⟩
@@ -3627,11 +3627,11 @@ private theorem CFSG.section15_quotient_abelian_fixed_complement
       (Subgroup.mem_subgroupOf.mp y.property)
     exact setLike_mul_comm
       (s := C) hxC hyC
-  letI : (S.subgroupOf D).Normal := hSNormD.2
+  let : (S.subgroupOf D).Normal := hSNormD.2
   let eQ : D ⧸ S.subgroupOf D ≃* C.subgroupOf D := hcomp'.QuotientMulEquiv
   have hquot_comm : IsMulCommutative (D ⧸ S.subgroupOf D) := by
-    letI : IsMulCommutative (C.subgroupOf D) := hCsub_comm
-    letI : CommGroup (C.subgroupOf D) := IsMulCommutative.instCommGroup
+    let : IsMulCommutative (C.subgroupOf D) := hCsub_comm
+    let : CommGroup (C.subgroupOf D) := IsMulCommutative.instCommGroup
     refine ⟨⟨fun x y => ?_⟩⟩
     apply eQ.injective
     simpa [map_mul] using (mul_comm (eQ x) (eQ y))
@@ -3653,9 +3653,9 @@ private theorem CFSG.section15_U_commutative_of_nontrivial_K
   rcases section15_quotient_abelian_fixed_complement
       (M := M) (K := K) (U := U) hM hKU with
     ⟨hSD, hSNorm, hquot_comm⟩
-  letI : (S.subgroupOf D).Normal := hSNorm
-  letI : IsMulCommutative (D ⧸ S.subgroupOf D) := hquot_comm
-  letI : CommGroup (D ⧸ S.subgroupOf D) := IsMulCommutative.instCommGroup
+  let : (S.subgroupOf D).Normal := hSNorm
+  let : IsMulCommutative (D ⧸ S.subgroupOf D) := hquot_comm
+  let : CommGroup (D ⧸ S.subgroupOf D) := IsMulCommutative.instCommGroup
   refine ⟨⟨fun x y => Subtype.ext ?_⟩⟩
   have hxD : (x : G) ∈ D := by
     rw [hD_eq]

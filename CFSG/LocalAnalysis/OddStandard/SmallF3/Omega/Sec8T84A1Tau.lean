@@ -68,6 +68,7 @@ theorem sec8t84a1_exists_tau (h8A : Asc82Lemma8A) (h8B : Asc82Lemma8B)
       Subgroup.mem_centralizer_iff.mp hx' t sec8t84a1_t_mem_A
     rw [← hcomm]; group
 
+omit [Finite G] in
 theorem sec8t84a1_tau_conj {h c : G} (hh : h * t = t * h) :
     (h * c * h⁻¹) * t * (h * c * h⁻¹)⁻¹ * t⁻¹ = h * (c * t * c⁻¹ * t⁻¹) * h⁻¹ := by
   have ht : h * t * h⁻¹ = t := by rw [hh]; group

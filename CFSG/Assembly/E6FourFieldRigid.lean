@@ -54,7 +54,7 @@ theorem e6Four_subcompMark_model
   unfold E6FourSubcompMark at hX
   obtain ⟨lab, hlab, R, instR, I, F, θ, -, -, hP, hm⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists_markedModel hX
-  letI : Group R := instR
+  let : Group R := instR
   exact ⟨lab, hlab, hP.1, hP.2, MarkedModel.of_mulEquiv θ.symm hm⟩
 
 end CFSG.Assembly

@@ -262,8 +262,7 @@ theorem stmt5_2_8_special_of
     congr 1
     · rw [show Nat.card (↥K ⧸ CFSG.pCore 2 ↥K) = Nat.card (ModO2 K) from rfl,
         Nat.card_congr eK.toEquiv, card_SL_two hFc]
-    · try with_reducible rfl
-      exact (Subgroup.card_map_of_injective K.subtype_injective).symm
+    · exact (Subgroup.card_map_of_injective K.subtype_injective).symm
   have hG₂Q : sec52G2 M H D L₂ ≤ Subgroup.normalizer (Q : Set G) := by
     have h1 : sec52G2 M H D L₂ ≤ Subgroup.normalizer (K : Set G) := by
       rw [hcore]

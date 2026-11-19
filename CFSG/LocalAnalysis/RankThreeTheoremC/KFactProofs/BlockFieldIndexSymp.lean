@@ -59,7 +59,7 @@ theorem symp_sq_mem_commutator_two [Finite K] (hK : Nat.card K = 2) (x : StatedS
     x ^ 2 ∈ commutator (StatedSp 2 K) := by
   classical
   set A : Subgroup (StatedSp 2 K) := commutator (StatedSp 2 K)
-  haveI : A.Normal := Subgroup.commutator_normal ⊤ ⊤
+  have : A.Normal := Subgroup.commutator_normal ⊤ ⊤
   have h720 : Nat.card (StatedSp 2 K) = 720 := by
     rw [SymplecticFlag.card_statedSp_two, hK]
     norm_num
@@ -155,7 +155,7 @@ end Blocks
 theorem leviInnOn_symp (hGA : GriessAllModelsStatement) :
     LeviInnOn (IsLieOf IdxB) := by
   intro Y _ _ L P hCP hB hLn _ _ hrk
-  haveI := hLn
+  have := hLn
   obtain ⟨r, K, _, _, _, -, ⟨φ⟩⟩ :=
     exists_mulEquiv_statedSp_of_idxB (oddCenterRest_of_griess hGA) hCP.comp hCP.odd hB
   obtain ⟨ρ, I, t, hI, htI, hmax, hρ⟩ := exists_flagStabilizer_of_compParab hCP φ

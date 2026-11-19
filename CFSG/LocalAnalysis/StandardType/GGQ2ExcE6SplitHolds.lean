@@ -26,7 +26,7 @@ noncomputable section
 
 theorem e6SplitCoreNormalizer_holds : E6SplitCoreNormalizer := by
   intro L _ _ p S hS T₀ d c hc
-  have hN : ExcRaw.normalizerGroup 1 c = ExcRaw.weyl 1 c := if_neg (by simp)
+  have hN : ExcRaw.normalizerGroup 1 c = ExcRaw.weyl 1 c := ite_eq_right (by simp)
   rw [hN]
   refine le_antisymm ?_ ?_
   · rintro _ ⟨φ, hφ, rfl⟩

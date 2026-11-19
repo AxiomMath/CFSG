@@ -43,7 +43,7 @@ private theorem exists_conj_le_of_isSylowOf' {p : ℕ} [Fact p.Prime] {P K U : S
     exact ⟨y, hy, rfl⟩
   have : (MulAut.conj ((m⁻¹ : K) : G)).toMonoidHom t = (y : G) := by
     rw [← hyt']
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [this]
   exact hyP
 
@@ -61,7 +61,7 @@ theorem isSylowOf_of_NineNineOne {M Q H : Subgroup G} {p : ℕ} (hM : rankThreeI
     CFSG.ABGLocalTools.IsSylowOf p P H ∧ normalizer (P : Set G) ≤ M := by
   classical
   have hpp : p.Prime := QSet.prime_of_mem hQ
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨E₀, hE₀Q, hE₀, hE₀c, hE₀Γ⟩ := QSet.exists_isElemAbelian_card_sq hQ hp
   obtain ⟨x, hx, hQx⟩ := exists_conj_le_of_isSylowOf' hP (QSet.isPGroup_of_mem hQ)
     (le_inf hQH (QSet.le_of_mem hQ))
@@ -88,7 +88,7 @@ theorem isSylowOf_of_NineNineOne {M Q H : Subgroup G} {p : ℕ} (hM : rankThreeI
     (p := p) hP.isPGroup (hP.le.trans inf_le_left) (hP.le.trans inf_le_right) hNorm
   have hTP : T = P := hP.eq_of_le hPT (le_inf hTH hTM) hTp
   obtain ⟨S, hS⟩ := (hP.isPGroup.comap_subtype (K := H)).exists_le_sylow
-  have hSp : IsPGroup p (S.map H.subtype) := S.isPGroup'.map H.subtype
+  have hSp : IsPGroup p (S.map H.subtype) := S.isPGroup.map H.subtype
   have hPS : P ≤ (S : Subgroup H).map H.subtype := fun t ht =>
     ⟨⟨t, hP.le.trans inf_le_left ht⟩, hS (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
   have hSeq : (S : Subgroup H).map H.subtype = T :=

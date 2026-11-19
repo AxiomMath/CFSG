@@ -95,11 +95,10 @@ theorem lem1376NThreeC3_of_F4
       · exact absurd rfl hij
     · intro i j k hij hik hjk
       fin_cases i <;> fin_cases j <;> fin_cases k <;>
-        first
+        try first
         | exact absurd rfl hij
         | exact absurd rfl hik
         | exact absurd rfl hjk
-        | skip
       · exact A6L76N3.inf_ne_inf_of hℓLT hℓE hℓKT
       · exact A6L76N3.inf_ne_inf_of hcLT hcKT hcE
       · exact A6L76N3.inf_ne_inf_of hℓE hℓLT hℓKT

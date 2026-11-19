@@ -93,12 +93,12 @@ theorem orth_e2Natural_minus_of_two_le (h34 : Stroth34Statement) (h310 : Stroth3
     OmegaMinusNat hc t m := by
   classical
   obtain ⟨-, -, hNt, ⟨hNn, KE, hFE, hFinE, hKE, bE, cE, hirrE, ⟨e⟩⟩, -⟩ := hE
-  haveI := hNn
+  have := hNn
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
+  have : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
   have hq4 : 4 ≤ Nat.card KE := by rw [hKE]; exact hc.hyp.q4
   obtain ⟨hsimple, -, hodd⟩ := endg_omegaMinus_facts hq4 hm hirrE
-  haveI := hsimple
+  have := hsimple
   have hqe : Even (Nat.card KE) := orth_even_card KE
   have hY2 : ¬ IsPGroup 2 ↥(StatedOmega (StatedQuadMinus m KE bE cE)) :=
     orth_not_pgroup_of_dvd hqe (by omega) hodd
@@ -111,7 +111,7 @@ theorem orth_e2Natural_minus_of_two_le (h34 : Stroth34Statement) (h310 : Stroth3
   rcases hcore with ⟨K, fK, finK, k, hKq, hk, hdim, hcard⟩ | ⟨K, fK, finK, k, hKq, hk, hcard⟩ |
     ⟨K, fK, finK, k, hKq, hk, hnat, hcard⟩ | ⟨K, fK, finK, k, b, c, hKq, hk, hirr, hnat, hcard⟩
   · exfalso
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
     refine orth_sl_exp_false_of_two_le (q := Nat.card Z) ?_ (by have := hc.hyp.q4; omega) hm
       hdim (Y := Nat.card ↥(StatedOmega (StatedQuadMinus m KE bE cE))) hXE ?_ ?_
     · rw [← hKE]; exact orth_even_card KE
@@ -119,7 +119,7 @@ theorem orth_e2Natural_minus_of_two_le (h34 : Stroth34Statement) (h310 : Stroth3
     · rw [← hcard, ← hKq]
       exact orth_dvd_card_statedSL (by omega)
   · exfalso
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
     obtain ⟨X', hX', hY'⟩ := orth_card_sp_form (K := K) k
     rw [hKq] at hY'
     have h1 : (Nat.card ↥(StatedSp k K) : ℤ) =
@@ -127,7 +127,7 @@ theorem orth_e2Natural_minus_of_two_le (h34 : Stroth34Statement) (h310 : Stroth3
     rw [hY', hYE] at h1
     exact orth_sp_exp_ne hqZ hq0 hm hX' hXE h1
   · exfalso
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
     have hq4K : 4 ≤ Nat.card K := by rw [hKq]; exact hc.hyp.q4
     obtain ⟨X', hX', hY'⟩ := orth_card_omegaPlus_form hq4K hk
     rw [hKq] at hY'
@@ -138,7 +138,7 @@ theorem orth_e2Natural_minus_of_two_le (h34 : Stroth34Statement) (h310 : Stroth3
     subst hkm
     exact orth_card_plus_ne_minus_of_two_le (K := K) (K' := KE) (hKE.trans hKq.symm) hq4K hm
       hirrE hcard
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
     obtain ⟨X', hX', hY'⟩ := orth_card_omegaMinus_form (K := K) hk hirr
     rw [hKq] at hY'
     have h1 : (Nat.card ↥(StatedOmega (StatedQuadMinus k K b c)) : ℤ) =
@@ -166,7 +166,7 @@ theorem smith24E2Minus_tensorB_of_two_le (h34 : Stroth34Statement)
         OrthPreFrame Q Z M₀ qU φ ∧ OrthAct Q Z M₀ qU φ (Lgen M (LB M Q B)) ∧
           OrthBLine M₀ qU φ B := by
   have hc : Ctx M Q Z B := hcfg.ctx
-  haveI : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
+  have : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
   have hw : Width Q Z (2 * m) := by
     unfold Width
     rw [hE.2.1]
@@ -177,11 +177,11 @@ theorem smith24E2Minus_tensorB_of_two_le (h34 : Stroth34Statement)
   have htQ : t ∉ Q := ht.2.2.1
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
   obtain ⟨K', hF', hFin', hK'card, b, c, hirr, hnat⟩ := hNat
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'card.trans hZ2)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'card.trans hZ2)
   have hq4 : 4 ≤ Nat.card K' := by rw [hK'card]; exact hc.hyp.q4
   have hcoe : ⇑(quadMinus m K' b c) = StatedQuadMinus m K' b c :=
     CFSG.LieType.Universal.Spin.coe_quadMinus m K' b c
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hVU := (stroth310Chi_of_34 h34 G M Q Z B hc (2 * m) t ⟨hw, hn, hno, hgen, htLB, htQ⟩
     (Or.inr ⟨K', hF', hFin', hK'card, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩)).1
   have hnat' : NaturalRep (ι := Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K'
@@ -216,7 +216,7 @@ theorem smith24E2Minus_tensorB_of_two_le (h34 : Stroth34Statement)
     hnat' hsing
     (P₂ := IsOmegaMinus m (Nat.card Z))
     (fun X _ ⟨K'', hK''f, hK''fin, hK''card, b'', c'', hirr'', ⟨e⟩⟩ => by
-      haveI : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''card.trans hZ2)
+      have : CharP K'' 2 := charP_two_of_card_eq_two_pow (hK''card.trans hZ2)
       have h1 := card_statedOmega_minus_eq_of_two_le (K := K'') hm hirr''
       have h2 := card_statedOmega_minus_eq_of_two_le (K := K') hm hirr
       rw [hK''card] at h1

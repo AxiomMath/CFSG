@@ -74,7 +74,7 @@ theorem i1810_centralizer_le (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier)
         rw [hZdef, Subgroup.index_map_eq _ hπ (hker.le.trans le_sup_right)]
         exact fun hd => hidx (hd.trans (Subgroup.index_dvd_of_le le_sup_left))
       obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow p (Λ ⧸ V)))
-      have hSZ : (S : Subgroup (Λ ⧸ V)) ≤ Z := i1810_le_of_not_dvd_index S.isPGroup' hZi
+      have hSZ : (S : Subgroup (Λ ⧸ V)) ≤ Z := i1810_le_of_not_dvd_index S.isPGroup hZi
       have : Group.IsPerfect (Λ ⧸ V) := hQS.1
       have hS1 := i1810_card_sylow_eq_one_of_le_center S (hSZ.trans hZc)
       have hnd : ¬ p ∣ Nat.card (Λ ⧸ V) := by

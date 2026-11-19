@@ -65,8 +65,8 @@ theorem ut3_le_sub [CharP F 2] [IsDomain F] (P : Subgroup (UT3 F)) (hP : ∀ x �
   by_contra hcon
   push Not at hcon
   obtain ⟨hA, hB⟩ := hcon
-  obtain ⟨x, hxP, hxA⟩ := SetLike.not_le_iff_exists.mp hA
-  obtain ⟨y, hyP, hyB⟩ := SetLike.not_le_iff_exists.mp hB
+  obtain ⟨x, hxP, hxA⟩ := IsConcreteLE.not_le_iff_exists.mp hA
+  obtain ⟨y, hyP, hyB⟩ := IsConcreteLE.not_le_iff_exists.mp hB
   have hxa : x.a ≠ 0 := hxA
   have hyb : y.b ≠ 0 := hyB
   have hxb : x.b = 0 := by
@@ -121,6 +121,7 @@ section Perm
 variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
   {F : Type} [Field F] [CharP F 2] [Finite F]
 
+omit [CharP F 2] [Finite F] in
 theorem card_ut3SubA : Nat.card (ut3SubA F) = Nat.card F ^ 2 := by
   have e : ut3SubA F ≃ F × F :=
     { toFun := fun u => (u.1.b, u.1.c)
@@ -130,6 +131,7 @@ theorem card_ut3SubA : Nat.card (ut3SubA F) = Nat.card F ^ 2 := by
   rw [Nat.card_congr e, Nat.card_prod]
   ring
 
+omit [CharP F 2] [Finite F] in
 theorem card_ut3SubB : Nat.card (ut3SubB F) = Nat.card F ^ 2 := by
   have e : ut3SubB F ≃ F × F :=
     { toFun := fun u => (u.1.a, u.1.c)
@@ -139,6 +141,7 @@ theorem card_ut3SubB : Nat.card (ut3SubB F) = Nat.card F ^ 2 := by
   rw [Nat.card_congr e, Nat.card_prod]
   ring
 
+omit [Finite G] [CharP F 2] [Finite F] in
 theorem Z_le_QSubOf (H : StrothHyp M Q Z) (e : ↥Q ≃* UT3 F) {S : Subgroup (UT3 F)}
     (hS : ∀ u : UT3 F, u.a = 0 → u.b = 0 → u ∈ S) : Z ≤ QSubOf e S := by
   intro z hz
@@ -152,6 +155,7 @@ theorem Z_le_QSubOf (H : StrothHyp M Q Z) (e : ↥Q ≃* UT3 F) {S : Subgroup (U
   obtain ⟨ha, hb⟩ := (Tim79.ut3_mem_center_iff _).mp hey
   exact hS _ ha hb
 
+omit [Finite F] in
 theorem eq_QSubOf_of_elem (e : ↥Q ≃* UT3 F) {A : Subgroup G} (hAQ : A ≤ Q)
     (hA2 : ∀ x ∈ A, x * x = 1) (hAc : Nat.card A = Nat.card F ^ 2) :
     A = QSubOf e (ut3SubA F) ∨ A = QSubOf e (ut3SubB F) := by
@@ -173,6 +177,8 @@ theorem eq_QSubOf_of_elem (e : ↥Q ≃* UT3 F) {A : Subgroup G} (hAQ : A ≤ Q)
 @[expose] def IsQPlane (Q : Subgroup G) (F : Type) [Field F] [Finite F] (W : Subgroup G) : Prop :=
   W ≤ Q ∧ (∀ x ∈ W, x * x = 1) ∧ Nat.card W = Nat.card F ^ 2
 
+omit [CharP F 2] in
+omit [Finite G] in
 theorem IsQPlane.conj (H : StrothHyp M Q Z) {m : G} (hm : m ∈ M) {W : Subgroup G}
     (hW : IsQPlane Q F W) : IsQPlane Q F (conjSubgroup m W) := by
   obtain ⟨hWQ, hW2, hWc⟩ := hW
@@ -185,16 +191,18 @@ theorem IsQPlane.conj (H : StrothHyp M Q Z) {m : G} (hm : m ∈ M) {W : Subgroup
     calc y * y = m * ((m⁻¹ * y * m) * (m⁻¹ * y * m)) * m⁻¹ := by group
       _ = 1 := by rw [h2]; group
 
+omit [Finite G] [CharP F 2] [Finite F] in
 theorem QSubOf_ne (e : ↥Q ≃* UT3 F) : QSubOf e (ut3SubA F) ≠ QSubOf e (ut3SubB F) := by
   intro h
   have hu : ((e.symm ⟨1, 0, 0⟩ : ↥Q) : G) ∈ QSubOf e (ut3SubB F) :=
-    mem_QSubOf.mpr ⟨(e.symm ⟨1, 0, 0⟩).2, by simpa [mem_ut3SubB] using rfl⟩
+    mem_QSubOf.mpr ⟨(e.symm ⟨1, 0, 0⟩).2, by simp [mem_ut3SubB]⟩
   rw [← h] at hu
   obtain ⟨h1, h2⟩ := mem_QSubOf.mp hu
   have : e ⟨((e.symm ⟨1, 0, 0⟩ : ↥Q) : G), h1⟩ = ⟨1, 0, 0⟩ := by simp
   rw [this] at h2
   exact one_ne_zero (mem_ut3SubA.mp h2)
 
+omit [CharP F 2] [Finite F] in
 theorem Q_le_normalizer_QSubOf (H : StrothHyp M Q Z) (e : ↥Q ≃* UT3 F) {S : Subgroup (UT3 F)}
     (hS : ∀ u : UT3 F, u.a = 0 → u.b = 0 → u ∈ S) :
     Q ≤ Subgroup.normalizer ((QSubOf e S : Subgroup G) : Set G) := by
@@ -284,8 +292,8 @@ theorem exists_odd_pow_mem_Q [Finite G] {M Q Z : Subgroup G}
     (H : StrothHyp M Q Z) {f : ℕ} (hZ : Nat.card Z = 2 ^ f) (hw : Width Q Z 1)
     (hG : (Nat.card G).factorization 2 = 3 * f) :
     ∃ r : ℕ, Odd r ∧ ∀ m ∈ M, m ^ r ∈ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hN : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer H.Q_normal.2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hN : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer H.Q_normal.2
   have hQM : Q ≤ M := H.Q_normal.1
   refine ⟨(Q.subgroupOf M).index, ?_, fun m hm => ?_⟩
   · obtain ⟨S⟩ : Nonempty (Sylow 2 M) := inferInstance
@@ -341,6 +349,7 @@ theorem card_UT3 {F : Type*} [CommRing F] [Finite F] :
   rw [Nat.card_congr e, Nat.card_prod, Nat.card_prod]
   ring
 
+omit [Finite G] in
 theorem width_of_caseD1 (H : StrothHyp M Q Z) {n : ℕ} (h : CaseD1 Q Z n) :
     Nat.card Z = 2 ^ n ∧ Width Q Z 1 := by
   obtain ⟨hZ, ⟨e⟩⟩ := h

@@ -18,8 +18,8 @@ theorem isNilpotent_of_forall_supplement {K : Type} [Group K] [Finite K] {N T : 
   classical
   refine (Group.isNilpotent_of_finite_tfae (G := ↥N)).out 4 1 |>.mp ?_
   intro p hp P
-  haveI := hp
-  letI : MulAction K (Sylow p ↥N) :=
+  have := hp
+  let : MulAction K (Sylow p ↥N) :=
     MulAction.compHom (Sylow p ↥N) (MulAut.conjNormal : K →* MulAut ↥N)
   have hodd : Odd (Nat.card (Sylow p ↥N)) := by
     rw [Sylow.card_eq_index_normalizer P]
@@ -66,10 +66,10 @@ theorem isNilpotent_of_forall_supplement {K : Type} [Group K] [Finite K] {N T : 
     exact (Subgroup.normalizer_eq_top_iff).mp (hsupp _ hTL (Sylow.normalizer_sup_eq_top R))
   have hRnorm : (R : Subgroup ↥N).Normal := hRnorm'.of_map_subtype
   have hPR : P = R := by
-    haveI : (R : Subgroup ↥N).Normal := hRnorm
+    have : (R : Subgroup ↥N).Normal := hRnorm
     have hRP : (R : Subgroup ↥N) ≤ P := by
       have hp' : IsPGroup p ((R : Subgroup ↥N) ⊔ P : Subgroup ↥N) :=
-        R.isPGroup'.to_sup_of_normal_left P.isPGroup'
+        R.isPGroup.to_sup_of_normal_left P.isPGroup
       exact le_sup_left.trans (P.maximal_isPGroup.eq_of_ge hp' le_sup_right).le
     have hcard : Nat.card P ≤ Nat.card R := by
       rw [P.card_eq_multiplicity, R.card_eq_multiplicity]
@@ -86,15 +86,15 @@ theorem isNilpotent_quotient_of_supplement {G : Type} [Group G] [Finite G]
   classical
   let P' : Subgroup ↥H := P.subgroupOf H
   let Y' : Subgroup ↥H := Y.subgroupOf H
-  haveI hP' : P'.Normal := hP
-  haveI hY' : Y'.Normal := hY
+  have hP' : P'.Normal := hP
+  have hY' : Y'.Normal := hY
   have hP'Y' : P' ≤ Y' := fun x hx => hPY hx
   let q : ↥H →* (↥H ⧸ P') := QuotientGroup.mk' P'
   have hqsurj : Function.Surjective q := QuotientGroup.mk'_surjective P'
   have hqker : q.ker = P' := QuotientGroup.ker_mk' P'
   let N : Subgroup (↥H ⧸ P') := Y'.map q
   let T' : Subgroup (↥H ⧸ P') := (T.subgroupOf H).map q
-  haveI hN : N.Normal := hY.map q hqsurj
+  have hN : N.Normal := hY.map q hqsurj
   let f : ↥Y →* ↥N :=
     { toFun := fun y => ⟨q ⟨y.1, hYH y.2⟩, ⟨⟨y.1, hYH y.2⟩, y.2, rfl⟩⟩
       map_one' := by
@@ -161,7 +161,7 @@ theorem isNilpotent_quotient_of_supplement {G : Type} [Group G] [Finite G]
     calc Lq = (Lq.comap q).map q := (Subgroup.map_comap_eq_self_of_surjective hqsurj Lq).symm
       _ = ⊤ := by rw [hLtop, Subgroup.map_top_of_surjective q hqsurj]
   have hnil : Group.IsNilpotent ↥N := isNilpotent_of_forall_supplement hNodd hT' hsuppK
-  haveI : Group.IsNilpotent ↥N := hnil
+  have : Group.IsNilpotent ↥N := hnil
   exact Group.nilpotent_of_mulEquiv e.symm
 
 end CFSG.LocalAnalysis.WeakClosure81

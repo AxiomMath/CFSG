@@ -22,7 +22,7 @@ theorem hessSMat_zero (ω : K) : hessSMat ω 0 = hessS0Mat := by
 theorem hessS0Mat_mul_self (h3 : (3 : K) ≠ 0) : hessS0Mat (K := K) * hessS0Mat = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessS0Mat, Matrix.one_apply] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hessS0Mat] <;>
     field_simp <;>
     norm_num
 
@@ -43,7 +43,7 @@ theorem hessS0_eq (ω : K) (hω : ω ^ 2 + ω + 1 = 0) (h3 : (3 : K) ≠ 0) :
 theorem hessNegTauMat_mul_self : hessNegTauMat (K := K) * hessNegTauMat = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessNegTauMat, Matrix.one_apply]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hessNegTauMat]
 
 @[expose] def hessNegTau : GL (Fin 3) K :=
   ⟨hessNegTauMat, hessNegTauMat, hessNegTauMat_mul_self, hessNegTauMat_mul_self⟩
@@ -61,7 +61,7 @@ theorem hessRotMat_mul (a b c d : K) :
 
 theorem hessRotMat_one_zero : hessRotMat (1 : K) 0 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [hessRotMat, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [hessRotMat]
 
 @[expose] def hessRot {a b : K} (hab : a ^ 2 + b ^ 2 = 1) : GL (Fin 3) K :=
   ⟨hessRotMat a b, hessRotMat a (-b),

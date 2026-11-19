@@ -36,6 +36,7 @@ theorem mk_mem_conj_bar_iff' [(Q.subgroupOf M).Normal] {S : Subgroup G} (hQS : Q
   rw [mem_conjSubgroup, mem_conjSubgroup, ← map_inv, ← map_mul, ← map_mul, mk_mem_bar_iff' hQS]
   rfl
 
+omit [Finite G] in
 theorem conj_LB_eq_of_bar [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {x y : M}
     (h : conjSubgroup (QuotientGroup.mk' (Q.subgroupOf M) x) (bar M Q (LB M Q B)) =
       conjSubgroup (QuotientGroup.mk' (Q.subgroupOf M) y) (bar M Q (LB M Q B))) :
@@ -118,7 +119,7 @@ theorem commuting_of_twoTrans [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : 
         (bar M Q (LB M Q B)) =
       conjSubgroup (QuotientGroup.mk' (Q.subgroupOf M) ⟨m₂, hm₂⟩) (bar M Q (LB M Q B))
     · have hab : ∀ u ∈ conjSubgroup m₂ B, ∀ u' ∈ conjSubgroup m₂ B, u * u' = u' * u := by
-        haveI := (hc.conj_of_mem hm₂).isElemAbelian_B.1
+        have := (hc.conj_of_mem hm₂).isElemAbelian_B.1
         exact fun u hu u' hu' => setLike_mul_comm hu hu'
       exact comm_of_le_sup_Z hc (hBQ m₂ hm₂) (hBQ m₂ hm₂) hab (corr h12) le_sup_left
     · obtain ⟨gb, hg1, hg2⟩ := h2 _ _ _ _ hne h12

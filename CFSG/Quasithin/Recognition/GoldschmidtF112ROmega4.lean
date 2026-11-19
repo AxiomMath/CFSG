@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 
 theorem lieModel_of_isL2Quot {L : Subgroup G} {n : ℕ} (hn : 2 ≤ n)
     (h : IsL2Quot n (oTwoQuot ↥L)) : LieModel (↥L ⧸ CFSG.pCore 2 ↥L) .PSL 2 2 n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := h
   have hK : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   refine Or.inl ⟨by decide, ⟨Nat.prime_two, by omega, le_rfl, ?_, ?_⟩, GaloisField 2 n,
@@ -52,14 +52,14 @@ theorem isOmega4MinusBlock_of_type {L : Subgroup G} {m : ℕ} (hm : 1 ≤ m) (hB
     (hq : IsL2Quot (2 * m) (oTwoQuot ↥L)) (hT : IsOmega4MinusType L m) :
     IsOmega4MinusBlock L m := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS := hB.1
   set U := blockU L with hU
   obtain ⟨F, _, _, hF, α, hαs, hαk, β, hβim, hβk, hβe⟩ := hT
   have hLN : L ≤ Subgroup.normalizer (U : Set G) := H13.Omega4.le_normalizer_blockU L
-  haveI hcomm : IsMulCommutative ↥U :=
+  have hcomm : IsMulCommutative ↥U :=
     ⟨⟨fun a b => Subtype.ext (H13.Omega4.blockU_comm hS a.2 b.2)⟩⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hF
+  have : CharP F 2 := charP_of_card_eq_prime_pow hF
   refine ⟨hB, lieModel_of_isL2Quot (by omega) hq, hcomm, F, inferInstance, inferInstance,
     inferInstance, by rw [Nat.card_eq_fintype_card, hF], ?_⟩
   have hmemA : ∀ l : ↥L, conjAct U (Subgroup.inclusion hLN l) ∈ autOn L U := fun l =>

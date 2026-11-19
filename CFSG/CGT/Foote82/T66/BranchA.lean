@@ -39,7 +39,7 @@ private theorem false_of_altNatural {V : Type} [AddCommGroup V] [Module (ZMod 2)
     exact (h.extremal.setup.toSetup6.lemma61 (Subgroup.mem_zpowers z)).1 g
       (Subgroup.mem_subgroupOf.1 hg) w hw
   have hheart := (isAltHeartFor_of_perm (N := n + 2) (by omega) φ h.extremal.setup.irr
-    (i := 0) (j := 1) (by simp [Fin.ext_iff]) hα' hc3 hc0 hc1 hcβ).1
+    (i := 0) (j := 1) (by simp) hα' hc3 hc0 hc1 hcβ).1
   rw [BranchAAux.layerIn_eq_comap hc (by omega) φ] at hheart
   exact h.extremal.not_concl (Or.inr (Or.inl ⟨n, 1, by omega, le_rfl, ⟨ε⟩, by simpa using hheart⟩))
 

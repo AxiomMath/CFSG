@@ -35,10 +35,10 @@ theorem binaryNineTensor_of_l34_quotient_rank_nine
   obtain ⟨F, hFfield, hFfin, hFcard, ⟨eHF⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel
       (n := 3) (p := 2) (f := 2) hH
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI hFchar : CharP F 2 := CFSG.Quasithin.G11.Harris.L3.charP_two_of_card (f := 2)
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  let : Fintype F := Fintype.ofFinite F
+  have hFchar : CharP F 2 := CFSG.Quasithin.G11.Harris.L3.charP_two_of_card (f := 2)
     (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   have hFint : Fintype.card F = 2 ^ 2 := by
     simpa using hFcard
@@ -47,14 +47,14 @@ theorem binaryNineTensor_of_l34_quotient_rank_nine
   have hπ₀ : Function.Surjective π₀ :=
     eHF.symm.surjective.comp
       (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.proj_surjective 3 F)
-  letI : Module (ZMod 2) (Additive Q) := CFSG.RankThree.FFModules.moduleOfSq hQsq
+  let : Module (ZMod 2) (Additive Q) := CFSG.RankThree.FFModules.moduleOfSq hQsq
   let σ : Representation (ZMod 2) (SpecialLinearGroup (Fin 3) F) (Additive Q) :=
     (CFSG.RankThree.FFModules.autRep Q).comp (ρ.comp π₀)
   have hσirr : σ.IsIrreducible := by
     rw [CFSG.QuasithinUnique.Setup.SL2Modules.isIrreducible_iff]
     refine ⟨?_, ?_⟩
     ·
-      haveI : IsSimpleGroup ↥H :=
+      have : IsSimpleGroup ↥H :=
         CFSG.Quasithin.H13.E54.isSimpleGroup_of_lieModel (L := ↥H) hH
       have hHnt : Nontrivial ↥H := inferInstance
       have hMulAutnt : Nontrivial (MulAut Q) := by
@@ -73,7 +73,7 @@ theorem binaryNineTensor_of_l34_quotient_rank_nine
           mul_mem' := fun {a b} ha hb => by
             show Additive.ofMul (a * b) ∈ U
             exact U.add_mem ha hb
-          one_mem' := by simpa using U.zero_mem
+          one_mem' := by simp
           inv_mem' := fun {a} ha => by
             show Additive.ofMul a⁻¹ ∈ U
             exact U.neg_mem ha }
@@ -96,7 +96,7 @@ theorem binaryNineTensor_of_l34_quotient_rank_nine
         have h1 : Additive.toMul a ∈ B := by rw [hB]; trivial
         exact h1
   have hntσ : ∃ g : SpecialLinearGroup (Fin 3) F, σ g ≠ 1 := by
-    haveI : IsSimpleGroup ↥H :=
+    have : IsSimpleGroup ↥H :=
       CFSG.Quasithin.H13.E54.isSimpleGroup_of_lieModel (L := ↥H) hH
     have hHnt : Nontrivial ↥H := inferInstance
     obtain ⟨h, hh⟩ := exists_ne (1 : ↥H)
@@ -245,9 +245,9 @@ theorem centralizer_eq_bot_of_binaryNineTensor_of_commSub_eq_top
     Subgroup.centralizer (H : Set (MulAut W)) = ⊥ := by
   classical
   obtain ⟨F, hFfield, hFfin, hFchar, hFcard, hReal⟩ := hmodel
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  let : CharP F 2 := hFchar
   obtain ⟨π, hR⟩ := hReal
   let D : FFModel := FFModel.twistTensor 1 (StatedSL 3 F)
   let Z : Subgroup W := fixV H

@@ -71,13 +71,13 @@ theorem tau0Sign_isSign (n : ℕ) : IsSign (tau0Sign n) := by
   by_cases hi : i = 0
   · subst hi
     exact Or.inr rfl
-  · exact Or.inl (by rw [tau0Sign, if_neg hi])
+  · exact Or.inl (by rw [tau0Sign, ite_eq_right hi])
 
 theorem tau0Mat_mem_evenN0 (n : ℕ) : tau0Mat n ∈ evenN0 n := by
   rw [tau0Mat_eq_spMat_one]
   exact ⟨1, tau0Sign n, tau0Sign_isSign n, ⟨rfl, Finset.prod_eq_one fun i _ => by
     show (if i.succ = 0 then (-1 : ZMod 3) else 1) = 1
-    rw [if_neg (Fin.succ_ne_zero i)]⟩, rfl⟩
+    rw [ite_eq_right (Fin.succ_ne_zero i)]⟩, rfl⟩
 
 theorem mul_self_of_isSign {k : ℕ} {s : Fin k → ZMod 3} (hs : IsSign s) (j : Fin k) :
     s j * s j = 1 := by
@@ -117,13 +117,13 @@ theorem evenN0_comm_tau0Mat {n : ℕ} {M : Matrix (Fin (n + 1)) (Fin (n + 1)) (Z
     by_cases hj : j = 0
     · subst hj
       rw [hσ0]
-    · rw [if_neg hj, if_neg (fun h => hj (σ.injective (h.trans hσ0.symm)))]
+    · rw [ite_eq_right hj, ite_eq_right (fun h => hj (σ.injective (h.trans hσ0.symm)))]
   rw [hs, mul_comm]
 
 theorem evenN0_col_apply_eq_zero {n : ℕ} {M : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)}
     (hM : M ∈ evenN0 n) {i : Fin (n + 1)} (hi : i ≠ 0) : M i 0 = 0 := by
   obtain ⟨σ, s, -, ⟨hσ0, -⟩, rfl⟩ := hM
-  rw [spMat_apply, hσ0, if_neg hi]
+  rw [spMat_apply, hσ0, ite_eq_right hi]
 
 theorem pi_single_zero_ne_zero (n : ℕ) : (Pi.single 0 1 : Fin (n + 1) → ZMod 3) ≠ 0 := by
   intro h
@@ -133,7 +133,7 @@ theorem pi_single_zero_ne_zero (n : ℕ) : (Pi.single 0 1 : Fin (n + 1) → ZMod
 theorem tau0Mat_mulVec (n : ℕ) (z : Fin (n + 1) → ZMod 3) :
     tau0Mat n *ᵥ z = fun i => tau0Sign n i * z i := by
   rw [tau0Mat_eq_spMat_one, spMat_mulVec]
-  simp only [Equiv.Perm.one_symm, Equiv.Perm.one_apply]
+  simp only [← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply]
 
 theorem tau0Mat_mulVec_sub (n : ℕ) (z : Fin (n + 1) → ZMod 3) :
     tau0Mat n *ᵥ z - z = z 0 • Pi.single 0 1 := by
@@ -147,7 +147,7 @@ theorem tau0Mat_mulVec_sub (n : ℕ) (z : Fin (n + 1) → ZMod 3) :
     generalize z 0 = a
     revert a
     decide
-  · rw [Pi.single_eq_of_ne hi, mul_zero, show tau0Sign n i = 1 from if_neg hi, one_mul, sub_self]
+  · rw [Pi.single_eq_of_ne hi, mul_zero, show tau0Sign n i = 1 from ite_eq_right hi, one_mul, sub_self]
 
 theorem tau0Mat_mulVec_of_apply_zero {n : ℕ} {z : Fin (n + 1) → ZMod 3} (hz : z 0 = 0) :
     tau0Mat n *ᵥ z = z := by
@@ -304,7 +304,7 @@ theorem mem_H_of_comm (h : EvenN0MatHyp n Xg) {T : GL (Fin (n + 1)) (ZMod 3)}
       Pi.single 0 1) := by
     rw [← hT, ← gl_mul_mulVec, ← hc, gl_mul_mulVec, hT, tau0Mat_mulVec_e0, Matrix.mulVec_neg]
   have e' := congrFun e i
-  rw [tau0Mat, Matrix.mulVec_diagonal, tau0Sign, if_neg hi, one_mul, Pi.neg_apply] at e'
+  rw [tau0Mat, Matrix.mulVec_diagonal, tau0Sign, ite_eq_right hi, one_mul, Pi.neg_apply] at e'
   have hcol : (ρ : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) i 0 =
       ((ρ : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ Pi.single 0 1) i := by
     rw [Matrix.mulVec_single_one, Matrix.col_apply]
@@ -400,7 +400,7 @@ theorem eq_smul_single_zero_of_commute_tau0 {T : GL (Fin (n + 1)) (ZMod 3)}
     rw [Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
   · have e := congrFun hSneg i
     rw [hT, tau0Mat] at e
-    rw [Matrix.mulVec_diagonal, tau0Sign, if_neg hi, one_mul, Pi.neg_apply] at e
+    rw [Matrix.mulVec_diagonal, tau0Sign, ite_eq_right hi, one_mul, Pi.neg_apply] at e
     rw [zmod3_eq_zero_of_eq_neg e, Pi.smul_apply, Pi.single_eq_of_ne hi, smul_zero]
 
 theorem eq_zero_or_eq_smul_of_commute_tau0 {T : GL (Fin (n + 1)) (ZMod 3)}
@@ -440,7 +440,7 @@ theorem eq_zero_or_eq_smul_of_commute_tau0 {T : GL (Fin (n + 1)) (ZMod 3)}
   · left
     have e := congrFun hTAe 0
     rw [hT, tau0Mat] at e
-    rw [hμ1, one_smul, Matrix.mulVec_diagonal, tau0Sign, if_pos rfl] at e
+    rw [hμ1, one_smul, Matrix.mulVec_diagonal, tau0Sign, ite_eq_left rfl] at e
     generalize ((A : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ Pi.single 0 1) 0 = a at e
     revert a; decide
   · right
@@ -451,7 +451,7 @@ theorem eq_zero_or_eq_smul_of_commute_tau0 {T : GL (Fin (n + 1)) (ZMod 3)}
       rw [Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     · have e := congrFun hTAe i
       rw [hT, tau0Mat] at e
-      rw [hμneg, neg_smul, one_smul, Matrix.mulVec_diagonal, tau0Sign, if_neg hi, one_mul,
+      rw [hμneg, neg_smul, one_smul, Matrix.mulVec_diagonal, tau0Sign, ite_eq_right hi, one_mul,
         Pi.neg_apply] at e
       have h0 := zmod3_eq_zero_of_eq_neg e
       rw [h0, Pi.smul_apply, Pi.single_eq_of_ne hi, smul_zero]

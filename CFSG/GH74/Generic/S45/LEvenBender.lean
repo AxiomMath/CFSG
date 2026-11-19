@@ -235,7 +235,7 @@ theorem suzuki_false [Finite S] {f : ℕ}
     (CFSG.RankThree.Suzuki_involution_centralizers_and_inner_odd_centralizers ha hK').1 (e u) hu'
   have hPp : IsPGroup 2 ↥(Subgroup.centralizer ({e u} : Set (CFSG.Blueprint.suzukiGroup a K))) := by
     rw [hPc]
-    exact P.isPGroup'
+    exact P.isPGroup
   have hcomap : (Subgroup.centralizer ({e u} : Set (CFSG.Blueprint.suzukiGroup a K))).comap
       e.toMonoidHom = Subgroup.centralizer ({u} : Set S) := by
     ext s

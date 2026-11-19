@@ -32,7 +32,7 @@ theorem nine_dvd_index_center_of_isL3Kind {p : ℕ} {X : Type} [Group X] [Finite
     obtain ⟨m, hm⟩ := L3Ord_dvd hc
     rw [hZ3, hcard, hm] at hidx
     exact ⟨m, by omega⟩
-  · haveI := CFSG.HardMathSupport.Dickson.Sec6.BM.isPerfect_of_sl3EpsOfChar hWSL
+  · have := CFSG.HardMathSupport.Dickson.Sec6.BM.isPerfect_of_sl3EpsOfChar hWSL
     have hc : Nat.card ↥(Subgroup.center X) = 1 := by
       rw [Nat.card_congr (Subgroup.centerCongr f).toEquiv,
         Group.IsPerfect.center_quotient_center_eq_bot W, Subgroup.card_bot]
@@ -90,7 +90,7 @@ theorem noL3Comp_centralizer_tbw
     (hB2 : L3AutDvd)
     (hO : GLAPPrimeCoreOf 3 (Subgroup.centralizer ({tbw} : Set Gmat)) = ⊥) :
     NoL3Comp (Subgroup.centralizer ({tbw} : Set Gmat)) := by
-  haveI : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   intro J hJ p hL3
   have hcore := glaPPrimeCore_eq_bot_of_glaPComponent hO hJ
   have eJ : barOf 3 J ≃* ↥J :=
@@ -122,7 +122,7 @@ theorem sporL3DownInner_M_of_census
         NoL3Comp (Subgroup.centralizer ({s} : Set Gmat)))
     (hOu : CFSG.HardMathSupport.Timmesfeld.SporadicBalance.UninvertedOPrimeTrivial 3 Gmat)
     (hB2 : L3AutDvd) (hA : M3BCensusA) : SporL3DownInner .M := by
-  haveI : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Finite Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   refine sporL3DownInner_of_comp (s := .M) Gmat hM ?_ ?_
   · rw [CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder,
       CFSG.HardMathSupport.Dickson.Sec6.BM.monsterOrder_eq_numeral]

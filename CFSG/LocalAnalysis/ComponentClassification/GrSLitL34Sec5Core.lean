@@ -213,7 +213,7 @@ theorem conj_mem_oddIn_of_mem_coreActionKernel {L : Subgroup G} {e : G}
 omit [Finite G] in
 theorem IsSylowTwoIn.isPGroup {S H : Subgroup G} (hS : IsSylowTwoIn S H) : IsPGroup 2 S := by
   obtain ⟨hSH, P, hP⟩ := hS
-  have h := P.isPGroup'.map H.subtype
+  have h := P.isPGroup.map H.subtype
   rwa [hP, map_subgroupOf_eq_of_le hSH] at h
 
 omit [Finite G] in

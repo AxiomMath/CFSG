@@ -121,7 +121,7 @@ theorem model3_map_conj_map (γ : X →* Y) (g : X) (K : Subgroup X) :
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
   ext x
-  simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]
+  simp [map_mul, map_inv, mul_assoc]
 
 theorem model3_sup_conj_map (γ : X →* Y) (g : X) (K : Subgroup X) :
     (K ⊔ K.map (MulAut.conj g⁻¹).toMonoidHom).map γ =

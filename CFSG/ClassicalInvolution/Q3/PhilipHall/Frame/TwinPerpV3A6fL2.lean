@@ -116,7 +116,7 @@ theorem L_lt_top : ae6L Ω[R] t (tauE t y) (xE t y h) < ⊤ := by
   refine lt_top_iff_ne_top.mpr fun htop => ?_
   have hn : (e3 t y h).Normal :=
     Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (htop ▸ L_le_normalizer Z))
-  haveI := Z.C.H.ex.1.perp.core.simple
+  have := Z.C.H.ex.1.perp.core.simple
   have hbot := eq_bot_of_normal_isPGroup Z.C.H.ex.1.perp.core.nonab hn
     (A6d.isPGroup_two_of_sq_eq_one Z.hE.2)
   exact Z.C.H.ex.1.datum.hz.ne_one (by simpa [hbot] using t_mem_e3 t y h)

@@ -140,7 +140,7 @@ theorem eq_of_swap (hs : Std8 Ω K J S R T W z t)
     rw [hφ]
     exact S.mul_mem (hRS r.2)
       (S.mul_mem (S.mul_mem hb (hRS r.2)) (S.inv_mem hb))
-  have hQ2 : IsPGroup 2 ↥φ.range := S.isPGroup'.to_le hQS
+  have hQ2 : IsPGroup 2 ↥φ.range := S.isPGroup.to_le hQS
   have hQb : ∀ y ∈ φ.range, y * b = b * y := by
     rintro _ ⟨r, rfl⟩
     rw [hφ]
@@ -217,7 +217,7 @@ theorem eq_of_swap (hs : Std8 Ω K J S R T W z t)
   have hqK' : conjSub (φ ⟨r₁, hr₁R⟩) (conjSub n' K) = conjSub n' K :=
     Q3CL.T8.conjSub_eq_of_conjSub_eq hΩ hK'Ω (RSet.conj hcl hRΩ n') (conjSub_mono hRK) hqN
   have hq2 : IsPGroup 2 (Subgroup.zpowers (φ ⟨r₁, hr₁R⟩)) :=
-    (isPGroup_conjSub n' S.isPGroup').to_le (Subgroup.zpowers_le.mpr hqS')
+    (isPGroup_conjSub n' S.isPGroup).to_le (Subgroup.zpowers_le.mpr hqS')
   obtain ⟨x₂, hx₂K', hx₂o, hx₂c⟩ := Q3CL.T8.exists_orderFour_centralizes_sq hΩ hK'Ω hz' hq2 hqK'
   rw [hqsq] at hx₂c
   have hxK : n'⁻¹ * x₂ * n' ∈ K := mem_conjSub_iff.mp hx₂K'
@@ -235,7 +235,7 @@ theorem eq_of_swap (hs : Std8 Ω K J S R T W z t)
   have hwb : n'⁻¹ * ((z * t) * b⁻¹) * n' = n'⁻¹ * (z * t) * (n'⁻¹)⁻¹ * (z * t)⁻¹ := by
     rw [← hn'b]
     group
-  exact (T8R.eq_of_conj_mul_inv_mem_oddCoreOf S.isPGroup' haSm hb (nbrLayer Ω K z) n'
+  exact (T8R.eq_of_conj_mul_inv_mem_oddCoreOf S.isPGroup haSm hb (nbrLayer Ω K z) n'
     (hwb ▸ hw)).symm
 
 theorem eq_of_centralizes (hs : Std8 Ω K J S R T W z t)
@@ -249,7 +249,7 @@ theorem eq_of_centralizes (hs : Std8 Ω K J S R T W z t)
     exact hxc
   have h1 := conj_zt_mul_inv_mem_of_orderFour hs hY hV (n := g⁻¹) hxK hx4 hn
   rw [inv_inv] at h1
-  exact T8R.eq_of_mul_inv_mem_odd S.isPGroup' hb (T8R.zt_mem_sylow hs) (oddCoreOf_odd_natCard _) h1
+  exact T8R.eq_of_mul_inv_mem_odd S.isPGroup hb (T8R.zt_mem_sylow hs) (oddCoreOf_odd_natCard _) h1
 
 theorem eq_of_centralizes_J (hs : Std8 Ω K J S R T W z t)
     (hY : nbrLayer Ω K z = exactCore3 z J ⊔ oddCoreOf (nbrLayer Ω K z))

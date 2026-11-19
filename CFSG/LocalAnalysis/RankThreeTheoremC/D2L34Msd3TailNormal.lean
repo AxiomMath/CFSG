@@ -20,7 +20,7 @@ theorem isPGroup_three_of_nilpotent_normal {X : Type*} [Group X] [Finite X]
     have hKn : (R.toSubgroup.map Y.subtype).Normal := inferInstance
     have hcop : Nat.Coprime 3 (Nat.card (R.toSubgroup.map Y.subtype)) := by
       rw [Subgroup.card_subtype]
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup
       rw [hn]
       exact Nat.Coprime.pow_right n ((Nat.coprime_primes Nat.prime_three hr).mpr (Ne.symm hr3))
     have hbot := h1 _ hKn hcop

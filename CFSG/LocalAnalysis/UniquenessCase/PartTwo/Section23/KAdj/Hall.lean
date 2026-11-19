@@ -88,7 +88,7 @@ theorem exists_conj_mem_of_mem_sup {G : Type*} [Group G] [Finite G] {p : ℕ} [F
   have hBN : B ≤ Subgroup.normalizer (E : Set G) := by
     rw [hB]
     exact sup_le Subgroup.le_normalizer hET
-  haveI hEnorm : (E.subgroupOf B).Normal :=
+  have hEnorm : (E.subgroupOf B).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hEB).2 hBN
   have hEBp : IsPGroup p (E.subgroupOf B) :=
     hE.of_equiv (Subgroup.subgroupOfEquivOfLe hEB).symm

@@ -57,7 +57,7 @@ theorem Hyp.relIndex_layerIn (h : Hyp G L z v H₁ m ψ)
     (hK2 : ∀ Q : Subgroup (GLV V), Q ≤ KK G L → IsPGroup 2 Q → Nat.card Q ≤ 2)
     (h25 : CaseIFooteLemma25) : (layerIn G).relIndex G = 2 := by
   have hE : (layerIn G).subgroupOf G = CFSG.layer ↥G := layerIn_subgroupOf G
-  haveI : ((layerIn G).subgroupOf G).Normal := by
+  have : ((layerIn G).subgroupOf G).Normal := by
     rw [hE]
     have : (CFSG.layer ↥G).Characteristic := CFSG.LocalCores.layer_characteristic
     infer_instance
@@ -238,15 +238,15 @@ theorem Hyp.exists_component_eq (h : Hyp G L z v H₁ m ψ)
     rcases h.H_le_or_inf_eq_bot (fun x hx y hy => hAconj x (hHE hx) y hy) with h2 | hHA
     · exact hJH (h2.trans inf_le_right)
     set E := layerIn G with hEdef
-    haveI hJn : (J.subgroupOf E).Normal :=
+    have hJn : (J.subgroupOf E).Normal :=
       ⟨fun y hy x => Subgroup.mem_subgroupOf.2 (hJconj x x.2 y (Subgroup.mem_subgroupOf.1 hy))⟩
-    haveI hAn : (A.subgroupOf E).Normal :=
+    have hAn : (A.subgroupOf E).Normal :=
       ⟨fun y hy x => Subgroup.mem_subgroupOf.2 (hAconj x x.2 y (Subgroup.mem_subgroupOf.1 hy))⟩
     have hsup : J.subgroupOf E ⊔ A.subgroupOf E = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hJE hAE, Subgroup.subgroupOf_eq_top]
       exact hEJA
     have hP2 : IsPGroup 2 (P.subgroupOf E) :=
-      ((T₀.isPGroup'.to_inf_left).map _).comap_subtype
+      ((T₀.isPGroup.to_inf_left).map _).comap_subtype
     have hPidx : ¬ 2 ∣ (P.subgroupOf E).index := h.P_not_dvd hK2 h25 T₀ hzT hyT
     have hPJ : P.subgroupOf E ⊓ J.subgroupOf E = ⊥ := by
       rw [eq_bot_iff]
@@ -289,7 +289,7 @@ theorem Hyp.mul_self_mem_layerIn (h : Hyp G L z v H₁ m ψ)
     (hK2 : ∀ Q : Subgroup (GLV V), Q ≤ KK G L → IsPGroup 2 Q → Nat.card Q ≤ 2)
     (h25 : CaseIFooteLemma25) {x : GLV V} (hx : x ∈ G) : x * x ∈ layerIn G := by
   have hE : (layerIn G).subgroupOf G = CFSG.layer ↥G := layerIn_subgroupOf G
-  haveI : ((layerIn G).subgroupOf G).Normal := by
+  have : ((layerIn G).subgroupOf G).Normal := by
     rw [hE]
     have : (CFSG.layer ↥G).Characteristic := CFSG.LocalCores.layer_characteristic
     infer_instance

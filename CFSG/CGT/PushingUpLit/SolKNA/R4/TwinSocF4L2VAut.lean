@@ -30,7 +30,7 @@ theorem l2_contra {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finite A] (T : 
     False := by
   classical
   obtain ⟨p, f, K, hKf, hKfin, hp, hpodd, hf, h3, hKcard, ⟨e⟩⟩ := soc_l2_data hT
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOdd : IsOddPrimePower (Nat.card K) := ⟨p, f, hp, hpodd, hf, hKcard⟩
   have hcard : 3 < Nat.card K := by rw [hKcard]; exact h3
   have h2 : (2 : K) ≠ 0 := by
@@ -53,7 +53,7 @@ theorem l2_contra {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finite A] (T : 
     have h1 : (MulAut.conjNormal (a : A)) (e.symm y) = a * e.symm y * a⁻¹ :=
       Subtype.ext (by simp [MulAut.conjNormal_val])
     simp [MulAut.congr_apply, MulAut.conj_apply, h1]
-  haveI : Finite K := hKfin
+  have : Finite K := hKfin
   let θ : A →* PGammaL2 K := Ψ.toMonoidHom.comp MulAut.conjNormal
   have hθ : ∀ g, θ g = Ψ (MulAut.conjNormal g) := fun g => rfl
   have hθinj : Function.Injective θ := Ψ.injective.comp (conjNormal_injective hC)
@@ -99,7 +99,7 @@ theorem l2_contra {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finite A] (T : 
   have hXR' : (θ' x).right = 1 := by
     rw [hθ', hΨ', ← hθ]
     simp only [SemidirectProduct.mul_right, SemidirectProduct.inv_right,
-      SemidirectProduct.right_inl, hXR, one_mul, mul_one, inv_one]
+      SemidirectProduct.right_inl, hXR, mul_one, inv_one]
   have hXo' : orderOf (θ' x) = 2 ^ (r - 1) := by rw [orderOf_injective θ' hθ'inj x]; exact hxo
   have hX'Z : (θ' x) ^ 2 ^ (r - 2) = tor (-1) := by rw [← map_pow, hz, hZ']
   have hX'comm : θ' x * tor (-1) = tor (-1) * θ' x := by

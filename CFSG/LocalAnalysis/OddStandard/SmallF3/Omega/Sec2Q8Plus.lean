@@ -156,9 +156,9 @@ theorem isI4PlusIn_top_of_quaternion_omegaProj (hQ : Q.Nondegenerate)
 theorem asc82Omega8PlusPocket_holds : Asc82Omega8PlusPocket := by
   intro X _ hX f hf
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, -, ⟨e⟩⟩ := isOmegaStar_of_lieModel_plus hX
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hf' : Function.Injective (e.toMonoidHom.comp f) := e.injective.comp hf
   have h := isI4PlusIn_top_of_quaternion_omegaProj hQ hdim hf'
   have h2 := isI4PlusIn_top_map_mulEquiv e.symm h

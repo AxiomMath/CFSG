@@ -53,7 +53,7 @@ theorem sylow_long_prime_card_eq_prime
     Nat.card S = p := by
   classical
   rcases hpCases with rfl | rfl
-  · letI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  · let : Fact (Nat.Prime 17) := ⟨by norm_num⟩
     have hnot : ¬17 ∣ h := by
       intro hdvd
       have : 17 ∣ 186624000 := hdvd.trans hdiv
@@ -79,7 +79,7 @@ theorem sylow_long_prime_card_eq_prime
     rw [S.card_eq_multiplicity, hPcard,
       hfactorization]
     norm_num
-  · letI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  · let : Fact (Nat.Prime 19) := ⟨by norm_num⟩
     have hnot : ¬19 ∣ h := by
       intro hdvd
       have : 19 ∣ 186624000 := hdvd.trans hdiv

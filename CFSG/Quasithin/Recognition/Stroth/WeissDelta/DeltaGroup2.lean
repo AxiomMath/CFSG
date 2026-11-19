@@ -296,7 +296,7 @@ instance faithfulSMul_deltaGroup (hn : 3 ≤ n)
     ↥(edgeBall (n - 1) c) :=
   ⟨c.lv, Or.inr (by simp)⟩
 
-theorem delta_adj_deltaXv_deltaLv (hn : 3 ≤ n) :
+theorem delta_adj_deltaXv_deltaLv (_hn : 3 ≤ n) :
     (delta c Good n).Adj (deltaXv c n) (deltaLv c n) := by
   have hne : (deltaXv c n : ↥(edgeBall (n - 1) c)) ≠ deltaLv c n := by
     intro h

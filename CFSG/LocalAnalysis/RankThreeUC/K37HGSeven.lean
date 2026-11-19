@@ -14,7 +14,7 @@ theorem k37Rest₉_holds : K37Rest₉ := by
   intro X _ _ K E S hs hO
   exfalso
   obtain ⟨-, -, ⟨e⟩⟩ := hO
-  haveI : Group.IsPerfect ↥K := hs.quasi.1
+  have : Group.IsPerfect ↥K := hs.quasi.1
   obtain ⟨k, hk⟩ := (k37G_isPGroup_center hs).exists_card_eq
   have hodd : Odd (Nat.card (Subgroup.center ↥K)) := by
     rw [hk]

@@ -82,7 +82,7 @@ theorem z18_T_lemma {T : Type} [Group T] [Finite T] (hT : IsPGroup 2 T)
         · exact hab
         · exact hab.symm
         · exact absurd rfl hxy
-      haveI : IsMulCommutative A := by
+      have : IsMulCommutative A := by
         rw [hA]
         exact Subgroup.isMulCommutative_closure hcomm
       exact Subgroup.le_centralizer A
@@ -169,7 +169,7 @@ theorem z18_T_lemma {T : Type} [Group T] [Finite T] (hT : IsPGroup 2 T)
     exact (hg (by
       have h := congrArg e (hexp (e.symm g))
       simpa [map_pow, e.apply_symm_apply] using h)).elim
-  · haveI : NeZero (2 ^ m) := ⟨Nat.pos_iff_ne_zero.mp (by positivity)⟩
+  · have : NeZero (2 ^ m) := ⟨Nat.pos_iff_ne_zero.mp (by positivity)⟩
     have hqa : e a * e a = 1 := by rw [← map_mul, ha, map_one]
     have hqb : e b * e b = 1 := by rw [← map_mul, hb, map_one]
     have hqa1 : e a ≠ 1 := fun h => ha1 (e.injective (by rw [h, map_one]))

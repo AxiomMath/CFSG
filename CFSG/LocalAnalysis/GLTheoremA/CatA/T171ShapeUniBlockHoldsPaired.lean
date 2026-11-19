@@ -40,8 +40,8 @@ theorem innDiagOn_of_uniJPairedModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     InnDiagOn p (Subgroup.zpowers b) J := by
   classical
   obtain ⟨m, E, instE, finE, k, hk, B₁, e₀, hm2, hk2, he₀⟩ := hM
-  letI : Field E := instE
-  letI : Finite E := finE
+  let : Field E := instE
+  let : Finite E := finE
   have hIndPow : (MI.indAut p J b hbJ) ^ p = 1 := by
     have hbp' : (b⁻¹) ^ p = 1 := by rw [inv_pow, hbp, inv_one]
     exact chevAut_pow_eq_one p J (Subgroup.inv_mem _ hbJ) hbp'

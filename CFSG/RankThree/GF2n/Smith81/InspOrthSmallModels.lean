@@ -57,9 +57,9 @@ theorem omegaMinus_two_model_facts {B : Type} [Group B] {f : ℕ} (hf : 2 ≤ f)
     IsSimpleGroup B ∧ Nat.card B = ordTwistedD 2 (2 ^ f) ∧
       ordProj[2] (Nat.card (Outer B)) ≤ 4 * ordProj[2] f := by
   obtain ⟨K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := hB
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨F, _, _, hF, ⟨eF⟩⟩ := exists_statedOmega_quadMinus_two_mulEquiv (K := K) hirr
   have hSL : IsSLModel 2 (2 ^ (2 * f)) B :=
     ⟨F, inferInstance, inferInstance, by rw [hF, hK, ← pow_mul, mul_comm], ⟨e.trans eF⟩⟩
@@ -72,9 +72,9 @@ theorem omegaMinus_three_model_facts {B : Type} [Group B] {f : ℕ} (hf : 2 ≤ 
     IsSimpleGroup B ∧ Nat.card B = ordTwistedD 3 (2 ^ f) ∧
       ordProj[2] (Nat.card (Outer B)) ≤ 4 * ordProj[2] f := by
   obtain ⟨K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := hB
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
@@ -92,7 +92,7 @@ theorem omegaMinus_three_model_facts {B : Type} [Group B] {f : ℕ} (hf : 2 ≤ 
     ⟨⟨Nat.prime_two, by omega, by norm_num, by simp⟩, F, inferInstance, inferInstance, hF,
       ⟨(e.trans eF).trans eP.symm⟩⟩
   obtain ⟨hs, -, -⟩ := endg_omegaMinus_facts hK4 (by norm_num : 2 ≤ 3) hirr
-  haveI := hs
+  have := hs
   refine ⟨MulEquiv.isSimpleGroup e, ?_, ?_⟩
   · rw [Nat.card_congr e.toEquiv, card_statedOmega_minus_eq_ordTwistedD (by norm_num) hirr, hK]
   · have h2 := (LocalAnalysis.ComponentInitial.unitary_model_outer_two_part_bound B 4 2 f h).2.2.1

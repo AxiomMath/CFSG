@@ -76,7 +76,7 @@ theorem desc143_of_three_dvd {A : Subgroup G} (h143 : Ronan148Q.Item143Q A (lB A
 omit [Finite G] in
 private theorem relIndex_dvd_relIndex_of_le_normalizer {H S Y : Subgroup G} (hHS : H ≤ S)
     (hSY : S ≤ Subgroup.normalizer (Y : Set G)) : Y.relIndex H ∣ Y.relIndex S := by
-  haveI : (Y.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hSY
+  have : (Y.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hSY
   rw [← Subgroup.relIndex_subgroupOf hHS]
   exact Subgroup.relIndex_dvd_index_of_normal _ _
 
@@ -113,7 +113,7 @@ theorem le_normalizer_of_desc {A : Subgroup G} {e d : G} (heA : e ∈ A) {X H : 
 
 private theorem isSolvable_of_primes_two_five {K : Type*} [Group K] [Finite K]
     (h : ∀ p : ℕ, p.Prime → p ∣ Nat.card K → p = 2 ∨ p = 5) : Group.IsSolvable K := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hn0 : Nat.card K ≠ 0 := Nat.card_pos.ne'
   have hsupp : (Nat.card K).factorization.support ⊆ ({2, 5} : Finset ℕ) := by
     rw [Nat.support_factorization]
@@ -132,9 +132,9 @@ theorem img148_inf_eq {A M H Y : Subgroup G} [(ker148 A M).Normal] (hHM : H ≤ 
   have hNP : img148 A M (H ⊓ Y) ≤ img148 A M H := img148_mono inf_le_left
   have hHN : H ≤ Subgroup.normalizer ((H ⊓ Y : Subgroup G) : Set G) := fun h hh =>
     Subgroup.inf_normalizer_le_normalizer_inf ⟨Subgroup.le_normalizer hh, hHY hh⟩
-  haveI hnorm : ((img148 A M (H ⊓ Y)).subgroupOf (img148 A M H)).Normal :=
+  have hnorm : ((img148 A M (H ⊓ Y)).subgroupOf (img148 A M H)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (img148_le_normalizer hHN)
-  haveI := hperf
+  have := hperf
   set P := img148 A M H
   set N' := (img148 A M (H ⊓ Y)).subgroupOf P with hN'
   let f : ↥H →* ↥(M ⊔ A) ⧸ ker148 A M :=
@@ -177,7 +177,7 @@ theorem img148_inf_eq {A M H Y : Subgroup G} [(ker148 A M).Normal] (hHM : H ≤ 
     · exact Or.inr h
   have hsub : Subsingleton (↥P ⧸ N') := by
     by_contra hns
-    haveI : Nontrivial (↥P ⧸ N') := not_subsingleton_iff_nontrivial.mp hns
+    have : Nontrivial (↥P ⧸ N') := not_subsingleton_iff_nontrivial.mp hns
     exact Group.IsPerfect.not_isSolvable (↥P ⧸ N') hsolv
   have hidx : N'.index = 1 := Nat.card_of_subsingleton (1 : ↥P ⧸ N')
   exact le_antisymm hNP (Subgroup.subgroupOf_eq_top.mp (Subgroup.index_eq_one.mp hidx))

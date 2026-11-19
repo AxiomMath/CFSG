@@ -42,7 +42,7 @@ theorem sfm4_e9_of_commuting {K G : Type} [Field K] [Group G] [Finite G]
     (hc : ∀ A B : Matrix.SpecialLinearGroup (Fin 2) K, ι₁ A * ι₂ B = ι₂ B * ι₁ A)
     (H : Subgroup G) (hH₁ : ∀ A, ι₁ A ∈ H) (hH₂ : ∀ A, ι₂ A ∈ H) :
     ∃ P : Subgroup G, P ≤ H ∧ IsElemAbelian 3 P ∧ Nat.card P = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : ι₁ (sfm4M K) ^ 3 = 1 := by rw [← map_pow, sfm4M_pow_three, map_one]
   have hy3 : ι₂ (sfm4M K) ^ 3 = 1 := by rw [← map_pow, sfm4M_pow_three, map_one]
   have hx1 : ι₁ (sfm4M K) ≠ 1 := fun h => sfm4M_ne_one K (h₁ (by rw [h, map_one]))
@@ -117,7 +117,7 @@ theorem sfm4_e9_of_commuting {K G : Type} [Field K] [Group G] [Finite G]
     · exact hxy
     · exact hxy.symm
     · exact Commute.refl _
-  haveI : IsMulCommutative (Subgroup.closure ({ι₁ (sfm4M K), ι₂ (sfm4M K)} : Set G)) :=
+  have : IsMulCommutative (Subgroup.closure ({ι₁ (sfm4M K), ι₂ (sfm4M K)} : Set G)) :=
     Subgroup.isMulCommutative_closure hcomm
   have hexp : ∀ g ∈ Subgroup.closure ({ι₁ (sfm4M K), ι₂ (sfm4M K)} : Set G), g ^ 3 = 1 := by
     intro g hg
@@ -142,10 +142,10 @@ theorem sfm4_e9_of_commuting {K G : Type} [Field K] [Group G] [Finite G]
 
 private def sfm4α : Fin 2 → Fin CFSG.Blueprint.Chevalley.Tag.G2.rank → ℤ := ![![1, 0], ![1, 2]]
 
-theorem sfm4_two_eq_zero {F : Type} [Field F] [Finite F] {f : ℕ} (hf : 1 ≤ f)
+theorem sfm4_two_eq_zero {F : Type} [Field F] [Finite F] {f : ℕ} (_hf : 1 ≤ f)
     (hF : Nat.card F = 2 ^ f) : (2 : F) = 0 := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, hp, hn⟩ := FiniteField.card F (ringChar F)
   have hcard : Fintype.card F = 2 ^ f := by rw [← Nat.card_eq_fintype_card, hF]
   have hd : ringChar F ∣ 2 ^ f := by
@@ -165,7 +165,7 @@ theorem sfm4_commuting_fix {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Finite
       (∀ A B, ι₁ A * ι₂ B = ι₂ B * ι₁ A) ∧
       (∀ A, fieldActor (t := TwistTag.D4) σ σ (ι₁ A) = ι₁ A) ∧
       (∀ A, fieldActor (t := TwistTag.D4) σ σ (ι₂ A) = ι₂ A) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hσ3 : ∀ c, σ (σ (σ c)) = c := ringEquiv_cube_apply_eq hK hσ
   have hσ3' : σ ^ 3 = 1 := sfm4_cube_eq_one hK hσ
   have hσ1 : σ ≠ 1 := sfm4_frob_ne_one Nat.prime_two hf hK hσ

@@ -43,7 +43,7 @@ theorem normal_of_central {R : Type} [Group R] {Z : Subgroup R}
 theorem commutator_top_le_of_sup_central {R : Type} [Group R] {E Z : Subgroup R}
     (hZ : ∀ z ∈ Z, ∀ x : R, z * x = x * z) (hEZ : E ⊔ Z = ⊤) :
     ⁅(⊤ : Subgroup R), ⊤⁆ ≤ ⁅E, E⁆ := by
-  haveI : Z.Normal := normal_of_central hZ
+  have : Z.Normal := normal_of_central hZ
   rw [Subgroup.commutator_le]
   intro x _ y _
   have hx : x ∈ E ⊔ Z := by rw [hEZ]; exact Subgroup.mem_top x
@@ -236,10 +236,10 @@ theorem exists_hypPlane_omegaPlus (h34 : Stroth34Statement) (hRoot : Stroth310Ro
     (SpNat hc t ∨ OmegaNat hc t) ∧
       ∃ r ∈ Rt M (LB M Q B) t, HypPlane Q Z B (conjSubgroup r B) t := by
   obtain ⟨K, fK, finK, hK, hnat⟩ := h
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hnatSO : SpNat hc t ∨ OmegaNat hc t := Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm, hnat⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
@@ -256,10 +256,10 @@ theorem exists_hypPlane_omegaMinus (h34 : Stroth34Statement) (hRoot : Stroth310R
     (SpNat hc t ∨ OmegaNat hc t) ∧
       ∃ r ∈ Rt M (LB M Q B) t, HypPlane Q Z B (conjSubgroup r B) t := by
   obtain ⟨K, fK, finK, hK, b, c, hirr, hnat⟩ := h
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
@@ -273,6 +273,7 @@ theorem exists_hypPlane_omegaMinus (h34 : Stroth34Statement) (hRoot : Stroth310R
       (addCommutantScalar_statedOmegaMinus hm hirr)) hnat
   exact ⟨hnatSO, r, hr, hplane⟩
 
+omit [Finite G] in
 theorem exists_quotEquiv_of_split {H : Type} [Group H] {R Q N X : Subgroup G} (hXR : X ≤ R)
     (hQN : Q ≤ N) (φ : ↥R →* H) (hker : φ.ker = N.subgroupOf R) (hNX : N ⊓ X = Q)
     (hXφ : (X.subgroupOf R).map φ = φ.range) {S : Subgroup H} (hS : φ.range = S) :
@@ -296,7 +297,7 @@ theorem exists_quotEquiv_of_split {H : Type} [Group H] {R Q N X : Subgroup G} (h
       exact h2
   have hψrange : ψ.range = S := by
     rw [← hS, ← hXφ, MonoidHom.range_comp, Subgroup.inclusion_range]
-  haveI hn : (Q.subgroupOf X).Normal := by
+  have hn : (Q.subgroupOf X).Normal := by
     rw [← hψker]
     exact ψ.normal_ker
   exact ⟨hn, ⟨((QuotientGroup.quotientMulEquivOfEq hψker.symm).trans
@@ -321,7 +322,7 @@ theorem stroth65XSplit_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310Roo
   · obtain ⟨hnatSO, r, hr, hplane⟩ := exists_hypPlane_omegaPlus h34 hRoot hc s5 hm hP
     have hcen := central_of_hypPlane h51 hc hs hnatSO hr hplane
     obtain ⟨K, fK, finK, hK, φ, hφr, hφk, hsec⟩ := hP
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     have hK4 : 4 ≤ Nat.card K := hK ▸ hq4
@@ -337,7 +338,7 @@ theorem stroth65XSplit_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310Roo
             rw [Subgroup.mem_bot] at hx; rw [hx, one_pow]⟩ (fun e _ => by
               rw [Subgroup.normalizer_eq_top]; trivial)
           have h2 : ¬ (Nat.card K = 4 ∧ m = 2) := fun h' => by omega
-          rw [if_neg h2, Subgroup.card_bot] at h1
+          rw [ite_eq_right h2, Subgroup.card_bot] at h1
           omega)
     obtain ⟨hn', ⟨e⟩⟩ := exists_quotEquiv_of_split hXR hQN φ hφk hNXQ hXφ hφr
     exact ⟨X, hQX, hXR, hNX, hNXQ, hcom X hXR hcen, Or.inl ⟨⟨K, fK, finK, hK, φ, hφr, hφk, hsec⟩,
@@ -346,7 +347,7 @@ theorem stroth65XSplit_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310Roo
       exists_hypPlane_omegaMinus h34 hRoot hc s5 (m := m) (by omega) hM
     have hcen := central_of_hypPlane h51 hc hs hnatSO hr hplane
     obtain ⟨K, fK, finK, hK, b, c, hirr, φ, hφr, hφk, hsec⟩ := hM
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     have hK4 : 4 ≤ Nat.card K := hK ▸ hq4

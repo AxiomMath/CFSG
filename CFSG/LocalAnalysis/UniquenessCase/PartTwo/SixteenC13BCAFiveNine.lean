@@ -12,8 +12,8 @@ open CFSG.Open
 theorem s16c13bcA_orderOf_ne_nine_om {Y : Type} [Group Y] (hY : IsOmegaPlus Y 4 2) (y : Y) :
     orderOf y ≠ 9 := by
   obtain ⟨K, hKf, hKfin, -, hcard, ⟨e⟩⟩ := s16c13bcA_omegaPlus_equiv hY
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have h60 : Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = 60 := s16c13bcA_card_sl2_four hcard
   have hy60 : y ^ 60 = 1 := by
     apply e.injective

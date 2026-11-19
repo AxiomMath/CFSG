@@ -167,7 +167,7 @@ theorem exists_conj_mem_of_card_le {p : ℕ} [Fact p.Prime] {A R : Subgroup Y} (
     symm
     refine Subgroup.eq_of_le_of_card_ge hS ?_
     have h1 := hmax ((S : Subgroup A).map A.subtype) (Subgroup.map_subtype_le _)
-      (S.isPGroup'.map _)
+      (S.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective A.subtype_injective,
       ← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRA).toEquiv] at h1
   set y' : A := ⟨y, hyA⟩

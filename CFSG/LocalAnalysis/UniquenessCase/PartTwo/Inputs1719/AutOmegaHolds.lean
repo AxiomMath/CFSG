@@ -24,7 +24,7 @@ theorem commute_of_pow_three_aut_l2 {S : Type} [Group S] [Finite S] {n : ℕ}
     (hα : α ∈ R) (hβ : β ∈ R) (hα3 : α ^ 3 = 1) (hβ3 : β ^ 3 = 1) : α * β = β * α := by
   have hEv := (P22fin.isL2Ev_of_isL2 hS).1
   have hcyc : ∀ P : Sylow 3 S, IsCyclic (P : Subgroup S) := fun P =>
-    P22y.isCyclic_of_isPGroup_of_isL2Ev hEv Nat.prime_three (by norm_num) P P.isPGroup'
+    P22y.isCyclic_of_isPGroup_of_isL2Ev hEv Nat.prime_three (by norm_num) P P.isPGroup
   have := P22y.isCyclic_outer_of_isL2Ev hEv
   refine CFSG.RankThree.PartTwo.KFacts.commute_of_pow_three_eq_one_of_isPGroup hcyc hR ?_ hα hβ
     hα3 hβ3
@@ -62,8 +62,8 @@ theorem k_19_13_autOmega_holds : K_19_13_autOmega := by
   rcases hshape with hsq | ⟨hu3, hpow⟩
   ·
     obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := hsq
-    letI : Group A := gA
-    letI : Group B := gB
+    let : Group A := gA
+    let : Group B := gB
     have : Finite (A × B) := Finite.of_equiv X e.toEquiv
     have : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
       (fun _ _ h => by simpa using h)
@@ -182,8 +182,8 @@ theorem k_19_13_autOmega_holds : K_19_13_autOmega := by
     exact κ.injective hαβ
   ·
     obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := hu3
-    letI : Group A := gA
-    letI : Group B := gB
+    let : Group A := gA
+    let : Group B := gB
     have : Finite (A × B) := Finite.of_equiv X e.toEquiv
     have : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
       (fun _ _ h => by simpa using h)

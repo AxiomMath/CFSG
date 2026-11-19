@@ -31,8 +31,8 @@ theorem statedSU_exists_section_of_central_two
   have h2 : n % 2 = 0 := Nat.even_iff.1 he
   obtain ⟨r, rfl⟩ : ∃ r, n = 2 * r := ⟨n / 2, by omega⟩
   have hr : 4 ≤ r := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect (StatedSU (2 * r) (2 ^ 1) F) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect (StatedSU (2 * r) (2 ^ 1) F) :=
     SUClosed.isPerfect_statedSU hF (by omega)
   exact CoverAssembly.exists_section_of_cover_and_coprime (p := 2)
     (θ := QuotientGroup.mk'

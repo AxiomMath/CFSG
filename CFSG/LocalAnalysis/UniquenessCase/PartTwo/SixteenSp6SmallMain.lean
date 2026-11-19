@@ -49,8 +49,8 @@ private theorem s16sm_isSimpleRep_of_subrepresentation_top {S : Type} [AddCommGr
     [Module (ZMod 2) S] (ρ : Representation (ZMod 2) G6 S) (T : Submodule (ZMod 2) S)
     (hT : ∀ g, T ≤ T.comap (ρ g)) (hTtop : T = ⊤)
     (h : IsSimpleRep (ρ.subrepresentation T hT)) : IsSimpleRep ρ := by
-  haveI : Nontrivial T := h.1
-  haveI : Nontrivial S := by
+  have : Nontrivial T := h.1
+  have : Nontrivial S := by
     obtain ⟨a, b, hab⟩ := exists_pair_ne T
     exact ⟨T.subtype a, T.subtype b, fun h => hab (T.subtype_injective h)⟩
   refine ⟨inferInstance, fun W hW => ?_⟩
@@ -76,10 +76,10 @@ theorem s16sm_spin_case (hSpin : S16SmSpinH1) [Finite M] (ρ : Representation (Z
     (hS : IsSimpleRep (s16smQ ρ)) (h8 : Module.finrank (ZMod 2) (M ⧸ ρ.invariants) = 8) :
     Module.finrank (ZMod 2) M = 8 ∧ ρ.invariants = ⊥ ∧ IsSimpleRep ρ := by
   classical
-  haveI : Module.Finite (ZMod 2) M := Module.Finite.of_finite
-  haveI : Finite (M ⧸ ρ.invariants) :=
+  have : Module.Finite (ZMod 2) M := Module.Finite.of_finite
+  have : Finite (M ⧸ ρ.invariants) :=
     Finite.of_surjective (ρ.invariants).mkQ (Submodule.mkQ_surjective _)
-  haveI : Module.Finite (ZMod 2) (M ⧸ ρ.invariants) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (M ⧸ ρ.invariants) := Module.Finite.of_finite
   have hq : Function.Surjective (ρ.invariants).mkQ := Submodule.mkQ_surjective _
   have hqρ : ∀ g m, (ρ.invariants).mkQ (ρ g m) = s16smQ ρ g ((ρ.invariants).mkQ m) :=
     fun g m => (s16smQ_mk ρ g m).symm
@@ -88,7 +88,7 @@ theorem s16sm_spin_case (hSpin : S16SmSpinH1) [Finite M] (ρ : Representation (Z
     exact (Representation.mem_invariants ρ m).1
       ((Submodule.Quotient.mk_eq_zero (ρ.invariants)).mp hm) g
   have hD : IsSimpleRep (Representation.dual (s16smQ ρ)) := s16sm_dual_simple (s16smQ ρ) hS
-  haveI : Finite (Module.Dual (ZMod 2) (M ⧸ ρ.invariants)) :=
+  have : Finite (Module.Dual (ZMod 2) (M ⧸ ρ.invariants)) :=
     Module.finite_of_finite (ZMod 2)
   have hD8 : Module.finrank (ZMod 2) (Module.Dual (ZMod 2) (M ⧸ ρ.invariants)) = 8 := by
     rw [Subspace.dual_finrank_eq, h8]
@@ -104,7 +104,7 @@ theorem s16sm_spin_case (hSpin : S16SmSpinH1) [Finite M] (ρ : Representation (Z
   have hsum := Submodule.finrank_quotient_add_finrank (ρ.invariants)
   rw [h8, hC, finrank_bot] at hsum
   have hM8 : Module.finrank (ZMod 2) M = 8 := by omega
-  haveI : Nontrivial M := Module.nontrivial_of_finrank_pos (R := ZMod 2) (M := M) (by omega)
+  have : Nontrivial M := Module.nontrivial_of_finrank_pos (R := ZMod 2) (M := M) (by omega)
   exact ⟨hM8, hC, s16sm_isSimpleRep_of_invariants_eq_bot ρ hC hS⟩
 
 theorem s16sm_nat_case [Finite M] (ρ : Representation (ZMod 2) G6 M)
@@ -152,14 +152,14 @@ theorem s16sm_main (hSpin : S16SmSpinH1) [Finite M] [Nontrivial M]
       (Module.finrank (ZMod 2) (M ⧸ ρ.invariants) = 6 ∧
         Module.finrank (ZMod 2) ρ.invariants ≤ 1) := by
   classical
-  haveI : Finite (M ⧸ ρ.invariants) :=
+  have : Finite (M ⧸ ρ.invariants) :=
     Finite.of_surjective (ρ.invariants).mkQ (Submodule.mkQ_surjective _)
-  haveI : Module.Finite (ZMod 2) (M ⧸ ρ.invariants) := Module.Finite.of_finite
-  haveI : Nontrivial (M ⧸ ρ.invariants) := s16sm_quot_nontrivial ρ hperf
+  have : Module.Finite (ZMod 2) (M ⧸ ρ.invariants) := Module.Finite.of_finite
+  have : Nontrivial (M ⧸ ρ.invariants) := s16sm_quot_nontrivial ρ hperf
   obtain ⟨T, hT, hTne, hTs⟩ := s16sm_exists_simple_sub (s16smQ ρ)
-  haveI : Finite T :=
+  have : Finite T :=
     Finite.of_injective (Subtype.val : T → M ⧸ ρ.invariants) Subtype.val_injective
-  haveI : Module.Finite (ZMod 2) T := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) T := Module.Finite.of_finite
   have hTnt : ∃ g t, ((s16smQ ρ).subrepresentation T hT) g t ≠ t :=
     s16sm_sub_nontrivial_action ρ T hT hTne
   have hT8 : Module.finrank (ZMod 2) T ≤ 8 := (Submodule.finrank_le T).trans h8

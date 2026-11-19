@@ -44,8 +44,8 @@ private theorem exists_twoB_mem_center_sylow {G : Type*} [Group G] [Finite G] {z
     (hz₀ : GMSLeechCentralizer z₀) (P : Sylow 2 G) (hP : Nontrivial (P : Subgroup G)) :
     ∃ t : G, IsConj z₀ t ∧ orderOf t = 2 ∧ t ∈ (P : Subgroup G) ∧
       ∀ x ∈ (P : Subgroup G), x * t = t * x := by
-  have : Nontrivial (Subgroup.center (P : Subgroup G)) := P.isPGroup'.center_nontrivial
-  have hCp : IsPGroup 2 (Subgroup.center (P : Subgroup G)) := P.isPGroup'.to_subgroup _
+  have : Nontrivial (Subgroup.center (P : Subgroup G)) := P.isPGroup.center_nontrivial
+  have hCp : IsPGroup 2 (Subgroup.center (P : Subgroup G)) := P.isPGroup.to_subgroup _
   have h2 : 2 ∣ Nat.card (Subgroup.center (P : Subgroup G)) := by
     rcases hCp.card_eq_or_dvd with h | h
     · exact absurd (Nat.card_eq_one_iff_unique.mp h).1 (not_subsingleton _)
@@ -97,7 +97,7 @@ theorem exists_twoB_centralizing
     intro x hx y hy
     simp only [hs, Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
     rcases hx with h | h | h <;> rcases hy with h' | h' | h' <;> rw [h, h'] <;>
-      first | rfl | assumption | exact hgb.symm | exact hgw.symm | exact hbw.symm
+      first | assumption | exact hgb.symm | exact hgw.symm | exact hbw.symm
   have h4 : ∀ x ∈ s, x ^ 4 = 1 := by
     intro x hx
     simp only [hs, Set.mem_insert_iff, Set.mem_singleton_iff] at hx

@@ -85,7 +85,7 @@ theorem quasi_exists_noncomm {L : Subgroup G} (hL : CFSG.Open.IsQuasisimple ↥L
     intro b hb
     exact (h a ha b hb).symm
   have hbot : L = ⊥ := (quasi_commutator_eq hL).symm.trans hcomm
-  haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hL.2.toNontrivial
+  have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hL.2.toNontrivial
   have hsub : Subsingleton ↥L := hbot.symm ▸ (inferInstance : Subsingleton ↥(⊥ : Subgroup G))
   have hsubq : Subsingleton (↥L ⧸ Subgroup.center ↥L) :=
     (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).subsingleton
@@ -97,12 +97,12 @@ theorem quasi_normal_dichotomy {L K : Subgroup G} (hL : CFSG.Open.IsQuasisimple 
   let K' : Subgroup ↥L := K.subgroupOf L
   have hK'normal : K'.Normal :=
     (Subgroup.normal_subgroupOf_iff hKL).mpr fun h k hh hk => hKn k hk h hh
-  haveI : K'.Normal := hK'normal
+  have : K'.Normal := hK'normal
   let Z : Subgroup ↥L := Subgroup.center ↥L
   let π : ↥L →* (↥L ⧸ Z) := QuotientGroup.mk' Z
   have hSnormal : (K'.map π).Normal := hK'normal.map π (QuotientGroup.mk'_surjective Z)
-  haveI : (K'.map π).Normal := hSnormal
-  haveI : IsSimpleGroup (↥L ⧸ Z) := hL.2
+  have : (K'.map π).Normal := hSnormal
+  have : IsSimpleGroup (↥L ⧸ Z) := hL.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K'.map π) with hS | hS
   · left
     intro k hk
@@ -146,7 +146,7 @@ theorem quasi_normal_dichotomy {L K : Subgroup G} (hL : CFSG.Open.IsQuasisimple 
     exact Subgroup.mem_subgroupOf.mp hmem
 
 theorem quasi_comm_of_comm_mod_centre {L : Subgroup G} (hL : CFSG.Open.IsQuasisimple ↥L) {x : G}
-    (hx : ∀ l ∈ L, x * l * x⁻¹ ∈ L) (h : ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ quasiCentre L) :
+    (_hx : ∀ l ∈ L, x * l * x⁻¹ ∈ L) (h : ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ quasiCentre L) :
     ∀ l ∈ L, x * l = l * x := by
   let f : ↥L →* ↥(Subgroup.center ↥L) :=
     { toFun := fun l =>
@@ -265,7 +265,7 @@ theorem isQuasisimple_of_central_simple_quot {F Z : Subgroup G} [(Z.subgroupOf F
       rw [show commutator ↥F = ⁅(⊤ : Subgroup ↥F), ⊤⁆ from rfl,
         Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
     rw [hmap, hF, Subgroup.map_top, Subgroup.range_subtype]
-  haveI : IsSimpleGroup (↥F ⧸ N) := hs
+  have : IsSimpleGroup (↥F ⧸ N) := hs
   have hQperf : commutator (↥F ⧸ N) = ⊤ := by
     have h : Subgroup.map (QuotientGroup.mk' N) (commutator ↥F) = ⊤ := by
       rw [hperfF, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective N)]
@@ -277,7 +277,7 @@ theorem isQuasisimple_of_central_simple_quot {F Z : Subgroup G} [(Z.subgroupOf F
     rw [← h2]; exact h
   have hSnormal : ((Subgroup.center ↥F).map (QuotientGroup.mk' N)).Normal :=
     (inferInstance : (Subgroup.center ↥F).Normal).map _ (QuotientGroup.mk'_surjective N)
-  haveI : ((Subgroup.center ↥F).map (QuotientGroup.mk' N)).Normal := hSnormal
+  have : ((Subgroup.center ↥F).map (QuotientGroup.mk' N)).Normal := hSnormal
   have hcenter_le_N : Subgroup.center ↥F ≤ N := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((Subgroup.center ↥F).map (QuotientGroup.mk' N)) with hS | hS

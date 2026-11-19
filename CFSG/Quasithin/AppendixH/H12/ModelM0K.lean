@@ -46,7 +46,7 @@ theorem spanMask_Wb : spanMask Wb = WM := by decide +kernel
 
 theorem contains_spanN_Wb (x : ℕ) : (spanN Wb).contains x = WM.testBit x := by
   rw [← spanMask_Wb, spanMask, testBit_maskOf]
-  exact Bool.eq_iff_iff.2 (by simp [List.contains_iff_mem])
+  exact Bool.eq_iff_iff.2 (by simp)
 
 theorem testBit_raw (m y : ℕ) : m.testBit y = Nat.beq (Nat.land (Nat.shiftRight m y) 1) 1 := by
   have e : Nat.land (Nat.shiftRight m y) 1 = m / 2 ^ y % 2 := by
@@ -122,7 +122,7 @@ theorem mvN_zip (A C : List ℕ) (h : A.length = C.length) (v : ℕ) :
       simp only [List.zipWith_cons_cons, mvN]
       rw [ih C (by simpa using h)]
       split
-      · simp only [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+      · simp only [Nat.xor_assoc, Nat.xor_left_comm]
       · simp only [Nat.zero_xor]
 
 theorem mvN_one12 {c : ℕ} (hc : c < 4096) : mvN (oneN 12) c = c := by
@@ -158,7 +158,6 @@ theorem tW_length (w : List ℕ) : (tW w).length = 12 := by
 
 theorem sigOf_eq (Pg : ℕ → List ℕ) (n : ℕ) (w : List ℕ) : sigOf Pg n w = sigQ Pg n (evalQ w) := by
   rw [sigOf, sigQ]
-  change _ = (List.range n).map fun i => spanMask ((Pg i).map (mvN (unpackQ (evalQ w))))
   rw [← tW_eq]
 
 @[expose] def keyS (s : List ℕ) : ℕ :=

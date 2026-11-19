@@ -111,8 +111,8 @@ theorem thetaD_transvection (σ : L →+* L) (d : Fin 3 → Lˣ) {i j : Fin 3} (
       diagonal (fun k => (((d k)⁻¹ : Lˣ) : L)) = Matrix.transvection j i _
   ext k l
   fin_cases i <;> fin_cases j <;> (try exact absurd rfl hij) <;> fin_cases k <;> fin_cases l <;>
-    simp [Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply,
-      Matrix.one_apply, diagonal] <;> ring
+    simp [Matrix.transvection, Matrix.mul_apply, Matrix.single_apply,
+      Matrix.one_apply, diagonal]
 
 theorem thetaD_diagA (σ : L →+* L) (d : Fin 3 → Lˣ) (a : Lˣ) :
     thetaD σ d (diagA a) = diagA (Units.map σ.toMonoidHom a)⁻¹ := by
@@ -121,7 +121,7 @@ theorem thetaD_diagA (σ : L →+* L) (d : Fin 3 → Lˣ) (a : Lˣ) :
     coe_diagA_inv, coe_diagU, coe_diagU_inv, coe_diagA]
   ext k l
   fin_cases k <;> fin_cases l <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal, Units.val_inv_eq_inv_val] <;>
+    simp [Matrix.mul_apply, diagonal, Units.val_inv_eq_inv_val];
     rw [mul_right_comm, mul_inv_cancel₀ (Units.ne_zero _), one_mul]
 
 

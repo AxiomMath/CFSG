@@ -35,7 +35,7 @@ private theorem map_symm_conj (φ : MulAut GL32) (S : Subgroup GL32) :
 
 private theorem gl32_conj_of_card_eight (T : Subgroup GL32) (hT : Nat.card ↥T = 8) :
     ∃ c : GL32, U3.map (MulAut.conj c).toMonoidHom = T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 T := IsPGroup.of_card (n := 3) (by rw [hT]; norm_num)
   have hTidx : ¬ 2 ∣ T.index := by
     have h := T.card_mul_index
@@ -160,7 +160,7 @@ theorem s1611e3_l3_two_parabolics {L : Type} [Group L] [Finite L] (hL : IsL3 L 1
       rwa [map_equiv_symm_self e Q] at this
 
 theorem s1611e3_natural_stab {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
-    (hL : IsL3 ↥L 1) {I : Subgroup W} (hI : BinaryNaturalSL L I ⊥ 3 1)
+    (_hL : IsL3 ↥L 1) {I : Subgroup W} (hI : BinaryNaturalSL L I ⊥ 3 1)
     {T₁ : Subgroup (MulAut W)} (hT₁L : T₁ ≤ L) (hT₁ : IsSylowIn 2 T₁ L) :
     Nat.card ↥(I ⊓ fixV T₁) = 2 ∧
       ∀ w ∈ I, w ≠ 1 → Nat.card ↥(L ⊓ centSub (Subgroup.zpowers w)) = 24 := by

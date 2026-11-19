@@ -46,7 +46,7 @@ theorem exists_khat {G : Type} [Group G] {x : G} {A : Subgroup G}
       (↥K ⧸ center ↥K) := eQ.symm.trans eK
   have hOpen : CFSG.Open.IsQuasisimple ↥(KH.map H.subtype) := by
     refine ⟨Group.isPerfect_def.mp (Subgroup.isPerfect_iff.mpr hKhperf), ?_⟩
-    letI : IsSimpleGroup (↥K ⧸ center ↥K) := hKq.2.1
+    let : IsSimpleGroup (↥K ⧸ center ↥K) := hKq.2.1
     exact e.isSimpleGroup
   refine ⟨KH.map H.subtype, Subgroup.map_subtype_le KH, ?_, hKhperf, hOpen, ?_, ⟨e⟩⟩
   · show ((KH.map H.subtype).subgroupOf H).Normal

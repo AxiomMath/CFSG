@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X] {T L : Subgroup X}
 
+omit [Finite X] in
 theorem commutator_eq_self_of_isC2 (hL : IsC2 L) : ⁅L, L⁆ = L := by
   set N : Subgroup X := ⁅L, L⁆ with hN
   have hNL : N ≤ L := Subgroup.commutator_le_self L
@@ -44,7 +45,7 @@ theorem commutator_eq_self_of_isC2 (hL : IsC2 L) : ⁅L, L⁆ = L := by
       have hcl : c = n⁻¹ * x := by rw [← hxc]; group
       rw [hcl]
       exact L.mul_mem (L.inv_mem (hNL hn)) hxL
-    haveI : (N.subgroupOf L).Normal :=
+    have : (N.subgroupOf L).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hNL).2
         (Subgroup.normalizer_commutator_ge_left L L)
     let f : L →* L ⧸ (N.subgroupOf L) := QuotientGroup.mk' (N.subgroupOf L)

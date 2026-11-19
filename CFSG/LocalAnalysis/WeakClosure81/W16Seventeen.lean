@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_inf_centralizer_wc16 {A L : Subgroup G} {x : G}
     (hA : x ∈ normalizer (A : Set G)) (hL : x ∈ normalizer (L : Set G)) :
     x ∈ normalizer ((A ⊓ centralizer (L : Set G) : Subgroup G) : Set G) := by
@@ -23,11 +24,13 @@ namespace Cex16
 
 variable {M V₀ V U S : Subgroup G}
 
+omit [Finite G] in
 theorem V_le_centralizer (h : Cex16 M V₀ V U S) : V ≤ centralizer (U : Set G) := fun v hv => by
   rw [Subgroup.mem_centralizer_iff]
   intro u hu
   exact (B2F.isElemAbelian_comm h.hyp.h6.elemAbelian hv (h.le hu)).symm
 
+omit [Finite G] in
 theorem U_le_conj (h : Cex16 M V₀ V U S) {g : G} (hg : g ∈ centralizer (U : Set G)) :
     U ≤ conjSubgroup V g := fun u hu => by
   rw [mem_conjSubgroup_iff]
@@ -37,6 +40,7 @@ theorem U_le_conj (h : Cex16 M V₀ V U S) {g : G} (hg : g ∈ centralizer (U : 
   rw [hu']
   exact h.le hu
 
+omit [Finite G] in
 theorem conj_le_centralizer (h : Cex16 M V₀ V U S) {g : G} (hg : g ∈ centralizer (U : Set G)) :
     conjSubgroup V g ≤ centralizer (U : Set G) := fun x hx => by
   rw [Subgroup.mem_centralizer_iff]

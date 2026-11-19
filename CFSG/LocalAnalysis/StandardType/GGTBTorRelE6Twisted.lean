@@ -161,7 +161,7 @@ theorem ggTorusTorW_recipe_twE6_relative {K : Type} [Field K] [Finite K]
   intro L _ _ ψ A hA
   have hTB := hA
   obtain ⟨hψ, hker, hperf, -, -, -, -, -⟩ := hA
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨σ, hσ, hσσ, ζ0, hζ0p, hζ01, hζp, hζσ, ψ0, Λ0,
     hψ0, hk0, hΛ0, hΛψ0, hZ, hζo, hAout⟩ :=
     exists_aligned_splitFrame_twE6_relative hn hK hp hp5 hpn ψ A hTB
@@ -203,7 +203,7 @@ theorem ggTorusTorW_recipe_twE6_relative {K : Type} [Field K] [Finite K]
     (m := 2 ^ n - 1) CartanMatrix.F₄ (by
       have hdet : CartanMatrix.F₄.det = 1 := by decide +kernel
       rw [hdet]
-      simpa using (isUnit_one : IsUnit (1 : ZMod (2 ^ n - 1))))
+      simp)
   rw [← hAout]
   exact ggTorusTorData_of_centralLift_rootCoordinates ψ0 hψ0 (by rw [hk0]; exact hker)
     (by omega) (by rw [hk0]; exact coprime_card_ker_recipe_twE6_relative hn2 hK ψ hψ hker hperf)

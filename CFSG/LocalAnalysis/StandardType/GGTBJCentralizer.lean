@@ -85,21 +85,21 @@ private theorem ggTBJ_isSolvable_sup_quotient_aux {G : Type*} [Group G] {H N : S
     [(N.subgroupOf (H ⊔ N)).Normal] (hH : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x)
     (hLE : H ≤ Subgroup.normalizer (N : Set G)) :
     Group.IsSolvable (↥(H ⊔ N) ⧸ N.subgroupOf (H ⊔ N)) := by
-  haveI : (N.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLE
-  haveI : Group.IsSolvable ↥H := Group.isSolvable_of_comm fun x y => Subtype.ext (hH x x.2 y y.2)
+  have : (N.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLE
+  have : Group.IsSolvable ↥H := Group.isSolvable_of_comm fun x y => Subtype.ext (hH x x.2 y y.2)
   let e := QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hLE
   exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
 
 theorem ggTBJ_perfect_le_rootSpan
     (τ : Tag) {K : Type} [Field K] [Finite K]
-    (hK : 4 ≤ Nat.card K) {p : ℕ} (hp : p.Prime) (a : Fin τ.rank → Kˣ) (ha : ∀ i, a i ^ p = 1)
+    (_hK : 4 ≤ Nat.card K) {p : ℕ} (hp : p.Prime) (a : Fin τ.rank → Kˣ) (ha : ∀ i, a i ^ p = 1)
     (P : Subgroup (ModGL τ K)) (hP : P ≤ toralCentralizer τ K a) (hperf : ⁅P, P⁆ = P) :
     P ≤ rootSpan τ K (rootCharKernel a) := by
   obtain ⟨hMX, hMn, -, -, φ, hφ, -⟩ := Chevalley_toral_centralizer_root_generated_quotient τ K a
-  haveI : ((toralRootGroup τ K a).subgroupOf (toralCentralizer τ K a)).Normal := hMn
+  have : ((toralRootGroup τ K a).subgroupOf (toralCentralizer τ K a)).Normal := hMn
   have hCN : Group.IsSolvable (↥(toralCentralizer τ K a) ⧸
       (toralRootGroup τ K a).subgroupOf (toralCentralizer τ K a)) := by
-    haveI := isSolvable_quotient hp ha
+    have := isSolvable_quotient hp ha
     exact Group.isSolvable_of_surjective hφ
   have hPM : P ≤ toralRootGroup τ K a :=
     perfect_le_of_solvable_quotient hMX hCN hP hperf
@@ -107,11 +107,11 @@ theorem ggTBJ_perfect_le_rootSpan
       Subgroup.normalizer (rootSpan τ K (rootCharKernel a) : Set (ModGL τ K)) :=
     torusGroup_le_normalizer_rootSpan fun _ hα => hα.1
   have hUM : rootSpan τ K (rootCharKernel a) ≤ toralRootGroup τ K a := le_sup_right
-  haveI hUn : ((rootSpan τ K (rootCharKernel a)).subgroupOf (toralRootGroup τ K a)).Normal :=
+  have hUn : ((rootSpan τ K (rootCharKernel a)).subgroupOf (toralRootGroup τ K a)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hTU
   have hMU : Group.IsSolvable (↥(toralRootGroup τ K a) ⧸
       (rootSpan τ K (rootCharKernel a)).subgroupOf (toralRootGroup τ K a)) := by
-    haveI : ((rootSpan τ K (rootCharKernel a)).subgroupOf
+    have : ((rootSpan τ K (rootCharKernel a)).subgroupOf
         (torusGroup τ K ⊔ rootSpan τ K (rootCharKernel a))).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hTU
     exact ggTBJ_isSolvable_sup_quotient_aux

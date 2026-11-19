@@ -39,7 +39,7 @@ theorem fIndex_eq_of_bar2_mulEquiv {G G' : Type} [Group G] [Group G'] [Finite G]
       CFSG.LocalAnalysis.UniquenessCase.PartTwo.fIndex H := by
   have hset : {i : ℕ | InFSq i H'} = {i : ℕ | InFSq i H} := by
     ext i
-    simpa only [Set.mem_setOf_eq] using (inFSq_iff_bar2_inF_mulEquiv e i).symm
+    simpa only [Set.mem_ofPred_eq] using (inFSq_iff_bar2_inF_mulEquiv e i).symm
   unfold CFSG.LocalAnalysis.UniquenessCase.PartTwo.fIndex
   rw [hset]
 
@@ -63,11 +63,11 @@ theorem fIndexSum_image_le {G G' : Type} [Group G] [Group G'] [Finite G] [Finite
     if h : K ∈ hfin'.toFinset then Classical.choose (hex K h) else ⊥
   have hg_mem : ∀ K ∈ hfin'.toFinset, g K ∈ Δ := by
     intro K hK
-    simp only [g, dif_pos hK]
+    simp only [g, dite_eq_left hK]
     exact (Classical.choose_spec (hex K hK)).1
   have hg_eq : ∀ K ∈ hfin'.toFinset, f (g K) = K := by
     intro K hK
-    simp only [g, dif_pos hK]
+    simp only [g, dite_eq_left hK]
     exact (Classical.choose_spec (hex K hK)).2
   have hinj : Set.InjOn g ↑hfin'.toFinset := by
     intro K₁ hK₁ K₂ hK₂ hgg
@@ -264,7 +264,7 @@ theorem w4Lem4_16b_of_w4Lem4_16 (h : W4Lem4_16) : W4Lem4_16b := by
   have hne_top : fIndexSum Δb ≠ ⊤ :=
     ne_of_lt (lt_of_le_of_lt hsum_b (by simp))
   let k' : ℕ := (fIndexSum Δb).toNat
-  have hsumeq : fIndexSum Δb = (k' : ℕ∞) := (ENat.coe_toNat hne_top).symm
+  have hsumeq : fIndexSum Δb = (k' : ℕ∞) := (ENat.natCast_toNat hne_top).symm
   have hk'le : k' ≤ k := by
     have h' := hsum_b
     rw [hsumeq] at h'

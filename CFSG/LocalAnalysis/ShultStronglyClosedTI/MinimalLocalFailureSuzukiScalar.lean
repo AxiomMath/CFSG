@@ -186,7 +186,7 @@ theorem minimalLocalFailure_suzuki_scalar_preimage_of_conclusions
   refine ⟨hHB, hCBset, hCB, ⟨hnormal, hFA⟩, hCXset, hCXnormal, hFB, hJX, hXJ, ?_⟩
   intro r hr hrB R
   have : Fact r.Prime := ⟨hr⟩
-  have hR2 : IsPGroup r ((R : Subgroup H).map π) := R.isPGroup'.map π
+  have hR2 : IsPGroup r ((R : Subgroup H).map π) := R.isPGroup.map π
   have hRbot : (R : Subgroup H).map π = ⊥ := by
     rcases hR2.card_eq_or_dvd with h1 | h1
     · exact Subgroup.eq_bot_of_card_eq _ h1

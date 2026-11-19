@@ -311,10 +311,10 @@ theorem commute_of_normalizing_transvection {V : Type} [AddCommGroup V] [Module 
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V →ₗ[ZMod 2] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V →ₗ[ZMod 2] V) :=
     Finite.of_injective (fun f : V →ₗ[ZMod 2] V => (f : V → V)) DFunLike.coe_injective
-  haveI : Finite (LinearMap.GeneralLinearGroup (ZMod 2) V) :=
+  have : Finite (LinearMap.GeneralLinearGroup (ZMod 2) V) :=
     Finite.of_injective (fun g : LinearMap.GeneralLinearGroup (ZMod 2) V =>
       (g : V →ₗ[ZMod 2] V)) fun g h hgh => Units.ext hgh
   obtain ⟨φ, a, hφa, hφ, ha, rfl⟩ := (isF2Transvection_iff t).mp ht
@@ -402,7 +402,7 @@ theorem commute_of_normalizing_transvection {V : Type} [AddCommGroup V] [Module 
       intro u v
       apply Subtype.ext
       rcases h2 u.1 u.2 with hu | hu <;> rcases h2 v.1 v.2 with hv | hv <;> simp [hu, hv]
-    have hsolv : Group.IsSolvable ↥σ.range := isSolvable_of_comm hcommW
+    have hsolv : Group.IsSolvable ↥σ.range := _root_.Group.isSolvable_of_comm hcommW
     have hcard : Nat.card ↥σ.range ≤ 2 := by
       have hsurj : Function.Surjective (fun b : Bool =>
           (if b then (1 : ↥σ.range) else ⟨σ ⟨τ, hτX⟩, ⟨_, rfl⟩⟩)) := by

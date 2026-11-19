@@ -14,6 +14,7 @@ open CFSG.Open CFSG.AGLEmbedding Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barM_map_conj {X L : Subgroup G} (hLX : L ≤ X) {t : G} (htX : t ∈ X) :
     barM X (L.map (MulAut.conj t).toMonoidHom) =
       (barM X L).map (MulAut.conj (QuotientGroup.mk (⟨t, htX⟩ : ↥X) :
@@ -35,6 +36,7 @@ theorem barM_map_conj {X L : Subgroup G} (hLX : L ≤ X) {t : G} (htX : t ∈ X)
     · rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply]
       rfl
 
+omit [Finite G] in
 theorem isTwoPrimeComponent_map_conj {X L : Subgroup G} (hL : IsTwoPrimeComponent X L) {t : G}
     (htX : t ∈ X) : IsTwoPrimeComponent X (L.map (MulAut.conj t).toMonoidHom) := by
   have hX : X.map (MulAut.conj t).toMonoidHom = X := by
@@ -53,7 +55,7 @@ theorem isTwoPrimeComponent_map_conj {X L : Subgroup G} (hL : IsTwoPrimeComponen
 theorem eq_of_barM_eq {X L₁ L₂ : Subgroup G} (h₁ : IsSubnormal L₁ X) (h₂ : IsSubnormal L₂ X)
     (hp₁ : ⁅L₁, L₁⁆ = L₁) (hp₂ : ⁅L₂, L₂⁆ = L₂) (h₁X : L₁ ≤ X) (h₂X : L₂ ≤ X)
     (he : barM X L₁ = barM X L₂) : L₁ = L₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T := pCoreOf 2 X with hT
   have hT2 : IsPGroup 2 T := (CFSG.pCore_isPGroup (G := ↥X) (p := 2)).map X.subtype
   have hTX : T ≤ X := by
@@ -117,7 +119,7 @@ theorem four_le_pRank_of_two_blocks_of_inf {X L : Subgroup G} (hL : IsTwoPrimeCo
     {E : Subgroup (↥X ⧸ CFSG.pCore 2 ↥X)} (hEL : E ≤ barM X L) (hE : IsElemAbelian 3 E)
     (hE9 : Nat.card E = 3 ^ 2) (hEL' : E ⊓ barM X (L.map (MulAut.conj t).toMonoidHom) = ⊥) :
     4 ≤ Open.pRank 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set tb : ↥X ⧸ CFSG.pCore 2 ↥X := QuotientGroup.mk (⟨t, htX⟩ : ↥X) with htb
   set L' := L.map (MulAut.conj t).toMonoidHom with hL'
   have hL'c := isTwoPrimeComponent_map_conj hL htX
@@ -183,7 +185,7 @@ theorem four_le_pRank_of_two_blocks_of_inf {X L : Subgroup G} (hL : IsTwoPrimeCo
   have h4 : 4 ≤ Open.pRank 3 (⊤ : Subgroup (↥X ⧸ CFSG.pCore 2 ↥X)) :=
     CFSG.SectionRank.le_pRank_of_injective (by norm_num) hcomm' hpow hcard φ hφ le_top
   have hO : ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥X) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (G := ↥X) (p := 2)).exists_card_eq
     rw [hk]
     intro h
@@ -213,7 +215,7 @@ theorem four_le_pRank_of_two_blocks {X L : Subgroup G} (hL : IsTwoPrimeComponent
 theorem exists_elemAbelian_nine {Y : Type*} [Group Y] [Finite Y] {H : Subgroup Y}
     (h2 : 2 ≤ Open.pRank 3 H) :
     ∃ E : Subgroup Y, E ≤ H ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E', hE'H, hE', hcard⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) H
   obtain ⟨⟨hcomm⟩, hexp⟩ := hE'
   have hdvd : 3 ^ 2 ∣ Nat.card E' := by

@@ -97,7 +97,7 @@ theorem exists_conjSubgroup_ne_of_card_four {P : Subgroup (Equiv.Perm (Fin 5))}
   have hcard : Nat.card (P.subgroupOf (alternatingGroup (Fin 5))) = Nat.card P :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hP).toEquiv
   rcases @IsSimpleGroup.eq_bot_or_eq_top_of_normal (alternatingGroup (Fin 5)) _
-      alternatingGroup.isSimpleGroup_five (P.subgroupOf (alternatingGroup (Fin 5))) hPn with
+      (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge) (P.subgroupOf (alternatingGroup (Fin 5))) hPn with
     hb | ht
   · rw [hb, Subgroup.card_bot] at hcard
     omega

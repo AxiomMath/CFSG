@@ -24,6 +24,7 @@ private noncomputable def str83G4PairT {L1 L2 S : Subgroup G}
     Additive (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S)) :=
   Additive.ofMul (Ch3z.chiefIota hNL3 ⟨⁅(b : G), (c : G)⁆, hcomm b c⟩)
 
+omit [Finite G] in
 private theorem str83G4PairT_apply {L1 L2 S : Subgroup G}
     {hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G)}
     {hcomm : ∀ b c : ↥(Q1 L1 L2 S), ⁅(b : G), (c : G)⁆ ∈ str83X L1 L2 S}
@@ -32,6 +33,7 @@ private theorem str83G4PairT_apply {L1 L2 S : Subgroup G}
       Additive.ofMul (Ch3z.chiefIota hNL3 ⟨⁅(b : G), (c : G)⁆, hcomm b c⟩) := rfl
 
 
+omit [Finite G] in
 private theorem str83G4PairT_zero_left {L1 L2 S : Subgroup G}
     {hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G)}
     {hcomm : ∀ b c : ↥(Q1 L1 L2 S), ⁅(b : G), (c : G)⁆ ∈ str83X L1 L2 S}
@@ -47,6 +49,7 @@ private theorem str83G4PairT_zero_left {L1 L2 S : Subgroup G}
   rw [str83G4PairT_apply, hι]
   rfl
 
+omit [Finite G] in
 private theorem str83G4PairT_zero_right {L1 L2 S : Subgroup G}
     {hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G)}
     {hcomm : ∀ b c : ↥(Q1 L1 L2 S), ⁅(b : G), (c : G)⁆ ∈ str83X L1 L2 S}
@@ -63,6 +66,7 @@ private theorem str83G4PairT_zero_right {L1 L2 S : Subgroup G}
   rw [str83G4PairT_apply, hι]
   rfl
 
+omit [Finite G] in
 private theorem str83G4PairT_add_right (L1 L2 S : Subgroup G)
     (hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G))
     (hcomm : ∀ b c : ↥(Q1 L1 L2 S), ⁅(b : G), (c : G)⁆ ∈ str83X L1 L2 S)
@@ -101,6 +105,7 @@ private theorem str83G4PairT_add_right (L1 L2 S : Subgroup G)
     str83G4PairT_apply (hNL3 := hNL3) (hcomm := hcomm) a c, hι2]
   rfl
 
+omit [Finite G] in
 private theorem str83G4PairT_add_left (L1 L2 S : Subgroup G)
     (hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G))
     (hcomm : ∀ b c : ↥(Q1 L1 L2 S), ⁅(b : G), (c : G)⁆ ∈ str83X L1 L2 S)
@@ -145,6 +150,7 @@ private theorem str83G4PairT_add_left (L1 L2 S : Subgroup G)
     str83G4PairT_apply (hNL3 := hNL3) (hcomm := hcomm) b c, hι2]
   exact hcommAdd _ _
 
+omit [Finite G] in
 private theorem str83G4PairIota_surjective {L1 L2 S : Subgroup G}
     (hNL1 : Q1 L1 L2 S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G)) :
     Function.Surjective
@@ -163,6 +169,7 @@ private noncomputable def str83G4PairPre {L1 L2 S : Subgroup G}
     ↥(Q1 L1 L2 S) :=
   Function.surjInv (str83G4PairIota_surjective hNL1) v
 
+omit [Finite G] in
 private theorem str83G4PairPre_spec {L1 L2 S : Subgroup G}
     (hNL1 : Q1 L1 L2 S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G))
     (v : Additive (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S))) :
@@ -170,6 +177,7 @@ private theorem str83G4PairPre_spec {L1 L2 S : Subgroup G}
   Function.surjInv_eq (str83G4PairIota_surjective hNL1) v
 
 
+omit [Finite G] in
 private theorem str83G4PairPre_mul_mem {L1 L2 S : Subgroup G}
     (hNL1 : Q1 L1 L2 S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G))
     (v w : Additive (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S))) :
@@ -191,6 +199,7 @@ private theorem str83G4PairPre_mul_mem {L1 L2 S : Subgroup G}
     group
   exact (Ch3z.chiefIota_eq_one_iff hNL1 _).mp hzero
 
+omit [Finite G] in
 private theorem str83G4PairT_eq_of_left_mem_X {L1 L2 S : Subgroup G}
     {hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G)}
     {hcomm : ∀ b c : ↥(Q1 L1 L2 S), ⁅(b : G), (c : G)⁆ ∈ str83X L1 L2 S}
@@ -212,6 +221,7 @@ private theorem str83G4PairT_eq_of_left_mem_X {L1 L2 S : Subgroup G}
         rw [str83G4PairT_zero_left hQX (Subgroup.mem_subgroupOf.mpr h) b]
     _ = str83G4PairT hNL3 hcomm a b := add_zero _
 
+omit [Finite G] in
 private theorem str83G4PairT_eq_of_right_mem_X {L1 L2 S : Subgroup G}
     {hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G)}
     {hcomm : ∀ b c : ↥(Q1 L1 L2 S), ⁅(b : G), (c : G)⁆ ∈ str83X L1 L2 S}
@@ -240,6 +250,7 @@ private noncomputable def str83G4PairBarFun {L1 L2 S : Subgroup G}
     Additive (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S)) :=
   str83G4PairT hNL3 hcomm (str83G4PairPre hNL1 v) (str83G4PairPre hNL1 w)
 
+omit [Finite G] in
 private theorem str83G4PairBarFun_apply {L1 L2 S : Subgroup G}
     (hNL1 : Q1 L1 L2 S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G))
     (hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G))
@@ -249,6 +260,7 @@ private theorem str83G4PairBarFun_apply {L1 L2 S : Subgroup G}
       str83G4PairT hNL3 hcomm (str83G4PairPre hNL1 v) (str83G4PairPre hNL1 w) := rfl
 
 
+omit [Finite G] in
 private theorem str83G4PairBarFun_add_right {L1 L2 S : Subgroup G}
     (hNL1 : Q1 L1 L2 S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G))
     (hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G))
@@ -285,6 +297,7 @@ private theorem str83G4PairBarFun_add_right {L1 L2 S : Subgroup G}
           str83G4PairBarFun hNL1 hNL3 hcomm v w₂ := by
         rw [str83G4PairBarFun_apply, str83G4PairBarFun_apply]
 
+omit [Finite G] in
 private theorem str83G4PairBarFun_add_left {L1 L2 S : Subgroup G}
     (hNL1 : Q1 L1 L2 S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G))
     (hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G))
@@ -323,6 +336,7 @@ private theorem str83G4PairBarFun_add_left {L1 L2 S : Subgroup G}
           str83G4PairBarFun hNL1 hNL3 hcomm v₂ w := by
         rw [str83G4PairBarFun_apply, str83G4PairBarFun_apply]
 
+omit [Finite G] in
 private theorem str83G4PairBarFun_iota {L1 L2 S : Subgroup G}
     (hNL1 : Q1 L1 L2 S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G))
     (hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G))
@@ -370,6 +384,7 @@ private theorem str83G4PairBarFun_iota {L1 L2 S : Subgroup G}
     str83G4PairT_eq_of_left_mem_X (hNL3 := hNL3) (hcomm := hcomm) hQX hNL1 hE3 hx1,
     str83G4PairT_eq_of_right_mem_X (hNL3 := hNL3) (hcomm := hcomm) hQX hNL1 hx2]
 
+omit [Finite G] in
 private theorem str83G4PairT_conj {L1 L2 S : Subgroup G}
     {hNL3 : str83X L1 L2 S ≤ Subgroup.normalizer (Z1 L1 L2 S : Set G)}
     {hcomm : ∀ b c : ↥(Q1 L1 L2 S), ⁅(b : G), (c : G)⁆ ∈ str83X L1 L2 S}
@@ -400,6 +415,7 @@ private theorem str83G4PairT_conj {L1 L2 S : Subgroup G}
   group
 
 
+omit [Finite G] in
 private theorem str83G4PairBarFun_conj_iota {L1 L2 S : Subgroup G} {a : ℕ}
     {hHL1 : L1 ⊔ S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G)}
     {hHN1 : L1 ⊔ S ≤ Subgroup.normalizer (Q1 L1 L2 S : Set G)}
@@ -438,14 +454,14 @@ private theorem str83G4PairBarFun_conj_iota {L1 L2 S : Subgroup G} {a : ℕ}
         (str83G4PairBarFun hNL1 hNL3 hcomm
           (Additive.ofMul (Ch3z.chiefIota hNL1 u))
           (Additive.ofMul (Ch3z.chiefIota hNL1 v))) := by
-  letI : CommGroup (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S)) :=
+  let : CommGroup (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S)) :=
     l2ChiefSectionCommGroup hE1
-  letI : Module (ZMod 2)
+  let : Module (ZMod 2)
       (Additive (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S))) :=
     l2ChiefSectionModule hE1
-  letI : CommGroup (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S)) :=
+  let : CommGroup (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S)) :=
     l2ChiefSectionCommGroup hE3
-  letI : Module (ZMod 2)
+  let : Module (ZMod 2)
       (Additive (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S))) :=
     l2ChiefSectionModule hE3
   have huQ : (h : G) * (u : G) * (h : G)⁻¹ ∈ Q1 L1 L2 S :=
@@ -465,6 +481,7 @@ private theorem str83G4PairBarFun_conj_iota {L1 L2 S : Subgroup G} {a : ℕ}
   rw [sectionRep_chiefIota hHL3 hHN3 hNL3 hE3 hO3 e h ⟨⁅(u : G), (v : G)⁆, hcomm u v⟩ huvX]
 
 
+omit [Finite G] in
 private theorem str83G4PairBarFun_conj {L1 L2 S : Subgroup G} {a : ℕ}
     {hHL1 : L1 ⊔ S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G)}
     {hHN1 : L1 ⊔ S ≤ Subgroup.normalizer (Q1 L1 L2 S : Set G)}
@@ -500,14 +517,14 @@ private theorem str83G4PairBarFun_conj {L1 L2 S : Subgroup G} {a : ℕ}
         (sectionRep hHL1 hHN1 hNL1 hE1 hO1 e (e (QuotientGroup.mk h)) w) =
       sectionRep hHL3 hHN3 hNL3 hE3 hO3 e (e (QuotientGroup.mk h))
         (str83G4PairBarFun hNL1 hNL3 hcomm v w) := by
-  letI : CommGroup (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S)) :=
+  let : CommGroup (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S)) :=
     l2ChiefSectionCommGroup hE1
-  letI : Module (ZMod 2)
+  let : Module (ZMod 2)
       (Additive (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S))) :=
     l2ChiefSectionModule hE1
-  letI : CommGroup (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S)) :=
+  let : CommGroup (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S)) :=
     l2ChiefSectionCommGroup hE3
-  letI : Module (ZMod 2)
+  let : Module (ZMod 2)
       (Additive (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S))) :=
     l2ChiefSectionModule hE3
   obtain ⟨u, rfl⟩ := str83G4PairIota_surjective hNL1 v
@@ -551,12 +568,12 @@ theorem str83G4_commutator_q1_le_z1_of_y_eq_x
     str83G4_sectionFacts_of_le_q1 hfr (le_rfl : Q1 L1 L2 S ≤ Q1 L1 L2 S) hstep1
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have ha : 1 ≤ a := hfr.2.2.1
   obtain ⟨e, he⟩ := str83G4_exists_equiv_sylow hK hfr
-  letI : CommGroup (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S)) :=
+  let : CommGroup (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S)) :=
     l2ChiefSectionCommGroup hE1
-  letI : Module (ZMod 2)
+  let : Module (ZMod 2)
       (Additive (Ch3z.chiefMod (str83X L1 L2 S) (Q1 L1 L2 S))) :=
     l2ChiefSectionModule hE1
   have hnat1 : IsSzNatural
@@ -570,9 +587,9 @@ theorem str83G4_commutator_q1_le_z1_of_y_eq_x
     exact bot_le
   obtain ⟨hHL3, hHN3, hNL3, hE3, hO3⟩ :=
     str83G4_sectionFacts_of_le_q1 hfr hXQ1 hXstep
-  letI : CommGroup (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S)) :=
+  let : CommGroup (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S)) :=
     l2ChiefSectionCommGroup hE3
-  letI : Module (ZMod 2)
+  let : Module (ZMod 2)
       (Additive (Ch3z.chiefMod (Z1 L1 L2 S) (str83X L1 L2 S))) :=
     l2ChiefSectionModule hE3
   have hnat3 : IsSzNatural

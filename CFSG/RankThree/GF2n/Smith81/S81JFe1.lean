@@ -153,11 +153,11 @@ theorem smith24E3LUniform_of_inputs (h34 : Stroth34Statement) (hGen : StrothGenB
       rw [hn0, pow_zero] at hn
       omega
     exact charP_two_of_card_eq hn1 (hKcard.trans hn)
-  haveI := hcp
+  have := hcp
   obtain ⟨t, -, hQ21, -, hN, K', _, _, hK'card, ⟨θ⟩⟩ := id h3L
-  haveI := hN
-  haveI := Fintype.ofFinite K
-  haveI := Fintype.ofFinite K'
+  have := hN
+  have := Fintype.ofFinite K
+  have := Fintype.ofFinite K'
   have hKK' : Fintype.card K = Fintype.card K' := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKcard, hK'card]
   obtain ⟨Θ, hΘ, hk3, hkc⟩ := S81J.exists_Theta (FiniteField.ringEquivOfCardEq hKK') θ

@@ -17,7 +17,7 @@ theorem norm_decomposition {Γ M : Type*} [Group Γ] [Finite Γ] [CommGroup M]
     (hzH : ∀ x ∈ H, act x z = z) (N : Subgroup M) (hN : ∀ g : Γ, act g z * z⁻¹ ∈ N) :
     ∃ c u : M, z = c * u ∧ (∀ g, act g c = c) ∧ u ∈ N ∧ ∀ x ∈ H, act x u = u := by
   classical
-  haveI : Fintype (Γ ⧸ H) := Fintype.ofFinite _
+  have : Fintype (Γ ⧸ H) := Fintype.ofFinite _
   let f : Γ ⧸ H → M := fun q => act q.out z
   have hf : ∀ g : Γ, f (g : Γ ⧸ H) = act g z := by
     intro g
@@ -80,6 +80,7 @@ variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
   map_one' := by ext; simp
   map_mul' := fun a b => by ext; simp [mul_assoc]
 
+omit [Finite A] in
 theorem trace_act_apply_coe (X E : Subgroup A) (hXE : ∀ x ∈ X, ∀ e ∈ E, x * e * x⁻¹ ∈ E)
     (x : ↥X) (e : ↥E) : ((trace_act X E hXE x e : ↥E) : A) = (x : A) * e * (x : A)⁻¹ := rfl
 
@@ -91,7 +92,7 @@ theorem trace_core {X H E N : Subgroup A} (hE : ∀ a ∈ E, ∀ b ∈ E, a * b 
     (hN : ∀ g ∈ X, g * z * g⁻¹ * z⁻¹ ∈ N) :
     ∃ c u : A, c ∈ E ∧ u ∈ E ∧ z = c * u ∧ (∀ x ∈ X, x * c * x⁻¹ = c) ∧ u ∈ N ∧
       ∀ x ∈ H, x ∈ X → x * u * x⁻¹ = u := by
-  haveI : IsMulCommutative ↥E := ⟨⟨fun a b => Subtype.ext (hE a a.2 b b.2)⟩⟩
+  have : IsMulCommutative ↥E := ⟨⟨fun a b => Subtype.ext (hE a a.2 b b.2)⟩⟩
   obtain ⟨c, u, hzcu, hc, hu, hH⟩ := norm_decomposition (trace_act X E hXE) (H.subgroupOf X) hodd
     (z := (⟨z, hzE⟩ : ↥E)) (Subtype.ext (by simpa using hz2))
     (fun x hx => Subtype.ext (hzH x (mem_subgroupOf.1 hx))) (N.subgroupOf E)
@@ -100,6 +101,7 @@ theorem trace_core {X H E N : Subgroup A} (hE : ∀ a ∈ E, ∀ b ∈ E, a * b 
     fun x hx => congrArg Subtype.val (hc ⟨x, hx⟩), mem_subgroupOf.1 hu,
     fun x hxH hxX => congrArg Subtype.val (hH ⟨x, hxX⟩ (mem_subgroupOf.2 hxH))⟩
 
+omit [Finite A] in
 theorem trace_conj_mem (x : A) (hx : x ∈ normalizer (pCoreOf 2 X : Set A)) {e : A}
     (he : e ∈ pCoreOf 2 X ⊓ centralizer (pCoreOf 2 X : Set A)) :
     x * e * x⁻¹ ∈ pCoreOf 2 X ⊓ centralizer (pCoreOf 2 X : Set A) := by
@@ -149,12 +151,14 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem sylowImage_relIndex_sup_right {R K : Subgroup A} (hR : R ≤ normalizer (K : Set A)) :
     K.relIndex (R ⊔ K) = K.relIndex R := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hR
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hR
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hR
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hR
   exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient R K hR).toEquiv.symm
 
+omit [Finite A] in
 theorem sylowImage_sup_eq (h : CampbellHyp X K R P) : R ⊔ K = X := by
   refine le_antisymm (sup_le h.R_le h.K_le) ?_
   calc X = K ⊔ pCoreOf 2 X := h.X_eq
@@ -217,6 +221,7 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem stabIndex_ker_eq (h : CampbellHyp X K R P) {ψ : ↥X →* GL32}
     (hψker : ψ.ker = (pCoreOf 2 X).subgroupOf X) {a : ↥K →* GL32}
     (hker : a.ker = CFSG.pCore 2 ↥K) :
@@ -226,6 +231,7 @@ theorem stabIndex_ker_eq (h : CampbellHyp X K R P) {ψ : ↥X →* GL32}
   rw [MonoidHom.mem_ker, MonoidHom.comp_apply, ← MonoidHom.mem_ker, hψker]
   exact Iff.rfl
 
+omit [Finite A] in
 theorem stabIndex_surj (h : CampbellHyp X K R P) {ψ : ↥X →* GL32}
     (hψs : Function.Surjective ψ) (hψker : ψ.ker = (pCoreOf 2 X).subgroupOf X) :
     Function.Surjective (ψ.comp (Subgroup.inclusion h.K_le)) := by
@@ -242,6 +248,7 @@ theorem stabIndex_surj (h : CampbellHyp X K R P) {ψ : ↥X →* GL32}
   conv_rhs => rw [hxo]
   rw [map_mul, MonoidHom.mem_ker.1 ho', mul_one]
 
+omit [Finite A] in
 theorem stabIndex_map_eq (h : CampbellHyp X K R P) {ψ : ↥X →* GL32}
     (hψker : ψ.ker = (pCoreOf 2 X).subgroupOf X) (a : ↥K →* GL32) (e : Fin 3 → ZMod 2) :
     ((stabSub K a e (pCoreOf 2 X)).subgroupOf X).map ψ =
@@ -269,6 +276,7 @@ theorem stabIndex_map_eq (h : CampbellHyp X K R P) {ψ : ↥X →* GL32}
     refine ⟨Subgroup.inclusion h.K_le k, ?_, rfl⟩
     exact Subgroup.mem_sup_left ⟨k, hk, rfl⟩
 
+omit [Finite A] in
 theorem CampbellHyp.stabSub_index (h : CampbellHyp X K R P) (a : ↥K →* GL32)
     (ha : Function.Surjective a) (hker : a.ker = CFSG.pCore 2 ↥K) {e : Fin 3 → ZMod 2}
     (he : e ≠ 0) :
@@ -297,18 +305,22 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem stabCent_normalizes_Q (h : CampbellHyp X K R P) :
     X ≤ normalizer ((CFSG.Quasithin.c134Q X K : Subgroup A) : Set A) :=
   normalizer_commutator_of_normalizes (normalizer_pCoreOf X) h.K_normal
 
+omit [Finite A] in
 theorem stabCent_conj_mem_Q (h : CampbellHyp X K R P) {x u : A} (hx : x ∈ X)
     (hu : u ∈ CFSG.Quasithin.c134Q X K) : x * u * x⁻¹ ∈ CFSG.Quasithin.c134Q X K :=
   (Subgroup.mem_normalizer_iff.1 (stabCent_normalizes_Q h hx) u).1 hu
 
+omit [Finite A] in
 theorem stabCent_comm_mul {x c u : A} (hc : x * c = c * x) (hu : x * u = u * x) :
     x * (c * u) = (c * u) * x := by
   rw [← mul_assoc, hc, mul_assoc, hu, mul_assoc]
 
+omit [Finite A] in
 theorem stabCent_conj_eq (h : CampbellHyp X K R P) (a : ↥K →* GL32)
     (b : ↥(CFSG.Quasithin.c134Q X K) →* Multiplicative (Fin 2 → Fin 3 → ZMod 2))
     (hinj : Function.Injective b)
@@ -388,6 +400,7 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem centEq_eq_of_relIndex_eq {X P₂ P : Subgroup A} (hP₂P : P₂ ≤ P) (hPX : P ≤ X)
     (h₂ : P₂.relIndex X = 7) (h₁ : P.relIndex X = 7) : P₂ = P := by
   have hmul := Subgroup.relIndex_mul_relIndex P₂ P X hP₂P hPX

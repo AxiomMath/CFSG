@@ -78,7 +78,7 @@ private lemma ggJSo1_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Fi
     (fun x y hx hy => ggJSo1_pair_comm S hS x hx y hy)
     (fun r₁ r₂ => by
       rw [Algebra.algebraMap_eq_smul_one]
-      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul, mul_comm])
+      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
     (fun r x hx => by
       rw [Algebra.algebraMap_eq_smul_one]
       simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
@@ -180,7 +180,7 @@ private lemma ggJSo1_blk_val {ι F : Type} [Fintype ι] [DecidableEq ι] [Field 
     (ggJSo1_blk x e : Matrix ι ι F) = (x : Matrix ι ι F) * e + (1 - e) := by
   have h : ∃ u : GL ι F, (u : Matrix ι ι F) = (x : Matrix ι ι F) * e + (1 - e) :=
     ⟨ggJSo1_blkAux x e hid hcomm, rfl⟩
-  rw [ggJSo1_blk, dif_pos h]
+  rw [ggJSo1_blk, dite_eq_left h]
   exact Classical.choose_spec h
 
 private lemma ggJSo1_blk_mem_centralizer {U ι F : Type} [Group U] [Fintype ι] [DecidableEq ι]
@@ -217,7 +217,7 @@ private lemma ggJSo1_blk_mem_glFixing {ι F : Type} [Fintype ι] [DecidableEq ι
 
 private lemma ggJSo1_blk_mul_mat {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     (x y : GL ι F) (e : Matrix ι ι F) (hid : IsIdempotentElem e)
-    (hx : (x : Matrix ι ι F) * e = e * (x : Matrix ι ι F))
+    (_hx : (x : Matrix ι ι F) * e = e * (x : Matrix ι ι F))
     (hy : (y : Matrix ι ι F) * e = e * (y : Matrix ι ι F)) :
     (x * e + (1 - e)) * (y * e + (1 - e)) = (x * y) * e + (1 - e) := by
   have h1 : e * (1 - e) = 0 := by
@@ -446,7 +446,7 @@ private theorem ggJSo1_exists_ne_zero_ne_one_of_card_ne_two
     {K : Type} [Field K] [Fintype K] (hK : Nat.card K ≠ 2) :
     ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
   classical
-  haveI : Nontrivial K := ⟨0, 1, zero_ne_one⟩
+  have : Nontrivial K := ⟨0, 1, zero_ne_one⟩
   have h1 : 1 < Nat.card K := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -478,7 +478,7 @@ private theorem ggJSo1_omegaGroup_le_commutator
   refine (CFSG.RankThree.GF2n.Smith81.omegaGroup_le_elementaryGroup_of_four_le
     (V := ι → K) hΦ h4').trans ?_
   by_cases hK2 : Nat.card K = 2
-  · haveI : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  · have : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
       CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK2
     exact CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.elementaryGroup_le_commutator
       (V := ι → K) hΦ (Or.inl h5')
@@ -1152,7 +1152,7 @@ theorem centralizer_block_decomp_Omega {ι K : Type} [Fintype ι] [DecidableEq �
     exact key
   · show (⨆ ε ∈ P, GG ε) = C
     apply le_antisymm
-    · apply iSup_le; intro ε; apply iSup_le; intro hε; intro x hx
+    · apply iSup_le; intro ε; apply iSup_le; intro hε x hx
       exact Subgroup.mem_comap.mpr (Subgroup.mem_inf.mp (Subgroup.mem_comap.mp hx)).1
     · intro u hu
       obtain ⟨w, hw_mem, hw_prop⟩ :=
@@ -1482,11 +1482,11 @@ theorem omegaSemilinStatedOmegaMap_injective {ι K : Type} [Fintype ι] [Decidab
   MulEquiv.ofBijective (omegaSemilinStatedOmegaMap Φ S σ hS μ hSΦ)
     ⟨omegaSemilinStatedOmegaMap_injective Φ S σ hS μ hSΦ,
       by
-        haveI : Finite (Matrix ι ι K) := Finite.of_fintype _
-        haveI : Finite (GL ι K) :=
+        have : Finite (Matrix ι ι K) := Finite.of_fintype _
+        have : Finite (GL ι K) :=
           Finite.of_injective (fun g : GL ι K => (g : Matrix ι ι K))
             (fun g h hgh => Units.ext hgh)
-        haveI : Finite ↥(StatedOmega ⇑Φ) :=
+        have : Finite ↥(StatedOmega ⇑Φ) :=
           Finite.of_injective (fun x : StatedOmega ⇑Φ => (x : GL ι K))
             Subtype.coe_injective
         exact Finite.surjective_of_injective
@@ -1547,16 +1547,14 @@ theorem omegaSemilinStatedOmegaMap_injective {ι K : Type} [Fintype ι] [Decidab
       rw [Subgroup.mem_inf]
       constructor
       · rw [Subgroup.mem_centralizer_singleton_iff]
-        simp only [MonoidHom.comp_apply, Subgroup.coe_subtype,
-          omegaSemilinStatedOmegaMap_apply]
+        simp only [omegaSemilinStatedOmegaMap_apply]
         exact omegaSemilinConjGL_commute_of_commute S σ hS b
           (((x : omegaBlockSubgroup Φ b ε) : StatedOmega ⇑Φ) : GL ι K) hSb
           (Subgroup.mem_centralizer_singleton_iff.mp
             (Subgroup.mem_inf.mp (Subgroup.mem_comap.mp x.2)).1)
       · change ((((omegaSemilinStatedOmegaMap Φ S σ hS μ hSΦ x :
             StatedOmega ⇑Φ) : GL ι K) : Matrix ι ι K) * (1 - ε) = 1 - ε)
-        simp only [MonoidHom.comp_apply, Subgroup.coe_subtype,
-          omegaSemilinStatedOmegaMap_apply]
+        simp only [omegaSemilinStatedOmegaMap_apply]
         exact omegaSemilinConjGL_fixes_one_sub S σ hS ε hSε
           (Subgroup.mem_inf.mp (Subgroup.mem_comap.mp x.2)).2)
 

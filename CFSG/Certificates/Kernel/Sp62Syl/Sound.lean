@@ -78,7 +78,7 @@ theorem exists_T0_g1_W (hW : Nat.card (Hgen gensWD) = 51840) (hc : dcCosetsCheck
     rintro rfl
     refine hg ?_
     have : g⁻¹ ∈ Hgen gensWD := by
-      rw [hx, tE, if_pos rfl, mul_one]
+      rw [hx, tE, ite_eq_left rfl, mul_one]
       exact hw
     simpa using this
   simp only [qwK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range] at hq
@@ -243,14 +243,14 @@ theorem chunks_walk {WP TP : ℕ} {CH : List (List ℕ)} {KB : List ℕ}
     have hcn := hc n (by omega)
     unfold chunkK at hcn
     rw [List.getD_eq_getElem _ _ (by omega)] at hcn
-    rw [List.take_succ, List.getElem?_eq_getElem (by omega), Option.toList_some,
+    rw [List.take_add_one, List.getElem?_eq_getElem (by omega), Option.toList_some,
       List.flatten_append, List.flatten_singleton]
     exact recW_append hcn _ _ ih
 
 theorem mem_listing {TW : List (List ℕ)} {WP TP : ℕ} {RW : List (List ℕ × List ℕ × List (List ℕ))}
     {CH : List (List ℕ)} {KB : List ℕ} (hW : Nat.card (Hgen gensWD) = 51840)
     (ht : (TW.length == 81 && ttK (gensT.map numC) TP TW 0) = true)
-    (hr : RW.length = 640)
+    (_hr : RW.length = 640)
     (hwl : ∀ i < 640, ∃ w ∈ Hgen gensWD, RepN w (laneP WP i))
     (hlen : (CH.map List.length).sum = 51840)
     (hc : ∀ c < CH.length, chunkK WP TP CH KB c = true) (hK : lk 0 KB 0 = 0)

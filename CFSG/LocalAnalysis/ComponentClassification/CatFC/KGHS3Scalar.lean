@@ -50,7 +50,7 @@ open Matrix
 private lemma entry_single {K : Type*} [Field K] {m : ℕ} (h : Matrix (Fin m) (Fin m) K)
     (a b x y : Fin m) :
     (h * Matrix.single a b (1 : K) * hᵀ) x y = h x a * h y b := by
-  simp [Matrix.mul_apply, Matrix.single_apply, Matrix.transpose_apply, Finset.sum_mul, ite_and]
+  simp [Matrix.mul_apply, Matrix.single_apply, Matrix.transpose_apply, ite_and]
 
 private lemma entry_formula {K : Type*} [Field K] {m : ℕ} (h : Matrix (Fin m) (Fin m) K)
     (a b x y : Fin m) :
@@ -72,17 +72,17 @@ private lemma col_zero {K : Type*} [Field K] {m : ℕ} {Adj : Fin m → Fin m �
     have e := congrFun (congrFun (hfix a b hab) a) b
     rw [entry_formula h a b a b] at e
     refine e.trans ?_
-    simp [Matrix.single_apply, hne, hne.symm]
+    simp [hne, hne.symm]
   have hB : h r a * h a b - h r b * h a a = 0 := by
     have e := congrFun (congrFun (hfix a b hab) r) a
     rw [entry_formula h a b r a] at e
     refine e.trans ?_
-    simp [Matrix.single_apply, hra.symm, hrb.symm]
+    simp [hra.symm, hrb.symm]
   have hC : h r a * h b b - h r b * h b a = 0 := by
     have e := congrFun (congrFun (hfix a b hab) r) b
     rw [entry_formula h a b r b] at e
     refine e.trans ?_
-    simp [Matrix.single_apply, hra.symm, hne]
+    simp [hra.symm, hne]
   linear_combination (-(h r a)) * hA - (h b a) * hB + (h a a) * hC
 
 theorem scalar_of_fixes_edges {K : Type*} [Field K] {m : ℕ} (Adj : Fin m → Fin m → Prop)
@@ -110,7 +110,7 @@ theorem scalar_of_fixes_edges {K : Type*} [Field K] {m : ℕ} (Adj : Fin m → F
     rw [entry_formula h a b a b] at e
     have hM : (Matrix.single a b (1 : K) - Matrix.single b a (1 : K) :
         Matrix (Fin m) (Fin m) K) a b = 1 := by
-      simp [Matrix.single_apply, hne, hne.symm]
+      simp [hne, hne.symm]
     have e' := e.trans hM
     have h1 : h a b = 0 := hoff b a hne
     linear_combination e' + (h b a) * h1

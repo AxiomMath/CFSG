@@ -51,7 +51,7 @@ theorem le_normalizer_of_conj_mem {Y : Type*} [Group Y] {E T : Subgroup Y}
 
 theorem genCore_of_constrained (hL : LieQConstrained 2) : GenCore := by
   intro Y _ _ K E J hKq hK3 hKc hEN hEel hE9 hfaith hJle hJq h3 hJL hnorm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hChev : IsChevOfChar 2 (↥K ⧸ Subgroup.center ↥K) := isChevOfChar_two_of_isChevTwo hKc
   have hZ : Nat.Coprime (Nat.card (Subgroup.center ↥K)) 2 := coprime_card_center_two hK3
   have hJK : J ≤ K := fun x hx => (hJle hx).1
@@ -234,7 +234,7 @@ theorem genCore_of_constrained (hL : LieQConstrained 2) : GenCore := by
     hCJ j hj fun t ht => Subgroup.mem_centralizer_iff.1 (hTle ht) j hj
   have hcenter : ∀ j : ↥J, j ∈ Subgroup.center ↥J := fun j =>
     Subgroup.mem_center_iff.2 fun g => Subtype.ext (hall j j.2 g g.2)
-  haveI := hJq.2
+  have := hJq.2
   have hsub : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
     refine ⟨fun a b => ?_⟩
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a

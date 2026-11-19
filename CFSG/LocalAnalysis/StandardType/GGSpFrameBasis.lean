@@ -24,7 +24,7 @@ theorem exists_downward_family {m : ℕ} (T : Fin (m + 1) → Module.End k V) (b
     simp only [g]
   have hT' : ∀ (i : Fin (m + 1)), T' i.val = T i := by
     intro i
-    simp only [T', dif_pos i.isLt]
+    simp only [T', dite_eq_left i.isLt]
   refine ⟨fun i => g (m - i.val), ?_, ?_⟩
   · show g (m - (Fin.last m).val) = b
     rw [show (Fin.last m).val = m from rfl, Nat.sub_self]
@@ -61,7 +61,7 @@ theorem isRefl_of_sign_family {m : ℕ} (T ε : Fin (m + 1) → Module.End k V)
       have hi : j.val + 1 < m + 1 := by omega
       let j' : Fin (m + 1) := ⟨j.val + 1, hi⟩
       have hj't : m - j'.val = t := by
-        simp only [j', Fin.val_mk]
+        simp only [j']
         omega
       have hrefl' : IsRefl (ε j') := ih j' hj't
       have hconjj : T j * ε j' * T j = ε j := by

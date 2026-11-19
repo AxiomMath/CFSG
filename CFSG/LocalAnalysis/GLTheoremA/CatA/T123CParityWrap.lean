@@ -18,7 +18,7 @@ theorem exists_twoSubgroup_of_type167J (hcore : Aut167JCore) {p : ℕ} (hp : p.P
     (hp2 : p ≠ 2) {X K E : Subgroup G} (hK : GLAPComponent p X K) (hT : Type167J p K)
     (hE : IsElemAbelian p E) (hEX : E ≤ Subgroup.normalizer (X : Set G)) :
     ∃ T : Subgroup G, T ≤ X ∧ T ≠ ⊥ ∧ IsPGroup 2 T ∧ E ≤ Subgroup.normalizer (T : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set E₁ : Subgroup G := E ⊓ Subgroup.normalizer (K : Set G)
   have hE₁el : IsElemAbelian p E₁ := isElemAbelian_mono hE inf_le_left
   have hE₁K : E₁ ≤ Subgroup.normalizer (K : Set G) := inf_le_right
@@ -34,7 +34,7 @@ theorem exists_twoSubgroup_of_type167J (hcore : Aut167JCore) {p : ℕ} (hp : p.P
 
 theorem parityFact_of_core (hcore : Aut167JCore) : ParityFact := by
   intro p Ω _ _ S B K₁ x y hp hp2 hSn _ _ hK₁ hT hBel _ hxB _ _ _ _ _ hrank
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine (S9.isSC_of_isMaxRankIn hp hBel hxB fun E hE hEel => ?_).2
   have hEX : E ≤ Subgroup.normalizer
       ((S ⊓ Subgroup.centralizer ({x} : Set Ω) : Subgroup Ω) : Set Ω) := by

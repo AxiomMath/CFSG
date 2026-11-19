@@ -12,6 +12,7 @@ open Subgroup
 
 variable {K : Type*} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem not_mem_borel_of_sup_eq_top {q i e : ℕ} {P : Subgroup K} {t : K}
     (hc : BenderCore q i e P t) {g₀ : K}
     (hsup : rootCenter P ⊔ conjSubgroup (rootCenter P) g₀ = ⊤) : g₀ ∉ borel P := by
@@ -25,6 +26,7 @@ theorem not_mem_borel_of_sup_eq_top {q i e : ℕ} {P : Subgroup K} {t : K}
   have hPtop : P = ⊤ := eq_top_iff.mpr (htop ▸ rootCenter_le P)
   exact hc.not_mem (by rw [hPtop]; exact Subgroup.mem_set_normalizer_iff.mpr (fun n => by simp))
 
+omit [Finite K] in
 theorem card_cartan_eq_card_rootCenter_sub_one {q i : ℕ} {P : Subgroup K} {s : K}
     (hc : BenderCore q i 1 P s) : Nat.card (cartan P s) = Nat.card (rootCenter P) - 1 := by
   rw [hc.card_cartan, mul_one, hc.card_center]
@@ -65,7 +67,7 @@ theorem exists_eq_mul_of_mem_cartan {r i : ℕ}
     (h : BenderType K r i 1) {P : Sylow 2 K} {s : K}
     (hc : BenderCore (2 ^ r) i 1 (P : Subgroup K) s) {g₀ : K}
     (hg₀ : g₀ ∉ borel (P : Subgroup K))
-    (hPs : CFSG.conjugate (P : Subgroup K) s = CFSG.conjugate (P : Subgroup K) g₀) {d : K}
+    (_hPs : CFSG.conjugate (P : Subgroup K) s = CFSG.conjugate (P : Subgroup K) g₀) {d : K}
     (hd : d ∈ cartan (P : Subgroup K) s) (hd1 : d ≠ 1) :
     ∃ c : K, ∃ s₁ ∈ conjSubgroup (rootCenter (P : Subgroup K)) c,
       ∃ s₂ ∈ conjSubgroup (conjSubgroup (rootCenter (P : Subgroup K)) g₀) c,
@@ -93,7 +95,7 @@ theorem exists_eq_mul_of_mem_cartan {r i : ℕ}
       have hd_eq : d = (d * s) * s⁻¹ := by group
       rw [hd_eq]
       exact (S₁ : Subgroup K).mul_mem hu1S ((S₁ : Subgroup K).inv_mem hsS)
-    obtain ⟨k, hk⟩ := S₁.isPGroup' ⟨d, hdS₁⟩
+    obtain ⟨k, hk⟩ := S₁.isPGroup ⟨d, hdS₁⟩
     have hk' : d ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hdvd2 : orderOf d ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk'
     have hodd : Odd (orderOf d) :=

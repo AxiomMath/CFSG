@@ -32,7 +32,7 @@ theorem pow_two_mul_sub_one_eq (r f : ℕ) (hr : 0 < r) :
     omega
 
 private lemma exists_prime_ge_five_dvd_qPlusPi {f : ℕ} (hf : 2 ≤ f)
-    (hmod : 2 ^ f % 3 = 1 ∨ 2 ^ f % 3 = 2) :
+    (_hmod : 2 ^ f % 3 = 1 ∨ 2 ^ f % 3 = 2) :
     ∃ p : ℕ, p.Prime ∧ 5 ≤ p ∧ p ∣ qPlusPi 2 f := by
   have h4 : 4 ≤ 2 ^ f :=
     calc 4 = 2 ^ 2 := by norm_num
@@ -84,8 +84,8 @@ theorem pRank_centralizer_Abar_le_one (h : Case811Sylow c) {p : ℕ} (hp : p ∈
     (h76 : Conclusion76 D.M p) :
     CFSG.Open.pRank p (Subgroup.centralizer (h.Abar : Set c.Lbar)) ≤ 1 := by
   have hp_prime : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp2 : p ≠ 2 := by
     have := c.five_le_of_mem_sigma hp
     omega
@@ -109,9 +109,9 @@ theorem false_of_mechanismU (h : Case811Sylow c) {p : ℕ} (hp : p ∈ D.sig)
     (hdvdXbar : ∀ X : Subgroup c.Lbar, X ≤ h.Abar → Nat.card X = 3 →
       p ∣ Nat.card (Subgroup.centralizer (X : Set c.Lbar))) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp_prime : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hp2 : p ≠ 2 := by
     have := c.five_le_of_mem_sigma hp
     omega
@@ -135,7 +135,7 @@ theorem false_of_mechanismU (h : Case811Sylow c) {p : ℕ} (hp : p ∈ D.sig)
     have hmem : y ∈ c.L ⊓ Subgroup.centralizer (h.A : Set G) := ⟨hyL, hyA⟩
     have hpd : p ∣ Nat.card (c.L ⊓ Subgroup.centralizer (h.A : Set G) : Subgroup G) := by
       have hz : p ∣ Nat.card (Subgroup.zpowers y) := by
-        simpa [Nat.card_zpowers, hyp] using dvd_rfl
+        simp [Nat.card_zpowers, hyp]
       exact hz.trans (Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr hmem))
     exact hnotdvdA (hCA_dvd.mp hpd)
   refine h.false_of_pElement_not_mem_L hp h76 hyM hyA hyp hyL ?_
@@ -154,9 +154,9 @@ theorem false_of_pomega8m (h : Case811Sylow c) {p : ℕ} (hp : p ∈ D.sig)
         ∃ u ∈ Subgroup.centralizer (X : Set c.Lbar), orderOf u = p ∧ u * y = y * u ∧
           u ∉ Subgroup.zpowers y) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp_prime : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hp2 : p ≠ 2 := by
     have := c.five_le_of_mem_sigma hp
     omega
@@ -185,7 +185,7 @@ theorem false_of_pomega8m (h : Case811Sylow c) {p : ℕ} (hp : p ∈ D.sig)
   obtain ⟨y, hy, hyp, hu⟩ := hK
   have hpdAbar : p ∣ Nat.card (Subgroup.centralizer (h.Abar : Set c.Lbar)) := by
     have hz : p ∣ Nat.card (Subgroup.zpowers y) := by
-      simpa [Nat.card_zpowers, hyp] using dvd_rfl
+      simp [Nat.card_zpowers, hyp]
     exact hz.trans (Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr hy))
   have hpdL : p ∣ Nat.card (c.L ⊓ Subgroup.centralizer (h.A : Set G) : Subgroup G) :=
     hCA_dvd.mpr hpdAbar
@@ -256,9 +256,9 @@ theorem lie3Survivor_of_ne_char (h : Case811Sylow c) (hK7 : K7)
       g ∈ Subgroup.centralizer (h.A : Set G)) :
     h.Lie3Survivor fam f p := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp_prime : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hp5 : 5 ≤ p := c.five_le_of_mem_sigma hp
   have hp2 : p ≠ 2 := by omega
   have hM3 : CFSG.Open.pRank p D.M = 3 := c.pRank_eq_three_of_mem_sigma hp
@@ -278,7 +278,7 @@ theorem lie3Survivor_of_ne_char (h : Case811Sylow c) (hK7 : K7)
     ·
       exfalso
       obtain ⟨p', hp'prime, hp'5, hp'dvd⟩ := exists_prime_ge_five_dvd_qPlusPi hf2 hmod
-      haveI : Fact p'.Prime := ⟨hp'prime⟩
+      have : Fact p'.Prime := ⟨hp'prime⟩
       have hp'2 : p' ≠ 2 := by omega
       have h4 := hN2 c.Lbar fam f hl67 hlie p' hp'prime hp'5 hp'dvd
       simp only [CFSG.SectionRank.pRank_coe_eq_openPRank] at h4

@@ -44,7 +44,7 @@ open CFSG.ComponentClassification.GrSLit.L34Facts.Real CFSG.ComponentClassificat
   (κ, ρ, e.2.2, fixK κ 0 e.2.2, lCodes κ ρ)
 
 @[expose] def s3Of (c : Nat) : Array Nat :=
-  let (κ, ρ, i₀, F, _) := caseData c
+  let (κ, ρ, _i₀, F, _) := caseData c
   let _ := κ
   ((List.range 2304).filterMap fun n =>
     let r := rT (n % 64) (n / 64)

@@ -60,7 +60,7 @@ theorem qsBBig_holds : QSBBig := by
   intro Ω _ _ S B T x D K n h hn5 hn9 hcat hn h6
   have hc := h.cfg
   obtain ⟨-, -, hDcard, -⟩ := hc.std
-  haveI := isSimpleGroup_of_tyUnTwo hcat
+  have := isSimpleGroup_of_tyUnTwo hcat
   have hpK : 3 ∣ Nat.card K :=
     T123C.dvd_card_of_nontrivial_pSimple hc.prime (X := K) inferInstance
   exact (BBig.false_of_nlAct hn5 hn9 hc.elem (h.nlAct hpK) hcat hDcard hn h6).elim

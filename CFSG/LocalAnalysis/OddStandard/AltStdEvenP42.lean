@@ -88,12 +88,15 @@ theorem z_not_mem_L8 (θ : L ≃* alternatingGroup (Fin 8)) (hS : StandardSettin
 variable (θ z) in
 @[expose] def vElt8 (ω : Om) : G := bG8 θ ω.1 * cond ω.2 z 1
 
+omit [Finite G] in
 theorem vElt8_false (k : Fin 16) : vElt8 θ z (k, false) = bG8 θ k := by
   simp [vElt8]
 
+omit [Finite G] in
 theorem vElt8_true (k : Fin 16) : vElt8 θ z (k, true) = bG8 θ k * z := by
   simp [vElt8]
 
+omit [Finite G] in
 theorem vElt8_mem (ω : Om) : vElt8 θ z ω ∈ vSub8 θ z := by
   obtain ⟨k, b⟩ := ω
   have hb : bG8 θ k ∈ vSub8 θ z := mem_sup_left ((mem_bSub8_iff θ).2 ⟨k, rfl⟩)
@@ -103,6 +106,7 @@ theorem vElt8_mem (ω : Om) : vElt8 θ z ω ∈ vSub8 θ z := by
   · rw [vElt8_true]
     exact mul_mem hb (mem_sup_right (mem_zpowers z))
 
+omit [Finite G] in
 theorem conj_vElt8 {g : G} {k l : Fin 16} (hk : g * bG8 θ k * g⁻¹ = bG8 θ l)
     (hz : g * z * g⁻¹ = z) (b : Bool) : g * vElt8 θ z (k, b) * g⁻¹ = vElt8 θ z (l, b) := by
   cases b

@@ -89,7 +89,7 @@ theorem exists_ne_zero_one {K : Type*} [Field K] (hK : 2 < Nat.card K) :
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
   have hinj : Function.Injective (fun x : K => decide (x = 0)) := by
     intro x y hxy
     by_cases hx : x = 0 <;> by_cases hy : y = 0

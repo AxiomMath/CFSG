@@ -58,12 +58,12 @@ theorem coordData_psi_apply (S : A5.Setting G T L V) (hO : pCoreOf 2 (L ⊔ T) =
     (v : ↥(coordData S hO).V) :
     (coordData S hO).ψ v = S.frame.ψ
       ⟨((v : ↥(L ⊔ T)) : G), (mem_coordData_V S hO _).mp v.2⟩ := by
-  simp only [coordData, MulEquiv.trans_apply] <;> rfl
+  simp only [coordData]; rfl
 
 theorem coordData_rho_apply (S : A5.Setting G T L V) (hO : pCoreOf 2 (L ⊔ T) = V)
     (m : ↥(L ⊔ T)) :
     (coordData S hO).ρ m = S.frame.ρ ⟨(m : G), LT_le_normalizer S m.2⟩ := by
-  simp only [coordData, MonoidHom.comp_apply] <;> rfl
+  simp only [coordData, MonoidHom.comp_apply]; rfl
 
 def IsCoords (S : A5.Setting G T L V) {R : Subgroup (Equiv.Perm (Fin 5))}
     (e : ↥(L ⊔ T) ≃* Mof R) : Prop :=

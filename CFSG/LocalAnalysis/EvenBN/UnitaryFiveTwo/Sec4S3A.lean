@@ -87,7 +87,7 @@ theorem D₁_inf_D₂_le_D₃ (h : d.Hyp) : d.D₁ ⊓ d.D₂ ≤ d.D₃ := by
 theorem xi_ι_mul (h : d.Hyp) {α : SU52} (hα : α ∈ A₁sub) {w : G} (hw : w ∈ d.W) :
     d.xi (d.ι α * w) = mat α 1 0 := by
   have hex : ∃ β ∈ A₁sub, ∃ w' ∈ d.W, d.ι β * w' = d.ι α * w := ⟨α, hα, w, hw, rfl⟩
-  rw [Data.xi, dif_pos hex]
+  rw [Data.xi, dite_eq_left hex]
   obtain ⟨hβ, w', hw', hβw⟩ := Classical.choose_spec hex
   generalize Classical.choose hex = β at hβ hβw ⊢
   have hι : d.ι (α⁻¹ * β) = w * w'⁻¹ := by
@@ -264,7 +264,7 @@ theorem e₂_comm_D₃_mem_D₂ (h : d.Hyp) {u : G} (hu : u ∈ d.D₃) :
 theorem e₂_mem_cenMod_D₂_D₃ (h : d.Hyp) : d.e₂ ∈ cenMod d.D₂ d.D₃ :=
   ⟨h.XC₀_le_normalizer_D₂ h.e₂_mem_XC₀, fun _ hu => h.e₂_comm_D₃_mem_D₂ hu⟩
 
-theorem isPGroup_zpowers_e₂ (h : d.Hyp) : IsPGroup 3 (zpowers d.e₂) := by
+theorem isPGroup_zpowers_e₂ (_h : d.Hyp) : IsPGroup 3 (zpowers d.e₂) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ho : orderOf d.e₂ = 3 := by
     rw [Data.e₂, orderOf_injective d.ι d.ι_injective, orderOf_e₂SU]
@@ -286,7 +286,7 @@ theorem D₃e₂_le_D₃ (h : d.Hyp) : d.D₃e₂ ≤ d.D₃ :=
 
 theorem M_le_D₁ : d.M ≤ d.D₁ := inf_le_left
 
-theorem D₃_inf_centralizer_le_M (h : d.Hyp) :
+theorem D₃_inf_centralizer_le_M (_h : d.Hyp) :
     d.D₃ ⊓ centralizer ((zpowers d.e₂ : Subgroup G) : Set G) ≤ d.M :=
   inf_le_inf D₃_le_D₁' (centralizer_le (Set.singleton_subset_iff.2 (mem_zpowers _)))
 

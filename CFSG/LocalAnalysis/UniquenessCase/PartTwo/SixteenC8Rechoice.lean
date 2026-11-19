@@ -23,10 +23,10 @@ variable {G : Type} [Group G] [Finite G]
 theorem c8_isSimpleGroup_of_isSpn {X : Type} [Group X] (h : IsSpn X 6 1) :
     IsSimpleGroup X ∧ Group.IsPerfect X := by
   obtain ⟨-, K, instK, instFin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := instK
-  letI : Finite K := instFin
+  let : Field K := instK
+  let : Finite K := instFin
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : IsSimpleGroup (StatedProj (StatedSp (6 / 2) K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSp (6 / 2) K)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K (6 / 2) (by norm_num)
       (Or.inr (Or.inr ⟨hK2, by norm_num⟩))
   have hscal : (StatedScalars (Fin (6 / 2) ⊕ Fin (6 / 2)) K).subgroupOf
@@ -34,7 +34,7 @@ theorem c8_isSimpleGroup_of_isSpn {X : Type} [Group X] (h : IsSpn X 6 1) :
     rw [CFSG.Open.StatedAPI.statedScalars_eq_bot_of_card_two hK2, Subgroup.bot_subgroupOf]
   let eP : StatedProj (StatedSp (6 / 2) K) ≃* StatedSp (6 / 2) K :=
     (QuotientGroup.quotientMulEquivOfEq hscal).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (StatedSp (6 / 2) K) := eP.symm.isSimpleGroup
+  have : IsSimpleGroup (StatedSp (6 / 2) K) := eP.symm.isSimpleGroup
   have hP : Group.IsPerfect (StatedSp (6 / 2) K) :=
     CFSG.ClassicalGroups.Symplectic.isPerfect_statedSp (6 / 2) K
       (Or.inr (Or.inr ⟨hK2, by norm_num⟩))
@@ -44,12 +44,12 @@ theorem c8_isSimpleGroup_of_isSpn {X : Type} [Group X] (h : IsSpn X 6 1) :
 theorem c8_isQuasisimple_of_isSpn {X : Type} [Group X] (h : IsSpn X 6 1) :
     CFSG.Open.IsQuasisimple X := by
   obtain ⟨hs, hPX⟩ := c8_isSimpleGroup_of_isSpn h
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center X = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
     · exact h
     · exfalso
-      haveI := hPX
+      have := hPX
       exact Group.IsPerfect.not_isMulCommutative X
         (IsMulCommutative.of_comm fun x y => by
           have hy : y ∈ Subgroup.center X := by rw [h]; exact Subgroup.mem_top y
@@ -66,7 +66,7 @@ theorem c8_exists_Y (D : Data G) (h127 : R127 D) (h119 : F11.R119 D) (h1217 : R1
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
   have hM : Mbar D.M V₀ V hV = lBar V₀ V hV L := c8_mbar_eq_lbar D h1217 hSpA hSpC hS h8
   let inst₀ : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
-  haveI := inst₀
+  have := inst₀
   have hCX : F11.CTilde D.M V₀ V ≤ D.M := by
     rw [cTilde_eq_preBarSub_bot hV hP.le_normalizer]
     exact inf_le_left
@@ -123,11 +123,11 @@ theorem c8_exists_hom_barSub {D : Data G} {V₀ V : Subgroup G} {hV : IsElemAbel
 theorem c8_pCore_le_of_simple_quot {Q S : Type} [Group Q] [Finite Q] [Group S] [IsSimpleGroup S]
     (hS2 : ¬ IsPGroup 2 S) (N : Subgroup Q) [N.Normal] (e : Q ⧸ N ≃* S) :
     CFSG.pCore 2 Q ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (Q ⧸ N) := MulEquiv.isSimpleGroup e
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (Q ⧸ N) := MulEquiv.isSimpleGroup e
   let π : Q →* Q ⧸ N := QuotientGroup.mk' N
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
-  haveI hPn : ((CFSG.pCore 2 Q).map π).Normal :=
+  have hPn : ((CFSG.pCore 2 Q).map π).Normal :=
     Subgroup.Normal.map inferInstance π hπ
   have hP2 : IsPGroup 2 ↥((CFSG.pCore 2 Q).map π) :=
     (CFSG.pCore_isPGroup).map π
@@ -150,8 +150,8 @@ theorem c8_le_pCore_of_simple_quot {Q S : Type} [Group Q] [Finite Q] [Group S] [
     (hL : CFSG.Open.rankThreeLayer (⊤ : Subgroup (Q ⧸ CFSG.pCore 2 Q)) = ⊤)
     (N : Subgroup Q) [N.Normal] (hN : Group.IsSolvable ↥N)
     (e : Q ⧸ N ≃* S) : N ≤ CFSG.pCore 2 Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect Q := hQ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect Q := hQ
   set R := CFSG.pCore 2 Q with hR
   have hRN : R ≤ N := c8_pCore_le_of_simple_quot hS2 N e
   let π : Q →* Q ⧸ R := QuotientGroup.mk' R
@@ -190,7 +190,7 @@ theorem c8_le_pCore_of_simple_quot {Q S : Type} [Group Q] [Finite Q] [Group S] [
     rw [hkerS]
     exact Group.isSolvable_of_surjective (f := π.subgroupMap N)
       (MonoidHom.subgroupMap_surjective π N)
-  haveI : q.ker.Normal := MonoidHom.normal_ker q
+  have : q.ker.Normal := MonoidHom.normal_ker q
   have hSc : q.ker ≤ Subgroup.center (Q ⧸ R) := close16_le_center_of_isSolvable hL hSsolv
   have hQb : Group.IsPerfect (Q ⧸ R) := Group.IsPerfect.ofSurjective hπ
   have hdvd := hSchur (Q ⧸ R) hQb q hq hSc
@@ -204,6 +204,7 @@ theorem c8_le_pCore_of_simple_quot {Q S : Type} [Group Q] [Finite Q] [Group S] [
   have h1 : π x = 1 := by simpa using hSle hmem
   exact (QuotientGroup.eq_one_iff x).mp h1
 
+omit [Finite G] in
 theorem c8_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -224,10 +225,10 @@ theorem c8_cTilde_isPGroup (D : Data G) (hSchur : C8SchurSp6) {V₀ V Y : Subgro
     {hV : IsElemAbelian 2 V} (hMs : D.M ≤ stabTil V₀ V) (hYM : Y ≤ D.M) (hperf : ⁅Y, Y⁆ = Y)
     (hE : F11.O2E Y = Y) (hinf : Y ⊓ F11.CTilde D.M V₀ V ≤ OInf Y)
     (hsp : IsSpn ↥(barSub V₀ V hV Y) 6 1) : IsPGroup 2 ↥(Y ⊓ F11.CTilde D.M V₀ V) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨φ, hφ, hker⟩ := c8_exists_hom_barSub (hV := hV) hMs hYM
   obtain ⟨hsimp, -⟩ := c8_isSimpleGroup_of_isSpn hsp
-  haveI := hsimp
+  have := hsimp
   have hS2 : ¬ IsPGroup 2 ↥(barSub V₀ V hV Y) := by
     intro h2
     obtain ⟨n, hn⟩ := h2.exists_card_eq
@@ -236,7 +237,7 @@ theorem c8_cTilde_isPGroup (D : Data G) (hSchur : C8SchurSp6) {V₀ V Y : Subgro
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
     omega
   set N : Subgroup ↥Y := (Y ⊓ F11.CTilde D.M V₀ V).subgroupOf Y with hNdef
-  haveI : N.Normal := by rw [← hker]; exact MonoidHom.normal_ker φ
+  have : N.Normal := by rw [← hker]; exact MonoidHom.normal_ker φ
   have e : ↥Y ⧸ N ≃* ↥(barSub V₀ V hV Y) :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective φ hφ)
@@ -248,7 +249,7 @@ theorem c8_cTilde_isPGroup (D : Data G) (hSchur : C8SchurSp6) {V₀ V Y : Subgro
       obtain ⟨y, hy, hyx⟩ := hinf (Subgroup.mem_subgroupOf.mp hx)
       have hyx' : y = x := Subtype.ext hyx
       exact hyx' ▸ hy
-    haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
+    have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have h2 := c8_le_pCore_of_simple_quot hS2

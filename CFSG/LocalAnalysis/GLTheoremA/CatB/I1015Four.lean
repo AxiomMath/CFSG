@@ -95,8 +95,8 @@ theorem stated_sp8_of_catalog {S : Type} [Group S] (h : catalogIs S S9.isSp8two)
 theorem three_le_rank_sp8two {M : Type} [Group M] [Finite M] (h : catalogIs M S9.isSp8two) :
     3 ≤ CFSG.Open.twoLocalPrimeRank 3 M := by
   obtain ⟨K₀, _, _, hK, ⟨e⟩⟩ := stated_sp8_of_catalog h
-  haveI := charP_two_of_card_two hK
-  haveI : Finite (StatedProj (StatedSp 4 K₀)) := Finite.of_equiv M e.toEquiv
+  have := charP_two_of_card_two hK
+  have : Finite (StatedProj (StatedSp 4 K₀)) := Finite.of_equiv M e.toEquiv
   have hr := CFSG.RankThree.PartOne.KFU.le_localRank_three_statedSp_blocks (K := K₀) (m := 3)
     (by norm_num)
   have hloc := localRank_eq_of_mulEquiv e Nat.prime_three
@@ -112,13 +112,13 @@ theorem equiv_projSU_five {M : Type} [Group M] (h : catalogIs M S9.isU5two) :
   obtain ⟨p, f, hp', hf'⟩ := q
   obtain rfl : p = 2 := h1
   obtain rfl : f = 1 := h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨e.trans (CFSG.RankThree.PartTwo.Census.typeTwistedAGroupEquivProjSU 4 _ hv)⟩
 
 theorem three_le_rank_u5two {M : Type} [Group M] [Finite M] (h : catalogIs M S9.isU5two) :
     3 ≤ CFSG.Open.twoLocalPrimeRank 3 M := by
   obtain ⟨e⟩ := equiv_projSU_five h
-  haveI : Finite (CFSG.Assembly.RankThreeEven.projSU 5 2 1) := Finite.of_equiv M e.toEquiv
+  have : Finite (CFSG.Assembly.RankThreeEven.projSU 5 2 1) := Finite.of_equiv M e.toEquiv
   have hloc := localRank_eq_of_mulEquiv e Nat.prime_three
   change 3 ≤ CFSG.Assembly.RankThreeEven.localRank 3 M
   rw [hloc]

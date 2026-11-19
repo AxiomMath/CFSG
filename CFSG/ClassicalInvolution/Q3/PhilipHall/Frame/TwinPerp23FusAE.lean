@@ -190,7 +190,7 @@ theorem theta_perm (I : AEIdent P n) (ψ : MulAut ↥(pSpan P)) (θ : MulAut ↥
     rw [show ψ l = m from hlm, hmy]
 
 theorem theta_fix (I : AEIdent P n) (ψ : MulAut ↥(pSpan P)) (θ : MulAut ↥(TL4.aeModel n))
-    (hθ : ∀ y, θ (I.toModel y) = I.toModel (ψ y)) {L : Subgroup G} (hL : L ∈ P)
+    (hθ : ∀ y, θ (I.toModel y) = I.toModel (ψ y)) {L : Subgroup G} (_hL : L ∈ P)
     (hfix : ∀ y : ↥(pSpan P), (y : G) ∈ L → ψ y = y) {α : Finset (Fin n)} {h : α.card = 4}
     {c : Bool} (hlab : (L.subgroupOf (pSpan P)).map I.φ = memBar α h c) :
     ∀ y (hy : y ∈ memBar α h c), θ ⟨y, memBar_le_aeModel α h c hy⟩ =

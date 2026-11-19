@@ -60,7 +60,7 @@ theorem exists_dvd_or_prime_of_two_pow_sub_one {f : ℕ} (hf : Even f) (hf2 : 2 
     have hp11 : p < 11 := by
       by_contra h11
       exact hp p hpp (by omega) hpd
-    interval_cases p <;> first | omega | simp
+    interval_cases p <;> first | omega
   obtain ⟨M, hM⟩ : 3 ∣ N := by omega
   have h3M : ¬ 3 ∣ M := by omega
   by_cases h7 : 7 ∣ N

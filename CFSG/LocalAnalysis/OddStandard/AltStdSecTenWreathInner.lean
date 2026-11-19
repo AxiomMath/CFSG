@@ -10,10 +10,12 @@ open Subgroup
 
 variable {X : Type} [Group X] [Finite X] {t : X} {A K : Subgroup X}
 
+omit [Finite X] in
 private theorem conj_mul_conj_split (s a b : X) :
     s * (a * b) * s⁻¹ = (s * a * s⁻¹) * (s * b * s⁻¹) := by
   group
 
+omit [Finite X] in
 private theorem conj_conj_eq {s t k : X} (hst : s * t = t * s) :
     s * (t * k * t⁻¹) * s⁻¹ = t * (s * k * s⁻¹) * t⁻¹ := by
   have hsinv : t⁻¹ * s⁻¹ = s⁻¹ * t⁻¹ := by
@@ -24,6 +26,7 @@ private theorem conj_conj_eq {s t k : X} (hst : s * t = t * s) :
     _ = t * s * k * (s⁻¹ * t⁻¹) := by rw [hsinv]
     _ = t * (s * k * s⁻¹) * t⁻¹ := by simp only [mul_assoc]
 
+omit [Finite X] in
 private theorem conj_inv_conj_eq {s t k : X} (hst : s * t = t * s) :
     s * (t⁻¹ * k * t) * s⁻¹ = t⁻¹ * (s * k * s⁻¹) * t := by
   have hstinv : s * t⁻¹ = t⁻¹ * s := by
@@ -44,6 +47,7 @@ private theorem conj_inv_conj_eq {s t k : X} (hst : s * t = t * s) :
     _ = t⁻¹ * s * k * (s⁻¹ * t) := by rw [htsinv]
     _ = t⁻¹ * (s * k * s⁻¹) * t := by simp only [mul_assoc]
 
+omit [Finite X] in
 private theorem conj_diag_eq {s t k : X} (hst : s * t = t * s) :
     s * (k * (t * k * t⁻¹)) * s⁻¹ =
       (s * k * s⁻¹) * (t * (s * k * s⁻¹) * t⁻¹) := by
@@ -115,7 +119,8 @@ theorem WreathK.card_inf_centralizer_eq_diag (hK : WreathK t A K) {s : X}
     exact Subtype.ext hk_eq.symm
   exact Nat.card_eq_of_bijective f ⟨hinj, hsurj⟩
 
-theorem WreathK.card_conjSub_inf_centralizer (hK : WreathK t A K) {s : X} (hst : s * t = t * s) :
+omit [Finite X] in
+theorem WreathK.card_conjSub_inf_centralizer (_hK : WreathK t A K) {s : X} (hst : s * t = t * s) :
     Nat.card ↥(conjSub t K ⊓ centralizer ({s} : Set X)) =
       Nat.card ↥(K ⊓ centralizer ({s} : Set X)) := by
   refine Nat.card_congr

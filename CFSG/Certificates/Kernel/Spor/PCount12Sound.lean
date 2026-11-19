@@ -25,7 +25,7 @@ theorem orderOf_eq_twelve_iff' {G : Type*} [Group G] (g : G) :
     have hle := Nat.le_of_dvd (by norm_num) hd
     have h4' : ¬ orderOf g ∣ 4 := fun d => h4 (orderOf_dvd_iff_pow_eq_one.1 d)
     have h6' : ¬ orderOf g ∣ 6 := fun d => h6 (orderOf_dvd_iff_pow_eq_one.1 d)
-    interval_cases h : orderOf g <;> simp_all <;> omega
+    interval_cases h : orderOf g <;> simp_all
 
 variable {n : Nat}
 

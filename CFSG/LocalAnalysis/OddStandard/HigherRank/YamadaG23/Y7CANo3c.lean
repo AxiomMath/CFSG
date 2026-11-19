@@ -35,7 +35,7 @@ theorem y7c_conj_cases (c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComponent K)
     (hJK : J ≤ K ⊔ conjSub t K) {g₂ : Γ} (hne : conjSub g₂ K ≠ K) (g : Γ) :
     conjSub g K = K ∨ conjSub g K = conjSub g₂ K := by
   by_contra h
-  push_neg at h
+  push Not at h
   refine y7c_no_three c hK hJK (g₁ := 1) (g₂ := g₂) (g₃ := g) ?_ ?_ ?_
   · rw [y7c_conjSub_one]
     exact hne.symm

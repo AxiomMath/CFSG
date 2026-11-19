@@ -17,7 +17,7 @@ theorem three_not_dvd_ordSuzuki {f : ℕ} (hf : Odd f) : ¬ 3 ∣ ordSuzuki (2 ^
     rw [pow_succ, pow_mul, Nat.mul_mod, Nat.pow_mod]
     norm_num
   have hq2 : (2 ^ f) ^ 2 % 3 = 1 := by
-    rw [Nat.pow_mod, hq] <;> norm_num
+    rw [Nat.pow_mod, hq]
   have hpos : 0 < 2 ^ f := pow_pos (by norm_num) f
   unfold ordSuzuki
   intro h
@@ -33,7 +33,7 @@ theorem three_not_dvd_ordSuzuki {f : ℕ} (hf : Odd f) : ¬ 3 ∣ ordSuzuki (2 ^
 theorem no_hsType_chevalley_large {S : Type} [Group S] [Finite S] {t : StatedLieTag} {p f : ℕ}
     (ht : t = .F4 ∨ t = .E6 ∨ t = .twistedE6 ∨ t = .E7 ∨ t = .E8) (hp3 : p ≠ 3)
     (h3 : (Nat.card S).factorization 3 ≤ 4) (hM : ChevalleyExceptionalModel S t p f)
-    (K : Subgroup S) (hK : HSType ↥K) : False := by
+    (K : Subgroup S) (_hK : HSType ↥K) : False := by
   have hcard : Nat.card S = lieOrd t 0 (p ^ f) := card_eq_lieOrd_of_exceptional hM
   obtain ⟨⟨hpp, -, -⟩, -⟩ := hM
   have hq3 : ¬ 3 ∣ p ^ f := fun h =>

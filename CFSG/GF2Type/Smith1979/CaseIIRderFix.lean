@@ -23,7 +23,7 @@ theorem card_fixed_modEq [Finite α] (f : α → α) {p : ℕ} [hp : Fact p.Prim
 theorem unique_fixed_of_seven [Finite α] (hα : Nat.card α = 8) (f : α → α)
     (hf : f^[7] = id) {x₀ : α} (hx₀ : f x₀ = x₀) (hne : ∃ x, f x ≠ x) :
     ∀ x, f x = x → x = x₀ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   intro x hx
   by_contra hxx
   have hmod := card_fixed_modEq f hf
@@ -109,7 +109,7 @@ theorem orbit_of_seven [Finite α] (hα : Nat.card α = 8) (f : α → α)
 theorem exists_fixed_ne_of_three [Finite α] (hα : Nat.card α = 8) (f : α → α)
     (hf : f^[3] = id) {x₀ : α} (hx₀ : f x₀ = x₀) :
     ∃ x, f x = x ∧ x ≠ x₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra h
   push Not at h
   have hmod := card_fixed_modEq f hf

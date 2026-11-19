@@ -168,7 +168,7 @@ lemma sylow_inf_homocyclic (hshape : CFSG.RankThree.PartOne.K1214.SylowShape 5 2
     (S : Sylow 5 Y) : Nonempty (↥((S : Subgroup Y) ⊓ K) ≃* Hc) := by
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨Q, hQ⟩ := exists_sylow_eq_inf K S
-  obtain ⟨e⟩ := hshape (Q : Subgroup K) Q.isPGroup' Q.not_dvd_index
+  obtain ⟨e⟩ := hshape (Q : Subgroup K) Q.isPGroup Q.not_dvd_index
   exact ⟨((Subgroup.subgroupOfEquivOfLe (inf_le_right :
     (S : Subgroup Y) ⊓ K ≤ K)).symm.trans (MulEquiv.subgroupCongr hQ.symm)).trans e⟩
 

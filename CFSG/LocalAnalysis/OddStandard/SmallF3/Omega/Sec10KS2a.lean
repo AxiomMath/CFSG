@@ -40,7 +40,7 @@ theorem sl23Q8_le_pCore : sl23Q8 ≤ CFSG.pCore 2 SL23 :=
   le_sSup ⟨sl23Q8_normal, sl23Q8_isPGroup⟩
 
 theorem sl23_pCore_le_Q8 : CFSG.pCore 2 SL23 ≤ sl23Q8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card SL23 = 24 := by
     rw [Nat.card_eq_fintype_card]
     decide
@@ -75,9 +75,9 @@ theorem sl23_neg_one_mem_pCore : (-1 : SL23) ∈ CFSG.pCore 2 SL23 := by
 theorem mem_sl23Q8 (x : SL23) : x ∈ sl23Q8 ↔ x ^ 4 = 1 := Iff.rfl
 
 theorem sl23_card_pCore : Nat.card (CFSG.pCore 2 SL23) = 8 := by
-  letI : DecidablePred (· ∈ sl23Q8) := fun x =>
+  let : DecidablePred (· ∈ sl23Q8) := fun x =>
     decidable_of_decidable_of_iff (p := x ^ 4 = 1) (mem_sl23Q8 x).symm
-  letI : Fintype sl23Q8 := Subtype.fintype (fun x : SL23 => x ∈ sl23Q8)
+  let : Fintype sl23Q8 := Subtype.fintype (fun x : SL23 => x ∈ sl23Q8)
   rw [sl23_pCore_eq_Q8, Nat.card_eq_fintype_card]
   decide
 

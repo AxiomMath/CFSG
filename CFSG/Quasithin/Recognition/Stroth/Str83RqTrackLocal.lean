@@ -26,12 +26,14 @@ namespace Track
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
 include t in
+omit [Finite G] in
 private theorem P1_le_normalizer_sup {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     P1 L1 L2 S ≤ normalizer (((L1 ⊔ Q1 L1 L2 S) : Subgroup G) : Set G) := by
   have h := t.Gv_le_normalizer_Lv hfr 0
   rwa [t.Gv_zero, t.Lv_zero] at h
 
 include t in
+omit [Finite G] in
 private theorem P2_le_normalizer_sup {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     P2 L1 L2 S ≤ normalizer (((L2 ⊔ Q2 L1 L2 S) : Subgroup G) : Set G) := by
   have h := t.Gv_le_normalizer_Lv hfr 1
@@ -93,12 +95,12 @@ private theorem sq_mem_Qv_of_mem_pCoreOf_of_odd {a f : ℕ}
   have hQroot : t.Qv v ≤ t.rootOmega v := t.Qv_le_rootOmega hfr v
   have hrel : (t.Qv v).relIndex (t.rootOmega v) =
       (t.Qv v).relIndex (pCoreOf 2 (t.Gw v (v + 1))) := by
-    rw [t.relIndex_rootOmega hfr v, (t.relIndex_Qv_pCoreOf hfr v).2, if_neg hnot, if_neg hnot]
+    rw [t.relIndex_rootOmega hfr v, (t.relIndex_Qv_pCoreOf hfr v).2, ite_eq_right hnot, ite_eq_right hnot]
   have hmul := Subgroup.relIndex_mul_relIndex (t.Qv v) (t.rootOmega v)
     (pCoreOf 2 (t.Gw v (v + 1))) hQroot hroot
   rw [← hrel] at hmul
   have hne : (t.Qv v).relIndex (t.rootOmega v) ≠ 0 := by
-    rw [t.relIndex_rootOmega hfr v, if_neg hnot]
+    rw [t.relIndex_rootOmega hfr v, ite_eq_right hnot]
     exact pow_ne_zero _ (by norm_num)
   have hone : (t.rootOmega v).relIndex (pCoreOf 2 (t.Gw v (v + 1))) = 1 := by
     have h : (t.Qv v).relIndex (t.rootOmega v) *
@@ -140,6 +142,7 @@ private theorem sq_mem_Qv_of_mem_pCoreOf_left_of_odd {a f : ℕ}
     group
   rwa [hx2eq] at hsq'
 
+omit [Finite G] in
 private theorem inf_centralizer_le_of_map_conj {i v : ℤ} {g : G}
     (hGv : (t.Gv i).map (MulAut.conj g).toMonoidHom = t.Gv v)
     (hQv : (t.Qv i).map (MulAut.conj g).toMonoidHom = t.Qv v)
@@ -302,6 +305,7 @@ theorem Lv_le_centralizer_of_le_pCoreOf
   have h := t.Lv_le_sup hfr v (X := X ⊔ Y) h₁' h₂'
   exact h.trans (sup_le (sup_le hXZ hYZ) hQZ)
 
+omit [Finite G] in
 theorem Gv_inf_centralizer_le_Qv {a f : ℕ}
     (hfr : Frame L1 L2 S a f) (v : ℤ) : t.Gv v ⊓ centralizer (t.Qv v : Set G) ≤ t.Qv v := by
   have hchar1 : CharTwo (P1 L1 L2 S) := by
@@ -326,11 +330,11 @@ theorem Gv_inf_centralizer_le_Qv {a f : ℕ}
     exact inf_centralizer_le_of_map_conj t hGv hQv hbase0
   · have hGv : (t.Gv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Gv v := by
       have h := t.map_Gv_edgeElt v 1
-      rw [if_neg hv] at h
+      rw [ite_eq_right hv] at h
       rwa [show v + 1 - 1 = v by omega] at h
     have hQv : (t.Qv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Qv v := by
       have h := t.map_Qv_edgeElt v 1
-      rw [if_neg hv] at h
+      rw [ite_eq_right hv] at h
       rwa [show v + 1 - 1 = v by omega] at h
     exact inf_centralizer_le_of_map_conj t hGv hQv hbase1
 
@@ -355,12 +359,12 @@ theorem eq_bot_of_le_Gw {a f : ℕ} (hfr : Frame L1 L2 S a f)
     · have hLv0 : (t.Lv 0).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Lv v := by
         have h := t.map_qv_edgeElt (F₁ := L1 ⊔ Q1 L1 L2 S) (F₂ := L2 ⊔ Q2 L1 L2 S)
           (t.P1_le_normalizer_sup hfr) (t.P2_le_normalizer_sup hfr) v 0
-        rw [if_pos hv] at h
+        rw [ite_eq_left hv] at h
         rwa [show v + 0 = v by omega] at h
       have hLv1 : (t.Lv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Lv (v + 1) := by
         have h := t.map_qv_edgeElt (F₁ := L1 ⊔ Q1 L1 L2 S) (F₂ := L2 ⊔ Q2 L1 L2 S)
           (t.P1_le_normalizer_sup hfr) (t.P2_le_normalizer_sup hfr) v 1
-        rwa [if_pos hv] at h
+        rwa [ite_eq_left hv] at h
       have hGv0 : (t.Gv 0).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Gv v := by
         simpa [hv] using t.map_Gv_edgeElt v 0
       have hGv1 : (t.Gv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Gv (v + 1) := by
@@ -405,28 +409,28 @@ theorem eq_bot_of_le_Gw {a f : ℕ} (hfr : Frame L1 L2 S a f)
     · have hLv0 : (t.Lv 0).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Lv (v + 1) := by
         have h := t.map_qv_edgeElt (F₁ := L1 ⊔ Q1 L1 L2 S) (F₂ := L2 ⊔ Q2 L1 L2 S)
           (t.P1_le_normalizer_sup hfr) (t.P2_le_normalizer_sup hfr) v 0
-        rw [if_neg hv] at h
+        rw [ite_eq_right hv] at h
         simpa using h
       have hLv1 : (t.Lv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Lv v := by
         have h := t.map_qv_edgeElt (F₁ := L1 ⊔ Q1 L1 L2 S) (F₂ := L2 ⊔ Q2 L1 L2 S)
           (t.P1_le_normalizer_sup hfr) (t.P2_le_normalizer_sup hfr) v 1
-        rw [if_neg hv] at h
+        rw [ite_eq_right hv] at h
         rwa [show v + 1 - 1 = v by omega] at h
       have hGv0 : (t.Gv 0).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Gv (v + 1) := by
         have h := t.map_Gv_edgeElt v 0
-        rw [if_neg hv] at h
+        rw [ite_eq_right hv] at h
         simpa using h
       have hGv1 : (t.Gv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Gv v := by
         have h := t.map_Gv_edgeElt v 1
-        rw [if_neg hv] at h
+        rw [ite_eq_right hv] at h
         rwa [show v + 1 - 1 = v by omega] at h
       have hQv0 : (t.Qv 0).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Qv (v + 1) := by
         have h := t.map_Qv_edgeElt v 0
-        rw [if_neg hv] at h
+        rw [ite_eq_right hv] at h
         simpa using h
       have hQv1 : (t.Qv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Qv v := by
         have h := t.map_Qv_edgeElt v 1
-        rw [if_neg hv] at h
+        rw [ite_eq_right hv] at h
         rwa [show v + 1 - 1 = v by omega] at h
       have hinf : (t.Gv (v + 1) ⊓ normalizer (X : Set G)).map
           (MulAut.conj (t.edgeElt v)⁻¹).toMonoidHom =
@@ -525,7 +529,7 @@ theorem K_inf_Lv_ne_bot {a f : ℕ} (hfr : Frame L1 L2 S a f)
     have hLv : (t.Lv 0).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Lv v := by
       have h := t.map_qv_edgeElt (F₁ := L1 ⊔ Q1 L1 L2 S) (F₂ := L2 ⊔ Q2 L1 L2 S)
         (t.P1_le_normalizer_sup hfr) (t.P2_le_normalizer_sup hfr) v 0
-      rw [if_pos hv] at h
+      rw [ite_eq_left hv] at h
       rwa [show v + 0 = v by omega] at h
     have hmap : (t.K ⊓ t.Lv 0).map (MulAut.conj (t.edgeElt v)).toMonoidHom =
         t.K ⊓ t.Lv v := by
@@ -542,7 +546,7 @@ theorem K_inf_Lv_ne_bot {a f : ℕ} (hfr : Frame L1 L2 S a f)
     have hLv : (t.Lv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Lv v := by
       have h := t.map_qv_edgeElt (F₁ := L1 ⊔ Q1 L1 L2 S) (F₂ := L2 ⊔ Q2 L1 L2 S)
         (t.P1_le_normalizer_sup hfr) (t.P2_le_normalizer_sup hfr) v 1
-      rw [if_neg hv] at h
+      rw [ite_eq_right hv] at h
       rwa [show v + 1 - 1 = v by omega] at h
     have hmap : (t.K ⊓ t.Lv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom =
         t.K ⊓ t.Lv v := by
@@ -587,12 +591,14 @@ theorem commutator_mem_Qv_of_odd {a f : ℕ}
     have hl' := h l hl
     rwa [t.pCoreOf_Lv hfr v] at hl'
 
+omit [Finite G] in
 theorem map_Lv_edgeElt {a f : ℕ} (hfr : Frame L1 L2 S a f) (v i : ℤ) :
     (t.Lv i).map (MulAut.conj (t.edgeElt v)).toMonoidHom =
       t.Lv (if Even v then v + i else v + 1 - i) :=
   t.map_qv_edgeElt (F₁ := L1 ⊔ Q1 L1 L2 S) (F₂ := L2 ⊔ Q2 L1 L2 S)
     (t.P1_le_normalizer_sup hfr) (t.P2_le_normalizer_sup hfr) v i
 
+omit [Finite G] in
 theorem Lv_le_centralizer_of_even_sub {a f : ℕ} (hfr : Frame L1 L2 S a f) {u v : ℤ}
     (huv : Even (u - v)) (hC : t.Lv u ≤ centralizer (t.Zv u : Set G)) :
     t.Lv v ≤ centralizer (t.Zv v : Set G) := by
@@ -602,11 +608,11 @@ theorem Lv_le_centralizer_of_even_sub {a f : ℕ} (hfr : Frame L1 L2 S a f) {u v
   let g : G := t.edgeElt (v - u)
   have hLv : (t.Lv u).map (MulAut.conj g).toMonoidHom = t.Lv v := by
     have h := t.map_Lv_edgeElt hfr (v - u) u
-    rw [if_pos hvu] at h
+    rw [ite_eq_left hvu] at h
     rwa [show v - u + u = v by ring] at h
   have hZv : (t.Zv u).map (MulAut.conj g).toMonoidHom = t.Zv v := by
     have h := t.map_Zv_edgeElt (v - u) u
-    rw [if_pos hvu] at h
+    rw [ite_eq_left hvu] at h
     rwa [show v - u + u = v by ring] at h
   have hcent : (centralizer (t.Zv u : Set G)).map (MulAut.conj g).toMonoidHom ≤
       centralizer (t.Zv v : Set G) := by
@@ -731,13 +737,13 @@ theorem le_card_Zv_of_not_le_centralizer {a f : ℕ}
     have h1 : ⁅l, w⁆ = 1 := by simpa using h l hl w hw
     exact (commutatorElement_eq_one_iff_mul_comm.mp h1).symm
   by_cases hv : Even v
-  · rw [if_pos hv]
+  · rw [ite_eq_left hv]
     have h := two_pow_le_relIndex_of_nontrivial_of_sz (L := t.Lv v) (V := t.Zv v)
       (Z := ⊥) hfr.ha (t.nonempty_mulEquiv_sz_Lv hfr hv) hsec hL hQ hnt
     have h2 : (2 ^ (2 * a + 1)) ^ 4 = 2 ^ (4 * (2 * a + 1)) := by
       conv_lhs => rw [← pow_mul, Nat.mul_comm (2 * a + 1) 4]
     rwa [Subgroup.relIndex_bot_left, ← h2] at h
-  · rw [if_neg hv]
+  · rw [ite_eq_right hv]
     have hodd : Odd v := by
       rcases Int.even_or_odd v with he | ho
       · exact absurd he hv
@@ -794,7 +800,7 @@ theorem mem_Qv_of_forall_commutator_mem {a f : ℕ} (hfr : Frame L1 L2 S a f) (v
     (hk : k ∈ t.Lv v) (hc : ∀ l ∈ t.Lv v, ⁅k, l⁆ ∈ t.Qv v) : k ∈ t.Qv v := by
   let L : Subgroup G := t.Lv v
   let N : Subgroup ↥L := CFSG.pCore 2 ↥L
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have hN : N.map L.subtype = t.Qv v := by
     have h := t.pCoreOf_Lv hfr v
     simpa only [N, L, CFSG.Open.pCoreOf] using h

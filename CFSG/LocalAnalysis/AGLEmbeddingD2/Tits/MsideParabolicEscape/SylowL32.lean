@@ -40,7 +40,7 @@ theorem exists_moved (v : Fin 3 → ZMod 2) (hv : v ≠ 0) : ∃ g : Γ, g • v
   have hval : ((Matrix.GeneralLinearGroup.mk'' _ hdet : Γ) : Matrix (Fin 3) (Fin 3) (ZMod 2)) =
       Matrix.transvection i j (1 : ZMod 2) := rfl
   rw [smul_eq, hval] at h2
-  simp [Matrix.transvection, Matrix.add_mulVec, Matrix.single_mulVec, hij] at h2
+  simp [Matrix.transvection, Matrix.add_mulVec, Matrix.single_mulVec] at h2
   exact hj h2
 
 theorem card_nonzero : Nat.card {w : Fin 3 → ZMod 2 // w ≠ 0} = 7 := by
@@ -63,7 +63,7 @@ theorem exists_order_three_permuting_sylow_two_gl32 (hs : IsSimpleGroup Γ) (S :
       have : 2 ^ 8 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hc
       have hi : 0 < S.index := Nat.pos_of_ne_zero (fun h0 => by simp [h0] at hSidx)
       nlinarith
-    interval_cases n <;> first | omega | (exfalso; apply hSidx; omega)
+    interval_cases n <;> first | omega
   obtain ⟨v, hv0, hvS⟩ : ∃ v : Fin 3 → ZMod 2, v ≠ 0 ∧ ∀ s : S, (s : Γ) • v = v := by
     have hmod := IsPGroup.card_modEq_card_fixedPoints (p := 2) (G := ↥S) (α := Fin 3 → ZMod 2)
       hS2

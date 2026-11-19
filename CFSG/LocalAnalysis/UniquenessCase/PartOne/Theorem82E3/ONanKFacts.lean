@@ -36,7 +36,7 @@ open CFSG.RankThree.LocalRank (aschbacherSolvableCore)
       4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X)
 
 theorem k9G2Rank_holds :
-    K9G2Rank := fun X _ _ f _ h =>
+    K9G2Rank := fun _X _ _ _f _ h =>
   CFSG.LocalAnalysis.AGL81TheoremCD.Section7.Conv76.four_le_pRank_of_g2_three h
 
 @[expose] def K2ONanCentralizer : Prop :=

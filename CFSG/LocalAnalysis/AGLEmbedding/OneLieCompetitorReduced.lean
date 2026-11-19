@@ -183,7 +183,7 @@ theorem ReducedNongeneration.le_of_rankOne_of_surjective (h : ReducedNongenerati
   have hKn : K.Normal := h.normal_of_rankOne hK hnc
   obtain ⟨z, hzR, hzK, hzp, hzc⟩ := hz
   have hKY₀ : ¬ K ≤ Y₀ := h.not_le_of_rankOne hK hnc hzR hzK hzp hzc
-  have hX : IsPGroup p Xt := Rb.isPGroup'.to_le hXR
+  have hX : IsPGroup p Xt := Rb.isPGroup.to_le hXR
   have hJ : Group.IsPerfect Jt := isPerfect_of_nclIn_eq hL hLnab hX hncl φ hφ hcop
   rcases eq_top_or_le_ker_of_nclIn_eq hL hX hncl φ hφ hcop (K.subgroupOf Jt) with htop | hker
   · exact Subgroup.subgroupOf_eq_top.mp htop

@@ -45,7 +45,7 @@ private theorem SLSetting.exists_axes_pair (hs : SLSetting Qf ρ) {c α : Fin m 
   exact ⟨_, ⟨_, Subgroup.mem_map_of_mem ρ ⟨β, hβc, rfl⟩, h1, rfl⟩, _,
     ⟨_, Subgroup.mem_map_of_mem ρ ⟨d, hαd, rfl⟩, h2, rfl⟩, hinf, hno⟩
 
-omit [Finite K] [FiniteDimensional K V] in
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem SLSetting.isLongRootElement_of_mem_inf (hs : SLSetting Qf ρ) {c α : Fin m → K}
     {x : SL(m, K)} (hx : x ∈ tvCenterSL c ⊓ tvAxisSL α) (hx1 : x ≠ 1) :
     IsLongRootElement Qf (ρ x) ∧ movedSpace (ρ x) ∈ axes ((tvCenterSL c).map ρ) ∧

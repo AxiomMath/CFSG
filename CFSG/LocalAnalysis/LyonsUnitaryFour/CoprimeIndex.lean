@@ -225,7 +225,7 @@ theorem unitary_four_coprime_centralizer_index_fourth_power {T : Type} [Group T]
     · intro y hy
       have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hxy, hx⟩ := CFSG.LargeEvenClassification.Helpers.coprime_fixed_point_lift
-        Nat.prime_two (S.isPGroup'.to_subgroup (Subgroup.center (S : Subgroup G)))
+        Nat.prime_two (S.isPGroup.to_subgroup (Subgroup.center (S : Subgroup G)))
         (φ.comp (Subgroup.center (S : Subgroup G)).subtype)
         (φQ.comp (Subgroup.center (S : Subgroup G)).subtype)
         (QuotientGroup.mk' A) (QuotientGroup.mk'_surjective A)

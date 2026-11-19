@@ -248,7 +248,7 @@ theorem not_dvd_card_sup_OInf {L S : Subgroup G} (hS : IsSylowOf 2 S L) {r : ℕ
     exact hrK h3
   ·
     obtain ⟨u, hu, hue⟩ := hzU
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨u, hu⟩
     have h2 : orderOf (piInf L z) ∣ 2 ^ k := by
       apply orderOf_dvd_of_pow_eq_one
       rw [← hue, ← map_pow]

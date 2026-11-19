@@ -25,7 +25,7 @@ theorem ExtremalObstruction.isSylowOf_normalizer_inf (hS : Setting G) (hD1 : The
   have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hM, hDP, hD2, hDM⟩ := hext.obstruction
   obtain ⟨hDe, hDc⟩ := hext.isElemAbelian_of_isMulCommutative hprime hDab
-  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup
   have hCp : ∀ y ∈ centralizer (D : Set G), y ^ p = 1 → y ∈ D := fun y hyC hyp =>
     hext.mem_of_mem_centralizer_of_isMulCommutative hS hD1 hp hDab hCM hyC hyp
   obtain ⟨Q₀, hQ₀⟩ := ((hPp.to_inf_left (K := normalizer (D : Set G))).comap_subtype
@@ -54,7 +54,7 @@ theorem ExtremalObstruction.isSylowOf_normalizer_inf (hS : Setting G) (hD1 : The
     intro hN
     obtain ⟨A, hAP₂, hA, hAc⟩ := pRank_attained p (P₂ : Subgroup G) (by rw [hP₂3]; norm_num)
     rw [hP₂3] at hAc
-    obtain ⟨-, z', hz'D, hz'1, hz'c, -, -⟩ := isolatedPlane_structure hprime P₂.isPGroup' hiso
+    obtain ⟨-, z', hz'D, hz'1, hz'c, -, -⟩ := isolatedPlane_structure hprime P₂.isPGroup hiso
       hAP₂ ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
     obtain ⟨g, hgN, hgz⟩ := hext.exists_mem_normalizer_zpowers_eq hS hD1 hp hPD hDab hCM hzD hz1
       hzc hN₀M hz'D hz'1
@@ -145,7 +145,7 @@ theorem ExtremalObstruction.isSylowOf_centralizer_iff (hS : Setting G) (hD1 : Th
   constructor
   · intro h
     have hle := h.eq_of_le (le_inf hDP hDC) inf_le_right
-      (P.isPGroup'.to_inf_left (K := centralizer (D : Set G)))
+      (P.isPGroup.to_inf_left (K := centralizer (D : Set G)))
     exact hle.le
   · intro hCP
     have hN := hext.isSylowOf_normalizer_inf hS hD1 hp hPD hDab hCM hzD hz1 hzc hN₀M

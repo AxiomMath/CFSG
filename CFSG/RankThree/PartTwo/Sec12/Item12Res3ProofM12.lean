@@ -442,7 +442,7 @@ theorem mem_of_m12
   have hSb : (Sb : Subgroup (K ⧸ aschbacherSolvableCore 3 K)) = (S : Subgroup K).map π :=
     Sylow.coe_mapSurjective _ _
   obtain ⟨hHeis, -⟩ := Sec4.Sporadic.rank3II_4_14_local _ ⟨ψ⟩ Sb
-  have hinjS := CFSG.RankThree.injOn_mk_of_isPGroup Nat.prime_three S.isPGroup'
+  have hinjS := CFSG.RankThree.injOn_mk_of_isPGroup Nat.prime_three S.isPGroup
   have hSb3 : ∀ x ∈ (Sb : Subgroup (K ⧸ aschbacherSolvableCore 3 K)), x ^ 3 = 1 := fun x hx =>
     congrArg Subtype.val (Sec13.pow_three_eq_one_of_mulEquiv (MulEquiv.refl _) hHeis.2.2 ⟨x, hx⟩)
   have hSb27 : Nat.card (Sb : Subgroup (K ⧸ aschbacherSolvableCore 3 K)) = 27 := hHeis.2.1
@@ -490,7 +490,7 @@ theorem mem_of_m12
     ⟨nb, hnb, hnbc⟩ | ⟨tb, htbS, htbc, htbB⟩
   · exact hnbc (hliftB nb hnb)
   have htbS' := htbS
-  rw [hSb, Sec13.normalizer_map_mk_eq S.isPGroup'] at htbS'
+  rw [hSb, Sec13.normalizer_map_mk_eq S.isPGroup] at htbS'
   obtain ⟨t₁, ht₁S, rfl⟩ := htbS'
   set t : G := (t₁ : G) with htdef
   have htK : t ∈ K := t₁.2

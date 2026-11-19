@@ -42,14 +42,14 @@ theorem unipotentEnd_injective (n : ℕ) (K : Type) [Field K] :
   simpa using h'
 
 theorem card_le_pow_finrank_unipotentAlgebra {p : ℕ} [Finite K]
-    {A : Subgroup (GL (Fin n) K)} (hA : IsElemAbelian p A) :
+    {A : Subgroup (GL (Fin n) K)} (_hA : IsElemAbelian p A) :
     Nat.card A ≤ Nat.card K ^ finrank K (unipotentAlgebra A) := by
-  haveI : Finite (Module.End K (Fin n → K)) :=
+  have : Finite (Module.End K (Fin n → K)) :=
     Finite.of_injective (fun f : Module.End K (Fin n → K) => (f : (Fin n → K) → (Fin n → K)))
       (fun f g h => LinearMap.ext fun x => congrFun h x)
-  haveI : Finite (unipotentAlgebra A) :=
+  have : Finite (unipotentAlgebra A) :=
     Finite.of_injective Subtype.val Subtype.val_injective
-  haveI : Module.Finite K (unipotentAlgebra A) := inferInstance
+  have : Module.Finite K (unipotentAlgebra A) := inferInstance
   let f : A → unipotentAlgebra A := fun a =>
     ⟨unipotentEnd (a : GL (Fin n) K),
       Submodule.subset_span ⟨(a : GL (Fin n) K), a.2, rfl⟩⟩
@@ -84,7 +84,7 @@ theorem unipotentAlgebra_mul_mem {A : Subgroup (GL (Fin n) K)}
     have hmap : (glNaturalRep n K (((a * b : A) : GL (Fin n) K)) :
         Module.End K (Fin n → K)) =
         glNaturalRep n K (a : GL (Fin n) K) * glNaturalRep n K (b : GL (Fin n) K) := by
-      simpa using map_mul (glNaturalRep n K) (a : GL (Fin n) K) (b : GL (Fin n) K)
+      simp
     have hmem : unipotentEnd (((a * b : A) : GL (Fin n) K)) -
         unipotentEnd (a : GL (Fin n) K) - unipotentEnd (b : GL (Fin n) K) ∈
         unipotentAlgebra A := by
@@ -97,7 +97,7 @@ theorem unipotentAlgebra_mul_mem {A : Subgroup (GL (Fin n) K)}
             glNaturalRep n K (a : GL (Fin n) K) -
             glNaturalRep n K (b : GL (Fin n) K) + 1) ∈ unipotentAlgebra A := by
       convert hmem using 1
-      simp only [unipotentEnd, hmap, neg_one_smul]
+      simp only [unipotentEnd, hmap]
       abel
     rwa [hidentity]
   refine Submodule.span_induction₂ (p := fun x y _ _ => x * y ∈ unipotentAlgebra A)
@@ -169,13 +169,13 @@ theorem unipotentAlgebra_isNilpotent {p : ℕ} [CharP K p] (hp : p.Prime)
     {x : Module.End K (Fin n → K)} (hx : x ∈ unipotentAlgebra A) : IsNilpotent x := by
   rcases n with _ | n
   · exact ⟨1, Subsingleton.elim _ _⟩
-  · haveI : CharP (Module.End K (Fin (n + 1) → K)) p := by
+  · have : CharP (Module.End K (Fin (n + 1) → K)) p := by
       refine Module.charP_end (R := K) (M := Fin (n + 1) → K) ⟨fun _ => (1 : K), ?_⟩
       rw [Ideal.torsionOf_eq_bot_iff_of_isTorsionFree]
       intro h
       have := congrFun h ⟨0, Nat.succ_pos n⟩
-      simpa using this
-    haveI : Fact p.Prime := ⟨hp⟩
+      simp at this
+    have : Fact p.Prime := ⟨hp⟩
     have hgen : ∀ a : A, IsNilpotent (unipotentEnd (a : GL (Fin (n + 1)) K)) := by
       intro a
       have ha : (glNaturalRep (n + 1) K (a : GL (Fin (n + 1)) K) :
@@ -237,7 +237,7 @@ theorem blockMatrix_mul (n d : ℕ) (K : Type) [Field K] (h : d ≤ n)
       blockMatrix n d K h (B + B') := by
   simp only [blockMatrix]
   rw [← map_mul, Matrix.fromBlocks_multiply]
-  simp [Matrix.fromBlocks_add, add_comm]
+  simp [add_comm]
 
 theorem det_blockMatrix (n d : ℕ) (K : Type) [Field K] (h : d ≤ n)
     (B : Matrix (Fin d) (Fin (n - d)) K) :
@@ -288,18 +288,18 @@ theorem blockHom_injective (n d : ℕ) (K : Type) [Field K] (h : d ≤ n) :
 
 theorem blockUnipotent_eq_range (n d : ℕ) (K : Type) [Field K] (h : d ≤ n) :
     blockUnipotent n d K = (blockHom n d K h).range := by
-  rw [blockUnipotent, dif_pos h]
+  rw [blockUnipotent, dite_eq_left h]
 
 theorem blockUnipotent_eq_bot (n d : ℕ) (K : Type) [Field K] (h : ¬ d ≤ n) :
     blockUnipotent n d K = ⊥ := by
-  rw [blockUnipotent, dif_neg h]
+  rw [blockUnipotent, dite_eq_right h]
 
 theorem blockUnipotent_isElemAbelian (n d p : ℕ) (K : Type) [Field K] [CharP K p]
-    (hp : p.Prime) : IsElemAbelian p (blockUnipotent n d K) := by
+    (_hp : p.Prime) : IsElemAbelian p (blockUnipotent n d K) := by
   by_cases h : d ≤ n
   · rw [blockUnipotent_eq_range n d K h]
     constructor
-    · haveI : IsMulCommutative (Multiplicative (Matrix (Fin d) (Fin (n - d)) K)) :=
+    · have : IsMulCommutative (Multiplicative (Matrix (Fin d) (Fin (n - d)) K)) :=
         ⟨⟨fun a b => by
           apply Multiplicative.toAdd.injective
           simp [add_comm]⟩⟩
@@ -355,7 +355,7 @@ theorem blockUnipotent_card (n d : ℕ) (K : Type) [Field K] [Finite K] :
     rw [hnd, mul_zero, pow_zero]
 
 theorem exists_elemAbelian_card_eq (n d p : ℕ) (K : Type) [Field K] [Finite K] [CharP K p]
-    (hp : p.Prime) (h : d ≤ n) :
+    (hp : p.Prime) (_h : d ≤ n) :
     ∃ A : Subgroup (GL (Fin n) K), IsElemAbelian p A ∧
       Nat.card A = Nat.card K ^ (d * (n - d)) ∧ A ≤ StatedSL n K :=
   ⟨blockUnipotent n d K, blockUnipotent_isElemAbelian n d p K hp,

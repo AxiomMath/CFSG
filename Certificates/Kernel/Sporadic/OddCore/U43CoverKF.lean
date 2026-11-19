@@ -179,7 +179,7 @@ theorem kRepB : kRepCheck yBTab kBComm kBCube = true := by
   have hcl : ∀ c < U43KB.cnt * (4 + 4), findPtK U43KB.cnt U43KB.T
       (prodQK 820 10 (mask 10) (4 + 4) U43KB.T (bothK 4 U43KB.GI U43KBI)) U43KBCl c = true :=
     fun c hc => slK_spec bCl c (Nat.zero_le _) (by change c < Nat.mul U43KB.cnt 8; omega)
-      (by change c < Nat.mul U43KB.cnt 8; omega)
+      (by omega)
   have hinv : ∀ j < 4, invEqK 820 10 (mask 10) (820 * 10) (U43KB.GI j) (U43KBI j) = true ∧
       canonK 820 10 (mask 10) (820 * 10) (U43KBI j) = true :=
     fun j hj => ⟨(genB hj).2.2.2.2, (genB hj).2.2.2.1⟩
@@ -261,7 +261,7 @@ theorem kRepC : kRepCheck yCTab kCComm kCCube = true := by
   have hcl : ∀ c < U43KC.cnt * (5 + 5), findPtK U43KC.cnt U43KC.T
       (prodQK 820 10 (mask 10) (5 + 5) U43KC.T (bothK 5 U43KC.GI U43KCI)) U43KCCl c = true :=
     fun c hc => slK_spec cCl c (Nat.zero_le _) (by change c < Nat.mul U43KC.cnt 10; omega)
-      (by change c < Nat.mul U43KC.cnt 10; omega)
+      (by omega)
   have hinv : ∀ j < 5, invEqK 820 10 (mask 10) (820 * 10) (U43KC.GI j) (U43KCI j) = true ∧
       canonK 820 10 (mask 10) (820 * 10) (U43KCI j) = true :=
     fun j hj => ⟨(genC hj).2.2.2.2, (genC hj).2.2.2.1⟩

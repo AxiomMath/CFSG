@@ -15,14 +15,17 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 theorem IsMinFam16.V_le_H (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) : V ≤ H :=
   h.V_le_S.trans hH.1.1
 
+omit [Finite G] in
 theorem IsMinFam16.conjClosure_le_H (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) :
     CFSG.Quasithin.conjClosure V H ≤ H :=
-  CFSG.Quasithin.conjClosure_le fun g hg z hz =>
+  CFSG.Quasithin.conjClosure_le fun _g hg _z hz =>
     H.mul_mem (H.mul_mem hg (IsMinFam16.V_le_H h hH hz)) (H.inv_mem hg)
 
+omit [Finite G] in
 theorem iSub16_le_conjClosure (V H : Subgroup G) :
     iSub16 V H ≤ CFSG.Quasithin.conjClosure V H :=
   CFSG.Quasithin.conjClosure_mono inf_le_left le_rfl
@@ -38,6 +41,7 @@ theorem iSub16_le_conjClosure (V H : Subgroup G) :
     ((D.ρ.comp (IsMinFam16.inclK h hH)).codRestrict (hatK D V) fun k =>
       D.mem_img.2 ⟨IsMinFam16.inclK h hH k, k.2, rfl⟩)
 
+omit [Finite G] in
 private lemma w16l_kToHatX_apply (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H)
     (D : ModDataE H (iSub16 V H)) (k : ↥(CFSG.Quasithin.conjClosure V H)) :
     IsMinFam16.kToHatX h hH D k =
@@ -46,11 +50,13 @@ private lemma w16l_kToHatX_apply (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S
           D.mem_img.2 ⟨IsMinFam16.inclK h hH k, k.2, rfl⟩⟩ : ↥(hatK D V)) :=
   rfl
 
+omit [Finite G] in
 private lemma w16l_coe_inclK (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H)
     (k : ↥(CFSG.Quasithin.conjClosure V H)) :
     ((IsMinFam16.inclK h hH k : ↥H) : G) = (k : G) :=
   rfl
 
+omit [Finite G] in
 private lemma w16l_surjective_kToHatX (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H)
     (D : ModDataE H (iSub16 V H)) :
     Function.Surjective (IsMinFam16.kToHatX h hH D) := by
@@ -69,6 +75,7 @@ private lemma w16l_surjective_kToHatX (h : Cex16 M V₀ V U S) (hH : IsMinFam16 
     exact hjρ
   rw [hyeq, hy']
 
+omit [Finite G] in
 private lemma w16l_map_kToHatX_V (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H)
     (D : ModDataE H (iSub16 V H)) :
     (V.subgroupOf (CFSG.Quasithin.conjClosure V H)).map (IsMinFam16.kToHatX h hH D) =
@@ -106,8 +113,8 @@ private lemma w16l_map_kToHatX_V (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S
 section Certified
 
 
-theorem IsMinFam16.exists_barRep (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
-    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+theorem IsMinFam16.exists_barRep (h1 : W16One G) (_h5 : W16Five G) (hS : Std15 G)
+    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (_hV : ¬ V ≤ pCoreOf 2 H)
     (D : ModDataE H (iSub16 V H)) {X : Type} [Group X]
     {φ : ↥(CFSG.Quasithin.conjClosure V H) →* X}
     (hφ : SevenK.IsBarMap (CFSG.Quasithin.conjClosure V H) (iSub16 V H) φ) :
@@ -127,8 +134,8 @@ theorem IsMinFam16.exists_barRep (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
     φ.liftOfRightInverse_comp_apply (Function.surjInv hφ.surjective)
       (Function.rightInverse_surjInv hφ.surjective) ⟨ρ₀, hle⟩ k⟩
 
-theorem IsMinFam16.exists_barTheta (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
-    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+theorem IsMinFam16.exists_barTheta (h1 : W16One G) (_h5 : W16Five G) (hS : Std15 G)
+    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (_hV : ¬ V ≤ pCoreOf 2 H)
     (D : ModDataE H (iSub16 V H)) {X : Type} [Group X]
     {φ : ↥(CFSG.Quasithin.conjClosure V H) →* X}
     (hφ : SevenK.IsBarMap (CFSG.Quasithin.conjClosure V H) (iSub16 V H) φ) :

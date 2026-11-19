@@ -144,11 +144,11 @@ theorem exists_mulEquiv_sylow_eq (hK : Nat.card K = 2 ^ (2 * a + 1)) (e : X ≃*
   refine ⟨e.trans (MulAut.conj g⁻¹), ?_, ?_⟩
   · ext x
     rw [hS, mem_comap]
-    simp [MulAut.conj_apply]
+    simp
   · rw [CFSG.RankThree.S4Free.Suzuki.normalizer_eq_map_suzukiB hK e hS]
     ext x
     rw [mem_map_equiv, mem_comap]
-    simp [MulAut.conj_apply, MulAut.conj_symm_apply, mul_assoc]
+    simp [MulAut.conj_symm_apply, mul_assoc]
 
 theorem suzukiU_inf_centralizer (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     suzukiU a K ⊓ centralizer (suzukiU a K : Set (suzukiGroup a K)) = suzukiZ0 a K := by
@@ -276,7 +276,7 @@ theorem inf_eq_bot_of_sylow_ne (hK : Nat.card K = 2 ^ (2 * a + 1)) (e : X ≃* s
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   by_contra hbot
-  have h2 : IsPGroup 2 ((S : Subgroup X) ⊓ S' : Subgroup X) := S.isPGroup'.to_inf_left
+  have h2 : IsPGroup 2 ((S : Subgroup X) ⊓ S' : Subgroup X) := S.isPGroup.to_inf_left
   have : Nontrivial ((S : Subgroup X) ⊓ S' : Subgroup X) := (nontrivial_iff_ne_bot _).mpr hbot
   obtain ⟨n, hn, hcard⟩ := h2.nontrivial_iff_card.mp inferInstance
   obtain ⟨⟨z, hzSS⟩, hz⟩ := exists_prime_orderOf_dvd_card' (G := ((S : Subgroup X) ⊓ S' :
@@ -346,7 +346,8 @@ theorem exists_cyclic_complement (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 
       simp only [map_mul, map_inv, MulEquiv.apply_symm_apply, inv_inv]
       rw [← hv, ← hv', suzukiDElt_conj hK, mul_zero, hl', div_mul_cancel₀ v' hv0]
 
-private theorem suzukiW_mul_suzukiS (hK : Nat.card K = 2 ^ (2 * a + 1)) :
+omit [Finite K] in
+private theorem suzukiW_mul_suzukiS (_hK : Nat.card K = 2 ^ (2 * a + 1)) :
     suzukiW K * suzukiS a (0 : K) 1 = !![1, 1, 0, 1; 1, 0, 1, 0; 0, 1, 0, 0; 1, 0, 0, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
@@ -535,13 +536,13 @@ theorem le_or_le_of_mulEquiv_suzukiGroup {H : Type*} [Group H] [Finite H] {Z : S
       rw [_root_.commutator_def, map_commutator, map_top_of_surjective _ hπs,
         ← _root_.commutator_def, hperfQ]
     rw [eq_top_iff, ← comap_top π, ← h1, comap_map_eq, hker, sup_of_le_left hZd]
-  haveI : Group.IsPerfect H := ⟨hperf⟩
+  have : Group.IsPerfect H := ⟨hperf⟩
   have hZ2 : IsPGroup 2 Z := by
     obtain ⟨Q⟩ : Nonempty (Sylow 2 Z) := inferInstance
     set P : Subgroup H := (Q : Subgroup Z).map Z.subtype with hPdef
     have hPZ : P ≤ Z := map_subtype_le _
-    haveI hPn : P.Normal := hcentral P hPZ
-    have hQ2 : IsPGroup 2 P := Q.isPGroup'.map Z.subtype
+    have hPn : P.Normal := hcentral P hPZ
+    have hQ2 : IsPGroup 2 P := Q.isPGroup.map Z.subtype
     set N : Subgroup (H ⧸ P) := Z.map (QuotientGroup.mk' P) with hNdef
     have hNodd : Odd (Nat.card N) := by
       rw [hNdef, card_map_eq_relIndex, QuotientGroup.ker_mk']
@@ -665,7 +666,7 @@ theorem le_or_le_of_mulEquiv_suzukiGroup {H : Type*} [Group H] [Finite H] {Z : S
     have hM₀co : IsCoatom M₀ := ⟨hM₀max.1, fun T hT => by
       by_contra hTt
       exact hT.ne (le_antisymm hT.le (hM₀max.2 hTt hT.le))⟩
-    haveI : Group.IsNilpotent Z := hZ2.isNilpotent
+    have : Group.IsNilpotent Z := hZ2.isNilpotent
     have hidx : M₀.index = 2 := hZ2.isCoatom_iff_index_eq_prime.mp hM₀co
     set Z₀ : Subgroup H := M₀.map Z.subtype with hZ₀def
     have hZ₀Z : Z₀ ≤ Z := map_subtype_le M₀
@@ -674,7 +675,7 @@ theorem le_or_le_of_mulEquiv_suzukiGroup {H : Type*} [Group H] [Finite H] {Z : S
     have hZ₀rel : Z₀.relIndex Z = 2 := by
       have : Z₀.subgroupOf Z = M₀ := comap_map_eq_self_of_injective Z.subtype_injective M₀
       rw [relIndex, this, hidx]
-    haveI hZ₀n : Z₀.Normal := hcentral Z₀ hZ₀Z
+    have hZ₀n : Z₀.Normal := hcentral Z₀ hZ₀Z
     set W₁ := W ⊔ Z₀ with hW₁def
     have hW₁S : W₁ ≤ S := sup_le hWS (hZ₀Z.trans hZS)
     have hW₁N : normalizer ((S : Subgroup H) : Set H) ≤ normalizer (W₁ : Set H) := fun n hn =>
@@ -745,7 +746,7 @@ theorem le_or_le_of_mulEquiv_suzukiGroup {H : Type*} [Group H] [Finite H] {Z : S
       have hCle : C ≤ W₁ ⊔ Z := by
         rw [hW₁Z, hP, ← hC]
         exact le_comap_map π C
-      haveI hN₁ : (W₁.subgroupOf S).Normal :=
+      have hN₁ : (W₁.subgroupOf S).Normal :=
         (normal_subgroupOf_iff_le_normalizer hW₁S).mpr hSW₁
       set N₁ := W₁.subgroupOf (S : Subgroup H) with hN₁def
       set ρ := QuotientGroup.mk' N₁ with hρdef

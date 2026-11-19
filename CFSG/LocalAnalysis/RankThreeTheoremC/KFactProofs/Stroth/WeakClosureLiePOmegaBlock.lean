@@ -29,7 +29,7 @@ private theorem orthBlock_trace_eq_zero_of_neg {K : Type} [Field K] [Fintype K] 
     [Field L] [Algebra K L] [Finite L] {f : ℕ} (hfL : finrank K L = 2 * f) (σ : L ≃ₐ[K] L)
     (hσdef : σ = FiniteField.frobeniusAlgEquivOfAlgebraic K L ^ f) {z : L} (hz : σ z = -z) :
     Algebra.trace K L z = 0 := by
-  haveI : Module.Finite K L := Module.Finite.of_finite
+  have : Module.Finite K L := Module.Finite.of_finite
   let φL : L ≃ₐ[K] L := FiniteField.frobeniusAlgEquivOfAlgebraic K L
   have hterm : ∀ i : ℕ, z ^ (Nat.card K ^ i) = (φL ^ i) z := fun i => by
     rw [Nat.card_eq_fintype_card, frob_pow_apply]
@@ -46,7 +46,7 @@ theorem exists_orthBlock_split (K : Type) [Field K] [Fintype K] {L : Type} [Fiel
       IsPlusQuadSpace S₀ ∧ finrank K S₀.V = 2 * finrank K L ∧ Function.Injective ρ ∧
       (∀ c, J₀ * ρ c * J₀⁻¹ = ρ c⁻¹) ∧
       ∀ c, φ₀ * ρ c * φ₀⁻¹ = ρ (c ^ (Fintype.card K : ℤ)) := by
-  haveI : Module.Finite K L := Module.Finite.of_finite
+  have : Module.Finite K L := Module.Finite.of_finite
   obtain ⟨ζ, hζ⟩ := exists_units_orderOf_eq (L := L) (d := m) hm
   obtain ⟨lam, hlamdef⟩ : ∃ lam : L →ₗ[K] K, lam = Algebra.trace K L := ⟨_, rfl⟩
   have hlam : lam ≠ 0 := by rw [hlamdef]; exact Algebra.trace_ne_zero K L
@@ -115,7 +115,7 @@ theorem exists_orthBlock_aniso (K : Type) [Field K] [Fintype K] {L : Type} [Fiel
       IsQuadSpace S₀ ∧ finrank K S₀.V = finrank K L ∧ Function.Injective ρ ∧
       (∀ c, J₀ * ρ c * J₀⁻¹ = ρ c⁻¹) ∧
       ∀ c, φ₀ * ρ c * φ₀⁻¹ = ρ (c ^ (Fintype.card K : ℤ)) := by
-  haveI : Module.Finite K L := Module.Finite.of_finite
+  have : Module.Finite K L := Module.Finite.of_finite
   have hq : 1 < Fintype.card K := Fintype.one_lt_card
   let φL : L ≃ₐ[K] L := FiniteField.frobeniusAlgEquivOfAlgebraic K L
   obtain ⟨σ, hσdef⟩ : ∃ σ : L ≃ₐ[K] L, σ = φL ^ f := ⟨_, rfl⟩

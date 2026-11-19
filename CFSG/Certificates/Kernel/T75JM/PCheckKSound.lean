@@ -14,8 +14,8 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.PK CFSG.KC.TabWord CFSG.KC.Misc CFSG.CGT.T75JM
 theorem iteN (f : Nat → Nat) (c i : Nat) (r : Nat) :
     (if i = c then f c else r) = if i = c then f i else r := by
   by_cases h : i = c
-  · rw [if_pos h, if_pos h, h]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h, h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 theorem with8_eq (f : Nat → Nat) (k : (Nat → Nat) → Bool) : with8 f k = k f := by
   unfold with8

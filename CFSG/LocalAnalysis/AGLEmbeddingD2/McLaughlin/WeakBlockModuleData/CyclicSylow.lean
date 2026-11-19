@@ -198,7 +198,7 @@ theorem normalizer_le_centralizer_of_cyclic_sylow [Finite G] (R : Sylow 3 G)
     have hord₂ : t₂ ^ m = 1 := by
       rw [ht₂, ← pow_mul, ← hord]
       exact pow_orderOf_eq_one t
-    exact commute_of_coprime_cyclic R.isPGroup' hcyc hz hz3 ht₂N hm hord₂
+    exact commute_of_coprime_cyclic R.isPGroup hcyc hz hz3 ht₂N hm hord₂
       (hzc t₂) r hr
   have hcop : IsCoprime (m : ℤ) ((3 ^ b : ℕ) : ℤ) := by
     rw [Nat.isCoprime_iff_coprime]

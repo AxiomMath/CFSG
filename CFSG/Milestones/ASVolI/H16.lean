@@ -298,7 +298,7 @@ theorem h16_rImg_card {V : Type*} [CommGroup V] {Γ : Subgroup (Equiv.Perm (Fin 
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv
 
 theorem h16_rImg_isElemAbelian2 {V : Type*} [CommGroup V] {Γ : Subgroup (Equiv.Perm (Fin 24))}
-    (ρ : ↥Γ →* MulAut V) {A : Subgroup (Equiv.Perm (Fin 24))} (hA : A ≤ Γ)
+    (ρ : ↥Γ →* MulAut V) {A : Subgroup (Equiv.Perm (Fin 24))} (_hA : A ≤ Γ)
     (hE : IsElemAbelian 2 A) : IsElemAbelian2 (rImg ρ A) := by
   unfold IsElemAbelian2
   refine ⟨?_, ?_⟩
@@ -515,7 +515,7 @@ private theorem h16_5_clause_one :
   have hreal : RealizesBy (FFModel.golaySec M24g golayC (Subgroup.zpowers (G6.allOnes 24)))
       ρ.range ⊤ ⊥ ρ.rangeRestrict β := hM.real
   have hinj : Function.Injective ρ := h16_faithful24 (rhoC11_injective AutPerm le_rfl) hreal
-  haveI : Finite V := h16_finite_of_coords codeCoords (fun σ hσ => preserves_code hσ) hreal
+  have : Finite V := h16_finite_of_coords codeCoords (fun σ hσ => preserves_code hσ) hreal
   have hLM : CFSG.Quasithin.H.Mathieu.IsOver ρ.range ρ.range := h16_isOver_self ρ
   have hMC : CFSG.Quasithin.MathieuCode24 ρ.range ⊤ ⊥ := h16_mathieu24 hreal
   obtain ⟨hKc, hKe⟩ := KY_sextet_facts hM.cfg.sextet
@@ -556,7 +556,7 @@ private theorem h16_5_clause_two :
   subst hΓ
   have hreal : RealizesBy (FFModel.golaySec (M23g a) golayC (Subgroup.zpowers (G6.allOnes 24)))
       ρ.range ⊤ ⊥ ρ.rangeRestrict β := hM.real
-  haveI : Finite V :=
+  have : Finite V :=
     h16_finite_of_coords codeCoords (fun σ hσ => preserves_code (Subgroup.mem_inf.1 hσ).1) hreal
   exact code23_not_isFOneModule (h16_isOver_self ρ) (h16_mathieu23 a hreal) ⟨_, hoff⟩
 
@@ -581,7 +581,7 @@ private theorem h16_5_clause_three :
       (Subgroup.zpowers (G6.allOnes 24))) ρ.range ⊤ ⊥ ρ.rangeRestrict β := hM.real
   obtain ⟨hfin, hinj⟩ := h16_faithful22 hab (CFSG.Monster.B.TwoA.autPerm_maps_two a b hab)
     rhoC10_mog22plus_injective hle hreal
-  haveI := hfin
+  have := hfin
   have hMC := h16_mathieu22 hab hK hreal
   have hLM := h16_isOver hab hK hle ρ
   have hne : Γ ≠ M22g a b := by
@@ -682,7 +682,7 @@ theorem as_H_16_6 : H_16_6 := by
   have hreal : RealizesBy (FFModel.golaySec M24g golayC (Subgroup.zpowers (G6.allOnes 24)))
       ρ.range ⊤ ⊥ ρ.rangeRestrict β := hM.real
   have hinj : Function.Injective ρ := h16_faithful24 (rhoC11_injective AutPerm le_rfl) hreal
-  haveI : Finite V := h16_finite_of_coords codeCoords (fun σ hσ => preserves_code hσ) hreal
+  have : Finite V := h16_finite_of_coords codeCoords (fun σ hσ => preserves_code hσ) hreal
   have hLM : CFSG.Quasithin.H.Mathieu.IsOver ρ.range ρ.range := h16_isOver_self ρ
   have hMC : CFSG.Quasithin.MathieuCode24 ρ.range ⊤ ⊥ := h16_mathieu24 hreal
   have hYc : Nat.card (rImg ρ Y) = 3 := (h16_rImg_card hinj hY).trans hY3
@@ -726,7 +726,7 @@ theorem as_H_16_7 : H_16_7 := by
         ρ.range ⊤ ⊥ ρ.rangeRestrict β := hM.real
     obtain ⟨hfin, hinj⟩ := h16_faithful22 hab (CFSG.Monster.B.TwoA.autPerm_maps_two a b hab)
       rhoC10_mog22plus_injective hle hreal
-    haveI := hfin
+    have := hfin
     have hMC := h16_mathieu22 hab hK hreal
     have hLM := h16_isOver hab hK hle ρ
     obtain ⟨hAE1, hAE2⟩ := hAE
@@ -745,7 +745,7 @@ theorem as_H_16_7 : H_16_7 := by
     have hreal : RealizesBy (FFModel.golaySec M24g golayC (Subgroup.zpowers (G6.allOnes 24)))
         ρ.range ⊤ ⊥ ρ.rangeRestrict β := hM.real
     have hinj : Function.Injective ρ := h16_faithful24 (rhoC11_injective AutPerm le_rfl) hreal
-    haveI : Finite V := h16_finite_of_coords codeCoords (fun σ hσ => preserves_code hσ) hreal
+    have : Finite V := h16_finite_of_coords codeCoords (fun σ hσ => preserves_code hσ) hreal
     have hLM : CFSG.Quasithin.H.Mathieu.IsOver ρ.range ρ.range := h16_isOver_self ρ
     have hMC : CFSG.Quasithin.MathieuCode24 ρ.range ⊤ ⊥ := h16_mathieu24 hreal
     obtain ⟨hAE1, hAE2⟩ := hAE

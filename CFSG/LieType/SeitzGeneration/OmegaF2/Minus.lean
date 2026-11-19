@@ -59,7 +59,7 @@ theorem OmegaF2.tailAnisotropic_minus (n : ℕ) (K : Type) [Field K] (b c : K) (
 theorem subfieldPairOmegaMinusF2_holds :
     SubfieldPairOmegaMinusF2 := by
   intro n p hn hp hp3 K _ _ k hk hK b c hirr
-  haveI : CharP K 2 := OmegaF2.charP_two_of_subfield_card_two hk
+  have : CharP K 2 := OmegaF2.charP_two_of_subfield_card_two hk
   have hp2 : p ≠ 2 := by omega
   have hk1 : Nat.card k = 2 ^ 1 := by simpa using hk
   have hK1 : Nat.card K = 2 ^ (1 * p) := by simpa using hK

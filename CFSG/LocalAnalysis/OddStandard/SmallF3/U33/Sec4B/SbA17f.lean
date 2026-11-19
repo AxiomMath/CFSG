@@ -12,6 +12,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma mul_eq_of_conj_eq {g w : G} (h : g * w * g⁻¹ = w) : g * w = w * g := by
   have := congrArg (fun y => y * g) h
   simpa [mul_assoc] using this
@@ -28,7 +29,7 @@ theorem l17_no_order_eight (hc : Ctx17 t L S x₁ x₂ lam rho tau om 𝒮) {w :
     rw [show (8 : ℕ) = 4 * 2 by norm_num, pow_mul, hw4]
     exact hz2
   have hw8ord : orderOf w = 8 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hnot : ¬ w ^ 2 ^ 2 = 1 := fun h => hz_ne (hw4 ▸ h)
     have hfin : w ^ 2 ^ (2 + 1) = 1 := by simpa using hw8
     have := orderOf_eq_prime_pow (p := 2) (n := 2) hnot hfin

@@ -202,8 +202,7 @@ theorem Cmul_s : ∀ (i : Fin 6) (v : Fin 6 → ZMod 3),
   ext j
   fin_cases i <;> fin_cases j <;>
     simp [Cmul, s, sDual, C, Cℤ, unitRoot, Pi.single_apply, Fin.sum_univ_six] <;>
-    ring_nf <;>
-    reduce_mod_char
+    ring_nf
 
 theorem applyWord_fixes_r : ∀ w : List (Fin 6), applyWord w r = r
   | [] => rfl

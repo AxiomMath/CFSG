@@ -15,7 +15,6 @@ theorem nk_not_sq_dvd_168 {p : ℕ} (hp : p.Prime) (hodd : p % 2 = 1) : ¬ p ^ 2
   all_goals first
     | omega
     | exact absurd hp (by norm_num)
-    | exact absurd h (by norm_num)
 
 theorem nk_hom_comm_trivial {G A : Type} [Group G] [CommGroup A]
     (hperf : _root_.commutator G = ⊤) (f : G →* A) (g : G) : f g = 1 := by
@@ -24,9 +23,9 @@ theorem nk_hom_comm_trivial {G A : Type} [Group G] [CommGroup A]
   exact MonoidHom.mem_ker.mp (hle (Subgroup.mem_top g))
 
 theorem nk_pow_index_eq_one {G : Type} [Group G] [Finite G] (hperf : _root_.commutator G = ⊤)
-    (H : Subgroup G) (hH : ∀ a b : H, a * b = b * a) {z : G} (hz : z ∈ H)
+    (H : Subgroup G) (hH : ∀ a b : H, a * b = b * a) {z : G} (_hz : z ∈ H)
     (hcen : ∀ g : G, g * z = z * g) : z ^ H.index = 1 := by
-  letI : CommGroup H := { (inferInstance : Group H) with mul_comm := hH }
+  let : CommGroup H := { (inferInstance : Group H) with mul_comm := hH }
   have key : ∀ (k : ℕ) (g₀ : G), g₀⁻¹ * z ^ k * g₀ ∈ H → g₀⁻¹ * z ^ k * g₀ = z ^ k := by
     intro k g₀ _
     have hc0 : Commute z g₀ := (hcen g₀).symm
@@ -47,7 +46,7 @@ theorem nk_range_cyclic {H L : Type} [Group H] [Finite H] [Group L] [Finite L]
     exact h
   rcases n with _ | _ | n
   · have h1 : Nat.card f.range = 1 := by simpa using hn
-    haveI : Subsingleton f.range := (Nat.card_eq_one_iff_unique.mp h1).1
+    have : Subsingleton f.range := (Nat.card_eq_one_iff_unique.mp h1).1
     infer_instance
   · have h1 : Nat.card f.range = p := by simpa using hn
     exact isCyclic_of_prime_card h1
@@ -67,8 +66,8 @@ theorem nk_sylow_abelian {G L : Type} [Group G] [Finite G] [Group L] [Finite L]
     apply Subtype.ext
     exact hcent (x : G) (MonoidHom.mem_ker.mpr hx') (g : G)
   have hcyc : IsCyclic (π.comp P.toSubgroup.subtype).range :=
-    nk_range_cyclic hL hodd P.isPGroup' (π.comp P.toSubgroup.subtype)
-  haveI := hcyc
+    nk_range_cyclic hL hodd P.isPGroup (π.comp P.toSubgroup.subtype)
+  have := hcyc
   have hcomm := MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center
     (π.comp P.toSubgroup.subtype).rangeRestrict
     (by rw [MonoidHom.ker_rangeRestrict]; exact hker)
@@ -93,7 +92,7 @@ theorem nk_leafSchurL32 : NKLeafSchurL32 := by
   intro G L _ _ _ hperf hL π hsurj hcent hodd
   have hLcard : Nat.card L = 168 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_three_two hL
-  haveI : Finite L := Finite.of_surjective π hsurj
+  have : Finite L := Finite.of_surjective π hsurj
   rw [injective_iff_map_eq_one]
   intro a ha
   by_contra hne
@@ -101,7 +100,7 @@ theorem nk_leafSchurL32 : NKLeafSchurL32 := by
   have hn1 : orderOf a ≠ 1 := fun h => hne (orderOf_eq_one_iff.mp h)
   obtain ⟨p, hpp, hpd⟩ : ∃ p, p.Prime ∧ p ∣ orderOf a :=
     ⟨_, Nat.minFac_prime hn1, Nat.minFac_dvd _⟩
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hpodd : p % 2 = 1 := Nat.odd_iff.mp (Odd.of_dvd_nat (hodd a ha') hpd)
   have hw : orderOf (a ^ (orderOf a / p)) = p :=
     orderOf_pow_orderOf_div (orderOf_pos a).ne' hpd

@@ -27,7 +27,7 @@ open CFSG.BenderSuzuki.MatrixGroups
 
 private theorem card_galoisField_two_le_three_of_le_one {m : ℕ} (hm : m ≤ 1) :
     Nat.card (GaloisField 2 m) ≤ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   interval_cases m
   · rw [CFSG.CGT.PushingUpLit.BHS.natCard_galoisField_two_zero]
     norm_num
@@ -39,13 +39,13 @@ private theorem nonsolvable_alt_or_isL2 {F : Type} [Field F]
     (hns : ¬ Group.IsSolvable ↥H) :
     Nonempty (↥H ≃* alternatingGroup (Fin 5)) ∨
       ∃ b : ℕ, 2 ≤ b ∧ b ∣ a ∧ IsL2 ↥H b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases CFSG.GH74.GLS.IVK.Lifted.psl2_subgroup_dichotomy (p := 2) (f := a) hF H with
     hs | hA5 | ⟨m, hm, ⟨e⟩⟩ | ⟨m, hm, ⟨e⟩⟩
   · exact absurd hs hns
   · exact Or.inl hA5
   · rcases Nat.lt_or_ge m 2 with hm2 | hm2
-    · haveI : Group.IsSolvable (PSL2MatrixGroup (GaloisField 2 m)) :=
+    · have : Group.IsSolvable (PSL2MatrixGroup (GaloisField 2 m)) :=
         CFSG.SignalizerFunctorTheorem.CatalogBridge.isSolvable_psl2_of_card_le_three
           (card_galoisField_two_le_three_of_le_one (by omega))
       exact absurd (CFSG.GH74.GLS.IVK.Lifted.isSolvable_of_mulEquiv_lifted e) hns
@@ -54,7 +54,7 @@ private theorem nonsolvable_alt_or_isL2 {F : Type} [Field F]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2) e
   · rcases Nat.lt_or_ge m 2 with hm2 | hm2
-    · haveI : Group.IsSolvable (Matrix.ProjGenLinGroup (Fin 2) (GaloisField 2 m)) :=
+    · have : Group.IsSolvable (Matrix.ProjGenLinGroup (Fin 2) (GaloisField 2 m)) :=
         CFSG.SignalizerFunctorTheorem.CatalogBridge.isSolvable_pgl2_of_card_le_three
           (card_galoisField_two_le_three_of_le_one (by omega))
       exact absurd (CFSG.GH74.GLS.IVK.Lifted.isSolvable_of_mulEquiv_lifted e) hns
@@ -79,8 +79,8 @@ theorem isAlt_or_isL2_of_isL2 {S : Type} [Group S] [Finite S]
     have hYsolv : Group.IsSolvable ↥Y :=
       @Group.isSolvable_of_surjective ↥(Y.map eS.toMonoidHom) ↥Y _ _
         (eS.subgroupMap Y).symm.toMonoidHom (eS.subgroupMap Y).symm.surjective hs
-    haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hne
-    haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+    have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hne
+    have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
     exact Group.IsPerfect.not_isSolvable ↥Y hYsolv
   rcases nonsolvable_alt_or_isL2 hF H hHns with hA5 | ⟨b, -, hba, hL2⟩
   · left
@@ -100,8 +100,8 @@ theorem eq_bot_or_isSimpleGroup_of_isL2 {S : Type} [Group S]
     rcases isAlt_or_isL2_of_isL2 hS Y hY hbot with hA5 | ⟨b, hba, hL2⟩
     · change Nonempty (↥Y ≃* alternatingGroup (Fin 5)) at hA5
       obtain ⟨e5⟩ := hA5
-      haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
-        alternatingGroup.isSimpleGroup_five
+      have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+        (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
       exact e5.isSimpleGroup
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
 
@@ -170,7 +170,7 @@ private theorem eq_top_of_nonsolvable {F : Type} [Field F]
 theorem eq_top_of_sylow_le_normalizer_of_isL2 {S : Type} [Group S]
     [Finite S] {a : ℕ} (hS : IsL2 S a) (Y : Subgroup S) (hY : ⁅Y, Y⁆ = Y) (hne : Y ≠ ⊥)
     (T : Sylow 2 S) (hT : ∀ t : T, (t : S) ∈ normalizer (Y : Set S)) : Y = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eS⟩ := CFSG.SeitzReduction.RankOne.nonempty_mulEquiv_psl2_of_lieModel hS
   obtain ⟨ha1, hScard⟩ := CFSG.LocalAnalysis.UniquenessCase.UC22.KNL23.card_isL2 hS
   have hF : Nat.card (GaloisField 2 a) = 2 ^ a := GaloisField.card 2 a (by omega)
@@ -183,12 +183,12 @@ theorem eq_top_of_sylow_le_normalizer_of_isL2 {S : Type} [Group S]
     exact hT ⟨t, ht⟩
   have hHns : ¬ Group.IsSolvable ↥H := by
     intro hs
-    haveI : Group.IsSolvable ↥H := hs
+    have : Group.IsSolvable ↥H := hs
     have hYsolv : Group.IsSolvable ↥Y :=
       Group.isSolvable_of_isSolvable_injective
         (f := Subgroup.inclusion hYleH) (Subgroup.inclusion_injective hYleH)
-    haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hne
-    haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+    have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hne
+    have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
     exact Group.IsPerfect.not_isSolvable ↥Y hYsolv
   let Hbar : Subgroup (PSL2MatrixGroup (GaloisField 2 a)) := H.map eS.toMonoidHom
   have hHbarCard : Nat.card ↥H = Nat.card ↥Hbar :=
@@ -221,8 +221,8 @@ theorem eq_top_of_sylow_le_normalizer_of_isL2 {S : Type} [Group S]
     simpa [Hbar] using hHbarTop
   have hnorm : Subgroup.normalizer (Y : Set S) = ⊤ :=
     le_antisymm le_top (hHtop ▸ hHleNorm)
-  haveI : Y.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm
-  haveI : IsSimpleGroup S := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hS
+  have : Y.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm
+  have : IsSimpleGroup S := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Y with h | h
   · exact absurd h hne
   · exact h

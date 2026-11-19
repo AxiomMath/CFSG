@@ -227,6 +227,7 @@ private theorem le_normalizer_inf_gammaStab_conj_Pc (hS : Sec7Hyp M V n f)
     rw [show d = a⁻¹ * (a * d * a⁻¹) * a by group]
     exact (gammaStab V).mul_mem ((gammaStab V).mul_mem ((gammaStab V).inv_mem haY) hdY) haY
 
+omit [Finite G] in
 private theorem commutator_mem_of_mem_sup {D : Subgroup G} {x h : G} {A₁ A₂ : Subgroup G}
     (hA₁N : A₁ ≤ Subgroup.normalizer (D : Set G))
     (hA₂N : A₂ ≤ Subgroup.normalizer (D : Set G))
@@ -264,9 +265,9 @@ theorem Sec7Hyp.conj_Pc_le_gammaStab (hS : Sec7Hyp M V n f) (h74 : Sec7.Stmt74 M
   have hRN : Subgroup.zpowers h ≤ Subgroup.normalizer (D : Set G) :=
     Subgroup.zpowers_le.mpr hhND
   have hD2 : IsPGroup 2 D :=
-    (isPGroup_conj_Pc M V g).to_le (by simpa [D, X] using inf_le_right)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥D := hD2.isNilpotent
+    (isPGroup_conj_Pc M V g).to_le (by simp [D, X])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥D := hD2.isNilpotent
   have hsolv : Group.IsSolvable ↥D := inferInstance
   have hodd : Odd (Nat.card (Subgroup.zpowers h)) := by
     rw [Nat.card_zpowers, hD.order, hS.card_V]
@@ -286,7 +287,7 @@ theorem Sec7Hyp.conj_Pc_le_gammaStab (hS : Sec7Hyp M V n f) (h74 : Sec7.Stmt74 M
       (fun a ha => hS.commutator_mem_gammaStab h74 h75 h76U hRTS hSR hA₂Γ hA₂c hx ha)
       hD.mem
   obtain ⟨n, hn, hxn⟩ := CFSG.GroupTheory.exists_mul_mem_inf_centralizer_of_commutator_mem
-    (X := X) (N := D) (R := Subgroup.zpowers h) (by simpa [D] using inf_le_right)
+    (X := X) (N := D) (R := Subgroup.zpowers h) (by simp [D])
     hXD hRN hsolv hcop hx hxr
   have hxnY : x * n ∈ gammaStab V := hS.yOf_le_gammaStab h73 h75 hD hxn.2
   have hxY : x ∈ gammaStab V := by
@@ -299,7 +300,7 @@ theorem Sec7Hyp.false_of_centralizes_pair (hS : Sec7Hyp M V n f) (h74 : Sec7.Stm
     (hSR : UnitarySylowRoots) (h73 : Sec7.Stmt73 M V n f) {A₁ A₂ : Subgroup G}
     {h g : G} (hD : L2Datum M V A₁ A₂ h) (hB : conjSubgroup g V ∉ gammaAt V)
     (hBc : conjSubgroup g V ≤ cenOf (A₁ ⊔ A₂)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPY : conjSubgroup g (Pc M V) ≤ gammaStab V :=
     hS.conj_Pc_le_gammaStab h74 h75 h76U hRTS hSR h73 hD hBc
   have hP2 : IsPGroup 2 (conjSubgroup g (Pc M V)) := isPGroup_conj_Pc M V g

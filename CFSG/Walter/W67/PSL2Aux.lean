@@ -457,7 +457,7 @@ theorem exists_sylow (e : K ≃* PSL(2, GaloisField p f)) (hp : Odd p) (hf : 0 <
       ∀ W : Subgroup G, W ≤ K → IsPGroup 2 W → Nat.card W ∣ Nat.card P := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 2 PSL(2, GaloisField p f)) := inferInstance
-  refine ⟨(Q : Subgroup PSL(2, GaloisField p f)).map (psl2Emb e), ?_, Q.isPGroup'.map _, ?_,
+  refine ⟨(Q : Subgroup PSL(2, GaloisField p f)).map (psl2Emb e), ?_, Q.isPGroup.map _, ?_,
     fun W hWK hW => ?_⟩
   · exact map_le e _
   · rw [Subgroup.card_map_of_injective (emb_injective e)]
@@ -471,7 +471,7 @@ theorem mod_eight (e : K ≃* PSL(2, GaloisField p f)) (hp : Odd p) (hf : 0 < f)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P₀ : Sylow 2 PSL(2, GaloisField p f) := default
   have hPK : (P₀ : Subgroup PSL(2, GaloisField p f)).map (psl2Emb e) ≤ K := map_le e _
-  have hP := hab _ hPK (P₀.isPGroup'.map _)
+  have hP := hab _ hPK (P₀.isPGroup.map _)
   have eP := (P₀ : Subgroup PSL(2, GaloisField p f)).equivMapOfInjective (psl2Emb e)
     (emb_injective e)
   have hP₀ : IsMulCommutative (P₀ : Subgroup PSL(2, GaloisField p f)) :=
@@ -603,7 +603,7 @@ theorem eq_bot_of_odd (e : K ≃* PSL(2, GaloisField p f)) (hp : Odd p) (hf : 0 
     have hdisj : W₀ ⊓ P = ⊥ := by
       rw [eq_bot_iff]
       intro x hx
-      exact eq_one_of_odd_of_isPGroup P.isPGroup' hx.2
+      exact eq_one_of_odd_of_isPGroup P.isPGroup hx.2
         (Odd.of_dvd_nat (hW₀card ▸ hW) (Subgroup.orderOf_dvd_natCard _ hx.1))
     have hcomm : ∀ w ∈ W₀, ∀ t ∈ (P : Subgroup X), w * t = t * w := by
       intro w hw t ht

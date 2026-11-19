@@ -12,7 +12,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem B_coprime_index_four {X : Subgroup G} (hX : IsPGroup 2 X) {a : G} (ha : orderOf a = 3)
     (hn : a ∈ Nor X) (hnc : ¬ X ≤ Cen a) : 4 ≤ (X ⊓ Cen a).relIndex X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := X ⊓ Cen a with hCdef
   have hdvd : C.relIndex X ∣ Nat.card X := Dvd.intro _ (Subgroup.relIndex_mul_card C X)
   obtain ⟨n, hn'⟩ := hX.exists_card_eq
@@ -26,7 +26,7 @@ theorem B_coprime_index_four {X : Subgroup G} (hX : IsPGroup 2 X) {a : G} (ha : 
   have hbad : C.relIndex X ≠ 2 := by
     intro h2
     have hidx : (C.subgroupOf X).index = 2 := h2
-    haveI hnorm : (C.subgroupOf X).Normal := Subgroup.normal_of_index_eq_two hidx
+    have hnorm : (C.subgroupOf X).Normal := Subgroup.normal_of_index_eq_two hidx
     have hcard : Nat.card (↥X ⧸ C.subgroupOf X) = 2 := hidx
     obtain ⟨x, y, hxy, hset⟩ := Nat.card_eq_two_iff.1 hcard
     have hall : ∀ z : ↥X ⧸ C.subgroupOf X, z = x ∨ z = y := by

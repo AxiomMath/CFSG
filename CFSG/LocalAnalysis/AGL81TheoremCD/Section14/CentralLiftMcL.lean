@@ -184,7 +184,7 @@ theorem not_le_of_mcl {X : Type} [Group X] [Finite X] (K : Subgroup X)
   classical
   intro hle
   let Z : Subgroup ↥K := Subgroup.center ↥K
-  haveI hZnormal : Z.Normal := Subgroup.instNormalCenter
+  have hZnormal : Z.Normal := Subgroup.instNormalCenter
   have hcardZ : Nat.card Z = 3 := hZ
   let c : MulAut ↥K := K.normalizerMonoidHom ⟨b, hbN⟩
   have hb3 : b ^ 3 = 1 := by rw [← hb]; exact pow_orderOf_eq_one b
@@ -195,7 +195,7 @@ theorem not_le_of_mcl {X : Type} [Group X] [Finite X] (K : Subgroup X)
     rw [← map_pow, h3, map_one]
   have hinv : Z.map c.toMonoidHom = Z := by
     have h := Subgroup.characteristic_iff_map_eq.mp Subgroup.centerCharacteristic c
-    simpa [Z] using h
+    simp [Z]
   let β : MulAut (↥K ⧸ Z) := CatalogueBFixedCentralQuotient.onQuotient Z c hinv
   have hβ3 : β ^ 3 = 1 := onQuotient_pow_three Z c hinv hc3
   have hβ1 : β ≠ 1 :=

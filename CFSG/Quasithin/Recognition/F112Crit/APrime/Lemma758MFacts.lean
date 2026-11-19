@@ -27,7 +27,7 @@ private theorem conjClosure_le_G₂ (hA : AmalgamS3 G₀ G₁ G₂ T L) :
 
 theorem AmalgamS3.conjClosure_le_L (hA : AmalgamS3 G₀ G₁ G₂ T L) :
     conjClosure (pCoreOf 2 G₁) G₂ ≤ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine conjClosure_le fun g hg z hz => ?_
   have hPleG₂ : conjSub g (pCoreOf 2 G₁) ≤ G₂ := by
     intro y hy
@@ -42,7 +42,7 @@ theorem AmalgamS3.conjClosure_le_L (hA : AmalgamS3 G₀ G₁ G₂ T L) :
 private theorem isSylowTwoOf_conjClosure
     (h3 : (pCoreOf 2 G₁).relIndex (conjClosure (pCoreOf 2 G₁) G₂) = 3) :
     IsSylowTwoOf (pCoreOf 2 G₁) (conjClosure (pCoreOf 2 G₁) G₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨le_conjClosure _ _, pCoreOf_isPGroup 2 G₁, ?_⟩
   change ¬ 2 ∣ (pCoreOf 2 G₁).relIndex (conjClosure (pCoreOf 2 G₁) G₂)
   rw [h3]
@@ -51,7 +51,7 @@ private theorem isSylowTwoOf_conjClosure
 private theorem conjClosure_card
     (h3 : (pCoreOf 2 G₁).relIndex (conjClosure (pCoreOf 2 G₁) G₂) = 3) :
     ∃ a : ℕ, Nat.card (conjClosure (pCoreOf 2 G₁) G₂) = 2 ^ a * 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp (pCoreOf_isPGroup 2 G₁)
   refine ⟨a, ?_⟩
   have hmul := Subgroup.relIndex_mul_card (pCoreOf 2 G₁)
@@ -86,7 +86,7 @@ private theorem conjClosure_inf_eq (hA : AmalgamS3 G₀ G₁ G₂ T L)
       rw [← hA.inf_eq]
       exact le_inf (AmalgamS3.conjClosure_le_L hA) hMG₁
     have hM2 : IsPGroup 2 M := hA.hyp.sylow₂.2.1.to_le hMT
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hM2
     obtain ⟨a, ha⟩ := conjClosure_card h3
     have h3dvd : 3 ∣ Nat.card M := by
@@ -129,6 +129,7 @@ private theorem conjClosure_sup_eq (hA : AmalgamS3 G₀ G₁ G₂ T L)
       omega
     exact le_antisymm hMH (Subgroup.relIndex_eq_one.mp hlast)
 
+omit [Finite G] in
 private theorem conjClosure_pCoreOf_ne_bot
     (h3 : (pCoreOf 2 G₁).relIndex (conjClosure (pCoreOf 2 G₁) G₂) = 3) :
     pCoreOf 2 G₁ ≠ ⊥ := by
@@ -160,7 +161,7 @@ private theorem conjClosure_not_le_normalizer (hA : AmalgamS3 G₀ G₁ G₂ T L
   have hG₀N : G₀ ≤ Subgroup.normalizer (pCoreOf 2 G₁ : Set G) := by
     rw [hA.hyp.gen]
     exact sup_le (le_normalizer_pCoreOf 2 G₁) hG₂N
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQleG₀ : pCoreOf 2 G₁ ≤ G₀ := (pCoreOf_le 2 G₁).trans hA.hyp.le₁
   have hQleO₂ : pCoreOf 2 G₁ ≤ pCoreOf 2 G₀ :=
     le_pCoreOf_of_le_normalizer 2 hQleG₀ hG₀N (pCoreOf_isPGroup 2 G₁)
@@ -173,7 +174,7 @@ private theorem conjClosure_pCoreOf_eq (hA : AmalgamS3 G₀ G₁ G₂ T L)
     (h3 : (pCoreOf 2 G₁).relIndex (conjClosure (pCoreOf 2 G₁) G₂) = 3) :
     pCoreOf 2 (conjClosure (pCoreOf 2 G₁) G₂) =
       pCoreOf 2 G₁ ⊓ pCoreOf 2 G₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let M := conjClosure (pCoreOf 2 G₁) G₂
   let D := pCoreOf 2 G₁ ⊓ pCoreOf 2 G₂
   have hMleG₂ : M ≤ G₂ := conjClosure_le_G₂ hA
@@ -209,7 +210,7 @@ private theorem conjClosure_commutator_mem (hA : AmalgamS3 G₀ G₁ G₂ T L)
     { carrier := {x | x ∈ G₂ ∧ ∀ q ∈ Q₂, x * q * x⁻¹ * q⁻¹ ∈ D}
       one_mem' := by
         refine ⟨G₂.one_mem, fun q _ => ?_⟩
-        simpa using D.one_mem
+        simp
       mul_mem' := by
         intro x y hx hy
         obtain ⟨hxG₂, hx'⟩ := hx
@@ -294,7 +295,7 @@ private theorem conjClosure_charTwo (hA : AmalgamS3 G₀ G₁ G₂ T L)
   have hcomm := conjClosure_commutator_mem hA hD
   have hno3 : ¬ 3 ∣ Nat.card ↥C := by
     intro h3dvd
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hxorder⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 3 h3dvd
     have hxmem : (x : G) ∈ M ⊓ Subgroup.centralizer (D : Set G) :=
       show (x : G) ∈ C from x.2
@@ -341,7 +342,7 @@ private theorem conjClosure_charTwo (hA : AmalgamS3 G₀ G₁ G₂ T L)
           simp only [hx3, one_mul, inv_one] at h
           have h' := congrArg (fun t => t * q⁻¹) h
           simpa [mul_assoc] using h'.symm
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hD2 : IsPGroup 2 D := (pCoreOf_isPGroup 2 G₁).to_le inf_le_left
         obtain ⟨m, hm⟩ := hD2 ⟨d, hdD⟩
         have hmval : d ^ (2 ^ m) = 1 := by

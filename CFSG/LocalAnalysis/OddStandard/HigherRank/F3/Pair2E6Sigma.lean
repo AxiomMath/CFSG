@@ -43,22 +43,22 @@ private theorem revIdx_val (a : Fin 6) : (revIdx a : ℕ) = 5 - (a : ℕ) := rfl
 
 private theorem unitaryJ6_apply_self (a : Fin 6) :
     (unitaryJ6 : Matrix (Fin 6) (Fin 6) E) a (revIdx a) = (-1 : E) ^ ((a : ℕ) + 1) := by
-  rw [unitaryJ6_apply, if_pos (by rw [revIdx_val]; omega)]
+  rw [unitaryJ6_apply, ite_eq_left (by rw [revIdx_val]; omega)]
 
 private theorem unitaryJ6_apply_eq_zero (a i : Fin 6) (h : i ≠ revIdx a) :
     (unitaryJ6 : Matrix (Fin 6) (Fin 6) E) a i = 0 := by
-  rw [unitaryJ6_apply, if_neg]
+  rw [unitaryJ6_apply, ite_eq_right]
   intro hc
   exact h (Fin.ext (by rw [revIdx_val]; omega))
 
 private theorem unitaryJInv6_apply_self (b : Fin 6) :
     (unitaryJInv6 : Matrix (Fin 6) (Fin 6) E) (revIdx b) b =
       (-1 : E) ^ ((revIdx b : ℕ)) := by
-  rw [unitaryJInv6_apply, if_pos (by rw [revIdx_val]; omega)]
+  rw [unitaryJInv6_apply, ite_eq_left (by rw [revIdx_val]; omega)]
 
 private theorem unitaryJInv6_apply_eq_zero (j b : Fin 6) (h : j ≠ revIdx b) :
     (unitaryJInv6 : Matrix (Fin 6) (Fin 6) E) j b = 0 := by
-  rw [unitaryJInv6_apply, if_neg]
+  rw [unitaryJInv6_apply, ite_eq_right]
   intro hc
   exact h (Fin.ext (by rw [revIdx_val]; omega))
 

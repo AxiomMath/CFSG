@@ -37,7 +37,7 @@ theorem s16ae_exists_index_two_fix_ne_of_moved {T : Type} [CommGroup T] [Finite 
     (hmove : ∃ a ∈ A, ∃ i, (Y i).map a.toMonoidHom ≠ Y i) :
     ∃ B : Subgroup (MulAut T), B ≤ A ∧ E3.mQuot A B = 1 ∧ fixV B ≠ fixV A := by
   classical
-  haveI : Finite ι := Finite.of_injective Y (hind.injective hY)
+  have : Finite ι := Finite.of_injective Y (hind.injective hY)
   obtain ⟨a₀, ha₀A, i₀, hi₀⟩ := hmove
   let S : Subgroup (MulAut T) := A ⊓ s16ae_orbit_stab (Y i₀)
   have hSA : S ≤ A := inf_le_left
@@ -77,7 +77,6 @@ theorem s16ae_exists_index_two_fix_ne_of_moved {T : Type} [CommGroup T] [Finite 
     have hle : Y i₀ ≤ Z := by
       have hmap : (Y i₀).map ((1 : B) : MulAut T).toMonoidHom = Y i₀ := by
         rw [show ((1 : B) : MulAut T) = (1 : MulAut T) from rfl]
-        change (Y i₀).map (MulEquiv.toMonoidHom (1 : MulAut T)) = Y i₀
         rw [show MulEquiv.toMonoidHom (1 : MulAut T) = MonoidHom.id T from
           MulEquiv.toMonoidHom_refl]
         exact Subgroup.map_id (G := T) (K := Y i₀)

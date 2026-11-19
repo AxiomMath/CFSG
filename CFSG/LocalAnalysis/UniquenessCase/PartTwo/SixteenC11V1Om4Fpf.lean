@@ -74,7 +74,7 @@ private theorem s16c11_v1_om4_tensor_fpf {K : Type} [Field K] [Finite K]
       Matrix.diagonal_pow]
     have hv3 : v ^ 3 = 1 := by
       funext i
-      fin_cases i <;> simp [Pi.pow_apply, v, hval, hvalinv]
+      fin_cases i <;> simp [Pi.pow_apply, v, hval]
     rw [hv3]
     exact Matrix.diagonal_one
   have h1 : ∀ X : VM K, Multiplicative.toAdd (rho (c, 1) X) =
@@ -144,8 +144,8 @@ theorem s16c11_v1_natOmegaPlus_two_fpf_in {W : Type} [CommGroup W] {H : Subgroup
       (∀ w, t₁ w = w → w = 1) ∧ (∀ w, t₂ w = w → w = 1) ∧
       H ≤ Subgroup.closure {x | x ∈ H ∧ (x * t₁ = t₁ * x ∨ x * t₂ = t₂ * x)} := by
   obtain ⟨K, hKf, hKfin, β, hKcard, hL⟩ := s16c11_case5_tensor h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨t₁', ht₁'range, t₂', ht₂'range, hcomm, hpow1, hpow2, hfix1, hfix2, hcl⟩ :=
     s16c11_v1_om4_tensor_fpf (K := K) hKcard
   have hmap1 : t₁' ∈ H.map (MulAut.congr β).toMonoidHom := by rw [hL]; exact ht₁'range

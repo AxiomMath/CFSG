@@ -10,10 +10,10 @@ open CFSG.Open
 
 variable {S G : Type*} [Group S] [Group G]
 
-theorem isSubnormal_comap_of_injective (ι : S →* G) (hι : Function.Injective ι)
+theorem isSubnormal_comap_of_injective (ι : S →* G) (_hι : Function.Injective ι)
     {H K : Subgroup G} (hK : K ≤ ι.range) (h : IsSubnormal H K) :
     IsSubnormal (H.comap ι) (K.comap ι) := by
-  clear hι
+  clear _hι
   revert hK
   induction h with
   | refl H' =>

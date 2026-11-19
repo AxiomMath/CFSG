@@ -152,7 +152,7 @@ theorem card_centralizer_h₀_gt (S : ThSetting G) :
       Subgroup.nat_card_centralizer_nat_card_stabilizer]
   have hprod : Nat.card (MulAction.orbit (ConjAct S.H) h₀H) *
       Nat.card ↥(Subgroup.centralizer ({S.h₀} : Set G) ⊓ S.H) = Nat.card S.H := by
-    haveI : Finite (ConjAct S.H) := Finite.of_equiv S.H ConjAct.ofConjAct.toEquiv.symm
+    have : Finite (ConjAct S.H) := Finite.of_equiv S.H ConjAct.ofConjAct.toEquiv.symm
     let _ : Fintype (ConjAct S.H) := Fintype.ofFinite _
     let _ : Fintype (MulAction.orbit (ConjAct S.H) h₀H) := Fintype.ofFinite _
     let _ : Fintype (MulAction.stabilizer (ConjAct S.H) h₀H) := Fintype.ofFinite _

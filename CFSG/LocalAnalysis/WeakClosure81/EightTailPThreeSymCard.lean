@@ -23,8 +23,8 @@ theorem card_eq_two_of_sevenElevenAlt {X : Type} [Group X] [Finite X] {S : Subgr
   · rcases h1 with ⟨m', hsp, hroot⟩ | ⟨m', hpsu, huroot⟩ | ⟨hsz, -⟩
     ·
       obtain ⟨hcardS, k, hmk, F, hFld, hFin, hFcard, e, hQ⟩ := hroot
-      letI : Field F := hFld
-      letI : Finite F := hFin
+      let : Field F := hFld
+      let : Finite F := hFin
       by_cases hn'1 : n' = 1
       · simp [hcardS, hn'1]
       · exfalso
@@ -38,23 +38,23 @@ theorem card_eq_two_of_sevenElevenAlt {X : Type} [Group X] [Finite X] {S : Subgr
           have hk0 : k = 0 := by omega
           subst hk0
           obtain ⟨eS⟩ := h
-          haveI hsubZ : Subsingleton (X ⧸ Subgroup.center X) :=
+          have hsubZ : Subsingleton (X ⧸ Subgroup.center X) :=
             ⟨fun a b => e.injective (Subtype.ext (Units.ext (Subsingleton.elim _ _)))⟩
           have hZtop : Subgroup.center X = ⊤ := by
             ext x
             simp only [Subgroup.mem_top, iff_true]
             exact (QuotientGroup.eq_one_iff x).mp (Subsingleton.elim _ _)
           have hOtop : fusionOddCore X = ⊤ := le_antisymm le_top (hZtop ▸ hZO)
-          haveI : Subsingleton (X ⧸ fusionOddCore X) := by
+          have : Subsingleton (X ⧸ fusionOddCore X) := by
             rw [hOtop]
             exact QuotientGroup.subsingleton_quotient_top
-          haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+          have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
           exact not_subsingleton_iff_nontrivial.mpr inferInstance
             (eS.toEquiv.symm.subsingleton)
     ·
       obtain ⟨hcardS, F, hFld, hFin, hFcard, e, hQ⟩ := huroot
-      haveI : Field F := hFld
-      haveI : Finite F := hFin
+      have : Field F := hFld
+      have : Finite F := hFin
       obtain ⟨hm'3, hn'1⟩ := three_le_of_isPSUGp hpsu
       by_cases hn'one : n' = 1
       · simp [hcardS, hn'one]
@@ -81,7 +81,7 @@ theorem card_eq_two_of_sevenElevenAlt {X : Type} [Group X] [Finite X] {S : Subgr
   ·
     obtain ⟨⟨eA6⟩, -, -⟩ := h3
     exfalso
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     exact false_of_isSimpleGroup_center_quot_symGp (by omega) hodd h
       (MulEquiv.isSimpleGroup eA6)
   · exact hS2
@@ -98,7 +98,7 @@ theorem sevenElevenAlt_of_shapeData (h711 : ∀ H : Subgroup G, W3Lem711Alt ↥H
 theorem card_barSub_eq_two_of_symGp (h711 : ∀ H : Subgroup G, W3Lem711Alt ↥H)
     (d : ShapeData V H T φ) {m : ℕ} (hm : 3 < m) (h : IsSymGp (X ⧸ fusionOddCore X) m) :
     Nat.card (barSub (kGenIn V H) φ V) = 2 := by
-  haveI := d.finite
+  have := d.finite
   exact card_eq_two_of_sevenElevenAlt hm d.odd_card_center h (sevenElevenAlt_of_shapeData h711 d)
 
 end CFSG.LocalAnalysis.WeakClosure81

@@ -117,7 +117,7 @@ theorem exists_conj_transvection (t : SL(3, F)) (ht1 : t ≠ 1) (ht2 : t * t = 1
     rw [this]
     exact hli
   have hunit : IsUnit g0.det :=
-    (Matrix.isUnit_iff_isUnit_det _).mp (Matrix.linearIndependent_cols_iff_isUnit.mp hcols)
+    (Matrix.isUnit_iff_isUnit_det _).mp (Matrix.linearIndependent_col_iff_isUnit.mp hcols)
   set d : F := g0.det with hd
   have hd0 : d ≠ 0 := hunit.ne_zero
   set D : Matrix (Fin 3) (Fin 3) F := Matrix.diagonal ![1, 1, d⁻¹] with hD

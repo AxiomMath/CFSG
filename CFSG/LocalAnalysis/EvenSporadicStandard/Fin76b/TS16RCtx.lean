@@ -45,7 +45,7 @@ theorem shape :
     Nonempty (↥S ≃* DihedralGroup 8) ∨ Nonempty (↥S ≃* CFSG.Open.SemidihedralGroup 4) :=
   shape_of_card_sixteen c.facts.1 c.card16
 
-theorem t_comm_S : ∀ s ∈ S, s * t = t * s := fun s hs =>
+theorem t_comm_S : ∀ _s ∈ S, _s * t = t * _s := fun _s hs =>
   (mem_centralizer_iff.1 (c.SC hs) t c.hyp.outerE.econfig.t_mem).symm
 
 theorem t_mem_S : t ∈ S := by

@@ -116,14 +116,17 @@ end Gens
 variable [Finite X]
 
 include A in
+omit [Finite X] in
 theorem le_normalizer : centralizer ({t} : Set X) ≤ normalizer (L : Set X) :=
   A.config.le_normalizer
 
 include A in
+omit [Finite X] in
 theorem conj_mem_L {g l : X} (hg : g ∈ centralizer ({t} : Set X)) (hl : l ∈ L) :
     g * l * g⁻¹ ∈ L :=
   (mem_normalizer_iff.mp (le_normalizer (A := A) hg) l).mp hl
 
+omit [Finite X] in
 theorem conj_mem_R_of_mem_T {g r : X} (hg : g ∈ A.T) (hr : r ∈ A.R) : g * r * g⁻¹ ∈ A.R := by
   have hgr : g * r * g⁻¹ ∈ A.T := mul_mem (mul_mem hg hr.1) (inv_mem hg)
   refine ⟨hgr, (A.mem_D hgr).mpr ⟨conj_mem_L (A := A) (A.T_le_centralizer hg) (A.R_le_L hr), ?_⟩⟩

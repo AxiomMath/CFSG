@@ -18,7 +18,7 @@ theorem s16nt_normalize_cocycle {Γ : Type} [Group Γ] [Finite Γ] {N : Type} [A
     (hodd : Odd (Nat.card T)) (hfix : ∀ v : N, (∀ t ∈ T, ρ t v = v) → v = 0) {c : Γ → N}
     (hc : c ∈ Z1 ρ) : ∃ v : N, ∀ m ∈ Subgroup.normalizer (T : Set Γ), c m = ρ m v - v := by
   classical
-  haveI : Fintype ↥T := Fintype.ofFinite ↥T
+  have : Fintype ↥T := Fintype.ofFinite ↥T
   have h2 : ∀ x : N, x + x = 0 := fun x => by
     have h := two_smul (ZMod 2) x
     rw [show (2 : ZMod 2) = 0 from by decide, zero_smul] at h
@@ -96,7 +96,7 @@ theorem s16nt_h1_le_of_eval {Γ : Type} [Group Γ] [Finite Γ] {N : Type} [AddCo
     (hF : ∀ v : N, (∀ d ∈ S, ρ d v = v) → v ∈ F) :
     Module.finrank (ZMod 2) (H1 ρ) ≤ Module.finrank (ZMod 2) F := by
   classical
-  haveI : Finite (Γ → N) := Pi.finite
+  have : Finite (Γ → N) := Pi.finite
   let P : Submodule (ZMod 2) (Γ → N) :=
     { carrier := {c | ∀ m ∈ M, c m = 0}
       add_mem' := by

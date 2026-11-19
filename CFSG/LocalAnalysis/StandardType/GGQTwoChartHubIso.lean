@@ -32,8 +32,8 @@ theorem qTwoChartHub_inj_block (S : QTwoChartSetting B Bs x L D J 𝒦 m n)
     rw [Matrix.mulVec_single_one, Matrix.col_apply,
       (mem_coordBlockSU_iff.mp hu) j i (Or.inr hi)]
     by_cases hji : j = i
-    · rw [hji, if_pos rfl, Pi.single_eq_same]
-    · rw [if_neg hji, Pi.single_eq_of_ne hji]
+    · rw [hji, ite_eq_left rfl, Pi.single_eq_same]
+    · rw [ite_eq_right hji, Pi.single_eq_of_ne hji]
   have hε0' := hε0
   unfold QTwoFrameMatch at hε0'
   exact qTwoChartTwoThree_central_eq_one (fun σ => (hε0' σ).imp fun v hv => hv.1) hz hvec

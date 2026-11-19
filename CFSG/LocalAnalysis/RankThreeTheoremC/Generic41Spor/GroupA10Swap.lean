@@ -78,7 +78,7 @@ theorem spt_a10_moves {t : A10} (ht : t ∈ S₀) (ht1 : t ≠ 1) :
     rintro ⟨hi, hj⟩
     exact ht1 (by rw [spt_a₁_pow_eq_one hi, spt_a₂_pow_eq_one hj, one_mul])
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨m, hm⟩ := mem_zpowers_nat.1 (hcon ν₁ spt_ν₁_mem)
   obtain ⟨m', hm'⟩ := mem_zpowers_nat.1 (hcon ν₂ spt_ν₂_mem)
   rw [spt_pow_normal, spt_ν₁_conj] at hm

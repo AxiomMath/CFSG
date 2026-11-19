@@ -55,11 +55,11 @@ private theorem rckl_label_eq_L32 {lab : LargeEvenLabel} (hlab : LargeEvenInLamb
   cases tag
   · dsimp only [ggSixRCKLabelRow] at h
     have hc1 : ¬ 2 ≤ n := by
-      intro hc1; rw [if_pos hc1] at h; exact absurd h (by decide)
+      intro hc1; rw [ite_eq_left hc1] at h; exact absurd h (by decide)
     have hc2 : rank ≠ 3 := by
-      intro hc2; rw [if_neg hc1, if_pos hc2] at h; exact absurd h (by decide)
+      intro hc2; rw [ite_eq_right hc1, ite_eq_left hc2] at h; exact absurd h (by decide)
     have hc3 : ¬ 4 ≤ rank := by
-      intro hc3; rw [if_neg hc1, if_neg hc2, if_pos hc3] at h; exact absurd h (by decide)
+      intro hc3; rw [ite_eq_right hc1, ite_eq_right hc2, ite_eq_left hc3] at h; exact absurd h (by decide)
     dsimp only [LargeEvenInLambda2] at hlab
     obtain ⟨hn1, hr1, hr2⟩ := hlab
     have hn : n = 1 := by omega
@@ -73,7 +73,7 @@ private theorem rckl_label_eq_L32 {lab : LargeEvenLabel} (hlab : LargeEvenInLamb
   all_goals
     dsimp only [ggSixRCKLabelRow] at h
     first
-      | (split_ifs at h <;> exact absurd h (by decide))
+      | (split_ifs at h)
       | exact absurd h (by decide)
 
 private theorem rckl_marking_statedClassicalModel {X : Type} [Group X] {J : Subgroup X}
@@ -91,8 +91,8 @@ private theorem rckl_marking_statedClassicalModel {X : Type} [Group X] {J : Subg
   dsimp only at hQproj
   obtain ⟨θ, -⟩ := hQproj.2.2
   refine ⟨hJ, ?_⟩
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hadm : StatedLieAdmissible .PSL 3 2 1 :=
     ⟨Nat.prime_two, le_rfl, by norm_num, by decide, by decide⟩
   exact statedClassicalModel_of_mulEquiv' θ.symm
@@ -105,14 +105,14 @@ theorem not_jRow_L32_of_hA {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Pri
   intro hrow
   obtain ⟨hJ, hSC⟩ := rckl_marking_statedClassicalModel hrow
   let Y := ↥J ⧸ Subgroup.center ↥J
-  haveI : Finite Y := inferInstance
+  have : Finite Y := inferInstance
   have hBp : IsPGroup p ↥B₁ := CFSG.Open.IsElemAbelian.isPGroup hB
   let ψ : ↥B₁ →* MulAut ↥J :=
     (Subgroup.normalizerMonoidHom J).comp (Subgroup.inclusion hBN)
   let ρ : ↥B₁ →* MulAut Y :=
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥J).comp ψ
   have hker_le : Nat.card ρ.ker ≤ p ^ 2 := by
-    haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJ
+    have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJ
     have hkermap : ρ.ker.map B₁.subtype ≤ B₁ ⊓ Subgroup.centralizer (J : Set X) := by
       rintro x ⟨b, hb, rfl⟩
       have hbρ : ρ b = 1 := hb
@@ -153,8 +153,8 @@ theorem not_jRow_L32_of_hA {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Pri
   have hdvd2 : Nat.card (CFSG.AGLEmbedding.ParabAutIrr.inn Y) ∣ Nat.card Y :=
     Subgroup.card_range_dvd (MulAut.conj : Y →* MulAut Y)
   have hp2_dvd_range : p ^ 2 ∣ Nat.card ρ.range := by
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Finite ρ.range := inferInstance
+    have : Fact p.Prime := ⟨hp⟩
+    have : Finite ρ.range := inferInstance
     obtain ⟨k, hk⟩ := hPp_range.exists_card_eq
     have hk2 : 2 ≤ k := by
       by_contra hk2
@@ -170,8 +170,8 @@ theorem not_jRow_L32_of_hA {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Pri
   have hYdvd : Nat.card Y ∣ 168 := by
     obtain ⟨K', hK'F, hK'Fin, hK'card, ⟨e⟩⟩ :=
       CFSG.AGLEmbedding.ParabAutIrr.exists_equiv_projectiveSL hSC
-    letI : Field K' := hK'F
-    letI : Finite K' := hK'Fin
+    let : Field K' := hK'F
+    let : Finite K' := hK'Fin
     have hdvd : Nat.card Y ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 3) K') := by
       rw [Nat.card_congr e.toEquiv]
       rw [← Subgroup.index_eq_card]

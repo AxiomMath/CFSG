@@ -120,7 +120,7 @@ theorem blockShape_of_commute_z0 (h2 : (2 : F) ≠ 0) {n : GL (Fin 3) F} (h : n 
     (n : Matrix (Fin 3) (Fin 3) F) 0 2 = 0 ∧ (n : Matrix (Fin 3) (Fin 3) F) 1 2 = 0 ∧
       (n : Matrix (Fin 3) (Fin 3) F) 2 0 = 0 ∧ (n : Matrix (Fin 3) (Fin 3) F) 2 1 = 0 := by
   have h' := congrArg (fun g : GL (Fin 3) F => (g : Matrix (Fin 3) (Fin 3) F)) h
-  simp only [Units.val_mul, z0, coe_dGL, dMat, Matrix.mul_diagonal, Matrix.diagonal_mul] at h'
+  simp only [Units.val_mul, z0, coe_dGL, dMat] at h'
   have e02 := congrFun (congrFun h' 0) 2
   have e12 := congrFun (congrFun h' 1) 2
   have e20 := congrFun (congrFun h' 2) 0
@@ -144,7 +144,7 @@ theorem exists_ne_zero_col (n : GL (Fin 3) F) (j : Fin 3) :
   rw [Units.val_mul, Matrix.mul_apply] at h1
   simp [h] at h1
 
-theorem diag_or_swap_of_normalizer (h2 : (2 : F) ≠ 0) {ι : Fˣ} (hι : ι ^ N = 1) (hι2 : ι ^ 2 ≠ 1)
+theorem diag_or_swap_of_normalizer (_h2 : (2 : F) ≠ 0) {ι : Fˣ} (hι : ι ^ N = 1) (hι2 : ι ^ 2 ≠ 1)
     {n : GL (Fin 3) F} (hn : ∀ g, g ∈ stdMon (F := F) N ↔ n * g * n⁻¹ ∈ stdMon (F := F) N)
     (hsh : (n : Matrix (Fin 3) (Fin 3) F) 0 2 = 0 ∧ (n : Matrix (Fin 3) (Fin 3) F) 1 2 = 0 ∧
       (n : Matrix (Fin 3) (Fin 3) F) 2 0 = 0 ∧ (n : Matrix (Fin 3) (Fin 3) F) 2 1 = 0) :
@@ -177,7 +177,7 @@ theorem diag_or_swap_of_normalizer (h2 : (2 : F) ≠ 0) {ι : Fˣ} (hι : ι ^ N
   obtain ⟨α, β, hα, hβ, hyα | hyβ⟩ := hy
   ·
     have hm := hmat _ hyα.symm
-    simp only [coe_dGL, dMat, Matrix.mul_diagonal, Matrix.diagonal_mul] at hm
+    simp only [coe_dGL, dMat] at hm
     have e00 := congrFun (congrFun hm 0) 0
     have e01 := congrFun (congrFun hm 0) 1
     have e10 := congrFun (congrFun hm 1) 0
@@ -219,7 +219,7 @@ theorem diag_or_swap_of_normalizer (h2 : (2 : F) ≠ 0) {ι : Fˣ} (hι : ι ^ N
   ·
     exfalso
     have hm := hmat _ hyβ.symm
-    simp only [coe_sGL, sMat', dMat, Matrix.mul_diagonal] at hm
+    simp only [coe_sGL, sMat', dMat] at hm
     have e00 := congrFun (congrFun hm 0) 0
     have e10 := congrFun (congrFun hm 1) 0
     have e01 := congrFun (congrFun hm 0) 1

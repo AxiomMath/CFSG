@@ -40,9 +40,9 @@ theorem pCoreOf_top (p : ℕ) {X : Type*} [Group X] :
 theorem pCore_iso_of_oddCentralCover {A B : Type} [Group A] [Finite A] [Group B] [Finite B]
     {ψ : A →* B} (h : OddCentralCover ψ) :
     Nonempty (↥(CFSG.pCore 2 A) ≃* ↥(CFSG.pCore 2 B)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup A := ψ.ker
-  haveI : Z.Normal := MonoidHom.normal_ker ψ
+  have : Z.Normal := MonoidHom.normal_ker ψ
   have hZ : Z ≤ Subgroup.center A := h.ker_le_center
   have hcop : Nat.Coprime (Nat.card Z) 2 := Nat.coprime_two_right.mpr h.odd_card_ker
   have hle : CFSG.pCore 2 B ≤ (CFSG.pCore 2 A).map ψ := by

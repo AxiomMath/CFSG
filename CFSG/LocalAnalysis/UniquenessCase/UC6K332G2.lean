@@ -120,7 +120,7 @@ theorem K332_centreLeComm_of_mulEquiv {A B : Type*} [Group A] [Group B] (e : A �
 
 theorem K332_sylowCLC_of_exists {G : Type} [Group G] [Finite G] (T₀ : Sylow 3 G)
     (h : K332CentreLeComm ↥(T₀ : Subgroup G)) : SylowCenterLeCommutator G := by
-  haveI : Finite (Sylow 3 G) := Sylow.finite_of_finiteIndex T₀
+  have : Finite (Sylow 3 G) := Sylow.finite_of_finiteIndex T₀
   intro T
   exact K332_centreLeComm_of_mulEquiv (Sylow.equiv T₀ T) h
 
@@ -284,11 +284,11 @@ theorem sl3_exists_cycle_data {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
       Matrix.SpecialLinearGroup.coe_one, ← Matrix.diagonal_one]
     congr 1
     funext i
-    fin_cases i <;> simp [hω3] <;> linear_combination (ω ^ 3 + 1) * hω3
+    fin_cases i <;> simp [hω3]; linear_combination (ω ^ 3 + 1) * hω3
   have hπ3 : π ^ 3 = 1 := by
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_pow, hπc, Matrix.SpecialLinearGroup.coe_one]
-    simp [pow_succ, Matrix.mul_fin_three, Matrix.one_fin_three]
+    simp [pow_succ, Matrix.one_fin_three]
   have hc3 : c ^ 3 = 1 := by
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_pow, hcc, Matrix.SpecialLinearGroup.coe_one, ← map_pow,
@@ -302,7 +302,7 @@ theorem sl3_exists_cycle_data {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
       Matrix.SpecialLinearGroup.coe_mul, hπc, hDc, hcc]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, Matrix.scalar_apply] <;>
+      simp [Matrix.mul_apply, Matrix.diagonal_apply, Matrix.scalar_apply] <;>
       first | ring1 | linear_combination hω3 | linear_combination -hω3
   refine ⟨D, π, c, hcz, hD3, hπ3, hc3, ?_, ?_⟩
   · rw [hrel', mul_assoc, mul_inv_cancel, mul_one]
@@ -388,7 +388,7 @@ theorem sylowCenterLeCommutator_projSU_three_three (X : Type) [Group X] [Finite 
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.card_center_of_nonabelian_card_p_cube
       hTcard hnc
   refine K332_sylowCLC_of_exists T fun z hz _ => ?_
-  exact center_le_commutator_of_card_center_eq_prime T.isPGroup' hnc hZ hz
+  exact center_le_commutator_of_card_center_eq_prime T.isPGroup hnc hZ hz
 
 theorem K332_factorization_three_g2_sq {q : ℕ} (hq : 2 ≤ q) (h1 : 3 ∣ q + 1) :
     ((q ^ 2) ^ 6 * ((q ^ 2) ^ 6 - 1) * ((q ^ 2) ^ 2 - 1)).factorization 3 =
@@ -518,7 +518,7 @@ theorem K332_sylowCLC_adjointG2_of_three_dvd_add_one (K : Type) [Field K] [Finit
   obtain ⟨K₂, _, _, _, hK₂⟩ : ∃ (K₂ : Type) (_ : Field K₂) (_ : Finite K₂) (_ : Algebra K K₂),
       Nat.card K₂ = Nat.card K ^ 2 := by
     have hp : (ringChar K).Prime := CharP.char_is_prime K (ringChar K)
-    haveI : Fact (ringChar K).Prime := ⟨hp⟩
+    have : Fact (ringChar K).Prime := ⟨hp⟩
     exact ⟨FiniteField.Extension K (ringChar K) 2, inferInstance, inferInstance, inferInstance,
       FiniteField.natCard_extension K (ringChar K) 2⟩
   have h₂ : 3 ∣ Nat.card K₂ - 1 := by

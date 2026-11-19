@@ -256,10 +256,12 @@ theorem hyp_of {T : ℕ → ℕ} (hsym : ∀ s, codePr64 (symP s) = symQ s)
 
 @[expose] def gR (k : ℕ) : X := R.wordElt (sylowGenW.getD k [])
 
+omit [Finite X] in
 theorem RK_gen {T : ℕ → ℕ} (hT : Hyp T) {k : ℕ} (hk : k < 4) : RK R (G T k) (gR R k) := by
   rw [hT.gen k hk]
   exact RK_word R hT.sym hT.one _
 
+omit [Finite X] in
 theorem exists_el {T : ℕ → ℕ} (hT : Hyp T) : ∀ n < 243, ∃ x, RK R (E T n) x := by
   intro n
   induction n using Nat.strong_induction_on with
@@ -276,21 +278,25 @@ theorem exists_el {T : ℕ → ℕ} (hT : Hyp T) : ∀ n < 243, ∃ x, RK R (E T
 @[expose] noncomputable def el {T : ℕ → ℕ} (hT : Hyp T) (n : ℕ) : X :=
   if h : n < 243 then Classical.choose (exists_el R hT n h) else 1
 
+omit [Finite X] in
 theorem el_rk {T : ℕ → ℕ} (hT : Hyp T) {n : ℕ} (hn : n < 243) : RK R (E T n) (el R hT n) := by
   unfold el
-  rw [dif_pos hn]
+  rw [dite_eq_left hn]
   exact Classical.choose_spec (exists_el R hT n hn)
 
+omit [Finite X] in
 theorem el_zero {T : ℕ → ℕ} (hT : Hyp T) : el R hT 0 = 1 := by
   refine RK_ext R (el_rk R hT (by norm_num)) ?_
   rw [(hT.row 0 (by norm_num)).root rfl]
   exact RK_one R hT.one
 
+omit [Finite X] in
 theorem el_inj {T : ℕ → ℕ} (hT : Hyp T) {i j : ℕ} (hi : i < 243) (hj : j < 243)
     (h : el R hT i = el R hT j) : i = j := by
   exact sort_distinct (fun i hi => (hT.row i hi).sort) i hi j hj
     (RK_inj R (el_rk R hT hi) (h ▸ el_rk R hT hj))
 
+omit [Finite X] in
 theorem el_par {T : ℕ → ℕ} (hT : Hyp T) {j : ℕ} (hj : j < 243) (hpos : 0 < j) :
     el R hT j = el R hT (fld (T j) 386 8) * gR R (fld (T j) 394 2) := by
   obtain ⟨hp, he⟩ := (hT.row j hj).tree hpos
@@ -298,6 +304,7 @@ theorem el_par {T : ℕ → ℕ} (hT : Hyp T) {j : ℕ} (hj : j < 243) (hpos : 0
   rw [he]
   exact RK_mul R (el_rk R hT (by omega)) (RK_gen R hT (fld_lt _ _ _))
 
+omit [Finite X] in
 theorem el_R {T : ℕ → ℕ} (hT : Hyp T) {c l : ℕ} (hc : c < 243) (hl : l < 4) :
     fld (T (243 + l)) (386 + 8 * c) 8 < 243 ∧
       el R hT (fld (T (243 + l)) (386 + 8 * c) 8) = el R hT c * gR R l := by
@@ -307,6 +314,7 @@ theorem el_R {T : ℕ → ℕ} (hT : Hyp T) {c l : ℕ} (hc : c < 243) (hl : l <
   rw [h2]
   exact RK_mul R (el_rk R hT hc) (RK_gen R hT hl)
 
+omit [Finite X] in
 theorem el_L {T : ℕ → ℕ} (hT : Hyp T) {c l : ℕ} (hc : c < 243) (hl : l < 4) :
     fld (T (243 + l)) (2330 + 8 * c) 8 < 243 ∧
       el R hT (fld (T (243 + l)) (2330 + 8 * c) 8) = gR R l * el R hT c := by
@@ -317,6 +325,7 @@ theorem el_L {T : ℕ → ℕ} (hT : Hyp T) {c l : ℕ} (hc : c < 243) (hl : l <
   rw [h2]
   exact RK_mul R (RK_gen R hT hl) (el_rk R hT hc)
 
+omit [Finite X] in
 theorem el_tab {T : ℕ → ℕ} (hT : Hyp T) : ∀ j < 243, ∀ i < 243,
     (colF (T j) i < 243 ∧ el R hT (colF (T j) i) = el R hT i * el R hT j) ∧
       (rowF (T j) i < 243 ∧ el R hT (rowF (T j) i) = el R hT j * el R hT i) := by
@@ -344,10 +353,12 @@ theorem el_tab {T : ℕ → ℕ} (hT : Hyp T) : ∀ j < 243, ∀ i < 243,
         refine ⟨hc, ?_⟩
         rw [hce, hre, hpar, mul_assoc]
 
+omit [Finite X] in
 theorem el_mulI {T : ℕ → ℕ} (hT : Hyp T) {x y : ℕ} (hx : x < 243) (hy : y < 243) :
     mulI T x y < 243 ∧ el R hT (mulI T x y) = el R hT x * el R hT y :=
   (el_tab R hT x hx y hy).2
 
+omit [Finite X] in
 theorem el_powI {T : ℕ → ℕ} (hT : Hyp T) {x : ℕ} (hx : x < 243) :
     ∀ a, powI T x a < 243 ∧ el R hT (powI T x a) = el R hT x ^ a
   | 0 => ⟨by norm_num [powI], by rw [pow_zero]; exact el_zero R hT⟩
@@ -357,6 +368,7 @@ theorem el_powI {T : ℕ → ℕ} (hT : Hyp T) {x : ℕ} (hx : x < 243) :
     change mulI T x (powI T x a) < 243 ∧ el R hT (mulI T x (powI T x a)) = _
     exact ⟨h3, by rw [h4, h2, pow_succ']⟩
 
+omit [Finite X] in
 theorem cube_iff {T : ℕ → ℕ} (hT : Hyp T) {j : ℕ} (hj : j < 243) :
     bitB (T 247) j = true ↔ el R hT j ^ 3 = 1 := by
   obtain ⟨⟨-, -⟩, ⟨h1, h2⟩⟩ := el_tab R hT j hj j hj
@@ -371,6 +383,7 @@ theorem cube_iff {T : ℕ → ℕ} (hT : Hyp T) {j : ℕ} (hj : j < 243) :
     apply el_inj R hT h3 (by norm_num)
     rw [h4, h2, el_zero R hT, ← pow_three, h]
 
+omit [Finite X] in
 theorem cm_iff {T : ℕ → ℕ} (hT : Hyp T) {j i : ℕ} (hj : j < 243) (hi : i < 243) :
     bitB (cmF (T j)) i = true ↔ el R hT i ^ 3 = 1 ∧ Commute (el R hT j) (el R hT i) := by
   obtain ⟨⟨h1, h2⟩, ⟨h3, h4⟩⟩ := el_tab R hT j hj i hi
@@ -426,6 +439,7 @@ theorem misc_parts {T : ℕ → ℕ} (h : miscOK T = true) :
   obtain ⟨h3, h4⟩ := andB_eq_true h
   exact ⟨h1, (allN_iff _ _).1 h2, (allN_iff _ _).1 h3, (allN_iff _ _).1 h4⟩
 
+omit [Finite X] in
 theorem eI_facts {T : ℕ → ℕ} (hT : Hyp T) {c i : ℕ} (hc : c < 4) (hi : i < 3) :
     eI T (3 * c + i) < 243 ∧ el R hT (eI T (3 * c + i)) = R.ea c i := by
   have h := (allN_iff _ _).1 (misc_parts hT.misc).1 (3 * c + i) (by omega)
@@ -440,6 +454,7 @@ theorem eI_facts {T : ℕ → ℕ} (hT : Hyp T) {c i : ℕ} (hc : c < 4) (hi : i
   rw [e1, e2]
   exact RK_word R hT.sym hT.one _
 
+omit [Finite X] in
 theorem eEl_facts {T : ℕ → ℕ} (hT : Hyp T) {c : ℕ} (hc : c < 4) {n : ℕ} :
     eEl T c n < 243 ∧ el R hT (eEl T c n) =
       R.ea c 0 ^ (n / 9) * R.ea c 1 ^ (n / 3 % 3) * R.ea c 2 ^ (n % 3) := by
@@ -510,6 +525,7 @@ theorem card_Mt {T : ℕ → ℕ} (hT : Hyp T) (t : ℕ) : Nat.card (Mt R hT t) 
 
 @[expose] noncomputable def mk (T : ℕ → ℕ) (t : ℕ) : ℕ := fld (T 259) (Nat.mul 243 t) 243
 
+omit [Finite X] in
 theorem mk_mem {T : ℕ → ℕ} (hT : Hyp T) {t : ℕ} (ht : t < 10) {i : ℕ}
     (hb : (mk T t).testBit i = true) : i < 243 ∧ el R hT i ∈ Mt R hT t := by
   have h := (misc_parts hT.misc).2.2.1 t ht

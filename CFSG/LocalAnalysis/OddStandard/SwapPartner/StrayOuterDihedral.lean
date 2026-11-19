@@ -12,13 +12,13 @@ open Subgroup CFSG.ComponentClassification.AschbacherKnownGroup
 
 private theorem isCyclic_of_card_le_three {H : Type*} [Group H] [Finite H]
     (h : Nat.card H ≤ 3) : IsCyclic H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcases : Nat.card H = 1 ∨ Nat.card H = 2 ∨ Nat.card H = 3 := by
     have hpos : 0 < Nat.card H := Nat.card_pos_iff.mpr ⟨⟨(1 : H)⟩, inferInstance⟩
     omega
   rcases hcases with h1 | h2 | h3
-  · haveI : Subsingleton H := (Nat.card_eq_one_iff_unique.mp h1).1
+  · have : Subsingleton H := (Nat.card_eq_one_iff_unique.mp h1).1
     exact isCyclic_of_subsingleton
   · exact isCyclic_of_prime_card (p := 2) h2
   · exact isCyclic_of_prime_card (p := 3) h3
@@ -45,7 +45,7 @@ theorem false_of_dihedral_small_centralizer (hF : DihedralOuterInvolutionFact) {
     (hdih : HasDihedralSylowTwo ↥L) {a : G} (ha : a ^ 2 = 1)
     (haN : a ∈ normalizer (L : Set G)) (haL : a ∉ L)
     (hC : Nat.card ↥(L ⊓ centralizer ({a} : Set G)) ≤ 3) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Csub : Subgroup G := L ⊓ centralizer ({a} : Set G)
   let K : Subgroup G := zpowers a ⊔ Csub
   let M : Subgroup G := zpowers a ⊔ L
@@ -53,7 +53,7 @@ theorem false_of_dihedral_small_centralizer (hF : DihedralOuterInvolutionFact) {
   have hCcyc : IsCyclic Csub := isCyclic_of_card_le_three hCsmall
   have hca : HasCyclicSylowTwo Csub := by
     refine ⟨Classical.choice Sylow.nonempty, ?_⟩
-    haveI : IsCyclic (⊤ : Subgroup Csub) :=
+    have : IsCyclic (⊤ : Subgroup Csub) :=
       (Subgroup.topEquiv : (⊤ : Subgroup Csub) ≃* Csub).isCyclic.mpr hCcyc
     exact Subgroup.isCyclic_of_le le_top
   obtain ⟨hout, hmax, hcen, _⟩ := hF G L a hL hdih haN ha hca
@@ -63,8 +63,8 @@ theorem false_of_dihedral_small_centralizer (hF : DihedralOuterInvolutionFact) {
     intro m hm
     have hyC : y ∈ centralizer ({a} : Set G) := (mem_inf.mp hy).2
     have hay : a * y = y * a := (mem_centralizer_singleton_iff.mp hyC).symm
-    haveI : IsCyclic Csub := hCcyc
-    haveI : IsMulCommutative Csub := IsCyclic.isMulCommutative
+    have : IsCyclic Csub := hCcyc
+    have : IsMulCommutative Csub := IsCyclic.isMulCommutative
     have hcommC : ∀ z ∈ Csub, ∀ w ∈ Csub, z * w = w * z := by
       intro z hz w hw
       exact congrArg Subtype.val (mul_comm' (⟨z, hz⟩ : Csub) (⟨w, hw⟩ : Csub))
@@ -111,7 +111,7 @@ theorem false_of_dihedral_small_centralizer (hF : DihedralOuterInvolutionFact) {
     exact hzp2.comap_subtype (K := M)
   obtain ⟨P, hPle⟩ := hsub2.exists_le_sylow
   let K' : Subgroup G := (P : Subgroup ↥M).map M.subtype
-  have hK'2 : IsPGroup 2 K' := P.isPGroup'.map M.subtype
+  have hK'2 : IsPGroup 2 K' := P.isPGroup.map M.subtype
   have hzpK' : zpowers a ≤ K' := by
     have h := Subgroup.map_mono (f := M.subtype) hPle
     rwa [Subgroup.subgroupOf_map_subtype,
@@ -138,16 +138,16 @@ theorem false_of_dihedral_small_centralizer (hF : DihedralOuterInvolutionFact) {
       rw [hMK]
       exact hK'2
     have hL2 : IsPGroup 2 L := hM2.to_le (show L ≤ M from le_sup_right)
-    haveI : Nontrivial ↥L := by
+    have : Nontrivial ↥L := by
       obtain ⟨x, y, hxy⟩ := hnab
       exact ⟨x, y, fun h => hxy (by rw [h])⟩
-    haveI : Nontrivial (Subgroup.center ↥L) := IsPGroup.center_nontrivial hL2
+    have : Nontrivial (Subgroup.center ↥L) := IsPGroup.center_nontrivial hL2
     rcases hL.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L) with hbot | htop
-    · haveI : Subsingleton (Subgroup.center ↥L) := by rw [hbot]; infer_instance
+    · have : Subsingleton (Subgroup.center ↥L) := by rw [hbot]; infer_instance
       obtain ⟨u, v, huv⟩ := (inferInstance : Nontrivial (Subgroup.center ↥L))
       exact huv (Subsingleton.elim u v)
     · have hcomm : IsMulCommutative ↥L := Subgroup.center_eq_top_iff.mp htop
-      haveI : IsMulCommutative ↥L := hcomm
+      have : IsMulCommutative ↥L := hcomm
       obtain ⟨x, y, hxy⟩ := hnab
       exact hxy (mul_comm' x y)
 

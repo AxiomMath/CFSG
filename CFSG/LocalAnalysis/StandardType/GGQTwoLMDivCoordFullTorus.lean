@@ -57,6 +57,7 @@ variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
       map_one' := by funext i; simp
       map_mul' := by intro f g; funext i; simp }
 
+omit [CharP F0 2] in
 theorem qTwoLMDivF_diagHom_coe (hF0 : Nat.card F0 = 4) {m : ℕ}
     (f : Fin m → Multiplicative (ZMod 3)) :
     ((qTwoLMDivF_diagHom hF0 m f : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =

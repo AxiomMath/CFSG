@@ -21,7 +21,7 @@ theorem psl34_out_exp {K : Type} [Group K] [Finite K]
   have haut := psl34_card_aut hK
   obtain ⟨P, hPn, hPi, hIP, hsq⟩ := psl34_aut_structure hK haut
   obtain ⟨hsimple, hcard⟩ := isPSL_three_two_two_props hK
-  haveI := hsimple
+  have := hsimple
   have hcen : Subgroup.center K = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center K) with h | h
     · exact h
@@ -42,7 +42,7 @@ theorem psl34_out_exp {K : Type} [Group K] [Finite K]
     rw [hcen, Subgroup.mem_bot] at h2
     exact (inv_mul_eq_one.1 h2)
   set I : Subgroup (MulAut K) := (MulAut.conj : K →* MulAut K).range with hI
-  haveI : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal K
+  have : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal K
   have hIc : Nat.card I = 20160 := by
     rw [← hcard]
     exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm

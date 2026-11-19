@@ -30,7 +30,7 @@ theorem exists_conj_eq_torusPow_of_isBmax_exc
     (hpq : p ∣ 2 ^ n - 1) (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     (hp3 : τ = .E6 → p ≠ 3) {A : Subgroup ↥(adjointGroup τ F)} (hA : GLAIsBmax p A) :
     ∃ g : ↥(adjointGroup τ F), A.map (MulAut.conj g).toMonoidHom = TableBExc.torusPow τ F p := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpq' : p ∣ Nat.card F - 1 := by rw [hn]; exact hpq
   have hrank : 0 < τ.rank := by have := two_le_rank_exc hτ; omega
   have hVle : TableBExc.torusPow τ F p ≤ (torusGroup τ F).subgroupOf (adjointGroup τ F) :=
@@ -62,8 +62,8 @@ theorem stdVanishes_torusPow_exc_E6_E7_E8
     (hpq : p ∣ 2 ^ n - 1) (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (hp3 : τ = .E6 → p ≠ 3)
     {d : ↥(adjointGroup τ F)} (hd : IsStdElt p (TableBExc.torusPow τ F p) d) :
     StdVanishes (TableBExc.torusPow τ F p) d := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite ↥(adjointGroup τ F) := generated_group_finite τ F
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite ↥(adjointGroup τ F) := generated_group_finite τ F
   obtain ⟨a, -, hda⟩ :=
     exists_rootDiagUnit_eq_of_mem_torusPow (τ := τ) (F := F) (p := p) hd.1
   obtain ⟨α, hα⟩ :=
@@ -91,8 +91,8 @@ theorem stdVanishes_torusPow_exc_E6_E7_E8
 
 theorem modelFactExcSplit_E6 : ModelFactExcSplit .E6 := by
   intro F _ _ _ n p hn hp hp2 hpq hp3
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [← Nat.card_eq_fintype_card]; exact hn)
   refine modelFactV_of_frame (TableBExc.torusPow .E6 F p) ?_ ?_
   · intro A hA
@@ -103,8 +103,8 @@ theorem modelFactExcSplit_E6 : ModelFactExcSplit .E6 := by
 
 theorem modelFactExcSplit_E7 : ModelFactExcSplit .E7 := by
   intro F _ _ _ n p hn hp hp2 hpq hp3
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [← Nat.card_eq_fintype_card]; exact hn)
   refine modelFactV_of_frame (TableBExc.torusPow .E7 F p) ?_ ?_
   · intro A hA
@@ -116,8 +116,8 @@ theorem modelFactExcSplit_E7 : ModelFactExcSplit .E7 := by
 
 theorem modelFactExcSplit_E8 : ModelFactExcSplit .E8 := by
   intro F _ _ _ n p hn hp hp2 hpq hp3
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [← Nat.card_eq_fintype_card]; exact hn)
   refine modelFactV_of_frame (TableBExc.torusPow .E8 F p) ?_ ?_
   · intro A hA

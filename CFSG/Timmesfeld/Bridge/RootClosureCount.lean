@@ -115,7 +115,7 @@ theorem mem_normalizer_of_conj_mem (hK : IsBenderGroup K) (Q : Sylow 2 K) {h t :
     rw [mul_inv_eq_one, mul_eq_left] at h1
     exact h1)
   have h2 : 2 ∣ orderOf (h * t * h⁻¹) := by
-    have := Q.isPGroup'.dvd_orderOf (g := ⟨h * t * h⁻¹, hht⟩) (fun h1 => hs1 (by
+    have := Q.isPGroup.dvd_orderOf (g := ⟨h * t * h⁻¹, hht⟩) (fun h1 => hs1 (by
       simpa using congrArg Subtype.val h1))
     rwa [Subgroup.orderOf_mk] at this
   have h3 : orderOf (h * t * h⁻¹) ∣

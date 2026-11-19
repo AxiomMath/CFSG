@@ -16,6 +16,7 @@ open scoped MatrixGroups commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {M V : Subgroup G}
 
+omit [Finite G] in
 private theorem fSet_V_le {A : Subgroup G} (hA : A ∈ fSet M V) : V ≤ A := by
   obtain ⟨-, -, U₀, -, x₀, -, hAeq⟩ := hA
   rw [hAeq]
@@ -199,6 +200,7 @@ private theorem isPGroup_sup_of_mem_fSet (hS : Sec5Hyp M V) {U : Subgroup G}
   exact ⟨hA2.to_sup_of_normal_right' hB2 (hAP.trans hPB),
     (le_inf hPA hPB).trans (Subgroup.inf_normalizer_le_normalizer_sup A B)⟩
 
+omit [Finite G] in
 private theorem centralizes_sup_of_fSet {A B U U' W W' : Subgroup G}
     (hAW : A ≤ W) (hUW : U ≤ W) (hW : IsMulCommutative ↥W)
     (hBW : B ≤ W') (hU'W' : U' ≤ W') (hW' : IsMulCommutative ↥W')

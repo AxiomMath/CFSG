@@ -20,7 +20,7 @@ private lemma y6b_M3_conj_forms (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Fac
     m * c.g * m⁻¹ = c.g ∧
       (∀ f ∈ c.s.fr.F, m * f * m⁻¹ = f) ∧
       (∃ f ∈ c.s.fr.F, m * c.s.t * m⁻¹ = f * c.s.t) := by
-  haveI := y6e_M3_comm c hF
+  have := y6e_M3_comm c hF
   have hgm : c.g * m * c.g⁻¹ = m := hF.2.2.2.1 hRT m hm
   refine ⟨?_, ?_, ?_⟩
   · have hcomm : c.g * m = m * c.g := by
@@ -35,7 +35,7 @@ private lemma y6b_M3_conj_forms (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Fac
       _ = f := by group
   · have hmem : m * c.s.t * m⁻¹ ∈ conjClass (M3 c.s) c.s.t := ⟨m, hm, rfl⟩
     rw [y54_conjClass_M3 c hH] at hmem
-    simpa only [Setting3.tCoset, Set.mem_setOf_eq] using hmem
+    simpa only [Setting3.tCoset, Set.mem_ofPred_eq] using hmem
 
 private lemma y6b_NL_conj_forms (c : Ctx5 G L) (hH : F33Hyp c.s c.e)
     (hRT : c.s.R ≠ c.s.T) {n : G} (hn : n ∈ normIn L c.s.fr.F) :
@@ -180,7 +180,7 @@ theorem y6b_conj_t_surj (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
       have hmem : f * c.s.t ∈ conjClass (M3 c.s) c.s.t := by
         rw [y54_conjClass_M3 c hH]
         exact ⟨f, hf, rfl⟩
-      simp only [conjClass, Set.mem_setOf_eq] at hmem
+      simp only [conjClass, Set.mem_ofPred_eq] at hmem
       obtain ⟨m, hm, hmf⟩ := hmem
       exact ⟨m, hm, hmf.symm⟩
     exact ⟨m, y6b_M3_le_X c hH hF hRT hm, hmt⟩
@@ -190,7 +190,7 @@ theorem y6b_conj_t_surj (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
       have hmem : f * c.s.t ∈ conjClass (M3 c.s) c.s.t := by
         rw [y54_conjClass_M3 c hH]
         exact ⟨f, hf, rfl⟩
-      simp only [conjClass, Set.mem_setOf_eq] at hmem
+      simp only [conjClass, Set.mem_ofPred_eq] at hmem
       obtain ⟨m, hm, hmf⟩ := hmem
       exact ⟨m, hm, hmf.symm⟩
     obtain ⟨hmg, -, -⟩ := y6b_M3_conj_forms c hH hF hRT hm

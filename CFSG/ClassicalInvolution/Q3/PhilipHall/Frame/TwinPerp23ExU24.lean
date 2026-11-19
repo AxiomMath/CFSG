@@ -106,7 +106,7 @@ theorem p23_members_isPGroup (hP : TL4.TightBelowRPlus 3 n) (hc : P23Cfg n Y R S
     obtain ⟨p, hp, hpk⟩ := hle k.2
     have hpk' : p = k := Subtype.ext hpk
     subst hpk'
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨p, hp⟩
     exact ⟨m, by simpa using congrArg Subtype.val hm⟩
   rintro _ ⟨g', rfl⟩
   exact isPGroup_conjSub g' hK2

@@ -21,7 +21,7 @@ theorem all_comm_eq (B w : List ℕ) :
   change (spanN B).contains (mvN (evalW 12 gG w) c ^^^ c) =
     decide (mvN (unpackQ (evalQ w)) c ^^^ c ∈ spanN B)
   rw [tW_eq]
-  exact Bool.eq_iff_iff.2 (by simp [List.contains_iff_mem])
+  exact Bool.eq_iff_iff.2 (by simp)
 
 theorem all_any_comm_eq (B w : List ℕ) :
     B.all (fun x => (List.range 4096).any (fun c => (mvN (tW w) c ^^^ c) == x)) =

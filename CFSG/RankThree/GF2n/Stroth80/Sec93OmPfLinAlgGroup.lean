@@ -14,10 +14,10 @@ theorem propAGroup_strong {G : Type} [Group G] [Finite G]
     (hZQ : Z ≤ Q) (hZc : ∀ z ∈ Z, ∀ a ∈ Q, Commute z a)
     (hcomm : ∀ a ∈ Q, ∀ b ∈ Q, ⁅a, b⁆ ∈ Z) (hsq : ∀ a ∈ Q, a ^ 2 ∈ Z)
     (hnd : ∀ a ∈ Q, (∀ b ∈ Q, LamOrth Z lam a b) → a ∈ Z)
-    (hZV : Z ≤ V) (hVQ : V ≤ Q) (hWQ : W ≤ Q) (hVab : ∀ a ∈ V, ∀ b ∈ V, ⁅a, b⁆ = 1)
+    (hZV : Z ≤ V) (hVQ : V ≤ Q) (hWQ : W ≤ Q) (_hVab : ∀ a ∈ V, ∀ b ∈ V, ⁅a, b⁆ = 1)
     (hWdef : ∀ a ∈ Q, a ∈ W ↔ ∀ v ∈ V, LamOrth Z lam a v) (hWsum : W = SB ⊔ SC ⊔ V)
     (hSBab : ∀ a ∈ SB, ∀ b ∈ SB, ⁅a, b⁆ = 1) (hSCab : ∀ a ∈ SC, ∀ b ∈ SC, ⁅a, b⁆ = 1)
-    (hZBp : Z ≤ Bp) (hZP : Z ≤ P) (hBpQ : Bp ≤ Q) (hPQ : P ≤ Q) (hBpP : Bp ⊓ P = Z)
+    (hZBp : Z ≤ Bp) (hZP : Z ≤ P) (_hBpQ : Bp ≤ Q) (_hPQ : P ≤ Q) (hBpP : Bp ⊓ P = Z)
     (hnorm : ∀ g ∈ X ∪ Y, ∀ a ∈ Q, g * a * g⁻¹ ∈ Q)
     (hfix : ∀ g ∈ X ∪ Y, ∀ z ∈ Z, g * z * g⁻¹ = z)
     (hQW : ∀ g ∈ X ∪ Y, ∀ a ∈ Q, ⁅g, a⁆ ∈ W) (hWV : ∀ g ∈ X ∪ Y, ∀ a ∈ W, ⁅g, a⁆ ∈ V)
@@ -50,10 +50,10 @@ theorem propAGroup_strong {G : Type} [Group G] [Finite G]
     ⟨hZQ, hcomm, hsq, fun r hr x hx => hnormR r hr x hx,
       fun r hr x hx => by rw [hfixR r hr x hx]; exact hx⟩
   obtain ⟨M, iM, iA, κ, hκ⟩ := exists_sectionModule hsec
-  haveI : Finite M := hκ.finite
-  letI : Module (ZMod 2) M := AddCommGroup.zmodModule (fun a => by
+  have : Finite M := hκ.finite
+  let : Module (ZMod 2) M := AddCommGroup.zmodModule (fun a => by
     rw [two_nsmul]; exact hκ.two a)
-  haveI : FiniteDimensional (ZMod 2) M := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) M := Module.Finite.of_finite
   obtain ⟨f, hfnd, hfalt, hfκ⟩ := exists_lamForm lam hcomm hZc hκ hnd
   let Sub : Subgroup G → Submodule (ZMod 2) M := fun U =>
     AddSubgroup.toZModSubmodule 2 (secSub κ U)
@@ -109,10 +109,10 @@ theorem propAGroup_strong {G : Type} [Group G] [Finite G]
     constructor
     · intro h v hv
       have := h ⟨v, hVQ hv⟩ hv
-      rw [comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm] at this
+      rw [comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm] at this
       exact this
     · intro h v hv
-      rw [comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm]
+      rw [comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm]
       exact h v hv
   have hsubW : Sub W = Sub SB ⊔ Sub SC ⊔ Sub V := by
     have : secSub κ W = secSub κ SB ⊔ secSub κ SC ⊔ secSub κ V := by

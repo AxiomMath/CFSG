@@ -42,6 +42,7 @@ theorem ggFrame_one {M : Type} [Group M] (ψ : SpecialLinearGroup (Fin n) K →*
   rw [SLRep.ggFrame_apply]
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem centralizer_torusSL_eq_map {M : Type} [Group M]
     (ψ : SpecialLinearGroup (Fin n) K →* M)
     (hker : ψ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin n) K))
@@ -54,12 +55,14 @@ theorem centralizer_torusSL_eq_map {M : Type} [Group M]
   rwa [frameHom_one_eq_torusSL, ggFrame_one, MonoidHom.range_eq_top_of_surjective ψ hψs,
     top_inf_eq] at h
 
+omit [Finite K] [CharP K 2] in
 theorem pow_torusSL {M : Type} [Group M] (ψ : SpecialLinearGroup (Fin n) K →* M)
     (t : Fin s → ZMod p) :
     (ψ (torusSL ε hC hCp (ofAdd t))) ^ p = 1 := by
   have h := frameHom_pow_p (ψ := ψ) (A₀ := 1) (ε := ε) (hC := hC) hCp (ofAdd t)
   rwa [frameHom_one_eq_torusSL] at h
 
+omit [Finite L'] in
 theorem map_torusSL_ne_one (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
     (hgd : g ∣ cyclotomic p K) (hφc : ∀ x, φ x ∈ Subgroup.center L' →
       x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
@@ -80,19 +83,22 @@ theorem map_torusSL_ne_one (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
   have h2 : ofAdd t = 1 := hinj h1
   exact ht (by simpa using congrArg Multiplicative.toAdd h2)
 
+omit [Finite K] [CharP K 2] in
 theorem aligned_blockVec {hζ : AdjoinRoot.root g ^ p = 1} (i : Fin s) :
     Aligned hζ (blockVec (p := p) i) :=
   aligned_of_eq_zero_or_one fun m => by
     by_cases h : m = i <;> simp [blockVec, h]
 
+omit [Finite K] [CharP K 2] in
 theorem aligned_pairVec {hζ : AdjoinRoot.root g ^ p = 1} (i j : Fin s) :
     Aligned hζ (pairVec (p := p) i j) :=
   aligned_of_eq_zero_or_one fun m => by
     by_cases h : m = i ∨ m = j <;> simp [pairVec, h]
 
+omit [Finite K] [CharP K 2] in
 theorem torusSL_single_mem_zeroBlock (i : Fin s) :
     torusSL ε hC hCp (ofAdd (Pi.single i (1 : ZMod p))) ∈ zeroBlock g ε i := by
-  haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+  have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
   have hz : zeroCoords ε (blockVec (p := p) i) = blockCoords ε i :=
     zeroCoords_blockVec ε i
   have hmem : SLNS.nsSL ε hC (fun m => ((Pi.single i (1 : ZMod p) : Fin s → ZMod p) m).val) ∈
@@ -101,15 +107,16 @@ theorem torusSL_single_mem_zeroBlock (i : Fin s) :
       (k := fun m => ((Pi.single i (1 : ZMod p) : Fin s → ZMod p) m).val) (by
         intro m hm
         have hmi : m ≠ i := fun h => hm (blockVec_eq_zero_iff.mpr h)
-        simp [Pi.single_eq_of_ne hmi, Ne.symm hmi])
+        simp [Ne.symm hmi])
   rwa [torusSL_apply, zeroBlock, ← hz]
 
+omit [Finite K] in
 theorem torusSL_sub_single_mem_pairBlock (hp2 : p ≠ 2) (hgd : g ∣ cyclotomic p K)
     {i j : Fin s} (hij : i ≠ j) :
     torusSL ε hC hCp (ofAdd (Pi.single i (1 : ZMod p) - Pi.single j (1 : ZMod p))) ∈
       pairBlock g ε i j := by
   have hp : p.Prime := Fact.out
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hprim : IsPrimitiveRoot (AdjoinRoot.root g) p :=
     root_isPrimitiveRoot hp (OrdPNS.natCast_ne_zero_of_charTwo hp hp2) hgd
   have hsupp : ∀ m : Fin s,
@@ -118,21 +125,21 @@ theorem torusSL_sub_single_mem_pairBlock (hp2 : p ≠ 2) (hgd : g ∣ cyclotomic
     intro m hm
     have hmi : m ≠ i := fun h => hm (by subst h; simp [pairVec])
     have hmj : m ≠ j := fun h => hm (by subst h; simp [pairVec])
-    simp [Pi.sub_apply, hmi, Ne.symm hmi, hmj, Ne.symm hmj]
+    simp [Pi.sub_apply, hmi, hmj]
   have hsum : ∑ m : Fin s,
       (Pi.single i (1 : ZMod p) - Pi.single j (1 : ZMod p) : Fin s → ZMod p) m = 0 := by
     have h1 : ∑ m : Fin s, (Pi.single i (1 : ZMod p) : Fin s → ZMod p) m = 1 := by
       rw [Finset.sum_eq_single i]
       · simp
       · intro b _ hb
-        simp [Pi.single_eq_of_ne hb, Ne.symm hb]
+        simp [Ne.symm hb]
       · intro h
         exact absurd (Finset.mem_univ i) h
     have h2 : ∑ m : Fin s, (Pi.single j (1 : ZMod p) : Fin s → ZMod p) m = 1 := by
       rw [Finset.sum_eq_single j]
       · simp
       · intro b _ hb
-        simp [Pi.single_eq_of_ne hb, Ne.symm hb]
+        simp [Ne.symm hb]
       · intro h
         exact absurd (Finset.mem_univ j) h
     have h3 : ∑ m : Fin s, (Pi.single i (1 : ZMod p) - Pi.single j (1 : ZMod p) :
@@ -149,6 +156,7 @@ theorem torusSL_sub_single_mem_pairBlock (hp2 : p ≠ 2) (hgd : g ∣ cyclotomic
   rw [torusSL_apply, ← hDθ, pairBlock, ← classSet_pairVec (p := p) i j]
   exact Subgroup.mem_map_of_mem (theta g ε) hD
 
+omit [Finite L'] in
 theorem isComponentOf_zeroBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
     (hgd : g ∣ cyclotomic p K) (hM : IsBlockTorusModel φ ε hC A) (hφs : Function.Surjective φ)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
@@ -159,7 +167,7 @@ theorem isComponentOf_zeroBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
     IsComponentOf ((zeroBlock g ε i).map φ) (ggHypCent A w) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hpK' : (p : K) ≠ 0 := OrdPNS.natCast_ne_zero_of_charTwo hp hp2
   have hprim : IsPrimitiveRoot (AdjoinRoot.root g) p := root_isPrimitiveRoot hp hpK' hgd
   have hal : Aligned hprim.pow_eq_one (blockVec (p := p) i) := aligned_blockVec i
@@ -291,6 +299,7 @@ theorem isComponentOf_zeroBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
   refine ⟨hJle, CFSG.Assembly.IsSubnormal.step hJle ?_ (CFSG.Assembly.IsSubnormal.refl _), hq⟩
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hJle).mpr hnorm
 
+omit [Finite K] [CharP K 2] in
 theorem theta_apply_col_eq {S : Finset (Fin s)}
     {M : SpecialLinearGroup (Fin s) (AdjoinRoot g)}
     (hM : M ∈ coordBlockSL (AdjoinRoot g) S) {m : Fin s} (hm : m ∉ S)
@@ -315,6 +324,7 @@ theorem theta_apply_col_eq {S : Finset (Fin s)}
   rw [Matrix.mulVec_single_one] at h2
   simpa [Matrix.col_apply, Pi.single_apply, coe_theta] using h2
 
+omit [Finite K] [CharP K 2] in
 theorem theta_diag_eq_one {S : Finset (Fin s)}
     {M : SpecialLinearGroup (Fin s) (AdjoinRoot g)}
     (hM : M ∈ coordBlockSL (AdjoinRoot g) S) {m : Fin s} (hm : m ∉ S)
@@ -325,6 +335,7 @@ theorem theta_diag_eq_one {S : Finset (Fin s)}
   rw [hx']
   simpa using theta_apply_col_eq (ε := ε) hM hm a (ε.symm (Sum.inl (a, m)))
 
+omit [Finite L'] in
 theorem isComponentOf_pairBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
     (hgd : g ∣ cyclotomic p K) (hM : IsBlockTorusModel φ ε hC A) (hφs : Function.Surjective φ)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
@@ -334,8 +345,8 @@ theorem isComponentOf_pairBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
     IsComponentOf ((pairBlock g ε i j).map φ) (ggHypCent A w) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
-  haveI : Finite (AdjoinRoot g) := finite_adjoinRoot
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Finite (AdjoinRoot g) := finite_adjoinRoot
   have hpK' : (p : K) ≠ 0 := OrdPNS.natCast_ne_zero_of_charTwo hp hp2
   have hprim : IsPrimitiveRoot (AdjoinRoot.root g) p := root_isPrimitiveRoot hp hpK' hgd
   have hal : Aligned hprim.pow_eq_one (pairVec (p := p) i j) := aligned_pairVec i j
@@ -511,10 +522,11 @@ theorem isComponentOf_pairBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
   refine ⟨hJle, CFSG.Assembly.IsSubnormal.step hJle ?_ (CFSG.Assembly.IsSubnormal.refl _), hq⟩
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hJle).mpr hnorm
 
+omit [Finite L'] in
 theorem dvd_card_map_zeroBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
     (hgd : g ∣ cyclotomic p K)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
-    (hs : 2 ≤ s) (i : Fin s) : p ∣ Nat.card ((zeroBlock g ε i).map φ) := by
+    (_hs : 2 ≤ s) (i : Fin s) : p ∣ Nat.card ((zeroBlock g ε i).map φ) := by
   have hp : p.Prime := Fact.out
   have hpK' : (p : K) ≠ 0 := OrdPNS.natCast_ne_zero_of_charTwo hp hp2
   have hC : (rootMat g).det = 1 :=
@@ -531,6 +543,7 @@ theorem dvd_card_map_zeroBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
   rwa [orderOf_eq_prime (pow_torusSL φ v)
     (map_torusSL_ne_one (φ := φ) hp2 hpK hgd hφc ht0)] at hdvd
 
+omit [Finite L'] in
 theorem dvd_card_map_pairBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
     (hgd : g ∣ cyclotomic p K)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
@@ -541,7 +554,7 @@ theorem dvd_card_map_pairBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1)
     det_rootMat hp (SpNS.not_dvd_card_sub_one (Fact.out : p.Prime) hp2 hpK) hpK' hgd
   have hCp : rootMat g ^ p = 1 := rootMat_pow_eq_one hp hpK' hgd
   let v : Fin s → ZMod p := Pi.single i 1 - Pi.single j 1
-  have hti : v i = 1 := by simp [v, Pi.sub_apply, hij, Ne.symm hij]
+  have hti : v i = 1 := by simp [v, Pi.sub_apply, hij]
   have ht0 : v ≠ 0 := by
     intro h
     exact one_ne_zero (by rw [← hti, h]; simp)

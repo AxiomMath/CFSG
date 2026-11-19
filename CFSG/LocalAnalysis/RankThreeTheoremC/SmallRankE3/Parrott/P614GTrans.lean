@@ -611,7 +611,7 @@ theorem H_le_normalizer_V (c : Ctx M B H S K z) :
     H ≤ normalizer ((omegaCenter (pCoreOf 2 H) : Subgroup G) : Set G) :=
   c.H_le_normalizer_core.trans (normalizer_le_normalizer_omegaCenter _)
 
-theorem core_le_centralizer_V (c : Ctx M B H S K z) :
+theorem core_le_centralizer_V (_c : Ctx M B H S K z) :
     pCoreOf 2 H ≤ centralizer ((omegaCenter (pCoreOf 2 H) : Subgroup G) : Set G) := by
   rw [← le_centralizer_iff]
   exact omegaCenter_le_centralizer _
@@ -717,7 +717,7 @@ theorem exists_transvection (c : Ctx M B H S K z) (hcyc : IsCyclic c.rhoS) :
       (centralizer ({a} : Set G)).relIndex (omegaCenter (pCoreOf 2 H)) ≤ 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hA, hAO⟩ := c.exists_offender
-  obtain ⟨a, ⟨a', ha', rfl⟩, haO⟩ := SetLike.not_le_iff_exists.mp hAO
+  obtain ⟨a, ⟨a', ha', rfl⟩, haO⟩ := IsConcreteLE.not_le_iff_exists.mp hAO
   set AG := A.map S.subtype with hAG
   have hAGS : AG ≤ S := map_subtype_le _
   have hAGe : IsElemAbelian 2 AG :=

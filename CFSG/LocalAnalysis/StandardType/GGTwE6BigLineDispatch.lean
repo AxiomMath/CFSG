@@ -22,12 +22,12 @@ private theorem ggTwE6BigD_of_mark_omega {lab : LargeEvenLabel}
   cases t <;> dsimp only [markTag, markRank, markDeg] at ht hr hd
   case D =>
     by_cases h3 : r = 3
-    · rw [if_pos h3] at ht
+    · rw [ite_eq_left h3] at ht
       exact absurd ht (by decide)
-    · rw [if_neg h3] at hr
+    · rw [ite_eq_right h3] at hr
       subst hr hd
       exact Or.inl rfl
-  all_goals ((try split_ifs at ht) <;> exact absurd ht (by decide))
+  all_goals ((try split_ifs at ht); try exact absurd ht (by decide))
 
 private theorem ggTwE6BigD_of_mark_triD4 {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (ht : markTag lab = .trialityD4) (hd : markDeg lab = 1) : GGTwE6BigLabel lab := by
@@ -37,7 +37,7 @@ private theorem ggTwE6BigD_of_mark_triD4 {lab : LargeEvenLabel} (hlab : LargeEve
     have hr : r = 0 := hlab.2
     subst hr hd
     exact Or.inr (Or.inl rfl)
-  all_goals ((try split_ifs at ht) <;> exact absurd ht (by decide))
+  all_goals ((try split_ifs at ht); try exact absurd ht (by decide))
 
 private theorem ggTwE6BigD_of_mark_PSU6 {lab : LargeEvenLabel}
     (ht : markTag lab = .PSU) (hc : markChar lab = 2) (hr : markRank lab = 6)
@@ -49,9 +49,9 @@ private theorem ggTwE6BigD_of_mark_PSU6 {lab : LargeEvenLabel}
     subst hd
     exact Or.inr (Or.inr (Or.inl rfl))
   case twD =>
-    split_ifs at ht hr <;> first | exact absurd ht (by decide) | omega
+    split_ifs at ht hr; omega
   case G2der => exact absurd hc (by decide)
-  all_goals ((try split_ifs at ht) <;> exact absurd ht (by decide))
+  all_goals ((try split_ifs at ht); try exact absurd ht (by decide))
 
 private theorem ggTwE6BigD_marking_omega
     {X : Type} [Group X] (hX : commutator X = ⊤)
@@ -84,9 +84,9 @@ theorem ggTwE6BigLineLabels_of
     (h24 : GGTwE6BigThreeA2) (h28 : GGTwE6BigA4A1)
     (h46 : GGTwE6BigD5) : GGTwE6BigLineLabels := by
   intro K _ _ σ hK hσ h hh1 hh3 E hE hcard hfE hEI hnt J hJ
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) (by
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num)
   have hchar : ringChar K = 2 := ringChar.eq K 2

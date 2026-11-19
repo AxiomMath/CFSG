@@ -54,7 +54,7 @@ theorem epsTwo_one {A : Type*} [Group A] : epsTwo (1 : A) = 0 := by
   simp [epsTwo]
 
 theorem epsTwo_eq_zero_iff {A : Type*} [Group A] [Finite A] [IsCyclic A] {z : A}
-    (hz : z ^ 2 = 1) : epsTwo z = 0 ↔ z = 1 := by
+    (_hz : z ^ 2 = 1) : epsTwo z = 0 ↔ z = 1 := by
   by_cases h : z = 1
   · simp [epsTwo, h]
   · simp [epsTwo, h]
@@ -86,11 +86,11 @@ theorem sup_le_pPrimeCore (c : Front45 p G D) :
   sup_le (xof_le_pPrimeCore c) (center_le_pPrimeCore c)
 
 theorem zxof_cyclic (c : Front45 p G D) : IsCyclic ↥(ZXof G) := by
-  haveI : IsCyclic ↥(Subgroup.center G) := c.center_cyclic
+  have : IsCyclic ↥(Subgroup.center G) := c.center_cyclic
   exact Subgroup.isCyclic_of_le c.ZX_le
 
 theorem center_xof_cyclic (c : Front45 p G D) : IsCyclic ↥(Subgroup.center ↥(Xof G)) := by
-  haveI hZX : IsCyclic ↥(ZXof G) := zxof_cyclic c
+  have hZX : IsCyclic ↥(ZXof G) := zxof_cyclic c
   let e : ↥(Subgroup.center ↥(Xof G)) ≃* ↥(ZXof G) :=
     Subgroup.equivMapOfInjective (Subgroup.center ↥(Xof G)) (Xof G).subtype
       (Xof G).subtype_injective
@@ -197,6 +197,7 @@ private theorem exists_riesz_local {K V : Type*} [Field K] [AddCommGroup V] [Mod
   ⟨(LinearMap.BilinForm.toDual β hβ).symm f,
     fun v => LinearMap.BilinForm.apply_toDual_symm_apply f v⟩
 
+omit [Finite G] in
 theorem commutator_subtype_eq_one_iff (x₀ x : ↥(Xof G)) :
     ⁅x₀, x⁆ = 1 ↔ ⁅x₀.1, x.1⁆ = 1 := by
   have h : ((⁅x₀, x⁆ : ↥(Xof G)) : G) = ⁅x₀.1, x.1⁆ :=
@@ -214,7 +215,7 @@ theorem commutator_eq_of_form_eq_eps (c : Front45 p G D) (g : G)
     (hBx : ∀ x : ↥(Xof G), B (Multiplicative.toAdd (π x₀))
       (Multiplicative.toAdd (π x)) = epsTwo (wkerCommutatorHom c g hgW x)) :
     ∀ x : ↥(Xof G), ⁅x₀.1, x.1⁆ = ⁅g, x.1⁆ := by
-  haveI hZX : IsCyclic ↥(ZXof G) := zxof_cyclic c
+  have hZX : IsCyclic ↥(ZXof G) := zxof_cyclic c
   intro x
   have hφsq : (wkerCommutatorHom c g hgW x) ^ 2 = 1 := wkerCommutatorHom_sq c g hgW x
   have ha₀ : ∀ y ∈ Xof G, ⁅x₀.1, y⁆ ∈ ZXof G := by
@@ -249,12 +250,12 @@ theorem commutator_eq_of_form_eq_eps (c : Front45 p G D) (g : G)
 theorem exists_x0_commutator_eq (hForm : SympForm) (c : Front45 p G D) (g : G)
     (hgW : ∀ x ∈ Xof G, ⁅g, x⁆ ∈ ZXof G) :
     ∃ x₀ : ↥(Xof G), ∀ x : ↥(Xof G), ⁅x₀.1, x.1⁆ = ⁅g, x.1⁆ := by
-  haveI hcyc : IsCyclic ↥(Subgroup.center ↥(Xof G)) := center_xof_cyclic c
+  have hcyc : IsCyclic ↥(Subgroup.center ↥(Xof G)) := center_xof_cyclic c
   obtain ⟨W, _, _, hWfin, B, π, hB, _hAlt, hπ, hker, hform⟩ :=
     hForm ↥(Xof G) (xof_isPGroup (G := G)) c.class_two.1 c.class_two.2 hcyc
-  haveI : Finite W := hWfin
-  haveI hZXcyc : IsCyclic ↥(ZXof G) := zxof_cyclic c
-  haveI : FiniteDimensional (ZMod 2) W := (Module.finite_iff_finite (R := ZMod 2)).mpr hWfin
+  have : Finite W := hWfin
+  have hZXcyc : IsCyclic ↥(ZXof G) := zxof_cyclic c
+  have : FiniteDimensional (ZMod 2) W := (Module.finite_iff_finite (R := ZMod 2)).mpr hWfin
   let f : ↥(Xof G) →* Multiplicative (ZMod 2) := wkerZModHom c g hgW
   have hfker : π.ker ≤ f.ker := by
     intro x hx

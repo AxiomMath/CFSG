@@ -653,7 +653,7 @@ private theorem hasCyclicOrDihedralSylowTwo_mapSurjective
   · let gD : DihedralGroup (2 ^ m) →* S :=
       g.comp eQ.symm.toMonoidHom
     have hgD : Function.Surjective gD := hg.comp eQ.symm.surjective
-    exact cyclic_or_dihedral_of_surjective_dihedral_twoGroup hm gD hgD S.isPGroup'
+    exact cyclic_or_dihedral_of_surjective_dihedral_twoGroup hm gD hgD S.isPGroup
 
 public theorem qdSL_not_involved_of_hasDihedralSylowTwo
     {G : Type*} [Group G] [Finite G]

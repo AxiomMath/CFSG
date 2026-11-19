@@ -250,7 +250,7 @@ theorem fold_centralizer_trivial {K : Type} [Field K] [Finite K] {σ : K ≃+* K
       foldFix (a2Phi hA φ), x * u = u * x) :
     x = 1 := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   let H' : Subgroup (twistedGroup σ.toRingHom) :=
     (⨆ i, hHat σ.toRingHom i) ⊓ foldFix (a2Phi hA φ)
   let U' : Subgroup (twistedGroup σ.toRingHom) :=
@@ -272,7 +272,7 @@ theorem fold_centralizer_trivial {K : Type} [Field K] [Finite K] {σ : K ≃+* K
     exact hcop1.pow_right 2
   have hcardU : Nat.card ↥U' = q ^ 3 := a2_card_U_fix hA φ hφ R'
   have hUp : IsPGroup ℓ U' := by
-    haveI : Finite ↥U' := Nat.finite_of_card_ne_zero (by
+    have : Finite ↥U' := Nat.finite_of_card_ne_zero (by
       rw [hcardU, hqeq]
       exact (pow_pos (pow_pos hℓ.pos f) 3).ne')
     refine IsPGroup.of_card (n := 3 * f) ?_
@@ -377,7 +377,7 @@ theorem exists_unipotent_fixed_not_commute {ℓ f : ℕ} (hℓ : ℓ.Prime) (h�
     (hxβ : β x = x) :
     ∃ u : C0 σ, β u = u ∧ (∃ n : ℕ, u ^ (ℓ ^ n) = 1) ∧ u * x ≠ x * u := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨y, s, d, e, he, hconj, hd, hd3, hd1, hsd⟩ :=
     exists_conj_toral hℓ hℓ2 hℓ3 hf hq hK σ hσ β hβ3 hβout hβG
   have hA : A2Std σ d (ℓ ^ f) := a2Std_of_class hℓ hℓ2 hf hq hK hσ hd hd3 hd1
@@ -391,7 +391,7 @@ theorem exists_unipotent_fixed_not_commute {ℓ f : ℕ} (hℓ : ℓ.Prime) (h�
   obtain ⟨r₁', r₂', -, -, -, -, R'⟩ := (a2_foldData hA φs hφs).exists_rgd2
   have hcardU' : Nat.card ↥U' = (ℓ ^ f) ^ 3 := a2_card_U_fix hA φs hφs R'
   have hUp' : IsPGroup ℓ U' := by
-    haveI : Finite ↥U' := Nat.finite_of_card_ne_zero (by
+    have : Finite ↥U' := Nat.finite_of_card_ne_zero (by
       rw [hcardU']
       exact (pow_pos (pow_pos hℓ.pos f) 3).ne')
     refine IsPGroup.of_card (n := 3 * f) ?_

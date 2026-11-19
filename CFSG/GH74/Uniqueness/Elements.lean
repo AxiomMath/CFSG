@@ -219,14 +219,14 @@ theorem IsUniqueSubgroup.exists_sylow_le {M W H : Subgroup X} (p : ℕ) [Fact p.
   have hWR : W ≤ (R : Subgroup ↥H).map H.subtype := by
     intro w hw
     exact ⟨⟨w, hWH hw⟩, hR hw, rfl⟩
-  have hRp : IsPGroup p ((R : Subgroup ↥H).map H.subtype) := R.isPGroup'.map H.subtype
+  have hRp : IsPGroup p ((R : Subgroup ↥H).map H.subtype) := R.isPGroup.map H.subtype
   exact ⟨R, hWR, hW.le_of_isPGroup p hWR hRp⟩
 
 theorem IsUniqueSubgroup.exists_sylow_normalizer_le {M W : Subgroup X} (p : ℕ) [Fact p.Prime]
     (hW : IsUniqueSubgroup M W) (hWp : IsPGroup p W) :
     ∃ P : Sylow p X, normalizer (P : Set X) ≤ M := by
   obtain ⟨P, hWP⟩ := hWp.exists_le_sylow
-  have hPM : (P : Subgroup X) ≤ M := hW.le_of_isPGroup p hWP P.isPGroup'
+  have hPM : (P : Subgroup X) ≤ M := hW.le_of_isPGroup p hWP P.isPGroup
   exact ⟨P, hW.normalizer_le hWP hPM⟩
 
 omit [Finite X] in

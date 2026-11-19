@@ -378,7 +378,7 @@ theorem eq_top_or_Yq {A : Subgroup SL5} (hA : unitriangular 5 (ZMod 2) ≤ A) :
   set s : Finset ℕ := (Finset.range 5).filter (· ∈ I) with hs
   have hsI : (s : Set ℕ) = I := by
     ext i
-    simp only [hs, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq]
+    simp only [hs, Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq]
     exact ⟨fun h => h.2, fun h => ⟨(hI i h).2, h⟩⟩
   have hsub : s ∈ (Finset.range 5).powerset := Finset.mem_powerset.2 (Finset.filter_subset _ _)
   have h0 : 0 ∉ s := fun h => by

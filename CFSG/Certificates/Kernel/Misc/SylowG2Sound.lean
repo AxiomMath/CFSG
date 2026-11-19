@@ -57,7 +57,7 @@ theorem autAt3_of_chunks {L M : ℕ} (h : ∀ q < M, autChunk3 R RP o l0 l1 l2 O
     rw [Nat.mul_comm] at this
     exact this)
   have hb : Nat.blt t n = true := Nat.blt_eq.mpr ht
-  rw [hb, cond_true] at e
+  rw [hb, _root_.Bool.cond_true] at e
   exact e
 
 theorem autOK_of_codes3
@@ -146,17 +146,15 @@ theorem autOK_of_codes3
       (s := fun j => pkMat 6 (R (g + j))) (h := fun j => lF m (lj j))
       (POS := recPOS R o 3) (PA := recF R o 0) (PB := recF R o 1)
       ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
-    · beta_reduce
-      rw [h0, pkMat_ONE]
-    · beta_reduce
-      have e := (hK 0 hn).2 rfl
+    · rw [h0, pkMat_ONE]
+    · have e := (hK 0 hn).2 rfl
       rw [e]
       funext p
       unfold encF
       by_cases hp : p < m
-      · rw [if_pos hp, hone p hp]
+      · rw [ite_eq_left hp, hone p hp]
         rfl
-      · rw [if_neg hp]
+      · rw [ite_eq_right hp]
         rfl
     · intro a ha b hb e
       exact hd a ha b hb (CFSG.KC.Sp62.pkMat_inj (hlt a ha) (hlt b hb) e)
@@ -173,14 +171,11 @@ theorem autOK_of_codes3
     · intro i hi j hj
       obtain ⟨p1, p2, p3⟩ := hP i hi j hj
       refine ⟨p1, ?_, ?_⟩
-      · beta_reduce
-        rw [p2, CFSG.KC.Sp62.pkMat_MULF]
-      · beta_reduce
-        rw [p3, encF_mul (hlj j hj).1 (hlj j hj).2]
+      · rw [p2, CFSG.KC.Sp62.pkMat_MULF]
+      · rw [p3, encF_mul (hlj j hj).1 (hlj j hj).2]
     · intro i hi
       obtain ⟨b1, b2, b3⟩ := hB i hi
       refine ⟨b1, b2, ?_⟩
-      beta_reduce
       rw [b3, CFSG.KC.Sp62.pkMat_MULF]
     · intro t ht e
       by_contra h0t
@@ -197,7 +192,7 @@ theorem autOK_of_codes3
       have := congrFun e q
       change encF m (RP (i + 1)) q = q at this
       unfold encF at this
-      rwa [if_pos hq] at this
+      rwa [ite_eq_left hq] at this
   have hpar : ∀ i, 1 ≤ i → i ≤ n - 1 → E.parent[i]! < i := by
     intro i h1 h2
     rw [(e5 i (by omega) (by omega)).1]
@@ -216,8 +211,8 @@ theorem autOK_of_codes3
         refine ext64 size_idA (by simp [encA]) fun i hi => ?_
         rw [idA_get hi, encA_get hi]
         by_cases h : i < m
-        · rw [if_pos h, hone i h]
-        · rw [if_neg h]
+        · rw [ite_eq_left h, hone i h]
+        · rw [ite_eq_right h]
       | succ i =>
         obtain ⟨p1, p2⟩ := e5 (i + 1) ht (by omega)
         obtain ⟨b1, b2, -⟩ := hB i (by omega)

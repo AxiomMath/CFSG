@@ -18,10 +18,12 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 @[expose] def N0t (M Q Z B : Subgroup G) (hc : Ctx M Q Z B) (t : G) : Subgroup G :=
   ⨆ (h : G) (_ : h ∈ Rt M (LB M Q B) t), conjSubgroup h (LB M Q B) ⊓ hc.CN t
 
+omit [Finite G] in
 theorem N0t_le_CN (hc : Ctx M Q Z B) (t : G) : N0t M Q Z B hc t ≤ hc.CN t :=
   iSup₂_le fun _ _ => inf_le_right
 
-theorem Ctx.conj_LB_le_Rt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {h : G}
+omit [Finite G] in
+theorem Ctx.conj_LB_le_Rt (_hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {h : G}
     (hh : h ∈ Rt M (LB M Q B) t) : conjSubgroup h (LB M Q B) ≤ Rt M (LB M Q B) t := by
   intro y hy
   have hl : h⁻¹ * y * h ∈ LB M Q B := mem_conjSubgroup.mp hy
@@ -130,7 +132,7 @@ theorem Ctx.mem_normalizer_LB_of_normalizer_LN (h34 : Stroth34Statement) (hc : C
   exact Z.mul_mem (hZn _ hl'M _ h1) h2
 
 @[expose] def Stroth311ConjStatement : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (hc : Ctx M Q Z B) (n : ℕ),
+  ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (_hc : Ctx M Q Z B) (n : ℕ),
     Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
     ∀ (t : G), t ∈ LB M Q B → t ∉ Q → Rt M (LB M Q B) t ≠ LB M Q B →
     Rt M (LB M Q B) t ≤ ⨆ (h : G) (_ : h ∈ Rt M (LB M Q B) t), conjSubgroup h (LB M Q B)

@@ -125,7 +125,7 @@ theorem isSylowOf_of_forall_card_le {Q K : Subgroup G} (hQK : Q ≤ K) (hQ : IsP
   have hTQ : (T : Subgroup K).map K.subtype = Q := by
     have hle : Q ≤ (T : Subgroup K).map K.subtype := fun q hq => ⟨⟨q, hQK hq⟩, hT hq, rfl⟩
     refine (eq_of_le_of_card_ge hle ?_).symm
-    exact h _ (map_subtype_le _) (T.isPGroup'.map _)
+    exact h _ (map_subtype_le _) (T.isPGroup.map _)
   exact ⟨T, hTQ⟩
 
 theorem le_sup_inf_normalizer {Q K W : Subgroup G} (hQ : ABGLocalTools.IsSylowOf 2 Q K)

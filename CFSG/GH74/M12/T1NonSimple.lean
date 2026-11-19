@@ -477,7 +477,7 @@ theorem nonsimple_conclusion [Finite G] (hyp : Asc03Hyp G z) (hns : ¬ IsSimpleG
             rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDN).toEquiv, h8]; norm_num)
         obtain ⟨P', hP'⟩ := hD'p.exists_le_sylow
         set P'' := (P' : Subgroup ↥N).map N.subtype with hP''
-        have hP''p : IsPGroup 2 ↥P'' := P'.isPGroup'.map N.subtype
+        have hP''p : IsPGroup 2 ↥P'' := P'.isPGroup.map N.subtype
         have hDP'' : D ≤ P'' := by
           intro x hx
           exact ⟨⟨x, hDN hx⟩, hP' (Subgroup.mem_subgroupOf.2 hx), rfl⟩

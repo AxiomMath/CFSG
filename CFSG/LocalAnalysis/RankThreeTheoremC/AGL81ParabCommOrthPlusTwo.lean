@@ -25,7 +25,7 @@ theorem iotaTwo_elem01 (s : K) :
   fin_cases c <;>
   simp [plusIotaTwo_apply_inl, plusIotaTwo_apply_inr, Matrix.SpecialLinearGroup.transvection_inv,
     Matrix.SpecialLinearGroup.transvection_coe, Fin.sum_univ_two, Matrix.one_apply,
-    Matrix.single_apply, Pi.single_apply] <;> ring
+    Matrix.single_apply]; ring
 
 theorem iotaTwo_elem10 (s : K) :
     plusIotaTwo K (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 2) ≠ 0 by decide) s) =
@@ -35,7 +35,7 @@ theorem iotaTwo_elem10 (s : K) :
   fin_cases c <;>
   simp [plusIotaTwo_apply_inl, plusIotaTwo_apply_inr, Matrix.SpecialLinearGroup.transvection_inv,
     Matrix.SpecialLinearGroup.transvection_coe, Fin.sum_univ_two, Matrix.one_apply,
-    Matrix.single_apply, Pi.single_apply] <;> ring
+    Matrix.single_apply] <;> ring
 
 theorem iotaOne_elem01 (s : K) :
     plusIotaOne K (Matrix.SpecialLinearGroup.transvection (show (0 : Fin 2) ≠ 1 by decide) s) =
@@ -46,7 +46,7 @@ theorem iotaOne_elem01 (s : K) :
   simp [LinearEquiv.mul_apply, swapPair_apply, Equiv.swap_apply_def, plusIotaTwo_apply_inl,
     plusIotaTwo_apply_inr, Matrix.SpecialLinearGroup.transvection_inv,
     Matrix.SpecialLinearGroup.transvection_coe, Fin.sum_univ_two, Matrix.one_apply,
-    Matrix.single_apply, Pi.single_apply] <;> ring
+    Matrix.single_apply]; ring
 
 theorem iotaOne_elem10 (s : K) :
     plusIotaOne K (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 2) ≠ 0 by decide) s) =
@@ -57,7 +57,7 @@ theorem iotaOne_elem10 (s : K) :
   simp [LinearEquiv.mul_apply, swapPair_apply, Equiv.swap_apply_def, plusIotaTwo_apply_inl,
     plusIotaTwo_apply_inr, Matrix.SpecialLinearGroup.transvection_inv,
     Matrix.SpecialLinearGroup.transvection_coe, Fin.sum_univ_two, Matrix.one_apply,
-    Matrix.single_apply, Pi.single_apply] <;> ring
+    Matrix.single_apply] <;> ring
 
 
 theorem rpElt_two_cases {a b : Fin 2 ⊕ Fin 2} (hab : coordIdx a ≠ coordIdx b) (s : K) :

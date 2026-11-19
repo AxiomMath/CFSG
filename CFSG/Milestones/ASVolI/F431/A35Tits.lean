@@ -66,7 +66,7 @@ theorem burnsideF4m_F_4_35_Tits {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
     (hi : (i : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (hj : (j : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)))
     (hi1 : i ≠ 1) (hj1 : j ≠ 1) (hi2 : i * i = 1) (hj2 : j * j = 1) :
     ((∃ g ∈ Gp, g * (i : E) * g⁻¹ = (j : E)) ↔ IsConj (bM β ε i) (bM β ε j)) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   have hGp : Gp = ⊤ := hyp.amalgam.canonical (Or.inr rfl)
   obtain ⟨θ, h1, h2⟩ := burnsideF4m_tits_thetaD hyp.amalgam
   have hz := hyp.z_mem.1 (by decide)

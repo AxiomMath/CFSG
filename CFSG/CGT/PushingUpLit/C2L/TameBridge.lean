@@ -12,7 +12,7 @@ variable {G : Type} [Group G]
 
 theorem isSylowOf_top_of_sylow [Finite G] (S : Sylow 2 G) : IsSylowOf 2 (S : Subgroup G) ⊤ := by
   rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-  exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+  exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
 
 theorem lt_inf_normalizer_of_lt [Finite G] {P H : Subgroup G} (hP : IsPGroup 2 P) (hHP : H < P) :
     H < P ⊓ Subgroup.normalizer (H : Set G) := by
@@ -32,7 +32,7 @@ theorem exists_sylow_inf_eq [Finite G] {N A : Subgroup G} (hA : IsSylowOf 2 A N)
     ∃ S : Subgroup G, IsSylowOf 2 S ⊤ ∧ S ⊓ N = A := by
   obtain ⟨S, hAS⟩ := hA.isPGroup.exists_le_sylow
   refine ⟨S, isSylowOf_top_of_sylow S, ?_⟩
-  exact hA.eq_of_le (le_inf hAS hA.le) inf_le_right S.isPGroup'.to_inf_left
+  exact hA.eq_of_le (le_inf hAS hA.le) inf_le_right S.isPGroup.to_inf_left
 
 def NAdj (H A B : Subgroup G) : Prop :=
   IsSylowOf 2 A (Subgroup.normalizer (H : Set G)) ∧

@@ -103,7 +103,7 @@ theorem whole_module_core {X : Subgroup Q} [X.Normal] (T : Sylow 2 Q)
   have hqC : (CFSG.pCore 2 ↥X).map X.subtype ≤ centralizer (V : Set Q) :=
     hqB.trans inf_le_right
   have hPVp : IsPGroup p (X.map (conjGL V)) := isPGroup_map_conjGL hP hqC
-  obtain ⟨hPn, hΓP⟩ := isPGroup_quotient_map_conjGL V T.isPGroup' hXT
+  obtain ⟨hPn, hΓP⟩ := isPGroup_quotient_map_conjGL V T.isPGroup hXT
   have h3 : ¬ 3 ∣ Nat.card (conjGL V).range := by
     have hcard := Subgroup.card_mul_index ((X.map (conjGL V)).subgroupOf (conjGL V).range)
     have hsub : Nat.card ((X.map (conjGL V)).subgroupOf (conjGL V).range) =

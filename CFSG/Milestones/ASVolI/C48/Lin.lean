@@ -74,7 +74,7 @@ theorem burnsideC48_eq_top_of_invariant {S : AddSubgroup (Fin 3 → F)}
   have hother : ∀ i, i ≠ j → ∀ c : F, (Pi.single i c : Fin 3 → F) ∈ S := by
     intro i hij c
     have h1 := key (LinearMap.proj j) (Pi.single i ((x j)⁻¹ * c)) x
-      (by simp [Pi.single_apply, Ne.symm hij]) hx
+      (by simp [Ne.symm hij]) hx
     have e : (LinearMap.proj j : (Fin 3 → F) →ₗ[F] F) x • (Pi.single i ((x j)⁻¹ * c) : Fin 3 → F) =
         Pi.single i c := by
       rw [LinearMap.proj_apply, ← Pi.single_smul, smul_eq_mul, ← mul_assoc, mul_inv_cancel₀ hj,
@@ -88,7 +88,7 @@ theorem burnsideC48_eq_top_of_invariant {S : AddSubgroup (Fin 3 → F)}
         fin_cases i
         exacts [⟨1, by decide⟩, ⟨0, by decide⟩, ⟨0, by decide⟩]
       have h1 := key (LinearMap.proj k) (Pi.single i c) (Pi.single k 1)
-        (by simp [Pi.single_apply, Ne.symm hki]) (hother k hki 1)
+        (by simp [Ne.symm hki]) (hother k hki 1)
       simpa using h1
     · exact hother i hij c
   refine eq_top_iff.mpr fun z _ => ?_

@@ -17,7 +17,7 @@ namespace SolvNone
 theorem closure_twoElements_eq_top {I₀ : Type} [Group I₀] [Finite I₀]
     (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀)) :
     Subgroup.closure {x : I₀ | ∃ k : ℕ, x ^ 2 ^ k = 1} = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := CFSG.pCore 2 I₀ with hN
   set S := {x : I₀ | ∃ k : ℕ, x ^ 2 ^ k = 1} with hS
   have hNS : ∀ n ∈ N, n ∈ S := fun n hn => by
@@ -48,8 +48,8 @@ theorem eq_bot_of_twoElements_le_centralizer {G : Type*} [Group G] [Finite G] {Q
     (hQ : Q ≤ Subgroup.closure {x | x ∈ Q ∧ ∃ k : ℕ, x ^ 2 ^ k = 1}) (hPQ : P ≤ Q)
     (hP : IsPGroup 3 P) (hpow : ∀ q ∈ Q, ∃ a : ℕ, q ^ 2 ^ a ∈ P)
     (hcen : ∀ x ∈ Q, (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ centralizer (P : Set G)) : P = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set S := {x | x ∈ Q ∧ ∃ k : ℕ, x ^ 2 ^ k = 1} with hS
   have hSQ : Subgroup.closure S ≤ Q := (Subgroup.closure_le _).mpr fun x hx => hx.1
   have hQC : Q ≤ centralizer (P : Set G) :=
@@ -60,7 +60,7 @@ theorem eq_bot_of_twoElements_le_centralizer {G : Type*} [Group G] [Finite G] {Q
     rw [mem_center_iff]
     intro q
     exact Subtype.ext ((mem_centralizer_iff.mp (hQC q.2)) p (mem_subgroupOf.mp hp)).symm
-  haveI : P'.Normal := ⟨fun n hn g => by
+  have : P'.Normal := ⟨fun n hn g => by
     have hc := mem_center_iff.mp (hP'c hn) g
     rw [hc, mul_inv_cancel_right]
     exact hn⟩

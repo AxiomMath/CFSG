@@ -40,7 +40,7 @@ theorem sec4I_exists_theta (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3
   have hinj : Function.Injective Θ' :=
     c0e.symm.injective.comp ((MulAut.congr ψ).injective.comp
       (conjNormal_injective_seven hQ hdim hσ))
-  haveI : Finite (ProjOrth Sec4IQ) := Nat.finite_of_card_ne_zero (by
+  have : Finite (ProjOrth Sec4IQ) := Nat.finite_of_card_ne_zero (by
     rw [natCard_projOrth_seven sec4IQ_nondegenerate sec4IQ_finrank]
     norm_num)
   have hbij : Function.Bijective Θ' := hinj.bijective_of_nat_card_le (by

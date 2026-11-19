@@ -24,7 +24,7 @@ theorem EndHyp.three_dvd_card_of_normal_four [Finite G] (h : EndHyp G Ω p ω K 
     rw [hb, Subgroup.card_bot] at hV4
     omega
   obtain ⟨z, hzV, hz2⟩ :=
-    CFSG.Assembly.Dichotomy.exists_involution_inf_subgroupCenter S.isPGroup' hVS hSV hVne
+    CFSG.Assembly.Dichotomy.exists_involution_inf_subgroupCenter S.isPGroup hVS hSV hVne
   have hzVV : z ∈ V := hzV.1
   have hzS : z ∈ (S : Subgroup G) := hzV.2.1
   have hzc : ∀ s ∈ (S : Subgroup G), z * s = s * z := fun s hs =>
@@ -122,12 +122,12 @@ theorem EndHyp.three_dvd_card_of_normal_four [Finite G] (h : EndHyp G Ω p ω K 
   have hQp : IsPGroup 2 (Q.subgroupOf C) := by
     rintro ⟨⟨x, hxC⟩, hxQ⟩
     have hxS : x ∈ (S : Subgroup G) := ((hmemQ x).mp (mem_subgroupOf.mp hxQ)).1
-    obtain ⟨n, hn⟩ := S.isPGroup' ⟨x, hxS⟩
+    obtain ⟨n, hn⟩ := S.isPGroup ⟨x, hxS⟩
     refine ⟨n, Subtype.ext (Subtype.ext ?_)⟩
     simpa using congrArg Subtype.val hn
   obtain ⟨Q₁, hQ₁⟩ := hQp.exists_le_sylow
   set R : Subgroup G := (Q₁ : Subgroup C).map C.subtype with hR
-  have hRp : IsPGroup 2 R := Q₁.isPGroup'.map _
+  have hRp : IsPGroup 2 R := Q₁.isPGroup.map _
   have hRcard : Nat.card R = 2 ^ p := by
     rw [hR, card_map_of_injective C.subtype_injective, Q₁.card_eq_multiplicity,
       ← ((c • S : Sylow 2 G).subtype hTC).card_eq_multiplicity, Sylow.coe_subtype,
@@ -336,7 +336,7 @@ theorem EndHyp.exists_two_central_involutions [Finite G] (h : EndHyp G Ω p ω K
       le_trans hs3 (le_csSup (CFSG.RankThreeEvenClassification.Helpers.pRank_bddAbove 2
         Nat.prime_two (S' : Subgroup G)) ⟨E, hES', hEel, hs⟩)
     obtain ⟨V, hVS', hS'V, hVel, hV4⟩ :=
-      CFSG.Assembly.Dichotomy.exists_normal_four_of_three_le_pRank S'.isPGroup' hrank
+      CFSG.Assembly.Dichotomy.exists_normal_four_of_three_le_pRank S'.isPGroup hrank
     exact h3 (h.three_dvd_card_of_normal_four S' huniq hVS' hS'V hVel.2 hV4)
   ·
     have hrp' : r ∣ 2 ^ p - 1 := by

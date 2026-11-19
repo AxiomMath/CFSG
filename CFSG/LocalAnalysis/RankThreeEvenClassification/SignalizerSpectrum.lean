@@ -60,7 +60,7 @@ theorem SignalizerCompatible.prime_dvd_mem_spectrum
     actor subgroup hpgroup hcompatible.primeComplement hcompatible.normalized supportPrime hsupportPrime
   let ambientSylow := (sylow : Subgroup subgroup).map subgroup.subtype
   have hsylowLe : ambientSylow ≤ subgroup := Subgroup.map_subtype_le _
-  have hsylowPGroup : IsPGroup supportPrime ambientSylow := sylow.isPGroup'.map subgroup.subtype
+  have hsylowPGroup : IsPGroup supportPrime ambientSylow := sylow.isPGroup.map subgroup.subtype
   have hsylowSolvable : Group.IsSolvable ambientSylow := by
     have : Group.IsSolvable subgroup := hcompatible.solvable
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hsylowLe)

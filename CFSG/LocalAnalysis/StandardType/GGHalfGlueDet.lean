@@ -65,7 +65,7 @@ theorem w_comm_J : ∀ j ∈ J, wElt φ₂ * j = j * wElt φ₂ := by
       (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ ∉
         {i : Fin (m + 1 + 1 + 1) | i.val ≤ m} := by
     constructor <;>
-      (simp only [Set.mem_setOf_eq, Fin.val_castSucc, Fin.val_succ]; omega)
+      (simp only [Set.mem_ofPred_eq, Fin.val_castSucc, Fin.val_succ]; omega)
   have hcomm := commute_omegaBlock_slOn
     (S := {i : Fin (m + 1 + 1 + 1) | i.val ≤ m})
     (k := (⟨m + 1, by omega⟩ : Fin (m + 1 + 1))) hk hS
@@ -85,10 +85,10 @@ theorem not_dvd_of_y_eq {i j : ℤ} (hy : y = x ^ i * vElt φ₁ ^ j) : ¬ (3 : 
   have hycent : y ∈ Subgroup.centralizer (K : Set G) :=
     Subgroup.mem_centralizer_iff.mpr (fun k hk => (hyK k hk).symm)
   have hxord : orderOf x = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hx3 hxne
   have hyord : orderOf y = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime (hBs3 y hyBs) hyne
   have hmem : y ∈ Subgroup.zpowers x := Subgroup.mem_zpowers_iff.mpr ⟨i, hxy.symm⟩
   have hle : Subgroup.zpowers y ≤ Subgroup.zpowers x := Subgroup.zpowers_le.mpr hmem

@@ -20,7 +20,7 @@ private theorem image_conj_eq_image_of_commute {X : Type} [Group X] [Finite X]
     (hcomm : (QuotientGroup.mk' Z (g' * a * g'⁻¹)) * (QuotientGroup.mk' Z a) =
       (QuotientGroup.mk' Z a) * (QuotientGroup.mk' Z (g' * a * g'⁻¹))) :
     QuotientGroup.mk' Z (g' * a * g'⁻¹) = QuotientGroup.mk' Z a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : X →* X ⧸ Z := QuotientGroup.mk' Z
   let t : X ⧸ Z := π a
   let y : X := g' * a * g'⁻¹
@@ -243,7 +243,7 @@ theorem false_of_cyclic_four_of_central {X : Type} [Group X] [Finite X] (T : Syl
     Subgroup.mem_center_iff.mpr fun x => hz x
   have hZn : Z.Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hzc)
-  letI : Z.Normal := hZn
+  let : Z.Normal := hZn
   let π : X →* X ⧸ Z := QuotientGroup.mk' Z
   let t : X ⧸ Z := π a
   have hz2 : (a ^ 2) * (a ^ 2) = 1 := by
@@ -293,7 +293,7 @@ theorem false_of_cyclic_four_of_central {X : Type} [Group X] [Finite X] (T : Syl
       simpa only [π, t, map_mul, map_inv] using hq
     have h := image_conj_eq_image_of_commute hZeq T ha4 ha2 hz hsc hq'
     simpa only [π, t, map_mul, map_inv] using h
-  haveI : Fintype (X ⧸ Z) := Fintype.ofFinite (X ⧸ Z)
+  have : Fintype (X ⧸ Z) := Fintype.ofFinite (X ⧸ Z)
   obtain ⟨N, hNn, hNodd, hN⟩ :=
     CFSG.ZStar.glauberman_zStar (X ⧸ Z) t ht1 ht2 hiso
   exact false_of_normal_odd_quotient hZeq ha4 ha2 hz he hg hNn hNodd fun q => by

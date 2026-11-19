@@ -18,6 +18,7 @@ section Medium
 variable {K : Type} [Field K] [Finite K] {n : ℕ} {L' : Type} [Group L'] [Finite L']
   {ψ : L' →* TwE6Delta.RecipeR K n} {A As : Subgroup (MulAut L')}
 
+omit [Finite L'] in
 theorem Cfg.card_le_three_mul_inf_conj (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (h : Cfg ψ A As) (hI : ∀ a ∈ As, Induces ψ a) :
     Nat.card As ≤ 3 * Nat.card
@@ -65,6 +66,7 @@ theorem Cfg.false_of_caseI_Rtype (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) 
   · rw [hZ1, one_mul, hEcard]
     omega
 
+omit [Finite L'] in
 theorem Cfg.false_of_caseF_Rtype (hB1 : RankFiveInnInput) (hn : 1 ≤ n)
     (hK : Nat.card K = (2 ^ n) ^ 2) (h9 : 9 ∣ 2 ^ n + 1) (h : Cfg ψ A As)
     (h5 : 3 ^ 5 ≤ Nat.card A) (hZ1 : Nat.card (Subgroup.center L') = 1) : False := by
@@ -137,7 +139,7 @@ theorem Cfg.card_eq_five_or_six (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     exact rho_mem_recipeI h.surj hZ h.ker_le (h.induces a ha)
   have h6 := ggTwE6ThreeInndiagRankInput_holds K n hn hK h3 _ hEl hsub
   rw [Subgroup.card_map_of_injective hinj] at h6
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (TableB.isPGroup_of_isElemAbelian h.hA)
   rw [hk] at h5 h6 ⊢
   have hk5 : 5 ≤ k := (Nat.pow_le_pow_iff_right (by norm_num)).1 h5

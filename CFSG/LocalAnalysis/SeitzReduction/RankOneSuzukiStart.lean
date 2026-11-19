@@ -63,7 +63,7 @@ theorem mem_centralizer_szT₁ (h : SzStart G L f t T) : t ∈ centralizer (szT�
 
 theorem isPGroup (h : SzStart G L f t T) : IsPGroup 2 T := by
   obtain ⟨P, hP⟩ := h.sylow
-  have hP' := P.isPGroup'
+  have hP' := P.isPGroup
   rw [hP] at hP'
   exact hP'.of_equiv (subgroupOfEquivOfLe h.le)
 

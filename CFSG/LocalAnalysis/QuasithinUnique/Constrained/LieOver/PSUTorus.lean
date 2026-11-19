@@ -30,7 +30,7 @@ theorem li_uRootMat_apply_diag (h : UnitaryFieldData p f K) {a b : Fin r ⊕ Fin
     rw [Sum.swap_swap, Sum.swap_swap] at e'
     exact hab e'.symm
   rw [uRootMat, Matrix.add_apply, one_apply_eq, uRootNil]
-  split_ifs <;> simp [Matrix.single_apply, h1, h2]
+  split_ifs <;> simp [h1, h2]
 
 theorem li_uRootSubgroup_le_U (h : UnitaryFieldData p f K) {α : Fin r → ℤ}
     (hα : α ∈ posRoots r) : uRootSubgroup ε h α ≤ hypUnitriangular h r ε := by
@@ -127,7 +127,7 @@ theorem li_rootVec_last (L : Fin r) (hL : ¬ ((L : ℕ) + 1 < r)) :
   have := rootVec_simpleSnd L
   have hs : simpleSnd L = Sum.inr L := by
     unfold simpleSnd
-    rw [dif_neg hL]
+    rw [dite_eq_right hL]
   rw [hs] at this
   exact this
 
@@ -214,28 +214,28 @@ theorem li_YL_act (h : UnitaryFieldData p f K) (L : Fin r) (u : K) (x : HypIndex
 theorem li_X_m (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (s : K) :
     uRootMat ε h (Sum.inl m) (Sum.inl (li_succ m hm)) s *ᵥ
       Pi.single (Sum.inl m : HypIndex r ε) 1 = Pi.single (Sum.inl m : HypIndex r ε) 1 := by
-  rw [li_X_act, if_neg (li_hyp_ne_succ m hm), if_neg Sum.inl_ne_inr, add_zero, sub_zero]
+  rw [li_X_act, ite_eq_right (li_hyp_ne_succ m hm), ite_eq_right Sum.inl_ne_inr, add_zero, sub_zero]
 
 theorem li_X_s (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (s : K) :
     uRootMat ε h (Sum.inl m) (Sum.inl (li_succ m hm)) s *ᵥ
       Pi.single (Sum.inl (li_succ m hm) : HypIndex r ε) 1 =
       Pi.single (Sum.inl (li_succ m hm) : HypIndex r ε) 1 +
         s • Pi.single (Sum.inl m : HypIndex r ε) 1 := by
-  rw [li_X_act, if_pos rfl, if_neg Sum.inl_ne_inr, sub_zero]
+  rw [li_X_act, ite_eq_left rfl, ite_eq_right Sum.inl_ne_inr, sub_zero]
 
 theorem li_X_F (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (s : K) :
     uRootMat ε h (Sum.inl m) (Sum.inl (li_succ m hm)) s *ᵥ
       Pi.single (Sum.inr (Sum.inr m) : HypIndex r ε) 1 =
       Pi.single (Sum.inr (Sum.inr m) : HypIndex r ε) 1 -
         h.bar s • Pi.single (Sum.inr (Sum.inr (li_succ m hm)) : HypIndex r ε) 1 := by
-  rw [li_X_act, if_neg Sum.inr_ne_inl, if_pos rfl, add_zero]
+  rw [li_X_act, ite_eq_right Sum.inr_ne_inl, ite_eq_left rfl, add_zero]
 
 theorem li_X_FM (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (s : K) :
     uRootMat ε h (Sum.inl m) (Sum.inl (li_succ m hm)) s *ᵥ
       Pi.single (Sum.inr (Sum.inr (li_succ m hm)) : HypIndex r ε) 1 =
       Pi.single (Sum.inr (Sum.inr (li_succ m hm)) : HypIndex r ε) 1 := by
-  rw [li_X_act, if_neg Sum.inr_ne_inl,
-    if_neg (fun h' => li_ne_succ m hm (Sum.inr_injective (Sum.inr_injective h')).symm),
+  rw [li_X_act, ite_eq_right Sum.inr_ne_inl,
+    ite_eq_right (fun h' => li_ne_succ m hm (Sum.inr_injective (Sum.inr_injective h')).symm),
     add_zero, sub_zero]
 
 theorem li_Y_m (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (u : K) :
@@ -243,20 +243,20 @@ theorem li_Y_m (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r)
       Pi.single (Sum.inl m : HypIndex r ε) 1 =
       Pi.single (Sum.inl m : HypIndex r ε) 1 +
         u • Pi.single (Sum.inl (li_succ m hm) : HypIndex r ε) 1 := by
-  rw [li_Y_act, if_pos rfl, if_neg Sum.inl_ne_inr, sub_zero]
+  rw [li_Y_act, ite_eq_left rfl, ite_eq_right Sum.inl_ne_inr, sub_zero]
 
 theorem li_Y_s (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (u : K) :
     uRootMat ε h (Sum.inl (li_succ m hm)) (Sum.inl m) u *ᵥ
       Pi.single (Sum.inl (li_succ m hm) : HypIndex r ε) 1 =
       Pi.single (Sum.inl (li_succ m hm) : HypIndex r ε) 1 := by
-  rw [li_Y_act, if_neg (li_hyp_ne_succ m hm).symm, if_neg Sum.inl_ne_inr, add_zero, sub_zero]
+  rw [li_Y_act, ite_eq_right (li_hyp_ne_succ m hm).symm, ite_eq_right Sum.inl_ne_inr, add_zero, sub_zero]
 
 theorem li_Y_F (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (u : K) :
     uRootMat ε h (Sum.inl (li_succ m hm)) (Sum.inl m) u *ᵥ
       Pi.single (Sum.inr (Sum.inr m) : HypIndex r ε) 1 =
       Pi.single (Sum.inr (Sum.inr m) : HypIndex r ε) 1 := by
-  rw [li_Y_act, if_neg Sum.inr_ne_inl,
-    if_neg (fun h' => li_ne_succ m hm (Sum.inr_injective (Sum.inr_injective h'))),
+  rw [li_Y_act, ite_eq_right Sum.inr_ne_inl,
+    ite_eq_right (fun h' => li_ne_succ m hm (Sum.inr_injective (Sum.inr_injective h'))),
     add_zero, sub_zero]
 
 theorem li_Y_FM (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (u : K) :
@@ -264,49 +264,49 @@ theorem li_Y_FM (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r
       Pi.single (Sum.inr (Sum.inr (li_succ m hm)) : HypIndex r ε) 1 =
       Pi.single (Sum.inr (Sum.inr (li_succ m hm)) : HypIndex r ε) 1 -
         h.bar u • Pi.single (Sum.inr (Sum.inr m) : HypIndex r ε) 1 := by
-  rw [li_Y_act, if_neg Sum.inr_ne_inl, if_pos rfl, add_zero]
+  rw [li_Y_act, ite_eq_right Sum.inr_ne_inl, ite_eq_left rfl, add_zero]
 
 theorem li_X_gen (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (s : K)
     (x : HypIndex r ε) (hx2 : x ≠ Sum.inl (li_succ m hm)) (hx3 : x ≠ Sum.inr (Sum.inr m)) :
     uRootMat ε h (Sum.inl m) (Sum.inl (li_succ m hm)) s *ᵥ Pi.single x 1 = Pi.single x 1 := by
-  rw [li_X_act, if_neg hx2, if_neg hx3, add_zero, sub_zero]
+  rw [li_X_act, ite_eq_right hx2, ite_eq_right hx3, add_zero, sub_zero]
 
 theorem li_Y_gen (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (u : K)
     (x : HypIndex r ε) (hx1 : x ≠ Sum.inl m) (hx4 : x ≠ Sum.inr (Sum.inr (li_succ m hm))) :
     uRootMat ε h (Sum.inl (li_succ m hm)) (Sum.inl m) u *ᵥ Pi.single x 1 = Pi.single x 1 := by
-  rw [li_Y_act, if_neg hx1, if_neg hx4, add_zero, sub_zero]
+  rw [li_Y_act, ite_eq_right hx1, ite_eq_right hx4, add_zero, sub_zero]
 
 theorem li_XL_L (h : UnitaryFieldData p f K) (L : Fin r) (s : K) :
     uRootMat ε h (Sum.inl L) (Sum.inr L) s *ᵥ Pi.single (Sum.inl L : HypIndex r ε) 1 =
       Pi.single (Sum.inl L : HypIndex r ε) 1 := by
-  rw [li_XL_act, if_neg Sum.inl_ne_inr, add_zero]
+  rw [li_XL_act, ite_eq_right Sum.inl_ne_inr, add_zero]
 
 theorem li_XL_F (h : UnitaryFieldData p f K) (L : Fin r) (s : K) :
     uRootMat ε h (Sum.inl L) (Sum.inr L) s *ᵥ Pi.single (Sum.inr (Sum.inr L) : HypIndex r ε) 1 =
       Pi.single (Sum.inr (Sum.inr L) : HypIndex r ε) 1 +
         s • Pi.single (Sum.inl L : HypIndex r ε) 1 := by
-  rw [li_XL_act, if_pos rfl]
+  rw [li_XL_act, ite_eq_left rfl]
 
 theorem li_YL_L (h : UnitaryFieldData p f K) (L : Fin r) (u : K) :
     uRootMat ε h (Sum.inr L) (Sum.inl L) u *ᵥ Pi.single (Sum.inl L : HypIndex r ε) 1 =
       Pi.single (Sum.inl L : HypIndex r ε) 1 +
         u • Pi.single (Sum.inr (Sum.inr L) : HypIndex r ε) 1 := by
-  rw [li_YL_act, if_pos rfl]
+  rw [li_YL_act, ite_eq_left rfl]
 
 theorem li_YL_F (h : UnitaryFieldData p f K) (L : Fin r) (u : K) :
     uRootMat ε h (Sum.inr L) (Sum.inl L) u *ᵥ Pi.single (Sum.inr (Sum.inr L) : HypIndex r ε) 1 =
       Pi.single (Sum.inr (Sum.inr L) : HypIndex r ε) 1 := by
-  rw [li_YL_act, if_neg Sum.inr_ne_inl, add_zero]
+  rw [li_YL_act, ite_eq_right Sum.inr_ne_inl, add_zero]
 
 theorem li_XL_gen (h : UnitaryFieldData p f K) (L : Fin r) (s : K) (x : HypIndex r ε)
     (hx : x ≠ Sum.inr (Sum.inr L)) :
     uRootMat ε h (Sum.inl L) (Sum.inr L) s *ᵥ Pi.single x 1 = Pi.single x 1 := by
-  rw [li_XL_act, if_neg hx, add_zero]
+  rw [li_XL_act, ite_eq_right hx, add_zero]
 
 theorem li_YL_gen (h : UnitaryFieldData p f K) (L : Fin r) (u : K) (x : HypIndex r ε)
     (hx : x ≠ Sum.inl L) :
     uRootMat ε h (Sum.inr L) (Sum.inl L) u *ᵥ Pi.single x 1 = Pi.single x 1 := by
-  rw [li_YL_act, if_neg hx, add_zero]
+  rw [li_YL_act, ite_eq_right hx, add_zero]
 
 theorem li_MS_col_m (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) {s u : K}
     (hsu : s * u = -1) :
@@ -315,8 +315,8 @@ theorem li_MS_col_m (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1
   have hus : u * s = -1 := by rw [mul_comm]; exact hsu
   unfold li_MS
   rw [li_mulVec3]
-  simp only [Matrix.mulVec_add, Matrix.mulVec_smul, li_X_m, li_X_s, li_Y_m, li_Y_s, smul_add,
-    smul_smul, hsu, hus]
+  simp only [Matrix.mulVec_add, Matrix.mulVec_smul, li_X_m, li_X_s, li_Y_m, smul_add,
+    smul_smul, hus]
   module
 
 theorem li_MS_col_succ (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) {s u : K}
@@ -327,7 +327,7 @@ theorem li_MS_col_succ (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) 
   unfold li_MS
   rw [li_mulVec3]
   simp only [Matrix.mulVec_add, Matrix.mulVec_smul, li_X_m, li_X_s, li_Y_m, li_Y_s, smul_add,
-    smul_smul, hsu, hus]
+    smul_smul, hsu]
   module
 
 theorem li_MS_col_FL (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) {s u : K}
@@ -337,8 +337,8 @@ theorem li_MS_col_FL (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 
   have hbsu : h.bar s * h.bar u = -1 := by rw [← map_mul, hsu, map_neg, map_one]
   unfold li_MS
   rw [li_mulVec3]
-  simp only [Matrix.mulVec_add, Matrix.mulVec_sub, Matrix.mulVec_smul, li_X_F, li_X_FM,
-    li_Y_F, li_Y_FM, smul_add, smul_sub, smul_smul, hbsu]
+  simp only [Matrix.mulVec_sub, Matrix.mulVec_smul, li_X_F, li_X_FM,
+    li_Y_F, li_Y_FM, smul_sub, smul_smul, hbsu]
   module
 
 theorem li_MS_col_FM (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) {s u : K}
@@ -348,8 +348,8 @@ theorem li_MS_col_FM (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 
   have hbsu : h.bar u * h.bar s = -1 := by rw [← map_mul, mul_comm, hsu, map_neg, map_one]
   unfold li_MS
   rw [li_mulVec3]
-  simp only [Matrix.mulVec_add, Matrix.mulVec_sub, Matrix.mulVec_smul, li_X_F, li_X_FM,
-    li_Y_F, li_Y_FM, smul_add, smul_sub, smul_smul, hbsu]
+  simp only [Matrix.mulVec_sub, Matrix.mulVec_smul, li_X_F, li_X_FM,
+    li_Y_FM, smul_sub, smul_smul, hbsu]
   module
 
 theorem li_MS_col_gen (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ) + 1 < r) (s u : K)
@@ -366,8 +366,7 @@ theorem li_ML_col_L (h : UnitaryFieldData p f K) (L : Fin r) {s u : K} (hsu : s 
   have hus : u * s = -1 := by rw [mul_comm]; exact hsu
   unfold li_ML
   rw [li_mulVec3]
-  simp only [Matrix.mulVec_add, Matrix.mulVec_smul, li_XL_L, li_XL_F, li_YL_L, li_YL_F,
-    smul_add, smul_smul, hsu, hus]
+  simp only [Matrix.mulVec_add, Matrix.mulVec_smul, li_XL_L, li_XL_F, li_YL_L, smul_add, smul_smul, hus]
   module
 
 theorem li_ML_col_FL (h : UnitaryFieldData p f K) (L : Fin r) {s u : K} (hsu : s * u = -1) :
@@ -377,7 +376,7 @@ theorem li_ML_col_FL (h : UnitaryFieldData p f K) (L : Fin r) {s u : K} (hsu : s
   unfold li_ML
   rw [li_mulVec3]
   simp only [Matrix.mulVec_add, Matrix.mulVec_smul, li_XL_L, li_XL_F, li_YL_L, li_YL_F,
-    smul_add, smul_smul, hsu, hus]
+    smul_add, smul_smul, hsu]
   module
 
 theorem li_ML_col_gen (h : UnitaryFieldData p f K) (L : Fin r) (s u : K) (x : HypIndex r ε)
@@ -394,7 +393,7 @@ noncomputable def li_eS (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ)
   else if x = Sum.inr (Sum.inr (li_succ m hm)) then h.bar s
   else 1
 
-noncomputable def li_eL (h : UnitaryFieldData p f K) (L : Fin r) (t : K) :
+noncomputable def li_eL (_h : UnitaryFieldData p f K) (L : Fin r) (t : K) :
     HypIndex r ε → K := fun x =>
   if x = Sum.inl L then t
   else if x = Sum.inr (Sum.inr L) then t⁻¹
@@ -424,27 +423,25 @@ theorem li_short_matrix (h : UnitaryFieldData p f K) (m : Fin r) (hm : (m : ℕ)
       rw [li_MS_col_m h m hm hsu, li_MS_col_m h m hm hN, Matrix.mulVec_smul, li_diag_basis,
         smul_smul]
       congr 1
-      simp [li_eS, li_hyp_ne_succ m hm, (li_hyp_ne_succ m hm).symm] <;> ring
+      simp [li_eS, (li_hyp_ne_succ m hm).symm]
     by_cases h2 : j = Sum.inl (li_succ m hm)
     · subst h2
       rw [li_MS_col_succ h m hm hsu, li_MS_col_succ h m hm hN, Matrix.mulVec_smul,
         li_diag_basis, smul_smul]
       congr 1
-      simp [li_eS, li_hyp_ne_succ m hm, (li_hyp_ne_succ m hm).symm]
+      simp [li_eS]
     by_cases h3 : j = Sum.inr (Sum.inr m)
     · subst h3
       rw [li_MS_col_FL h m hm hsu, li_MS_col_FL h m hm hN, Matrix.mulVec_smul, li_diag_basis,
         smul_smul]
       congr 1
-      simp [li_eS, li_hyp_ne_succ m hm, (li_hyp_ne_succ m hm).symm, li_ne_succ m hm,
-        (li_ne_succ m hm).symm] <;> ring
+      simp [li_eS, (li_ne_succ m hm).symm]
     by_cases h4 : j = Sum.inr (Sum.inr (li_succ m hm))
     · subst h4
       rw [li_MS_col_FM h m hm hsu, li_MS_col_FM h m hm hN, Matrix.mulVec_smul, li_diag_basis,
         smul_smul]
       congr 1
-      simp [li_eS, li_hyp_ne_succ m hm, (li_hyp_ne_succ m hm).symm, li_ne_succ m hm,
-        (li_ne_succ m hm).symm] <;> ring
+      simp [li_eS]
     rw [li_MS_col_gen h m hm s _ j h1 h2 h3 h4, li_MS_col_gen h m hm 1 _ j h1 h2 h3 h4,
       li_diag_basis]
     simp [li_eS, h1, h2, h3, h4]
@@ -467,13 +464,13 @@ theorem li_long_matrix (h : UnitaryFieldData p f K) (L : Fin r) {c t : K} (hc0 :
       rw [li_ML_col_L h L hsu, li_ML_col_L h L hsu0, Matrix.mulVec_smul, li_diag_basis,
         smul_smul]
       congr 1
-      simp [li_eL] <;> ring
+      simp [li_eL]
     by_cases h2 : j = Sum.inr (Sum.inr L)
     · subst h2
       rw [li_ML_col_FL h L hsu, li_ML_col_FL h L hsu0, Matrix.mulVec_smul, li_diag_basis,
         smul_smul]
       congr 1
-      simp [li_eL] <;> ring
+      simp [li_eL]; ring
     rw [li_ML_col_gen h L _ _ j h1 h2, li_ML_col_gen h L _ _ j h1 h2, li_diag_basis]
     simp [li_eL, h1, h2]
   ext i j
@@ -489,7 +486,7 @@ theorem li_M_uWeyl_last (h : UnitaryFieldData p f K) (L : Fin r) (hL : ¬ ((L : 
     {c : K} (hc : c ∈ h.traceZero) :
     li_M (uWeylRep ε h L c hc) = li_ML (ε := ε) h L (-c⁻¹) c := by
   unfold uWeylRep
-  rw [dif_neg hL]
+  rw [dite_eq_right hL]
   rfl
 
 theorem li_mem_torus_of_diag (h : UnitaryFieldData p f K) (g : hypSU h r ε)
@@ -522,7 +519,7 @@ theorem li_mul_entry (h : UnitaryFieldData p f K) {t g : hypSU h r ε}
   obtain ⟨e', he', -⟩ := li_torus_diag h hg
   change (li_M t * li_M g) x x = _
   rw [he, he']
-  simp [Matrix.diagonal_mul_diagonal]
+  simp
 
 theorem li_inv_entry (h : UnitaryFieldData p f K) {g : hypSU h r ε}
     (hg : g ∈ hypTorus h r ε) (x : HypIndex r ε) :
@@ -565,13 +562,13 @@ theorem li_short_coroot (h : UnitaryFieldData p f K) (A : Subgroup (hypSU h r ε
       exact lt_irrefl _ hi
     have hne2 : i ≠ li_succ m hm := fun h' => by
       have := congrArg Fin.val h'
-      simp [li_succ] at this
+      simp at this
       omega
     rw [hM]
     simp [li_eS, hne1, hne2]
 
 theorem li_factor (h : UnitaryFieldData p f K) (A : Subgroup (hypSU h r ε)) (hr : 1 ≤ r)
-    (hshort : ∀ (m : Fin r) (hm : (m : ℕ) + 1 < r) {s : K}, s ≠ 0 →
+    (hshort : ∀ (m : Fin r) (_hm : (m : ℕ) + 1 < r) {s : K}, s ≠ 0 →
       ∃ g ∈ A, g ∈ hypTorus h r ε ∧ li_M g (Sum.inl m) (Sum.inl m) = s ∧
         ∀ i : Fin r, (i : ℕ) < m → li_M g (Sum.inl i) (Sum.inl i) = 1)
     (hbase : ∀ t ∈ hypTorus h r ε,
@@ -582,10 +579,10 @@ theorem li_factor (h : UnitaryFieldData p f K) (A : Subgroup (hypSU h r ε)) (hr
     intro j
     induction j with
     | zero =>
-      intro m hm t ht hent
+      intro m _hm t ht hent
       exact hbase t ht fun i hi => hent i (by omega)
     | succ j ih =>
-      intro m hm t ht hent
+      intro m _hm t ht hent
       have hmr : m < r := by omega
       have hm1 : m + 1 < r := by omega
       obtain ⟨e, he, he0⟩ := li_torus_diag h ht
@@ -690,10 +687,10 @@ def li_middle : Prop :=
 theorem li_short_all (h : UnitaryFieldData p f K) (A : Subgroup (hypSU h r ε)) {c : K}
     (hc : c ∈ h.traceZero) (hc0 : c ≠ 0) (hU : hypUnitriangular h r ε ≤ A)
     (hn : ∀ k : Fin r, uWeylRep ε h k c hc ∈ A) :
-    ∀ (m : Fin r) (hm : (m : ℕ) + 1 < r) {s : K}, s ≠ 0 →
-      ∃ g ∈ A, g ∈ hypTorus h r ε ∧ li_M g (Sum.inl m) (Sum.inl m) = s ∧
-        ∀ i : Fin r, (i : ℕ) < m → li_M g (Sum.inl i) (Sum.inl i) = 1 := fun m hm {s} hs =>
-  li_short_coroot h A m hm
+    ∀ (m : Fin r) (_hm : (m : ℕ) + 1 < r) {_s : K}, _s ≠ 0 →
+      ∃ g ∈ A, g ∈ hypTorus h r ε ∧ li_M g (Sum.inl m) (Sum.inl m) = _s ∧
+        ∀ i : Fin r, (i : ℕ) < m → li_M g (Sum.inl i) (Sum.inl i) = 1 := fun m _hm {_s} hs =>
+  li_short_coroot h A m _hm
     ((li_uRootSubgroup_le_U h (simpleRootVec_mem_posRoots m)).trans hU)
     (li_neg_simple h hc hc0 A hU hn m) hs
 
@@ -747,53 +744,50 @@ theorem psuTorusOvergroup_of_middle (hmid : li_middle) : PSUTorusOvergroup := by
 theorem lmX_e (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) :
     lmX h L a b *ᵥ Pi.single (Sum.inl L : HypIndex r 1) 1 = Pi.single (Sum.inl L) 1 := by
   simp [-Matrix.mulVec_single, lmX, lmN, Matrix.add_mulVec, Matrix.sub_mulVec,
-    Matrix.single_mulVec_eq, Pi.single_apply]
+    Matrix.single_mulVec_eq]
 
 theorem lmX_z (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) :
     lmX h L a b *ᵥ Pi.single (Sum.inr (Sum.inl 0) : HypIndex r 1) 1 =
       Pi.single (Sum.inr (Sum.inl 0)) 1 + a • Pi.single (Sum.inl L) 1 := by
   simp [-Matrix.mulVec_single, lmX, lmN, Matrix.add_mulVec, Matrix.sub_mulVec,
-    Matrix.single_mulVec_eq, Pi.single_apply]
+    Matrix.single_mulVec_eq]
 
 theorem lmX_f (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) :
     lmX h L a b *ᵥ Pi.single (Sum.inr (Sum.inr L) : HypIndex r 1) 1 =
       Pi.single (Sum.inr (Sum.inr L)) 1 + b • Pi.single (Sum.inl L) 1 -
         h.bar a • Pi.single (Sum.inr (Sum.inl 0)) 1 := by
   simp [-Matrix.mulVec_single, lmX, lmN, Matrix.add_mulVec, Matrix.sub_mulVec,
-    Matrix.single_mulVec_eq, Pi.single_apply]
+    Matrix.single_mulVec_eq]
   abel
 
 theorem lmX_gen (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) (y : HypIndex r 1)
-    (h1 : y ≠ Sum.inl L) (h2 : y ≠ Sum.inr (Sum.inl 0)) (h3 : y ≠ Sum.inr (Sum.inr L)) :
+    (_h1 : y ≠ Sum.inl L) (h2 : y ≠ Sum.inr (Sum.inl 0)) (h3 : y ≠ Sum.inr (Sum.inr L)) :
     lmX h L a b *ᵥ Pi.single y 1 = Pi.single y 1 := by
   simp [-Matrix.mulVec_single, lmX, lmN, Matrix.add_mulVec, Matrix.sub_mulVec,
-    Matrix.single_mulVec_eq, Pi.single_apply, h1, h2, h3, h1.symm, h2.symm, h3.symm]
+    Matrix.single_mulVec_eq, h2.symm, h3.symm]
 
 theorem lmY_e (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) :
     lmY h L a b *ᵥ Pi.single (Sum.inl L : HypIndex r 1) 1 =
       Pi.single (Sum.inl L) 1 + (-h.bar a) • Pi.single (Sum.inr (Sum.inl 0)) 1 +
         b • Pi.single (Sum.inr (Sum.inr L)) 1 := by
-  simp [-Matrix.mulVec_single, lmY, Matrix.add_mulVec, Matrix.single_mulVec_eq,
-    Pi.single_apply]
+  simp [-Matrix.mulVec_single, lmY, Matrix.add_mulVec, Matrix.single_mulVec_eq]
   abel
 
 theorem lmY_z (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) :
     lmY h L a b *ᵥ Pi.single (Sum.inr (Sum.inl 0) : HypIndex r 1) 1 =
       Pi.single (Sum.inr (Sum.inl 0)) 1 + a • Pi.single (Sum.inr (Sum.inr L)) 1 := by
-  simp [-Matrix.mulVec_single, lmY, Matrix.add_mulVec, Matrix.single_mulVec_eq,
-    Pi.single_apply]
+  simp [-Matrix.mulVec_single, lmY, Matrix.add_mulVec, Matrix.single_mulVec_eq]
 
 theorem lmY_f (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) :
     lmY h L a b *ᵥ Pi.single (Sum.inr (Sum.inr L) : HypIndex r 1) 1 =
       Pi.single (Sum.inr (Sum.inr L)) 1 := by
-  simp [-Matrix.mulVec_single, lmY, Matrix.add_mulVec, Matrix.single_mulVec_eq,
-    Pi.single_apply]
+  simp [-Matrix.mulVec_single, lmY, Matrix.add_mulVec, Matrix.single_mulVec_eq]
 
 theorem lmY_gen (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) (y : HypIndex r 1)
-    (h1 : y ≠ Sum.inl L) (h2 : y ≠ Sum.inr (Sum.inl 0)) (h3 : y ≠ Sum.inr (Sum.inr L)) :
+    (h1 : y ≠ Sum.inl L) (h2 : y ≠ Sum.inr (Sum.inl 0)) (_h3 : y ≠ Sum.inr (Sum.inr L)) :
     lmY h L a b *ᵥ Pi.single y 1 = Pi.single y 1 := by
   simp [-Matrix.mulVec_single, lmY, Matrix.add_mulVec, Matrix.single_mulVec_eq,
-    Pi.single_apply, h1, h2, h3, h1.symm, h2.symm, h3.symm]
+    h1.symm, h2.symm]
 
 theorem lm_eq_of_mulVec {M N : Matrix (HypIndex r 1) (HypIndex r 1) K}
     (hv : ∀ y : HypIndex r 1, M *ᵥ Pi.single y 1 = N *ᵥ Pi.single y 1) : M = N := by
@@ -848,17 +842,15 @@ theorem lmX_gram (h : UnitaryFieldData p f K) (L : Fin r) {a b : K}
         (h.bar b + b) := by
     rw [hNs, hN, lmN, single_add]
     simp only [Matrix.add_mul, Matrix.sub_mul, Matrix.mul_add, Matrix.mul_sub,
-      single_mul_hypGram, hypGram_mul_single, hypPartner_inl, hypPartner_inr_inl,
-      hypPartner_inr_inr]
+      single_mul_hypGram, hypGram_mul_single, hypPartner_inl, hypPartner_inr_inl]
     abel
   have h2 : (N.map h.bar)ᵀ * hypGram r 1 K * N =
       single (Sum.inr (Sum.inr L) : HypIndex r 1) (Sum.inr (Sum.inr L) : HypIndex r 1)
         (a * h.bar a) := by
     rw [hNs, hN, lmN]
     simp only [Matrix.add_mul, Matrix.sub_mul, Matrix.mul_add, Matrix.mul_sub,
-      single_mul_hypGram, hypGram_mul_single, hypPartner_inl, hypPartner_inr_inl,
-      hypPartner_inr_inr]
-    simp [single_mul_single_same, single_mul_single_of_ne, hez, hzf, hef, hez.symm, hzf.symm,
+      single_mul_hypGram, hypPartner_inl, hypPartner_inr_inl]
+    simp [single_mul_single_same, single_mul_single_of_ne, hez.symm, hzf.symm,
       hef.symm]
   rw [hT, hexp, h1, h2, add_assoc, ← single_add,
     show h.bar b + b + a * h.bar a = 0 by linear_combination hab, single_zero, add_zero]
@@ -917,7 +909,7 @@ theorem lm_xEl_mem (h : UnitaryFieldData p f K) (L : Fin r) {a b : K}
     (hab : b + h.bar b + a * h.bar a = 0) : lm_xEl h L hab ∈ hypUnitriangular h r 1 :=
   mem_hypUnitriangular_of_strict (N := lmN h L a b) rfl fun x y hxy => lmN_upper h L a b x y hxy
 
-theorem lm_par_conj (h : UnitaryFieldData p f K) {c : K} (hc : c ∈ h.traceZero) (hc0 : c ≠ 0)
+theorem lm_par_conj (h : UnitaryFieldData p f K) {c : K} (hc : c ∈ h.traceZero) (_hc0 : c ≠ 0)
     {a b : K} (hab : b + h.bar b + a * h.bar a = 0) :
     -(b / c ^ 2) + h.bar (-(b / c ^ 2)) + a / c * h.bar (a / c) = 0 := by
   have hbc : h.bar c = -c := by
@@ -957,7 +949,7 @@ theorem lm_key (h : UnitaryFieldData p f K) (L : Fin r) {c : K} (hc : c ∈ h.tr
     rw [lmX_f, Matrix.mulVec_sub, Matrix.mulVec_add, Matrix.mulVec_smul, Matrix.mulVec_smul,
       li_ML_col_FL h L hsu, li_ML_col_L h L hsu, li_ML_col_gen h L _ _ _ (by simp) (by simp),
       Matrix.mulVec_smul, lmY_e, hbar]
-    match_scalars <;> field_simp <;> ring
+    match_scalars <;> field_simp
   · rw [lmX_gen h L _ _ y hy1 hy2 hy3, li_ML_col_gen h L _ _ y hy1 hy3,
       lmY_gen h L _ _ y hy1 hy2 hy3]
 
@@ -991,14 +983,12 @@ theorem lmP_e (h : UnitaryFieldData p f K) (L : Fin r) {a b : K} (hb : b ≠ 0)
   have hB : h.bar b ≠ 0 := (map_ne_zero h.bar).mpr hb
   unfold lmP
   simp only [← Matrix.mulVec_mulVec, lmX_e, lmY_e, lmX_z, lmX_f, Matrix.mulVec_add,
-    Matrix.mulVec_sub, Matrix.mulVec_smul, map_div₀, map_neg, map_one, h.bar_bar]
+    Matrix.mulVec_smul, map_div₀, map_neg, h.bar_bar]
   match_scalars
   all_goals (try field_simp)
   all_goals first
     | ring1
     | linear_combination hbb
-    | linear_combination (-a) * hbb
-    | linear_combination h.bar a * hbb
 
 theorem lmP_z (h : UnitaryFieldData p f K) (L : Fin r) {a b : K} (hb : b ≠ 0)
     (hbb : b + h.bar b + a * h.bar a = 0) :
@@ -1007,14 +997,13 @@ theorem lmP_z (h : UnitaryFieldData p f K) (L : Fin r) {a b : K} (hb : b ≠ 0)
   have hB : h.bar b ≠ 0 := (map_ne_zero h.bar).mpr hb
   unfold lmP
   simp only [← Matrix.mulVec_mulVec, lmX_e, lmY_e, lmX_z, lmX_f, lmY_z, Matrix.mulVec_add,
-    Matrix.mulVec_sub, Matrix.mulVec_smul, map_div₀, map_neg, map_one, h.bar_bar]
+    Matrix.mulVec_smul, map_div₀, map_neg, h.bar_bar]
   match_scalars
   all_goals (try field_simp)
   all_goals first
     | ring1
     | linear_combination hbb
     | linear_combination (-a) * hbb
-    | linear_combination h.bar a * hbb
 
 theorem lmP_f (h : UnitaryFieldData p f K) (L : Fin r) {a b : K} (hb : b ≠ 0)
     (hbb : b + h.bar b + a * h.bar a = 0) :
@@ -1023,11 +1012,10 @@ theorem lmP_f (h : UnitaryFieldData p f K) (L : Fin r) {a b : K} (hb : b ≠ 0)
   have hB : h.bar b ≠ 0 := (map_ne_zero h.bar).mpr hb
   unfold lmP
   simp only [← Matrix.mulVec_mulVec, lmX_e, lmY_e, lmX_z, lmX_f, lmY_z, lmY_f, Matrix.mulVec_add,
-    Matrix.mulVec_sub, Matrix.mulVec_smul, map_div₀, map_neg, map_one, h.bar_bar]
+    Matrix.mulVec_sub, Matrix.mulVec_smul, map_div₀, map_neg, h.bar_bar]
   match_scalars
   all_goals (try field_simp)
   all_goals first
-    | ring1
     | linear_combination hbb
     | linear_combination (-a) * hbb
     | linear_combination h.bar a * hbb
@@ -1041,9 +1029,9 @@ theorem lmP_gen (h : UnitaryFieldData p f K) (L : Fin r) (a b : K) (y : HypIndex
 theorem lmQ_e (h : UnitaryFieldData p f K) (L : Fin r) (h2 : (2 : K) = 0) :
     lmQ h L *ᵥ Pi.single (Sum.inl L : HypIndex r 1) 1 = Pi.single (Sum.inr (Sum.inr L)) 1 := by
   unfold lmQ
-  simp only [← Matrix.mulVec_mulVec, lmX_e, lmY_e, lmX_z, lmX_f, lmY_z, lmY_f, Matrix.mulVec_add,
-    Matrix.mulVec_sub, Matrix.mulVec_smul, Matrix.mulVec_zero, map_zero, neg_zero, zero_smul,
-    zero_mul, neg_mul, zero_add, add_zero]
+  simp only [← Matrix.mulVec_mulVec, lmX_e, lmY_e, lmX_f, Matrix.mulVec_add,
+    Matrix.mulVec_smul, map_zero, neg_zero, zero_smul,
+    add_zero]
   match_scalars
   all_goals first
     | ring1
@@ -1053,19 +1041,16 @@ theorem lmQ_z (h : UnitaryFieldData p f K) (L : Fin r) :
     lmQ h L *ᵥ Pi.single (Sum.inr (Sum.inl 0) : HypIndex r 1) 1 =
       Pi.single (Sum.inr (Sum.inl 0)) 1 := by
   unfold lmQ
-  simp only [← Matrix.mulVec_mulVec, lmX_e, lmY_e, lmX_z, lmX_f, lmY_z, lmY_f, Matrix.mulVec_add,
-    Matrix.mulVec_sub, Matrix.mulVec_smul, map_zero, neg_zero, zero_smul, zero_mul, add_zero,
-    zero_add]
+  simp only [← Matrix.mulVec_mulVec, lmX_z, lmY_z, zero_smul, add_zero]
 
 theorem lmQ_f (h : UnitaryFieldData p f K) (L : Fin r) (h2 : (2 : K) = 0) :
     lmQ h L *ᵥ Pi.single (Sum.inr (Sum.inr L) : HypIndex r 1) 1 = Pi.single (Sum.inl L) 1 := by
   unfold lmQ
-  simp only [← Matrix.mulVec_mulVec, lmX_e, lmY_e, lmX_z, lmX_f, lmY_z, lmY_f, Matrix.mulVec_add,
+  simp only [← Matrix.mulVec_mulVec, lmX_e, lmY_e, lmX_f, lmY_f, Matrix.mulVec_add,
     Matrix.mulVec_sub, Matrix.mulVec_smul, Matrix.mulVec_zero, map_zero, neg_zero, zero_smul,
-    zero_mul, neg_mul, zero_add, add_zero]
+    add_zero]
   match_scalars
   all_goals first
-    | ring1
     | linear_combination h2
 
 theorem lmQ_gen (h : UnitaryFieldData p f K) (L : Fin r) (y : HypIndex r 1)
@@ -1083,9 +1068,7 @@ theorem lm_parP (h : UnitaryFieldData p f K) {a0 b : K} (hb : b ≠ 0)
   constructor
   all_goals (try field_simp)
   all_goals first
-    | ring1
     | linear_combination hbb
-    | linear_combination (-1 : K) * hbb
 
 theorem lm_mat_xEl (h : UnitaryFieldData p f K) (L : Fin r) {a b : K}
     (hab : b + h.bar b + a * h.bar a = 0) : li_M (lm_xEl h L hab) = lmX h L a b := rfl
@@ -1132,7 +1115,7 @@ theorem lm_PQ (h : UnitaryFieldData p f K) (L : Fin r) (h2 : (2 : K) = 0) {x a0 
 theorem li_middle_holds : li_middle := by
   unfold li_middle
   intro f K _ h r c hc hc0 A hr hU hn a d ha hd hp
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   set L : Fin r := ⟨r - 1, by omega⟩ with hLdef
   have hLv : (L : ℕ) = r - 1 := rfl

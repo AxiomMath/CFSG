@@ -16,6 +16,7 @@ def projSU {S : Type} [Group S] (f : S ≃* StatedProj (StatedSU 6 (2 ^ 1) K)) :
   f.symm.toMonoidHom.comp
     (QuotientGroup.mk' ((StatedScalars (Fin 6) K).subgroupOf (StatedSU 6 (2 ^ 1) K)))
 
+omit [Finite K] in
 theorem projSU_surjective {S : Type} [Group S] (f : S ≃* StatedProj (StatedSU 6 (2 ^ 1) K)) :
     Function.Surjective (projSU f) := by
   intro s
@@ -24,6 +25,7 @@ theorem projSU_surjective {S : Type} [Group S] (f : S ≃* StatedProj (StatedSU 
   simp only [projSU, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, QuotientGroup.mk'_apply]
   rw [hy, MulEquiv.symm_apply_apply]
 
+omit [Finite K] in
 theorem mem_ker_projSU_iff {S : Type} [Group S] (f : S ≃* StatedProj (StatedSU 6 (2 ^ 1) K))
     (y : ↥(StatedSU 6 (2 ^ 1) K)) :
     y ∈ (projSU f).ker ↔ (y : GL (Fin 6) K) ∈ StatedScalars (Fin 6) K := by
@@ -47,11 +49,11 @@ theorem ker_projSU_le_center {S : Type} [Group S] (hK : Nat.card K = 4)
   exact scalSub_le_center hK
 
 theorem finite_SU (K : Type) [Field K] [Finite K] : Finite ↥(StatedSU 6 (2 ^ 1) K) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   infer_instance
 
 theorem perfect_SU (hK : Nat.card K = 4) : Group.IsPerfect ↥(StatedSU 6 (2 ^ 1) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := 1) (n := 6)
   · rw [hK]
     norm_num
@@ -63,8 +65,8 @@ theorem rank5_of_u6 {S Q : Type} [Group S] [Finite S] [Group.IsPerfect S] [Group
     (hM : Nat.card (hopfMultiplier S) = 12) (p : Q →* S) (hp : Function.Surjective p)
     (hpc : p.ker ≤ Subgroup.center Q) (h3 : 3 ∣ Nat.card p.ker) :
     ∃ W : Subgroup Q, IsElemAbelian 3 W ∧ Nat.card W = 3 ^ 5 := by
-  haveI := finite_SU K
-  haveI := perfect_SU (K := K) hK
+  have := finite_SU K
+  have := perfect_SU (K := K) hK
   obtain ⟨π, hπs, hπk⟩ := exists_surj_kernel_not_three_dvd p hp hpc (projSU f) (projSU_surjective f)
     (ker_projSU_le_center hK f) hM (card_ker_projSU hK f) h3
   obtain ⟨W, hW, hcard⟩ := exists_elemAbelian_lift π hπs hπk (W6_isElemAbelian hK)

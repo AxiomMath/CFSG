@@ -65,13 +65,13 @@ theorem e6Split_setup {K : Type} [Field K] [Finite K] [CharP K 2] (h3 : 3 ∣ Na
       ∀ a : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ, (∀ i, a i ^ 3 = 1) →
         rootDiagUnit Tag.E6 a ∈ S.D.torus := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   set L := AlgebraicClosure K with hL
   have hK : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]
   have hfne : (f : ℕ) ≠ 0 := f.pos.ne'
-  haveI hcharL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have hcharL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective _
   let Fr : L →+* L := iterateFrobenius L 2 f
   have hFr : ∀ c : L, Fr c = c ^ 2 ^ (f : ℕ) := fun c => iterateFrobenius_def 2 f c
   let D : LangDatum Tag.E6 L :=
@@ -184,12 +184,12 @@ theorem e6D4_label_of_class
       (fun α => v • α) '' parabolicRoots .E6 {j | j ∉ ({0, 5} : Finset (Fin 6))}) :
     ∃ m : ℕ, 1 ≤ m ∧ GGHasLabel (⟨.D, 4, m⟩ : LargeEvenLabel) (↥J ⧸ Subgroup.center ↥J) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hρ, hSΓ, hT3⟩ := e6Split_setup h3
   set L := AlgebraicClosure K with hL
   set ι : K →+* L := algebraMap K L with hι
-  haveI : CharP L 2 := charP_of_injective_algebraMap ι.injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap ι.injective 2
   have hJo : CFSG.Open.IsComponentOf J (fixSubgroup y) := isComponentOf_iff_open.1 hJ
   let a' : Fin Tag.E6.rank → Lˣ := fun j => Units.map ι.toMonoidHom (a j)
   have hbd : baseChangeGL ι (rootDiagUnit Tag.E6 a) = rootDiagUnit Tag.E6 a' :=
@@ -232,7 +232,7 @@ theorem e6D4_label_of_class
       have : ψ' x ∈ J.map ψ' := Subgroup.mem_map_of_mem ψ' hx
       rw [hbot, Subgroup.mem_bot] at this
       exact this
-    haveI : Nontrivial J := CFSG.ComponentClassification.Quasisimple.nontrivial hJo.2.2
+    have : Nontrivial J := CFSG.ComponentClassification.Quasisimple.nontrivial hJo.2.2
     have hJcomm : ⁅J, J⁆ = ⊥ := by
       rw [eq_bot_iff, Subgroup.commutator_le]
       intro x hx z hz
@@ -281,7 +281,7 @@ theorem e6D4_label_of_class
     exact hJnt (hJperf.symm.trans hab)
   have hkr : kernelRoots (rootCharHom a) = kernelRoots (rootCharHom a') := by
     ext γ
-    simp only [kernelRoots_rootCharHom, Set.mem_setOf_eq]
+    simp only [kernelRoots_rootCharHom, Set.mem_ofPred_eq]
     refine and_congr_right fun _ => ?_
     have h1 : rootChar a' γ = Units.map ι.toMonoidHom (rootChar a γ) := by
       simp [a', rootChar, map_prod, map_zpow]
@@ -335,7 +335,7 @@ theorem e6D4_label_of_class
     rw [Subgroup.mem_center_iff]
     intro z
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hker' hx1) (z : L'))
-  haveI : Group.IsPerfect ↥J := ⟨hJo.2.2.1⟩
+  have : Group.IsPerfect ↥J := ⟨hJo.2.2.1⟩
   exact ⟨m, hm1, ggHasLabel_quotCenter_of_central_cover inferInstance f hf hfker hlab⟩
 
 theorem ggTBJE6Three_d4Label_of_class
@@ -352,7 +352,7 @@ theorem ggTBJE6Three_d4Label_of_class
       (fun α => v • α) '' parabolicRoots .E6 {j | j ∉ ({0, 5} : Finset (Fin 6))}) :
     ∃ m : ℕ, 1 ≤ m ∧ GGHasLabel (⟨.D, 4, m⟩ : LargeEvenLabel) (↥J ⧸ Subgroup.center ↥J) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h3 : 3 ∣ Nat.card K - 1 := by
     have h1 : orderOf ζ ∣ Fintype.card Kˣ := orderOf_dvd_card
     rw [hζo, Fintype.card_units] at h1

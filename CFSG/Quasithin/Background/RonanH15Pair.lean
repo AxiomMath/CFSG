@@ -44,7 +44,7 @@ private theorem h15_ind_mem_iff {U W : Finset (Fin 24)} (hUW : U ⊆ W) (hW : W.
       intro m hm
       exact hUW (by
         by_contra h
-        exact hm (if_neg h))
+        exact hm (ite_eq_right h))
     by_contra hne
     obtain ⟨m, hm⟩ := Finset.nonempty_iff_ne_empty.2 hne
     have hv := congrFun h0 m
@@ -68,7 +68,7 @@ private theorem h15_ind_add (U V : Finset (Fin 24)) :
       fun m => if m ∈ symmDiff U V then (1 : ZMod 2) else 0 := by
   funext m
   simp only [Pi.add_apply, Finset.mem_symmDiff]
-  by_cases hU : m ∈ U <;> by_cases hV : m ∈ V <;> simp [hU, hV] <;> decide
+  by_cases hU : m ∈ U <;> by_cases hV : m ∈ V <;> simp [hU, hV]; decide
 
 private theorem h15_symmDiff_eq_empty_iff (U V : Finset (Fin 24)) :
     symmDiff U V = ∅ ↔ U = V := by

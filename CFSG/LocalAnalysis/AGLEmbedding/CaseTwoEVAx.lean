@@ -22,7 +22,7 @@ theorem D1CaseTwoDataAt.inf_centralizer_le (hd : D1CaseTwoDataAt p P M H R Rbar)
   have hRP : R ≤ (P : Subgroup G) := hd.cfg.ext.le_P
   rintro x ⟨hxP, hxC⟩
   have hTeq : (S₀ : Subgroup C) = (P : Subgroup G).subgroupOf C :=
-    S₀.maximal_isPGroup.eq_of_le P.isPGroup'.comap_subtype
+    S₀.maximal_isPGroup.eq_of_le P.isPGroup.comap_subtype
       (fun s hs => hRP (hT ▸ ⟨s, hs, rfl⟩))
   have hx : (⟨x, hxC⟩ : C) ∈ (S₀ : Subgroup C) := by
     rw [hTeq]
@@ -41,7 +41,7 @@ theorem D1CaseTwoDataAt.mem_pCorePreimage_of_axis (hd : D1CaseTwoDataAt p P M H 
   have : Fact p.Prime := ⟨hp⟩
   set C := Subgroup.centralizer ({z} : Set G) with hCdef
   have hwY : w ∈ pCorePreimage p M :=
-    mem_of_inf_ne_bot P.isPGroup' (hd.cfg.ext.sylow_le.trans (le_normalizer_pCorePreimage p M))
+    mem_of_inf_ne_bot P.isPGroup (hd.cfg.ext.sylow_le.trans (le_normalizer_pCorePreimage p M))
       hY hwp hΩP
   refine ⟨hwY, fun o ho => ?_⟩
   have hOM : GLBPrimeCore p C ≤ M :=

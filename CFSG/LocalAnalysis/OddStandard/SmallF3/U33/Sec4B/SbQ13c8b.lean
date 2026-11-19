@@ -87,17 +87,20 @@ private theorem q13c_om_conj_f (h : Q13Om t L S x₁ x₂ lam rho tau om) :
   · exact Or.inr (q13c_om_conj_f_I h hI)
   · exact Or.inl (q13c_om_conj_f_II h hII)
 
+omit [Finite G] in
 private theorem q13c_mul_tau_comm {a b tau : G}
     (ha : a * tau = tau * a) (hb : b * tau = tau * b) :
     (a * b) * tau = tau * (a * b) := by
   rw [mul_assoc, hb, ← mul_assoc, ha, mul_assoc]
 
+omit [Finite G] in
 private theorem q13c_conj_mul_aux {a f tau : G} (ha : a * tau = tau * a) :
     a * (f * tau) * a⁻¹ = (a * f * a⁻¹) * tau := by
   have hconj : a * tau * a⁻¹ = tau := by rw [ha, mul_assoc, mul_inv_cancel, mul_one]
   calc a * (f * tau) * a⁻¹ = (a * f * a⁻¹) * (a * tau * a⁻¹) := by group
     _ = (a * f * a⁻¹) * tau := by rw [hconj]
 
+omit [Finite G] in
 private theorem q13c_inv_tau_comm {a tau : G} (ha : a * tau = tau * a)
     (htau2 : tau * tau = 1) : a⁻¹ * tau = tau * a⁻¹ := by
   have h1 : (a * tau)⁻¹ = (tau * a)⁻¹ := by rw [ha]

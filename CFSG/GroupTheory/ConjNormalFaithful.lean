@@ -58,8 +58,8 @@ theorem conjNormal_injective_of_centralizer_le {N : Subgroup Y} [N.Normal]
 theorem card_le_card_mulAut_of_centralizer_le [Finite Y] {N : Subgroup Y} [N.Normal]
     (hC : centralizer (N : Set Y) ≤ N) (hZ : center N = ⊥) :
     Nat.card Y ≤ Nat.card (MulAut N) := by
-  haveI : Finite N := Subtype.finite
-  haveI : Finite (MulAut N) :=
+  have : Finite N := Subtype.finite
+  have : Finite (MulAut N) :=
     Finite.of_injective (fun f : MulAut N => (f : N → N)) DFunLike.coe_injective
   exact Nat.card_le_card_of_injective (MulAut.conjNormal : Y →* MulAut N)
     (conjNormal_injective_of_centralizer_le hC hZ)

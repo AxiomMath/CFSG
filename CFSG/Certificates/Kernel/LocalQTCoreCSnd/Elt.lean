@@ -79,8 +79,8 @@ theorem elt_comm {B : List G} (hc : ∀ i j, B.getD i 1 * B.getD j 1 = B.getD j 
   | succ k ih =>
     rw [elt_succ]
     by_cases hb : m.testBit k
-    · rw [if_pos hb, ← mul_assoc, ih, mul_assoc, hc i k, ← mul_assoc]
-    · rw [if_neg hb, mul_one, ih]
+    · rw [ite_eq_left hb, ← mul_assoc, ih, mul_assoc, hc i k, ← mul_assoc]
+    · rw [ite_eq_right hb, mul_one, ih]
 
 private theorem kpw_xor_step (a a' b : G) (hs : b * b = 1) (hc : b * a' = a' * b) (s t : Bool) :
     a * (if s = true then b else 1) * (a' * (if t = true then b else 1)) =
@@ -106,7 +106,7 @@ private theorem kpw_elt_one (B : List G) {k m : ℕ} (h : ∀ j < k, m.testBit j
     have hk : ¬ m.testBit k = true := by
       rw [h k (by omega)]
       decide
-    rw [elt_succ, ih (fun j hj => h j (by omega)), if_neg hk, mul_one]
+    rw [elt_succ, ih (fun j hj => h j (by omega)), ite_eq_right hk, mul_one]
 
 theorem elt_pow (B : List G) {i k : ℕ} (hi : i < k) : elt k B (2 ^ i) = B.getD i 1 := by
   induction k generalizing i with
@@ -117,7 +117,7 @@ theorem elt_pow (B : List G) {i k : ℕ} (hi : i < k) : elt k B (2 ^ i) = B.getD
     · have hb : ¬ (2 ^ i).testBit k = true := by
         rw [Nat.testBit_two_pow, decide_eq_true_eq]
         omega
-      rw [ih hlt, if_neg hb, mul_one]
+      rw [ih hlt, ite_eq_right hb, mul_one]
     · have hieq : i = k := by omega
       have hb : (2 ^ i).testBit k = true := by
         rw [Nat.testBit_two_pow, hieq]
@@ -127,7 +127,7 @@ theorem elt_pow (B : List G) {i k : ℕ} (hi : i < k) : elt k B (2 ^ i) = B.getD
         intro j hj
         rw [Nat.testBit_two_pow, decide_eq_false_iff_not]
         omega
-      rw [h1, if_pos hb, one_mul, hieq]
+      rw [h1, ite_eq_left hb, one_mul, hieq]
 
 theorem lst_length (B : List G) : (lst B).length = 16 := by
   simp [lst]

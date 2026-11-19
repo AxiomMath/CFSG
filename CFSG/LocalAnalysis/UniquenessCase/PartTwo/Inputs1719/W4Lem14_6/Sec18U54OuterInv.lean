@@ -83,7 +83,7 @@ private theorem exists_order41_inverted {K : Type} [Field K] [Finite K]
     [Fact (Nat.Prime 2)] [CharP K 2] (h : UnitaryFieldData 2 2 K) :
     ∃ y : hypPSU h 2 1, orderOf y = 41 ∧
       Phi h (fieldElt h (barEquiv (p := 2) (f := 2) (K := K))) y = y⁻¹ := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK16 : Fintype.card K = 16 := by
     rw [Fintype.card_eq_nat_card, h.card]
     norm_num
@@ -102,7 +102,7 @@ private theorem exists_order41_inverted {K : Type} [Field K] [Finite K]
   have hgram : (hypGram 2 1 K).map ψ = hypGram 2 1 CFSG.GH74.KGroups.GF16 := by
     ext i j
     rcases i with i | (k | i) <;> rcases j with j | (l | j) <;>
-      simp [hypGram, map_zero ψ, map_one ψ, Matrix.one_apply]
+      simp [hypGram, map_zero ψ, Matrix.one_apply]
   have hYmap_bar : (Y.map h.bar).map ψ = Y16.map bar16 := by
     ext i j
     simp [Matrix.map_apply, Y, h.bar_apply, bar16, map_pow]
@@ -209,7 +209,7 @@ private theorem exists_order41_inverted {K : Type} [Field K] [Finite K]
     by_cases hij : (.inl 0 : HypIndex 2 1) = .inl 1
     · exact absurd hij (by decide)
     · simp [Matrix.scalar_apply, Matrix.diagonal, hij]
-  haveI : Fact (Nat.Prime 41) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 41) := ⟨by norm_num⟩
   refine ⟨hypProj h 2 1 Ysu, orderOf_eq_prime hy41 hyne, hPhi⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Lem14_6
@@ -232,10 +232,10 @@ open CFSG.ClassicalInvolution.ModelFacts.MF15
 theorem k146U54OuterInv_holds : K146U54OuterInv := by
   intro S _ _ hS α hα hout
   obtain ⟨K, hfield, h, ⟨e₀⟩⟩ := U54InvRank.exists_hypPSU_equiv_of_lieModel hS
-  letI := hfield
-  letI : Finite K := h.finite
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  letI : CharP K 2 := h.charP
+  let := hfield
+  let : Finite K := h.finite
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : CharP K 2 := h.charP
   let e : S ≃* hypPSU h 2 1 := e₀.symm
   let a : MulAut (hypPSU h 2 1) := MulAut.congr e α
   have ha2 : a * a = 1 := by

@@ -117,7 +117,7 @@ theorem s16t_a_false_of_inverted {T : Type} [CommGroup T] [Finite T] (hT : ∀ v
     rw [← Subgroup.card_map_of_injective (f := a.toMonoidHom) a.injective]
     exact Subgroup.card_le_of_le hle
   have heq : Nat.card t.range = Nat.card s.range := le_antisymm hle2 hle1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrk : rk T = 2 * padicValNat 2 (Nat.card s.range) := by
     unfold rk
     rw [hcard, heq, ← pow_two, padicValNat.pow]
@@ -131,7 +131,7 @@ theorem s16t_a_conj_eq_or_inv {Γ : Type} [Group Γ] {z w : Γ} (hz : z ^ 7 = 1)
   · left
     rw [hz1]
     simp
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hord : orderOf z = 7 := orderOf_eq_prime hz hz1
   obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 hzw
   have hj' : w * z * w⁻¹ = z ^ j := hj.symm

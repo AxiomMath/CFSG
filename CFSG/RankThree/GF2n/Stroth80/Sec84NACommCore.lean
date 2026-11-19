@@ -19,8 +19,8 @@ theorem commCore_isReduced [Finite R] [Nontrivial X] (ρ : Γ →* (X ≃ₗ[K] 
     (hirr : ∀ S : Submodule K X, (∀ g : Γ, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
     (hfaith : ∀ c : R, (∀ x : X, c • x = 0) → c = 0) : IsReduced R := by
   classical
-  haveI : IsArtinianRing R := inferInstance
-  haveI : Nontrivial R := by
+  have : IsArtinianRing R := inferInstance
+  have : Nontrivial R := by
     obtain ⟨a, b, hab⟩ := exists_pair_ne X
     refine ⟨⟨0, 1, fun h => hab ?_⟩⟩
     have h1 : ∀ x : X, x = 0 := fun x => by
@@ -107,14 +107,14 @@ theorem exists_primIdem_below {R : Type} [CommRing R] [Finite R] {e : R}
   classical
   let r : R → R → Prop := fun q q' => q * q' = q ∧ q ≠ q'
   have hwf : WellFounded r := by
-    haveI : IsTrans R r := ⟨fun a b c hab hbc => by
+    have : IsTrans R r := ⟨fun a b c hab hbc => by
       refine ⟨?_, ?_⟩
       · rw [← hab.1, mul_assoc, hbc.1]
       · intro hac
         subst hac
         apply hab.2
         rw [← hab.1, mul_comm, hbc.1]⟩
-    haveI : Std.Irrefl r := ⟨fun a h => h.2 rfl⟩
+    have : Std.Irrefl r := ⟨fun a h => h.2 rfl⟩
     exact Finite.wellFounded_of_trans_of_irrefl r
   let S : Set R := {q | IsIdempotentElem q ∧ q ≠ 0 ∧ q * e = q}
   have hS : S.Nonempty := ⟨e, he, h0, he.eq⟩
@@ -138,8 +138,8 @@ theorem commCore_card_prim_le [Finite R] [Module.Finite K X]
     (hfaith : ∀ c : R, (∀ x : X, c • x = 0) → c = 0) :
     Nat.card {p : R // TauCeti.IsPrimitiveIdempotent p} ≤ Module.finrank K X := by
   classical
-  haveI : Finite {p : R // TauCeti.IsPrimitiveIdempotent p} := inferInstance
-  letI : Fintype {p : R // TauCeti.IsPrimitiveIdempotent p} := Fintype.ofFinite _
+  have : Finite {p : R // TauCeti.IsPrimitiveIdempotent p} := inferInstance
+  let : Fintype {p : R // TauCeti.IsPrimitiveIdempotent p} := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card]
   have hex : ∀ p : {p : R // TauCeti.IsPrimitiveIdempotent p}, ∃ y : X, p.1 • y ≠ 0 := fun p => by
     by_contra hcon
@@ -152,9 +152,9 @@ theorem commCore_card_prim_le [Finite R] [Module.Finite K X]
     intro p p'
     by_cases h : p = p'
     · subst h
-      simp only [if_true, v]
+      simp only [ite_true, v]
       rw [← mul_smul, p.2.isIdempotentElem.eq]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       simp only [v]
       rw [← mul_smul, mul_comm,
         commCore_prim_mul_eq_zero p.2 p'.2 (fun h' => h (Subtype.ext h')), zero_smul]
@@ -168,12 +168,13 @@ theorem commCore_card_prim_le [Finite R] [Module.Finite K X]
       intro j
       rw [smul_comm, hv j i]
       split_ifs <;> simp
-    simp only [h2, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h1
+    simp only [h2, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h1
     rcases smul_eq_zero.mp h1 with h | h
     · exact h
     · exact absurd h (by simp only [v]; exact hy i)
   exact hli.fintype_card_le_finrank
 
+omit [IsScalarTower K R X] in
 theorem commCore_sigma_one (ρ : Γ →* (X ≃ₗ[K] X)) (σ : Γ →* (R ≃ₐ[K] R))
     (hcomp : ∀ (g : Γ) (c : R) (x : X), ρ g (c • x) = σ g c • ρ g x)
     (hfaith : ∀ c : R, (∀ x : X, c • x = 0) → c = 0) (g : Γ) (hg : ρ g = 1) : σ g = 1 := by
@@ -194,7 +195,7 @@ theorem commCore_prim_subsingleton [Finite R] [Module.Finite K X]
       ∀ h : Γ →* Equiv.Perm ι, (∀ g : Γ, ρ g = 1 → h g = 1) → h = 1) :
     Subsingleton {p : R // TauCeti.IsPrimitiveIdempotent p} := by
   classical
-  letI : Fintype {p : R // TauCeti.IsPrimitiveIdempotent p} := Fintype.ofFinite _
+  let : Fintype {p : R // TauCeti.IsPrimitiveIdempotent p} := Fintype.ofFinite _
   let h : Γ →* Equiv.Perm {p : R // TauCeti.IsPrimitiveIdempotent p} :=
     MonoidHom.mk' (fun g => primEquiv (σ g).toRingEquiv) (fun a b => by
       ext p
@@ -275,12 +276,12 @@ theorem commCore_idem [Finite R] [Module.Finite K X]
 theorem isField_of_finite_reduced_idem {R : Type} [CommRing R] [Finite R] [Nontrivial R]
     [IsReduced R] (h : ∀ e : R, IsIdempotentElem e → e = 0 ∨ e = 1) : IsField R := by
   classical
-  haveI : IsArtinianRing R := inferInstance
+  have : IsArtinianRing R := inferInstance
   have hsub : ∀ I J : MaximalSpectrum R, I = J := by
     intro I J
     by_contra hne
-    haveI := I.isMaximal
-    haveI := J.isMaximal
+    have := I.isMaximal
+    have := J.isMaximal
     let e := IsArtinianRing.equivPi R
     let ind : (K : MaximalSpectrum R) → R ⧸ K.asIdeal :=
       Pi.single (M := fun K : MaximalSpectrum R => R ⧸ K.asIdeal) I 1
@@ -306,7 +307,7 @@ theorem isField_of_finite_reduced_idem {R : Type} [CommRing R] [Finite R] [Nontr
       rw [Pi.single_eq_of_ne (fun h' => hne h'.symm)] at h3
       exact zero_ne_one h3
   obtain ⟨M, hM⟩ := Ideal.exists_maximal R
-  haveI : IsLocalRing R := IsLocalRing.of_unique_max_ideal ⟨M, hM, fun N hN =>
+  have : IsLocalRing R := IsLocalRing.of_unique_max_ideal ⟨M, hM, fun N hN =>
     congrArg MaximalSpectrum.asIdeal (hsub ⟨N, hN⟩ ⟨M, hM⟩)⟩
   exact IsArtinianRing.isField_of_isReduced_of_isLocalRing R
 
@@ -321,8 +322,8 @@ theorem commCore_trivial [Finite R] [Module.Finite K X] [Nontrivial X]
       h = 1) :
     ∀ g : Γ, σ g = 1 := by
   classical
-  haveI : IsReduced R := commCore_isReduced ρ σ hcomp hirr hfaith
-  haveI : Nontrivial R := by
+  have : IsReduced R := commCore_isReduced ρ σ hcomp hirr hfaith
+  have : Nontrivial R := by
     obtain ⟨a, b, hab⟩ := exists_pair_ne X
     refine ⟨⟨0, 1, fun h => hab ?_⟩⟩
     have h1 : ∀ x : X, x = 0 := fun x => by
@@ -331,7 +332,7 @@ theorem commCore_trivial [Finite R] [Module.Finite K X] [Nontrivial X]
     rw [h1 a, h1 b]
   have hfield : IsField R :=
     isField_of_finite_reduced_idem (commCore_idem ρ σ hcomp hirr hfaith hperm)
-  letI : Field R := hfield.toField
+  let : Field R := hfield.toField
   intro g
   have := hab (R ≃ₐ[K] R) σ (fun g hg => commCore_sigma_one ρ σ hcomp hfaith g hg)
   exact DFunLike.congr_fun this g

@@ -345,7 +345,6 @@ theorem mem_radical_two_of_unitriangular {u : SpecialLinearGroup (Fin 3) K}
   fin_cases i <;> fin_cases j <;> simp at hij ⊢ <;>
     first
     | exact sub_eq_zero.2 (hd _)
-    | exact hd _
     | exact hl _ _ (by decide)
     | exact h01
 
@@ -359,7 +358,6 @@ theorem mem_radical_one_of_unitriangular {u : SpecialLinearGroup (Fin 3) K}
   fin_cases i <;> fin_cases j <;> simp at hij ⊢ <;>
     first
     | exact sub_eq_zero.2 (hd _)
-    | exact hd _
     | exact hl _ _ (by decide)
     | exact h12
 

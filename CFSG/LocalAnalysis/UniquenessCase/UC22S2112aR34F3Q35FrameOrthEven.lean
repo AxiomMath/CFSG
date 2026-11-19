@@ -772,21 +772,21 @@ private noncomputable def minusResidualIncl (m ε : ℕ) (F : Type) [Field F] :
     funext x
     rcases x with i | i | k
     · by_cases h : 2 * m ≤ i.val
-      · simp [dif_pos h]
-      · simp [dif_neg h]
+      · simp [dite_eq_left h]
+      · simp [dite_eq_right h]
     · by_cases h : 2 * m ≤ i.val
-      · simp [dif_pos h]
-      · simp [dif_neg h]
+      · simp [dite_eq_left h]
+      · simp [dite_eq_right h]
     · simp
   map_smul' c t := by
     funext x
     rcases x with i | i | k
     · by_cases h : 2 * m ≤ i.val
-      · simp [dif_pos h]
-      · simp [dif_neg h]
+      · simp [dite_eq_left h]
+      · simp [dite_eq_right h]
     · by_cases h : 2 * m ≤ i.val
-      · simp [dif_pos h]
-      · simp [dif_neg h]
+      · simp [dite_eq_left h]
+      · simp [dite_eq_right h]
     · simp
 
 private theorem minusResidualIncl_apply_inl (m ε : ℕ) (F : Type) [Field F]
@@ -809,12 +809,12 @@ private theorem minusResidualCoord_comp_incl (m ε : ℕ) (F : Type) [Field F]
   funext x
   rcases x with i | i | k
   · rw [minusResidualCoord_apply_inl, minusResidualIncl_apply_inl,
-      dif_pos (show 2 * m ≤ 2 * m + i.val by omega)]
+      dite_eq_left (show 2 * m ≤ 2 * m + i.val by omega)]
     have hfin : (⟨2 * m + i.val - 2 * m, by omega⟩ : Fin ε) = i :=
       Fin.ext (by omega : 2 * m + i.val - 2 * m = i.val)
     rw [hfin]
   · rw [minusResidualCoord_apply_inr_inl, minusResidualIncl_apply_inr_inl,
-      dif_pos (show 2 * m ≤ 2 * m + i.val by omega)]
+      dite_eq_left (show 2 * m ≤ 2 * m + i.val by omega)]
     have hfin : (⟨2 * m + i.val - 2 * m, by omega⟩ : Fin ε) = i :=
       Fin.ext (by omega : 2 * m + i.val - 2 * m = i.val)
     rw [hfin]
@@ -825,8 +825,8 @@ private theorem minusResidualIncl_mem (m ε : ℕ) (F : Type) [Field F]
     minusResidualIncl m ε F t ∈ minusResidualSub m ε F := by
   intro i hi
   have hne : ¬ 2 * m ≤ i.val := by omega
-  exact ⟨by rw [minusResidualIncl_apply_inl, dif_neg hne],
-    by rw [minusResidualIncl_apply_inr_inl, dif_neg hne]⟩
+  exact ⟨by rw [minusResidualIncl_apply_inl, dite_eq_right hne],
+    by rw [minusResidualIncl_apply_inr_inl, dite_eq_right hne]⟩
 
 private theorem minusResidualIncl_coord_of_mem (m ε : ℕ) (F : Type) [Field F]
     {w : Fin (2 * m + ε) ⊕ Fin (2 * m + ε) ⊕ Fin 2 → F}
@@ -835,20 +835,20 @@ private theorem minusResidualIncl_coord_of_mem (m ε : ℕ) (F : Type) [Field F]
   funext x
   rcases x with i | i | k
   · by_cases hi : 2 * m ≤ i.val
-    · rw [minusResidualIncl_apply_inl, dif_pos hi, minusResidualCoord_apply_inl]
+    · rw [minusResidualIncl_apply_inl, dite_eq_left hi, minusResidualCoord_apply_inl]
       have hfin : (⟨2 * m + (i.val - 2 * m), by omega⟩ : Fin (2 * m + ε)) = i :=
         Fin.ext (by omega : 2 * m + (i.val - 2 * m) = i.val)
       rw [hfin]
     · have hlt : i.val < 2 * m := by omega
-      rw [minusResidualIncl_apply_inl, dif_neg hi]
+      rw [minusResidualIncl_apply_inl, dite_eq_right hi]
       exact ((mem_minusResidualSub.mp hw) i hlt).1.symm
   · by_cases hi : 2 * m ≤ i.val
-    · rw [minusResidualIncl_apply_inr_inl, dif_pos hi, minusResidualCoord_apply_inr_inl]
+    · rw [minusResidualIncl_apply_inr_inl, dite_eq_left hi, minusResidualCoord_apply_inr_inl]
       have hfin : (⟨2 * m + (i.val - 2 * m), by omega⟩ : Fin (2 * m + ε)) = i :=
         Fin.ext (by omega : 2 * m + (i.val - 2 * m) = i.val)
       rw [hfin]
     · have hlt : i.val < 2 * m := by omega
-      rw [minusResidualIncl_apply_inr_inl, dif_neg hi]
+      rw [minusResidualIncl_apply_inr_inl, dite_eq_right hi]
       exact ((mem_minusResidualSub.mp hw) i hlt).2.symm
   · rw [minusResidualIncl_apply_inr_inr, minusResidualCoord_apply_inr_inr]
 
@@ -1316,10 +1316,10 @@ private theorem isCompl_minusResidualSub_minusFrameSub (m : ℕ) (F : Type) [Fie
     refine ⟨w, ?_, v - w, ?_, add_sub_cancel w v⟩
     · intro i hi
       have hgt : ¬ 2 * m ≤ i.val := by omega
-      exact ⟨by simp [w, if_neg hgt], by simp [w, if_neg hgt]⟩
+      exact ⟨by simp [w, ite_eq_right hgt], by simp [w, ite_eq_right hgt]⟩
     · refine ⟨fun i hi => ?_, fun k => ?_⟩
       · have hle : 2 * m ≤ i.val := hi
-        simp [Pi.sub_apply, w, if_pos hle]
+        simp [Pi.sub_apply, w, ite_eq_left hle]
       · simp [Pi.sub_apply, w]
 
 private theorem polar_minusResidualSub_minusFrameSub (m : ℕ) {F : Type} [Field F] (b c : F) :

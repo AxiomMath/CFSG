@@ -58,6 +58,7 @@ universe u
 variable {V : Type} {Γ : SimpleGraph V} {H : Type} [Group H] [MulAction H V]
   [GraphAction H Γ]
 
+omit [GraphAction H Γ] in
 theorem smul_path_eq_self_of_mem_pathRootGroup {n : ℕ} (hn : 3 ≤ n) {p : GPath Γ n} {g : H}
     (hg : g ∈ pathRootGroup H Γ p) :
     ∀ i, i ≤ n → g • p i = p i := by
@@ -94,7 +95,7 @@ theorem exists_fixed_neighbor_of_isPGroup_odd {p : ℕ} [Fact p.Prime] (hp2 : p 
     (hcard : Nat.card {y : V // Γ.Adj v y ∧ y ≠ w} = 2 ^ e) :
     ∃ y : V, Γ.Adj v y ∧ y ≠ w ∧ ∀ g ∈ P, g • y = y := by
   classical
-  letI : MulAction P {y : V // Γ.Adj v y ∧ y ≠ w} := neighborAction P v w hv hw
+  let : MulAction P {y : V // Γ.Adj v y ∧ y ≠ w} := neighborAction P v w hv hw
   have hndvd : ¬ p ∣ Nat.card {y : V // Γ.Adj v y ∧ y ≠ w} := by
     rw [hcard]
     intro hdvd
@@ -261,7 +262,7 @@ theorem edgeKernel_isPGroup_of_weissFree [Finite H] {n : ℕ} (hn : 1 ≤ n)
     IsPGroup 2 ↥(edgeKernel (H := H) Γ x y) := by
   apply isPGroup_two_of_forall_odd_prime_order
   intro ℓ hℓ hodd u huord
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨hx, hy⟩ := mem_edgeKernel.mp u.2
   have hgx : (u : H) • x = x := hy x hxy.symm
   have hgy : (u : H) • y = y := hx y hxy
@@ -302,7 +303,7 @@ theorem pathRootGroup_isPGroup [Finite H] {n : ℕ} (hn : 3 ≤ n)
     IsPGroup 2 ↥(pathRootGroup H Γ p) := by
   apply isPGroup_two_of_forall_odd_prime_order
   intro ℓ hℓ hodd u huord
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hgU : (u : H) ∈ pathRootGroup H Γ p := u.2
   have huord' : orderOf (u : H) = ℓ := (Subgroup.orderOf_coe u).trans huord
   have hfixvn : (u : H) • p n = p n :=

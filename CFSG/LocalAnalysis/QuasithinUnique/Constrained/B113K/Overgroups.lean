@@ -77,22 +77,22 @@ private theorem bk4_five_le {Ω : Type} [Group Ω] {L : Subgroup Ω}
   have hm4 : Nat.card (Fin m) ≤ 4 := by
     simp
     omega
-  haveI := alternatingGroup.isSolvable hm4
+  have := alternatingGroup.isSolvable hm4
   have hsolv : Group.IsSolvable ↥L :=
     Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Group.IsPerfect ↥L := hLq.1
-  haveI := hLq.2.1
-  haveI : Nontrivial ↥L :=
+  have : Group.IsPerfect ↥L := hLq.1
+  have := hLq.2.1
+  have : Nontrivial ↥L :=
     Function.Surjective.nontrivial (QuotientGroup.mk_surjective (s := Subgroup.center ↥L))
   exact Group.IsPerfect.not_isSolvable ↥L hsolv
 
 private theorem bk4_center_bot {Ω : Type} [Group Ω] {L : Subgroup Ω}
     (hLq : CFSG.IsQuasisimple ↥L) {m : ℕ} (hm : 5 ≤ m)
     (e : ↥L ≃* alternatingGroup (Fin m)) : Subgroup.center ↥L = ⊥ := by
-  haveI hA : IsSimpleGroup (alternatingGroup (Fin m)) :=
+  have hA : IsSimpleGroup (alternatingGroup (Fin m)) :=
     alternatingGroup.isSimpleGroup (by simp; omega)
-  haveI hLs : IsSimpleGroup ↥L := e.isSimpleGroup
-  haveI := hLq.2.1
+  have hLs : IsSimpleGroup ↥L := e.isSimpleGroup
+  have := hLq.2.1
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center ↥L) with h | h
   · exact h
   · exfalso

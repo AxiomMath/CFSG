@@ -36,7 +36,7 @@ theorem pRank_three_eq_one_of_cyclic {G : Type} [Group G] [Finite G] {L : Subgro
     push Not at hk
     have hEk' : Nat.card E = 3 ^ k := hEk
     have hEp : IsPGroup 3 E := IsPGroup.of_card hEk'
-    haveI := hcyc E hEL hEp
+    have := hcyc E hEL hEp
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
     have hg3 : g ^ 3 = 1 := Subtype.ext (hE3 g g.2)
     have hord : orderOf g = Nat.card E := orderOf_eq_card_of_forall_mem_zpowers hg
@@ -45,7 +45,7 @@ theorem pRank_three_eq_one_of_cyclic {G : Type} [Group G] [Finite G] {L : Subgro
     have h2 : 3 ^ 2 ∣ 3 ^ k := pow_dvd_pow 3 (by omega)
     have h9 : 9 ∣ 3 := by
       have := h2.trans hdvd
-      simpa using this
+      simp at this
     omega
 
 theorem eq_of_card_three_of_le_normalizer {G : Type} [Group G] [Finite G] {B A A' : Subgroup G}
@@ -56,7 +56,7 @@ theorem eq_of_card_three_of_le_normalizer {G : Type} [Group G] [Finite G] {B A A
   have hAp : IsPGroup 3 A := IsPGroup.of_card (n := 1) (by rw [hA, pow_one])
   have hA'p : IsPGroup 3 A' := IsPGroup.of_card (n := 1) (by rw [hA', pow_one])
   have hQ : IsPGroup 3 (A ⊔ A' : Subgroup G) := hAp.to_sup_of_normal_left' hA'p hn
-  haveI : IsCyclic ↥(A ⊔ A' : Subgroup G) := hcyc _ (sup_le hAB hA'B) hQ
+  have : IsCyclic ↥(A ⊔ A' : Subgroup G) := hcyc _ (sup_le hAB hA'B) hQ
   have hAle : A ≤ A ⊔ A' := le_sup_left
   have hA'le : A' ≤ A ⊔ A' := le_sup_right
   have h1 : A'.subgroupOf (A ⊔ A') = A.subgroupOf (A ⊔ A') := by
@@ -69,7 +69,7 @@ theorem eq_of_card_three_of_le_normalizer {G : Type} [Group G] [Finite G] {B A A
 theorem isSylowTwoOf_of_I811 (h811 : AGL81I811) {G : Type} [Group G] [Finite G]
     (hglob : AGLGlobal G) {M : Subgroup G} (hM : GLBIsMaxTwoLocal M)
     (hstr : GLBStronglyEmbedded 3 M) {T : Subgroup G} (hT : IsSylowTwoOf T M) {N : Subgroup G}
-    (hN : IsTwoLocal N) (hTN : T ≤ N) (hNM : ¬ N ≤ M)
+    (hN : IsTwoLocal N) (hTN : T ≤ N) (_hNM : ¬ N ≤ M)
     (hcyc : ∀ X : Subgroup G, X ≤ N ⊓ M → IsPGroup 3 X → IsCyclic X)
     (hns : ¬ CFSG.HallHigman.IsPSolvable 3 ↥(N ⊓ M))
     (hbound : ∀ S : Subgroup G, IsPGroup 2 S → Nat.card S ≤ 8 * Nat.card T) :
@@ -79,7 +79,7 @@ theorem isSylowTwoOf_of_I811 (h811 : AGL81I811) {G : Type} [Group G] [Finite G]
   have hcycB : ∀ X : Subgroup ↥(N ⊓ M), IsPGroup 3 X → IsCyclic ↥X := by
     intro X hX
     have hXp : IsPGroup 3 (X.map (N ⊓ M).subtype) := hX.map _
-    haveI := hcyc (X.map (N ⊓ M).subtype) (Subgroup.map_subtype_le X) hXp
+    have := hcyc (X.map (N ⊓ M).subtype) (Subgroup.map_subtype_le X) hXp
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective X (N ⊓ M).subtype (N ⊓ M).subtype_injective).symm.toMonoidHom
       (MulEquiv.surjective _)

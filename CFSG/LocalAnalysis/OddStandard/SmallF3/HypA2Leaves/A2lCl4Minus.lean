@@ -26,7 +26,7 @@ theorem cl24_index_minus {S : Type} [Group S] [Finite S] (h : LieModel S .POmega
     (nondegenerate_polarBilin_quadMinus_of_finite 4 K hirr)
     (P₁ := minusPair K b c ⟨0, by norm_num⟩) (P₂ := minusPair K b c ⟨1, by norm_num⟩)
     (P₃ := minusPair K b c ⟨2, by norm_num⟩)
-    (minusPair_orth (by simp [Fin.ext_iff])) (minusPair_orth (by simp [Fin.ext_iff]))
+    (minusPair_orth (by simp)) (minusPair_orth (by simp [Fin.ext_iff]))
     (minusPair_orth (by simp [Fin.ext_iff])) hX 162 (fun a => cl24_shell_minus hK3 b c a)
 
 end CFSG.OddStandard.SmallF3.HypA2Leaves

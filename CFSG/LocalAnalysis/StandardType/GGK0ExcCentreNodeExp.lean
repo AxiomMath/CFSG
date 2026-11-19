@@ -124,7 +124,7 @@ private lemma lk0xpa1_nodeExp_constraint
     change ((∑ i, ((marks.getD i.val 0 : ℤ) * (t i).val) : ℤ) : ZMod p) =
       ∑ i, (marks.getD i.val 0 : ZMod p) * t i
     push_cast
-    simp [lk0xpa1_zmod_natCast_val]
+    simp
   rw [← hcast]
   simpa using hN
 
@@ -249,7 +249,7 @@ theorem PA1_nodeExp_equiv
           ∑ i, (ρ.row.diagram.marks.getD i.val 0 : ZMod p) * t i = 0},
       ∀ b i, rootChar b.1 (ρ.nodeMap (Pi.single i 1)) = ρ.zeta ^ ((e b).1 i).val := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζ : IsPrimitiveRoot ρ.zeta p := IsPrimitiveRoot.iff_orderOf.mpr ρ.zeta_order
   have hζpow : ρ.zeta ^ p = 1 := (hζ.pow_eq_one_iff_dvd p).mpr (dvd_refl p)
   let Φ : {b : Fin ρ.tau.rank → Omegaˣ // ∀ i, b i ^ p = 1} →

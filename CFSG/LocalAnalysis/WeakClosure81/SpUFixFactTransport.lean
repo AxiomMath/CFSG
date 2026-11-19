@@ -56,7 +56,7 @@ private lemma spUFix_conjSubgroup_map {L L' : Type} [Group L] [Group L'] (φ : L
   have hhom : (MulAut.conj ((φ g)⁻¹)).toMonoidHom.comp φ.toMonoidHom
       = φ.toMonoidHom.comp (MulAut.conj (g⁻¹)).toMonoidHom := by
     ext y
-    simp [MulAut.conj_apply]
+    simp
   unfold conjSubgroup
   simp only [Subgroup.map_map]
   rw [hhom]

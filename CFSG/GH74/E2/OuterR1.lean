@@ -332,7 +332,7 @@ theorem noLocalL33Outer_final
     exact hne (hfix_of_aut htS haut n hn _ hmem hcent rfl)
   push Not at hP
   obtain ⟨S, hS⟩ := hS₁2.exists_le_sylow
-  have hSeq : (S : Subgroup G) = S₁ := hP _ S.isPGroup' hS
+  have hSeq : (S : Subgroup G) = S₁ := hP _ S.isPGroup hS
   have htS' : t ∈ (S : Subgroup G) := hSeq ▸ htS
   have htcS : ∀ s ∈ (S : Subgroup G), s * t = t * s := fun s hs => by
     rw [hSeq] at hs

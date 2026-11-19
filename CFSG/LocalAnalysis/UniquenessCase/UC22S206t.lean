@@ -27,7 +27,7 @@ theorem uc22s206t_outSolvable [Finite G] (D : Data G)
     {J : Subgroup (Bar2 D.M)} (hJ : IsComponentOf J ⊤) :
     Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (J ⧸ Subgroup.center J)) := by
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
   exact hSch _ (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥J
     hJ.2.2) (uc22s206r_isCatalogGroup D hJ)
 

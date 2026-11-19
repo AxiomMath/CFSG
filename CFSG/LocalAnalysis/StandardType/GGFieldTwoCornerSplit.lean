@@ -89,7 +89,7 @@ private theorem ltrca_exists_unitary_model {p : ℕ} {X : Type} [Group X]
   obtain ⟨-, -, θ, -, hhalf, hind⟩ := hQ
   exact ⟨K, hKfield, hKfin, hcard, θ, hind⟩
 
-private theorem ltrca_exists_unitary_lift {p N n : ℕ} {K : Type} [Field K] [Finite K]
+private theorem ltrca_exists_unitary_lift {_p N n : ℕ} {K : Type} [Field K] [Finite K]
     {X : Type} [Group X] {A : Subgroup (MulAut X)} {σ : MulAut X}
     (hUF : UnitaryFieldData 2 n K)
     {θ : X ⧸ Subgroup.center X ≃*
@@ -172,8 +172,8 @@ private theorem ltrca_two_pow_sq_sub_one (n : ℕ) :
   rw [mul_comm, ← Nat.sq_sub_sq (2 ^ n) 1]
 
 private theorem ltrca_primaryFactor_linear {p N n : ℕ} {K : Type} [Field K] [Finite K]
-    (hUF : UnitaryFieldData 2 n K) (hcard : Nat.card K = (2 ^ n) ^ 2)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1)
+    (_hUF : UnitaryFieldData 2 n K) (hcard : Nat.card K = (2 ^ n) ^ 2)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1)
     {d : GL (Fin N) K} (hdp : d ^ p = 1)
     {a : K[X]} (ha : a ∈ primaryFactors (Matrix.GeneralLinearGroup.toLin d :
       Module.End K (Fin N → K))) :
@@ -243,9 +243,9 @@ private theorem ltrca_selfDual_block_field {ℓ f : ℕ} {K : Type} [Field K]
         Nonempty (↥(specialBlock B x (a : K[X])) ≃*
           ↥(StatedSU (primaryMultiplicity (x : Module.End K V) (a : K[X])) (ℓ ^ f) E))) := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite K := h.finite
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   obtain ⟨hE, Hf, hHf, hHfl, Φ, -, -⟩ :=
     exists_selfDual_specialBlock_mulEquiv_sesqSpecialUnitary H hself
       (CFSG.RankThree.PartOne.selfDualPrimaryBlock H a hself)
@@ -260,8 +260,8 @@ private theorem ltrca_selfDual_block_field {ℓ f : ℕ} {K : Type} [Field K]
         (primaryComponent (x : Module.End K V) (a : K[X])) = 2 := hm2
     obtain ⟨e2⟩ :=
       CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-    haveI : Finite hE.fixedField := inferInstance
-    letI : Fintype hE.fixedField := Fintype.ofFinite _
+    have : Finite hE.fixedField := inferInstance
+    let : Fintype hE.fixedField := Fintype.ofFinite _
     have hcardF : Fintype.card hE.fixedField = ℓ ^ f := by
       rw [← Nat.card_eq_fintype_card, hE.card_fixedField, hdeg, mul_one]
     have h4 : 4 ≤ Fintype.card hE.fixedField := by
@@ -308,7 +308,7 @@ private theorem ltrca_pow_norm {p n : ℕ} {K : Type} [Field K] [Finite K]
   have hq2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hFcard : Fintype.card K = 2 ^ n * 2 ^ n := by
     rw [← Nat.card_eq_fintype_card, hcard, pow_two]
   have hbcard : b ^ (2 ^ n * 2 ^ n - 1) = 1 := by
@@ -443,15 +443,15 @@ private theorem ltrca_split_component {p N n : ℕ} {K : Type} [Field K] [Finite
         (specialBlockEquiv hUF H a₀ hq a₀.2).symm.injective)
   rcases ltrca_selfDual_block_field (B := idForm hUF N) hq H hselfa hdega a₀.2 with
     ⟨hm2, F, hF, hFt, hcardF, h4, ⟨e⟩⟩ | ⟨E, hE, hEt, hcardE, hm, hne, ⟨e⟩⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     refine Or.inl ⟨hm2, F, hF, hFt, hcardF, h4, ψ.comp e.symm.toMonoidHom,
       hψsurj.comp e.symm.surjective, ?_⟩
     rw [← MonoidHom.comap_ker]
     exact (Subgroup.comap_mono hψker).trans
       (Subgroup.comap_center_le_center (f := e.symm.toMonoidHom) e.symm.injective)
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     refine Or.inr ⟨hm, hne, E, hE, hEt, hcardE, ψ.comp e.symm.toMonoidHom,
       hψsurj.comp e.symm.surjective, ?_⟩
     rw [← MonoidHom.comap_ker]
@@ -505,7 +505,7 @@ private theorem ltrca_split_label_twA {a n : ℕ} {R S : Type} [Group R] [Group 
     (hgk : g.ker ≤ Subgroup.center ↥(StatedSU a (2 ^ n) E))
     (e : R ≃* (S ⧸ Subgroup.center S)) :
     LargeEvenInLambda2 ⟨.twA, a - 1, n⟩ ∧ GGHasLabel ⟨.twA, a - 1, n⟩ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEnat : Nat.card E = (2 ^ n) ^ 2 := by
     rw [Nat.card_eq_fintype_card]; exact hE
   have hqSU := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
@@ -578,7 +578,7 @@ private theorem ltrca_component_primeForm {p N n : ℕ} {K : Type} [Field K] [Fi
     (hUF : UnitaryFieldData 2 n K)
     {θ : X ⧸ Subgroup.center X ≃*
       LargeEvenProj (LargeEvenSUGroup (Fin N) K (2 ^ n))}
-    (hind : GGInducedInn A θ (LargeEvenMatConjImage
+    (_hind : GGInducedInn A θ (LargeEvenMatConjImage
       (LargeEvenProjMk (LargeEvenSUGroup (Fin N) K (2 ^ n)))
       (LargeEvenGUSet (Fin N) K (2 ^ n))))
     {d : GL (Fin N) K} (hd : d ∈ primeFormUnitary hUF (idGram K N))
@@ -640,15 +640,15 @@ private theorem ltrca_ca2 {X : Type} [Group X] [Finite X]
   obtain ⟨hcomm, hΛX⟩ := ltrca_marking hmk
   obtain ⟨K, hFld, hFin, hcard, θ, hind⟩ :=
     ltrca_exists_unitary_model (labX := (⟨.twA, 5, 1⟩ : LargeEvenLabel)) rfl hmk
-  letI : Field K := hFld
-  letI : Finite K := hFin
+  let : Field K := hFld
+  let : Finite K := hFin
   have hcard' : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hcard
   have hUF : UnitaryFieldData 2 1 K := unitaryFieldData_of_card hcard' (by norm_num)
   have hσA : σ ∈ A := hloc.2.1
   have hσ3 : σ ^ 3 = 1 := hloc.1.2 σ hσA
   have hδ3 : (ggInducedAut θ σ) ^ 3 = 1 := by rw [← map_pow, hσ3, map_one]
   obtain ⟨d, hd, hdconj⟩ :=
-    ltrca_exists_unitary_lift (p := 3) (N := 6) (n := 1) hUF hind hσA
+    ltrca_exists_unitary_lift (_p := 3) (N := 6) (n := 1) hUF hind hσA
   have hpq : 3 ∣ 2 ^ 1 + 1 := by norm_num
   have hN3 : 3 ≤ 6 := by norm_num
   have hNq : (6, 2 ^ 1) ≠ (3, 2) := by norm_num
@@ -684,13 +684,13 @@ private theorem ltrca_ca2 {X : Type} [Group X] [Finite X]
     rcases ltrca_split_component (p := 3) (N := 6) (n := 1) hUF hcard'
         Nat.prime_three (by norm_num) hpq hd' hd'p a₀ ha₀ with
       ⟨hm2, F, hF, hFt, hFcard, h4, g, hg, hgk⟩ | ⟨h3m, hane, E, hE, hEt, hEcard, g, hg, hgk⟩
-    · letI : Field F := hF
-      letI : Fintype F := hFt
+    · let : Field F := hF
+      let : Fintype F := hFt
       exfalso
       have h2 : Fintype.card F = 2 := by simpa using hFcard
       omega
-    · letI : Field E := hE
-      letI : Fintype E := hEt
+    · let : Field E := hE
+      let : Fintype E := hEt
       have hane3 : primaryMultiplicity (Matrix.GeneralLinearGroup.toLin d' :
           Module.End K (Fin 6 → K)) (a₀.1 : K[X]) ≠ 3 := by
         intro h3
@@ -711,21 +711,21 @@ private theorem ltrca_ca2 {X : Type} [Group X] [Finite X]
       unitary_fieldType_component (p := 3) (ℓ := 2) (f := 1) (n := 6)
         Nat.prime_three hUF (by norm_num) ⟨d, hd⟩ hdp hc hT
     rcases hcases with ⟨-, F, hF, hFt, hFcard, g, hg, hgk⟩ | ⟨h3Np, -⟩
-    · letI : Field F := hF
-      letI : Fintype F := hFt
+    · let : Field F := hF
+      let : Fintype F := hFt
       have hlabT : GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel) (↥T ⧸ Subgroup.center ↥T) :=
         (ltrca_nonSplit_label_A (hUF := hUF) (p := 3) (N := 6) (n := 1) (F := F)
           (by norm_num) (by simpa using hFcard) hg hgk).2
       exact Or.inr (ggHasLabel_of_mulEquiv hequiv.some.symm hlabT)
     · omega
 
-private theorem ltrca_not_iso_twA {k : ℕ} (hk : 3 ≤ k) {lab : LargeEvenLabel}
+private theorem ltrca_not_iso_twA {k : ℕ} (_hk : 3 ≤ k) {lab : LargeEvenLabel}
     (h : GGTPNRankOne lab) : ¬ GGLabelIso lab (⟨.twA, k, 1⟩ : LargeEvenLabel) := by
   intro hiso
   unfold GGLabelIso at hiso
   rcases hiso with h1 | h1 | h1 | h1 | h1 | h1 | h1 | h1
   · rw [h1] at h
-    simpa [GGTPNRankOne] using h
+    simp [GGTPNRankOne] at h
   · obtain ⟨-, ht, -⟩ := h1
     exact absurd ht (by simp)
   · obtain ⟨-, h2⟩ := h1
@@ -737,7 +737,7 @@ private theorem ltrca_not_iso_twA {k : ℕ} (hk : 3 ≤ k) {lab : LargeEvenLabel
       simpa using (congrArg (fun l : LargeEvenLabel => l.n) h2).symm
     rw [hn] at h1a
     rw [h1a] at h
-    simpa [GGTPNRankOne] using h
+    simp [GGTPNRankOne] at h
   · obtain ⟨-, h2⟩ := h1
     exact absurd h2 (by simp)
   · obtain ⟨-, h2⟩ := h1

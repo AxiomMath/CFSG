@@ -205,7 +205,7 @@ theorem L8_le_commutator : L8 ≤ ⁅L8, L8⁆ := by
     rw [← codeN8_inv, ← codeN8_inv, ← codeN_mul, ← codeN_mul, ← codeN_mul] at he
     rw [← codeN_injective he]
     exact commutator_mem_commutator hxL hyL
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rcases hg with rfl | rfl
   · refine key [2, 3, 4, 5, 6, 0, 1, 7] [5, 2, 6, 3, 0, 4, 1, 7] _ ?_ ?_ ?_ <;> decide +kernel
   · refine key [0, 6, 2, 1, 5, 7, 3, 4] [4, 3, 1, 2, 7, 5, 6, 0] _ ?_ ?_ ?_ <;> decide +kernel
@@ -239,7 +239,7 @@ theorem L01_eq_map : L01 = L8.map iota1 := by
   rw [L8, MonoidHom.map_closure, L01]
   congr 1
   ext σ
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq, Set.mem_image]
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq, Set.mem_image]
   have h1 : iota1 NFF7.g1 = a1 := code_injective (by rw [code_iota1']; decide)
   have h2 : iota1 b8 = b1 := code_injective (by rw [code_iota1']; decide)
   constructor

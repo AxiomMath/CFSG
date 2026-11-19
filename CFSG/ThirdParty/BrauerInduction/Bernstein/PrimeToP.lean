@@ -75,9 +75,9 @@ lemma f_apply_mul_pSingular_not_dvd
         Nat.card (C ⧸ H) [MOD p] :=
     PElementary.card_fixedPoints_pSingular_modEq H sC hsC
 
-  letI : Fintype C := Fintype.ofFinite C
-  letI : Fintype H := Fintype.ofFinite H
-  letI : Fintype (PElementary.P_of_Z p a) :=
+  let : Fintype C := Fintype.ofFinite C
+  let : Fintype H := Fintype.ofFinite H
+  let : Fintype (PElementary.P_of_Z p a) :=
     Fintype.ofFinite (PElementary.P_of_Z p a)
 
   have hHcard :

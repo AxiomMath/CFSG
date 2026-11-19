@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec5pk_comm_sup {R K O : Subgroup G}
     (hOn : ∀ m ∈ K ⊔ O, ∀ o ∈ O, m * o * m⁻¹ ∈ O)
     (hRO : ∀ x ∈ R, ∀ o ∈ O, x * o * x⁻¹ ∈ O)
@@ -42,6 +43,7 @@ theorem sec5pk_comm_sup {R K O : Subgroup G}
   intro x hx m hm
   exact (sup_le hK hO' hm).2 x hx
 
+omit [Finite G] in
 theorem sec5pk_lift {R M O : Subgroup G} (hR : IsPGroup 2 R) (hO : Odd (Nat.card O))
     (hOM : O ≤ M) (hOn : ∀ m ∈ M, ∀ o ∈ O, m * o * m⁻¹ ∈ O)
     (hRM : ∀ x ∈ R, ∀ m ∈ M, x * m * x⁻¹ * m⁻¹ ∈ O) :

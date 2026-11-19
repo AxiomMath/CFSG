@@ -10,11 +10,13 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
+omit [Finite G] in
 theorem zpow_emod_three {g : G} (hg : g ^ 3 = 1) (k : ℤ) : g ^ k = g ^ (k % 3) := by
   conv_lhs => rw [← Int.emod_add_mul_ediv k 3, zpow_add, zpow_mul]
   have : g ^ (3 : ℤ) = 1 := by exact_mod_cast hg
   rw [this, one_zpow, mul_one]
 
+omit [Finite G] in
 theorem mem_of_zpow_mem {g : G} (hg : g ^ 3 = 1) {H : Subgroup G} {k : ℤ} (hk : ¬ (3 : ℤ) ∣ k)
     (hH : g ^ k ∈ H) : g ∈ H := by
   rw [zpow_emod_three hg k] at hH
@@ -65,7 +67,7 @@ theorem indep (h : FF84Sec4 b L B K b₁ b₂) (i j k : ℤ)
 theorem mul_coord (h : FF84Sec4 b L B K b₁ b₂) (a c d a' c' d' : ℤ) :
     (b ^ a * b₁ ^ c * b₂ ^ d) * (b ^ a' * b₁ ^ c' * b₂ ^ d') =
       b ^ (a + a') * b₁ ^ (c + c') * b₂ ^ (d + d') := by
-  haveI : IsMulCommutative ↥B := h.mono.1.1.toIsMulCommutative
+  have : IsMulCommutative ↥B := h.mono.1.1.toIsMulCommutative
   let β : ↥B := ⟨b, mem_b h⟩
   let β₁ : ↥B := ⟨b₁, mem_b₁ h⟩
   let β₂ : ↥B := ⟨b₂, mem_b₂ h⟩
@@ -75,6 +77,7 @@ theorem mul_coord (h : FF84Sec4 b L B K b₁ b₂) (a c d a' c' d' : ℤ) :
     ac_rfl
   exact congrArg Subtype.val key
 
+omit [Finite G] in
 theorem six_coord {x : G} (hx : x ∈ ({b, b⁻¹, b₁, b₁⁻¹, b₂, b₂⁻¹} : Set G)) :
     ∃ a c d : ℤ, x = b ^ a * b₁ ^ c * b₂ ^ d ∧
       ((a = 1 ∧ c = 0 ∧ d = 0) ∨ (a = -1 ∧ c = 0 ∧ d = 0) ∨ (a = 0 ∧ c = 1 ∧ d = 0) ∨

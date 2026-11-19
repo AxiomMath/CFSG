@@ -71,8 +71,8 @@ theorem s16h_L3World_group {U : Type} [CommGroup U] [Finite U] {N L : Subgroup (
     ∃ (P : Type) (_ : Group P) (ρ : ↥N →* P), (∀ a : ↥N, ρ a = 1 → (a : MulAut U) ∈ L) ∧
       s16h_ZCondGroup ↥ρ.range := by
   classical
-  haveI : Finite ↥(irrSet L) := Finite.of_injective _ Subtype.coe_injective
-  haveI : Fintype ↥(irrSet L) := Fintype.ofFinite _
+  have : Finite ↥(irrSet L) := Finite.of_injective _ Subtype.coe_injective
+  have : Fintype ↥(irrSet L) := Fintype.ofFinite _
   let rho : ↥N →* Equiv.Perm ↥(irrSet L) := s16h_L3World_irrSetAct h
   have hker : ∀ a : ↥N, rho a = 1 → (a : MulAut U) ∈ L := by
     intro a ha

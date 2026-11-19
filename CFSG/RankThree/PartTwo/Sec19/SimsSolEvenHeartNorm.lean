@@ -102,7 +102,7 @@ namespace Six
   fun i => if i ∈ s then 1 else 0
 
 theorem sum_indVec {n : ℕ} (s : Finset (Fin n)) : ∑ i, indVec s i = (s.card : ZMod 2) := by
-  simp [indVec, Finset.sum_boole, Finset.filter_mem_eq_inter]
+  simp [indVec]
 
 theorem indVec_mem_evenWeight {n : ℕ} {s : Finset (Fin n)} (hs : s.card = 2) :
     indVec s ∈ evenWeight n := by
@@ -167,7 +167,7 @@ theorem pairVec_injective {n : ℕ} (hn : 5 ≤ n) : Function.Injective (pairVec
     exact h2.symm
   refine Subtype.ext (Finset.ext fun j => ?_)
   have hj : indVec s.1 j + indVec t.1 j = 0 := (hc j).trans hc0
-  by_cases hjs : j ∈ s.1 <;> by_cases hjt : j ∈ t.1 <;> simp_all [indVec] <;> revert hj <;> decide
+  by_cases hjs : j ∈ s.1 <;> by_cases hjt : j ∈ t.1 <;> simp_all [indVec]
 
 theorem zmod_two_eq_zero_or_one (a : ZMod 2) : a = 0 ∨ a = 1 := by
   revert a; decide

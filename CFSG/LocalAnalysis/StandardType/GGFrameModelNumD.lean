@@ -35,7 +35,7 @@ private theorem frameMD_sgnAut_apply_basis (i j : Fin k) :
       Pi.mulSingle j (ofAdd (if j = i then (-1 : ZMod 3) else 1)) := by
   by_cases h : j = i
   · subst h
-    rw [sgnAut_mulSingle_self, ← Pi.mulSingle_inv, if_pos rfl]
+    rw [sgnAut_mulSingle_self, ← Pi.mulSingle_inv, ite_eq_left rfl]
     congr 1
   · simp [sgnAut_apply, h]
 
@@ -56,8 +56,8 @@ private theorem frameMD_sgnAut_not_mem_even (i0 : Fin k) :
       (x := (if i = i0 then (-1 : ZMod 3) else 1))
       (by
         by_cases hi : i = i0
-        · rw [if_pos hi]; decide
-        · rw [if_neg hi]; decide) heq
+        · rw [ite_eq_left hi]; decide
+        · rw [ite_eq_right hi]; decide) heq
     exact ⟨hpi.symm, heps.symm⟩
   have hεi0 : ε i0 = -1 := by simpa using (hvalues i0).2
   have hεne : ∀ i : Fin k, i ≠ i0 → ε i = 1 := by
@@ -85,15 +85,15 @@ theorem mul_sgnAut_not_mem_evenSignedPermSet {u : MulAut (Fin k → Multiplicati
     rw [MulAut.mul_apply, frameMD_sgnAut_apply_basis, IsSignedPerm.apply_mulSingle hu] at h1
     have hx : ε i * (if i = i₀ then (-1 : ZMod 3) else 1) ≠ 0 := by
       by_cases hi : i = i₀
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         rcases hε i with h | h <;> rw [h] <;> decide
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         rcases hε i with h | h <;> rw [h] <;> decide
     obtain ⟨-, heps⟩ := mulSingle_ofAdd_eq_iff (p := 3) hx h1
     rw [heps, mul_one]
   have hsgn : ∏ i, (if i = i₀ then (-1 : ZMod 3) else 1) = -1 := by
-    rw [Finset.prod_eq_single i₀ (fun b _ hb => if_neg hb)
-      (fun h => absurd (Finset.mem_univ i₀) h), if_pos rfl]
+    rw [Finset.prod_eq_single i₀ (fun b _ hb => ite_eq_right hb)
+      (fun h => absurd (Finset.mem_univ i₀) h), ite_eq_left rfl]
   rw [Finset.prod_congr rfl fun i _ => hvalues i, Finset.prod_mul_distrib, hprod, hsgn,
     one_mul] at hprod'
   exact (by decide : (-1 : ZMod 3) ≠ 1) hprod'
@@ -115,7 +115,7 @@ private theorem frameMD_negSwapAut_apply {a b : Fin k} (hab : a ≠ b)
     simp [hab]
   · by_cases hjb : j = b
     · subst hjb
-      simp [hja, Ne.symm hab]
+      simp [hja]
     · rw [Equiv.swap_apply_of_ne_of_ne hja hjb]
       simp [hja, hjb]
 
@@ -134,28 +134,28 @@ private theorem frameMD_negSwapAut_mem_even {a b : Fin k} (hab : a ≠ b) :
   · have hinner : (∏ i ∈ Finset.univ.erase a,
         (if i = a ∨ i = b then (-1 : ZMod 3) else 1)) = -1 := by
       rw [Finset.prod_eq_single b]
-      · rw [if_pos (Or.inr rfl)]
+      · rw [ite_eq_left (Or.inr rfl)]
       · intro c hc hcb
         have hca : c ≠ a := Finset.ne_of_mem_erase hc
-        rw [if_neg (by tauto)]
+        rw [ite_eq_right (by tauto)]
       · intro hb
         exact absurd (Finset.mem_erase.mpr ⟨Ne.symm hab, Finset.mem_univ b⟩) hb
     rw [← Finset.mul_prod_erase Finset.univ
       (fun i => if i = a ∨ i = b then (-1 : ZMod 3) else 1) (Finset.mem_univ a), hinner]
-    rw [if_pos (Or.inl rfl)]
+    rw [ite_eq_left (Or.inl rfl)]
     decide
   · intro f i
     dsimp only
     by_cases hia : i = a
     · subst hia
       rw [Equiv.swap_apply_left, frameMD_negSwapAut_apply hab]
-      rw [if_neg (Ne.symm hab), if_pos rfl, if_pos (Or.inl rfl), toAdd_inv, neg_one_mul]
+      rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl, ite_eq_left (Or.inl rfl), toAdd_inv, neg_one_mul]
     · by_cases hib : i = b
       · subst hib
         rw [Equiv.swap_apply_right, frameMD_negSwapAut_apply hab]
-        rw [if_pos rfl, if_pos (Or.inr rfl), toAdd_inv, neg_one_mul]
+        rw [ite_eq_left rfl, ite_eq_left (Or.inr rfl), toAdd_inv, neg_one_mul]
       · rw [Equiv.swap_apply_of_ne_of_ne hia hib, frameMD_negSwapAut_apply hab]
-        rw [if_neg hia, if_neg hib, if_neg (by tauto), one_mul]
+        rw [ite_eq_right hia, ite_eq_right hib, ite_eq_right (by tauto), one_mul]
 
 end
 

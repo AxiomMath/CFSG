@@ -121,7 +121,7 @@ theorem s16c11_big_exists_B {n : ℕ} (hn : n = 9 ∨ n = 10) {X L K L₀ : Subg
         (FFModel.symDn_isActionModel n).modAct σ q = q}
     have hTS : T = S := by
       ext q
-      simp only [T, S, Set.mem_setOf_eq]
+      simp only [T, S, Set.mem_ofPred_eq]
       constructor
       · intro hq σ hσ
         have := hq σ hσ

@@ -68,7 +68,7 @@ theorem E8ZPkg.lieModel_of_E0 (P : E8ZPkg z e E B T A X)
 theorem E8ZPkg.lieModel (P : E8ZPkg z e E B T A X) :
     CFSG.Blueprint.LieModel G .PSp 3 2 1 :=
   P.lieModel_of_E0 (V0.subgroupOf E0)
-    (fun v hv => Subtype.ext (V0_mul_self _ (Subgroup.mem_subgroupOf.mp hv)))
+    (fun _v hv => Subtype.ext (V0_mul_self _ (Subgroup.mem_subgroupOf.mp hv)))
     nonempty_quotient_V0 commutant_V0 eq_of_commute_E0 eq_A0_of_isE64
 
 end CFSG.ClassicalInvolution.Sp62Rec

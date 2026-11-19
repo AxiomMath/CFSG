@@ -13,6 +13,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84.S3
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ : G}
 
+omit [Finite G] in
 theorem S3.conj_eq_of_theta {θ : G → P8} (P : PreTheta L θ) (hZ : Subgroup.center L = ⊥)
     {g x y : G} (hgL : g ∈ L) (hx : x ∈ L) (hy : y ∈ L)
     (h : θ g * θ x * (θ g)⁻¹ = θ y) : g * x * g⁻¹ = y :=
@@ -30,6 +31,7 @@ theorem S3.U₁_le_A8s : U₁ ≤ A8s := by
       Equiv.Perm.sign_swap (by decide)]
     decide
 
+omit [Finite G] in
 theorem S3.pow_eq_one_two_pow_false {x : G} (hx : orderOf x = 3) {k : ℕ} (h : x ^ (2 ^ k) = 1) :
     False := by
   have h1 : 3 ∣ 2 ^ k := hx ▸ orderOf_dvd_of_pow_eq_one h

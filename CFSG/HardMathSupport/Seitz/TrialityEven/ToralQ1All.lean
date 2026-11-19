@@ -131,9 +131,9 @@ theorem q1_line_data_all {p f : ℕ} (hq : (p ^ f) % 3 = 1) (K : Type) [Field K]
   rw [MulAut.mul_apply, hfa, MulAut.conj_apply, hnv]
   group
 
-theorem q1_toral_data_all {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f)
+theorem q1_toral_data_all {p f : ℕ} [Fact p.Prime] (_hf : 1 ≤ f)
     (hq : (p ^ f) % 3 = 1) (K : Type) [Field K] [Finite K] [CharP K p]
-    (hK : Nat.card K = (p ^ f) ^ 3)
+    (_hK : Nat.card K = (p ^ f) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (p ^ f))
     (E : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
     (v n : graphFixedRootGroup TwistTag.D4 K σ.toRingHom)

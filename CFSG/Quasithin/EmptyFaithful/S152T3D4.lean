@@ -315,11 +315,11 @@ theorem borelCentralizerTrivial_d4 {f : ℕ} (hf : 2 ≤ f) (hK : Nat.card K = (
   have hU : IsSylowTwoOf ((graphFixedPosUnipotent TwistTag.D4 K τ₀).subgroupOf
       (graphFixedRootGroup TwistTag.D4 K τ₀)) ⊤ := by
     rw [← hPU]
-    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup', PU.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup, PU.not_dvd_index⟩
   have hV : IsSylowTwoOf ((graphFixedNegUnipotent TwistTag.D4 K τ₀).subgroupOf
       (graphFixedRootGroup TwistTag.D4 K τ₀)) ⊤ := by
     rw [← hPV]
-    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup', PV.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup, PV.not_dvd_index⟩
   have hUV' : (graphFixedPosUnipotent TwistTag.D4 K τ₀).subgroupOf
       (graphFixedRootGroup TwistTag.D4 K τ₀) ⊓
       (graphFixedNegUnipotent TwistTag.D4 K τ₀).subgroupOf

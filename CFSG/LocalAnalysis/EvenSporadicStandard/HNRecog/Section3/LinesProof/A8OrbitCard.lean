@@ -21,7 +21,7 @@ private lemma linesA8_index_ne_two_three_four
     (MulAction.stabilizer ↥S i).index ≠ 2 ∧
       (MulAction.stabilizer ↥S i).index ≠ 3 ∧
       (MulAction.stabilizer ↥S i).index ≠ 4 := by
-  haveI : IsSimpleGroup ↥S := hS.some.isSimpleGroup
+  have : IsSimpleGroup ↥S := hS.some.isSimpleGroup
   set H : Subgroup ↥S := MulAction.stabilizer ↥S i with hH
   have hcore : H.normalCore = ⊥ ∨ H.normalCore = ⊤ :=
     IsSimpleGroup.eq_bot_or_eq_top_of_normal H.normalCore

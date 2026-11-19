@@ -64,7 +64,7 @@ theorem exists_k7b_centralizer [Finite K] (h3 : (3 : K) ≠ 0)
     rw [orderOf_omegaEquiv_symm (toModelIso h3 hbc) hy0, orderOf_wExtend, hgord]
   ·
     intro X hX hXcard
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := X) 3 (by rw [hXcard])
     have hxord' : orderOf (x : ↥(omegaMinus8 K b c)) = 3 := by
       simpa using (Subgroup.orderOf_coe x).trans hxord

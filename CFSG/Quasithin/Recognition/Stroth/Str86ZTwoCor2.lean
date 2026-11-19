@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G]
   ∀ E : Subgroup G, E ≤ S → E ⊔ Q2 L1 L2 S = S →
     ⁅u3Y L1 L2 S, E⁆ = Z1 L1 L2 S
 
+omit [Finite G] in
 private theorem q1_commutes_z1 {L1 L2 S : Subgroup G} :
     Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G) := by
   intro q hq
@@ -27,6 +28,7 @@ private theorem q1_commutes_z1 {L1 L2 S : Subgroup G} :
   have hzc : z ∈ Subgroup.centralizer (Q1 L1 L2 S : Set G) := (Subgroup.mem_inf.mp hz').2
   exact ((Subgroup.mem_centralizer_iff.mp hzc) q hq).symm
 
+omit [Finite G] in
 private theorem y_commutative {L1 L2 S : Subgroup G} :
     ∀ a ∈ u3Y L1 L2 S, ∀ b ∈ u3Y L1 L2 S, a * b = b * a := by
   intro a ha b hb
@@ -37,6 +39,7 @@ private theorem y_commutative {L1 L2 S : Subgroup G} :
   have hac : a ∈ Subgroup.centralizer (Q2 L1 L2 S : Set G) := (Subgroup.mem_inf.mp haz).2
   exact ((Subgroup.mem_centralizer_iff.mp hac) b hbQ).symm
 
+omit [Finite G] in
 private theorem l1_commutes_z1 {L1 L2 S : Subgroup G}
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G)) :
     L1 ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G) :=
@@ -214,7 +217,7 @@ private theorem str86_Z1_le_X1_derived_of_bridge
     (hbridge : Str86YCommBridge L1 L2 S) :
     Z1 L1 L2 S ≤ ⁅u3X1 L1 L2 S, u3X1 L1 L2 S⁆ := by
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
-  obtain ⟨g, hgL1, hgborel⟩ := SetLike.exists_of_lt (F1.lt_borelOf hR)
+  obtain ⟨g, hgL1, hgborel⟩ := _root_.IsConcreteLE.exists_of_lt (F1.lt_borelOf hR)
   have hgB : g ∉ bigB L1 L2 S := by
     intro h
     apply hgborel

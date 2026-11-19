@@ -23,7 +23,7 @@ theorem tensor3Act0_add (A : Matrix (Fin 2) (Fin 2) K) (T T' : Tensor3 K) :
 theorem tensor3Act0_smul (A : Matrix (Fin 2) (Fin 2) K) (r : K) (T : Tensor3 K) :
     tensor3Act0 A (r • T) = r • tensor3Act0 A T := by
   funext a b c
-  simp [tensor3Act0, Finset.mul_sum, mul_left_comm, mul_add]
+  simp [tensor3Act0, mul_left_comm, mul_add]
 
 theorem tensor3Act0_mul (A B : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
     tensor3Act0 (A * B) T = tensor3Act0 A (tensor3Act0 B T) := by
@@ -34,7 +34,7 @@ theorem tensor3Act0_mul (A B : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
 
 theorem tensor3Act0_one (T : Tensor3 K) : tensor3Act0 (1 : Matrix (Fin 2) (Fin 2) K) T = T := by
   funext a b c
-  simp [tensor3Act0, Matrix.one_apply, Fin.sum_univ_two]
+  simp [tensor3Act0, Matrix.one_apply]
 
 theorem tensor3Act1_add (A : Matrix (Fin 2) (Fin 2) K) (T T' : Tensor3 K) :
     tensor3Act1 A (T + T') = tensor3Act1 A T + tensor3Act1 A T' := by
@@ -44,7 +44,7 @@ theorem tensor3Act1_add (A : Matrix (Fin 2) (Fin 2) K) (T T' : Tensor3 K) :
 theorem tensor3Act1_smul (A : Matrix (Fin 2) (Fin 2) K) (r : K) (T : Tensor3 K) :
     tensor3Act1 A (r • T) = r • tensor3Act1 A T := by
   funext a b c
-  simp [tensor3Act1, Finset.mul_sum, mul_left_comm, mul_add]
+  simp [tensor3Act1, mul_left_comm, mul_add]
 
 theorem tensor3Act1_mul (A B : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
     tensor3Act1 (A * B) T = tensor3Act1 A (tensor3Act1 B T) := by
@@ -55,7 +55,7 @@ theorem tensor3Act1_mul (A B : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
 
 theorem tensor3Act1_one (T : Tensor3 K) : tensor3Act1 (1 : Matrix (Fin 2) (Fin 2) K) T = T := by
   funext a b c
-  simp [tensor3Act1, Matrix.one_apply, Fin.sum_univ_two]
+  simp [tensor3Act1, Matrix.one_apply]
 
 theorem tensor3Act2_add (A : Matrix (Fin 2) (Fin 2) K) (T T' : Tensor3 K) :
     tensor3Act2 A (T + T') = tensor3Act2 A T + tensor3Act2 A T' := by
@@ -65,7 +65,7 @@ theorem tensor3Act2_add (A : Matrix (Fin 2) (Fin 2) K) (T T' : Tensor3 K) :
 theorem tensor3Act2_smul (A : Matrix (Fin 2) (Fin 2) K) (r : K) (T : Tensor3 K) :
     tensor3Act2 A (r • T) = r • tensor3Act2 A T := by
   funext a b c
-  simp [tensor3Act2, Finset.mul_sum, mul_left_comm, mul_add]
+  simp [tensor3Act2, mul_left_comm, mul_add]
 
 theorem tensor3Act2_mul (A B : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
     tensor3Act2 (A * B) T = tensor3Act2 A (tensor3Act2 B T) := by
@@ -76,7 +76,7 @@ theorem tensor3Act2_mul (A B : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
 
 theorem tensor3Act2_one (T : Tensor3 K) : tensor3Act2 (1 : Matrix (Fin 2) (Fin 2) K) T = T := by
   funext a b c
-  simp [tensor3Act2, Matrix.one_apply, Fin.sum_univ_two]
+  simp [tensor3Act2, Matrix.one_apply]
 
 section ActHom
 
@@ -85,7 +85,7 @@ section ActHom
     (hsmul : ∀ A (r : K) T, act A (r • T) = r • act A T)
     (hmul : ∀ A B T, act (A * B) T = act A (act B T)) (hone : ∀ T, act 1 T = T) :
     Matrix.SpecialLinearGroup (Fin 2) K →* T3E K where
-  toFun A := LinearEquiv.ofLinear
+  toFun A := LinearEquiv.ofLinearMap
     { toFun := act (A : Matrix (Fin 2) (Fin 2) K)
       map_add' := hadd _
       map_smul' := fun r T => hsmul _ r T }
@@ -253,7 +253,7 @@ theorem unipSL_mul (a b : K) : unipSL a * unipSL b = unipSL (a + b) := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.coe_mul, unipSL_apply, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    simp [unipSL_apply];
     ring
 
 theorem unipSL_zero : unipSL (0 : K) = 1 := by
@@ -270,7 +270,7 @@ theorem unipSL_injective : Function.Injective (unipSL (K := K)) := by
 @[expose] def unipHom : Multiplicative K →* Matrix.SpecialLinearGroup (Fin 2) K where
   toFun c := unipSL (Multiplicative.toAdd c)
   map_one' := unipSL_zero
-  map_mul' a b := (unipSL_mul _ _).symm
+  map_mul' _a _b := (unipSL_mul _ _).symm
 
 @[expose] def lineG : Subgroup (T3E K) := ((act0E (K := K)).comp unipHom).range
 
@@ -295,7 +295,7 @@ theorem lineG_le_Ok [CharP K 2] (κ : K) : lineG ≤ Ok κ := by
   rintro _ ⟨c, rfl⟩ T
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   simp only [MonoidHom.comp_apply, unipHom, MonoidHom.coe_mk, OneHom.coe_mk, act0E_apply, Qk,
-    tensor3Form, detW, tensor3Act0, Fin.sum_univ_two, unipSL_apply, toAdd_ofAdd]
+    tensor3Form, detW, tensor3Act0, Fin.sum_univ_two, unipSL_apply]
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
     Matrix.cons_val_fin_one, Matrix.empty_val']
   simp
@@ -310,7 +310,7 @@ section Flip
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
 
-@[expose] def flipE : T3E K := LinearEquiv.ofLinear flipL flipL (by ext; rfl) (by ext; rfl)
+@[expose] def flipE : T3E K := LinearEquiv.ofLinearMap flipL flipL (by ext; rfl) (by ext; rfl)
 
 theorem flipE_apply (T : Tensor3 K) (a b c : Fin 2) : flipE T a b c = T a c b := rfl
 
@@ -414,7 +414,7 @@ theorem act0E_eq_act1E {A B : Matrix.SpecialLinearGroup (Fin 2) K} (h : act0E A 
   have h1 := congrFun (congrFun (congrFun (LinearEquiv.congr_fun h (indT x y 0)) a) b) 0
   simp only [act0E_apply, act1E_apply, tensor3Act0, tensor3Act1, Fin.sum_univ_two, indT] at h1
   fin_cases x <;> fin_cases y <;> fin_cases a <;> fin_cases b <;> simp at h1 ⊢ <;>
-    first | exact h1 | exact h1.symm | (rw [← h1]; simp) | skip
+    first | exact h1
 
 theorem act1E_eq_act2E {A B : Matrix.SpecialLinearGroup (Fin 2) K} (h : act1E A = act2E B) :
     A = 1 ∧ B = 1 := by
@@ -422,7 +422,7 @@ theorem act1E_eq_act2E {A B : Matrix.SpecialLinearGroup (Fin 2) K} (h : act1E A 
   have h1 := congrFun (congrFun (congrFun (LinearEquiv.congr_fun h (indT 0 x y)) 0) a) b
   simp only [act1E_apply, act2E_apply, tensor3Act1, tensor3Act2, Fin.sum_univ_two, indT] at h1
   fin_cases x <;> fin_cases y <;> fin_cases a <;> fin_cases b <;> simp at h1 ⊢ <;>
-    first | exact h1 | exact h1.symm | (rw [← h1]; simp) | skip
+    first | exact h1
 
 theorem slotG_inf_rowG : (slotG : Subgroup (T3E K)) ⊓ rowG = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]

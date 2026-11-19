@@ -8,6 +8,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22.InS3.UC49
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem range_e2_eq_ker_one_sub (Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) :
     LinearMap.range (e2 Z) = LinearMap.ker (1 - Z) := by
   ext w
@@ -19,11 +20,12 @@ theorem range_e2_eq_ker_one_sub (Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) :
     rw [LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero] at h
     exact h.symm
 
+omit [Finite V] in
 theorem mul_e2_comm_self (Z : Module.End (ZMod 2) V) :
     Z * e2 Z = e2 Z * Z := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({Z} : Set _)
-  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (Set.pairwise_singleton Z Commute)
-  letI : CommRing S := by
+  have : IsMulCommutative S := Subring.isMulCommutative_closure (Set.pairwise_singleton Z Commute)
+  let : CommRing S := by
     open scoped IsMulCommutative in infer_instance
   let Z' : S := ⟨Z, Subring.subset_closure (by simp)⟩
   have key : Z' * e2 Z' = e2 Z' * Z' := mul_comm _ _
@@ -89,7 +91,7 @@ private theorem eq_one_of_card_ker_e2_eq_one (T : Module.End (ZMod 2) V) (hT : T
   have hbot : LinearMap.ker (e2 T) = ⊥ := by
     rw [Submodule.eq_bot_iff]
     intro w hw
-    haveI : Subsingleton ↥(LinearMap.ker (e2 T)) :=
+    have : Subsingleton ↥(LinearMap.ker (e2 T)) :=
       (Finite.card_le_one_iff_subsingleton).mp (le_of_eq hk)
     exact congrArg Subtype.val
       (Subsingleton.elim (⟨w, hw⟩ : ↥(LinearMap.ker (e2 T))) 0)
@@ -124,7 +126,7 @@ private theorem fpf_of_card_ker_e2_eq_four (T : Module.End (ZMod 2) V) (hT : T ^
   have hbot : LinearMap.range (e2 T) = ⊥ := by
     rw [Submodule.eq_bot_iff]
     intro w hw
-    haveI : Subsingleton ↥(LinearMap.range (e2 T)) :=
+    have : Subsingleton ↥(LinearMap.range (e2 T)) :=
       (Finite.card_le_one_iff_subsingleton).mp (le_of_eq hcard1)
     exact congrArg Subtype.val
       (Subsingleton.elim (⟨w, hw⟩ : ↥(LinearMap.range (e2 T))) 0)
@@ -143,6 +145,7 @@ theorem eq_one_or_fpf_of_finrank_le_two (T : Module.End (ZMod 2) V) (hT : T ^ 3 
   · exact Or.inl (eq_one_of_card_ker_e2_eq_one T hT (by simpa using hk))
   · exact Or.inr (fpf_of_card_ker_e2_eq_four T hT hrank (by simpa using hk))
 
+omit [Finite V] in
 private theorem apply_eq_zero_of_mul_eq_mul_e2 (p q s : Module.End (ZMod 2) V)
     {Z : Module.End (ZMod 2) V} (y : V)
     (h : p * q = s * e2 Z) (hq : q y = y) (hy : e2 Z y = 0) : p y = 0 := by
@@ -159,6 +162,7 @@ private theorem card_le_of_map_mem (X : Module.End (ZMod 2) V) (hXinj : Function
   intro a b hab
   exact Subtype.ext (hXinj (Subtype.ext_iff.mp hab))
 
+omit [Finite V] in
 private theorem e2_decomp_sum (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     (hZ : Z ^ 3 = 1) (hBZ : B * Z = Z * B) :
     (∀ u : V, u ∈ LinearMap.ker (e2 Z) → e2 B u ∈ LinearMap.ker (e2 Z)) ∧
@@ -198,6 +202,7 @@ private theorem e2_decomp_sum (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     rw [hu, map_zero] at h4
     simpa using h4
 
+omit [Finite V] in
 private theorem e2_decomp_span (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     (hZ : Z ^ 3 = 1) (hBZ : B * Z = Z * B) :
     let U : Submodule (ZMod 2) V := LinearMap.ker (e2 Z)
@@ -221,6 +226,7 @@ private theorem e2_decomp_span (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     exact Submodule.add_mem_sup (Submodule.add_mem_sup hx hy) hz
   exact le_antisymm hU_le hU_ge
 
+omit [Finite V] in
 private theorem e2_decomp_idem (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     (hZ : Z ^ 3 = 1) (hBZ : B * Z = Z * B) :
     let U : Submodule (ZMod 2) V := LinearMap.ker (e2 Z)
@@ -248,6 +254,7 @@ private theorem e2_decomp_idem (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     fun z hz => (LinearMap.IsIdempotentElem.mem_range_iff heBZ2i).mp
       (Submodule.mem_inf.mp hz).1⟩
 
+omit [Finite V] in
 private theorem e2_decomp_ann_B (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     (hZ : Z ^ 3 = 1) (hBZ : B * Z = Z * B) :
     let U : Submodule (ZMod 2) V := LinearMap.ker (e2 Z)
@@ -268,6 +275,7 @@ private theorem e2_decomp_ann_B (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     exact apply_eq_zero_of_mul_eq_mul_e2 (e2 B) (e2 (B * Z ^ 2)) (e2 B) z hid2
       (hBZ2_idem z hz) (Submodule.mem_inf.mp hz).2
 
+omit [Finite V] in
 private theorem e2_decomp_ann_BZ (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     (hZ : Z ^ 3 = 1) (hBZ : B * Z = Z * B) :
     let U : Submodule (ZMod 2) V := LinearMap.ker (e2 Z)
@@ -322,6 +330,7 @@ private def e2DecompMap (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1) (hZ : Z ^
       ⟨e2 (B * Z ^ 2) u.1, ⟨⟨u.1, rfl⟩,
         (e2_decomp_sum B Z hB hZ hBZ).2.2.1 u.1 u.2⟩⟩)
 
+omit [Finite V] in
 private theorem e2_decomp_bijective (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     (hZ : Z ^ 3 = 1) (hBZ : B * Z = Z * B) :
     Function.Bijective (e2DecompMap B Z hB hZ hBZ) := by
@@ -366,6 +375,7 @@ private theorem e2_decomp_bijective (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 
           hBZ2_idem p.2 p.2.2]
         abel
 
+omit [Finite V] in
 private theorem e2_decomp_card (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     (hZ : Z ^ 3 = 1) (hBZ : B * Z = Z * B) :
     let U : Submodule (ZMod 2) V := LinearMap.ker (e2 Z)
@@ -422,6 +432,7 @@ private theorem e2_decomp_card_Wb_eq (B Z X Xi : Module.End (ZMod 2) V)
             (Submodule.mem_inf.mp hw).2, map_zero]⟩)
   exact ⟨le_antisymm hφ (hψ.trans hχ), le_antisymm (hφ.trans hψ) hχ⟩
 
+omit [Finite V] in
 private theorem e2_decomp_Z_mem_Wb (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1)
     (hZ : Z ^ 3 = 1) (hBZ : B * Z = Z * B) :
     ∀ w : V, w ∈ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 Z) →
@@ -437,6 +448,7 @@ private theorem e2_decomp_Z_mem_Wb (B Z : Module.End (ZMod 2) V) (hB : B ^ 3 = 1
       rw [← Module.End.mul_apply, hZeZ.symm, Module.End.mul_apply,
         (Submodule.mem_inf.mp hw).2, map_zero]⟩
 
+omit [Finite V] in
 private theorem e2_decomp_Z_fpf_Wb (B Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) :
     ∀ w : V, w ∈ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 Z) → Z w = w → w = 0 := by
   intro w hw hZw
@@ -480,7 +492,7 @@ theorem U_card_eq_64 (B Z X Xi : Module.End (ZMod 2) V)
     Nat.card_congr (Equiv.subtypeEquivRight (fun v => mem_range_e2_iff Z hZ v))
   have hlow : 64 * Nat.card {v : V // Z v = v} ≤ Nat.card V :=
     sixtyFour_le_index_fixed_end B Z X Xi hXiX hXXi hB hZ hBZ hXZ hXB hZ1
-  haveI : Nonempty {v : V // Z v = v} := ⟨⟨0, map_zero Z⟩⟩
+  have : Nonempty {v : V // Z v = v} := ⟨⟨0, map_zero Z⟩⟩
   have hCpos : 0 < Nat.card {v : V // Z v = v} := Nat.card_pos
   have hge : 64 ≤ Nat.card ↥(LinearMap.ker (e2 Z)) := by
     rw [hcard, hfix, mul_comm 64] at hlow
@@ -490,11 +502,12 @@ theorem U_card_eq_64 (B Z X Xi : Module.End (ZMod 2) V)
     exact Nat.le_of_mul_le_mul_left hV hCpos
   omega
 
+omit [Finite V] in
 theorem mul_e2_comm_of_comm (A B : Module.End (ZMod 2) V) (hAB : A * B = B * A) :
     A * e2 B = e2 B * A := by
   let S : Subring (Module.End (ZMod 2) V) := Subring.closure ({A, B} : Set _)
-  haveI : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hAB)
-  letI : CommRing S := by
+  have : IsMulCommutative S := Subring.isMulCommutative_closure (pairwise_commute_pair hAB)
+  let : CommRing S := by
     open scoped IsMulCommutative in infer_instance
   let A' : S := ⟨A, Subring.subset_closure (by simp)⟩
   let B' : S := ⟨B, Subring.subset_closure (by simp)⟩
@@ -505,14 +518,17 @@ theorem mul_e2_comm_of_comm (A B : Module.End (ZMod 2) V) (hAB : A * B = B * A) 
   rw [e2_subring_coe S B'] at h
   simpa using h
 
+omit [Finite V] in
 theorem mul_e2_eq_self (Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) : Z * e2 Z = e2 Z := by
   ext w
   exact g_apply_e2 Z hZ w
 
+omit [Finite V] in
 theorem e2_mul_self_eq_self (Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) :
     e2 Z * Z = e2 Z := by
   rw [← mul_e2_comm_of_comm Z Z rfl, mul_e2_eq_self Z hZ]
 
+omit [Finite V] in
 theorem e2_mul_one_sub (Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) :
     e2 Z * (1 - Z) = 0 := by
   rw [mul_sub, mul_one, e2_mul_self_eq_self Z hZ, sub_self]
@@ -538,7 +554,7 @@ theorem e2_eq (Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) :
   have hlin : ∀ a : V, Z a = a → (1 + Z + Z ^ 2 : Module.End (ZMod 2) V) a = a := by
     intro a ha
     simp only [LinearMap.add_apply, Module.End.one_apply, pow_two, Module.End.mul_apply, ha,
-      add_assoc, add_self_eq_zero_zmod2, zero_add, add_zero]
+      add_assoc, add_self_eq_zero_zmod2, add_zero]
   have hmul : (1 + Z + Z ^ 2 : Module.End (ZMod 2) V) * (1 - Z) = 0 := by
     rw [show (1 + Z + Z ^ 2 : Module.End (ZMod 2) V) * (1 - Z) = 1 - Z ^ 3 by
       noncomm_ring, hZ, sub_self]
@@ -559,6 +575,7 @@ theorem e2_eq (Z : Module.End (ZMod 2) V) (hZ : Z ^ 3 = 1) :
     rw [map_add, hlin (e2 Z v) hZva, hker, add_zero]
   exact h1.symm
 
+omit [Finite V] in
 theorem range_e2_invariant_of_comm (T A : Module.End (ZMod 2) V) (h : T * A = A * T) :
     ∀ w : V, w ∈ LinearMap.range (e2 A) → T w ∈ LinearMap.range (e2 A) := by
   rintro w ⟨u, rfl⟩
@@ -638,6 +655,7 @@ theorem Y_eq_bot_of_fpf (A0 A1 A2 B Z : Module.End (ZMod 2) V)
   have hyB : y ∈ LinearMap.range (e2 B) := (mem_range_e2_iff B hB3 y).mpr hBy
   exact hfpf y ⟨hyB, hkerZ⟩ h0
 
+omit [Finite V] in
 theorem pair_eq_of_Y_eq_bot (A0 A1 A2 : Module.End (ZMod 2) V)
     (hA02 : A0 * A2 = A2 * A0) (hA12 : A1 * A2 = A2 * A1) (hA23 : A2 ^ 3 = 1)
     (hY : LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 A1) ⊓ LinearMap.ker (e2 A2) = ⊥) :

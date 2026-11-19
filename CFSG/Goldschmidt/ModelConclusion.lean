@@ -172,7 +172,7 @@ theorem component_simpleModels_of_core (G : Type) [Group G] [Finite G]
     (QuotientGroup.quotientMulEquivOfEq hcenN).trans QuotientGroup.quotientBot
   have htypeN : goldschmidtSimpleType N :=
     goldschmidtSimpleType_of_mulEquiv e2.symm (htype N hNcomp)
-  letI : IsSimpleGroup N := hNsimple
+  let : IsSimpleGroup N := hNsimple
   exact simpleModels_of_mulEquiv eN
     (simpleModels_of_old_type_abelian_omega N hNnonab T htypeN hOmega)
 

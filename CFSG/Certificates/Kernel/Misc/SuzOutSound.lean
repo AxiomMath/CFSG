@@ -60,12 +60,12 @@ theorem blockPt_spec {n w m wT G T x : Nat} {L : Nat → Nat} (h : blockPt n w m
   rw [blockPt, strictB_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq, strictB_eq, bIf_eq] at h
   obtain ⟨hy, h⟩ := h
   refine ⟨hy, fun hl => ?_, fun hl => ?_⟩
-  · rw [if_pos (by rw [Nat.blt_eq]; exact hl), bAnd_eq, Bool.and_eq_true, Nat.blt_eq,
+  · rw [ite_eq_left (by rw [Nat.blt_eq]; exact hl), bAnd_eq, Bool.and_eq_true, Nat.blt_eq,
       Nat.beq_eq] at h
     exact h
-  · rw [if_neg (by rw [Nat.blt_eq]; exact hl), bIf_eq] at h
+  · rw [ite_eq_right (by rw [Nat.blt_eq]; exact hl), bIf_eq] at h
     intro hl'
-    rw [if_pos (by rw [Nat.blt_eq]; exact hl')] at h
+    rw [ite_eq_left (by rw [Nat.blt_eq]; exact hl')] at h
     exact absurd h Bool.false_ne_true
 
 theorem blockArr_eq {n w m wT G T : Nat} {L R : Nat → Nat} {lab rep : Array Nat}
@@ -213,16 +213,16 @@ theorem letX_pt {gw : List Int} (hgl : lettersOK kS gw = true) {z : Int} (hz0 : 
       have : (0 : Int) < (k : Int) := by omega
       exact this
     have e1 : letterA (S.push g) (rawInvs n (S.push g)) (Int.ofNat k) = (S.push g)[k - 1]! := by
-      simp only [letterA, hpos, if_true]
+      simp only [letterA, hpos, ite_true]
       rfl
     have e2 : letX w kS PS PSI gw (Int.ofNat k) y = nIf(Nat.beq k (Nat.succ kS),
         ptK w PS PSI gw y, pg w (mask w) (PS (Nat.sub k 1)) y) := rfl
     rw [e1, e2, nIf_eq]
     by_cases hk : k = kS + 1
     · subst hk
-      rw [push_get_last (T := S) (i := kS + 1 - 1) (by omega), if_pos (Nat.beq_refl _)]
+      rw [push_get_last (T := S) (i := kS + 1 - 1) (by omega), ite_eq_left (Nat.beq_refl _)]
       exact hpt y hy
-    · rw [push_get_lt (T := S) (i := k - 1) (by omega), if_neg (by rw [beq_false_of_ne hk]; simp), hb _ (by omega),
+    · rw [push_get_lt (T := S) (i := k - 1) (by omega), ite_eq_right (by rw [beq_false_of_ne hk]; simp), hb _ (by omega),
         Raw.Orb.unpack_get hy]
       exact ⟨rfl, (pair_facts (hp (k - 1) (by omega)) hy).1⟩
   | negSucc k =>
@@ -234,18 +234,18 @@ theorem letX_pt {gw : List Int} (hgl : lettersOK kS gw = true) {z : Int} (hz0 : 
       omega
     have e1 : letterA (S.push g) (rawInvs n (S.push g)) (Int.negSucc k) =
         (rawInvs n (S.push g))[k]! := by
-      simp only [letterA, hneg, if_false]
+      simp only [letterA, hneg, ite_false]
       congr 1
     have e2 : letX w kS PS PSI gw (Int.negSucc k) y = nIf(Nat.beq k kS,
         ptKI w PS PSI gw y, pg w (mask w) (PSI k) y) := rfl
     rw [e1, e2, nIf_eq, hri]
     by_cases hk : k = kS
     · subst hk
-      rw [push_get_last (T := rawInvs n S) hrs.symm, if_pos (Nat.beq_refl _), invCand_wordA hS hb hp hgl hy]
+      rw [push_get_last (T := rawInvs n S) hrs.symm, ite_eq_left (Nat.beq_refl _), invCand_wordA hS hb hp hgl hy]
       exact ⟨rfl, (ptK_ptKI hp gw hgl y hy).2.1⟩
     · have hk' : k < kS := by omega
       rw [push_get_lt (T := rawInvs n S) (i := k) (by omega),
-        if_neg (by rw [beq_false_of_ne hk]; simp), CFSG.Quasithin.rawInvs_getElem! (by omega), hb k hk',
+        ite_eq_right (by rw [beq_false_of_ne hk]; simp), CFSG.Quasithin.rawInvs_getElem! (by omega), hb k hk',
         CFSG.KC.LQT.Cov.T.invCand_unpack (hp k hk'), Raw.Orb.unpack_get hy]
       exact ⟨rfl, (pair_facts (hp k hk') hy).2.1⟩
 
@@ -267,6 +267,7 @@ theorem ptX_pt {gw : List Int} (hgl : lettersOK kS gw = true) :
     rw [wordA, compA_get hx, e, ep]
     exact letX_pt hS hb hp hgl hz0 hzk hlt
 
+omit hp in
 theorem fixX_all {g : Array Nat} {x : Nat} (hx : x < n) :
     ∀ wd : List Int, lettersOK (kS + 1) wd = true → fixX w kS PS x wd = true →
       wd.all (fun l => l.natAbs == (S.push g).size || (S[l.natAbs - 1]!)[x]! == x) = true
@@ -287,7 +288,7 @@ theorem fixX_all {g : Array Nat} {x : Nat} (hx : x < n) :
     · exact Or.inl hz
     · right
       have h1 := hf'.1
-      rw [bIf_eq, if_neg (by rw [beq_false_of_ne hz]; simp), Nat.beq_eq] at h1
+      rw [bIf_eq, ite_eq_right (by rw [beq_false_of_ne hz]; simp), Nat.beq_eq] at h1
       rw [hb _ (by omega), Raw.Orb.unpack_get hx]
       exact h1
 
@@ -373,7 +374,7 @@ theorem reachCheck_of_walk {n w kS k x : Nat} {PS PSI L R : Nat → Nat} {S : Ar
       change (j * n + p) % n = p
       rw [Nat.add_comm, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hpn]
     unfold reachOK at hok
-    rw [strictB_eq, hdiv, strictB_eq, hmod, bIf_eq, if_neg (by rw [beq_false_of_ne hjl]; simp)]
+    rw [strictB_eq, hdiv, strictB_eq, hmod, bIf_eq, ite_eq_right (by rw [beq_false_of_ne hjl]; simp)]
       at hok
     cases hg : intsSK (tokK (T.getD (R j) [])) with
     | none => rw [hg] at hok; exact absurd hok Bool.false_ne_true
@@ -397,7 +398,7 @@ theorem reachCheck_of_walk {n w kS k x : Nat} {PS PSI L R : Nat → Nat} {S : Ar
   simp only [Bool.and_eq_true, beq_iff_eq]
   have hsz : (S.push (wordA n S (rawInvs n S) gw)).size = kS + 1 := by
     rw [Array.size_push, hS]
-  refine ⟨⟨by rw [hsz]; exact hwl, fixX_all hS hb hp hx wd hwl hfx⟩, ?_⟩
+  refine ⟨⟨by rw [hsz]; exact hwl, fixX_all hS hb hx wd hwl hfx⟩, ?_⟩
   rw [(ptX_pt hS hb hp hgl wd hwl x hx).1, hpt]
 
 @[expose] def MemR (w d : Nat) (M : Nat → Nat) (x y : Nat) : Prop :=
@@ -582,7 +583,7 @@ private theorem natsRec_fold : ∀ (ts : List (List Char)) (xs : List Nat) (acc 
       cases e : (String.ofList t).isEmpty
       · rfl
       · exact absurd (by simpa using e) h0
-    rw [List.map_cons, List.foldl_cons, hne, if_neg Bool.false_ne_true,
+    rw [List.map_cons, List.foldl_cons, hne, ite_eq_right Bool.false_ne_true,
       CFSG.KC.LQT.Cov.Parse.toNat!_natK hx, natsRec_fold ts ys _ hys]
     simp
 

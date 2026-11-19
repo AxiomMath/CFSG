@@ -37,7 +37,7 @@ theorem LitTData.fix_of_mem_tsub (d : LitTData π Z τ σ) {x : X} (hx : x ∈ l
 @[expose] def litRestrict (τ : X ≃* X) (H : Subgroup X) (hH : ∀ x, x ∈ H ↔ τ x ∈ H) :
     ↥H ≃* ↥H where
   toFun x := ⟨τ x, (hH x).mp x.2⟩
-  invFun x := ⟨τ.symm x, (hH (τ.symm x)).mpr (by simpa using x.2)⟩
+  invFun x := ⟨τ.symm x, (hH (τ.symm x)).mpr (by simp)⟩
   left_inv x := by ext; simp
   right_inv x := by ext; simp
   map_mul' x y := by ext; simp

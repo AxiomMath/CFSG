@@ -19,7 +19,7 @@ private theorem oddCore_eq_pPrimeCore_two (G : Type*) [Group G] :
   (CFSG.oddCore_eq_piCore G).trans (CFSG.pPrimeCore_eq_piCore G 2).symm
 
 theorem Sec5Pair.proj_subnormal {K₁ K₂ : Subgroup G} {z : G} (h : Sec5Pair K₁ K₂ z)
-    {P : Subgroup G} (hP : P ≤ K₁ ⊔ K₂) (hsn : (P.subgroupOf (K₁ ⊔ K₂)).IsSubnormal) :
+    {P : Subgroup G} (_hP : P ≤ K₁ ⊔ K₂) (hsn : (P.subgroupOf (K₁ ⊔ K₂)).IsSubnormal) :
     ∃ P₂ : Subgroup G, P₂ ≤ K₂ ∧ (P₂.subgroupOf K₂).IsSubnormal ∧
       ∀ b : G, b ∈ P₂ ↔ (b ∈ K₂ ∧ ∃ a ∈ K₁, a * b ∈ P) := by
   let M : Subgroup G := K₁ ⊔ K₂

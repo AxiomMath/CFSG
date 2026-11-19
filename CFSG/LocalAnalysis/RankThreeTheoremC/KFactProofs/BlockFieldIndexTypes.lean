@@ -29,6 +29,7 @@ namespace BlockFieldIndex
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem eq_bot_of_perfect_le {J U : Subgroup Y} (hJ : Group.IsSolvable J) (hUJ : U ≤ J)
     (hU : ⁅U, U⁆ = U) : U = ⊥ := by
   set U' : Subgroup J := U.subgroupOf J
@@ -41,10 +42,12 @@ theorem eq_bot_of_perfect_le {J U : Subgroup Y} (hJ : Group.IsSolvable J) (hUJ :
     exact (Group.IsSolvable.commutator_lt_of_ne_bot hne).ne hU'
   rw [← hmap, hbot, Subgroup.map_bot]
 
+omit [Finite Y] in
 theorem perfectJoin_eq_bot_of_isSolvable {J : Subgroup Y} (hJ : Group.IsSolvable J) :
     perfectJoin J = ⊥ :=
   eq_bot_of_perfect_le hJ (perfectJoin_le J) (perfectJoin_perfect J)
 
+omit [Finite Y] in
 theorem not_three_dvd_of_isSolvable {J : Subgroup Y} (hJ : Group.IsSolvable J) :
     ¬ 3 ∣ Nat.card (perfectJoin J) := by
   rw [perfectJoin_eq_bot_of_isSolvable hJ, Subgroup.card_bot]
@@ -53,10 +56,10 @@ theorem not_three_dvd_of_isSolvable {J : Subgroup Y} (hJ : Group.IsSolvable J) :
 theorem isSolvable_of_pCore_quotient {J : Subgroup Y} {Q : Type*} [Group Q]
     (e : ↥J ⧸ CFSG.pCore 2 ↥J ≃* Q) (hQ : Group.IsSolvable Q) : Group.IsSolvable J := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable (↥J ⧸ CFSG.pCore 2 ↥J) :=
-    solvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Group.IsNilpotent (CFSG.pCore 2 ↥J) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
-  exact solvable_of_ker_le_range (CFSG.pCore 2 ↥J).subtype
+  have : Group.IsSolvable (↥J ⧸ CFSG.pCore 2 ↥J) :=
+    Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
+  have : Group.IsNilpotent (CFSG.pCore 2 ↥J) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
+  exact Group.isSolvable_of_ker_le_range (CFSG.pCore 2 ↥J).subtype
     (QuotientGroup.mk' (CFSG.pCore 2 ↥J)) (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
 theorem isSolvable_of_card_dvd_seventyTwo' {J : Subgroup Y} (h : Nat.card J ∣ 72) :
@@ -87,10 +90,12 @@ theorem exists_perfect_map_eq {A B : Type*} [Group A] [Finite A] [Group B] (f : 
     (e : ↥J ⧸ CFSG.pCore 2 ↥J ≃* Q) : ↥J →* Q :=
   e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥J))
 
+omit [Finite Y] in
 theorem quotPi_surjective {J : Subgroup Y} {Q : Type*} [Group Q]
     (e : ↥J ⧸ CFSG.pCore 2 ↥J ≃* Q) : Function.Surjective (quotPi e) :=
   e.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite Y] in
 theorem mem_pCore_of_quotPi_eq_one {J : Subgroup Y} {Q : Type*} [Group Q]
     (e : ↥J ⧸ CFSG.pCore 2 ↥J ≃* Q) {x : ↥J} (hx : quotPi e x = 1) :
     x ∈ CFSG.pCore 2 ↥J := by
@@ -350,6 +355,7 @@ theorem exists_inner_of_sym_five {J : Subgroup Y}
   rw [← hcY]
   exact ⟨c, hKle hc, rfl⟩
 
+omit [Finite Y] in
 theorem false_of_isSolvable {J : Subgroup Y} (hJ : Group.IsSolvable J)
     (h3 : 3 ∣ Nat.card (perfectJoin J)) : False :=
   not_three_dvd_of_isSolvable hJ h3
@@ -430,21 +436,21 @@ theorem kFactBlockFieldIndex_of (hC : KFactCompParabFieldIndex) :
     have hrange : φ.range ≤ I := by
       rintro _ ⟨x, rfl⟩
       exact ⟨Subgroup.inclusion hJL x, x.2, rfl⟩
-    haveI : Group.IsSolvable (Equiv.Perm (Fin 4)) := isSolvable_perm_of_le_four le_rfl
-    haveI : Group.IsSolvable I := solvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-    haveI : Group.IsSolvable φ.range :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hrange)
+    have : Group.IsSolvable (Equiv.Perm (Fin 4)) := isSolvable_perm_of_le_four le_rfl
+    have : Group.IsSolvable I := Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
+    have : Group.IsSolvable φ.range :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hrange)
     have hcen : ∀ x : φ.ker, Subgroup.inclusion hJL (x : ↥(blockPL M S L)) ∈ Z := fun x =>
       (QuotientGroup.eq_one_iff _).1 (MonoidHom.mem_ker.1 x.2)
-    haveI : Group.IsSolvable φ.ker := by
-      apply isSolvable_of_comm
+    have : Group.IsSolvable φ.ker := by
+      apply _root_.Group.isSolvable_of_comm
       intro x y
       have h := Subgroup.mem_center_iff.1 (hcen x) (Subgroup.inclusion hJL (y : ↥(blockPL M S L)))
       have h' := congrArg Subtype.val h
       apply Subtype.ext
       apply Subtype.ext
       exact h'.symm
-    exact false_of_isSolvable (solvable_of_ker_le_range φ.ker.subtype φ.rangeRestrict
+    exact false_of_isSolvable (Group.isSolvable_of_ker_le_range φ.ker.subtype φ.rangeRestrict
       (by rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype])) h3
   · exfalso
     exact false_of_isSolvable (isSolvable_of_card_dvd_seventyTwo'

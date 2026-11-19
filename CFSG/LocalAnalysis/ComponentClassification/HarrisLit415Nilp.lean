@@ -34,7 +34,7 @@ theorem exists_odd_normal_of_central_sylow {H : Type*} [Group H] [Finite H] (P :
     exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp P.not_dvd_index)
   · rw [MonoidHom.mem_ker]
     have h1 : orderOf (MonoidHom.transferSylow P hP' h) ∣ orderOf h := orderOf_map_dvd _ h
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') (MonoidHom.transferSylow P hP' h)
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) (MonoidHom.transferSylow P hP' h)
     rw [hk] at h1
     have hk1 : 2 ^ k = 1 :=
       Nat.Coprime.eq_one_of_dvd (Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hh)) h1

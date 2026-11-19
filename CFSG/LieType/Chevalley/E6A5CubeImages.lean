@@ -47,7 +47,7 @@ theorem hEntries_eq_mul (t : Fin 5) (s : Kˣ) (i : Fin 6) :
     simp [hEntries, h1, hne]
   · by_cases h2 : i = t.succ
     · have hne' : t.succ ≠ t.castSucc := hne.symm
-      simp [hEntries, h1, h2, hne']
+      simp [hEntries, h2, hne']
     · simp [hEntries, h1, h2]
 
 theorem prod_hEntries_finset (t : Fin 5) (s : Kˣ) (I : Finset (Fin 6)) :
@@ -56,7 +56,7 @@ theorem prod_hEntries_finset (t : Fin 5) (s : Kˣ) (I : Finset (Fin 6)) :
   rw [Finset.prod_ite_eq' I t.castSucc (fun _ => (s : K)),
     Finset.prod_ite_eq' I t.succ (fun _ => ((s⁻¹ : Kˣ) : K))]
   by_cases ha : t.castSucc ∈ I <;> by_cases hb : t.succ ∈ I <;>
-    simp [subsetPattern, ha, hb, _root_.zpow_sub]
+    simp [subsetPattern, ha, hb]
 
 theorem prod_hEntries (t : Fin 5) (s : Kˣ) : ∏ i, hEntries t s i = 1 := by
   have := prod_hEntries_finset t s Finset.univ

@@ -154,7 +154,7 @@ private theorem proposition_4_c_D_inf_centralizer_Q_le_pointStabilizerCore
     rw [MulAction.mem_stabilizer_iff]
     by_cases hω : ω = point
     · simpa [hω] using hn_fix_point
-    · letI : MulAction.IsMultiplyPretransitive G Ω 2 := hA1.two_transitive
+    · let : MulAction.IsMultiplyPretransitive G Ω 2 := hA1.two_transitive
       have hpre : MulAction.IsPretransitive G Ω :=
         MulAction.isPretransitive_of_is_two_pretransitive
       rcases hpre.exists_smul_eq ω point with ⟨g, hgω⟩
@@ -219,8 +219,8 @@ private theorem proposition_4_c_exists_Q_involution
     (hA1 : HypothesisA1 G Ω H D Q t) :
     ∃ u : G, u ∈ Q ∧ IsInvolution u := by
   classical
-  haveI : Fintype Q := Fintype.ofFinite Q
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fintype Q := Fintype.ofFinite Q
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have hdiv : 2 ∣ Fintype.card Q := by
     rw [← Nat.card_eq_fintype_card]
     exact hA1.Q_even.two_dvd
@@ -310,7 +310,7 @@ private theorem proposition_4_c_eq_one_of_mem_D_sq_eq_one
   classical
   by_contra hdne
   let dD : D := ⟨d, hdD⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have horder : orderOf dD = 2 := by
     refine (orderOf_eq_prime_iff (x := dD) (p := 2)).2 ⟨?_, ?_⟩
     · ext
@@ -633,7 +633,7 @@ private theorem proposition_4_c_quotient_A1
     exact QuotientGroup.lift N (MulAction.toPermHom G Ω) hNker
   let quotientAction : MulAction (G ⧸ N) Ω := MulAction.compHom Ω quotientPermHom
   refine ⟨quotientAction, ?_⟩
-  letI : MulAction (G ⧸ N) Ω := quotientAction
+  let : MulAction (G ⧸ N) Ω := quotientAction
   let π : G →* G ⧸ N := QuotientGroup.mk' N
   have hbar_smul : ∀ (g : G) (ω : Ω), (QuotientGroup.mk g : G ⧸ N) • ω = g • ω := by
     intro g ω
@@ -734,7 +734,7 @@ public theorem proposition_4_c
           Nonempty (Q ≃* Q.map (QuotientGroup.mk' (pointStabilizerCore G Ω))) ∧
             orderOf (QuotientGroup.mk (s * t) : G ⧸ pointStabilizerCore G Ω) =
               orderOf (s * t) := by
-  letI : (pointStabilizerCore G Ω).Normal := proposition_4_c_pointStabilizerCore_normal
+  let : (pointStabilizerCore G Ω).Normal := proposition_4_c_pointStabilizerCore_normal
   exact
     ⟨proposition_4_c_kernel_eq H D Q t hA1,
       proposition_4_c_kernel_le_CDt H D Q t s hA1 hsH hsI hsStructure,

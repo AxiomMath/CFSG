@@ -59,7 +59,7 @@ theorem apC_eq (b : ZMod 2) (σ : MulAut FzUT) (q : FzUT) :
   rcases zmod2_cases b with rfl | rfl
   · rfl
   · change evD (gc σ) (enc q) = enc (if (1 : ZMod 2) = 0 then q else σ q)
-    rw [if_neg (by decide), evD_gc]
+    rw [ite_eq_right (by decide), evD_gc]
 
 variable {t s l : MulAut FzUT}
 
@@ -170,6 +170,7 @@ theorem shapeRel_sound {G : Nat} (e : Nat → X) (hG : ∀ k < 7, fldN G 9 511 k
     · exact p23 1 (by norm_num) 1 (by norm_num)
   · exact hgen
 
+omit hE in
 theorem wordP_sound {G : Nat} (e : Nat → X) (hG : ∀ k < 7, fldN G 9 511 k = E (e k)) (w : Nat) :
     ∃ g, FzReach m one {e 0, e 1, e 2, e 3, e 4, e 5, e 6} g ∧ wordP T S L G w = E g := by
   have key : ∀ n, ∃ g, FzReach m one {e 0, e 1, e 2, e 3, e 4, e 5, e 6} g ∧
@@ -381,7 +382,7 @@ theorem shape_sound {SR : Nat} (hS : shapeScan (gc t) (gc s) (gc l) SR = true) (
       ([(fzE1, 0), (fzEW, 0), (fzF1, 0), (fzFW, 0), (1, (1, 0, 0)), (1, (0, 1, 0)),
         (1, (0, 0, 1))].getD k fzOneC) := by
     intro k hk
-    obtain ⟨g, hg, eg⟩ := wordP_sound encE_injective hM encE_one e hG
+    obtain ⟨g, hg, eg⟩ := wordP_sound hM encE_one e hG
       (fldN (R >>> 12) 18 262143 k)
     have := hw k hk
     rw [beq_iff, eg, target_code hk] at this

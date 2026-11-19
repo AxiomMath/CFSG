@@ -160,7 +160,7 @@ theorem sec717L_sq_mem_Q (h51 : Stroth51Statement)
       simp
     have hWZ : W = Z0 := (Subgroup.eq_of_le_of_card_ge hZW (le_of_eq hcard)).symm
     have hZM : ∀ z ∈ Z0, z ∈ M := fun z hz => hRM (Ctx.mem_CN.mp (hZN hz)).1
-    haveI hQZn : (Q.subgroupOf Z0).Normal := ⟨fun n hn g => by
+    have hQZn : (Q.subgroupOf Z0).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hQnorm (g : G) (hZM g g.2) _ hn⟩
     have hmul : ∀ x y : ↥L,
@@ -249,7 +249,7 @@ theorem sec717L_sq_mem_Q (h51 : Stroth51Statement)
 
 variable {G : Type} [Group G] {M Q : Subgroup G} [(Q.subgroupOf M).Normal]
 
-theorem sec717_bar_isElemAbelian {L H : Subgroup G} (hLM : L ≤ M)
+theorem sec717_bar_isElemAbelian {L H : Subgroup G} (_hLM : L ≤ M)
     (hLc : ∀ a ∈ L, ∀ b ∈ L, ⁅a, b⁆ ∈ Q) (hsq : ∀ a ∈ L, a * a ∈ Q) :
     IsElemAbelian 2 ((bar M Q L).subgroupOf (bar M Q H)) := by
   have rep : ∀ x : ↥(bar M Q H), x ∈ (bar M Q L).subgroupOf (bar M Q H) →

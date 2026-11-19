@@ -282,7 +282,7 @@ private theorem card_isConj_replicate (n r : ℕ) {y : Perm (Fin n)}
     · subst hr
       simp
     · have hto : (Multiset.replicate r 3).toFinset = ({3} : Finset ℕ) := by
-        rw [Multiset.toFinset_replicate, if_neg hr]
+        rw [Multiset.toFinset_replicate, ite_eq_right hr]
       rw [hto]
       simp [Multiset.count_replicate]
   have hc := Equiv.Perm.card_isConj_mul_eq (α := Fin n) y
@@ -428,7 +428,7 @@ private theorem factorial_inequality {n r : ℕ} (hn : 7 ≤ n) (hr : 2 ≤ r) (
     ring
   have htail : (∏ i ∈ Finset.range (3 * r - 3), (n - 3 * r + i + 1)) ≥ (3 * r - 3).factorial := by
     rw [← prod_range_succ_eq_factorial (3 * r - 3)]
-    exact Finset.prod_le_prod' (by intro i hi; omega)
+    exact Finset.prod_le_prod (by intro i hi; omega)
   have hpos : 0 < (n - 3 * r).factorial := Nat.factorial_pos (n - 3 * r)
   by_cases h2 : r = 2
   · subst r

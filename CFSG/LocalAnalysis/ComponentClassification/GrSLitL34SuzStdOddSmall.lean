@@ -106,7 +106,7 @@ private theorem isSolvable_centralizer_of_l34SuzOdd (hS : L34SuzOddSetting A t) 
     obtain ⟨P₁, hP₁⟩ := hIj.exists_le_sylow
     have hcard₁ : Nat.card P₁ = 2 := by
       have hle : Nat.card P₁ ≤ 2 := by
-        have hmap : IsPGroup 2 (P₁.map CX.subtype) := P₁.isPGroup'.map CX.subtype
+        have hmap : IsPGroup 2 (P₁.map CX.subtype) := P₁.isPGroup.map CX.subtype
         obtain ⟨R, hR⟩ := hmap.exists_le_sylow
         calc Nat.card P₁ = Nat.card (P₁.map CX.subtype) :=
               (Subgroup.card_map_of_injective CX.subtype_injective).symm

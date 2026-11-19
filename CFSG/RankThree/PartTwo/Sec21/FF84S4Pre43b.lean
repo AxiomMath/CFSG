@@ -21,7 +21,7 @@ theorem S43_T (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
     ∃ T : Subgroup G, T ≤ Opp 3 (Cen (b * b₁)) ∧ IsPGroup 2 T ∧
       (∀ P : Subgroup G, P ≤ Opp 3 (Cen (b * b₁)) → IsPGroup 2 P → T ≤ P → P = T) ∧
       T ≤ CenS B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBD : B ≤ Cen (b * b₁) := B_le_cen_bb₁ h
   have hBn : B ≤ Subgroup.normalizer (Opp 3 (Cen (b * b₁)) : Set G) := fun β hβ => by
     rw [Subgroup.mem_normalizer_iff]

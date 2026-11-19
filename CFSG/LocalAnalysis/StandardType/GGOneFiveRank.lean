@@ -75,7 +75,7 @@ theorem ggBstarRankInput_of_sylowUnique (h : GGBstarSylowUniqueInput) : GGBstarR
   obtain ⟨Q, hQ⟩ := (hBsp.comap_of_injective M.subtype M.subtype_injective).exists_le_sylow
   set P : Subgroup G := (Q : Subgroup ↥M).map M.subtype with hPdef
   have hPM : P ≤ M := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := Q.isPGroup'.map M.subtype
+  have hPp : IsPGroup p P := Q.isPGroup.map M.subtype
   have hBsP : Bs ≤ P := fun b hb => ⟨⟨b, hBsM hb⟩, hQ hb, rfl⟩
   have hmaxM : ∀ R : Subgroup G, R ≤ M → IsPGroup p R → P ≤ R → R = P := by
     intro R hRM hRp hPR

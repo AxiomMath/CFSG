@@ -77,7 +77,7 @@ theorem exists_conj_of_complement [Finite G] {p : ℕ} (hp : p.Prime) {T E E' : 
       rw [this]
       exact (Q : Subgroup W).mul_mem hq ((Q : Subgroup W).inv_mem haQ)
     have hτ1 : τ = 1 := by
-      obtain ⟨k, hk⟩ := Q.isPGroup' (⟨⟨τ, hTW hτ⟩, hτQ⟩ : ↥(Q : Subgroup W))
+      obtain ⟨k, hk⟩ := Q.isPGroup (⟨⟨τ, hTW hτ⟩, hτQ⟩ : ↥(Q : Subgroup W))
       have hk' : τ ^ (p ^ k) = 1 := congrArg (fun z : W => (z : G)) (congrArg Subtype.val hk)
       have hd1 : orderOf (⟨τ, hτ⟩ : ↥T) ∣ p ^ k := by
         apply orderOf_dvd_of_pow_eq_one

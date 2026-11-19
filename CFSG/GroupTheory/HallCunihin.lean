@@ -119,7 +119,7 @@ theorem exists_isHallSubgroup_pq {p q : ℕ} (hq : q.Prime) (n : ℕ) :
       exact (Q₁ : Subgroup NH).card_mul_index
     have hQ₁q : ¬ q ∣ (Q₁ : Subgroup NH).index := Q₁.not_dvd_index
     have hQHq : PNum π (Nat.card QH) := by
-      obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q₁.isPGroup'
+      obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q₁.isPGroup
       intro r hr
       rw [hQHcard, hk] at hr
       exact Or.inr ((Nat.prime_dvd_prime_iff_eq r.2 hq).1 (r.2.dvd_of_dvd_pow hr))

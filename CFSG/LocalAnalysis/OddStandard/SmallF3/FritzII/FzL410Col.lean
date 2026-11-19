@@ -23,8 +23,8 @@ private lemma fz410_cOrdGo_perm {X : Type} [DecidableEq X] (m : X → X → X) (
       · intro h; exact σ.injective (h.trans h1.symm)
       · intro h; rw [h, h1]
     by_cases hr : r = one
-    · rw [if_pos (hiff.mpr hr), if_pos hr]
-    · rw [if_neg (fun h => hr (hiff.mp h)), if_neg hr, ← hm, ih]
+    · rw [ite_eq_left (hiff.mpr hr), ite_eq_left hr]
+    · rw [ite_eq_right (fun h => hr (hiff.mp h)), ite_eq_right hr, ← hm, ih]
 
 private lemma fz410_cOrd_perm {X : Type} [DecidableEq X] (m : X → X → X) (one : X)
     (σ : X ≃ X) (hm : ∀ x y, σ (m x y) = m (σ x) (σ y)) (h1 : σ one = one) (x : X) :
@@ -63,6 +63,7 @@ private noncomputable def fz410_conjFun {X : Type} (φ : X → G) {K : Subgroup 
   Classical.choose (hφ_surj (u * φ x * u⁻¹)
     ((Subgroup.mem_set_normalizer_iff.mp hu (φ x)).mp (hφ_mem x)))
 
+omit [Finite G] in
 private lemma fz410_conjFun_spec {X : Type} (φ : X → G) {K : Subgroup G}
     (hφ_mem : ∀ x, φ x ∈ K) (hφ_surj : ∀ g ∈ K, ∃ x, φ x = g)
     (u : G) (hu : u ∈ normalizer (K : Set G)) (x : X) :
@@ -70,6 +71,7 @@ private lemma fz410_conjFun_spec {X : Type} (φ : X → G) {K : Subgroup G}
   Classical.choose_spec (hφ_surj (u * φ x * u⁻¹)
     ((Subgroup.mem_set_normalizer_iff.mp hu (φ x)).mp (hφ_mem x)))
 
+omit [Finite G] in
 private lemma fz410_conjFun_injective {X : Type} (φ : X → G)
     (hφ_inj : Function.Injective φ) {K : Subgroup G}
     (hφ_mem : ∀ x, φ x ∈ K) (hφ_surj : ∀ g ∈ K, ∃ x, φ x = g)
@@ -83,6 +85,7 @@ private lemma fz410_conjFun_injective {X : Type} (φ : X → G)
   rw [hx] at hy
   exact mul_left_cancel (mul_right_cancel hy)
 
+omit [Finite G] in
 private lemma fz410_conjFun_surjective {X : Type} (φ : X → G)
     (hφ_inj : Function.Injective φ) {K : Subgroup G}
     (hφ_mem : ∀ x, φ x ∈ K) (hφ_surj : ∀ g ∈ K, ∃ x, φ x = g)
@@ -106,6 +109,7 @@ private noncomputable def fz410_conjEquiv {X : Type} (φ : X → G)
     ⟨fz410_conjFun_injective φ hφ_inj hφ_mem hφ_surj u hu,
      fz410_conjFun_surjective φ hφ_inj hφ_mem hφ_surj u hu⟩
 
+omit [Finite G] in
 private lemma fz410_conjEquiv_apply {X : Type} (φ : X → G)
     (hφ_inj : Function.Injective φ) {K : Subgroup G}
     (hφ_mem : ∀ x, φ x ∈ K) (hφ_surj : ∀ g ∈ K, ∃ x, φ x = g)
@@ -113,7 +117,8 @@ private lemma fz410_conjEquiv_apply {X : Type} (φ : X → G)
     fz410_conjEquiv φ hφ_inj hφ_mem hφ_surj u hu x =
       fz410_conjFun φ hφ_mem hφ_surj u hu x := rfl
 
-private lemma fz410_conjEquiv_mul {X : Type} (m : X → X → X) (φ : X → G)
+omit [Finite G] in
+private lemma fz410_conjEquiv_mul [Finite G] {X : Type} (m : X → X → X) (φ : X → G)
     (hφ_inj : Function.Injective φ) (hφ_mul : ∀ x y, φ (m x y) = φ x * φ y)
     {K : Subgroup G} (hφ_mem : ∀ x, φ x ∈ K) (hφ_surj : ∀ g ∈ K, ∃ x, φ x = g)
     (u : G) (hu : u ∈ normalizer (K : Set G)) (x y : X) :
@@ -124,7 +129,8 @@ private lemma fz410_conjEquiv_mul {X : Type} (m : X → X → X) (φ : X → G)
   simp only [fz410_conjEquiv_apply, fz410_conjFun_spec, hφ_mul]
   group
 
-private lemma fz410_conjEquiv_one {X : Type} (φ : X → G) (one : X)
+omit [Finite G] in
+private lemma fz410_conjEquiv_one [Finite G] {X : Type} (φ : X → G) (one : X)
     (hφ_inj : Function.Injective φ) (hφ_one : φ one = 1)
     {K : Subgroup G} (hφ_mem : ∀ x, φ x ∈ K) (hφ_surj : ∀ g ∈ K, ∃ x, φ x = g)
     (u : G) (hu : u ∈ normalizer (K : Set G)) :
@@ -167,7 +173,7 @@ private lemma fz410_iota_inP (y : FzL410.RM) :
 
 include M
 private lemma fz410_mu_one : fz410Mu emb t s lam FzL410.oneT = 1 := by
-  rw [show FzL410.oneT = FzL410.pe (0 : FzL410.A) from rfl, M.mu_pe, M.emb.emb_zero]
+  rw [show FzL410.oneT = FzL410.pe (0 : FzL410.A) from rfl, (CFSG.OddStandard.SmallF3.FritzII.Fz410Mod.mu_pe (t := t) (lam := lam) (s := s) (emb := emb)), M.emb.emb_zero]
 
 private noncomputable def fz410_sigmaT (u : G) (hu : u ∈ normalizer (T : Set G)) :
     FzL410.TM ≃ FzL410.TM :=

@@ -29,7 +29,7 @@ private lemma l05nPS_A_rev (n : ℕ) (i j : Fin n) :
     have e : (j.rev.val + 1 = i.rev.val ∨ i.rev.val + 1 = j.rev.val) ↔
         (j.val + 1 = i.val ∨ i.val + 1 = j.val) := by
       simp only [Fin.val_rev]; omega
-    simp only [h, hrev, if_false, e]
+    simp only [h, hrev, ite_false, e]
 
 private lemma l05nPS_reindex_rev {n : ℕ} {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     (e : Fin n ≃ Λ) :
@@ -104,7 +104,7 @@ private lemma l05nPS_walk_gt {N : ℕ} {Λ : Type} [Fintype Λ] [DecidableEq Λ]
 
 private lemma l05nPS_ne_iff {n : ℕ} {Λ : Type} (e : Fin n ≃ Λ) (b : Λ) (j : Fin n) :
     (e j ≠ b) ↔ (j.val ≠ (e.symm b).val) := by
-  rw [ne_eq, e.apply_eq_iff_eq_symm_apply, ne_eq, Fin.ext_iff]
+  rw [ne_eq, (Iff.symm (_root_.Equiv.eq_symm_apply e)), ne_eq, Fin.ext_iff]
 
 private lemma l05nPS_adj_iff {N : ℕ} {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     (e : Fin (N - 1) ≃ Λ) {b₁ b₂ : Λ}
@@ -310,7 +310,7 @@ private lemma l05nPS_classify {N : ℕ} {Λ : Type} [Fintype Λ] [DecidableEq Λ
       exact hI1empty ⟨p.val + 1, lt_trans hlt q.isLt⟩ ⟨Nat.lt_succ_self _, hlt⟩
     exact ⟨hp0, by omega⟩
 
-theorem ggTW_positions {N : ℕ} (hN : 5 ≤ N) {Λ : Type} [Fintype Λ] [DecidableEq Λ]
+theorem ggTW_positions {N : ℕ} (_hN : 5 ≤ N) {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     {ML : CoxeterMatrix Λ} (e : Fin (N - 1) ≃ Λ)
     (hML : ML = (CoxeterMatrix.A (N - 1)).reindex e) {b₁ b₂ : Λ} (hb : b₁ ≠ b₂)
     (hconn : GGDeletedConnected2 ML b₁ b₂) :

@@ -79,7 +79,7 @@ theorem two_le_pRank_inf_centralizer_of_two_le {p : ℕ} (hp : p.Prime) (hp2 : p
     (IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy, pow_one])).comap_subtype
   obtain ⟨T, hT⟩ := hyp.exists_le_sylow
   set T' : Subgroup Y := (T : Subgroup A).map A.subtype with hT'
-  have hT'p : IsPGroup p T' := T.isPGroup'.map _
+  have hT'p : IsPGroup p T' := T.isPGroup.map _
   have hyT' : y ∈ T' :=
     ⟨⟨y, hyA⟩, hT (Subgroup.mem_subgroupOf.mpr (Subgroup.mem_zpowers y)), rfl⟩
   have hrank : 2 ≤ Open.pRank p T' := by

@@ -82,18 +82,18 @@ theorem ggNEE_torusAct_simple_mul_single_orth_ne (τ : Tag) {p : ℕ} [hp : Fact
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp.out Nat.prime_two).mp this)
   exact h2ne h2
 
-theorem ggNEE_coxeterMatrix_eq_three_of_cartan {τ : Tag} {i j : Fin τ.rank} (hij : i ≠ j)
+theorem ggNEE_coxeterMatrix_eq_three_of_cartan {τ : Tag} {i j : Fin τ.rank} (_hij : i ≠ j)
     (hi : τ.cartan i j = -1) (hj : τ.cartan j i = -1) :
     (coxeterMatrix (isFiniteType_cartan τ)) i j = 3 := by
   simp only [CFSG.LieType.RootSystem.coxeterMatrix, TauCeti.coxeterMatrixOfCartanMatrix_apply,
-    hij, hi, hj]
+    hi, hj]
   norm_num
 
-theorem ggNEE_coxeterMatrix_eq_two_of_cartan {τ : Tag} {i j : Fin τ.rank} (hij : i ≠ j)
+theorem ggNEE_coxeterMatrix_eq_two_of_cartan {τ : Tag} {i j : Fin τ.rank} (_hij : i ≠ j)
     (hi : τ.cartan i j = 0) (hj : τ.cartan j i = 0) :
     (coxeterMatrix (isFiniteType_cartan τ)) i j = 2 := by
   simp only [CFSG.LieType.RootSystem.coxeterMatrix, TauCeti.coxeterMatrixOfCartanMatrix_apply,
-    hij, hi, hj]
+    hi, hj]
   norm_num
 
 theorem ggNEE_conjAut_pair_pow_apply {τ : Tag} {p : ℕ} [NeZero p] {L' : Type} [Group L']
@@ -154,8 +154,8 @@ theorem ggNEE_torusFork_of_weyl {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ =
         TableBExc.torusAct τ p (simple τ i) (Multiplicative.toAdd (Φ a))) :
     GGTorusFork p A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hN : ∀ i, MulAut.conj (w i) ∈ Subgroup.normalizer (A : Set (MulAut L')) :=
     fun i => conj_mem_normalizer_of_torusWeylElt hsc (hw i)
   let ρ : Fin τ.rank → MulAut ↥A := fun i => ggConjAut A (hN i)

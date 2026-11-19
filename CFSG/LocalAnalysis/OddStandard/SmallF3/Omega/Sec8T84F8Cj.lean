@@ -61,7 +61,7 @@ private theorem sec8cj_normal_subgroupOf_map {G : Type} [Group G] {N K : Subgrou
 private theorem sec8cj_isElemAbelian_map {G : Type} [Group G] (φe : G ≃* G)
     {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E) :
     CFSG.Open.IsElemAbelian 2 (E.map φe.toMonoidHom) := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   refine ⟨inferInstance, ?_⟩
   rintro x hx
   obtain ⟨e, he, rfl⟩ := hx

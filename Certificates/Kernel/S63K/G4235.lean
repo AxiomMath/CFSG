@@ -162,7 +162,7 @@ theorem hG : ∀ j i, (permArrs[j]!)[i]! = gG j i := by
   intro j i
   unfold gG
   by_cases hj : j < 8
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     by_cases hi : i < 819
     · exact perm_get hj hi
     · have e1 : permArrs[j]! = permArr j := by
@@ -170,7 +170,7 @@ theorem hG : ∀ j i, (permArrs[j]!)[i]! = gG j i := by
         simp [permArrs]
       rw [e1, get_out (a := permArr j) (i := i) (by rw [permArr_size]; omega)]
       exact (pg_zero (bnd_parts.2.2.2.2.2.2.2 j hj) (by omega)).symm
-  · rw [if_neg hj, get_out (a := permArrs) (i := j) (by rw [permArrs_size]; omega)]
+  · rw [ite_eq_right hj, get_out (a := permArrs) (i := j) (by rw [permArrs_size]; omega)]
     rfl
 
 theorem evalArr_size : ∀ w : List ℕ, (hexEvalArr permArrs w).size = 819
@@ -197,18 +197,18 @@ theorem hW {ws : List String} (hws : hexWordsOK 8 ws = true) :
   intro j i
   unfold wF hexWordArrs
   by_cases hj : j < ws.length
-  · rw [if_pos hj, getElem!_pos _ j (by simpa using hj)]
+  · rw [ite_eq_left hj, getElem!_pos _ j (by simpa using hj)]
     simp only [List.getElem_toArray, List.getElem_map]
     have hl : ∀ k ∈ hexDecode ws[j], k < 8 := by
       unfold hexWordsOK at hws
       have := List.all_eq_true.1 hws ws[j] (List.getElem_mem hj)
       simpa using this
     by_cases hi : i < 819
-    · rw [if_pos hi, (evalArr_get _ hl i hi).1, List.getD_eq_getElem _ _ hj]
-    · rw [if_neg hi, get_out (a := hexEvalArr permArrs (hexDecode ws[j])) (i := i)
+    · rw [ite_eq_left hi, (evalArr_get _ hl i hi).1, List.getD_eq_getElem _ _ hj]
+    · rw [ite_eq_right hi, get_out (a := hexEvalArr permArrs (hexDecode ws[j])) (i := i)
         (by rw [evalArr_size]; omega)]
       rfl
-  · rw [if_neg hj, get_out (a := (ws.map fun s => hexEvalArr permArrs (hexDecode s)).toArray)
+  · rw [ite_eq_right hj, get_out (a := (ws.map fun s => hexEvalArr permArrs (hexDecode s)).toArray)
       (i := j) (by simp; omega)]
     rfl
 
@@ -291,8 +291,8 @@ theorem orb_facts {k cnt root t : ℕ} {A : Array (Array ℕ)} {g : ℕ → ℕ 
   · by_cases hi : i < 3276
     · rw [h8 i hi]
       rcases hC.p i hi with e | ⟨e, -⟩
-      · rw [e, if_neg (by omega)]
-      · rw [if_pos e]
+      · rw [e, ite_eq_right (by omega)]
+      · rw [ite_eq_left e]
     · rw [getElem!_neg _ i (by omega)]
       exact (pg_zero hbS (by omega)).symm
 

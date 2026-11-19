@@ -20,7 +20,7 @@ theorem false_of_graph_form
     (hC : ∀ h ∈ Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X))),
       α h * h⁻¹ ∈ QK k E X ⊔ Subgroup.center (SpecialLinearGroup k (DSpace E X)))
     (σ : k ≃+* k) (T : Module.Dual k (DSpace E X) ≃+ DSpace E X)
-    (hT : ∀ (c : k) (f : Module.Dual k (DSpace E X)), T (c • f) = σ c • T f)
+    (_hT : ∀ (c : k) (f : Module.Dual k (DSpace E X)), T (c • f) = σ c • T f)
     (hα : ∀ (g : SpecialLinearGroup k (DSpace E X)) (f : Module.Dual k (DSpace E X)),
       α g (T f) = T (f ∘ₗ (SpecialLinearGroup.toLinearEquiv g⁻¹).toLinearMap)) : False := by
   classical
@@ -29,7 +29,7 @@ theorem false_of_graph_form
       exists_norm_eq_one_adjoin_eq_top (k := k) (E := E) hd
     have hs0 : s ≠ 0 := by
       intro hs
-      have h : (0 : k) = 1 := by simpa [hs] using hnorm
+      have h : (0 : k) = 1 := by simp [hs] at hnorm
       exact zero_ne_one h
     let a : E ≃ₗ[k] E := mulLeftEquiv k (Units.mk0 s hs0)
     have ha_apply : ∀ x : E, a x = s * x := by
@@ -98,7 +98,7 @@ theorem false_of_graph_form
     have hfin : Module.finrank k E = 1 :=
       (IntermediateField.bot_eq_top_iff_finrank_eq_one).mp hbot_top
     omega
-  · haveI : Fintype k := Fintype.ofFinite k
+  · have : Fintype k := Fintype.ofFinite k
     have hcardk : 4 ≤ Fintype.card k := by
       simpa [Nat.card_eq_fintype_card] using hk
     have hcard_units : 3 ≤ Fintype.card kˣ := by

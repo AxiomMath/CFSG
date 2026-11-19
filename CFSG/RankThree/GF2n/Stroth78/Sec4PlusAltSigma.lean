@@ -30,13 +30,14 @@ theorem conj_mem_ZQ_of_mem_H (S : Setting z E F) {h u : G} (hh : h ∈ H z) (hu 
   rw [← e]
   exact (conjAutZQ S ⟨h, hh⟩ ⟨u, hu⟩).2
 
+omit [Finite G] in
 theorem mem_centerIn_QaOf_iff_conj (S : Setting z E F) {a g : G} (hga : g * a * g⁻¹ = z)
     {x : G} : x ∈ centerIn (QaOf a) ↔ g * x * g⁻¹ ∈ ZQ z := by
   have hgz' : g⁻¹ * z * g⁻¹⁻¹ = a := by
     rw [inv_inv, ← hga]
     group
   rw [centerIn_QaOf_eq_map_of_conj_eq S hgz', Subgroup.mem_map_equiv]
-  simp [MulAut.conj_symm_apply]
+  simp
 
 theorem exists_commutator_eq_a (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S a w)
     (hZ : Nat.card ↥(ZQ z) = 4) :
@@ -44,7 +45,7 @@ theorem exists_commutator_eq_a (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hy
       ∃ hsH : s ∈ H z, (QuotientGroup.mk (⟨s, hsH⟩ : ↥(H z)) : Hbar z) ∈ Rbar S a ∧
         ⁅q, s⁆ = a := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   obtain ⟨α, hα1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp h.Rbar_ne_bot
   have hαR : (α : Hbar z) ∈ Rbar S a := α.2
   have hα1' : (α : Hbar z) ≠ 1 := fun h1 => hα1 (Subtype.ext h1)
@@ -195,7 +196,7 @@ theorem exists_mulEquiv_perm_eight (S : Setting z E F) (a : G)
     ∃ ι : Hbar z ≃* Equiv.Perm (Fin 8), ∀ x : ↥(Xsub S a),
       ι (x : Hbar z) = ((e x : alternatingGroup (Fin 8)) : Equiv.Perm (Fin 8)) := by
   classical
-  haveI := Xsub_normal S a
+  have := Xsub_normal S a
   let cE : Equiv.Perm (Fin 8) ≃* MulAut (alternatingGroup (Fin 8)) :=
     MulEquiv.ofBijective MulAut.conjNormal conjNormal_perm_bijective
   let φ : Hbar z →* Equiv.Perm (Fin 8) :=
@@ -264,7 +265,7 @@ theorem exists_mem_Lbar_inf_Xsub_cycleType_two_two (S : Setting z E F) {a : G} {
     {r : Hbar z} (hrL : r ∈ Lbar S a) (hrX : r ∉ Xsub S a) :
     ∃ t : Hbar z, t ∈ Lbar S a ∧ t ∈ Xsub S a ∧ (ι t).cycleType = {2, 2} := by
   classical
-  haveI := Xsub_normal S a
+  have := Xsub_normal S a
   have hL16 : Nat.card ↥(Lbar S a) = 16 := by
     have h1 := h.two_pow_le_card_Lbar
     rw [hw] at h1

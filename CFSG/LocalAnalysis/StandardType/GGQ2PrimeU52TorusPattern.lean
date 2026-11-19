@@ -74,8 +74,8 @@ theorem exists_two_valued_of_stabilizer_card {K : Type} [Field K] [Finite K]
     apply hj₀I
     simp [hI, huν]
   · by_cases hi : i ∈ I
-    · rw [if_pos hi]; simpa [hI] using hi
-    · rw [if_neg hi]
+    · rw [ite_eq_left hi]; simpa [hI] using hi
+    · rw [ite_eq_right hi]
       have : i ∈ Iᶜ := by simpa using hi
       rw [hj₀, Finset.mem_singleton] at this
       rw [this]

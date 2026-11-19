@@ -33,9 +33,9 @@ theorem nonempty_equiv_iff_character_eq [Finite G] (ρ : Representation ℂ G V)
   refine ⟨fun ⟨e⟩ => Representation.char_iso e, fun h => ?_⟩
   by_contra hne
   have h0 : cfInner σ.character ρ.character = 0 := by
-    rw [cfInner_character_character]; exact if_neg hne
+    rw [cfInner_character_character]; exact ite_eq_right hne
   have h1 : cfInner ρ.character ρ.character = 1 := by
-    rw [cfInner_character_character]; exact if_pos ⟨Representation.Equiv.refl ρ⟩
+    rw [cfInner_character_character]; exact ite_eq_left ⟨Representation.Equiv.refl ρ⟩
   rw [← h, h1] at h0
   exact one_ne_zero h0
 
@@ -59,12 +59,12 @@ theorem cfInner_eq_ite_of_mem_Irr [Fintype G] {χ ψ : G → ℂ} (hχ : χ ∈ 
 theorem cfInner_self_of_mem_Irr [Fintype G] {χ : G → ℂ} (hχ : χ ∈ Irr G) :
     cfInner χ χ = 1 := by
   classical
-  rw [cfInner_eq_ite_of_mem_Irr hχ hχ, if_pos rfl]
+  rw [cfInner_eq_ite_of_mem_Irr hχ hχ, ite_eq_left rfl]
 
 theorem cfInner_eq_zero_of_mem_Irr [Fintype G] {χ ψ : G → ℂ} (hχ : χ ∈ Irr G) (hψ : ψ ∈ Irr G)
     (h : χ ≠ ψ) : cfInner χ ψ = 0 := by
   classical
-  rw [cfInner_eq_ite_of_mem_Irr hχ hψ, if_neg h]
+  rw [cfInner_eq_ite_of_mem_Irr hχ hψ, ite_eq_right h]
 
 open scoped Classical in
 theorem cfInner_character_character_fdRep [Fintype G] (X Y : FDRep ℂ G) [Simple X] [Simple Y] :
@@ -79,9 +79,9 @@ theorem nonempty_iso_iff_character_eq [Finite G] (X Y : FDRep ℂ G) [Simple X] 
   refine ⟨fun ⟨e⟩ => FDRep.char_iso e, fun h => ?_⟩
   by_contra hne
   have h0 : cfInner Y.character X.character = 0 := by
-    rw [cfInner_character_character_fdRep]; exact if_neg hne
+    rw [cfInner_character_character_fdRep]; exact ite_eq_right hne
   have h1 : cfInner X.character X.character = 1 := by
-    rw [cfInner_character_character_fdRep]; exact if_pos ⟨Iso.refl X⟩
+    rw [cfInner_character_character_fdRep]; exact ite_eq_left ⟨Iso.refl X⟩
   rw [← h, h1] at h0
   exact one_ne_zero h0
 

@@ -13,7 +13,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V A : Subgroup G}
 
-theorem isL2Gp_quotient_of_ker {K L N : Subgroup G} (hLK : L ≤ K) (hNL : N ≤ L)
+omit [Finite G] in
+theorem isL2Gp_quotient_of_ker {K L N : Subgroup G} (hLK : L ≤ K) (_hNL : N ≤ L)
     [(N.subgroupOf L).Normal] {P : Type} [Group P] (ψ : ↥K →* P)
     (hker : ∀ l : ↥K, (l : G) ∈ L → (ψ l = 1 ↔ (l : G) ∈ N)) {n : ℕ}
     (hS : IsL2Gp ↥(barSub K ψ L) n) : IsL2Gp (↥L ⧸ N.subgroupOf L) n := by
@@ -42,7 +43,7 @@ theorem pair_kernel_eq {K : Subgroup G} (hP : PairHyp V A) (hVK : V ≤ K) (hAK 
     ∀ l : ↥K, (l : G) ∈ V ⊔ A → (ψ l = 1 ↔ (l : G) ∈ pairY V A) := by
   have hLK : V ⊔ A ≤ K := sup_le hVK hAK
   have hYL : pairY V A ≤ V ⊔ A := sup_le_sup inf_le_left inf_le_left
-  haveI hYn : ((pairY V A).subgroupOf (V ⊔ A)).Normal := pairY_normal hP
+  have hYn : ((pairY V A).subgroupOf (V ⊔ A)).Normal := pairY_normal hP
   have hback : ∀ l : ↥K, (l : G) ∈ pairY V A → ψ l = 1 := by
     intro l hl
     let f : ↥(V ⊔ A) →* P := ψ.comp (Subgroup.inclusion hLK)
@@ -97,7 +98,7 @@ theorem pairY_inf_centralizer_eq_bot {K : Subgroup G} (hP : PairHyp V A) (hVK : 
     (hS : IsL2Gp ↥(barSub K ψ (V ⊔ A)) n) {l : G} (hl : l ∈ V ⊔ A) (hlY : l ∉ pairY V A)
     {m : ℕ} (hm : Odd m) (hlm : l ^ m ∈ pairY V A) :
     pairY V A ⊓ Subgroup.centralizer ({l} : Set G) = ⊥ := by
-  haveI hYn : ((pairY V A).subgroupOf (V ⊔ A)).Normal := pairY_normal hP
+  have hYn : ((pairY V A).subgroupOf (V ⊔ A)).Normal := pairY_normal hP
   have hLK : V ⊔ A ≤ K := sup_le hVK hAK
   have hYL : pairY V A ≤ V ⊔ A := sup_le_sup inf_le_left inf_le_left
   have hX : IsL2Gp (↥(V ⊔ A) ⧸ (pairY V A).subgroupOf (V ⊔ A)) n :=

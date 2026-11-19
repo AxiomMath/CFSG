@@ -50,7 +50,7 @@ variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
 theorem exists_conj_Y {α : H} (hα : α ∈ Mc) (hαQ : α ∉ Q) {v : H} (hv : v ∈ V) :
     ∃ u ∈ Y, u * α * u⁻¹ = α * v := by
-  have hαMh : α ∈ Mh := Mc_le_Mh h hMh hMc hα
+  have hαMh : α ∈ Mh := Mc_le_Mh hMc hα
   have hαE : α ∉ centralizer (Y : Set H) :=
     fun hc => hαQ (mem_Q_of_mem_Mc_cent_Y h hMh hMc hα hc)
   have hVY : V ≤ Y := by rw [h.Y_eq]; exact le_sup_left
@@ -182,7 +182,7 @@ theorem exists_conj_Mc {w : H} (hw : w ∈ Y) (hwV : w ∉ V) {v : H} (hv : v �
     intro m hm
     obtain ⟨hmMc, hmC⟩ := Subgroup.mem_inf.mp hm
     by_contra hmQ
-    have hmMh : m ∈ Mh := Mc_le_Mh h hMh hMc hmMc
+    have hmMh : m ∈ Mh := Mc_le_Mh hMc hmMc
     have hmE : m ∉ centralizer (Y : Set H) :=
       fun hc => hmQ (mem_Q_of_mem_Mc_cent_Y h hMh hMc hmMc hc)
     have hc : m * w * m⁻¹ = w := by
@@ -211,7 +211,7 @@ theorem exists_conj_Mc {w : H} (hw : w ∈ Y) (hwV : w ∉ V) {v : H} (hv : v �
     exact h.Y_le_Q (by rw [h.Y_eq]; exact Subgroup.mem_sup_left hx)
   have hcommV : ∀ m : Mc, (m : H) * w * (m : H)⁻¹ * w⁻¹ ∈ V := by
     intro m
-    exact Mh_comm_Q h hMh (Mc_le_Mh h hMh hMc m.2) hwQ
+    exact Mh_comm_Q h hMh (Mc_le_Mh hMc m.2) hwQ
   have hkey : ∀ m : Mc, f m = w * ((m : H) * w * (m : H)⁻¹ * w⁻¹) := by
     intro m
     calc f m = ((m : H) * w * (m : H)⁻¹ * w⁻¹) * w := by
@@ -252,7 +252,7 @@ theorem cent_V_Vh : zjVh Mc t τ l ⊓ centralizer (V : Set H) = Mc ⊔ closure 
     intro m hm
     rw [Subgroup.mem_centralizer_iff]
     intro v hv
-    have hh := Mh_cent_V h hMh (Mc_le_Mh h hMh hMc hm) hv
+    have hh := Mh_cent_V h hMh (Mc_le_Mh hMc hm) hv
     calc v * m = (m * v * m⁻¹) * m := by rw [hh]
       _ = m * v := by group
   have htCentV : t ∈ centralizer (V : Set H) := by
@@ -331,7 +331,7 @@ theorem cent_V_Vh : zjVh Mc t τ l ⊓ centralizer (V : Set H) = Mc ⊔ closure 
       · rw [hxt]; exact Subgroup.mem_inf.mpr ⟨t_mem_zjVh Mc t τ l, htCentV⟩
       · rw [hxτ]; exact Subgroup.mem_inf.mpr ⟨tau_mem_zjVh Mc t τ l, htauCentV⟩
 
-theorem V_unique {W : Subgroup H} (hW : W ≤ zjVh Mc t τ l)
+theorem V_unique {W : Subgroup H} (_hW : W ≤ zjVh Mc t τ l)
     (hWn : ∀ g ∈ zjVh Mc t τ l, ∀ w ∈ W, g * w * g⁻¹ ∈ W)
     (hWd : W ≤ ⁅zjVh Mc t τ l, zjVh Mc t τ l⁆) (hW4 : Nat.card W = 4)
     (hWe : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a ∧ a * a = 1) : W = V := by
@@ -368,7 +368,7 @@ theorem V_unique {W : Subgroup H} (hW : W ≤ zjVh Mc t τ l)
         W.mul_mem (hWn u huVh w hwW) (W.inv_mem hwW)
       have hvEq : u * w * u⁻¹ * w⁻¹ = v := by
         rw [hueq]
-        have hcent : w * v * w⁻¹ = v := Mh_cent_V h hMh (Mc_le_Mh h hMh hMc hwMc) hv
+        have hcent : w * v * w⁻¹ = v := Mh_cent_V h hMh (Mc_le_Mh hMc hwMc) hv
         rw [hcent]
       rw [← hvEq]
       exact hmemW

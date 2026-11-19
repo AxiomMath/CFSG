@@ -84,6 +84,7 @@ theorem S_eq_of_le {hc : Ctx M Q Z B} {t : G} {B₁ B₂ : Subgroup G} (hc₁ : 
       Vt M (LB M Q B) B Z t).mul_mem (Subgroup.inv_mem _ (Subgroup.mem_sup_right (hZV hcz)))
       (Subgroup.mem_sup_left hpy)
 
+omit [Finite G] in
 theorem conjSubgroup_eq_of_mem {S S' : Subgroup G} {x : G} (h₁ : ∀ y ∈ S, x * y * x⁻¹ ∈ S')
     (h₂ : ∀ y ∈ S', x⁻¹ * y * x ∈ S) : conjSubgroup x S = S' := by
   apply le_antisymm
@@ -93,6 +94,7 @@ theorem conjSubgroup_eq_of_mem {S S' : Subgroup G} {x : G} (h₁ : ∀ y ∈ S, 
   · intro y hy
     refine mem_conjSubgroup.mpr (h₂ y hy)
 
+omit [Finite G] in
 theorem conj_mem_Wt_of_normalizes (hc : Ctx M Q Z B) {t x y : G} (hxM : x ∈ M)
     (hxV : ∀ v ∈ Vt M (LB M Q B) B Z t, x⁻¹ * v * x ∈ Vt M (LB M Q B) B Z t)
     (hy : y ∈ Wt Q (Vt M (LB M Q B) B Z t)) : x * y * x⁻¹ ∈ Wt Q (Vt M (LB M Q B) B Z t) := by
@@ -335,7 +337,7 @@ theorem count_core (hCentre : Step95CentreStatement) (h91b : Stroth91bStatement)
       rw [e, M₀.π_mul _ hxy _ (Q.inv_mem hyQ), M₀.pi_inv hyQ, ← hTπ y hyQ, sub_eq_add_neg]
     rw [LinearMap.sub_apply, LinearEquiv.coe_coe, LinearMap.id_apply, ← hπ]
     exact M₀.pi_mem_img hcm hcmQ
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hcardR : Nat.card (LinearMap.range (T.toLinearMap - LinearMap.id)) ≤
       Nat.card (M₀.img (conjSubgroup z V)) := by
     refine Nat.card_le_card_of_injective

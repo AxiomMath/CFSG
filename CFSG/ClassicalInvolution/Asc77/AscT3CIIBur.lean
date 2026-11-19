@@ -28,7 +28,7 @@ theorem le_oddCoreOf_sup_zpowers {E : Subgroup G} {z : G} (hzE : z ∈ E) (hz2 :
     rwa [hzEord] at this
   have hPle : (P : Subgroup ↥E) ≤ Subgroup.zpowers zE := by
     intro x hx
-    obtain ⟨k, hk⟩ := (P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hx) :
+    obtain ⟨k, hk⟩ := (P.isPGroup.to_le (Subgroup.zpowers_le.mpr hx) :
       IsPGroup 2 (Subgroup.zpowers x)).exists_card_eq
     have hxord : orderOf x = 2 ^ k := by rwa [Nat.card_zpowers] at hk
     have hGord : orderOf (x : G) = 2 ^ k := by rw [Subgroup.orderOf_coe, hxord]

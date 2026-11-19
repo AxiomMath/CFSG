@@ -22,8 +22,8 @@ variable {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF4m_ctr_le_U4_all (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂)
     {Tb : Subgroup E} (hTb : IsSylowTwoOf Tb (M₁ ⊓ M₂)) {x : E} (hx : x ∈ ctr Tb) : x ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hodd : Odd Gp.index
   · exact burnsideF4m_mem_of_odd hodd hTb hx.1
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
@@ -36,8 +36,8 @@ theorem burnsideF4m_ctr_le_U4_all (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂)
 
 theorem burnsideF4m_ctr_le_U5_all (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂)
     {Tb : Subgroup E} (hTb : IsSylowTwoOf Tb (M₁ ⊓ M₂)) {x : E} (hx : x ∈ ctr Tb) : x ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hodd : Odd Gp.index
   · exact burnsideF4m_mem_of_odd hodd hTb hx.1
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U5) hyp.toHypF_4_4g
@@ -61,8 +61,8 @@ variable {Y : Type} [Group Y] {β : Cpl M₁ M₂ Y} {M : Type} [Group M] {ε : 
 
 theorem burnsideF4m_odd_index_U5_lie' (hlie : burnsideF4m_LieCoreInput)
     (hyp : HypF_4_31 .U5 f Gp M₁ M₂ β ε z) (hf : 2 ≤ f) : Odd Gp.index := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   by_contra hodd
   obtain ⟨hZ1, hZ2, hQ2⟩ := hlie.2.1 _ f E Gp M₁ M₂ hyp.amalgam hf (Or.inr rfl) hodd
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U5) hyp.amalgam.toHypF_4_4g

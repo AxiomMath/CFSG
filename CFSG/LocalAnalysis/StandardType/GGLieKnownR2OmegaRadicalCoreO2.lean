@@ -38,7 +38,7 @@ private theorem o2_eichler_ef_Pe' {K V : Type} [Field K] [AddCommGroup V] [Modul
     eichler Q P.e P'.f P'.e = P.e + P'.e := by
   rw [eichler_apply P.Q_e h.ef]
   rw [polar_comm Q P'.e P.e, h.ee, P'.polar_ef, P'.Q_f]
-  simp only [mul_zero, mul_one, zero_smul, one_smul, add_zero]
+  simp only [mul_zero, zero_smul, one_smul, add_zero]
   rw [sub_eq_add_neg, o2_neg_eq_self (K := K) P.e, add_comm]
 
 private theorem o2_eichler_fe_Pe {K V : Type} [Field K] [AddCommGroup V] [Module K V]
@@ -46,7 +46,7 @@ private theorem o2_eichler_fe_Pe {K V : Type} [Field K] [AddCommGroup V] [Module
     eichler Q P'.e P.f P.e = P.e + P'.e := by
   rw [eichler_apply P'.Q_e (by rw [polar_comm]; exact h.fe)]
   rw [h.ee, P.polar_ef, P.Q_f]
-  simp only [mul_zero, mul_one, zero_smul, one_smul, add_zero]
+  simp only [mul_zero, zero_smul, one_smul, add_zero]
   rw [sub_eq_add_neg, o2_neg_eq_self (K := K) P'.e]
 
 private theorem o2_eichler_fe_Pe' {K V : Type} [Field K] [AddCommGroup V] [Module K V]
@@ -146,7 +146,7 @@ theorem siegelO2_le_orthSiegelCore {K V : Type} [Field K] [AddCommGroup V] [Modu
     pCoreOf 2 (Subgroup.normalizer (siegelRoot Q P.e P'.e : Set (spinGroup Q))) ≤
       orthSiegelCore Q P.e P'.e := by
   intro t ht
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   let S : Subgroup (spinGroup Q) := Subgroup.normalizer (siegelRoot Q P.e P'.e : Set (spinGroup Q))
   let Y : Submodule K V := siegelY K P.e P'.e
   let Yperp : Submodule K V := LinearMap.BilinForm.orthogonal (polarBilin Q) Y
@@ -293,13 +293,13 @@ theorem siegelO2_le_orthSiegelCore {K V : Type} [Field K] [AddCommGroup V] [Modu
     let XW : Submodule K V :=
       { carrier := {w : V | w ∈ siegelW Q P.e P'.e P.f P'.f ∧ ∃ y ∈ Y, y + w ∈ X}
         zero_mem' := ⟨(siegelW Q P.e P'.e P.f P'.f).zero_mem, 0, Y.zero_mem, by
-          simpa using X.zero_mem⟩
+          simp⟩
         add_mem' := by
           rintro w₁ w₂ ⟨hw₁W, y₁, hy₁, hy₁X⟩ ⟨hw₂W, y₂, hy₂, hy₂X⟩
           refine ⟨(siegelW Q P.e P'.e P.f P'.f).add_mem hw₁W hw₂W, y₁ + y₂,
             Y.add_mem hy₁ hy₂, ?_⟩
           have h := X.add_mem hy₁X hy₂X
-          convert h using 1 <;> abel
+          convert h using 1; abel
         smul_mem' := by
           rintro c w ⟨hwW, y, hy, hyX⟩
           refine ⟨(siegelW Q P.e P'.e P.f P'.f).smul_mem c hwW, c • y, Y.smul_mem c hy, ?_⟩
@@ -427,7 +427,7 @@ theorem orthSiegelCore_centralizer_levi_le_siegelRoot {K V : Type} [Field K] [Ad
     (hh : spinAction Q h = orthSiegelLevi Q P P') {y : spinGroup Q}
     (hy : y ∈ orthSiegelCore Q P.e P'.e) (hcomm : h * y = y * h) :
     y ∈ siegelRoot Q P.e P'.e := by
-  haveI : FiniteDimensional K V := FiniteDimensional.of_finrank_pos (by omega)
+  have : FiniteDimensional K V := FiniteDimensional.of_finrank_pos (by omega)
   have hOrth : P.Orth P' := by assumption
   have hfixW : ∀ w ∈ siegelW Q P.e P'.e P.f P'.f, spinAction Q y w = w := by
     intro w hw

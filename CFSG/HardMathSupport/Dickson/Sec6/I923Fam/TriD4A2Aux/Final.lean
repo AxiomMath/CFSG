@@ -56,8 +56,8 @@ theorem noL2Layer_of_simple_normal {P : Type} [Group P] [Finite P] (ψ : MulAut 
     (hsol : Group.IsSolvable (G ⧸ S)) (hs : IsSimpleGroup ↥S) (hnab : ∃ a b : ↥S, a * b ≠ b * a)
     {x C : ℕ} (hx : x = 1 ∨ IsPrimePow x) (hxS : x ∣ Nat.card S) (hSC : Nat.card S ≤ x * C)
     (hkey : 2 * C < (x - 1) * (x - 2)) : NoL2Layer ψ := by
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv
-  haveI : Finite ↥S := inferInstance
+  have : Finite G := Finite.of_equiv _ e.toEquiv
+  have : Finite ↥S := inferInstance
   refine TriD4Aux.noL2Layer_of_equiv_normal_simple ψ e S hsol hs hnab fun r hr => ?_
   exact not_typeL2_of_arith hnab hx hxS hSC hkey hr
 

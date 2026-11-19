@@ -25,6 +25,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
   {d | (d : Halpha D hC.alpha) ∈ DstarH hC ∧
     QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) (d : Halpha D hC.alpha) ∈ S₀}
 
+omit [Finite G] in
 private theorem rootLift_mem_subgroup (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {d : Halpha D hC.alpha} (hd : d ∈ DstarH hC)
@@ -32,6 +33,7 @@ private theorem rootLift_mem_subgroup (hC : HypothesisC D)
     d ∈ rootLiftSubgroup hC S₀ :=
   Subgroup.subset_closure ⟨hd, hm⟩
 
+omit [Finite G] in
 private theorem rootLift_mk_mem (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {d : Halpha D hC.alpha} (hd : d ∈ rootLiftSubgroup hC S₀) :
@@ -43,6 +45,7 @@ private theorem rootLift_mk_mem (hC : HypothesisC D)
       Subgroup.mem_comap.mpr (Subgroup.subset_closure hz.2))
   exact Subgroup.mem_comap.mp (hle hd)
 
+omit [Finite G] in
 private theorem rootLift_exists_lift (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {x : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
@@ -140,16 +143,19 @@ private theorem rootLift_isNormalSet (hC : HypothesisC D)
     rw [map_mul, map_mul, map_inv]
     exact rootLift_closure_conj_mem hC hS₀ hinv hgk hxk
 
+omit [Finite G] in
 private theorem rootLift_pCore_normal (hC : HypothesisC D)
     (S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))) :
     ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
   (CFSG.pCore_normal (G := Halpha D hC.alpha) (p := 2)).subgroupOf (rootLiftSubgroup hC S₀)
 
+omit [Finite G] in
 private theorem rootLift_pCore_isPGroup (hC : HypothesisC D)
     (S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))) :
     IsPGroup 2 ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)) :=
   (CFSG.pCore_isPGroup (G := Halpha D hC.alpha) (p := 2)).comap_subtype
 
+omit [Finite G] in
 private theorem rootLift_imageClass_isNormalSet (hC : HypothesisC D) :
     IsNormalSet (imageClass hC) := by
   intro g x hx
@@ -159,6 +165,7 @@ private theorem rootLift_imageClass_isNormalSet (hC : HypothesisC D) :
   exact ⟨h * d * h⁻¹, isNormalSet_DstarH hC h d hd,
     by rw [map_mul, map_mul, map_inv]⟩
 
+omit [Finite G] in
 private theorem rootLift_closure_eq_top (hC : HypothesisC D)
     (S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))) :
     Subgroup.closure (rootLiftClass hC S₀) = ⊤ := by
@@ -199,6 +206,7 @@ private theorem rootLift_exists_not_commute (hC : HypothesisC D)
     rwa [e1, e2] at h1
   exact rootLift_not_commute_of_order hC hn (hS₀ hx₀) (hS₀ hy₀) hord₀ hcomm₀
 
+omit [Finite G] in
 private theorem rootLift_surj_on_closure (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     (hS₀ : S₀ ⊆ imageClass hC)
@@ -296,7 +304,7 @@ private theorem rootLift_pCore_conj_commuting (hC : HypothesisC D)
   let mk := QuotientGroup.mk' R
   let K := rootLiftSubgroup hC S₀
   let Q := CFSG.pCore 2 H
-  letI : Q.Normal := CFSG.pCore_normal (G := H) (p := 2)
+  let : Q.Normal := CFSG.pCore_normal (G := H) (p := 2)
   let a'H : H := y' * (a : H) * y'⁻¹
   have ha'Star : a'H ∈ DstarH hC := by
     have := isNormalSet_DstarH hC y' (a : H) ha.1
@@ -351,7 +359,7 @@ private theorem rootLift_exists_conj_commuting (h113 : PartThree.Theorem11_3)
   let mk := QuotientGroup.mk' R
   let K := rootLiftSubgroup hC S₀
   let Q := CFSG.pCore 2 H
-  letI : Q.Normal := CFSG.pCore_normal (G := H) (p := 2)
+  let : Q.Normal := CFSG.pCore_normal (G := H) (p := 2)
   let b : K := h * a * h⁻¹
   have hbStar : (b : H) ∈ DstarH hC := by
     have := isNormalSet_DstarH hC (h : H) (a : H) ha.1
@@ -477,7 +485,7 @@ theorem exists_conj_eq_of_mem_rootLiftClass (hC : HypothesisC D)
     refine Subgroup.mem_subgroupOf.mpr ?_
     show (e : H) * (d : H)⁻¹ ∈ Q
     exact hde
-  haveI : Q'.Normal := rootLift_pCore_normal hC S₀
+  have : Q'.Normal := rootLift_pCore_normal hC S₀
   obtain ⟨x, hx, hxe⟩ :=
     CFSG.Timmesfeld.Bridge.OddTransp.exists_conj_of_mul_inv_mem
       (G := K) (D := rootLiftClass hC S₀) (Q := Q')
@@ -704,7 +712,7 @@ theorem orderOf_mul_dvd_ncard_orbit_sq_sub_one_of_class (h89 : PartThree.Lemma8_
   let Q := CFSG.pCore 2 H
   let Q' := Q.subgroupOf K
   let m : ℕ := ((fun g => cimg g β) '' (Malpha D hC.alpha : Set G)).ncard
-  haveI : Q'.Normal := rootLift_pCore_normal hC S₀
+  have : Q'.Normal := rootLift_pCore_normal hC S₀
   have hS : Setup K DK := setup_rootLiftClass h113 hC hrad hn3 hn hS₀ hinv hconj hord
   have hm : ∀ d ∈ DK, ((fun y : K => y * d * y⁻¹) '' (Q' : Set K)).ncard = m := by
     intro d hd
@@ -810,6 +818,7 @@ private theorem rootLift_old_closure_eq (hC : HypothesisC D)
     calc K0 = Subgroup.closure (insert y₀ (Vmem (imageClass hC) x₀)) := hcl₀.symm
       _ ≤ Subgroup.closure {x | x ∈ imageClass hC ∧ x ∈ K0} := hclS
 
+omit [Finite G] in
 private theorem rootLift_old_hinv (hC : HypothesisC D)
     {K0 : Subgroup (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))} :
     ∀ x ∈ {x | x ∈ imageClass hC ∧ x ∈ K0},
@@ -819,6 +828,7 @@ private theorem rootLift_old_hinv (hC : HypothesisC D)
   exact ⟨rootLift_imageClass_isNormalSet hC y x hx.1,
     K0.mul_mem (K0.mul_mem hy.2 hx.2) (K0.inv_mem hy.2)⟩
 
+omit [Finite G] in
 private theorem rootLift_old_hgen (hC : HypothesisC D)
     {K0 : Subgroup (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     (hgen : ∀ x ∈ imageClass hC, x ∈ K0 → ∀ y ∈ imageClass hC, y ∈ K0 → ¬ Commute x y →
@@ -856,6 +866,7 @@ private theorem rootLift_old_hgen (hC : HypothesisC D)
       _ ≤ Subgroup.closure (insert y
           {z | z ∈ {x | x ∈ imageClass hC ∧ x ∈ K0} ∧ Commute z x}) := hle
 
+omit [Finite G] in
 private theorem rootLift_old_hconj {hC : HypothesisC D}
     {K0 : Subgroup (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     (hconj : ∀ x ∈ imageClass hC, x ∈ K0 → ∀ y ∈ imageClass hC, y ∈ K0 →

@@ -199,7 +199,7 @@ theorem s21_14R3L_of_residuals (hGA : GriessAllModelsStatement) {D : Data G}
   ·
     have hk : D.k = 1 := by
       show CFSG.LocalAnalysis.RankThreeUC.kParam D.M = 1
-      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_pos hSE]
+      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_left hSE]
     have hodd : Odd c.n := u4p_odd_n D Ch hH c hSE
     have hBT := u4x_B0_le_normalizer c hodd
     by_cases hall : ∀ r : ℕ, r.Prime → r ∣ 2 ^ c.n - 1 → r ∣ f
@@ -257,7 +257,7 @@ theorem s21_14R3L_of_residuals (hGA : GriessAllModelsStatement) {D : Data G}
   ·
     have hk : D.k = 2 := by
       show CFSG.LocalAnalysis.RankThreeUC.kParam D.M = 2
-      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_neg hSE]
+      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_right hSE]
     have h3σ : 3 ∉ D.sig := fun h => hSE (UC6S846.sp_of_mem_sig hSg hns h)
     have hM3 : CFSG.Open.pRank 3 D.M ≤ 3 := by
       by_contra h

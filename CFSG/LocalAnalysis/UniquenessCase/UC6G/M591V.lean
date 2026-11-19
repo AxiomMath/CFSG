@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat)
 
 theorem card_V_inf_H_le_two (h67 : R6_7 Dat) :
     Nat.card ↥(m.V ⊓ centralizer (m.Z : Set G)) ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : m.V ⊓ centralizer (m.Z : Set G) ≤ pCoreOf 2 (m.H ⊓ m.M) := by
     refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 ?_ ?_ ?_
     · exact fun y hy => ⟨hy.2, CFSG.LieType.BorelTits.pCoreOf_le 2 m.M hy.1⟩
@@ -32,7 +32,7 @@ theorem eq_of_mem_V_inf_H (h67 : R6_7 Dat) {a b : G}
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) : a = b := by
   by_contra hab
   have hcard := m.card_V_inf_H_le_two h67
-  haveI : Fintype ↥(m.V ⊓ centralizer (m.Z : Set G)) := Fintype.ofFinite _
+  have : Fintype ↥(m.V ⊓ centralizer (m.Z : Set G)) := Fintype.ofFinite _
   have h3 : 2 < Finset.card (Finset.univ : Finset ↥(m.V ⊓ centralizer (m.Z : Set G))) := by
     rw [Finset.two_lt_card_iff]
     refine ⟨1, ⟨a, ha⟩, ⟨b, hb⟩, Finset.mem_univ _, Finset.mem_univ _, Finset.mem_univ _, ?_, ?_, ?_⟩
@@ -115,7 +115,7 @@ theorem vtrivial_of_inverts' (hr3 : m.r = 3) (h63 : R6_3 Dat)
     (h619 : m.C619) (h620 : m.C620) (h621 : m.C621) (h625 : m.C625) (h632 : m.C632)
     (hKC : m.KC633) (hKN : m.KN633) (hInv : m.KInv633)
     (hex : ∃ t ∈ m.K, ∀ z ∈ m.Z, t * z * t⁻¹ = z⁻¹) : m.V ⊓ centralizer (m.Z : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   obtain ⟨t, htK, ht⟩ := hex
   obtain ⟨t₂, ht₂K, ⟨a, ha⟩, ht₂1, ht₂⟩ := m.exists_two_element_inverting hr3 htK ht

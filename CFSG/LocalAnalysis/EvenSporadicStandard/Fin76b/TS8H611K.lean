@@ -35,7 +35,7 @@ theorem ncard_modEq_fixed_conj_three {G : Type*} [Group G] {O : Set G} (hO : O.F
     (hy3 : y ^ 3 = 1) (h1 : ∀ u ∈ O, y * u * y⁻¹ ∈ O) (h2 : ∀ u ∈ O, y⁻¹ * u * y ∈ O) :
     O.ncard ≡ {u | u ∈ O ∧ y * u * y⁻¹ = u}.ncard [MOD 3] := by
   classical
-  haveI : Finite ↥O := hO.to_subtype
+  have : Finite ↥O := hO.to_subtype
   let σ : Equiv.Perm ↥O :=
     { toFun := fun u => ⟨y * u * y⁻¹, h1 u u.2⟩
       invFun := fun u => ⟨y⁻¹ * u * y, h2 u u.2⟩
@@ -73,7 +73,7 @@ theorem comm_of_card_center_eight {K : Type*} [Group K] [Finite K] (hK : Nat.car
   rw [hK] at hmul
   have hidx : (Subgroup.center K).index ≤ 2 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     nlinarith
   have hne0 : (Subgroup.center K).index ≠ 0 := by
     intro h0
@@ -86,9 +86,9 @@ theorem comm_of_card_center_eight {K : Type*} [Group K] [Finite K] (hK : Nat.car
       rw [htop]
       exact Subgroup.mem_top a
     exact ((Subgroup.mem_center_iff.1 ha) b).symm
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq : Nat.card (K ⧸ Subgroup.center K) = 2 := h2
-    haveI : IsCyclic (K ⧸ Subgroup.center K) := isCyclic_of_prime_card hq
+    have : IsCyclic (K ⧸ Subgroup.center K) := isCyclic_of_prime_card hq
     exact (isMulCommutative_of_isCyclic_quotient_center_self (G := K)).is_comm.comm a b
 
 theorem four_le_card_center_of_invol {K : Type*} [Group K] [Finite K] {u v : K}
@@ -193,13 +193,13 @@ theorem exists_fixed_E2 : ∃ d ∈ E2 E t, β * d * β⁻¹ = d := by
   exact ⟨d, hdE2, hdfix⟩
 
 theorem exists_noncomm_partner (hcard : Nat.card ↥(E ⊓ centralizer ({β} : Set G)) = 8)
-    {d : G} (hdD : d ∈ E ⊓ centralizer ({β} : Set G)) (hdd : d * d = 1) (hd1 : d ≠ 1)
+    {d : G} (hdD : d ∈ E ⊓ centralizer ({β} : Set G)) (_hdd : d * d = 1) (hd1 : d ≠ 1)
     (hdt : d ≠ t) (hβt : β * t = t * β)
     (hab : ∃ a ∈ E ⊓ centralizer ({β} : Set G), ∃ b ∈ E ⊓ centralizer ({β} : Set G),
       a * b ≠ b * a) :
     ∃ d' ∈ E ⊓ centralizer ({β} : Set G), d' * d ≠ d * d' := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   obtain ⟨a, ha, b, hb, hab⟩ := hab
   have htD : t ∈ E ⊓ centralizer ({β} : Set G) :=
     ⟨h.t_mem_E, mem_centralizer_singleton_iff.2 hβt.symm⟩

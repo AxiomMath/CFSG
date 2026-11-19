@@ -28,6 +28,7 @@ private lemma k18A_exists_fixed_coset {Q : Subgroup G} {ρ ν : G} (hρ3 : ρ ^ 
       _ = (ν⁻¹ * q)⁻¹ := by rw [h1]
       _ = q⁻¹ * ν := by group
 
+omit [Finite G] in
 private lemma k18A_rho_sq {ρ : G} (hρ3 : ρ ^ 3 = 1) : ρ * ρ = ρ⁻¹ ∧ ρ⁻¹ * ρ⁻¹ = ρ := by
   have h : ρ * ρ * ρ = 1 := by simpa [pow_succ] using hρ3
   have h1 : ρ * ρ = ρ⁻¹ := eq_inv_of_mul_eq_one_left h
@@ -35,6 +36,7 @@ private lemma k18A_rho_sq {ρ : G} (hρ3 : ρ ^ 3 = 1) : ρ * ρ = ρ⁻¹ ∧ �
   calc ρ⁻¹ * ρ⁻¹ = ρ⁻¹ * (ρ * ρ) := by rw [h1]
     _ = ρ := by group
 
+omit [Finite G] in
 private lemma k18A_conj_inv_of_sq {ξ w : G} (hw2 : w * w = 1) (h : (ξ * w) * (ξ * w) = 1) :
     w * ξ * w⁻¹ = ξ⁻¹ := by
   rw [inv_eq_of_mul_eq_one_right hw2]
@@ -43,10 +45,12 @@ private lemma k18A_conj_inv_of_sq {ξ w : G} (hw2 : w * w = 1) (h : (ξ * w) * (
       _ = 1 := h
   exact eq_inv_of_mul_eq_one_right h'
 
+omit [Finite G] in
 private lemma k18A_conj_inv_rho {ρ w : G} (hwρ : w * ρ * w⁻¹ = ρ⁻¹) : w * ρ⁻¹ * w⁻¹ = ρ := by
   have h : w * ρ⁻¹ * w⁻¹ = (w * ρ * w⁻¹)⁻¹ := by group
   rw [h, hwρ, inv_inv]
 
+omit [Finite G] in
 private lemma k18A_conj_conj {ρ ξ w : G} (hwρ : w * ρ * w⁻¹ = ρ⁻¹) (hwξ : w * ξ * w⁻¹ = ξ⁻¹) :
     w * (ρ * ξ * ρ⁻¹) * w⁻¹ = (ρ⁻¹ * ξ * ρ)⁻¹ := by
   have hwρ' := k18A_conj_inv_rho hwρ
@@ -54,6 +58,7 @@ private lemma k18A_conj_conj {ρ ξ w : G} (hwρ : w * ρ * w⁻¹ = ρ⁻¹) (h
     _ = ρ⁻¹ * ξ⁻¹ * ρ := by rw [hwρ, hwξ, hwρ']
     _ = (ρ⁻¹ * ξ * ρ)⁻¹ := by group
 
+omit [Finite G] in
 private lemma k18A_conj_norm {ρ a : G} (hρ3 : ρ ^ 3 = 1) :
     ρ * (a * (ρ * a * ρ⁻¹) * (ρ⁻¹ * a * ρ)) * ρ⁻¹ = (ρ * a * ρ⁻¹) * (ρ⁻¹ * a * ρ) * a := by
   obtain ⟨hρρ, hρinv2⟩ := k18A_rho_sq hρ3

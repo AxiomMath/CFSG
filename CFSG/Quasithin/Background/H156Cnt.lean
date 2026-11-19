@@ -13,7 +13,7 @@ open CFSG.Quasithin.H158U CFSG.Quasithin.H158T CFSG.Quasithin.H.Coc24 CFSG.Quasi
   CFSG.Quasithin.H.ZTrans CFSG.Quasithin.H.Coc CFSG.ASVolI.ChH
 
 theorem img11_mono {A B : Subgroup (Equiv.Perm (Fin 24))} (h : A ≤ B) : img11 A ≤ img11 B :=
-  Subgroup.map_mono fun x hx => h hx
+  Subgroup.map_mono fun _x hx => h hx
 
 theorem card_GL3 : Nat.card (GL (Fin 3) (ZMod 2)) = 168 := by
   rw [Matrix.card_GL_field]

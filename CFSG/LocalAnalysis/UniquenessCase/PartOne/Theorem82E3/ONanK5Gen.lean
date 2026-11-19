@@ -33,8 +33,8 @@ private theorem glbWeakCore_ON_eq_top [Finite NativeSporadic.ON]
 theorem k5Gen_holds : F5.K5Gen := by
   intro Y _ _ hY S hS
   obtain ⟨e⟩ := (show Nonempty (Y ≃* CFSG.Blueprint.NativeSporadic.ON) from hY)
-  haveI : Finite CFSG.Blueprint.NativeSporadic.ON := Finite.of_equiv Y e.toEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite CFSG.Blueprint.NativeSporadic.ON := Finite.of_equiv Y e.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (S.map (e : Y →* CFSG.Blueprint.NativeSporadic.ON)) =
       3 ^ (Nat.card CFSG.Blueprint.NativeSporadic.ON).factorization 3 := by
     rw [Subgroup.card_map_of_injective e.injective, CFSG.ABGLocalTools.IsSylowOf.card_eq hS,

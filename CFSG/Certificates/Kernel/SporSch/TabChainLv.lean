@@ -5,7 +5,7 @@ public import CFSG.Certificates.Kernel.Spor.RawAgree
 public import CFSG.Sporadic.Schreier.PairClasses
 public import Certificates.Data.Kernel.SporSch.PairJ3Cnt
 public import CFSG.Certificates.Kernel.Spor.RawOrbSound
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -52,7 +52,7 @@ theorem letterK_invL {PS PSI : Nat → Nat} {kS l : Nat} (hl : l < kS + kS) :
   refine ⟨?_, ?_⟩
   · unfold letterK invL invLetterK
     simp only [nIf_eq, blt_dec, decide_eq_true_eq, Nat.add_eq, Nat.sub_eq]
-    split_ifs <;> first | omega | rfl | (congr 1; omega)
+    split_ifs <;> first | omega | (congr 1; omega)
   · unfold invL
     simp only [nIf_eq, blt_dec, decide_eq_true_eq, Nat.add_eq, Nat.sub_eq]
     split_ifs <;> omega

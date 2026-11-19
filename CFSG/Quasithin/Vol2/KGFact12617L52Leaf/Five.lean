@@ -16,7 +16,7 @@ theorem leafFive_holds : LeafFive := by
     Subgroup.card_dvd_of_surjective hφ
   rw [h360] at hdvd
   have h5 : 5 ∣ Nat.card ↥B := (by norm_num : (5 : ℕ) ∣ 360).trans hdvd
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 5 h5
   exact ⟨(y : H), y.2, (Subgroup.orderOf_coe y).trans hy⟩
 

@@ -53,7 +53,7 @@ theorem eq_g1_F4 (h1332 : Stmt13_3_2_F4) (h1334 : A6.Stmt13_3_4_F4) (h37 : A37Fo
     refine heq ?_
     rcases hc (kstar_cases_F4 h47 h49 h50 h51 S hK) with h | h <;>
       rcases hc (kstar_cases_F4 h47 h49 h50 h51 S₁ hK₁) with h' | h' <;>
-      rw [h, h'] at hdvd ⊢ <;> first | rfl | (exfalso; norm_num at hdvd)
+      rw [h, h'] at hdvd ⊢ <;> (exfalso; norm_num at hdvd)
 
   have hNT : pCoreOf 2 K₁ ≤ T :=
     (A4.pCoreOf_le_of_subnormal 2 (subnormal_of_mem_cComp hK₁)).trans

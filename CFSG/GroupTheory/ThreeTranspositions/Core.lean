@@ -26,7 +26,7 @@ theorem noThreeTranspositionClass : NoThreeTranspositionClass := by
     exists_noncommuting_conj_of_pPrimeCore_eq_bot hO ht2 ht1
   have hP := pair_normalClosure_of_sq_or_cube hX ht2 ht1 h hnc
   set A : Subgroup Q := Subgroup.normalClosure ({t} : Set Q) with hA
-  haveI : A.Normal := Subgroup.normalClosure_normal
+  have : A.Normal := Subgroup.normalClosure_normal
   have hXA : ¬ HasE9 ↥A := fun h9 => hX (HasE9.map_injective A.subtype A.subtype_injective h9)
   have hOA : CFSG.pPrimeCore 3 ↥A = ⊥ := pPrimeCore_eq_bot_of_normal Nat.prime_three hO A
   have hpC : CFSG.pCore 3 Q = ⊥ := pCore_eq_bot_of_isStronglyPEmbedded Nat.prime_three hY

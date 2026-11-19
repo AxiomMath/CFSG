@@ -232,7 +232,7 @@ private theorem rckJB4567_trans_highRoot_adj
 
 
 theorem rckHB_cent_F4E8
-    {t' : StatedLieTag} (ht : t' = .F4 ∨ t' = .E8) {m g : ℕ} (hg : 1 ≤ g)
+    {t' : StatedLieTag} (ht : t' = .F4 ∨ t' = .E8) {m g : ℕ} (_hg : 1 ≤ g)
     {β : Fin (ggU t' m g).D.rank → ℤ} (hβ : GGLongRoot (ggU t' m g).D β) :
     RCKLemmaHCent (ggU t' m g) β := by
   rcases ht with rfl | rfl
@@ -290,7 +290,7 @@ theorem rckHB_cent_F4E8
       (K := GaloisField 2 g) RootCentExc.highRootData_E8
 
 theorem rckHB_transitive_F4E8
-    {t' : StatedLieTag} (ht : t' = .F4 ∨ t' = .E8) {m g : ℕ} (hg : 1 ≤ g)
+    {t' : StatedLieTag} (ht : t' = .F4 ∨ t' = .E8) {m g : ℕ} (_hg : 1 ≤ g)
     {β : Fin (ggU t' m g).D.rank → ℤ} (hβ : GGLongRoot (ggU t' m g).D β) :
     ∀ x ∈ (ggU t' m g).D.rootGroup β, x ≠ 1 → ∀ y ∈ (ggU t' m g).D.rootGroup β, y ≠ 1 →
       ∃ n ∈ Subgroup.normalizer ((ggU t' m g).D.rootGroup β : Set (ggU t' m g).K), n * x * n⁻¹ = y := by

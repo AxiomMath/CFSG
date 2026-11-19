@@ -15,7 +15,7 @@ theorem exists_big_elem_abelian {Ω : Type} [Group Ω] [Finite Ω] {S E₀ : Sub
     (hxc : ∀ g : Ω, g * x = x * g)
     (hE : 3 ^ 4 * Nat.card ↥(E₀ ⊓ Subgroup.centralizer (S : Set Ω)) ≤ Nat.card E₀) :
     ∃ E : Subgroup Ω, IsElemAbelian 3 E ∧ E ≤ S ⊔ Subgroup.zpowers x ∧ 3 ^ 5 ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxz : x ∈ Subgroup.center Ω := Subgroup.mem_center_iff.2 hxc
   have hCz : Subgroup.zpowers x ≤ Subgroup.center Ω := Subgroup.zpowers_le.2 hxz
   have hCN : Subgroup.zpowers x ≤ Subgroup.normalizer (E₀ : Set Ω) :=
@@ -74,7 +74,6 @@ theorem four_le_card_of_noncomm {X : Type} [Group X] {T A : Subgroup X} [Finite 
             | exact hτ1 hij.symm
             | exact hτ1 hij
             | exact hτ'1 hij.symm
-            | exact hτ'1 hij
             | exact hττ' hij.symm
             | exact hττ' hij)
     have := Nat.card_le_card_of_injective f hf

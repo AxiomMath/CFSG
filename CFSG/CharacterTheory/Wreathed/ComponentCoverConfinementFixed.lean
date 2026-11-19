@@ -282,7 +282,7 @@ theorem fixed_prime_order_confined
   have hWu : ∀ w ∈ WG, w * u = u * w := fun w hw =>
     commute_of_inverted_mem_normalizer (hWodd.of_dvd_nat (Subgroup.orderOf_dvd_natCard WG hw))
       (hWinv w hw) (hWH0 hw) hxu
-  have hWp : IsPGroup ell WG := (W.isPGroup'.map _).map _
+  have hWp : IsPGroup ell WG := (W.isPGroup.map _).map _
   have hWN' : ¬ WG ≤ involutionCentralizer n S e := hWN
   have hW1 : WG ≠ ⊥ := fun h => hWN' (by rw [h]; exact bot_le)
   have hJWG : ∀ j ∈ J, (j : G) ∈ Subgroup.normalizer (WG : Set G) := fun j hj =>

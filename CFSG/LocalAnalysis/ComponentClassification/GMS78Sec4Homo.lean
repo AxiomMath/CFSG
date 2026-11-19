@@ -140,7 +140,7 @@ theorem isSylowOf_top
     have h1 := (rightConjugate_eq_self_iff _ _).mp (hE.rightConjugate_eq h hF hf e hX hle)
     simpa using inv_mem h1
   have hP : IsPGroup 2 ((U₁ ⊔ T) ⊔ zpowers z : Subgroup G) :=
-    S.isPGroup'.to_le (sup_le hS₀S (zpowers_le.mpr hzS))
+    S.isPGroup.to_le (sup_le hS₀S (zpowers_le.mpr hzS))
   have heq := hE.sylow.eq_of_le le_sup_left (sup_le hE.sylow.le (zpowers_le.mpr hzV)) hP
   exact hzS₀ (heq ▸ mem_sup_right (mem_zpowers _))
 

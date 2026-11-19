@@ -10,7 +10,7 @@ theorem exists_normal_index_prime_of_outer {X Q : Type*} [Group X] [Group Q] [Fi
     (ψ : X →* Q) (N : Subgroup Q) [N.Normal] {p : ℕ} (hp : p.Prime) (hN : ¬ p ∣ Nat.card N)
     (hidx : ∃ k : ℕ, N.index = p ^ k) {x : X} (hx : ∃ k : ℕ, orderOf x = p ^ k)
     (hψ : ψ x ≠ 1) : ∃ M : Subgroup X, M.Normal ∧ M.index = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let θ : X →* Q ⧸ N := (QuotientGroup.mk' N).comp ψ
   have hθx : θ x ≠ 1 := by
     intro h
@@ -30,7 +30,7 @@ theorem exists_normal_index_prime_of_outer {X Q : Type*} [Group X] [Group Q] [Fi
     obtain ⟨k, hk⟩ := hidx
     exact IsPGroup.of_card (n := k) (by rw [← hk]; rfl)
   have hR : IsPGroup p θ.range := hZ.to_subgroup _
-  haveI : Group.IsNilpotent θ.range := hR.isNilpotent
+  have : Group.IsNilpotent θ.range := hR.isNilpotent
   have hdvd : p ∣ Nat.card θ.range := by
     rcases hR.card_eq_or_dvd with h | h
     · exfalso

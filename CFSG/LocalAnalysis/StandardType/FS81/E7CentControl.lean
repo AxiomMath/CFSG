@@ -28,7 +28,7 @@ private lemma fs81CentControl_mem_Y {X : Type} [Group X] {Y H Q M : Subgroup X} 
 
 private lemma fs81CentControl_l_sq_mem {X : Type} [Group X] {H Q L : Subgroup X} {σ : X}
     (hHNQ : H ≤ Subgroup.normalizer (Q : Set X)) (hLH : L ≤ H) (hσ2 : orderOf σ = 2)
-    {h l q : X} (hhH : h ∈ H) (hlL : l ∈ L) (hqQ : q ∈ Q)
+    {h l q : X} (_hhH : h ∈ H) (hlL : l ∈ L) (hqQ : q ∈ Q)
     (hlq : h * σ * h⁻¹ = l * q) : l ^ 2 ∈ Q := by
   have hLNQ : L ≤ Subgroup.normalizer (Q : Set X) := hLH.trans hHNQ
   have hσsq : σ * σ = 1 := by rw [← pow_two, ← hσ2, pow_orderOf_eq_one]

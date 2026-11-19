@@ -91,7 +91,7 @@ theorem isElemAbelian_sup {p : ℕ} {A B : Subgroup G} (hA : IsElemAbelian p A) 
   have hc : ∀ x ∈ A ⊔ B, ∀ y ∈ A ⊔ B, x * y = y * x := by
     intro x hx y hy
     rw [hsup] at hx hy
-    letI := Subgroup.isMulCommutative_closure (k := (A : Set G) ∪ B) fun x hx y hy _ => hcomm x hx y hy
+    let := Subgroup.isMulCommutative_closure (k := (A : Set G) ∪ B) fun x hx y hy _ => hcomm x hx y hy
     have := mul_comm' (⟨x, hx⟩ : Subgroup.closure ((A : Set G) ∪ B)) ⟨y, hy⟩
     exact congrArg Subtype.val this
   refine ⟨⟨⟨fun a b => Subtype.ext (hc a a.2 b b.2)⟩⟩, fun x hx => ?_⟩
@@ -173,6 +173,7 @@ theorem cfg_Bs_le_centralizer_D (c : SporCfg G p x L row) :
 theorem cfg_Bs_le_cx_of_mem (c : SporCfg G p x L row) {a : G} (ha : a ∈ c.Bs) : c.Bs ≤ cx a :=
   isElemAbelian_le_centralizer c.hBs.1 ha
 
+omit [Finite G] in
 theorem centralizer_le_cx_of_mem {D : Subgroup G} {a : G} (ha : a ∈ D) :
     Subgroup.centralizer (D : Set G) ≤ cx a :=
   Subgroup.centralizer_le (Set.singleton_subset_iff.2 ha)
@@ -287,6 +288,7 @@ theorem centralizer_eq_inf (hp : p.Prime) {D : Subgroup G} (hD : IsElemAbelian p
   intro d hd
   exact Subgroup.mem_centralizer_singleton_iff.1 (hle (hDle hd))
 
+omit [Finite G] in
 theorem zpowers_le_normalizer_of_le_cx {H : Subgroup G} {a : G} (hH : H ≤ cx a) :
     Subgroup.zpowers a ≤ Subgroup.normalizer (H : Set G) := by
   rw [Subgroup.zpowers_le]

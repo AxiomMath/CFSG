@@ -27,7 +27,7 @@ theorem seitz27_projSU4 {n : ℕ} (hn : 4 ≤ n) :
     Seitz27 (CFSG.Assembly.RankThreeEven.projSU 4 2 n) := by
   have hU : UnitaryFieldData 2 n (GaloisField 2 (2 * n)) :=
     CFSG.RankThree.PartTwo.Census.unitaryFieldData_galoisField 2 n (by omega)
-  haveI := hU.finite
+  have := hU.finite
   have hne : ¬ (4 = 3 ∧ 2 ^ n = 2) := by omega
   let ψ : primeFormP hU (idGram (GaloisField 2 (2 * n)) 4) ≃*
       StatedProj (StatedSU 4 (2 ^ n) (GaloisField 2 (2 * n))) :=

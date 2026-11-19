@@ -77,7 +77,7 @@ theorem isQuasisimple_of_surjective {Q R : Type*} [Group Q] [Group R] (f : Q →
     (hf : Function.Surjective f) (hk : ∀ g : Q, f g = 1 → g ∈ Subgroup.center Q)
     (hQ : IsQuasisimple Q) : IsQuasisimple R := by
   obtain ⟨hcomm, hsimp⟩ := hQ
-  haveI := hsimp.toNontrivial
+  have := hsimp.toNontrivial
   have hRc : commutator R = ⊤ := by
     have h1 : Subgroup.map f (commutator Q) = commutator R := by
       show Subgroup.map f ⁅(⊤ : Subgroup Q), ⊤⁆ = ⁅(⊤ : Subgroup R), ⊤⁆
@@ -87,7 +87,7 @@ theorem isQuasisimple_of_surjective {Q R : Type*} [Group Q] [Group R] (f : Q →
     obtain ⟨a, ha⟩ := exists_ne (1 : Q ⧸ Subgroup.center Q)
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
     exact ⟨x, fun h => ha (QuotientGroup.eq_one_iff x |>.2 h)⟩
-  haveI : Nontrivial R := ⟨⟨f x, 1, fun h => hx (hk x h)⟩⟩
+  have : Nontrivial R := ⟨⟨f x, 1, fun h => hx (hk x h)⟩⟩
   have hZR : Subgroup.center R ≠ ⊤ := by
     intro htop
     have hbot : commutator R = ⊥ := by
@@ -107,10 +107,10 @@ theorem isQuasisimple_of_surjective {Q R : Type*} [Group Q] [Group R] (f : Q →
     intro h
     obtain ⟨y, rfl⟩ := hf h
     rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.1 hg y]
-  haveI : Nontrivial (R ⧸ Subgroup.center R) := by
+  have : Nontrivial (R ⧸ Subgroup.center R) := by
     obtain ⟨g, hg⟩ : ∃ g : R, g ∉ Subgroup.center R := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hZR (eq_top_iff.2 fun g _ => hcon g)
     exact ⟨⟨QuotientGroup.mk g, 1, fun h => hg ((QuotientGroup.eq_one_iff g).1 h)⟩⟩
   refine ⟨hRc, ?_⟩

@@ -82,7 +82,7 @@ theorem stmt12_2_17_of_F4
     LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 (L ⊔ T) |>.trans' Subgroup.le_normalizer
   have h2W : IsPGroup 2 ↥(weakClosureW0 T V) :=
     (CFSG.Quasithin.exists_sylow_of_quasithinIsSylowTwo hH.sylow).elim fun S hS =>
-      (hS ▸ S.isPGroup').to_le (hWQ.trans hQT)
+      (hS ▸ S.isPGroup).to_le (hWQ.trans hQT)
   have hW1 : weakClosureW0 T V ≠ ⊥ := by
     intro h
     apply hH.irrPlus.2.1

@@ -25,7 +25,7 @@ variable {τ : Tag} {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem kpow_add (t : Kˣ) (e f : ℤ) : kpow (k := k) K t (e + f) = kpow K t e * kpow K t f := by
   unfold kpow
-  rw [zpow_add₀ (by simpa using t.ne_zero)]
+  rw [zpow_add₀ (by simp)]
 
 @[expose] def wtSpace (ρ : Representation k (adjointGroup τ K) V) (ν : Fin τ.rank → ℤ) :
     Submodule k V where
@@ -115,7 +115,7 @@ theorem wt_nWC (hw : ∃ w₁ : WeylGroup τ, ∀ α : Fin τ.rank → ℤ, w₁
     (ν : Fin τ.rank → ℤ) : Fin τ.rank × Kˣ → k :=
   fun p => kpow (k := k) K p.2 (mExp τ p.1 ν)
 
-theorem wtSpace_le_gen (hw : ∃ w₁ : WeylGroup τ, ∀ α : Fin τ.rank → ℤ, w₁ • α = -α)
+theorem wtSpace_le_gen (_hw : ∃ w₁ : WeylGroup τ, ∀ α : Fin τ.rank → ℤ, w₁ • α = -α)
     (ρ : Representation k (adjointGroup τ K) V) (ν : Fin τ.rank → ℤ) :
     wtSpace ρ ν ≤ ⨅ p : Fin τ.rank × Kˣ,
       Module.End.maxGenEigenspace (ρ (dC τ K p.1 p.2)) (wcls τ K k ν p) := by
@@ -146,7 +146,7 @@ theorem dvd_of_wcls_eq {ν ν' : Fin τ.rank → ℤ} (h : wcls τ K k ν = wcls
   have h1 := congrFun h (i, g)
   simp only [wcls, kpow] at h1
   have h2 : (algebraMap K k (g : K)) ^ (mExp τ i ν - mExp τ i ν') = 1 := by
-    rw [zpow_sub₀ (by simpa using g.ne_zero), h1, div_self (zpow_ne_zero _ (by simpa using g.ne_zero))]
+    rw [zpow_sub₀ (by simp), h1, div_self (zpow_ne_zero _ (by simp))]
   have h3 : ((g ^ (mExp τ i ν - mExp τ i ν') : Kˣ) : K) = 1 := by
     apply (algebraMap K k).injective
     rw [map_one, Units.val_zpow_eq_zpow_val, map_zpow₀]

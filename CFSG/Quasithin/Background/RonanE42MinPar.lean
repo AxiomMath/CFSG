@@ -12,13 +12,13 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.RonanE42
 variable {G : Type} [Group G] [Finite G]
 
 theorem le_sup_normalizer_inf {T P Y : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTP : T ≤ P)
-    (hYP : Y ≤ P) (hYn : ∀ h ∈ P, ∀ y ∈ Y, h * y * h⁻¹ ∈ Y) :
+    (_hYP : Y ≤ P) (hYn : ∀ h ∈ P, ∀ y ∈ Y, h * y * h⁻¹ ∈ Y) :
     P ≤ Y ⊔ (P ⊓ Subgroup.normalizer ((T ⊓ Y : Subgroup G) : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdiv : T.relIndex P ∣ T.relIndex ⊤ :=
     ⟨_, (Subgroup.relIndex_mul_relIndex T P ⊤ hTP le_top).symm⟩
   have hTP2 : IsSylowIn 2 T P := ⟨hTP, hT.isPGroup, fun h => hT.not_dvd_relIndex (h.trans hdiv)⟩
-  haveI : Finite (Sylow 2 P) :=
+  have : Finite (Sylow 2 P) :=
     Finite.of_injective (fun Q : Sylow 2 P => (Q : Set P)) SetLike.coe_injective
   obtain ⟨PH, hPH⟩ : ∃ Q : Sylow 2 P, (Q : Subgroup P) = T.subgroupOf P :=
     ⟨hTP2.toSylow, IsSylowIn.coe_toSylow hTP2⟩
@@ -61,6 +61,7 @@ theorem le_sup_normalizer_inf {T P Y : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTP
   rw [hxe, sup_comm]
   exact Subgroup.mul_mem_sup hb hm'
 
+omit [Finite G] in
 theorem le_pCoreOf_of_normal {P S : Subgroup G} (hSP : S ≤ P) (hS2 : IsPGroup 2 S)
     (hSn : P ≤ Subgroup.normalizer (S : Set G)) : S ≤ pCoreOf 2 P := by
   have hn : (S.subgroupOf P).Normal :=

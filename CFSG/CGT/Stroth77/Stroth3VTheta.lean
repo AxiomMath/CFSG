@@ -12,7 +12,7 @@ variable {k : Fin 3 → ℕ}
 
 theorem val_add_mod_two {e : ℕ} (he : 1 ≤ e) (a b : ZMod (2 ^ e)) :
     (a + b).val % 2 = (a.val + b.val) % 2 := by
-  haveI : NeZero (2 ^ e) := ⟨by positivity⟩
+  have : NeZero (2 ^ e) := ⟨by positivity⟩
   rw [ZMod.val_add, Nat.mod_mod_of_dvd _ (dvd_pow_self 2 (by omega))]
 
 theorem nsmul_eq_mod_two {A : Type*} [AddCommGroup A] {w : A} (hw : w + w = 0) (m : ℕ) :
@@ -55,7 +55,7 @@ theorem nuMap_eq_self_iff {w : Torus k} (hw : w + w = 0) (hw' : w ≠ 0) (x : To
   rcases Nat.mod_two_eq_zero_or_one (x 0).val with h | h <;> rw [h] <;> simp [hw']
 
 theorem gen_zero_val (hk : 1 ≤ k 0) : ((gen k 0) 0).val = 1 := by
-  haveI : Fact (1 < 2 ^ k 0) := ⟨Nat.one_lt_two_pow (by omega)⟩
+  have : Fact (1 < 2 ^ k 0) := ⟨Nat.one_lt_two_pow (by omega)⟩
   simp [gen, ZMod.val_one]
 
 theorem nuMap_gen_zero (hk : 1 ≤ k 0) (w : Torus k) : nuMap w (gen k 0) = gen k 0 + w := by
@@ -88,7 +88,7 @@ theorem commutator_mul_of_commute {G : Type*} [Group G] {e f r r' : G} (hre : Co
 
 theorem val_mod_two_eq_zero_of_add_self {e : ℕ} (he : 2 ≤ e) {z : ZMod (2 ^ e)} (h : z + z = 0) :
     z.val % 2 = 0 := by
-  haveI : NeZero (2 ^ e) := ⟨by positivity⟩
+  have : NeZero (2 ^ e) := ⟨by positivity⟩
   have h1 := congrArg ZMod.val h
   rw [ZMod.val_add, ZMod.val_zero] at h1
   have h2 : 2 ^ e ∣ z.val + z.val := Nat.dvd_of_mod_eq_zero h1

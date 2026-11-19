@@ -270,15 +270,15 @@ theorem closure_lJ_eq_commutator (hsimp : IsSimpleGroup Ghat)
     rw [Subgroup.closure_le]
     rintro _ ⟨i, rfl⟩
     exact Subgroup.mem_centralizer_singleton_iff.mpr (lJ_comm_t i).eq
-  haveI : IsSimpleGroup ↥(Subgroup.closure (Set.range lJ)) := MulEquiv.isSimpleGroup e₀
+  have : IsSimpleGroup ↥(Subgroup.closure (Set.range lJ)) := MulEquiv.isSimpleGroup e₀
   have hnab : ¬ IsMulCommutative ↥(Subgroup.closure (Set.range lJ)) := by
     intro h
-    haveI := h
+    have := h
     have hp := (Group.is_simple_iff_prime_card
       (α := ↥(Subgroup.closure (Set.range lJ)))).mp inferInstance
     rw [Nat.card_congr e₀.toEquiv, hcard] at hp
     norm_num at hp
-  haveI : Group.IsPerfect ↥(Subgroup.closure (Set.range lJ)) := by
+  have : Group.IsPerfect ↥(Subgroup.closure (Set.range lJ)) := by
     rw [Group.isPerfect_def]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (commutator ↥(Subgroup.closure (Set.range lJ))) with h | h

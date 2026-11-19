@@ -14,8 +14,8 @@ namespace Prop1116Design
 
 theorem alt_iso_degree {m n : ℕ} (hm : 5 ≤ m) (hn : 5 ≤ n)
     (f : alternatingGroup (Fin m) ≃* alternatingGroup (Fin n)) : m = n := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have h1 : Nat.card (alternatingGroup (Fin m)) = Nat.card (alternatingGroup (Fin n)) :=
     Nat.card_congr f.toEquiv
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, card_alternatingGroup,

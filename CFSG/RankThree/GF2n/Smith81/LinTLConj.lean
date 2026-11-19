@@ -15,6 +15,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G]
   {M Q Z B : Subgroup G} {n : ℕ} {V₁ V₂ : Subgroup G}
 
+omit [Finite G] in
 private theorem LinSetup.facts_conj (hS : LinSetup M Q Z B n V₁ V₂) :
     Z ≤ V₁ ∧ V₁ ≤ Q ∧ Z ≤ V₂ ∧ V₂ ≤ Q ∧ V₁ ⊓ V₂ = Z ∧
       Lgen M (LB M Q B) ≤ Subgroup.normalizer (V₁ : Set G) ∧

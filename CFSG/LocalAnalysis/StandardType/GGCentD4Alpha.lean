@@ -287,7 +287,7 @@ theorem ntpD4_torus_conj
           hNmem (y : ModGL Tag.E6 L) y.2⟩
       map_one' := Subtype.ext (by simp)
       map_mul' := fun x y =>
-        Subtype.ext (by simp only [Subgroup.coe_mul, Subgroup.coe_one]; group) }
+        Subtype.ext (by simp only [Subgroup.coe_mul]; group) }
   have hmem : rootDiagUnit Tag.D4 b ∈ adjointGroup Tag.D4 L :=
     CFSG.LieType.AlgebraicGroups.torusGroup_le_adjointGroup
       (rootDiagUnit_mem_torusGroup b)

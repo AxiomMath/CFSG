@@ -23,7 +23,7 @@ theorem eq_one_of_scalar_suFourTwo {K : Type} [Field K] [Finite K] (hK : Nat.car
     rw [hg, Matrix.det_diagonal, Finset.prod_const, Finset.card_univ, Fintype.card_fin] at hdet
     simpa using hdet
   have h3 : c ^ 3 = 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card, hK]
     have hc0 : c ≠ 0 := by
       intro h0

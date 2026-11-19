@@ -130,7 +130,7 @@ theorem exists_K6Data [Finite G] {b₀ : G} {K E : Subgroup G} {B : Basis3 G 7}
     have hcoe : ((wmu0Om * wphi0Om * (⟨m, hmO⟩ : ↥Om12) *
         conjModel e w₁ ⟨trElt e wc0Om, h0L⟩ : ↥Om12) : V12 ≃ₗ[ZMod 2] V12) =
         wmu0 * wphi0 * m * (conjModel e w₁ ⟨trElt e wc0Om, h0L⟩ : V12 ≃ₗ[ZMod 2] V12) := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul]
     have hx := trElt_conj_mem (conjModel e w₁)
       (x := wmu0Om * wphi0Om * (⟨m, hmO⟩ : ↥Om12) * conjModel e w₁ ⟨trElt e wc0Om, h0L⟩)
       (by rw [hcoe]; exact hnorm)

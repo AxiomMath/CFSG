@@ -29,6 +29,7 @@ theorem exists_su_smul_of_pts (hσ : IsUnitaryInvolution σ) {W₁ W₂ : Submod
     refine ⟨w₀, hw₀, ?_⟩
     rw [← mul_smul, inv_mul_cancel_right]
 
+omit [Finite G] in
 theorem uniform_of_core_U (hσ : IsUnitaryInvolution σ) (e₀ : K ≃+* Fσ σ) (hq : 4 ≤ Nat.card K)
     (hF : Nat.card F = Nat.card K ^ 2) (hV : finrank K M₀.E = 20)
     (T : Lgen M (LB M Q B) →* (M₀.E ≃ₗ[K] M₀.E))

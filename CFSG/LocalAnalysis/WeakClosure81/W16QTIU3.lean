@@ -17,12 +17,14 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w16q_iota_one {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {B : Subgroup X} {E : Subgroup G} (D : ModDataB φ B E) : D.ι 1 = 0 := by
   have h : D.ι 1 = D.ι 1 + D.ι 1 := by
     simpa using D.ι_mul 1 E.one_mem 1 E.one_mem
   exact add_left_cancel (show D.ι 1 + D.ι 1 = D.ι 1 + 0 by rw [add_zero]; exact h.symm)
 
+omit [Finite G] in
 private theorem w16q_iota_inv {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {B : Subgroup X} {E : Subgroup G} (D : ModDataB φ B E) {e : G} (he : e ∈ E) :
     D.ι e⁻¹ = -D.ι e := by
@@ -30,6 +32,7 @@ private theorem w16q_iota_inv {K : Subgroup G} {X : Type} [Group X] {φ : ↥K �
   rw [mul_inv_cancel, w16q_iota_one D] at h
   exact eq_neg_of_add_eq_zero_left (by rw [add_comm]; exact h.symm)
 
+omit [Finite G] in
 private theorem w16q_iota_injOn {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     {B : Subgroup X} {E : Subgroup G} (D : ModDataB φ B E) :
     Set.InjOn D.ι (E : Set G) := by
@@ -40,11 +43,13 @@ private theorem w16q_iota_injOn {K : Subgroup G} {X : Type} [Group X] {φ : ↥K
   have h1 : e * e'⁻¹ = 1 := D.ι_eq_zero (e * e'⁻¹) hmem h0
   rwa [mul_inv_eq_one] at h1
 
+omit [Finite G] in
 private theorem w16q_card_conjSubgroup {A : Subgroup G} (g : G) :
     Nat.card (conjSubgroup A g) = Nat.card A := by
   rw [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 private theorem w16q_eq_of_subgroupOf_eq {A C B : Subgroup G} (hA : A ≤ B) (hC : C ≤ B)
     (h : A.subgroupOf B = C.subgroupOf B) : A = C := by
   have hinf : A ⊓ B = C ⊓ B := Subgroup.subgroupOf_inj.mp h
@@ -99,7 +104,7 @@ theorem exists_mSub_eq_mul (d : DichCfg M V₀ V U S H φ) [Finite X] (hK : KGro
     rw [CFSG.Quasithin.conjSubgroup,
       Subgroup.card_map_of_injective (MulAut.conj (φ yk)⁻¹).injective, hYc]
   have hRcard : Nat.card (R : Subgroup ↥B) = 2 ^ n := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hP0card : Nat.card (P₀ : Subgroup ↥B) = 2 ^ n := by
       rw [hP₀]
       exact hP.card_eq
@@ -183,7 +188,7 @@ private theorem w16q_exists_conj_mul_of_ne (d : DichCfg M V₀ V U S H φ) [Fini
     rw [CFSG.Quasithin.conjSubgroup,
       Subgroup.card_map_of_injective (MulAut.conj (φ y)⁻¹).injective, hYc]
   have hRcard : Nat.card (R : Subgroup ↥B) = 2 ^ n := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hP0card : Nat.card (P₀ : Subgroup ↥B) = 2 ^ n := by
       rw [hP₀]
       exact hP.card_eq

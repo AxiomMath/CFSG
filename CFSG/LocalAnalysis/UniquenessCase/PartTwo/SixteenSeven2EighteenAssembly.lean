@@ -12,12 +12,14 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c167_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y hxy
   exact IntMod.val_injective
     (mul_inv_eq_one.1 (Subgroup.mem_bot.1 ((mkTil_eq_iff ⊥ V hV x y).1 hxy)))
 
+omit [Finite G] in
 private theorem s16c167_imgTil_inj {V U U' : Subgroup G} (hV : IsElemAbelian 2 V)
     (hU : U ≤ V) (hU' : U' ≤ V) (h : imgTil ⊥ V hV U = imgTil ⊥ V hV U') : U = U' := by
   have hmkTil_inj : Function.Injective (mkTil (⊥ : Subgroup G) V hV) :=
@@ -33,8 +35,9 @@ private theorem s16c167_imgTil_inj {V U U' : Subgroup G} (hV : IsElemAbelian 2 V
     simpa only [intSub] using congrArg (Subgroup.map V.subtype) h1
   rwa [Subgroup.map_subgroupOf_eq_of_le hU, Subgroup.map_subgroupOf_eq_of_le hU'] at h2
 
+omit [Finite G] in
 private theorem s16c167_imgTil_le_iff {V U U' : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hU : U ≤ V) (hU' : U' ≤ V) :
+    (hU : U ≤ V) (_hU' : U' ≤ V) :
     imgTil ⊥ V hV U ≤ imgTil ⊥ V hV U' ↔ U ≤ U' := by
   constructor
   · intro h
@@ -46,17 +49,20 @@ private theorem s16c167_imgTil_le_iff {V U U' : Subgroup G} (hV : IsElemAbelian 
     rw [← hUU', s16c167_imgTil_inf_bot hV]
     exact inf_le_right
 
+omit [Finite G] in
 private theorem s16c167_conjSubgroup_inj {A B : Subgroup G} {g : G}
     (h : conjSubgroup A g = conjSubgroup B g) : A = B := by
   have hc := congrArg (fun C : Subgroup G => conjSubgroup C g⁻¹) h
   rwa [E3.conjSubgroup_conj_inv, E3.conjSubgroup_conj_inv] at hc
 
+omit [Finite G] in
 private theorem s16c167_conj_conj {g u m : G} (hm : m = g * u * g⁻¹) (I : Subgroup G) :
     conjSubgroup (conjSubgroup I g) u = conjSubgroup (conjSubgroup I m) g := by
   rw [conjSubgroup_conjSubgroup, conjSubgroup_conjSubgroup, hm]
   congr 1
   group
 
+omit [Finite G] in
 private theorem s16c167_conjSubgroup_centralizer_singleton {g u m : G}
     (hm : m = g * u * g⁻¹) :
     conjSubgroup (Subgroup.centralizer ({m} : Set G)) g =
@@ -77,6 +83,7 @@ private theorem s16c167_conjSubgroup_centralizer_singleton {g u m : G}
       _ = g * (u * x) * g⁻¹ := by rw [h]
       _ = (g * u * g⁻¹) * (g * x * g⁻¹) := by group
 
+omit [Finite G] in
 private theorem s16c167_imgTil_bot_bot {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     imgTil (⊥ : Subgroup G) V hV (⊥ : Subgroup G) = ⊥ := by
   rw [eq_bot_iff]
@@ -87,6 +94,7 @@ private theorem s16c167_imgTil_bot_bot {V : Subgroup G} (hV : IsElemAbelian 2 V)
   rw [h1, map_one]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem s16c167_disj_of_perm {g u : G} {Δ : Set (Subgroup G)} (hn : Δ.ncard = 2)
     (hind : sSupIndep Δ)
     (hperm : ∀ J ∈ deltaConj Δ g, conjSubgroup J u ∈ deltaConj Δ g) :

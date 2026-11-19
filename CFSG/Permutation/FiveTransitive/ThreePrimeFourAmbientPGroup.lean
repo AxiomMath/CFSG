@@ -11,7 +11,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -168,8 +168,8 @@ theorem exists_generator
     rw [he,mem_bot] at hh
     rw [hh,orderOf_one] at hu
     exact hp.ne_one hu.symm
-  have hScard := card_eq_prime hp17 P hn hfree (S : Subgroup P) S.isPGroup' hSne
-  have hSfix := fixed_card hp17 P hn hfree (S : Subgroup P) S.isPGroup' hSne
+  have hScard := card_eq_prime hp17 P hn hfree (S : Subgroup P) S.isPGroup hSne
+  have hSfix := fixed_card hp17 P hn hfree (S : Subgroup P) S.isPGroup hSne
   have heq : zpowers u = (S : Subgroup P) := Subgroup.eq_of_le_of_card_ge hRS
     (by rw [Nat.card_zpowers,hu,hScard])
   have hufix : Nat.card (Function.fixedPoints u.val) = 4 := by

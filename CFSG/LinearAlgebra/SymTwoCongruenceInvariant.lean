@@ -73,7 +73,7 @@ private lemma mem_smul_E22 {K : Type*} [Field K] [Finite K] [CharP K 2]
     simp only [Matrix.mul_fin_two]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [CharTwo.add_self_eq_zero, add_assoc] <;> ring_nf
+      simp [CharTwo.add_self_eq_zero] <;> ring_nf
     all_goals
       first
       | rw [← hentry]; ring

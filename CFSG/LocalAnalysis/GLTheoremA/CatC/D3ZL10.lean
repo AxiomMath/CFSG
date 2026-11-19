@@ -18,10 +18,10 @@ local notation "Inn" => CFSG.ComponentClassification.OuterAutomorphisms.inner
 theorem d3InnerLevi_holds : D3InnerLevi := by
   intro K _ _ n hK t ht3 htE z hz2 hz1 hzI hzt V hV1 hVp hVt hVz hVc hVtop hVS
   classical
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   have hn : 1 ≤ n := one_le_of_card_field hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (D4Model K) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (D4Model K) := inferInstance
   have hcen : Subgroup.center (D4Model K) = ⊥ :=
     (d4Facts2 Nat.prime_three (by norm_num) hn hK).2.2
   obtain ⟨y₀, rfl⟩ := hzI

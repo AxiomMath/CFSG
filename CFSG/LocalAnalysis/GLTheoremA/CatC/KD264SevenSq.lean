@@ -47,7 +47,7 @@ theorem subsingleton_of_perfect_comm {H : Type*} [Group H] (hperf : commutator H
 theorem perfect_dvd_168 {H : Type} [Group H] [Finite H] (hperf : commutator H = ⊤)
     (hnt : Nontrivial H) (hd : Nat.card H ∣ 168) : IsSimpleGroup H ∧ Nat.card H = 168 := by
   obtain ⟨N, hNn, hNt, hmax⟩ := CFSG.RankThree.PartTwo.Sec14.Ronan148K.exists_maximal_normal_ne_top H hnt
-  haveI := hNn
+  have := hNn
   have hntQ : Nontrivial (H ⧸ N) := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
@@ -56,7 +56,7 @@ theorem perfect_dvd_168 {H : Type} [Group H] [Finite H] (hperf : commutator H = 
     intro x _
     rw [← QuotientGroup.eq_one_iff]
     exact Subsingleton.elim _ _
-  haveI hs : IsSimpleGroup (H ⧸ N) := isSimpleGroup_quotient_of_max hntQ hmax
+  have hs : IsSimpleGroup (H ⧸ N) := isSimpleGroup_quotient_of_max hntQ hmax
   have hperfQ : commutator (H ⧸ N) = ⊤ := by
     rw [commutator_def, ← Subgroup.map_top_of_surjective (QuotientGroup.mk' N)
       (QuotientGroup.mk'_surjective N), ← Subgroup.map_commutator, ← commutator_def, hperf]
@@ -117,7 +117,7 @@ theorem exists_component_of_perfect_1176 {G : Type} [Group G] [Finite G] {z : G}
   set C := Subgroup.centralizer ({z} : Set G) with hCdef
   have hp7 : Nat.Prime 7 := by norm_num
   have hperfL : commutator ↥L = ⊤ := commutator_eq_top_of_le hperf
-  haveI hntL : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hne
+  have hntL : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hne
   have hzc : ∀ l ∈ L, z * l = l * z := fun l hl =>
     (Subgroup.mem_centralizer_singleton_iff.1 (hLC hl)).symm
   have hLdvd : Nat.card L ∣ 1176 := hC ▸ Subgroup.card_dvd_of_le hLC
@@ -130,7 +130,7 @@ theorem exists_component_of_perfect_1176 {G : Type} [Group G] [Finite G] {z : G}
       rw [hZl, Subgroup.zpowers_le, Subgroup.mem_center_iff]
       intro g
       exact Subtype.ext (hzc g g.2).symm
-    haveI hZln : Zl.Normal := KD264Gen.zpowers_normal_of_mem_center (Subgroup.zpowers_le.1 hZlc)
+    have hZln : Zl.Normal := KD264Gen.zpowers_normal_of_mem_center (Subgroup.zpowers_le.1 hZlc)
     have hZcard : Nat.card Zl = 7 := by
       rw [hZl, Nat.card_zpowers, Subgroup.orderOf_mk, hz]
     have hLQ := Subgroup.card_eq_card_quotient_mul_card_subgroup Zl
@@ -159,7 +159,7 @@ theorem exists_component_of_perfect_1176 {G : Type} [Group G] [Finite G] {z : G}
     have hcen : Subgroup.center ↥L = Zl := by
       have hn : ((Subgroup.center ↥L).map (QuotientGroup.mk' Zl)).Normal :=
         (Subgroup.center ↥L).normal_of_characteristic.map _ (QuotientGroup.mk'_surjective Zl)
-      haveI := hn
+      have := hn
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((Subgroup.center ↥L).map (QuotientGroup.mk' Zl)) with h | h
       · refine le_antisymm (fun c hc => ?_) hZlc
@@ -253,7 +253,7 @@ theorem kd264RowData_of_sq {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.Pri
     (hfac : (Nat.card T).factorization p = 2) {z : T} (hz : orderOf z = p) {J : Subgroup T}
     (hJ : GLAPComponent p (Subgroup.centralizer ({z} : Set T)) J) : KD264RowData p T := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro A hA _ k hk1 hk2 hpk
   obtain ⟨n, hn⟩ := (isPGroup_of_isElemAbelian hA).exists_card_eq
   have hdvd : p ^ n ∣ Nat.card T := hn ▸ Subgroup.card_subgroup_dvd_card A

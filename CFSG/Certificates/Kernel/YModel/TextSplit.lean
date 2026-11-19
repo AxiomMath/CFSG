@@ -178,7 +178,7 @@ elab "#ym_text_parts " pre:ident sId:ident path:str size:num hash:num wN:num sgn
   let s := String.fromUTF8! b
   let w := wN.getNat
   let (F, E) := packLines s w (if sgnN.getNat == 0 then 1000000000 else sgnN.getNat)
-  let sgn := if sgnN.getNat == 0 then F.size else sgnN.getNat
+  let _sgn := if sgnN.getNat == 0 then F.size else sgnN.getNat
   let strE := mkConst ``String
   let chunksOf (x n : Nat) : Array Nat := Id.run do
     let mut out : Array Nat := #[]

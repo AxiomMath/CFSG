@@ -24,7 +24,7 @@ private theorem le_of_not_dvd_index [Fact (Nat.Prime 3)] {K : Subgroup X} [K.Nor
     (P : Sylow 3 X) (h : ¬ 3 ∣ K.index) : (P : Subgroup X) ≤ K := by
   rw [Subgroup.index_eq_card] at h
   exact CFSG.RankThree.PartOne.CTP.le_of_isPGroup_of_not_dvd_card_quotient
-    P.isPGroup' h
+    P.isPGroup h
 
 private theorem eq_one_of_le_of_elemAbelian [Fact (Nat.Prime 3)] {K : Subgroup X} [K.Normal]
     [IsSimpleGroup ↥K] (hKnab : ∃ a b : ↥K, a * b ≠ b * a) (P : Sylow 3 X)
@@ -36,6 +36,7 @@ private theorem eq_one_of_le_of_elemAbelian [Fact (Nat.Prime 3)] {K : Subgroup X
   exact congrArg Subtype.val (hEA.1.is_comm.comm
     ⟨a, ⟨ha, hPK ha⟩⟩ ⟨b, ⟨hb, hPK hb⟩⟩)
 
+omit [Finite X] in
 private theorem not_dvd_index_of_eq_two_pow {K : Subgroup X} {k : ℕ}
     (h : K.index = 2 ^ k) : ¬ 3 ∣ K.index := by
   rw [h]
@@ -52,7 +53,7 @@ theorem eq_one_of_three_of_gls3
     (hxP : x ∈ (P : Subgroup X))
     (hx : ∀ n ∈ normalizer ((P : Subgroup X) : Set X), x * n = n * x) : x = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P₀, hP₀syl, hP₀N⟩ := hN.exists_isSylowOf_le
   have hP₀index : ¬ 3 ∣ P₀.index := by
     have := hP₀syl.2.2
@@ -65,8 +66,8 @@ theorem eq_one_of_three_of_gls3
     let K : Subgroup X := CFSG.generalizedFitting X
     obtain ⟨hKs, hKnab, hKn, hKC⟩ :=
       CFSG.RankThree.PartOne.Sec1511.spe_fstar (p := 3) (by norm_num) hO hN
-    haveI : K.Normal := hKn
-    haveI : IsSimpleGroup ↥K := hKs
+    have : K.Normal := hKn
+    have : IsSimpleGroup ↥K := hKs
     have hrk : 2 ≤ CFSG.Open.pRank 3 (P₀ : Subgroup X) := by
       rw [(CFSG.SectionRank.pRank_sylow P₀).1]
       exact h2

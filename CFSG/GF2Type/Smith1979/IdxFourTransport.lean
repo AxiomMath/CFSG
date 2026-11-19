@@ -245,7 +245,7 @@ theorem exists_idxFourFacts_of_base (hw : S.width = 6) {g : G} (H : Hyp4 S g)
     (hθ3 : θ ^ 3 = 1) (hfpf : ∀ v, (θ : S.Qt ≃ₗ[ZMod 2] S.Qt) v = v → v = 0) :
     ∃ (K : Subgroup S.O) (xb : S.O), IdxFourFacts S g K θ xb := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hτ := tau_injective (S := S) ψ
   have hLstab : S.Lbar g ≤ stab S (aT S g) := fun l hl =>
     (Case25.mem_NLbar_iff H).mp (Case25.Lbar_le_NLbar hl)

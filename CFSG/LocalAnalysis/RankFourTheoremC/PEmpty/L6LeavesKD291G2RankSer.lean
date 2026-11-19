@@ -360,13 +360,13 @@ theorem eq_zero_of_Xv_mem {a : F} (h : Xv a ∈ heightSeries .G2 F 4) : a = 0 :=
   obtain ⟨z, hz⟩ := dec5 hm
   rw [hz] at hym
   have := inj4 (p₁ := 0) (p₂ := a) (p₃ := 0) (p₄ := 0) (q₁ := 0) (q₂ := 0) (q₃ := y) (q₄ := z)
-    (by simp only [Xu_zero, Xv_zero, Xb_zero, Xc_zero, one_mul, mul_one, mul_assoc]; exact hym)
+    (by simp only [Xu_zero, Xv_zero, Xb_zero, Xc_zero, one_mul, mul_one]; exact hym)
   exact this.2.1
 
 theorem eq_zero_of_Xb_mem {a : F} (h : Xb a ∈ heightSeries .G2 F 5) : a = 0 := by
   obtain ⟨z, hz⟩ := dec5 h
   have := inj4 (p₁ := 0) (p₂ := 0) (p₃ := a) (p₄ := 0) (q₁ := 0) (q₂ := 0) (q₃ := 0) (q₄ := z)
-    (by simp only [Xu_zero, Xv_zero, Xb_zero, Xc_zero, one_mul, mul_one, mul_assoc]; exact hz)
+    (by simp only [Xu_zero, Xv_zero, Xb_zero, Xc_zero, one_mul, mul_one]; exact hz)
   exact this.2.2.1
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291DC.G2Rank

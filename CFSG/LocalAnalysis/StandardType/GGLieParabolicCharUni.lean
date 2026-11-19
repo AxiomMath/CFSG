@@ -52,8 +52,8 @@ theorem isCharacteristicP_uniProjStabilizer (h : UnitaryFieldData p f K)
 
 theorem ggNormalizerOvergroupsChar_hypPSU (h : UnitaryFieldData p f K)
     (hr : 1 ≤ r) (hε : ε ≤ 1) : GGNormalizerOvergroupsChar p (hypPSU h r ε) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
+  have := h.finite
   refine GGNormalizerOvergroupsChar.of_coatoms fun S M hS hSi hNM hM => ?_
   have hmem : M ∈ maximalParabolics h r ε :=
     ⟨hM, normalizer (S : Set (hypPSU h r ε)),

@@ -41,7 +41,7 @@ theorem rho2_pow {g : hypSU h 2 0} (hg : g ∈ parP2 h) (n : ℕ) :
 
 theorem sq_mem_radQ_of_pow_two_pow_eq_one {g : hypSU h 2 0} (hg : g ∈ parP h) {k : ℕ}
     (hk : g ^ 2 ^ k = 1) : g ^ 2 ∈ radQ h := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hchi : chi h g = 1 := by
     have h := chi_pow h hg (2 ^ k)
     rw [hk, chi_one] at h
@@ -56,7 +56,7 @@ theorem sq_mem_radQ_of_pow_two_pow_eq_one {g : hypSU h 2 0} (hg : g ∈ parP h) 
 
 theorem sq_mem_radQ2_of_pow_two_pow_eq_one {g : hypSU h 2 0} (hg : g ∈ parP2 h) {k : ℕ}
     (hk : g ^ 2 ^ k = 1) : g ^ 2 ∈ radQ2 h := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hrho : (rho2 h g) ^ 2 = 1 := by
     have h := rho2_pow h hg (2 ^ k)
     rw [hk, rho2_one] at h
@@ -70,8 +70,8 @@ theorem exists_sq_mem_of_lieModel {X : Type} [Group X] [Finite X] {f : ℕ}
     ∃ Q : Subgroup X, IsPGroup 2 Q ∧ P ≤ Subgroup.normalizer (Q : Set X) ∧
       ∀ y ∈ P, (∃ k : ℕ, y ^ 2 ^ k = 1) → y ^ 2 ∈ Q := by
   obtain ⟨K, instK, h, ⟨e⟩⟩ := exists_hypSU_equiv_of_lieModel hX
-  letI : Field K := instK
-  haveI : Finite (hypSU h 2 0) := finite_hypSU h
+  let : Field K := instK
+  have : Finite (hypSU h 2 0) := finite_hypSU h
   let ψ : hypSU h 2 0 →* X := e.toMonoidHom
   have hψ : Function.Injective ψ := e.injective
   have hψrange : ψ.range = ⊤ := MonoidHom.range_eq_top.mpr e.surjective

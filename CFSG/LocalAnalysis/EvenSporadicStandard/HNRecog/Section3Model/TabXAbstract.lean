@@ -138,7 +138,7 @@ theorem tableX_row0 [Finite G] {X R D : Subgroup G} (hR : ∀ x ∈ X, ∀ r ∈
     rw [← hB, Subgroup.card_map_of_injective hinj, h2]
   have h3' : Nat.card ↥(X ⊓ Gx (k * c₀ * k⁻¹) ⊓ D) = 2 ^ 6 * 3 := by
     rw [← hC, Subgroup.card_map_of_injective hinj, h3]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hR k hk c₀ hmem, h1', h2', h3', ?_⟩
   refine quotShape_prime (stab_le _) (fun m hm n hn => stab_norm hR hD _ hm hn) ?_
   rw [h3', h2']

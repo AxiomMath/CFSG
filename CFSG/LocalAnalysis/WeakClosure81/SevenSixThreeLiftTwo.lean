@@ -86,7 +86,7 @@ theorem PInvol.eq_bot_of_relIndex [Finite G] {p : ℕ} {Q : Subgroup G} {u : G}
       rw [mul_one, ← hcardQ]
       exact hQle
     have hNpos : 0 < Nat.card ↥N := by
-      haveI : Nonempty ↥N := ⟨(1 : ↥N)⟩
+      have : Nonempty ↥N := ⟨(1 : ↥N)⟩
       exact Nat.card_pos
     exact Subgroup.card_eq_one.mp (le_antisymm hNcardle (Nat.succ_le_of_lt hNpos))
 

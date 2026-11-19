@@ -94,9 +94,9 @@ theorem powsT_get {ty : Table} {e : Nat} (he : e < 6) : (powsT ty)[e]! = powT 14
   | 5, _ => simp [powsT]
 
 theorem cn_fold {Y J : Nat} (hY : Cn Y) (hJ : Cn J) :
-    ∀ (p : List Nat) (acc : Nat), Cn acc → Cn (p.foldl (fun a e => pc a (pc (ppK Y e) J)) acc)
+    ∀ (p : List Nat) (_acc : Nat), Cn _acc → Cn (p.foldl (fun a e => pc a (pc (ppK Y e) J)) _acc)
   | [], _, h => h
-  | e :: p, acc, h => cn_fold hY hJ p _ (canonK_pcomp h (canonK_pcomp (cn_ppK hY e) hJ))
+  | e :: p, _acc, h => cn_fold hY hJ p _ (canonK_pcomp h (canonK_pcomp (cn_ppK hY e) hJ))
 
 theorem cn_probeK {Y J : Nat} (hY : Cn Y) (hJ : Cn J) (p : List Nat) : Cn (probeK Y J p) :=
   cn_fold hY hJ p idK cId
@@ -197,21 +197,21 @@ theorem sel_eq {A B AI BI : Nat} (hA : Cn A) (hB : Cn B) (hAI : Cn AI) (hBI : Cn
   obtain ⟨a, b⟩ := l
   unfold selK
   by_cases h0 : (a, b).1 = 0
-  · rw [if_pos h0, if_pos h0]
+  · rw [ite_eq_left h0, ite_eq_left h0]
     cases b
-    · rw [if_neg Bool.false_ne_true, if_neg Bool.false_ne_true]
+    · rw [ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true]
       exact ⟨rfl, hAI⟩
-    · rw [if_pos rfl, if_pos rfl]
+    · rw [ite_eq_left rfl, ite_eq_left rfl]
       exact ⟨rfl, hA⟩
-  · rw [if_neg h0, if_neg h0]
+  · rw [ite_eq_right h0, ite_eq_right h0]
     by_cases h1 : (a, b).1 = 1
-    · rw [if_pos h1, if_pos h1]
+    · rw [ite_eq_left h1, ite_eq_left h1]
       cases b
-      · rw [if_neg Bool.false_ne_true, if_neg Bool.false_ne_true]
+      · rw [ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true]
         exact ⟨rfl, hBI⟩
-      · rw [if_pos rfl, if_pos rfl]
+      · rw [ite_eq_left rfl, ite_eq_left rfl]
         exact ⟨rfl, hB⟩
-    · rw [if_neg h1, if_neg h1]
+    · rw [ite_eq_right h1, ite_eq_right h1]
       exact ⟨rfl, cId⟩
 
 theorem relFold {A B AI BI : Nat} (hA : Cn A) (hB : Cn B) (hAI : Cn AI) (hBI : Cn BI) :

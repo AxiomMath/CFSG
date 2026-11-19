@@ -181,7 +181,7 @@ theorem exists_sylow_eq_RG_sup (hS : Setting h L η t Q T)
       rw [htop]
       exact mem_top _
     exact hx'
-  have := S'.isPGroup'.isNilpotent
+  have := S'.isPGroup.isNilpotent
   obtain ⟨g, hgN, hgS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hgN' : ∀ s ∈ 𝓡 ⊔ T, (g : G)⁻¹ * s * g ∈ 𝓡 ⊔ T := by
@@ -204,7 +204,7 @@ theorem exists_sylow_eq_RG_sup (hS : Setting h L η t Q T)
       _ = t * (g * m⁻¹) := by group
   have hCS : centralizer ({t} : Set G) ⊓ S' = T :=
     hS.T_sylow.eq_of_le (le_inf hS.T_le (le_sup_right.trans hSS')) inf_le_left
-      (S'.isPGroup'.to_le inf_le_right)
+      (S'.isPGroup.to_le inf_le_right)
   have hcT : (g : G) * m⁻¹ ∈ T := by
     have hmS : m ∈ (S' : Subgroup G) := hSS' (mem_sup_left hm)
     rw [← hCS]

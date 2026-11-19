@@ -13,10 +13,12 @@ open CFSG.Quasithin.H13.LocDbl (enum_spec)
 
 variable {Γ : Type} [Group Γ] [MulAction Γ (Fin 100)] [FaithfulSMul Γ (Fin 100)]
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem T_getElem (g : Γ) {i : ℕ} (hi : i < (T g).size) : (T g)[i] = act 100 g i := by
   have h := img_T g i
   simpa [img, Array.getD_eq_getD_getElem?, hi] using h
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem rows_eq_T (g : Γ) : (List.range 100).map (act 100 g) = (T g).toList := by
   apply List.ext_getElem
   · simp [T_size]
@@ -25,6 +27,7 @@ theorem rows_eq_T (g : Γ) : (List.range 100).map (act 100 g) = (T g).toList := 
     simp only [List.getElem_map, List.getElem_range, Array.getElem_toList]
     exact (T_getElem g (by rw [T_size]; exact hi)).symm
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem enumTabs_getD {G : Array (Array ℕ)} {L : List Γ}
     (hG : ∀ t < G.size, ∀ p < 100, img (G.getD t #[]) p = act 100 (L.getD t 1) p)
     {par lab : Array ℕ} {N : ℕ} (hok : enumOK N G par lab = true) {k : ℕ} (hk : k < N) :
@@ -38,10 +41,11 @@ theorem enumTabs_getD {G : Array (Array ℕ)} {L : List Γ}
   · simp
   · intro q hq
     simp only [img, Array.getD_eq_getD_getElem?, Array.getElem?_map, Array.getElem?_range, hq,
-      if_true, Option.map_some, Option.getD_some]
+      ite_true, Option.map_some, Option.getD_some]
     have := (ptsArr_spec G L par lab N q hq hG hok).2 k hk
     simpa only [Array.getD_eq_getD_getElem?] using this
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem mem_enumTabs {G : Array (Array ℕ)} {L : List Γ}
     (hG : ∀ t < G.size, ∀ p < 100, img (G.getD t #[]) p = act 100 (L.getD t 1) p)
     {par lab : Array ℕ} {N : ℕ} (hok : enumOK N G par lab = true) (g : Γ) :

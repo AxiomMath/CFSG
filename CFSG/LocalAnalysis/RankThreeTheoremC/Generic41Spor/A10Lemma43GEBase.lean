@@ -125,7 +125,7 @@ theorem a10_E_base (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) 
     {Λ₁ Λ₂ : Subgroup Q} (hΛ : A10GammaStructAt Q (S : Subgroup Q) Λ₁ Λ₂) :
     A10EBase (M ⊓ Subgroup.centralizer ({x} : Set G)) (rankThreePrimeCore 5 J)
       (a10E J ψ Λ₁) (a10E J ψ Λ₂) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hOJ : rankThreePrimeCore 5 J ≤ J := CFSG.AGLEmbedding.glbPrimeCore_le 5 J
   have hOM : rankThreePrimeCore 5 J ≤ M :=
     (u3main_core_facts hS hD1 hc.sigma hc.core hc.generic hc.le_cent hc.cent_le).1

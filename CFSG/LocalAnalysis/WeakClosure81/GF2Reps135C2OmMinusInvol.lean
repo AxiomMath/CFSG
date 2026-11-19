@@ -180,8 +180,8 @@ private theorem ommInvol_single_swap {ι : Type*} [DecidableEq ι] {σ : ι → 
     (Pi.single (σ b) (1 : K) : ι → K) a = (Pi.single b (1 : K) : ι → K) (σ a) := by
   simp only [Pi.single_apply]
   by_cases h : a = σ b
-  · rw [if_pos h, if_pos (show σ a = b by rw [h, hσ])]
-  · rw [if_neg h, if_neg (show ¬σ a = b by intro h2; exact h (by rw [← h2, hσ]))]
+  · rw [ite_eq_left h, ite_eq_left (show σ a = b by rw [h, hσ])]
+  · rw [ite_eq_right h, ite_eq_right (show ¬σ a = b by intro h2; exact h (by rw [← h2, hσ]))]
 
 omit [Finite K] [CharP K 2] in
 private theorem ommInvol_single_inr_inr (t : Fin 2) :

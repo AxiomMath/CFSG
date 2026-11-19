@@ -369,11 +369,11 @@ private theorem bitStep_arith (j b : Nat) (hb : b ≤ 9) :
         rw [Nat.le_div_iff_mul_le htpos]
         simpa using hr'
       omega
-    rw [if_pos (hQj.mpr hr'), hrt, hP, hA2]
+    rw [ite_eq_left (hQj.mpr hr'), hrt, hP, hA2]
     ring
   · have hrt : j % 2 ^ (10 - b) / 2 ^ (9 - b) = 0 := by
       exact Nat.div_eq_of_lt (by omega)
-    rw [if_neg (fun h => hr' (hQj.mp h)), hrt, hP, hA2]
+    rw [ite_eq_right (fun h => hr' (hQj.mp h)), hrt, hP, hA2]
     ring
 
 private theorem bitStep_two_pow (j : Nat) {b pos : Nat} (hb : b ≤ 9)
@@ -393,7 +393,7 @@ private theorem bitStep_two_pow (j : Nat) {b pos : Nat} (hb : b ≤ 9)
     rw [hb0]
     change j - j % 2 ^ (10 - b) + 2 ^ (9 - b) = j - j % 2 ^ (9 - b)
     have h := bitStep_arith j b hb
-    rw [if_pos hq] at h
+    rw [ite_eq_left hq] at h
     exact h
   · have hz : (2 ^ j >>> (j - j % 2 ^ (10 - b) + 2 ^ (9 - b))) = 0 := by
       by_contra h
@@ -404,7 +404,7 @@ private theorem bitStep_two_pow (j : Nat) {b pos : Nat} (hb : b ≤ 9)
     rw [hb1]
     change j - j % 2 ^ (10 - b) = j - j % 2 ^ (9 - b)
     have h := bitStep_arith j b hb
-    rw [if_neg hq] at h
+    rw [ite_eq_right hq] at h
     exact h
 
 private theorem bitPosK_aux (j : Nat) (hj : j < 1024) :

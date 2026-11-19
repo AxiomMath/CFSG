@@ -35,7 +35,7 @@ theorem orbRoots_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
   have hO := forIn_range_yield (ORInv n L R m) (oStep n gens) n
     (Array.replicate n n, #[])
     (fun s b hs hI => ?_) ⟨⟨by simp, by simp, fun c _ => by simp, fun x hx => by
-      rw [if_neg (Nat.not_lt_zero _), getElem!_pos _ x (by simpa using hx)]
+      rw [ite_eq_right (Nat.not_lt_zero _), getElem!_pos _ x (by simpa using hx)]
       simp⟩, fun c hc => absurd hc (by simp)⟩
   · obtain ⟨⟨-, hrm, hroots, -⟩, hget⟩ := hO
     generalize (forIn (m := Id) [:n] (Array.replicate n n, (#[] : Array ℕ)) (oStep n gens)) = r
@@ -55,7 +55,7 @@ theorem orbRoots_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
       rw [beq_iff_eq, hlab s hs] at hb'
       have hRs : R (L s) = s := by
         by_cases h : R (L s) < s
-        · rw [if_pos h] at hb'
+        · rw [ite_eq_left h] at hb'
           exact absurd hb' hLsn
         · exact le_antisymm (hRmin s hs) (not_lt.1 h)
       have hc : b.2.size = L s := by
@@ -70,7 +70,7 @@ theorem orbRoots_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
       have hB := bfs_spec (c := L s) (s := s) (lab := b.1) (P := P) (K := K) (D := D) (L := L)
         hLsn hs rfl hsz hcl
         (fun x hx hxs hLx => htree x hx (by rw [hLx, hRs]; exact hxs))
-        (fun z hz hLz => by rw [hlab z hz, hLz, hRs, if_neg (lt_irrefl _)])
+        (fun z hz hLz => by rw [hlab z hz, hLz, hRs, ite_eq_right (lt_irrefl _)])
       rw [← hc] at hB
       obtain ⟨hsz', hlab'⟩ := hB
       refine ⟨⟨hsz', by rw [Array.size_push]; omega, fun c hcm => ?_, fun x hx => ?_⟩,
@@ -89,12 +89,12 @@ theorem orbRoots_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
             exact Nat.lt_succ_self s
       · rw [hlab' x hx, hlab x hx, hc]
         by_cases hLx : L x = L s
-        · rw [if_pos hLx, if_pos (by rw [hLx, hRs]; exact Nat.lt_succ_self s), hLx]
-        · rw [if_neg hLx]
+        · rw [ite_eq_left hLx, ite_eq_left (by rw [hLx, hRs]; exact Nat.lt_succ_self s), hLx]
+        · rw [ite_eq_right hLx]
           by_cases h : R (L x) < s
-          · rw [if_pos h, if_pos (Nat.lt_succ_of_lt h)]
+          · rw [ite_eq_left h, ite_eq_left (Nat.lt_succ_of_lt h)]
           · have hne : R (L x) ≠ s := fun e => hLx (hRinj _ _ (hL x hx) hLs (by rw [e, hRs]))
-            rw [if_neg h, if_neg (by omega)]
+            rw [ite_eq_right h, ite_eq_right (by omega)]
       · rw [Array.size_push] at hc'
         rcases Nat.lt_succ_iff_lt_or_eq.1 hc' with h | h
         · rw [get!_push_lt _ _ h]
@@ -103,7 +103,7 @@ theorem orbRoots_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
     · refine ⟨_, oStep_no hb, ⟨hsz, hrm, fun c hcm => ?_, fun x hx => ?_⟩, hget⟩
       · have hne : R c ≠ s := fun e => by
           apply hb
-          rw [beq_iff_eq, hlab s hs, ← e, (hR c hcm).2, if_neg (lt_irrefl _)]
+          rw [beq_iff_eq, hlab s hs, ← e, (hR c hcm).2, ite_eq_right (lt_irrefl _)]
         rw [← hroots c hcm]
         omega
       · rw [hlab x hx]
@@ -111,10 +111,10 @@ theorem orbRoots_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
           apply hb
           have hRL := (hR (L x) (hL x hx)).2
           rw [e] at hRL
-          rw [beq_iff_eq, hlab s hs, hRL, e, if_neg (lt_irrefl _)]
+          rw [beq_iff_eq, hlab s hs, hRL, e, ite_eq_right (lt_irrefl _)]
         by_cases h : R (L x) < s
-        · rw [if_pos h, if_pos (Nat.lt_succ_of_lt h)]
-        · rw [if_neg h, if_neg (by omega)]
+        · rw [ite_eq_left h, ite_eq_left (Nat.lt_succ_of_lt h)]
+        · rw [ite_eq_right h, ite_eq_right (by omega)]
 
 theorem orbRoots_of_K {kG : ℕ} {g : ℕ → ℕ → ℕ}
     (hs : gens.size = kG) (hg : ∀ k < kG, ∀ x < n, ga gens k x = g k x)
@@ -126,8 +126,7 @@ theorem orbRoots_of_K {kG : ℕ} {g : ℕ → ℕ → ℕ}
   have hpt' : ∀ x < n, _ := fun x hx => by
     have := CFSG.KS.allN_spec hpt x hx
     unfold ptK at this
-    simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.blt_eq, Nat.ble_eq, Nat.beq_eq,
-      Bool.not_eq_true'] at this
+    simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.blt_eq, Nat.ble_eq, Nat.beq_eq] at this
     exact this
   have hrt' : ∀ c < m, _ := fun c hc => by
     have := CFSG.KS.allN_spec hrt c hc

@@ -18,9 +18,9 @@ theorem card_conjugacy_orbit_mul_thirteen
     Nat.card (MulAction.orbit (ConjAct P) u) * 13 =
       Nat.card P := by
   classical
-  letI : Fintype (MulAction.orbit (ConjAct P) u) :=
+  let : Fintype (MulAction.orbit (ConjAct P) u) :=
     Fintype.ofFinite _
-  letI :
+  let :
       Fintype (MulAction.stabilizer (ConjAct P) u) :=
     Fintype.ofFinite _
   have hstabilizer :

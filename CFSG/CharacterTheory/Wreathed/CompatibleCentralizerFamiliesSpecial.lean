@@ -63,11 +63,10 @@ theorem le_of_two {Q : Subgroup G} {y y' : G} (hy : y ∈ Subgroup.closure {J, J
   have hboth : J ∈ Q ∧ J₁ ∈ Q := by
     rcases mem_four_cases cfg.sq cfg.sq₁ cfg.comm hy with rfl | rfl | rfl | rfl <;>
       rcases mem_four_cases cfg.sq cfg.sq₁ cfg.comm hy' with rfl | rfl | rfl | rfl
-    all_goals first
+    all_goals try first
       | exact absurd rfl hy1
       | exact absurd rfl hy'1
       | exact absurd rfl hne
-      | skip
     · exact ⟨hyQ, hy'Q⟩
     · refine ⟨hyQ, ?_⟩
       have h := Q.mul_mem (Q.inv_mem hyQ) hy'Q

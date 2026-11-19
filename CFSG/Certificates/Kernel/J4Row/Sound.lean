@@ -340,8 +340,8 @@ theorem ceCntK_go (cols : List Nat) : ∀ n : Nat,
     have hn : n ∉ (Finset.range n).filter fun c => QT.rowsXor (getN 0 cols) 11 c = c := by
       simp
     cases hb : Nat.beq (rowsXorK cols n) n
-    · rw [if_neg (Nat.ne_of_beq_eq_false hb), ← ih]
-    · rw [if_pos (Nat.eq_of_beq_eq_true hb), Finset.card_insert_of_notMem hn, ← ih]
+    · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb), ← ih]
+    · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb), Finset.card_insert_of_notMem hn, ← ih]
 
 theorem ceCntK_eq (cols : List Nat) :
     ceCntK cols = ((Finset.range 2048).filter fun c => QT.rowsXor (getN 0 cols) 11 c = c).card :=

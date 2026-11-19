@@ -25,6 +25,7 @@ private lemma aexp_single (e : ι → ℕ) (j : ι) :
     simp
   · simp
 
+omit [Fintype F] [CharP F 2] [DecidableEq ι] in
 private lemma tmatE_uElt_eq_zero (e : ι → ℕ) (t : F) (z y : ι → Fin 2) (h : ¬ z ≤ y) :
     tmatE E e (uElt t) z y = 0 := by
   classical
@@ -42,6 +43,7 @@ private lemma tmatE_uElt_eq_zero (e : ι → ℕ) (t : F) (z y : ι → Fin 2) (
   rw [twistMat_apply, hz, hy]
   simp [uElt]
 
+omit [Fintype F] [CharP F 2] in
 private lemma tmatE_uElt_diag (e : ι → ℕ) (t : F) (j : ι) :
     tmatE E e (uElt t) (Pi.single j (1 : Fin 2)) (Pi.single j (1 : Fin 2)) = 1 := by
   classical
@@ -93,6 +95,7 @@ private lemma eq_zero_or_eq_single_of_le_single (j : ι) (z : ι → Fin 2)
       · rw [h, Pi.single_eq_of_ne hk] at hle
         simp at hle
 
+omit [Fintype F] [CharP F 2] in
 private lemma tmatE_uElt_single (e : ι → ℕ) (t : F) (j : ι) (z : ι → Fin 2) :
     tmatE E e (uElt t) z (Pi.single j (1 : Fin 2)) =
       (if z = Pi.single j (1 : Fin 2) then (1 : E) else 0) +
@@ -126,6 +129,7 @@ private lemma tmatE_uElt_single (e : ι → ℕ) (t : F) (j : ι) (z : ι → Fi
 
 section Model
 
+omit [Fintype F] [CharP F 2] in
 private lemma tensorRep_uElt_pi_single (e : ι → ℕ) (t : F) (j : ι) :
     tensorRep F E e (uElt t) (Pi.single (Pi.single j (1 : Fin 2)) (1 : E)) =
       (Pi.single (Pi.single j (1 : Fin 2)) (1 : E) : (ι → Fin 2) → E) +
@@ -145,6 +149,7 @@ private lemma tensorRep_uElt_pi_single (e : ι → ℕ) (t : F) (j : ι) :
     rw [Pi.single_eq_of_ne hx, mul_zero]
   · simp
 
+omit [Fintype F] [CharP F 2] in
 private lemma frobTensor_uElt_combine (J : Finset ℕ) (t : F) (j0 j1 : J) (a0 a1 : E) :
     frobTensor F E J (uElt t)
         (a0 • (Pi.single (Pi.single j0 (1 : Fin 2)) (1 : E) : (J → Fin 2) → E) +
@@ -162,7 +167,8 @@ end Model
 
 section ModelClaim
 
-private lemma model_024 (x y : F) (hx : x ≠ 0) (hxy : x * y ^ 4 ≠ y * x ^ 4) :
+omit [Fintype F] [CharP F 2] in
+private lemma model_024 (x y : F) (_hx : x ≠ 0) (hxy : x * y ^ 4 ≠ y * x ^ 4) :
     ∃ v : (({0, 2, 4} : Finset ℕ) → Fin 2) → E,
       (∀ l : F, l ^ 4 = l → frobTensor F E ({0, 2, 4} : Finset ℕ) (uElt (l * x)) v = v) ∧
       frobTensor F E ({0, 2, 4} : Finset ℕ) (uElt y) v ≠ v := by
@@ -201,8 +207,6 @@ private lemma model_024 (x y : F) (hx : x ≠ 0) (hxy : x * y ^ 4 ≠ y * x ^ 4)
       intro hzero
       have hXY : algebraMap F E (x ^ 4 * y) = algebraMap F E (x * y ^ 4) := by
         rw [map_mul, map_mul, map_pow, map_pow]
-        change (algebraMap F E x) ^ 4 * (algebraMap F E y) =
-          (algebraMap F E x) * (algebraMap F E y) ^ 4
         rw [← sub_eq_zero, sub_eq_add_neg, neg_eq_self_of_charTwo E, hzero]
       have hEq : x ^ 4 * y = x * y ^ 4 := (algebraMap F E).injective hXY
       rw [mul_comm (x ^ 4) y] at hEq
@@ -230,6 +234,7 @@ end ModelClaim
 
 section ModelClaim135
 
+omit [Fintype F] in
 private lemma model_135 (x y : F) (hx : x ≠ 0) (hxy : x * y ^ 4 ≠ y * x ^ 4) :
     ∃ v : (({1, 3, 5} : Finset ℕ) → Fin 2) → E,
       (∀ l : F, l ^ 4 = l → frobTensor F E ({1, 3, 5} : Finset ℕ) (uElt (l * x)) v = v) ∧
@@ -336,6 +341,7 @@ section PlaneModel
 
 variable [Finite E]
 
+omit [Finite E] [Fintype F] [CharP F 2] in
 private lemma frobTensor_uElt_combine3 (J : Finset ℕ) (t : F) (j0 j1 j2 : J) (a0 a1 a2 : E) :
     frobTensor F E J (uElt t)
         (a0 • (Pi.single (Pi.single j0 (1 : Fin 2)) (1 : E) : (J → Fin 2) → E) +
@@ -352,6 +358,7 @@ private lemma frobTensor_uElt_combine3 (J : Finset ℕ) (t : F) (j0 j1 j2 : J) (
   simp only [smul_add, smul_smul, add_smul]
   abel
 
+omit [Fintype F] [CharP F 2] [Finite E] in
 private lemma plane_P_eq_zero (x y l l' : F) (hl : l ^ 4 = l) (hl' : l' ^ 4 = l') :
     let X : E := algebraMap F E x
     let Y : E := algebraMap F E y
@@ -426,6 +433,7 @@ private lemma plane_P_eq_zero (x y l l' : F) (hl : l ^ 4 = l) (hl' : l' ^ 4 = l'
     _ = algebraMap F E l * 0 + algebraMap F E l' * 0 := by rw [hX, hY]
     _ = 0 := by simp
 
+omit [Fintype F] in
 private lemma plane_param_injective (x y p1 p2 q1 q2 : F) (hx : x ≠ 0)
     (hxy : x * y ^ 4 ≠ y * x ^ 4)
     (hp1 : p1 ^ 4 = p1) (hp2 : p2 ^ 4 = p2)
@@ -479,7 +487,7 @@ private lemma plane_param_injective (x y p1 p2 q1 q2 : F) (hx : x ≠ 0)
     have hcontra : x * y ^ 4 = y * x ^ 4 := by
       rw [hm]
       rw [mul_pow, hm4]
-      simp only [mul_assoc, mul_comm, mul_left_comm]
+      simp only [mul_assoc, mul_comm]
     exact absurd hcontra hxy
 
 private lemma plane_P_ne_zero (E : Type*) [Field E] [CharP E 2] [Algebra F E] [Finite E]
@@ -539,7 +547,7 @@ private lemma plane_P_ne_zero (E : Type*) [Field E] [CharP E 2] [Algebra F E] [F
     have hp_deg : p.natDegree = 4 := by
       dsimp [p]
       rw [Polynomial.natDegree_sub_eq_left_of_natDegree_lt]
-      · simpa using Polynomial.natDegree_X_pow (R := F) 4
+      · simp
       · rw [Polynomial.natDegree_X_pow, Polynomial.natDegree_X]
         norm_num
     have hp_ne : p ≠ 0 := by
@@ -569,14 +577,14 @@ private lemma plane_P_ne_zero (E : Type*) [Field E] [CharP E 2] [Algebra F E] [F
     have hω0 : ω ≠ 0 := by
       intro h
       rw [h] at hsq
-      have h1 : (0 : F) = 1 := by simpa using hsq
+      have h1 : (0 : F) = 1 := by simp at hsq
       exact zero_ne_one h1
     have hω1 : ω ≠ 1 := by
       intro h
       rw [h] at hsq
       have h1 : (1 : F) = 0 := by
         have h2 : (1 : F) + 1 = 0 := CharTwo.add_self_eq_zero 1
-        simpa [h2] using hsq
+        simp [h2] at hsq
       exact one_ne_zero h1
     have hω2 : ω ^ 2 ≠ 1 := by
       intro h
@@ -786,6 +794,7 @@ private lemma model_024_plane (hF : Fintype.card F = 2 ^ 6) (x y z : F) (hx : x 
       exact (algebraMap F E).injective (by simpa using hmap)
     exact plane_P_ne_zero E hF x y z hx hxy hz hq
 
+omit [Finite E] in
 private lemma plane_P_sq (a0 a1 a2 T : E) :
     a0 ^ 2 * T ^ 2 + a1 ^ 2 * T ^ 8 + a2 ^ 2 * T ^ 32 =
       (a0 * T + a1 * T ^ 4 + a2 * T ^ 16) ^ 2 := by
@@ -833,7 +842,7 @@ private lemma model_135_plane (hF : Fintype.card F = 2 ^ 6) (x y z : F) (hx : x 
       have h024 : a0 * Z + a1 * Z ^ 4 + a2 * Z ^ 16 = 0 := by
         simpa only [X, Y, Z, a0, a1, a2, map_add, map_mul]
           using plane_P_eq_zero (E := E) x y l l' hl hl'
-      simpa [b0, b1, b2, plane_P_sq, h024]
+      simp [b0, b1, b2, plane_P_sq, h024]
     rw [hzero, zero_smul, add_zero]
   · intro hbad
     let Z : E := algebraMap F E z
@@ -878,14 +887,14 @@ section Tensor
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] {W : Type} [AddCommGroup W]
   [Module (ZMod 2) W] [Finite W] (ρ : Representation (ZMod 2) SL(2, F) W) [Fact ρ.IsIrreducible]
 
-theorem exists_fixW_line_moved (hF : Fintype.card F = 2 ^ 6) {m : ℕ}
+theorem exists_fixW_line_moved (_hF : Fintype.card F = 2 ^ 6) {m : ℕ}
     (b : Module.Basis (Fin m) (EndRing ρ) W) {E : Type} [Field E] [Finite E] [CharP E 2]
     (ιF : F →+* E) (ιD : EndRing ρ →+* E) (J : Finset ℕ) (hJ : J = {0, 2, 4} ∨ J = {1, 3, 5})
     (Φ : (letI := ιF.toAlgebra; (matRepE b ιD).Equiv (frobTensor F E J))) {x y : F}
     (hx : x ≠ 0) (hxy : x * y ^ 4 ≠ y * x ^ 4) :
     ∃ w : W, (∀ l : F, l ^ 4 = l → ρ (uElt (l * x)) w = w) ∧ ρ (uElt y) w ≠ w := by
   classical
-  letI : Algebra F E := ιF.toAlgebra
+  let : Algebra F E := ιF.toAlgebra
   have hmodel : ∃ v : (J → Fin 2) → E,
       (∀ l : F, l ^ 4 = l → frobTensor F E J (uElt (l * x)) v = v) ∧
       frobTensor F E J (uElt y) v ≠ v := by
@@ -941,7 +950,7 @@ theorem exists_fixW_plane_moved (hF : Fintype.card F = 2 ^ 6) {m : ℕ}
     ∃ w : W, (∀ l l' : F, l ^ 4 = l → l' ^ 4 = l' → ρ (uElt (l * x + l' * y)) w = w) ∧
       ρ (uElt z) w ≠ w := by
   classical
-  letI : Algebra F E := ιF.toAlgebra
+  let : Algebra F E := ιF.toAlgebra
   have hmodel : ∃ v : (J → Fin 2) → E,
       (∀ l l' : F, l ^ 4 = l → l' ^ 4 = l' →
         frobTensor F E J (uElt (l * x + l' * y)) v = v) ∧

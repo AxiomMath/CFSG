@@ -144,7 +144,7 @@ theorem omegaRoot_ne_one_of_not_mem_span [Finite K] (F : Frame K) {u w : Idx →
 
 theorem orderOf_omegaRoot [Finite K] (F : Frame K) {u w : Idx → K} (h : omegaRoot F u w ≠ 1) :
     orderOf (omegaRoot F u w) = ringChar K := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
   refine orderOf_eq_prime ?_ h
   apply Subtype.ext
   exact omegaRootGL_pow_ringChar F u w
@@ -183,7 +183,7 @@ theorem two_le_pRank_ringChar_of_commute [Finite K] {G : Type*} [Group G] [Finit
     {H : Subgroup G} {x y : G} (hx : x ∈ H) (hy : y ∈ H) (hxp : orderOf x = ringChar K)
     (hyp : orderOf y = ringChar K) (hxy : Commute x y) (hyx : y ∉ Subgroup.zpowers x) :
     2 ≤ CFSG.Open.pRank (ringChar K) H := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
   exact CFSG.GroupTheory.two_le_pRank_of_commute hx hy hxp hyp hxy hyx
 
 theorem one_le_pRank_ringChar_of_orderOf_eq [Finite K] {G : Type*} [Group G] [Finite G]

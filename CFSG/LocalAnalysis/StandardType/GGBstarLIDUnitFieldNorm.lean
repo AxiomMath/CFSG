@@ -22,6 +22,7 @@ variable {K : Type} [Field K] [Finite K] {n : ℕ}
   map_mul' := map_mul h.bar
   map_add' := map_add h.bar
 
+omit [Finite K] in
 theorem orderOf_barEquiv (h : UnitaryFieldData 2 n K) : orderOf (barEquiv h) = 2 := by
   have h2 : barEquiv h ^ 2 = 1 := by
     ext x

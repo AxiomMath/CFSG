@@ -97,7 +97,7 @@ theorem centralizer_xS_le_normalizer_xS (hp2 : p ≠ 2) {a b c : ZMod p}
 
 theorem center_psp4_eq_bot (hp2 : p ≠ 2) : Subgroup.center (PSp4 p) = ⊥ := by
   have hp : p.Prime := Fact.out
-  haveI : IsSimpleGroup (PSp4 p) := by
+  have : IsSimpleGroup (PSp4 p) := by
     refine CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod p) 2
       (by norm_num) ?_
     rw [Nat.card_zmod]
@@ -195,7 +195,7 @@ theorem mulAut_eq_bot_of_conj_xS (hp2 : p ≠ 2) (V : Subgroup (MulAut (PSp4 p))
 theorem kFactNineThreeNoTwoAt_spFour {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {d : TauCeti.ValidLieTypeIndex} (hd : IsSpFourIndex p d) :
     KFactNineThreeNoTwoAt p (.lie d) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ψ⟩ := nonempty_mulEquiv_psp4 hp2
     (statedClassicalModel_of_spFourIndex d hd (MulEquiv.refl (TauCeti.CFSGIndex.lie d).Group))
   exact kFactNineThreeNoTwoAt_of_model hp ⟨ψ.symm⟩ (xS p).isElemAbelian_U.isPGroup

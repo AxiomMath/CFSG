@@ -178,7 +178,7 @@ private theorem a7_sq_of_pow (z : Equiv.Perm (Fin 7)) (k : ℕ) (h1 : z ^ 2 ^ k 
   rw [hj] at hd2
   have hj2 : j ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h4 : 2 ^ 2 ∣ 2 ^ j := pow_dvd_pow 2 (by omega)
     have h6 : 2 ^ 2 ∣ 6 := h4.trans hd2
     norm_num at h6
@@ -215,12 +215,12 @@ private theorem a7_le_pCore (N : Subgroup (Equiv.Perm (Fin 7))) (g : Equiv.Perm 
 private theorem a7_Vg_le_pCore :
     Vg ≤ pCoreOf 2 (Subgroup.centralizer ({aG} : Set ↥(alternatingGroup (Fin 7)))) :=
   a7_le_pCore S7.V S7.a a7_mem_a S7.V_le_Alt7 S7.V_le_centralizer S7.isPGroup_V
-    (fun c h => S7.mem_normalizer_V_of_comm h)
+    (fun _c h => S7.mem_normalizer_V_of_comm h)
 
 private theorem a7_V'g_le_pCore :
     V'g ≤ pCoreOf 2 (Subgroup.centralizer ({bG} : Set ↥(alternatingGroup (Fin 7)))) :=
   a7_le_pCore S7.V' S7.b a7_mem_b S7.V'_le_Alt7 S7.V'_le_centralizer S7.isPGroup_V'
-    (fun c h => S7.mem_normalizer_V'_of_comm h)
+    (fun _c h => S7.mem_normalizer_V'_of_comm h)
 
 private abbrev CaG : Subgroup ↥(alternatingGroup (Fin 7)) :=
   Subgroup.centralizer ({aG} : Set ↥(alternatingGroup (Fin 7)))

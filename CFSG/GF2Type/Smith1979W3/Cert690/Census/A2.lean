@@ -105,7 +105,7 @@ theorem mem_a2FixOf_iff {b i : ℕ} :
     i ∈ a2FixOf (CertD minus) minus b ↔
       i < (CertD minus).O.size ∧ Code.act (CertD minus).O[i]! b = b ∧
         isA2Of (CertD minus) minus i = true := by
-  simp [a2FixOf, Array.mem_toList_iff, List.mem_toArray, List.mem_filter, List.mem_range]
+  simp [a2FixOf, List.mem_toArray, List.mem_filter, List.mem_range]
 
 theorem isA2Of_of_isTypeA
     {t : V₀ ≃ₗ[ZMod 2] V₀} {i : ℕ} (hi : i < (CertD minus).O.size)
@@ -128,7 +128,7 @@ theorem isA2Of_of_isTypeA
     simpa [commCodes, commCode] using hashSet_commCodes hcode hdim
   have hall : (commCodes ((CertD minus).O[i]!)).toArray.all (fun x => !(qB minus x)) = true :=
     commCodes_all_singular hcode hvan
-  simp [isA2Of, hi, hne, hmul, hsize, hall, commCodes, commCode]
+  simp [isA2Of, hi]
   refine ⟨⟨?_, ?_⟩, ?_, ?_⟩
   · simpa [array_getElem!_eq_getElem hi] using hne
   · simpa [array_getElem!_eq_getElem hi] using hmul
@@ -140,7 +140,7 @@ theorem isA2Of_of_isTypeA
       rwa [array_getElem!_eq_getElem hi] at hcode
     exact qB_commCode_false hcode' hvan x
 
-theorem a2FixOf_index (hb : censusBase minus () = true)
+theorem a2FixOf_index (_hb : censusBase minus () = true)
     {t : V₀ ≃ₗ[ZMod 2] V₀} {i : ℕ} (hi : i < (CertD minus).O.size)
     (hcode : Code.HasCode (t : V₀ →ₗ[ZMod 2] V₀) ((CertD minus).O[i]!))
     (hfix : t (Code.vec (b0Of minus)) = Code.vec (b0Of minus))

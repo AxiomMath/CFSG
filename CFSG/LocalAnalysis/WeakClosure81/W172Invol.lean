@@ -28,10 +28,12 @@ structure W172InvSys (L : Subgroup (LGL 2 W)) (D : Set (LGL 2 W))
 
 variable {L : Subgroup (LGL 2 W)} {D : Set (LGL 2 W)} {Vd : LGL 2 W → Submodule (ZMod 2) W}
 
+omit [Finite W] in
 private lemma w172_inv_eq_self (h : W172InvSys L D Vd) {e : LGL 2 W} (he : e ∈ D) :
     e⁻¹ = e :=
   inv_eq_of_mul_eq_one_right (h.sq e he)
 
+omit [Finite W] in
 private lemma w172_cent_of_comm (h : W172InvSys L D Vd) {a b : LGL 2 W} (ha : a ∈ D)
     (hb : b ∈ D) (hne : a ≠ b) (hcomm : a * b = b * a) : ∀ v ∈ Vd a, b v = v := by
   intro v hv
@@ -47,6 +49,7 @@ private lemma w172_cent_of_comm (h : W172InvSys L D Vd) {a b : LGL 2 W} (ha : a 
   rw [h.disjoint a ha b hb hne, Submodule.mem_bot] at hmem
   exact sub_eq_zero.mp hmem
 
+omit [Finite W] in
 private lemma w172_conj_inv (h : W172InvSys L D Vd) {e f : LGL 2 W} (he : e ∈ D)
     (hf : f ∈ D) : e * (e * f) * e = (e * f)⁻¹ := by
   have he' : e⁻¹ = e := w172_inv_eq_self h he
@@ -55,6 +58,7 @@ private lemma w172_conj_inv (h : W172InvSys L D Vd) {e f : LGL 2 W} (he : e ∈ 
   calc e * (e * f) * e = (e * e) * f * e := by rw [← mul_assoc e e f]
     _ = f * e := by rw [h.sq e he, one_mul]
 
+omit [Finite W] in
 private lemma w172_conj_inv' (h : W172InvSys L D Vd) {e f : LGL 2 W} (he : e ∈ D)
     (hf : f ∈ D) : e * (e * f)⁻¹ * e = e * f := by
   have he' : e⁻¹ = e := w172_inv_eq_self h he
@@ -63,6 +67,7 @@ private lemma w172_conj_inv' (h : W172InvSys L D Vd) {e f : LGL 2 W} (he : e ∈
   calc e * (f * e) * e = e * (f * (e * e)) := by simp only [mul_assoc]
     _ = e * f := by rw [h.sq e he, mul_one]
 
+omit [Finite W] in
 private lemma w172_dihedral_mem (h : W172InvSys L D Vd) {e f : LGL 2 W} (he : e ∈ D)
     (hf : f ∈ D) : ∀ j : ℕ, (e * f) ^ j * e ∈ D := by
   have htL : e * f ∈ L := L.mul_mem (h.mem e he) (h.mem f hf)

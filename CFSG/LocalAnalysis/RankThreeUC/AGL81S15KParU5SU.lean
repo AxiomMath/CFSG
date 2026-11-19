@@ -118,6 +118,7 @@ open CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.ChevGen
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ} (hF : Nat.card F = (2 ^ f) ^ 2)
 
+omit [Finite F] in
 theorem mat_blk3Hom (k : Subfield F) {σ : F ≃+* F} (hk : ∀ c ∈ k, σ c = c)
     (A : Matrix.SpecialLinearGroup (Fin 2) k) :
     mat σ 3 (blk3Hom k hk A) = blk3 k (A : Matrix (Fin 2) (Fin 2) k) := rfl
@@ -126,7 +127,7 @@ include hF in
 theorem exists_pair_su3 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hqd : q ∣ 2 ^ f + 1) :
     ∃ a b : SU (unitaryInvolution F 2 f) 3, a ^ q = 1 ∧ b ^ q = 1 ∧ a * b = b * a ∧
       ∀ s u : ℕ, a ^ s * b ^ u = 1 → q ∣ s ∧ q ∣ u := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set σ := unitaryInvolution F 2 f with hσdef
   have hqd0 := hqd
   obtain ⟨l, hl1, hlo⟩ := exists_norm_one_orderOf_eq hF

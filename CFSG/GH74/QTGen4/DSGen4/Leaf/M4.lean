@@ -24,11 +24,13 @@ noncomputable def actSet (M : A5Model P L E K H) (X : Subgroup G) : Finset Mat4 
   open Classical in
   Finset.univ.filter fun m => ∃ x : ↥P, (x : G) ∈ X ∧ glMat (M.F.M x) = m
 
+omit [Finite G] in
 theorem mem_actSet {M : A5Model P L E K H} {X : Subgroup G} {m : Mat4} :
     m ∈ actSet M X ↔ ∃ x : ↥P, (x : G) ∈ X ∧ glMat (M.F.M x) = m := by
   classical
   simp [actSet]
 
+omit [Finite G] in
 theorem relIndex_core_eq_card_actSet (M : A5Model P L E K H) (h : A5Pre P L E K)
     (hXP : X ≤ P) (hfaith : ∀ x ∈ X, (∀ e ∈ E, ⁅x, e⁆ ∈ K) → x ∈ pCoreOf 2 P) :
     (X ⊓ pCoreOf 2 P).relIndex X = (actSet M X).card := by
@@ -57,6 +59,7 @@ theorem relIndex_core_eq_card_actSet (M : A5Model P L E K H) (h : A5Pre P L E K)
       exact ⟨⟨M.F.M x, ⟨⟨x, hxX⟩, rfl⟩⟩, rfl⟩
   rw [Nat.card_congr (Equiv.ofBijective g hg), Nat.card_eq_fintype_card, Fintype.card_coe]
 
+omit [Finite G] in
 theorem m4_aux (h : A5Pre P L E K) (hT : IsSylowTwoOf T L) (M : A5Model P L E K H)
     (sd : SylowData M T) (hX : X ≤ T ⊔ pCoreOf 2 P) (hq : ⁅⁅E, X⁆, X⁆ ≤ K) (hnt : ¬ ⁅E, X⁆ ≤ K)
     (hfaith : ∀ x ∈ X, (∀ e ∈ E, ⁅x, e⁆ ∈ K) → x ∈ pCoreOf 2 P) (hKY : K ≤ Y) (hYE : Y ≤ E)

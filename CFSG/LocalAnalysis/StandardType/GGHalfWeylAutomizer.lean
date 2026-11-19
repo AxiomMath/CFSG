@@ -16,7 +16,7 @@ namespace GGHalfTorusFrame
 
 theorem card_automizer_ge {G : Type} [Group G] [Finite G] {Bs X : Subgroup G} {n : ℕ}
     {ψ : SpecialLinearGroup (Fin (n + 1)) F2 →* G} (hψ : GGHalfTorusFrame Bs X (halfTorus n) ψ)
-    (hn : 1 ≤ n) :
+    (_hn : 1 ≤ n) :
     2 ^ ((n + 1) / 2) * ((n + 1) / 2).factorial ≤ Nat.card (ggAutomizer X Bs) := by
   classical
   obtain ⟨Φ, hΦ⟩ := exists_torusCoord n

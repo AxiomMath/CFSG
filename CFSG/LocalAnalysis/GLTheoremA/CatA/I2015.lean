@@ -16,7 +16,7 @@ theorem i2015At_of_facts {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime
     I2015At G p := by
   unfold I2015At
   intro X J I I₀ d h1 h2 h3 hI0 hcov hdp hR S hSJ hS2 hN
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJX : J ≤ X := by
     unfold GLAPComponent at h1
     exact h1.1

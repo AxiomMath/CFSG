@@ -41,7 +41,7 @@ theorem d4F2_bigCell_conj_borel {τ : Tag} {K : Type} [Field K] {θ : Fin τ.ran
     apply hlam
     rw [hentry]
     have : (rootVec τ K θ') (negLabel hθ.1) = 0 := by
-      rw [rootVec_eq_single hθ', Finsupp.single_apply, if_neg]
+      rw [rootVec_eq_single hθ', Finsupp.single_apply, ite_eq_right]
       intro h
       apply hne
       have h' := h

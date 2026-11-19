@@ -135,7 +135,7 @@ theorem mem_pPrimeCoreOf_of_commutators {Q : Type*} [Group Q] [Finite Q] (C : Su
       have hxN := (Subgroup.mem_normalizer_iff.mp
         (le_normalizer_pPrimeCoreOf_gen 3 C (hHC x.2)) (n : Q)).mp hn
       simpa using hxN
-    haveI := hKn
+    have := hKn
     have hKc : Nat.card (N.subgroupOf H) = Nat.card N :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNH).toEquiv
     have hcopN : Nat.Coprime 3 (Nat.card N) := coprime_card_pPrimeCoreOf 3 C
@@ -263,7 +263,7 @@ theorem exists_mem_centralizer_of_fixed [Finite G] {Y D : Subgroup G}
   have hN2 : IsPGroup 2 ((CFSG.pCore 2 ↥Y).map Y.subtype) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥Y)).map Y.subtype
   have hNcard : ¬ 3 ∣ Nat.card ((CFSG.pCore 2 ↥Y).map Y.subtype) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hN2
     rw [hk]
     intro h
@@ -422,7 +422,7 @@ theorem rho_eq_one_of_inner_local [Finite G] (hKF : KFactL3CentOdd) {f : ℕ} (h
       rw [← ha'e, ← hb'e, ← map_mul, ← map_mul]
       congr 1
       apply Subtype.ext
-      haveI := hD.1
+      have := hD.1
       exact setLike_mul_comm (Subgroup.mem_subgroupOf.mp ha') (Subgroup.mem_subgroupOf.mp hb')
     · rintro _ ⟨d, hd, rfl⟩
       rw [← map_pow]

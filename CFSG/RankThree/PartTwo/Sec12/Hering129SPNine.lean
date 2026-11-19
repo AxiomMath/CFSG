@@ -19,12 +19,12 @@ theorem exists_oddCore {Y : Type} [Group Y] [Finite Y] (U : Subgroup Y) [U.Norma
   obtain ⟨hOs, hOchar, hO2, hOmax, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥U) Nat.prime_two
   set O : Subgroup U := aschbacherSolvableCore 2 U with hO
-  haveI : O.Characteristic := hOchar
+  have : O.Characteristic := hOchar
   have hR'O : R.subgroupOf U ≤ O := by
     refine hOmax _ ⟨fun r hr u => ?_⟩ ?_ ?_
     · rw [Subgroup.mem_subgroupOf] at hr ⊢
       simpa using hRn u u.2 r hr
-    · haveI := hUs
+    · have := hUs
       exact Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective _)
     · rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRU).toEquiv]
       exact hRodd.not_two_dvd_nat
@@ -66,10 +66,10 @@ theorem centralizes_mod_oddCore {Y : Type} [Group Y] [Finite Y] (hYp : Group.IsP
     (U : Subgroup Y) [U.Normal] (hUs : Group.IsSolvable U) {W : Type} [Group W]
     (hWs : IsSimpleGroup W) (π : Y →* W) (hπ : Function.Surjective π) (hker : π.ker = U)
     (β : MulAut Y) (hβ : ∃ y : Y, y⁻¹ * β y ∉ U) (OY : Subgroup Y) [hOn : OY.Normal]
-    (hOYU : OY ≤ U) (hβOY : OY.map β.toMonoidHom = OY) (hfix : ∀ u ∈ U, u⁻¹ * β u ∈ OY) :
+    (_hOYU : OY ≤ U) (hβOY : OY.map β.toMonoidHom = OY) (hfix : ∀ u ∈ U, u⁻¹ * β u ∈ OY) :
     ∀ y : Y, ∀ u ∈ U, y * u * y⁻¹ * u⁻¹ ∈ OY := by
   classical
-  haveI := hUs
+  have := hUs
   set q : Y →* Y ⧸ OY := QuotientGroup.mk' OY with hq
   let β' : MulAut (Y ⧸ OY) := QuotientGroup.congr OY OY β hβOY
   have hβ'q : ∀ y : Y, β' (q y) = q (β y) := fun y => rfl
@@ -138,7 +138,7 @@ theorem centralizes_mod_oddCore {Y : Type} [Group Y] [Finite Y] (hYp : Group.IsP
     refine ⟨j, hj, j⁻¹ * y, ?_, by group⟩
     rw [← hker, MonoidHom.mem_ker, map_mul, map_inv, hjy, inv_mul_cancel]
   have hktop : k = ⊤ := by
-    haveI := hkn
+    have := hkn
     have hsolv : Group.IsSolvable (Y ⧸ k) := by
       refine Group.isSolvable_of_surjective (f := (QuotientGroup.mk' k).comp U.subtype) ?_
       intro z
@@ -151,9 +151,9 @@ theorem centralizes_mod_oddCore {Y : Type} [Group Y] [Finite Y] (hYp : Group.IsP
       have h2 : u⁻¹ * (j * u) = u⁻¹ * j * u⁻¹⁻¹ := by group
       rw [h2]
       exact hkn.conj_mem j (hJk hj) u⁻¹
-    haveI : Group.IsPerfect (Y ⧸ k) := inferInstance
+    have : Group.IsPerfect (Y ⧸ k) := inferInstance
     by_contra hne
-    haveI : Nontrivial (Y ⧸ k) := QuotientGroup.nontrivial_iff.mpr hne
+    have : Nontrivial (Y ⧸ k) := QuotientGroup.nontrivial_iff.mpr hne
     exact Group.IsPerfect.not_isSolvable (Y ⧸ k) hsolv
   intro y u hu
   have h := (hkmem y).1 (by rw [hktop]; trivial) u hu
@@ -171,11 +171,11 @@ theorem odd_card_of_perfect_cover {Y : Type} [Group Y] [Finite Y] (hYp : Group.I
     (hRodd : Odd (Nat.card R)) (hR : ∀ u ∈ U, u⁻¹ * β u ∈ R) :
     Odd (Nat.card U) := by
   classical
-  haveI : Finite W := Finite.of_surjective π hπ
+  have : Finite W := Finite.of_surjective π hπ
   obtain ⟨O, hOn, hOodd, hRO, hOYn, hβOY⟩ := exists_oddCore U hUs β hβU R hRU hRn hRodd
-  haveI : O.Normal := hOn
+  have : O.Normal := hOn
   set OY : Subgroup Y := O.map U.subtype with hOY
-  haveI : OY.Normal := hOYn
+  have : OY.Normal := hOYn
   have hOYU : OY ≤ U := by rintro _ ⟨o, -, rfl⟩; exact o.2
   have hROY : ∀ r ∈ R, r ∈ OY := fun r hr =>
     ⟨⟨r, hRU hr⟩, hRO ((Subgroup.mem_subgroupOf).2 hr), rfl⟩
@@ -233,7 +233,7 @@ theorem odd_card_of_perfect_cover {Y : Type} [Group Y] [Finite Y] (hYp : Group.I
     intro w
     obtain ⟨y, rfl⟩ := hπ w
     exact ⟨(y : Y ⧸ H), rfl⟩
-  haveI : Group.IsPerfect (Y ⧸ H) := by haveI := hYp; infer_instance
+  have : Group.IsPerfect (Y ⧸ H) := by have := hYp; infer_instance
   have hcardker : Nat.card πE.ker = 2 := by
     have e1 : Nat.card (Y ⧸ H) = Nat.card W * Nat.card πE.ker := by
       have := Subgroup.card_eq_card_quotient_mul_card_subgroup πE.ker

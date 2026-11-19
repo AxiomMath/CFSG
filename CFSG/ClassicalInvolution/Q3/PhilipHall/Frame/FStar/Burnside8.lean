@@ -15,7 +15,7 @@ theorem mem_four_of_card {Z : Subgroup F} (hZ4 : Nat.card Z = 4) (hZ2 : ∀ x �
     (hbu : b ≠ u) : c = 1 ∨ c = u ∨ c = b ∨ c = b * u := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨hc1, hcu, hcb, hcbu⟩ := hne
   have huu := hZ2 u hu
   have hbu1 : b * u ≠ 1 := by
@@ -81,7 +81,7 @@ theorem false_of_sylow_eight_omega_four [Finite F] [IsSimpleGroup F]
     simpa [mem_subgroupOf] using this
   obtain ⟨x, hxP, hxZ⟩ : ∃ x ∈ (P : Subgroup F), x ∉ Z := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := Subgroup.card_le_of_le (show (P : Subgroup F) ≤ Z from h)
     omega
   set u := x * x with hu_def
@@ -92,7 +92,7 @@ theorem false_of_sylow_eight_omega_four [Finite F] [IsSimpleGroup F]
     rw [mul_assoc]
   obtain ⟨b, hbZ, hb1, hbu⟩ : ∃ b ∈ Z, b ≠ 1 ∧ b ≠ u := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (Z : Set F) ⊆ {1, u} := fun y hy => by
       by_cases h1 : y = 1
       · simp [h1]

@@ -42,7 +42,7 @@ private lemma fiberLe_conj_mem_centerOf {C : Type*} [Group C] {Q : Subgroup C} [
 private lemma fiberLe_sq_mem_centerOf {C : Type*} [Group C] {Q : Subgroup C}
     (hQ : IsPlusExtraspecial 4 Q) {q : C} (hq : q ∈ Q) : q ^ 2 ∈ centerOf Q := by
   have hExt : CFSG.IsExtraspecial 2 ↥Q := hQ.1
-  haveI : CFSG.IsElementaryAbelian 2 (↥Q ⧸ Subgroup.center ↥Q) :=
+  have : CFSG.IsElementaryAbelian 2 (↥Q ⧸ Subgroup.center ↥Q) :=
     hExt.quotient_elementary_abelian
   have hexp : ∀ g : (↥Q ⧸ Subgroup.center ↥Q), g ^ 2 = 1 :=
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp

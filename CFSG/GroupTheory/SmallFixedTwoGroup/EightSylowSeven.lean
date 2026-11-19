@@ -31,7 +31,7 @@ theorem exists_conj_centralizer_of_involution {E : Type*} [Group E] [Finite E] (
       ∃ n ∈ normalizer ((P : Subgroup E) : Set E), n * t * n⁻¹ = y)
     {u : E} (hu : u * u = 1) (hu1 : u ≠ 1) :
     ∃ g : E, ∀ y : E, y * u = u * y ↔ g⁻¹ * y * g ∈ (P : Subgroup E) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf u = 2 := orderOf_eq_prime (by simpa [pow_two] using hu) hu1
   have hcard : Nat.card (zpowers u) = 2 ^ (1 : ℕ) := by
     rw [Nat.card_zpowers, hord]; norm_num

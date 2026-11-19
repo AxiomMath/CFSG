@@ -18,17 +18,19 @@ theorem odd_Opp_of_mem_B (h : FS79Hyp b t b₁ b₂ J) {β : H}
     (hβ : β ∈ Subgroup.closure ({b, b₁, b₂} : Set H)) :
     Odd (Nat.card (Opp 3 (Nor (Subgroup.zpowers β)))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine odd_Opp_of_no_two_sub (A := Subgroup.closure ({b, b₁, b₂} : Set H))
     (fun u hu => mem_Nor_zpowers_of_comm (h.B_comm hu hβ)) ?_ (fun R hR hBR => h.no_two R hR hBR)
   have hE := h.isElemAb_B
-  haveI := hE.1
+  have := hE.1
   exact IsElementaryAbelian.isPGroup 3 _
 
+omit [Finite H] in
 theorem conj_eq_of_comm' {g x : H} (hg : g * x = x * g) : g * x * g⁻¹ = x := by
   rw [hg]
   group
 
+omit [Finite H] in
 theorem conj_mul_of_comm {g x : H} (hg : g * b = b * g) :
     g * (b * x) * g⁻¹ = b * (g * x * g⁻¹) := by
   calc g * (b * x) * g⁻¹ = (g * b * g⁻¹) * (g * x * g⁻¹) := by group
@@ -40,6 +42,7 @@ theorem ctl_odd_of_conj {β target g : H} (hg : g * b = b * g) (hC : CtlEq b β)
   subst e
   exact ⟨Ctl34.ctlEq_conj hg hC, odd_Opp_conj hO⟩
 
+omit [Finite H] in
 theorem mul_mem_B {x : H} (hx : x ∈ Subgroup.closure ({b, b₁, b₂} : Set H)) :
     b * x ∈ Subgroup.closure ({b, b₁, b₂} : Set H) :=
   Subgroup.mul_mem _ (FS79Hyp.zpowers_le_B b b₁ b₂ (Subgroup.mem_zpowers b)) hx

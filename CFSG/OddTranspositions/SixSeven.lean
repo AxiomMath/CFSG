@@ -12,6 +12,7 @@ open CFSG.Timmesfeld.Connectivity
 
 variable {G : Type} [Group G] [Finite G] {D α β : Set G}
 
+omit [Finite G] in
 theorem isTriangle_of_mem_Aalpha (hD : IsOddTransp D) (hN : IsNormalSet D)
     (hblock : IsBlock D α) (hβ : β ∈ Aalpha D α)
     {a b c : G} (ha : a ∈ α) (hc : c ∈ α) (hac : Commute a c) (hane : a ≠ c)
@@ -48,6 +49,7 @@ theorem isTriangle_of_mem_Aalpha (hD : IsOddTransp D) (hN : IsNormalSet D)
   exact ⟨hblock.subset ha, hblock.subset hc, hbD, hane, hac,
     hnotcomm a ha, hnotcomm c hc⟩
 
+omit [Finite G] in
 theorem not_isThirdKind_of_all_secondKind
     (hsecond : ∀ u ∈ α, ∀ v ∈ α, ∀ w : G, IsTriangle D u w v →
       orderOf (u * v * w) = 4)
@@ -61,6 +63,7 @@ theorem not_isThirdKind_of_all_secondKind
   rw [hn2] at hnodd
   exact absurd hnodd (by decide)
 
+omit [Finite G] in
 theorem isTriangle_conj (hN : IsNormalSet D) {x y z g : G}
     (htri : IsTriangle D x y z) :
     IsTriangle D (g * x * g⁻¹) (g * y * g⁻¹) (g * z * g⁻¹) := by

@@ -119,7 +119,7 @@ theorem wSet_eq (h : Std Ω K J z j) (d : LJ Ω K J K' z j u v)
     WSet Ω = {Subgroup.zpowers u ⊔ Subgroup.zpowers v} := by
   set UV := (Subgroup.zpowers u ⊔ Subgroup.zpowers v : Subgroup G) with hUV
   have hYall : ∀ g : G, g ∈ pairNormalizers K J z j := fun g => hY ▸ Subgroup.mem_top g
-  haveI hUVn : UV.Normal :=
+  have hUVn : UV.Normal :=
     ⟨fun x hx g => (Subgroup.mem_normalizer_iff.mp (d.Y_le_N_UV (hYall g)) x).mp hx⟩
   have hUV2 : IsPGroup 2 UV := d.tor.UV_isPGroup
   have key : ∀ W ∈ WSet Ω, W = UV := by
@@ -254,7 +254,7 @@ theorem thm3RowW_top (hO : classicalInvolutionOddCore G = ⊥) {W : Subgroup G} 
     (hW : WSet Ω = {W}) (hD : Nonempty ((G ⧸ W) ≃* DihedralGroup 6)) : Thm3RowW Ω ⊤ := by
   set e := secQuotTopEquiv hO
   obtain ⟨q⟩ := hD
-  haveI : (W.map e.toMonoidHom).Normal := Subgroup.Normal.map inferInstance _ e.surjective
+  have : (W.map e.toMonoidHom).Normal := Subgroup.Normal.map inferInstance _ e.surjective
   refine ⟨W.map e.toMonoidHom, inferInstance, ?_, ⟨?_⟩⟩
   · rw [oddQuotientFamily_restrict_top hO, PhilipHall.Frame.Thm3Quot.wSet_map_equiv, hW,
       Set.image_singleton]
@@ -271,7 +271,7 @@ theorem rowW_of_e4 (hΩ : TypeRHyp Ω) (hO : classicalInvolutionOddCore G = ⊥)
     (fun L hL => h.isPGroup hL)
   have hY := top_eq_pairNormalizers h d hE
   have hYall : ∀ g : G, g ∈ pairNormalizers K J z j := fun g => hY ▸ Subgroup.mem_top g
-  haveI : (Subgroup.zpowers u ⊔ Subgroup.zpowers v : Subgroup G).Normal :=
+  have : (Subgroup.zpowers u ⊔ Subgroup.zpowers v : Subgroup G).Normal :=
     ⟨fun x hx g => (Subgroup.mem_normalizer_iff.mp (d.Y_le_N_UV (hYall g)) x).mp hx⟩
   exact thm3RowW_top hO (wSet_eq h d hY) (quot_d12 d hY)
 

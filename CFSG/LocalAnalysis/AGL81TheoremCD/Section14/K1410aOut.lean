@@ -40,15 +40,14 @@ theorem card_le_three_mul_card_inf_innAut_of_outPNice {Y : Type} [Group Y] [Fini
       have h3 : (b * φ ^ m) ^ 3 = 1 := hS _ hbφ
       have hInn : b * φ ^ m ∈
           CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.innAut Y :=
-        hD3 _ hmD 1 (by simpa [h3] using (Subgroup.one_mem
-          (CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.innAut Y)))
+        hD3 _ hmD 1 (by simp [h3])
       refine ⟨b * φ ^ m, hInn, φ ^ (-m),
         (Subgroup.zpowers φ).zpow_mem (Subgroup.mem_zpowers φ) (-m), ?_⟩
       group
     have hC : IsCyclic (Subgroup.zpowers φ) := Subgroup.isCyclic_zpowers φ
     have hnormal : (CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.innAut Y).Normal :=
       CFSG.ComponentClassification.OuterAutomorphisms.inner_normal Y
-    haveI := hnormal
+    have := hnormal
     have hCN : Subgroup.zpowers φ ≤
         Subgroup.normalizer
           (CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.innAut Y : Set (MulAut Y)) :=

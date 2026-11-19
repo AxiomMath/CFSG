@@ -45,7 +45,7 @@ theorem CocycleData.eq_one_of_fix_mul {G : Type*} [Group G] {β : MulAut G} {N :
     have hxz : (x : G)⁻¹ * z ∈ N k := mul_mem (inv_mem x.2) hz
     have hΦ1 : Φ k ⟨(x : G)⁻¹ * z, hxz⟩ = 1 := by
       have e : (⟨(x : G)⁻¹ * z, hxz⟩ : N k) = x⁻¹ * ⟨z, hz⟩ :=
-        Subtype.ext (by simp [Subgroup.coe_mul, Subgroup.coe_inv])
+        Subtype.ext (by simp [Subgroup.coe_mul])
       rw [e, map_mul, map_inv, hxΦ, inv_mul_cancel]
     refine ⟨(x : G)⁻¹ * z, h.ker k hk ⟨(x : G)⁻¹ * z, hxz⟩ hΦ1, ?_⟩
     rw [map_mul, map_inv, hxβ, hβz, mul_assoc]
@@ -81,6 +81,7 @@ private def singleSupp (k : ℕ) : Subgroup (LayerCoord (K := K) k) where
     intro a ha O hO
     simp [ha O hO]
 
+omit [Finite K] in
 private theorem mem_singleSupp {k : ℕ} {a : LayerCoord (K := K) k} :
     a ∈ singleSupp (K := K) k ↔
       ∀ O : ↥(orbitsAt TwistTag.D4 ((k + 1 : ℕ) : ℤ)), O.1.card ≠ 1 →
@@ -92,7 +93,7 @@ private theorem cov_d4_height_four_check : ∀ l ∈ TwistTag.D4.tag.artifactRoo
   decide
 
 private theorem cov_height_ge_four {γ : Fin TwistTag.D4.tag.rank → ℤ}
-    (hγ : IsRoot TwistTag.D4.tag γ) (hpos : 0 < height γ) (h4 : (4 : ℤ) ≤ height γ) :
+    (hγ : IsRoot TwistTag.D4.tag γ) (_hpos : 0 < height γ) (h4 : (4 : ℤ) ≤ height γ) :
     γ = rootC ∨ γ = rootD := by
   have hs : (4 : ℤ) ≤ (List.ofFn γ).sum := by
     rw [List.sum_ofFn]
@@ -150,6 +151,7 @@ private theorem repOf_ne_of_fixed {h : ℤ} (O : ↥(orbitsAt TwistTag.D4 h)) (h
   apply hO
   rw [← (repOf_spec TwistTag.D4 h O).2.2, e, cov_diagramOrbit_card hγ]
 
+omit [Finite K] in
 private theorem mem_heightSeries_of_height_le {α γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : IsRoot TwistTag.D4.tag γ ∧ 0 < height γ) (hle : height α ≤ height γ) (c : K) :
     pinnedX TwistTag.D4.tag K γ c ∈ heightSeries TwistTag.D4.tag K (height α) :=
@@ -198,7 +200,7 @@ private theorem coord_zero_of_le_one {α : Fin TwistTag.D4.tag.rank → ℤ}
 
 private theorem coord_zero_of_two_le {α : Fin TwistTag.D4.tag.rank → ℤ}
     (hα : IsRoot TwistTag.D4.tag α ∧ 0 < height α)
-    (hαB : α ≠ rootB) (hαC : α ≠ rootC) (hαD : α ≠ rootD)
+    (_hαB : α ≠ rootB) (hαC : α ≠ rootC) (hαD : α ≠ rootD)
     (h2 : 2 ≤ height α) (h4 : height α ≤ 4) (s r r' : K)
     (hL : pinnedX TwistTag.D4.tag K rootB s * pinnedX TwistTag.D4.tag K rootC r *
       pinnedX TwistTag.D4.tag K rootD r' ∈ heightSeries TwistTag.D4.tag K (height α)) :
@@ -252,6 +254,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit [CharP K 3] in
 private theorem cov_lift {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
     (a : LayerCoord (K := K) k) (hτ : layerTau σ k a = a) :
     ∃ x : layerN σ k,
@@ -282,6 +285,7 @@ private theorem cov_lift {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
   simp only [toAdd_ofAdd]
   rw [Finset.univ_sum_single]
 
+omit hf [CharP K 3] hK hσ in
 private theorem cov_hT {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
     (a : LayerCoord (K := K) k) (ha : a ∈ (layerPhi σ k).range)
     (hc : layerTau σ k a * a⁻¹ ∈ singleSupp (K := K) k) : layerTau σ k a = a := by
@@ -289,7 +293,7 @@ private theorem cov_hT {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
   apply Multiplicative.toAdd.injective
   funext O
   by_cases hO : O.1.card = 1
-  · exact layerPhi_apply_fixed hf hK σ hσ hk x O hO
+  · exact layerPhi_apply_fixed σ hk x O hO
   · have h0 : Multiplicative.toAdd (layerTau σ k (layerPhi σ k x) * (layerPhi σ k x)⁻¹) O = 0 :=
       mem_singleSupp.1 hc O hO
     have e : Multiplicative.toAdd (layerTau σ k (layerPhi σ k x)) O =
@@ -299,17 +303,18 @@ private theorem cov_hT {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
     rw [e]
     linear_combination h0
 
+omit [CharP K 3] in
 theorem fieldActor_eq_mul_long_imp (u : graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
     (hu : (u : ModGL TwistTag.D4.tag K) ∈ graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom)
     (s r r' : K) (hs : σ s = s) (hr : σ r = r) (hr' : σ r' = r')
     (h : fieldActor (t := TwistTag.D4) σ σ u =
-      u * (longElt hf hK σ hσ (Or.inl rfl) s hs * longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr *
-        longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr')) :
+      u * (longElt σ (Or.inl rfl) s hs * longElt σ (Or.inr (Or.inl rfl)) r hr *
+        longElt σ (Or.inr (Or.inr rfl)) r' hr')) :
     s = 0 ∧ r = 0 ∧ r' = 0 := by
   classical
   obtain ⟨v, hvdef⟩ : ∃ v : graphFixedRootGroup TwistTag.D4 K σ.toRingHom,
-      v = longElt hf hK σ hσ (Or.inl rfl) s hs * longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr *
-        longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr' := ⟨_, rfl⟩
+      v = longElt σ (Or.inl rfl) s hs * longElt σ (Or.inr (Or.inl rfl)) r hr *
+        longElt σ (Or.inr (Or.inr rfl)) r' hr' := ⟨_, rfl⟩
   have hβ : fieldActor (t := TwistTag.D4) σ σ u = u * v := by
     rw [hvdef]
     exact h
@@ -317,9 +322,9 @@ theorem fieldActor_eq_mul_long_imp (u : graphFixedRootGroup TwistTag.D4 K σ.toR
       pinnedX TwistTag.D4.tag K rootB s * pinnedX TwistTag.D4.tag K rootC r *
         pinnedX TwistTag.D4.tag K rootD r' := by
     rw [hvdef, Subgroup.coe_mul, Subgroup.coe_mul,
-      coe_longElt hf hK σ hσ (Or.inl rfl) s hs,
-      coe_longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr,
-      coe_longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr']
+      coe_longElt σ (Or.inl rfl) s hs,
+      coe_longElt σ (Or.inr (Or.inl rfl)) r hr,
+      coe_longElt σ (Or.inr (Or.inr rfl)) r' hr']
   have hu0 : u ∈ layerN σ 0 := (cov_mem_layerN_zero σ u).2 (Subgroup.mem_inf.1 hu).1
   have hlift : ∀ k < (maxHeight TwistTag.D4.tag).toNat, ∀ a ∈ (layerPhi σ k).range,
       layerTau σ k a = a → ∃ x : layerN σ k,
@@ -328,7 +333,7 @@ theorem fieldActor_eq_mul_long_imp (u : graphFixedRootGroup TwistTag.D4 K σ.toR
     fun k hk a _ hτ => cov_lift hf hK σ hσ hk a hτ
   have hT : ∀ k < (maxHeight TwistTag.D4.tag).toNat, ∀ a ∈ (layerPhi σ k).range,
       layerTau σ k a * a⁻¹ ∈ singleSupp (K := K) k → layerTau σ k a = a :=
-    fun k hk a ha hc => cov_hT hf hK σ hσ hk a ha hc
+    fun k hk a ha hc => cov_hT σ hk a ha hc
   have hv : ∀ k < (maxHeight TwistTag.D4.tag).toNat, ∀ hvk : v ∈ layerN σ k,
       layerPhi σ k ⟨v, hvk⟩ ∈ singleSupp (K := K) k := by
     intro k _ hvk

@@ -512,7 +512,7 @@ theorem v3ExitAE6WfN_of (hEW : TwinThmEW.ThmEQ8) (hcit : CIT3Below n)
   have htop : Subgroup.closure (Set.range ε) = ⊤ := by
     rw [eq_top_iff, ← (CoreData.of_S hin.1.perp.core).gen]
     exact iSup_le fun g => (key _ (hconn _ ⟨g, rfl⟩)).2
-  haveI : Nontrivial Y := ⟨⟨t, 1, hin.1.datum.hz.ne_one⟩⟩
+  have : Nontrivial Y := ⟨⟨t, 1, hin.1.datum.hz.ne_one⟩⟩
   exact hin.1.exit (A6.curtisD42_twinE4 ε hrel htop)
 
 theorem v3AE6D_of (hE : V3AE6E n) (hC : V3AE6EComm n) : V3AE6D n :=
@@ -645,7 +645,7 @@ theorem curtis_of_glue {Y : Type} [Group Y] {V : Fin 3 → Subgroup Y} (hG : AE6
       rw [getD_ofFn8, getD_ofFn8]
       split_ifs with h8
       · have hi := hi8 c hc h8
-        simp only [Function.comp, g, dif_pos hi, f, MonoidHom.comp_apply, Subgroup.coe_subtype,
+        simp only [Function.comp, g, dite_eq_left hi, f, MonoidHom.comp_apply, Subgroup.coe_subtype,
           MulEquiv.coe_toMonoidHom]
         exact (hf k _ hi).symm
       · rfl
@@ -656,7 +656,7 @@ theorem curtis_of_glue {Y : Type} [Group Y] {V : Fin 3 → Subgroup Y} (hG : AE6
       refine curtisEval_congr fun c hc => ?_
       rw [getD_ofFn8, getD_ofFn8]
       split_ifs with h8
-      · simp only [Function.comp, g, dif_pos (hi8 c hc h8), Subgroup.coe_subtype]
+      · simp only [Function.comp, g, dite_eq_left (hi8 c hc h8), Subgroup.coe_subtype]
       · rfl
     rw [h1, curtisEval_map, h2, map_one]
   · let f : ↥(ae6ModelV k) →* Y := (V k).subtype.comp (ψ k).symm.toMonoidHom

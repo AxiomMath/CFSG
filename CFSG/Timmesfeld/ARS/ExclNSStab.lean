@@ -187,7 +187,7 @@ theorem exists_le_stabBar_of_isPGroup (hS : Sec13 R A A₀)
       refine lt_top_iff_ne_top.2 fun htop => hSP fun x hx => ?_
       have hx' : (⟨x, hx⟩ : ↥(S : Subgroup _)) ∈ Q.subgroupOf S := htop ▸ Subgroup.mem_top _
       exact (Subgroup.mem_subgroupOf.1 hx').2
-    have hnil := S.isPGroup'.isNilpotent
+    have hnil := S.isPGroup.isNilpotent
     obtain ⟨s, hsN, hsQ⟩ :=
       IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent (h := hnil) _ hQlt)
     obtain ⟨v, hv⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥(levi R A A₀)) (s : _)

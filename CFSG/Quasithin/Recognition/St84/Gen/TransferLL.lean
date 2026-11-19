@@ -166,6 +166,7 @@ structure TransferVertexLin (E : Subgroup H) (n : ℕ) : Prop where
   abelian : IsMulCommutative ↥(pCoreOf 2 E)
   indec : ⁅pCoreOf 2 E, oTwoPrime E⁆ = pCoreOf 2 E
 
+omit [Finite H] in
 theorem TransferVertexLin.quot {E : Subgroup H} {n : ℕ} (hV : TransferVertexLin E n)
     (hn : 2 ≤ n) : IsL2Quot n (oTwoQuot ↥(oTwoPrime E)) :=
   CFSG.Quasithin.F146Field.isL2Quot_of_isPSL (isPSL_of_isLin2Type1521 hn hV.lin)
@@ -191,6 +192,7 @@ theorem TransferVertexLin.centralizes_pCoreOf {E : Subgroup H} {n : ℕ}
   have h := centralizes_pCoreOf_of_isLin2Type (L := oTwoPrime E) hV.lin hab hU hc2 hcL' hcLQ
   rwa [hQ] at h
 
+omit [Finite H] in
 private theorem exists_odd_ne_one_of_torus {D : Subgroup H} {q : ℕ} (hD : Nat.card D = q)
     (hq : 2 ≤ q) (hoddq : Odd q) :
     ∃ d : ↥D, d ≠ 1 ∧ Odd (orderOf (d : H)) := by
@@ -343,7 +345,7 @@ theorem f112ll_mem_K_of_vertexLin {L1 L2 S : Subgroup H} {m n : ℕ} (hF : F112H
       exists_mul_inv_commutator_mem_pCoreOf_of_isL2Quot (L := oTwoPrime Eβ) (T := T) (A := Qα)
         (hV2.quot hn) (f112sa_T_sylow_oTwoPrime_P2'_of_hyp111R hF hR) hAleT hAT hcNLβ hcQαcomm
     refine ⟨a, hAleT haQα, ?_, ?_⟩
-    · haveI : IsMulCommutative ↥Qα := hV1.abelian
+    · have : IsMulCommutative ↥Qα := hV1.abelian
       have hcCent : c ∈ Subgroup.centralizer (Qα : Set H) := Subgroup.mem_centralizer_iff.mpr
         fun q hq => (commutatorElement_eq_one_iff_mul_comm.mp (hcQα q hq)).symm
       have hcaCent : c * a⁻¹ ∈ Subgroup.centralizer (Qα : Set H) :=

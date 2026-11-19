@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {X : Type*} [Group X] [Finite X] {Z A : Subgroup X} [Z.Normal]
 
+omit [Finite X] in
 private lemma lit_s5_mem_left_of_mem_sup_of_pow_two_eq_one {H O : Subgroup X}
     [H.Normal] [O.Normal] (hO : Odd (Nat.card O)) {y : X} (hy : y ∈ H ⊔ O) (k : ℕ)
     (hyk : y ^ 2 ^ k = 1) : y ∈ H := by

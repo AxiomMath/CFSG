@@ -49,13 +49,15 @@ section Orbit
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [DistribMulAction A5 W]
   [SMulCommClass A5 (ZMod 2) W] [Finite W]
 
+omit [DistribMulAction A5 W] [SMulCommClass A5 (ZMod 2) W] [Finite W] in
 theorem add_self_eq_zero' (w : W) : w + w = 0 := by
   rw [← two_smul (ZMod 2) w]
   have : (2 : ZMod 2) = 0 := by decide
   rw [this, zero_smul]
 
+omit [SMulCommClass A5 (ZMod 2) W] in
 theorem exists_fixed_vec [Nontrivial W] : ∃ u : W, u ≠ 0 ∧ ∀ t ∈ T0, t • u = u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w, hw⟩ := exists_ne (0 : W)
   have hmod := isPGroup_T0.card_modEq_card_fixedPoints (α := W)
   have h2 : 2 ∣ Nat.card W := by
@@ -70,9 +72,9 @@ theorem exists_fixed_vec [Nontrivial W] : ∃ u : W, u ≠ 0 ∧ ∀ t ∈ T0, t
     by_contra hne
     exact hcon0 ⟨u, hne, hu⟩
   have hF : Nat.card (MulAction.fixedPoints T0 W) = 1 := by
-    haveI : Nonempty (MulAction.fixedPoints T0 W) :=
+    have : Nonempty (MulAction.fixedPoints T0 W) :=
       ⟨⟨0, by rw [MulAction.mem_fixedPoints]; intro m; exact smul_zero m⟩⟩
-    haveI : Subsingleton (MulAction.fixedPoints T0 W) := ⟨fun a b => by
+    have : Subsingleton (MulAction.fixedPoints T0 W) := ⟨fun a b => by
       apply Subtype.ext
       have ha := hcon a.1 (fun t ht => by
         have := a.2
@@ -168,7 +170,7 @@ theorem exists_y (hs : IsSimpleMod W) [Nontrivial W] :
       simp only [Matrix.mul_apply, Pm, Finset.sum_smul]
       rw [Finset.sum_comm]
       refine Finset.sum_congr rfl fun j _ => ?_
-      simp [ite_smul, Finset.sum_ite_eq]
+      simp [ite_smul]
     rw [e1, e2, S_mul_Mt, e3]
   · rw [eq_top_iff, ← hspan]
     refine Submodule.span_le.mpr ?_

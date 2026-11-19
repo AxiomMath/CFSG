@@ -200,7 +200,7 @@ theorem Sec2Rest.toInputs
   l28c := i145b
 
 theorem Sec5Rest.toInputs
-    (i145 : Lemma27Ns.Input14_5) (R : Sec5Rest) (gF : Lemma59Ns.Gap_Final)
+    (i145 : Lemma27Ns.Input14_5) (_R : Sec5Rest) (gF : Lemma59Ns.Gap_Final)
     (T : CFSG.HardMathSupport.Timmesfeld.ComponentBalance.Tables112)
     (TL : CFSG.HardMathSupport.Timmesfeld.ComponentBalance.TableL2) (TT : Tables112Types)
     (TM : Tables112More) (i2326 : Lemma55Ns.Input23_26) (i2316 : CFSG.HardMathSupport.Solomon.Coordinator.Input23_16At3Ext)

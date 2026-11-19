@@ -21,7 +21,7 @@ theorem not_cube_dvd_20160 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : ¬ p ^ 3 �
     push Not at hlt
     have : 28 ^ 3 ≤ p ^ 3 := Nat.pow_le_pow_left hlt 3
     omega
-  interval_cases p <;> first | omega | exact absurd hp (by norm_num) | exact absurd rfl hp2
+  interval_cases p <;> first | omega | exact absurd hp (by norm_num)
 
 theorem isStronglyQuasithin_of_card_dvd {G : Type*} [Group G] [Finite G]
     (h : Nat.card G ∣ 20160) : CFSG.IsStronglyQuasithin G := by
@@ -30,7 +30,7 @@ theorem isStronglyQuasithin_of_card_dvd {G : Type*} [Group G] [Finite G]
   rw [CFSG.SectionRank.pRank_eq_open_pRank_top]
   have hp1 : 1 < p := hp.one_lt
   refine CFSG.SectionRank.pRank_le hp1 fun E _ hE => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p ↥E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hpg
   have hdvd : Nat.card ↥E ∣ Nat.card G := Subgroup.card_subgroup_dvd_card E
@@ -50,7 +50,7 @@ theorem card_alternatingGroup_dvd {n : ℕ} (hn : n = 5 ∨ n = 6 ∨ n = 8) :
 
 theorem isStronglyQuasithin_of_alt {K : Type*} [Group K] {n : ℕ} (hn : n = 5 ∨ n = 6 ∨ n = 8)
     (e : K ≃* ↥(alternatingGroup (Fin n))) : CFSG.IsStronglyQuasithin K := by
-  haveI : Finite K := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite K := Finite.of_equiv _ e.symm.toEquiv
   refine isStronglyQuasithin_of_card_dvd ?_
   rw [Nat.card_congr e.toEquiv]
   exact card_alternatingGroup_dvd hn

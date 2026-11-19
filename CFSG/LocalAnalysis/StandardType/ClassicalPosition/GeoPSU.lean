@@ -125,7 +125,7 @@ private lemma gPSU_conjTr_mul_eq_of_forall {F : Type} [Field F] {n : ℕ} (σ : 
   have h1 := h (Pi.single i 1) (Pi.single j 1)
   have e : (fun k => σ ((Pi.single i (1 : F) : Fin n → F) k)) = Pi.single i 1 := by
     funext k
-    by_cases hk : k = i <;> simp [Pi.single_apply, hk]
+    by_cases hk : k = i <;> simp [hk]
   have hL : dotProduct (fun k => σ (Matrix.mulVec M (Pi.single i 1) k))
       (Matrix.mulVec S (Matrix.mulVec M (Pi.single j 1))) =
       (Matrix.transpose (M.map σ) * S * M) i j := by

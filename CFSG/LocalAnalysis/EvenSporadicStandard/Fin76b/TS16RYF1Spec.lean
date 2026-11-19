@@ -59,7 +59,7 @@ theorem hall_of_rows {n : ℕ} {P : Subgroup (Equiv.Perm (Fin n))} {u τ0 : Equi
   intro ρ hρR hρ2 hρP
   have hρ1 : ρ ≠ 1 := fun h => hρP (h ▸ one_mem _)
   have hord : orderOf ρ = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hρ2) hρ1
   obtain ⟨r, hr, g, hg, hρg⟩ := hcov ρ hρR hord
   have hrep : tp n r.rep ∉ P := fun hmem => hρP (by

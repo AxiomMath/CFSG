@@ -74,7 +74,7 @@ lemma eq_one_of_odd_cycle {K : Type*} [Group K] {ι : Type*} [Fintype ι] (τ : 
   have h1 : t i = (t i)⁻¹ := by
     have h := apply_iterate_eq_ite τ t ht i (Function.minimalPeriod τ i)
     rw [Function.iterate_minimalPeriod] at h
-    rwa [if_neg (Nat.not_even_iff_odd.mpr hodd)] at h
+    rwa [ite_eq_right (Nat.not_even_iff_odd.mpr hodd)] at h
   have h2 : t i ^ 2 = 1 := by
     rw [pow_two]
     exact mul_eq_one_iff_eq_inv.mpr h1
@@ -188,9 +188,9 @@ lemma card_le_card_evenClass_fun {K : Type*} [Field K] {ι : Type*} [Fintype ι]
     Nat.card E ≤ Nat.card ({q : Quotient (Equiv.Perm.SameCycle.setoid τ) // evenClass τ q} →
       rootsOfUnity p K) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype (rootsOfUnity p K) := Fintype.ofFinite _
-  haveI : Fintype {q : Quotient (Equiv.Perm.SameCycle.setoid τ) // evenClass τ q} :=
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype (rootsOfUnity p K) := Fintype.ofFinite _
+  have : Fintype {q : Quotient (Equiv.Perm.SameCycle.setoid τ) // evenClass τ q} :=
     Fintype.ofFinite _
   exact Nat.card_le_card_of_injective (evenClassEval τ E hE)
     (evenClassEval_injective hp hp2 τ E hE hτ)
@@ -200,8 +200,8 @@ theorem card_le_pow_of_inv_perm {K : Type*} [Field K] {ι : Type*} [Fintype ι] 
     (hE : ∀ t ∈ E, ∀ i, t i ^ p = 1) (hτ : ∀ t ∈ E, ∀ i, t (τ i) = (t i)⁻¹) :
     Nat.card E ≤ p ^ (Fintype.card ι / 2) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype (rootsOfUnity p K) := Fintype.ofFinite _
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype (rootsOfUnity p K) := Fintype.ofFinite _
   calc Nat.card E
       ≤ Nat.card ({q : Quotient (Equiv.Perm.SameCycle.setoid τ) // evenClass τ q} →
           rootsOfUnity p K) := card_le_card_evenClass_fun hp hp2 τ E hE hτ
@@ -277,9 +277,9 @@ theorem fpf_involution_of_card_ge {K : Type*} [Field K] {ι : Type*} [Fintype ι
     (∀ i, τ i ≠ i) ∧ (∀ i, τ (τ i) = i) ∧
       ∀ t : ι → Kˣ, (∀ i, t i ^ p = 1) → (∀ i, t (τ i) = (t i)⁻¹) → t ∈ E := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype (rootsOfUnity p K) := Fintype.ofFinite _
-  haveI : Fintype {q : Quotient (Equiv.Perm.SameCycle.setoid τ) // evenClass τ q} :=
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype (rootsOfUnity p K) := Fintype.ofFinite _
+  have : Fintype {q : Quotient (Equiv.Perm.SameCycle.setoid τ) // evenClass τ q} :=
     Fintype.ofFinite _
   let s := Equiv.Perm.SameCycle.setoid τ
   let μ := rootsOfUnity p K
@@ -344,7 +344,7 @@ theorem fpf_involution_of_card_ge {K : Type*} [Field K] {ι : Type*} [Fintype ι
       _ = Nat.card μ ^ a := Nat.card_fun
       _ ≤ p ^ a := pow_le_pow_left' hμ a
       _ = p ^ r := by rw [ha]
-  haveI : Finite W := Finite.of_injective (evenClassEval τ W hW1)
+  have : Finite W := Finite.of_injective (evenClassEval τ W hW1)
     (evenClassEval_injective hp hp2 τ W hW1 hW2)
   have hEW : E ≤ W := fun t ht => ⟨hE t ht, hτ t ht⟩
   have hEq : E = W := Subgroup.eq_of_le_of_card_ge hEW (le_trans hcardW hcard)
@@ -395,10 +395,10 @@ lemma card_quotient_sameCycle {ι : Type*} [Fintype ι] [DecidableEq ι] (τ : E
     Nat.card (Quotient (Equiv.Perm.SameCycle.setoid τ)) = r := by
   classical
   let s := Equiv.Perm.SameCycle.setoid τ
-  haveI : Fintype (Quotient s) := Fintype.ofFinite _
+  have : Fintype (Quotient s) := Fintype.ofFinite _
   have hfiber : ∀ q : Quotient s, Fintype.card {x : ι // Quotient.mk s x = q} = 2 := by
     intro q
-    haveI : Nonempty ι := ⟨Quotient.out q⟩
+    have : Nonempty ι := ⟨Quotient.out q⟩
     have horder : orderOf τ = 2 := by
       have hmul : τ * τ = 1 := Equiv.ext hτ2
       have hdvd : orderOf τ ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr (by rwa [pow_two])
@@ -448,7 +448,7 @@ theorem exists_equiv_hypIndex_of_fpf_involution {ι : Type*} [Fintype ι] [Decid
     ∃ e : HypIndex r 0 ≃ ι, ∀ a, e (hypPartner a) = τ (e a) := by
   classical
   let s := Equiv.Perm.SameCycle.setoid τ
-  haveI : Fintype (Quotient s) := Fintype.ofFinite _
+  have : Fintype (Quotient s) := Fintype.ofFinite _
   have hcardQ : Nat.card (Quotient s) = r := card_quotient_sameCycle τ hι hτ1 hτ2
   have hcardQ' : Fintype.card (Quotient s) = r := by rwa [Nat.card_eq_fintype_card] at hcardQ
   let qe : Quotient s ≃ Fin r := Fintype.equivFinOfCardEq hcardQ'

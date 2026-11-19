@@ -16,7 +16,7 @@ theorem exists_inverting_quotient {L : Type} [Group L] [Finite L] (N : Subgroup 
     (hN : ¬ 3 ∣ Nat.card N) (hI : InvNormalizer 3 (L ⧸ N)) {E : Subgroup L} (hE : Nat.card E = 9)
     (hEab : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) :
     ∃ x : L, x ∈ normalizer (E : Set L) ∧ ∀ e ∈ E, x * x * e * (x * x)⁻¹ = e⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn, hpn, E₀, hE₀, -, x₀, hx₀, hinv₀⟩ := hI
   have hcardL : Nat.card L = 3 ^ 2 * (Nat.card N * n) := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup N, hn]
@@ -50,7 +50,7 @@ theorem exists_inverting_of_invNormalizer (hr3 : m.r = 3) (h620 : m.C620)
     (hI : InvNormalizer 3 m.Lbar) :
     ∃ x : G, x ∈ m.L ∧ x ∈ normalizer ((m.A ⊓ m.L : Subgroup G) : Set G) ∧
       ∀ e ∈ m.A ⊓ m.L, x * x * e * (x * x)⁻¹ = e⁻¹ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hcop := CFSG.pPrimeCore_coprime_card (p := m.r) (G := ↥m.L)
   have hN : ¬ 3 ∣ Nat.card ↥(CFSG.pPrimeCore m.r ↥m.L) := by
     intro hdiv

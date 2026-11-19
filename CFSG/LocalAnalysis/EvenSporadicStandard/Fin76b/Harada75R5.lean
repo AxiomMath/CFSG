@@ -161,7 +161,6 @@ theorem exists_F_of_invol {S : Type} [Group S] {x y : S} (hxy : x * y = y * x) (
     all_goals first
       | exact Commute.one_left _
       | exact Commute.one_right _
-      | exact Commute.refl _
       | exact hxy'
       | exact hxy'.symm
       | exact (Commute.refl x).mul_right hxy'

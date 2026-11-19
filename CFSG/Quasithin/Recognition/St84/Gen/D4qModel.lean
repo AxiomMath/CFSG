@@ -30,8 +30,8 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 private theorem genComm_d4Q0 (σ : K ≃+* K) (hσ3 : σ.toRingHom ^ 3 = 1)
     (hK4 : 4 ≤ Nat.card K) : GenComm (perfectCore (P0 σ)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hF := parabolicFacts_a0 σ hσ3 hK4
   have hQ0pc : Q0 σ ≤ perfectCore (P0 σ) := Q0_le_perfectCore σ hσ3 hK4
   have hnorm : perfectCore (P0 σ) ≤
@@ -62,8 +62,8 @@ private theorem genComm_d4Q1 (σ : K ≃+* K) (hσ3 : σ.toRingHom ^ 3 = 1)
     (hk4 : 4 ≤ Nat.card ↥(trialityFixedField K σ.toRingHom)) :
     GenComm (perfectCore (P1 σ)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hF := parabolicFacts_a1 σ hσ3
   have hQ1pc : Q1 σ ≤ perfectCore (P1 σ) := Q1_le_perfectCore σ hσ3 hk4
   have hnorm : perfectCore (P1 σ) ≤
@@ -113,15 +113,15 @@ theorem hasModelFacts_d4 (f : ℕ) (hf : 2 ≤ f) :
     CFSG.Blueprint.LieModel.chevalleyExceptionalModel hY (by decide)
   have hfin : Finite Y := (CFSG.Quasithin.H13.F431.D4q.Hex.f431ModelFacts_d4 f Y hY).1
   refine ⟨hfin, fun T hT => ?_⟩
-  haveI : Finite Y := hfin
+  have : Finite Y := hfin
   obtain ⟨K, _, _, σ, φ, hK, hσq, hUmap, hres, -⟩ :=
     CFSG.QuasithinUnique.Setup.X6.even_rank_two_residual_triality hX hT
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hσ3 : σ.toRingHom ^ 3 = 1 := by
     ext c
     simp only [RingHom.coe_pow, Function.iterate_succ, Function.comp_apply,

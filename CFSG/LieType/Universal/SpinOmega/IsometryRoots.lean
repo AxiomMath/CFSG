@@ -101,7 +101,7 @@ theorem map_longRoot_range_le_supportedDerived (hK : ∃ c : K, c ≠ 0 ∧ c �
   refine eichler_mem_supportedDerived hj (P.smul_mem c hi) ?_ ?_ ?_
   · rw [← e.map_app (e.symm (plusVec n K j t)), e.apply_symm_apply, quadPlus_plusVec]
   · rw [polar_smul_right_eq, isometryEquiv_polar_symm e (plusVec n K j t) (plusVec n K i s),
-      polar_quadPlus_plusVec, if_neg (fun h => hij h.1.symm), mul_zero]
+      polar_quadPlus_plusVec, ite_eq_right (fun h => hij h.1.symm), mul_zero]
   · exact eichler_mem_orthDerived_of_ne_zero_ne_one hP hc0 hc1 _ _
 
 private theorem autCongrLinear_symm_eq {V W : Type*} [AddCommGroup V] [Module K V]

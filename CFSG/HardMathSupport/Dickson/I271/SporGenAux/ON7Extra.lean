@@ -39,7 +39,7 @@ theorem card_closure_pair_sq [Finite X] {p : ℕ} [hp : Fact p.Prime] {a b : X} 
       obtain ⟨i, hi, j, hj, rfl⟩ := exists_pow_mul_pow_of_mem hp0 h ha hb hg
       exact ⟨(⟨i, hi⟩, ⟨j, hj⟩), rfl⟩
     have h2 := Nat.card_le_card_of_surjective f hf
-    have h3 : Nat.card (Fin p × Fin p) = p * p := by simp [Nat.card_prod]
+    have h3 : Nat.card (Fin p × Fin p) = p * p := by simp
     rw [h3] at h2
     nlinarith
   have hbz : b ∉ Subgroup.zpowers a := hba
@@ -49,7 +49,7 @@ theorem card_closure_pair_sq [Finite X] {p : ℕ} [hp : Fact p.Prime] {a b : X} 
     have hle : Nat.card (Subgroup.zpowers a) ≤ Nat.card K := Subgroup.card_le_of_le hz
     have hKle : Nat.card K ≤ p := by
       rw [hk]
-      interval_cases k <;> simp <;> omega
+      interval_cases k <;> simp; omega
     have heq : Subgroup.zpowers a = K := Subgroup.eq_of_le_of_card_ge hz (by
       rw [Nat.card_zpowers, hord]; exact hKle)
     exact hbz (heq ▸ hbK)
@@ -120,7 +120,7 @@ theorem SevenLine.comm_mem [Finite X] [Fact p.Prime] (h : SevenLine p w F) {v e 
     have : p ^ 3 = p ^ 2 * p := by ring
     rw [this] at h1
     exact (Nat.eq_of_mul_eq_mul_right hp0 h1).symm
-  haveI := IsPGroup.isMulCommutative_of_card_eq_prime_sq hquot
+  have := IsPGroup.isMulCommutative_of_card_eq_prime_sq hquot
   have hmk := mul_comm' (QuotientGroup.mk (⟨v, hv⟩ : ↥F) : ↥F ⧸ N) (QuotientGroup.mk ⟨e, he⟩)
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul] at hmk
   have hmem := QuotientGroup.eq.1 hmk.symm
@@ -482,10 +482,10 @@ theorem SevenModel.noSig [Finite X] [Fact p.Prime] (hp2 : p ≠ 2) {Q : Subgroup
     {gens : Set X} (D : SevenModel X p Q z gens) (hcen : Subgroup.center X = ⊥)
     (hout : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) ≤ 2) :
     ∀ Ê : Subgroup (MulAut X), IsElemAbelian p Ê → Nat.card Ê = p ^ 2 → NoSig p Ê :=
-  noSig_planes_of_sylow (Fact.out : p.Prime) hp2 hcen hout D.syl fun E₀ hE₀Q hEel hE2 =>
+  noSig_planes_of_sylow (Fact.out : p.Prime) hp2 hcen hout D.syl fun _E₀ hE₀Q hEel hE2 =>
     noSig_of_inner_outer (Fact.out : p.Prime) hp2 hcen hout hEel hE2
       (fun e he he1 => D.rankOK e (orderOf_eq_prime (hEel.2 e he) he1))
-      (fun σ hσ hfix => D.fix_plane hE₀Q hEel hE2 hσ hfix)
+      (fun _σ hσ hfix => D.fix_plane hE₀Q hEel hE2 hσ hfix)
 
 end Model
 
@@ -519,7 +519,7 @@ theorem sevenLine_of_data {p : ℕ} [Fact p.Prime] {w : X} {F : Subgroup X} {m :
     rw [hS, Subgroup.mem_subgroupOf]
     have := hFn g g.2 x hx'
     simpa using this⟩
-  haveI : Finite (Sylow p C) := inferInstance
+  have : Finite (Sylow p C) := inferInstance
   set c' : C := ⟨c, hc⟩ with hc'
   have hcyc : IsPGroup p (Subgroup.zpowers c') := by
     have hn' : c' ^ (p ^ n) = 1 := Subtype.ext (by simpa using hn)

@@ -34,7 +34,7 @@ theorem false_of_exceptional_q {G : Type} [Group G] [Finite G]
       d * w = w * d)
     (q : ℕ) (hq : q.Prime) (hpS : Subgroup.centralizer (CFSG.pCore q L : Set L) ≤ K₀) :
     False := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hK₀top : K₀ ≠ ⊤ := QuotientGroup.nontrivial_iff.mp inferInstance
   have hctop : ∀ N : Subgroup L, N ≤ Subgroup.center L →
       ¬ Subgroup.centralizer (N : Set L) ≤ K₀ := by
@@ -182,7 +182,7 @@ theorem false_of_exceptional_q {G : Type} [Group G] [Finite G]
       refine ⟨key x hx y, fun hy => ?_⟩
       have := key x⁻¹ (X.inv_mem hx) _ hy
       simpa [mul_assoc] using this
-    haveI : (C.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXC
+    have : (C.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXC
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (C.subgroupOf X) with h | h
     · exfalso
       have : (⟨a, haX⟩ : X) ∈ C.subgroupOf X :=

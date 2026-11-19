@@ -146,14 +146,14 @@ theorem mag568_conj_mem_normalizer_map {K : Type*} [Group K] {H : Subgroup K} {y
   rw [key, key, hy (g⁻¹ * w * g)]
   rw [show g⁻¹ * (g * y * g⁻¹ * w * (g * y * g⁻¹)⁻¹) * g = y * (g⁻¹ * w * g) * y⁻¹ by group]
 
-theorem mag568_gamma_ne_geo_one (h : PUHyp M T L) (hU : IsSL3U M T L)
+theorem mag568_gamma_ne_geo_one (h : PUHyp M T L) (_hU : IsSL3U M T L)
     (hb : 2 < critDist (puAmalgam h.le)) {E : Subgroup (puAmalgam h.le).Universal}
-    (hEf : E ≤ S34F.flat h (baseA _)) (hET : Qv _ (baseB _) ≤ Subgroup.normalizer (E : Set (puAmalgam h.le).Universal))
-    (hline : mag568_IsLine h (baseA _)
+    (_hEf : E ≤ S34F.flat h (baseA _)) (hET : Qv _ (baseB _) ≤ Subgroup.normalizer (E : Set (puAmalgam h.le).Universal))
+    (_hline : mag568_IsLine h (baseA _)
       (Uloc h.le L (baseA _) ⊓ Subgroup.centralizer (E : Set (puAmalgam h.le).Universal)))
     {α α' : Vtx (puAmalgam h.le)} (hc : IsCritical (puAmalgam h.le) α α')
     {g : (puAmalgam h.le).Universal} (hg : g • baseB (puAmalgam h.le) = geo _ α α' 1)
-    (hgα : g • baseA (puAmalgam h.le) ≠ α) :
+    (_hgα : g • baseA (puAmalgam h.le) ≠ α) :
     ZM _ α' ≤ Subgroup.normalizer ((mag568_zE h E g ⊔ ZM _ α : Subgroup (puAmalgam h.le).Universal) : Set (puAmalgam h.le).Universal) := by
   have h20 := h.hyp20
   have hb0 : 0 < critDist (puAmalgam h.le) := h.critDist_pos
@@ -237,7 +237,7 @@ theorem mag568_le_qv_alpha'_sub_two (h : PUHyp M T L) (hU : IsSL3U M T L)
 theorem mag568_false_of_crit_delta (h : PUHyp M T L) (hU : IsSL3U M T L)
     (hC : CentHyp (puAmalgam h.le)) (hb : 4 < critDist (puAmalgam h.le)) (hbad : mag568_Bad h)
     {α α' δ : Vtx (puAmalgam h.le)} (hc : IsCritical (puAmalgam h.le) α α')
-    (hδ : (puAmalgam h.le).treeGraph.dist α δ = 2)
+    (_hδ : (puAmalgam h.le).treeGraph.dist α δ = 2)
     (hδ' : (puAmalgam h.le).treeGraph.dist δ α' = critDist (puAmalgam h.le) + 2)
     (hcδ : IsCritical (puAmalgam h.le) δ (geo _ α' α 2))
     {Z : Subgroup (puAmalgam h.le).Universal}

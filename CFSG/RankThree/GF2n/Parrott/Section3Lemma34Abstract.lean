@@ -99,7 +99,7 @@ theorem lemma34_abstract {Y : Type} [Group Y] [Finite Y] (M D : Subgroup Y)
   obtain ⟨K, hKn, hK2⟩ := exists_normal_index_two_of_permFive hDM hD hD16 hπ hTrans hCent hodd
   have hMK : ¬ M ≤ K := not_le_of_odd_index_of_index_two hodd hK2
   have hDK : D ≤ K := @le_of_index_two_of_transitive Y _ _ M D hD16 hTrans K hKn hK2
-  have hrel : K.relIndex M = 2 := @relIndex_eq_two_of_index_two Y _ _ M K hKn hMK hK2
+  have hrel : K.relIndex M = 2 := @relIndex_eq_two_of_index_two Y _ M K hKn hMK hK2
   have hcard960 : Nat.card (K ⊓ M : Subgroup Y) = 960 :=
     card_inf_eq_of_relIndex_two hM1920 hrel
   have hKcard : Nat.card K * 2 = 1920 * M.index := by

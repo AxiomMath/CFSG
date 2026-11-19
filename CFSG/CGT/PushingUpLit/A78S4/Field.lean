@@ -190,6 +190,7 @@ variable {f : G} (hf : f ∈ T) (hfJ : f ∉ V ⊔ W) (hff : f * f = 1)
 
 include hf hfJ hff
 
+omit hZ hfJ hff in
 theorem act_comm_of_mem_cent {D : NatCoordK G L₁ V Z (GaloisField 2 e)} {k : G}
     (hk : k ∈ L₁ ⊓ Subgroup.centralizer ({f} : Set G)) (u : Fin 2 → GaloisField 2 e) :
     D.act f ((D.ρ k : Matrix (Fin 2) (Fin 2) (GaloisField 2 e)) *ᵥ u) =
@@ -271,7 +272,7 @@ theorem centL : Sp4CentL G L₁ V Z f e := by
       { toFun := fun q => D.ρ q
         map_one' := D.ρ_one
         map_mul' := fun q q' => D.ρ_mul _ (hQ q.2).1 _ (hQ q'.2).1 }
-    letI : MulAction ↥Q (Fin 2 → GaloisField 2 e) := MulAction.compHom _ φ
+    let : MulAction ↥Q (Fin 2 → GaloisField 2 e) := MulAction.compHom _ φ
     have hsmul : ∀ (q : ↥Q) (u : Fin 2 → GaloisField 2 e),
         q • u = (D.ρ q : Matrix (Fin 2) (Fin 2) (GaloisField 2 e)) *ᵥ u := fun _ _ => rfl
     obtain ⟨w, hwfix, hw0⟩ : ∃ w : Fin 2 → GaloisField 2 e,
@@ -294,7 +295,7 @@ theorem centL : Sp4CentL G L₁ V Z f e := by
       norm_num at h3
     have hqb : ∀ q ∈ Q, ∀ u, D.act f ((D.ρ q : Matrix (Fin 2) (Fin 2) (GaloisField 2 e)) *ᵥ u) =
         (D.ρ q : Matrix (Fin 2) (Fin 2) (GaloisField 2 e)) *ᵥ D.act f u :=
-      fun q hq u => P.act_comm_of_mem_cent hZ hf hfJ hff (hQ hq) u
+      fun q hq u => P.act_comm_of_mem_cent hf (hQ hq) u
     obtain ⟨c, hc⟩ := id hσ
     obtain ⟨u₀, hu₀fix, hu₀0, hu₀Q⟩ : ∃ u₀ ∈ fixSet (D.act f), u₀ ≠ 0 ∧
         ∀ q ∈ Q, (D.ρ q : Matrix (Fin 2) (Fin 2) (GaloisField 2 e)) *ᵥ u₀ = u₀ := by

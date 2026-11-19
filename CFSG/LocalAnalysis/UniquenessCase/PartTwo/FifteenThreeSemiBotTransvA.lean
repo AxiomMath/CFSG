@@ -18,21 +18,27 @@ variable {U : Type} [CommGroup U] [Finite U]
 @[expose] def s15_semiBot_D (x : MulAut U) : U →* U :=
   x.toMonoidHom * (MonoidHom.id U)⁻¹
 
+omit [Finite U] in
 theorem s15_semiBot_D_apply (x : MulAut U) (u : U) :
     s15_semiBot_D x u = x u * u⁻¹ := rfl
 
+omit [Finite U] in
 theorem s15_semiBot_conj_eq (x y : U) : x * y * x⁻¹ = y := by
   rw [mul_assoc, mul_comm y x⁻¹, ← mul_assoc, mul_inv_cancel, one_mul]
 
+omit [Finite U] in
 theorem s15_semiBot_mul_comm_mul (x y z : U) : x * y * z = x * z * y := by
   rw [mul_assoc, mul_comm y z, ← mul_assoc]
 
+omit [Finite U] in
 theorem s15_semiBot_mul_mul_inv_self (x y : U) : x * (x * y)⁻¹ = y⁻¹ := by
   rw [mul_inv_rev, ← mul_assoc, mul_comm x y⁻¹, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite U] in
 theorem s15_semiBot_mul_mul_inv (x y z : U) : (x * z) * (x * y)⁻¹ = z * y⁻¹ := by
   rw [mul_comm x z, mul_assoc, s15_semiBot_mul_mul_inv_self x y]
 
+omit [Finite U] in
 theorem s15_semiBot_epsilon_trivial (hU : ∀ u : U, u ^ 2 = 1) {A B : Subgroup (MulAut U)}
     (hAB : ⁅A, B⁆ = ⊥) (hUA : commSub ⊤ A = ⊤) {t : MulAut U} {c : U}
     (hc1 : c ≠ 1) (hN : ∀ u, t u = u ∨ t u = u * c) (htc : t c = c) (htt : t * t = 1)

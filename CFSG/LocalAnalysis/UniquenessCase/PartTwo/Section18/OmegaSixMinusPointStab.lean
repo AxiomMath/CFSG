@@ -27,8 +27,7 @@ theorem map_conj_pointStabilizer (g : Gom Q) (u : V) :
   · intro hy
     obtain ⟨c, hc⟩ := hy
     refine ⟨g⁻¹ * y * g, ⟨c, ?_⟩, ?_⟩
-    · change (g⁻¹ * y * g).app u = c • u
-      simp only [Gom.app_mul, hc, Gom.map_smul, Gom.app_inv_app]
+    · simp only [Gom.app_mul, hc, Gom.map_smul, Gom.app_inv_app]
     · change (MulAut.conj g) (g⁻¹ * y * g) = y
       rw [MulAut.conj_apply]
       group
@@ -59,7 +58,7 @@ private theorem polar_eq_zero_of_forall_app_eq_smul_T2J3 {u v : V} (hu : u ≠ 0
 theorem eq_smul_of_forall_app_eq_smul_Lom (hQ : (polarBilin Q).Nondegenerate)
     (h4 : 4 ≤ Module.finrank K V) {u : V} (hu : u ≠ 0) (hQu : Q u = 0) {v : V}
     (hv : ∀ g ∈ Lom Q u, ∃ c : K, g.app v = c • v) : ∃ c : K, v = c • u := by
-  haveI : FiniteDimensional K V := FiniteDimensional.of_finrank_pos (by omega)
+  have : FiniteDimensional K V := FiniteDimensional.of_finrank_pos (by omega)
   by_contra hnot
   push Not at hnot
   have hvN : v ∉ Submodule.span K ({u} : Set V) := by
@@ -175,8 +174,8 @@ private theorem coe_eq_of_inf_eq_of_normalizer_le_T2J3 [Finite (Gom Q)] [Fact (N
     refine lt_of_le_of_ne le_top ?_
     intro htop
     exact hne (le_antisymm hTS' (Subgroup.subgroupOf_eq_top.mp htop))
-  haveI : Finite ↥S' := Subtype.finite
-  haveI : Group.IsNilpotent ↥S' := IsPGroup.isNilpotent S'.isPGroup
+  have : Finite ↥S' := Subtype.finite
+  have : Group.IsNilpotent ↥S' := IsPGroup.isNilpotent S'.isPGroup
   have hNC : NormalizerCondition ↥S' := Group.normalizerCondition_of_isNilpotent
   have hlt' : H < Subgroup.normalizer (H : Set ↥S') := hNC H hlt
   have hle : H ≤ Subgroup.normalizer (H : Set ↥S') := le_of_lt hlt'
@@ -212,13 +211,13 @@ variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module 
 theorem isParabolicTwo_pointStabilizer (hQ : (polarBilin Q).Nondegenerate)
     (h4 : 4 ≤ Module.finrank K V) {u : V} (hu : u ≠ 0) (hQu : Q u = 0) :
     IsParabolicTwo (Gom Q) (pointStabilizer Q u) := by
-  haveI : FiniteDimensional K V := Module.Finite.of_finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : FiniteDimensional K V := Module.Finite.of_finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype V := Fintype.ofFinite V
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun _ _ h => LinearEquiv.ext fun v => congrFun h v
-  haveI : Finite (Gom Q) := Subtype.finite
+  have : Finite (Gom Q) := Subtype.finite
   let P : Subgroup (Gom Q) := pointStabilizer Q u
   let T₀ : Sylow 2 ↥P := default
   let T : Subgroup (Gom Q) := (T₀ : Subgroup ↥P).map P.subtype
@@ -248,7 +247,7 @@ variable {K V : Type*} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module
 theorem pCoreOf_pointStabilizer_ne_bot (hQ : (polarBilin Q).Nondegenerate)
     (h4 : 4 ≤ Module.finrank K V) {u : V} (hu : u ≠ 0) (hQu : Q u = 0) :
     pCoreOf 2 (pointStabilizer Q u) ≠ ⊥ := by
-  haveI : FiniteDimensional K V := Module.Finite.of_finite
+  have : FiniteDimensional K V := Module.Finite.of_finite
   rw [← Lom_eq_pCoreOf_pointStabilizer_of_four_le hQ h4 hu hQu]
   exact Lom_ne_bot hQ (by omega) hQu hu
 

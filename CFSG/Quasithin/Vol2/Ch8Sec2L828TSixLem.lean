@@ -8,7 +8,7 @@ namespace CFSG.Quasithin.H13.L828SixLem
 
 private lemma gl2t_two_eq_zero (K : Type) [Field K] [Finite K] (hK : Nat.card K = 4) :
     (2 : K) = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h4 : ((Fintype.card K : ℕ) : K) = 0 := FiniteField.cast_card_eq_zero K
   rw [hc] at h4
@@ -18,7 +18,7 @@ private lemma gl2t_two_eq_zero (K : Type) [Field K] [Finite K] (hK : Nat.card K 
 
 private lemma gl2t_pow_four (K : Type) [Field K] [Finite K] (hK : Nat.card K = 4) (t : K) :
     t ^ 4 = t := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h := FiniteField.pow_card t
   rw [hc] at h
@@ -28,8 +28,7 @@ private lemma gl2t_cayley_hamilton {K : Type} [CommRing K] (g : Matrix (Fin 2) (
     g * g = g.trace • g - g.det • (1 : Matrix (Fin 2) (Fin 2) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.det_fin_two,
-      Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.det_fin_two] <;> ring
 
 private lemma gl2t_scalar_det {K : Type} [Field K] (h2 : (2 : K) = 0) (a b c d : K)
     (e1 : 1 = a * b) (e2 : 1 = c * d) (e3 : c * a * d = b) : a = 1 := by
@@ -56,7 +55,7 @@ private lemma gl2t_trace_quad {K : Type} [Field K] (h2 : (2 : K) = 0)
     intro h
     apply hG1
     calc G = (G ^ 2) ^ 2 * G := by rw [h, one_pow, one_mul]
-      _ = G ^ 5 := by rw [← pow_mul, ← pow_succ] <;> rfl
+      _ = G ^ 5 := by rw [← pow_mul, ← pow_succ]
       _ = 1 := hG5
   have hfac : t * ((t + 1) * (t ^ 2 + t + 1)) = 0 := by
     linear_combination ht4 + (t ^ 3 + t ^ 2 + t) * h2
@@ -123,10 +122,10 @@ theorem gl2_trace_five {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
   exact eq_sub_iff_add_eq.mp h1
 
 theorem scalar_contra {R D : Type*} [Ring R] [Field D] (d : D →+* R) (hd : Function.Injective d)
-    (hchar : (2 : D) = 0) (ζ τ : D) (hζ3 : ζ ^ 3 = 1) (hζ1 : ζ ≠ 1) (hτ : τ ^ 2 + τ + 1 = 0)
+    (_hchar : (2 : D) = 0) (ζ τ : D) (hζ3 : ζ ^ 3 = 1) (hζ1 : ζ ≠ 1) (hτ : τ ^ 2 + τ + 1 = 0)
     (u : Rˣ) (hu1 : (u : R) * d ζ * ((u⁻¹ : Rˣ) : R) = d ζ⁻¹)
     (hu2 : (u : R) * d τ * ((u⁻¹ : Rˣ) : R) = d τ) : False := by
-  clear hchar
+  clear _hchar
   have hinv : ζ⁻¹ = ζ ^ 2 := inv_eq_of_mul_eq_one_right (by linear_combination hζ3)
   have hζq : ζ ^ 2 + ζ + 1 = 0 := by
     have hf : (ζ - 1) * (ζ ^ 2 + ζ + 1) = 0 := by linear_combination hζ3

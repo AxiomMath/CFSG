@@ -204,7 +204,6 @@ theorem inf_centralizer_singleton_eq_inf_centralizer (h : Hyp73 V H E J) {U : Su
   · intro a ha
     obtain ⟨haA, haC⟩ := Subgroup.mem_inf.mp ha
     refine Subgroup.mem_inf.mpr ⟨haA, ?_⟩
-    change a ∈ Subgroup.centralizer (U : Set G)
     rw [Subgroup.mem_centralizer_iff]
     intro u hu
     by_cases huI : u ∈ iSub V H E
@@ -225,7 +224,6 @@ theorem inf_centralizer_singleton_eq_inf_centralizer (h : Hyp73 V H E J) {U : Su
   · intro a ha
     obtain ⟨haA, haC⟩ := Subgroup.mem_inf.mp ha
     refine Subgroup.mem_inf.mpr ⟨haA, ?_⟩
-    change a ∈ Subgroup.centralizer ({v} : Set G)
     exact Subgroup.centralizer_le (by simpa using (Set.singleton_subset_iff.mpr hv)) haC
 
 theorem inf_centralizer_eq_sup_commutator (h : Hyp73 V H E J)

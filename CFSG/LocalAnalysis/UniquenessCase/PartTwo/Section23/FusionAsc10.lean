@@ -22,7 +22,7 @@ theorem FamilyControlsFusion.of_le_mem {G : Type} [Group G] {F F' : Set (Subgrou
 
 theorem exists_maxTwoLocal_le_of_isTwoLocal {G : Type} [Group G] [Finite G] {H : Subgroup G}
     (hH : IsTwoLocal H) : ∃ N : Subgroup G, IsMaxTwoLocalSubgroup N ∧ H ≤ N := by
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   obtain ⟨N, hHN, hmax⟩ :=
     Finite.exists_le_maximal (p := fun K : Subgroup G => IsTwoLocal K) hH
   exact ⟨N, ⟨hmax.1, fun K hK hNK => le_antisymm (hmax.2 hK hNK) hNK⟩, hHN⟩

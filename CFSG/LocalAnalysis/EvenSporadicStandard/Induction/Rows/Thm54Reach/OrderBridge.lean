@@ -117,7 +117,7 @@ private theorem ordA_three (m : ℕ) (hm : 1 ≤ m) :
     show (2 ^ m) ^ 6 = 2 ^ (6 * m) by rw [← pow_mul]; congr 1; ring]
   ring
 
-private theorem ordTwistedA_four_mul (m : ℕ) (hm : 1 ≤ m) :
+private theorem ordTwistedA_four_mul (m : ℕ) (_hm : 1 ≤ m) :
     ordTwistedA 4 (2 ^ m) * Nat.gcd 5 (2 ^ m + 1) =
       2 ^ (10 * m) * ((2 ^ (2 * m) - 1) * ((2 ^ (3 * m) + 1) *
         ((2 ^ (4 * m) - 1) * (2 ^ (5 * m) + 1)))) := by
@@ -146,7 +146,7 @@ private theorem ordTwistedA_four_mul (m : ℕ) (hm : 1 ≤ m) :
     show (2 ^ m) ^ 10 = 2 ^ (10 * m) by rw [← pow_mul]; congr 1; ring]
   ring
 
-private theorem ordA_four_mul (m : ℕ) (hm : 1 ≤ m) :
+private theorem ordA_four_mul (m : ℕ) (_hm : 1 ≤ m) :
     ordA 4 (2 ^ m) * Nat.gcd 5 (2 ^ m - 1) =
       2 ^ (10 * m) * ((2 ^ (2 * m) - 1) * ((2 ^ (3 * m) - 1) *
         ((2 ^ (4 * m) - 1) * (2 ^ (5 * m) - 1)))) := by

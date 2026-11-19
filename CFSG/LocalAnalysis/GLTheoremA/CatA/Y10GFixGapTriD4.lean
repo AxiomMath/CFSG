@@ -17,7 +17,7 @@ theorem triD4_model_simple {G : Type} [Group G] {p f : ℕ}
     (h : ChevalleyExceptionalModel G .trialityD4 p f) :
     IsSimpleGroup G ∧ ∃ a b : G, a * b ≠ b * a := by
   obtain ⟨hnt, hs⟩ := CFSG.LieType.Simplicity.fam_3d4_simplicity G p f h
-  haveI := hnt
+  have := hnt
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, σ, hσ, ⟨e⟩⟩ := h
   have hK3 : Nat.card K = (p ^ f) ^ 3 := hK
   have hq : 2 ≤ p ^ f := le_trans hp.two_le (Nat.le_self_pow (by omega) p)

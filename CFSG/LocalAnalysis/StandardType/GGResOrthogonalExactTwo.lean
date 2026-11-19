@@ -124,7 +124,7 @@ theorem actualImageHom_selfCentralizing
   have hrmul : ∀ a b : Bs, r (a * b) = r a * r b := by
     intro a b
     apply CFSG.mulAutConj_injective_of_center_eq_bot hZq
-    simpa [hrconj, βhom, map_mul]
+    simp [hrconj, βhom, map_mul]
   let rhom : Bs →* Kq := MonoidHom.mk' r hrmul
   refine ⟨rhom, ?_, ?_, ?_⟩
   · exact CFSG.StandardType.isElemAbelian_range
@@ -191,7 +191,7 @@ theorem center_not_dvd_of_orthogonal_marking
     · exact largeEvenLabelAll_omegaMinus hD hrank fun _ _ _ _ _ _ _ hirr =>
         CorFourTwoOpen.ggCenterPrime_omegaMinus hp hp2 (by omega) hirr
   obtain ⟨R, hGroup, I, F, hQ⟩ := largeEvenRawDatum_exists (hCPall _ hKlab)
-  letI : Group R := hGroup
+  let : Group R := hGroup
   obtain ⟨⟨θ⟩, hCP⟩ := hQ
   exact hCP K (θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K)))
     (θ.surjective.comp (QuotientGroup.mk'_surjective _))
@@ -256,15 +256,15 @@ theorem exists_quadratic_image_of_orthogonal_marking
     rcases ht with rfl | rfl <;> exact hG.1.2.1
   obtain ⟨F, hField, hFinite, V, hAdd, hMod, hFinDim, Q,
       hQ, hT, hcard, hdim, hplus, ⟨eQ⟩⟩ := TCJ.exists_projOrth_model_type ht hG
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : AddCommGroup V := hAdd
-  letI : Module F V := hMod
-  letI : FiniteDimensional F V := hFinDim
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : AddCommGroup V := hAdd
+  let : Module F V := hMod
+  let : FiniteDimensional F V := hFinDim
   have hring : ringChar F = 2 :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hn hcard
-  haveI : CharP F 2 := ringChar.of_eq hring
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hdim]; omega)
+  have : CharP F 2 := ringChar.of_eq hring
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hdim]; omega)
   have htype : CFSG.GroupTheory.WeirSylow.IsPlusType Q ↔ tag = .D :=
     hplus.trans hsign
   let σ := eQ.trans (CFSG.RankThree.PartOne.KFR4.orthDerivedEquivProj hQ).symm

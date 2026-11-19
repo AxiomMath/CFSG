@@ -49,7 +49,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
 theorem exists_sylow_T (S : Sylow 2 G) (hzc : ∀ s ∈ (S : Subgroup G), s * z = z * s) :
     ∃ P : Sylow 2 G, (P : Subgroup G) = Y.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 Y.T := IsPGroup.of_card (n := 9) (by rw [Y.card_T]; norm_num)
   obtain ⟨P, hTP⟩ := hT2.exists_le_sylow
   refine ⟨P, (Subgroup.eq_of_le_of_card_ge hTP ?_).symm⟩
@@ -58,7 +58,7 @@ theorem exists_sylow_T (S : Sylow 2 G) (hzc : ∀ s ∈ (S : Subgroup G), s * z 
   have hcardC : Nat.card (Subgroup.centralizer ({z} : Set G)) = 23040 := by
     rw [Nat.card_congr Y.ϑ.toEquiv, card_Wsub]
   have hS : Nat.card S ∣ 23040 := hcardC ▸ Subgroup.card_dvd_of_le hSC
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hPS : Nat.card P = Nat.card S := by
     rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]
   rw [Y.card_T, hPS, hk]
@@ -79,6 +79,7 @@ namespace YData
 
 variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
+omit [Finite G] in
 theorem theta_T {Θ : ↥Wsub ≃* ↥Hhat}
     (hΘD : ∀ a (ha : a ∈ Wsub), a ∈ DW ↔ (Θ ⟨a, ha⟩ : StatedSp 3 (ZMod 2)) ∈ S0) (x : G)
     (hx : x ∈ Subgroup.centralizer ({z} : Set G)) :
@@ -90,6 +91,7 @@ theorem theta_T {Θ : ↥Wsub ≃* ↥Hhat}
   · intro h
     exact ⟨hx, (hΘD _ _).mpr h⟩
 
+omit [Finite G] in
 theorem theta_A {Θ : ↥Wsub ≃* ↥Hhat}
     (hΘS : ∀ a (ha : a ∈ Wsub), a ∈ SW ↔ (Θ ⟨a, ha⟩ : StatedSp 3 (ZMod 2)) ∈ A0) (x : G)
     (hx : x ∈ Subgroup.centralizer ({z} : Set G)) :
@@ -172,7 +174,7 @@ theorem zrig (P : Sylow 2 G) (hP : (P : Subgroup G) = Y.T) :
 theorem exists_conj_ne (hs : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b * a)
     (P : Sylow 2 G) (hP : (P : Subgroup G) = Y.T) (hz : orderOf z = 2) :
     ∃ a ∈ Y.A, a ≠ z ∧ IsConj z a := by
-  haveI := hs
+  have := hs
   have hz1 : z ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hz
@@ -202,6 +204,7 @@ theorem exists_conj_ne (hs : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b *
   obtain ⟨N, hN, hNodd, hNc⟩ := CFSG.ZStar.glauberman_zStar G z hz1 (zz_one hz) hisolated
   exact CFSG.GF2Type.Aschbacher1976Common.not_inZStar_of_isSimpleGroup hnab hz ⟨N, hN, hNodd, hNc⟩
 
+omit [Finite G] in
 theorem prod_ofFn_σA {n : ℕ} (f : Fin n → SC) :
     (List.ofFn fun j => Y.σA (f j)).prod = Y.σA (∑ j, f j) := by
   induction n with

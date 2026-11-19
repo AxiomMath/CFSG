@@ -31,7 +31,7 @@ theorem alt6_card : Nat.card (alternatingGroup (Fin 6)) = 360 := by
 
 theorem center_eq_bot_of_alt6 {X : Type} [Group X] (e : X ≃* alternatingGroup (Fin 6)) :
     center X = ⊥ := by
-  haveI := alt6_simple
+  have := alt6_simple
   rw [eq_bot_iff]
   intro x hx
   rw [Subgroup.mem_bot]
@@ -54,7 +54,7 @@ theorem card_quotient_center_alt6 {X : Type} [Group X] (e : X ≃* alternatingGr
 
 theorem isComponent_of_alt6 {G : Type} [Group G] (D : Subgroup G) [D.Normal]
     (e : ↥D ≃* alternatingGroup (Fin 6)) : CFSG.IsComponent D := by
-  haveI := alt6_simple
+  have := alt6_simple
   have hs : IsSimpleGroup ↥D := e.isSimpleGroup
   have hna : ∃ a b : ↥D, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := alt6_nonab
@@ -105,7 +105,7 @@ theorem noInnerZ2_alt6_of_lie (hL : A6InnerOddLie) : NoInnerZ2 (alternatingGroup
     exact hL S hodd z hz ⟨e⟩
   ·
     obtain ⟨B, hBn, ⟨eB⟩⟩ := exists_normal_alt6_of_prod e
-    haveI := hBn
+    have := hBn
     exact CFSG.ComponentClassification.CatLeaf.involutionCentralizersComponentFree_of_evenLieType
       heven z hz B (isComponent_of_alt6 B eB)
   ·
@@ -118,7 +118,7 @@ theorem noInnerZ2_alt6_of_lie (hL : A6InnerOddLie) : NoInnerZ2 (alternatingGroup
     have hfix : fixedSubgroup (MulAut.conj z : MulAut S) = centralizer ({z} : Set S) :=
       CFSG.SeitzReduction.SporadicRefine.fixedSubgroup_conj_eq_centralizerOf z
     obtain ⟨D, hDn, ⟨eD⟩⟩ := exists_normal_alt6_of_prod ((MulEquiv.subgroupCongr hfix).trans e)
-    haveI := hDn
+    have := hDn
     have hD : CFSG.IsComponent D := isComponent_of_alt6 D eD
     have hcard := card_quotient_center_alt6 eD
     rcases sporadic_comp_360 hS hna es hσ hD hcard with ⟨rfl, -⟩ | ⟨-, hout⟩
@@ -157,7 +157,7 @@ theorem noOuterFixed_alt6_of_lie (hL : A6OuterLie) : NoOuterFixed (alternatingGr
 
 theorem catZ2A6_of_lie (hI : A6InnerOddLie) (hO : A6OuterLie) :
     CFSG.EvenSporadicStandard.CatNoAlmostSimpleZ2 (alternatingGroup (Fin 6)) := by
-  haveI := alt6_simple
+  have := alt6_simple
   exact catNoAlmostSimpleZ2_of_noInner_noOuter alt6_nonab (noInnerZ2_alt6_of_lie hI)
     (noOuterFixed_alt6_of_lie hO)
 

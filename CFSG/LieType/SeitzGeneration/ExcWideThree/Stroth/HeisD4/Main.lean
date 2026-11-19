@@ -20,6 +20,7 @@ section Conj
 
 variable {L : Type} [Field L] [IsAlgClosed L]
 
+omit [IsAlgClosed L] in
 theorem map_conj_heisM {a : Fin Tag.E6.rank → Lˣ} {s : WeylGroup Tag.E6}
     (hs : ∀ α, IsRoot Tag.E6 α → (rootChar a α = 1 ↔ s • α ∈ parabolicRoots Tag.E6 d4Support)) :
     (heisM a).map (MulAut.conj (canonicalRep (coxeterSystem Tag.E6) L s)).toMonoidHom =

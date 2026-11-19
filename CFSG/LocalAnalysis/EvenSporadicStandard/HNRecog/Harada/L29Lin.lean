@@ -25,7 +25,7 @@ private lemma conj_mem_centralizer {i r w : X}
 
 private lemma mul_comm_of_mem {A : Subgroup X} (hA : IsElemAbelian 2 A) {a b : X}
     (ha : a ∈ A) (hb : b ∈ A) : a * b = b * a := by
-  haveI : IsMulCommutative A := hA.1
+  have : IsMulCommutative A := hA.1
   have h := mul_comm' (⟨a, ha⟩ : A) (⟨b, hb⟩ : A)
   simpa using Subtype.ext_iff.mp h
 
@@ -89,12 +89,12 @@ private lemma inf_centralizer_eq_bot {A : Subgroup X} {i r z : X} (hA : IsElemAb
   exact hfpf z hzA hz_fix
 
 theorem L29_card_centralizer_le {A : Subgroup X} (hA : IsElemAbelian 2 A)
-    (hcard : Nat.card A = 2 ^ 8) {i r : X} (hi : i ∈ normalizer (A : Set X))
+    (hcard : Nat.card A = 2 ^ 8) {i r : X} (_hi : i ∈ normalizer (A : Set X))
     (hr : r ∈ normalizer (A : Set X)) (hi2 : i * i = 1) (hr5 : r ^ 5 = 1)
     (hinv : i * r * i⁻¹ * r ∈ A) (hfpf : ∀ a ∈ A, r * a * r⁻¹ = a → a = 1) :
     Nat.card ↥(A ⊓ centralizer ({i} : Set X)) ≤ 16 := by
   classical
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   set C : Subgroup X := A ⊓ centralizer ({i} : Set X) with hC
   change Nat.card ↥C ≤ 16
   have hCA : C ≤ A := by rw [hC]; exact inf_le_left

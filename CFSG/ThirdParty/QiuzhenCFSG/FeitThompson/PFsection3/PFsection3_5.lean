@@ -10758,10 +10758,10 @@ public theorem exists_notation_3_3_of_hypothesis_3_1
   · intro p q
     by_cases hpq : p = q
     · subst hpq
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact Section1.scalarProduct_irreducibleCharacter_self
         (linearCharacterProductOverInternalDirectProduct_irreducible hIP p.1 p.2)
-    · rw [if_neg hpq]
+    · rw [ite_eq_right hpq]
       apply Section1.scalarProduct_irreducibleCharacter_eq_zero_of_ne
       · exact linearCharacterProductOverInternalDirectProduct_irreducible hIP p.1 p.2
       · exact linearCharacterProductOverInternalDirectProduct_irreducible hIP q.1 q.2

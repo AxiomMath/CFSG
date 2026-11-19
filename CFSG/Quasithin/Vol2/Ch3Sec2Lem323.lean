@@ -38,8 +38,8 @@ theorem stmt3_2_3_of (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat) (h39 : A39ForSQ
     ⟨hsup ▸ hU.1.2, fun M' hM' hle => hU.2 M' ⟨hM', hsup ▸ hle⟩⟩, fun I hI => ?_⟩
   set Y : Subgroup G := conjClosure L T ⊔ T with hY
   have hR := primeReducedAggregate_normal_elementaryAbelian (E := ↥Y) 2
-  haveI := hR.1
-  haveI := hR.2.1
+  have := hR.1
+  have := hR.2.1
   have hA2 : ∀ a ∈ reducedAggregate Y, a ^ 2 = 1 := by
     intro a ha
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 ha

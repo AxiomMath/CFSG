@@ -34,7 +34,7 @@ theorem nt44_trf : allN 256 (fun x => allN 4 fun k =>
     Nat.beq (stepF 8 4 (nt44TF 0) x k) (pg 8 (mask 8) (nt44Tr x) k)) = true := by quickRfl
 
 theorem nt44_pl : plAt 10 4 8 (nt44PL 0) (nt44Par 0) 8 (parent ()).toList 0 = true := by
-  simp only [parent, Array.toList_append, List.toList_toArray]
+  simp only [parent, Array.toList_append]
   quickRfl
 
 theorem nt44_ord : allN 256 (ordAt nt44Mul 8 (nt44O4 0) 84) = true := by quickRfl

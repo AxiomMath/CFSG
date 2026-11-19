@@ -40,7 +40,7 @@ theorem rootChar_single' (b : Fin Tag.F4.rank → Lˣ) (i : Fin Tag.F4.rank) :
 
 theorem zpow_eq_zpow_iff_mod {ω : Lˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (x y : ℤ) :
     ω ^ x = ω ^ y ↔ x % 3 = y % 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   have h : ω ^ x = ω ^ y ↔ ω ^ (x - y) = 1 := by rw [zpow_sub, mul_inv_eq_one]
   rw [h, ← orderOf_dvd_iff_zpow_eq_one, hord]
@@ -69,7 +69,7 @@ theorem not_inner_shape (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank → L
     (hπ : ∀ x y : Fin 3, x ≠ y → S.ρ (σ x y) = σ (π x) (π y)) : False := by
   classical
   have hord : orderOf ω = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hω3 hω1
   set l : Fin 3 → Lˣ := fun _ => ω with hl
   have hl1 : l 0 * l 1 * l 2 = 1 := by

@@ -164,7 +164,7 @@ theorem pg_tabs : TabsOK 275 9 2 McLTC.G mclPGTbls := by
     rw [hb]
 
 theorem pgi_tabs : TabsOK 275 9 2 McLTC.GI mclPGInvTbls :=
-  TabsOK_inv pg_tabs fun j hj => ⟨(pgF hj).2.2.2, (pgF hj).2.2.1⟩
+  TabsOK_inv pg_tabs fun _j hj => ⟨(pgF hj).2.2.2, (pgF hj).2.2.1⟩
 
 theorem slice_pe {n w k cnt : Nat} {G GI T PL POS SRT SRI : Nat → Nat}
     (h : penumSlK n w (mask w) (n * w) true G GI k cnt T PL POS SRT SRI 0 cnt = true) :
@@ -220,21 +220,21 @@ theorem eT : enumT = hRec 275 9 McLTT.cnt McLTT.T McLTT.PL ∧
       (hRec 275 9 McLTT.cnt McLTT.T McLTT.PL).2.1 (hRec 275 9 McLTT.cnt McLTT.T McLTT.PL).2.2 =
         true ∧
     hkeysDistinct 275 (hRec 275 9 McLTT.cnt McLTT.T McLTT.PL).1.toList = true :=
-  mulH_sound hn (fun j hj => (tG hj).1) sylT_tabs hdT (slice_pe recT.1) (slice_hs recT.2.1)
+  mulH_sound hn (fun _j hj => (tG hj).1) sylT_tabs hdT (slice_pe recT.1) (slice_hs recT.2.1)
 
 theorem eR : enumR3 = hRec 275 9 McLTR.cnt McLTR.T McLTR.PL ∧
     mulTreeOK 275 rGens3 (hRec 275 9 McLTR.cnt McLTR.T McLTR.PL).1
       (hRec 275 9 McLTR.cnt McLTR.T McLTR.PL).2.1 (hRec 275 9 McLTR.cnt McLTR.T McLTR.PL).2.2 =
         true ∧
     hkeysDistinct 275 (hRec 275 9 McLTR.cnt McLTR.T McLTR.PL).1.toList = true :=
-  mulH_sound hn (fun j hj => (rG hj).1) rG_tabs hdR (slice_pe recR.1) (slice_hs recR.2.1)
+  mulH_sound hn (fun _j hj => (rG hj).1) rG_tabs hdR (slice_pe recR.1) (slice_hs recR.2.1)
 
 theorem eA : enumA3 = hRec 275 9 McLTA.cnt McLTA.T McLTA.PL ∧
     mulTreeOK 275 aGens3 (hRec 275 9 McLTA.cnt McLTA.T McLTA.PL).1
       (hRec 275 9 McLTA.cnt McLTA.T McLTA.PL).2.1 (hRec 275 9 McLTA.cnt McLTA.T McLTA.PL).2.2 =
         true ∧
     hkeysDistinct 275 (hRec 275 9 McLTA.cnt McLTA.T McLTA.PL).1.toList = true :=
-  mulH_sound hn (fun j hj => (aG hj).1) aG_tabs hdA (slice_pe recA.1) (slice_hs recA.2.1)
+  mulH_sound hn (fun _j hj => (aG hj).1) aG_tabs hdA (slice_pe recA.1) (slice_hs recA.2.1)
 
 theorem tT : ∀ i < McLTT.cnt, canonK 275 9 (mask 9) (275 * 9) (McLTT.T i) = true :=
   fun i hi => penumPt_canon (slice_pe recT.1 i hi)

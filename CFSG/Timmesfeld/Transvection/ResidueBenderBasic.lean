@@ -21,7 +21,7 @@ theorem frameResidue_le_residueGroup {X : Subgroup H} (hX : X ∈ frameResidue �
   le_iSup₂_of_le X hX le_rfl
 
 @[expose] def residueElt {X : Subgroup H} (hX : X ∈ frameResidue Δ P Q k) {a : H} (ha : a ∈ X)
-    (ha1 : a ≠ 1) :
+    (_ha1 : a ≠ 1) :
     ↥(residueGroup Δ P Q k) :=
   ⟨a, frameResidue_le_residueGroup hX ha⟩
 
@@ -232,7 +232,7 @@ theorem exists_mul_mem_residueElts [Finite H] (hΔ : IsTransvectionClass Δ)
       u ≠ v ∧ Commute u v ∧ u * v ∈ residueElts Δ P Q k := by
   classical
   have hP : P k ∈ frameResidue Δ P Q k := hF.toIsFrame.memP_frameResidue k
-  letI : Fintype ↥(P k) := Fintype.ofFinite _
+  let : Fintype ↥(P k) := Fintype.ofFinite _
   have hcard : 4 ≤ Nat.card ↥(P k) := hq (P k) (hF.memP k)
   have hcard' : 4 ≤ Fintype.card ↥(P k) := by
     simpa [Nat.card_eq_fintype_card] using hcard

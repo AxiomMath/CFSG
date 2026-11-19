@@ -23,7 +23,7 @@ variable [Finite G]
 theorem index_ker_transferFocal (h : (P : Subgroup G).focalSubgroup = ⊥) :
     (P : Subgroup G).transferFocal.ker.index = Nat.card (P : Subgroup G) := by
   rw [Subgroup.index_eq_card,
-    Nat.card_congr (Subgroup.transferFocal.quotientKerMulEquivQuotientFocalSubroupOf P).toEquiv,
+    Nat.card_congr (Subgroup.transferFocal.quotientKerMulEquivQuotientFocalSubgroupOf P).toEquiv,
     focalSubgroupOf_eq_bot P h]
   exact Nat.card_congr QuotientGroup.quotientBot.toEquiv
 

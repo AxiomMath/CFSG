@@ -32,7 +32,7 @@ theorem exists_cfg1620_of_fields (h1 : W16One G) (h15 : W16Fifteen G) (h16 : W16
     ∃ (R H : Subgroup G) (g : G) (B : Subgroup G), Cfg1620 M V₀ V U S R H g B := by
   obtain ⟨R, hR, hSR⟩ := exists_isSylowIn_ge 2 h.S_le_cTilde h.sylow.isPGroup
   obtain ⟨H, hHQ, hHmin⟩ := exists_minimal_fam16Q (h16 hS h hR hSR)
-  obtain ⟨g, hgmem, hgM⟩ := SetLike.not_le_iff_exists.1 hHQ.2.1
+  obtain ⟨g, hgmem, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hHQ.2.1
   have hgH : g ∈ H := hgmem.1
   have hgC : g ∈ centralizer (U : Set G) := hgmem.2
   have hV₀gS : conjSubgroup V₀ g ≤ S :=

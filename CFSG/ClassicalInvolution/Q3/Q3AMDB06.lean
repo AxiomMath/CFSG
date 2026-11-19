@@ -33,7 +33,7 @@ theorem c28_DoubleB_of_noA2 (hres : PspNoA2Residual) : C28_DoubleB := by
     Subgroup.subset_closure (Set.mem_insert z _)
   have htE : t ∈ Subgroup.closure ({z, t} : Set G) :=
     Subgroup.subset_closure (Set.mem_insert_of_mem z rfl)
-  have hcl := hset.stronglyClosed_of_le_sylow hD hnoA2 T'.isPGroup' hPz (hEP htE)
+  have hcl := hset.stronglyClosed_of_le_sylow hD hnoA2 T'.isPGroup hPz (hEP htE)
     (hEP (Subgroup.mul_mem _ hzE htE))
   obtain ⟨t₁, t₂, t₃, R₁, R₂, R₃, hax⟩ := hbad.exists_axis_of_triangle hset.intrinsic
     hstd.stand.mem hstd.hJ hset.nbrK hset.nbrJ hstd.hz hstd.ht hset.uniq_mul rfl

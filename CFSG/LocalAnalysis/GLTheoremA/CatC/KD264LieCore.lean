@@ -49,7 +49,7 @@ theorem kd264_goal_of_good {p : ℕ} (hp : p.Prime) (hLB : LBalanceAt Y p)
         K ⊓ Subgroup.centralizer (F : Set Y) := by
   have hFel : IsElemAbelian p F := isElemAbelian_mono hB hFB
   have hFp : IsPGroup p F := isPGroup_of_isElemAbelian hFel
-  haveI := hKn
+  have := hKn
   have hFBn : F ≤ Subgroup.normalizer (K : Set Y) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top

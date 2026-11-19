@@ -87,9 +87,9 @@ private theorem fiveHyperplane_norm_of_ite (k : ℕ) (ε π : Bool) {m : ℕ}
     (if m = 5 then fiveForm k ε z z = 0
       else fiveForm k ε z z ≠ 0 ∧ (IsSquare (fiveForm k ε z z) ↔ π = false)) := by
   by_cases h : m = 5
-  · rw [if_pos h] at hb ⊢
+  · rw [ite_eq_left h] at hb ⊢
     rw [fiveForm_eq_fiveSignRep_mul_fiveBilin, hb, mul_zero]
-  · rw [if_neg h] at hb ⊢
+  · rw [ite_eq_right h] at hb ⊢
     rw [fiveForm_eq_fiveSignRep_mul_fiveBilin, hb]
     have h2 : (2 : ZMod 5) ≠ 0 := by decide
     refine ⟨?_, ?_⟩
@@ -103,6 +103,7 @@ private theorem sub_smul_eq_self_iff {m : ℕ} {z v : Fin m → ZMod 5} (hv : v 
   rw [sub_eq_self, smul_eq_zero]
   simp [hv]
 
+omit [Finite G] in
 theorem fiveHyperplaneData_of_twelveSix (hC : HypothesisC D)
     (hα : hC.alpha = {hC.d}) {k : ℕ} (hk : 4 ≤ k) {ε π : Bool}
     (hdiam : ∀ w ∈ D, ¬ Commute w hC.d → (commSet D hC.d ∩ commSet D w).Nonempty)

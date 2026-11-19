@@ -12,11 +12,13 @@ variable {G : Type} [Group G] [Finite G] {F : StrothFrame G} {D : Subgroup G}
 
 namespace StrothWeakTypeData
 
+omit [Finite G] in
 theorem ofTorus_mem_centralizer_iff (dD : StrothWeakTypeData D τ) {b : G}
     {ψ : Torus τ.k →+ Torus τ.k} (hb : ∀ v, b * dD.ofTorus v = dD.ofTorus (ψ v) * b)
     (v : Torus τ.k) : dD.ofTorus v ∈ Subgroup.centralizer ({b} : Set G) ↔ ψ v = v := by
   rw [Subgroup.mem_centralizer_singleton_iff, hb, mul_left_inj, dD.ofTorus_inj.eq_iff, eq_comm]
 
+omit [Finite G] in
 theorem card_le_card_filter (dD : StrothWeakTypeData D τ) {H : Subgroup G} (hHD : H ≤ D)
     (P : Torus τ.k → Prop) [DecidablePred P] (hP : ∀ v, dD.ofTorus v ∈ H → P v) :
     Nat.card H ≤ (Finset.univ.filter P).card := by
@@ -33,6 +35,7 @@ theorem card_le_card_filter (dD : StrothWeakTypeData D τ) {H : Subgroup G} (hHD
     _ = (Finset.univ.filter P).card := by
       rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
 
+omit [Finite G] in
 theorem mul_ofTorus_of_conj (dD : StrothWeakTypeData D τ) {e : G} {φ : Torus τ.k →+ Torus τ.k}
     (hconj : ∀ v, e⁻¹ * dD.ofTorus v * e = dD.ofTorus (φ v)) (hinv : ∀ v, φ (φ v) = v)
     (v : Torus τ.k) : e * dD.ofTorus v = dD.ofTorus (φ v) * e := by
@@ -41,6 +44,7 @@ theorem mul_ofTorus_of_conj (dD : StrothWeakTypeData D τ) {e : G} {φ : Torus �
   calc e * dD.ofTorus v = e * (e⁻¹ * dD.ofTorus (φ v) * e) := by rw [h]
     _ = dD.ofTorus (φ v) * e := by group
 
+omit [Finite G] in
 theorem conj_ofTorus_diag (dD : StrothWeakTypeData D τ) {e : G} {d : Fin 3 → ℤ}
     (hc : e⁻¹ * (dD.c : G) * e = (dD.c : G) ^ d 0) (ha : e⁻¹ * (dD.a : G) * e = (dD.a : G) ^ d 1)
     (hb : e⁻¹ * (dD.b : G) * e = (dD.b : G) ^ d 2) (v : Torus τ.k) :
@@ -63,12 +67,14 @@ namespace Stroth310One
 @[expose] def ActsBy (dD : StrothWeakTypeData D τ) (x : G) (a : Fin 4) : Prop :=
   ∀ v, x * dD.ofTorus v = dD.ofTorus (diag4 τ.k a v) * x
 
+omit [Finite G] in
 theorem actsBy_of_mem (dD : StrothWeakTypeData D τ) {d : G} (hd : d ∈ D) : ActsBy dD d 0 := by
   intro v
   have hcomm := congrArg Subtype.val
     (dD.isMulCommutative.is_comm.comm ⟨d, hd⟩ ⟨_, dD.ofTorus_mem v⟩)
   simpa [diag4] using hcomm
 
+omit [Finite G] in
 theorem ActsBy.mul_mem {x d : G} {a : Fin 4} (hx : ActsBy dD x a) (hd : d ∈ D) :
     ActsBy dD (x * d) a := by
   intro v
@@ -77,23 +83,27 @@ theorem ActsBy.mul_mem {x d : G} {a : Fin 4} (hx : ActsBy dD x a) (hd : d ∈ D)
   rw [h0] at hd'
   rw [mul_assoc, hd', ← mul_assoc, hx v, mul_assoc]
 
+omit [Finite G] in
 theorem ActsBy.mul {x y : G} {a b c : Fin 4} (hx : ActsBy dD x a) (hy : ActsBy dD y b)
     (habc : ∀ v, diag4 τ.k a (diag4 τ.k b v) = diag4 τ.k c v) : ActsBy dD (x * y) c := by
   intro v
   rw [mul_assoc, hy v, ← mul_assoc, hx, habc, mul_assoc]
 
+omit [Finite G] in
 theorem actsBy_of_conj (dD : StrothWeakTypeData D τ) {e : G} {a : Fin 4} {d : Fin 3 → ℤ}
     (hd : diag4 τ.k a = torusDiag τ.k d) (hinv : ∀ v, diag4 τ.k a (diag4 τ.k a v) = v)
     (hc : e⁻¹ * (dD.c : G) * e = (dD.c : G) ^ d 0) (ha : e⁻¹ * (dD.a : G) * e = (dD.a : G) ^ d 1)
     (hb : e⁻¹ * (dD.b : G) * e = (dD.b : G) ^ d 2) : ActsBy dD e a :=
   dD.mul_ofTorus_of_conj (fun v => by rw [hd]; exact dD.conj_ofTorus_diag hc ha hb v) hinv
 
+omit [Finite G] in
 theorem uv_mul_ofTorus_of_actsBy {x : G} {a : Fin 4} (hx : ActsBy dD x a) (v : Torus τ.k) :
     dD.uv * x * dD.ofTorus v =
       dD.ofTorus ((τ.action.φuv.comp (diag4 τ.k a)) v) * (dD.uv * x) := by
   rw [mul_assoc, hx v, ← mul_assoc, dD.uv_mul_ofTorus, mul_assoc]
   rfl
 
+omit [Finite G] in
 theorem d8_mul_ofTorus_of_actsBy {r : G} {a : Fin 4} (hr : ActsBy dD r a) (i j l : Bool)
     (v : Torus τ.k) :
     dD.d8 i j l * r * dD.ofTorus v =
@@ -101,12 +111,14 @@ theorem d8_mul_ofTorus_of_actsBy {r : G} {a : Fin 4} (hr : ActsBy dD r a) (i j l
   rw [mul_assoc, hr v, ← mul_assoc, dD.d8_mul_ofTorus, mul_assoc]
   rfl
 
+omit [Finite G] in
 theorem card_uv_le {x : G} {a : Fin 4} (hx : ActsBy dD x a) :
     Nat.card ↥(D ⊓ Subgroup.centralizer ({dD.uv * x} : Set G)) ≤
       (Finset.univ.filter fun v => τ.action.φuv (diag4 τ.k a v) = v).card :=
   dD.card_le_card_filter inf_le_left _ fun v hv =>
     (dD.ofTorus_mem_centralizer_iff (uv_mul_ofTorus_of_actsBy hx) v).mp hv.2
 
+omit [Finite G] in
 theorem card_uv_d8_le {x r : G} {a a' : Fin 4} (hx : ActsBy dD x a) (hr : ActsBy dD r a')
     (i j l : Bool) :
     Nat.card ↥(D ⊓ Subgroup.centralizer ({dD.uv * x} : Set G) ⊓
@@ -117,6 +129,7 @@ theorem card_uv_d8_le {x r : G} {a a' : Fin 4} (hx : ActsBy dD x a) (hr : ActsBy
     ⟨(dD.ofTorus_mem_centralizer_iff (uv_mul_ofTorus_of_actsBy hx) v).mp hv.1.2,
       (dD.ofTorus_mem_centralizer_iff (d8_mul_ofTorus_of_actsBy hr i j l) v).mp hv.2⟩
 
+omit [Finite G] in
 theorem card_uv_q_le {x q : G} {a b : Fin 4} (hx : ActsBy dD x a) (hq : ActsBy dD q b) :
     Nat.card ↥(D ⊓ Subgroup.centralizer ({dD.uv * x} : Set G) ⊓
         Subgroup.centralizer ({q} : Set G)) ≤

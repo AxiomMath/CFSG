@@ -11,9 +11,9 @@ variable {Λ : Type} [Group Λ] [Finite Λ] {E : Type*} [AddCommGroup E] [Module
   [Module.Finite (ZMod 2) E] {ι : Λ →* (E ≃ₗ[ZMod 2] E)} {P W : Subgroup Λ} {r s : Λ}
 
 theorem card_P_eq_four (h : Crit ι P W r s) : Nat.card P = 4 := by
-  haveI : P.Normal := h.normal
+  have : P.Normal := h.normal
   obtain ⟨Z, hZP, hZn, hZcard, hZodd⟩ := exists_normal_four h
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   have hZ2 : IsPGroup 2 Z :=
     IsPGroup.of_card (n := 2) (by rw [hZcard]; norm_num)
   have hZrel : Z.relIndex P = 1 := by
@@ -22,10 +22,10 @@ theorem card_P_eq_four (h : Crit ι P W r s) : Nat.card P = 4 := by
     have hp2 : p ≠ 2 := by
       intro hp_eq
       exact hZodd (hp_eq ▸ hpdvd)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hnil : Group.IsNilpotent ↥P := isNilpotent_of_fpf P r h.r_cube h.fpf
     obtain ⟨R, hRP, hRn, hRp, hRidx⟩ := exists_normal_sylow P hnil p
-    haveI : R.Normal := hRn
+    have : R.Normal := hRn
     have h2dvdZ : 2 ∣ Nat.card ↥Z := by rw [hZcard]; norm_num
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥Z) 2 h2dvdZ
     have hz2 : z * z = 1 := by

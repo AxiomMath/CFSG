@@ -61,7 +61,7 @@ theorem odd_index_conj_range_of_kBase (h : KBase Y) :
   obtain ⟨P⟩ : Nonempty (Sylow 2 (MulAut Y)) := inferInstance
   have hle : (P : Subgroup (MulAut Y)) ≤ (MulAut.conj : Y →* MulAut Y).range := fun α hα => by
     have hα' : IsPGroup 2 (zpowers α) :=
-      IsPGroup.to_le P.isPGroup' (zpowers_le.2 hα)
+      IsPGroup.to_le P.isPGroup (zpowers_le.2 hα)
     exact h.2.1 α hα'
   have hnd : ¬ 2 ∣ (MulAut.conj : Y →* MulAut Y).range.index :=
     fun hd => P.not_dvd_index (hd.trans (Subgroup.index_dvd_of_le hle))

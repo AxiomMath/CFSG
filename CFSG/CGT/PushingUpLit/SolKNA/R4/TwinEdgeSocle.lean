@@ -24,6 +24,7 @@ abbrev socleOf (L₀ : Subgroup G) : Subgroup (G ⧸ Subgroup.center G) :=
 instance socleOf_normal {L₀ : Subgroup G} [L₀.Normal] : (socleOf L₀).Normal :=
   Subgroup.Normal.map ‹L₀.Normal› _ (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem ker_domRestrict_socle {L₀ : Subgroup G}
     (hC : Subgroup.centralizer (L₀ : Set G) = Subgroup.center G) :
     ((QuotientGroup.mk' (Subgroup.center G)).domRestrict L₀).ker = Subgroup.center ↥L₀ := by
@@ -42,6 +43,7 @@ theorem ker_domRestrict_socle {L₀ : Subgroup G}
       exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hx ⟨g, hg⟩)
     rwa [hC] at this
 
+omit [Finite G] in
 theorem nonempty_socle_equiv {L₀ : Subgroup G}
     (hC : Subgroup.centralizer (L₀ : Set G) = Subgroup.center G) :
     Nonempty (↥(socleOf L₀) ≃* ↥L₀ ⧸ Subgroup.center ↥L₀) :=
@@ -49,6 +51,7 @@ theorem nonempty_socle_equiv {L₀ : Subgroup G}
     (QuotientGroup.quotientKerEquivRange _)).trans
       (MulEquiv.subgroupCongr (MonoidHom.domRestrict_range _ _))).symm⟩
 
+omit [Finite G] in
 theorem isSimpleGroup_socle {L₀ : Subgroup G} (hQ : CFSG.IsQuasisimple ↥L₀)
     (hC : Subgroup.centralizer (L₀ : Set G) = Subgroup.center G) :
     IsSimpleGroup ↥(socleOf L₀) := by
@@ -56,6 +59,7 @@ theorem isSimpleGroup_socle {L₀ : Subgroup G} (hQ : CFSG.IsQuasisimple ↥L₀
   have := hQ.2.1
   exact e.isSimpleGroup
 
+omit [Finite G] in
 theorem exists_ne_comm_socle {L₀ : Subgroup G} (hQ : CFSG.IsQuasisimple ↥L₀)
     (hC : Subgroup.centralizer (L₀ : Set G) = Subgroup.center G) :
     ∃ a b : ↥(socleOf L₀), a * b ≠ b * a := by
@@ -63,6 +67,7 @@ theorem exists_ne_comm_socle {L₀ : Subgroup G} (hQ : CFSG.IsQuasisimple ↥L�
   obtain ⟨a, b, hab⟩ := hQ.2.2
   exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
 
+omit [Finite G] in
 theorem centralizer_socle_eq_bot {L₀ : Subgroup G} (hQ : CFSG.IsQuasisimple ↥L₀)
     (hC : Subgroup.centralizer (L₀ : Set G) = Subgroup.center G) :
     Subgroup.centralizer ((socleOf L₀ : Subgroup (G ⧸ Subgroup.center G)) :

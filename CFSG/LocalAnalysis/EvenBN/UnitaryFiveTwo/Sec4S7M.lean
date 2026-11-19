@@ -59,7 +59,7 @@ section Gen
 
 variable (h : d.Hyp) (hKU : d.KUnitary) (hf : d.IsUnitaryFactor K₀)
 
-theorem Data.conj_delta (h : d.Hyp) {g : G} (hg : g ∈ d.H) (x : G) :
+theorem Data.conj_delta (_h : d.Hyp) {g : G} (hg : g ∈ d.H) (x : G) :
     (g * x * g⁻¹) * (d.t * (g * x * g⁻¹) * d.t) = g * (x * (d.t * x * d.t)) * g⁻¹ := by
   have hgt : g * d.t = d.t * g := mem_centralizer_singleton_iff.1 hg
   have h1 : d.t * g = g * d.t := hgt.symm

@@ -30,7 +30,7 @@ theorem noSylowNormalizesTwo_E6 {K : Type} [Field K] [Finite K] [CharP K 2] {p :
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) = 6) :
     NoSylowNormalizesTwo p (adjointGroup Tag.E6 K) := by
   classical
-  haveI : Fintype (WeylGroup .E6) := Fintype.ofFinite _
+  have : Fintype (WeylGroup .E6) := Fintype.ofFinite _
   have hB : 12 < p * 6 := by omega
   refine noSylowNormalizesTwo_adjoint_of_chains .E6 hp (by omega) hpK he excE6Full
     parabolicSum_E6_univ_eq excE6Mask excE6Fac excE6Mask_cover parabolicSum_E6_coat_eq ?_ ?_ ?_
@@ -47,7 +47,7 @@ theorem sylowTorus_of_degCount_E6 (K : Type) [Field K] [Finite K] {p : ℕ} (hp 
   have he0 : e ≠ 0 := he ▸ orderOf_natCast_ne_zero hp hpk
   have hle := le_thirty_of_degCount_pos (τ := Tag.E6) (by simp) (by omega : 0 < degCount Tag.E6 e)
   have h46 : e = 4 ∨ e = 6 := by
-    interval_cases e <;> first | (left; rfl) | (right; rfl) | exact absurd hcnt (by decide) | omega
+    interval_cases e <;> first | (left; rfl) | (right; rfl) | exact absurd hcnt (by decide)
   refine ⟨h46, ?_⟩
   rcases h46 with rfl | rfl
   · exact sylowTorus_E6_four K hp he
@@ -84,7 +84,7 @@ theorem sylowTorus_of_degCount_E7 (K : Type) [Field K] [Finite K] {p : ℕ} (hp 
   have he0 : e ≠ 0 := he ▸ orderOf_natCast_ne_zero hp hpk
   have hle := le_thirty_of_degCount_pos (τ := Tag.E7) (by simp) (by omega : 0 < degCount Tag.E7 e)
   have h4 : e = 4 := by
-    interval_cases e <;> first | rfl | exact absurd hcnt (by decide) | omega
+    interval_cases e <;> first | rfl | exact absurd hcnt (by decide)
   subst h4
   exact ⟨rfl, sylowTorus_E7_four K hp he⟩
 
@@ -93,7 +93,7 @@ theorem noSylowNormalizesTwo_E8 {K : Type} [Field K] [Finite K] [CharP K 2] {p :
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) (h : e = 5 ∨ e = 8 ∨ e = 10 ∨ e = 12) :
     NoSylowNormalizesTwo p (adjointGroup Tag.E8 K) := by
   classical
-  haveI : Fintype (WeylGroup .E8) := Fintype.ofFinite _
+  have : Fintype (WeylGroup .E8) := Fintype.ofFinite _
   have hep : e < p := orderOf_lt_prime hp hpK he
   have hp6 : p ≠ 6 := by
     rintro rfl
@@ -116,7 +116,7 @@ theorem sylowTorus_of_degCount_E8 (K : Type) [Field K] [Finite K] {p : ℕ} (hp 
   have hle := le_thirty_of_degCount_pos (τ := Tag.E8) (by simp) (by omega : 0 < degCount Tag.E8 e)
   have h5 : e = 5 ∨ e = 8 ∨ e = 10 ∨ e = 12 := by
     interval_cases e <;> first | (left; rfl) | (right; left; rfl) | (right; right; left; rfl) |
-      (right; right; right; rfl) | exact absurd hcnt (by decide) | omega
+      (right; right; right; rfl) | exact absurd hcnt (by decide)
   refine ⟨h5, ?_⟩
   rcases h5 with rfl | rfl | rfl | rfl
   · exact sylowTorus_E8_five K hp he

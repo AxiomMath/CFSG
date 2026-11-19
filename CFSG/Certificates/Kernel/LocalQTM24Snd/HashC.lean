@@ -17,7 +17,7 @@ variable {n : ℕ}
 
 private theorem aux_hashc_mem_ofList (seeds : List (RN n)) (x : RN n) :
     x ∈ Std.HashSet.ofList seeds ↔ x ∈ seeds :=
-  Std.HashSet.mem_ofList.trans List.contains_iff
+  Std.HashSet.mem_ofList.trans _root_.List.contains_iff_mem
 
 private theorem aux_hashc_inner (l : List (RN n)) (acc : Std.HashSet (RN n) × List (RN n)) :
     (∀ z, z ∈ (l.foldl (fun acc y => if acc.1.contains y then acc else
@@ -29,7 +29,7 @@ private theorem aux_hashc_inner (l : List (RN n)) (acc : Std.HashSet (RN n) × L
   | cons y l ih =>
     simp only [List.foldl_cons]
     by_cases hc : acc.1.contains y = true
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       have hy : y ∈ acc.1 := Std.HashSet.contains_iff_mem.mp hc
       obtain ⟨h1, h2⟩ := ih acc
       refine ⟨fun z => (h1 z).trans ?_, fun z => (h2 z).trans ?_⟩
@@ -51,7 +51,7 @@ private theorem aux_hashc_inner (l : List (RN n)) (acc : Std.HashSet (RN n) × L
           · rcases List.mem_cons.mp h with rfl | h
             · exact absurd hy hn
             · exact Or.inr ⟨hn, h⟩
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       have hA : y ∉ acc.1 := fun h => hc (Std.HashSet.contains_iff_mem.mpr h)
       obtain ⟨h1, h2⟩ := ih (acc.1.insert y, y :: acc.2)
       dsimp only at h1 h2

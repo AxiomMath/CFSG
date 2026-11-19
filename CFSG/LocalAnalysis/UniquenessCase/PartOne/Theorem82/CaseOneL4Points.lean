@@ -45,17 +45,17 @@ private theorem config_normalizer {v : Multiplicative (Fin 4 → ZMod 3)}
     have hXnormal : (Subgroup.zpowers (t.e v)).Normal := by
       rw [← Subgroup.normalizer_eq_top_iff]
       exact htop
-    haveI : IsSimpleGroup G := c.standing.simple
+    have : IsSimpleGroup G := c.standing.simple
     have hcardX : Nat.card (Subgroup.zpowers (t.e v)) = 3 := t.card_zpowers_e hv
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.zpowers (t.e v)) with hbot | htopX
     · have h1 : Nat.card (Subgroup.zpowers (t.e v)) = 1 := by rw [hbot, Subgroup.card_bot]
       omega
     · have hG : Nat.card G = 3 := by
         rw [← Subgroup.card_top (G := G), ← htopX, hcardX]
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       have hcyc : IsCyclic G := isCyclic_of_prime_card (p := 3) hG
-      haveI : IsCyclic G := hcyc
-      haveI : IsMulCommutative G := IsCyclic.isMulCommutative (α := G)
+      have : IsCyclic G := hcyc
+      have : IsMulCommutative G := IsCyclic.isMulCommutative (α := G)
       obtain ⟨a, b, hab⟩ := c.standing.nonab
       exact hab (isMulCommutative_iff.mp inferInstance a b)
   ·
@@ -77,7 +77,7 @@ private theorem point_data (H : Subgroup G) {v : Multiplicative (Fin 4 → ZMod 
     (hS : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.StronglyEmbeddedSolvable) :
     Odd (Nat.card (CFSG.pPrimeCore t.r ↥H)) ∧
       CFSG.pPrimeCore t.r ↥H ≤ (H ⊓ c.S.M).subgroupOf H ∧
-      (IsSolvable ↥(((H ⊓ c.S.M).subgroupOf H).map
+      (Group.IsSolvable ↥(((H ⊓ c.S.M).subgroupOf H).map
           (QuotientGroup.mk' (CFSG.pPrimeCore t.r ↥H))) ∨
         (t.r = 5 ∧
           (Nat.card ↥(((H ⊓ c.S.M).subgroupOf H).map
@@ -104,6 +104,7 @@ private theorem point_data (H : Subgroup G) {v : Multiplicative (Fin 4 → ZMod 
     c.three_not_mem_beta hconfig ((c.toSec7Core4 t.mem_sigma).step75 h5 hSE) hS
   exact ⟨hodd, hOle, hmain⟩
 
+omit [Finite G] in
 private theorem odd_normal_inf_map (H : Subgroup G) (O : Subgroup ↥H) [O.Normal]
     (hodd : Odd (Nat.card O)) {K : Subgroup G} (hKH : K ≤ H) :
     Odd (Nat.card ↥(K ⊓ O.map H.subtype)) ∧
@@ -111,7 +112,7 @@ private theorem odd_normal_inf_map (H : Subgroup G) (O : Subgroup ↥H) [O.Norma
   have hsub : (O.map H.subtype).subgroupOf H = O := by
     rw [← Subgroup.comap_subtype]
     exact Subgroup.comap_map_eq_self (by rw [Subgroup.ker_subtype]; exact bot_le)
-  haveI : ((O.map H.subtype).subgroupOf H).Normal := by rw [hsub]; exact inferInstance
+  have : ((O.map H.subtype).subgroupOf H).Normal := by rw [hsub]; exact inferInstance
   have hnormal : ((K ⊓ O.map H.subtype).subgroupOf K).Normal := by
     have hinf := Subgroup.inf_subgroupOf_inf_normal_of_right (A := K) (B' := O.map H.subtype)
       (B := H)
@@ -123,6 +124,7 @@ private theorem odd_normal_inf_map (H : Subgroup G) (O : Subgroup ↥H) [O.Norma
     exact Odd.of_dvd_nat hodd hdvd
   exact ⟨hodd', hnormal⟩
 
+omit [Finite G] in
 private theorem ker_comp_mk'_subgroupOf (H : Subgroup G) (O : Subgroup ↥H) [O.Normal]
     (K : Subgroup ↥H) :
     ((QuotientGroup.mk' O).comp K.subtype).ker = O.subgroupOf K := by
@@ -164,6 +166,7 @@ private theorem subgroup_data (H : Subgroup G) (O : Subgroup ↥H) [O.Normal]
     exact Subgroup.mem_map_of_mem (QuotientGroup.mk' O) (hKhM x.2)
   exact ⟨hKH, hKM, hdata.1, hdata.2, hker, hrange⟩
 
+omit [Finite G] in
 private theorem perfect_image (H : Subgroup G) (O : Subgroup ↥H) [O.Normal]
     (hoddO : Odd (Nat.card O)) {K : Subgroup G} (hKH : K ≤ H)
     (hKcomm : ⁅K, K⁆ = K)
@@ -224,10 +227,11 @@ private theorem perfect_image (H : Subgroup G) (O : Subgroup ↥H) [O.Normal]
         exact hKperf.commutator_eq_top
       apply Subgroup.map_injective (f := e.toMonoidHom) e.injective
       rw [hmap, Subgroup.map_top, MonoidHom.range_eq_top.mpr e.surjective]
-    haveI : Group.IsPerfect ↥Kh := hKhperf
+    have : Group.IsPerfect ↥Kh := hKhperf
     exact Group.IsPerfect.ofSurjective f.rangeRestrict_surjective
   exact ⟨hcard, hperf⟩
 
+omit [Finite G] in
 private theorem nonsolvable_image (H : Subgroup G) (O : Subgroup ↥H) [O.Normal]
     (hoddO : Odd (Nat.card O)) {K : Subgroup G} (hKH : K ≤ H)
     (hKnsolv : ¬ Group.IsSolvable ↥K)
@@ -255,8 +259,8 @@ private theorem nonsolvable_image (H : Subgroup G) (O : Subgroup ↥H) [O.Normal
     refine Subtype.ext ?_
     simpa using hcomm
   intro hKhat_solv
-  haveI : Group.IsSolvable ↥(O.subgroupOf Kh) := hOsub_solv
-  haveI : Group.IsSolvable ↥Khat := hKhat_solv
+  have : Group.IsSolvable ↥(O.subgroupOf Kh) := hOsub_solv
+  have : Group.IsSolvable ↥Khat := hKhat_solv
   have hker : f.ker = O.subgroupOf Kh := ker_comp_mk'_subgroupOf H O Kh
   have hker_le : f.rangeRestrict.ker ≤ (O.subgroupOf Kh).subtype.range := by
     rw [MonoidHom.ker_rangeRestrict, hker, Subgroup.range_subtype]
@@ -318,7 +322,7 @@ theorem normalizer_a1_le
   have hKhat_gt : 3600 < Nat.card ↥Khat := by
     rw [hKhat_card]
     exact hKcard
-  haveI : Nontrivial ↥Khat := by
+  have : Nontrivial ↥Khat := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
     have h1 : Nat.card ↥Khat = 1 := by rw [hbot, Subgroup.card_bot]
@@ -327,7 +331,7 @@ theorem normalizer_a1_le
     rw [← Subgroup.map_subtype_commutator Khat, hKhatperf.commutator_eq_top,
       Subgroup.map_top, Subgroup.range_subtype]
   rcases hmain with hsolv | hsecond
-  · haveI : Group.IsSolvable ↥Nbar := hsolv
+  · have : Group.IsSolvable ↥Nbar := hsolv
     have hKhat_solv : Group.IsSolvable ↥Khat :=
       Group.isSolvable_of_isSolvable_injective
         (f := Subgroup.inclusion hKhat_le) (Subgroup.inclusion_injective hKhat_le)
@@ -353,7 +357,7 @@ theorem normalizer_a3_le
   have hKhat_nonsolv := nonsolvable_image H O hoddO hKH hKnsolv hKcentral
   have hNotSolvNbar : ¬ Group.IsSolvable ↥Nbar := by
     intro hs
-    haveI : Group.IsSolvable ↥Nbar := hs
+    have : Group.IsSolvable ↥Nbar := hs
     exact hKhat_nonsolv (Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hKhat_le) (Subgroup.inclusion_injective hKhat_le))
   have hsecond : t.r = 5 ∧ (Nat.card ↥Nbar).factorization 5 ≤ 2 := by
@@ -371,7 +375,7 @@ theorem normalizer_a3_le
     rw [← CFSG.natCard_subgroupOf_eq (H ⊓ c.S.M) H inf_le_left]
     exact card_eq_card_map_mul_card H O hOle
   have hcop5 : Nat.Coprime 5 (Nat.card ↥O) := by
-    haveI : Fact t.r.Prime := ⟨t.mem_sigma.1.1⟩
+    have : Fact t.r.Prime := ⟨t.mem_sigma.1.1⟩
     have h := CFSG.pPrimeCore_coprime_card (p := t.r) (G := ↥H)
     rw [hsecond.1] at h
     simpa [O, hsecond.1] using h

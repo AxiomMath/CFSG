@@ -106,12 +106,12 @@ theorem exists_mem_base_inf_component (hk : D1CaseTwoKFacts3 G) {P : Sylow 3 G}
       orderOf (QuotientGroup.mk' (primeComplementCore (G := H) 3) q) = 3 ∧
       ∃ E : Subgroup G, E ≤ R ∧ IsElemAbelian 3 E ∧ Nat.card E = 27 ∧ (q : G) ∈ E := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hRH : R ≤ H := hd.cfg.ext.le_H
   have hRP : R ≤ (P : Subgroup G) := hd.cfg.ext.le_P
   obtain ⟨S, hSR, hSnorm, hScyc, hSc, hSmap⟩ :=
     exists_normalCyclic_lift hk.out hk.seitzCyc hk.sylow hd.toU hL hLX
-  haveI : IsCyclic S := hScyc
+  have : IsCyclic S := hScyc
   have hrelS : B.relIndex S ≤ 3 :=
     (Subgroup.relIndex_le_of_le_right hSR
       (CFSG.GH74.Uniqueness.SU.SU1.relIndex_ne_zero_of_finite B R)).trans hidx
@@ -172,7 +172,7 @@ theorem normalizer_zpowers_le_of_tenFourteen (hk : D1CaseTwoKFacts3 G)
       Subgroup.normalizer (Subgroup.zpowers a : Set G) ≤ M := by
   intro a ha ha1 ha3 hE
   obtain ⟨hMN, -⟩ := block_facts hk cfg hRM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have he := cfg.data.cfg.ext.toD1Escape
   obtain ⟨E, hER, hEab, hEc, haE⟩ := hE
   have hCM : Subgroup.centralizer ({a} : Set G) ≤ M := by
@@ -263,7 +263,7 @@ theorem nineThree_b3_of_tenFourteen (hk : D1CaseTwoKFacts3 G) (h1014 : TwoRestTe
       obtain ⟨L₂, h₂, hne⟩ := huniq
       exact nineThree_of_caseTwo_mixed hd cfg.component h₂ cfg.not_le
         (le_X0_of_tenFourteen hk h1014 cfg hRM h₂ hne.symm)
-  haveI := h93.normal
+  have := h93.normal
   exact ⟨h93, b3_of_normal hk.noTwo hK ⟨q, hqB, hqK, hqo⟩⟩
 
 theorem innerNotQJ_eq_of_tenFourteen (hk : D1CaseTwoKFacts3 G) (h1014 : TwoRestTenFourteen G)
@@ -271,7 +271,7 @@ theorem innerNotQJ_eq_of_tenFourteen (hk : D1CaseTwoKFacts3 G) (h1014 : TwoRestT
     {z : H} {Kbar : Subgroup (H ⧸ primeComplementCore (G := H) 3)} {L : Subgroup G}
     (cfg : TwoRestG23Config P M H R Rbar z Kbar L) (hRM : R ≤ M) :
     innerNotQJ 3 H Kbar = Kbar := by
-  haveI := (nineThree_b3_of_tenFourteen hk h1014 cfg hRM).1.normal
+  have := (nineThree_b3_of_tenFourteen hk h1014 cfg hRM).1.normal
   exact innerNotQJ_eq_of_normal 3 H Kbar
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.TwoRest3A6.G23

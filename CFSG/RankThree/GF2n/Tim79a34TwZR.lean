@@ -239,7 +239,7 @@ theorem twistedZR_holds (hB3 : NoInvCompStatement) : TwistedZRStatement := by
       by_contra hne
       have hv' : (v : Hbar V H) ∈ barOf V H V := Subgroup.mem_subgroupOf.mp hv
       have hne' : (v : Hbar V H) ≠ 1 := fun h => hne (Subtype.ext (by simpa using h))
-      exact hd.D_not_comm v (hc.barOf_V_subset_dbarOf hv' hne') hvK
+      exact hd.D_not_comm v (CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hv' hne') hvK
     have hΦs : Φ s = Φ 1 := by
       rw [map_one, ← hvs, hv1, map_one]
     exact Subgroup.mem_bot.mpr (hd.bij.1 hΦs)

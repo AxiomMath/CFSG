@@ -61,8 +61,8 @@ theorem GGResHyp.K_E6_actual_orbit_ge_72
     72 ≤ Nat.card (MulAction.orbit
       ((ggAutomizer K Bs).map (ggLin (p := 3) ι)) v) := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hself : ∀ i, α i (h i) = 2 := by
     intro i
     rw [hpair]

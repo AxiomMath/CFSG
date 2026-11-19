@@ -514,7 +514,7 @@ theorem fi23ImgFacts_of_phi (hφ : Function.Injective φ) {U V : G} (hU : φ U =
   · change ∀ v ∈ rels (), wordProd img v = 1
     intro v hv
     simp only [rels, List.mem_append, List.mem_map, List.mem_range, List.mem_cons,
-      List.mem_singleton, List.not_mem_nil, or_false] at hv
+      List.not_mem_nil, or_false] at hv
     rcases hv with ((⟨k, hk, rfl⟩ | ⟨⟨r, s⟩, hrs, rfl⟩) | ⟨⟨r, s⟩, hrs, rfl⟩) | rfl | rfl
     · rw [wordProd_cons_true, wordProd_cons_true, wordProd_nil, mul_one]
       exact hsq' k hk

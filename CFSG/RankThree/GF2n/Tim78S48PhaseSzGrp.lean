@@ -37,7 +37,7 @@ theorem sz_many_conjugates {a : ℕ} (ha : 1 ≤ a)
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hEQ⟩ := hE2.exists_le_sylow
-  obtain ⟨hse, -, -, -, hQcard⟩ := CFSG.Open.Open.bender_suzuki_borel a ha Q
+  obtain ⟨hse, -, -, -, hQcard⟩ := CFSG.Open.Thm.bender_suzuki_borel a ha Q
   set Hn := Subgroup.normalizer ((Q : Subgroup ↥(Sz a)) : Set ↥(Sz a)) with hHn
   have hEH : E ≤ Hn := hEQ.trans Subgroup.le_normalizer
   have hEeven : Even (Nat.card E) := by
@@ -96,7 +96,7 @@ theorem sz_many_conjugates {a : ℕ} (ha : 1 ≤ a)
         have := orderOf_dvd_natCard
           (⟨_, hmem⟩ : ↥(Hn ⊓ Hn.map (MulAut.conj (y₀⁻¹)⁻¹).toMonoidHom))
         rwa [Subgroup.orderOf_mk _ hmem] at this
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).mp Q.isPGroup' ⟨_, hu⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).mp Q.isPGroup ⟨_, hu⟩
       have hk' : orderOf ((s : ↥(Sz a))⁻¹ * s') = 2 ^ k := by
         rw [← hk]
         exact (Subgroup.orderOf_mk _ hu).symm
@@ -108,7 +108,7 @@ theorem sz_many_conjugates {a : ℕ} (ha : 1 ≤ a)
       rw [hk0, pow_zero, orderOf_eq_one_iff] at hk'
       have : s = s' := Subtype.ext (inv_mul_eq_one.mp hk')
       rw [this]
-  haveI : Fintype ↥Q := Fintype.ofFinite _
+  have : Fintype ↥Q := Fintype.ofFinite _
   have hcardO : Fintype.card (Option ↥Q) = 2 ^ (2 * (2 * a + 1)) + 1 := by
     rw [Fintype.card_option, ← Nat.card_eq_fintype_card,
       show Nat.card ↥Q = (2 ^ (2 * a + 1)) ^ 2 from hQcard, ← pow_mul, mul_comm]
@@ -145,7 +145,7 @@ theorem szTorus_mul (a : ℕ) (x y : (F a)ˣ) : torusSz a (x * y) = torusSz a x 
   refine Subtype.ext (Units.ext ?_)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_torusSz', torusMat, Matrix.mul_apply, Fin.sum_univ_four, mul_pow, mul_inv] <;> ring
+    simp [coe_torusSz', torusMat, Matrix.mul_apply, Fin.sum_univ_four, mul_pow] <;> ring
 
 noncomputable def szTorusHom (a : ℕ) : (F a)ˣ →* ↥(Sz a) where
   toFun := torusSz a

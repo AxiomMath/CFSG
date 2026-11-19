@@ -154,8 +154,8 @@ theorem burnsideF429a_ctr_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (hf : 2 ≤ f) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : ctr T ≤ Gp := by
   intro z hz
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have hST := burnsideF429a_pCoreOf_le_sylow (Gp := Gp) hT
   have hzc : ∀ s ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)), z * s = s * z := fun s hs =>
     (Subgroup.mem_centralizer_iff.mp hz.2 s (hST hs)).symm

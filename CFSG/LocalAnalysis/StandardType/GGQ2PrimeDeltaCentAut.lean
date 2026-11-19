@@ -86,7 +86,7 @@ private theorem orth_transfer_of_tvP_fixed (A : GU0)
   rw [hau, semiVec_smul, smul_smul] at hbq
   have hp0 : uVec (ptOf _ hu0 hui) 0 = 0 := by
     rw [hau]
-    simp [Pi.single_apply, hi.symm, hj.symm]
+    simp [hi.symm, hj.symm]
   have hfix : ∀ s : Fin 693, hermStd (uVec s) (uVec (ptOf _ hu0 hui)) = 0 →
       hermStd (uVec s) (uVec (semiPerm A φ (ptOf _ hu0 hui))) = 0 := fun s hs => by
     rw [← tvP_fix_iff_orth] at hs ⊢

@@ -34,7 +34,7 @@ theorem oddPCoreInClosure_of_map_quasisimple {C G : Type*} [Group C] [Finite C] 
     (hWodd : Odd (Nat.card W)) : OddPCoreInClosure p C := by
   classical
   set Q' : Subgroup C := Q.comap F with hQ'
-  haveI : Q'.Normal := ⟨fun q hq c => by
+  have : Q'.Normal := ⟨fun q hq c => by
     rw [hQ', Subgroup.mem_comap] at hq ⊢
     rw [map_mul, map_mul, map_inv]
     exact hQn c _ hq⟩
@@ -62,7 +62,7 @@ theorem mem_zpowers_of_pow_eq_one {G : Type*} [Group G] [Finite G] [IsCyclic G] 
     (hp : 0 < p) {ζ : G} (hζ : orderOf ζ = p) {a : G} (ha : a ^ p = 1) :
     a ∈ Subgroup.zpowers ζ := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have hS := IsCyclic.card_pow_eq_one_le (α := G) hp
   have hsub : (Finset.univ.filter fun y : G => y ∈ Subgroup.zpowers ζ) ⊆
       Finset.univ.filter fun y : G => y ^ p = 1 := by
@@ -150,11 +150,11 @@ theorem oddPCoreInClosure_triality_split {K : Type} [Field K] {n : ℕ} (hn : 1 
     OddPCoreInClosure p
       ↥(Subgroup.centralizer ({x} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ two_ne_zero))
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   obtain ⟨hSyl, ⟨e, he⟩, -, hodd, hcases⟩ :=
     triality_split_prime_toral_Sylow_and_centralizers Nat.prime_two hn K hK σ hσ hp hp3 hpq
   have hPx : IsPGroup p (Subgroup.zpowers x) :=

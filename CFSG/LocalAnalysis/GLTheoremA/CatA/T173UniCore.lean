@@ -32,10 +32,12 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
 @[expose] def IsEvenFlip (Q : QuadraticForm F V) (U : Fin k → Submodule F V) (d d' : V ≃ₗ[F] V) : Prop :=
   ∃ J : Finset (Fin k), Even J.card ∧ IsFlip Q U d d' J
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem isFlip_self {d : V ≃ₗ[F] V} (hd : d ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hfix : ∀ x ∈ polarPerp Q (⨆ j, U j), d x = x) : IsFlip Q U d d ∅ :=
   ⟨hd, hfix, fun j x _ => by simp⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_isFlip_of_maps_aux1 {W : Submodule F V}
     (h : (QuadraticMap.polarBilin (Q.comp W.subtype)).Nondegenerate) : PolarNondegOn Q W := by
   intro x hx hperp
@@ -43,7 +45,8 @@ private theorem exists_isFlip_of_maps_aux1 {W : Submodule F V}
     simpa [QuadraticMap.polarBilin_apply_apply, polar_comp_subtype_cent] using hperp y y.2)
   exact congrArg Subtype.val h'
 
-private theorem exists_isFlip_of_maps_aux2 (hU : IsPlaneSystem Q U) {d : V ≃ₗ[F] V}
+omit [Finite F] [CharP F 2] in
+private theorem exists_isFlip_of_maps_aux2 (_hU : IsPlaneSystem Q U) {d : V ≃ₗ[F] V}
     (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j) (j : Fin k) {s : V} (hs : s ∈ U j) :
     d.symm s ∈ U j := by
   let φ : (U j) →ₗ[F] (U j) :=
@@ -59,6 +62,7 @@ private theorem exists_isFlip_of_maps_aux2 (hU : IsPlaneSystem Q U) {d : V ≃�
   have : d.symm s = y.1 := by rw [← hdy, LinearEquiv.symm_apply_apply]
   rw [this]; exact y.2
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_isFlip_of_maps_aux3 (hU : IsPlaneSystem Q U) {i j : Fin k} (hij : i ≠ j)
     {g h : V ≃ₗ[F] V} (hgp : ∀ x ∈ perp Q (U i), g x = x) (hhp : ∀ x ∈ perp Q (U j), h x = x)
     (hgi : ∀ x ∈ U i, g x ∈ U i) (hhj : ∀ x ∈ U j, h x ∈ U j) : g * h = h * g := by
@@ -81,6 +85,7 @@ private theorem exists_isFlip_of_maps_aux3 (hU : IsPlaneSystem Q U) {i j : Fin k
     hgp (h v) (mem_perp.2 fun y hy => hU.perp i j hij y hy (h v) (hhj v hv))
   simp only [LinearEquiv.mul_apply, map_add, hhp u hui, hgp v hvj, hgu, hhv, hgp r hri, hhp r hrj]
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_isFlip_of_maps_aux4 {d : V ≃ₗ[F] V}
     (hS : ∀ j, PolarNondegOn Q (U j)) (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j)
     (h2 : ∀ j, ∀ s ∈ U j, d.symm s ∈ U j) (hd : d ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
@@ -95,6 +100,7 @@ private theorem exists_isFlip_of_maps_aux4 {d : V ≃ₗ[F] V}
     mem_perp.1 hr (d u) (hmaps j u hu), mem_perp.1 hr u hu,
     TauCeti.QuadraticMap.mem_orthogonalGroup_iff.1 hd u]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_isFlip_of_maps_aux5 {σ : Fin k → V ≃ₗ[F] V}
     (comm : ((Finset.univ : Finset (Fin k)) : Set (Fin k)).Pairwise (Function.onFun Commute σ))
     (hσfix : ∀ i j, i ≠ j → σ i ∈ stabPW (U j))
@@ -111,6 +117,7 @@ private theorem exists_isFlip_of_maps_aux5 {σ : Fin k → V ≃ₗ[F] V}
     exact mem_stabPW.1 (hσfix i j (Finset.mem_erase.mp hi).1) y hy
   exact herase (σ j x) (hσU j x hx)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_isFlip_of_maps_aux6 (hU : IsPlaneSystem Q U) (J : Finset (Fin k))
     {d : V ≃ₗ[F] V} {t : Fin k → V ≃ₗ[F] V}
     (htO : ∀ j, t j ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
@@ -134,29 +141,30 @@ private theorem exists_isFlip_of_maps_aux6 (hU : IsPlaneSystem Q U) (J : Finset 
   · intro j
     rw [hσdef j]
     by_cases hj : j ∈ J
-    · rw [if_pos hj]; exact Subgroup.inv_mem _ (htO j)
-    · rw [if_neg hj]; exact htO j
+    · rw [ite_eq_left hj]; exact Subgroup.inv_mem _ (htO j)
+    · rw [ite_eq_right hj]; exact htO j
   · intro j x hx
     rw [hσdef j]
     by_cases hj : j ∈ J
-    · rw [if_pos hj, htinvU j x hx]; exact h2 j x hx
-    · rw [if_neg hj, htU j x hx]; exact hmaps j x hx
+    · rw [ite_eq_left hj, htinvU j x hx]; exact h2 j x hx
+    · rw [ite_eq_right hj, htU j x hx]; exact hmaps j x hx
   · intro i j hij
     refine mem_stabPW.2 fun x hx => ?_
     have hxi : x ∈ perp Q (U i) := mem_perp.2 fun y hy => hU.perp i j hij y hy x hx
     have hti := htfix i x hxi
     rw [hσdef i]
     by_cases hi : i ∈ J
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       calc (t i)⁻¹ x = (t i)⁻¹ (t i x) := by rw [hti]
         _ = x := LinearEquiv.symm_apply_apply (t i) x
-    · rw [if_neg hi]; exact hti
+    · rw [ite_eq_right hi]; exact hti
   · intro j x hx
     rw [hσdef j]
     split_ifs with hj
     · rw [htinvU j x hx]; rfl
     · rw [htU j x hx]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_isFlip_of_maps_aux7 (J : Finset (Fin k)) {t σ : Fin k → V ≃ₗ[F] V}
     (hσdef : ∀ j, σ j = if j ∈ J then (t j)⁻¹ else t j)
     (hcommt : ∀ i j, i ≠ j → Commute (t i) (t j)) :
@@ -165,11 +173,12 @@ private theorem exists_isFlip_of_maps_aux7 (J : Finset (Fin k)) {t σ : Fin k �
   have ht := hcommt i j hij
   rw [hσdef i, hσdef j]
   by_cases hi : i ∈ J <;> by_cases hj : j ∈ J
-  · rw [if_pos hi, if_pos hj]; exact ht.inv_left.inv_right
-  · rw [if_pos hi, if_neg hj]; exact ht.inv_left
-  · rw [if_neg hi, if_pos hj]; exact ht.inv_right
-  · rw [if_neg hi, if_neg hj]; exact ht
+  · rw [ite_eq_left hi, ite_eq_left hj]; exact ht.inv_left.inv_right
+  · rw [ite_eq_left hi, ite_eq_right hj]; exact ht.inv_left
+  · rw [ite_eq_right hi, ite_eq_left hj]; exact ht.inv_right
+  · rw [ite_eq_right hi, ite_eq_right hj]; exact ht
 
+omit [Finite F] [CharP F 2] in
 theorem exists_isFlip_of_maps (hU : IsPlaneSystem Q U) {d : V ≃ₗ[F] V}
     (hd : d ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j)
     (J : Finset (Fin k)) : ∃ d' : V ≃ₗ[F] V, IsFlip Q U d d' J := by
@@ -202,13 +211,14 @@ theorem exists_isFlip_of_maps (hU : IsPlaneSystem Q U) {d : V ≃ₗ[F] V}
     have hxi : x ∈ perp Q (U i) := mem_perp.2 fun y hy => mem_polarPerp_iff.1 hx y (le_iSup U i hy)
     rw [hσdef i]
     by_cases hi : i ∈ J
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       calc (t i)⁻¹ x = (t i)⁻¹ (t i x) := by rw [htfix i x hxi]
         _ = x := LinearEquiv.symm_apply_apply (t i) x
-    · rw [if_neg hi]; exact htfix i x hxi
+    · rw [ite_eq_right hi]; exact htfix i x hxi
   · intro j x hx
     rw [exists_isFlip_of_maps_aux5 hcomm hσfix hσU j hx, hσval j x hx]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem polarNondegOn_iSup_of_isPlaneSystem (hU : IsPlaneSystem Q U) : PolarNondegOn Q (⨆ j, U j) := by
   have h := hU.nondeg_biSup Finset.univ
   have e : (⨆ j ∈ (Finset.univ : Finset (Fin k)), U j) = ⨆ j, U j := by simp
@@ -218,6 +228,7 @@ theorem polarNondegOn_iSup_of_isPlaneSystem (hU : IsPlaneSystem Q U) : PolarNond
     simpa [QuadraticMap.polarBilin_apply_apply, polar_comp_subtype_cent] using hperp y y.2)
   exact congrArg Subtype.val this
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_hypPair_sum_of_ne_aux2 (hU : IsPlaneSystem Q U) (j : Fin k) {x : V}
     (hx : x ∈ U j) (hQx : Q x = 0) : x = 0 := by
   by_contra hx0
@@ -227,7 +238,8 @@ private theorem exists_hypPair_sum_of_ne_aux2 (hU : IsPlaneSystem Q U) (j : Fin 
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.1 hy
     simp [QuadraticMap.comp_apply, QuadraticMap.map_smul, hQx]
 
-private theorem exists_hypPair_sum_of_ne_aux3 (hU : IsPlaneSystem Q U) {a b : Fin k} (hab : a ≠ b)
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem exists_hypPair_sum_of_ne_aux3 (hU : IsPlaneSystem Q U) {a b : Fin k} (_hab : a ≠ b)
     {s y z : V} (hs0 : s ≠ 0) (hy : y ∈ U a) (hz : z ∈ U b) (hyz : y + z = s)
     (hQyz : Q y = Q z) (hQy : Q y = 0) : False := by
   have hz0 : Q z = 0 := by rw [← hQyz]; exact hQy
@@ -271,6 +283,7 @@ theorem exists_hypPair_sum_of_ne (hU : IsPlaneSystem Q U) {a b : Fin k} (hab : a
   · exact fun h0 => exists_hypPair_sum_of_ne_aux3 hU hab hf0 hy₂ hz₂ hf_eq hQ₂ h0
   · rw [hs_eq, hf_eq, hsf]; exact one_ne_zero
 
+omit [CharP F 2] in
 private theorem aeval_mem_rootSet_specialBlock_aux1 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
     {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1) :
@@ -301,9 +314,10 @@ private theorem aeval_mem_rootSet_specialBlock_aux1 (hp : p.Prime) (hp2 : p ≠ 
     simp [frobPow_apply]
   exact ⟨hself, hdeg2, ι, hinj, hrange, hQιE, fun a => hxι a⟩
 
-private theorem aeval_mem_rootSet_specialBlock_aux2 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
-    {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
-    (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1)
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem aeval_mem_rootSet_specialBlock_aux2 (_hp : p.Prime) (_hp2 : p ≠ 2) (_hpq : p ∣ Nat.card F + 1)
+    {x : V ≃ₗ[F] V} (_hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
+    (_hh : h ∈ primaryFactors x.toLinearMap) (_hh1 : h ≠ X - 1)
     (ι : (Fin (primaryMultiplicity x.toLinearMap h) → AdjoinRoot h) →ₗ[F] V)
     (hxι : ∀ a, x.toLinearMap (ι a) = ι (AdjoinRoot.root h • a)) :
     ∀ (q : F[X]) (a : Fin (primaryMultiplicity x.toLinearMap h) → AdjoinRoot h),
@@ -338,9 +352,10 @@ private theorem aeval_mem_rootSet_specialBlock_aux2 (hp : p.Prime) (hp2 : p ≠ 
       congr 1
       rw [mul_smul, algebraMap_smul]
 
-private theorem aeval_mem_rootSet_specialBlock_aux3 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
-    {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
-    (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1)
+omit [CharP F 2] [FiniteDimensional F V] in
+private theorem aeval_mem_rootSet_specialBlock_aux3 (_hp : p.Prime) (_hp2 : p ≠ 2) (_hpq : p ∣ Nat.card F + 1)
+    {x : V ≃ₗ[F] V} (_hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
+    (_hh : h ∈ primaryFactors x.toLinearMap) (_hh1 : h ≠ X - 1)
     (ι : (Fin (primaryMultiplicity x.toLinearMap h) → AdjoinRoot h) →ₗ[F] V)
     (hQιE : ∀ a, algebraMap F (AdjoinRoot h) (Q (ι a)) =
       ∑ i, a i * frobPow F (AdjoinRoot h) 1 (a i))
@@ -357,6 +372,7 @@ private theorem aeval_mem_rootSet_specialBlock_aux3 (hp : p.Prime) (hp2 : p ≠ 
   simp only [Pi.smul_apply, smul_eq_mul, map_mul]
   ring
 
+omit [CharP F 2] in
 private theorem aeval_mem_rootSet_specialBlock_aux4 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
     {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1) :
@@ -393,9 +409,10 @@ private theorem aeval_mem_rootSet_specialBlock_aux4 (hp : p.Prime) (hp2 : p ≠ 
   refine ⟨H, htr, hadd₁, hadd₂, ?_, hsm₂, hsymm, htrace⟩
   exact fun c u w => by rw [hsm₁]
 
-private theorem aeval_mem_rootSet_specialBlock_aux5 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
-    {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
-    (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1)
+omit [FiniteDimensional F V] in
+private theorem aeval_mem_rootSet_specialBlock_aux5 (_hp : p.Prime) (_hp2 : p ≠ 2) (_hpq : p ∣ Nat.card F + 1)
+    {x : V ≃ₗ[F] V} (_hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
+    (_hh : h ∈ primaryFactors x.toLinearMap) (_hh1 : h ≠ X - 1)
     (ι : (Fin (primaryMultiplicity x.toLinearMap h) → AdjoinRoot h) →ₗ[F] V)
     (hrange : LinearMap.range ι = primaryComponent x.toLinearMap h)
     (hQιE : ∀ a, algebraMap F (AdjoinRoot h) (Q (ι a)) =
@@ -434,15 +451,16 @@ private theorem aeval_mem_rootSet_specialBlock_aux5 (hp : p.Prime) (hp2 : p ≠ 
     apply (algebraMap F (AdjoinRoot h)).injective
     rw [map_add, map_add, map_mul, htrace, ← h1q, hQsmul (1 + q) a, hQsmul q a, hQιE a]
     simp only [map_add, map_one]
-    haveI : CharP (AdjoinRoot h) 2 :=
+    have : CharP (AdjoinRoot h) 2 :=
       charP_of_injective_algebraMap (FaithfulSMul.algebraMap_injective F (AdjoinRoot h)) 2
     have h2 : (2 : AdjoinRoot h) = 0 := CharP.cast_eq_zero (AdjoinRoot h) 2
     ring_nf
     simp [h2]
 
-private theorem aeval_mem_rootSet_specialBlock_aux6 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
-    {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
-    (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1)
+omit [CharP F 2] [FiniteDimensional F V] in
+private theorem aeval_mem_rootSet_specialBlock_aux6 (_hp : p.Prime) (_hp2 : p ≠ 2) (_hpq : p ∣ Nat.card F + 1)
+    {x : V ≃ₗ[F] V} (_hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
+    (_hh : h ∈ primaryFactors x.toLinearMap) (_hh1 : h ≠ X - 1)
     (H : primaryComponent x.toLinearMap h → primaryComponent x.toLinearMap h → AdjoinRoot h)
     (htr : ∀ u w c, Algebra.trace F (AdjoinRoot h) (H u w * c) =
       polar Q (u : V) ((c • w : primaryComponent x.toLinearMap h) : V))
@@ -463,9 +481,10 @@ private theorem aeval_mem_rootSet_specialBlock_aux7 {E : Type} [Field E] [CharP 
   rw [add_eq_zero_iff_eq_neg, CharTwo.neg_eq] at hab
   exact hab.symm
 
-private theorem aeval_mem_rootSet_specialBlock_aux8 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1)
+omit [FiniteDimensional F V] in
+private theorem aeval_mem_rootSet_specialBlock_aux8 (_hp : p.Prime) (_hp2 : p ≠ 2) (_hpq : p ∣ Nat.card F + 1) {x : V ≃ₗ[F] V} (_hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)] (_hh : h ∈ primaryFactors x.toLinearMap) (_hh1 : h ≠ X - 1)
     (H : primaryComponent x.toLinearMap h → primaryComponent x.toLinearMap h → AdjoinRoot h) (htr : ∀ u w c, Algebra.trace F (AdjoinRoot h) (H u w * c) = polar Q (u : V) ((c • w : primaryComponent x.toLinearMap h) : V))
-    (hsm₂ : ∀ c u w, H u (c • w) = c * H u w) (hsymm : ∀ u w, H w u = frobPow F (AdjoinRoot h) 1 (H u w)) (htrace : ∀ z : AdjoinRoot h, algebraMap F (AdjoinRoot h) (Algebra.trace F (AdjoinRoot h) z) = z + frobPow F (AdjoinRoot h) 1 z)
+    (_hsm₂ : ∀ c u w, H u (c • w) = c * H u w) (hsymm : ∀ u w, H w u = frobPow F (AdjoinRoot h) 1 (H u w)) (htrace : ∀ z : AdjoinRoot h, algebraMap F (AdjoinRoot h) (Algebra.trace F (AdjoinRoot h) z) = z + frobPow F (AdjoinRoot h) 1 z)
     (hσσ : ∀ z : AdjoinRoot h, frobPow F (AdjoinRoot h) 1 (frobPow F (AdjoinRoot h) 1 z) = z) (uU : primaryComponent x.toLinearMap h) (cE : AdjoinRoot h) (hQu : Q (uU : V) = 0) (huw : polar Q (uU : V) ((cE • uU : primaryComponent x.toLinearMap h) : V) = 0) (hQw : Q ((cE • uU : primaryComponent x.toLinearMap h) : V) = 0) :
     ∀ v : primaryComponent x.toLinearMap h, eichler Q (uU : V) ((cE • uU : primaryComponent x.toLinearMap h) : V) (v : V) = ((v + ((cE + frobPow F (AdjoinRoot h) 1 cE) * H uU v) • uU : primaryComponent x.toLinearMap h) : V) := by
   intro v
@@ -503,15 +522,16 @@ private theorem aeval_mem_rootSet_specialBlock_aux8 (hp : p.Prime) (hp2 : p ≠ 
       (H v uU * cE + frobPow F (AdjoinRoot h) 1 (H v uU) * frobPow F (AdjoinRoot h) 1 cE)) =
       (cE + frobPow F (AdjoinRoot h) 1 cE) * frobPow F (AdjoinRoot h) 1 (H v uU) from by
     have h2 : (2 : AdjoinRoot h) = 0 := by
-      haveI : CharP (AdjoinRoot h) 2 :=
+      have : CharP (AdjoinRoot h) 2 :=
         charP_of_injective_algebraMap (FaithfulSMul.algebraMap_injective F (AdjoinRoot h)) 2
       exact CharP.cast_eq_zero (AdjoinRoot h) 2
     ring_nf
     simp [h2]]
 
-private theorem aeval_mem_rootSet_specialBlock_aux9 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
-    {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
-    (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1)
+omit [CharP F 2] [FiniteDimensional F V] in
+private theorem aeval_mem_rootSet_specialBlock_aux9 (_hp : p.Prime) (_hp2 : p ≠ 2) (_hpq : p ∣ Nat.card F + 1)
+    {x : V ≃ₗ[F] V} (_hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
+    (_hh : h ∈ primaryFactors x.toLinearMap) (_hh1 : h ≠ X - 1)
     (H : primaryComponent x.toLinearMap h → primaryComponent x.toLinearMap h → AdjoinRoot h)
     (htr : ∀ u w c, Algebra.trace F (AdjoinRoot h) (H u w * c) =
       polar Q (u : V) ((c • w : primaryComponent x.toLinearMap h) : V))
@@ -552,7 +572,7 @@ private theorem aeval_mem_rootSet_specialBlock_aux10 (hp : p.Prime) (hp2 : p ≠
     (uU : primaryComponent x.toLinearMap h) (cE : AdjoinRoot h) (hQu : Q (uU : V) = 0) (huw : polar Q (uU : V) ((cE • uU : primaryComponent x.toLinearMap h) : V) = 0) (hQw : Q ((cE • uU : primaryComponent x.toLinearMap h) : V) = 0) :
     ∃ hsup : eichler Q (uU : V) ((cE • uU : primaryComponent x.toLinearMap h) : V) ∈ supportedBlock Q x h, blockDet Q x h ⟨eichler Q (uU : V) ((cE • uU : primaryComponent x.toLinearMap h) : V), hsup⟩ = 1 := by
   classical
-  haveI : CharP (AdjoinRoot h) 2 := charP_of_injective_algebraMap (FaithfulSMul.algebraMap_injective F (AdjoinRoot h)) 2
+  have : CharP (AdjoinRoot h) 2 := charP_of_injective_algebraMap (FaithfulSMul.algebraMap_injective F (AdjoinRoot h)) 2
   have horbit : orbitSpace x.toLinearMap h = primaryComponent x.toLinearMap h := by rw [orbitSpace, ← hself, sup_idem]
   have hc := hx.isCompl_orbit_others hh
   rw [horbit] at hc
@@ -583,16 +603,16 @@ private theorem aeval_mem_rootSet_specialBlock_aux10 (hp : p.Prime) (hp2 : p ≠
     have h1 : g (vV : V) = ((vV + (aE * H uU vV) • uU : primaryComponent x.toLinearMap h) : V) := aeval_mem_rootSet_specialBlock_aux8 hp hp2 hpq hx hh hh1 H htr hsm₂ hsymm htrace hσσ uU cE hQu huw hQw vV
     have h2 : g₀.1 (vV : V) = ((vV + (aE * H uU vV) • uU : primaryComponent x.toLinearMap h) : V) := by
       rw [← coe_blockGL (Q := Q) (x := x) h g₀ vV, hg₀]
-      change (((γ : BlockGL x h) : Module.End (AdjoinRoot h) (primaryComponent x.toLinearMap h)) vV : V) = _
       rw [unitaryTransvection_apply H hadd₂ hsm₂ he aE vV]
     rw [h1, h2]
   have hsup : g ∈ supportedBlock Q x h := by rw [show g = g₀.1 from LinearEquiv.ext hgv]; exact g₀.2
   have hsub : (⟨g, hsup⟩ : supportedBlock Q x h) = g₀ := Subtype.ext (LinearEquiv.ext hgv)
   exact ⟨hsup, by rw [blockDet_apply, hsub, hg₀]; exact det_unitaryTransvection H hadd₂ hsm₂ he aE⟩
 
-private theorem exists_decomp_of_polar_eq_zero_aux1 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
-    {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
-    (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1)
+omit [CharP F 2] [FiniteDimensional F V] in
+private theorem exists_decomp_of_polar_eq_zero_aux1 (_hp : p.Prime) (_hp2 : p ≠ 2) (_hpq : p ∣ Nat.card F + 1)
+    {x : V ≃ₗ[F] V} (_hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
+    (_hh : h ∈ primaryFactors x.toLinearMap) (_hh1 : h ≠ X - 1)
     (H : primaryComponent x.toLinearMap h → primaryComponent x.toLinearMap h → AdjoinRoot h)
     (htr : ∀ u w c, Algebra.trace F (AdjoinRoot h) (H u w * c) = polar Q (u : V) ((c • w : primaryComponent x.toLinearMap h) : V))
     (hadd₁ : ∀ u u' w, H (u + u') w = H u w + H u' w)
@@ -616,6 +636,7 @@ private theorem exists_decomp_of_polar_eq_zero_aux1 (hp : p.Prime) (hp2 : p ≠ 
   refine ⟨hHyz, ?_⟩
   rw [hadd₁, hHvv yU, hsymm yU zU, hHyz, map_zero, add_zero]
 
+omit [FiniteDimensional F V] in
 private theorem exists_decomp_of_polar_eq_zero_aux2 {x : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
     (H : primaryComponent x.toLinearMap h → primaryComponent x.toLinearMap h → AdjoinRoot h) (htr : ∀ u w c, Algebra.trace F (AdjoinRoot h) (H u w * c) = polar Q (u : V) ((c • w : primaryComponent x.toLinearMap h) : V))
     (hadd₂ : ∀ u w w', H u (w + w') = H u w + H u w') (hsm₂ : ∀ c u w, H u (c • w) = c * H u w)
@@ -624,7 +645,7 @@ private theorem exists_decomp_of_polar_eq_zero_aux2 {x : V ≃ₗ[F] V} {h : F[X
     ∃ (a : F) (v : primaryComponent x.toLinearMap h),
       H (yU + zU) v = 0 ∧ (wU : V) = a • (yU : V) + (v : V) := by
   classical
-  haveI : CharP (AdjoinRoot h) 2 :=
+  have : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (FaithfulSMul.algebraMap_injective F (AdjoinRoot h)) 2
   have htr_uw : Algebra.trace F (AdjoinRoot h) (H (yU + zU) wU) = 0 := by
     have h := htr (yU + zU) wU 1
@@ -658,8 +679,7 @@ private theorem exists_decomp_of_polar_eq_zero_aux2 {x : V ≃ₗ[F] V} {h : F[X
       fun hh => hQy ((algebraMap F (AdjoinRoot h)).injective (by simpa using hh))
     rw [mul_assoc, inv_mul_cancel₀ hne, mul_one]
     exact CharTwo.add_self_eq_zero _
-  · change (wU : V) = a₀ • (yU : V) + ((wU + a₀ • yU : primaryComponent x.toLinearMap h) : V)
-    rw [Submodule.coe_add, Submodule.coe_smul]
+  · rw [Submodule.coe_add, Submodule.coe_smul]
     rw [add_comm (wU : V) (a₀ • (yU : V)), ← add_assoc, ← add_smul,
       show a₀ + a₀ = 0 from CharTwo.add_self_eq_zero a₀, zero_smul, zero_add]
 
@@ -669,8 +689,8 @@ theorem aeval_mem_rootSet_specialBlock (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p �
     (aeval x.toLinearMap c) u ∈ rootSet Q (specialBlock Q x h) u := by
 
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP (AdjoinRoot h) 2 :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (FaithfulSMul.algebraMap_injective F (AdjoinRoot h)) 2
   obtain ⟨hself, hdeg2, ι, hinj, hrange, hQιE, hxι⟩ := aeval_mem_rootSet_specialBlock_aux1 hp hp2 hpq hx hh hh1
   have hact := aeval_mem_rootSet_specialBlock_aux2 hp hp2 hpq hx hh hh1 ι hxι
@@ -693,6 +713,7 @@ theorem aeval_mem_rootSet_specialBlock (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p �
   · rw [← hw_eq]; exact huw
   · rw [← hw_eq]; exact mem_specialBlock.mpr ⟨hsup, hdet⟩
 
+omit [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_siegel_mem_specialBlock_aux1_inv
     {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
     {d : ℕ} (hd : finrank F (AdjoinRoot h) = 2 * d)
@@ -723,11 +744,12 @@ private theorem exists_siegel_mem_specialBlock_aux1_inv
   refine congrArg₂ HSub.hSub rfl ?_
   rw [Finset.sum_congr rfl fun i _ => hherm (a i)]
 
+omit [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_siegel_mem_specialBlock_aux1_hQ
     {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
     {d : ℕ} (hd : finrank F (AdjoinRoot h) = 2 * d)
     (hσroot : (frobPow F (AdjoinRoot h) d) (AdjoinRoot.root h) = (AdjoinRoot.root h)⁻¹)
-    (hbal : ∀ (a : AdjoinRoot h) (u w : primaryComponent x.toLinearMap h),
+    (_hbal : ∀ (a : AdjoinRoot h) (u w : primaryComponent x.toLinearMap h),
       componentPolar Q x h (a • u) w =
         componentPolar Q x h u ((frobPow F (AdjoinRoot h) d) a • w))
     {ι : (Fin (Module.finrank (AdjoinRoot h) (primaryComponent x.toLinearMap h)) →
@@ -766,6 +788,7 @@ private theorem exists_siegel_mem_specialBlock_aux1_hQ
       exact exists_siegel_mem_specialBlock_aux1_inv hx hd hσroot hlam0 ι a
   exact sub_eq_zero.mp (hD a)
 
+omit [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_siegel_mem_specialBlock_aux1_final
     {x : V ≃ₗ[F] V} {h : F[X]} [Fact (Irreducible h)]
     (hd : finrank F (AdjoinRoot h) = 2 * 1)
@@ -803,6 +826,7 @@ private theorem exists_siegel_mem_specialBlock_aux1_final
   intro i _
   rw [hkey, mul_comm]
 
+omit [CharP F 2] in
 private theorem exists_siegel_mem_specialBlock_aux1 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
     {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1)
@@ -846,18 +870,18 @@ private theorem exists_siegel_mem_specialBlock_aux2 {E W : Type*} [Field E] [Cha
     (hadd2 : ∀ u w w', H u (w + w') = H u w + H u w')
     (hsm1 : ∀ (c : E) u w, H (c • u) w = σ c * H u w)
     (hsm2 : ∀ (c : E) u w, H u (c • w) = c * H u w)
-    (hsymm : ∀ u w, H w u = σ (H u w)) (hσσ : ∀ c, σ (σ c) = c)
+    (hsymm : ∀ u w, H w u = σ (H u w)) (_hσσ : ∀ c, σ (σ c) = c)
     {u v : W} (huu : H u u = 0) (huv : H u v = 0) (hvu : H v u = 0)
     {a : E} (ha : a + σ a = H v v) (w w' : W) :
     H (w + H u w • (v + a • u) + H v w • u)
       (w' + H u w' • (v + a • u) + H v w' • u) = H w w' := by
   simp only [hadd1, hadd2, hsm1, hsm2, smul_add, smul_smul]
   rw [huu, huv, hvu]
-  simp only [map_zero, zero_mul, mul_zero, add_zero]
+  simp only [mul_zero, add_zero]
   have hwv : H w v = σ (H v w) := hsymm v w
   have hwu : H w u = σ (H u w) := hsymm u w
   rw [hwv, hwu]
-  simp only [hσσ, map_mul, map_add]
+  simp only [map_mul]
   have h2 : (2:E) = 0 := CharP.cast_eq_zero E 2
   have h1 : σ a + a = H v v := by rw [add_comm]; exact ha
   rw [← h1]
@@ -866,6 +890,7 @@ private theorem exists_siegel_mem_specialBlock_aux2 {E W : Type*} [Field E] [Cha
   simp
 
 
+omit [CharP F 2] in
 private theorem exists_siegel_mem_specialBlock_aux3_part1 (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]}
     [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap) (hh1 : h ≠ X - 1) :
@@ -898,6 +923,7 @@ private theorem exists_siegel_mem_specialBlock_aux3_part1 (hp : p.Prime) (hp2 : 
   have hbal := hx.polar_smul_balanced (frobPow F (AdjoinRoot h) 1) hσroot hlam0
   exact ⟨hself, hd, fun c => frobPow_frobPow F (AdjoinRoot h) hd c, hbal⟩
 
+omit [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_siegel_mem_specialBlock_aux3_part2 {x : V ≃ₗ[F] V} {h : F[X]}
     [Fact (Irreducible h)]
     (hσinvol : ∀ c, frobPow F (AdjoinRoot h) 1 (frobPow F (AdjoinRoot h) 1 c) = c)
@@ -928,6 +954,7 @@ private theorem exists_siegel_mem_specialBlock_aux3_part2 {x : V ≃ₗ[F] V} {h
   · exact hermForm_symm (frobPow F (AdjoinRoot h) 1) hσinvol
       (fun a b => QuadraticMap.polar_comm Q _ _) hbal u w
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_siegel_mem_specialBlock_aux3_part3 {x : V ≃ₗ[F] V} {h : F[X]} {y z : V}
     (hQ : Q (y + z) = 0)
     (hyz : ∀ c : F[X], polar Q ((aeval x.toLinearMap c) y) z = 0) :
@@ -954,6 +981,7 @@ private theorem exists_siegel_mem_specialBlock_aux3_part3 {x : V ≃ₗ[F] V} {h
     exact h1
   exact ⟨hcoe, sub_eq_zero.mp h2⟩
 
+omit [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_siegel_mem_specialBlock_aux3_part4 {x : V ≃ₗ[F] V} {h : F[X]}
     [Fact (Irreducible h)] [CharP (AdjoinRoot h) 2]
     {H : primaryComponent x.toLinearMap h → primaryComponent x.toLinearMap h → AdjoinRoot h}
@@ -1060,8 +1088,8 @@ private theorem exists_siegel_mem_specialBlock_aux3_part6 (hp : p.Prime) (hp2 : 
     ∃ g ∈ specialBlock Q x h, g (y + z) = y + z ∧
       ∃ c : F[X], g y = y + Q y • v + (aeval x.toLinearMap c) (y + z) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP (AdjoinRoot h) 2 := charP_of_injective_algebraMap (algebraMap F (AdjoinRoot h)).injective 2
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : CharP (AdjoinRoot h) 2 := charP_of_injective_algebraMap (algebraMap F (AdjoinRoot h)).injective 2
   obtain ⟨hself, hd, hσinvol, hbal⟩ := exists_siegel_mem_specialBlock_aux3_part1 hp hp2 hpq hx hh hh1
   obtain ⟨hcoe, hQyz⟩ := exists_siegel_mem_specialBlock_aux3_part3 hQ hyz
   obtain ⟨htr, hadd1, hadd2, hsm1, hsm2, hsymm⟩ :=
@@ -1123,15 +1151,15 @@ theorem exists_siegel_mem_specialBlock (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p �
 theorem exists_decomp_of_polar_eq_zero (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
     {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]} (hh : h ∈ primaryFactors x.toLinearMap)
     (hh1 : h ≠ X - 1) {y z : V} (hy : y ∈ primaryComponent x.toLinearMap h)
-    (hz : z ∈ primaryComponent x.toLinearMap h) (hQ : Q (y + z) = 0) (hQy : Q y ≠ 0)
+    (hz : z ∈ primaryComponent x.toLinearMap h) (_hQ : Q (y + z) = 0) (hQy : Q y ≠ 0)
     (hyz : ∀ c : F[X], polar Q ((aeval x.toLinearMap c) y) z = 0) {w : V}
     (hw : w ∈ primaryComponent x.toLinearMap h) (hwu : polar Q (y + z) w = 0) :
     ∃ (a : F) (v : V), v ∈ primaryComponent x.toLinearMap h ∧
       (∀ c : F[X], polar Q (y + z) ((aeval x.toLinearMap c) v) = 0) ∧ w = a • y + v := by
 
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP (AdjoinRoot h) 2 :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (FaithfulSMul.algebraMap_injective F (AdjoinRoot h)) 2
   obtain ⟨hself, hdeg2, ι, hinj, hrange, hQιE, hxι⟩ := aeval_mem_rootSet_specialBlock_aux1 hp hp2 hpq hx hh hh1
   have hact := aeval_mem_rootSet_specialBlock_aux2 hp hp2 hpq hx hh hh1 ι hxι
@@ -1156,12 +1184,14 @@ theorem exists_decomp_of_polar_eq_zero (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p �
     simpa [yU, zU] using hT.symm
   · simpa [yU, wU] using hwv
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem mem_rootSet_of_polar_eq_zero_aux1 {x : V ≃ₗ[F] V} (c : F) (u : V) :
     (aeval x.toLinearMap (C c * X)) u = c • (x u) := by
   rw [Polynomial.C_mul_X_eq_monomial, Polynomial.aeval_monomial, Module.End.mul_apply,
     Module.algebraMap_end_apply, pow_one]
   rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem mem_rootSet_of_polar_eq_zero_aux2 (hp : p.Prime) {d : V ≃ₗ[F] V}
     (hd : OddOrderIsometry Q p d) (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j) (j : Fin k) :
     ∀ x ∈ U j, d⁻¹ x ∈ U j := by
@@ -1179,6 +1209,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux2 (hp : p.Prime) {d : V ≃ₗ[F
     | succ n ih => rw [pow_succ', LinearEquiv.mul_apply]; exact hmaps j _ ih
   exact hpow (p - 1)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem mem_rootSet_of_polar_eq_zero_aux3 {a c : Fin k} {d d'' : V ≃ₗ[F] V}
     (hd'' : IsFlip Q U d d'' {a, c}) (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j)
     (hinv : ∀ j, ∀ x ∈ U j, d⁻¹ x ∈ U j) (j : Fin k) :
@@ -1189,6 +1220,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux3 {a c : Fin k} {d d'' : V ≃�
   · exact hinv j x hx
   · exact hmaps j x hx
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem mem_rootSet_of_polar_eq_zero_aux11 {a c : Fin k} {d d'' : V ≃ₗ[F] V}
     (hd : OddOrderIsometry Q p d) (hd'' : IsFlip Q U d d'' {a, c})
     (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j) (hinv : ∀ j, ∀ x ∈ U j, d⁻¹ x ∈ U j)
@@ -1206,7 +1238,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux11 {a c : Fin k} {d d'' : V ≃�
     | zero => simpa using hy
     | succ m ih => rw [pow_succ', LinearEquiv.mul_apply]; exact hmaps j _ ih
   by_cases hj : j ∈ ({a, c} : Finset (Fin k))
-  · have hag : ∀ s ∈ U j, d'' s = d⁻¹ s := fun s hs => by rw [hd''.2.2 j s hs, if_pos hj]
+  · have hag : ∀ s ∈ U j, d'' s = d⁻¹ s := fun s hs => by rw [hd''.2.2 j s hs, ite_eq_left hj]
     have hpow : ∀ m : ℕ, (d'' ^ m) y = ((d⁻¹) ^ m) y := by
       intro m
       induction m with
@@ -1216,7 +1248,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux11 {a c : Fin k} {d d'' : V ≃�
         exact hag _ (hmem_inv m)
     rw [hpow p, hdinvpow]
     rfl
-  · have hag : ∀ s ∈ U j, d'' s = d s := fun s hs => by rw [hd''.2.2 j s hs, if_neg hj]
+  · have hag : ∀ s ∈ U j, d'' s = d s := fun s hs => by rw [hd''.2.2 j s hs, ite_eq_right hj]
     have hpow : ∀ m : ℕ, (d'' ^ m) y = (d ^ m) y := by
       intro m
       induction m with
@@ -1227,6 +1259,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux11 {a c : Fin k} {d d'' : V ≃�
     rw [hpow p, hd.pow_eq_one]
     rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_rootSet_of_polar_eq_zero_aux4 {a c : Fin k} (hU : IsPlaneSystem Q U)
     {d d'' : V ≃ₗ[F] V}
     (hd : OddOrderIsometry Q p d) (hd'' : IsFlip Q U d d'' {a, c})
@@ -1254,9 +1287,10 @@ private theorem mem_rootSet_of_polar_eq_zero_aux4 {a c : Fin k} (hU : IsPlaneSys
   rw [map_add, hkeyW w hw, hfixpow z hz]
   simp
 
-private theorem mem_rootSet_of_polar_eq_zero_aux5 (hp : p.Prime) (hpq : p ∣ Nat.card F + 1)
+omit [CharP F 2] in
+private theorem mem_rootSet_of_polar_eq_zero_aux5 (_hp : p.Prime) (hpq : p ∣ Nat.card F + 1)
     {a c : Fin k} {d : V ≃ₗ[F] V} (hd : OddOrderIsometry Q p d) {h : F[X]}
-    (hh : h ∈ primaryFactors d.toLinearMap) (hh1 : h ≠ X - 1)
+    (hh : h ∈ primaryFactors d.toLinearMap) (_hh1 : h ≠ X - 1)
     (hUh : ∀ j, U j ≤ primaryComponent d.toLinearMap h)
     {d'' : V ≃ₗ[F] V} (hd'' : IsFlip Q U d d'' {a, c})
     (hd''maps : ∀ j, ∀ x ∈ U j, d'' x ∈ U j) :
@@ -1265,7 +1299,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux5 (hp : p.Prime) (hpq : p ∣ Na
   intro j x hx
   rw [mem_primaryComponent]
   by_cases hj : j ∈ ({a, c} : Finset (Fin k))
-  · have hag : ∀ s ∈ U j, d'' s = d⁻¹ s := fun s hs => by rw [hd''.2.2 j s hs, if_pos hj]
+  · have hag : ∀ s ∈ U j, d'' s = d⁻¹ s := fun s hs => by rw [hd''.2.2 j s hs, ite_eq_left hj]
     have hae := CFSG.RankThree.PartOne.KCLinPlane.aeval_apply_eq_of_agree (x := d''.toLinearMap)
       (y := (d⁻¹).toLinearMap) (by exact fun s hs => hd''maps j s hs)
       (fun s hs => hag s hs) h hx
@@ -1274,7 +1308,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux5 (hp : p.Prime) (hpq : p ∣ Na
     have hx' : x ∈ primaryComponent d.toLinearMap h := hUh j hx
     have h2 := (mem_primaryComponent_reciprocalPolynomial (x := d) h0).mp (hself.symm ▸ hx')
     exact h2
-  · have hag : ∀ s ∈ U j, d'' s = d s := fun s hs => by rw [hd''.2.2 j s hs, if_neg hj]
+  · have hag : ∀ s ∈ U j, d'' s = d s := fun s hs => by rw [hd''.2.2 j s hs, ite_eq_right hj]
     have hae := CFSG.RankThree.PartOne.KCLinPlane.aeval_apply_eq_of_agree (x := d''.toLinearMap)
       (y := d.toLinearMap) (by exact fun s hs => hd''maps j s hs)
       (fun s hs => hag s hs) h hx
@@ -1328,18 +1362,19 @@ private theorem mem_rootSet_of_polar_eq_zero_aux6 (hp : p.Prime) (hp2 : p ≠ 2)
     neg_eq_self_of_two_eq_zero (K := F) CharTwo.two_eq_zero ((h.coeff 1) • y)
   exact hneg.trans hneg'
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem mem_rootSet_of_polar_eq_zero_aux7 {a b c : Fin k} {d d'' : V ≃ₗ[F] V}
     (hd'' : IsFlip Q U d d'' {a, c}) (hab : a ≠ b) (hbc : b ≠ c)
     {t : F} (ht : t ≠ 0) {y z : V} (hy : y ∈ U a) (hz : z ∈ U b)
     (hrel : d y + d⁻¹ y = t • y) (f : F) :
     (aeval d.toLinearMap (C (f * t⁻¹) * X)) (y + z) +
       (aeval d''.toLinearMap (C (f * t⁻¹) * X)) (y + z) = f • y := by
-  have hdy : d'' y = d⁻¹ y := by rw [hd''.2.2 a y hy, if_pos (by simp)]
+  have hdy : d'' y = d⁻¹ y := by rw [hd''.2.2 a y hy, ite_eq_left (by simp)]
   have hdz : d'' z = d z := by
     have hbz : b ∉ ({a, c} : Finset (Fin k)) := by
       simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
       exact ⟨Ne.symm hab, hbc⟩
-    rw [hd''.2.2 b z hz, if_neg hbz]
+    rw [hd''.2.2 b z hz, ite_eq_right hbz]
   rw [mem_rootSet_of_polar_eq_zero_aux1 (x := d) (f * t⁻¹) (y + z),
       mem_rootSet_of_polar_eq_zero_aux1 (x := d'') (f * t⁻¹) (y + z),
       map_add, map_add, hdy, hdz]
@@ -1357,6 +1392,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux7 {a b c : Fin k} {d d'' : V ≃
         smul_smul (f * t⁻¹) t y]
       rw [mul_assoc, inv_mul_cancel₀ ht, mul_one]
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_rootSet_of_polar_eq_zero_aux8 {h : F[X]} (hirr : Irreducible h)
     (hmon : h.Monic) (hne : h ≠ X - 1) : h.eval 1 ≠ 0 := by
   intro h0
@@ -1390,8 +1426,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux9 (hp : p.Prime) (hp2 : p ≠ 2)
     rwa [hdeg2] at this
   have heval1 : h.eval 1 = h.coeff 1 := by
     rw [Polynomial.eval_eq_sum_range' (n := 3) (by omega)]
-    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, hc2, hcoeff0, pow_zero,
-      pow_one, one_pow, one_mul, mul_one]
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, hc2, hcoeff0, one_pow, mul_one]
     rw [add_assoc, add_comm (h.coeff 1) 1, ← add_assoc, CharTwo.add_self_eq_zero, zero_add]
   intro ht0
   exact mem_rootSet_of_polar_eq_zero_aux8 hirr hmon hh1 (by rw [heval1, ht0])
@@ -1410,7 +1445,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux12 (hU : IsPlaneSystem Q U) (hp 
     (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j) {h : F[X]}
     (hh : h ∈ primaryFactors d.toLinearMap) (hh1 : h ≠ X - 1)
     (hUh : ∀ j, U j ≤ primaryComponent d.toLinearMap h) {a b c : Fin k} (hab : a ≠ b)
-    (hbc : b ≠ c) {d'' : V ≃ₗ[F] V} (hd'' : IsFlip Q U d d'' {a, c}) {y z : V}
+    (_hbc : b ≠ c) {d'' : V ≃ₗ[F] V} (hd'' : IsFlip Q U d d'' {a, c}) {y z : V}
     (hy : y ∈ U a) (hz : z ∈ U b) (hQyz : Q y = Q z) (hQy : Q y ≠ 0) :
     OddOrderIsometry Q p d'' ∧ h ∈ primaryFactors d''.toLinearMap ∧
       d y + d⁻¹ y = (h.coeff 1) • y ∧ h.coeff 1 ≠ 0 ∧ Q (y + z) = 0 ∧
@@ -1446,6 +1481,7 @@ private theorem mem_rootSet_of_polar_eq_zero_aux12 (hU : IsPlaneSystem Q U) (hp 
   exact ⟨hd''odd, hh'', mem_rootSet_of_polar_eq_zero_aux6 hp hp2 hpq hd hh hh1 hy_d,
     mem_rootSet_of_polar_eq_zero_aux9 hp hp2 hpq hd hh hh1, hQu, hu''⟩
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem mem_rootSet_of_polar_eq_zero_aux14 {a b c : Fin k} {d d'' : V ≃ₗ[F] V}
     (hd'' : IsFlip Q U d d'' {a, c}) (hab : a ≠ b) (hbc : b ≠ c) {h : F[X]}
     {H : Subgroup (V ≃ₗ[F] V)} {y z : V} (hy : y ∈ U a) (hz : z ∈ U b)
@@ -1491,9 +1527,9 @@ private theorem mem_rootSet_of_polar_eq_zero_aux15 (hp : p.Prime) (hp2 : p ≠ 2
 
 theorem mem_rootSet_of_polar_eq_zero (hU : IsPlaneSystem Q U) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {d : V ≃ₗ[F] V} (hd : OddOrderIsometry Q p d)
-    (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j) (hfix : ∀ x ∈ polarPerp Q (⨆ j, U j), d x = x)
+    (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j) (_hfix : ∀ x ∈ polarPerp Q (⨆ j, U j), d x = x)
     {h : F[X]} (hh : h ∈ primaryFactors d.toLinearMap) (hh1 : h ≠ X - 1)
-    (hUh : ∀ j, U j ≤ primaryComponent d.toLinearMap h) {a b c : Fin k} (hab : a ≠ b) (hac : a ≠ c)
+    (hUh : ∀ j, U j ≤ primaryComponent d.toLinearMap h) {a b c : Fin k} (hab : a ≠ b) (_hac : a ≠ c)
     (hbc : b ≠ c) {d'' : V ≃ₗ[F] V} (hd'' : IsFlip Q U d d'' {a, c})
     {H : Subgroup (V ≃ₗ[F] V)} (hHO : H ≤ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hH₁ : specialBlock Q d h ≤ H) (hH₂ : specialBlock Q d'' h ≤ H) {y z : V} (hy : y ∈ U a)

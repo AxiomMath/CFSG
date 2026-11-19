@@ -47,6 +47,7 @@ private theorem sq_mem_centerOf_of_special {P : Subgroup G} (hP : IsSpecialPGrou
     rw [hfr] at h
     exact mem_centerOf_of_mem_center h
 
+omit [Finite G] in
 theorem commutator_mem_centerOf_of_special {P : Subgroup G} (hP : IsSpecialPGroup 2 ↥P)
     {a x : G} (ha : a ∈ P) (hx : x ∈ P) : a * x * a⁻¹ * x⁻¹ ∈ centerOf P := by
   obtain ⟨-, ⟨hab, -⟩ | ⟨hc, -, -⟩⟩ := hP
@@ -104,8 +105,8 @@ theorem G2qLocalData.exists_radCoord_right (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
         Multiplicative.toAdd (γ v) = (sp4RadMat (α ℓ)).mulVec (Multiplicative.toAdd (γ u)) := by
   classical
   have hf1 : 1 ≤ f := by omega
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := _root_.charP_of_card_eq_prime_pow
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := _root_.charP_of_card_eq_prime_pow
     (by rw [← Nat.card_eq_fintype_card]; exact hF : Fintype.card F = 2 ^ f)
   have hF4 : 4 ≤ Nat.card F := by
     rw [hF]

@@ -34,8 +34,8 @@ theorem ggF4TWP_false_of_component {G : Type} [Group G] [Finite G] {J C : Subgro
       u ∈ Subgroup.normalizer (P : Set G) → u ^ 17 = 1 → u = 1)
     {u : G} (hu : u ∈ C) (hu17 : u ^ 17 = 1) (hu1 : u ≠ 1) : False := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   have hCnorm : C ≤ Subgroup.normalizer (J : Set G) := by
     intro c hc
     by_contra hcN

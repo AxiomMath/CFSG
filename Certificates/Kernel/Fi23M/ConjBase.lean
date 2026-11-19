@@ -55,13 +55,13 @@ theorem tree_pt {k : ℕ} (hk : k < 31671) (hk0 : k ≠ 0) : tb G 91 k < k ∧
     cases e : k.beq 0
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true e) hk0
-  rw [bIf_eq, hb, if_neg Bool.false_ne_true, strictB_eq, bAnd_eq, Bool.and_eq_true, bIf_eq] at h
+  rw [bIf_eq, hb, ite_eq_right Bool.false_ne_true, strictB_eq, bAnd_eq, Bool.and_eq_true, bIf_eq] at h
   obtain ⟨h1, h2⟩ := h
   refine ⟨by simpa [Nat.blt_eq] using h1, ?_⟩
   cases e : Nat.beq (tb G 92 k) 1
-  · rw [e, if_neg Bool.false_ne_true, bAnd_eq, Bool.and_eq_true] at h2
+  · rw [e, ite_eq_right Bool.false_ne_true, bAnd_eq, Bool.and_eq_true] at h2
     exact Or.inr ⟨Nat.eq_of_beq_eq_true h2.1, Nat.eq_of_beq_eq_true h2.2⟩
-  · rw [e, if_pos rfl] at h2
+  · rw [e, ite_eq_left rfl] at h2
     exact Or.inl ⟨Nat.eq_of_beq_eq_true e, Nat.eq_of_beq_eq_true h2⟩
 
 theorem tree_conj {k : ℕ} (hk : k < 31671) : (k == 0 || (decide (ap orbLit.par k < k) &&

@@ -19,7 +19,7 @@ theorem s16c4v1_exists_E81 (hstd : s16c4v1_Std D) (h3 : 3 ∈ D.sig) :
   have hp : 1 < 3 := by norm_num
   have h4 : 4 ≤ CFSG.Open.pRank 3 D.M := hstd.dataExt.four_le hstd.rank 3 h3
   obtain ⟨E, hEM, hE, hcardE⟩ := CFSG.SectionRank.exists_pRank hp D.M
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ^ 4 ∣ Nat.card ↥E := by
     rw [hcardE]
     exact Nat.pow_dvd_pow 3 h4
@@ -34,6 +34,7 @@ private theorem s16c4v1_cov_vec_inv (S : s16c4v1_Sit D V L hV) {v : G} (hv : v �
   rw [mul_inv_cancel, s16c4v1_vec_one] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit [Finite G] in
 private theorem s16c4v1_cov_odd_orderOf {E : Subgroup G} (hE : IsElemAbelian 3 E) (e : ↥E) :
     Odd (orderOf (e : G)) :=
   Odd.of_dvd_nat (by norm_num : Odd 3)
@@ -93,7 +94,7 @@ theorem s16c4v1_inner_hom (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D)
   have hf_one : f 1 = 1 := by
     refine s16c4v1_induces_unique S (hf_ind 1) ?_
     intro v hv
-    simp [s16c4v1_Induces]
+    simp
   have hf_mul : ∀ a b : ↥E, f (a * b) = f a * f b := by
     intro a b
     refine s16c4v1_induces_unique S (hf_ind (a * b)) ?_
@@ -116,7 +117,7 @@ theorem s16c4v1_inner_hom (S : s16c4v1_Sit D V L hV) (h1217 : R1217 D)
     rw [hf_acts e x (s16c4v1_v1_le S hx)]
     exact s16c4v1_L_centralizes_V1 S (hfL e) hx
   · refine ⟨?_, ?_⟩
-    · haveI : IsMulCommutative ↥E := hE.1
+    · have : IsMulCommutative ↥E := hE.1
       exact Subgroup.range_isMulCommutative φ
     · intro x hx
       obtain ⟨e, rfl⟩ := MonoidHom.mem_range.mp hx
@@ -130,7 +131,7 @@ theorem s16c4v1_cover_vec (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1_Std D)
     (hno : ¬ ∃ (z : G) (ω : S.F.K), s16c4v1_ScalarOf S z ω) {E : Subgroup G} (hEM : E ≤ D.M)
     (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 4) {w : G} (hw : w ∈ V) :
     2 ≤ CFSG.Open.pRank 3 (D.M ⊓ Subgroup.centralizer ({w} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ, hφind, hφker, hφV1, hφea⟩ :=
     s16c4v1_inner_hom S hstd.r1217 hno hEM hE
   have hcardφ : Nat.card ↥φ.ker * Nat.card ↥φ.range = 3 ^ 4 := by

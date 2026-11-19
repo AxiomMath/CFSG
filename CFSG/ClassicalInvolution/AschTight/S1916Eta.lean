@@ -46,7 +46,7 @@ theorem exists_invariant_mem_etaSet_of [Finite G] (hΩc : ConjInvariant Ω)
     ∃ η ∈ etaSet Ω (S : Subgroup G), ∀ s ∈ (S : Subgroup G), ∀ U ∈ η, conjSub s U ∈ η := by
   classical
   set 𝒮 : Subgroup G := (S : Subgroup G) with h𝒮
-  have h𝒮2 : IsPGroup 2 𝒮 := S.isPGroup'
+  have h𝒮2 : IsPGroup 2 𝒮 := S.isPGroup
   let Adm : Set (Set (Subgroup G)) :=
     {η | η ⊆ UinS Ω 𝒮 ∧ (∀ s ∈ 𝒮, ∀ U ∈ η, conjSub s U ∈ η) ∧ InDistinctMembers Ω η}
   have hAdm : Adm.Nonempty :=

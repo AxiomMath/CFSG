@@ -24,7 +24,7 @@ private theorem s7o_conj_mem_orb3A {a c k : G} (hk : k ∈ Gx a) (hcA : IsConj a
     (hco : orderOf (a * c) = 3) (hne : (orb2A a a ∩ orb2A a c).Nonempty) :
     k * c * k⁻¹ ∈ orb3A a a := by
   obtain ⟨t, ht⟩ := hne
-  simp only [orb3A, Set.mem_setOf_eq]
+  simp only [orb3A, Set.mem_ofPred_eq]
   exact ⟨IsConj.trans hcA (isConj_iff.mpr ⟨k, rfl⟩),
     by rw [s7o_mul_conj_eq hk, s7o_orderOf_conj, hco],
     ⟨k * t * k⁻¹, perp_conj_mem_orb2A hk ht.1, s7_conj_orb2A k ht.2⟩⟩
@@ -35,7 +35,7 @@ theorem s7_orbit {a z : G} (H : S7Hyps a z) : IsConjOrbit (Gx a) (orb3A a a) := 
   have hF5 := H.isF5
   refine ⟨?_, ?_, ?_⟩
   · intro k hk c hc
-    simp only [orb3A, Set.mem_setOf_eq] at hc
+    simp only [orb3A, Set.mem_ofPred_eq] at hc
     obtain ⟨hcA, hco, hne⟩ := hc
     exact s7o_conj_mem_orb3A hk hcA hco hne
   · obtain ⟨b, hb0⟩ := (hT5.partition.orbit 0).nonempty
@@ -43,10 +43,10 @@ theorem s7_orbit {a z : G} (H : S7Hyps a z) : IsConjOrbit (Gx a) (orb3A a a) := 
     obtain ⟨c, hc⟩ := ((hT4.partition b hb).orbit 4).nonempty
     have hc4 : c ∈ sBase a b ∧ orderOf (a * c) = 3 := by simpa [sSet] using hc
     refine ⟨c, ?_⟩
-    simp only [orb3A, Set.mem_setOf_eq]
+    simp only [orb3A, Set.mem_ofPred_eq]
     exact ⟨hc4.1.1, hc4.2, ⟨b, perp_self_mem_inter hF5 hb hc4.1⟩⟩
   · intro c hc c' hc'
-    simp only [orb3A, Set.mem_setOf_eq] at hc hc'
+    simp only [orb3A, Set.mem_ofPred_eq] at hc hc'
     obtain ⟨hcA, hco, hne⟩ := hc
     obtain ⟨hc'A, hc'o, hne'⟩ := hc'
     obtain ⟨t, ht⟩ := hne
@@ -60,7 +60,7 @@ theorem s7_orbit {a z : G} (H : S7Hyps a z) : IsConjOrbit (Gx a) (orb3A a a) := 
       exact s7o_conj_mem_orb3A hk₁Gx hcA hco ⟨t, ht⟩
     have hc''u : IsConj a c'' ∧ orderOf (a * c'') = 3 ∧
         (orb2A a a ∩ orb2A a c'').Nonempty := by
-      simpa only [orb3A, Set.mem_setOf_eq] using hc''3
+      simpa only [orb3A, Set.mem_ofPred_eq] using hc''3
     obtain ⟨hc''A, hc''o, _⟩ := hc''u
     have ht'c'' : t' ∈ orb2A a a ∩ orb2A a c'' := by
       refine ⟨ht'.1, ?_⟩

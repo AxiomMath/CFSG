@@ -123,8 +123,8 @@ theorem exists_sl_three_of_centralizer_hypEntries_const {F : Type} [Field F] {a 
         rw [eq_comm]
         exact hypPartner_eq_iff
       by_cases hab : a = hypPartner b
-      · rw [if_pos hab, if_pos (hiff.mp hab)]
-      · rw [if_neg hab, if_neg (fun hba => hab (hiff.mpr hba))]
+      · rw [ite_eq_left hab, ite_eq_left (hiff.mp hab)]
+      · rw [ite_eq_right hab, ite_eq_right (fun hba => hab (hiff.mpr hba))]
     have hzw : z * w = w * z := (Subgroup.mem_center_iff.mp hz w).symm
     set Mz : Matrix (HypIndex 3 0) (HypIndex 3 0) F :=
       ((z : GL (HypIndex 3 0) F) : Matrix (HypIndex 3 0) (HypIndex 3 0) F) with hMzdef

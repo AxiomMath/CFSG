@@ -35,7 +35,7 @@ theorem exists_mem_normalizer_conj_zpowers (hS : Setting G) {p : ℕ} {P : Sylow
     obtain ⟨A, hAP, hAe, hAc⟩ := pRank_attained p (P : Subgroup G) (by omega)
     exact ⟨A, hAP, (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hAe,
       by rwa [hP3] at hAc⟩
-  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection hprime P.isPGroup' hz.centralizes
+  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection hprime P.isPGroup hz.centralizes
     hz.ne_one hz.pow_eq_one hA
   obtain ⟨d, hdeq⟩ : ∃ d, d = h * x * h⁻¹ * x⁻¹ := ⟨_, rfl⟩
   have hd : d ∈ zpowers z := by rw [hdeq]; exact hcomm h hh
@@ -171,7 +171,7 @@ theorem normalizer_plane_le (hS : Setting G) (hU0 : FullCoreLocal G) {p : ℕ} {
   have hPM := (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).1
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hB.isIsolatedPlane.1
   refine normalizer_le_of_le_of_two_le_pRank hS hU0 hsit.mem_sigmaA hsit.isCoreMaxLocal
-    (P.isPGroup'.to_le hBP) (hBP.trans hPM) ?_
+    (P.isPGroup.to_le hBP) (hBP.trans hPM) ?_
   unfold CFSG.Open.pRank
   exact le_csSup (pRank_set_bddAbove p hprime.one_lt _) ⟨_, le_rfl, hB.isElemAbelian, hB.card_eq⟩
 

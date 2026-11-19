@@ -100,7 +100,7 @@ theorem y6f4a_no_z4cube_aut_prod {A : Type} [Group A] [Finite A] [IsSimpleGroup 
     (hρ : Function.Injective ρ) : False := by
   have hsimple : ∀ N : Subgroup A, N.Normal → N = ⊥ ∨ N = ⊤ := by
     intro N hN
-    haveI := hN
+    have := hN
     exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N
   have hcentral : ∀ a : A, (∀ c, a * c = c * a) → a = 1 := central_eq_one hna
   have hnt : ∃ s : A, s ≠ 1 := exists_ne (1 : A)
@@ -129,7 +129,7 @@ theorem y6f4a_no_z4cube_aut_prod {A : Type} [Group A] [Finite A] [IsSimpleGroup 
       norm_num
     · have hex : ∃ s : M, s ∉ K := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact htop (le_antisymm le_top fun x _ => h x)
       obtain ⟨s, hs⟩ := hex
       have hns : ¬ Pres (ρ s) := fun hp => hs ((hKmem s).mpr hp)

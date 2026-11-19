@@ -162,7 +162,7 @@ theorem qtwoDB44_centralizer_preserves {n : ℕ}
     exact sub_eq_zero.mp (hfix (u - v) hself)
   have hsurj : Function.Surjective
       (spEnd h + 1 : (Fin n ⊕ Fin n → ZMod 2) →ₗ[ZMod 2] _) := by
-    haveI : Finite (Fin n ⊕ Fin n → ZMod 2) := Finite.of_fintype _
+    have : Finite (Fin n ⊕ Fin n → ZMod 2) := Finite.of_fintype _
     exact Finite.surjective_of_injective hinj
   intro x
   have hDzero : D x = 0 := by

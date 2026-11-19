@@ -80,7 +80,7 @@ theorem sl3_natural_form
       (E : W ≃+ (Fin 3 → F4)), ∀ g w,
         E (ρ g w) = ((ψ g : Matrix.SpecialLinearGroup (Fin 3) F4) : Matrix (Fin 3) (Fin 3) F4) *ᵥ E w :=
   by
-  haveI : Fintype F4 := Fintype.ofFinite F4
+  have : Fintype F4 := Fintype.ofFinite F4
   have hcard : Fintype.card F4 = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 2 (by norm_num)

@@ -152,7 +152,7 @@ theorem rootDiagUnit_mem_subsystemGroup_e8 (hsq : ∀ c : Fˣ, c * c = 1) {a : F
   have hsq' : ∀ x y : Fˣ, x * (x * y) = y := fun x y => by rw [← mul_assoc, hsq, one_mul]
   have hrel' : a 1 * a 6 = a 4 :=
     calc a 1 * a 6 = a 4 * (a 1 * a 4 * a 6) := by
-          simp [mul_assoc, mul_left_comm, mul_comm, hsq, hsq']
+          simp [mul_assoc, mul_left_comm, hsq']
       _ = a 4 := by rw [hrel, mul_one]
   have key : ∀ l : Fin 8, ∏ j : Fin 8, c j ^ Tag.cartanE 8 j l = a l := by
     intro l

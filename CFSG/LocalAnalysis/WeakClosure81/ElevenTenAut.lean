@@ -24,9 +24,11 @@ private noncomputable def mkTilEquivP (V : Subgroup G) (hV : IsElemAbelian 2 V) 
       exact IntMod.val_injective (mul_inv_eq_one.1 h1),
      mkTil_surjective (⊥ : Subgroup G) V hV⟩
 
+omit [Finite G] in
 private theorem mkTilEquivP_apply (V : Subgroup G) (hV : IsElemAbelian 2 V) (x : IntMod V hV) :
     mkTilEquivP V hV x = mkTil (⊥ : Subgroup G) V hV x := rfl
 
+omit [Finite G] in
 private theorem actTil_bot_eq_congrP (V : Subgroup G) (hV : IsElemAbelian 2 V)
     (g : stabTil (⊥ : Subgroup G) V) :
     actTil (⊥ : Subgroup G) V hV g =
@@ -40,6 +42,7 @@ private theorem actTil_bot_eq_congrP (V : Subgroup G) (hV : IsElemAbelian 2 V)
   rw [hsymm, mkTilEquivP_apply]
   rfl
 
+omit [Finite G] in
 private theorem barSub_bot_eq_map_congrP (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hMn : M = normalizer (V : Set G)) :
     barSub (⊥ : Subgroup G) V hV M =
@@ -61,6 +64,7 @@ private theorem barSub_bot_eq_map_congrP (M V : Subgroup G) (hV : IsElemAbelian 
       exact g.2
     exact ⟨g', hgM, actTil_bot_eq_congrP V hV g'⟩
 
+omit [Finite G] in
 theorem mBar_eq_mParam_autI_of_setting11 {M V Q : Subgroup G} (hset : Setting11 M V Q)
     (hV : IsElemAbelian 2 V) : mBar M ⊥ V hV = E3.mParam (autI hV M) := by
   have hMn : M = Subgroup.normalizer (V : Set G) :=
@@ -81,6 +85,7 @@ theorem mBar_eq_mParam_autI_of_setting11 {M V Q : Subgroup G} (hset : Setting11 
   rw [hMbar, E3.mParam_map_congr (mkTilEquivP V hV) (autI hV ⊤), htop]
 
 
+omit [Finite G] in
 theorem eleven_mQuot_lt_mParam {M V Q U L X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hd : Eleven11Data M V Q U L X) : E3.mQuot V U < E3.mParam (autI hV M) := by
   have h1 : ((E3.mQuot V U : ℕ) : ℕ∞) = rMV M V := hd.mem_delta.2
@@ -136,8 +141,8 @@ theorem eleven_ten_card_autI {M V Q U L X : Subgroup G}
       rw [mul_assoc, this, inv_mul_cancel_left]
     exact hreg.2.2 z ⟨z.2, fun h => hz (Subtype.ext h)⟩ x hx.1 hzc
   refine ⟨hX1, ?_, ?_, hn⟩
-  · haveI := hcyc
-    haveI : IsCyclic (X.subgroupOf (Subgroup.normalizer (V : Set G))) :=
+  · have := hcyc
+    have : IsCyclic (X.subgroupOf (Subgroup.normalizer (V : Set G))) :=
       isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hXN).symm.toMonoidHom
         (Subgroup.subgroupOfEquivOfLe hXN).symm.surjective
     exact isCyclic_of_surjective ((convI hV).subgroupMap (X.subgroupOf _))

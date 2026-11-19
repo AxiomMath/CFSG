@@ -23,6 +23,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k10_conj_S (hH : SixHConclusion φ t i) (htT : t ∈ Tplus φ t i) :
     ∀ x ∈ S φ t i, t * x * t⁻¹ ∈ S φ t i := by
   have hconj_Mhat : ∀ k : Axis, ∀ x ∈ Mhat φ t i k, t * x * t⁻¹ ∈ Mhat φ t i k := by
@@ -36,6 +37,7 @@ theorem sixK_k10_conj_S (hH : SixHConclusion φ t i) (htT : t ∈ Tplus φ t i) 
   exact RootAxisTwoCore.conj_mem_sup (H₁ := Mhat φ t i Axis.one) (H₂ := Mhat φ t i Axis.two)
     (hconj_Mhat Axis.one) (hconj_Mhat Axis.two) hx
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k10_zpowers_le_normalizer (hH : SixHConclusion φ t i) (htt : t * t = 1)
     (htT : t ∈ Tplus φ t i) :
     Subgroup.zpowers t ≤ normalizer ((S φ t i : Subgroup G) : Set G) := by
@@ -54,6 +56,7 @@ theorem sixK_k10_zpowers_le_normalizer (hH : SixHConclusion φ t i) (htt : t * t
     exact h'
   exact Subgroup.zpowers_le.mpr htn
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k10 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (k3 : K3Concl φ t i) (k9 : K9Concl φ t i) : ∀ g : G, g⁻¹ * t * g ∈ Tplus φ t i → ∃ s ∈ S φ t i, g⁻¹ * t * g = s⁻¹ * t * s := by
   have ht2 : orderOf t = 2 := hS.fc.setup.order_t

@@ -14,6 +14,7 @@ open Matrix
 
 variable {F : Type*} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 private theorem alternating_mul_eq (G : Fin 3 → Fin 3 → F) (hs : ∀ i j, G i j = G j i)
     (hd : ∀ i, G i i = 0) (i j r r' : Fin 3) :
     G i j * G r r' = G r i * G r' j + G r j * G r' i := by

@@ -32,7 +32,7 @@ theorem exists_odd_pow_eq_one_of_mem_torusGroup_of_periodic
   have hd : t ∈ diagonalGroup := torusGroup_le_diagonalGroup ht
   choose c hc using exists_apply_single_of_mem_diagonalGroup hd
   choose n hn hpow using fun b => hAlg (c b : L)
-  haveI : Fintype (Label τ) := Fintype.ofFinite _
+  have : Fintype (Label τ) := Fintype.ofFinite _
   set M := ∏ b, n b with hMdef
   have hM : 0 < M := Finset.prod_pos fun b _ => hn b
   have key : ∀ b, (c b : L) ^ (2 ^ M) = c b := by
@@ -114,7 +114,7 @@ theorem mem_CQ_of_frobGL_eq_self
       ext l
       by_cases hl : b = l
       · subst hl; simp
-      · simp [Finsupp.single_eq_of_ne hl]
+      · simp
     rw [htf, one_mul, hc] at h2
     have hcσ : σ (c : L) = c := by
       have := congrArg (fun v => v b) h2
@@ -174,12 +174,12 @@ theorem isSimpleGroup_CQ_d4
     (hv : componentRoots (rootCharHom a) i =
       (fun α => v • α) '' parabolicRoots Tag.E6 (d4Nodes Tag.E6)) :
     IsSimpleGroup (CQ σ i) ∧ Group.IsPerfect (CQ σ i) ∧ LieModel (CQ σ i) .POmegaPlus 4 2 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hfin, hcard⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.finite_card_fixSubfield (r := 2) (n := 1)
       one_pos σ (fun c => by rw [hσ, pow_one])
-  haveI : Finite (fixSubfield σ) := hfin
-  haveI : CharP (fixSubfield σ) 2 :=
+  have : Finite (fixSubfield σ) := hfin
+  have : CharP (fixSubfield σ) 2 :=
     (RingHom.charP_iff (fixSubfield σ).subtype (fixSubfield σ).subtype.injective 2).mpr ‹CharP L 2›
   have hCQ := CQ_eq_map (i := i) σ
   let e1 : componentRootSpan (fixSubfield σ) (rootCharHom a) i ≃* CQ σ i :=
@@ -206,8 +206,8 @@ theorem isSimpleGroup_CQ_d4
     (Subgroup.equivMapOfInjective _ _ (MulAut.conj _).injective).trans
       (MulEquiv.subgroupCongr h2.symm)
   let e := e2.trans e1
-  haveI := CFSG.SeitzReduction.TwistedE6Pilot.isSimpleGroup_d4Levi (K := fixSubfield σ)
-  haveI := CFSG.SeitzReduction.TwistedE6Pilot.isPerfect_d4Levi (K := fixSubfield σ)
+  have := CFSG.SeitzReduction.TwistedE6Pilot.isSimpleGroup_d4Levi (K := fixSubfield σ)
+  have := CFSG.SeitzReduction.TwistedE6Pilot.isPerfect_d4Levi (K := fixSubfield σ)
   exact ⟨e.symm.isSimpleGroup, Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective,
     LieModel.of_mulEquiv e
     (CFSG.SeitzReduction.TwistedE6Pilot.lieModel_d4Levi (K := fixSubfield σ) le_rfl
@@ -255,7 +255,7 @@ theorem twE6_threeB_rationalComponent_of_twistInner
   let eY : CQ σ i ≃* Y :=
     (Subgroup.equivMapOfInjective _ _ (MulAut.conj z).injective).trans
       (MulEquiv.subgroupCongr hY.symm)
-  haveI : IsSimpleGroup Y := eY.symm.isSimpleGroup
+  have : IsSimpleGroup Y := eY.symm.isSimpleGroup
   have hperfY : Group.IsPerfect Y :=
     Group.IsPerfect.ofSurjective (f := eY.toMonoidHom) eY.surjective
   have hYY : ⁅Y, Y⁆ = Y := Subgroup.isPerfect_iff.mp hperfY
@@ -306,9 +306,9 @@ theorem twE6_threeB_rationalComponent_of_twistInner
       exact bot_ne_top hbot.symm
   refine ⟨by rw [hR, hYdef, hceq], by rw [hR]; infer_instance,
     by rw [hR]; exact LieModel.of_mulEquiv eY hlie, by rw [hR]; exact hcenter, htwo, ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite S.D.model := S.finite
-  haveI : Finite (S.Γ ⊓ Subgroup.centralizer {rootDiagUnit Tag.E6 a} :
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite S.D.model := S.finite
+  have : Finite (S.Γ ⊓ Subgroup.centralizer {rootDiagUnit Tag.E6 a} :
       Subgroup (ModGL Tag.E6 L)) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left.trans hΓM))
       (Subgroup.inclusion_injective _)
@@ -317,7 +317,7 @@ theorem twE6_threeB_rationalComponent_of_twistInner
   have hPle : (P : Subgroup _) ≤ (rationalComponent S.ρ S.Γ (rootCharHom a) i).subgroupOf
       (S.Γ ⊓ Subgroup.centralizer {rootDiagUnit Tag.E6 a}) := by
     intro g hg
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
     have hk' : ((g : ModGL Tag.E6 L)) ^ (2 ^ k) = 1 := by
       have := congrArg Subtype.val (congrArg Subtype.val hk)
       simpa using this

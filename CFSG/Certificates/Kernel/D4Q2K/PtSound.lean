@@ -535,7 +535,7 @@ theorem mr_rec_or_iff (f : Nat → Bool) (n : Nat) :
   induction n with
   | zero => simp [mr_rec_zero]
   | succ n ih =>
-    simp only [mr_rec_succ]
+    simp only
     rw [Bool.or_eq_true, ih]
     constructor
     · rintro (⟨c, hc, h⟩ | h)
@@ -560,7 +560,7 @@ theorem mr_rec_xor_false {f : Nat → Bool} {n : Nat} (h : ∀ c < n, f c = fals
   induction n with
   | zero => rfl
   | succ n ih =>
-    simp only [mr_rec_succ]
+    simp only
     rw [ih (fun c hc => h c (by omega)), h n (by omega)]
     rfl
 
@@ -570,7 +570,7 @@ theorem mr_rec_or_congr {f g : Nat → Bool} {n : Nat} (h : ∀ c < n, f c = g c
   induction n with
   | zero => rfl
   | succ n ih =>
-    simp only [mr_rec_succ]
+    simp only
     rw [ih (fun c hc => h c (by omega)), h n (by omega)]
 
 theorem mr_rec_xor_congr {f g : Nat → Bool} {n : Nat} (h : ∀ c < n, f c = g c) :
@@ -579,7 +579,7 @@ theorem mr_rec_xor_congr {f g : Nat → Bool} {n : Nat} (h : ∀ c < n, f c = g 
   induction n with
   | zero => rfl
   | succ n ih =>
-    simp only [mr_rec_succ]
+    simp only
     rw [ih (fun c hc => h c (by omega)), h n (by omega)]
 
 theorem mr_rec_xor_tb (f : Nat → Nat) (n i : Nat) :
@@ -588,7 +588,7 @@ theorem mr_rec_xor_tb (f : Nat → Nat) (n i : Nat) :
   induction n with
   | zero => exact Nat.zero_testBit i
   | succ n ih =>
-    simp only [mr_rec_succ]
+    simp only
     rw [mr_tb_xor, ih]
 
 theorem mr_rec_lor_tb (f : Nat → Nat) (n i : Nat) :
@@ -597,7 +597,7 @@ theorem mr_rec_lor_tb (f : Nat → Nat) (n i : Nat) :
   induction n with
   | zero => exact Nat.zero_testBit i
   | succ n ih =>
-    simp only [mr_rec_succ]
+    simp only
     rw [mr_tb_lor, ih]
 
 theorem mr_mul4_lt (a : Nat) {b : Nat} (hb : b < 4) : mul4 a b < 4 := by
@@ -711,14 +711,14 @@ theorem mr_hermC_rec (u v e : Nat) : (hermC u v).testBit e =
     Nat.rec (motive := fun _ => Bool) false
       (fun k acc => acc ^^ (mul4 (cd u k) (frob4 (cd v k))).testBit e) (nat_lit 8) := by
   unfold hermC
-  simp only [mr_rec_succ, mr_rec_zero, Nat.testBit_xor, Bool.false_xor]
+  simp only [Nat.testBit_xor, Bool.false_xor]
 
 theorem mr_polarC_rec (u v e : Nat) : (polarC u v).testBit e =
     Nat.rec (motive := fun _ => Bool) false
       (fun c acc => acc ^^ ((mul4 (cd u c) (cd v (c + 4))).testBit e ^^
         (mul4 (cd u (c + 4)) (cd v c)).testBit e)) (nat_lit 4) := by
   unfold polarC
-  simp only [mr_rec_succ, mr_rec_zero, Nat.testBit_xor, Bool.false_xor, Bool.xor_assoc,
+  simp only [Nat.testBit_xor, Bool.false_xor, Bool.xor_assoc,
     Nat.reduceAdd]
 
 theorem mr_shl_one (n : Nat) : Nat.shiftLeft 1 n = 2 ^ n := by
@@ -915,7 +915,7 @@ theorem mr_maskOf_tb {X : Nat → Nat} {v i : Nat} (hX : ∀ b, (X b).testBit i 
   intro c hc
   have hc8 : c < 8 := by omega
   rw [mr_ne4 _ (mr_cd_lt v c) _ (mr_cd_lt _ c)]
-  simp only [mr_tb_lor, mr_tb_xor, hL, hH, mr_cd_lt, mr_cdK_lt, mr_X0 hX,
+  simp only [mr_tb_lor, mr_tb_xor, hL, hH, mr_cd_lt, mr_X0 hX,
     mr_X1 hX, mr_cdK, mr_cd_xor, mr_cd_smulC _ _ _ hc8, Nat.testBit_xor, Bool.xor_assoc]
 
 theorem mr_incFrom {L : List Nat} {c : Nat} (h : incFrom L c = true) :
@@ -1155,7 +1155,7 @@ theorem mr_maskOf_hi {X : Nat → Nat} {i : Nat} (hX : ∀ b, (X b).testBit i = 
   rw [mr_tb_xor, mr_allP_tb, hn, Bool.false_xor, mr_rec_lor_tb]
   apply mr_rec_or_false
   intro c _
-  simp [mr_tb_lor, mr_tb_xor, hX, mr_mlo_tb, mr_mhi_tb, mr_cdK_lt, hn]
+  simp [hX, mr_mlo_tb, mr_mhi_tb, mr_cdK_lt, hn]
 
 theorem masksK_sound {L : List Nat} {F : Array (Array Nat)} {M : Nat → Nat} (hp : ptK L = true)
     (hL : L.length = 2240) (h : ∀ c < 16, masksK L F.toList M (280 * c) 280 = true) {j : Nat}
@@ -1615,7 +1615,7 @@ theorem rowsK_sound {L : List Nat} {A : Nat → Nat} (hp : ptK L = true) (hL : L
 
 theorem cliqueK_sound {L : List Nat} {F : Array (Array Nat)} {M A : Nat → Nat}
     {CL : List (List (Nat × List (Nat × List Nat)))} (hp : ptK L = true) (hL : L.length = 2240)
-    (hF : F.size = 4480) (hM : ∀ c < 16, masksK L F.toList M (280 * c) 280 = true)
+    (_hF : F.size = 4480) (hM : ∀ c < 16, masksK L F.toList M (280 * c) 280 = true)
     (hA : ∀ c < 8, rowsK L A (280 * c) 280 = true) (h : ∀ s < 112, cliqueK A M CL (20 * s) 20 = true) :
     cliqueCheck (mkTabs (ptCodes ()) F) = true := by
   have hpts : (mkTabs (ptCodes ()) F).pts = ptCodes () := rfl
@@ -1987,7 +1987,7 @@ theorem ck_or8 {t : Nat → Nat} (ht : ∀ k, t k < 4) : ∀ n i,
     simp only [mr_rec_zero]
     simp
   | n + 1, i => by
-    simp only [mr_rec_succ]
+    simp only
     rw [mr_tb_lor, ck_or8 ht n i, mr_tb_shl]
     have h2 : Nat.mul 2 n = 2 * n := rfl
     rw [h2]
@@ -2206,7 +2206,7 @@ theorem apartK_sound {L : List Nat} {F : Array (Array Nat)} {M S TF FP XC CX : N
   right
   have hTF : (TF j).testBit j' = false := by
     rw [(hT j hj).2 j' hj']
-    simp [hjj, htt]
+    simp [htt]
   have hok := ck_allBlkC (w := 280) (C := 16) (f := apOK M S TF XC CX AP 4989 (packL L))
     (fun c hc => by
       have := hap c hc

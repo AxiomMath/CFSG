@@ -170,13 +170,13 @@ private theorem w183finSp44_mem_pairsFrom_imp {lo hi : Nat} {p : Nat × Nat}
   obtain ⟨j, hj, hf⟩ := List.mem_filterMap.mp hfil
   rw [List.mem_range] at hj
   by_cases hc : i < j && (gmulE invsA[i]! invsA[j]! == gmulE invsA[j]! invsA[i]!)
-  · rw [if_pos hc, Option.some.injEq] at hf
+  · rw [ite_eq_left hc, Option.some.injEq] at hf
     obtain ⟨hij, hcomm⟩ := Bool.and_eq_true_iff.mp hc
     have h1 : i = p.1 := congrArg Prod.fst hf
     have h2 : j = p.2 := congrArg Prod.snd hf
     exact ⟨by rw [← h1, ← h2]; exact of_decide_eq_true hij, by rw [← h2]; exact hj,
       by rw [← h1, ← h2]; exact beq_iff_eq.mp hcomm⟩
-  · rw [if_neg hc] at hf
+  · rw [ite_eq_right hc] at hf
     exact absurd hf (by simp)
 
 private theorem w183finSp44_mem_pairsFrom_of {lo hi : Nat} {p : Nat × Nat}
@@ -193,7 +193,7 @@ private theorem w183finSp44_mem_pairsFrom_of {lo hi : Nat} {p : Nat × Nat}
         (gmulE invsA[p.1]! invsA[p.2]! == gmulE invsA[p.2]! invsA[p.1]!)) = true := by
       rw [Bool.and_eq_true_iff]
       exact ⟨by simpa using hp12, by rw [beq_iff_eq]; exact hcomm⟩
-    rw [if_pos hc]
+    rw [ite_eq_left hc]
 
 private def w183finSp44_pairBlocksCover : Bool :=
   (List.range 127).all fun i => pairBlocks.any fun b => decide (b.1 ≤ i ∧ i < b.2)
@@ -213,7 +213,7 @@ private theorem w183finSp44_kleinSub_comm (a b : El) : kleinSub a b = kleinSub b
 private theorem w183finSp44_mem_klein_iff {a b x : El} :
     x ∈ klein a b ↔ x = oneE ∨ x = a ∨ x = b ∨ x = gmulE a b := by
   rw [klein]
-  simp only [List.mem_cons, List.mem_nil_iff, List.not_mem_nil, false_or, or_false]
+  simp only [List.mem_cons, List.not_mem_nil, or_false]
 
 private theorem w183finSp44_mem_kleinSub_aux (a b : El) (α : MulAut S4)
     (hva : validB a = true) (hvb : validB b = true)
@@ -239,7 +239,7 @@ private theorem w183finSp44_mem_kleinSub_aux (a b : El) (α : MulAut S4)
 
 theorem mem_invs_iff (α : MulAut S4) :
     (α ∈ Psub ∧ orderOf α = 2) ↔ ∃ x ∈ invs, autOf x = α := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   constructor
   · rintro ⟨hP, hord⟩
     obtain ⟨x, hxPel, hxα⟩ := (mem_Psub_iff α).mp hP
@@ -273,7 +273,7 @@ theorem mem_invs_iff (α : MulAut S4) :
 
 theorem exists_conj_invs (α : MulAut S4) (hα : orderOf α = 2) :
     ∃ (h : MulAut S4) (x : El), x ∈ invs ∧ h * α * h⁻¹ = autOf x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : IsPGroup 2 (Subgroup.zpowers α) :=
     IsPGroup.of_card (p := 2) (n := 1) (by rw [Nat.card_zpowers, hα, pow_one])
   obtain ⟨k, -, hk⟩ := W183L34.exists_conj_le_isSylowIn (H := ⊤) (A := Subgroup.zpowers α)
@@ -360,8 +360,8 @@ theorem exists_conj_klein (A : Subgroup (MulAut S4)) (hel : IsElemAbelian 2 A)
     ∃ (h : MulAut S4) (p : Nat × Nat), p ∈ pairsL ∧
       autConj h A = kleinSub invsA[p.1]! invsA[p.2]! := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut S4) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut S4) :=
     Finite.of_injective (fun f : MulAut S4 => (f : S4 → S4))
       (fun f g h => MulEquiv.ext (congrFun h))
   obtain ⟨k, -, hk⟩ := W183L34.exists_conj_le_isSylowIn (H := ⊤) (A := A) (P := Psub)
@@ -370,7 +370,7 @@ theorem exists_conj_klein (A : Subgroup (MulAut S4)) (hel : IsElemAbelian 2 A)
   have hA'card : Nat.card (autConj k A) = 4 := by
     rw [autConj, Subgroup.card_map_of_injective (MulAut.conj k).injective]
     exact hc
-  haveI : Fintype (autConj k A) := Fintype.ofFinite _
+  have : Fintype (autConj k A) := Fintype.ofFinite _
   have hcardF : Fintype.card (autConj k A) = 4 := by
     rw [← Nat.card_eq_fintype_card]; exact hA'card
   have hscard : (Finset.univ.erase (1 : autConj k A)).card = 3 := by

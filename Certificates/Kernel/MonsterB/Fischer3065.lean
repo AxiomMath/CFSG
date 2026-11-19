@@ -129,7 +129,7 @@ theorem coordCheck_true : coordCheck = true := by
     simp [transposeRows]
   unfold coordCheck
   rw [kCoord1, Bool.true_and]
-  simp only [hG, vecMulN_eq hs, List.toList_toArray, ncRow_eq, ofBits_colN]
+  simp only [hG, vecMulN_eq hs, ncRow_eq, ofBits_colN]
   rw [← CertificateChecks.KernelMonB.Fischer3066.kLen]
   exact (range_all_eq_allIdx (fun y c => vecMulL FD.GT c == colN GramLit.ncRows y)
     GramLit.rowCoords).trans kCoord2

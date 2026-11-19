@@ -32,7 +32,7 @@ theorem coord_eq_zero_of_commute_diag {M g : ModGL τ K} (χ : Label τ → K)
       · subst hca
         rw [Finsupp.single_eq_same]
         ring
-      · rw [Finsupp.single_apply, if_neg hca, mul_zero, mul_zero, mul_zero]
+      · rw [Finsupp.single_apply, ite_eq_right hca, mul_zero, mul_zero, mul_zero]
   have h1 := congrArg (fun f : ModGL τ K => (f : Module.End K (RootModule τ K))
     (Finsupp.single b 1) a) hMg
   simp only [Units.val_mul, Module.End.mul_apply] at h1
@@ -109,7 +109,7 @@ theorem isSupp_one : IsSupp (1 : WeylGroup τ) (1 : Module.End K (RootModule τ 
   rw [Module.End.one_apply, Finsupp.single_apply] at hab
   have hba : b = a := by
     by_contra h
-    exact hab (if_neg h)
+    exact hab (ite_eq_right h)
   subst hba
   rcases b with j | β
   · rfl
@@ -127,7 +127,7 @@ theorem IsSupp.of_mapsRootLines {w : WeylGroup τ} {g : ModGL τ K}
       rootVec_eq_single_of_isRoot (CFSG.LieType.Chevalley.IsRoot.smul hβ w),
       Finsupp.smul_apply, Finsupp.single_apply] at hab
     by_contra h
-    exact hab (by rw [if_neg (Ne.symm h), smul_zero])
+    exact hab (by rw [ite_eq_right (Ne.symm h), smul_zero])
 
 theorem isSupp_weylElt (i : Fin τ.rank)
     (t : Kˣ) : IsSupp (simple τ i) (weylElt τ K i t : Module.End K (RootModule τ K)) := by
@@ -474,7 +474,7 @@ theorem exists_conj_fix_of_isPGroup {G : Type*} [Group G] {p : ℕ} (S : Sylow p
   have hxP : x ∈ (P : Subgroup G) := hRP hx
   rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hxP
   have hfix := hα _ hxP
-  simp only [MulAut.mul_apply, MulAut.smul_def, map_inv, MulAut.conj_apply, MulAut.inv_apply,
+  simp only [MulAut.mul_apply, MulAut.smul_def, MulAut.conj_apply, MulAut.inv_apply,
     MulAut.conj_symm_apply] at hfix ⊢
   rw [hfix]
   group
@@ -653,7 +653,7 @@ theorem isRL_rootDiagUnit {τ : Tag} {K : Type} [Field K] (u : Fin τ.rank → K
   rw [rootDiagUnit_apply_single, Finsupp.smul_apply, Finsupp.single_apply] at hab
   have hba : b = a := by
     by_contra h
-    exact hab (by rw [if_neg h, smul_zero])
+    exact hab (by rw [ite_eq_right h, smul_zero])
   subst hba
   rcases b with j | β
   · rfl
@@ -694,8 +694,8 @@ theorem rootChar_neg' {τ : Tag} {K : Type} [Field K] (v : Fin τ.rank → Kˣ) 
 theorem e6InndiagSylowThree_holds : InputsMisc7e.E6InndiagSylowThree := by
   intro K _ _ h3 S α hα _ hfix
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
   obtain ⟨ω, hωo⟩ : ∃ ω : Kˣ, orderOf ω = 3 :=
     exists_prime_orderOf_dvd_card' 3 (by rw [Nat.card_units]; exact h3)
   have hω3 : ω ^ 3 = 1 := by rw [← hωo]; exact pow_orderOf_eq_one ω

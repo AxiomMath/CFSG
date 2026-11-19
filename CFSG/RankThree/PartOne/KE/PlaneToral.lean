@@ -342,7 +342,7 @@ theorem odd_card_commutator_of_toral {G : Type*} [Group G] [Finite G] {p : ℕ} 
     obtain ⟨P⟩ : Nonempty (Sylow 2 U) := inferInstance
     have hle : (P : Subgroup U) ≤ Y.subgroupOf U := by
       intro g hg
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
       rw [Subgroup.mem_subgroupOf]
       exact ⟨g.2, k, by simpa using congrArg Subtype.val (congrArg Subtype.val hk)⟩
     have h1 := Subgroup.index_dvd_of_le hle

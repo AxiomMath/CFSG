@@ -58,6 +58,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff6 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hK : SixKConclusion φ t i) (f1 : FF1Concl φ t i) (f2 : FF2Concl n φ t i)
     (f3 : FF3Concl φ t i) : FF6Concl n φ t i := by

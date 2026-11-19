@@ -13,6 +13,7 @@ open CFSG.CGT.Stroth77.L4Sylow
 
 variable {G : Type} [Group G] [Finite G] {n p f : ℕ}
 
+omit [Finite G] in
 theorem exists_E16_of_l4Sylow (hn : 3 ≤ n) (P : Sylow 2 G)
     (hP : Nonempty (↥(P : Subgroup G) ≃* L4Model n)) :
     ∃ E : Subgroup G, Nat.card E = 16 ∧ ∀ x ∈ E, x ^ 2 = 1 := by
@@ -56,6 +57,7 @@ theorem false_of_lieModel_psu_three_of_l4Sylow (hn : 3 ≤ n) (P : Sylow 2 G)
   omega
 
 
+omit [Finite G] in
 theorem false_of_lieModel_g2_of_l4Sylow (hn : 3 ≤ n) (P : Sylow 2 G)
     (hP : Nonempty (↥(P : Subgroup G) ≃* L4Model n)) (hp : p.Prime) (hp2 : p ≠ 2) {r : ℕ}
     (hL : CFSG.Blueprint.LieModel G .G2 r p f) : False := by
@@ -64,6 +66,7 @@ theorem false_of_lieModel_g2_of_l4Sylow (hn : 3 ≤ n) (P : Sylow 2 G)
   exact CFSG.EvenSporadicStandard.HNRecog.GH73.not_g2_of_e16 (exists_E16_of_l4Sylow hn P hP) hp
     hp2 hf hL
 
+omit [Finite G] in
 theorem false_of_lieModel_trialityD4_of_l4Sylow
     (hn : 3 ≤ n) (P : Sylow 2 G)
     (hP : Nonempty (↥(P : Subgroup G) ≃* L4Model n)) (hp : p.Prime) (hp2 : p ≠ 2) {r : ℕ}

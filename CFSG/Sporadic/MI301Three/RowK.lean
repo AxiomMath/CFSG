@@ -48,7 +48,7 @@ theorem isTypeWithCenter_rowK_leech {G : Type} [Group G] [Finite G] {t : G}
     CFSG.LocalAnalysis.GLTheoremA.S8.IsTypeWithCenter 3
       (CFSG.Open.GLAPLayer 3 (Subgroup.centralizer ({ζ} : Set G) ⊓
         Subgroup.centralizer ({t} : Set G))) (CFSG.LocalAnalysis.GLTheoremA.S8.isU4of 3) 9 := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Co1 := CFSG.Sporadic.Co1.Module.finite_co1
+  have : Finite CFSG.Blueprint.NativeSporadic.Co1 := CFSG.Sporadic.Co1.Module.finite_co1
   set T := Subgroup.centralizer ({t} : Set G)
   set X : Subgroup ↥T := Subgroup.centralizer ({(⟨ζ, hζ⟩ : ↥T)} : Set ↥T)
   have hN := not_three_dvd_card_ker L hQ

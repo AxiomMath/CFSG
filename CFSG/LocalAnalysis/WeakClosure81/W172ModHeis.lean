@@ -28,7 +28,7 @@ private lemma w172_fixSub_zpowers (a : LGL 2 W) :
 
 private lemma w172_exists_mul_modEq_one {p : ℕ} (hp : p.Prime) {k : ℤ}
     (hk : ¬ (p : ℤ) ∣ k) : ∃ r : ℕ, (p : ℤ) ∣ (r : ℤ) * k - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk0 : (k : ZMod p) ≠ 0 := fun h =>
     hk ((ZMod.intCast_zmod_eq_zero_iff_dvd k p).mp h)
   refine ⟨(((k : ZMod p)⁻¹).val), ?_⟩
@@ -40,7 +40,7 @@ private lemma w172_exists_mul_modEq_one {p : ℕ} (hp : p.Prime) {k : ℤ}
 
 private lemma w172_exists_dvd_sub_mul {p : ℕ} (hp : p.Prime) {i : ℤ}
     (hi : ¬ (p : ℤ) ∣ i) (m : ℤ) : ∃ k : ℕ, (p : ℤ) ∣ m - (k : ℤ) * i := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hi0 : (i : ZMod p) ≠ 0 := fun h =>
     hi ((ZMod.intCast_zmod_eq_zero_iff_dvd i p).mp h)
   refine ⟨((m : ZMod p) * (i : ZMod p)⁻¹).val, ?_⟩
@@ -215,7 +215,7 @@ private lemma w172_eig_x_maps {U : Submodule (ZMod 2) W} {x y z : LGL 2 W} {p : 
 
 private lemma w172_eig_inv_x_maps {U : Submodule (ZMod 2) W} {x y z : LGL 2 W} {p : ℕ}
     (hp : p.Prime) (hUx : ∀ u ∈ U, x u ∈ U) (hUz : ∀ u ∈ U, z u ∈ U) (hz : z ^ p = 1)
-    (hzx : ∀ u ∈ U, z (x u) = x (z u)) (hzy : ∀ u ∈ U, z (y u) = y (z u)) {i : ℤ}
+    (hzx : ∀ u ∈ U, z (x u) = x (z u)) (_hzy : ∀ u ∈ U, z (y u) = y (z u)) {i : ℤ}
     (hxy : ∀ u ∈ U, x (y u) = (z ^ i) (y (x u))) {m : ℤ} {v : W}
     (hv : v ∈ w172Eig U y z (m - i)) : x⁻¹ v ∈ w172Eig U y z m := by
   obtain ⟨hvU, hvy⟩ := w172_mem_eig.mp hv
@@ -234,7 +234,7 @@ private lemma w172_eig_inv_x_maps {U : Submodule (ZMod 2) W} {x y z : LGL 2 W} {
   ring
 
 private lemma w172_eig_finrank_step {U : Submodule (ZMod 2) W} {x y z : LGL 2 W} {p : ℕ}
-    (hp : p.Prime) (hUx : ∀ u ∈ U, x u ∈ U) (hUy : ∀ u ∈ U, y u ∈ U)
+    (hp : p.Prime) (hUx : ∀ u ∈ U, x u ∈ U) (_hUy : ∀ u ∈ U, y u ∈ U)
     (hUz : ∀ u ∈ U, z u ∈ U) (hz : z ^ p = 1) (hzx : ∀ u ∈ U, z (x u) = x (z u))
     (hzy : ∀ u ∈ U, z (y u) = y (z u)) {i : ℤ}
     (hxy : ∀ u ∈ U, x (y u) = (z ^ i) (y (x u))) (m : ℤ) :
@@ -266,6 +266,7 @@ private lemma w172_eig_finrank_step {U : Submodule (ZMod 2) W} {x y z : LGL 2 W}
       exact Subtype.ext (x⁻¹.injective h')
     exact LinearMap.finrank_le_finrank_of_injective (f := f) hinj
 
+omit [Finite W] in
 private lemma w172_eig_eq_zero_of_dvd {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p : ℕ}
     (hz : z ^ p = 1) {j : ℤ} (hj : (p : ℤ) ∣ j) : w172Eig U y z j = w172Eig U y z 0 := by
   obtain ⟨t, ht⟩ := hj
@@ -373,14 +374,14 @@ private lemma w172_eig_finrank_sum {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p
     rw [hdisj.eq_bot, finrank_bot, add_zero] at hfin
     rw [hfin, ih hTS']
 
-theorem w172_heis_eigen {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Submodule (ZMod 2) W}
+theorem w172_heis_eigen {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {U : Submodule (ZMod 2) W}
     {x y z : LGL 2 W} (hUx : ∀ u ∈ U, x u ∈ U) (hUy : ∀ u ∈ U, y u ∈ U)
-    (hUz : ∀ u ∈ U, z u ∈ U) (hy : y ^ p = 1) (hz : z ^ p = 1)
+    (hUz : ∀ u ∈ U, z u ∈ U) (_hy : y ^ p = 1) (hz : z ^ p = 1)
     (hzx : ∀ u ∈ U, z (x u) = x (z u)) (hzy : ∀ u ∈ U, z (y u) = y (z u))
     (hfix : ∀ u ∈ U, z u = u → u = 0) {i : ℕ} (hi : ¬ p ∣ i)
     (hxy : ∀ u ∈ U, x (y u) = (z ^ i) (y (x u))) :
     p * Module.finrank (ZMod 2) ↥(U ⊓ fixSub (zpowers y)) ≤ Module.finrank (ZMod 2) ↥U := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hi' : ¬ (p : ℤ) ∣ (i : ℤ) := fun h => hi (Int.natCast_dvd_natCast.mp h)
   have hxy' : ∀ u ∈ U, x (y u) = (z ^ (i : ℤ)) (y (x u)) := by
     intro u hu; rw [hxy u hu, zpow_natCast]
@@ -397,7 +398,7 @@ theorem w172_heis_eigen {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Submodule 
       p * Module.finrank (ZMod 2) ↥(E' 0) := by
     rw [Finset.sum_congr rfl (fun j _ => hall j), Finset.sum_const, Finset.card_univ,
       Fintype.card_fin]
-    simp [Nat.nsmul_eq_mul]
+    simp
   have hzero : E' 0 = U ⊓ fixSub (Subgroup.zpowers y) := w172_eig_zero y z
   rw [hzero] at hcard
   calc p * Module.finrank (ZMod 2) ↥(U ⊓ fixSub (Subgroup.zpowers y))
@@ -418,6 +419,7 @@ private noncomputable def w172SubMap (U : Submodule (ZMod 2) W) (y : LGL 2 W)
     rw [smul_sub]
     simp
 
+omit [Finite W] in
 private lemma w172_ker_subMap {U : Submodule (ZMod 2) W} {y : LGL 2 W}
     (hUy : ∀ u ∈ U, y u ∈ U) :
     LinearMap.ker (w172SubMap U y hUy) =
@@ -437,11 +439,12 @@ private noncomputable def w172ComapEquiv (U S : Submodule (ZMod 2) W) (hSU : S �
     ↥(S.comap U.subtype) ≃ₗ[ZMod 2] ↥S where
   toFun x := ⟨(x.1 : W), x.2⟩
   invFun s := ⟨⟨(s : W), hSU s.2⟩, s.2⟩
-  map_add' x y := Subtype.ext rfl
-  map_smul' c x := Subtype.ext rfl
-  left_inv x := Subtype.ext rfl
-  right_inv x := Subtype.ext rfl
+  map_add' _x _y := Subtype.ext rfl
+  map_smul' _c _x := Subtype.ext rfl
+  left_inv _x := Subtype.ext rfl
+  right_inv _x := Subtype.ext rfl
 
+omit [Finite W] in
 private lemma w172_finrank_ker_subMap {U : Submodule (ZMod 2) W} {y : LGL 2 W}
     (hUy : ∀ u ∈ U, y u ∈ U) :
     Module.finrank (ZMod 2) ↥(LinearMap.ker (w172SubMap U y hUy)) =
@@ -520,10 +523,11 @@ theorem w172_heis_moves {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Submodule 
     calc a⁻¹ (x u) = a⁻¹ (a (x (a⁻¹ u))) := by rw [h1]
       _ = x (a⁻¹ u) := a.symm_apply_apply _
 
-private lemma w172_heis_pair {p : ℕ} (hp : p.Prime) {Y : Subgroup (LGL 2 W)}
+omit [Finite W] in
+private lemma w172_heis_pair {p : ℕ} (_hp : p.Prime) {Y : Subgroup (LGL 2 W)}
     (hY : ∀ y ∈ Y, y ^ p = 1) {U : Submodule (ZMod 2) W}
     (hUY : ∀ y ∈ Y, ∀ u ∈ U, y u ∈ U) {z : LGL 2 W} (hzY : z ∈ Y)
-    (hzc : ∀ y ∈ Y, ∀ u ∈ U, z (y u) = y (z u))
+    (_hzc : ∀ y ∈ Y, ∀ u ∈ U, z (y u) = y (z u))
     (hcls : ∀ y ∈ Y, ∀ x ∈ Y, ∃ i : ℕ, ∀ u ∈ U, (y * x * y⁻¹ * x⁻¹) u = (z ^ i) u)
     {y : LGL 2 W} (hyY : y ∈ Y) (hyC : y ∉ w172Cent Y U hUY) :
     ∃ x ∈ Y, ∃ i : ℕ, ¬ p ∣ i ∧ (∀ u ∈ U, x (y u) = (z ^ i) (y (x u))) ∧
@@ -554,7 +558,7 @@ private lemma w172_heis_pair {p : ℕ} (hp : p.Prime) {Y : Subgroup (LGL 2 W)}
   exact hzi_ne (by rw [hz1]; rfl)
 
 theorem w172_heis_moves_of_not_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {Y : Subgroup (LGL 2 W)} (hY : ∀ y ∈ Y, y ^ p = 1) {U : Submodule (ZMod 2) W} (hU : U ≠ ⊥)
+    {Y : Subgroup (LGL 2 W)} (hY : ∀ y ∈ Y, y ^ p = 1) {U : Submodule (ZMod 2) W} (_hU : U ≠ ⊥)
     (hUY : ∀ y ∈ Y, ∀ u ∈ U, y u ∈ U) {z : LGL 2 W} (hzY : z ∈ Y)
     (hzc : ∀ y ∈ Y, ∀ u ∈ U, z (y u) = y (z u)) (hfix : ∀ u ∈ U, z u = u → u = 0)
     (hcls : ∀ y ∈ Y, ∀ x ∈ Y, ∃ i : ℕ, ∀ u ∈ U, (y * x * y⁻¹ * x⁻¹) u = (z ^ i) u)
@@ -772,6 +776,7 @@ private lemma w172_index_cenY {p : ℕ} (hp : p.Prime) {Y : Subgroup (LGL 2 W)}
 private noncomputable def w172NormOf (A : LGL 2 W) (p : ℕ) : W →ₗ[ZMod 2] W :=
   ∑ k ∈ Finset.range p, ((A ^ k : LGL 2 W) : W →ₗ[ZMod 2] W)
 
+omit [Finite W] in
 private lemma w172_coe_pow (A : LGL 2 W) (n : ℕ) :
     ((A ^ n : LGL 2 W) : W →ₗ[ZMod 2] W) = (A : W →ₗ[ZMod 2] W) ^ n := by
   induction n with
@@ -782,6 +787,7 @@ private lemma w172_coe_pow (A : LGL 2 W) (n : ℕ) :
       (A : W →ₗ[ZMod 2] W) * (A : W →ₗ[ZMod 2] W) ^ n
     rw [ih]
 
+omit [Finite W] in
 private lemma w172_coe_pow_apply (A : LGL 2 W) (n : ℕ) (u : W) :
     ((A : W →ₗ[ZMod 2] W) ^ n) u = (A ^ n) u := by
   induction n with
@@ -790,6 +796,7 @@ private lemma w172_coe_pow_apply (A : LGL 2 W) (n : ℕ) (u : W) :
     rw [pow_succ', pow_succ', Module.End.mul_apply, ih]
     rfl
 
+omit [Finite W] in
 @[simp] private lemma w172NormOf_apply (A : LGL 2 W) (p : ℕ) (u : W) :
     w172NormOf A p u = ∑ k ∈ Finset.range p, (A ^ k) u := by
   rw [w172NormOf]
@@ -802,6 +809,7 @@ private lemma w172_coe_pow_apply (A : LGL 2 W) (n : ℕ) (u : W) :
     rw [ih]
     rfl
 
+omit [Finite W] in
 private lemma w172_commute_pow_apply {g h : LGL 2 W} {U : Submodule (ZMod 2) W}
     (hg : ∀ u ∈ U, g u ∈ U) (hcomm : ∀ u ∈ U, g (h u) = h (g u)) :
     ∀ (k : ℕ) (u : W), u ∈ U → h ((g ^ k) u) = (g ^ k) (h u) := by
@@ -815,6 +823,7 @@ private lemma w172_commute_pow_apply {g h : LGL 2 W} {U : Submodule (ZMod 2) W}
     change h (g ((g ^ k) u)) = g ((g ^ k) (h u))
     rw [(hcomm ((g ^ k) u) hgu).symm, ih u hu]
 
+omit [Finite W] in
 private lemma w172_mul_pow_apply {g h : LGL 2 W} {U : Submodule (ZMod 2) W}
     (hg : ∀ u ∈ U, g u ∈ U) (hh : ∀ u ∈ U, h u ∈ U)
     (hcomm : ∀ u ∈ U, g (h u) = h (g u)) :
@@ -829,6 +838,7 @@ private lemma w172_mul_pow_apply {g h : LGL 2 W} {U : Submodule (ZMod 2) W}
     change g (h (((g * h) ^ k) u)) = g ((g ^ k) (h ((h ^ k) u)))
     rw [ih u hu, w172_commute_pow_apply hg hcomm k ((h ^ k) u) hhku]
 
+omit [Finite W] in
 private lemma w172_norm_pow_apply {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p : ℕ}
     (hp : p.Prime) (hy : y ^ p = 1) (hz : z ^ p = 1) (hUy : ∀ u ∈ U, y u ∈ U)
     (hUz : ∀ u ∈ U, z u ∈ U) (hzy : ∀ u ∈ U, z (y u) = y (z u))
@@ -850,8 +860,9 @@ private lemma w172_norm_pow_apply {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p 
     rw [← zpow_natCast, ← zpow_mul]
   rw [hzp, hzneg]; rfl
 
+omit [Finite W] in
 private lemma w172NormOf_fixed {U : Submodule (ZMod 2) W} {A : LGL 2 W} {p : ℕ}
-    (hAU : ∀ u ∈ U, A u ∈ U) (hAp : ∀ u ∈ U, (A ^ p) u = u) :
+    (_hAU : ∀ u ∈ U, A u ∈ U) (hAp : ∀ u ∈ U, (A ^ p) u = u) :
     ∀ u ∈ U, A (w172NormOf A p u) = w172NormOf A p u := by
   intro u hu
   have hcoe : w172NormOf A p = ∑ k ∈ Finset.range p, (A : W →ₗ[ZMod 2] W) ^ k := by
@@ -868,6 +879,7 @@ private lemma w172NormOf_fixed {U : Submodule (ZMod 2) W} {A : LGL 2 W} {p : ℕ
     exact h1
   exact sub_eq_zero.mp h0
 
+omit [Finite W] in
 private lemma w172Norm_eig {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p : ℕ}
     (hp : p.Prime) (hy : y ^ p = 1) (hz : z ^ p = 1) (hUy : ∀ u ∈ U, y u ∈ U)
     (hUz : ∀ u ∈ U, z u ∈ U) (hzy : ∀ u ∈ U, z (y u) = y (z u)) (m : ℕ)
@@ -891,6 +903,7 @@ private lemma w172Norm_eig {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p : ℕ}
     (w172_zpow_mem hp hz hUz (-(m : ℤ)) _ hTU)] at h3
   simpa [← LinearEquiv.mul_apply, ← zpow_add, add_neg_cancel, zpow_zero] using h3
 
+omit [Finite W] in
 private lemma w172_zpow_pow_apply {U : Submodule (ZMod 2) W} {z : LGL 2 W} {p : ℕ}
     (hz : z ^ p = 1) (k : ℕ) : ∀ u ∈ U, ((z ^ (-(k : ℤ)) : LGL 2 W) ^ p) u = u := by
   intro u _
@@ -901,8 +914,9 @@ private lemma w172_zpow_pow_apply {U : Submodule (ZMod 2) W} {z : LGL 2 W} {p : 
     rw [show (-(k : ℤ)) * (p : ℤ) = -((k : ℤ) * (p : ℤ)) by ring, zpow_neg, hzmp, inv_one]
   rw [hzneg]; rfl
 
+omit [Finite W] in
 private lemma w172_sum_norm {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hy : y ^ p = 1) (hz : z ^ p = 1)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hy : y ^ p = 1) (hz : z ^ p = 1)
     (hUy : ∀ u ∈ U, y u ∈ U) (hUz : ∀ u ∈ U, z u ∈ U)
     (hzy : ∀ u ∈ U, z (y u) = y (z u)) (hfix : ∀ u ∈ U, z u = u → u = 0)
     {u : W} (hu : u ∈ U) :
@@ -977,6 +991,7 @@ private lemma w172_sum_norm {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p : ℕ}
             (fun h => absurd (Finset.mem_range.mpr hp.pos) h)
         rw [hsum, h0]
 
+omit [Finite W] in
 private lemma w172_iSup_eig_eq_top {U : Submodule (ZMod 2) W} {y z : LGL 2 W} {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hy : y ^ p = 1) (hz : z ^ p = 1)
     (hUy : ∀ u ∈ U, y u ∈ U) (hUz : ∀ u ∈ U, z u ∈ U)
@@ -1013,7 +1028,7 @@ private lemma w172_eig_zero_finrank {U : Submodule (ZMod 2) W} {x y z : LGL 2 W}
     (hfix : ∀ u ∈ U, z u = u → u = 0) {i : ℕ} (hpi : ¬ p ∣ i)
     (hxy : ∀ u ∈ U, x (y u) = (z ^ i) (y (x u))) :
     Module.finrank (ZMod 2) ↥U = p * Module.finrank (ZMod 2) ↥(w172Eig U y z 0) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let E' : Fin p → Submodule (ZMod 2) W := fun m => w172Eig U y z (m : ℤ)
   have hUeq : (⨆ m : Fin p, E' m) = U := w172_iSup_eig_eq_top hp hp2 hy hz hUy hUz hzy hfix
   have hIndep : iSupIndep E' := w172_eig_indep hp hz hUy hUz hzy hfix
@@ -1033,7 +1048,7 @@ private lemma w172_eig_zero_finrank {U : Submodule (ZMod 2) W} {x y z : LGL 2 W}
       p * Module.finrank (ZMod 2) ↥(E' 0) := by
     rw [Finset.sum_congr rfl (fun m _ => hdim0 m), Finset.sum_const, Finset.card_univ,
       Fintype.card_fin]
-    simp [Nat.nsmul_eq_mul]
+    simp
   have hsup : Finset.univ.sup E' = ⨆ m : Fin p, E' m := by
     rw [Finset.sup_eq_iSup]; simp
   have hE0 : E' 0 = w172Eig U y z 0 := rfl

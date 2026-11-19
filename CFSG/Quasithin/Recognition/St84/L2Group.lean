@@ -214,7 +214,7 @@ theorem psl2_sylow_two_sup_eq_top (hf : 1 ≤ f)
       rw [GaloisField.card 2 f (by omega)]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
-    haveI : IsSimpleGroup L := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+    have : IsSimpleGroup L := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
     have hSle : Subgroup.normalClosure (U : Set L) ≤ H := by
       rw [Subgroup.normalClosure, Subgroup.closure_le]
       intro x hx
@@ -459,7 +459,7 @@ theorem psl2_normalizer_quotient_cyclic (hf : 2 ≤ f)
     change D0 ⊔ (U : Subgroup L) = Subgroup.normalizer (U : Set L)
     rw [sup_comm]
     exact hsup0
-  haveI : ((U : Subgroup L).subgroupOf N).Normal := by
+  have : ((U : Subgroup L).subgroupOf N).Normal := by
     change ((U : Subgroup L).subgroupOf
       (Subgroup.normalizer (U : Set L))).Normal
     exact Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
@@ -503,7 +503,7 @@ theorem psl2_normalizer_quotient_cyclic (hf : 2 ≤ f)
     simpa [mul_assoc] using U.inv_mem hu
   let e0 : D0 ≃* (N ⧸ (U : Subgroup L).subgroupOf N) :=
     MulEquiv.ofBijective πD0 ⟨hπ_inj, hπ_surj⟩
-  haveI : IsCyclic D0 := hD0cyc
+  have : IsCyclic D0 := hD0cyc
   change IsCyclic (N ⧸ (U : Subgroup L).subgroupOf N)
   exact isCyclic_of_injective e0.symm.toMonoidHom e0.symm.injective
 
@@ -521,7 +521,7 @@ theorem psl2_torus_cyclic (hf : 1 ≤ f)
     have hDle : D ≤ N := by
       change D ≤ Subgroup.normalizer (U : Set L)
       exact le_trans le_sup_left (le_of_eq hsup)
-    haveI : ((U : Subgroup L).subgroupOf N).Normal := by
+    have : ((U : Subgroup L).subgroupOf N).Normal := by
       change ((U : Subgroup L).subgroupOf
         (Subgroup.normalizer (U : Set L))).Normal
       exact Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
@@ -531,7 +531,7 @@ theorem psl2_torus_cyclic (hf : 1 ≤ f)
       have h := psl2_normalizer_quotient_cyclic hf2 U
       change IsCyclic (N ⧸ (U : Subgroup L).subgroupOf N)
       exact h
-    haveI : IsCyclic (N ⧸ (U : Subgroup L).subgroupOf N) := hQcyc
+    have : IsCyclic (N ⧸ (U : Subgroup L).subgroupOf N) := hQcyc
     have hinj : Function.Injective πD := by
       intro d₁ d₂ hq
       have hmem : (d₂ : L)⁻¹ * (d₁ : L) ∈ (U : Subgroup L) := by
@@ -772,7 +772,7 @@ theorem psl2_torus_fixed_sylow (hf : 2 ≤ f)
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have hD1lt : 1 < Nat.card D := by rw [hDcard]; omega
-  haveI : Nontrivial D := Finite.one_lt_card_iff_nontrivial.mp hD1lt
+  have : Nontrivial D := Finite.one_lt_card_iff_nontrivial.mp hD1lt
   obtain ⟨d0, hd0⟩ : ∃ d0 : D, d0 ≠ 1 := exists_ne (1 : D)
   have hfixd0 : Nat.card (MulAction.fixedBy (Sylow 2 L) d0) = 2 := hcard_two d0 hd0
   have hfixd0' : (MulAction.fixedBy (Sylow 2 L) d0).ncard = 2 := by
@@ -824,7 +824,7 @@ theorem psl2_torus_fixed_sylow (hf : 2 ≤ f)
   have hVfix_all : ∀ d : D, d ≠ 1 → V ∈ MulAction.fixedBy (Sylow 2 L) d := by
     intro d hd1
     rw [MulAction.mem_fixedBy]
-    haveI : IsCyclic D := psl2_torus_cyclic (by omega) hDU hsup
+    have : IsCyclic D := psl2_torus_cyclic (by omega) hDU hsup
     have hcomm : Commute d0 d := (inferInstance : IsMulCommutative D).is_comm.comm d0 d
     have hWV : d • V ∈ MulAction.fixedBy (Sylow 2 L) d0 := by
       rw [MulAction.mem_fixedBy]
@@ -896,7 +896,7 @@ theorem psl2_torus_fixed_sylow (hf : 2 ≤ f)
 theorem psl2_torus_normalizer_inf (hf : 2 ≤ f)
     {U : Sylow 2 (PSL(2, GaloisField 2 f))}
     {D : Subgroup (PSL(2, GaloisField 2 f))}
-    (hDU : D ⊓ (U : Subgroup (PSL(2, GaloisField 2 f))) = ⊥)
+    (_hDU : D ⊓ (U : Subgroup (PSL(2, GaloisField 2 f))) = ⊥)
     (hsup : D ⊔ (U : Subgroup (PSL(2, GaloisField 2 f))) =
       Subgroup.normalizer (U : Set (PSL(2, GaloisField 2 f))))
     {V : Sylow 2 (PSL(2, GaloisField 2 f))} (hVU : V ≠ U)
@@ -995,7 +995,7 @@ theorem psl2_torus_regular_on_sylow (hf : 2 ≤ f)
   have hcardD : Nat.card D = 2 ^ f - 1 := psl2_torus_card (by omega) hDU hsup
   have hcardU : Nat.card (U : Subgroup L) = 2 ^ f := psl2_sylow_two_card (by omega) U
   have hcardUsharp : Nat.card {w : (U : Subgroup L) // w ≠ 1} = 2 ^ f - 1 := by
-    haveI : Finite (U : Subgroup L) :=
+    have : Finite (U : Subgroup L) :=
       Finite.of_injective (fun x : (U : Subgroup L) => (x : L)) Subtype.coe_injective
     let : Fintype (U : Subgroup L) := Fintype.ofFinite _
     let : Fintype {w : (U : Subgroup L) // w ≠ 1} := Fintype.ofFinite _
@@ -1034,7 +1034,7 @@ theorem psl2_torus_centralizer (hf : 2 ≤ f)
   have hNinf : N ⊓ Subgroup.normalizer (V : Set L) = D := by
     change Subgroup.normalizer (U : Set L) ⊓ Subgroup.normalizer (V : Set L) = D
     exact psl2_torus_normalizer_inf hf hDU hsup hVU hVle
-  haveI : IsCyclic D := psl2_torus_cyclic (by omega) hDU hsup
+  have : IsCyclic D := psl2_torus_cyclic (by omega) hDU hsup
   have hDcard : Nat.card D = 2 ^ f - 1 := psl2_torus_card (by omega) hDU hsup
   have hDodd : Odd (Nat.card D) := by
     rw [hDcard]
@@ -1046,7 +1046,7 @@ theorem psl2_torus_centralizer (hf : 2 ≤ f)
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
     omega
-  haveI : Nontrivial D := Finite.one_lt_card_iff_nontrivial.mp hD1lt
+  have : Nontrivial D := Finite.one_lt_card_iff_nontrivial.mp hD1lt
   obtain ⟨d0, hd0⟩ : ∃ d0 : D, d0 ≠ 1 := exists_ne (1 : D)
   have hfix_iff : ∀ W : Sylow 2 L,
       (d0 : L) ∈ Subgroup.normalizer (W : Set L) ↔ W = U ∨ W = V :=
@@ -1163,7 +1163,7 @@ theorem psl2_torus_centralizer (hf : 2 ≤ f)
         rw [← hcenT]
         rw [Subgroup.mem_centralizer_singleton_iff]
         exact htcomm.symm
-      obtain ⟨n, hn⟩ := T.isPGroup' ⟨(d0 : L), hd0memT⟩
+      obtain ⟨n, hn⟩ := T.isPGroup ⟨(d0 : L), hd0memT⟩
       have hnL : (d0 : L) ^ (2 ^ n) = 1 := congrArg Subtype.val hn
       have hdvd : orderOf (d0 : L) ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hnL
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd

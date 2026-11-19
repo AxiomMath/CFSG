@@ -77,7 +77,7 @@ theorem wGL_mem : (TauCeti.permutationGL (k := K) c4 : GL (Fin 4) K) ∈ SUid σ
   · ext i j
     fin_cases i <;> fin_cases j <;>
       simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, TauCeti.permutationGL_coe,
-        Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, c4, Equiv.Perm.inv_def] <;> rfl
+        Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, c4, Equiv.Perm.inv_def]
 
 @[expose] def w4 : SU4 := ⟨TauCeti.permutationGL (k := K) c4, wGL_mem⟩
 

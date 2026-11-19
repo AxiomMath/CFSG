@@ -190,7 +190,7 @@ theorem ncard_fix_le_four (hT4 : TableIV (G := G) N sz) (hnsq : ¬ 13 ^ 2 ∣ N 
     intro g hg s hs
     have hg' : g * r = r * g := mem_centralizer_singleton_iff.1 hg
     exact ⟨Inv.of_isConj hs.1 (isConj_iff.2 ⟨g, rfl⟩), Orb.conj hg' hs.2⟩
-  letI : MulAction Γ O := conjAction Γ O hO
+  let : MulAction Γ O := conjAction Γ O hO
   have htrans : MulAction.IsPretransitive Γ O := ⟨fun s s' => by
     obtain ⟨c, hc, hcs⟩ := hconj k s s' s.2.1 s'.2.1 s.2.2 s'.2.2
     exact ⟨⟨c, hc⟩, Subtype.ext hcs⟩⟩
@@ -440,6 +440,7 @@ theorem card_mul_card_le {ι : Type*} [Fintype ι] {x : G} {t : ι → G} {K : S
   rw [Nat.card_prod, Nat.card_eq_fintype_card (α := ι), Nat.card_coe_set_eq] at h
   exact h
 
+omit [Finite G] in
 theorem mul_not_mem_of_ne {K : Subgroup G} {a b l : G} (ha : a * a = 1) (hb : b * b = 1)
     (hl : l * l = 1) (hlK : ∀ k ∈ K, l * k * l⁻¹ = k⁻¹) (hne : l * b * a * l ≠ a * b) :
     b * a ∉ K ∧ a * b ∉ K := by

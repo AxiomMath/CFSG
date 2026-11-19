@@ -18,8 +18,8 @@ theorem eq_sup_normalizer_of_sylow
     S.mapSurjective (f := e.symm.toMonoidHom) (by
       simpa only [MulEquiv.coe_toMonoidHom] using e.symm.surjective)
   let M : Subgroup G := (S : Subgroup ↥K).map K.subtype
-  haveI : Kc.Normal := hKnorm
-  haveI : Finite (Sylow p ↥Kc) :=
+  have : Kc.Normal := hKnorm
+  have : Finite (Sylow p ↥Kc) :=
     Sylow.finite_of_finiteIndex (Classical.arbitrary (Sylow p ↥Kc))
   have hfr : Subgroup.normalizer (((P : Subgroup ↥Kc)).map Kc.subtype) ⊔ Kc = ⊤ :=
     Sylow.normalizer_sup_eq_top P

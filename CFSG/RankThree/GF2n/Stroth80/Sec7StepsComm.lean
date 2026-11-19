@@ -34,7 +34,7 @@ theorem comm_N_of_vanish (h34 : Stroth34Statement) (h310chi : Stroth310ChiStatem
     (hyW : ∀ w ∈ Wt Q (Vt M (LB M Q B) B Z t), ⁅y, w⁆ ∈ Vt M (LB M Q B) B Z t) :
     ∀ k ∈ hc.CN t, ⁅k, y⁆ ∈ Z0 := by
   intro k hk
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS⟩ := tensorSetup_of_34 h34 G M Q Z B hc n hs.toSec5.width
     hs.toSec5.n_gt hs.toSec5.noA2 hs.toSec5.gen

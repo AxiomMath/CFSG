@@ -203,6 +203,7 @@ theorem stable_subset_rootCharKernel_iff {q : ℕ} (hFr : ∀ c, Fr c = c ^ q)
       refine ⟨IsRoot.neg (IsRoot.smul (IsRoot.smul (hSroots rootv hrootv) e6T3W) e6T3W), ?_⟩
       rw [hneg, hpow (e6T3W • rootv), hpow rootv, hval, one_pow, one_pow, inv_one]
 
+omit [IsAlgClosed Ω] in
 theorem torusRootKernel_eq_rootCharKernel {z : ModGL Tag.E6 Ω}
     (hzT : z ∈ twistedTorus (phi3N Ω) Fr) :
     torusRootKernel z = rootCharKernel (torusDiag ⟨z, (mem_twistedTorus.1 hzT).1⟩) := by
@@ -231,6 +232,7 @@ theorem stable_subset_torusRootKernel_iff {q : ℕ} (hFr : ∀ c, Fr c = c ^ q)
   rw [hz']
   exact hzT
 
+omit [IsAlgClosed Ω] in
 theorem exists_second_point_of_stable [IsAlgClosed Ω] {q p : ℕ} [Fact p.Prime] (hp5 : 5 < p)
     (hFr : ∀ c, Fr c = c ^ q)
     {A : Subgroup (ModGL Tag.E6 Ω)} (hA : IsElemAbelian p A) (hAcard : Nat.card A = p ^ 3)
@@ -242,14 +244,14 @@ theorem exists_second_point_of_stable [IsAlgClosed Ω] {q p : ℕ} [Fact p.Prime
     (hSu : ∀ β ∈ S, e6T3W • β ∈ S)
     (hScard : S.ncard = 6) {α : Fin Tag.E6.rank → ℤ} (hα : α ∈ S) :
     ∃ z ∈ A, z ∉ Subgroup.zpowers x ∧ S ⊆ torusRootKernel z := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   classical
   have hAle : A ≤ torusGroup Tag.E6 Ω := hAT.trans inf_le_left
   let χ : ↥A →* Ωˣ := (torusRootChar α).comp (Subgroup.inclusion hAle)
   have hχval : ∀ z : ↥A, χ z = rootChar (torusDiag ⟨z.1, hAle z.2⟩) α := by
     intro z
     have hz : (Subgroup.inclusion hAle) z = ⟨z.1, hAle z.2⟩ := Subtype.ext rfl
-    simp only [χ, MonoidHom.comp_apply, hz, torusRootChar, torusDiag_rootDiagUnit]
+    simp only [χ, MonoidHom.comp_apply, hz, torusRootChar]
     rfl
   have hker : ∀ z : ↥A, χ z = 1 ↔ S ⊆ torusRootKernel z.1 := by
     intro z
@@ -283,7 +285,7 @@ theorem exists_second_point_of_stable [IsAlgClosed Ω] {q p : ℕ} [Fact p.Prime
     by_contra h
     push Not at h
     have hle : χ.ker ≤ Subgroup.zpowers (⟨x, hx⟩ : ↥A) := fun z hz => h z hz
-    haveI : Finite ↥(Subgroup.zpowers (⟨x, hx⟩ : ↥A)) :=
+    have : Finite ↥(Subgroup.zpowers (⟨x, hx⟩ : ↥A)) :=
       Nat.finite_of_card_ne_zero (by rw [hcard_zp]; positivity)
     have hcardle := Subgroup.card_le_of_le hle
     rw [hcard_zp] at hcardle

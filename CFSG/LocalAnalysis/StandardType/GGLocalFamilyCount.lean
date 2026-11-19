@@ -29,7 +29,7 @@ private def localFamiliesPiTwo {β : Type*} [DecidableEq β] (F : β → Type*) 
     · simp
     · simp [hne.symm]
   right_inv p := by
-    simp [hne, hne.symm]
+    simp [hne.symm]
 
 theorem card_localFamilies_split {ι : Type*} {F : ι → Type*} [∀ i, Field (F i)]
     (R : ι → ι → Prop) (T : ∀ i j : ι, R i j → (F j ≃+* F i)) (A : Type*) (key : A → ι)

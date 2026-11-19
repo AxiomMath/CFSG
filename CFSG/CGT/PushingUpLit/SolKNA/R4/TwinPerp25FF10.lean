@@ -71,7 +71,7 @@ theorem FSet.exists_datum (F : FSet r n R S t K' W S₁ R₁ R₂ t₁ u₁ u₂
   obtain ⟨Q, hQ, ⟨e⟩⟩ := fBase_quat F.hr F.hP F.hyp F.hbS F.hF₁
   have hQ2 : IsPGroup 2 ↥Q := hQ.2.1
   have hQcard : 2 ≤ Nat.card ↥Q := by
-    haveI : NeZero (2 ^ (r - 1 - 2)) := ⟨by positivity⟩
+    have : NeZero (2 ^ (r - 1 - 2)) := ⟨by positivity⟩
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
     have : 1 ≤ 2 ^ (r - 1 - 2) := Nat.one_le_two_pow
     omega

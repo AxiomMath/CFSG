@@ -170,7 +170,7 @@ theorem CFAutInFGroupPGL2.map_mulEquiv {Q Q' : Type} [Group Q] [Finite Q]
   have hXnc' : ¬ IsMulCommutative ↥X := by
     intro hc
     apply hXnc
-    haveI : IsMulCommutative ↥X := hc
+    have : IsMulCommutative ↥X := hc
     let φ : ↥X ≃* ↥X' := (MulEquiv.subgroupMap e.symm X').symm
     refine IsMulCommutative.of_comm fun a b => ?_
     obtain ⟨a', rfl⟩ := φ.surjective a

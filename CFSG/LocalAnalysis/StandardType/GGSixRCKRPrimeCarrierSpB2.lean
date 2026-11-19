@@ -43,7 +43,7 @@ theorem rckCarrierSpB2_holds : RCKCarrierSpB2 := by
   have hK : Nat.card ↥(fixSubfield σQ) =
       2 ^ (h * componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := by
     rw [hcardQ, hq, ← pow_mul]
-  haveI := hfin
+  have := hfin
   exact rckFrameCover_sp_of_hom S a i h le_rfl hK (Or.inr (by rw [hK]; exact hQ)) f hfrange
     (by rw [(MonoidHom.ker_eq_bot_iff f).2 hfinj]; exact bot_le) hfconj
 

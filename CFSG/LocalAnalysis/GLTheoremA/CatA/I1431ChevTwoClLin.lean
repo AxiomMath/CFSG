@@ -51,7 +51,7 @@ theorem lin_local81_of_model {X : Type} [Group X] {m : ℕ}
     (h : StatedClassicalModel X .PSL m 2 1) (hm : 8 ≤ m) : Local81 X := by
   obtain ⟨K, _, _, hK, ⟨φ⟩⟩ :=
     CFSG.RankThree.PartTwo.Sec21.Hering214.exists_mulEquiv_projectiveSL_of_psl_two_one h
-  haveI := CFSG.RankThree.PartTwo.Sec21.Hering214.charP_two_of_natCard_eq_two hK
+  have := CFSG.RankThree.PartTwo.Sec21.Hering214.charP_two_of_natCard_eq_two hK
   exact Local81.congr (φ.trans
     (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL m
       K).symm).symm (lin_local81_psl hm)
@@ -71,7 +71,7 @@ theorem false_of_linear (hGA : CFSG.Open.GriessAllModelsStatement)
       (h.2.resolve_right fun h0 => absurd h0.1 (Nat.succ_ne_zero n))
     rwa [hp2, hf1] at h'
   rcases Nat.lt_or_ge n 7 with h7 | h7
-  · haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  · have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
     have hZ : Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := cl_center_eq_bot_of_simple
       (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY)
     have hcard : Nat.card (Y ⧸ Subgroup.center Y) = orderA n 2 := by

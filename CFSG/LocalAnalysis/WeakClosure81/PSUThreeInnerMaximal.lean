@@ -133,13 +133,13 @@ theorem isCoatom_centralizer_of_almostSimple_psu3
     {Q : Type} [Group Q] [Finite Q] {L : Subgroup Q}
     (hAS : CFSG.Quasithin.Vol2.Ch11.SecE3.AlmostSimple L)
     (hL : CFSG.Blueprint.LieModel ↥L .PSU 3 p f)
-    (hp2 : p ≠ 2) (hf : 2 ≤ f)
+    (hp2 : p ≠ 2) (_hf : 2 ≤ f)
     {z : Q} (hzL : z ∈ L) (hz2 : orderOf z = 2) :
     IsCoatom (Subgroup.centralizer ({z} : Set Q)) := by
   obtain ⟨hp, _, F, hFld, hFfin, hFcard, ⟨eS⟩⟩ :=
     CFSG.GH74.Generic.lieModel_psu_data hL
-  letI : Field F := hFld
-  letI : Finite F := hFfin
+  let : Field F := hFld
+  let : Finite F := hFfin
   have hf1 : 1 ≤ f := by omega
   have hUF : UnitaryFieldData p f F := by
     refine ⟨hp, hf1, ?_⟩

@@ -42,7 +42,7 @@ theorem exists_secRep {X N₀ N₁ : Subgroup G} (h : SecHyp X N₀ N₁) :
     ∃ (W : Type) (_ : AddCommGroup W) (_ : Module (ZMod 2) W) (_ : Finite W),
       Nonempty (SecRep X N₀ N₁ W) := by
   classical
-  haveI hN : (N₀.subgroupOf N₁).Normal := ⟨fun z hz v => by
+  have hN : (N₀.subgroupOf N₁).Normal := ⟨fun z hz v => by
     rw [Subgroup.mem_subgroupOf] at hz ⊢
     have h1 : (v : G) * z * (v : G)⁻¹ ∈ N₀ :=
       (Subgroup.mem_normalizer_iff.mp (h.normal v.2) z).mp hz
@@ -147,12 +147,15 @@ variable {X N₀ N₁ : Subgroup G} {W : Type} [AddCommGroup W] [Module (ZMod 2)
 
 abbrev cl (s : SecRep X N₀ N₁ W) (n : ↥N₁) : W := Multiplicative.toAdd (s.cls n)
 
+omit [Finite G] in
 theorem cl_mul (s : SecRep X N₀ N₁ W) (a b : ↥N₁) : s.cl (a * b) = s.cl a + s.cl b := by
   simp [cl, map_mul]
 
+omit [Finite G] in
 theorem cl_inv (s : SecRep X N₀ N₁ W) (a : ↥N₁) : s.cl a⁻¹ = - s.cl a := by
   simp [cl, map_inv]
 
+omit [Finite G] in
 theorem cl_eq_zero_iff (s : SecRep X N₀ N₁ W) (n : ↥N₁) : s.cl n = 0 ↔ (n : G) ∈ N₀ := by
   rw [← s.ker n]
   constructor
@@ -161,10 +164,12 @@ theorem cl_eq_zero_iff (s : SecRep X N₀ N₁ W) (n : ↥N₁) : s.cl n = 0 ↔
   · intro h
     exact toAdd_eq_zero.mpr h
 
+omit [Finite G] in
 theorem exists_cl (s : SecRep X N₀ N₁ W) (w : W) : ∃ n : ↥N₁, s.cl n = w := by
   obtain ⟨n, hn⟩ := s.surj (Multiplicative.ofAdd w)
   exact ⟨n, by simp [cl, hn]⟩
 
+omit [Finite G] in
 theorem cl_eq_iff (s : SecRep X N₀ N₁ W) (n m : ↥N₁) :
     s.cl m = s.cl n ↔ ((n : G)⁻¹ * (m : G)) ∈ N₀ := by
   have : s.cl (n⁻¹ * m) = s.cl m - s.cl n := by
@@ -175,9 +180,11 @@ theorem cl_eq_iff (s : SecRep X N₀ N₁ W) (n m : ↥N₁) :
 def conjN (h : SecHyp X N₀ N₁) (x : ↥X) (n : ↥N₁) : ↥N₁ :=
   ⟨(x : G) * n * (x : G)⁻¹, (Subgroup.mem_normalizer_iff.mp (h.norm₁ x.2) n).mp n.2⟩
 
+omit [Finite G] in
 theorem ρ_cl (h : SecHyp X N₀ N₁) (s : SecRep X N₀ N₁ W) (x : ↥X) (n : ↥N₁) :
     s.ρ x (s.cl n) = s.cl (conjN h x n) := s.act x n (conjN h x n) rfl
 
+omit [Finite G] in
 theorem fix_iff (h : SecHyp X N₀ N₁) (s : SecRep X N₀ N₁ W) (x : ↥X) (n : ↥N₁) :
     s.ρ x (s.cl n) = s.cl n ↔ (x : G) * n * (x : G)⁻¹ * (n : G)⁻¹ ∈ N₀ := by
   rw [ρ_cl h, cl_eq_iff]
@@ -200,6 +207,7 @@ def preS (s : SecRep X N₀ N₁ W) (S : Submodule (ZMod 2) W) : Subgroup G wher
     rintro _ ⟨a, rfl, ha⟩
     exact ⟨a⁻¹, rfl, by rw [cl_inv]; exact S.neg_mem ha⟩
 
+omit [Finite G] in
 theorem irreducible (h : IsChiefPair X N₀ N₁) (hh : SecHyp X N₀ N₁) (s : SecRep X N₀ N₁ W)
     (S : Submodule (ZMod 2) W) (hS : ∀ x : ↥X, ∀ w ∈ S, s.ρ x w ∈ S) : S = ⊥ ∨ S = ⊤ := by
   have hN₀ : N₀ ≤ preS s S := by
@@ -239,12 +247,13 @@ theorem irreducible (h : IsChiefPair X N₀ N₁) (hh : SecHyp X N₀ N₁) (s :
     rw [hmn] at hmS
     exact hmS
 
+omit [Finite G] in
 theorem ρ_eq_one_of_normal_pgroup [Finite W] (h : IsChiefPair X N₀ N₁) (hh : SecHyp X N₀ N₁)
     (s : SecRep X N₀ N₁ W) {P : Subgroup G} (hPX : P ≤ X) (hP : IsPGroup 2 ↥P)
     (hPn : ∀ x ∈ X, ∀ p ∈ P, x * p * x⁻¹ ∈ P) :
     ∀ p : ↥X, (p : G) ∈ P → s.ρ p = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F : Submodule (ZMod 2) W :=
     { carrier := {w | ∀ p : ↥X, (p : G) ∈ P → s.ρ p w = w}
       add_mem' := fun {a b} ha hb p hp => by rw [map_add, ha p hp, hb p hp]
@@ -262,11 +271,11 @@ theorem ρ_eq_one_of_normal_pgroup [Finite W] (h : IsChiefPair X N₀ N₁) (hh 
       _ = s.ρ x w := by rw [hw _ hp']
   have hFne : F ≠ ⊥ := by
     intro hF
-    obtain ⟨g, hgN₁, hgN₀⟩ := SetLike.exists_of_lt h.lt
+    obtain ⟨g, hgN₁, hgN₀⟩ := _root_.IsConcreteLE.exists_of_lt h.lt
     have hW : Nontrivial W := ⟨⟨s.cl ⟨g, hgN₁⟩, 0, fun h0 => hgN₀ ((cl_eq_zero_iff s ⟨g, hgN₁⟩).mp h0)⟩⟩
-    letI : MulAction ↥P W := MulAction.compHom W (s.ρ.comp (Subgroup.inclusion hPX))
+    let : MulAction ↥P W := MulAction.compHom W (s.ρ.comp (Subgroup.inclusion hPX))
     have hmod := hP.card_modEq_card_fixedPoints (α := W)
-    haveI : Module.Finite (ZMod 2) W := Module.finite_iff_finite.mpr inferInstance
+    have : Module.Finite (ZMod 2) W := Module.finite_iff_finite.mpr inferInstance
     have hcardW : 2 ∣ Nat.card W := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := W), Nat.card_zmod]
       exact dvd_pow_self 2 (Module.finrank_pos (R := ZMod 2) (M := W)).ne'
@@ -303,7 +312,7 @@ theorem finrank_range_le_mIdx [Finite W] (hh : SecHyp X N₀ N₁) (s : SecRep X
     Module.finrank (ZMod 2) (LinearMap.range ((s.ρ c).toLinearMap - LinearMap.id)) ≤
       mIdx A (centralizerMod Z₀ A (Subgroup.zpowers (c : G))) := by
   classical
-  haveI : Module.Finite (ZMod 2) W := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (ZMod 2) W := Module.finite_iff_finite.mpr inferInstance
   set f : W →ₗ[ZMod 2] W := (s.ρ c).toLinearMap - LinearMap.id with hf
   have hfap : ∀ w, f w = s.ρ c w - w := fun w => by simp [hf]
   let ψ : ↥N₁ →* Multiplicative W :=

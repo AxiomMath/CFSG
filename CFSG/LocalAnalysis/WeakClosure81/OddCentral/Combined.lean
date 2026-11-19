@@ -8,6 +8,7 @@ open Subgroup
 section
 variable {G M : Type*} [Group G] [Finite G] [AddCommGroup M] [Finite M] [DistribMulAction G M]
 
+omit [Finite G] [Finite M] in
 theorem smul_pm_neg {g y : G} (hgy : g * y = y * g) {m : M} (hm : g • m = -m) :
     g • (m + y • m) = -(m + y • m) ∧ g • (m - y • m) = -(m - y • m) := by
   have h : g • y • m = -(y • m) := by rw [smul_smul, hgy, mul_smul, hm, smul_neg]
@@ -15,6 +16,7 @@ theorem smul_pm_neg {g y : G} (hgy : g * y = y * g) {m : M} (hm : g • m = -m) 
   · rw [smul_add, hm, h, neg_add]
   · rw [smul_sub, hm, h, neg_sub, sub_neg_eq_add, neg_add_eq_sub]
 
+omit [Finite G] in
 theorem eq_zero_of_LA (hModd : Odd (Nat.card M)) {x y w : G} (hy : y * y = 1)
     (hxy : x * y = y * x) (hyw : y * w = w * y)
     (hLAy : ∀ m : M, (x * y) • m = m → x • m = m) (hLAw : ∀ m : M, (x * w) • m = m → x • m = m)
@@ -61,14 +63,14 @@ theorem centralizes_of_s3_frame {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.car
     (hLAM : ∀ i j, i ≠ j → ∀ m : M, (d i * d j) • m = m → d i • m = m)
     (hS1 : ∃ x ∈ Q, d 0 * x * (d 0)⁻¹ * x⁻¹ ∉ Q₀) :
     (∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) ∧ ∀ y ∈ R₁, ∀ x ∈ Q, y * x * y⁻¹ = x := by
-  haveI hQ₀n : Q₀.Normal := ⟨fun n hn g => by
+  have hQ₀n : Q₀.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_center_iff.mp (hQ₀Z hn) g, mul_inv_cancel_right]; exact hn⟩
   obtain ⟨hcQ, hT₁, -⟩ := s3_prime (R := R) hQ₀Q hQodd hQ' hchief hRodd hd hdc hcR hRc hLAW hS1
   have hdc' : ∀ i j, Commute (d i) (d j) := hdc
   have hdinv : ∀ i, (d i)⁻¹ = d i := fun i => inv_eq_of_mul_eq_one_right (hd i)
   have hM : ∃ m : M, d 0 • m ≠ m := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨x, hx, hnot⟩ := hS1
     apply hnot
     rw [hfaith _ h]; simp

@@ -15,7 +15,7 @@ theorem levTwoS2a_comp_swap_gen (n : ℕ) {i j c d : Fin (n+1)} (_hij : i ≠ j)
         Fin (n+1) → ℤ) := by
   funext k
   simp only [Function.comp_apply, Pi.sub_apply, Pi.single_apply,
-    Equiv.apply_eq_iff_eq_symm_apply]
+    ← _root_.Equiv.eq_symm_apply]
   rfl
 
 theorem levTwoS2a_Wapply_eps_swap (n : ℕ) (hn : 1 ≤ n) {α x : Fin n → ℤ}

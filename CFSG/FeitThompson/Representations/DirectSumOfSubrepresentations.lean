@@ -11,7 +11,7 @@ public section
 set_option autoImplicit true
 set_option maxSynthPendingDepth 3
 
-open Representation
+open _root_.CFSG.FeitThompson.Representation
 
 variable {k : Type*} [Field k] {G : Type*} [Group G] {V : Type*} [AddCommGroup V] [Module k V]
 

@@ -37,11 +37,11 @@ theorem ggTwoNodeKIndep_false_of_not_mem (hLin : GGIndepFixLineLin)
   obtain ⟨V, iVadd, iVmod, ι, h, α, r, T, iT, s,
       hdim, hind, hpair, hr, hclosure, hs, hconn, hfixs, hx0, hxnot, hnt⟩ :=
     hFrame G p B Bs x L D J y K N hH hF hS hE hrow hp2 hN5 hN10 hpN hXI hx
-  letI := iVadd
-  letI := iVmod
-  letI := iT
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  let := iVadd
+  let := iVmod
+  let := iT
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let F : Submodule (ZMod p) V := ggLinFix (Set.range r)
   let xV : V := ι (Additive.ofMul (⟨x, hx⟩ : ↥Bs))
   let vy : V := ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs))
@@ -109,8 +109,8 @@ theorem ggTwoNodeKIndep_false_of_not_mem (hLin : GGIndepFixLineLin)
     simpa using hc2
   obtain ⟨Λ, iΛ, iΛdec, MK, CK, VK, iVKadd, iVKmod, ιK, φK, hK, αK, e,
       hMK, hweyl, hCK, hφK, hrefl, hpairK, hAut, hAK, hLI⟩ := hXI
-  letI := iVKadd
-  letI := iVKmod
+  let := iVKadd
+  let := iVKmod
   exact ggXDatumA_dep_K hp2 hH hy hyK hfixK hN5 hpN e hMK hCK hφK hpairK hAK hLI
 
 end CFSG.StandardType

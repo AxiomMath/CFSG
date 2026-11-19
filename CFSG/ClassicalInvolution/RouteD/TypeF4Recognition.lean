@@ -66,20 +66,20 @@ theorem exists_psiC_of_f4chain (hp2 : p ≠ 2) (hq : 5 ≤ p ^ f) (U : Fin 4 →
   let U' : Fin 3 → Subgroup G := ![U 3, U 2, U 1]
   have hcomm' : ∀ i j : Fin 3, i.val + 1 < j.val → ∀ a ∈ U' i, ∀ b ∈ U' j, a * b = b * a := by
     intro i j hij a ha b hb
-    fin_cases i <;> fin_cases j <;> first | (exfalso; revert hij; simp; done) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; revert hij; simp; done)
     exact (hcomm 1 3 (by decide) b hb a ha).symm
   have hpair' : ∀ i j : Fin 3, i.val + 1 = j.val → j.val + 1 < 3 →
       ∃ W, LinearBlockStandardPair (GaloisField p f) W (U' i) (U' j) := by
     intro i j hij hj
     fin_cases i <;> fin_cases j <;>
-      first | (exfalso; revert hij; simp; done) | (exfalso; revert hj; simp; done) | skip
+      try first | (exfalso; revert hij; simp; done) | (exfalso; revert hj; simp; done)
     obtain ⟨W, hW⟩ := hpair 2 3 (by decide) (by decide)
     exact ⟨W, hW.symm⟩
   have hsp' : ∀ i j : Fin 3, i.val + 1 = 3 → j.val + 2 = 3 →
       ∃ W, SymplecticBlockStandardPair (GaloisField p f) W (U' i) (U' j) := by
     intro i j hi hj
     fin_cases i <;> fin_cases j <;>
-      first | (exfalso; revert hi; simp; done) | (exfalso; revert hj; simp; done) | skip
+      try first | (exfalso; revert hi; simp; done) | (exfalso; revert hj; simp; done)
     exact hsp
   obtain ⟨ψ, hker, hrange, -, -, hblk⟩ := Models.SymplecticPairs.weakCT_symplectic_subgroup hadm
     (le_refl 3) hp2 hF (by omega) U' hcomm' hpair' hsp'

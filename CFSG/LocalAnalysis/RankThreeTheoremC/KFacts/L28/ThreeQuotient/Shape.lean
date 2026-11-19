@@ -28,7 +28,7 @@ structure ShapeData (P Q₀ : Subgroup G) : Prop where
 theorem eq_or_mul_eq_one_of_card_eq_three {H : Type*} [Group H] (hH : Nat.card H = 3)
     {α β : H} (hα : α ≠ 1) (hβ : β ≠ 1) : α = β ∨ α * β = 1 := by
   classical
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite H := Nat.finite_of_card_ne_zero (by omega)
   have hα3 : orderOf α = 3 := by
     have h1 : orderOf α ∣ 3 := hH ▸ orderOf_dvd_natCard α
     rcases (Nat.dvd_prime Nat.prime_three).1 h1 with h | h
@@ -108,7 +108,7 @@ theorem L28Shape.shapeData {P : Subgroup G} (h : L28Shape 3 P) : ∃ Q₀ : Subg
       simp
     rw [Nat.card_congr (f.trans (e.toEquiv.subtypeEquiv (q := fun y => y ^ 3 = 1)
       fun x => hiff x)), hMΩ]
-  haveI hN : (Q₀.subgroupOf P).Normal :=
+  have hN : (Q₀.subgroupOf P).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hnormal g g.2 n hn⟩
@@ -288,11 +288,11 @@ theorem not_comm (hD : ShapeData P Q₀) : ¬ ∀ a ∈ P, ∀ b ∈ P, a * b = 
 
 theorem eq_of_comm (hD : ShapeData P Q₀) {M : Subgroup G} (hMP : M ≤ P)
     (hM : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a) (hcard : Nat.card M = 3 ^ 4) : M = Q₀ := by
-  haveI : Finite Q₀ := Nat.finite_of_card_ne_zero (by rw [hD.card₀]; norm_num)
+  have : Finite Q₀ := Nat.finite_of_card_ne_zero (by rw [hD.card₀]; norm_num)
   by_contra hne
   have hnle : ¬ M ≤ Q₀ := fun hle =>
     hne (Subgroup.eq_of_le_of_card_ge hle (by rw [hD.card₀, hcard]))
-  obtain ⟨m, hmM, hm0⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨m, hmM, hm0⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   have hcen : ∀ z ∈ Q₀ ⊓ M, z ∈ Q₀ ∧ z ^ 3 = 1 := by
     intro z hz
     refine hD.center_le z (hD.le hz.1) ?_

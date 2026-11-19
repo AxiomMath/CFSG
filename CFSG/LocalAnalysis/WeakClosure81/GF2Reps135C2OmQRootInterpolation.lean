@@ -11,11 +11,11 @@ namespace CFSG.LocalAnalysis.WeakClosure81
     {F k V : Type} [Field F] [Fintype F] [Field k] [AddCommGroup V] [Module k V]
     (ι : F →+* k) (ρ : Representation k G V) (X Y : F → G)
     (v₀ : V) (φ : Module.Dual k V) (χ : H →* kˣ) (α : H →* Fˣ)
-    {c : ℕ} (hc : c < Fintype.card F)
-    (hweight : ∀ h : H, ρ (h : G) v₀ = (χ h : k) • v₀)
-    (hconj : ∀ (h : H) (t : F),
+    {c : ℕ} (_hc : c < Fintype.card F)
+    (_hweight : ∀ h : H, ρ (h : G) v₀ = (χ h : k) • v₀)
+    (_hconj : ∀ (h : H) (t : F),
       (h : G) * Y t * (h : G)⁻¹ = Y ((α h : F)⁻¹ * t))
-    (hcoeff : ∀ s t : F,
+    (_hcoeff : ∀ s t : F,
       φ (ρ (X s * Y t) v₀) = (1 + ι s * ι t) ^ c),
     ∃ w : Fin (Fintype.card F) → V,
       (∀ t : F, ρ (Y t) v₀ = ∑ j, (ι t) ^ j.val • w j) ∧

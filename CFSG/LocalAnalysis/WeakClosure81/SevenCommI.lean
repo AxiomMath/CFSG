@@ -11,12 +11,14 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conjSubgroup_commutator' (A B : Subgroup G) (g : G) :
     conjSubgroup ⁅A, B⁆ g = ⁅conjSubgroup A g, conjSubgroup B g⁆ := by
   show (⁅A, B⁆).map (MulAut.conj g⁻¹).toMonoidHom = _
   rw [Subgroup.map_commutator]
   rfl
 
+omit [Finite G] in
 private theorem zpow_eq_one_or_self_of_mul_self_eq_one {x : G} (hx : x * x = 1) (n : ℤ) :
     x ^ n = 1 ∨ x ^ n = x := by
   obtain ⟨k, hk | hk⟩ := Int.even_or_odd' n
@@ -53,6 +55,7 @@ theorem exists_mem_commutator_conjSubgroup_ne_bot {V H : Subgroup G}
   exact isPGroup_closure_pair_of_mem_normalizer (V := V) (a := 1) (b := g⁻¹) hV
     (by rw [CFSG.Quasithin.conjSubgroup_one]; exact haV) hmem (hle haV)
 
+omit [Finite G] in
 theorem bSub_eq_inf_iSub {V H E : Subgroup G}
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal) (hVΩ : V ∈ omegaSet V H E)
     (hN : ∀ U ∈ omegaSet V H E, ⁅U, V⁆ ≠ ⊥ →

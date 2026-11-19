@@ -47,8 +47,7 @@ private theorem ggLabelIso_eq_of_tagA_or_twA {lab lab' : LargeEvenLabel}
     (ht' : lab'.tag = .A ∨ lab'.tag = .twA) : lab = lab' := by
   obtain ⟨t, r, m⟩ := lab
   obtain ⟨t', r', m'⟩ := lab'
-  simp only [GGLabelIso, LargeEvenLabel.tag, LargeEvenLabel.rank,
-    LargeEvenLabel.n] at h ht ht' ⊢
+  simp only [GGLabelIso] at h ht ht' ⊢
   rcases h with h | ⟨hBC, -, -, -⟩ | h | h | h | h | h | h
   · exact h
   · rcases ht with rfl | rfl <;> simp at hBC
@@ -60,7 +59,7 @@ private theorem ggLabelIso_eq_of_tagA_or_twA {lab lab' : LargeEvenLabel}
   · rcases ht' with rfl | rfl <;> simp at h
 
 private theorem prime_dvd_card_projectiveSL_of_rank_le {F : Type} [Field F] [Finite F]
-    {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 ≤ n) (hle : p ≤ n + 1)
+    {n p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hn : 3 ≤ n) (hle : p ≤ n + 1)
     (hpF : ¬ p ∣ Nat.card F) :
     p ∣ Nat.card (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL n F) := by
   refine CFSG.HardMathSupport.Timmesfeld.LocalTwo.dvd_card_projectiveSL_of_dvd_pow_sub_one
@@ -71,7 +70,7 @@ private theorem prime_dvd_card_projectiveSL_of_rank_le {F : Type} [Field F] [Fin
 
 private theorem prime_dvd_card_of_hasLabel_linear_le {H : Type} [Group H] {p r e : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hr : 2 ≤ r) (hle : p ≤ r + 2)
-    (hpnd : ¬ p ∣ r + 1) (hH : GGHasLabel ⟨.A, r, e⟩ H) : p ∣ Nat.card H := by
+    (_hpnd : ¬ p ∣ r + 1) (hH : GGHasLabel ⟨.A, r, e⟩ H) : p ∣ Nat.card H := by
   obtain ⟨F, hField, hFinite, hF, ⟨eH⟩⟩ := hH
   let : Field F := hField
   let : Finite F := hFinite

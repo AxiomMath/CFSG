@@ -54,7 +54,7 @@ theorem twoPart_conj_of_mul [Finite G] (S : Sylow 2 G) (H : Subgroup G)
   have hSL : Sg ≤ L := le_sup_right
   have hLN : L ≤ Subgroup.normalizer (H : Set G) := sup_le Subgroup.le_normalizer hSH
   have hSHbot : Sg ⊓ H = ⊥ := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp S.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp S.isPGroup
     apply disjoint_iff.mp
     apply Subgroup.disjoint_of_coprime_natCard
     rw [hk]
@@ -73,7 +73,7 @@ theorem twoPart_conj_of_mul [Finite G] (S : Sylow 2 G) (H : Subgroup G)
     exact (Subgroup.mem_normalizer_iff.mp (hLN l.property) a).mp ha
   set S' := Sg.subgroupOf L with hS'
   have hS'p : IsPGroup 2 S' :=
-    S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSL).symm
+    S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSL).symm
   have hsurj : Function.Surjective ((QuotientGroup.mk' H').comp S'.subtype) := by
     intro q
     obtain ⟨l, rfl⟩ := QuotientGroup.mk'_surjective H' q

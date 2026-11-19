@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -122,8 +122,8 @@ theorem eq_of_card_nine [Finite G] {P H : Subgroup G} {Es : List (Subgroup G)} {
     omega
   obtain ⟨E, hEm, hhE⟩ := hcov h (hHP hh)
   obtain ⟨hEP, hEc⟩ := hE E hEm
-  have hcH := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := H) (by rw [hH]; norm_num)
-  have hcE := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := E) (by rw [hEc]; norm_num)
+  have hcH := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := H) (by rw [hH]; norm_num)).is_comm.comm
+  have hcE := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := E) (by rw [hEc]; norm_num)).is_comm.comm
   have hHc : H ≤ Subgroup.centralizer {h} := fun x hx => by
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact congrArg Subtype.val (hcH ⟨x, hx⟩ ⟨h, hh⟩)

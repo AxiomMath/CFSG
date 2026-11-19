@@ -26,7 +26,7 @@ theorem exists_witness_of_le {q n : ℕ} (hq : q.Prime) (hn : 0 < n)
     (h : n ≤ GLATwoLocalRank q X) :
     ∃ S : Subgroup X, IsPGroup 2 S ∧ S ≠ ⊥ ∧ ∃ E : Subgroup X, E ≤ normalizer (S : Set X) ∧
       IsElemAbelian q E ∧ Nat.card E = q ^ n := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨P, hP, hP2, hrk⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.exists_twoLocal_of_le hq.one_lt hn h
   obtain ⟨E₀, hE₀N, hE₀, hE₀c⟩ := CFSG.SectionRank.exists_pRank hq.one_lt (normalizer (P : Set X))
@@ -40,6 +40,7 @@ section Lift
 
 variable {F : Type} [Group F] [Finite F] [IsSimpleGroup F]
 
+omit [Finite F] [IsSimpleGroup F] in
 theorem exists_witness_caseA {X : Type} [Group X] [Finite X] {q n : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) {V : Subgroup F} (hV : IsElemAbelian 2 V) (hVc : Nat.card V = 2 ^ (n + 1))
     (ψ : X →* F) (hψ : Function.Surjective ψ) (hY : IsPGroup q ψ.ker) (hYne : ψ.ker ≠ ⊥)
@@ -93,6 +94,7 @@ theorem exists_witness_caseA {X : Type} [Group X] [Finite X] {q n : ℕ} (hq : q
     obtain ⟨m, rfl⟩ := mem_zpowers_iff.1 hh
     exact (Commute.zpow_left (hDF.commute _ _ (hemb0 j).symm t htH _ (hxH _)) m).eq
 
+omit [Finite F] in
 theorem exists_witness_of_surj (hnc : ∃ a b : F, a * b ≠ b * a) {q n : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hn : 0 < n) {V : Subgroup F} (hV : IsElemAbelian 2 V)
     (hVc : Nat.card V = 2 ^ (n + 1))
@@ -183,7 +185,7 @@ theorem exists_witness_of_surj (hnc : ∃ a b : F, a * b ≠ b * a) {q n : ℕ} 
       set P' : Subgroup X := (P : Subgroup φ.ker).map φ.ker.subtype with hP'def
       have hfr : normalizer (P' : Set X) ⊔ φ.ker = ⊤ := Sylow.normalizer_sup_eq_top P
       have hP'Y : P' ≤ φ.ker := map_subtype_le _
-      obtain ⟨m', hm⟩ := IsPGroup.iff_card.1 (P.isPGroup'.map φ.ker.subtype)
+      obtain ⟨m', hm⟩ := IsPGroup.iff_card.1 (P.isPGroup.map φ.ker.subtype)
       have hP'q : ¬ q ∣ Nat.card P' := by
         rw [hm]
         intro h
@@ -225,6 +227,7 @@ theorem exists_witness_of_surj (hnc : ∃ a b : F, a * b ≠ b * a) {q n : ℕ} 
           i1020_map_witness X₀.subtype X₀.subtype_injective hS hES hE hEc
         exact ⟨_, hS', hSne' hSne, _, hES', hE', hEc'⟩
 
+omit [Finite F] in
 theorem le_twoLocalRank_of_surj (hnc : ∃ a b : F, a * b ≠ b * a) {q n : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) {V : Subgroup F} (hV : IsElemAbelian 2 V) (hVc : Nat.card V = 2 ^ (n + 1))
     (hcen : ∀ (L : Type) [Group L] [Finite L] (ψ : L →* F), Function.Surjective ψ →
@@ -244,6 +247,7 @@ section Transfer
 
 variable {F : Type} [Group F] [Finite F] [IsSimpleGroup F]
 
+omit [Finite F] in
 theorem ker_eq_center_of_surj (hnc : ∃ a b : F, a * b ≠ b * a) {L : Type} [Group L]
     (ψ : L →* F) (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ center L) : ψ.ker = center L := by
   refine le_antisymm hker fun z hz => ?_
@@ -252,11 +256,12 @@ theorem ker_eq_center_of_surj (hnc : ∃ a b : F, a * b ≠ b * a) {L : Type} [G
   rw [hZF, mem_bot] at this
   exact this
 
+omit [Finite F] in
 theorem injective_of_cover_of_multiplier (hnc : ∃ a b : F, a * b ≠ b * a) {q : ℕ}
     (hq : q.Prime) (hM : ¬ q ∣ Nat.card (CFSG.Open.griessHopfMultiplier F)) {L : Type}
     [Group L] [Finite L] (ψ : L →* F) (hψ : Function.Surjective ψ) (hperf : commutator L = ⊤)
     (hker : ψ.ker ≤ center L) (hpg : IsPGroup q ψ.ker) : Function.Injective ψ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hZ := ker_eq_center_of_surj hnc ψ hψ hker
   let e₁ : L ⧸ center L ≃* F :=
     (QuotientGroup.quotientMulEquivOfEq hZ.symm).trans (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)
@@ -303,7 +308,7 @@ theorem le_twoLocalRank_of_section {F : Type} [Group F] {q r : ℕ} (hq : q.Prim
       r ≤ CFSG.Open.pRank q (⊤ : Subgroup X'))
     {X : Type} [Group X] [Finite X] (φ : X →* F) (hφ : Function.Surjective φ) :
     r ≤ GLATwoLocalRank q X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, hU, hUmap, hN⟩ := i1020_frattini_lift φ hφ hU₀
   have hUne : U ≠ ⊥ := fun h => hU₀ne (by rw [← hUmap, h, Subgroup.map_bot])
   set H₁ : Subgroup X := normalizer (U : Set X) ⊓ J.comap φ with hH₁
@@ -315,7 +320,7 @@ theorem le_twoLocalRank_of_section {F : Type} [Group F] {q r : ℕ} (hq : q.Prim
     exact ⟨⟨x, hxH⟩, Subtype.ext hxj⟩
   have hr := hJ ↥H₁ ψ hψ
   obtain ⟨E₀, -, hE₀, hE₀c⟩ := CFSG.SectionRank.exists_pRank hq.one_lt (⊤ : Subgroup ↥H₁)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E, -, hE, hEc⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_le_isElemAbelian_card hE₀
     (n := r) (by rw [hE₀c]; exact pow_dvd_pow q hr)
   refine le_twoLocalRank_of_witness hq hU hUne (E := E.map H₁.subtype) ?_

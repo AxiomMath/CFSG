@@ -52,7 +52,7 @@ theorem exists_mul_normalizer_inf_sylow {X : Type} [Group X] [Finite X] {N C S�
     (hidx : Nat.Coprime 2 (S₀.subgroupOf N).index) :
     ∀ n ∈ N, ∃ c ∈ C, ∃ m ∈ N, n = c * m ∧
       m ∈ Subgroup.normalizer ((S₀ ⊓ C : Subgroup X) : Set X) := by
-  haveI hCnormal : (C.subgroupOf N).Normal := by
+  have hCnormal : (C.subgroupOf N).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hCN, Subgroup.le_normalizer_iff]
     exact hC
   have hS2 : IsPGroup 2 (S₀.subgroupOf N) := hS.comap_subtype

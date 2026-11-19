@@ -229,7 +229,7 @@ theorem centralizes_of_borel_fixed {L Q A V : Subgroup G} {v : G}
   set P' : Subgroup ↥L := Q.subgroupOf L with hP'
   set T : Subgroup (↥L ⧸ Z) := (Tsyl : Subgroup (↥L ⧸ Z)) with hTdef
   have hTsyl : IsSylowTwoOf T ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   set α : MulAut (↥L ⧸ Z) := SteinbergBS.conjQuotientHom L Z ⟨v, hvL⟩ with hα
   have hαl : ∀ l : ↥L, α (π l) = π (Subgroup.normalizerMonoidHom L ⟨v, hvL⟩ l) := fun l => rfl
   have hαcoe : ∀ l : ↥L,

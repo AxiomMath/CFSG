@@ -27,6 +27,7 @@ namespace OmEngine
 variable {F V : Type} [Field F] [Finite F] [CharP F 2] [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V}
 
+omit [Finite F] in
 theorem cast_prime_ne_zero {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : (p : F) ≠ 0 := by
   intro h
   have h2 : 2 ∣ p := (CharP.cast_eq_zero_iff F 2 p).mp h
@@ -36,20 +37,22 @@ section Count
 
 variable (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem blockEnd_commute_of_ne (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) {D E : Hyperplane A p} (hDE : D ≠ E) :
     Commute (blockEnd A hp hpF hA t ht D) (blockEnd A hp hpF hA t ht E) := by
   have hD : blockEndOf A hp hpF hA (t D) D = blockEnd A hp hpF hA t ht D := by
     have h := blockEndOf_eq_zpow_blockEnd A hp hpF hA t ht (D := D) (d := 1)
       (Subgroup.one_mem D.1) 1 (by rw [one_mul, pow_one])
-    simpa using h
+    simp
   have hE : blockEndOf A hp hpF hA (t E) E = blockEnd A hp hpF hA t ht E := by
     have h := blockEndOf_eq_zpow_blockEnd A hp hpF hA t ht (D := E) (d := 1)
       (Subgroup.one_mem E.1) 1 (by rw [one_mul, pow_one])
-    simpa using h
+    simp
   rw [← hD, ← hE]
   exact blockEndOf_commute A hp hpF hA (t D) (t E) (Ne.symm hDE)
 
+omit [CharP F 2] in
 theorem pRank_le_card_ne_bot_blockSpace (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) :
     CFSG.Open.pRank p A ≤ (nonBotBlocks A p).card := by
@@ -130,16 +133,19 @@ theorem orthImage_le (Ã : Subgroup ↥(orthDerived Q)) : orthImage Ã ≤ orthD
   rintro x ⟨y, -, rfl⟩
   exact y.2
 
+omit [CharP F 2] in
 theorem pRank_orthImage (hp : p.Prime) :
     CFSG.Open.pRank p (orthImage Ã) = CFSG.Open.pRank p Ã :=
   CFSG.LocalAnalysis.GLTheoremB.pRank_map_eq_of_injective hp.one_lt _
     (orthDerived Q).subtype_injective Ã
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem quadratic_orthImage (a : ↥(orthImage Ã)) (v : V) :
     Q ((a : V ≃ₗ[F] V) v) = Q v :=
   (TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp
     (orthDerived_le_orthogonalGroup_of_commutator Q (orthImage_le Ã a.2))) v
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem polar_orthImage (a : ↥(orthImage Ã)) (u v : V) :
     polarBilin Q ((a : V ≃ₗ[F] V) u) ((a : V ≃ₗ[F] V) v) = polarBilin Q u v := by
   rw [polarBilin_apply_apply, polarBilin_apply_apply, QuadraticMap.polar, QuadraticMap.polar,
@@ -162,7 +168,7 @@ theorem exists_isTotallyIsotropic_of_regime
         ℓ - 1 ≤ CFSG.Open.pRank p Ã))
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1) :
     ∃ U : Submodule F V, Module.finrank F U = 3 ∧ ∀ u ∈ U, Q u = 0 := by
-  letI : Fintype ↥(orthImage Ã) := Fintype.ofFinite ↥(orthImage Ã)
+  let : Fintype ↥(orthImage Ã) := Fintype.ofFinite ↥(orthImage Ã)
   have hpF : (p : F) ≠ 0 := cast_prime_ne_zero hp hp2
   have hA : IsElemAbelian p (orthImage Ã) := isElemAbelian_orthImage hÃe
   have hB : ∀ a : ↥(orthImage Ã), ∀ u v : V,

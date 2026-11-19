@@ -20,7 +20,7 @@ theorem p05_mem_normalizer_centralizer {g t : Γ} (hg : g * t = t * g) :
   have hc : Commute g t := hg
   rw [mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, mem_centralizer_singleton_iff]
+  simp only [mem_centralizer_singleton_iff]
   constructor
   · intro hh
     have : Commute (g * h * g⁻¹) t := (hc.mul_left (show Commute h t from hh)).mul_left hc.inv_left
@@ -35,7 +35,7 @@ theorem p05_mem_normalizer_centralizer {g t : Γ} (hg : g * t = t * g) :
 theorem p05_card_sup_eq [Finite Γ] {K H M' : Subgroup Γ} (hKM : K ≤ M') (hHM : H ≤ M')
     (hn : M' ≤ normalizer (K : Set Γ)) :
     Nat.card (K ⊔ H : Subgroup Γ) = K.relIndex H * Nat.card K := by
-  haveI : (K.subgroupOf M').Normal := (normal_subgroupOf_iff_le_normalizer hKM).2 hn
+  have : (K.subgroupOf M').Normal := (normal_subgroupOf_iff_le_normalizer hKM).2 hn
   have h := Subgroup.relIndex_sup_right (H := H.subgroupOf M') (K := K.subgroupOf M')
   rw [← Subgroup.subgroupOf_sup hHM hKM, Subgroup.relIndex_subgroupOf (sup_le hHM hKM),
     Subgroup.relIndex_subgroupOf hHM] at h

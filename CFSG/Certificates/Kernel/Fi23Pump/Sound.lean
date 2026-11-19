@@ -67,9 +67,9 @@ theorem rowK_spec {G : Nat → Nat} {u v : List Nat} {P N r i : Nat} (h : rowK G
   rw [strictB_eq, bAnd_eq, Bool.and_eq_true, bIf_eq] at h
   obtain ⟨h1, h2⟩ := h
   refine ⟨Nat.blt_eq.mp h1, fun hd => ?_, fun hd => ?_⟩
-  · rw [if_pos (by rw [hd]; rfl)] at h2
+  · rw [ite_eq_left (by rw [hd]; rfl)] at h2
     exact Nat.eq_of_beq_eq_true h2
-  · rw [if_neg (fun h' => hd (Nat.eq_of_beq_eq_true h')), strictB_eq, strictB_eq] at h2
+  · rw [ite_eq_right (fun h' => hd (Nat.eq_of_beq_eq_true h')), strictB_eq, strictB_eq] at h2
     unfold rowE at h2
     rw [bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true] at h2
     obtain ⟨hj, hdep, hw⟩ := h2

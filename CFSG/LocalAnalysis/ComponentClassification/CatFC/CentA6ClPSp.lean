@@ -48,7 +48,7 @@ theorem oddA6Shape_PSp (hO : LieOrderFormulasInput) (hgls : GLS3OddFamilyInput .
   · subst hτ
     rw [map_one, mul_one] at hAτ
     subst hAτ
-    haveI : NeZero n := ⟨by omega⟩
+    have : NeZero n := ⟨by omega⟩
     rcases inner_dichotomy_sp hO hn hf hK A hσ with hbig | ⟨hn2, hf1 | ⟨hf2, c, hAA, hJ, hP⟩⟩
     · exact (hD.false_of_perfectBig3 (by omega) hbig).elim
     · subst hn2

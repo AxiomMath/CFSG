@@ -213,7 +213,7 @@ theorem oddWitness_of_charTwo {T P : Subgroup S} (hT : IsSylowTwoOf T ⊤) (hTP 
     have hpos : 0 < Nat.card O := Nat.card_pos
     exact ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd hpos.ne' fun {q} hq hqd =>
       hcon q hq hqd⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := O) p hpO
   set N := pCoreOf 2 P with hN
   have hNP : N ≤ P := CFSG.LieType.BorelTits.pCoreOf_le 2 P

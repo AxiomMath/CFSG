@@ -46,20 +46,20 @@ theorem s1611e3_case7_pRank_two_le {D : Data G} (h : S1611e3Std D) {V₀ V L : S
   have hcent : ∀ t ∈ Mb, orderOf t = 2 → ∀ x ∈ X, t * x = x * t :=
     s1611e3_cent_of_normal_seven h h125 hXM hXcard hXnorm hodd
   have hperf : Group.IsPerfect ↥Lb := ⟨s16c1610_commutator_of_isL3 hL3⟩
-  haveI : Group.IsPerfect ↥Lb := hperf
+  have : Group.IsPerfect ↥Lb := hperf
   have hLbcard : Nat.card Lb = 168 := card_eq_of_isL3 hL3
   have hLbMb : Lb ≤ Mb := barSub_mono V₀ V hV hc.setting.hyp151.le
   have hPSL : IsPSL 3 2 1 ↥Lb := by
     rcases hL3 with ⟨-, hh⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
     · exact hh
     all_goals exact absurd h0 (by norm_num)
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥Lb) :=
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥Lb) :=
     s16c167_isPSL_outer_solvable hPSL
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : IsCyclic (Multiplicative (ZMod 7)) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : IsCyclic (Multiplicative (ZMod 7)) :=
     isCyclic_of_prime_card (p := 7) (by
       rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card])
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer
         (↥Lb × Multiplicative (ZMod 7))) :=
     CFSG.ComponentClassification.CatalogueSchreierCyclicCentralFactor.outer_solvable_of_cyclic
@@ -139,7 +139,7 @@ theorem s1611e3_case7_pRank_two_le {D : Data G} (h : S1611e3Std D) {V₀ V L : S
     by_cases hx1 : x = 1
     · exact hx1
     · have hx2 : x ^ 2 = 1 := hEab.2 x hxE
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hxord : orderOf x = 2 := orderOf_eq_prime hx2 hx1
       have hxX : ∀ z ∈ X, x * z = z * x := hcent x (hEM hxE) hxord
       have hxL : ∀ l ∈ Lb, x * l = l * x :=

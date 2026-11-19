@@ -261,7 +261,7 @@ theorem endgame_tits {V : Type*} [Group V] [Finite V] (hV : Nat.card V = 16)
   have hS''card : Nat.card S'' = Nat.card (SB : Subgroup ↥B) :=
     Subgroup.card_map_of_injective B.subtype_injective
   obtain ⟨n, hn⟩ : ∃ n : ℕ, Nat.card (SB : Subgroup ↥B) = 2 ^ n :=
-    IsPGroup.iff_card.mp SB.isPGroup'
+    IsPGroup.iff_card.mp SB.isPGroup
   have hS''2 : IsPGroup 2 S'' := IsPGroup.of_card (by rw [hS''card]; exact hn)
   have hS''A : S'' ≤ A := hS''B.trans hBA
   set SA : Subgroup ↥A := S''.subgroupOf A with hSA
@@ -284,7 +284,7 @@ theorem endgame_tits {V : Type*} [Group V] [Finite V] (hV : Nat.card V = 16)
     · exact hodd h
   let SylA : Sylow 2 ↥A := IsPGroup.toSylow hSA2 hSAidx
   have hcycSA : IsCyclic ↥SylA := by
-    have hc0 : IsCyclic ↥(SB : Subgroup ↥B) := hcyc _ SB.isPGroup'
+    have hc0 : IsCyclic ↥(SB : Subgroup ↥B) := hcyc _ SB.isPGroup
     let e1 : ↥(SB : Subgroup ↥B) ≃* ↥S'' :=
       Subgroup.equivMapOfInjective _ B.subtype B.subtype_injective
     let e2 : ↥S'' ≃* ↥SA := (Subgroup.subgroupOfEquivOfLe hS''A).symm

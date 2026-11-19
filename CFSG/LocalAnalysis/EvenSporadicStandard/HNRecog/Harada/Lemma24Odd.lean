@@ -12,7 +12,7 @@ open Subgroup
 open scoped commutatorElement
 
 theorem normal_odd_le_zpowers {Y : Type} [Group Y] [Finite Y] {a t : Y}
-    (ha : a ∈ Subgroup.center Y) (ha3 : orderOf a = 3) (ht : t ^ 2 = 1) {τ : Y → Prop}
+    (ha : a ∈ Subgroup.center Y) (_ha3 : orderOf a = 3) (ht : t ^ 2 = 1) {τ : Y → Prop}
     (hτ : ∀ s : Y, τ s → s ^ 2 = 1 → s ≠ 1 → ∃ y : Y, y * t * y⁻¹ = s)
     (hodd : ∀ N : Subgroup Y, N ≤ centralizer ({t} : Set Y) →
       (∀ c ∈ centralizer ({t} : Set Y), ∀ n ∈ N, c * n * c⁻¹ ∈ N) → Odd (Nat.card N) →
@@ -43,7 +43,7 @@ theorem normal_odd_le_zpowers {Y : Type} [Group Y] [Finite Y] {a t : Y}
           ((centralizer ({t} : Set Y)).inv_mem hc)⟩
     · exact Odd.of_dvd_nat hNodd (Subgroup.card_dvd_of_le inf_le_left)
   have htN : t ∈ Subgroup.normalizer (N : Set Y) := by
-    haveI : N.Normal := hNnorm
+    have : N.Normal := hNnorm
     rw [Subgroup.normalizer_eq_top]
     trivial
   have hINVt : ∀ x ∈ N, ∃ k : ℤ, t * x * t⁻¹ = x⁻¹ * a ^ k := by

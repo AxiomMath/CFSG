@@ -377,7 +377,7 @@ private theorem sylow3_orbit_bound (D : Sylow3Data) (h : sylow3Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL3 0 = 0 := Nat.eq_of_beq_eq_true pl0
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL3 0 = 6 := Nat.eq_of_beq_eq_true ph0
         refine (Nat.eq_of_beq_eq_true tr0).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts0, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts0, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so0
       · exact Nat.eq_of_beq_eq_true co0
     · unfold CFSG.KC.Th.Spec.SylowOrbit.BlockOK
@@ -389,7 +389,7 @@ private theorem sylow3_orbit_bound (D : Sylow3Data) (h : sylow3Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL3 1 = 6 := Nat.eq_of_beq_eq_true pl1
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL3 1 = 8 := Nat.eq_of_beq_eq_true ph1
         refine (Nat.eq_of_beq_eq_true tr1).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts1, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts1, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so1
       · have h' := Nat.eq_of_beq_eq_true co1
         rw [es5] at h'
@@ -403,7 +403,7 @@ private theorem sylow3_orbit_bound (D : Sylow3Data) (h : sylow3Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL3 2 = 8 := Nat.eq_of_beq_eq_true pl2
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL3 2 = 9 := Nat.eq_of_beq_eq_true ph2
         refine (Nat.eq_of_beq_eq_true tr2).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts2, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts2, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so2
       · exact Nat.eq_of_beq_eq_true co2
     · unfold CFSG.KC.Th.Spec.SylowOrbit.BlockOK
@@ -415,7 +415,7 @@ private theorem sylow3_orbit_bound (D : Sylow3Data) (h : sylow3Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL3 3 = 9 := Nat.eq_of_beq_eq_true pl3
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL3 3 = 10 := Nat.eq_of_beq_eq_true ph3
         refine (Nat.eq_of_beq_eq_true tr3).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts3, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts3, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so3
       · exact Nat.eq_of_beq_eq_true co3
   intro g hg
@@ -475,7 +475,7 @@ private theorem sylow5_orbit_bound (D : Sylow5Data) (h : sylow5Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL5 0 = 0 := Nat.eq_of_beq_eq_true pl0
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL5 0 = 1 := Nat.eq_of_beq_eq_true ph0
         refine (Nat.eq_of_beq_eq_true tr0).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts0, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts0, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so0
       · exact Nat.eq_of_beq_eq_true co0
     · unfold CFSG.KC.Th.Spec.SylowOrbit.BlockOK
@@ -485,7 +485,7 @@ private theorem sylow5_orbit_bound (D : Sylow5Data) (h : sylow5Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL5 1 = 1 := Nat.eq_of_beq_eq_true pl1
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL5 1 = 2 := Nat.eq_of_beq_eq_true ph1
         refine (Nat.eq_of_beq_eq_true tr1).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts1, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts1, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so1
       · exact Nat.eq_of_beq_eq_true co1
     · unfold CFSG.KC.Th.Spec.SylowOrbit.BlockOK
@@ -495,7 +495,7 @@ private theorem sylow5_orbit_bound (D : Sylow5Data) (h : sylow5Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL5 2 = 2 := Nat.eq_of_beq_eq_true pl2
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL5 2 = 3 := Nat.eq_of_beq_eq_true ph2
         refine (Nat.eq_of_beq_eq_true tr2).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts2, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts2, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so2
       · exact Nat.eq_of_beq_eq_true co2
   intro g hg
@@ -547,7 +547,7 @@ private theorem sylow7_orbit_bound (D : Sylow7Data) (h : sylow7Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL7 0 = 0 := Nat.eq_of_beq_eq_true pl0
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL7 0 = 1 := Nat.eq_of_beq_eq_true ph0
         refine (Nat.eq_of_beq_eq_true tr0).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts0, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts0, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so0
       · exact Nat.eq_of_beq_eq_true co0
     · unfold CFSG.KC.Th.Spec.SylowOrbit.BlockOK
@@ -557,7 +557,7 @@ private theorem sylow7_orbit_bound (D : Sylow7Data) (h : sylow7Chk D = true)
       · have h1 : CFSG.KC.Th.Spec.SylowOrbit.blkFr D.ThS_BL7 1 = 1 := Nat.eq_of_beq_eq_true pl1
         have h2 : CFSG.KC.Th.Spec.SylowOrbit.blkTo D.ThS_BL7 1 = 2 := Nat.eq_of_beq_eq_true ph1
         refine (Nat.eq_of_beq_eq_true tr1).trans ?_
-        rw [Nat.eq_of_beq_eq_true ts1, h1, h2] <;> norm_num
+        rw [Nat.eq_of_beq_eq_true ts1, h1, h2]; norm_num
       · exact Nat.eq_of_beq_eq_true so1
       · exact Nat.eq_of_beq_eq_true co1
   intro g hg

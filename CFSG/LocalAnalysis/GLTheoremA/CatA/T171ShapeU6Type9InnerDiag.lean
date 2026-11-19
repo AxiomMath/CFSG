@@ -77,7 +77,7 @@ theorem inv_coe_blockResGL {S : Finset (Fin d)} {M : GL (Fin d) K}
 
 theorem blockRes_conj_eq {S : Finset (Fin d)} {M : GL (Fin d) K}
     (hM : IsBlockDiag S (M : Matrix (Fin d) (Fin d) K)) {u : Matrix (Fin d) (Fin d) K}
-    (hu : IsBlockOn S u) :
+    (_hu : IsBlockOn S u) :
     blockRes S ((M : Matrix (Fin d) (Fin d) K) * u *
         ((M⁻¹ : GL (Fin d) K) : Matrix (Fin d) (Fin d) K)) =
       ((blockResGL hM : GL (Fin S.card) K) : Matrix (Fin S.card) (Fin S.card) K) *

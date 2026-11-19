@@ -445,7 +445,7 @@ theorem d43_comm05 (s u : K) (hu : σ u = u) :
     _ = _ := by
         rw [xOrbit_d4Root_15, xOrbit_d4Root_5]
         simp only [map_mul, hσ, hu, mul_assoc]
-        repeat' (first | rfl | (congr 1; ring1) | congr 1)
+        repeat' (first | (congr 1; ring1) | congr 1)
 
 local notation "𝕪" => fun (i : Fin 5) => 𝕩 (d4Root (![19, 15, 13, 12, 22] i))
 

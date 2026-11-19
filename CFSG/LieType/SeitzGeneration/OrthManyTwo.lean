@@ -15,6 +15,7 @@ section Helpers
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem manyTwo_finrank_iSup_fin_le {n : ℕ} (P : Fin n → Submodule K V) :
     finrank K ↥(⨆ i, P i) ≤ ∑ i, finrank K ↥(P i) := by
   induction n with
@@ -81,7 +82,7 @@ theorem closure_eq_top_of_noSingular_two {K V : Type} [Field K] [Finite K] [AddC
     Subgroup.closure {h : orthDerived Q | ∃ x ∈ E, x ≠ 1 ∧ h * x = x * h} = ⊤ := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Nontrivial V := nontrivial_of_three_singular hT
+  have : Nontrivial V := nontrivial_of_three_singular hT
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, hPP, hPV, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS

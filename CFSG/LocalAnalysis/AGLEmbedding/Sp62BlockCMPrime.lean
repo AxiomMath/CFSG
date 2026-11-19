@@ -171,7 +171,7 @@ theorem false_of_centralizer_aut_dvd_of_not_mem [hLn : (barM M L).Normal] (hβ :
     rw [orderOf_injective KC.subtype KC.subtype_injective c]
     exact hc6
   refine false_of_torusPrime hCL le_rfl hxM hxbL hcard
-    (QuotientGroup.mk' (primeComplementCore 3)) (Tb.isPGroup'.to_le inf_le_left)
+    (QuotientGroup.mk' (primeComplementCore 3)) (Tb.isPGroup.to_le inf_le_left)
     (Subgroup.le_normalizer.trans hNU) (hNU hcN') hcN' hc6'
     ⟨KC.subtype u, ?_, fun h => hcu ?_⟩
   · show KC.subtype u ∈ U

@@ -22,17 +22,20 @@ variable {F V : Type} [Field F] [Finite F] [CharP F 2] [AddCommGroup V] [Module 
 
 variable {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem commute_of_mem_supportedFixedDerived {x g : V ≃ₗ[F] V}
     (hg : g ∈ supportedFixedDerived Q x) : Commute g x :=
   (Subgroup.mem_centralizer_iff.mp
     (Subgroup.mem_inf.mp (supportedFixedDerived_le_isometryCentralizer hg)).2 x
     (Set.mem_singleton x)).symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem subtype_mem_orthImage_iff {Ã : Subgroup ↥(orthDerived Q)} {x : ↥(orthDerived Q)} :
     x ∈ Ã ↔ (x : V ≃ₗ[F] V) ∈ orthImage Ã := by
   rw [show orthImage Ã = Ã.map (orthDerived Q).subtype from rfl, Subgroup.mem_map]
   exact ⟨fun h => ⟨x, h, rfl⟩, by rintro ⟨y, hy, hxy⟩; rwa [← Subtype.ext hxy]⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem card_zpowers_orthDerived {Ã : Subgroup ↥(orthDerived Q)} [Fintype ↥(orthImage Ã)]
     (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p (orthImage Ã))
@@ -46,6 +49,7 @@ theorem card_zpowers_orthDerived {Ã : Subgroup ↥(orthDerived Q)} [Fintype ↥
   exact CFSG.LocalAnalysis.GLTheoremA.Y10F.HypBlocks.orderOf_blockEnd
     (orthImage Ã) hp hpF hA t ht hD
 
+omit [CharP F 2] in
 theorem card_closure_pair_orthDerived {Ã : Subgroup ↥(orthDerived Q)} [Fintype ↥(orthImage Ã)]
     (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p (orthImage Ã))
@@ -84,6 +88,7 @@ section Support
 
 variable (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] {p : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem othersSpace_blockEnd_eq_blockSpace (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) (hQ : (polarBilin Q).Nondegenerate)
     (hQinv : ∀ a : ↥A, ∀ v : V, Q ((a : V ≃ₗ[F] V) v) = Q v)
@@ -118,7 +123,7 @@ theorem othersSpace_blockEnd_eq_blockSpace (hp : p.Prime) (hpF : (p : F) ≠ 0)
 end Support
 
 theorem exists_mem_ne_of_three_le_card {α : Type*} [DecidableEq α] {S : Finset α} {D E : α}
-    (hD : D ∈ S) (hE : E ∈ S) (hDE : D ≠ E) (h3 : 3 ≤ S.card) :
+    (_hD : D ∈ S) (_hE : E ∈ S) (hDE : D ≠ E) (h3 : 3 ≤ S.card) :
     ∃ G ∈ S, G ≠ D ∧ G ≠ E := by
   classical
   by_contra h
@@ -135,6 +140,7 @@ theorem exists_mem_ne_of_three_le_card {α : Type*} [DecidableEq α] {S : Finset
   rw [Finset.card_pair hDE] at hcard
   omega
 
+omit [CharP F 2] in
 theorem othersSpace_le_range {W : Type} [AddCommGroup W] [Module F W] [FiniteDimensional F W]
     {Q : QuadraticForm F W} {p : ℕ} {x : W ≃ₗ[F] W} (hx : OddOrderIsometry Q p x) :
     othersSpace x.toLinearMap (X - 1) ≤ LinearMap.range (x.toLinearMap - 1) := by
@@ -154,7 +160,7 @@ theorem othersSpace_le_range {W : Type} [AddCommGroup W] [Module F W] [FiniteDim
       simpa [f] using this
     exact Subtype.ext (Submodule.disjoint_def.mp hx.fixed_others.1.disjoint _ h1 v.2)
   intro r hr
-  haveI : Finite ↥O := Module.finite_of_finite F
+  have : Finite ↥O := Module.finite_of_finite F
   have hsurj : Function.Surjective f := Finite.injective_iff_surjective.mp hinj
   obtain ⟨r', hr'⟩ := hsurj ⟨r, hr⟩
   refine ⟨r', ?_⟩

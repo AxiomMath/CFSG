@@ -95,7 +95,7 @@ theorem rootSL2_WSL_mem_rationalComponent_of_rho_neg
     (Or.inr h4) Fr hFr' A
   have hKperf : ⁅F'.eqLocus (MonoidHom.id _), F'.eqLocus (MonoidHom.id _)⁆ =
       F'.eqLocus (MonoidHom.id _) := by
-    haveI : Group.IsPerfect ↥(F'.eqLocus (MonoidHom.id _)) := hQ.1
+    have : Group.IsPerfect ↥(F'.eqLocus (MonoidHom.id _)) := hQ.1
     rw [← Subgroup.map_subtype_commutator, Group.IsPerfect.commutator_eq_top,
       ← MonoidHom.range_eq_map, Subgroup.range_subtype]
   have hWfix : Matrix.SpecialLinearGroup.map Fr WSL = WSL := by
@@ -228,7 +228,7 @@ theorem rootSL2_WSL_mem_rationalComponent_of_neg_two
     rcases mul_eq_zero.1 h3 with h0 | h0
     · exact Or.inl (Subtype.ext h0)
     · exact Or.inr (Subtype.ext (by simpa using sub_eq_zero.1 h0))
-  haveI hCperf : Group.IsPerfect (componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
+  have hCperf : Group.IsPerfect (componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
     hperf (fixSubfield σ) hF2
   let ψ : ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) →* ModGL τ L :=
     (MulAut.conj z).toMonoidHom.comp ((baseChangeGL (fixSubfield σ).subtype).comp
@@ -313,7 +313,7 @@ theorem rationalComponent_realizes_rootReflection
       g * ι₀ (Multiplicative.ofAdd s) * g⁻¹ =
         ι₀ (Multiplicative.ofAdd (TableBExc.torusAct τ p (rootReflection c) s)) := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 := charP_algebraicClosure_two'
+  have : CharP (AlgebraicClosure K) 2 := charP_algebraicClosure_two'
   intro c hc
   have hcr : IsRoot τ c := (isRootComponent_componentRoots (χ := rootCharHom a) i).isRoot c hc
   exact realizes_rootReflection_of_mem S ι hι hιι₀ i hY hcr

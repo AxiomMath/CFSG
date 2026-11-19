@@ -135,10 +135,10 @@ theorem iota_lt {i x : Nat} (hi : i < 243) (hx : x < 3510) : pg 12 (mask 12) (D.
 
 theorem mt_all : ∀ c < 9, mtC D.LK D.MTK c = true := fun c hc => K.mtcAll c hc
 
-theorem mus_facts : ∀ l < 2, (fi22RMu ())[l]! = unpack 243 8 (D.MUK l) := fun l hl =>
+theorem mus_facts : ∀ _l < 2, (fi22RMu ())[_l]! = unpack 243 8 (D.MUK _l) := fun _l hl =>
   (M_get hl).1
 
-theorem musc : ∀ l < 2, canonK 243 8 (mask 8) (243 * 8) (D.MUK l) = true := fun l hl =>
+theorem musc : ∀ _l < 2, canonK 243 8 (mask 8) (243 * 8) (D.MUK _l) = true := fun _l hl =>
   (M_get hl).2.1
 
 theorem side : sideOK 3510 (fi22RA ()) (fi22RG ()) (fi22RMu ()) fi22RP0 81 = true := by
@@ -155,7 +155,7 @@ theorem side : sideOK 3510 (fi22RA ()) (fi22RG ()) (fi22RMu ()) fi22RP0 81 = tru
   · exact K.conj1All c hc
 
 theorem nonab : nonabOK (fi22RMu ()) 81 = true :=
-  nonabOK_of M_size mus_facts musc K.run K.tree mt_all K.nonab
+  nonabOK_of M_size mus_facts musc K.run mt_all K.nonab
 
 theorem S_get {k : Nat} (hk : k < 7) :
     (fi22RA () ++ fi22RG ())[k]! = unpack 3510 12 (K.SK k) ∧ PP 3510 12 (K.SK k) := by
@@ -270,16 +270,16 @@ theorem pos_get : (fi22RPos ()).size = 3510 ∧ ∀ q < 3510, (fi22RPos ())[q]! 
     · by_cases h0 : D.PK q = 0
       · rw [h0]
         simp
-      · rw [if_pos ⟨Nat.pos_of_ne_zero h0, a⟩]
+      · rw [ite_eq_left ⟨Nat.pos_of_ne_zero h0, a⟩]
   · obtain ⟨hs, hv⟩ := hI
     refine ⟨_, rfl, ?_, fun q hq => ?_⟩
     · rw [CFSG.Sporadic.FischerOddCore.SearchSpec.size_set!', hs]
     · rw [CFSG.Sporadic.FischerOddCore.SearchSpec.get!_set!_eq _ _ _ _ (by rw [hs]; exact hq),
         ch_get (by omega), hv q hq]
       by_cases hz : pg 12 (mask 12) T.C.F (3 * c) = q
-      · rw [if_pos hz, ← hz, p1 c hc]
+      · rw [ite_eq_left hz, ← hz, p1 c hc]
         simp
-      · rw [if_neg hz]
+      · rw [ite_eq_right hz]
         by_cases hpc : D.PK q = c + 1
         · exfalso
           rcases p2 q hq with a | ⟨-, a⟩
@@ -287,10 +287,10 @@ theorem pos_get : (fi22RPos ()).size = 3510 ∧ ∀ q < 3510, (fi22RPos ())[q]! 
           · rw [hpc, Nat.add_sub_cancel] at a
             exact hz a
         · by_cases h1 : 0 < D.PK q ∧ D.PK q ≤ c
-          · rw [if_pos h1, if_pos ⟨h1.1, by omega⟩]
-          · rw [if_neg h1, if_neg (by omega)]
+          · rw [ite_eq_left h1, ite_eq_left ⟨h1.1, by omega⟩]
+          · rw [ite_eq_right h1, ite_eq_right (by omega)]
   · refine ⟨by simp, fun q hq => ?_⟩
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     rw [getElem!_pos _ q (by simpa using hq)]
     simp
 
@@ -334,10 +334,10 @@ theorem pos_ok : fi22PosOK () = true := by
   refine ⟨hps, CFSG.KS.Raw.Orb.parLt_of_forall fun q hq => ?_⟩
   rw [hpg q hq]
   by_cases h0 : D.PK q = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     exact uniqAt_of (fun i hi x hx => iota_pt hi hx) (fun i hi x hx => iota_lt hi hx) stab_all
       K.cls K.blk hq (uniq_all q hq h0)
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     rcases p2 q hq with a | ⟨hle, hz⟩
     · exact absurd a h0
     have hc := chain_all q hq

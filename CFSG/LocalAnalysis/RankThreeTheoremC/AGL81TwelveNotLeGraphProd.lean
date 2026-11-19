@@ -186,7 +186,7 @@ theorem exists_mulSingle_eq_of_subnormal_symThree (hG : ∀ i, ProdFactor (G i))
     rcases hx with rfl | rfl
     · exact hsupp _ hak
     · exact hsupp _ hsk
-  haveI : Finite X := Sym.finite_symThree hX
+  have : Finite X := Sym.finite_symThree hX
   have hinj : Function.Injective (MonoidHom.mulSingle G i) := Pi.mulSingle_injective i
   have hAcard : Nat.card A = 6 := by
     rw [hA, Subgroup.card_map_of_injective hinj, Subgroup.card_top,

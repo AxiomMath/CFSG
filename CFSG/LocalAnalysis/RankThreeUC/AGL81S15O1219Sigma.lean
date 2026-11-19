@@ -123,7 +123,7 @@ theorem le_normalizer_of_forall {F Y : Subgroup G}
 theorem exists_elemAbelian_sq [Finite G] {p : ℕ} (hp : p.Prime) {X : Subgroup G}
     (hexp : ∀ x ∈ X, x ^ p = 1) (hnc : ¬ IsCyclic X) :
     ∃ E : Subgroup G, E ≤ X ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXp : IsPGroup p X := fun g => ⟨1, Subtype.ext (by simpa using hexp g g.2)⟩
   have hne : X ≠ ⊥ := by
     rintro rfl
@@ -195,7 +195,7 @@ theorem gen_dichotomy [Finite G] {q p : ℕ} (hq : q.Prime) (hp : p.Prime) (hqp 
         ¬ IsCyclic ↥(X ⊓ centralizer (B : Set G))) ∨
       (∃ Y₁ Y₂ : Subgroup G, Y₁ ≤ X ∧ Y₂ ≤ X ∧ Nat.card Y₁ = p ∧ Nat.card Y₂ = p ∧ Y₁ ≠ Y₂ ∧
         F ≤ normalizer (Y₁ : Set G) ∧ F ≤ normalizer (Y₂ : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXp : IsPGroup p X := fun g => ⟨1, Subtype.ext (by simpa using hX g g.2)⟩
   have hcop : Nat.Coprime q (Nat.card X) := by
     obtain ⟨n, hn⟩ := hXp.exists_card_eq
@@ -317,7 +317,7 @@ theorem good_of_centralized [Finite G] {q p : ℕ} {F B E : Subgroup G}
 
 theorem isElemAbelian_of_card_prime [Finite G] {p : ℕ} (hp : p.Prime) {Y : Subgroup G}
     (hY : Nat.card Y = p) : IsElemAbelian p Y := by
-  haveI : IsCyclic Y := isCyclic_of_prime_card (p := p) (hp := ⟨hp⟩) hY
+  have : IsCyclic Y := isCyclic_of_prime_card (p := p) (hp := ⟨hp⟩) hY
   refine ⟨inferInstance, fun a ha => ?_⟩
   have := pow_card_eq_one' (G := Y) (x := ⟨a, ha⟩)
   rw [hY] at this
@@ -357,7 +357,7 @@ theorem diag_good [Finite G] {q p : ℕ} (hq : q.Prime) (hp : p.Prime)
     (hcomm : ∀ a ∈ Y₁, ∀ b ∈ Y₂, a * b = b * a)
     (hn₁ : F ≤ normalizer (Y₁ : Set G)) (hn₂ : F ≤ normalizer (Y₂ : Set G)) :
     GoodPair q p F (Y₁ ⊔ Y₂) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hE, hEc⟩ := card_sup_eq_sq hp h₁ h₂ hne hcomm
   obtain ⟨x₁, -, ho₁, e₁⟩ := exists_zpowers_of_card_prime hp h₁
   obtain ⟨x₂, -, ho₂, e₂⟩ := exists_zpowers_of_card_prime hp h₂
@@ -446,7 +446,7 @@ theorem key_good [Finite G] {q p : ℕ} (hq : q.Prime) (hp : p.Prime) (hqp : q �
     {F D : Subgroup G} (hF : IsElemAbelian q F) (hFc : Nat.card F = q ^ 3)
     (hFD : F ≤ normalizer (D : Set G)) (hDexp : ∀ x ∈ D, x ^ p = 1) (hnc : ¬ IsCyclic D) :
     ∃ E : Subgroup G, E ≤ D ∧ GoodPair q p F E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDp : IsPGroup p D := fun g => ⟨1, Subtype.ext (by simpa using hDexp g g.2)⟩
   have hDne : D ≠ ⊥ := by
     rintro rfl
@@ -498,7 +498,7 @@ theorem three_le_pRank_of_mem_sigmaM {G : Type} [Group G] [Finite G] (hS : Stand
     (hUC : rankThreeUC G) {q : ℕ} {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (hq : q ∈ sigmaM G M) : 3 ≤ CFSG.Open.pRank q M := by
   have hqq : q.Prime := sigmaA_prime q hq.1
-  haveI : Fact q.Prime := ⟨hqq⟩
+  have : Fact q.Prime := ⟨hqq⟩
   obtain ⟨E, hEM, hE, hEc⟩ :=
     CFSG.GH74.Uniqueness.SU.SU1.exists_isElemAbelian_of_le_pRank hqq hq.2
   have hEp : IsPGroup q E := elementary_isPGroup q E hE

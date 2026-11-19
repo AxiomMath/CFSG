@@ -18,15 +18,15 @@ section Perfect
 
 theorem isSimpleGroup_of_isPerfect_of_card_sixty {J : Type*} [Group J] [Finite J]
     [hP : Group.IsPerfect J] (h : Nat.card J = 60) : IsSimpleGroup J := by
-  haveI : Nontrivial J := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial J := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   refine ⟨fun N hN => ?_⟩
   by_contra hne
   push Not at hne
   obtain ⟨hbot, htop⟩ := hne
-  haveI : N.Normal := hN
-  haveI : Group.IsPerfect (J ⧸ N) :=
+  have : N.Normal := hN
+  have : Group.IsPerfect (J ⧸ N) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
-  haveI : Nontrivial (J ⧸ N) := by
+  have : Nontrivial (J ⧸ N) := by
     have h1 : 1 < N.index := Subgroup.one_lt_index_of_ne_top htop
     rw [Subgroup.index_eq_card] at h1
     exact Finite.one_lt_card_iff_nontrivial.mp h1
@@ -57,12 +57,12 @@ theorem jOf_commutator_eq {L : Subgroup G} {t x : G} (hF : PropA.Facts L t x)
 theorem isQuasisimple_jOf {L : Subgroup G} {t x : G} (hF : PropA.Facts L t x)
     (hxt : x ∈ centralizer ({t} : Set G)) (hx2 : orderOf x = 2) :
     CFSG.IsQuasisimple ↥(jOf L x) ∧ center ↥(jOf L x) = ⊥ := by
-  haveI : Group.IsPerfect ↥(jOf L x) := Subgroup.isPerfect_iff.mpr (jOf_commutator_eq hF hxt hx2)
-  haveI : IsSimpleGroup ↥(jOf L x) := isSimpleGroup_of_isPerfect_of_card_sixty hF.card_J
+  have : Group.IsPerfect ↥(jOf L x) := Subgroup.isPerfect_iff.mpr (jOf_commutator_eq hF hxt hx2)
+  have : IsSimpleGroup ↥(jOf L x) := isSimpleGroup_of_isPerfect_of_card_sixty hF.card_J
   refine CFSG.LocalCores.isQuasisimple_of_isSimpleGroup ?_
   by_contra hcomm
   push Not at hcomm
-  haveI : Nontrivial ↥(jOf L x) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hF.card_J]; omega)
+  have : Nontrivial ↥(jOf L x) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hF.card_J]; omega)
   exact Group.IsPerfect.not_isSolvable ↥(jOf L x)
     (Group.isSolvable_of_comm fun a b => hcomm a b)
 
@@ -90,11 +90,13 @@ section Chain
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem jOf_le_inf (L : Subgroup G) (x : G) : jOf L x ≤ L ⊓ centralizer ({x} : Set G) := by
   refine Subgroup.commutator_le.2 fun g₁ h₁ g₂ h₂ => ?_
   rw [commutatorElement_def]
   exact mul_mem (mul_mem (mul_mem h₁ h₂) (inv_mem h₁)) (inv_mem h₂)
 
+omit [Finite G] in
 theorem map_conj_eq_self_of_mem {H : Subgroup G} {g : G} (hg : g ∈ H) :
     H.map (MulAut.conj g).toMonoidHom = H := by
   ext y
@@ -105,10 +107,12 @@ theorem map_conj_eq_self_of_mem {H : Subgroup G} {g : G} (hg : g ∈ H) :
   · intro hy
     exact ⟨g⁻¹ * y * g, H.mul_mem (H.mul_mem (H.inv_mem hg) hy) hg, by group⟩
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_orderOf_eq_two {a : G} (ha : orderOf a = 2) :
     IsPGroup 2 ↥(zpowers a) :=
   IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ha, pow_one])
 
+omit [Finite G] in
 theorem sq_eq_one_of_orderOf_eq_two {a : G} (ha : orderOf a = 2) : a ^ 2 = 1 := by
   rw [← ha]
   exact pow_orderOf_eq_one a
@@ -295,7 +299,7 @@ theorem Out.exists_mem_centralizer_act_eq (hO : Out G L t) {g : G}
   by_cases hgL : g ∈ L ⊔ centralizer (L : Set G)
   · obtain ⟨l, hl, hact⟩ := mem_sup_centralizer_iff.1 hgL
     exact ⟨l, hLC hl, hact⟩
-  · obtain ⟨w, hwC, hwL⟩ := SetLike.not_le_iff_exists.1 hO.outer
+  · obtain ⟨w, hwC, hwL⟩ := IsConcreteLE.not_le_iff_exists.1 hO.outer
     have hwN : w ∈ normalizer (L : Set G) := hO.std.centralizer_le_normalizer hO.mem hO.inv hwC
     have h2 : ((L ⊔ centralizer (L : Set G)).subgroupOf (normalizer (L : Set G))).index = 2 :=
       hO.relIndex_eq_two

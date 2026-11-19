@@ -32,7 +32,7 @@ theorem exists_su4_torus {K : Type} [Field K] {σ : K ≃+* K} {l : K} (hl : σ 
   have hdet : ∀ j : Fin 4, (Matrix.diagonal (d j)).det = 1 := by
     intro j
     rw [Matrix.det_diagonal, Fin.prod_univ_four]
-    fin_cases j <;> simp [d] <;> field_simp <;> ring
+    fin_cases j <;> simp [d] <;> field_simp
   have hiso : ∀ j : Fin 4, ∀ x y : Fin 4 → K,
       herm σ (Matrix.diagonal (d j) *ᵥ x) (Matrix.diagonal (d j) *ᵥ y) = herm σ x y := by
     intro j x y
@@ -98,10 +98,10 @@ theorem su4_commute_of_smul_single_eq_self {K : Type} [Field K] {σ : K ≃+* K}
     funext i
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, Pi.add_apply, Pi.smul_apply, Pi.smul_apply, smul_eq_mul, smul_eq_mul,
+      rw [ite_eq_left rfl, Pi.add_apply, Pi.smul_apply, Pi.smul_apply, smul_eq_mul, smul_eq_mul,
         Pi.single_eq_same]
       ring
-    · rw [if_neg hij, Pi.add_apply, Pi.smul_apply, Pi.smul_apply, smul_eq_mul, smul_eq_mul,
+    · rw [ite_eq_right hij, Pi.add_apply, Pi.smul_apply, Pi.smul_apply, smul_eq_mul, smul_eq_mul,
         Pi.single_eq_of_ne (i := j) (i' := i) hij, mul_zero, add_zero]
   have hgj : ∀ w : Fin 4 → K, (g • w) j = w j := by
     intro w
@@ -258,8 +258,8 @@ end Generation
 theorem hasFpfTorusGen_statedSU {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 2 ≤ n)
     (hK : Nat.card K = (2 ^ n) ^ 2) : HasFpfTorusGen (StatedSU 4 (2 ^ n) K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hK
   rw [← CFSG.LieType.Universal.Unitary.SUid_eq_statedSU hK 4]
   have hσ := CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hK
   have hq1 : 1 ≤ 2 ^ n := Nat.one_le_two_pow

@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y7a_t_commutator_inv {t m : G} (ht : t * t = 1) :
     t * ⁅m, t⁆ * t⁻¹ = ⁅m, t⁆⁻¹ := by
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht

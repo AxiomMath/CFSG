@@ -183,7 +183,7 @@ private theorem s1614e3_fixed_of_efixed {T : Type*} [CommGroup T]
 
 theorem s1614e3_row8_core {T : Type} [CommGroup T] [Finite T] (hT : ∀ x : T, x ^ 2 = 1)
     (hrk : rk (⊤ : Subgroup T) = 8) {κ k t : MulAut T} (hκ : κ ^ 3 = 1) (hk : k ^ 3 = 1)
-    (hκk : κ * k = k * κ) (htκ : t * κ = κ * t) (htk : t * k * t⁻¹ = k⁻¹) (ht2 : t * t = 1)
+    (hκk : κ * k = k * κ) (_htκ : t * κ = κ * t) (htk : t * k * t⁻¹ = k⁻¹) (_ht2 : t * t = 1)
     (hfix : ∀ x : T, κ x = x → k x = x → x = 1) {W : Subgroup T}
     (hW : W ≤ fixV (Subgroup.zpowers t)) (hWr : rkIdx W ≤ 3) {e : MulAut T}
     (he : ∃ i j : ℕ, e = κ ^ i * k ^ j) :

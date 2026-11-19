@@ -15,7 +15,7 @@ theorem noSocle185Factor_of_isPSUGp (hO : LieOrderFormulasInput) {Y : Type} [Gro
     (h : IsPSUGp Y m n) : NoSocle185Factor Y := by
   have hadm : StatedLieAdmissible .PSU m 2 n := h.admissible
   have hcl : StatedClassicalModel Y .PSU m 2 n := h.statedClassicalModel (by decide)
-  haveI : IsSimpleGroup Y := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity Y m 2 n hcl).2
+  have : IsSimpleGroup Y := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity Y m 2 n hcl).2
   refine NoSocle185Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
   have hT' : CFSG.Blueprint.LieModel T .PSU m 2 n := h.of_mulEquiv e
   obtain ⟨-, hM, -⟩ := hO T .PSU m 2 n hadm hT'

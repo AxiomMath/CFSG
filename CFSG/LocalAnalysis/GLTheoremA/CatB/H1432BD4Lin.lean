@@ -41,10 +41,10 @@ private theorem finrank_add_le_three {S₂ S₃ : Set (Fin 3 → K)} (d : Fin 3 
     refine (injective_iff_map_eq_zero Φ).2 fun w hw => funext fun j => ?_
     have h1 : ∑ i, d i * w i * (if i = j then (1 : K) else 0) = 0 :=
       LinearMap.congr_fun hw (fun i => if i = j then (1 : K) else 0)
-    rw [Finset.sum_eq_single j, if_pos rfl, mul_one] at h1
+    rw [Finset.sum_eq_single j, ite_eq_left rfl, mul_one] at h1
     · exact (mul_eq_zero.1 h1).resolve_left (hd j)
     · intro i _ hi
-      rw [if_neg hi, mul_zero]
+      rw [ite_eq_right hi, mul_zero]
     · intro h
       exact absurd (Finset.mem_univ j) h
   have hle : Submodule.span K S₃ ≤ ((Submodule.span K S₂).map Φ).dualCoannihilator := by
@@ -126,8 +126,8 @@ theorem finrank_span_add_le_five {S₁ : Set (Fin 4 → K)} {S₂ S₃ : Set (Fi
       funext j'
       obtain ⟨x, hxS, hxu⟩ := hunit (j' + 1)
       have hne := add_one_ne_self_three j'
-      have hx1 : x (bd4OuterIdx (j' + 1)) = 1 := by rw [hxu, if_pos rfl]
-      have hx0 : x (bd4OuterIdx j') = 0 := by rw [hxu, if_neg (Ne.symm hne)]
+      have hx1 : x (bd4OuterIdx (j' + 1)) = 1 := by rw [hxu, ite_eq_left rfl]
+      have hx0 : x (bd4OuterIdx j') = 0 := by rw [hxu, ite_eq_right (Ne.symm hne)]
       have h := span_cond (y := w)
         (fun x w => e (j' + 1) j' * x (bd4OuterIdx (j' + 1)) * w j' +
           f (j' + 1) j' * x (bd4OuterIdx j') * w (j' + 1))
@@ -145,10 +145,10 @@ theorem finrank_span_add_le_five {S₁ : Set (Fin 4 → K)} {S₂ S₃ : Set (Fi
         (fun r x v => by simp only [Fin.sum_univ_three, Pi.smul_apply, smul_eq_mul]; ring)
         (fun x hx' => h₁₃ x hx' v hv) hxS
       simp only [hxu] at h
-      rw [Finset.sum_eq_single j, if_pos rfl, mul_one] at h
+      rw [Finset.sum_eq_single j, ite_eq_left rfl, mul_one] at h
       · exact (mul_eq_zero.1 h).resolve_left (hc j)
       · intro i _ hi
-        rw [if_neg hi, mul_zero, zero_mul]
+        rw [ite_eq_right hi, mul_zero, zero_mul]
       · intro h'
         exact absurd (Finset.mem_univ j) h'
     have hV₂ : Submodule.span K S₂ = ⊥ := Submodule.span_eq_bot.2 hS₂

@@ -109,8 +109,8 @@ theorem dualRowK_sound {p n : Nat} (hp : 0 < p) {M D : List Nat} (h : dualRowK p
     rw [getL_eq, getL_eq, nrec_eq] at e
     rw [e]
     by_cases hij : i = j
-    · rw [if_pos (by rw [hij]; exact Nat.beq_refl j), if_pos hij.symm, Nat.cast_one]
-    · rw [if_neg (fun h' => hij (Nat.eq_of_beq_eq_true h')), if_neg (Ne.symm hij), Nat.cast_zero]
+    · rw [ite_eq_left (by rw [hij]; exact Nat.beq_refl j), ite_eq_left hij.symm, Nat.cast_one]
+    · rw [ite_eq_right (fun h' => hij (Nat.eq_of_beq_eq_true h')), ite_eq_right (Ne.symm hij), Nat.cast_zero]
   have key : (dotK p n (actK p n D f 0) (actK p n M v 0) : ZMod p) = (dotK p n f v : ZMod p) := by
     rw [dotK_cast, dotK_cast]
     calc ∑ i ∈ Finset.range n, dgK p (actK p n D f 0) i * dgK p (actK p n M v 0) i
@@ -138,9 +138,9 @@ theorem dualRowK_sound {p n : Nat} (hp : 0 < p) {M D : List Nat} (h : dualRowK p
             intro b hb
             rw [← dotK_cast, hdual b (Finset.mem_range.mp hb) a ha']
             by_cases hab : a = b
-            · rw [if_pos hab, if_pos hab, mul_one]
-            · rw [if_neg hab, if_neg hab, mul_zero]
-          rw [Finset.sum_congr rfl e, Finset.sum_ite_eq, if_pos ha]
+            · rw [ite_eq_left hab, ite_eq_left hab, mul_one]
+            · rw [ite_eq_right hab, ite_eq_right hab, mul_zero]
+          rw [Finset.sum_congr rfl e, Finset.sum_ite_eq, ite_eq_left ha]
   have h1 := (ZMod.natCast_eq_natCast_iff' _ _ _).mp key
   rwa [Nat.mod_eq_of_lt (dotK_lt hp _ _ _), Nat.mod_eq_of_lt (dotK_lt hp _ _ _)] at h1
 

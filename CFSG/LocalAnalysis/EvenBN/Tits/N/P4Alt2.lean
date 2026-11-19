@@ -136,7 +136,7 @@ theorem J1 (hcomm : ∀ a b : L, a * b = b * a) {Z1 E : Subgroup L} {U : Subgrou
     {t β : MulAut L} (htt : t * t = 1) (hββ : β * β = 1) (hβt : β * t = t * β)
     (htU : ∀ u ∈ U, t * u = u * t) (hβU : ∀ u ∈ U, β * u = u * β)
     (hβZ : ∀ l, β l * l⁻¹ ∈ Z1) (hZ1E : Z1 ≤ E)
-    (htE : ∀ l, t l * l⁻¹ ∈ E) (htEfix : ∀ e ∈ E, t e = e) (htsurj : ∀ e ∈ E, ∃ l, t l * l⁻¹ = e)
+    (_htE : ∀ l, t l * l⁻¹ ∈ E) (htEfix : ∀ e ∈ E, t e = e) (htsurj : ∀ e ∈ E, ∃ l, t l * l⁻¹ = e)
     (hUE : ∀ u ∈ U, (∀ e ∈ E, u e = e) → u = 1) (hE : ∃ e ∈ E, e ∉ Z1) {j : MulAut L}
     (hj : j ∈ (zpowers t ⊔ zpowers β) ⊔ U) (hjZ : ∀ l, j l * l⁻¹ ∈ Z1) : j ∈ zpowers β := by
   obtain ⟨t', b', u, ht', hb', hu, rfl⟩ := decomp_J htt hββ hβt htU hβU hj
@@ -208,7 +208,7 @@ theorem J1 (hcomm : ∀ a b : L, a * b = b * a) {Z1 E : Subgroup L} {U : Subgrou
   rcases ht' with h | h
   · rcases hb' with h' | h'
     · rw [h, h']; simp
-    · rw [h, h']; simpa using mem_zpowers β
+    · rw [h, h']; simp
   · exfalso
     obtain ⟨e, he, heZ⟩ := hE
     obtain ⟨l, hl⟩ := htsurj e he
@@ -236,7 +236,7 @@ theorem J2 {E E0 : Subgroup L} {U : Subgroup (MulAut L)} {t β : MulAut L}
   · rw [h, h'] at hjE ⊢
     have hu1 : u = 1 := hUE u hu (fun e he => by simpa using hjE e (hEE0 he))
     rw [hu1]
-    simpa using one_mem (zpowers (t * β))
+    simp
   · exfalso
     rw [h, h'] at hjE
     have h1 := hjE e₀ he₀E
@@ -257,7 +257,7 @@ theorem J2 {E E0 : Subgroup L} {U : Subgroup (MulAut L)} {t β : MulAut L}
       have h4 : (t * β) (u e) = (t * β) e := by rw [h2, h3]
       exact (t * β).injective h4
     rw [hu1]
-    simpa using mem_zpowers (t * β)
+    simp
 
 theorem alt2_false [Finite L] (hcomm : ∀ a b : L, a * b = b * a)
     {Z1 E E0 : Subgroup L} {z : L} (hz : Z1 = zpowers z) (hz1 : z ≠ 1) (hzz : z * z = 1)
@@ -278,7 +278,7 @@ theorem alt2_false [Finite L] (hcomm : ∀ a b : L, a * b = b * a)
     (htβ : ∀ e ∈ E0, (t * β) e = e) (he₀ : ∃ e₀ ∈ E0, t e₀ ≠ e₀ ∧ ∀ u ∈ U, u e₀ = e₀)
     (hfus : ∃ h ∈ Hs, ∃ u₀ ∈ U, u₀ ≠ 1 ∧ h * t * h⁻¹ = t * u₀) : False := by
   classical
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun e : MulAut L => e.toEquiv) MulEquiv.toEquiv_injective
   set P := IsF20.Pgrp U x v with hP
   have hUP : U ≤ P := IsF20.U_le_Pgrp U x v
@@ -476,7 +476,7 @@ theorem alt2_false [Finite L] (hcomm : ∀ a b : L, a * b = b * a)
     have hg' : h * g * h⁻¹ ∈ J := hnJ' g (hU0J hg)
     have h1 := mem_trivOn.1 (hJT hg') l hl
     have h2 : g (h⁻¹ l) * (h⁻¹ l)⁻¹ = h⁻¹ ((h * g * h⁻¹) l * l⁻¹) := by
-      simp only [MulAut.mul_apply, map_mul, map_inv, MulAut.apply_inv_self, MulAut.inv_apply_self]
+      simp only [MulAut.mul_apply, map_mul, map_inv, MulAut.inv_apply_self]
     rw [h2, hnZ' _ h1]
     exact h1
   have htβJ : t * β ∈ J := Subgroup.mul_mem _ htJ hβJ

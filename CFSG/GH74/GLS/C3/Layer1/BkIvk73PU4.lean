@@ -125,7 +125,7 @@ theorem exists_four_group (e : (K ⧸ pPrimeCore 2 K) ≃* alternatingGroup (Fin
   · rw [Sylow.card_eq_multiplicity, hv]
     norm_num
   · intro p hp
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨p, hp⟩
     have hpm : p ^ 2 ^ m = 1 := congrArg Subtype.val hm
     have h1 : (e (QuotientGroup.mk' O p)) ^ 2 = 1 := by
       apply a5_sq_eq_one_of_two_power (m := m)
@@ -135,7 +135,7 @@ theorem exists_four_group (e : (K ⧸ pPrimeCore 2 K) ≃* alternatingGroup (Fin
         rw [map_pow, map_pow, h1, map_one]
       exact (QuotientGroup.eq_one_iff (p ^ 2)).1 (e.injective h4)
     have h3 : p ^ 2 ∈ (P : Subgroup K) ⊓ O := ⟨pow_mem hp 2, h2⟩
-    rw [CFSG.GH74.GLS.Stage1.Thm4.inf_eq_bot_of_odd P.isPGroup' odd_card_pPrimeCore,
+    rw [CFSG.GH74.GLS.Stage1.Thm4.inf_eq_bot_of_odd P.isPGroup odd_card_pPrimeCore,
       Subgroup.mem_bot] at h3
     rw [← pow_two]
     exact h3

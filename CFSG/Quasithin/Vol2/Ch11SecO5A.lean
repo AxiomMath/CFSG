@@ -35,7 +35,7 @@ theorem out2Closed_of_comm {X : Type*} [Group X] [Finite X]
     Subgroup.Normal.comap hSn _, fun x hx => ?_, fun α hα => ?_, fun α => ?_⟩
   · rw [Subgroup.mem_comap, QuotientGroup.mk'_apply, (QuotientGroup.eq_one_iff x).mpr hx]
     exact one_mem _
-  · obtain ⟨k, hk⟩ := S.isPGroup' ⟨QuotientGroup.mk' N α, hα⟩
+  · obtain ⟨k, hk⟩ := S.isPGroup ⟨QuotientGroup.mk' N α, hα⟩
     refine ⟨k, (QuotientGroup.eq_one_iff _).mp ?_⟩
     rw [QuotientGroup.mk_pow]
     exact congrArg Subtype.val hk

@@ -16,13 +16,14 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem noSimpleSec_sup_of_le_normalizer {p : ℕ} {N X : Subgroup G}
     (hXN : X ≤ Subgroup.normalizer (N : Set G)) (hN : NoSimpleSec p ↥N)
     (hX : NoSimpleSec p ↥X) : NoSimpleSec p ↥(N ⊔ X) := by
   let W : Subgroup G := N ⊔ X
   have hNW : N ≤ W := le_sup_left
   have hXW : X ≤ W := le_sup_right
-  haveI : (N.subgroupOf W).Normal :=
+  have : (N.subgroupOf W).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le Subgroup.le_normalizer hXN)
   refine NoSimpleSec.of_extension (N.subgroupOf W)
     (NoSimpleSec.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hNW) hN) ?_
@@ -47,7 +48,7 @@ theorem noSimpleSec_sup_of_le_normalizer {p : ℕ} {N X : Subgroup G}
 theorem noSimpleSec_sup_pPrimeCoreOf {p : ℕ} (hp : 3 ∣ p) {C X : Subgroup G}
     (hXC : X ≤ C) (hX : NoSimpleSec p ↥X) :
     NoSimpleSec p ↥(pPrimeCoreOf 3 C ⊔ X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine noSimpleSec_sup_of_le_normalizer (hXC.trans (Sec14.le_normalizer_pPrimeCoreOf 3 C))
     (NoSimpleSec.of_not_dvd fun h => ?_) hX
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
@@ -61,7 +62,7 @@ theorem noSimpleSec_sup {p : ℕ} (hp : 3 ∣ p) {A : Subgroup G} {a : G} (ha : 
     (hX : NoSimpleSec p ↥X) :
     NoSimpleSec p ↥(pPrimeCoreOf 3 (Subgroup.centralizer ({a} : Set G)) ⊔
       pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G)) ⊔ X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Oa : Subgroup G := pPrimeCoreOf 3 (Subgroup.centralizer ({a} : Set G))
   let OA : Subgroup G := pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))
   have hOA : OA ≤ Subgroup.normalizer ((Oa ⊔ X : Subgroup G) : Set G) :=
@@ -77,8 +78,8 @@ theorem noSimpleSec_of_eq_sup_theta {p : ℕ} {X Y : Subgroup G}
     (hXY : X = Y ⊔ inSubgroup (aschbacherSolvableCore 3) X) (hY : NoSimpleSec p ↥Y) :
     NoSimpleSec p ↥X := by
   let θ : Subgroup ↥X := aschbacherSolvableCore 3 ↥X
-  haveI : θ.Normal := aschbacherSolvableCore_normal 3 ↥X
-  haveI : Group.IsSolvable θ :=
+  have : θ.Normal := aschbacherSolvableCore_normal 3 ↥X
+  have : Group.IsSolvable θ :=
     (solvable_prime_complement_core_characterization Nat.prime_three).1
   have hYX : Y ≤ X := by rw [hXY]; exact le_sup_left
   have h := noSimpleSec_sup_of_le_normalizer
@@ -93,8 +94,8 @@ theorem noSimpleSec21_of_a6 {X : Subgroup G}
       IsCentralProductA6Covers (↥X ⧸ aschbacherSolvableCore 3 ↥X)) :
     NoSimpleSec 21 ↥X := by
   let θ : Subgroup ↥X := aschbacherSolvableCore 3 ↥X
-  haveI : θ.Normal := aschbacherSolvableCore_normal 3 ↥X
-  haveI hθsol : Group.IsSolvable θ :=
+  have : θ.Normal := aschbacherSolvableCore_normal 3 ↥X
+  have hθsol : Group.IsSolvable θ :=
     (solvable_prime_complement_core_characterization Nat.prime_three).1
   refine NoSimpleSec.of_extension θ (NoSimpleSec.of_isSolvable 21) ?_
   have hQ : ¬ 7 ∣ Nat.card (↥X ⧸ θ) := by

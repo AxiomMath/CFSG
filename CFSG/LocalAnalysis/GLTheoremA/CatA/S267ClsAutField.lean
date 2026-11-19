@@ -108,7 +108,7 @@ theorem mem_of_pow_mem_of_coprime {G : Type*} [Group G] (I : Subgroup G) [I.Norm
 theorem not_dvd_card_of_sq_eq_one {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (h : ∀ g : G, g ^ 2 = 1) : ¬ p ∣ Nat.card G := by
   intro hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hd
   have h2 : orderOf g ∣ 2 := orderOf_dvd_of_pow_eq_one (h g)
   rw [hg] at h2
@@ -191,7 +191,7 @@ theorem transAut_mem_inner_iff {X : Type*} [Group X] (e : X ≃* ↥S) (x : Ω) 
 theorem orderOf_transAut_eq {X : Type*} [Group X] (e : X ≃* ↥S) (hp : p.Prime) {b : Ω}
     (hbp : b ^ p = 1) (hbN : b ∉ S ⊔ Subgroup.centralizer (S : Set Ω)) :
     orderOf (transAut e b) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine orderOf_eq_prime ?_ fun h => hbN ((transAut_mem_inner_iff e b).1 (h ▸ one_mem _))
   rw [transAut_eq_congr, ← map_pow, ← map_pow, hbp, map_one, map_one]
 

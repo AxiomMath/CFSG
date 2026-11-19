@@ -24,7 +24,7 @@ section TorusCoordinates
 
 
 theorem perfectCentralizerPlanes_F4_of_actor_of_coord {K : Type} [Field K] [Finite K] {p : ℕ}
-    (hp : p.Prime) (hp3 : 3 < p) (w : WeylGroup Tag.F4)
+    (hp : p.Prime) (_hp3 : 3 < p) (w : WeylGroup Tag.F4)
     (hcoord : ∀ F : AlgebraicClosure K →+* AlgebraicClosure K, (∀ c, F c = c ^ Nat.card K) →
       ∀ P : Subgroup (adjointGroup Tag.F4 K), IsPGroup p P →
       ∃ g ∈ adjointGroup Tag.F4 (AlgebraicClosure K),

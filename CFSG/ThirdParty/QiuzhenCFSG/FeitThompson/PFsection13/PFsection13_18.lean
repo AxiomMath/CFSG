@@ -620,7 +620,7 @@ private theorem theorem_13_18_projection_decomposition_of_eta_orthonormal
                         have hne : ¬ (i = i ∧ k' = k) := by
                           intro h
                           exact hk'ne h.2
-                        rw [if_neg hne]
+                        rw [ite_eq_right hne]
                         simp
                       · intro hknot
                         exact (hknot hk_mem).elim
@@ -630,7 +630,7 @@ private theorem theorem_13_18_projection_decomposition_of_eta_orthonormal
                       have hne : ¬ (i' = i ∧ k' = k) := by
                         intro h
                         exact hi'ne h.1
-                      rw [if_neg hne]
+                      rw [ite_eq_right hne]
                       simp
                     · intro hinot
                       exact (hinot hi_mem).elim

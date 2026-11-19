@@ -22,11 +22,11 @@ theorem br3_false_of_A6 (rows : Br3Rows) (h : Assumption131 Y Γ VA i)
     (hτ : ∃ τ ∈ Y, ActsOnDynkinMod (quasiCentre L) L τ) (hA : A ∈ Γ) (hr : mRank A ≤ i)
     (hcard : Nat.card ↥A = 4) : False := by
   classical
-  haveI : Finite (LGL 2 V) := inferInstance
-  haveI : Finite ↥Y := Subtype.finite
+  have : Finite (LGL 2 V) := inferInstance
+  have : Finite ↥Y := Subtype.finite
   let N0 : Subgroup ↥Y := (quasiCentre L).subgroupOf Y
   have hN0le : quasiCentre L ≤ Y := (quasiCentre_le L).trans hcore.le
-  haveI : N0.Normal := (Subgroup.normal_subgroupOf_iff hN0le).mpr fun hh k hhh hk => by
+  have : N0.Normal := (Subgroup.normal_subgroupOf_iff hN0le).mpr fun hh k hhh hk => by
     rw [mem_quasiCentre] at hhh ⊢
     refine ⟨hcore.normal k hk hh hhh.1, fun l hl => ?_⟩
     have hkl : k⁻¹ * l * k ∈ L := by

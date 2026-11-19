@@ -121,7 +121,7 @@ theorem exists_hyp59_subQuot_of_sylow (hc : h.SecCond y) (S' : Subgroup ↥(h.se
     · exact le_inf inf_le_left (le_inf (inf_le_left.trans hQS) inf_le_right)
   have hxP₁ : hc.subX ∈ S' ⊓ coreActionKernel (h.subJ y) := by
     refine inf_le_inf_right _ hSS' (?_ : hc.subX ∈ h.subS y ⊓ coreActionKernel (h.subJ y))
-    rw [hc.subS_inf_coreActionKernel]
+    rw [CFSG.ComponentClassification.GSThmB.Hyp52.SecCond.subS_inf_coreActionKernel]
     exact mem_map_of_mem _ (show (⟨y, hc.y_mem_G0⟩ : ↥(h.secG0 y)) ∈
       h.P.subgroupOf (h.secG0 y) from hc.mem_P)
   exact exists_hyp59_subQuot hc (h.subHyp52 hc S' hS'le hS'syl hSS' h7) rfl rfl rfl rfl rfl
@@ -167,7 +167,7 @@ theorem SecCond.exists_hyp59_subQuot_of_T_eq (hc : h.SecCond y)
     ⟨R, (comap_map_eq_self_of_injective C.subtype_injective _).symm⟩
   have hSS' : h.subS y ≤ S' := fun z hz =>
     ⟨⟨z, hSC hz⟩, hR (show (⟨z, hSC hz⟩ : ↥C) ∈ (h.subS y).subgroupOf C from hz), rfl⟩
-  have hS'2 : IsPGroup 2 S' := R.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := R.isPGroup.map _
   obtain ⟨h', ha', hJ', hB', hK', hx', hS'', hP'', hQ'', hT'', eK, eJ, hOJ, hOK, hconj, hinner,
     eT, hcard⟩ := SubQAux.exists_hyp59_subQuot_of_sylow hc S' hS'le hS'syl hSS'
       (fun E hE hEc => hc.isoCorr_subStar hCN hSa hW hT hS'le hS'2 hSS' E hE hEc)
@@ -176,7 +176,7 @@ theorem SecCond.exists_hyp59_subQuot_of_T_eq (hc : h.SecCond y)
     hcard⟩
   · rw [hS'', map_subQ_S]
     exact map_mono hSS'
-  · rw [hP'', map_subQ_P, ← hc.subS_inf_coreActionKernel]
+  · rw [hP'', map_subQ_P, ← CFSG.ComponentClassification.GSThmB.Hyp52.SecCond.subS_inf_coreActionKernel]
     exact map_mono (inf_le_inf_right _ hSS')
 
 theorem SecCond.exists_hyp59_subQuot_of_kappa (hc : h.SecCond y)
@@ -212,7 +212,7 @@ theorem SecCond.exists_hyp59_subQuot_of_kappa (hc : h.SecCond y)
   refine ⟨h', ha', hJ', hB', hK', hx', ?_, ?_, hQ'', hT'', eK, eJ, hOJ, hOK, hconj, hinner, eT,
     hcard⟩
   · rw [hS'', map_subQ_S]
-  · rw [hP'', hc.subS_inf_coreActionKernel, map_subQ_P]
+  · rw [hP'', CFSG.ComponentClassification.GSThmB.Hyp52.SecCond.subS_inf_coreActionKernel, map_subQ_P]
 
 end Hyp52
 

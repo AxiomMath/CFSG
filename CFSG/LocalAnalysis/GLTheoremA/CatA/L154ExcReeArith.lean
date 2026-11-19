@@ -1,7 +1,7 @@
 module
 
 public import CFSG.Timmesfeld.Orders.Bang
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Std.Tactic.BVDecide.Normalize.Prop
 
 public section

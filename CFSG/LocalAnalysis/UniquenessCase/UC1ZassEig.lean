@@ -75,7 +75,7 @@ theorem orderOf_eq_two_pow_succ (hk : (2 : K) ≠ 0) {l : K} {t : ℕ} (h : l ^ 
   have h2 : l ^ 2 ^ (t + 1) = 1 := by
     rw [pow_succ, pow_mul, h]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime_pow hne h2
 
 end Eigen

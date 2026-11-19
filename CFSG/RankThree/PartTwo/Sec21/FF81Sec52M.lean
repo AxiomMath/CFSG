@@ -51,7 +51,7 @@ theorem setup {G : Type} [Group G] [Finite G] {b : G}
       (∃ n : G, ∀ v, n * S36.ε4 b b₁ b₂ b₃ v * n⁻¹ = S36.ε4 b b₁ b₂ b₃ (fs v)) ∧
       (∃ n : G, ∀ v, n * S36.ε4 b b₁ b₂ b₃ v * n⁻¹ = S36.ε4 b b₁ b₂ b₃ (fr v)) := by
   obtain ⟨hE, hcl, -⟩ := hB.mono
-  haveI : IsElementaryAbelian 3 B := hE.1
+  have : IsElementaryAbelian 3 B := hE.1
   obtain ⟨β, hβ⟩ := exists_basis (B := B) hE.2 hcl
   set bs : Fin 4 → G := ![b, b₁, b₂, b₃] with hbs
   have hbB : ∀ i, bs i ∈ B := fun i => hβ i ▸ (Additive.toMul (β i)).2
@@ -115,7 +115,7 @@ theorem setup {G : Type} [Group G] [Finite G] {b : G}
     have : Om Γ ∩ {v | pos v = true} =
         ↑((nonzeroL.filter fun v => (cfgOf Γ).1 (tab v).1 && pos v).toFinset) := by
       ext v
-      simp only [Set.mem_inter_iff, Set.mem_setOf_eq, om_iff hyp, List.coe_toFinset,
+      simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, om_iff hyp, List.coe_toFinset,
         List.mem_filter, Bool.and_eq_true]
       tauto
     rw [this, Set.ncard_coe_finset]
@@ -192,7 +192,7 @@ theorem FF81Sec5.t₀_ε (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀) (v : V) 
     ((hc _ h5.basis.hb₁).trans h5.ε_e1.symm) ((hc _ h5.basis.hb₂).trans h5.ε_e2.symm)
     ((hc _ h5.basis.hb₃).trans h5.ε_e3.symm)]
   congr 1
-  ext j; fin_cases j <;> simp [e, Pi.single_apply, S52.ft]
+  ext j; fin_cases j <;> simp [e, S52.ft]
 
 theorem FF81Sec5.lift (hKF : KF_Sp6Levi) (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀) {n : G}
     {f : V → V} (hn : ∀ v, n * h5.ε v * n⁻¹ = h5.ε (f v)) (hA : ∀ v : V, v 2 = v 3 → f v 2 = f v 3)

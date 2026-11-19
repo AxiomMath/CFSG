@@ -22,7 +22,7 @@ private theorem exists_frattiniQuotient_coordinates {W : Type*} [Group W] [Finit
     (hW : IsPGroup 3 W) (hsmall : Nat.card (W ⧸ frattini W) ≤ 9) :
     ∃ d : ℕ, d ≤ 2 ∧ Nat.card (W ⧸ frattini W) = 3 ^ d ∧
       Nonempty ((W ⧸ frattini W) ≃* Multiplicative (Fin d → ZMod 3)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hcomm, hpow, -, hdata⟩ := CFSG.GroupTheory.frattini_elementary_quotient hW
   obtain ⟨d, hcard, -⟩ := hdata
   refine ⟨d, ?_, hcard, ?_⟩
@@ -36,11 +36,11 @@ private theorem card_GL_fin_le_two (d : ℕ) (hd : d ≤ 2) :
     Nat.card (GL (Fin d) (ZMod 3)) = 1 ∨
       Nat.card (GL (Fin d) (ZMod 3)) = 2 ∨
         Nat.card (GL (Fin d) (ZMod 3)) = 48 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   interval_cases d
   · exact Or.inl (by rw [CFSG.SectionRank.Ccomm.card_GL_zmod]; simp)
   · exact Or.inr (Or.inl (by
-      rw [CFSG.SectionRank.Ccomm.card_GL_zmod]; simp [Fin.prod_univ_one]))
+      rw [CFSG.SectionRank.Ccomm.card_GL_zmod]; simp))
   · exact Or.inr (Or.inr (by
       rw [CFSG.SectionRank.Ccomm.card_GL_zmod]; simp [Fin.prod_univ_two]))
 
@@ -60,7 +60,7 @@ private theorem prime_dvd_card_GL_fin_le_two {r d : ℕ} (hr : r.Prime) (hd : d 
 theorem prime_dvd_card_mulAut_eq_two_or_three {W : Type*} [Group W] [Finite W]
     (hW : IsPGroup 3 W) (hsmall : Nat.card (W ⧸ frattini W) ≤ 9)
     {r : ℕ} (hr : r.Prime) (hdvd : r ∣ Nat.card (MulAut W)) : r = 2 ∨ r = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hdle, -, ⟨e⟩⟩ := exists_frattiniQuotient_coordinates hW hsmall
   let φ : MulAut W →* MulAut (W ⧸ frattini W) :=
     CFSG.RankThreeEvenClassification.Helpers.characteristicQuotientAction (frattini W)

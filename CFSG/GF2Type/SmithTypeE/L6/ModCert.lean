@@ -108,7 +108,7 @@ section Int
 
 
 theorem int_rel_sym' {k l : Nat} (hk : k < 1953) (hl : l < 1953) (hkl : k ≠ l) {c c' : Nat}
-    (hc : c < 2 ^ 20) (hc' : c' < 2 ^ 20)
+    (hc : c < 2 ^ 20) (_hc' : c' < 2 ^ 20)
     (h : applyCols (tvCols k) c ^^^ c = applyCols (tvCols l) c' ^^^ c') :
     applyCols (tvCols k) c ^^^ c = 0 ∨
       ((∀ e < 2 ^ 20, applyCols (tvCols k) (applyCols (tvCols l) e) =

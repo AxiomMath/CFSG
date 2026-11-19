@@ -103,7 +103,7 @@ theorem eightynine_dvd_card_centralizer [Finite K] [CharP K 2] {Q : QuadraticFor
     intro h
     apply hy1
     rw [(matrix_eq_one_iff yh).mp h, QuotientGroup.mk_one]
-  haveI : Nonempty ι := by
+  have : Nonempty ι := by
     by_contra h
     rw [not_nonempty_iff] at h
     exact hg1 (Subsingleton.elim _ _)
@@ -154,8 +154,8 @@ theorem lie23To89_pomegaPlus {X : Type} [Group X] [Finite X] {n f : ℕ}
     89 ∣ Nat.card ↥(centralizer ({τ} : Set X)) := by
   obtain ⟨hadm, K, _, _, hcard, ⟨φ⟩⟩ := hm
   have hn : 4 ≤ n := hadm.2.2
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   obtain ⟨hnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := K) (n := n)
     (by omega)
@@ -169,8 +169,8 @@ theorem lie23To89_pomegaMinus {X : Type} [Group X] [Finite X] {n f : ℕ}
     89 ∣ Nat.card ↥(centralizer ({τ} : Set X)) := by
   obtain ⟨hadm, K, _, _, hcard, b, c, hirr, ⟨φ⟩⟩ := hm
   have hn : 4 ≤ n := hadm.2.2
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   obtain ⟨hnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := K) (n := n) hn hirr
   rw [card_centralizer_eq φ τ] at h23 ⊢

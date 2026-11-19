@@ -63,6 +63,7 @@ theorem autHom_mem_orthParab (β : ↥(Subgroup.normalizer (Y : Set A)))
 
 variable [Finite A] [Finite K] [CharP K 2]
 
+omit [Finite A] [Finite K] [CharP K 2] in
 theorem exists_radical (β : ↥(Subgroup.normalizer (Y : Set A)))
     (hβP : (β : A) ∈ Subgroup.normalizer (P : Set A)) (hW : WCent P (β : A))
     (x : ↥(orthParab r (minusTailForm K b c) d)) (hx : C.toHat x ∈ wSup (↥P ⧸ CFSG.pCore 2 ↥P)) :
@@ -102,6 +103,7 @@ theorem omNormFix_autHom (hd : OrthCuts r d) (hr : 3 ≤ r)
     exact ⟨u, C.orthResHom_eq_one_of_mem_ker_toHat hd hr hirr hPY hm hu, hue⟩
 
 include C in
+omit [Finite A] in
 theorem exists_big_block (hd : OrthCuts r d) (hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0)
     (hPY : P ≤ Y) (hna : ∃ x ∈ P, ∃ y ∈ P, x * y * x⁻¹ * y⁻¹ ∉ pCoreOf 2 P) :
     (∃ l : Fin s, 2 ≤ d l.succ - d l.castSucc) ∨ 1 ≤ r - d (Fin.last s) := by
@@ -167,7 +169,7 @@ theorem exists_big_block (hd : OrthCuts r d) (hr : 3 ≤ r) (hirr : ∀ t : K, t
   have hcomm : ⁅x', y'⁆ ∈ U₁ := by
     have := commutator_mem_tailUnipotent hr hirr (hB x') (hB y')
     simpa [hU₁, commutatorElement_def] using this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : U₁.map C.toP ≤ CFSG.pCore 2 ↥P :=
     le_sSup ⟨hU₁n.map _ (C.toP_surjective hPY), hU₁p.map _⟩
   have hmem : C.toP ⁅x', y'⁆ ∈ CFSG.pCore 2 ↥P := hle ⟨_, hcomm, rfl⟩

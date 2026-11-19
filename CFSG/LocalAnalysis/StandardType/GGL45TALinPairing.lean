@@ -121,7 +121,7 @@ theorem dvd_card_sub_one (S : LinSetting p q₀ d k K ψ E) : p ∣ Nat.card k -
 
 theorem tau_pow (S : LinSetting p q₀ d k K ψ E) : S.τ ^ p = 1 := by
   classical
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hiter : ∀ (j : ℕ) (a : k), (S.τ ^ j) a = a ^ q₀ ^ j := by
     intro j
     induction j with
@@ -141,6 +141,7 @@ theorem units_map_eq (S : LinSetting p q₀ d k K ψ E) {σ : k ≃+* k} {m : �
   exact LinModel.fieldAut_fixes_root S.hp hω hσ (by rw [← Units.val_pow_eq_pow_val, hc,
     Units.val_one])
 
+omit [Finite k] in
 theorem inv_pow_eq_one {σ : k ≃+* k} {n : ℕ} (hσ : σ ^ n = 1) : σ⁻¹ ^ n = 1 := by
   rw [inv_pow, hσ, inv_one]
 
@@ -253,7 +254,7 @@ theorem commute_of_mem_P (S : LinSetting p q₀ d k K ψ E) {γ : MulAut K} (hγ
   rw [hxW, mul_assoc, hsc_comm s y, ← mul_assoc, hWy', mul_assoc]
 theorem mul_comm_of_mem (S : LinSetting p q₀ d k K ψ E) {e f : MulAut K} (he : e ∈ E)
     (hf : f ∈ E) : e * f = f * e := by
-  haveI := S.elem.1
+  have := S.elem.1
   exact congrArg Subtype.val (mul_comm' (⟨e, he⟩ : E) ⟨f, hf⟩)
 
 theorem comm_mem_scalars (S : LinSetting p q₀ d k K ψ E) {e f : MulAut K} (he : e ∈ E)
@@ -270,7 +271,7 @@ theorem isLift_comm (S : LinSetting p q₀ d k K ψ E) {x y : GL (Fin d) k} (hx 
     fun e => S.exists_lift e.2
   choose L hLp hLi using hL
   have hLlift : ∀ e : E, S.IsLift (L e) := fun e => ⟨hLp e, e, e.2, hLi e⟩
-  letI : CommGroup E := { (inferInstance : Group E) with
+  let : CommGroup E := { (inferInstance : Group E) with
     mul_comm := fun a b => Subtype.ext (S.mul_comm_of_mem a.2 b.2) }
   let c : E → E → GL (Fin d) k := fun e f => L e * L f * (L e)⁻¹ * (L f)⁻¹
   have hcen : ∀ e f, c e f ∈ Subgroup.center (GL (Fin d) k) := fun e f =>
@@ -304,13 +305,13 @@ theorem isLift_comm (S : LinSetting p q₀ d k K ψ E) {x y : GL (Fin d) k} (hx 
     rw [Nat.card_eq_zero_of_infinite] at this
     exact absurd this (Nat.not_le.mpr (pow_pos S.hp.pos 2))
   have hidx : (P.subgroupOf E).index ∣ p := by
-    haveI : Fact p.Prime := ⟨S.hp⟩
+    have : Fact p.Prime := ⟨S.hp⟩
     have hpE : IsPGroup p E := fun g => ⟨1, Subtype.ext (by
       rw [pow_one, Subgroup.coe_pow, Subgroup.coe_one]; exact S.elem.2 g g.2)⟩
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hpE
     have hdvd : (P.subgroupOf E).index ∣ p ^ m := hm ▸ Subgroup.index_dvd_card _
     obtain ⟨j, -, hjeq⟩ := (Nat.dvd_prime_pow S.hp).mp hdvd
-    haveI : Finite P := Finite.of_injective (Subgroup.inclusion hPE)
+    have : Finite P := Finite.of_injective (Subgroup.inclusion hPE)
       (Subgroup.inclusion_injective hPE)
     have hcardP : Nat.card (P.subgroupOf E) = Nat.card P :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPE).toEquiv

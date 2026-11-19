@@ -45,7 +45,7 @@ variable [Finite G]
 theorem le_glaPPrimeCoreOf_of_isSubnormal {p : ℕ} (hp : p.Prime) {L C : Subgroup G} (h : IsSubnormal L C)
     (hcop : Nat.Coprime p (Nat.card L)) : L ≤ GLAPPrimeCoreOf p C :=
   (CFSG.HardMathSupport.Timmesfeld.Proving.le_GLAPPrimeCoreOf_of_normal le_rfl
-    (fun g hg x hx => L.mul_mem (L.mul_mem hg hx) (L.inv_mem hg)) hcop).trans
+    (fun _g hg _x hx => L.mul_mem (L.mul_mem hg hx) (L.inv_mem hg)) hcop).trans
     (CFSG.LocalAnalysis.GLTheoremB.glaPPrimeCoreOf_le_of_isSubnormal hp h)
 
 theorem le_core_sup_layer_of_isComponentOf {p : ℕ} (hp : p.Prime) {L C : Subgroup G} (hL : IsComponentOf L C) :
@@ -123,7 +123,7 @@ theorem coprime_card_closure_coprime {N : Type} [Group N] [Finite N] {p : ℕ} (
     (hc : ∀ u : N, (∃ e : ℕ, u ^ (p ^ e) = 1) → u ∈ Subgroup.center N) :
     Nat.Coprime p (Nat.card (Subgroup.closure {y : N | Nat.Coprime (orderOf y) p})) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p N) := inferInstance
   have hPc : ∀ u ∈ (P : Subgroup N), u ∈ Subgroup.center N := by
     intro u hu
@@ -262,6 +262,7 @@ section Component
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem fixSubgroup_normalizerMonoidHom_eq {K : Subgroup X} {z : X} (hzN : z ∈ Subgroup.normalizer (K : Set X)) :
     fixSubgroup (K.normalizerMonoidHom ⟨z, hzN⟩) = (K ⊓ Subgroup.centralizer ({z} : Set X)).subgroupOf K := by
   ext x
@@ -403,6 +404,7 @@ section Criterion
 
 variable {X Q : Type} [Group X] [Group Q] [Finite X] [Finite Q]
 
+omit [Finite X] in
 theorem twoInCoreLayer_of_cover (π : X →* Q) (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center X)
     (hodd : Nat.Coprime 2 (Nat.card π.ker)) (α : MulAut X) (β : MulAut Q) (hαβ : ∀ x, π (α x) = β (π x))
     {p : ℕ} (hp : p.Prime) (hlay : PerfectInLayer β) {ι : Type*} (B : ι → Subgroup X)
@@ -468,6 +470,7 @@ variable {X : Type} [Group X] [Finite X]
     ↥(Subgroup.normalizer (K : Set X)) →* MulAut (↥K ⧸ Subgroup.center ↥K) :=
   (quotientCenterAut' ↥K).comp K.normalizerMonoidHom
 
+omit [Finite X] in
 theorem centerQuotAct_mk (K : Subgroup X) (x : ↥(Subgroup.normalizer (K : Set X))) (k : ↥K) :
     centerQuotAct K x (QuotientGroup.mk k) = QuotientGroup.mk (K.normalizerMonoidHom x k) :=
   rfl
@@ -522,7 +525,7 @@ theorem exists_two_lift_fixed {K : Subgroup X} {b : X} (hb : b ∈ Subgroup.norm
     exact h2
   set Nm : Subgroup X := Subgroup.normalizer (K : Set X) with hNm
   have hKNm : K ≤ Nm := Subgroup.le_normalizer
-  haveI hNn : ((centerTwoPart K M).subgroupOf Nm).Normal := by
+  have hNn : ((centerTwoPart K M).subgroupOf Nm).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf, mem_centerTwoPart] at hx ⊢
     obtain ⟨hxK, hxc, hx2⟩ := hx
@@ -547,7 +550,7 @@ theorem exists_two_lift_fixed {K : Subgroup X} {b : X} (hb : b ∈ Subgroup.norm
     apply Subtype.ext
     apply Subtype.ext
     simpa using h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 hZ2p
   have hcop2 : Nat.Coprime p (Nat.card ↥((centerTwoPart K M).subgroupOf Nm)) := by
     rw [hj]
@@ -596,7 +599,7 @@ theorem exists_two_lift_fixed {K : Subgroup X} {b : X} (hb : b ∈ Subgroup.norm
     exact h
 
 theorem eq_iSup_oPrimeResidualOf_of_uniPlaneGen {Q : Type*} [Group Q] {K B : Subgroup X}
-    (hK : CFSG.Open.IsQuasisimple ↥K) (hBN : B ≤ Subgroup.normalizer (K : Set X)) {p : ℕ} (hp : p.Prime)
+    (hK : CFSG.Open.IsQuasisimple ↥K) (_hBN : B ≤ Subgroup.normalizer (K : Set X)) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hBp : ∀ b ∈ B, b ^ p = 1) (θ : (↥K ⧸ Subgroup.center ↥K) ≃* Q)
     (hgen : Inputs2311c.UniPlaneGen 2 ((B.subgroupOf (Subgroup.normalizer (K : Set X))).map
       ((MulAut.congr θ).toMonoidHom.comp (centerQuotAct K)))) :

@@ -94,15 +94,11 @@ theorem isoList_mem (g : T4) (ha : g.1 < 16) (hb : g.2.1 < 16) (hc : g.2.2.1 < 1
     simp [h4, h5, h6, h7]
   unfold isoList
   refine List.mem_flatMap.2 ⟨a, List.mem_range.2 ha, ?_⟩
-  try dsimp only
   refine List.mem_flatMap.2 ⟨b, List.mem_range.2 hb, ?_⟩
-  try dsimp only
-  rw [if_pos hG1]
+  rw [ite_eq_left hG1]
   refine List.mem_flatMap.2 ⟨c, List.mem_range.2 hc, ?_⟩
-  try dsimp only
-  rw [if_pos hG2]
+  rw [ite_eq_left hG2]
   refine List.mem_filterMap.2 ⟨d, List.mem_range.2 hd, ?_⟩
-  try dsimp only
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 end CFSG.GH74.QTGen4.U42.U0Aut

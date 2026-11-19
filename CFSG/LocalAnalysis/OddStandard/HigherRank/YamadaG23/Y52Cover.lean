@@ -31,7 +31,7 @@ private lemma y52_V_sq {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
   have h := (f3_V_isE2 hH).1.2 (⟨x, hx⟩ : ↥(cen s.fr.B)) (Subgroup.mem_top _)
   simpa using congrArg Subtype.val h
 
-private lemma y52_conj_mem {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
+private lemma y52_conj_mem {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e)
     {k : G} (hk : Y52K s k) {u : G} (hu : u ∈ cen s.fr.B) :
     k * u * k⁻¹ ∈ cen s.fr.B := by
   obtain ⟨_, hkN⟩ := hk.mem
@@ -48,12 +48,13 @@ private lemma y52_conj_mem {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp 
   have h3 : k * ((k⁻¹ * b * k) * u) * k⁻¹ = b * (k * u * k⁻¹) := by group
   rw [h1, h2, h3]
 
+omit [Finite G] in
 private lemma y52_conj_sq (k u : G) :
     k * (k * u * k⁻¹) * k⁻¹ = k ^ 2 * u * (k ^ 2)⁻¹ := by
   rw [pow_two k, mul_inv_rev]
   group
 
-private lemma y52_orbit_ne {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
+private lemma y52_orbit_ne {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e)
     {k : G} (hk : Y52K s k) {u : G} (hu : u ∈ cen s.fr.B) (hu1 : u ≠ 1) :
     u ≠ k * u * k⁻¹ ∧ u ≠ k ^ 2 * u * (k ^ 2)⁻¹ ∧
       k * u * k⁻¹ ≠ k ^ 2 * u * (k ^ 2)⁻¹ := by
@@ -75,8 +76,8 @@ private lemma y52_orbit_ne {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp 
     rw [hl, hr] at h'
     exact hk.fix u hu h'.symm
 
-private lemma y52_orbit_ne_one {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
-    {k : G} (hk : Y52K s k) {u : G} (hu : u ∈ cen s.fr.B) (hu1 : u ≠ 1) :
+private lemma y52_orbit_ne_one {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e)
+    {k : G} (hk : Y52K s k) {u : G} (_hu : u ∈ cen s.fr.B) (hu1 : u ≠ 1) :
     k * u * k⁻¹ ≠ 1 ∧ k ^ 2 * u * (k ^ 2)⁻¹ ≠ 1 := by
   have hk3 : k ^ 3 = 1 := hk.cube
   refine ⟨?_, ?_⟩
@@ -114,7 +115,7 @@ private lemma y52_orbit {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e
     have hdiffset : (cen s.fr.B : Set G) \ ({1} : Set G) =
         {x | x ∈ cen s.fr.B ∧ x ≠ 1} := by
       ext x
-      simp only [Set.mem_sdiff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+      simp only [Set.mem_sdiff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
       tauto
     rw [hdiffset, hsingle, y52_V_ncard hH] at hd
     omega

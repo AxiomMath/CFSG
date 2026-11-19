@@ -38,7 +38,7 @@ structure TorusModel (K : Type) [Group K] (Q : Subgroup K) where
 
 theorem exists_torusModel {K : Type} [Group K] [Finite K] (e : K ≃* CFSG.PGLModel.projSU 4 2 2)
     (Q : Sylow 5 K) : Nonempty (TorusModel K (Q : Subgroup K)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let ψ₀ := toSU K e
   let P : Subgroup K := T44.map ψ₀.toMonoidHom
   have hPcard : Nat.card P = 5 ^ 3 := by
@@ -233,7 +233,7 @@ theorem ncard_conj_lines [Finite K] {x : K} (hx : x ∈ Q) (hx1 : x ≠ 1)
       {Subgroup.zpowers (M.tk v1 sum_v1), Subgroup.zpowers (M.tk v2 sum_v2),
         Subgroup.zpowers (M.tk v3 sum_v3)} := by
     ext A
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨g, rfl, hle⟩
       rw [hmap] at hle ⊢

@@ -66,9 +66,9 @@ private theorem uniFourRank_pRank_le_two {K : Type} [Field K] [Finite K] {f : �
     (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2) (hmod : 2 ^ f % 3 = 1) :
     CFSG.pRank 3 (PSUg 4 K (2 ^ f)) ≤ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
   have hcardN : Nat.card K = Nat.card (GaloisField 2 (2 * f)) := by
     rw [hK, GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm f 2]
   have hcardF : Fintype.card K = Fintype.card (GaloisField 2 (2 * f)) := by
@@ -94,7 +94,7 @@ theorem uni_four_rank_of_dvd_sub_one {K : Type} [Field K] [Finite K] [CharP K 2]
     Nat.card Ā ≤ 3 ^ 2 := by
   obtain ⟨f, hf, hq⟩ := CFSG.AGLEmbedding.ToralCensus.exists_eq_two_pow_of_card_eq_sq hK
   subst hq
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod : 2 ^ f % 3 = 1 := by
     obtain ⟨k, hk⟩ := hq3
     have h1 : 1 ≤ 2 ^ f := Nat.one_le_two_pow

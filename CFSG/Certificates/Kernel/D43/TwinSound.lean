@@ -29,7 +29,7 @@ theorem hexTable_row {cs : List Char} {d n w N : Nat} {F : Nat → Nat}
     have := Nat.div_add_mod p n
     rw [Nat.mul_add, ← Nat.mul_assoc]
     omega
-  simp only [Fin.val_mk, key]
+  simp only [key]
 
 theorem keyChk_spec {KT : Nat → Nat} {L : List Nat} {T : Nat → Nat} {p : Nat}
     (h : keyChk KT L T p = true) :

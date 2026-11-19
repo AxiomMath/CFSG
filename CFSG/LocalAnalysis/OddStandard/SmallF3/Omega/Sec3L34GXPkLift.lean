@@ -75,7 +75,7 @@ theorem l34g_x_isI4PlusIn_top_of_cover {A P : Type} [Group A] [Finite A] [Group 
     rw [orderOf_one] at h2
     omega
   have ha2 : orderOf a = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact ha) ha_ne
   refine ⟨ha2, ?_⟩
   obtain ⟨Kbar, hKbar⟩ := hP.2

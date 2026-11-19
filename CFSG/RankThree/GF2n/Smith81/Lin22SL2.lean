@@ -19,6 +19,7 @@ open CFSG.GH74.GLS.IVK.L2Torus
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem wElt_mul_self : (wElt : SL(2, F)) * wElt = 1 := by
   have h : (wElt : SL(2, F)) * wElt ∈ Subgroup.center SL(2, F) := by
     simpa [wElt] using
@@ -26,18 +27,22 @@ theorem wElt_mul_self : (wElt : SL(2, F)) * wElt = 1 := by
   rw [center_sl2_eq_bot, Subgroup.mem_bot] at h
   exact h
 
+omit [Finite F] in
 theorem wElt_inv : (wElt : SL(2, F))⁻¹ = wElt :=
   inv_eq_of_mul_eq_one_right wElt_mul_self
 
+omit [Finite F] [CharP F 2] in
 theorem wElt_conj_torusElt (a : Fˣ) :
     wElt * torusElt a * (wElt)⁻¹ = torusElt a⁻¹ := by
   simpa [wElt, torusElt, wElt_inv] using
     CFSG.Glauberman.Dickson.standardSplitWeylSL_conj (F := F) a
 
+omit [Finite F] in
 theorem wElt_conj_torusElt' (a : Fˣ) :
     wElt * torusElt a * wElt = torusElt a⁻¹ := by
   simpa [wElt_inv] using wElt_conj_torusElt a
 
+omit [Finite F] in
 theorem conjSubgroup_wElt_torus : conjSubgroup wElt (torus F) = torus F := by
   ext x
   rw [mem_conjSubgroup]
@@ -57,10 +62,12 @@ theorem conjSubgroup_wElt_torus : conjSubgroup wElt (torus F) = torus F := by
     rw [wElt_conj_torusElt']
     exact torusElt_mem_torus _
 
+omit [Finite F] in
 theorem wElt_mem_normalizer_torus :
     (wElt : SL(2, F)) ∈ Subgroup.normalizer (torus F : Set SL(2, F)) :=
   mem_normalizer_iff_conjSubgroup_eq.2 conjSubgroup_wElt_torus
 
+omit [Finite F] [CharP F 2] in
 theorem wElt_not_mem_torus : (wElt : SL(2, F)) ∉ torus F := by
   rw [mem_torus_entries]
   intro h
@@ -72,7 +79,7 @@ theorem exists_unit_ne_inv (h4 : 4 ≤ Nat.card F) : ∃ a : Fˣ, a ≠ a⁻¹ :
   have hcardNat : 1 < Nat.card Fˣ := by
     rw [Nat.card_units]
     omega
-  haveI : Nontrivial Fˣ := (Finite.one_lt_card_iff_nontrivial).mp hcardNat
+  have : Nontrivial Fˣ := (Finite.one_lt_card_iff_nontrivial).mp hcardNat
   obtain ⟨a, ha⟩ := exists_ne (1 : Fˣ)
   refine ⟨a, fun h => ha ?_⟩
   have hv : (a : F) = (a : F)⁻¹ := by simpa using congrArg Units.val h
@@ -97,6 +104,7 @@ theorem mem_torus_or_antidiagonal_of_mem_normalizer (h4 : 4 ≤ Nat.card F)
   · exact Or.inl hdiag
   · exact Or.inr hanti
 
+omit [Finite F] [CharP F 2] in
 theorem exists_eq_wElt_mul_torusElt_of_antidiagonal {g : SL(2, F)}
     (h00 : g 0 0 = 0) (h11 : g 1 1 = 0) :
     ∃ a : Fˣ, g = wElt * torusElt a := by
@@ -164,6 +172,7 @@ theorem exists_torusElt_conj_ltriElt {s t : F} (hs : s ≠ 0) (ht : t ≠ 0) :
       _ = r ^ 2 * t := mul_comm _ _
   rw [h2, inv_mul_cancel_left₀ (pow_ne_zero 2 hr0)]
 
+omit [Finite F] [CharP F 2] in
 theorem utri_ne_bot : utri F ≠ (⊥ : Subgroup SL(2, F)) := by
   intro h
   have h1 : (utriElt (1 : F) : SL(2, F)) ∈ (⊥ : Subgroup SL(2, F)) := by
@@ -171,6 +180,7 @@ theorem utri_ne_bot : utri F ≠ (⊥ : Subgroup SL(2, F)) := by
     exact utriElt_mem_utri 1
   exact utriElt_ne_one one_ne_zero (Subgroup.mem_bot.1 h1)
 
+omit [Finite F] [CharP F 2] in
 theorem ltri_ne_bot : ltri F ≠ (⊥ : Subgroup SL(2, F)) := by
   intro h
   have h1 : (ltriElt (1 : F) : SL(2, F)) ∈ (⊥ : Subgroup SL(2, F)) := by
@@ -303,6 +313,7 @@ theorem eq_top_of_inf_ltri_ne_bot {N : Subgroup SL(2, F)} (hT : torus F ≤ N)
       exact hle
     exact top_le_iff.mp htop'
 
+omit [Finite F] in
 theorem normalizer_ltri_eq : Subgroup.normalizer (ltri F : Set SL(2, F)) =
     ltri F ⊔ torus F := by
   have hN : conjSubgroup wElt (Subgroup.normalizer (utri F : Set SL(2, F))) =
@@ -314,11 +325,13 @@ theorem normalizer_ltri_eq : Subgroup.normalizer (ltri F : Set SL(2, F)) =
     conjSubgroup_sup_eq_sup, conjSubgroup_wElt_utri, conjSubgroup_wElt_torus] at hN
   exact hN.symm
 
+omit [Finite F] in
 theorem torus_le_normalizer_ltri : torus F ≤
     Subgroup.normalizer (ltri F : Set SL(2, F)) := by
   rw [normalizer_ltri_eq]
   exact le_sup_right
 
+omit [Finite F] [CharP F 2] in
 theorem inf_borel_eq_torus {N : Subgroup SL(2, F)} (hT : torus F ≤ N)
     (hU : N ⊓ utri F = ⊥) : N ⊓ borel F = torus F := by
   have hTnorm : torus F ≤ Subgroup.normalizer (utri F : Set SL(2, F)) := by
@@ -330,6 +343,7 @@ theorem inf_borel_eq_torus {N : Subgroup SL(2, F)} (hT : torus F ≤ N)
       CFSG.GroupTheory.inf_sup_eq_sup_inf_of_le_normalizer hT hTnorm
     _ = torus F := by rw [hU, sup_bot_eq]
 
+omit [Finite F] in
 theorem inf_normalizer_ltri_eq_torus {N : Subgroup SL(2, F)} (hT : torus F ≤ N)
     (hL : N ⊓ ltri F = ⊥) :
     N ⊓ Subgroup.normalizer (ltri F : Set SL(2, F)) = torus F := by
@@ -341,9 +355,11 @@ theorem inf_normalizer_ltri_eq_torus {N : Subgroup SL(2, F)} (hT : torus F ≤ N
 @[expose] def ltriConj (s : F) : Subgroup SL(2, F) :=
   conjSubgroup (utriElt s) (ltri F)
 
+omit [Finite F] [CharP F 2] in
 theorem ltriConj_zero : ltriConj (0 : F) = ltri F := by
   simp [ltriConj, utriElt_zero, conjSubgroup_one]
 
+omit [Finite F] [CharP F 2] in
 theorem utri_ne_ltri : utri F ≠ ltri F := by
   intro h
   have hw : conjSubgroup wElt (utri F) = utri F := by
@@ -353,6 +369,7 @@ theorem utri_ne_ltri : utri F ≠ ltri F := by
   rw [normalizer_utri] at hmem
   exact wElt_not_mem_borel hmem
 
+omit [Finite F] [CharP F 2] in
 theorem exists_eq_utri_or_eq_ltri_conj (g : SL(2, F)) :
     conjSubgroup g (utri F) = utri F ∨
       ∃ s : F, conjSubgroup g (utri F) = conjSubgroup (utriElt s) (ltri F) := by
@@ -362,6 +379,7 @@ theorem exists_eq_utri_or_eq_ltri_conj (g : SL(2, F)) :
     obtain ⟨s, rfl⟩ := mem_utri_iff.1 hu
     exact Or.inr ⟨s, h⟩
 
+omit [Finite F] [CharP F 2] in
 theorem conjSubgroup_torusElt_ltri_conj (a : Fˣ) (s : F) :
     conjSubgroup (torusElt a) (conjSubgroup (utriElt s) (ltri F)) =
       conjSubgroup (utriElt ((a : F) ^ 2 * s)) (ltri F) := by
@@ -591,7 +609,7 @@ theorem card_dvd_or_eq_top (h4 : 4 ≤ Nat.card F) {N : Subgroup SL(2, F)}
 theorem exists_conj_mem_torus_of_orderOf (h4 : 4 ≤ Nat.card F) {g : SL(2, F)}
     (hord : orderOf g = Nat.card F - 1) :
     ∃ P : SL(2, F), P⁻¹ * g * P ∈ torus F := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hqpos : 1 ≤ Nat.card F := Nat.card_pos
   have hpow : g ^ Fintype.card F = g := by
     have h1 : g ^ (Nat.card F - 1) = 1 := by
@@ -607,7 +625,7 @@ theorem exists_conj_mem_torus_of_orderOf (h4 : 4 ≤ Nat.card F) {g : SL(2, F)}
   have ha0 : a ≠ 0 := by
     rintro rfl
     have h1 : (g.1 - Matrix.scalar (Fin 2) (0 : F)).det = 1 := by
-      simpa [Matrix.scalar_apply] using Matrix.SpecialLinearGroup.det_coe g
+      simp [Matrix.scalar_apply]
     rw [h1] at hdet
     exact one_ne_zero hdet
   have ha2 : a * a ≠ 1 := by
@@ -734,7 +752,7 @@ theorem isPGroup_eq_bot_of_le_sup {Γ₁ D : Subgroup SL(2, F)}
   have hΓN : Γ₁ ≤ N := le_sup_left
   have hDN : D ≤ N := le_sup_right
   let H : Subgroup N := Γ₁.subgroupOf N
-  haveI hHn : H.Normal :=
+  have hHn : H.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hΓN).mpr hNorm
   have hsup : H ⊔ D.subgroupOf N = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hΓN hDN]
@@ -776,7 +794,7 @@ theorem isPGroup_eq_bot_of_le_sup {Γ₁ D : Subgroup SL(2, F)}
   have hdvd2 : 2 ^ k ∣ Nat.card F - 1 := by
     rw [← hk]
     exact orderOf_dvd_of_pow_eq_one hxpow1'
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hq2 : 2 ∣ Nat.card F := by
     rw [Nat.card_eq_fintype_card]
     exact Nat.dvd_of_mod_eq_zero (FiniteField.even_card_of_char_two (ringChar.eq F 2))
@@ -813,19 +831,20 @@ theorem card_dvd_of_mem_normalizer (h4 : 4 ≤ Nat.card F) {Γ₁ : Subgroup SL(
   · have hnormal : Subgroup.normalizer (Γ₁ : Set SL(2, F)) = ⊤ := by
       rw [eq_top_iff, ← htopN]
       exact hnormN
-    haveI : Γ₁.Normal := Subgroup.normalizer_eq_top_iff.mp hnormal
+    have : Γ₁.Normal := Subgroup.normalizer_eq_top_iff.mp hnormal
     rcases CFSG.RankThree.GF2n.Smith81.D2.sl2_normal_eq_bot_or_top (K := F) h4 Γ₁ with
       hbot | htopN'
     · rw [hbot, Subgroup.card_bot]
       exact one_dvd _
     · exact absurd htopN' htop
 
+omit [Finite F] [CharP F 2] in
 theorem orderOf_torusElt (a : Fˣ) : orderOf (torusElt a) = orderOf a :=
   orderOf_injective (CFSG.Glauberman.Dickson.splitTorusSLHom F) torusElt_injective a
 
 theorem orderOf_pow_half {δ : F} (hδord : orderOf δ = Nat.card F - 1) :
     orderOf (δ ^ (Nat.card F / 2)) = Nat.card F - 1 := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hδcard : δ ^ Nat.card F = δ := by
     rw [Nat.card_eq_fintype_card, FiniteField.pow_card]
   have hqeven : Even (Nat.card F) := by
@@ -856,6 +875,7 @@ theorem orderOf_pow_half {δ : F} (hδord : orderOf δ = Nat.card F - 1) :
     rwa [hδord] at this
   exact Nat.dvd_antisymm hs_dvd hδdvd
 
+omit [Finite F] [CharP F 2] in
 theorem trace_eq_add_inv_of_eigenvalue {h : SL(2, F)} {u₀ : Fin 2 → F} (hu₀ : u₀ ≠ 0)
     {lam : F} (heigen : Matrix.vecMul u₀ (h : Matrix (Fin 2) (Fin 2) F) = lam • u₀)
     (hlam0 : lam ≠ 0) :
@@ -867,8 +887,8 @@ theorem trace_eq_add_inv_of_eigenvalue {h : SL(2, F)} {u₀ : Fin 2 → F} (hu�
       show Matrix.scalar (Fin 2) lam = lam • (1 : Matrix (Fin 2) (Fin 2) F) by
         ext i j
         by_cases hij : i = j <;>
-          simp [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.smul_apply,
-            Matrix.one_apply, hij],
+          simp [Matrix.scalar_apply, Matrix.smul_apply,
+            hij],
       Matrix.vecMul_smul, Matrix.vecMul_one, sub_self]
   have hdetlam : ((h : Matrix (Fin 2) (Fin 2) F) - Matrix.scalar (Fin 2) lam).det = 0 :=
     Matrix.exists_vecMul_eq_zero_iff.mp ⟨u₀, hu₀, hvec⟩
@@ -876,6 +896,7 @@ theorem trace_eq_add_inv_of_eigenvalue {h : SL(2, F)} {u₀ : Fin 2 → F} (hu�
   field_simp [hlam0] at h ⊢
   linear_combination h
 
+omit [Finite F] in
 theorem orderOf_eq_card_of_diagonal (h4 : 4 ≤ Nat.card F) {h : SL(2, F)} {lam : F}
     (h10 : (h : Matrix (Fin 2) (Fin 2) F) 1 0 = 0)
     (h01 : (h : Matrix (Fin 2) (Fin 2) F) 0 1 = 0)
@@ -929,6 +950,7 @@ theorem orderOf_eq_card_of_diagonal (h4 : 4 ≤ Nat.card F) {h : SL(2, F)} {lam 
   · rw [hxcase, CFSG.RankThree.GF2n.Stroth80.FieldModel.orderOf_inv_field]
     exact hlamord
 
+omit [Finite F] in
 theorem orderOf_eq_card_of_eigenvalue (h4 : 4 ≤ Nat.card F) {h : SL(2, F)}
     {u₀ : Fin 2 → F} (hu₀ : u₀ ≠ 0) {lam : F}
     (heigen : Matrix.vecMul u₀ (h : Matrix (Fin 2) (Fin 2) F) = lam • u₀)
@@ -990,7 +1012,7 @@ theorem exists_smul_mem_of_eigenvector {H : GL (Fin 2) F} {u₀ : Fin 2 → F}
   have hδord : orderOf δ = Nat.card F - 1 := hdet
   have hδ0 : δ ≠ 0 := by
     simpa [δ, M] using Matrix.GeneralLinearGroup.det_ne_zero H
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hδcard : δ ^ Nat.card F = δ := by
     rw [Nat.card_eq_fintype_card, FiniteField.pow_card]
   have hqeven : Even (Nat.card F) := by

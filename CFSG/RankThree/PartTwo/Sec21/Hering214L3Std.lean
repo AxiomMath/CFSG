@@ -38,18 +38,18 @@ theorem klein_closure {a b : H} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b =
     · simp
     · simp [ha]
     · simp
-    · simp [ha', mul_assoc]
+    · simp [ha']
     · simp
     · simp [hba]
     · simp [hb]
     · exact Or.inr (Or.inl (by rw [hab, hb']))
     · simp
-    · simp [mul_assoc, ha, hba, hb', ha']
-    · simp [mul_assoc, hb, hba, ha']
+    · simp [mul_assoc, hba, ha']
+    · simp [mul_assoc, hb]
     · refine Or.inl ?_
       calc a * b * (a * b) = a * (b * a) * b := by simp [mul_assoc]
         _ = a * (a * b) * b := by rw [hba]
-        _ = 1 := by simp [mul_assoc, hb, ha']
+        _ = 1 := by simp [hb, ha']
   | inv x _ hx =>
     rcases hx with rfl | rfl | rfl | rfl
     · simp
@@ -59,7 +59,7 @@ theorem klein_closure {a b : H} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b =
       apply inv_eq_of_mul_eq_one_left
       calc a * b * (a * b) = a * (b * a) * b := by simp [mul_assoc]
         _ = a * (a * b) * b := by rw [hba]
-        _ = 1 := by simp [mul_assoc, hb, ha']
+        _ = 1 := by simp [hb, ha']
 
 theorem mul_self_eq_one_of_mem_closure_pair {a b : H} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) {w : H} (hw : w ∈ Subgroup.closure ({a, b} : Set H)) : w * w = 1 := by

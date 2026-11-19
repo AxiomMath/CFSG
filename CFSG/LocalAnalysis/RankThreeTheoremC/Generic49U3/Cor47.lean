@@ -33,7 +33,7 @@ theorem typeSigTrivOn_u3 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.SignalizerTrivial.signalizerTrivialU3_holds
       p hp hp5 K hK
 
-theorem typeSigTrivOn_of_X {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} {p : ℕ} (hp : p.Prime)
+theorem typeSigTrivOn_of_X {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} {p : ℕ} (_hp : p.Prime)
     (hiso : ∀ (A B : Type) [Group A] [Group B], A ≃* B → Typ p A → Typ p B)
     (hX : ∀ (X : Type) [Group X] [Finite X] (K : Subgroup X),
       K.Normal ∧ Subgroup.centralizer (K : Set X) = ⊥ ∧ Typ p ↥K →
@@ -41,8 +41,8 @@ theorem typeSigTrivOn_of_X {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} {p : �
         ((R : Subgroup X) ⊓ K) ≤ Subgroup.normalizer (W : Set X) → W = ⊥) :
     TypeSigTrivOn Typ p := by
   intro K _ _ hK hZ P W hW hnorm
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut K) :=
+  have : Fact p.Prime := ⟨_hp⟩
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun f : MulAut K => (f : K → K)) DFunLike.coe_injective
   let c : K →* MulAut K := MulAut.conj
   have hcinj : Function.Injective c := by
@@ -82,12 +82,12 @@ theorem typeSigTrivOn_of_X {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} {p : �
     rw [hZ, Subgroup.mem_bot, inv_mul_eq_one] at hcen
     simpa using hcen
   have hTypKin : Typ p ↥Kin := hiso K ↥Kin (MonoidHom.ofInjective hcinj) hK
-  obtain ⟨R, hR⟩ := (P.isPGroup'.map c).exists_le_sylow
+  obtain ⟨R, hR⟩ := (P.isPGroup.map c).exists_le_sylow
   have hRK : (R : Subgroup (MulAut K)) ⊓ Kin ≤ Subgroup.normalizer (W : Set (MulAut K)) := by
     rintro _ ⟨hxR, ⟨k, rfl⟩⟩
     have hkP : k ∈ (P : Subgroup K) := by
       have hH : IsPGroup p (((R : Subgroup (MulAut K)) ⊓ Kin).comap c) :=
-        (R.isPGroup'.to_inf_left).comap_of_injective c hcinj
+        (R.isPGroup.to_inf_left).comap_of_injective c hcinj
       have hPH : (P : Subgroup K) ≤ ((R : Subgroup (MulAut K)) ⊓ Kin).comap c :=
         fun g hg => ⟨hR (Subgroup.mem_map_of_mem c hg), ⟨g, rfl⟩⟩
       have h3 : (((R : Subgroup (MulAut K)) ⊓ Kin).comap c) = (P : Subgroup K) :=
@@ -111,8 +111,8 @@ private theorem c47_burnside_normalizer_le_centralizer {Y : Type*} [Group Y] [Fi
     (hp : p.Prime) (Q : Sylow p Y) (hQc : IsCyclic (Q : Subgroup Y)) {x : Y}
     (hxQ : x ∈ (Q : Subgroup Y)) (hxo : orderOf x = p) (hxc : ∀ y : Y, y * x = x * y) :
     Subgroup.normalizer ((Q : Subgroup Y) : Set Y) ≤ Subgroup.centralizer ((Q : Subgroup Y) : Set Y) := by
-  haveI := hQc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hQc
+  have : Fact p.Prime := ⟨hp⟩
   intro g hg
   set Qs : Subgroup Y := (Q : Subgroup Y) with hQs
   set φ : Subgroup.normalizer (Qs : Set Y) →* MulAut Qs := Qs.normalizerMonoidHom with hφ
@@ -134,7 +134,7 @@ private theorem c47_burnside_normalizer_le_centralizer {Y : Type*} [Group Y] [Fi
   have hgx : g * x * g⁻¹ = x := by rw [hxc g, mul_assoc, mul_inv_cancel, mul_one]
   have hDp : ∀ d ∈ Qs, ∃ k : ℕ, d ^ (p ^ k) = 1 := by
     intro d hd
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨d, hd⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨d, hd⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hgs : ∀ d ∈ Qs, (g ^ s) * d * (g ^ s)⁻¹ = d := by
     intro d hd
@@ -158,7 +158,7 @@ private theorem c47_burnside_exists_complement {Y : Type*} [Group Y] [Finite Y] 
     ∃ N : Subgroup Y, (∀ n ∈ N, Nat.Coprime p (orderOf n)) ∧
       (∀ y : Y, Nat.Coprime p (orderOf y) → y ∈ N) ∧
       (∀ y : Y, ∃ n ∈ N, ∃ d ∈ (Q : Subgroup Y), y = n * d) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨(MonoidHom.transferSylow Q hQ).ker, ?_, ?_, ?_⟩
   · intro n hn
     have h1 : orderOf n ∣ Nat.card (MonoidHom.transferSylow Q hQ).ker := by
@@ -168,7 +168,7 @@ private theorem c47_burnside_exists_complement {Y : Type*} [Group Y] [Finite Y] 
       (MonoidHom.not_dvd_card_ker_transferSylow Q hQ)).coprime_dvd_right h1
   · intro y hy
     rw [MonoidHom.mem_ker]
-    obtain ⟨k, hk⟩ := Q.isPGroup' (MonoidHom.transferSylow Q hQ y)
+    obtain ⟨k, hk⟩ := Q.isPGroup (MonoidHom.transferSylow Q hQ y)
     have h2 : orderOf (MonoidHom.transferSylow Q hQ y) ∣ p ^ k := orderOf_dvd_of_pow_eq_one hk
     have h3 : orderOf (MonoidHom.transferSylow Q hQ y) ∣ orderOf y := orderOf_map_dvd _ y
     have h4 : Nat.Coprime (p ^ k) (orderOf y) := Nat.Coprime.pow_left k hy
@@ -179,6 +179,7 @@ private theorem c47_burnside_exists_complement {Y : Type*} [Group Y] [Finite Y] 
     obtain ⟨⟨a, d⟩, h, -⟩ := hcomp.existsUnique y
     exact ⟨a.1, a.2, d.1, d.2, h.symm⟩
 
+omit [Finite G] in
 private theorem c47_mem_sup_of_commute {A B : Subgroup G} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     {s : G} (hs : s ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, s = a * b := by
   have hr := MonoidHom.noncommCoprod_range A.subtype B.subtype (fun a b => h a a.2 b b.2)
@@ -190,9 +191,9 @@ private theorem c47_mem_sup_of_commute {A B : Subgroup G} (h : ∀ a ∈ A, ∀ 
 private theorem c47_D_cyclic {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hSd : TypeSDecomp p P x J)
     (hc : PointConfig Typ G p P M x J) : IsCyclic ↥(u3S P x ⊓ u3K0 p x J) := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Z, hZc, -, hZS, hZT, -, hTZS⟩ := hSd
-  haveI := hZc
+  have := hZc
   have hTconj : ∀ a ∈ u3S P x, ∀ t ∈ u3T P x J, a * t * a⁻¹ ∈ u3T P x J := by
     intro a ha t ht
     have ha' : a ∈ (P : Subgroup G) ∧ a ∈ Subgroup.centralizer ({x} : Set G) := ha
@@ -208,7 +209,7 @@ private theorem c47_D_cyclic {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hSd
     rw [eq_bot_iff, ← u3_T_inf_K0_gen hc]
     exact inf_le_inf_left _ inf_le_right
   let T₀ : Subgroup (u3S P x) := (u3T P x J).subgroupOf (u3S P x)
-  haveI hT₀n : T₀.Normal := ⟨fun n hn g => hTconj g g.2 n hn⟩
+  have hT₀n : T₀.Normal := ⟨fun n hn g => hTconj g g.2 n hn⟩
   let q : u3S P x →* u3S P x ⧸ T₀ := QuotientGroup.mk' T₀
   let g : Z →* u3S P x ⧸ T₀ := q.comp (Subgroup.inclusion hZS)
   have hg : Function.Surjective g := by
@@ -222,7 +223,7 @@ private theorem c47_D_cyclic {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hSd
     have hsz' : s = ⟨t, hTS ht⟩ * ⟨z, hZS hz⟩ := Subtype.ext hsz
     show (QuotientGroup.mk (⟨z, hZS hz⟩ : u3S P x) : u3S P x ⧸ T₀) = QuotientGroup.mk s
     rw [hsz', QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff (N := T₀) _).mpr hts, one_mul]
-  haveI : IsCyclic (u3S P x ⧸ T₀) := isCyclic_of_surjective g hg
+  have : IsCyclic (u3S P x ⧸ T₀) := isCyclic_of_surjective g hg
   let f : ↥(u3S P x ⊓ u3K0 p x J) →* u3S P x ⧸ T₀ := q.comp (Subgroup.inclusion hDS)
   have hf : Function.Injective f := by
     rw [injective_iff_map_eq_one]
@@ -242,7 +243,7 @@ theorem k0_pComplement_of_cyclic {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
       (∀ n ∈ N₀, Nat.Coprime p (orderOf n)) ∧
       ∀ k ∈ u3K0 p x J, Nat.Coprime p (orderOf k) → k ∈ N₀ := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnorm := u3K0_conj_gen hc
   have hK₀C : u3K0 p x J ≤ Subgroup.centralizer ({x} : Set G) := fun k hk => hk.1
   have hK₀N : Subgroup.centralizer ({x} : Set G) ≤ Subgroup.normalizer ((u3K0 p x J : Subgroup G) : Set G) := by
@@ -302,6 +303,7 @@ theorem k0_pComplement_of_cyclic {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
       exact hkp
     exact ⟨⟨k, hk⟩, hmem, rfl⟩
 
+omit [Finite G] in
 private theorem c47_conj_hom (J H : Subgroup G) (hH : H ≤ Subgroup.normalizer (J : Set G)) :
     ∃ ι : H →* MulAut J, ∀ (c : H) (j : J), ((ι c j : J) : G) = (c : G) * j * (c : G)⁻¹ := by
   let f : ∀ c : G, c ∈ Subgroup.normalizer (J : Set G) → MulAut J := fun c hc =>
@@ -371,7 +373,7 @@ private theorem c47_core_le_K0 {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (h
     (hsig : TypeSigTrivOn Typ p) (hc : PointConfig Typ G p P M x J) :
     ∀ e ∈ rankThreePrimeCore p M, e ∈ Subgroup.centralizer ({x} : Set G) → e ∈ u3K0 p x J := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hTP : u3T P x J ≤ (P : Subgroup G) := inf_le_left.trans inf_le_left
   have hTM : u3T P x J ≤ M := hTP.trans hPM
@@ -384,7 +386,7 @@ private theorem c47_core_le_K0 {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (h
     CFSG.AGLEmbedding.le_normalizer_glbPrimeCore p M
   have hCN : Subgroup.centralizer ({x} : Set G) ≤ Subgroup.normalizer (J : Set G) := hc.cent_le
   obtain ⟨Q, iQ, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hOker : ∀ j : J, ψ j = 1 ↔ (j : G) ∈ rankThreePrimeCore p J := by
     intro j
     rw [← MonoidHom.mem_ker, hker, Subgroup.mem_subgroupOf]
@@ -479,7 +481,7 @@ theorem k0_coprime_mem_pPrimeCoreIn {Typ : ℕ → ∀ (Q : Type) [Group Q], Pro
     (hDcyc : IsCyclic ↥(u3S P x ⊓ u3K0 p x J)) (hc : PointConfig Typ G p P M x J) :
     ∀ k ∈ u3K0 p x J, Nat.Coprime p (orderOf k) →
       k ∈ CFSG.ABGTheoremB.pPrimeCoreIn p (Subgroup.centralizer ({x} : Set G)) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨N₀, hN₀K, hN₀C, hN₀cop, hN₀all⟩ := k0_pComplement_of_cyclic hDcyc hc
   have hN₀O := c47_le_pPrimeCoreIn (N₀ := N₀) (fun n hn => (hN₀K hn).1) hN₀C hN₀cop
   exact fun k hk hkp => hN₀O (hN₀all k hk hkp)
@@ -491,7 +493,7 @@ theorem u3_cor47_gen_cyc {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hS : Se
       X ≤ Subgroup.centralizer ({x} : Set G) → X = ⊥ := by
   intro X hX2 hXO hXC
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := hc.five
   obtain ⟨N₀, hN₀K, hN₀C, hN₀cop, hN₀all⟩ := k0_pComplement_of_cyclic hDcyc hc
   have hN₀O := c47_le_pPrimeCoreIn (N₀ := N₀) (fun n hn => (hN₀K hn).1) hN₀C hN₀cop

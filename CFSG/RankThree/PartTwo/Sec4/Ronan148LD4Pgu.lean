@@ -70,13 +70,13 @@ theorem diagE_mem_glPi (h : UnitaryFieldData p f K) {e : Kˣ} (he : (e : K) ^ (p
 theorem diagE_mul_nswap12 (e : Kˣ) : diagE e * (nswap12 : GL (Fin 3) K) = nswap12 * diagE e := by
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_diagE, coe_nswap12]
-  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, diagonal]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, diagonal]
 
 theorem diagE_mul_diagTau (e : Kˣ) {τ : K} (hτ : τ ^ 3 = 1) :
     diagE e * diagTau hτ = diagTau hτ * diagE e := by
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_diagE, coe_diagTau]
-  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, diagonal, mul_comm]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, diagonal, mul_comm]
 
 theorem diagE_pow_three {e : Kˣ} (he : e ^ 3 = 1) : diagE e ^ 3 = 1 := by
   apply Units.ext
@@ -97,7 +97,7 @@ theorem eq_one_of_mk_diagE_nswap01 {e : Kˣ}
   simp only [Units.val_mul, coe_diagE, coe_nswap01, GeneralLinearGroup.coe_scalar] at h'
   have h22 := congrFun (congrFun h' 2) 2
   have h01 := congrFun (congrFun h' 0) 1
-  simp [mul_apply, Fin.sum_univ_three, diagonal, Matrix.scalar_apply] at h22 h01
+  simp [mul_apply, diagonal, Matrix.scalar_apply] at h22 h01
   apply Units.ext
   rw [Units.val_one]
   rw [h22, Units.val_one, mul_one] at h01
@@ -203,9 +203,9 @@ theorem pgu3_triple (hn : Odd n) (h : UnitaryFieldData 2 n K)
       ∀ w' : Y, (w' : ↥(projImage (glPi false 3 (2 ^ n) K))) = u * w * u⁻¹ → π w' ≠ π w := by
   classical
   have := h.finite
-  haveI : Finite (ProjGenLinGroup (Fin 3) K) :=
+  have : Finite (ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective _ ProjGenLinGroup.mk_surjective
-  haveI : Finite (ProjGenLinGroup (Fin 3) (GaloisField 2 (2 * n))) :=
+  have : Finite (ProjGenLinGroup (Fin 3) (GaloisField 2 (2 * n))) :=
     Finite.of_surjective _ ProjGenLinGroup.mk_surjective
   set S : Subgroup ↥(projImage (glPi false 3 (2 ^ n) K)) :=
     (projImage (slPi false 3 (2 ^ n) K)).subgroupOf (projImage (glPi false 3 (2 ^ n) K)) with hS
@@ -299,8 +299,6 @@ theorem pgu3_triple (hn : Odd n) (h : UnitaryFieldData 2 n K)
     apply he1
     apply eq_one_of_mk_diagE_nswap01
     rw [map_mul, map_mul]
-    change ProjGenLinGroup.mk (diagE e) * ProjGenLinGroup.mk (nswap01 : GL (Fin 3) K) =
-      ProjGenLinGroup.mk (nswap01 : GL (Fin 3) K) * ProjGenLinGroup.mk (diagE e)
     calc ProjGenLinGroup.mk (diagE e) * ProjGenLinGroup.mk (nswap01 : GL (Fin 3) K)
         = (ProjGenLinGroup.mk (diagE e) * ProjGenLinGroup.mk (nswap01 : GL (Fin 3) K) *
             (ProjGenLinGroup.mk (diagE e))⁻¹) * ProjGenLinGroup.mk (diagE e) := by group

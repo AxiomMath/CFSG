@@ -14,10 +14,10 @@ private theorem s16h_card_dvd_sub_of_fixedBy {E X : Type*} [Group E] [Finite E] 
     (hf : ∀ g : E, g ≠ 1 → Nat.card ↥(MulAction.fixedBy X g) = f) :
     Nat.card E ∣ N - f := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : ∀ g : E, Fintype ↥(MulAction.fixedBy X g) := fun g => Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbitRel.Quotient E X) := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
+  have : Fintype X := Fintype.ofFinite X
+  have : ∀ g : E, Fintype ↥(MulAction.fixedBy X g) := fun g => Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient E X) := Fintype.ofFinite _
   have key := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group E X
   simp only [Fintype.card_eq_nat_card] at key
   rw [← Finset.add_sum_erase Finset.univ _ (Finset.mem_univ (1 : E))] at key
@@ -54,7 +54,7 @@ theorem s16h_card_dvd_sub_of_fix_card {W : Type} [CommGroup W] [Finite W]
   · have hcU : c ≤ Nat.card ↥U := by
       rw [← hR x₀ hx₀R hx₀ne]
       exact Subgroup.card_le_of_le inf_le_left
-    letI : MulAction ↥R ↥U :=
+    let : MulAction ↥R ↥U :=
       { smul := fun x u => ⟨x.1 u.1, hU x.1 x.2 u.1 u.2⟩
         one_smul := fun u => Subtype.ext rfl
         mul_smul := fun x y u => Subtype.ext rfl }
@@ -82,9 +82,9 @@ theorem s16h_eq_top_of_fixV_le {W : Type} [CommGroup W] [Finite W] {p : ℕ} (hp
     (hW : ¬ p ∣ Nat.card W) {E : Subgroup (MulAut W)} (hE : IsElemAbelian p E)
     (hcard : p ^ 2 ≤ Nat.card ↥E) {F : Subgroup W}
     (hF : ∀ x ∈ E, x ≠ 1 → fixV (zpowers x) ≤ F) : F = ⊤ := by
-  letI : IsMulCommutative ↥E := hE.1
-  letI : CommGroup ↥E := IsMulCommutative.instCommGroup
-  haveI : CFSG.IsElementaryAbelian p ↥E :=
+  let : IsMulCommutative ↥E := hE.1
+  let : CommGroup ↥E := IsMulCommutative.instCommGroup
+  have : CFSG.IsElementaryAbelian p ↥E :=
     { toIsMulCommutative := hE.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one
         (fun x : ↥E => Subtype.ext (hE.2 x.1 x.2)) }

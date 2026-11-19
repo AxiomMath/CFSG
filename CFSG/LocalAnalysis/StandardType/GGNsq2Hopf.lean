@@ -65,9 +65,9 @@ theorem exists_cover_u62
     ∃ ψ : ↥(StatedSU 6 (2 ^ 1) K) →* Y, Function.Surjective ψ ∧
       ∀ s, η (ψ s) =
         QuotientGroup.mk' ((StatedScalars (Fin 6) K).subgroupOf (StatedSU 6 (2 ^ 1) K)) s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hK
-  haveI : Group.IsPerfect ↥(StatedSU 6 (2 ^ 1) K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hK
+  have : Group.IsPerfect ↥(StatedSU 6 (2 ^ 1) K) :=
     CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hK (by norm_num)
   have hβc : (QuotientGroup.mk' ((StatedScalars (Fin 6) K).subgroupOf
       (StatedSU 6 (2 ^ 1) K))).ker ≤ Subgroup.center ↥(StatedSU 6 (2 ^ 1) K) := by
@@ -102,9 +102,9 @@ theorem exists_cover_u42
     ∃ ψ : ↥(StatedSU 4 (2 ^ 1) K) →* Y, Function.Surjective ψ ∧
       ∀ s, η (ψ s) =
         QuotientGroup.mk' ((StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 (2 ^ 1) K)) s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hK
-  haveI : Group.IsPerfect ↥(StatedSU 4 (2 ^ 1) K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hK
+  have : Group.IsPerfect ↥(StatedSU 4 (2 ^ 1) K) :=
     CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hK (by norm_num)
   have hβc : (QuotientGroup.mk' ((StatedScalars (Fin 4) K).subgroupOf
       (StatedSU 4 (2 ^ 1) K))).ker ≤ Subgroup.center ↥(StatedSU 4 (2 ^ 1) K) := by

@@ -1238,13 +1238,13 @@ private theorem exists_eq_mul_on_commutatorSpace_of_absIrred (hp : p ≠ 2)
     intro hc0
     have hv := congrArg (fun Q : QuadraticForm (ZMod p) (HardMathSupport.Kantor79.commutatorSpace X)
       => Q ⟨a', ha'⟩) hEq
-    simp only [QuadraticMap.smul_apply, smul_eq_mul] at hv
+    simp only [_root_.smul_apply, smul_eq_mul] at hv
     rw [hc0, zero_mul] at hv
     exact hQ₂a' (by simpa [QuadraticMap.comp_apply] using hv)
   refine ⟨c, hcne, fun v hv => ?_⟩
   have hv' := congrArg (fun Q : QuadraticForm (ZMod p)
     (HardMathSupport.Kantor79.commutatorSpace X) => Q ⟨v, hv⟩) hEq
-  simpa [QuadraticMap.smul_apply, smul_eq_mul, QuadraticMap.comp_apply] using hv'
+  simpa [_root_.smul_apply, smul_eq_mul, QuadraticMap.comp_apply] using hv'
 
 theorem exists_eq_mul_of_irredOnSection (hp : p ≠ 2) [Module.Finite (ZMod p) U]
     (hD : LemmaTwoSevenData p G H B h)

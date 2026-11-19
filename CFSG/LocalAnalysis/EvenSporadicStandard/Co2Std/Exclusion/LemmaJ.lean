@@ -12,6 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem subtype_toXW_apply (W : Subgroup G) (n : ↥(normalizer (W : Set G))) (w : ↥W) :
     ((((((XW W).subtype) (toXW W n)) w : ↥W)) : G) = (n : G) * (w : G) * (n : G)⁻¹ := by
   rw [show ((XW W).subtype (toXW W n) : MulAut ↥W) = (toXW W n : MulAut ↥W) from rfl]
@@ -19,6 +20,7 @@ private theorem subtype_toXW_apply (W : Subgroup G) (n : ↥(normalizer (W : Set
 
 variable {z : G} {W₁ W₂ : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_mul_self (hz2 : z * z = 1) :
     (MulAut.conj z : MulAut G) * MulAut.conj z = 1 := by
   rw [← map_mul, hz2, map_one]
@@ -72,6 +74,7 @@ private theorem conjEquiv_symm_apply {hzw : ∀ w ∈ W₁, z * w * z⁻¹ ∈ W
 
 variable {Y Ws : Subgroup G} {Qs : Subgroup (MulAut ↥Ws)} {t : ↥Ws}
 
+omit [Finite G] in
 private theorem card_bound_of_module (ψ : ↥Y →* MulAut ↥Ws)
     (hψ : ∀ (y : ↥Y) (w : ↥Ws), ((ψ y) w : G) = (y : G) * (w : G) * (y : G)⁻¹)
     (hmod : ModuleFacts Qs t) (hrange : ψ.range ≤ Qs)
@@ -149,8 +152,8 @@ private theorem card_bound_of_module (ψ : ↥Y →* MulAut ↥Ws)
       simpa [hψ ⟨y, hy⟩ ⟨w, hw⟩] using h
     calc w * (y : G) = ((y : G) * w * (y : G)⁻¹) * (y : G) := by rw [h']
       _ = (y : G) * w := by group
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsElementaryAbelian 2 (⊤ : Subgroup ↥Y) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsElementaryAbelian 2 (⊤ : Subgroup ↥Y) :=
     hY.of_mulEquiv (Subgroup.topEquiv).symm
   have hrange_ea : IsElementaryAbelian 2 ψ.range := by
     rw [MonoidHom.range_eq_map]
@@ -267,7 +270,7 @@ private theorem hoff₂ (h : WHyp G L A T z t W W₁ W₂)
     (hgood : ∀ (s : G) (hs : s ∈ S),
       XGood (XW W).subtype Q (W₁.subgroupOf W) (W₂.subgroupOf W) (toXW W ⟨s, hSN hs⟩))
     (hY : IsElementaryAbelian 2 ↥Y)
-    (hYnorm₁ : ∀ y ∈ Y, ∀ w ∈ W₁, y * w * y⁻¹ ∈ W₁)
+    (_hYnorm₁ : ∀ y ∈ Y, ∀ w ∈ W₁, y * w * y⁻¹ ∈ W₁)
     (hYnorm₂ : ∀ y ∈ Y, ∀ w ∈ W₂, y * w * y⁻¹ ∈ W₂)
     (hnotC : ¬ Y ≤ centralizer (W₂ : Set G)) :
     (centralizer (W₂ : Set G)).relIndex Y *
@@ -406,7 +409,7 @@ theorem WHyp.normalizer_le_of_xGood (h : WHyp G L A T z t W W₁ W₂) {Q : Subg
     rintro _ ⟨w, hw, rfl⟩
     have hmem : g * w * g⁻¹ ∈ S := (Subgroup.mem_normalizer_iff.mp hg w).mp (hWS hw)
     simpa [MulAut.conj_apply] using hmem
-  haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
   have hCP : S ⊓ centralizer (W : Set G) ≤ W := by
     have hP : IsPGroup 2 ↥(S ⊓ centralizer (W : Set G)) := hS.to_inf_left
     have hW_le : W ≤ S ⊓ centralizer (W : Set G) :=

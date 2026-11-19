@@ -94,7 +94,7 @@ theorem fr_injOn (c : GGQ2S08RoN n Bs L x) (w : Fin (n + 1))
       group
     rw [h3, ← TypeA.PGLTor.scalar_mul_comm μ c.Q⁻¹, mul_assoc, inv_mul_cancel, mul_one]
   have hww := hu w
-  rw [if_pos rfl, hu', Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
+  rw [ite_eq_left rfl, hu', Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
     Matrix.diagonal_apply_eq] at hww
   have hμ1 : μ = 1 := Units.ext hww
   apply Subtype.ext

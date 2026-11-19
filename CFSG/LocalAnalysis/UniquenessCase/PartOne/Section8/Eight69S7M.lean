@@ -81,7 +81,7 @@ private theorem s7mim_exists_max {Γ : Type*} [Group Γ] [Finite Γ] {M : Subgro
       ∀ Q : Subgroup Γ, Q ≤ M → IsPGroup 5 Q → P ≤ Q → Q ≤ P := by
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨P₀⟩ : Nonempty (Sylow 5 M) := inferInstance
-  refine ⟨(P₀ : Subgroup M).map M.subtype, Subgroup.map_subtype_le _, ?_, P₀.isPGroup'.map _, ?_⟩
+  refine ⟨(P₀ : Subgroup M).map M.subtype, Subgroup.map_subtype_le _, ?_, P₀.isPGroup.map _, ?_⟩
   · intro h
     exact P₀.ne_bot_of_dvd_card h5
       ((Subgroup.map_eq_bot_iff_of_injective _ M.subtype_injective).mp h)
@@ -103,10 +103,10 @@ private theorem s7mim_sylow_le {Γ : Type*} [Group Γ] [Finite Γ] {M : Subgroup
   obtain ⟨S, hPS⟩ := hP5.exists_le_sylow
   have hSP : (S : Subgroup Γ) ≤ P := by
     by_contra hSP
-    have : Group.IsNilpotent ↥S := IsPGroup.isNilpotent S.isPGroup'
+    have : Group.IsNilpotent ↥S := IsPGroup.isNilpotent S.isPGroup
     have hlt : P.subgroupOf S < ⊤ :=
       lt_top_iff_ne_top.mpr fun h => hSP (Subgroup.subgroupOf_eq_top.mp h)
-    obtain ⟨g, hg, hgP⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+    obtain ⟨g, hg, hgP⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hgN : (g : Γ) ∈ Subgroup.normalizer (P : Set Γ) := by
       have := Subgroup.le_normalizer_map (S : Subgroup Γ).subtype (Subgroup.mem_map_of_mem _ hg)
       rwa [Subgroup.subgroupOf_map_subtype, inf_of_le_left hPS] at this
@@ -114,7 +114,7 @@ private theorem s7mim_sylow_le {Γ : Type*} [Group Γ] [Finite Γ] {M : Subgroup
     have hQS : P ⊔ Subgroup.zpowers (g : Γ) ≤ S :=
       sup_le hPS (Subgroup.zpowers_le.mpr g.2)
     have hQP := hPmax (P ⊔ Subgroup.zpowers (g : Γ))
-      (sup_le hPM (Subgroup.zpowers_le.mpr hgM)) (S.isPGroup'.to_le hQS) le_sup_left
+      (sup_le hPM (Subgroup.zpowers_le.mpr hgM)) (S.isPGroup.to_le hQS) le_sup_left
     exact hgP (hQP (Subgroup.mem_sup_right (Subgroup.mem_zpowers _)))
   exact ⟨S, hSP.trans hPM⟩
 
@@ -131,7 +131,7 @@ private theorem s7mim_main {Γ : Type*} [Group Γ] [Finite Γ] {M K : Subgroup �
   obtain ⟨S, hSM⟩ := s7mim_sylow_le hM h5
   have hSE : (S : Subgroup Γ).map (QuotientGroup.mk' K) ≤ E := by
     rintro _ ⟨s, hs, rfl⟩
-    refine hE5 _ ((S.isPGroup'.map (QuotientGroup.mk' K)).to_le ?_)
+    refine hE5 _ ((S.isPGroup.map (QuotientGroup.mk' K)).to_le ?_)
     exact Subgroup.zpowers_le.mpr (Subgroup.mem_map_of_mem _ hs)
   refine ⟨fun hED => hΓM ?_, fun k hk => ?_⟩
   · have hH1M : E.comap (QuotientGroup.mk' K) ≤ M := by
@@ -144,7 +144,7 @@ private theorem s7mim_main {Γ : Type*} [Group Γ] [Finite Γ] {M K : Subgroup �
     have hSne : (S : Subgroup Γ) ≠ ⊥ :=
       S.ne_bot_of_dvd_card (h5.trans (Subgroup.card_subgroup_dvd_card M))
     rw [← Sylow.normalizer_sup_eq_top' (N := E.comap (QuotientGroup.mk' K)) S hSH1]
-    exact sup_le (hM _ hSM hSne S.isPGroup') hH1M
+    exact sup_le (hM _ hSM hSne S.isPGroup) hH1M
   · have hdvd : 5 ^ k ∣ Nat.card (Γ ⧸ K) := hk.trans (Subgroup.card_subgroup_dvd_card E)
     exact ((S.mapSurjective (QuotientGroup.mk'_surjective K)).pow_dvd_card_of_pow_dvd_card
       hdvd).trans (Subgroup.card_dvd_of_le (le_inf hSE (Subgroup.map_mono hSM)))

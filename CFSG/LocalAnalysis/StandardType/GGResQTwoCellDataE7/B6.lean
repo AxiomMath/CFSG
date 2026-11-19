@@ -20,7 +20,7 @@ theorem cell_E7_b6 :
   intro s hs
   simp only [GGResIDisp.E7.shapes_E7_b6, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl
-  · simp only [wits_E7_b6, if_pos rfl]
+  · simp only [wits_E7_b6]
     exact hwits_E7b6c0
 theorem hsideOK_E7_b6 :
     ∀ s ∈ GGResIDisp.E7.shapes_E7_b6, ∀ w ∈ wits_E7_b6 s,

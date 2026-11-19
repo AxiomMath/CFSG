@@ -17,7 +17,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure
 
 theorem heisU_exp_pos {p q : ℕ} (hp : p.Prime) (hq2 : 2 ≤ q) (hpq : ¬ p ∣ q) :
     1 ≤ padicValInt p ((-(q : ℤ)) ^ orderOf (-(q : ZMod p)) - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne0 : (-(q : ZMod p)) ≠ 0 :=
     neg_ne_zero.2 (fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h))
   have hdvd : (p : ℤ) ∣ (-(q : ℤ)) ^ orderOf (-(q : ZMod p)) - 1 := by
@@ -79,7 +79,7 @@ theorem heisU_exists_elemAbelian_GU {K : Type} [Field K] [Fintype K] {q p n : �
 theorem heisU_card_range_le {G K : Type*} [Group G] [Field K] [Finite K] {p : ℕ} (hp : 0 < p)
     (hG : ∀ x : G, x ^ p = 1) (δ : G →* Kˣ) : Nat.card δ.range ≤ p := by
   classical
-  haveI := Fintype.ofFinite Kˣ
+  have := Fintype.ofFinite Kˣ
   have h1 : Nat.card δ.range ≤ Nat.card {a : Kˣ // a ^ p = 1} := by
     refine Nat.card_le_card_of_injective (fun x => ⟨x.1, ?_⟩) ?_
     · obtain ⟨z, hz⟩ := x.2
@@ -138,7 +138,7 @@ theorem heisU_div_lt {L K : Type} [Group L] [Field K] [Finite K] (hrk : OddRankL
     n / orderOf (-((2 ^ f : ℕ) : ZMod p)) < p := by
   by_contra hge
   push Not at hge
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hKc : Fintype.card K = (2 ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hK
   have hpq : ¬ p ∣ 2 ^ f := fun h => by
     have := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h)

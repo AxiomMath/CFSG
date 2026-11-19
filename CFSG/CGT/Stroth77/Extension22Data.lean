@@ -16,6 +16,7 @@ open scoped IsMulCommutative commutatorElement
 
 variable {S : Type*} [Group S] [Finite S] {B C S' : Subgroup S} {m : ℕ}
 
+omit [Finite S] in
 theorem StrothTypeData.c_eq_of_e_eq {B : Subgroup S} {τ : StrothTypeIndex}
     (D : StrothTypeData B τ) {x : B}
     (h : D.e (Additive.ofMul x) = (Torus.c : Torus τ.k)) : D.c = x := by
@@ -24,6 +25,7 @@ theorem StrothTypeData.c_eq_of_e_eq {B : Subgroup S} {τ : StrothTypeIndex}
   show Additive.toMul (D.e.symm (Torus.c : Torus τ.k)) = x
   rw [h2, toMul_ofMul]
 
+omit [Finite S] in
 theorem StrothTypeData.a_eq_of_e_eq {B : Subgroup S} {τ : StrothTypeIndex}
     (D : StrothTypeData B τ) {x : B}
     (h : D.e (Additive.ofMul x) = (Torus.a : Torus τ.k)) : D.a = x := by
@@ -32,6 +34,7 @@ theorem StrothTypeData.a_eq_of_e_eq {B : Subgroup S} {τ : StrothTypeIndex}
   show Additive.toMul (D.e.symm (Torus.a : Torus τ.k)) = x
   rw [h2, toMul_ofMul]
 
+omit [Finite S] in
 theorem StrothTypeData.b_eq_of_e_eq {B : Subgroup S} {τ : StrothTypeIndex}
     (D : StrothTypeData B τ) {x : B}
     (h : D.e (Additive.ofMul x) = (Torus.b : Torus τ.k)) : D.b = x := by
@@ -116,7 +119,7 @@ theorem strothTypeData_t300_or_t310_of_data
             (conj_dAdj (D := D) hBC hdC hm α θ δ (hL D.uv_mem_L) D.uv_mem
               (conj_eq_bUV (D := D) hBC hrel hdC hdB hL))
             (ec_bUV' (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 0) (q := q) (η := η) (hq := hqq) (hη := hee) (hY := hY) (hZ := hZ)), Type300.uv_c (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul, sub_zero]
+        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul]
         refine gens_eq_of_mul (t0 := -3 * (α : ℤ)) (t1 := 0) (t2 := 0) ?_ ?_ ?_
         · rw [show ((2 : ℤ) ^ (Type300.k (m + 1)) 0) = 2 ^ (m + 1) by simp [Type300.k]]
           linear_combination (3 * (α : ℤ)) * two_mul_two_pow_int m
@@ -144,13 +147,13 @@ theorem strothTypeData_t300_or_t310_of_data
             (conj_dAdj (D := D) hBC hdC hm α θ δ (hL D.t_mem_L) D.t_mem
               (conj_eq_bT (D := D) hBC hrel hdC hdB hL))
             (ec_bT' (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 0) (q := q) (hq := hqq) (hY := hY)), Type300.t_c (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Torus.c, Torus.a, Nat.cast_zero, zero_mul, zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.t_mem_L) (⟨D.a, hBC D.a.2⟩ : C))) =
           (Type300.action (m + 1)).φt (gen (Type300.k (m + 1)) 1)
         rw [E_image_a (D := D) hBC hd'C hd'2 E (hL D.t_mem_L) D.t_mem
             (ec_conj_a_t D), Type300.t_a (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b]
+        simp only [Torus.a]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.t_mem_L) (⟨D.b, hBC D.b.2⟩ : C))) =
           (Type300.action (m + 1)).φt (gen (Type300.k (m + 1)) 2)
@@ -167,20 +170,20 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [E_image_d (D := D) hBC hd'C hd'2 E (hL D.u_mem_L) D.u_mem
             (conj_dAdj (D := D) hBC hdC hm α θ δ (hL D.u_mem_L) D.u_mem
               (conj_eq_bU (D := D) hBC hrel hdC hdB hL))
-            (ec_bU' (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 0) (hε := by omega) (hX := hX)), Type300.u_c (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul]
+            (ec_bU' (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 0) (_hε := by omega) (hX := hX)), Type300.u_c (m + 1)]
+        simp only [Torus.c, Nat.cast_zero, zero_mul, zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.u_mem_L) (⟨D.a, hBC D.a.2⟩ : C))) =
           (Type300.action (m + 1)).φu (gen (Type300.k (m + 1)) 1)
         rw [E_image_a (D := D) hBC hd'C hd'2 E (hL D.u_mem_L) D.u_mem
             (ec_conj_a_u D), Type300.u_a (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b]
+        simp only [Torus.b]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.u_mem_L) (⟨D.b, hBC D.b.2⟩ : C))) =
           (Type300.action (m + 1)).φu (gen (Type300.k (m + 1)) 2)
         rw [E_image_b (D := D) hBC hd'C hd'2 E (hL D.u_mem_L) D.u_mem
             (ec_conj_b_u D), Type300.u_b (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b]
+        simp only [Torus.a]
         module
     have hρ : ∀ j : Fin 3, E.e (Additive.ofMul (conjBy (hL D.ρ_mem_L) (basisElems D hBC hd'C j))) =
         (Type300.action (m + 1)).φρ (gen (Type300.k (m + 1)) j) := by
@@ -192,13 +195,13 @@ theorem strothTypeData_t300_or_t310_of_data
             (conj_dAdj (D := D) hBC hdC hm α θ δ (hL D.ρ_mem_L) D.ρ_mem
               (conj_eq_bR (D := D) hBC hrel hdC hdB hL))
             (ec_bR' (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (η := η) (hη := hee) (hZ := hZ)), Type300.rho_c (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Torus.c, zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.ρ_mem_L) (⟨D.a, hBC D.a.2⟩ : C))) =
           (Type300.action (m + 1)).φρ (gen (Type300.k (m + 1)) 1)
         rw [E_image_a (D := D) hBC hd'C hd'2 E (hL D.ρ_mem_L) D.ρ_mem
             (ec_conj_a_ρ D), Type300.rho_a (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b]
+        simp only [Torus.b]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.ρ_mem_L) (⟨D.b, hBC D.b.2⟩ : C))) =
           (Type300.action (m + 1)).φρ (gen (Type300.k (m + 1)) 2)
@@ -261,7 +264,7 @@ theorem strothTypeData_t300_or_t310_of_data
           try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
-        simp only [Nat.cast_one, one_mul, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Nat.cast_one, one_mul]
         refine gens_eq_of_mul (t0 := -3 * (α : ℤ)) (t1 := 0) (t2 := 0) ?_ ?_ ?_
         · rw [show ((2 : ℤ) ^ (Type300.k (m + 1)) 0) = 2 ^ (m + 1) by simp [Type300.k]]
           linear_combination (3 * (α : ℤ)) * two_mul_two_pow_int m
@@ -273,7 +276,6 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [show (Type310.action (m + 1) (by omega)).φuv (gen (Type310.k (m + 1)) 1) =
             (4 : ℤ) • gen (Type300.k (m + 1)) 0 + (1 : ℤ) • gen (Type300.k (m + 1)) 1 + (2 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.uv_a (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -311,7 +313,7 @@ theorem strothTypeData_t300_or_t310_of_data
           try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
-        simp only [Nat.cast_one, one_mul, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Nat.cast_one, one_mul]
         rw [two_pow_succ_int hm]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.t_mem_L) (⟨D.a, hBC D.a.2⟩ : C))) = (Type310.action (m + 1) (by omega)).φt (gen (Type310.k (m + 1)) 1)
@@ -320,7 +322,6 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [show (Type310.action (m + 1) (by omega)).φt (gen (Type310.k (m + 1)) 1) =
             (0 : ℤ) • gen (Type300.k (m + 1)) 0 + (-1 : ℤ) • gen (Type300.k (m + 1)) 1 + (0 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.t_a (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -330,7 +331,6 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [show (Type310.action (m + 1) (by omega)).φt (gen (Type310.k (m + 1)) 2) =
             (-4 : ℤ) • gen (Type300.k (m + 1)) 0 + (-2 : ℤ) • gen (Type300.k (m + 1)) 1 + (-1 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.t_b (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -342,14 +342,14 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [E_image_d (D := D) hBC hd'C hd'2 E (hL D.u_mem_L) D.u_mem
             (conj_dAdj (D := D) hBC hdC hm α θ δ (hL D.u_mem_L) D.u_mem
               (conj_eq_bU (D := D) hBC hrel hdC hdB hL))
-            (ec_bU' (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 1) (hε := by omega) (hX := hX))]
+            (ec_bU' (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 1) (_hε := by omega) (hX := hX))]
         rw [show (Type310.action (m + 1) (by omega)).φu (gen (Type310.k (m + 1)) 0) =
             ((2 : ℤ) * 2 ^ (m - 1) + 1) • gen (Type300.k (m + 1)) 0 + (0 : ℤ) • gen (Type300.k (m + 1)) 1 + (0 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.u_c (m + 1) (by omega)]
           try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
-        simp only [Nat.cast_one, one_mul, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Nat.cast_one, one_mul, zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.u_mem_L) (⟨D.a, hBC D.a.2⟩ : C))) = (Type310.action (m + 1) (by omega)).φu (gen (Type310.k (m + 1)) 1)
         rw [E_image_a (D := D) hBC hd'C hd'2 E (hL D.u_mem_L) D.u_mem
@@ -357,7 +357,6 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [show (Type310.action (m + 1) (by omega)).φu (gen (Type310.k (m + 1)) 1) =
             (0 : ℤ) • gen (Type300.k (m + 1)) 0 + (0 : ℤ) • gen (Type300.k (m + 1)) 1 + (1 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.u_a (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -367,7 +366,6 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [show (Type310.action (m + 1) (by omega)).φu (gen (Type310.k (m + 1)) 2) =
             (0 : ℤ) • gen (Type300.k (m + 1)) 0 + (1 : ℤ) • gen (Type300.k (m + 1)) 1 + (0 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.u_b (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -383,10 +381,9 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [show (Type310.action (m + 1) (by omega)).φρ (gen (Type310.k (m + 1)) 0) =
             (1 : ℤ) • gen (Type300.k (m + 1)) 0 + (0 : ℤ) • gen (Type300.k (m + 1)) 1 + (0 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.rho_c (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL D.ρ_mem_L) (⟨D.a, hBC D.a.2⟩ : C))) = (Type310.action (m + 1) (by omega)).φρ (gen (Type310.k (m + 1)) 1)
         rw [E_image_a (D := D) hBC hd'C hd'2 E (hL D.ρ_mem_L) D.ρ_mem
@@ -394,7 +391,6 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [show (Type310.action (m + 1) (by omega)).φρ (gen (Type310.k (m + 1)) 1) =
             (0 : ℤ) • gen (Type300.k (m + 1)) 0 + (0 : ℤ) • gen (Type300.k (m + 1)) 1 + (1 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.rho_a (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -404,7 +400,6 @@ theorem strothTypeData_t300_or_t310_of_data
         rw [show (Type310.action (m + 1) (by omega)).φρ (gen (Type310.k (m + 1)) 2) =
             (-4 : ℤ) • gen (Type300.k (m + 1)) 0 + (-1 : ℤ) • gen (Type300.k (m + 1)) 1 + (-1 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.rho_b (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -456,13 +451,13 @@ theorem not_isCyclic_quotient_four_of_data
     letI : (B.subgroupOf C).Normal :=
       Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
     ¬ IsCyclic (C ⧸ B.subgroupOf C) := by
-  letI : (B.subgroupOf C).Normal :=
+  let : (B.subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
   intro hcycQ
   classical
   have hcomm : ∀ x y : C, x * y = y * x :=
     comm_of_le_centralizer_of_cyclic_quotient hBC hC hcycQ
-  letI : CommGroup C := { mul_comm := hcomm }
+  let : CommGroup C := { mul_comm := hcomm }
   obtain ⟨q₀, hq₀⟩ := hcycQ.exists_generator
   obtain ⟨z, hzq⟩ := QuotientGroup.mk'_surjective (B.subgroupOf C) q₀
   let q : C ⧸ B.subgroupOf C := QuotientGroup.mk' (B.subgroupOf C) z
@@ -651,7 +646,7 @@ theorem not_isCyclic_quotient_four_of_data
         _ = yC * (yC * cC ^ (-2 : ℤ))⁻¹ := by rw [hz4C, hsC4]
         _ = cC ^ 2 := by
             have hcinv : (cC ^ (-2 : ℤ))⁻¹ = cC ^ 2 := by
-              simpa using (zpow_neg cC (-2 : ℤ)).symm
+              simp
             rw [mul_inv_rev, hcinv]
             calc yC * (cC ^ 2 * yC⁻¹) = (yC * cC ^ 2) * yC⁻¹ := by rw [mul_assoc]
               _ = (cC ^ 2 * yC) * yC⁻¹ := by rw [mul_comm yC (cC ^ 2)]
@@ -690,7 +685,7 @@ theorem not_isCyclic_quotient_four_of_data
     exact hwinv_notB (hH (winv : S) (hcS winv.2) hwinvS2 (hC winv.2))
 
 theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
-    [hN : (B.subgroupOf C).Normal]
+    [_hN : (B.subgroupOf C).Normal]
     (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 4 * Nat.card B)
@@ -701,7 +696,7 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
   let Bc : Subgroup C := B.subgroupOf C
   have hBcCenter : Bc ≤ Subgroup.center C := by
     simpa [Bc] using subgroupOf_le_center hBC hC
-  haveI : Bc.Normal := Subgroup.normal_of_le_center hBcCenter
+  have : Bc.Normal := Subgroup.normal_of_le_center hBcCenter
   have hncyc' : ¬ IsCyclic (C ⧸ Bc) := by
     simpa [Bc] using hncyc
   have hcardQ : Nat.card (C ⧸ Bc) = 4 := by
@@ -718,7 +713,7 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
     have h : (QuotientGroup.mk' Bc x) * (QuotientGroup.mk' Bc x) = 1 := hexpQ _
     have h' : QuotientGroup.mk' Bc (x * x) = 1 := by rwa [map_mul]
     exact (QuotientGroup.eq_one_iff (N := Bc) (x * x)).mp (by simpa using h')
-  haveI : Fintype (C ⧸ Bc) := Fintype.ofFinite _
+  have : Fintype (C ⧸ Bc) := Fintype.ofFinite _
   have hone_lt : 1 < Fintype.card (C ⧸ Bc) := by
     rw [Fintype.card_eq_nat_card, hcardQ]
     norm_num
@@ -740,8 +735,8 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
     apply hq₂
     rw [← h]
     exact Subgroup.mem_zpowers q₁
-  haveI : Nontrivial (C ⧸ Bc) := Fintype.one_lt_card_iff_nontrivial.mp hone_lt
-  haveI : IsKleinFour (C ⧸ Bc) := by
+  have : Nontrivial (C ⧸ Bc) := Fintype.one_lt_card_iff_nontrivial.mp hone_lt
+  have : IsKleinFour (C ⧸ Bc) := by
     refine ⟨hcardQ, ?_⟩
     rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
     intro q hq
@@ -791,7 +786,7 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
   have hzCenter : z ∈ Subgroup.center C := hBcCenter hzBc
   have hNleBc : N ≤ Bc := Subgroup.zpowers_le.mpr hzBc
   have hNcenter : N ≤ Subgroup.center C := hNleBc.trans hBcCenter
-  haveI : N.Normal := Subgroup.normal_of_le_center hNcenter
+  have : N.Normal := Subgroup.normal_of_le_center hNcenter
   have hz2 : z * z = 1 := by
     have hcomm_e_z : Commute e z := Subgroup.mem_center_iff.mp hzCenter e
     have hpow := hcomm_e_z.commutatorElement_pow_left 2
@@ -814,10 +809,10 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
   have hE_le_Te : E ≤ Te := by
     change Subgroup.zpowers e ≤ Te
     rw [Subgroup.zpowers_le, mem_commutatorFiberLeft]
-    simpa using N.one_mem
+    simp
   have hfTe : f ∈ Te := by
     rw [mem_commutatorFiberLeft]
-    simpa [z, N] using Subgroup.mem_zpowers z
+    simp [z, N]
   have hTeTop : Te = ⊤ := by
     rw [eq_top_iff, ← hHtop]
     exact sup_le (sup_le hBc_le_Te hE_le_Te) (Subgroup.zpowers_le.mpr hfTe)
@@ -831,11 +826,11 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
   have heTf : e ∈ Tf := by
     rw [mem_commutatorFiberLeft]
     rw [← commutatorElement_inv]
-    exact N.inv_mem (by simpa [z, N] using Subgroup.mem_zpowers z)
+    exact N.inv_mem (by simp [z, N])
   have hF_le_Tf : F ≤ Tf := by
     change Subgroup.zpowers f ≤ Tf
     rw [Subgroup.zpowers_le, mem_commutatorFiberLeft]
-    simpa using N.one_mem
+    simp
   have hTfTop : Tf = ⊤ := by
     rw [eq_top_iff, ← hHtop]
     exact sup_le (sup_le hBc_le_Tf (Subgroup.zpowers_le.mpr heTf)) hF_le_Tf
@@ -869,7 +864,7 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
   let C' : Subgroup C := _root_.commutator C
   have hC'_le_N : C' ≤ N := hcomm_le_N
   have hC'_le_Bc : C' ≤ Bc := hC'_le_N.trans hNleBc
-  haveI : C'.Characteristic := by
+  have : C'.Characteristic := by
     change (_root_.commutator C).Characteristic
     infer_instance
   have hNcard : Nat.card N ≤ 2 := by
@@ -880,16 +875,16 @@ theorem isMulCommutative_of_relIndex_four_of_not_cyclic_of_data
       simpa [pow_two] using hz2
     exact Nat.le_of_dvd (by norm_num) hdvd
   have hC'_card : Nat.card C' ≤ 2 := (Subgroup.card_le_of_le hC'_le_N).trans hNcard
-  haveI : IsCyclic N := by
+  have : IsCyclic N := by
     change IsCyclic (Subgroup.zpowers z)
     infer_instance
-  haveI : IsCyclic C' := Subgroup.isCyclic_of_le hC'_le_N
+  have : IsCyclic C' := Subgroup.isCyclic_of_le hC'_le_N
   have hAutcard : Nat.card (MulAut C') = 1 := by
     rw [IsCyclic.card_mulAut]
     rw [Nat.totient_eq_one_iff]
     have hpos : 0 < Nat.card C' := Nat.card_pos
     omega
-  haveI : Subsingleton (MulAut C') := (Nat.card_eq_one_iff_unique.mp hAutcard).1
+  have : Subsingleton (MulAut C') := (Nat.card_eq_one_iff_unique.mp hAutcard).1
   have hfixρ : ∀ x : C, x ∈ C' →
       D.ρ⁻¹ * (x : S) * D.ρ = (x : S) := by
     intro x hx
@@ -963,10 +958,10 @@ theorem exists_sq_eq_a_b_of_data
   let sq := sqQuotientHom hcommC D hBC hC hrel hncyc
   have hca : cParity D hm D.a = 0 := by
     rw [cParity, D.ec_a]
-    simp [Torus.a, gen, Pi.single_apply]
+    simp [Torus.a, gen]
   have hcb : cParity D hm D.b = 0 := by
     rw [cParity, D.ec_b]
-    simp [Torus.b, gen, Pi.single_apply]
+    simp [Torus.b, gen]
   have ha_range : QuotientGroup.mk' (sqSubgroup D) D.a ∈ sq.range := by
     have hreq := sq_range_eq_ab_of_data D hBC hC hrel hL hncyc hH hcS hm
     rw [show sq.range = (cParityQuotient D hm).ker from hreq]
@@ -1048,7 +1043,7 @@ theorem strothZeroTorusBasis_of_data
       Nonempty (TorusBasisEquivFour D hBC e f) := by
   subst hm0
   classical
-  haveI hN : (B.subgroupOf C).Normal :=
+  have hN : (B.subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
   have hncyc : ¬ IsCyclic (C ⧸ B.subgroupOf C) :=
     not_isCyclic_quotient_four_of_data D hBC hC hrel hL hH hcS
@@ -1242,7 +1237,7 @@ theorem strothTypeData_t200_or_t201_of_data
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 4 * Nat.card B)
     (hL : D.L ≤ Subgroup.normalizer C)
-    (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S') (hne : C ≠ B) :
+    (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S') (_hne : C ≠ B) :
     ∃ e f : C, e * e = (D.a : S) ∧ f * f = (D.b : S) ∧
       ((∃ D' : StrothTypeData C (StrothTypeIndex.t200 m),
           D'.uv = D.uv ∧ D'.t = D.t ∧ D'.u = D.u ∧ D'.ρ = D.ρ ∧
@@ -1251,7 +1246,7 @@ theorem strothTypeData_t200_or_t201_of_data
           D'.uv = D.uv ∧ D'.t = D.t ∧ D'.u = D.u ∧ D'.ρ = D.ρ ∧
             (D'.c : S) = D.c ∧ (D'.a : S) = e ∧ (D'.b : S) = f)) := by
   classical
-  haveI hN : (B.subgroupOf C).Normal :=
+  have hN : (B.subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
   have hncyc : ¬ IsCyclic (C ⧸ B.subgroupOf C) :=
     not_isCyclic_quotient_four_of_data D hBC hC hrel hL hH hcS
@@ -1329,6 +1324,7 @@ theorem hasStrothType_t300_or_t310_of_data
   · exact Or.inr ⟨D'⟩
 
 
+omit [Finite S] in
 theorem hasStrothType_t200_or_t201_of_data
     [Finite S] {B C S' : Subgroup S} {m : ℕ}
     (hB : HasStrothType B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)

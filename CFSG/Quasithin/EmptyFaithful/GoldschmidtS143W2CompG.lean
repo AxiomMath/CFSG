@@ -63,7 +63,7 @@ theorem not_component_le (h : Ctx T M g A t d x) (hf : Wp0 T d x) (hZ : Z ≤ Gw
   have hq := isQuasisimple_of_isComponentIn hL
   obtain ⟨Sy⟩ : Nonempty (Sylow 2 ↥L) := inferInstance
   set S : Subgroup G := (Sy : Subgroup ↥L).map L.subtype with hS
-  have hS2 : IsPGroup 2 S := Sy.isPGroup'.map L.subtype
+  have hS2 : IsPGroup 2 S := Sy.isPGroup.map L.subtype
   have hSL : S ≤ L := Subgroup.map_subtype_le _
   have hW2 := h.isPGroup_zpowers_w
   have hcommL : ∀ l ∈ L, l * wOfX d x = wOfX d x * l := fun l hl => mem_Gw_iff.mp (hL.1 hl)

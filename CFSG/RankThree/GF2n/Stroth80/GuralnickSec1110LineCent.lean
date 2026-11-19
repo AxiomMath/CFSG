@@ -21,6 +21,7 @@ private theorem Ctx.Z_le_centralizer_Q (hc : Ctx M Q Z B) :
   exact inf_le_right
 
 omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem Ctx.conj_mem_sup_Z_of_commutator_mem_Z (hc : Ctx M Q Z B) {k l : G}
     (hkZ : k ∈ Subgroup.centralizer (Z : Set G)) (hlM : l ∈ M)
     (hB : B ≤ ⁅Q, Subgroup.zpowers l⁆ ⊔ Z)
@@ -51,7 +52,7 @@ private theorem Ctx.conj_mem_sup_Z_of_commutator_mem_Z (hc : Ctx M Q Z B) {k l :
   rw [e]
   exact (B ⊔ Z).mul_mem (Subgroup.mem_sup_right (hfix x hx)) (Subgroup.mem_sup_left hBxw)
 
-omit [(Q.subgroupOf M).Normal] in
+omit [(Q.subgroupOf M).Normal] [Finite G] in
 private theorem Ctx.comm_mem_Q_of_mul_comm_mem_Q (hc : Ctx M Q Z B) {c x b : G} (hcM : c ∈ M)
     (hcb : ⁅c, b⁆ ∈ Q) (hcxb : ⁅c * x, b⁆ ∈ Q) : ⁅x, b⁆ ∈ Q := by
   have h1 : ⁅c * x, b⁆ = c * ⁅x, b⁆ * c⁻¹ * ⁅c, b⁆ := commutatorElement_mul_left_eq_conj_mul c x b
@@ -91,7 +92,7 @@ private theorem Ctx.exists_mem_normalizer_of_fix (hc : Ctx M Q Z B) {l : G}
     rw [conjSubgroup_mul, ← hpB, ← conjSubgroup_mul, inv_mul_cancel, conjSubgroup_one]
   exact ⟨p⁻¹ * k, p, hpQ, by group, ⟨M.mul_mem (M.inv_mem hpM) hkM, hk'Z⟩, hk'B⟩
 
-omit [(Q.subgroupOf M).Normal] in
+omit [(Q.subgroupOf M).Normal] [Finite G] in
 private theorem Ctx.comm_mem_Q_of_eq_mul (hc : Ctx M Q Z B) {k k' p b : G} (hpQ : p ∈ Q)
     (hbM : b ∈ M) (hk : k = p * k') (h : ⁅k', b⁆ ∈ Q) : ⁅k, b⁆ ∈ Q := by
   have h1 : ⁅k, b⁆ = p * ⁅k', b⁆ * p⁻¹ * ⁅p, b⁆ := by

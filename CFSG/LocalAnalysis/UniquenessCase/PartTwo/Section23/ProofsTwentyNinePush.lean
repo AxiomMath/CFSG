@@ -36,13 +36,14 @@ theorem InS3.thompsonJ_eq_of_le {S R : Subgroup G} (hJ : InS3.thompsonJ S ≤ R)
   rw [InS3.thompsonJ_eq_quasithin, InS3.thompsonJ_eq_quasithin]
   exact CFSG.QuasithinUnique.GammaExtra.thompsonJ_eq_of_le hJ' hRS
 
+omit [Finite G] in
 private theorem isPGroup_quotient_of_sup_eq_top {H K T : Subgroup G}
     [hN : (K.subgroupOf H).Normal]
     (hKH : K ≤ H) (hTH : T ≤ H) (hsup : K ⊔ T = H) (hT2 : IsPGroup 2 T) :
     IsPGroup 2 (↥H ⧸ K.subgroupOf H) := by
   classical
   let N : Subgroup ↥H := K.subgroupOf H
-  haveI hN' : N.Normal := hN
+  have hN' : N.Normal := hN
   change IsPGroup 2 (↥H ⧸ N)
   let π : ↥H →* (↥H ⧸ N) := QuotientGroup.mk' N
   have hsup' : N ⊔ T.subgroupOf H = ⊤ := by
@@ -73,6 +74,7 @@ private theorem isPGroup_quotient_of_sup_eq_top {H K T : Subgroup G}
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
   exact ⟨j, hj⟩
 
+omit [Finite G] in
 private theorem sup_pCoreOf_eq_of_barImage_eq_top {M K : Subgroup G} (hKM : K ≤ M)
     (h : barImage M K = ⊤) : K ⊔ CFSG.Open.pCoreOf 2 M = M := by
   refine le_antisymm (sup_le hKM (CFSG.openPCoreOf_le 2 M)) ?_
@@ -112,7 +114,7 @@ private theorem le_thompsonJ_of_barImage_eq_top {L H : Subgroup G} (hLH : L ≤ 
   let K : Subgroup G := InS3.thompsonJ H ⊓ L
   have hKleL : K ≤ L := inf_le_right
   have hKnormal : (K.subgroupOf L).Normal := normal_subgroupOf_inf_thompsonJ hLH
-  haveI : (K.subgroupOf L).Normal := hKnormal
+  have : (K.subgroupOf L).Normal := hKnormal
   have hsup : K ⊔ CFSG.Open.pCoreOf 2 L = L :=
     sup_pCoreOf_eq_of_barImage_eq_top hKleL h
   have hO2p : IsPGroup 2 (CFSG.Open.pCoreOf 2 L) := uc22main1_isPGroup_pCoreOf L
@@ -139,10 +141,10 @@ private theorem inf_thompsonJ_le_pCoreOf_L {L H : Subgroup G} (hLH : L ≤ H)
   let K : Subgroup G := InS3.thompsonJ H ⊓ L
   have hKleL : K ≤ L := inf_le_right
   have hKnormal : (K.subgroupOf L).Normal := normal_subgroupOf_inf_thompsonJ hLH
-  haveI : IsSimpleGroup (Bar2 L) := hsimple
+  have : IsSimpleGroup (Bar2 L) := hsimple
   have hYnormal : (barImage L K).Normal :=
     hKnormal.map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) (QuotientGroup.mk'_surjective _)
-  haveI : (barImage L K).Normal := hYnormal
+  have : (barImage L K).Normal := hYnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (barImage L K) with hbot | htop
   · exact le_pCoreOf_of_barImage_eq_bot hKleL hbot
   · exact absurd (le_thompsonJ_of_barImage_eq_top hLH hperf htop) hnot
@@ -159,7 +161,7 @@ private theorem isPGroup_thompsonJ_of_not_le {L H T : Subgroup G} (hsup : L ⊔ 
     inf_thompsonJ_le_pCoreOf_L hLH hperf hsimple hnot
   have hKp : IsPGroup 2 K := (uc22main1_isPGroup_pCoreOf L).to_le hKleO2
   have hKnormal : (K.subgroupOf L).Normal := normal_subgroupOf_inf_thompsonJ hLH
-  haveI hN : (L.subgroupOf H).Normal :=
+  have hN : (L.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hLnormal
   have hQp : IsPGroup 2 (↥H ⧸ L.subgroupOf H) :=
     isPGroup_quotient_of_sup_eq_top (K := L) (T := T) hLH hTH hsup hT2
@@ -189,7 +191,7 @@ private theorem opResidual_eq_of_sup {L H T : Subgroup G} (hsup : L ⊔ T = H)
   classical
   have hLH : L ≤ H := le_sup_left.trans hsup.le
   have hTH : T ≤ H := le_sup_right.trans hsup.le
-  haveI hN : (L.subgroupOf H).Normal :=
+  have hN : (L.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hLnormal
   have hQp : IsPGroup 2 (↥H ⧸ L.subgroupOf H) :=
     isPGroup_quotient_of_sup_eq_top (K := L) (T := T) hLH hTH hsup hT2
@@ -218,17 +220,19 @@ private theorem le_normalizer_thompsonJ_of_push {T T₀ X : Subgroup G} (hT₀T 
     exact CFSG.QuasithinUnique.GammaExtra.normalizer_le_normalizer_thompsonJ T₀
   exact hX.trans hchar
 
+omit [Finite G] in
 private theorem fixV_barSub_eq_bot_of_binaryNaturalSL {V L : Subgroup G}
     (hV : IsElemAbelian 2 V) {n : ℕ}
     (hnat : CFSG.Quasithin.BinaryNaturalSL (barSub ⊥ V hV L) ⊤ ⊥ 2 n) :
     CFSG.Quasithin.fixV (barSub ⊥ V hV L) = ⊥ := by
   obtain ⟨K, hKfield, hKfin, -, hreal⟩ := hnat
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨π, hπ⟩ := hreal
   have h := CFSG.Quasithin.FFC.fixV_inf_eq_bot_of_nat (d := 2) (by norm_num) hπ
   simpa using h
 
+omit [Finite G] in
 private theorem le_centralizer_of_le_center {L H Z : Subgroup G} (hLH : L ≤ H)
     (hZ : Z ≤ (Subgroup.center ↥H).map H.subtype) :
     L ≤ Subgroup.centralizer (Z : Set G) := by
@@ -245,7 +249,7 @@ private theorem le_centralizer_of_le_center {L H Z : Subgroup G} (hLH : L ≤ H)
     _ = l * z := by rw [hzc]
 
 private theorem Z_eq_bot_of_fixV_barSub_eq_bot {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) {H : Subgroup G} (hLH : c.L ≤ H)
+    (c : Ctx23L D Ch) {H : Subgroup G} (_hLH : c.L ≤ H)
     (hV : IsElemAbelian 2 c.V)
     (hLcentral : c.L ≤ Subgroup.centralizer (D.Z : Set G))
     (hfix : CFSG.Quasithin.fixV (barSub ⊥ c.V hV c.L) = ⊥) :
@@ -463,10 +467,10 @@ private theorem first_alternative_le_N {D : Data G} {Ch : Choice2011 G} (h4 : S2
   exact (le_sup_left.trans hX'normC).trans hNle
 
 private theorem thompsonJ_sup_eq_of_not_le {D : Data G} {Ch : Choice2011 G}
-    (h4 : S23_4 D Ch) (hOff : OffenderV2329 D Ch) (h1930 : H1930 D) (c : Ctx23L D Ch)
+    (_h4 : S23_4 D Ch) (_hOff : OffenderV2329 D Ch) (_h1930 : H1930 D) (c : Ctx23L D Ch)
     (hsimple : IsSimpleGroup (Bar2 c.L)) {X : Subgroup G}
     (hLnot : ¬ c.L ≤ InS3.thompsonJ (c.L ⊔ D.T))
-    (hXJ : X ≤ Subgroup.normalizer (InS3.thompsonJ D.T : Set G)) :
+    (_hXJ : X ≤ Subgroup.normalizer (InS3.thompsonJ D.T : Set G)) :
     IsPGroup 2 (InS3.thompsonJ (c.L ⊔ D.T)) ∧
       InS3.thompsonJ (c.L ⊔ D.T) ≤ D.T ∧
         InS3.thompsonJ D.T = InS3.thompsonJ (c.L ⊔ D.T) := by
@@ -531,7 +535,7 @@ theorem push2329_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch) (h23 : S2
   classical
   let H : Subgroup G := c.L ⊔ D.T
   obtain ⟨hV, hL2, hnat⟩ := h23 h1930 c
-  haveI : IsSimpleGroup (Bar2 c.L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
+  have : IsSimpleGroup (Bar2 c.L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   have hXJ : X ≤ Subgroup.normalizer (InS3.thompsonJ D.T : Set G) :=
     le_normalizer_thompsonJ_of_push hT₀ hJT hX
   have hTJ : D.T ≤ Subgroup.normalizer (InS3.thompsonJ D.T : Set G) := by

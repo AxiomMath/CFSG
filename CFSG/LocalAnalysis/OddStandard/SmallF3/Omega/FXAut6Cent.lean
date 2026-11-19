@@ -15,6 +15,7 @@ open QuadraticMap Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {t : OGroup Q}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fx_aut6_piOrth_mul_t_eq (htt : t * t = 1) :
     (piOrth Q * t : OGroup Q) = blockHom htt (piOrth (Q.restrict (fixSp t)), 1) := by
   have h1 := blockHom_piOrth_piOrth htt
@@ -60,6 +61,7 @@ theorem fx_aut6_one_cases (D : Om6Par Q t) {g : OGroup Q} (hgg : g * g = 1)
     right
     exact ⟨α, by rw [← hbg, ff_invType_blockHom_inl D.nd D.htt hbb, hα]⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fx_aut6_piOrth_comm (g : OGroup Q) : piOrth Q * g = g * piOrth Q :=
   (Subgroup.mem_center_iff.mp piOrth_mem_center g).symm
 

@@ -76,16 +76,16 @@ theorem FF81Sec5.ε_zero : h5.ε 0 = 1 := S36.ε4_zero
 theorem FF81Sec5.ε_eq_one {v : V} (h : h5.ε v = 1) : v = 0 := h5.ε_inj (h.trans h5.ε_zero.symm)
 
 theorem FF81Sec5.ε_e0 : h5.ε (e 0) = b := by
-  simp [FF81Sec5.ε, S36.ε4, e, Pi.single_apply, show (1 : ZMod 3).val = 1 from rfl]
+  simp [FF81Sec5.ε, S36.ε4, e, show (1 : ZMod 3).val = 1 from rfl]
 
 theorem FF81Sec5.ε_e1 : h5.ε (e 1) = b₁ := by
-  simp [FF81Sec5.ε, S36.ε4, e, Pi.single_apply, show (1 : ZMod 3).val = 1 from rfl]
+  simp [FF81Sec5.ε, S36.ε4, e, show (1 : ZMod 3).val = 1 from rfl]
 
 theorem FF81Sec5.ε_e2 : h5.ε (e 2) = b₂ := by
-  simp [FF81Sec5.ε, S36.ε4, e, Pi.single_apply, show (1 : ZMod 3).val = 1 from rfl]
+  simp [FF81Sec5.ε, S36.ε4, e, show (1 : ZMod 3).val = 1 from rfl]
 
 theorem FF81Sec5.ε_e3 : h5.ε (e 3) = b₃ := by
-  simp [FF81Sec5.ε, S36.ε4, e, Pi.single_apply, show (1 : ZMod 3).val = 1 from rfl]
+  simp [FF81Sec5.ε, S36.ε4, e, show (1 : ZMod 3).val = 1 from rfl]
 
 theorem FF81Sec5.ε_lit (a₀ a₁ a₂ a₃ : ZMod 3) :
     h5.ε ![a₀, a₁, a₂, a₃] = b ^ a₀.val * b₁ ^ a₁.val * b₂ ^ a₂.val * b₃ ^ a₃.val := rfl
@@ -102,7 +102,7 @@ theorem FF81Sec5.ε_u₃ : h5.ε ![0, 0, 1, 1] = b₂ * b₃ := by
 theorem FF81Sec5.mem_A₁_of {v : V} (hv : v 2 = v 3) :
     h5.ε v ∈ Subgroup.closure {b, b₁, b₂ * b₃} := by
   have hv' : v = v 0 • e 0 + v 1 • e 1 + v 2 • ![0, 0, 1, 1] := by
-    ext j; fin_cases j <;> simp [e, Pi.single_apply, hv]
+    ext j; fin_cases j <;> simp [e, hv]
   rw [hv', h5.ε_add, h5.ε_add, h5.ε_smul, h5.ε_smul, h5.ε_smul, h5.ε_e0, h5.ε_e1, h5.ε_u₃]
   refine Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.pow_mem _ ?_ _)
     (Subgroup.pow_mem _ ?_ _)) (Subgroup.pow_mem _ ?_ _) <;>
@@ -114,8 +114,8 @@ theorem FF81Sec5.coord_of_mem_A₁ {x : G} (hx : x ∈ Subgroup.closure {b, b₁
   | mem x hx =>
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with rfl | rfl | rfl
-    · exact ⟨e 0, by simp [e, Pi.single_apply], h5.ε_e0⟩
-    · exact ⟨e 1, by simp [e, Pi.single_apply], h5.ε_e1⟩
+    · exact ⟨e 0, by simp [e], h5.ε_e0⟩
+    · exact ⟨e 1, by simp [e], h5.ε_e1⟩
     · exact ⟨![0, 0, 1, 1], rfl, h5.ε_u₃⟩
   | one => exact ⟨0, rfl, h5.ε_zero⟩
   | mul x y _ _ hx hy =>
@@ -190,7 +190,7 @@ theorem FF81Sec5.s₀_ε (v : V) : s₀ * h5.ε v * s₀⁻¹ = h5.ε ![v 0, v 1
   rw [ε4_conj h5.hE h5.hcl ![e 0, e 1, e 3, e 2] hb hb₁ (h2.trans h5.ε_e3.symm)
     (h3.trans h5.ε_e2.symm)]
   congr 1
-  ext j; fin_cases j <;> simp [e, Pi.single_apply]
+  ext j; fin_cases j <;> simp [e]
 
 theorem FF81Sec5.s₀_mem_nor_B : s₀ ∈ Nor B := by
   refine Subgroup.mem_normalizer_fintype fun x hx => ?_
@@ -278,7 +278,7 @@ theorem FF81Sec5.cenS_A₁ (hKF : KF_Sp6Levi) (h5 : FF81Sec5 b L B b₁ b₂ b�
       rw [Equiv.Perm.nat_card_centralizer, hn, Fintype.card_fin]
       rcases this with rfl | rfl
       · simp [Nat.factorial]
-      · simp [Multiset.toFinset_replicate]
+      · simp
     rw [← hS6 _ hx'3]
     exact Nat.card_congr
       { toFun := fun g => ⟨φ' ⟨g, g.2.1⟩, by
@@ -345,6 +345,7 @@ abbrev A₁sub (b b₁ b₂ b₃ : G) : Subgroup G := Subgroup.closure {b, b₁,
 abbrev H₅₂ (b b₁ b₂ b₃ s₀ : G) : Subgroup G :=
   CenS (Subgroup.closure {β' b₂ b₃, s₀}) ⊓ Nor (A₁sub b b₁ b₂ b₃)
 
+omit [Finite G] in
 theorem conj_mem_cenS_of_mem_nor {K : Subgroup G} {n x : G} (hn : n ∈ Nor K) (hx : x ∈ CenS K) :
     n * x * n⁻¹ ∈ CenS K := by
   refine Subgroup.mem_centralizer_iff.mpr fun a ha => ?_
@@ -491,7 +492,8 @@ theorem FF81Sec5.nor_A₁_eq :
         _ = β' b₂ b₃ * s₀ := by rw [h5.s₀_β_pow 2, hb2]
     rw [mul_assoc, h2, ← mul_assoc, hsβ, mul_assoc]
 
-theorem FF81Sec5.A₁_le_H : A₁sub b b₁ b₂ b₃ ≤ H₅₂ b b₁ b₂ b₃ s₀ := fun a ha =>
+omit hKF in
+theorem FF81Sec5.A₁_le_H : A₁sub b b₁ b₂ b₃ ≤ H₅₂ b b₁ b₂ b₃ s₀ := fun _a ha =>
   ⟨mem_cenS_pair_iff.mpr ⟨h5.β_comm_A₁ ha, h5.s₀_comm ha⟩, Subgroup.le_normalizer ha⟩
 
 end Nor

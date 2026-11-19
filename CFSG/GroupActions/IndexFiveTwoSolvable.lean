@@ -28,7 +28,7 @@ theorem solvable_of_card_five_mul_two_pow {T : Type*} [Group T] [Finite T] {j : 
   have : Subsingleton (Sylow 5 T) := (Finite.card_le_one_iff_subsingleton).1 hn.le
   have hFn : (F : Subgroup T).Normal := Sylow.normal_of_subsingleton F
   have : Group.IsSolvable (F : Subgroup T) :=
-    @IsNilpotent.to_isSolvable _ _ (F.isPGroup').isNilpotent
+    @IsNilpotent.to_isSolvable _ _ (F.isPGroup).isNilpotent
   have hidx : ¬ 5 ∣ (F : Subgroup T).index := F.not_dvd_index
   have hidx2 : (F : Subgroup T).index ∣ 2 ^ j := by
     have h1 : (F : Subgroup T).index ∣ 5 * 2 ^ j := hT ▸ Subgroup.index_dvd_card _
@@ -52,7 +52,7 @@ theorem index_five_two_subgroup_solvable {P : Type*} [Group P] [Finite P] (Q : S
   have hcardQ : Nat.card (P ⧸ Q) = 5 := by rw [← Subgroup.index_eq_card, hidx]
   have hperm : Nat.card (Equiv.Perm (P ⧸ Q)) = 120 := by
     classical
-    letI : Fintype (P ⧸ Q) := Fintype.ofFinite _
+    let : Fintype (P ⧸ Q) := Fintype.ofFinite _
     have hc : Fintype.card (P ⧸ Q) = 5 := by rw [← Nat.card_eq_fintype_card, hcardQ]
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, hc]
     rfl

@@ -21,7 +21,7 @@ theorem S36_op2_sup_zpowers {t c' : G} {M K : Subgroup G}
     (hKM : ∀ m ∈ M, ∀ k ∈ K, m * k * m⁻¹ ∈ K) :
     Op 2 (Subgroup.zpowers t ⊔ M) = Subgroup.zpowers t := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKM' : K ≤ M := hM ▸ le_sup_right
   have hMH : M ≤ Subgroup.zpowers t ⊔ M := le_sup_right
   have hc'M : c' ∈ M := hM ▸ Subgroup.mem_sup_left (Subgroup.mem_zpowers c')
@@ -81,7 +81,7 @@ theorem S36_op2_sup_zpowers {t c' : G} {M K : Subgroup G}
       rw [e]
       exact Subgroup.mem_inf.2
         ⟨S36_op2_conj hgH hn1, K.mul_mem (K.mul_mem g.2 hn2) (K.inv_mem g.2)⟩
-    haveI := hN'
+    have := hN'
     intro y hy
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((Op 2 (Subgroup.zpowers t ⊔ M) ⊓ K).subgroupOf K) with h | h
@@ -91,7 +91,7 @@ theorem S36_op2_sup_zpowers {t c' : G} {M K : Subgroup G}
       rw [h] at hy'
       exact congrArg Subtype.val (Subgroup.mem_bot.1 hy')
     · exfalso
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card 3
         (show 3 ∣ Fintype.card K by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
       have hxO : (x : G) ∈ Op 2 (Subgroup.zpowers t ⊔ M) := by
@@ -213,6 +213,7 @@ theorem S36_part {b t c' : G} {L K : Subgroup G} (hb3 : orderOf b = 3) (ht : ord
     · exact sup_le (le_sup_of_le_left le_sup_left) le_sup_right
     · exact sup_le (sup_le le_sup_left (hcz.trans le_sup_right)) le_sup_right
 
+omit [Finite G] in
 theorem S36_conj_mem_cen {c g x : G} (hg : g ∈ Cen c) (hx : x ∈ Cen c) :
     g * x * g⁻¹ ∈ Cen c := by
   have hgc : c * g = g * c := S36_comm_of_cen hg
@@ -226,6 +227,7 @@ theorem S36_conj_mem_cen {c g x : G} (hg : g ∈ Cen c) (hx : x ∈ Cen c) :
     _ = (g * x * g⁻¹) * (g * c * g⁻¹) := by group
     _ = (g * x * g⁻¹) * c := by rw [hg']
 
+omit [Finite G] in
 theorem S36_CT_of {t c : G} (ht : orderOf t = 2) (htc : t ∈ Cen c)
     (hH : Op 2 (Cen t ⊓ Cen c) = Subgroup.zpowers t) :
     Op 2 (Cen t) ⊓ Cen c = Subgroup.zpowers t := by
@@ -254,7 +256,7 @@ theorem S36_c_case {b t b₁ b₂ : G} {L B : Subgroup G} (sec : FF84Sec3 b L B 
     (hN : Subgroup.closure ({b, t} : Set G) ⊔ L = Nor (Subgroup.zpowers b)) :
     Op 2 (Cen t ⊓ Cen (b₁ * b₂)) = Subgroup.zpowers t ∧
       Cen t ⊓ Cen (b₁ * b₂) = Subgroup.zpowers t ⊔ Subgroup.zpowers (b₁ * b₂) ⊔ L ⊓ Cen (b₁ * b₂) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb3 : orderOf b = 3 := sec.hyp.ord
   have hZ : Subgroup.center L = ⊥ := (h31 G b L B b₁ b₂ sec).2
   obtain ⟨K, -, hK60, hKs, -, -, hM, hKc⟩ := M1_K sec hZ
@@ -304,8 +306,8 @@ theorem F6_CT_c {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ b�
 theorem S36_not_three_dvd {X : Subgroup G} (hX : IsPGroup 2 X) : ¬ 3 ∣ Nat.card X := by
   classical
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fintype X := Fintype.ofFinite X
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fintype X := Fintype.ofFinite X
   obtain ⟨y, hy⟩ : ∃ y : X, orderOf y = 3 :=
     exists_prime_orderOf_dvd_card 3 (by rwa [← Nat.card_eq_fintype_card])
   obtain ⟨k, hk⟩ := hX y
@@ -317,6 +319,7 @@ theorem S36_not_three_dvd {X : Subgroup G} (hX : IsPGroup 2 X) : ¬ 3 ∣ Nat.ca
   have h3 : (3 : ℕ) ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hd
   omega
 
+omit [Finite G] in
 theorem S36_nor_op2 {H : Subgroup G} {g : G} (hg : g ∈ H) : g ∈ Nor (Op 2 H) := by
   rw [Subgroup.mem_normalizer_iff]
   intro n
@@ -327,6 +330,7 @@ theorem S36_nor_op2 {H : Subgroup G} {g : G} (hg : g ∈ H) : g ∈ Nor (Op 2 H)
     have e : g⁻¹ * (g * n * g⁻¹) * g⁻¹⁻¹ = n := by group
     rwa [e] at h
 
+omit [Finite G] in
 theorem S36_nor_zpowers_le {t : G} (ht : orderOf t = 2) : Nor (Subgroup.zpowers t) ≤ Cen t := by
   intro x hx
   have hs : x * t * x⁻¹ ∈ Subgroup.zpowers t :=
@@ -355,7 +359,7 @@ theorem S36_nor_zpowers_le {t : G} (ht : orderOf t = 2) : Nor (Subgroup.zpowers 
 
 theorem S36_c_order {b b₁ b₂ : G} {L B : Subgroup G} (sec : FF84Sec3 b L B b₁ b₂) :
     orderOf (b₁ * b₂) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb1B : b₁ ∈ B := (Subgroup.mem_inf.1 sec.hb₁).1
   have hb2B : b₂ ∈ B := (Subgroup.mem_inf.1 sec.hb₂).1
   apply orderOf_eq_prime
@@ -402,7 +406,7 @@ theorem F6_H {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b L B b₁ b₂ 
     (∀ u ∈ Op 2 (Cen t), ∀ v ∈ Op 2 (Cen t), u * v * u⁻¹ * v⁻¹ ∈ Subgroup.zpowers t) ∧
     (∀ u ∈ Op 2 (Cen t), u ^ 2 ∈ Subgroup.zpowers t) ∧
     ∃ r : ℕ, Nat.card (Op 2 (Cen t)) = 2 * 16 ^ r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb1B : b₁ ∈ B := (Subgroup.mem_inf.1 d.sec.hb₁).1
   have hb2B : b₂ ∈ B := (Subgroup.mem_inf.1 d.sec.hb₂).1
   have hb1L : b₁ ∈ L := (Subgroup.mem_inf.1 d.sec.hb₁).2

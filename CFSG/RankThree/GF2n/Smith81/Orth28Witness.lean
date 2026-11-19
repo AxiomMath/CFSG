@@ -16,6 +16,7 @@ section Witness
 
 variable [Finite G] {M Q Z X : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem orthComm_eq_iff_conj {p z : G} (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z) (hz : z ∈ Z) :
     ⁅p, x⁆ = z ↔ p * x * p⁻¹ = x * z := by
   have h1 : x * z = z * x := mul_inv_eq_iff_eq_mul.mp (hxZ z hz)

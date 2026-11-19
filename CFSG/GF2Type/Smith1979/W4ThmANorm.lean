@@ -146,7 +146,7 @@ theorem Wsub_comm (hVc : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) {a b : G} (ha 
       ((cx v₁ hv₁).symm.mul_right (cv v₁ hv₁ v₂ hv₂))).eq
 
 omit [Finite G] in
-theorem Wsub_mul_self (hVc : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hV2 : ∀ a ∈ V, a * a = 1) {a : G}
+theorem Wsub_mul_self (_hVc : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hV2 : ∀ a ∈ V, a * a = 1) {a : G}
     (ha : a ∈ Wsub V x hx hxx) : a * a = 1 := by
   rcases Wsub_cases ha with ha | ⟨v, hv, rfl⟩
   · exact hV2 a ha
@@ -512,8 +512,8 @@ variable {u : G} {x : G}
 
 @[expose] noncomputable def eW (X : XData S g t u x) : ElemAb G :=
   ⟨Wsub (V S g t) x X.comm X.sq,
-    fun _ ha _ hb => Wsub_comm (fun a ha b hb => D.V_comm ha hb) ha hb,
-    fun _ ha => Wsub_mul_self (fun a ha b hb => D.V_comm ha hb) (fun a ha => D.V_mul_self ha) ha⟩
+    fun _ ha _ hb => Wsub_comm (fun _a ha _b hb => D.V_comm ha hb) ha hb,
+    fun _ ha => Wsub_mul_self (fun _a ha _b hb => D.V_comm ha hb) (fun _a ha => D.V_mul_self ha) ha⟩
 
 theorem sigmaEnd4 (hu : Swap S g u) (X : XData S g t u x) : SigmaEnd4 S (D.eW X) D.eV x u where
   V_le := fun b hb => Or.inl hb

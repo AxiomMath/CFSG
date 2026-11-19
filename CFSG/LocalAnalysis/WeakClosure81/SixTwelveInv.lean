@@ -13,28 +13,33 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma b612_mul_self {E : Subgroup G} (h : IsElemAbelian 2 E) {x : G}
     (hx : x ∈ E) : x * x = 1 := by
   have h2 := h.2 x hx
   rwa [pow_two] at h2
 
+omit [Finite G] in
 private lemma b612_mul_comm {p : ℕ} {E : Subgroup G} (h : IsElemAbelian p E) {x y : G}
     (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
-  haveI : IsMulCommutative ↥E := h.1
+  have : IsMulCommutative ↥E := h.1
   have h' := mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩
   exact Subtype.ext_iff.mp h'
 
+omit [Finite G] in
 private lemma b612_isPGroup {p : ℕ} {E : Subgroup G} (h : IsElemAbelian p E) : IsPGroup p E :=
   fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (by simpa using h.2 (x : G) x.2)⟩
 
+omit [Finite G] in
 private lemma b612_commutator_eq {V : Subgroup G} (hV : IsElemAbelian 2 V) {a v : G}
     (hv : v ∈ V) : ⁅v, a⁆ = v * (a * v * a⁻¹) := by
   have hvv : v * v = 1 := b612_mul_self hV hv
   rw [commutatorElement_def, inv_eq_of_mul_eq_one_right hvv]
   group
 
+omit [Finite G] in
 private lemma b612_le_of_commutator_mem {V W P : Subgroup G} (hV : IsElemAbelian 2 V)
     (hWV : W ≤ V) {a : G} (haW : a ∈ normalizer (W : Set G))
     (hP : ∀ v : G, v ∈ P ↔ v ∈ V ∧ ⁅v, a⁆ ∈ W) : W ≤ P := by
@@ -51,7 +56,7 @@ theorem exists_subgroup_two_mul_mQuot_le {V W : Subgroup G} (hV : IsElemAbelian 
     ∃ P : Subgroup G, (∀ v : G, v ∈ P ↔ v ∈ V ∧ ⁅v, a⁆ ∈ W) ∧
       2 * E3.mQuot V P ≤ E3.mQuot V W := by
   classical
-  haveI : IsMulCommutative ↥V := hV.1
+  have : IsMulCommutative ↥V := hV.1
   have hVW : V ≤ normalizer (W : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWV).mp inferInstance
   set P : Subgroup G := CFSG.GroupTheory.commMemSubgroup V W hVW a with hPdef

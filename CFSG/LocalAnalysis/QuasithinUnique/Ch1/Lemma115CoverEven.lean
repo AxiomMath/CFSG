@@ -41,7 +41,7 @@ theorem mem_sylow_of_map_mem (π : L →* A) (hker : π.ker ≤ Subgroup.center 
   have hmemP : ζ ^ 2 ^ k ∈ (P : Subgroup L) := by
     rw [hζk]
     exact inv_mem (pow_mem hp _)
-  obtain ⟨e, he⟩ := P.isPGroup' ⟨ζ ^ 2 ^ k, hmemP⟩
+  obtain ⟨e, he⟩ := P.isPGroup ⟨ζ ^ 2 ^ k, hmemP⟩
   have he' : (ζ ^ 2 ^ k) ^ 2 ^ e = 1 := congrArg Subtype.val he
   have hζ2 : ζ ^ 2 ^ (k + e) = 1 := by rw [pow_add, pow_mul, he']
   rw [hgp]

@@ -135,7 +135,7 @@ theorem false_of_frattini_five {X : Type} [Group X] [Finite X]
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNnY).mp hNn
   have hStop : CFSG.ABGLocalTools.IsSylowOf 3 (S : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
   have hSN : CFSG.ABGLocalTools.IsSylowOf 3 ((S : Subgroup X) ⊓ Nn) Nn :=
     (hStop.of_le hSY le_top).inf_of_le_normalizer hNnY hYN
   have hne : (S : Subgroup X) ⊓ Nn ≠ ⊥ := by

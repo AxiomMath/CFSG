@@ -23,7 +23,7 @@ theorem exists_le_Rbar_card_nine (H : Hyp4 S g) (C : Cons311 S g) {t : S.O}
     rw [S14.card_Rbar_eq H.conj_mem t,
       CFSG.GF2Type.Smith1979.TriPlus.card_RmodN_eq_thirtysix H C ht ht1 hVQ hΩ h4 hplus]
     exact dvd_mul_of_dvd_right (by norm_num : 9 ∣ 36) _
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P, hPcard⟩ :=
     Sylow.exists_subgroup_card_pow_prime (G := Rbar S g t) 3 (n := 2) h9R
   refine ⟨P.map (Rbar S g t).subtype, Subgroup.map_subtype_le P, ?_⟩

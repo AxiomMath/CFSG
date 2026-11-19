@@ -94,11 +94,11 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
     ∃ X : Subgroup H, IsPGroup 3 ↥X ∧ ¬ IsCyclic ↥X ∧ (∀ x ∈ X, x ^ 3 = 1) ∧
       (X : Set H) * (S : Set H) = (S : Set H) * (X : Set H) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite Q := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite Q := Finite.of_surjective f hf
   set K : Subgroup H := f.ker with hK
-  haveI hKnormal : K.Normal := by rw [hK]; exact f.normal_ker
+  have hKnormal : K.Normal := by rw [hK]; exact f.normal_ker
   set Q₀ : Subgroup H := S ⊓ K with hQ₀
   set Wbar : Subgroup Q := Xbar ⊔ S.map f with hWbar
   have hWbar_coe : (Wbar : Set Q) = (Xbar : Set Q) * (S.map f : Set Q) :=
@@ -173,10 +173,10 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
   have hQ0Nb : Q₀ ≤ Nb := by rw [hNb]; exact le_inf (hQ0S.trans hS_Y) hQ0K
   have hNb_norm : Nb ≤ normalizer (Q₀ : Set H) := by
     rw [hNb]; exact inf_le_left.trans (by rw [hY]; exact inf_le_right)
-  haveI : (Q₀.subgroupOf Nb).Normal :=
+  have : (Q₀.subgroupOf Nb).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQ0Nb).2 hNb_norm
   have hQ0Nb_p : IsPGroup 2 (Q₀.subgroupOf Nb) := hSK'.isPGroup.comap_subtype
-  haveI := hQ0Nb_p.isNilpotent
+  have := hQ0Nb_p.isNilpotent
   have hdvd : Q₀.relIndex Nb ∣ Q₀.relIndex K :=
     ⟨Nb.relIndex K, (Subgroup.relIndex_mul_relIndex (H := Q₀) (K := Nb) (L := K) hQ0Nb hNbK).symm⟩
   have hoddNb : ¬ 2 ∣ Q₀.relIndex Nb := fun h2 => hSK'.not_dvd_relIndex (h2.trans hdvd)
@@ -186,13 +186,13 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
     rw [show Q₀.relIndex Nb = (Q₀.subgroupOf Nb).index from rfl, Subgroup.index_eq_card]
   have hodd_card : Odd (Nat.card (↥Nb ⧸ (Q₀.subgroupOf Nb))) := by
     rw [hcard_quot]; exact hodd'
-  haveI : Group.IsSolvable (↥Nb ⧸ (Q₀.subgroupOf Nb)) :=
+  have : Group.IsSolvable (↥Nb ⧸ (Q₀.subgroupOf Nb)) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd_card
-  haveI hNbsolv : Group.IsSolvable ↥Nb :=
+  have hNbsolv : Group.IsSolvable ↥Nb :=
     Group.isSolvable_of_subgroup_quotient (Q₀.subgroupOf Nb)
   have h3Nb : ¬ 3 ∣ Nat.card ↥Nb :=
     fun h => h3 (h.trans (Subgroup.card_dvd_of_le hNbK))
-  haveI hNbsub : Group.IsSolvable ↥(Nb.subgroupOf Y) :=
+  have hNbsub : Group.IsSolvable ↥(Nb.subgroupOf Y) :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hNbY).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hNbY).symm.surjective
   have hdisj_ws : Xbar ⊓ S.map f = ⊥ :=
@@ -201,7 +201,7 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
     CFSG.ABGTheoremB.V56.card_sup_of_permutable hperm hdisj_ws
   obtain ⟨a, ha⟩ := hX3.exists_card_eq
   obtain ⟨b, hb⟩ := (hS2.map f).exists_card_eq
-  haveI hWbarsolv : Group.IsSolvable ↥Wbar :=
+  have hWbarsolv : Group.IsSolvable ↥Wbar :=
     TauCeti.isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_three Nat.prime_two
       (by rw [hWbar_card, ha, hb])
   let g : ↥Y →* ↥Wbar :=
@@ -226,8 +226,8 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
     have hw : (w : Q) ∈ Y.map f := by rw [hfY]; exact w.2
     obtain ⟨y, hy, hyf⟩ := Subgroup.mem_map.mp hw
     exact ⟨⟨y, hy⟩, Subtype.ext hyf⟩
-  haveI : Group.IsSolvable ↥g.ker := hgker.symm ▸ hNbsub
-  haveI hYsolv : Group.IsSolvable ↥Y :=
+  have : Group.IsSolvable ↥g.ker := hgker.symm ▸ hNbsub
+  have hYsolv : Group.IsSolvable ↥Y :=
     Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
   have hY_card2 : Nat.card ↥Y = Nat.card ↥Wbar * Nat.card ↥Nb := by
     have h1 := Subgroup.card_ker_mul_card_range g
@@ -378,7 +378,7 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
   have hXbar_syl : IsSylowIn 3 Xbar Wbar := by
     refine isSylowIn_of_card_eq hXbar_le_W ?_
     rw [ha, hWbar_fact3]
-  haveI : Finite (Sylow 3 ↥Wbar) :=
+  have : Finite (Sylow 3 ↥Wbar) :=
     Finite.of_injective (fun S : Sylow 3 ↥Wbar => (S : Set ↥Wbar))
       (fun S T h => Sylow.ext (by ext x; exact Set.ext_iff.mp h x))
   let eSyl : ((X.map f).subgroupOf Wbar) ≃* (Xbar.subgroupOf Wbar) :=
@@ -396,7 +396,7 @@ theorem s1611e3_lift_three {H Q : Type} [Group H] [Finite H] [Group Q] (f : H �
     simpa using congrArg (fun z : X => (z : H)) h1
   have hXncFin : ¬ IsCyclic ↥X := by
     intro hcyc
-    letI := hcyc
+    let := hcyc
     exact hXnc (isCyclic_of_surjective e.toMonoidHom e.surjective)
   exact ⟨X, hX3p, hXncFin, hXexpFin, hXS⟩
 
@@ -438,8 +438,8 @@ theorem s1611e3_case9_lift_three (D : Data G) {V₀ V : Subgroup G} (hV : IsElem
     ∃ X : Subgroup G, X ≤ D.M ∧ IsPGroup 3 ↥X ∧ ¬ IsCyclic ↥X ∧ (∀ x ∈ X, x ^ 3 = 1) ∧
       Permutes X D.T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM : D.M ≤ stabTil V₀ V :=
     le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀
   let Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV
@@ -527,7 +527,7 @@ theorem s1611e3_case9_lift_three (D : Data G) {V₀ V : Subgroup G} (hV : IsElem
     s1611e3_lift_three f hf h3' hS2 hSK hX3' hXnc' hXexp' hperm'
   refine ⟨X'.map D.M.subtype, Subgroup.map_subtype_le _, hX'3.map D.M.subtype, ?_, ?_, ?_⟩
   · intro hcyc
-    letI := hcyc
+    let := hcyc
     have h1 : IsCyclic ↥X' :=
       (MulEquiv.isCyclic
         (Subgroup.equivMapOfInjective X' D.M.subtype D.M.subtype_injective)).mpr hcyc

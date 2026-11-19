@@ -184,12 +184,12 @@ theorem runK_sub {gD fD fa fb : Nat} {GD : Nat → Nat} {a b d e : Nat} (hsz : s
       HexaK.mul n w (GD k) y ∈ runK n w (gD + 1) (fun k => nIf(Nat.blt k gD, GD k, a)) fa := by
     intro y hy k hk
     have := cl y hy k (by omega)
-    rwa [nIf_ite, if_pos (Nat.blt_eq.mpr hk)] at this
+    rwa [nIf_ite, ite_eq_left (Nat.blt_eq.mpr hk)] at this
   have hacl : ∀ y ∈ runK n w (gD + 1) (fun k => nIf(Nat.blt k gD, GD k, a)) fa,
       HexaK.mul n w a y ∈ runK n w (gD + 1) (fun k => nIf(Nat.blt k gD, GD k, a)) fa := by
     intro y hy
     have := cl y hy gD (by omega)
-    rwa [nIf_ite, if_neg (by rw [Nat.blt_eq]; omega)] at this
+    rwa [nIf_ite, ite_eq_right (by rw [Nat.blt_eq]; omega)] at this
   have prod := runK_prod hsz pD pL hDcl fD
   have pDL := runK_PP hsz pD fD
   refine runK_ind _ (pidn_mem_runK fa) (fun k hk y hy => ?_) fb

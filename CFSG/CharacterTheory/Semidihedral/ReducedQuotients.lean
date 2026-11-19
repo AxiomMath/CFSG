@@ -143,7 +143,7 @@ theorem pSubgroup_core_sup_subgroupOf (p : ℕ) [Fact p.Prime]
     P ⧸ Z.subgroupOf P ≃*
       P.mapSurjective (QuotientGroup.mk'_surjective (pPrimeCore p H ⊔ Z)) :=
   (QuotientGroup.quotientMulEquivOfEq
-    (pSubgroup_core_sup_subgroupOf p (P : Subgroup H) Z P.isPGroup' hZ).symm).trans
+    (pSubgroup_core_sup_subgroupOf p (P : Subgroup H) Z P.isPGroup hZ).symm).trans
       ((quotientSubgroupEquiv (pPrimeCore p H ⊔ Z) (P : Subgroup H)).trans
         (MulEquiv.subgroupCongr
           (Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective (pPrimeCore p H ⊔ Z)) P).symm))

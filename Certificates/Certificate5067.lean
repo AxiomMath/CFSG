@@ -22,20 +22,20 @@ private theorem tF_eq_tP : tF = tP := by
   funext n
   by_cases h : n < 16384
   · exact (beq_iff_eq.mp (List.all_eq_true.mp c5067tP_chk n (List.mem_range.mpr h))).symm
-  · simp only [tF, tP, if_neg h]
+  · simp only [tF, tP, ite_eq_right h]
 
 private theorem iT_eq_iP : iT = iP := by
   funext n
   by_cases h : n < 128
   · exact (beq_iff_eq.mp (List.all_eq_true.mp c5067iP_chk n (List.mem_range.mpr h))).symm
-  · simp only [iT, iP, if_neg h]
+  · simp only [iT, iP, ite_eq_right h]
 
 private theorem wdK_eq_wL : wdK = wL := (beq_iff_eq.mp c5067wL_chk).symm
 
 private theorem tF_lt (n : Nat) : tF n < 128 := by
   unfold tF
   split_ifs with h
-  · exact (mF_spec sh0Chk_true sh0C_codes (by omega) (Nat.mod_lt _ (by norm_num))).1
+  · exact (mF_spec sh0Chk_true (by omega) (Nat.mod_lt _ (by norm_num))).1
   · norm_num
 
 private theorem RIdxC_lt (r : Nat) (hr : r ∈ RIdxC) : r < 128 := by

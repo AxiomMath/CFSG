@@ -389,13 +389,13 @@ theorem T_le_pPrimeCoreIn_of_even (hσ : σ.IsValid) (_hII : σ.ChapterIIFacts) 
         exact hbot.symm
       rw [hbot', Subgroup.index_bot]
       exact heven
-    have : Group.IsNilpotent (Q : Subgroup H) := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (Q : Subgroup H) := Q.isPGroup.isNilpotent
     have hnorm : ((CFSG.pPrimeCore r H).subgroupOf (Q : Subgroup H)).Normal :=
       Subgroup.normal_subgroupOf
     have hK := Group.IsNilpotent.inf_center_ne_bot_of_normal hne
     have hK2 : IsPGroup 2 ((CFSG.pPrimeCore r H).subgroupOf (Q : Subgroup H) ⊓
         Subgroup.center (Q : Subgroup H) : Subgroup (Q : Subgroup H)) :=
-      Q.isPGroup'.to_subgroup _
+      Q.isPGroup.to_subgroup _
     have hdvd : 2 ∣ Nat.card ((CFSG.pPrimeCore r H).subgroupOf (Q : Subgroup H) ⊓
         Subgroup.center (Q : Subgroup H) : Subgroup (Q : Subgroup H)) := by
       rcases hK2.card_eq_or_dvd with h1 | h2

@@ -29,12 +29,12 @@ theorem items_of_datum {k E V G : Type} [Field k] [Finite k] [CharP k 2] [Field 
             (((datumRoot ι π h1).map ψ : Subgroup G) : Set G)) →
         Y ≤ ψ.range ⊔ Subgroup.centralizer (ψ.range : Set G)) := by
   have hEpos : 0 < Module.finrank k E := Module.finrank_pos (R := k) (M := E)
-  haveI : Module.Finite k E := Module.finite_of_finrank_pos hEpos
+  have : Module.Finite k E := Module.finite_of_finrank_pos hEpos
   obtain ⟨X', hXadd, hXmod, hXfin, e, hroot, hrootNeg, hfin⟩ :=
     exists_datumEquiv ι ι₁ π π₁ h1 h2 h3 h4
-  letI : AddCommGroup X' := hXadd
-  letI : Module k X' := hXmod
-  letI : Module.Finite k X' := hXfin
+  let : AddCommGroup X' := hXadd
+  let : Module k X' := hXmod
+  let : Module.Finite k X' := hXfin
   let ι' : SpecialLinearGroup k (DSpace E X') →* G := ψ.comp e.symm.toMonoidHom
   have hι' : Function.Injective ι' := by
     intro x y hxy

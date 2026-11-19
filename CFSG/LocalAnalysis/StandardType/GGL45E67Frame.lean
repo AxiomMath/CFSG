@@ -64,15 +64,15 @@ private theorem ggL45E67_isPGroup_zpowers {K : Type*} [Group K] {a : MulAut K}
 private theorem ggL45E67_aut_fixes_center {K : Type*} [Group K] [Finite K]
     (hZ : Nat.card (Subgroup.center K) ∣ 3) {ψ : MulAut K} (hψ : ψ ^ 3 = 1) :
     ∀ z ∈ Subgroup.center K, ψ z = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥(Subgroup.center K) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥(Subgroup.center K) := Subtype.finite
   have h3 : (MulAut.characteristic (Subgroup.center K) ψ) ^ 3 = 1 := by
     rw [← map_pow, hψ, map_one]
   have hdvd3 : orderOf (MulAut.characteristic (Subgroup.center K) ψ) ∣ 3 :=
     orderOf_dvd_iff_pow_eq_one.mpr h3
   have hdvd2 : orderOf (MulAut.characteristic (Subgroup.center K) ψ) ∣ 2 := by
     rcases (Nat.dvd_prime Nat.prime_three).mp hZ with h1 | h3card
-    · haveI : Subsingleton ↥(Subgroup.center K) := by
+    · have : Subsingleton ↥(Subgroup.center K) := by
         rw [Subgroup.card_eq_one.mp h1]
         refine ⟨fun a b => Subtype.ext ?_⟩
         rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2]
@@ -82,7 +82,7 @@ private theorem ggL45E67_aut_fixes_center {K : Type*} [Group K] [Finite K]
         exact Subsingleton.elim _ _
       rw [hone, orderOf_one]
       exact one_dvd 2
-    · haveI : IsCyclic ↥(Subgroup.center K) := isCyclic_of_prime_card h3card
+    · have : IsCyclic ↥(Subgroup.center K) := isCyclic_of_prime_card h3card
       have hcard : Nat.card (MulAut ↥(Subgroup.center K)) = 2 := by
         rw [IsCyclic.card_mulAut, h3card]
         decide
@@ -189,8 +189,8 @@ private theorem ggL45E67_lift_normalizes {R K : Type} [Group R] [Group K]
 private theorem ggL45E67_exists_N {R K : Type} [Group R] [Group K] [Finite K]
     (D : E6ThreeModel.FrameData R) (π : K →* R) :
     ∃ v N : ℕ, ¬ 3 ∣ N ∧ Nat.card ↥(ggL45E67_THat D π) = 3 ^ v * N ∧ Nat.Coprime N 3 := by
-  haveI : Finite ↥(ggL45E67_THat D π) := Subtype.finite
-  haveI : Nonempty ↥(ggL45E67_THat D π) := ⟨1⟩
+  have : Finite ↥(ggL45E67_THat D π) := Subtype.finite
+  have : Nonempty ↥(ggL45E67_THat D π) := ⟨1⟩
   obtain ⟨v, N, hN3, hTcard⟩ :=
     Nat.exists_eq_pow_mul_and_not_dvd (Nat.card_pos (α := ↥(ggL45E67_THat D π))).ne' 3
       (by norm_num)
@@ -208,7 +208,7 @@ private theorem ggL45E67_pow_N_isPElt {R K : Type} [Group R] [Group K]
 
 private theorem ggL45E67_isElemAbelian_comm {K : Type*} [Group K] {E : Subgroup (MulAut K)}
     (hE : IsElemAbelian 3 E) : ∀ e ∈ E, ∀ e' ∈ E, e * e' = e' * e := by
-  haveI : IsMulCommutative ↥E := hE.1
+  have : IsMulCommutative ↥E := hE.1
   intro e he e' he'
   exact congrArg Subtype.val (mul_comm' ⟨e, he⟩ ⟨e', he'⟩)
 
@@ -352,7 +352,7 @@ private theorem ggL45E67_THat_abelian {R K : Type} [Group R] [Group K] [Finite K
     hTab (ggL45E67_lift_normalizes D hD S.w_spec) S.noInvFunc S.noInvAlt
     (⊥ : Subgroup (MulAut K)) IsPGroup.of_bot
     (by intro a ha; rw [Subgroup.mem_bot] at ha; subst ha; intro l hl; rfl)
-    (by intro a ha; rw [Subgroup.mem_bot] at ha; subst ha; intro n hn; simpa using D.Tor.one_mem)
+    (by intro a ha; rw [Subgroup.mem_bot] at ha; subst ha; intro n hn; simp)
   exact hab
 
 private theorem ggL45E67_fix3 {R K : Type} [Group R] [Group K] [Finite K]
@@ -497,8 +497,8 @@ private theorem ggL45E67_functional_trivial {R : Type} {K : Type} [Group R] [Gro
       ∀ hx : w i * (x : K) * (w i)⁻¹ ∈ ggL45E67_THat D π,
       φ ⟨w i * (x : K) * (w i)⁻¹, hx⟩ = φ x) :
     ∀ x : ↥(ggL45E67_THat D π), φ x = 1 := by
-  haveI : Finite ↥(ggL45E67_THat D π) := Subtype.finite
-  haveI : Nonempty ↥(ggL45E67_THat D π) := ⟨1⟩
+  have : Finite ↥(ggL45E67_THat D π) := Subtype.finite
+  have : Nonempty ↥(ggL45E67_THat D π) := ⟨1⟩
   intro x₀
   obtain ⟨v, N, hN3, hTcard⟩ :=
     Nat.exists_eq_pow_mul_and_not_dvd (Nat.card_pos (α := ↥(ggL45E67_THat D π))).ne' 3
@@ -517,7 +517,7 @@ private theorem ggL45E67_functional_trivial {R : Type} {K : Type} [Group R] [Gro
       rw [map_mul, map_inv, hxy, mul_inv_cancel]
     have hxeq : (⟨x, hx⟩ : ↥(ggL45E67_THat D π)) = ⟨x * y⁻¹, hmem⟩ * ⟨y, hy⟩ := by
       ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul]
       group
     rw [hxeq, map_mul, hz, one_mul]
   let s : R → K := Function.surjInv hπ

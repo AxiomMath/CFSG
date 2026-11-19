@@ -53,7 +53,7 @@ theorem c8_dual {G : Type*} [Group G] {P Z N : Subgroup G} {ρ : G}
     (hNP : N ≤ P) (hZN : Z ≤ N)
     (hNab : ∀ x ∈ N, ∀ y ∈ N, x * y = y * x)
     (hNsq : ∀ x ∈ N, x * x = 1)
-    (hρP : ∀ p ∈ P, ρ * p * ρ⁻¹ ∈ P) (hρN : ∀ x ∈ N, ρ * x * ρ⁻¹ ∈ N)
+    (_hρP : ∀ p ∈ P, ρ * p * ρ⁻¹ ∈ P) (hρN : ∀ x ∈ N, ρ * x * ρ⁻¹ ∈ N)
     (hρZ : ∀ z ∈ Z, ρ * z * ρ⁻¹ = z) (hρ3 : ρ ^ 3 = 1)
     (hδP : ∀ p ∈ P, ρ * p * ρ⁻¹ * p⁻¹ ∈ N) :
     ∀ f ∈ N, ∀ p ∈ P, ⁅ρ * f * ρ⁻¹ * f⁻¹, p⁆ = 1 := by
@@ -114,12 +114,12 @@ theorem c8_dual {G : Type*} [Group G] {P Z N : Subgroup G} {ρ : G}
   exact hNsq c hcN
 
 theorem c8_unipotent {G : Type*} [Group G] {P Z N : Subgroup G} {ρ : G}
-    (hZP : ∀ z ∈ Z, ∀ p ∈ P, z * p = p * z)
-    (hPP : ∀ p ∈ P, ∀ q ∈ P, ⁅p, q⁆ ∈ Z)
-    (hNP : N ≤ P) (hZN : Z ≤ N)
-    (hNab : ∀ x ∈ N, ∀ y ∈ N, x * y = y * x)
+    (_hZP : ∀ z ∈ Z, ∀ p ∈ P, z * p = p * z)
+    (_hPP : ∀ p ∈ P, ∀ q ∈ P, ⁅p, q⁆ ∈ Z)
+    (_hNP : N ≤ P) (_hZN : Z ≤ N)
+    (_hNab : ∀ x ∈ N, ∀ y ∈ N, x * y = y * x)
     (hNsq : ∀ x ∈ N, x * x = 1)
-    (hρP : ∀ p ∈ P, ρ * p * ρ⁻¹ ∈ P) (hρN : ∀ x ∈ N, ρ * x * ρ⁻¹ ∈ N)
+    (_hρP : ∀ p ∈ P, ρ * p * ρ⁻¹ ∈ P) (_hρN : ∀ x ∈ N, ρ * x * ρ⁻¹ ∈ N)
     (hρZ : ∀ z ∈ Z, ρ * z * ρ⁻¹ = z) (hρ3 : ρ ^ 3 = 1)
     (hδP : ∀ p ∈ P, ρ * p * ρ⁻¹ * p⁻¹ ∈ N)
     (hδN : ∀ f ∈ N, ρ * f * ρ⁻¹ * f⁻¹ ∈ Z) :

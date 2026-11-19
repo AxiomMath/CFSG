@@ -308,7 +308,7 @@ private theorem exists_conj_pow_of_sylow7 (K₁ : Subgroup G)
   have hSle : (S : Subgroup ↥K₁).map K₁.subtype ≤ K₁ :=
     Subgroup.map_subtype_le (S : Subgroup ↥K₁)
   have hSgrp : IsPGroup 7 ((S : Subgroup ↥K₁).map K₁.subtype) :=
-    S.isPGroup'.map K₁.subtype
+    S.isPGroup.map K₁.subtype
   have hSbound : Nat.card (S : Subgroup ↥K₁) ≤ 7 := by
     have h := h7 _ hSle hSgrp
     rwa [Subgroup.card_map_of_injective K₁.subtype_injective] at h
@@ -319,7 +319,7 @@ private theorem exists_conj_pow_of_sylow7 (K₁ : Subgroup G)
   have hTle : (T : Subgroup ↥K₁).map K₁.subtype ≤ K₁ :=
     Subgroup.map_subtype_le (T : Subgroup ↥K₁)
   have hTgrp : IsPGroup 7 ((T : Subgroup ↥K₁).map K₁.subtype) :=
-    T.isPGroup'.map K₁.subtype
+    T.isPGroup.map K₁.subtype
   have hTbound : Nat.card (T : Subgroup ↥K₁) ≤ 7 := by
     have h := h7 _ hTle hTgrp
     rwa [Subgroup.card_map_of_injective K₁.subtype_injective] at h
@@ -1019,9 +1019,9 @@ private theorem conj_mem_closure {S : Set G} {T : Subgroup G} {n : G}
   have hle : Subgroup.closure S ≤ T.comap (MulAut.conj n).toMonoidHom :=
     (Subgroup.closure_le (T.comap (MulAut.conj n).toMonoidHom)).mpr fun s hs => by
       simpa only [SetLike.mem_coe, Subgroup.mem_comap, MulEquiv.toMonoidHom_eq_coe,
-        MonoidHom.coe_coe, MulAut.conj_apply] using h s hs
+        _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] using h s hs
   simpa only [SetLike.mem_coe, Subgroup.mem_comap, MulEquiv.toMonoidHom_eq_coe,
-    MonoidHom.coe_coe, MulAut.conj_apply] using hle hx
+    _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] using hle hx
 
 omit [Finite G] in
 private theorem inv_conj_mem_closure {S : Set G} {T : Subgroup G} {n : G}

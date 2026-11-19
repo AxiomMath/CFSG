@@ -22,10 +22,11 @@ section Arithmetic
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem orderOf_natCard_zmod_eq_two {p : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p)
     (hpq : p ∣ Nat.card K + 1) :
     orderOf ((Nat.card K : ℕ) : ZMod p) = 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hqne1 : ((Nat.card K : ℕ) : ZMod p) ≠ 1 := by
     intro h
@@ -115,12 +116,13 @@ theorem modelE6Two_isElemAbelian {p : ℕ} [Fact p.Prime] (hp3 : 3 ≤ p)
     rw [Nat.card_zpowers, hx]
   exact isElemAbelian_sup_of_le_centralizer hzp hR3 hKH hdisj hpH hR3card
 
+omit [CharP K 2] in
 theorem exists_conj_eq_modelE6Two {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
     (hpq : p ∣ Nat.card K + 1) {A A₀ : Subgroup (adjointGroup .E6 K)}
     (hA : IsElemAbelian p A) (hAcard : Nat.card A = p ^ 4)
     (hA₀ : IsElemAbelian p A₀) (hA₀card : Nat.card A₀ = p ^ 4) :
     ∃ g : adjointGroup .E6 K, A.map (MulAut.conj g).toMonoidHom = A₀ := by
-  haveI : Finite (adjointGroup .E6 K) := Subtype.finite
+  have : Finite (adjointGroup .E6 K) := Subtype.finite
   have hp : p.Prime := Fact.out
   have hp3 : 3 < p := by omega
   exact CFSG.HardMathSupport.Lang.AnisoE6.exists_conj_eq_of_sylowTorus

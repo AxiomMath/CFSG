@@ -41,8 +41,8 @@ variable {A : Type*} [Group A] [Finite A]
 theorem r1613g_card_directProd_of_conj {X K N : Subgroup A} (h : IsDirectProdOfConj X K N)
     (hK : Nat.card K = 3) : Nat.card X = 3 ^ (conjSet K N).ncard := by
   classical
-  haveI : Finite (conjSet K N) := Set.toFinite _
-  haveI : Fintype (conjSet K N) := Fintype.ofFinite _
+  have : Finite (conjSet K N) := Set.toFinite _
+  have : Fintype (conjSet K N) := Fintype.ofFinite _
   let H : conjSet K N → Subgroup A := fun Y => (Y : Subgroup A)
   have hcard : ∀ Y : conjSet K N, Nat.card (H Y) = 3 := by
     rintro ⟨Y, n, -, rfl⟩
@@ -99,8 +99,8 @@ theorem r1613g_rk_commSub_directProd_le {X K N : Subgroup (MulAut W)}
     (h : IsDirectProdOfConj X K N) {m : ℕ} (hm : rk ↥(commSub ⊤ K) ≤ m) :
     rk ↥(commSub ⊤ X) ≤ (conjSet K N).ncard * m := by
   classical
-  haveI : Finite (conjSet K N) := Set.toFinite _
-  haveI : Fintype (conjSet K N) := Fintype.ofFinite _
+  have : Finite (conjSet K N) := Set.toFinite _
+  have : Fintype (conjSet K N) := Fintype.ofFinite _
   have hX : (⨆ i : conjSet K N, (i : Subgroup (MulAut W))) = X := by
     rw [← h.2.1]
     exact iSup_subtype'' (conjSet K N) (fun Y => Y)

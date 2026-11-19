@@ -71,7 +71,7 @@ theorem center_eq_bot_of_qsnl (h : QSNL 5 S B T x D K)
       by rw [map_mul, map_inv, hαA, mul_inv_cancel], ?_⟩
     change (A : GL (Fin 5) F) * g₀ * (A : GL (Fin 5) F)⁻¹ * (g₀ : GL (Fin 5) F)⁻¹ = _
     rw [hAgA, mul_inv_cancel_right]
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hprim : IsPrimitiveRoot c 5 := by
     have h1 := IsPrimitiveRoot.orderOf c
     rwa [orderOf_eq_prime hc5 hc1] at h1

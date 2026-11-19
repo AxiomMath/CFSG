@@ -29,12 +29,14 @@ private def w16g_Row (A : Subgroup (MulAut W)) (t : MulAut W) (p : ℕ) : Prop :
       L.map (MulAut.conj g).toMonoidHom = L) ∧
     Conc4_133 A t L
 
+omit [Finite W] in
 private theorem w16g_normal_subgroupOf_pCoreOf (A : Subgroup (MulAut W)) (p : ℕ) :
     ((pCoreOf p A).subgroupOf A).Normal := by
   rw [Subgroup.normal_subgroupOf_iff (s13_pCore_facts A p).2.1]
   intro h k hh hk
   exact (s13_pCore_facts A p).1 k hk h hh
 
+omit [Finite W] in
 private theorem w16g_normal_subgroupOf_of_conj {A N : Subgroup (MulAut W)}
     (hNA : ∀ g ∈ A, ∀ x ∈ N, g * x * g⁻¹ ∈ N) (hNle : N ≤ A) :
     (N.subgroupOf A).Normal := by
@@ -86,8 +88,8 @@ private theorem w16g_row_three (h : Cfg133 A t 3) (hI : IsIndivisible A) : w16g_
     ⟨hcyc, -⟩ | ⟨n, -, hn⟩ | ⟨hP3, hr⟩ | ⟨h4, -⟩
   · have hab : ∀ x ∈ ⁅pCoreOf 3 A, Subgroup.zpowers t⁆,
         ∀ y ∈ ⁅pCoreOf 3 A, Subgroup.zpowers t⁆, x * y = y * x := by
-      haveI : IsCyclic ↥(⁅pCoreOf 3 A, Subgroup.zpowers t⁆) := hcyc
-      letI : CommGroup ↥(⁅pCoreOf 3 A, Subgroup.zpowers t⁆) := IsCyclic.commGroup
+      have : IsCyclic ↥(⁅pCoreOf 3 A, Subgroup.zpowers t⁆) := hcyc
+      let : CommGroup ↥(⁅pCoreOf 3 A, Subgroup.zpowers t⁆) := IsCyclic.commGroup
       intro x hx y hy
       exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ :
         ↥(⁅pCoreOf 3 A, Subgroup.zpowers t⁆)) ⟨y, hy⟩)

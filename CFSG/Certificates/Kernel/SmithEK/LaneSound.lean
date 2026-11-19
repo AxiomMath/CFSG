@@ -38,6 +38,7 @@ theorem fld_add20 (s X : Nat) : fld (s + 20) X = fld s (X / 2 ^ 400) := by
   unfold fld
   rw [Nat.div_div_eq_div_mul, ← Nat.pow_add, show 400 + 20 * s = 20 * (s + 20) by ring]
 
+set_option exponentiation.threshold 400 in
 theorem fld_block {x : Nat} (hx : x < 2 ^ 400) (y : Nat) {t : Nat} (ht : t < 20) :
     fld t (x + 2 ^ 400 * y) = fld t x ∧
       ∀ l, fld (20 * (l + 1) + t) (x + 2 ^ 400 * y) = fld (20 * l + t) y := by
@@ -99,6 +100,7 @@ theorem fld_pkW400 : ∀ (L : List Nat) (l t : Nat), t < 20 → (∀ x ∈ L, x 
     · rw [(fld_block hx _ ht).2 l, List.getD_cons_succ]
       exact fld_pkW400 L l t ht fun y hy => h y (List.mem_cons_of_mem _ hy)
 
+set_option exponentiation.threshold 400 in
 theorem pkW_rep_mul (x : Nat) : ∀ n, pkW 400 (List.replicate n 1) * x =
     pkW 400 (List.replicate n x)
   | 0 => by simp [pkW_nil]
@@ -197,8 +199,10 @@ theorem fld_bmulP {ONE : Nat} (hO : ∀ s, fld s ONE ≤ 1) : ∀ (Qs : List Nat
       · rw [Nat.and_zero]
     · exact applyL_congr_low _ _ _ fun j hj => fld_shr1 s Z (by simp at hj hl; omega)
 
+set_option exponentiation.threshold 400 in
 theorem l20_lt : l20 < 2 ^ 400 := by decide
 
+set_option exponentiation.threshold 400 in
 theorem l20_mul : (2 ^ 20 - 1) * l20 = 2 ^ 400 - 1 := by decide
 
 theorem mul_l20_lt {c : Nat} (hc : c < 2 ^ 20) : c * l20 < 2 ^ 400 := by
@@ -207,11 +211,12 @@ theorem mul_l20_lt {c : Nat} (hc : c < 2 ^ 20) : c * l20 < 2 ^ 400 := by
   have h2 : (0 : Nat) < 2 ^ 400 := by positivity
   omega
 
+set_option exponentiation.threshold 400 in
 theorem fld_l20 (t : Nat) : fld t l20 = if t < 20 then 1 else 0 := by
   by_cases ht : t < 20
-  · rw [if_pos ht]
+  · rw [ite_eq_left ht]
     interval_cases t <;> decide
-  · rw [if_neg ht]
+  · rw [ite_eq_right ht]
     unfold fld
     rw [Nat.div_eq_of_lt (lt_of_lt_of_le l20_lt (Nat.pow_le_pow_right (by norm_num) (by omega)))]
 
@@ -236,8 +241,8 @@ theorem fld_ONE (s : Nat) :
     exact l20_lt
   rw [pkW_rep_mul, fld_div20, fld_pkW400 _ _ _ (Nat.mod_lt _ (by norm_num)) hlt]
   by_cases hs : s < 13860
-  · rw [getD_replicate_lt (by omega), fld_l20, if_pos (Nat.mod_lt _ (by norm_num)), if_pos hs]
-  · rw [List.getD_eq_default _ _ (by rw [List.length_replicate]; omega), fld_zero, if_neg hs]
+  · rw [getD_replicate_lt (by omega), fld_l20, ite_eq_left (Nat.mod_lt _ (by norm_num)), ite_eq_left hs]
+  · rw [List.getD_eq_default _ _ (by rw [List.length_replicate]; omega), fld_zero, ite_eq_right hs]
 
 theorem fldsC_get : ∀ (n r : Nat), fldsC n r = true → ∀ a < n, (r >>> (10 * a)) % 1024 < 693
   | 0, _, _, a, ha => absurd ha (Nat.not_lt_zero a)
@@ -249,6 +254,7 @@ theorem fldsC_get : ∀ (n r : Nat), fldsC n r = true → ∀ a < n, (r >>> (10 
     · rw [show 10 * (a + 1) = 10 + 10 * a by ring, Nat.shiftRight_add]
       exact fldsC_get n _ h'.2 a (by omega)
 
+set_option exponentiation.threshold 400 in
 theorem fld_gathC (Bpk : Nat) : ∀ (n r a m : Nat), a < n → m < 20 →
     fld (20 * a + m) (gathC Bpk n r) = fld m (blkC Bpk ((r >>> (10 * a)) % 1024))
   | 0, _, a, _, ha, _ => absurd ha (Nat.not_lt_zero a)
@@ -265,6 +271,7 @@ theorem fld_gathC (Bpk : Nat) : ∀ (n r a m : Nat), a < n → m < 20 →
     · rw [(fld_block hb _ hm).2 a, fld_gathC Bpk n _ a m (by omega) hm,
         show 10 * (a + 1) = 10 + 10 * a by ring, Nat.shiftRight_add]
 
+set_option exponentiation.threshold 400 in
 theorem fld_blkC (X f m : Nat) (hm : m < 20) : fld m (blkC X f) = fld (20 * f + m) X := by
   apply Nat.eq_of_testBit_eq
   intro j
@@ -295,6 +302,7 @@ theorem rowsC_get {ONE REP ID Bpk : Nat} {Qs : List Nat} {R : Nat → Nat} :
       rw [List.getD_cons_succ, show j + (i + 1) = j + 1 + i by omega]
       exact e
 
+set_option exponentiation.threshold 400 in
 theorem rowC_lanes {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693)
     (hc : ∀ k < 693, (C.getD k []).length = 20 ∧ ∀ m < 20, (C.getD k []).getD m 0 < 2 ^ 20)
     {j : Nat} (hj : j < 693)
@@ -318,7 +326,7 @@ theorem rowC_lanes {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693)
     rw [fld_ONE]
     split_ifs <;> omega
   have hO1 : ∀ s < 13860, fld s (pkW 400 (List.replicate 693 1) * l20) = 1 := fun s hs => by
-    rw [fld_ONE, if_pos hs]
+    rw [fld_ONE, ite_eq_left hs]
   have hAm : C.getD j [] ∈ C := by
     rw [List.getD_eq_getElem _ _ (by omega)]
     exact List.getElem_mem _
@@ -360,7 +368,7 @@ theorem rowC_lanes {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693)
         List.getD_eq_getElem _ _ (by simp; omega), List.getElem_map,
         ← List.getD_eq_getElem _ [] (by omega), Nat.mul_comm,
         fld_mul_spread (getD_lt_of hCb (by positivity) i) _
-          (fun t => by rw [fld_l20]; split_ifs <;> omega), fld_l20, if_pos hm, Nat.one_mul,
+          (fun t => by rw [fld_l20]; split_ifs <;> omega), fld_l20, ite_eq_left hm, Nat.one_mul,
         List.getD_eq_getElem _ _ (by omega)]
     rw [hq] at e
     rw [e, fld_pkW400 _ _ _ hm (fun x hx => by

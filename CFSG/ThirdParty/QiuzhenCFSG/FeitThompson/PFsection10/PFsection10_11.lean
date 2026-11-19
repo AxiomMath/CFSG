@@ -3259,7 +3259,7 @@ public theorem finite_orthonormal_virtual_coeff_support_card_le_two_pf105
       intro hz0
       exact hi_ne (by simpa [hz] using hz0)
     dsimp [w]
-    rw [if_neg hi_ne, hz]
+    rw [ite_eq_right hi_ne, hz]
     exact one_le_normSq_intCast_of_ne_zero_pf105 z hz_ne
   have hcard_le_sum_nz :
       (nz.card : ℝ) ≤ ∑ i ∈ nz, Complex.normSq (w i) := by
@@ -3489,7 +3489,7 @@ private theorem finite_orthonormal_virtual_coeff_support_card_le_cfNormSq_pf109
       intro hz0
       exact hi_ne (by simpa [hz] using hz0)
     dsimp [w]
-    rw [if_neg hi_ne, hz]
+    rw [ite_eq_right hi_ne, hz]
     exact one_le_normSq_intCast_of_ne_zero_pf105 z hz_ne
   have hcard_le_sum_nz :
       (nz.card : ℝ) ≤ ∑ i ∈ nz, Complex.normSq (w i) := by
@@ -3738,14 +3738,14 @@ public theorem two_cell_update_base_row_vanish_of_small_shape_pf105
         exact hi2 (congrArg Prod.fst hp)
       have h1 : a i1 j ≠ 0 := by
         rw [hupdate_other i1 j hi1j_ne_active hi1j_ne_base, hcol i1 j,
-          if_pos rfl]
+          ite_eq_left rfl]
         exact hc
       have h2 : a i2 j ≠ 0 := by
         rw [hupdate_other i2 j hi2j_ne_active hi2j_ne_base, hcol i2 j,
-          if_pos rfl]
+          ite_eq_left rfl]
         exact hc
       have hbase : a i0 j0 ≠ 0 := by
-        rw [hupdate_j0, hcol i0 j0, if_neg (fun h => hj h.symm)]
+        rw [hupdate_j0, hcol i0 j0, ite_eq_right (fun h => hj h.symm)]
         simpa using (neg_ne_zero.mpr hδne)
       have hthree : 3 ≤ Section3.coefficientNonzeroCount a :=
         three_le_coefficientNonzeroCount_of_three_nonzero_cells_pf105
@@ -3773,14 +3773,14 @@ public theorem two_cell_update_base_row_vanish_of_small_shape_pf105
           exact hi2 (congrArg Prod.fst hp)
         have h1 : a i1 j0 ≠ 0 := by
           rw [hupdate_other i1 j0 hi1j0_ne_active hi1j0_ne_base,
-            hcol i1 j0, if_pos rfl]
+            hcol i1 j0, ite_eq_left rfl]
           exact hc
         have h2 : a i2 j0 ≠ 0 := by
           rw [hupdate_other i2 j0 hi2j0_ne_active hi2j0_ne_base,
-            hcol i2 j0, if_pos rfl]
+            hcol i2 j0, ite_eq_left rfl]
           exact hc
         have hbase : a i0 j ≠ 0 := by
-          rw [hupdate_j, hcol i0 j, if_neg hj]
+          rw [hupdate_j, hcol i0 j, ite_eq_right hj]
           simpa using hδne
         have hthree : 3 ≤ Section3.coefficientNonzeroCount a :=
           three_le_coefficientNonzeroCount_of_three_nonzero_cells_pf105
@@ -3791,8 +3791,8 @@ public theorem two_cell_update_base_row_vanish_of_small_shape_pf105
             h1 h2 hbase
         omega
       · constructor
-        · rw [hcol i0 j, if_neg (fun h => hkj h.symm)]
-        · rw [hcol i0 j0, if_neg (fun h => hkj0 h.symm)]
+        · rw [hcol i0 j, ite_eq_right (fun h => hkj h.symm)]
+        · rw [hcol i0 j0, ite_eq_right (fun h => hkj0 h.symm)]
   · rcases hrow with ⟨c, hc, i, hrow⟩
     by_cases hii0 : i = i0
     · subst i
@@ -3805,11 +3805,11 @@ public theorem two_cell_update_base_row_vanish_of_small_shape_pf105
         intro hp
         exact hk0 (congrArg Prod.snd hp)
       have haj : a i0 j = c + δ := by
-        rw [hupdate_j, hrow i0 j, if_pos rfl]
+        rw [hupdate_j, hrow i0 j, ite_eq_left rfl]
       have haj0 : a i0 j0 = c - δ := by
-        rw [hupdate_j0, hrow i0 j0, if_pos rfl]
+        rw [hupdate_j0, hrow i0 j0, ite_eq_left rfl]
       have hak : a i0 k = c := by
-        rw [hupdate_other i0 k hcell_kj hcell_kj0, hrow i0 k, if_pos rfl]
+        rw [hupdate_other i0 k hcell_kj hcell_kj0, hrow i0 k, ite_eq_left rfl]
       have hpq : (i0, j) ≠ (i0, j0) := by
         intro hp
         exact hj (congrArg Prod.snd hp)
@@ -3833,8 +3833,8 @@ public theorem two_cell_update_base_row_vanish_of_small_shape_pf105
         lt_of_lt_of_le hgt hle
       exact False.elim ((not_lt_of_ge ha_norm) hsum_gt)
     · have hi0_ne_i : i0 ≠ i := fun h => hii0 h.symm
-      exact ⟨by rw [hrow i0 j, if_neg hi0_ne_i],
-        by rw [hrow i0 j0, if_neg hi0_ne_i]⟩
+      exact ⟨by rw [hrow i0 j, ite_eq_right hi0_ne_i],
+        by rw [hrow i0 j0, ite_eq_right hi0_ne_i]⟩
 
 private theorem alphaChar_corrected_tau_residual_sigma_omega_count_le_four_of_hypothesis_10_4_data
     {G : Type u}
@@ -5615,8 +5615,8 @@ private theorem theorem_10_7_exists_kernelInducedFamily
   rcases Theory.Character.exists_completeIrreducibleCharacterFamily_sum_degree_normSq
       (G := N.subgroupOf M) with
     ⟨ι, hι, χrep, hχrep, _hsum⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let θ : ι → Section1.ClassFunction (N.subgroupOf M) :=
     fun i => Section1.ofConjClassFunction (χrep i)
   let S : Finset (Section1.ClassFunction M) :=
@@ -7188,10 +7188,10 @@ private theorem theorem_10_7_typeP_partner_selected_column_image_of_classificati
         d52 S4 T4 ν) :
     theorem_10_7_typeP_partner_selected_column_image_data d52 T4 ν := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases hClass with
     ⟨k, j, δSignZ, _hδSignZ, hδSignZ_sign, _hk0, _hνeq, _hconj, hAlt⟩
   rcases hAlt with hpos | hneg
@@ -7546,10 +7546,10 @@ private theorem theorem_10_7_deltaSign_int_witness_of_hypothesis52FullData
       d52.deltaSign = (fun j => (δSign j : ℂ)) ∧
         ∀ j, δSign j = 1 ∨ δSign j = -1 := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases d52.fullHypothesis with
     ⟨_h46, _hW2K, _h31, _hIso, _hVirt, _hClass, _hPrin, _h22A,
       htail⟩
@@ -7625,10 +7625,10 @@ private theorem theorem_10_7_typeP_partner_selected_column_preimage_of_fullData
     (hν_reducible : ¬ Section1.IsIrreducibleCharacterOnGroup ν) :
     theorem_10_7_typeP_partner_selected_column_preimage_data d52 ν := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases d52.fullHypothesis with
     ⟨_h46, _hW2K, _h31, _hIso, _hVirt, _hClass, _hPrin, _h22A,
       htail⟩
@@ -7770,10 +7770,10 @@ private theorem theorem_10_7_typeP_partner_selected_column_image_classification_
     theorem_10_7_typeP_partner_selected_column_image_classification_data
       d52 S4 T4 ν := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases theorem_10_7_typeP_partner_selected_column_preimage_source_data
       T S9 d52 _h95 _h52 _hMs _hT_eq _h52S4 ν
       _hS4sub _hνS4 _hν_reducible with
@@ -9020,7 +9020,7 @@ private theorem exists_exactCharacterValueOrder_dvd_of_characterValueOrder
     (hb : Section3.characterValueOrder χ b) :
     ∃ a : ℕ, a ∣ b ∧ Section3.exactCharacterValueOrder χ a := by
   classical
-  letI := Fintype.ofFinite G
+  let := Fintype.ofFinite G
   let a : ℕ := (Finset.univ : Finset G).lcm (fun g => orderOf (χ g))
   have hadvd_b : a ∣ b := by
     dsimp [a]
@@ -9645,7 +9645,7 @@ private theorem theorem_10_8_baseColumnNonprincipalEven_of_integral_pairing
       ∀ i : I, i ≠ i0 → σ (ω i j0) g = (zVal i : ℂ) := by
     intro i hi
     dsimp [zVal]
-    rw [dif_neg hi]
+    rw [dite_eq_right hi]
     exact witness_spec i hi
   rcases hpair g hcop zVal hzVal with ⟨z, hz⟩
   refine ⟨z, ?_⟩
@@ -9944,7 +9944,7 @@ private theorem theorem_10_8_counting_quotient_sub_one_factor_supported
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
   have hfree :
@@ -10391,7 +10391,7 @@ private theorem theorem_10_8_exists_conjugate_mem_of_isHallSubgroup_prime_order
   let Psub : Subgroup G := (PH : Subgroup H).map H.subtype
   have hPsub_p : IsPGroup p Psub := by
     simpa [Psub] using
-      (IsPGroup.map (p := p) (H := (PH : Subgroup H)) PH.isPGroup' H.subtype)
+      (IsPGroup.map (p := p) (H := (PH : Subgroup H)) PH.isPGroup H.subtype)
   have hp_not_dvd_Hindex : ¬ p ∣ H.index := by
     intro hp_dvd
     exact (hHall.p_in_pi_of_p_dvd_index ⟨p, hpPrime⟩ hp_dvd) hpπ
@@ -15218,7 +15218,7 @@ private theorem tauOne_xi_orthogonal_sigma_omega_of_hypothesis_10_4_supported_re
         μ δSign ω σ d n δ) :
     ∀ i j, Section1.scalarProduct G (τ₁ ξ) (σ (ω i j)) = 0 := by
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   intro i j
   have h10 : hypothesis_10_1_supported_data M MF W1 W2 V S τ :=
     hypothesis_10_1_of_hypothesis_10_4_supported_data h
@@ -16450,7 +16450,7 @@ private theorem tauOne_xi_orthogonal_sigma_omega_of_hypothesis_10_4_supported_da
         μ δSign ω σ d n δ) :
     ∀ i j, Section1.scalarProduct G (τ₁ ξ) (σ (ω i j)) = 0 := by
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   intro i j
   have h10 : hypothesis_10_1_supported_data M MF W1 W2 V S τ :=
     hypothesis_10_1_of_hypothesis_10_4_supported_data h
@@ -20377,10 +20377,10 @@ private theorem theorem_10_7_typeP_partner_cyclicTI_selected_row_package_support
         _h95 _hMs _hT_eq hcasePair hTypeIIPair hTypePPair hTypeIIToIVPair
         hUcommPair hUnormPair hFPair gPair hSmax_eq_Spair hSF_eq hW1S_eq with
     ⟨e, he⟩
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   have hNotation := section10FourSixNotation_of_hypothesis_10_4_supported_data _h104
   rcases hNotation with
     ⟨_MF10, _Ms10, _Abook10, _A0book10, _A1book10, _hSource10,
@@ -20669,12 +20669,12 @@ private theorem theorem_10_7_typeP_partner_cyclicTI_R_package_supported_source_d
         Section5.orthogonalFinsets Rχ
           (Finset.univ.image fun p : I × J => σ (ω p.1 p.2)) := by
   classical
-  letI : Fintype Smax := Fintype.ofFinite Smax
+  let : Fintype Smax := Fintype.ofFinite Smax
   rcases hSelected with ⟨Ms, hMs, d52, hT_eq⟩
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases theorem_10_7_typeP_partner_cyclicTI_selected_row_package_supported_source_data
       _h104 _hSmax _hSF _hTypeII U W1S W2S H0 C Cprime Ms T S9 d52
       _h95 hMs hT_eq with
@@ -21881,10 +21881,10 @@ public theorem theorem_10_8_supported
   rcases theorem_10_8_exists_hypothesis_10_4_a_supported_data h10 with
     ⟨I, instI, decI, J, instJ, decJ, W, A, A0, i0, j0, μ, δSign, ω, σ,
       ξ, d, n, δ, h104a⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   exact theorem_10_8_coherence_contradiction_of_hypothesis_10_4_a_supported_data
     (M := M) (MF := MF) (W1 := W1) (W2 := W2) (V := V) (W := W)
     (A := A) (A0 := A0) (S := S) (τ := τ) (ξ := ξ) (i0 := i0)
@@ -23315,7 +23315,7 @@ private theorem theorem_10_10_3_tauOne_sOne_orthogonal_sigma_omega_supported
     (hτ₁ : typeVCoherentSubfamilyData M S₁ τ τ₁) :
     ∀ i j, Section1.scalarProduct G (τ₁ ζ) (σ (ω i j)) = 0 := by
   classical
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype M := Fintype.ofFinite M
   intro i j
   have hζS : ζ ∈ S := typeVCharacterCount_sOne_subset hcount hζ
   have hζIrr : Section1.IsIrreducibleCharacterOnGroup ζ := by
@@ -23535,7 +23535,7 @@ private theorem finite_orthonormal_virtual_coeff_support_card_le_two
       intro hz0
       exact hi_ne (by simpa [hz] using hz0)
     dsimp [w]
-    rw [if_neg hi_ne, hz]
+    rw [ite_eq_right hi_ne, hz]
     exact one_le_normSq_intCast_of_ne_zero z hz_ne
   have hcard_le_sum_nz :
       (nz.card : ℝ) ≤ ∑ i ∈ nz, Complex.normSq (w i) := by
@@ -26062,12 +26062,12 @@ private theorem typeVReduction_kernelQuotient_fixedPointSubgroup_zpowers_eq_bot_
         _hH'card, _hpgroup, _hnoncomm, _hHcard, _hdiv, _hboundRel⟩
     exact ⟨hpprime⟩
   have _ : IsCyclic N := isCyclic_of_prime_card hNcard
-  letI : CommGroup N := IsCyclic.commGroup
+  let : CommGroup N := IsCyclic.commGroup
   have hcop : Nat.Coprime (Nat.card A) (Nat.card N) := by
     dsimp [A, N]
     exact typeVReduction_coprime_zpowers_W1_Hprime_subgroupOf_derived_supported
       hred h10 a
-  letI : MulDistribMulAction A (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction A (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := A) (G := derivedSubgroup M) N hNinv
   have hfixQuot :
       fixedPointSubgroup A (derivedSubgroup M ⧸ N) =
@@ -26155,7 +26155,7 @@ private theorem typeVReduction_kernelQuotient_fixed_eq_one_of_W1_ne_one_supporte
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
   intro q
@@ -26165,7 +26165,7 @@ private theorem typeVReduction_kernelQuotient_fixed_eq_one_of_W1_ne_one_supporte
   have hNinvA : IsInvariant A (derivedSubgroup M) N := by
     exact isInvariant_of_characteristic (A := A) (G := derivedSubgroup M) N
   let _ : IsInvariant A (derivedSubgroup M) N := hNinvA
-  letI : MulDistribMulAction A (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction A (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := A) (G := derivedSubgroup M) N hNinvA
   have hgenFix :
       (⟨(a : M), Subgroup.mem_zpowers (a : M)⟩ : A) •
@@ -26258,10 +26258,10 @@ private theorem typeVReduction_nonprincipalLinearCharacterOrbitQuotient_card_eq_
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M)
+  let : MulDistribMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction (W1.subgroupOf M)
       (derivedSubgroup M ⧸ N)
@@ -26373,14 +26373,14 @@ private theorem typeVReduction_orbitRel_of_inducedCF_quotientCharacterInflation_
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M)
+  let : MulDistribMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction (W1.subgroupOf M)
       (derivedSubgroup M ⧸ N)
-  letI : MulAction (W1.subgroupOf M)
+  let : MulAction (W1.subgroupOf M)
       {ψ : (derivedSubgroup M ⧸ N) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ)
@@ -26499,14 +26499,14 @@ private theorem typeVReduction_kernelSubfamily_card_eq_div_supported
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M)
+  let : MulDistribMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ) :=
     characterGroupContragredientMulDistribMulAction (W1.subgroupOf M)
       (derivedSubgroup M ⧸ N)
-  letI : MulAction (W1.subgroupOf M)
+  let : MulAction (W1.subgroupOf M)
       {ψ : (derivedSubgroup M ⧸ N) →* ℂˣ // ψ ≠ 1} :=
     nonidentitySubMulAction (W1.subgroupOf M)
       ((derivedSubgroup M ⧸ N) →* ℂˣ)
@@ -26617,7 +26617,7 @@ private theorem typeVReduction_inducedCF_quotientCharacterInflation_isIrreducibl
     exact isInvariant_of_characteristic (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N
   let _ : IsInvariant (W1.subgroupOf M) (derivedSubgroup M) N := hNinvW1
-  letI : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
+  let : MulDistribMulAction (W1.subgroupOf M) (derivedSubgroup M ⧸ N) :=
     quotientMulDistribMulAction (A := W1.subgroupOf M)
       (G := derivedSubgroup M) N hNinvW1
   have hcomm : IsMulCommutative (derivedSubgroup M ⧸ N) := by
@@ -26734,8 +26734,8 @@ private theorem theorem_10_10_2_kernelSubfamily_complement_index_bridge_supporte
   classical
   rcases typeVReduction_exists_source_degree_prime_family_count hred with
     ⟨ι, hι, hιdec, θ, hθirr, hθcomplete, _hθinj, hθcount⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := hιdec
+  let : Fintype ι := hι
+  let : DecidableEq ι := hιdec
   let α0 : Type := {i : ι // Section1.degree (θ i) = (p : ℂ)}
   let α : Type u := ULift α0
   let S₁ : Finset (Section1.ClassFunction M) :=
@@ -26789,8 +26789,6 @@ private theorem theorem_10_10_2_kernelSubfamily_complement_index_bridge_supporte
           rw [show μ (some i) =
             Section1.inducedCF (derivedSubgroup M) (θ i.down.1) by rfl]
           rw [Section1.degree_inducedClassFunction]
-          change ((derivedSubgroup M).index : ℂ) *
-            Section1.degree (θ i.down.1) = (p * Nat.card W1 : ℂ)
           rw [derivedSubgroup_index_eq_card_W1_of_hypothesis_10_1_supported_data
             h10, i.down.2]
           norm_num [Nat.cast_mul]
@@ -26956,17 +26954,17 @@ private theorem theorem_10_10_4_supported_notation_count_package_bridge
       h10 with
     ⟨I, instI, decI, J, instJ, decJ, W, A, A0, i0, j0, μ, δSign, ω, σ,
       hnotation⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   let S₁ : Finset (Section1.ClassFunction M) :=
     Section6.inducedKernelFamilyOf (derivedSubgroup M) (H'.subgroupOf M) S
   rcases theorem_10_10_2_kernelSubfamily_decomposition_bridge_supported_source
       hred h10 with
     ⟨Jany, instJany, j0any, μany, hJany, hdecompAny, hS₁card,
       hS₁char⟩
-  letI : Fintype Jany := instJany
+  let : Fintype Jany := instJany
   have hJcard : Nat.card J = p := by
     have hJW2 : Nat.card J = Nat.card W2 :=
       uniformMu_card_J_eq_card_W2_of_hypothesis_10_1_supported_data
@@ -31047,10 +31045,10 @@ private theorem theorem_10_10_4_supported_image_family_source
       _hred _h10 with
     ⟨I, instI, decI, J, instJ, decJ, W, A, A0, i0, j0, μ, δSign, ω, σ,
       S₁, d, n, δ, hnotation, hcount⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   exact theorem_10_10_4_supported_image_family_from_notation_count_source
     (M := M) (MF := MF) (H := H) (H' := H') (W1 := W1) (W2 := W2)
     (W := W) (A := A) (A0 := A0) (S := S) (S₁ := S₁) (τ := τ)
@@ -31305,8 +31303,8 @@ public theorem theorem_10_10_exists_derivedInducedFamily
   rcases Theory.Character.exists_completeIrreducibleCharacterFamily_sum_degree_normSq
       (G := derivedSubgroup M) with
     ⟨ι, hι, χrep, hχrep, _hsum⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let χ : ι → Section1.ClassFunction (derivedSubgroup M) :=
     fun i => Section1.ofConjClassFunction (χrep i)
   let S : Finset (Section1.ClassFunction M) :=
@@ -31345,7 +31343,7 @@ public theorem theorem_10_10_exists_derivedInducedFamily
     refine Finset.mem_image.mpr ⟨i, ?_, ?_⟩
     · apply Finset.mem_filter.mpr
       exact ⟨Finset.mem_univ i, by simpa only [hi] using hθne⟩
-    · simpa only [hi]
+    · simp only [hi]
 
 private theorem theorem_10_10_inducedKernelFamily_bot_of_derivedInducedFamily
     {G : Type u}
@@ -31864,10 +31862,10 @@ private theorem theorem_10_10_exists_hypothesis_4_6_of_section10FourSixNotationS
   rcases hNotation10 with
     ⟨I, instI, decI, J, instJ, decJ, W, A, A0, i0, j0, μ, δSign,
       ω, σ, hNotation⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   have hTypeV : Section8.typeVDefinitionData M MF :=
     ⟨⊥, _, _, hP, rfl, hAlt⟩
   have h46 :=
@@ -31911,10 +31909,10 @@ private theorem theorem_10_10_hypothesis_5_2_of_section10FourSixNotationSupporte
   rcases hNotation10 with
     ⟨I, instI, decI, J, instJ, decJ, W, A, A0, i0, j0, μ, δSign,
       ω, σ, hNotation⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   have hTypeV : Section8.typeVDefinitionData M MF :=
     ⟨⊥, _, _, hP, rfl, hAlt⟩
   rcases derivedSupportedFourSixData_of_section10FourSixNotationSupportedData_of_late
@@ -32013,10 +32011,10 @@ private theorem theorem_10_10_dadeIsometryRelativeToA0SupportedSourceData_of_sec
   rcases hNotation10 with
     ⟨I, instI, decI, J, instJ, decJ, W, A, A0, i0, j0, μ, δSign,
       ω, σ, hNotation⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases hNotation with
     ⟨MFsrc, Ms, Abook, A0book, A1book, hSource, _hW, _hA0, _h46,
       _h33, _hIso, _hVirt, _hPrin, _hσAgreeCyc, _h45, _h48, _hTauA0, _hFull⟩
@@ -32200,10 +32198,10 @@ private theorem theorem_10_10_deltaSign_int_witness_of_hypothesis52FullData
     ∃ δSign : d52.J → ℤ,
       d52.deltaSign = (fun j => (δSign j : ℂ)) := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases d52.fullHypothesis with
     ⟨_h46, _hW2K, _h31, _hIso, _hVirt, _hClass, _hPrin, _h22A,
       htail⟩
@@ -32265,10 +32263,10 @@ private theorem theorem_10_10_source_typeV_fourSixCore_payload_baseRowGalois_pri
     letI : DecidableEq d52.I := d52.instDecidableEqI
     letI : DecidableEq d52.J := d52.instDecidableEqJ
     section10BaseRowGaloisData d52.i0 d52.j0 d52.piChar δSign := by
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   exact
     section10BaseRowGaloisData_of_hypothesis_4_6_supported_statement
       (L := M)
@@ -32655,10 +32653,10 @@ private theorem theorem_10_10_source_typeV_fourSixCore_payload_commonTauOnA0_sou
         Section2.CFOn M A0 α →
           d52.tau α =
             Section2.dadeTransform d52.H_A0 hA0M.subset_L α := by
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   have hCyclicPre :
       Section8.section8SubgroupSetPreimage M A0 =
         Section8.section8CyclicA0Set M W1 W2 A :=
@@ -32747,10 +32745,10 @@ private theorem theorem_10_10_source_typeV_fourSixSupportedCore_source
   rcases theorem_10_10_source_typeV_fourSixCore_fullData_payload_source
       _hP _hAlt hNotation hA0 hLate with
     ⟨d52⟩
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases theorem_10_10_source_typeV_fourSixCore_payload_baseRow_source
       _hP _hAlt hNotation hA0 hLate d52 with
     ⟨δSign, hδSign, hGalois⟩
@@ -32805,10 +32803,10 @@ private theorem theorem_10_10_fourSixNotationSupportedPackage_of_core
   rcases hCore with
     ⟨Ms, Abook, A0book, A1book, d52, δSign, hδSign, hNotation,
       hA0sub, hDade, hGalois⟩
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   have hTypeV : Section8.typeVDefinitionData M MF :=
     ⟨⊥, _, _, hP, rfl, hAlt⟩
   have hMs_eq : Ms = MF :=
@@ -32955,10 +32953,10 @@ private theorem theorem_10_10_caseC2FullData_of_typeV_ti_supported
       h10 with
     ⟨I, instI, decI, J, instJ, decJ, W, A, A0, i0, j0, μ, δSign,
       ω, σ, hNotation10⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases hNotation10 with
     ⟨MFsrc, Ms, Abook, A0book, A1book, hSource,
       hW, _hA0, _h46, _h33, _hIso, _hVirt, _hPrin,

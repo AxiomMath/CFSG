@@ -44,7 +44,7 @@ private lemma commute_torusElt_two_swapPair_E06 {K : Type} [Field K] (c : Kˣ) :
   apply LinearEquiv.ext
   intro v
   funext x
-  simp only [LinearEquiv.mul_apply, torusElt_apply, swapPair_apply, Equiv.swap_apply_self]
+  simp only [LinearEquiv.mul_apply, torusElt_apply, swapPair_apply]
   rcases x with i | i <;> fin_cases i <;>
     simp [Equiv.swap_apply_left, Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne]
 

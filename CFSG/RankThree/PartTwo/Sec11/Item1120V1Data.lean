@@ -142,15 +142,18 @@ variable {G : Type*} [Group G] [Finite G]
 
 @[expose] noncomputable def M2 (x : G) : Subgroup G := Subgroup.zpowers (x ^ (orderOf x / 9))
 
+omit [Finite G] in
 theorem M2_le_zpowers (x : G) : M2 x ≤ Subgroup.zpowers x :=
   Subgroup.zpowers_le.mpr (Subgroup.pow_mem _ (Subgroup.mem_zpowers x) _)
 
+omit [Finite G] in
 theorem pow_nine_eq_one_of_mem_M2 {x z : G} (h9 : 9 ∣ orderOf x) (hz : z ∈ M2 x) : z ^ 9 = 1 := by
   have hm9 : (x ^ (orderOf x / 9)) ^ 9 = 1 := by
     rw [← pow_mul, Nat.div_mul_cancel h9, pow_orderOf_eq_one]
   exact orderOf_dvd_iff_pow_eq_one.mp
     ((orderOf_dvd_of_mem_zpowers hz).trans (orderOf_dvd_iff_pow_eq_one.mpr hm9))
 
+omit [Finite G] in
 theorem mem_M2_of_pow_nine {x z : G} (h9 : 9 ∣ orderOf x) (hz : z ∈ Subgroup.zpowers x)
     (hz9 : z ^ 9 = 1) : z ∈ M2 x := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
@@ -171,6 +174,7 @@ theorem mem_M2_of_pow_nine {x z : G} (h9 : 9 ∣ orderOf x) (hz : z ∈ Subgroup
     exact Nat.mul_div_cancel_left t (by norm_num)
   rw [hdiv, ← zpow_natCast, ← zpow_mul, hj]
 
+omit [Finite G] in
 theorem M2_le_zpowers_cube {x : G} (h27 : 27 ∣ orderOf x) : M2 x ≤ Subgroup.zpowers (x ^ 3) := by
   obtain ⟨w, hw⟩ := h27
   have e : x ^ (orderOf x / 9) = (x ^ 3) ^ w := by
@@ -251,6 +255,7 @@ theorem V0_le_R (h : Sec11Data G A c L a R Y d x s r g) :
   rcases hz with hz | hz | hz <;> rw [hz]
   exacts [hsR, haR, R.pow_mem hxR 3]
 
+omit [Finite G] in
 theorem mem_zpowers_d_of_commute {u w : G} (huw : u * w = w * u) :
     u * w * u⁻¹ * w⁻¹ ∈ Subgroup.zpowers d := by
   have : u * w * u⁻¹ * w⁻¹ = 1 := by rw [huw]; group

@@ -334,8 +334,8 @@ private theorem omDiag_apply_of_fixes (hm2 : 2 ≤ m) {k : ℕ} (hkm : k < m)
       have h : Fin.castLE hkm.le ⟨(j : ℕ), hj⟩ = j := Fin.ext rfl
       rw [← h]
       exact hv ⟨(j : ℕ), hj⟩
-    simp only [dif_pos hj, hvj, map_one, Units.val_one, one_mul]
-  · simp only [dif_neg hj]
+    simp only [dite_eq_left hj, hvj, map_one, Units.val_one, one_mul]
+  · simp only [dite_eq_right hj]
 
 private theorem normOmegaCast_apply_of {k : ℕ} (hkm : k < m) (a : normOmega E k)
     (q : (F × F) × (Fin m → K)) :
@@ -370,7 +370,7 @@ private theorem castRestr_omDiag_eq (hm2 : 2 ≤ m) {k : ℕ} (hkm : k < m)
       (Fin.castLE hkm.le i)
     rw [h]
     have hi : ((Fin.castLE hkm.le i).val) < k := by simp
-    simp only [dif_pos hi]
+    simp only [dite_eq_left hi]
 
 private theorem omDiag_mul_normOmegaCast_comm (hm2 : 2 ≤ m) {k : ℕ} (hkm : k < m)
     (hχ : ∀ a : Multiplicative (ZMod p), normQuad E (χ a : K) = 1)
@@ -399,8 +399,8 @@ private theorem omDiag_mul_normOmegaCast_comm (hm2 : 2 ≤ m) {k : ℕ} (hkm : k
       have h : Fin.castLE hkm.le ⟨(i : ℕ), hi⟩ = i := Fin.ext rfl
       rw [← h]
       exact hv ⟨(i : ℕ), hi⟩
-    simp only [dif_pos hi, hv_i, map_one, Units.val_one, one_mul]
-  · simp only [dif_neg hi]
+    simp only [dite_eq_left hi, hv_i, map_one, Units.val_one, one_mul]
+  · simp only [dite_eq_right hi]
 
 private theorem omDiag_eq_normOmegaCast (hm2 : 2 ≤ m) {k : ℕ} (hk2 : 2 ≤ k)
     (hkm : k < m) (hχ : ∀ a : Multiplicative (ZMod p), normQuad E (χ a : K) = 1)
@@ -425,7 +425,7 @@ private theorem omDiag_eq_normOmegaCast (hm2 : 2 ≤ m) {k : ℕ} (hk2 : 2 ≤ k
         ((a0 : ((F × F) × (Fin k → K)) ≃ₗ[F]
           ((F × F) × (Fin k → K))) (castRestr hkm.le q)).2 ⟨(j : ℕ), hj⟩
        else q.2 j)
-    rw [dif_pos hj]
+    rw [dite_eq_left hj]
     change (χ (v j) : K) * q.2 j =
       (χ (v (Fin.castLE hkm.le ⟨(j : ℕ), hj⟩)) : K) *
         (castRestr hkm.le q).2 ⟨(j : ℕ), hj⟩
@@ -440,7 +440,7 @@ private theorem omDiag_eq_normOmegaCast (hm2 : 2 ≤ m) {k : ℕ} (hk2 : 2 ≤ k
         ((a0 : ((F × F) × (Fin k → K)) ≃ₗ[F]
           ((F × F) × (Fin k → K))) (castRestr hkm.le q)).2 ⟨(j : ℕ), hj⟩
        else q.2 j)
-    rw [dif_neg hj]
+    rw [dite_eq_right hj]
     have hvj : v j = 1 := hv j (by omega)
     simp only [hvj, map_one, Units.val_one, one_mul]
 
@@ -464,7 +464,7 @@ private theorem omK_gen {k : ℕ} (hm2 : 2 ≤ m) (hk2 : 2 ≤ k) (hkm : k < m)
     omDiag_eq_normOmegaCast (E := E) (χ := χ) hm2 hk2 hkm hχ
       (v := v) (fun j hj => by
         have hjk : ¬ (j : ℕ) < k := by omega
-        simp only [v, dif_neg hjk])
+        simp only [v, dite_eq_right hjk])
   have hwR : w ∈ (normOmegaCast E hkm.le).range.map κ := by
     refine Subgroup.mem_map.mpr ⟨normOmegaCast E hkm.le a0, ?_, ?_⟩
     · exact ⟨a0, rfl⟩
@@ -486,7 +486,7 @@ private theorem omK_gen {k : ℕ} (hm2 : 2 ≤ m) (hk2 : 2 ≤ k) (hkm : k < m)
   have hv : v (Fin.castLE hkm.le i) =
       eta b (π (Fin.castLE (by omega : k ≤ m + 1) i)) := by
     have hi : ((Fin.castLE hkm.le i).val) < k := by simp
-    simp only [v, dif_pos hi]
+    simp only [v, dite_eq_left hi]
     rw [hidx]
   have hh_eq : (⟨(b : G) * w⁻¹, hhB⟩ : ↥Bs) = b * ⟨w, hwB⟩⁻¹ := Subtype.ext rfl
   calc eta ⟨(b : G) * w⁻¹, hhB⟩ (π (Fin.castLE (by omega : k ≤ m + 1) i))
@@ -994,7 +994,7 @@ private theorem castRestr_castIncl {k m : ℕ} (h : k ≤ m)
     castRestr h (castIncl h v) = v := by
   refine Prod.ext rfl (funext fun i => ?_)
   simp only [castIncl, castRestr]
-  rw [dif_pos (by rw [Fin.val_castLE]; exact i.2)]
+  rw [dite_eq_left (by rw [Fin.val_castLE]; exact i.2)]
   congr 1
 
 omit [Field F] [Algebra F K] [Finite K] [CharP K 2] in
@@ -1005,12 +1005,13 @@ private theorem castIncl_castRestr_of_tail {k m : ℕ} (h : k ≤ m)
   refine Prod.ext rfl (funext fun j => ?_)
   by_cases hj : (j : ℕ) < k
   · simp only [castIncl, castRestr]
-    rw [dif_pos hj]
+    rw [dite_eq_left hj]
     congr 1
   · simp only [castIncl, castRestr]
-    rw [dif_neg hj]
+    rw [dite_eq_right hj]
     exact (hv j (by omega)).symm
 
+omit [Finite K] [CharP K 2] in
 private theorem castLin_castIncl {k m : ℕ} (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) →ₗ[F] ((F × F) × (Fin k → K)))
     (v : (F × F) × (Fin k → K)) :
@@ -1020,10 +1021,11 @@ private theorem castLin_castIncl {k m : ℕ} (h : k ≤ m)
     rfl
   · by_cases hj : (j : ℕ) < k
     · rw [castLin_snd_of_lt h g (castIncl h v) hj, castRestr_castIncl]
-      simp only [castIncl, dif_pos hj]
+      simp only [castIncl, dite_eq_left hj]
     · rw [castLin_snd_of_not_lt h g (castIncl h v) hj]
-      simp only [castIncl, dif_neg hj]
+      simp only [castIncl, dite_eq_right hj]
 
+omit [Finite K] [CharP K 2] in
 private theorem castEquiv_castIncl {k m : ℕ} (h : k ≤ m)
     (g : ((F × F) × (Fin k → K)) ≃ₗ[F] ((F × F) × (Fin k → K)))
     (v : (F × F) × (Fin k → K)) :
@@ -1126,7 +1128,7 @@ private theorem exists_coord_b {k : ℕ} (hkm : k < m)
     rw [heta, Equiv.symm_apply_apply]
     have hval : (((Fin.castLE (by omega : k ≤ m + 1) i : Fin (m + 1))) : ℕ) < m := by
       rw [Fin.val_castLE]; omega
-    simp only [w, dif_pos hval]
+    simp only [w, dite_eq_left hval]
     have hidx : (⟨(((Fin.castLE (by omega : k ≤ m + 1) i : Fin (m + 1))) : ℕ), hval⟩ :
         Fin m) = Fin.castLE hkm.le i := Fin.ext rfl
     rw [hidx]
@@ -1135,7 +1137,7 @@ private theorem exists_coord_b {k : ℕ} (hkm : k < m)
     rw [heta, Equiv.symm_apply_apply]
     have hi : (((i.castSucc : Fin (m + 1))) : ℕ) < m := by
       rw [Fin.val_castSucc]; exact i.isLt
-    simp only [w, dif_pos hi]
+    simp only [w, dite_eq_left hi]
     have hidx : (⟨(((i.castSucc : Fin (m + 1))) : ℕ), hi⟩ : Fin m) = i := Fin.ext rfl
     rw [hidx]
 
@@ -1369,7 +1371,7 @@ omit [Field F] [Algebra F K] [Finite K] [CharP K 2] in
 private theorem VkSet_castIncl {k : ℕ} (hkm : k < m) (v : (F × F) × (Fin k → K)) :
     VkSet (m := m) (k := k) (castIncl hkm.le v) := by
   intro j hj
-  simp only [castIncl, dif_neg (by omega : ¬ (j : ℕ) < k)]
+  simp only [castIncl, dite_eq_right (by omega : ¬ (j : ℕ) < k)]
 
 omit [Finite K] [CharP K 2] in
 private theorem sum_tail_eLin {k : ℕ} (_hkm : k < m)
@@ -1379,7 +1381,7 @@ private theorem sum_tail_eLin {k : ℕ} (_hkm : k < m)
       if k ≤ (i : ℕ) then v.2 i else 0 := by
   rw [Prod.snd_sum, Finset.sum_apply]
   by_cases hi : k ≤ (i : ℕ)
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     rw [Finset.sum_eq_single i]
     · simp [eLin]
     · intro j _ hji
@@ -1387,7 +1389,7 @@ private theorem sum_tail_eLin {k : ℕ} (_hkm : k < m)
       simp [eLin, hji']
     · intro hi'
       exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ i, hi⟩) hi'
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     apply Finset.sum_eq_zero
     intro j hj
     have hne : i ≠ j := by
@@ -1413,11 +1415,11 @@ private theorem castIncl_castRestr_add_tail {k : ℕ} (hkm : k < m)
     rfl
   · rw [Prod.snd_add, Pi.add_apply, sum_tail_eLin (F := F) (K := K) hkm v i]
     by_cases hi : (i : ℕ) < k
-    · rw [if_neg (by omega)]
-      simp only [castIncl, dif_pos hi, add_zero]
+    · rw [ite_eq_right (by omega)]
+      simp only [castIncl, dite_eq_left hi, add_zero]
       exact congrArg v.2 (Fin.ext rfl)
-    · rw [if_pos (by omega)]
-      simp only [castIncl, dif_neg hi, zero_add]
+    · rw [ite_eq_left (by omega)]
+      simp only [castIncl, dite_eq_right hi, zero_add]
 
 omit [Finite K] [CharP K 2] in
 private theorem eq_of_eq_on_castIncl_tail {k : ℕ} (hkm : k < m)
@@ -1459,10 +1461,10 @@ private theorem normOmegaCast_eLin_tail {k : ℕ} (hkm : k < m)
   change (if hi : (i : ℕ) < k then (0 : K) else
     ((eLin (F := F) (K := K) j x).2 i)) = ((eLin (F := F) (K := K) j x).2 i)
   by_cases hi : (i : ℕ) < k
-  · rw [dif_pos hi]
+  · rw [dite_eq_left hi]
     have hne : i ≠ j := by omega
     simp [eLin, hne]
-  · rw [dif_neg hi]
+  · rw [dite_eq_right hi]
 
 omit [Algebra F K] [Finite K] [CharP K 2] in
 private theorem vkSet_zero {k : ℕ} : VkSet (m := m) (k := k) (0 : (F × F) × (Fin m → K)) := by
@@ -1874,15 +1876,15 @@ private theorem hNR [Finite G] {k : ℕ}
   have hvfix : ∀ i : Fin k, vfix (Fin.castLE hkm.le i) = 1 := by
     intro i
     change (if ((Fin.castLE hkm.le i : Fin m) : ℕ) < k then 1 else a) = 1
-    rw [Fin.val_castLE, if_pos i.2]
+    rw [Fin.val_castLE, ite_eq_left i.2]
   have hvfix_head : ∀ i : Fin m, (i : ℕ) < k → vfix i = 1 := by
     intro i hi
     change (if (i : ℕ) < k then 1 else a) = 1
-    rw [if_pos hi]
+    rw [ite_eq_left hi]
   have hvfix_tail : ∀ i : Fin m, k ≤ (i : ℕ) → vfix i = a := by
     intro i hi
     change (if (i : ℕ) < k then 1 else a) = a
-    rw [if_neg (by omega : ¬ (i : ℕ) < k)]
+    rw [ite_eq_right (by omega : ¬ (i : ℕ) < k)]
   have hV : ∀ u ∈ J, ∀ v : (F × F) × (Fin m → K),
       VkSet (m := m) (k := k) v → VkSet (m := m) (k := k)
         (((u : normOmega E m) : ((F × F) × (Fin m → K)) ≃ₗ[F]

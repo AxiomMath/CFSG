@@ -10,6 +10,7 @@ open CFSG
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nhyp_subgroupOf {Q L : Subgroup G} {b : G} (h : NHyp Q L b) (Γ : Subgroup G)
     (hQ : Q ≤ Γ) (hL : L ≤ Γ) :
     NHyp (Q.subgroupOf Γ) (L.subgroupOf Γ) ⟨b, hL h.mem⟩ := by
@@ -46,7 +47,7 @@ theorem comm_mem_of_ih {Q L : Subgroup G} {b : G} (h : NHyp Q L b) {R : Subgroup
   have hLΓ : L ≤ Subgroup.normalizer (R : Set G) := Subgroup.le_normalizer_iff.mpr hRLn
   set Γ := Subgroup.normalizer (R : Set G) with hΓ
   have h1 := nhyp_subgroupOf h Γ hQΓ hLΓ
-  haveI : (R.subgroupOf Γ).Normal := Subgroup.normal_in_normalizer
+  have : (R.subgroupOf Γ).Normal := Subgroup.normal_in_normalizer
   have hR'Q : R.subgroupOf Γ ≤ Q.subgroupOf Γ := fun x hx => hRQ hx
   have hR' : R.subgroupOf Γ ≠ ⊥ := by
     intro hbot

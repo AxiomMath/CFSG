@@ -12,6 +12,7 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem mem_fixedSubgroup_conjNormal_iff (L : Subgroup Y) [L.Normal] (x : Y) (y : ↥L) :
     y ∈ fixedSubgroup (MulAut.conjNormal x : MulAut ↥L) ↔
       (y : Y) ∈ centralizer ({x} : Set Y) := by

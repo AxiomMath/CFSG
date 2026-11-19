@@ -40,7 +40,7 @@ theorem not_dvd_five_fixer
   let N := sylowNormalizer X P s S
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite _
-  have hQ : IsPGroup p Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup p Q := S.isPGroup.map (fixingSubgroup P s).subtype
   obtain ⟨hlo,hhi,hN5⟩ := Degree79LargePrimeFixed.bounds_and_transitive
     p hp P hcard h5 hnotAlt s hs S hS
   have hmod := SylowFixedActionPrimeFree.fixed_degree_modEq X P s S

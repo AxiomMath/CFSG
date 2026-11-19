@@ -48,7 +48,7 @@ private theorem mem_closure_pair_cases {a b : G} (ha : a * a = 1) (hb : b * b = 
   | one => left; rfl
   | mul x y _ _ h1 h2 =>
     rcases h1 with h1 | h1 | h1 | h1 <;> rcases h2 with h2 | h2 | h2 | h2 <;> rw [h1, h2] <;>
-      simp only [mul_assoc, ha, hb, ha', hb', hba, hba', one_mul, mul_one, true_or, or_true]
+      simp only [mul_assoc, ha, hb, ha', hba, hba', one_mul, mul_one, true_or, or_true]
   | inv x _ h =>
     rcases h with h | h | h | h <;> rw [h]
     · left; simp

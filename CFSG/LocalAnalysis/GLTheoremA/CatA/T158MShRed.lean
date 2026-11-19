@@ -69,7 +69,7 @@ private theorem barTransport_data {p : ℕ} {K B L₁ L₂ : Subgroup X} {x₁ x
   classical
   have hp : p.Prime := hh.prime
   have hp2 : p ≠ 2 := hh.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hK, hBel, hx1B, hx2B, hx1, hx2, hL1, hc1, hL2, hc2, hn12, hn21⟩ :=
     t158m_unpack hh
   have hx1p : x₁ ^ p = 1 := hBel.2 x₁ hx1B
@@ -408,7 +408,7 @@ theorem t158ShapeLieOn_A (hN : T158Norm) (hS : T158SetupLU) (hLU : LinUniBound) 
       have hp3 : 3 ≤ p := by
         have h2 : 2 ≤ p := hp.two_le
         omega
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hcatFull : catalogIs (PSimple p K) (t158Shape p) :=
         ⟨.lie ⟨.A n q, hv⟩, Or.inl hi, e⟩
       have hBnorm : B ≤ Subgroup.normalizer (K : Set X) :=
@@ -546,7 +546,7 @@ theorem t158ShapeLieOn_E6 (hN : T158Norm) (hS : T158SetupE6)
 
 end E6Certificates
 
-private theorem t158TwA_setup {p n : ℕ} {K B L₁ L₂ : Subgroup X} {x₁ x₂ : X}
+private theorem t158TwA_setup {p n : ℕ} {K B L₁ _L₂ : Subgroup X} {x₁ x₂ : X}
     {q : TauCeti.PrimePower} {hv : (TauCeti.LieTypeIndex.twistedA n q).Valid}
     {hi : q.p = 2 ∧ p ∣ Nat.gcd (n + 1) (q.card + 1)}
     {e : Nonempty (PSimple p K ≃*
@@ -564,7 +564,7 @@ private theorem t158TwA_setup {p n : ℕ} {K B L₁ L₂ : Subgroup X} {x₁ x�
         (t158xbar p x₁) (t158xbar p x₂) ∧
       Nat.card ↥A ≤ p ^ (1 + N / p) ∧ p ^ (N - 3) ≤ Nat.card ↥A ∧
         2 * p ≤ N ∧ 3 ≤ N ∧ N = n + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N := n + 1
   have hNtop : ¬ p ∣ Nat.card (pQuotHom p (⊤ : Subgroup X)).ker :=
     CFSG.LocalAnalysis.GLTheoremA.H301.not_dvd_card_ker_pQuotHom hp ⊤
@@ -659,7 +659,7 @@ private theorem t158TwA_shape_data {K B L₁ : Subgroup X} {x₁ x₂ : X}
     omega
   exact ⟨m, hOdd, h1m, hcatK, hIdent, M, hM, hMcat⟩
 
-private theorem t158TwE6_setup {K B L₁ L₂ : Subgroup X} {x₁ x₂ : X}
+private theorem t158TwE6_setup {K B L₁ _L₂ : Subgroup X} {x₁ x₂ : X}
     {q : TauCeti.PrimePower} {hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid}
     {hi : q.p = 2 ∧ 3 ∣ q.card + 1}
     {e : Nonempty (PSimple 3 K ≃*
@@ -676,7 +676,7 @@ private theorem t158TwE6_setup {K B L₁ L₂ : Subgroup X} {x₁ x₂ : X}
     T171Sh.Setup 3 (barX 3 ⊤ K) (barX 3 ⊤ L₁) A
         (t158xbar 3 x₁) (t158xbar 3 x₂) ∧
       Nat.card ↥A ≤ 3 ^ 4 ∧ 3 ^ 4 ≤ Nat.card ↥A := by
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
   have hNtop : ¬ 3 ∣ Nat.card (pQuotHom 3 (⊤ : Subgroup X)).ker :=
     CFSG.LocalAnalysis.GLTheoremA.H301.not_dvd_card_ker_pQuotHom Nat.prime_three ⊤
   have hcatLU : catalogIs (PSimple 3 (barX 3 ⊤ K))
@@ -718,6 +718,7 @@ private theorem t158TwE6_setup {K B L₁ L₂ : Subgroup X} {x₁ x₂ : X}
     simpa using h
   exact ⟨hSetup, hUpper, hLower⟩
 
+omit [Finite X] in
 private theorem t158TwA_concl {K B L₁ : Subgroup X} {x₂ : X} {m : ℕ} {M : Subgroup X}
     (hOdd : Odd m) (h1m : 1 < m)
     (hcatK : catalogIs (PSimple 3 K) (S10.isU6n m))
@@ -745,7 +746,7 @@ theorem t158ShapeLieOn_TwA (hN : T158Norm) (hS : T158SetupLU) (hLU : LinUniBound
       have hp3 : 3 ≤ p := by
         have h2 : 2 ≤ p := hp.two_le
         omega
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hcatFull : catalogIs (PSimple p K) (t158Shape p) :=
         ⟨.lie ⟨.twistedA n q, hv⟩, Or.inr (Or.inl hi), e⟩
       have hBnorm : B ≤ Subgroup.normalizer (K : Set X) :=
@@ -757,7 +758,7 @@ theorem t158ShapeLieOn_TwA (hN : T158Norm) (hS : T158SetupLU) (hLU : LinUniBound
         exact hi.1
       obtain ⟨A, W, hPre, hWdef, hAB, hAW, hAsup, -⟩ := exists_preSetup hN hh hinn hcatFull hcK
       obtain ⟨N, -, hUpper, hLower, h2p, hN3, hNval⟩ :=
-        t158TwA_setup (K := K) (B := B) (L₁ := L₁) (L₂ := L₂) (x₁ := x₁) (x₂ := x₂)
+        t158TwA_setup (K := K) (B := B) (L₁ := L₁) (_L₂ := L₂) (x₁ := x₁) (x₂ := x₂)
           (n := n) (q := q) (hv := hv) (hi := hi) (e := e) (A := A) (W := W)
           hS hLU hp hp2 hp3 hPre hWdef hAB hAW hAsup hBel (t158Hyp_rank hh)
       have h3le : 3 ≤ 1 + N / p := by
@@ -800,6 +801,7 @@ theorem t158ShapeLieOn_TwA (hN : T158Norm) (hS : T158SetupLU) (hLU : LinUniBound
   | alternating _ _ => simp [t158ShapeTwA, onLie] at hi
   | sporadic _ => simp [t158ShapeTwA, onLie] at hi
 
+omit [Finite X] in
 private theorem t158TwE6_concl {K B L₁ : Subgroup X} {x₂ : X} {m : ℕ} {M : Subgroup X}
     (hOdd : Odd m) (h1m : 1 < m)
     (hcatK : catalogIs (PSimple 3 K) (S10.isTE6n m))
@@ -839,7 +841,7 @@ theorem t158ShapeLieOn_TwE6 (hN : T158Norm) (hS : T158SetupE6)
       obtain ⟨A, W, hPre, hWdef, hAB, hAW, hAsup, -⟩ := exists_preSetup hN hh hinn hcatFull hcK
       have hi2 : q.p = 2 ∧ 3 ∣ q.card + 1 := hi.2
       obtain ⟨-, hUpper, hLower⟩ :=
-        t158TwE6_setup (K := K) (B := B) (L₁ := L₁) (L₂ := L₂) (x₁ := x₁) (x₂ := x₂)
+        t158TwE6_setup (K := K) (B := B) (L₁ := L₁) (_L₂ := L₂) (x₁ := x₁) (x₂ := x₂)
           (q := q) (hv := hv) (hi := hi2) (e := e) (A := A) (W := W)
           hS hE hL hPre hWdef hAB hAW hAsup hBel (t158Hyp_rank hh)
       have hA4 : Nat.card ↥A = 3 ^ 4 := le_antisymm hUpper hLower

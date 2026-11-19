@@ -181,10 +181,10 @@ theorem cfInner_indClassFun_eq_ite [Fintype P] {Z : Subgroup P} (hZ : Z ≤ Subg
       cfInner_eq_ite_of_mem_Irr hlam (centralLinearChar_mem_Irr hθ hZ),
       conj_apply_one_of_mem_Irr hθ]
   by_cases h : θ ∈ centralIrrFinset Z lam
-  · rw [if_pos h, hbase,
-      if_pos ((centralLinearChar_eq_iff_mem_centralIrrFinset hZ hθ).2 h).symm, mul_one]
-  · rw [if_neg h, hbase,
-      if_neg fun h' => h ((centralLinearChar_eq_iff_mem_centralIrrFinset hZ hθ).1 h'.symm),
+  · rw [ite_eq_left h, hbase,
+      ite_eq_left ((centralLinearChar_eq_iff_mem_centralIrrFinset hZ hθ).2 h).symm, mul_one]
+  · rw [ite_eq_right h, hbase,
+      ite_eq_right fun h' => h ((centralLinearChar_eq_iff_mem_centralIrrFinset hZ hθ).1 h'.symm),
       mul_zero]
 
 theorem indClassFun_eq_sum_centralIrrFinset [Fintype P] {Z : Subgroup P}
@@ -204,8 +204,8 @@ theorem indClassFun_eq_sum_centralIrrFinset [Fintype P] {Z : Subgroup P}
     rw [cfInner_indClassFun_eq_ite hZ hlam hχ] at h1
     rw [← h1]
     by_cases h : (χ : P → ℂ) ∈ centralIrrFinset Z lam
-    · rw [if_pos h, if_pos h]
-    · rw [if_neg h, if_neg h, zero_smul]
+    · rw [ite_eq_left h, ite_eq_left h]
+    · rw [ite_eq_right h, ite_eq_right h, zero_smul]
   rw [hm, Finset.sum_congr rfl fun χ _ => hmval χ,
     Finset.sum_coe_sort (irrFinset P) fun χ =>
       if χ ∈ centralIrrFinset Z lam then χ 1 • χ else (0 : P → ℂ),

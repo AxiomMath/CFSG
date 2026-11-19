@@ -22,9 +22,11 @@ structure Sec1011A2 (B : Subgroup A) (t : A) (K : Subgroup (MulAut A))
 @[expose] def sec1011_delta (t : A) (φ : (Fin 5 → ZMod 2) → A) : Fin 6 → A :=
   Fin.cons t (fun i => t * φ (sec1011_wfour i))
 
+omit [Finite A] in
 theorem sec1011_delta_zero (t : A) (φ : (Fin 5 → ZMod 2) → A) : sec1011_delta t φ 0 = t := by
   simp [sec1011_delta]
 
+omit [Finite A] in
 theorem sec1011_delta_succ (t : A) (φ : (Fin 5 → ZMod 2) → A) (i : Fin 5) :
     sec1011_delta t φ i.succ = t * φ (sec1011_wfour i) := by
   simp [sec1011_delta]
@@ -33,8 +35,9 @@ private lemma sec1011A_wfour_ne_zero (i : Fin 5) : sec1011_wfour i ≠ 0 := by
   intro h0
   have hw := sec1011_wfour_weight i
   rw [h0] at hw
-  simpa [vecWeight] using hw
+  simp [vecWeight] at hw
 
+omit [Finite A] in
 theorem Sec1011A2.delta_injective (h : Sec1011A2 B t K φ) :
     Function.Injective (sec1011_delta t φ) := by
   intro k l hkl
@@ -62,6 +65,7 @@ theorem Sec1011A2.delta_injective (h : Sec1011A2 B t K φ) :
             h.core.inj _ _ (sec1011_wfour_even i) (sec1011_wfour_even j) h2
           exact congrArg Fin.succ (sec1011_wfour_injective h3)
 
+omit [Finite A] in
 theorem Sec1011A2.delta_range (h : Sec1011A2 B t K φ) :
     Set.range (sec1011_delta t φ) = sec1011_orb K t := by
   have hrange : Set.range (sec1011_delta t φ) =
@@ -87,6 +91,7 @@ private lemma sec1011A_card_orbit_mul_card_stabilizer {G α : Type} [Group G] [M
   rw [← Nat.card_prod]
   exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup G b)
 
+omit [Finite A] in
 theorem Sec1011A2.card_K (h : Sec1011A2 B t K φ) :
     Nat.card ↥K = 6 * Nat.card ↥(K ⊓ MulAction.stabilizer (MulAut A) t) := by
   have horb_eq : (MulAction.orbit ↥K t : Set A) = sec1011_orb K t := by
@@ -114,6 +119,7 @@ theorem Sec1011A2.card_K (h : Sec1011A2 B t K φ) :
   rw [horb, hcard_stab] at hOS
   exact hOS.symm
 
+omit [Finite A] in
 theorem Sec1011A2.card_K_cases (h : Sec1011A2 B t K φ) :
     Nat.card ↥K = 360 ∨ Nat.card ↥K = 720 := by
   have hK := h.card_K
@@ -130,11 +136,13 @@ theorem Sec1011A2.card_K_cases (h : Sec1011A2 B t K φ) :
       rw [Nat.card_congr e.toEquiv, sec1011_card_perm_five]
     rw [hK, hcard]
 
-private lemma sec1011A_orb_smul (h : Sec1011A2 B t K φ) (α : ↥K) {a : A}
+omit [Finite A] in
+private lemma sec1011A_orb_smul (_h : Sec1011A2 B t K φ) (α : ↥K) {a : A}
     (ha : a ∈ sec1011_orb K t) : (α : MulAut A) a ∈ sec1011_orb K t := by
   obtain ⟨γ, hγ, rfl⟩ := ha
   exact ⟨(α : MulAut A) * γ, K.mul_mem α.2 hγ, by rw [MulAut.mul_apply]⟩
 
+omit [Finite A] in
 private lemma sec1011A_delta_mem_image (h : Sec1011A2 B t K φ) (α : ↥K) (i : Fin 6) :
     ∃ j : Fin 6, (α : MulAut A) (sec1011_delta t φ i) = sec1011_delta t φ j := by
   have hi : sec1011_delta t φ i ∈ sec1011_orb K t := by
@@ -149,10 +157,12 @@ private lemma sec1011A_delta_mem_image (h : Sec1011A2 B t K φ) (α : ↥K) (i :
 private noncomputable def sec1011A_rhoFun (h : Sec1011A2 B t K φ) (α : ↥K) : Fin 6 → Fin 6 :=
   fun i => Classical.choose (sec1011A_delta_mem_image h α i)
 
+omit [Finite A] in
 private lemma sec1011A_rhoFun_spec (h : Sec1011A2 B t K φ) (α : ↥K) (i : Fin 6) :
     (α : MulAut A) (sec1011_delta t φ i) = sec1011_delta t φ (sec1011A_rhoFun h α i) :=
   Classical.choose_spec (sec1011A_delta_mem_image h α i)
 
+omit [Finite A] in
 private lemma sec1011A_rhoFun_injective (h : Sec1011A2 B t K φ) (α : ↥K) :
     Function.Injective (sec1011A_rhoFun h α) := by
   intro i j hij
@@ -161,6 +171,7 @@ private lemma sec1011A_rhoFun_injective (h : Sec1011A2 B t K φ) (α : ↥K) :
     rw [sec1011A_rhoFun_spec h α i, sec1011A_rhoFun_spec h α j, hij]
   exact h.delta_injective ((α : MulAut A).injective h1)
 
+omit [Finite A] in
 private lemma sec1011A_rhoFun_bijective (h : Sec1011A2 B t K φ) (α : ↥K) :
     Function.Bijective (sec1011A_rhoFun h α) :=
   Finite.injective_iff_bijective.mp (sec1011A_rhoFun_injective h α)
@@ -180,9 +191,11 @@ private noncomputable def sec1011A_rho (h : Sec1011A2 B t K φ) :
         ← sec1011A_rhoFun_spec h β i]
       rfl)
 
+omit [Finite A] in
 private lemma sec1011A_rho_apply (h : Sec1011A2 B t K φ) (α : ↥K) (i : Fin 6) :
     (sec1011A_rho h α) i = sec1011A_rhoFun h α i := rfl
 
+omit [Finite A] in
 private lemma sec1011A_fix_delta (h : Sec1011A2 B t K φ) {α : ↥K}
     (hα : sec1011A_rho h α = 1) (i : Fin 6) :
     (α : MulAut A) (sec1011_delta t φ i) = sec1011_delta t φ i := by
@@ -192,6 +205,7 @@ private lemma sec1011A_fix_delta (h : Sec1011A2 B t K φ) {α : ↥K}
     rfl
   rw [hfi]
 
+omit [Finite A] in
 private lemma sec1011A_rho_injective (h : Sec1011A2 B t K φ) :
     Function.Injective (sec1011A_rho h) := by
   rw [injective_iff_map_eq_one]
@@ -212,6 +226,7 @@ private lemma sec1011A_rho_injective (h : Sec1011A2 B t K φ) :
       _ = φ (sec1011_wfour i) := hw.symm
   exact Subtype.ext (h.core.eq_one_of_fix hB ht)
 
+omit [Finite A] in
 theorem sec1011_alt2_act (h : Sec1011A2 B t K φ) :
     ∃ ρ : ↥K →* Equiv.Perm (Fin 6), Function.Injective ρ ∧
       (∀ (α : ↥K) (i : Fin 6),

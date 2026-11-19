@@ -143,7 +143,7 @@ theorem model3U4_orbit_two {L M : Submodule F' (Fin 3 → F')} (hF' : UnitaryFie
     MulAction.orbit (MulAction.stabilizer ↥(unitarySU 2 m F' 3) L) M =
       (isotropicLines hF' 3 : Set (Submodule F' (Fin 3 → F'))) \ {L} := by
   ext N
-  rw [MulAction.mem_orbit_iff, Set.mem_diff, SetLike.mem_coe, Set.mem_singleton_iff]
+  rw [MulAction.mem_orbit_iff, Set.mem_sdiff, SetLike.mem_coe, Set.mem_singleton_iff]
   constructor
   · rintro ⟨h, rfl⟩
     refine ⟨(isotropicLines hF' 3).smul_mem (h : ↥(unitarySU 2 m F' 3)) hM,
@@ -213,8 +213,8 @@ theorem model3U4_fac (hF' : UnitaryFieldData 2 m F') :
 theorem model3U4_card_sylow (hF' : UnitaryFieldData 2 m F')
     (R : Sylow 2 ↥(unitarySU 2 m F' 3)) :
     Nat.card (R : Subgroup ↥(unitarySU 2 m F' 3)) = (2 ^ m) ^ 3 := by
-  haveI := model3U4_finite_group hF'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := model3U4_finite_group hF'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := Sylow.card_eq_multiplicity R
   rw [model3U4_card_group hF', model3U4_fac hF'] at h1
   refine h1.trans ?_
@@ -226,7 +226,7 @@ theorem model3U4_free (hF' : UnitaryFieldData 2 m F') (R : Sylow 2 ↥(unitarySU
     (hM : M ∈ isotropicLines hF' 3) (hML : M ≠ L)
     {x : ↥(unitarySU 2 m F' 3)} (hxR : x ∈ (R : Subgroup ↥(unitarySU 2 m F' 3)))
     (hxM : x • M = M) : x = 1 := by
-  haveI := model3U4_finite_group hF'
+  have := model3U4_finite_group hF'
   have hxH : x ∈ MulAction.stabilizer ↥(unitarySU 2 m F' 3) L :=
     MulAction.mem_stabilizer_iff.2 (hfix x hxR)
   have hyT : (⟨x, hxH⟩ : ↥(MulAction.stabilizer ↥(unitarySU 2 m F' 3) L)) ∈
@@ -251,7 +251,7 @@ theorem model3U4_cover (hF' : UnitaryFieldData 2 m F') (R : Sylow 2 ↥(unitaryS
     {M M' : Submodule F' (Fin 3 → F')} (hM : M ∈ isotropicLines hF' 3)
     (hM' : M' ∈ isotropicLines hF' 3) (hML : M ≠ L) (hM'L : M' ≠ L) :
     ∃ g ∈ (R : Subgroup ↥(unitarySU 2 m F' 3)), g • M = M' := by
-  haveI := model3U4_finite_group hF'
+  have := model3U4_finite_group hF'
   have hinj : Function.Injective
       (fun g : ↥(R : Subgroup ↥(unitarySU 2 m F' 3)) => (g : ↥(unitarySU 2 m F' 3)) • M) := by
     intro g h hgh
@@ -265,7 +265,7 @@ theorem model3U4_cover (hF' : UnitaryFieldData 2 m F') (R : Sylow 2 ↥(unitaryS
   have hsub : (fun g : ↥(R : Subgroup ↥(unitarySU 2 m F' 3)) => (g : ↥(unitarySU 2 m F' 3)) • M) ''
       Set.univ ⊆ (isotropicLines hF' 3 : Set (Submodule F' (Fin 3 → F'))) \ {L} := by
     rintro _ ⟨g, -, rfl⟩
-    rw [Set.mem_diff]
+    rw [Set.mem_sdiff]
     refine ⟨(isotropicLines hF' 3).smul_mem (g : ↥(unitarySU 2 m F' 3)) hM, fun hgL => hML ?_⟩
     have hgL' : (g : ↥(unitarySU 2 m F' 3)) • M = L := hgL
     have hginv : (g : ↥(unitarySU 2 m F' 3))⁻¹ • L = L := hfix _ (Subgroup.inv_mem _ g.2)
@@ -274,7 +274,7 @@ theorem model3U4_cover (hF' : UnitaryFieldData 2 m F') (R : Sylow 2 ↥(unitaryS
       _ = (g : ↥(unitarySU 2 m F' 3))⁻¹ • L := by rw [hgL']
       _ = L := hginv
   have hfin : ((isotropicLines hF' 3 : Set (Submodule F' (Fin 3 → F'))) \ {L}).Finite :=
-    (model3U4_finite_omega hF').diff
+    (model3U4_finite_omega hF').sdiff
   have himg : ((fun g : ↥(R : Subgroup ↥(unitarySU 2 m F' 3)) =>
       (g : ↥(unitarySU 2 m F' 3)) • M) '' Set.univ).ncard = (2 ^ m) ^ 3 := by
     rw [Set.ncard_image_of_injective _ hinj, Set.ncard_univ, model3U4_card_sylow hF' R]
@@ -285,7 +285,7 @@ theorem model3U4_cover (hF' : UnitaryFieldData 2 m F') (R : Sylow 2 ↥(unitaryS
       (le_of_eq (by rw [himg, model3U4_ncard_diff hF' hL])) hfin
   have hmem : M' ∈ (fun g : ↥(R : Subgroup ↥(unitarySU 2 m F' 3)) =>
       (g : ↥(unitarySU 2 m F' 3)) • M) '' Set.univ := by
-    rw [heq, Set.mem_diff]
+    rw [heq, Set.mem_sdiff]
     exact ⟨hM', fun h => hM'L (Set.mem_singleton_iff.1 h)⟩
   obtain ⟨g, -, hg⟩ := hmem
   exact ⟨(g : ↥(unitarySU 2 m F' 3)), g.2, hg⟩

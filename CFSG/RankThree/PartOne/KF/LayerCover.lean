@@ -370,7 +370,7 @@ theorem exists_invariant_two_subgroup (hε : IsCentralPQuot p ε) (hq : IsCentra
       Subgroup.characteristic_iff_map_le.1 hS₀c φ ⟨s₀, hs₀, rfl⟩
     exact ⟨φ s₀, h1, rfl⟩
   refine ⟨S, hSW.trans inf_le_left, ?_, ?_, ?_⟩
-  · exact S₀.isPGroup'.of_surjective (W.subtype.subgroupMap (S₀ : Subgroup ↥W))
+  · exact S₀.isPGroup.of_surjective (W.subtype.subgroupMap (S₀ : Subgroup ↥W))
       (W.subtype.subgroupMap_surjective _)
   · intro a ha
     exact mem_normalizer_of_conj_mem (key a ha) (fun x hx => by

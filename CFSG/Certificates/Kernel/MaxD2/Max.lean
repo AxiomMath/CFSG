@@ -23,8 +23,8 @@ theorem foldr_count (f : Nat → Nat) (l : List Nat) :
       rw [Nat.and_one_is_mod]
       omega
     by_cases e : Nat.land (f k) 1 = 1
-    · rw [if_pos (by simpa using e), List.length_cons, e]
-    · rw [if_neg (by simpa using e), show Nat.land (f k) 1 = 0 by omega]
+    · rw [ite_eq_left (by simpa using e), List.length_cons, e]
+    · rw [ite_eq_right (by simpa using e), show Nat.land (f k) 1 = 0 by omega]
       rfl
 
 theorem countBelow_true (m : Nat) : countBelow m (fun _ => true) = m := by
@@ -97,7 +97,7 @@ theorem conjCount_eq (H : HypsM D K) {i : Nat} (hi : i < K.nr) :
   rw [repi_get H hi, rep_get H hi, nT_size H, H.hDn]
   by_cases h0 : i = 0
   · subst h0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine (countBelow_eq (g := fun _ => true) fun k hk => ?_).trans (countBelow_true K.cnt)
     have hq := perm_spec (H.hRi 0 hi)
     rw [H.hR0] at hq
@@ -112,7 +112,7 @@ theorem conjCount_eq (H : HypsM D K) {i : Nat} (hi : i < K.nr) :
         get_u (canon_lt (nt_canon H hk) hx), hqid _ (canon_lt (nt_canon H hk) hx)]
     rw [e, memN_iff H (nt_canon H hk)]
     exact ⟨k, hk, rfl⟩
-  · rw [if_neg h0, ← H.hCnt i (Nat.pos_of_ne_zero h0) hi]
+  · rw [ite_eq_right h0, ← H.hCnt i (Nat.pos_of_ne_zero h0) hi]
     unfold posCnt
     rw [PK.foldN_eq, foldr_count]
     refine countBelow_eq fun k hk => ?_
@@ -185,10 +185,10 @@ theorem gens_append (H : HypsM D K) {i : Nat} (hi : i < D.repW.length) :
   rw [getElem!_pos _ l (by simp [hs]; omega)]
   by_cases h : l < K.kN
   · rw [Array.getElem_append_left (by rw [hs]; exact h), ← getElem!_pos (nGens D) l (by rw [hs]; exact h),
-      ng_get H h, PK.nIf_eq, if_pos (Nat.blt_eq.mpr h)]
+      ng_get H h, PK.nIf_eq, ite_eq_left (Nat.blt_eq.mpr h)]
   · have hl' : l = K.kN := by omega
     subst hl'
-    rw [PK.nIf_eq, if_neg (by simp [Nat.blt_eq]), Array.getElem_append_right (by rw [hs])]
+    rw [PK.nIf_eq, ite_eq_right (by simp [Nat.blt_eq]), Array.getElem_append_right (by rw [hs])]
     simp [hs, rep_get H hi1]
 
 theorem dcGenerate_of (H : HypsM D K) : dcGenerate D (repT D) (repI D) = true := by
@@ -213,10 +213,10 @@ theorem dcGenerate_of (H : HypsM D K) : dcGenerate D (repT D) (repI D) = true :=
       (K.sgi i l)) = true := PK.allN_iff.2 fun l hl => by
     unfold Pk.sg Pk.sgi
     by_cases h : l < K.kN
-    · rw [PK.nIf_eq, PK.nIf_eq, if_pos (Nat.blt_eq.mpr h), if_pos (Nat.blt_eq.mpr h)]
+    · rw [PK.nIf_eq, PK.nIf_eq, ite_eq_left (Nat.blt_eq.mpr h), ite_eq_left (Nat.blt_eq.mpr h)]
       exact H.hNI l h
-    · rw [PK.nIf_eq, PK.nIf_eq, if_neg (by simp [Nat.blt_eq]; omega),
-        if_neg (by simp [Nat.blt_eq]; omega)]
+    · rw [PK.nIf_eq, PK.nIf_eq, ite_eq_right (by simp [Nat.blt_eq]; omega),
+        ite_eq_right (by simp [Nat.blt_eq]; omega)]
       exact H.hRi _ hi1
   rw [hgi, H.hDn, wordT_u (gens_append H hi) hperm (hw j hj), H.hGb j hj]
   exact beq_self_eq_true _

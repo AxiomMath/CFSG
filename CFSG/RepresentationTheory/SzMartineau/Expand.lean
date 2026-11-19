@@ -167,6 +167,6 @@ theorem szX₀_mul_add_mul_szX₀ {K : Type*} [CommRing K] [CharP K 2]
     simp [szX₀, Matrix.mul_apply, Matrix.vecMul_apply, dotProduct, Fin.sum_univ_four,
       e03, e02, e01, e00, e13, e12, e11, e10] <;>
     ring_nf <;>
-    simp [CharTwo.two_eq_zero]
+    simp
 
 end CFSG.RepresentationTheory.SzMartineau

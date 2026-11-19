@@ -246,7 +246,7 @@ theorem exists_involution_index_le_of_outer
   have hxinv : x⁻¹ = x := mul_eq_one_iff_inv_eq.mp hx2
   obtain ⟨P, hP⟩ := exists_sylow_conjAut_mem (V := V) hxN hx2
   let S : Subgroup (MulAut V) := (P : Subgroup ↥L).map L.subtype
-  have hS : IsPGroup 2 S := P.isPGroup'.map L.subtype
+  have hS : IsPGroup 2 S := P.isPGroup.map L.subtype
   have hxS : x ∈ Subgroup.normalizer (S : Set (MulAut V)) := by
     rw [Subgroup.mem_normalizer_iff]
     intro s

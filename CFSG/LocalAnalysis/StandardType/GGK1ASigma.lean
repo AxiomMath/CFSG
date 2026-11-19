@@ -25,17 +25,17 @@ private theorem ggK1As_blockA_qs_false {r nf d : ℕ}
     nf = 1 ∧ ((ggMultBlockA r nf d).lab = ⟨.A, 1, 1⟩ ∨
       (ggMultBlockA r nf d).lab = ⟨.twA, 2, 1⟩) := by
   by_cases hd : d = 1
-  · rw [ggMultBlockA, if_pos hd] at h ⊢
+  · rw [ggMultBlockA, ite_eq_left hd] at h ⊢
     simp only [decide_eq_false_iff_not, not_not] at h
     obtain ⟨rfl, rfl⟩ := h
     exact ⟨rfl, Or.inl rfl⟩
-  · rw [ggMultBlockA, if_neg hd] at h ⊢
+  · rw [ggMultBlockA, ite_eq_right hd] at h ⊢
     by_cases hr : 2 ≤ r
-    · rw [if_pos hr] at h ⊢
+    · rw [ite_eq_left hr] at h ⊢
       simp only [decide_eq_false_iff_not, not_not] at h
       obtain ⟨rfl, rfl⟩ := h
       exact ⟨rfl, Or.inr rfl⟩
-    · rw [if_neg hr] at h ⊢
+    · rw [ite_eq_right hr] at h ⊢
       simp only [decide_eq_false_iff_not, not_not] at h
       subst h
       exact ⟨rfl, Or.inl rfl⟩
@@ -44,28 +44,27 @@ private theorem ggK1As_datumA_qs_false {p nf d : ℕ} {tw : Bool} {m : List ℕ}
     (ho : o ∈ (ggMultDatumA p nf d tw m).orbits) (hqs : o.qs = false) :
     nf = 1 ∧ (o.lab = ⟨.A, 1, 1⟩ ∨ o.lab = ⟨.twA, 2, 1⟩) := by
   by_cases htriv : (tw = false ∧ d = 1) ∨ (tw = true ∧ d = 2)
-  · rw [ggMultDatumA, if_pos htriv] at ho
+  · rw [ggMultDatumA, ite_eq_left htriv] at ho
     simp only [List.mem_map, List.mem_filter, List.mem_range] at ho
     obtain ⟨j, ⟨-, -⟩, rfl⟩ := ho
     exact ggK1As_blockA_qs_false hqs
-  · rw [ggMultDatumA, if_neg htriv] at ho
-    simp only [List.mem_append, List.mem_map, List.mem_filter, List.mem_range,
-      List.mem_cons, List.not_mem_nil, or_false] at ho
+  · rw [ggMultDatumA, ite_eq_right htriv] at ho
+    simp only [List.mem_append, List.mem_map, List.mem_filter, List.mem_range] at ho
     rcases ho with ho | ho
     ·
       by_cases hm0 : 2 ≤ m.headD 0
-      · rw [if_pos hm0] at ho
+      · rw [ite_eq_left hm0] at ho
         by_cases htw : tw = false
-        · rw [if_pos htw] at ho
+        · rw [ite_eq_left htw] at ho
           obtain rfl := List.mem_singleton.mp ho
           simp only [decide_eq_false_iff_not, not_not] at hqs
           obtain ⟨hr, hnf⟩ := hqs
           subst hnf
           exact ⟨rfl, Or.inl (by rw [hr])⟩
-        · rw [if_neg htw] at ho
+        · rw [ite_eq_right htw] at ho
           obtain rfl := List.mem_singleton.mp ho
           exact ggK1As_blockA_qs_false hqs
-      · rw [if_neg hm0] at ho
+      · rw [ite_eq_right hm0] at ho
         exact absurd ho (List.not_mem_nil)
     ·
       obtain ⟨j, ⟨-, -⟩, rfl⟩ := ho
@@ -95,7 +94,7 @@ private theorem ggK1As_qs_false_dim {m : List ℕ} {o : GGKacOrbit}
   have hd : ggMultOrd 3 1 = 2 := by decide
   rw [hd] at ho
   rw [ggMultDatumA] at ho
-  rw [if_pos (by decide : (true = false ∧ 2 = 1) ∨ (true = true ∧ 2 = 2))] at ho
+  rw [ite_eq_left (by decide : (true = false ∧ 2 = 1) ∨ (true = true ∧ 2 = 2))] at ho
   simp only [List.mem_map, List.mem_filter, List.mem_range, decide_eq_true_eq] at ho
   obtain ⟨j, hj, rfl⟩ := ho
   obtain ⟨hj3, hj2⟩ := hj
@@ -104,19 +103,19 @@ private theorem ggK1As_qs_false_dim {m : List ℕ} {o : GGKacOrbit}
   rcases hblk with h | h
   · left
     by_cases hge : 2 ≤ m.getD j 0 - 1
-    · rw [ggMultBlockA, if_neg (by decide : ¬ ((2 : ℕ) = 1)), if_pos hge] at h
+    · rw [ggMultBlockA, ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ite_eq_left hge] at h
       dsimp only at h
       exact absurd (congrArg LargeEvenLabel.tag h) (fun htag => by cases htag)
-    · rw [ggMultBlockA, if_neg (by decide : ¬ ((2 : ℕ) = 1)), if_neg hge] at h
+    · rw [ggMultBlockA, ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ite_eq_right hge] at h
       have hlt : m.getD j 0 - 1 < 2 := not_le.mp hge
       omega
   · right
     by_cases hge : 2 ≤ m.getD j 0 - 1
-    · rw [ggMultBlockA, if_neg (by decide : ¬ ((2 : ℕ) = 1)), if_pos hge] at h
+    · rw [ggMultBlockA, ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ite_eq_left hge] at h
       dsimp only at h
       have hr : m.getD j 0 - 1 = 2 := congrArg LargeEvenLabel.rank h
       omega
-    · rw [ggMultBlockA, if_neg (by decide : ¬ ((2 : ℕ) = 1)), if_neg hge] at h
+    · rw [ggMultBlockA, ite_eq_right (by decide : ¬ ((2 : ℕ) = 1)), ite_eq_right hge] at h
       dsimp only at h
       exact absurd (congrArg LargeEvenLabel.tag h) (fun htag => by cases htag)
 
@@ -127,7 +126,7 @@ private theorem ggK1As_units_subsingleton {K : Type} [Field K] (hK : Nat.card K 
 
 private theorem ggK1As_matrix_det_eq_one {N : ℕ} {K : Type} [Field K] (hK : Nat.card K = 2)
     (A : GL (Fin N) K) : (A : Matrix (Fin N) (Fin N) K).det = 1 := by
-  haveI := ggK1As_units_subsingleton hK
+  have := ggK1As_units_subsingleton hK
   have h1 : Matrix.GeneralLinearGroup.det A = 1 := Subsingleton.elim _ _
   have h2 := congrArg Units.val h1
   rwa [Matrix.GeneralLinearGroup.val_det_apply] at h2
@@ -142,7 +141,7 @@ private theorem ggK1As_SL_eq_top {N : ℕ} {K : Type} [Field K] (hK : Nat.card K
 private theorem ggK1As_scalars_subgroupOf_bot {N : ℕ} {K : Type} [Field K]
     (hK : Nat.card K = 2) :
     (LargeEvenScalars (Fin N) K).subgroupOf (LargeEvenSLGroup (Fin N) K) = ⊥ := by
-  haveI := ggK1As_units_subsingleton hK
+  have := ggK1As_units_subsingleton hK
   rw [eq_bot_iff]
   intro g hg
   rw [Subgroup.mem_subgroupOf] at hg
@@ -190,7 +189,7 @@ private theorem ggK1As_e_projMk {N : ℕ} {K : Type} [Field K] (hK : Nat.card K 
 
 private theorem ggK1As_centre_bot {N : ℕ} {K : Type} [Field K] (hK : Nat.card K = 2) :
     Subgroup.center (LargeEvenProj (LargeEvenSLGroup (Fin N) K)) = ⊥ := by
-  haveI := ggK1As_units_subsingleton hK
+  have := ggK1As_units_subsingleton hK
   have hcent : Subgroup.center (GL (Fin N) K) = ⊥ := by
     rw [Matrix.GeneralLinearGroup.center_eq_range_scalar, eq_bot_iff]
     rintro _ ⟨c, rfl⟩
@@ -265,18 +264,17 @@ private theorem ggK1As_datumA_head_eq_two {m : List ℕ} {o : GGKacOrbit}
     (ho : o ∈ (ggMultDatumA 3 1 2 false m).orbits) (hqs : o.qs = false) :
     m.headD 0 = 2 := by
   unfold ggMultDatumA at ho
-  rw [if_neg (by decide : ¬ ((false = false ∧ 2 = 1) ∨ (false = true ∧ 2 = 2)))] at ho
-  simp only [List.mem_append, List.mem_map, List.mem_filter, List.mem_range, List.mem_cons,
-    List.not_mem_nil, or_false] at ho
+  rw [ite_eq_right (by decide : ¬ ((false = false ∧ 2 = 1) ∨ (false = true ∧ 2 = 2)))] at ho
+  simp only [List.mem_append, List.mem_map, List.mem_filter, List.mem_range] at ho
   rcases ho with ho | ho
   · by_cases hm0 : 2 ≤ m.headD 0
-    · rw [if_pos hm0] at ho
-      simp only [if_true] at ho
+    · rw [ite_eq_left hm0] at ho
+      simp only [ite_true] at ho
       obtain rfl := List.mem_singleton.mp ho
-      simp only [decide_eq_false_iff_not, not_not, Bool.false_eq_true] at hqs
+      simp only [decide_eq_false_iff_not, not_not] at hqs
       obtain ⟨hr, -⟩ := hqs
       omega
-    · rw [if_neg hm0] at ho
+    · rw [ite_eq_right hm0] at ho
       exact absurd ho (List.not_mem_nil)
   · obtain ⟨j, ⟨-, -⟩, rfl⟩ := ho
     exact Bool.noConfusion hqs
@@ -301,9 +299,9 @@ private theorem ggK1As_mem_primaryFactors_X_sub_one {K : Type} [Field K] {V : Ty
 
 private theorem ggK1As_char_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     (2 : K) = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [Fintype.card_eq_nat_card, hK]; norm_num)
   exact CharP.cast_eq_zero K 2
 
@@ -311,7 +309,7 @@ private theorem ggK1As_squarefree_X_pow_three_sub_one {K : Type} [Field K] [Fini
     (hK : Nat.card K = 2) : Squarefree (((Polynomial.X : K[X]) ^ 3 - 1)) := by
   have h2 : (2 : K) = 0 := ggK1As_char_two hK
   have hder : (((Polynomial.X : K[X]) ^ 3 - 1)).derivative = (Polynomial.X : K[X]) ^ 2 := by
-    simp only [derivative_sub, derivative_pow, derivative_one, derivative_X, mul_one, pow_one]
+    simp only [derivative_sub, derivative_pow, derivative_one, derivative_X, mul_one]
     ring_nf
     have h3 : (3 : K) = 1 := by
       rw [show (3 : K) = 2 + 1 by norm_num, h2, zero_add]
@@ -325,7 +323,7 @@ private theorem ggK1As_squarefree_X_pow_three_sub_one {K : Type} [Field K] [Fini
 private theorem ggK1As_squarefree_X_pow_three_char2 {K : Type} [Field K] (h2 : (2 : K) = 0) :
     Squarefree (((Polynomial.X : K[X]) ^ 3 - 1)) := by
   have hder : (((Polynomial.X : K[X]) ^ 3 - 1)).derivative = (Polynomial.X : K[X]) ^ 2 := by
-    simp only [derivative_sub, derivative_pow, derivative_one, derivative_X, mul_one, pow_one]
+    simp only [derivative_sub, derivative_pow, derivative_one, derivative_X, mul_one]
     ring_nf
     have h3 : (3 : K) = 1 := by
       rw [show (3 : K) = 2 + 1 by norm_num, h2, zero_add]
@@ -350,7 +348,7 @@ private theorem ggK1As_squarefree_minpoly_of_pow_three {K : Type} [Field K] [Fin
 private theorem ggK1As_glEquivPerm {E : Type} [Field E] [Finite E] [CharP E 2]
     (hE : Nat.card E = 2) :
     Nonempty (GL (Fin 2) E ≃* Equiv.Perm (Fin 3)) := by
-  haveI hsub : Subsingleton Eˣ := by
+  have hsub : Subsingleton Eˣ := by
     have h : Nat.card Eˣ = 1 := by rw [Nat.card_units, hE]
     exact (Nat.card_eq_one_iff_unique.mp h).1
   obtain ⟨eP⟩ := CFSG.StandardType.RCSPSL.nonempty_sl2_equiv_perm (F := E) hE
@@ -431,9 +429,9 @@ private theorem ggK1As_three_witness {K : Type} [Field K] [Finite K] {V : Type}
         Commute (t : Module.End K V) (w : Module.End K V)) := by
   have hsq := ggK1As_squarefree_minpoly_of_pow_three hK hT
   have h0 := ggK1As_mem_primaryFactors_X_sub_one hV0K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [Fintype.card_eq_nat_card, hK]; norm_num)
   let xE : K[X] := (Polynomial.X : K[X]) - 1
   let V0 : Submodule K V := primaryComponent (T : Module.End K V) xE
@@ -681,7 +679,7 @@ private theorem ggK1As_isSolvable_GL_two {K : Type} [Field K] [Finite K] [CharP 
   let b : Module.Basis (Fin 2) K V0 := (Module.finBasis K V0).reindex (finCongr hV0)
   let eA : Module.End K V0 ≃ₐ[K] Matrix (Fin 2) (Fin 2) K := LinearMap.toMatrixAlgEquiv b
   let eGL : (Module.End K V0)ˣ ≃* GL (Fin 2) K := Units.mapEquiv eA.toMulEquiv
-  haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by norm_num)
+  have : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by norm_num)
   exact Group.isSolvable_of_surjective
     (f := eGL.symm.toMonoidHom.comp eP.symm.toMonoidHom)
     ((eGL.symm.surjective).comp eP.symm.surjective)
@@ -690,10 +688,10 @@ private theorem ggK1As_perfect_subgroup_trivial {K : Type} [Field K] [Finite K] 
     (hK : Nat.card K = 2) (V0 : Type) [AddCommGroup V0] [Module K V0]
     [FiniteDimensional K V0] (hV0 : Module.finrank K V0 = 2)
     (H : Subgroup (Module.End K V0)ˣ) (hH : Group.IsPerfect ↥H) : H = ⊥ := by
-  haveI : Group.IsSolvable (Module.End K V0)ˣ := ggK1As_isSolvable_GL_two hK V0 hV0
-  haveI : Group.IsPerfect ↥H := hH
+  have : Group.IsSolvable (Module.End K V0)ˣ := ggK1As_isSolvable_GL_two hK V0 hV0
+  have : Group.IsPerfect ↥H := hH
   by_contra hne
-  haveI : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
+  have : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
   exact Group.IsPerfect.not_isSolvable ↥H inferInstance
 
 private theorem ggK1As_component_trivial_on_V0 {K : Type} [Field K] [Finite K] {V : Type}
@@ -707,9 +705,9 @@ private theorem ggK1As_component_trivial_on_V0 {K : Type} [Field K] [Finite K] {
     (hJle : J ≤ Subgroup.centralizer ({T} : Set (LinearMap.GeneralLinearGroup K V))) :
     ∀ j ∈ J, ∀ v ∈ primaryComponent (T : Module.End K V) ((Polynomial.X : K[X]) - 1),
       (j : Module.End K V) v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [Fintype.card_eq_nat_card, hK]; norm_num)
   let xE : K[X] := (Polynomial.X : K[X]) - 1
   let V0 : Submodule K V := primaryComponent (T : Module.End K V) xE
@@ -738,9 +736,9 @@ private theorem ggK1As_component_trivial_on_V0 {K : Type} [Field K] [Finite K] {
           rfl)
       map_one' := Units.ext (LinearMap.ext fun v => rfl)
       map_mul' := fun a b => Units.ext (LinearMap.ext fun v => rfl) }
-  haveI : Group.IsPerfect ↥J := Group.IsPerfect.mk hJ.1
+  have : Group.IsPerfect ↥J := Group.IsPerfect.mk hJ.1
   have hrange : res.range = ⊥ := by
-    haveI : Group.IsPerfect ↥res.range := Group.IsPerfect.range (f := res)
+    have : Group.IsPerfect ↥res.range := Group.IsPerfect.range (f := res)
     exact ggK1As_perfect_subgroup_trivial hK V0 hV0K res.range inferInstance
   intro j hj v hv
   have hres : res ⟨j, hj⟩ = 1 := by
@@ -796,9 +794,9 @@ theorem ggK1A_sigma_two_lin {N : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.
       | cons a t => simpa [List.headD] using hm0
     rw [h2] at h1
     exact h1.symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [Fintype.card_eq_nat_card, hK2]; norm_num)
   have hsqT := ggK1As_squarefree_minpoly_of_pow_three hK2 hT3
   obtain ⟨t, ht3, htne, htT, ht_off, ht_nondec, htcomm⟩ :=
@@ -1157,7 +1155,7 @@ private theorem ggK1As_det_eq_one_of_sq_eq_one {E : Type} [Field E] [CharP E 2] 
 
 private theorem ggK1As_swap_witness
     {E W : Type} [Field E] [AddCommGroup W] [Module E W] [FiniteDimensional E W]
-    (hE : UnitaryFieldData 2 1 E) {B : W →ₛₗ[hE.bar] W →ₗ[E] E} (hBsym : B.IsSymm)
+    (hE : UnitaryFieldData 2 1 E) {B : W →ₛₗ[hE.bar] W →ₗ[E] E} (_hBsym : B.IsSymm)
     {n : ℕ} {b : Module.Basis (Fin n) E W}
     (hborth : ∀ i j, B (b i) (b j) = if i = j then 1 else 0)
     (θ : Fin n → E) (t : LinearMap.GeneralLinearGroup E W)
@@ -1173,7 +1171,7 @@ private theorem ggK1As_swap_witness
     rw [ha_b i, ha_b j, hborth, hborth]
     by_cases hij : i = j
     · subst hij; simp
-    · rw [if_neg hij, if_neg (fun h : σ i = σ j => hij (σ.injective h))]
+    · rw [ite_eq_right hij, ite_eq_right (fun h : σ i = σ j => hij (σ.injective h))]
   have hinv : aEnd * aEnd = 1 := by
     apply b.ext
     intro i
@@ -1207,7 +1205,7 @@ private theorem ggK1As_swap_witness
     have hsq : (LinearMap.det aEnd) ^ 2 = 1 := by
       have h := congrArg LinearMap.det hinv
       simpa only [map_mul, map_one, pow_two] using h
-    haveI : CharP E 2 := hE.charP
+    have : CharP E 2 := hE.charP
     exact ggK1As_det_eq_one_of_sq_eq_one hsq
   have ha₀SU : a₀ ∈ sesqSpecialUnitaryGroup B := by
     rw [mem_sesqSpecialUnitaryGroup]
@@ -1229,8 +1227,8 @@ private theorem ggK1As_swap_witness
 
 private theorem ggK1As_exists_primitiveRoot {E : Type} [Field E] (hE : UnitaryFieldData 2 1 E) :
     ∃ ω : E, IsPrimitiveRoot ω 3 := by
-  haveI : Finite E := hE.finite
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := hE.finite
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Nat.card Eˣ = 3 := by rw [Nat.card_units, hE.card]; norm_num
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Eˣ)
   have hord : orderOf g = 3 := by
@@ -1255,8 +1253,8 @@ private theorem ggK1As_uni_orthonormal_diag
       (∀ i j, B (b i) (b j) = if i = j then 1 else 0) ∧
       (∀ a ∈ P, ∀ i, ∃ μ : E, μ ^ 3 = 1 ∧ (a : Module.End E W) (b i) = μ • b i) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := hE.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := hE.charP
   obtain ⟨ζ, hζ⟩ := ggK1As_exists_primitiveRoot hE
   let f : P → Module.End E W := fun a => ((a : LinearMap.GeneralLinearGroup E W) : Module.End E W)
   have hf_pow : ∀ a : P, f a ^ 3 = 1 := by
@@ -1404,7 +1402,7 @@ private theorem ggK1As_uni_orthonormal_diag
   choose e he using horthbasis
   let b' : Module.Basis (Σ χ : P → E, Fin (Module.finrank E (joint χ))) E W :=
     hdecomp.collectedBasis e
-  letI : Fintype (Σ χ : P → E, Fin (Module.finrank E (joint χ))) :=
+  let : Fintype (Σ χ : P → E, Fin (Module.finrank E (joint χ))) :=
     FiniteDimensional.fintypeBasisIndex b'
   have hcard : Fintype.card (Σ χ : P → E, Fin (Module.finrank E (joint χ))) =
       Fintype.card (Fin (Module.finrank E W)) := by
@@ -1426,12 +1424,12 @@ private theorem ggK1As_uni_orthonormal_diag
       · subst h2; simp [he]
       · have hne : (⟨χ, i⟩ : Σ χ : P → E, Fin (Module.finrank E (joint χ))) ≠ ⟨χ, j⟩ :=
           fun h => h2 (eq_of_heq (Sigma.mk.inj_iff.mp h).2)
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
         have h := he χ i j
-        rwa [if_neg h2] at h
+        rwa [ite_eq_right h2] at h
     · have hne : (⟨χ, i⟩ : Σ χ : P → E, Fin (Module.finrank E (joint χ))) ≠ ⟨χ', j⟩ :=
         fun h => hxy (Sigma.mk.inj_iff.mp h).1
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       exact horth χ χ' hxy (e χ i) (e χ i).2 (e χ' j) (e χ' j).2
   refine ⟨b, ?_, ?_⟩
   · intro i j
@@ -1439,7 +1437,7 @@ private theorem ggK1As_uni_orthonormal_diag
       show b j = b' (ee.symm j) from Module.Basis.reindex_apply b' ee j, hb'orth]
     by_cases hij : i = j
     · subst hij; simp
-    · rw [if_neg hij, if_neg (fun h => hij (ee.symm.injective h))]
+    · rw [ite_eq_right hij, ite_eq_right (fun h => hij (ee.symm.injective h))]
   · intro a ha i
     refine ⟨(ee.symm i).1 ⟨a, ha⟩, ?_, ?_⟩
     · have hmem : ((e (ee.symm i).1 (ee.symm i).2 : joint (ee.symm i).1) : W) ∈
@@ -1456,7 +1454,7 @@ private theorem ggK1As_uni_orthonormal_diag
 
 private theorem ggK1As_diag_unit
     {E W ι : Type} [Field E] [AddCommGroup W] [Module E W] [Fintype ι] [DecidableEq ι]
-    (hE : UnitaryFieldData 2 1 E) {B : W →ₛₗ[hE.bar] W →ₗ[E] E} (hBsym : B.IsSymm)
+    (hE : UnitaryFieldData 2 1 E) {B : W →ₛₗ[hE.bar] W →ₗ[E] E} (_hBsym : B.IsSymm)
     {b : Module.Basis ι E W} (hborth : ∀ i j, B (b i) (b j) = if i = j then 1 else 0)
     (θ : ι → E) (hθ0 : ∀ i, θ i ≠ 0) (hθ3 : ∀ i, θ i ^ 3 = 1)
     (hθprod : ∏ i, θ i = 1) :
@@ -1509,7 +1507,7 @@ private theorem ggK1As_diag_unit
     · subst hij
       have hbar' : θ i * hE.bar (θ i) = 1 := by rw [mul_comm]; exact hbar i
       rw [hbar', one_smul]
-    · rw [if_neg hij, smul_zero]
+    · rw [ite_eq_right hij, smul_zero]
   have hform : ∀ i, (B (tEnd (b i))).comp tEnd = B (b i) := by
     intro i
     apply b.ext
@@ -1607,7 +1605,7 @@ private theorem ggK1As_uni_three_witness
   · subst hn
     let θ : Fin 2 → E := ![ω, ω ^ 2]
     have hθ0 : ∀ i, θ i ≠ 0 := by
-      intro i; fin_cases i <;> simp [θ, hω0, pow_ne_zero]
+      intro i; fin_cases i <;> simp [θ, hω0]
     have hθ3 : ∀ i, θ i ^ 3 = 1 := by
       intro i; fin_cases i
       · simp [θ, hω3]
@@ -1616,16 +1614,16 @@ private theorem ggK1As_uni_three_witness
           ← pow_mul, show (2 : ℕ) * 3 = 3 * 2 by norm_num, pow_mul, hω3, one_pow]
     have hθprod : ∏ i : Fin 2, θ i = 1 := by
       rw [Fin.prod_univ_two]
-      simp only [θ, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [θ, Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [← pow_succ', show (2 : ℕ) + 1 = 3 by norm_num, hω3]
     have hθne : ∃ i j : Fin 2, θ i ≠ θ j :=
-      ⟨0, 1, by simp only [θ, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]; exact
+      ⟨0, 1, by simp only [θ, Matrix.cons_val_zero, Matrix.cons_val_one]; exact
           hωne⟩
     exact ggK1As_uni_three_witness_extra hE hBsym P b hborth hbdiag θ hθ0 hθ3 hθprod hθne
   · subst hn
     let θ : Fin 3 → E := ![1, ω, ω ^ 2]
     have hθ0 : ∀ i, θ i ≠ 0 := by
-      intro i; fin_cases i <;> simp [θ, hω0, pow_ne_zero]
+      intro i; fin_cases i <;> simp [θ, hω0]
     have hθ3 : ∀ i, θ i ^ 3 = 1 := by
       intro i; fin_cases i
       · simp [θ]
@@ -1640,7 +1638,7 @@ private theorem ggK1As_uni_three_witness
       rw [one_mul, ← pow_succ', show (2 : ℕ) + 1 = 3 by norm_num, hω3]
     have hθne : ∃ i j : Fin 3, θ i ≠ θ j := by
       refine ⟨0, 1, ?_⟩
-      simp only [θ, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [θ, Matrix.cons_val_zero, Matrix.cons_val_one]
       exact fun h => hω1 h.symm
     exact ggK1As_uni_three_witness_extra hE hBsym P b hborth hbdiag θ hθ0 hθ3 hθprod hθne
 
@@ -1656,10 +1654,10 @@ private theorem ggK1As_sesqUnitary_solvable
     (hBsym : B.IsSymm) (hBsep : B.SeparatingLeft)
     (hm : Module.finrank E W = 2 ∨ Module.finrank E W = 3) :
     Group.IsSolvable ↥(sesqUnitaryGroup B) := by
-  haveI : Finite ↥(sesqUnitaryGroup B) := by
-    haveI : Finite E := hE.finite
-    haveI : Finite W := Module.finite_of_finite E
-    haveI : Finite (Module.End E W) :=
+  have : Finite ↥(sesqUnitaryGroup B) := by
+    have : Finite E := hE.finite
+    have : Finite W := Module.finite_of_finite E
+    have : Finite (Module.End E W) :=
       Finite.of_injective _ (DFunLike.coe_injective (F := W →ₗ[E] W))
     exact Finite.of_injective
       (fun g : ↥(sesqUnitaryGroup B) => ((g : (Module.End E W)ˣ) : Module.End E W))
@@ -1692,10 +1690,10 @@ private theorem ggK1As_perfect_subgroup_sesqUnitary_trivial
     (hBsym : B.IsSymm) (hBsep : B.SeparatingLeft)
     (hm : Module.finrank E W = 2 ∨ Module.finrank E W = 3)
     (H : Subgroup ↥(sesqUnitaryGroup B)) (hH : Group.IsPerfect ↥H) : H = ⊥ := by
-  haveI : Group.IsSolvable ↥(sesqUnitaryGroup B) := ggK1As_sesqUnitary_solvable hE hBsym hBsep hm
-  haveI : Group.IsPerfect ↥H := hH
+  have : Group.IsSolvable ↥(sesqUnitaryGroup B) := ggK1As_sesqUnitary_solvable hE hBsym hBsep hm
+  have : Group.IsPerfect ↥H := hH
   by_contra hne
-  haveI : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
+  have : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hne
   exact Group.IsPerfect.not_isSolvable ↥H inferInstance
 
 private noncomputable def ggK1As_su_projEquiv {N : ℕ} {K : Type} [Field K]
@@ -1796,8 +1794,7 @@ private noncomputable def ggK1As_restrictForm {E W : Type} [Field E] [AddCommGro
     map_smul' := by
       intro c x
       ext w
-      simp only [LinearMap.comp_apply, LinearMap.smul_apply, Submodule.coe_smul, map_smulₛₗ,
-          RingHom.id_apply] }
+      simp only [LinearMap.comp_apply, LinearMap.smul_apply, Submodule.coe_smul, map_smulₛₗ] }
 
 private theorem ggK1As_restrictForm_apply {E W : Type} [Field E] [AddCommGroup W] [Module E W]
     (hE : UnitaryFieldData 2 1 E) (B : W →ₛₗ[hE.bar] W →ₗ[E] E) (V : Submodule E W)
@@ -2127,7 +2124,7 @@ private theorem ggK1As_perfect_fixes
     (J : Subgroup (LinearMap.GeneralLinearGroup E W)) (hJH : J ≤ H) (hJ : Group.IsPerfect ↥J) :
     ∀ j ∈ J, ∀ v ∈ V, (j : Module.End E W) v = v := by
   intro j hj v hv
-  haveI : Group.IsPerfect ↥J := hJ
+  have : Group.IsPerfect ↥J := hJ
   let φ : ↥J →* ↥(sesqUnitaryGroup (ggK1As_restrictForm hE B V)) :=
     (ggK1As_uniRho hE V H hVcomm hU).comp (Subgroup.inclusion hJH)
   have hperf : Group.IsPerfect ↥φ.range := Group.IsPerfect.range (f := φ)
@@ -2348,7 +2345,7 @@ private theorem ggK1As_linear_of_mem_primaryFactors
           simp only [Polynomial.C_neg, sub_neg_eq_add]]
         exact hbdvd
       simp only [Polynomial.IsRoot, Polynomial.eval_sub, Polynomial.eval_pow, Polynomial.eval_X,
-        Polynomial.eval_one, Polynomial.eval_C] at hroot
+        Polynomial.eval_one] at hroot
       exact sub_eq_zero.mp hroot
     · conv_lhs => rw [hbX]
       simp only [Polynomial.C_neg, sub_neg_eq_add]
@@ -2442,7 +2439,7 @@ private theorem ggK1As_exists_eigenspace_dim
       refine ⟨c, hc3, ?_⟩
       have hfin : Module.finrank K (primaryComponent T (Polynomial.X - Polynomial.C c)) =
           primaryMultiplicity T (Polynomial.X - Polynomial.C c) := by
-        haveI : Fact (Irreducible (Polynomial.X - Polynomial.C c : K[X])) :=
+        have : Fact (Irreducible (Polynomial.X - Polynomial.C c : K[X])) :=
           ⟨Polynomial.irreducible_X_sub_C c⟩
         have hhh := finrank_primaryComponent T (Polynomial.X - Polynomial.C c)
         rwa [Polynomial.natDegree_X_sub_C, one_mul] at hhh
@@ -2518,7 +2515,7 @@ private theorem ggK1As_uni_hom_data {N : ℕ} {K : Type} [Field K] [Finite K]
         (ggK1As_iota N K) (ggK1As_iota_injective N K)).symm).trans
       (ggK1As_su_centralizer_equiv hK hN xhat))
   obtain ⟨c, hc3, hcdim⟩ := ggK1As_exists_eigenspace_dim h hxp hm ho hqs
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have h2K : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hxpow : x ^ 3 = 1 := by
     change (ggK1As_iota N K xhat) ^ 3 = 1
@@ -2534,7 +2531,7 @@ private theorem ggK1As_uni_hom_data {N : ℕ} {K : Type} [Field K] [Finite K]
     refine CFSG.RankThree.PartOne.KCPrimary.squarefree_minpoly_of_aeval_eq_zero
       (ggK1As_squarefree_X_pow_three_char2 h2K) ?_
     rw [map_sub, map_pow, Polynomial.aeval_X, map_one, hT3, sub_self]
-  haveI : Fact (Irreducible (Polynomial.X - Polynomial.C c : K[X])) :=
+  have : Fact (Irreducible (Polynomial.X - Polynomial.C c : K[X])) :=
     ⟨Polynomial.irreducible_X_sub_C c⟩
   have hcf : (Polynomial.X - Polynomial.C c : K[X]) ∈ primaryFactors T := by
     have hne : primaryComponent T (Polynomial.X - Polynomial.C c) ≠ ⊥ := by
@@ -2728,7 +2725,7 @@ private theorem ggK1As_uni_hom_data {N : ℕ} {K : Type} [Field K] [Finite K]
         apply LinearMap.ext
         intro w
         have he : eExp.symm w = (πV w, ⟨w - π w, hmemker w⟩) := rfl
-        simp only [LinearMap.comp_apply, he, LinearMap.prodMap_apply, Module.End.one_apply]
+        simp only [LinearMap.comp_apply, LinearMap.prodMap_apply, Module.End.one_apply]
         rw [hgEnd_apply]
         rfl
       rw [hconj, LinearMap.det_conj, LinearMap.det_prodMap, map_one LinearMap.det, mul_one]
@@ -2883,7 +2880,7 @@ private theorem ggK1As_uni_hom_data {N : ℕ} {K : Type} [Field K] [Finite K]
     let Jg : Subgroup (LinearMap.GeneralLinearGroup K (Fin N → K)) :=
       Jc.map ((Subgroup.subtype H).comp e.symm.toMonoidHom)
     have hJcperf : Group.IsPerfect ↥Jc := by
-      haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+      have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
       exact Group.IsPerfect.ofSurjective
         (f := (Subgroup.subgroupOfEquivOfLe hJleC').symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hJleC').symm.surjective
@@ -2891,7 +2888,7 @@ private theorem ggK1As_uni_hom_data {N : ℕ} {K : Type} [Field K] [Finite K]
       rintro x ⟨c, hc, rfl⟩
       exact (e.symm c).2
     have hJgperf : Group.IsPerfect ↥Jg := by
-      haveI : Group.IsPerfect ↥Jc := hJcperf
+      have : Group.IsPerfect ↥Jc := hJcperf
       exact Group.IsPerfect.map (H := Jc) ((Subgroup.subtype H).comp e.symm.toMonoidHom)
     obtain ⟨a', ha', rfl⟩ := Subgroup.mem_map.mp ha
     let c : ↥Cq := ⟨j, hJleC hj⟩

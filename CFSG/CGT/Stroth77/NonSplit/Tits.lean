@@ -16,7 +16,7 @@ theorem par_single (i : Fin 6) : par (Pi.single i (1 : ZMod 2)) = 1 := by
 
 theorem sg_adjSwap {k : ℕ} (hk : k < 5) : sg (adjSwap 5 k) = 1 := by
   rw [adjSwap_of_lt hk]
-  simp [sg, sign_swap, Fin.ext_iff]
+  simp [sg, Fin.ext_iff]
 
 @[expose] def tits (k : ℕ) : Mns :=
   if h : k < 5 then Mns.mk (Pi.single ⟨k, by omega⟩ 1) (adjSwap 5 k) (by

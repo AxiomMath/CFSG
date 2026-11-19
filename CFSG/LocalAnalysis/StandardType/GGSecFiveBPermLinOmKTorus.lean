@@ -126,12 +126,11 @@ theorem spinMinusSplitTorus_diagAct (hr : 2 ≤ r) (hirr : ∀ s : F, s ^ 2 + b 
   refine ⟨fun l => ?_, fun l => ?_, fun p => ?_⟩
   · rw [hact, SymplecticPilot.kOmMDiag_coe]
     simp only [Spin.Twisted.minusVec_true, Spin.Twisted.eVec,
-      Matrix.diagonal_mulVec_single, SymplecticPilot.kOmMWeight_inl, ↓reduceIte, mul_one]
+      Matrix.diagonal_mulVec_single, SymplecticPilot.kOmMWeight_inl, mul_one]
     rw [← Pi.single_smul, smul_eq_mul, mul_one]
   · rw [hact, SymplecticPilot.kOmMDiag_coe]
     simp only [Spin.Twisted.minusVec_false, Spin.Twisted.fVec,
-      Matrix.diagonal_mulVec_single, SymplecticPilot.kOmMWeight_inr_inl, Bool.false_eq_true,
-      ↓reduceIte, mul_one]
+      Matrix.diagonal_mulVec_single, SymplecticPilot.kOmMWeight_inr_inl, mul_one]
     rw [← Pi.single_smul, smul_eq_mul, mul_one]
   · rw [hact, SymplecticPilot.kOmMDiag_coe]
     funext j

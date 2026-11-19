@@ -68,22 +68,22 @@ theorem permAut_swap_dinv_involutive (i k : Fin r) (f : Fin r → Multiplicative
   simp only [permAut_apply, Function.comp_apply, Equiv.swap_inv]
   by_cases hik : i = k
   · rw [hik]
-    simp [permAut_apply, Equiv.swap_self, OrthNs.dinv_apply_eq]
+    simp [Equiv.swap_self, OrthNs.dinv_apply_eq]
   · by_cases hji : j = i
-    · rw [hji, Equiv.swap_apply_left, OrthNs.dinv_apply_eq, if_neg hik, if_pos (Or.inr rfl),
-        Function.comp_apply, Equiv.swap_apply_right, OrthNs.dinv_apply_eq, if_neg hik,
-        if_pos (Or.inl rfl), inv_inv]
+    · rw [hji, Equiv.swap_apply_left, OrthNs.dinv_apply_eq, ite_eq_right hik, ite_eq_left (Or.inr rfl),
+        Function.comp_apply, Equiv.swap_apply_right, OrthNs.dinv_apply_eq, ite_eq_right hik,
+        ite_eq_left (Or.inl rfl), inv_inv]
     · by_cases hjk : j = k
-      · rw [hjk, Equiv.swap_apply_right, OrthNs.dinv_apply_eq, if_neg hik, if_pos (Or.inl rfl),
-          Function.comp_apply, Equiv.swap_apply_left, OrthNs.dinv_apply_eq, if_neg hik,
-          if_pos (Or.inr rfl), inv_inv]
+      · rw [hjk, Equiv.swap_apply_right, OrthNs.dinv_apply_eq, ite_eq_right hik, ite_eq_left (Or.inl rfl),
+          Function.comp_apply, Equiv.swap_apply_left, OrthNs.dinv_apply_eq, ite_eq_right hik,
+          ite_eq_left (Or.inr rfl), inv_inv]
       · have hnot : ¬ (j = i ∨ j = k) := by
           rintro (h' | h')
           · exact hji h'
           · exact hjk h'
-        rw [Equiv.swap_apply_of_ne_of_ne hji hjk, OrthNs.dinv_apply_eq, if_neg hik,
-          if_neg hnot, Function.comp_apply, Equiv.swap_apply_of_ne_of_ne hji hjk,
-          OrthNs.dinv_apply_eq, if_neg hik, if_neg hnot]
+        rw [Equiv.swap_apply_of_ne_of_ne hji hjk, OrthNs.dinv_apply_eq, ite_eq_right hik,
+          ite_eq_right hnot, Function.comp_apply, Equiv.swap_apply_of_ne_of_ne hji hjk,
+          OrthNs.dinv_apply_eq, ite_eq_right hik, ite_eq_right hnot]
 
 theorem permAut_swap_dinv_eq_self {i k : Fin r} (hik : i ≠ k)
     {f : Fin r → Multiplicative (ZMod p)} (h : toAdd (f k) = -toAdd (f i)) :
@@ -91,16 +91,16 @@ theorem permAut_swap_dinv_eq_self {i k : Fin r} (hik : i ≠ k)
   funext j
   simp only [permAut_apply, Function.comp_apply, Equiv.swap_inv]
   by_cases hji : j = i
-  · rw [hji, Equiv.swap_apply_left, OrthNs.dinv_apply_eq, if_neg hik, if_pos (Or.inr rfl)]
+  · rw [hji, Equiv.swap_apply_left, OrthNs.dinv_apply_eq, ite_eq_right hik, ite_eq_left (Or.inr rfl)]
     exact toAdd.injective (by rw [toAdd_inv, h, neg_neg])
   · by_cases hjk : j = k
-    · rw [hjk, Equiv.swap_apply_right, OrthNs.dinv_apply_eq, if_neg hik, if_pos (Or.inl rfl)]
+    · rw [hjk, Equiv.swap_apply_right, OrthNs.dinv_apply_eq, ite_eq_right hik, ite_eq_left (Or.inl rfl)]
       exact toAdd.injective (by rw [toAdd_inv, h])
     · have hnot : ¬ (j = i ∨ j = k) := by
         rintro (h' | h')
         · exact hji h'
         · exact hjk h'
-      rw [Equiv.swap_apply_of_ne_of_ne hji hjk, OrthNs.dinv_apply_eq, if_neg hik, if_neg hnot]
+      rw [Equiv.swap_apply_of_ne_of_ne hji hjk, OrthNs.dinv_apply_eq, ite_eq_right hik, ite_eq_right hnot]
 
 theorem ne_of_toAdd_eq_neg [Fact p.Prime] (hp2 : p ≠ 2) {a : ZMod p} (ha : a ≠ 0)
     {f : Fin r → Multiplicative (ZMod p)} {i k : Fin r} (hi : toAdd (f i) = a)

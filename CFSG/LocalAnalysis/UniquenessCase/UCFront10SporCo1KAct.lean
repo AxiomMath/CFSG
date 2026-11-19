@@ -76,7 +76,7 @@ theorem qHom_eq_one_of_comm {g : cA} (h : ∀ j < 8, (g : GL24) * twoAQg j = two
     show Subgroup.closure (twoAQg '' {l | l < twoAQRows.length}) ≤ _
     rw [Subgroup.closure_le]
     rintro _ ⟨j, hj, rfl⟩
-    rw [Set.mem_setOf_eq, twoAQRows_length] at hj
+    rw [Set.mem_ofPred_eq, twoAQRows_length] at hj
     exact Subgroup.mem_centralizer_singleton_iff.2 (h j hj).symm
   refine Equiv.ext fun i => ?_
   rw [Equiv.Perm.one_apply]

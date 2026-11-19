@@ -282,7 +282,7 @@ private theorem polar_exhaust (hB : SympForm B) (hS : PolarData B S) {p : V} (hp
       exact hu
     · rw [Subgroup.zpowers_le]
       exact hv
-  haveI : Finite (polarE B S p) :=
+  have : Finite (polarE B S p) :=
     Nat.finite_of_card_ne_zero (by rw [hS.card_E p hp]; decide)
   have hEq := Subgroup.eq_of_le_of_card_ge hMle (le_of_eq ((hS.card_E p hp).trans hcard.symm))
   exact le_of_eq hEq.symm
@@ -408,6 +408,7 @@ theorem card_polarA : Nat.card (polarA B S z s) = 16 := by
   unfold polarA
   rw [polar_card_sup _ _ hdisj, hcE, hcZ]
 
+omit hz in
 theorem mem_polarA_of_orth {x : V} (hx : x ∈ S) (hxs : B s x = 0) : x ∈ polarA B S z s := by
   by_cases hxe : x = s
   · rw [hxe]
@@ -429,6 +430,7 @@ theorem mem_polarA_of_orth {x : V} (hx : x ∈ S) (hxs : B s x = 0) : x ∈ pola
       have hmem : s * x * s ∈ polarA B S z s := Subgroup.mul_mem_sup hE (Subgroup.mem_zpowers s)
       rwa [← hxeq] at hmem
 
+omit hz in
 theorem far_of_not_mem_polarA {q : V} (hq : q ∈ S) (hqA : q ∉ polarA B S z s) :
     B z q = 1 ∧ B s q = 1 := by
   refine ⟨?_, ?_⟩
@@ -440,11 +442,11 @@ theorem far_of_not_mem_polarA {q : V} (hq : q ∈ S) (hqA : q ∉ polarA B S z s
       exact Subgroup.subset_closure ⟨hq, h0⟩
     exact Subgroup.mem_sup_left hqE
   · by_contra h
-    exact hqA (mem_polarA_of_orth hB hS hz hs hzs hq (polar_zmod2_ne_one _ h))
+    exact hqA (mem_polarA_of_orth hB hS hs hzs hq (polar_zmod2_ne_one _ h))
 
 theorem eq_on_polarE_of_not_mem_polarA {q : V} (hq : q ∈ S) (hqA : q ∉ polarA B S z s) {e : V}
     (he : e ∈ polarE B S z) : B q e = B s e := by
-  obtain ⟨hzq, hsq⟩ := far_of_not_mem_polarA hB hS hz hs hzs hq hqA
+  obtain ⟨hzq, hsq⟩ := far_of_not_mem_polarA hB hS hs hzs hq hqA
   have hEA : ∀ t ∈ S, B z t = 0 → t ∈ polarA B S z s := by
     intro t ht hzt
     have htE : t ∈ polarE B S z := by
@@ -463,7 +465,7 @@ theorem eq_on_polarE_of_not_mem_polarA {q : V} (hq : q ∈ S) (hqA : q ∉ polar
       have hq_eq : q = q * t * t := by rw [mul_assoc, hB.sq_eq_one t, mul_one]
       rw [hq_eq]
       exact Subgroup.mul_mem _ hmem (hEA t ht hzt)
-    have h1 := (far_of_not_mem_polarA hB hS hz hs hzs hqtS hqtA).2
+    have h1 := (far_of_not_mem_polarA hB hS hs hzs hqtS hqtA).2
     rw [hB.mul_right, hsq] at h1
     exact polar_one_add_eq_one _ h1
   have hgen : ∀ t ∈ S, B z t = 0 → B q t = B s t := by
@@ -498,8 +500,8 @@ theorem orth_of_not_mem_polarA {q q' : V} (hq : q ∈ S) (hqA : q ∉ polarA B S
     (hq' : q' ∈ S) (hq'A : q' ∉ polarA B S z s) (hne : q ≠ q') : B q q' = 1 := by
   by_contra hcon
   have h0 : B q q' = 0 := polar_zmod2_ne_one _ hcon
-  obtain ⟨hzq, -⟩ := far_of_not_mem_polarA hB hS hz hs hzs hq hqA
-  obtain ⟨hzq', -⟩ := far_of_not_mem_polarA hB hS hz hs hzs hq' hq'A
+  obtain ⟨hzq, -⟩ := far_of_not_mem_polarA hB hS hs hzs hq hqA
+  obtain ⟨hzq', -⟩ := far_of_not_mem_polarA hB hS hs hzs hq' hq'A
   have hqq : q * q' ∈ S := mul_mem_of_orth hB hS hq hq' hne h0
   have hzqq : B z (q * q') = 0 := by
     rw [hB.mul_right, hzq, hzq', polar_one_add_one]
@@ -551,8 +553,8 @@ theorem eq_of_not_mem_polarA {q q' : V} (hq : q ∈ S) (hqA : q ∉ polarA B S z
   have hq'E : q' ∈ polarE B S f := by
     unfold polarE
     exact Subgroup.subset_closure ⟨hq', hq'f⟩
-  obtain ⟨hzq, hsq⟩ := far_of_not_mem_polarA hB hS hz hs hzs hq hqA
-  obtain ⟨hzq', hsq'⟩ := far_of_not_mem_polarA hB hS hz hs hzs hq' hq'A
+  obtain ⟨hzq, hsq⟩ := far_of_not_mem_polarA hB hS hs hzs hq hqA
+  obtain ⟨hzq', hsq'⟩ := far_of_not_mem_polarA hB hS hs hzs hq' hq'A
   have haux : ∀ x ∈ (Subgroup.zpowers f ⊔ Subgroup.zpowers z) ⊔ Subgroup.zpowers s,
       B z x = 1 → B s x = 1 → x = z * s ∨ x = f * (z * s) := by
     intro x hx hzx hsx
@@ -609,7 +611,7 @@ theorem eq_of_not_mem_polarA {q q' : V} (hq : q ∈ S) (hqA : q ∉ polarA B S z
 theorem subset_polarA : ∀ q ∈ S, q ∈ polarA B S z s := by
   intro q hq
   by_contra hqA
-  obtain ⟨hzq, hsq⟩ := far_of_not_mem_polarA hB hS hz hs hzs hq hqA
+  obtain ⟨hzq, hsq⟩ := far_of_not_mem_polarA hB hS hs hzs hq hqA
   have hqs : B q s = 1 := (hB.symm q s).trans hsq
   have hwE : ∀ e ∈ polarE B S z, B (q * s * z) e = 0 := by
     intro e he

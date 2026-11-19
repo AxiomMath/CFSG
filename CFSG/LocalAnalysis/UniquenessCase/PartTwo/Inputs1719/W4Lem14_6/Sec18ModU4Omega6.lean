@@ -30,9 +30,9 @@ theorem le_disp_of_linear_coords {I : Type} [CommGroup I] [Finite I]
   classical
   let ρ : Representation (ZMod 2) ↥L (Additive I) :=
     LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp (binaryLin.comp L.subtype)
-  haveI hirrρ : Fact ρ.IsIrreducible := by
+  have hirrρ : Fact ρ.IsIrreducible := by
     refine ⟨(CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff ρ).mpr ⟨?_, fun U hU => ?_⟩⟩
-    · obtain ⟨x, -, hx⟩ := SetLike.exists_of_lt hirr.1
+    · obtain ⟨x, -, hx⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
       refine ⟨⟨Additive.ofMul x, 0, fun h0 => hx ?_⟩⟩
       have hx1 : x = 1 := congrArg Additive.toMul h0
       rw [hx1]
@@ -191,7 +191,7 @@ private theorem k146ModU4Omega6_pointwise :
         IsU4 ↥S n → 1 < n → IsIrrOn S ⊤ ⊥ → NaturalOmega6 n S → n ≤ E3.mParam N := by
   intro U _ _ hU2 N S n hSN hSnormal hU4 _ hirr hnat
   classical
-  haveI : Fact (∀ s : U, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hU2 s⟩
+  have : Fact (∀ s : U, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hU2 s⟩
   have hevS : Even (Nat.card ↥S) := Thm14_5.even_card_of_isU4 hU4
   have hevN : Even (Nat.card N) := by
     rw [even_iff_two_dvd] at hevS ⊢

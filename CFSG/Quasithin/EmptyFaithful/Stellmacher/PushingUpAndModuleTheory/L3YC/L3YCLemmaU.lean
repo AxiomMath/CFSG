@@ -187,6 +187,7 @@ theorem card_subgroupOf_of_le' {X L : Subgroup G} (h : X ≤ L) :
   rw [← Subgroup.card_map_of_injective L.subtype_injective, Subgroup.subgroupOf_map_subtype,
     inf_eq_left.mpr h]
 
+omit [Finite G] in
 theorem card_c134CQ_eq_four {G₀ R L : Subgroup G} (hq : IsLnTwoQuot L 3)
     (h : MS93.IsC134Case4Corr G₀ R L) : Nat.card ↥(c134CQ G₀ L) = 4 := by
   obtain ⟨⟨n, F, iF, fF, α, hFc, hα, hE2, -⟩, -⟩ := h

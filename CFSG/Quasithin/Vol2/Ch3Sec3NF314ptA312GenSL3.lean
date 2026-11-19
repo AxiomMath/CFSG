@@ -50,9 +50,9 @@ theorem not64_U3_nat (q : ℕ) (hq : q % 8 = 3 ∨ q % 8 = 5) :
 
 theorem charP_of_card_sq (K : Type) [Field K] [Finite K] {q : ℕ} (hq : q.Prime)
     (hK : Nat.card K = q ^ 2) : CharP K q := by
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI hr : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K (ringChar K) := ringChar.charP K
+  have hr : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   obtain ⟨n, -, hn⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card] at hK
   have hdvd : q ∣ (ringChar K) ^ (n : ℕ) := by
@@ -108,18 +108,18 @@ theorem not64_psu3 {J : Type} [Group J] [Finite J] {q : ℕ} (hq : q % 8 = 3 ∨
 theorem not64_sl3 {J : Type} [Group J] {q : ℕ} (hq : q % 8 = 3 ∨ q % 8 = 5) (h : IsSL3 q J) :
     ¬ 64 ∣ Nat.card J := by
   obtain ⟨K, hF, hKf, hK, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hKf
+  let := hF
+  let := hKf
   rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_three K, hK]
   exact not64_L3_nat q hq
 
 theorem not64_su3 {J : Type} [Group J] {q : ℕ} (hqp : q.Prime) (hq : q % 8 = 3 ∨ q % 8 = 5)
     (h : IsSU3 q J) : ¬ 64 ∣ Nat.card J := by
   obtain ⟨K, hF, hKf, hK, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hKf
-  haveI : CharP K q := charP_of_card_sq K hqp hK
-  haveI : Fact q.Prime := ⟨hqp⟩
+  let := hF
+  let := hKf
+  have : CharP K q := charP_of_card_sq K hqp hK
+  have : Fact q.Prime := ⟨hqp⟩
   have hK' : Nat.card K = (q ^ 1) ^ 2 := by rw [pow_one]; exact hK
   have hc := CFSG.SectionRank.OddCover.card_statedSU_three (K := K) (p := q) (f := 1) hK'
   simp only [pow_one] at hc

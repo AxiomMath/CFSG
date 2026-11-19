@@ -42,7 +42,7 @@ theorem ggDepED4Low_leaf (hPZ : GGPZE6Input) {G : Type} [Group G] [Finite G] {p 
       rw [hDcl, hcl, Nat.card_zpowers]
       exact Nat.le_of_dvd (Fact.out : Nat.Prime 3).pos
         (orderOf_dvd_iff_pow_eq_one.mpr (hDea.2 x hxD))
-    have : 3 ^ 2 ≤ 3 := by simpa [hDcard] using h1
+    have : 3 ^ 2 ≤ 3 := by simp [hDcard] at h1
     nlinarith [(Fact.out : Nat.Prime 3).two_le]
   have hx_not_zy : x ∉ Subgroup.zpowers y := by
     intro hx
@@ -56,7 +56,7 @@ theorem ggDepED4Low_leaf (hPZ : GGPZE6Input) {G : Type} [Group G] [Finite G] {p 
       rw [hDcl, hcl, Nat.card_zpowers]
       exact Nat.le_of_dvd (Fact.out : Nat.Prime 3).pos
         (orderOf_dvd_iff_pow_eq_one.mpr (hDea.2 y hyD))
-    have : 3 ^ 2 ≤ 3 := by simpa [hDcard] using h1
+    have : 3 ^ 2 ≤ 3 := by simp [hDcard] at h1
     nlinarith [(Fact.out : Nat.Prime 3).two_le]
   have hx_ne1 : x ≠ 1 := by
     intro hx1
@@ -70,7 +70,7 @@ theorem ggDepED4Low_leaf (hPZ : GGPZE6Input) {G : Type} [Group G] [Finite G] {p 
       rw [hDcl, hcl, Nat.card_zpowers]
       exact Nat.le_of_dvd (Fact.out : Nat.Prime 3).pos
         (orderOf_dvd_iff_pow_eq_one.mpr (hDea.2 y hyD))
-    have : 3 ^ 2 ≤ 3 := by simpa [hDcard] using h1
+    have : 3 ^ 2 ≤ 3 := by simp [hDcard] at h1
     nlinarith [(Fact.out : Nat.Prime 3).two_le]
   have hy_ne1 : y ≠ 1 := by
     intro hy1
@@ -84,7 +84,7 @@ theorem ggDepED4Low_leaf (hPZ : GGPZE6Input) {G : Type} [Group G] [Finite G] {p 
       rw [hDcl, hcl, Nat.card_zpowers]
       exact Nat.le_of_dvd (Fact.out : Nat.Prime 3).pos
         (orderOf_dvd_iff_pow_eq_one.mpr (hDea.2 x hxD))
-    have : 3 ^ 2 ≤ 3 := by simpa [hDcard] using h1
+    have : 3 ^ 2 ≤ 3 := by simp [hDcard] at h1
     nlinarith [(Fact.out : Nat.Prime 3).two_le]
   have hxord : orderOf x = 3 := orderOf_eq_prime (hDea.2 x hxD) hx_ne1
   have hyord : orderOf y = 3 := orderOf_eq_prime (hDea.2 y hyD) hy_ne1
@@ -129,7 +129,7 @@ theorem ggDepED4Low_leaf (hPZ : GGPZE6Input) {G : Type} [Group G] [Finite G] {p 
   rcases hcfg with ⟨hXL, hcfg⟩ | ⟨hXK, hcfg⟩
   · obtain ⟨Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, V, iV1, iV2, ι, e, φ, h, α,
       xV, yV, hx, hy, hxV, hyV, hcore, hdim, hHL, hyVne, hyJ, hya, hHK⟩ := hcfg
-    letI := iΛ1; letI := iΛ2; letI := iΛa1; letI := iΛa2; letI := iV1; letI := iV2
+    let := iΛ1; let := iΛ2; let := iΛa1; let := iΛa2; let := iV1; let := iV2
     obtain ⟨hb1, hb2, hcardk, hWMK, hCK, hk2, hφlin, hF, hpairK, hnt, hxa, hgenA, hgenJ⟩ := hcore
     let r : Λ ⊕ Λa → V ≃ₗ[ZMod 3] V := fun o => ggLin (p := 3) ι (φ o)
     have hr : ∀ o w, r o w = w - α o w • h o := fun o w => hφlin o w
@@ -160,7 +160,7 @@ theorem ggDepED4Low_leaf (hPZ : GGPZE6Input) {G : Type} [Group G] [Finite G] {p 
       exact hcells.2 hres
   · obtain ⟨Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, V, iV1, iV2, ι, e, φ, h, α,
       xV, yV, hy, hx, hyV, hxV, hcore, hdim, hHL, hyVne, hyJ, hya, hHK⟩ := hcfg
-    letI := iΛ1; letI := iΛ2; letI := iΛa1; letI := iΛa2; letI := iV1; letI := iV2
+    let := iΛ1; let := iΛ2; let := iΛa1; let := iΛa2; let := iV1; let := iV2
     obtain ⟨hb1, hb2, hcardk, hWMK, hCK, hk2, hφlin, hF, hpairK, hnt, hxa, hgenA, hgenJ⟩ := hcore
     let r : Λ ⊕ Λa → V ≃ₗ[ZMod 3] V := fun o => ggLin (p := 3) ι (φ o)
     have hr : ∀ o w, r o w = w - α o w • h o := fun o w => hφlin o w

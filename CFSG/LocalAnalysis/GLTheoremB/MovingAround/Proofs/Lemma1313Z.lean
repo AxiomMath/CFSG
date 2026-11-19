@@ -56,7 +56,7 @@ theorem B_parts_of_inputsZ {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
           Subgroup.centralizer ({b} : Set G)) (GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G))) := by
   classical
   have hp : p.Prime := GLStanding.prime h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := GLStanding.ne_two h.standing
   obtain ⟨hbord, -, hbC, -, -, -, -⟩ := setting_facts h hU hb hb1
   have hdD : d ∈ D := h.hd.1
@@ -103,13 +103,13 @@ theorem lemma1313_of_inputsZ
     (hI183 : Prop115.Input18_3Gen) (hI182 : Lemma1313.Input18_3Two)
     (hDiag : Lemma1313Z.Input18_3DiagZ) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {D T R L0 : Subgroup G} {d : G}
-      (h : Cex1310 G m p B M E A D T R L0 d)
-      {U : Subgroup G} (hU : IsU1312 p B M D L0 d U) {b : G} (hb : b ∈ centBar p U (L1of p M D L0))
-      (hb1 : b ≠ 1)
-      (hBal : GLAPComponent p (Subgroup.centralizer ({b, d} : Set G))
+      (_h : Cex1310 G m p B M E A D T R L0 d)
+      {U : Subgroup G} (_hU : IsU1312 p B M D L0 d U) {b : G} (_hb : b ∈ centBar p U (L1of p M D L0))
+      (_hb1 : b ≠ 1)
+      (_hBal : GLAPComponent p (Subgroup.centralizer ({b, d} : Set G))
         (GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G))))
-      (hL0core : GLAPPrimeCoreOf p L0 ≤ GLAPPrimeCoreOf p M)
-      (hi : ∃ S : Set (Subgroup G), (∀ X ∈ S, GLAPComponent p (Subgroup.centralizer ({b} : Set G)) X) ∧
+      (_hL0core : GLAPPrimeCoreOf p L0 ≤ GLAPPrimeCoreOf p M)
+      (_hi : ∃ S : Set (Subgroup G), (∀ X ∈ S, GLAPComponent p (Subgroup.centralizer ({b} : Set G)) X) ∧
         GLAPLayer p (L1of p M D L0 ⊓ Subgroup.centralizer ({b} : Set G)) = ⨆ X ∈ S, X),
     let L1b := GLAPLayer p (L1of p M D L0 ⊓ Subgroup.centralizer ({b} : Set G))
     let L0b := GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G))
@@ -120,8 +120,7 @@ theorem lemma1313_of_inputsZ
         GLAPComponent p (L ⊓ Subgroup.centralizer ({b} : Set G)) L0b ∧
         ∀ L' : Subgroup G, GLAPComponent p (Istar p M D) L' → Nonempty (barOf p L0b ≃* barOf p L')) ∧
       ¬ L ≤ M ∧ ¬ L ≤ piOf p d := by
-  intro G _ _ m p B M E A D T R L0 d h U hU b hb hb1 hBal hL0core hi
-  intro L1b L0b L
+  intro G _ _ m p B M E A D T R L0 d h U hU b hb hb1 hBal hL0core hi L1b L0b L
   obtain ⟨hB1, hB2⟩ := Lemma1313Z.B_parts_of_inputsZ hI183 hI182 hDiag h hU hb hb1 hBal hL0core
   refine ⟨hi, ⟨hB1, hB2, ?_⟩, Lemma1313.not_le_M_of_setting h hU hb hb1 hL0core hB1,
     Lemma1313.not_le_piOf_of_setting h hU hb hb1 hL0core⟩

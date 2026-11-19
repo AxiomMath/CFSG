@@ -18,6 +18,7 @@ namespace Lemma113c
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centerOf_iff {Q : Subgroup G} {x : G} :
     x ∈ centerOf Q ↔ x ∈ Q ∧ ∀ q ∈ Q, q * x = x * q := by
   constructor
@@ -31,6 +32,7 @@ theorem mem_centerOf_iff {Q : Subgroup G} {x : G} :
     intro g
     exact Subtype.ext (hc g.1 g.2)
 
+omit [Finite G] in
 theorem mem_of_central_order_three {Q E : Subgroup G} (hE : IsSCp 3 ⊤ E) (hEQ : E ≤ Q)
     {z : G} (hzc : ∀ q ∈ Q, q * z = z * q) (hz3 : z ^ 3 = 1) : z ∈ E := by
   have hzE : IsElemAbelian 3 (Subgroup.zpowers z) := l113_isElemAbelian_zpowers hz3
@@ -43,6 +45,7 @@ theorem mem_of_central_order_three {Q E : Subgroup G} (hE : IsSCp 3 ⊤ E) (hEQ 
   rw [heq] at hzmem
   exact hzmem
 
+omit [Finite G] in
 theorem omegaOne_centerOf_le {Q E A : Subgroup G} (hEmax : IsSCp 3 ⊤ E) (hEQ : E ≤ Q)
     (hAmax : IsSCp 3 ⊤ A) (hAQ : A ≤ Q) :
     omegaOne 3 (centerOf Q) ≤ E ⊓ A := by
@@ -76,7 +79,7 @@ theorem exists_central_order_three [Fact (Nat.Prime 3)] {Q P : Subgroup G} (hQ :
     · intro hx
       rw [Subgroup.mem_bot] at hx
       simp [hx]
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
   have hcen := Group.IsNilpotent.inf_center_ne_bot_of_normal hP'ne
   set K0 : Subgroup ↥Q := P' ⊓ Subgroup.center ↥Q with hK0def
   have hK0p : IsPGroup 3 ↥K0 := hQ.to_subgroup K0
@@ -238,8 +241,7 @@ theorem product_structure [Finite Y] [Fact (Nat.Prime 3)] (𝒮 : Finset (Subgro
     obtain ⟨ihcen, E', hE'le, hE'el, hE'card, m', hm'card, hm'⟩ := ih hcomm' hcen' hsyl'
     have hSY : (𝒮'.sup id : Subgroup Y) ≤ Subgroup.centralizer (S : Set Y) := by
       refine Finset.sup_le ?_
-      intro T hT
-      intro t ht
+      intro T hT t ht
       rw [Subgroup.mem_centralizer_iff]
       intro s hs
       have hne : S ≠ T := fun h => hS (h ▸ hT)
@@ -336,7 +338,7 @@ private theorem three_part_of_9828 {c k : ℕ} (hn : 9828 = 3 ^ k * c) (hc : ¬ 
   interval_cases k <;> norm_num at hn <;> omega
 
 theorem isElemAbelian_map_of_injective {H K : Type} [Group H] [Group K] {p : ℕ}
-    {A : Subgroup H} (f : H →* K) (hf : Function.Injective f) (hA : IsElemAbelian p A) :
+    {A : Subgroup H} (f : H →* K) (_hf : Function.Injective f) (hA : IsElemAbelian p A) :
     IsElemAbelian p (A.map f) := by
   refine ⟨⟨⟨fun x y => Subtype.ext ?_⟩⟩, fun x hx => ?_⟩
   · obtain ⟨a, ha, hax⟩ := Subgroup.mem_map.1 x.2
@@ -365,7 +367,7 @@ theorem psl2_27_card {H : Type} [Group H] (e : H ≃* PSL2 (GaloisField 3 3)) :
 
 theorem psl2_27_sylow {H : Type} [Group H] (e : H ≃* PSL2 (GaloisField 3 3)) :
     ∃ E : Subgroup H, IsElemAbelian 3 E ∧ Nat.card E = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF : Nat.card (GaloisField 3 3) = 3 ^ 3 := GaloisField.card 3 3 (by norm_num)
   let T : Sylow 3 (PSL2 (GaloisField 3 3)) := default
   let T' : Subgroup (PSL2 (GaloisField 3 3)) := T
@@ -373,7 +375,7 @@ theorem psl2_27_sylow {H : Type} [Group H] (e : H ≃* PSL2 (GaloisField 3 3)) :
     refine ⟨⟨⟨fun x y => Subtype.ext ?_⟩⟩, fun x hx => CFSG.Glauberman.Dickson.psl2_pow_eq_one_of_mem_sylow hF T hx⟩
     exact CFSG.Glauberman.Dickson.psl2_mul_comm_of_mem_sylow hF T x.2 y.2
   have hcard_T : Nat.card T' = 3 ^ 3 := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 3)).1 T.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 3)).1 T.isPGroup
     have hidx := Subgroup.card_eq_card_quotient_mul_card_subgroup T'
     have hcop : Nat.Coprime (Nat.card ↥T') T'.index := Sylow.card_coprime_index T
     have hne : T' ≠ ⊥ := by
@@ -462,7 +464,7 @@ theorem isElemAbelian_of_sylow_conj {H : Type} [Group H] [Finite H] [Fact (Nat.P
 
 theorem isSylowIn_card_index {X Q : Subgroup G} (hQ : IsSylowIn 3 X Q) (hQ1 : Q ≠ ⊥) :
     ∃ k : ℕ, Nat.card ↥X = Nat.card ↥Q * k ∧ ¬ 3 ∣ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQX : Q ≤ X := hQ.1
   have hQ'p : IsPGroup 3 ↥(Q.subgroupOf X) :=
     hQ.2.1.of_injective (Subgroup.subgroupOfEquivOfLe hQX).toMonoidHom
@@ -471,7 +473,7 @@ theorem isSylowIn_card_index {X Q : Subgroup G} (hQ : IsSylowIn 3 X Q) (hQ1 : Q 
   have hRX : (R : Subgroup ↥X).map X.subtype ≤ X := Subgroup.map_subtype_le _
   have hRmap : (R : Subgroup ↥X).map X.subtype = Q := by
     apply hQ.2.2 _ hRX
-    · exact R.isPGroup'.map X.subtype
+    · exact R.isPGroup.map X.subtype
     · intro q hq
       exact Subgroup.mem_map.2 ⟨⟨q, hQX hq⟩, hR (Subgroup.mem_subgroupOf.2 hq), rfl⟩
   have hcardR : Nat.card ↥(R : Subgroup ↥X) = Nat.card ↥Q := by
@@ -499,7 +501,7 @@ theorem isSylowIn_card_index {X Q : Subgroup G} (hQ : IsSylowIn 3 X Q) (hQ1 : Q 
 
 theorem core_inf_eq_bot {X : Subgroup G} {P : Subgroup ↥X} (hP : IsPGroup 3 ↥P) :
     GLAPPrimeCore 3 ↥X ⊓ P = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥X)) :=
     CFSG.HardMathSupport.Solomon.LocalBalance.coprime_card_gLAPPrimeCore_aux 3 ↥X
   have hnd : ¬ 3 ∣ Nat.card (GLAPPrimeCore 3 ↥X) :=
@@ -518,7 +520,7 @@ theorem core_inf_eq_bot {X : Subgroup G} {P : Subgroup ↥X} (hP : IsPGroup 3 �
 theorem quot_injective {X Q : Subgroup G} (hQX : Q ≤ X) (hQp : IsPGroup 3 ↥Q) :
     Function.Injective
       ((QuotientGroup.mk' (GLAPPrimeCore 3 ↥X)).comp (Q.subgroupOf X).subtype) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 ↥(Q.subgroupOf X) :=
     hQp.of_injective (Subgroup.subgroupOfEquivOfLe hQX).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hQX).injective
@@ -533,7 +535,7 @@ theorem quot_injective {X Q : Subgroup G} (hQX : Q ≤ X) (hQp : IsPGroup 3 ↥Q
 theorem quotient_card_factor {X Q : Subgroup G} (hQp : IsPGroup 3 ↥Q) {kX : ℕ}
     (hX : Nat.card ↥X = Nat.card ↥Q * kX) (hk : ¬ 3 ∣ kX) :
     ∃ k : ℕ, Nat.card (↥X ⧸ GLAPPrimeCore 3 ↥X) = Nat.card ↥Q * k ∧ ¬ 3 ∣ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcopN : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥X)) :=
     CFSG.HardMathSupport.Solomon.LocalBalance.coprime_card_gLAPPrimeCore_aux 3 ↥X
   have hnd : ¬ 3 ∣ Nat.card (GLAPPrimeCore 3 ↥X) :=
@@ -562,11 +564,13 @@ section Layer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem coe_mem_core_iff {X : Subgroup G} (y : ↥X) :
     (y : G) ∈ GLAPPrimeCoreOf 3 X ↔ y ∈ GLAPPrimeCore 3 ↥X :=
   Subgroup.mem_map_iff_mem X.subtype_injective
 
-theorem barX_eq_bot_of_le_core {X N : Subgroup G} (hNX : N ≤ X)
+omit [Finite G] in
+theorem barX_eq_bot_of_le_core {X N : Subgroup G} (_hNX : N ≤ X)
     (hN : N ≤ GLAPPrimeCoreOf 3 X) : barX 3 X N = ⊥ := by
   unfold barX
   rw [eq_bot_iff]
@@ -583,12 +587,14 @@ noncomputable def cY (X : Subgroup G) (g : ↥X) :
       exact CFSG.HardMathSupport.Solomon.LocalBalance.map_gLAPPrimeCore_le 3
         (MulAut.conj g⁻¹) ⟨x, hx, rfl⟩)
 
+omit [Finite G] in
 theorem cY_mk (X : Subgroup G) (g k : ↥X) :
     cY X g (QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) k) =
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) (g⁻¹ * k * g) := by
   show QuotientGroup.mk' _ (g⁻¹ * k * g⁻¹⁻¹) = _
   rw [inv_inv]
 
+omit [Finite G] in
 theorem barX_map_cY (X K : Subgroup G) (g : ↥X) :
     (barX 3 X K).map (cY X g) = barX 3 X (GLBConj (g : G) K) := by
   ext z
@@ -625,6 +631,7 @@ theorem barX_comm_of_ne {X L L' : Subgroup G} (hL : GLAPComponent 3 X L)
   have hc := Subgroup.commutator_eq_bot_iff_le_centralizer.1 hcomm
   exact (Subgroup.mem_centralizer_iff.1 (hc hs) t ht).symm
 
+omit [Finite G] in
 theorem cY_injective (X : Subgroup G) (g : ↥X) : Function.Injective (cY X g) := by
   intro a b h
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥X) a
@@ -665,6 +672,7 @@ theorem glaPComponent_conj_mem {X K : Subgroup G} (hK : GLAPComponent 3 X K) (g 
   rw [hX] at h
   exact h
 
+omit [Finite G] in
 theorem cY_comp (X : Subgroup G) (g h : ↥X) (w : ↥X ⧸ GLAPPrimeCore 3 ↥X) :
     cY X g (cY X h w) = cY X (h * g) w := by
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥X) w
@@ -740,7 +748,7 @@ theorem layer_product {X K : Subgroup G} (hK : GLAPComponent 3 X K)
       ∃ E : Subgroup (↥X ⧸ GLAPPrimeCore 3 ↥X), E ≤ Ybar X K ∧ IsElemAbelian 3 E ∧
         Nat.card E = 27 ^ (conjFin X K).card ∧
         ∃ m : ℕ, Nat.card (Ybar X K) = 27 ^ (conjFin X K).card * m ∧ ¬ 3 ∣ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsyl : ∀ S ∈ conjFin X K, ∃ E : Subgroup (↥X ⧸ GLAPPrimeCore 3 ↥X), E ≤ S ∧
       IsElemAbelian 3 E ∧ Nat.card E = 27 ∧ ∃ m : ℕ, Nat.card S = 27 * m ∧ ¬ 3 ∣ m := by
     intro S hS
@@ -754,7 +762,7 @@ end Layer
 
 theorem not_mem_core_of_order_three {X : Subgroup G} {e : G} (heX : e ∈ X) (he1 : e ≠ 1)
     (he3 : e ^ 3 = 1) : (⟨e, heX⟩ : ↥X) ∉ GLAPPrimeCore 3 ↥X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hmem
   let xc : ↥(GLAPPrimeCore 3 ↥X) := ⟨⟨e, heX⟩, hmem⟩
   have hxc3 : xc ^ 3 = 1 := by
@@ -778,13 +786,13 @@ theorem normal_elem_of_layer {X K Q : Subgroup G} (hK : GLAPComponent 3 X K)
     ∃ P : Subgroup G, P ≤ Q ∧ (∀ q ∈ Q, ∀ n ∈ P, q * n * q⁻¹ ∈ P) ∧
       IsElemAbelian 3 P ∧ Nat.card ↥P = 27 ^ (conjFin X K).card ∧
       ∀ e : G, e ∈ X → (∀ x ∈ X, e * x = x * e) → e ^ 3 = 1 → e ≠ 1 → e ∉ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQX : Q ≤ X := hQ.1
   have hQp : IsPGroup 3 ↥Q := hQ.2.1
   have hQ'p : IsPGroup 3 ↥(Q.subgroupOf X) :=
     hQp.of_injective (Subgroup.subgroupOfEquivOfLe hQX).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hQX).injective
-  haveI hYn : (Ybar X K).Normal := Ybar_normal X K
+  have hYn : (Ybar X K).Normal := Ybar_normal X K
   set φ := (QuotientGroup.mk' (GLAPPrimeCore 3 ↥X)).comp (Q.subgroupOf X).subtype with hφdef
   have hφinj : Function.Injective φ := quot_injective hQX hQp
   have hQbp : IsPGroup 3 ↥φ.range := hQ'p.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
@@ -917,7 +925,7 @@ theorem layer_card_le_one {X K Q M : Subgroup G} {a : G} (hK : GLAPComponent 3 X
     (h0 : ∀ E1 : Subgroup G, E1 ≤ M → IsElemAbelian 3 E1 → 5 ≤ CFSG.Open.pRank 3 E1 →
       a ∉ Subgroup.normalizer (E1 : Set G)) :
     (conjFin X K).card ≤ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hPQ, hPn, hPel, hPcard, -⟩ := normal_elem_of_layer hK hKI hQ hQ1
   have hlt := l113_normal_rank_lt_five ha h0 hPn (hPQ.trans hQM) hPel
   have hpr : CFSG.Open.pRank 3 P = 3 * (conjFin X K).card := by
@@ -955,7 +963,7 @@ theorem claim113A_clauses_123 {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : 
     (h0 : ∀ E1 : Subgroup G, E1 ≤ M → IsElemAbelian 3 E1 → 5 ≤ CFSG.Open.pRank 3 E1 →
       a ∉ Subgroup.normalizer (E1 : Set G)) :
     omegaOne 3 (centerOf Q) = E ⊓ A ∧ Q ≤ M ∧ Cg e ≤ Subgroup.normalizer (K : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDD : IsDDpStar 3 M E A := h.pair
   have hEmax : IsSCp 3 ⊤ E := (lemma104_ii_holds h.toSec10Fails hDD).1
   have hAmax : IsSCp 3 ⊤ A := (lemma104_ii_holds h.toSec10Fails hDD).2

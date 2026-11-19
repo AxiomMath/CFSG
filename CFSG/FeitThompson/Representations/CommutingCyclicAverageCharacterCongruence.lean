@@ -143,7 +143,7 @@ theorem exists_int_inv_card_mul_sum_of_mem_span_Irr {C : Type*} [Group C] [Finty
     {Θ : C → ℂ} (hΘ : Θ ∈ Submodule.span ℤ (Irr C)) :
     ∃ m : ℤ, (Nat.card C : ℂ)⁻¹ * ∑ y : C, Θ y = (m : ℂ) := by
   have hcard : (Nat.card C : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
-  haveI : Invertible ((Nat.card C : ℂ)) := invertibleOfNonzero hcard
+  have : Invertible ((Nat.card C : ℂ)) := invertibleOfNonzero hcard
   induction hΘ using Submodule.span_induction with
   | mem χ hχ =>
       obtain ⟨W, -, rfl⟩ := mem_Irr.1 hχ
@@ -196,7 +196,7 @@ theorem prime_dvd_sub_of_forall_apply_eq [Finite G] {p : ℕ} (hp : p.Prime) {x 
   have hxfin : IsOfFinOrder x := isOfFinOrder_of_finite x
   have hxn : x ^ p = 1 := by rw [← hx, pow_orderOf_eq_one]
   set xC : Subgroup.zpowers x := ⟨x, Subgroup.mem_zpowers x⟩ with hxC
-  haveI : Fintype (Subgroup.zpowers x) := Fintype.ofFinite _
+  have : Fintype (Subgroup.zpowers x) := Fintype.ofFinite _
   have hcard : (Nat.card (Subgroup.zpowers x) : ℂ) = (p : ℂ) := by
     rw [Nat.card_zpowers, hx]
   have hA : IsIntegral ℤ ((p : ℂ)⁻¹ * ∑ a ∈ Finset.range p, Ψ (x ^ a * g)) :=

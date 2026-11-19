@@ -14,6 +14,7 @@ open Matrix CFSG.Open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupp
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K] {ω : K} {σ : K ≃+* K}
 
+omit [CharP K 2] [Finite K] in
 theorem ratGL_iff (g : GL (Fin 3) K) :
     RatGL σ g ↔ GeneralLinearGroup.map (σ : K →+* K) g = g := by
   constructor
@@ -24,7 +25,8 @@ theorem ratGL_iff (g : GL (Fin 3) K) :
   · intro h i j
     exact congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K) i j) h
 
-theorem iterMat_three_of_rat (hσ : orderOf σ = 3) {B : Matrix (Fin 3) (Fin 3) K}
+omit [CharP K 2] [Finite K] in
+theorem iterMat_three_of_rat (_hσ : orderOf σ = 3) {B : Matrix (Fin 3) (Fin 3) K}
     (hB : B.map σ = B) (h3 : B ^ 3 = 1) :
     CFSG.Quasithin.SteinbergCB.GDescent.iterMat σ B 3 = 1 := by
   have key : ∀ n, CFSG.Quasithin.SteinbergCB.GDescent.iterMat σ B n = B ^ n := by

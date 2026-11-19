@@ -47,10 +47,10 @@ private theorem ggSpor_conjNormal_mem_center {G : Type*} [Group G]
 theorem ggSporK_card_dvd_aut {W K : Type} [Group W] [Finite W] [Group K] {p : ℕ}
     {H E : Subgroup W} (hyp : GGHypThreeSixteenFlat p H E)
     (e : ↥(CFSG.generalizedFitting W) ≃* K) : Nat.card W ∣ Nat.card (MulAut K) := by
-  haveI hFnormal : (CFSG.generalizedFitting W).Normal :=
+  have hFnormal : (CFSG.generalizedFitting W).Normal :=
     CFSG.LocalCores.generalized_fitting_characteristic.2
   obtain ⟨hsimple, hnab, -⟩ := hyp.2.1
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hsimple
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hsimple
   have hcenter : Subgroup.center ↥(CFSG.generalizedFitting W) = ⊥ :=
     ggSpor_center_eq_bot hnab
   have hbender : Subgroup.centralizer

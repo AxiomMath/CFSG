@@ -162,7 +162,7 @@ private theorem left_action_data (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9
     exact hAa
   have hCdet : C.det = 1 := by
     have := Amat.det_coe
-    simpa [C] using this
+    simp [C]
   by_cases hC1 : C = 1
   · refine ⟨Amat, hA, Or.inl ?_⟩
     have h := congrArg Matrix.transpose hC1
@@ -564,7 +564,7 @@ private theorem exists_not_mem_span_singleton {b : Fin 2 → K} (hb : b ≠ 0) :
   by_cases h0 : b 0 = 0
   · have h1 : b 1 ≠ 0 := by
       intro h1
-      exact hb (funext fun i => by fin_cases i <;> simpa [h0, h1])
+      exact hb (funext fun i => by fin_cases i <;> simp [h0, h1])
     refine ⟨Pi.single 0 1, ?_, ?_⟩
     · simp
     · rw [Submodule.mem_span_singleton]
@@ -576,9 +576,9 @@ private theorem exists_not_mem_span_singleton {b : Fin 2 → K} (hb : b ≠ 0) :
     · rw [Submodule.mem_span_singleton]
       rintro ⟨c, hc⟩
       have hc0 := congrFun hc 0
-      simp [Pi.single_apply, h0] at hc0
+      simp [h0] at hc0
       have hc1 := congrFun hc 1
-      simp [Pi.single_apply, hc0] at hc1
+      simp [hc0] at hc1
 
 private theorem eq_zero_of_vecMulVec_eq_of_not_mem_span {b b' w w' : Fin 2 → K}
     (hb : b ≠ 0) (hb' : b' ∉ (K ∙ b : Submodule K (Fin 2 → K)))
@@ -615,8 +615,8 @@ theorem comm_Vt_E_sup_eq (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   classical
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, hW, hdet, hu0⟩ :=
     sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   obtain ⟨a, b, ha, hb, hu⟩ := exists_vecMulVec_of_det_eq_zero hdet hu0
   have hfac := sec97_factor_pair h34 h311a hc hs hsplit hK φ hrange hker
   rw [Subgroup.commutator_comm]
@@ -674,6 +674,7 @@ private theorem sup_uline_conj_eq (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec
   refine Subgroup.eq_of_le_of_card_ge hsup_le ?_
   rw [hcardV, hsupcard]
 
+omit [Finite G] in
 private theorem compl_left_inter (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp hc n t)
     {X Y : Subgroup G} (hsplit : Split95 M Q Z B t X Y)
     {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -746,6 +747,7 @@ private theorem compl_left_inter (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9
   have hcm : cmat ψ ⟨y, hyV⟩ = 0 := by rw [hrow, hw0, Matrix.zero_vecMulVec]
   exact (cmat_eq_zero_iff ψ _).mp hcm
 
+omit [Finite G] in
 private theorem exists_ulineY_compl_left (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp hc n t)
     {X Y : Subgroup G} (hsplit : Split95 M Q Z B t X Y)
     {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -786,6 +788,7 @@ private theorem exists_ulineY_compl_left (hc : Ctx M Q Z B) {n : ℕ} {t : G} (h
   exact ⟨(s : G), hsX, compl_left_inter hc hs hsplit hψ hnorm hBiff ha hb hu hYeq hxR
     hb' hBmat hCinv hΨx⟩
 
+omit [Finite G] in
 private theorem exists_ulineY_compl_right (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp hc n t)
     {X Y : Subgroup G} (hsplit : Split95 M Q Z B t X Y)
     {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -874,8 +877,8 @@ theorem exists_ulineY_compl (h34 : Stroth34Statement) (h311a : Stroth311aStateme
   classical
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, hW, hdet, hu0⟩ :=
     sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   obtain ⟨a, b, ha, hb, hu⟩ := exists_vecMulVec_of_det_eq_zero hdet hu0
   have hfac := sec97_factor_pair h34 h311a hc hs hsplit hK φ hrange hker
   have hXR : X ≤ Rt M (LB M Q B) t := by

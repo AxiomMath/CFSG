@@ -119,7 +119,7 @@ private theorem vec_three_pow (k : Fin (dim m)) : vec m (3 ^ k.val) = Pi.single 
   · subst h
     rw [Chk.dig, Nat.div_self (by positivity)]
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hmod : 3 ^ k.val / 3 ^ j.val % 3 = 0 := by
       rw [Nat.mod_eq_zero_of_dvd]
       rcases Nat.lt_or_gt_of_ne (fun hval => h (Fin.ext hval)) with hlt | hgt
@@ -191,8 +191,8 @@ theorem nonempty_a8Witness_of_a8OK (hT : Chk.tabsOK m T = true) {D : ℕ}
       beq_iff_eq.mp (nat_all_iff.mp (nat_all_iff.mp h2 a.val a.isLt) a'.val a'.isLt),
       Chk.chainGramN]
     by_cases haa : a = a'
-    · exact (if_pos (congrArg Fin.val haa)).trans (if_pos haa).symm
-    · exact (if_neg fun h => haa (Fin.ext h)).trans (if_neg haa).symm
+    · exact (ite_eq_left (congrArg Fin.val haa)).trans (ite_eq_left haa).symm
+    · exact (ite_eq_right fun h => haa (Fin.ext h)).trans (ite_eq_right haa).symm
   · intro i hi
     have h3i := nat_all_iff.mp h3 i.val i.isLt
     simp only [mem_ofMask.mp hi, Bool.not_true, Bool.false_or, Bool.and_eq_true,

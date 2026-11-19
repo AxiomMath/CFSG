@@ -175,9 +175,9 @@ private theorem mem_d4AntiTorus_sup_of_pow_three {F : Type} [Field F] [Finite F]
       twistedE6DiagGL F σ)
     (hg3 : g ^ 3 = 1) : g ∈ d4AntiTorus F ⊔ subsystemGroup Tag.E6 F setD := by
   have hn := one_le_of_card_sq hF
-  haveI : CharP F 2 := charP_two_of_card hn hF
-  haveI : IsSimpleGroup (subsystemGroup Tag.E6 F setD) := isSimpleGroup_d4Levi (K := F)
-  haveI : Group.IsPerfect (subsystemGroup Tag.E6 F setD) := isPerfect_d4Levi (K := F)
+  have : CharP F 2 := charP_two_of_card hn hF
+  have : IsSimpleGroup (subsystemGroup Tag.E6 F setD) := isSimpleGroup_d4Levi (K := F)
+  have : Group.IsPerfect (subsystemGroup Tag.E6 F setD) := isPerfect_d4Levi (K := F)
   have hZD : d4CentralTorus F ⊓ subsystemGroup Tag.E6 F setD = ⊥ := d4CentralTorus_inf_d4Levi
   have hZc : d4CentralTorus F ≤
       Subgroup.centralizer (subsystemGroup Tag.E6 F setD : Set (ModGL Tag.E6 F)) :=

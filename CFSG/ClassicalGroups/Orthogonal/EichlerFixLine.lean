@@ -11,6 +11,7 @@ open QuadraticMap
 variable {K V : Type*} [Field K] [CharP K 2] [PerfectRing K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [CharP K 2] [PerfectRing K 2] [FiniteDimensional K V] in
 private theorem exists_hypPair_of_polar_eq_zero (hQ : (polarBilin Q).Nondegenerate) {u y : V}
     (hu : Q u = 0) (hu0 : u ≠ 0) (huy : polar Q u y = 0) (hy : ∀ c : K, y ≠ c • u) :
     ∃ P : HypPair Q, P.e = u ∧ y ∈ P.perp := by
@@ -51,6 +52,7 @@ private theorem exists_hypPair_of_polar_eq_zero (hQ : (polarBilin Q).Nondegenera
   rw [polar_comm, HypPair.polar_ofPolarEqOne_f hu hz'_u (z := y) (by rwa [polar_comm])]
   exact hz'_y
 
+omit [CharP K 2] [PerfectRing K 2] in
 private theorem exists_ne_zero_mem_perp (hdim : 4 ≤ Module.finrank K V) (P : HypPair Q) :
     ∃ z ∈ P.perp, z ≠ 0 := by
   classical
@@ -73,6 +75,7 @@ private theorem exists_ne_zero_mem_perp (hdim : 4 ≤ Module.finrank K V) (P : H
     simpa using (Finset.card_le_two (a := P.e) (b := P.f))
   omega
 
+omit [CharP K 2] [PerfectRing K 2] [FiniteDimensional K V] in
 private theorem exists_anisotropic_mem_perp (hQ : (polarBilin Q).Nondegenerate) (P : HypPair Q)
     {z : V} (hz : z ∈ P.perp) (hz0 : z ≠ 0) : ∃ x ∈ P.perp, Q x ≠ 0 := by
   by_cases hQz : Q z ≠ 0
@@ -91,6 +94,7 @@ private theorem exists_anisotropic_mem_perp (hQ : (polarBilin Q).Nondegenerate) 
       rw [QuadraticMap.map_add Q, hQz, hQw, hzw']
       simp
 
+omit [CharP K 2] [PerfectRing K 2] [FiniteDimensional K V] in
 private theorem exists_anisotropic_mem_perp_polar_ne_zero (hQ : (polarBilin Q).Nondegenerate)
     (P : HypPair Q) {e : V} (he : Q e = 0) (heP : e ∈ P.perp) (he0 : e ≠ 0) :
     ∃ x ∈ P.perp, Q x ≠ 0 ∧ polar Q e x ≠ 0 := by
@@ -114,6 +118,7 @@ private theorem exists_anisotropic_mem_perp_polar_ne_zero (hQ : (polarBilin Q).N
   · rw [hex]
     exact one_ne_zero
 
+omit [PerfectRing K 2] [FiniteDimensional K V] in
 private theorem exists_mem_commutator_fix_and_move_line_caseA1
     (hQ : (polarBilin Q).Nondegenerate) {e v : V} (he : Q e = 0) (he0 : e ≠ 0)
     (hv : ∀ c : K, v ≠ c • e) (hb : polar Q e v = 0) (hQv : Q v ≠ 0) :
@@ -147,6 +152,7 @@ private theorem exists_mem_commutator_fix_and_move_line_caseA1
   rw [h1] at h0
   exact hQv (neg_eq_zero.mp h0)
 
+omit [CharP K 2] [PerfectRing K 2] [FiniteDimensional K V] in
 private theorem exists_mem_commutator_fix_and_move_line_caseA2
     (hQ : (polarBilin Q).Nondegenerate) {e v : V} (he : Q e = 0) (he0 : e ≠ 0)
     (hv : ∀ c : K, v ≠ c • e) (hb : polar Q e v = 0) (hQv : Q v = 0) :
@@ -186,6 +192,7 @@ private theorem exists_mem_commutator_fix_and_move_line_caseA2
     rw [mul_smul, ← hrel, smul_smul, inv_mul_cancel₀ hex, one_smul]
   exact hv _ hv_eq
 
+omit [CharP K 2] [PerfectRing K 2] in
 private theorem exists_mem_commutator_fix_and_move_line_caseB1
     (hQ : (polarBilin Q).Nondegenerate) (hdim : 4 ≤ Module.finrank K V) {e v : V}
     (he : Q e = 0) (hb : polar Q e v ≠ 0) (hQv : Q v = 0) :

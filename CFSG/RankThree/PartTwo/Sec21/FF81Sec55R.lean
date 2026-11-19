@@ -134,7 +134,7 @@ theorem FF81Sec5.εA_x₃ : h5.εA ![0, 2, 1] = b₁⁻¹ * (b₂ * b₃) := by
 theorem FF81Sec5.A₁_le_cen_s₀ : A₁sub b b₁ b₂ b₃ ≤ Cen s₀ := fun a ha =>
   Subgroup.mem_centralizer_singleton_iff.mpr (Subgroup.mem_centralizer_iff.mp h5.hs₀A a ha)
 
-theorem FF81Sec5.A₁_le_nor_S : A₁sub b b₁ b₂ b₃ ≤ Nor (Op 2 (Cen s₀)) := fun a ha =>
+theorem FF81Sec5.A₁_le_nor_S : A₁sub b b₁ b₂ b₃ ≤ Nor (Op 2 (Cen s₀)) := fun _a ha =>
   Subgroup.mem_normalizer_fintype fun _ hu => op_two_conj (h5.A₁_le_cen_s₀ ha) hu
 
 end Coord
@@ -147,11 +147,13 @@ variable (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀) {g : Fin 3 → G}
 def S55.wel (g : Fin 3 → G) (w : List (Fin 3)) : G := (w.map g).prod
 
 include hgH in
+omit [Finite G] in
 theorem S55.wel_mem (w : List (Fin 3)) : S55.wel g w ∈ H₅₂ b b₁ b₂ b₃ s₀ :=
   Subgroup.list_prod_mem _ (l := w.map g) fun x hx => by
     obtain ⟨i, -, rfl⟩ := List.mem_map.mp hx; exact hgH i
 
 include hgH in
+omit [Finite G] in
 theorem S55.wel_cen (w : List (Fin 3)) : S55.wel g w ∈ Cen s₀ :=
   Subgroup.mem_centralizer_singleton_iff.mpr (mem_cenS_pair_iff.mp (S55.wel_mem hgH w).1).2
 
@@ -237,6 +239,7 @@ theorem FF81Sec5.s₀_u₃ : s₀ * (b₂ * b₃) = b₂ * b₃ * s₀ :=
 
 end Reps
 
+omit [Finite G] in
 theorem card_eq_two_of_le {K : Subgroup G} {s : G} (hs : orderOf s = 2) (hsK : s ∈ K)
     (h : ∀ y ∈ K, y = 1 ∨ y = s) : Nat.card K = 2 := by
   have hK : K = Subgroup.zpowers s := by

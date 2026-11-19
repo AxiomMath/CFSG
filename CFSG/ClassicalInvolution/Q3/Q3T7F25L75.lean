@@ -220,7 +220,7 @@ theorem Data.le_normalizer_local (D : Data Ω S η β) {V U K : Subgroup G} (hV 
     rcases hA with ⟨hAη, hAV⟩ | ⟨hAβ, hAU'⟩
     · exact D.distinct hAη hV hAV hK hAJ hVK
     · exact D.symm.distinct hAβ hU hAU' hK hAJ hUK
-  have hA2 : IsPGroup 2 ↥A := S.isPGroup'.to_le hAU.2
+  have hA2 : IsPGroup 2 ↥A := S.isPGroup.to_le hAU.2
   obtain ⟨-, -, -, -, -, -, -, -, hA4⟩ := D.hΩ.exists_data_of_mem_USet hAU.1
   have hcomm := D.commutes_local hV hU hR hK hRK hA
   have hAc : A ≤ Subgroup.centralizer ({z} : Set G) := fun a ha =>
@@ -241,7 +241,7 @@ theorem Data.exists_local_conj (D : Data Ω S η β) {V U : Subgroup G} (hV : V 
     · exact (D.hη.1 h).2
     · exact (D.hβ.1 h).2
   have hPS : P ≤ (S : Subgroup G) := iSup₂_le fun A hA => hother A hA
-  have hP2 : IsPGroup 2 ↥P := S.isPGroup'.to_le hPS
+  have hP2 : IsPGroup 2 ↥P := S.isPGroup.to_le hPS
   have hPR : P ≤ Subgroup.centralizer ((V ⊔ U : Subgroup G) : Set G) :=
     iSup₂_le fun A hA x hx => Subgroup.mem_centralizer_iff.mpr fun r hr =>
       (D.commutes_local hV hU hR hK hRK hA r hr x hx)

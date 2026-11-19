@@ -105,7 +105,7 @@ theorem caseA_module [Finite Y] (H : HypYW ρ t u x h)
       (∀ j ∈ normalClosure ({x} : Set Y), j * j = 1 → j ≠ 1 → rk (ρ j) = 4) := by
   have hA6 := caseA_hA6 H e
   have HM := H.toHypM
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   obtain ⟨V₁, V₂, hd₁, hc, hV₂, hst, -, -, hfa₁, hfa₂, -, hcen, hperm⟩ := module_A6_abs HM hA6
   have hd₂ : finrank (ZMod 2) V₂ = 4 := by
     rw [hV₂]

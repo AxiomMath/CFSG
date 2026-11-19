@@ -45,18 +45,21 @@ open P51 (V e)
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ t₀ s₀ : G}
 
+omit [Finite G] in
 theorem S57.card_sup_le {N H : Subgroup G} (hLE : H ≤ Subgroup.normalizer (N : Set G)) :
     Nat.card ↥(N ⊔ H) ≤ Nat.card N * Nat.card H := by
   have h := Set.natCard_mul_le (s := (N : Set G)) (t := (H : Set G))
   rw [← Subgroup.coe_mul_of_right_le_normalizer_left N H hLE] at h
   exact h
 
+omit [Finite G] in
 theorem S57.conj_comm {g x y : G} (h : x * y = y * x) :
     g * x * g⁻¹ * (g * y * g⁻¹) = g * y * g⁻¹ * (g * x * g⁻¹) := by
   calc g * x * g⁻¹ * (g * y * g⁻¹) = g * (x * y) * g⁻¹ := by group
     _ = g * (y * x) * g⁻¹ := by rw [h]
     _ = g * y * g⁻¹ * (g * x * g⁻¹) := by group
 
+omit [Finite G] in
 theorem S57.card_J {J : Subgroup G} (e : ↥J ≃* Equiv.Perm (Fin 6)) : Nat.card J = 720 := by
   rw [Nat.card_congr e.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
   rfl
@@ -93,7 +96,7 @@ theorem FF81Sec5.exists_t₃ : ∃ t : G, ∀ v, t * h5.ε v * t⁻¹ = h5.ε (S
       _ = _ := by rw [h5.ε_neg, h5.ε_e3]
   rw [ε4_conj h5.hE h5.hcl ![e 0, e 1, e 2, -e 3] e0 e1 e2 e3]
   congr 1
-  ext j; fin_cases j <;> simp [S57.f3, e, Pi.single_apply]
+  ext j; fin_cases j <;> simp [S57.f3, e]
 
 variable {t : G} (ht : ∀ v, t * h5.ε v * t⁻¹ = h5.ε (S57.f3 v))
 include ht
@@ -119,6 +122,7 @@ theorem FF81Sec5.sstar_β : t * s₀ * t⁻¹ * β' b₂ b₃ = β' b₂ b₃ * 
       = t * s₀ * t⁻¹ * β' b₂ b₃ * (t * s₀ * t⁻¹)⁻¹ * (t * s₀ * t⁻¹) := by group
     _ = β' b₂ b₃ * (t * s₀ * t⁻¹) := by rw [h]
 
+omit ht in
 theorem FF81Sec5.orderOf_sstar : orderOf (t * s₀ * t⁻¹) = 2 := by
   change orderOf ((MulAut.conj t).toMonoidHom s₀) = 2
   exact (orderOf_injective (MulAut.conj t).toMonoidHom (MulAut.conj t).injective s₀).trans h5.hs₀
@@ -166,7 +170,7 @@ theorem FF81Sec5.J_le_cen_sstar (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃
   set Kc := CenS (Subgroup.closure {b₂, b₃}) with hKc
   set K : Subgroup G := (OUp 3 Kc).comap (MulAut.conj t⁻¹).toMonoidHom ⊓ Kc with hK
   have hmem : ∀ x, x ∈ K ↔ t⁻¹ * x * t ∈ OUp 3 Kc ∧ x ∈ Kc := fun x => by
-    simp [hK, Subgroup.mem_comap, MulAut.conj_apply]
+    simp [hK, Subgroup.mem_comap]
   have hle : OUp 3 Kc ≤ K := by
     refine OUp_le_of inf_le_right (fun m hm k hk => ?_) (fun m hm hc => ?_)
     · obtain ⟨hk1, hk2⟩ := (hmem k).mp hk
@@ -199,6 +203,7 @@ variable (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀)
   (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Cen s₀)
 include h5 hJs
 
+omit h5 in
 theorem FF81Sec5.mem_β_sup {M' : Subgroup G} (hM' : M' ≤ M₅₇ b b₁ b₂ b₃ s₀) {x : G}
     (hx : x ∈ Subgroup.zpowers (β' b₂ b₃) ⊔ M') :
     ∃ a ∈ Subgroup.zpowers (β' b₂ b₃), ∃ m ∈ M', x = a * m := by
@@ -217,7 +222,7 @@ theorem FF81Sec5.mem_β_sup {M' : Subgroup G} (hM' : M' ≤ M₅₇ b b₁ b₂ 
 
 theorem FF81Sec5.mem_of_sq {M' : Subgroup G} (hM' : M' ≤ M₅₇ b b₁ b₂ b₃ s₀) {x : G}
     (hx : x ∈ Subgroup.zpowers (β' b₂ b₃) ⊔ M') (h2 : x * x = 1) : x ∈ M' := by
-  obtain ⟨a, ha, m, hm, rfl⟩ := h5.mem_β_sup hJs hM' hx
+  obtain ⟨a, ha, m, hm, rfl⟩ := CFSG.RankThree.PartTwo.Sec21.FF81.FF81Sec5.mem_β_sup hJs hM' hx
   have hmβ : m * β' b₂ b₃ = β' b₂ b₃ * m := Subgroup.mem_centralizer_singleton_iff.mp
     (((S57.M_le_cenS hJs).trans (S57.cenS_pair_le_left _ _)) (hM' hm))
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
@@ -253,7 +258,7 @@ theorem FF81Sec5.sstar_mem_H (hKF : KF_Sp6Levi) : t * s₀ * t⁻¹ ∈ H₅₂ 
       Subgroup.zpowers (β' b₂ b₃) ⊔ H₅₂ b b₁ b₂ b₃ s₀ :=
     Subgroup.mem_sup_right hk
   have hx2 : t * s₀ * t⁻¹ * (t * s₀ * t⁻¹) = 1 := by
-    rw [← sq, ← h5.orderOf_sstar ht, pow_orderOf_eq_one]
+    rw [← sq, ← h5.orderOf_sstar (t := t), pow_orderOf_eq_one]
   have hs : t * s₀ * t⁻¹ ∈ Subgroup.zpowers (β' b₂ b₃) ⊔ H₅₂ b b₁ b₂ b₃ s₀ := by
     have : t * s₀ * t⁻¹ = (β' b₂ b₃ ^ k)⁻¹ * (β' b₂ b₃ ^ k * (t * s₀ * t⁻¹)) := by group
     rw [this]
@@ -334,7 +339,7 @@ theorem FF81Sec5.cen_β_sstar (hKF : KF_Sp6Levi) (hCls : KF_Sp6Cls)
     le_inf le_sup_left (h5.J_le_cen_sstar ht hJs)
   have h5d : 5 ∣ Nat.card ↥(M ⊓ Cen s) :=
     (show 5 ∣ 720 by norm_num).trans (S57.card_J e ▸ Subgroup.card_dvd_of_le hJ)
-  have hcard := ((hCls G M hmod).2.2.2.2 s hsM (h5.orderOf_sstar ht) h5d).1
+  have hcard := ((hCls G M hmod).2.2.2.2 s hsM (h5.orderOf_sstar (t := t)) h5d).1
   refine ⟨hsM, hcard, ?_⟩
   have hMβ : M ≤ Cen (β' b₂ b₃) := (S57.M_le_cenS hJs).trans (S57.cenS_pair_le_left _ _)
   have hβs : β' b₂ b₃ ∈ Cen s :=

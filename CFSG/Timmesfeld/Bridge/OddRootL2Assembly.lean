@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 private theorem eq_bot_of_normal_isPGroup (h : Hyp G D) {N : Subgroup G} (hN : N.Normal)
     (hNp : IsPGroup 2 N) : N = ⊥ := by
   have hle : N ≤ CFSG.pCore 2 G :=

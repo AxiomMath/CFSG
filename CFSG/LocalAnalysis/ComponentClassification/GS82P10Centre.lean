@@ -79,6 +79,7 @@ theorem odd_card_oL (L : Subgroup H) : Odd (Nat.card ↥(oL L)) := by
   rw [oL, Subgroup.card_map_of_injective L.subtype_injective]
   exact Nat.coprime_two_left.mp pPrimeCore_coprime_card
 
+omit [Finite H] in
 theorem le_oL_of_normalized {D U : Subgroup H} (hUD : U ≤ D) (hDU : D ≤ normalizer (U : Set H))
     (hU : Odd (Nat.card ↥U)) : U ≤ oL D := by
   have hle : U.subgroupOf D ≤ pPrimeCore 2 ↥D := by
@@ -91,6 +92,7 @@ theorem le_oL_of_normalized {D U : Subgroup H} (hUD : U ≤ D) (hDU : D ≤ norm
   intro x hx
   exact ⟨⟨x, hUD hx⟩, hle (mem_subgroupOf.mpr hx), rfl⟩
 
+omit [Finite H] in
 theorem isPComponent_cj_subgroupOf {X K : Subgroup H} (hKX : K ≤ X)
     (hK : IsPComponent 2 (K.subgroupOf X)) {g : H} (hg : g ∈ normalizer (X : Set H)) :
     cj g K ≤ X ∧ IsPComponent 2 ((cj g K).subgroupOf X) := by

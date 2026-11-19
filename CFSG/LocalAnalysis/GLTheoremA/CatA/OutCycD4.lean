@@ -47,7 +47,7 @@ theorem outCyc_D4_case
     (hS : IsSTriple 3 B x L) (hK : CFSG.Open.IsKGroup ↥(Subgroup.centralizer ({x} : Set G)))
     (hchev : IsChevSimple 2 (PSimple 3 L)) (hcat : catalogIs (PSimple 3 L) isD4any)
     (hAB : A ≤ B) (hBN : B ≤ Subgroup.normalizer (L : Set G))
-    (M₀ : CFSG.Assembly.LargeEvenMarking (PQuot 3 L) fun lab R _ I F θ => True ∧ MarkedModel lab R) :
+    (M₀ : CFSG.Assembly.LargeEvenMarking (PQuot 3 L) fun lab R _ _I _F _θ => True ∧ MarkedModel lab R) :
     ∃ A₀ : Subgroup G, A₀ ≤ A ∧ InnDiagOn 3 A₀ L ∧ Nat.card A ≤ 3 * Nat.card A₀ ∧
       ∀ a ∈ A, InnDiagOn 3 (Subgroup.zpowers a) L → a ∈ A₀ := by
   have hBel : CFSG.Open.IsElemAbelian 3 B := hS.1.1
@@ -61,7 +61,7 @@ theorem outCyc_D4_case
   obtain ⟨hX, lab₁, hlab₁, hraw₁⟩ := hMs
   obtain ⟨R₁, _, I₁, F₁, hQ⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw₁
   obtain ⟨hs, hna, θ₁, hPc, hP'⟩ := hQ
-  haveI : Finite R₁ := Finite.of_equiv (PSimple 3 L) θ₁.toEquiv
+  have : Finite R₁ := Finite.of_equiv (PSimple 3 L) θ₁.toEquiv
   have hRaw := hP'.1 hs hna
   have hOAC := hP'.2.1 hs hna
   have hFC := hP'.2.2.1

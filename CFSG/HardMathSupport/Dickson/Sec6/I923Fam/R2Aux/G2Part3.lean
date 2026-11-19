@@ -57,8 +57,8 @@ theorem isQuasisimple_g2RankOne [Finite K] (hK : 4 ≤ Nat.card K) :
 theorem isSolvable_g2RankOne_of_card_three [Finite K] (hK : Nat.card K = 3) :
     Group.IsSolvable ↥(g2RankOne K g2ir) := by
   obtain ⟨e⟩ := nonempty_mulEquiv_g2RankOne (K := K)
-  haveI := CFSG.GH74.GLS.IVK.GHInv.isSolvable_sl2_of_card_three hK
-  exact solvable_of_surjective (f := e.toMonoidHom) e.surjective
+  have := CFSG.GH74.GLS.IVK.GHInv.isSolvable_sl2_of_card_three hK
+  exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
 
 private theorem g2RankOne_commute_g2Z {l z : ModGL .G2 K} (hl : l ∈ g2RankOne K g2ir)
     (hz : z ∈ g2Z K) : l * z = z * l := by

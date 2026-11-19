@@ -42,7 +42,7 @@ theorem linear_of_perfect {K : Type} {E Γ : Type*} [Field K] [Finite K] [AddCom
     rcases smul_eq_zero.mp h3 with h | h
     · exact sub_eq_zero.mp h
     · exact absurd h hw
-  haveI := isCyclic_ringEquiv K
+  have := isCyclic_ringEquiv K
   have hone : ∀ γ, σ γ = 1 := fun γ =>
     hom_eq_one_of_perfect_of_comm (fun a b => mul_comm' a b) (MonoidHom.mk' σ hmul) γ
   intro γ c e
@@ -83,11 +83,11 @@ theorem exists_odd_prime_orderOf {Γ : Type*} [Group Γ] [Finite Γ] [Nontrivial
     [Group.IsPerfect Γ] : ∃ r : Γ, Nat.Prime (orderOf r) ∧ orderOf r ≠ 2 := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : ∃ k, Nat.card Γ = 2 ^ k := by
     refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd (p := 2) (Nat.card_pos (α := Γ)).ne'
       (fun {d} hd hdvd => ?_)⟩
-    haveI : Fact d.Prime := ⟨hd⟩
+    have : Fact d.Prime := ⟨hd⟩
     obtain ⟨r, hr⟩ := exists_prime_orderOf_dvd_card' d hdvd
     exact hr.symm.trans (hcon r (hr ▸ hd))
   have hP : IsPGroup 2 Γ := IsPGroup.iff_card.mpr hcard
@@ -96,8 +96,8 @@ theorem exists_odd_prime_orderOf {Γ : Type*} [Group Γ] [Finite Γ] [Nontrivial
 theorem quasisimple_le_or_comm {Y : Type*} [Group Y] {X N : Subgroup Y} [X.Normal] [N.Normal]
     (hXq : CFSG.IsQuasisimple X) : X ≤ N ∨ ∀ x ∈ X, ∀ y ∈ N, x * y = y * x := by
   obtain ⟨hperf, hsimple, -⟩ := hXq
-  haveI : Group.IsPerfect ↥X := hperf
-  haveI hN' : (N.subgroupOf X).Normal := Subgroup.Normal.subgroupOf inferInstance X
+  have : Group.IsPerfect ↥X := hperf
+  have hN' : (N.subgroupOf X).Normal := Subgroup.Normal.subgroupOf inferInstance X
   by_cases hcen : N.subgroupOf X ≤ Subgroup.center ↥X
   · right
     have hcentral : ∀ n ∈ X ⊓ N, ∀ x ∈ X, n * x = x * n := by
@@ -122,7 +122,7 @@ theorem quasisimple_le_or_comm {Y : Type*} [Group Y] {X N : Subgroup Y} [X.Norma
     let π : ↥X →* ↥X ⧸ Subgroup.center ↥X := QuotientGroup.mk' (Subgroup.center ↥X)
     have hmapN : ((N.subgroupOf X).map π).Normal :=
       Subgroup.Normal.map hN' π (QuotientGroup.mk'_surjective _)
-    haveI := hmapN
+    have := hmapN
     rcases hsimple.eq_bot_or_eq_top_of_normal ((N.subgroupOf X).map π) with hbot | htop
     · exact absurd (by rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot; exact hbot) hcen
     · have hsup : N.subgroupOf X ⊔ Subgroup.center ↥X = ⊤ := by
@@ -158,8 +158,8 @@ theorem false_of_perfect_action {K : Type} {E Γ : Type*} [Field K] [Finite K] [
     (Λ : Subgroup (E ≃ₗ[K] E)) (hΛ : IsPGroup 2 Λ) (b : E) (hb : b ≠ 0)
     (hfix : ∀ v : E, (∀ T ∈ Λ, T v = v) ↔ ∃ c : K, v = c • b)
     (hcomm : ∀ γ, ∀ T ∈ Λ, ∀ e, ρ γ (T e) = T (ρ γ e)) : False := by
-  haveI : Nontrivial E := ⟨⟨b, 0, hb⟩⟩
-  haveI : Finite Γ := Finite.of_injective ρ hρ
+  have : Nontrivial E := ⟨⟨b, 0, hb⟩⟩
+  have : Finite Γ := Finite.of_injective ρ hρ
   have hlin := linear_of_perfect ρ hadd hsemi
   have hTb : ∀ T ∈ Λ, T b = b := fun T hT =>
     ((hfix b).mpr ⟨1, (one_smul K b).symm⟩) T hT

@@ -72,7 +72,7 @@ abbrev omegaMinusQZero (K : Type) [Field K] (b c : K) :
 
 instance omegaMinusE_finite (K : Type) [Field K] [Finite K] (b c : K) :
     Finite (OmegaMinusE K b c) := by
-  haveI : Finite (((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K))) := finite_orthLinearEquiv
   infer_instance
 
@@ -119,7 +119,7 @@ theorem omegaMinusTailQZero_inf_QAlpha (K : Type) [Field K] (b c : K) :
     Subgroup.mem_subgroupOf, mem_tailBorel]
   constructor
   · rintro ⟨h1, h23⟩
-    refine ⟨by simpa using x.2, fun i hi1 hi3 => ?_⟩
+    refine ⟨by simp, fun i hi1 hi3 => ?_⟩
     rcases (show i = 1 ∨ i = 2 ∨ i = 3 by omega) with rfl | rfl | rfl
     · exact h1
     · exact h23 2 (by simp)

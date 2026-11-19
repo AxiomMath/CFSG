@@ -14,6 +14,7 @@ theorem exists_theta (hK : Nat.card K = (2 ^ f) ^ 2) : ∃ θ : K, θ + sg K f �
   obtain ⟨θ, hθ⟩ := exists_sg_trace (K := K) (f := f) hK (a := 1) (by simp)
   exact ⟨θ, hθ⟩
 
+omit [Finite K] in
 private theorem plh_fun_add_eq_zero {a b : Fin n → K} : a + b = 0 ↔ a = b := by
   constructor
   · intro h

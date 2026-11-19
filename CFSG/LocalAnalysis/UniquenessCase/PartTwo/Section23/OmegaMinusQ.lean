@@ -29,8 +29,8 @@ private theorem barPreimage_eq_pCoreOf_sup_of_isSylowOf (D : Data G) {q : ℕ} (
       (barPreimage D.M (CFSG.pCore q (Bar2 D.M)))) :
     barPreimage D.M (CFSG.pCore q (Bar2 D.M)) = pCoreOf 2 D.M ⊔ Q0 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
+  have : Fact q.Prime := ⟨hq⟩
+  have : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
   have hbar := uc22p22u_sylow_barPreimage (M := D.M) (r := q) hq hq2
     (CFSG.pCore_isPGroup (p := q)) hQ0
   refine le_antisymm ?_ (sup_le (pCoreOf_le_barPreimage D.M _) hQ0.le)
@@ -56,8 +56,8 @@ private theorem D_M_eq_pCoreOf_sup_normalizer (D : Data G) {q : ℕ} (hq : q.Pri
       (barPreimage D.M (CFSG.pCore q (Bar2 D.M)))) :
     D.M = pCoreOf 2 D.M ⊔ (D.M ⊓ Subgroup.normalizer (Q0 : Set G)) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
+  have : Fact q.Prime := ⟨hq⟩
+  have : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
   set Pq : Subgroup G := barPreimage D.M (CFSG.pCore q (Bar2 D.M)) with hPq
   have hPqM : Pq ≤ D.M := uc22p21c_barPreimage_le D.M _
   have hPqN : D.M ≤ Subgroup.normalizer (Pq : Set G) := uc22p22u_barPreimage_normalizes
@@ -78,8 +78,8 @@ private theorem T_eq_sup_of_sylow_barPreimage (D : Data G) {q : ℕ} (hq : q.Pri
       (barPreimage D.M (CFSG.pCore q (Bar2 D.M)))) :
     D.T = pCoreOf 2 D.M ⊔ (D.T ⊓ Subgroup.normalizer (Q0 : Set G)) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
+  have : Fact q.Prime := ⟨hq⟩
+  have : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
   have hM : D.M = pCoreOf 2 D.M ⊔ (D.M ⊓ Subgroup.normalizer (Q0 : Set G)) :=
     D_M_eq_pCoreOf_sup_normalizer D hq hq2 hQ0
   have hOT : pCoreOf 2 D.M ≤ D.T := uc22p22e_pCoreOf_le_T D
@@ -108,6 +108,7 @@ private theorem T_eq_sup_of_sylow_barPreimage (D : Data G) {q : ℕ} (hq : q.Pri
     · exact sup_le hOT inf_le_left
   rwa [hO, hN', ← inf_assoc, inf_eq_left.mpr D.sylowM.le] at hTN'
 
+omit [Finite G] in
 private theorem permutes_sup_of_le_normalizer {T N O Q : Subgroup G} (hT : T = N ⊔ O)
     (hNO : N ≤ Subgroup.normalizer (O : Set G))
     (hQO : Q ≤ Subgroup.normalizer (O : Set G))
@@ -163,6 +164,7 @@ private theorem permutes_of_isSylowOf_barPreimage (D : Data G) {q : ℕ} (hq : q
   have hT' : D.T = N ⊔ O := by rw [hT, sup_comm]
   exact permutes_sup_of_le_normalizer hT' hNO hQO hNQ'
 
+omit [Finite G] in
 theorem injective_barImage_mk'_of_disjoint_pCoreOf {M Q : Subgroup G} {R : Subgroup (Bar2 M)}
     (hQM : Q ≤ M) (hdisj : Q ⊓ pCoreOf 2 M = ⊥) (f : ↥Q →* ↥R)
     (hf : ∀ x : ↥Q, (f x : Bar2 M) =
@@ -192,13 +194,14 @@ theorem injective_barImage_mk'_of_disjoint_pCoreOf {M Q : Subgroup G} {R : Subgr
       _ = x := mul_one x
   exact hyx.symm
 
+omit [Finite G] in
 private theorem omegaOne_is_qTorsion_of_isCyclic {Q0 : Subgroup G} {q : ℕ}
     (hQ0 : IsCyclic ↥Q0) :
     ∀ y ∈ CFSG.RankThree.PartOne.omegaOne q Q0, y ^ q = 1 := by
   have hcomm : ∀ a ∈ Q0, ∀ b ∈ Q0, a * b = b * a := by
     intro a ha b hb
-    letI : IsCyclic ↥Q0 := hQ0
-    letI : CommGroup ↥Q0 := IsCyclic.commGroup
+    let : IsCyclic ↥Q0 := hQ0
+    let : CommGroup ↥Q0 := IsCyclic.commGroup
     exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : ↥Q0) ⟨b, hb⟩)
   intro y hy
   have hp : y ∈ Q0 ∧ y ^ q = 1 := by
@@ -216,7 +219,7 @@ private theorem omegaOne_ne_bot_of_isPGroup {Q0 : Subgroup G} {q : ℕ} (hq : q.
     (hQ0p : IsPGroup q ↥Q0) (hQ0ne : Q0 ≠ ⊥) :
     CFSG.RankThree.PartOne.omegaOne q Q0 ≠ ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := hQ0p.exists_card_eq
   have hk0 : k ≠ 0 := by
     intro hk0
@@ -240,6 +243,7 @@ private theorem omegaOne_ne_bot_of_isPGroup {Q0 : Subgroup G} {q : ℕ} (hq : q.
   rw [hbot] at hxQ
   exact hx1 (Subgroup.mem_bot.1 hxQ)
 
+omit [Finite G] in
 private theorem omegaOne_commutator_eq_bot_of_isCyclic {Q0 : Subgroup G} {q : ℕ}
     (hQ0 : IsCyclic ↥Q0) :
     ⁅⁅CFSG.RankThree.PartOne.omegaOne q Q0, CFSG.RankThree.PartOne.omegaOne q Q0⁆,
@@ -247,8 +251,8 @@ private theorem omegaOne_commutator_eq_bot_of_isCyclic {Q0 : Subgroup G} {q : �
   have hcomm : ∀ a ∈ CFSG.RankThree.PartOne.omegaOne q Q0,
       ∀ b ∈ CFSG.RankThree.PartOne.omegaOne q Q0, a * b = b * a := by
     intro a ha b hb
-    letI : IsCyclic ↥Q0 := hQ0
-    letI : CommGroup ↥Q0 := IsCyclic.commGroup
+    let : IsCyclic ↥Q0 := hQ0
+    let : CommGroup ↥Q0 := IsCyclic.commGroup
     exact congrArg Subtype.val
       (mul_comm (⟨a, CFSG.RankThree.PartOne.Sec9Excl.omegaOne_le q Q0 ha⟩ : ↥Q0)
         ⟨b, CFSG.RankThree.PartOne.Sec9Excl.omegaOne_le q Q0 hb⟩)
@@ -277,7 +281,7 @@ private theorem exists_good_Q_data_cyclic (D : Data G) {q : ℕ} (hq : q.Prime) 
     have hcyc : IsCyclic ↥(barImage D.M Q0) := by
       rw [hbar.1]
       exact hYcyc
-    letI : IsCyclic ↥(barImage D.M Q0) := hcyc
+    let : IsCyclic ↥(barImage D.M Q0) := hcyc
     exact isCyclic_of_injective φ hinj
   let Q : Subgroup G := CFSG.RankThree.PartOne.omegaOne q Q0
   have hQle : Q ≤ Q0 := CFSG.RankThree.PartOne.Sec9Excl.omegaOne_le q Q0
@@ -305,7 +309,7 @@ private theorem exists_good_Q_data_noncyclic (D : Data G) {q : ℕ} (hq : q.Prim
       (Q.subgroupOf (D.M ⊓ normalizer (Q0 : Set G))).Normal ∧ Permutes D.T Q ∧
       (¬ IsCyclic ↥(CFSG.pCore q (Bar2 D.M)) → ¬ IsCyclic ↥Q) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hQ0nc : ¬ IsCyclic ↥Q0 :=
     (uc22p22u_lift_props (r := q) hbar.1 hbar.2 hQ0M).2.2 hYnc
   obtain ⟨Q, hQle, hQne, hQnc, hQexp, hQcl, hQnorm⟩ :=
@@ -328,8 +332,8 @@ theorem exists_good_Q (D : Data G) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
       (Q.subgroupOf (D.M ⊓ normalizer (Q₀ : Set G))).Normal ∧ Permutes D.T Q ∧
       (¬ IsCyclic ↥(CFSG.pCore q (Bar2 D.M)) → ¬ IsCyclic ↥Q) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
+  have : Fact q.Prime := ⟨hq⟩
+  have : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
   obtain ⟨Q0, hQ0⟩ := CFSG.ABGLocalTools.exists_isSylowOf q
     (barPreimage D.M (CFSG.pCore q (Bar2 D.M)))
   have hbar := uc22p22u_sylow_barPreimage (M := D.M) (r := q) hq hq2
@@ -357,8 +361,8 @@ theorem Ctx23L.inf_N_eq_bot {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     (hQn : (Q.subgroupOf (D.M ⊓ normalizer (Q₀ : Set G))).Normal) (hTQ : Permutes D.T Q)
     (hcase : q ∈ D.sig ∨ ¬ IsCyclic ↥Q) : Q ⊓ c.N = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
+  have : Fact q.Prime := ⟨hq⟩
+  have : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
   set P : Subgroup G := barPreimage D.M (CFSG.pCore q (Bar2 D.M)) with hP
   have hPM : P ≤ D.M := uc22p21c_barPreimage_le D.M _
   have hQM : Q ≤ D.M := hQQ₀.trans (hQ₀.le.trans hPM)
@@ -383,10 +387,12 @@ theorem Ctx23L.inf_N_eq_bot {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     exact h72 h1930 c q hq hq2 Q hQM hQp hQnc hexp hcl p hp P hPM hPn hPO Q₀ hQ₀ hQle hQn
       c.N c.N_mem_calMOf_T c.N_ne_M hTQ
 
+omit [Finite G] in
 private theorem jOf_le (T : Subgroup G) : F12.jOf T ≤ T := by
   rw [F12.jOf, CFSG.inSubgroup]
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem zOneOf_le (T : Subgroup G) : zOneOf T ≤ T := by
   rw [zOneOf, CFSG.inSubgroup]
   exact Subgroup.map_subtype_le _
@@ -407,7 +413,7 @@ private theorem isSolvable_sup_of_isPGroup_permutes {P T : Subgroup G} {q : ℕ}
     (hPq : IsPGroup q P) (hT2 : IsPGroup 2 T) (hq2 : q ≠ 2) (hPT : Permutes P T) :
     Group.IsSolvable ↥(P ⊔ T) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdisj : P ⊓ T = ⊥ :=
     disjoint_iff.1 (IsPGroup.disjoint_of_ne q 2 hq2 P T hPq hT2)
   have hcardP : Nat.card ↥(P.subgroupOf (P ⊔ T)) = Nat.card P :=
@@ -439,7 +445,7 @@ private theorem not_three_dvd_sup_of_isPGroup_permutes {P T : Subgroup G} {q : �
     (hPq : IsPGroup q P) (hT2 : IsPGroup 2 T) (hq5 : 5 ≤ q) (hPT : Permutes P T) :
     ¬ 3 ∣ Nat.card ↥(P ⊔ T) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by omega
   have hdisj : P ⊓ T = ⊥ :=
     disjoint_iff.1 (IsPGroup.disjoint_of_ne q 2 hq2 P T hPq hT2)
@@ -460,6 +466,7 @@ private theorem not_three_dvd_sup_of_isPGroup_permutes {P T : Subgroup G} {q : �
     have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h
     norm_num at h32
 
+omit [Finite G] in
 private theorem charTwo_sup {M P T : Subgroup G} (hPM : P ≤ M) (hTM : T ≤ M)
     (hOT : pCoreOf 2 M ≤ T)
     (hMchar : M ⊓ Subgroup.centralizer (pCoreOf 2 M : Set G) ≤ pCoreOf 2 M) :
@@ -478,7 +485,7 @@ private theorem exists_sylow_two_subgroupOf (D : Data G) {q : ℕ} (hq : q.Prime
     {Q : Subgroup G} (hQq : IsPGroup q ↥Q) (hTQ : Permutes D.T Q) :
     ∃ P : Sylow 2 ↥(Q ⊔ D.T), (P : Subgroup ↥(Q ⊔ D.T)) = D.T.subgroupOf (Q ⊔ D.T) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by omega
   have hT2 : IsPGroup 2 ↥D.T := D.sylowM.isPGroup
   have hdisj : Q ⊓ D.T = ⊥ :=
@@ -584,7 +591,7 @@ theorem thompson_QT (D : Data G) (hThomp : KThomp) {q : ℕ} (hq : q.Prime) (hq5
       (((Q ⊔ D.T) ⊓ normalizer (F12.jOf D.T : Set G) : Subgroup G) : Set G) *
         (((Q ⊔ D.T) ⊓ normalizer (zOneOf D.T : Set G) : Subgroup G) : Set G) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by omega
   have hT2 : IsPGroup 2 ↥D.T := D.sylowM.isPGroup
   have hQM : Q ≤ D.M := hQ.trans (uc22p21c_barPreimage_le D.M _)
@@ -606,13 +613,13 @@ theorem isCyclic_pCore_three_of_sylow (D : Data G)
     (h : ∀ P : Sylow 3 ↥(oTwoThreeOf D.M), IsCyclic ↥P) :
     IsCyclic ↥(CFSG.pCore 3 (Bar2 D.M)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 ↥(oTwoThreeOf D.M)))
   let Q : Subgroup G := (P : Subgroup ↥(oTwoThreeOf D.M)).map (oTwoThreeOf D.M).subtype
   have hQcyc : IsCyclic ↥Q := by
     let e := Subgroup.equivMapOfInjective (P : Subgroup ↥(oTwoThreeOf D.M))
       (oTwoThreeOf D.M).subtype (oTwoThreeOf D.M).subtype_injective
-    letI : IsCyclic ↥(P : Subgroup ↥(oTwoThreeOf D.M)) := h P
+    let : IsCyclic ↥(P : Subgroup ↥(oTwoThreeOf D.M)) := h P
     exact isCyclic_of_surjective e.toMonoidHom e.surjective
   have hQ0 : CFSG.ABGLocalTools.IsSylowOf 3 Q (oTwoThreeOf D.M) := ⟨P, rfl⟩
   have hbar := uc22p22u_sylow_barPreimage (M := D.M) (r := 3) Nat.prime_three (by norm_num)

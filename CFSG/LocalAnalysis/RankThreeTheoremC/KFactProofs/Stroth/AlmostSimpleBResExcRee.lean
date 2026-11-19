@@ -29,7 +29,7 @@ theorem hasIndepPair_reeGamma_phi2 {b : ℕ} {k : Type} [Field k] [Finite k]
     (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ (2 * b + 1) + 1) :
     HasIndepPair p (ReeTag.F4.reeGamma k b) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Finite (ModGL ReeTag.F4.tag k) := finite_modGL
   have : Finite (ReeTag.F4.reeGamma k b) := Subtype.finite
   obtain ⟨D⟩ := reeFrameData_nonempty (K := k) (L := AlgebraicClosure k) hk
@@ -54,7 +54,7 @@ theorem fixesPair_reeGamma {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite
         HasIndepPair p (ReeTag.F4.reeGamma k b)) :
     FixesIndepPair p α := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hNF, ⟨Ψ, hΨ⟩, -⟩ := large_Ree_full_inner_field_automorphism_normal_form a ha K hK
   obtain ⟨⟨x, β⟩, hxβ, -⟩ := hNF α
   have hΨα : Ψ ⟨x, β⟩ = α := by rw [hΨ x β]; exact hxβ.symm
@@ -76,8 +76,8 @@ theorem fixesPair_reeGamma {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite
   have hβord : orderOf β = p := orderOf_eq_prime hβp hβ1
   obtain ⟨g, hg⟩ := RF4.largeRee_fieldAut_coset_conj a hK hp β hβord α hαp ⟨x, hxβ⟩
   obtain ⟨b, hbp, hbcard, hchar, ⟨eC⟩⟩ := reeF4_fixed_data_odd hK hp hp2 hβord
-  haveI := hchar
-  haveI : Finite (fixSubfield β) := Subtype.finite
+  have := hchar
+  have : Finite (fixSubfield β) := Subtype.finite
   have hpairb := hpair b (fixSubfield β) hbp hbcard
   have hfp : FixesIndepPair p (ReeTag.F4.reeGammaFieldAut K a β) :=
     fixesPair_of_injective_fixed

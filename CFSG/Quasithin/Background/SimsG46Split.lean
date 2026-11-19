@@ -52,7 +52,6 @@ theorem ext_of_sup {V₁ V₂ : Submodule F V} (hc : V₁ ⊔ V₂ = ⊤) {g h :
     rw [hh x hx, hg x hx]
   one_mem' _ _ := rfl
   inv_mem' {g} hg x hx := by
-    change g⁻¹ x = x
     calc g⁻¹ x = g⁻¹ (g x) := by rw [hg x hx]
       _ = x := inv_mul_apply g x
 
@@ -193,7 +192,7 @@ theorem exists_isSplit [Finite F] [CharP F 2] (halt : ∀ x, B x x = 0)
     (hnd : ∀ x, (∀ y, B x y = 0) → x = 0) (hdim : Module.finrank F V = 4)
     (hSp : G₀ ≤ spGroup B) (hirr : IsIrredOnV G₀) (hD : (transvSet G₀).Nonempty)
     (hnc : ¬ (advGraph G₀).Connected) : ∃ V₁ V₂ : Submodule F V, IsSplit B G₀ V₁ V₂ := by
-  haveI : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨a, ha⟩ := hD
   let R : ↥(transvSet G₀) → Prop := fun d => (advGraph G₀).Reachable ⟨a, ha⟩ d
   have hadj : ∀ x y : ↥(transvSet G₀), (x : V ≃ₗ[F] V) * y ≠ y * x → (advGraph G₀).Adj x y :=
@@ -307,8 +306,8 @@ theorem IsSplit.map_eq_or (h : IsSplit B G₀ V₁ V₂) (halt : ∀ x, B x x = 
     (hnd : ∀ x, (∀ y, B x y = 0) → x = 0) (hSp : G₀ ≤ spGroup B) {g : V ≃ₗ[F] V}
     (hg : g ∈ G₀) : V₁.map (g : V →ₗ[F] V) = V₁ ∨ V₁.map (g : V →ₗ[F] V) = V₂ := by
   obtain ⟨a, ha, b, hb, ha₁, hb₁, hab⟩ := h.pair₁
-  haveI : FiniteDimensional F V₁ := Module.finite_of_finrank_pos (by rw [h.line₁.1]; norm_num)
-  haveI : FiniteDimensional F V₂ := Module.finite_of_finrank_pos (by rw [h.line₂.1]; norm_num)
+  have : FiniteDimensional F V₁ := Module.finite_of_finrank_pos (by rw [h.line₁.1]; norm_num)
+  have : FiniteDimensional F V₂ := Module.finite_of_finrank_pos (by rw [h.line₂.1]; norm_num)
   have hV : commSpace a ⊔ commSpace b = V₁ :=
     Submodule.eq_of_le_of_finrank_eq (sup_le ha₁ hb₁)
       (by rw [(isNondegLine_sup halt hnd hSp ha hb hab).1, h.line₁.1])

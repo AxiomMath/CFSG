@@ -79,7 +79,6 @@ theorem mem_linFixed_iff (g k : GL (Fin 4) F) :
     k ∈ linFixed g ↔ (k : Matrix (Fin 4) (Fin 4) F).det = 1 ∧
       g * Matrix.GeneralLinearGroup.inverseTranspose k * g⁻¹ = k := by
   have hS : k ∈ StatedSL 4 F ↔ (k : Matrix (Fin 4) (Fin 4) F).det = 1 := by
-    change k ∈ CFSG.Assembly.LowTwoRank.StatedSL 4 F ↔ _
     rw [statedSL_eq_detOne, mem_detOne]
   rw [linFixed, Subgroup.mem_inf, hS]
   rfl

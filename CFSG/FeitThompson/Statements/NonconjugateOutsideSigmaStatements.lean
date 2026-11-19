@@ -24,7 +24,7 @@ import CFSG.FeitThompson.OddOrder.SharedSylowNormalizedByIntersection
 import Mathlib.Tactic.Group
 public import CFSG.FeitThompson.Representations.DadeAveragingClassFunction
 public import CFSG.FeitThompson.Representations.TensorAndDualCharacters
-public import Mathlib.Data.Complex.Basic
+public import Mathlib.Basic.Complex.Basic
 
 namespace CFSG.FeitThompson
 
@@ -83,7 +83,7 @@ theorem IsSylowOf.le {p : ℕ} {P M : Subgroup G} (h : IsSylowOf p P M) : P ≤ 
   obtain ⟨S, rfl⟩ := h; exact Subgroup.map_subtype_le _
 
 theorem IsSylowOf.isPGroup {p : ℕ} {P M : Subgroup G} (h : IsSylowOf p P M) : IsPGroup p ↥P := by
-  obtain ⟨S, rfl⟩ := h; exact S.isPGroup'.map M.subtype
+  obtain ⟨S, rfl⟩ := h; exact S.isPGroup.map M.subtype
 
 theorem isSylowOf_iff_natCard [Finite G] {p : ℕ} (hp : p.Prime) {P M : Subgroup G} (hPM : P ≤ M) :
     IsSylowOf p P M ↔ Nat.card ↥P = p ^ (Nat.card ↥M).factorization p :=

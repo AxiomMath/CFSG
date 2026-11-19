@@ -99,11 +99,11 @@ private lemma l05nEP_not_conn_ML {Λ : Type} [Fintype Λ] [DecidableEq Λ] {ML :
     ¬ GGDeletedConnected2 ML b₁ b₂ := by
   intro hconn
   let a' : {x : Λ // x ≠ b₁ ∧ x ≠ b₂} :=
-    ⟨e a, fun h => hai ((Equiv.apply_eq_iff_eq_symm_apply e).mp h),
-      fun h => haj ((Equiv.apply_eq_iff_eq_symm_apply e).mp h)⟩
+    ⟨e a, fun h => hai (((Iff.symm (_root_.Equiv.eq_symm_apply e))).mp h),
+      fun h => haj (((Iff.symm (_root_.Equiv.eq_symm_apply e))).mp h)⟩
   let v' : {x : Λ // x ≠ b₁ ∧ x ≠ b₂} :=
-    ⟨e v, fun h => hvi ((Equiv.apply_eq_iff_eq_symm_apply e).mp h),
-      fun h => hvj ((Equiv.apply_eq_iff_eq_symm_apply e).mp h)⟩
+    ⟨e v, fun h => hvi (((Iff.symm (_root_.Equiv.eq_symm_apply e))).mp h),
+      fun h => hvj (((Iff.symm (_root_.Equiv.eq_symm_apply e))).mp h)⟩
   have hcl' : ∀ x y : {x : Λ // x ≠ b₁ ∧ x ≠ b₂},
       (e.symm x.1 ∈ S) → (x ≠ y ∧ ML.M x y ≠ 2) → (e.symm y.1 ∈ S) := by
     intro x y hx hr
@@ -146,8 +146,8 @@ private lemma l05nEP_A4_card {Λ : Type} [Fintype Λ] [DecidableEq Λ] {ML : Cox
   let g : Fin 4 → {j : Λ // j ≠ b₁ ∧ j ≠ b₂} := fun a =>
     ⟨e (c a), by
       constructor
-      · intro h; exact hi a ((Equiv.apply_eq_iff_eq_symm_apply e).mp h)
-      · intro h; exact hj a ((Equiv.apply_eq_iff_eq_symm_apply e).mp h)⟩
+      · intro h; exact hi a (((Iff.symm (_root_.Equiv.eq_symm_apply e))).mp h)
+      · intro h; exact hj a (((Iff.symm (_root_.Equiv.eq_symm_apply e))).mp h)⟩
   have hg_inj : Function.Injective g := by
     intro a b h
     exact hc_inj (e.injective (congrArg Subtype.val h))

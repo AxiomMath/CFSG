@@ -23,7 +23,7 @@ theorem svTransport_holds :
     (S := fun lab => F lab.tag)
     (P' := SCFourCover.GGInndiagThreeRankTwo) hF hmark
   obtain ⟨-, lab, R, hR, I, F', θ, hlab, hP⟩ := largeEvenMarking_exists' hmark'
-  letI := hR
+  let := hR
   have hAeb : CFSG.Open.IsElemAbelian 3 A := hK.1.1
   have hinn : GGInducedInn A θ I := hP.1.2.2
   have hrank : SCFourCover.GGInndiagThreeRankTwo R I F' := hP.2 hP.1.1

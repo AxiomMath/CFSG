@@ -35,7 +35,7 @@ theorem sqCheck_spec {r : Equiv.Perm (Fin 36)} {E : List (Equiv.Perm (Fin 36))}
     rw [List.isEmpty_iff.mp h]
     exact List.not_mem_nil
   have h1 := h s hs
-  simp only [Bool.or_eq_true, Bool.not_eq_true', decide_eq_false_iff_not, tab_eq] at h1
+  simp only [Bool.not_eq_true', decide_eq_false_iff_not, tab_eq] at h1
   rcases h1 with h1 | h1
   · exact absurd hs2 h1
   simp only [sqStep, Bool.or_eq_true, List.all_eq_true, List.mem_filter, decide_eq_true_eq,

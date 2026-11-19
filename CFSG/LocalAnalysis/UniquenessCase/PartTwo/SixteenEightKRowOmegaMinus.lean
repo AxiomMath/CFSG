@@ -22,9 +22,9 @@ theorem s16k_false_of_natOmegaMinus (h : S16gRowCtx D V₀ V L hV)
     (hN : NatOmegaMinus (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) n a) : False := by
   obtain ⟨hev, K, hF, hFin, b, c, hK, hirr, hR⟩ := hN
-  letI := hF
-  letI := hFin
-  haveI : CharP K 2 := s16k_charP_two_of_card (a := a) (by omega) hK
+  let := hF
+  let := hFin
+  have : CharP K 2 := s16k_charP_two_of_card (a := a) (by omega) hK
   generalize hm : n / 2 = m at hR
   have hKab : Nat.card K = 2 ∨ Nat.card K = 4 := by
     rcases ha with rfl | rfl
@@ -40,7 +40,7 @@ theorem s16k_false_of_natOmegaMinus (h : S16gRowCtx D V₀ V L hV)
         exact absurd h.quasi (s16g_not_isQuasisimple_of_realizes_comm
           (s16k_comm_statedOmegaMinus_of_le_one_four hK4 hirr hm1) hR)
     · omega
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   obtain ⟨p, hpσ⟩ := h.std.hx.sig_nonempty
   have hp : p.Prime := (D.sig_prime p hpσ).1
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2

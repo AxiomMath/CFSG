@@ -37,7 +37,7 @@ theorem odd_card_of_isElemAbelian {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
     have := hE.2 x x.2
     apply Subtype.ext
     simpa using this⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hEp
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow

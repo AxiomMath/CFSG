@@ -57,7 +57,7 @@ theorem ind_testBit (c : Nat) : ∀ L : List Nat, (ind L).testBit c = decide (c 
       simp
     · simp [h, Ne.symm h]
 
-theorem and'_eq (a b : Bool) : Bool.and' a b = (a && b) := by
+theorem and'_eq (a b : Bool) : _root_.Bool.and a b = (a && b) := by
   cases a <;> cases b <;> rfl
 
 theorem allOnes_testBit (m c : Nat) : (Nat.sub (Nat.pow 2 m) 1).testBit c = decide (c < m) := by

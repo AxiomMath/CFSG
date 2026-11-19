@@ -19,8 +19,8 @@ theorem card_add_mul_le_of_inf_eq {ι : Type*} [Finite ι] {B Q : Subgroup G} {K
     (hBK : ∀ i, B ≤ K i) (hKQ : ∀ i, K i ≤ Q) (hinf : ∀ i j, i ≠ j → K i ⊓ K j = B) :
     b + Nat.card ι * (k - b) ≤ Nat.card Q := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype ι := Fintype.ofFinite ι
+  have : Fintype G := Fintype.ofFinite G
   let F : Subgroup G → Finset G := fun H => Finset.univ.filter (fun g => g ∈ H)
   have hF : ∀ H : Subgroup G, (F H).card = Nat.card H := by
     intro H
@@ -70,7 +70,7 @@ theorem eleven11_exists_family {M V Q U L X : Subgroup G}
   classical
   have hV := hd.setting.isElemAbelian
   have hcard : Nat.card {v : ↥V // v ≠ 1} = 7 := by
-    haveI : Fintype ↥V := Fintype.ofFinite _
+    have : Fintype ↥V := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq,
       ← Nat.card_eq_fintype_card, h8]
   let e : Fin 7 ≃ {v : ↥V // v ≠ 1} := (Finite.equivFinOfCardEq hcard).symm

@@ -24,7 +24,7 @@ theorem asc82Fact510_of_inputs (cq : Asc82CorIIIq) (hs : Asc82Sym59) (hp : Asc82
     Asc82Fact510 := by
   intro G _ _ t L S z r B A hR h7
   obtain ⟨K, hzK, hKle, hKsub, ⟨e⟩⟩ := hp G t L S z r B A hR h7 (hs G t L S z r B A hR h7)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (GaloisField 3 1) = 3 := by
     have := GaloisField.card 3 1 one_ne_zero
     simpa using this

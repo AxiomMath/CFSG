@@ -17,8 +17,8 @@ theorem exists_coboundary_of_odd_index_of_isPGroup {X : Type*} [Group X] [Finite
     {T : Subgroup X} (hT : Odd T.index) (hδT : ∀ t ∈ T, δ t = 1) :
     ∃ y : M, ∀ x : X, δ x = ρ x y * y⁻¹ := by
   classical
-  letI := Fintype.ofFinite X
-  haveI : Fintype (X ⧸ T) := Fintype.ofFinite _
+  let := Fintype.ofFinite X
+  have : Fintype (X ⧸ T) := Fintype.ofFinite _
   have hconst : ∀ (a : X) (t : T), δ (a * t) = δ a := by
     intro a t
     rw [hδ, hδT t t.2, map_one, mul_one]
@@ -62,7 +62,7 @@ theorem exists_coboundary_of_odd_index_of_isPGroup {X : Type*} [Group X] [Finite
     rw [ha]
     exact hcop2.pow_right a
   by_cases hexp : Monoid.exponent M = 1
-  · haveI : Subsingleton M := Monoid.exp_eq_one_iff.mp hexp
+  · have : Subsingleton M := Monoid.exp_eq_one_iff.mp hexp
     exact ⟨1, fun x => Subsingleton.elim _ _⟩
   · have hexp1 : 1 < Monoid.exponent M := by
       have hpos : 0 < Monoid.exponent M :=
@@ -97,7 +97,7 @@ theorem exists_mem_center_sylow_two_conj_eq {Y : Type*} [Group Y] {X Q T : Subgr
   classical
   let Q' : Subgroup X := Q.subgroupOf X
   let M' : Subgroup X := Q' ⊓ Subgroup.centralizer (Q' : Set X)
-  haveI : Q'.Normal := hQn
+  have : Q'.Normal := hQn
   have hM'n : M'.Normal := inferInstance
   have hQ'2 : IsPGroup 2 Q' := hQ2.comap_subtype
   have hM'2 : IsPGroup 2 M' := hQ'2.to_inf_left
@@ -113,12 +113,12 @@ theorem exists_mem_center_sylow_two_conj_eq {Y : Type*} [Group Y] {X Q T : Subgr
     have hqT' : (⟨q, hQX hq⟩ : X) ∈ T.subgroupOf X := by
       simpa [TS] using hqT
     exact Subgroup.mem_subgroupOf.mp hqT'
-  haveI : Finite M' :=
+  have : Finite M' :=
     Finite.of_injective (fun m : M' => (m : X)) Subtype.coe_injective
   have hM'comm : IsMulCommutative M' :=
     ⟨⟨fun a b => Subtype.ext <|
       (Subgroup.mem_centralizer_iff.mp b.2.2 (a : X) a.2.1)⟩⟩
-  haveI : IsMulCommutative M' := hM'comm
+  have : IsMulCommutative M' := hM'comm
   have hconj_mem : ∀ x : X, g * (x : Y) * g⁻¹ ∈ X := fun x =>
     (Subgroup.mem_normalizer_iff.mp hgX (x : Y)).mp x.2
   let δX : X → X := fun x => ⟨g * (x : Y) * g⁻¹, hconj_mem x⟩ * x⁻¹
@@ -181,7 +181,7 @@ theorem exists_mem_center_sylow_two_conj_eq {Y : Type*} [Group Y] {X Q T : Subgr
     apply Subtype.ext
     apply Subtype.ext
     have htT : (t : Y) ∈ T := Subgroup.mem_subgroupOf.mp ht
-    simp only [δ, δX, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one, Subtype.coe_mk]
+    simp only [δ, δX, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one]
     have hgt : g * (t : Y) * g⁻¹ = (t : Y) := by
       rw [hgT (t : Y) htT]
       group

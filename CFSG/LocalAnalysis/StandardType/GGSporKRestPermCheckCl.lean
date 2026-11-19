@@ -86,8 +86,7 @@ theorem checkClMatK_sound {n : ℕ} {B : List ℕ} {a b : Perm (Fin n)} {pOrder 
   simp only [mat_eq] at h
   rw [sgMat_eq, ggSporKRestCl_tabK] at h
   simp only [tableOkK, classesOkK, ggSporKRestCl_lettersK, repMat_eq, keyEq,
-    Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range,
-    Bool.or_eq_true, List.contains_iff] at h
+    Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, _root_.List.contains_iff_mem] at h
   obtain ⟨⟨⟨⟨⟨hlen, hnodup_keys⟩, _hkey0⟩, hmem1⟩, hcl⟩, hclasses⟩ := h
   unfold specCl
   refine ⟨hlen, List.Nodup.of_map (keyOf B) hnodup_keys, ?_, ?_, ?_⟩

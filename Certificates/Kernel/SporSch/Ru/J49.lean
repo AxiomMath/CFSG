@@ -186,7 +186,7 @@ theorem tab_get {k : Nat} (hk : k < 19) : (tabs ())[k]! = unpack 4060 12 (W k) �
 
 theorem tabOf_eq {k : Nat} (hk : k < 19) : tabOf (tabs ()) k = unpack 4060 12 (W k) ∧ P (W k) := by
   unfold tabOf
-  rw [if_pos (by rw [tabs_size]; exact hk)]
+  rw [ite_eq_left (by rw [tabs_size]; exact hk)]
   exact tab_get hk
 
 theorem ex_eq (e : Ex) : e.evalA (tabs ()) = unpack 4060 12 (exK W e) ∧ P (exK W e) := by
@@ -202,7 +202,7 @@ theorem ex_eq (e : Ex) : e.evalA (tabs ()) = unpack 4060 12 (exK W e) ∧ P (exK
     · have hb : Nat.blt k 19 = false := Bool.eq_false_iff.2 fun h => hk (by simpa using h)
       rw [hb]
       unfold tabOf
-      rw [if_neg (by rw [tabs_size]; exact hk)]
+      rw [ite_eq_right (by rw [tabs_size]; exact hk)]
       exact ⟨G2Ru7164.id_eq, P_pid⟩
   | one => exact ⟨G2Ru7164.id_eq, P_pid⟩
   | mul a b iha ihb =>

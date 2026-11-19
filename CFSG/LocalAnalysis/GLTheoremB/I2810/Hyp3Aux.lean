@@ -54,10 +54,10 @@ theorem normal_le_center_of_twoPower {G : Type} [Group G] [Finite G] (hperf : co
       obtain ⟨q, hq', rfl⟩ := hy
       obtain ⟨i, hi⟩ := hQ q hq'
       exact ⟨i, by rw [← map_pow]; exact (QuotientGroup.eq_one_iff _).2 hi⟩
-    haveI : Group.IsNilpotent (G ⧸ Subgroup.center G) := hp.isNilpotent
-    haveI : Group.IsPerfect G := Group.isPerfect_def.2 hperf
-    haveI : Group.IsPerfect (G ⧸ Subgroup.center G) := inferInstance
-    haveI : Nontrivial (G ⧸ Subgroup.center G) := hsimple.toNontrivial
+    have : Group.IsNilpotent (G ⧸ Subgroup.center G) := hp.isNilpotent
+    have : Group.IsPerfect G := Group.isPerfect_def.2 hperf
+    have : Group.IsPerfect (G ⧸ Subgroup.center G) := inferInstance
+    have : Nontrivial (G ⧸ Subgroup.center G) := hsimple.toNontrivial
     exact Group.IsPerfect.not_isSolvable (G ⧸ Subgroup.center G) inferInstance
 
 end Generic
@@ -125,9 +125,11 @@ end Quotient
 section VAct
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem vAct_apply_coe (hR : Red28 W K S) (n : ↥(K ⊔ S)) (v : ↥(vOf W K S)) :
     ((vAct hR n v : ↥(vOf W K S)) : X) = (n : X) * v * (n : X)⁻¹ := rfl
 
+omit [Finite X] in
 theorem vAct_eq_one_iff (hR : Red28 W K S) (n : ↥(K ⊔ S)) :
     vAct hR n = 1 ↔ ∀ v ∈ vOf W K S, (n : X) * v = v * (n : X) := by
   constructor
@@ -144,6 +146,7 @@ theorem vAct_eq_one_iff (hR : Red28 W K S) (n : ↥(K ⊔ S)) :
     show (n : X) * v * (n : X)⁻¹ = v
     rw [this]; group
 
+omit [Finite X] in
 theorem mem_khOf_iff (hR : Red28 W K S) (g : MulAut ↥(vOf W K S)) :
     g ∈ khOf hR ↔ ∃ k : ↥K, g = vAct hR (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ S) k) := by
   constructor
@@ -152,6 +155,7 @@ theorem mem_khOf_iff (hR : Red28 W K S) (g : MulAut ↥(vOf W K S)) :
   · rintro ⟨k, rfl⟩
     exact ⟨Subgroup.inclusion (le_sup_left : K ≤ K ⊔ S) k, k.2, rfl⟩
 
+omit [Finite X] in
 theorem mem_ehOf_iff (hR : Red28 W K S) {A : Subgroup X} (g : MulAut ↥(vOf W K S)) :
     g ∈ ehOf hR A ↔ ∃ (a : X) (ha : a ∈ K ⊔ S), a ∈ A ∧ g = vAct hR ⟨a, ha⟩ := by
   constructor
@@ -160,24 +164,29 @@ theorem mem_ehOf_iff (hR : Red28 W K S) {A : Subgroup X} (g : MulAut ↥(vOf W K
   · rintro ⟨a, ha, haA, rfl⟩
     exact ⟨⟨a, ha⟩, haA, rfl⟩
 
+omit [Finite X] in
 theorem kToKh_surjective (hR : Red28 W K S) : Function.Surjective (kToKh hR) := by
   rintro ⟨g, hg⟩
   obtain ⟨k, rfl⟩ := (mem_khOf_iff hR g).1 hg
   exact ⟨k, Subtype.ext rfl⟩
 
+omit [Finite X] in
 theorem kToKh_eq_one_iff (hR : Red28 W K S) (k : ↥K) :
     kToKh hR k = 1 ↔ ∀ v ∈ vOf W K S, (k : X) * v = v * (k : X) := by
   have key := vAct_eq_one_iff hR (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ S) k)
   exact ⟨fun h => key.1 (congrArg Subtype.val h), fun h => Subtype.ext (key.2 h)⟩
 
+omit [Finite X] in
 theorem mem_zPre_of_kToKh_eq_one (hR : Red28 W K S) {k : ↥K} (hk : kToKh hR k = 1) :
     (k : X) ∈ zPre W K :=
   ⟨k.2, fun k' hk' =>
     hR.cent_comm k (Subgroup.mem_sup_left k.2) ((kToKh_eq_one_iff hR k).1 hk) k' hk'⟩
 
+omit [Finite X] in
 theorem kToKh_eq_one_of_mem_W (hR : Red28 W K S) {k : ↥K} (hk : (k : X) ∈ W) : kToKh hR k = 1 :=
-  (kToKh_eq_one_iff hR k).2 fun v hv => (hv.2.1 k (hR.w1_le hk)).symm
+  (kToKh_eq_one_iff hR k).2 fun _v hv => (hv.2.1 k (hR.w1_le hk)).symm
 
+omit [Finite X] in
 theorem kToKh_mem_center_of_zPre (hR : Red28 W K S) {k : ↥K} (hk : (k : X) ∈ zPre W K) :
     kToKh hR k ∈ Subgroup.center ↥(khOf hR) := by
   rw [Subgroup.mem_center_iff]
@@ -187,6 +196,7 @@ theorem kToKh_mem_center_of_zPre (hR : Red28 W K S) {k : ↥K} (hk : (k : X) ∈
   rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm] at h1
   exact h1.symm
 
+omit [Finite X] in
 theorem mem_zPre_of_kToKh_mem_center (hR : Red28 W K S) {k : ↥K}
     (hk : kToKh hR k ∈ Subgroup.center ↥(khOf hR)) : (k : X) ∈ zPre W K := by
   have hperf : commutator ↥(bar W K) = ⊤ := hR.quasi.1.commutator_eq_top
@@ -217,11 +227,13 @@ end VAct
 section Basic
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem khOf_perfect (h : Setup28 W K S) (hR : Red28 W K S) : ⁅khOf hR, khOf hR⁆ = khOf hR := by
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 h.hK.2.1
-  haveI : Group.IsPerfect ↥(khOf hR) := Group.IsPerfect.ofSurjective (kToKh_surjective hR)
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 h.hK.2.1
+  have : Group.IsPerfect ↥(khOf hR) := Group.IsPerfect.ofSurjective (kToKh_surjective hR)
   exact Subgroup.isPerfect_iff.1 inferInstance
 
+omit [Finite X] in
 theorem khOf_ne_bot (hR : Red28 W K S) : khOf hR ≠ ⊥ := by
   intro hbot
   apply hR.v_nt
@@ -239,8 +251,8 @@ theorem pCore_khOf (h : Setup28 W K S) (hR : Red28 W K S) : CFSG.pCore 2 ↥(khO
   obtain ⟨κ, rfl⟩ := kToKh_surjective hR x
   have hPn : (CFSG.pCore 2 ↥(khOf hR)).Normal := CFSG.pCore_normal
   have hPp : IsPGroup 2 ↥(CFSG.pCore 2 ↥(khOf hR)) := CFSG.pCore_isPGroup
-  haveI : ((CFSG.pCore 2 ↥(khOf hR)).comap (kToKh hR)).Normal := hPn.comap _
-  haveI : (((CFSG.pCore 2 ↥(khOf hR)).comap (kToKh hR)).map (toBar W K)).Normal :=
+  have : ((CFSG.pCore 2 ↥(khOf hR)).comap (kToKh hR)).Normal := hPn.comap _
+  have : (((CFSG.pCore 2 ↥(khOf hR)).comap (kToKh hR)).map (toBar W K)).Normal :=
     Subgroup.Normal.map ‹_› _ (toBar_props W K).1
   have hQ : ∀ q ∈ ((CFSG.pCore 2 ↥(khOf hR)).comap (kToKh hR)).map (toBar W K),
       ∃ i : ℕ, q ^ 2 ^ i ∈ Subgroup.center ↥(bar W K) := by
@@ -279,6 +291,7 @@ end Basic
 section EhOf
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem vAct_conj_incl (hR : Red28 W K S) {a : X} (ha : a ∈ K ⊔ S) (k k' : ↥K)
     (hk' : (k' : X) = a * k * a⁻¹) :
     vAct hR ⟨a, ha⟩ * vAct hR (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ S) k) *
@@ -288,12 +301,14 @@ theorem vAct_conj_incl (hR : Red28 W K S) {a : X} (ha : a ∈ K ⊔ S) (k k' : �
   apply Subtype.ext
   simp [hk']
 
+omit [Finite X] in
 theorem kToKh_conj (hR : Red28 W K S) {a : X} (ha : a ∈ K ⊔ S) (k k' : ↥K)
     (hk' : (k' : X) = a * k * a⁻¹) :
     ((kToKh hR k' : ↥(khOf hR)) : MulAut ↥(vOf W K S)) =
       vAct hR ⟨a, ha⟩ * (kToKh hR k : MulAut ↥(vOf W K S)) * (vAct hR ⟨a, ha⟩)⁻¹ :=
   (vAct_conj_incl hR ha k k' hk').symm
 
+omit [Finite X] in
 theorem conj_mem_khOf (hR : Red28 W K S) {a : X} (ha : a ∈ K ⊔ S)
     (haN : a ∈ Subgroup.normalizer (K : Set X)) {g : MulAut ↥(vOf W K S)} (hg : g ∈ khOf hR) :
     vAct hR ⟨a, ha⟩ * g * (vAct hR ⟨a, ha⟩)⁻¹ ∈ khOf hR := by
@@ -302,6 +317,7 @@ theorem conj_mem_khOf (hR : Red28 W K S) {a : X} (ha : a ∈ K ⊔ S)
   rw [vAct_conj_incl hR ha k ⟨a * k * a⁻¹, hk'⟩ rfl]
   exact (mem_khOf_iff hR _).2 ⟨_, rfl⟩
 
+omit [Finite X] in
 theorem ehOf_le_normalizer (h : Setup28 W K S) (hR : Red28 W K S) {A : Subgroup X} (hAS : A ≤ S) :
     ehOf hR A ≤ Subgroup.normalizer (khOf hR : Set (MulAut ↥(vOf W K S))) := by
   intro ε hε
@@ -321,6 +337,7 @@ theorem ehOf_le_normalizer (h : Setup28 W K S) (hR : Red28 W K S) {A : Subgroup 
       ((vAct hR ⟨a, ha⟩)⁻¹)⁻¹ = g := by group
   rwa [e2] at h1
 
+omit [Finite X] in
 theorem vAct_eq_one_iff_mem_kerAct (hR : Red28 W K S) {a : X} (ha : a ∈ K ⊔ S) (haS : a ∈ S) :
     vAct hR ⟨a, ha⟩ = 1 ↔ a ∈ kerAct W K S := by
   rw [vAct_eq_one_iff]
@@ -330,6 +347,7 @@ theorem vAct_eq_one_iff_mem_kerAct (hR : Red28 W K S) {a : X} (ha : a ∈ K ⊔ 
   · intro hk v hv
     exact (hv.2.1 a hk).symm
 
+omit [Finite X] in
 theorem ehOf_faithful (h : Setup28 W K S) (hR : Red28 W K S) {A : Subgroup X} (hAS : A ≤ S)
     {ε : MulAut ↥(vOf W K S)} (hε : ε ∈ ehOf hR A)
     (hc : ∀ k ∈ khOf hR, ε * k = k * ε) : ε = 1 := by
@@ -374,6 +392,7 @@ end EhOf
 section Card
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem card_ehOf (hR : Red28 W K S) {A : Subgroup X} (hAS : A ≤ S) :
     Nat.card ↥(ehOf hR A) = (kerAct W K S).relIndex A := by
   let f : ↥A →* MulAut ↥(vOf W K S) :=
@@ -393,6 +412,7 @@ theorem card_ehOf (hR : Red28 W K S) {A : Subgroup X} (hAS : A ≤ S) :
   rw [hrange, ← Subgroup.index_ker, hker]
   rfl
 
+omit [Finite X] in
 theorem fixV'_ehOf (hR : Red28 W K S) {A : Subgroup X} (hA : A ≤ K ⊔ S) :
     fixV' (ehOf hR A) = (Subgroup.centralizer (A : Set X)).subgroupOf (vOf W K S) := by
   ext v
@@ -412,6 +432,7 @@ theorem fixV'_ehOf (hR : Red28 W K S) {A : Subgroup X} (hA : A ≤ K ⊔ S) :
     show a * (v : X) * a⁻¹ = v
     rw [this]; group
 
+omit [Finite X] in
 theorem fixV'_index_le (hR : Red28 W K S) {A : Subgroup X} (hA : Off28 W K S A) :
     (fixV' (ehOf hR A)).index ≤ Nat.card ↥(ehOf hR A) := by
   rw [fixV'_ehOf hR (hA.isMax.1.trans le_sup_right), card_ehOf hR hA.isMax.1]
@@ -422,6 +443,7 @@ end Card
 section Act
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem act_transfer (hR : Red28 W K S) {n : ℕ}
     (e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n)))
     (π : ↥(khOf hR) →* ↥(alternatingGroup (Fin n)))
@@ -444,6 +466,7 @@ theorem act_transfer (hR : Red28 W K S) {n : ℕ}
     have h1 := hK (kToKh hR k) (kToKh hR k') (kToKh_conj hR ha k k' hkk')
     rwa [hπ, hπ] at h1
 
+omit [Finite X] in
 theorem exists_v_of_act (h : Setup28 W K S) {n : ℕ}
     {e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))}
     {Vs : Subgroup ↥(alternatingGroup (Fin n))}
@@ -486,6 +509,7 @@ end Act
 section A7
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem commV'_map (hR : Red28 W K S) :
     (commV' (khOf hR)).map (vOf W K S).subtype = ⁅vOf W K S, K⁆ := by
   apply le_antisymm
@@ -511,6 +535,7 @@ theorem commV'_map (hR : Red28 W K S) :
       show (k * v * k⁻¹ * v⁻¹)⁻¹ = v * k * v⁻¹ * k⁻¹
       group
 
+omit [Finite X] in
 theorem commV'_invariant (hR : Red28 W K S) {g : MulAut ↥(vOf W K S)} (hg : g ∈ khOf hR)
     {y : ↥(vOf W K S)} (hy : y ∈ commV' (khOf hR)) : g y ∈ commV' (khOf hR) := by
   induction hy using Subgroup.closure_induction with
@@ -523,7 +548,7 @@ theorem commV'_invariant (hR : Red28 W K S) {g : MulAut ↥(vOf W K S)} (hg : g 
   | mul a b _ _ ha hb => rw [map_mul]; exact Subgroup.mul_mem _ ha hb
   | inv a _ ha => rw [map_inv]; exact Subgroup.inv_mem _ ha
 
-theorem a7x_of_struct (h : Setup28 W K S) (hR : Red28 W K S) (hs : A7Struct (khOf hR)) :
+theorem a7x_of_struct (_h : Setup28 W K S) (hR : Red28 W K S) (hs : A7Struct (khOf hR)) :
     A7X W K S := by
   have hmap := commV'_map hR
   have hle : ⁅vOf W K S, K⁆ ≤ vOf W K S := by
@@ -548,7 +573,7 @@ theorem a7x_of_struct (h : Setup28 W K S) (hR : Red28 W K S) (hs : A7Struct (khO
       rw [vAct_apply_coe]
       show (k : X) * y * (k : X)⁻¹ = y
       rw [mul_inv_eq_iff_eq_mul, ← h1]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2 : 2 ∣ Nat.card ↥(commV' (khOf hR)) := by rw [hs.comm16]; norm_num
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 2 h2
     have hyord : orderOf (y : ↥(vOf W K S)) = 2 := by rw [Subgroup.orderOf_coe, hy]
@@ -612,11 +637,13 @@ end A7
 section Root
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem bar_perfect (h : Setup28 W K S) : commutator ↥(bar W K) = ⊤ := by
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 h.hK.2.1
-  haveI : Group.IsPerfect ↥(bar W K) := Group.IsPerfect.ofSurjective (toBar_props W K).1
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 h.hK.2.1
+  have : Group.IsPerfect ↥(bar W K) := Group.IsPerfect.ofSurjective (toBar_props W K).1
   exact Group.IsPerfect.commutator_eq_top
 
+omit [Finite X] in
 theorem rootFour_of_card_aux (h : Setup28 W K S) {n : ℕ}
     {e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))}
     (hact : ActsLikeSubRootFourCQ (bar W S) (bar W K) n e)
@@ -659,6 +686,7 @@ end Root
 section CardInd
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem card_indAut_eq (h : Setup28 W K S) {A : Subgroup X} (hAS : A ≤ S) :
     Nat.card ↥(indAut W K A) = (kerAct W K S).relIndex A := by
   have hAN : A ≤ Subgroup.normalizer (K : Set X) := hAS.trans h.hN

@@ -16,6 +16,7 @@ section Reflection
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] in
 theorem rWGL_ne_one (hb : b ≠ 0) : rWGL b ≠ 1 := by
   intro h
   have h1 := congrArg (fun A : GL OmI F => (A : Matrix OmI OmI F) uI vI) h
@@ -41,7 +42,7 @@ theorem rWGL_not_mem_omega (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
   rw [Submodule.mem_span_singleton]
   refine ⟨b * y vI, ?_⟩
   ext i
-  simp only [LinearEquiv.coe_coe, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
+  simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   show (b * y vI) * eU i = (rWmat b *ᵥ y) i - y i
   rw [rWmat_mulVec]
   simp [eU, Pi.single_apply]
@@ -58,6 +59,7 @@ abbrev OmG (F : Type) [Field F] (b c : F) : Subgroup (GL OmI F) :=
 abbrev stabOm (F : Type) [Field F] (b c : F) : Subgroup ↥(OmG F b c) :=
   MulAction.stabilizer ↥(OmG F b c) (eU : OmI → F)
 
+omit [Finite F] [CharP F 2] in
 theorem mem_stabOm_iff (A : ↥(OmG F b c)) :
     A ∈ stabOm F b c ↔ ((A : GL OmI F) : Matrix OmI OmI F) *ᵥ eU = eU :=
   MulAction.mem_stabilizer_iff

@@ -83,7 +83,7 @@ theorem foldl_steps_nohit : ∀ (l : List α) (r : Array Nat) (k : Nat), k < r.s
     intro r k hk hno
     rw [List.foldl_cons, ih (f r x) k (by rw [(hf r x).1]; exact hk)
       (fun y hy => hno y (List.mem_cons_of_mem _ hy)), (hf r x).2 k hk,
-      if_neg (hno x List.mem_cons_self)]
+      ite_eq_right (hno x List.mem_cons_self)]
 
 theorem foldl_steps_unique : ∀ (l : List α) (r : Array Nat) (k : Nat) (x0 : α), k < r.size →
     l.Nodup → x0 ∈ l → H x0 k → (∀ x ∈ l, H x k → x = x0) → (l.foldl f r)[k]! = V x0 := by
@@ -100,7 +100,7 @@ theorem foldl_steps_unique : ∀ (l : List α) (r : Array Nat) (k : Nat) (x0 : �
         subst this
         exact (List.nodup_cons.1 hnd).1 hy
       rw [foldl_steps_nohit f H V hf t (f r x) k (by rw [(hf r x).1]; exact hk) hnot,
-        (hf r x).2 k hk, if_pos hH]
+        (hf r x).2 k hk, ite_eq_left hH]
     · have hx0t : x0 ∈ t := by
         rcases List.mem_cons.1 hx0 with h | h
         · exact absurd h.symm hx
@@ -152,11 +152,11 @@ theorem idxB_spec (L : Array (Array Nat)) (i a : Nat) (r : Array Nat) (b : Nat) 
       if ((a != b) = true ∧ (L[i]!)[a]! * 693 + (L[i]!)[b]! = k) then i else r[k]! := by
   unfold idxB
   by_cases hab : (a != b) = true
-  · simp only [hab, if_true, true_and]
+  · simp only [hab, ite_true, true_and]
     refine ⟨Array.size_set! _ _ _, fun k hk => ?_⟩
     by_cases hkey : (L[i]!)[a]! * 693 + (L[i]!)[b]! = k
-    · rw [if_pos hkey, hkey, Array.getElem!_set!_self _ _ _ hk]
-    · rw [if_neg hkey, Array.getElem!_set!_ne _ _ _ _ hkey]
+    · rw [ite_eq_left hkey, hkey, Array.getElem!_set!_self _ _ _ hk]
+    · rw [ite_eq_right hkey, Array.getElem!_set!_ne _ _ _ _ hkey]
   · simp only [hab]
     exact ⟨rfl, fun k hk => rfl⟩
 

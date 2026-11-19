@@ -447,20 +447,20 @@ theorem three_cycle_add : ∀ (x : Fin 8 → ZMod 2) (i j k : Fin 8), i ≠ j �
     Pi.single_apply, Pi.single_apply]
   by_cases hmi : m = i
   · subst hmi
-    rw [Equiv.swap_apply_left, Equiv.swap_apply_left, hi, hk, if_neg hij, if_neg hik]
+    rw [Equiv.swap_apply_left, Equiv.swap_apply_left, hi, hk, ite_eq_right hij, ite_eq_right hik]
     decide
   by_cases hmj : m = j
   · subst hmj
-    rw [Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne hij hik, hj, hi, if_pos rfl,
-      if_neg hjk]
+    rw [Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne hij hik, hj, hi, ite_eq_left rfl,
+      ite_eq_right hjk]
     decide
   by_cases hmk : m = k
   · subst hmk
     rw [Equiv.swap_apply_of_ne_of_ne (Ne.symm hik) (Ne.symm hjk), Equiv.swap_apply_right, hk, hj,
-      if_neg (Ne.symm hjk), if_pos rfl]
+      ite_eq_right (Ne.symm hjk), ite_eq_left rfl]
     decide
-  · rw [Equiv.swap_apply_of_ne_of_ne hmi hmj, Equiv.swap_apply_of_ne_of_ne hmj hmk, if_neg hmj,
-      if_neg hmk]
+  · rw [Equiv.swap_apply_of_ne_of_ne hmi hmj, Equiv.swap_apply_of_ne_of_ne hmj hmk, ite_eq_right hmj,
+      ite_eq_right hmk]
     generalize x m = a
     revert a
     decide

@@ -152,7 +152,7 @@ theorem seitz2310FourFreeAt_u6_of (hL : SeitzHyperLie fun d p _ => SeitzGoodInde
       norm_num
     by_cases hinn : E ≤ (MulAut.conj : S →* MulAut S).range
     ·
-      haveI : IsSimpleGroup S := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity S 6 2 3 hcl).2
+      have : IsSimpleGroup S := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity S 6 2 3 hcl).2
       have hnab : ∃ a b : S, a * b ≠ b * a := by
         refine exists_noncomm_of_four_dvd ?_
         rw [card_of_twistedA hv hq e]
@@ -336,7 +336,7 @@ theorem seitz2310FourFreeAt_twE6_of (hL : SeitzHyperLie fun d p _ => SeitzGoodIn
     ·
       have hm : ChevalleyExceptionalModel S .twistedE6 2 3 :=
         ⟨⟨Nat.prime_two, by norm_num, rfl⟩, K, inferInstance, inferInstance, hK, σq, hσq, ⟨e'⟩⟩
-      haveI : IsSimpleGroup S := (CFSG.LieType.Simplicity.fam_2e6_simplicity S 2 3 hm).2
+      have : IsSimpleGroup S := (CFSG.LieType.Simplicity.fam_2e6_simplicity S 2 3 hm).2
       have hnab : ∃ a b : S, a * b ≠ b * a := by
         refine exists_noncomm_of_four_dvd ?_
         rw [card_of_twE6 hv hq e]

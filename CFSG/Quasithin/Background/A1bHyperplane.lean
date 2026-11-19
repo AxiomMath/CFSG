@@ -292,7 +292,7 @@ theorem cyclic_generation (hA : IsPGroup r A) {H : Type u} [Group H] [Finite H]
     have : CFSG.IsInvariant A H Q := isInvariant_of_forall_smul_mem hQ
     have hQp : ¬ r ∣ Nat.card (Q : Subgroup H) :=
       fun h => hr (h.trans (Subgroup.card_subgroup_dvd_card _))
-    have : Group.IsNilpotent (Q : Subgroup H) := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (Q : Subgroup H) := Q.isPGroup.isNilpotent
     exact ⟨Q, le_cyclic_join_of_invariant (A := A) (Q : Subgroup H)
       (solvable_cyclic_generation hA inferInstance hQp)⟩
   have hdvd : Nat.card H ∣ Nat.card X := by

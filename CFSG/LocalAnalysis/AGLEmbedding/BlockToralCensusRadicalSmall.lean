@@ -128,7 +128,7 @@ theorem radicalSelfNormOver_alt_five :
   exact normalizer_pCoreOf_le_of_latCert CertA5.cert CertA5.closure_mGens CertA5.D_le
     CertA5.cert_check (by decide) (by decide)
     (fun Y hY => overgroups_charTwo CertA5.cert CertA5.cts CertA5.closure_mGens CertA5.D_le
-      CertA5.cert_check CertA5.members_ok Y hY) (hT₀ ▸ T₀.isPGroup') J hNJ
+      CertA5.cert_check CertA5.members_ok Y hY) (hT₀ ▸ T₀.isPGroup) J hNJ
 
 theorem radicalSelfNormOver_alt_six :
     RadicalSelfNormOver ↥(alternatingGroup (Fin 6)) := by
@@ -137,7 +137,7 @@ theorem radicalSelfNormOver_alt_six :
   refine RadicalSelfNormOver.of_sylow T₀ fun J hNJ => ?_
   rw [hT₀] at hNJ
   exact normalizer_pCoreOf_le_of_latCert Even6.cert Even6.closure_mGens Even6.D_le
-    Even6.cert_check (by decide) (by decide) Even6.overgroups (hT₀ ▸ T₀.isPGroup') J hNJ
+    Even6.cert_check (by decide) (by decide) Even6.overgroups (hT₀ ▸ T₀.isPGroup) J hNJ
 
 theorem radicalSelfNormOver_u33
     [IsSimpleGroup ↥CFSG.GH74.KGroups.U33.QP.originalSubgroup] :
@@ -148,7 +148,7 @@ theorem radicalSelfNormOver_u33
   exact normalizer_pCoreOf_le_of_latCert CertU33.cert CertU33.closure_mGens CertU33.D_le
     CertU33.cert_check (by decide) (by decide)
     (fun Y hY => overgroups_charTwo CertU33.cert CertU33.cts CertU33.closure_mGens CertU33.D_le
-      CertU33.cert_check CertU33.members_ok Y hY) (hT₀ ▸ T₀.isPGroup') J hNJ
+      CertU33.cert_check CertU33.members_ok Y hY) (hT₀ ▸ T₀.isPGroup) J hNJ
 
 theorem radicalSelfNormOver_catalog_u33
     {Y : Type} [Group Y] [Finite Y] [IsSimpleGroup Y]

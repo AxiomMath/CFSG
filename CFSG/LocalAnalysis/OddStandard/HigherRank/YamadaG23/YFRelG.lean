@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem actsAs_pow {g : G} {α : MulAut (L ⧸ center L)} (h : ActsAs L g α) (n : ℕ) :
     ActsAs L (g ^ n) (α ^ n) := by
   induction n with
@@ -26,6 +27,7 @@ private theorem actsAs_comm {g h : G} {α β : MulAut (L ⧸ center L)}
   rw [commutatorElement_def, commutatorElement_def]
   exact actsAs_mul L (actsAs_mul L (actsAs_mul L hg hh) (actsAs_inv L hg)) (actsAs_inv L hh)
 
+omit [Finite G] in
 private theorem comm_mem {H : Subgroup G} {a b : G} (ha : a ∈ H) (hb : b ∈ H) :
     ⁅a, b⁆ ∈ H := by
   rw [commutatorElement_def]

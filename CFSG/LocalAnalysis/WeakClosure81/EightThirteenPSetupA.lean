@@ -18,8 +18,8 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem wc813psa_omegaOneCenterOf_ne_bot {T : Subgroup G} (hT : IsPGroup 2 T)
     (hT1 : T ≠ ⊥) : omegaOneCenterOf T ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
   have hZ : Nontrivial (Subgroup.center ↥T) := hT.center_nontrivial
   obtain ⟨n, hn, hcard⟩ := ((hT.to_subgroup (Subgroup.center ↥T)).nontrivial_iff_card).1 hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center ↥T) 2
@@ -37,6 +37,7 @@ private theorem wc813psa_omegaOneCenterOf_ne_bot {T : Subgroup G} (hT : IsPGroup
   rw [hz1, orderOf_one] at hz
   exact absurd hz (by norm_num)
 
+omit [Finite G] in
 private theorem wc813psa_isSylowIn_subgroupOf_top {p : ℕ} {T H : Subgroup G}
     (h : IsSylowIn p T H) : IsSylowIn p (T.subgroupOf H) ⊤ := by
   refine ⟨le_top, ?_, ?_⟩
@@ -47,6 +48,7 @@ private theorem wc813psa_isSylowIn_subgroupOf_top {p : ℕ} {T H : Subgroup G}
     rw [← h1]
     exact h.not_dvd_relIndex
 
+omit [Finite G] in
 private theorem wc813psa_conj_mem_cGrp {H T : Subgroup G} {h n : G} (hh : h ∈ H)
     (hn : n ∈ cGrp H T) : h * n * h⁻¹ ∈ cGrp H T := by
   obtain ⟨hnH, hnC⟩ := Subgroup.mem_inf.mp hn
@@ -64,6 +66,7 @@ private theorem wc813psa_conj_mem_cGrp {H T : Subgroup G} {h n : G} (hh : h ∈ 
       _ = e * (h * n * h⁻¹) := by group
   exact key.symm
 
+omit [Finite G] in
 private theorem wc813psa_barSub_inf_of_le {H C Y A : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} (hφ : IsBarMap H C φ) (hCY : C ≤ Y) :
     barSub H φ A ⊓ barSub H φ Y = barSub H φ (A ⊓ Y) := by
@@ -85,6 +88,7 @@ private theorem wc813psa_barSub_inf_of_le {H C Y A : Subgroup G} {Q : Type} [Gro
     exact Y.mul_mem hmemY hyY
   exact mem_barSub.mpr ⟨a, Subgroup.mem_inf.mpr ⟨haA, haY⟩, haφ⟩
 
+omit [Finite G] in
 private theorem wc813psa_conjSubgroup_barSub {H B : Subgroup G} {Q : Type} [Group Q]
     (φ : ↥H →* Q) {g : ↥H} :
     conjSubgroup (barSub H φ B) (φ g) = barSub H φ (conjSubgroup B (g : G)) := by
@@ -184,8 +188,8 @@ theorem no_normal_two_bar {V H T A : Subgroup G} {i : ℕ} (h : Pre813 V H T i A
     {Q : Type} [Group Q] {φ : ↥H →* Q} (hφ : IsBarMap H (cGrp H T) φ) :
     ∀ P : Subgroup Q, P.Normal → IsPGroup 2 P → P = ⊥ := by
   intro P hPN hP2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Q := Finite.of_surjective φ hφ.surjective
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Q := Finite.of_surjective φ hφ.surjective
   have hH : IsCalH V H := h.calH0.1
   have hTH : IsSylowIn 2 T H := isSylowIn_of_isCalH hH h.minCex.hyp.sylow
   have hTbSyl : IsSylowIn 2 (barSub H φ T) ⊤ := by
@@ -393,7 +397,7 @@ theorem K1In.of_faithful_action {Y : Type} [Group Y] {E : Type} [Group E]
       Subgroup.isMulCommutative_closure hcommS
     have hsq : ∀ g ∈ Subgroup.closure S, g ^ 2 = 1 := by
       intro g hg
-      haveI : IsMulCommutative ↥(Subgroup.closure S) := hclosure_comm
+      have : IsMulCommutative ↥(Subgroup.closure S) := hclosure_comm
       refine Subgroup.closure_induction (p := fun g _ => g ^ 2 = 1) ?_ ?_ ?_ ?_ hg
       · intro x hx
         obtain ⟨y, hy, rfl⟩ := hx
@@ -411,6 +415,7 @@ theorem K1In.of_faithful_action {Y : Type} [Group Y] {E : Type} [Group E]
         rw [inv_pow, ih, inv_one]
     exact ⟨hclosure_comm, hsq⟩
 
+omit [Finite G] in
 theorem exists_bar_action_eGrp {H T : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q}
     (hφ : IsBarMap H (cGrp H T) φ) :
     ∃ ρ : Q →* MulAut ↥(eGrp H T), Function.Injective ρ ∧
@@ -502,7 +507,7 @@ theorem k1_bar {V H T A : Subgroup G} {i : ℕ} (h : Pre813 V H T i A) {Q : Type
     simpa [barSub] using h
   refine K1In.of_faithful_action ?_ ?_ ρ hρinj hAbar ?_
   · intro x y
-    haveI : IsMulCommutative ↥(eGrp H T) := hEab.1
+    have : IsMulCommutative ↥(eGrp H T) := hEab.1
     exact mul_comm' x y
   · intro e
     apply Subtype.ext

@@ -64,7 +64,7 @@ theorem tabCo1_threeD
     (x : ↥GA) (hx : MRep (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1T.Native.rootRows 2)
       (x : GL24)) :
     ShapeRkAt 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz]) x := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   obtain ⟨hx1, hx3, hxy, hM, hy1⟩ := moore_data (x := (x : GL24)) hx
   have hpres := (CFSG.Sporadic.SchreierLemmas.moore_alternating_presentation (n := 9)
     (by norm_num) mooreM hM).2.2.2.2.2 (by norm_num) ⟨1, ⟨le_rfl, by norm_num⟩, hy1⟩

@@ -32,8 +32,8 @@ theorem exists_pgl_model [Fact (Nat.Prime 7)] [hXn : Xbar.Normal]
   have hq : ModThree true (7 ^ 1) := by
     change 7 ^ 1 % 3 = 1
     norm_num
-  haveI : Group.IsPerfect ↥Xbar := hset.perfect
-  haveI := isPerfect_projImage_of_equiv e
+  have : Group.IsPerfect ↥Xbar := hset.perfect
+  have := isPerfect_projImage_of_equiv e
   have hna : ∃ a b : ↥Xbar, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -69,7 +69,7 @@ theorem false_of_not_inner (hset : HJCoreSetting Ybar Abar Xbar Rbar abar)
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hXn := Wales1411W.HJInner.normal_X hset
+  have hXn := Wales1411W.HJInner.normal_X hset
   obtain ⟨h7, -⟩ := id hX
   obtain ⟨e, hpgl⟩ := exists_pgl_model hset hX
   have hK : PiField true 7 1 (GaloisField 7 1) :=
@@ -77,8 +77,8 @@ theorem false_of_not_inner (hset : HJCoreSetting Ybar Abar Xbar Rbar abar)
   have hq : ModThree true (7 ^ 1) := by
     change 7 ^ 1 % 3 = 1
     norm_num
-  haveI : Group.IsPerfect ↥Xbar := hset.perfect
-  haveI := isPerfect_projImage_of_equiv e
+  have : Group.IsPerfect ↥Xbar := hset.perfect
+  have := isPerfect_projImage_of_equiv e
   have h2 : (2 : GaloisField 7 1) ≠ 0 := by
     have : CharP (GaloisField 7 1) 7 := inferInstance
     intro h
@@ -136,7 +136,7 @@ theorem false_of_not_inner (hset : HJCoreSetting Ybar Abar Xbar Rbar abar)
       · rw [show (ε * x * ε⁻¹) ^ 2 = ε * x ^ 2 * ε⁻¹ by rw [sq, sq]; group, hx2, mul_one,
           mul_inv_cancel]
     have hΩ1 : Ω ≠ ⊥ := by
-      haveI : Nontrivial ↥W := by
+      have : Nontrivial ↥W := by
         rw [Subgroup.nontrivial_iff_ne_bot]
         exact hW1
       have hZ := hW2.center_nontrivial

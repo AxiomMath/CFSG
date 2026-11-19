@@ -53,7 +53,7 @@ theorem IsOptimalRelPair.a7_structure {p : ℕ} {P : Sylow p G} {M D R T H V : S
   set K : Subgroup ↥H := primeComplementCore (G := ↥H) 3 with hK
   set Dy : Subgroup ↥H := D.subgroupOf H with hDy
   set Vy : Subgroup ↥H := V.subgroupOf H with hVy
-  have hDp : IsPGroup 3 D := P.isPGroup'.to_le hd.ext.obstruction.2.1
+  have hDp : IsPGroup 3 D := P.isPGroup.to_le hd.ext.obstruction.2.1
   have hDy3 : IsPGroup 3 Dy := hDp.of_equiv (Subgroup.subgroupOfEquivOfLe hDH).symm
   have hDcard : Nat.card D = 9 := by
     have := (hd.ext.isElemAbelian_of_isMulCommutative hprime hd.abelian).2

@@ -43,9 +43,9 @@ theorem inL_iff (L : List Nat) (x : Nat) : inL L x = true ↔ x ∈ L := by
     change bIf(Nat.beq a x, true, inL L x) = true ↔ _
     rw [Orb.bIf_eq, List.mem_cons]
     by_cases h : a = x
-    · rw [if_pos (by rw [Nat.beq_eq]; exact h)]
+    · rw [ite_eq_left (by rw [Nat.beq_eq]; exact h)]
       exact iff_of_true rfl (Or.inl h.symm)
-    · rw [if_neg (by rw [Nat.beq_eq]; exact h), ih]
+    · rw [ite_eq_right (by rw [Nat.beq_eq]; exact h), ih]
       exact ⟨Or.inr, fun h' => h'.resolve_left fun e => h e.symm⟩
 
 theorem endsAt_iff (u : List Nat) (i : Nat) : endsAt u i = true ↔ i ∈ u ∧ ∀ a ∈ u, a ≤ i := by
@@ -105,8 +105,8 @@ theorem allRange_get {α : Type} {L : List α} {f : Nat → α → Bool} {lo hi 
     (h : allRange L f lo hi = true) {i : Nat} (hi' : i < L.length) (h1 : lo ≤ i) (h2 : i < hi) :
     f i L[i] = true := by
   have e := (allIx_iff L _ 0).1 h i hi'
-  rw [Nat.zero_add, Orb.bIf_eq (Nat.blt i lo), if_neg (by rw [Nat.blt_eq]; omega),
-    Orb.bIf_eq (Nat.blt i hi), if_pos (by rw [Nat.blt_eq]; exact h2)] at e
+  rw [Nat.zero_add, Orb.bIf_eq (Nat.blt i lo), ite_eq_right (by rw [Nat.blt_eq]; omega),
+    Orb.bIf_eq (Nat.blt i hi), ite_eq_left (by rw [Nat.blt_eq]; exact h2)] at e
   exact e
 
 theorem anyIx_ex {α : Type} {L : List α} {f : Nat → α → Bool} (h : anyIx L f 0 = true) :
@@ -241,7 +241,7 @@ theorem stab_of_maps {P : Equiv.Perm (Fin 360)} {B : List Nat}
     (by simpa using h)
   rw [setStab, MulAction.mem_stabilizer_iff]
   ext y
-  simp only [Set.mem_smul_set, finOfL, Set.mem_setOf_eq, Equiv.Perm.smul_def]
+  simp only [Set.mem_smul_set, finOfL, Set.mem_ofPred_eq, Equiv.Perm.smul_def]
   constructor
   · rintro ⟨z, hz, rfl⟩
     exact h z hz
@@ -263,7 +263,7 @@ theorem stab_of_allN {B : List Nat} {f : Nat → Nat} {P : Equiv.Perm (Fin 360)}
   stab_of_maps fun x hx => by
     have e := Orb.allN_iff.1 h x x.2
     beta_reduce at e
-    rw [Orb.bIf_eq, if_pos ((bit_maskL B x).2 hx), bit_maskL, hf x] at e
+    rw [Orb.bIf_eq, ite_eq_left ((bit_maskL B x).2 hx), bit_maskL, hf x] at e
     exact e
 
 theorem not_stab {B : List Nat} (hB : ∀ x ∈ B, x < 360) {f : Nat → Nat}
@@ -391,7 +391,7 @@ theorem prof_conj {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin 360)} {TAU MM :
       obtain ⟨h1, h2⟩ := tw_sound (LB := LB) hMM hτ W' hW' b hb
       refine ⟨tw TAU W' b, h1, ?_⟩
       rw [h2, e, e', inv_inv]
-      simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel, inv_mul_cancel, mul_one]
+      simp only [mul_assoc, inv_mul_cancel_left, inv_mul_cancel, mul_one]
     · rintro ⟨b, hb, e⟩
       obtain ⟨h1, h2⟩ := tw_sound (LB := LB) hMM hτ W hW b hb
       exact ⟨tw TAU W b, h1, by rw [h2, e]⟩
@@ -424,7 +424,7 @@ theorem witOK_false {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin 360)} (hℓ :
   have hK := pK_eq u ht'
   generalize ((u.map σ).prod) = P at hP hK ho hs hm
   by_cases h1 : Nat.beq tag 1 = true
-  · rw [Orb.bIf_eq (Nat.beq tag 1), if_pos h1, Orb.bAnd_eq, Bool.and_eq_true, notB_eq,
+  · rw [Orb.bIf_eq (Nat.beq tag 1), ite_eq_left h1, Orb.bAnd_eq, Bool.and_eq_true, notB_eq,
       Bool.not_eq_true'] at h
     have hx : x < 360 := by simpa [Nat.blt_eq] using h.1
     have hpo : P ^ nthN PO a = 1 := by
@@ -436,9 +436,9 @@ theorem witOK_false {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin 360)} (hℓ :
       exact e2
     rw [e1, Nat.beq_refl] at h
     exact Bool.noConfusion h.2
-  rw [Orb.bIf_eq (Nat.beq tag 1), if_neg h1] at h
+  rw [Orb.bIf_eq (Nat.beq tag 1), ite_eq_right h1] at h
   by_cases h2 : Nat.beq tag 2 = true
-  · rw [Orb.bIf_eq (Nat.beq tag 2), if_pos h2, Orb.bAnd_eq, Bool.and_eq_true] at h
+  · rw [Orb.bIf_eq (Nat.beq tag 2), ite_eq_left h2, Orb.bAnd_eq, Bool.and_eq_true] at h
     have h1o : 1 < nthN PO a := by simpa [Nat.blt_eq] using h.1
     have hpw : P ^ (Nat.shiftRight (nthN PO a) 1) = 1 := Equiv.ext fun z => Fin.ext (by
       rw [← hK]
@@ -447,33 +447,33 @@ theorem witOK_false {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin 360)} (hℓ :
     rw [ho, Orb.shr_eq, pow_one] at hd
     have := Nat.le_of_dvd (by omega) hd
     omega
-  rw [Orb.bIf_eq (Nat.beq tag 2), if_neg h2] at h
+  rw [Orb.bIf_eq (Nat.beq tag 2), ite_eq_right h2] at h
   by_cases h3 : Nat.beq tag 3 = true
-  · rw [Orb.bIf_eq (Nat.beq tag 3), if_pos h3] at h
+  · rw [Orb.bIf_eq (Nat.beq tag 3), ite_eq_left h3] at h
     simp only [Orb.bAnd_eq, Bool.and_eq_true] at h
     exact not_stab hB hP h.2.1 h.2.2 (hs.2 (Nat.eq_of_beq_eq_true h.1))
-  rw [Orb.bIf_eq (Nat.beq tag 3), if_neg h3] at h
+  rw [Orb.bIf_eq (Nat.beq tag 3), ite_eq_right h3] at h
   by_cases h4 : Nat.beq tag 4 = true
-  · rw [Orb.bIf_eq (Nat.beq tag 4), if_pos h4] at h
+  · rw [Orb.bIf_eq (Nat.beq tag 4), ite_eq_left h4] at h
     simp only [Orb.bAnd_eq, Bool.and_eq_true, notB_eq, Bool.not_eq_true'] at h
     have hps := hs.1 (stab_of_allN hP h.2)
     rw [hps, Nat.beq_refl] at h
     exact Bool.noConfusion h.1
-  rw [Orb.bIf_eq (Nat.beq tag 4), if_neg h4] at h
+  rw [Orb.bIf_eq (Nat.beq tag 4), ite_eq_right h4] at h
   by_cases h5 : Nat.beq tag 5 = true
-  · rw [Orb.bIf_eq (Nat.beq tag 5), if_pos h5] at h
+  · rw [Orb.bIf_eq (Nat.beq tag 5), ite_eq_left h5] at h
     simp only [Orb.bAnd_eq, Bool.and_eq_true, notB_eq, Bool.not_eq_true', Orb.strictB_eq,
       Nat.blt_eq] at h
     obtain ⟨hpm, hx, hY⟩ := h
     have hpm' := hm.1 ⟨x, hx, eq_of_allN (hℓ x hx) hP hY⟩
     rw [hpm', Nat.beq_refl] at hpm
     exact Bool.noConfusion hpm
-  rw [Orb.bIf_eq (Nat.beq tag 5), if_neg h5] at h
+  rw [Orb.bIf_eq (Nat.beq tag 5), ite_eq_right h5] at h
   by_cases h6 : Nat.beq tag 6 = true
-  · rw [Orb.bIf_eq (Nat.beq tag 6), if_pos h6, Orb.bAnd_eq, Bool.and_eq_true] at h
+  · rw [Orb.bIf_eq (Nat.beq tag 6), ite_eq_left h6, Orb.bAnd_eq, Bool.and_eq_true] at h
     obtain ⟨b, hb, e⟩ := hm.2 (Nat.eq_of_beq_eq_true h.1)
     exact sepAll_sound hℓ hP h.2 b hb e
-  rw [Orb.bIf_eq (Nat.beq tag 6), if_neg h6] at h
+  rw [Orb.bIf_eq (Nat.beq tag 6), ite_eq_right h6] at h
   exact Bool.noConfusion h
 
 theorem lOK_sound (hG : GRep G g) {LB : List Nat} {TAU : Nat} {EL TP TC kw : List Nat}
@@ -532,7 +532,7 @@ theorem lOK_sound (hG : GRep G g) {LB : List Nat} {TAU : Nat} {EL TP TC kw : Lis
     ⟨fun a => if ha : a < 168 then wv g (htr a ha).choose * wv g kw * (wv g (htr a ha).choose)⁻¹
       else 1, fun a ha => by
         dsimp only
-        rw [dif_pos ha]
+        rw [dite_eq_left ha]
         exact (htr a ha).choose_spec.2⟩
   have hl0 : ℓ 0 = wv g kw := prep_inj (hℓ 0 (by norm_num)) hP0
   refine ⟨ℓ, hℓ, hl0, fun c hc a ha => ?_, fun a ha => ?_⟩
@@ -641,7 +641,7 @@ theorem tOK_sound {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin 360)} (hℓ : L
     · exact iff_of_false (fun ⟨b, hb, e⟩ => sepAll_sound hℓ hP hM b hb e)
         (fun e => hpm (by rw [e]; rfl))
 
-theorem sOK_sound (hG : GRep G g) {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin 360)}
+theorem sOK_sound (_hG : GRep G g) {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin 360)}
     (hℓ : LRep LB ℓ) {TAU MM : Nat} (hMM : MM < 256)
     (hτ : ∀ c < 8, bit MM c = true → ∀ a < 168,
       tq TAU c a < 168 ∧ ℓ (tq TAU c a) = g c * ℓ a * (g c)⁻¹)
@@ -660,7 +660,6 @@ theorem sOK_sound (hG : GRep G g) {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin
   have hb0 := h 0 hn0
   unfold sOK at hb0
   rw [Orb.strictB_eq] at hb0
-  beta_reduce at hb0
   rw [Orb.bAnd_eq, Bool.and_eq_true, Orb.bAnd_eq, Bool.and_eq_true] at hb0
   obtain ⟨hBc, hroot, -⟩ := hb0
   have hB : ∀ x ∈ B, x < 360 := fun x hx => by
@@ -672,7 +671,6 @@ theorem sOK_sound (hG : GRep G g) {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin
     have e := h (m / 30) (by omega)
     unfold sOK at e
     rw [Orb.strictB_eq] at e
-    beta_reduce at e
     rw [Orb.bAnd_eq, Bool.and_eq_true, Orb.bAnd_eq, Bool.and_eq_true] at e
     exact allRange_get e.2.2 hm (by omega) (by omega)
   have htw := tw_sound (LB := LB) (g := g) hMM hτ
@@ -699,15 +697,14 @@ theorem sOK_sound (hG : GRep G g) {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin
       have hpt : ∀ t < i, nthN pre t = tw TAU W (y t) := fun t ht => by
         rw [← hpr]
         exact nthN_map_range _ ht
-      rw [lenL_eq, hpl, Orb.bIf_eq (Nat.beq i 6), if_neg (by rw [Nat.beq_eq]; omega)] at e
-      simp only [Orb.bAnd_eq, Bool.and_eq_true, lenL_eq, forceMap_eq, hpl] at e
+      rw [lenL_eq, hpl, Orb.bIf_eq (Nat.beq i 6), ite_eq_right (by rw [Nat.beq_eq]; omega)] at e
+      simp only [Orb.bAnd_eq, Bool.and_eq_true, lenL_eq, forceMap_eq] at e
       obtain ⟨-, -, hents, hz, hR⟩ := e
       generalize nthD nd [] 1 = R at hz hR
       generalize tlL (tlL nd) = ents at hents hz
       have hc := htw W hW (y i) (hy i (by omega))
       have e := allZ_get hz (tw TAU W (y i)) (by rw [Nat.eq_of_beq_eq_true hents]; exact hc.1)
       rw [← nthN_getD] at e
-      beta_reduce at e
       rw [Orb.bIf_eq] at e
       split_ifs at e with htag
       · simp only [Bool.and_eq_true] at e
@@ -732,7 +729,6 @@ theorem sOK_sound (hG : GRep G g) {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin
       · exfalso
         refine witOK_false hℓ hB (σ := fun j => ℓ (tw TAU W (y j))) (i := i) ?_ ?_ e
         · intro j hj
-          beta_reduce
           rw [Orb.nIf_eq]
           split_ifs with hji
           · rw [Nat.eq_of_beq_eq_true hji]
@@ -750,7 +746,7 @@ theorem sOK_sound (hG : GRep G g) {LB : List Nat} {ℓ : Nat → Equiv.Perm (Fin
   unfold nodeOK at e
   beta_reduce at e
   rw [hpre, lenL_eq, List.length_map, List.length_range, Orb.bIf_eq (Nat.beq 6 6),
-    if_pos (Nat.beq_refl 6)] at e
+    ite_eq_left (Nat.beq_refl 6)] at e
   simp only [Orb.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at e
   obtain ⟨hj, hw, hpt⟩ := e
   generalize nthN (nthD nd [] 1) 0 = j at hj hpt

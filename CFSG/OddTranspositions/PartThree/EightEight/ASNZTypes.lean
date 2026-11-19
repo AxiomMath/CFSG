@@ -74,6 +74,7 @@ open CFSG.Timmesfeld.Bridge.Asc72 CFSG.Timmesfeld.Connectivity CFSG.OddTransposi
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem starBar_conj_alpha (hC : HypothesisC D) (g q : G) :
     starBar D (hC.conj g).alpha (g * q * g⁻¹) =
       QuotientGroup.congr (CFSG.solvableRadical (Halpha D hC.alpha))
@@ -95,12 +96,14 @@ theorem starBar_conj_alpha (hC : HypothesisC D) (g q : G) :
       exact hq hk
     rw [starBar_of_notMem hq', starBar_of_notMem hq, map_one]
 
+omit [Finite G] in
 theorem starSocle_conj (hC : HypothesisC D) (g : G) :
     (starSocle D hC.alpha).map (QuotientGroup.congr (CFSG.solvableRadical (Halpha D hC.alpha))
       (CFSG.solvableRadical (Halpha D (hC.conj g).alpha)) (conjEquiv hC g)
         (conjRadical_map hC g)).toMonoidHom = starSocle D (hC.conj g).alpha :=
   CFSG.map_monolith _
 
+omit [Finite G] in
 theorem mem_starSocle_conj_iff (hC : HypothesisC D) (g : G)
     (a : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) :
     QuotientGroup.congr (CFSG.solvableRadical (Halpha D hC.alpha))
@@ -113,6 +116,7 @@ theorem mem_starSocle_conj_iff (hC : HypothesisC D) (g : G)
 @[expose] def InnerAt (D ρ : Set G) (t : G) : Prop :=
   ∃ j ∈ starSocle D ρ, ∀ h ∈ Halpha D ρ, starBar D ρ (t * h * t⁻¹) = j * starBar D ρ h * j⁻¹
 
+omit [Finite G] in
 theorem innerAt_conj (hC : HypothesisC D) {t : G} (g : G) (h : InnerAt D hC.alpha t) :
     InnerAt D (hC.conj g).alpha (g * t * g⁻¹) := by
   obtain ⟨j, hj, hall⟩ := h
@@ -124,6 +128,7 @@ theorem innerAt_conj (hC : HypothesisC D) {t : G} (g : G) (h : InnerAt D hC.alph
     group
   rw [e2, starBar_conj_alpha, starBar_conj_alpha, hall k k.2, map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 theorem innerAt_conj_iff (hC : HypothesisC D) {t : G} (g : G) :
     InnerAt D (hC.conj g).alpha (g * t * g⁻¹) ↔ InnerAt D hC.alpha t := by
   refine ⟨fun h => ?_, innerAt_conj hC g⟩
@@ -132,11 +137,13 @@ theorem innerAt_conj_iff (hC : HypothesisC D) {t : G} (g : G) :
     rw [HypothesisC.conj_alpha, HypothesisC.conj_alpha, cimg_inv_cimg]
   rwa [hα, show g⁻¹ * (g * t * g⁻¹) * g⁻¹⁻¹ = t by group] at h'
 
+omit [Finite G] in
 theorem innerAt_conj_iff_of_commute (hC : HypothesisC D) {t g : G} (hg : Commute g t) :
     InnerAt D (hC.conj g).alpha t ↔ InnerAt D hC.alpha t := by
   have h := innerAt_conj_iff hC (t := t) g
   rwa [hg.eq, mul_inv_cancel_right] at h
 
+omit [Finite G] in
 theorem innerAt_cimg_iff_of_commute (hC : HypothesisC D) {ρ : Set G}
     (hρ : ρ ∈ blockClass hC.alpha) {t g : G} (hg : Commute g t) :
     InnerAt D (cimg g ρ) t ↔ InnerAt D ρ t := by
@@ -168,6 +175,7 @@ theorem innerAt_iff_of_not_commute (hC : HypothesisC D) {t d e : G} {ρ ρ' : Se
   rw [← hcimg]
   exact innerAt_cimg_iff_of_commute hC hρ hℓt
 
+omit [Finite G] in
 theorem innerAt_of_starBar_mem {ρ : Set G} {t : G} (ht : t ∈ Halpha D ρ)
     (htJ : starBar D ρ t ∈ starSocle D ρ) : InnerAt D ρ t :=
   ⟨starBar D ρ t, htJ, fun _ hh => starBar_conj ht hh⟩
@@ -178,6 +186,7 @@ theorem mem_centralizer_Halpha_of_mem {ρ : Set G} {b : G} (hb : b ∈ ρ) :
   Subgroup.mem_centralizer_iff.mpr fun _ hh =>
     (Subgroup.mem_centralizer_iff.mp (Halpha_le_centralizer D ρ hh) b hb).symm
 
+omit [Finite G] in
 theorem not_innerAt_mul {ρ : Set G}
     (hcen : Subgroup.centralizer ((starSocle D ρ : Subgroup (Halpha D ρ ⧸
       CFSG.solvableRadical (Halpha D ρ))) : Set (Halpha D ρ ⧸
@@ -346,6 +355,7 @@ theorem StandingAS.not_commute_of_mem_starGamma (h86 : Lemma8_6) (h87 : Theorem8
       hcρ hpτ hc.2.2 hpc).mpr hin)
   exact hSt.not_commute_of_mem_starN h86 h87 hT hn hord hp hc.1 hc.2.1 hpc.symm
 
+omit [Finite G] in
 theorem conj_mem_starN (hC : HypothesisC D) {x w y : G} {n : ℕ} {b s : G}
     (hb : b ∈ starN D hC.alpha (starSigma D x w y n))
     (hs : s ∈ starN D hC.alpha (starSigma D x w y n)) :

@@ -291,10 +291,10 @@ theorem GGResHyp.exists_two_subgroup_of_linMinus_side
   obtain ⟨F, hF, hfin, hchar, g, hg, hC, hCp, s, t, ε, φ,
     -, -, -, hφ, hker, hs, hframe, -, hprod⟩ :=
     exists_frame_of_linMinus_side hH hX hpq hmark
-  letI : Field F := hF
-  letI : Finite F := hfin
-  letI : CharP F 2 := hchar
-  letI : Fact (Irreducible g) := hg
+  let : Field F := hF
+  let : Finite F := hfin
+  let : CharP F 2 := hchar
+  let : Fact (Irreducible g) := hg
   obtain ⟨Q, hQR, hQ1, hQ2, hQN⟩ :=
     CoordSL.exists_isPGroup_two_le_range_normalized_by_frameHom hker 1 ε hC hCp (by omega)
   have hQX : Q ≤ X := hφ ▸ hQR

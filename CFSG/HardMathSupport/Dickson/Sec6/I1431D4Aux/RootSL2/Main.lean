@@ -98,7 +98,7 @@ theorem normalizer_inner {i : Fin Tag.D4.rank} {Φ : ModGL Tag.D4 K}
     (hηJ : (rankOneRep Tag.D4 K i).range.map η.toMonoidHom = (rankOneRep Tag.D4 K i).range) :
     ∃ w ∈ (rankOneRep Tag.D4 K i).range, ∀ y ∈ (rankOneRep Tag.D4 K i).range,
       η y = w * y * w⁻¹ := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   obtain ⟨v, hv, hα⟩ := exists_pairAut_adjust (rankOneRep_ker i) hηJ
   rw [sl2RootX_rankOneRep, sl2RootY_rankOneRep] at hα
   obtain ⟨a, σ, hx, hy, hd⟩ := exists_rankOne_params hα

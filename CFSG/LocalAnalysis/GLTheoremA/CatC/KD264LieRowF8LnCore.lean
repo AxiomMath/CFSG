@@ -212,7 +212,7 @@ theorem core_good_c (D : PieceData E X ρf)
     exact congrArg Subtype.val h
   have hxbar : orderOf (QuotientGroup.mk x : ↥(glueSL hcU phiU).range ⧸
       Subgroup.center ↥(glueSL hcU phiU).range) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · rw [← QuotientGroup.mk_pow, hx3]
       rfl
@@ -233,7 +233,7 @@ theorem core_c {N : ℕ} (hV : Module.finrank (ZMod 2) V = N) (hN : 4 ≤ N)
       (L.subgroupOf (Subgroup.centralizer ({c} : Set (V ≃ₗ[ZMod 2] V)))).Normal ∧
       CFSG.Open.IsQuasisimple L ∧ 3 ∣ Nat.card (L ⧸ Subgroup.center L) := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hge' : 3 ^ (Module.finrank (ZMod 2) V / 2) ≤ Fintype.card E := by
     rw [hV, ← Nat.card_eq_fintype_card]
     exact hge

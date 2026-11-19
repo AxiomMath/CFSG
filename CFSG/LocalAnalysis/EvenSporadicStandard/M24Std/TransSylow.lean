@@ -32,7 +32,7 @@ theorem exists_conj_mem_zpowers {H : Subgroup G} {p : ℕ} [hp : Fact p.Prime]
   have key : ∀ w : H, orderOf w = p → ∀ S : Sylow p H, zpowers w ≤ S →
       (S : Subgroup H) = zpowers w := by
     intro w hw S hS
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 S.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 S.isPGroup
     have hdvd : p ^ k ∣ Nat.card H := hk ▸ Subgroup.card_subgroup_dvd_card (S : Subgroup H)
     have hk1 : k ≤ 1 := by
       by_contra hk1

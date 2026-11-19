@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 def centerOf (L : Subgroup G) : Subgroup G := (Subgroup.center ↥L).map L.subtype
 
+omit [Finite G] in
 theorem mem_centerOf {L : Subgroup G} {z : G} :
     z ∈ centerOf L ↔ z ∈ L ∧ ∀ y ∈ L, y * z = z * y := by
   constructor
@@ -26,10 +27,12 @@ theorem mem_centerOf {L : Subgroup G} {z : G} :
   · rintro ⟨hzL, hz⟩
     exact ⟨⟨z, hzL⟩, Subgroup.mem_center_iff.2 fun g => Subtype.ext (hz g g.2), rfl⟩
 
+omit [Finite G] in
 theorem centerOf_le (L : Subgroup G) : centerOf L ≤ L := fun _ hz => (mem_centerOf.1 hz).1
 
 variable (L : Subgroup G) [L.Normal]
 
+omit [Finite G] in
 theorem conj_mem_centerOf {z : G} (hz : z ∈ centerOf L) (g : G) : g * z * g⁻¹ ∈ centerOf L := by
   rw [mem_centerOf] at hz ⊢
   obtain ⟨hzL, hzc⟩ := hz
@@ -43,9 +46,11 @@ theorem conj_mem_centerOf {z : G} (hz : z ∈ centerOf L) (g : G) : g * z * g⁻
 
 instance centerOf_normal : (centerOf L).Normal := ⟨fun _ hz g => conj_mem_centerOf L hz g⟩
 
+omit [Finite G] in
 theorem comm_mem {e y : G} (hy : y ∈ L) : e * y * e⁻¹ * y⁻¹ ∈ L :=
   L.mul_mem (Subgroup.Normal.conj_mem inferInstance y hy e) (L.inv_mem hy)
 
+omit [L.Normal] [Finite G] in
 theorem comm_mul {e y y' : G} (hy : y ∈ L) (hy' : e * y' * e⁻¹ * y'⁻¹ ∈ centerOf L) :
     e * (y * y') * e⁻¹ * (y * y')⁻¹ = (e * y * e⁻¹ * y⁻¹) * (e * y' * e⁻¹ * y'⁻¹) := by
   set a := e * y' * e⁻¹ * y'⁻¹ with ha
@@ -58,6 +63,8 @@ theorem comm_mul {e y y' : G} (hy : y ∈ L) (hy' : e * y' * e⁻¹ * y'⁻¹ �
     _ = (e * y * e⁻¹) * (y⁻¹ * a) := by rw [hc]
     _ = (e * y * e⁻¹ * y⁻¹) * a := by group
 
+omit [L.Normal] in
+omit [Finite G] in
 theorem comm_inv {e y : G} (hy : y ∈ L) (hy' : e * y * e⁻¹ * y⁻¹ ∈ centerOf L) :
     e * y⁻¹ * e⁻¹ * (y⁻¹)⁻¹ = (e * y * e⁻¹ * y⁻¹)⁻¹ := by
   set a := e * y * e⁻¹ * y⁻¹ with ha
@@ -81,7 +88,7 @@ def Kp (p : ℕ) (e : G) : Subgroup G where
       have hcomm : Commute (e * y * e⁻¹ * y⁻¹) (e * y' * e⁻¹ * y'⁻¹) :=
         (mem_centerOf.1 hy'Z).2 _ (comm_mem L (e := e) hyL)
       rw [hcomm.mul_pow, pow_add, pow_mul, hn, one_pow, one_mul, mul_comm, pow_mul, hn', one_pow]
-  one_mem' := ⟨L.one_mem, by simpa using (centerOf L).one_mem, 0, by simp⟩
+  one_mem' := ⟨L.one_mem, by simp, 0, by simp⟩
   inv_mem' := by
     rintro y ⟨hyL, hyZ, n, hn⟩
     refine ⟨L.inv_mem hyL, ?_, n, ?_⟩
@@ -89,6 +96,7 @@ def Kp (p : ℕ) (e : G) : Subgroup G where
       exact (centerOf L).inv_mem hyZ
     · rw [comm_inv L hyL hyZ, inv_pow, hn, inv_one]
 
+omit [Finite G] in
 theorem conj_mem_Kp {p : ℕ} {e e' y : G} (hee' : e * e' = e' * e) (hy : y ∈ Kp L p e) :
     e' * y * e'⁻¹ ∈ Kp L p e := by
   obtain ⟨hyL, hyZ, n, hn⟩ := hy
@@ -122,6 +130,7 @@ def psiHom (p : ℕ) (e : G) : ↥(Kp L p e) →* G where
     have := comm_mul L (e := e) y.2.1 y'.2.2.1
     simpa only [Subgroup.coe_mul] using this
 
+omit [Finite G] in
 theorem psiHom_ker (p : ℕ) (e : G) :
     (psiHom L p e).ker = ((Subgroup.centralizer ({e} : Set G)) ⊓ L).subgroupOf (Kp L p e) := by
   ext y
@@ -164,6 +173,7 @@ def conjHom (e : G) : ↥(centerOf L) →* ↥(centerOf L) where
   map_one' := Subtype.ext (by simp)
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 theorem conjHom_iterate (e : G) (n : ℕ) (a : ↥(centerOf L)) :
     (((⇑(conjHom L e))^[n] a : ↥(centerOf L)) : G) = e ^ n * a * (e ^ n)⁻¹ := by
   induction n with
@@ -174,6 +184,7 @@ theorem conjHom_iterate (e : G) (n : ℕ) (a : ↥(centerOf L)) :
     rw [ih, pow_succ']
     group
 
+omit [Finite G] in
 theorem nrm_conjHom (e : G) {x : G} (hx : x ∈ L) (hz : e * x * e⁻¹ * x⁻¹ ∈ centerOf L) (n : ℕ) :
     ((nrm (conjHom L e) ⟨e * x * e⁻¹ * x⁻¹, hz⟩ n : ↥(centerOf L)) : G) =
       e ^ n * x * (e ^ n)⁻¹ * x⁻¹ := by
@@ -195,7 +206,7 @@ end Odd
 
 namespace Hyp36
 
-open Odd
+open _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
@@ -204,10 +215,10 @@ theorem mem_mul_centerOf_of_fixed (h : Hyp36 G M p E) (L : Subgroup G) [L.Normal
     (he1 : e ≠ 1) {x : G} (hx : x ∈ L) (hz : e * x * e⁻¹ * x⁻¹ ∈ centerOf L) :
     ∃ m ∈ M ⊓ L, ∃ z ∈ centerOf L, x = m * z := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hep : e ^ p = 1 := h.elem.2 e he
   have hcE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
-    haveI := h.elem.1
+    have := h.elem.1
     intro a ha b hb
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥E) ⟨b, hb⟩)
   let σ := conjHom L e

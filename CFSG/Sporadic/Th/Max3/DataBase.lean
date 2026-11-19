@@ -48,7 +48,7 @@ inductive Gen : Type
   | y : Gen
   deriving DecidableEq
 
-@[expose] def Gen.eval {α : Type} (fx fy : α) : Gen → α
+def Gen.eval {α : Type} (fx fy : α) : Gen → α
   | .x => fx
   | .y => fy
 
@@ -56,36 +56,36 @@ namespace Slp
 
 end Slp
 
-@[expose] def zExp : ℕ := 9
+def zExp : ℕ := 9
 
-@[expose] def qExp : Fin 8 → ℕ := ![6, 6, 6, 7, 6, 4, 6, 7]
+def qExp : Fin 8 → ℕ := ![6, 6, 6, 7, 6, 4, 6, 7]
 
-@[expose] def c : Fin 8 → Fin 8 → ZMod 2 :=
+def c : Fin 8 → Fin 8 → ZMod 2 :=
   ![![0, 1, 1, 0, 0, 1, 0, 0], ![1, 0, 0, 1, 0, 0, 0, 1], ![1, 0, 0, 0, 1, 0, 1, 1],
     ![0, 1, 0, 0, 1, 1, 1, 0], ![0, 0, 1, 1, 0, 0, 0, 1], ![1, 0, 0, 1, 0, 0, 1, 1],
     ![0, 0, 1, 1, 0, 1, 0, 0], ![0, 1, 1, 0, 1, 1, 0, 0]]
 
-@[expose] def xz : Fin 8 → ZMod 2 := ![0, 0, 1, 1, 0, 1, 0, 1]
+def xz : Fin 8 → ZMod 2 := ![0, 0, 1, 1, 0, 1, 0, 1]
 
-@[expose] def xv : Fin 8 → Fin 8 → ZMod 2 :=
+def xv : Fin 8 → Fin 8 → ZMod 2 :=
   ![![0, 1, 0, 0, 0, 0, 0, 0], ![1, 0, 0, 0, 0, 0, 0, 0], ![0, 0, 0, 1, 0, 0, 0, 0],
     ![0, 0, 1, 0, 0, 0, 0, 0], ![0, 0, 0, 0, 0, 0, 1, 0], ![0, 0, 0, 0, 0, 0, 0, 1],
     ![0, 0, 0, 0, 1, 0, 0, 0], ![0, 0, 0, 0, 0, 1, 0, 0]]
 
-@[expose] def yz : Fin 8 → ZMod 2 := ![0, 1, 0, 1, 0, 1, 0, 0]
+def yz : Fin 8 → ZMod 2 := ![0, 1, 0, 1, 0, 1, 0, 0]
 
-@[expose] def yv : Fin 8 → Fin 8 → ZMod 2 :=
+def yv : Fin 8 → Fin 8 → ZMod 2 :=
   ![![0, 1, 0, 0, 0, 0, 0, 0], ![0, 1, 1, 0, 1, 0, 0, 1], ![1, 0, 0, 0, 0, 0, 0, 0],
     ![0, 1, 1, 1, 1, 0, 1, 1], ![0, 0, 1, 0, 0, 0, 0, 0], ![0, 0, 0, 1, 0, 0, 0, 0],
     ![0, 1, 0, 0, 1, 0, 1, 0], ![0, 0, 0, 1, 1, 1, 1, 1]]
 
-@[expose] def B1 : Matrix (Fin 8) (Fin 8) (ZMod 2) := Matrix.of fun i j => xv j i
+def B1 : Matrix (Fin 8) (Fin 8) (ZMod 2) := Matrix.of fun i j => xv j i
 
-@[expose] def B2 : Matrix (Fin 8) (Fin 8) (ZMod 2) := Matrix.of fun i j => yv j i
+def B2 : Matrix (Fin 8) (Fin 8) (ZMod 2) := Matrix.of fun i j => yv j i
 
-@[expose] def B1Cols : Fin 8 → ℕ := ![2, 1, 8, 4, 64, 128, 16, 32]
+def B1Cols : Fin 8 → ℕ := ![2, 1, 8, 4, 64, 128, 16, 32]
 
-@[expose] def B2Cols : Fin 8 → ℕ := ![2, 150, 1, 222, 4, 8, 82, 248]
+def B2Cols : Fin 8 → ℕ := ![2, 150, 1, 222, 4, 8, 82, 248]
 
 theorem B1_eq_testBit : ∀ j i : Fin 8, B1 i j = if (B1Cols j).testBit i then 1 else 0 := by
   decide
@@ -97,55 +97,55 @@ namespace IsRows
 
 end IsRows
 
-@[expose] def powRows (X : Array V4) : ℕ → Array V4
+def powRows (X : Array V4) : ℕ → Array V4
   | 0 => idRows
   | 1 => X
   | n + 2 => mulRows (powRows X (n + 1)) X
 
-@[expose] def prodRows (l : List (Array V4)) : Array V4 := l.foldr mulRows idRows
+def prodRows (l : List (Array V4)) : Array V4 := l.foldr mulRows idRows
 
 theorem prodRows_nil : prodRows [] = idRows := List.foldr_nil
 
-@[expose] def wordRows
+def wordRows
     (rx ry : Array V4) (w : List Gen) : Array V4 :=
   prodRows (w.map (Gen.eval rx ry))
 
-@[expose] def rowsA : Array V4 := rowsOf seedA
+def rowsA : Array V4 := rowsOf seedA
 
-@[expose] def rowsB : Array V4 := rowsOf seedB
+def rowsB : Array V4 := rowsOf seedB
 
 namespace Slp
 
-@[expose] def rowsT3 : Array V4 := mulRows rowsA rowsB
+def rowsT3 : Array V4 := mulRows rowsA rowsB
 
-@[expose] def rowsT4 : Array V4 := mulRows rowsT3 rowsB
+def rowsT4 : Array V4 := mulRows rowsT3 rowsB
 
-@[expose] def rowsT5 : Array V4 := mulRows rowsT3 rowsT4
+def rowsT5 : Array V4 := mulRows rowsT3 rowsT4
 
-@[expose] def rowsT6 : Array V4 := mulRows rowsT3 rowsT5
+def rowsT6 : Array V4 := mulRows rowsT3 rowsT5
 
-@[expose] def rowsT7 : Array V4 := mulRows rowsA rowsT6
+def rowsT7 : Array V4 := mulRows rowsA rowsT6
 
-@[expose] def rowsT8 : Array V4 := mulRows rowsT6 rowsA
+def rowsT8 : Array V4 := mulRows rowsT6 rowsA
 
-@[expose] def rowsU : Array V4 := mulRows (powRows rowsT8 2) rowsT7
+def rowsU : Array V4 := mulRows (powRows rowsT8 2) rowsT7
 
-@[expose] def rowsS8 : Array V4 := mulRows rowsT6 rowsT5
+def rowsS8 : Array V4 := mulRows rowsT6 rowsT5
 
-@[expose] def rowsS9 : Array V4 := mulRows rowsT3 rowsS8
+def rowsS9 : Array V4 := mulRows rowsT3 rowsS8
 
-@[expose] def rowsS10 : Array V4 := mulRows rowsS9 rowsT4
+def rowsS10 : Array V4 := mulRows rowsS9 rowsT4
 
-@[expose] def rowsS7 : Array V4 := mulRows rowsA rowsS10
+def rowsS7 : Array V4 := mulRows rowsA rowsS10
 
-@[expose] def rowsS8' : Array V4 := mulRows rowsS10 rowsA
+def rowsS8' : Array V4 := mulRows rowsS10 rowsA
 
-@[expose] def rowsV : Array V4 := mulRows (powRows rowsS8' 18) rowsS7
+def rowsV : Array V4 := mulRows (powRows rowsS8' 18) rowsS7
 
 end Slp
 
-@[expose] def rowsX : Array V4 := powRows Slp.rowsV 14
+def rowsX : Array V4 := powRows Slp.rowsV 14
 
-@[expose] def rowsY : Array V4 := mulRows Slp.rowsT7 (powRows Slp.rowsU 9)
+def rowsY : Array V4 := mulRows Slp.rowsT7 (powRows Slp.rowsU 9)
 
 end CFSG.Sporadic.Th.Max3

@@ -78,10 +78,10 @@ theorem card_inf_centralizer_of_isPlusExtraspecial {C : Type} [Group C] {Q : Sub
     have hc := hQ.2.1
     norm_num at hc ⊢
     exact hc
-  haveI : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcomm : _root_.commutator ↥Q ≤ Subgroup.center ↥Q := by
     rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
-    haveI := hExt.quotient_elementary_abelian
+    have := hExt.quotient_elementary_abelian
     infer_instance
   have ha_not_cent : (⟨q, hqQ⟩ : ↥Q) ∉ Subgroup.center ↥Q := by
     intro hmem

@@ -47,7 +47,7 @@ private theorem surjective_kDotPLinear :
     rw [NoOffRest.kDotP, Finset.sum_eq_single (0 : Fin Tag.E6.rank)]
     · simp [NoOffRest.kE6]
     · intro j _ hj
-      simp [Pi.single_apply, hj]
+      simp [hj]
     · intro h
       exact absurd (Finset.mem_univ _) h
   rw [h1, mul_one]
@@ -72,7 +72,7 @@ private theorem exists_coeff_of_forall_hypE6 {γ δ : Fin Tag.E6.rank → ℤ}
       NoOffRest.kDotP 3 x = 0 → KGL.rootPair γ x = 0 → KGL.rootPair δ x = 0) :
     ∃ a b : ZMod 3, ∀ j, ((δ j : ℤ) : ZMod 3) =
       a * ((γ j : ℤ) : ZMod 3) + b * ((NoOffRest.kE6 j : ℤ) : ZMod 3) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let L : Fin 2 → (Fin Tag.E6.rank → ZMod 3) →ₗ[ZMod 3] ZMod 3 :=
     ![rootPairLinear γ, rootPairLinear NoOffRest.kE6]
   have hle : ⨅ i, LinearMap.ker (L i) ≤ LinearMap.ker (rootPairLinear δ) := by
@@ -183,7 +183,7 @@ theorem card_fix_excRefl_mul_three
     Nat.card {x : Fin Tag.E6.rank → ZMod 3 //
         x ∈ V ∧ ExcSplitRootGen.excRefl (p := 3) γ x = x} * 3 = Nat.card V := by
   rcases hV with rfl | rfl
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hcard : Nat.card {x : Fin Tag.E6.rank → ZMod 3 //
         x ∈ (Set.univ : Set (Fin Tag.E6.rank → ZMod 3)) ∧
           ExcSplitRootGen.excRefl (p := 3) γ x = x} =
@@ -213,7 +213,7 @@ theorem eq_or_eq_neg_of_eqOn_excRefl
     {γ δ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ) (hδ : IsRoot Tag.E6 δ)
     (h : ∀ x ∈ V, ExcSplitRootGen.excRefl (p := 3) γ x = ExcSplitRootGen.excRefl δ x) :
     δ = γ ∨ δ = -γ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hsum : ∀ x ∈ V, (∑ j, ((γ j : ℤ) : ZMod 3) * x j) = 0 →
       (∑ j, ((δ j : ℤ) : ZMod 3) * x j) = 0 := by
     intro x hx hγx
@@ -238,7 +238,7 @@ theorem eq_or_eq_neg_of_forall_mem_sum_eq_zero
     (h : ∀ x ∈ V, ∑ j, (γ j : ZMod 3) * x j = 0 → ∑ j, (δ j : ZMod 3) * x j = 0) :
     δ = γ ∨ δ = -γ := by
   rcases hV with rfl | rfl
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact ExcSplitRootGen.eq_or_eq_neg_of_forall_sum_eq_zero (τ := Tag.E6) (p := 3)
       (Or.inl rfl) (by norm_num : (3 : ℕ) ≠ 2) hγ hδ
       (fun x hx => h x (Set.mem_univ x) hx)

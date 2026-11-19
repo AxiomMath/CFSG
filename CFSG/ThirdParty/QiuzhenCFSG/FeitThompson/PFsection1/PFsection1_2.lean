@@ -162,7 +162,7 @@ public theorem proposition_1_2
     (hg : H ⊓ Subgroup.centralizer ({g} : Set G) = ⊥) :
     ρ.character g = 0 := by
   classical
-  letI : Fintype ↥H := Fintype.ofFinite ↥H
+  let : Fintype ↥H := Fintype.ofFinite ↥H
   have hInv : Representation.invariants (ρ.comp H.subtype) = ⊥ :=
     invariants_eq_bot_of_nontrivial ρ H hHker
   have hnorm : Representation.norm (ρ.comp H.subtype) = 0 :=

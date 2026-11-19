@@ -15,7 +15,7 @@ private theorem isExtraspecial_quotient_aux {R : Type*} [Group R] [Finite R] {N 
     (hker : ∀ x : R, (∀ p : R, ⁅x, p⁆ ∈ N) → x ∈ B) :
     ∃ _ : N.Normal, IsExtraspecialPGroup 2 (R ⧸ N) := by
   have hNn : N.Normal := Subgroup.normal_of_le_center (hNB.trans hBc)
-  haveI := hNn
+  have := hNn
   refine ⟨hNn, ?_⟩
   set π : R →* R ⧸ N := QuotientGroup.mk' N with hπ
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective N
@@ -43,8 +43,8 @@ private theorem isExtraspecial_quotient_aux {R : Type*} [Group R] [Finite R] {N 
     have h := map_commutator_eq π
     rw [hrange] at h
     rw [commutator_def, ← h, hcomm]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 (R ⧸ N)) := ⟨hR2.to_quotient N⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 (R ⧸ N)) := ⟨hR2.to_quotient N⟩
   have hF : frattini (R ⧸ N) = B.map π := by
     rw [frattini_eq_closure_commutator_union_powers (p := 2), hC]
     apply Subgroup.closure_eq_of_le

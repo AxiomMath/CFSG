@@ -16,6 +16,7 @@ section Finite
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem parabolic_le_sup (L1 L2 S : Subgroup G) : L1 ⊔ bigB L1 L2 S ≤ L1 ⊔ L2 ⊔ S := by
   unfold bigB borelOf
   refine sup_le (le_sup_left.trans le_sup_left) (sup_le (sup_le ?_ ?_) le_sup_right)

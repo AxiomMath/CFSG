@@ -39,7 +39,7 @@ theorem certificate89023 :
   · rw [hsyl, List.size_toArray]
     exact hlen
   · rw [hsyl]
-    simp only [List.toList_toArray]
+    simp only
     rw [kzeroKey_eq]
     exact nodup_map_of_posOK (replay_facts hr).1
   · rw [kzeroUFix_eq]

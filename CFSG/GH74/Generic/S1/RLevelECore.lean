@@ -157,7 +157,7 @@ theorem odd_index_of_counts {G : Type} [Group G] [Finite G] (hG : Gen4 G) {x : G
       (QuotientGroup.eq_one_iff _).1 hπ
     exact Subtype.ext (eq_one_of_mem_sylow_of_mem_pPrimeCore S s.2 hmem)
   have hTbar2 : IsPGroup 2 ↥f.range := by
-    have : IsPGroup 2 ↥(S : Subgroup ↥(centralizer ({x} : Set G))) := S.isPGroup'
+    have : IsPGroup 2 ↥(S : Subgroup ↥(centralizer ({x} : Set G))) := S.isPGroup
     exact this.of_equiv (MonoidHom.ofInjective hfinj)
   have hcard1 : Nat.card ↥f.range = Nat.card (S : Subgroup ↥(centralizer ({x} : Set G))) :=
     (Nat.card_congr (MonoidHom.ofInjective hfinj).toEquiv).symm

@@ -35,11 +35,11 @@ theorem IsSimilarity.conj_target {β : ↥(stabilizer G x) ≃* ↥(stabilizer G
       ∀ g : ↥(stabilizer G x),
         ((β' g : ↥(stabilizer Gb xb)) : Gb) = j⁻¹ * ((β g : ↥(stabilizer Gb xb)) : Gb) * j :=
     ⟨β.trans (MulAut.conj ((⟨j, hjx⟩ : ↥(stabilizer Gb xb))⁻¹)), fun g => by
-      simp [MulAut.conj_apply]⟩
+      simp⟩
   obtain ⟨ζ', hζ'⟩ : ∃ ζ' : ↥I ≃* ↥Ib,
       ∀ g : ↥I, ((ζ' g : ↥Ib) : Gb) = j⁻¹ * ((ζ g : ↥Ib) : Gb) * j :=
     ⟨ζ.trans (MulAut.conj ((⟨j, hjI⟩ : ↥Ib)⁻¹)), fun g => by
-      simp [MulAut.conj_apply]⟩
+      simp⟩
   refine ⟨β', ζ', ?_, ?_, ?_, ?_⟩
   ·
     refine (map_subgroupOf_eq_iff _ _ _).mpr ?_

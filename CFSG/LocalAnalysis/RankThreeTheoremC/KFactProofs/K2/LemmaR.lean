@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {Y Q : Subgroup G}
 
 theorem lr_exists_orderOf_three {X : Type*} [Group X] [Finite X] {A : Subgroup X}
     (hA : IsPGroup 3 A) (hne : A ≠ ⊥) : ∃ a ∈ A, orderOf a = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card A :=
     hA.card_eq_or_dvd.resolve_left fun h => hne (Subgroup.card_eq_one.mp h)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
@@ -34,7 +34,7 @@ theorem lr_one_le_pRank {X : Type*} [Group X] [Finite X] {S : Subgroup X}
 theorem lr_lt_pRank_of_card {X : Type*} [Group X] [Finite X] {E H : Subgroup X}
     (hE : IsElemAbelian 3 E) (hEH : E ≤ H) {k : ℕ} (hk : 3 ^ k < Nat.card E) :
     k + 1 ≤ CFSG.Open.pRank 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := hE.isPGroup.exists_card_eq
   have hkm : k < m := by
     rw [hm] at hk
@@ -44,9 +44,9 @@ theorem lr_lt_pRank_of_card {X : Type*} [Group X] [Finite X] {E H : Subgroup X}
 theorem lr_exists_central (hQ : IsPGroup 3 Q) {T : Subgroup G} (hTQ : T ≤ Q)
     (hTn : Q ≤ normalizer (T : Set G)) (hT : T ≠ ⊥) :
     ∃ z ∈ T, orderOf z = 3 ∧ ∀ q ∈ Q, q * z = z * q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
-  haveI hnorm : (T.subgroupOf Q).Normal :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent Q := hQ.isNilpotent
+  have hnorm : (T.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTQ).mpr hTn
   have hne : T.subgroupOf Q ≠ ⊥ := by
     intro hbot
@@ -66,7 +66,7 @@ theorem lr_exists_central (hQ : IsPGroup 3 Q) {T : Subgroup G} (hTQ : T ≤ Q)
 
 theorem K2Setup.normalizer_le_of_normal (h : K2Setup G Y Q) {T : Subgroup G} (hTQ : T ≤ Q)
     (hTn : Q ≤ normalizer (T : Set G)) (hT : T ≠ ⊥) : normalizer (T : Set G) ≤ Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases h2 : 2 ≤ CFSG.Open.pRank 3 T
   · exact h.y1 T hTQ h2
   obtain ⟨z, hzT, hz3, hzc⟩ := lr_exists_central h.pgroup hTQ hTn hT
@@ -135,7 +135,7 @@ theorem K2Setup.normalizer_le_of_normal (h : K2Setup G Y Q) {T : Subgroup G} (hT
 
 theorem K2Setup.not_normal_le (h : K2Setup G Y Q) {N : Subgroup G} (hN : N.Normal)
     (h3 : 3 ∣ Nat.card N) (hNY : N ≤ Y) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQtop : CFSG.ABGLocalTools.IsSylowOf 3 Q ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     refine ⟨le_top, h.pgroup, ?_⟩
@@ -156,7 +156,7 @@ theorem K2Setup.not_normal_le (h : K2Setup G Y Q) {N : Subgroup G} (hN : N.Norma
     rwa [inf_comm] at this
   have hR := h.normalizer_le_of_normal inf_le_left hTn hTne
   obtain ⟨S, hS⟩ := hT
-  haveI := hN
+  have := hN
   have hfrat := Sylow.normalizer_sup_eq_top S
   rw [hS] at hfrat
   have hle : (⊤ : Subgroup G) ≤ Y := by

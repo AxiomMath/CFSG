@@ -117,7 +117,7 @@ theorem refl_eq_rK {M Ma : Mat6} {c : ZMod 3} {d : Vec6}
     rw [hN_def]
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.vecMulVec_mul_vecMulVec,
       Matrix.vecMulVec_smul, ha_h₁, ha_y, hb_y, Matrix.vecMulVec_zero,
-      one_smul, zero_smul, add_zero, zero_add]
+      one_smul, zero_smul, add_zero]
   have hb_eq : vecMulVec (kY c) b = (b ⬝ᵥ h₁) • vecMulVec (kY c) a := by
     have h1 : N = vecMulVec h₁ a + (b ⬝ᵥ h₁) • vecMulVec (kY c) a := by
       rw [← hNN, hNN_exp]

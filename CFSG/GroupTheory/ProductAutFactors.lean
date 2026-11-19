@@ -70,8 +70,8 @@ theorem le_fst_of_normal_of_card_eq [Group A] [Group B] [Finite A] [Finite B]
     (hMnormal : M.Normal) (hMsimple : IsSimpleGroup M)
     (hMcard : Nat.card M = Nat.card A) :
     M ≤ (⊤ : Subgroup A).prod (⊥ : Subgroup B) := by
-  letI : M.Normal := hMnormal
-  letI : IsSimpleGroup M := hMsimple
+  let : M.Normal := hMnormal
+  let : IsSimpleGroup M := hMsimple
   let q : M →* B := (MonoidHom.snd A B).comp M.subtype
   have hq : q = 1 := by
     rcases (MonoidHom.normal_ker q).eq_bot_or_eq_top with hker | hker
@@ -102,8 +102,8 @@ theorem le_snd_of_normal_of_card_eq [Group A] [Group B] [Finite A] [Finite B]
     (hMnormal : M.Normal) (hMsimple : IsSimpleGroup M)
     (hMcard : Nat.card M = Nat.card B) :
     M ≤ (⊥ : Subgroup A).prod (⊤ : Subgroup B) := by
-  letI : M.Normal := hMnormal
-  letI : IsSimpleGroup M := hMsimple
+  let : M.Normal := hMnormal
+  let : IsSimpleGroup M := hMsimple
   let p : M →* A := (MonoidHom.fst A B).comp M.subtype
   have hp : p = 1 := by
     rcases (MonoidHom.normal_ker p).eq_bot_or_eq_top with hker | hker

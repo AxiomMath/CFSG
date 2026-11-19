@@ -128,13 +128,13 @@ theorem f4Omega_ne_zero : f4Omega ≠ 0 := by
   intro h
   have hsq := f4Omega_sq
   rw [h] at hsq
-  exact (one_ne_zero : (1 : F4) ≠ 0) (by simpa using hsq)
+  exact (one_ne_zero : (1 : F4) ≠ 0) (by simp at hsq)
 
 theorem f4Omega_ne_one : f4Omega ≠ 1 := by
   intro h
   have hsq := f4Omega_sq
   rw [h] at hsq
-  exact (one_ne_zero : (1 : F4) ≠ 0) (by simpa [CharTwo.add_self_eq_zero] using hsq)
+  exact (one_ne_zero : (1 : F4) ≠ 0) (by simp [CharTwo.add_self_eq_zero] at hsq)
 
 theorem f4Omega_pow_three : f4Omega ^ 3 = 1 := by
   linear_combination (f4Omega - 1) * f4Omega_sq

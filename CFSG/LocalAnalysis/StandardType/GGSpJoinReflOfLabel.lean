@@ -36,7 +36,7 @@ theorem ggWeylJoin_typeB {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 4 ≤ 
     (hind : ∀ φ ∈ AL ⊔ R, φ ∈ ggInduced ⊤ Bs)
     (hW : GGWeylReflectionGroup p (AL ⊔ R)) :
     GGWeylOfType p (CoxeterMatrix.B (n + 1)) (AL ⊔ R) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn3 : 3 ≤ n := by omega
   have hAL : AL ≤ AL ⊔ AK := le_sup_left
   have hAK : AK ≤ AL ⊔ AK := le_sup_right
@@ -52,8 +52,8 @@ theorem ggWeylJoin_typeB {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 4 ≤ 
     rw [hrank] at h
     exact (Nat.pow_le_pow_iff_right hp.one_lt).mp h
   obtain ⟨V, _, _, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hBs
-  haveI : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ιV.toEquiv)
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ιV.toEquiv)
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod p) V = n + 1 := by
     have h1 : Nat.card V = p ^ (n + 1) := by rw [← card_eq_of_ggLin ιV, hrank]
     have h2 := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)

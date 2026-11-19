@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem eq_of_perfect_of_two_power {K N : Subgroup G} (hK : ⁅K, K⁆ = K) (hNK : N ≤ K)
     (hN : (N.subgroupOf K).Normal) (hx : ∀ x ∈ K, ∃ k : ℕ, x ^ 2 ^ k ∈ N) : N = K := by
-  haveI := hN
+  have := hN
   set π : K →* K ⧸ N.subgroupOf K := QuotientGroup.mk' _
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hP : IsPGroup 2 (K ⧸ N.subgroupOf K) := by
@@ -44,8 +44,8 @@ theorem eq_of_perfect_of_two_power {K N : Subgroup G} (hK : ⁅K, K⁆ = K) (hNK
     have h := Subgroup.map_commutator (H₁ := (⊤ : Subgroup K)) (H₂ := (⊤ : Subgroup K)) π
     rw [hKtop, hπt] at h
     exact h.symm
-  haveI : Group.IsSolvable (K ⧸ N.subgroupOf K) := by
-    haveI := hP.isNilpotent
+  have : Group.IsSolvable (K ⧸ N.subgroupOf K) := by
+    have := hP.isNilpotent
     infer_instance
   have hsub : Subsingleton (K ⧸ N.subgroupOf K) := by
     by_contra hns
@@ -99,7 +99,7 @@ theorem K_le_H₀ (c : NFConfig G T M L D H K) : K ≤ H ⊔ D :=
   CFSG.Quasithin.le_of_mem_cComp c.K_comp
 
 theorem conjClosure_le_H₀ (c : NFConfig G T M L D H K) : conjClosure K T ≤ H ⊔ D :=
-  CFSG.Quasithin.conjClosure_le fun t ht k hk =>
+  CFSG.Quasithin.conjClosure_le fun _t ht _k hk =>
     Subgroup.mul_mem _ (Subgroup.mul_mem _ (T_le_H₀ c ht) (K_le_H₀ c hk))
       (Subgroup.inv_mem _ (T_le_H₀ c ht))
 
@@ -110,6 +110,7 @@ theorem conjClosure_le_normalizer_K (c : NFConfig G T M L D H K) :
     CFSG.Quasithin.map_conj_mem_cComp c.K_comp (T_le_H₀ c ht)
   exact CFSG.Quasithin.le_normalizer_of_mem_cComp c.K_comp h1 ⟨k, hk, rfl⟩
 
+omit [Finite G] in
 theorem sup_le_normalizer_conjClosure (K T : Subgroup G) :
     conjClosure K T ⊔ T ≤ Subgroup.normalizer (conjClosure K T : Set G) :=
   sup_le Subgroup.le_normalizer (CFSG.Quasithin.le_normalizer_conjClosure K T)
@@ -118,7 +119,7 @@ theorem pCoreOf_conjClosure_le_H₀ (c : NFConfig G T M L D H K) (h37 : A37ForSQ
     (h38 : A38ForSQTKCat) : pCoreOf 2 (conjClosure K T) ≤ pCoreOf 2 (H ⊔ D) :=
   CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
     ((CFSG.LieType.BorelTits.pCoreOf_le 2 (conjClosure K T)).trans (conjClosure_le_H₀ c))
-    (fun g hg => CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 (conjClosure K T)
+    (fun _g hg => CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 (conjClosure K T)
       (c.H₀_le_normalizer h37 h38 hg))
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (conjClosure K T))
 
@@ -143,6 +144,7 @@ theorem commutator_mem_pCoreOf_H₀ (c : NFConfig G T M L D H K) (h37 : A37ForSQ
     CFSG.Quasithin.H13.inf_pCoreOf_le (H₀ := conjClosure K T ⊔ T) le_sup_left ⟨h4, h2⟩
   exact pCoreOf_conjClosure_le_H₀ c h37 h38 h5
 
+omit [Finite G] in
 theorem mem_pCore_subtype {H' : Subgroup G} {g : G} (hg : g ∈ pCoreOf 2 H') (hgH : g ∈ H') :
     (⟨g, hgH⟩ : ↥H') ∈ CFSG.pCore 2 ↥H' := by
   have hg' : g ∈ (CFSG.pCore 2 ↥H').map H'.subtype := hg

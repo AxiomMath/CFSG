@@ -21,7 +21,7 @@ theorem dvd_exponent_of_dvd_outer_primeFormP {p f n : ℕ} {K : Type} [Field K]
       (((1 : GL (Fin n) K) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)))) : p ∣ f := by
   classical
   have hp := h.prime
-  haveI := h.finite
+  have := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   obtain ⟨-, -, -, -, -, -, hsurj, hker, -, hinn, hcard⟩ :=
     unitary_prime_form_full_semilinear_realization h hC hn hq
@@ -61,7 +61,7 @@ theorem kdRank3Field_twistedA (r : ℕ) (q : PrimePower) (hv : (LieTypeIndex.twi
   obtain ⟨⟨hℓ, hf, hn, hq⟩, K, _, _, hK, ⟨eT⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
   have h : UnitaryFieldData q.p q.exponent K := ⟨hℓ, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI := h.finite
+  have := h.finite
   let eU : S ≃* unitaryPSU h (r + 1) := eT.trans (unitaryPSUEquiv h (by omega)).symm
   have hp3 : 3 ≤ q.p := by
     have := q.prime_p.two_le

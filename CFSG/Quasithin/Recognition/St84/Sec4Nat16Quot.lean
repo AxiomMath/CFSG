@@ -31,7 +31,7 @@ private theorem Setup.a5Pre_Q_of_normal (X : Setup Γ G) (hc : CharTwoStab (V :=
     (hA : X.Gi i ≤ Subgroup.normalizer
       ((X.Q (i - 1) ⊓ X.Q (i + 1) : Subgroup G) : Set G)) :
     A5Pre (X.Gi i) (X.L i) (X.Q i) (X.Q (i - 1) ⊓ X.Q (i + 1)) := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   set A : Subgroup G := X.Q (i - 1) ⊓ X.Q (i + 1) with hAdef
   have hQ := X.Q_quot hc hs h4 i
   have hQcomm := X.Q_quot_comm hc hs h4 i
@@ -83,7 +83,7 @@ private theorem Setup.four_le_relIndex_relCent_edgeSylow (X : Setup Γ G)
     (hquad : ⁅⁅X.Q i, X.edgeSylow i⁆, X.edgeSylow i⁆ ≤ X.Q (i - 1) ⊓ X.Q (i + 1)) :
     4 ≤ (X.Q (i - 1) ⊓ X.Q (i + 1)).relIndex
       (relCent (X.Q i) (X.Q (i - 1) ⊓ X.Q (i + 1)) (X.edgeSylow i)) := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   set A : Subgroup G := X.Q (i - 1) ⊓ X.Q (i + 1) with hAdef
   have hQ := X.Q_quot hc hs h4 i
   have hQcomm := X.Q_quot_comm hc hs h4 i
@@ -130,10 +130,10 @@ private theorem Setup.four_le_relIndex_relCent_edgeSylow (X : Setup Γ G)
     have heD : e ∈ C ⊔ A := by rwa [← hD]
     exact (mem_relCent hQnormA).mpr ⟨he.1, fun s hs =>
       (Subgroup.commutator_le.mp h3) e heD s hs⟩
-  haveI hQfin : Finite ↥(X.Q i) :=
+  have hQfin : Finite ↥(X.Q i) :=
     Finite.of_injective (Subgroup.inclusion (X.Q_le_Gi i))
       (Subgroup.inclusion_injective _)
-  haveI hrelfin : Finite ↥(relCent (X.Q i) A (X.edgeSylow i)) :=
+  have hrelfin : Finite ↥(relCent (X.Q i) A (X.edgeSylow i)) :=
     Finite.of_injective (Subgroup.inclusion (fun x hx => ((mem_relCent hQnormA).mp hx).1))
       (Subgroup.inclusion_injective _)
   have hxne : (X.Q i ⊓ X.Q (i + 1)).relIndex (relCent (X.Q i) A (X.edgeSylow i)) ≠ 0 :=
@@ -152,7 +152,7 @@ theorem Setup.natQuot_Q_of_normal (X : Setup Γ G)
       ((X.Q (i - 1) ⊓ X.Q (i + 1) : Subgroup G) : Set G))
     (hquad : ⁅⁅X.Q i, X.edgeSylow i⁆, X.edgeSylow i⁆ ≤ X.Q (i - 1) ⊓ X.Q (i + 1)) :
     NatQuot (X.L i) (X.Q i) (X.Q (i - 1) ⊓ X.Q (i + 1)) 2 := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   exact natQuot_of_four_le (X.a5Pre_Q_of_normal hc hs h4 i hni hn1 hA)
     (le_oTwoPrime_of_isPGroup (pCoreOf_isPGroup' (X.Gi i)) (X.Q_le_Gi i))
     (X.isSylowTwoOf_edgeSylow_L i)

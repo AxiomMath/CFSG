@@ -63,7 +63,7 @@ theorem not_le_of_le_sup_centralizer (h : ReducedNongeneration p X R X₀) {K : 
   have hp : p.Prime := Fact.out
   set T : Subgroup X := (R : Subgroup X) ⊓ K
   have hT2 : 2 ≤ Open.pRank p T :=
-    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup'.to_le inf_le_left) hnc
+    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup.to_le inf_le_left) hnc
   have hCR : Subgroup.centralizer (K : Set X) ≤ (R : Subgroup X) :=
     IsPGroup.le_sylow_of_normal hCp R
   have hRle : (R : Subgroup X) ≤ T ⊔ ((R : Subgroup X) ⊓ Subgroup.centralizer (T : Set X)) := by

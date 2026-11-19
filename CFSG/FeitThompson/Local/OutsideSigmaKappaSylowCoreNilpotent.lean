@@ -67,7 +67,7 @@ theorem isSylowSubgroupOf_ne_bot [Finite G] {p : ℕ} (hp : p.Prime) {M P : Subg
 theorem isPGroup_of_isSylowSubgroupOf {p : ℕ} {M P : Subgroup G} (hP : IsSylowIn p M P) :
     IsPGroup p ↥P := by
   obtain ⟨S, rfl⟩ := hP
-  exact S.isPGroup'.map M.subtype
+  exact S.isPGroup.map M.subtype
 
 theorem exists_sylow_isCyclic_of_isSylowSubgroupOf {p : ℕ} {M P : Subgroup G}
     (hP : IsSylowIn p M P) (hcyc : IsCyclic ↥P) :

@@ -79,7 +79,7 @@ lemma CFSG.comap_sSup {G : Type*} [Group G] (φ : G ≃* G) (S : Set (Subgroup G
 lemma CFSG.comap_comap_eq_id {G : Type*} [Group G] (φ : G ≃* G) (N : Subgroup G) :
     (N.comap φ.toMonoidHom).comap φ.symm.toMonoidHom = N := by
   ext x
-  simp only [MulEquiv.toMonoidHom_eq_coe, Subgroup.mem_comap, MonoidHom.coe_coe,
+  simp only [MulEquiv.toMonoidHom_eq_coe, Subgroup.mem_comap, _root_.MonoidHom.coe_ofClass,
     MulEquiv.apply_symm_apply]
 
 lemma CFSG.comap_mem_normalNilpotentSubgroups {G : Type*} [Group G] {N : Subgroup G}

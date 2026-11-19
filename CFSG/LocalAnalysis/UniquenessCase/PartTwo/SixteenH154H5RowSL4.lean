@@ -36,8 +36,8 @@ theorem s16h_H5_row_SL2_four_rank [Finite W] {A L : Subgroup (MulAut W)} {t : Mu
   intro q hq hq2 E hE hEab
   obtain ⟨K, hKf, hKfin, hKcard, D, hDN, hD, hcard⟩ :=
     s16h_H5_row_SL2_four_bridge hc h hq hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   rw [← hcard]
   exact s16h_H5_natNorm_statedSL_two_four_elemAbelian (K := K) (D := D) hKcard hq hq2 hDN hD
 

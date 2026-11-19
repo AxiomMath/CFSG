@@ -161,7 +161,7 @@ theorem not_three_dvd_card_of_mem_thetaComponents_of_isSolvable {H : Type} [Grou
       rw [hgker, Subgroup.range_subtype]
     have : Group.IsSolvable ↥(f.ker.subgroupOf K) := hker_solvable
     have : Group.IsSolvable ↥(K.map f) := hKmap_solvable
-    exact solvable_of_ker_le_range (Subgroup.subtype _) g hle
+    exact Group.isSolvable_of_ker_le_range (Subgroup.subtype _) g hle
   have hKQ_eq : K.map (QuotientGroup.mk' θ) = CFSG.GH74.GLS.oPrimeResidual 3 (↥J ⧸ θ) :=
     CFSG.GH74.GLS.Stage1.Thm6.Prod.map_oPrimeResidual _ (QuotientGroup.mk'_surjective _)
       (by norm_num)
@@ -183,7 +183,7 @@ theorem not_three_dvd_card_of_mem_thetaComponents_of_isSolvable {H : Type} [Grou
         (P : Subgroup (↥J ⧸ θ)) ≤ Subgroup.center (↥J ⧸ θ) := by
       intro P x hx
       have hx3 : x ∈ CFSG.GH74.GLS.oPrimeResidual 3 (↥J ⧸ θ) := by
-        have hx_pgroup : IsPGroup 3 ↥(P : Subgroup (↥J ⧸ θ)) := P.isPGroup'
+        have hx_pgroup : IsPGroup 3 ↥(P : Subgroup (↥J ⧸ θ)) := P.isPGroup
         obtain ⟨k, hk⟩ := hx_pgroup ⟨x, hx⟩
         exact Subgroup.subset_closure ⟨k, by simpa using congrArg Subtype.val hk⟩
       exact hcenter hx3

@@ -154,8 +154,7 @@ theorem linearIndependent_cyc {B : GL (Fin 6) F4} {c : F4ˣ} (hc : c ≠ 1)
   rw [Fintype.linearIndependent_iff]
   intro g hg
   rw [Fin.sum_univ_three] at hg
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_fin_one,
-    Matrix.head_cons, Matrix.tail_cons] at hg
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons] at hg
   have e1 := congrArg (M *ᵥ ·) hg
   simp only [Matrix.mulVec_add, Matrix.mulVec_smul, Matrix.mulVec_zero] at e1
   have e2 := congrArg (M *ᵥ ·) e1

@@ -24,7 +24,7 @@ private lemma eq_zpowers_of_card_eq_three {T : Subgroup X} {z : X}
     (hrk : CFSG.Open.pRank 3 T ≤ 1) {B : Subgroup X} (hBT : B ≤ T)
     (hBcard : Nat.card B = 3) :
     B = Subgroup.zpowers z := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hT₁card : Nat.card (Subgroup.zpowers z) = 3 := by
     rw [Nat.card_zpowers, hzord]
   have hB3 : 3 ∣ Nat.card B := by rw [hBcard]
@@ -60,7 +60,7 @@ private lemma eq_of_card_three_of_isSylowOf {E T A : Subgroup X}
     (hAn : A.Normal) (hAcard : Nat.card A = 3) {B : Subgroup X} (hBE : B ≤ E)
     (hBcard : Nat.card B = 3) :
     B = A := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hBp : IsPGroup 3 B := IsPGroup.of_card (n := 1) (by rw [hBcard, pow_one])
   obtain ⟨g, -, hg⟩ :=
     CFSG.GH74.GLS.C3.Layer2.exists_mem_conj_le_of_isSylowOf hTE hBE hBp
@@ -92,24 +92,25 @@ theorem O1517bRed.le_centralizer_A {X : Type} [Group X] [Finite X] {p : ℕ}
     {P A Y : Subgroup X} (h : O1517bRed X p P A Y) {L : Subgroup X}
     (hL : CFSG.IsComponent L) :
     L ≤ Subgroup.centralizer (A : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hsolv : Group.IsSolvable ↥A := by
-    haveI : IsCyclic ↥A := isCyclic_of_prime_card h.card_A
+    have : IsCyclic ↥A := isCyclic_of_prime_card h.card_A
     exact Group.isSolvable_of_comm fun a b => (IsCyclic.commGroup).mul_comm a b
   have hcomm := (CFSG.LocalCores.component_solvable_centralizer hsolv
     h.normal_A.isSubnormal).1 L hL
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm
 
+omit [Finite X] in
 private lemma le_normalizer_layer :
     (⊤ : Subgroup X) ≤ Subgroup.normalizer ((CFSG.layer X : Subgroup X) : Set X) := by
-  haveI : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI : (CFSG.layer X).Normal := Subgroup.normal_of_characteristic (H := CFSG.layer X)
+  have : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer X).Normal := Subgroup.normal_of_characteristic (H := CFSG.layer X)
   rw [Subgroup.normalizer_eq_top]
 
 private lemma isSylowOf_inf_layer {p : ℕ} {P A Y : Subgroup X}
     (h : O1517bRed X p P A Y) :
     CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ CFSG.layer X) (CFSG.layer X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h := h.sylow.inf_of_le_normalizer (p := 3) (P := P) (K := ⊤)
     (N := CFSG.layer X) le_top le_normalizer_layer
   simpa using h
@@ -117,7 +118,7 @@ private lemma isSylowOf_inf_layer {p : ℕ} {P A Y : Subgroup X}
 private lemma ne_bot_inf_layer {p : ℕ} {P A Y : Subgroup X}
     (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L) :
     P ⊓ CFSG.layer X ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3L : 3 ∣ Nat.card L :=
     CFSG.LocalAnalysis.RankThreeTheoremC.thc_dvd_card Nat.prime_three h.core hL
   have h3E : 3 ∣ Nat.card (CFSG.layer X) :=
@@ -139,7 +140,7 @@ private lemma false_of_le_inf_layer {p : ℕ} {P A Y : Subgroup X}
     (hzc : ∀ y ∈ P ⊓ CFSG.layer X, z * y = y * z) (hzord : orderOf z = 3)
     (hrk : CFSG.Open.pRank 3 (P ⊓ CFSG.layer X) ≤ 1)
     (hAT : A ≤ P ⊓ CFSG.layer X) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ CFSG.layer X) (CFSG.layer X) :=
     isSylowOf_inf_layer h
   have huniq : ∀ B : Subgroup X, B ≤ P ⊓ CFSG.layer X → Nat.card B = 3 →
@@ -152,7 +153,7 @@ private lemma false_of_le_inf_layer {p : ℕ} {P A Y : Subgroup X}
       h.normal_A h.card_A hBE hBcard
   have h3L : 3 ∣ Nat.card L :=
     CFSG.LocalAnalysis.RankThreeTheoremC.thc_dvd_card Nat.prime_three h.core hL
-  haveI : Group.IsPerfect ↥L := hL.1.1
+  have : Group.IsPerfect ↥L := hL.1.1
   obtain ⟨x, hx3, hxnc⟩ :=
     CFSG.Quasithin.Vol2.Ch11.SecS.KF.exists_pow_eq_one_not_mem_center
       (p := 3) (L := ↥L) (by norm_num) h3L
@@ -189,7 +190,7 @@ private lemma normalizer_le_of_rank_le_one {p : ℕ} {P A Y : Subgroup X}
       Subgroup.normalizer ((Subgroup.zpowers z : Subgroup X) : Set X))
     (hAT : ¬ A ≤ P ⊓ CFSG.layer X) :
     Subgroup.normalizer ((P ⊓ CFSG.layer X : Subgroup X) : Set X) ≤ Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨a, haA, haT₁⟩ : ∃ a ∈ A, a ∉ Subgroup.zpowers z := by
     by_contra hno
     push Not at hno
@@ -207,7 +208,7 @@ private lemma normalizer_le_of_rank_le_one {p : ℕ} {P A Y : Subgroup X}
     refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr haA) ?_
     rw [Nat.card_zpowers, haord, h.card_A]
   have hsolv : Group.IsSolvable ↥A := by
-    haveI : IsCyclic ↥A := isCyclic_of_prime_card h.card_A
+    have : IsCyclic ↥A := isCyclic_of_prime_card h.card_A
     exact Group.isSolvable_of_comm fun a b => (IsCyclic.commGroup).mul_comm a b
   have hEA : ⁅CFSG.layer X, A⁆ = ⊥ :=
     (CFSG.LocalCores.component_solvable_centralizer hsolv h.normal_A.isSubnormal).2
@@ -247,7 +248,7 @@ private lemma normalizer_le_of_rank_le_one {p : ℕ} {P A Y : Subgroup X}
     calc (Subgroup.zpowers z ⊔ A).map (MulAut.conj g).toMonoidHom
         = (Subgroup.zpowers z).map (MulAut.conj g).toMonoidHom ⊔
           A.map (MulAut.conj g).toMonoidHom := Subgroup.map_sup _ _ _
-      _ = Subgroup.zpowers z ⊔ A := by simpa [hg₁, hgA]
+      _ = Subgroup.zpowers z ⊔ A := by simp [hg₁, hgA]
   exact hNT.trans hND
 
 private lemma normalizer_le_of_two_le_pRank {p : ℕ} {P A Y : Subgroup X}
@@ -265,7 +266,7 @@ private lemma normalizer_le_inf_layer_of_rank_le_one {p : ℕ} {P A Y : Subgroup
     (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L)
     (hrk : CFSG.Open.pRank 3 (P ⊓ CFSG.layer X) ≤ 1) :
     Subgroup.normalizer ((P ⊓ CFSG.layer X : Subgroup X) : Set X) ≤ Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hTne : P ⊓ CFSG.layer X ≠ ⊥ := ne_bot_inf_layer h hL
   obtain ⟨z, hzT, hzcent, hzord⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.exists_mem_centralizer_orderOf_eq
@@ -296,7 +297,7 @@ theorem O1517bRed.exists_component_not_le {X : Type} [Group X] [Finite X] {p : �
     {P A Y : Subgroup X} (h : O1517bRed X p P A Y) :
     ∃ L : Subgroup X, CFSG.IsComponent L ∧ ¬ L ≤ Y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   by_contra hcon
   push Not at hcon
   have hE_le_Y : CFSG.layer X ≤ Y := by

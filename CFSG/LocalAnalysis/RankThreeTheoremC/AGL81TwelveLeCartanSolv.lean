@@ -54,7 +54,7 @@ theorem solvThree_case (hGA : GriessAllModelsStatement) (h3 : KFactTwelveLeSolvT
       ((IsLieOver (↥Y ⧸ center ↥Y) (.twistedA 3) 2 1 ∨ IsLieOver ↥Y (.twistedD 4) 2 1) ∧
         ∀ T : Subgroup A, T ≤ P → IsPGroup 3 T → Nat.card T ≤ 9) := by
   classical
-  haveI : Group.IsPerfect ↥Y := ⟨hY.1⟩
+  have : Group.IsPerfect ↥Y := ⟨hY.1⟩
   have hodd : Odd (Nat.card (center ↥Y)) := ParabCensus.odd_card_center_of_pCoreOf_eq_bot hO
   have hβ3' : β ^ 3 = 1 := by
     have h := pow_orderOf_eq_one β

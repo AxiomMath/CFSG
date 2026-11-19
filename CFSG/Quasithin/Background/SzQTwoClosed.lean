@@ -23,7 +23,7 @@ theorem le_normalizer_of_pCoreOf_ne_bot {K : Type*} [Group K] [Finite K] (S : Sy
   have hAR : A ≤ Subgroup.normalizer (R : Set K) := CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 A
   have hRS : R ≤ (S : Subgroup K) := by
     have hsup : IsPGroup 2 ((S : Subgroup K) ⊔ R : Subgroup K) :=
-      S.isPGroup'.to_sup_of_normal_right' hRp (hSA.trans hAR)
+      S.isPGroup.to_sup_of_normal_right' hRp (hSA.trans hAR)
     have hmax := S.maximal_isPGroup.le_of_ge hsup le_sup_left
     exact le_sup_right.trans hmax
   have hRN : R ≤ N := hRS.trans Subgroup.le_normalizer

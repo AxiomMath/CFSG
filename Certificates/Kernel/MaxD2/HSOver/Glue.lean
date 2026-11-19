@@ -48,7 +48,7 @@ open Certificates.MaxD2Perm Certificates.HSOver
   kw := 21
   PT := r32 PT
   FS := FS
-  KS := KS
+  KSt := KS
   RB := RB
   H := H
   CN := r32 CN

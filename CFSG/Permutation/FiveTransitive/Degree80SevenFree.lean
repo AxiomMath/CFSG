@@ -20,7 +20,7 @@ private theorem sylow_card_eq_one
   obtain ⟨g,hg,hlocal,hlabels⟩ :=
     Degree80SevenSingleFiveLift.exists_five_with_fixed_five P hcard h5 hnotAlt s hs S hS
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcount := SevenOrbitLocalFixedCount.local_add_seven_mul_fixed_labels_le
     P Q hQ g (hg ▸ pow_orderOf_eq_one g)
   rw [hlocal,hlabels] at hcount

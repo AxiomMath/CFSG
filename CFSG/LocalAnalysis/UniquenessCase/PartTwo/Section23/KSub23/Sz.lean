@@ -22,13 +22,13 @@ private theorem isSolvable_normalizer_sylow_of_isSz
     {S : Type} [Group S] [Finite S] {a : ℕ}
     (hSz : CFSG.Quasithin.IsSz a S) (Q : Sylow 2 S) :
     Group.IsSolvable ↥(Subgroup.normalizer ((Q : Subgroup S) : Set S)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup S := Subgroup.normalizer ((Q : Subgroup S) : Set S)
   let K : Subgroup ↥N := (Q : Subgroup S).subgroupOf N
   have hQle : (Q : Subgroup S) ≤ N := Subgroup.le_normalizer
   have hKn : K.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQle).mpr le_rfl
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have ha3 : 3 ≤ a := by
     obtain ⟨-, b, hb, -, -, -, haeq, -, -⟩ := hSz
     omega
@@ -58,11 +58,11 @@ private theorem isSolvable_normalizer_sylow_of_isSz
   have hquotodd : Odd (Nat.card (↥N ⧸ K)) := by
     rw [hquotcard]
     exact hodd
-  haveI : Group.IsSolvable (↥N ⧸ K) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hquotodd
+  have : Group.IsSolvable (↥N ⧸ K) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hquotodd
   have hKP : IsPGroup 2 ↥K :=
-    (Q.isPGroup').of_equiv (Subgroup.subgroupOfEquivOfLe hQle).symm
-  haveI : Group.IsSolvable ↥K := by
-    haveI : Group.IsNilpotent ↥K := hKP.isNilpotent
+    (Q.isPGroup).of_equiv (Subgroup.subgroupOfEquivOfLe hQle).symm
+  have : Group.IsSolvable ↥K := by
+    have : Group.IsNilpotent ↥K := hKP.isNilpotent
     infer_instance
   simpa only [N] using (Group.isSolvable_of_subgroup_quotient K : Group.IsSolvable ↥N)
 
@@ -79,7 +79,7 @@ private theorem eq_bot_of_no_four {S : Type} [Group S] [Finite S]
           have h := hWn g⁻¹ (Y.inv_mem hg) (g * w * g⁻¹) hw
           have heq : g⁻¹ * (g * w * g⁻¹) * (g⁻¹)⁻¹ = w := by group
           rwa [heq] at h⟩
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hP : IsPGroup 2 (↥Y ⧸ K) := by
     rw [isPGroup_iff_pow_pow_eq_one]
     intro x
@@ -104,14 +104,14 @@ private theorem eq_bot_of_no_four {S : Type} [Group S] [Finite S]
       dsimp only [K]
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hWY).toEquiv]
       exact hWodd
-    haveI : Group.IsSolvable ↥K := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hKodd
-    haveI : Group.IsSolvable (↥Y ⧸ K) := by
-      haveI : Group.IsNilpotent (↥Y ⧸ K) := hP.isNilpotent
+    have : Group.IsSolvable ↥K := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hKodd
+    have : Group.IsSolvable (↥Y ⧸ K) := by
+      have : Group.IsNilpotent (↥Y ⧸ K) := hP.isNilpotent
       infer_instance
     exact Group.isSolvable_of_subgroup_quotient K
   by_contra hbot
-  haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hbot
-  haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+  have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hbot
+  have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
   exact (Group.IsPerfect.not_isSolvable ↥Y) hYsolv
 
 theorem eq_bot_or_isSimpleGroup_of_isSz
@@ -128,14 +128,14 @@ theorem eq_bot_or_isSimpleGroup_of_isSz
     rcases CFSG.LieType.SuzukiSubgroups.le_normalizer_or_isSz hSzS htop hEY hE hE4 with
       ⟨Q, hYQ⟩ | ⟨k, hkdvd, hklt, hkSz⟩
     · left
-      haveI : Group.IsSolvable ↥(Subgroup.normalizer ((Q : Subgroup S) : Set S)) :=
+      have : Group.IsSolvable ↥(Subgroup.normalizer ((Q : Subgroup S) : Set S)) :=
         isSolvable_normalizer_sylow_of_isSz hSzS Q
       have hYsolv : Group.IsSolvable ↥Y :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYQ)
           (Subgroup.inclusion_injective hYQ)
       by_contra hbot
-      haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hbot
-      haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+      have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hbot
+      have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
       exact (Group.IsPerfect.not_isSolvable ↥Y) hYsolv
     · right
       exact CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz (Or.inr hkSz)

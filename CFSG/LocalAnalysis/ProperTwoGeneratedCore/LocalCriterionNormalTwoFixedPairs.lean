@@ -41,7 +41,7 @@ theorem pair_sylow_whole_fixed_set
         (rightCosetStabilizer H a ⊓ rightCosetStabilizer H b : Subgroup G).subtype) = {a, b} := by
   let B := rightCosetStabilizer H a ⊓ rightCosetStabilizer H b
   let PG : Subgroup G := (P : Subgroup B).map B.subtype
-  have hPGp : IsPGroup p PG := P.isPGroup'.map B.subtype
+  have hPGp : IsPGroup p PG := P.isPGroup.map B.subtype
   have hPGB : PG ≤ B := Subgroup.map_subtype_le _
   have ha : a ∈ pointFixedSet H PG := (mem_pointFixedSet_iff H PG a).mpr
     (hPGB.trans inf_le_left)

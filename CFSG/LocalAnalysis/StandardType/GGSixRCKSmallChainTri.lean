@@ -40,7 +40,7 @@ theorem rck_tagLie_trialityModel
     (hJ : CFSG.Open.IsComponentOf J (fixSubgroup β)) :
     TagLieType (fun t => t = .PSL ∨ t = .PSU) 2 ↥J := by
   classical
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hpq : p ≠ q.p := by rw [hq2]; exact hp2
   have hβinn : β ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range :=

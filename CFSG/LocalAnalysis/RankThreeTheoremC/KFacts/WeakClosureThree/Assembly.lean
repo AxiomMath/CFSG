@@ -42,13 +42,13 @@ private theorem map_le_of_weaklyClosed {X : Type} [Group X] {Q A : Subgroup X} (
 theorem kFactWeakClosureOmega3_of_dich (hWC : KFactWeakClosure) (hI : GL83.I_7_13_1)
     (hIA : KFactInnerAction) (hD : DichThree) : KFactWeakClosureOmega3 := by
   intro X _ _ K hKn hKs hKnab hKcat hKc hKdvd Q hKQ hEx A hAQ hAcard
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEQ, hEab, hEcard, hEall⟩ := hEx
   by_contra hcon
   push Not at hcon
   have hAcent : ∀ a ∈ A, ∀ q ∈ (Q : Subgroup X), q * a = a * q :=
-    central_of_normal_of_card_prime Q.isPGroup' hAQ hAcard (map_le_of_weaklyClosed hAQ hcon)
+    central_of_normal_of_card_prime Q.isPGroup hAQ hAcard (map_le_of_weaklyClosed hAQ hcon)
   obtain ⟨S, hS⟩ := exists_sylow_map_subtype K Q hKQ
   have hSmem := mem_sylow_iff K (Q : Subgroup X) (S : Subgroup ↥K) hS
   have h3 : 3 ≤ CFSG.Open.pRank 3 (Q : Subgroup X) :=
@@ -74,14 +74,14 @@ theorem kFactWeakClosureHeisThree_of_heis (hWC : KFactWeakClosure) (hI : GL83.I_
     KFactWeakClosureHeisThree := by
   intro X _ _ K hKn hKs hKnab hKcat hKc hKdvd Q hKQ Q₀ Q₁ hcyc hQ0 hcard hnab hexp hcomm hdisj
     hsup A hAQ hAcard
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsh : HeisShape 3 (Q : Subgroup X) Q₀ Q₁ :=
-    ⟨Q.isPGroup', hcyc, hQ0, hcard, hnab, hexp, hcomm, hdisj, hsup⟩
+    ⟨Q.isPGroup, hcyc, hQ0, hcard, hnab, hexp, hcomm, hdisj, hsup⟩
   by_contra hcon
   push Not at hcon
   have hAcent : ∀ a ∈ A, ∀ q ∈ (Q : Subgroup X), q * a = a * q :=
-    central_of_normal_of_card_prime Q.isPGroup' hAQ hAcard (map_le_of_weaklyClosed hAQ hcon)
+    central_of_normal_of_card_prime Q.isPGroup hAQ hAcard (map_le_of_weaklyClosed hAQ hcon)
   obtain ⟨S, hS⟩ := exists_sylow_map_subtype K Q hKQ
   have hSmem := mem_sylow_iff K (Q : Subgroup X) (S : Subgroup ↥K) hS
   have h3 : 3 ≤ CFSG.Open.pRank 3 (Q : Subgroup X) := three_le_pRank_heis Nat.prime_three hsh
@@ -120,7 +120,7 @@ theorem kFactWeakClosureHeisThree_of_heis (hWC : KFactWeakClosure) (hI : GL83.I_
       · rw [hcardS, hcardSylow]
         exact Nat.pow_le_pow_right (by norm_num) ha
       · rw [hcardS]
-        exact pow_three_le_card_of_nonabelian (S.isPGroup')
+        exact pow_three_le_card_of_nonabelian (S.isPGroup)
           ((isMulCommutative_map_subtype_iff K _).not.1 (hS ▸ hSn))
     · exact hab (hb S)
     ·

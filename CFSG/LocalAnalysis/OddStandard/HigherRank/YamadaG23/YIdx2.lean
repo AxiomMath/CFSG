@@ -29,7 +29,7 @@ private theorem inv_mul_mem_of_relIndex_two_aux {N K : Subgroup G} (h : N.relInd
   rw [h4] at h3
   simpa using Subgroup.mem_subgroupOf.mp h3
 
-theorem sq_mem_of_relIndex_two {H K : Subgroup G} (hHK : H ≤ K) (h2 : H.relIndex K = 2) {x : G}
+theorem sq_mem_of_relIndex_two {H K : Subgroup G} (_hHK : H ≤ K) (h2 : H.relIndex K = 2) {x : G}
     (hx : x ∈ K) : x ^ 2 ∈ H := by
   have := Subgroup.sq_mem_of_index_two (H := H.subgroupOf K) h2 (⟨x, hx⟩ : K)
   simpa [Subgroup.mem_subgroupOf] using this

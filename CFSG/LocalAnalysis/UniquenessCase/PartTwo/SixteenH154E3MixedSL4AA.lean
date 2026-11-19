@@ -54,6 +54,7 @@ theorem s16h_sl4_z0_le_Z (D : Data G) {V L : Subgroup G} (h : Setting16 D ⊥ V 
       (K := conjSubgroup (wSub ⊥ V hV L) x)).1 hLcentWx
   exact le_inf inf_le_left (inf_le_right.trans hWxcentL)
 
+omit [Finite G] in
 private theorem s16h_sl4_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -67,6 +68,7 @@ private theorem s16h_sl4_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelia
   · rintro rfl
     exact map_one _
 
+omit [Finite G] in
 private theorem s16h_sl4_card_preTil_bot {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (S : Subgroup (Vtil ⊥ V hV)) :
     Nat.card ↥(preTil ⊥ V hV S) = Nat.card ↥S := by
@@ -116,7 +118,7 @@ private theorem s16h_sl4_eq_of_ne_one_of_card_le_two {H : Type*} [Group H] [Fini
   have hpos : 0 < Nat.card H := Nat.card_pos
   have hcase : Nat.card H = 1 ∨ Nat.card H = 2 := by omega
   rcases hcase with h1 | h2
-  · haveI : Subsingleton H :=
+  · have : Subsingleton H :=
       (Finite.card_le_one_iff_subsingleton (α := H)).mp (le_of_eq h1)
     exact absurd (Subsingleton.elim a 1) ha
   · obtain ⟨y, _, huniq⟩ := (Nat.card_eq_two_iff' (1 : H)).mp h2
@@ -140,7 +142,7 @@ theorem s16h_sl4_bot_or_eq_of_card_four {Z₀ Z : Subgroup G} {d : G}
     rw [Subgroup.eq_bot_iff_forall]
     intro z hz
     have hz1 : (⟨z, hz⟩ : ↥Z₀) = ⟨1, Z₀.one_mem⟩ := by
-      haveI : Subsingleton ↥Z₀ :=
+      have : Subsingleton ↥Z₀ :=
         (Finite.card_le_one_iff_subsingleton (α := ↥Z₀)).mp (by
           rw [hpow]
           norm_num)

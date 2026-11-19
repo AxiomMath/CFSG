@@ -18,13 +18,13 @@ open CFSG.GF2Type.Smith1979.GammaU.Viol
 
 theorem isP_autP {m : ℕ} (h : ∃ U, IsP U m) : IsP (autP m) m := by
   classical
-  rw [autP, dif_pos h]
+  rw [autP, dite_eq_left h]
   exact h.choose_spec
 
-theorem forall₂_autP : ∀ {LP : List ℕ}, (∀ g ∈ LP, ∃ U, IsP U g) →
-    List.Forall₂ IsP (LP.map autP) LP
+theorem forall₂_autP : ∀ {_LP : List ℕ}, (∀ g ∈ _LP, ∃ U, IsP U g) →
+    List.Forall₂ IsP (_LP.map autP) _LP
   | [], _ => .nil
-  | g :: LP, h => .cons (isP_autP (h g List.mem_cons_self))
+  | g :: _LP, h => .cons (isP_autP (h g List.mem_cons_self))
       (forall₂_autP fun g' hg' => h g' (List.mem_cons_of_mem _ hg'))
 
 theorem isP_getD : ∀ {Us : List (V12 ≃ₗ[ZMod 2] V12)} {LP : List ℕ}, List.Forall₂ IsP Us LP →
@@ -41,7 +41,7 @@ theorem genGrp_eq {gs : List (Array ℕ)} (hrows : ∀ r ∈ gs, rowsP (packR r)
   rw [genGrp]
   congr 1
   ext U
-  simp only [GenSet, Set.mem_setOf_eq, List.map_map, List.mem_map, Function.comp_apply]
+  simp only [GenSet, Set.mem_ofPred_eq, List.map_map, List.mem_map, Function.comp_apply]
   constructor
   · rintro ⟨r, hr, hU⟩
     exact ⟨r, hr, IsP.inj (isP_autP (hex' r hr)) ((isP_iff_of_rowsP (hrows r hr) U).2 hU)⟩

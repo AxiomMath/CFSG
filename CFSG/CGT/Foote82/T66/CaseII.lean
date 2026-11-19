@@ -9,7 +9,7 @@ namespace CFSG.CGT.Foote82
 
 open CFSG.Open CFSG.Quasithin.G11
 
-theorem caseIIFalse (h51 : Lemma51) (hsplit : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1)
+theorem caseIIFalse (_h51 : Lemma51) (hsplit : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1)
     (hG2 : CaseIIG2) (hG9 : CaseIIG9) (hG10 : CaseIIG10) (hG12 : CaseIIG12)
     (h511a : CaseIILemma511a) (h511b : CaseIILemma511b) : CaseIIFalse := by
   intro V _ _ _ G L z v H₁ ψ hstd hrank hv hd

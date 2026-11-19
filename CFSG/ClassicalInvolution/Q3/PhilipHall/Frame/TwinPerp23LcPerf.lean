@@ -46,7 +46,7 @@ private theorem mem_cj {G : Type*} [Group G] {c x : G} {H : Subgroup G} :
 
 private theorem cj_one {G : Type*} [Group G] (H : Subgroup G) : cj 1 H = H := by
   ext x
-  simp [mem_cj]
+  simp
 
 private theorem cj_mul {G : Type*} [Group G] (a b : G) (H : Subgroup G) :
     cj (a * b) H = cj a (cj b H) := by

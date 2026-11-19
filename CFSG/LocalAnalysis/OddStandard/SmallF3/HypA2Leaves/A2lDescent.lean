@@ -23,7 +23,7 @@ theorem a2lDatum_of_block {P S : Type} [Group P] [Finite P] [Group S] (π : P �
     (hJs : CFSG.Assembly.IsSubnormal J (centralizer ({t} : Set P)))
     (hJq : CFSG.IsQuasisimple ↥J) (hinj : ∀ x ∈ J, π x = 1 → x = 1)
     (hN : HarrisLit.IsSLTwoOver q₀ ↥N) (hTU : TypU ↥J) : a2lDatum S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ x, π (MulAut.conj t x) = MulAut.conj (π t) (π x) := fun x => by
     rw [MulAut.conj_apply, MulAut.conj_apply, map_mul, map_mul, map_inv]
   have hz2 : π t * π t = 1 := by rw [← map_mul, ht, map_one]

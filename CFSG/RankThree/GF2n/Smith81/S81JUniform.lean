@@ -73,6 +73,7 @@ section Assembly
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem uniform_of_core (hq : 4 ≤ Nat.card K) (hV : finrank K M₀.E = 20)
     (T : Lgen M (LB M Q B) →* (M₀.E ≃ₗ[K] M₀.E))
     (hTe : ∀ (s : Lgen M (LB M Q B)) (x : G), x ∈ Q →

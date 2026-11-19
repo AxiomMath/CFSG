@@ -154,8 +154,8 @@ theorem ggResLeviDatumCard_join_orthQTwo_six (hRig : GGLabelRigidInput)
       ggAutomizer J Bs ≤ ggAutomizer L Bs ⊓ ggAutomizer K Bs := by
     refine ⟨?_, hdat.aj_le⟩
     obtain ⟨n, V, hV, hVp, ι, b, -, -, -, hcase⟩ := hM
-    letI := hV
-    letI := hVp
+    let := hV
+    let := hVp
     refine hdat.aj_nonabelian b ι hp3 ?_ ?_
     · rcases hcase with ⟨h6, -⟩ | ⟨h5, -⟩ <;> omega
     · intro g hg

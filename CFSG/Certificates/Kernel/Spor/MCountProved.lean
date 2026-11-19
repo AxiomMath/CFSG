@@ -250,13 +250,13 @@ theorem mCntZ_sound_proved {n w k : ℕ} {gA gB : Equiv.Perm (Fin n)} {words : L
   have hCcard : ∀ j < CL.length, (C j).card = (S j).length := by
     intro j hj
     by_cases hpos : 0 < (S j).length
-    · simp only [C, if_pos hpos]
+    · simp only [C, ite_eq_left hpos]
       rw [← (hF j hj hpos).1, ← Set.ncard_coe_finset]
       congr 1
       ext g
       simp only [Finset.coe_filter, Set.mem_ofPred_eq]
       exact ⟨fun h => h.2, fun h => ⟨hclG j hj g h, h⟩⟩
-    · simp only [C, if_neg hpos, Finset.card_empty]
+    · simp only [C, ite_eq_right hpos, Finset.card_empty]
       omega
   have hdisjC : ∀ i < CL.length, ∀ j < CL.length, i < j → Disjoint (C i) (C j) := by
     intro i hi j hj hij
@@ -264,7 +264,7 @@ theorem mCntZ_sound_proved {n w k : ℕ} {gA gB : Equiv.Perm (Fin n)} {words : L
     · by_cases hpj : 0 < (S j).length
       · rw [Finset.disjoint_left]
         intro g hgi hgj
-        simp only [C, if_pos hpi, if_pos hpj, Finset.mem_filter] at hgi hgj
+        simp only [C, ite_eq_left hpi, ite_eq_left hpj, Finset.mem_filter] at hgi hgj
         have hrj : ρ j ∈ CFSG.Sporadic.SmallOddCore.conjClass K (ρ i) :=
           conjClass_trans (conjClass_symm hgj.2) hgi.2
         obtain ⟨-, hci, -, hmi, hinci, hSi, -⟩ := hF i hi hpi
@@ -278,8 +278,8 @@ theorem mCntZ_sound_proved {n w k : ℕ} {gA gB : Equiv.Perm (Fin n)} {words : L
         · rw [blk_packL hSi]
           exact PF.eq_of_fields hw0 (shr_of_lt (getD_lt hSi k')) (shr_of_lt hRlt) fun t ht => by
             rw [pk ⟨t, ht⟩, (hρ j hj).2.2 ⟨t, ht⟩]
-      · simp [C, if_neg hpj]
-    · simp [C, if_neg hpi]
+      · simp [C, ite_eq_right hpj]
+    · simp [C, ite_eq_right hpi]
   have hpd : ∀ i ∈ Finset.range CL.length, ∀ j ∈ Finset.range CL.length, i ≠ j →
       Disjoint (C i) (C j) := by
     intro i hi j hj hij
@@ -297,9 +297,9 @@ theorem mCntZ_sound_proved {n w k : ℕ} {gA gB : Equiv.Perm (Fin n)} {words : L
     · intro g hg
       obtain ⟨j, hj, hgj⟩ := Finset.mem_biUnion.1 hg
       by_cases hpos : 0 < (S j).length
-      · simp only [C, if_pos hpos] at hgj
+      · simp only [C, ite_eq_left hpos] at hgj
         exact (Finset.mem_filter.1 hgj).1
-      · simp [C, if_neg hpos] at hgj
+      · simp [C, ite_eq_right hpos] at hgj
     · rw [Finset.card_biUnion hpd, hXF, hsumC]
   have hcov : ∀ y ∈ XF, ∃ j < CL.length, 0 < (S j).length ∧
       y ∈ CFSG.Sporadic.SmallOddCore.conjClass K (ρ j) := by
@@ -307,9 +307,9 @@ theorem mCntZ_sound_proved {n w k : ℕ} {gA gB : Equiv.Perm (Fin n)} {words : L
     rw [← hU] at hy
     obtain ⟨j, hj, hyj⟩ := Finset.mem_biUnion.1 hy
     by_cases hpos : 0 < (S j).length
-    · simp only [C, if_pos hpos, Finset.mem_filter] at hyj
+    · simp only [C, ite_eq_left hpos, Finset.mem_filter] at hyj
       exact ⟨j, Finset.mem_range.1 hj, hpos, hyj.2⟩
-    · simp [C, if_neg hpos] at hyj
+    · simp [C, ite_eq_right hpos] at hyj
   have hXf := forall₂_orderTables hn32 Q (m := 2) (by decide)
   have hg := rep_pair hn32 gA gB
   have hgK := genK_pair gA gB
@@ -357,13 +357,13 @@ theorem mCntZ_sound_proved {n w k : ℕ} {gA gB : Equiv.Perm (Fin n)} {words : L
     by_cases hpos : 0 < (S j).length
     · have hconst : ∀ x ∈ C j, partners E ky r 6 x = partners E ky r 6 (ρ j) := by
         intro x hx
-        simp only [C, if_pos hpos, Finset.mem_filter] at hx
+        simp only [C, ite_eq_left hpos, Finset.mem_filter] at hx
         obtain ⟨c', hc', rfl⟩ := hx.2
         rw [← hGK] at hc'
         exact partners_conj G E hndE hmemE ky r 6 hc' (ρ j)
       rw [Finset.sum_congr rfl hconst, Finset.sum_const, smul_eq_mul, hCcard j hj', hpart j hj']
     · have h0 : (S j).length = 0 := by omega
-      simp only [C, if_neg hpos, Finset.sum_empty]
+      simp only [C, ite_eq_right hpos, Finset.sum_empty]
       change 0 = (S j).length * _
       rw [h0, Nat.zero_mul]
   exact ⟨hQ, (ordTest_iff perm_faithful (rep_toTable hn32 gA) (by decide)).2 hoA',

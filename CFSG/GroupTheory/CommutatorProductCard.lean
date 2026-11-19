@@ -57,7 +57,7 @@ private theorem card_sup_mul_card_inf_of_normalizes {G : Type} [Group G] {A B : 
   have hAP : A ≤ A ⊔ B := le_sup_left
   have hBP : B ≤ A ⊔ B := le_sup_right
   have hN : A ⊔ B ≤ Subgroup.normalizer (A : Set G) := sup_le Subgroup.le_normalizer hB
-  haveI : (A.subgroupOf (A ⊔ B)).Normal :=
+  have : (A.subgroupOf (A ⊔ B)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAP).mpr hN
   have hsup : B.subgroupOf (A ⊔ B) ⊔ A.subgroupOf (A ⊔ B) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hBP hAP, sup_comm B A, Subgroup.subgroupOf_self]

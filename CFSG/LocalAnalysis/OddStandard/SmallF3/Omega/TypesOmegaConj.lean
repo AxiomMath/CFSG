@@ -15,6 +15,7 @@ open TauCeti QuadraticMap CFSG.ClassicalInvolution CFSG.ClassicalGroups.Orthogon
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma aux_reflect_neg (w : V) : reflect Q (-w) = reflect Q w := by
   by_cases hw : Q w = 0
   · rw [reflect_of_map_eq_zero hw, reflect_of_map_eq_zero (by rw [QuadraticMap.map_neg, hw])]
@@ -24,7 +25,8 @@ private lemma aux_reflect_neg (w : V) : reflect Q (-w) = reflect Q w := by
     rw [reflect_apply hw', reflect_apply hw, QuadraticMap.map_neg, polar_neg_left, neg_div]
     rw [neg_smul, smul_neg, neg_neg]
 
-private lemma aux_reflect_comm {t : OGroup Q} {w : V} (hQw : Q w ≠ 0)
+omit [FiniteDimensional (ZMod 3) V] in
+private lemma aux_reflect_comm {t : OGroup Q} {w : V} (_hQw : Q w ≠ 0)
     (hw : (t : V ≃ₗ[ZMod 3] V) w = w ∨ (t : V ≃ₗ[ZMod 3] V) w = -w) :
     reflect Q w * (t : V ≃ₗ[ZMod 3] V) = (t : V ≃ₗ[ZMod 3] V) * reflect Q w := by
   have hconj := reflect_conj (Q := Q) t.2 w
@@ -96,7 +98,7 @@ theorem map_centralizer_detSpinorNorm_eq_top (hQ : Q.Nondegenerate)
   have hcases : 2 ≤ Module.finrank (ZMod 3) (fixSp t) ∨
       2 ≤ Module.finrank (ZMod 3) (commSp t) := by
     by_contra h
-    push_neg at h
+    push Not at h
     omega
   rcases hcases with hC2 | hN2
   · exact aux_centralizer_map_eq_top_of_subspace hQ (nondegenerate_restrict_fixSp hQ htt) hC2

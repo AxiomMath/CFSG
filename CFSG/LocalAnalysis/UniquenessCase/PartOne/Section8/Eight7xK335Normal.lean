@@ -301,7 +301,7 @@ theorem k335_conj_eq_of_commute {G : Type} [Group G] [Finite G] {P S : Subgroup 
   have hT : (T : Subgroup G) = S := IsPGroup.toSylow_coe hSp hSidx
   have hclT : CFSG.Open.fusionStronglyClosed (P : Set G) (T : Subgroup G) := by
     rw [hT]; exact hcl
-  have hR : IsPGroup 3 (T₀.map C.subtype) := T₀.isPGroup'.map C.subtype
+  have hR : IsPGroup 3 (T₀.map C.subtype) := T₀.isPGroup.map C.subtype
   have hAR : P ≤ T₀.map C.subtype := by
     intro p hp
     exact Subgroup.mem_map.mpr

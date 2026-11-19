@@ -110,7 +110,7 @@ theorem aut_frameLift (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.alpha)}
       (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)))) r)
     {w : Fin 4 → Halpha D hC.alpha}
     (hwr : ∀ i, QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) (w i) = r i)
-    (hw : (T : Set (Halpha D hC.alpha)) ∩ DstarH hC = Set.range w) :
+    (_hw : (T : Set (Halpha D hC.alpha)) ∩ DstarH hC = Set.range w) :
     ∀ g ∈ Subgroup.centralizer {hC.d}, (∀ i, g * (w i : G) * g⁻¹ = w i) →
       ∃ c ∈ Subgroup.closure (Set.range fun i => (w i : G)), ∀ x ∈ DalphaStar D hC.alpha,
         g * x * g⁻¹ = c * x * c⁻¹ := by

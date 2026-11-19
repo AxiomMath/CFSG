@@ -42,7 +42,7 @@ theorem PhiFun_apply_rr (N : Matrix (Fin 2) (Fin 2) (QE F)) (k l : Fin 2) :
     rcases a with k | k <;> rcases b with l | l <;> simp [PhiFun]
   map_add' N N' := by
     ext a b
-    rcases a with k | k <;> rcases b with l | l <;> simp [PhiFun] <;> ring
+    rcases a with k | k <;> rcases b with l | l <;> simp [PhiFun]; ring
   map_mul' N N' := by
     ext a b
     rcases a with k | k <;> rcases b with l | l <;>

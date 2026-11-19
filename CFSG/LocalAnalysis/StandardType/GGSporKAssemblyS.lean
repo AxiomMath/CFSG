@@ -19,7 +19,7 @@ theorem ggSporK_pair_of_elevenComp_of_simple (s : TauCeti.SporadicName)
   have hKs : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := by
     obtain ⟨rfl, rfl⟩ := hi
     obtain ⟨e⟩ := he
-    haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
+    have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
     exact e.symm.isSimpleGroup
   exact ggSporK_pair_of_elevenComp s (hInn hKs) (h11 hKs) W hW q H E i hi hyp hL hK he
 
@@ -43,7 +43,7 @@ theorem ggSporK_pair_of_inputsB_of_simple (s : TauCeti.SporadicName)
   have hKs : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := by
     obtain ⟨rfl, rfl⟩ := hi
     obtain ⟨e⟩ := he
-    haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
+    have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
     exact e.symm.isSimpleGroup
   exact ggSporK_pair_of_inputsB s (hInn hKs) (ha hKs) (hb hKs) (hc hKs) (hOrd hKs) (hLie hKs) h49
     W hW q H E i hi hyp hL hK he
@@ -58,7 +58,7 @@ theorem ggSporK_pair_of_not_sq_dvd_card_of_simple (s : TauCeti.SporadicName) (p 
   have hKs : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := by
     obtain ⟨rfl, rfl⟩ := hi
     obtain ⟨e⟩ := he
-    haveI : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
+    have : IsSimpleGroup ↥(CFSG.generalizedFitting W) := hyp.2.1.1
     exact e.symm.isSimpleGroup
   exact ggSporK_pair_of_not_sq_dvd_card s p (hInn hKs) hp W hW q H E i hi hyp hL hK he
 

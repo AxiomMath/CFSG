@@ -126,7 +126,7 @@ theorem ggLin_propagate_across
       rw [hAeq]
     have hWle : ∀ X, ∀ a ∈ Subgroup.closure (S X), ∀ w ∈ W, a w ∈ W :=
       fun X a ha w hw => hW a (le_iSup (fun X => Subgroup.closure (S X)) X ha) w hw
-    rw [SetLike.le_def] at hfixW
+    rw [_root_.IsConcreteLE.le_iff] at hfixW
     push Not at hfixW
     obtain ⟨w, hwW, hwfix⟩ := hfixW
     have hwfix' : ¬ ∀ a ∈ (⨆ X, Subgroup.closure (S X) : Subgroup (V ≃ₗ[ZMod p] V)),

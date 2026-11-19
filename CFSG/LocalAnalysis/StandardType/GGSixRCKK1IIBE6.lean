@@ -52,8 +52,7 @@ private theorem rckp6_mul_mem_four {G : Type*} [Group G] {x y : G}
   intro a b ha hb
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb ⊢
   rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl <;>
-    simp only [one_mul, mul_one, hx2, hy2, hxy', hxxy, hxyx, hyxy, hxyy, hxyxy,
-      Set.mem_insert_iff, Set.mem_singleton_iff] <;>
+    simp only [one_mul, mul_one, hx2, hy2, hxy', hxxy, hxyx, hyxy, hxyy, hxyxy] <;>
     tauto
 
 private theorem rckp6_inv_mem_four {G : Type*} [Group G] {x y : G}
@@ -170,7 +169,7 @@ private theorem rckp6_card_closure_pair {G : Type*} [Group G] {x y : G}
     intro z
     rw [rckp6_mem_closure_iff hx2 hy2 hxy]
     simp only [s, Finset.mem_insert, Finset.mem_singleton]
-  letI : Fintype ↑(Subgroup.closure ({x, y} : Set G) : Set G) := Fintype.ofFinset s H
+  let : Fintype ↑(Subgroup.closure ({x, y} : Set G) : Set G) := Fintype.ofFinset s H
   rw [show Nat.card (Subgroup.closure ({x, y} : Set G)) =
       Nat.card ↑(Subgroup.closure ({x, y} : Set G) : Set G) from rfl]
   rw [Nat.card_eq_fintype_card, Fintype.card_ofFinset s H]
@@ -195,7 +194,7 @@ private theorem rckp6_card_closure_pair {G : Type*} [Group G] {x y : G}
 theorem rckIIPair_E6
     (n : ℕ) (hadm : StatedLieAdmissible .E6 n 2 1) : RCKIIPair .E6 n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Type := GaloisField 2 1
   let i : Fin (Tag.rank .E6) := ⟨1, by decide⟩
   let θ : Fin (Tag.rank .E6) → ℤ := highRoot .E6
@@ -203,12 +202,12 @@ theorem rckIIPair_E6
   let x : (ggU .E6 n 1).K := e6Data_valid.xm K θ 1
   let y : (ggU .E6 n 1).K := e6Data_valid.xm K α 1
   let V : Subgroup (ggU .E6 n 1).K := Subgroup.closure ({x, y} : Set _)
-  haveI : Finite ↥(e6Data_valid.minGroup K) :=
+  have : Finite ↥(e6Data_valid.minGroup K) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid K
-  haveI : Finite (ggU .E6 n 1).K := by
+  have : Finite (ggU .E6 n 1).K := by
     change Finite ↥(e6Data_valid.minGroup K)
     infer_instance
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hθroot : IsRoot .E6 θ := by simpa only [θ] using isRoot_highRoot .E6
   have hαroot : IsRoot .E6 α := by
     simp only [α]; exact IsRoot.basis i

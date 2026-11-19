@@ -31,7 +31,7 @@ theorem i91_rawIff {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     have h3' : 3 ≤ n := h3
     have h0 : (n - 1) / 2 ≠ 0 := by omega
     simp only [LargeEvenRawDatum, CFSG.StandardType.LargeEvenRawDatum,
-      LargeEvenRecipeTwF4Inherited, LargeEvenRecipeTwF4, if_neg h0]
+      LargeEvenRecipeTwF4Inherited, LargeEvenRecipeTwF4, ite_eq_right h0]
   all_goals exact Iff.rfl
 
 theorem i91_or_split {lab : LargeEvenLabel} {A B : LargeEvenRawCont}
@@ -67,7 +67,7 @@ theorem i91Phi_induces {p : ℕ} (J : Subgroup G) {R : Type} [Group R] (θ : PSi
       (((g⁻¹ : ↥(Subgroup.normalizer (J : Set G))) : G))⁻¹ = (l' : G)
     rw [hl]
     simp
-  simp only [i91Phi, MonoidHom.comp_apply, MonoidHom.coe_comp, MulEquiv.coe_toMonoidHom,
+  simp only [i91Phi, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
     MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply,
     CFSG.GH74.KGroups.inducedHom_mk, CFSG.HardMathSupport.Solomon.LocalBalance.barAut_mk, hkey]
 
@@ -143,7 +143,7 @@ theorem i91_twF4der_odd {l n : ℕ} (hn : n = 1) {Q : LargeEvenRawCont}
   have ha : (n - 1) / 2 = 0 := by omega
   obtain ⟨K, instF, instFin, hK, hQ⟩ := h
   refine ⟨K, instF, instFin, hK, hQ, ?_⟩
-  rw [ha, if_pos rfl]
+  rw [ha, ite_eq_left rfl]
   exact i91_oddInner_twF4der (by rw [hK, ha])
 
 def i91FieldCont (p : ℕ) (J : Subgroup G) (b : G) (lab : LargeEvenLabel) : LargeEvenRawCont :=

@@ -45,16 +45,16 @@ theorem exists_block_of_isComponentOf_centralizer_SL
   classical
   have hd_ne : d ≠ 0 := by
     intro hd
-    haveI : Subsingleton (Fin d) := by rw [hd]; exact Fin.subsingleton_zero
-    haveI : Subsingleton (SpecialLinearGroup (Fin d) K) :=
+    have : Subsingleton (Fin d) := by rw [hd]; exact Fin.subsingleton_zero
+    have : Subsingleton (SpecialLinearGroup (Fin d) K) :=
       Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
-    haveI : Subsingleton L' := ⟨fun x y => by
+    have : Subsingleton L' := ⟨fun x y => by
       obtain ⟨s, rfl⟩ := hφs x
       obtain ⟨t, rfl⟩ := hφs y
       rw [Subsingleton.elim s t]⟩
     have hJsub : J' ≤ L' := hJ.1.trans inf_le_left
-    haveI : Subsingleton J' := (Subgroup.inclusion_injective hJsub).subsingleton
-    haveI : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJ.2.2.2
+    have : Subsingleton J' := (Subgroup.inclusion_injective hJsub).subsingleton
+    have : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJ.2.2.2
     have hJnontriv : Nontrivial J' :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥J')).nontrivial
     obtain ⟨a, b, hab⟩ := hJnontriv

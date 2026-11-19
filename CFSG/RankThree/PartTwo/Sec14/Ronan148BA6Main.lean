@@ -210,7 +210,7 @@ theorem step148NormalHJA6One2_of (hT : KTransport148) (hPQ : Step148A6PointQ) :
       refine ⟨Res2LBal.conj_mem_map hdJ x, Subgroup.mem_centralizer_iff.mpr fun z hz => ?_⟩
       obtain ⟨j, hj, rfl⟩ := hz
       have hjd : j * dα = dα * j := Subgroup.mem_centralizer_singleton_iff.mp (hdC hj)
-      simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
+      simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
       calc x * j * x⁻¹ * (x * dα * x⁻¹) = x * (j * dα) * x⁻¹ := by group
         _ = x * (dα * j) * x⁻¹ := by rw [hjd]
         _ = x * dα * x⁻¹ * (x * j * x⁻¹) := by group
@@ -232,7 +232,7 @@ theorem step148NormalHJA6One2_of (hT : KTransport148) (hPQ : Step148A6PointQ) :
         (Subgroup.zpowers b).map (MulAut.conj (w₁ * w)).toMonoidHom := by
       rw [MonoidHom.map_zpowers]
       congr 1
-      simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
+      simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
       group
     rw [e1, map_conj_mem_omegaA_iff (mul_mem hw₁N hwN)]
     exact hc.2.1

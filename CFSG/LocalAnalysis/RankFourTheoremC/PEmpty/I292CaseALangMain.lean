@@ -84,7 +84,7 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial LinearFlag
 theorem kd292LangConjInput_holds : KD292LangConjInput := by
   intro K _ _ n hn T hT hTD
   classical
-  haveI : IsCyclic (K ≃+* K) := I292CaseALang.isCyclic_ringEquiv K
+  have : IsCyclic (K ≃+* K) := I292CaseALang.isCyclic_ringEquiv K
   set φ := ProjectivePlane.linearFieldPart K hn with hφ
   have hφT : ∀ t ∈ T, φ t = 1 → t = 1 := by
     intro t htT h1
@@ -106,7 +106,7 @@ theorem kd292LangConjInput_holds : KD292LangConjInput := by
     rw [injective_iff_map_eq_one]
     intro x hx
     exact Subtype.ext (hφT x x.2 hx)
-  haveI : IsCyclic T := isCyclic_of_injective ψ hψ
+  have : IsCyclic T := isCyclic_of_injective ψ hψ
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := T)
   set t : MulAut (projectiveSL n K) := (g : MulAut (projectiveSL n K)) with htdef
   have htT : t ∈ T := g.2

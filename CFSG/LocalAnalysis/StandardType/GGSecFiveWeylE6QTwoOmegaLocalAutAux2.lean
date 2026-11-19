@@ -15,22 +15,26 @@ variable {K : Type} [Field K] [Finite K]
     ↥L →* OrthRest.RPlus K 4 :=
   θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
 
+omit [Finite G] [Finite K] in
 public theorem qMap_apply {L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) (l : ↥L) :
     qMap (K := K) θ l = θ (QuotientGroup.mk' (Subgroup.center L) l) := rfl
 
+omit [Finite G] [Finite K] in
 public theorem qMap_ker {L : Subgroup G} (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) :
     (qMap (K := K) θ).ker = Subgroup.center L := by
   ext l
-  simp [qMap, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+  simp [qMap]
 
 @[expose] public def EB (Bs L : Subgroup G) : Subgroup ↥Bs := (Bs ⊓ L).subgroupOf Bs
 
 @[expose] public def EL (Bs L : Subgroup G) : Subgroup ↥L := (Bs ⊓ L).subgroupOf L
 
+omit [Finite G] in
 public theorem mem_EL {Bs L : Subgroup G} {l : ↥L} : l ∈ EL Bs L ↔ (l : G) ∈ Bs ⊓ L :=
   Subgroup.mem_subgroupOf
 
+omit [Finite G] in
 public theorem mem_EB {Bs L : Subgroup G} {b : ↥Bs} : b ∈ EB Bs L ↔ (b : G) ∈ Bs ⊓ L :=
   Subgroup.mem_subgroupOf
 
@@ -38,6 +42,7 @@ public theorem mem_EB {Bs L : Subgroup G} {b : ↥Bs} : b ∈ EB Bs L ↔ (b : G
     Subgroup (OrthRest.RPlus K 4) :=
   (EL Bs L).map (qMap (K := K) θ)
 
+omit [Finite G] [Finite K] in
 public theorem mem_Ebar {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) {y : OrthRest.RPlus K 4} :
     y ∈ Ebar Bs L θ ↔ ∃ e : ↥L, e ∈ EL Bs L ∧ qMap (K := K) θ e = y :=
@@ -53,12 +58,12 @@ variable {G : Type} [Group G] [Finite G]
 variable {K : Type} [Field K] [Finite K]
 
 public theorem bstar_isComplement {Bs L : Subgroup G} {x : G}
-    (hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ 5)
+    (_hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ 5)
     (hcardE : Nat.card ↥(Bs ⊓ L) = 3 ^ 4) (hxBs : x ∈ Bs) (hord : orderOf x = 3)
     (hExbot : (Bs ⊓ L) ⊓ Subgroup.zpowers x = ⊥) :
     Subgroup.IsComplement' (EB Bs L) ((Subgroup.zpowers x).subgroupOf Bs) := by
   classical
-  haveI : IsMulCommutative ↥Bs := hBs.1
+  have : IsMulCommutative ↥Bs := _hBs.1
   have hEB : Nat.card ↥(EB Bs L) = 3 ^ 4 := by
     rw [← hcardE]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left : Bs ⊓ L ≤ Bs)).toEquiv

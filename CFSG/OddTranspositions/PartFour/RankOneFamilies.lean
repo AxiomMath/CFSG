@@ -50,6 +50,7 @@ private theorem rankOneFamilies_pow_of_dvd_sq_sub_one {m f j' : ℕ} (hf : Odd f
 section SzOrbit
 
 
+omit [Finite G] in
 private theorem rankOneFamilies_sz_class_data (hC : HypothesisC D) {f : ℕ}
     (hSz : CFSG.Quasithin.IsSz f
       (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)))
@@ -67,20 +68,20 @@ private theorem rankOneFamilies_sz_class_data (hC : HypothesisC D) {f : ℕ}
   have hgenTop : ∀ x ∈ imageClass hC, ∀ y ∈ imageClass hC, ¬ Commute x y →
       Subgroup.closure (insert y {z | z ∈ imageClass hC ∧ Commute z x}) = ⊤ := by
     intro x hx y hy hxy
-    have hx' : IsConj d₀ x := by simpa only [hclass, Set.mem_setOf_eq] using hx
-    have hy' : IsConj d₀ y := by simpa only [hclass, Set.mem_setOf_eq] using hy
+    have hx' : IsConj d₀ x := by simpa only [hclass, Set.mem_ofPred_eq] using hx
+    have hy' : IsConj d₀ y := by simpa only [hclass, Set.mem_ofPred_eq] using hy
     rw [hclass]
     exact closure_insert_commute_eq_top_of_isSz hSz hd₀ hx' hy' hxy
   obtain ⟨x₀, hx₀, y₀, hy₀, hnc₀, hord₀⟩ :=
     exists_not_commute_orderOf_mul_eq_two_pow_sub_one_of_isSz hSz hd₀
-  have hx₀' : x₀ ∈ imageClass hC := by simpa only [← hclass, Set.mem_setOf_eq] using hx₀
-  have hy₀' : y₀ ∈ imageClass hC := by simpa only [← hclass, Set.mem_setOf_eq] using hy₀
+  have hx₀' : x₀ ∈ imageClass hC := by simpa only [← hclass, Set.mem_ofPred_eq] using hx₀
+  have hy₀' : y₀ ∈ imageClass hC := by simpa only [← hclass, Set.mem_ofPred_eq] using hy₀
   obtain ⟨-, hinv, hgen, hconj⟩ :=
     rootLiftClass_of_closure_insert_eq_top hclass hgenTop ⟨x₀, hx₀', y₀, hy₀', hnc₀⟩
   have hord5 : ∃ x ∈ imageClass hC, ∃ y ∈ imageClass hC, orderOf (x * y) = 2 ^ 2 + 1 := by
     obtain ⟨x, hx, y, hy, h5⟩ := exists_orderOf_mul_eq_five_of_isSz hSz hd₀
-    exact ⟨x, by simpa only [← hclass, Set.mem_setOf_eq] using hx,
-      y, by simpa only [← hclass, Set.mem_setOf_eq] using hy, by rw [h5]; norm_num⟩
+    exact ⟨x, by simpa only [← hclass, Set.mem_ofPred_eq] using hx,
+      y, by simpa only [← hclass, Set.mem_ofPred_eq] using hy, by rw [h5]; norm_num⟩
   exact ⟨hinv, hgen, hconj, hord5, x₀, hx₀', y₀, hy₀', hnc₀, hord₀⟩
 
 theorem exists_ncard_orbit_Malpha_eq_two_pow_mul_of_isSz (h89 : PartThree.Lemma8_9)
@@ -125,14 +126,14 @@ private theorem rankOneFamilies_top_data {X : Type} [Group X]
     (∀ x ∈ E, ∀ y ∈ E, ¬ Commute x y → Subgroup.closure (insert y (Vmem E x)) = ⊤) ∧
       (∀ x ∈ E, ∀ y ∈ E, ∃ g : X, g * x * g⁻¹ = y) ∧
       (∃ x ∈ E, ∃ y ∈ E, orderOf (x * y) = 2 ^ n + 1) := by
-  haveI : Finite X := CFSG.CGT.Timmesfeld75.finite_of_isBenderGroup hX
+  have : Finite X := CFSG.CGT.Timmesfeld75.finite_of_isBenderGroup hX
   refine ⟨?_, ?_, hord⟩
   · intro x hx y hy hxy
     rw [Vmem_eq_setOf_commute_of_isBenderGroup hX hs hE hx]
     exact hgen x hx y hy hxy
   · intro x hx y hy
-    have hx' : IsConj s x := by simpa only [hE, Set.mem_setOf_eq] using hx
-    have hy' : IsConj s y := by simpa only [hE, Set.mem_setOf_eq] using hy
+    have hx' : IsConj s x := by simpa only [hE, Set.mem_ofPred_eq] using hx
+    have hy' : IsConj s y := by simpa only [hE, Set.mem_ofPred_eq] using hy
     exact isConj_iff.mp (hx'.symm.trans hy')
 
 private theorem rankOneFamilies_top_form {X : Type} [Group X] {E : Set X} {n : ℕ}
@@ -155,6 +156,7 @@ private theorem rankOneFamilies_top_form {X : Type} [Group X] {E : Set X} {n : �
   · obtain ⟨x, hx, y, hy, hord⟩ := hord
     exact ⟨x, hx, trivial, y, hy, trivial, hord⟩
 
+omit [Finite G] in
 private theorem rankOneFamilies_psl2_top_data
     (hC : HypothesisC D) {f : ℕ} (hf : 2 ≤ f)
     {d₀ : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
@@ -172,17 +174,18 @@ private theorem rankOneFamilies_psl2_top_data
   have hgenIn : ∀ x ∈ imageClass hC, ∀ y ∈ imageClass hC, ¬ Commute x y →
       Subgroup.closure (insert y {z | z ∈ imageClass hC ∧ Commute z x}) = ⊤ := by
     intro x hx y hy hxy
-    have hx' : IsConj d₀ x := by simpa only [hclass, Set.mem_setOf_eq] using hx
-    have hy' : IsConj d₀ y := by simpa only [hclass, Set.mem_setOf_eq] using hy
+    have hx' : IsConj d₀ x := by simpa only [hclass, Set.mem_ofPred_eq] using hx
+    have hy' : IsConj d₀ y := by simpa only [hclass, Set.mem_ofPred_eq] using hy
     rw [hclass]
     exact closure_insert_commute_eq_top_of_mulEquiv_psl2Model e hf hd₀ hx' hy' hxy
   have hordIn : ∃ x ∈ imageClass hC, ∃ y ∈ imageClass hC, orderOf (x * y) = 2 ^ f + 1 := by
     obtain ⟨x, hx, y, hy, h5⟩ :=
       exists_orderOf_mul_eq_two_pow_add_one_of_mulEquiv_psl2Model e hf hd₀
-    exact ⟨x, by simpa only [← hclass, Set.mem_setOf_eq] using hx,
-      y, by simpa only [← hclass, Set.mem_setOf_eq] using hy, h5⟩
+    exact ⟨x, by simpa only [← hclass, Set.mem_ofPred_eq] using hx,
+      y, by simpa only [← hclass, Set.mem_ofPred_eq] using hy, h5⟩
   exact rankOneFamilies_top_data hX hclass hd₀ hgenIn hordIn
 
+omit [Finite G] in
 private theorem rankOneFamilies_sz_top_data
     (hC : HypothesisC D) {f : ℕ}
     (hSz : CFSG.Quasithin.IsSz f
@@ -201,14 +204,14 @@ private theorem rankOneFamilies_sz_top_data
   have hgenIn : ∀ x ∈ imageClass hC, ∀ y ∈ imageClass hC, ¬ Commute x y →
       Subgroup.closure (insert y {z | z ∈ imageClass hC ∧ Commute z x}) = ⊤ := by
     intro x hx y hy hxy
-    have hx' : IsConj d₀ x := by simpa only [hclass, Set.mem_setOf_eq] using hx
-    have hy' : IsConj d₀ y := by simpa only [hclass, Set.mem_setOf_eq] using hy
+    have hx' : IsConj d₀ x := by simpa only [hclass, Set.mem_ofPred_eq] using hx
+    have hy' : IsConj d₀ y := by simpa only [hclass, Set.mem_ofPred_eq] using hy
     rw [hclass]
     exact closure_insert_commute_eq_top_of_isSz hSz hd₀ hx' hy' hxy
   have hordIn : ∃ x ∈ imageClass hC, ∃ y ∈ imageClass hC, orderOf (x * y) = 2 ^ 2 + 1 := by
     obtain ⟨x, hx, y, hy, h5⟩ := exists_orderOf_mul_eq_five_of_isSz hSz hd₀
-    exact ⟨x, by simpa only [← hclass, Set.mem_setOf_eq] using hx,
-      y, by simpa only [← hclass, Set.mem_setOf_eq] using hy, by rw [h5]; norm_num⟩
+    exact ⟨x, by simpa only [← hclass, Set.mem_ofPred_eq] using hx,
+      y, by simpa only [← hclass, Set.mem_ofPred_eq] using hy, by rw [h5]; norm_num⟩
   exact rankOneFamilies_top_data (n := 2) hX hclass hd₀ hgenIn hordIn
 
 section Certified

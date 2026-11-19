@@ -242,7 +242,7 @@ private theorem false_of_sylow_two_unique_involution {h : UnitaryFieldData 2 n K
   have hzS' : z ∈ S' := by
     rw [hS'def, Subgroup.mem_map]
     exact ⟨⟨z, hzH⟩, hzS_mem, rfl⟩
-  have hS'p : IsPGroup 2 S' := S.isPGroup'.map H.subtype
+  have hS'p : IsPGroup 2 S' := S.isPGroup.map H.subtype
   have hS'inv : ∀ t ∈ S', t ^ 2 = 1 → t = 1 ∨ t = z := by
     intro t htS' ht2
     by_cases ht1 : t = 1

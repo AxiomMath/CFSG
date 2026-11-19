@@ -65,7 +65,7 @@ theorem isSylowIn_T [Finite P] : Seven.IsSylowIn M.T (centralizer ({ι} : Set P)
   have hTR' : M.T ≤ R' := by
     intro x hx
     exact ⟨⟨x, hTC hx⟩, hR hx, rfl⟩
-  have hR'2 : IsPGroup 2 R' := R.isPGroup'.map _
+  have hR'2 : IsPGroup 2 R' := R.isPGroup.map _
   have hcardR' : Nat.card R' = 2 ^ (2 * m + 3) := by
     obtain ⟨k, hk⟩ := hR'2.exists_card_eq
     have h1 : 2 ^ k ∣ Nat.card L := by

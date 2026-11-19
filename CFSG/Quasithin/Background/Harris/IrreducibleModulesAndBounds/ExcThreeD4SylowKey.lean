@@ -48,7 +48,7 @@ theorem Tr_one : D.Tr 1 = 1 := by
   rw [D.hTr, map_one, map_one]
   have h := D.add_self (1 : K)
   rw [Subfield.coe_one]
-  linear_combination (1 : K) * h + (1 : K) * 0
+  linear_combination (1 : K) * h
 
 theorem Tr_mul_inv {x : K} (hx : x ≠ 0) : D.Tr (x * x⁻¹) = 1 := by
   rw [mul_inv_cancel₀ hx, D.Tr_one]
@@ -210,12 +210,14 @@ theorem card_isotropic_le (hK3 : Nat.card K = Nat.card k ^ 3) (W : Set (k × K �
   have hk : 1 ≤ Nat.card k := Nat.one_le_iff_ne_zero.2 Nat.card_pos.ne'
   exact (card_le_span k W).trans (Nat.pow_le_pow_right hk h2)
 
+omit [Finite K] in
 theorem Tr_coe (a : k) : D.Tr (a : K) = a := by
   apply Subtype.ext
   rw [D.hTr, D.σ_of_mem, D.σ_of_mem]
   have h := D.add_self (a : K)
-  linear_combination (a : K) + h
+  linear_combination h
 
+omit [Finite K] in
 theorem fix_eqs {s : K} {w : k × K × K × k} (h : D.Mfun s w = w) :
     (w.1 : K) * s = 0 ∧
     (σ s * σ (σ w.2.1) + σ (σ s) * σ w.2.1) + (w.1 : K) * (σ s * σ (σ s)) = 0 ∧
@@ -231,6 +233,7 @@ theorem fix_eqs {s : K} {w : k × K × K × k} (h : D.Mfun s w = w) :
     have h5 := add_eq_left.mp h4
     linear_combination h5
 
+omit [Finite K] in
 theorem fix_b_zero {s : K} (hs : s ≠ 0) {w : k × K × K × k} (h : D.Mfun s w = w) : w.1 = 0 := by
   have := (D.fix_eqs h).1
   rcases mul_eq_zero.1 this with h0 | h0
@@ -238,12 +241,14 @@ theorem fix_b_zero {s : K} (hs : s ≠ 0) {w : k × K × K × k} (h : D.Mfun s w
   · exact absurd h0 hs
 
 include D in
+omit [Finite K] in
 theorem B_eq_zero {s u : K} (h : σ s * σ (σ u) + σ (σ s) * σ u = 0) : s * σ u = σ s * u := by
   have h1 := congrArg (fun x => σ (σ x)) h
   simp only [map_add, map_mul, D.hσ3, map_zero] at h1
   have h8 := D.add_self (σ s * u)
   linear_combination h1 - h8
 
+omit [Finite K] in
 theorem fix_u_rel {s : K} {w : k × K × K × k} (h : D.Mfun s w = w) (hb : w.1 = 0) :
     s * σ w.2.1 = σ s * w.2.1 := by
   have := (D.fix_eqs h).2.1
@@ -251,6 +256,7 @@ theorem fix_u_rel {s : K} {w : k × K × K × k} (h : D.Mfun s w = w) (hb : w.1 
   simp only [Subfield.coe_zero, zero_mul, add_zero] at this
   exact D.B_eq_zero this
 
+omit [Finite K] in
 theorem fix_v_eq {s : K} {w : k × K × K × k} (h : D.Mfun s w = w) (hb : w.1 = 0) :
     D.Tr (s * w.2.2.1) = D.Tr (s * σ s * σ (σ w.2.1)) := by
   have := (D.fix_eqs h).2.2
@@ -259,6 +265,7 @@ theorem fix_v_eq {s : K} {w : k × K × K × k} (h : D.Mfun s w = w) (hb : w.1 =
   have h2 := D.add_self_k (D.Tr (s * σ s * σ (σ w.2.1)))
   linear_combination this - h2
 
+omit [Finite K] in
 theorem mem_k_of_rel {s0 u : K} (hs0 : s0 ≠ 0) (h : s0 * σ u = σ s0 * u) :
     σ (u * s0⁻¹) = u * s0⁻¹ := by
   have hσs0 : σ s0 ≠ 0 := fun h0 => hs0 (σ.injective (by rw [h0, map_zero]))
@@ -266,6 +273,7 @@ theorem mem_k_of_rel {s0 u : K} (hs0 : s0 ≠ 0) (h : s0 * σ u = σ s0 * u) :
   field_simp
   linear_combination h
 
+omit [Finite K] in
 theorem Nm_ne_zero {s0 : K} (hs0 : s0 ≠ 0) : D.Nm s0 ≠ 0 := by
   intro h
   have := congrArg Subtype.val h
@@ -301,11 +309,13 @@ theorem card_W_of_u_zero (S : AddSubgroup K) (W : AddSubgroup (k × K × K × k)
   rw [h1, h2, h3, h4, hxy.1, hxy.2]
 
 include D in
+omit [Finite K] in
 theorem exists_k_mul {s0 u : K} (hs0 : s0 ≠ 0) (h : s0 * σ u = σ s0 * u) :
     ∃ c : k, (c : K) * s0 = u :=
   ⟨⟨u * s0⁻¹, (D.hk _).2 (mem_k_of_rel hs0 h)⟩, by
     simp [mul_assoc, inv_mul_cancel₀ hs0]⟩
 
+omit [Finite K] in
 theorem u_zero_B1 (S : AddSubgroup K) (W : AddSubgroup (k × K × K × k))
     (hfix : ∀ s ∈ S, ∀ w ∈ W, D.Mfun s w = w) {s0 s1 : K} (hs0S : s0 ∈ S) (hs0 : s0 ≠ 0)
     (hs1S : s1 ∈ S) (hrel : σ s1 * s0 ≠ σ s0 * s1) {w : k × K × K × k} (hw : w ∈ W) :
@@ -321,6 +331,7 @@ theorem u_zero_B1 (S : AddSubgroup K) (W : AddSubgroup (k × K × K × k))
   · apply hrel
     linear_combination -h0
 
+omit [Finite K] in
 theorem u_zero_B2a (S : AddSubgroup K) (W : AddSubgroup (k × K × K × k))
     (hfix : ∀ s ∈ S, ∀ w ∈ W, D.Mfun s w = w) {s0 s1 : K} (hs0S : s0 ∈ S) (hs0 : s0 ≠ 0)
     (hs1S : s1 ∈ S) (hs1 : s1 ≠ 0) (hne : s1 ≠ s0) (hrel : σ s1 * s0 = σ s0 * s1)

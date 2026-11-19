@@ -31,7 +31,7 @@ theorem uc22s2121e3_exists_cartan_lift {M L T B : Subgroup G}
   have hBN : B ≤ normalizer (L : Set G) :=
     hBM.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLn)
   obtain ⟨Q, t, -, -, hcyc, h2, h3, -, hfix⟩ := uc22s13xf_fix_cartan hLM hLn hT hBN hB hBT hn hX
-  haveI := hcyc
+  have := hcyc
   obtain ⟨d, hd⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥(cartan (Q : Subgroup (Bar2 L)) t))
   obtain ⟨l, hl⟩ := QuotientGroup.mk_surjective (d : Bar2 L)
   obtain ⟨c, hcB, hcl⟩ := uc22s13xh_exists_lift hBN hB l fun b hb => hl ▸ hfix b hb d d.2
@@ -52,7 +52,7 @@ theorem uc22s2121e3_exists_elem_Sp (hThin : PartTwo.ThinList13) {D : Data G}
     ∃ y : ↥D.M, (y : G) ∈ normalizer (B : Set G) ∧ orderOf (y : G) = p ∧
       ∀ J ∈ PartTwo.s13_compsP (Bar2 D.M) p,
         QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) y ∈ centralizer (J : Set (Bar2 D.M)) := by
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨P, hP, hPN⟩ := hB.2.2.2.2.2
   obtain ⟨E, hE, -, hcE⟩ := CFSG.SectionRank.exists_pRank hpp.one_lt (F13.Sp D.M p)
   have hpS : p ∣ Nat.card (F13.Sp D.M p) := by

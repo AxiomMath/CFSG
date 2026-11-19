@@ -22,7 +22,7 @@ theorem u3_lemma42 (hS : Setting G) (hClass : GenericComponentClass G)
   by_contra hbad
   have hgen := u3_bad_isGenericPoint hS hc hfus.1 ha hax hbad
   have hPa := u3_P_le_centralizer_of_mem_U0 hc hfus.1 ha
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨Ja, hJaC, hCJa, hperf, hlt, hmin, hnot, Q, hQ, ψ, hψ, hker, hlist, hFi⟩ :=
     hClass p hc.sigma P M hc.core hc.fail hc.larger a hgen hc.five
   have hP3 := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).2

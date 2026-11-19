@@ -35,7 +35,7 @@ theorem s16t_ten_blocks_of_case168_10 (D : Data G) (h1217 : R1217 D) {V₀ V L :
     rw [show Nat.card ↥(barSub V₀ V hV L) = p from hcyc.2]
     exact hpodd
   obtain ⟨g, hg⟩ := s16t_twoConj_of_odd D h1217 hV hc hodd hs
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hLp : IsPGroup p ↥(lBar V₀ V hV L) :=
     IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hcyc.2)
   have hLA : lBar V₀ V hV L ≤ fstarBar D.M V₀ V hV :=

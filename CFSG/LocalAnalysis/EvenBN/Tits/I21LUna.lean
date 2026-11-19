@@ -10,6 +10,7 @@ open Module Subgroup
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem nu_coe_pow (g : V ≃ₗ[ZMod 2] V) (n : ℕ) :
     ((g ^ n : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V) = (g : V →ₗ[ZMod 2] V) ^ n := by
   exact map_pow (LinearEquiv.automorphismGroup.toLinearMapMonoidHom : (V ≃ₗ[ZMod 2] V) →* _) g n
@@ -18,10 +19,10 @@ theorem pow_eq_one_of_two_pow (g : V ≃ₗ[ZMod 2] V) {k m : ℕ} (hg : g ^ (2 
     (hm : finrank (ZMod 2) V ≤ 2 ^ m) : g ^ (2 ^ m) = 1 := by
   rcases subsingleton_or_nontrivial V with hV | hV
   · exact Subsingleton.elim _ _
-  haveI : CharP (Module.End (ZMod 2) V) 2 := by
-    haveI : Nontrivial (Module.End (ZMod 2) V) := inferInstance
+  have : CharP (Module.End (ZMod 2) V) 2 := by
+    have : Nontrivial (Module.End (ZMod 2) V) := inferInstance
     exact charP_of_injective_algebraMap (algebraMap (ZMod 2) (Module.End (ZMod 2) V)).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set G : Module.End (ZMod 2) V := (g : V →ₗ[ZMod 2] V) with hG
   set N : Module.End (ZMod 2) V := G - 1 with hN
   have hGp : ∀ n : ℕ, ((g ^ n : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V) = G ^ n := nu_coe_pow g
@@ -52,18 +53,22 @@ theorem pow_eq_one_of_two_pow (g : V ≃ₗ[ZMod 2] V) {k m : ℕ} (hg : g ^ (2 
   exact h2
 
 
+omit [Module.Finite (ZMod 2) V] in
 theorem add_self_eq_zero' (w : V) : w + w = 0 := by
   have : (2 : ZMod 2) = 0 := by decide
   calc w + w = (2 : ZMod 2) • w := by rw [two_smul]
     _ = 0 := by rw [this, zero_smul]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem neg_eq_self' (w : V) : -w = w := by
   have h := add_self_eq_zero' w
   exact neg_eq_of_add_eq_zero_right h
 
+omit [Module.Finite (ZMod 2) V] in
 theorem nu_apply (g : V ≃ₗ[ZMod 2] V) (v : V) : nu g v = g v - v := by
   simp [nu]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem nu_nu_of_sq (g : V ≃ₗ[ZMod 2] V) (hg : g * g = 1) (v : V) : nu g (nu g v) = 0 := by
   have h2 : g (g v) = v := by
     have := congrArg (fun f : V ≃ₗ[ZMod 2] V => f v) hg
@@ -74,6 +79,7 @@ theorem nu_nu_of_sq (g : V ≃ₗ[ZMod 2] V) (hg : g * g = 1) (v : V) : nu g (nu
   calc v + g v + (g v + v) = (v + v) + (g v + g v) := by abel
     _ = 0 := by rw [add_self_eq_zero', add_self_eq_zero', add_zero]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem range_nu_le_fixSp (g : V ≃ₗ[ZMod 2] V) (hg : g * g = 1) :
     LinearMap.range (nu g) ≤ fixSp g := by
   rintro _ ⟨v, rfl⟩
@@ -89,6 +95,7 @@ theorem two_mul_rk_le (g : V ≃ₗ[ZMod 2] V) (hg : g * g = 1) :
   omega
 
 
+omit [Module.Finite (ZMod 2) V] in
 theorem rk_conj (g h : V ≃ₗ[ZMod 2] V) : rk (h * g * h⁻¹) = rk g := by
   have hr : LinearMap.range (nu (h * g * h⁻¹)) =
       (LinearMap.range (nu g)).map (h : V →ₗ[ZMod 2] V) := by
@@ -113,18 +120,18 @@ theorem four_dvd_of_five_dvd_two_pow_sub_one {d : ℕ} (h : 5 ∣ 2 ^ d - 1) : 4
     rw [pow_add, pow_mul, Nat.mul_mod, Nat.pow_mod]
     norm_num
   rw [h2] at h1
-  interval_cases r <;> simp_all <;> omega
+  interval_cases r <;> simp_all
 
 theorem four_dvd_finrank_of_stable {x : V ≃ₗ[ZMod 2] V} (hx : x ^ 5 = 1)
     {U : Submodule (ZMod 2) V} (hU : Stable x U) (hfix : ∀ u ∈ U, x u = u → u = 0) :
     4 ∣ finrank (ZMod 2) U := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Type _ := {v : V // v ∈ U ∧ v ≠ 0}
-  haveI : Finite S := inferInstance
-  haveI : Fintype S := Fintype.ofFinite S
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Finite S := inferInstance
+  have : Fintype S := Fintype.ofFinite S
+  have : Fintype U := Fintype.ofFinite U
   let f : Function.End S := fun s => ⟨x s, hU _ s.2.1, fun h0 => s.2.2 (by
     have := congrArg (fun w => x⁻¹ w) h0
     simpa using this)⟩
@@ -161,7 +168,7 @@ theorem four_dvd_finrank_of_stable {x : V ≃ₗ[ZMod 2] V} (hx : x ^ 5 = 1)
     have h1 : Fintype.card {u : U // u ≠ 0} = Fintype.card U - 1 := by
       have := Fintype.card_subtype_compl (fun u : U => u = 0)
       simp only [Fintype.card_subtype_eq] at this
-      simpa using this
+      simp
     have h2 : Fintype.card U = 2 ^ finrank (ZMod 2) U := by
       have := Module.card_eq_pow_finrank (K := ZMod 2) (V := U)
       simpa using this
@@ -171,18 +178,19 @@ theorem four_dvd_finrank_of_stable {x : V ≃ₗ[ZMod 2] V} (hx : x ^ 5 = 1)
   exact (Nat.modEq_zero_iff_dvd.mp hmod)
 
 
+omit [Module.Finite (ZMod 2) V] in
 theorem exists_stable_complement (O : Subgroup (V ≃ₗ[ZMod 2] V)) (hodd : Odd (Nat.card O))
     (U : Submodule (ZMod 2) V) (hU : ∀ g ∈ O, Stable g U) :
     ∃ U' : Submodule (ZMod 2) V, IsCompl U U' ∧ ∀ g ∈ O, Stable g U' := by
   classical
-  haveI : Finite O := Nat.finite_of_card_ne_zero (by obtain ⟨k, hk⟩ := hodd; omega)
-  haveI : Fintype O := Fintype.ofFinite O
+  have : Finite O := Nat.finite_of_card_ne_zero (by obtain ⟨k, hk⟩ := hodd; omega)
+  have : Fintype O := Fintype.ofFinite O
   obtain ⟨q, hq⟩ := Submodule.exists_isCompl U
-  let π : V →ₗ[ZMod 2] V := U.subtype ∘ₗ Submodule.linearProjOfIsCompl U q hq
-  have hπU : ∀ v, π v ∈ U := fun v => (Submodule.linearProjOfIsCompl U q hq v).2
+  let π : V →ₗ[ZMod 2] V := U.subtype ∘ₗ _root_.Submodule.projectionOnto U q hq
+  have hπU : ∀ v, π v ∈ U := fun v => (_root_.Submodule.projectionOnto U q hq v).2
   have hπfix : ∀ u ∈ U, π u = u := fun u hu => by
-    have h1 : (U.linearProjOfIsCompl q hq) u = ⟨u, hu⟩ :=
-      Submodule.linearProjOfIsCompl_apply_left hq ⟨u, hu⟩
+    have h1 : (U.projectionOnto q hq) u = ⟨u, hu⟩ :=
+      Submodule.projectionOnto_apply_left hq ⟨u, hu⟩
     simp [π, h1]
   let π' : V →ₗ[ZMod 2] V :=
     ∑ g : O, ((g : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V) ∘ₗ π ∘ₗ
@@ -214,7 +222,7 @@ theorem exists_stable_complement (O : Subgroup (V ≃ₗ[ZMod 2] V)) (hodd : Odd
     rw [hπ'v, hπ'v, map_sum]
     refine Fintype.sum_equiv (Equiv.mulLeft (⟨h⁻¹, inv_mem hh⟩ : O)) _ _ ?_
     intro g
-    simp [mul_assoc]
+    simp
   refine ⟨LinearMap.ker π', ?_, ?_⟩
   · refine ⟨?_, ?_⟩
     · rw [Submodule.disjoint_def]
@@ -234,6 +242,7 @@ theorem exists_stable_complement (O : Subgroup (V ≃ₗ[ZMod 2] V)) (hodd : Odd
     rw [hequiv g hg, h1, map_zero]
 
 
+omit [Module.Finite (ZMod 2) V] in
 theorem isCompl_fixSp_range_nu (g : V ≃ₗ[ZMod 2] V) (hg : Odd (orderOf g)) :
     IsCompl (fixSp g) (LinearMap.range (nu g)) := by
   classical
@@ -395,10 +404,10 @@ theorem commuting_two_elt_trivial {x g : V ≃ₗ[ZMod 2] V} (hx : x ^ 5 = 1) (h
 theorem stable_pow_six {a : V ≃ₗ[ZMod 2] V} {N : Submodule (ZMod 2) V}
     (hN : finrank (ZMod 2) N ≤ 2) (hs : Stable a N) : ∀ v ∈ N, (a ^ 6) v = v := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fintype N := Fintype.ofFinite N
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fintype N := Fintype.ofFinite N
   let X : Type _ := {v : N // v ≠ 0}
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   let f : X → X := fun x => ⟨⟨a x.1, hs _ x.1.2⟩, fun h0 => x.2 (by
     have h1 : a (x.1 : V) = 0 := congrArg Subtype.val h0
     apply Subtype.ext

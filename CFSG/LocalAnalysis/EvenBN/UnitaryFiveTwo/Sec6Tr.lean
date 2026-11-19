@@ -123,7 +123,7 @@ theorem map_Z₂K_comm {χ : SL(4, F4) →* G} {q z : G} (hq : q ∈ PK.map χ) 
 theorem isSylowOf_map_PK [Finite G] {K : Subgroup G} {χ : SL(4, F4) →* G}
     (hinj : Function.Injective χ) (hsurj : ∀ g ∈ K, ∃ x, χ x = g) (hKm : ∀ x, χ x ∈ K) :
     CFSG.ABGLocalTools.IsSylowOf 2 (PK.map χ) K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩

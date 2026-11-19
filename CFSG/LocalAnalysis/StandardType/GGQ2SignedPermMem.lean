@@ -13,7 +13,7 @@ theorem signedPermGroupOn_univ (t : ℕ) :
   rw [signedPermGroupOn, signedPermGroup]
   congr 1
   ext T
-  simp only [Set.mem_union, Set.mem_setOf_eq, Finset.mem_univ, true_and]
+  simp only [Set.mem_union, Set.mem_ofPred_eq, Finset.mem_univ, true_and]
 
 private theorem funCongrLeft_mem_signedPermGroupOn {t : ℕ} (S : Finset (Fin t))
     (σ : Equiv.Perm (Fin t)) (hσ : ∀ i ∉ S, σ i = i) :
@@ -85,7 +85,7 @@ private theorem piCongrRight_neg_mem_signedPermGroupOn {t : ℕ} (S : Finset (Fi
     exact mul_mem (Subgroup.subset_closure (Or.inr ⟨a, haS, rfl⟩)) (ih hAS')
 
 private theorem orientEquiv_mem_signedPermGroupOn {t : ℕ} (S : Finset (Fin t))
-    (ε : Fin t → F) (hε : ∀ i, ε i = 1 ∨ ε i = -1) (hεS : ∀ i ∉ S, ε i = 1) :
+    (ε : Fin t → F) (_hε : ∀ i, ε i = 1 ∨ ε i = -1) (hεS : ∀ i ∉ S, ε i = 1) :
     orientEquiv t ε ∈ signedPermGroupOn t S := by
   classical
   have hAεS : Finset.univ.filter (fun k => ε k = -1) ⊆ S := by

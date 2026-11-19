@@ -10,7 +10,7 @@ public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Colex
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -47,7 +47,7 @@ public section
 namespace CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc
 
 theorem arith_conds (P B a : ℤ) (hP : 4 ≤ P) (hPe : 2 ∣ P) (hB1 : 1 ≤ B) (hB2 : 2 * B ≤ P)
-    (hBp : B = 1 ∨ 2 ∣ B) (ha0 : 0 < a) (haM : a < P - 1) (haB : B < a)
+    (hBp : B = 1 ∨ 2 ∣ B) (_ha0 : 0 < a) (haM : a < P - 1) (haB : B < a)
     (hd1 : a + B ≠ P - 1) (hd2 : 2 * a + P ≠ 2 * P - 2) (hd3 : 2 ∣ B → 2 * a + B ≠ 2 * P - 2)
     (hd4 : a + 2 * B ≠ P - 1) (hd5 : a + 1 ≠ P - 1)
     (hf1 : 2 * a ≠ P) (hf2 : 2 * a ≠ B) (hf3 : a ≠ 2 * B) (hf4 : a ≠ 1) :

@@ -18,13 +18,14 @@ open CFSG Subgroup CFSG.ComponentClassification.UnbalancedLayer
 variable {G : Type} [Group G] [Finite G] {a x : G} {J S' W K T : Subgroup G} {t : G}
   {ρ : ↥(normalizer (W : Set G)) →* WrE}
 
+omit [Finite G] in
 private theorem mem_conjugate_iff_p42 {H : Subgroup G} {g x : G} :
     x ∈ conjugate H g ↔ g * x * g⁻¹ ∈ H := by
   constructor
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
 omit [Finite G] in
 private theorem oddIn_conjugate_p42 (K : Subgroup G) (c : G) :
@@ -53,10 +54,12 @@ private theorem isL34Type_conjugate_p42 {K : Subgroup G} (g : G)
   exact LieType.CurtisTits.lieModel_of_mulEquiv
     (CFSG.ComponentClassification.FooteLit.nonempty_quotient_fusionZStar_equiv e).some h
 
+omit [Finite G] in
 private theorem isPGroup_zpowers_of_pow_p42 {u : G} {n : ℕ} (hu : u ^ 2 ^ n = 1) :
     IsPGroup 2 (zpowers u) :=
   IsPGroup.of_card_dvd_pow (n := n) (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hu)
 
+omit [Finite G] in
 private theorem mem_normalizer_zpowers_of_comm_p42 (u v : G) (huv : u * v = v * u) :
     u ∈ normalizer ((zpowers v : Subgroup G) : Set G) := by
   have h1 : Commute u v := huv
@@ -78,6 +81,7 @@ private theorem mem_normalizer_zpowers_of_comm_p42 (u v : G) (huv : u * v = v * 
         _ = v ^ k := h2
     rw [this]; exact zpow_mem (mem_zpowers v) k
 
+omit [Finite G] in
 private theorem isPGroup_sup_three_p42 {u a y : G} (hu : u ^ 2 ^ 2 = 1) (ha : a ^ 2 ^ 1 = 1)
     (hy : y ^ 2 ^ 1 = 1) (hua : u * a = a * u) (huy : u * y = y * u) (hay : a * y = y * a) :
     IsPGroup 2 ↥(zpowers u ⊔ zpowers a ⊔ zpowers y) := by

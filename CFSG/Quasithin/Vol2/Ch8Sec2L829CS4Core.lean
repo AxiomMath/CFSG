@@ -34,7 +34,7 @@ section Rank
 
 theorem exists_elemAb9_of_two_le_pRank {X : Type} [Group X] [Finite X]
     (h : 2 ≤ pRank 3 (⊤ : Subgroup X)) : ∃ E : Subgroup X, IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold pRank at h
   have hbot : IsElemAbelian 3 (⊥ : Subgroup X) := by
     have h1 : ∀ a : (⊥ : Subgroup X), (a : X) = 1 := fun a => Subgroup.mem_bot.mp a.2
@@ -69,7 +69,7 @@ theorem exists_elemAb9_of_commuting {Q : Type} [Group Q] [Finite Q] (x y : Q)
     (hx : orderOf x = 3) (hy : orderOf y = 3) (hxy : x * y = y * x)
     (hind : ∀ i j : ℕ, x ^ i * y ^ j = 1 → 3 ∣ i ∧ 3 ∣ j) :
     ∃ E : Subgroup Q, IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxpow : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hypow : y ^ 3 = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
   have hC : Commute x y := hxy
@@ -191,7 +191,7 @@ theorem exists_elemAb9_of_quotient_meet {X : Type} [Group X] [Finite X]
     (E : Subgroup (X ⧸ Y)) (hE : IsElemAbelian 3 E) (hE9 : Nat.card E = 9)
     (hEK : ∀ e ∈ E, ∃ k ∈ K', (k : X ⧸ Y) = e) :
     ∃ F : Subgroup X, F ≤ K' ∧ IsElemAbelian 3 F ∧ Nat.card F = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P : Subgroup X := E.comap (QuotientGroup.mk' Y) ⊓ K' with hPdef
   set N : Subgroup X := Y ⊓ K' with hNdef
   have hPmem : ∀ x : X, x ∈ P ↔ ((x : X ⧸ Y) ∈ E ∧ x ∈ K') := fun x => Iff.rfl
@@ -205,7 +205,7 @@ theorem exists_elemAb9_of_quotient_meet {X : Type} [Group X] [Finite X]
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     obtain ⟨hnY, hnK⟩ := hn
     exact ⟨hYn.conj_mem _ hnY g, K'.mul_mem (K'.mul_mem (hPK g.2) hnK) (K'.inv_mem (hPK g.2))⟩
-  haveI := hNn
+  have := hNn
   let φ : ↥P →* X ⧸ Y := (QuotientGroup.mk' Y).comp P.subtype
   have hφr : φ.range = E := by
     ext e

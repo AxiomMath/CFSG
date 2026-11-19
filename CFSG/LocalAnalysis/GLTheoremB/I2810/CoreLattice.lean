@@ -17,7 +17,7 @@ variable {X : Type} [Group X]
 
 @[expose] def kTriv (K A N : Subgroup X) (hN : ∀ k ∈ K, ∀ x ∈ N, k * x * k⁻¹ ∈ N) : Subgroup X where
   carrier := {k | k ∈ K ∧ ∀ x ∈ A, ⁅k, x⁆ ∈ N}
-  one_mem' := ⟨K.one_mem, fun x _ => by simpa using N.one_mem⟩
+  one_mem' := ⟨K.one_mem, fun x _ => by simp⟩
   mul_mem' := by
     rintro k₁ k₂ ⟨hk₁, h₁⟩ ⟨hk₂, h₂⟩
     refine ⟨K.mul_mem hk₁ hk₂, fun x hx => ?_⟩
@@ -51,7 +51,7 @@ theorem K_le_of_comm {K D : Subgroup X} {a : X} (ha2 : a ^ 2 = 1)
   rw [← hKc]
   refine Subgroup.commutator_le.2 fun k hk b hb => ?_
   rcases zpowers_involution_cases ha2 hb with rfl | rfl
-  · simpa using D.one_mem
+  · simp
   · exact hD k hk
 
 end CoreLattice
@@ -129,6 +129,7 @@ theorem trans_lattice_proof (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS 
     have hmem : Y ∈ 𝒯 := ⟨hYU₁, huY, hYK, hYa⟩
     exact le_antisymm (hU₂.2 hmem hY₂) hY₂
 
+omit [Finite X] in
 theorem trans_sectionM_of_lattice_proof (h : Setup28 W K S) (hR : Red28 W K S) {a : X}
     (haS : a ∈ S) (ha2 : a ^ 2 = 1) {u : X} {U₁ U₂ : Subgroup X}
     (hl : TLattice K (vOf W K S) a u U₁ U₂) (hKc : ⁅K, Subgroup.zpowers a⁆ = K) :
@@ -187,7 +188,7 @@ theorem trans_sectionM_of_lattice_proof (h : Setup28 W K S) (hR : Red28 W K S) {
     rw [← commutatorElement_inv]; exact U₁.inv_mem this
   have hnontriv : ∃ k ∈ K, ∃ x ∈ U₁, ⁅x, k⁆ ∉ U₂ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : ⁅U₂, K⁆ = ⊥ := by
       rw [eq_bot_iff]
       refine Subgroup.commutator_le.2 fun x hx k hk => ?_
@@ -210,14 +211,14 @@ theorem trans_sectionM_of_lattice_proof (h : Setup28 W K S) (hR : Red28 W K S) {
     refine ⟨hl.ainv₁, hl.ainv₂, ⟨u, hl.u_mem, hl.u_nmem, fun x hx => ?_⟩, ?_⟩
     · have hxV : x ∈ V := hU₁V hx
       rcases hl.tr x hxV with h1 | h1
-      · left; rw [h1]; simpa using U₂.one_mem
+      · left; rw [h1]; simp
       · right
         have hcm : x * u = u * x := hVc x hxV u (hU₁V hl.u_mem)
         have : a * x * a⁻¹ * x⁻¹ * u⁻¹ = 1 := by
           rw [h1, hcm]; group
         rw [this]; exact U₂.one_mem
     · by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       obtain ⟨k, hk, x, hx, hnot⟩ := hnontriv
       apply hnot
       have hle : K ≤ CoreLattice.kTriv K U₁ U₂ hl.inv₂ := by

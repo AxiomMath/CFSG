@@ -48,7 +48,7 @@ theorem StdR.normalizes_S₀ (h : StdR r R S t T) {x : G} (hx : x ∈ (T : Subgr
   have hsyl : IsSylow2In S₀ (tightCore R) := hd.sylow_core
   have hxN : x ∈ Subgroup.normalizer (tightCore R : Set G) :=
     hd.le_normalizer_core (h.hTt hx)
-  have hKT : IsPGroup 2 ↥(tightCore R ⊓ (T : Subgroup G)) := T.isPGroup'.to_le inf_le_right
+  have hKT : IsPGroup 2 ↥(tightCore R ⊓ (T : Subgroup G)) := T.isPGroup.to_le inf_le_right
   have heq : tightCore R ⊓ (T : Subgroup G) = S₀ :=
     hsyl.2.2 _ inf_le_left hKT (le_inf hsyl.1 h.hST)
   have hmem : x * s * x⁻¹ ∈ tightCore R ⊓ (T : Subgroup G) := by
@@ -140,7 +140,7 @@ theorem StdR.exists_conj_mem_sylow (h : StdR r R S t T) {B : Subgroup G}
       have := hsc _ hb x h1
       rwa [show x⁻¹ * (x * b * x⁻¹) * x = b by group] at this
   have hTsyl : IsSylow2In (T : Subgroup G) (Subgroup.normalizer (B : Set G)) :=
-    isSylow2In_mono' ⟨le_top, T.isPGroup', fun _ _ hV2 hle => le_antisymm (T.maximal_isPGroup.2 hV2 hle) hle⟩ hTN le_top
+    isSylow2In_mono' ⟨le_top, T.isPGroup, fun _ _ hV2 hle => le_antisymm (T.maximal_isPGroup.2 hV2 hle) hle⟩ hTN le_top
   have hCN : C ≤ Subgroup.normalizer (B : Set G) := Subgroup.centralizer_le_normalizer _
   have hNC : Subgroup.normalizer (B : Set G) ≤ Subgroup.normalizer (C : Set G) := by
     intro n hn

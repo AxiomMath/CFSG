@@ -52,10 +52,10 @@ theorem four_mul_le_rkIdx_adjAct {F : Type} [Field F] [Finite F] [CharP F 2] {b 
     simpa [M] using congrFun (congrFun hM1 i) j
   obtain ⟨x, hx⟩ := hx_ex
   let I := Multiplicative ↥(adjOmega6 F b)
-  haveI : Finite I := by
+  have : Finite I := by
     dsimp [I]
     infer_instance
-  haveI : Fact (∀ s : I, s * s = 1) := ⟨fun s => by
+  have : Fact (∀ s : I, s * s = 1) := ⟨fun s => by
     apply Multiplicative.toAdd.injective
     rw [toAdd_mul, toAdd_one]
     ext i j
@@ -142,7 +142,7 @@ theorem four_mul_le_rkIdx_adjAct {F : Type} [Field F] [Finite F] [CharP F 2] {b 
     rw [hrange] at h
     simpa [K] using h
   have hKcard : Nat.card K = (Nat.card F) ^ 2 := by
-    haveI : Module.Finite F K := Module.finite_of_finrank_pos (by omega)
+    have : Module.Finite F K := Module.finite_of_finrank_pos (by omega)
     rw [Module.natCard_eq_pow_finrank (K := F) (V := K), hKfin]
   have hsubset : Set.range Ψ ⊆ Set.range (fun v : I => t v * v⁻¹) := by
     rintro y ⟨w, rfl⟩
@@ -163,7 +163,7 @@ theorem four_mul_le_rkIdx_adjAct {F : Type} [Field F] [Finite F] [CharP F 2] {b 
     · show σ y + (v - σ y) = v
       abel
   have hVle : Nat.card (Om6Idx → F) ≤ Nat.card (Set.range Ψ) * Nat.card K := by
-    haveI : Finite (Set.range Ψ × K) := inferInstance
+    have : Finite (Set.range Ψ × K) := inferInstance
     rw [← Nat.card_prod]
     exact Nat.card_le_card_of_surjective f hf
   have hVcard : Nat.card (Om6Idx → F) = (Nat.card F) ^ 6 := by

@@ -100,7 +100,7 @@ theorem wE6Gen_mem (ε : ZMod 3) (i : Fin 6) : wE6Gen ε i ∈ wE6 ε := by
       · exact Subgroup.subset_closure
           (Or.inl (perm_mem_evenFix0 (n := 5) (Equiv.swap 4 5) (by decide)))
       · exact Subgroup.subset_closure (Or.inr rfl)
-    · simp only [wE6Gen, if_neg h1, if_neg h2]
+    · simp only [wE6Gen, ite_eq_right h1, ite_eq_right h2]
       exact Subgroup.one_mem _
 
 

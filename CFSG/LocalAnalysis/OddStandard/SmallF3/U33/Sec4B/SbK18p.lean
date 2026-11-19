@@ -120,7 +120,7 @@ private theorem k18_te_sq_om (hc : Ctx13 t L S x₁ x₂ lam rho tau om) {q : G}
     _ = ((t * q * t⁻¹) * (om * q⁻¹ * om⁻¹)) * tau := by group
 
 private theorem k18_te_sq_tauom (hc : Ctx13 t L S x₁ x₂ lam rho tau om) {q : G}
-    (hq : q ∈ ctxQ t tau x₁ x₂ rho) :
+    (_hq : q ∈ ctxQ t tau x₁ x₂ rho) :
     (t * (q * (tau * om))) * (t * (q * (tau * om))) =
       ((t * q * t⁻¹) * (om * q * om⁻¹)) * tau := by
   obtain ⟨ht2pow, -, hom2pow, htau2pow, -, ht_tau, hom_t⟩ := ctx13_relations hc

@@ -107,8 +107,7 @@ private theorem lk0xu7n_class_eq {X : Type} [Group X] {f p : ℕ}
 
 theorem excNbrDictTwo_holds :
     ExcNbrDictTwo := by
-  intro X _ _ n f ψ p G₀ B₁ D J L x hP R Rm P hRJ hRmJ hpos hb
-  intro e he he1 K hKG hKcomp hJK hKne hKodd hKG₀ iK hsub hne hspan horb h2
+  intro X _ _ n f ψ p G₀ B₁ D J L x hP R Rm P hRJ hRmJ hpos hb e he he1 K hKG hKcomp hJK hKne hKodd hKG₀ iK hsub hne hspan horb h2
   obtain ⟨hψr, hψk, hLM, hZodd, hp, hp2, hB₁N, hB₁inn, hB₁el, -, hDB, hDcard,
     -, -, hJ, -, hx, hx1, -, -, -, -, -, -, -, -, -, -, -, -, hlast⟩ := hP
   obtain ⟨A, hB₁A, hAel, hAN, hAinn, hAC, hArest⟩ := hlast (Or.inr rfl)

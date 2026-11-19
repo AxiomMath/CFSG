@@ -64,7 +64,7 @@ theorem card_le_of_extremal {v w : G}
     calc g * c * g⁻¹ * v = g * (c * (g⁻¹ * v * g)) * g⁻¹ := by group
       _ = g * ((g⁻¹ * v * g) * c) * g⁻¹ := by rw [hcw]
       _ = v * (g * c * g⁻¹) := by group
-  have hQ2 : IsPGroup 2 Q := (D.S.isPGroup'.to_le inf_le_left).map _
+  have hQ2 : IsPGroup 2 Q := (D.S.isPGroup.to_le inf_le_left).map _
   obtain ⟨c, -, hc⟩ := exists_conj_le_of_isSylowOf hv hQ hQ2
   have hle : Q.map (MulAut.conj c).toMonoidHom ≤
       (D.S : Subgroup G) ⊓ centralizer ({v} : Set G) := by

@@ -21,7 +21,7 @@ theorem levelRoots_maskSet {τ : Tag} (m : ℕ) (d : ℤ) :
     levelRoots τ (maskSet τ m : Set (Fin τ.rank)) d =
       {α | IsRoot τ α ∧ (0 < height α ∧ d ≤ ∑ i, if m.testBit i.val = true then 0 else α i)} := by
   ext α
-  simp only [levelRoots, Set.mem_setOf_eq, parabolicDegree_maskSet]
+  simp only [levelRoots, Set.mem_ofPred_eq, parabolicDegree_maskSet]
 
 
 theorem ncard_levelRoots_seven :

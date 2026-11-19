@@ -41,7 +41,7 @@ private theorem l10sbsu_one_le_of_card_eq_sq {F : Type} [Field F] [Finite F] {f 
   by_contra h
   have hf0 : f = 0 := by omega
   have h1 : Nat.card F = 1 := by simpa [hf0] using hF
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h2 : 1 < Fintype.card F := Fintype.one_lt_card
   rw [Nat.card_eq_fintype_card] at h1
   omega
@@ -57,8 +57,8 @@ private theorem l10sbsu_inner_range_of_eq {F : Type} [Field F] [Finite F] [CharP
     (u : L.K) :
     GGRootNormInner ((ggRootSub L.D φ β u).subgroupOf φ.range) := by
   subst hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   rw [CFSG.StandardType.LieKnownR2.Short.ggRootSub_eq_map, l10sbsu_ggRootSub_id]
   have hR : IsPGroup 2 (((Unitary.rootDatum hF n).rootGroup β).map
       (MulAut.conj u).toMonoidHom) :=
@@ -86,8 +86,8 @@ private theorem l10sbsu_noCentralAt_of_eq {F : Type} [Field F] [Finite F] [CharP
     (u : L.K) :
     GGRootNoCentralAt φ.range (ggRootSub L.D φ β u) := by
   subst hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hf1 : 1 ≤ f := l10sbsu_one_le_of_card_eq_sq hF
   have hodd : Odd (Nat.card φ.ker) := by
     have h1 : Nat.card φ.ker ∣ Nat.card (Subgroup.center

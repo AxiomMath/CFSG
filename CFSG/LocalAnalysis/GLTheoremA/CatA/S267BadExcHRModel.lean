@@ -77,8 +77,8 @@ theorem rootDiagUnit_mulSingle_mem_torusGroup {n : Fin τ.rank → ℤ}
     funext l
     simp only [cartanChar, ← zpow_mul, Finset.prod_zpow_eq_zpow_sum, hn]
     by_cases hl : l = highNode τ
-    · rw [if_pos hl, zpow_one, hl, Pi.mulSingle_eq_same]
-    · rw [if_neg hl, zpow_zero, Pi.mulSingle_eq_of_ne hl]
+    · rw [ite_eq_left hl, zpow_one, hl, Pi.mulSingle_eq_same]
+    · rw [ite_eq_right hl, zpow_zero, Pi.mulSingle_eq_of_ne hl]
   rw [← hc]
   exact rootDiagUnit_cartanChar_mem_torusGroup _
 
@@ -258,7 +258,7 @@ theorem torusElt_mem_rootSpan_hr {S : Set (Fin τ.rank → ℤ)} {i : Fin τ.ran
 theorem dvd_card_rootSpan {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ζ : Kˣ} (hζ : orderOf ζ = p)
     {S : Set (Fin τ.rank → ℤ)} {i : Fin τ.rank} (h1 : (Pi.single i 1 : Fin τ.rank → ℤ) ∈ S)
     (h2 : (-Pi.single i 1 : Fin τ.rank → ℤ) ∈ S) : p ∣ Nat.card (rootSpan τ K S) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem := torusElt_mem_rootSpan_hr (K := K) h1 h2 ζ
   have hζp : ζ ^ p = 1 := hζ ▸ pow_orderOf_eq_one ζ
   have hord : orderOf (torusElt τ K i ζ) = p := by
@@ -301,9 +301,9 @@ theorem modelAGen_hr_gen [Finite K] {p : ℕ} (hK2 : ringChar K ≠ 2) (hp : p.P
     (hJ₂q : CFSG.Open.IsQuasisimple ↥(rootSpan τ K S₂)) :
     ModelAGen p τ.rank ↥(adjointGroup τ K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   set j₀ := highNode τ with hj₀
   have hζp : ζ ^ p = 1 := hζ ▸ pow_orderOf_eq_one ζ
   have hζ2 : ζ ^ 2 ≠ 1 := fun h => by
@@ -427,7 +427,7 @@ theorem modelAGen_hr_gen [Finite K] {p : ℕ} (hK2 : ringChar K ≠ 2) (hp : p.P
         exact pinnedX_mem_rootSpan (S := perpRoots τ) (α := Pi.single i 1)
           ⟨IsRoot.basis i, Pi.single_eq_of_ne' hi 1⟩ 1
       have h := congrArg (fun g : ↥(adjointGroup τ K) => (g : ModGL τ K)) (hfix _ hjJ)
-      simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
         Subgroup.coe_mul, Subgroup.coe_inv] at h
       rw [coe_hrTorusHom, ← pinnedX_single, rootDiagUnit_conj_pinnedX _ (IsRoot.basis i),
         mul_one] at h

@@ -268,11 +268,11 @@ theorem prep_wordK (hsz : szOK n w = true) {gP gIP : List Nat} {gs : List (Equiv
         evalCodes gs wd)
     refine prep_pcomp hn ?_ ih
     by_cases hp : 0 < z
-    · rw [if_pos hp] at hz
-      rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp] at hz
+      rw [ite_eq_left hp, ite_eq_left hp]
       exact forall₂_getD h1 hz
-    · rw [if_neg hp] at hz
-      rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp] at hz
+      rw [ite_eq_right hp, ite_eq_right hp]
       have e : (gs.map fun g => g⁻¹).getD ((-z).toNat - 1) 1 = (gs.getD ((-z).toNat - 1) 1)⁻¹ := by
         rw [List.getD_eq_getElem _ _ (by simpa using hz), List.getD_eq_getElem _ _ hz,
           List.getElem_map]

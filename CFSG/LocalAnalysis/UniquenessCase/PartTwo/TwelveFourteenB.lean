@@ -20,7 +20,7 @@ namespace TwelveFourteen
 theorem mem_hSet_of_f12Hyp124 (D : Data G) {H₀ : Subgroup G} (h : F12.Hyp124 D H₀) :
     H₀ ∈ RankThreeUC.hSet D.T D.M := by
   refine ⟨h.le_T, h.not_le_M, ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : CFSG.generalizedFitting ↥H₀ = CFSG.pCore 2 ↥H₀ := by
     have h1 := h.fstar
     unfold Fstar pCoreOf at h1
@@ -58,7 +58,7 @@ theorem hyp124_of_f12Hyp124 (D : Data G) {H₀ : Subgroup G} (h : F12.Hyp124 D H
 
 theorem isTI_of_three_mem_sig3 (D : Data G) (h61 : UC6.R6_1 D) (h611 : UC6.R6_11Used D)
     (h3 : 3 ∈ D.sig3) {V : Subgroup G} (hV : InCalV D.M V) : IsTI V := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3sig : 3 ∈ D.sig := by
     rw [D.sig_sub]
     exact Or.inr h3
@@ -81,8 +81,8 @@ theorem wClos_zero_ne_self (hTim : CFSG.CGT.Timmesfeld75.NodeStatement)
     (hcat : ¬ CFSG.Blueprint.Catalog G) (D : Data G) {V : Subgroup G} (hV : InCalV D.M V)
     (hTI : IsTI V) (h4 : 4 ≤ Nat.card V) : E3.wClos V 0 D.T ≠ V := by
   intro hW
-  haveI := D.standing.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.standing.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNV : normalizer (V : Set G) = D.M := normalizer_eq_of_inCalV D hV
   have hV2 : IsPGroup 2 V := uc22p22e_isPGroup_of_elem hV.2.2.2
   have hwc : ∀ g : G, conjSubgroup V g ≤ D.M → conjSubgroup V g = V := by
@@ -114,7 +114,7 @@ theorem exists_noncyclic_le_centralizer (D : Data G) (hx : DataExt D) (h61 : UC6
     ∃ E : Subgroup G, E ≤ D.M ∧ IsPGroup p E ∧ ¬ IsCyclic E ∧
       E ≤ centralizer (U : Set G) := by
   have hpP : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   by_contra hno
   have hrk : CFSG.Open.pRank p (D.M ⊓ centralizer (U : Set G)) ≤ 1 := by
     by_contra hlt
@@ -154,7 +154,7 @@ theorem exists_noncyclic_le_centralizer (D : Data G) (hx : DataExt D) (h61 : UC6
   have hPM : P ≤ D.M := hPE.trans hEM
   have h8 : 8 ≤ Nat.card U := by
     by_contra hlt
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp3 : 3 ≤ p := by
       have h2 := hpP.two_le
       have h3 := (D.sig_prime p hp).2

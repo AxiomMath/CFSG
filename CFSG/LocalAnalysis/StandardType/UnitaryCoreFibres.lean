@@ -14,6 +14,7 @@ open Matrix SpBlocks
 variable {Γ : Type*} [Group Γ] [Finite Γ] {ι : Type*} [Fintype ι] [DecidableEq ι] {Ω : Type*}
   [Field Ω] [IsAlgClosed Ω] [CharP Ω 2]
 
+omit [Finite Γ] in
 theorem eq_one_of_fibres {κ : Type*} [DecidableEq κ] (h5 : HasOrderFiveData Γ)
     (h7 : HasOrderSevenData Γ) (σ : Ω ≃+* Ω) (c : ι → κ) {H : Matrix ι ι Ω} (hHu : IsUnit H)
     (Q : Γ →* Matrix ι ι Ω)
@@ -42,10 +43,12 @@ theorem eq_one_of_fibres {κ : Type*} [DecidableEq κ] (h5 : HasOrderFiveData Γ
       _ = (Q * ρ g) * ((P * Q) * (ρ h * P)) := by rw [hPQ, one_mul]
       _ = ((Q * ρ g) * P) * ((Q * ρ h) * P) := by simp only [Matrix.mul_assoc]
 
+omit [Finite Γ] [IsAlgClosed Ω] [CharP Ω 2] in
 theorem conjHom_apply {P Q : Matrix ι ι Ω} (hPQ : P * Q = 1) (hQP : Q * P = 1)
     (ρ : Γ →* Matrix ι ι Ω) (g : Γ) : conjHom hPQ hQP ρ g = Q * ρ g * P :=
   rfl
 
+omit [Finite Γ] [IsAlgClosed Ω] [CharP Ω 2] in
 theorem eq_one_of_conjHom {P Q : Matrix ι ι Ω} (hPQ : P * Q = 1) (hQP : Q * P = 1)
     (ρ : Γ →* Matrix ι ι Ω) (g : Γ) (h : conjHom hPQ hQP ρ g = 1) : ρ g = 1 := by
   have h' : Q * ρ g * P = 1 := h
@@ -54,6 +57,7 @@ theorem eq_one_of_conjHom {P Q : Matrix ι ι Ω} (hPQ : P * Q = 1) (hQP : Q * P
     _ = P * (Q * ρ g * P) * Q := by simp only [Matrix.mul_assoc]
     _ = 1 := by rw [h', Matrix.mul_one, hPQ]
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 theorem splits_fibre_of_commute_diagonal {A κ : Type*} [DecidableEq κ] (w : A → ι → Ω)
     {M : Matrix ι ι Ω} (hM : ∀ a, M * diagonal (w a) = diagonal (w a) * M) (c : ι → κ)
     (hc : ∀ α β, (∀ a, w a α = w a β) → c α = c β) (k : κ) :
@@ -62,6 +66,7 @@ theorem splits_fibre_of_commute_diagonal {A κ : Type*} [DecidableEq κ] (w : A 
   intro α β hαβ
   exact hc α β (fun a => congr_fun (SpBlocks.entries_eq_of_commute_diagonal w hM hαβ) a)
 
+omit [Fintype ι] [IsAlgClosed Ω] [CharP Ω 2] in
 lemma diagonal_const_eq_smul_one (c : Ω) :
     diagonal (fun _ : ι => c) = c • (1 : Matrix ι ι Ω) := by
   rw [show (fun _ : ι => c) = c • (fun _ => (1 : Ω)) by funext i; simp]

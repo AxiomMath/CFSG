@@ -111,7 +111,7 @@ theorem exists_orderOf_eq_three_not_mem {L : Type*} [Group L] [Finite L]
       infer_instance
     rw [hbot, Subgroup.mem_bot] at hz'mem
     exact hz1 (congrArg Subtype.val hz'mem)
-  have : Fact (IsPGroup 3 ↥(P : Subgroup L)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup 3 ↥(P : Subgroup L)) := ⟨P.isPGroup⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (R := ↥(P : Subgroup L)) (p := 3)
     (by norm_num) hncyc
   have hZcard' : Nat.card (Z.subgroupOf (P : Subgroup L)) = 3 :=
@@ -151,14 +151,14 @@ theorem no_s3_section_of_hom {K K' : Type*} [Group K] [Finite K] [Group K'] (f :
   have hinjP : ∀ x ∈ (P : Subgroup K), ∀ y ∈ (P : Subgroup K), f x = f y → x = y := by
     intro x hx y hy hxy
     have hmem : x⁻¹ * y ∈ (P : Subgroup K) := Subgroup.mul_mem _ (Subgroup.inv_mem _ hx) hy
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup' ⟨x⁻¹ * y, hmem⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup ⟨x⁻¹ * y, hmem⟩
     have h1 : x⁻¹ * y = 1 := hker3 _
       ⟨k, (Subgroup.orderOf_coe (⟨x⁻¹ * y, hmem⟩ : ↥(P : Subgroup K))).trans hk⟩
       (by rw [map_mul, map_inv, hxy, inv_mul_cancel])
     exact (inv_mul_eq_one.1 h1)
   have hcyc : IsCyclic ↥(P : Subgroup K) := by
     by_contra hncyc
-    have : Fact (IsPGroup 3 ↥(P : Subgroup K)) := ⟨P.isPGroup'⟩
+    have : Fact (IsPGroup 3 ↥(P : Subgroup K)) := ⟨P.isPGroup⟩
     obtain ⟨S, -, hScard, hSel⟩ :=
       CFSG.lemma_4_5_a (R := ↥(P : Subgroup K)) (p := 3) (by norm_num) hncyc
     have : CFSG.IsElementaryAbelian 3 ↥S := hSel
@@ -188,7 +188,7 @@ theorem no_s3_section_of_hom {K K' : Type*} [Group K] [Finite K] [Group K'] (f :
     exact ⟨n, by simpa using (congrArg Subtype.val hn).symm⟩
   have hφP : ∀ x ∈ (P : Subgroup K), φ x = 1 := by
     intro x hx
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 P.isPGroup ⟨x, hx⟩
     have h1 : x ^ (3 ^ k) = 1 := by
       have := pow_orderOf_eq_one (⟨x, hx⟩ : ↥(P : Subgroup K))
       rw [hk] at this
@@ -233,7 +233,7 @@ theorem no_s3_section_of_hom {K K' : Type*} [Group K] [Finite K] [Group K'] (f :
   have htg : t * (g : K) * t⁻¹ ∈ (P : Subgroup K) :=
     (Subgroup.mem_normalizer_iff.1 htN _).1 g.2
   obtain ⟨a, ha⟩ := hPg _ htg
-  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.1 P.isPGroup' g
+  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.1 P.isPGroup g
   have hgK : orderOf (g : K) = 3 ^ j := by rw [Subgroup.orderOf_coe]; exact hj
   have hg1 : (g : K) ≠ 1 := fun h => hπg (by
     have : π (g : K) = 1 := by rw [h, map_one]

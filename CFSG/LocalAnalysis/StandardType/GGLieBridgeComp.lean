@@ -54,8 +54,6 @@ private theorem l10b2_normal {G Y : Type} [Group G] [Group Y] {G₀ D : Subgroup
     change (c : G) * (y : G) * (c : G)⁻¹ ∈ Subgroup.centralizer (D : Set G)
     rw [Subgroup.mem_centralizer_iff]
     intro d hd
-    change d * ((c : G) * (y : G) * (c : G)⁻¹) =
-      ((c : G) * (y : G) * (c : G)⁻¹) * d
     obtain ⟨a, ha, hp⟩ := h₁ d hd
     have hmem : d * (c : G) * d⁻¹ ∈ G₀ :=
       (Subgroup.mem_normalizer_iff.mp (hDN hd) (c : G)).mp c.2
@@ -119,7 +117,7 @@ private theorem l10b2_subnormal {G : Type} [Group G] {Y : Type} [Group Y] {G₀ 
 
 private theorem l10b2_nonabelian {D : Type} [Group D] (hD : CFSG.Assembly.IsQuasisimple D) :
     ∃ a b : D ⧸ Subgroup.center D, a * b ≠ b * a := by
-  haveI : IsSimpleGroup (D ⧸ Subgroup.center D) := hD.2
+  have : IsSimpleGroup (D ⧸ Subgroup.center D) := hD.2
   by_contra hcon
   push Not at hcon
   have hle : commutator D ≤ Subgroup.center D := by
@@ -171,7 +169,7 @@ private theorem l10b2_quasisimple {G : Type} [Group G] {Y : Type} [Group Y] {G�
         | H y =>
           rw [QuotientGroup.eq, hcenter]
           exact Subgroup.mem_top _
-    haveI : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hq'.2
+    have : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hq'.2
     exact not_subsingleton _ hsub
   have hqF : CFSG.IsQuasisimple ↥J' := l10b2_isQuasisimple_foundations hq'
   have hm : CFSG.IsQuasisimple ↥(J'.map θ) := CFSG.LocalCores.isQuasisimple_map hqF θ hne

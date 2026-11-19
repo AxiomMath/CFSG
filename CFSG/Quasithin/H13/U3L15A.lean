@@ -466,7 +466,7 @@ theorem exists_TL_tau : ∃ t : ↥(normalizer (V : Set G)), (t : G) ∈ T ⊓ L
   let P : Sylow 2 ↥L := hP1.toSylow hTLs.2.2
   let Q : Sylow 2 ↥(alternatingGroup (Fin 6)) := P.mapSurjective hθ
   have hQcard : Nat.card (Q : Subgroup ↥(alternatingGroup (Fin 6))) = 8 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup
     have h1 := Subgroup.card_mul_index (Q : Subgroup ↥(alternatingGroup (Fin 6)))
     rw [hk, card_alt6] at h1
     have h2 := Q.not_dvd_index

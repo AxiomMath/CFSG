@@ -38,7 +38,7 @@ private theorem exists_transvection_w (hS : Setting G) {P : Sylow 3 G} {M : Subg
     obtain ⟨A, hAP, hAe, hAc⟩ := pRank_attained 3 (P : Subgroup G) (by omega)
     exact ⟨A, hAP, (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 A).2 hAe,
       by rwa [hP3] at hAc⟩
-  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection Nat.prime_three P.isPGroup'
+  obtain ⟨hcomm, h, hh, hne⟩ := hB.exists_transvection Nat.prime_three P.isPGroup
     hz.centralizes hz.ne_one hz.pow_eq_one hA
   obtain ⟨k, hk⟩ : ∃ k : ℕ, z ^ k = h * x * h⁻¹ * x⁻¹ :=
     (Submonoid.mem_powers_iff _ _).mp (mem_powers_iff_mem_zpowers.mpr (hcomm h hh))
@@ -179,7 +179,7 @@ private theorem fit627W_exists_pGroup {F : Subgroup G} [Group.IsNilpotent F] {q 
     exact hg
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
   have hSc : (S : Subgroup F).Characteristic := Sylow.characteristic_of_normal S inferInstance
-  exact ⟨(S : Subgroup F).map F.subtype, S.isPGroup'.map F.subtype, Subgroup.map_subtype_le _,
+  exact ⟨(S : Subgroup F).map F.subtype, S.isPGroup.map F.subtype, Subgroup.map_subtype_le _,
     ⟨⟨g, hgF⟩, hS (mem_zpowers _), rfl⟩, fit627W_normalizer_le_of_characteristic _⟩
 
 theorem fitting_inf_eq_bot_of_prop65 {P : Sylow 3 G} {M : Subgroup G} {x z : G}

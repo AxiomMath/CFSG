@@ -202,7 +202,7 @@ theorem sixfourteen_n2_isTensorS3L2 {W : Type} [CommGroup W] [Finite W]
         (∀ h : ↥H, S.image (fun L => lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L) = S)) :
     letI := galoisModule hw2 x hx3 hfix
     IsTensorS3L2 W G 2 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   obtain ⟨L, M, H0, v, d, s0, l, m, a, U, hS3, hBasis⟩ :=
     pair_basis_and_U_full hw2 x hx3 hx_ord3 hfix hW hH hXG hXnorm hxgen hsG hs_ord2
       hs_not_cent hirr hD hDCX hDs hElem hDcard hYD hYinv hYcard hcommH hpair
@@ -387,8 +387,8 @@ theorem sixfourteen_n2_isTensorS3L2 {W : Type} [CommGroup W] [Finite W]
     change (h : MulAut W) * (a : MulAut W) = (a : MulAut W) * (h : MulAut W)
     rw [← hn]
     exact (Commute.zpow_right (hcommH h h.2) n).eq
-  haveI hXHnorm : (X.subgroupOf H).Normal := Subgroup.normal_of_le_center hXcen
-  haveI hXH0norm : ((X.subgroupOf H).subgroupOf H0).Normal := inferInstance
+  have hXHnorm : (X.subgroupOf H).Normal := Subgroup.normal_of_le_center hXcen
+  have hXH0norm : ((X.subgroupOf H).subgroupOf H0).Normal := inferInstance
   have hH0_le : H0.map H.subtype ≤ A ⊔ B := by
     intro y hy
     rw [Subgroup.mem_map] at hy
@@ -630,17 +630,17 @@ theorem sixfourteen_n2_isTensorS3L2 {W : Type} [CommGroup W] [Finite W]
     rw [hx_eq, orderOf_one] at hx_ord3
     omega
   have hc3 : c ^ 3 = 1 := by
-    haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+    have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
     have h := FiniteField.pow_card_sub_one_eq_one c hc0
     rwa [show Fintype.card (GaloisField 2 2) = 4 by
       rw [← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
       norm_num, show 4 - 1 = 3 by norm_num] at h
   obtain ⟨eF, heF_c, heF_sq⟩ := exists_eF_of_scalar c hc3 hc1
-  letI : Module (ZMod 2) (Additive U) :=
+  let : Module (ZMod 2) (Additive U) :=
     CFSG.Quasithin.H13.Mult.zmodModuleW (W := U) (fun u : U => by
       apply Subtype.ext
       simpa [pow_two] using hw2 (u : W))
-  letI : Module (ZMod 2) (Additive W) := addModTwo hw2
+  let : Module (ZMod 2) (Additive W) := addModTwo hw2
   let u1 : Additive W := a ^ 2 • l + a • m
   let u2 : Additive W := a • l + a ^ 2 • m
   have ha0 : a ≠ 0 := by
@@ -772,7 +772,7 @@ theorem sixfourteen_n2_isTensorS3L2 {W : Type} [CommGroup W] [Finite W]
     rw [Nat.card_congr Additive.toMul, hUcard]
     norm_num
   have hfinU : Module.finrank (ZMod 2) (Additive U) = 2 := by
-    haveI : Module.Finite (ZMod 2) (Additive U) := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) (Additive U) := Module.Finite.of_finite
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive U)
     rw [Nat.card_zmod] at h
     rw [hcardU] at h
@@ -956,8 +956,7 @@ theorem sixfourteen_n2_isTensorS3L2 {W : Type} [CommGroup W] [Finite W]
       (t : (GaloisField 2 2) ⊗[ZMod 2] Additive U),
       mulE (c • t) = c • mulE t := by
     intro c t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a u =>
         rw [TensorProduct.smul_tmul', mulE_tmul, mulE_tmul, smul_smul]
         simp
@@ -981,7 +980,7 @@ theorem sixfourteen_n2_isTensorS3L2 {W : Type} [CommGroup W] [Finite W]
       obtain ⟨t, rfl⟩ := hex
       exact ⟨c • t, mulE_smul c t⟩
   have hfinW_z2 : Module.finrank (ZMod 2) (Additive W) = 4 := by
-    haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive W)
     rw [Nat.card_zmod] at h
     have hcard : Nat.card (Additive W) = 2 ^ 4 := by
@@ -992,8 +991,8 @@ theorem sixfourteen_n2_isTensorS3L2 {W : Type} [CommGroup W] [Finite W]
   have hfin_tensor : Module.finrank (ZMod 2)
       ((GaloisField 2 2) ⊗[ZMod 2] Additive U) = 4 := by
     rw [Module.finrank_tensorProduct, galoisField_two_two_finrank, hfinU]
-  haveI : Module.Finite (ZMod 2) ((GaloisField 2 2) ⊗[ZMod 2] Additive U) := by
-    haveI : Module.Finite (ZMod 2) (GaloisField 2 2) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) ((GaloisField 2 2) ⊗[ZMod 2] Additive U) := by
+    have : Module.Finite (ZMod 2) (GaloisField 2 2) := Module.Finite.of_finite
     let bF : Module.Basis (Fin 2) (ZMod 2) (GaloisField 2 2) :=
       (Module.finBasis (ZMod 2) (GaloisField 2 2)).reindex
         (finCongr galoisField_two_two_finrank)

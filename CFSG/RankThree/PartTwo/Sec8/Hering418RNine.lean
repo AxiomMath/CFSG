@@ -204,7 +204,7 @@ local macro "matexpand" : tactic =>
     Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
     Matrix.empty_val', Matrix.cons_val_fin_one, Fin.isValue, Fin.zero_eta, Fin.mk_one,
     Matrix.one_apply, Matrix.cons_val_two, Matrix.tail_cons, Fin.reduceFinMk,
-    Matrix.head_fin_const, Fin.mk.injEq, if_true, if_false, zero_ne_one, one_ne_zero,
+    Matrix.head_fin_const, Fin.mk.injEq, _root_.ite_true, _root_.ite_false, zero_ne_one, one_ne_zero,
     OfNat.ofNat_ne_zero, OfNat.zero_ne_ofNat, OfNat.ofNat_ne_one, OfNat.one_ne_ofNat,
     Nat.reduceEqDiff, Fin.reduceEq, Fin.reduceNe])
 
@@ -213,7 +213,7 @@ local macro "matexprT" : tactic =>
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
     Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, Fin.isValue, Fin.zero_eta,
     Fin.mk_one, Matrix.one_apply, Matrix.cons_val_two, Matrix.tail_cons,
-    Fin.reduceFinMk, Matrix.head_fin_const, Fin.mk.injEq, if_true, if_false, zero_ne_one,
+    Fin.reduceFinMk, Matrix.head_fin_const, Fin.mk.injEq, _root_.ite_true, _root_.ite_false, zero_ne_one,
     one_ne_zero, OfNat.ofNat_ne_zero, OfNat.zero_ne_ofNat, OfNat.ofNat_ne_one,
     OfNat.one_ne_ofNat, Nat.reduceEqDiff, zero_add, add_zero, Fin.reduceEq, Fin.reduceNe])
 
@@ -372,8 +372,7 @@ theorem nineU_transpose_mul (h2 : (2 : R) = 0) : (nineU t)ᵀ * nineU t = 1 := b
 theorem nineM_det (h2 : (2 : R) = 0) : (nineM t).det = 1 := by
   rw [Matrix.det_fin_two]
   simp only [nineM, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, Fin.isValue,
-    Matrix.head_fin_const]
+    Matrix.empty_val', Matrix.cons_val_fin_one, Fin.isValue]
   linear_combination (-1 : R) * h2
 
 theorem nineN_det (h2 : (2 : R) = 0) : (nineN t).det = 1 := by
@@ -418,7 +417,7 @@ section Field
 
 theorem exists_cubic_root {K : Type*} [Field K] [Finite K] [CharP K 2]
     (h7 : 7 ∣ Nat.card K - 1) : ∃ t : K, t ^ 3 + t + 1 = 0 ∧ t ^ 7 = 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdvd : 7 ∣ Nat.card Kˣ := by rwa [Nat.card_units]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 7 hdvd
   have hζ7 : (ζ : K) ^ 7 = 1 := by
@@ -556,7 +555,7 @@ theorem hasNineQuot_of_equiv {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y)
 
 theorem hasNineQuot_of_projSL_two {n : ℕ} (hn : 1 ≤ n) {X : Type} [Group X]
     (hq : IsQuasisimple X) (φ : X ≃* projSL 2 (GaloisField 2 (3 * n))) : HasNineQuot X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 (3 * n)) = 2 ^ (3 * n) := GaloisField.card 2 _ (by omega)
   have h7 : 7 ∣ Nat.card (GaloisField 2 (3 * n)) - 1 := by
     rw [hK, show 2 ^ (3 * n) = 8 ^ n by rw [pow_mul]; norm_num]
@@ -572,7 +571,7 @@ theorem hasNineQuot_of_projSL_two {n : ℕ} (hn : 1 ≤ n) {X : Type} [Group X]
 
 theorem hasNineQuot_of_projSL_three {n : ℕ} (hn : 1 ≤ n) {X : Type} [Group X]
     (hq : IsQuasisimple X) (φ : X ≃* projSL 3 (GaloisField 2 (3 * n))) : HasNineQuot X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 (3 * n)) = 2 ^ (3 * n) := GaloisField.card 2 _ (by omega)
   have h7 : 7 ∣ Nat.card (GaloisField 2 (3 * n)) - 1 := by
     rw [hK, show 2 ^ (3 * n) = 8 ^ n by rw [pow_mul]; norm_num]
@@ -586,14 +585,14 @@ theorem hasNineQuot_of_projSL_three {n : ℕ} (hn : 1 ≤ n) {X : Type} [Group X
   rw [nineN_pow_three h2 ht]
   simpa [nineNV] using one_add_sq_ne_zero ht
 
-theorem hasNineQuot_statedSU {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
+theorem hasNineQuot_statedSU {K : Type} [Field K] [Finite K] {n : ℕ} (_hn : 1 ≤ n)
     (hK : Nat.card K = (2 ^ (3 * n)) ^ 2) :
     HasNineQuot (CFSG.Open.StatedSU 3 (2 ^ (3 * n)) K) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := 6 * n) (by
+  have : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := 6 * n) (by
     rw [← Nat.card_eq_fintype_card, hK, ← pow_mul]
     ring_nf)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h7 : 7 ∣ Nat.card K - 1 := by
     rw [hK]
     exact (by norm_num : 7 ∣ 63).trans (sixtythree_dvd n)

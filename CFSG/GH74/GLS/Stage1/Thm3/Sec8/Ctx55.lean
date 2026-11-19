@@ -21,7 +21,7 @@ namespace Setup8
 variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subgroup G} {u h : G}
   {Y E₁ E₂ : Subgroup G} {t w : G}
 
-theorem cent_Y_yw (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h)
+theorem cent_Y_yw (_hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h)
     (cfg : Cfg88 z S K₁ W₂ U u h Y t w) (hUY : U ≤ Y) (hcentral : ∀ y ∈ Y, ∀ c ∈ U, y * c = c * y)
     (hcomm : ∀ a ∈ Y, ∀ b ∈ Y, a * b * a⁻¹ * b⁻¹ ∈ U) (hsq : ∀ a ∈ Y, a * a ∈ U)
     (hCw : Y ⊓ centralizer ({w} : Set G) = U) :

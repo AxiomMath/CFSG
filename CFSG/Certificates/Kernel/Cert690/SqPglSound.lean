@@ -57,9 +57,11 @@ variable {K K0 : List ℕ} {P P0 : List (ℕ × ℕ)} {T W1 W2 : IT} {M1 M2 : �
   (h : PglHyp K K0 P P0 T W1 W2 M1 M2)
 include h
 
+omit h in
 theorem getE {i : ℕ} (hi : i < K.length) : K.toArray[i]! = K[i] := by
   rw [List.getElem!_toArray, getElem!_pos K i hi]
 
+omit h in
 theorem getI {i : ℕ} (hi : i < K.length) :
     (invsL K).toArray[i]! = invGo K[i] K.length K[i] := by
   have hi' : i < (invsL K).length := by simpa [invsL] using hi
@@ -141,28 +143,28 @@ theorem cm_get {g : ℕ} (hg : g ∈ involL K) : ∃ i k,
     rw [hik] at h0
     obtain ⟨rfl, j, hj, hk, hcj⟩ := firstConj_some h0
     rw [List.size_toArray] at hj
-    rw [h.getE hj] at hk
-    rw [h.getE hj, h.getI hj] at hcj
+    rw [CFSG.KC.C690.PglHyp.getE hj] at hk
+    rw [CFSG.KC.C690.PglHyp.getE hj, CFSG.KC.C690.PglHyp.getI hj] at hcj
     exact ⟨by norm_num, j, hj, hk, hcj⟩
   | none =>
     rw [h0, Option.none_or] at hik
     obtain ⟨rfl, j, hj, hk, hcj⟩ := firstConj_some hik
     rw [List.size_toArray] at hj
-    rw [h.getE hj] at hk
-    rw [h.getE hj, h.getI hj] at hcj
+    rw [CFSG.KC.C690.PglHyp.getE hj] at hk
+    rw [CFSG.KC.C690.PglHyp.getE hj, CFSG.KC.C690.PglHyp.getI hj] at hcj
     exact ⟨by norm_num, j, hj, hk, hcj⟩
 
 theorem invMap_getD {j : ℕ} (hj : j < K.length) :
     (pglData ()).invMap.getD K[j] 0 = invGo K[j] K.length K[j] := by
-  rw [pgl_invMap h.enum h.enum0 h.nd, lookD, lookup_zip_getElem h.nd (by simp [invsL]) hj]
+  rw [pgl_invMap h.enum h.nd, lookD, lookup_zip_getElem h.nd (by simp [invsL]) hj]
   simp [invsL]
 
-theorem elems : (pglData ()).elems = K.toArray := pgl_elems h.enum h.enum0
+theorem elems : (pglData ()).elems = K.toArray := pgl_elems h.enum
 
-theorem invs : (pglData ()).invs = (invsL K).toArray := pgl_invs h.enum h.enum0
+theorem invs : (pglData ()).invs = (invsL K).toArray := pgl_invs h.enum
 
 theorem involutions : (pglData ()).involutions = (involL K).toArray :=
-  pgl_involutions h.enum h.enum0
+  pgl_involutions h.enum
 
 theorem witOK_ok : witOK (pglData ()).elems (pglData ()).invMap #[2166376464, 1108378656]
     #[liftTab 2166376464 0, liftTab 1108378656 0] (pglData ()).involutions
@@ -191,10 +193,9 @@ theorem witOK_ok : witOK (pglData ()).elems (pglData ()).invMap #[2166376464, 11
     exact List.getElem_mem hjj
   have hi' : i < (#[2166376464, 1108378656] : Array ℕ).size := by simpa using hi
   dsimp only
-  rw [if_pos hs]
+  rw [ite_eq_left hs]
   dsimp only
-  simp only [hinv, hkE, decide_eq_true hs, decide_eq_true hi', beq_self_eq_true, Bool.true_and,
-    Bool.and_true]
+  simp only [hinv, hkE, decide_eq_true hs, decide_eq_true hi', beq_self_eq_true, Bool.and_true]
   rw [hk]
   simpa [h.mulInv (List.getElem_mem hjj), List.getElem!_toArray, getElem!_pos (involL K) j hj]
     using hc
@@ -211,7 +212,7 @@ theorem wits_isSome : (sqWitData (classMapOfReps K.toArray (invsL K).toArray
     simpa using hi
   rw [hik]
   dsimp only
-  rw [if_pos hs]
+  rw [ite_eq_left hs]
   rfl
 
 theorem memR' : 2166376464 ∈ K ∧ 1108378656 ∈ K ∧ K0.contains 2166376464 = true ∧
@@ -227,9 +228,9 @@ theorem s1 : pglS1Of (pglSquareData ()) = true := by
   refine ⟨h.invOK, rfl, ?_, ?_, ?_, ?_, ?_, ?_, h.witOK_ok⟩
   · rw [h.elems]
     simp [h.inv1, h.inv2, h.memR'.1, h.memR'.2.1]
-  · rw [pgl_elems0 h.enum h.enum0]
+  · rw [pgl_elems0 h.enum0]
     simpa using h.memR'.2.2.1
-  · rw [pgl_elems0 h.enum h.enum0]
+  · rw [pgl_elems0 h.enum0]
     simpa using h.memR'.2.2.2
   · rw [h.involutions, h.elems, h.invs, List.all_toArray, List.all_eq_true]
     intro g hg
@@ -266,7 +267,7 @@ theorem s3 : pglS3Of (pglSquareData ()) = true := by
       simpa using hi
     rw [hik]
     dsimp only
-    rw [if_pos hs]
+    rw [ite_eq_left hs]
     dsimp only
     exact isHomTab_liftTab (h.iso k (hk ▸ List.getElem_mem hjj)) 0
 

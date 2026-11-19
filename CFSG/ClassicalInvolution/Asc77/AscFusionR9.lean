@@ -63,7 +63,7 @@ theorem exists_conj_of_odd_coset {N : Subgroup G} (hodd : Odd (Nat.card N)) {x y
         simp [hpw]
       rwa [h2] at h1
     have hn2 : IsPGroup 2 (Subgroup.zpowers n) := by
-      have := P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hnP)
+      have := P.isPGroup.to_le (Subgroup.zpowers_le.mpr hnP)
       obtain ⟨m, hm⟩ := this.exists_card_eq
       refine IsPGroup.of_card (n := m) ?_
       rw [Nat.card_zpowers, show orderOf n = orderOf (⟨n, hNH hn⟩ : ↥H) from

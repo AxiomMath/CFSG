@@ -60,6 +60,7 @@ theorem exists_β {v : V} (hv : v ∈ commV H) : ∃ u, β u = v := by
   have : v ∈ β.range := h.β_range ▸ hv
   exact MonoidHom.mem_range.1 this
 
+omit h in
 theorem stab {x : MulAut V} (hx : x ∈ H) {v : V} (hv : v ∈ commV H) : x v ∈ commV H :=
   CFSG.Quasithin.commV_apply_mem_of_mem hx hv
 

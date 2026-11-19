@@ -25,7 +25,7 @@ theorem i167COrth_card_pow {K : Type} [Field K] [Finite K] {k : Subfield K} {d :
     {Q₀ : QuadraticForm k (Fin d → k)} {Q : QuadraticForm K (Fin d → K)} {σ : K ≃+* K} {p : ℕ}
     (SS : SubfieldSetup k Q₀ Q σ p) : Nat.card K = Nat.card k ^ p := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hK⟩ := FiniteField.card K (ringChar K)
   have hK' : Nat.card K = ringChar K ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hK]
@@ -43,7 +43,7 @@ theorem i167COrth_fieldModel_plus {S : Type} [Group S] {labK : GLALabel} {β : M
     FieldModel p β labK.rank labK.n := by
   obtain ⟨hm4, hn1, K, hKf, hKfin, hcard, hs, hna, e, i, f, hi, hf, hcongr, hout⟩ :=
     fieldKind_omegaPlus_data hcen ht hr3 hfld
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
   obtain ⟨σ, ψ, hσ, hψ⟩ := FOC.exists_congr_eq_fieldAutT (m := labK.rank) (p := p)
     (by omega) hp hp2 hs hna e hi hf hcongr hout hβ
   obtain ⟨hpn, k, hk, SS⟩ := FOC.exists_subfieldSetup_plus (m := labK.rank) (n := labK.n)

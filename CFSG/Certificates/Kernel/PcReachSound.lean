@@ -43,7 +43,7 @@ theorem reachC_sound {w m : Nat} {G : List Nat} {P : Nat → Prop}
           (fun n _ => reachC w m G (Nat.succ n) recs)
           (Nat.lor S (Nat.shiftLeft 1 (Nat.land r m)))) := rfl
     rw [e, natRec_reach] at h
-    simp only [Bool.and_eq_true, Nat.beq_eq_true_eq, Nat.blt_eq, land_one_eq] at h
+    simp only [Bool.and_eq_true, Nat.blt_eq, land_one_eq] at h
     obtain ⟨⟨⟨⟨hq, hp⟩, hg⟩, hpg⟩, hrest⟩ := h
     have hq' : S.testBit (Nat.land (Nat.shiftRight r w) m) = true := by
       revert hq

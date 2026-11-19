@@ -26,7 +26,7 @@ theorem exists_conj_ne (h : Hyp G A) :
   obtain ⟨T, hXT⟩ := d.X_sylow.isPGroup.exists_le_sylow
   have hXT_eq : d.X = (T : Subgroup G) := by
     by_contra hne
-    obtain ⟨g, hgT, hgN, hgX⟩ := exists_mem_normalizer_of_lt T.isPGroup' hXT hne
+    obtain ⟨g, hgT, hgN, hgX⟩ := exists_mem_normalizer_of_lt T.isPGroup hXT hne
     have h1 : g⁻¹ * d.q * g ∈ d.X := (mem_normalizer_iff''.mp hgN d.q).mp hqX
     have h2 := hcon g h1
     have hgC : g ∈ centralizer ({d.q} : Set G) := by
@@ -35,7 +35,7 @@ theorem exists_conj_ne (h : Hyp G A) :
         _ = d.q * g := by group
     rw [d.centralizer_q h] at hgC
     have heq := d.X_sylow.eq_of_le (le_inf hXT d.X_sylow.le) inf_le_right
-      (T.isPGroup'.to_inf_left (K := normalizer (A : Set G)))
+      (T.isPGroup.to_inf_left (K := normalizer (A : Set G)))
     exact hgX (heq ▸ (mem_inf.mpr ⟨hgT, hgC⟩) : g ∈ d.X)
   have htT : d.q ∈ (T : Subgroup G) := hXT_eq ▸ hqX
   have hTc : ∀ s ∈ (T : Subgroup G), s * d.q = d.q * s := fun s hs =>

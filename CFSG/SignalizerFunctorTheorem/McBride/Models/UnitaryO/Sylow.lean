@@ -21,7 +21,7 @@ theorem isMulCommutative_sylow_psu3 {p : ℕ} (hp : p.Prime) {r : ℕ} (hr : r.P
   obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective (projSU3_surjective hp.one_le) r R
   rw [Sylow.coe_mapSurjective]
   have : IsMulCommutative ((S : Subgroup (SU3 hp.one_le)).map (SU3 hp.one_le).subtype) :=
-    isMulCommutative_of_isPGroup_gl3 hr h5 hK (S.isPGroup'.map _)
+    isMulCommutative_of_isPGroup_gl3 hr h5 hK (S.isPGroup.map _)
   have : IsMulCommutative (S : Subgroup (SU3 hp.one_le)) :=
     .of_setLike_mul_comm fun a ha b hb => Subtype.ext
       (setLike_mul_comm (s := (S : Subgroup (SU3 hp.one_le)).map (SU3 hp.one_le).subtype)

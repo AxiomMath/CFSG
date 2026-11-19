@@ -33,7 +33,6 @@ theorem omega_one_center_le (h : Tim79a.ParrottHyp z) {j : J z}
     intro x
     apply Subtype.ext
     rw [conjZ_apply_coe, MulAut.one_apply]
-    change (w : G) * (x : G) * (w : G)⁻¹ = (x : G)
     have hxJ : (x : G) ∈ J z := x.2.1
     let c : J z := ⟨(x : G), hxJ⟩
     have hcCenter : c ∈ Subgroup.center (J z) := by

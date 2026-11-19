@@ -47,19 +47,19 @@ theorem mat_w_sq (K : Type) [Field K] :
     (!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) K) * !![0, 1; -1, 0] =
       Matrix.scalar (Fin 2) (-1 : K) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_fin_two, Matrix.scalar_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
 
 theorem mat_wt_sq {K : Type} [Field K] (a b : K) (hab : a * b = 1) :
     ((!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) K) * !![a, 0; 0, b]) *
       ((!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) K) * !![a, 0; 0, b]) =
       Matrix.scalar (Fin 2) (-1 : K) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_fin_two, Matrix.scalar_apply] <;>
-    first | linear_combination hab | linear_combination (-1 : K) * hab
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply] <;>
+    first | linear_combination hab
 
 theorem mat_wt_entry {K : Type} [Field K] (a b : K) :
     ((!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) K) * !![a, 0; 0, b]) 0 1 = b := by
-  simp [Matrix.mul_fin_two]
+  simp
 
 theorem mk_eq_one_iff {K : Type} [Field K] (x : StatedSL 2 K) :
     (QuotientGroup.mk x : StatedProj (StatedSL 2 K)) = 1 ↔
@@ -168,7 +168,7 @@ theorem nk_l2_uin (p e : ℕ) (hp : p.Prime) (h3 : 3 < p) (he : e = 1 ∨ e = 2)
     (X : Type) [Group X] (hX : IsPSL 2 p e X) : UIn X := by
   have hX' := hX
   obtain ⟨-, K, hK, hKf, hcard, ⟨φ⟩⟩ := hX'
-  haveI : Finite X := Finite.of_equiv (StatedProj (StatedSL 2 K)) φ.symm.toEquiv
+  have : Finite X := Finite.of_equiv (StatedProj (StatedSL 2 K)) φ.symm.toEquiv
   have hconj := (CFSG.Goldschmidt.Rank2List.psl2_concl X hp (by omega) (by omega) h8 hX).1
   have h17 : 17 ≤ Nat.card K := by
     rw [hcard]

@@ -163,7 +163,7 @@ theorem i141U9Fam_small (hF4 : I141U9Fam u9FamTwF4Eight) : I141U9Fam u9FamSmall 
       by_cases h3 : 3 ∣ 2 * m + 1
       · by_cases hα1 : α = 1
         · exfalso
-          haveI := hs
+          have := hs
           have hI : GLAPComponent 3 (⊤ : Subgroup (PSimple 3 K)) (chevTransfer 3 K J) := by
             rw [hα1, fixSubgroup_one_eq_top] at hJ'
             exact hJ'

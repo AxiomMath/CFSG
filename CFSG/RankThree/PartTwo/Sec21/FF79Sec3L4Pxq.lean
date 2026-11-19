@@ -27,7 +27,7 @@ theorem ap_pxq_elem (β : MulAut H) (hβ : β ^ 3 = 1) (k : H) (hk2 : orderOf k 
     ∀ y ∈ pCore 3 H, y * k = k * y := by
   let P0 : Subgroup (MulAut H) := Subgroup.zpowers β
   let S := H ⋊[P0.subtype] P0
-  haveI : Finite S := Finite.of_injective (fun s : S => (s.left, s.right))
+  have : Finite S := Finite.of_injective (fun s : S => (s.left, s.right))
     (fun s t h => by
       have h1 := congrArg Prod.fst h
       have h2 := congrArg Prod.snd h
@@ -118,7 +118,7 @@ theorem ap_pxq (β : MulAut H) (hβ : β ^ 3 = 1) (K : Subgroup H)
     (hcore : ∀ y ∈ pCore 3 H, β y = y → ∀ k ∈ K, y * k = k * y) :
     ∀ y ∈ pCore 3 H, ∀ k ∈ K, y * k = k * y := by
   obtain ⟨e⟩ := hKa
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card (alternatingGroup (Fin 5)) := by
     rw [nat_card_alternatingGroup]
     simp [Nat.factorial]
@@ -131,7 +131,7 @@ theorem ap_pxq (β : MulAut H) (hβ : β ^ 3 = 1) (K : Subgroup H)
   have hone := ap_pxq_elem β hβ (k1 : H) hkH (hKfix _ k1.2)
     (fun y hy hβy => hcore y hy hβy _ k1.2)
   let Cs : Subgroup K := (Subgroup.centralizer (pCore 3 H : Set H)).comap K.subtype
-  haveI : Cs.Normal := by
+  have : Cs.Normal := by
     refine ⟨fun c hc g => ?_⟩
     rw [Subgroup.mem_comap, Subgroup.mem_centralizer_iff] at hc ⊢
     intro y hy
@@ -144,7 +144,7 @@ theorem ap_pxq (β : MulAut H) (hβ : β ^ 3 = 1) (K : Subgroup H)
         = (g : H) * (((g : H)⁻¹ * y * (g : H)) * (c : H)) * (g : H)⁻¹ := by group
       _ = (g : H) * ((c : H) * ((g : H)⁻¹ * y * (g : H))) * (g : H)⁻¹ := by rw [h1]
       _ = _ := by group
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup K := e.isSimpleGroup
   have hk1C : k1 ∈ Cs := by
     rw [Subgroup.mem_comap, Subgroup.mem_centralizer_iff]
     intro y hy

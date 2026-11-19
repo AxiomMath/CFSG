@@ -44,7 +44,7 @@ variable {K : Type} [Group K]
 theorem orderOf_ne_three_of_mem_sylow {Q : Sylow 2 K} {r : K} (hr : r ∈ (Q : Subgroup K)) :
     orderOf r ≠ 3 := by
   intro h3
-  obtain ⟨k, hk⟩ := Q.isPGroup' ⟨r, hr⟩
+  obtain ⟨k, hk⟩ := Q.isPGroup ⟨r, hr⟩
   have h1 : orderOf r ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one (by
     have := congrArg Subtype.val hk
     simpa using this)
@@ -167,7 +167,7 @@ theorem false_of_weakMember_of_benderType (hFc : Subgroup.centralizer (F : Set G
       rw [hy']
       exact Subgroup.mul_mem_sup hmem hw
     have hQgp : IsPGroup 2 ↥Qg :=
-      Q.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ F.subtype F.subtype_injective)
+      Q.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ F.subtype F.subtype_injective)
     have hT08 : Nat.card ↥(K ⊓ Qg) ≤ 8 := hK.card_inf_le_eight hQgp
     have hZnormQ : (K ⊓ Qg) ≤ Subgroup.normalizer (Zg : Set G) := by
       intro w hw

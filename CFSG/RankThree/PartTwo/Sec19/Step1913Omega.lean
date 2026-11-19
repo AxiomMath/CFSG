@@ -169,7 +169,7 @@ theorem rank3II_19_13_omega_of (hK : KFacts.KS18A7M22) : Step1913Omega := by
     simpa using congrArg Subtype.val h2
   have hPLab : ∀ l₁ l₂ : L, (l₁ : G) ∈ P → (l₂ : G) ∈ P → (l₁ : G) * l₂ = l₂ * l₁ := by
     intro l₁ l₂ h₁ h₂
-    have hQab := hab (Qb : Subgroup (L ⧸ θL)) Qb.isPGroup'
+    have hQab := hab (Qb : Subgroup (L ⧸ θL)) Qb.isPGroup
     have hm₁ : (l₁ : L ⧸ θL) ∈ (Qb : Subgroup (L ⧸ θL)) := ⟨l₁, (hQmem l₁).mpr h₁, rfl⟩
     have hm₂ : (l₂ : L ⧸ θL) ∈ (Qb : Subgroup (L ⧸ θL)) := ⟨l₂, (hQmem l₂).mpr h₂, rfl⟩
     have h1 := congrArg Subtype.val (hQab.is_comm.comm ⟨_, hm₁⟩ ⟨_, hm₂⟩)

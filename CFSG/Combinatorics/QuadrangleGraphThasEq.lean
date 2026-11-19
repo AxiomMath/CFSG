@@ -17,6 +17,7 @@ namespace IsQuadrangleOfOrder
 
 variable {α : Type*} [Fintype α] {adj : α → α → Prop} {s t : ℕ}
 
+omit [Fintype α] in
 private theorem card_filter_adj_eq_of_row {O : Finset α} {b : α → ℕ} {S₁ : ℕ} {w : α}
     {p : ℕ} (hbw : (O.card : ℤ) * (b w) = (S₁ : ℤ))
     (eN : (O.card : ℤ) = (s : ℤ) * ((s : ℤ) - (p : ℤ)) * ((t : ℤ) + 1))
@@ -128,7 +129,7 @@ private theorem mul_card_filter_adj_of_counts [DecidableRel adj] (h : IsQuadrang
     by_contra hs
     have hs0 : (s : ℤ) = 0 := le_antisymm (by linarith) (by exact_mod_cast Nat.zero_le s)
     rw [hs0] at eN
-    simpa [eN] using hNpos
+    simp [eN] at hNpos
   have hsubpos : (0 : ℤ) < (s : ℤ) - (p : ℤ) := by
     have ht1 : (0 : ℤ) < (t : ℤ) + 1 := by positivity
     rw [eN, mul_assoc] at hNpos

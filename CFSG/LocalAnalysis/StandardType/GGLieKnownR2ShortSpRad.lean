@@ -235,13 +235,13 @@ private lemma exists_siegel_form_of_alternating {n : ℕ} {F : Type} [Field F] [
     have h := halt b₁
     rw [← hpZ1] at h
     simp only [(spForm n F).add_left, (spForm n F).smul_left, spForm_sigma, ha1b1, ha2b1,
-      mul_one, mul_zero, zero_add, add_zero] at h
+      mul_one, mul_zero, add_zero] at h
     exact h
   have hq2 : q₂ = 0 := by
     have h := halt b₂
     rw [← hpZ2] at h
     simp only [(spForm n F).add_left, (spForm n F).smul_left, spForm_sigma, ha1b2, ha2b2,
-      mul_one, mul_zero, zero_add, add_zero] at h
+      mul_one, mul_zero, zero_add] at h
     exact h
   have hpq : p₂ + q₁ = 0 := by
     have h := halt (b₁ + b₂)
@@ -464,7 +464,7 @@ private theorem eq_span_pair_of_isTotallyIsotropic_invariant {n : ℕ} {F : Type
       · have h1 : (spForm n F).β b₂ u = β := by
           rw [← hαβ]
           simp only [(spForm n F).add_right, (spForm n F).smul_right, hb2a1, hb2a2, mul_zero,
-            mul_one, zero_add, add_zero]
+            mul_one, zero_add]
         have h2 : (spForm n F).β a₁ u = 0 := by
           rw [← hαβ]
           simp only [(spForm n F).add_right, (spForm n F).smul_right, spForm_self, ha1a2,
@@ -501,7 +501,7 @@ theorem pCoreOf_stabilizer_le_sprad {n : ℕ} {F : Type} [Field F] [Finite F] [C
     have hg1 : g = 1 := Subgroup.mem_bot.mp hg
     rw [hg1, mem_rad]
     exact ⟨fun w _ => by simp, fun v _ => by simp⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hR2 : IsPGroup 2 R := GGRootNorm.isPGroup_pCoreOf Stab
     have hnorm : Stab ≤ Subgroup.normalizer (R : Set (StatedSp n F)) :=
       GGRootNorm.le_normalizer_pCoreOf Stab
@@ -523,7 +523,7 @@ theorem pCoreOf_stabilizer_le_sprad {n : ℕ} {F : Type} [Field F] [Finite F] [C
       have h1 : (spForm n F).β a₁ b₁ = 1 := by rw [spForm_β]; exact hp.1
       rw [h0, (spForm n F).β_zero_left] at h1
       exact zero_ne_one h1
-    haveI : Nontrivial (Fin n ⊕ Fin n → F) := ⟨⟨a₁, 0, ha1ne⟩⟩
+    have : Nontrivial (Fin n ⊕ Fin n → F) := ⟨⟨a₁, 0, ha1ne⟩⟩
     have hd1 : 1 ≤ Module.finrank F (Fin n ⊕ Fin n → F) := Module.finrank_pos
     set W : Submodule F (Fin n ⊕ Fin n → F) :=
       isoSeq (spForm n F) (natRep (StatedSp n F)) R (Module.finrank F (Fin n ⊕ Fin n → F))

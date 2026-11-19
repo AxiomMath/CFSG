@@ -17,7 +17,7 @@ theorem lay_conj_mem {H : Subgroup G} {g z : G} (hg : g ∈ H) (hz : z ∈ Lay H
     g * z * g⁻¹ ∈ Lay H := by
   obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩ * z' * ⟨g, hg⟩⁻¹, ?_, by simp⟩
-  haveI := CFSG.LocalCores.layer_characteristic (G := ↥H)
+  have := CFSG.LocalCores.layer_characteristic (G := ↥H)
   exact Subgroup.Normal.conj_mem (layer ↥H).normal_of_characteristic z' hz' ⟨g, hg⟩
 
 theorem lay_mem_nor {H : Subgroup G} {g : G} (hg : g ∈ H) : g ∈ Nor (Lay H) := by
@@ -64,17 +64,17 @@ theorem comp_kill {N : Subgroup G} {M : Type*} [Group M] (e : N ≃* M)
       c * e ⟨k, hkN⟩ * c⁻¹ * (e ⟨k, hkN⟩)⁻¹ := by
     have h1 : (⟨(s : G) * k * (s : G)⁻¹ * k⁻¹, hsk⟩ : N) =
         s * ⟨k, hkN⟩ * s⁻¹ * ⟨k, hkN⟩⁻¹ := rfl
-    rw [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, h1]
+    rw [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, h1]
     simp [hcs]
   rw [hEq] at hw'
   exact hcnot hw'
 
 theorem card_dvd_of_inf_trivial {H M D R : Subgroup G} (hMn : ∀ g ∈ H, ∀ z ∈ M, g * z * g⁻¹ ∈ M)
-    (hMH : M ≤ H) (hRH : R ≤ H) (hDH : D ≤ H)
+    (_hMH : M ≤ H) (hRH : R ≤ H) (hDH : D ≤ H)
     (hHD : ∀ h ∈ H, ∃ c ∈ D, ∃ m ∈ M, h = c * m) (hRM : ∀ r ∈ R, r ∈ M → r = 1) :
     Nat.card R ∣ Nat.card D := by
   let M' : Subgroup ↥H := M.subgroupOf H
-  haveI : M'.Normal := ⟨fun n hn g => by
+  have : M'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hMn g g.2 n hn
     simpa using this⟩

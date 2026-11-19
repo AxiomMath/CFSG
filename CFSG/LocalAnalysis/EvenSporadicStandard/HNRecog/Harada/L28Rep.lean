@@ -21,9 +21,9 @@ theorem L28_irreducible (h : L28Hyp A w ψ) {B : Subgroup X} (hBA : B ≤ A)
       ∀ b ∈ B, (n : X) * b * (n : X)⁻¹ ∈ B) : B = ⊥ ∨ B = A := by
   classical
   obtain ⟨V, hACG, hMod, hFin, e, σ, h8, hσ, hact⟩ := L28_linear_model h
-  letI : AddCommGroup V := hACG
-  letI : Module (ZMod 2) V := hMod
-  letI : Finite V := hFin
+  let : AddCommGroup V := hACG
+  let : Module (ZMod 2) V := hMod
+  let : Finite V := hFin
   obtain ⟨v, hv, S, hS, hSiso⟩ := L28_exists_stabilizer h e σ hact
   have hirr : ∀ U : Submodule (ZMod 2) V,
       (∀ g : alternatingGroup (Fin 5) × alternatingGroup (Fin 5), ∀ u ∈ U, σ g u ∈ U) →
@@ -92,9 +92,9 @@ theorem L28_fixedFree (h : L28Hyp A w ψ) {n : ↥(normalizer (A : Set X))}
     ∀ a ∈ A, (n : X) * a * (n : X)⁻¹ = a → a = 1 := by
   classical
   obtain ⟨V, hACG, hMod, hFin, e, σ, h8, hσ, hact⟩ := L28_linear_model h
-  letI : AddCommGroup V := hACG
-  letI : Module (ZMod 2) V := hMod
-  letI : Finite V := hFin
+  let : AddCommGroup V := hACG
+  let : Module (ZMod 2) V := hMod
+  let : Finite V := hFin
   obtain ⟨v, hv, S, hS, hSiso⟩ := L28_exists_stabilizer h e σ hact
   have hirr : ∀ U : Submodule (ZMod 2) V,
       (∀ g : alternatingGroup (Fin 5) × alternatingGroup (Fin 5), ∀ u ∈ U, σ g u ∈ U) →

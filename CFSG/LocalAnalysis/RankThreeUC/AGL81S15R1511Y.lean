@@ -93,7 +93,7 @@ theorem exists_Y_O2form_aux_residual {G Z : Type} [Group G] [Finite G] [Group Z]
     | zero => exact hHn
     | succ n ih =>
       rw [hsucc]
-      haveI := ih
+      have := ih
       exact Subgroup.commutator_normal _ _
   obtain ⟨m, k, hmk, hk⟩ := Finite.exists_ne_map_eq_of_infinite a
   have hanti' : Antitone a := antitone_nat_of_succ_le hanti
@@ -131,7 +131,7 @@ theorem exists_Y_O2form_aux_core {Y : Type} [Group Y] [Finite Y] {A : Subgroup Y
   set W : Subgroup (↥A ⧸ CFSG.pCore 2 ↥A) := pElementSubgroup 2 ⊤ with hW
   have hWn : W.Normal := R1511C.pElementSubgroup_top_normal 2
   have h2 : IsLThreeTwoPow ↥W := R1511C.isLThreeTwoPow_of_isLThreeOdd h
-  haveI hWs : IsSimpleGroup ↥W := R1511C.isSimpleGroup_of_isLThreeTwoPow h2
+  have hWs : IsSimpleGroup ↥W := R1511C.isSimpleGroup_of_isLThreeTwoPow h2
   have hnc : ∃ a b : ↥W, a * b ≠ b * a :=
     R1511C.exists_noncomm_of_simple_of_dvd (K3DvdL3_holds _ h2) R1511C.closure_two_elements_eq_top
   have hWperf : ⁅W, W⁆ = W :=
@@ -140,7 +140,7 @@ theorem exists_Y_O2form_aux_core {Y : Type} [Group Y] [Finite Y] {A : Subgroup Y
     Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) W
   obtain ⟨E, hEA, hEperf, hEmap, hEnorm⟩ :=
     exists_Y_O2form_aux_residual π (W.comap π) (by rw [hmapA]; exact hWperf)
-  haveI hEn : E.Normal := hEnorm (Subgroup.Normal.comap hWn π)
+  have hEn : E.Normal := hEnorm (Subgroup.Normal.comap hWn π)
   let ψ : ↥E →* ↥W := (π.comp E.subtype).codRestrict W (fun e => hEA e.2)
   have hψ : Function.Surjective ψ := by
     rintro ⟨w, hw⟩
@@ -152,7 +152,7 @@ theorem exists_Y_O2form_aux_core {Y : Type} [Group Y] [Finite Y] {A : Subgroup Y
     · intro e he
       have h1 : π e = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 he)
       have h3 : (e : ↥A) ∈ CFSG.pCore 2 ↥A := (QuotientGroup.eq_one_iff (e : ↥A)).1 h1
-      haveI : ((CFSG.pCore 2 ↥A).subgroupOf E).Normal :=
+      have : ((CFSG.pCore 2 ↥A).subgroupOf E).Normal :=
         Subgroup.Normal.subgroupOf CFSG.pCore_normal E
       have hN2 : IsPGroup 2 ↥((CFSG.pCore 2 ↥A).subgroupOf E) :=
         (CFSG.pCore_isPGroup (p := 2) (G := ↥A)).comap_subtype
@@ -183,9 +183,9 @@ theorem exists_Y_O2form_aux_eq_top {G : Type} [Group G] [Finite G] (hperf : comm
     (hS : IsSimpleGroup (G ⧸ CFSG.pCore 2 G)) (h3 : 3 ∣ Nat.card G) (M : Subgroup G) [M.Normal]
     (hM : ∀ g : G, (∃ k : ℕ, orderOf g = 3 ^ k) → g ∈ M) : M = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect G := Group.isPerfect_def.2 hperf
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect G := Group.isPerfect_def.2 hperf
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hgM : g ∈ M := hM g ⟨1, by simpa using hg⟩
   have hgR : g ∉ CFSG.pCore 2 G := by
@@ -212,7 +212,7 @@ theorem exists_Y_O2form_aux_eq_top {G : Type} [Group G] [Finite G] (hperf : comm
     by_contra hcon
     push Not at hcon
     exact hMtop ((Subgroup.eq_top_iff' M).2 hcon)
-  haveI : Nontrivial (G ⧸ M) :=
+  have : Nontrivial (G ⧸ M) :=
     ⟨⟨(x : G ⧸ M), 1, fun hh => hx ((QuotientGroup.eq_one_iff x).1 hh)⟩⟩
   let ρ : ↥(CFSG.pCore 2 G) →* G ⧸ M := (QuotientGroup.mk' M).comp (CFSG.pCore 2 G).subtype
   have hρ : Function.Surjective ρ := by
@@ -225,8 +225,8 @@ theorem exists_Y_O2form_aux_eq_top {G : Type} [Group G] [Finite G] (hperf : comm
     rw [QuotientGroup.eq]
     have h5 := Subgroup.Normal.conj_mem inferInstance m hm r⁻¹
     simpa [mul_assoc] using h5
-  haveI hQ : IsPGroup 2 (G ⧸ M) := (CFSG.pCore_isPGroup (p := 2) (G := G)).of_surjective ρ hρ
-  haveI : Group.IsNilpotent (G ⧸ M) := hQ.isNilpotent
+  have hQ : IsPGroup 2 (G ⧸ M) := (CFSG.pCore_isPGroup (p := 2) (G := G)).of_surjective ρ hρ
+  have : Group.IsNilpotent (G ⧸ M) := hQ.isNilpotent
   exact Group.IsPerfect.not_isNilpotent (G ⧸ M) inferInstance
 
 theorem exists_Y_O2form_aux_odd_two {P : Type*} [Group P] {K : Subgroup P}
@@ -245,16 +245,16 @@ theorem exists_Y_O2form_aux_split {P A : Type} [Group P] [Finite P] [Group A] [F
     {O : Subgroup A} [O.Normal] (hO : IsPGroup 2 O) :
     ∃ R : Subgroup P, R.Normal ∧ IsPGroup 2 R ∧ R ≤ O.comap f ∧ O.comap f ≤ f.ker ⊔ R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup P := O.comap f with hQ
-  haveI hQn : Q.Normal := Subgroup.Normal.comap inferInstance f
+  have hQn : Q.Normal := Subgroup.Normal.comap inferInstance f
   have hNle : f.ker ≤ Q := fun z hz => by
     show f z ∈ O
     rw [MonoidHom.mem_ker.1 hz]
     exact O.one_mem
   let fQ : ↥Q →* A := f.comp Q.subtype
   set N : Subgroup ↥Q := f.ker.subgroupOf Q with hN
-  haveI hNn : N.Normal := (MonoidHom.normal_ker f).subgroupOf Q
+  have hNn : N.Normal := (MonoidHom.normal_ker f).subgroupOf Q
   have hNk : N = fQ.ker := by
     ext z
     simp [hN, fQ, Subgroup.mem_subgroupOf, MonoidHom.mem_ker]
@@ -319,11 +319,11 @@ theorem exists_Y_O2form_aux_central {P A : Type} [Group P] [Finite P] [Group A] 
       Nat.card (Subgroup.center K) = 1) :
     f.ker = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup A := CFSG.pCore 2 A with hO
   obtain ⟨R, hRn, hR2, hRQ, hQR⟩ :=
     exists_Y_O2form_aux_split f hker hodd (O := O) (CFSG.pCore_isPGroup (p := 2) (G := A))
-  haveI := hRn
+  have := hRn
   let fb : P ⧸ R →* A ⧸ O := QuotientGroup.map R O f hRQ
   have hfb : Function.Surjective fb := by
     intro y
@@ -358,8 +358,8 @@ theorem exists_Y_O2form_aux_central {P A : Type} [Group P] [Finite P] [Group A] 
   let eK : ((P ⧸ R) ⧸ Subgroup.center (P ⧸ R)) ≃* (A ⧸ O) :=
     (QuotientGroup.quotientMulEquivOfEq hZ.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective fb hfb)
-  haveI : Group.IsPerfect P := Group.isPerfect_def.2 hP
-  haveI := hS
+  have : Group.IsPerfect P := Group.isPerfect_def.2 hP
+  have := hS
   have hqs : CFSG.Open.IsQuasisimple (P ⧸ R) :=
     ⟨Group.isPerfect_def.1 inferInstance, eK.isSimpleGroup⟩
   have hoddK : Odd (Nat.card (Subgroup.center (P ⧸ R))) := by
@@ -389,14 +389,14 @@ theorem exists_Y_O2form_aux_central {P A : Type} [Group P] [Finite P] [Group A] 
 theorem exists_Y_O2form_aux_pCore_equiv {Y A : Type} [Group Y] [Finite Y] [Group A] [Finite A]
     (g : Y →* A) (hg : Function.Surjective g) (hk : IsPGroup 2 g.ker) :
     Nonempty ((Y ⧸ CFSG.pCore 2 Y) ≃* (A ⧸ CFSG.pCore 2 A)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomap : (CFSG.pCore 2 A).comap g = CFSG.pCore 2 Y := by
     refine le_antisymm ?_ ?_
-    · haveI : ((CFSG.pCore 2 A).comap g).Normal := Subgroup.Normal.comap CFSG.pCore_normal g
+    · have : ((CFSG.pCore 2 A).comap g).Normal := Subgroup.Normal.comap CFSG.pCore_normal g
       exact isC2_normalizer_aux0
         (IsPGroup.comap_of_ker_isPGroup (CFSG.pCore_isPGroup (p := 2) (G := A)) g hk)
     · rw [← Subgroup.map_le_iff_le_comap]
-      haveI : ((CFSG.pCore 2 Y).map g).Normal := Subgroup.Normal.map CFSG.pCore_normal g hg
+      have : ((CFSG.pCore 2 Y).map g).Normal := Subgroup.Normal.map CFSG.pCore_normal g hg
       exact isC2_normalizer_aux0 ((CFSG.pCore_isPGroup (p := 2) (G := Y)).map g)
   let ψ : Y →* A ⧸ CFSG.pCore 2 A := (QuotientGroup.mk' (CFSG.pCore 2 A)).comp g
   have hψ : Function.Surjective ψ := (QuotientGroup.mk'_surjective _).comp hg
@@ -495,7 +495,7 @@ theorem exists_Y_O2form_aux_cover {X : Type} [Group X] [Finite X] {T L Ti : Subg
     refine ⟨b * x * b⁻¹, ⟨B.mul_mem (B.mul_mem hb hxB) (B.inv_mem hb), ?_⟩, by simp⟩
     have hbL : b ∈ Subgroup.normalizer (L : Set X) := hconj b (hA₀Ls hb.2)
     exact (Subgroup.mem_normalizer_iff.1 hbL x).1 hxL
-  haveI hMn : (N₁.subgroupOf A₀).Normal := ⟨fun m hm g => hN₁norm g g.2 m hm⟩
+  have hMn : (N₁.subgroupOf A₀).Normal := ⟨fun m hm g => hN₁norm g g.2 m hm⟩
   have hM3 : ∀ g : ↥A₀, (∃ k : ℕ, orderOf g = 3 ^ k) → g ∈ N₁.subgroupOf A₀ := by
     rintro ⟨a, ha⟩ ⟨k, hk⟩
     let ψ : ↥B →* ↥A₀ := ((toStar T).comp B.subtype).codRestrict A₀ (fun b => hBmap ▸ ⟨b, b.2, rfl⟩)

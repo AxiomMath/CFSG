@@ -49,7 +49,7 @@ theorem perfectCentralizerPlanes_of_langSetup (S : LangSetup τ L p)
   obtain ⟨d, hdD, hd1, R, hRle, hRq, hRnc⟩ :=
     exists_quasisimple_of_mem_bigComponentSet S hDE hx
   have hRperf : ⁅R, R⁆ = R := by
-    haveI : Group.IsPerfect ↥R := hRq.1
+    have : Group.IsPerfect ↥R := hRq.1
     exact Subgroup.commutator_eq_self
   exact ⟨d, hdD, hd1, R, hRle, hRperf,
     (Nat.Prime.dvd_iff_not_coprime S.hp).mpr hRnc⟩
@@ -87,7 +87,7 @@ theorem bigComponentSet_nonempty_of_centralizerTrivial (S : LangSetup τ L p)
   have hzΓ : (z : ModGL τ L) ∈ S.Γ := (S.E_le (hD₁ z.2)).2
   have hzAdj : (z : ModGL τ L) ∈ adjointGroup τ L :=
     ((Subgroup.commutator_le_self S.D.model).trans inf_le_left) hzΓ
-  haveI : IsMulCommutative S.D.torus := S.D.isMulCommutative_torus
+  have : IsMulCommutative S.D.torus := S.D.isMulCommutative_torus
   have hzcomm : ∀ x ∈ rigidTestSet S D₁, Commute (z : ModGL τ L) x := by
     intro x hx
     rw [rigidTestSet, hempty, Set.empty_union] at hx

@@ -117,9 +117,9 @@ theorem bk_inner (pts : Array ℕ) (v : ℕ) : ∀ (m : ℕ) (bk : Array (Array 
     refine ⟨by rw [Array.size_modify, ih1], fun p hp => ?_⟩
     rw [modify_get _ _ _ (by rw [ih1]; exact hp), List.range_succ, List.filter_append]
     by_cases e : pts[3 * v + m]! = p
-    · rw [if_pos e, Array.toList_push, ih2 p hp]
+    · rw [ite_eq_left e, Array.toList_push, ih2 p hp]
       simp [e]
-    · rw [if_neg e, ih2 p hp]
+    · rw [ite_eq_right e, ih2 p hp]
       simp [e]
 
 theorem bk_toList (pts : Array ℕ) : ∀ n : ℕ,

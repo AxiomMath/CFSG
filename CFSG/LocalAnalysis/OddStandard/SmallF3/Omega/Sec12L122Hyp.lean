@@ -13,6 +13,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S E : Subgroup G}
 
+omit [Finite G] in
 private theorem normalizer_commutator_aux {Y1 Y2 : Subgroup G} {g : G}
     (h1 : g ∈ normalizer (Y1 : Set G)) (h2 : g ∈ normalizer (Y2 : Set G)) :
     g ∈ normalizer ((⁅Y1, Y2⁆ : Subgroup G) : Set G) := by

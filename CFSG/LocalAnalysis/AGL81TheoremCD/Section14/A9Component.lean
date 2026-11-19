@@ -21,7 +21,7 @@ open CFSG.Open Subgroup
 private theorem fitting_eq_bot_of_pCore_eq_bot {X : Type} [Group X] [Finite X]
     (hO : CFSG.pPrimeCore 3 X = ⊥) (hO3 : CFSG.pCore 3 X = ⊥) :
     CFSG.fittingSubgroup X = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.Fitting_eq_pcore X 3 hO, hO3]
 
 private theorem component_center_eq_bot {X : Type} [Group X] [Finite X]
@@ -42,7 +42,7 @@ private theorem exists_orderOf_three_not_mem_centralizer {X : Type} [Group X] [F
     (hO : CFSG.pPrimeCore 3 X = ⊥) {C : Subgroup X} (hC : CFSG.IsComponent C)
     (hZ : Subgroup.center C = ⊥) :
     ∃ y : X, y ∈ C ∧ orderOf y = 3 ∧ ∃ l ∈ C, y * l ≠ l * y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card C :=
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.prime_dvd_card_of_isComponent
       Nat.prime_three hO hC
@@ -50,7 +50,7 @@ private theorem exists_orderOf_three_not_mem_centralizer {X : Type} [Group X] [F
   have hyne : y ≠ 1 := by
     intro h
     rw [h] at hyord
-    simpa using hyord
+    simp at hyord
   have hnot : y ∉ Subgroup.center C := by
     intro hyc
     rw [hZ, Subgroup.mem_bot] at hyc
@@ -80,9 +80,9 @@ private theorem normal_subgroup_le_ker_of_ne_top {X : Type} [Group X] [Finite X]
     (hf : Function.Surjective f) (hker : IsPGroup 2 f.ker) {K : Subgroup ↥I}
     (hK : K.Normal) (hKne : K ≠ ⊤) :
     K ≤ f.ker := by
-  haveI hperfI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr hperf
+  have hperfI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr hperf
   have hMnorm : (Subgroup.map f K).Normal := hK.map f hf
-  letI : (Subgroup.map f K).Normal := hMnorm
+  let : (Subgroup.map f K).Normal := hMnorm
   rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top (α := Fin 9) (by norm_num)
       (N := Subgroup.map f K) with hbot | htop
   · exact (Subgroup.map_eq_bot_iff K).mp hbot
@@ -113,7 +113,7 @@ private theorem normal_subgroup_le_ker_of_ne_top {X : Type} [Group X] [Finite X]
       rw [hk1, one_mul]
     have hQp : IsPGroup 2 (↥I ⧸ K) :=
       IsPGroup.of_surjective hker _ hqsurj
-    haveI hQperf : Group.IsPerfect (↥I ⧸ K) :=
+    have hQperf : Group.IsPerfect (↥I ⧸ K) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' K) (QuotientGroup.mk'_surjective K)
     have hsub : Subsingleton (↥I ⧸ K) :=
       CFSG.Quasithin.H13.C1294.subsingleton_of_perfect_isPGroup hQp
@@ -126,8 +126,8 @@ theorem inf_eq_bot_of_isPGroup_three_of_a9 {V : Type} [Group V] [Finite V]
     (f : ↥I →* alternatingGroup (Fin 9)) (hf : Function.Surjective f)
     (hK : IsPGroup 2 f.ker) : P ⊓ I = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup ↥I := P.subgroupOf I
   have hQ3 : IsPGroup 3 Q := hP.comap_subtype
   have hQnorm : Q.Normal := by
@@ -135,7 +135,7 @@ theorem inf_eq_bot_of_isPGroup_three_of_a9 {V : Type} [Group V] [Finite V]
     rw [Subgroup.mem_subgroupOf] at hq ⊢
     exact ((Subgroup.mem_normalizer_iff.mp (hIP i.2)) (q : V)).mp hq
   have hQmap3 : IsPGroup 3 (Subgroup.map f Q) := hQ3.map f
-  haveI hQmapN : (Subgroup.map f Q).Normal := Subgroup.Normal.map hQnorm f hf
+  have hQmapN : (Subgroup.map f Q).Normal := Subgroup.Normal.map hQnorm f hf
   have hQmap_bot : Subgroup.map f Q = ⊥ := by
     rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top (α := Fin 9)
       (N := Subgroup.map f Q) (by simp) with h | h
@@ -224,8 +224,8 @@ private theorem le_normalizer_of_component {X : Type} [Group X] [Finite X]
     I ≤ Subgroup.normalizer (C : Set X) := by
   classical
   let S := {C : Subgroup X // CFSG.IsComponent C}
-  letI : MulAction (MulAut X) (Subgroup X) := Subgroup.pointwiseMulAction
-  letI : MulAction ↥I (Subgroup X) :=
+  let : MulAction (MulAut X) (Subgroup X) := Subgroup.pointwiseMulAction
+  let : MulAction ↥I (Subgroup X) :=
     MulAction.compHom (Subgroup X) (MulAut.conj.comp I.subtype)
   let act : ↥I →* Equiv.Perm S :=
     { toFun := fun i => Equiv.Perm.subtypePerm (MulAction.toPermHom ↥I (Subgroup X) i)
@@ -290,7 +290,7 @@ private theorem exists_projection_hom_of_commute {X : Type} [Group X]
     hCcent.trans (Subgroup.centralizer_le_normalizer _)
   have hDnormal : (D.subgroupOf J).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hCnorm
-  letI : (D.subgroupOf J).Normal := hDnormal
+  let : (D.subgroupOf J).Normal := hDnormal
   let q : J →* J ⧸ D.subgroupOf J := QuotientGroup.mk' _
   let φ : C →* J ⧸ D.subgroupOf J := q.comp (Subgroup.inclusion (show C ≤ J from le_sup_left))
   have hφinj : Function.Injective φ := by
@@ -362,7 +362,7 @@ private theorem exists_injective_hom_of_le_sup_centralizer {X : Type} [Group X]
 
 private theorem exists_component_not_centralized {X : Type} [Group X] [Finite X]
     (hO : CFSG.pPrimeCore 3 X = ⊥) (hO3 : CFSG.pCore 3 X = ⊥)
-    {I : Subgroup X} (hperf : ⁅I, I⁆ = I)
+    {I : Subgroup X} (_hperf : ⁅I, I⁆ = I)
     {f : ↥I →* alternatingGroup (Fin 9)} (hf : Function.Surjective f) :
     ∃ C : Subgroup X, CFSG.IsComponent C ∧
       ¬ I ≤ Subgroup.centralizer (C : Set X) := by
@@ -393,7 +393,7 @@ private theorem exists_component_not_centralized {X : Type} [Group X] [Finite X]
     calc I ≤ Subgroup.map (CFSG.layer X).subtype (Subgroup.center (CFSG.layer X)) := hIcenter
       _ ≤ CFSG.fittingSubgroup X := CFSG.WholeGroup.center_layer_le_fittingSubgroup (G := X)
       _ = ⊥ := hF
-  haveI hIsub : Subsingleton ↥I := by
+  have hIsub : Subsingleton ↥I := by
     rw [hIbot]
     infer_instance
   have hsubA9 : Subsingleton (alternatingGroup (Fin 9)) :=
@@ -435,7 +435,7 @@ private theorem three_le_pRank_of_component {X : Type} [Group X] [Finite X]
     {I : Subgroup X} (hperf : ⁅I, I⁆ = I)
     {f : ↥I →* alternatingGroup (Fin 9)} (hf : Function.Surjective f)
     (hker : IsPGroup 2 f.ker)
-    {C : Subgroup X} (hC : CFSG.IsComponent C)
+    {C : Subgroup X} (_hC : CFSG.IsComponent C)
     (hIY : I ≤ Subgroup.normalizer (C : Set X))
     (hnot : ¬ I ≤ Subgroup.centralizer (C : Set X))
     (hZ : Subgroup.center C = ⊥)

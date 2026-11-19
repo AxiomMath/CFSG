@@ -120,9 +120,9 @@ theorem glaPrimeCoreOf_inf_centralizer_eq_bot {Q : Type} [Group Q] (v : MulAut Q
 theorem hasU4Quot_of_u4Hyp {Q : Type} [Group Q] [Finite Q] (v : MulAut Q) (hU : U4Hyp v) :
     HasU4Quot (u4Fix (u4AutQuot Q v)) := by
   obtain ⟨J, hJsub, hJq, hJcat⟩ := hU
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPn : Nat.card (PSimple 3 J) = 25920 := card_of_catalogIs_u4two hJcat
-  haveI : IsSimpleGroup (PSimple 3 J) := hJq.2
+  have : IsSimpleGroup (PSimple 3 J) := hJq.2
   let Φ : ↥J →* (Q ⧸ Subgroup.center Q) :=
     (QuotientGroup.mk' (Subgroup.center Q)).comp J.subtype
   let Ψ : ↥J →* PSimple 3 J :=
@@ -179,7 +179,7 @@ theorem u4AutQuot_pow_three {Q : Type} [Group Q] {v : MulAut Q} (hv : v ^ 3 = 1)
 
 theorem u4InnRest_of_main (h : U4InnAt (fun i => S9.isTableU4 i ∧ ¬ S9.isU4two i)) : U4InnRest := by
   intro Q _ _ v hQ _hO hcat hv3 hU
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   exact glaPrimeCoreOf_inf_centralizer_eq_bot v
     (h _ hcat inferInstance (u4AutQuot Q v) (u4AutQuot_pow_three hv3) (hasU4Quot_of_u4Hyp v hU))
 

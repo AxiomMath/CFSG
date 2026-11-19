@@ -23,7 +23,7 @@ variable {c : Ctx812E G} (t : CaseTwoTransitive c)
 theorem card_inf_centralizer_y :
     Nat.card (t.P ⊓ Subgroup.centralizer ({t.y} : Set G) : Subgroup G) =
       3 * Nat.card (t.d.H 0) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbase : CFSG.GroupTheory.WreathThree.base (t.d.H 0) t.y = t.d.S := t.base_eq
   have hyS_norm : t.y ∈ Subgroup.normalizer (t.d.S : Set G) := by
     rw [t.hdS]
@@ -114,7 +114,7 @@ theorem card_inf_centralizer_y :
 
 theorem exists_conj_mem_AA {x : G} (hxL : x ∈ c.L) (hx3 : x ^ 3 = 1) :
     ∃ l ∈ c.L, l * x * l⁻¹ ∈ t.d.AA := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf 3 t.d.S c.L := by
     simpa [t.hdL] using t.d.hS
   have hTp : IsPGroup 3 (Subgroup.zpowers x) :=
@@ -140,7 +140,7 @@ theorem exists_conj_mem_AA {x : G} (hxL : x ∈ c.L) (hx3 : x ^ 3 = 1) :
 
 theorem exists_conj_eq_y {x : G} (hxM : x ∈ c.S.M) (hx3 : x ^ 3 = 1) (hxL : x ∉ c.L) :
     ∃ m ∈ c.S.M, m * x * m⁻¹ = t.y ∨ m * x * m⁻¹ = t.y⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTp : IsPGroup 3 (Subgroup.zpowers x) :=
     IsPGroup.of_card_dvd_pow (n := 1) (by
       rw [Nat.card_zpowers, pow_one]
@@ -197,7 +197,7 @@ theorem isSylowOf_inf_centralizer_y :
     CFSG.ABGLocalTools.IsSylowOf 3 (t.P ⊓ Subgroup.centralizer ({t.y} : Set G))
       (c.S.M ⊓ Subgroup.centralizer ({t.y} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let T : Subgroup G := t.P ⊓ Subgroup.centralizer ({t.y} : Set G)
   let K : Subgroup G := c.S.M ⊓ Subgroup.centralizer ({t.y} : Set G)
   have hTK : T ≤ K := inf_le_inf t.hP.le le_rfl
@@ -249,7 +249,7 @@ theorem isSylowOf_inf_centralizer_y :
   let T₁' : Subgroup G := T₁.map f
   have hT1'P : T₁' ≤ t.P := by
     rintro _ ⟨z, hz, rfl⟩
-    have hfz : f z = m⁻¹ * z * m := by simp [f, MulAut.conj_apply]
+    have hfz : f z = m⁻¹ * z * m := by simp [f]
     rw [hfz]
     exact hmP z hz
   have hmap_eq : T₁' ⊓ c.L = (T₁ ⊓ c.L).map f := by
@@ -266,7 +266,7 @@ theorem isSylowOf_inf_centralizer_y :
     obtain ⟨z, hz, rfl⟩ := hw
     have hzT1 : z ∈ T₁ := hz.1
     have hzL : z ∈ c.L := hz.2
-    have hfz : f z = m⁻¹ * z * m := by simp [f, MulAut.conj_apply]
+    have hfz : f z = m⁻¹ * z * m := by simp [f]
     rw [hfz]
     have hzP : m⁻¹ * z * m ∈ t.P := hmP z hzT1
     have hzL' : m⁻¹ * z * m ∈ c.L := by
@@ -304,9 +304,9 @@ theorem isSylowOf_inf_centralizer_y :
   have hrel_sup {H : Subgroup G}
       (hH : H ≤ Subgroup.normalizer (c.L : Set G)) :
       c.L.relIndex (H ⊔ c.L) = c.L.relIndex H := by
-    letI : (c.L.subgroupOf H).Normal :=
+    let : (c.L.subgroupOf H).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hH
-    letI : (c.L.subgroupOf (H ⊔ c.L)).Normal :=
+    let : (c.L.subgroupOf (H ⊔ c.L)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hH
     exact (Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient H c.L hH).toEquiv).symm
@@ -362,16 +362,16 @@ theorem two_le_pRank_inf_centralizer_AA_of_not_dvd {p : ℕ}
     2 ≤ CFSG.Open.pRank p (c.S.M ⊓ Subgroup.centralizer (t.d.AA : Set G)) := by
   classical
   have hpp : p.Prime := (c.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp5 : 5 ≤ p := c.five_le_of_mem_sigma hp
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLM : c.L ≤ c.S.M := c.hyp81.1
   have hML : c.S.M ≤ Subgroup.normalizer (c.L : Set G) := c.le_normalizer_L
   let Nbar : Subgroup ↥c.S.M := c.L.subgroupOf c.S.M
   have hNbarNorm : Nbar.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mpr hML
-  letI : Nbar.Normal := hNbarNorm
+  let : Nbar.Normal := hNbarNorm
   let Q : Sylow 3 ↥c.L := Classical.choice Sylow.nonempty
   let e : ↥Nbar ≃* ↥c.L := Subgroup.subgroupOfEquivOfLe hLM
   let Pbar : Sylow 3 ↥Nbar := Q.mapSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -427,9 +427,9 @@ theorem two_le_pRank_inf_centralizer_AA_of_not_dvd {p : ℕ}
     have h2 : c.L.relIndex D * Nat.card ↥(c.L ⊓ D) = Nat.card D :=
       Subgroup.relIndex_mul_card (H := c.L) (K := D)
     have h3 : c.L.relIndex (D ⊔ c.L) = c.L.relIndex D := by
-      letI : (c.L.subgroupOf D).Normal :=
+      let : (c.L.subgroupOf D).Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer hDnormL
-      letI : (c.L.subgroupOf (D ⊔ c.L)).Normal :=
+      let : (c.L.subgroupOf (D ⊔ c.L)).Normal :=
         Subgroup.normal_subgroupOf_sup_of_le_normalizer hDnormL
       exact (Nat.card_congr
         (QuotientGroup.quotientInfEquivProdNormalizerQuotient D c.L hDnormL).toEquiv).symm
@@ -556,8 +556,8 @@ theorem normalizer_le_of_le_AA_of_not_dvd {p : ℕ}
     (hpL : ¬ p ∣ Nat.card c.L) {Y : Subgroup G} (hY : Y ≤ t.d.AA) (hY1 : Y ≠ ⊥) :
     Subgroup.normalizer (Y : Set G) ≤ c.S.M := by
   have hpp : p.Prime := (c.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAAL : t.d.AA ≤ c.L := t.hdL ▸ t.d.AA_le_L
   have hBM : t.d.AA ≤ c.S.M := hAAL.trans c.hyp81.1
   have hB : IsPGroup 3 t.d.AA := t.d.isElemAbelian_AA.isPGroup

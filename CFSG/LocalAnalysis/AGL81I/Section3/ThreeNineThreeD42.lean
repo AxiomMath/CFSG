@@ -143,7 +143,7 @@ theorem false_of_threeNineHyp_D42
   obtain ⟨Q, hEQ⟩ := (CFSG.Open.IsElemAbelian.isPGroup h.elem).exists_le_sylow
   have hQtop : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   have hQK : CFSG.ABGLocalTools.IsSylowOf 3 ((Q : Subgroup X) ⊓ K) K :=
@@ -151,7 +151,7 @@ theorem false_of_threeNineHyp_D42
   have hQY : ((Q : Subgroup X) ⊓ K).subgroupOf K ≤ X₁.subgroupOf K := by
     intro x hx
     rw [Subgroup.mem_subgroupOf] at hx ⊢
-    exact h.normQ Q Q.isPGroup' hEQ
+    exact h.normQ Q Q.isPGroup hEQ
       (Subgroup.mem_inf.mpr ⟨Subgroup.le_normalizer (Subgroup.mem_inf.mp hx).1,
         le_sup_left (a := K) (Subgroup.mem_inf.mp hx).2⟩)
   have h81 : (3 : ℕ) ^ (211341312 : ℕ).factorization 3 = 81 :=

@@ -21,7 +21,7 @@ theorem sec8t84g3b_side_exists (hP : Sec8T84FactP) (hS4 : Sec8T84FactS4)
       z ∈ normalizer ((V ⊔ F : Subgroup G) : Set G) ∧
       z ^ 3 ∈ oddCoreIn (sec8t84g_Q E E0) ∧ γ * z * γ⁻¹ * z⁻¹ ∈ oddCoreIn (sec8t84g_Q E E0) ∧
       ∀ u ∈ V ⊔ F, z * u = u * z → u = 1 := by
-  haveI hNn : ((oddCoreIn (normalizer (E : Set G))).subgroupOf Y).Normal := S.ydata.O_norm
+  have hNn : ((oddCoreIn (normalizer (E : Set G))).subgroupOf Y).Normal := S.ydata.O_norm
   let π : ↥Y →* ↥Y ⧸ (oddCoreIn (normalizer (E : Set G))).subgroupOf Y :=
     QuotientGroup.mk' _
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _

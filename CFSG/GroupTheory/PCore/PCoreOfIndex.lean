@@ -73,7 +73,7 @@ private theorem normalizer_le_normalizer_pCoreOf' (H : Subgroup G) :
 theorem pCoreOf_le_of_not_dvd_relIndex [Finite G] [Fact p.Prime] {L K : Subgroup G}
     (hLK : L ≤ K) (hKL : K ≤ Subgroup.normalizer (L : Set G))
     (hp : ¬ p ∣ L.relIndex K) : pCoreOf p K ≤ L := by
-  haveI hN : (L.subgroupOf K).Normal :=
+  have hN : (L.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLK).mpr hKL
   have hcard : Nat.card (↥K ⧸ (L.subgroupOf K)) = L.relIndex K := rfl
   intro x hx

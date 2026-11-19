@@ -26,6 +26,7 @@ theorem phi1_omega4_eq : φ₁ (omegaBlock 5 4) = φ₂ (omegaBlock 5 2) := by
   rw [slLower2Hom_omegaBlock, slUpper2Hom_omegaBlock] at hagree
   simpa using hagree
 
+omit [Group G] [Finite G] h in
 private theorem zeta5_ne_one : zeta5 ≠ 1 := by
   intro h1
   have homega : omegaScalar = 1 := by
@@ -131,7 +132,7 @@ theorem bElt_not_mem_zpowers_x : bElt φ₁ φ₂ ∉ Subgroup.zpowers x := by
   have hzeta1 : zeta5 = 1 :=
     eq_one_of_commute_range h.coords.inj₁ (fun t => by
       rw [← map_mul, ← map_mul, hζcomm t])
-  exact zeta5_ne_one h hzeta1
+  exact zeta5_ne_one hzeta1
 
 theorem bElt_act_L (s : SpecialLinearGroup (Fin 6) F2) :
     bElt φ₁ φ₂ * φ₁ s * (bElt φ₁ φ₂)⁻¹ = φ₁ (zeta5 * s * zeta5⁻¹) :=

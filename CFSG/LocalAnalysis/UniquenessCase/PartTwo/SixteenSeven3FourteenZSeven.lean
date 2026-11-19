@@ -57,7 +57,7 @@ private theorem central_prod_eq_one {S : Type} [Group S]
 
 private theorem card_mulAut_zmod_seven :
     Nat.card (MulAut (Multiplicative (ZMod 7))) = 6 := by
-  haveI : IsCyclic (Multiplicative (ZMod 7)) := inferInstance
+  have : IsCyclic (Multiplicative (ZMod 7)) := inferInstance
   rw [IsCyclic.card_mulAut, Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card,
     Nat.totient_prime Nat.prime_seven]
 
@@ -79,7 +79,7 @@ theorem s16c1614_not_five_dvd_card_mulAut_z7_prod {S : Type} [Group S] [Finite S
     exact Subgroup.mem_bot.mp this
   have hnt : ∃ s : S, s ≠ 1 := exists_ne 1
   have hsimple : ∀ N : Subgroup S, N.Normal → N = ⊥ ∨ N = ⊤ := fun N hN => by
-    haveI := hN
+    have := hN
     exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N
   have hcommS : commutator S = ⊤ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (commutator S) with h | h
@@ -119,7 +119,7 @@ theorem s16c1614_not_five_dvd_card_mulAut_z7_prod {S : Type} [Group S] [Finite S
     rw [hcommB'] at h
     exact h
   rintro h5div
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨α, hαord⟩ := exists_prime_orderOf_dvd_card'
       (G := MulAut (Multiplicative (ZMod 7) × S × S)) 5 h5div
   have hα5 : α ^ 5 = 1 := by rw [← hαord]; exact pow_orderOf_eq_one α
@@ -131,7 +131,7 @@ theorem s16c1614_not_five_dvd_card_mulAut_z7_prod {S : Type} [Group S] [Finite S
     have hNcomm : N = commutator (Multiplicative (ZMod 7) × S × S) := hprod.symm
     rw [hNcomm]
     infer_instance
-  haveI : N.Characteristic := hNchar
+  have : N.Characteristic := hNchar
   let eN : N ≃* (S × S) :=
     { toFun := fun n => n.1.2
       invFun := fun x => ⟨(1, x), by

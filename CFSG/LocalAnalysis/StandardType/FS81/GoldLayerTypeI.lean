@@ -19,7 +19,7 @@ open CFSG.ComponentClassification.AschbacherToolkit.Bender (sylowCenter)
 variable {Y : Type} [Group Y] [Finite Y] {S : Sylow 2 Y} {B L : Subgroup Y}
 
 theorem goldLayer_inf_eq_of_typeI
-    (D : GoldLayerFacts Y S B) (hL : IsComponentOf L ⊤) (hF : G310.CompFacts B L)
+    (D : GoldLayerFacts Y S B) (hL : IsComponentOf L ⊤) (_hF : G310.CompFacts B L)
     (hI : IsGoldTypeI L) {P : Sylow 2 Y} (hBP : B ≤ P) :
     (P : Subgroup Y) ⊓ L = (S : Subgroup Y) ⊓ L := by
   have hLn : L.Normal := goldLayer_comp_normal D hL
@@ -69,7 +69,7 @@ theorem goldLayer_exists_not_le_of_typeI
       (Subgroup.center L)) from rfl, Sylow.coe_mapSurjective]
   have hcenterP : Subgroup.center L ≤ (P₀ : Subgroup L) := by
     have hsup : IsPGroup 2 (Subgroup.center L ⊔ (P₀ : Subgroup L) : Subgroup L) :=
-      IsPGroup.to_sup_of_normal_left hF.center P₀.isPGroup'
+      IsPGroup.to_sup_of_normal_left hF.center P₀.isPGroup
     have hmax : (Subgroup.center L ⊔ (P₀ : Subgroup L) : Subgroup L) = (P₀ : Subgroup L) :=
       P₀.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact le_sup_left.trans (le_of_eq hmax)

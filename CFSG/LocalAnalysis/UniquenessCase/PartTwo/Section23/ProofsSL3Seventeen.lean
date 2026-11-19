@@ -65,6 +65,7 @@ theorem exists_conj_of_pow_eq_one_of_coprime_outer {L : Subgroup G} {x : G}
   rw [← hl] at hq
   simpa [barConjAut_of_mem (L := L) hx] using hq.symm
 
+omit [Finite G] in
 private theorem barAction_eq_conj_mk {K : Subgroup G} {y : G} (hyK : y ∈ K) :
     barAction K ⟨y, Subgroup.le_normalizer hyK⟩ =
       MulAut.conj (QuotientGroup.mk ⟨y, hyK⟩) := by
@@ -75,6 +76,7 @@ private theorem barAction_eq_conj_mk {K : Subgroup G} {y : G} (hyK : y ∈ K) :
     ← QuotientGroup.mk_mul]
   rfl
 
+omit [Finite G] in
 private theorem mem_openPCoreOf_commutator_of_barAction_eq_one {K : Subgroup G} {d k : G}
     (hdN : d ∈ Subgroup.normalizer (K : Set G)) (hk : k ∈ K)
     (hd : barAction K ⟨d, hdN⟩ = 1) :
@@ -101,14 +103,14 @@ private theorem mem_openPCoreOf_commutator_of_barAction_eq_one {K : Subgroup G} 
 
 private theorem exists_centralizing_lift_of_barConjAut {K : Subgroup G} {b : G}
     (hbN : b ∈ Subgroup.normalizer (K : Set G)) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
-    (hbr : orderOf b = r) (hZ : Subgroup.center (Bar2 K) = ⊥) {l : G} (hl : l ∈ K)
-    (hbar : barConjAut b = MulAut.conj (QuotientGroup.mk ⟨l, hl⟩))
+    (hbr : orderOf b = r) (_hZ : Subgroup.center (Bar2 K) = ⊥) {l : G} (hl : l ∈ K)
+    (_hbar : barConjAut b = MulAut.conj (QuotientGroup.mk ⟨l, hl⟩))
     (hlr : (QuotientGroup.mk ⟨l, hl⟩ : Bar2 K) ^ r = 1)
     (hfixl : b * l * b⁻¹ * l⁻¹ ∈ CFSG.Open.pCoreOf 2 K) :
     ∃ (a : G) (haK : a ∈ K), b * a = a * b ∧ a ^ r = 1 ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥K) (⟨a, haK⟩ : ↥K) =
         QuotientGroup.mk ⟨l, hl⟩ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_cases hl1 : (QuotientGroup.mk ⟨l, hl⟩ : Bar2 K) = 1
   · refine ⟨1, K.one_mem, by rw [mul_one, one_mul], one_pow r, ?_⟩
     rw [hl1]
@@ -123,6 +125,7 @@ private theorem exists_centralizing_lift_of_barConjAut {K : Subgroup G} {b : G}
     · rw [← hyord]
       exact pow_orderOf_eq_one (y : G)
 
+omit [Finite G] in
 private theorem barAction_mul_inv_eq_one_of_factor {K : Subgroup G} {b a l : G}
     (hbN : b ∈ Subgroup.normalizer (K : Set G))
     (hdN : b * a⁻¹ ∈ Subgroup.normalizer (K : Set G)) (haK : a ∈ K) (hl : l ∈ K)
@@ -216,15 +219,15 @@ theorem Ctx2311.isL2_bar2_K {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     (hker : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L) :
     IsL2 (Bar2 c.K) (CFSG.Open.pRank 2 D.Z) := by
   classical
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hnat : IsNaturalClassicalModule (c.H hV) (CFSG.Open.pRank 2 D.Z) :=
@@ -249,7 +252,7 @@ theorem Ctx2311.isL2_bar2_K {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
   exact LieModel.of_mulEquiv e1 (LieModel.of_mulEquiv e2.symm hL2Kstar)
 
 private theorem factor_ne_one_of_mem_B0 {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
-    (h4 : S23_4 D Ch) (h1930 : H1930 D) {b a : G} (hbB0 : b ∈ c.B0)
+    (h4 : S23_4 D Ch) (h1930 : H1930 D) {b a : G} (_hbB0 : b ∈ c.B0)
     (hbZ : b ∉ Subgroup.centralizer (D.Z : Set G)) (haK : a ∈ c.K) :
     b * a⁻¹ ≠ 1 := by
   intro hd1
@@ -273,7 +276,7 @@ theorem Ctx2311.exists_factor_of_mem_B0 {D : Data G} {Ch : Choice2011 G} (c : Ct
   set m := CFSG.Open.pRank 2 D.Z with hm
   obtain ⟨r, hr, hr2, hr3, hrn, hrdvd⟩ :=
     exists_prime_dvd_two_pow_sub_one_ne_three_not_dvd (n := m) (by omega)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, hb⟩ :=
     Ctx23L.exists_mem_B0_not_mem_centralizer_Z hE h207 h52 h53 h1930 c.toCtx23L
   obtain ⟨b, hbB0, hbr, hbZ⟩ := hb r hr hrdvd

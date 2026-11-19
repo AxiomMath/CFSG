@@ -44,10 +44,10 @@ private lemma lup10ab_tw_single (γ : Equiv.Perm (Fin 4)) (lam c : ZMod 3) (j : 
     · subst h
       simp [lup10fa_twist]
     · have h' : (γ j).val ≠ r.val := fun hv => h (Fin.ext hv)
-      rw [Pi.single_apply, if_neg (Ne.symm h)]
+      rw [Pi.single_apply, ite_eq_right (Ne.symm h)]
       simp [lup10fa_twist, j.isLt, h']
   · intro k _ hk
-    rw [Pi.single_apply, if_neg hk, mul_zero]
+    rw [Pi.single_apply, ite_eq_right hk, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 

@@ -41,6 +41,7 @@ theorem diagCoord_range {W : Type} [CommGroup W] (K D : Subgroup (MulAut W)) (d 
     (diagCoord77 K D d).range = conjSub77 K (d : MulAut W) := by
   rw [diagCoord77, MonoidHom.range_comp, Subgroup.range_subtype, conjSub77]
 
+omit [Finite W] [Fintype ↥D] [DecidableEq ↥D] in
 theorem inv_mul_mem_normalizer_of_conjSub_eq
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥)
     {d e : ↥D} (h : conjSub77 K (d : MulAut W) = conjSub77 K (e : MulAut W)) :
@@ -63,6 +64,7 @@ theorem inv_mul_mem_normalizer_of_conjSub_eq
     exact ⟨hmemD, hnorm⟩
   exact Subgroup.mem_bot.mp hbot
 
+omit [Fintype ↥D] [DecidableEq ↥D] in
 theorem conjSub_commute_of_ne (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥)
     {d e : ↥D} (hne : d ≠ e) :
@@ -77,6 +79,7 @@ theorem conjSub_commute_of_ne (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     exact hne (Subtype.ext (inv_mul_eq_one.mp h1).symm)
   exact CFSG.LargeExtraspecial.S5.commute_of_isComponentOf_ne hd he hne'
 
+omit [Fintype ↥D] [DecidableEq ↥D] in
 theorem diag_comm77 (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
     Pairwise fun d e : ↥D => ∀ x y : ↥K,
@@ -97,6 +100,7 @@ theorem diag_comm77 (hK : IsComponentOf K Y) (hDY : D ≤ Y)
   (MonoidHom.noncommPiCoprod (fun d : ↥D => diagCoord77 K D d) (diag_comm77 hK hDY hDreg)).comp
     (Pi.constMonoidHom ↥D ↥K)
 
+omit [DecidableEq ↥D] in
 theorem diagHom_apply77 (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) (x : ↥K) :
     diagHom77 hK hDY hDreg x =
@@ -108,6 +112,7 @@ theorem diagHom_apply77 (hK : IsComponentOf K Y) (hDY : D ≤ Y)
   rw [diagHom77, MonoidHom.comp_apply, MonoidHom.noncommPiCoprod_apply]
   exact Finset.noncommProd_congr rfl (fun i _ => rfl) _
 
+omit [DecidableEq ↥D] in
 theorem diagHom_conj_mem_D (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥)
     {e : MulAut W} (he : e ∈ D) (x : ↥K) :
@@ -126,6 +131,7 @@ theorem diagHom_conj_mem_D (hK : IsComponentOf K Y) (hDY : D ≤ Y)
   exact CFSG.HardMathSupport.Solomon.Coordinator.i25_noncommProd_equiv (Equiv.mulLeft ⟨e, he⟩)
     (fun d : ↥D => diagCoord77 K D d x) _ _
 
+omit [DecidableEq ↥D] in
 theorem diagHom_conj_mem_normalizer (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥)
     {b : MulAut W} (hbK : b ∈ Subgroup.normalizer (K : Set (MulAut W)))
@@ -156,6 +162,7 @@ theorem diagHom_conj_mem_normalizer (hK : IsComponentOf K Y) (hDY : D ≤ Y)
   refine (Finset.noncommProd_congr rfl (fun d _ => congrFun hfun d) _).trans ?_
   exact (diagHom_apply77 hK hDY hDreg _).symm
 
+omit [DecidableEq ↥D] in
 theorem diagHom_conj_mem_centralizer (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥)
     {c : MulAut W} (hcK : c ∈ Subgroup.centralizer (K : Set (MulAut W)))

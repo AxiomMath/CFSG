@@ -42,20 +42,20 @@ theorem mk_comm (h : IsAbLayer H N) (x y : H) :
     letI := h.normal
     (QuotientGroup.mk x * QuotientGroup.mk y : H ⧸ N.subgroupOf H) =
       QuotientGroup.mk y * QuotientGroup.mk x := by
-  letI := h.normal
+  let := h.normal
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq, Subgroup.mem_subgroupOf]
   have := h.comm_mem y⁻¹.1 (H.inv_mem y.2) x⁻¹.1 (H.inv_mem x.2)
   simpa [mul_assoc] using this
 
 theorem cube_mem_of_gens (h : IsAbLayer H N) {S : Set G} (hS : H = Subgroup.closure S)
     (hgen : ∀ s ∈ S, s ^ 3 ∈ N) : ∀ x ∈ H, x ^ 3 ∈ N := by
-  letI := h.normal
+  let := h.normal
   intro x hxH0
   have hx' := hxH0
   rw [hS] at hx'
   induction hx' using Subgroup.closure_induction with
   | mem x hxS => exact hgen x hxS
-  | one => simpa using N.one_mem
+  | one => simp
   | mul x y hxm hym ihx ihy =>
     have hxH : x ∈ H := hS ▸ hxm
     have hyH : y ∈ H := hS ▸ hym
@@ -120,7 +120,7 @@ theorem mk_nsmul (n : ℕ) (x : H) : n • mk h x = mk h (x ^ n) := by
   | succ n ih => rw [succ_nsmul, ih, pow_succ, mk_add]
 
 theorem mk_eq_zero {x : H} : mk h x = 0 ↔ (x : G) ∈ N := by
-  letI := h.normal
+  let := h.normal
   change (QuotientGroup.mk x : H ⧸ N.subgroupOf H) = 1 ↔ _
   rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
 
@@ -143,7 +143,7 @@ instance [Finite G] : Finite (Lyr h) :=
   inferInstanceAs (Finite (H ⧸ N.subgroupOf H))
 
 theorem card_mul [Finite G] : Nat.card (Lyr h) * Nat.card N = Nat.card H := by
-  letI := h.normal
+  let := h.normal
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (N.subgroupOf H)
   have h2 : Nat.card (N.subgroupOf H) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe h.le).toEquiv
@@ -181,24 +181,24 @@ section Count
 variable {H N : Subgroup G} (h : IsLayer H N)
 
 theorem relIndex_inf_le [Finite G] (A : Subgroup G) (S : Set (Lyr h))
-    (hS : ∀ a (ha : a ∈ A) (haH : a ∈ H), mk h ⟨a, haH⟩ ∈ S) :
+    (hS : ∀ a (_ha : a ∈ A) (haH : a ∈ H), mk h ⟨a, haH⟩ ∈ S) :
     (A ⊓ N).relIndex (A ⊓ H) ≤ Nat.card S := by
-  letI := h.normal
+  let := h.normal
   let f : ↥(A ⊓ H) →* H ⧸ N.subgroupOf H :=
     (QuotientGroup.mk' (N.subgroupOf H)).comp (Subgroup.inclusion inf_le_right)
   have hker : f.ker = (A ⊓ N).subgroupOf (A ⊓ H) := by
-    ext ⟨a, ha⟩
+    ext ⟨a, _ha⟩
     simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
-    change (QuotientGroup.mk (⟨a, ha.2⟩ : H) : H ⧸ N.subgroupOf H) = 1 ↔ _
+    change (QuotientGroup.mk (⟨a, _ha.2⟩ : H) : H ⧸ N.subgroupOf H) = 1 ↔ _
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
-    exact ⟨fun hn => ⟨ha.1, hn⟩, fun hn => hn.2⟩
+    exact ⟨fun hn => ⟨_ha.1, hn⟩, fun hn => hn.2⟩
   have hidx : (A ⊓ N).relIndex (A ⊓ H) = Nat.card f.range := by
     rw [← Subgroup.index_ker, hker]; rfl
   rw [hidx]
   refine Nat.card_le_card_of_injective (fun q : f.range => (⟨Additive.ofMul q.1, ?_⟩ : S)) ?_
-  · obtain ⟨⟨a, ha⟩, hq⟩ := q.2
+  · obtain ⟨⟨a, _ha⟩, hq⟩ := q.2
     rw [← hq]
-    exact hS a ha.1 ha.2
+    exact hS a _ha.1 _ha.2
   · intro q q' hqq
     have h1 : Additive.ofMul q.1 = Additive.ofMul q'.1 :=
       congrArg (fun z : S => (z : Lyr h)) hqq

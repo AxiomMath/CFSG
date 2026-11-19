@@ -121,7 +121,6 @@ theorem eq_of_lt_le_card {Ω : Type*} [Group Ω] [Finite Ω] {T P₀ P : Subgrou
     have h1 := hY a⁻¹ (Y.inv_mem ha) _ ha'
     have e : a⁻¹ (a u * u⁻¹) = (a⁻¹ u * u⁻¹)⁻¹ := by
       simp only [map_mul, map_inv, MulAut.inv_apply_self, mul_inv_rev, inv_inv]
-      try group
     rw [e] at h1
     simpa using C.inv_mem h1
 

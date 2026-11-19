@@ -86,7 +86,7 @@ private theorem idxOf_map_range {T : Nat → Nat} {N a : Nat} (ha : a < N)
     rw [List.range_succ, List.map_append, List.idxOf_append]
     by_cases haN : a < N
     · have hm : T a ∈ (List.range N).map T := List.mem_map.2 ⟨a, List.mem_range.2 haN, rfl⟩
-      rw [if_pos hm]
+      rw [ite_eq_left hm]
       exact ih haN fun b hb e => hinj b (by omega) e
     · have haN' : a = N := by omega
       subst haN'
@@ -96,7 +96,7 @@ private theorem idxOf_map_range {T : Nat → Nat} {N a : Nat} (ha : a < N)
         have := hinj b (by have := List.mem_range.1 hb; omega) e
         have := List.mem_range.1 hb
         omega
-      rw [if_neg hm, List.length_map, List.length_range, List.map_singleton, List.idxOf_cons_self,
+      rw [ite_eq_right hm, List.length_map, List.length_range, List.map_singleton, List.idxOf_cons_self,
         Nat.zero_add]
 
 theorem treeRec_of {LC : Nat → Nat} {NL : Nat} {bs : List Nat} {R : Nat → Nat} {i N : Nat}

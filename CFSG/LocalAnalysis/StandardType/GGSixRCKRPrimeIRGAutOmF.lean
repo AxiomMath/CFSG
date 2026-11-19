@@ -146,7 +146,7 @@ private theorem irgOF_transport {K Q P : Type*} [Group K] [Group Q] [Group P] (m
         rw [irgOF_quot_map mk e S hS Y (S.symm (θ' (S u') * x)), MulEquiv.apply_symm_apply]
 
 theorem irgRootPairAut_POmegaPlus_four
-    {g : ℕ} (hadm : StatedLieAdmissible .POmegaPlus 4 2 g) : IRGRootPairAut .POmegaPlus 4 g := by
+    {g : ℕ} (_hadm : StatedLieAdmissible .POmegaPlus 4 2 g) : IRGRootPairAut .POmegaPlus 4 g := by
   intro θ β' hβ' hlong u'
   let e : IRGQuot .POmegaPlus 4 g ≃* irgOF_P g := irgOF_quotEquiv (g := g)
   let S : (ggU .POmegaPlus 4 g).K ≃* irgOF_P g := spin8Equiv (irgOF_F g)

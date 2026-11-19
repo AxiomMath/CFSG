@@ -102,6 +102,7 @@ private theorem mul_sq_eq (a b : G) : (a * b) ^ 2 = ⁅a, b⁆ * (b * a ^ 2 * b�
   simp only [commutatorElement_def, pow_two]
   group
 
+omit [Finite G] in
 theorem IsFooteBlock.self (hJ : IsFooteBlock H J) : IsFooteBlock J J where
   le := le_rfl
   subnormal := IsSubnormal.refl J
@@ -109,6 +110,7 @@ theorem IsFooteBlock.self (hJ : IsFooteBlock H J) : IsFooteBlock J J where
   quasisimple := hJ.quasisimple
   chief := hJ.chief
 
+omit [Finite G] in
 theorem IsFooteBlock.commutator_eq (hJ : IsFooteBlock H J) : ⁅J, J⁆ = J := by
   refine le_antisymm (Subgroup.le_normalizer_iff_commutator_le_right.1
     (Subgroup.le_normalizer (H := J))) ?_
@@ -234,7 +236,7 @@ theorem IsFooteBlock.sq_mem_blockZ (hJ : IsFooteBlock H J) {u : G} (hu : u ∈ b
     exact ((hW u).mp (by rw [hWU']; exact hu)).2
 
 theorem IsFooteBlock.commutator_le_blockU (hJ : IsFooteBlock H J) {R : Subgroup G}
-    (hRJ : R ≤ Subgroup.normalizer (J : Set G)) (hc : ⁅R, J⁆ ≤ blockQ J) :
+    (_hRJ : R ≤ Subgroup.normalizer (J : Set G)) (hc : ⁅R, J⁆ ≤ blockQ J) :
     ⁅J, R⁆ ≤ blockU J := by
   have hQJ : blockQ J ≤ J := C1.blockQ_le J
   have hJU : J ≤ Subgroup.normalizer (blockU J : Set G) := C1.le_normalizer_blockU J

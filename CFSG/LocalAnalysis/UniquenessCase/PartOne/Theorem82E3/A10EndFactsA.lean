@@ -39,7 +39,7 @@ private theorem le_M_of_sylow_five (F : A10Frame c) {H Q : Subgroup G}
     (hQ5 : 5 ∣ Nat.card Q) (hQM : Q ≤ D.M)
     (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) : H ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Sylow 5 ↥Q := Classical.choice Sylow.nonempty
   have hSne : (S : Subgroup ↥Q) ≠ ⊥ := Sylow.ne_bot_of_dvd_card S hQ5
   let T : Subgroup G := (S : Subgroup ↥Q).map Q.subtype

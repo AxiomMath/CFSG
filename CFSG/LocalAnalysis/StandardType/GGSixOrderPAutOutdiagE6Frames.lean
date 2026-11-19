@@ -30,7 +30,7 @@ theorem exists_frame_data {G : Type} [Group G] [Finite G] {Bs G₀ : Subgroup G}
         α ∈ LayerSixE.inndiagAut .E6 (GaloisField 2 f) →
         LayerSixE.GGInndiagToral .E6 (GaloisField 2 f) (Subgroup.zpowers α) →
         ∃ m ∈ Subgroup.normalizer (G₀ : Set G), m⁻¹ * y * m ∈ Bs) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨χ, hχ, hrange, hind⟩ := exists_model hS
   have hC : Subgroup.centralizer (χ.range : Set G) = ⊥ := by
     rw [hrange]

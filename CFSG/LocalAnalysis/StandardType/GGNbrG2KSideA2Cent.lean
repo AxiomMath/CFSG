@@ -114,7 +114,7 @@ theorem card_centralizer_threeB_le
     (hia : b g2ia ≠ 1) :
     Nat.card ↥(Subgroup.centralizer ({s} : Set (adjointGroup Tag.G2 F))) ≤
       Nat.card F * (Nat.card F ^ 2 - 1) * (Nat.card F - 1) := by
-  haveI hfin : Finite (ModGL Tag.G2 F) := finite_modGL
+  have hfin : Finite (ModGL Tag.G2 F) := finite_modGL
   obtain ⟨w, ζ, hζ, hw⟩ := exists_weyl_threeB (K := F) hb3 hia
   have h1 := (rootDiagUnit_eq_conj_canonicalRep_iff b (Pi.mulSingle g2ia ζ) w).mpr hw
   let n : adjointGroup Tag.G2 F :=
@@ -170,7 +170,7 @@ theorem ggNbrG2K_a2_centralizer
       Function.Injective φ ∧ φ.range = Subgroup.centralizer ({s} : Set (adjointGroup Tag.G2 F)) ∧
         ∀ γ ∈ RA2, ∀ c : F, φ (CFSG.LieType.Steinberg.SL.x 2 F γ c) =
           CFSG.GH74.GLS.Stage2.Bender.Thm1.a2y γ c := by
-  haveI hchar : CharP F 2 := charP_two_of_card hF
+  have hchar : CharP F 2 := charP_two_of_card hF
   obtain ⟨c, hsc, hc3⟩ : ∃ c : Fin Tag.G2.rank → Fˣ,
       (s : ModGL Tag.G2 F) = rootDiagUnit Tag.G2 c ∧ c ^ 3 = 1 := by
     have hH : (s : ModGL Tag.G2 F) ∈ torusGroup Tag.G2 F := torusTorsion_le_torusGroup 3 hs

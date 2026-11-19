@@ -117,7 +117,7 @@ theorem two_mul_le_card_centralizer_of_not_mem_normalizer [Finite X]
     change Nat.card (centralizer (CFSG.layer X : Set X)) = Nat.card (theta H e).ker
     rw [card_ker_theta H e]
   have hpos : 0 < Nat.card (theta H e).ker := by
-    haveI : Nonempty (theta H e).ker := ⟨1, by simp⟩
+    have : Nonempty (theta H e).ker := ⟨1, by simp⟩
     exact Nat.card_pos
   have hbounds := card_le_card_inf_centralizer_mul S Y x hmem
   let M : Subgroup X := S ⊓ centralizer ({x} : Set X)
@@ -135,7 +135,7 @@ theorem two_mul_le_card_centralizer_of_not_mem_normalizer [Finite X]
 
 theorem altCentCard8_mul_le_card_centralizer_of_mem_normalizer [Finite X]
     (H : WreathCase t Sg V K) (e : K ⧸ center K ≃* alternatingGroup (Fin 8)) {x : X}
-    (hx : x * x = 1) (hxN : x ∈ normalizer (K : Set X)) :
+    (_hx : x * x = 1) (hxN : x ∈ normalizer (K : Set X)) :
     altCentCard8 (theta H e ⟨x, hxN⟩).1 * altCentCard8 (theta H e ⟨x, hxN⟩).2 ≤
       Nat.card (centralizer ({x} : Set X)) := by
   let N : Subgroup X := normalizer (K : Set X)
@@ -184,7 +184,7 @@ theorem altCentCard8_mul_le_card_centralizer_of_mem_normalizer [Finite X]
     change Nat.card (centralizer (CFSG.layer X : Set X)) = Nat.card (theta H e).ker
     rw [card_ker_theta H e]
   have hpos : 0 < Nat.card (theta H e).ker := by
-    haveI : Nonempty (theta H e).ker := ⟨1, by simp⟩
+    have : Nonempty (theta H e).ker := ⟨1, by simp⟩
     exact Nat.card_pos
   have hbounds := card_le_card_inf_centralizer_mul S Y x hmem
   let M : Subgroup X := S ⊓ centralizer ({x} : Set X)

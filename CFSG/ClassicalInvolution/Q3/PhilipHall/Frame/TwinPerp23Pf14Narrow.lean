@@ -97,9 +97,9 @@ theorem p23LiftLF_of_subF (hE : TwinThmE.TwinThmEP n) (hT : TwinThmE.T4Supply)
   · intro J hJ
     rw [hpair] at hJ
     rcases hJ with rfl | rfl
-    · simp only [if_true]
+    · simp only [ite_true]
       exact ⟨hle hJM, c1⟩
-    · simp only [if_neg hc.std.hne]
+    · simp only [ite_eq_right hc.std.hne]
       exact ⟨hle hJ'M', c2⟩
   · intro J hJ J' hJ' hne x hx y hy
     rw [hpair] at hJ hJ'
@@ -113,9 +113,9 @@ theorem p23LiftLF_of_subF (hE : TwinThmE.TwinThmEP n) (hT : TwinThmE.T4Supply)
       simpa using h2
     rcases hJ with rfl | rfl <;> rcases hJ' with rfl | rfl
     · exact absurd rfl hne
-    · simp only [if_true, if_neg hc.std.hne] at hx hy
+    · simp only [ite_true, ite_eq_right hc.std.hne] at hx hy
       exact key x hx y hy
-    · simp only [if_true, if_neg hc.std.hne] at hx hy
+    · simp only [ite_true, ite_eq_right hc.std.hne] at hx hy
       exact (key y hy x hx).symm
     · exact absurd rfl hne
 

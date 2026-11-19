@@ -48,8 +48,8 @@ theorem mem_normalizer_of_mem_normalizer_map {G : Type*} [Group G] [Finite G] (P
     ⟨t'⁻¹ * (g * t * g⁻¹), QuotientGroup.eq.1 (by simpa using hπ), by rw [mul_inv_cancel_left]⟩
   have hcen : ∀ x : G, x * z = z * x := Subgroup.mem_center_iff.1 hz
   have hcomm : Commute t' (t' * z) := (Commute.refl t').mul_right (hcen t')
-  obtain ⟨k1, hk1⟩ := exists_pow_eq_one_of_isPGroup P.isPGroup' ht'P
-  obtain ⟨k2, hk2⟩ := exists_pow_eq_one_of_isPGroup P.isPGroup' ht'
+  obtain ⟨k1, hk1⟩ := exists_pow_eq_one_of_isPGroup P.isPGroup ht'P
+  obtain ⟨k2, hk2⟩ := exists_pow_eq_one_of_isPGroup P.isPGroup ht'
   have hy2 : (t' * z) ^ 2 ^ k2 = 1 := by rw [← hyz, conj_pow, hk2]; group
   have hz2 : z ^ 2 ^ (k1 + k2) = 1 := by
     have h3 : (t' * z) ^ 2 ^ (k1 + k2) = 1 := by rw [add_comm, pow_add, pow_mul, hy2, one_pow]

@@ -31,7 +31,7 @@ theorem i253_any_of_isSL3Eps {X : Type} [Group X] [Finite X] (hq : CFSG.Open.IsQ
     have h2le : 2 ≤ p ^ f := hp.two_le.trans (Nat.le_self_pow (by omega) p)
     have heq : p ^ f = 2 := by omega
     cases π
-    · haveI := (isSolvable_slPi_false_two hK heq).1
+    · have := (isSolvable_slPi_false_two hK heq).1
       exact false_of_quasisimple_of_solvable hq
         (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
     · have : ModThree true (p ^ f) := hmod

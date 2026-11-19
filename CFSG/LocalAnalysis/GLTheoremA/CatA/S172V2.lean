@@ -146,7 +146,7 @@ theorem not_two_pow_eq_nine {f : ℕ} : 2 ^ f ≠ 9 := by
 
 theorem card_of_equiv_alt {S : Type} [Group S] {n : ℕ} (hn : 2 ≤ n) (e : S ≃* alternatingGroup (Fin n)) :
     Nat.card S = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
 
 theorem v2_alt5 {S : Type} [Group S] (e : S ≃* alternatingGroup (Fin 5)) : padicValNat 2 (Nat.card S) = 2 := by

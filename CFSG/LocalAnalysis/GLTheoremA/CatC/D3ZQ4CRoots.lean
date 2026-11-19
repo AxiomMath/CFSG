@@ -81,7 +81,7 @@ theorem parabolicDegree_d4J (v : Fin Tag.D4.rank → ℤ) :
   · simp
   · intro b _ hb
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
-    rw [if_pos (hcov b hb)]
+    rw [ite_eq_left (hcov b hb)]
   · intro h
     exact absurd (Finset.mem_univ _) h
 

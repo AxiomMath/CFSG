@@ -325,7 +325,7 @@ theorem nonempty_fusionZStar_equiv_of_solomonLt (hPump : Sol78.AlternatingPumpUp
   obtain ⟨P₂, hbP₂⟩ := hb2'.exists_le_sylow
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq ↥Q P₁ P₂
   set S := (P₂ : Subgroup ↥Q).map Q.subtype with hSdef
-  have hS2 : IsPGroup 2 S := P₂.isPGroup'.map Q.subtype
+  have hS2 : IsPGroup 2 S := P₂.isPGroup.map Q.subtype
   have hSQ : S ≤ Q := map_subtype_le _
   have hbS : b ∈ S := ⟨⟨b, hbQ⟩, hbP₂ (mem_subgroupOf.mpr (mem_zpowers b)), rfl⟩
   set φ := MulAut.conj (y : X) with hφ

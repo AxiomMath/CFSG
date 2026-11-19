@@ -30,10 +30,10 @@ private theorem s16a7f_simple_of_a7Four {W : Type*} [CommGroup W]
 private theorem s16a7f_two_le_pRank_of_a7Four {W : Type*} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {U Z : Subgroup W} (hrow : A7Four H U Z) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥H) := by
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   simp only [A7Four, FFModel.Realizes] at hrow
   obtain ⟨α, π, hπ⟩ := hrow
-  haveI : Finite (FFModel.a7Four α).Gam :=
+  have : Finite (FFModel.a7Four α).Gam :=
     inferInstanceAs (Finite ↥(alternatingGroup (Fin 7)))
   calc 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥(alternatingGroup (Fin 7))) :=
         CFSG.Quasithin.H13.Rank8.two_le_pRank_alternating_seven
@@ -60,8 +60,8 @@ private theorem s16a7f_actual_of_conj
       ∃ e ∈ C, orderOf e = 3 ∧ ∃ z ∈ C, e * z ≠ z * e := by
   classical
   let W := Vtil V₀ V hV
-  haveI : Finite W := inferInstanceAs (Finite (Vtil V₀ V hV))
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite W := inferInstanceAs (Finite (Vtil V₀ V hV))
+  have : Finite (MulAut W) := MulEquiv.finite_left
   let H : Subgroup (MulAut W) := lBar V₀ V hV L
   let A : Subgroup (MulAut W) := Mbar D.M V₀ V hV
   let H' : Subgroup (MulAut W) := H.map (MulAut.conj φ).toMonoidHom
@@ -128,7 +128,7 @@ theorem s15_le_two_of_a7Four_component
         fixV (lBar V₀ V hV L))) :
     s15 D.M V₀ V hV L ≤ 2 := by
   classical
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hsS : s15 D.M V₀ V hV L =
       (conjSet (lBar V₀ V hV L) (Mbar D.M V₀ V hV)).ncard := rfl
   by_contra hle

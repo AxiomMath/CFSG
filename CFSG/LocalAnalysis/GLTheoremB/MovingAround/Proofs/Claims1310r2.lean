@@ -23,17 +23,17 @@ theorem exists_plane_fix (hF : Nat.card F = 2) (hr : 1 ≤ r) {A1 : Subgroup (St
     (hcard : 27 ≤ Nat.card A1) :
     ∃ E1 : Subgroup (StatedSp r F), E1 ≤ A1 ∧ Nat.card E1 = 9 ∧ spPlaneFix E1 ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAel : IsElemAbelian 3 A1 := ⟨⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩, hexp⟩
-  haveI : IsElementaryAbelian 3 ↥A1 := (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 A1).2 hAel
-  haveI : Finite ↥A1 := inferInstance
+  have : IsElementaryAbelian 3 ↥A1 := (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 A1).2 hAel
+  have : Finite ↥A1 := inferInstance
   obtain ⟨k, hk⟩ := GL83.CompFam.exists_card_eq_pow hAel
   have hk3 : 3 ≤ k := by
     by_contra hcon
     have : 3 ^ k ≤ 3 ^ 2 := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
-  haveI : Nontrivial ↥A1 := (Finite.one_lt_card_iff_nontrivial).1 (by omega)
-  letI act : MulDistribMulAction ↥A1 (Multiplicative (Fin r ⊕ Fin r → F)) :=
+  have : Nontrivial ↥A1 := (Finite.one_lt_card_iff_nontrivial).1 (by omega)
+  let act : MulDistribMulAction ↥A1 (Multiplicative (Fin r ⊕ Fin r → F)) :=
     { smul := fun g x => Multiplicative.ofAdd (spRep A1 g (Multiplicative.toAdd x))
       one_smul := fun x => by
         show Multiplicative.ofAdd (spRep A1 1 (Multiplicative.toAdd x)) = x
@@ -71,7 +71,7 @@ theorem exists_plane_fix (hF : Nat.card F = 2) (hr : 1 ≤ r) {A1 : Subgroup (St
         CFSG.fixedPointSubgroup ↥B (Multiplicative (Fin r ⊕ Fin r → F))) = ⊥ :=
       iSup₂_eq_bot.2 hcon
     rw [hbot] at hgen
-    haveI : Nontrivial (Multiplicative (Fin r ⊕ Fin r → F)) := by
+    have : Nontrivial (Multiplicative (Fin r ⊕ Fin r → F)) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hVcard]
       exact Nat.one_lt_two_pow (by omega)
     exact bot_ne_top hgen
@@ -197,7 +197,7 @@ theorem le_M_of_sp (hGA : GriessMultipliersAllModels) {m p : ℕ} {B M E A D T R
   classical
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hS : GLStanding G m 3 := h.standing
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
@@ -477,8 +477,8 @@ theorem heisInvC_comm_X : X * heisInvC X Xi N = heisInvC X Xi N * X := by
   have hXiXi := heisC_XiXi hXXi hXiX hX3 hc
   have hXiX' : ∀ Z : R, Xi * (X * Z) = Z := fun Z => by rw [← mul_assoc, hXiX, one_mul]
   have e1 : X * (X * N * Xi) = X * X * N * (Xi * Xi) * X := by
-    simp only [mul_assoc, hXiX', hXiX, mul_one]
-  have e2 : X * N * Xi * X = X * N := by simp only [mul_assoc, hXiX', hXiX, mul_one]
+    simp only [mul_assoc, hXiX, mul_one]
+  have e2 : X * N * Xi * X = X * N := by simp only [mul_assoc, hXiX, mul_one]
   have e3 : X * (X * X * N * (Xi * Xi)) = N * X := by
     rw [hXiXi]
     simp only [← mul_assoc]
@@ -611,7 +611,7 @@ theorem exists_heis_involution_c [CharP K 2] (hq3 : 3 ∣ p ^ f + 1) (hn : 4 ≤
     ∃ t ∈ gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K), t ^ 2 = 1 ∧
       (∀ d : Kˣ, t ≠ GeneralLinearGroup.scalar (Fin n) d) ∧ x * t = t * x ∧ y * t = t * y := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hn1 : 1 ≤ n := by omega
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hκ3 : κ ^ 3 = 1 := cube_eq_one_of_comm hn1 hxy ⟨1, by rw [hy3, map_one]⟩
@@ -683,11 +683,11 @@ theorem exists_heis_involution_c [CharP K 2] (hq3 : 3 ∣ p ^ f + 1) (hn : 4 ≤
   obtain ⟨Y', hY'⟩ : ∃ Y' : Matrix (Fin n) (Fin n) K, Y' = μ⁻¹ • (y : Matrix (Fin n) (Fin n) K) :=
     ⟨_, rfl⟩
   obtain ⟨v, hv⟩ : ∃ v : Fin n → K, v = Pi.single a 1 + Pi.single b 1 := ⟨_, rfl⟩
-  have hva : v a = 1 := by simp [hv, Pi.single_apply, hab]
-  have hvb : v b = 1 := by simp [hv, Pi.single_apply, Ne.symm hab]
+  have hva : v a = 1 := by simp [hv, hab]
+  have hvb : v b = 1 := by simp [hv, Ne.symm hab]
   have hvo : ∀ r, r ≠ a → r ≠ b → v r = 0 := by
     intro r h1 h3
-    simp [hv, Pi.single_apply, h1, h3]
+    simp [hv, h1, h3]
   have hvv : v ⬝ᵥ v = 0 := by
     calc v ⬝ᵥ v = v ⬝ᵥ (Pi.single a 1 + Pi.single b 1) := by rw [← hv]
       _ = v a * 1 + v b * 1 := by rw [dotProduct_add, dotProduct_single, dotProduct_single]
@@ -849,7 +849,7 @@ theorem exists_swap_involution_ij [CharP K 2] (W : GL (Fin n) K)
       rw [e1, hc, (commute_scalar c W⁻¹).eq, mul_assoc, inv_mul_cancel, mul_one]
     have e2 := congrArg (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K) i₁ i₀) hsc
     simp only [hsdef, CFSG.RankThree.Classical.coe_unitaryPermGL,
-      CFSG.RankThree.Classical.permMatrix_apply', Equiv.swap_apply_right, if_true,
+      CFSG.RankThree.Classical.permMatrix_apply', Equiv.swap_apply_right, ite_true,
       GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_ne _ h01.symm] at e2
     exact one_ne_zero e2
   · intro e hD hd
@@ -883,9 +883,9 @@ theorem exists_centralized_involution_three [CharP K 2] (hq3 : 3 ∣ p ^ f + 1) 
   classical
   have hn1 : 1 ≤ n := by omega
   have hn2 : 2 ≤ n := by omega
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (GL (Fin n) K) := inferInstance
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (GL (Fin n) K) := inferInstance
   by_cases hc3 : ∃ y ∈ P, y ^ 3 = 1 ∧ ∃ x ∈ P, x * y ≠ y * x
   ·
     obtain ⟨y, hyP, hy3, x, hxP, hxy⟩ := hc3
@@ -1131,7 +1131,7 @@ theorem star3Concl_of_congr {S C : Type*} [Group S] [Group C] [Finite S] (e : S 
       e.symm.injective).1 h)
   · rintro _ ⟨φ', hφ', rfl⟩ _ ⟨u', hu', rfl⟩
     refine ⟨φ' u', hU' φ' hφ' u' hu', ?_⟩
-    simp [hc, MulAut.congr_apply]
+    simp [hc]
 
 variable {p f : ℕ} {K : Type} [Field K] {n : ℕ}
 
@@ -1142,8 +1142,8 @@ theorem star3Concl_of_le_primeFormD (h : UnitaryFieldData p f K) [CharP K 2] (hq
     (hDle : D ≤ primeFormD h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :
     Star3Concl D := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Finite (GL (Fin n) K) := inferInstance
+  have : Finite K := h.finite
+  have : Finite (GL (Fin n) K) := inferInstance
   have hn3 : 3 ≤ n := by omega
   set U := primeFormUnitary h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hUdef
   set c := primeFormConjHom h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hcdef
@@ -1315,8 +1315,8 @@ theorem star3Concl_two (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 1) (h
     (D : Subgroup (MulAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))))
     (hD : IsElemAbelian 3 D) : Star3Concl D := by
   subst hp hf
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   have hn3 : 3 ≤ n := by omega
   have hq : ¬(n = 3 ∧ 2 ^ 1 = 2) := by omega
   refine star3Concl_of_le_primeFormD h (by norm_num) hn D hD ?_
@@ -1325,7 +1325,7 @@ theorem star3Concl_two (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 1) (h
   set θ := primeFormFieldFactor h isPrimeFormGram_one hn3 hq β
   have hcard : Nat.card (RingAut K) = 2 :=
     (card_ringAut_and_isCyclic Nat.prime_two K (h.card.trans (by norm_num))).1
-  haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h2 : θ ^ 2 = 1 := by
     have := pow_card_eq_one' (G := RingAut K) (x := θ)
     rwa [hcard] at this
@@ -1338,13 +1338,13 @@ theorem star3Concl_eight (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 3) 
     (hD : IsElemAbelian 3 D) : Star3Concl D := by
   subst hp hf
   classical
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn3 : 3 ≤ n := by omega
   have hn1 : 1 ≤ n := by omega
   have hq : ¬(n = 3 ∧ 2 ^ 3 = 2) := by omega
-  haveI : Finite (MulAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) :=
+  have : Finite (MulAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) :=
     MulEquiv.finite_left
   set Θ := primeFormFieldFactor h isPrimeFormGram_one hn3 hq with hΘ
   have hkerΘ := ker_primeFormFieldFactor h isPrimeFormGram_one hn3 hq
@@ -1379,7 +1379,7 @@ theorem star3Concl_eight (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 3) 
   have hcard3 : Nat.card D' ≤ 3 * Nat.card D'₀ := by
     have hRcard : Nat.card (RingAut K) = 6 :=
       (card_ringAut_and_isCyclic Nat.prime_two K (h.card.trans (by norm_num))).1
-    haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hRcard]; norm_num)
+    have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hRcard]; norm_num)
     let fD : ↥D' →* RingAut K := Θ.comp D'.subtype
     have hker : Nat.card fD.ker ≤ Nat.card D'₀ := by
       refine Nat.card_le_card_of_injective (fun x => ⟨((x : ↥D') : MulAut _), ?_⟩) ?_
@@ -1575,7 +1575,7 @@ theorem star3Concl_eight (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 3) 
 
 theorem card_le_nine_of_star3 {S : Type*} [Group S] [Finite S] {D : Subgroup (MulAut S)}
     (hD : IsElemAbelian 3 D) (hst : Star3Concl D) (hno : NoPlaneTwoSub D) : Nat.card D ≤ 9 := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   obtain ⟨E, hED, hcard, V, hV1, hV2, hVinv⟩ := hst
   by_contra hlt
   push Not at hlt
@@ -1632,7 +1632,7 @@ theorem card_le_nine_of_le_primeFormD_three (h : UnitaryFieldData p f K) (h3 : 3
     (hD : IsElemAbelian 3 D)
     (hDle : D ≤ primeFormD h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :
     Nat.card D ≤ 9 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hker : ∀ A : ↥(primeFormUnitary h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)),
       primeFormConjHom h _ A = 1 ↔ (A : GL (Fin 3) K) ∈ Subgroup.center (GL (Fin 3) K) := by
     intro A
@@ -1674,10 +1674,10 @@ theorem le_gammaPrime_of_u38 {X : Type} [Group X] [Finite X] {B K : Subgroup X}
     K ≤ gammaPrimeIn 3 2 B K := by
   subst hp hf
   classical
-  haveI : Finite F := hF.finite
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := hF.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite F := hF.finite
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := hF.charP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A := autImage B K with hAdef
   have hAel : IsElemAbelian 3 A :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.isElemAbelian_autImage hBel
@@ -1704,7 +1704,7 @@ theorem le_gammaPrime_of_u38 {X : Type} [Group X] [Finite X] {B K : Subgroup X}
   have hβ1 : β ≠ 1 := by
     rintro rfl
     apply hβ'out
-    simp only [MulEquiv.coe_toMonoidHom, map_one]
+    simp only [map_one]
     exact one_mem _
   set β' := cP β with hβ'
   have hσ1 : Θ β' ≠ 1 := fun h1 => hβ'out (by rw [← hkerΘ]; exact h1)
@@ -1933,7 +1933,7 @@ theorem card_autImage_eq {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
       4 ≤ CFSG.Open.pRank 3 B := by
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
   have huB : u ∈ B := hU.1.1 hu
@@ -1979,7 +1979,7 @@ theorem le_M_of_u38 {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
   obtain ⟨hcard, hB4⟩ := card_autImage_eq h h139b hU hu hu1 hKc hN hcen
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
   have huB : u ∈ B := hU.1.1 hu
@@ -2099,7 +2099,7 @@ theorem residual_index {i : TauCeti.LieTypeIndex} (hexc : ExcIndex 3 i) (htits :
     first
       | exact hcov
       | (rcases hexc with h207 | ⟨-, h1 | h1 | h1 | h1 | h1⟩
-         · first | exact h207 | exact absurd h207.1 (by norm_num)
+         · first | exact h207
          · exact h1
          · exact hg h1
          · exact h1

@@ -19,7 +19,7 @@ theorem s16c34_exists_star_transvection (D : Data G) (h1217 : R1217 D) {V₀ V L
       InducesTransvection φ (wStar D.M V₀ V h.isElemAbelian L) := by
   have hcard : Nat.card ↥(s15AW h) = Nat.card ↥(barSub V₀ V h.isElemAbelian L) :=
     (Nat.card_congr (s15AWEquiv h1217 h hL).toEquiv).symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥(s15AW h)) 2
     (even_iff_two_dvd.1 (hcard ▸ hev))
   have ha2 : orderOf (a : MulAut ↥(wStar D.M V₀ V h.isElemAbelian L)) = 2 := by

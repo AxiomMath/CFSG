@@ -106,16 +106,16 @@ open scoped commutatorElement
 section JIdent
 
 theorem isSimpleGroup_Q0 : IsSimpleGroup Q0 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI := CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL (n := 3)
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have := CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL (n := 3)
     (K := ZMod 7) le_rfl
   exact Q0_equiv.symm.isSimpleGroup
 
 theorem commutator_M1_le : ⁅M1, M1⁆ ≤ Q0 := by
   set Q' := Q0.subgroupOf M1 with hQ'
   have hcard : Nat.card (M1 ⧸ Q') = 2 := index_Q0_M1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic (M1 ⧸ Q') := isCyclic_of_prime_card hcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic (M1 ⧸ Q') := isCyclic_of_prime_card hcard
   rw [Subgroup.commutator_le]
   intro a ha b hb
   have h : (QuotientGroup.mk' Q' ⁅(⟨a, ha⟩ : M1), ⟨b, hb⟩⁆) = 1 := by
@@ -134,7 +134,7 @@ theorem eq_map_Q0_of_perfect (φ : Pv ≃* Pv) {J : Subgroup Pv}
     rw [← Subgroup.map_commutator]
     exact Subgroup.map_mono commutator_M1_le
   have hS : IsSimpleGroup (Q0.map φ.toMonoidHom) := by
-    haveI := isSimpleGroup_Q0
+    have := isSimpleGroup_Q0
     exact (Q0.equivMapOfInjective φ.toMonoidHom φ.injective).symm.isSimpleGroup
   rcases isSubnormal_inf_eq_bot_or_le hsub (Subgroup.map_mono Q0_le_M1) hS with h | h
   · exact absurd (by rwa [inf_of_le_left hJS] at h) hJ1
@@ -154,7 +154,7 @@ theorem onLine_zero : onLine 0 = on7W 0 := Subtype.ext (by
 
 theorem exists_line_mem_plane {E : Subgroup Pv} (hEF : E ≤ on7F 0) (hE : Nat.card E = 49) :
     onLine 0 ∈ E ∧ ∃ j : ℕ, 1 ≤ j ∧ j < 57 ∧ onLine j ∈ E := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hL := on7_sevenLine 0
   have hE2 : Nat.card E = 7 ^ 2 := by rw [hE]; norm_num
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
@@ -246,9 +246,9 @@ theorem exists_eq_map_Q0 (hK : OnanNQOvergroups) {E W J : Subgroup Pv} (hEF : E 
     have hsub' : Subgroup.closure {planeY0 (j - 1), planeYj (j - 1)} ≤ E := by
       rw [Subgroup.closure_le]
       rintro _ (rfl | rfl)
-      · rw [planeY0, if_pos hi14]
+      · rw [planeY0, ite_eq_left hi14]
         exact h0
-      · rw [planeYj, if_pos hi14, show j - 1 + 1 = j by omega]
+      · rw [planeYj, ite_eq_left hi14, show j - 1 + 1 = j by omega]
         exact hjE
     exact hmax (MulAut.conj (planeC (j - 1)))
       ((le_GLBCore_planeY hi).trans ((GLBCore_mono' hsub').trans hcore))
@@ -260,9 +260,9 @@ theorem exists_eq_map_Q0 (hK : OnanNQOvergroups) {E W J : Subgroup Pv} (hEF : E 
         E.map alphaP.toMonoidHom := by
       rw [Subgroup.closure_le]
       rintro _ (rfl | rfl)
-      · rw [planeY0, if_neg hi14]
+      · rw [planeY0, ite_eq_right hi14]
         exact Subgroup.mem_map_of_mem _ h0
-      · rw [planeYj, if_neg hi14, show j - 1 + 1 = j by omega]
+      · rw [planeYj, ite_eq_right hi14, show j - 1 + 1 = j by omega]
         exact Subgroup.mem_map_of_mem _ hjE
     have h1 := (le_GLBCore_planeY hi).trans (GLBCore_mono' hsub')
     rw [GLBCore_map_equiv] at h1
@@ -304,7 +304,7 @@ theorem exists_noncomm_Pv : ∃ a b : Pv, a * b ≠ b * a := by
   refine Classical.byContradiction fun h => ?_
   have h' : ∀ a b : Pv, a * b = b * a := fun a b =>
     Classical.byContradiction fun hab => h ⟨a, b, hab⟩
-  haveI : IsMulCommutative Pv := ⟨⟨h'⟩⟩
+  have : IsMulCommutative Pv := ⟨⟨h'⟩⟩
   have hp := Group.is_simple_iff_prime_card.1 isSimpleGroup_Pv
   rw [CFSG.ONSchreier.card_Pv] at hp
   rcases hp.eq_one_or_self_of_dvd 2 (by norm_num) with h2 | h2 <;> omega
@@ -332,14 +332,14 @@ theorem on7F0_pow_seven {f : Pv} (hf : f ∈ on7F 0) : f ^ 7 = 1 := by
 
 theorem sylow_eq_map_on7F (S : Sylow 7 Pv) :
     ∃ g : Pv, (S : Subgroup Pv) = (on7F 0).map (MulAut.conj g : Pv ≃* Pv).toMonoidHom := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨S0, hS0⟩ := on7F0_sylow
   obtain ⟨g, hg⟩ := CFSG.AGLEmbedding.Norton.OrdinaryProofs.sylow_eq_map_conj S0 S
   exact ⟨g, hS0 ▸ hg⟩
 
 theorem card_elemAbelian_le_Pv (B : Subgroup Pv) (hB : IsElemAbelian 7 B) :
     Nat.card B ≤ 7 ^ 2 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨S, hBS⟩ := hB.isPGroup.exists_le_sylow
   obtain ⟨g, hg⟩ := sylow_eq_map_on7F S
   have hS : Nat.card (S : Subgroup Pv) = 7 ^ 3 := by
@@ -373,7 +373,7 @@ theorem card_elemAbelian_le_Pv (B : Subgroup Pv) (hB : IsElemAbelian 7 B) :
 
 theorem exists_plane_Pv (S : Sylow 7 Pv) :
     ∃ B : Subgroup Pv, B ≤ S ∧ IsElemAbelian 7 B ∧ Nat.card B = 7 ^ 2 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hL := on7_sevenLine 0
   set E0 : Subgroup Pv := on7F 0 ⊓ Subgroup.centralizer ({on7W 1} : Set Pv) with hE0
   have h1F : on7W 1 ∈ on7F 0 := on7W_mem_F0 1
@@ -411,8 +411,8 @@ theorem exists_plane_Pv (S : Sylow 7 Pv) :
 
 theorem glbCore_Pv (S : Sylow 7 Pv) :
     GLBCore 7 2 (S : Subgroup Pv) = ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI hfin : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have hfin : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     Finite.of_equiv _ onEquivPv.symm.toEquiv
   have e : CFSG.Blueprint.NativeSporadic.Carrier .ONan ≃* Pv := onEquivPv
   have h : ∀ T : Sylow 7 (CFSG.Blueprint.NativeSporadic.Carrier .ONan),
@@ -428,7 +428,7 @@ theorem mem_inner_of_pow_seven (x : MulAut Pv) (hx : ∃ n : ℕ, x ^ 7 ^ n = 1)
     x ∈ inner Pv := by
   obtain ⟨n, hn⟩ := hx
   have hdvd := CFSG.Sporadic.SteinbergBI.card_outer_Pv_dvd_two
-  haveI : Finite (Outer Pv) := Nat.finite_of_card_ne_zero (by
+  have : Finite (Outer Pv) := Nat.finite_of_card_ne_zero (by
     intro h0
     rw [h0] at hdvd
     exact absurd (Nat.eq_zero_of_zero_dvd hdvd) (by norm_num))
@@ -465,7 +465,7 @@ theorem threeFourTwoAt_Pv (hK : OnanNQOvergroups) : TenThirteen.ThreeFourTwoAt 7
     CFSG.ONSchreier.onP_outer_solvable mem_inner_of_pow_seven card_elemAbelian_le_Pv
     exists_plane_Pv glbCore_Pv ?_
   intro E W J hE hEc hcore hW hJW hJ1 hJp hJs _
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨S, hES⟩ := hE.isPGroup.exists_le_sylow
   obtain ⟨g, hg⟩ := sylow_eq_map_on7F S
   set ψ : Pv ≃* Pv := MulAut.conj g⁻¹ with hψ

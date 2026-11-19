@@ -79,7 +79,7 @@ theorem multData_of_iiiD (h : HypF918 T V L V₁ Vp H K) (hH : SQTKGroup ↥H)
     (hIU : I ≤ conjClosure Vp H) (hirr : IsIrrPlusTildeT h hIU) (hD : F918IiiD h hIU) :
     ∃ (n : ℕ) (F : Type) (_ : Field F) (_ : Finite F), 2 ≤ n ∧ Nat.card F = 2 ^ n ∧
       ∃ data : MultDataU V₁ Vp H K T I F, MultCasesU data := by
-  haveI := factElem h hIU
+  have := factElem h hIU
   have hKH : K ≤ H := le_of_mem_cComp h.K_cComp
   have hirr' : subM V₁ (conjClosure I H) I ∈ IrrPlusOn (autIH V₁ I H (conjClosure K T))
       (orbSup (autIH V₁ I H T) (subM V₁ (conjClosure I H) I)) (autIH V₁ I H T) := hirr

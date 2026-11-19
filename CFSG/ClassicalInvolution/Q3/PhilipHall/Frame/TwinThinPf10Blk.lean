@@ -28,18 +28,18 @@ theorem sum_indicator_emb (ι : Fin 4 ↪ Fin n) (a : Fin n) :
   classical
   by_cases ha : a ∈ Set.range ι
   · obtain ⟨j, rfl⟩ := ha
-    rw [if_pos ⟨j, rfl⟩]
+    rw [ite_eq_left ⟨j, rfl⟩]
     rw [Finset.sum_eq_single j]
     · simp
     · intro i _ hij
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       exact hij (ι.injective h)
     · simp
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     apply Finset.sum_eq_zero
     intro i _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact ha ⟨i, h⟩
 
@@ -96,10 +96,10 @@ theorem aeBlocks_of_prim (hn5 : 5 ≤ n) (hn7 : n ≤ 7) (hP : FourSetPrim n) : 
     · obtain ⟨a, c', haα, haβ, hcα, hcβ⟩ := exists_twin_vec hn7 hα hβ0 hβα
       have hs : mkQ n (ofVec (pairVec a c')) ∈ Hn n := ⟨_, ofVec_pairVec_mem a c', rfl⟩
       have hsα : ∑ i, pairVec a c' (emb α hα i) = 0 := by
-        rw [sum_pairVec_emb, if_pos haα, if_pos hcα]
+        rw [sum_pairVec_emb, ite_eq_left haα, ite_eq_left hcα]
         exact zmod_two_add_self _
       have hsβ : ∑ i, pairVec a c' (emb β hβ0 i) = 1 := by
-        rw [sum_pairVec_emb, if_neg haβ, if_pos hcβ]
+        rw [sum_pairVec_emb, ite_eq_right haβ, ite_eq_left hcβ]
         simp
       have h1 := conj_memBar_vec_even hn5 α hα true _ hsα
       have h2 := blk_step hB hs hT (by rw [h1]; exact hT) hc0

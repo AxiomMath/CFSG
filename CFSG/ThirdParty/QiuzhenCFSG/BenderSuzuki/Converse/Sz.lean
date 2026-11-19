@@ -13,7 +13,7 @@ open CFSG
 namespace CFSG.BenderSuzuki
 namespace Converse
 
-open PFchapter1section1 PFAppendixIII Matrix MatrixGroups
+open PFchapter1section1 PFAppendixIII Matrix _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization Matrix
 
 universe u
@@ -404,7 +404,7 @@ public theorem szHstab_orbit :
     exact ⟨⟨g, hg1⟩, hg2⟩
 
 public theorem szD_card : Nat.card (szD m) = 2 ^ (2 * m + 1) - 1 := by
-  haveI : Fintype (SzOmega m) := Fintype.ofFinite _
+  have : Fintype (SzOmega m) := Fintype.ofFinite _
   have hstabeq : MulAction.stabilizer (szHstab m) (szP0 m) =
       (szD m).subgroupOf (szHstab m) := by
     ext x

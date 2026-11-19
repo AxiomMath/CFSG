@@ -39,7 +39,7 @@ theorem eq_of_perfect_of_central {G : Type*} [Group G] (F : Subgroup G) (hF : �
             = (g : G)⁻¹ * ((f : G)⁻¹ * φ f) * φ g := by group
           _ = (((f : G)⁻¹ * φ f) * (g : G)⁻¹) * φ g := by rw [hc]
           _ = ((f : G)⁻¹ * φ f) * ((g : G)⁻¹ * φ g) := by group }
-  haveI : Group.IsPerfect ↥F := Subgroup.isPerfect_iff.mpr hF
+  have : Group.IsPerfect ↥F := Subgroup.isPerfect_iff.mpr hF
   have hle : commutator ↥F ≤ z.ker := Abelianization.commutator_subset_ker z
   rw [(inferInstance : Group.IsPerfect ↥F).commutator_eq_top] at hle
   intro f hf
@@ -79,7 +79,7 @@ variable {S : Type} [Group S] [Finite S] {Q : Subgroup (MulAut S)} {x : S} {J : 
 
 theorem I1433SCfg.exists_comm_pair (c : I1433SCfg Q x J q) :
     ∃ a ∈ Q, ∃ b ∈ Q, a * b * a⁻¹ * b⁻¹ = MulAut.conj x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha, b, hb, hab⟩ := c.nonabelian
   have hcen : Nat.card (Subgroup.center ↥Q) = 3 := by
     refine card_center_eq_three c.card fun h => hab ?_
@@ -89,7 +89,7 @@ theorem I1433SCfg.exists_comm_pair (c : I1433SCfg Q x J q) :
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥Q)
     rw [c.card, hcen] at h
     omega
-  have hcomm := IsPGroup.commutative_of_card_eq_prime_sq hquot
+  have hcomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hquot).is_comm.comm
   set a' : ↥Q := ⟨a, ha⟩ with ha'
   set b' : ↥Q := ⟨b, hb⟩ with hb'
   have hw : a' * b' * a'⁻¹ * b'⁻¹ ∈ Subgroup.center ↥Q := by
@@ -138,6 +138,7 @@ section Transport
 
 variable {P : Type} [Group P]
 
+omit [Finite S] in
 theorem congr_mem_commutator (e : S ≃* P) {α : MulAut S} (hα : α ∈ commutator (MulAut S)) :
     MulAut.congr e α ∈ commutator (MulAut P) := by
   have h := Subgroup.mem_map_of_mem (MulAut.congr e).toMonoidHom hα
@@ -145,6 +146,7 @@ theorem congr_mem_commutator (e : S ≃* P) {α : MulAut S} (hα : α ∈ commut
     Subgroup.map_top_of_surjective _ (MulAut.congr e).surjective] at h
   exact h
 
+omit [Finite S] in
 theorem map_centralizer_singleton_equiv (e : S ≃* P) (k : S) :
     (Subgroup.centralizer ({k} : Set S)).map e.toMonoidHom =
       Subgroup.centralizer ({e k} : Set P) := by
@@ -170,7 +172,7 @@ theorem glaPComponent_map_equiv (e : S ≃* P) {X L : Subgroup S} (h : GLAPCompo
 
 theorem I1433SCfg.coreCfg_of_mulEquiv (e : S ≃* P) (c : I1433SCfg Q x J q) :
     ∃ (a b : MulAut P) (J' : Subgroup P), CoreCfg a b (e x) J' := by
-  haveI : Finite P := Finite.of_equiv S e.toEquiv
+  have : Finite P := Finite.of_equiv S e.toEquiv
   obtain ⟨a, ha, b, hb, hab⟩ := c.exists_comm_pair
   have hconj : MulAut.congr e (MulAut.conj x) = MulAut.conj (e x) := by
     ext y
@@ -240,9 +242,9 @@ theorem isComponentOf_map_fixSubgroup_aux (π : X →* T) (hπ : Function.Surjec
     (hFn : ∀ c ∈ fixSubgroup α, ∀ g ∈ F, c * g * c⁻¹ ∈ F) (hFq : CFSG.IsQuasisimple F) :
     IsComponentOf (F.map π) (fixSubgroup β) := by
   have hNC : (fixSubgroup α).map π ≤ fixSubgroup β := map_fixSubgroup_le π hker α β hαβ
-  haveI hNn : (((fixSubgroup α).map π).subgroupOf (fixSubgroup β)).Normal :=
+  have hNn : (((fixSubgroup α).map π).subgroupOf (fixSubgroup β)).Normal :=
     normal_map_fixSubgroup π hker α β hαβ hπ
-  haveI : ((F.map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
+  have : ((F.map π).subgroupOf ((fixSubgroup α).map π)).Normal :=
     normal_map_subgroupOf_map_aux π hFn
   exact LieSemisimple.isComponentOf_of_normal_normal (Subgroup.map_mono hFα) hNC inferInstance hNn
     (CFSG.LocalCores.isQuasisimple_map hFq π (not_le_ker_of_isQuasisimple_aux π hker hFq))

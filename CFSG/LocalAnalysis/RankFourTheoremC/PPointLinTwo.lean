@@ -34,7 +34,7 @@ theorem exists_linTwo_three {P : Sylow 3 G} (h243 : GL83ComponentPCoreTrivial)
   have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨R, K, i, hf, hReq⟩ := h.exists_pPointFacts_three h243 h244 hUB hUI hRB hRI hS hD1 hFC hloc
   have hP4 : 4 ≤ Open.pRank 3 (P : Subgroup G) := four_le_pRank_sylow hloc.beta P
-  obtain ⟨E, hEP, hEN, hEel, hEcard⟩ := h313 G (P : Subgroup G) P.isPGroup' hP4
+  obtain ⟨E, hEP, hEN, hEel, hEcard⟩ := h313 G (P : Subgroup G) P.isPGroup hP4
   have hEC : E ≤ centralizer ({x} : Set G) :=
     h.le_centralizer_of_isElemAbelian (by norm_num) h243 h244 hsig hS hD1 hFC hloc hEP hEel
       (hEN h.mem)

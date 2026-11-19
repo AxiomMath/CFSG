@@ -48,13 +48,13 @@ theorem exists_conj_pGroup_aux {p : ℕ} [Fact p.Prime] {M A B : Subgroup G}
       rw [← heq]
       exact hk
   have hQG : IsPGroup p ↥((QA : Subgroup M).map M.subtype) :=
-    QA.isPGroup'.map M.subtype
+    QA.isPGroup.map M.subtype
   exact IsPGroup.to_le hQG hsub
 
 theorem exists_conj_pGroup_holds : Exists_conj_pGroupStatement := by
   intro G _ _ m p B M h A hA hAM
   have hS : GLStanding G m p := h.standing
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hB : IsBOneMax p B := h.bOne
   have hBM : B ≤ M := le_of_isPreUniquenessTwoLocal hS hB h.pre
   have hBp : IsPGroup p ↥B := IsPGroup.iff_card.2 ⟨m, hS.card_eq hB⟩
@@ -67,6 +67,7 @@ section Prop121
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_pCoreOf_two_of_normal {C N : Subgroup G} (hNC : N ≤ C)
     (hn : ∀ c ∈ C, ∀ x ∈ N, c * x * c⁻¹ ∈ N) (hN : IsPGroup 2 ↥N) : N ≤ pCoreOf 2 C := by
   have hN'n : (N.subgroupOf C).Normal := ⟨fun n hn' g => Subgroup.mem_subgroupOf.2 (by
@@ -79,6 +80,7 @@ private theorem le_pCoreOf_two_of_normal {C N : Subgroup G} (hNC : N ≤ C)
   intro x hx
   exact ⟨⟨x, hNC hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
 
+omit [Finite G] in
 private theorem conj_mem_centralizer_singleton {a c x : G} (hc : c ∈ Subgroup.centralizer ({a} : Set G))
     (hx : x ∈ Subgroup.centralizer ({a} : Set G)) :
     c * x * c⁻¹ ∈ Subgroup.centralizer ({a} : Set G) := by
@@ -126,13 +128,16 @@ section Conj
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_gLBConj' (y : G) (H : Subgroup G) : Nat.card (GLBConj y H) = Nat.card H := by
   unfold GLBConj
   exact Subgroup.card_map_of_injective (MulAut.conj y⁻¹).injective
 
+omit [Finite G] in
 private theorem gLBConj_fix_of_mem' {M : Subgroup G} {y : G} (hy : y ∈ M) : GLBConj y M = M :=
   gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hy)
 
+omit [Finite G] in
 private theorem gLBConj_le_iff' (g : G) {X Y : Subgroup G} :
     GLBConj g X ≤ Y ↔ X ≤ GLBConj g⁻¹ Y := by
   constructor
@@ -143,6 +148,7 @@ private theorem gLBConj_le_iff' (g : G) {X Y : Subgroup G} :
     have h' := gLBConj_mono g h
     rwa [gLBConj_gLBConj_inv] at h'
 
+omit [Finite G] in
 private theorem centralizer_singleton_gLBConj' (g b : G) :
     Subgroup.centralizer ({g⁻¹ * b * g} : Set G) =
       GLBConj g (Subgroup.centralizer ({b} : Set G)) := by
@@ -158,11 +164,13 @@ private theorem centralizer_singleton_gLBConj' (g b : G) :
       _ = g⁻¹ * (b * (g * y * g⁻¹)) * g := by rw [h]
       _ = (g⁻¹ * b * g) * y := by group
 
+omit [Finite G] in
 private theorem gLBConj_inv_centralizer_singleton (g b : G) :
     GLBConj g⁻¹ (Subgroup.centralizer ({g⁻¹ * b * g} : Set G)) =
       Subgroup.centralizer ({b} : Set G) := by
   rw [centralizer_singleton_gLBConj', gLBConj_inv_gLBConj]
 
+omit [Finite G] in
 private theorem sl_gLBConj {p : ℕ} {B L : Subgroup G} {b : G}
     (h : IsStronglyLocallyOneBalanced p B b L) (g : G) :
     IsStronglyLocallyOneBalanced p (GLBConj g B) (g⁻¹ * b * g) (GLBConj g L) := by
@@ -190,6 +198,7 @@ private theorem sl_gLBConj {p : ℕ} {B L : Subgroup G} {b : G}
   calc ⁅GLBConj g L, GLBConj g (GLBConj g⁻¹ S)⁆ = GLBConj g ⁅L, GLBConj g⁻¹ S⁆ := hcomm.symm
     _ ≤ GLBConj g (GLAPPrimeCoreOf p L) := gLBConj_mono g hL
 
+omit [Finite G] in
 private theorem lambdaOf_gLBConj_le {p : ℕ} (B : Subgroup G) (b g : G) :
     lambdaOf p (GLBConj g B) (g⁻¹ * b * g) ≤ GLBConj g (lambdaOf p B b) := by
   unfold lambdaOf
@@ -207,6 +216,7 @@ private theorem lambdaOf_gLBConj_le {p : ℕ} (B : Subgroup G) (b g : G) :
           ¬ IsStronglyLocallyOneBalanced p B b L}) :=
         gLBConj_mono g (le_sSup ⟨hcomp, hnot⟩)
 
+omit [Finite G] in
 private theorem lambdaStar_gLBConj_le {p : ℕ} (B : Subgroup G) (b g : G) :
     lambdaStar p (GLBConj g B) (g⁻¹ * b * g) ≤ GLBConj g (lambdaStar p B b) := by
   unfold lambdaStar
@@ -221,6 +231,7 @@ private theorem lambdaStar_gLBConj_le {p : ℕ} (B : Subgroup G) (b g : G) :
           rw [← gLBConj_centralizer, glaPPrimeCoreOf_gLBConj]
       _ ≤ _ := gLBConj_mono g le_sup_right
 
+omit [Finite G] in
 private theorem lambdaStarGroup_gLBConj_le {p : ℕ} {B M : Subgroup G} {y : G} (hy : y ∈ M)
     (hB : lambdaStarGroup p B ≤ M) : lambdaStarGroup p (GLBConj y B) ≤ M := by
   unfold lambdaStarGroup
@@ -264,6 +275,7 @@ private theorem glbCore_gLBConj_le {p : ℕ} (hp : 1 < p) (k : ℕ) (H : Subgrou
         (gLBConj_normalizer g _).symm
     _ ≤ GLBConj g (GLBCore p k H) := gLBConj_mono g hle
 
+omit [Finite G] in
 private theorem gladelta_gLBConj_le {p : ℕ} (g : G) (D : Subgroup G) :
     GLADelta p (GLBConj g D) ≤ GLBConj g (GLADelta p D) := by
   intro x hx
@@ -280,6 +292,7 @@ private theorem gladelta_gLBConj_le {p : ℕ} (g : G) (D : Subgroup G) :
   rw [centralizer_singleton_gLBConj', glaPPrimeCoreOf_gLBConj] at hx'
   exact mem_gLBConj.1 hx'
 
+omit [Finite G] in
 private theorem gladelta_gLBConj {p : ℕ} (g : G) (D : Subgroup G) :
     GLADelta p (GLBConj g D) = GLBConj g (GLADelta p D) :=
   gLBConj_eq_of_forall_le (F := GLADelta p) (fun g' H => gladelta_gLBConj_le g' H) g D

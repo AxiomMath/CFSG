@@ -29,7 +29,7 @@ private theorem catalog_barInf_of_lie {D : Data G} {L : Subgroup G} (hL : L ∈ 
   have hLtop : L ≠ ⊤ := calC_ne_top_of_lie hL
   have hK : CFSG.Open.IsKGroup ↥L := D.standing.kProper.isKGroup L hLtop
   obtain ⟨hsimple, hnonab⟩ := uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)
-  haveI : IsSimpleGroup (BarInf L) := hsimple
+  have : IsSimpleGroup (BarInf L) := hsimple
   have hiso : CFSG.Open.IsCatalogGroup (BarInf L) := by
     refine hK.isCatalogGroup_of_surjective (⊤ : Subgroup ↥L) hnonab ?_ ?_
     · exact (QuotientGroup.mk' (CFSG.solvableRadical ↥L)).comp Subgroup.topEquiv.toMonoidHom
@@ -81,13 +81,13 @@ theorem exists_cIsChevOver_of_not_concl17_42 (D : Data G) {V₀ V : Subgroup G}
         have hodd : IsL2Odd (Bar2 L) 5 :=
           isL2Odd_of_isL2Over17_prime Nat.prime_five hL2
         have hq : CFSG.Open.IsQuasisimple (Bar2 L) := hL.2.2
-        haveI : IsSimpleGroup (Bar2 L) := LieModel.isSimpleGroup_psl_two hodd
+        have : IsSimpleGroup (Bar2 L) := LieModel.isSimpleGroup_psl_two hodd
         have hZ : Subgroup.center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hq
         obtain ⟨eZ⟩ := uc22p21k_barInf_equiv_of_center_bot hq hZ
         obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨eK⟩⟩ :=
           LieModel.statedClassicalModel hodd (by decide)
-        letI : Field K := hKfield
-        letI : Finite K := hKfinite
+        let : Field K := hKfield
+        let : Finite K := hKfinite
         have hK5 : Nat.card K = 5 := by rw [hKcard, pow_one]
         have hmodel4 : LieModel (Bar2 L) .PSL 2 2 2 :=
           CFSG.LocalAnalysis.UniquenessCase.UCK.Insp.lieModel_psl_two_five_two_two hK5 eK

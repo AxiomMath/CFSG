@@ -30,9 +30,9 @@ theorem i173OOn_famExcSplit : I173OOn famExcSplit := by
   have hE6 : lab.tag = .E6 → p ≠ 3 ∨ lab.n = 1 := fun h => Or.inl (hp3 h)
   obtain ⟨τ, F, hF, hFin, hFinAdj, hτlab, hcard, hZ, ⟨M⟩⟩ :=
     exists_model_exc hcfg hlab htag hE6 hmark
-  letI : Field F := hF
-  letI : Finite F := hFin
-  letI : Finite ↥(adjointGroup τ F) := hFinAdj
+  let : Field F := hF
+  let : Finite F := hFin
+  let : Finite ↥(adjointGroup τ F) := hFinAdj
   rcases hτlab with ⟨h4, rfl⟩ | ⟨h6, rfl⟩ | ⟨h7, rfl⟩ | ⟨h8, rfl⟩
   · exact concl_of_modelFactO hcfg M hZ (ModelFactV.modelFactO
       (modelFactExcSplit_F4 F lab.n p hcard hcfg.prime hcfg.odd hpq (fun h => by cases h)))

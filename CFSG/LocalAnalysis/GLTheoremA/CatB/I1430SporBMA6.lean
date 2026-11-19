@@ -37,7 +37,7 @@ theorem comp_data_of_isA6 {C J : Subgroup G} (hO : GLAPPrimeCoreOf 3 C = ⊥)
   have hZ : IsPGroup 3 ↥(Subgroup.center ↥J) :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot
       Nat.prime_three hcore
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 hZ
   refine ⟨CFSG.HardMathSupport.Solomon.Coordinator.YS08.isComponentOf_of_glaPComponent' hO hJ,
     ⟨eS.trans eA⟩, hidx, ⟨a, ha⟩, ?_⟩

@@ -39,6 +39,7 @@ theorem getD_toList' {β : Type} (A : Array β) (i : Nat) (d : β) :
 
 variable [Group (Idx n)]
 
+omit [Group (Idx n)] in
 theorem chiV_eq_testBit (wordA : Array (List Nat)) (v : List Bool) (m : Idx n) :
     chiV wordA v m = (chiMask v wordA.toList).testBit m.v := by
   rw [testBit_chiMask, ← getD_toList']

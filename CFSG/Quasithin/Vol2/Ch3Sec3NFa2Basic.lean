@@ -54,6 +54,7 @@ theorem TC_le_R : pCoreOf 2 (conjClosure K T ⊔ T) ≤ pCoreOf 2 H := by
     (c.H_le_G2.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (conjClosure K T ⊔ T)))
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (conjClosure K T ⊔ T))
 
+omit c in
 theorem N0_le_TC : pCoreOf 2 (conjClosure K T) ≤ pCoreOf 2 (conjClosure K T ⊔ T) := by
   have hN : conjClosure K T ⊔ T ≤ Subgroup.normalizer (conjClosure K T : Set G) :=
     sup_le Subgroup.le_normalizer (le_normalizer_conjClosure K T)

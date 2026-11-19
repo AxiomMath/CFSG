@@ -42,17 +42,17 @@ theorem isL3_of_mulEquiv {X : Type} [Group X]
 theorem IsE8L3.map {G G' : Type} [Group G] [Group G'] {K : Subgroup G} (h : IsE8L3 K)
     (φ : G →* G') (hφ : Function.Injective φ) : IsE8L3 (K.map φ) := by
   obtain ⟨E, hE, hEK, hEab, hEcard, hL⟩ := h
-  haveI : (E.subgroupOf K).Normal := hE
+  have : (E.subgroupOf K).Normal := hE
   have heq := map_subgroupOf_equivMapOfInjective (K := K) (E := E) φ hφ
   refine ⟨E.map φ, ?_, Subgroup.map_mono hEK, ?_, ?_, ?_⟩
   · rw [← heq]
     exact Subgroup.Normal.map hE _ (Subgroup.equivMapOfInjective K φ hφ).surjective
-  · haveI : IsMulCommutative E := hEab.1
+  · have : IsMulCommutative E := hEab.1
     exact ⟨Subgroup.map_isMulCommutative E φ, fun x hx => by
       obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
       rw [← map_pow, hEab.2 y hy, map_one]⟩
   · rw [Subgroup.card_map_of_injective hφ, hEcard]
-  · haveI : ((E.map φ).subgroupOf (K.map φ)).Normal := heq ▸
+  · have : ((E.map φ).subgroupOf (K.map φ)).Normal := heq ▸
       Subgroup.Normal.map hE _ (Subgroup.equivMapOfInjective K φ hφ).surjective
     exact CFSG.Blueprint.LieModel.of_mulEquiv
       (QuotientGroup.congr _ _ (Subgroup.equivMapOfInjective K φ hφ) heq) hL

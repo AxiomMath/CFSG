@@ -22,11 +22,11 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem Ctx.Q_le_CN' (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) : Q ≤ hc.CN t := fun y hy =>
-  Ctx.mem_CN.mpr ⟨hc.Q_le_Rt ht hy, fun v hv => hc.hyp.toHyp79.comm_mem_V hy (hc.Vt_le_Q t hv)⟩
+theorem Ctx.Q_le_CN' (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) : Q ≤ hc.CN t := fun _y hy =>
+  Ctx.mem_CN.mpr ⟨hc.Q_le_Rt ht hy, fun _v hv => hc.hyp.toHyp79.comm_mem_V hy (hc.Vt_le_Q t hv)⟩
 
-theorem Ctx.Q_le_H0' (hc : Ctx M Q Z B) : Q ≤ H0 M Z := fun y hy =>
-  ⟨hc.hyp.Q_normal.1 hy, Subgroup.mem_centralizer_iff.mpr fun z hz =>
+theorem Ctx.Q_le_H0' (hc : Ctx M Q Z B) : Q ≤ H0 M Z := fun _y hy =>
+  ⟨hc.hyp.Q_normal.1 hy, Subgroup.mem_centralizer_iff.mpr fun _z hz =>
     hc.hyp.toHyp79.V_central hz hy⟩
 
 theorem Ut_mul_Q (hc : Ctx M Q Z B) {x q : G} (hx : x ∈ H0 M Z) (hq : q ∈ Q) :

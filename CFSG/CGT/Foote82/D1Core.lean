@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem d1c_normalizer_eq {M : Subgroup G} (hM : GLBIsMaxTwoLocal M) :
     Subgroup.normalizer (pCoreOf 2 M : Set G) = M := by
   have hMQ : M ≤ Subgroup.normalizer (pCoreOf 2 M : Set G) :=
@@ -68,6 +69,7 @@ private theorem d1c_not_comm {L : Type*} [Group L] (hq : CFSG.IsQuasisimple L) :
 private def d1cF (M : Subgroup G) : Subgroup G :=
   ((CFSG.generalizedFitting (NHat M)).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥M))).map M.subtype
 
+omit [Finite G] in
 private theorem mem_d1cF {M : Subgroup G} {g : G} :
     g ∈ d1cF M ↔ ∃ h : g ∈ M,
       (QuotientGroup.mk ⟨g, h⟩ : NHat M) ∈ CFSG.generalizedFitting (NHat M) := by
@@ -77,10 +79,12 @@ private theorem mem_d1cF {M : Subgroup G} {g : G} :
   · rintro ⟨h, hx⟩
     exact ⟨⟨g, h⟩, hx, rfl⟩
 
+omit [Finite G] in
 private theorem d1cF_le (M : Subgroup G) : d1cF M ≤ M := by
   rintro _ ⟨x, -, rfl⟩
   exact x.2
 
+omit [Finite G] in
 private theorem pCoreOf_le_d1cF (M : Subgroup G) : pCoreOf 2 M ≤ d1cF M := by
   intro g hg
   have hgM : g ∈ M := CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 M hg
@@ -88,9 +92,10 @@ private theorem pCoreOf_le_d1cF (M : Subgroup G) : pCoreOf 2 M ≤ d1cF M := by
   rw [(mk_eq_one_iff ⟨g, hgM⟩).mpr hg]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 private theorem le_normalizer_d1cF (M : Subgroup G) :
     M ≤ Subgroup.normalizer (d1cF M : Set G) := by
-  haveI : (CFSG.generalizedFitting (NHat M)).Normal :=
+  have : (CFSG.generalizedFitting (NHat M)).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := NHat M)).2
   have key : ∀ m ∈ M, ∀ g ∈ d1cF M, m * g * m⁻¹ ∈ d1cF M := by
     intro m hm g hg
@@ -120,6 +125,7 @@ private theorem d1c_fstar_le_normalizer {M J : Subgroup G} (hJ : IsFooteBlock M 
     (SetLike.coe_subset_coe.mpr (CFSG.LocalCores.component_le_layer hc))).trans
       (Subgroup.centralizer_le_normalizer _))
 
+omit [Finite G] in
 private theorem d1c_hat_le_hat_map {M J : Subgroup G} {f : G} (hfM : f ∈ M)
     (hf : (QuotientGroup.mk ⟨f, hfM⟩ : NHat M) ∈ Subgroup.normalizer (hatIn M J : Set (NHat M))) :
     hatIn M J ≤ hatIn M (J.map (MulAut.conj f).toMonoidHom) := by
@@ -131,6 +137,7 @@ private theorem d1c_hat_le_hat_map {M J : Subgroup G} {f : G} (hfM : f ∈ M)
   rw [hyb]
   group
 
+omit [Finite G] in
 private theorem d1c_hat_comm {M A B : Subgroup G} (hAB : ⁅A, B⁆ = ⊥)
     (hle : hatIn M A ≤ hatIn M B) : ∀ a b : ↥(hatIn M A), a * b = b * a := by
   rintro ⟨_, ⟨x, hx, rfl⟩⟩ ⟨b, hb⟩
@@ -173,7 +180,7 @@ private theorem d1c_F_le_normalizer {M J : Subgroup G} (hJ : IsFooteBlock M J) :
 private theorem d1c_eq_bot_of_centralizes {X : Type} [Group X] [Finite X]
     (hX : CFSG.pCore 2 X = ⊥) {T : Subgroup X} (hT : IsPGroup 2 T)
     (hTC : T ≤ Subgroup.centralizer (CFSG.generalizedFitting X : Set X)) : T = ⊥ := by
-  haveI : (CFSG.generalizedFitting X).Normal :=
+  have : (CFSG.generalizedFitting X).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := X)).2
   have hTF : T ≤ CFSG.generalizedFitting X := hTC.trans (CFSG.centralizer_generalizedFitting_le X)
   have hWn : (CFSG.generalizedFitting X ⊓
@@ -252,7 +259,7 @@ theorem d1_core_le {M N J : Subgroup G} (hM : GLBIsMaxTwoLocal M) (hJ : IsFooteB
     IsPGroup.to_sup_of_normal_right' hQ2 hP2 (hQN.trans hNP)
   have hlt : pCoreOf 2 M < pCoreOf 2 M ⊔ pCoreOf 2 N :=
     lt_of_le_of_ne le_sup_left fun he => hPQ (sup_eq_left.mp he.symm)
-  obtain ⟨x, ⟨hxQP, hxNQ⟩, hxQ⟩ := SetLike.exists_of_lt (lt_inf_normalizer hlt hQP2)
+  obtain ⟨x, ⟨hxQP, hxNQ⟩, hxQ⟩ := _root_.IsConcreteLE.exists_of_lt (lt_inf_normalizer hlt hQP2)
   have hx' : x ∈ ((pCoreOf 2 M ⊔ pCoreOf 2 N : Subgroup G) : Set G) := hxQP
   rw [Subgroup.coe_mul_of_left_le_normalizer_right (pCoreOf 2 M) (pCoreOf 2 N)
     (hQN.trans hNP)] at hx'

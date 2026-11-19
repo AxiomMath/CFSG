@@ -9,8 +9,7 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly
 
 theorem ggTPNTrSelfCent_holds : GGTPNTrSelfCent := by
-  intro G _ _ p B Bs x L D J y K hc hL hK hn hN
-  intro t ht htp
+  intro G _ _ p B Bs x L D J y K hc hL hK hn hN t ht htp
   have hcent : (t : G) ∈ Subgroup.centralizer (Bs : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
     intro b hb

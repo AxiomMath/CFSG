@@ -41,8 +41,8 @@ private lemma pslB2a_sup_solvable {G : Type*} [Group G] (A B : Subgroup G)
     (hA : Group.IsSolvable ↥A) (hB : Group.IsSolvable ↥B)
     (hcomm : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x) :
     Group.IsSolvable ↥(A ⊔ B) := by
-  haveI : Group.IsSolvable ↥A := hA
-  haveI : Group.IsSolvable ↥B := hB
+  have : Group.IsSolvable ↥A := hA
+  have : Group.IsSolvable ↥B := hB
   let f : ↥A × ↥B →* ↥(A ⊔ B) :=
     { toFun := fun p => ⟨(p.1 : G) * (p.2 : G), Subgroup.mul_mem_sup p.1.2 p.2.2⟩
       map_one' := by ext; simp
@@ -62,7 +62,7 @@ private lemma pslB2a_sup_solvable {G : Type*} [Group G] (A B : Subgroup G)
     intro x
     obtain ⟨a, ha, b, hb, hab⟩ := pslB2a_mem_sup_of_comm hcomm x.2
     exact ⟨(⟨a, ha⟩, ⟨b, hb⟩), Subtype.ext hab⟩
-  exact solvable_of_surjective hf
+  exact Group.isSolvable_of_surjective hf
 
 private lemma pslB2a_commuting_join {ι G : Type*} [Group G] (s : Finset ι) (H : ι → Subgroup G)
     (hsol : ∀ i ∈ s, Group.IsSolvable ↥(H i))
@@ -86,8 +86,7 @@ private lemma pslB2a_commuting_join {ι G : Type*} [Group G] (s : Finset ι) (H 
     · intro u hu v hv
       have hle : (⨆ i ∈ t, H i) ≤ Subgroup.centralizer ({u} : Set G) := by
         apply iSup_le; intro i
-        apply iSup_le; intro hi
-        intro z hz
+        apply iSup_le; intro hi z hz
         rw [Subgroup.mem_centralizer_iff]
         intro h hh
         rw [Set.mem_singleton_iff] at hh
@@ -611,8 +610,7 @@ private lemma pslB2a_centralizer_solvable {n : ℕ} {K : Type} [Field K]
       (fun i hi j hj hij x hx y hy => pslB2a_blocks_commute hP hi hj hij x hx y hy)
   have hJC : (⨆ e ∈ P, pslBlock B e) ≤ pslB2a_C B := by
     apply iSup_le; intro e
-    apply iSup_le; intro he
-    intro x hx
+    apply iSup_le; intro he x hx
     simp only [pslB2a_C]
     rw [Subgroup.mem_comap, Subgroup.mem_centralizer_iff]
     intro s hs
@@ -621,8 +619,8 @@ private lemma pslB2a_centralizer_solvable {n : ℕ} {K : Type} [Field K]
     apply Units.ext
     simpa only [Units.val_mul, SpecialLinearGroup.coe_GL_coe_matrix] using
       pslB2a_mem_block_comm_B hx
-  haveI : Group.IsSolvable (P → Kˣ) := by
-    apply isSolvable_of_comm
+  have : Group.IsSolvable (P → Kˣ) := by
+    apply _root_.Group.isSolvable_of_comm
     intro a b
     exact mul_comm a b
   have hker : (pslB2a_Phi B P hP).ker ≤ (Subgroup.inclusion hJC).range := by
@@ -635,13 +633,13 @@ private lemma pslB2a_centralizer_solvable {n : ℕ} {K : Type} [Field K]
       constructor
       · rintro ⟨z, rfl⟩
         rw [Subgroup.mem_subgroupOf]
-        simpa using z.2
+        simp
       · intro hy
         rw [Subgroup.mem_subgroupOf] at hy
         exact ⟨⟨(y : SpecialLinearGroup (Fin n) K), hy⟩, Subtype.ext rfl⟩
     rw [hrange, Subgroup.mem_subgroupOf]
     exact hx'
-  exact solvable_of_ker_le_range (Subgroup.inclusion hJC) (pslB2a_Phi B P hP) hker
+  exact Group.isSolvable_of_ker_le_range (Subgroup.inclusion hJC) (pslB2a_Phi B P hP) hker
 
 private lemma pslB2a_scalars_central {n : ℕ} {K : Type} [Field K]
     {a : SpecialLinearGroup (Fin n) K} (ha : a ∈ scalars n K) :
@@ -812,9 +810,9 @@ theorem pslGraph_exists_nonsolvable_block {n : ℕ} {K : Type} [Field K] [Finite
     ∃ e ∈ P, ¬ Group.IsSolvable ↥(pslBlock B e) := by
   by_contra hcon
   push Not at hcon
-  haveI : Group.IsSolvable ↥(pslB2a_C B) := pslB2a_centralizer_solvable B P hP hcon
-  haveI : Group.IsSolvable ↥(scalars n K) := by
-    apply isSolvable_of_comm
+  have : Group.IsSolvable ↥(pslB2a_C B) := pslB2a_centralizer_solvable B P hP hcon
+  have : Group.IsSolvable ↥(scalars n K) := by
+    apply _root_.Group.isSolvable_of_comm
     intro a b
     exact Subtype.ext (pslB2a_scalars_central a.2 b)
   have hCle : pslB2a_C B ≤ pslChat B := pslB2a_C_le_chat B
@@ -823,6 +821,6 @@ theorem pslGraph_exists_nonsolvable_block {n : ℕ} {K : Type} [Field K] [Finite
     rw [pslB2a_delta_ker B] at hx
     rw [Subgroup.mem_subgroupOf] at hx
     exact ⟨⟨(x : SpecialLinearGroup (Fin n) K), hx⟩, Subtype.ext rfl⟩
-  exact hns (solvable_of_ker_le_range (Subgroup.inclusion hCle) (pslB2a_delta B) hker)
+  exact hns (Group.isSolvable_of_ker_le_range (Subgroup.inclusion hCle) (pslB2a_delta B) hker)
 
 end CFSG.StandardType

@@ -20,6 +20,7 @@ section Membership
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem mem_inf_of_Ln {θ : MulAut ↥(Ln F)}
     (hθ : ∀ m : ↥(Ln F), (m : projectiveSL 3 F) ∈ Pt F ↔ ((θ m : ↥(Ln F)) : projectiveSL 3 F) ∈ Pt F)
     (m : ↥(Ln F)) :
@@ -27,6 +28,7 @@ theorem mem_inf_of_Ln {θ : MulAut ↥(Ln F)}
   rw [Subgroup.mem_inf, Subgroup.mem_inf]
   exact ⟨fun h => ⟨(θ m).2, (hθ m).mp h.2⟩, fun h => ⟨m.2, (hθ m).mpr h.2⟩⟩
 
+omit [Finite F] in
 theorem mem_inf_of_Pt {θ : MulAut ↥(Pt F)}
     (hθ : ∀ m : ↥(Pt F), (m : projectiveSL 3 F) ∈ Ln F ↔ ((θ m : ↥(Pt F)) : projectiveSL 3 F) ∈ Ln F)
     (m : ↥(Pt F)) :
@@ -34,6 +36,7 @@ theorem mem_inf_of_Pt {θ : MulAut ↥(Pt F)}
   rw [Subgroup.mem_inf, Subgroup.mem_inf]
   exact ⟨fun h => ⟨(hθ m).mp h.1, (θ m).2⟩, fun h => ⟨(hθ m).mpr h.1, m.2⟩⟩
 
+omit [Finite F] in
 theorem mem_conj_Ln (b : projectiveSL 3 F) (hb : b ∈ Ln F) (x : projectiveSL 3 F) :
     b * x * b⁻¹ ∈ Ln F ↔ x ∈ Ln F := by
   constructor
@@ -65,6 +68,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
   (MulEquiv.subgroupMap (projIso ψ) (Ln F ⊓ Pt F)).trans
     (MulEquiv.subgroupCongr (map_B0_projIso ψ))
 
+omit [Finite F] in
 theorem EBmap_coe (ψ : F ≃+* KF) (x : ↥(Ln F ⊓ Pt F)) :
     ((EBmap ψ x : ↥B0) : projectiveSL 3 KF) = projIso ψ (x : projectiveSL 3 F) :=
   rfl
@@ -75,6 +79,7 @@ theorem dS_val (ψ : F ≃+* KF) :
   rw [nuNF_dd]
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem units_map_symm_map (ψ : F ≃+* KF) (u : Units KF) :
     Units.map ψ.toMonoidHom (Units.map ψ.symm.toMonoidHom u) = u := by
   ext
@@ -104,10 +109,12 @@ theorem EBmap_ySgen (ψ : F ≃+* KF) : EBmap ψ ySgen = eB 4 := by
 @[expose] noncomputable def nKof (ψ : F ≃+* KF) (n : MulAut ↥(Ln F ⊓ Pt F)) : MulAut ↥B0 :=
   (EBmap ψ).symm.trans (n.trans (EBmap ψ))
 
+omit [Finite F] in
 theorem nKof_apply (ψ : F ≃+* KF) (n : MulAut ↥(Ln F ⊓ Pt F)) (x : ↥(Ln F ⊓ Pt F)) :
     nKof ψ n (EBmap ψ x) = EBmap ψ (n x) := by
   simp [nKof]
 
+omit [Finite F] in
 theorem nKof_coe (ψ : F ≃+* KF) (n : MulAut ↥(Ln F ⊓ Pt F)) (x : ↥(Ln F ⊓ Pt F)) :
     ((nKof ψ n (EBmap ψ x) : ↥B0) : projectiveSL 3 KF) =
       projIso ψ ((n x : ↥(Ln F ⊓ Pt F)) : projectiveSL 3 F) := by
@@ -245,7 +252,7 @@ theorem dcStd_of_witnesses {F : Type} [Field F] [Finite F] [CharP F 2]
     rw [hd', phi_dd]
     cases ε
     · simp
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [nuNF_dd_inv]
   have hcx : c xSgen = nuNFEquiv F (sF, 0, κ₁, 1) := by
     rw [hc]

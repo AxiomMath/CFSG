@@ -276,7 +276,7 @@ noncomputable abbrev overlapWeyl (N N' : E7Neighbour) : WeylGroup .E7 :=
 theorem overlapWeyl_smul {N N' : E7Neighbour} (h : N ≠ N') :
     overlapWeyl N N' • highRoot .E7 = N.root ∧ overlapWeyl N N' • d6HighRoot = N'.root ∧
       overlapWeyl N N' • (Pi.single 6 1 : Fin (Tag.rank .E7) → ℤ) = N.thirdRoot N' := by
-  cases N <;> cases N' <;> first | exact absurd rfl h | skip
+  cases N <;> cases N' <;> try exact absurd rfl h
   all_goals
     simp only [overlapWeyl, overlapWord, CoxeterSystem.wordProd_cons, CoxeterSystem.wordProd_nil,
       mul_one, mul_smul, simple_smul]
@@ -326,7 +326,7 @@ theorem orthRoots_inter_check {N N' : E7Neighbour} (h : N ≠ N')
     (h2 : iform N'.root γ = 0) :
     γ = N.thirdRoot N' ∨ γ = -N.thirdRoot N' ∨ iform (N.thirdRoot N') γ = 0 := by
   have hm := mem_rootFinset.2 hγ
-  cases N <;> cases N' <;> first | exact absurd rfl h | skip
+  cases N <;> cases N' <;> try exact absurd rfl h
   · exact orthRoots_inter_check_high_seven γ hm h1 h2
   · exact orthRoots_inter_check_high_four γ hm h1 h2
   · exact orthRoots_inter_check_high_seven γ hm h2 h1

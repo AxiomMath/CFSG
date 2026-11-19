@@ -41,7 +41,7 @@ theorem noDatum_alternating_seven : NoDatum (alternatingGroup (Fin 7)) := by
   have hS'R : ∀ x ∈ S', x ∈ R := by
     rintro _ ⟨y, -, rfl⟩
     exact y.2
-  have hp : IsPGroup 2 S' := S.isPGroup'.map R.subtype
+  have hp : IsPGroup 2 S' := S.isPGroup.map R.subtype
   have hinv : ∀ u ∈ S', orderOf u = 2 → u = t := fun u hu ho =>
     eq_of_orderOf_eq_two_of_datum S eS ht ht2 hRC (hS'R u hu) ho
   have ht1 : θ t ≠ 1 := fun h1 => by

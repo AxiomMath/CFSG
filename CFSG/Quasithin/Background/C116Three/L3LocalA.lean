@@ -70,7 +70,7 @@ theorem lift_comm_mem (D : L3Data G M C) {m : V} (hm : IsLift D m) {γ : L3.Γ} 
   exact beta_eq_mem_C D hx hmM (hβx.trans hβm.symm)
 
 theorem lift_mul (D : L3Data G M C) (hCfix : ∀ g ∈ G, ∀ c ∈ C, g c = c) {m : V} (hm : IsLift D m)
-    {γ δ : L3.Γ} (hγ : L3F.Ppt γ) (hδ : L3F.Ppt δ) :
+    {γ δ : L3.Γ} (_hγ : L3F.Ppt γ) (hδ : L3F.Ppt δ) :
     D.rho (γ * δ) m * m⁻¹ = (D.rho γ m * m⁻¹) * (D.rho δ m * m⁻¹) := by
   obtain ⟨c, hc, hcδ⟩ : ∃ c ∈ C, D.rho δ m = c * m :=
     ⟨D.rho δ m * m⁻¹, lift_comm_mem D hm hδ, by simp⟩

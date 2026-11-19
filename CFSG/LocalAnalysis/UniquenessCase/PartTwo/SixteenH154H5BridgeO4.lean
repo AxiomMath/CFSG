@@ -38,7 +38,7 @@ private theorem s16h_H5_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} 
     exact commSub_top_stable151b hnorm u hu
 
 private theorem s16h_H5_le_stabSub_commSub (L : Subgroup (MulAut W)) :
-    L ≤ stabSub (commSub ⊤ L) := fun l hl =>
+    L ≤ stabSub (commSub ⊤ L) := fun _l hl =>
   s16h_H5_normalizer_le_stabSub_commSub (Subgroup.le_normalizer hl)
 
 private theorem s16h_le_stabSub_fixV (L : Subgroup (MulAut W)) : L ≤ stabSub (fixV L) := by
@@ -116,7 +116,7 @@ private theorem s16h_one_le_of_card_eq_two_pow {K : Type} [Field K] [Finite K] {
 theorem s16h_H5_bridge_omegaMinus4 [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t) {m : ℕ}
     (h : s16h_H5RowO4 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) m)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
+    {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2) (b c : K) (_ : Nat.card K = 2 ^ m)
       (_ : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
@@ -124,11 +124,11 @@ theorem s16h_H5_bridge_omegaMinus4 [Finite W] {A L : Subgroup (MulAut W)} {t : M
       D ≤ natNorm (StatedOmega (StatedQuadMinus 2 K b c)) ∧ IsElemAbelian q D ∧
       Nat.card D = Nat.card ↥(autSub E (commSub ⊤ L)) := by
   classical
-  haveI : Finite (MulAut W) := s16h_finite_mulAut
+  have : Finite (MulAut W) := s16h_finite_mulAut
   obtain ⟨hO4, hNat⟩ := h
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hbc, hreal⟩ := hNat
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hm1 : 1 ≤ m := s16h_one_le_of_card_eq_two_pow hKcard
   have hchar : CharP K 2 := uc22p22d_charP_two hm1 hKcard
   have hcenter : Subgroup.center ↥L = ⊥ := by

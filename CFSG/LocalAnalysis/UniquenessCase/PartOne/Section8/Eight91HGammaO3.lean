@@ -54,7 +54,7 @@ private theorem k891hgammao3_mem_uniqueSet_of_gt_Z {G : Type} [Group G] [Finite 
   have hLleM : L ≤ D.M := CFSG.Open.IsSubnormal.le hst.set.mem.1
   have hRL : R ≤ L := hst.ctx.xShape.rSylow.trans inf_le_right
   have hRYM : Y ≤ D.M := hYR.trans (hRL.trans hLleM)
-  obtain ⟨y, hyY, hyZ⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hZY (Ne.symm hne))
+  obtain ⟨y, hyY, hyZ⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hZY (Ne.symm hne))
   have hyR : y ∈ R := hYR hyY
   have hy1 : y ≠ 1 := fun h => hyZ (h ▸ (R891Z L S).one_mem)
   have hExtra := hst.ctx.xShape.rExtra

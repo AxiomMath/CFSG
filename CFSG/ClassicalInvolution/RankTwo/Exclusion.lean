@@ -47,7 +47,7 @@ theorem false_of_witness_of_equiv_alternatingGroup_seven {F : Type*} [Group F] [
     norm_num [Nat.card_eq_fintype_card, Nat.factorial]
   rcases exists_sylow_quaternion_or_dvd_of_witness hw with ⟨S, k, hk, ⟨q⟩⟩ | hdvd
   · set S' : Subgroup F := (S : Subgroup K).map K.subtype with hS'
-    have hSp : IsPGroup 2 S' := S.isPGroup'.map K.subtype
+    have hSp : IsPGroup 2 S' := S.isPGroup.map K.subtype
     have hcardS : Nat.card S' = 2 ^ (k + 2) := by
       rw [hS', Subgroup.card_map_of_injective K.subtype_injective, Nat.card_congr q.toEquiv,
         Nat.card_eq_fintype_card, QuaternionGroup.card]
@@ -112,7 +112,7 @@ theorem false_of_witness_of_statedClassicalModel_psu_three_two_two {F : Type} [G
   have hcard := natCard_eq_of_statedClassicalModel_psu_three_two_two hF
   rcases exists_sylow_quaternion_or_dvd_of_witness hw with ⟨S, k, hk, ⟨q⟩⟩ | hdvd
   · obtain ⟨x₀, y₀, hxy⟩ := exists_isQuaternionPair_quaternionGroup k hk
-    obtain ⟨U, hU⟩ := IsPGroup.exists_le_sylow (S.isPGroup'.map K.subtype)
+    obtain ⟨U, hU⟩ := IsPGroup.exists_le_sylow (S.isPGroup.map K.subtype)
     have hK16 : Nat.card (GaloisField 2 4) = 16 := by
       rw [GaloisField.card 2 4 (by norm_num)]
       norm_num

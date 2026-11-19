@@ -94,7 +94,7 @@ theorem frame_x₁_order (hr : 4 ≤ r) (h : PerpHypR r n Y R S t) {W : Subgroup
   have h2 := natCard_eq_pow_of_isSylow2In hsyl
   have hS : Nat.card ((S : Subgroup R).map R.subtype) = 2 ^ r := by
     rw [Subgroup.card_map_of_injective R.subtype_injective]
-    haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+    have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
     have h4 : 4 * 2 ^ (r - 2) = 2 ^ r := by
       obtain ⟨s, hs⟩ : ∃ s, r = s + 2 := ⟨r - 2, by omega⟩
       rw [hs, Nat.add_sub_cancel, pow_add]; ring

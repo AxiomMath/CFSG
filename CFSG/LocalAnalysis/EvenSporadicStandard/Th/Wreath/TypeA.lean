@@ -32,6 +32,7 @@ section Layer
 
 variable {Y₁ Y₂ : Subgroup G} {ψ : G → G}
 
+omit [Finite G] in
 theorem IsLayer.map_one (h : IsLayer L A Y₁ Y₂ ψ) : ψ 1 = 1 := by
   have h1 : ψ (1 * 1) = ψ 1 * ψ 1 := h.map_mul 1 (h.le Y₁.one_mem) 1 (h.le Y₁.one_mem)
   rw [mul_one] at h1
@@ -40,12 +41,14 @@ theorem IsLayer.map_one (h : IsLayer L A Y₁ Y₂ ψ) : ψ 1 = 1 := by
     exact h1
   exact (mul_left_cancel h2).symm
 
+omit [Finite G] in
 theorem IsLayer.map_inv (h : IsLayer L A Y₁ Y₂ ψ) {y : G} (hy : y ∈ Y₂) :
     ψ y⁻¹ = (ψ y)⁻¹ := by
   have h1 : ψ (y * y⁻¹) = ψ y * ψ y⁻¹ := h.map_mul y hy y⁻¹ (Y₂.inv_mem hy)
   rw [mul_inv_cancel, h.map_one] at h1
   exact eq_inv_of_mul_eq_one_right h1.symm
 
+omit [Finite G] in
 theorem IsLayer.inf_mem_of_map_eq (h : IsLayer L A Y₁ Y₂ ψ) {x x' : G} (hx : x ∈ Y₂)
     (hx' : x' ∈ Y₂) (heq : ψ x = ψ x') : x * x'⁻¹ ∈ Y₁ := by
   refine (h.eq_one_iff (x * x'⁻¹) (Y₂.mul_mem hx (Y₂.inv_mem hx'))).1 ?_
@@ -53,7 +56,7 @@ theorem IsLayer.inf_mem_of_map_eq (h : IsLayer L A Y₁ Y₂ ψ) {x x' : G} (hx 
 
 end Layer
 
-theorem ThLocalIn.mem_inf_normalizer_of_forall_conj_mem (W : ThLocalIn L S A B z) {n : G}
+theorem ThLocalIn.mem_inf_normalizer_of_forall_conj_mem (_W : ThLocalIn L S A B z) {n : G}
     (hnL : n ∈ L) (hnA : ∀ x ∈ A, n * x * n⁻¹ ∈ A) : n ∈ L ⊓ normalizer (A : Set G) := by
   have hmapeq : A.map (MulAut.conj n).toMonoidHom = A := by
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_
@@ -81,17 +84,20 @@ theorem ThLocalIn.mem_inf_normalizer_of_forall_conj_mem (W : ThLocalIn L S A B z
     rw [this]
     exact hmapInv _ hx
 
+omit [Finite G] in
 theorem IsTypeA.le {Y₀ Y : Subgroup G} (h : IsTypeA L A Y₀ Y) : Y₀ ≤ Y := by
   induction h with
   | refl hY => exact le_rfl
   | step ψ h hψ ih => exact ih.trans hψ.le
 
+omit [Finite G] in
 theorem IsTypeA.conj_mem {Y₀ Y : Subgroup G} (h : IsTypeA L A Y₀ Y) :
     ∀ n ∈ L ⊓ normalizer (A : Set G), ∀ y ∈ Y, n * y * n⁻¹ ∈ Y := by
   induction h with
   | refl hY => exact hY
   | step ψ h hψ ih => exact hψ.conj_mem
 
+omit [Finite G] in
 theorem IsLayer.card_eq (W : ThLocalIn L S A B z) {Y₁ Y₂ : Subgroup G} {ψ : G → G}
     (h : IsLayer L A Y₁ Y₂ ψ) :
     Nat.card Y₂ = 16 * Nat.card Y₁ := by
@@ -119,6 +125,7 @@ theorem IsLayer.card_eq (W : ThLocalIn L S A B z) {Y₁ Y₂ : Subgroup G} {ψ :
   rw [hq, hk, W.A_card] at h1
   exact h1
 
+omit [Finite G] in
 theorem IsTypeA.exists_card_eq (W : ThLocalIn L S A B z)
     {Y₀ Y : Subgroup G} (h : IsTypeA L A Y₀ Y) :
     ∃ r : ℕ, Nat.card Y = 16 ^ r * Nat.card Y₀ := by
@@ -207,13 +214,14 @@ private noncomputable def supLayerFun (ψ : G → G) (Y₂ Y₁ Y'' : Subgroup G
     classical
     exact if h : ∃ y ∈ Y₂, ∃ w ∈ Y₁ ⊔ Y'', g = y * w then ψ (Classical.choose h) else 1
 
+omit [Finite G] in
 private theorem supLayerFun_apply {Y₁ Y₂ Y'' : Subgroup G} {ψ : G → G}
     (h : IsLayer L A Y₁ Y₂ ψ) (hker : ∀ y ∈ Y₂ ⊓ (Y₁ ⊔ Y''), ψ y = 1) {y w : G}
     (hy : y ∈ Y₂) (hw : w ∈ Y₁ ⊔ Y'') :
     supLayerFun ψ Y₂ Y₁ Y'' (y * w) = ψ y := by
   classical
   have hex : ∃ y₀ ∈ Y₂, ∃ w₀ ∈ Y₁ ⊔ Y'', y * w = y₀ * w₀ := ⟨y, hy, w, hw, rfl⟩
-  rw [supLayerFun, dif_pos hex]
+  rw [supLayerFun, dite_eq_left hex]
   obtain ⟨hy₀, w₀, hw₀, heq⟩ := Classical.choose_spec hex
   have hquot : (Classical.choose hex)⁻¹ * y = w₀ * w⁻¹ := by
     have h := congrArg (fun t => (Classical.choose hex)⁻¹ * t * w⁻¹) heq

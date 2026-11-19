@@ -241,7 +241,7 @@ theorem commutes_of_quot (hΩ : HM T Ω) (h67 : L6_7On Ω) (h62 : L6_2On Ω) (h6
     rw [hWdef]
     exact h611 S η hηG hηS J hJ hJS
   obtain ⟨-, -, -, -, -, -, -, -, hUK4⟩ := hΩ.exists_data_of_mem_USet (hη.1 hUKη).1
-  have hUK2 : IsPGroup 2 ↥(K ⊓ W) := (S.isPGroup'.to_le hWS).to_inf_right
+  have hUK2 : IsPGroup 2 ↥(K ⊓ W) := (S.isPGroup.to_le hWS).to_inf_right
   have hzW : z ∈ W := (AscQuot.mem_of_uniqueInvolution hz inf_le_left hUK2 (by omega)).2
   obtain ⟨R', -, J', hJ', hR'J', hUJR', -, hR'card, hUJ4⟩ :=
     hΩ.exists_data_of_mem_USet (hη.1 hUJη).1
@@ -250,7 +250,7 @@ theorem commutes_of_quot (hΩ : HM T Ω) (h67 : L6_7On Ω) (h62 : L6_2On Ω) (h6
   rw [hJJ'] at hR'J'
   have hTS : (J ⊓ W) ⊔ Subgroup.zpowers v ≤ (S : Subgroup G) :=
     sup_le (inf_le_right.trans hWS) (Subgroup.zpowers_le.mpr hvS)
-  have hT2 : IsPGroup 2 ↥((J ⊓ W) ⊔ Subgroup.zpowers v) := S.isPGroup'.to_le hTS
+  have hT2 : IsPGroup 2 ↥((J ⊓ W) ⊔ Subgroup.zpowers v) := S.isPGroup.to_le hTS
   have hTJ : (J ⊓ W) ⊔ Subgroup.zpowers v ≤ J :=
     sup_le inf_le_left (Subgroup.zpowers_le.mpr hvJ)
   obtain ⟨V₁, hV₁, hTV₁⟩ := IsSylow2In.exists_ge hT2 hTJ

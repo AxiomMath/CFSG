@@ -299,7 +299,7 @@ theorem zeta_one_mul_self [Finite K] [CharP K 2] (hK : Nat.card K = 2)
         (ζ (Multiplicative.ofAdd 1) : SpecialLinearGroup (Fin 2) K) =
       1 + (ζ (Multiplicative.ofAdd 1) : SpecialLinearGroup (Fin 2) K) := by
   have h := zeta_mul_self_add hK hζ 1
-  rw [if_neg (show (1 : ZMod 3) ≠ 0 by decide)] at h
+  rw [ite_eq_right (show (1 : ZMod 3) ≠ 0 by decide)] at h
   rw [← h, add_assoc, add_self_eq_zero_of_charTwo, add_zero]
 
 theorem coe_zeta_eq [Finite K] [CharP K 2] (hK : Nat.card K = 2)
@@ -312,10 +312,10 @@ theorem coe_zeta_eq [Finite K] [CharP K 2] (hK : Nat.card K = 2)
             Matrix (Fin 2) (Fin 2) K) := by
   have hk : k = 0 ∨ k = 1 ∨ k = 2 := by revert k; decide
   rcases hk with rfl | rfl | rfl
-  · rw [if_neg (show (0 : ZMod 3) ≠ 1 by decide), if_pos rfl, ofAdd_zero, map_one,
+  · rw [ite_eq_right (show (0 : ZMod 3) ≠ 1 by decide), ite_eq_left rfl, ofAdd_zero, map_one,
       Matrix.SpecialLinearGroup.coe_one, one_smul, zero_smul, add_zero]
-  · rw [if_pos rfl, if_neg (show (1 : ZMod 3) ≠ 0 by decide), zero_smul, one_smul, zero_add]
-  · rw [if_neg (show (2 : ZMod 3) ≠ 1 by decide), if_neg (show (2 : ZMod 3) ≠ 0 by decide),
+  · rw [ite_eq_left rfl, ite_eq_right (show (1 : ZMod 3) ≠ 0 by decide), zero_smul, one_smul, zero_add]
+  · rw [ite_eq_right (show (2 : ZMod 3) ≠ 1 by decide), ite_eq_right (show (2 : ZMod 3) ≠ 0 by decide),
       one_smul, one_smul, show (2 : ZMod 3) = 1 + 1 by decide, ofAdd_add, map_mul,
       Matrix.SpecialLinearGroup.coe_mul, zeta_one_mul_self hK hζ]
 
@@ -506,7 +506,7 @@ theorem planeIdem_ne_zero {m : ℕ} {S : Finset (Fin m)} (hS : S.Nonempty) :
   obtain ⟨j, hj⟩ := hS
   intro h
   have h1 := planeIdem_inl (K := K) m S j
-  rw [h, if_pos hj] at h1
+  rw [h, ite_eq_left hj] at h1
   exact zero_ne_one h1
 
 theorem evalRestr_eq_or_eq_neg_of_mem_support {m : ℕ} (U : Submodule (ZMod 3) (PlaneRaw.V m))
@@ -560,7 +560,7 @@ theorem exists_code_support_eq {m : ℕ} (U : Submodule (ZMod 3) (PlaneRaw.V m))
     refine ⟨.extension e, ⟨fun he => ?_, PlaneRaw.evalRestr U i, h0, fun j hej => ?_,
       fun j hej => ?_⟩, fun j => ?_⟩
     · have h1 := congrFun he i
-      simp only [e, if_pos rfl, Pi.zero_apply] at h1
+      simp only [e, ite_eq_left rfl, Pi.zero_apply] at h1
       exact one_ne_zero h1
     · simp only [e] at hej ⊢
       split_ifs at hej ⊢ with h1 h2

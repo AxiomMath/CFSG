@@ -75,7 +75,7 @@ theorem typeFacts_of_prod148 {T : Type*} [Group T] [Finite T]
     · obtain ⟨e⟩ := hne
       refine Or.inr (Or.inr ?_)
       rw [Nat.card_congr e.toEquiv, Nat.card_prod,
-        KFacts.KS14.card_alternatingGroup_five_seven_ten.1] <;> norm_num
+        KFacts.KS14.card_alternatingGroup_five_seven_ten.1]
   refine ⟨?_, ?_, ?_⟩
   · rcases hcard with h | h | h <;> rw [h] <;> norm_num
   · intro p hp hdvd

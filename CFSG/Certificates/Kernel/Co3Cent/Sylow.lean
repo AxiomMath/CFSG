@@ -10,6 +10,7 @@ open Subgroup
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem card_dvd_of_two_five (N : Subgroup H) [N.Normal] {a b : ℕ}
     (hH : Nat.card H = 2 ^ a * 3 ^ b * 5) (T : Subgroup H) (hT : Nat.card T = 2 ^ a)
     (hTN : ∀ t ∈ T, t ∈ N → t = 1) {c : H} (hc : orderOf c = 5) (hcN : c ∉ N) :
@@ -111,6 +112,7 @@ theorem cent_le_of_index3 (D N : Subgroup H) [D.Normal] [N.Normal] {b m : ℕ}
   rw [hDZe]
   exact ⟨hNQ hn, mem_centralizer_iff.2 fun d hd => (hNc n hn d hd).symm⟩
 
+omit [Finite H] in
 theorem comm_mem_of_gens {Z : Subgroup H} {Y : Set H}
     (hZ : ∀ z ∈ Z, ∀ g ∈ closure Y, z * g = g * z)
     (hY : ∀ a ∈ Y, ∀ b ∈ Y, a * b * a⁻¹ * b⁻¹ ∈ Z) :
@@ -142,9 +144,11 @@ theorem comm_mem_of_gens {Z : Subgroup H} {Y : Set H}
     exact h3
   exact key b hYb a ha
 
+omit [Finite H] in
 theorem pow_mod3 {x : H} (h : x ^ 3 = 1) (n : ℕ) : x ^ n = x ^ (n % 3) := by
   conv_lhs => rw [← Nat.div_add_mod n 3, pow_add, pow_mul, h, one_pow, one_mul]
 
+omit [Finite H] in
 theorem card_two_gen (R : Subgroup H) [R.Normal] {u v : H} (huv : u * v * u⁻¹ * v⁻¹ ∈ R)
     (hu : u ^ 3 ∈ R) (hv : v ^ 3 ∈ R)
     (hS : ∀ a < 3, ∀ b < 3, u ^ a * v ^ b ∈ R → a = 0 ∧ b = 0) :
@@ -217,7 +221,6 @@ theorem card_two_gen (R : Subgroup H) [R.Normal] {u v : H} (huv : u * v * u⁻¹
   have hmem : ∀ (r : R) (a b : Fin 3), (r : H) * (u ^ a.val * v ^ b.val) ∈ A.comap f := by
     intro r a b
     refine ⟨a.val, a.2, b.val, b.2, ?_⟩
-    change f ((r : H) * (u ^ a.val * v ^ b.val)) = q ^ a.val * p ^ b.val
     rw [map_mul, hfR _ r.2, one_mul, map_mul, map_pow, map_pow]
   let F : R × Fin 3 × Fin 3 → A.comap f := fun x =>
     ⟨(x.1 : H) * (u ^ x.2.1.val * v ^ x.2.2.val), hmem x.1 x.2.1 x.2.2⟩
@@ -245,6 +248,7 @@ theorem card_two_gen (R : Subgroup H) [R.Normal] {u v : H} (huv : u * v * u⁻¹
       (α := Fin 3), Fintype.card_fin]
     ring
 
+omit [Finite H] in
 theorem eq_one_of_cosets {R Z T : Subgroup H} {S : Set H}
     (hRT : ∀ t ∈ T, ∃ r ∈ R, ∃ s ∈ S, t = r * s)
     (hcomm : ∀ a ∈ R, ∀ b ∈ R, a * b * a⁻¹ * b⁻¹ ∈ Z)

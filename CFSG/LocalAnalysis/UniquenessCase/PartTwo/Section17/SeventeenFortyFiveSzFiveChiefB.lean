@@ -51,7 +51,7 @@ theorem conjugatePower_eq_factor {a : s.Q} (k : ℕ) :
   rw [hFac.S_actHom_pow]
 
 theorem actHom_pow_injective {a : s.Q} {ℓ : ℕ} (hℓ : ℓ.Prime) (ha : a ^ ℓ = 1)
-    (ha1 : a ≠ 1)
+    (_ha1 : a ≠ 1)
     (hN : a ∉ Subgroup.normalizer ((S i₀ : Subgroup s.Q) : Set s.Q)) :
     ∀ i j : Fin ℓ,
       (hFac.actHom a ^ (i : ℕ)) i₀ = (hFac.actHom a ^ (j : ℕ)) i₀ → i = j := by
@@ -116,7 +116,7 @@ theorem conjugatesCommute (hFac : IsFactorization s.Rbar S) {a : s.Q} {ℓ : ℕ
     exact hij (actHom_pow_injective s hFac hℓ ha ha1 hN i j heq)
   exact hFac.commute hidx hx hy
 
-theorem orbitDiagonal_conj (hFac : IsFactorization s.Rbar S) (i₀ : Fin r)
+theorem orbitDiagonal_conj (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r)
     {a : s.Q} {ℓ : ℕ} (hℓ : 0 < ℓ) (ha : a ^ ℓ = 1)
     (hcomm : CFSG.GroupTheory.ConjugatesCommute a (S i₀) ℓ) (x : ↥(S i₀))
     {y : s.Q} (hy : y ∈ S i₀) :
@@ -164,7 +164,7 @@ theorem factor_normalized (hFac : IsFactorization s.Rbar S) (i₀ : Fin r)
   have hbarU_card : Nat.card (s.bar U) = ℓ := (s.card_bar hUH hUY).trans hUcard
   have huU : (⟨uG, huG⟩ : ↥U) ≠ 1 := fun h => huG1 (Subtype.ext_iff.mp h)
   have hord_dvd : orderOf (⟨uG, huG⟩ : ↥U) ∣ ℓ := by
-    haveI : Fintype ↥U := Fintype.ofFinite _
+    have : Fintype ↥U := Fintype.ofFinite _
     have h := orderOf_dvd_card (x := (⟨uG, huG⟩ : ↥U))
     rwa [← Nat.card_eq_fintype_card, hUcard] at h
   have hord_ne : orderOf (⟨uG, huG⟩ : ↥U) ≠ 1 := fun h =>
@@ -219,10 +219,10 @@ theorem factor_normalized (hFac : IsFactorization s.Rbar S) (i₀ : Fin r)
       rw [← hbot]
       exact Subgroup.subset_normalClosure (Set.mem_singleton _)
     exact hs01 (congrArg Subtype.val (Subgroup.mem_bot.mp hmem))
-  haveI : (Subgroup.normalClosure ({(⟨s0, hs0L⟩ : ↥(S i₀))} : Set ↥(S i₀))).Normal :=
+  have : (Subgroup.normalClosure ({(⟨s0, hs0L⟩ : ↥(S i₀))} : Set ↥(S i₀))).Normal :=
     Subgroup.normalClosure_normal
   have hK : Subgroup.normalClosure ({(⟨s0, hs0L⟩ : ↥(S i₀))} : Set ↥(S i₀)) = ⊤ := by
-    haveI : IsSimpleGroup ↥(S i₀) := hFac.simple i₀
+    have : IsSimpleGroup ↥(S i₀) := hFac.simple i₀
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.normalClosure ({(⟨s0, hs0L⟩ : ↥(S i₀))} : Set ↥(S i₀))) with h | h
     · exact absurd h hKne
@@ -349,7 +349,7 @@ theorem bar_inf_centralizer_factor (hFac : IsFactorization s.Rbar S) (i : Fin r)
   by_cases hz1 : z = 1
   · exact Subgroup.mem_bot.mpr hz1
   · have hgen : Subgroup.zpowers z = s.bar U := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have htop : Subgroup.zpowers (⟨z, hzU⟩ : s.bar U) = ⊤ :=
         zpowers_eq_top_of_prime_card hcard (by
           intro h
@@ -478,7 +478,7 @@ theorem factor_inf_centralizer (hFac : IsFactorization s.Rbar S) (i : Fin r) :
   refine le_antisymm ?_ bot_le
   intro x hx
   obtain ⟨hxS, hxC⟩ := Subgroup.mem_inf.mp hx
-  haveI : IsSimpleGroup ↥(S i) := hFac.simple i
+  have : IsSimpleGroup ↥(S i) := hFac.simple i
   have hnab : ¬ IsMulCommutative ↥(S i) := by
     intro h
     obtain ⟨a, b, hab⟩ := hFac.nonab i
@@ -557,7 +557,7 @@ theorem ψ_injective_of_inf_bot (L : Subgroup s.Q) {U : Subgroup s.Q} (hUN : U �
   calc (u : s.Q) = (u : s.Q) * (v : s.Q)⁻¹ * (v : s.Q) := by group
     _ = (v : s.Q) := by rw [h4, one_mul]
 
-theorem ψ_injective_of_inf_bot' (L : Subgroup s.Q) {U : Subgroup s.Q} (hUN : U ≤ s.NQ L)
+theorem ψ_injective_of_inf_bot' (L : Subgroup s.Q) {U : Subgroup s.Q} (_hUN : U ≤ s.NQ L)
     (hUC : U ⊓ Subgroup.centralizer (L : Set s.Q) = ⊥) :
     Function.Injective ((s.ψ L).comp (U.subgroupOf (s.NQ L)).subtype) := by
   intro x y hxy
@@ -624,34 +624,34 @@ end Quotient
 
 section Images
 
-@[expose] def L' (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def L' (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup (s.Xq (S i₀)) := s.im (S i₀) (S i₀)
 
-@[expose] def A₁' (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def A₁' (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup (s.Xq (S i₀)) := s.im (S i₀) (s.bar s.A₁)
 
-@[expose] def A₂' (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def A₂' (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup (s.Xq (S i₀)) := s.im (S i₀) (s.bar s.A₂)
 
-@[expose] def Abar' (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def Abar' (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup (s.Xq (S i₀)) := s.im (S i₀) (s.bar s.A)
 
-@[expose] def B' (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def B' (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup (s.Xq (S i₀)) := s.im (S i₀) (s.bar s.B)
 
-@[expose] def T' (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def T' (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup (s.Xq (S i₀)) := s.im (S i₀) (s.bar D.T)
 
-@[expose] def TSL (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def TSL (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup s.Q := s.bar D.T ⊓ S i₀
 
-@[expose] def TL (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def TL (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup s.Q := s.bar D.T ⊓ s.NQ (S i₀)
 
 @[expose] def TSL' (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup (s.Xq (S i₀)) := s.im (S i₀) (s.TSL hFac i₀)
 
-@[expose] def ML (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
+@[expose] def ML (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) :
     Subgroup (s.Xq (S i₀)) := s.im (S i₀) (s.Mbar ⊓ S i₀)
 
 theorem A₁_ne_bot : s.A₁ ≠ ⊥ := by
@@ -716,7 +716,7 @@ theorem L'_normal : (s.L' hFac i₀).Normal :=
       exact Subtype.ext hnz⟩
 
 theorem L'_simple : IsSimpleGroup ↥(s.L' hFac i₀) := by
-  haveI : IsSimpleGroup ↥(S i₀) := hFac.simple i₀
+  have : IsSimpleGroup ↥(S i₀) := hFac.simple i₀
   exact MulEquiv.isSimpleGroup (s.L_equiv hFac i₀).symm
 
 theorem L'_nonab : ¬ IsMulCommutative ↥(s.L' hFac i₀) := by
@@ -731,7 +731,7 @@ theorem L'_K : CFSG.Open.IsKGroup ↥(s.L' hFac i₀) := by
   have hH : s.H ≠ ⊤ := by
     intro h
     exact hNne (top_le_iff.mp (h ▸ s.hHN))
-  haveI hYH : (s.Y.subgroupOf s.H).Normal := s.YH_normal
+  have hYH : (s.Y.subgroupOf s.H).Normal := s.YH_normal
   have hK : CFSG.Open.IsKGroup ↥(S i₀) :=
     CFSG.Open.IsKGroup.subgroup
       (CFSG.Open.IsKGroup.quotient (CFSG.Open.IsKProper.isKGroup D.standing.kProper s.H hH)

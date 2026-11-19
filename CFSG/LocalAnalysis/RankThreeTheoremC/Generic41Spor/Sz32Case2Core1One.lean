@@ -61,12 +61,12 @@ variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {a c y : Y}
 theorem szh1b_pCore_le (hY : Sz32Case2Data Pb a c y) : CFSG.pCore 5 Y ≤ Pb := by
   obtain ⟨S, hS⟩ := hY.sylow
   rw [← hS]
-  haveI : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
   exact CFSG.pCore_isPGroup.le_sylow_of_normal S
 
 theorem szh1b_Z_le_pCore (hY : Sz32Case2Data Pb a c y) (hne : CFSG.pCore 5 Y ≠ ⊥) :
     sz32Z a c ≤ CFSG.pCore 5 Y := by
-  haveI hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
+  have hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
   have hnz : CFSG.pCore 5 Y ⊓ sz32Z a c ≠ ⊥ :=
     szh1_inf_Z_ne_bot hY (szh1b_pCore_le hY) (fun q _ n hn => hRn.conj_mem n hn q) hne
   have hirr := hY.irr (CFSG.pCore 5 Y ⊓ sz32Z a c) inf_le_right (by
@@ -86,19 +86,19 @@ theorem szh1b_Z_le_pCore (hY : Sz32Case2Data Pb a c y) (hne : CFSG.pCore 5 Y ≠
 
 theorem szh1b_comp_le_centralizer_pCore {L : Subgroup Y} (hL : IsComponentOf L ⊤) :
     L ≤ Subgroup.centralizer (CFSG.pCore 5 Y : Set Y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
-  haveI : Group.IsNilpotent (CFSG.pCore 5 Y) := (CFSG.pCore_isPGroup (p := 5)).isNilpotent
-  haveI : Group.IsSolvable (CFSG.pCore 5 Y) := inferInstance
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
+  have : Group.IsNilpotent (CFSG.pCore 5 Y) := (CFSG.pCore_isPGroup (p := 5)).isNilpotent
+  have : Group.IsSolvable (CFSG.pCore 5 Y) := inferInstance
   have hsub : IsSubnormal (CFSG.pCore 5 Y) ⊤ :=
     CFSG.ComponentClassification.Components.chain_of_mathlib_subnormal hRn.isSubnormal
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp
     (CFSG.ComponentClassification.LocalComponents.commutes_with_solvable_subnormal L
       (CFSG.pCore 5 Y) hL hsub)
 
-theorem szh1_pCore_bot (hY : Sz32Case2Data Pb a c y) (hI6103 : KFactI6103Five)
+theorem szh1_pCore_bot (hY : Sz32Case2Data Pb a c y) (_hI6103 : KFactI6103Five)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) : CFSG.pCore 5 Y = ⊥ := by
-  clear hI6103
+  clear _hI6103
   by_contra hne
   obtain ⟨S, hS⟩ := hY.sylow
   have hc5 : c ^ 5 ∈ CFSG.pCore 5 Y := szh1b_Z_le_pCore hY hne (szh1_c5_mem_Z a c)
@@ -117,6 +117,7 @@ theorem szh1b_mem_normalizer_zpowers {g h : Y} {n : ℤ} (hgh : g * h * g⁻¹ =
   rw [← conj_zpow, hgh, ← zpow_mul]
   exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers h) _
 
+omit [Finite Y] in
 theorem szh1b_normal_of_unique {L : Subgroup Y} (hL : IsComponentOf L ⊤)
     (hall : ∀ L' : Subgroup Y, IsComponentOf L' ⊤ → L' = L) : L.Normal := by
   refine ⟨fun x hx g => ?_⟩
@@ -131,7 +132,7 @@ theorem szh1b_centralizer_eq_bot (hcore : primeComplementCore (G := Y) 5 = ⊥)
     (hbot : CFSG.pCore 5 Y = ⊥) {L : Subgroup Y} (hL : IsComponentOf L ⊤)
     (hall : ∀ L' : Subgroup Y, IsComponentOf L' ⊤ → L' = L) :
     Subgroup.centralizer (L : Set Y) = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hlayer : CFSG.layer Y = L := by
     rw [CFSG.layer.eq_sSup]
     apply le_antisymm

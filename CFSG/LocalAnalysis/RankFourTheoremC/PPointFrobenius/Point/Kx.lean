@@ -28,6 +28,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 @[expose] noncomputable def ptKx (p : ℕ) (x : G) (K : Subgroup (RedCent p x)) : Subgroup G :=
   perfectCore (ptPre p x K)
 
+omit [Finite G] in
 private theorem ptPre_mem_iff {K : Subgroup (RedCent p x)} {g : G}
     (hg : g ∈ centralizer ({x} : Set G)) :
     g ∈ ptPre p x K ↔
@@ -40,6 +41,7 @@ private theorem ptPre_mem_iff {K : Subgroup (RedCent p x)} {g : G}
   · intro h
     exact Subgroup.mem_map.mpr ⟨⟨g, hg⟩, h, rfl⟩
 
+omit [Finite G] in
 private theorem perfectCore_conj_mem {N : Subgroup G} {g : G} (hg : ∀ n ∈ N, g * n * g⁻¹ ∈ N)
     {n : G} (hn : n ∈ perfectCore N) : g * n * g⁻¹ ∈ perfectCore N := by
   have hmap : (perfectCore N).map (MulAut.conj g).toMonoidHom ≤ perfectCore N := by
@@ -49,14 +51,17 @@ private theorem perfectCore_conj_mem {N : Subgroup G} {g : G} (hg : ∀ n ∈ N,
     · rw [← Subgroup.map_commutator, commutator_perfectCore N]
   exact hmap (Subgroup.mem_map_of_mem (MulAut.conj g).toMonoidHom hn)
 
+omit [Finite G] in
 theorem ptKx_le_centralizer (p : ℕ) (x : G) (K : Subgroup (RedCent p x)) :
     ptKx p x K ≤ centralizer ({x} : Set G) :=
   (perfectCore_le (ptPre p x K)).trans (Subgroup.map_subtype_le _)
 
+omit [Finite G] in
 theorem ptKx_perfect (p : ℕ) (x : G) (K : Subgroup (RedCent p x)) :
     ⁅ptKx p x K, ptKx p x K⁆ = ptKx p x K :=
   commutator_perfectCore (ptPre p x K)
 
+omit [Finite G] in
 theorem ptKx_normal (p : ℕ) (x : G) {K : Subgroup (RedCent p x)} (hK : K.Normal) :
     centralizer ({x} : Set G) ≤ normalizer ((ptKx p x K : Subgroup G) : Set G) := by
   have hPreC : ptPre p x K ≤ centralizer ({x} : Set G) := Subgroup.map_subtype_le _

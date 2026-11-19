@@ -21,7 +21,7 @@ private theorem ne_bot_inf_of_isSylowOf_of_three_dvd {O P S : Subgroup G}
     (hSyl : CFSG.ABGLocalTools.IsSylowOf 3 S P) (hOP : O ≤ P)
     (hPN : P ≤ Subgroup.normalizer (O : Set G)) (hdvd : 3 ∣ Nat.card O) :
     S ⊓ O ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSylO : CFSG.ABGLocalTools.IsSylowOf 3 (S ⊓ O) O :=
     hSyl.inf_of_le_normalizer hOP hPN
   have hk : 0 < (Nat.card O).factorization 3 :=
@@ -47,7 +47,7 @@ private theorem not_three_dvd_card_of_isElemAbelian_e27 {V O : Subgroup G}
     (hPN : V ⊔ O ≤ Subgroup.normalizer (O : Set G)) (hVM : V ≤ M) (hOM : O ≤ M)
     (h3 : CFSG.Open.pRank 3 M ≤ 3) : ¬ 3 ∣ Nat.card O := by
   intro hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hSyl, hVS⟩ := exists_isSylowOf_ge (p := 3) (Q := V) (K := V ⊔ O) le_sup_left
     (CFSG.Open.IsElemAbelian.isPGroup hE)
   obtain ⟨r, hrS, hrcent, hrord⟩ :=
@@ -163,7 +163,7 @@ private theorem exists_sylow_le_kSub_normalizer
     ∃ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 S H ∧
       S ≤ kSub p M H ∧ normalizer (S : Set G) ≤ M := by
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKleH : kSub 3 M H ≤ H :=
     CFSG.LocalAnalysis.AGL81TheoremCD.Section14.kSub_le 3 M H
   obtain ⟨E₀, hE₀Q, hE₀, hE₀c, hΓ⟩ := hc.ctx.exists_E_sq
@@ -197,7 +197,7 @@ theorem TwelveSixKCtx.sylow_kSub_inf
       normalizer (P : Set G) ≤ M := by
   obtain ⟨S, hSylH, hSK, hNS⟩ :=
     exists_sylow_le_kSub_normalizer hc D hp hXM hKH hK hZ hAut
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKleH : kSub p M H ≤ H :=
     CFSG.LocalAnalysis.AGL81TheoremCD.Section14.kSub_le p M H
   have hSM : S ≤ M := (Subgroup.le_normalizer : S ≤ normalizer (S : Set G)).trans hNS
@@ -233,16 +233,19 @@ theorem TwelveSixKCtx.sylow_kSub_inf
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
   exact M.mul_mem (M.mul_mem hkM (hNS hy)) (M.inv_mem hkM)
 
+omit [Finite G] in
 private theorem le_W₁ {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (h : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) : W₁ ≤ V := by
   rw [h.join]
   exact le_sup_left.trans le_sup_left
 
+omit [Finite G] in
 private theorem le_W₂ {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (h : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) : W₂ ≤ V := by
   rw [h.join]
   exact le_sup_right.trans le_sup_left
 
+omit [Finite G] in
 private theorem le_W₃ {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (h : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) : W₃ ≤ V := by
   rw [h.join]
@@ -257,7 +260,7 @@ private theorem not_mem_centralizer_of_inv {V W : Subgroup G} {g : G}
     rw [← Subgroup.one_lt_card_iff_ne_bot]
     rw [hcard]
     norm_num
-  haveI : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).mpr hWne
+  have : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).mpr hWne
   obtain ⟨w, hwne⟩ := exists_ne (1 : ↥W)
   have hwmem : (w : G) ∈ W := w.2
   have hcomm : g * (w : G) = (w : G) * g :=
@@ -401,6 +404,7 @@ private theorem t₁t₂_mul_t₁t₃_not_mem_centralizer
         group
 
 
+omit [Finite G] in
 private theorem mem_sign_sub {W₁ W₂ W₃ M KX : Subgroup G} {u : G}
     (hTN : u ∈ tripleNormalizer W₁ W₂ W₃) (hM : u ∈ M) (hKX : u ∈ KX) :
     u ∈ tripleNormalizer W₁ W₂ W₃ ⊓ M ⊓ KX :=
@@ -438,7 +442,7 @@ private theorem sign_base
 private theorem exists_sign_pair_of_t₁_t₂
     (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {KX : Subgroup G}
-    (hKXidx : (KX.subgroupOf H).index ≤ 2) (h1 : D.t₁ ∈ KX) (h2 : D.t₂ ∈ KX) :
+    (_hKXidx : (KX.subgroupOf H).index ≤ 2) (h1 : D.t₁ ∈ KX) (h2 : D.t₂ ∈ KX) :
     ∃ u u' : G,
       u ∈ tripleNormalizer D.W₁ D.W₂ D.W₃ ⊓ M ⊓ KX ∧
       u' ∈ tripleNormalizer D.W₁ D.W₂ D.W₃ ⊓ M ⊓ KX ∧
@@ -452,7 +456,7 @@ private theorem exists_sign_pair_of_t₁_t₂
 private theorem exists_sign_pair_of_t₁_t₃
     (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {KX : Subgroup G}
-    (hKXidx : (KX.subgroupOf H).index ≤ 2) (h1 : D.t₁ ∈ KX) (h3 : D.t₃ ∈ KX) :
+    (_hKXidx : (KX.subgroupOf H).index ≤ 2) (h1 : D.t₁ ∈ KX) (h3 : D.t₃ ∈ KX) :
     ∃ u u' : G,
       u ∈ tripleNormalizer D.W₁ D.W₂ D.W₃ ⊓ M ⊓ KX ∧
       u' ∈ tripleNormalizer D.W₁ D.W₂ D.W₃ ⊓ M ⊓ KX ∧
@@ -466,7 +470,7 @@ private theorem exists_sign_pair_of_t₁_t₃
 private theorem exists_sign_pair_of_t₂_t₃
     (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {KX : Subgroup G}
-    (hKXidx : (KX.subgroupOf H).index ≤ 2) (h2 : D.t₂ ∈ KX) (h3 : D.t₃ ∈ KX) :
+    (_hKXidx : (KX.subgroupOf H).index ≤ 2) (h2 : D.t₂ ∈ KX) (h3 : D.t₃ ∈ KX) :
     ∃ u u' : G,
       u ∈ tripleNormalizer D.W₁ D.W₂ D.W₃ ⊓ M ⊓ KX ∧
       u' ∈ tripleNormalizer D.W₁ D.W₂ D.W₃ ⊓ M ⊓ KX ∧

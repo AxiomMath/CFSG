@@ -51,8 +51,8 @@ theorem sec8V1InterDim_of (h51 : Stroth51Statement) (hA : Sec8AExistsStatement)
       Subgroup.map_mono hZV
     rwa [hc.conj_Z_eq hg] at h1
   obtain ⟨K, iF, iFin, -, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI hEfin : Module.Finite K M₀.E := M₀.fin
-  haveI hEfinite : Finite M₀.E := Module.finite_of_finite K
+  have hEfin : Module.Finite K M₀.E := M₀.fin
+  have hEfinite : Finite M₀.E := Module.finite_of_finite K
   have hq : Nat.card K = Nat.card Z := hD.card
   obtain ⟨A, A₀, hAmem, hA₀mem, hA₀A, hdim⟩ := sec8_exists_codim_one h310chi h53a hc hs hr hD
   have hA : (A : Set M₀.E) = ↑(M₀.img (Sec8V1 M Q Z B t r)) := Set.ext hAmem

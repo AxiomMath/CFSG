@@ -42,7 +42,7 @@ theorem le_of_l3Two_section_fixedPointFree {G : Type} [Group G] [Finite G] {T T�
             · have hnil : Group.IsNilpotent (↥T ⧸ N) :=
                 CFSG.StronglyEmbedded.prime_order_fixed_point_free_automorphism_nilpotent α
                   Nat.prime_three h3 (fun x hx => hfixτ x hx)
-              have hsol : IsSolvable (↥T ⧸ N) := @IsNilpotent.to_isSolvable _ _ hnil
+              have hsol : Group.IsSolvable (↥T ⧸ N) := @IsNilpotent.to_isSolvable _ _ hnil
               exact l3TwoFixedPointFree_holds ↥P (↥T ⧸ N) hP τ ⟨b, hbP⟩
                 ((Subgroup.orderOf_mk b hbP).trans hb) hsol hfixτ
           intro t ht

@@ -77,7 +77,7 @@ theorem b_mem_centralizer_L (hS : LocalSetting hω b L φ Bs) :
   intro l hl
   exact Subgroup.mem_centralizer_singleton_iff.mp (hS.le_centralizer hl)
 
-theorem b_mem_centralizer_b (hS : LocalSetting hω b L φ Bs) :
+theorem b_mem_centralizer_b (_hS : LocalSetting hω b L φ Bs) :
     b ∈ Subgroup.centralizer ({b} : Set G) := by
   rw [Subgroup.mem_centralizer_singleton_iff]
 
@@ -90,7 +90,7 @@ theorem centralizer_b_le_normalizer_L (hS : LocalSetting hω b L φ Bs) :
   (Subgroup.normal_subgroupOf_iff_le_normalizer hS.le_centralizer).mp hS.normal
 
 theorem isSimpleGroup_L [Finite K] (hS : LocalSetting hω b L φ Bs) : IsSimpleGroup L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card K = (2 ^ 1) ^ 2 := by rw [hS.card_K]; norm_num
   have hU : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1 hK 6
@@ -99,9 +99,9 @@ theorem isSimpleGroup_L [Finite K] (hS : LocalSetting hω b L φ Bs) : IsSimpleG
 
 theorem isPerfect_U [Finite K] (hS : LocalSetting hω b L φ Bs) :
     Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card K = (2 ^ 1) ^ 2 := by rw [hS.card_K]; norm_num
-  haveI : Group.IsPerfect ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
+  have : Group.IsPerfect ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := 1) hK
       (n := 6) (by norm_num) (by norm_num)
   exact Group.IsPerfect.ofSurjective
@@ -109,16 +109,16 @@ theorem isPerfect_U [Finite K] (hS : LocalSetting hω b L φ Bs) :
     (QuotientGroup.mk'_surjective _)
 
 theorem isPerfect_L [Finite K] (hS : LocalSetting hω b L φ Bs) : Group.IsPerfect L := by
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
     isPerfect_U hS
   exact Group.IsPerfect.ofSurjective
     (f := (φ.symm : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →* L)) φ.symm.surjective
 
 theorem center_L_eq_bot [Finite K] (hS : LocalSetting hω b L φ Bs) :
     Subgroup.center L = ⊥ := by
-  haveI hsimple : IsSimpleGroup L := isSimpleGroup_L hS
-  haveI hperf : Group.IsPerfect L := isPerfect_L hS
-  haveI hnt : Nontrivial L := hsimple.toNontrivial
+  have hsimple : IsSimpleGroup L := isSimpleGroup_L hS
+  have hperf : Group.IsPerfect L := isPerfect_L hS
+  have hnt : Nontrivial L := hsimple.toNontrivial
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center L) with h | h
   · exact h
   · exfalso
@@ -189,7 +189,7 @@ theorem zpowers_b_inf_Bbar [Finite K] (hS : LocalSetting hω b L φ Bs) :
     rw [hb2]
     exact L.pow_mem hxB.2 2
 
-noncomputable def inducedAut [Finite K] (hS : LocalSetting hω b L φ Bs) (g : G)
+noncomputable def inducedAut [Finite K] (_hS : LocalSetting hω b L φ Bs) (g : G)
     (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
   MulAut.congr φ (Subgroup.normalizerMonoidHom L ⟨g, hg⟩)
@@ -256,9 +256,9 @@ theorem exists_mul_eq_of_mem_Bs [Finite G] [Finite K] (hS : LocalSetting hω b L
       rw [hp] at h'
       exact mul_left_cancel h'
     exact Prod.ext hp hy
-  haveI : Fintype ↥P := Fintype.ofFinite _
-  haveI : Fintype ↥Q := Fintype.ofFinite _
-  haveI : Fintype ↥Bs := Fintype.ofFinite _
+  have : Fintype ↥P := Fintype.ofFinite _
+  have : Fintype ↥Q := Fintype.ofFinite _
+  have : Fintype ↥Bs := Fintype.ofFinite _
   have hcard : Fintype.card (↥P × ↥Q) = Fintype.card ↥Bs := by
     rw [Fintype.card_prod, ← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       ← Nat.card_eq_fintype_card, card_zpowers_b hS, card_Bbar hS, hS.card]
@@ -334,7 +334,7 @@ theorem centralizer_b_inf_le_centralizer_Bs [Finite G] [Finite K] (hS : LocalSet
     _ = p * (q * g) := by rw [hgq]
     _ = (p * q) * g := by group
 
-theorem conj_mem_centralizer_Bs [Finite K] (hS : LocalSetting hω b L φ Bs)
+theorem conj_mem_centralizer_Bs [Finite K] (_hS : LocalSetting hω b L φ Bs)
     {n g : G} (hn : n ∈ Subgroup.normalizer (Bs : Set G))
     (hg : g ∈ Subgroup.centralizer (Bs : Set G)) :
     n * g * n⁻¹ ∈ Subgroup.centralizer (Bs : Set G) := by
@@ -350,7 +350,7 @@ theorem conj_mem_centralizer_Bs [Finite K] (hS : LocalSetting hω b L φ Bs)
 theorem relPPrimeCore_le_centralizer [Finite G] [Finite K] (hS : LocalSetting hω b L φ Bs) :
     relPPrimeCore 3 (Subgroup.centralizer {b}) ≤ Subgroup.centralizer (L : Set G) := by
   classical
-  haveI hsimple : IsSimpleGroup L := isSimpleGroup_L hS
+  have hsimple : IsSimpleGroup L := isSimpleGroup_L hS
   obtain ⟨n, hnN, heL, hφe⟩ := hS.exists_conj
   set e : G := n * b * n⁻¹ with he
   have he3 : orderOf e = 3 := by
@@ -392,8 +392,8 @@ theorem relPPrimeCore_le_centralizer [Finite G] [Finite K] (hS : LocalSetting h�
         rw [Subgroup.mem_bot] at hz
         subst hz
         exact ⟨Subgroup.one_mem _, Subgroup.one_mem _⟩
-    haveI hNsubI : (N.subgroupOf (Subgroup.centralizer ({b} : Set G))).Normal := hNnorm
-    haveI hLsubI : (L.subgroupOf (Subgroup.centralizer ({b} : Set G))).Normal := hS.normal
+    have hNsubI : (N.subgroupOf (Subgroup.centralizer ({b} : Set G))).Normal := hNnorm
+    have hLsubI : (L.subgroupOf (Subgroup.centralizer ({b} : Set G))).Normal := hS.normal
     have hcomm : ⁅N.subgroupOf (Subgroup.centralizer ({b} : Set G)),
         L.subgroupOf (Subgroup.centralizer ({b} : Set G))⁆ ≤ ⊥ := by
       calc ⁅N.subgroupOf (Subgroup.centralizer ({b} : Set G)),
@@ -439,7 +439,7 @@ theorem le_zpowers_of_isPGroup [Finite G] [Finite K] (hS : LocalSetting hω b L 
     have h := orderOf_injective (MulAut.conj n).toMonoidHom
       (MulAut.conj n).injective b
     simpa [he, MulAut.conj_apply, hS.orderOf_b] using h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hle
   obtain ⟨x, hxS, hxP⟩ := Set.not_subset.mp hle
   set P := Subgroup.zpowers b with hP
@@ -457,7 +457,7 @@ theorem le_zpowers_of_isPGroup [Finite G] [Finite K] (hS : LocalSetting hω b L 
       rw [← hbs]
       group
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-    simpa [P, CFSG.GroupTheory.map_conj_zpowers, hsb]
+    simp [P, hsb]
   have hT3 : IsPGroup 3 T :=
     IsPGroup.to_sup_of_normal_right' hS3 (isPGroup_zpowers_b hS) hSP
   have hTcyc : IsCyclic T := hS.isCyclic T hT3 hTL
@@ -576,7 +576,7 @@ theorem centralizer_inf_eq [Finite G] [Finite K] (hS : LocalSetting hω b L φ B
     Subgroup.centralizer {b} ⊓ Subgroup.centralizer (L : Set G) =
       relPPrimeCore 3 (Subgroup.centralizer {b}) ⊔ Subgroup.zpowers b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Cb : Subgroup G := Subgroup.centralizer ({b} : Set G) with hCb
   set CL : Subgroup G := Subgroup.centralizer (L : Set G) with hCL
   set R : Subgroup G := Cb ⊓ CL with hR
@@ -632,7 +632,7 @@ theorem centralizer_inf_eq [Finite G] [Finite K] (hS : LocalSetting hω b L φ B
     rw [Subgroup.mem_subgroupOf]
     simpa [hP] using hmem
   obtain ⟨S, hPsubleS⟩ := hPsub3.exists_le_sylow
-  have hSlePsub : (S : Subgroup ↥R) ≤ Psub := hunique S S.isPGroup'
+  have hSlePsub : (S : Subgroup ↥R) ≤ Psub := hunique S S.isPGroup
   have hSP : (S : Subgroup ↥R) = Psub := le_antisymm hSlePsub hPsubleS
   have hnotdvd : ¬ 3 ∣ Psub.index := by
     have h := S.not_dvd_index

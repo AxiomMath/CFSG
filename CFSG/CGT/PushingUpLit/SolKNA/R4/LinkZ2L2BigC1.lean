@@ -18,6 +18,7 @@ section Gen
 
 variable {Q : Type} [Group Q] [Finite Q] {Φ : Set (Subgroup Q)} {r : ℕ}
 
+omit [Finite Q] in
 theorem card_eq_of_sylow (hr : 2 ≤ r) (h : TypeRFam r Φ) {L P : Subgroup Q} (hL : L ∈ Φ)
     (hP : IsSylow2In P L) : Nat.card ↥P = 2 ^ r := by
   obtain ⟨e⟩ := h.quat L hL P hP

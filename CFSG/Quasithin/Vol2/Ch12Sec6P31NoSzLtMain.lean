@@ -80,7 +80,7 @@ theorem false_of_isSz_lt_w31
   have hSzN : IsSz n ↥(star H K) := isSz_star_lt h918 hSz
   have hs : IsSimpleGroup ↥(star H K) := isSimpleGroup_of_psl2_or_sz (Or.inr hSzN)
   obtain ⟨I, hV₁I, hIU, Wa, hWa, hirr⟩ := exists_isIrrPlusTildeU h918
-  haveI hFI := factElem h918 hIU
+  have hFI := factElem h918 hIU
   have hIT := isIrrPlusTildeT_of_ambient h918 hIU Wa hWa hirr
   have hirr' : subM F.V1 (conjClosure I H) I ∈
       IrrPlusOn (autIH F.V1 I H (conjClosure K T))
@@ -121,7 +121,7 @@ theorem false_of_isSz_lt_w31
     obtain ⟨n', hn', rfl⟩ := hm
     have hcn := Subgroup.mem_centralizer_iff.1 (hEC he) n' hn'
     rw [← map_mul, ← map_mul, hcn]
-  haveI : Finite ↥E := Subgroup.instFiniteSubtypeMem E
+  have : Finite ↥E := Subgroup.instFiniteSubtypeMem E
   exact A6.SzMod.false_of_modFive_grp hW2 hSzE (rhoQ h918 hIU) E hEodd hE3' hfpf' hEMp hLSz hMp
     htMp h5
 

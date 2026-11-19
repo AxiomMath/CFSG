@@ -115,7 +115,7 @@ theorem exists_klein_of_triple {d x y : H} (hx : x * x = 1) (hy : y * y = 1) (hx
     intro s hs
     rw [mem_kleinSub] at hs
     rcases hs with rfl | rfl | rfl | rfl
-    · simpa using S.one_mem
+    · simp
     · rw [hdx]; exact hxyS
     · rw [hdy]; exact hxS
     · rw [hdxy]; exact hyS
@@ -123,7 +123,7 @@ theorem exists_klein_of_triple {d x y : H} (hx : x * x = 1) (hy : y * y = 1) (hx
     intro s hs
     rw [mem_kleinSub] at hs
     rcases hs with rfl | rfl | rfl | rfl
-    · simpa using S.one_mem
+    · simp
     · rw [hconj1]; exact hyS
     · rw [hconj2]; exact hxyS
     · rw [hconj12]; exact hxS
@@ -204,8 +204,8 @@ end Transport
 
 theorem exists_gen_of_card_three {G : Type*} [Group G] (D : Subgroup G) (hD : Nat.card D = 3) :
     ∃ d : G, D = Subgroup.zpowers d ∧ d ^ 3 = 1 ∧ d ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic D := isCyclic_of_prime_card hD
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic D := isCyclic_of_prime_card hD
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := D)
   refine ⟨(g : G), ?_, ?_, ?_⟩
   · apply le_antisymm
@@ -219,7 +219,7 @@ theorem exists_gen_of_card_three {G : Type*} [Group G] (D : Subgroup G) (hD : Na
     simpa using congrArg Subtype.val h
   · intro h1
     have hg1 : g = 1 := Subtype.ext h1
-    haveI : Subsingleton D := ⟨fun a b => by
+    have : Subsingleton D := ⟨fun a b => by
       obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 (hg a)
       obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 (hg b)
       rw [← hi, ← hj, hg1]

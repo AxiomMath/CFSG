@@ -245,7 +245,7 @@ theorem central_involution_mem_D (hrank : pRank 2 G ≤ 4) {X Y : Subgroup G}
   obtain ⟨T, hT⟩ := hDp.exists_le_sylow
   have hTcard : 16 ≤ Nat.card (T : Subgroup G) := by
     rw [← hDcard]; exact Subgroup.card_le_of_le hT
-  obtain ⟨t, htT, htc, ht2, ht1⟩ := exists_central_involution T.isPGroup' (by omega)
+  obtain ⟨t, htT, htc, ht2, ht1⟩ := exists_central_involution T.isPGroup (by omega)
   by_cases htD : t ∈ X ⊔ Y
   · exact ⟨t, htD, ht2, ht1, T, htT, htc⟩
   exfalso

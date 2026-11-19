@@ -58,7 +58,7 @@ theorem not_le_centralizer_of_mem_starImg_E_gen (h : NineSettingGen G M p Q H E 
     {C : Subgroup (StarGroup p H)} (hCM : ¬ C ≤ starImg p H M) {e : StarGroup p H}
     (he : e ∈ starImg p H E) (he1 : e ≠ 1) :
     ¬ C ≤ Subgroup.centralizer ({e} : Set (StarGroup p H)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   intro hC
   have hep : e ^ p = 1 := (isElemAbelian_starImg_E_gen h).2 e he
   have hord : orderOf e = p := orderOf_eq_prime hep he1

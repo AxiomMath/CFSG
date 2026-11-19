@@ -150,8 +150,8 @@ theorem acts_left (h : PerpHypS n Y R S t) {α : Type*} [Fintype α] [DecidableE
     _ = ι (φ (y * x)) p := by rw [map_mul, map_mul, Perm.mul_apply]
 
 theorem false_of_exAlt (h : PerpHypS n Y R S t) (hF : ExAlt ↥(genFittingFStar Y)) : False := by
-  haveI := h.core.simple
-  haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   obtain ⟨m, hm7, hm11, ⟨e⟩⟩ := hF
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab

@@ -18,7 +18,7 @@ theorem k37R_coverRankFour_Gmat
   have hC : K37RCoverRankFour Cbar := k37R_coverRankFour_B.of_mulEquiv phiB
   have hperf : commutator Cbar = ⊤ := by
     obtain ⟨-, -, hs, -⟩ := short_centralizer_generated_quotient_simple
-    haveI : IsSimpleGroup Cbar := hs
+    have : IsSimpleGroup Cbar := hs
     exact k37R_commutator_eq_top_of_simple GeneratedPerfectCover.Cbar_exists_ne_comm
   let κ : ↥(Cgen.subgroupOf Gmat) ≃* ↥Cgen := Subgroup.subgroupOfEquivOfLe Cgen_le_Gmat
   let φ₀ : ↥(Cgen.subgroupOf Gmat) →* Cbar := (QuotientGroup.mk' Zstar).comp κ.toMonoidHom

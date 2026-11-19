@@ -80,17 +80,17 @@ private theorem tenCoordAux_three_nodes {G : Type} [Group G] [Finite G] {p : ℕ
   classical
   obtain ⟨Λ₀, i1₀, i2₀, M₀, C₀, V₀, i3₀, i4₀, ι₀, φ₀, h₀, α₀, e₀, hM₀, hW₀, hC₀,
     hlin₀, hrefl₀, hpair₀, hf₀ex, hclos₀⟩ := hXd
-  letI := i1₀
-  letI := i2₀
-  letI := i3₀
-  letI := i4₀
+  let := i1₀
+  let := i2₀
+  let := i3₀
+  let := i4₀
   obtain ⟨f₀, hf₀⟩ := hf₀ex
   obtain ⟨Λ, i1, i2, b₁, b₂, M, C, MJ, V, i3, i4, ι, φ, h, α, hb, hWM, hC, hWMJ, hMJ,
     hlin, hrefl, hpair, hfex, hclos, hfJex, hclosJ, hconj⟩ := hXs
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
+  let := i1
+  let := i2
+  let := i3
+  let := i4
   obtain ⟨f, hf⟩ := hfex
   obtain ⟨fJ, hfJ⟩ := hfJex
   obtain ⟨e, hM⟩ :=
@@ -99,10 +99,10 @@ private theorem tenCoordAux_three_nodes {G : Type} [Group G] [Finite G] {p : ℕ
   obtain ⟨eJ, hMJ'⟩ := ggTW_twoNode_J_typeA hN5 e hM hb hWMJ hMJ
   obtain ⟨ΛY, i1Y, i2Y, S, MY, CY, MJY, VY, i3Y, i4Y, ιY, φY, hYc, αY, hS1, hS2, hWMY,
     hCY, hWMJY, hMJY, hlinY, hreflY, hpairY, hfYex, hclosY, hfJYex, hclosJY, hconjY⟩ := hYd
-  letI := i1Y
-  letI := i2Y
-  letI := i3Y
-  letI := i4Y
+  let := i1Y
+  let := i2Y
+  let := i3Y
+  let := i4Y
   obtain ⟨fY, hfY⟩ := hfYex
   obtain ⟨fJY, hfJY⟩ := hfJYex
   have hS3 : S.card = 3 := by
@@ -118,7 +118,7 @@ private theorem tenCoordAux_three_nodes {G : Type} [Group G] [Finite G] {p : ℕ
     have h := (Fintype.card_congr eY).symm
     simpa using h
   have hcardS : Fintype.card {j : ΛY // j ∈ S} = S.card := by
-    simpa using Fintype.card_coe S
+    simp
   have hcard : Fintype.card ΛY = N := by
     have h := Fintype.card_subtype_compl (fun j : ΛY => j ∈ S)
     rw [hcardJ, hcardS, hS3] at h
@@ -225,12 +225,12 @@ theorem ggTen_coord (hD : GGTwoNodeIndepDatum) (hJ2 : GGTBJTwoNodeInput) {G : Ty
   obtain ⟨fL, hfL⟩ := hfLex
   obtain ⟨Λ₀, iF0, iD0, M0, C0, V0, iA0, iM0, ι0, φ0, h0, α0, e0, hM0, hW0, hC0, hlin0,
     hrefl0, hpair0, hf0ex, hclos0⟩ := hXdK
-  letI := iF0
-  letI := iD0
-  letI := iA0
-  letI := iM0
+  let := iF0
+  let := iD0
+  let := iA0
+  let := iM0
   obtain ⟨f0, hf0⟩ := hf0ex
-  haveI : Finite VL :=
+  have : Finite VL :=
     Finite.of_injective (fun v : VL => (ιL.symm v : Additive ↥Bs))
       (fun a b h => ιL.symm.injective h)
   have hfin : Module.finrank (ZMod 3) VL = 10 := by

@@ -161,7 +161,7 @@ theorem exists_longModel_of_carrierModel_of_not_triD4 {τ : Tag} {p₀ : ℕ}
         rw [GaloisField.card 2 (2 * 1) (by norm_num)]
         norm_num
       have h := CFSG.Quasithin.isSolvable_statedSU_one (F := GaloisField 2 (2 * 1)) hF
-      exact solvable_of_solvable_injective
+      exact Group.isSolvable_of_isSolvable_injective
         (f := (Unitary.equivStatedSU (F := GaloisField 2 (2 * 1)) (p := 2) (f := 1) hF 3).toMonoidHom)
         (Unitary.equivStatedSU (F := GaloisField 2 (2 * 1)) (p := 2) (f := 1) hF 3).injective
     · obtain ⟨δ, -, hδ, hm⟩ := SelectedRoot.exists_selectedSL2Model_PSU_long (n := r + 1) (by omega)

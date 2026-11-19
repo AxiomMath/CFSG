@@ -23,16 +23,19 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
     rintro _ ⟨J, rfl⟩
     exact ⟨J, inv_eq_of_mul_eq_one_right (fr.signChange_mul_self J)⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_piOrth_mem (fr : PFrame Q ι c) :
     piOrth Q ∈ ffOutFFE8CentModel_grp fr :=
   ⟨Finset.univ, fr.piOrth_eq_signChange_univ⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_grp_comm (fr : PFrame Q ι c) {a b : OGroup Q}
     (ha : a ∈ ffOutFFE8CentModel_grp fr) (hb : b ∈ ffOutFFE8CentModel_grp fr) : a * b = b * a := by
   obtain ⟨J, rfl⟩ := ha
   obtain ⟨K, rfl⟩ := hb
   exact fr.signChange_comm J K
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_grp_mul_self (fr : PFrame Q ι c) {a : OGroup Q}
     (ha : a ∈ ffOutFFE8CentModel_grp fr) : a * a = 1 := by
   obtain ⟨J, rfl⟩ := ha
@@ -42,11 +45,12 @@ private theorem sum_ite_neg_one (K : Finset ι) :
     ∑ i, (if i ∈ K then (-1 : ZMod 3) else 1) = (Fintype.card ι : ZMod 3) - 2 * K.card := by
   have h : ∀ i, (if i ∈ K then (-1 : ZMod 3) else 1) = 1 - 2 * (if i ∈ K then 1 else 0) := by
     intro i
-    by_cases hi : i ∈ K <;> simp only [hi, if_true, if_false] <;> decide
+    by_cases hi : i ∈ K <;> simp only [hi, ite_true, ite_false] <;> decide
   simp only [h, Finset.sum_sub_distrib, ← Finset.mul_sum, Finset.sum_const, Finset.card_univ,
     nsmul_eq_mul, mul_one]
   rw [Finset.sum_boole, Finset.filter_mem_eq_inter, Finset.univ_inter]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_trace_signChange (fr : PFrame Q ι c) (K : Finset ι) :
     LinearMap.trace (ZMod 3) V ((fr.signChange K : OGroup Q) : V ≃ₗ[ZMod 3] V).toLinearMap =
       (Fintype.card ι : ZMod 3) - 2 * K.card := by
@@ -56,6 +60,7 @@ theorem ffOutFFE8CentModel_trace_signChange (fr : PFrame Q ι c) (K : Finset ι)
   refine Finset.sum_congr rfl fun i _ => ?_
   by_cases hi : i ∈ K <;> simp [hi]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_trace_neg (fr : PFrame Q ι c) (K : Finset ι) {γ : V ≃ₗ[ZMod 3] V}
     (h : ∀ v, ((fr.signChange K : OGroup Q) : V ≃ₗ[ZMod 3] V) (γ v) =
       -γ (((fr.signChange K : OGroup Q) : V ≃ₗ[ZMod 3] V) v)) :
@@ -75,6 +80,7 @@ theorem ffOutFFE8CentModel_trace_neg (fr : PFrame Q ι c) (K : Finset ι) {γ : 
   revert x
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_commute_cases (t : OGroup Q) (γ : simGroup Q)
     (h : ffSim Q t * (QuotientGroup.mk γ : ProjSim Q) = QuotientGroup.mk γ * ffSim Q t) :
     (∀ v, (t : V ≃ₗ[ZMod 3] V) ((γ : V ≃ₗ[ZMod 3] V) v) =
@@ -100,6 +106,7 @@ theorem ffOutFFE8CentModel_commute_cases (t : OGroup Q) (γ : simGroup Q)
       map_neg] at h5
     rw [h5, neg_neg]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_repr_comm (fr : PFrame Q ι c) (K : Finset ι) {γ : V ≃ₗ[ZMod 3] V}
     (h : ∀ v, ((fr.signChange K : OGroup Q) : V ≃ₗ[ZMod 3] V) (γ v) =
       γ (((fr.signChange K : OGroup Q) : V ≃ₗ[ZMod 3] V) v))

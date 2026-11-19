@@ -143,7 +143,7 @@ theorem CaseBGen.center_le_R (B : X.CaseBGen) (h8 : X.CaseBStep8) {i : ℤ}
       exact Subgroup.mem_bot.mp h
     calc b1 = b2 * (b2⁻¹ * b1) := by group
       _ = b2 := by rw [hu1, mul_one]
-  haveI : Finite ↥(centerOf (X.L (1 - i))) := finite_of_le_stabilizer X.hyp
+  have : Finite ↥(centerOf (X.L (1 - i))) := finite_of_le_stabilizer X.hyp
     (H := centerOf (X.L (1 - i))) ((X.centerOf_L_le_Z B.char (1 - i)).trans (X.Z_le_Gi (1 - i)))
   have hmemZ : ∀ b ∈ centerOf (X.L (1 - i)), ⁅b, k⁆ ∈ centerOf (X.L (1 - i)) := by
     intro b hb
@@ -248,7 +248,7 @@ theorem CaseBGen.elem_Q (B : X.CaseBGen) (h8 : X.CaseBStep8) {i : ℤ} (hi : i =
 
 theorem CaseBGen.card_Q_inf (B : X.CaseBGen) (hn : X.n 0 = X.n 1) :
     Nat.card ↥(X.Q 0 ⊓ X.Q 1) = 2 ^ (2 * X.n 0) := by
-  haveI : Finite ↥(X.Gi 0 ⊓ X.Gi 1) :=
+  have : Finite ↥(X.Gi 0 ⊓ X.Gi 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi 0 ⊓ X.Gi 1) inf_le_left
   have hSP : X.S ≤ X.Gi 0 ⊓ X.Gi 1 :=
     le_inf (X.isSylowTwoOf_S_Gi (Or.inl rfl)).1 (X.isSylowTwoOf_S_Gi (Or.inr rfl)).1

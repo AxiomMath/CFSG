@@ -18,7 +18,7 @@ private lemma mem_centralizer_zpowers_iff {H : Type} [Group H] (u c : H) :
 
 theorem Case3Core.isTwoComponentIn_centralizer {G : Type} [Group G] [Finite G] {z : G}
     {K : Subgroup G} (h : Case3Core G z K) (u : ↥(centralizer ({z} : Set G)))
-    (huK : (u : G) ∈ K) (hu4 : orderOf (u : G) = 4)
+    (_huK : (u : G) ∈ K) (hu4 : orderOf (u : G) = 4)
     (hcomm : ∀ k ∈ K, k * (u : G) = (u : G) * k)
     (htight : centralizer ({(u : G)} : Set G) ≤ normalizer (K : Set G)) :
     IsPGroup 2 (zpowers u) ∧

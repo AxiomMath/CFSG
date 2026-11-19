@@ -16,7 +16,7 @@ variable {G : Type*} [Group G] {A B : Subgroup G}
     have : a⁻¹ * (x * y) * a = (a⁻¹ * x * a) * (a⁻¹ * y * a) := by group
     rw [this]
     exact B.mul_mem (hx a ha) (hy a ha)
-  one_mem' := ⟨A.one_mem, fun a ha => by simpa using B.one_mem⟩
+  one_mem' := ⟨A.one_mem, fun a ha => by simp⟩
   inv_mem' := by
     rintro x ⟨hxA, hx⟩
     refine ⟨A.inv_mem hxA, fun a ha => ?_⟩

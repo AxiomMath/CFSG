@@ -33,7 +33,7 @@ lemma exists_conj_of_coords {V : Type*} [Group V] (h : Case811Sylow c)
       QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L) g = n ∧
       ∀ v, (g : G) * ((a v : ↥c.L) : G) * (g : G)⁻¹ = ((a (φ v) : ↥c.L) : G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)
   obtain ⟨g, hgN, hgπ⟩ :=
     Ctx82E3.exists_mem_normalizer_of_mem_normalizer_lbar
@@ -92,7 +92,7 @@ theorem exists_coords_lift (h : Case811Sylow c) {V : Type*}
         (h.A.subgroupOf c.L).subtype) ∧
       (∀ v, (a v : G) ∈ h.A) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   have hN3 : ¬ 3 ∣ Nat.card N :=
@@ -130,7 +130,7 @@ theorem signed_coords_setup (h : Case811Sylow c) (hK6c : K6c)
       (∀ v : Fin 3 → ZMod 3, v ≠ 0 →
         orderOf ((a (Multiplicative.ofAdd v) : ↥c.L) : G) = 3) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, hc₀⟩ := (hK6c c.Lbar fam r f hlie h.Abar h.isElemAbelian_Abar h.card_Abar).2 hfam
   obtain ⟨a, ha_range, ha_apply, hXinj, ha_memA⟩ := exists_coords_lift h hc₀.2.1
   have ha_inj : Function.Injective a := by
@@ -162,7 +162,7 @@ theorem sumZero_coords_setup (h : Case811Sylow c) (hK6c : K6c)
       (∀ v : Fin 4 → ZMod 3, (¬ ∃ d : ZMod 3, v = fun _ => d) →
         orderOf ((a (Multiplicative.ofAdd v) : ↥c.L) : G) = 3) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c₀, hc₀⟩ := (hK6c c.Lbar fam r f hlie h.Abar h.isElemAbelian_Abar h.card_Abar).1 hfam
   obtain ⟨a, ha_range, ha_apply, hXinj, ha_memA⟩ := exists_coords_lift h hc₀.1
   have ha_memX : ∀ v, a v ∈ h.A.subgroupOf c.L := by

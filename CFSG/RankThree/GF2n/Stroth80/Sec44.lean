@@ -26,26 +26,26 @@ theorem isSolvable_of_naturalRep {ι : Type} [Fintype ι] [DecidableEq ι] {K : 
     (hR : Group.IsSolvable ↥R) : Group.IsSolvable ↥X := by
   obtain ⟨φ, hφ, -, -⟩ := h
   rw [← hφ]
-  exact solvable_of_surjective φ.rangeRestrict_surjective
+  exact Group.isSolvable_of_surjective φ.rangeRestrict_surjective
 
 theorem not_quotSat_isSLModel_of_solvable (hCL : ClassicalNonsolvableStatement) {S N : Subgroup G}
     {q k : ℕ} (hq4 : 4 ≤ q) (hq2 : ∃ j : ℕ, q = 2 ^ j) (hk : 2 ≤ k)
     (hS : Group.IsSolvable ↥S) : ¬ QuotSat S N (IsSLModel k q) := by
   rintro ⟨hN, K, hF, hFin, hKq, ⟨e⟩⟩
   obtain ⟨j, hj⟩ := hq2
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hj)
-  haveI : Group.IsSolvable (↥S ⧸ N.subgroupOf S) :=
-    solvable_of_surjective (QuotientGroup.mk'_surjective (N.subgroupOf S))
-  haveI : Group.IsSolvable ↥(StatedSL k K) :=
-    solvable_of_surjective (f := e.toMonoidHom) e.surjective
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hj)
+  have : Group.IsSolvable (↥S ⧸ N.subgroupOf S) :=
+    Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (N.subgroupOf S))
+  have : Group.IsSolvable ↥(StatedSL k K) :=
+    Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
   exact (hCL K (by rw [hKq]; exact hq4)).1 k hk this
 
 end
 
 theorem not_isSolvable_of_isQuasisimple {X : Type*} [Group X] (hq : CFSG.IsQuasisimple X) :
     ¬ Group.IsSolvable X := by
-  haveI : Group.IsPerfect X := hq.1
-  haveI : Nontrivial X := by
+  have : Group.IsPerfect X := hq.1
+  have : Nontrivial X := by
     by_contra hcon
     rw [not_nontrivial_iff_subsingleton] at hcon
     obtain ⟨a, b, hab⟩ := hq.2.2
@@ -71,11 +71,11 @@ theorem classicalNonsolvable_of_quasisimple (h : ClassicalQuasisimpleStatement) 
   rcases Nat.lt_or_ge m 3 with h3 | h3
   · have hm2 : m = 2 := by omega
     subst hm2
-    haveI : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 K)) := hs
-    haveI : Group.IsSolvable (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) :=
-      solvable_of_solvable_injective (f := e.symm.toMonoidHom) e.symm.injective
-    haveI : Group.IsSolvable ↥(StatedSL 2 K) :=
-      solvable_of_solvable_injective (f := MonoidHom.inl ↥(StatedSL 2 K) ↥(StatedSL 2 K))
+    have : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 K)) := hs
+    have : Group.IsSolvable (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) :=
+      Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
+    have : Group.IsSolvable ↥(StatedSL 2 K) :=
+      Group.isSolvable_of_isSolvable_injective (f := MonoidHom.inl ↥(StatedSL 2 K) ↥(StatedSL 2 K))
         (by intro a b h; simpa using congrArg Prod.fst h)
     exact not_isSolvable_of_isQuasisimple (hSL 2 le_rfl) inferInstance
   · exact not_isSolvable_of_isQuasisimple (hOP m h3) hs
@@ -115,7 +115,7 @@ theorem Ctx.exists_solvable_family {G : Type} [Group G] [Finite G] {M Q Z B : Su
   obtain ⟨c, hcΛ, d, hdD, hcd⟩ := hnc
   have hdA : d ∈ A := hDA hdD
   have hΛA : bar M Q (LB M Q B) ⊓ A = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hΛcard, hZ2, ← pow_mul]
     exact (Odd.coprime_two_left hodd).pow_left _
   have hdnorm : d ∉ Subgroup.normalizer ((bar M Q (LB M Q B) : Subgroup (Mbar M Q)) :
@@ -253,11 +253,11 @@ theorem Ctx.exists_solvable_family {G : Type} [Group G] [Finite G] {M Q Z B : Su
       show QuotientGroup.mk' (Q.subgroupOf M) (Subgroup.inclusion hXM x) ∈ _
       rw [this]
       exact hy
-    haveI : Group.IsSolvable ↥(bar M Q (LB M Q B) ⊔ A) :=
+    have : Group.IsSolvable ↥(bar M Q (LB M Q B) ⊔ A) :=
       isSolvable_sup_of_odd (fun a ha b hb =>
         congrArg Subtype.val (hΛab.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)) hAN hodd
-    haveI : Group.IsSolvable ↥ψ.range :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hrange)
+    have : Group.IsSolvable ↥ψ.range :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hrange)
     exact isSolvable_of_ker_pGroup ψ hker inferInstance
   refine ⟨(t' : G), htLB, htQ, {LB M Q B, L'}, ?_, hcard, ?_, ?_⟩
   · intro L'' hL''
@@ -280,11 +280,11 @@ theorem Ctx.false_of_eq_Rt {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G
     False := by
   rcases h310 G M Q Z B hc n hw hn hno hgen t htLB htQ with hRL | ⟨K, hF, hFin, hK, hnat⟩
   · exact hXne (hXR.trans hRL)
-  · haveI hRsolv : Group.IsSolvable ↥(Rt M (LB M Q B) t) := by
+  · have hRsolv : Group.IsSolvable ↥(Rt M (LB M Q B) t) := by
       rw [← hXR]
       exact hXsolv
     obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
     have h4K : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
     obtain ⟨hSL, hSp, hOP, hOM⟩ := hCL K h4K
     rcases hnat with ⟨m, hm, hn'⟩ | ⟨m, hm, hn'⟩ | ⟨m, hm, hn'⟩ | ⟨m, b, cc, hm, han, hn'⟩

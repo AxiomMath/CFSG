@@ -19,12 +19,14 @@ open CFSG.LocalAnalysis.UniquenessCase.UC6S846 (SigmaStd rhoL rhoL_fix_iff
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_isSylowOf_ge_of_isPGroup {p : ℕ} [Fact p.Prime] {K P : Subgroup G}
     (hPK : P ≤ K) (hP : IsPGroup p P) : ∃ S : Subgroup G, IsSylowOf p S K ∧ P ≤ S := by
   obtain ⟨Q, hQ⟩ := (hP.comap_subtype (K := K)).exists_le_sylow
   exact ⟨(Q : Subgroup K).map K.subtype, ⟨Q, rfl⟩, fun x hx =>
     ⟨⟨x, hPK hx⟩, hQ (Subgroup.mem_subgroupOf.2 hx), rfl⟩⟩
 
+omit [Finite G] in
 private theorem isSylowOf_of_maximal {p : ℕ} [Fact p.Prime] {K P : Subgroup G}
     (hPK : P ≤ K) (hP : IsPGroup p P)
     (hmax : ∀ T : Subgroup G, T ≤ K → IsPGroup p T → P ≤ T → T = P) : IsSylowOf p P K := by
@@ -58,19 +60,20 @@ private theorem card_comap_eq_card_ker_mul_card_of_le_range {F H : Type*} [Group
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hkerle).toEquiv] at hψ
   exact hψ.symm
 
+omit [Finite G] in
 private theorem le_centralizer_of_fix {L S C : Subgroup G} {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hSL : S ≤ L) (hSq : IsPGroup q S) (hCN : C ≤ normalizer (L : Set G))
     (hCS : C ≤ normalizer (S : Set G))
-    (hfix : ∀ (c : G) (hc : c ∈ C) (hNc : c ∈ normalizer (L : Set G)) (s : G) (hs : s ∈ S),
+    (hfix : ∀ (c : G) (_hc : c ∈ C) (hNc : c ∈ normalizer (L : Set G)) (s : G) (hs : s ∈ S),
       rhoL L ⟨c, hNc⟩ (QuotientGroup.mk (⟨s, hSL hs⟩ : ↥L) : Bar2 L) =
         (QuotientGroup.mk (⟨s, hSL hs⟩ : ↥L) : Bar2 L)) :
     C ≤ centralizer (S : Set G) := by
-  intro c hc
+  intro c _hc
   rw [Subgroup.mem_centralizer_iff]
   intro s hs
-  have h2 := (rhoL_fix_iff L ⟨c, hCN hc⟩ ⟨s, hSL hs⟩).1 (hfix c hc (hCN hc) s hs)
+  have h2 := (rhoL_fix_iff L ⟨c, hCN _hc⟩ ⟨s, hSL hs⟩).1 (hfix c _hc (hCN _hc) s hs)
   have h3 : c * s * c⁻¹ * s⁻¹ ∈ S :=
-    S.mul_mem ((Subgroup.mem_normalizer_iff.1 (hCS hc) s).1 hs) (S.inv_mem hs)
+    S.mul_mem ((Subgroup.mem_normalizer_iff.1 (hCS _hc) s).1 hs) (S.inv_mem hs)
   have h4 : c * s * c⁻¹ * s⁻¹ = 1 :=
     eq_one_of_mem_isPGroup_of_mem_isPGroup hq hq2 hSq (isPGroup_pCoreOf L) h3 h2
   have h5 : c * s * c⁻¹ = s := mul_inv_eq_one.1 h4
@@ -87,7 +90,7 @@ theorem pRank_centralizer_le_one {D : Data G} (hSg : SigmaStd D) (h76 : F07.R76S
   have hpσ : p ∈ D.sig := hH.2.2.2.1
   have hPL : P ≤ L := hH.2.2.2.2.le
   have hLM : L ≤ D.M := hH.1.1.le
-  haveI : Fact (3 : ℕ).Prime := ⟨by norm_num⟩
+  have : Fact (3 : ℕ).Prime := ⟨by norm_num⟩
   obtain ⟨S, hSsyl, hPS⟩ := exists_isSylowOf_ge_of_isPGroup (p := 3) (K := D.M)
     (hPL.trans hLM) hH.2.2.2.2.isPGroup
   obtain ⟨E, hEP, hEel, hEcard, -⟩ := exists_elemAbelian_nine hK2 hX hH.2.2.2.2
@@ -110,7 +113,7 @@ private theorem exists_card_pow_of_le_range_card {L : Subgroup G} {p : ℕ} (hp 
     (hcard : Nat.card φ.range ≤ p * Nat.card Cb) :
     ∃ k : ℕ, 2 ≤ k ∧ IsElemAbelian p ((Cb.comap φ).map F.subtype) ∧
       Nat.card ((Cb.comap φ).map F.subtype) = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hCFcard : Nat.card (Cb.comap φ) = Nat.card φ.ker * Nat.card Cb :=
     card_comap_eq_card_ker_mul_card_of_le_range φ hCb
   have hCpow : Nat.card ((Cb.comap φ).map F.subtype) = Nat.card (Cb.comap φ) :=
@@ -139,13 +142,13 @@ private theorem exists_elemAbelian_fixing_sylow_three {D : Data G} (hSg : SigmaS
     (hX : IsU45 (Bar2 L) n) (hN : D.M ≤ normalizer (L : Set G)) (hpn : ¬ p ∣ 2 ^ n + 1) :
     ∃ (Sb : Sylow 3 (Bar2 L)) (C : Subgroup G) (k : ℕ), C ≤ D.M ∧ IsElemAbelian p C ∧
       Nat.card C = p ^ k ∧ 2 ≤ k ∧
-      ∀ (c : G) (hc : c ∈ C) (hNc : c ∈ normalizer (L : Set G)) (x : ↥L),
+      ∀ (c : G) (_hc : c ∈ C) (hNc : c ∈ normalizer (L : Set G)) (x : ↥L),
         (QuotientGroup.mk x : Bar2 L) ∈ (Sb : Subgroup (Bar2 L)) →
           rhoL L ⟨c, hNc⟩ (QuotientGroup.mk x : Bar2 L) = (QuotientGroup.mk x : Bar2 L) := by
   classical
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (3 : ℕ).Prime := ⟨by norm_num⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (3 : ℕ).Prime := ⟨by norm_num⟩
   obtain ⟨F, hFM, hFel, hFcard⟩ :=
     exists_elemAbelian_card_of_le_pRank (M := D.M) hp (k := 3) (hSg.three_le p hpσ)
   have hFN : F ≤ normalizer (L : Set G) := hFM.trans hN
@@ -172,8 +175,8 @@ private theorem exists_elemAbelian_fixing_sylow_three {D : Data G} (hSg : SigmaS
   refine ⟨Sb', (Cb.comap φ).map F.subtype, k, ?_, hCel, hCcard, hk2, ?_⟩
   · rintro x ⟨y, -, rfl⟩
     exact hFM y.2
-  · intro c hc hNc x hx
-    obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hc
+  · intro c _hc hNc x hx
+    obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 _hc
     have hxSb : (QuotientGroup.mk x : Bar2 L) ∈ Sb := hSb'coe ▸ hx
     change rhoL L (⟨F.subtype y, hNc⟩ : ↥(normalizer (L : Set G)))
       (QuotientGroup.mk x : Bar2 L) = (QuotientGroup.mk x : Bar2 L)
@@ -188,7 +191,7 @@ private theorem exists_rank_two_centralizing_sylow_three {D : Data G} (hSg : Sig
     ∃ (S C : Subgroup G) (k : ℕ), S ≤ L ∧ IsSylowOf 3 S L ∧ IsElemAbelian p C ∧
       Nat.card C = p ^ k ∧ 2 ≤ k ∧ C ≤ D.M ⊓ centralizer (S : Set G) := by
   classical
-  haveI : Fact (3 : ℕ).Prime := ⟨by norm_num⟩
+  have : Fact (3 : ℕ).Prime := ⟨by norm_num⟩
   obtain ⟨Sb, C, k, hCM, hCel, hCcard, hk, hfixb⟩ :=
     exists_elemAbelian_fixing_sylow_three hSg hK3 hH.2.2.2.1 (prime_of_hyp8102 hSg hH).2.2
       hX hN hpn
@@ -217,7 +220,7 @@ private theorem two_le_pRank_centralizer_of_sylow {D : Data G} {L P S C : Subgro
     (hCcard : Nat.card C = p ^ k) (hk : 2 ≤ k) :
     2 ≤ Open.pRank p (D.M ⊓ centralizer (P : Set G)) := by
   classical
-  haveI : Fact (3 : ℕ).Prime := ⟨by norm_num⟩
+  have : Fact (3 : ℕ).Prime := ⟨by norm_num⟩
   obtain ⟨l, hlL, hconj⟩ := hPsyl.exists_mem_conj hSsyl
   have hSmap : S = P.map (MulAut.conj l).toMonoidHom := by
     ext x

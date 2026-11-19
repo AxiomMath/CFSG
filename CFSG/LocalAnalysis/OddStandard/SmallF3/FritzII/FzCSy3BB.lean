@@ -76,8 +76,8 @@ theorem fzc_sy3_ac_sq (h : Ctx0 t L S x₁ x₂ lam rho) (hq : FzCQFacts t S x�
   exact hfinal
 
 private theorem fzc_sy3_sp_e0Z (h : Ctx0 t L S x₁ x₂ lam rho) (hq : FzCQFacts t S x₁ x₂ lam rho)
-    (hK : twoCore t = zpowers q) (hq4 : orderOf q = 4) (hqt : q ^ 2 = t)
-    (ht : t ∈ fzP t x₁ x₂ rho) {a : G} (ha : a ∈ fzP t x₁ x₂ rho)
+    (_hK : twoCore t = zpowers q) (_hq4 : orderOf q = 4) (_hqt : q ^ 2 = t)
+    (_ht : t ∈ fzP t x₁ x₂ rho) {a : G} (ha : a ∈ fzP t x₁ x₂ rho)
     (hat : a * t * a⁻¹ = t * (x₁ * x₂) ^ 2) :
     a ^ 2 * t ∉ fourGrp x₁ x₂ := by
   intro hZ

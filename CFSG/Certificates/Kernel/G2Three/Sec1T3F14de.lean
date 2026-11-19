@@ -30,10 +30,12 @@ theorem f14de_closK_bit (gs : List ℕ) : ∀ R k, (closK C gs R).testBit k = tr
 theorem f14de_closK_lt (gs : List ℕ) (R : ℕ) : closK C gs R < 2 ^ 128 :=
   lt128_of_testBit (f14de_closK_bit gs R)
 
+omit [Group Γ] in
 theorem f14de_rep (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) {m : ℕ} {X : Set Γ}
     (h : mset elt m = X) : RepM elt m X :=
   h ▸ repM_mset hinj m
 
+omit [Group Γ] in
 theorem f14de_mset_land (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) (a b : ℕ) :
     mset elt (Nat.land a b) = mset elt a ∩ mset elt b := by
   ext x
@@ -67,7 +69,7 @@ theorem f14de_cenS_mset (X : ℕ) : ∀ gs : List ℕ, (∀ g ∈ gs, g < 128) �
     rw [cenE_mset hR _ (hgs g List.mem_cons_self),
       f14de_cenS_mset X gs fun g' hg' => hgs g' (List.mem_cons_of_mem _ hg')]
     ext x
-    simp only [Set.mem_setOf_eq, List.mem_cons, forall_eq_or_imp]
+    simp only [Set.mem_ofPred_eq, List.mem_cons, forall_eq_or_imp]
     tauto
 
 theorem f14de_conjM_mset (X : ℕ) {s : ℕ} (hs : s < 128) :
@@ -124,13 +126,13 @@ theorem f14de_centEl_eq (T : Subgroup Γ) (g : Γ) : centEl T g = centIn T (clos
   simp only [centEl, centIn, mem_inf, mem_centralizer_iff, Set.mem_singleton_iff, forall_eq,
     SetLike.mem_coe]
   refine and_congr_right fun _ => ⟨fun h y hy => ?_, fun h => h g (subset_closure rfl)⟩
-  exact (f14de_closure_le_centralizer (s := {g}) (x := x) (by rintro _ rfl; first | exact h | exact h.symm) y hy)
+  exact (f14de_closure_le_centralizer (s := {g}) (x := x) (by rintro _ rfl; first | exact h) y hy)
 
 theorem f14de_cen_closure {B : Subgroup Γ} {s : Set Γ} (hB : B = closure s) :
     (cen B : Set Γ) = {x | x ∈ B ∧ ∀ g ∈ s, x * g = g * x} := by
   ext x
   simp only [cen, coe_inf, Set.mem_inter_iff, SetLike.mem_coe, mem_centralizer_iff,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   refine and_congr_right fun _ => ⟨fun h g hg => (h g (by rw [hB]; exact subset_closure hg)).symm,
     fun h y hy => ?_⟩
   rw [hB] at hy
@@ -173,7 +175,7 @@ theorem f14de_prodEquiv {X U W : Subgroup Γ} (h : IsInternalDirect X U W) :
       map_mul' := by
         rintro ⟨u₁, v₁⟩ ⟨u₂, v₂⟩
         apply Subtype.ext
-        simp only [Prod.fst_mul, Prod.snd_mul, Subgroup.coe_mul, MonoidHom.coe_mk, OneHom.coe_mk]
+        simp only [Prod.fst_mul, Prod.snd_mul, Subgroup.coe_mul]
         calc (↑u₁ * ↑u₂ : Γ) * (↑v₁ * ↑v₂)
             = ↑u₁ * (↑u₂ * ↑v₁) * ↑v₂ := by group
           _ = ↑u₁ * (↑v₁ * ↑u₂) * ↑v₂ := by rw [hcomm u₂ u₂.2 v₁ v₁.2]
@@ -277,7 +279,7 @@ theorem f14de_maxEA_of_eaMaxK (hR : RealT elt P C V Q) {G₀ : Subgroup Γ} {L m
     (by norm_num) h (f14de_rep hR.inj h1) (f14de_rep hR.inj h2)
   ext K
   rw [Set.mem_insert_iff, Set.mem_singleton_iff, ← core K]
-  simp only [maxElemAbelian, IsMaxSq, Set.mem_setOf_eq, isElemAbelian_iff_sq, bot_le, mem_bot,
+  simp only [maxElemAbelian, IsMaxSq, Set.mem_ofPred_eq, isElemAbelian_iff_sq, bot_le, mem_bot,
     true_and]
 
 variable [Finite Γ]
@@ -299,20 +301,24 @@ theorem f14de_eaMax_sound (hR : RealT elt P C V Q) {G₀ : Subgroup Γ} {L m : �
   obtain ⟨hNK, hKX, -⟩ := (eaMaxK_sound hR hlat hm hXG hX' hN' hNb h hK₁ hK₂ K₁).2 (Or.inl rfl)
   exact ⟨hn, eaMaxK_quo hR hlat hm hXG (hNK.trans hKX) hX' hN' hNb h hK₁ hK₂⟩
 
+omit [Group Γ] [Finite Γ] in
 theorem f14de_setOf_two (u v : Γ) : {x | x ∈ [u, v]} = ({u, v} : Set Γ) := by
   ext x
   simp
 
+omit [Group Γ] [Finite Γ] in
 theorem f14de_setOf_four (u v w s : Γ) : {x | x ∈ [u, v, w, s]} = ({u, v, w, s} : Set Γ) := by
   ext x
   simp
 
+omit [Finite Γ] in
 theorem f14de_S_le {fr : Frame Γ} : fr.S ≤ fr.Sσ := by
   apply Subgroup.closure_mono
   intro x hx
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx ⊢
   tauto
 
+omit [Finite Γ] in
 theorem f14de_A_le {fr : Frame Γ} : fr.A ≤ fr.S := by
   apply Subgroup.closure_mono
   intro x hx
@@ -425,7 +431,7 @@ theorem fact14_45_of_twin {fr : Frame Γ} {elt : ℕ → Γ} {P C V Q L N kE kF 
       rw [coe_inf, ← hE, ← hF, ← f14de_mset_land hR.inj, hEF, f14de_cenS_mset hR _ _ hlB,
         f14de_cen_closure hBc, hB]
       ext x
-      simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+      simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
       refine and_congr_right fun _ => ⟨fun h g hg => ?_, fun h g hg => ?_⟩
       · obtain ⟨i, hi, rfl⟩ := hg
         exact h i hi
@@ -449,7 +455,7 @@ theorem fact14_45_of_twin {fr : Frame Γ} {elt : ℕ → Γ} {P C V Q L N kE kF 
       simp only [List.map_cons, List.map_nil, e2, e4, e5]
       congr 2
       ext x
-      simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_union,
+      simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_union,
         Set.mem_insert_iff, Set.mem_singleton_iff]
       tauto
     have hSG : fr.S ≤ fr.Sσ := f14de_S_le

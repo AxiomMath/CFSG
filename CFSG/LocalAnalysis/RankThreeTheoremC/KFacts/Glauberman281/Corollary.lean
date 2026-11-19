@@ -11,10 +11,11 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_sup_eq_mul {Y Q : Subgroup G} (hcop : Nat.Coprime (Nat.card Y) (Nat.card Q))
     (hperm : ∀ w ∈ Y ⊔ Q, ∃ y ∈ Y, ∃ q ∈ Q, w = y * q) :
     Nat.card ↥(Y ⊔ Q) = Nat.card Y * Nat.card Q := by
-  have hbot : Y ⊓ Q = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hbot : Y ⊓ Q = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   let f : Y × Q → ↥(Y ⊔ Q) := fun x =>
     ⟨(x.1 : G) * (x.2 : G), mul_mem (mem_sup_left x.1.2) (mem_sup_right x.2.2)⟩
   have hf : Function.Bijective f := by
@@ -49,7 +50,7 @@ theorem glauberman_product (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p) {Y Q : Subgro
     ∀ w ∈ Y ⊔ Q, ∃ a ∈ (Y ⊔ Q) ⊓ normalizer (thompsonJ Y : Set G),
       ∃ b ∈ (Y ⊔ Q) ⊓ normalizer (quasithinOmegaOneCenter Y : Set G), w = a * b := by
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := hY.exists_card_eq
   obtain ⟨b, hb⟩ := hQ.exists_card_eq
   have hcop : Nat.Coprime (Nat.card Y) (Nat.card Q) := by
@@ -78,6 +79,7 @@ theorem glauberman_product (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p) {Y Q : Subgro
   exact glaubermanTwoP_holds G p hp h5 (Y ⊔ Q) Y hdiv hF hSyl
 
 
+omit [Finite G] in
 theorem exists_mul_of_factorization {Y Q N₁ N₂ : Subgroup G}
     (hperm : ∀ w ∈ Y ⊔ Q, ∃ y ∈ Y, ∃ q ∈ Q, w = y * q)
     (hY₁ : Y ≤ N₁) (hY₂ : Y ≤ N₂) (hN₁ : N₁ ≤ Y ⊔ Q)
@@ -105,6 +107,7 @@ theorem exists_mul_of_factorization {Y Q N₁ N₂ : Subgroup G}
     _ = ((b₁⁻¹ * y) * q')⁻¹ := by rw [h1]
     _ = q'⁻¹ * (b₁⁻¹ * y)⁻¹ := mul_inv_rev _ _
 
+omit [Finite G] in
 theorem le_normalizer_omegaOneCenter_self (Y : Subgroup G) :
     Y ≤ normalizer (quasithinOmegaOneCenter Y : Set G) := by
   have hZ : quasithinOmegaOneCenter Y ≤ centralizer (Y : Set G) := by
@@ -130,7 +133,7 @@ theorem glauberman_Q_product (p : ℕ) (hp : p.Prime) (h5 : 5 ≤ p) {Y Q : Subg
 
 theorem card_le_of_pRank_le_one {p : ℕ} (hp : p.Prime) {A : Subgroup G}
     (hAe : ∀ a ∈ A, a ^ p = 1) (hr : CFSG.Open.pRank p A ≤ 1) : Nat.card A ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hApg : IsPGroup p A := fun a => by
     refine ⟨1, ?_⟩
     apply Subtype.ext
@@ -143,7 +146,7 @@ theorem card_le_of_pRank_le_one {p : ℕ} (hp : p.Prime) {A : Subgroup G}
   · exfalso
     obtain ⟨K, hK, -, hKA⟩ := Sylow.exists_subgroup_card_pow_prime_le_le (G := G) (p := p)
       (n := 2) (H := ⊥) hp (by simp) (hn ▸ pow_dvd_pow p hn2) bot_le
-    haveI : IsMulCommutative ↥K := IsPGroup.isMulCommutative_of_card_eq_prime_sq hK
+    have : IsMulCommutative ↥K := IsPGroup.isMulCommutative_of_card_eq_prime_sq hK
     have hE : IsElemAbelian p K := ⟨inferInstance, fun x hx => hAe x (hKA hx)⟩
     have := CFSG.SectionRank.le_pRank hp.one_lt hKA hE hK
     omega
@@ -152,7 +155,7 @@ theorem two_le_pRank_of_mul {p : ℕ} (hp : p.Prime) {Q A B : Subgroup G}
     (hQe : ∀ q ∈ Q, q ^ p = 1) (hQc : ¬ IsCyclic Q) (hA : A ≤ Q) (hB : B ≤ Q)
     (hAB : ∀ q ∈ Q, ∃ a ∈ A, ∃ b ∈ B, q = a * b) (hint : A ⊓ B ≠ ⊥) :
     2 ≤ CFSG.Open.pRank p A ∨ 2 ≤ CFSG.Open.pRank p B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
   rw [not_or, not_le, not_le] at hcon
   have hAc := card_le_of_pRank_le_one hp (fun a ha => hQe a (hA ha)) (by omega : _ ≤ 1)

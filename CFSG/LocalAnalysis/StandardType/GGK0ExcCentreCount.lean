@@ -146,7 +146,7 @@ private noncomputable def lk0xpa3_ofFun {n p : ℕ} (σ : Equiv.Perm (Fin n)) (S
       · intro i
         by_cases hi : i ∈ S
         · have hsi : σ i ∈ S := (hS i).mpr hi
-          simp only [dif_pos hi, dif_pos hsi]
+          simp only [dite_eq_left hi, dite_eq_left hsi]
           exact congrArg f (Subtype.ext (lk0xpa3_orb_sigma σ i))
         · have hsi : σ i ∉ S := fun h => hi ((hS i).mp h)
           simp [hi, hsi]⟩
@@ -168,10 +168,10 @@ private noncomputable def lk0xpa3_equivWQ {n p : ℕ} (σ : Equiv.Perm (Fin n))
           lk0xpa3_mem_orb_self σ _
         rwa [lk0xpa3_orb_rep] at h0
       show (if h : i ∈ S then lk0xpa3_toFun σ S t ⟨lk0xpa3_orb σ i, i, h, rfl⟩ else 0) = t.1 i
-      rw [dif_pos hi]
+      rw [dite_eq_left hi]
       exact lk0xpa3_orb_apply_eq σ t.1 t.2.2 hmem
     · show (if h : i ∈ S then lk0xpa3_toFun σ S t ⟨lk0xpa3_orb σ i, i, h, rfl⟩ else 0) = t.1 i
-      rw [dif_neg hi]
+      rw [dite_eq_right hi]
       exact (t.2.1 i hi).symm
   right_inv := by
     classical
@@ -179,7 +179,7 @@ private noncomputable def lk0xpa3_equivWQ {n p : ℕ} (σ : Equiv.Perm (Fin n))
     funext q
     show (if h : lk0xpa3_rep σ S q ∈ S then
         f ⟨lk0xpa3_orb σ (lk0xpa3_rep σ S q), lk0xpa3_rep σ S q, h, rfl⟩ else 0) = f q
-    rw [dif_pos (lk0xpa3_rep_mem σ S q)]
+    rw [dite_eq_left (lk0xpa3_rep_mem σ S q)]
     exact congrArg f (Subtype.ext (lk0xpa3_orb_rep σ S q))
 
 private noncomputable def lk0xpa3_kerEquiv {n p : ℕ} (σ : Equiv.Perm (Fin n))
@@ -189,8 +189,8 @@ private noncomputable def lk0xpa3_kerEquiv {n p : ℕ} (σ : Equiv.Perm (Fin n))
     {t : lk0xpa3_W p σ S // lk0xpa3_lamW σ S c t = 0} where
   toFun t := ⟨⟨t.1, t.2.1, t.2.2.1⟩, t.2.2.2⟩
   invFun s := ⟨s.1.1, s.1.2.1, s.1.2.2, s.2⟩
-  left_inv t := rfl
-  right_inv s := rfl
+  left_inv _t := rfl
+  right_inv _s := rfl
 
 theorem PA3_card_invariant_hyperplane {p n : ℕ} (hp : p.Prime) (σ : Equiv.Perm (Fin n))
     (S : Finset (Fin n)) (hS : ∀ i, σ i ∈ S ↔ i ∈ S) (c : Fin n → ZMod p)
@@ -198,10 +198,10 @@ theorem PA3_card_invariant_hyperplane {p n : ℕ} (hp : p.Prime) (σ : Equiv.Per
     Nat.card {t : Fin n → ZMod p // (∀ i, i ∉ S → t i = 0) ∧ (∀ i, t (σ i) = t i) ∧
       ∑ i, c i * t i = 0} = p ^ (numOrbitsOn σ S - 1) := by
   classical
-  haveI : Fact p.Prime := Fact.mk hp
+  have : Fact p.Prime := Fact.mk hp
   obtain ⟨i0, hi0S, hi0nz⟩ := hnz
-  haveI : Finite (lk0xpa3_Q σ S) := by
-    haveI : Finite (Set (Fin n)) := Set.instFinite
+  have : Finite (lk0xpa3_Q σ S) := by
+    have : Finite (Set (Fin n)) := Set.instFinite
     exact Subtype.finite
   have hcardW : Nat.card (lk0xpa3_W p σ S) = p ^ Nat.card (lk0xpa3_Q σ S) := by
     rw [Nat.card_congr (lk0xpa3_equivWQ σ S hS)]
@@ -253,7 +253,7 @@ theorem PA3_card_invariant_hyperplane {p n : ℕ} (hp : p.Prime) (σ : Equiv.Per
     have hh := AddSubgroup.card_ker_mul_card_of_surjective
       (f := (lk0xpa3_lamW σ S c).toAddMonoidHom) hsurj
     rwa [Nat.card_zmod] at hh
-  haveI : Nonempty (lk0xpa3_Q σ S) := ⟨lk0xpa3_cls σ S i0 hi0S⟩
+  have : Nonempty (lk0xpa3_Q σ S) := ⟨lk0xpa3_cls σ S i0 hi0S⟩
   have hk : 1 ≤ Nat.card (lk0xpa3_Q σ S) := Nat.card_pos
   have hfinal : Nat.card (AddMonoidHom.ker (lk0xpa3_lamW σ S c).toAddMonoidHom)
       = p ^ (Nat.card (lk0xpa3_Q σ S) - 1) := by

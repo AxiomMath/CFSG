@@ -170,7 +170,7 @@ theorem gensJ_mem {n w kS kO nb BP TJ : Nat} {S SI : Nat → Nat} {D : List (Lis
       apply Submonoid.subset_closure
       refine ⟨a, ha, by rw [ea]; exact hj, ?_⟩
       unfold lp
-      rw [ea, if_pos hj]
+      rw [ea, ite_eq_left hj]
     · have := allN_iff.1 hder j hj
       rw [bIf_eq, ite_eq_right (by rw [blt_dec]; simpa using hjk), strictB_eq, Bool.and_eq_true,
         beq_dec, decide_eq_true_iff] at this

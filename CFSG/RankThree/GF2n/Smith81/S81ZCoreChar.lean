@@ -38,6 +38,7 @@ theorem mem_normalizer_UA_of_line {g : Gp K} {c : K} (hc : c ≠ 0)
     have := conj_UA7_of_line (inv_ne_zero hc) hinv _ hx
     simpa [mul_assoc] using this
 
+omit [CharP K 2] in
 theorem fix7_map_le_of_normalizer (B : Gp K →* (X ≃ₗ[K] X)) {g : Gp K}
     (hg : g ∈ NormUA K) : (fix7 B).map (B g : X →ₗ[K] X) ≤ fix7 B := by
   rintro _ ⟨v, hv, rfl⟩
@@ -55,6 +56,7 @@ theorem fix7_map_le_of_normalizer (B : Gp K →* (X ≃ₗ[K] X)) {g : Gp K}
   show B u (B g v) = B g v
   rw [h2, hfix]
 
+omit [CharP K 2] in
 theorem scalar_mul (B : Gp K →* (X ≃ₗ[K] X)) {v₀ : X} (hne : v₀ ≠ 0) {g₁ g₂ : Gp K} {c₁ c₂ c : K}
     (h₁ : B g₁ v₀ = c₁ • v₀) (h₂ : B g₂ v₀ = c₂ • v₀) (h : B (g₁ * g₂) v₀ = c • v₀) :
     c = c₁ * c₂ := by
@@ -67,6 +69,7 @@ variable (B : Gp K →* (X ≃ₗ[K] X)) (hline : Module.finrank K (fix7 B) = 1)
 
 include hline hv₀ hne
 
+omit [CharP K 2] in
 theorem exists_scalar_of_normalizer {g : Gp K} (hg : g ∈ NormUA K) :
     ∃ c : K, c ≠ 0 ∧ B g v₀ = c • v₀ := by
   have hmem : B g v₀ ∈ fix7 B := fix7_map_le_of_normalizer B hg (Submodule.mem_map_of_mem hv₀)
@@ -94,6 +97,7 @@ noncomputable def charOf {H : Type} [Group H] (ι : H →* Gp K)
       have e' : B (ι h * ι h') v₀ = c • v₀ := by rw [← map_mul]; exact e
       exact scalar_mul B hne e1 e2 e')
 
+omit [CharP K 2] in
 theorem charOf_spec {H : Type} [Group H] (ι : H →* Gp K) (hι : ∀ h, ι h ∈ NormUA K)
     (h : H) : B (ι h) v₀ = ((charOf B hline hv₀ hne ι hι h : Kˣ) : K) • v₀ :=
   (Classical.choose_spec (exists_scalar_of_normalizer B hline hv₀ hne (hι h))).2

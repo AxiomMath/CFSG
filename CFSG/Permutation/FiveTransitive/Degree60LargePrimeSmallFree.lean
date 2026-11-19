@@ -31,7 +31,7 @@ theorem not_dvd_five_fixer
   let Q := sylowImage X P s S
   let F := sylowFixedPoints X P s S
   let N := sylowNormalizer X P s S
-  have hQ : IsPGroup p Q := S.isPGroup'.map _
+  have hQ : IsPGroup p Q := S.isPGroup.map _
   have hSge : p ≤ Nat.card S := by
     have h := Subgroup.card_le_of_le hZS
     rwa [Nat.card_zpowers,hu] at h

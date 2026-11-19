@@ -37,7 +37,7 @@ theorem szz_gen_of_mem {H : Type*} [Group H] {e y : H} (he : orderOf e = 5) (hy 
     ((Nat.dvd_prime (by norm_num : Nat.Prime 5)).mp (orderOf_dvd_of_pow_eq_one h5)).resolve_left
       (fun h => hy1 (orderOf_eq_one_iff.mp h))
   have hle : zpowers y ≤ zpowers e := zpowers_le.mpr hy
-  haveI : Finite (zpowers e) :=
+  have : Finite (zpowers e) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, he]; norm_num)
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [Nat.card_zpowers, Nat.card_zpowers, he, hord])).ge
 
@@ -220,7 +220,7 @@ theorem szz_wc {a c y : G} (hP : Sz32Struct P x J a c y) (hL : Sz32Lines P x (a 
 theorem szz_NZ_le (hS : Setting G) (hU0 : FullCoreLocal G) (hc : PointConfig IsSz32Type G 5 P M x J)
     {a c y : G} (hP : Sz32Struct P x J a c y) :
     normalizer ((zpowers (a ^ 5) ⊔ zpowers x : Subgroup G) : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hZP := szz_Z_le_P hP
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hZe := hP.facts.Z_elem
@@ -229,15 +229,15 @@ theorem szz_NZ_le (hS : Setting G) (hU0 : FullCoreLocal G) (hc : PointConfig IsS
   have h2 : 2 ≤ CFSG.Open.pRank 5 (zpowers (a ^ 5) ⊔ zpowers x : Subgroup G) :=
     CFSG.HardMathSupport.Timmesfeld.Proving.le_pRank_of_elemAbelian_card (by norm_num) le_rfl hZe
       hZc
-  exact normalizer_le_of_le_of_two_le_pRank hS hU0 hc.sigma hc.core (P.isPGroup'.to_le hZP)
+  exact normalizer_le_of_le_of_two_le_pRank hS hU0 hc.sigma hc.core (P.isPGroup.to_le hZP)
     (hZP.trans hPM) h2
 
 theorem szz_exists_m (hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
     (hP : Sz32Struct P x J a c y) : ∃ m ∈ J, m * a ^ 5 * m⁻¹ = (a ^ 5) ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hA := hP.decomp
   obtain ⟨Q, _, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective _ hψ
+  have : Finite Q := Finite.of_surjective _ hψ
   obtain ⟨Tsyl, hTsyl, hTinj⟩ := sps_sylow_data hc.generic hc.le_cent hc.cent_le ψ hker
   obtain ⟨Tb, hTb⟩ : ∃ Tb : Sylow 5 Q, (Tb : Subgroup Q) = (Tsyl : Subgroup ↥J).map ψ :=
     ⟨Tsyl.mapSurjective hψ, Sylow.coe_mapSurjective hψ Tsyl⟩
@@ -275,7 +275,7 @@ theorem szz_exists_m (hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M
   have hnorm : ψ n₀ ∈ Subgroup.normalizer (((Tsyl : Subgroup ↥J).map ψ : Subgroup Q) : Set Q) := by
     rw [hn₀, ← hTb]
     exact hnb
-  obtain ⟨n, hn, hψn⟩ := typeII_frattini_ker ψ hkcop Tsyl.isPGroup' hnorm
+  obtain ⟨n, hn, hψn⟩ := typeII_frattini_ker ψ hkcop Tsyl.isPGroup hnorm
   have hnea : n * ea * n⁻¹ ∈ (Tsyl : Subgroup ↥J) :=
     (Subgroup.mem_normalizer_iff.mp hn ea).mp heaTsyl
   have hψeq : ψ (n * ea * n⁻¹) = ψ (ea ^ 2) := by
@@ -306,8 +306,8 @@ theorem szz_Z_irr (hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M x 
   exact szz_irr (szz_ord_e hP) hP.pres_P.x_ord (szz_comm hP) hme hmx hgx hge hLZ
     (hN (szz_torus_norm hme hmx)) (hN (szz_swap_norm hge hgx))
 
-theorem sz32_Z_facts' (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
-    (hSz : Sz32Facts) (hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
+theorem sz32_Z_facts' (hS : Setting G) (_hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+    (_hSz : Sz32Facts) (hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
     (hP : Sz32Struct P x J a c y) (hL : Sz32Lines P x (a ^ 5)) : Sz32ZFacts P M x (a ^ 5) :=
   ⟨szz_NZ_le hS hU0 hc hP, szz_wc hP hL, szz_Z_irr hSz' hc hP hL⟩
 

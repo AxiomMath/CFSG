@@ -79,7 +79,7 @@ theorem perm_six_eq_bot_of_normal_isPGroup_two
     exact le_bot_iff.mp hMH
   rcases CFSG.RankThree.PartTwo.Sec4.Census.perfect_perm_six hH hbot with hA6 | he5
   · subst hA6
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     rcases hMn.eq_bot_or_eq_top with hb | ht
     · have hle : M ≤ ⊥ := by
         intro m hm
@@ -103,7 +103,7 @@ theorem perm_six_eq_bot_of_normal_isPGroup_two
       interval_cases n <;> norm_num at hn
   ·
     obtain ⟨e5⟩ := he5
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
     have hmapn : ((M.subgroupOf H).map e5.toMonoidHom).Normal :=
       Subgroup.Normal.map hMn e5.toMonoidHom e5.surjective
     rcases hmapn.eq_bot_or_eq_top with hb | ht
@@ -146,7 +146,7 @@ theorem center_eq_bot_of_isPerfect_perm_six {H : Subgroup (Equiv.Perm (Fin 6))}
   · rw [hA6]
     exact CFSG.RankThree.PartTwo.Sec14.center_eq_bot_of_mulEquiv_alternating_six (MulEquiv.refl _)
   · obtain ⟨e5⟩ := he5
-    haveI : IsSimpleGroup ↥H :=
+    have : IsSimpleGroup ↥H :=
       (MulEquiv.isSimpleGroup_congr e5).2 (alternatingGroup.isSimpleGroup (by simp))
     have hnc5 : ∃ x y : ↥(alternatingGroup (Fin 5)), x * y ≠ y * x := by
       refine ⟨⟨Equiv.swap 0 1 * Equiv.swap 1 2, ?_⟩,
@@ -175,7 +175,7 @@ theorem z_fixes_orbit_of_six'
   let Zs : Subgroup G := zSub P c.L
   let N : Subgroup G := CFSG.Open.pCoreOf 2 I
   obtain ⟨_, hZI, hcomm, _⟩ := hP2
-  letI : MulAction ↥I (Subgroup G) :=
+  let : MulAction ↥I (Subgroup G) :=
     MulAction.compHom (Subgroup G) (MulAut.conj.comp I.subtype)
   have hsmul : ∀ (b : ↥I) (M : Subgroup G), b • M = M.map (MulAut.conj (b : G)).toMonoidHom :=
     fun b M => by
@@ -203,7 +203,7 @@ theorem z_fixes_orbit_of_six'
     rw [hrange]
     exact Set.finite_range _
   have hfin : Ω.Finite := by rw [hΩeq]; exact hfin'
-  haveI : Fintype Ω := hfin.fintype
+  have : Fintype Ω := hfin.fintype
   have hΩn : Fintype.card Ω = 6 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_coe_set_eq, hΩeq]
     exact h6
@@ -211,7 +211,7 @@ theorem z_fixes_orbit_of_six'
   let ρ : ↥I →* Equiv.Perm Ω := MulAction.toPermHom ↥I Ω
   let ρ' : ↥I →* Equiv.Perm (Fin 6) := (Equiv.permCongrHom e).toMonoidHom.comp ρ
   let H : Subgroup (Equiv.Perm (Fin 6)) := ρ'.range
-  haveI : Group.IsPerfect ↥I := perfectCoreL_isPerfect c a
+  have : Group.IsPerfect ↥I := perfectCoreL_isPerfect c a
   have hHperf : Group.IsPerfect H := Group.IsPerfect.range ρ'
   have hcenter : Subgroup.center H = ⊥ := center_eq_bot_of_isPerfect_perm_six hHperf
   have hNsub_eq : N.subgroupOf I = CFSG.pCore 2 ↥I := by
@@ -291,25 +291,25 @@ theorem z_fixes_orbit_of_six'
   exact CFSG.LocalAnalysis.GorensteinLyons.map_conj_eq_self_iff.mp hmap
 
 theorem z_normalizes_orbit
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (hK8 : K8Cat)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
+    (_hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (_hK8 : K8Cat)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (_hZA : zSub P c.L ≤ A)
+    (_hAPL : A ≤ P ⊓ c.L) (_ha : a ∈ A) (_haZ : a ∉ zSub P c.L)
     (hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
         (alternatingGroup (Fin 6)) ∧
       zSub P c.L ≤ perfectCoreL c a ∧
       ⁅perfectCoreL c a, zSub P c.L⁆ ≤
         CFSG.Open.pCoreOf 2 (perfectCoreL c a) ∧
       A ≤ Subgroup.closure ({a} : Set G) ⊔ perfectCoreL c a)
-    (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
-    (hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
+    (_hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
+    (_hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
       W ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
         (CFSG.Open.pCoreOf 2 c.L) c.L)
-    {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J)
+    {J : Subgroup G} (_hJ : J ∈ thetaComponentsAt 3 a) (_h3 : ¬ 3 ∣ Nat.card J)
     (h6 : (orbitConjugates (perfectCoreL c a) J).ncard = 6)
-    (h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J)) :
+    (_h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J)) :
     ∀ z ∈ zSub P c.L, ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
       z ∈ Subgroup.normalizer (K : Set G) :=
   z_fixes_orbit_of_six' c hP2 h6
@@ -333,14 +333,14 @@ theorem z_centralizes_components_of_isPGroup
     (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz)
     (hZ3 : ZSubIsThreeGroup P c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J)
-    (h6 : (orbitConjugates (perfectCoreL c a) J).ncard = 6)
+    (_h6 : (orbitConjugates (perfectCoreL c a) J).ncard = 6)
     (h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J))
-    (hfix : ∀ z ∈ zSub P c.L, ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
+    (_hfix : ∀ z ∈ zSub P c.L, ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
       z ∈ Subgroup.normalizer (K : Set G)) :
     ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
       autThetaQuot (zSub P c.L) K = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3G : 3 ∣ Nat.card G := by
     obtain ⟨E, hEL, -, hEcard⟩ :=
       CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3) (H := c.L) (k := 3)
@@ -376,7 +376,7 @@ theorem z_centralizes_components_of_isPGroup
     hK3 (h.trans (Subgroup.card_quotient_dvd_card (aschbacherSolvableCore 3 ↥(CFSG.conjugate J b))))
   have h3S : ¬ 3 ∣ Nat.card (Q ⧸ Subgroup.center Q) := fun h =>
     h3Q (h.trans (Subgroup.card_quotient_dvd_card (Subgroup.center Q)))
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hqQ.2.1
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hqQ.2.1
   have hnab : ∃ x y : Q ⧸ Subgroup.center Q, x * y ≠ y * x := hqQ.2.2
   have hcat : CFSG.Assembly.InCatalog (Q ⧸ Subgroup.center Q) :=
     hQK.isCatalogGroup_of_surjective (⊤ : Subgroup Q) hnab
@@ -385,15 +385,15 @@ theorem z_centralizes_components_of_isPGroup
       ((QuotientGroup.mk'_surjective _).comp
         (Subgroup.topEquiv : (⊤ : Subgroup Q) ≃* Q).surjective)
   obtain ⟨f, hSz⟩ := hPSz (Q ⧸ Subgroup.center Q) hnab hcat h3S
-  haveI : Group.IsPerfect Q := hqQ.1
+  have : Group.IsPerfect Q := hqQ.1
   have hOutdvd : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer Q) ∣ f :=
     ((CFSG.LieType.Suzuki.Suzuki_model_and_perfect_cover_outer_cyclicity
       (Q ⧸ Subgroup.center Q) 2 f hSz).2 Q ⟨MulEquiv.refl _⟩).2.1
   have h3f : ¬ 3 ∣ f := by
     intro h3df
     obtain ⟨-, a', ha', Kf, hField, hFin, hf, hKcard, ⟨eS⟩⟩ := hSz
-    letI : Field Kf := hField
-    letI : Finite Kf := hFin
+    let : Field Kf := hField
+    let : Finite Kf := hFin
     have hKf : Nat.card Kf = 2 ^ (2 * a' + 1) := by rw [hf] at hKcard; exact hKcard
     have hord := CFSG.LieType.Ree.suzuki_order (a := a') (K := Kf) hKf
     rw [← hf] at hord
@@ -470,20 +470,20 @@ theorem z_centralizes_components_of_sylow
   exact hP.isPGroup.to_le (inf_le_left.trans inf_le_left)
 
 theorem z_centralizes_orbit_images
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (hK8 : K8Cat)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (_hK8 : K8Cat)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
-    (hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (_hZA : zSub P c.L ≤ A)
+    (_hAPL : A ≤ P ⊓ c.L) (_ha : a ∈ A) (_haZ : a ∉ zSub P c.L)
+    (_hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
         (alternatingGroup (Fin 6)) ∧
       zSub P c.L ≤ perfectCoreL c a ∧
       ⁅perfectCoreL c a, zSub P c.L⁆ ≤
         CFSG.Open.pCoreOf 2 (perfectCoreL c a) ∧
       A ≤ Subgroup.closure ({a} : Set G) ⊔ perfectCoreL c a)
-    (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
-    (hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
+    (_hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
+    (_hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
       W ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
         (CFSG.Open.pCoreOf 2 c.L) c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J)
@@ -515,13 +515,13 @@ theorem not_normal_card_eighteen {X : Type} [Group X] [Finite X]
   intro hNcard
   classical
   let Z : Subgroup X := Subgroup.center X
-  haveI hZn : Z.Normal := by
+  have hZn : Z.Normal := by
     change (Subgroup.center X).Normal
     exact Subgroup.normal_of_le_center le_rfl
   let q : X →* X ⧸ Z := QuotientGroup.mk' Z
   let Nbar : Subgroup (X ⧸ Z) := N.map q
   have hNbarNormal : Nbar.Normal := hN.map q (QuotientGroup.mk'_surjective Z)
-  haveI : Nbar.Normal := hNbarNormal
+  have : Nbar.Normal := hNbarNormal
   have hXZ : Nat.card (X ⧸ Z) = 360 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup Z
     rw [hXcard, hZcard] at h

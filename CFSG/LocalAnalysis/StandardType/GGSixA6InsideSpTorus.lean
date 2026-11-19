@@ -13,12 +13,14 @@ namespace CFSG.StandardType.A6InsideSp
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {L : Type} [Field L] [Algebra K L]
   {ζ : L} {E : Subgroup (StatedSp n K)} (F : ChoiceTwo.SpFrame K n ζ E)
 
+omit [Finite K] [CharP K 2] in
 private theorem tor_nsmul (hζ : ζ ^ 3 = 1) (m : ℕ) (f : Fin F.s → ZMod 3) :
     F.tor (m • f) = (F.tor f : StatedSp n K) ^ m := by
   induction m with
   | zero => rw [zero_nsmul, F.tor_zero, pow_zero]
   | succ m ih => rw [succ_nsmul, F.tor_add hζ, ih, pow_succ]
 
+omit [Finite K] [CharP K 2] in
 private theorem tor_smul (hζ : ζ ^ 3 = 1) (κ : ZMod 3) (f : Fin F.s → ZMod 3) :
     F.tor (κ • f) = (F.tor f : StatedSp n K) ^ κ.val := by
   rw [show κ • f = κ.val • f by
@@ -32,6 +34,7 @@ private theorem fix_of_mem_spFixedFactor (hK : Nat.card K = 2) {x g : StatedSp n
   fix_of_mem_spSupported hg (phi3_irreducible hK) monic_phi3 phi3_ne_X_sub_one
     (by rw [aeval_phi3_apply]; exact hv)
 
+omit [Finite K] [CharP K 2] in
 private theorem fix_of_mem_spSupported_phi3 {x g : StatedSp n K}
     (hg : g ∈ spSupported x {phi3 K}) {v : Fin n ⊕ Fin n → K} (hv : spEnd x v = v) :
     spEnd g v = v :=
@@ -177,6 +180,7 @@ theorem eq_one_of_forall_mem_spFixedFactor (hK : Nat.card K = 2) (hζo : IsPrimi
     _ = F.Φ (∑ i, Pi.single i (d i)) := (map_sum _ _ _).symm
     _ = F.Φ d := by rw [Finset.univ_sum_single]
 
+omit [Finite K] [CharP K 2] in
 theorem eq_sgnZ_of_swap_comm (hζo : IsPrimitiveRoot ζ 3) {i j : Fin F.s} (hij : i ≠ j) (b : Bool)
     {f : Fin F.s → ZMod 3} (hc : F.swap i j b * F.tor f = F.tor f * F.swap i j b) :
     f i = sgnZ b (f j) := by
@@ -193,12 +197,14 @@ theorem eq_sgnZ_of_swap_comm (hζo : IsPrimitiveRoot ζ 3) {i j : Fin F.s} (hij 
     show Equiv.swap i j i = j from Equiv.swap_apply_left i j] at h3
   exact h3
 
+omit [Finite K] [CharP K 2] in
 theorem s_eq [Module.Finite K L] (hL : Module.finrank K L = 2) : F.s = n := by
   have h := LinearEquiv.finrank_eq F.Φ
   rw [Module.finrank_pi_fintype, Module.finrank_pi_fintype] at h
   simp [hL] at h
   omega
 
+omit [Finite K] in
 theorem nonempty_spFixedFactor_equiv [NeZero n] [Module.Finite K L] (hK : Nat.card K = 2)
     (hζo : IsPrimitiveRoot ζ 3) (hL : Module.finrank K L = 2) {f : Fin F.s → ZMod 3}
     (hf : f ≠ 0) (hz : (F.zeroSet f).Nonempty) :

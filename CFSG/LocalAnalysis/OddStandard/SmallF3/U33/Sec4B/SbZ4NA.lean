@@ -12,10 +12,12 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem ctxWN_le_ctxCQ (t tau x₁ x₂ rho : G) :
     ctxWN t tau x₁ x₂ rho ≤ ctxCQ t tau x₁ x₂ rho :=
   inf_le_left
 
+omit [Finite G] in
 theorem ctxCQ_comm {c q : G} (hc : c ∈ ctxCQ t tau x₁ x₂ rho) (hq : q ∈ ctxQ t tau x₁ x₂ rho) :
     c * q = q * c :=
   (mem_centralizer_iff.mp hc q hq).symm

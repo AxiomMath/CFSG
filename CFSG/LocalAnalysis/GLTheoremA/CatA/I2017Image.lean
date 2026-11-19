@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barAut_eq_one_iff_centMod {K : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (K : Set G)) :
     barAut 3 K ⟨g, hg⟩ = 1 ↔ CentMod 3 K g := by
   rw [CFSG.HardMathSupport.Solomon.LocalBalance.Lemma53Ns.barAut_eq_one_iff hg]
@@ -133,7 +134,7 @@ theorem i2017_component_fix {K D J : Subgroup G} (hDK : D ≤ Subgroup.normalize
       ∀ (e : G) (he : e ∈ D), barAut 3 K ⟨e, hDK he⟩ q = q)
     (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer (D : Set G)) J) :
     GLAPComponent 3 (fixSubgroup (barAut 3 K ⟨x, hDK hx⟩)) (imageMod 3 K J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set φ : ↥K →* PQuot 3 K := QuotientGroup.mk' (GLAPPrimeCore 3 ↥K) with hφ
   set C : Subgroup ↥K := (K ⊓ Subgroup.centralizer (D : Set G)).subgroupOf K with hC
   have hJC : GLAPComponent 3 C (J.subgroupOf K) :=
@@ -171,8 +172,8 @@ theorem top_of_component_top {K : Subgroup G} {L : Subgroup (PQuot 3 K)}
     (hq : CFSG.Open.IsQuasisimple (PQuot 3 K))
     (hL : GLAPComponent 3 (⊤ : Subgroup (PQuot 3 K)) L) : L = ⊤ := by
   classical
-  haveI hSimple : IsSimpleGroup (PQuot 3 K ⧸ Subgroup.center (PQuot 3 K)) := hq.2
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup (PQuot 3 K ⧸ Subgroup.center (PQuot 3 K))) :=
+  have hSimple : IsSimpleGroup (PQuot 3 K ⧸ Subgroup.center (PQuot 3 K)) := hq.2
+  have : IsSimpleGroup ↥(⊤ : Subgroup (PQuot 3 K ⧸ Subgroup.center (PQuot 3 K))) :=
     Subgroup.topEquiv.isSimpleGroup
   set π : PQuot 3 K →* PQuot 3 K ⧸ Subgroup.center (PQuot 3 K) := QuotientGroup.mk' _ with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -210,8 +211,8 @@ theorem top_of_component_top {K : Subgroup G} {L : Subgroup (PQuot 3 K)}
 theorem isAltPType_of_mulEquiv_alt8 {Q : Type} [Group Q] [Finite Q] {L : Subgroup Q}
     (e : ↥L ≃* ↥(alternatingGroup (Fin 8))) : IsAltPType 3 L 8 := by
   classical
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   have hcard : Nat.card ↥L = 20160 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
     simp [Nat.factorial]
@@ -230,8 +231,8 @@ theorem eight_le_of_alt8_sub {K : Subgroup G} {L : Subgroup (PQuot 3 K)} {n : �
     (hL : Nonempty (↥L ≃* ↥(alternatingGroup (Fin 8))))
     (eS : PSimple 3 K ≃* ↥(alternatingGroup (Fin n))) : 8 ≤ n := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   obtain ⟨eL⟩ := hL
   have hL8 : IsAltPType 3 L 8 := isAltPType_of_mulEquiv_alt8 eL
   obtain ⟨e8⟩ := hL8

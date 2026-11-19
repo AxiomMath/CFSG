@@ -37,13 +37,13 @@ theorem levTwoS2b_coordQ_eq_zero (n : ℕ) (_hn : 1 ≤ n) {z : Fin n → ℚ}
         intro hm
         have hz := congrFun h ⟨0, hm⟩
         simp only [levTwoS2b_coordQ, LinearMap.coe_mk, AddHom.coe_mk, Pi.zero_apply] at hz
-        rw [dif_neg (show ¬ 0 < (0 : ℕ) by omega), sub_zero] at hz
+        rw [dite_eq_right (show ¬ 0 < (0 : ℕ) by omega), sub_zero] at hz
         exact hz
     | succ m ih =>
         intro hm
         have hz := congrFun h ⟨m + 1, hm⟩
         simp only [levTwoS2b_coordQ, LinearMap.coe_mk, AddHom.coe_mk, Pi.zero_apply] at hz
-        rw [dif_pos (show 0 < m + 1 by omega)] at hz
+        rw [dite_eq_left (show 0 < m + 1 by omega)] at hz
         have hprev : (⟨m + 1 - 1, by omega⟩ : Fin n) = ⟨m, by omega⟩ := by
           apply Fin.ext; simp
         rw [hprev, sub_eq_zero] at hz
@@ -104,8 +104,8 @@ theorem levTwoS2b_sigma_spec {p : ℕ} (n : ℕ) (c : Fin n → ZMod p) {c₀ : 
     ((levTwoS2b_sigma n c c₀ a : ℤ) : ZMod p) * c₀ = levTwoS2b_D c a := by
   unfold levTwoS2b_sigma
   by_cases h : levTwoS2b_D c a = c₀
-  · rw [if_pos h]; simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]; simp [h]
+  · rw [ite_eq_right h]
     rcases hda with h' | h'
     · exact absurd h' h
     · rw [h', Int.cast_neg, Int.cast_one, neg_one_mul]

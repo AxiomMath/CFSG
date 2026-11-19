@@ -36,7 +36,7 @@ theorem three_witness_transport {G H : Type} [Group G] [Group H] (e : G ≃* H) 
     exact h2
 
 theorem exists_three_witness_of_card_27 {C : Type} [Group C] [Finite C] {x y : C}
-    (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hz1 : ⁅x, y⁆ ≠ 1) (hzx : Commute ⁅x, y⁆ x)
+    (hx : x ^ 3 = 1) (_hy : y ^ 3 = 1) (hz1 : ⁅x, y⁆ ≠ 1) (hzx : Commute ⁅x, y⁆ x)
     (hzy : Commute ⁅x, y⁆ y) (hcard : Nat.card (Subgroup.closure ({x, y} : Set C)) = 3 ^ 3) :
     ∃ u v : C, u ^ 3 = 1 ∧ v ^ 3 = 1 ∧ v ≠ 1 ∧ u * v = v * u ∧ u ∉ Subgroup.zpowers v := by
   set G' : Subgroup C := Subgroup.closure ({x, y} : Set C) with hG'
@@ -88,11 +88,11 @@ theorem titsRankThreeFact_holds :
     TitsRankThreeFact := by
   intro Y _ hfin hY
   obtain ⟨e⟩ := titsModelEquiv Y 2 1 hY
-  haveI : Fact (Nat.card (ZMod 2) = 2) := ⟨Nat.card_zmod 2⟩
+  have : Fact (Nat.card (ZMod 2) = 2) := ⟨Nat.card_zmod 2⟩
   obtain ⟨x, y, -, hx3, hy3, hz1, hzx, hzy, hcard, -, -, -⟩ :=
     CFSG.SectionRank.Tits_sylow3_cubic_witness (K := ZMod 2) (Nat.card_zmod 2)
   have ι : commutator (reeFixed ReeTag.F4 (ZMod 2) 0) ≃* titsD := titsDerivedIso (K := ZMod 2)
-  haveI : Finite (commutator (reeFixed ReeTag.F4 (ZMod 2) 0)) :=
+  have : Finite (commutator (reeFixed ReeTag.F4 (ZMod 2) 0)) :=
     Finite.of_equiv titsD ι.symm.toEquiv
   obtain ⟨u, v, hu3, hv3, hv1, huv, hunot⟩ :=
     exists_three_witness_of_card_27 hx3 hy3 hz1 hzx hzy hcard

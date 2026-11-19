@@ -18,6 +18,7 @@ theorem actZ_smul (A : GL (Fin 2) F4) (s : F4) (c : Fin 2 → F4) :
   rw [actZ_apply, actZ_apply]
   exact map_smul (F4lin A) s c
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem psiOf_pow {X : Submodule (ZMod 2) V} {ρ : V ≃ₗ[ZMod 2] V} {w : V} (hw : w ∈ X)
     (hinv : ∀ x ∈ X, ρ x ∈ X) (hquad : ∀ x ∈ X, ρ (ρ x) + ρ x + x = 0) (n : ℕ) (a : F4) :
     (ρ ^ n) (psiOf w ρ a) = psiOf w ρ (Model.omega ^ n * a) := by
@@ -31,11 +32,13 @@ theorem psiOf_pow {X : Submodule (ZMod 2) V} {ρ : V ≃ₗ[ZMod 2] V} {w : V} (
           psiOf_compat hw hinv hquad (fun x _ => rfl) _
       _ = psiOf w ρ (Model.omega ^ (n + 1) * a) := by rw [pow_succ', mul_assoc]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem TA_phi {U : Submodule (ZMod 2) V} (φ : (Fin 2 → Model.F4) ≃ₗ[ZMod 2] U)
     (A : GL (Fin 2) Model.F4) (c : Fin 2 → Model.F4) :
     ((TA φ A (φ c) : U) : V) = ((φ (actZ A c) : U) : V) := by
   simp only [TA, LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem TA_comm_scalar {U : Submodule (ZMod 2) V} (φ : (Fin 2 → Model.F4) ≃ₗ[ZMod 2] U)
     (A : GL (Fin 2) Model.F4) (f : V ≃ₗ[ZMod 2] V) (s : Model.F4)
     (hf : ∀ c, f (φ c : V) = ((φ (s • c) : U) : V)) (u u' : U) (hu' : (u' : V) = f (u : V)) :
@@ -44,6 +47,7 @@ theorem TA_comm_scalar {U : Submodule (ZMod 2) V} (φ : (Fin 2 → Model.F4) ≃
   have hu'c : u' = φ (s • c) := Subtype.ext (by rw [hu', hf c])
   rw [hu'c, TA_phi, TA_phi, hf (actZ A c), actZ_smul]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem glueA_comm_f {U Uc : Submodule (ZMod 2) V} (hc : IsCompl U Uc)
     (φ : (Fin 2 → Model.F4) ≃ₗ[ZMod 2] U) (A : GL (Fin 2) Model.F4) (f : V ≃ₗ[ZMod 2] V)
     (s : Model.F4) (hf : ∀ c, f (φ c : V) = ((φ (s • c) : U) : V))
@@ -60,6 +64,7 @@ theorem glueA_comm_f {U Uc : Submodule (ZMod 2) V} (hc : IsCompl U Uc)
   rw [map_add, map_add, map_add, glueA_apply_left, glueA_apply_right, map_add, h1, h2,
     key]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem commutant_on_U {U : Submodule (ZMod 2) V} (φ : (Fin 2 → Model.F4) ≃ₗ[ZMod 2] U)
     {f₁ : V ≃ₗ[ZMod 2] V} (hf1 : ∀ c, f₁ (φ c : V) = ((φ (Model.omega • c) : U) : V))
     (g : V ≃ₗ[ZMod 2] V) (hgcomm : g * f₁ = f₁ * g)
@@ -93,6 +98,7 @@ theorem commutant_on_U {U : Submodule (ZMod 2) V} (φ : (Fin 2 → Model.F4) ≃
   obtain ⟨c, rfl⟩ := φ.surjective u
   rw [TA_phi, hB, hφhU, hgU_apply]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem glueA_conj {U Uc : Submodule (ZMod 2) V} (hc : IsCompl U Uc)
     (φ : (Fin 2 → Model.F4) ≃ₗ[ZMod 2] U) (g : V ≃ₗ[ZMod 2] V) (B A : GL (Fin 2) Model.F4)
     (hginvU : ∀ u ∈ U, g⁻¹ u ∈ U) (hginvUc : ∀ u ∈ Uc, g⁻¹ u ∈ Uc)

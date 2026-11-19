@@ -96,7 +96,7 @@ theorem formF_eq : formF = U D.F := by
     left
     have := Nat.mod_lt (D.F / 2 ^ (1332 * i + 12 * j)) (show 0 < 2 ^ 12 by norm_num)
     omega
-  rw [if_pos hv]
+  rw [ite_eq_left hv]
   simp
 
 theorem keyDigit_encode (Dg : Nat → Nat) {p : Nat} (hp : p < 828) :
@@ -125,7 +125,7 @@ theorem rootDigit_get {p : Nat} (hp : p < 826) : rootDigitArr[p]! % 5 = rdig p :
 
 theorem rootKey_digit {p : Nat} (hp : p < 826) : keyDigit rootKey p = rdig p := by
   unfold rootKey
-  rw [keyDigit_encode _ (by omega), if_pos hp, rootDigit_get hp]
+  rw [keyDigit_encode _ (by omega), ite_eq_left hp, rootDigit_get hp]
 
 theorem mulM_get (A B : Array (Array Nat)) {i k : Nat} (hi : i < 111) (hk : k < 111) :
     ((mulM 5 111 A B)[i]!)[k]! = (∑ j ∈ Finset.range 111, (A[i]!)[j]! * (B[j]!)[k]!) % 5 :=
@@ -141,11 +141,11 @@ theorem pl_get {j a : Nat} (hj : j < 111) (ha : a < 111) :
   rw [entK_spec pent hj ha]
   by_cases h : a < 7
   · have hb : Nat.blt a 7 = true := Nat.blt_eq.mpr h
-    rw [if_pos h, rootKey_digit (by omega)]
+    rw [ite_eq_left h, rootKey_digit (by omega)]
     simp only [hb]
     rfl
   · have hb : Nat.blt a 7 = false := Bool.eq_false_iff.mpr fun e => h (Nat.blt_eq.mp e)
-    rw [if_neg h]
+    rw [ite_eq_right h]
     simp only [hb]
 
 theorem cl_get {a b : Nat} (ha : a < 111) (hb : b < 111) :
@@ -154,10 +154,10 @@ theorem cl_get {a b : Nat} (ha : a < 111) (hb : b < 111) :
   by_cases h : a < 7 ∧ b < 7
   · have h1 : Nat.blt a 7 = true := Nat.blt_eq.mpr h.1
     have h2 : Nat.blt b 7 = true := Nat.blt_eq.mpr h.2
-    rw [if_pos h, rootKey_digit (by omega)]
+    rw [ite_eq_left h, rootKey_digit (by omega)]
     simp only [h1, h2]
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     by_cases h1 : a < 7
     · have g1 : Nat.blt a 7 = true := Nat.blt_eq.mpr h1
       have g2 : Nat.blt b 7 = false := Bool.eq_false_iff.mpr fun e => h ⟨h1, Nat.blt_eq.mp e⟩
@@ -211,18 +211,18 @@ theorem tensor_gen (K : ByteArray) {P C PT : Array (Array Nat)}
   apply U_ext (keyTensor_size K) (mulM_size _ _)
   intro i hi j hj
   rw [keyTensor_get K hi hj, mulM_get _ _ hi hj, sum_pad _ (fun b hb hb' => by
-    rw [hT b hb' j hj, hP j hj b hb', if_neg (by omega), Nat.mul_zero])]
+    rw [hT b hb' j hj, hP j hj b hb', ite_eq_right (by omega), Nat.mul_zero])]
   refine congrArg (· % 5) (Finset.sum_congr rfl fun b hb => ?_)
   have hb7 := Finset.mem_range.1 hb
-  rw [hT b (by omega) j hj, hP j hj b (by omega), if_pos hb7, mulM_get _ _ hi (by omega),
-    sum_pad _ (fun a ha ha' => by rw [hP i hi a ha', if_neg (by omega), Nat.zero_mul])]
+  rw [hT b (by omega) j hj, hP j hj b (by omega), ite_eq_left hb7, mulM_get _ _ hi (by omega),
+    sum_pad _ (fun a ha ha' => by rw [hP i hi a ha', ite_eq_right (by omega), Nat.zero_mul])]
   refine congrArg (fun x => x % 5 * keyDigit K (111 * b + j)) (Finset.sum_congr rfl fun a ha => ?_)
   have ha7 := Finset.mem_range.1 ha
-  rw [hP i hi a (by omega), hC a (by omega) b (by omega), if_pos ha7, if_pos ⟨ha7, hb7⟩]
+  rw [hP i hi a (by omega), hC a (by omega) b (by omega), ite_eq_left ha7, ite_eq_left ⟨ha7, hb7⟩]
 
 theorem tensor_eq : keyTensor rootKey = mulM 5 111 (mulM 5 111 (U D.PL) (U D.CL)) (U D.PLT) :=
-  tensor_gen rootKey (fun j hj a ha => pl_get hj ha) (fun a ha b hb => cl_get ha hb)
-    (fun a ha j hj => plt_get ha hj)
+  tensor_gen rootKey (fun _j hj _a ha => pl_get hj ha) (fun _a ha _b hb => cl_get ha hb)
+    (fun _a ha _j hj => plt_get ha hj)
 
 theorem lyZeroM_eq : lyZeroM = U 0 := by
   have hz : lyZeroM.size = 111 ∧ ∀ i < 111, lyZeroM[i]!.size = 111 := by
@@ -275,7 +275,7 @@ theorem rootKey_S : lyCheckS = true := by
   have key : ∀ x y, x < 7 → y < 7 → (keyS rootKey)[7 * x + y]! = laneE D.CL x y := by
     intro x y hx hy
     have h := cl_get (a := x) (b := y) (by omega) (by omega)
-    rw [if_pos ⟨hx, hy⟩, U_get (by omega) (by omega)] at h
+    rw [ite_eq_left ⟨hx, hy⟩, U_get (by omega) (by omega)] at h
     rw [CFSG.KS.SporSch.LyK.keyS_get _ (by omega), ← Nat.add_assoc, h]
   have hc : entK D.CL (fun i j => laneE D.CL j i) = true := csym
   have hs := entK_spec hc (i := a) (j := b) (by omega) (by omega)

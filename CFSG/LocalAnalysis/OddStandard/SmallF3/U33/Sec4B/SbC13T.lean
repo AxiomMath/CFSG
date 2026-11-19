@@ -14,6 +14,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -47,11 +48,12 @@ theorem comm_zpowers_inv {A : Subgroup G} (hA : ∀ a ∈ A, ∀ b ∈ A, a * b 
     exact ⟨fun hn => hsurjN n hn, fun ⟨a, ha, h⟩ => h ▸ hmemN a ha⟩
   · rw [hEq]; exact hcardN
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf {H K : Subgroup G} (hHK : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) :
     Nat.card ↥(H ⊔ K) * Nat.card ↥(H ⊓ K) = Nat.card H * Nat.card K := by
   let f : ↥H × ↥K →* ↥(H ⊔ K) :=
     { toFun := fun p => ⟨(p.1 : G) * (p.2 : G), Subgroup.mul_mem_sup p.1.2 p.2.2⟩
-      map_one' := by ext <;> simp
+      map_one' := by ext; simp
       map_mul' := by
         intro p q
         apply Subtype.ext
@@ -115,6 +117,7 @@ theorem card_sup_mul_card_inf {H K : Subgroup G} (hHK : ∀ h ∈ H, ∀ k ∈ K
   rw [mul_comm (Nat.card ↥(H ⊓ K)) (Nat.card ↥(H ⊔ K))] at hcard
   exact hcard
 
+omit [Finite G] in
 theorem exists_mul_of_sup {H K : Subgroup G} (hHK : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) {x : G}
     (hx : x ∈ H ⊔ K) : ∃ h ∈ H, ∃ k ∈ K, x = h * k := by
   have hK : ∀ k ∈ K, ∀ h ∈ H, k * h * k⁻¹ ∈ H := by
@@ -135,6 +138,7 @@ theorem two_mul_card_le_of_lt {A B : Subgroup G} (h : A < B) :
   rw [hk, mul_comm 2 (Nat.card A)]
   exact Nat.mul_le_mul_left _ hk2
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers {a : G} (ha : a * a = 1) :
     CFSG.Open.IsElemAbelian 2 (zpowers a) := by
   refine ⟨inferInstance, ?_⟩

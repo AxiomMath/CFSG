@@ -347,7 +347,7 @@ theorem exists_conj_of_intertwine {x z : Om8 K}
           group
       _ = _ := by group
 
-theorem exists_conj_of_omFixDim_two {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : Odd n)
+theorem exists_conj_of_omFixDim_two {n : ℕ} (_hK : Nat.card K = 2 ^ n) (_hn : Odd n)
     {x z : Om8 K} (hx3 : x ^ 3 = 1) (hz3 : z ^ 3 = 1) (hdx : D4Rank.omFixDim x = 2)
     (hdz : D4Rank.omFixDim z = 2) : ∃ h : Om8 K, x = h * z * h⁻¹ := by
   obtain ⟨vx, hvx, hvxP⟩ := exists_rangeFrame hx3 hdx 3 le_rfl

@@ -156,7 +156,7 @@ theorem harada_contradiction (hH : Harada75E8) {G : Type} [Group G] [Finite G] {
         _ = ((v : G) * z * (v : G)⁻¹) * ((v : G) * u * (v : G)⁻¹) := by group
         _ = σ := by rw [hvz, hvu, hzu]
     have hHv2 : IsPGroup 2 ((S : Subgroup (Vbar u)).comap (mkV u)) :=
-      isPGroup_comap_mkV hu2 hu1 S.isPGroup'
+      isPGroup_comap_mkV hu2 hu1 S.isPGroup
     let Pt : Subgroup ↥(centralizer ({u} : Set G)) :=
       (S : Subgroup (Vbar u)).comap (mkV u) ⊓
         (centralizer ({z} : Set G) ⊓ centralizer ({σ} : Set G)).subgroupOf (centralizer ({u} : Set G))
@@ -209,7 +209,7 @@ theorem harada_contradiction (hH : Harada75E8) {G : Type} [Group G] [Finite G] {
   have hcardA : Nat.card ↥(ψ.range.subgroupOf (S : Subgroup (Vbar u))) = 8 := by
     rw [← hcardbar]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hbarS).toEquiv
-  have hHS := hH ↥(S : Subgroup (Vbar u)) S.isPGroup' (ψ.range.subgroupOf (S : Subgroup (Vbar u)))
+  have hHS := hH ↥(S : Subgroup (Vbar u)) S.isPGroup (ψ.range.subgroupOf (S : Subgroup (Vbar u)))
     ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext (hcommR _ _ a.2 b.2))⟩⟩,
       fun x hx => Subtype.ext (hsqR _ hx)⟩ hcardA hcentS
   subst hg

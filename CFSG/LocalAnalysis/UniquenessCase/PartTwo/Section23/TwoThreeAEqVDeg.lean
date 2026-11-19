@@ -151,8 +151,8 @@ theorem dMinDeg_le_rk_of_nontrivial_mulAut {K B : Type} [Group K] [Finite K] [Co
     [Finite B] (hB : ∀ b : B, b ^ 2 = 1) (φ : K →* MulAut B) (hφ : φ ≠ 1) :
     dMinDeg K ≤ rk B := by
   classical
-  haveI : ExpTwo B := ⟨fun b => by simpa [pow_two] using hB b⟩
-  haveI : Module.Finite (ZMod 2) (Additive B) := Module.Finite.of_finite
+  have : ExpTwo B := ⟨fun b => by simpa [pow_two] using hB b⟩
+  have : Module.Finite (ZMod 2) (Additive B) := Module.Finite.of_finite
   have hfr : Module.finrank (ZMod 2) (Additive B) = rk B := by
     have hcard := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive B)
     rw [Nat.card_congr Additive.toMul, Nat.card_zmod] at hcard
@@ -194,7 +194,7 @@ variable {D : Data G} {Ch : Choice2011 G}
 
 private theorem n_lt_rkIdx_fixV_of_nontrivial_bar2 (c : Ctx23L D Ch) (hDeg : KMinDegLow)
     (h207 : S20_7 D) (h209 : S20_9 D) (hE : UC22P20gExcFacts) (h1930 : H1930 D)
-    {s : MulAut (Vtil ⊥ c.V (isElemAbelian_V_basic c))} (hs1 : s ≠ 1)
+    {s : MulAut (Vtil ⊥ c.V (isElemAbelian_V_basic c))} (_hs1 : s ≠ 1)
     (hs2 : orderOf s = 2)
     (hact : ∃ K ∈ calC c.L,
       ∃ f : Bar2 K →* MulAut ↥(commV (Subgroup.zpowers s)), f ≠ 1) :

@@ -222,7 +222,7 @@ theorem exists_sylow_map_subtype_eq_inf {N : Subgroup X} (hN : N.Normal) (S : Sy
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : ABGLocalTools.IsSylowOf 2 (S : Subgroup X) ⊤ := by
     rw [ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   exact ABGLocalTools.IsSylowOf.inf_of_le_normalizer hS le_top
@@ -424,7 +424,7 @@ theorem isConj_of_involutions_of_twoRank_le_one {G : Type*} [Group G] [Finite G]
       have h2 : g₀⁻¹ * x * g₀ = 1 := congrArg Subtype.val h1
       rw [h2, orderOf_one] at hx₀
       exact absurd hx₀ (by norm_num)⟩⟩
-  have hPp : IsPGroup 2 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup G) := P.isPGroup
   have : Nontrivial (center ↥(P : Subgroup G)) := hPp.center_nontrivial
   have hdiv : 2 ∣ Nat.card (center ↥(P : Subgroup G)) := by
     rcases (hPp.to_subgroup (center ↥(P : Subgroup G))).card_eq_or_dvd with hone | hd

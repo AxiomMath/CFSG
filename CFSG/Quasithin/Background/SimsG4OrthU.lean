@@ -37,7 +37,7 @@ theorem false_of_abelian_odd_normal_of_isometry (Q : QuadraticForm K W)
     (hdt : IsTransv d) {C : Subgroup (W ≃ₗ[K] W)} (hC : C ≠ ⊥)
     (hCcomm : ∀ a ∈ C, ∀ b ∈ C, a * b = b * a) (hCodd : ∀ c ∈ C, Odd (orderOf c))
     (hCG : ∀ g ∈ G, ∀ c ∈ C, g * c * g⁻¹ ∈ C) (hCQ : ∀ c ∈ C, ∀ x, Q (c x) = Q x) : False := by
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   obtain ⟨x₀, hx₀⟩ := exists_ne_zero_of_polar_nondeg Q hnd
   refine false_of_abelian_odd_normal hdim hprim hd hdt hC hCcomm hCodd hCG fun c hc a hca => ?_
   have ha : a = 1 := scalar_eq_one_of_isometry Q hx₀ (by rw [← hca]; exact hCQ c hc x₀)

@@ -59,7 +59,7 @@ theorem coverP_at_of_tableBRk {p : ℕ} {B Bs : Subgroup G} {x : G}
   have : h = (ℓ : G) * g := by rw [hg]; group
   rw [this]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (Subgroup.mem_sup_right ℓ.2))
-    (SetLike.le_def.mp (sup_le (le_sup_left.trans le_sup_left) le_sup_right) hgFY)
+    (_root_.IsConcreteLE.le_iff.mp (sup_le (le_sup_left.trans le_sup_left) le_sup_right) hgFY)
 
 theorem torusWeylCent_at_of_tableBRk (hF : GGL48NbrFieldInput) {p : ℕ} {B Bs : Subgroup G}
     {x : G} {L D J X B₂ : Subgroup G} {d y : G} {K U U₁ : Subgroup G}
@@ -78,7 +78,7 @@ theorem torusWeylCent_at_of_tableBRk (hF : GGL48NbrFieldInput) {p : ℕ} {B Bs :
         W ⊆ Subgroup.normalizer ((Bs ⊓ Subgroup.centralizer (X : Set G) : Subgroup G) : Set G) ∧
         c ∈ Subgroup.closure (⋃ n ∈ W, (fun s => n * s * n⁻¹) '' (S : Set G)) := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1
@@ -145,7 +145,7 @@ theorem homocyclic_of_irredModTableBRk (hF : GGL48NbrFieldInput) {p : ℕ} {B Bs
     {r : ℕ} (hKG : GGIrredModTableBRk p R I r) (hr : p ^ r ≤ Nat.card Bs) :
     GGL48Homocyclic p U₁ := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1
@@ -186,7 +186,7 @@ theorem homocyclic_of_irredModTableBRk (hF : GGL48NbrFieldInput) {p : ℕ} {B Bs
           obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
           have hxa : Commute x a := by
             have := mem_centralizer_singleton_iff.mp ha.1
-            first | exact this | exact this.symm
+            exact this.symm
           exact (Commute.zpow_left hxa k).eq)⟩
     · intro c hc
       apply GGL48TW.Cent.mem_normalizer_of_conj_mem
@@ -350,12 +350,12 @@ theorem ggL48F4TwoThree_pow_five_le_card (hb : GGL48F4TwoThreeConfigInput) {B Bs
     (h4 : 3 ^ 4 ≤ Nat.card Bs)
     (hmark : LargeEvenMarking L fun lab _ _ _ _ _ => lab.tag = .F4 ∧ lab.n = 1) :
     3 ^ 5 ≤ Nat.card Bs := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBsp : ∀ b ∈ Bs, b ^ 3 = 1 := hBst.2.1.2
   have hp3 : IsPGroup 3 Bs := fun b => ⟨1, Subtype.ext (by simpa using hBsp _ b.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hp3
   by_contra h5
-  push_neg at h5
+  push Not at h5
   have h1 : 3 ^ 4 ≤ 3 ^ n := hn ▸ h4
   have h2 : 3 ^ n < 3 ^ 5 := hn ▸ h5
   have hn4 : n = 4 := by

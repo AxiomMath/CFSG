@@ -65,7 +65,7 @@ theorem congr_eq_conj_imp {K C : Type} [Group K] [Group C] (e : K ≃* C) (α : 
   refine MulEquiv.ext fun k => ?_
   apply e.injective
   have hk := congrArg (fun φ : MulAut C => φ (e k)) h
-  simp only [MulAut.congr_apply, MulAut.conj_apply, MulEquiv.symm_apply_apply] at hk
+  simp only [MulAut.congr_apply, MulAut.conj_apply] at hk
   rw [MulAut.conj_apply, map_mul, map_mul]
   simp only [MulEquiv.apply_symm_apply, map_inv]
   rw [← hk]
@@ -120,7 +120,7 @@ theorem exists_fixed_equiv {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 
     ∃ T : K ≃+* K, Nat.card (fixSubfield T) = 2 ∧
       Nonempty (↥(fixedSubgroup β) ≃* ↥(adjointGroup Tag.E6 (fixSubfield T))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d, T, r, j, ψ, hd, -, hTcard, -, -, hβr, hψ⟩ :=
     CFSG.HardMathSupport.Lang.E6Descent.exists_conj_entrywise_of_not_innerDiag Tag.E6
       (Or.inl rfl) (ℓ := 2) (f := 3) (p := 3) (by norm_num) K hK Nat.prime_three (by norm_num) β hβ3

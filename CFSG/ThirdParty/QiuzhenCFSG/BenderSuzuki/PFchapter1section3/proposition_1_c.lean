@@ -26,7 +26,7 @@ open CFSG
 namespace CFSG.BenderSuzuki
 namespace PFchapter1section3
 
-open PFchapter1section1 PFAppendixIII MatrixGroups
+open PFchapter1section1 PFAppendixIII _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization
 open scoped Pointwise
 
@@ -62,7 +62,7 @@ private theorem suzuki_exists_simultaneous_standardizer
       GaloisField.card 2 (2 * k + 1) (by omega)
   have hpi_sq : ∀ x : K, pi (pi x) = x ^ 2 := by
     intro x
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     calc
       pi (pi x) = (pi x) ^ (2 ^ (k + 1)) := hpi (pi x)
       _ = (x ^ (2 ^ (k + 1))) ^ (2 ^ (k + 1)) := by rw [hpi]
@@ -552,7 +552,7 @@ private theorem psu_exists_simultaneous_standardizer
   have hE_even : Even (Nat.card E) := by
     rw [hEcard]
     exact hq_even.pow_of_ne_zero (by norm_num)
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   have hcharE : ringChar E = 2 :=
     FiniteField.even_card_iff_char_two.mpr (by
       simpa [← Nat.card_eq_fintype_card] using Nat.even_iff.mp hE_even)
@@ -567,7 +567,7 @@ private theorem psu_exists_simultaneous_standardizer
     ⟨_hOmega_card, rho, pinf, _hrho_injective, hnatural,
       _hU_card, hroot_exists, _htwo_transitive, hG_card,
       _hthree_fixed⟩
-  letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+  let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
     Finite.of_injective rho _hrho_injective
   have hrho_mul_apply
       (g h : ProjectiveSpecialUnitaryMatrixGroup J) (x : Omega) :
@@ -631,7 +631,6 @@ private theorem psu_exists_simultaneous_standardizer
         External.hermitianWeylMatrix, Matrix.mul_apply,
         Fin.sum_univ_three]
     all_goals first
-      | exact hone_add_one
       | exact hone_add_one.symm
       | exact hone_eq_neg_one
   have hbraid : T * j * T = j * T * j := by
@@ -714,7 +713,7 @@ private theorem psu_exists_simultaneous_standardizer
   have hpinf_eq : pinf = pinf0 := by
     by_contra hne
     have hne' : pinf0 ≠ pinf := Ne.symm hne
-    letI : Nontrivial R := Finite.one_lt_card_iff_nontrivial.mp (by
+    let : Nontrivial R := Finite.one_lt_card_iff_nontrivial.mp (by
       rw [hR_card]
       nlinarith [hq_gt])
     obtain ⟨r, hr⟩ := exists_ne (1 : R)
@@ -822,7 +821,7 @@ private theorem psu_exists_simultaneous_standardizer
         (q ^ 3 + 1) * q ^ 3 * (q ^ 2 - 1) := by
     rw [hG_card]
     exact Nat.div_dvd_of_dvd hden_dvd_numerator
-  obtain ⟨mP, hPstd_power⟩ := IsPGroup.iff_card.mp Pstd.isPGroup'
+  obtain ⟨mP, hPstd_power⟩ := IsPGroup.iff_card.mp Pstd.isPGroup
   have hPstd_dvd_group : Nat.card Pstd ∣
       Nat.card (ProjectiveSpecialUnitaryMatrixGroup J) :=
     (Pstd : Subgroup (ProjectiveSpecialUnitaryMatrixGroup J)).card_subgroup_dvd_card
@@ -1114,8 +1113,8 @@ private theorem hermitianTorusPSU_mem_normalizer_of_root_iff
   let psuGroup : Group (ProjectiveSpecialUnitaryMatrixGroup J) :=
     Subgroup.toGroup
       (J.specialSubgroup.map Matrix.ProjGenLinGroup.mk)
-  letI : Group (ProjectiveSpecialUnitaryMatrixGroup J) := psuGroup
-  letI : DivisionMonoid (ProjectiveSpecialUnitaryMatrixGroup J) :=
+  let : Group (ProjectiveSpecialUnitaryMatrixGroup J) := psuGroup
+  let : DivisionMonoid (ProjectiveSpecialUnitaryMatrixGroup J) :=
     psuGroup.toDivisionMonoid
   let torus := External.hermitianTorusPSU J hJstandard
   let root := External.hermitianUnipotentPSU J hJstandard
@@ -1396,7 +1395,7 @@ public theorem proposition_1_c
   classical
   let L : Subgroup G := Subgroup.centralizer (X : Set G)
   let ΩX : Type v := {ω : Ω // ω ∈ fixedPointsOfSubgroup G Ω X}
-  letI : MulAction L ΩX := fixedPointCentralizerAction G Ω X
+  let : MulAction L ΩX := fixedPointCentralizerAction G Ω X
   let HX : Subgroup L := H.comap L.subtype
   let DX : Subgroup L := D.comap L.subtype
   let QX : Subgroup L := Q.comap L.subtype
@@ -1432,12 +1431,12 @@ public theorem proposition_1_c
   have hsX_involution : IsInvolution sX := hpX.2.1
   have hrX_mem : rX ∈ QX := hpX.2.2.1
   have hstructureX : tX * sX * tX = rX⁻¹ * tX * rX := hpX.2.2.2
-  letI : N.Normal := proposition_4_c_pointStabilizerCore_normal
+  let : N.Normal := proposition_4_c_pointStabilizerCore_normal
   have h4c :=
     proposition_4_c HX DX QX tX sX hA1X hsX_mem hsX_involution
       ⟨rX, hrX_mem, hstructureX⟩
   let quotientAction : MulAction (L ⧸ N) ΩX := h4c.2.2.1.choose
-  letI : MulAction (L ⧸ N) ΩX := quotientAction
+  let : MulAction (L ⧸ N) ΩX := quotientAction
   have hquotient_data := h4c.2.2.1.choose_spec
   have hquotient_smul := hquotient_data.1
   have hA1bar := hquotient_data.2
@@ -1537,7 +1536,7 @@ public theorem proposition_1_c
       apply le_antisymm
       · intro x hx
         rw [Subgroup.mem_bot]
-        letI : FaithfulSMul G Ω := hsec.section2.hA.A2
+        let : FaithfulSMul G Ω := hsec.section2.hA.A2
         apply (FaithfulSMul.eq_of_smul_eq_smul (α := Ω))
         intro ω
         rcases hsec.section2.hA.A1.point_stabilizer with ⟨α, hH⟩
@@ -1549,7 +1548,7 @@ public theorem proposition_1_c
         have hxfix : x • α = α := by
           rw [← MulAction.mem_stabilizer_iff, ← hH]
           exact hxH
-        letI : MulAction.IsMultiplyPretransitive G Ω 2 :=
+        let : MulAction.IsMultiplyPretransitive G Ω 2 :=
           hsec.section2.hA.A1.two_transitive
         have htrans : MulAction.IsPretransitive G Ω :=
           MulAction.isPretransitive_of_is_two_pretransitive
@@ -1576,7 +1575,7 @@ public theorem proposition_1_c
     exact hquot_le.trans_lt hcardL
   rcases hind (L ⧸ N) ΩX Hbar Dbar Qbar tbar hlt hAbar with
     ⟨M, hM_normal, q, hodd, hq_power, hq_gt, hmodel⟩
-  letI : M.Normal := hM_normal
+  let : M.Normal := hM_normal
   have hQbar_two : ∃ n : ℕ, Nat.card Qbar = 2 ^ n := by
     have hQbar_card : Nat.card Qbar = Nat.card ΩX - 1 := by
       rcases hA1bar.point_stabilizer with ⟨α, hHbar⟩
@@ -1654,8 +1653,8 @@ public theorem proposition_1_c
         refine ⟨(2 * k + 1) * 2, ?_⟩
         rw [Nat.card_congr eΩ, hpoints']
         simp [pow_mul]
-      · letI : Field E := hEfield
-        letI : Finite E := hEfinite
+      · let : Field E := hEfield
+        let : Finite E := hEfinite
         have hpoints :=
           (External.huppert_II_10_12 J q hEcard hfixedCard hJstandard).1
         rcases hq_power with ⟨n, hn⟩
@@ -1666,7 +1665,7 @@ public theorem proposition_1_c
     exact ⟨n, by rw [hQbar_card, hn]⟩
   have hQbar_sylow :
       ∃ P : Sylow 2 (L ⧸ N), Qbar = (P : Subgroup (L ⧸ N)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases PFchapter1section1.proposition_1_c Hbar Dbar Qbar tbar hA1bar with
       ⟨P, hP_le_Qbar⟩
     rcases hQbar_two with ⟨n, hQbar_card⟩
@@ -1678,10 +1677,10 @@ public theorem proposition_1_c
     refine iSup_le ?_
     intro P
     let πM : (L ⧸ N) →* (L ⧸ N) ⧸ M := QuotientGroup.mk' M
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmapP :
         IsPGroup 2 ((P : Subgroup (L ⧸ N)).map πM) :=
-      P.isPGroup'.map πM
+      P.isPGroup.map πM
     rcases IsPGroup.iff_card.mp hmapP with ⟨n, hn⟩
     have hcard_dvd :
         Nat.card ((P : Subgroup (L ⧸ N)).map πM) ∣
@@ -1731,8 +1730,8 @@ public theorem proposition_1_c
       exact eM.isSimpleGroup_congr.mpr hsimple_model
     · exact eM.isSimpleGroup_congr.mpr
         (External.huppert_blackburn_XI_3_6 k (Nat.pos_of_ne_zero hk)).1
-    · letI : Field E := hEfield
-      letI : Finite E := hEfinite
+    · let : Field E := hEfield
+      let : Finite E := hEfinite
       exact eM.isSimpleGroup_congr.mpr
         (External.huppert_II_10_13 J q hq_gt hEcard hfixedCard)
   have hM_le_residual : M ≤ twoPrimeResidual (L ⧸ N) := by
@@ -1748,7 +1747,7 @@ public theorem proposition_1_c
       rw [hcard_one] at hQbar_even
       exact (by decide : ¬ Even 1) hQbar_even
     let QM : Subgroup M := Qbar.subgroupOf M
-    letI : IsSimpleGroup M := hM_simple
+    let : IsSimpleGroup M := hM_simple
     have hQM_ne : QM ≠ ⊥ := by
       intro hbot
       apply hQbar_ne
@@ -1815,7 +1814,7 @@ public theorem proposition_1_c
     exact hQbar_pgroup.of_equiv eQ.symm
   have hQX_sylow :
       ∃ P : Sylow 2 L, QX = (P : Subgroup L) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases PFchapter1section1.proposition_1_c HX DX QX tX hA1X with
       ⟨P, hP_le_QX⟩
     exact ⟨P, P.maximal_isPGroup.eq_of_ge hQX_pgroup hP_le_QX⟩
@@ -1836,7 +1835,7 @@ public theorem proposition_1_c
     exact hsec.section2.Q1_odd_order.of_dvd_nat
       (Subgroup.card_dvd_of_le inf_le_right)
   have hCQ1 : L ⊓ Q1 = ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases IsPGroup.iff_card.mp hCQ1_pgroup with ⟨n, hn⟩
     cases n with
     | zero =>
@@ -1862,7 +1861,7 @@ public theorem proposition_1_c
       let C : Subgroup L := Subgroup.centralizer (N : Set L)
       have hQX_le_C : QX ≤ C :=
         Subgroup.le_centralizer_iff.mp hN_le_centralizer_QX
-      letI : C.Normal := by
+      let : C.Normal := by
         dsimp [C]
         infer_instance
       rw [twoPrimeResidual]
@@ -1907,7 +1906,7 @@ public theorem proposition_1_c
       have hQX_even : Even (Nat.card QX) := hA1X.Q_even
       rw [hQX_bot] at hQX_even
       norm_num at hQX_even
-    letI : FR.Normal := by
+    let : FR.Normal := by
       constructor
       intro x hx g
       have hmap_le :
@@ -1923,7 +1922,7 @@ public theorem proposition_1_c
           ⨆ S : Sylow 2 L, (S : Subgroup L)
         exact le_iSup (fun S : Sylow 2 L => (S : Subgroup L)) Pg
       exact hmap_le ⟨x, hx, rfl⟩
-    letI : ZR.Normal := by
+    let : ZR.Normal := by
       dsimp [ZR]
       infer_instance
     have hZR_le_centralizer :
@@ -2030,7 +2029,7 @@ public theorem proposition_1_c
       exact le_iSup
         (fun S : Sylow 2 L => (S : Subgroup L).map π) P
   have hFquotM : Nonempty ((F ⧸ Subgroup.center F) ≃* M) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let FR : Subgroup L := twoPrimeResidual L
     let eF : FR ≃* F :=
       Subgroup.equivMapOfInjective FR L.subtype L.subtype_injective
@@ -2140,7 +2139,7 @@ public theorem proposition_1_c
           GaloisField.card 2 (2 * k + 1) (by omega)
       have hpi_sq : ∀ x : K, pi (pi x) = x ^ 2 := by
         intro x
-        letI : Fintype K := Fintype.ofFinite K
+        let : Fintype K := Fintype.ofFinite K
         calc
           pi (pi x) = (pi x) ^ (2 ^ (k + 1)) := hpi (pi x)
           _ = (x ^ (2 ^ (k + 1))) ^ (2 ^ (k + 1)) := by rw [hpi]
@@ -2255,7 +2254,7 @@ public theorem proposition_1_c
       have houter_odd : Odd ((q ^ 2 + 1) * (q - 1)) :=
         hq_sq_even.add_one.mul hq_sub_one_odd
       obtain ⟨m, hPstd_power⟩ :=
-        IsPGroup.iff_card.mp Pstd.isPGroup'
+        IsPGroup.iff_card.mp Pstd.isPGroup
       have hPstd_dvd_group :
           Nat.card Pstd ∣ Nat.card (SuzukiMatrixGroup k) :=
         (Pstd : Subgroup (SuzukiMatrixGroup k)).card_subgroup_dvd_card
@@ -2367,7 +2366,7 @@ public theorem proposition_1_c
         refine ⟨y, ?_, eQ.apply_symm_apply x⟩
         exact hyQ0
     have hIQ_card : Nat.card IQ = q := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rcases hQbar_sylow with ⟨Pbar, hPbar⟩
       have hPbar_le_M : (Pbar : Subgroup (L ⧸ N)) ≤ M := by
         rw [← hPbar]
@@ -2562,8 +2561,8 @@ public theorem proposition_1_c
             _ = q := htypeA_twoTorsion_count
               (A := SuzukiMatrixGroup k) Pstd hPstd_typeA hPstd_card
         exact hSuzuki_count
-      · letI : Field E := hEfield
-        letI : Finite E := hEfinite
+      · let : Field E := hEfield
+        let : Finite E := hEfinite
         let Pmodel : Sylow 2 (ProjectiveSpecialUnitaryMatrixGroup J) :=
           PM.mapSurjective (f := eM.toMonoidHom) eM.surjective
         let eQbarModel : Qbar ≃* Pmodel :=
@@ -2585,10 +2584,10 @@ public theorem proposition_1_c
               _hcommutator_center, _hcommutator_card, _hHR_card,
               _hR_regular, hcoord_exists, _hHR_coord, _hHR_coord_surjective⟩
           rcases hcoord_exists with ⟨coordR, hcoord_matrix⟩
-          letI : Fintype E := Fintype.ofFinite E
-          letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+          let : Fintype E := Fintype.ofFinite E
+          let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
             Finite.of_surjective eM eM.surjective
-          letI : Fintype (ProjectiveSpecialUnitaryMatrixGroup J) :=
+          let : Fintype (ProjectiveSpecialUnitaryMatrixGroup J) :=
             Fintype.ofFinite (ProjectiveSpecialUnitaryMatrixGroup J)
           have hq_even : Even q := by
             rcases hq_power with ⟨n, hn⟩
@@ -2797,7 +2796,7 @@ public theorem proposition_1_c
               rw [hG_card]
               exact Nat.div_dvd_of_dvd hden_dvd_numerator
             obtain ⟨m, hPstd_power⟩ :=
-              IsPGroup.iff_card.mp Pstd.isPGroup'
+              IsPGroup.iff_card.mp Pstd.isPGroup
             have hPstd_dvd_group :
                 Nat.card Pstd ∣
                   Nat.card (ProjectiveSpecialUnitaryMatrixGroup J) :=
@@ -3202,7 +3201,7 @@ public theorem proposition_1_c
               a ∈ (Pmodel : Subgroup (PSL2BinaryMatrixGroup k)) ⊓
                 Subgroup.normalizer (Tmodel : Subgroup (PSL2BinaryMatrixGroup k)) :=
             ⟨ha_mem_P, ha_normalizer⟩
-          have hinf := Pmodel.isPGroup'.inf_normalizer_sylow Tmodel
+          have hinf := Pmodel.isPGroup.inf_normalizer_sylow Tmodel
           have ha_inf_T :
               a ∈ (Pmodel : Subgroup (PSL2BinaryMatrixGroup k)) ⊓
                 (Tmodel : Subgroup (PSL2BinaryMatrixGroup k)) :=
@@ -3455,7 +3454,7 @@ public theorem proposition_1_c
       have hmodel_order : orderOf (sm * tm) = 5 := by
         have hstandard_suzuki_pair_order_source :
             orderOf (j * T) = 5 := by
-          haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+          have : Fact (Nat.Prime 5) := ⟨by decide⟩
           have hchar : (1 + 1 : BinaryGaloisField (2 * k + 1)) = 0 :=
             CharTwo.add_self_eq_zero 1
           apply orderOf_eq_prime_iff.mpr
@@ -3786,7 +3785,7 @@ public theorem proposition_1_c
             simpa [htm_eq_sm_inv] using
               (Pmodel : Subgroup (SuzukiMatrixGroup k)).inv_mem hsm_mem_P
           exact htm_not_mem_P htm_mem_P
-        haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+        have : Fact (Nat.Prime 5) := ⟨by decide⟩
         exact orderOf_eq_prime_iff.mpr
           ⟨hdistinguished_suzuki_pow_source, hdistinguished_suzuki_ne_one⟩
       have hbar_order : orderOf (sbar * tbar) = 5 := by
@@ -3894,13 +3893,13 @@ public theorem proposition_1_c
     exact ⟨k, hk, hqk, hFmodel, hst, hCX_typeA, hCX_card⟩
   · right
     right
-    letI : Field E := hEfield
-    letI : Finite E := hEfinite
+    let : Field E := hEfield
+    let : Finite E := hEfinite
     let psuGroup : Group (ProjectiveSpecialUnitaryMatrixGroup J) :=
       Subgroup.toGroup
         (J.specialSubgroup.map Matrix.ProjGenLinGroup.mk)
-    letI : Group (ProjectiveSpecialUnitaryMatrixGroup J) := psuGroup
-    letI : DivisionMonoid (ProjectiveSpecialUnitaryMatrixGroup J) :=
+    let : Group (ProjectiveSpecialUnitaryMatrixGroup J) := psuGroup
+    let : DivisionMonoid (ProjectiveSpecialUnitaryMatrixGroup J) :=
       psuGroup.toDivisionMonoid
     have hFmodel : Nonempty ((F ⧸ Subgroup.center F) ≃*
         ProjectiveSpecialUnitaryMatrixGroup J) := by
@@ -4218,7 +4217,7 @@ public theorem proposition_1_c
         have htbar_mem_Hbar : tbar ∈ Hbar := hst_eq ▸
           hA1bar.Q_le_H hsbar_mem_Qbar
         exact hA1bar.t_not_mem_H htbar_mem_Hbar
-      haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+      have : Fact (Nat.Prime 3) := ⟨by decide⟩
       have hbar_order : orderOf (sbar * tbar) = 3 :=
         orderOf_eq_prime_iff.mpr ⟨hbar_pow, hbar_ne⟩
       have hquotient_order :
@@ -4234,7 +4233,7 @@ public theorem proposition_1_c
           horder_quotient.symm
         _ = 3 := hquotient_order
     have hseed : psuCorollaryTwoLiftedSeed F CX (L ⊓ Q0) V t := by
-      letI : Fintype E := Fintype.ofFinite E
+      let : Fintype E := Fintype.ofFinite E
       have hq_even : Even q := by
         rcases hq_power with ⟨n, hn⟩
         have hnpos : 0 < n := by
@@ -4251,10 +4250,10 @@ public theorem proposition_1_c
       have hcharE : ringChar E = 2 :=
         FiniteField.even_card_iff_char_two.mpr
           (Nat.even_iff.mp hE_even)
-      letI : CharP E 2 := by
+      let : CharP E 2 := by
         rw [← hcharE]
         infer_instance
-      letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+      let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
         Finite.of_surjective eM eM.surjective
       let FR : Subgroup L := twoPrimeResidual L
       have hQX_le_FR : QX ≤ FR := by
@@ -4788,7 +4787,7 @@ public theorem proposition_1_c
             eM.toMonoidHom eM.injective)
       have hCX_power : ∃ n : ℕ, Nat.card (⊤ : Subgroup CX) = 2 ^ n := by
         have hCX_pgroup : IsPGroup 2 CX :=
-          Pmodel.isPGroup'.of_equiv eCXModel.symm
+          Pmodel.isPGroup.of_equiv eCXModel.symm
         rcases hCX_pgroup.exists_card_eq with ⟨n, hn⟩
         exact ⟨n, by simpa using hn⟩
       have hCX_noncomm_source : ¬ IsMulCommutative CX := by
@@ -4808,7 +4807,7 @@ public theorem proposition_1_c
           rw [hR_card, hn, pow_mul]
         have hR_noncomm : ¬ IsMulCommutative R := by
           intro hR_comm
-          letI : IsMulCommutative R := hR_comm
+          let : IsMulCommutative R := hR_comm
           have hcommutator_bot : commutator R = ⊥ := by
             exact (commutator_eq_bot_iff_center_eq_top (G := R)).2
               Subgroup.center_eq_top
@@ -4818,7 +4817,7 @@ public theorem proposition_1_c
           have hq_one : q = 1 :=
             hcommutator_card.symm.trans hcommutator_card_one
           omega
-        letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+        let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
           Finite.of_surjective eM eM.surjective
         obtain ⟨Pstd, hR_le_Pstd⟩ := hR_pgroup.exists_le_sylow
         have hPmodel_card : Nat.card Pmodel = q ^ 3 := by
@@ -4850,7 +4849,7 @@ public theorem proposition_1_c
         have hcard_LQ0 : 2 < Nat.card ↥(L ⊓ Q0) := by
           rw [← hq_eq_Q0]
           exact hq_gt
-        letI : Fintype ↥(L ⊓ Q0) := Fintype.ofFinite ↥(L ⊓ Q0)
+        let : Fintype ↥(L ⊓ Q0) := Fintype.ofFinite ↥(L ⊓ Q0)
         have hcardF : 2 < Fintype.card ↥(L ⊓ Q0) := by
           simpa [Fintype.card_eq_nat_card] using hcard_LQ0
         rcases Fintype.two_lt_card_iff.mp hcardF with
@@ -4904,16 +4903,16 @@ public theorem proposition_1_c
             _hR_regular, hcoord_exists, _hHR_coord,
             _hHR_coord_surjective⟩
         let rGroup : Group R := Subgroup.toGroup R
-        letI : Group R := rGroup
-        letI : DivisionMonoid R := rGroup.toDivisionMonoid
-        letI : LeftCancelMonoid R :=
+        let : Group R := rGroup
+        let : DivisionMonoid R := rGroup.toDivisionMonoid
+        let : LeftCancelMonoid R :=
           rGroup.toCancelMonoid.toLeftCancelMonoid
         rcases hcoord_exists with ⟨coordR, hcoord_matrix⟩
         have hR_pgroup : IsPGroup 2 R := by
           rcases hq_power with ⟨n, hn⟩
           apply IsPGroup.of_card (n := n * 3)
           rw [hR_card, hn, pow_mul]
-        letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+        let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
           Finite.of_surjective eM eM.surjective
         obtain ⟨Pstd, hR_le_Pstd⟩ := hR_pgroup.exists_le_sylow
         have hPmodel_card : Nat.card Pmodel = q ^ 3 := by
@@ -4934,7 +4933,7 @@ public theorem proposition_1_c
           (MulEquiv.subgroupCongr hR_eq_Pstd).trans
             ((Sylow.equiv Pstd Pmodel).trans eCXModel.symm)
 
-        letI : Fintype E := Fintype.ofFinite E
+        let : Fintype E := Fintype.ofFinite E
         have hq_even : Even q := by
           rcases hq_power with ⟨n, hn⟩
           have hnpos : 0 < n := by
@@ -4951,7 +4950,7 @@ public theorem proposition_1_c
         have hcharE : ringChar E = 2 :=
           FiniteField.even_card_iff_char_two.mpr
             (Nat.even_iff.mp hE_even)
-        letI : CharP E 2 := by
+        let : CharP E 2 := by
           rw [← hcharE]
           infer_instance
 
@@ -5111,7 +5110,7 @@ public theorem proposition_1_c
             mul_smul := hscaleR_mul_smul
             smul_mul := hscaleR_mul
             smul_one := hscaleR_one }
-        letI : MulDistribMulAction K0 R := actionR
+        let : MulDistribMulAction K0 R := actionR
         have hsmul_def (c : K0) (x : R) : c • x = scaleR c x := rfl
         have hR_action_preserves :
             ∀ x : R, x ∈ involutions R →
@@ -5254,7 +5253,7 @@ public theorem proposition_1_c
             mul_smul := hscaleCX_mul_smul
             smul_mul := hscaleCX_mul
             smul_one := hscaleCX_one }
-        letI : MulDistribMulAction K0 CX := actionCX
+        let : MulDistribMulAction K0 CX := actionCX
         have hCX_action_regular :
             ActionRegularOn K0 CX (involutions CX) := by
           have hinvolution_symm :

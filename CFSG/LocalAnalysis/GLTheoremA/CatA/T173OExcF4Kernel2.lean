@@ -16,11 +16,11 @@ theorem mem_span_of_det_eq_zero {K : Type} [Field K] {x a b c : Fin 4 → K}
     x ∈ Submodule.span K (Set.range ![a, b, c]) := by
   by_contra hx
   have hli : LinearIndependent K (Fin.cons x ![a, b, c]) :=
-    linearIndependent_fin_cons.2 ⟨hind, by simpa using hx⟩
+    linearIndependent_finCons.2 ⟨hind, by simpa using hx⟩
   have hrow : LinearIndependent K (Matrix.of ![x, a, b, c] : Matrix (Fin 4) (Fin 4) K).row := by
     simpa using hli
   have hunit : IsUnit (Matrix.of ![x, a, b, c] : Matrix (Fin 4) (Fin 4) K) :=
-    (Matrix.linearIndependent_rows_iff_isUnit).1 hrow
+    (Matrix.linearIndependent_row_iff_isUnit).1 hrow
   have hdetunit : IsUnit (Matrix.of ![x, a, b, c] : Matrix (Fin 4) (Fin 4) K).det :=
     (Matrix.isUnit_iff_isUnit_det _).1 hunit
   exact hdetunit.ne_zero h
@@ -30,7 +30,7 @@ theorem exists_linearIndependent_triple {K : Type} [Field K] {ι : Type} [Finite
     (hann : ∀ v : Fin 4 → K, (∀ i, r i ⬝ᵥ v = 0) → ∃ t : K, v = t • c) :
     ∃ i j k : ι, LinearIndependent K ![r i, r j, r k] := by
   classical
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := Fintype.ofFinite ι
   let M : Matrix ι (Fin 4) K := Matrix.of r
   let L : (Fin 4 → K) →ₗ[K] (ι → K) := M.mulVecLin
   have hkerle : L.ker ≤ Submodule.span K ({c} : Set (Fin 4 → K)) := by
@@ -63,7 +63,7 @@ theorem exists_linearIndependent_triple {K : Type} [Field K] {ι : Type} [Finite
     have hdef : M.rank = Module.finrank K (LinearMap.range L) := rfl
     omega
   obtain ⟨κ, a, ha_inj, hspan_eq, hli⟩ := exists_linearIndependent' K r
-  letI : Fintype κ := Fintype.ofInjective a ha_inj
+  let : Fintype κ := Fintype.ofInjective a ha_inj
   have hcard : 3 ≤ Fintype.card κ := by
     have h1 : Module.finrank K (Submodule.span K (Set.range (r ∘ a))) = Fintype.card κ :=
       finrank_span_eq_card hli
@@ -204,7 +204,7 @@ noncomputable instance f4PosKernelFintype {F : Type} [Field F]
       (by intro x y h; exact Subtype.ext (congrArg (fun z => z.1) h))
   exact Fintype.ofFinite (F4PosKernel a)
 
-lemma exists_long_short_of_eq_one {F : Type} [Field F] {p : ℕ}
+lemma exists_long_short_of_eq_one {F : Type} [Field F] {_p : ℕ}
     {a : Fin Tag.F4.rank → Fˣ} (ha1 : a = 1) :
     (∃ α ∈ rootCharKernel (τ := .F4) a, IsLongRoot α) ∧
       ∃ β ∈ rootCharKernel (τ := .F4) a, IsShortRoot β := by
@@ -269,7 +269,7 @@ lemma dot_eq_zero_of_mem_span {p : ℕ} [NeZero p] {c α β γ : Fin 4 → ZMod 
   simpa [dotCLin, LinearMap.mem_ker] using hxker
 
 lemma exists_long_short_of_ne_one {F : Type} [Field F] [CharP F 2] {p : ℕ}
-    {a : Fin Tag.F4.rank → Fˣ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {a : Fin Tag.F4.rank → Fˣ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (ha : ∀ i, a i ^ p = 1)
     (hker : ∀ b : Fin Tag.F4.rank → Fˣ, (∀ i, b i ^ p = 1) →
       (∀ α ∈ rootCharKernel (τ := .F4) a, rootChar b α = 1) →
@@ -278,8 +278,8 @@ lemma exists_long_short_of_ne_one {F : Type} [Field F] [CharP F 2] {p : ℕ}
     (∃ α ∈ rootCharKernel (τ := .F4) a, IsLongRoot α) ∧
       ∃ β ∈ rootCharKernel (τ := .F4) a, IsShortRoot β := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨i0, hi0⟩ : ∃ i, a i ≠ 1 := by
     by_contra h
     apply hne
@@ -360,7 +360,7 @@ theorem exists_long_short_mem_rootCharKernel_F4 {F : Type} [Field F] [CharP F 2]
     (∃ α ∈ rootCharKernel (τ := .F4) a, IsLongRoot α) ∧
       ∃ β ∈ rootCharKernel (τ := .F4) a, IsShortRoot β := by
   by_cases ha1 : a = 1
-  · exact exists_long_short_of_eq_one (p := p) ha1
+  · exact exists_long_short_of_eq_one (_p := p) ha1
   · exact exists_long_short_of_ne_one hp hp2 ha hker ha1
 
 end CFSG.LocalAnalysis.GLTheoremA.T173O

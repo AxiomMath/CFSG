@@ -44,7 +44,7 @@ variable {G : Type*} [Group G]
 theorem le_zpowers_of_isCyclic_of_pow_eq_one [Finite G] {p : ℕ} (hp : p.Prime) {K : Subgroup G}
     (hK : IsCyclic K) (hKp : ∀ c ∈ K, c ^ p = 1) {x : G} (hxK : x ∈ K) (hx1 : x ≠ 1) :
     K ≤ Subgroup.zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := hK.exists_generator
   have horder_g : orderOf g = Nat.card K := orderOf_eq_card_of_forall_mem_zpowers hg
   have hgp : g ^ p = 1 := by

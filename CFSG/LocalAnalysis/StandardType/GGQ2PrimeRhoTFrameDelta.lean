@@ -95,9 +95,9 @@ theorem rhoTFrame_exists_conj_delta
     · subst hij
       simp only [Matrix.diagonal_apply_eq, Matrix.smul_apply, smul_eq_mul, hwd]
       by_cases hi : i = k₀
-      · rw [if_pos hi, if_pos ((hτ i).2 hi)]
+      · rw [ite_eq_left hi, ite_eq_left ((hτ i).2 hi)]
         simp
-      · rw [if_neg hi, if_neg (fun h => hi ((hτ i).1 h))]
+      · rw [ite_eq_right hi, ite_eq_right (fun h => hi ((hτ i).1 h))]
         simp
     · simp [Matrix.diagonal_apply_ne _ hij]
   have hcomm : diagU (fun i => (if τ⁻¹ i = 0 then u else 1)) =

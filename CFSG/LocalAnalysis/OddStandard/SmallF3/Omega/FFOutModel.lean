@@ -111,11 +111,11 @@ theorem ff_out_model (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 
         ∀ q ∈ Qs, ∃ (n : ℤ) (p : ProjSim Q), p ∈ ffPS hQ fr ∧ q = x ^ n * p := by
   by_cases hΩ : ∀ q ∈ Qs, SimInOmegaStar hQ q
   · exact Or.inl hΩ
-  · push_neg at hΩ
+  · push Not at hΩ
     obtain ⟨q₀, hq₀, hq₀Ω⟩ := hΩ
     have hex : ∃ x ∈ Qs, ¬ SimInGStar x := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hq₀PS : q₀ ∈ ffPS hQ fr :=
         ff_claim1 hQ hdim hsgn fr hPQ hQN hi hii q₀ hq₀ (h q₀ hq₀)
       change q₀ ∈ (ffP1 hQ fr).map (ffOmegaToSim hQ) at hq₀PS

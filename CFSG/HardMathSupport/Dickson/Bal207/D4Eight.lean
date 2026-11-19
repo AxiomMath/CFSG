@@ -57,7 +57,7 @@ theorem d4Eight_coprime_center (hGA : GriessAllModelsStatement) {K : Type} [Grou
     rw [hp2] at hL
     have heven : Even (2 ^ q.exponent) := (Nat.even_pow' q.exponent_pos.ne').mpr even_two
     have hg : ¬ 3 ∣ (genericOrders .POmegaPlus 4 2 q.exponent).1 := by
-      simp only [genericOrders, if_pos heven]
+      simp only [genericOrders, ite_eq_left heven]
       norm_num
     exact centerAux_coprime_of_card_le_one Nat.prime_three
       ((center_torsion_le hGA hq e hL Nat.prime_three).trans

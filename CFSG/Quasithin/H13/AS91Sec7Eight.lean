@@ -320,7 +320,7 @@ theorem exists_coL_of_z_smul
         fun l h1 h2 h3 => hco ⟨l, h1, h2, h3⟩
       have hκm := kappa_three_trio ρ hxm H''
       exact fix_of_kappa3 ρ hzy hny hna hκ hxm hκm hy.1.symm hpm hne.symm
-  obtain ⟨y₀, hy₀, hz₀⟩ := ρ.exists_adj_z_smul_ne
+  obtain ⟨y₀, hy₀, hz₀⟩ := (CFSG.Quasithin.H13.AS91.ResM24.exists_adj_z_smul_ne (c := c))
   exact hz₀ (hall y₀ hy₀)
 
 include ρ in

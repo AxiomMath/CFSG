@@ -216,13 +216,13 @@ private lemma quadPlus_plusAniso (j : Fin m) : quadPlus m K (plusAniso K j) = 1 
   simp
 
 private lemma plusAniso_inl_self (j : Fin m) : plusAniso K j (Sum.inl j) = 1 := by
-  simp [plusAniso, Pi.single_apply]
+  simp [plusAniso]
 
 private lemma plusAniso_mem_perp {i j : Fin m} (hij : j ≠ i) :
     plusAniso K j ∈ (plusPair K i).perp := by
   rw [HypPair.mem_perp, plusPair_e, plusPair_f, polar_single_inl_quadPlus,
     polar_single_inr_quadPlus]
-  simp [plusAniso, Pi.single_apply, hij, hij.symm]
+  simp [plusAniso, hij.symm]
 
 private def plusAniso2 (K : Type) [Field K] (c : K) (j : Fin m) : Fin m ⊕ Fin m → K :=
   Pi.single (Sum.inl j) 1 + Pi.single (Sum.inr j) c
@@ -237,7 +237,7 @@ private lemma plusAniso2_mem_perp {i j : Fin m} (c : K) (hij : j ≠ i) :
     plusAniso2 K c j ∈ (plusPair K i).perp := by
   rw [HypPair.mem_perp, plusPair_e, plusPair_f, polar_single_inl_quadPlus,
     polar_single_inr_quadPlus]
-  simp [plusAniso2, Pi.single_apply, hij, hij.symm]
+  simp [plusAniso2, hij.symm]
 
 private lemma plus_two_hyp_mem_hom (f : (Fin m ⊕ Fin m → K) →+ (Fin m ⊕ Fin m → K))
     (hf : ∀ g ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup (quadPlus m K),
@@ -256,14 +256,14 @@ private lemma plus_two_hyp_mem_hom (f : (Fin m ⊕ Fin m → K) →+ (Fin m ⊕ 
   · intro a b d h
     have h1 := congrFun h (Sum.inl j)
     have h2 := congrFun h (Sum.inr j)
-    simp [plusPair_e, plusAniso, plusAniso2, Pi.single_apply, hji, hji.symm] at h1 h2
+    simp [plusPair_e, plusAniso, plusAniso2, hji] at h1 h2
     have hd : (c - 1) * d = 0 := by linear_combination h2 - h1
     have hd0 : d = 0 := (mul_eq_zero.mp hd).resolve_left (sub_ne_zero.mpr hc1)
     exact ⟨by linear_combination h1 - hd0, hd0⟩
   · intro a b d h
     have h1 := congrFun h (Sum.inl j)
     have h2 := congrFun h (Sum.inr j)
-    simp [plusPair_f, plusAniso, plusAniso2, Pi.single_apply, hji, hji.symm] at h1 h2
+    simp [plusPair_f, plusAniso, plusAniso2, hji] at h1 h2
     have hd : (c - 1) * d = 0 := by linear_combination h2 - h1
     have hd0 : d = 0 := (mul_eq_zero.mp hd).resolve_left (sub_ne_zero.mpr hc1)
     exact ⟨by linear_combination h1 - hd0, hd0⟩

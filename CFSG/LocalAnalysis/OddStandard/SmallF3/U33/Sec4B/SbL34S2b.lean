@@ -14,6 +14,7 @@ open CFSG.OddStandard.SmallF3.HarrisU33.L34
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
+omit [Finite G] in
 private theorem mem_sup_of_commute {H K : Subgroup G}
     (hcomm : ∀ a ∈ H, ∀ b ∈ K, Commute a b) {x : G} (hx : x ∈ H ⊔ K) :
     ∃ a ∈ H, ∃ b ∈ K, x = a * b := by
@@ -41,19 +42,20 @@ section Base
 variable (hc : Ctx4Q t L S x₁ x₂ lam rho tau)
 include hc
 
+omit [Finite G] hc in
 theorem base_eq_sup : baseGrp x₁ x₂ = zpowers x₁ ⊔ zpowers x₂ := by
   rw [baseGrp]
   have hset : ({x₁, x₂} : Set G) = {x₁} ∪ {x₂} := by ext; simp [or_comm]
   rw [hset, Subgroup.closure_union, Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure]
 
 theorem card_base : Nat.card (baseGrp x₁ x₂) = 2 ^ 4 := by
-  rw [base_eq_sup hc]
+  rw [base_eq_sup]
   rw [Outside.card_zpowers_sup_zpowers x₁ x₂ hc.wreath.comm 4 hc.wreath.ord_x₁
     hc.wreath.ord_x₂ hc.wreath.inf_eq_bot]
   norm_num
 
 theorem base_comm : ∀ a ∈ baseGrp x₁ x₂, ∀ b ∈ baseGrp x₁ x₂, a * b = b * a := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := by
+  have : IsMulCommutative (baseGrp x₁ x₂) := by
     refine isMulCommutative_closure (k := ({x₁, x₂} : Set G)) ?_
     intro u hu v hv _
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu hv
@@ -67,7 +69,7 @@ theorem base_comm : ∀ a ∈ baseGrp x₁ x₂, ∀ b ∈ baseGrp x₁ x₂, a 
 
 private theorem base_decomp {b : G} (hb : b ∈ baseGrp x₁ x₂) :
     ∃ i j : ℤ, b = x₁ ^ i * x₂ ^ j := by
-  rw [base_eq_sup hc] at hb
+  rw [base_eq_sup] at hb
   have hcomm : ∀ a ∈ zpowers x₁, ∀ c ∈ zpowers x₂, Commute a c := by
     intro a ha c hc'
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha

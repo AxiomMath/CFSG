@@ -25,13 +25,16 @@ theorem ggRouteCfg_noTransvection {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J :
     GGNoTransvection p Bs :=
   h.1.2.2.2.1
 
+omit [Finite G] in
 theorem ggAutomizer_le_top (X Bs : Subgroup G) : ggAutomizer X Bs ≤ ggAutomizer ⊤ Bs :=
   ggAutomizer_mono Bs le_top
 
+omit [Finite G] in
 theorem ggAutomizerJoin_le_top (L Bs : Subgroup G) (𝒦 : Finset (Subgroup G)) :
     ggAutomizerJoin L Bs 𝒦 ≤ ggAutomizer ⊤ Bs :=
   sup_le (ggAutomizer_le_top L Bs) (iSup₂_le fun K _ => ggAutomizer_le_top K Bs)
 
+omit [Finite G] in
 theorem ggAutomizer_le_ggAutomizerJoin {L Bs X : Subgroup G} {𝒦 : Finset (Subgroup G)}
     (hX : X = L ∨ X ∈ 𝒦) : ggAutomizer X Bs ≤ ggAutomizerJoin L Bs 𝒦 := by
   rcases hX with rfl | hK

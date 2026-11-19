@@ -45,6 +45,7 @@ section TypeA
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 private theorem center_pow_three {W : Subgroup Γ} (hW : FacA5 ↥W ∨ FacA6 ↥W) {z : Γ} (hz : z ∈ W)
     (hzc : ∀ w ∈ W, w * z = z * w) : z ^ 3 = 1 := by
   have hmem : (⟨z, hz⟩ : ↥W) ∈ Subgroup.center ↥W :=
@@ -97,6 +98,7 @@ private theorem fix_of_typeA (hF5 : FixA5) (hF6 : FixA6Cover) {W : Subgroup Γ}
     have h2 := congrArg (fun x : ↥W => (x : Γ)) (congrArg Subtype.val h)
     simpa [pow_succ, pow_mul] using h2
 
+omit [Finite Γ] in
 private theorem eq_bot_of_normal_typeA {W : Subgroup Γ} (hW : FacA5 ↥W ∨ FacA6 ↥W)
     {N : Subgroup Γ} (hNW : N ≤ W) (hn : ∀ x ∈ W, ∀ n ∈ N, x * n * x⁻¹ ∈ N)
     (h3 : ¬ 3 ∣ Nat.card N) : N = ⊥ := by
@@ -111,8 +113,8 @@ private theorem eq_bot_of_normal_typeA {W : Subgroup Γ} (hW : FacA5 ↥W ∨ Fa
     rwa [Subgroup.subgroupOf_eq_bot, disjoint_iff, inf_eq_left.mpr hNW] at h
   rcases hW with h5 | ⟨hp, hcard3, hφ⟩
   · obtain ⟨e⟩ := h5
-    haveI := isSimpleGroup_five e
-    haveI := hnorm
+    have := isSimpleGroup_five e
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf W) with h | h
     · exact hbot h
     · exfalso
@@ -192,7 +194,7 @@ private theorem core_pcore (hc : ∀ u ∈ U, ∀ v ∈ V, u * v = v * u)
       ∃ k : ℕ, v ^ 3 ^ k = 1) :
     pPrimeCoreOf 3 ((U ⊔ V) ⊓ Subgroup.centralizer
       ((E ⊓ Subgroup.centralizer (U : Set Γ) : Subgroup Γ) : Set Γ)) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set T := (U ⊔ V) ⊓ Subgroup.centralizer
     ((E ⊓ Subgroup.centralizer (U : Set Γ) : Subgroup Γ) : Set Γ)
   set N := pPrimeCoreOf 3 T
@@ -262,6 +264,7 @@ section Counting
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {U V E : Subgroup Γ}
 
+omit [Finite Γ] in
 private theorem prodSetting_symm (h : ProdSetting U V E) : ProdSetting V U E where
   comm v hv u hu := (h.comm u hu v hv).symm
   elem := h.elem

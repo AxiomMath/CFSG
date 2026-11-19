@@ -33,7 +33,7 @@ private theorem mem_normalizer_of_forall_commutator_mem {L : Subgroup G} {x : G}
   one_mem' := by
     refine ⟨P.one_mem, ?_⟩
     intro y _
-    simpa using (CFSG.Open.pCoreOf 2 L).one_mem
+    simp
   mul_mem' := by
     intro x₁ x₂ hx₁ hx₂
     obtain ⟨hx₁P, hx₁⟩ := hx₁

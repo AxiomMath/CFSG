@@ -57,11 +57,11 @@ theorem rep_HG {τ : ℕ}
     ∀ l < 2 + (idxH.getD τ []).length, MRep (U (HG τ l)) (ggH x y τ l : GL24) := by
   intro l hl
   rcases (by omega : l = 0 ∨ l = 1 ∨ 2 ≤ l) with rfl | rfl | h2
-  · rw [ggH, if_pos rfl]
+  · rw [ggH, ite_eq_left rfl]
     exact hx
-  · rw [ggH, if_neg (by omega), if_pos rfl]
+  · rw [ggH, ite_eq_right (by omega), ite_eq_left rfl]
     exact hy
-  · rw [ggH, if_neg (by omega), if_neg (by omega), HG_ge h2]
+  · rw [ggH, ite_eq_right (by omega), ite_eq_right (by omega), HG_ge h2]
     exact rep_D (hidx _ (by omega))
 
 section Facts

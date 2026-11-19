@@ -130,10 +130,10 @@ theorem borelLieFacts_sp (hF : Nat.card F = 2 ^ n) (hn : 1 < n) (hk : 1 ≤ k)
     {t₀ : ↥(StatedSp k F)} (ht : IsSymplecticTransvectionIn k t₀) :
     BorelLieFacts ↥(StatedSp k F) t₀ where
   center := by
-    haveI : NeZero k := ⟨by omega⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite F
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by rw [Fintype.card_eq_nat_card, hF])
+    have : NeZero k := ⟨by omega⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite F
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by rw [Fintype.card_eq_nat_card, hF])
     exact CFSG.SeitzReduction.F4Pilot.center_statedSp_eq_bot_of_charTwo
   out _ _ _ _ hα hβ hαβ hαo hβo := mul_mem_range_conj_statedSp hF hk hα hβ hαβ hαo hβo
   fix α g _ _ hα hfix := mem_range_conj_of_fix_conj_iff_commute_statedSp hF hn hk ht α g hα hfix
@@ -143,15 +143,15 @@ theorem borelLieFacts_psu (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 < n) (hm : 3 �
     {t₀ : StatedProj (StatedSU m (2 ^ n) F)} (ht : IsUnitaryTransvectionIn m n t₀) :
     BorelLieFacts (StatedProj (StatedSU m (2 ^ n) F)) t₀ where
   center := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq : (m, 2 ^ n) ≠ (3, 2) := fun h => by
       have h1 : 2 ^ n = 2 := congrArg Prod.snd h
       have h4 : 2 ^ 2 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
       rw [h1] at h4
       norm_num at h4
-    haveI hsimple : IsSimpleGroup (StatedProj (StatedSU m (2 ^ n) F)) :=
+    have hsimple : IsSimpleGroup (StatedProj (StatedSU m (2 ^ n) F)) :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hF m hm hq
-    haveI : Group.IsPerfect (StatedSU m (2 ^ n) F) :=
+    have : Group.IsPerfect (StatedSU m (2 ^ n) F) :=
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hF hm hq
     have hperf : Group.IsPerfect (StatedProj (StatedSU m (2 ^ n) F)) :=
       Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective
@@ -178,6 +178,7 @@ end Lie
 
 variable {G : Type} [Group G] [Finite G] {V H T : Subgroup G}
 
+omit [Finite G] in
 private theorem borel86_data_comp_mk_center_eq_one_iff {K N : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hφ : IsBarMap K N φ) (k : ↥K) :
     ((QuotientGroup.mk' (Subgroup.center X)).comp φ) k = 1 ↔ (k : G) ∈ centerPre K N := by
@@ -205,7 +206,7 @@ theorem exists_borel86Data (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T)
     ∃ (S : Type) (_ : Group S) (ψ : ↥(kGenIn V H) →* S) (ρ : ↥H →* MulAut S) (t₀ : S),
       Borel86Data V H T S ψ ρ t₀ := by
   obtain ⟨m, n, hn, hrk, X, hX, φ, hφ, hroot⟩ := hδ
-  letI := hX
+  let := hX
   have hvnmem : ∃ v ∈ V, v ∉ eCentSet V H T := by
     by_contra hcon
     have hle : V ≤ Subgroup.centralizer (eSub V H T : Set G) := fun v hv => by
@@ -227,13 +228,13 @@ theorem exists_borel86Data (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T)
     dsimp only [ψ₀]
     rw [borel86_data_comp_mk_center_eq_one_iff hφ k, ← h.centerPre_eCentSet_eq hKT]
   let N₀ : Subgroup ↥(kGenIn V H) := ψ₀.ker
-  haveI : N₀.Normal := MonoidHom.normal_ker ψ₀
+  have : N₀.Normal := MonoidHom.normal_ker ψ₀
   let I : Subgroup G := N₀.map (kGenIn V H).subtype
   have hIN₀ : I.subgroupOf (kGenIn V H) = N₀ := by
     change Subgroup.comap (kGenIn V H).subtype I = N₀
     rw [show I = N₀.map (kGenIn V H).subtype from rfl]
     exact Subgroup.comap_map_eq_self_of_injective (kGenIn V H).subtype_injective N₀
-  haveI : (I.subgroupOf (kGenIn V H)).Normal := by
+  have : (I.subgroupOf (kGenIn V H)).Normal := by
     rw [hIN₀]
     exact MonoidHom.normal_ker ψ₀
   have hmemI : ∀ x : G, x ∈ I ↔ x ∈ centerPre (kGenIn V H) (eCentSet V H T) := by

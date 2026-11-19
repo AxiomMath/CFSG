@@ -67,6 +67,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ} (hF : Nat.card F 
 
 include hF
 
+omit [CharP F 2] in
 theorem one_le_f : 1 ≤ f := by
   by_contra h
   have hf : f = 0 := by omega
@@ -78,7 +79,7 @@ theorem isChevComponent_su {n' : ℕ} (hn : 3 ≤ n') (hnq : (n', 2 ^ f) ≠ (3,
     CFSG.IsQuasisimple (SU (unitaryInvolution F 2 f) n') ∧
       IsClassicalTwoOrG2 (SU (unitaryInvolution F 2 f) n' ⧸
         Subgroup.center (SU (unitaryInvolution F 2 f) n')) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .PSU n' 2 f := ⟨Nat.prime_two, one_le_f hF, hn, hnq⟩
   exact ⟨isQuasisimple_SU hF hn hnq, isClassicalTwoOrG2_of_statedPSU
     (statedClassicalModel_center_quotient hadm hF) hn hnq⟩
@@ -88,7 +89,7 @@ theorem su_two_chev (hf : 2 ≤ f) :
     CFSG.IsQuasisimple (SU (unitaryInvolution F 2 f) 2) ∧
       IsClassicalTwoOrG2 (SU (unitaryInvolution F 2 f) 2 ⧸
         Subgroup.center (SU (unitaryInvolution F 2 f) 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ζ, hζ0, hζ⟩ := exists_unitaryInvolution_eq_neg hF
   have hq : Nat.card (fixedSubfield F 2 f) = 2 ^ f := card_fixedSubfield hF
   have h4 : 4 ≤ Nat.card (fixedSubfield F 2 f) := by
@@ -100,7 +101,7 @@ theorem su_two_chev (hf : 2 ≤ f) :
   exact ⟨isQuasisimple_of_mulEquiv e h1, isClassicalTwoOrG2_of_mulEquiv (quotCenterCongr e) h2⟩
 
 theorem su_two_solvable (hf : f = 1) : Group.IsSolvable (SU (unitaryInvolution F 2 f) 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ζ, hζ0, hζ⟩ := exists_unitaryInvolution_eq_neg hF
   have hq : Nat.card (fixedSubfield F 2 f) = 2 ^ f := card_fixedSubfield hF
   have : Fintype (fixedSubfield F 2 f) := Fintype.ofFinite _
@@ -112,7 +113,7 @@ theorem su_two_solvable (hf : f = 1) : Group.IsSolvable (SU (unitaryInvolution F
   exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
 
 theorem su_three_solvable (hf : f = 1) : Group.IsSolvable (SU (unitaryInvolution F 2 f) 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hf
   have hs := CFSG.Quasithin.isSolvable_statedSU_one (F := F) hF
   let e := equivStatedSU hF 3

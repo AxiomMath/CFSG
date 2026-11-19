@@ -25,7 +25,7 @@ theorem exists_orderOf_eq_of_natCast_ne_zero {N : ℕ} (hN : (N : L) ≠ 0) :
     ∃ ζ : Lˣ, orderOf ζ = N := by
   have hNpos : N ≠ 0 := fun h => hN (by rw [h, Nat.cast_zero])
   have : NeZero ((N : ℕ) : L) := ⟨hN⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L N
   set ζu : Lˣ := (hζ.isUnit hNpos).unit with hζu
   have hζu' : IsPrimitiveRoot ζu N :=
     IsPrimitiveRoot.coe_units_iff.1 (by simpa [hζu] using hζ)
@@ -203,7 +203,7 @@ theorem exists_frame_pair_untw {τ : Tag} (hdeg : entryDegreeBound τ = 2) {K : 
     have h1 : Nat.card K₂ = Nat.card {c : L | c ^ ℓ ^ (f * 2) = c} :=
       Nat.card_congr (Equiv.subtypeEquivRight fun c => by
         simp only [hK₂def, RingHom.mem_eqLocusField, RingHom.comp_apply, RingHom.id_apply,
-          Set.mem_setOf_eq, hFF])
+          Set.mem_ofPred_eq, hFF])
     rw [h1, CFSG.RankThree.Classical2.natCard_setOf_pow_eq_self (by omega), pow_mul, hK]
   have : Finite K₂ := Nat.finite_of_card_ne_zero (by rw [hK₂card]; positivity)
   set n := canonicalRep (coxeterSystem τ) L w with hn

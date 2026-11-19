@@ -24,9 +24,9 @@ theorem asc82Lemma810K_of (F : Sec8T84Base) (h89 : Asc82Lemma89)
   let u : MulAut ↥E := B89.rhoG hE t
   let A : Subgroup (MulAut ↥E) := B89.Abar hE
   have hS : C10.HCtx E B u A H := C10.hctx_of F h89 hE
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE.elem.2]; norm_num)
-  haveI : Finite (MulAut ↥E) := inferInstance
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE.elem.2]; norm_num)
+  have : Finite (MulAut ↥E) := inferInstance
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
   have hH : H = secNb E := C10.range_kappa E
   have hKH : CFSG.SectionRank.IsKGroupCat ↥H := by

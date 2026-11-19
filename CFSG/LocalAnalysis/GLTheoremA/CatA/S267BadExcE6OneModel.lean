@@ -175,8 +175,8 @@ theorem e6RootParams_thetaSign :
   simp only [e6RootParams, thetaSignE6, ← zpow_mul,
     Finset.prod_zpow_eq_zpow_sum, sum_highRoot_mul_cartan (Or.inl rfl)]
   by_cases hl : l = highNode .E6
-  · rw [if_pos hl, zpow_one, hl, Pi.mulSingle_eq_same]
-  · rw [if_neg hl, zpow_zero, Pi.mulSingle_eq_of_ne hl]
+  · rw [ite_eq_left hl, zpow_one, hl, Pi.mulSingle_eq_same]
+  · rw [ite_eq_right hl, zpow_zero, Pi.mulSingle_eq_of_ne hl]
 
 theorem e6Isogeny_thetaSign [Finite K] :
     e6Isogeny K (minTorus e6Data_valid K (thetaSignE6 K)) = thetaInv K := by
@@ -226,7 +226,7 @@ theorem hypLift_of_injective {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup 
     {σ : K ≃+* K} (hσζ : σ (ζ : K) = ζ) {b : Ω} (hbB : b ∈ B)
     (hb : Γ b = entrywiseAdjointAut .E6 σ) : HypLift Γ ζ hζ b := by
   classical
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
   set B₀ := B ⊓ centModSubgroup 3 S with hB₀
   set H := (hypTorusHom (K := K) ζ hζ).range with hH
   set L := H.comap π with hL
@@ -330,12 +330,12 @@ theorem hypLift_of_not_injective {Ω : Type} [Group Ω] [Finite Ω] {S : Subgrou
     {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) {σ : K ≃+* K} (hσζ : σ (ζ : K) = ζ) {b : Ω}
     (hb : Γ b = entrywiseAdjointAut .E6 σ) : HypLift Γ ζ hζ b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
-  haveI : Finite ↥(e6Data_valid.minGroup K) := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Finite ↥(e6Data_valid.minGroup K) := by
     have : Finite (Module.End K (Fin e6Data.d →₀ K)) := Module.finite_of_finite K
     infer_instance
-  haveI : S.Normal := hS
+  have : S.Normal := hS
   have hK5 : 5 ≤ Nat.card K := five_le_card_of_dvd_sq_sub_one hK2 Nat.prime_three (by norm_num)
     (h3.trans (Nat.sub_one_dvd_pow_sub_one _ 2))
   have hperf' : Group.IsPerfect ↥S :=

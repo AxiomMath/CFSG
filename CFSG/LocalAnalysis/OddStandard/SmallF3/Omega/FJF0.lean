@@ -49,9 +49,9 @@ theorem fj_exists_fixed_involution_six_minus (hQ : Q.Nondegenerate)
   classical
   obtain ⟨γ, -, hγ⟩ := cl_exists_simil_of_mulAut_six_minus hQ hdim hs α hα
   have hcard := m6z_card_four_plus_six_minus hQ hdim hs
-  haveI : Finite {u : OGroup Q // u * u = 1 ∧ invType u = (4, 1)} :=
+  have : Finite {u : OGroup Q // u * u = 1 ∧ invType u = (4, 1)} :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  letI : Fintype {u : OGroup Q // u * u = 1 ∧ invType u = (4, 1)} := Fintype.ofFinite _
+  let : Fintype {u : OGroup Q // u * u = 1 ∧ invType u = (4, 1)} := Fintype.ofFinite _
   let φ : {u : OGroup Q // u * u = 1 ∧ invType u = (4, 1)} →
       {u : OGroup Q // u * u = 1 ∧ invType u = (4, 1)} :=
     fun u => ⟨simAct Q γ u.1, fj_simAct_four_plus hQ γ u.2.1 u.2.2⟩
@@ -113,9 +113,9 @@ theorem fj_exists_fixed_involution_six_minus (hQ : Q.Nondegenerate)
 theorem asc82CoreF0_of (hS : Asc82SchurU43) : Asc82CoreF0 := by
   intro Y _ _ hY hT σ hσ
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨f⟩⟩ := hS Y hY hT
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hσσ : ∀ y : Y, σ (σ y) = y := fun y => by
     have h := congrArg (fun m : MulAut Y => m y) hσ
     simpa using h

@@ -141,13 +141,13 @@ theorem eq_perp_of_card_inf_gt {F : Subgroup W} (hF : S.IsSub F) (hq : 2 ≤ Nat
     rw [h0, zero_mul] at hperpmul
     have : 0 < Nat.card S.K ^ 4 := pow_pos hqpos 4
     omega
-  haveI : Finite F := Nat.finite_of_card_ne_zero hFne
+  have : Finite F := Nat.finite_of_card_ne_zero hFne
   have hPne : Nat.card (S.perp F) ≠ 0 := by
     intro h0
     rw [h0, mul_zero] at hperpmul
     have : 0 < Nat.card S.K ^ 4 := pow_pos hqpos 4
     omega
-  haveI : Finite (S.perp F) := Nat.finite_of_card_ne_zero hPne
+  have : Finite (S.perp F) := Nat.finite_of_card_ne_zero hPne
   have hFge : Nat.card S.K ^ 2 ≤ Nat.card F :=
     le_trans hEge (Subgroup.card_le_of_le inf_le_left)
   have hPge : Nat.card S.K ^ 2 ≤ Nat.card (S.perp F) :=

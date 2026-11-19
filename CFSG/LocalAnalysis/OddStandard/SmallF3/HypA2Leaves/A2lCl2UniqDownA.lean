@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.SmallF3.HypA2Leaves
 
 open CFSG.Open CFSG.ComponentClassification.CatLeaf CFSG.ComponentClassification.CatLeafProof
 
-theorem cl24_ppd_dvd_PSL {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .PSL n 3 j) (hℓ : ℓ.Prime)
+theorem cl24_ppd_dvd_PSL {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .PSL n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .PSL n) :
     ℓ ∣ lieOrderCofactor .PSL n (3 ^ j) := by
   have hn : 2 ≤ n := hadm.2.2.1
@@ -38,25 +38,25 @@ theorem cl24_ppd_dvd_PSU {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .PSU n 3 
       omega
     have hfac : ℓ ∣ (3 ^ j) ^ (n - 1) + 1 := by
       apply cl24_dvd_add_of hℓ hk
-      · rw [hke]; simp only [cl24E, if_pos hn2]; ring
+      · rw [hke]; simp only [cl24E, ite_eq_left hn2]; ring
       · exact Nat.mul_pos (by omega) (by omega)
     have hf : ℓ ∣ (if Even (n - 1) then (3 ^ j) ^ (n - 1) - 1
         else (3 ^ j) ^ (n - 1) + 1) := by
-      rw [if_neg hodd]; exact hfac
+      rw [ite_eq_right hodd]; exact hfac
     exact dvd_trans hf (Finset.dvd_prod_of_mem
       (fun i => if Even i then (3 ^ j) ^ i - 1 else (3 ^ j) ^ i + 1) (by
         simp only [Finset.mem_Icc]; exact ⟨by omega, by omega⟩))
   · have hfac : ℓ ∣ (3 ^ j) ^ n + 1 := by
       apply cl24_dvd_add_of hℓ hk
-      · rw [hke]; simp only [cl24E, if_neg hn2]; ring
+      · rw [hke]; simp only [cl24E, ite_eq_right hn2]; ring
       · exact Nat.mul_pos (by omega) (by omega)
     have hf : ℓ ∣ (if Even n then (3 ^ j) ^ n - 1 else (3 ^ j) ^ n + 1) := by
-      rw [if_neg hn2]; exact hfac
+      rw [ite_eq_right hn2]; exact hfac
     exact dvd_trans hf (Finset.dvd_prod_of_mem
       (fun i => if Even i then (3 ^ j) ^ i - 1 else (3 ^ j) ^ i + 1) (by
         simp only [Finset.mem_Icc]; exact ⟨by omega, by omega⟩))
 
-theorem cl24_ppd_dvd_PSp {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .PSp n 3 j) (hℓ : ℓ.Prime)
+theorem cl24_ppd_dvd_PSp {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .PSp n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .PSp n) :
     ℓ ∣ lieOrderCofactor .PSp n (3 ^ j) := by
   have hn : 2 ≤ n := hadm.2.2.1
@@ -69,7 +69,7 @@ theorem cl24_ppd_dvd_PSp {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .PSp n 3 
     simp only [Finset.mem_Icc]; exact ⟨by omega, le_rfl⟩))
 
 theorem cl24_ppd_dvd_POmegaOdd {n j k ℓ : ℕ}
-    (hadm : StatedLieAdmissible .POmegaOdd n 3 j) (hℓ : ℓ.Prime)
+    (hadm : StatedLieAdmissible .POmegaOdd n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .POmegaOdd n) :
     ℓ ∣ lieOrderCofactor .POmegaOdd n (3 ^ j) := by
   have hn : 3 ≤ n := hadm.2.2.1
@@ -82,7 +82,7 @@ theorem cl24_ppd_dvd_POmegaOdd {n j k ℓ : ℕ}
     simp only [Finset.mem_Icc]; exact ⟨by omega, le_rfl⟩))
 
 theorem cl24_ppd_dvd_POmegaPlus {n j k ℓ : ℕ}
-    (hadm : StatedLieAdmissible .POmegaPlus n 3 j) (hℓ : ℓ.Prime)
+    (hadm : StatedLieAdmissible .POmegaPlus n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .POmegaPlus n) :
     ℓ ∣ lieOrderCofactor .POmegaPlus n (3 ^ j) := by
   have hn : 4 ≤ n := hadm.2.2

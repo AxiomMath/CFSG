@@ -41,7 +41,7 @@ theorem omq_omPlus_node_zero_dichotomy (h1 : OmqPlusWeightVector) (h2 : OmqRankF
     have hF : 2 < Nat.card F := by omega
     have hodd : Odd (Nat.card Fˣ) := by
       rw [Nat.card_units]
-      letI : Fintype F := Fintype.ofFinite F
+      let : Fintype F := Fintype.ofFinite F
       obtain ⟨n, -, hcard⟩ := FiniteField.card F 2
       have hcard' : Nat.card F = 2 ^ (n : ℕ) := by
         rw [Nat.card_eq_fintype_card, hcard]

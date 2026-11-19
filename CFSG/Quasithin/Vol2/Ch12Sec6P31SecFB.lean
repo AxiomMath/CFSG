@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem allNS_of_star {H Y : Subgroup G} (hYH : Y ≤ H) {S : Type} [Group S]
     (h : AllNS S ↥(S126.star H Y)) : AllNS S ↥Y := by
   have hsol : Group.IsSolvable ↥(CFSG.pCore 2 ↥H) := by
-    haveI := (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).isNilpotent
+    have := (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).isNilpotent
     infer_instance
   have h1 : AllNS S ↥(Y.subgroupOf H) :=
     allNS_of_map_solvable (CFSG.pCore 2 ↥H) hsol (Y.subgroupOf H) h
@@ -39,6 +39,7 @@ theorem isQuasisimple_star {H K : Subgroup G} (hK : K ∈ cComp H)
       (QuotientGroup.quotientMulEquivOfEq (CFSG.openPCoreOf_subgroupOf 2 K)).symm hq
   exact CFSG.IsQuasisimple.of_mulEquiv e.symm hq'
 
+omit [Finite G] in
 theorem map_conj_mem_cComp {H L : Subgroup G} (hL : L ∈ cComp H) {t : G} (ht : t ∈ H) :
     L.map (MulAut.conj t).toMonoidHom ∈ cComp H := by
   have h := cComp_map_mulEquiv (MulAut.conj t) hL
@@ -46,6 +47,7 @@ theorem map_conj_mem_cComp {H L : Subgroup G} (hL : L ∈ cComp H) {t : G} (ht :
     Subgroup.mem_normalizer_iff_map_conj_eq.1 (Subgroup.le_normalizer ht)
   rwa [hH] at h
 
+omit [Finite G] in
 theorem conjClosure_eq_iSup (K T : Subgroup G) :
     conjClosure K T = ⨆ t : ↥T, K.map (MulAut.conj (t : G)).toMonoidHom := by
   apply le_antisymm
@@ -60,7 +62,7 @@ theorem conjClosure_eq_iSup (K T : Subgroup G) :
 theorem allNS_conjClosure {H K T : Subgroup G} (hK : K ∈ cComp H) (hTH : T ≤ H) {S : Type}
     [Group S] (hKS : AllNS S ↥K) : AllNS S ↥(conjClosure K T) := by
   classical
-  haveI : Fintype ↥T := Fintype.ofFinite _
+  have : Fintype ↥T := Fintype.ofFinite _
   let f : ↥T → Subgroup G := fun t => K.map (MulAut.conj (t : G)).toMonoidHom
   have hsup : conjClosure K T = Finset.univ.sup f := by
     rw [conjClosure_eq_iSup, Finset.sup_univ_eq_iSup]
@@ -89,7 +91,7 @@ theorem allNS_of_K0 (h1222 : Stmt12_2_2) {F : Frame126 T L V} (hH : Hyp126 G T L
   have hHeq : H = conjClosure K T ⊔ (Li L F.V1 ⊔ T) := hIs.2.2
   have hL1 : Group.IsSolvable ↥(Li L F.V1) := P31A.isSolvable_L1 h1222 F hH
   have hTsol : Group.IsSolvable ↥T := by
-    haveI := hH.hyp.sylow.1.isNilpotent
+    have := hH.hyp.sylow.1.isNilpotent
     infer_instance
   have hTn : T ≤ Subgroup.normalizer (Li L F.V1 : Set G) :=
     S126L19b.T_le_normalizer_L1 h1222 hH
@@ -195,7 +197,7 @@ theorem lemmaFBound_w31_of (h1222 : Stmt12_2_2) (hE114 : E114Used_w31)
     rw [E1.nParam_subgroupOf H]
     exact nParam_le_of_allNS hn hE hSQTK.2 hrk hNS hTsyl
   have hq : CFSG.IsQuasisimple ↥(S126.star H K) := isQuasisimple_star hKc h918.K_quasisimple
-  haveI hsimple : IsSimpleGroup (starMod_w31 H K) := hq.2.1
+  have hsimple : IsSimpleGroup (starMod_w31 H K) := hq.2.1
   have hnab : ∃ a b : starMod_w31 H K, a * b ≠ b * a := hq.2.2
   have hNSK : AllNS (starMod_w31 H K) ↥H :=
     allNS_of_K0 h1222 hH hIs h918
@@ -221,8 +223,8 @@ theorem lemmaFBound_w31_of (h1222 : Stmt12_2_2) (hE114 : E114Used_w31)
         AllNS (CFSG.Blueprint.NativeSporadic.Carrier .M22) ↥(S126.star H (conjClosure K T)) := by
       rcases hK0 with h | ⟨hqK0, -, he⟩
       · obtain ⟨e⟩ := h
-        haveI := hM22.1
-        haveI : IsSimpleGroup ↥(S126.star H (conjClosure K T)) := e.isSimpleGroup
+        have := hM22.1
+        have : IsSimpleGroup ↥(S126.star H (conjClosure K T)) := e.isSimpleGroup
         exact ⟨e.toMonoidHom.comp ((QuotientGroup.mk' (CFSG.pCore 2 ↥H)).subgroupMap
             ((conjClosure K T).subgroupOf H)),
           e.surjective.comp (MonoidHom.subgroupMap_surjective _ _),
@@ -235,8 +237,8 @@ theorem lemmaFBound_w31_of (h1222 : Stmt12_2_2) (hE114 : E114Used_w31)
             (MonoidHom.subgroupMap_surjective _ _)),
           AllNS.of_quasisimple hqK0.2.1 e⟩
     obtain ⟨φ, hφ, hNS⟩ := hstar
-    haveI hfin : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M22) := Finite.of_surjective φ hφ
-    haveI := hM22.1
+    have hfin : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M22) := Finite.of_surjective φ hφ
+    have := hM22.1
     have hNSH : AllNS (CFSG.Blueprint.NativeSporadic.Carrier .M22) ↥H :=
       allNS_of_K0 h1222 hH hIs h918 (allNS_of_star hK0H hNS)
     have hrk := CFSG.SectionRank.isStronglyQuasithin_iff.1

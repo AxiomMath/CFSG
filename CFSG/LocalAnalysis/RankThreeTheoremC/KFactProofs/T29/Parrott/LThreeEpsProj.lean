@@ -29,6 +29,7 @@ theorem LModel.exists_isFieldAt [L.Normal] (M : LModel L π p f K ν)
     exact Subgroup.mem_bot.1 hac) hlift
   omega
 
+omit [Finite X] in
 theorem LModel.exists_conj_conjBy (M : LModel L π p f K ν) {g H : GL (Fin 3) K}
     (hg : g ∈ glPi π 3 (p ^ f) K) (hH : H ∈ glPi π 3 (p ^ f) K) {a b c : Kˣ}
     (hD : diagUnits a b c ∈ slPi π 3 (p ^ f) K) :
@@ -43,7 +44,7 @@ theorem LModel.exists_conj_conjBy (M : LModel L π p f K ν) {g H : GL (Fin 3) K
 theorem LModel.false_of_proj_inner (h : T29Setup X L x) (M : LModel L π p f K ν)
     (hproj : ∀ s ∈ Subgroup.center ↥(slPi π 3 (p ^ f) K), ν s = 1) (hxL : x ∈ L) {φ : X}
     {σ : K ≃+* K} {H : GL (Fin 3) K} (hφ3 : φ ^ 3 = 1) (hφ : IsFieldAt ν φ σ H) : False := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau M.piField M.modThree
   have hφL := M.not_mem_of_isFieldAt hφ
   have hσ := hφ.order

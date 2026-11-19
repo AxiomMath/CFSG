@@ -135,7 +135,6 @@ theorem card_zeros_quadPlus {m : ℕ} (hm : 1 ≤ m) :
   have : ((Nat.card {v : Fin (k + 1) ⊕ Fin (k + 1) → ZMod 2 //
       quadPlus (k + 1) (ZMod 2) v = 0} : ℕ) : ℤ) = ((2 ^ (2 * k + 1) + 2 ^ (k + 1 - 1) : ℕ) : ℤ) := by
     push_cast
-    try simp only [Nat.add_sub_cancel]
     have : (4 : ℤ) ^ (k + 1) = 2 * 2 ^ (2 * k + 1) := by
       rw [pow_succ, pow_succ, pow_mul]; norm_num; ring
     rw [this, show (2 : ℤ) ^ (k + 1) = 2 * 2 ^ k by ring] at h
@@ -156,7 +155,6 @@ theorem card_zeros_quadMinus {m : ℕ} (hm : 1 ≤ m) :
       ((2 ^ (2 * k + 1) - 2 ^ (k + 1 - 1) : ℕ) : ℤ) := by
     rw [Nat.cast_sub hle]
     push_cast
-    try simp only [Nat.add_sub_cancel]
     have : (4 : ℤ) ^ (k + 1) = 2 * 2 ^ (2 * k + 1) := by
       rw [pow_succ, pow_succ, pow_mul]; norm_num; ring
     rw [this, show (2 : ℤ) ^ (k + 1) = 2 * 2 ^ k by ring] at h

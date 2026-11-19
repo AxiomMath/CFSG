@@ -15,7 +15,7 @@ open CFSG.Open CFSG.AGLEmbedding
 theorem threeFourSolvThreeNoneAt_linTwo_of_four_le (q : TauCeti.PrimePower)
     (d : TauCeti.ValidLieTypeIndex) (hq3 : q.p = 3) (hq4 : 4 ≤ q.exponent) (hd : d.1 = .A 1 q) :
     ThreeFourSolvThreeNoneAt (TauCeti.CFSGIndex.lie d).Group := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdL : IsLinTwoIndex 3 q.exponent d := ⟨q, hd, hq3, rfl⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex hdL
   refine ThreeFourSolvThreeNoneAt.of_mulEquiv e.symm (ThreeFourSolvThreeNoneAt.of_lt_pRank ?_)

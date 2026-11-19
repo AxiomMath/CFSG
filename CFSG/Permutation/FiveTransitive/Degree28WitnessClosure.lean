@@ -43,7 +43,7 @@ private theorem alternatingGroup_le_cyclic_fixed_range
         (FiveTransitive.PrimeCyclicFixedAction.cyclicNormalizer P r)
         (FiveTransitive.PrimeCyclicFixedAction.cyclicFixedPoints X P r)).range := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let R : Subgroup P :=
     FiveTransitive.PrimeCyclicFixedAction.cyclicSubgroup P r
   let N : Subgroup P :=
@@ -108,7 +108,7 @@ theorem alternatingGroup_le_of_order_three_support_le_eighteen
     (hgSupport : g.support.card ≤ 18) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hgNe : g ≠ 1 := by
     intro hgOne
     rw [hgOne, orderOf_one] at hgOrder
@@ -208,8 +208,8 @@ theorem alternatingGroup_le_of_order_three_support_le_eighteen
 
   let F := FiveTransitive.PrimeCyclicFixedAction.cyclicFixedPoints X P r
   let FC := FiveTransitive.PrimeCyclicFixedAction.cyclicComplement X P r
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype FC := Fintype.ofFinite FC
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype FC := Fintype.ofFinite FC
   have hFcard :
       Fintype.card F = Fintype.card (Function.fixedPoints g) := by
     exact Fintype.card_congr

@@ -106,7 +106,7 @@ theorem exists_conj_mem_normalizer {b : G} (hbz : b ∈ Subgroup.centralizer ({z
   have hWH : W ≤ H₂ := fun x hx =>
     ⟨Subgroup.mem_centralizer_singleton_iff.mpr (hcomm x hx z hzW),
       Subgroup.mem_centralizer_singleton_iff.mpr (hcomm x hx t htW)⟩
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hd.hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hd.hWS
   obtain ⟨P, hP, hWP⟩ := IsSylow2In.exists_ge hW2 hWH
   have hPN : P ≤ Subgroup.normalizer (W : Set G) := by
     intro x hxP

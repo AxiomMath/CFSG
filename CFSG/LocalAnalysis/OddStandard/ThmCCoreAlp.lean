@@ -126,7 +126,7 @@ theorem exists_normalComplement_of_alperin [Finite G] (S : Sylow 2 G)
       have : u = n * (u⁻¹ * n)⁻¹ := by group
       rw [this]
       exact mul_mem hn (inv_mem (Subgroup.centralizer_le_normalizer _ hcn))
-    obtain ⟨b, hb⟩ := S.isPGroup' ⟨u, hu⟩
+    obtain ⟨b, hb⟩ := S.isPGroup ⟨u, hu⟩
     have hu1 : u ^ (2 ^ b) = 1 := by
       have := congrArg Subtype.val hb
       simpa using this

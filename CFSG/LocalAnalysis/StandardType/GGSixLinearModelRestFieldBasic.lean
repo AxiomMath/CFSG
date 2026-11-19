@@ -171,7 +171,7 @@ theorem exists_conj_mem_normalizer [Finite G] {p : ℕ} (hp : p.Prime) {M Bs : S
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq M R Q
   set P := (Q : Subgroup ↥M).map M.subtype with hPdef
   have hPM : P ≤ M := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := Q.isPGroup'.map M.subtype
+  have hPp : IsPGroup p P := Q.isPGroup.map M.subtype
   have hBsP : Bs ≤ P := fun b hb => ⟨⟨b, hBsM hb⟩, hQ hb, rfl⟩
   have hmaxM : ∀ S : Subgroup G, S ≤ M → IsPGroup p S → P ≤ S → S = P := by
     intro S hSM hSp hPS

@@ -111,7 +111,7 @@ theorem eq_bot_of_odd_normal_centralizer [Finite H] [Finite Q] (K : Subgroup H) 
       norm_num at this
     have hle : (Nat.card D).factorization 3 ≤ 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       apply h9
       have : 3 ^ 2 ∣ Nat.card D :=
         (Nat.Prime.pow_dvd_iff_le_factorization (by norm_num) hpos).2 hc

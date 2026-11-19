@@ -28,8 +28,8 @@ theorem card_evenOn {i j k : Fin n} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠
     rintro ⟨a, b⟩ ⟨a', b'⟩ h
     have hi := congrArg (fun x : PermMod n => Multiplicative.toAdd x i) h
     have hj := congrArg (fun x : PermMod n => Multiplicative.toAdd x j) h
-    simp only [toAdd_evenOnVec, if_neg hij, if_neg hik, if_neg hij.symm,
-      if_neg hjk, add_zero, zero_add] at hi hj
+    simp only [toAdd_evenOnVec, ite_eq_right hij, ite_eq_right hik, ite_eq_right hij.symm,
+      ite_eq_right hjk, add_zero, zero_add] at hi hj
     exact Prod.ext hi hj
   have himg : evenOn i j k = Finset.univ.image (evenOnVec i j k) := by
     ext x
@@ -48,19 +48,19 @@ theorem card_evenOn {i j k : Fin n} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠
         simp [hij.symm, hjk]
       by_cases hlk : l = k
       · subst hlk
-        rw [if_neg hli, if_neg hlj, if_pos rfl, zero_add, zero_add]
+        rw [ite_eq_right hli, ite_eq_right hlj, ite_eq_left rfl, zero_add, zero_add]
         have h1 : Multiplicative.toAdd x l =
             -(Multiplicative.toAdd x i + Multiplicative.toAdd x j) :=
           eq_neg_of_add_eq_zero_right hs
         rw [h1]
         exact (ZMod.neg_eq_self_mod_two _).symm
-      · simp only [if_neg hli, if_neg hlj, if_neg hlk, add_zero]
+      · simp only [ite_eq_right hli, ite_eq_right hlj, ite_eq_right hlk, add_zero]
         exact (h0 l hli hlj hlk).symm
     · rintro ⟨p, -, rfl⟩
       refine ⟨fun l hli hlj hlk => ?_, ?_⟩
-      · simp only [toAdd_evenOnVec, if_neg hli, if_neg hlj, if_neg hlk, add_zero]
-      · simp only [toAdd_evenOnVec, if_neg hij, if_neg hik, if_neg hij.symm,
-          if_neg hjk, if_neg hik.symm, if_neg hjk.symm, add_zero, zero_add]
+      · simp only [toAdd_evenOnVec, ite_eq_right hli, ite_eq_right hlj, ite_eq_right hlk, add_zero]
+      · simp only [toAdd_evenOnVec, ite_eq_right hij, ite_eq_right hik, ite_eq_right hij.symm,
+          ite_eq_right hjk, ite_eq_right hik.symm, ite_eq_right hjk.symm, add_zero, zero_add]
         have h2 : (2 : ZMod 2) = 0 := rfl
         calc p.1 + p.2 + (p.1 + p.2) = 2 * (p.1 + p.2) := by ring
           _ = 0 := by rw [h2, zero_mul]
@@ -284,7 +284,7 @@ theorem card_le_four_of_altNaturalCover (hn : 3 ≤ n) (W : Type) [CommGroup W] 
   have hq : Nat.card (DnQuot n) = if Even n then 2 ^ (n - 2) else 2 ^ (n - 1) :=
     Explicit.card_dn_sec (by omega) .alternating
   rcases Nat.even_or_odd n with he | ho
-  · rw [if_pos he] at hq
+  · rw [ite_eq_left he] at hq
     obtain ⟨r, rfl⟩ := he
     have h4 : (4 : ℕ) ^ ((r + r) / 2) = 2 ^ (r + r - 2) * 4 := by
       rw [show (r + r) / 2 = r by omega, show (4 : ℕ) = 2 ^ 2 by norm_num, ← pow_mul, ← pow_add]
@@ -293,7 +293,7 @@ theorem card_le_four_of_altNaturalCover (hn : 3 ≤ n) (W : Type) [CommGroup W] 
     rw [h4, hq] at h
     have hpos : 0 < 2 ^ (r + r - 2) := pow_pos (by norm_num) _
     nlinarith
-  · rw [if_neg (Nat.not_even_iff_odd.2 ho)] at hq
+  · rw [ite_eq_right (Nat.not_even_iff_odd.2 ho)] at hq
     obtain ⟨r, rfl⟩ := ho
     have h4 : (4 : ℕ) ^ ((2 * r + 1) / 2) = 2 ^ (2 * r + 1 - 1) := by
       rw [show (2 * r + 1) / 2 = r by omega, show 2 * r + 1 - 1 = 2 * r by omega,

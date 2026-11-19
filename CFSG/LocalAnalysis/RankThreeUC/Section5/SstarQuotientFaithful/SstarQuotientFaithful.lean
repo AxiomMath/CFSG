@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis.RankThreeUC.Section5
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem Xs_le_pCoreOf (T B : Subgroup G) (hB : B ≤ B ⊔ T) :
     twoCoreCommutator T B ≤ CFSG.Open.pCoreOf 2 (B ⊔ T) := by
   have hn : (CFSG.Open.pCore 2 ↥(B ⊔ T)).Normal := CFSG.LieType.BorelTits.pCore_normal 2

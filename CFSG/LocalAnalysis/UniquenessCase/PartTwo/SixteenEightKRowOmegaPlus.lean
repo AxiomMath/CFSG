@@ -16,16 +16,16 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
   {hV : IsElemAbelian 2 V}
 
 theorem s16k_false_of_natOmegaPlus (h : S16gRowCtx D V₀ V L hV)
-    (hGA : CFSG.Open.GriessAllModelsStatement) {n a : ℕ} (ha : a = 1 ∨ a = 2)
+    (_hGA : CFSG.Open.GriessAllModelsStatement) {n a : ℕ} (ha : a = 1 ∨ a = 2)
     (hn : n ≠ 4 ∨ a = 1) (hΩ : IsOmegaPlus ↥(lBar V₀ V hV L) n a)
     (hN : NatOmegaPlus (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) n a) : False := by
   obtain ⟨hev, K, hF, hFin, hK, hR⟩ := hN
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have ha1 : 1 ≤ a := by rcases ha with rfl | rfl <;> norm_num
   have ha2 : a ≤ 2 := by rcases ha with rfl | rfl <;> norm_num
-  haveI : CharP K 2 := s16k_charP_two_of_card (a := a) ha1 hK
+  have : CharP K 2 := s16k_charP_two_of_card (a := a) ha1 hK
   generalize hm : n / 2 = m at hR
   have hm3 : 3 ≤ m := by
     rcases ha with rfl | rfl
@@ -38,7 +38,7 @@ theorem s16k_false_of_natOmegaPlus (h : S16gRowCtx D V₀ V L hV)
       · by_contra hlt
         obtain ⟨r, hr⟩ := hev
         exact (Or.resolve_right hn (by norm_num)) (by omega)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨p, hpσ⟩ := h.std.hx.sig_nonempty
   have hp : p.Prime := (D.sig_prime p hpσ).1
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2

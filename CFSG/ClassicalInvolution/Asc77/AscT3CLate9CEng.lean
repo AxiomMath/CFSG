@@ -194,7 +194,7 @@ theorem Std20G.late_swap_J (d : Std20G K K' J S R R' W V z t) {σ ρ : G}
   have hσ₂J : conjSub (ρ⁻¹ * σ * ρ) J = J := by
     rw [conjSub_mul, conjSub_mul, hσJ, conjSub_inv_conjSub]
   have hX2 : IsPGroup 2 ↥(Subgroup.zpowers (ρ⁻¹ * σ * ρ)) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hσ₂S)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hσ₂S)
   have hcomm : (ρ⁻¹ * σ * ρ) * t = t * (ρ⁻¹ * σ * ρ) := by
     calc (ρ⁻¹ * σ * ρ) * t = ((ρ⁻¹ * σ * ρ) * t * (ρ⁻¹ * σ * ρ)⁻¹) * (ρ⁻¹ * σ * ρ) := by group
       _ = t * (ρ⁻¹ * σ * ρ) := by rw [hσ₂t]

@@ -128,7 +128,7 @@ theorem conjK_spec {TP : Nat → Nat} {X Y : Nat} (h : ∀ k < 21, conjK TP X Y 
   have h2 := h1 (p % 33) (by omega)
   have e : Nat.add (33 * (p / 33)) (p % 33) = p := by rw [Nat.add_eq]; omega
   have hb : Nat.blt p 693 = true := Nat.blt_eq.mpr hp
-  simp only [e, letB_eq, impB_eq, hb, Bool.not_true, Bool.false_or, andB_eq, Bool.and_eq_true,
+  simp only [e, impB_eq, hb, Bool.not_true, Bool.false_or, andB_eq, Bool.and_eq_true,
     Nat.beq_eq, at'_eq] at h2
   obtain ⟨h3, h4⟩ := h2
   refine ⟨fun q hq => ?_, fun q hq => ?_⟩

@@ -38,7 +38,7 @@ theorem normal_omegaOneCenterOf (X : Subgroup G) [X.Normal] : (omegaOneCenterOf 
     refine Subgroup.subset_closure ⟨⟨‹X.Normal›.conj_mem x hx.1.1 g,
       B6.conj_mem_centralizer_of_mem_normalizer hg hx.1.2⟩, ?_⟩
     rw [conj_pow, hx.2, mul_one, mul_inv_cancel]
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ ihx ihy => simpa [mul_assoc] using Subgroup.mul_mem _ ihx ihy
   | inv x _ ih => simpa [mul_assoc] using Subgroup.inv_mem _ ih
 
@@ -155,7 +155,7 @@ theorem sup_eq_top (h : SeedSetting T π) {C : Subgroup G} [C.Normal] (hO : CFSG
   exact h.eq_top_of_sup_ker (hO.trans le_sup_left) h2
 
 theorem mem_of_pow_mem (h : SeedSetting T π) {C : Subgroup G} [C.Normal] (hO : CFSG.pCore 2 G ≤ C)
-    (hCK : C ≤ π.ker) {x : G} (hx : x ∈ π.ker) {a : ℕ} (hxa : x ^ 2 ^ a ∈ C) : x ∈ C := by
+    (_hCK : C ≤ π.ker) {x : G} (hx : x ∈ π.ker) {a : ℕ} (hxa : x ^ 2 ^ a ∈ C) : x ∈ C := by
   have hS := h.isSylowTwoOf_inf_ker
   have hTK : T ⊓ π.ker ≤ C := by
     rw [inf_comm, h.ker_inf_eq]
@@ -197,7 +197,7 @@ theorem exists_minParabolic (h : SeedSetting T π) : ∃ M : Subgroup G, MinPara
     rwa [hP] at this
   have hNTtop : NT ≠ ⊤ := by
     intro htop
-    haveI : (T.map π).Normal := Subgroup.normalizer_eq_top_iff.mp htop
+    have : (T.map π).Normal := Subgroup.normalizer_eq_top_iff.mp htop
     exact h.map_ne_bot (sl2_normal_isPGroup_eq_bot (MulEquiv.refl _) _ h.isPGroup_map)
   have hMtop : NT.comap π ≠ ⊤ := fun h0 =>
     hNTtop (Subgroup.comap_injective h.surj (h0.trans (Subgroup.comap_top π).symm))
@@ -254,7 +254,7 @@ theorem centralizer_VZ_le_ker (h : SeedSetting T π)
     (hnc : ⁅(⊤ : Subgroup G), quasithinOmegaOneCenter T⁆ ≠ ⊥) :
     Subgroup.centralizer (VZ T ⊤ : Set G) ≤ π.ker := by
   by_contra hC
-  haveI := normal_VZ_top (G := G) T
+  have := normal_VZ_top (G := G) T
   have hsup := h.sup_eq_top h.pCore_le_centralizer_VZ hC
   apply hnc
   rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
@@ -270,10 +270,10 @@ theorem not_thompsonJ_le_pCore (h : SeedSetting T π)
     B6.thompsonJ_le_of_sylow_of_le h.sylow hJO (Subgroup.normalizer_eq_top (H := CFSG.pCore 2 G)).ge
   have h2 : thompsonJ T = thompsonJ (⊤ : Subgroup G) :=
     B6.thompsonJ_eq_of_le (h1.trans h.pCore_le) le_top
-  haveI hJn : (thompsonJ T).Normal := by
+  have hJn : (thompsonJ T).Normal := by
     rw [h2]
     exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (B6.le_normalizer_thompsonJ ⊤))
-  haveI hEn : (omegaOneCenterOf (thompsonJ T)).Normal := normal_omegaOneCenterOf _
+  have hEn : (omegaOneCenterOf (thompsonJ T)).Normal := normal_omegaOneCenterOf _
   have hTC : T ≤ Subgroup.centralizer (omegaOneCenterOf (thompsonJ T) : Set G) :=
     Subgroup.le_centralizer_iff.mp hJ
   have hsup := h.sup_eq_top (C := Subgroup.centralizer (omegaOneCenterOf (thompsonJ T) : Set G))
@@ -297,8 +297,8 @@ theorem thompsonJ_sup_centralizer_sup_eq_top (h : SeedSetting T π)
     (hnc : ⁅(⊤ : Subgroup G), quasithinOmegaOneCenter T⁆ ≠ ⊥)
     (hJ : omegaOneCenterOf (thompsonJ T) ≤ Subgroup.centralizer (T : Set G)) :
     thompsonJ (⊤ : Subgroup G) ⊔ Subgroup.centralizer (VZ T ⊤ : Set G) ⊔ T = ⊤ := by
-  haveI : (VZ T ⊤).Normal := normal_VZ_top T
-  haveI : (thompsonJ (⊤ : Subgroup G)).Normal :=
+  have : (VZ T ⊤).Normal := normal_VZ_top T
+  have : (thompsonJ (⊤ : Subgroup G)).Normal :=
     Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (B6.le_normalizer_thompsonJ ⊤))
   refine h.sup_eq_top (C := thompsonJ (⊤ : Subgroup G) ⊔ Subgroup.centralizer (VZ T ⊤ : Set G))
     (h.pCore_le_centralizer_VZ.trans le_sup_right) fun hle => ?_

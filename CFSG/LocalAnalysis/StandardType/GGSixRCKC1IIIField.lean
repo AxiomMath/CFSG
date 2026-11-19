@@ -142,7 +142,7 @@ theorem exists_labels_dvd_of_innerDiag_component
     (fun lab hlab => TCJ.ggTCJKnown_holds p hp hp2 lab hlab) hMark
   obtain ⟨hperf, lab, hlab, hraw⟩ := hM
   obtain ⟨R, instR, I, F, _, _, θ, hind, hTC⟩ := largeEvenRawDatum_exists hraw
-  letI : Group R := instR
+  let : Group R := instR
   have hdN : d ∈ Subgroup.normalizer (L : Set X) := hBN hdB
   have hdpAut : L.normalizerMonoidHom ⟨d, hdN⟩ ^ p = 1 := by
     rw [← map_pow]
@@ -287,7 +287,7 @@ theorem ambient_field_eq_one_of_small_field_row
     rw [← heq]
     exact largeEvenRawDatum_mono (fun _ _ _ _ h => ⟨h.2.2.choose⟩) hraw
   have hZ : Subgroup.center (↥G₀ ⧸ Subgroup.center ↥G₀) = ⊥ := by
-    letI : Group.IsPerfect ↥G₀ := ⟨hMarkG.1⟩
+    let : Group.IsPerfect ↥G₀ := ⟨hMarkG.1⟩
     exact Group.IsPerfect.center_quotient_center_eq_bot _
   obtain ⟨labU, hΛU, _, _, _, hfU, hhasU⟩ :=
     exists_label_rawDatum_of_lieModel hZ hLie

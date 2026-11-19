@@ -14,7 +14,7 @@ theorem exists_eq_smul_of_isAbsolutelyIrreducible
     {ρ : Representation F G V} [CFSG.Theory.Representation.IsAbsolutelyIrreducible ρ]
     {B C : LinearMap.BilinForm F V} (hB : IsInvariantForm ρ B) (hB0 : B ≠ 0)
     (hC : IsInvariantForm ρ C) : ∃ c : F, C = c • B := by
-  haveI : ρ.IsIrreducible :=
+  have : ρ.IsIrreducible :=
     CFSG.Theory.Representation.IsAbsolutelyIrreducible.irreducible_of_isAbsolutelyIrreducible ρ
   have hBnd : B.Nondegenerate := hB.nondegenerate hB0
   let φ : V →ₗ[F] V := C.symmCompOfNondegenerate B hBnd
@@ -47,7 +47,7 @@ theorem no_invariant_bilinear_map_onto_plane
   have hb00 : b.coord 0 (b 0) = 1 := by simp [Module.Basis.coord_apply, Module.Basis.repr_self]
   have hb11 : b.coord 1 (b 1) = 1 := by simp [Module.Basis.coord_apply, Module.Basis.repr_self]
   have hb01 : b.coord 0 (b 1) = 0 := by
-    simp [Module.Basis.coord_apply, Module.Basis.repr_self_apply]
+    simp [Module.Basis.coord_apply]
   have hinv : ∀ l : Module.Dual (ZMod 2) A,
       TauCeti.Representation.IsInvariantForm ρ (κ.compr₂ l) := fun l =>
     TauCeti.Representation.isInvariantForm_iff.mpr fun g x y => by

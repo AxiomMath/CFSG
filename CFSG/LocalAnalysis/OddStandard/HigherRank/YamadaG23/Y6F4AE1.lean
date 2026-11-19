@@ -41,7 +41,7 @@ theorem y6f4a_ctx_P_inf (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.
 theorem y6f4a_ctx_D_eq (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
     centralizer ({c.g} : Set G) ⊓ centralizer ({c.s.t} : Set G) =
       centEl L c.g ⊔ closure ({c.g, c.s.t} : Set G) := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
   refine y6f4a_D_decomp (by simpa [pow_two] using y6b_g_sq c hRT) (y6b_g_comm_t c hRT)
     (c.g_spec hRT).2.2.1 c.s.t_mem (s3_H_le_N c.s hH.hS) ?_ ?_ ?_
   · intro x hx hxc
@@ -53,7 +53,7 @@ theorem y6f4a_ctx_D_eq (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s
 theorem y6f4a_ctx_P_equiv (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
     Nonempty (↥(centEl L c.g) ≃*
       MulAut (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 3))) := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
   have hZ : center ↥L = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective (center ↥L) (Subgroup.subtype_injective L)).mp
       (f3_zL_eq_bot hH)
@@ -63,7 +63,7 @@ theorem y6f4a_ctx_P_equiv (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ 
 
 theorem y6f4a_ctx_P_four (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
     ∀ p ∈ centEl L c.g, p ^ 4 = 1 → p ^ 2 = 1 := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
   have hZ : center ↥L = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective (center ↥L) (Subgroup.subtype_injective L)).mp
       (f3_zL_eq_bot hH)

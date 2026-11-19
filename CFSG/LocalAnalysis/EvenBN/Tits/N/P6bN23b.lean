@@ -29,9 +29,9 @@ theorem node23b_of_cores (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z�
   have hs : ∀ a : ↥d.s56V, a * a = 1 := fun a => by
     have := hVel.2 a a.2
     exact Subtype.ext (by simpa [pow_two] using this)
-  haveI : Fact (∀ a b : ↥d.s56V, a * b = b * a) := ⟨hc⟩
-  haveI : Fact (∀ a : ↥d.s56V, a * a = 1) := ⟨hs⟩
-  haveI := hN
+  have : Fact (∀ a b : ↥d.s56V, a * b = b * a) := ⟨hc⟩
+  have : Fact (∀ a : ↥d.s56V, a * a = 1) := ⟨hs⟩
+  have := hN
   obtain ⟨h₀, hh₀, hh⟩ := hconj
   have hcomm := comm_VW_mem_Z h49 hd hz hinv hVel hcard hZH ⟨h₀, hh₀, hh⟩ hWimg hWnorm hWel
   refine (node23b_iff).2 ⟨commutator_eq_Z h49 hd hz hinv hVel hcard hZH ⟨h₀, hh₀, hh⟩ hWimg hWnorm

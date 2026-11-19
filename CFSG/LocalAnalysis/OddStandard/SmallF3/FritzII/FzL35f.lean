@@ -69,7 +69,6 @@ private noncomputable def fzlPtEquiv (h : Ctx t L S x₁ x₂ lam rho tau) :
     have ht2 : t * t = 1 := by rw [← pow_two]; exact (fzl_t_facts h).2.1
     change t * (t * w.1) = w.1
     rw [hw]
-    change t * (t * (t * z)) = t * z
     rw [← mul_assoc, ht2, one_mul]
   right_inv z := by
     apply Subtype.ext
@@ -81,7 +80,7 @@ theorem fzl_35b :
     Fz35b := by
   classical
   intro G _ _ _ t L S x₁ x₂ lam rho tau hr4 hctx hK
-  letI : CommGroup ↥(ctxW t x₁ x₂) :=
+  let : CommGroup ↥(ctxW t x₁ x₂) :=
     { (inferInstance : Group ↥(ctxW t x₁ x₂)) with
       mul_comm := fun a b => hctx.abelian_W.is_comm.comm a b }
   let φ : ↥(fzN2 t x₁ x₂) →* MulAut ↥(ctxW t x₁ x₂) :=
@@ -91,9 +90,9 @@ theorem fzl_35b :
       (ctxW t x₁ x₂).subgroupOf (fzN2 t x₁ x₂)
     rw [Subgroup.normalizerMonoidHom_ker, hctx.cent_W]
     rfl
-  letI : MulAction ↥(fzN2 t x₁ x₂) (fzlPt t x₁ x₂) := fzlPtMulAction hctx hK
+  let : MulAction ↥(fzN2 t x₁ x₂) (fzlPt t x₁ x₂) := fzlPtMulAction hctx hK
   let pt0 : fzlPt t x₁ x₂ := ⟨t, ⟨1, one_mem _, by rw [mul_one]⟩⟩
-  letI : Fintype (fzlPt t x₁ x₂) := Fintype.ofFinite _
+  let : Fintype (fzlPt t x₁ x₂) := Fintype.ofFinite _
   have hcardPt : Fintype.card (fzlPt t x₁ x₂) = 4 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_congr (fzlPtEquiv hctx), fzl_card_Z hctx]
   let e0 : fzlPt t x₁ x₂ ≃ Fin 4 := Fintype.equivFinOfCardEq hcardPt

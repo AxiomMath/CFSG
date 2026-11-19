@@ -254,7 +254,7 @@ private lemma s16t_l4f_disjoint_zpowers_of_prime {H : Type*} [Group H] {p : ℕ}
   rw [Subgroup.disjoint_def]
   intro x hxa hxb
   by_contra hx1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hoa : orderOf a = p := orderOf_eq_prime ha ha1
   have hdvd : orderOf x ∣ p := by
     rw [← hoa]
@@ -263,7 +263,7 @@ private lemma s16t_l4f_disjoint_zpowers_of_prime {H : Type*} [Group H] {p : ℕ}
     rcases hp.eq_one_or_self_of_dvd _ hdvd with h1 | h1
     · exact absurd (orderOf_eq_one_iff.mp h1) hx1
     · exact h1
-  haveI : Finite (Subgroup.zpowers a) :=
+  have : Finite (Subgroup.zpowers a) :=
     (isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hp.pos, ha⟩).finite_zpowers
   have heq : Subgroup.zpowers x = Subgroup.zpowers a :=
     Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hxa)
@@ -276,7 +276,7 @@ private lemma s16t_l4f_closure_pair_elemAbelian_nine {H : Type*} [Group H] {q₁
     (hcomm : q₁ * q₂ = q₂ * q₁) (hdisj : Disjoint (Subgroup.zpowers q₁) (Subgroup.zpowers q₂)) :
     IsElemAbelian 3 (Subgroup.closure ({q₁, q₂} : Set H)) ∧
       Nat.card (Subgroup.closure ({q₁, q₂} : Set H)) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcomm' : ∀ x ∈ ({q₁, q₂} : Set H), ∀ y ∈ ({q₁, q₂} : Set H), x * y = y * x := by
     intro x hx y hy
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy

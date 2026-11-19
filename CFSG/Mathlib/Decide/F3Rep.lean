@@ -66,7 +66,7 @@ private theorem exists_repVecs_head_one {n : ℕ} {v : Fin (n + 1) → ZMod 3} (
     · simp [vecOfList, h1]
     · intro j
       have hval : ((v j.succ).val : ZMod 3) = v j.succ := ZMod.natCast_zmod_val _
-      simpa [vecOfList] using hval
+      simp [vecOfList]
 
 private theorem exists_repVecs_head_two {n : ℕ} {v : Fin (n + 1) → ZMod 3} (h2 : v 0 = 2) :
     ∃ l ∈ repVecs (n + 1), vecOfList (n + 1) l = 2 • v := by
@@ -81,7 +81,7 @@ private theorem exists_repVecs_head_two {n : ℕ} {v : Fin (n + 1) → ZMod 3} (
     · intro j
       have hval : (((2 : ZMod 3) * v j.succ).val : ZMod 3) = (2 : ZMod 3) * v j.succ :=
         ZMod.natCast_zmod_val _
-      simpa [vecOfList] using hval
+      simp [vecOfList]
 
 theorem exists_mem_repVecs {d : ℕ} {v : Fin d → ZMod 3} (hv : v ≠ 0) :
     ∃ l ∈ repVecs d, vecOfList d l = v ∨ vecOfList d l = 2 • v := by
@@ -155,7 +155,7 @@ theorem testBit_zeroMask {N i : ℕ} (hi : i < N) (x : V) :
     Nat.testBit_two_pow_sub_one, V.val_eq_bitVal]
   simp only [hi, decide_true, Bool.true_and]
   cases hp : x.p.testBit i <;> cases hm : x.m.testBit i <;>
-    simp [bitVal, hp, hm] <;> decide
+    simp [bitVal]; decide
 
 theorem testBit_zeroMask_of_le {N i : ℕ} (hi : N ≤ i) (x : V) :
     (zeroMask N x).testBit i = false := by

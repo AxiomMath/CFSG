@@ -142,7 +142,7 @@ private lemma l02qt5_linConjAut_eq_one_scalar {d : ℕ} (hd : 2 ≤ d) {K : Type
           have hji : ¬ j = i := fun h => hij h.symm
           simp [Matrix.scalar_apply, hji]
         · have hil : ¬ i = l := fun h => hli h.symm
-          simp [Matrix.single_apply, hil]
+          simp [hil]
       rw [hsum, add_zero]
       by_cases hjk : j = k
       · rw [hjk]
@@ -217,7 +217,7 @@ private lemma l02qt5_orderOf_linConjAut_odd {N p n : ℕ} {K : Type} [Field K] [
   have hgp : (g ^ p) ^ (2 ^ n - 1) = 1 := by
     rw [← hc, ← map_pow]
     have hcunit : c ^ (2 ^ n - 1) = 1 := by
-      haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+      have : Fintype Kˣ := Fintype.ofFinite Kˣ
       have hcard : Fintype.card Kˣ = 2 ^ n - 1 := by
         rw [← Nat.card_eq_fintype_card, Nat.card_units, hK]
       have := pow_card_eq_one (x := c)
@@ -266,8 +266,8 @@ theorem q1RToral_lin : Q1RToralTransfer ToralLin LinearTorsion (fun _ _ _ => Tru
   obtain ⟨K, i1, i2, hK, hq⟩ := hQ
   refine ⟨K, i1, i2, hK, hq, ?_⟩
   intro A hAab hAI hTor u huA huord J hJcomp
-  haveI : CharP K 2 := charP_two_of_card hK
-  haveI hTorComm : IsMulCommutative (A.comap (TableB.linConjAut (Fin (l + 1)) K)) :=
+  have : CharP K 2 := charP_two_of_card hK
+  have hTorComm : IsMulCommutative (A.comap (TableB.linConjAut (Fin (l + 1)) K)) :=
     toralLin_commute_datum hN3 hn2 hK hTor
   obtain ⟨g_u, hgu⟩ := TableB.exists_eq_linConjAut (hAI u huA)
   rw [hgu] at hJcomp

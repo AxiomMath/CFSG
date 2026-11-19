@@ -457,15 +457,15 @@ private theorem bmDPS_exists_symplectic_basis_of_selfAdjointIdem (n f : ℕ)
   have hUmem : ∀ u : Fin n ⊕ Fin n → GaloisField 2 f,
       u ∈ U ↔ ∃ v, Matrix.mulVec N v = u := by
     intro u
-    simp [hU, LinearMap.mem_range, Matrix.mulVecLin_apply]
+    simp [hU, LinearMap.mem_range]
   have hJalt : ∀ x : Fin n ⊕ Fin n → GaloisField 2 f,
       x ⬝ᵥ Matrix.mulVec (bmDPS_J n f) x = 0 := by
     intro x
     rw [bmDPS_J, Matrix.fromBlocks_mulVec]
     simp only [Matrix.zero_mulVec, Matrix.one_mulVec, add_zero, zero_add]
     rw [dotProduct, Fintype.sum_sum_type]
-    simp only [Function.comp_apply, dotProduct, Sum.elim_inl, Sum.elim_inr,
-      Matrix.neg_mulVec, Pi.neg_apply, one_mul]
+    simp only [Function.comp_apply, Sum.elim_inl, Sum.elim_inr,
+      Matrix.neg_mulVec, Pi.neg_apply]
     rw [← Finset.sum_add_distrib]
     apply Finset.sum_eq_zero
     intro k _
@@ -521,7 +521,7 @@ private theorem bmDPS_exists_symplectic_basis_of_selfAdjointIdem (n f : ℕ)
   have hJconvert : Matrix.J (Fin r) (GaloisField 2 f) = bmDPS_J r f := by
     ext i j
     rcases i with i | i <;> rcases j with j | j <;>
-      simp [Matrix.J, bmDPS_J, CharTwo.neg_eq, eq_comm]
+      simp [Matrix.J, bmDPS_J, CharTwo.neg_eq]
   refine ⟨r, B, ?_, ?_, ?_⟩
   · have hBcol : ∀ j : Fin r ⊕ Fin r,
         Matrix.mulVec B (Pi.single j 1) = (b j : Fin n ⊕ Fin n → GaloisField 2 f) := by
@@ -757,7 +757,7 @@ private theorem bmDPS_adapted_Pe_form_11 (n f r : ℕ)
     simp [bmDPS_J, Matrix.fromBlocks]]
   rw [← h]
   simp only [bmDPS_blockCols, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Finset.sum_apply, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
+    Fintype.sum_sum_type, Sum.elim_inl]
 
 private theorem bmDPS_adapted_Pe_form_12 (n f r : ℕ)
     (We Ws : Matrix (Fin n ⊕ Fin n) (Fin r) (GaloisField 2 f))
@@ -770,7 +770,7 @@ private theorem bmDPS_adapted_Pe_form_12 (n f r : ℕ)
     simp [bmDPS_J, Matrix.fromBlocks]]
   rw [← h]
   simp only [bmDPS_blockCols, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Finset.sum_apply, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
+    Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
 
 private theorem bmDPS_adapted_Pe_form_21 (n f r : ℕ)
     (We Ws : Matrix (Fin n ⊕ Fin n) (Fin r) (GaloisField 2 f))
@@ -787,7 +787,7 @@ private theorem bmDPS_adapted_Pe_form_21 (n f r : ℕ)
     simp [bmDPS_J, Matrix.fromBlocks, Matrix.neg_apply, Matrix.one_apply, CharTwo.neg_eq]
   rw [hR, ← h']
   simp only [bmDPS_blockCols, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Finset.sum_apply, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
+    Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
 
 private theorem bmDPS_adapted_Pe_form_22 (n f r : ℕ)
     (We Ws : Matrix (Fin n ⊕ Fin n) (Fin r) (GaloisField 2 f))
@@ -800,7 +800,7 @@ private theorem bmDPS_adapted_Pe_form_22 (n f r : ℕ)
     simp [bmDPS_J, Matrix.fromBlocks]]
   rw [← h]
   simp only [bmDPS_blockCols, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Finset.sum_apply, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
+    Fintype.sum_sum_type, Sum.elim_inr]
 
 private theorem bmDPS_adapted_Pe_form (n f r : ℕ)
     (We Ws : Matrix (Fin n ⊕ Fin n) (Fin r) (GaloisField 2 f))
@@ -846,7 +846,7 @@ private theorem bmDPS_adapted_Pe_diag (n f r : ℕ)
           rcases k with c | d
           · have hca : c ≠ a := fun h => hk (by rw [h])
             simp [bmDPS_blockCols, Matrix.of_apply, Sum.elim_inl, Matrix.fromBlocks,
-              Matrix.one_apply, hca]
+              hca]
           · simp [bmDPS_blockCols, Matrix.of_apply, Sum.elim_inr, Matrix.fromBlocks])]
         simp [bmDPS_blockCols, Matrix.fromBlocks]
       rw [hR]
@@ -898,7 +898,7 @@ private theorem bmDPS_adapted_Pe_diag (n f r : ℕ)
           · simp [bmDPS_blockCols, Matrix.of_apply, Sum.elim_inl, Matrix.fromBlocks]
           · have hdb : d ≠ b := fun h => hk (by rw [h])
             simp [bmDPS_blockCols, Matrix.of_apply, Sum.elim_inr, Matrix.fromBlocks,
-              Matrix.one_apply, hdb])]
+              hdb])]
         simp [bmDPS_blockCols, Matrix.fromBlocks]
       rw [hR]
       simp only [bmDPS_blockCols, Matrix.of_apply, Sum.elim_inr]
@@ -931,7 +931,7 @@ private theorem bmDPS_adapted_Pe_eps (n f r : ℕ)
     rw [Matrix.fromBlocks_add]
     ext i j
     rcases i with i | i <;> rcases j with j | j <;>
-      simp [Matrix.fromBlocks, Matrix.one_apply, Matrix.add_apply]]
+      simp [Matrix.fromBlocks, Matrix.one_apply]]
   rw [Matrix.mul_one]
 
 private theorem bmDPS_e_mul_Ws_zero (n f r : ℕ)
@@ -1077,7 +1077,7 @@ private theorem bmDPS_symplectic_inv (n f : ℕ)
     _ = bmDPS_J n f := by
           rw [Matrix.mul_nonsing_inv _ (bmDPS_J_isUnit_det n f), Matrix.one_mul]
 
-private noncomputable def bmDPS_blockMat (n f r r' : ℕ)
+private noncomputable def bmDPS_blockMat (_n f r r' : ℕ)
     (x : Matrix.SpecialLinearGroup (Fin r) (GaloisField 2 f)) :
     Matrix (Fin r ⊕ (Fin r ⊕ Fin r')) (Fin r ⊕ (Fin r ⊕ Fin r')) (GaloisField 2 f) :=
   Matrix.fromBlocks (x : Matrix (Fin r) (Fin r) (GaloisField 2 f))
@@ -1466,7 +1466,7 @@ private theorem bmDPS_D0_mul_inl (r r' : ℕ) {F : Type} [Semiring F]
   · intro k _ hk
     rcases k with a' | (b' | c')
     · have hne : a ≠ a' := fun h => hk (by rw [← h])
-      simp [bmDPS_D0, Matrix.fromBlocks, Matrix.one_apply, hne]
+      simp [bmDPS_D0, Matrix.fromBlocks, hne]
     · simp_all [bmDPS_D0, Matrix.fromBlocks]
     · simp_all [bmDPS_D0, Matrix.fromBlocks]
   · intro h; exact absurd (Finset.mem_univ _) h
@@ -1647,7 +1647,7 @@ private theorem bmDPS_blockMat_mul_D1 (n f r r' : ℕ)
   rw [Matrix.fromBlocks_multiply]
   simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one]
+  simp only [Matrix.mul_zero, add_zero, zero_add, Matrix.mul_one]
 
 private theorem bmDPS_embedGL_fixes_compl
     (n f : ℕ)
@@ -1727,8 +1727,7 @@ private theorem bmDPS_D1_mul_blockMat (n f r r' : ℕ)
   rw [Matrix.fromBlocks_multiply]
   simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
-    Matrix.one_mul]
+  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one]
 
 private theorem bmDPS_embedGL_centralizes
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
@@ -1944,12 +1943,12 @@ private theorem bmDPS_embedHom_range_commutator_self
     ⁅(bmDPS_embedHom n f r r' eidx P Pinv hPP hPinvP hP hJ).range, (bmDPS_embedHom n f r r' eidx P
         Pinv hPP hPinvP hP hJ).range⁆ = (bmDPS_embedHom n f r r' eidx P Pinv hPP hPinvP hP hJ).range
             := by
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin r) (GaloisField 2 f)) := hperfSL
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin r) (GaloisField 2 f)) := hperfSL
   have hperfRange : Group.IsPerfect (bmDPS_embedHom n f r r' eidx P Pinv hPP hPinvP hP hJ).range :=
     Group.IsPerfect.ofSurjective
       (f := (bmDPS_embedHom n f r r' eidx P Pinv hPP hPinvP hP hJ).rangeRestrict)
       (bmDPS_embedHom n f r r' eidx P Pinv hPP hPinvP hP hJ).rangeRestrict_surjective
-  haveI : Group.IsPerfect (bmDPS_embedHom n f r r' eidx P Pinv hPP hPinvP hP hJ).range := hperfRange
+  have : Group.IsPerfect (bmDPS_embedHom n f r r' eidx P Pinv hPP hPinvP hP hJ).range := hperfRange
   exact Subgroup.commutator_eq_self
 
 private theorem bmDPS_embedHom_range_le
@@ -2009,7 +2008,7 @@ private theorem bmDPS_block_diag_outer (r r' : ℕ) {F : Type} [Field F]
   have h' := h
   rw [bmDPS_D0_eq r r' F, ← Matrix.fromBlocks_toBlocks A] at h'
   rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply] at h'
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
+  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, Matrix.mul_one,
     Matrix.one_mul] at h'
   rw [Matrix.fromBlocks_inj] at h'
   obtain ⟨-, h12, h21, -⟩ := h'
@@ -2034,8 +2033,7 @@ private theorem bmDPS_block_diag_inner (r r' : ℕ) {F : Type} [Field F]
   have h' := h
   rw [← Matrix.fromBlocks_toBlocks D] at h'
   rw [Matrix.fromBlocks_multiply] at h'
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
-    Matrix.one_mul] at h'
+  simp only [Matrix.mul_zero, add_zero, zero_add, Matrix.mul_one] at h'
   rw [Matrix.fromBlocks_inj] at h'
   obtain ⟨-, h12, -, h22⟩ := h'
   have h12' : Matrix.toBlocks₁₂ D = 0 := h12
@@ -2156,7 +2154,7 @@ private theorem bmDPS_J'_blocks (n f r r' : ℕ)
     simp [bmDPS_J21, eq_comm]
   · rw [hC3]; simp [Matrix.fromBlocks, hC3]
   · rw [hC6]; simp [Matrix.fromBlocks, hC6]
-  · rw [hC5]; simp [Matrix.fromBlocks, bmDPS_J21, hC5]
+  · rw [hC5]; simp [Matrix.fromBlocks, bmDPS_J21]
   · rw [hC7]; simp [Matrix.fromBlocks, hC7]
   · rfl
 
@@ -2205,7 +2203,7 @@ private theorem bmDPS_J'_blocks_hB (n f r r' : ℕ)
     simp [bmDPS_J21, eq_comm]
   · rw [hC3]; simp [Matrix.fromBlocks, hC3]
   · rw [hC6]; simp [Matrix.fromBlocks, hC6]
-  · rw [hC5]; simp [Matrix.fromBlocks, bmDPS_J21, hC5]
+  · rw [hC5]; simp [Matrix.fromBlocks, bmDPS_J21]
   · rw [hC7]; simp [Matrix.fromBlocks, hC7]
   · rfl
 
@@ -2313,8 +2311,8 @@ private theorem bmDPS_block_symplectic (n f r r' : ℕ)
     ext c c'
     have h := congrFun (congrFun (bmDPS_J'_sq n f r r' eidx) (Sum.inr (Sum.inr c)))
       (Sum.inr (Sum.inr c'))
-    simp only [Matrix.mul_apply, Matrix.of_apply, Matrix.one_apply, Fintype.sum_sum_type,
-      hJ.2.2.1, hJ.2.2.2.2.1, hJ.2.2.2.2.2.1, hJ.2.2.2.2.2.2.1] at h
+    simp only [Matrix.mul_apply, Matrix.one_apply, Fintype.sum_sum_type,
+      hJ.2.2.2.2.1, hJ.2.2.2.2.2.1, hJ.2.2.2.2.2.2.1] at h
     simpa [Matrix.mul_apply, Q, Matrix.of_apply, Matrix.one_apply] using h
   constructor
   · rw [Matrix.mul_assoc, bmDPS_J12_mul f r r' E G] at hAE
@@ -2792,7 +2790,7 @@ private theorem bmDPS_exists_basis_range_e_span
             (b k : Fin n ⊕ Fin n → GaloisField 2 f)) =
           ((∑ k, b.repr ⟨Matrix.mulVec e x, ⟨x, rfl⟩⟩ k • b k : W) :
             Fin n ⊕ Fin n → GaloisField 2 f) := by
-        simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply]
+        simp only [Submodule.coe_sum, Submodule.coe_smul]
       rw [h'']
       exact h'
     trans (∑ k, b.repr ⟨Matrix.mulVec e x, ⟨x, rfl⟩⟩ k •
@@ -3181,9 +3179,9 @@ private noncomputable def bmDPS_gluePerm (r s : ℕ) :
 
 private noncomputable def bmDPS_glueEidx
     (n f r s : ℕ)
-    {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (Pe : Matrix (Fin n ⊕ Fin n) (Fin r ⊕ Fin r) (GaloisField 2 f))
-    (Bc : Matrix (Fin n ⊕ Fin n) (Fin s ⊕ Fin s) (GaloisField 2 f))
+    {_e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
+    (_Pe : Matrix (Fin n ⊕ Fin n) (Fin r ⊕ Fin r) (GaloisField 2 f))
+    (_Bc : Matrix (Fin n ⊕ Fin n) (Fin s ⊕ Fin s) (GaloisField 2 f))
     (hrs : r + s = n)
     {R r' : ℕ} (hR : R + 1 = r) (hr' : r' = 2 * s) :
     Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ Fin n ⊕ Fin n :=
@@ -3402,7 +3400,7 @@ private theorem bmDPS_blockMat_Jb (n f r r' : ℕ)
   rw [bmDPS_J'_blocks_hB n f r r' eidx hB, bmDPS_J22_eq_hB n f r r' eidx hB]
   unfold bmDPS_blockMat
   rw [bmDPS_transpose_fromBlocks]
-  simp only [Matrix.transpose_zero, Matrix.transpose_one, Matrix.fromBlocks_multiply,
+  simp only [Matrix.transpose_zero, Matrix.fromBlocks_multiply,
     Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
   rw [Matrix.fromBlocks_inj]
   refine ⟨by simp, bmDPS_yJ12D f r r' y, bmDPS_DJ21y f r r' y, ?_⟩
@@ -3417,36 +3415,36 @@ private theorem bmDPS_glueEidx_form_C1
 
     (hrs : r + s = n)
     {R r' : ℕ} (hR : R + 1 = r) (hr' : r' = 2 * s)
-    (hB : ((∀ a a' : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-        hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inl
+    (hB : ((∀ a a' : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+        hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inl
                 a) (Sum.inl a') = 0) ∧
-      (∀ b b' : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm
-          (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inr
+      (∀ b b' : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm
+          (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inr
                   (Sum.inl b)) (Sum.inr (Sum.inl b')) = 0) ∧
-      (∀ (a : Fin (R+1)) (c : Fin r'), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-          hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n
+      (∀ (a : Fin (R+1)) (c : Fin r'), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+          hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n
                   f) (Sum.inl a) (Sum.inr (Sum.inr c)) = 0) ∧
-      (∀ (c : Fin r') (a : Fin (R+1)), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-          hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n
+      (∀ (c : Fin r') (a : Fin (R+1)), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+          hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n
                   f) (Sum.inr (Sum.inr c)) (Sum.inl a) = 0) ∧
-      (∀ (b : Fin (R+1)) (c : Fin r'), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-          hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n
+      (∀ (b : Fin (R+1)) (c : Fin r'), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+          hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n
                   f) (Sum.inr (Sum.inl b)) (Sum.inr (Sum.inr c)) = 0) ∧
-      (∀ (c : Fin r') (b : Fin (R+1)), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-          hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n
+      (∀ (c : Fin r') (b : Fin (R+1)), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+          hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n
                   f) (Sum.inr (Sum.inr c)) (Sum.inr (Sum.inl b)) = 0) ∧
-      (∀ a b : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm
-          (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inl
+      (∀ a b : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm
+          (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inl
                   a) (Sum.inr (Sum.inl b)) = if a = b then 1 else 0)))
     : (∀ y : Matrix.SpecialLinearGroup (Fin (R+1)) (GaloisField 2 f),
-        Matrix.transpose (Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr')
-            (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr') (bmDPS_blockMat n f (R+1) r' y)) *
+        Matrix.transpose (Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr')
+            (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr') (bmDPS_blockMat n f (R+1) r' y)) *
           bmDPS_J n f *
-          Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr') (bmDPS_glueEidx n f r s
-              Pe Bc (e := e) hrs hR hr') (bmDPS_blockMat n f (R+1) r' y) =
+          Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr') (bmDPS_glueEidx n f r s
+              Pe Bc (_e := e) hrs hR hr') (bmDPS_blockMat n f (R+1) r' y) =
             bmDPS_J n f) := by
   intro y
-  set eidx := bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr' with heidx
+  set eidx := bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr' with heidx
   have hJb := bmDPS_blockMat_Jb n f (R+1) r' eidx y hB
   have hre : Matrix.reindex eidx eidx (Matrix.reindex eidx.symm eidx.symm (bmDPS_J n f)) = bmDPS_J n
       f :=
@@ -3479,33 +3477,33 @@ private theorem bmDPS_glueEidx_form_C28
 
     (hrs : r + s = n)
     {R r' : ℕ} (hR : R + 1 = r) (hr' : r' = 2 * s)
-    : ((∀ a a' : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm
-        (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inl
+    : ((∀ a a' : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm
+        (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inl
                 a) (Sum.inl a') = 0) ∧
-      (∀ b b' : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm
-          (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inr
+      (∀ b b' : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm
+          (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inr
                   (Sum.inl b)) (Sum.inr (Sum.inl b')) = 0) ∧
-      (∀ (a : Fin (R+1)) (c : Fin r'), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-          hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n
+      (∀ (a : Fin (R+1)) (c : Fin r'), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+          hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n
                   f) (Sum.inl a) (Sum.inr (Sum.inr c)) = 0) ∧
-      (∀ (c : Fin r') (a : Fin (R+1)), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-          hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n
+      (∀ (c : Fin r') (a : Fin (R+1)), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+          hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n
                   f) (Sum.inr (Sum.inr c)) (Sum.inl a) = 0) ∧
-      (∀ (b : Fin (R+1)) (c : Fin r'), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-          hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n
+      (∀ (b : Fin (R+1)) (c : Fin r'), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+          hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n
                   f) (Sum.inr (Sum.inl b)) (Sum.inr (Sum.inr c)) = 0) ∧
-      (∀ (c : Fin r') (b : Fin (R+1)), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR
-          hr').symm (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n
+      (∀ (c : Fin r') (b : Fin (R+1)), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR
+          hr').symm (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n
                   f) (Sum.inr (Sum.inr c)) (Sum.inr (Sum.inl b)) = 0) ∧
-      (∀ a b : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm
-          (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inl
+      (∀ a b : Fin (R+1), Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm
+          (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm (bmDPS_J n f) (Sum.inl
                   a) (Sum.inr (Sum.inl b)) = if a = b then 1 else 0)) := by
-  set eidx := bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr' with heidx
+  set eidx := bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr' with heidx
   have h_inl : ∀ a : Fin (R+1),
       eidx (Sum.inl a) = Sum.inl (finCongr hrs (Fin.castAdd s (finCongr hR a))) := by
     intro a
     simp only [heidx, bmDPS_glueEidx, bmDPS_gluePerm, Equiv.trans_apply, Equiv.sumCongr_apply,
-      Equiv.coe_fn_mk, Sum.map_inl, Sum.map_inr, finSumFinEquiv_apply_left]
+      Equiv.coe_fn_mk, Sum.map_inl, finSumFinEquiv_apply_left]
   have h_inr_inl : ∀ b : Fin (R+1),
       eidx (Sum.inr (Sum.inl b)) = Sum.inr (finCongr hrs (Fin.castAdd s (finCongr hR b))) := by
     intro b
@@ -3522,7 +3520,7 @@ private theorem bmDPS_glueEidx_form_C28
       eidx (Sum.inr (Sum.inr c)) = Sum.inr (finCongr hrs (Fin.natAdd r v)) := by
     intro c v hc
     simp only [heidx, bmDPS_glueEidx, bmDPS_gluePerm, Equiv.trans_apply, Equiv.sumCongr_apply,
-      Equiv.coe_fn_mk, Sum.map_inl, Sum.map_inr, hc, finSumFinEquiv_apply_right]
+      Equiv.coe_fn_mk, Sum.map_inr, hc, finSumFinEquiv_apply_right]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · intro a a'
     simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Equiv.symm_symm, h_inl a, h_inl a']
@@ -3597,7 +3595,7 @@ private theorem bmDPS_glueEidx_form
 
     (hrs : r + s = n)
     {R r' : ℕ} (hR : R + 1 = r) (hr' : r' = 2 * s) :
-    bmDPS_IsFormStandard n f (R + 1) r' (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr') := by
+    bmDPS_IsFormStandard n f (R + 1) r' (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr') := by
   have hB := bmDPS_glueEidx_form_C28 n f r s Pe Bc (e := e) hrs hR hr'
   refine ⟨bmDPS_glueEidx_form_C1 n f r s Pe Bc (e := e) hrs hR hr' hB,
     hB.1, hB.2.1, hB.2.2.1, hB.2.2.2.1, hB.2.2.2.2.1, hB.2.2.2.2.2.1, hB.2.2.2.2.2.2⟩
@@ -3616,7 +3614,7 @@ private theorem bmDPS_glueBcJ_apply_cast (s f : ℕ) {n' : ℕ} (h : n' = 2 * s)
       bmDPS_J s f (finSumFinEquiv.symm (Fin.cast (h.trans (two_mul s)) i))
         (finSumFinEquiv.symm (Fin.cast (h.trans (two_mul s)) j)) := by
   simp only [bmDPS_glueBcJ, Matrix.reindex_apply, Matrix.submatrix_apply, Equiv.symm_symm,
-    Equiv.trans_apply, Equiv.coe_fn_mk, finCongr_apply, Fin.cast_cast]
+    Equiv.trans_apply, finCongr_apply, Fin.cast_cast]
 
 private theorem bmDPS_glueEidx_bc
     (n f r s : ℕ)
@@ -3627,11 +3625,11 @@ private theorem bmDPS_glueEidx_bc
     (hrs : r + s = n)
     {R r' : ℕ} (hR : R + 1 = r) (hr' : r' = 2 * s) :
     ∀ c c' : Fin r',
-      Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm
-        (bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr').symm
+      Matrix.reindex (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm
+        (bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr').symm
         (bmDPS_J n f) (Sum.inr (Sum.inr c)) (Sum.inr (Sum.inr c')) =
         bmDPS_glueBcJ s f (Fin.cast hr' c) (Fin.cast hr' c') := by
-  set eidx := bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR hr' with heidx
+  set eidx := bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR hr' with heidx
   have h_inr_inr_inl : ∀ (c : Fin r') (u : Fin s),
       finSumFinEquiv.symm (finCongr (hr'.trans (two_mul s)) c) = Sum.inl u →
       eidx (Sum.inr (Sum.inr c)) = Sum.inl (finCongr hrs (Fin.natAdd r u)) := by
@@ -3643,15 +3641,15 @@ private theorem bmDPS_glueEidx_bc
       eidx (Sum.inr (Sum.inr c)) = Sum.inr (finCongr hrs (Fin.natAdd r v)) := by
     intro c v hc
     simp only [heidx, bmDPS_glueEidx, bmDPS_gluePerm, Equiv.trans_apply, Equiv.sumCongr_apply,
-      Equiv.coe_fn_mk, Sum.map_inl, Sum.map_inr, hc, finSumFinEquiv_apply_right]
+      Equiv.coe_fn_mk, Sum.map_inr, hc, finSumFinEquiv_apply_right]
   intro c c'
   simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Equiv.symm_symm]
   rw [bmDPS_glueBcJ_apply_cast s f hr' c c']
   rcases hc : finSumFinEquiv.symm (Fin.cast (hr'.trans (two_mul s)) c) with u | v
   · rcases hc' : finSumFinEquiv.symm (Fin.cast (hr'.trans (two_mul s)) c') with u' | v'
-    · simp only [h_inr_inr_inl c u hc, h_inr_inr_inl c' u' hc', hc, hc']
+    · simp only [h_inr_inr_inl c u hc, h_inr_inr_inl c' u' hc']
       simp [bmDPS_J, Matrix.fromBlocks]
-    · simp only [h_inr_inr_inl c u hc, h_inr_inr_inr c' v' hc', hc, hc']
+    · simp only [h_inr_inr_inl c u hc, h_inr_inr_inr c' v' hc']
       have hXY : (finCongr hrs (Fin.natAdd r u) : Fin n) = finCongr hrs (Fin.natAdd r v') ↔
           u = v' := by
         constructor
@@ -3659,14 +3657,14 @@ private theorem bmDPS_glueEidx_bc
         · intro h; rw [h]
       simp only [bmDPS_J, Matrix.fromBlocks_apply₁₂, Matrix.one_apply, hXY]
   · rcases hc' : finSumFinEquiv.symm (Fin.cast (hr'.trans (two_mul s)) c') with u' | v'
-    · simp only [h_inr_inr_inr c v hc, h_inr_inr_inl c' u' hc', hc, hc']
+    · simp only [h_inr_inr_inr c v hc, h_inr_inr_inl c' u' hc']
       have hXY : (finCongr hrs (Fin.natAdd r v) : Fin n) = finCongr hrs (Fin.natAdd r u') ↔
           v = u' := by
         constructor
         · intro h; exact (bmDPS_natAdd_inj_iff v u').mp ((finCongr hrs).injective h)
         · intro h; rw [h]
       simp only [bmDPS_J, Matrix.fromBlocks_apply₂₁, Matrix.neg_apply, Matrix.one_apply, hXY]
-    · simp only [h_inr_inr_inr c v hc, h_inr_inr_inr c' v' hc', hc, hc']
+    · simp only [h_inr_inr_inr c v hc, h_inr_inr_inr c' v' hc']
       simp [bmDPS_J, Matrix.fromBlocks]
 
 private theorem bmDPS_glue_index
@@ -3677,14 +3675,14 @@ private theorem bmDPS_glue_index
 
     (hrs : r + s = n)   (hr1 : 1 ≤ r) :
     ∃ (R r' : ℕ) (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ Fin n ⊕ Fin n)
-      (hR : R + 1 = r) (hr' : r' = 2 * s),
+      (_hR : R + 1 = r) (hr' : r' = 2 * s),
       bmDPS_IsFormStandard n f (R + 1) r' eidx ∧
       (∀ c c' : Fin r',
         Matrix.reindex eidx.symm eidx.symm (bmDPS_J n f) (Sum.inr (Sum.inr c))
           (Sum.inr (Sum.inr c')) = bmDPS_glueBcJ s f (Fin.cast hr' c) (Fin.cast hr' c')) := by
   have hR0 : r - 1 + 1 = r := by omega
   refine ⟨r - 1, 2 * s,
-    bmDPS_glueEidx n f r s Pe Bc (e := e) hrs hR0 rfl,
+    bmDPS_glueEidx n f r s Pe Bc (_e := e) hrs hR0 rfl,
     hR0, rfl, ?_, ?_⟩
   · exact bmDPS_glueEidx_form n f r s Pe Bc hrs hR0 rfl
   · exact bmDPS_glueEidx_bc n f r s Pe Bc hrs hR0 rfl
@@ -3887,20 +3885,19 @@ private theorem bmDPS_glueP_e_mul_glueQ (n f r s : ℕ)
     have hD : (bmDPS_glueQ n f Pe Bc hR hr' * bmDPS_D0 (R + 1) r' (GaloisField 2 f))
         i (Sum.inl a) = bmDPS_glueQ n f Pe Bc hR hr' i (Sum.inl a) := by
       rw [Matrix.mul_apply, Fintype.sum_sum_type]
-      simp [bmDPS_glueQ, bmDPS_D0, Matrix.fromBlocks, Matrix.mul_apply, Matrix.one_apply,
-        Fintype.sum_sum_type, Finset.sum_ite_eq]
+      simp [bmDPS_glueQ, bmDPS_D0, Matrix.fromBlocks, Matrix.one_apply]
     rw [hL, hD, hPee]
     simp [bmDPS_glueQ, Matrix.fromBlocks, Matrix.mul_apply, Matrix.one_apply,
-      Fintype.sum_sum_type, Finset.sum_ite_eq]
+      Fintype.sum_sum_type]
   · have hL : (e * bmDPS_glueQ n f Pe Bc hR hr') i (Sum.inr (Sum.inl b)) =
         (e * Pe) i (Sum.inr (Fin.cast hR b)) := by
       simp [bmDPS_glueQ, Matrix.mul_apply]
     have hD : (bmDPS_glueQ n f Pe Bc hR hr' * bmDPS_D0 (R + 1) r' (GaloisField 2 f))
         i (Sum.inr (Sum.inl b)) = 0 := by
       rw [Matrix.mul_apply, Fintype.sum_sum_type]
-      simp [bmDPS_glueQ, bmDPS_D0, Matrix.fromBlocks, Matrix.mul_apply]
+      simp [bmDPS_glueQ, bmDPS_D0, Matrix.fromBlocks]
     rw [hL, hD, hPee]
-    simp [Matrix.fromBlocks, Matrix.mul_apply, Matrix.one_apply, Matrix.zero_apply,
+    simp [Matrix.fromBlocks, Matrix.mul_apply, Matrix.zero_apply,
       Fintype.sum_sum_type]
   · have hL : (e * bmDPS_glueQ n f Pe Bc hR hr') i (Sum.inr (Sum.inr c)) =
         (e * Bc) i (finSumFinEquiv.symm (Fin.cast (hr'.trans (two_mul s)) c)) := by
@@ -3908,7 +3905,7 @@ private theorem bmDPS_glueP_e_mul_glueQ (n f r s : ℕ)
     have hD : (bmDPS_glueQ n f Pe Bc hR hr' * bmDPS_D0 (R + 1) r' (GaloisField 2 f))
         i (Sum.inr (Sum.inr c)) = 0 := by
       rw [Matrix.mul_apply, Fintype.sum_sum_type]
-      simp [bmDPS_glueQ, bmDPS_D0, Matrix.fromBlocks, Matrix.mul_apply]
+      simp [bmDPS_glueQ, bmDPS_D0, Matrix.fromBlocks]
     rw [hL, hD, heBc]
     simp
 
@@ -4032,17 +4029,17 @@ private theorem bmDPS_glue_standard_basis
     (hee : e * e = e) (horth_e : e * bmDPS_estar n f e = 0) :
     ∃ (R r' : ℕ) (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ Fin n ⊕ Fin n)
       (P Pinv : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f))
-      (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
-      (hP : Matrix.transpose P * bmDPS_J n f * P = bmDPS_J n f)
-      (hJ : bmDPS_IsFormStandard n f (R + 1) r' eidx),
+      (_hPP : P * Pinv = 1) (_hPinvP : Pinv * P = 1)
+      (_hP : Matrix.transpose P * bmDPS_J n f * P = bmDPS_J n f)
+      (_hJ : bmDPS_IsFormStandard n f (R + 1) r' eidx),
       0 ≤ R ∧ Pinv * Matrix.reindex eidx eidx (bmDPS_D0 (R + 1) r' (GaloisField 2 f)) * P = e := by
   obtain hr1 := bmDPS_glue_pos n f r s Pe (e := e) hspanPe hrs hε
-  obtain ⟨R, r', eidx, hR, hr', hJ, hBcBlock⟩ :=
+  obtain ⟨R, r', eidx, hR, hr', _hJ, hBcBlock⟩ :=
     bmDPS_glue_index n f r s Pe Bc (e := e) hrs hr1
-  obtain ⟨P, Pinv, hPP, hPinvP, hP, hconv⟩ :=
-    bmDPS_glue_symplectic_data n f r s Pe Bc hPeJ hBcJ horth hBcε hPee eidx hJ hR hr' hBcBlock hee
+  obtain ⟨P, Pinv, _hPP, _hPinvP, _hP, hconv⟩ :=
+    bmDPS_glue_symplectic_data n f r s Pe Bc hPeJ hBcJ horth hBcε hPee eidx _hJ hR hr' hBcBlock hee
         horth_e
-  exact ⟨R, r', eidx, P, Pinv, hPP, hPinvP, hP, hJ, Nat.zero_le R, hconv⟩
+  exact ⟨R, r', eidx, P, Pinv, _hPP, _hPinvP, _hP, _hJ, Nat.zero_le R, hconv⟩
 
 private theorem bmDPS_explicit_data
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
@@ -4053,9 +4050,9 @@ private theorem bmDPS_explicit_data
     (hestar : IsPrimIdemIn (bmDPS_A n f S) (bmDPS_estar n f e)) :
     ∃ (R r' : ℕ) (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ Fin n ⊕ Fin n)
       (P Pinv : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f))
-      (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
-      (hP : Matrix.transpose P * bmDPS_J n f * P = bmDPS_J n f)
-      (hJ : bmDPS_IsFormStandard n f (R + 1) r' eidx),
+      (_hPP : P * Pinv = 1) (_hPinvP : Pinv * P = 1)
+      (_hP : Matrix.transpose P * bmDPS_J n f * P = bmDPS_J n f)
+      (_hJ : bmDPS_IsFormStandard n f (R + 1) r' eidx),
       0 ≤ R ∧ Pinv * Matrix.reindex eidx eidx (bmDPS_D0 (R + 1) r' (GaloisField 2 f)) * P = e := by
   obtain ⟨r, s, Pe, Bc, hPeJ, hBcJ, horthPB, hPeε, hBcε, hPee, hPees, hspanPe, hspanBc, hrs,
     he0⟩ :=
@@ -4161,7 +4158,7 @@ private theorem bmDPS_component_sl2_card_field
       _ = n * (n ^ 2 - 1) := hcard
   have hpos : 0 < n := by rw [hn]; exact Nat.card_pos
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   interval_cases n <;> omega
 
 private theorem bmDPS_component_sl2_card
@@ -4182,7 +4179,7 @@ private theorem bmDPS_component_sl2_card
   have h4 : 4 ≤ Nat.card (GaloisField 2 f) :=
     bmDPS_component_sl2_card_field n f S he hJe eidx hPP hPinvP hP hJ hconv hR
   classical
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset (GaloisField 2 f)))
     (n := 4) (by simpa [Finset.card_univ, Nat.card_eq_fintype_card] using h4)
   exact ⟨s, hs⟩
@@ -4204,7 +4201,7 @@ private theorem bmDPS_component_perfect_SL
   rcases lt_or_ge (R + 1) 3 with hlt | hge
   · have hcases : R + 1 = 1 ∨ R + 1 = 2 := by omega
     rcases hcases with hR1 | hR2
-    · haveI : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
+    · have : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
       exact Group.IsPerfect.mk (Subsingleton.elim _ _)
     · obtain ⟨s, hs⟩ := bmDPS_component_sl2_card n f S he hJe eidx hPP hPinvP hP hJ hconv hR2
       exact CFSG.LinearGroups.special_linear_isPerfect (K := GaloisField 2 f) (n := R + 1)
@@ -4265,7 +4262,7 @@ private theorem bmDPS_component_range_quasisimple
   have hRpos : 1 ≤ R := by
     by_contra hR0
     have hR1 : R + 1 = 1 := by omega
-    haveI : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
+    have : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
     have hbot : bmDPS_range n f S e = ⊥ := by
       rw [hRg, MonoidHom.range_eq_bot_iff]
       ext x
@@ -4273,9 +4270,9 @@ private theorem bmDPS_component_range_quasisimple
       simp
     have hJ'bot : J' = ⊥ := le_bot_iff.mp (hbot ▸ hJe.1)
     have hntJ' : Nontrivial ↥J' := by
-      haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2.toNontrivial
+      have : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2.toNontrivial
       exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
-    haveI : Nontrivial ↥J' := hntJ'
+    have : Nontrivial ↥J' := hntJ'
     exact not_subsingleton ↥J' (by rw [hJ'bot]; infer_instance)
   rw [hRg]
   refine CFSG.LocalAnalysis.GLTheoremA.S11.y10xF_qs_of_mulEquiv
@@ -4340,7 +4337,7 @@ private theorem bmDPS_component_rank_pos
       (bmDPS_component_embed_le_range n f S hS he hestar hgen hJe eidx hPP hPinvP hP hJ hconv)
   by_contra hR0
   have hR1 : R + 1 = 1 := by omega
-  haveI : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
+  have : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
   have hbot : bmDPS_range n f S e = ⊥ := by
     rw [hRg, MonoidHom.range_eq_bot_iff]
     ext x
@@ -4348,9 +4345,9 @@ private theorem bmDPS_component_rank_pos
     simp
   have hJ'bot : J' = ⊥ := le_bot_iff.mp (hbot ▸ hJe.1)
   have hntJ' : Nontrivial ↥J' := by
-    haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2.toNontrivial
+    have : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2.toNontrivial
     exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
-  haveI : Nontrivial ↥J' := hntJ'
+  have : Nontrivial ↥J' := hntJ'
   exact not_subsingleton ↥J' (by rw [hJ'bot]; infer_instance)
 
 private theorem bmDPS_component_eq_range
@@ -4507,8 +4504,7 @@ private theorem bmDPS_blockMat_transvection
   simp only [Matrix.transpose_add, Matrix.transpose_one, Matrix.transpose_single, CharTwo.neg_eq]
   ext p q
   rcases p with a | (b | d) <;> rcases q with a' | (b' | d') <;>
-    simp [Matrix.fromBlocks, Matrix.fromBlocks_add, Matrix.fromBlocks_smul, Matrix.fromBlocks_one,
-      Matrix.fromBlocks_zero, Matrix.single_apply, Matrix.smul_apply, Matrix.one_apply,
+    simp [Matrix.fromBlocks, Matrix.single_apply, Matrix.one_apply,
       Matrix.add_apply, Matrix.zero_apply]
 
 private theorem bmDPS_conj_add (n f : ℕ)
@@ -4625,7 +4621,7 @@ private theorem bmDPS_J_mulVec_single_inl (n f R r' : ℕ)
   rw [Matrix.col_apply, bmDPS_J_apply_eidx]
   obtain ⟨e1, e2, e3, e4, e5, e6, e7⟩ := bmDPS_Jb_entries n f R r' eidx hJ
   rcases hk : eidx.symm k with a' | (b | c)
-  · rw [e1, Pi.single_apply, if_neg]
+  · rw [e1, Pi.single_apply, ite_eq_right]
     rintro h
     rw [h, Equiv.symm_apply_apply] at hk
     exact Sum.inr_ne_inl hk
@@ -4634,12 +4630,12 @@ private theorem bmDPS_J_mulVec_single_inl (n f R r' : ℕ)
       rw [(Equiv.apply_symm_apply eidx k).symm, hk]
     rw [hk']
     by_cases hab : a = b
-    · rw [if_pos hab, if_pos]
+    · rw [ite_eq_left hab, ite_eq_left]
       exact congrArg (fun x => eidx (Sum.inr (Sum.inl x))) hab.symm
-    · rw [if_neg hab, if_neg]
+    · rw [ite_eq_right hab, ite_eq_right]
       intro h
       exact hab ((Sum.inl_injective (Sum.inr_injective (eidx.injective h))).symm)
-  · rw [e5, Pi.single_apply, if_neg]
+  · rw [e5, Pi.single_apply, ite_eq_right]
     rintro h
     rw [h, Equiv.symm_apply_apply] at hk
     exact Sum.inl_ne_inr (Sum.inr_injective hk)
@@ -4661,16 +4657,16 @@ private theorem bmDPS_J_mulVec_single_inr (n f R r' : ℕ)
       rw [(Equiv.apply_symm_apply eidx k).symm, hk]
     rw [hk']
     by_cases hab : a' = b
-    · rw [if_pos hab, if_pos (congrArg (fun x => eidx (Sum.inl x)) hab)]
-    · rw [if_neg hab, if_neg]
+    · rw [ite_eq_left hab, ite_eq_left (congrArg (fun x => eidx (Sum.inl x)) hab)]
+    · rw [ite_eq_right hab, ite_eq_right]
       intro h
       exact hab (Sum.inl_injective (eidx.injective h))
-  · rw [e2, Pi.single_apply, if_neg (by
+  · rw [e2, Pi.single_apply, ite_eq_right (by
       intro h
       have h2 : eidx.symm k = Sum.inl b := by rw [h, Equiv.symm_apply_apply]
       rw [hk] at h2
       exact Sum.inl_ne_inr h2.symm)]
-  · rw [Pi.single_apply, if_neg (by
+  · rw [Pi.single_apply, ite_eq_right (by
       intro h
       have h2 : eidx.symm k = Sum.inl b := by rw [h, Equiv.symm_apply_apply]
       rw [hk] at h2
@@ -4698,7 +4694,7 @@ private theorem bmDPS_reindex_single (n f R r' : ℕ)
       Matrix.vecMulVec (Pi.single (eidx p) 1) (Pi.single (eidx q) 1) := by
   ext r s
   simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Matrix.single_apply,
-    Matrix.vecMulVec_apply, Pi.single_apply, Equiv.symm_apply_eq]
+    Matrix.vecMulVec_apply, Pi.single_apply]
   split_ifs <;> simp_all
 
 private theorem bmDPS_reindex_fromBlocks_single (n f R r' : ℕ)
@@ -4877,19 +4873,19 @@ private theorem bmDPS_siegel_pairings (n f R r' : ℕ)
   · rw [bmDPS_pairing_isometry n f Pinv hPinv_symp,
       bmDPS_J_mulVec_single_inr n f R r' eidx hJ j,
       bmDPS_single_dotProduct f (eidx (Sum.inl i)) (eidx (Sum.inl j)),
-      if_neg (by intro h; exact hij (Sum.inl_injective (eidx.injective h)))]
+      ite_eq_right (by intro h; exact hij (Sum.inl_injective (eidx.injective h)))]
   · rw [bmDPS_pairing_isometry n f Pinv hPinv_symp,
       bmDPS_J_mulVec_single_inl n f R r' eidx hJ j,
       bmDPS_single_dotProduct f (eidx (Sum.inr (Sum.inl i))) (eidx (Sum.inr (Sum.inl j))),
-      if_neg (by intro h; exact hij (Sum.inl_injective (Sum.inr_injective (eidx.injective h))))]
+      ite_eq_right (by intro h; exact hij (Sum.inl_injective (Sum.inr_injective (eidx.injective h))))]
   · rw [bmDPS_pairing_isometry n f Pinv hPinv_symp,
       bmDPS_J_mulVec_single_inl n f R r' eidx hJ j,
       bmDPS_single_dotProduct f (eidx (Sum.inl i)) (eidx (Sum.inr (Sum.inl j))),
-      if_neg (by intro h; exact Sum.inl_ne_inr (eidx.injective h))]
+      ite_eq_right (by intro h; exact Sum.inl_ne_inr (eidx.injective h))]
   · rw [bmDPS_pairing_isometry n f Pinv hPinv_symp,
       bmDPS_J_mulVec_single_inr n f R r' eidx hJ i,
       bmDPS_single_dotProduct f (eidx (Sum.inr (Sum.inl j))) (eidx (Sum.inl i)),
-      if_neg (by intro h; exact Sum.inr_ne_inl (eidx.injective h))]
+      ite_eq_right (by intro h; exact Sum.inr_ne_inl (eidx.injective h))]
 
 private theorem bmDPS_mrange_eq_altSiegel (n f : ℕ)
     (Φ : Multiplicative (GaloisField 2 f) →* GL (Fin n ⊕ Fin n) (GaloisField 2 f))
@@ -5120,8 +5116,8 @@ private theorem bmDPS_J_self_pairing (n f : ℕ) (x : (Fin n ⊕ Fin n) → Galo
   rw [bmDPS_J, Matrix.fromBlocks_mulVec]
   simp only [Matrix.zero_mulVec, Matrix.one_mulVec, add_zero, zero_add]
   rw [dotProduct, Fintype.sum_sum_type]
-  simp only [Function.comp_apply, dotProduct, Sum.elim_inl, Sum.elim_inr,
-    Matrix.neg_mulVec, Pi.neg_apply, one_mul]
+  simp only [Function.comp_apply, Sum.elim_inl, Sum.elim_inr,
+    Matrix.neg_mulVec, Pi.neg_apply]
   rw [← Finset.sum_add_distrib]
   apply Finset.sum_eq_zero
   intro k _
@@ -5161,7 +5157,7 @@ private theorem bmDPS_rank_one_eq_vecMulVec {m n : Type*} [Fintype m]
     exact ⟨0, 0, by ext i j; simp [Matrix.vecMulVec]⟩
   · obtain ⟨i, hi⟩ : ∃ i, A.row i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hA0 (by ext k l; simpa using congrFun (h k) l)
     have hrank : A.rank = Module.finrank F (Submodule.span F (Set.range A.row)) :=
       Matrix.rank_eq_finrank_span_row A
@@ -5266,12 +5262,10 @@ private theorem bmDPS_rank_fromBlocks_zero {m n : Type*} [Fintype m] [Fintype n]
       constructor
       · refine ⟨v ∘ Sum.inl, ?_⟩
         rw [Matrix.mulVecLin_apply, Matrix.mulVecLin_apply]
-        congr 1
         funext i
         simp [hB, Matrix.fromBlocks, Matrix.mulVec, dotProduct, Fintype.sum_sum_type]
       · refine ⟨v ∘ Sum.inr, ?_⟩
         rw [Matrix.mulVecLin_apply, Matrix.mulVecLin_apply]
-        congr 1
         funext j
         simp [hB, Matrix.fromBlocks, Matrix.mulVec, dotProduct, Fintype.sum_sum_type]
     · rintro ⟨hu, hw⟩
@@ -5852,7 +5846,7 @@ private theorem bmDPS_det_one_add_vecMulVec (R f : ℕ)
   rw [bmDPS_vecMulVec_eq_replicate]
   rw [Matrix.det_one_add_mul_comm (Matrix.replicateCol (Fin 1) v)
       (Matrix.replicateRow (Fin 1) φ), Matrix.det_unique]
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.mul_apply, Matrix.replicateCol,
+  simp [Matrix.add_apply, Matrix.mul_apply, Matrix.replicateCol,
     Matrix.replicateRow, dotProduct]
 
 private theorem bmDPS_smul_vecMulVec (R f : ℕ)
@@ -5982,7 +5976,7 @@ private theorem bmDPS_map_conj_matTransvGroup_ge (R' f : ℕ)
   rintro h ⟨c, hc⟩
   refine Subgroup.subset_closure ⟨(MulAut.conj (Matrix.SpecialLinearGroup.toGL g))⁻¹ h,
     ⟨c, ?_⟩, by
-      simp only [MulEquiv.coe_toMonoidHom, zpow_neg_one, MulEquiv.inv_apply]
+      simp only [MulEquiv.coe_toMonoidHom]
       exact MulEquiv.apply_symm_apply _ _⟩
   rw [bmDPS_coe_conj_toGL_inv R' f g h, hc, Matrix.mul_add, Matrix.mul_one, Matrix.mul_smul,
     Matrix.add_mul, Matrix.smul_mul,
@@ -6015,7 +6009,7 @@ private theorem bmDPS_exists_sl_map_vec (R' f : ℕ)
     ∃ g : Matrix.SpecialLinearGroup (Fin R') (GaloisField 2 f), ∃ c : GaloisField 2 f,
       c ≠ 0 ∧
       Matrix.mulVec (g : Matrix (Fin R') (Fin R') (GaloisField 2 f)) v₁ = c • v₂ := by
-  haveI : NeZero R' := ⟨fun h => hv₁ (by subst h; exact Subsingleton.elim _ _)⟩
+  have : NeZero R' := ⟨fun h => hv₁ (by subst h; exact Subsingleton.elim _ _)⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq
     (M := Matrix.SpecialLinearGroup (Fin R') (GaloisField 2 f))
     (Projectivization.mk (GaloisField 2 f) v₁ hv₁)
@@ -6102,7 +6096,7 @@ private theorem bmDPS_transpose_vecMulVec_phi (R' f : ℕ) (j : Fin R')
     Matrix.one_mulVec, Matrix.vecMulVec_mulVec,
     show φ ⬝ᵥ (Pi.single j (1 : GaloisField 2 f) : Fin R' → GaloisField 2 f) = φ j from by
       rw [dotProduct_comm]; exact bmDPS_single_dotProduct_vec R' f j φ]
-  simp only [add_right_inj, op_smul_eq_smul]
+  simp only [op_smul_eq_smul]
 
 private theorem bmDPS_mulVec_vecMulVec_phi (R' f : ℕ) (hR : 1 ≤ R')
     (φ w : Fin R' → GaloisField 2 f) (h : w (⟨0, by omega⟩ : Fin R') = 0) :
@@ -6228,12 +6222,12 @@ private theorem bmDPS_diagVec_apply_two (R' f : ℕ) (hR3 : 3 ≤ R') (c : Galoi
   have h20 : (⟨2, by omega⟩ : Fin R') ≠ ⟨0, by omega⟩ := by
     intro hh
     have hh' := Fin.ext_iff.mp hh
-    simp only [Fin.val_mk] at hh'
+    simp only at hh'
     omega
   have h21 : (⟨2, by omega⟩ : Fin R') ≠ ⟨1, by omega⟩ := by
     intro hh
     have hh' := Fin.ext_iff.mp hh
-    simp only [Fin.val_mk] at hh'
+    simp only at hh'
     omega
   simp [bmDPS_diagVec, h20, h21]
 
@@ -6643,7 +6637,7 @@ private theorem bmDPS_exists_sl_map_pair (R' f : ℕ)
     exact h3
   · exfalso
     have hle : R' ≤ 1 := by omega
-    haveI : Subsingleton (Fin R') :=
+    have : Subsingleton (Fin R') :=
       ⟨fun a b => Fin.ext (by have ha := a.isLt; have hb := b.isLt; omega)⟩
     obtain ⟨i, hi⟩ := bmDPS_exists_coord_ne_zero R' f v₁ hv₁
     obtain ⟨j, hj⟩ := bmDPS_exists_coord_ne_zero R' f φ₁ hφ₁
@@ -6732,7 +6726,7 @@ private theorem bmDPS_tau_ne_zero (n f : ℕ) (a₁ a₂ : (Fin n ⊕ Fin n) →
   intro hτ
   obtain ⟨i, hi⟩ : ∃ i, Matrix.mulVec (bmDPS_J n f) a₂ i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact bmDPS_J_mulVec_ne_zero n f ha₂ (funext h)
   have hpair : ((Matrix.mulVec (bmDPS_J n f) a₂) i) • a₁ +
       ((Matrix.mulVec (bmDPS_J n f) a₁) i) • a₂ = 0 := by
@@ -6849,11 +6843,11 @@ private theorem bmDPS_map_conj_comap {G H : Type*} [Group G] [Group H]
       = Subgroup.comap f (Subgroup.map (MulAut.conj (f g)).toMonoidHom L) := by
   have hconj : ∀ y : G, f (MulAut.conj g y) = MulAut.conj (f g) (f y) := by
     intro y
-    simp [MulAut.conj_apply, map_mul, map_inv, mul_inv_rev, inv_inv, mul_assoc]
+    simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]
   have hconj_inv : ∀ y : G, f (MulAut.conj g⁻¹ y) = (MulAut.conj (f g))⁻¹ (f y) := by
     intro y
     rw [MulAut.conj_apply, MulAut.conj_inv_apply]
-    simp [map_mul, map_inv, mul_inv_rev, inv_inv, mul_assoc]
+    simp [map_mul, map_inv, inv_inv, mul_assoc]
   have hconj_inv' : ∀ y : G, (MulAut.conj (f g))⁻¹ (f y) = f (MulAut.conj g⁻¹ y) :=
     fun y => (hconj_inv y).symm
   ext x
@@ -6878,11 +6872,11 @@ private theorem bmDPS_map_conj_comp {G H : Type*} [Group G] [Group H]
   · rintro ⟨k, hk, rfl⟩
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hk
     exact Subgroup.mem_map.mpr ⟨f a, Subgroup.mem_map.mpr ⟨a, ha, rfl⟩, by
-      simp [MulAut.conj_apply, map_mul, map_inv, mul_inv_rev, mul_assoc]⟩
+      simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]⟩
   · rintro ⟨y, hy, rfl⟩
     obtain ⟨k, hk, rfl⟩ := Subgroup.mem_map.mp hy
     exact Subgroup.mem_map.mpr ⟨MulAut.conj g k, Subgroup.mem_map.mpr ⟨k, hk, rfl⟩, by
-      simp [MulAut.conj_apply, map_mul, map_inv, mul_inv_rev, mul_assoc]⟩
+      simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]⟩
 
 private theorem bmDPS_map_comap_self {G H : Type*} [Group G] [Group H]
     (f : G →* H) (X : Subgroup H) (hX : X ≤ f.range) :
@@ -7019,10 +7013,10 @@ private theorem bmDPS_std_pair_nondeg (n f : ℕ)
   refine ⟨?_, ?_, ?_⟩
   · intro h
     rw [h] at h11
-    simpa using h11
+    simp at h11
   · intro h
     rw [h] at h22
-    simpa using h22
+    simp at h22
   · rw [LinearIndependent.pair_iff]
     intro s t hst
     have h1 : (s • A₁ + t • A₂) ⬝ᵥ Matrix.mulVec (bmDPS_J n f) B₁ = 0 := by

@@ -123,7 +123,7 @@ private theorem modMat_weylMatrix_eq_neg_one_F4Three
       (modMat 3 (weylMatrix w))ᵀ *ᵥ frameCoord Tag.F4 3 s =
         (-1 : ZMod 3) • frameCoord Tag.F4 3 s) :
     modMat 3 (weylMatrix w) = -1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsurj : Function.Surjective (frameCoord Tag.F4 3) :=
     Finite.injective_iff_surjective.mp (frameCoord_injective hdet)
   have hall' : ∀ x : Fin Tag.F4.rank → ZMod 3,
@@ -137,8 +137,8 @@ private theorem modMat_weylMatrix_eq_neg_one_F4Three
   rw [Pi.smul_apply, Pi.single_apply] at h
   rw [h, Matrix.neg_apply, Matrix.one_apply]
   by_cases hij : i = j
-  · rw [if_pos hij.symm, if_pos hij]; ring
-  · rw [if_neg (fun hji => hij hji.symm), if_neg hij]; ring
+  · rw [ite_eq_left hij.symm, ite_eq_left hij]; ring
+  · rw [ite_eq_right (fun hji => hij hji.symm), ite_eq_right hij]; ring
 
 private theorem smul_modEq_neg_of_modMat_neg_one_F4Three
     {w : WeylGroup Tag.F4} (h : modMat 3 (weylMatrix w) = -1)
@@ -166,7 +166,7 @@ private theorem smul_modEq_neg_of_modMat_neg_one_F4Three
 private theorem mul_f4Neg_eq_one_of_modMat_neg_one_F4Three
     {w : WeylGroup Tag.F4} (h : modMat 3 (weylMatrix w) = -1) :
     w * f4Neg = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.RankThree.Chevalley.F4_eq_one_of_smul_modEq (p := 3) (by norm_num)
     fun v i => ?_
   rw [mul_smul, f4Neg_smul]
@@ -176,7 +176,7 @@ private theorem mul_f4Neg_eq_one_of_modMat_neg_one_F4Three
 
 private theorem f4Neg_mul_self_F4Three :
     f4Neg * f4Neg = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.RankThree.Chevalley.F4_eq_one_of_smul_modEq (p := 3) (by norm_num)
     fun v i => ?_
   rw [mul_smul, f4Neg_smul, f4Neg_smul]

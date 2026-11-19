@@ -139,7 +139,7 @@ theorem top_le_of_kOutNormalSylow {X : Type} [Group X] [Finite X] (R : Sylow 3 X
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : (MulAut.conj : K →* MulAut K).range.Normal :=
     CFSG.AGLEmbedding.normal_range_mulAutConj K
-  obtain ⟨S, hS⟩ := (R.isPGroup'.map (MulAut.conjNormal (H := K))).exists_le_sylow
+  obtain ⟨S, hS⟩ := (R.isPGroup.map (MulAut.conjNormal (H := K))).exists_le_sylow
   have hWn := (hout S).comap (MulAut.conjNormal (H := K))
   have hNΓ' : (MulAut.conj : K →* MulAut K).range.comap (MulAut.conjNormal (H := K)) ≤ Γ :=
     CFSG.AGLEmbedding.comap_range_conj_le hKΓ hCΓ
@@ -150,7 +150,7 @@ theorem top_le_of_kOutNormalSylow {X : Type} [Group X] [Finite X] (R : Sylow 3 X
       (S : Subgroup (MulAut K))).comap (MulAut.conjNormal (H := K)), ∃ k : ℕ,
       w ^ 3 ^ k ∈ (MulAut.conj : K →* MulAut K).range.comap (MulAut.conjNormal (H := K)) :=
     fun w hw => by
-      obtain ⟨k, hk⟩ := CFSG.AGLEmbedding.exists_pow_mem_of_mem_sup S.isPGroup' hw
+      obtain ⟨k, hk⟩ := CFSG.AGLEmbedding.exists_pow_mem_of_mem_sup S.isPGroup hw
       exact ⟨k, by rw [Subgroup.mem_comap, map_pow]; exact hk⟩
   have hWΓ : ((MulAut.conj : K →* MulAut K).range ⊔
       (S : Subgroup (MulAut K))).comap (MulAut.conjNormal (H := K)) ≤ Γ :=

@@ -51,11 +51,11 @@ theorem u3_similitude_weight_fpf [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
   have hc2 : ∀ v : Fin 3 → F, (g v) 2 = v 2 * (χ₃ : F) := by
     intro v
     rw [hgv v, h0, hsub1, hsub2]
-    simp [Pi.single_apply]
+    simp
   have hc1 : ∀ v : Fin 3 → F, (g v) 1 = v 1 * (χ₂ : F) + v 2 * z := by
     intro v
     rw [hgv v, h0, hsub1, hsub2]
-    simp [Pi.single_apply]
+    simp
   refine ⟨χ₂, χ₃, hrel, hpow, ?_, ?_, hc2, ?_, ?_, ?_, ?_⟩
   · intro v hv
     rw [hc2, hv, zero_mul]

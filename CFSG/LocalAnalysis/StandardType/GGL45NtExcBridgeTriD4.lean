@@ -71,7 +71,7 @@ theorem mul_mod_three
     {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) : p % 3 * p % 3 = 1 := by
   have h3 : ¬ 3 ∣ p := fun h => hp3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).1 h).symm
   have : p % 3 = 1 ∨ p % 3 = 2 := by omega
-  rcases this with h | h <;> rw [Nat.mul_mod, h] <;> norm_num [h]
+  rcases this with h | h <;> rw [Nat.mul_mod, h]
 
 theorem bridge_triD4_model
     {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 3)
@@ -85,7 +85,7 @@ theorem bridge_triD4_model
         (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) := by
   classical
   have hK3 : Nat.card K = 2 ^ (n * 3) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK3
+  have : CharP K 2 := charP_two_of_card hK3
   set C₀ := graphFixedRootGroup TwistTag.D4 K σ.toRingHom with hC₀
   have hZ : Subgroup.center C₀ = ⊥ := exceptional_fixed_center_trivial TwistTag.D4 K σ
   set E : LargeEvenCenterQuot C₀ ≃* C₀ := centerQuotEquivOfBot hZ with hEdef
@@ -155,7 +155,7 @@ theorem bridge_triD4_model
     ext g
     change g ∈ adjointGroup TwistTag.D4.tag L ∧ endPowU _ p g = g ↔ _
     have := Set.ext_iff.1 hfs g
-    simp only [pow_one, Set.mem_setOf_eq, SetLike.mem_coe] at this
+    simp only [pow_one, Set.mem_ofPred_eq, SetLike.mem_coe] at this
     rw [hΦ]
     exact this
   let ρ : LargeEvenCenterQuot C₀ →* ModGL TwistTag.D4.tag L :=
@@ -232,9 +232,9 @@ theorem bridge_triD4_model
   · rw [hΦ, ← hnpe]
   · change Finite Γ
     rw [hrat]
-    haveI : Finite (adjointGroup TwistTag.D4.tag K) :=
+    have : Finite (adjointGroup TwistTag.D4.tag K) :=
       CFSG.LieType.Chevalley.generated_group_finite _ K
-    haveI : Finite C₀ := Finite.of_injective _ (Subgroup.inclusion_injective
+    have : Finite C₀ := Finite.of_injective _ (Subgroup.inclusion_injective
       (fun x hx => (graphFixedRootGroup_le TwistTag.D4 K σ.toRingHom hx).1))
     exact Finite.of_surjective _ (MonoidHom.subgroupMap_surjective (baseChangeGL ι) C₀)
 
@@ -247,7 +247,7 @@ theorem bridge_triD4_chev
       (LargeEvenChevFieldImage TwistTag.D4.tag.cartan K
         (LargeEvenTwistedH TwistTag.D4.tag.cartan K TwistTag.D4.perm n)) := by
   have hK3 : Nat.card K = 2 ^ (n * 3) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK3
+  have : CharP K 2 := charP_two_of_card hK3
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]

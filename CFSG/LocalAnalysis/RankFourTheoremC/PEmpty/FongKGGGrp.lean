@@ -12,8 +12,8 @@ open scoped Pointwise
 theorem exists_sylow_two_fixed {K : Type*} [Group K] [Finite K] {S : Subgroup (MulAut K)}
     (hS : IsPGroup 2 ↥S) :
     ∃ P : Sylow 2 K, ∀ σ ∈ S, ∀ x : K, σ x ∈ (P : Subgroup K) ↔ x ∈ (P : Subgroup K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 K) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 K) := inferInstance
   have h1 := hS.card_modEq_card_fixedPoints (α := Sylow 2 K)
   have h2 := card_sylow_modEq_one 2 K
   have h3 : Nat.card (MulAction.fixedPoints ↥S (Sylow 2 K)) ≡ 1 [MOD 2] := h1.symm.trans h2
@@ -79,7 +79,7 @@ theorem exists_involutions_of_types {A C : Type*} [Group A] [Group C] [IsCyclic 
     (hnc : ¬ IsCyclic ↥S) (hinj : S ⊓ Θ.ker = ⊥) :
     ∃ a ∈ S, ∃ b ∈ S, a * a = 1 ∧ b * b = 1 ∧ (Θ a).1 ≠ 1 ∧ (Θ a).2 = 1 ∧
       Θ b = (1, Multiplicative.ofAdd (1 : ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : ∀ x ∈ S, Θ x = 1 → x = 1 := fun x hx h => by
     have : x ∈ S ⊓ Θ.ker := ⟨hx, h⟩
     rw [hinj] at this
@@ -197,7 +197,7 @@ theorem exists_conj_into_maximal_two {G : Type*} [Group G] [Finite G] {H T : Sub
     (hmax : ∀ P : Subgroup G, IsPGroup 2 ↥P → T ≤ P → P ≤ H → P ≤ T)
     {h : G} (hh : h ∈ H) {m : ℕ} (hhm : h ^ (2 ^ m) = 1) :
     ∃ x ∈ H, x⁻¹ * h * x ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsPGroup 2 ↥(T.subgroupOf H) := hT.comap_subtype
   let P₀ : Sylow 2 ↥H :=
     { toSubgroup := T.subgroupOf H

@@ -261,7 +261,7 @@ theorem dvd_ordTwistedA_of_primitive {m r : ℕ} (hm : Odd m)
 
 theorem false_of_fixedLayer {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}
     [AddCommGroup V] [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V}
-    (hQ : (polarBilin Q).Nondegenerate) (hV : ¬ IsPlusType Q) (hdim : finrank K V = 8)
+    (_hQ : (polarBilin Q).Nondegenerate) (hV : ¬ IsPlusType Q) (hdim : finrank K V = 8)
     {m n : ℕ} (hK : Nat.card K = 2 ^ m) (hm : Odd m) (hn : Odd n) (hn3 : 3 ≤ n)
     (hmn : m ∣ n) {y : V ≃ₗ[K] V} (hy : OddOrderIsometry Q 3 y) (hy1 : y ≠ 1)
     {J : Subgroup (ProjOrthDerived Q)}
@@ -355,7 +355,7 @@ theorem false_of_fixedLayer {K : Type} [Field K] [Finite K] [CharP K 2] {V : Typ
     have hWbot : W = ⊥ := by
       apply Submodule.finrank_eq_zero.mp
       rw [hj2, hj0]
-    haveI : Subsingleton W := by
+    have : Subsingleton W := by
       rw [hWbot]
       infer_instance
     have hO1 : Nat.card (TauCeti.QuadraticMap.orthogonalGroup (Q.restrict W)) = 1 := by
@@ -528,7 +528,7 @@ theorem selfDual_of_block {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}
     n = m ∧ h = reciprocalPolynomial h ∧ h.natDegree = 2 ∧
       primaryMultiplicity y.toLinearMap h = 3 := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hring : ringChar K = 2 := ringChar.eq K 2
   have hm1 : 1 ≤ m := by
     have h2 : 2 ≤ Nat.card K := Finite.one_lt_card
@@ -594,8 +594,8 @@ theorem selfDual_of_block {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}
     have hk1 : 1 ≤ k := by omega
     have hdata : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 m (AdjoinRoot h) :=
       ⟨Nat.prime_two, hm1, by rw [hcardQ, ← pow_mul, mul_comm]⟩
-    haveI : CharP (AdjoinRoot h) 2 := hdata.charP
-    haveI : Finite (AdjoinRoot h) := hdata.finite
+    have : CharP (AdjoinRoot h) 2 := hdata.charP
+    have : Finite (AdjoinRoot h) := hdata.finite
     have hZodd' : Odd (Nat.card ↥(Subgroup.center
         (StatedSU k (2 ^ m) (AdjoinRoot h)))) := by
       rcases (show k = 2 ∨ 3 ≤ k by omega) with hk2' | hk3
@@ -639,7 +639,7 @@ theorem selfDual_of_block {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}
         Nat.card_congr eZ.symm.toEquiv
       rw [hJcard]
       exact hvquot
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hvord : padicValNat 2 (ordTwistedA 2 (2 ^ n)) = 3 * n := by
       rw [CFSG.ClassicalInvolution.RouteD.TWR.padicValNat_ordTwistedA (p := 2) (q := 2 ^ n)
         (f := n) (n := 2) rfl (by omega) (by norm_num)]
@@ -683,7 +683,7 @@ theorem three_dvd_card_center_of_block {K : Type} [Field K] [Finite K] [CharP K 
     (hcard : Nat.card (J ⧸ Subgroup.center J) = ordTwistedA 2 (2 ^ n)) :
     3 ∣ Nat.card ↥(Subgroup.center ↥J) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨-, hcenter, hcardS, -, -, -, -, -, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
   obtain ⟨hnm, hself, hdeg, hmult⟩ :=
@@ -756,9 +756,9 @@ theorem exists_selfDual_block_of_component {K : Type} [Field K] [Finite K]
       CFSG.IsQuasisimple ↥(specialBlock Q (y : V ≃ₗ[K] V) h) ∧
       J = componentImage Q (y : V ≃ₗ[K] V) h := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := m)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := m)
     (by rw [← Nat.card_eq_fintype_card, hK])
   have hring : ringChar K = 2 := ringChar.eq K 2
   have hpℓ : 3 ≠ ringChar K := by rw [hring]; norm_num
@@ -794,9 +794,9 @@ theorem three_dvd_card_center_of_component {K : Type} [Field K] [Finite K]
     (hcard : Nat.card (↥J ⧸ Subgroup.center ↥J) = CFSG.Open.ordTwistedA 2 (2 ^ n)) :
     3 ∣ Nat.card ↥(Subgroup.center ↥J) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := m)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := m)
     (by rw [← Nat.card_eq_fintype_card, hK])
   have hring : ringChar K = 2 := ringChar.eq K 2
   have hpℓ : 3 ≠ ringChar K := by rw [hring]; norm_num

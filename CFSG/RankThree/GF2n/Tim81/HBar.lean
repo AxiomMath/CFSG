@@ -20,7 +20,7 @@ theorem mem_kOf_iff {V H : Subgroup G} {x : G} :
   Subgroup.mem_inf
 
 theorem le_normalizer_kOf (V H : Subgroup G) : H ≤ Subgroup.normalizer (kOf V H : Set G) :=
-  fun h hh => mem_normalizer_inf (Subgroup.le_normalizer (H := H) hh)
+  fun _h hh => mem_normalizer_inf (Subgroup.le_normalizer (H := H) hh)
     (mem_normalizer_centralizer (Tim79a.H_le_normalizer_xOf V H hh))
 
 instance kOf_normal (V H : Subgroup G) : ((kOf V H).subgroupOf H).Normal :=
@@ -47,7 +47,7 @@ theorem mem_imgK_iff {V H S : Subgroup G} {y : HBar V H} :
 theorem imgK_mono {V H S T : Subgroup G} (hST : S ≤ T) : imgK V H S ≤ imgK V H T :=
   Subgroup.map_mono fun _ hx => Subgroup.mem_subgroupOf.mpr (hST (Subgroup.mem_subgroupOf.mp hx))
 
-theorem imgK_conjSubgroup {V H S : Subgroup G} {g : G} (hg : g ∈ H) (hS : S ≤ H) :
+theorem imgK_conjSubgroup {V H S : Subgroup G} {g : G} (hg : g ∈ H) (_hS : S ≤ H) :
     imgK V H (conjSubgroup g S) = conjSubgroup (piK V H ⟨g, hg⟩) (imgK V H S) := by
   ext y
   constructor

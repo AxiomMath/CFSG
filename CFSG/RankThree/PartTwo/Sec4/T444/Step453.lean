@@ -117,7 +117,7 @@ theorem Ctx444.sylow_le_centralizer_of_odd (h434 : Item4_34Sec) (h45 : Item4_5)
   have hRQ : (T : Subgroup Q).map Q.subtype ≤ Q := Subgroup.map_subtype_le _
   have hR3 : ¬ 3 ∣ Nat.card ((T : Subgroup Q).map Q.subtype) := fun h3 =>
     hQ3 (h3.trans (Subgroup.card_dvd_of_le hRQ))
-  have hRp : IsPGroup r ((T : Subgroup Q).map Q.subtype) := T.isPGroup'.map _
+  have hRp : IsPGroup r ((T : Subgroup Q).map Q.subtype) := T.isPGroup.map _
   have hs : Group.IsSolvable (A ⊔ (T : Subgroup Q).map Q.subtype : Subgroup G) :=
     isSolvable_sup_of_le_normalizer (isSolvable_of_isPGroup h.isE27.isPGroup)
       (isSolvable_of_isPGroup hRp) hAT
@@ -288,7 +288,7 @@ theorem Ctx444.mem_scriptH₀_of_sylow (h434 : Item4_34Sec) (h45 : Item4_5)
   have hAQ : A ≤ Subgroup.normalizer (Q : Set G) := h.le.trans hMQ
   have hS'Q : S' ≤ Q := Subgroup.map_subtype_le _
   have hS'L : S' ≤ Subgroup.normalizer (L : Set G) := hS'Q.trans hQL
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   obtain ⟨-, hZ3⟩ := exists_mulEquiv_projSL_map_starQuot hA3 hL hAL hZ
   obtain ⟨K, _, -, -, ⟨ψ⟩⟩ := exists_solvable_quotient_projSL hA3 hL h3L hAL hZ
   have : Group.IsPerfect L := hL.1

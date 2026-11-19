@@ -88,7 +88,7 @@ theorem bender_shape
       IsRootGroupShape X n (CFSG.Timmesfeld.rootGroup (dSet S) s) ∧
       ∀ w ∈ CFSG.Timmesfeld.rootGroup (dSet S) s, w ≠ 1 → w ∈ dSet S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : X →* X ⧸ Subgroup.center X := QuotientGroup.mk' (Subgroup.center X)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker = Subgroup.center X := QuotientGroup.ker_mk' _
@@ -160,10 +160,10 @@ theorem bender_shape
       have hmapsyl : (CFSG.ComponentClassification.AschbacherToolkit.Bender.sylowCenter
             (T : Subgroup X)).map π =
           CFSG.ComponentClassification.AschbacherToolkit.Bender.sylowCenter (Tb : Subgroup _) := by
-        rw [timti_map_sylowCenter_mk hodd T.isPGroup', hTcoe]
+        rw [timti_map_sylowCenter_mk hodd T.isPGroup, hTcoe]
       have hZT2 : IsPGroup 2
           (CFSG.ComponentClassification.AschbacherToolkit.Bender.sylowCenter (T : Subgroup X)) :=
-        T.isPGroup'.to_le
+        T.isPGroup.to_le
           (CFSG.ComponentClassification.AschbacherToolkit.Bender.sylowCenter_le (T : Subgroup X))
       have hWeq : CFSG.Timmesfeld.rootGroup (dSet S) s =
           CFSG.ComponentClassification.AschbacherToolkit.Bender.sylowCenter (T : Subgroup X) :=
@@ -183,8 +183,8 @@ theorem bender_shape
         CFSG.CGT.Timmesfeld75.statedClassicalModel_psu3_of_mulEquiv hm e⟩
     obtain ⟨-, F, hFld, hFin, hFcard, ⟨e₂⟩⟩ :=
       CFSG.CGT.Timmesfeld75.statedClassicalModel_psu3_of_mulEquiv hm e
-    letI : Field F := hFld
-    letI : Finite F := hFin
+    let : Field F := hFld
+    let : Finite F := hFin
     have hcardW : Nat.card (CFSG.Timmesfeld.rootGroup (dSet S) s) = 2 ^ m := by
       rw [← card_map_rootGroup h hsD, hWmap]
       exact CFSG.StronglyEmbedded.BenderCentre.card_sylowCenter_psu3 hm e Tb

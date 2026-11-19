@@ -104,7 +104,7 @@ theorem unitriangular_mul_mul_map_transpose (f : ℕ) (t : F) (Y : Matrix (Fin 2
   have h0 : (0 : F) ^ 2 ^ f = 0 := zero_pow (pow_ne_zero _ two_ne_zero)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct, h0] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct, h0]
 
 private theorem eq_zero_of_forall_unitriangular {f : ℕ} {t₀ : F} (ht₀ : t₀ ^ 2 ^ f ≠ t₀)
     (Y : Matrix (Fin 2) (Fin 2) F)
@@ -116,7 +116,7 @@ private theorem eq_zero_of_forall_unitriangular {f : ℕ} {t₀ : F} (ht₀ : t�
   have e3 := congrFun (congrFun (hfix t₀) 0) 0
   rw [unitriangular_mul_mul_map_transpose] at e1 e2 e3
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, one_mul, one_pow,
+    Matrix.empty_val', Matrix.cons_val_fin_one, one_mul, one_pow,
     mul_one] at e1 e2 e3
   have h11 : Y 1 1 = 0 := by linear_combination e1
   have h01 : Y 0 1 * (t₀ ^ 2 ^ f - t₀) = 0 := by
@@ -175,9 +175,10 @@ end Hermitian
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_conj_mem_iff {L S : Subgroup G} {F : Type*} [Field F] [Finite F]
     [CharP F 2] {n : ℕ} (hF : Nat.card F = 2 ^ n) (hS : IsSylowTwoOf S L)
-    (α : ↥L →* SL(2, F)) (hα : Function.Surjective α) (hker : IsPGroup 2 α.ker) :
+    (α : ↥L →* SL(2, F)) (_hα : Function.Surjective α) (hker : IsPGroup 2 α.ker) :
     ∃ X : SL(2, F), ∀ x : ↥L, (x : G) ∈ S ↔
       ∃ t : F, ((X * α x * X⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) = !![1, t; 0, 1] := by
   classical
@@ -265,6 +266,7 @@ private theorem exists_alpha_eq_of_card {L S H Q : Subgroup G} {F : Type*} [Fiel
 
 variable {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem U4qLocalData.card_centerOf_left (hD : U4qLocalData L1 L2 S f) :
     Nat.card (centerOf (pCoreOf 2 L1)) = 2 ^ f := by
   have he : centerOf (pCoreOf 2 L1) =
@@ -284,7 +286,7 @@ theorem U4qLocalData.commutator_pCoreOf_left_mem_centerOf (hD : U4qLocalData L1 
     {a u : G} (ha : a ∈ pCoreOf 2 L1) (hu : u ∈ pCoreOf 2 L1) :
     a * u * a⁻¹ * u⁻¹ ∈ centerOf (pCoreOf 2 L1) := by
   obtain ⟨F, hField, hFintype, -, α, -, -, β, -, hβker, -⟩ := hD.twoNat_left
-  letI := hField
+  let := hField
   have hU := hD.blockU_left
   let a' : ↥(blockU L1) := ⟨a, hU ▸ ha⟩
   let u' : ↥(blockU L1) := ⟨u, hU ▸ hu⟩
@@ -301,9 +303,9 @@ theorem U4qLocalData.exists_pCoreOf_right_inv_mul_mem (hH : Hyp111 L1 L2 S)
     ∃ c ∈ pCoreOf 2 L2, c⁻¹ * s ∈ pCoreOf 2 L1 := by
   classical
   obtain ⟨F, hField, hFintype, hFcard, α, -, hker, -⟩ := hD.twoNat_left
-  letI := hField
-  letI := hFintype
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard
+  let := hField
+  let := hFintype
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   have hQ2L1 : pCoreOf 2 L2 ≤ L1 := hH.pCoreOf_le_right.trans hSL1
   have hmemker : ∀ y : ↥L1, α y = 1 ↔ (y : G) ∈ pCoreOf 2 L1 := by
@@ -379,9 +381,9 @@ theorem U4qLocalData.exists_coordLeft (hH : Hyp111 L1 L2 S) (hD : U4qLocalData L
     ∃ (F : Type) (_ : Field F) (_ : Fintype F), Nonempty (U4qCoordLeft L1 L2 S f F) := by
   classical
   obtain ⟨F, hField, hFintype, hFcard, α₀, hα₀, hker₀, β₀, hβ₀, hβker₀, hβeq₀⟩ := hD.twoNat_left
-  letI := hField
-  letI := hFintype
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard
+  let := hField
+  let := hFintype
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard
   have hFcard' : Nat.card F = 2 ^ f := by rw [Nat.card_eq_fintype_card, hFcard]
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   have hSyl : IsSylowTwoOf S L1 := by
@@ -553,9 +555,9 @@ theorem U4qLocalData.exists_coordRight (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
   classical
   obtain ⟨K, hField, hFintype, hKcard, α₀, hα₀, hker₀, β₀, hβrange₀, hβker₀, hβeq₀⟩ :=
     hD.omega_right
-  letI := hField
-  letI := hFintype
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hKcard
+  let := hField
+  let := hFintype
+  have : CharP K 2 := charP_of_card_eq_prime_pow hKcard
   have hKcard' : Nat.card K = 2 ^ (2 * f) := by rw [Nat.card_eq_fintype_card, hKcard]
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hD.one_le, hKcard'⟩
   have hSL2 : S ≤ L2 := hD.le_right hH hS
@@ -706,7 +708,7 @@ theorem U4qLocalData.exists_coordRight (hH : Hyp111 L1 L2 S) (hD : U4qLocalData 
     rw [map_mul, map_inv, toAdd_mul, toAdd_inv, hv] at h01
     simp only [Matrix.add_apply, Matrix.neg_apply, Matrix.of_apply, Matrix.cons_val',
       Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-      Matrix.head_cons, one_mul] at h01
+      one_mul] at h01
     linear_combination h01
   have hRcard : Nat.card {M : Multiplicative (Matrix (Fin 2) (Fin 2) K) //
       Multiplicative.toAdd M 1 1 = 0 ∧
@@ -782,7 +784,7 @@ theorem U4qCoordLeft.exists_pCoreOf_right {F : Type*} [Field F] (c₁ : U4qCoord
     (hH : Hyp111 L1 L2 S) (hD : U4qLocalData L1 L2 S f) (hS : Nat.card S = 2 ^ (6 * f))
     (t : F) :
     ∃ x : ↥L1, (x : G) ∈ pCoreOf 2 L2 ∧ (c₁.α x : Matrix (Fin 2) (Fin 2) F) = !![1, t; 0, 1] := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
   refine exists_alpha_eq_of_card c₁.α c₁.eq_one_iff (fun x hx => (c₁.mem_iff x).mp hx)
     hH.pCoreOf_le_right (hH.pCoreOf_le_right.trans (hD.le_left hH hS)) ?_ t
   rw [c₁.card, hD.card_inf, hD.card_right, ← pow_add]
@@ -792,7 +794,7 @@ theorem U4qCoordRight.exists_pCoreOf_left {K : Type*} [Field K]
     (c₂ : U4qCoordRight L1 L2 S f K) (hH : Hyp111 L1 L2 S) (hD : U4qLocalData L1 L2 S f)
     (hS : Nat.card S = 2 ^ (6 * f)) (t : K) :
     ∃ x : ↥L2, (x : G) ∈ pCoreOf 2 L1 ∧ (c₂.α x : Matrix (Fin 2) (Fin 2) K) = !![1, t; 0, 1] := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [c₂.card]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [c₂.card]; positivity)
   refine exists_alpha_eq_of_card c₂.α c₂.eq_one_iff (fun x hx => (c₂.mem_iff x).mp hx)
     hH.pCoreOf_le_left (hH.pCoreOf_le_left.trans (hD.le_right hH hS)) ?_ t
   rw [c₂.card, inf_comm, hD.card_inf, hD.card_left, ← pow_add]

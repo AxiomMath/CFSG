@@ -113,11 +113,11 @@ theorem commutator_le_actsTrivSubgroup [Finite G] {M L Q : Subgroup G}
     (hQN : Q ≤ Subgroup.normalizer (L : Set G))
     (hcent : barM M Q ≤ Subgroup.centralizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M))) :
     ⁅Q, Q⁆ ≤ actsTrivSubgroup L := by
-  haveI : Fact (IsShort2 L) := ⟨hL⟩
-  haveI : Nontrivial (Additive (UZ L)) := by
-    obtain ⟨u, hu, hnot⟩ := SetLike.exists_of_lt hL.2.2.2.2.1
+  have : Fact (IsShort2 L) := ⟨hL⟩
+  have : Nontrivial (Additive (UZ L)) := by
+    obtain ⟨u, hu, hnot⟩ := _root_.IsConcreteLE.exists_of_lt hL.2.2.2.2.1
     exact ⟨⟨piU L ⟨u, hu⟩, 0, fun h => hnot ((piU_eq_zero_iff ⟨u, hu⟩).1 h)⟩⟩
-  haveI : Finite (Additive (UZ L)) := inferInstance
+  have : Finite (Additive (UZ L)) := inferInstance
   rw [Subgroup.commutator_le]
   intro a ha b hb
   have haN : a ∈ Subgroup.normalizer (L : Set G) := hQN ha

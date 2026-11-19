@@ -30,16 +30,16 @@ private noncomputable def bilinIsometryEquiv {K V : Type*} [Field K] [AddCommGro
 theorem hbar_embeds_perm_six {G : Type} [Group G] [Finite G] {z : G}
     (hZ : IsZ4Star z 2) (hz : orderOf z = 2) (hF2 : IsPGroup 2 ↥(Fz z)) :
     ∃ ι : ↥(Hz z) →* Equiv.Perm (Fin 6), ι.ker = (Fz z).subgroupOf (Hz z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Z, A, hD⟩ := Width.exists_Z4Data hZ
   obtain ⟨hvel, -, b, -, -, halt, hnd, -, -, -, -, ⟨ι₀, hι₀inj, -⟩, -⟩ :=
     CFSG.LocalAnalysis.GorensteinLyons.SteinbergCH.core_symplectic_transport (B := ⊥) bot_le
       (Embed.isCharacteristicP_Hz hF2) (by simp) (Embed.Fz_eq_inSubgroup_pCore hF2)
       (Embed.isCyclic_center_Fz hD hz hF2) (Width.isEA_quot (Embed.cdata_Fz hD hz))
       (Embed.z_mem_map_center_Fz hD hz hF2) hz (Embed.commutator_Fz hD hz)
-  haveI := hvel
+  have := hvel
   have hfin := Embed.finrank_quot_pCore hD hz hF2
-  haveI : FiniteDimensional (ZMod 2)
+  have : FiniteDimensional (ZMod 2)
       (Additive (↥(pCore 2 ↥(Hz z)) ⧸ Subgroup.center ↥(pCore 2 ↥(Hz z)))) :=
     Module.Finite.of_finite
   obtain ⟨Φ⟩ := LargeExtraspecial.S45Q.nonempty_isometryGroup_equiv_perm halt hnd hfin

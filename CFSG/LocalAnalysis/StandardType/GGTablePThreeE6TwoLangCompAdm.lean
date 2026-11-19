@@ -146,7 +146,7 @@ theorem e6TwoLangComp_admissible
         exact hz
     · ext γ
       rw [kernelRoots_rootCharHom]
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       refine and_congr_right fun _ => ?_
       rw [hrootChar γ, hω₀.zpow_eq_one_iff_dvd, ← ZMod.intCast_zmod_eq_zero_iff_dvd,
         ← e6TwoLangComp_zmod_sum_val v γ]
@@ -193,9 +193,9 @@ theorem e6TwoLangComp_compRank_eq_one_of_ncard_eq_two
   exact finrank_span_singleton ha0
 
 theorem e6TwoLangComp_solv_iff
-    {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup Tag.E6 L p₀) (hq : S.D.q = 2)
+    {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup Tag.E6 L p₀) (_hq : S.D.q = 2)
     {a : Fin Tag.E6.rank → Lˣ} (hT : rootDiagUnit Tag.E6 a ∈ S.D.torus)
-    (hap : ∀ j, a j ^ 3 = 1) (h1 : rootDiagUnit Tag.E6 a ≠ 1)
+    (_hap : ∀ j, a j ^ 3 = 1) (_h1 : rootDiagUnit Tag.E6 a ≠ 1)
     (i : KernelComponent (rootCharHom a)) :
     E6SolvTwo S.ρ (componentRoots (rootCharHom a) i) ↔
       LangSmallSolv 2 S.ρ (rootCharHom a) i := by
@@ -239,7 +239,7 @@ theorem e6TwoLangComp_solv_iff
             ((S.ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ))^[
               componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)]) := by
           rwa [horb1, Function.iterate_one]
-        rw [if_pos hti'] at hk
+        rw [ite_eq_left hti'] at hk
         exact absurd hk (by decide)
       exact ⟨hcr, hn6, horb1, hnotin⟩
 
@@ -251,7 +251,6 @@ theorem e6TwoLangComp_lambda2_rank_one {lab : LargeEvenLabel}
   simp only [LargeEvenInLambda2] at h
   cases tag <;>
     first
-      | exact ⟨rfl, h.2.2 rfl⟩
       | exact ⟨rfl, h.2.2 trivial⟩
       | exact absurd h.2.1 (by decide)
       | omega
@@ -307,7 +306,6 @@ theorem e6TwoLangComp_not_solv
       subst hr
       simp only [LargeEvenInLambda2] at hrl
       first
-        | exact hrl.2.2 rfl
         | exact hrl.2.2 trivial
     omega
 

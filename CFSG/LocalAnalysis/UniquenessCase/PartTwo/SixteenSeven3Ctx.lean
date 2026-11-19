@@ -71,6 +71,7 @@ theorem s16c167_sParam_eq_mBar (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     rw [h4]
     omega
 
+omit [Finite G] in
 theorem s16c167_barSub_mem_calABar_of_le {M V₁ V A : Subgroup G} {m : ℕ}
     (hV : IsElemAbelian 2 V) (h1 : V₁ = ⊥) (hAM : A ≤ M) (hAst : A ≤ stabTil V₁ V)
     (hAel : IsElemAbelian 2 A) (hA1 : barSub V₁ V hV A ≠ ⊥)

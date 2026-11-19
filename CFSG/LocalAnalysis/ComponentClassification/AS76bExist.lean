@@ -94,7 +94,7 @@ theorem isSolvable_normalizer_sylow_two {X : Type*} [Group X] [Finite X] (S : Sy
   have hSN : (S : Subgroup X) ≤ N := le_normalizer
   have hTn : ((S : Subgroup X).subgroupOf N).Normal := normal_in_normalizer
   have hS : Group.IsSolvable ↥(S : Subgroup X) := by
-    have := S.isPGroup'.isNilpotent
+    have := S.isPGroup.isNilpotent
     infer_instance
   have hT : Group.IsSolvable ↥((S : Subgroup X).subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective (f := (subgroupOfEquivOfLe hSN).toMonoidHom)

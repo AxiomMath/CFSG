@@ -38,7 +38,7 @@ theorem dgS_e12 (s : Fˣ) (a : F) : dgS s * e12 a * (dgS s)⁻¹ = e12 ((s : F) 
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_inv_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [dgS, e12, Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp [dgS, e12, Matrix.mul_apply, Fin.sum_univ_two]; field_simp
 
 theorem key_identity (γ ρ : F) (hγ : γ ≠ 0) (hρ : ρ ≠ 0) (h4 : ρ ^ 4 ≠ 1) (h1 : ρ ^ 2 + 1 ≠ 0) (h2 : (2 : F) ≠ 0) :
     let m : F → F := fun σ => (σ + σ⁻¹) / 2
@@ -81,7 +81,7 @@ theorem plane_unipotent (h2 : (2 : F) ≠ 0) (γ ρ : Fˣ) (h4 : (ρ : F) ^ 4 �
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_mul, hvm]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [e12, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [e12, Matrix.mul_apply, Fin.sum_univ_two]; ring
   rw [← hv2]
   exact H.mul_mem hvH hvH
 
@@ -89,7 +89,7 @@ theorem e12_mul (a b : F) : e12 a * e12 b = e12 (a + b) := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [e12, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [e12, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 theorem e12_zero : (e12 (0 : F)) = 1 := by
   apply Subtype.ext
@@ -154,7 +154,7 @@ theorem plane_sl2 [Finite F] (hodd : Nat.card F % 2 = 1) (h2 : (2 : F) ≠ 0) (�
   set σ : Fˣ := ρ ^ 2 with hσ
   have hlow : (hypS h2 γ σ : Matrix (Fin 2) (Fin 2) F) 1 0 ≠ 0 := by
     simp only [hypS, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_fin_one, Matrix.empty_val', Matrix.head_cons, Matrix.head_fin_const]
+      Matrix.cons_val_fin_one, Matrix.empty_val']
     simp only [hσ, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val]
     field_simp
     exact div_ne_zero (mul_ne_zero hγ0 hs2) (mul_ne_zero (pow_ne_zero 2 hρ0) h2)
@@ -198,13 +198,13 @@ theorem planarHom_e12 (a : F) : planarHom (e12 a) = tv 0 1 (by decide) a := by
   apply Subtype.ext
   rw [planarHom_apply, coe_planar, coe_tv]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [e12, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [e12]
 
 theorem planarHom_e21 (a : F) : planarHom (e21 a) = tv 1 0 (by decide) a := by
   apply Subtype.ext
   rw [planarHom_apply, coe_planar, coe_tv]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [e21, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [e21]
 
 theorem plane_top [Finite F] (hodd : Nat.card F % 2 = 1) (h2 : (2 : F) ≠ 0) (γ ρ : Fˣ) (h4 : (ρ : F) ^ 4 ≠ 1)
     (h1 : (ρ : F) ^ 2 + 1 ≠ 0) (h5 : (ρ : F) ^ 4 + 1 ≠ 0) (Γ : Subgroup SL(4, F))

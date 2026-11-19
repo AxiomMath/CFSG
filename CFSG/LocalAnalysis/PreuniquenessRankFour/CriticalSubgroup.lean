@@ -1112,7 +1112,7 @@ theorem cyclic_center_quotient_action_kernel_isPGroup
     ext member
     exact congrArg (fun equivalence : MulAut source => equivalence member) hequalAction
   have hquotientFaithful := faithful_odd_pGroup_action_on_cyclic_center_quotient
-    prime hprime hequal sylow.isPGroup' hsource hcenter hfaithfulSylow
+    prime hprime hequal sylow.isPGroup hsource hcenter hfaithfulSylow
   have hscalarTrivial : ∀ scalar : (sylow : Subgroup hom.ker), scalar = 1 := by
     intro scalar
     apply hquotientFaithful
@@ -1171,7 +1171,7 @@ theorem faithful_critical_restriction_action_kernel_isPGroup
     ext member
     exact congrArg (fun equivalence : MulAut source => equivalence member) hequalAction
   have hcriticalFaithful := faithful_coprime_pGroup_action_on_characteristic_critical_subgroup
-    actingPrime prime hequal sylow.isPGroup' hsource critical hcritical hfaithfulSylow
+    actingPrime prime hequal sylow.isPGroup hsource critical hcritical hfaithfulSylow
   have hscalarTrivial : ∀ scalar : (sylow : Subgroup hom.ker), scalar = 1 := by
     intro scalar
     apply hcriticalFaithful

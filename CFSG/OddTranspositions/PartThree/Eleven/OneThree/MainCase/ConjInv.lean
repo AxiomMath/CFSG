@@ -39,6 +39,7 @@ theorem MainHyp.conj (h : MainHyp hC) (g : G) : MainHyp (hC.conj g) := by
     exact hcen
   exact (Subgroup.map_le_map_iff_of_injective (f := e.toMonoidHom) e.injective).mp hmap
 
+omit [Finite G] in
 theorem not_disconnected_imageClass_conj (hconn : ¬ Disconnected (imageClass hC)) (g : G) :
     ¬ Disconnected (imageClass (hC.conj g)) := by
   rw [← imageClass_conj hC g]

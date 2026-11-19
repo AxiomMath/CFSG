@@ -25,11 +25,13 @@ open CFSG.GGQ2Prime (le_twoLocalPrimeRank U52OrderThreeAutInner)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_sup {Bs L K : Subgroup G}
     (hL : Bs ≤ normalizer (L : Set G)) (hK : Bs ≤ normalizer (K : Set G)) :
     Bs ≤ normalizer ((L ⊔ K : Subgroup G) : Set G) :=
-  (le_inf hL hK).trans (Subgroup.normalizer_inf_normalizer_le_normalizer_sup L K)
+  (le_inf hL hK).trans (inf_normalizer_le_normalizer_sup L K)
 
+omit [Finite G] in
 theorem le_normalizer_finset_sup {Bs : Subgroup G} {𝒦 : Finset (Subgroup G)}
     (h : ∀ K ∈ 𝒦, Bs ≤ normalizer (K : Set G)) :
     Bs ≤ normalizer ((𝒦.sup (fun K => K) : Subgroup G) : Set G) := by
@@ -104,7 +106,7 @@ theorem exists_pair_of_elemAbelian {E : Subgroup M} (hE : IsElemAbelian 3 E)
     (hc : 9 ≤ Nat.card E) :
     ∃ x y : M, x ^ 3 = 1 ∧ y ^ 3 = 1 ∧ x * y = y * x ∧ x ≠ 1 ∧ y ∉ zpowers x := by
   obtain ⟨hcomm, h3⟩ := hE
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
   have hx : ∃ x ∈ E, x ≠ 1 := by
     by_contra h
     push Not at h
@@ -116,7 +118,7 @@ theorem exists_pair_of_elemAbelian {E : Subgroup M} (hE : IsElemAbelian 3 E)
     by_contra h
     push Not at h
     have hfo : IsOfFinOrder x := isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, h3 x hxE⟩
-    haveI : Finite (zpowers x) :=
+    have : Finite (zpowers x) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers]; exact hfo.orderOf_pos.ne')
     have hle := card_le_of_le (G := M) (H := E) (K := zpowers x) h
     rw [Nat.card_zpowers] at hle
@@ -142,7 +144,7 @@ theorem u52MultiplierTrivial :
     U52MultiplierTrivial := by
   intro E _ _ hperf hL
   have hmod := hL.statedClassicalModel_of_ne_zero (by norm_num)
-  haveI hs := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
+  have hs := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
   have hcard := CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_five_two hmod
   have hQ : CFSG.IsQuasisimple E := ⟨Group.isPerfect_def.mpr hperf, hs,
     exists_noncomm_of_simple Nat.prime_two (by rw [hcard]; norm_num) (by rw [hcard]; norm_num)⟩
@@ -157,7 +159,7 @@ theorem u52NoncyclicPair : U52NoncyclicPair := by
 
 theorem u52AutRankInput : U52AutRankInput := by
   intro K _ _ hK E P hE h81 hP hEP
-  haveI := u52_finite K hK
+  have := u52_finite K hK
   have hZ := u52_center K hK
   have hmod : StatedClassicalModel (inner (StatedProj (StatedSU 5 (2 ^ 1) K))) .PSU 5 2 1 :=
     CFSG.StandardType.PRankBounds.statedClassicalModel_of_mulEquiv_psu (innerEquiv hZ).symm

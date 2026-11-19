@@ -15,16 +15,16 @@ theorem s16n9b_exists_pgroup_card_ge {Γ : Type*} [Group Γ] [Finite Γ] {p : �
     (hEc : p ^ 3 ≤ Nat.card E) (hAn : ∃ a b : A, a * b ≠ b * a)
     (hEa : ∀ a b : E, a * b = b * a) :
     ∃ P : Subgroup Γ, IsPGroup p P ∧ p ^ 4 ≤ Nat.card P := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨P, hAP⟩ := hA.exists_le_sylow
   obtain ⟨Q, hEQ⟩ := hE.exists_le_sylow
   have hPQ : Nat.card P = Nat.card Q := by
     rw [P.card_eq_multiplicity, Q.card_eq_multiplicity]
-  refine ⟨P, P.isPGroup', ?_⟩
+  refine ⟨P, P.isPGroup, ?_⟩
   by_contra hlt
   push Not at hlt
   have h1 : p ^ 3 ≤ Nat.card P := hAc ▸ Subgroup.card_le_of_le hAP
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hP3 : Nat.card P = p ^ 3 := by
     rw [hn] at h1 hlt ⊢
     have h3n : 3 ≤ n := (Nat.pow_le_pow_iff_right hp.one_lt).1 h1
@@ -49,8 +49,8 @@ theorem s16n9b_exists_fix_of_card_gt {T : Type*} [CommGroup T] [Finite T] {p : �
     {P : Subgroup (MulAut T)} (hP : IsPGroup p P) (hcard : Nat.card T - 1 < Nat.card P)
     {z : T} (hz : z ≠ 1) : ∃ ψ ∈ P, orderOf ψ = p ∧ ψ z = z := by
   classical
-  haveI := Fact.mk hp
-  haveI : Finite (MulAut T) :=
+  have := Fact.mk hp
+  have : Finite (MulAut T) :=
     Finite.of_injective (fun f : MulAut T => (f : T → T)) DFunLike.coe_injective
   let S : Subgroup ↥P := MulAction.stabilizer ↥P z
   have hidx : S.index = Nat.card (MulAction.orbit ↥P z) := MulAction.index_stabilizer ↥P z
@@ -97,13 +97,13 @@ theorem s16n9b_case3_fix (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelia
     ∀ z : Vtil V₀ V hV, z ≠ 1 → ∃ ψ ∈ Mbar D.M V₀ V hV, orderOf ψ = 3 ∧ ψ z = z := by
   classical
   intro z hz
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV with hMb
   have hLb : lBar V₀ V hV L ≤ Mb := barSub_mono V₀ V hV hLM
   have hAc : Nat.card (lBar V₀ V hV L) = 3 ^ 3 := h3.1.2.1
   have hnc : ∃ a b : ↥(lBar V₀ V hV L), a * b ≠ b * a := by
-    haveI := h3.1.1
-    haveI := CFSG.IsExtraspecial.quotient_nontrivial 3 ↥(lBar V₀ V hV L)
+    have := h3.1.1
+    have := CFSG.IsExtraspecial.quotient_nontrivial 3 ↥(lBar V₀ V hV L)
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(lBar V₀ V hV L) ⧸ Subgroup.center ↥(lBar V₀ V hV L))
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective x
     have ha : a ∉ Subgroup.center ↥(lBar V₀ V hV L) := fun h =>

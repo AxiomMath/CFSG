@@ -12,13 +12,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 private theorem fzc_mem_invCent_iff {u g : G} : g ∈ invCent u ↔ g * u = u * g := by
   rw [invCent]
   exact Subgroup.mem_centralizer_singleton_iff
 
 private theorem fzc_W_comm (hs : FzCSteps t L S x₁ x₂ lam rho) {a b : G}
     (ha : a ∈ ctxW t x₁ x₂) (hb : b ∈ ctxW t x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative (ctxW t x₁ x₂) := hs.ctx.abelian_W
+  have : IsMulCommutative (ctxW t x₁ x₂) := hs.ctx.abelian_W
   exact setLike_mul_comm ha hb
 
 theorem fzc_four_sq (hs : FzCSteps t L S x₁ x₂ lam rho) {f : G} (hf : f ∈ fourGrp x₁ x₂) :
@@ -31,7 +32,7 @@ theorem fzc_four_comm (hs : FzCSteps t L S x₁ x₂ lam rho) {f g : G} (hf : f 
     (hg : g ∈ fourGrp x₁ x₂) : f * g = g * f := by
   have hE : CFSG.Open.IsElemAbelian 2 (fourGrp x₁ x₂) :=
     hs.ctx.wreath.fourGrp_eq_omega.2.1
-  haveI : IsMulCommutative (fourGrp x₁ x₂) := hE.1
+  have : IsMulCommutative (fourGrp x₁ x₂) := hE.1
   exact setLike_mul_comm hf hg
 
 theorem fzc_t_mem_W (hs : FzCSteps t L S x₁ x₂ lam rho) : t ∈ ctxW t x₁ x₂ :=

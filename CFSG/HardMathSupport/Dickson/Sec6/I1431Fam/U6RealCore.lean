@@ -75,8 +75,8 @@ theorem u6r_exists_twist (hO : CFSG.ComponentClassification.CatLeaf.LieOrderForm
           (C : GL (Fin 6) K) * g * (C : GL (Fin 6) K)⁻¹ =
             Matrix.GeneralLinearGroup.scalar (Fin 6) ζ * g := by
   classical
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K)) Units.val_injective
   have hψ3 : ψ ^ 3 = 1 := c.elemAbelian.2 ψ c.mem
   obtain ⟨η, hηA, hηψ⟩ := exists_mem_not_zpowers hψ3 c.card
@@ -177,8 +177,8 @@ theorem u6r_noncube (hO : CFSG.ComponentClassification.CatLeaf.LieOrderFormulasI
         ∀ H H' : Subgroup (primeFormP h (idGram K 6)), (H = H₁ ∨ H = H₂ ∨ H = H₃) →
           (H' = H₁ ∨ H' = H₂ ∨ H' = H₃) → ∃ e ∈ A, H.map e.toMonoidHom = H' := by
   classical
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K)) Units.val_injective
   have H : UnitaryPrimaryData h.bar (idForm h 6) (t6psub_toLin g) :=
     t6psuh_primaryData_toLin' h g.2 Nat.prime_three (by norm_num) hg3

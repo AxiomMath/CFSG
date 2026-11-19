@@ -47,7 +47,7 @@ theorem eps_comm_of_preserves (f : V →+ V)
     (i : Option (Hyperplane A p)) (v : V) :
     ρ.asAlgebraHom (eps K A p i) (f v) = f (ρ.asAlgebraHom (eps K A p i) v) := by
   classical
-  haveI : Fintype (Option (Hyperplane A p)) := Fintype.ofFinite _
+  have : Fintype (Option (Hyperplane A p)) := Fintype.ofFinite _
   conv_lhs => rw [← sum_eps_apply ρ hp hA hpK v, map_sum, map_sum]
   rw [Finset.sum_eq_single i]
   · exact eps_apply_of_mem ρ hp hA hpK i (hf i _ ⟨v, rfl⟩)
@@ -72,7 +72,7 @@ variable [Finite A]
 include hρ in
 theorem eSub_left (U : Subgroup A) (x y : V) :
     β (ρ.asAlgebraHom (eSub U) x) y = β x (ρ.asAlgebraHom (eSub U) y) := by
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   have hc : σ ((Nat.card U : K))⁻¹ = ((Nat.card U : K))⁻¹ := by rw [map_inv₀, map_natCast]
   rw [asAlgebraHom_eSub, LinearMap.smul_apply, LinearMap.smul_apply, map_smul, map_smulₛₗ, hc,
     LinearMap.smul_apply, LinearMap.sum_apply, LinearMap.sum_apply, map_sum, map_sum,

@@ -25,7 +25,7 @@ theorem le_normalizer_of_bender {X : Type} [Group X] [Finite X] [hs : IsSimpleGr
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q, _, hq4, hBor⟩ := exists_borel_of_bender hB
   obtain ⟨-, ⟨D, hDcyc, -, -, hsup⟩, -, hZcard, -⟩ := hBor Q
-  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup' hDcyc hsup
+  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup hDcyc hsup
   have hreg := regular_of_borel (isSimpleBenderGroup_of_fusion hB) Q hsolvN
   set N := Subgroup.normalizer ((Q : Subgroup X) : Set X) with hN
   have hQN : (Q : Subgroup X) ≤ N := Subgroup.le_normalizer
@@ -102,10 +102,10 @@ theorem overgroups_of_bender {X : Type} [Group X] [Finite X] (hB : fusionIsBende
   refine Overgroups.of_sylow (Q : Subgroup X) (isSylowTwoOf_top_of_sylow Q) fun Y hQY hY => ?_
   obtain ⟨_, _, _, hBor⟩ := exists_borel_of_bender hB
   obtain ⟨hSE, ⟨D, hDcyc, -, -, hsup⟩, -, -, -⟩ := hBor Q
-  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup' hDcyc hsup
+  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup hDcyc hsup
   have hYN := le_normalizer_of_bender hB Q hQY hY
   have hQle : (Q : Subgroup X) ≤ pCoreOf 2 Y :=
-    CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hQY hYN Q.isPGroup'
+    CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hQY hYN Q.isPGroup
   intro x hx
   have hxN : x ∈ Subgroup.normalizer ((Q : Subgroup X) : Set X) := hYN hx.1
   have hc : ∀ r ∈ (Q : Subgroup X), x * r = r * x := fun r hr =>

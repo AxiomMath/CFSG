@@ -37,7 +37,6 @@ theorem card_le_two_mul_of_mul_mem {G : Type*} [Group G] {A H : Subgroup G} [Fin
       by_cases hx : (x : G) ∈ H <;> by_cases hx' : (x' : G) ∈ H <;>
         simp [f, hx, hx'] at hxx' <;>
         first
-        | exact Subtype.ext hxx'
         | exact Subtype.ext (congrArg Subtype.val hxx')
     have := Nat.card_le_card_of_injective f hf
     rw [Nat.card_sum] at this

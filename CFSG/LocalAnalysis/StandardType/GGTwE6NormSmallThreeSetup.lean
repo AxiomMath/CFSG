@@ -32,8 +32,8 @@ theorem exists_endNode_data {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 �
       (∀ f ∈ F, f * u = u * f) ∧ 3 ^ 3 ≤ Nat.card F := by
   obtain ⟨emb, ζ, α, Ψ, hemb, hζ, hα, hΨ, hr, hs, hXd, hcount⟩ :=
     exists_endNode_frame hn hK h3 hX hXI hX4 hXU hx hx1 hcomp fun y hy => (hend y hy).1
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   exact exists_endNode_data_of_frame hX hemb hζ hα hΨ hr hs hXd hcount
 

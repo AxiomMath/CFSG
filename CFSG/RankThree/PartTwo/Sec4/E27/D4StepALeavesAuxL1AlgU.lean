@@ -18,34 +18,41 @@ variable {ℓ f : ℕ} [Fact ℓ.Prime] {Ω : Type} [Field Ω] [IsAlgClosed Ω] 
 noncomputable abbrev frobQ (ℓ f : ℕ) [Fact ℓ.Prime] (Ω : Type) [Field Ω] [CharP Ω ℓ] : Ω →+* Ω :=
   iterateFrobenius Ω ℓ f
 
+omit [IsAlgClosed Ω] in
 theorem frobQ_apply (z : Ω) : frobQ ℓ f Ω z = z ^ (ℓ ^ f) := iterateFrobenius_def ℓ f z
 
 noncomputable def barM (ℓ f : ℕ) [Fact ℓ.Prime] (Ω : Type) [Field Ω] [CharP Ω ℓ]
     (M : Matrix (Fin 3) (Fin 3) Ω) : Matrix (Fin 3) (Fin 3) Ω :=
   (M.map (frobQ ℓ f Ω))ᵀ
 
+omit [IsAlgClosed Ω] in
 theorem barM_apply (M : Matrix (Fin 3) (Fin 3) Ω) (i j : Fin 3) :
     barM ℓ f Ω M i j = M j i ^ (ℓ ^ f) := by
   simp only [barM, Matrix.transpose_apply, Matrix.map_apply, frobQ_apply]
 
+omit [IsAlgClosed Ω] in
 theorem barM_mul (M M' : Matrix (Fin 3) (Fin 3) Ω) :
     barM ℓ f Ω (M * M') = barM ℓ f Ω M' * barM ℓ f Ω M := by
   simp only [barM]
   rw [Matrix.map_mul, Matrix.transpose_mul]
 
+omit [IsAlgClosed Ω] in
 theorem barM_one : barM ℓ f Ω (1 : Matrix (Fin 3) (Fin 3) Ω) = 1 := by
   simp only [barM]
   rw [Matrix.map_one _ (map_zero _) (map_one _), Matrix.transpose_one]
 
+omit [IsAlgClosed Ω] in
 theorem barM_smul (c : Ω) (M : Matrix (Fin 3) (Fin 3) Ω) :
     barM ℓ f Ω (c • M) = (c ^ (ℓ ^ f)) • barM ℓ f Ω M := by
   ext i j
   simp only [barM_apply, Matrix.smul_apply, smul_eq_mul, mul_pow]
 
+omit [IsAlgClosed Ω] in
 theorem barM_barM_apply (M : Matrix (Fin 3) (Fin 3) Ω) (i j : Fin 3) :
     barM ℓ f Ω (barM ℓ f Ω M) i j = M i j ^ (ℓ ^ f) ^ 2 := by
   rw [barM_apply, barM_apply, ← pow_mul, sq]
 
+omit [IsAlgClosed Ω] in
 theorem barM_mul_of_mem_unitarySet {Y : GL (Fin 3) Ω} (hY : Y ∈ unitarySet (ℓ ^ f) 3) :
     barM ℓ f Ω (Y : Matrix (Fin 3) (Fin 3) Ω) * (Y : Matrix (Fin 3) (Fin 3) Ω) = 1 := by
   have h := hY.2.2
@@ -139,6 +146,7 @@ variable {ℓ f : ℕ} [Fact ℓ.Prime] {Ω : Type} [Field Ω] [IsAlgClosed Ω] 
 theorem unitaryFieldData_unitField (hf : 1 ≤ f) : UnitaryFieldData ℓ f (unitField Ω ℓ f) :=
   ⟨Fact.out, hf, by rw [card_unitField hf, ← pow_mul, mul_comm f 2]⟩
 
+omit [Fact (Nat.Prime ℓ)] in
 theorem mem_unitarySU_iff_pow {F : Type} [Field F] (hF : UnitaryFieldData ℓ f F) (B : GL (Fin 3) F) :
     B ∈ unitarySU ℓ f F 3 ↔ (B : Matrix (Fin 3) (Fin 3) F).det = 1 ∧
       ((B : Matrix (Fin 3) (Fin 3) F).map (· ^ ℓ ^ f))ᵀ * (B : Matrix (Fin 3) (Fin 3) F) = 1 := by
@@ -150,12 +158,14 @@ theorem mem_unitarySU_iff_pow {F : Type} [Field F] (hF : UnitaryFieldData ℓ f 
     GL (Fin 3) (unitField Ω ℓ f) →* GL (Fin 3) Ω :=
   Matrix.GeneralLinearGroup.map (unitField Ω ℓ f).subtype
 
+omit [IsAlgClosed Ω] in
 theorem coe_unitGLEmb (B : GL (Fin 3) (unitField Ω ℓ f)) :
     ((unitGLEmb ℓ f Ω B : GL (Fin 3) Ω) : Matrix (Fin 3) (Fin 3) Ω) =
       (B : Matrix (Fin 3) (Fin 3) (unitField Ω ℓ f)).map (unitField Ω ℓ f).subtype := by
   ext i j
   exact Matrix.GeneralLinearGroup.map_apply _ i j B
 
+omit [IsAlgClosed Ω] in
 theorem unitGLEmb_injective : Function.Injective (unitGLEmb ℓ f Ω) := by
   intro A B h
   have h1 := congrArg (fun X : GL (Fin 3) Ω => (X : Matrix (Fin 3) (Fin 3) Ω)) h

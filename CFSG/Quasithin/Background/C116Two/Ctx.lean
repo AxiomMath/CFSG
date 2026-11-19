@@ -66,6 +66,7 @@ theorem mem_omegaOneCenter_of_centralizes {T V : Subgroup G} (hV : IsElemAbelian
   intro j hj
   exact hJu j hj
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj_eq {L : Subgroup G} {b : G}
     (h : L.map (MulAut.conj b).toMonoidHom = L) : b ∈ Subgroup.normalizer (L : Set G) := by
   rw [Subgroup.mem_normalizer_iff]

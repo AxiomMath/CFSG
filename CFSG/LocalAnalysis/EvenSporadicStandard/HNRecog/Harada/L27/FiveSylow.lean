@@ -50,8 +50,8 @@ theorem exists_normal_subgroup_card_five {X : Type*} [Group X] [Finite X] (S : S
     ⟨fun z hz x => ⟨hSnormal.conj_mem z hz.1 x, by
         rw [conj_pow, hz.2, mul_one, mul_inv_cancel]⟩⟩
   have hZS : Z ≤ S := fun z hz => hz.1
-  haveI : Z.Normal := hZN
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Z.Normal := hZN
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' (G := S) 5 h5
   have hsx : orderOf (s : X) = 5 := by
     rw [Subgroup.orderOf_coe s, hs]
@@ -110,7 +110,7 @@ theorem exists_normal_subgroup_card_five {X : Type*} [Group X] [Finite X] (S : S
   have hm_ne_zero : m ≠ 0 := by
     intro hm0
     have hcard1 : Nat.card Z = 1 := by rw [hm, hm0, pow_zero]
-    haveI : Subsingleton Z := (Nat.card_eq_one_iff_unique.mp hcard1).1
+    have : Subsingleton Z := (Nat.card_eq_one_iff_unique.mp hcard1).1
     have hcontra : (s : X) = 1 := by
       have := congrArg Subtype.val (Subsingleton.elim (⟨(s : X), hs_mem_Z⟩ : Z) 1)
       simpa using this
@@ -152,9 +152,9 @@ theorem not_five_dvd_card_solvableRadical {X : Type} [Group X] [Finite X] {W : T
     exact (by norm_num : ¬ (125 : ℕ) ∣ 348364800) (h125.trans h.card_dvd)
   obtain ⟨Z, hZN, hZS, hZcard⟩ :=
     exists_normal_subgroup_card_five (CFSG.solvableRadical X) hab h5 hσ hσS hX
-  haveI : Z.Normal := hZN
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : IsCyclic Z := isCyclic_of_prime_card (p := 5) hZcard
+  have : Z.Normal := hZN
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : IsCyclic Z := isCyclic_of_prime_card (p := 5) hZcard
   obtain ⟨ρ₀, hρ₀ord⟩ :=
     exists_prime_orderOf_dvd_card' (G := Z) 5 (by refine ⟨1, ?_⟩; rw [hZcard, mul_one])
   have hρ₀ne : ρ₀ ≠ 1 := by

@@ -14,6 +14,7 @@ section GroupOrd
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ} {V V₁ L T H : Subgroup G}
 
+omit [Finite G] in
 theorem mem_normalizer_inf_pair {A B : Subgroup G} {x : G}
     (hA : x ∈ Subgroup.normalizer (A : Set G)) (hB : x ∈ Subgroup.normalizer (B : Set G)) :
     x ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -21,6 +22,7 @@ theorem mem_normalizer_inf_pair {A B : Subgroup G} {x : G}
     Subgroup.mem_inf.2 ⟨hA, hB⟩
   exact Subgroup.inf_normalizer_le_normalizer_inf h
 
+omit [Finite G] in
 theorem gS_le_LU : gS V H L ≤ L ⊔ conjClosure V H := Subgroup.map_subtype_le _
 
 theorem SU_le_normalizer_lOne (St : L3Setting n V V₁ L T H) {g h : G}
@@ -67,12 +69,13 @@ theorem SU_le_normalizer_lOne (St : L3Setting n V V₁ L T H) {g h : G}
   ablkHom.comp ((rho St.D).codRestrict (Pt (vE (GaloisField 2 n) 0))
     (fun x => St.theta_mem_Pt_of_normalizer ⟨x, lOne_le_L x.2⟩ (lOne_le_normalizer x.2)))
 
+omit [Finite G] in
 theorem piHom_coe (St : L3Setting n V V₁ L T H) (x : ↥(lOne L V₁)) :
     ((piHom St x : Matrix.GeneralLinearGroup (Fin 2) (GaloisField 2 n)) :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 n)) = ablk (rho St.D x) := by
   exact ablkHom_coe _
 
-theorem piHom_ker (St : L3Setting n V V₁ L T H) {g h : G} (hsub : SubFacts V L H g h)
+theorem piHom_ker (St : L3Setting n V V₁ L T H) {g h : G} (_hsub : SubFacts V L H g h)
     (x : ↥(lOne L V₁)) :
     piHom St x = 1 ↔ (x : G) ∈ gS V H L ⊔ conjClosure V H := by
   have hxL : (x : G) ∈ L := lOne_le_L x.2

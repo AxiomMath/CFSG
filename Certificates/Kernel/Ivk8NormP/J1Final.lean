@@ -133,9 +133,9 @@ theorem prep_evG : ∀ w : List Int, (∀ l ∈ w, l ≠ 0) →
         have hpos : (0 : ℤ) < Int.ofNat m := by
           rw [Int.ofNat_eq_natCast]
           omega
-        rw [if_pos hpos]
+        rw [ite_eq_left hpos]
         exact prep_gG (m - 1)
-      · rw [if_neg (by omega)]
+      · rw [ite_eq_right (by omega)]
         exact prep_gGI k
     exact prep_pcomp n32 hL ih
 
@@ -179,7 +179,7 @@ theorem oN_strictMono : StrictMono fun i : Fin 40 => oN i := by
   · simpa [Fin.val_succ] using h
 
 @[expose] noncomputable def o : Fin 40 ↪ Fin 3080 :=
-  ⟨fun i => ⟨oN i, oN_lt i⟩, fun a b h => oN_strictMono.injective (congrArg Fin.val h)⟩
+  ⟨fun i => ⟨oN i, oN_lt i⟩, fun _a _b h => oN_strictMono.injective (congrArg Fin.val h)⟩
 
 theorem res_spec {X : ℕ} {g : Equiv.Perm (Fin 3080)} (hX : PRep 3080 12 X g) {σ : VP 40}
     (h : resOK 12 j1O 40 X σ = true) : ∀ i, g (o i) = o (pkp σ i) := by
@@ -199,7 +199,7 @@ theorem res_spec {X : ℕ} {g : Equiv.Perm (Fin 3080)} (hX : PRep 3080 12 X g) {
 
 theorem resHom_eq_ρ {g : Equiv.Perm (Fin 3080)} (hg : g ∈ resStab o) :
     resHom o ⟨g, hg⟩ = ρ g := by
-  rw [ρ, dif_pos hg]
+  rw [ρ, dite_eq_left hg]
 
 theorem ρ_mul {g h : Equiv.Perm (Fin 3080)} (hg : g ∈ resStab o) (hh : h ∈ resStab o) :
     ρ (g * h) = ρ g * ρ h := by
@@ -227,7 +227,7 @@ theorem j1Fr2_length : j1Fr2.length = 3 := rfl
 
 theorem prep_z : PRep 3080 12 zN j1A1 := by
   have h := prep_evA (w := [1]) rfl
-  rwa [wG_cons, wG_nil, mul_one, aG, if_pos rfl, ea_eq] at h
+  rwa [wG_cons, wG_nil, mul_one, aG, ite_eq_left rfl, ea_eq] at h
 
 theorem res_gen (i : ℕ) :
     gPs.getD i 1 * j1A1 = j1A1 * gPs.getD i 1 ∧ gPs.getD i 1 ∈ j1P ∧

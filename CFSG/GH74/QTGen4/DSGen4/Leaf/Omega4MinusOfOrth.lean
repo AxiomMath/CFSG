@@ -63,7 +63,7 @@ theorem leafOmega4MinusOfOrth [DSLeaf LeafFaithfulA5]
   have hMker : ∀ l : ↥L, F.M l = 1 ↔ (l : G) ∈ pCoreOf 2 L := fun l => M.kerL l l.2
   obtain ⟨e⟩ := CFSG.Quasithin.S1421QA17.nonempty_mulEquiv_alt5_of_isL2Quot_two hq
   obtain ⟨e₁⟩ := hq
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   obtain ⟨α, hαsurj, hαker⟩ := omega_exists_alpha (K := GaloisField 2 2) e₁
   have hcard : Fintype.card (GaloisField 2 2) = 4 := by
     rw [Fintype.card_eq_nat_card, GaloisField.card 2 2 (by norm_num)]
@@ -118,7 +118,7 @@ theorem leafOmega4MinusOfOrth [DSLeaf LeafFaithfulA5]
     rfl
   have hRAinj : Function.Injective RA := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI : IsSimpleGroup Alt5 := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup Alt5 := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (MonoidHom.ker RA) with h | h
     · exact h
     · exfalso

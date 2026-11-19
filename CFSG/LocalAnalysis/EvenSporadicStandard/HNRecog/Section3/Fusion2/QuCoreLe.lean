@@ -36,7 +36,7 @@ theorem not_mem_pCore_derived_of_central {G : Type} [Group G] {X : Subgroup G} (
     {c : G} (hc : ∀ g ∈ X, g * c * g⁻¹ = c) (hc2 : c ^ 2 = 1) (hc1 : c ≠ 1) :
     c ∉ CFSG.Open.pCoreOf 2 (derivedOf X) := by
   intro hcN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSle : Subgroup.zpowers c ≤ CFSG.Open.pCoreOf 2 (derivedOf X) :=
     Subgroup.zpowers_le.mpr hcN
   have hSinv : ∀ g ∈ X, ∀ s ∈ Subgroup.zpowers c, g * s * g⁻¹ ∈ Subgroup.zpowers c := by
@@ -117,7 +117,7 @@ theorem pCore_derived_le_Qz {G : Type} [Group G] {u : G} {X : Subgroup G} (hXu :
       rw [← hSbot]
       exact le_inf hM_le_N inf_le_right
     obtain ⟨Q₀, hQ₀norm, hQ₀W, hQz_eq⟩ := exists_Qz_eq (w := u) hC
-    haveI : Q₀.Normal := hQ₀norm
+    have : Q₀.Normal := hQ₀norm
     let L₀ : Subgroup ↥(Gx u) := (derivedOf X).subgroupOf (Gx u)
     have hL0Q0 : L₀ ⊓ Q₀ = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]

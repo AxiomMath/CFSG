@@ -31,7 +31,7 @@ private theorem two_le_fixCount_of_act {R : CFSG.Sporadic.Co1Schreier.Native.Row
   have hfix : rowsMatrix 24 R *ᵥ toVecD 24 v = toVecD 24 v := by
     rw [rowsMatrix_mulVec_toVecD, hR]
   unfold CFSG.HardMathSupport.Dickson.I271.TabMFive.fixCount
-  haveI : Nontrivial {w : Fin 24 → ZMod 2 // rowsMatrix 24 R *ᵥ w = w} :=
+  have : Nontrivial {w : Fin 24 → ZMod 2 // rowsMatrix 24 R *ᵥ w = w} :=
     ⟨⟨⟨0, Matrix.mulVec_zero _⟩, ⟨toVecD 24 v, hfix⟩, fun h => hne (congrArg Subtype.val h).symm⟩⟩
   exact Finite.one_lt_card
 
@@ -148,7 +148,7 @@ private theorem card_cent_threeA_le {x : GL24} (hx : MRep (rootRows3A ()) x) :
     decide_eq_true_eq, and_assoc, List.all_eq_true] at h
   obtain ⟨hD, hwx, hw1, hxr, hx1, hx3, hcm, hxu, hxw, hw01, hw10, hg01, hrels, hcomm, hb1,
     hcnt1⟩ := h
-  haveI : Finite GL24 := inferInstance
+  have : Finite GL24 := inferInstance
   have rx := rep_nd (ext := ext) hD 95
   have hxe : x = kG ext 95 := hx.eq (by rw [← hxr]; exact rx)
   subst hxe

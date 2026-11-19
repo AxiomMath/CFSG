@@ -12,6 +12,7 @@ open Subgroup
 
 variable {C : Type} [Group C] [Finite C]
 
+omit [Finite C] in
 private theorem zpowers_mul_comm {z : C} (hzc : ∀ c : C, c * z = z * c) {x : C}
     (hx : x ∈ zpowers z) (y : C) : x * y = y * x := by
   obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -19,10 +20,10 @@ private theorem zpowers_mul_comm {z : C} (hzc : ∀ c : C, c * z = z * c) {x : C
   exact (Commute.zpow_left (show Commute z y from (hzc y).symm) n).eq
 
 theorem N_le_of_normal_of_center {z : C} (hz2 : z ^ 2 = 1) (hzne : z ≠ 1) {R W : Subgroup C}
-    (hR2 : IsPGroup 2 ↥R) (hzR : z ∈ R)
+    (hR2 : IsPGroup 2 ↥R) (_hzR : z ∈ R)
     (hcen : ∀ x ∈ R, (∀ y ∈ R, x * y = y * x) → x ∈ zpowers z) (hW : W ≤ R)
     (hWn : ∀ r ∈ R, ∀ w ∈ W, r * w * r⁻¹ ∈ W) (hWne : W ≠ ⊥) : z ∈ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWnt : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).mpr hWne
   have hW2 : IsPGroup 2 ↥W := hR2.to_le hW
   have hWdvd : 2 ∣ Nat.card ↥W := by
@@ -39,7 +40,7 @@ theorem N_le_of_normal_of_center {z : C} (hz2 : z ^ 2 = 1) (hzne : z ≠ 1) {R W
       have h := hWn r⁻¹ (R.inv_mem hr) (r * w * r⁻¹) hw
       have he : r⁻¹ * (r * w * r⁻¹) * (r⁻¹)⁻¹ = w := by group
       rwa [he] at h
-  letI := Subgroup.conjMulDistribMulActionOfLeNormalizer R W hWnorm
+  let := Subgroup.conjMulDistribMulActionOfLeNormalizer R W hWnorm
   have hsmul : ∀ (r : ↥R) (k : ↥W),
       ((r • k : ↥W) : C) = (r : C) * (k : C) * (r : C)⁻¹ := fun r k =>
     Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe_explicit R W hWnorm r k
@@ -84,12 +85,12 @@ theorem N_le_of_normal_of_center {z : C} (hz2 : z ^ 2 = 1) (hzne : z ≠ 1) {R W
     exact Subgroup.mem_zpowers z
   exact (Subgroup.zpowers_le.mpr w.2) hzmem
 
-theorem exists_perfect_cover {z : C} (hzc : ∀ c : C, c * z = z * c) (hz2 : z ^ 2 = 1)
-    (hzne : z ≠ 1) {P : Subgroup C} (hzP : z ∈ P) (hperf : ⁅P, P⁆ ⊔ zpowers z = P) :
+theorem exists_perfect_cover {z : C} (hzc : ∀ c : C, c * z = z * c) (_hz2 : z ^ 2 = 1)
+    (_hzne : z ≠ 1) {P : Subgroup C} (hzP : z ∈ P) (hperf : ⁅P, P⁆ ⊔ zpowers z = P) :
     ∃ L : Subgroup C, L ≤ P ∧ ⁅L, L⁆ = L ∧ L ⊔ zpowers z = P := by
   classical
   set H : Subgroup C := zpowers z with hH
-  haveI : H.Normal := Subgroup.normal_of_le_center (by
+  have : H.Normal := Subgroup.normal_of_le_center (by
     intro x hx
     rw [Subgroup.mem_center_iff]
     intro y
@@ -135,9 +136,9 @@ theorem exists_perfect_cover {z : C} (hzc : ∀ c : C, c * z = z * c) (hz2 : z ^
 theorem z_mem_of_perfect_cover {z : C} (hzc : ∀ c : C, c * z = z * c) (hz2 : z ^ 2 = 1)
     (hzne : z ≠ 1) {P R L : Subgroup C} (hRP : R ≤ P) (hzR : z ∈ R) (hR2 : IsPGroup 2 ↥R)
     (hRcard : 2 < Nat.card ↥R)
-    (hcen : ∀ x ∈ R, (∀ y ∈ R, x * y = y * x) → x ∈ zpowers z) (hLP : L ≤ P)
+    (hcen : ∀ x ∈ R, (∀ y ∈ R, x * y = y * x) → x ∈ zpowers z) (_hLP : L ≤ P)
     (hLz : L ⊔ zpowers z = P) : z ∈ L := by
-  haveI : (zpowers z).Normal := Subgroup.normal_of_le_center (by
+  have : (zpowers z).Normal := Subgroup.normal_of_le_center (by
     intro x hx
     rw [Subgroup.mem_center_iff]
     intro y
@@ -152,7 +153,7 @@ theorem z_mem_of_perfect_cover {z : C} (hzc : ∀ c : C, c * z = z * c) (hz2 : z
       intro heq
       rw [← heq, hzcard] at hRcard
       exact absurd hRcard (lt_irrefl 2)
-    obtain ⟨r, hrR, hrH⟩ := SetLike.exists_of_lt hzlt
+    obtain ⟨r, hrR, hrH⟩ := _root_.IsConcreteLE.exists_of_lt hzlt
     have hrP : r ∈ L ⊔ zpowers z := by
       rw [hLz]
       exact hRP hrR

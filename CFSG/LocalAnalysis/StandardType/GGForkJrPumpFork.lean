@@ -26,6 +26,7 @@ private theorem ggFork_inv_eq (ι : Additive ↥Bs ≃+ V) {x : V} {f : Module.D
   apply ggLin_injective (p := p) ι
   rw [map_inv, ggLin_eq_reflection ι hfx hψ, reflection_inv]
 
+omit [DecidableEq Λ] in
 private theorem ggFork_indep_three (hind : LinearIndependent (ZMod p) (ggOptFam ha h))
     (hbc : b ≠ c) : LinearIndependent (ZMod p) ![ha, h b, h c] := by
   have hinj : Function.Injective (fun i : Fin 3 => ![none, some (b : Λ), some c] i) := by
@@ -38,6 +39,7 @@ private theorem ggFork_indep_three (hind : LinearIndependent (ZMod p) (ggOptFam 
     fin_cases i <;> rfl
   rwa [hfun] at hli
 
+omit [DecidableEq Λ] in
 private theorem ggFork_indep_four (hind : LinearIndependent (ZMod p) (ggOptFam ha h)) {d : Λ}
     (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) :
     LinearIndependent (ZMod p) ![ha, h b, h c, h d] := by
@@ -51,6 +53,7 @@ private theorem ggFork_indep_four (hind : LinearIndependent (ZMod p) (ggOptFam h
     fin_cases i <;> rfl
   rwa [hfun] at hli
 
+omit [DecidableEq Λ] in
 private theorem ggFork_three_coeffs (hind : LinearIndependent (ZMod p) (ggOptFam ha h))
     (hbc : b ≠ c) {c₀ c₁ c₂ : ZMod p} (hrel : c₀ • ha + c₁ • h b + c₂ • h c = 0) :
     c₀ = 0 ∧ c₁ = 0 ∧ c₂ = 0 := by
@@ -61,6 +64,7 @@ private theorem ggFork_three_coeffs (hind : LinearIndependent (ZMod p) (ggOptFam
   have h := (Fintype.linearIndependent_iff.mp h3) ![c₀, c₁, c₂] hg
   exact ⟨h 0, h 1, h 2⟩
 
+omit [DecidableEq Λ] in
 private theorem ggFork_four_coeffs (hind : LinearIndependent (ZMod p) (ggOptFam ha h)) {d : Λ}
     (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) {c₀ c₁ c₂ c₃ : ZMod p}
     (hrel : c₀ • ha + c₁ • h b + c₂ • h c + c₃ • h d = 0) :
@@ -72,6 +76,7 @@ private theorem ggFork_four_coeffs (hind : LinearIndependent (ZMod p) (ggOptFam 
   have h := (Fintype.linearIndependent_iff.mp h4) ![c₀, c₁, c₂, c₃] hg
   exact ⟨h 0, h 1, h 2, h 3⟩
 
+omit [DecidableEq Λ] in
 private theorem ggFork_indep_ht_hc (hind : LinearIndependent (ZMod p) (ggOptFam ha h))
     (hbc : b ≠ c) :
     LinearIndependent (ZMod p) ![ha + h c + (1 - α b ha) • h b, h c] := by
@@ -87,6 +92,7 @@ private theorem ggFork_indep_ht_hc (hind : LinearIndependent (ZMod p) (ggOptFam 
   rw [h0, zero_add] at h2
   exact h2
 
+omit [DecidableEq Λ] in
 private theorem ggFork_four_coeffs_sub (hind : LinearIndependent (ZMod p) (ggOptFam ha h))
     {d : Λ} (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) {s t : ZMod p}
     (hrel : (ha + h c + (1 - α b ha) • h b) - t • h d = s • h c) : False := by
@@ -97,7 +103,7 @@ private theorem ggFork_four_coeffs_sub (hind : LinearIndependent (ZMod p) (ggOpt
   exact one_ne_zero (ggFork_four_coeffs (p := p) hind hbc hbd hcd hrel0).1
 
 private theorem ggFork_coroot_prop (hp2 : p ≠ 2) (ι : Additive ↥Bs ≃+ V) {x y : V}
-    {f g : Module.Dual (ZMod p) V} (hfx : f x = 2) (hgy : g y = 2) {ψ χ : MulAut ↥Bs}
+    {f g : Module.Dual (ZMod p) V} (_hfx : f x = 2) (hgy : g y = 2) {ψ χ : MulAut ↥Bs}
     (hψ : ∀ w, ggLin (p := p) ι ψ w = w - f w • x) (hχ : ∀ w, ggLin (p := p) ι χ w = w - g w • y)
     (heq : ψ = χ) : ∃ s : ZMod p, y = s • x := by
   have h : y - f y • x = y - g y • y := by
@@ -125,7 +131,7 @@ private theorem ggFork_symm (ι : Additive ↥Bs ≃+ V) (hF : GGForkPairing C b
 
 theorem exists_fork_second_neighbour {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     {M : CoxeterMatrix Λ} {C : Matrix Λ Λ ℤ} {b c : Λ} (hM : GGIsWeylMatrix M)
-    (hC : GGIntCartan M C) (hbc : b ≠ c) (hbL : ∀ i, i ≠ b → C b i = if i = c then -1 else 0)
+    (hC : GGIntCartan M C) (_hbc : b ≠ c) (hbL : ∀ i, i ≠ b → C b i = if i = c then -1 else 0)
     (h3 : 3 ≤ Fintype.card Λ) :
     ∃ v₂ : Λ, v₂ ≠ b ∧ v₂ ≠ c ∧
       (C c v₂ * C v₂ c = 1 ∨ C c v₂ * C v₂ c = 2 ∨ C c v₂ * C v₂ c = 3) := by
@@ -142,13 +148,13 @@ theorem exists_fork_second_neighbour {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu ⊢
     rcases hu with hb | hc
     · by_contra hv
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at hv
+      simp only [not_or] at hv
       obtain ⟨hvb, hvc⟩ := hv
-      have h0 : C b v = 0 := by rw [hbL v hvb, if_neg hvc]
+      have h0 : C b v = 0 := by rw [hbL v hvb, ite_eq_right hvc]
       rw [← hb] at h0
       exact huv_uv h0
     · by_contra hv
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at hv
+      simp only [not_or] at hv
       obtain ⟨hvb, hvc⟩ := hv
       rcases hC.entries huv_ne with ⟨-, h0, -⟩ | ⟨-, h1, h2⟩ | h | h
       · exact huv_uv h0
@@ -232,10 +238,10 @@ theorem ggFork_t_pairing (ι : Additive ↥Bs ≃+ V) (hF : GGForkPairing C b c 
     αa (ggLin (p := p) ι (φ c * φ b) (h c)) = αa (h b) ∧
       αa (ggLin (p := p) ι (φ c * φ b) (h v₂)) = (C c v₂ : ZMod p) ∧
       α v₂ (ha + h c + (1 - α b ha) • h b) = (C v₂ c : ZMod p) := by
-  have hbv : α b (h v₂) = 0 := by rw [hF.pair, hF.bL v₂ hvb, if_neg hvc]; simp
-  have hav : αa (h v₂) = 0 := by rw [hF.aL v₂ hvb, if_neg hvc]
-  have hvb' : α v₂ (h b) = 0 := by rw [hF.pair, hF.bR v₂ hvb, if_neg hvc]; simp
-  have hva : α v₂ ha = 0 := by rw [hF.aR v₂ hvb, if_neg hvc]
+  have hbv : α b (h v₂) = 0 := by rw [hF.pair, hF.bL v₂ hvb, ite_eq_right hvc]; simp
+  have hav : αa (h v₂) = 0 := by rw [hF.aL v₂ hvb, ite_eq_right hvc]
+  have hvb' : α v₂ (h b) = 0 := by rw [hF.pair, hF.bR v₂ hvb, ite_eq_right hvc]; simp
+  have hva : α v₂ ha = 0 := by rw [hF.aR v₂ hvb, ite_eq_right hvc]
   refine ⟨?_, ?_, ?_⟩
   · have hc1 : ggLin (p := p) ι (φ c * φ b) (h c) = h b := by
       rw [map_mul, LinearEquiv.mul_apply, hlin b, hF.b_c, hlin c, map_sub, map_smul,

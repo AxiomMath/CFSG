@@ -71,7 +71,7 @@ lemma compl_le_one {n : ℕ} {M : Type} [Field M] [Finite M] {τ : M ≃+* M}
         have hp2 : p ≠ j2 := fun h => hj2I (h ▸ hp)
         have hq1 : q ≠ j1 := fun h => hj1I (h ▸ hq)
         have hq2 : q ≠ j2 := fun h => hj2I (h ▸ hq)
-        simp only [hp1, hp2, hq1, hq2, if_false, hp, hq, if_true])⟩
+        simp only [hp1, hp2, hq1, hq2, ite_false, hp, hq, ite_true])⟩
   have hFinj : Function.Injective F := by
     intro x y hxy
     have hmat : dg hM hτ2 cU (fun j => if j = j1 then x.2.1 else
@@ -314,9 +314,9 @@ lemma D_description {n : ℕ} {M : Type} [Field M] [Finite M] {τ : M ≃+* M}
       ι (Additive.ofMul ⟨e, he⟩) i₀ - ι (Additive.ofMul ⟨e, he⟩) i, ?_⟩
     funext j
     by_cases hj : j = i₀
-    · rw [if_pos hj, hj]
+    · rw [ite_eq_left hj, hj]
       ring
-    · rw [if_neg hj, add_zero]
+    · rw [ite_eq_right hj, add_zero]
       exact hcoord e he heD ((hImem j).mpr hj) hi
   · rintro ⟨a, b, hv⟩
     have hee := dg_eq_of_mem hM hτ2 hcU hU ι hι he
@@ -328,11 +328,11 @@ lemma D_description {n : ℕ} {M : Type} [Field M] [Finite M] {τ : M ≃+* M}
     have h1 : ι (Additive.ofMul ⟨e, he⟩) j = a := by
       rw [hv]
       change a + (if j = i₀ then b else 0) = a
-      rw [if_neg hjI, add_zero]
+      rw [ite_eq_right hjI, add_zero]
     have h2 : ι (Additive.ofMul ⟨e, he⟩) k = a := by
       rw [hv]
       change a + (if k = i₀ then b else 0) = a
-      rw [if_neg hkI, add_zero]
+      rw [ite_eq_right hkI, add_zero]
     rw [h1, h2]
 
 lemma exists_alpha_fixes {n : ℕ} {M : Type} [Field M] [Finite M] {τ : M ≃+* M}

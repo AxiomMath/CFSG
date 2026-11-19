@@ -146,7 +146,7 @@ theorem secNatS5_of_perm {L B : Subgroup G} {Ω : Type} [Fintype Ω] [DecidableE
     a ∉ L ∧ SecNatS5 ρ (L ⊔ Subgroup.zpowers a) (commOn ρ L ⊤) ⊥ ∧
       ∀ b ∈ B, ∃ h ∈ L ⊔ Subgroup.zpowers a, ∀ u ∈ commOn ρ L ⊤, ρ b u = ρ h u := by
   classical
-  haveI := hBe
+  have := hBe
   have ha2 : a * a = 1 := by rw [← pow_two]; exact elemPow_eq_one_of_isElementaryAbelian a ha
   have hnorm : ∀ m ∈ L, a * m * a⁻¹ ∈ L := fun m hm =>
     (Subgroup.mem_normalizer_iff.1 (hBN ha) m).1 hm
@@ -243,7 +243,7 @@ theorem dichotomy_of_componentOffenderOutput [Finite G] [Finite V] (hρ : Functi
         SecNatS5 ρ (L ⊔ Subgroup.zpowers a) (commOn ρ L ⊤) ⊥ ∧
         ∀ b ∈ B, ∃ h ∈ L ⊔ Subgroup.zpowers a, ∀ u ∈ commOn ρ L ⊤, ρ b u = ρ h u) := by
   classical
-  haveI : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+  have : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
   obtain ⟨hUL, hnt⟩ := commOn_facts_of_mem_calP hρ hL hA hLA
   have hBN : B ≤ Subgroup.normalizer (L : Set G) := hBA.trans (le_normalizer_of_mem_calP hρ hL hA)
   obtain ⟨e, he'⟩ := hT.iso

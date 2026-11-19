@@ -68,7 +68,7 @@ private theorem s16t3_exists_good_vector_omegaMinus6 (h : S16gRowCtx D V₀ V L 
       _ = x.val * (m : G) := by rw [h3']
   have hCM : F11.CTilde D.M V₀ V ≤ D.M := fun g hg =>
     (Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 hg 1) V.one_mem).1
-  haveI hnorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := by
+  have hnorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := by
     rw [← ker_barHom V₀ V hV hMn hMst]
     exact MonoidHom.normal_ker _
   have hKcard : 3 ∣ Nat.card ↥((F11.CTilde D.M V₀ V).subgroupOf D.M) := by
@@ -127,11 +127,11 @@ theorem S16gRowCtx.false_of_omegaMinus6_Z7 (h : S16gRowCtx D V₀ V L hV)
     (h7 : Nat.card ↥(irrSet (lBar V₀ V hV L)) = 7)
     (hL : IsOmegaMinus ↥(lBar V₀ V hV L) 6 1)
     (hK : Nat.card ↥(s1t3KBar (Mbar D.M V₀ V hV) (lBar V₀ V hV L)) = 7) : False := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
-  haveI : Finite ↥(lBar V₀ V hV L) := Subtype.finite
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite ↥(lBar V₀ V hV L) := Subtype.finite
   obtain ⟨hsimple, hmult⟩ :=
     s16t3_simple_and_mult hGA hSchur (Or.inr (Or.inr (Or.inr (Or.inl ⟨hL, le_rfl⟩))))
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := hsimple
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := hsimple
   have hmultnot : ¬ 3 ∣ Nat.card (CFSG.Open.griessHopfMultiplier ↥(lBar V₀ V hV L)) := by
     intro h3dvd
     obtain ⟨k, hk⟩ := hmult

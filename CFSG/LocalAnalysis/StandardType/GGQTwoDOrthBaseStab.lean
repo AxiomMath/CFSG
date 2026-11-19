@@ -28,7 +28,7 @@ theorem card_dEvenStab_dBasis_eq (m : ℕ) (i j : Fin m) :
     rw [dPerm_apply, Equiv.swap_apply_right]
   have hπinv : π⁻¹ (dBasis m j) = dBasis m i := by
     rw [← hπi]
-    simpa using LinearEquiv.symm_apply_apply π (dBasis m i)
+    simp
   refine Nat.card_congr ⟨fun g => ⟨π * g.1 * π⁻¹, ?_⟩,
     fun g => ⟨π⁻¹ * g.1 * π, ?_⟩, ?_, ?_⟩
   · have hg : g.1 ∈ dEven m ∧ g.1 (dBasis m i) = dBasis m i := g.2
@@ -61,7 +61,7 @@ theorem qtwoDOrthBase_acts_stab {Bs X : Subgroup G} {n : ℕ}
     (hx : β (Additive.ofMul (τ (Pi.mulSingle 0 (Multiplicative.ofAdd (1 : ZMod 3))))) =
       c • dBasis (n + 1) j) :
     qtwoDActsAs β (ggAutomizer X Bs) (dEvenStab (n + 1) (dBasis (n + 1) j)) := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   let A : Subgroup (MulAut ↥Bs) := ggAutomizer X Bs
   let Lτ : MulAut ↥Bs →* (DVec (n + 1) ≃ₗ[ZMod 3] DVec (n + 1)) :=
     ggLin (p := 3) (tauIota τ)

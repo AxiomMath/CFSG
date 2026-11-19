@@ -83,6 +83,7 @@ theorem s16c1610_false_of_isTensorS3L2 (D : Data G) (hx : DataExt D) (h61 : UC6.
     rw [← hk]
     exact s16c1610_zpow_apply_eq u x hufix k
 
+omit [Finite G] in
 private theorem s16c1610_sumOfNat_congr_v1 {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (L : Subgroup G) {m : ℕ} {V₀ V₁ : Subgroup G} (h : V₁ = V₀)
     (hsum : SumOfNat (fun H U Z => BinaryNaturalSL H U Z m 1) (barSub V₁ V hV L)
@@ -124,7 +125,7 @@ theorem s16c1610_out10_of_case2_ln (D : Data G) (hin : In10 D) {V₀ V L : Subgr
   have hcard : Nat.card (lBar V₀ V hV L) = Nat.card L₀ :=
     (SeitzReduction.LinearPilot.card_of_lieModel_PSL_two hL).trans
       (SeitzReduction.LinearPilot.card_of_lieModel_PSL_two hL₀).symm
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hLeq : lBar V₀ V hV L = L₀ :=
     s16c1610_eq_of_direct_of_centralizer rfl (barSub_mono V₀ V hV hc.setting.hyp151.le) hK hdir
       hcard

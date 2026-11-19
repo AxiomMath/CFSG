@@ -163,7 +163,7 @@ theorem false_of_pair_torus_data (he : CFSG.Open.evenRank H ≤ 2) {L₁ L₂ : 
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 hζ
     have hk' : (f x) ^ (3 * k) = (((x ^ 3 : ↥L₁)) : H) := by
       have h1 := congrArg (fun z : ↥L₁ => f z) hk
-      simp only [map_zpow, map_pow, f, MonoidHom.comp_apply, MulEquiv.apply_symm_apply] at h1
+      simp only [map_zpow, map_pow, f, MonoidHom.comp_apply] at h1
       have h2 : L₂.subtype (φ.toMonoidHom (φ.symm ⟨(((x ^ 3 : ↥L₁)) : H), hωL⟩)) =
           (((x ^ 3 : ↥L₁)) : H) := by simp
       rw [h2] at h1

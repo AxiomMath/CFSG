@@ -291,7 +291,7 @@ theorem two_prime_capture_data
       exact (mem_top g : g ∈ (⊤ : Subgroup H))
     rw [normal_mul, Set.mem_mul] at hg
     obtain ⟨l, hl, t, ht, rfl⟩ := hg
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
     refine ⟨k, ?_⟩
     have hk' : t ^ 2 ^ k = 1 := by
       have h1 := congrArg Subtype.val hk

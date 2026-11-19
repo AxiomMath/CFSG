@@ -105,11 +105,11 @@ theorem c10092_of (D : CFSG.KC.Th.Gen.Max3Data) (h : CFSG.KC.Th.Gen.max3Chk D = 
     intro k l hlk
     let f : ℕ → ℕ := fun a => D.ThM3_RB (25 + a)
     have hchain : List.IsChain (fun a b => f a < f b) ndChain := ndChain_chain h
-    haveI : Trans (fun a b => f a < f b) (fun a b => f a < f b) (fun a b => f a < f b) :=
+    have : Trans (fun a b => f a < f b) (fun a b => f a < f b) (fun a b => f a < f b) :=
       ⟨fun h1 h2 => lt_trans h1 h2⟩
     have hpw : ndChain.Pairwise (fun a b => f a ≠ f b) :=
       (List.isChain_iff_pairwise.1 hchain).imp fun h => ne_of_lt h
-    haveI : Std.Symm (fun a b => f a ≠ f b) := ⟨fun _ _ h => Ne.symm h⟩
+    have : Std.Symm (fun a b => f a ≠ f b) := ⟨fun _ _ h => Ne.symm h⟩
     have hmem : ∀ k : Fin 512, k.val ∈ ndChain := by decide +kernel
     have hkl : k.val ≠ l.val := fun e => absurd hlk (by rw [Fin.lt_def, e]; exact lt_irrefl _)
     exact eqRows_false_of_pk (hR.layNf k) (hR.layNf l) (hR.nf k) (hR.nf l)

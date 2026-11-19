@@ -28,13 +28,16 @@ structure Frame3 (G : Type) [Group G] (z : G) extends Frame2 G z where
 
 @[expose] def Frame2.Sz (F : Frame2 G z) : Set G := {a | a ∈ F.A ∧ a ≠ 1 ∧ InZG z a}
 
+omit [Finite G] in
 theorem Frame2.z_ne_one (F : Frame2 G z) : z ≠ 1 := F.toFrame1.toFrame0.z_ne_one
 
+omit [Finite G] in
 theorem Frame2.conj_mem_A (F : Frame2 G z) {a l : G} (ha : a ∈ F.A)
     (hl : l ∈ Subgroup.normalizer (F.A : Set G)) : l⁻¹ * a * l ∈ F.A := by
   have := (Subgroup.mem_normalizer_iff.1 (Subgroup.inv_mem _ hl) a).1 ha
   simpa using this
 
+omit [Finite G] in
 theorem Frame2.conj_mem_Sz (F : Frame2 G z) {a l : G} (ha : a ∈ F.Sz)
     (hl : l ∈ Subgroup.normalizer (F.A : Set G)) : l⁻¹ * a * l ∈ F.Sz := by
   obtain ⟨haA, ha1, g, hg⟩ := ha
@@ -93,7 +96,7 @@ theorem Frame3.ncard_Sz_eq_sum (F : Frame3 G z)
   rw [Set.ncard_iUnion_of_finite hfin hpair, finsum_eq_sum_of_fintype]
   refine Finset.sum_congr rfl fun i _ => ?_
   rcases hdich i with h | h
-  · rw [if_pos h, Set.inter_eq_right.2 h]
+  · rw [ite_eq_left h, Set.inter_eq_right.2 h]
   · have hsub : ¬ F.Δ i ⊆ F.Sz := by
       intro hsub
       have hne : (F.Δ i).Nonempty := Set.nonempty_of_ncard_ne_zero (by
@@ -101,7 +104,7 @@ theorem Frame3.ncard_Sz_eq_sum (F : Frame3 G z)
         fin_cases i <;> simp)
       obtain ⟨a, ha⟩ := hne
       exact Set.disjoint_left.1 h ha (hsub ha)
-    rw [if_neg hsub, Set.inter_comm, h.inter_eq, Set.ncard_empty]
+    rw [ite_eq_right hsub, Set.inter_comm, h.inter_eq, Set.ncard_empty]
 
 theorem Frame2.not_prime_dvd_card_normalizer (F : Frame2 G z) (p : ℕ) [hp : Fact p.Prime]
     (hpH : ¬ p ∣ 21504) (hcong : ∀ c : ℕ, c ∣ 64 → Nat.ModEq p 64 c → c = 64) :

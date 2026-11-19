@@ -31,7 +31,7 @@ theorem r846_of_key (hgr : CFSG.Open.GriessAllModelsStatement) (D : Data G) (hSg
   classical
   have hSyl := UCK.u3Syl_of_griess hgr
   intro L hL n hX q hq hq3 hqn
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by rintro rfl; omega
   have hns : ¬ Group.IsSolvable ↥D.M := not_solvable_of_mem_calC hL
   have hLM : L ≤ D.M := hL.1.le
@@ -56,7 +56,7 @@ theorem r846_of_key (hgr : CFSG.Open.GriessAllModelsStatement) (D : Data G) (hSg
   obtain ⟨R', hR'⟩ := (hSp.comap_subtype : IsPGroup q (S.subgroupOf D.M)).exists_le_sylow
   let R : Subgroup G := (R' : Subgroup ↥D.M).map D.M.subtype
   have hRsyl : CFSG.ABGLocalTools.IsSylowOf q R D.M := ⟨R', rfl⟩
-  have hRq : IsPGroup q R := R'.isPGroup'.map _
+  have hRq : IsPGroup q R := R'.isPGroup.map _
   have hRM : R ≤ D.M := Subgroup.map_subtype_le _
   have hSR : S ≤ R := fun x hx => ⟨⟨x, hSM hx⟩, hR' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have hRL : R ⊓ L = S := hSmax _ inf_le_right (hRq.to_le inf_le_left) (le_inf hSR hSL)

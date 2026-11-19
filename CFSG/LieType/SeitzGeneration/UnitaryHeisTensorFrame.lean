@@ -38,7 +38,7 @@ theorem exists_heisFrame [Finite K] [Fact ℓ.Prime] [CharP K ℓ] (h : UnitaryF
     fun j => Module.End.eigenspace YT (1 * ζ ^ (j : ℕ)) with hE
   have hsup : ⨆ j, E j = ⊤ := NonCube.iSup_eigenspace_eq_top hζ hζ1 one_ne_zero hYT3
   have hmem : ∀ j v, v ∈ E j ↔ Y *ᵥ v = ζ ^ (j : ℕ) • v := fun j v => by
-    simp [hE, Module.End.mem_eigenspace_iff, hYT, Matrix.toLin'_apply]
+    simp [hE, hYT, Matrix.toLin'_apply]
   have hshift : ∀ (l : K) (v : Fin n → K), Y *ᵥ v = l • v →
       Y *ᵥ (X *ᵥ v) = (ζ * l) • (X *ᵥ v) := by
     intro l v hv
@@ -164,16 +164,16 @@ theorem exists_heisFrame [Finite K] [Fact ℓ.Prime] [CharP K ℓ] (h : UnitaryF
       fin_cases j
       · obtain ⟨c, rfl⟩ := hexp x hx
         refine ⟨fun k r => if k = 0 then c r else 0, ?_⟩
-        simp [Fin.sum_univ_three, hf0]
+        simp [hf0]
       · obtain ⟨w, hw, rfl⟩ := hb1 x hx
         obtain ⟨c, rfl⟩ := hexp w hw
         refine ⟨fun k r => if k = 1 then c r else 0, ?_⟩
-        simp [Fin.sum_univ_three, hf1, mulVec_sum, mulVec_smul]
+        simp [hf1, mulVec_sum, mulVec_smul]
       · obtain ⟨w, hw, rfl⟩ := hb2 x hx
         obtain ⟨w', hw', rfl⟩ := hb1 w hw
         obtain ⟨c, rfl⟩ := hexp w' hw'
         refine ⟨fun k r => if k = 2 then c r else 0, ?_⟩
-        simp [Fin.sum_univ_three, hf2, mulVec_sum, mulVec_smul]
+        simp [hf2, mulVec_sum, mulVec_smul]
     · rintro x y ⟨c, rfl⟩ ⟨c', rfl⟩
       exact ⟨c + c', by simp [add_smul, Finset.sum_add_distrib]⟩
   refine ⟨m, ⟨{ f := fr, on := hfon, span := hspan, hY := ?_, hX0 := ?_, hX1 := ?_, hX2 := ?_ }⟩⟩

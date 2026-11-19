@@ -67,7 +67,7 @@ private theorem isExtraspecial_of_thLocal (e : X ≃* G) {Q M : Subgroup G} {a :
   have hM : ∀ T : Subgroup G, R0.map f ≤ T → T ≤ Q → A.map f ≤ Subgroup.normalizer (T : Set G) →
       ∀ s ∈ T, (∀ t ∈ T, s * t = t * s) → s ∈ (Subgroup.center ↥Q).map Q.subtype :=
     fun T hR0T hTQ hAT => radical_le_of_hyperplane_bound (p := 3) (k := 2) (by norm_num)
-      (fun j hj0 hj2 => by interval_cases j <;> decide) hQ rfl hB' (hBM.trans hMQ) hCB' hH
+      (fun j hj0 hj2 => by interval_cases j; decide) hQ rfl hB' (hBM.trans hMQ) hCB' hH
       (hZR0.trans hR0T) hTQ ((Subgroup.map_mono hBA).trans hAT)
   have h := (isExtraspecial_of_nondeg_chain hQ rfl hZR0
     (hU _ (hR0.map f) hR0M ((Subgroup.map_mono hBA).trans (hnorm R0 hAR0))) (hnorm R0 hAR0) hU'
@@ -81,10 +81,10 @@ section Centre
 
 
 private theorem thJ_central_eq_one (t : ↥J) (ht : ∀ u : ↥J, u * t = t * u) : t = 1 := by
-  haveI : IsSimpleGroup ↥J := Kernel.isSimpleGroup_J th_kernel_facts
+  have : IsSimpleGroup ↥J := Kernel.isSimpleGroup_J th_kernel_facts
   have hnc : ¬ IsMulCommutative ↥J := by
     intro hcomm
-    haveI : IsMulCommutative ↥J := hcomm
+    have : IsMulCommutative ↥J := hcomm
     have hp : (Nat.card ↥J).Prime := (Group.is_simple_iff_prime_card).mp inferInstance
     rw [natCard_J] at hp
     exact (by norm_num : ¬ Nat.Prime 90745943887872000) hp

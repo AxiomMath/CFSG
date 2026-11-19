@@ -124,16 +124,16 @@ theorem s15k_mclaughlin_main [FiniteDimensional (ZMod 2) V]
 theorem rMcLaughlin_holds : RMcLaughlin := by
   intro W _ _ hW J R hJ hirr hfaith hgen
   obtain ⟨D⟩ := s15k_mcl_nonempty hW hirr.2.1 hfaith
-  haveI : FiniteDimensional (ZMod 2) D.V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) D.V := Module.Finite.of_finite
   have hn : 1 ≤ Module.finrank (ZMod 2) D.V := by
-    obtain ⟨r, hr, hr1⟩ := SetLike.exists_of_lt hirr.1
+    obtain ⟨r, hr, hr1⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     have hne : D.e ⟨r, hr⟩ ≠ 1 := by
       intro h
       apply hr1
       have h1 : (⟨r, hr⟩ : ↥R) = 1 := D.e.injective (h.trans (map_one D.e).symm)
       rw [Subgroup.mem_bot]
       exact congrArg Subtype.val h1
-    haveI : Nontrivial D.V :=
+    have : Nontrivial D.V :=
       ⟨⟨Multiplicative.toAdd (D.e ⟨r, hr⟩), 0, fun h => hne (Multiplicative.toAdd.injective h)⟩⟩
     exact Module.finrank_pos
   have h2 : 2 ≤ Module.finrank (ZMod 2) D.V := by

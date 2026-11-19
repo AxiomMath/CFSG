@@ -22,7 +22,7 @@ private theorem isSimpleGroup_X₀ : IsSimpleGroup CFSG.LieType.Multipliers.U43.
   rwa [pow_one] at h
 
 theorem isSimpleGroup_P : IsSimpleGroup ↥P := by
-  haveI := isSimpleGroup_X₀
+  have := isSimpleGroup_X₀
   exact MulEquiv.isSimpleGroup psiEquiv.symm
 
 theorem index_P_U43Ext : (P.subgroupOf U43Ext).index = 2 := by
@@ -107,7 +107,7 @@ theorem odd_mem_P {x : ↥U43Ext} (hx : Odd (orderOf x)) : (x : Equiv.Perm (Fin 
 
 theorem closure_odd_eq : Subgroup.closure {x : ↥U43Ext | Odd (orderOf x)} = P.subgroupOf U43Ext := by
   classical
-  haveI : IsSimpleGroup ↥P := isSimpleGroup_P
+  have : IsSimpleGroup ↥P := isSimpleGroup_P
   set T : Subgroup ↥U43Ext := Subgroup.closure {x : ↥U43Ext | Odd (orderOf x)} with hT
   have hTle : T ≤ P.subgroupOf U43Ext := by
     rw [hT, Subgroup.closure_le]
@@ -131,16 +131,16 @@ theorem closure_odd_eq : Subgroup.closure {x : ↥U43Ext | Odd (orderOf x)} = P.
       rw [this]
       exact Subgroup.inv_mem _ ha
   let eP : ↥(P.subgroupOf U43Ext) ≃* ↥P := Subgroup.subgroupOfEquivOfLe P_le_U43Ext
-  haveI : IsSimpleGroup ↥(P.subgroupOf U43Ext) := MulEquiv.isSimpleGroup eP
+  have : IsSimpleGroup ↥(P.subgroupOf U43Ext) := MulEquiv.isSimpleGroup eP
   have hnorm : (T.subgroupOf (P.subgroupOf U43Ext)).Normal := by
-    haveI := hTn
+    have := hTn
     exact Subgroup.normal_subgroupOf
   have hne : T.subgroupOf (P.subgroupOf U43Ext) ≠ ⊥ := by
     intro h
     have h3 : 3 ∣ Nat.card ↥(P.subgroupOf U43Ext) := by
       rw [Nat.card_congr eP.toEquiv, card_P]
       norm_num
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3 h3
     have hyT : (y : ↥U43Ext) ∈ T := by
       apply Subgroup.subset_closure
@@ -152,7 +152,7 @@ theorem closure_odd_eq : Subgroup.closure {x : ↥U43Ext | Odd (orderOf x)} = P.
     rw [this, orderOf_one] at hy
     exact absurd hy (by norm_num)
   have htop : T.subgroupOf (P.subgroupOf U43Ext) = ⊤ := by
-    haveI := hnorm
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.subgroupOf (P.subgroupOf U43Ext)) with h | h
     · exact absurd h hne
     · exact h

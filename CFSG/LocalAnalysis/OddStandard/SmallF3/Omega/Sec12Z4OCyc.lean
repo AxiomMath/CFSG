@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 
 theorem z4o_eq_of_orderOf_eq_two {A : Type*} [Group A] [Finite A] [IsCyclic A]
     {x y : A} (hx : orderOf x = 2) (hy : orderOf y = 2) : x = y := by
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hd : 2 ∣ Fintype.card A := hx ▸ orderOf_dvd_card
   have h := IsCyclic.card_orderOf_eq_totient (α := A) (d := 2) hd
   rw [Nat.totient_two] at h
@@ -30,19 +30,19 @@ theorem z4o_isCyclic_of_le_centralizer [Finite G] {I X : Subgroup G}
     (hcyc : ∀ P : Sylow 2 (centralizer (I : Set G)),
       IsCyclic (P : Subgroup (centralizer (I : Set G))))
     (hX : X ≤ centralizer (I : Set G)) (hX2 : IsPGroup 2 X) : IsCyclic ↥X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX'2 : IsPGroup 2 (X.subgroupOf (centralizer (I : Set G))) :=
     hX2.of_equiv (Subgroup.subgroupOfEquivOfLe hX).symm
   obtain ⟨Q, hQle⟩ := hX'2.exists_le_sylow
-  haveI : IsCyclic ↥(Q : Subgroup (centralizer (I : Set G))) := hcyc Q
-  haveI : IsCyclic ↥(X.subgroupOf (centralizer (I : Set G))) := Subgroup.isCyclic_of_le hQle
+  have : IsCyclic ↥(Q : Subgroup (centralizer (I : Set G))) := hcyc Q
+  have : IsCyclic ↥(X.subgroupOf (centralizer (I : Set G))) := Subgroup.isCyclic_of_le hQle
   exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hX)
     (Subgroup.subgroupOfEquivOfLe hX).surjective
 
 theorem sec123z4_false_of_cyclic [Finite G] (hAut : Asc82FactAutAb) {t : G}
     {L S : Subgroup G} {z : G} {K1 K2 E : Subgroup G} (hctx : Sec12Ctx G t L S z K1 K2 E)
     (F : Sec12Frame t L S)
-    (hZ : IsZ4Pow4 (secV t S L E)) {s : G} (hs : orderOf s = 2) (hsS : s ∈ S)
+    (hZ : IsZ4Pow4 (secV t S L E)) {s : G} (hs : orderOf s = 2) (_hsS : s ∈ S)
     (hsL : s ∉ L ⊔ centralizer (L : Set G))
     (h64 : Nat.card (secV t S L E ⊓ centralizer ({s} : Set G) : Subgroup G) = 2 ^ 6)
     {I : Subgroup G} (hI : IsComponentIn I (centralizer ({s} : Set G)))
@@ -87,7 +87,7 @@ theorem sec123z4_false_of_cyclic [Finite G] (hAut : Asc82FactAutAb) {t : G}
         (CFSG.Open.isElemAbelian_zpowers hs2') hcomm
     have hPC : zpowers y ⊔ zpowers s ≤ centralizer (I : Set G) :=
       sup_le (zpowers_le.mpr hyI) (zpowers_le.mpr hsI)
-    haveI : IsCyclic ↥(zpowers y ⊔ zpowers s) :=
+    have : IsCyclic ↥(zpowers y ⊔ zpowers s) :=
       z4o_isCyclic_of_le_centralizer hcyc hPC hPel.isPGroup
     have hyP : y ∈ zpowers y ⊔ zpowers s := Subgroup.mem_sup_left (Subgroup.mem_zpowers y)
     have hsP : s ∈ zpowers y ⊔ zpowers s := Subgroup.mem_sup_right (Subgroup.mem_zpowers s)

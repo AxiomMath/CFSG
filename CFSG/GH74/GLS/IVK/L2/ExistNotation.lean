@@ -32,7 +32,7 @@ theorem ivk_1_2_general : IVK_1_2_general := by
   obtain ⟨e⟩ := hKe
   obtain ⟨N₀⟩ := exists_notation hF e
   have hTbar : IsPGroup 2 ↥((T : Subgroup H).map (MulAut.conjNormal : H →* MulAut ↥K)) :=
-    T.isPGroup'.map _
+    T.isPGroup.map _
   obtain ⟨T', hT'⟩ := hTbar.exists_le_sylow
   obtain ⟨e', N, hN⟩ := exists_notation_of_exists N₀ T'
   refine ⟨e', N, ?_, ?_⟩

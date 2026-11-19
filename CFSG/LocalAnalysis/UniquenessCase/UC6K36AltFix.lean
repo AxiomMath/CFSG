@@ -36,7 +36,7 @@ theorem apply_eq_self_of_commute_isCycle {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       rw [pow_succ', Perm.mul_apply, ih, ← Perm.mul_apply, (hrc.pow_right (i * n)).eq, Perm.mul_apply, ← hi,
         ← Perm.mul_apply, ← pow_add, mul_add, mul_one]
   have h1 : c ^ (i * 2 ^ k) = 1 := (hc.pow_eq_one_iff' hx').mpr (by rw [← key, hr, Perm.one_apply])
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hord : orderOf c = p := orderOf_eq_prime hcp hc.ne_one
   have hcop : Nat.Coprime p (2 ^ k) := ((Nat.coprime_primes hp Nat.prime_two).mpr hp2).pow_right k
   have h2 : p ∣ i := hcop.dvd_of_dvd_mul_right (by rw [← hord]; exact orderOf_dvd_of_pow_eq_one h1)
@@ -53,7 +53,7 @@ theorem fix_of_normalized {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {σ : Perm Ω
   have hcp : σ.cycleOf x ^ p = 1 :=
     (hc.pow_eq_one_iff' (x := x) (by rwa [cycleOf_apply_self])).mpr
       (by rw [cycleOf_pow_apply_self, hσ, Perm.one_apply])
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hsign : sign (σ.cycleOf x) = 1 := by
     rw [hc.sign, ← hc.orderOf, orderOf_eq_prime hcp hc.ne_one, Odd.neg_one_pow (hp.odd_of_ne_two hp2), neg_neg]
   have hw : r * σ.cycleOf x * r⁻¹ * (σ.cycleOf x)⁻¹ ∈ R := by
@@ -123,14 +123,14 @@ theorem card_compl_support_of_normalized {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       ((alternatingGroup.mem_range_ofSubtype_iff F ⟨w, mem_alternatingGroup.mpr hw⟩).mpr hwF)
     exact ⟨k₀, congrArg Subtype.val hk₀⟩
   let N : Subgroup (alternatingGroup F) := R.comap φ
-  haveI : N.Normal := ⟨fun n hn g => by
+  have : N.Normal := ⟨fun n hn g => by
     show φ (g * n * g⁻¹) ∈ R
     rw [map_mul, map_mul, map_inv]
     exact hnorm (φ g) (hφs g) (hφF g) (φ n) hn⟩
-  haveI : IsSimpleGroup (alternatingGroup F) := by
+  have : IsSimpleGroup (alternatingGroup F) := by
     rcases hm with hm3 | hm5
-    · haveI : Nontrivial F := ⟨⟨⟨a, haF⟩, ⟨b, hbF⟩, fun h => hba (congrArg Subtype.val h).symm⟩⟩
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    · have : Nontrivial F := ⟨⟨⟨a, haF⟩, ⟨b, hbF⟩, fun h => hba (congrArg Subtype.val h).symm⟩⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact isSimpleGroup_of_prime_card (p := 3)
         (by rw [nat_card_alternatingGroup, Nat.card_eq_finsetCard, hm3]; decide)
     · exact alternatingGroup.isSimpleGroup (by rwa [Nat.card_eq_finsetCard])

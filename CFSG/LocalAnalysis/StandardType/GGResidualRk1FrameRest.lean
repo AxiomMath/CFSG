@@ -110,7 +110,7 @@ theorem sgnAut_conj_swap {i j l : Fin k} (hij : i ≠ j) (hli : l ≠ i) (hlj : 
 theorem sgnAut_mul_swap_pow_ne_one (hp : p.Prime) (hp2 : p ≠ 2) {a b : Fin k} (hab : a ≠ b) :
     (sgnAut a * permAut (Equiv.swap a b) : MulAut (Fin k → Multiplicative (ZMod p))) ^ 2 ≠ 1 ∧
       (sgnAut a * permAut (Equiv.swap a b) : MulAut (Fin k → Multiplicative (ZMod p))) ^ 3 ≠ 1 := by
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   set u : MulAut (Fin k → Multiplicative (ZMod p)) := sgnAut a * permAut (Equiv.swap a b) with hu
   have hua : ∀ f, u f a = (f b)⁻¹ := fun f => by
     rw [hu, MulAut.mul_apply, rk1All_sgnAut_self, rk1All_permAut_swap, Equiv.swap_apply_left]
@@ -273,7 +273,7 @@ theorem OrthFrameCore.exists_coordAut [Fact p.Prime] [Finite G] (Φ : OrthFrameC
       Set ↥(orthDerived Φ.Q)) := by
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Φ.mem_range_tauΩ_iff, Φ.mem_A_iff]
+    simp only [Φ.mem_range_tauΩ_iff, Φ.mem_A_iff]
     constructor
     · rintro ⟨b, rfl⟩
       exact ⟨r b, (hβr b).symm⟩
@@ -334,7 +334,7 @@ theorem OrthFrameCore.isReflection_of_swapElt [Fact p.Prime] [Finite G] (Φ : Or
     (hw : ∀ f : Fin Φ.r → Multiplicative (ZMod p), (w : Φ.V ≃ₗ[Φ.F] Φ.V) * Φ.Δ.τ f * (w : Φ.V ≃ₗ[Φ.F] Φ.V)⁻¹ =
       Φ.Δ.τ (permAut (Equiv.swap i j) f))
     {a : MulAut ↥Bs} (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = Φ.ψ w * b * (Φ.ψ w)⁻¹) : GGIsReflection p a := by
-  haveI := Φ.finite_linearEquiv
+  have := Φ.finite_linearEquiv
   exact isReflection_of_inner Φ.ψ Φ.β Φ.hinj Φ.hcompat Φ.hβA Φ.hβsurj (Fact.out : p.Prime).one_lt ha
     (fun t ht => Φ.Δ.swap_sq_comm hw t ht) (fun t => Φ.Δ.mem_reflFixed_iff hw t) (Φ.Δ.card_reflFixed hij)
 
@@ -378,7 +378,7 @@ theorem OrthFrameCore.rk1ConclEx_of_coxRefl [Fact p.Prime] (hp2 : p ≠ 2) [Fini
   rcases RealKGSignedRefl.signedRefl_cases hp hp2 hSP hσ2 hcard with ⟨a, rfl⟩ | ⟨⟨⟨⟨i, j⟩, hij⟩, s⟩, rfl⟩
   ·
     exfalso
-    haveI : Nontrivial (Fin Φ.r) := Fin.nontrivial_iff_two_le.mpr (by have := Φ.hr; omega)
+    have : Nontrivial (Fin Φ.r) := Fin.nontrivial_iff_two_le.mpr (by have := Φ.hr; omega)
     obtain ⟨b, hba⟩ := exists_ne a
     obtain ⟨w', hw', hn'⟩ := Φ.swapReal a b hba.symm
     have ha'A := ggConjAut_mem_ggAutomizer (hmemX w') hn'
@@ -475,7 +475,7 @@ theorem OrthWeakFrame.rk1ConclEx_of_cfg (hRig : GGLabelRigidInput) [Finite G] {B
     (hpres : GGCoxeterPres p (ggAutomizerJoin L Bs 𝒦) M e) (h3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3)
     (hXA : ggAutomizer X Bs ≤ ggAutomizerJoin L Bs 𝒦) (hnsX : ¬ GGSplitLie p X) (Φ : OrthWeakFrame p Bs X)
     (hΦ : Φ.Recognized) : ∀ r ∈ ggAutomizer X Bs, r ∈ ggCoxRefl M e → GGRk1ConclEx p Bs X r := by
-  haveI : Fact p.Prime := ⟨(ggRouteCfg_prime hcfg).1⟩
+  have : Fact p.Prime := ⟨(ggRouteCfg_prime hcfg).1⟩
   intro r hrA hrC
   exact Φ.rk1ConclEx_of_coxRefl hRig (ggRouteCfg_prime hcfg).2 hΦ hnsX hpres.1 h3
     (fun a haA haR => ggCoxRefl_of_cfg hcfg (ggAutomizerJoin_le_top L Bs 𝒦) hpres h3 (hXA haA) haR)
@@ -508,7 +508,7 @@ theorem OrthFrameCore.rk1ConclEx_of_cfg_two (hRig : GGLabelRigidInput) [Finite G
     (hlab : GGHasLabel ⟨.D, Φ.r, 1⟩ (↥X ⧸ Subgroup.center ↥X) ∨
       GGHasLabel ⟨.twD, Φ.r, 1⟩ (↥X ⧸ Subgroup.center ↥X)) :
     ∀ r ∈ ggAutomizer X Bs, r ∈ ggCoxRefl M e → GGRk1ConclEx p Bs X r := by
-  haveI : Fact p.Prime := ⟨(ggRouteCfg_prime hcfg).1⟩
+  have : Fact p.Prime := ⟨(ggRouteCfg_prime hcfg).1⟩
   have hp2 := (ggRouteCfg_prime hcfg).2
   intro r hrA hrC
   exact Φ.rk1ConclEx_of_coxRefl hp2 (fun _ hz => Φ.eq_one_of_center_eq_bot hZX hz)
@@ -539,7 +539,7 @@ theorem ggRk1ConclEx_of_orthTwoMarking (hRig : GGLabelRigidInput) {G : Type}
     (hZK : ∀ lab, P p lab → GGHasLabel lab (↥X ⧸ Subgroup.center ↥X) → Subgroup.center ↥X = ⊥) :
     ∀ r ∈ ggAutomizer X Bs, r ∈ ggCoxRefl M e → GGRk1ConclEx p Bs X r := by
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hcfg
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXA : ggAutomizer X Bs ≤ ggAutomizerJoin L Bs 𝒦 := by
     rcases hXw with hXL | hw
     · exact ggAutomizer_le_ggAutomizerJoin (Or.inl hXL)
@@ -691,7 +691,7 @@ theorem ggRk1ConclEx_of_orthTwo
       exact ggRk1ConclEx_of_D4two_of_lt hRig hcfg hpres h3 hXw hnsX hD4 hlt
   rcases GGInnerDiagOnLabel.elim_or h with h | h
   ·
-    haveI : Group.IsPerfect ↥X := Group.IsPerfect.mk h.1
+    have : Group.IsPerfect ↥X := Group.IsPerfect.mk h.1
     refine ggRk1ConclEx_of_orthTwoMarking hRig hcfg hpres h3 hXw hnsX (fun _ hl => ⟨hl.1, hl.2.1⟩) h
       fun lab hl hhas => ?_
     obtain ⟨hrow, hn, h4⟩ := hl

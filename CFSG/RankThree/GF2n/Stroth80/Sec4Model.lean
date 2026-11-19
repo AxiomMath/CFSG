@@ -107,7 +107,7 @@ theorem Ctx.eq_bot_of_comm_odd [hN : (Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
       (hφπ t) (fun x hx => ?_)) e
     rw [htu]
     exact hφ₀π u x hx
-  haveI : Finite M₀.E := Module.finite_of_finite (GaloisField 2 m)
+  have : Finite M₀.E := Module.finite_of_finite (GaloisField 2 m)
   let ρ : ↥A →* Equiv.Perm M₀.E := Φ.comp A.subtype
   have hρinj : Function.Injective ρ := hΦinj.comp A.subtype_injective
   have hρadd : ∀ γ' e f, ρ γ' (e + f) = ρ γ' e + ρ γ' f := by

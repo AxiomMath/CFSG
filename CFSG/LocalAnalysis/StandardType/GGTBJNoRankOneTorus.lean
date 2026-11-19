@@ -25,7 +25,7 @@ theorem ggRankOne_linear_rank {G : Type} [Group G] [Finite G] {p m : ℕ} {x : G
   dsimp only [GGHasLabel, LargeEvenRawDatum, LargeEvenRecipeLinear] at hlab
   rw [show 2 * p - 1 + 1 = 2 * p by omega] at hlab
   obtain ⟨K, _, _, hK, hQ'⟩ := hlab
-  haveI hchar : CharP K 2 := charP_two_of_card hK
+  have hchar : CharP K 2 := charP_two_of_card hK
   have hpK : p ∣ Nat.card K - 1 := by rw [hK]; exact hpm
   obtain ⟨e⟩ := hQ'
   have h := succ_le_twoLocalRank_of_torusLift hp hLx hx hx1 hL

@@ -80,7 +80,7 @@ theorem normalizer_inf_eq [Finite G] {P V M C : Subgroup G} {t : G} {S : Set G}
       calc t = g⁻¹ * (g * t * g⁻¹) * g := by group
         _ = 1 := by rw [this]; group
     have h1 : ((V : Set G) \ {1}).ncard = 15 := by
-      rw [Set.ncard_diff_singleton_of_mem V.one_mem, ← Nat.card_coe_set_eq]
+      rw [Set.ncard_sdiff_singleton_of_mem V.one_mem, ← Nat.card_coe_set_eq]
       exact (congrArg (· - 1) hVcard)
     calc (CFSG.Sporadic.SmallOddCore.conjClass N t).ncard ≤ ((V : Set G) \ {1}).ncard :=
           Set.ncard_le_ncard hsub (Set.toFinite _)
@@ -110,7 +110,7 @@ variable {G : Type*} [Group G]
 
 theorem isElemAbelian_closure {S : Set G} {p : ℕ} (hcomm : S.Pairwise Commute)
     (hp : ∀ a ∈ S, a ^ p = 1) : CFSG.Open.IsElemAbelian p (closure S) := by
-  haveI := isMulCommutative_closure hcomm
+  have := isMulCommutative_closure hcomm
   refine ⟨inferInstance, fun x hx => ?_⟩
   induction hx using Subgroup.closure_induction with
   | mem x hx => exact hp x hx
@@ -191,7 +191,7 @@ theorem inSubgroup_perfectResidual_cj {M H : Subgroup G} (g : G)
 
 theorem isElemAbelian_cj {K : Subgroup G} {p : ℕ} (h : CFSG.Open.IsElemAbelian p K) (g : G) :
     CFSG.Open.IsElemAbelian p (cj g K) := by
-  haveI := h.1
+  have := h.1
   refine ⟨inferInstanceAs (IsMulCommutative (K.map (MulAut.conj g).toMonoidHom)), fun x hx => ?_⟩
   obtain ⟨y, hy, rfl⟩ := hx
   have := h.2 y hy
@@ -208,7 +208,7 @@ theorem Ksub_conj4 {Rg : ℕ → Gp} {g : Gp} {a1 a2 a3 a4 v1 v2 v3 v4 : ℕ}
   rw [cj, Ksub, Ksub, MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false]
   constructor
   · rintro ⟨r, hr, rfl⟩
     rcases hr with rfl | rfl | rfl | rfl
@@ -232,7 +232,7 @@ theorem card_subgroupOf_of_le {X : Subgroup G} (hX : X ≤ P) :
     Nat.card (X.subgroupOf P) = Nat.card X :=
   Nat.card_congr (subgroupOfEquivOfLe hX).toEquiv
 
-theorem isElemAbelian_subgroupOf {X : Subgroup G} {p : ℕ} (hX : X ≤ P)
+theorem isElemAbelian_subgroupOf {X : Subgroup G} {p : ℕ} (_hX : X ≤ P)
     (h : CFSG.Open.IsElemAbelian p X) : CFSG.Open.IsElemAbelian p (X.subgroupOf P) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
   · have := h.1.is_comm.comm (⟨a.1.1, a.2⟩ : X) ⟨b.1.1, b.2⟩
@@ -244,7 +244,7 @@ theorem normalizer_subgroupOf {X : Subgroup G} (hX : X ≤ P) :
     normalizer ((X.subgroupOf P : Subgroup P) : Set P) =
       (normalizer (X : Set G)).subgroupOf P := by
   ext x
-  simp only [mem_subgroupOf, mem_normalizer_iff, SetLike.mem_coe]
+  simp only [mem_subgroupOf, mem_normalizer_iff]
   constructor
   · intro h n
     constructor
@@ -410,7 +410,7 @@ theorem inSubgroup_perfectResidual_eq [Finite Y] {M H : Subgroup Y} {S : Set Y}
     (hHM : H ≤ M) (hS : closure S = H) (hperf : ⁅H, H⁆ = H)
     (hnorm : ∀ x ∈ M, ∀ s ∈ S, x * s * x⁻¹ ∈ H) (hidx : Nat.card M = 3 * Nat.card H) :
     inSubgroup perfectResidual M = H := by
-  haveI hn : (H.subgroupOf M).Normal :=
+  have hn : (H.subgroupOf M).Normal :=
     ⟨fun n hn g => by
       rw [mem_subgroupOf] at hn ⊢
       simpa using conj_mem_of_conj_gens hS (hnorm g g.2) hn⟩
@@ -418,9 +418,9 @@ theorem inSubgroup_perfectResidual_eq [Finite Y] {M H : Subgroup Y} {S : Set Y}
     have h1 := (H.subgroupOf M).card_eq_card_quotient_mul_card_subgroup
     rw [Nat.card_congr (subgroupOfEquivOfLe hHM).toEquiv, hidx] at h1
     exact (Nat.eq_of_mul_eq_mul_right Nat.card_pos h1).symm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic (M ⧸ H.subgroupOf M) := isCyclic_of_prime_card hcard
-  haveI : Group.IsSolvable (M ⧸ H.subgroupOf M) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic (M ⧸ H.subgroupOf M) := isCyclic_of_prime_card hcard
+  have : Group.IsSolvable (M ⧸ H.subgroupOf M) :=
     Group.isSolvable_of_comm fun a b =>
       (IsCyclic.commGroup (α := M ⧸ H.subgroupOf M)).mul_comm a b
   exact le_antisymm (inSubgroup_perfectResidual_le_of_isSolvable hHM this)

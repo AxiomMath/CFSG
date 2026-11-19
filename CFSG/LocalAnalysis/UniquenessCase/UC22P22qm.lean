@@ -13,6 +13,7 @@ open CFSG.CGT.Timmesfeld75 (IsTI)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22q_ctilde_le {M V₀ V : Subgroup G} : F11.CTilde M V₀ V ≤ M :=
   fun _ hc => (uc22p22q_mem_ctilde.1 hc).1
 
@@ -41,7 +42,7 @@ theorem uc22p22q_pRank_ctilde_le_one (D : Data G) (h61 : UC6.R6_1 D) {V₀ V : S
   obtain ⟨hV, hV₀V, hMV₀, hcase⟩ := uc22p22q_hyp11_unpack D hH
   have hpP : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   by_contra hlt
   push Not at hlt
   obtain ⟨E, hEC, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hpP.one_lt (F11.CTilde D.M V₀ V)

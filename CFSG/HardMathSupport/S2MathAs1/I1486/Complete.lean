@@ -17,8 +17,7 @@ open CFSG.StandardType CFSG.StandardType.KGA
 
 theorem ggF4GeomCoreInput_holds
     : GGF4GeomCoreInput := by
-  intro p₀ p f L hL hAlg hChar S a hp hp2
-  intro hSq hT hap h1 hTame i hqs hlab y hy
+  intro p₀ p f L hL hAlg hChar S a hp hp2 hSq hT hap h1 hTame i hqs hlab y hy
   have hyM : y ∈ S.D.model := (Subgroup.commutator_le_self S.D.model) hy.1
   have hyM' := S.D.mem_model.1 hyM
   have hyAdj : y ∈ adjointGroup Tag.F4 L := hyM'.1

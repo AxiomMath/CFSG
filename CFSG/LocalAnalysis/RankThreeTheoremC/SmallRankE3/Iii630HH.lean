@@ -31,9 +31,9 @@ theorem kFactHallHigmanOdd_holds : KFactHallHigmanOdd := by
     obtain ⟨a, haF, ha1, hafix⟩ :=
       exists_fixed_ne_one_of_isPGroup hf hZ hF3 hF1 (zpowers_le.mpr hzN)
     exact ha1 (hfix a haF (hafix z (mem_zpowers z)))
-  haveI : Fact f.Prime := ⟨hf⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact f.Prime := ⟨hf⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcomm : ∀ a b : F, a * b = b * a := fun a b => hFe.1.is_comm.comm a b
   have hexp : ∀ w : F, w ^ f = 1 := fun w => Subtype.ext (by simpa using hFe.2 w.1 w.2)
   obtain ⟨zN, hzNe⟩ : ∃ zN : normalizer (F : Set K), (zN : K) = z := ⟨⟨z, hzN⟩, rfl⟩

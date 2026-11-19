@@ -13,8 +13,8 @@ open CFSG.CGT.Stroth77.GL5
 
 theorem testBit_eq_bitB (v j : Nat) : v.testBit j = bitB v j := by
   have hs : Nat.shiftRight v j = v / 2 ^ j := Nat.shiftRight_eq_div_pow v j
-  simp only [bitB, Nat.testBit_eq_decide_div_mod_eq, Nat.and_one_is_mod, hs]
-  rcases Nat.mod_two_eq_zero_or_one (v / 2 ^ j) with h | h <;> simp [h] <;> rfl
+  simp only [bitB, Nat.testBit_eq_decide_div_mod_eq, hs]
+  rcases Nat.mod_two_eq_zero_or_one (v / 2 ^ j) with h | h <;> simp [h]; rfl
 
 theorem ite_eq_rec (b : Bool) (m : Nat) :
     (if b = true then m else 0) = Bool.rec (motive := fun _ => Nat) 0 m b := by
@@ -207,32 +207,40 @@ variable (o : Ops α) (o' : Ops β) (f : α → β) (ha : ∀ p q, f (o.a p q) =
   (ht : f o.t = o'.t) (hz : f o.z = o'.z)
 include ha ho hx ht hz
 
+omit ha ho ht hz in
 theorem sx_map (b : Bool) (acc v : α) : f (sx o b acc v) = sx o' b (f acc) (f v) := by
   cases b <;> simp only [sx, hx]
 
+omit ha ho ht in
 theorem sel_map (s : Nat) (v0 v1 v2 v3 v4 : α) :
     f (sel o s v0 v1 v2 v3 v4) = sel o' s (f v0) (f v1) (f v2) (f v3) (f v4) := by
-  simp only [sel, sx_map o o' f ha ho hx ht hz, hz]
+  simp only [sel, sx_map o o' f hx, hz]
 
+omit ho ht hz in
 theorem mulD_map (A B : M5 α) : (mulD o A B).map f = mulD o' (A.map f) (B.map f) := by
   simp only [mulD, rowD, dot, M5.map, R5.map, ha, hx]
 
+omit ho ht hz in
 theorem sqD_map (A : M5 α) : (sqD o A).map f = sqD o' (A.map f) :=
-  mulD_map o o' f ha ho hx ht hz A A
+  mulD_map o o' f ha hx A A
 
+omit ha ht in
 theorem nconjD_map (A : M5 α) (K K' : Nat) :
     f (nconjD o A K K') = nconjD o' (A.map f) K K' := by
   simp only [nconjD, neM, neR, mulCD, mulKCD, rowCD, rowKCD, M5.map, R5.map, ho, hx,
-    sel_map o o' f ha ho hx ht hz]
+    sel_map o o' f hx hz]
 
+omit ha ho hz in
 theorem bnot_map (p : α) : f (bnot o p) = bnot o' (f p) := by
   simp only [bnot, hx, ht]
 
+omit ha ho hz in
 theorem neB_map (p : α) (b : Bool) : f (neB o p b) = neB o' (f p) b := by
   cases b <;> simp only [neB, hx, ht]
 
+omit ha hz in
 theorem neMN_map (A : M5 α) (K : Nat) : f (neMN o A K) = neMN o' (A.map f) K := by
-  simp only [neMN, neRN, M5.map, R5.map, ho, neB_map o o' f ha ho hx ht hz]
+  simp only [neMN, neRN, M5.map, R5.map, ho, neB_map o o' f hx ht]
 
 theorem nsD_map (A : M5 α) : ∀ n, f (nsD o A n) = nsD o' (A.map f) n
   | 0 => ht
@@ -240,16 +248,16 @@ theorem nsD_map (A : M5 α) : ∀ n, f (nsD o A n) = nsD o' (A.map f) n
     change f (o.a (nsD o A n) (nzv o (n + 1) A)) =
       o'.a (nsD o' (A.map f) n) (nzv o' (n + 1) (A.map f))
     rw [ha, nsD_map A n]
-    simp only [nzv, M5.map, R5.map, ho, sel_map o o' f ha ho hx ht hz]
+    simp only [nzv, M5.map, R5.map, ho, sel_map o o' f hx hz]
 
 theorem chk1D_map (A : M5 α) : f (chk1D o A) = chk1D o' (A.map f) := by
-  simp only [chk1D, ho, bnot_map o o' f ha ho hx ht hz, nsD_map o o' f ha ho hx ht hz,
-    nconjD_map o o' f ha ho hx ht hz, neMN_map o o' f ha ho hx ht hz,
-    sqD_map o o' f ha ho hx ht hz]
+  simp only [chk1D, ho, bnot_map o o' f hx ht, nsD_map o o' f ha ho hx ht hz,
+    nconjD_map o o' f ho hx hz, neMN_map o o' f ho hx ht,
+    sqD_map o o' f ha hx]
 
 theorem chk2D_map (A : M5 α) : f (chk2D o A) = chk2D o' (A.map f) := by
-  simp only [chk2D, inDD, inVD, ho, ha, bnot_map o o' f ha ho hx ht hz,
-    nsD_map o o' f ha ho hx ht hz, nconjD_map o o' f ha ho hx ht hz]
+  simp only [chk2D, inDD, inVD, ho, ha, bnot_map o o' f hx ht,
+    nsD_map o o' f ha ho hx ht hz, nconjD_map o o' f ho hx hz]
 
 end map
 
@@ -566,10 +574,10 @@ theorem tauN_lt {op : Nat} (hop : opOK op = true) {c : Nat} (hc : c < 2 ^ 21) :
   · rw [Nat.xor_zero]
     exact hc
 
-theorem ptS_lt : ∀ {ops : List Nat}, (∀ op ∈ ops, opOK op = true) → ∀ {c : Nat}, c < 2 ^ 21 →
-    ptS ops c < 2 ^ 21
+theorem ptS_lt : ∀ {_ops : List Nat}, (∀ op ∈ _ops, opOK op = true) → ∀ {c : Nat}, c < 2 ^ 21 →
+    ptS _ops c < 2 ^ 21
   | [], _, _, hc => hc
-  | op :: ops, hops, _, hc =>
+  | op :: _ops, hops, _, hc =>
     tauN_lt (hops op (List.mem_cons.mpr (Or.inl rfl)))
       (ptS_lt (fun o ho => hops o (List.mem_cons_of_mem _ ho)) hc)
 
@@ -833,7 +841,7 @@ theorem lt16 {x : Nat} (hx : x < 32) : decide (x < 16) = !x.testBit 4 := by
 theorem stabW4_eq (c : Nat) :
     stabW4 c = !(c.testBit 4 || c.testBit 9 || c.testBit 14 || c.testBit 19) := by
   simp only [stabW4, lt16 (r0_lt c), lt16 (r1_lt c), lt16 (r2_lt c), lt16 (r3_lt c), rb0_bit,
-    rb1_bit, rb2_bit, rb3_bit, decide_true, Bool.true_and]
+    rb1_bit, rb2_bit, rb3_bit]
   cases c.testBit 4 <;> cases c.testBit 9 <;> cases c.testBit 14 <;> cases c.testBit 19 <;> rfl
 
 theorem allOnes_bit {X c : Nat} (hc : c < X) : (Nat.sub (Nat.shiftLeft 1 X) 1).testBit c = true := by
@@ -947,7 +955,7 @@ theorem gathUT_lt (c : Nat) : gathUT c < 128 := by
     induction n with
     | zero => exact Nat.one_pos
     | succ n ih =>
-      simp only [natRec_succ]
+      simp only
       rw [Nat.pow_succ]
       cases bitB c (nthL pivUT n)
       · exact Nat.lt_of_lt_of_le ih (by omega)
@@ -1042,8 +1050,8 @@ theorem rwL_lt (l p i : Nat) : rwL l p i < 32 := by
 theorem expW_rows (l p : Nat) : r0 (expW l p) = rwL l p 0 ∧ r1 (expW l p) = rwL l p 1 ∧
     r2 (expW l p) = rwL l p 2 ∧ r3 (expW l p) = rwL l p 3 ∧ r4 (expW l p) = rwL l p 4 := by
   have h := fun i => rwL_lt l p i
-  exact ⟨r0_ofRows (h 0) (h 1) (h 2) (h 3) (h 4), r1_ofRows (h 0) (h 1) (h 2) (h 3) (h 4),
-    r2_ofRows (h 0) (h 1) (h 2) (h 3) (h 4), r3_ofRows (h 0) (h 1) (h 2) (h 3) (h 4),
+  exact ⟨r0_ofRows (h 0), r1_ofRows (h 0) (h 1),
+    r2_ofRows (h 0) (h 1) (h 2), r3_ofRows (h 0) (h 1) (h 2) (h 3),
     r4_ofRows (h 0) (h 1) (h 2) (h 3) (h 4)⟩
 
 theorem expW_lt (l p : Nat) : expW l p < N :=
@@ -1084,7 +1092,7 @@ theorem basisW_spec {ops : List Nat} {l g : Nat} (h : basisW ops l g = true) :
     | zero => intro _ b hb; omega
     | succ n ih =>
       intro h b hb
-      simp only [natRec_succ] at h
+      simp only at h
       cases hn : Nat.beq (expW l (ptS ops (Nat.shiftLeft 1 n))) (mulC g (expW l (Nat.shiftLeft 1 n)))
         <;> rw [hn] at h
       · exact absurd h Bool.false_ne_true
@@ -1439,7 +1447,7 @@ theorem gathK_lt (c : Nat) : gathK c < 2 ^ 13 := by
     induction n with
     | zero => exact Nat.one_pos
     | succ n ih =>
-      simp only [natRec_succ]
+      simp only
       rw [Nat.pow_succ]
       cases bitB c (nthL pivK n)
       · exact Nat.lt_of_lt_of_le ih (by omega)
@@ -1466,7 +1474,7 @@ theorem plC_bit (b : Nat) {p : Nat} (hp : p < 2 ^ 13) : (plC b).testBit p = (com
         rw [pln_bit]
         simp [hp']
       cases h1 : bitB (nthL kB n) b <;> cases h2 : bitB p n <;>
-        simp only [cv_xor, Nat.testBit_xor, ih, hpl, ← e1, ← e2, h1, h2] <;>
+        simp only [cv_xor, ← e1, ← e2] <;>
         simp_all
   exact key 13
 

@@ -196,12 +196,12 @@ theorem card_le_nine_of_isElemAbelian_mulAut_model (hK : PiField π p f K)
     {E : Subgroup (MulAut (projImage (slPi π 3 (p ^ f) K)))}
     (hE : CFSG.Open.IsElemAbelian 3 E) : Nat.card E ≤ 9 := by
   classical
-  haveI : Fact p.Prime := ⟨hK.prime⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hK.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := hK.finite
-  haveI : Finite (ProjGenLinGroup (Fin 3) K) :=
+  have : Finite (ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (ProjGenLinGroup.mk : GL (Fin 3) K →* _) (QuotientGroup.mk'_surjective _)
-  haveI := finite_mulAut (projImage (slPi π 3 (p ^ f) K))
+  have := finite_mulAut (projImage (slPi π 3 (p ^ f) K))
   have hf : 1 ≤ f := hK.one_le
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   have hq' : π = false → ModThree false (p ^ f) := fun h => by subst h; exact hq

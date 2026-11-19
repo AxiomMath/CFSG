@@ -24,13 +24,13 @@ theorem mainAlg166_holds : MainAlg166 := by
   have hinv : ∀ t : Γ, t ^ 2 = 1 → t ≠ 1 →
       Module.finrank 𝕜 (LinearMap.ker (σ t - 1)) ≤ 3 := by
     intro t ht ht1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine hr3 t (IsPGroup.of_card (n := 1) ?_) ht1
     rw [Nat.card_zpowers, orderOf_eq_prime ht ht1, pow_one]
   by_cases hno : ∀ s t : Γ, s ^ 2 = 1 → t ^ 2 = 1 → s ≠ 1 → t ≠ 1 → s * t = t * s → s = t
   · exact apply_eq_self_of_noKlein hp hp5 hperf hno σ hinv π hπ hT hker3 hkerS hd3 hdZ hIperf
       hIA5 hI2 hId hv
-  · push_neg at hno
+  · push Not at hno
     obtain ⟨s, t, hs, ht, hs1, ht1, hst, hne⟩ := hno
     have hst2 : (s * t) ^ 2 = 1 := by
       rw [(show Commute s t from hst).mul_pow, hs, ht, one_mul]

@@ -25,19 +25,24 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def hatN (Rs A : Subgroup G) : Subgroup G :=
   frat2 Rs ⊔ (Rs ⊓ Subgroup.centralizer (A : Set G))
 
+omit [Finite G] in
 theorem commutator_le_frat2 (R : Subgroup G) : (⁅R, R⁆ : Subgroup G) ≤ frat2 R := le_sup_left
 
+omit [Finite G] in
 theorem sq_mem_frat2 {R : Subgroup G} {r : G} (hr : r ∈ R) : r ^ 2 ∈ frat2 R :=
   (le_sup_right : Subgroup.closure {g : G | ∃ r ∈ R, g = r ^ 2} ≤ frat2 R)
     (Subgroup.subset_closure ⟨r, hr, rfl⟩)
 
+omit [Finite G] in
 theorem frat2_le_hatN (R A : Subgroup G) : frat2 R ≤ hatN R A := le_sup_left
 
+omit [Finite G] in
 theorem hatN_le (R A : Subgroup G) : hatN R A ≤ R :=
   sup_le (sup_le (commutator_self_le R) ((Subgroup.closure_le R).2 (by
     rintro g ⟨r, hr, rfl⟩
     exact R.pow_mem hr 2))) inf_le_left
 
+omit [Finite G] in
 theorem le_normalizer_frat2 {X R : Subgroup G} (h : X ≤ Subgroup.normalizer (R : Set G)) :
     X ≤ Subgroup.normalizer (frat2 R : Set G) := by
   have h1 : X ≤ Subgroup.normalizer ((⁅R, R⁆ : Subgroup G) : Set G) :=
@@ -80,19 +85,20 @@ private def hatModComm (T N : Subgroup G) (Y : Set G)
       (Subgroup.mem_normalizer_iff.1 (hTN (T.inv_mem haT)) _).1 (N.inv_mem (ha y hy))
     simpa using h1
 
+omit [Finite G] in
 private theorem mem_hatModComm {T N : Subgroup G} {Y : Set G}
     {hTN : T ≤ Subgroup.normalizer (N : Set G)} {x : G} :
     x ∈ hatModComm T N Y hTN ↔ x ∈ T ∧ ∀ y ∈ Y, ⁅x, y⁆ ∈ N := Iff.rfl
 
 private theorem hat_coprime_card {B X : Subgroup G} (hB : Nat.card B = 3 ^ 4)
     (hX : IsPGroup 2 X) : Nat.Coprime (Nat.card B) (Nat.card X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := hX.exists_card_eq
   rw [hB, hm]
   exact Nat.Coprime.pow 4 m (by norm_num)
 
 private theorem hat_not_dvd_three {X : Subgroup G} (hX : IsPGroup 2 X) : ¬ 3 ∣ Nat.card X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := hX.exists_card_eq
   rw [hm]
   intro hd
@@ -101,8 +107,8 @@ private theorem hat_not_dvd_three {X : Subgroup G} (hX : IsPGroup 2 X) : ¬ 3 �
 
 private theorem hat_isSolvable_of_isPGroup {X : Subgroup G} (hX : IsPGroup 2 X) :
     Group.IsSolvable ↥X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥X := hX.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥X := hX.isNilpotent
   infer_instance
 
 structure Prop415Pre (B : Subgroup G) (x : G) (D S Ss : Subgroup G) : Prop where
@@ -141,13 +147,13 @@ structure HatSetup (B A T Rs N : Subgroup G) : Prop where
   Bnc : ¬ (⁅B, T⁆ : Subgroup G) ≤ Rs
   fpf : ∀ r ∈ Rs, (∀ a ∈ A, ⁅r, a⁆ ∈ N) → r ∈ N
 
-theorem exists_invariant_sylow_ge {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B X R : Subgroup G}
+theorem exists_invariant_sylow_ge {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {B X R : Subgroup G}
     (hB : IsPGroup p B) (hBX : B ≤ Subgroup.normalizer (X : Set G))
     (hX : Nat.Coprime p (Nat.card X)) (hRX : R ≤ X) (hR2 : IsPGroup 2 R)
     (hBR : B ≤ Subgroup.normalizer (R : Set G)) :
     ∃ R' : Subgroup G, R ≤ R' ∧ R' ≤ X ∧ IsPGroup 2 R' ∧ ¬ 2 ∣ R'.relIndex X ∧
       B ≤ Subgroup.normalizer (R' : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM : ¬ p ∣ Nat.card X := (Nat.Prime.coprime_iff_not_dvd hp).1 hX
   obtain ⟨S, hS, hRS, hBS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing hp
     Nat.prime_two hB hM hBX hRX hR2 hBR
@@ -161,6 +167,7 @@ theorem exists_invariant_sylow_ge {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B X 
   rw [h2]
   exact P.not_dvd_index
 
+omit [Finite G] in
 private theorem hat_le_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) {M W : Subgroup G} (hWM : W ≤ M)
     (hW : M ≤ Subgroup.normalizer (W : Set G)) (hcop : ¬ p ∣ Nat.card W) :
     W ≤ GLAPPrimeCoreOf p M := by
@@ -175,7 +182,7 @@ private theorem hat_le_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) {M W : Subgroup 
 private theorem hat_le_of_isPGroup_two {H Rs X : Subgroup G} (hRsH : Rs ≤ H)
     (hHN : H ≤ Subgroup.normalizer (Rs : Set G)) (hRs2 : IsPGroup 2 Rs)
     (hodd : ¬ 2 ∣ Rs.relIndex H) (hXH : X ≤ H) (hX2 : IsPGroup 2 X) : X ≤ Rs := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup G := X ⊔ Rs with hY
   have hYH : Y ≤ H := sup_le hXH hRsH
   have hY2 : IsPGroup 2 Y := hX2.to_sup_of_normal_right' hRs2 (hXH.trans hHN)
@@ -194,10 +201,10 @@ private theorem hat_le_of_isPGroup_two {H Rs X : Subgroup G} (hRsH : Rs ≤ H)
   rw [hk0, pow_zero] at hk'
   exact le_sup_left.trans (Subgroup.relIndex_eq_one.1 hk')
 
-theorem exists_P_data {B L J J₁ T₁ : Subgroup G} (hBel : IsElemAbelian 3 B)
+theorem exists_P_data {B L J J₁ T₁ : Subgroup G} (_hBel : IsElemAbelian 3 B)
     (hBJ : B ≤ Subgroup.normalizer (J : Set G)) (hJJ₁ : J ≤ J₁) (hJ₁L : J₁ ≤ L)
     (hBJ₁ : B ≤ Subgroup.normalizer (J₁ : Set G)) (hcov : J₁ ≤ J ⊔ GLAPPrimeCoreOf 3 L)
-    (hO₁ : GLAPPrimeCoreOf 3 J₁ ≤ GLAPPrimeCoreOf 3 L) (hT₁J : T₁ ≤ J₁) (hT₁2 : IsPGroup 2 T₁)
+    (hO₁ : GLAPPrimeCoreOf 3 J₁ ≤ GLAPPrimeCoreOf 3 L) (hT₁J : T₁ ≤ J₁) (_hT₁2 : IsPGroup 2 T₁)
     (hBT₁ : B ≤ Subgroup.normalizer (T₁ : Set G)) (hBT₁' : (⁅B, T₁⁆ : Subgroup G) = T₁)
     (himg : IsElemAbelian 2 (imageMod 3 J₁ T₁) ∧ Nat.card (imageMod 3 J₁ T₁) = 4) :
     J ⊓ GLAPPrimeCoreOf 3 L = GLAPPrimeCoreOf 3 J ∧
@@ -357,7 +364,7 @@ theorem exists_T_of_P {B A L J P Rs : Subgroup G} (hBel : IsElemAbelian 3 B) (hA
       (Rs.subgroupOf T).Normal ∧ Nat.card T = 4 * Nat.card Rs ∧
       (∀ a ∈ A, ∀ t ∈ T, ⁅a, t⁆ ∈ Rs) ∧ ¬ (⁅B, T⁆ : Subgroup G) ≤ Rs ∧
       T ⊓ (GLAPPrimeCoreOf 3 J ⊔ Rs) ≤ Rs := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   set Q := GLAPPrimeCoreOf 3 L with hQ
   set QJ := GLAPPrimeCoreOf 3 J with hQJ
@@ -488,11 +495,11 @@ theorem exists_T_of_P {B A L J P Rs : Subgroup G} (hBel : IsElemAbelian 3 B) (hA
   · exact hH2 _ inf_le_right (hT2.to_le inf_le_left)
 
 theorem exists_T_data {B A L J₁ T₁ Rs J : Subgroup G} (hBel : IsElemAbelian 3 B) (hAB : A ≤ B)
-    (hBL : B ≤ Subgroup.normalizer (L : Set G)) (hRsO : Rs ≤ GLAPPrimeCoreOf 3 L)
+    (_hBL : B ≤ Subgroup.normalizer (L : Set G)) (hRsO : Rs ≤ GLAPPrimeCoreOf 3 L)
     (hRs2 : IsPGroup 2 Rs) (hRsidx : ¬ 2 ∣ Rs.relIndex (GLAPPrimeCoreOf 3 L))
-    (hBRs : B ≤ Subgroup.normalizer (Rs : Set G)) (hJL : J ≤ L)
+    (hBRs : B ≤ Subgroup.normalizer (Rs : Set G)) (_hJL : J ≤ L)
     (hJR : J ≤ Subgroup.normalizer (Rs : Set G)) (hJA : J ≤ Subgroup.centralizer (A : Set G))
-    (hBJ : B ≤ Subgroup.normalizer (J : Set G)) (hJlay : GLAPLayer 3 J = J) (hJJ₁ : J ≤ J₁)
+    (hBJ : B ≤ Subgroup.normalizer (J : Set G)) (_hJlay : GLAPLayer 3 J = J) (hJJ₁ : J ≤ J₁)
     (hJ₁L : J₁ ≤ L) (hBJ₁ : B ≤ Subgroup.normalizer (J₁ : Set G))
     (hcov : J₁ ≤ J ⊔ GLAPPrimeCoreOf 3 L) (hO₁ : GLAPPrimeCoreOf 3 J₁ ≤ GLAPPrimeCoreOf 3 L)
     (hT₁J : T₁ ≤ J₁) (hT₁2 : IsPGroup 2 T₁)
@@ -506,11 +513,12 @@ theorem exists_T_data {B A L J₁ T₁ Rs J : Subgroup G} (hBel : IsElemAbelian 
     exists_P_data hBel hBJ hJJ₁ hJ₁L hBJ₁ hcov hO₁ hT₁J hT₁2 hBT₁ hBT₁' himg
   exact exists_T_of_P hBel hAB hRsO hRs2 hRsidx hBRs hJR hJA hBJ hcap hPJ hOP hBP hP3 hPc hPnc
 
-theorem normal_hatN {B A T Rs J : Subgroup G} (hRT : Rs ≤ T) (hRn : (Rs.subgroupOf T).Normal)
+omit [Finite G] in
+theorem normal_hatN {B A T Rs J : Subgroup G} (hRT : Rs ≤ T) (_hRn : (Rs.subgroupOf T).Normal)
     (hTJ : T ≤ J ⊔ Rs) (hJR : J ≤ Subgroup.normalizer (Rs : Set G))
     (hJA : J ≤ Subgroup.centralizer (A : Set G))
-    (hJC : (⁅Rs ⊓ Subgroup.centralizer (A : Set G), J⁆ : Subgroup G) = ⊥)
-    (hBT : B ≤ Subgroup.normalizer (T : Set G)) (hBR : B ≤ Subgroup.normalizer (Rs : Set G))
+    (_hJC : (⁅Rs ⊓ Subgroup.centralizer (A : Set G), J⁆ : Subgroup G) = ⊥)
+    (_hBT : B ≤ Subgroup.normalizer (T : Set G)) (hBR : B ≤ Subgroup.normalizer (Rs : Set G))
     (hAB : A ≤ B) (hBel : IsElemAbelian 3 B) :
     ((hatN Rs A).subgroupOf T).Normal ∧ B ≤ Subgroup.normalizer (hatN Rs A : Set G) := by
   have hBC : B ≤ Subgroup.centralizer (A : Set G) := by
@@ -531,6 +539,7 @@ theorem normal_hatN {B A T Rs J : Subgroup G} (hRT : Rs ≤ T) (hRn : (Rs.subgro
   exact le_normalizer_sup (le_normalizer_frat2 hBR)
     (le_normalizer_inf hBR (hBC.trans Subgroup.le_normalizer))
 
+omit [Finite G] in
 private theorem hat_comm_identity {j r a c u : G} (hja : j * a = a * j) (hc : ⁅j, r⁆ = c)
     (hu : ⁅r, a⁆ = u) :
     ⁅j, u⁆ = ⁅c, u⁆ * ((u * c) * ⁅a, c⁻¹⁆ * (u * c)⁻¹) := by
@@ -555,7 +564,7 @@ private theorem hat_comm_identity {j r a c u : G} (hja : j * a = a * j) (hc : �
   group
 
 theorem trivial_on_frat {A J Rs : Subgroup G} (hRs2 : IsPGroup 2 Rs) (hAel : IsElemAbelian 3 A)
-    (hAR : A ≤ Subgroup.normalizer (Rs : Set G)) (hJR : J ≤ Subgroup.normalizer (Rs : Set G))
+    (hAR : A ≤ Subgroup.normalizer (Rs : Set G)) (_hJR : J ≤ Subgroup.normalizer (Rs : Set G))
     (hJA : J ≤ Subgroup.centralizer (A : Set G))
     (hJC : (⁅Rs ⊓ Subgroup.centralizer (A : Set G), J⁆ : Subgroup G) = ⊥) {j : G} (hj : j ∈ J)
     (h : ∀ r ∈ Rs, ⁅j, r⁆ ∈ hatN Rs A) : ∀ r ∈ Rs, ⁅j, r⁆ ∈ frat2 Rs := by
@@ -625,8 +634,8 @@ theorem trivial_on_frat {A J Rs : Subgroup G} (hRs2 : IsPGroup 2 Rs) (hAel : IsE
 theorem burnside_frat {Rs : Subgroup G} {k : G} (hRs2 : IsPGroup 2 Rs)
     (hk : k ∈ Subgroup.normalizer (Rs : Set G)) (h : ∀ r ∈ Rs, ⁅k, r⁆ ∈ frat2 Rs) :
     ∃ n : ℕ, k ^ (2 ^ n) ∈ Subgroup.centralizer (Rs : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥Rs) := ⟨hRs2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥Rs) := ⟨hRs2⟩
   have hfr : ∀ x : ↥Rs, (x : G) ∈ frat2 Rs → x ∈ frattini ↥Rs := by
     have hle : frat2 Rs ≤ (frattini ↥Rs).map Rs.subtype := by
       refine sup_le ?_ ?_
@@ -670,6 +679,7 @@ theorem burnside_frat {Rs : Subgroup G} {k : G} (hRs2 : IsPGroup 2 Rs)
   calc q * k ^ 2 ^ n = (k ^ 2 ^ n * q * (k ^ 2 ^ n)⁻¹) * k ^ 2 ^ n := by rw [h2]
     _ = k ^ 2 ^ n * q := by group
 
+omit [Finite G] in
 theorem oPPrimeP_pow_mem (p : ℕ) (X : Subgroup G) {q : G} (hq : q ∈ oPPrimeP p X) :
     ∃ n : ℕ, q ^ (p ^ n) ∈ GLAPPrimeCoreOf p X := by
   unfold oPPrimeP at hq
@@ -685,6 +695,7 @@ theorem oPPrimeP_pow_mem (p : ℕ) (X : Subgroup G) {q : G} (hq : q ∈ oPPrimeP
   refine Subgroup.mem_map.2 ⟨m ^ (p ^ n), (QuotientGroup.eq_one_iff _).1 h1, ?_⟩
   simp
 
+omit [Finite G] in
 private theorem hat_le_normalizer_oPPrimeP (p : ℕ) (X : Subgroup G) :
     X ≤ Subgroup.normalizer (oPPrimeP p X : Set G) := by
   have key : ∀ {x h : G}, x ∈ X → h ∈ oPPrimeP p X → x * h * x⁻¹ ∈ oPPrimeP p X := by
@@ -694,7 +705,7 @@ private theorem hat_le_normalizer_oPPrimeP (p : ℕ) (X : Subgroup G) :
     refine Subgroup.mem_map.2 ⟨(⟨x, hx⟩ : ↥X) * m * (⟨x, hx⟩ : ↥X)⁻¹, ?_, ?_⟩
     · rw [Subgroup.mem_comap] at hm ⊢
       rw [map_mul, map_mul, map_inv]
-      haveI : (CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X)).Normal := CFSG.pCore_normal
+      have : (CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X)).Normal := CFSG.pCore_normal
       exact Subgroup.Normal.conj_mem inferInstance _ hm _
     · simp
   intro x hx
@@ -704,6 +715,7 @@ private theorem hat_le_normalizer_oPPrimeP (p : ℕ) (X : Subgroup G) :
   have := key (X.inv_mem hx) hh
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem hat_mem_glaPPrimeCoreOf {p : ℕ} {A : Subgroup G} (a : ↥A) :
     (a : G) ∈ GLAPPrimeCoreOf p A ↔ a ∈ GLAPPrimeCore p ↥A := by
   unfold GLAPPrimeCoreOf
@@ -746,8 +758,8 @@ theorem inf_oPPrimeP_le {p : ℕ} (hp : p.Prime) {J L : Subgroup G} (hJL : J ≤
 theorem le_oPPrimeP_of_two_power {J K₀ : Subgroup G} (hJlay : GLAPLayer 3 J = J) (hK₀J : K₀ ≤ J)
     (hK₀n : (K₀.subgroupOf J).Normal)
     (h : ∀ j ∈ K₀, ∃ n : ℕ, j ^ (2 ^ n) ∈ oPPrimeP 3 J) : K₀ ≤ oPPrimeP 3 J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hψ : ∀ y : ↥J, (y : G) ∈ oPPrimeP 3 J ↔
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥J) y ∈ CFSG.pCore 3 (↥J ⧸ GLAPPrimeCore 3 ↥J) := by
     intro y
@@ -764,7 +776,7 @@ theorem le_oPPrimeP_of_two_power {J K₀ : Subgroup G} (hJlay : GLAPLayer 3 J = 
   have hKbn : Kb.Normal := hK₀n.map _ (QuotientGroup.mk'_surjective _)
   have hsolv : Group.IsSolvable ↥Kb := by
     set W : Subgroup ↥Kb := (CFSG.pCore 3 (↥J ⧸ GLAPPrimeCore 3 ↥J)).subgroupOf Kb with hW
-    haveI hWn : W.Normal := inferInstance
+    have hWn : W.Normal := inferInstance
     have hW3 : IsPGroup 3 ↥W := by
       intro w
       obtain ⟨n, hn⟩ := CFSG.pCore_isPGroup
@@ -773,7 +785,7 @@ theorem le_oPPrimeP_of_two_power {J K₀ : Subgroup G} (hJlay : GLAPLayer 3 J = 
       refine ⟨n, Subtype.ext (Subtype.ext ?_)⟩
       have := congrArg Subtype.val hn
       simpa using this
-    haveI : Group.IsNilpotent ↥W := hW3.isNilpotent
+    have : Group.IsNilpotent ↥W := hW3.isNilpotent
     have hWsolv : Group.IsSolvable ↥W := inferInstance
     have hquot2 : IsPGroup 2 (↥Kb ⧸ W) := by
       intro q
@@ -785,20 +797,20 @@ theorem le_oPPrimeP_of_two_power {J K₀ : Subgroup G} (hJlay : GLAPLayer 3 J = 
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, hW, Subgroup.mem_subgroupOf]
       have := (hψ (y ^ (2 ^ n))).1 (by simpa using hn)
       simpa using this
-    haveI : Group.IsNilpotent (↥Kb ⧸ W) := hquot2.isNilpotent
-    haveI : Group.IsSolvable (↥Kb ⧸ W) := inferInstance
-    exact solvable_of_ker_le_range W.subtype (QuotientGroup.mk' W)
+    have : Group.IsNilpotent (↥Kb ⧸ W) := hquot2.isNilpotent
+    have : Group.IsSolvable (↥Kb ⧸ W) := inferInstance
+    exact Group.isSolvable_of_ker_le_range W.subtype (QuotientGroup.mk' W)
       (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
   have hcomm : ∀ Q : Subgroup G, GLAPComponent 3 J Q → ⁅barX 3 J Q, Kb⁆ = ⊥ := by
     intro Q hQ
-    haveI := hKbn
+    have := hKbn
     rcases CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes
         (barX 3 J Q) Kb hQ.2.2.1 with hle | hc
     · exfalso
-      haveI : Group.IsPerfect ↥(barX 3 J Q) := Group.isPerfect_def.2 hQ.2.2.1.2.2.1
-      haveI : Nontrivial ↥(barX 3 J Q) := isQuasisimple_nontrivial hQ.2.2.1.2.2
-      haveI : Group.IsSolvable ↥(barX 3 J Q) :=
-        solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+      have : Group.IsPerfect ↥(barX 3 J Q) := Group.isPerfect_def.2 hQ.2.2.1.2.2.1
+      have : Nontrivial ↥(barX 3 J Q) := isQuasisimple_nontrivial hQ.2.2.1.2.2
+      have : Group.IsSolvable ↥(barX 3 J Q) :=
+        Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
       exact Group.IsPerfect.not_isSolvable _ this
     · exact hc
   intro j hjK
@@ -860,6 +872,7 @@ theorem le_oPPrimeP_of_two_power {J K₀ : Subgroup G} (hJlay : GLAPLayer 3 J = 
         ((frat2 R).inv_mem (ha r hr))
     simpa using h1
 
+omit [Finite G] in
 theorem trivFrat_normal (J R : Subgroup G) (hJR : J ≤ Subgroup.normalizer (R : Set G)) :
     ((trivFrat J R hJR).subgroupOf J).Normal := by
   have hle : trivFrat J R hJR ≤ J := fun k hk => hk.1
@@ -890,6 +903,7 @@ theorem mem_oPPrimeP_of_trivial_on_frat {L J Rs : Subgroup G} (hJL : J ≤ L)
       (Subgroup.mem_inf.2 ⟨hJn, hCL (Subgroup.mem_inf.2 ⟨hJL hJn, hn⟩)⟩)
   exact le_oPPrimeP_of_two_power hJlay hK₀J (trivFrat_normal J Rs hJR) hpow ⟨hj, h⟩
 
+omit [Finite G] in
 theorem mem_sup_of_two_element {J Rs : Subgroup G} (hJR : J ≤ Subgroup.normalizer (Rs : Set G))
     {j r : G} (hj : j ∈ oPPrimeP 3 J) (hr : r ∈ Rs) (h2 : ∃ n : ℕ, (j * r) ^ (2 ^ n) = 1) :
     j * r ∈ GLAPPrimeCoreOf 3 J ⊔ Rs := by
@@ -970,7 +984,7 @@ theorem fpf_mod {Rs A : Subgroup G} (hRs2 : IsPGroup 2 Rs) (hAel : IsElemAbelian
     (hAR : A ≤ Subgroup.normalizer (Rs : Set G)) :
     ∀ r ∈ Rs, (∀ a ∈ A, ⁅r, a⁆ ∈ hatN Rs A) → r ∈ hatN Rs A := by
   intro r hr hfix
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAC : A ≤ Subgroup.centralizer (A : Set G) := by
     intro g hg
     rw [Subgroup.mem_centralizer_iff]
@@ -984,10 +998,10 @@ theorem fpf_mod {Rs A : Subgroup G} (hRs2 : IsPGroup 2 Rs) (hAel : IsElemAbelian
     le_normalizer_sup (le_normalizer_frat2 hAR)
       (le_normalizer_inf hAR (hAC.trans Subgroup.le_normalizer))
   have hsolv : Group.IsSolvable ↥Rs := by
-    haveI : Group.IsNilpotent ↥Rs := hRs2.isNilpotent
+    have : Group.IsNilpotent ↥Rs := hRs2.isNilpotent
     infer_instance
   have hcop : (Nat.card A).Coprime (Nat.card Rs) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := (isPGroup_of_isElemAbelian hAel).exists_card_eq
     obtain ⟨m, hm⟩ := hRs2.exists_card_eq
     rw [hk, hm]
@@ -1097,8 +1111,8 @@ theorem exists_D_nonabelian {B A T Rs N : Subgroup G} (h : HatSetup B A T Rs N) 
 
 theorem hat_commutator_le {B A T Rs N : Subgroup G} (h : HatSetup B A T Rs N) :
     (⁅T, T⁆ : Subgroup G) ≤ Rs := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (Rs.subgroupOf T).Normal := h.Rn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (Rs.subgroupOf T).Normal := h.Rn
   have hq : Nat.card (T ⧸ Rs.subgroupOf T) = 2 ^ 2 := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (Rs.subgroupOf T)
     have h2 : Nat.card (Rs.subgroupOf T) = Nat.card Rs :=
@@ -1223,7 +1237,7 @@ theorem hat_centralizer_le {B A T Rs N : Subgroup G} (h : HatSetup B A T Rs N) :
 
 theorem build_S {B A T Rs N D : Subgroup G} (h : HatSetup B A T Rs N)
     (hTT : (⁅T, T⁆ : Subgroup G) ≤ Rs) (hCB : T ⊓ Subgroup.centralizer (B : Set G) ≤ Rs)
-    (hDB : D ≤ B) (hDel : IsElemAbelian 3 D) (hDc : Nat.card D = 9)
+    (hDB : D ≤ B) (_hDel : IsElemAbelian 3 D) (_hDc : Nat.card D = 9)
     (hnab : ¬ (⁅T ⊓ Subgroup.centralizer (D : Set G), T ⊓ Subgroup.centralizer (D : Set G)⁆ :
       Subgroup G) ≤ N) :
     ∃ S : Subgroup G, S ≤ T ⊓ Subgroup.centralizer (D : Set G) ∧ B ≤ Subgroup.normalizer (S : Set G) ∧

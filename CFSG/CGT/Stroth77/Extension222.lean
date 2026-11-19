@@ -22,8 +22,7 @@ theorem parityTorus_rho_t331 (y : Torus StrothTypeIndex.t331.k) :
     parityTorus_zsmul_gens, parityTorus_zsmul_gens]
   have h4 : (4 : ZMod 2) = 0 := by decide
   funext r
-  fin_cases r <;> simp [rhoBar300, Type331.ρM, ofCols_mulVec, h4, sub_eq_add_neg,
-    ZMod.neg_eq_self_mod_two]
+  fin_cases r <;> simp [rhoBar300, Type331.ρM, ofCols_mulVec, h4, ZMod.neg_eq_self_mod_two]
 
 theorem parityTorus_uv_c_sub_t331 :
     parityTorus _ t331_k_pos (StrothTypeIndex.t331.action.φuv Torus.c - Torus.c) =

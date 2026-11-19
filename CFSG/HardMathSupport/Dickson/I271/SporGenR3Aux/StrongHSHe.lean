@@ -47,9 +47,9 @@ theorem hs100P_elemAbelian_twentyfive :
   have hcard : Nat.card ↥(hs100FiveA0.subgroupOf hs100P) = 5 ^ 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAP).toEquiv, hAc]
     norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine ⟨hs100FiveA0.subgroupOf hs100P, ⟨?_, fun x hx => ?_⟩, hcard⟩
-  · haveI : IsMulCommutative ↥(hs100FiveA0.subgroupOf hs100P) :=
+  · have : IsMulCommutative ↥(hs100FiveA0.subgroupOf hs100P) :=
       ⟨⟨(IsPGroup.commGroupOfCardEqPrimeSq hcard).mul_comm⟩⟩
     infer_instance
   · have h1 := Monoid.pow_exponent_eq_one (⟨(x : Equiv.Perm (Fin 100)),
@@ -63,13 +63,13 @@ theorem rkAut_hs100P_five (hOut : SporadicOuterLeTwo) : RkAut 5 ↥hs100P := by
   have g : ↥hs100P ≃* NativeSporadic.HS := hs100Equiv.symm
   have hfin : Finite NativeSporadic.HS :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.HS.card_HS]; norm_num)
-  haveI : Finite ↥hs100P := Finite.of_equiv _ g.symm.toEquiv
+  have : Finite ↥hs100P := Finite.of_equiv _ g.symm.toEquiv
   have hsimpleP : IsSimpleGroup ↥hs100P :=
     @MulEquiv.isSimpleGroup _ _ NativeSporadic.HS _ hsimple g
   have hnabP : ∃ a c : ↥hs100P, a * c ≠ c * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥hs100P := { (inferInstance : Group ↥hs100P) with mul_comm := hc }
+    let : CommGroup ↥hs100P := { (inferInstance : Group ↥hs100P) with mul_comm := hc }
     have hp := IsSimpleGroup.prime_card (α := ↥hs100P)
     rw [Nat.card_congr g.toEquiv, CFSG.Sporadic.HS.card_HS] at hp
     norm_num at hp
@@ -127,9 +127,9 @@ theorem heP_elemAbelian_fortynine :
   have hcard : Nat.card ↥(heSevenA2.subgroupOf heP) = 7 ^ 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAP).toEquiv, hAc]
     norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine ⟨heSevenA2.subgroupOf heP, ⟨?_, fun x hx => ?_⟩, hcard⟩
-  · haveI : IsMulCommutative ↥(heSevenA2.subgroupOf heP) :=
+  · have : IsMulCommutative ↥(heSevenA2.subgroupOf heP) :=
       ⟨⟨(IsPGroup.commGroupOfCardEqPrimeSq hcard).mul_comm⟩⟩
     infer_instance
   · have h1 := Monoid.pow_exponent_eq_one (⟨(x : Equiv.Perm (Fin 8330)),
@@ -143,13 +143,13 @@ theorem rkAut_heP_seven (hOut : SporadicOuterLeTwo) : RkAut 7 ↥heP := by
   have g : ↥heP ≃* NativeSporadic.He := heEquivP.symm
   have hfin : Finite NativeSporadic.He :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.He.card_He]; norm_num)
-  haveI : Finite ↥heP := Finite.of_equiv _ g.symm.toEquiv
+  have : Finite ↥heP := Finite.of_equiv _ g.symm.toEquiv
   have hsimpleP : IsSimpleGroup ↥heP :=
     @MulEquiv.isSimpleGroup _ _ NativeSporadic.He _ hsimple g
   have hnabP : ∃ a c : ↥heP, a * c ≠ c * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥heP := { (inferInstance : Group ↥heP) with mul_comm := hc }
+    let : CommGroup ↥heP := { (inferInstance : Group ↥heP) with mul_comm := hc }
     have hp := IsSimpleGroup.prime_card (α := ↥heP)
     rw [Nat.card_congr g.toEquiv, CFSG.Sporadic.He.card_He] at hp
     norm_num at hp

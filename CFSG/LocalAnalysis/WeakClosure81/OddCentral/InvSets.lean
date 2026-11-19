@@ -10,6 +10,7 @@ variable {Y : Type*} [Group Y] [Finite Y]
 @[expose] def InvSet (P : Subgroup Y) (d : Fin 3 → Y) (i : Fin 3) : Set Y :=
   {x | x ∈ P ∧ d i * x * (d i)⁻¹ = x⁻¹ ∧ ∀ j, j ≠ i → d j * x = x * d j}
 
+omit [Finite Y] in
 theorem commute_of_mul_inv_mem {Z₀ : Subgroup Y} (hZc : Z₀ ≤ center Y) {a b : Y}
     (h : a⁻¹ * b ∈ Z₀) : a * b = b * a := by
   have hz : a * (a⁻¹ * b) = (a⁻¹ * b) * a := mem_center_iff.mp (hZc h) a
@@ -17,6 +18,7 @@ theorem commute_of_mul_inv_mem {Z₀ : Subgroup Y} (hZc : Z₀ ≤ center Y) {a 
     _ = a * ((a⁻¹ * b) * a) := by rw [hz]
     _ = b * a := by group
 
+omit [Finite Y] in
 theorem avg_step {Z₀ : Subgroup Y} (hZc : Z₀ ≤ center Y) {e u q : Y} (he : e * e = 1)
     (hcong : q⁻¹ * (e * q * e⁻¹) ∈ Z₀) (hue : u * e = e * u) (huq : u * q * u⁻¹ = q⁻¹) :
     e * (q * (e * q * e⁻¹)) = (q * (e * q * e⁻¹)) * e ∧
@@ -49,7 +51,8 @@ open Subgroup CFSG.LocalAnalysis.WeakClosure81.OddCentral
 section
 variable {G : Type*} [Group G] [Finite G]
 
-theorem pm_fix {W : Subgroup G} {n : ℕ} {u e w : G} (heu : e * u = u * e)
+omit [Finite G] in
+theorem pm_fix {_W : Subgroup G} {n : ℕ} {u e w : G} (heu : e * u = u * e)
     (hew : e * w * e⁻¹ = w) :
     e * (w * (u * w * u⁻¹)) ^ (n + 1) * e⁻¹ = (w * (u * w * u⁻¹)) ^ (n + 1) ∧
       e * (w * (u * w * u⁻¹)⁻¹) ^ (n + 1) * e⁻¹ = (w * (u * w * u⁻¹)⁻¹) ^ (n + 1) := by
@@ -64,6 +67,7 @@ theorem pm_fix {W : Subgroup G} {n : ℕ} {u e w : G} (heu : e * u = u * e)
   · rw [← conj_pow, show e * (w * (u * w * u⁻¹)⁻¹) * e⁻¹ =
       (e * w * e⁻¹) * (e * (u * w * u⁻¹) * e⁻¹)⁻¹ by group, hew, heuw]
 
+omit [Finite G] in
 theorem pm_decomp2 {W : Subgroup G} (hWab : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x)
     (hWodd : Odd (Nat.card W)) {u v : G} (hu : u * u = 1) (hv : v * v = 1) (huv : u * v = v * u)
     (huW : ∀ w ∈ W, u * w * u⁻¹ ∈ W) (hvW : ∀ w ∈ W, v * w * v⁻¹ ∈ W) {w : G} (hw : w ∈ W) :
@@ -78,7 +82,7 @@ theorem pm_decomp2 {W : Subgroup G} (hWab : ∀ x ∈ W, ∀ y ∈ W, x * y = y 
   set wm := (w * (u * w * u⁻¹)⁻¹) ^ (n + 1)
   obtain ⟨hpp, hpq, hpd, hvpp, hvpq⟩ := pm_decomp hWab hn hv hvW hp
   obtain ⟨hmp, hmq, hmd, hvmp, hvmq⟩ := pm_decomp hWab hn hv hvW hm
-  obtain ⟨hupp, hupq⟩ := pm_fix (W := W) (n := n) huv hup
+  obtain ⟨hupp, hupq⟩ := pm_fix (_W := W) (n := n) huv hup
   obtain ⟨humm, humq⟩ := pm_inv (n := n) hWab hvW huv hm hum
   refine ⟨_, hpp, _, hpq, _, hmp, _, hmq, ?_, hupp, hvpp, hupq, hvpq, humm, hvmp, humq, hvmq⟩
   rw [hpm]
@@ -106,6 +110,7 @@ theorem fin3_add1_ne (i : Fin 3) : i + 1 ≠ i := by revert i; decide
 
 theorem fin3_add2_ne (i : Fin 3) : i + 2 ≠ i := by revert i; decide
 
+omit [Finite Y] in
 theorem exists_inv_lift {P Z₀ : Subgroup Y} [hZn : Z₀.Normal] (hZc : Z₀ ≤ center Y)
     {d : Fin 3 → Y} (hd : ∀ i, d i * d i = 1) (hdc : ∀ i j, d i * d j = d j * d i)
     (hdP : ∀ i, ∀ x ∈ P, d i * x * (d i)⁻¹ ∈ P) (hPodd : Odd (Nat.card P)) {i : Fin 3} {x : Y}
@@ -203,6 +208,7 @@ theorem eq_one_of_sq_of_odd {G : Type*} [Group G] {W : Subgroup G} (hW : Odd (Na
     · rw [h] at h2; exact absurd h2 (by decide)
   exact orderOf_eq_one_iff.mp h3
 
+omit [Finite Y] in
 theorem exists_inv_decomp {P Z₀ : Subgroup Y} [hPn : P.Normal] [hZn : Z₀.Normal]
     (hZc : Z₀ ≤ center Y) (hP' : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ Z₀)
     (hPodd : Odd (Nat.card P)) {d : Fin 3 → Y} (hd : ∀ i, d i * d i = 1)
@@ -297,9 +303,11 @@ theorem exists_inv_decomp {P Z₀ : Subgroup Y} [hPn : P.Normal] [hZn : Z₀.Nor
   rw [map_mul, map_mul, hπa₀, hπa₁, hπa₂, hdec, he1, mul_one, hWab a haW b hbW,
     mul_assoc, hWab a haW c hcW', ← mul_assoc, hWab b hbW c hcW']
 
+omit [Finite Y] in
 theorem conj_eq_of_comm {a b : Y} (h : a * b = b * a) : a * b * a⁻¹ = b := by
   rw [h]; group
 
+omit [Finite Y] in
 theorem c_inv_of_mem_invSet {P : Subgroup Y} {d : Fin 3 → Y} {l : Fin 3} {a : Y}
     (ha : a ∈ InvSet P d l) : (d 0 * d 1 * d 2) * a * (d 0 * d 1 * d 2)⁻¹ = a⁻¹ := by
   obtain ⟨-, hl, hj⟩ := ha
@@ -316,6 +324,7 @@ theorem c_inv_of_mem_invSet {P : Subgroup Y} {d : Fin 3 → Y} {l : Fin 3} {a : 
     rw [hl, show d 1 * a⁻¹ * (d 1)⁻¹ = (d 1 * a * (d 1)⁻¹)⁻¹ by group, hconj 1 (by decide),
       show d 0 * a⁻¹ * (d 0)⁻¹ = (d 0 * a * (d 0)⁻¹)⁻¹ by group, hconj 0 (by decide)]
 
+omit [Finite Y] in
 theorem commute_of_invSet {P Z₀ : Subgroup Y} (hZc : Z₀ ≤ center Y) (hZP : Z₀ ≤ P)
     (hP' : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ Z₀) (hPodd : Odd (Nat.card P))
     {d : Fin 3 → Y} {i j : Fin 3} (hij : i ≠ j) {a b : Y} (ha : a ∈ InvSet P d i)
@@ -340,6 +349,7 @@ theorem commute_of_invSet {P Z₀ : Subgroup Y} (hZc : Z₀ ≤ center Y) (hZP :
   calc a * b = ζ * b * a := by rw [hζ]; group
     _ = b * a := by rw [hζ1, one_mul]
 
+omit [Finite Y] in
 theorem abelian_of_invSet_comm {P Z₀ : Subgroup Y} [hPn : P.Normal] [hZn : Z₀.Normal]
     (hZc : Z₀ ≤ center Y) (hZP : Z₀ ≤ P) (hP' : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ Z₀)
     (hPodd : Odd (Nat.card P)) {d : Fin 3 → Y} (hd : ∀ i, d i * d i = 1)
@@ -380,6 +390,7 @@ theorem abelian_of_invSet_comm {P Z₀ : Subgroup Y} [hPn : P.Normal] [hZn : Z�
     rw [hx']; exact hAy.mul_left (czx y)
   exact hxy.eq
 
+omit [Finite Y] in
 theorem conj_mem_invSet_succ {P : Subgroup Y} [hPn : P.Normal] {d : Fin 3 → Y} {t : Y}
     (ht : ∀ i, t * d i * t⁻¹ = d (i + 1)) {i : Fin 3} {x : Y} (hx : x ∈ InvSet P d i) :
     t * x * t⁻¹ ∈ InvSet P d (i + 1) := by
@@ -433,6 +444,7 @@ theorem exists_all_but_one {S : Fin 3 → Prop} (h : ∀ i j, i ≠ j → S i �
     have := mem_center_iff.mp (hZc (Z₀.inv_mem hz)) l⁻¹
     rw [mul_inv_rev]; exact this.symm
 
+omit [Finite Y] in
 theorem le_or_sup_eq_of_frames {P Z₀ R : Subgroup Y} [hPn : P.Normal] [hZn : Z₀.Normal]
     [hRn : R.Normal] (hZc : Z₀ ≤ center Y) (hZP : Z₀ ≤ P)
     (hP' : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ Z₀) (hPodd : Odd (Nat.card P))

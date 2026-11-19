@@ -41,7 +41,7 @@ theorem m22_pull_data {T L : Subgroup H} (hT : IsSylowIn 2 T ⊤) (hK : L.Normal
       T ⊓ L ≤ Ph ∧ Nat.card Ph = 3 * Nat.card ↥(T ⊓ L) ∧ Nat.card Ah = 960 ∧
       Nat.card Ph = 384 ∧ L ≤ (Ah ⊔ (T ⊓ L)) ⊔ Ph := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, V', P, hS, hA5, hSP, hP3, hgen, hinv, hAcard, hPcard⟩ := m22_data'
   have hSK : IsSylowTwoOf (T ⊓ L) L :=
     isSylowTwoOf_inf_normal hT le_top fun x _ => by

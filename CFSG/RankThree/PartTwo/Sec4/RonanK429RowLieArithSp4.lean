@@ -230,7 +230,6 @@ theorem f4two_L3 {N r : ℕ} (hN : N ∣ 35942400) (hr2 : 2 ≤ r) (hr3 : r % 3 
   subst hN3
   interval_cases r
   all_goals (try omega)
-  all_goals (norm_num at hN)
 
 theorem f4two_U3 {N r : ℕ} (hN : N ∣ 35942400) (hr2 : 2 ≤ r) (hr3 : r % 3 = 2)
     (h : N * 3 = r ^ 3 * ((r ^ 2 - 1) * (r ^ 3 + 1))) : r = 2 := by
@@ -250,6 +249,5 @@ theorem f4two_U3 {N r : ℕ} (hN : N ∣ 35942400) (hr2 : 2 ≤ r) (hr3 : r % 3 
   subst hN3
   interval_cases r
   all_goals (try omega)
-  all_goals (norm_num at hN)
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429Lie

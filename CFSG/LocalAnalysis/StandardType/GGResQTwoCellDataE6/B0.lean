@@ -22,9 +22,9 @@ theorem cell_E6_b0 :
   intro s hs
   simp only [GGResIDisp.E6.shapes_E6_b0, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl
-  · simp only [wits_E6_b0, if_pos rfl]
+  · simp only [wits_E6_b0]
     exact hwits_E6b0c1
-  · simp only [wits_E6_b0, if_neg (by decide : ¬ (((5, -1, -1)) = ((1, -1, -1)))), if_pos rfl]
+  · simp only [wits_E6_b0]
     exact hwits_E6b0c5
 theorem hsideOK_E6_b0 :
     ∀ s ∈ GGResIDisp.E6.shapes_E6_b0, ∀ w ∈ wits_E6_b0 s,

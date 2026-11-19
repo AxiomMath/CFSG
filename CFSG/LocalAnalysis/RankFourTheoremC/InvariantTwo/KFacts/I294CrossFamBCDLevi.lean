@@ -23,7 +23,7 @@ theorem exists_conj_mem_of_pow_eq_one {A : Subgroup G} (hA : ¬ p ∣ A.index) {
   obtain ⟨P, hP⟩ := hzp.exists_le_sylow
   have hyP : y ∈ (P : Subgroup G) := hP (Subgroup.mem_zpowers y)
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p A))
-  have hT' : IsPGroup p ((T : Subgroup A).map A.subtype) := T.isPGroup'.map A.subtype
+  have hT' : IsPGroup p ((T : Subgroup A).map A.subtype) := T.isPGroup.map A.subtype
   have hidx : ¬ p ∣ ((T : Subgroup A).map A.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul hp.out T.not_dvd_index hA
@@ -47,7 +47,7 @@ theorem isMulCommutative_of_isPGroup_of_not_dvd_index' {A : Subgroup G} (hA : ¬
     (hP : IsPGroup p P) : IsMulCommutative P := by
   obtain ⟨S, hPS⟩ := hP.exists_le_sylow
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p A))
-  have hT' : IsPGroup p ((T : Subgroup A).map A.subtype) := T.isPGroup'.map A.subtype
+  have hT' : IsPGroup p ((T : Subgroup A).map A.subtype) := T.isPGroup.map A.subtype
   have hidx : ¬ p ∣ ((T : Subgroup A).map A.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul hp.out T.not_dvd_index hA
@@ -56,7 +56,7 @@ theorem isMulCommutative_of_isPGroup_of_not_dvd_index' {A : Subgroup G} (hA : ¬
       ((T : Subgroup A).map A.subtype).map (MulAut.conj g).toMonoidHom := by
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]
     rfl
-  haveI : IsMulCommutative (T : Subgroup A) := hAab _ T.isPGroup'
+  have : IsMulCommutative (T : Subgroup A) := hAab _ T.isPGroup
   have : IsMulCommutative (S : Subgroup G) := by
     rw [hS]
     infer_instance
@@ -69,6 +69,7 @@ section Levi
 variable {M G : Type*} [Group M] [Finite M] [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime]
   {ι : M →* G}
 
+omit [Finite M] in
 theorem isMulCommutative_of_isPGroup_of_levi (hι : Function.Injective ι)
     (hidx : ¬ p ∣ ι.range.index)
     (hM : ∀ P : Subgroup M, IsPGroup p P → IsMulCommutative P) {P : Subgroup G}
@@ -117,7 +118,7 @@ theorem isMulCommutative_sylow_quotient (N : Subgroup H) [N.Normal]
   obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective (f := QuotientGroup.mk' N)
     (QuotientGroup.mk'_surjective _) p R
   rw [Sylow.coe_mapSurjective]
-  haveI := hH (S : Subgroup H) S.isPGroup'
+  have := hH (S : Subgroup H) S.isPGroup
   infer_instance
 
 end Quotient

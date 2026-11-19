@@ -94,7 +94,7 @@ theorem exists_ratio_not_fixed (hσ : orderOf σ = 3) :
   classical
   have : Fintype F := Fintype.ofFinite F
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   set q := Nat.card (fixF σ) with hq
   have hq2 : 2 ≤ q := two_le_card_fixF
@@ -108,7 +108,7 @@ theorem exists_ratio_not_fixed (hσ : orderOf σ = 3) :
     simpa [pow_succ] using this
   set f : F := (g : F) / σ g with hf
   have hg0 : (g : F) ≠ 0 := g.ne_zero
-  have hσg0 : σ (g : F) ≠ 0 := by simpa using hg0
+  have hσg0 : σ (g : F) ≠ 0 := by simp
   have hf0 : f ≠ 0 := div_ne_zero hg0 hσg0
   have hff : σ f = f := hall g
   have h1 : σ (g : F) = g * f⁻¹ := by rw [hf]; field_simp

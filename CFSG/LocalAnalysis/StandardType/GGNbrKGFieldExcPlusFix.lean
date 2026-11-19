@@ -56,8 +56,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Che
 
 theorem ggFieldFixKnown_E7E8
     : GGFieldFixKnown fun _ lab => lab.tag = .E7 ∨ lab.tag = .E8 := by
-  intro p lab hp _ hlab hS
-  intro Q hQ
+  intro p lab hp _ hlab hS Q hQ
   obtain ⟨t, l, n⟩ := lab
   obtain ⟨hn, -⟩ := hlab
   rcases hS with ht | ht <;> dsimp only at ht <;> subst ht

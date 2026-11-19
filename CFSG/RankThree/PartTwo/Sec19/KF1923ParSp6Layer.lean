@@ -55,8 +55,8 @@ theorem sq_not_inverting_of_normalized_three {S : Type*} [Group S] (t : S) (D K 
     (hexp : ∀ d ∈ D, d ^ 3 = 1) (hKD : K ≤ D) (hK : Nat.card K = 3)
     (htK : ∀ k ∈ K, t * k * t⁻¹ ∈ K)
     (ht2 : ∀ d ∈ D, t ^ 2 * d * (t ^ 2)⁻¹ = d⁻¹) : False := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Nontrivial K := (Finite.one_lt_card_iff_nontrivial).mp (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Nontrivial K := (Finite.one_lt_card_iff_nontrivial).mp (by rw [hK]; norm_num)
   obtain ⟨d, hd1⟩ := exists_ne (1 : K)
   have hdK : (d : S) ∈ K := d.2
   have hdD : (d : S) ∈ D := hKD hdK
@@ -108,7 +108,7 @@ theorem sq_not_inverting_of_normalized_three {S : Type*} [Group S] (t : S) (D K 
 @[expose] def BlockTri (blk : Fin 6 → ℕ) (g : Matrix (Fin 6) (Fin 6) (ZMod 2)) : Prop :=
   ∀ i j, blk j < blk i → g i j = 0
 
-@[expose] abbrev Blk (blk : Fin 6 → ℕ) (β : ℕ) : Type := {i : Fin 6 // blk i = β}
+abbrev Blk (blk : Fin 6 → ℕ) (β : ℕ) : Type := {i : Fin 6 // blk i = β}
 
 @[expose] def diagBlock (blk : Fin 6 → ℕ) (β : ℕ) (g : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
     Matrix (Blk blk β) (Blk blk β) (ZMod 2) :=
@@ -238,7 +238,7 @@ theorem eq_one_of_diag_one (blk : Fin 6 → ℕ) (hblk : ∀ i, blk i < 6)
   have hMlt : ∀ i j, ((d : Matrix (Fin 6) (Fin 6) (ZMod 2)) - 1) i j ≠ 0 → blk i < blk j := by
     intro i j hij
     by_contra hle
-    push_neg at hle
+    push Not at hle
     rcases lt_or_eq_of_le hle with hlt | heq
     · apply hij
       have hne : i ≠ j := fun e => by subst e; exact lt_irrefl _ hlt
@@ -317,7 +317,7 @@ theorem layer_contradiction (blk : Fin 6 → ℕ) (hblk : ∀ i, blk i < 6)
     rw [MonoidHom.mem_ker]
     apply Units.ext
     simpa [diagHom, diagUnit] using hconj _ x.2 hdx
-  · push_neg at hA
+  · push Not at hA
     have hone : ∀ β : ℕ, Nat.card (diagHom blk β D hD).range = 1 := fun β =>
       (hrange β).resolve_right (hA β)
     have hdiag : ∀ d ∈ D, ∀ β : ℕ, diagBlock blk β (d : Matrix (Fin 6) (Fin 6) (ZMod 2)) = 1 := by

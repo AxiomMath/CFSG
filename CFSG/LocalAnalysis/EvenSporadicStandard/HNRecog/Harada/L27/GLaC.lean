@@ -18,7 +18,7 @@ theorem finrank_ker_involution_eq_four {W : Type*} [AddCommGroup W] [Module (ZMo
   let D : W →ₗ[ZMod 2] W := σL - LinearMap.id
   let K : Submodule (ZMod 2) W := LinearMap.ker D
   let I : Submodule (ZMod 2) W := LinearMap.range D
-  haveI : Finite K := Subtype.finite
+  have : Finite K := Subtype.finite
   change Module.finrank (ZMod 2) K = 4
   have hσL : σL * σL = LinearMap.id := by
     apply LinearMap.ext

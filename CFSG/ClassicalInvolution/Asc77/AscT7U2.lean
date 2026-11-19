@@ -106,7 +106,7 @@ theorem sq_mem_of_isFAut (h : T7F2.Hyp25T p f Ω K K' W S R R' z t u₁ u₂ t')
   have hVN : T7F2.Csub S R' ⊔ Subgroup.zpowers a ≤ T7F2.Nsub S R :=
     sup_le hMN (Subgroup.zpowers_le.mpr haN)
   have hVS : T7F2.Csub S R' ⊔ Subgroup.zpowers a ≤ (S : Subgroup G) := hVN.trans inf_le_left
-  have hV2 : IsPGroup 2 ↥(T7F2.Csub S R' ⊔ Subgroup.zpowers a) := S.isPGroup'.to_le hVS
+  have hV2 : IsPGroup 2 ↥(T7F2.Csub S R' ⊔ Subgroup.zpowers a) := S.isPGroup.to_le hVS
   have hVR : ∀ y ∈ T7F2.Csub S R' ⊔ Subgroup.zpowers a, conjSub y R = R := fun y hy =>
     (T7F2.mem_Nsub.mp (hVN hy)).2
   have hF1 : ∀ y ∈ T7F2.Csub S R', ¬ IsFAut R y := fun y hy =>

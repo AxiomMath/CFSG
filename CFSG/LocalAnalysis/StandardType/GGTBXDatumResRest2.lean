@@ -27,12 +27,12 @@ private abbrev ResBig (p : ℕ) {R : Type} [Group R] (I : Set (MulAut R)) : Prop
   ∃ E : Subgroup (MulAut R), (E : Set (MulAut R)) ⊆ I ∧ IsElemAbelian p E ∧ p ^ 3 ≤ Nat.card E
 
 private theorem resSmall_or {X : Type} [Group X] {p : ℕ} {P Q : LargeEvenLabel → Prop}
-    (hP : ¬ StandardType.LargeEvenMarking X (fun lab R _ I _ _ => P lab ∧ ResBig p I))
-    (hQ : ¬ StandardType.LargeEvenMarking X (fun lab R _ I _ _ => Q lab ∧ ResBig p I)) :
-    ¬ StandardType.LargeEvenMarking X (fun lab R _ I _ _ => (P lab ∨ Q lab) ∧ ResBig p I) := by
+    (hP : ¬ StandardType.LargeEvenMarking X (fun lab _R _ I _ _ => P lab ∧ ResBig p I))
+    (hQ : ¬ StandardType.LargeEvenMarking X (fun lab _R _ I _ _ => Q lab ∧ ResBig p I)) :
+    ¬ StandardType.LargeEvenMarking X (fun lab _R _ I _ _ => (P lab ∨ Q lab) ∧ ResBig p I) := by
   intro h
   have h' := largeEvenMarking_mono
-    (P' := fun lab R _ I _ _ => (P lab ∧ ResBig p I) ∨ (Q lab ∧ ResBig p I))
+    (P' := fun lab _R _ I _ _ => (P lab ∧ ResBig p I) ∨ (Q lab ∧ ResBig p I))
     (fun _ _ _ _ _ _ hPQE => by
       rcases hPQE with ⟨hPQ, hE⟩
       exact hPQ.elim (fun hP' => Or.inl ⟨hP', hE⟩) (fun hQ' => Or.inr ⟨hQ', hE⟩)) h
@@ -41,9 +41,9 @@ private theorem resSmall_or {X : Type} [Group X] {p : ℕ} {P Q : LargeEvenLabel
   · exact hQ hQ'
 
 private theorem resSmall_imp {X : Type} [Group X] {p : ℕ} {P Q : LargeEvenLabel → Prop}
-    (hQ : ¬ StandardType.LargeEvenMarking X (fun lab R _ I _ _ => Q lab ∧ ResBig p I))
+    (hQ : ¬ StandardType.LargeEvenMarking X (fun lab _R _ I _ _ => Q lab ∧ ResBig p I))
     (hPQ : ∀ lab, P lab → Q lab) :
-    ¬ StandardType.LargeEvenMarking X (fun lab R _ I _ _ => P lab ∧ ResBig p I) :=
+    ¬ StandardType.LargeEvenMarking X (fun lab _R _ I _ _ => P lab ∧ ResBig p I) :=
   fun h => hQ (largeEvenMarking_mono (fun _ _ _ _ _ _ hP => ⟨hPQ _ hP.1, hP.2⟩) h)
 
 theorem not_largeEvenMarking_resSmall

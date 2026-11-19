@@ -109,7 +109,7 @@ theorem steinberg_complete_of (hS : SteinbergSimpleStmt) (hI : SteinbergInjStmt)
     (Module.Flat.tensorProduct_mk_injective F Q (AlgebraicClosure F)).nontrivial
   obtain ⟨U, hU0, hUirr⟩ := exists_isIrreducible_subrepresentation
     (CFSG.Theory.Representation.extendScalars (AlgebraicClosure F) π)
-  haveI := hUirr
+  have := hUirr
   obtain ⟨B, hB, ⟨e⟩⟩ := steinberg_complete_over hS hI hp hp2 hF (AlgebraicClosure F)
     U.toSubmodule U.toRepresentation
   have hρirr : (steinbergRep F F B).IsIrreducible :=

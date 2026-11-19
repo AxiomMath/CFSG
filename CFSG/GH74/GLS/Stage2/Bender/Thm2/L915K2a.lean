@@ -129,7 +129,7 @@ end K2a
 
 theorem not_conj_u1_mul {K : Type} [Field K] [Finite K] (hodd : Odd (Nat.card K))
     {t₁ t₂ : StatedProj (StatedSp 2 K)} (hc : t₁ * t₂ = t₂ * t₁) (hne : t₁ ≠ t₂)
-    (h1 : orderOf t₁ = 2) (h2 : orderOf t₂ = 2)
+    (_h1 : orderOf t₁ = 2) (_h2 : orderOf t₂ = 2)
     (c1 : ∃ g, g⁻¹ * t₁ * g = u1 K) (c2 : ∃ g, g⁻¹ * t₂ * g = u1 K) :
     ¬ ∃ g, g⁻¹ * (t₁ * t₂) * g = u1 K := by
   have h2K : (2 : K) ≠ 0 := CFSG.ComponentClassification.CatFactsSp4.two_ne_zero_of_odd_card hodd

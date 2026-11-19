@@ -31,9 +31,9 @@ theorem swp_aligned {W d M : Nat} (hal : Aligned W M) (f : Nat) {i : Nat} (hi : 
   unfold swp tauW
   rw [hA]
   by_cases h1 : M.testBit (W * f) = true
-  · rw [if_pos h1, if_pos h1, Nat.mul_add]
+  · rw [ite_eq_left h1, ite_eq_left h1, Nat.mul_add]
     omega
-  · rw [if_neg h1, if_neg h1]
+  · rw [ite_eq_right h1, ite_eq_right h1]
     by_cases hd : d ≤ f
     · have hle : W * d ≤ W * f := Nat.mul_le_mul_left W hd
       have e : W * f + i - W * d = W * (f - d) + i := by
@@ -41,13 +41,13 @@ theorem swp_aligned {W d M : Nat} (hal : Aligned W M) (f : Nat) {i : Nat} (hi : 
         omega
       rw [e, hal (f - d) i hi]
       by_cases h3 : M.testBit (W * (f - d)) = true
-      · rw [if_pos ⟨by omega, h3⟩, if_pos ⟨hd, h3⟩]
-      · rw [if_neg (fun h => h3 h.2), if_neg (fun h => h3 h.2)]
+      · rw [ite_eq_left ⟨by omega, h3⟩, ite_eq_left ⟨hd, h3⟩]
+      · rw [ite_eq_right (fun h => h3 h.2), ite_eq_right (fun h => h3 h.2)]
     · have hlt : W * f + i < W * d := by
         have : W * (f + 1) ≤ W * d := Nat.mul_le_mul_left W (by omega)
         rw [Nat.mul_add, Nat.mul_one] at this
         omega
-      rw [if_neg (fun h => absurd h.1 (by omega)), if_neg (fun h => hd h.1)]
+      rw [ite_eq_right (fun h => absurd h.1 (by omega)), ite_eq_right (fun h => hd h.1)]
 
 theorem fw_dsw {W S d M : Nat} (hal : Aligned W M) (hv : ValidIn S (W * d) M) (x f : Nat) :
     fw W (dsw (W * d) M x) f = fw W x (tauW W d M f) := by

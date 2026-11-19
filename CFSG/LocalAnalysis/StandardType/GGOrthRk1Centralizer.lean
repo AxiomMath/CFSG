@@ -173,7 +173,7 @@ theorem TBJOmData.exists_rankOne_model {Q : QuadraticForm K V} {p : ℕ} [Fact p
         MonoidHom.map_closure]
       apply Subgroup.closure_mono
       rintro y ⟨g, hg, rfl⟩
-      rw [Set.mem_setOf_eq] at hg
+      rw [Set.mem_ofPred_eq] at hg
       refine ⟨⟨hθC g, hrangeΩ ⟨g, rfl⟩⟩, ⟨1, ?_⟩⟩
       show (θ g) ^ 2 = 1
       rw [← map_pow, hg, map_one]

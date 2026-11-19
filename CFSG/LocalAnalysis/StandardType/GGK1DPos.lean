@@ -114,12 +114,12 @@ private theorem ggK1Dp_flatten_filter_eq {α β : Type} (l : List α) (f : α �
   | cons a t ih =>
       rw [List.filter_cons]
       by_cases ha : f a = true
-      · rw [if_pos ha, List.map_cons, List.map_cons, List.flatten_cons, List.flatten_cons, ih]
+      · rw [ite_eq_left ha, List.map_cons, List.map_cons, List.flatten_cons, List.flatten_cons, ih]
       · have haf : f a = false := by
           cases hfa : f a with
           | false => rfl
           | true => exact absurd hfa ha
-        rw [if_neg (by simp [ha]), ih, List.map_cons, List.flatten_cons, hg a haf]
+        rw [ite_eq_right (by simp [ha]), ih, List.map_cons, List.flatten_cons, hg a haf]
         rfl
 
 private theorem ggK1Dp_hasOrbit_false (nf : ℕ) (k : ggK1DCo_Kind) :

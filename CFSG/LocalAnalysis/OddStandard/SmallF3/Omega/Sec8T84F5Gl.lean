@@ -80,7 +80,7 @@ theorem sec8t84_rank_glue {G : Type} [Group G] [Finite G] {O D1 D2 : Subgroup G}
     rw [show (a * b) * h * (a * b)⁻¹ = a * (b * h * b⁻¹) * a⁻¹ by group]
     exact hn1 a ha _ (hn2 b hb h hh)
   let N : Subgroup M := O.subgroupOf M
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   have hmemN : ∀ z : M, z ∈ N ↔ (z : G) ∈ O := by
     intro z
     change z ∈ O.subgroupOf M ↔ (z : G) ∈ O
@@ -152,7 +152,7 @@ theorem sec8t84_rank_glue {G : Type} [Group G] [Finite G] {O D1 D2 : Subgroup G}
   have hQ : CFSG.Open.IsElemAbelian 2 (E1 ⊔ E2) :=
     CFSG.Open.IsElemAbelian.sup_of_commute hE1 hE2 hcross
   have hsupM : D1M ⊔ D2M = ⊤ := by
-    haveI : (D2.subgroupOf M).Normal :=
+    have : (D2.subgroupOf M).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hD1leN2 Subgroup.le_normalizer)
     apply le_antisymm le_top
     intro y _

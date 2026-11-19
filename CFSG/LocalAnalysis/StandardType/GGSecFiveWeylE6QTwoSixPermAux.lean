@@ -34,7 +34,7 @@ theorem e6QTwoSixIsSemilin_conj_frameMk (h : UnitaryFieldData 2 1 K) {Q : GL (Fi
     (τ : Equiv.Perm (Fin 6)) : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
   MulAut.conj (frameMk (USixTwo.fieldDataFour hK) Q hQ (USixTwo.permGLSU hK τ))
 
-theorem e6QTwoSixPowThreeVal (hK : Nat.card K = 4) {σ : Fin 6 → Kˣ}
+theorem e6QTwoSixPowThreeVal (_hK : Nat.card K = 4) {σ : Fin 6 → Kˣ}
     (hσ : ∀ k, σ k ^ 3 = 1) (k : Fin 6) :
     ((σ k : Kˣ) : K) ^ (2 ^ 1 + 1) = 1 := by
   rw [show 2 ^ 1 + 1 = 3 by norm_num, ← Units.val_pow_eq_pow_val, hσ k, Units.val_one]
@@ -46,7 +46,7 @@ theorem e6QTwoSixFrameAct_perm (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     TableBUD.FrameAct (USixTwo.fieldDataFour hK) Q hQ
       (e6QTwoSixFramePerm hK hQ τ * e * (e6QTwoSixFramePerm hK hQ τ)⁻¹)
       (σ ∘ ⇑τ.symm) := by
-  haveI : Finite K := USixTwo.finite_of_card_eq_four hK
+  have : Finite K := USixTwo.finite_of_card_eq_four hK
   have hσn : ∀ k, ((σ k : Kˣ) : K) ^ (2 ^ 1 + 1) = 1 := fun k => by
     rw [show 2 ^ 1 + 1 = 3 by norm_num, ← Units.val_pow_eq_pow_val,
       USixTwo.cube_unit_eq_one hK (σ k), Units.val_one]
@@ -75,7 +75,7 @@ theorem e6QTwoSixFrameAct_perm (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     (TableBUD.diagHom_mem_primeFormUnitary (USixTwo.fieldDataFour hK) hσn)
   have h2 := h1.mul (USixTwo.fieldDataFour hK) hinv (Subgroup.inv_mem _ hP)
   rw [show (1 : K ≃+* K) * 1 * 1⁻¹ = 1 from by group] at h2
-  simp only [map_one, MulAut.one_apply, inv_one, one_mul, mul_one] at h2
+  simp only [map_one, MulAut.one_apply, inv_one, mul_one] at h2
   rw [hmatGL] at h2
   exact h2
 
@@ -105,7 +105,7 @@ theorem e6QTwoSixFrameAct_inj (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     (hσ : ∀ k, σ k ^ 3 = 1) (hσ' : ∀ k, σ' k ^ 3 = 1)
     (h1 : TableBUD.FrameAct (USixTwo.fieldDataFour hK) Q hQ e σ)
     (h2 : TableBUD.FrameAct (USixTwo.fieldDataFour hK) Q hQ e σ') : σ = σ' := by
-  haveI : Finite K := USixTwo.finite_of_card_eq_four hK
+  have : Finite K := USixTwo.finite_of_card_eq_four hK
   obtain ⟨c, hc⟩ := TableBUD.FrameAct.eq_smul (n := 1) (h := USixTwo.fieldDataFour hK)
     (by rw [hK]; norm_num) (by norm_num : 3 ≤ 6) (by norm_num : (6, 2 ^ 1) ≠ (3, 2))
     (p := 3) (by norm_num) (by norm_num : 3 ∣ 2 ^ 1 + 1)
@@ -121,11 +121,11 @@ theorem e6QTwoSixFrameAct_apply_eq_of_swap (hK : Nat.card K = 4) {Q : GL (Fin 6)
     {hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK) (idGram K 6)}
     {e : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))} {σ : Fin 6 → Kˣ}
     (hσ : ∀ k, σ k ^ 3 = 1)
-    (he : TableBUD.FrameAct (USixTwo.fieldDataFour hK) Q hQ e σ) {i j : Fin 6} (hij : i ≠ j)
+    (he : TableBUD.FrameAct (USixTwo.fieldDataFour hK) Q hQ e σ) {i j : Fin 6} (_hij : i ≠ j)
     (hfix : e6QTwoSixFramePerm hK hQ (Equiv.swap i j) * e *
       (e6QTwoSixFramePerm hK hQ (Equiv.swap i j))⁻¹ = e) :
     σ i = σ j := by
-  haveI : Finite K := USixTwo.finite_of_card_eq_four hK
+  have : Finite K := USixTwo.finite_of_card_eq_four hK
   have hσ3 : ∀ k, ((σ ∘ ⇑(Equiv.swap i j).symm) k) ^ 3 = 1 := fun k => hσ _
   have h2 : TableBUD.FrameAct (USixTwo.fieldDataFour hK) Q hQ e
       (σ ∘ ⇑(Equiv.swap i j).symm) := by
@@ -166,7 +166,7 @@ theorem e6QTwoSixFramePerm_injective_of_forall (hK : Nat.card K = 4) {Q : GL (Fi
         e6QTwoSixFramePerm hK hQ τ * e * (e6QTwoSixFramePerm hK hQ τ)⁻¹ =
           e6QTwoSixFramePerm hK hQ τ' * e * (e6QTwoSixFramePerm hK hQ τ')⁻¹) :
     τ = τ' := by
-  haveI : Finite K := USixTwo.finite_of_card_eq_four hK
+  have : Finite K := USixTwo.finite_of_card_eq_four hK
   obtain ⟨ω, hωne⟩ := USixTwo.exists_unit_ne_one hK
   apply Equiv.Perm.ext
   intro p

@@ -44,7 +44,7 @@ private theorem v5_pow_sub_one {q e A k : ℕ} (hq : 2 ≤ q) (h5 : ¬ 5 ∣ q)
     (hk : k ≠ 0) (hk25 : ¬ 25 ∣ k) :
     padicValNat 5 (q ^ k - 1) = if e ∣ k then A + (if 5 ∣ k then 1 else 0) else 0 := by
   by_cases hek : e ∣ k
-  · rw [if_pos hek]
+  · rw [ite_eq_left hek]
     obtain ⟨j, rfl⟩ := hek
     have he0 : e ≠ 0 := by rintro rfl; simp at hk
     have hj : j ≠ 0 := by rintro rfl; simp at hk
@@ -57,7 +57,7 @@ private theorem v5_pow_sub_one {q e A k : ℕ} (hq : 2 ≤ q) (h5 : ¬ 5 ∣ q)
     have he5 : ¬ 5 ∣ e := fun h => absurd (h.trans he4) (by decide)
     rw [hlte, hA, ← v5_of_not_dvd_25 hk hk25, padicValNat.mul he0 hj,
       padicValNat.eq_zero_of_not_dvd he5, zero_add]
-  · rw [if_neg hek]
+  · rw [ite_eq_right hek]
     exact padicValNat.eq_zero_of_not_dvd fun h =>
       hek (he ▸ (five_dvd_pow_sub_one_iff (by omega)).1 h)
 

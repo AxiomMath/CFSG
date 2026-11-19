@@ -18,7 +18,7 @@ theorem s16c1_gamma_barSub_mem (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : 
     (hc : Case167_1 D V₀ V hV L) {A : Subgroup G} (hA : A ∈ E3.gammaSet V 0 D.T) :
     barSub V₀ V hV A ≤ barSub V₀ V hV D.T ⊓ lBar V₀ V hV L ∧
       (barSub V₀ V hV A ≠ ⊥ → barSub V₀ V hV A ∈ E3.aSet 2 (lBar V₀ V hV L)) := by
-  simp only [E3.gammaSet, Set.mem_setOf_eq] at hA
+  simp only [E3.gammaSet, Set.mem_ofPred_eq] at hA
   obtain ⟨hAT, g, hAg, hm⟩ := hA
   have hAM : A ∈ E3.gammaSet V 0 D.M := ⟨hAT.trans D.sylowM.le, g, hAg, hm⟩
   have hH : Hyp1643 D V₀ V 0 A g := ⟨Or.inl rfl, hAM, hAg⟩
@@ -27,7 +27,7 @@ theorem s16c1_gamma_barSub_mem (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : 
   have hmemM : barSub V₀ V hV A ∈ calABar 2 D.M V₀ V hV :=
     sixteen_fortyThree_two D hSg h1219 h21 h22 h42 V₀ V L hV hS hc 0 A g hH rfl hne
   have hmemM' : barSub V₀ V hV A ∈ E3.aSet 2 (barSub V₀ V hV D.M) := hmemM
-  simp only [E3.aSet, Set.mem_setOf_eq] at hmemM'
+  simp only [E3.aSet, Set.mem_ofPred_eq] at hmemM'
   obtain ⟨-, hne', hel, hfix'⟩ := hmemM'
   exact ⟨hleL, hne', hel, hfix'⟩
 
@@ -42,7 +42,7 @@ theorem s16c1_gamma_le_centralizer (D : Data G) (hSg : UC6S846.SigmaStd D)
       (barSub V₀ V hV D.T ⊓ lBar V₀ V hV L) ≤ 4)
     {A : Subgroup G} (hA : A ∈ E3.gammaSet V 0 D.T) :
     A ≤ centralizer ({x.val} : Set G) := by
-  simp only [E3.gammaSet, Set.mem_setOf_eq] at hA
+  simp only [E3.gammaSet, Set.mem_ofPred_eq] at hA
   obtain ⟨hAT, g, hAg, hm⟩ := hA
   have hAM : A ∈ E3.gammaSet V 0 D.M := ⟨hAT.trans D.sylowM.le, g, hAg, hm⟩
   have hmem := s16c1_gamma_barSub_mem D hSg h1219 h21 h22 h42 h43 hS hc ⟨hAT, g, hAg, hm⟩

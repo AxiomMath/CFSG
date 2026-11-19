@@ -51,7 +51,7 @@ theorem exists_rank_bound {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.Pri
     (fun x hx y hy => Subgroup.commutator_mem_commutator hx hy)
     (fun x hx => by rw [hΩ.exp x hx]; exact one_mem _)
     hΩ.norm (fun g hg => normalizer_le_normalizer_commutator Ω (hΩ.norm hg))
-  haveI : Finite W := Module.finite_of_finite (ZMod f)
+  have : Finite W := Module.finite_of_finite (ZMod f)
   set d := Module.finrank (ZMod f) W with hd
   have hrK : ((p : ℕ) : ZMod f) ≠ 0 := by
     intro h
@@ -120,7 +120,7 @@ theorem exists_rank_bound {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.Pri
   · by_cases hd2 : d ≤ 2
     · refine ⟨1, fun E hEN hEc hEp _ => ?_⟩
       obtain ⟨hfin, hcomm, hexp⟩ := himg E hEN hEc hEp
-      haveI := hfin
+      have := hfin
       refine card_le_of_range (actEquiv ρ) hEN (hker E hEN hEp) ?_
       have h1 := CFSG.RankThree.PartOne.LIT.card_le_pow_finrank_sub hp hrK
         (actEquiv ρ |>.comp (Subgroup.inclusion hEN)).range hcomm hexp
@@ -128,7 +128,7 @@ theorem exists_rank_bound {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.Pri
     · have hd3' : d = 3 := by omega
       refine ⟨LinearEquiv.det.comp (actEquiv ρ), fun E hEN hEc hEp hχ => ?_⟩
       obtain ⟨hfin, hcomm, hexp⟩ := himg E hEN hEc hEp
-      haveI := hfin
+      have := hfin
       refine card_le_of_range (actEquiv ρ) hEN (hker E hEN hEp) ?_
       refine CFSG.RankThree.PartOne.LIT.card_le_sq_of_det_eq_one hp hrK hd3'
         (actEquiv ρ |>.comp (Subgroup.inclusion hEN)).range hcomm hexp ?_
@@ -142,7 +142,7 @@ theorem exists_rank_bound {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.Pri
       (fun E hEΩ hEc => hrank E (hEΩ.trans hΩ.le) hEc (fun a ha => hΩ.exp a (hEΩ ha))) hs hd4
     refine ⟨lam, fun E hEN hEc hEp hχ => ?_⟩
     obtain ⟨hfin, hcomm, hexp⟩ := himg E hEN hEc hEp
-    haveI := hfin
+    have := hfin
     refine card_le_of_range (actEquiv ρ) hEN (hker E hEN hEp) ?_
     have h1 := CFSG.RankThree.PartOne.LIT.card_le_pow_half_of_alt hp hrK 4 W hd4 B hnd halt
       (actEquiv ρ |>.comp (Subgroup.inclusion hEN)).range hcomm hexp (by

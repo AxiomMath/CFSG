@@ -74,7 +74,7 @@ private theorem sylow_card_cases
     (t : Set X) (ht : t.ncard = 5) (S : Sylow 3 (fixingSubgroup P t)) :
     Nat.card S = 1 ∨ Nat.card S = 3 := by
   let _ : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hele : e ≤ 1 := by
     by_contra hn
     apply h9

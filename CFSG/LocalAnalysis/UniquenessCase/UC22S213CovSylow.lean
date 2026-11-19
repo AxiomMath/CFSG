@@ -39,8 +39,8 @@ theorem uc22s213_card_sylow_of_cover {L Q : Subgroup G}
     (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q L) :
     Nat.card Q = 27 ∧ (∀ x ∈ Q, x ^ 3 = 1) ∧
       ∃ E ≤ Q, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, rfl⟩ := hQ
   obtain ⟨h27, h3⟩ :=
     uc22s213_sylow_of_cover hcov (R.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)))
@@ -49,7 +49,7 @@ theorem uc22s213_card_sylow_of_cover {L Q : Subgroup G}
       ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).domRestrict (R : Subgroup ↥L)) := by
     rw [← MonoidHom.ker_eq_bot_iff, MonoidHom.ker_domRestrict, QuotientGroup.ker_mk',
       subgroupOf_eq_bot]
-    exact IsPGroup.disjoint_of_ne 2 3 (by norm_num) _ _ CFSG.pCore_isPGroup R.isPGroup'
+    exact IsPGroup.disjoint_of_ne 2 3 (by norm_num) _ _ CFSG.pCore_isPGroup R.isPGroup
   have hRc : Nat.card (R : Subgroup ↥L) = 27 := by
     rw [← h27, ← MonoidHom.domRestrict_range]
     exact Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv

@@ -100,11 +100,11 @@ private theorem sylow_le_centralizer {J : Type} [Group J] [Finite J]
       have h1 : (⟨p, hp⟩ : ↥P) ∈ Q.subgroupOf P := by rw [htop]; trivial
       exact Subgroup.mem_subgroupOf.mp h1
     have hQp_lt : Q.subgroupOf P < ⊤ := lt_of_le_of_ne le_top hne
-    have : Group.IsNilpotent ↥P := (Sylow.isPGroup' P).isNilpotent
+    have : Group.IsNilpotent ↥P := (Sylow.isPGroup P).isNilpotent
     have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent
     have hlt : Q.subgroupOf P < Subgroup.normalizer (Q.subgroupOf P : Set ↥P) :=
       hnc (Q.subgroupOf P) hQp_lt
-    obtain ⟨g, hgN, hgQ⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨g, hgN, hgQ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hgNQ : (g : J) ∈ Subgroup.normalizer (Q : Set J) := by
       have hgsub : g ∈ (Subgroup.normalizer (Q : Set J)).subgroupOf (P : Subgroup J) := by
         rw [Subgroup.subgroupOf_normalizer_eq hQle]
@@ -139,7 +139,7 @@ private theorem sylow_le_centralizer {J : Type} [Group J] [Finite J]
         have h := hinv ((g : J) * e * (g : J)⁻¹) he
         rwa [show (g : J)⁻¹ * ((g : J) * e * (g : J)⁻¹) * (g : J) = e by group] at h
     have hgP3 : IsPGroup 3 (Subgroup.zpowers (g : J)) :=
-      (Sylow.isPGroup' P).to_le (Subgroup.zpowers_le.mpr g.2)
+      (Sylow.isPGroup P).to_le (Subgroup.zpowers_le.mpr g.2)
     have hgC : (g : J) ∈ Subgroup.centralizer (E : Set J) := hAut _ hgNormE hgP3
     exact hgQ (Subgroup.mem_subgroupOf.mpr
       (show (g : J) ∈ Q from Subgroup.mem_inf.mpr ⟨g.2, hgC⟩))

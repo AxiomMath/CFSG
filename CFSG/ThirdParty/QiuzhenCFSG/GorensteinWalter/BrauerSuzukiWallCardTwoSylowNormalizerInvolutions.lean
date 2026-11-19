@@ -56,7 +56,7 @@ public theorem
   have htIBS : BenderSuzuki.PFAppendixIII.IsInvolution h.t :=
     ⟨h.t_involution.1, h.t_involution.2⟩
   obtain ⟨g, _hgTop, hgN⟩ :=
-    SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hNne)
+    _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hNne)
   obtain ⟨u, ⟨huCoset, huIBS⟩, _huUnique⟩ :=
     hstrong.existsUnique_involution_in_centralizer_rightCoset
       htN htIBS hgN

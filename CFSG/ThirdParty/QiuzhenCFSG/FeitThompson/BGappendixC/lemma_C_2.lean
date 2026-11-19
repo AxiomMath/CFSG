@@ -276,8 +276,8 @@ public theorem CFSG.appendixCCubic_exists_root_mem_appendixCE_in_q3
     simpa [f] using appendixCCubic_monic (p := p) c
   have hirr : Irreducible f := by
     simpa [f] using appendixCCubic_irreducible_of_no_zmod_root (p := p) hrootless
-  haveI : Fact (Irreducible f) := ⟨hirr⟩
-  haveI : Module.Finite (ZMod p) (AdjoinRoot f) := hfmonic.finite_adjoinRoot
+  have : Fact (Irreducible f) := ⟨hirr⟩
+  have : Module.Finite (ZMod p) (AdjoinRoot f) := hfmonic.finite_adjoinRoot
   have hfinrank_adjoin : Module.finrank (ZMod p) (AdjoinRoot f) = 3 := by
     change Module.finrank (ZMod p) (Polynomial (ZMod p) ⧸ Ideal.span {f}) = 3
     rw [finrank_quotient_span_eq_natDegree]
@@ -288,9 +288,9 @@ public theorem CFSG.appendixCCubic_exists_root_mem_appendixCE_in_q3
     apply FiniteField.nonempty_algHom_of_finrank_dvd
     rw [hfinrank_adjoin, hfinrank_field]
   rcases hnonempty with ⟨φ⟩
-  haveI : Finite (AdjoinRoot f) := Module.finite_of_finite (ZMod p)
-  haveI : Fintype (AdjoinRoot f) := Fintype.ofFinite (AdjoinRoot f)
-  haveI : Fintype (appendixCField p 3) := Fintype.ofFinite (appendixCField p 3)
+  have : Finite (AdjoinRoot f) := Module.finite_of_finite (ZMod p)
+  have : Fintype (AdjoinRoot f) := Fintype.ofFinite (AdjoinRoot f)
+  have : Fintype (appendixCField p 3) := Fintype.ofFinite (appendixCField p 3)
   have hcardNat : Nat.card (AdjoinRoot f) = p ^ 3 := by
     rw [@Module.natCard_eq_pow_finrank (ZMod p) (AdjoinRoot f)]
     rw [hfinrank_adjoin, Nat.card_zmod]
@@ -379,15 +379,15 @@ public theorem CFSG.appendixC_lemma_C_2_character_count_bound
   by_contra hnot
   have hE_le_one : Nat.card (appendixCE p q) ≤ 1 := by
     omega
-  letI : Fintype (appendixCField p q) := Fintype.ofFinite _
-  letI : Fintype (appendixCE p q) := Fintype.ofFinite _
+  let : Fintype (appendixCField p q) := Fintype.ofFinite _
+  let : Fintype (appendixCE p q) := Fintype.ofFinite _
   let X := (ZMod p)ˣ →* ℂˣ
-  letI : Fintype X := Fintype.ofFinite _
-  letI : DecidableEq X := Classical.decEq X
+  let : Fintype X := Fintype.ofFinite _
+  let : DecidableEq X := Classical.decEq X
   have hexp : Monoid.ExponentExists (ZMod p)ˣ := Monoid.ExponentExists.of_finite
-  haveI : NeZero (Monoid.exponent (ZMod p)ˣ) :=
+  have : NeZero (Monoid.exponent (ZMod p)ˣ) :=
     ⟨(Monoid.exponent_ne_zero.2 hexp)⟩
-  haveI : HasEnoughRootsOfUnity ℂ (Monoid.exponent (ZMod p)ˣ) :=
+  have : HasEnoughRootsOfUnity ℂ (Monoid.exponent (ZMod p)ˣ) :=
     appendixC_complex_hasEnoughRootsOfUnity (Monoid.exponent (ZMod p)ˣ)
   let pairOne : X × X := ((1 : X), 1)
   let pairs : Finset (X × X) := (Finset.univ : Finset (X × X)).erase pairOne

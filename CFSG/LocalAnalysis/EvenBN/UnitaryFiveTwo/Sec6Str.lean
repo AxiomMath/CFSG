@@ -81,7 +81,7 @@ theorem MY_eq (hs : StdLin d φ) : d.M ⊔ d.Y = PK.map φ := by
   rw [← hs.pstd, pstd_eq_PK]
 
 theorem Y_eq (h : d.Hyp) (hs : StdLin d φ) : d.Y = YK.map φ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine eq_map_YK hs.inj ?_ (fun x hx y hy => h.Y_comm hx hy) (fun x hx => h.Y_sq hx)
     h.card_Y
   rw [← hs.MY_eq]
@@ -102,7 +102,7 @@ theorem mem_MY_decomp (hs : StdLin d φ) {x : G} (hx : x ∈ d.M ⊔ d.Y) :
   obtain ⟨u₁, hu₁, u₂, hu₂, y, hy, rfl⟩ := exists_decomp_PK hp
   exact ⟨u₁, hu₁, u₂, hu₂, y, hy, by simp⟩
 
-theorem map_conj_t (hs : StdLin d φ) (h : d.Hyp) (X : Subgroup SL(4, F4)) :
+theorem map_conj_t (hs : StdLin d φ) (_h : d.Hyp) (X : Subgroup SL(4, F4)) :
     (X.map φ).map (MulAut.conj d.t).toMonoidHom = (X.map (sigmaSL F4).toMonoidHom).map φ := by
   ext x
   constructor
@@ -115,7 +115,7 @@ theorem map_conj_t (hs : StdLin d φ) (h : d.Hyp) (X : Subgroup SL(4, F4)) :
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rw [hs.equiv]
 
-theorem Y_le_K_aux (h : d.Hyp) (hK : d.KLinear) : d.K₃ ≤ d.K := by
+theorem Y_le_K_aux (_h : d.Hyp) (hK : d.KLinear) : d.K₃ ≤ d.K := by
   rw [← hK.centralizer_eq]
   exact inf_le_left
 
@@ -125,7 +125,7 @@ theorem t_conj_v (h : d.Hyp) : d.t * d.v * d.t⁻¹ = d.v := by
   calc d.t * d.v * d.t⁻¹ = d.v * d.t * d.t⁻¹ := by rw [← this]
     _ = d.v := by group
 
-theorem v_mul_v (h : d.Hyp) : d.v * d.v = 1 := by
+theorem v_mul_v (_h : d.Hyp) : d.v * d.v = 1 := by
   show d.ι vSU * d.ι vSU = 1
   rw [← map_mul]
   have : vSU * vSU = 1 := by
@@ -175,7 +175,7 @@ theorem exists_weyl (h : d.Hyp) (hK : d.KLinear) (hs : StdLin d φ) :
   refine ⟨A, y, hA01, hAA, hy, ?_⟩
   rw [← hg, hgy, map_mul, map_mul]
 
-theorem X₂_le_M' (h : d.Hyp) : d.X₂ ≤ d.M := fun z hz =>
+theorem X₂_le_M' (h : d.Hyp) : d.X₂ ≤ d.M := fun _z hz =>
   Subgroup.mem_inf.2 ⟨h.A₁_le_D₁ (Data.Hyp.X₂_le_A₁ hz),
     mem_centralizer_singleton_iff.2 (Data.Hyp.X₂_comm_e₂ hz)⟩
 
@@ -294,7 +294,7 @@ theorem exists_B_lin (h : d.Hyp) (hK : d.KLinear) (hD : d.D₁ ≤ normalizer (d
   have hΓ₂N : Γ₂ ≤ N := le_of_gen_conj (hU₂MY.trans hMY_N) hv₁N hgen₂ hconj₂
   have hΓ₁' : Γ₁ ≤ ModSplit.normDY d.D₂ d.Y := le_inf hΓ₁N hΓ₁Y
   have hΓ₂' : Γ₂ ≤ ModSplit.normDY d.D₂ d.Y := le_inf hΓ₂N hΓ₂Y
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMY2 : IsPGroup 2 ↥(d.M ⊔ d.Y) := IsPGroup.of_card (n := 12) (h.card_M_sup_Y hK)
   have hp₁ : IsPGroup 2 ↥U₁ := hMY2.to_le hU₁MY
   have hp₂ : IsPGroup 2 ↥U₂ := hMY2.to_le hU₂MY

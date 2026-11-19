@@ -11,7 +11,7 @@ namespace CFSG.StandardType.ZS
 
 open Subgroup
 
-theorem wit_orth_small {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type} [AddCommGroup U] [Module (ZMod p) U] [Module.Finite (ZMod p) U]
+theorem wit_orth_small {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) {U : Type} [AddCommGroup U] [Module (ZMod p) U] [Module.Finite (ZMod p) U]
     (Q : QuadraticForm (ZMod p) U) (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {A : Subgroup (U ≃ₗ[ZMod p] U)} (hA : ∀ g : U ≃ₗ[ZMod p] U, g ∈ A ↔ IsIsom p Q g)
     (hsmall : Module.finrank (ZMod p) U = 3 ∨
       (p = 3 ∧ (Module.finrank (ZMod p) U = 4 ∨ Module.finrank (ZMod p) U = 5))) :

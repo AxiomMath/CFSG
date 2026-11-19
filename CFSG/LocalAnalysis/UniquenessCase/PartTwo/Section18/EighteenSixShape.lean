@@ -99,7 +99,7 @@ theorem shape18_6 {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L : Subgroup G}
           have hk1 : k ≤ 1 := by omega
           interval_cases k
           · have hadm := CFSG.Blueprint.LieModel.admissible hL2
-            simpa [CFSG.Open.StatedLieAdmissible] using hadm
+            simp [CFSG.Open.StatedLieAdmissible] at hadm
           · have hSC : CFSG.Open.StatedClassicalModel (Bar2 L) .PSL 2 2 2 :=
               LieModel.statedClassicalModel hL2 (by decide)
             have hsimple : IsSimpleGroup (Bar2 L) :=

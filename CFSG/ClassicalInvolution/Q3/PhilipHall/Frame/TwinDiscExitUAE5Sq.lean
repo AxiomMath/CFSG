@@ -99,7 +99,7 @@ theorem same_of_imageN (F : ExitO2.Q8Fam G P) (hn : 5 ≤ n) (I : AEIdent P n) {
   rw [← hLM]
   exact I.mem_map hL haL
 
-theorem theta_fixN (hn : 5 ≤ n) (I : AEIdent P n) (ψ : MulAut ↥(pSpan P)) {L : Subgroup G} (hL : L ∈ P)
+theorem theta_fixN (hn : 5 ≤ n) (I : AEIdent P n) (ψ : MulAut ↥(pSpan P)) {L : Subgroup G} (_hL : L ∈ P)
     (hfix : ∀ y : ↥(pSpan P), (y : G) ∈ L → ψ y = y) {α : Finset (Fin n)} {h : α.card = 4}
     {c : Bool} (hlab : (L.subgroupOf (pSpan P)).map I.φ = memBar α h c) :
     ∀ y (hy : y ∈ memBar α h c), inducedAutN hn I ψ ⟨y, memBar_le_aeModel α h c hy⟩ =
@@ -114,7 +114,7 @@ theorem theta_fixN (hn : 5 ≤ n) (I : AEIdent P n) (ψ : MulAut ↥(pSpan P)) {
 
 
 
-theorem tail_sq (hn : 5 ≤ n) (F : ExitO2.Q8Fam G P) (I : AEIdent P n) (Ψ : MulAut ↥(pSpan P))
+theorem tail_sq (_hn : 5 ≤ n) (F : ExitO2.Q8Fam G P) (I : AEIdent P n) (Ψ : MulAut ↥(pSpan P))
     (θ : MulAut ↥(TL4.aeModel n)) (hθ : ∀ y, θ (I.toModel y) = I.toModel (Ψ y)) {J : Subgroup G}
     (hJ : J ∈ P) {t : G} (ht : IsUniqueInvolution J t) {α : Finset (Fin n)} {h : α.card = 4}
     (hζ : I.toModel ⟨t, le_pSpan hJ ht.mem⟩ = ⟨zBar α h, zBar_mem_aeModel α h⟩)

@@ -44,15 +44,15 @@ theorem outerCentData_of_fieldAutT (S : SubfieldSetup k Q₀ Q σ p)
   have hd : 0 < d := three_le_of_totallySingular k S.hT₀
   have hconc := subfield_conclusion orthogonal_high_Witt_subfield_pointwise_centralizer S hE
   obtain ⟨⟨-, hsimp, hnab⟩, hordy, hfixN, hJN, hJnorm, hquot, -, -, hfixJ, -⟩ := hconc
-  haveI := hJnorm
+  have := hJnorm
   have hap : fieldAutT Q σ S.hQσ ^ p = 1 := by
     have h := pow_orderOf_eq_one (fieldAutT Q σ S.hQσ)
     rwa [hordy] at h
   have hZ := center_matrix_eq_bot hd S.hnd S.hT
   have hfix' : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => hfixN t
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent (hquot : IsPGroup 2 _)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent (hquot : IsPGroup 2 _)
   have hfix : ∀ w : MulAut (matrixProjectiveDerived Q),
       (∀ x ∈ subfieldDerivedImage k S.hext, w x = x) →
         w ∈ Subgroup.zpowers (fieldAutT Q σ S.hQσ) := by
@@ -99,6 +99,7 @@ section Gates
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {f p : ℕ}
 
+omit [Finite K] in
 theorem mem_E_of_pow_eq_one_of_three_lt (hg : OrthogonalGates Q f) (hp : p.Prime) (hp3 : 3 < p)
     {β : MulAut (matrixProjectiveDerived Q)} (hβp : β ^ p = 1) : β ∈ matrixProjectiveImage Q := by
   have hpg : IsPGroup p (Subgroup.zpowers β) := by
@@ -135,7 +136,7 @@ theorem outer_order_prime {G : Type} [Group G] (e : G ≃* matrixProjectiveDeriv
     rw [OuterAutomorphisms.congr_conj, MulEquiv.apply_symm_apply, ht]
   refine ⟨hD, ?_⟩
   have hne1 : MulAut.congr e β ≠ 1 := fun h => hD (h ▸ one_mem _)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime hβ' hne1
 
 end Gates

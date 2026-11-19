@@ -156,13 +156,13 @@ private theorem o8mMS_minor_nTwo
     change (mat 4 ((o8mDatum hirrQ).n 2) * M) (.inl a) (.inl e) = _
     by_cases ha : a = 2
     · rw [Matrix.mul_apply]
-      simp_rw [o8mMS_mat_nTwo_apply, if_pos ha]
-      simp only [o8mMS_block, Matrix.updateRow_apply, Matrix.of_apply, neg_mul, if_pos ha]
+      simp_rw [o8mMS_mat_nTwo_apply, ite_eq_left ha]
+      simp only [o8mMS_block, Matrix.updateRow_apply, Matrix.of_apply, neg_mul, ite_eq_left ha]
       rw [Finset.sum_neg_distrib, o8mMS_sum_delta]
       rfl
     · rw [Matrix.mul_apply]
-      simp_rw [o8mMS_mat_nTwo_apply, if_neg ha]
-      simp only [o8mMS_block, Matrix.updateRow_apply, Matrix.of_apply, if_neg ha]
+      simp_rw [o8mMS_mat_nTwo_apply, ite_eq_right ha]
+      simp only [o8mMS_block, Matrix.updateRow_apply, Matrix.of_apply, ite_eq_right ha]
       rw [o8mMS_sum_delta]
   rw [hblk]
   have hneg : -(o8mMS_fRow M) = o8mMS_fRow M := by

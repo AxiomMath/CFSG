@@ -224,6 +224,7 @@ theorem commutatorElement_mem_Qalpha (hC : HypothesisC D) (hA : FibresAnticlique
         simpa using (inferInstance : Q.Normal).conj_mem _ (Subgroup.inv_mem _ ha) a⁻¹
   exact hcl h (by rw [DstarH_closure_eq_top hC]; exact Subgroup.mem_top h)
 
+omit [Finite G] in
 private theorem conj_mul_conj_eq_of_conj_eq (hC : HypothesisC D) {m x₀ h p : Halpha D hC.alpha}
     (hact : ∀ f ∈ DstarH hC, QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) f =
         QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) x₀ →

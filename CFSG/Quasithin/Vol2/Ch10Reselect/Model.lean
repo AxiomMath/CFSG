@@ -196,7 +196,7 @@ theorem actHom_eq_one_iff (M : UModel A U Z L K) (g : ↥(acting U Z)) :
     show Multiplicative.toAdd (M.ψ (conjUHom g (preim M p))) = p
     rw [h2, toAdd_preim]
 
-theorem mem_of_commutators_mem [Nontrivial K] (M : UModel A U Z L K) (hZU : Z ≤ U)
+theorem mem_of_commutators_mem (M : UModel A U Z L K) (hZU : Z ≤ U)
     {u : G} (hu : u ∈ U) (h : ∀ l ∈ L, l * u * l⁻¹ * u⁻¹ ∈ Z) : u ∈ Z := by
   have hfix : ∀ g : Matrix.SpecialLinearGroup (Fin 2) K,
       rhoSL K g (Multiplicative.toAdd (M.ψ ⟨u, hu⟩)) = Multiplicative.toAdd (M.ψ ⟨u, hu⟩) := by

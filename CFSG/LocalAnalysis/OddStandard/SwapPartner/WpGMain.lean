@@ -16,7 +16,7 @@ theorem false_of_wreathCase {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {
     {Sg V K : Subgroup (TwoSec (z * ι τ₀))}
     (H : WreathCase (QuotientGroup.mk ⟨z, hzx⟩ : TwoSec (z * ι τ₀)) Sg V K) : False := by
   have hC : CentData z ι := F.cent
-  haveI : IsSimpleGroup G := h.std.simple
+  have : IsSimpleGroup G := h.std.simple
   have hO : CFSG.pPrimeCore 2 (TwoSec (z * ι τ₀)) = ⊥ := by
     rw [← CFSG.ClassicalInvolution.QuaternionStructure.oddCore_eq_pPrimeCore_two]
     exact oddCore_twoSec_eq_bot h (orderOf_x₂ hC)

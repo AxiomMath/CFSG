@@ -68,7 +68,7 @@ theorem LeviSurj.conclusion {A : Type} [Group A] [Finite A] {K₀ B : Subgroup A
   obtain ⟨hz, φ, hφs, hker, hsimple, hnab, hpL⟩ := h
   set N := relPPrimeCore p H with hN
   have hNH : N ≤ H := relPPrimeCore_le H
-  haveI hNn : (N.subgroupOf H).Normal := relPPrimeCore_normal hp H
+  have hNn : (N.subgroupOf H).Normal := relPPrimeCore_normal hp H
   have hcop : Nat.Coprime p (Nat.card N) := coprime_card_relPPrimeCore hp H
   have hpN : ¬ p ∣ Nat.card N := fun hd => (Nat.Prime.coprime_iff_not_dvd hp).mp hcop hd
   have hle1 : φ.ker ≤ N.subgroupOf H := by
@@ -85,7 +85,7 @@ theorem LeviSurj.conclusion {A : Type} [Group A] [Finite A] {K₀ B : Subgroup A
     rw [Subgroup.mem_subgroupOf]
     exact hKN (Subgroup.mem_map_of_mem _ hx)
   have hle2 : N.subgroupOf H ≤ φ.ker := by
-    haveI hmn : ((N.subgroupOf H).map φ).Normal := hNn.map φ hφs
+    have hmn : ((N.subgroupOf H).map φ).Normal := hNn.map φ hφs
     rcases hsimple.eq_bot_or_eq_top_of_normal ((N.subgroupOf H).map φ) with h0 | h0
     · exact (Subgroup.map_eq_bot_iff _).mp h0
     · exfalso

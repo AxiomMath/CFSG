@@ -14,7 +14,7 @@ private lemma eq_of_row_neg_one {m : ℕ} {i k j : Fin (m + 5)}
   have h := hrow j hj
   rw [hD] at h
   by_contra hjk
-  rw [if_neg hjk] at h
+  rw [ite_eq_right hjk] at h
   omega
 
 theorem cartanMatrix_D_natAdd (m : ℕ) {n : ℕ} (hn : 3 ≤ n) (i j : Fin n) :
@@ -33,12 +33,11 @@ theorem ggLeafPos_D (m : ℕ) {i k : Fin (m + 5)}
     have hj : (⟨1, by omega⟩ : Fin (m + 5)) ≠ i := by
       intro hji
       have := congrArg Fin.val hji
-      simp only [Fin.val_mk] at this
+      simp only at this
       omega
     have hD : CartanMatrix.D (m + 5) i (⟨1, by omega⟩ : Fin (m + 5)) = -1 := by
-      simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
-      split_ifs <;> (try simp only [true_or, or_true, true_and, and_true,
-        not_true_eq_false, not_false_eq_true] at *) <;> omega
+      simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
+      split_ifs <;> (try simp only at *) <;> omega
     have hk := eq_of_row_neg_one hrow hj hD
     rw [← hk]
   · by_cases hm2 : i.val = m + 2
@@ -46,25 +45,23 @@ theorem ggLeafPos_D (m : ℕ) {i k : Fin (m + 5)}
       have hj1 : (⟨m + 1, by omega⟩ : Fin (m + 5)) ≠ i := by
         intro hji
         have := congrArg Fin.val hji
-        simp only [Fin.val_mk] at this
+        simp only at this
         omega
       have hD1 : CartanMatrix.D (m + 5) i (⟨m + 1, by omega⟩ : Fin (m + 5)) = -1 := by
-        simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
-        split_ifs <;> (try simp only [true_or, or_true, true_and, and_true,
-          not_true_eq_false, not_false_eq_true] at *) <;> omega
+        simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
+        split_ifs <;> (try simp only at *) <;> omega
       have hj2 : (⟨m + 3, by omega⟩ : Fin (m + 5)) ≠ i := by
         intro hji
         have := congrArg Fin.val hji
-        simp only [Fin.val_mk] at this
+        simp only at this
         omega
       have hD2 : CartanMatrix.D (m + 5) i (⟨m + 3, by omega⟩ : Fin (m + 5)) = -1 := by
-        simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
-        split_ifs <;> (try simp only [true_or, or_true, true_and, and_true,
-          not_true_eq_false, not_false_eq_true] at *) <;> omega
+        simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
+        split_ifs <;> (try simp only [true_or, and_true] at *) <;> omega
       have h1 := eq_of_row_neg_one hrow hj1 hD1
       have h2 := eq_of_row_neg_one hrow hj2 hD2
       have hval := congrArg Fin.val (h1.trans h2.symm)
-      simp only [Fin.val_mk] at hval
+      simp only at hval
       omega
     · by_cases hm3 : i.val = m + 3
       · right
@@ -72,12 +69,11 @@ theorem ggLeafPos_D (m : ℕ) {i k : Fin (m + 5)}
         have hj : (⟨m + 2, by omega⟩ : Fin (m + 5)) ≠ i := by
           intro hji
           have := congrArg Fin.val hji
-          simp only [Fin.val_mk] at this
+          simp only at this
           omega
         have hD : CartanMatrix.D (m + 5) i (⟨m + 2, by omega⟩ : Fin (m + 5)) = -1 := by
-          simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
-          split_ifs <;> (try simp only [true_or, or_true, true_and, and_true,
-            not_true_eq_false, not_false_eq_true] at *) <;> omega
+          simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
+          split_ifs <;> (try simp only [true_and] at *) <;> omega
         have hk := eq_of_row_neg_one hrow hj hD
         rw [← hk]
       · by_cases hm4 : i.val = m + 4
@@ -86,12 +82,11 @@ theorem ggLeafPos_D (m : ℕ) {i k : Fin (m + 5)}
           have hj : (⟨m + 2, by omega⟩ : Fin (m + 5)) ≠ i := by
             intro hji
             have := congrArg Fin.val hji
-            simp only [Fin.val_mk] at this
+            simp only at this
             omega
           have hD : CartanMatrix.D (m + 5) i (⟨m + 2, by omega⟩ : Fin (m + 5)) = -1 := by
-            simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
-            split_ifs <;> (try simp only [true_or, or_true, true_and, and_true,
-              not_true_eq_false, not_false_eq_true] at *) <;> omega
+            simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
+            split_ifs <;> (try simp only [true_and] at *) <;> omega
           have hk := eq_of_row_neg_one hrow hj hD
           rw [← hk]
         · exfalso
@@ -100,25 +95,23 @@ theorem ggLeafPos_D (m : ℕ) {i k : Fin (m + 5)}
           have hj1 : (⟨i.val - 1, by omega⟩ : Fin (m + 5)) ≠ i := by
             intro hji
             have := congrArg Fin.val hji
-            simp only [Fin.val_mk] at this
+            simp only at this
             omega
           have hD1 : CartanMatrix.D (m + 5) i (⟨i.val - 1, by omega⟩ : Fin (m + 5)) = -1 := by
-            simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
-            split_ifs <;> (try simp only [true_or, or_true, true_and, and_true,
-              not_true_eq_false, not_false_eq_true] at *) <;> omega
+            simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
+            split_ifs <;> (try simp only at *) <;> omega
           have hj2 : (⟨i.val + 1, by omega⟩ : Fin (m + 5)) ≠ i := by
             intro hji
             have := congrArg Fin.val hji
-            simp only [Fin.val_mk] at this
+            simp only at this
             omega
           have hD2 : CartanMatrix.D (m + 5) i (⟨i.val + 1, by omega⟩ : Fin (m + 5)) = -1 := by
-            simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
-            split_ifs <;> (try simp only [true_or, or_true, true_and, and_true,
-              not_true_eq_false, not_false_eq_true] at *) <;> omega
+            simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
+            split_ifs <;> (try simp only [true_and] at *) <;> omega
           have h1 := eq_of_row_neg_one hrow hj1 hD1
           have h2 := eq_of_row_neg_one hrow hj2 hD2
           have hval := congrArg Fin.val (h1.trans h2.symm)
-          simp only [Fin.val_mk] at hval
+          simp only at hval
           omega
 
 theorem ggLeafPos_D4 {i k : Fin 4} (h : GGLeafPos (CartanMatrix.D 4) i k) :

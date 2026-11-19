@@ -17,7 +17,7 @@ namespace CFSG.HardMathSupport.Dickson.BMRows.M13L33
 
 open CFSG.CosetTable CFSG.GH74.KGroups CFSG.GH74.KGroups.L33
 
-@[expose] def evalRel {H : Type*} [Group H] (f : Fin 2 → H) (r : List (Fin 2 × Bool)) : H :=
+def evalRel {H : Type*} [Group H] (f : Fin 2 → H) (r : List (Fin 2 × Bool)) : H :=
   (r.map fun l => cond l.2 (f l.1) (f l.1)⁻¹).prod
 
 noncomputable def l33Hom {H : Type*} [Group H] (f : Fin 2 → H)
@@ -46,7 +46,7 @@ theorem range_l33Hom {H : Type*} [Group H] (f : Fin 2 → H) (h : ∀ r ∈ l33R
 
 section P13
 
-@[expose] def l33Img : Fin 2 → Equiv.Perm (Fin 13) := ![pa, pa * pb]
+def l33Img : Fin 2 → Equiv.Perm (Fin 13) := ![pa, pa * pb]
 
 theorem l33Img_relators : ∀ w ∈ l33Rels, evalRel l33Img w = 1 := by
   decide +kernel
@@ -95,7 +95,7 @@ theorem card_pg_le : Finite (PG 2 l33Rels) ∧ Nat.card (PG 2 l33Rels) ≤ 5616 
 
 noncomputable def l33Equiv : PG 2 l33Rels ≃* QP13.originalSubgroup :=
   MulEquiv.ofBijective l33HomQ (by
-    haveI := card_pg_le.1
+    have := card_pg_le.1
     refine l33HomQ_surjective.bijective_of_nat_card_le ?_
     rw [card_group QP13 QP13_ok, QP13_valid.2]
     exact card_pg_le.2)
@@ -131,7 +131,7 @@ open CFSG.Monster CFSG.Monster.Generated CFSG.Monster.Existence
   CFSG.AGLEmbedding.Norton.MON5_7 CFSG.AGLEmbedding.Norton.GenD13 CFSG.AGLEmbedding.Norton.MON11_13
   CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterThirteen
 
-@[expose] noncomputable def l33Gen : Fin 2 → Gmat := ![gw j1W, gw yW]
+noncomputable def l33Gen : Fin 2 → Gmat := ![gw j1W, gw yW]
 
 theorem l33Gen_zero : l33Gen 0 = gw j1W := rfl
 

@@ -36,10 +36,10 @@ theorem Theta_permAct' (e : V₁.carrier ≃+ V4)
       permAct (Mk k) g (Theta e u) = Theta e (permAct V₁ g u) := Theta_permAct e he
 
 theorem Theta_permCore (e : V₁.carrier ≃+ V4)
-    (he : ∀ (g : ↥(alternatingGroup (Fin 6))) m, e (V₁.ρ g m) = ρk k g (e m)) :
+    (_he : ∀ (g : ↥(alternatingGroup (Fin 6))) m, e (V₁.ρ g m) = ρk k g (e m)) :
     (Theta e).mapAddSubgroup (permCore V₁) = permCore (Mk k) := by
   ext u'
-  rw [mem_mapAddSubgroup (Theta e) (Theta_permAct' e he)]
+  rw [mem_mapAddSubgroup (Theta e)]
   rw [mem_permCore_md, mem_permCore]
   have hw : weightHom V₁ ((Theta e).symm u') = ∑ w : V4, u' w := by
     show ∑ᶠ m, u' (e m) = _
@@ -65,12 +65,11 @@ theorem Theta_lineCompl (l : AddSubgroup V₁.carrier) :
   funext x
   show lineCompl V₁ l (e.symm x) = lineCompl (Mk k) (lmapE e l) x
   unfold lineCompl
-  beta_reduce
   have hiff : (e.symm x = 0 ∨ e.symm x ∈ l) ↔ (x = 0 ∨ x ∈ lmapE e l) :=
     or_congr (map_eq_zero_iff e.symm e.symm.injective) (mem_lmapE e l x).symm
   by_cases h : e.symm x = 0 ∨ e.symm x ∈ l
-  · rw [if_pos h, if_pos (hiff.mp h)]
-  · rw [if_neg h, if_neg (fun h' => h (hiff.mpr h'))]
+  · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.mpr h'))]
 
 end Maps
 
@@ -94,7 +93,7 @@ theorem Theta_jradPow_eq (n : ℕ) (hn : n ≤ 5) :
 
 theorem mem_jradPow_iff (n : ℕ) (hn : n ≤ 5) (u : V₁.carrier → ZMod 2) :
     u ∈ jradPow (permAct V₁) n (permCore V₁) ↔ Theta e u ∈ Nk k n := by
-  rw [← Theta_jradPow_eq e he n hn, mem_mapAddSubgroup (Theta e) (Theta_permAct' e he)]
+  rw [← Theta_jradPow_eq e he n hn, mem_mapAddSubgroup (Theta e)]
   simp
 
 theorem part2_of_iso : Part2 V₁ := by
@@ -111,12 +110,14 @@ variable (B : LinearMap.BilinForm (ZMod 2) V₁.carrier)
 
 include hB
 
+omit he in
 theorem lmapE_mem (l : AddSubgroup V₁.carrier) (hl : l ∈ singLines V₁ B) :
     lmapE e l ∈ singLines (Mk k) B0form := by
   refine ⟨(card_lmapE e l).trans hl.1, fun x hx y hy => ?_⟩
   rw [B0form_apply, ← hB]
   exact hl.2 _ ((mem_lmapE e l x).mp hx) _ ((mem_lmapE e l y).mp hy)
 
+omit he in
 theorem exists_lmapE_preimage (l' : AddSubgroup V4) (hl' : l' ∈ singLines (Mk k) B0form) :
     ∃ l ∈ singLines V₁ B, lmapE e l = l' := by
   let l : AddSubgroup V₁.carrier := l'.map e.symm.toAddMonoidHom
@@ -145,23 +146,23 @@ theorem part3a_of_iso :
   ext u
   constructor
   · rintro ⟨l', hl', rfl⟩
-    obtain ⟨l, hl, rfl⟩ := exists_lmapE_preimage e he B hB l' hl'
+    obtain ⟨l, hl, rfl⟩ := exists_lmapE_preimage e B hB l' hl'
     exact ⟨lineCompl V₁ l, ⟨l, hl, rfl⟩, Theta_lineCompl e l⟩
   · rintro ⟨_, ⟨l, hl, rfl⟩, rfl⟩
-    exact ⟨lmapE e l, lmapE_mem e he B hB l hl, Theta_lineCompl (k := k) e l⟩
+    exact ⟨lmapE e l, lmapE_mem e B hB l hl, Theta_lineCompl (k := k) e l⟩
 
+omit he in
 theorem Theta_perpCompl (x : V₁.carrier) :
     Theta e (perpCompl V₁ B x) = perpCompl (Mk k) B0form (e x) := by
   funext y
   show perpCompl V₁ B x (e.symm y) = perpCompl (Mk k) B0form (e x) y
   unfold perpCompl
-  beta_reduce
   have hiff : (e.symm y ≠ 0 ∧ B (e.symm y) x ≠ 0) ↔ (y ≠ 0 ∧ B0form y (e x) ≠ 0) := by
     rw [B0form_apply, ← hB y (e x), e.symm_apply_apply]
     exact and_congr (not_congr (map_eq_zero_iff e.symm e.symm.injective)) Iff.rfl
   by_cases h : e.symm y ≠ 0 ∧ B (e.symm y) x ≠ 0
-  · rw [if_pos h, if_pos (hiff.mp h)]
-  · rw [if_neg h, if_neg (fun h' => h (hiff.mpr h'))]
+  · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.mpr h'))]
 
 theorem part4_of_iso : Part4 V₁ B := by
   obtain ⟨hset, f, hf⟩ := part4_Mk k
@@ -180,7 +181,7 @@ theorem part4_of_iso : Part4 V₁ B := by
           apply hy
           rw [← e.apply_symm_apply y, h0, map_zero]
         · apply (Theta e).injective
-          rw [Theta_perpCompl e he B hB, e.apply_symm_apply]
+          rw [Theta_perpCompl e B hB, e.apply_symm_apply]
           exact hu
       · right
         rw [Set.mem_singleton_iff] at hu ⊢
@@ -193,7 +194,7 @@ theorem part4_of_iso : Part4 V₁ B := by
         · intro h0
           apply hx
           exact e.injective (h0.trans (map_zero e).symm)
-        · rw [hu, Theta_perpCompl e he B hB]
+        · rw [hu, Theta_perpCompl e B hB]
       · right
         rw [Set.mem_singleton_iff] at hu ⊢
         rw [hu]

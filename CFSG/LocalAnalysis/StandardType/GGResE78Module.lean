@@ -102,9 +102,9 @@ theorem e78_span_isCompl_of_card_of_independent {p : ℕ} [Fact p.Prime]
     Submodule.span (ZMod p) (Set.range h) ⊓ Submodule.span (ZMod p) ({x} : Set V) = ⊥ ∧
       Submodule.span (ZMod p) (Set.range h) ⊔ Submodule.span (ZMod p) ({x} : Set V) = ⊤ := by
   classical
-  letI : Finite V := Nat.finite_of_card_ne_zero
+  let : Finite V := Nat.finite_of_card_ne_zero
     (by rw [hcard]; exact pow_ne_zero _ (Fact.out : p.Prime).ne_zero)
-  letI : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
+  let : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
   set U : Submodule (ZMod p) V := Submodule.span (ZMod p) (Set.range h) with hU
   set L : Submodule (ZMod p) V := Submodule.span (ZMod p) ({x} : Set V) with hL
   have hxU : x ∉ U := by
@@ -238,7 +238,7 @@ theorem e78_e8_torus_model_core {G : Type} [Group G] [Finite G] {p : ℕ} [Fact 
     (hBsI : ∀ (b : G) (hb : b ∈ Bs),
       ggLAut L θ ⟨b, hBsN hb⟩ ∈ TableBExc.RecipeID .E8 K) :
     ∃ w : GGTorusTorWit 3 8 L (ggGamma L hBsN).range,
-      w.Holds CartanMatrix.E₈ CoxeterMatrix.E₈ ∧
+      w.Holds (CartanMatrix.E 8) CoxeterMatrix.E₈ ∧
         ∃ e : CoxeterMatrix.E₈.Group ≃*
           ↥(ggAutomizer (MulAut.conj : L →* MulAut L).range (ggGamma L hBsN).range),
           ∀ k, (e (CoxeterMatrix.E₈.simple k) : MulAut ↥(ggGamma L hBsN).range) =
@@ -254,7 +254,7 @@ theorem e78_e8_torus_model_core {G : Type} [Group G] [Finite G] {p : ℕ} [Fact 
     ggTorusTBGroup_of_marking (p := 3) (r := 7) hp3 hcfg.2.1.2.1 hcfg.2.1.2.2.2 hcomm θ hBsN hBsI
       hrank h3
   have hq : 3 ∣ Nat.card K + 1 := by simp [hK]
-  have hTD : GGTorusTorData 3 8 CartanMatrix.E₈ CoxeterMatrix.E₈ L
+  have hTD : GGTorusTorData 3 8 (CartanMatrix.E 8) CoxeterMatrix.E₈ L
       (ggGamma L hBsN).range := by
     simpa [hK] using (ggTorusTorW_recipe_E8_three_plus (K := K) (hq := hq))
       L (ggQuotHom θ) (ggGamma L hBsN).range hTB
@@ -267,11 +267,11 @@ end E8TorusCerts
 section E8ActualModule
 
 private theorem e78_hC0_E8 {c : Fin 8 → ZMod 3}
-    (hc : ∀ j, ∑ k, (CartanMatrix.E₈ j k : ZMod 3) * c k = 0) : c = 0 := by
-  have hunit : IsUnit (CartanMatrix.E₈.map (Int.castRingHom (ZMod 3))) := by
+    (hc : ∀ j, ∑ k, ((CartanMatrix.E 8) j k : ZMod 3) * c k = 0) : c = 0 := by
+  have hunit : IsUnit ((CartanMatrix.E 8).map (Int.castRingHom (ZMod 3))) := by
     rw [Matrix.isUnit_iff_isUnit_det]
-    have hdet : (CartanMatrix.E₈.map (Int.castRingHom (ZMod 3))).det = 1 := by
-      change (CartanMatrix.E₈.map (fun x : ℤ => (x : ZMod 3))).det = 1
+    have hdet : ((CartanMatrix.E 8).map (Int.castRingHom (ZMod 3))).det = 1 := by
+      change ((CartanMatrix.E 8).map (fun x : ℤ => (x : ZMod 3))).det = 1
       rw [← Int.cast_det, CartanMatrix.E₈_det]
       norm_num
     rw [hdet]
@@ -290,7 +290,7 @@ theorem e78_e8_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
       (α : Fin 8 → Module.Dual (ZMod 3) V),
       (∀ i w, ggLin (p := 3) ι (φ i) w = w - α i w • h i) ∧
       (∀ i, GGIsReflection 3 (φ i)) ∧
-      (∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod 3)) ∧
+      (∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod 3)) ∧
       (∃ e : CoxeterMatrix.E₈.Group ≃* ↥(ggAutomizer L Bs),
         ∀ i, (e (CoxeterMatrix.E₈.simple i) : MulAut ↥Bs) = φ i) ∧
       ggAutomizer L Bs = Subgroup.closure (Set.range φ) ∧
@@ -319,16 +319,16 @@ theorem e78_e8_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
       let := iK
       let := iFin
       have hK2 : Nat.card K = 2 := by simpa using hK
-      haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+      have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         (p := 2) (k := 1) Nat.prime_two (by norm_num) (by simpa using hK)
       have hBsI : ∀ (b : G) (hb : b ∈ Bs),
           ggLAut L θ ⟨b, hBsN hb⟩ ∈ TableBExc.RecipeID .E8 K :=
         fun b hb => ggLAut_mem_of_induces L θ hBsN h3 hb
       obtain ⟨w, hw, -⟩ := e78_e8_torus_model_core (p := p) hp.1 hH.1 hK2 hcomm hBsN θ hBsI
-      have hTor : GGTorusTorData 3 8 CartanMatrix.E₈ CoxeterMatrix.E₈ L
+      have hTor : GGTorusTorData 3 8 (CartanMatrix.E 8) CoxeterMatrix.E₈ L
           (ggGamma L hBsN).range := ⟨w, hw⟩
       have hInd : ∀ w' : GGTorusTorWit 3 8 L (ggGamma L hBsN).range,
-          w'.Holds CartanMatrix.E₈ CoxeterMatrix.E₈ →
+          w'.Holds (CartanMatrix.E 8) CoxeterMatrix.E₈ →
           ∀ c : Fin 8 → ZMod 3,
             (List.ofFn fun k => w'.cor k (ggZetaP 3 3 ^ (c k).val)).prod = 1 → c = 0 :=
         fun w' hw' => w'.coroot_indep_of_ker_zero (p := 3) (m := 3) (N := 8)
@@ -339,7 +339,7 @@ theorem e78_e8_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
             (α : Fin 8 → Module.Dual (ZMod 3) V),
             (∀ i w, ggLin (p := 3) ι (φ i) w = w - α i w • h i) ∧
             (∀ i, GGIsReflection 3 (φ i)) ∧
-            (∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod 3)) ∧
+            (∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod 3)) ∧
             (∃ e : CoxeterMatrix.E₈.Group ≃* ↥(ggAutomizer L Bs),
               ∀ i, (e (CoxeterMatrix.E₈.simple i) : MulAut ↥Bs) = φ i) ∧
             ggAutomizer L Bs = Subgroup.closure (Set.range φ) ∧
@@ -389,7 +389,7 @@ theorem e78_e8_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
           exact hx1 hx1'
         have hcard : Nat.card Bs ≤ 3 ^ 9 := e78_bstar_card_le_E8 hH.1 hRig'
         obtain ⟨φ, h, α, hM, hMC, hφgen, hlin, hpair, hα1, hli, hspan, hclos, e, he⟩ :=
-          ggTBDatumOpt_of_torW_weyl (p := 3) (m := 3) (N := 8) (C := CartanMatrix.E₈)
+          ggTBDatumOpt_of_torW_weyl (p := 3) (m := 3) (N := 8) (C := (CartanMatrix.E 8))
             (M := CoxeterMatrix.E₈) (by norm_num) (by norm_num) (by norm_num)
             ggIsWeylMatrix_E8 ggIntCartan_E₈ hBs3 hS3 hBsN hxBs hxL hCx hTor hInd hcard V ι
         refine ⟨φ, h, α, hlin, ?_, hpair, ⟨e, he⟩, hclos, ?_, ?_⟩
@@ -400,9 +400,9 @@ theorem e78_e8_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
           exact ggIsReflection_of_eq_reflection (p := 3) (by norm_num) ι h2
             (ggLin_eq_reflection ι h2 (hlin i))
         · have hcardV : Nat.card V = 3 ^ 9 := by
-            haveI : Fintype (Additive ↥Bs) := Fintype.ofFinite _
-            haveI : Fintype V := Fintype.ofEquiv (Additive ↥Bs) ι.toEquiv
-            haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+            have : Fintype (Additive ↥Bs) := Fintype.ofFinite _
+            have : Fintype V := Fintype.ofEquiv (Additive ↥Bs) ι.toEquiv
+            have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
             have hdim : Module.finrank (ZMod 3) V = 9 := by
               have h1 := hli.fintype_card_le_finrank
               have h2 := finrank_span_finset_le_card (R := ZMod 3)
@@ -471,12 +471,12 @@ theorem e78_e8_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
             rw [hrange, Submodule.span_union] at hspan
             exact hspan
           exact ⟨xv, rfl, hα1, ⟨hdisj, codisjoint_iff.mpr hsup⟩⟩
-      letI : AddCommGroup (Additive ↥Bs) :=
+      let : AddCommGroup (Additive ↥Bs) :=
         { (inferInstance : AddGroup (Additive ↥Bs)) with
           add_comm := fun a b => by
             have h := (hH.1.2.1.2.1).1.is_comm.comm (Additive.toMul a) (Additive.toMul b)
             exact congrArg Additive.ofMul h }
-      letI : Module (ZMod 3) (Additive ↥Bs) :=
+      let : Module (ZMod 3) (Additive ↥Bs) :=
         AddCommGroup.zmodModule (n := 3) fun a => by
           have h : (Additive.toMul a) ^ 3 = 1 :=
             Subtype.ext ((hp.1 ▸ hH.1.2.1.2.1).2 _ (Additive.toMul a).2)
@@ -491,11 +491,11 @@ end E8ActualModule
 section E7ActualModule
 
 private theorem e78_hC0_E7 {c : Fin 7 → ZMod 3}
-    (hc : ∀ j, ∑ k, (CartanMatrix.E₇ j k : ZMod 3) * c k = 0) : c = 0 := by
-  have hunit : IsUnit (CartanMatrix.E₇.map (Int.castRingHom (ZMod 3))) := by
+    (hc : ∀ j, ∑ k, ((CartanMatrix.E 7) j k : ZMod 3) * c k = 0) : c = 0 := by
+  have hunit : IsUnit ((CartanMatrix.E 7).map (Int.castRingHom (ZMod 3))) := by
     rw [Matrix.isUnit_iff_isUnit_det]
-    have hdet : (CartanMatrix.E₇.map (Int.castRingHom (ZMod 3))).det = 2 := by
-      change (CartanMatrix.E₇.map (fun x : ℤ => (x : ZMod 3))).det = 2
+    have hdet : ((CartanMatrix.E 7).map (Int.castRingHom (ZMod 3))).det = 2 := by
+      change ((CartanMatrix.E 7).map (fun x : ℤ => (x : ZMod 3))).det = 2
       rw [← Int.cast_det, CartanMatrix.E₇_det]
       norm_num
     rw [hdet]
@@ -578,7 +578,7 @@ theorem e78_e7_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
       let := iK
       let := iFin
       have hK2 : Nat.card K = 2 := by simpa using hK
-      haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+      have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         (p := 2) (k := 1) Nat.prime_two (by norm_num) (by simpa using hK)
       have hBsI : ∀ (b : G) (hb : b ∈ Bs),
           ggLAut L θ ⟨b, hBsN hb⟩ ∈ TableBExc.RecipeID .E7 K :=
@@ -659,9 +659,9 @@ theorem e78_e7_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
           exact ggIsReflection_of_eq_reflection (p := 3) (by norm_num) ι h2
             (ggLin_eq_reflection ι h2 (hlin i))
         · have hcardV : Nat.card V = 3 ^ 8 := by
-            haveI : Fintype (Additive ↥Bs) := Fintype.ofFinite _
-            haveI : Fintype V := Fintype.ofEquiv (Additive ↥Bs) ι.toEquiv
-            haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+            have : Fintype (Additive ↥Bs) := Fintype.ofFinite _
+            have : Fintype V := Fintype.ofEquiv (Additive ↥Bs) ι.toEquiv
+            have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
             have hdim : Module.finrank (ZMod 3) V = 8 := by
               have h1 := hli.fintype_card_le_finrank
               have h2 := finrank_span_finset_le_card (R := ZMod 3)
@@ -730,12 +730,12 @@ theorem e78_e7_actual_module {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
             rw [hrange, Submodule.span_union] at hspan
             exact hspan
           exact ⟨xv, rfl, hα1, ⟨hdisj, codisjoint_iff.mpr hsup⟩⟩
-      letI : AddCommGroup (Additive ↥Bs) :=
+      let : AddCommGroup (Additive ↥Bs) :=
         { (inferInstance : AddGroup (Additive ↥Bs)) with
           add_comm := fun a b => by
             have h := (hH.1.2.1.2.1).1.is_comm.comm (Additive.toMul a) (Additive.toMul b)
             exact congrArg Additive.ofMul h }
-      letI : Module (ZMod 3) (Additive ↥Bs) :=
+      let : Module (ZMod 3) (Additive ↥Bs) :=
         AddCommGroup.zmodModule (n := 3) fun a => by
           have h : (Additive.toMul a) ^ 3 = 1 :=
             Subtype.ext ((hp.1 ▸ hH.1.2.1.2.1).2 _ (Additive.toMul a).2)

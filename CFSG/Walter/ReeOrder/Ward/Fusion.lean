@@ -3,7 +3,7 @@ module
 public import CFSG.Walter.ReeOrder.Ward.Defs
 public import CFSG.Walter.ReeOrder.Ward.Quaternion
 public import CFSG.Walter.ReeOrder.JT.Section2
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

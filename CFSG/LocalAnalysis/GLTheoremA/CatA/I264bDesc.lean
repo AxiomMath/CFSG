@@ -17,10 +17,12 @@ section Mono
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 private theorem openIsKGroup_subgroup_held (hY : CFSG.Open.IsKGroup Y) (H : Subgroup Y) :
     CFSG.Open.IsKGroup ↥H :=
   CFSG.KCore.KGroupNonab.subgroup CFSG.Assembly.inCatalog_isoInvariant hY H
 
+omit [Finite Y] in
 private theorem mem_normalizer_inf_centralizer_held {K E' : Subgroup Y} (hK : K.Normal) {g : Y}
     (hg : ∀ e ∈ E', g * e = e * g) :
     g ∈ Subgroup.normalizer ((K ⊓ Subgroup.centralizer (E' : Set Y) : Subgroup Y) : Set Y) := by
@@ -127,6 +129,7 @@ section Desc
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 private theorem mem_centralizer_sup_iff_held {D E : Subgroup Y} {y : Y} :
     y ∈ Subgroup.centralizer ((E ⊔ D : Subgroup Y) : Set Y) ↔
       y ∈ Subgroup.centralizer (E : Set Y) ∧ y ∈ Subgroup.centralizer (D : Set Y) := by

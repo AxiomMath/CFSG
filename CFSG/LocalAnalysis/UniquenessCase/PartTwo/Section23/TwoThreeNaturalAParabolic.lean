@@ -57,7 +57,7 @@ private theorem centralizer_inf_commutator_le_pCore {D : Data G} {Ch : Choice201
   exact ⟨hXne, hcomm⟩
 
 private theorem map_subgroupOf_le_center_of_commutator_le_pCore {D : Data G}
-    {Ch : Choice2011 G} (c : Ctx23L D Ch) {X : Subgroup G} (hXL : X ≤ c.L)
+    {Ch : Choice2011 G} (c : Ctx23L D Ch) {X : Subgroup G} (_hXL : X ≤ c.L)
     (hcomm : ⁅X, c.L⁆ ≤ CFSG.Open.pCoreOf 2 c.L) :
     (X.subgroupOf c.L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L)) ≤
       Subgroup.center (Bar2 c.L) := by
@@ -115,16 +115,16 @@ private theorem le_parabolic_of_commutator_le_pCore {D : Data G} {Ch : Choice201
   exact P.mul_mem hpPg hkP
 
 theorem Ctx23L.centralizer_le_parabolic_single {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) (h208 : S20_8 D) (h1930 : H1930 D)
-    {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
+    (c : Ctx23L D Ch) (_h208 : S20_8 D) (_h1930 : H1930 D)
+    {A K : Subgroup G} (_hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-    (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A)
-    (hK : K ∈ calC c.L)
-    (hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
-    (hsingle : K = c.L)
+    (_hK : K ∈ calC c.L)
+    (_hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
+    (_hsingle : K = c.L)
     {P : Subgroup G} (hP : MinTInvParabolic D.T D.M c.L P)
-    (hL0P : c.L0 = Hinf P) :
+    (_hL0P : c.L0 = Hinf P) :
     c.L ⊓ Subgroup.centralizer (A : Set G) ≤ P :=
   le_parabolic_of_commutator_le_pCore c hP
     (centralizer_inf_commutator_le_pCore c hAV hAne hAN).2
@@ -170,6 +170,7 @@ theorem Ctx23L.normalizer_preBarSub {D : Data G} {Ch : Choice2011 G} (c : Ctx23L
     have h := hforward t⁻¹ (D.T.inv_mem ht) (t * x * t⁻¹) hx
     simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem barSub_le_normalizer_of_le_normalizer {A H X : Subgroup G}
     (hA : IsElemAbelian 2 A) (hH : H ≤ stabTil (⊥ : Subgroup G) A)
     (hX : X ≤ stabTil (⊥ : Subgroup G) A)
@@ -189,14 +190,14 @@ theorem barSub_le_normalizer_of_le_normalizer {A H X : Subgroup G}
           (Subgroup.mem_normalizer_iff_map_conj_eq.mp (hNX hgH))
 
 private theorem exists_data_single_nonmin {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) (h207 : S20_7 D) (h208 : S20_8 D) (h209 : S20_9 D)
-    (h2010 : S20_10 D) (h1930 : H1930 D)
+    (c : Ctx23L D Ch) (_h207 : S20_7 D) (_h208 : S20_8 D) (h209 : S20_9 D)
+    (_h2010 : S20_10 D) (h1930 : H1930 D)
     {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-    (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A)
-    (hK : K ∈ calC c.L)
-    (hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
+    (_hK : K ∈ calC c.L)
+    (_hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
     (hsingle : K = c.L) :
     ∃ P : Subgroup G, MinTInvParabolic D.T D.M c.L P ∧ c.L0 = Hinf P ∧
       barSub (⊥ : Subgroup G) A hA P ≤ barSub (⊥ : Subgroup G) A hA K ∧
@@ -246,7 +247,7 @@ private theorem exists_data_single_nonmin {D : Data G} {Ch : Choice2011 G}
   exact ⟨P, hP, hL0P, hPle, hPparK, hHinfEq, hHinfPne, hnorm, hcomm⟩
 
 private theorem minPar_single {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) (h207 : S20_7 D) (h208 : S20_8 D) (h209 : S20_9 D)
+    (c : Ctx23L D Ch) (h207 : S20_7 D) (h208 : S20_8 D) (_h209 : S20_9 D)
     (h2010 : S20_10 D) (h1930 : H1930 D)
     {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
@@ -301,7 +302,7 @@ theorem Ctx23L.exists_fourteen_five_data_single {D : Data G} {Ch : Choice2011 G}
     (hK : K ∈ calC c.L)
     (hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
     (hsingle : K = c.L)
-    (hnParam : NParam (barSub (⊥ : Subgroup G) A hA c.L0) c.n) :
+    (_hnParam : NParam (barSub (⊥ : Subgroup G) A hA c.L0) c.n) :
     ∃ P : Subgroup G,
       barSub (⊥ : Subgroup G) A hA P ≤ barSub (⊥ : Subgroup G) A hA K ∧
       IsParabolicTwo ↥(barSub (⊥ : Subgroup G) A hA K)
@@ -339,11 +340,11 @@ theorem Ctx23L.exists_fourteen_five_data_single {D : Data G} {Ch : Choice2011 G}
     ⟨K₀, W₀, hK₀, hW₀, hb1, hb2⟩⟩
 
 private theorem commSub_fixV_T_join_barSub_ne_bot {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) (h208 : S20_8 D) (h209 : S20_9 D) (h1930 : H1930 D)
+    (c : Ctx23L D Ch) (_h208 : S20_8 D) (h209 : S20_9 D) (h1930 : H1930 D)
     {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
     (hK : K ∈ calC c.L)
-    (hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
+    (_hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
     (hL0L : c.L0 = c.L) {t : G} (htT : t ∈ D.T)
     (hsup : c.L = K ⊔ K.map (MulAut.conj t).toMonoidHom) :
     commSub (fixV (barSub (⊥ : Subgroup G) A hA D.T))
@@ -377,7 +378,7 @@ private theorem commSub_fixV_T_join_barSub_ne_bot {D : Data G} {Ch : Choice2011 
   exact hcommP
 
 private theorem fixV_T_le_fixV_map_conj {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) {A K : Subgroup G} (hA : IsElemAbelian 2 A) {t : G}
+    (_c : Ctx23L D Ch) {A K : Subgroup G} (hA : IsElemAbelian 2 A) {t : G}
     (hTstab : D.T ≤ stabTil (⊥ : Subgroup G) A) (htT : t ∈ D.T)
     (hWfix : fixV (barSub (⊥ : Subgroup G) A hA D.T) ≤
       fixV (barSub (⊥ : Subgroup G) A hA K)) :
@@ -470,21 +471,21 @@ private theorem minPar_product {D : Data G}
       Q.subgroupOf (barSub (⊥ : Subgroup G) A hA K) :=
     Subgroup.le_normalizer.trans hS
   rcases hRO S (Q.subgroupOf (barSub (⊥ : Subgroup G) A hA K)) hSH with hN | htop
-  · haveI : Group.IsSolvable
+  · have : Group.IsSolvable
         ↥(Subgroup.normalizer ((S : Subgroup ↥(barSub (⊥ : Subgroup G) A hA K)) :
           Set ↥(barSub (⊥ : Subgroup G) A hA K))) :=
       CFSG.GH74.GLS.C3.Layer1.U1a.isSolvable_normalizer_sylow_two S
-    haveI : Group.IsSolvable
+    have : Group.IsSolvable
         ↥((Q.subgroupOf (barSub (⊥ : Subgroup G) A hA K)).subgroupOf
           (Subgroup.normalizer ((S : Subgroup ↥(barSub (⊥ : Subgroup G) A hA K)) :
             Set ↥(barSub (⊥ : Subgroup G) A hA K)))) :=
       subgroup_solvable_of_solvable _
-    haveI : Group.IsSolvable
+    have : Group.IsSolvable
         ↥(Q.subgroupOf (barSub (⊥ : Subgroup G) A hA K)) := by
       refine Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe hN).symm.toMonoidHom) ?_
       exact (Subgroup.subgroupOfEquivOfLe hN).symm.injective
-    haveI : Group.IsSolvable ↥Q := by
+    have : Group.IsSolvable ↥Q := by
       refine Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe hQlt.le).symm.toMonoidHom) ?_
       exact (Subgroup.subgroupOfEquivOfLe hQlt.le).symm.injective
@@ -541,7 +542,7 @@ private theorem bounds_product {D : Data G} {Ch : Choice2011 G}
   exact hJoin.trans (barSub_eq_iSup_conj c hA hAN hK hgen)
 
 theorem Ctx23L.exists_fourteen_five_data_product {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) (h207 : S20_7 D) (h208 : S20_8 D) (h209 : S20_9 D)
+    (c : Ctx23L D Ch) (_h207 : S20_7 D) (h208 : S20_8 D) (h209 : S20_9 D)
     (h1930 : H1930 D) (h1A : S23_1A D Ch)
     {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
@@ -557,7 +558,7 @@ theorem Ctx23L.exists_fourteen_five_data_product {D : Data G} {Ch : Choice2011 G
     (hnat : IsL2 ↥(barSub (⊥ : Subgroup G) A hA K) c.n ∨
       IsSz ↥(barSub (⊥ : Subgroup G) A hA K) c.n ∨
       IsSU3 ↥(barSub (⊥ : Subgroup G) A hA K) c.n)
-    (hnParam : NParam (barSub (⊥ : Subgroup G) A hA K) c.n) :
+    (_hnParam : NParam (barSub (⊥ : Subgroup G) A hA K) c.n) :
     IsParabolicTwo ↥(barSub (⊥ : Subgroup G) A hA K)
       ((barSub (⊥ : Subgroup G) A hA K).subgroupOf
         (barSub (⊥ : Subgroup G) A hA K)) ∧

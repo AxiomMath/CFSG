@@ -24,7 +24,7 @@ private theorem transport_abstract {K G : Type*} [Group K] [Group G] (ψ : K →
               (c b * MulAut.conj (k₀ : K ⧸ Subgroup.center K)) =
             MulAut.conj (z' : K ⧸ Subgroup.center K) := by
   classical
-  haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have : ψ.ker.Normal := MonoidHom.normal_ker ψ
   let e : (K ⧸ Subgroup.center K) ≃* ψ.range :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans (QuotientGroup.quotientKerEquivRange ψ)
   have he : ∀ k : K, ((e (k : K ⧸ Subgroup.center K) : ψ.range) : G) = ψ k := fun k => rfl

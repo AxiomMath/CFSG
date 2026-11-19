@@ -26,7 +26,7 @@ theorem lp_P_le_centralizer (hl : LayerLocal p P M x) :
 
 theorem lp_prime (hl : LayerLocal p P M x) : p.Prime := hl.loc.beta.1
 
-theorem lp_layer_sylow [Fact p.Prime] (hG : FrobGlobal G) (hl : LayerLocal p P M x) :
+theorem lp_layer_sylow [Fact p.Prime] (_hG : FrobGlobal G) (hl : LayerLocal p P M x) :
     ∃ n : ℕ, 2 ≤ n ∧ Nonempty (layerOf x ≃* PSL(2, GaloisField p n)) ∧
       CFSG.ABGLocalTools.IsSylowOf p (frU P x) (layerOf x) ∧
       CFSG.Open.IsElemAbelian p (frU P x) ∧ Nat.card (frU P x) = p ^ n := by
@@ -76,18 +76,18 @@ theorem lp_x_mem_Z0 (hl : LayerLocal p P M x) :
 
 theorem lp_Z0_cyclic (hl : LayerLocal p P M x) :
     IsCyclic ((P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G) : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨lp_prime hl⟩
+  have : Fact p.Prime := ⟨lp_prime hl⟩
   refine hl.cyclic _ (le_inf ?_ inf_le_right) ?_
   · refine inf_le_left.trans ?_
     rw [centralizer_zpowers_eq]
     exact lp_P_le_centralizer hl
-  · exact P.isPGroup'.to_inf_left
+  · exact P.isPGroup.to_inf_left
 
 theorem lp_Z0_unique [Fact p.Prime] (hl : LayerLocal p P M x) {A : Subgroup G}
     (hA : A ≤ (P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G))
     (hAp : Nat.card A = p) : A = zpowers x := by
   have hxZ := lp_x_mem_Z0 hl
-  haveI : IsCyclic ((P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G) :
+  have : IsCyclic ((P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G) :
       Subgroup G) := lp_Z0_cyclic hl
   have hxp : Nat.card (zpowers x) = p := by
     rw [Nat.card_zpowers]

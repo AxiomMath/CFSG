@@ -35,6 +35,7 @@ abbrev piBar2 (H : Subgroup G) : ↥H →* Bar2 H :=
 abbrev imageBar2 (H K : Subgroup G) : Subgroup (Bar2 H) :=
   (K.subgroupOf H).map (piBar2 H)
 
+omit [Finite G] in
 theorem subgroupOf_map_conj_of_le {K H : Subgroup G} (hKH : K ≤ H) {t : G} (ht : t ∈ H) :
     (K.map (MulAut.conj t).toMonoidHom).subgroupOf H =
       (K.subgroupOf H).map (MulAut.conj (⟨t, ht⟩ : ↥H)).toMonoidHom := by
@@ -51,6 +52,7 @@ theorem subgroupOf_map_conj_of_le {K H : Subgroup G} (hKH : K ≤ H) {t : G} (ht
     have := congrArg (Subtype.val) hkx
     simpa [MulAut.conj_apply] using this
 
+omit [Finite G] in
 theorem imageBar2_map_conj {H K : Subgroup G} (hKH : K ≤ H) {t : G} (ht : t ∈ H) :
     (imageBar2 H K).map (MulAut.conj (piBar2 H ⟨t, ht⟩)).toMonoidHom =
       imageBar2 H (K.map (MulAut.conj t).toMonoidHom) := by
@@ -58,11 +60,13 @@ theorem imageBar2_map_conj {H K : Subgroup G} (hKH : K ≤ H) {t : G} (ht : t �
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 theorem imageBar2_sup {H K T : Subgroup G} (hKH : K ≤ H) (hTH : T ≤ H) :
     imageBar2 H (K ⊔ T) = imageBar2 H K ⊔ imageBar2 H T := by
   rw [imageBar2, imageBar2, imageBar2, ← Subgroup.map_sup,
     ← Subgroup.subgroupOf_sup hKH hTH]
 
+omit [Finite G] in
 theorem imageBar2_self (H : Subgroup G) : imageBar2 H H = ⊤ := by
   rw [imageBar2, Subgroup.subgroupOf_self]
   exact Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)
@@ -70,7 +74,7 @@ theorem imageBar2_self (H : Subgroup G) : imageBar2 H H = ⊤ := by
 theorem imageBar2_inf_of_isSylowIn {H T K : Subgroup G} (hT : IsSylowIn 2 T H) :
     imageBar2 H T ⊓ imageBar2 H K = imageBar2 H (T ⊓ K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ (le_inf
     (Subgroup.map_mono (Subgroup.subgroupOf_mono _ inf_le_left))
     (Subgroup.map_mono (Subgroup.subgroupOf_mono _ inf_le_right)))
@@ -98,10 +102,12 @@ theorem imageBar2_inf_of_isSylowIn {H T K : Subgroup G} (hT : IsSylowIn 2 T H) :
 abbrev bar2Incl {H K : Subgroup G} (hKH : K ≤ H) : ↥K →* Bar2 H :=
   (piBar2 H).comp (Subgroup.inclusion hKH)
 
+omit [Finite G] in
 theorem bar2Incl_range {H K : Subgroup G} (hKH : K ≤ H) :
     (bar2Incl hKH).range = imageBar2 H K := by
   rw [bar2Incl, MonoidHom.range_comp, Subgroup.inclusion_range]
 
+omit [Finite G] in
 theorem bar2Incl_map_subgroupOf {H K P : Subgroup G} (hKH : K ≤ H) (hPK : P ≤ K) :
     (P.subgroupOf K).map (bar2Incl hKH) = imageBar2 H P := by
   rw [bar2Incl, ← Subgroup.map_map, imageBar2]
@@ -136,7 +142,7 @@ theorem imageBar2_isMaxParabolicOver {H K T P : Subgroup G}
     (hP : S17.IsMaxParabolicOver K (T ⊓ K) P) :
     S17.IsMaxParabolicOver (imageBar2 H K) (imageBar2 H (T ⊓ K)) (imageBar2 H P) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hPK, hPnorm, hPne, hPmax⟩ := hP
   have hO2K : pCoreOf 2 K ≤ T ⊓ K := by
     have hTK : IsSylowIn 2 (T ⊓ K) K := by
@@ -295,7 +301,7 @@ theorem fstar_imageBar2_of_normal {H K T : Subgroup G}
       Subgroup.centralizer (imageBar2 H K : Set (Bar2 H)) = ⊥ ∧
       IsPGroup 2 (Bar2 H ⧸ imageBar2 H K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKN : H ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mp hKn
   have hpCore : pCoreOf 2 K = K ⊓ pCoreOf 2 H :=
@@ -307,9 +313,9 @@ theorem fstar_imageBar2_of_normal {H K T : Subgroup G}
   let C : Subgroup (Bar2 H) := imageBar2 H K
   have hCnormal : C.Normal :=
     Subgroup.Normal.map hKn π (QuotientGroup.mk'_surjective _)
-  haveI : C.Normal := hCnormal
+  have : C.Normal := hCnormal
   have hsimpleC : IsSimpleGroup ↥C := e.isSimpleGroup_congr.mp hsimple
-  haveI : Group.IsPerfect ↥K := hperfK
+  have : Group.IsPerfect ↥K := hperfK
   have hperfC : Group.IsPerfect ↥C := by
     let φ' : ↥K →* ↥C := (π.comp (Subgroup.inclusion hKH)).codRestrict C
       (fun k => Subgroup.mem_map.mpr ⟨Subgroup.inclusion hKH k, k.2, rfl⟩)
@@ -341,7 +347,7 @@ theorem fstar_imageBar2_of_normal {H K T : Subgroup G}
     rw [← h1, hsup]
     simp [imageBar2, piBar2, Subgroup.map_top_of_surjective _
       (QuotientGroup.mk'_surjective _)]
-  haveI : (C.subgroupOf (⊤ : Subgroup (Bar2 H))).Normal := hCnormal.subgroupOf ⊤
+  have : (C.subgroupOf (⊤ : Subgroup (Bar2 H))).Normal := hCnormal.subgroupOf ⊤
   have hquotTop : IsPGroup 2 ((⊤ : Subgroup (Bar2 H)) ⧸ C.subgroupOf ⊤) :=
     CFSG.Quasithin.F112R.isPGroup_quotient_of_sup_eq (p := 2) (G := Bar2 H)
       (L := C) (Q := imageBar2 H T) (K := ⊤) hTbar2 le_top
@@ -401,7 +407,7 @@ theorem inFSq_of_isL2_of_normal_sup {H K T : Subgroup G} {m : ℕ}
     (hKc : K_L2SzAutRank) :
     InFSq m H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimpleK : IsSimpleGroup (Bar2 K) := isSimpleGroup_of_isL2_or_isSz (Or.inl hL2)
   obtain ⟨⟨e⟩, hCnormal, hsimpleC, hncC, -, hcent, hquot⟩ :=
     fstar_imageBar2_of_normal hKH hKn hTsyl hsup hperf hsimpleK
@@ -415,7 +421,7 @@ theorem inFSq_of_isL2_of_normal_sup {H K T : Subgroup G} {m : ℕ}
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := Bar2 H)
   have hS : IsSylowIn 2 (S : Subgroup (Bar2 H)) ⊤ := isSylowIn_top S
   have hsupC : (imageBar2 H K) ⊔ (S : Subgroup (Bar2 H)) = ⊤ := by
-    haveI : (imageBar2 H K).Normal := hCnormal
+    have : (imageBar2 H K).Normal := hCnormal
     rw [sup_comm]
     exact CFSG.section10_sylow_sup_normal_of_p_quotient_eq_top (N := imageBar2 H K) hquot S
   have hInF : InFGroup m (Bar2 H) :=

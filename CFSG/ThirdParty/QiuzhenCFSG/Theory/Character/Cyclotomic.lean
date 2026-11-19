@@ -73,7 +73,7 @@ public lemma root_mem_cyclotomicOrder_of_pow_eq_one_of_dvd
   have hξm : ξ ^ m = 1 := by
     rcases hnm with ⟨k, rfl⟩
     rw [pow_mul, hξ, one_pow]
-  haveI : NeZero m := ⟨hm⟩
+  have : NeZero m := ⟨hm⟩
   obtain ⟨i, _hi_lt, hi⟩ := hη.eq_pow_of_pow_eq_one hξm
   rw [← hi]
   exact pow_mem_cyclotomicOrder (eta_mem_cyclotomicOrder η) i

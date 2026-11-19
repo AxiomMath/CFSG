@@ -17,7 +17,7 @@ theorem normal_subgroup_coprime_of_sylow_inf_bot (prime : ℕ) (prime_prime : pr
   let : Fact prime.Prime := ⟨prime_prime⟩
   let internalSylow : Sylow prime normal := Classical.choice inferInstance
   let embedded := (internalSylow : Subgroup normal).map normal.subtype
-  have embedded_pgroup : IsPGroup prime embedded := internalSylow.isPGroup'.map normal.subtype
+  have embedded_pgroup : IsPGroup prime embedded := internalSylow.isPGroup.map normal.subtype
   obtain ⟨ambientSylow, embedded_le⟩ := embedded_pgroup.exists_le_sylow
   obtain ⟨conjugator, conjugates⟩ := MulAction.exists_smul_eq GroupType ambientSylow sylow
   have ambient_eq : conjugateSubgroup conjugator (ambientSylow : Subgroup GroupType) = sylow :=

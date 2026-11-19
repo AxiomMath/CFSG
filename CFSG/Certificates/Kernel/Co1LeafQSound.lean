@@ -28,11 +28,11 @@ theorem lqX_shift (r : ℕ → ℕ) (S : ℕ) : ∀ n,
     lqX r S (n + 1) = (if S.testBit 0 then r 0 else 0) ^^^ lqX (fun s => r (s + 1)) (S >>> 1) n
   | 0 => by
     rw [lqX_succ]
-    cases S.testBit 0 <;> simp only [Bool.false_eq_true, eq_self_iff_true, ↓reduceIte, lqX_zero,
-      Nat.xor_zero, Nat.zero_xor]
+    cases S.testBit 0 <;> simp only [Bool.false_eq_true, ↓reduceIte, lqX_zero,
+      Nat.xor_zero]
   | n + 1 => by
     rw [lqX_succ, lqX_shift r S n, lqX_succ, Nat.testBit_shiftRight, Nat.add_comm 1 n]
-    cases S.testBit (n + 1) <;> simp only [Bool.false_eq_true, eq_self_iff_true, ↓reduceIte]
+    cases S.testBit (n + 1) <;> simp only [Bool.false_eq_true, ↓reduceIte]
     exact lp_x3 _ _ _
 
 theorem lqX_congr {r r' : ℕ → ℕ} {S : ℕ} : ∀ {n}, (∀ s < n, r s = r' s) → lqX r S n = lqX r' S n
@@ -52,7 +52,7 @@ theorem lq_selK_X : ∀ (L : List ℕ) (S : ℕ), selK L S = lqX (fun s => L.get
     · rw [lp_selK_f hS]
       simp only [Bool.false_eq_true, ↓reduceIte, Nat.zero_xor]
     · rw [lp_selK_t hS]
-      simp only [eq_self_iff_true, ↓reduceIte]
+      simp only [↓reduceIte]
 
 theorem lqX_lt {r : ℕ → ℕ} {S : ℕ} : ∀ {n}, (∀ s < n, r s < 2 ^ 24) → lqX r S n < 2 ^ 24
   | 0, _ => Nat.two_pow_pos 24
@@ -99,7 +99,7 @@ theorem lq_maskCodes (i S : ℕ) (cs : List ℕ) : ∀ n, sumU BT U (maskCodes i
     change sumU BT U (Bool.rec (motive := fun _ => List ℕ) (maskCodes i S cs n)
       ((32 * i + n) :: maskCodes i S cs n) (bit S n)) = _
     rw [lqX_succ, lq_bit]
-    cases S.testBit n <;> simp only [Bool.false_eq_true, eq_self_iff_true, ↓reduceIte]
+    cases S.testBit n <;> simp only [Bool.false_eq_true, ↓reduceIte]
     · exact lq_maskCodes i S cs n
     · change slotU BT U (32 * i + n) ^^^ sumU BT U (maskCodes i S cs n) = _
       rw [lq_maskCodes i S cs n, Nat.xor_assoc]

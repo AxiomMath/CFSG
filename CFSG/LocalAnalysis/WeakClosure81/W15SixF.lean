@@ -33,7 +33,7 @@ open Subgroup
 open scoped CFSG.Goldschmidt.G2 commutatorElement
 
 theorem le_ker_of_isPGroup_map_of_odd_relIndex {H L : Type*} [Group H] [Finite H] [Group L]
-    (φ : H →* L) {K₀ K : Subgroup H} (hK₀K : K₀ ≤ K) (hker : K₀ ≤ φ.ker)
+    (φ : H →* L) {K₀ K : Subgroup H} (_hK₀K : K₀ ≤ K) (hker : K₀ ≤ φ.ker)
     (hodd : Odd (K₀.relIndex K)) (h2 : IsPGroup 2 (K.map φ)) : K ≤ φ.ker := by
   let ψ : ↥K →* L := φ.comp K.subtype
   have hrange : ψ.range = K.map φ := by
@@ -46,8 +46,8 @@ theorem le_ker_of_isPGroup_map_of_odd_relIndex {H L : Type*} [Group H] [Finite H
   have hψker : K₀.subgroupOf K ≤ ψ.ker := fun x hx => hker hx
   have hdvd : ψ.ker.index ∣ (K₀.subgroupOf K).index := Subgroup.index_dvd_of_le hψker
   have hcard : ψ.ker.index = Nat.card ψ.range := Subgroup.index_ker ψ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(K.map φ) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(K.map φ) := by
     rw [← hrange]
     exact Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).1 h2
@@ -73,7 +73,7 @@ private theorem kerIn_top_eq_normalCore' {Γ : Type*} [Group Γ] (K : Subgroup �
     CFSG.Quasithin.kerIn K ⊤ = K.normalCore := by
   ext x
   simp only [CFSG.Quasithin.kerIn, Subgroup.mem_mk, Subgroup.mem_top, forall_true_left,
-    Subgroup.normalCore, Set.mem_setOf_eq]
+    Subgroup.normalCore]
 
 variable {G : Type} [Group G] [Finite G]
 
@@ -161,7 +161,7 @@ theorem repQuad [Fact (IsElemAbelian 2 (eSub V₀ X T))] (h : Cex156 M V₀ V U 
 theorem ker_le_centralizer (hMult : SchurMultiplierInput) (h : Cex156 M V₀ V U S A X T) {n : ℕ}
     (hn : IsPSL 2 2 n (KerQuot M X) ∨ IsSz n (KerQuot M X)) :
     kerMOf M X ≤ centralizer (eSub V₀ X T : Set G) := by
-  haveI : Fact (IsElemAbelian 2 (eSub V₀ X T)) := ⟨h.isElemAbelian_eSub⟩
+  have : Fact (IsElemAbelian 2 (eSub V₀ X T)) := ⟨h.isElemAbelian_eSub⟩
   have hmap := Setting12Two.isPGroup_map_ker hMult (h.setting12Two hn) h.rep h.repQuad
   have hkerIn : CFSG.Quasithin.kerIn (M.subgroupOf X) ⊤ = (kerMOf M X).subgroupOf X := by
     rw [kerIn_top_eq_normalCore', subgroupOf_kerMOf]

@@ -31,7 +31,7 @@ theorem false_of_sylow_split [Finite G] [IsSimpleGroup G] (hna : ∃ a b : G, a 
       g⁻¹ * c * g ∈ C) : False := by
   have hAS : A ≤ (S : Subgroup G) := hsup ▸ le_sup_left
   have hCS : C ≤ (S : Subgroup G) := hsup ▸ le_sup_right
-  have hC2 : IsPGroup 2 C := S.isPGroup'.to_le hCS
+  have hC2 : IsPGroup 2 C := S.isPGroup.to_le hCS
   have hNC : CFSG.DisconnectedInvolutionGraph.Helpers.NoCommutingDistinctInvolutions ↥C := by
     intro first second hcommfs
     have h1 : orderOf ((first : ↥C) : G) = 2 := (Subgroup.orderOf_coe _).trans first.2
@@ -81,7 +81,7 @@ theorem false_of_sylow_split [Finite G] [IsSimpleGroup G] (hna : ∃ a b : G, a 
     have hcomm' : ∀ d ∈ A, d * (c : G) = (c : G) * d := fun d hd => hcomm d hd c c.2
     have hfuse' : ∀ g : G, ∀ z ∈ A, g⁻¹ * (c : G) ^ (orderOf (c : G) / 2) * g ≠ z := by
       intro g z hz h
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨(c : G), hcS⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨(c : G), hcS⟩
       have hk' : orderOf (c : G) = 2 ^ k :=
         (Subgroup.orderOf_coe (⟨(c : G), hcS⟩ : (S : Subgroup G))).trans hk
       have hk1 : 1 ≤ k := by
@@ -113,7 +113,7 @@ theorem false_of_sylow_split [Finite G] [IsSimpleGroup G] (hna : ∃ a b : G, a 
       apply ht1
       calc t = g * (g⁻¹ * t * g) * g⁻¹ := by group
         _ = 1 := by rw [h, hz1]; group
-    obtain ⟨N, hN, hi⟩ := exists_index_two_of_cyclic_factor S.isPGroup' S.not_dvd_index hAS hcS
+    obtain ⟨N, hN, hi⟩ := exists_index_two_of_cyclic_factor S.isPGroup S.not_dvd_index hAS hcS
       hc1 hdec hinf' hcomm' hfuse'
     exact false_of_index_two hna hN hi
   · exact false_of_quaternion_split hna hsup hcomm ϕ hfuse

@@ -16,7 +16,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem le_centralizer_of_card_le_four {M N : Subgroup X} (hMp : Group.IsPerfect M)
     (hMN : M ≤ Subgroup.normalizer (N : Set X)) (hN4 : Nat.card N ≤ 4) :
     M ≤ Subgroup.centralizer (N : Set X) := by
-  letI : MulDistribMulAction M N := Subgroup.conjMulDistribMulActionOfLeNormalizer M N hMN
+  let : MulDistribMulAction M N := Subgroup.conjMulDistribMulActionOfLeNormalizer M N hMN
   let φ : ↥M →* Equiv.Perm ↥N := MulAction.toPermHom ↥M ↥N
   have hdvd : Nat.card φ.range ∣ 24 := by
     have h1 : Nat.card φ.range ∣ Nat.card (Equiv.Perm ↥N) := Subgroup.card_subgroup_dvd_card _
@@ -55,7 +55,7 @@ theorem card_eq_one_or_four {N : Subgroup X} {q : X} (hq3 : q ^ 3 = 1)
     (hqN : q ∈ Subgroup.normalizer (N : Set X)) (hN4 : Nat.card N ≤ 4)
     (hfix : N ⊓ Subgroup.centralizer ({q} : Set X) = ⊥) : Nat.card N = 1 ∨ Nat.card N = 4 := by
   have hzN : Subgroup.zpowers q ≤ Subgroup.normalizer (N : Set X) := Subgroup.zpowers_le.mpr hqN
-  letI : MulDistribMulAction (Subgroup.zpowers q) N :=
+  let : MulDistribMulAction (Subgroup.zpowers q) N :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer _ N hzN
   have hp : IsPGroup 3 (Subgroup.zpowers q) := by
     rw [IsPGroup.iff_card]
@@ -83,6 +83,7 @@ theorem card_eq_one_or_four {N : Subgroup X} {q : X} (hq3 : q ^ 3 = 1)
   · exact absurd hmod (by decide)
   · right; rfl
 
+omit [Finite X] in
 theorem mem_normalizer_of_forall_commute {a : X} {K : Subgroup X}
     (h : ∀ k ∈ K, a * k = k * a) : a ∈ Subgroup.normalizer (K : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -100,6 +101,7 @@ theorem mem_normalizer_of_forall_commute {a : X} {K : Subgroup X}
     rw [← this]
     exact hk
 
+omit [Finite X] in
 theorem le_of_isPerfect_of_le_sup {F A K : Subgroup X} (hFp : Group.IsPerfect F)
     (hF : F ≤ A ⊔ K) (hAK : ∀ a ∈ A, ∀ k ∈ K, a * k = k * a)
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) : F ≤ K := by
@@ -151,6 +153,7 @@ theorem le_of_isPerfect_of_le_sup {F A K : Subgroup X} (hFp : Group.IsPerfect F)
   rw [← hF']
   exact (Subgroup.commutator_mono hF hF).trans hcomm
 
+omit [Finite X] in
 theorem mem_of_mem_sup_of_pow {q x : X} {K : Subgroup X} (hq3 : q ^ 3 = 1)
     (hqK : ∀ k ∈ K, q * k = k * q) (hI : Subgroup.zpowers q ⊓ K = ⊥)
     (hx : x ∈ Subgroup.zpowers q ⊔ K) {n : ℕ} (hn : Nat.Coprime n 3) (hxn : x ^ n = 1) : x ∈ K := by
@@ -269,7 +272,7 @@ theorem not_mem_center_of_cube (h : A5Cfg P q M F) {f : ↥F} (hf3 : f ^ 3 = 1) 
   obtain ⟨e⟩ := h.FA5
   obtain ⟨-, hθc, hθ3, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥F) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 ↥F).Normal := by haveI := hθc; infer_instance
+  have : (aschbacherSolvableCore 3 ↥F).Normal := by have := hθc; infer_instance
   set π := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥F)
   have hc5 : Subgroup.center (alternatingGroup (Fin 5)) = ⊥ :=
     alternatingGroup.center_eq_bot (by rw [Nat.card_fin]; norm_num)

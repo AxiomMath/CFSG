@@ -50,9 +50,11 @@ theorem t_mem_Mgrp (h : Setting25 G t z z₁ ι zv R0 F) : t ∈ Mgrp z :=
 
 @[expose] def wq (h : Setting25 G t z z₁ ι zv R0 F) : Xq z := piq z ⟨t, t_mem_Mgrp h⟩
 
+omit [Finite G] in
 theorem piq_surjective (z : G) : Function.Surjective (piq z) :=
   QuotientGroup.mk'_surjective ((zpowers z).subgroupOf (Mgrp z))
 
+omit [Finite G] in
 theorem ker_piq (z : G) : (piq z).ker = (zpowers z).subgroupOf (Mgrp z) :=
   QuotientGroup.ker_mk' ((zpowers z).subgroupOf (Mgrp z))
 
@@ -76,6 +78,7 @@ theorem mem_Aq_iff (h : Setting25 G t z z₁ ι zv R0 F) (m : ↥(Mgrp z)) :
     rw [Aq]
     exact Subgroup.mem_map_of_mem (piq z) (Subgroup.mem_subgroupOf.mpr hm)
 
+omit [Finite G] in
 private lemma piq_conj_eq (m m' : ↥(Mgrp z)) :
     piq z (m * m' * m⁻¹) = piq z m * piq z m' * (piq z m)⁻¹ := by
   rw [map_mul, map_mul, map_inv]

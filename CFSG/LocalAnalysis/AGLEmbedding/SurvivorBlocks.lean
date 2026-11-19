@@ -24,7 +24,7 @@ theorem exists_isPGroup_map_eq' {H K : Type*} [Group H] [Group K] [Finite H] {q 
   have htop : ((T.mapSurjective hψ : Sylow q E) : Subgroup E) = ⊤ :=
     le_antisymm le_top ((T.mapSurjective hψ).maximal_isPGroup.2 (hE.to_subgroup ⊤) le_top)
   rw [Sylow.coe_mapSurjective] at htop
-  refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup'.map _, le_antisymm ?_ ?_⟩
+  refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact w.2
   · intro e he

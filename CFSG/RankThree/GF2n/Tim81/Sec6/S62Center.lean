@@ -26,7 +26,7 @@ private theorem Sec5Hyp.exists_mul_of_mem_xOf (hS : Sec5Hyp M V) {g : G}
       Subgroup.normalizer (conjSubgroup g V : Set G) := by
     refine le_normalizer_of_comm (X := Pc M V ⊓ Tim79a.xOf V (hOf M V g))
       (N := conjSubgroup g V) fun a ha b hb => ?_
-    haveI : IsMulCommutative ↥(Tim79a.xOf V (hOf M V g)) := (hSg.isElemAbelian hR).1
+    have : IsMulCommutative ↥(Tim79a.xOf V (hOf M V g)) := (hSg.isElemAbelian hR).1
     exact setLike_mul_comm (s := Tim79a.xOf V (hOf M V g)) ha.2 (hAW hb)
   have hbot : Pc M V ⊓ Tim79a.xOf V (hOf M V g) ⊓ conjSubgroup g V = ⊥ := by
     rw [inf_comm (Pc M V ⊓ Tim79a.xOf V (hOf M V g)) (conjSubgroup g V), ← inf_assoc,

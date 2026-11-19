@@ -113,7 +113,7 @@ theorem StarLift.exists_partC (hu : StarLift B z u) (h : Setting J Q B) (hz : Fo
     exact (T : Subgroup (quasiNormalizer u)).mul_mem huT huT
   rw [← hu.quasiMk_centralElt h] at hP
   have hP' := PartC.transport (quasiMk u) (quasiNormalizer u).subtype
-    (fun a ha b hb hab => quasiMk_injOn_twoGroup u T.isPGroup' ha hb hab)
+    (fun a ha b hb hab => quasiMk_injOn_twoGroup u T.isPGroup ha hb hab)
     (quasiNormalizer u).subtype_injective heT huT hP h.centralElt_mem_center
   have hinf : ∀ M : Subgroup (QuasiQuotient u),
       (T : Subgroup (quasiNormalizer u)) ⊓

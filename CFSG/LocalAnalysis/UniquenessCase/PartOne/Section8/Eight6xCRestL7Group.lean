@@ -412,7 +412,7 @@ private theorem sq_sub_one_eq_zero_l7a {A : Type*} [AddCommGroup A] [Module (ZMo
     norm_num
   obtain ⟨x, hx⟩ := exists_ne (0 : A)
   have htor : ∃ x : A, Ideal.torsionOf (ZMod 3) A x = ⊥ :=
-    ⟨x, (Ideal.torsionOf_eq_bot_iff_of_noZeroSMulDivisors (ZMod 3) x).2 hx⟩
+    ⟨x, (Ideal.torsionOf_eq_bot_iff_of_isTorsionFree (ZMod 3) x).2 hx⟩
   let _ : CharP (Module.End (ZMod 3) A) 3 :=
     Module.charP_end (R := ZMod 3) (M := A) (p := 3) htor
   have h3 : (f - 1) ^ 3 = 0 := by

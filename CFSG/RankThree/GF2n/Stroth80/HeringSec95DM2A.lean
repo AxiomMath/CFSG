@@ -51,7 +51,7 @@ section Helpers
 
 variable {ι G Kg K' : Type} [Group G] [Field Kg] [Field K'] {Q Z V : Subgroup G} {γ : G → Kg}
 
-theorem addEquiv_imgSub_smul' (M₀ : Tim79.QuadModel Q Z Kg γ) (hVQ : V ≤ Q)
+theorem addEquiv_imgSub_smul' (M₀ : Tim79.QuadModel Q Z Kg γ) (_hVQ : V ≤ Q)
     (hS : ∀ (c : Kg) (e : M₀.E), e ∈ M₀.img V → c • e ∈ M₀.img V)
     [(Z.subgroupOf V).Normal] (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K'))
     (θ : Kg ≃+* K')
@@ -163,7 +163,7 @@ theorem exists_vdescPre95 (h34 : Stroth34Statement) (hA : Sec9AExistsStatement) 
   have ht : t ∈ LB M Q B := hs.mem
   obtain ⟨r0, hr0⟩ := hA G M Q Z B hc n t hs
   obtain ⟨Kn, fKn, finKn, chKn, hnorm, ⟨C⟩⟩ := exists_coord95 h34 hs hr0
-  haveI := hnorm
+  have := hnorm
   have hcardKn : Nat.card K = Nat.card Kn := hglob.card.trans C.hK.symm
   have hq4n : 4 ≤ Nat.card Kn := C.hK ▸ hc.hyp.q4
   obtain ⟨c0, hc0, hc1⟩ := exists_ne_zero_ne_one_of_nat_card_ge_four hq4n
@@ -175,7 +175,7 @@ theorem exists_vdescPre95 (h34 : Stroth34Statement) (hA : Sec9AExistsStatement) 
       ∀ x ∈ Q, M₀.π (r * x * r⁻¹) = T (M₀.π x) := fun r hr =>
     ⟨(φ ⟨r, hc.Rt_le_H0 t hr⟩ : M₀.E →ₗ[K] M₀.E),
       fun x hx => hφπ ⟨r, hc.Rt_le_H0 t hr⟩ x hx⟩
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   obtain ⟨θ, hθ⟩ := exists_ringEquiv_natural hcardKn M₀ (hc.Vt_le_Q t) hX hS hlin C.φ C.hφ
     (hc.Rt_normalizes_Vt ht) C.ψ C.hψ
   obtain ⟨Ψa, hΨa⟩ := exists_addEquiv_imgSub M₀ (hc.Vt_le_Q t) hS C.ψ
@@ -232,11 +232,11 @@ theorem exists_vdescPre95 (h34 : Stroth34Statement) (hA : Sec9AExistsStatement) 
     rw [← toMat_map σ]
     rfl
   obtain ⟨Wc, hWc⟩ := Submodule.exists_isCompl (imgSub M₀ V hS)
-  let P := (imgSub M₀ V hS).linearProjOfIsCompl Wc hWc
+  let P := (imgSub M₀ V hS).projectionOnto Wc hWc
   let cV : M₀.E →ₗ[K] Matrix (Fin 2) (Fin 2) K := c0 ∘ₗ P
   have hcV : ∀ e (he : e ∈ M₀.img V), cV e = c0 ⟨e, he⟩ := by
     intro e he
-    have hPe : P e = ⟨e, he⟩ := Submodule.linearProjOfIsCompl_apply_left hWc ⟨e, he⟩
+    have hPe : P e = ⟨e, he⟩ := Submodule.projectionOnto_apply_left hWc ⟨e, he⟩
     show c0 (P e) = _
     rw [hPe]
   have hinj : ∀ e ∈ M₀.img V, cV e = 0 → e = 0 := by
@@ -456,11 +456,10 @@ theorem exists_vdesc95_of_pre (P : VDesc95Pre hc t M₀ φ) : Nonempty (VDesc95 
           ((h₀ : Matrix (Fin 2) (Fin 2) K) *ᵥ a') := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Matrix.vecMulVec_apply, Matrix.mulVec, dotProduct,
-          Fin.sum_univ_two] <;> ring
+        simp [Matrix.mul_apply, Matrix.vecMulVec_apply, Fin.sum_univ_two] <;> ring
     rw [h1, hg₀, hh₀]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec_apply, Matrix.single_apply]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.vecMulVec_apply]
 
 theorem exists_vdesc95 (h34 : Stroth34Statement) (hA : Sec9AExistsStatement) {n : ℕ}
     (hs : Sec9Hyp hc n t) [CharP K 2] (hglob : GlobalModelData M Q Z γ M₀)

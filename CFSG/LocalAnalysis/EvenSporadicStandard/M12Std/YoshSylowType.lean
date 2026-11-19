@@ -36,7 +36,7 @@ private theorem sylowType_of_hom_subgroup {G : Type*} [Group G] [Finite G] (c : 
     ∃ (S₁ : Sylow 2 (↥C ⧸ Subgroup.center ↥C)) (S₂ : Sylow 2 (alternatingGroup (Fin 12))),
       Nonempty (↥(S₁ : Subgroup (↥C ⧸ Subgroup.center ↥C)) ≃*
         ↥(S₂ : Subgroup (alternatingGroup (Fin 12)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcZ : (⟨c, hcC⟩ : ↥C) ∈ Subgroup.center ↥C := by
     rw [Subgroup.mem_center_iff]
     exact fun g => Subtype.ext (hcc g g.2)
@@ -93,7 +93,7 @@ private theorem sylowType_of_hom_subgroup {G : Type*} [Group G] [Finite G] (c : 
 
 theorem sylowType_of_hom {G : Type} [Group G] [Finite G] (c : G) (S : Subgroup G)
     (P : Subgroup (alternatingGroup (Fin 12))) (f : ↥S →* ↥P)
-    (hc2 : c * c = 1) (hc1 : c ≠ 1) (hcS : c ∈ S) (hSC : ∀ s ∈ S, s * c = c * s)
+    (_hc2 : c * c = 1) (hc1 : c ≠ 1) (hcS : c ∈ S) (hSC : ∀ s ∈ S, s * c = c * s)
     (hZ : ∀ z ∈ Subgroup.center ↥(Subgroup.centralizer ({c} : Set G)), (z : G) = 1 ∨ (z : G) = c)
     (hSsyl : Nat.card S = 2 ^ (Nat.card (Subgroup.centralizer ({c} : Set G))).factorization 2)
     (hP : Nat.card P = 2 ^ 9) (hf : Function.Surjective f)
@@ -107,6 +107,6 @@ theorem sylowType_of_hom {G : Type} [Group G] [Finite G] (c : G) (S : Subgroup G
   sylowType_of_hom_subgroup c (Subgroup.centralizer ({c} : Set G)) S P f hc1
     (Subgroup.mem_centralizer_singleton_iff.2 rfl) hcS
     (fun s hs => Subgroup.mem_centralizer_singleton_iff.2 (hSC s hs))
-    (fun g hg => Subgroup.mem_centralizer_singleton_iff.1 hg) hZ hSsyl hP hf hker
+    (fun _g hg => Subgroup.mem_centralizer_singleton_iff.1 hg) hZ hSsyl hP hf hker
 
 end CFSG.EvenSporadicStandard.M12Std.Yosh

@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem fzl_cent_of_mem_R {t tau lam rho : G} {Z E W Q R T : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) {r : G} (hr : r ∈ R) :
     ∀ z ∈ Z, r * z = z * r := by
@@ -19,6 +20,7 @@ private theorem fzl_cent_of_mem_R {t tau lam rho : G} {Z E W Q R T : Subgroup G}
   calc r * z = (r * z * r⁻¹) * r := by group
     _ = z * r := by rw [hz']
 
+omit [Finite G] in
 private theorem fzl_mem_centralizer_Z_of_mem_R {t tau lam rho : G} {Z E W Q R T : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) {r : G} (hr : r ∈ R) :
     r ∈ Subgroup.centralizer (Z : Set G) := by
@@ -26,6 +28,7 @@ private theorem fzl_mem_centralizer_Z_of_mem_R {t tau lam rho : G} {Z E W Q R T 
   intro z hz
   exact (fzl_cent_of_mem_R h hr z hz).symm
 
+omit [Finite G] in
 private theorem fzl_sq_mem_of_mul_Q {t tau lam rho : G} {Z E W Q R T : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) {x q : G} (hx : x ∈ T) (hx2 : x ^ 2 ∈ Q)
     (hq : q ∈ Q) : (x * q) ^ 2 ∈ Q := by

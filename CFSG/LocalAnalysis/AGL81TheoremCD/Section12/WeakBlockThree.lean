@@ -1145,7 +1145,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgr
 
 theorem TwelveCtx.twoLocalPhaseThree (h : TwelveCtx G M p Q H) :
     CFSG.AGLEmbedding.TwoLocalPhaseThree M H := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hmaxH : GLBIsMaxTwoLocal H := by
     refine ⟨h.H_twoLocal, fun K hK hHK => h.H_mem_H2Star.2 K ?_ hHK⟩
     refine ⟨twoLocal_ne_top h.cstar.nonab K hK, h.Q_le_H.trans hHK, ?_, ?_⟩
@@ -1168,7 +1168,7 @@ theorem three_dvd_card_inf_of_mem_weakBlockSet
     (h25 : CFSG.CGT.PushingUpLit.SolomonAlternatingBlockK)
     (h : TwelveCtx G M p Q H) {L : Subgroup G} (hL : L ∈ weakBlockSet M H) :
     3 ∣ Nat.card (L ⊓ H : Subgroup G) := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hphase : CFSG.AGLEmbedding.TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hMtop : M ≠ ⊤ := twoLocal_ne_top h.cstar.nonab M h.maxLocal.1
   have hK : CFSG.Open.IsKGroup ↥M :=
@@ -1198,8 +1198,8 @@ theorem three_dvd_card_inf_of_mem_weakBlockSet
     exact hyNL.1
   have hy1 : y ≠ 1 := by
     rintro rfl
-    exact hlQ (by simpa using (pCoreOf 2 M).one_mem)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    exact hlQ (by simp)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3y : 3 ∣ orderOf y := by
     have hne : (⟨y, Subgroup.mem_zpowers y⟩ : Subgroup.zpowers y) ≠ 1 :=
       fun h1 => hy1 (congrArg Subtype.val h1)

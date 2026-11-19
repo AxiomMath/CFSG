@@ -52,7 +52,7 @@ theorem span_setOf_eq_one_eq_top [Finite K] [CharP K 2] (hK : 2 < Nat.card K)
         rw [QuadraticMap.map_add Q x (μ • v)]
         rw [QuadraticMap.map_smul Q μ v, hv, smul_zero, add_zero]
         rw [QuadraticMap.polar_smul_right Q μ x v, hpx, smul_eq_mul, mul_one]
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have hcardK : 2 < Fintype.card K := by
         rw [← Nat.card_eq_fintype_card]; exact hK
       have hcard_lt : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
@@ -96,7 +96,7 @@ theorem eq_of_polar_eq_of_subset {Q Q' : QuadraticForm K V}
   have hx : x ∈ Submodule.span K {v | Q v = 1} := by rw [hspan]; trivial
   refine Submodule.span_induction (p := fun x _ => Q x = Q' x) ?_ ?_ ?_ ?_ hx
   · intro v hv
-    have hv' : Q v = 1 := Set.mem_setOf_eq.mp hv
+    have hv' : Q v = 1 := Set.mem_ofPred_eq.mp hv
     rw [hv', hsub v hv']
   · simp
   · intro x y _ _ hx hy
@@ -143,7 +143,7 @@ theorem isHypLineSpace_sp (hIH : Theorem4Below (Nat.card G)) (hC : HypothesisC D
         intro x hx
         have hx0 : x ≠ 0 := by
           rintro rfl
-          have : (0 : F) = 1 := by simpa using hx
+          have : (0 : F) = 1 := by simp at hx
           exact zero_ne_one this
         obtain ⟨z, hz_d, hzv⟩ := ch.exists_vec x hx0
         have hz_w : z ∈ commSet D w := (hQw z hz_d).mpr (by rw [hzv]; exact hx)
@@ -176,7 +176,7 @@ theorem isHypLineSpace_sp (hIH : Theorem4Below (Nat.card G)) (hC : HypothesisC D
       intro x hx
       have hx0 : x ≠ 0 := by
         rintro rfl
-        have : (0 : F) = 1 := by simpa using hx
+        have : (0 : F) = 1 := by simp at hx
         exact zero_ne_one this
       obtain ⟨z, hz_d, hzv⟩ := ch.exists_vec x hx0
       have hz_w : z ∈ commSet D w := (hQw z hz_d).mpr (by rw [hzv]; exact hx)

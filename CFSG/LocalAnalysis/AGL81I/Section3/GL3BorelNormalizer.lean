@@ -22,7 +22,7 @@ open scoped MatrixGroups
   one_mem' := by
     intro i j hij
     rw [GeneralLinearGroup.coe_one, Matrix.one_apply]
-    exact if_neg (ne_of_gt hij)
+    exact ite_eq_right (ne_of_gt hij)
   mul_mem' := by
     intro A B hA hB
     show (((A * B : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K).IsUpperTriangular
@@ -36,7 +36,7 @@ open scoped MatrixGroups
     intro A hA
     show (((A⁻¹ : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K).IsUpperTriangular
     rw [GeneralLinearGroup.coe_inv]
-    haveI := A.invertible
+    have := A.invertible
     have hA' : (A : Matrix (Fin 3) (Fin 3) K).IsUpperTriangular := hA
     exact Matrix.blockTriangular_inv_of_blockTriangular hA'
 
@@ -92,7 +92,7 @@ theorem borelGL3.ker_diag :
   · intro h
     funext i
     apply Units.ext
-    simp only [Units.val_mk0, Pi.one_apply]
+    simp only [Pi.one_apply]
     exact (mem_unitriangularGL.mp h).2 i
 
 theorem normal_unitriangularGL_subgroupOf :
@@ -127,8 +127,8 @@ theorem eq_utGL3_of_mem_unitriangularGL {A : GL (Fin 3) K}
   obtain ⟨hup, hdiag⟩ := hA
   refine GeneralLinearGroup.ext fun i j => ?_
   rw [coe_utGL3]
-  fin_cases i <;> fin_cases j <;> simp [coe_utGL3]
-  all_goals first | exact hup (by decide) | exact hdiag _ | rfl
+  fin_cases i <;> fin_cases j <;> simp
+  all_goals first | exact hup (by decide) | exact hdiag _
 
 @[expose] def unitriangularGL3Equiv : unitriangularGL 3 K ≃ (K × K × K) where
   toFun A := (((A : unitriangularGL 3 K) : GL (Fin 3) K) 0 1,
@@ -145,7 +145,7 @@ theorem eq_utGL3_of_mem_unitriangularGL {A : GL (Fin 3) K}
 theorem isPGroup_unitriangularGL_three [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] :
     IsPGroup p (unitriangularGL 3 K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨k, -, hk⟩ := FiniteField.card K p
   rw [← Nat.card_eq_fintype_card] at hk
   have hcard : Nat.card (unitriangularGL 3 K) = p ^ ((k : ℕ) * 3) := by
@@ -160,13 +160,13 @@ theorem dvd_card_sub_one_of_isPGroup_le_borel_of_ne_bot [Finite K] {d p : ℕ}
     {D : Subgroup (GL (Fin 3) K)} (hD : IsPGroup d D) (hDB : D ≤ borelGL3 K)
     (hDne : D ≠ ⊥) : d ∣ Nat.card K - 1 := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hU : IsPGroup p (unitriangularGL 3 K) := isPGroup_unitriangularGL_three
   have hinf : D ⊓ unitriangularGL 3 K = ⊥ :=
     disjoint_iff.mp (IsPGroup.disjoint_of_ne d p hdp D (unitriangularGL 3 K) hD hU)
   have hnorm : ((unitriangularGL 3 K).subgroupOf (borelGL3 K)).Normal :=
     normal_unitriangularGL_subgroupOf
-  letI : ((unitriangularGL 3 K).subgroupOf (borelGL3 K)).Normal := hnorm
+  let : ((unitriangularGL 3 K).subgroupOf (borelGL3 K)).Normal := hnorm
   let f : D →* (borelGL3 K ⧸ (unitriangularGL 3 K).subgroupOf (borelGL3 K)) :=
     (QuotientGroup.mk' ((unitriangularGL 3 K).subgroupOf (borelGL3 K))).comp
       (Subgroup.inclusion hDB)

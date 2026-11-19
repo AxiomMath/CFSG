@@ -13,14 +13,14 @@ theorem card_sup_zpowers_eq_25 {G : Type*} [Group G] {x y : G} (hxy : x * y = y 
     (hx : x ^ 5 = 1) (hx1 : x ≠ 1) (hy : y ^ 5 = 1) (hyx : ∀ k : ℕ, k < 5 → y ≠ x ^ k) :
     Nat.card ↥(Subgroup.zpowers x ⊔ Subgroup.zpowers y) = 25 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hx5 : orderOf x = 5 := orderOf_eq_prime hx hx1
   have hy1 : y ≠ 1 := by
     have := hyx 0 (by norm_num)
     rwa [pow_zero] at this
   have hy5 : orderOf y = 5 := orderOf_eq_prime hy hy1
   have hyfin : IsOfFinOrder y := isOfFinOrder_iff_pow_eq_one.mpr ⟨5, by norm_num, hy⟩
-  haveI : Finite (Subgroup.zpowers y) := hyfin.finite_zpowers
+  have : Finite (Subgroup.zpowers y) := hyfin.finite_zpowers
   have hC : Subgroup.zpowers y ≤ Subgroup.centralizer (Subgroup.zpowers x : Set G) := by
     rw [Subgroup.zpowers_le, Subgroup.mem_centralizer_iff]
     intro h hh
@@ -51,7 +51,7 @@ theorem card_sup_zpowers_eq_25 {G : Type*} [Group G] {x y : G} (hxy : x * y = y 
 
 private theorem a10k_five_dvd_of_pow_five {G : Type*} [Group G] {K : Subgroup G} {c : G}
     (h : c ∈ K) (hc : c ^ 5 = 1) (hc1 : c ≠ 1) : 5 ∣ Nat.card K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h' := Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr h)
   rwa [Nat.card_zpowers, orderOf_eq_prime hc hc1] at h'
 

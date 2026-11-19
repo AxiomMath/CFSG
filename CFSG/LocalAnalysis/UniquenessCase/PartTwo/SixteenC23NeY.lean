@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23ne_conjSubgroup_pCoreOf (K : Subgroup G) (m : G) :
     (pCoreOf 2 K).map (MulAut.conj m⁻¹).toMonoidHom = pCoreOf 2 (conjSubgroup K m) := by
   rw [conjSubgroup]

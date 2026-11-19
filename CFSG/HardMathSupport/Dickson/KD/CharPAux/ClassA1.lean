@@ -89,9 +89,9 @@ theorem kdCharPAt_A_one (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.A 1
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff] at this
     simpa [TauCeti.PrimePower.card_def] using this.1.2 rfl
   have hKc : 3 < Nat.card (GaloisField q.p q.exponent) := by rw [hKq]; omega
-  haveI : NeZero q.exponent := ⟨q.exponent_pos.ne'⟩
+  have : NeZero q.exponent := ⟨q.exponent_pos.ne'⟩
   have hfs : ∃ s : Finset (GaloisField q.p q.exponent), s.card = 4 := by
-    haveI : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
+    have : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
     obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset
       (GaloisField q.p q.exponent))) (n := 4) (by
         rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; omega)

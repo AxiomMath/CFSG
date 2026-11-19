@@ -116,7 +116,7 @@ theorem u62lb_fieldCore_zeta_of_pow (h : UnitaryFieldData 2 1 K)
       Y ^ 9 = 1) :
     FieldCoreAt 3 (primeFormConjHom h (idGram K 6) A) := by
   classical
-  haveI := excU62_finite h
+  have := excU62_finite h
   have hcube : ∀ a : Kˣ, a ^ 3 ≠ c := fun a ha => hc (ha.symm.trans (excU62_units_pow_three h a))
   obtain ⟨i₀, hi₀, hT⟩ := u6r_single odd_one A hA3 hcube
   have H : UnitaryPrimaryData h.bar (idForm h 6) (t6psub_toLin A) :=

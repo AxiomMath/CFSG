@@ -121,10 +121,10 @@ private theorem frameSrc_linearIndependent [CharP F 2] (S : Set (FrameVert Q ν 
     (fun p => (polarBilin Q).flip (frameDualSrc S p)) ?_ ?_
   · intro p q hpq
     rw [LinearMap.flip_apply, polarBilin_apply_apply,
-      polar_frameSrc_frameDualSrc hS q p, if_neg (Ne.symm hpq)]
+      polar_frameSrc_frameDualSrc hS q p, ite_eq_right (Ne.symm hpq)]
   · intro p
     rw [LinearMap.flip_apply, polarBilin_apply_apply,
-      polar_frameSrc_frameDualSrc hS p p, if_pos rfl]
+      polar_frameSrc_frameDualSrc hS p p, ite_eq_left rfl]
 
 private theorem frameTgt_linearIndependent [CharP F 2] {S : Set (FrameVert Q ν n)}
     (hS : IsFlag (frameGraph Q ν n) S) {ch : Fin n → FrameVert Q ν n}
@@ -135,10 +135,10 @@ private theorem frameTgt_linearIndependent [CharP F 2] {S : Set (FrameVert Q ν 
     (fun p => (polarBilin Q).flip (frameDualTgt ch S p)) ?_ ?_
   · intro p q hpq
     rw [LinearMap.flip_apply, polarBilin_apply_apply,
-      polar_frameTgt_frameDualTgt hS hchadj q p, if_neg (Ne.symm hpq)]
+      polar_frameTgt_frameDualTgt hS hchadj q p, ite_eq_right (Ne.symm hpq)]
   · intro p
     rw [LinearMap.flip_apply, polarBilin_apply_apply,
-      polar_frameTgt_frameDualTgt hS hchadj p p, if_pos rfl]
+      polar_frameTgt_frameDualTgt hS hchadj p p, ite_eq_left rfl]
 
 private theorem Q_frameTgt_frameSrc (ch : Fin n → FrameVert Q ν n)
     (S : Set (FrameVert Q ν n)) (p : S ⊕ S) :

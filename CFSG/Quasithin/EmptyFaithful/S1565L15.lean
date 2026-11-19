@@ -28,7 +28,7 @@ theorem exists_odd_borel_element {X : Type} [Group X] [Finite X]
     {n : ℕ} (hn : 3 ≤ n) (h : IsPSL 2 2 n X ∨ IsSz n X) (S : Sylow 2 X) :
     ∃ b ∈ Subgroup.normalizer ((S : Subgroup X) : Set X), b ≠ 1 ∧ Odd (orderOf b) := by
   have hB : E2.IsBorelIn (⊤ : Subgroup X) (⊤ ⊓ Subgroup.normalizer ((S : Subgroup X) : Set X)) := by
-    refine ⟨(S : Subgroup X), ⟨le_top, S.isPGroup', ?_⟩, rfl⟩
+    refine ⟨(S : Subgroup X), ⟨le_top, S.isPGroup, ?_⟩, rfl⟩
     show ¬ 2 ∣ (S : Subgroup X).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index

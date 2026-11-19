@@ -83,8 +83,7 @@ theorem opp_iff_relPos_rev (E F : FlagK K n) : Opp E F ↔ relPos E F = Fin.revP
     have hle : n - (k.val + 1) ≤ (relPos E F k).val :=
       not_lt.mp fun hlt => hk ⟨by omega, hlt⟩
     rwa [q2cFO_revPerm_val k]
-  · intro h
-    intro j hj
+  · intro h j hj
     have hpos : HasPos E F (Fin.revPerm) := hasPos_iff.mpr h
     have hperm : permRk (Fin.revPerm : Equiv.Perm (Fin n)) j (n - j) = 0 := by
       rw [permRk, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
@@ -149,12 +148,12 @@ theorem exists_opp (E : FlagK K n) : ∃ F, Opp E F := by
   have hFset : (↑(Finset.univ.filter fun k : Fin n => n - (n - j) ≤ k.val) : Set (Fin n)) =
       {k : Fin n | j ≤ k.val} := by
     ext k
-    simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+    simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
     omega
   have hdisj : Disjoint ({k : Fin n | k.val < j} : Set (Fin n)) {k : Fin n | j ≤ k.val} := by
     rw [Set.disjoint_left]
     intro k hk1 hk2
-    simp only [Set.mem_setOf_eq] at hk1 hk2
+    simp only [Set.mem_ofPred_eq] at hk1 hk2
     omega
   have hdj := hb.disjoint_span_image hdisj
   rw [hE j hj]

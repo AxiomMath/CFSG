@@ -47,49 +47,60 @@ namespace StrothWeakTypeData
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G} {m : ℕ}
   (dD : StrothWeakTypeData D (StrothTypeIndex.t200 m))
 
+omit [Finite G] in
 theorem t200_c_eq : (dD.c : G) = dD.ofT (Torus.ofInt _ ![1, 0, 0]) := by
   rw [← c_eq_ofInt]; rfl
 
+omit [Finite G] in
 theorem t200_a_eq : (dD.a : G) = dD.ofT (Torus.ofInt _ ![0, 1, 0]) := by
   rw [← a_eq_ofInt]; rfl
 
+omit [Finite G] in
 theorem t200_b_eq : (dD.b : G) = dD.ofT (Torus.ofInt _ ![0, 0, 1]) := by
   rw [← b_eq_ofInt]; rfl
 
+omit [Finite G] in
 theorem t200_c_pow_eq (j : ℕ) :
     (dD.c : G) ^ j = dD.ofT ((j : ℤ) • Torus.ofInt (StrothTypeIndex.t200 m).k ![1, 0, 0]) := by
   rw [dD.ofT_zsmul, zpow_natCast, ← t200_c_eq]
 
+omit [Finite G] in
 theorem t200_c_inv_eq :
     (dD.c : G)⁻¹ = dD.ofT ((-1 : ℤ) • Torus.ofInt (StrothTypeIndex.t200 m).k ![1, 0, 0]) := by
   rw [dD.ofT_zsmul, zpow_neg_one, ← t200_c_eq]
 
+omit [Finite G] in
 theorem t200_c_pow_inv_mul_pow_eq (p M : ℕ) :
     ((dD.c : G) ^ p)⁻¹ * (dD.c : G) ^ M =
       dD.ofT ((-(p : ℤ) + M) • Torus.ofInt (StrothTypeIndex.t200 m).k ![1, 0, 0]) := by
   rw [add_zsmul, dD.ofT_add, dD.ofT_zsmul, dD.ofT_zsmul, ← t200_c_eq, zpow_neg, zpow_natCast,
     zpow_natCast]
 
+omit [Finite G] in
 theorem t200_a_mul_pow_eq (j : ℕ) :
     (dD.a : G) * (dD.a : G) ^ j =
       dD.ofT ((1 + (j : ℤ)) • Torus.ofInt (StrothTypeIndex.t200 m).k ![0, 1, 0]) := by
   rw [add_zsmul, dD.ofT_add, one_zsmul, dD.ofT_zsmul, ← t200_a_eq, zpow_natCast]
 
+omit [Finite G] in
 theorem t200_a_inv_mul_pow_eq (j : ℕ) :
     (dD.a : G)⁻¹ * (dD.a : G) ^ j =
       dD.ofT ((-1 + (j : ℤ)) • Torus.ofInt (StrothTypeIndex.t200 m).k ![0, 1, 0]) := by
   rw [add_zsmul, dD.ofT_add, dD.ofT_zsmul, dD.ofT_zsmul, ← t200_a_eq, zpow_natCast, zpow_neg_one]
 
+omit [Finite G] in
 theorem t200_b_mul_pow_eq (j : ℕ) :
     (dD.b : G) * (dD.b : G) ^ j =
       dD.ofT ((1 + (j : ℤ)) • Torus.ofInt (StrothTypeIndex.t200 m).k ![0, 0, 1]) := by
   rw [add_zsmul, dD.ofT_add, one_zsmul, dD.ofT_zsmul, ← t200_b_eq, zpow_natCast]
 
+omit [Finite G] in
 theorem t200_b_inv_mul_pow_eq (j : ℕ) :
     (dD.b : G)⁻¹ * (dD.b : G) ^ j =
       dD.ofT ((-1 + (j : ℤ)) • Torus.ofInt (StrothTypeIndex.t200 m).k ![0, 0, 1]) := by
   rw [add_zsmul, dD.ofT_add, dD.ofT_zsmul, dD.ofT_zsmul, ← t200_b_eq, zpow_natCast, zpow_neg_one]
 
+omit [Finite G] in
 theorem t200_cab_pow_eq (p : ℕ) :
     ((dD.c : G) * dD.a * dD.b) ^ p =
       dD.ofT ((p : ℤ) • Torus.ofInt (StrothTypeIndex.t200 m).k ![1, 1, 1]) := by
@@ -99,6 +110,7 @@ theorem t200_cab_pow_eq (p : ℕ) :
   rw [dD.ofT_zsmul, zpow_natCast, h, dD.ofT_add, dD.ofT_add, ← t200_c_eq, ← t200_a_eq,
     ← t200_b_eq]
 
+omit [Finite G] in
 theorem t200_a_pow_inv_eq (p : ℕ) :
     ((dD.a : G) ^ p)⁻¹ =
       dD.ofT ((p : ℤ) • Torus.ofInt (StrothTypeIndex.t200 m).k ![0, -1, 0]) := by

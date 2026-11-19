@@ -67,7 +67,7 @@ theorem card_psl3_ne {K : Type} [Field K] [Finite K] :
 theorem card_psu3_ne {K : Type} [Field K] [Finite K] {q : ℕ} (hK : Nat.card K = q ^ 2) :
     Nat.card (StatedProj (StatedSU 3 q K)) ≠ orderON := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hpc, n, hp, hn⟩ := FiniteField.card' (K := K)
   have hqn : q ^ 2 = p ^ (n : ℕ) := by rw [← hK, Nat.card_eq_fintype_card, hn]
   have hqd : q ∣ p ^ (n : ℕ) := ⟨q, by rw [← hqn]; ring⟩
@@ -110,9 +110,9 @@ theorem inputONSimple_of_group (h : UniquenessMaximal.InputONGroup) : Lemma59Ns.
   refine ⟨hs, ?_⟩
   by_contra hno
   push Not at hno
-  haveI : IsMulCommutative (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.ONan).Group :=
+  have : IsMulCommutative (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.ONan).Group :=
     ⟨⟨fun a b => hno a b⟩⟩
-  haveI := hs
+  have := hs
   have hp : (Nat.card (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.ONan).Group).Prime :=
     IsSimpleGroup.prime_card
   rw [hc] at hp

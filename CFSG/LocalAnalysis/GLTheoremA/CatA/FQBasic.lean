@@ -42,11 +42,11 @@ theorem twoPart_fixNum_quotient {H : Type*} [Group H] [Finite H] (Z : Subgroup H
         rintro ⟨c, hc⟩
         exact (Nat.not_even_iff_odd.2 hker) ⟨c, by omega⟩), zero_add]
   have h3 : twoPart (Nat.card C') = twoPart (Nat.card D) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨P⟩ : Nonempty (Sylow 2 C') := inferInstance
     have hPD : (P : Subgroup C') ≤ D.subgroupOf C' := by
       intro y hy
-      obtain ⟨k, hk⟩ := P.isPGroup' (⟨y, hy⟩ : P)
+      obtain ⟨k, hk⟩ := P.isPGroup (⟨y, hy⟩ : P)
       have hk' : (y : H ⧸ Z) ^ (2 ^ k) = 1 := by
         have := congrArg (fun t : P => ((t : C') : H ⧸ Z)) hk
         simpa using this
@@ -75,7 +75,7 @@ theorem twoPart_fixNum_quotient {H : Type*} [Group H] [Finite H] (Z : Subgroup H
   exact h3.trans h2.symm
 
 theorem fixNum_one {R : Type*} [Group R] : fixNum (1 : MulAut R) = Nat.card R :=
-  Nat.card_congr (Equiv.subtypeUnivEquiv fun x => rfl)
+  Nat.card_congr (Equiv.subtypeUnivEquiv fun _x => rfl)
 
 theorem twoPart_card_quotient {H : Type*} [Group H] [Finite H] (Z : Subgroup H) [Z.Normal]
     (hZ : Odd (Nat.card Z)) : twoPart (Nat.card (H ⧸ Z)) = twoPart (Nat.card H) := by
@@ -129,7 +129,7 @@ theorem stOrder_core {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card K = 2 ^ m)
     {p : ℕ} (hp : p.Prime) (f : MulAut (H ⧸ Z)) (σ : K ≃+* K) (hσ : good σ)
     (hσf : ∀ x : H, f (QuotientGroup.mk x) = QuotientGroup.mk (ρ σ x)) (hord : orderOf f = p) :
     twoPart (fixNum f) ^ p = twoPart (Nat.card (H ⧸ Z)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : ∀ n : ℕ, ∀ x : H, (f ^ n) (QuotientGroup.mk x) = QuotientGroup.mk ((ρ (σ ^ n)) x) := by
     intro n
     induction n with
@@ -257,8 +257,7 @@ theorem congr_mem_range_conj {R S : Type*} [Group R] [Group S] (e : R ≃* S) (f
   · rintro ⟨r, hr⟩
     refine ⟨e r, MulEquiv.ext fun s => ?_⟩
     have h := congrArg (fun β : MulAut R => β (e.symm s)) hr
-    simp only [MulAut.conj_apply, MulAut.congr_apply, MulEquiv.trans_apply,
-      MulEquiv.symm_apply_apply, map_mul, map_inv, MulEquiv.apply_symm_apply] at h ⊢
+    simp only [MulAut.conj_apply, MulAut.congr_apply, MulEquiv.trans_apply] at h ⊢
     rw [← h]
     simp
 

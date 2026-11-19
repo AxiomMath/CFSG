@@ -59,11 +59,11 @@ theorem trace_pow_of_cube {D : Matrix (Fin 2) (Fin 2) K} (hdet : D.det = 1) (h3 
   rw [hj]
   have hlt : j % 3 < 3 := Nat.mod_lt _ (by norm_num)
   interval_cases (j % 3)
-  · simp [Matrix.trace_fin_two]
+  · simp
   · simp [ht]
   · have ht' : D 0 0 + D 1 1 = -1 := by rw [← Matrix.trace_fin_two]; exact ht
     have hdet' : D 0 0 * D 1 1 - D 0 1 * D 1 0 = 1 := by rw [← Matrix.det_fin_two]; exact hdet
-    simp only [show (2 : ℕ) % 3 = 2 by rfl, show (2 : ℕ) ≠ 0 by norm_num, if_false, pow_two,
+    simp only [show (2 : ℕ) ≠ 0 by norm_num, ite_false, pow_two,
       Matrix.trace_fin_two, Matrix.mul_apply, Fin.sum_univ_two]
     linear_combination (D 0 0 + D 1 1 - 1) * ht' - 2 * hdet'
 
@@ -255,8 +255,8 @@ theorem step138CentL3_of (h48 : Sec4.Item4_8) : Step138CentL3 := by
   have hq' : π = false → ModThree false (p ^ f₀) := fun h => by subst h; exact hq
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsAt hK.1
   have hq2 : 2 < p ^ f₀ := Item138Proof.two_lt_of_mulEquiv hKq hPi hq ψ
-  haveI : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
-  haveI : Group.IsPerfect (projImage (slPi π 3 (p ^ f₀) Fld)) :=
+  have : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
+  have : Group.IsPerfect (projImage (slPi π 3 (p ^ f₀) Fld)) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
   obtain ⟨N, hN, hNe⟩ := Subgroup.mem_map.mp
     (ψ ((⟨b, hbK⟩ : K) : K ⧸ aschbacherSolvableCore 3 K)).2
@@ -403,7 +403,7 @@ theorem step138CentL3_of (h48 : Sec4.Item4_8) : Step138CentL3 := by
         rw [inv_inv] at h1
         rw [hX, h1, Sec11.KS11LieProof.coe_blockHom_of_det hdetBd, trace_blockMat]
         have := hBdtr 1
-        simp only [pow_one, show (1 : ℕ) % 3 = 1 by rfl, one_ne_zero, if_false] at this
+        simp only [pow_one, show (1 : ℕ) % 3 = 1 by rfl, one_ne_zero, ite_false] at this
         rw [this]
         ring
       have htrY : (Y : Matrix (Fin 3) (Fin 3) Fld).trace = 0 := by

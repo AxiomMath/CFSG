@@ -122,7 +122,7 @@ theorem commutator_inf_le_of_benderType (f : A →* M) (hf : Function.Surjective
     obtain ⟨a, ha⟩ := hf m
     exact ⟨q a, (hfbq a).trans ha⟩
   have hT2 : IsPGroup 2 ((T₀ : Subgroup M).comap fb) :=
-    T₀.isPGroup'.comap_of_ker_isPGroup fb (hker ▸ hK2)
+    T₀.isPGroup.comap_of_ker_isPGroup fb (hker ▸ hK2)
   have hTidx : ¬ 2 ∣ ((T₀ : Subgroup M).comap fb).index := by
     rw [Subgroup.index_comap_of_surjective _ hfb]
     exact T₀.not_dvd_index
@@ -187,7 +187,7 @@ private theorem exists_sylow_le_stabilizer_of_odd {X Δ : Type*} [Group X]
     ∃ Q : Sylow 2 X, (Q : Subgroup X) ≤ stabilizer X ω := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q₀⟩ : Nonempty (Sylow 2 X) := inferInstance
-  obtain ⟨ω₀, hω₀⟩ := fixSet_nonempty_of_odd hΔ Q₀.isPGroup'
+  obtain ⟨ω₀, hω₀⟩ := fixSet_nonempty_of_odd hΔ Q₀.isPGroup
   obtain ⟨g, rfl⟩ := exists_smul_eq X ω₀ ω
   refine ⟨g • Q₀, fun x hx => ?_⟩
   have hx' : (g⁻¹ * x * g) • ω₀ = ω₀ := hω₀ _ (mem_smul_sylow_iff.mp hx)
@@ -318,7 +318,7 @@ theorem commutator_liftL_inf_le (hG : IsStarGroup G Ω) (hO : CFSG.pPrimeCore 2 
       rintro _ ⟨s, hs, rfl⟩
       exact ⟨hAlt ▸ s.2, hS hs⟩
     obtain ⟨V, hVA, hVF, -, hV1, hV2⟩ :=
-      exists_isPGroup_rho_eq hG hO hint α i (S.isPGroup'.map _) hUW
+      exists_isPGroup_rho_eq hG hO hint α i (S.isPGroup.map _) hUW
     refine commutator_inf_le_of_odd_index f hf hOK hc h2 (hVK V hVF) ?_
     rw [map_subgroupOf_liftLRho_eq hG hint i hVA hV1 hV2]
     exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp S.not_dvd_index)
@@ -328,7 +328,7 @@ theorem commutator_liftL_inf_le (hG : IsStarGroup G Ω) (hO : CFSG.pPrimeCore 2 
     have hW : D'.wModel B i = (rootCenter (Q : Subgroup (D'.M i))).map (D'.M i).subtype := by
       rw [D'.wModel_eq_of_isNaturalSE B hSE, hSE.mulLongInvClosure_eq hQ]
     have hZ2 : IsPGroup 2 (rootCenter (Q : Subgroup (D'.M i))) :=
-      Q.isPGroup'.to_le (rootCenter_le _)
+      Q.isPGroup.to_le (rootCenter_le _)
     obtain ⟨V, hVA, hVF, -, hV1, hV2⟩ := exists_isPGroup_rho_eq hG hO hint α i (hZ2.map _) hW.ge
     have hVm := map_subgroupOf_liftLRho_eq hG hint i hVA hV1 hV2
     rcases Nat.lt_or_ge i' 2 with hi | hi

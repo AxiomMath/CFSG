@@ -38,7 +38,7 @@ theorem treeOf_ap_pos_mem {n : Nat} {s : BS} (hle : s.pts.length < 2 ^ 32) {p : 
     (hm : p ∈ s.pts) : ap (treeOf n s).pos p = s.pts.idxOf p := by
   unfold ap treeOf
   rw [getElem!_pos _ p (by simpa using hp)]
-  simp only [Array.getElem_ofFn, hm, if_true, UInt32.toNat_ofNat']
+  simp only [Array.getElem_ofFn, hm, ite_true, UInt32.toNat_ofNat']
   have := List.idxOf_lt_length_iff.mpr hm
   exact Nat.mod_eq_of_lt (by omega)
 
@@ -46,7 +46,7 @@ theorem treeOf_ap_pos_nmem {n : Nat} {s : BS} {p : Nat} (hp : p < n) (hm : p ∉
     ap (treeOf n s).pos p = 2 ^ 32 - 1 := by
   unfold ap treeOf
   rw [getElem!_pos _ p (by simpa using hp)]
-  simp only [Array.getElem_ofFn, hm, if_false]
+  simp only [Array.getElem_ofFn, hm, ite_false]
   rfl
 
 theorem treeOf_size {n : Nat} (s : BS) : (treeOf n s).pts.size = s.pts.length := by
@@ -100,7 +100,7 @@ theorem treeOK_of_run {n root : Nat} {letters : Array Table} {lv : List Nat} {s 
   have hidx : s.pts.idxOf (s.pts.getD k 0) = k := idxOf_getD' hs.nodup hk
   unfold CFSG.Perm.Native.treeAt
   simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, Bool.or_eq_true, List.all_toArray,
-    List.all_eq_true, Array.contains_iff, List.mem_toArray, treeOf_size, hpts, hpar, hlab]
+    List.all_eq_true, _root_.Array.contains_iff_mem, List.mem_toArray, treeOf_size, hpts, hpar, hlab]
   refine ⟨⟨⟨hkn, ?_⟩, ?_⟩, ?_⟩
   · rw [treeOf_ap_pos_mem hlen hkn hkmem, hidx]
   · intro l hl
@@ -139,7 +139,7 @@ theorem walkInv_eq {T : Tree} {letters : Array Table} {LC R : Nat → Nat} {i N 
     rw [wiK_succ]
     by_cases hc : 0 < k ∧ rf R i 1 k < k
     · have hc' : 0 < k ∧ ap T.par k < k := by rw [H.par k hkN]; exact hc
-      rw [walkInv.eq_def, dif_pos hc', if_pos hc, H.par k hkN, H.lab k hkN]
+      rw [walkInv.eq_def, dite_eq_left hc', ite_eq_left hc, H.par k hkN, H.lab k hkN]
       have hT := H.letter k hkN hc.1 hc.2
       have hmap : (apT letters[CFSG.Perm.Native.invL (rf R i 2 k)]! q).toList =
           q.toList.map fun x => ap12 (LC (CFSG.KC.Co2Eleven.invL (rf R i 2 k))) x := by
@@ -156,7 +156,7 @@ theorem walkInv_eq {T : Tree} {letters : Array Table} {LC R : Nat → Nat} {i N 
       obtain ⟨ih1, ih2⟩ := walkInv_eq H f (rf R i 1 k) (by omega) (by omega) _ hq'
       exact ⟨by rw [ih1, hmap], ih2⟩
     · have hc' : ¬ (0 < k ∧ ap T.par k < k) := by rw [H.par k hkN]; exact hc
-      rw [walkInv.eq_def, dif_neg hc', if_neg hc]
+      rw [walkInv.eq_def, dite_eq_right hc', ite_eq_right hc]
       exact ⟨rfl, hq⟩
 
 end CFSG.KC.Co2Eleven.Snd

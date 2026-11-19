@@ -65,11 +65,11 @@ theorem mkV_inr (x y : Fin 3 → ZMod 2) (i : Fin 3) : mkV x y (Sum.inr i) = y i
 @[expose] def Sm : Submodule (ZMod 2) VM where
   carrier := {v | ∀ i, v (Sum.inr i) = 0}
   add_mem' := fun {a b} ha hb i => by
-    simp only [Set.mem_setOf_eq, Pi.add_apply] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.add_apply] at ha hb ⊢
     rw [ha i, hb i, add_zero]
   zero_mem' := fun i => rfl
   smul_mem' := fun c v hv i => by
-    simp only [Set.mem_setOf_eq, Pi.smul_apply, smul_eq_mul] at hv ⊢
+    simp only [Set.mem_ofPred_eq, Pi.smul_apply, smul_eq_mul] at hv ⊢
     rw [hv i, mul_zero]
 
 theorem mem_Sm_iff (v : VM) : v ∈ Sm ↔ ∀ i, v (Sum.inr i) = 0 := Iff.rfl
@@ -143,8 +143,8 @@ theorem LAfun_mul (A B : GL3) (v : VM) : LAfun (A * B) v = LAfun A (LAfun B v) :
 theorem LAfun_one (v : VM) : LAfun 1 v = v := by
   funext k
   cases k with
-  | inl i => simp only [LAfun, mkV_inl, xp_mkV, Units.val_one, Matrix.one_mulVec, xp_apply]
-  | inr i => simp only [LAfun, mkV_inr, yp_mkV, AT_one, Matrix.one_mulVec, yp_apply]
+  | inl i => simp only [LAfun, mkV_inl, Units.val_one, Matrix.one_mulVec, xp_apply]
+  | inr i => simp only [LAfun, mkV_inr, AT_one, Matrix.one_mulVec, yp_apply]
 
 @[expose] def LA (A : GL3) : VM ≃ₗ[ZMod 2] VM where
   toFun := LAfun A

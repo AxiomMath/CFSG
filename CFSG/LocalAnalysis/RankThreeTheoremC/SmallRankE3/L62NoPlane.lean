@@ -32,6 +32,7 @@ theorem l62_center_isCyclic (hNC : T29.NoncyclicCentreRank)
     CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 3 (by norm_num) le_top
   omega
 
+omit [Finite H] in
 theorem l62_card_inf_center_le {C : Subgroup H} (hZc : IsCyclic ↥(center ↥C)) {E : Subgroup H}
     (hE : IsElemAbelian 3 E) : Nat.card ↥(E ⊓ (center ↥C).map C.subtype) ≤ 3 := by
   have hcyc : IsCyclic ↥((center ↥C).map C.subtype) := by
@@ -49,7 +50,7 @@ theorem l62_no_plane_of_triData (hNC : T29.NoncyclicCentreRank)
     {L₁ L₂ L₃ : Subgroup H} {g : H} (hT : TriData L₁ L₂ L₃ g) (hc₂ : IsComponentOf L₂ ⊤)
     (hc₃ : IsComponentOf L₃ ⊤) {E : Subgroup H} (hEL : E ≤ L₁) (hE : IsElemAbelian 3 E)
     (hE9 : Nat.card E = 9) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ : MulAut H := MulAut.conj g
   set E₂ : Subgroup H := E.map φ.toMonoidHom with hE₂def
   set E₃ : Subgroup H := E₂.map φ.toMonoidHom with hE₃def

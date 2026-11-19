@@ -9,7 +9,7 @@ namespace CertificateChecks.KernelMisc.Sp4Cen
 
 open Matrix CFSG.KD.Sp4Cen CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.Misc.GL4 CFSG.KC.Misc.Clos
   CFSG.KC.Misc.Sp4Cen
-open Certificates.GL4 (GL4 sg)
+open Certificates.GL4Sub (GL4 sg)
 open Certificates.A5GL42 (Mat4 ofCode)
 
 theorem enc_lt (g : GL4) : enc4 g < 65536 := code4_lt _

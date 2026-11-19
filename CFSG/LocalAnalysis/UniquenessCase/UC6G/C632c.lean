@@ -26,7 +26,7 @@ theorem isPGroup_of_le_A_inf_L {B : Subgroup G} (hB : B ≤ m.A ⊓ m.L) : IsPGr
 
 theorem K_eq_U_sup_centralizer_of_le (h631 : m.C631) {B : Subgroup G} (hB : B ≤ m.A ⊓ m.L) :
     m.K = m.U ⊔ (m.K ⊓ centralizer (B : Set G)) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have h631' : ⁅m.A ⊓ m.L, m.K⁆ ≤ m.U := h631
   exact eq_sup_centralizer_of_coprime m.U_le_K m.K_le_normalizer_U (m.isPGroup_of_le_A_inf_L hB)
     (fun b hb => m.mem_normalizer_K (m.le_M_of_le_A_inf_L hB hb))
@@ -105,7 +105,7 @@ theorem Mz614.not_isPSolvable_inf_normalizer {G : Type} [Group G] [Finite G] {Da
   set C : Subgroup G := m.K ⊓ centralizer (B : Set G)
   have hCK : C ≤ m.K := inf_le_left
   have hCX0 : C ≤ X0 := m.K_inf_centralizer_le_M_inf_normalizer B
-  haveI hHn : (C.subgroupOf X0).Normal :=
+  have hHn : (C.subgroupOf X0).Normal :=
     (normal_subgroupOf_iff_le_normalizer hCX0).2 (m.M_inf_normalizer_le_normalizer_centralizer B)
   set ψ : ↥(C.subgroupOf X0) →* m.Kbar :=
     ((QuotientGroup.mk' (CFSG.pPrimeCore m.r ↥m.K)).comp (inclusion hCK)).comp
@@ -114,15 +114,15 @@ theorem Mz614.not_isPSolvable_inf_normalizer {G : Type} [Group G] [Finite G] {Da
     (m.surjective_mk_comp_inclusion hCK (m.K_eq_U_sup_centralizer_of_le h631 hB)).comp
       (subgroupOfEquivOfLe hCX0).surjective
   let e := QuotientGroup.quotientKerEquivOfSurjective ψ hψs
-  haveI : IsSimpleGroup m.Kbar := h629.1
-  haveI hsimple : IsSimpleGroup (↥(C.subgroupOf X0) ⧸ ψ.ker) := e.isSimpleGroup
+  have : IsSimpleGroup m.Kbar := h629.1
+  have hsimple : IsSimpleGroup (↥(C.subgroupOf X0) ⧸ ψ.ker) := e.isSimpleGroup
   have hidx : ψ.ker.index = Nat.card m.Kbar := by
     rw [Subgroup.index_eq_card]
     exact Nat.card_congr e.toEquiv
   have hdvd : p ∣ Nat.card m.Kbar := m.dvd_card_Kbar hp hcyc h626 h628b
   rcases hsolv _ hHn.isSubnormal ψ.ker hsimple with h | h
-  · haveI : Fact p.Prime := ⟨hpr⟩
-    haveI : IsCyclic m.Kbar := isCyclic_of_prime_card (hidx ▸ h)
+  · have : Fact p.Prime := ⟨hpr⟩
+    have : IsCyclic m.Kbar := isCyclic_of_prime_card (hidx ▸ h)
     obtain ⟨a, b, hab⟩ := h629.2
     exact hab (mul_comm' a b)
   · rw [hidx] at h

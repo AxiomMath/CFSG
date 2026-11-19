@@ -64,7 +64,7 @@ theorem commutator_mem_of_odd_of_central_chief {H Q Z W : Subgroup G}
         have hAH : A ≤ H := Subgroup.zpowers_le.mpr haH
         have hAL : A ≤ Subgroup.normalizer (L : Set G) :=
           hAH.trans (D14.le_normalizer_of_isNormalIn hLN)
-        haveI : Subgroup.Normalizes A L := ⟨hAL⟩
+        have : Subgroup.Normalizes A L := ⟨hAL⟩
         have hoddA : Odd (Nat.card ↥A) := by
           rw [Nat.card_zpowers]
           exact haodd
@@ -79,8 +79,8 @@ theorem commutator_mem_of_odd_of_central_chief {H Q Z W : Subgroup G}
           (Subgroup.normal_subgroupOf_iff_le_normalizer hML).mpr
             (((hLZ.trans hZQ).trans hQH).trans
               (D14.le_normalizer_of_isNormalIn hMN))
-        haveI : (W.subgroupOf L).Normal := hWLnorm
-        haveI : (M.subgroupOf L).Normal := hMLnorm
+        have : (W.subgroupOf L).Normal := hWLnorm
+        have : (M.subgroupOf L).Normal := hMLnorm
         have hWM' : W.subgroupOf L ≤ M.subgroupOf L := by
           intro y hy
           rw [Subgroup.mem_subgroupOf] at hy ⊢
@@ -88,13 +88,11 @@ theorem commutator_mem_of_odd_of_central_chief {H Q Z W : Subgroup G}
         have hW'inv : CFSG.IsInvariant ↥A ↥L (W.subgroupOf L) := by
           refine ⟨fun z y => ?_⟩
           rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
-          change (y : G) ∈ W ↔ ((z • y : ↥L) : G) ∈ W
           rw [hsm]
           exact Subgroup.mem_normalizer_iff.mp (hWNorm (hAH z.2)) (y : G)
         have hM'inv : CFSG.IsInvariant ↥A ↥L (M.subgroupOf L) := by
           refine ⟨fun z y => ?_⟩
           rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
-          change (y : G) ∈ M ↔ ((z • y : ↥L) : G) ∈ M
           rw [hsm]
           exact Subgroup.mem_normalizer_iff.mp
             ((D14.le_normalizer_of_isNormalIn hMN) (hAH z.2)) (y : G)
@@ -268,7 +266,7 @@ theorem str86_commutator_z2_u3H_le
     have hqconj : q * x * q⁻¹ = x := by
       calc q * x * q⁻¹ = (x * q) * q⁻¹ := by rw [hqx]
         _ = x := by group
-    simpa [hqconj] using W.one_mem
+    simp [hqconj]
   have hHK : u3H L1 L2 S ≤ K := by
     rw [str86_u3H_eq_oTwoUpper_sup_q2 hF.toW hn hL2]
     exact sup_le hOK hQK

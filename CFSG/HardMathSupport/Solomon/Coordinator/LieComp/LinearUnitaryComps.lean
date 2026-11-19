@@ -149,8 +149,8 @@ private theorem exists_conj_proj_of_pow_scalar {p n : ℕ} (hp : p.Prime) {K : T
     (hA : A ^ p = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     ∃ u : Matrix.SpecialLinearGroup (Fin n) K,
       LinearFlag.conjAut n K A = MulAut.conj (LinearFlag.proj n K u) := by
-  haveI : CharP K p := (CharP.charP_iff_prime_eq_zero (R := K) hp).2 hpK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := (CharP.charP_iff_prime_eq_zero (R := K) hp).2 hpK
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨l₀, hl₀⟩ : ∃ l : K, l ^ p = c := by
     obtain ⟨l, hl⟩ := Finite.surjective_of_injective (frobenius_inj K p) (c : K)
     exact ⟨l, hl⟩
@@ -252,7 +252,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Uni
 
 private theorem eq_one_of_pow_eq_one_char {p : ℕ} (hp : p.Prime) {K : Type} [Field K] [CharP K p]
     {x : K} (hx : x ^ p = 1) : x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h : (x - 1) ^ p = 0 := by
     rw [sub_pow_char, hx]
     simp
@@ -294,9 +294,9 @@ private theorem exists_conj_of_pow_scalar {ℓ f n : ℕ} {K : Type} [Field K]
     (hA : (A : GL (Fin n) K) ^ p = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     ∃ u : gramSU h (idGram K n),
       primeFormConjHom h (idGram K n) A = MulAut.conj (u : primeFormP h (idGram K n)) := by
-  haveI : Finite K := h.finite
-  haveI : CharP K p := hℓ ▸ h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : CharP K p := hℓ ▸ h.charP
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨l₀, hl₀⟩ : ∃ l : K, l ^ p = c := by
     obtain ⟨l, hl⟩ := Finite.surjective_of_injective (frobenius_inj K p) (c : K)
     exact ⟨l, hl⟩
@@ -395,7 +395,7 @@ end Unitary
 theorem lieCompsOn_linearUnitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     LieCompsOn p .linearUnitary := by
   intro S _ _ hs hna idx hF he β hβ _ hout
-  haveI := hs
+  have := hs
   obtain ⟨d, hv⟩ := idx
   cases d with
   | A r q => exact lieCompsCase_linear hp hp2 r q hv he β hβ hout

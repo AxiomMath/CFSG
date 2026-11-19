@@ -85,7 +85,7 @@ theorem ExtremalObstruction.exists_normal_coprime_signalizer (hS : Setting G) (h
       rw [hY', Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective]
       exact hYc
     have hle := ambient_prime_constraint_signalizer_le_core p hprime hodd N₀ D Y' hcon
-      (P.isPGroup'.to_le hDP) hDN₀ hY'c hY'N hDY' hcontains
+      (P.isPGroup.to_le hDP) hDN₀ hY'c hY'N hDY' hcontains
     rw [← hYY']
     exact Subgroup.map_mono hle
 

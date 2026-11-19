@@ -32,7 +32,7 @@ theorem testBit_tabPlaneN {K NP RAW b a : ℕ} (hK : 0 < K) (hNP : NP ≤ 2 ^ K)
   rw [CFSG.KC.KDense.SortAux.testBit_rawPlane (rec := K) (n := Nat.shiftLeft (nat_lit 1) K) (h := K)
     hK (shlK K)]
   have h1' : a < 1 <<< K := h1
-  simp [ha, h1, h1']
+  simp [ha, h1']
 
 theorem tabPlaneN_lt (K NP RAW b : ℕ) (hNP : NP ≤ 2 ^ K) :
     tabPlaneN K NP RAW b < 2 ^ Nat.shiftLeft (nat_lit 1) K := by
@@ -45,7 +45,7 @@ theorem tabPlaneN_lt (K NP RAW b : ℕ) (hNP : NP ≤ 2 ^ K) :
     Nat.testBit_and, Nat.testBit_xor, CFSG.KC.KDense.SortAux.testBit_ones]
   have h3 : 1 <<< K ≤ i := hi
   have h2' : ¬ i < 1 <<< K := h2
-  simp [h1, h2, h2', h3]
+  simp [h1, h2']
 
 theorem testBit_tabPlanesN {K NP RAW u a : ℕ} (hK : 0 < K) (hNP : NP ≤ 2 ^ K) (hu : u < K)
     (ha : a < NP) : (tabPlanesN K NP RAW).testBit (2 ^ K * u + a) = RAW.testBit (K * a + u) := by
@@ -107,7 +107,7 @@ noncomputable def wsLoop (INVM : ℕ) (NS : ℕ → ℕ) (K : ℕ) : ℕ → ℕ
 theorem wsLoop_succ (n s X : ℕ) : wsLoop INVM NS K (n + 1) s X = wsLoop INVM NS K n (s / 16)
     (CFSG.KC.MonsterConv.Perm.netApply K (2 ^ K) (CFSG.KC.MonsterConv.Perm.repU (2 ^ K) 2)
       (NS (ivL INVM (s % 16))) X) := by
-  simp only [wsLoop, Nat.rec_add_one, sN_eq]
+  simp only [wsLoop, sN_eq]
   rw [land15, shr4, shlK]
 
 structure NetFacts (PB : ℕ) (F : ℕ → ℕ) (INVM : ℕ) (NS : ℕ → ℕ) (K NL NP : ℕ) : Prop where
@@ -153,7 +153,7 @@ theorem testBit_hi {K q : ℕ} (hq : q < 2 ^ K) :
     Nat.shiftLeft (nat_lit 1) K).testBit _ = true
   rw [shlK, shlK, Nat.testBit_shiftLeft, Nat.testBit_two_pow_sub_one]
   have h2 : q < 2 ^ 2 ^ K := lt_trans hq Nat.lt_two_pow_self
-  simp [h2, hq]
+  simp [hq]
 
 theorem testBit_ones_iff {N q : ℕ} : (ones N).testBit q = decide (q < N) := by
   unfold ones

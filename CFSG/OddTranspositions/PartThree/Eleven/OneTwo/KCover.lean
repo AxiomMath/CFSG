@@ -95,7 +95,7 @@ private theorem sl2_of_central_extension_alt5 {L : Type} [Group L] [Finite L]
     (hLperfect : Group.IsPerfect L) (hcenterCard : Nat.card (Subgroup.center L) = 2)
     (e : L ⧸ Subgroup.center L ≃* alternatingGroup (Fin 5)) :
     Nonempty (L ≃* Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hsimple : IsSimpleGroup (L ⧸ Subgroup.center L) := MulEquiv.isSimpleGroup e
   have hcardq : Nat.card (L ⧸ Subgroup.center L) = 60 := by
@@ -104,7 +104,7 @@ private theorem sl2_of_central_extension_alt5 {L : Type} [Group L] [Finite L]
   have hnoncomm : ∃ a b : L ⧸ Subgroup.center L, a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative (L ⧸ Subgroup.center L) :=
+    have : IsMulCommutative (L ⧸ Subgroup.center L) :=
       isMulCommutative_iff.mpr fun a b => (h a b)
     have hp : Nat.Prime (Nat.card (L ⧸ Subgroup.center L)) :=
       (Group.is_simple_iff_prime_card).mp hsimple
@@ -245,7 +245,7 @@ private lemma center_eq_bot_of_simple_card_sixty {A : Type} [Group A] [Finite A]
       rw [isMulCommutative_iff]
       intro x y
       exact (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top x) y).symm
-    haveI := hcommA
+    have := hcommA
     have hp : Nat.Prime (Nat.card A) := (Group.is_simple_iff_prime_card).mp hsimple
     rw [hcard] at hp
     exact absurd hp (by norm_num)
@@ -302,8 +302,8 @@ private lemma factorBase
     hRcenter := hRcenter }⟩
 
 private lemma factorSetup_exists
-    (h91 : Theorem9_1) (h : ElevenTwoHyp hC)
-    (hF : ElevenTwoFrame hC S T r) (B : FactorBase hC r)
+    (_h91 : Theorem9_1) (_h : ElevenTwoHyp hC)
+    (_hF : ElevenTwoFrame hC S T r) (B : FactorBase hC r)
     (φ : kcoverQ hC r ≃* L2Wreath 2 2)
     (eAlt : CFSG.Theory.Comparator.PSL2Model 2 ≃* alternatingGroup (Fin 5)) :
     Nonempty (FactorSetup hC r) := by
@@ -337,11 +337,11 @@ private lemma factorSetup_exists
   let eA₂ : A₂ ≃* CFSG.Theory.Comparator.PSL2Model 2 := Classical.choice hA2
   let eA : A₁ ≃* alternatingGroup (Fin 5) := eA₁.trans eAlt
   let eA2 : A₂ ≃* alternatingGroup (Fin 5) := eA₂.trans eAlt
-  haveI hperfAlt : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have hperfAlt : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
-  haveI hperfA1 : Group.IsPerfect ↥A₁ :=
+  have hperfA1 : Group.IsPerfect ↥A₁ :=
     Group.IsPerfect.ofSurjective (f := eA.symm.toMonoidHom) eA.symm.surjective
-  haveI hperfA2 : Group.IsPerfect ↥A₂ :=
+  have hperfA2 : Group.IsPerfect ↥A₂ :=
     Group.IsPerfect.ofSurjective (f := eA2.symm.toMonoidHom) eA2.symm.surjective
   have hsimpleA1 : IsSimpleGroup ↥A₁ := MulEquiv.isSimpleGroup eA
   have hsimpleA2 : IsSimpleGroup ↥A₂ := MulEquiv.isSimpleGroup eA2
@@ -376,6 +376,7 @@ private lemma factorSetup_exists
     hRleLam1 := hRleLam1
     hRleLam2 := hRleLam2 }⟩
 
+omit [Finite G] in
 private lemma factorMaps (F : FactorSetup hC r) : Nonempty (FactorMaps F) := by
   classical
   let K : Subgroup G := kcoverK hC r
@@ -448,6 +449,7 @@ private structure FactorLift1 {hC : HypothesisC D} {r : Fin 3 → Halpha D hC.al
   hperf₁ : commutator ↥(factorL1 F) ⊔ (kcoverR hC r).subgroupOf (factorL1 F) = ⊤
   hL1_eq : factorL1 F = factorL1' F ⊔ kcoverR hC r
 
+omit [Finite G] in
 private lemma factorLift_first (F : FactorSetup hC r) (M : FactorMaps F) :
     Nonempty (FactorLift1 F M) := by
   classical
@@ -470,7 +472,6 @@ private lemma factorLift_first (F : FactorSetup hC r) (M : FactorMaps F) :
     rfl
   have hrange₁ : π₁.range = A₁ := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-    change Subgroup.map π Lam1 = A₁
     rw [show Lam1 = A₁.comap π from rfl, Subgroup.map_comap_eq, hπrange, top_inf_eq]
   have hmap₁ : (commutator ↥Lam1).map π₁ = A₁ := by
     rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, hrange₁]
@@ -509,6 +510,7 @@ private lemma factorLift_first (F : FactorSetup hC r) (M : FactorMaps F) :
     hperf₁ := hperf₁
     hL1_eq := hL1_eq }⟩
 
+omit [Finite G] in
 private lemma factorLifts (F : FactorSetup hC r) (M : FactorMaps F) :
     Nonempty (FactorLifts F M) := by
   classical
@@ -535,7 +537,6 @@ private lemma factorLifts (F : FactorSetup hC r) (M : FactorMaps F) :
     rfl
   have hrange₂ : π₂.range = A₂ := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-    change Subgroup.map π Lam2 = A₂
     rw [show Lam2 = A₂.comap π from rfl, Subgroup.map_comap_eq, hπrange, top_inf_eq]
   have hmap₂ : (commutator ↥Lam2).map π₂ = A₂ := by
     rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, hrange₂]
@@ -722,7 +723,7 @@ private lemma firstCover (F : FactorSetup hC r)
       have h1 : (commutator Q).index = 1 := Subgroup.index_eq_one.mpr hEq
       rw [hidxAB] at h1
       exact absurd h1 (by norm_num)
-    obtain ⟨y₀, -, hy₀⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨y₀, -, hy₀⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     obtain ⟨y, rfl⟩ := hπsurj y₀
     exact ⟨y, hy₀⟩
   obtain ⟨y, hy⟩ := hy_ex
@@ -982,7 +983,7 @@ theorem card_centralizer_e (h91 : Theorem9_1) (h : ElevenTwoHyp hC)
     exact (Nat.card_congr φ.toEquiv).trans card_l2Wreath_two_two
   have hsetupBar : Setup Q (centSetBar D e) :=
     setup_kbar (hC := hC) (S := S) (T := T) (r := r) h hF
-  letI hNbar : CFSG.GroupTheory.NormalizesSet (⊤ : Subgroup Q) (centSetBar D e) :=
+  let hNbar : CFSG.GroupTheory.NormalizesSet (⊤ : Subgroup Q) (centSetBar D e) :=
     ⟨fun a _ x hx => hsetupBar.conj_mem a hx⟩
   have hpreBar : IsPretransitive Q ↥(centSetBar D e) := by
     apply MulAction.IsPretransitive.mk
@@ -1027,7 +1028,7 @@ theorem card_centralizer_e (h91 : Theorem9_1) (h : ElevenTwoHyp hC)
     exact commute_frameE (hC := hC) (S := S) (T := T) (r := r) h hF k hk
   have hbase : ∀ x ∈ Γ, ∃ k ∈ K, k * hC.d * k⁻¹ = x :=
     transitive (hC := hC) (S := S) (T := T) (r := r) h hF
-  letI hNA : CFSG.GroupTheory.NormalizesSet A Γ :=
+  let hNA : CFSG.GroupTheory.NormalizesSet A Γ :=
     ⟨fun a ha x hx => by
       have hae : a * e * a⁻¹ = e := by
         have h := Subgroup.mem_centralizer_singleton_iff.mp ha

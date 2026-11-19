@@ -57,7 +57,7 @@ theorem sec7CV_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
         rw [e]
         exact Z.mul_mem (ha y hy) (hZnorm a (hQM (hWQ haW)) _ (hb y hy))
       one_mem' := ⟨(Wt Q (Vt M (LB M Q B) B Z t)).one_mem, fun y _ => by
-        simpa [commutatorElement_def] using Z.one_mem⟩
+        simp [commutatorElement_def]⟩
       inv_mem' := by
         rintro a ⟨haW, ha⟩
         refine ⟨(Wt Q (Vt M (LB M Q B) B Z t)).inv_mem haW, fun y hy => ?_⟩

@@ -77,7 +77,7 @@ theorem weaklyClosedIn_normalizer_of_centralizer_eq {G : Type} [Group G] [Finite
       rw [hbot, Subgroup.mem_bot, mul_inv_eq_one, mul_inv_eq_iff_eq_mul] at h0
       exact h0
     exact hne (Subgroup.eq_of_le_of_card_ge hUV hcard.ge)
-  · obtain ⟨v, hv, hvN⟩ := SetLike.not_le_iff_exists.mp hVU
+  · obtain ⟨v, hv, hvN⟩ := IsConcreteLE.not_le_iff_exists.mp hVU
     have hle := card_le_card_inf_normalizer hel hUel hUTI hgN hv hvN
     have hVL : V ⊓ Subgroup.normalizer ((conjSubgroup g V : Subgroup G) : Set G) = V :=
       Subgroup.eq_of_le_of_card_ge inf_le_left (hcard.symm.le.trans hle)

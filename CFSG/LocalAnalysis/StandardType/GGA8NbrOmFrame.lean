@@ -282,7 +282,7 @@ theorem ggA8Nbr_omFrame {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x :
         (⟨φ b, by rw [← hrange]; exact MonoidHom.mem_range.mpr ⟨b, rfl⟩⟩ : L)
       have h2 : φ b * (z : G) = (z : G) * φ b := congrArg Subtype.val hcomm
       rw [← ha] at h2
-      first | exact h2 | exact h2.symm
+      first | exact h2
     rw [hZOm, Subgroup.mem_bot] at haZ
     apply Subtype.ext
     rw [← ha, haZ, map_one]
@@ -604,7 +604,7 @@ theorem ggA8Nbr_omFrame {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x :
         funext i
         rw [Fin.tail]
         exact Pi.single_eq_of_ne (by simp) 1
-      haveI : Fact (1 < 7) := ⟨by norm_num⟩
+      have : Fact (1 < 7) := ⟨by norm_num⟩
       simp only [ΦFun, Pi.single_eq_same, htail, hιT_zero, ZMod.val_one]
       rw [pow_one, mul_one]
     exact (Φe.symm_apply_eq).mpr hsingle.symm
@@ -732,7 +732,7 @@ theorem ggA8Nbr_omFrame {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x :
         ΦFun (Fin.cons (v 0) (fun i : Fin 3 => (η' i : ZMod 7) * (Fin.tail v) (π i))) := by
       apply Subtype.ext
       rw [ggConjAut_apply]
-      simp only [ΦFun, Subgroup.coe_mk, inv_inv]
+      simp only [ΦFun, inv_inv]
       rw [Fin.cons_zero, Fin.tail_cons]
       have hwxpow : wG⁻¹ * x ^ (v 0).val * wG = x ^ (v 0).val := by
         have hc : Commute (x ^ (v 0).val) wG :=

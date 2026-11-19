@@ -65,7 +65,7 @@ private theorem f112sa_le_T_of_normalizes {L1 L2 S : Subgroup H}
   have hTU : Subgroup.zpowers k ≤ Subgroup.normalizer (N : Set H) :=
     Subgroup.zpowers_le.mpr hkN
   have hsolv : Group.IsSolvable ↥N := by
-    haveI : Group.IsNilpotent ↥N := (hF.1.h1.pgroup.to_le hNS).isNilpotent
+    have : Group.IsNilpotent ↥N := (hF.1.h1.pgroup.to_le hNS).isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card ↥(Subgroup.zpowers k)) (Nat.card ↥N) := by
     obtain ⟨n, hn⟩ := (hF.1.h1.pgroup.to_le hNS).exists_card_eq
@@ -113,7 +113,7 @@ private theorem f112sa_pCoreOf_parabolic_eq {L1 L2 S : Subgroup H}
     (hP'P : P' ≤ P) (hKP' : f112saK L1 L2 S ≤ P')
     (hPn : P ≤ Subgroup.normalizer (pCoreOf 2 P' : Set H)) :
     pCoreOf 2 P = pCoreOf 2 P' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hkX, hkB, hk3, -⟩ := f112sa_exists_k hF h2
   have hkP : k ∈ P := hBP (f112sa_X2_le_bigB L1 L2 S hkX)
   refine le_antisymm ?_ ?_
@@ -162,7 +162,7 @@ private theorem f112sa_pCoreOf_P1'_le_L1
     (hC : S3A5ModuleFacts L1 L2 S) :
     pCoreOf 2 (f112saP1' L1 L2 S) ≤ L1 := by
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
-  obtain ⟨d, hdL1, hd3⟩ := f112sa_exists_orderThree_L1 (L2 := L2) (S := S) h1
+  obtain ⟨d, hdL1, hd3⟩ := f112sa_exists_orderThree_L1 (_L2 := L2) (_S := S) h1
   have hP1N : f112P1 L1 L2 S ≤ Subgroup.normalizer (L1 : Set H) :=
     sup_le Subgroup.le_normalizer (F1.bigB_le_normalizer_left hR).1
   have hQN : pCoreOf 2 (f112saP1' L1 L2 S) ≤ Subgroup.normalizer (L1 : Set H) :=
@@ -171,7 +171,7 @@ private theorem f112sa_pCoreOf_P1'_le_L1
   have hdQ : d ∈ Subgroup.normalizer (pCoreOf 2 (f112saP1' L1 L2 S) : Set H) :=
     f112sa_P1_le_normalizer_QS hF ((le_sup_left : L1 ≤ f112P1 L1 L2 S) hdL1)
   have hsolv : Group.IsSolvable ↥(pCoreOf 2 (f112saP1' L1 L2 S)) := by
-    haveI : Group.IsNilpotent ↥(pCoreOf 2 (f112saP1' L1 L2 S)) :=
+    have : Group.IsNilpotent ↥(pCoreOf 2 (f112saP1' L1 L2 S)) :=
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (f112saP1' L1 L2 S)).isNilpotent
     infer_instance
   have hcop : Nat.Coprime (orderOf d) (Nat.card ↥(pCoreOf 2 (f112saP1' L1 L2 S))) := by

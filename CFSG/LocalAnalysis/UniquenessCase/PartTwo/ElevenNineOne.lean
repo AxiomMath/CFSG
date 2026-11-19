@@ -21,7 +21,7 @@ theorem exists_Y (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V₀ V) (h
     ∃ Y : Subgroup G, F11.IsY119 D.M V₀ V X Y ∧
       (D.M ≤ normalizer (X : Set G) → D.M ≤ normalizer (Y : Set G)) := by
   obtain ⟨hn, hO, -⟩ := hyp11_ctilde D hV
-  haveI hNn : (barImage D.M (F11.CTilde D.M V₀ V)).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M (F11.CTilde D.M V₀ V)).Normal := uc22p22u_barImage_normal hn
   obtain ⟨φ, hφs, hφk, hφπ⟩ := uc22p22u_exists_phi (M := D.M) (X := F11.CTilde D.M V₀ V) hO
   have h118V := h118
   set X₀ : Subgroup G := F11.CTilde D.M V₀ V with hX₀
@@ -29,11 +29,11 @@ theorem exists_Y (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V₀ V) (h
   set Fs : Subgroup (Bar2 D.M) :=
     (CFSG.fittingSubgroup ↥N).map N.subtype ⊔ (CFSG.layer ↥N).map N.subtype with hFs
   set C : Subgroup (Bar2 D.M) := centralizer (Fs : Set (Bar2 D.M)) with hC
-  haveI : (CFSG.layer ↥N).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hFn : ((CFSG.fittingSubgroup ↥N).map N.subtype).Normal := inferInstance
-  haveI hEn : ((CFSG.layer ↥N).map N.subtype).Normal := inferInstance
-  haveI hFsn : Fs.Normal := Subgroup.sup_normal _ _
-  haveI hCn : C.Normal := uc22p21c_normal_centralizer Fs
+  have : (CFSG.layer ↥N).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hFn : ((CFSG.fittingSubgroup ↥N).map N.subtype).Normal := inferInstance
+  have hEn : ((CFSG.layer ↥N).map N.subtype).Normal := inferInstance
+  have hFsn : Fs.Normal := Subgroup.sup_normal _ _
+  have hCn : C.Normal := uc22p21c_normal_centralizer Fs
   set Xb : Subgroup (F11.MBar11 D.M V₀ V) := F11.barImage11 D.M V₀ V X with hXb
   have hXbperf : ⁅Xb, Xb⁆ = Xb := uc22p22u_isPerfect_of_rankThreeLayer hlayer
   have hXblayer : CFSG.layer ↥Xb = ⊤ := uc22p22u_layer_eq_top_of_rankThreeLayer hlayer
@@ -145,7 +145,7 @@ theorem exists_Y (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V₀ V) (h
       have ha' : (a : G) ∈ X₀ := ha
       exact (mem_normalizer_iff.1 (hn (hYM g.2)) (a : G)).1 ha'
     have hsolv : Group.IsSolvable ↥((Y ⊓ X₀).subgroupOf Y) := by
-      haveI := hS
+      have := hS
       exact Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left : Y ⊓ X₀ ≤ Y)).toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe (inf_le_left : Y ⊓ X₀ ≤ Y)).injective
@@ -168,7 +168,7 @@ theorem exists_Y (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V₀ V) (h
       ((QuotientGroup.eq_one_iff (N := (F11.CTilde D.M V₀ V).subgroupOf D.M)
         (Subgroup.inclusion hYM k)).1 h1)
   have hle2 : (pCoreOf 2 D.M).subgroupOf Y ≤ CFSG.pCore 2 ↥Y := by
-    haveI : ((pCoreOf 2 D.M).subgroupOf Y).Normal := by
+    have : ((pCoreOf 2 D.M).subgroupOf Y).Normal := by
       refine ⟨fun a ha g => ?_⟩
       have ha' : (a : G) ∈ pCoreOf 2 D.M := ha
       exact uc22p21c_conj_mem_pCoreOf_self (hYM g.2) ha'

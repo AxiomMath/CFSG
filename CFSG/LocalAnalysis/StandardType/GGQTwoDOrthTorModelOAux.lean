@@ -19,7 +19,7 @@ section ModelO
 
 variable {F K : Type} [Field F] [Field K] [Finite K] [Algebra F K] [CharP K 2]
 
-@[expose] noncomputable def plhExt (m a : ℕ) (ha : a ≤ m + 1) :
+@[expose] noncomputable def plhExt (m a : ℕ) (_ha : a ≤ m + 1) :
     (Fin a → K) →ₗ[F] (Fin (m + 1) → K) where
   toFun z := fun i => if h : i.val < a then z ⟨i.val, h⟩ else 0
   map_add' z w := by
@@ -39,58 +39,68 @@ variable {F K : Type} [Field F] [Field K] [Finite K] [Algebra F K] [CharP K 2]
     funext j
     simp
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem plhExt_apply (m a : ℕ) (ha : a ≤ m + 1) (z : Fin a → K)
     (i : Fin (m + 1)) :
     plhExt (F := F) (K := K) m a ha z i = if h : i.val < a then z ⟨i.val, h⟩ else 0 := rfl
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem plhRes_apply (m a : ℕ) (ha : a ≤ m + 1) (v : Fin (m + 1) → K)
     (j : Fin a) :
     plhRes (F := F) (K := K) m a ha v j = v ⟨j.val, lt_of_lt_of_le j.isLt ha⟩ := rfl
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem plhRes_plhExt (m a : ℕ) (ha : a ≤ m + 1) (z : Fin a → K) :
     plhRes (F := F) (K := K) m a ha (plhExt (F := F) (K := K) m a ha z) = z := by
   funext j
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem plhExt_smul (m a : ℕ) (ha : a ≤ m + 1) (c : K) (z : Fin a → K) :
     plhExt (F := F) (K := K) m a ha (c • z) = c • plhExt (F := F) (K := K) m a ha z := by
   funext i
   by_cases h : i.val < a <;> simp [h]
 
+omit [Finite K] [CharP K 2] in
 theorem plhRes_smul (m a : ℕ) (ha : a ≤ m + 1) (c : K) (v : Fin (m + 1) → K) :
     plhRes (F := F) (K := K) m a ha (c • v) = c • plhRes (F := F) (K := K) m a ha v := by
   funext j
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem plhExt_mem_torStdV₀ (m a : ℕ) (ha : a ≤ m + 1) (z : Fin a → K) :
     plhExt (F := F) (K := K) m a ha z ∈ torStdV₀ (F := F) (K := K) m a := by
   intro i hi
-  rw [plhExt_apply, dif_neg (not_lt.2 hi)]
+  rw [plhExt_apply, dite_eq_right (not_lt.2 hi)]
 
+omit [Finite K] [CharP K 2] in
 theorem plhRes_eq_zero_of_mem_torStdV₁ (m a : ℕ) (ha : a ≤ m + 1)
     {v : Fin (m + 1) → K} (hv : v ∈ torStdV₁ (F := F) (K := K) m a) :
       plhRes (F := F) (K := K) m a ha v = 0 := by
   funext j
   exact hv ⟨j.val, lt_of_lt_of_le j.isLt ha⟩ j.isLt
 
+omit [Finite K] [CharP K 2] in
 theorem plhExt_plhRes_of_mem_torStdV₀ (m a : ℕ) (ha : a ≤ m + 1)
     {v : Fin (m + 1) → K} (hv : v ∈ torStdV₀ (F := F) (K := K) m a) :
     plhExt (F := F) (K := K) m a ha (plhRes (F := F) (K := K) m a ha v) = v := by
   funext i
   by_cases h : i.val < a
-  · rw [plhExt_apply, dif_pos h]
+  · rw [plhExt_apply, dite_eq_left h]
     exact congrArg v (Fin.ext rfl)
-  · rw [plhExt_apply, dif_neg h, (hv i (not_lt.1 h)).symm]
+  · rw [plhExt_apply, dite_eq_right h, (hv i (not_lt.1 h)).symm]
 
+omit [Finite K] [CharP K 2] in
 theorem plh_sub_plhExt_plhRes_mem_torStdV₁ (m a : ℕ) (ha : a ≤ m + 1)
     (v : Fin (m + 1) → K) :
     v - plhExt (F := F) (K := K) m a ha (plhRes (F := F) (K := K) m a ha v) ∈
       torStdV₁ (F := F) (K := K) m a := by
   intro i hi
-  rw [Pi.sub_apply, plhExt_apply, dif_pos hi]
+  rw [Pi.sub_apply, plhExt_apply, dite_eq_left hi]
   rw [sub_eq_zero]
   exact congrArg v (Fin.ext rfl)
 
+omit [Finite K] [CharP K 2] in
 theorem plh_isCompl_torStdV (m a : ℕ) (ha : a ≤ m + 1) :
     IsCompl (torStdV₀ (F := F) (K := K) m a) (torStdV₁ (F := F) (K := K) m a) := by
   constructor
@@ -124,11 +134,11 @@ theorem plh_Qn_plhExt (E : QuadExt F K (unitaryInvolution K 2 1)) (m a : ℕ)
       by_contra hlt
       exact hi (Finset.mem_image.mpr
         ⟨⟨i.val, not_le.1 hlt⟩, Finset.mem_univ _, Fin.ext rfl⟩)
-    rw [plhExt_apply, dif_neg (not_lt.2 hge), map_zero]
+    rw [plhExt_apply, dite_eq_right (not_lt.2 hge), map_zero]
   rw [← Finset.sum_subset (Finset.subset_univ _) hzero, Finset.sum_image hemb]
   apply Finset.sum_congr rfl
   intro j _
-  rw [plhExt_apply, dif_pos j.isLt]
+  rw [plhExt_apply, dite_eq_left j.isLt]
 
 theorem plh_polar_torStdV_orth (E : QuadExt F K (unitaryInvolution K 2 1)) (m a : ℕ)
     {u w : Fin (m + 1) → K} (hu : u ∈ torStdV₀ (F := F) (K := K) m a)
@@ -190,7 +200,7 @@ theorem plh_mem_torStdV₀_of_mem_torE₀ (E : QuadExt F K (unitaryInvolution K 
   exact hQ.1 w₁ fun y => by rw [polarBilin_apply_apply]; exact hall y
 
 @[expose] noncomputable def plhToLinear (E : QuadExt F K (unitaryInvolution K 2 1))
-    {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1) (m a : ℕ) (ha : a ≤ m + 1)
+    {ζ : normOne (unitaryInvolution K 2 1)} (_hζ : ζ ≠ 1) (m a : ℕ) (ha : a ≤ m + 1)
     (g : ↥(torE₀ (Qn E (m + 1)) (torStdM (F := F) ζ m a))) :
     (Fin a → K) →ₗ[F] (Fin a → K) :=
   (plhRes (F := F) (K := K) m a ha).comp
@@ -204,7 +214,7 @@ theorem plhToLinear_apply (E : QuadExt F K (unitaryInvolution K 2 1))
       plhRes (F := F) (K := K) m a ha (g.1 (plhExt (F := F) (K := K) m a ha z)) := rfl
 
 @[expose] noncomputable def plhToLinearInv (E : QuadExt F K (unitaryInvolution K 2 1))
-    {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1) (m a : ℕ) (ha : a ≤ m + 1)
+    {ζ : normOne (unitaryInvolution K 2 1)} (_hζ : ζ ≠ 1) (m a : ℕ) (ha : a ≤ m + 1)
     (g : ↥(torE₀ (Qn E (m + 1)) (torStdM (F := F) ζ m a))) :
     (Fin a → K) →ₗ[F] (Fin a → K) :=
   (plhRes (F := F) (K := K) m a ha).comp

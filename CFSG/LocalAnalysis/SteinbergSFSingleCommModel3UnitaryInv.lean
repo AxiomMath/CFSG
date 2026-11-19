@@ -13,7 +13,7 @@ open CFSG.GH74.GLS.IVK.Proofs2.Lemma41dU3
 
 private theorem u1_a_eq_zero {m : ℕ} {F' : Type} [Field F'] (hF' : UnitaryFieldData 2 m F')
     {z : UHeis hF'} (hzz : z * z = 1) : z.a = 0 := by
-  haveI : CharP F' 2 := hF'.charP
+  have : CharP F' 2 := hF'.charP
   have hc : z.c + z.c - z.a * hF'.bar z.a = 0 := by
     have h := congrArg UHeis.c hzz
     rw [UHeis.mul_c, UHeis.one_c] at h
@@ -29,7 +29,7 @@ private theorem u1_a_eq_zero {m : ℕ} {F' : Type} [Field F'] (hF' : UnitaryFiel
 private theorem u1_sylow_uHeis {m : ℕ} {F' : Type} [Field F'] (hF' : UnitaryFieldData 2 m F') :
     ∀ P : Sylow 2 ↥(unitarySU 2 m F' 3),
       Nonempty (UHeis hF' ≃* ↥(P : Subgroup ↥(unitarySU 2 m F' 3))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Rm, hRm⟩ := exists_isHypTransport (r := 1) (ε := 1) hF'
   let T : hypSU hF' 1 1 ≃* unitarySU 2 m F' (2 * 1 + 1) := hypTransport hF' hRm
   obtain ⟨-, ⟨P0, hP0⟩, -⟩ := unitary_order_and_Sylow hF' (r := 1) (ε := 1) le_rfl le_rfl
@@ -38,8 +38,8 @@ private theorem u1_sylow_uHeis {m : ℕ} {F' : Type} [Field F'] (hF' : UnitaryFi
   have e12 : UHeis hF' ≃* ↥(P1 : Subgroup ↥(unitarySU 2 m F' 3)) :=
     ((uEquivU (h := hF')).trans (MulEquiv.subgroupCongr hP0).symm).trans
       (MulEquiv.subgroupMap T _)
-  haveI : Finite ↥(unitarySU 2 m F' 3) := Finite.of_equiv _ T.toEquiv
-  haveI : Finite (Sylow 2 ↥(unitarySU 2 m F' 3)) :=
+  have : Finite ↥(unitarySU 2 m F' 3) := Finite.of_equiv _ T.toEquiv
+  have : Finite (Sylow 2 ↥(unitarySU 2 m F' 3)) :=
     Finite.of_injective (fun P : Sylow 2 ↥(unitarySU 2 m F' 3) => (P : Set ↥(unitarySU 2 m F' 3)))
       SetLike.coe_injective
   intro P

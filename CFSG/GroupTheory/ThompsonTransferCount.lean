@@ -30,10 +30,10 @@ theorem card_filter_eq_sum_orbit [Fintype (orbitRel.Quotient H α)] (R : α → 
           rintro ⟨b, g, rfl⟩
           exact hR g _
         by_cases hω : R ω.out
-        · rw [if_pos hω, Finset.sum_congr rfl fun b _ => if_pos ((hb b).mpr hω), Finset.sum_const,
+        · rw [ite_eq_left hω, Finset.sum_congr rfl fun b _ => ite_eq_left ((hb b).mpr hω), Finset.sum_const,
             Finset.card_univ, smul_eq_mul, mul_one, Nat.card_eq_fintype_card]
-        · rw [if_neg hω]
-          exact Finset.sum_eq_zero fun b _ => if_neg fun h => hω ((hb b).mp h)
+        · rw [ite_eq_right hω]
+          exact Finset.sum_eq_zero fun b _ => ite_eq_right fun h => hω ((hb b).mp h)
 
 end Orbits
 
@@ -97,11 +97,11 @@ variable {G : Type*} [Group G] [Finite G]
 theorem two_pow_dvd_card_orbit {T : Subgroup G} (hT : IsPGroup 2 T) {u : G} {K : Subgroup G}
     (hKC : K ≤ Subgroup.centralizer {u})
     (hKsyl : ¬ 2 ∣ K.relIndex (Subgroup.centralizer {u})) {j : ℕ} (y : G ⧸ T)
-    (hyT : y.out⁻¹ * u * y.out ∈ T)
+    (_hyT : y.out⁻¹ * u * y.out ∈ T)
     (hd : 2 ^ j * Nat.card ↥(T ⊓ Subgroup.centralizer {y.out⁻¹ * u * y.out}) ∣
       Nat.card ↥(Subgroup.centralizer {u})) :
     2 ^ j ∣ Nat.card (orbit K y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set t := y.out with ht
   set w := t⁻¹ * u * t with hw
   set Cw : Subgroup G := T ⊓ Subgroup.centralizer {w} with hCw
@@ -151,12 +151,12 @@ theorem exists_normal_index_two_of_count {T U : Subgroup G} (hT : IsPGroup 2 T)
         Nat.card ↥(Subgroup.centralizer {x ^ 2 ^ k})) :
     ∃ N : Subgroup G, N.Normal ∧ N.index = 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (U.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two hUidx
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (U.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two hUidx
   have hQcard : Nat.card (Qbar T U) = 2 := hUidx
-  haveI : IsCyclic (Qbar T U) := isCyclic_of_prime_card hQcard
-  haveI : IsMulCommutative (Qbar T U) := inferInstance
-  haveI : Fintype (G ⧸ T) := Fintype.ofFinite _
+  have : IsCyclic (Qbar T U) := isCyclic_of_prime_card hQcard
+  have : IsMulCommutative (Qbar T U) := inferInstance
+  have : Fintype (G ⧸ T) := Fintype.ofFinite _
   obtain ⟨N₀, hN₀⟩ : ∃ n, orderOf x = 2 ^ n := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp hT ⟨x, hxT⟩
     exact ⟨n, by simpa using hn⟩
@@ -210,10 +210,10 @@ theorem exists_normal_index_two_of_count {T U : Subgroup G} (hT : IsPGroup 2 T)
       refine Finset.sum_congr rfl fun q _ => ?_
       by_cases hq : R q.out
       · have h' := (hRiff _).mp hq
-        rw [if_pos hq, if_pos ⟨h'.2, h'.1⟩, mul_one, Nat.card_eq_fintype_card,
+        rw [ite_eq_left hq, ite_eq_left ⟨h'.2, h'.1⟩, mul_one, Nat.card_eq_fintype_card,
           ← MulAction.minimalPeriod_eq_card]
         exact h'.1
-      · rw [if_neg hq, if_neg (fun h => hq ((hRiff _).mpr ⟨h.2, h.1⟩)), mul_zero]
+      · rw [ite_eq_right hq, ite_eq_right (fun h => hq ((hRiff _).mpr ⟨h.2, h.1⟩)), mul_zero]
     have hd2 : 2 * n ∣ (Finset.univ.filter R).card := by
       obtain ⟨j₀, hj₀⟩ : ∃ j, orderOf (x ^ n) = 2 ^ j := by
         have h1 := orderOf_pow_dvd (x := x) n
@@ -258,9 +258,9 @@ theorem exists_normal_index_two_of_count {T U : Subgroup G} (hT : IsPGroup 2 T)
         rw [mem_fixedPoints_zpowers_iff, Function.minimalPeriod_eq_one_iff_isFixedPt]
         rfl
       by_cases hq : q.out ∈ fixedPoints (zpowers x) (G ⧸ T)
-      · rw [if_pos hq, if_pos (hiff.mp hq), Nat.card_eq_fintype_card,
+      · rw [ite_eq_left hq, ite_eq_left (hiff.mp hq), Nat.card_eq_fintype_card,
           (MulAction.mem_fixedPoints_iff_card_orbit_eq_one).mp hq]
-      · rw [if_neg hq, if_neg (fun h => hq (hiff.mpr h))]
+      · rw [ite_eq_right hq, ite_eq_right (fun h => hq (hiff.mpr h))]
     rw [← hcount, Nat.odd_iff,
       show Nat.card (fixedPoints (zpowers x) (G ⧸ T)) % 2 = Nat.card (G ⧸ T) % 2 from hmod.symm]
     exact Nat.two_dvd_ne_zero.mp hTidx

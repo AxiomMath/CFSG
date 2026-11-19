@@ -91,7 +91,7 @@ theorem open_isQuasisimple_hr {Q : Type*} [Group Q] (h : CFSG.IsQuasisimple Q) :
 @[expose] def offChar (τ : Tag) (T : Finset (Fin τ.rank)) :
     Multiplicative (Fin τ.rank → ℤ) →* Multiplicative (T → ℤ) :=
   AddMonoidHom.toMultiplicative
-    (Pi.addMonoidHom fun i : T => Pi.evalAddMonoidHom (fun _ => ℤ) (i : Fin τ.rank))
+    (_root_.AddMonoidHom.pi fun i : T => Pi.evalAddMonoidHom (fun _ => ℤ) (i : Fin τ.rank))
 
 theorem kernelRoots_offChar (T : Finset (Fin τ.rank)) :
     kernelRoots (offChar τ T) = leviRootsOff τ T := by

@@ -12,7 +12,7 @@ namespace CFSG.StandardType
 
 open CFSG CFSG.Assembly
 
-theorem nsLinTwo_component_label (hRig : GGLabelRigidInput) {N : ℕ} (hN : 6 ≤ N) {F : Type}
+theorem nsLinTwo_component_label (hRig : GGLabelRigidInput) {N : ℕ} (_hN : 6 ≤ N) {F : Type}
     [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = 2) {g : GL (Fin N) F} (hg : g ^ 3 = 1)
     {J₀ : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin N) F))}
     (hJ₀ : CFSG.Open.IsComponentOf J₀ (ggAutFixedSubgroup (TableB.linConjAut (Fin N) F g)))

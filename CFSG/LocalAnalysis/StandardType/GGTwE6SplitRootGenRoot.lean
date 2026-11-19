@@ -155,7 +155,7 @@ private theorem f4CartanMul_injective {p : ℕ} [Fact p.Prime] :
       ((Tag.F4.cartan.det : ℤ) : ZMod p) := (RingHom.map_det _ _).symm
   rw [e, Matrix.mulVec_injective_iff_isUnit, Matrix.isUnit_iff_isUnit_det, hd,
     CFSG.LieType.Chevalley.det_cartan_F4]
-  simpa using (isUnit_one : IsUnit (1 : ZMod p))
+  simp
 
 private theorem f4CartanMul_surjective {p : ℕ} [Fact p.Prime] :
     Function.Surjective (f4CartanMul (p := p)) :=
@@ -170,11 +170,11 @@ private theorem torusAct_simple_eq_self_iff {p : ℕ} [NeZero p] (a : Fin Tag.F4
     simp only [TableBExc.torusAct, simple_smul, reflect, TableBExc.redMod, TableBExc.liftMod,
       Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     push_cast
-    simp only [ZMod.natCast_zmod_val, ZMod.cast_id', id_eq]
+    simp only [ZMod.natCast_zmod_val]
     congr 2
     by_cases hk : k = a
     · subst hk; simp
-    · simp [Pi.single_apply, hk]
+    · simp [hk]
   rw [h]
   change (x - (∑ j, ((Tag.F4.cartan a j : ℤ) : ZMod p) * x j) • Pi.single a 1 = x) ↔
     (∑ j, ((Tag.F4.cartan a j : ℤ) : ZMod p) * x j) = 0

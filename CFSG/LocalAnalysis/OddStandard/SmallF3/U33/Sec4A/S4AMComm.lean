@@ -21,7 +21,7 @@ private theorem m12_tau_inv (h : M12Rel x₁ x₂ lam tau) : tau⁻¹ = tau :=
 
 private theorem m12_tau_conj_baseGrp (h : M12Rel x₁ x₂ lam tau) :
     ∀ a ∈ baseGrp x₁ x₂, tau * a * tau⁻¹ = a⁻¹ := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
+  have : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
   intro a ha
   rw [baseGrp] at ha
   induction ha using Subgroup.closure_induction with
@@ -69,18 +69,18 @@ private theorem m12_commutator_left_tau (h : M12Rel x₁ x₂ lam tau) {a : G}
     (ha : a ∈ baseGrp x₁ x₂) : ⁅tau, a⁆ = (a ^ 2)⁻¹ := by
   have h1 : ⁅tau, a⁆ = (⁅a, tau⁆)⁻¹ := by
     have := congrArg Inv.inv (commutatorElement_inv (g₁ := tau) (g₂ := a))
-    simpa using this
+    simp
   rw [h1, m12_commutator_tau_left h ha]
 
 private theorem m12_commutator_base (h : M12Rel x₁ x₂ lam tau) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) : ⁅a, b⁆ = 1 := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
+  have : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
   rw [commutatorElement_eq_one_iff_mul_comm]
   exact setLike_mul_comm ha hb
 
 private theorem m12_commutator_base_tau (h : M12Rel x₁ x₂ lam tau) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) : ⁅a, b * tau⁆ = a ^ 2 := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
+  have : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
   rw [commutatorElement_mul_right_eq_mul_conj, m12_commutator_base h ha hb, one_mul,
     m12_commutator_tau_left h ha]
   have hcomm : Commute b (a ^ 2) :=
@@ -89,7 +89,7 @@ private theorem m12_commutator_base_tau (h : M12Rel x₁ x₂ lam tau) {a b : G}
 
 private theorem m12_commutator_tau_base (h : M12Rel x₁ x₂ lam tau) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) : ⁅a * tau, b⁆ = (b ^ 2)⁻¹ := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
+  have : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
   rw [commutatorElement_mul_left_eq_conj_mul, m12_commutator_left_tau h hb,
     m12_commutator_base h ha hb, mul_one]
   have hcomm : Commute a ((b ^ 2)⁻¹) :=
@@ -105,7 +105,7 @@ private theorem m12_commutator_tau_tau_left (h : M12Rel x₁ x₂ lam tau) {a : 
 private theorem m12_commutator_tau_tau (h : M12Rel x₁ x₂ lam tau) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) :
     ⁅a * tau, b * tau⁆ = a ^ 2 * (b ^ 2)⁻¹ := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
+  have : IsMulCommutative (baseGrp x₁ x₂) := (WreathRel.baseGrp_eq h.toWreathRel).1
   rw [commutatorElement_mul_right_eq_mul_conj, m12_commutator_tau_base h ha hb,
     m12_commutator_tau_tau_left h ha]
   have hcomm : Commute b a := setLike_mul_comm hb ha

@@ -71,15 +71,15 @@ theorem coe_basisA (i j : Fin 24) :
   ext k l
   rw [basisA_apply]
   by_cases h : s(k, l) = s(i, j)
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     rcases Sym2.eq_iff.1 h with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
     · split_ifs with hkl
-      · subst hkl; simp [Matrix.single_apply]
-      · simp [Matrix.single_apply, hkl]
+      · subst hkl; simp
+      · simp [hkl]
     · split_ifs with hkl
-      · subst hkl; simp [Matrix.single_apply]
-      · simp [Matrix.single_apply, Ne.symm hkl]
-  · rw [if_neg h]
+      · subst hkl; simp
+      · simp [Ne.symm hkl]
+  · rw [ite_eq_right h]
     have h' : ¬ ((k = i ∧ l = j) ∨ (k = j ∧ l = i)) := fun h'' => h (Sym2.eq_iff.2 h'')
     split_ifs with hij
     · subst hij
@@ -111,14 +111,14 @@ abbrev SpaceB : Type := symMat × SpaceX × SpaceW
       (v.1 : Matrix (Fin 24) (Fin 24) ℚ)) +
       ∑ c, u.2.1 c * v.2.1 c + ∑ j, ∑ i, u.2.2 j i * v.2.2 j i)
     (fun u u' v => by
-      simp only [Prod.fst_add, Prod.snd_add, Submodule.coe_add, Matrix.add_mul, trace_add,
+      simp only [Prod.fst_add, Prod.snd_add, Submodule.coe_add, trace_add,
         Pi.add_apply, Matrix.add_apply, add_mul, Finset.sum_add_distrib]
       ring)
     (fun c u v => by
       simp only [Prod.smul_fst, Prod.smul_snd, Submodule.coe_smul, Matrix.smul_mul, trace_smul,
         Pi.smul_apply, Matrix.smul_apply, smul_eq_mul, Finset.mul_sum, mul_add, mul_assoc])
     (fun u v v' => by
-      simp only [Prod.fst_add, Prod.snd_add, Submodule.coe_add, Matrix.mul_add, trace_add,
+      simp only [Prod.fst_add, Prod.snd_add, Submodule.coe_add, trace_add,
         Pi.add_apply, Matrix.add_apply, mul_add, Finset.sum_add_distrib]
       ring)
     (fun c u v => by
@@ -132,7 +132,7 @@ theorem bform_apply (u v : SpaceB) :
 theorem bform_tensor (q q' : SpinIdx → ℚ) (v w : Fin 24 → ℚ) :
     bform (0, 0, tensor q v) (0, 0, tensor q' w) = (q ⬝ᵥ q') * (v ⬝ᵥ w) := by
   rw [bform_apply, dotProduct, dotProduct, Finset.sum_mul_sum]
-  simp only [Submodule.coe_zero, Matrix.zero_mul, trace_zero, Pi.zero_apply, mul_zero,
+  simp only [Submodule.coe_zero, trace_zero, Pi.zero_apply, mul_zero,
     Finset.sum_const_zero, zero_add, tensor, vecMulVec_apply]
   exact Finset.sum_congr rfl fun j _ => Finset.sum_congr rfl fun i _ => by ring
 
@@ -224,7 +224,7 @@ theorem bform_basisB (k l : BIdx) :
   · rw [basisB_inr_inl, basisB_inl, bform_apply]
     simp [Sum.inr_ne_inl]
   · rw [basisB_inr_inl, basisB_inr_inl, bform_apply]
-    simp only [Submodule.coe_zero, Matrix.zero_mul, trace_zero, Matrix.zero_apply, mul_zero,
+    simp only [Submodule.coe_zero, trace_zero, Matrix.zero_apply, mul_zero,
       Finset.sum_const_zero, add_zero, zero_add, Sum.inr.injEq, Sum.inl.injEq, gramDiag]
     rw [← dotProduct, single_dotProduct_single]
   · rw [basisB_inr_inl, basisB_inr_inr, bform_apply]
@@ -342,14 +342,14 @@ theorem gram_invertible_dyadic :
   · rw [Matrix.diagonal_apply]
     split_ifs
     · rcases gramDiag_mem k with h | h <;> rw [h]
-      · simpa using dyadic.one_mem
+      · simp
       · exact two_mem_dyadic_inv
     · exact dyadic.zero_mem
 
 theorem Xlift_eq {r : Q} (h : IsShortCoord (coordOf r)) :
     Xlift r = sgn (centralCoord r) • Pi.single ⟨coordOf r, h⟩ 1 := by
   unfold Xlift
-  exact dif_pos h
+  exact dite_eq_left h
 
 theorem gramDiag_inr (k : ShortIdx ⊕ (SpinIdx × Fin 24)) : gramDiag (Sum.inr k) = 1 := rfl
 
@@ -393,7 +393,7 @@ theorem rational_algebra_space_data :
     fun _ h => Xlift_eq h, finrank_S, finrank_A, finrank_X, finrank_W, finrank_B, bform_tensor,
     basisB_inl, coe_basisA, basisB_inr_inl, basisB_inr_inr, rfl, bform_basisB,
     gramDiag_inl_eq_two_iff, gramDiag_inr,
-    fun z hz => by simp only [gramDiag]; exact if_pos hz, card_offDiag,
+    fun z hz => by simp only [gramDiag]; exact ite_eq_left hz, card_offDiag,
     fun _ hv => bform_self_pos hv, gram_invertible_dyadic⟩
 
 end CFSG.Monster.Griess

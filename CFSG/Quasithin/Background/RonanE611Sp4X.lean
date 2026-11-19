@@ -17,14 +17,17 @@ section Dichotomy
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem uElt_center_mul (b c : K) : uElt (0 : K) b c 0 = uElt 0 b 0 0 * uElt 0 0 c 0 := by
   rw [uElt_mul]
   congr 1 <;> ring
 
+omit [Finite K] in
 theorem uElt_center_mul' (b c : K) : uElt (0 : K) b c 0 = uElt 0 0 c 0 * uElt 0 b 0 0 := by
   rw [uElt_mul]
   congr 1 <;> ring
 
+omit [Finite K] in
 theorem le_of_singer {W R R' : Subgroup (antiSp K)}
     (hWn : ∀ b ∈ Subgroup.normalizer (antiUnipotent K : Set (antiSp K)), ∀ w ∈ W, b * w * b⁻¹ ∈ W)
     (hRn : ∀ b ∈ Subgroup.normalizer (antiUnipotent K : Set (antiSp K)), ∀ z ∈ R, b * z * b⁻¹ ∈ R)
@@ -66,11 +69,12 @@ theorem le_of_singer {W R R' : Subgroup (antiSp K)}
     rw [← hj]
     exact hWn _ (Subgroup.pow_mem _ hxB j) _ hεW
 
+omit [CharP K 2] in
 theorem exists_ne_ne (hK : 4 ≤ Nat.card K) (b : K) : ∃ t : K, t ≠ 0 ∧ t ≠ b := by
   classical
   by_contra h
   push Not at h
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hsub : (Finset.univ : Finset K) ⊆ {0, b} := fun t _ => by
     by_cases ht : t = 0
     · simp [ht]
@@ -100,8 +104,8 @@ theorem eq_rootShort_or_rootLong {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 2 ≤
     exact Subgroup.eq_of_le_of_card_ge hl (by rw [card_rootLong, hK, hWcard])
   exfalso
   have hboth : ∃ b c : K, b ≠ 0 ∧ c ≠ 0 ∧ uElt (0 : K) b c 0 ∈ W := by
-    obtain ⟨w₁, hw₁, hw₁s⟩ := SetLike.not_le_iff_exists.1 hs
-    obtain ⟨w₂, hw₂, hw₂l⟩ := SetLike.not_le_iff_exists.1 hl
+    obtain ⟨w₁, hw₁, hw₁s⟩ := IsConcreteLE.not_le_iff_exists.1 hs
+    obtain ⟨w₂, hw₂, hw₂l⟩ := IsConcreteLE.not_le_iff_exists.1 hl
     obtain ⟨b₁, c₁, rfl⟩ := hWZ w₁ hw₁
     obtain ⟨b₂, c₂, rfl⟩ := hWZ w₂ hw₂
     have hc₁ : c₁ ≠ 0 := fun h => hw₁s ⟨b₁, by rw [h]⟩
@@ -166,6 +170,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 @[expose] def tv2 : SL₂ K := ⟨!![1, 0; 1, 1], by simp [Matrix.det_fin_two_of]⟩
 
+omit [Finite K] in
 theorem tv1_mul_self : tv1 * tv1 = (1 : SL₂ K) := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   apply Subtype.ext
@@ -174,6 +179,7 @@ theorem tv1_mul_self : tv1 * tv1 = (1 : SL₂ K) := by
   fin_cases i <;> fin_cases j <;>
     simp [tv1, Matrix.mul_apply, Fin.sum_univ_two, one_add_one_eq_two, h2]
 
+omit [Finite K] in
 theorem tv2_mul_self : tv2 * tv2 = (1 : SL₂ K) := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   apply Subtype.ext
@@ -182,6 +188,7 @@ theorem tv2_mul_self : tv2 * tv2 = (1 : SL₂ K) := by
   fin_cases i <;> fin_cases j <;>
     simp [tv2, Matrix.mul_apply, Fin.sum_univ_two, one_add_one_eq_two, h2]
 
+omit [Finite K] in
 theorem eq_one_of_commute_tv {M : SL₂ K} (h1 : M * tv1 = tv1 * M) (h2 : M * tv2 = tv2 * M) :
     M = 1 := by
   have h2' : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -213,6 +220,7 @@ theorem eq_one_of_commute_tv {M : SL₂ K} (h1 : M * tv1 = tv1 * M) (h2 : M * tv
   ext i j
   fin_cases i <;> fin_cases j <;> simp [hp, hq, hr, ← hps]
 
+omit [Finite K] in
 theorem units_eq_one_of_sq_eq_one {l : Kˣ} (h : (l : K) ^ 2 = 1) : l = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have h1 : ((l : K) - 1) ^ 2 = 0 := by linear_combination h + (1 - (l : K)) * h2
@@ -225,6 +233,7 @@ section RootAxis
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] in
 theorem rootCoord_injective (i : Axis) : Function.Injective (rootCoord K i) := by
   cases i
   · intro x y h
@@ -232,6 +241,7 @@ theorem rootCoord_injective (i : Axis) : Function.Injective (rootCoord K i) := b
   · intro x y h
     exact (uElt_inj h).2.2.1
 
+omit [Finite K] in
 theorem rootCoord_mul_self (i : Axis) (x : K) : rootCoord K i x * rootCoord K i x = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   cases i
@@ -315,6 +325,7 @@ theorem rootN_lt_top (hK : Nat.card K = 2 ^ n) (hn : 2 ≤ n) (i : Axis) : rootN
   · exact hd.lt_top₁
   · exact hd.lt_top₂
 
+omit [Finite K] in
 theorem rootU_le_center (i : Axis) : rootU K i ≤ antiUnipotentCenter K := by
   cases i
   · rintro _ ⟨b, rfl⟩
@@ -322,9 +333,11 @@ theorem rootU_le_center (i : Axis) : rootU K i ≤ antiUnipotentCenter K := by
   · rintro _ ⟨c, rfl⟩
     exact ⟨0, c, rfl⟩
 
+omit [Finite K] in
 theorem rootU_le_antiUnipotent (i : Axis) : rootU K i ≤ antiUnipotent K :=
   (rootU_le_center i).trans (antiUnipotentCenter_le)
 
+omit [Finite K] in
 theorem rootU_comm (i : Axis) {w s : antiSp K} (hw : w ∈ rootU K i) (hs : s ∈ antiUnipotent K) :
     w * s = s * w :=
   antiUnipotentCenter_comm (rootU_le_center i hw) hs
@@ -333,7 +346,8 @@ theorem rootC_perfect (hK : Nat.card K = 2 ^ n) (hn : 2 ≤ n) (i : Axis) :
     ⁅rootC K i, rootC K i⁆ = rootC K i :=
   Subgroup.isPerfect_iff.1 (even_symplectic_four_root_axis_centralizer_structure hK hn i).C_perfect
 
-theorem rootC_le_rootN (i : Axis) : rootC K i ≤ rootN K i := fun g hg =>
+omit [Finite K] in
+theorem rootC_le_rootN (i : Axis) : rootC K i ≤ rootN K i := fun _g hg =>
   Subgroup.centralizer_le_normalizer _ hg
 
 theorem exists_complement (hK : Nat.card K = 2 ^ n) (hn : 2 ≤ n) (i : Axis) :

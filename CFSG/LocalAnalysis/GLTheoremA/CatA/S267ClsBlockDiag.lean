@@ -106,17 +106,17 @@ theorem concA_of_block_diag (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelian 
           fun h => ?_⟩⟩
       · dsimp only
         by_cases hx : (x : Ω) ∈ B₁
-        · rw [dif_pos hx]
+        · rw [dite_eq_left hx]
           exact hθφ _ h
-        · rw [dif_neg hx, MulAut.mul_apply, hθφ, map_semiAut_pow hact, hxk x]
-          simp only [Subgroup.coe_mk]
+        · rw [dite_eq_right hx, MulAut.mul_apply, hθφ, map_semiAut_pow hact, hxk x]
+          simp only
           group
-      · simp only [dif_pos hx]
+      · simp only [dite_eq_left hx]
       · rcases Nat.eq_zero_or_pos (k x) with h0 | h0
         · exact absurd (by rw [hxk x, h0, pow_zero, mul_one]; exact hy x) hx
         · exact h0
       · dsimp only
-        rw [dif_neg hx, MulAut.mul_apply, coe_conjOn, coe_semiAut_pow_apply]
+        rw [dite_eq_right hx, MulAut.mul_apply, coe_conjOn, coe_semiAut_pow_apply]
   set X : Subgroup ↥H := ModelGen.fixFam (fun x : {x : ↥B // (x : Ω) ∈ D} => lift x.1)
     with hXdef
   have hmemX : ∀ g : ↥H, g ∈ X ↔

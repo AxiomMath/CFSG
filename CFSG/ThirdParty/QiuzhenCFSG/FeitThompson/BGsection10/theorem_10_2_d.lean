@@ -41,7 +41,7 @@ private theorem CFSG.section10_quotient_malpha_groupRank_le_two
     · exact hn_le_two
     have hthree_n : 3 ≤ n := by omega
     let p : Nat.Primes := ⟨q, hqprime⟩
-    haveI : Fact p.val.Prime := ⟨p.property⟩
+    have : Fact p.val.Prime := ⟨p.property⟩
     have hthree_rank_Q : 3 ≤ primeRank p.val Q := hthree_n.trans hnq
     have hp_dvd_Q : p.val ∣ Nat.card Q :=
       section10_prime_dvd_card_of_three_le_primeRank_pre

@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 theorem y7b_inv_mul_mem_X0 (c : Ctx7 G L) (hb : B5Std c) {x m : G} (hx : x ∈ X7 c.s)
     (hm : m ∈ X7 c.s) (h : (⁅x, c.s.t⁆)⁻¹ * ⁅m, c.s.t⁆ ∈ M3 c.s) : m⁻¹ * x ∈ y7bX0 c.s := by
-  haveI := y7b_M3_normal_BM c hb
+  have := y7b_M3_normal_BM c hb
   obtain ⟨θ, hθ, -⟩ := y7b_exists_theta c hb
   have hux : ⁅x, c.s.t⁆ ∈ y7bBM c.s := y7b_comm_t_mem_BM c hb x (y7b_X7_le_X c hx)
   let ux : ↥(y7bBM c.s) := ⟨⁅x, c.s.t⁆, hux⟩
@@ -45,7 +45,7 @@ theorem y7b_theta_comm_onto (c : Ctx7 G L) (hb : B5Std c) {k : G}
     {Y : Subgroup G} (hY : Y ≤ X7 c.s) (hkY : ∀ y ∈ Y, k * y * k⁻¹ ∈ Y)
     (honto : ∀ u ∈ y7bBM c.s, ∃ y ∈ Y, u⁻¹ * ⁅y, c.s.t⁆ ∈ M3 c.s) :
     ∀ u ∈ y7bBM c.s, ∃ z ∈ Y, u⁻¹ * ⁅⁅z, k⁆, c.s.t⁆ ∈ M3 c.s := by
-  haveI := y7b_M3_normal_BM c hb
+  have := y7b_M3_normal_BM c hb
   obtain ⟨θ, hθ, hθeq⟩ := y7b_exists_theta c hb
   have hkNH : k ∈ normIn c.s.H c.s.fr.B := ⟨s3_L_le_H c.s hb.hH.hS hkN.1, hkN.2⟩
   have hkX : k ∈ y7bX c.s := y7b_N_le_X c hb hkNH

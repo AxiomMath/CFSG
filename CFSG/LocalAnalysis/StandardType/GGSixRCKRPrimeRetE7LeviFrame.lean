@@ -47,7 +47,7 @@ theorem nonempty_rckE7Frame_of_levi {τ : Tag} [E7Sub τ]
     (v : WeylGroup τ) {Ψ : Set (Fin τ.rank → ℤ)}
     (hΨ : Ψ = (fun α => v • α) '' parabolicRoots τ (e7Set τ)) :
     Nonempty (RCKE7Frame Ψ) := by
-  haveI : CharP GGL 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
   have h2 : (2 : GGL) = 0 := CharP.cast_eq_zero GGL 2
   let n : ModGL τ GGL := canonicalRep (coxeterSystem τ) GGL v
   let f : ModGL τ GGL →* ModGL τ GGL := (MulAut.conj n).toMonoidHom

@@ -21,6 +21,7 @@ namespace S4B
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma k18t2_inv_conj_eq_of_comm {x c : G} (h : x * c = c * x) : c⁻¹ * x * c = x := by
   have h1 : c⁻¹ * x = x * c⁻¹ := by
     calc c⁻¹ * x = c⁻¹ * (x * c) * c⁻¹ := by group

@@ -64,7 +64,7 @@ theorem exists_E16_of_isExtOf {T S : Type} [Group T] [Group S] [Finite T]
     rw [injective_iff_map_eq_one]
     intro x hx
     have hxK : ((x : W) : T) ∈ K := hker _ hx
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T2.isPGroup') x
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T2.isPGroup) x
     have h1 : orderOf ((x : W) : T) = 2 ^ n := by
       rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hn]
     have h2 : orderOf ((x : W) : T) ∣ 3 := hK3 ▸ Subgroup.orderOf_dvd_natCard K hxK
@@ -182,7 +182,7 @@ theorem innerThree_alt_six : InnerThree (alternatingGroup (Fin 6)) := fun σ hσ
 
 theorem a5Row_alt_six : A5Row (fun T _ => Nonempty (T ≃* alternatingGroup (Fin 6))) := by
   intro T _ _ hd ⟨φ⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   exact hd.false_of_iso_inner φ innerThree_alt_six
     (Sec21.Item22Res4Proof.orderOf_alternating_ne_fifteen (by norm_num))
 
@@ -241,7 +241,7 @@ theorem a5Row_one_inner (p : ℕ) [Fact p.Prime] (hp5 : 5 ≤ p)
     A5Row (fun T _ => Nonempty (T ≃* projSL 2 (GaloisField p 1))) := by
   intro T _ _ hd ⟨φ⟩
   have hK : Nat.card (GaloisField p 1) = p := by rw [GaloisField.card p 1 one_ne_zero, pow_one]
-  haveI : IsSimpleGroup (projSL 2 (GaloisField p 1)) :=
+  have : IsSimpleGroup (projSL 2 (GaloisField p 1)) :=
     CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField p 1) le_rfl
       (Or.inr (by rw [hK]; omega)) (Or.inr (by rw [hK]; omega))
   exact hd.false_of_iso_inner_nine φ (innerThree_projSL_two p) h9
@@ -308,7 +308,7 @@ theorem a5Row_one (p e : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) (he : 1 ≤ e) :
     rcases pow_dvd_N hp (by norm_num) hqN with h1 | ⟨h7, -⟩
     · obtain rfl : e = 1 := by omega
       have hK19 : Nat.card (GaloisField 19 1) = 19 := by rw [hK]; norm_num
-      haveI : IsSimpleGroup (projSL 2 (GaloisField 19 1)) :=
+      have : IsSimpleGroup (projSL 2 (GaloisField 19 1)) :=
         CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 19 1) le_rfl
           (Or.inr (by rw [hK19]; norm_num)) (Or.inr (by rw [hK19]; norm_num))
       obtain ⟨g, hg9⟩ := CFSG.AGLEmbedding.exists_orderOf_nine_psl_nineteen hK19
@@ -388,11 +388,11 @@ set_option linter.unusedSectionVars false
 theorem a5Row_spor_M11 :
     A5Row (fun T _ => Nonempty (T ≃* Blueprint.NativeSporadic.Carrier .M11)) := by
   intro T _ _ hd ⟨φ⟩
-  haveI : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .M11) :=
+  have : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .M11) :=
     CFSG.ClassicalInvolution.Q3.isSimpleGroup_m11_kernel
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .M11) :=
+  have : Finite (Blueprint.NativeSporadic.Carrier .M11) :=
     inferInstanceAs (Finite Blueprint.NativeSporadic.M11)
-  haveI : Finite (Outer (Blueprint.NativeSporadic.Carrier .M11)) :=
+  have : Finite (Outer (Blueprint.NativeSporadic.Carrier .M11)) :=
     Sec13.Res5Proof.finite_outer _
   exact hd.false_of_iso_outer φ (Sec13.Res5Proof.not_three_dvd_of_card_le_two
     CFSG.Sporadic.Schreier.at_m11_schreier.1) fun x => Sec4.Ronan148R.orderOf_ne_fifteen_m11 x
@@ -400,7 +400,7 @@ theorem a5Row_spor_M11 :
 theorem a5Row_spor_J1 :
     A5Row (fun T _ => Nonempty (T ≃* Blueprint.NativeSporadic.Carrier .J1)) := by
   intro T _ _ hd ⟨φ⟩
-  haveI : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .J1) := CFSG.Sporadic.J1.isSimpleGroup_J1
+  have : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .J1) := CFSG.Sporadic.J1.isSimpleGroup_J1
   refine hd.false_of_iso_outer_nine φ ?_ ?_
   · change ¬ 3 ∣ Nat.card (Outer Blueprint.NativeSporadic.J1)
     rw [CFSG.Sporadic.Schreier.at_j1_schreier.1]
@@ -412,7 +412,7 @@ theorem a5Row_spor_J1 :
 theorem a5Row_spor_M12 :
     A5Row (fun T _ => Nonempty (T ≃* Blueprint.NativeSporadic.Carrier .M12)) := by
   intro T _ _ hd ⟨e⟩
-  haveI : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .M12) :=
+  have : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .M12) :=
     CFSG.Sporadic.Co1Schreier.m12_simple
   have hZ := Sec4.center_eq_bot_of_mulEquiv_isSimpleGroup hd.qs e
   let f : Blueprint.NativeSporadic.M12 →* T := e.symm.toMonoidHom
@@ -428,8 +428,8 @@ theorem a5Row_spor_M12 :
   exact h'
 
 theorem a5Row_spor_M22 :
-    A5Row (fun T _ => Nonempty (T ≃* Blueprint.NativeSporadic.Carrier .M22)) :=
-  fun T _ _ hd ⟨φ⟩ => hd.false_of_iso_E16 φ CFSG.GH74.Uniqueness.SU.K.R3.exists_E16_M22
+    A5Row (fun _T _ => Nonempty (_T ≃* Blueprint.NativeSporadic.Carrier .M22)) :=
+  fun _T _ _ hd ⟨φ⟩ => hd.false_of_iso_E16 φ CFSG.GH74.Uniqueness.SU.K.R3.exists_E16_M22
 
 theorem a5Row_cover_M22 :
     A5Row (fun T _ => IsExtOf T (Blueprint.NativeSporadic.Carrier .M22)

@@ -25,31 +25,31 @@ private theorem cartanD_ne_zero (n : ℕ) {u v : Fin n} (h : u ≠ v) :
       (u.val + 3 = n ∧ (v.val + 2 = n ∨ v.val + 1 = n)) ∨
       (v.val + 3 = n ∧ (u.val + 2 = n ∨ u.val + 1 = n)) ) := by
     unfold CartanMatrix.D
-    rw [Matrix.of_apply, if_neg h]
+    rw [Matrix.of_apply, ite_eq_right h]
     by_cases hn : n ≤ 2
-    · rw [if_pos hn]
+    · rw [ite_eq_left hn]
       have hAll : ¬( (u.val + 1 = v.val ∧ v.val + 2 < n) ∨
           (v.val + 1 = u.val ∧ u.val + 2 < n) ∨
           (u.val + 3 = n ∧ (v.val + 2 = n ∨ v.val + 1 = n)) ∨
           (v.val + 3 = n ∧ (u.val + 2 = n ∨ u.val + 1 = n)) ) := by
         rintro (⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩) <;> omega
       simp [hAll]
-    · rw [if_neg hn]
+    · rw [ite_eq_right hn]
       by_cases hA : (u.val + 1 = v.val ∧ v.val + 2 < n)
-      · rw [if_pos hA]; simp [hA]
-      · rw [if_neg hA]
+      · rw [ite_eq_left hA]; simp [hA]
+      · rw [ite_eq_right hA]
         by_cases hB : (v.val + 1 = u.val ∧ u.val + 2 < n)
-        · rw [if_pos hB]; simp [hB]
-        · rw [if_neg hB]
+        · rw [ite_eq_left hB]; simp [hB]
+        · rw [ite_eq_right hB]
           by_cases hC : (u.val + 3 = n ∧ (v.val + 2 = n ∨ v.val + 1 = n))
-          · rw [if_pos hC]; simp [hC]
-          · rw [if_neg hC]
+          · rw [ite_eq_left hC]; simp [hC]
+          · rw [ite_eq_right hC]
             by_cases hD : (v.val + 3 = n ∧ (u.val + 2 = n ∨ u.val + 1 = n))
-            · rw [if_pos hD]; simp [hD]
-            · rw [if_neg hD]; simp [hA, hB, hC, hD]
+            · rw [ite_eq_left hD]; simp [hD]
+            · rw [ite_eq_right hD]; simp [hA, hB, hC, hD]
   constructor
   · intro hD; by_contra hP; exact hD (hz.mpr hP)
-  · intro hP; intro hD; exact (hz.mp hD) hP
+  · intro hP hD; exact (hz.mp hD) hP
 
 private lemma cartanD_eq_neg_one {n : ℕ} {u v : Fin n} (h : u ≠ v)
     (hz : CartanMatrix.D n u v ≠ 0) : CartanMatrix.D n u v = -1 := by
@@ -57,12 +57,12 @@ private lemma cartanD_eq_neg_one {n : ℕ} {u v : Fin n} (h : u ≠ v)
   · exfalso
     apply hz
     unfold CartanMatrix.D
-    rw [Matrix.of_apply, if_neg h, if_pos hn]
+    rw [Matrix.of_apply, ite_eq_right h, ite_eq_left hn]
   · unfold CartanMatrix.D at hz ⊢
-    rw [Matrix.of_apply, if_neg h, if_neg hn] at hz ⊢
-    split_ifs at hz ⊢ <;> first | rfl | (exfalso; exact hz rfl) | omega
+    rw [Matrix.of_apply, ite_eq_right h, ite_eq_right hn] at hz ⊢
+    split_ifs at hz ⊢ <;> first | rfl | (exfalso; exact hz rfl)
 
-private lemma cartanD_shift_ne_zero_iff {n c : ℕ} (hc : c ≤ n) (h3 : 3 ≤ n - c)
+private lemma cartanD_shift_ne_zero_iff {n c : ℕ} (hc : c ≤ n) (_h3 : 3 ≤ n - c)
     {i j : Fin n} (hij : i ≠ j) (hi : c ≤ i.val) (hj : c ≤ j.val) :
     (CartanMatrix.D n i j ≠ 0) ↔
       (CartanMatrix.D (n - c) (⟨i.val - c, by omega⟩ : Fin (n - c))
@@ -70,7 +70,7 @@ private lemma cartanD_shift_ne_zero_iff {n c : ℕ} (hc : c ≤ n) (h3 : 3 ≤ n
   have hij' : (⟨i.val - c, by omega⟩ : Fin (n - c)) ≠ ⟨j.val - c, by omega⟩ := by
     intro h; exact hij (by ext; have := congrArg Fin.val h; simp at this; omega)
   rw [cartanD_ne_zero n hij, cartanD_ne_zero (n - c) hij']
-  simp only [Fin.val_mk]
+  simp only
   constructor
   · rintro (⟨hA, hB⟩ | ⟨hA, hB⟩ | ⟨hA, hB⟩ | ⟨hA, hB⟩)
     · exact Or.inl ⟨by omega, by omega⟩
@@ -99,10 +99,10 @@ private lemma cartanD_shift_eq_val {n c : ℕ} (hc : c ≤ n) (h3 : 3 ≤ n - c)
   by_cases hij : i = j
   · subst hij
     rw [show CartanMatrix.D n i i = 2 from by
-      unfold CartanMatrix.D; rw [Matrix.of_apply, if_pos rfl]]
+      unfold CartanMatrix.D; rw [Matrix.of_apply, ite_eq_left rfl]]
     rw [show CartanMatrix.D (n - c) (⟨i.val - c, by omega⟩ : Fin (n - c))
         ⟨i.val - c, by omega⟩ = 2 from by
-      unfold CartanMatrix.D; rw [Matrix.of_apply, if_pos rfl]]
+      unfold CartanMatrix.D; rw [Matrix.of_apply, ite_eq_left rfl]]
   · have hiff := cartanD_shift_ne_zero_iff hc h3 hij hi hj
     by_cases hz : CartanMatrix.D n i j = 0
     · have hz' : CartanMatrix.D (n - c) (⟨i.val - c, by omega⟩ : Fin (n - c))
@@ -125,10 +125,10 @@ private lemma ggCoxeterMatrixD_shift_val {n c : ℕ} (hc : c ≤ n) (h3 : 3 ≤ 
   rw [ggCoxeterMatrixD_apply, ggCoxeterMatrixD_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, if_pos (by ext; simp)]
+    rw [ite_eq_left rfl, ite_eq_left (by ext; simp)]
   · have hij' : (⟨i.val - c, by omega⟩ : Fin (n - c)) ≠ ⟨j.val - c, by omega⟩ := by
       intro h; exact hij (by ext; have := congrArg Fin.val h; simp at this; omega)
-    rw [if_neg hij, if_neg hij']
+    rw [ite_eq_right hij, ite_eq_right hij']
     rw [cartanD_shift_eq_val hc h3 hi hj]
 
 private lemma ggIsWeylMatrix_D_of_three_le {N : ℕ} (hN : 3 ≤ N) :
@@ -152,8 +152,8 @@ private def shiftDEquiv (n c : ℕ) (hc : c ≤ n) :
     {j : Fin n // c ≤ j.val} ≃ Fin (n - c) where
   toFun j := ⟨j.1.val - c, by have := j.1.isLt; omega⟩
   invFun i := ⟨⟨i.val + c, by have := i.isLt; omega⟩, Nat.le_add_left c i.val⟩
-  left_inv j := by ext; simp only [Fin.val_mk]; omega
-  right_inv i := by ext; simp only [Fin.val_mk]; omega
+  left_inv j := by ext; simp only; omega
+  right_inv i := by ext; simp only; omega
 
 private def ltSubtypeEquiv (n c : ℕ) (hc : c ≤ n) :
     {j : Fin n // j.val < c} ≃ Fin c where
@@ -175,11 +175,11 @@ private lemma coxeterA_apply (n : ℕ) (u v : Fin n) :
   show (if u = v then 1 else if (v.val + 1 = u.val ∨ u.val + 1 = v.val) then 3 else 2) =
        (if u = v then 1 else if (u.val + 1 = v.val ∨ v.val + 1 = u.val) then 3 else 2)
   by_cases huv : u = v
-  · rw [if_pos huv, if_pos huv]
-  · rw [if_neg huv, if_neg huv]
+  · rw [ite_eq_left huv, ite_eq_left huv]
+  · rw [ite_eq_right huv, ite_eq_right huv]
     by_cases h : (v.val + 1 = u.val ∨ u.val + 1 = v.val)
-    · rw [if_pos h, if_pos (h.elim Or.inr Or.inl)]
-    · rw [if_neg h, if_neg (fun hh => h (hh.elim Or.inr Or.inl))]
+    · rw [ite_eq_left h, ite_eq_left (h.elim Or.inr Or.inl)]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h (hh.elim Or.inr Or.inl))]
 
 private lemma cartanD_tail_ne_zero_iff {n : ℕ} {i j : Fin n} (hij : i ≠ j)
     (hi : i.val + 1 < n) (hj : j.val + 1 < n) :
@@ -203,10 +203,10 @@ private def shiftAEquiv (n m : ℕ) (hmn : m ≤ n) :
     constructor
     · show n - m ≤ n - m + i.val; omega
     · show n - m + i.val + 1 < n; omega⟩
-  left_inv j := by ext; simp only [Fin.val_mk]; omega
-  right_inv i := by ext; simp only [Fin.val_mk]; omega
+  left_inv j := by ext; simp only; omega
+  right_inv i := by ext; simp only; omega
 
-private lemma parMatrix_A_eq {n m : ℕ} (hm : 2 ≤ m) (hmn : m ≤ n) :
+private lemma parMatrix_A_eq {n m : ℕ} (_hm : 2 ≤ m) (hmn : m ≤ n) :
     parMatrix (ggCoxeterMatrixD n) {j : Fin n | n - m ≤ j.val ∧ j.val + 1 < n} =
       (CoxeterMatrix.A (m - 1)).reindex (shiftAEquiv n m hmn).symm := by
   ext i j
@@ -219,27 +219,27 @@ private lemma parMatrix_A_eq {n m : ℕ} (hm : 2 ≤ m) (hmn : m ≤ n) :
   by_cases hij : i.1 = j.1
   · have hs : shiftAEquiv n m hmn i = shiftAEquiv n m hmn j := by
       rw [Subtype.ext hij]
-    rw [if_pos hij, if_pos hs]
+    rw [ite_eq_left hij, ite_eq_left hs]
   · have hij' : i ≠ j := fun h => hij (congrArg Subtype.val h)
     have hshift : shiftAEquiv n m hmn i ≠ shiftAEquiv n m hmn j :=
       fun h => hij' ((shiftAEquiv n m hmn).injective h)
-    rw [if_neg hij, if_neg hshift]
+    rw [ite_eq_right hij, ite_eq_right hshift]
     by_cases hadj : (i.1.val + 1 = j.1.val ∨ j.1.val + 1 = i.1.val)
     · have hD : CartanMatrix.D n i.1 j.1 ≠ 0 :=
         (cartanD_tail_ne_zero_iff hij i.2.2 j.2.2).mpr hadj
-      rw [if_neg hD]
+      rw [ite_eq_right hD]
       have hadj' : (shiftAEquiv n m hmn i).val + 1 = (shiftAEquiv n m hmn j).val ∨
           (shiftAEquiv n m hmn j).val + 1 = (shiftAEquiv n m hmn i).val := by
         rw [hi, hj]; omega
-      rw [if_pos hadj']
+      rw [ite_eq_left hadj']
     · have hD0 : CartanMatrix.D n i.1 j.1 = 0 := by
         by_contra hne
         exact hadj ((cartanD_tail_ne_zero_iff hij i.2.2 j.2.2).mp hne)
-      rw [if_pos hD0]
+      rw [ite_eq_left hD0]
       have hadj' : ¬ ((shiftAEquiv n m hmn i).val + 1 = (shiftAEquiv n m hmn j).val ∨
           (shiftAEquiv n m hmn j).val + 1 = (shiftAEquiv n m hmn i).val) := by
         rw [hi, hj]; omega
-      rw [if_neg hadj']
+      rw [ite_eq_right hadj']
 
 private theorem cI_mem_closure_singleton_eq {E : Type} [Group E] {g t : E}
     (hg : g * g = 1) (ht : t ∈ Subgroup.closure ({g} : Set E)) : t = 1 ∨ t = g := by
@@ -261,8 +261,8 @@ private theorem cI_mem_closure_singleton_eq {E : Type} [Group E] {g t : E}
 
 private theorem cI_refl_ne_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {φ : MulAut ↥Bs} (hr : GGIsReflection p φ) : φ ≠ 1 := by
-  haveI : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
-  haveI : Nonempty ↥Bs := ⟨(1 : ↥Bs)⟩
+  have : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
+  have : Nonempty ↥Bs := ⟨(1 : ↥Bs)⟩
   rintro rfl
   obtain ⟨-, hc⟩ := hr
   simp only [MulAut.one_apply] at hc
@@ -469,8 +469,8 @@ theorem ggTBJTypeDParabolicLE3_endA {G : Type} [Group G] [Finite G] {p : ℕ} [F
   have hRC_Jset : GGReflConjSimple p (ggAutomizer J Bs) (fun j : Jset => φ j.1) := by
     by_cases hm2 : m = 2
     · subst hm2
-      haveI : Nonempty Jset := ⟨(shiftAEquiv n 2 hmn).symm ⟨0, by omega⟩⟩
-      haveI : Subsingleton Jset := ⟨fun a b =>
+      have : Nonempty Jset := ⟨(shiftAEquiv n 2 hmn).symm ⟨0, by omega⟩⟩
+      have : Subsingleton Jset := ⟨fun a b =>
         (shiftAEquiv n 2 hmn).injective (Fin.ext (by
           have ha := (shiftAEquiv n 2 hmn a).isLt
           have hb := (shiftAEquiv n 2 hmn b).isLt

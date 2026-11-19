@@ -101,7 +101,7 @@ theorem exists_noncentral_fixed_of_sylow_normal (hB : RankBoundTStar)
     exact (Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite) h2).trans hLidx
   obtain ⟨y, hyS, hyu, hyZ⟩ := exists_noncentral_fixed_of_maxClassRank hB
     (P := ↥Pc) (Z := Z.subgroupOf Pc) (S := L.subgroupOf Pc) (F := F.subgroupOf Pc)
-    (u := (⟨u, huP⟩ : ↥Pc)) P.isPGroup'
+    (u := (⟨u, huP⟩ : ↥Pc)) P.isPGroup
     (fun z hz g => Subtype.ext (hZcen _ hz _))
     (by rw [card_subgroupOf_of_le hZP]; exact hZ3)
     hS3 (fun z hz => hZL hz)
@@ -137,7 +137,7 @@ theorem exists_noncentral_fixed_of_sylow_normal (hB : RankBoundTStar)
       rw [card_subgroupOf_of_le hTP, hTcard] at h1
       exact hT₀o.trans h1)
   refine ⟨(y : H), hyS, ?_, ?_, hyZ⟩
-  · obtain ⟨k, hk⟩ := P.isPGroup' y
+  · obtain ⟨k, hk⟩ := P.isPGroup y
     exact CFSG.AGLEmbedding.FixedThree.isPGroup_zpowers_of_pow_eq_one (k := k)
       (by simpa using congrArg Subtype.val hk)
   · exact congrArg Subtype.val hyu

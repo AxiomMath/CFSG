@@ -92,7 +92,7 @@ theorem not_three_dvd_card_of_forall_pow_three_mem [Finite X] (hX : Group.IsPerf
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 X) := inferInstance
   have hcyc : IsCyclic (⊤ : Subgroup (P : Subgroup X)) := by
-    refine CFSG.RankThree.Coprime.isCyclic_of_forall_pow_eq_one_mem (by norm_num) P.isPGroup' ⊤
+    refine CFSG.RankThree.Coprime.isCyclic_of_forall_pow_eq_one_mem (by norm_num) P.isPGroup ⊤
       (Z.subgroupOf P) ?_ ?_
     · calc Nat.card (Z.subgroupOf (P : Subgroup X)) ≤ Nat.card Z :=
             Nat.card_le_card_of_injective (fun z => (⟨(z : P), z.2⟩ : Z))
@@ -119,7 +119,7 @@ theorem not_three_dvd_card_of_forall_pow_three_mem [Finite X] (hX : Group.IsPerf
       have h1 := Subgroup.pow_index_mem ((P : Subgroup X).subgroupOf N) (⟨g, hg⟩ : N)
       rw [mem_subgroupOf] at h1
       exact h1
-    have key := conj_eq_of_coprime_pow P.isPGroup' hcomm hg hn
+    have key := conj_eq_of_coprime_pow P.isPGroup hcomm hg hn
       (fun y hy => by rw [hcomm _ hgn y hy, mul_inv_cancel_right])
       (fun y _ hy3 => by
         have hyc := Subgroup.mem_center_iff.mp (hZc (h y hy3)) g

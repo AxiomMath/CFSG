@@ -22,7 +22,7 @@ theorem conj_mem_e6Inndiag {k : Type} [Field k]
   let Inn : Subgroup (MulAut (adjointGroup Tag.E6 k)) :=
     CFSG.HardMathSupport.Solomon.LocalBalance.innerAut (adjointGroup Tag.E6 k)
   have hnormal : Inn.Normal := CFSG.HardMathSupport.Timmesfeld.CrossChar.innerAut_normal _
-  haveI := hnormal
+  have := hnormal
   obtain ⟨i, hi, d, hd, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 hx
   have hτ : MulAut.conj g ∈ Inn := ⟨g, rfl⟩
   have hi' : MulAut.conj (MulAut.conj g) i ∈ Inn := by

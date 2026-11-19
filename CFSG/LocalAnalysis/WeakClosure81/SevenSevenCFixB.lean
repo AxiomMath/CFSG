@@ -22,10 +22,11 @@ lemma seven_seven_c_fix_b_iSub_elemAbelian (h : Hyp73 V H E J) :
 
 lemma seven_seven_c_fix_b_mul_comm_of_le_iSub (h : Hyp73 V H E J) {A : Subgroup G}
     (hAle : A ≤ iSub V H E) : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
-  haveI : IsMulCommutative ↥(iSub V H E) := (seven_seven_c_fix_b_iSub_elemAbelian h).1
+  have : IsMulCommutative ↥(iSub V H E) := (seven_seven_c_fix_b_iSub_elemAbelian h).1
   intro a ha b hb
   exact congrArg Subtype.val (mul_comm' (⟨a, hAle ha⟩ : ↥(iSub V H E)) ⟨b, hAle hb⟩)
 
+omit [Finite G] in
 lemma seven_seven_c_fix_b_exists_mem_not_mem_iSub (h : Hyp73 V H E J) {U : Subgroup G}
     (hU : U ∈ omegaSet V H E) : ∃ v ∈ U, v ∉ iSub V H E := by
   have hnot : ¬ U ≤ iSub V H E := by
@@ -34,6 +35,7 @@ lemma seven_seven_c_fix_b_exists_mem_not_mem_iSub (h : Hyp73 V H E J) {U : Subgr
     exact hpc (hle.trans (h.iSub_le.trans h.pcore_le))
   exact Set.not_subset.mp hnot
 
+omit [Finite G] in
 lemma seven_seven_c_fix_b_normalizer_of_three (hA : SevenSevenModule V H E V₁ V₂ V₃ A) :
     V₁ ≤ Subgroup.normalizer (A : Set G) ∧ V₂ ≤ Subgroup.normalizer (A : Set G) ∧
       V₃ ≤ Subgroup.normalizer (A : Set G) := by
@@ -232,7 +234,7 @@ lemma seven_seven_c_fix_b_image_eq_A3 (h : Hyp73 V H E J)
       rw [(commutator_eq_inf h hc hA).2.2] at ha₃
       exact ha₃.2
     have h3 : ⁅a₃, v₃⁆ = 1 := by
-      haveI : IsMulCommutative ↥V₃ := (isElemAbelian_of_mem_omegaSet h.elemAbelian hc.mem₃).1
+      have : IsMulCommutative ↥V₃ := (isElemAbelian_of_mem_omegaSet h.elemAbelian hc.mem₃).1
       exact commutatorElement_eq_one_iff_commute.mpr
         (congrArg Subtype.val (mul_comm' (⟨a₃, ha₃V3⟩ : ↥V₃) ⟨v₃, hv₃V3⟩))
     rw [hax, haeq.symm,
@@ -343,7 +345,7 @@ theorem mem_of_forall_commutator_mem_inf_centralizer (h : Hyp73 V H E J)
     rw [(commutator_eq_inf h hc hA).2.1] at ha₂
     exact ha₂.2
   have h1 : ⁅a₁, v₁⁆ = 1 := by
-    haveI : IsMulCommutative ↥V₁ := (isElemAbelian_of_mem_omegaSet h.elemAbelian hc.mem₁).1
+    have : IsMulCommutative ↥V₁ := (isElemAbelian_of_mem_omegaSet h.elemAbelian hc.mem₁).1
     exact commutatorElement_eq_one_iff_commute.mpr
       (congrArg Subtype.val (mul_comm' (⟨a₁, ha₁V1⟩ : ↥V₁) ⟨v₁, hv₁V1⟩))
   have h2 : ⁅a₂, v₁⁆ = 1 := by

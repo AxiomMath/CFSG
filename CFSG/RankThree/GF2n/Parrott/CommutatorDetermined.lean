@@ -20,6 +20,7 @@ section PolarForm
 
 variable (h : Tim79a.ParrottHyp z)
 
+omit hN in
 theorem polarVZMod_pi_mul_left (x₁ x₂ y : J z) :
     polarVZMod h (QuotientV.pi z (x₁ * x₂)) (QuotientV.pi z y) =
       polarVZMod h (QuotientV.pi z x₁) (QuotientV.pi z y) +
@@ -43,6 +44,7 @@ theorem polarVZMod_pi_mul_left (x₁ x₂ y : J z) :
   rw [polarVZMod, polarVZMod, polarVZMod, h1, map_mul, toAdd_mul]
   exact add_comm _ _
 
+omit hN in
 theorem polarVZMod_pi_mul_right (x y₁ y₂ : J z) :
     polarVZMod h (QuotientV.pi z x) (QuotientV.pi z (y₁ * y₂)) =
       polarVZMod h (QuotientV.pi z x) (QuotientV.pi z y₁) +
@@ -68,6 +70,7 @@ theorem polarVZMod_pi_mul_right (x y₁ y₂ : J z) :
   rw [polarVZMod, polarVZMod, polarVZMod, h1, map_mul, toAdd_mul]
   exact add_comm _ _
 
+omit hN in
 theorem polarVZMod_add (v w u : QuotientV.V z) :
     polarVZMod h (v * w) u = polarVZMod h v u + polarVZMod h w u := by
   obtain ⟨x, rfl⟩ := QuotientV.pi_surjective z v
@@ -76,6 +79,7 @@ theorem polarVZMod_add (v w u : QuotientV.V z) :
   rw [← map_mul]
   exact polarVZMod_pi_mul_left h x y p
 
+omit hN in
 theorem polarVZMod_add_right (v w u : QuotientV.V z) :
     polarVZMod h v (w * u) = polarVZMod h v w + polarVZMod h v u := by
   obtain ⟨x, rfl⟩ := QuotientV.pi_surjective z v
@@ -85,11 +89,13 @@ theorem polarVZMod_add_right (v w u : QuotientV.V z) :
   exact polarVZMod_pi_mul_right h x y p
 
 
+omit hN in
 theorem polarVZMod_one_left (w : QuotientV.V z) : polarVZMod h 1 w = 0 := by
   obtain ⟨y, rfl⟩ := QuotientV.pi_surjective z w
   rw [show (1 : QuotientV.V z) = QuotientV.pi z 1 by simp, polarVZMod, polarV_pi]
   simp
 
+omit hN in
 theorem polarVZMod_one_right (v : QuotientV.V z) : polarVZMod h v 1 = 0 := by
   obtain ⟨x, rfl⟩ := QuotientV.pi_surjective z v
   rw [show (1 : QuotientV.V z) = QuotientV.pi z 1 by simp, polarVZMod, polarV_pi]
@@ -142,31 +148,34 @@ noncomputable def commutatorBilinForm :
       rw [polarVZMod_one_right, zero_smul]
     · rw [one_smul, one_smul]
 
+omit hN in
 @[simp] theorem commutatorBilinForm_apply (v w : QuotientV.V z) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     commutatorBilinForm h (Additive.ofMul v) (Additive.ofMul w) = polarVZMod h v w := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rfl
 
+omit hN in
 theorem commutatorBilinForm_isRefl :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     (commutatorBilinForm h).IsRefl := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   intro x y hxy
   change polarVZMod h (Additive.toMul y) (Additive.toMul x) = 0
   rw [polarVZMod_comm]
   exact hxy
 
+omit hN in
 theorem commutatorBilinForm_nondegenerate :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     (commutatorBilinForm h).Nondegenerate := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   constructor
   · intro x hx
     have hx' : ∀ w : QuotientV.V z, polarVZMod h (Additive.toMul x) w = 0 := by
@@ -219,20 +228,23 @@ variable (h : Tim79a.ParrottHyp z)
   letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   exact (MonoidHom.toAdditive (VComplementHom h σ)).toZModLinearMap 2
 
+omit hN in
+omit [Finite G] in
 @[simp] theorem VComplementLinearMap_apply (σ : ↥(H z)) (v : QuotientV.V z) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     VComplementLinearMap h σ (Additive.ofMul v) = Additive.ofMul (VComplementHom h σ v) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rfl
 
+omit hN in
 theorem range_VComplementLinearMap {σ : ↥(H z)} (hσ : orderOf σ = 3) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     LinearMap.range (VComplementLinearMap h σ) = commutatorVSubmodule h σ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext x
   rw [LinearMap.mem_range]
   change (∃ y, VComplementLinearMap h σ y = x) ↔
@@ -246,12 +258,13 @@ theorem range_VComplementLinearMap {σ : ↥(H z)} (hσ : orderOf σ = 3) :
     rw [VComplementLinearMap_apply, hv]
     simp
 
+omit hN in
 theorem ker_VComplementLinearMap {σ : ↥(H z)} (hσ : orderOf σ = 3) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     LinearMap.ker (VComplementLinearMap h σ) = fixSubmodule h σ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rw [fixSubmodule_eq_ker_VComplementHom (z := z) h hσ]
   ext x
   rw [LinearMap.mem_ker, AddSubgroup.mem_toZModSubmodule, Additive.mem_toAddSubgroup,
@@ -266,6 +279,7 @@ section Orthogonal
 
 variable (h : Tim79a.ParrottHyp z)
 
+omit hN in
 theorem polarVZMod_conj_eq (σ : ↥(H z)) (u w : QuotientV.V z) :
     polarVZMod h (conjV h σ u) (conjV h σ w) = polarVZMod h u w := by
   have h1 := qVZMod_mul_add h (conjV h σ u) (conjV h σ w)
@@ -284,6 +298,7 @@ theorem polarVZMod_conj_eq (σ : ↥(H z)) (u w : QuotientV.V z) :
   have h4 : A + (B + C) = A + (B + D) := h1'.trans h2'.symm
   exact add_left_cancel (add_left_cancel h4)
 
+omit hN in
 theorem polarVZMod_conj_eq_of_fixed {σ : ↥(H z)} {u : QuotientV.V z}
     (hu : conjV h σ u = u) (w : QuotientV.V z) :
     polarVZMod h u (conjV h σ w) = polarVZMod h u w := by
@@ -295,13 +310,14 @@ theorem polarVZMod_conj_eq_of_fixed {σ : ↥(H z)} {u : QuotientV.V z}
   rw [hσinv, hu] at hiso
   exact hiso
 
+omit hN in
 theorem commutatorVSubmodule_le_orthogonal {σ : ↥(H z)} (hσ : orderOf σ = 3) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     commutatorVSubmodule h σ ≤
       (commutatorBilinForm h).orthogonal (fixSubmodule h σ) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   intro x hx
   rw [LinearMap.BilinForm.mem_orthogonal_iff]
   intro u hu
@@ -323,13 +339,14 @@ theorem commutatorVSubmodule_le_orthogonal {σ : ↥(H z)} (hσ : orderOf σ = 3
       = 2 * polarVZMod h (Additive.toMul u) (Additive.toMul y) := (two_mul _).symm
     _ = 0 := by rw [show (2 : ZMod 2) = 0 by exact ZMod.natCast_self 2, zero_mul]
 
+omit hN in
 theorem finrank_commutatorVSubmodule {σ : ↥(H z)} (hσ : orderOf σ = 3) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     Module.finrank (ZMod 2) (commutatorVSubmodule h σ) = 8 - fixDimV h σ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
-  haveI : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  have : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
     apply FiniteDimensional.of_finrank_pos
     rw [finrank_addV h]
     norm_num
@@ -342,14 +359,15 @@ theorem finrank_commutatorVSubmodule {σ : ↥(H z)} (hσ : orderOf σ = 3) :
   rw [finrank_addV h, hker] at hrn
   omega
 
+omit hN in
 theorem finrank_orthogonal_fixSubmodule {σ : ↥(H z)} :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     Module.finrank (ZMod 2) ((commutatorBilinForm h).orthogonal (fixSubmodule h σ)) =
       8 - fixDimV h σ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
-  haveI : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  have : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
     apply FiniteDimensional.of_finrank_pos
     rw [finrank_addV h]
     norm_num
@@ -357,15 +375,16 @@ theorem finrank_orthogonal_fixSubmodule {σ : ↥(H z)} :
     finrank_addV h]
   rfl
 
+omit hN in
 theorem commutatorV_eq_orthogonal_fixSubmodule (h : Tim79a.ParrottHyp z)
     (σ : ↥(H z)) (hσ : orderOf σ = 3) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     commutatorVSubmodule h σ =
       (commutatorBilinForm h).orthogonal (fixSubmodule h σ) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
-  haveI : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  have : FiniteDimensional (ZMod 2) (Additive (QuotientV.V z)) := by
     apply FiniteDimensional.of_finrank_pos
     rw [finrank_addV h]
     norm_num
@@ -378,12 +397,13 @@ section Equality
 
 variable (h : Tim79a.ParrottHyp z)
 
+omit hN in
 theorem commutatorV_eq_of_fixSubmodule_eq {σ₁ σ₂ : ↥(H z)}
     (hσ₁ : orderOf σ₁ = 3) (hσ₂ : orderOf σ₂ = 3)
     (hfix : fixSubmodule h σ₁ = fixSubmodule h σ₂) :
     commutatorV h σ₁ = commutatorV h σ₂ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have h₁ := commutatorV_eq_orthogonal_fixSubmodule h σ₁ hσ₁
   have h₂ := commutatorV_eq_orthogonal_fixSubmodule h σ₂ hσ₂
   have hmod : commutatorVSubmodule h σ₁ = commutatorVSubmodule h σ₂ := by
@@ -484,7 +504,7 @@ section NormalFromJ0
 
 variable (h : Tim79a.ParrottHyp z)
 
-def CommutatorDeterminedByCentralizer (h : Tim79a.ParrottHyp z) : Prop :=
+def CommutatorDeterminedByCentralizer (_h : Tim79a.ParrottHyp z) : Prop :=
   ∀ (σ τ : ↥(H z)), orderOf σ = 3 → orderOf τ = 3 →
     conjZ z σ = 1 → conjZ z τ = 1 →
     centralizerJ σ = centralizerJ τ →

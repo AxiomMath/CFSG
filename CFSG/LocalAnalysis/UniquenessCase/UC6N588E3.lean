@@ -44,7 +44,7 @@ theorem pRank_top_le_three (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (K : Subgro
 theorem center_component_eq_bot (hKM : UCK.KMult) (hK3 : UCK.KMult3)
     (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) {K : Subgroup m.Hbar} (hK : IsComponentOf K ⊤) :
     center ↥K = ⊥ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨-, hperf, hsimple⟩ := hK.2.2
   have hq : CFSG.Open.IsQuasisimple ↥K := ⟨hperf, hsimple⟩
   have hKk : CFSG.Open.IsKGroup (↥K ⧸ center ↥K) :=
@@ -52,7 +52,7 @@ theorem center_component_eq_bot (hKM : UCK.KMult) (hK3 : UCK.KMult3)
   have hZp := m.isPGroup_center_component hK
   have hrank := m.pRank_top_le_three h69 K
   by_cases hr3 : m.r = 3
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨T, hT⟩ := exists_isSylowOf 3 (⊤ : Subgroup ↥K)
     have hZp3 : IsPGroup 3 (center ↥K) := by
       have h := congrArg (fun p => IsPGroup p (center ↥K)) hr3
@@ -77,7 +77,7 @@ theorem center_component_eq_bot (hKM : UCK.KMult) (hK3 : UCK.KMult3)
 theorem isSimpleGroup_component (hKM : UCK.KMult) (hK3 : UCK.KMult3)
     (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) {K : Subgroup m.Hbar} (hK : IsComponentOf K ⊤) :
     IsSimpleGroup ↥K := by
-  haveI : IsSimpleGroup (↥K ⧸ center ↥K) := hK.2.2.2.2
+  have : IsSimpleGroup (↥K ⧸ center ↥K) := hK.2.2.2.2
   have hc := m.center_component_eq_bot hKM hK3 h69 hK
   let e : ↥K ⧸ center ↥K ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hc).trans (QuotientGroup.quotientBot)
@@ -85,7 +85,7 @@ theorem isSimpleGroup_component (hKM : UCK.KMult) (hK3 : UCK.KMult3)
 
 theorem r_dvd_card_component {K : Subgroup m.Hbar} (hK : IsComponentOf K ⊤) :
     m.r ∣ Nat.card K := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   by_contra hnd
   have hsn : K.IsSubnormal := CFSG.Walter.isSubnormal_of_isComponentOf hK
   have h1 := N588.map_pPrimeCore_le_of_isSubnormal m.r hsn
@@ -103,7 +103,7 @@ theorem r_dvd_card_component {K : Subgroup m.Hbar} (hK : IsComponentOf K ⊤) :
 
 theorem bar_R_inf_component_sylow (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S))
     {K : Subgroup m.Hbar} (hK : IsComponentOf K ⊤) : IsSylowOf m.r (m.bar m.R ⊓ K) K := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hEn' : (componentLayerOf (⊤ : Subgroup m.Hbar)).Normal :=
     ⟨fun n hn g => (CFSG.GorensteinWalter.componentLayerOf_isNormalIn ⊤).2 g (mem_top g) n hn⟩
   have hEn : (⊤ : Subgroup m.Hbar) ≤ normalizer (componentLayerOf (⊤ : Subgroup m.Hbar) :
@@ -116,7 +116,7 @@ theorem bar_R_inf_component_sylow (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S))
 theorem exists_mem_component (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S))
     {K : Subgroup m.Hbar} (hK : IsComponentOf K ⊤) :
     ∃ y ∈ m.bar m.R, y ∈ K ∧ y ≠ 1 ∧ y ^ m.r = 1 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hS := m.bar_R_inf_component_sylow h69 hK
   have hdvd : m.r ∣ Nat.card ↥(m.bar m.R ⊓ K) := by
     rw [hS.card_eq]
@@ -143,7 +143,7 @@ theorem bar_Z_inf_component (hKM : UCK.KMult) (hK3 : UCK.KMult3)
 theorem pre_le_M_of_centralizer (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S))
     {K : Subgroup m.Hbar} {a : m.Hbar} (ha : a ∈ m.bar m.A) (haZ : a ∉ m.bar m.Z)
     (hac : ∀ k ∈ K, a * k = k * a) : m.pre K ≤ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   set B : Subgroup m.Hbar := m.bar m.Z ⊔ zpowers a with hB
   have hBc : B ≤ centralizer (K : Set m.Hbar) := by
     refine sup_le (fun z hz => mem_centralizer_iff.2 fun k _ => (m.bar_Z_comm hz k).symm) ?_

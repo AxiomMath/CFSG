@@ -20,7 +20,7 @@ namespace PFchapter1section3
 
 -- universe w
 
-open PFchapter1section1 PFAppendixIII MatrixGroups
+open PFchapter1section1 PFAppendixIII _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization
 
 /-!
@@ -70,8 +70,8 @@ public theorem odd_card_quotient_twoPrimeResidual
     letI : (twoPrimeResidual G).Normal := twoPrimeResidual_normal
     Odd (Nat.card (G ⧸ twoPrimeResidual G)) := by
   let L := twoPrimeResidual G
-  letI : L.Normal := twoPrimeResidual_normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : L.Normal := twoPrimeResidual_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 G := Sylow.nonempty.some
   let pi : G →* G ⧸ L := QuotientGroup.mk' L
   let Pbar : Sylow 2 (G ⧸ L) :=
@@ -97,7 +97,7 @@ private theorem hypothesisA1_H_card_eq_Q_mul_D_card
     Nat.card H = Nat.card Q * Nat.card D := by
   let QH : Subgroup H := Q.subgroupOf H
   let DH : Subgroup H := D.subgroupOf H
-  haveI : QH.Normal := by
+  have : QH.Normal := by
     simpa [QH] using hA1.Q_normal_in_H
   have hdisjH : Disjoint QH DH := by
     rw [Subgroup.disjoint_def]
@@ -127,7 +127,7 @@ private theorem hypothesisA1_H_card_eq_Q_mul_D_card
   have hDcard : Nat.card DH = Nat.card D :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe (H := D) (K := H)
       hA1.D_le_H).toEquiv
-  have hmul := hcomp.card_mul
+  have hmul := hcomp.card_mul_card
   rw [hQcard, hDcard] at hmul
   exact hmul.symm
 
@@ -175,15 +175,15 @@ private theorem hypothesisA1_H_card_eq_complement_mul_D_card
         exact ⟨x.property, hxBeta⟩
       apply Subgroup.mem_subgroupOf.mpr
       exact hD.symm ▸ hxInf
-  haveI : MulAction.IsMultiplyPretransitive G Ω 2 := hA1.two_transitive
-  haveI : MulAction.IsPretransitive G Ω :=
+  have : MulAction.IsMultiplyPretransitive G Ω 2 := hA1.two_transitive
+  have : MulAction.IsPretransitive G Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hstab_multi :
       MulAction.IsMultiplyPretransitive
         (MulAction.stabilizer G alpha) (SubMulAction.ofStabilizer G alpha) 1 :=
     (SubMulAction.ofStabilizer.isMultiplyPretransitive
       (G := G) (a := alpha)).mp hA1.two_transitive
-  haveI :
+  have :
       MulAction.IsPretransitive
         (MulAction.stabilizer G alpha) (SubMulAction.ofStabilizer G alpha) :=
     (MulAction.is_one_pretransitive_iff
@@ -255,10 +255,10 @@ private theorem sylow_le_of_odd_quotient
     (hodd : Odd (Nat.card (G ⧸ L))) (P : Sylow 2 G) :
     (P : Subgroup G) ≤ L := by
   let π : G →* G ⧸ L := QuotientGroup.mk' L
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmapP :
       IsPGroup 2 ((P : Subgroup G).map π) :=
-    P.isPGroup'.map π
+    P.isPGroup.map π
   rcases IsPGroup.iff_card.mp hmapP with ⟨n, hn⟩
   have hcard_dvd :
       Nat.card ((P : Subgroup G).map π) ∣ Nat.card (G ⧸ L) :=
@@ -308,7 +308,7 @@ private theorem section3_q_le_model_subgroup_of_odd_quotient
     (hQ_two : ∃ n : ℕ, Nat.card Q = 2 ^ n)
     {L : Subgroup G} [L.Normal] (hodd : Odd (Nat.card (G ⧸ L))) :
     Q ≤ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases PFchapter1section1.proposition_1_c H D Q t hsec.section2.hA.A1 with
     ⟨P, hP_le_Q⟩
   rcases hQ_two with ⟨n, hQ_card⟩
@@ -326,7 +326,7 @@ public theorem simple_subgroup_le_twoPrimeResidual_of_pgroup
     {L : Subgroup G} (hQ_le_L : Q ≤ L) (hLsimple : IsSimpleGroup L) :
     L ≤ twoPrimeResidual G := by
   let QL : Subgroup L := Q.subgroupOf L
-  letI : IsSimpleGroup L := hLsimple
+  let : IsSimpleGroup L := hLsimple
   have hQL_ne : QL ≠ ⊥ := by
     intro hbot
     apply hQ_ne
@@ -529,8 +529,8 @@ public theorem hypothesisA_model_subgroup_eq_twoPrimeResidual
       refine ⟨(2 * k + 1) * 2, ?_⟩
       rw [Nat.card_congr eΩ, hpoints']
       simp [pow_mul]
-    · letI : Field E := hEfield
-      letI : Finite E := hEfinite
+    · let : Field E := hEfield
+      let : Finite E := hEfinite
       have hpoints :=
         (External.huppert_II_10_12 J q hEcard hfixedCard hJstandard).1
       rcases hq with ⟨n, hn⟩
@@ -546,11 +546,11 @@ public theorem hypothesisA_model_subgroup_eq_twoPrimeResidual
     intro hQ
     have hodd_one : Odd (Nat.card Q) := by simp [hQ]
     exact hodd_one.not_two_dvd_nat hA.A1.Q_even.two_dvd
-  letI : L.Normal := hL
+  let : L.Normal := hL
   have hres_le_L : twoPrimeResidual G ≤ L :=
     twoPrimeResidual_le_of_odd_quotient hodd
   have hQ_le_L : Q ≤ L := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases PFchapter1section1.proposition_1_c H D Q t hA.A1 with
       ⟨P, hP_le_Q⟩
     rcases hQ_two with ⟨n, hQ_card'⟩
@@ -571,8 +571,8 @@ public theorem hypothesisA_model_subgroup_eq_twoPrimeResidual
     · exact suzukiRealization_subgroup_le_twoPrimeResidual
         (G := G) (Ω := Ω) Q hQ_two hQ_ne hL hodd hq hq_gt
           m hm_ne hq_model e hQ_le_L
-    · letI : Field E := hEfield
-      letI : Finite E := hEfinite
+    · let : Field E := hEfield
+      let : Finite E := hEfinite
       exact psuRealization_subgroup_le_twoPrimeResidual
         (G := G) (Ω := Ω) Q hQ_two hQ_ne hL hodd hq hq_gt
           J hEcard hfixedCard e hQ_le_L
@@ -704,8 +704,8 @@ public theorem lemma_1
       refine ⟨(2 * k + 1) * 2, ?_⟩
       rw [Nat.card_congr eΩ, hpoints']
       simp [pow_mul]
-    · letI : Field E := hEfield
-      letI : Finite E := hEfinite
+    · let : Field E := hEfield
+      let : Finite E := hEfinite
       have hpoints :=
         (External.huppert_II_10_12 J q hEcard hfixedCard hJstandard).1
       rcases hq with ⟨n, hn⟩
@@ -725,7 +725,7 @@ public theorem lemma_1
     have hsQ : s ∈ Q := hsec.section2.Q0_le_Q hsQ0
     rw [hQ] at hsQ
     exact hsec.s_involution.ne_one (by simpa using hsQ)
-  letI : L.Normal := hL
+  let : L.Normal := hL
   have hres_le_L : twoPrimeResidual G ≤ L := by
     exact twoPrimeResidual_le_of_odd_quotient (L := L) hodd
   have hQ_le_L : Q ≤ L :=
@@ -743,8 +743,8 @@ public theorem lemma_1
     · exact suzukiRealization_subgroup_le_twoPrimeResidual
         (G := G) (Ω := Ω) Q hQ_two hQ_ne hL hodd hq hq_gt
           m hm_ne hq_model e hQ_le_L
-    · letI : Field E := hEfield
-      letI : Finite E := hEfinite
+    · let : Field E := hEfield
+      let : Finite E := hEfinite
       exact psuRealization_subgroup_le_twoPrimeResidual
         (G := G) (Ω := Ω) Q hQ_two hQ_ne hL hodd hq hq_gt
           J hEcard hfixedCard e hQ_le_L

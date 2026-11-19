@@ -97,7 +97,7 @@ theorem cRange_sound {C : BConsts} {KX PT WT GT WC : ℕ → ℕ} {nc n b₀ c :
   have e : Nat.add (Nat.shiftLeft b₀ 6) (i - 64 * b₀) = i := by
     rw [shl6]; omega
   dsimp only at key
-  rw [e, bIf_eq', if_pos (blt_iff.2 h3)] at key
+  rw [e, bIf_eq', ite_eq_left (blt_iff.2 h3)] at key
   exact key
 
 theorem cSort_sound {KX PT SG : ℕ → ℕ} {n k₀ c : ℕ} (h : cSort KX PT SG n k₀ c = true) :

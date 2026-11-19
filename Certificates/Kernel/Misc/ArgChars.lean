@@ -37,7 +37,7 @@ elab "#kc_arg_chars " pre:ident dId:ident : command => do
   let strE := mkConst ``String
   let charsC := mkConst (P ++ `chars)
   let (ty, pf) ← liftTermElabM do
-    let (L, h) ← CFSG.KC.StrLits.build t none
+    let (_L, h) ← CFSG.KC.StrLits.build t none
     let g := mkLambda `s .default strE (mkAppN fn (pre.push (.bvar 0)))
     let pf ← mkCongrArg g (← mkEqSymm h)
     let ty ← mkEq (mkConst dN) (mkAppN fn (pre.push (mkApp (mkConst ``String.ofList) charsC)))

@@ -37,7 +37,7 @@ theorem sec5o_t_mem_centralizer [Finite G] (h52b : Asc82Lemma52b) {t : G} {L : S
 private theorem sec5o_eq_of_sq_eq_one_of_isCyclic {C : Type*} [Group C] [Finite C] [IsCyclic C]
     {a b : C} (ha : a ^ 2 = 1) (hb : b ^ 2 = 1) (ha1 : a ≠ 1) (hb1 : b ≠ 1) : a = b := by
   classical
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Fintype C := Fintype.ofFinite C
   by_contra hab
   have hle := IsCyclic.card_pow_eq_one_le (α := C) (n := 2) (by norm_num)
   have hsub : ({1, a, b} : Finset C) ⊆ Finset.univ.filter (fun c : C => c ^ 2 = 1) := by
@@ -85,7 +85,7 @@ theorem sec5o_eq_one_or_t_of_mem_A_cent [Finite G] (h52a : Asc82Lemma52a)
     simpa only [pow_one, pow_two, Subgroup.coe_pow, Subgroup.coe_mul, Subgroup.coe_one]
       using hAsq (g : G) g.2
   obtain ⟨Q, hQ⟩ := hApg.exists_le_sylow
-  haveI : IsCyclic ↥(Q : Subgroup ↥H) := h52a G t L hs Q
+  have : IsCyclic ↥(Q : Subgroup ↥H) := h52a G t L hs Q
   let x' : ↥H := ⟨x, hxC⟩
   let t' : ↥H := ⟨t, htC⟩
   have hx'Q : x' ∈ (Q : Subgroup ↥H) := hQ (show x' ∈ A.subgroupOf H from hxA)

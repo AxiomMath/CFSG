@@ -11,6 +11,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma l18_sq_of_conj {a m : G} (ha2 : a * a = 1) (ht2 : t * t = 1)
     (hconj : a * t * a⁻¹ = t * tau) :
     (t * (m * a)) * (t * (m * a)) = (t * m * t⁻¹) * tau * (a * m * a⁻¹) := by
@@ -196,7 +197,7 @@ theorem l18_F2 (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮) (g : G) {e : G}
   have hlam_a_B : lam * a ∈ B := B.mul_mem (hclB hlamB) (hclB haB)
   have hBcent : B ≤ centralizer ({lam * a} : Set G) := by
     intro x hx
-    haveI : IsMulCommutative ↥B := hBe.1
+    have : IsMulCommutative ↥B := hBe.1
     exact Subgroup.mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥B) (⟨lam * a, hlam_a_B⟩ : ↥B)))
   have hAc : B ≤ centralizer ({(p'⁻¹ * g) * t * (p'⁻¹ * g)⁻¹} : Set G) := by

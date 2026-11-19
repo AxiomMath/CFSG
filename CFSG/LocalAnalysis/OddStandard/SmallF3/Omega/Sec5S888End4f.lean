@@ -21,7 +21,7 @@ theorem caseB_data (hN11a : S_N11a) (hN11b : S_N11b) (hN11c : S_N11c) {X : Type}
           Nonempty (↥B ⧸ Ob.subgroupOf B ≃* PSL(2, GaloisField p n)) := by
   classical
   set M : Subgroup X := Subgroup.normalClosure (V : Set X) with hMdef
-  haveI hMn : M.Normal := Subgroup.normalClosure_normal
+  have hMn : M.Normal := Subgroup.normalClosure_normal
   have hVM : V ≤ M := Subgroup.subset_normalClosure
   have hOd : goldschmidtOddCore (Mbar M) = ⊥ :=
     CFSG.Goldschmidt.goldschmidtOddCore_quotient_eq_bot ↥M
@@ -42,7 +42,7 @@ theorem caseB_data (hN11a : S_N11a) (hN11b : S_N11b) (hN11c : S_N11c) {X : Type}
     rwa [← hD] at h
   obtain ⟨J, i, p, n, hp, hJ, hWJ, _, hodd, hn, h5, h8, he⟩ :=
     caseB_component hN11b hY D hP hτ hperm
-  haveI hJn : J.Normal := GoldY.component_normal hB.layer hJ
+  have hJn : J.Normal := GoldY.component_normal hB.layer hJ
   refine ⟨mbarKer M, mbarKer_normal M, mbarPre M J, i, p, n, hp, odd_card_mbarKer M,
     mbarKer_le_mbarPre M J, mbarPre_isSubnormal M J, ?_, hodd, hn, h5, h8, ?_⟩
   · intro x hx

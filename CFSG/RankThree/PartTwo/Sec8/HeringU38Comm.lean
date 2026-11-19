@@ -46,7 +46,7 @@ theorem mem_commutator_of_u38Syl {L : Subgroup G} {a b : G}
     (T : Subgroup (L ⧸ aschbacherSolvableCore 3 L))
     (hTM : T ≤ barCentralizer (Subgroup.zpowers a) L) (hT8 : Nat.card T = 8)
     (hM : Nat.card (barCentralizer (Subgroup.zpowers a) L) = 216)
-    (hTβ : ∀ x ∈ T, thetaQuotMulAut L (compAction L ⟨b, hbN⟩) x ∈ T)
+    (_hTβ : ∀ x ∈ T, thetaQuotMulAut L (compAction L ⟨b, hbN⟩) x ∈ T)
     (hTc : T ≤ u38Comm T (thetaQuotMulAut L (compAction L ⟨b, hbN⟩)))
     {t : G} (htC : t ∈ L ⊓ Subgroup.centralizer ({a} : Set G)) (ht2 : ∃ k : ℕ, t ^ 2 ^ k = 1) :
     t ∈ ⁅L ⊓ Subgroup.centralizer ({a} : Set G), Subgroup.zpowers b⁆ := by

@@ -35,14 +35,15 @@ theorem close16_exists_hom_barSub {D : Data G} {V : Subgroup G} {hV : IsElemAbel
     · rintro ⟨-, -, h, h1⟩
       exact Subtype.ext h1
 
-theorem close16_simple_of_hom {X C : Subgroup G} (hCX : C ≤ X) {S : Type} [Group S]
+omit [Finite G] in
+theorem close16_simple_of_hom {X C : Subgroup G} (_hCX : C ≤ X) {S : Type} [Group S]
     [IsSimpleGroup S] (hS : ¬ IsMulCommutative S) (φ : ↥X →* S)
     (hφ : Function.Surjective φ) (hker : φ.ker = C.subgroupOf X) :
     (∀ N : Subgroup G, C ≤ N → N ≤ X → (N.subgroupOf X).Normal → N = C ∨ N = X) ∧
       ¬ ⁅X, X⁆ ≤ C := by
   constructor
   · intro N hCN hNX hN
-    haveI hmap : ((N.subgroupOf X).map φ).Normal := Subgroup.Normal.map hN φ hφ
+    have hmap : ((N.subgroupOf X).map φ).Normal := Subgroup.Normal.map hN φ hφ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf X).map φ) with h | h
     · left
       have h1 : N.subgroupOf X ≤ φ.ker := by

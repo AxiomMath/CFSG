@@ -42,7 +42,7 @@ theorem card_centralizer_inf_le_of_twoA_inv (I : GMSInterfaces d₀ G) (hG : GMS
   let k' : ↥(Subgroup.centralizer ({t} : Set G)) := ⟨k, hkt⟩
   have hk'3 : orderOf k' = 3 := by rw [← Subgroup.orderOf_coe]; exact hk3
   have hs3 : orderOf (φ k') = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ fun h1 => ?_
     · rw [← map_pow, ← hk'3, pow_orderOf_eq_one, map_one]
     · have hmem : k ∈ φ.ker.map (Subgroup.centralizer ({t} : Set G)).subtype := ⟨k', h1, rfl⟩
@@ -64,7 +64,7 @@ theorem card_centralizer_inf_le_of_twoA_inv (I : GMSInterfaces d₀ G) (hG : GMS
       Subgroup.card_map_of_injective (Subgroup.centralizer ({t} : Set G)).subtype_injective
     rw [hφ.ker_eq, Nat.card_zpowers, hφ.orderOf_eq] at h1
     exact h1.symm
-  haveI : Finite B := Finite.of_surjective φ hφ.surjective
+  have : Finite B := Finite.of_surjective φ hφ.surjective
   let e : ↥(Subgroup.centralizer ({t} : Set G)) ⧸ φ.ker ≃* B :=
     QuotientGroup.quotientKerEquivOfSurjective φ hφ.surjective
   have hcard := @card_centralizer_le_mul ↥(Subgroup.centralizer ({t} : Set G)) B _

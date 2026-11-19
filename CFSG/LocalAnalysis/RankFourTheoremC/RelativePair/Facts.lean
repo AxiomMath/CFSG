@@ -42,14 +42,14 @@ theorem ObstructionSetting.not_dvd_card_invariantTwoJoinIn_normalizer (hS : Obst
   have hPX : (P : Subgroup G) ≤ normalizer (X : Set G) := le_normalizer_pPrimeCoreIn_sup hPM hPN₀
   have hXM : X ≤ M := sup_le (CFSG.ABGTheoremB.pPrimeCoreIn_le p M)
     ((CFSG.ABGTheoremB.pPrimeCoreIn_le p _).trans hN₀M)
-  have hDp : IsPGroup p D := P.isPGroup'.to_le hDP
+  have hDp : IsPGroup p D := P.isPGroup.to_le hDP
   have hXall : ∀ A : Subgroup G, A ≤ M → IsPGroup 2 A → D ≤ normalizer (A : Set G) → A ≤ X := by
     intro A hAM hA2 hDA
     obtain ⟨T₁, hAT₁, hT₁⟩ := exists_invariantTwoMaximalWithin_containing D M A hAM hA2 hDA
     exact hAT₁.trans (h13 p hp P M D hext hPD hDab z hzD hz1 hzc hzp T₁ hT₁).le
   obtain ⟨A, hVA, hA⟩ := exists_invariantTwoMaximalWithin_containing D M V hVM hV2 hDV
   have hAS : IsSylowOf 2 A X := h13 p hp P M D hext hPD hDab z hzD hz1 hzc hzp A hA
-  obtain ⟨A₀, hA₀S, hPA₀⟩ := exists_isSylowOf_normalized_by_pGroup hprime P.isPGroup' hPX hXc
+  obtain ⟨A₀, hA₀S, hPA₀⟩ := exists_isSylowOf_normalized_by_pGroup hprime P.isPGroup hPX hXc
   obtain ⟨c, hcX, -, hc⟩ := exists_mem_centralizer_conj_eq_of_isSylowOf hprime hDp
     (hDP.trans hPX) hXc hA₀S hAS (hDP.trans hPA₀) hA.2.2.1
   set P' := (P : Subgroup G).map (MulAut.conj c).toMonoidHom with hP'
@@ -113,7 +113,7 @@ theorem KFactSetting.optimalRelPairFacts {n : ℕ} (hS : KFactSetting n G) (hD1 
     hopt.pair.cand
   normalizer_pCore := hopt.normalizer_pCoreOf_eq
   sylow := hopt.isSylowOf_pCoreOf (sigmaA_prime p hp) (sigmaA_odd p hp)
-    (P.isPGroup'.to_le hd.ext.obstruction.2.1)
+    (P.isPGroup.to_le hd.ext.obstruction.2.1)
   pCore_le := hopt.pCoreOf_le_V hd
   le_M := (hopt.invariantTwoMaximalWithin_H hd).1
   maximal := (hopt.invariantTwoMaximalWithin_H hd).2

@@ -138,7 +138,7 @@ theorem exists_not_mem_hypE6 : ∃ x : Fin Tag.E6.rank → ZMod 3, x ∉ NoOffRe
 
 theorem card_top : Nat.card (Fin Tag.E6.rank → ZMod 3) = 3 ^ 6 := by
   rw [Nat.card_pi]
-  simp [Nat.card_zmod, Finset.prod_const, Fintype.card_fin]
+  simp [Finset.prod_const, Fintype.card_fin]
   decide
 
 end CFSG.StandardType.TableBExc.E6Three

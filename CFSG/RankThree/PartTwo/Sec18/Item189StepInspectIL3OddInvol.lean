@@ -41,8 +41,8 @@ theorem exists_central_involution_sl3_189 (hF : Odd (Nat.card F)) (S : Sylow 2 S
   have hcard : 2 ∣ Nat.card SL(3, F) := orderOf_eq_prime hd2 hd1 ▸ orderOf_dvd_natCard d
   have : Nontrivial (S : Subgroup SL(3, F)) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 (S.ne_bot_of_dvd_card hcard)
-  have hZ := S.isPGroup'.center_nontrivial
-  obtain ⟨n, hn, hcardZ⟩ := (S.isPGroup'.to_subgroup (Subgroup.center _)).nontrivial_iff_card.1 hZ
+  have hZ := S.isPGroup.center_nontrivial
+  obtain ⟨n, hn, hcardZ⟩ := (S.isPGroup.to_subgroup (Subgroup.center _)).nontrivial_iff_card.1 hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center (S : Subgroup SL(3, F)))
     2 (by rw [hcardZ]; exact dvd_pow_self 2 hn.ne')
   refine ⟨((z : (S : Subgroup SL(3, F))) : SL(3, F)), (z : (S : Subgroup SL(3, F))).2,

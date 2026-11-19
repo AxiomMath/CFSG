@@ -148,7 +148,7 @@ theorem threeCent_conj (g z : X) : threeCent (g * z * g⁻¹) = conjSub g (three
   rw [MonoidHom.map_closure]
   congr 1
   ext w
-  simp only [Set.mem_setOf_eq, Set.mem_image, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+  simp only [Set.mem_ofPred_eq, Set.mem_image, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   constructor
   · rintro ⟨hw, a, ha⟩
     refine ⟨g⁻¹ * w * g, ⟨?_, a, gk_inv_conj_pow_one g w _ ha⟩, ?_⟩

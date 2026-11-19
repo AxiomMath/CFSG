@@ -48,9 +48,9 @@ theorem invariants_tau (hc : BinaryActionRankCounterexample G p P T B e ρ) :
 theorem finrank_eq_one (hc : BinaryActionRankCounterexample G p P T B e ρ) (hr : IsPrimePow (2 ^ e - 1))
     (hXne : X hc ≠ ⊥) (K : BinaryRepresentations.hyperplanes 2 (X hc)) (hEne : E hc K.val ≠ ⊥) :
     Module.finrank (ZMod p) (E hc K.val) = 1 := by
-  haveI : Fact p.Prime := ⟨prime hc⟩
-  haveI : Fintype B := Fintype.ofFinite B
-  haveI : FiniteDimensional (ZMod p) (Space hc) := inferInstance
+  have : Fact p.Prime := ⟨prime hc⟩
+  have : Fintype B := Fintype.ofFinite B
+  have : FiniteDimensional (ZMod p) (Space hc) := inferInstance
   refine CFSG.LinearAlgebra.CoprimeActions.FixedLineFreeOrbitDimensionOne.finrank_eq_one (tau hc) (E hc K.val) hEne
     (orbit_independent hc hr hXne K) ?_
   rw [invariants_tau hc]

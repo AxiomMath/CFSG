@@ -14,6 +14,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centralizer_of_rhoL_eq_one {L S : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hSL : S ≤ L) (hSq : IsPGroup q S) {b : G} (hb : b ∈ normalizer (L : Set G))
     (hbS : b ∈ normalizer (S : Set G)) (h1 : rhoL L ⟨b, hb⟩ = 1) :
@@ -34,7 +35,7 @@ theorem mem_centralizer_of_rhoL_eq_one {L S : Subgroup G} {q : ℕ} (hq : q.Prim
   calc s * b = b * s * b⁻¹ * b := by rw [h5]
     _ = b * s := by group
 
-theorem keyLemma3 (hgr : CFSG.Open.GriessAllModelsStatement) {M L : Subgroup G} (hLM : L ≤ M)
+theorem keyLemma3 (hgr : CFSG.Open.GriessAllModelsStatement) {M L : Subgroup G} (_hLM : L ≤ M)
     (hN : M ≤ normalizer (L : Set G)) {n : ℕ} (hX : IsSU3 (Bar2 L) n) {q p : ℕ} (hq : q.Prime)
     (hq3 : 3 < q) (hqn : q ∣ 2 ^ n + 1) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ≠ q)
     (hOp : UC22.F10.OpRes p M = M) (hrank : 3 ≤ Open.pRank p M) :
@@ -46,8 +47,8 @@ theorem keyLemma3 (hgr : CFSG.Open.GriessAllModelsStatement) {M L : Subgroup G} 
       ∃ Sb : Subgroup (Bar2 L), IsPGroup q Sb ∧ ¬ q ∣ Sb.index ∧
         (S.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) = Sb := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq2 : q ≠ 2 := by rintro rfl; omega
   obtain ⟨B, hBM, hBel, hBcard⟩ := exists_elemAbelian_card_of_le_pRank hp hrank
   obtain ⟨B₁, hB₁B, hB₁card, hbr, Sb, hSb⟩ :=
@@ -55,7 +56,7 @@ theorem keyLemma3 (hgr : CFSG.Open.GriessAllModelsStatement) {M L : Subgroup G} 
   obtain ⟨S, hSL, hSq, hSmax, hSmap, hB₁S⟩ := exists_lift_normalized (hB₁B.trans (hBM.trans hN))
     hp hq hq2 hpq hp2 (hBel.isPGroup.to_le hB₁B) Sb hSb
   obtain ⟨E, hES, hEel, hEcard, hNE⟩ := exists_omega_normalized hgr hX hq hq3 hqn hSL hSq Sb hSmap
-  refine ⟨S, E, hSL, hSq, hSmax, hES, hEel, hEcard, ?_, Sb, Sb.isPGroup', Sb.not_dvd_index, hSmap⟩
+  refine ⟨S, E, hSL, hSq, hSmax, hES, hEel, hEcard, ?_, Sb, Sb.isPGroup, Sb.not_dvd_index, hSmap⟩
   rcases hbr with rfl | htriv
   ·
     exact Or.inl (le_pRank' hp (le_inf hBM (hB₁S.trans hNE)) hBel hBcard)
@@ -73,8 +74,8 @@ theorem r846_of_rank_three (hgr : CFSG.Open.GriessAllModelsStatement) (D : Data 
     (hSg : SigmaStd D) (h76 : UC22.F07.R76Sig D) (h614 : UC6.R6_14 D) : UC22.F08.R846 D := by
   refine r846_of_key hgr D hSg h614 fun L hL n hX q hq hq3 hqn hqs hN p hpσ hpq hsp hOp => ?_
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨S, E, hSL, hSp, hSmax, hES, hEel, hEcard, hrk, Sb, hSbp, hSbidx, hSbmap⟩ :=
     keyLemma3 hgr hL.1.le hN hX hq hq3 hqn hp hp2 hpq hOp (hSg.three_le p hpσ)
   have hEM : E ≤ D.M := hES.trans (hSL.trans hL.1.le)

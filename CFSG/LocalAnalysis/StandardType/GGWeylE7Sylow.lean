@@ -28,7 +28,7 @@ theorem ggE7SylowSet_card : ggE7SylowSet.card = 81 := by
 theorem ggE7SylowSet_one_mem : (1 : Matrix (Fin 7) (Fin 7) (ZMod 3)) ∈ ggE7SylowSet := by
   decide +kernel
 
-private def decEqMat7Fast : DecidableEq (Matrix (Fin 7) (Fin 7) (ZMod 3)) := fun A B =>
+@[instance_reducible] private def decEqMat7Fast : DecidableEq (Matrix (Fin 7) (Fin 7) (ZMod 3)) := fun A B =>
   decidable_of_iff (((List.finRange 7).all fun i => (List.finRange 7).all fun j =>
       decide (A i j = B i j)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]

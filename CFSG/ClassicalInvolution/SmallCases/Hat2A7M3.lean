@@ -75,7 +75,7 @@ theorem hRS : R ≤ (S : Subgroup G) := h.hyp.hR.2.2
 theorem hR'S : R' ≤ (S : Subgroup G) := h.hyp.hR'.2.2
 theorem hcomm : Commutes R R' :=
   h.hΩ.commutes_of_twin_of_isPGroup h.hK h.hK' h.hs.hne.symm h.hz h.hz' h.hRsyl.1 h.hR'syl.1
-    (S.isPGroup'.to_le (sup_le h.hRS h.hR'S))
+    (S.isPGroup.to_le (sup_le h.hRS h.hR'S))
 theorem hne : R ≠ R' := T7ER.ne_of_hyp25 h.hyp
 theorem hqR : IsQuatSub R := h.hΩ.isQuatSub_of_mem_RSet h.hyp.hR.1
 theorem hqR' : IsQuatSub R' := h.hΩ.isQuatSub_of_mem_RSet h.hyp.hR'.1

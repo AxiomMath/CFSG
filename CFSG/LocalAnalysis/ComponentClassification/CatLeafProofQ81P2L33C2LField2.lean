@@ -63,7 +63,7 @@ theorem exists_gl_coboundary {σ : K ≃+* K} (hσσ : ∀ x, σ (σ x) = x) (h�
     ext j i
     rfl
   have hu : IsUnit H :=
-    linearIndependent_cols_iff_isUnit.mp (by rw [hcol]; exact b'.linearIndependent)
+    linearIndependent_col_iff_isUnit.mp (by rw [hcol]; exact b'.linearIndependent)
   refine ⟨hu.unit, ?_⟩
   rw [IsUnit.unit_spec]
   ext i j

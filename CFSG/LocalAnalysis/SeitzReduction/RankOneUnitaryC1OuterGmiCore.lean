@@ -16,7 +16,7 @@ variable {X : Type*} [Group X]
 theorem gmi_isSylowOf_top [Finite X] {p : ℕ} [Fact p.Prime] (S : Sylow p X) :
     IsSylowOf p (S : Subgroup X) ⊤ := by
   rw [isSylowOf_iff]
-  refine ⟨le_top, S.isPGroup', ?_⟩
+  refine ⟨le_top, S.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact S.not_dvd_index
 

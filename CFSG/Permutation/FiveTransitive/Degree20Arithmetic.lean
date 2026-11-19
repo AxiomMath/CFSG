@@ -44,10 +44,10 @@ namespace CFSG
 
 namespace FiveTransitive.Degree20
 
-@[expose] abbrev SeventeenNormalizerRatio :=
+abbrev SeventeenNormalizerRatio :=
   ↥(Nat.divisors 16)
 
-@[expose] abbrev NineteenNormalizerRatio :=
+abbrev NineteenNormalizerRatio :=
   ↥(Nat.divisors 18)
 
 @[expose] def stabilizerFactorArithmeticPredicateZero
@@ -66,11 +66,11 @@ namespace FiveTransitive.Degree20
 theorem stabilizer_factor_arithmetic_zero :
     ∀ a : Fin 12, ∀ b : Fin 7,
       stabilizerFactorArithmeticPredicateZero a b := by
-  letI (a : Fin 12) (b : Fin 7) :
+  let (a : Fin 12) (b : Fin 7) :
       Decidable (stabilizerFactorArithmeticPredicateZero a b) := by
     dsimp only [stabilizerFactorArithmeticPredicateZero]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ a : Fin 12, ∀ b : Fin 7,
         stabilizerFactorArithmeticPredicateZero a b) :=
     Fintype.decidableForallFintype
@@ -92,11 +92,11 @@ theorem stabilizer_factor_arithmetic_zero :
 theorem stabilizer_factor_arithmetic_one :
     ∀ a : Fin 12, ∀ b : Fin 7,
       stabilizerFactorArithmeticPredicateOne a b := by
-  letI (a : Fin 12) (b : Fin 7) :
+  let (a : Fin 12) (b : Fin 7) :
       Decidable (stabilizerFactorArithmeticPredicateOne a b) := by
     dsimp only [stabilizerFactorArithmeticPredicateOne]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ a : Fin 12, ∀ b : Fin 7,
         stabilizerFactorArithmeticPredicateOne a b) :=
     Fintype.decidableForallFintype
@@ -118,11 +118,11 @@ theorem stabilizer_factor_arithmetic_one :
 theorem stabilizer_factor_arithmetic_two :
     ∀ a : Fin 12, ∀ b : Fin 7,
       stabilizerFactorArithmeticPredicateTwo a b := by
-  letI (a : Fin 12) (b : Fin 7) :
+  let (a : Fin 12) (b : Fin 7) :
       Decidable (stabilizerFactorArithmeticPredicateTwo a b) := by
     dsimp only [stabilizerFactorArithmeticPredicateTwo]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ a : Fin 12, ∀ b : Fin 7,
         stabilizerFactorArithmeticPredicateTwo a b) :=
     Fintype.decidableForallFintype
@@ -143,11 +143,11 @@ theorem stabilizer_factor_arithmetic_two :
 theorem stabilizer_factor_arithmetic_three :
     ∀ a : Fin 12, ∀ b : Fin 7,
       stabilizerFactorArithmeticPredicateThree a b := by
-  letI (a : Fin 12) (b : Fin 7) :
+  let (a : Fin 12) (b : Fin 7) :
       Decidable (stabilizerFactorArithmeticPredicateThree a b) := by
     dsimp only [stabilizerFactorArithmeticPredicateThree]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ a : Fin 12, ∀ b : Fin 7,
         stabilizerFactorArithmeticPredicateThree a b) :=
     Fintype.decidableForallFintype

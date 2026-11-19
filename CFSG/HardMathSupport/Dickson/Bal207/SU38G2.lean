@@ -16,6 +16,7 @@ section Rank
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem su38_isElemAbelian_of_le {p : ℕ} {B E : Subgroup X} (hB : IsElemAbelian p B) (hE : E ≤ B) :
     IsElemAbelian p E := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => hB.2 x (hE hx)⟩
@@ -23,13 +24,14 @@ theorem su38_isElemAbelian_of_le {p : ℕ} {B E : Subgroup X} (hB : IsElemAbelia
   change (a : X) * b = b * a
   exact congrArg Subtype.val (hB.1.is_comm.comm ⟨a, hE a.2⟩ ⟨b, hE b.2⟩)
 
+omit [Finite X] in
 theorem su38_isPGroup_three {E : Subgroup X} (hE : IsElemAbelian 3 E) :
     IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
 
 theorem twentySeven_le_card_of_pRank {A B C : Subgroup X} (hB : IsElemAbelian 3 B) (hAB : A ≤ B)
     (hCB : C ≤ B) (hAC : A ⊓ C = ⊥) (hsup : A ⊔ C = B)
     (hpr : CFSG.Open.pRank 3 C + 3 ≤ CFSG.Open.pRank 3 B) : 27 ≤ Nat.card A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ x ∈ A, ∀ y ∈ C, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hB.1.is_comm.comm ⟨x, hAB hx⟩ ⟨y, hCB hy⟩)
   obtain ⟨hprod, -⟩ := CFSG.GroupTheory.card_sup_mul_card_inf_of_commute A C hcomm
@@ -58,7 +60,7 @@ theorem twentySeven_le_card_of_pRank {A B C : Subgroup X} (hB : IsElemAbelian 3 
 
 theorem exists_subgroup_card_twentySeven {A : Subgroup X} (hA : IsElemAbelian 3 A)
     (h27 : 27 ≤ Nat.card A) : ∃ A₀ : Subgroup X, A₀ ≤ A ∧ Nat.card A₀ = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := (su38_isPGroup_three hA).exists_card_eq
   have hm3 : 3 ≤ m := by
     have : 3 ^ 3 ≤ 3 ^ m := by rw [← hm]; exact h27
@@ -141,6 +143,7 @@ theorem mem_normalizer_of_normalizes_sub {K J : Subgroup X}
     rw [h, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at h2
     exact h2.symm
 
+omit [Finite X] in
 theorem ne_bot_of_glaPComponent {p : ℕ} {Y J : Subgroup X} (hJ : GLAPComponent p Y J) :
     J ≠ ⊥ := by
   intro h
@@ -186,7 +189,7 @@ theorem g28K0 {Q : Type} [Group Q]
   have hK8 : Nat.card (GaloisField 2 3) = 8 := by
     rw [GaloisField.card 2 3 (by norm_num)]
     norm_num
-  haveI : CharP (GaloisField 2 3) 2 := inferInstance
+  have : CharP (GaloisField 2 3) 2 := inferInstance
   obtain ⟨M'⟩ := CFSG.RankThree.PartTwo.Sec4.Item434G28.exists_model
     (K := GaloisField 2 3) hK8
   have hZK := CFSG.LieType.Chevalley.center_adjointGroup_eq_bot

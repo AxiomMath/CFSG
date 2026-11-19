@@ -26,10 +26,10 @@ private def wcgapka_conjHom {G : Type*} [Group G] {S : Subgroup G} (hS : S.Norma
     S →* S where
   toFun x := ⟨d * (x : G) * d⁻¹, hS.conj_mem (x : G) x.2 d⟩
   map_one' := Subtype.ext (by simp)
-  map_mul' x y := Subtype.ext (by simp only [Subgroup.coe_mul, Subtype.coe_mk]; group)
+  map_mul' x y := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
 private lemma wcgapka_subgroupOf_centralizer_normal {G : Type*} [Group G]
-    {S Z : Subgroup G} (hZ : Z ≤ centralizer (S : Set G)) (hZS : Z ≤ S) :
+    {S Z : Subgroup G} (hZ : Z ≤ centralizer (S : Set G)) (_hZS : Z ≤ S) :
     (Z.subgroupOf S).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -119,7 +119,7 @@ theorem sylow_le_of_orderFive_aux {B : Type} [Group B] [Finite B] {S N : Subgrou
       exact S.mul_mem h1 (S.inv_mem hx)
   let Zs : Subgroup S := Z.subgroupOf S
   have hZsN : Zs.Normal := wcgapka_subgroupOf_centralizer_normal hZcent inf_le_left
-  haveI := hZsN
+  have := hZsN
   have hker : Zs ≤ ((QuotientGroup.mk' Zs).comp (wcgapka_conjHom hS d)).ker := by
     intro z hz
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
@@ -260,15 +260,15 @@ theorem center_le_of_irred_aux {B : Type} [Group B] [Finite B] {S N : Subgroup B
   have hZcent : Z ≤ centralizer (S : Set B) := inf_le_right
   have hMN : M.Normal := by
     change (N ⊓ S).Normal
-    haveI := hN
-    haveI := hS
+    have := hN
+    have := hS
     infer_instance
   have hMrel : M.relIndex S ∣ 168 := by
     have h1 : M.relIndex S = N.relIndex S := by
       change (N ⊓ S).relIndex S = N.relIndex S
       rw [Subgroup.inf_relIndex_right]
     rw [h1]
-    haveI := hN
+    have := hN
     exact (Subgroup.relIndex_dvd_index_of_normal (H := N) (K := S)).trans hidx
   obtain ⟨n, hn⟩ := hp.index (M.subgroupOf S)
   have hpow2 : M.relIndex S = 2 ^ n := (rfl : M.relIndex S = (M.subgroupOf S).index).trans hn
@@ -302,15 +302,15 @@ theorem center_le_of_irred_aux {B : Type} [Group B] [Finite B] {S N : Subgroup B
     have hZMsN : ZMs.Normal :=
       wcgapka_subgroupOf_centralizer_normal (Z := ZM) (inf_le_right.trans hZcent)
         (inf_le_left.trans hMleS)
-    haveI := hZMsN
+    have := hZMsN
     let Q := S ⧸ ZMs
     have hQp : IsPGroup 2 Q := hp.to_quotient ZMs
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent Q := hQp.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent Q := hQp.isNilpotent
     let H : Subgroup Q := (M.subgroupOf S).map (QuotientGroup.mk' ZMs)
     have hMsubN : (M.subgroupOf S).Normal := hMN.subgroupOf S
     have hHN : H.Normal := hMsubN.map (QuotientGroup.mk' ZMs) (QuotientGroup.mk'_surjective ZMs)
-    haveI := hHN
+    have := hHN
     have hHne : H ≠ ⊥ := by
       intro hbot
       have hmem : QuotientGroup.mk' ZMs ⟨m₀, hm₀S⟩ ∈ H :=

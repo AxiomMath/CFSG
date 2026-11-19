@@ -70,7 +70,7 @@ theorem sec7ns_singular_lift {K V : Type} [Field K] [Finite K] [CharP K 2] [AddC
 
 theorem sec7ns_eichler_mem {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {y w : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K}
-    (hy : quadMinus 2 K b c y = 0) (hw : polar (quadMinus 2 K b c) y w = 0) :
+    (_hy : quadMinus 2 K b c y = 0) (_hw : polar (quadMinus 2 K b c) y w = 0) :
     ∃ A : GL (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K,
       A ∈ CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 K b c) ∧
       ∀ v : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K,
@@ -160,7 +160,7 @@ theorem sec7ns_exists_polar_ne {K V : Type} [Field K] [AddCommGroup V] [Module K
 
 theorem sec7ns_exists_inter {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V]
     [Module.Finite K V] [Finite V] {c₀ : V} (hc₀ : c₀ ≠ 0) (H : Submodule K V)
-    (X : AddSubgroup V) (hX1 : ∀ s : K, s • c₀ ∈ X) (hq : 2 ≤ Nat.card K)
+    (X : AddSubgroup V) (_hX1 : ∀ s : K, s • c₀ ∈ X) (hq : 2 ≤ Nat.card K)
     (hXcard : Nat.card X = Nat.card K ^ 3) (hHcard : Nat.card H = Nat.card K ^ 3)
     (hVcard : Nat.card V = Nat.card K ^ 4) :
     ∃ x ∈ X, x ∈ H ∧ ∀ s : K, x ≠ s • c₀ := by
@@ -190,7 +190,7 @@ theorem sec7ns_exists_inter {K V : Type} [Field K] [Finite K] [AddCommGroup V] [
     rw [Submodule.mem_toAddSubgroup]
     exact Submodule.smul_mem _ s (Submodule.mem_span_singleton_self c₀)
   have hL : Nat.card (Submodule.span K {c₀}).toAddSubgroup = Nat.card K := by
-    haveI : FiniteDimensional K (Submodule.span K {c₀}) :=
+    have : FiniteDimensional K (Submodule.span K {c₀}) :=
       FiniteDimensional.span_of_finite K (Set.finite_singleton c₀)
     have h1 := Module.natCard_eq_pow_finrank (K := K) (V := ↥(Submodule.span K {c₀}))
     rw [finrank_span_singleton hc₀, pow_one] at h1
@@ -297,7 +297,7 @@ theorem sec7_om4_nonsingular_stab {K : Type} [Field K] [Finite K] [CharP K 2] {b
       Submodule.finrank_mono hle
     rw [finrank_span_singleton hc0, hHfin] at h1
     omega
-  obtain ⟨p₁, hp₁H, hp₁⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨p₁, hp₁H, hp₁⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hp₁c : polar (quadMinus 2 K b c) c₀ p₁ = 0 := (hmemH p₁).mp hp₁H
   obtain ⟨μ₁, hμ₁⟩ := sec7ns_singular_lift hc₀ hp₁c
   obtain ⟨u₁, hu₁eq⟩ : ∃ u : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K,
@@ -343,11 +343,11 @@ theorem sec7_om4_nonsingular_stab {K : Type} [Field K] [Finite K] [CharP K 2] {b
   obtain ⟨s₀, t₀, r₀, hx₀eq⟩ := sec7ns_perp_coord hirr hc₀ hu₁Q hu₂Q hu₁c hu₂c h12 hx₀c
   have hpol1 : polar (quadMinus 2 K b c) x₀ u₁ = r₀ := by
     rw [hx₀eq]
-    simp only [polar_add_left, polar_smul_left, hu₁c, hu₁u₁, h21, smul_zero, smul_eq_mul,
+    simp only [polar_add_left, polar_smul_left, hu₁c, hu₁u₁, h21, smul_eq_mul,
       mul_zero, mul_one, zero_add, add_zero]
   have hpol2 : polar (quadMinus 2 K b c) x₀ u₂ = t₀ := by
     rw [hx₀eq]
-    simp only [polar_add_left, polar_smul_left, hu₂c, hu₂u₂, h12, smul_zero, smul_eq_mul,
+    simp only [polar_add_left, polar_smul_left, hu₂c, hu₂u₂, h12, smul_eq_mul,
       mul_zero, mul_one, zero_add, add_zero]
   have hlines : (∀ τ : K, τ • u₁ ∈ X) ∧ (∀ τ : K, τ • u₂ ∈ X) := by
     by_cases hr : r₀ = 0

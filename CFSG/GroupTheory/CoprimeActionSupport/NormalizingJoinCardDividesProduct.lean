@@ -17,8 +17,8 @@ theorem card_dvd_product [Finite G] (H K : Subgroup G) (hK : K ≤ Subgroup.norm
   have card_mul_intersection [Finite G] (H K : Subgroup G) (hK : K ≤ Subgroup.normalizer (H : Set G)) :
       Nat.card (H ⊔ K : Subgroup G) * Nat.card (H ⊓ K : Subgroup G) =
         Nat.card H * Nat.card K := by
-    letI := Subgroup.normal_subgroupOf_of_le_normalizer hK
-    letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hK
+    let := Subgroup.normal_subgroupOf_of_le_normalizer hK
+    let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hK
     have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient K H hK
     have h1 : Nat.card (K ⧸ H.subgroupOf K) =
         Nat.card ((K ⊔ H : Subgroup G) ⧸ H.subgroupOf (K ⊔ H)) := Nat.card_congr e.toEquiv

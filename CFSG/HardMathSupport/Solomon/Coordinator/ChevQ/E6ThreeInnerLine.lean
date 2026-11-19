@@ -38,7 +38,7 @@ theorem rootChar_e6LineChar (ω : Kˣ) (v : Fin Tag.E6.rank → ℤ) :
 
 theorem e6Line_zpow_eq_one_iff_three_dvd (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1) (n : ℤ) :
     ω ^ n = 1 ↔ (3 : ℤ) ∣ n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime h3 h1
   rw [← orderOf_dvd_iff_zpow_eq_one, hord]
   norm_cast
@@ -46,7 +46,7 @@ theorem e6Line_zpow_eq_one_iff_three_dvd (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1) (n : 
 theorem e6Line_kernel (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1) :
     rootCharKernel (e6LineChar ω) = ⋃ i, (e6LineRoots i : Set (Fin Tag.E6.rank → ℤ)) := by
   ext α
-  simp only [rootCharKernel, Set.mem_setOf_eq, Set.mem_iUnion, Finset.mem_coe,
+  simp only [rootCharKernel, Set.mem_ofPred_eq, Set.mem_iUnion, Finset.mem_coe,
     rootChar_e6LineChar, e6Line_zpow_eq_one_iff_three_dvd h3 h1]
   constructor
   · rintro ⟨hα, hd⟩
@@ -63,7 +63,7 @@ theorem e6LineChar_pow_three (h3 : ω ^ 3 = 1) (i : Fin Tag.E6.rank) : e6LineCha
 
 theorem e6Line_exists_cube_root_unit [Finite K] (h : 3 ∣ Nat.card K - 1) :
     ∃ ω : Kˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card Kˣ = Nat.card K - 1 := Nat.card_units K
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 (hcard ▸ h)
   refine ⟨ω, by rw [← hω]; exact pow_orderOf_eq_one ω, fun h1 => ?_⟩
@@ -90,9 +90,9 @@ theorem cartanChar_e6KacCoweight {K : Type} [Field K] (ω : Kˣ) :
     rw [← zpow_natCast, ← zpow_mul]
   rw [h1, sum_e6KacCoweight_cartan]
   by_cases hl : l = e6KacNode
-  · rw [if_pos hl, hl, zpow_one]
+  · rw [ite_eq_left hl, hl, zpow_one]
     rfl
-  · rw [if_neg hl, zpow_zero, e6LineChar_of_ne ω hl]
+  · rw [ite_eq_right hl, zpow_zero, e6LineChar_of_ne ω hl]
 
 section Torus
 
@@ -360,7 +360,7 @@ theorem exists_e6LineFactor_conj_pow (j : ℕ) :
     refine ⟨0, fun i => ?_⟩
     rw [pow_zero, add_zero]
     ext x
-    simp [Subgroup.mem_map, MulAut.conj_apply]
+    simp [Subgroup.mem_map]
   | succ j ih =>
     obtain ⟨k, hk⟩ := ih
     refine ⟨1 + k, fun i => ?_⟩

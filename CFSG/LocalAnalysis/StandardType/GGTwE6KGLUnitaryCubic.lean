@@ -62,7 +62,7 @@ theorem not_ggOutsideInndiag_of_recipeUnitary {K : Type} [Field K] [Finite K] {d
         lab' = ⟨.twA, 2, 3 * n⟩))
     (hout : GGOutsideInndiag J₁ t) : False := by
   classical
-  haveI := hfin
+  have := hfin
   have hodd := odd_of_three_dvd_two_pow_add_one hn
   obtain ⟨hJperf, lab, hlabΛ, hraw⟩ := hout.2 _ hmark
   have hJlab : CFSG.LocalAnalysis.GLTheoremA.Y10F.HasLabel ↥J₁ (· = lab) :=

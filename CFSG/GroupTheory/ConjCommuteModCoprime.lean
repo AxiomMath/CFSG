@@ -13,11 +13,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem comm_of_isMulCommutative {H : Subgroup G} (h : IsMulCommutative ↥H) :
     ∀ x ∈ H, ∀ y ∈ H, x * y = y * x :=
   fun x hx y hy =>
     congrArg Subtype.val ((IsMulCommutative.is_comm (M := ↥H)).comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 private theorem commutator_mem_of_mem_union {U H₁ H₂ : Subgroup G}
     (ha₁ : ∀ x ∈ H₁, ∀ y ∈ H₁, x * y = y * x) (ha₂ : ∀ x ∈ H₂, ∀ y ∈ H₂, x * y = y * x)
     (hcomm : ∀ x ∈ H₁, ∀ y ∈ H₂, x * y * x⁻¹ * y⁻¹ ∈ U) {x y : G}
@@ -44,6 +46,7 @@ private theorem commutator_mem_of_mem_union {U H₁ H₂ : Subgroup G}
   · rw [ha₂ x hx y hy, mul_inv_cancel_right, mul_inv_cancel]
     exact U.one_mem
 
+omit [Finite G] in
 theorem commutator_mem_join_of_commutator_mem {U H₁ H₂ : Subgroup G}
     (h₁ : H₁ ≤ Subgroup.normalizer (U : Set G))
     (h₂ : H₂ ≤ Subgroup.normalizer (U : Set G))
@@ -129,6 +132,7 @@ theorem relIndex_join_dvd_card_mul {U H₁ H₂ : Subgroup G}
     exact hYdiv.trans hY2
   exact relIndex_dvd_of_card_dvd_mul (le_sup_left.trans le_sup_left) hY
 
+omit [Finite G] in
 theorem exists_isMulCommutative_complement {U H₁ H₂ : Subgroup G}
     (h₁ : H₁ ≤ Subgroup.normalizer (U : Set G))
     (h₂ : H₂ ≤ Subgroup.normalizer (U : Set G))
@@ -171,7 +175,7 @@ theorem exists_conj_mem_of_le_sup {U H W : Subgroup G}
   have hHZ : H ≤ Z := le_sup_right
   have hZnorm : Z ≤ Subgroup.normalizer (U : Set G) :=
     sup_le Subgroup.le_normalizer hH
-  have hUi : U ⊓ H = ⊥ := Subgroup.inf_eq_bot_of_coprime hc
+  have hUi : U ⊓ H = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hc))
   have hdvd : Nat.card Z ∣ Nat.card U * Nat.card H := by
     simpa [Z] using
       CFSG.GroupTheory.CoprimeActionSupport.NormalizingJoinCardDividesProduct.card_dvd_product
@@ -228,7 +232,7 @@ theorem exists_conj_commute_of_commutator_mem {U H₁ H₂ : Subgroup G}
     exists_conj_mem_of_le_sup h₁ hWnorm hUW (by rw [hUWs]; exact hH1Y) hc₁
   let Wconj : Subgroup G := W.map (MulAut.conj u₂⁻¹).toMonoidHom
   have hWconj_ab : IsMulCommutative ↥Wconj := by
-    letI := hWab
+    let := hWab
     exact Subgroup.map_isMulCommutative W (MulAut.conj u₂⁻¹).toMonoidHom
   refine ⟨u₂⁻¹ * u₁, U.mul_mem (U.inv_mem hu₂) hu₁, fun x hx y hy => ?_⟩
   have hxW : u₁ * x * u₁⁻¹ ∈ W := hconj₁ x hx

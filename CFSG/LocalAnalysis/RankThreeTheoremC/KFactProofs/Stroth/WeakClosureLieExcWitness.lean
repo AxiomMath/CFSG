@@ -23,10 +23,10 @@ variable {τ : Tag}
 
 theorem weakFrame_exact (hτ : τ = .G2 ∨ τ = .F4) (F : Type) [Field F] [Finite F]
     (w : WeylGroup τ) (hperf : commutator ↥(adjointGroup τ F) = ⊤) : WeakFrame τ F w := by
-  haveI : Finite (ModGL τ F) := finite_modGL
+  have : Finite (ModGL τ F) := finite_modGL
   obtain ⟨L, _, _, _, D, Fr, hFr, hD, hDq, hDn, hK0, hd⟩ :=
     exists_exact_frame (K := F) hτ (p := 5) w hperf
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   have hι : Function.Injective ((baseChangeGL (algebraMap F L)).comp (adjointGroup τ F).subtype) :=
     (baseChangeGL_injective _).comp (Subgroup.subtype_injective _)
   exact ⟨L, inferInstance, inferInstance, Fr, D, hFr, hK0, hD, hDn, ⟨hd.mulEquiv hι⟩⟩
@@ -35,10 +35,10 @@ theorem weakFrame_untw {τ : Tag} (d : ℕ)
     (hτ : (τ = .E6 ∧ d = 3) ∨ (τ = .E7 ∧ d = 2) ∨ (τ = .E8 ∧ d = 1)) (F : Type) [Field F]
     [Finite F] (w : WeylGroup τ) (hperf : commutator ↥(adjointGroup τ F) = ⊤) :
     WeakFrame τ F w := by
-  haveI : Finite (ModGL τ F) := finite_modGL
+  have : Finite (ModGL τ F) := finite_modGL
   obtain ⟨L, _, _, _, D, Fr, hFr, hD, hDq, hDn, hK0, hd⟩ :=
     exists_untw_frame d hτ F (p := 5) (by norm_num) (by norm_num) w hperf
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   have hι : Function.Injective ((baseChangeGL (algebraMap F L)).comp (adjointGroup τ F).subtype) :=
     (baseChangeGL_injective _).comp (Subgroup.subtype_injective _)
   exact ⟨L, inferInstance, inferInstance, Fr, D, hFr, hK0, hD, hDn, ⟨hd.mulEquiv hι⟩⟩
@@ -47,6 +47,7 @@ section Engine
 
 variable {F : Type} [Field F] [Finite F] {L : Type} [Field L] [IsAlgClosed L]
 
+omit [IsAlgClosed L] in
 theorem rootDiagUnit_mul_inv (a b : Fin τ.rank → Lˣ) :
     rootDiagUnit τ (fun i => a i * (b i)⁻¹) = rootDiagUnit τ a * (rootDiagUnit τ b)⁻¹ := by
   have : (fun i => a i * (b i)⁻¹) = a * b⁻¹ := rfl
@@ -67,8 +68,8 @@ theorem wcOn_noncomm_of_frame (D : LangDatum τ L) {Fr : L →+* L}
       fun i => weylTuple s β i * (β i)⁻¹) : WCOn p (adjointGroup τ F) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Finite (ModGL τ F) := finite_modGL
-  haveI hfin : Finite D.Γ := Finite.of_equiv _ e.toEquiv
+  have : Finite (ModGL τ F) := finite_modGL
+  have hfin : Finite D.Γ := Finite.of_equiv _ e.toEquiv
   have hq : 2 ≤ Nat.card F := Finite.one_lt_card
   obtain ⟨yX, hyX⟩ := exists_nfix_lift D hq hFr hn hX
   obtain ⟨yY, hyY⟩ := exists_nfix_lift D hq hFr hn hY
@@ -188,15 +189,16 @@ theorem exists_unit_orderOf_prime_of_not_dvd {p q : ℕ} (hp : p.Prime) (hpq : �
     (hq0 : ((q : ℕ) : L) = 0) : ∃ ζ : Lˣ, orderOf ζ = p := by
   have hpL : ((p : ℕ) : L) ≠ 0 := by
     intro h0
-    haveI : CharP L p := (CharP.charP_iff_prime_eq_zero hp).2 h0
+    have : CharP L p := (CharP.charP_iff_prime_eq_zero hp).2 h0
     exact hpq ((CharP.cast_eq_zero_iff L p q).1 hq0)
-  haveI : NeZero ((p : ℕ) : L) := ⟨hpL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  have : NeZero ((p : ℕ) : L) := ⟨hpL⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   set ζu : Lˣ := (hζ.isUnit hp.ne_zero).unit with hζu
   have hζu' : IsPrimitiveRoot ζu p :=
     IsPrimitiveRoot.coe_units_iff.1 (by simpa [hζu] using hζ)
   exact ⟨ζu, hζu'.eq_orderOf.symm⟩
 
+omit [IsAlgClosed L] in
 theorem rootDiagUnit_pow_eq (β : Fin τ.rank → Lˣ) (n : ℕ) :
     rootDiagUnit τ β ^ n = rootDiagUnit τ (fun i => β i ^ n) :=
   (map_pow (rootDiagUnitHom τ L) β n).symm
@@ -210,6 +212,7 @@ theorem mem_twistedTorus_of_coord {w : WeylGroup τ} {Fr : L →+* L} {q : ℕ}
   refine ⟨rootDiagUnit_mem_torusGroup β, ?_⟩
   rw [negPhi_rootDiagUnit_gen_pow Fr w hFr β, h]
 
+omit [IsAlgClosed L] in
 theorem noncomm_coord {p : ℕ} {ζ : Lˣ} (hζ : orderOf ζ = p) (vec : Fin τ.rank → ℤ)
     (j : Fin τ.rank) (s v : WeylGroup τ)
     (hj : ¬ (p : ℤ) ∣ ∑ i, vec i * ((weylMat s⁻¹ - 1) * (weylMat v⁻¹ - 1)) i j) :

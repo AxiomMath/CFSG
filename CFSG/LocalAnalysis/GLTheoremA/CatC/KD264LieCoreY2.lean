@@ -18,7 +18,7 @@ open CFSG.GroupActions
 
 theorem kd264CaseY2_holds (hI : KD264LieInputs) : KD264CaseY2 := by
   intro d hd A m hβ hov2 hTri β hβA J hJ e heq hcomp he8 hN5 hAJ hcard hex
-  haveI := hd
+  have := hd
   have hfe8 : fieldSize e.1 = 8 := by
     obtain ⟨q, hq | hq, hq8⟩ := he8
     · rw [hq]; simpa [fieldSize] using hq8
@@ -36,7 +36,7 @@ theorem kd264CaseY2_holds (hI : KD264LieInputs) : KD264CaseY2 := by
   have hover : overEight d.1 := overEight_of_fieldSize_eq_eight hfd8 hsuz
   obtain ⟨a, haA, haStab, haOut⟩ := hex
   have hcomm : β * a = a * β := by
-    haveI := hβ.elem.1
+    have := hβ.elem.1
     exact congrArg Subtype.val (mul_comm' ⟨β, hβA⟩ ⟨a, haA⟩)
   have haNotInn : a ∉ innAutDerived (TauCeti.CFSGIndex.lie d).Group := by
     intro haInn
@@ -47,8 +47,8 @@ theorem kd264CaseY2_holds (hI : KD264LieInputs) : KD264CaseY2 := by
   have hm4 : m ≤ 4 := by
     obtain ⟨D, hD, hAD⟩ := hcard
     obtain ⟨φ⟩ := heq
-    haveI : Finite (TauCeti.CFSGIndex.lie e).Group := by
-      haveI : Finite (↥J ⧸ Subgroup.center ↥J) :=
+    have : Finite (TauCeti.CFSGIndex.lie e).Group := by
+      have : Finite (↥J ⧸ Subgroup.center ↥J) :=
         Finite.of_surjective (QuotientGroup.mk' (Subgroup.center ↥J))
           (QuotientGroup.mk'_surjective (Subgroup.center ↥J))
       exact Finite.of_equiv _ φ.toEquiv

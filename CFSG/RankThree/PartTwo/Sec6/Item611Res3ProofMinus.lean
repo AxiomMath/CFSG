@@ -68,7 +68,7 @@ theorem exists_invariant_two_subgroup_cover {L E V : Subgroup G}
   obtain ⟨R⟩ : Nonempty (Sylow 2 Y) := inferInstance
   set RG := (R : Subgroup Y).map Y.subtype with hRG
   have hRGY : RG ≤ Y := Subgroup.map_subtype_le _
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map Y.subtype
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map Y.subtype
   have hYRZ : Y ≤ RG ⊔ Z := le_sylow_sup_of_forall_pow_mem hZY hYZ hYpow R
   set W := RG ⊔ θL with hW
   have hWL : W ≤ L := sup_le (hRGY.trans hYL) (theta_le L)
@@ -124,7 +124,7 @@ theorem exists_invariant_two_subgroup_cover {L E V : Subgroup G}
       3 Nat.prime_three E W hE3 hW3 hEW 2 Nat.prime_two
   set U := (Q : Subgroup W).map W.subtype with hU
   have hUW : U ≤ W := Subgroup.map_subtype_le _
-  have hU2 : IsPGroup 2 U := Q.isPGroup'.map W.subtype
+  have hU2 : IsPGroup 2 U := Q.isPGroup.map W.subtype
   refine ⟨U, (mem_invariantPiSubgroups_piOf_iff Nat.prime_two).mpr ⟨hUW.trans hWL, hU2, hEQ⟩,
     ?_, ?_⟩
   · have hWpow : ∀ w ∈ W, ∃ k : ℕ, w ^ (2 ^ k) ∈ θL := fun w hw =>

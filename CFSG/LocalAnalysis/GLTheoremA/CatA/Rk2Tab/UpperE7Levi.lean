@@ -226,7 +226,7 @@ theorem not_dvd_card_inf_subsystemGroup {K : Type} [Field K] [Finite K] [CharP K
     (hcomm : ∀ x ∈ subsystemGroup Tag.E7 K J₁, ∀ y ∈ subsystemGroup Tag.E7 K J₂,
       Commute x y) :
     ¬ p ∣ Nat.card ↥(subsystemGroup Tag.E7 K J₁ ⊓ subsystemGroup Tag.E7 K J₂) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hgcd : (Nat.card K - 1).gcd 2 = 1 := by
     obtain ⟨n, -, hK⟩ := FiniteField.card K 2
     have hKn : Nat.card K = 2 ^ (n : ℕ) := by
@@ -269,7 +269,7 @@ theorem card_le_pow_four_subsystemGroup_e7A1A5 {K : Type} [Field K] [Finite K] [
       exact Fin.ext (by simpa [e7Index] using h0)
     · right
       rw [mem_a5Nodes_iff']
-      fin_cases j <;> simp_all [a5Nodes]
+      fin_cases j <;> simp_all
   have hE' : E ≤ subsystemGroup Tag.E7 K ({e7Index 0} ∪ a5Nodes Tag.E7) :=
     hE.trans (CFSG.StandardType.F4Rest.subsystemGroup_mono hsub)
   rw [CFSG.StandardType.F4Rest.subsystemGroup_union] at hE'
@@ -439,10 +439,10 @@ theorem rk2_levi_explicit (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) :
       ∀ E : Subgroup (ModGL Tag.E7 F), E ≤ subsystemGroup Tag.E7 F {j | j ≠ i} →
         IsElemAbelian p E → Nat.card E ≤ p ^ 6 :=
   fun F hF hFin hCh hd i hi0 hi1 hi6 E hE hEel => by
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : CharP F 2 := hCh
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hF
+  let : Finite F := hFin
+  have : CharP F 2 := hCh
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hK⟩ := FiniteField.card F 2
   have hKn : Nat.card F = 2 ^ (n : ℕ) := by
     rw [← Fintype.card_eq_nat_card]; exact hK
@@ -463,7 +463,7 @@ theorem rk2_levi_explicit (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) :
     have hset : ({j : Fin Tag.E7.rank | j ≠ i} : Set (Fin Tag.E7.rank)) =
         {j : Fin Tag.E7.rank | j.val ≠ 2} := by
       ext j
-      rw [Set.mem_setOf_eq, Set.mem_setOf_eq]
+      rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq]
       constructor
       · intro h hval
         exact h (by rw [hi]; exact fin_eq_of_val (by decide) hval)
@@ -477,7 +477,7 @@ theorem rk2_levi_explicit (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) :
     have hset : ({j : Fin Tag.E7.rank | j ≠ i} : Set (Fin Tag.E7.rank)) =
         {j : Fin Tag.E7.rank | j.val ≠ 3} := by
       ext j
-      rw [Set.mem_setOf_eq, Set.mem_setOf_eq]
+      rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq]
       constructor
       · intro h hval
         exact h (by rw [hi]; exact fin_eq_of_val (by decide) hval)
@@ -491,7 +491,7 @@ theorem rk2_levi_explicit (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) :
     have hset : ({j : Fin Tag.E7.rank | j ≠ i} : Set (Fin Tag.E7.rank)) =
         {j : Fin Tag.E7.rank | j.val ≠ 4} := by
       ext j
-      rw [Set.mem_setOf_eq, Set.mem_setOf_eq]
+      rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq]
       constructor
       · intro h hval
         exact h (by rw [hi]; exact fin_eq_of_val (by decide) hval)
@@ -505,7 +505,7 @@ theorem rk2_levi_explicit (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) :
     have hset : ({j : Fin Tag.E7.rank | j ≠ i} : Set (Fin Tag.E7.rank)) =
         {j : Fin Tag.E7.rank | j.val ≠ 5} := by
       ext j
-      rw [Set.mem_setOf_eq, Set.mem_setOf_eq]
+      rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq]
       constructor
       · intro h hval
         exact h (by rw [hi]; exact fin_eq_of_val (by decide) hval)
@@ -525,7 +525,7 @@ theorem levi_card_le_six_explicit {K : Type} [Field K] [Finite K] [CharP K 2] {p
     {J : Set (Fin Tag.E7.rank)} (hJ : J ≠ Set.univ)
     {E : Subgroup (ModGL Tag.E7 K)} (hE : E ≤ subsystemGroup Tag.E7 K J)
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 6 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpq : ¬ p ∣ Nat.card K - 1 :=
     CFSG.RankThree.PartOne.S15K.not_dvd_sub_one_of_dvd_add_one Nat.card_pos (by have := hp.two_le; omega) hd
   obtain ⟨i, hi⟩ : ∃ i, i ∉ J := by
@@ -587,10 +587,10 @@ theorem rk2_up_e7 {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK : Rk2IsLa
     lieModel_of_markedModel_E7 ht hM
   obtain ⟨-, F, hF, hFin, hFcard, ⟨φ⟩⟩ := hM'.chevalleyExceptionalModel
     (by decide : StatedLieTag.E7 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hn1 : 1 ≤ lab.n := by omega
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (k := lab.n) hn1 hFcard
   have hQ' : CFSG.IsQuasisimple K := (CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1.2 hQ

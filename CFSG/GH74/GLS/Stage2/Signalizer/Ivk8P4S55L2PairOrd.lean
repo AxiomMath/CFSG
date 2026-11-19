@@ -131,6 +131,7 @@ theorem pair_orders (hf : Hyp89 p ρ K a) {r f : ℕ} [hr : Fact r.Prime] (hr2 :
     obtain ⟨x, rfl⟩ := hzr
     exact hfive ⟨x, h5, hne⟩
 
+omit [Finite Γ] [Module.Finite (ZMod p) V] in
 theorem pair_comm_of_pgroup (hf : Hyp89 p ρ K a) {r f : ℕ} [hr : Fact r.Prime] (hr2 : r ≠ 2)
     (hrp : r ≠ p) {F₀ : Type} [Field F₀] [Finite F₀] (hF₀ : Nat.card F₀ = r ^ f)
     (e0 : (↥K ⧸ center ↥K) ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F₀)

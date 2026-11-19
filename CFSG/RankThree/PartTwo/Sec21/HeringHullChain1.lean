@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem le_normalizer_of_mem_thetaComponentsAt (h45 : Sec4.Item4_5) (hG : TheoremFourHyp G)
     {A : Subgroup G} (hAe : CFSG.Assembly.IsElemAbelian 3 A)
-    (hAn : ∃ n : ℕ, 3 ≤ n ∧ Nat.card A = 3 ^ n) {a : G} (haA : a ∈ A) (ha1 : a ≠ 1)
+    (_hAn : ∃ n : ℕ, 3 ≤ n ∧ Nat.card A = 3 ^ n) {a : G} (haA : a ∈ A) (ha1 : a ≠ 1)
     {Z : Subgroup G} (hZ : Z ∈ thetaComponentsAt 3 a) :
     A ≤ Subgroup.normalizer (Z : Set G) :=
   Sec6.le_normalizer_of_mem_thetaComponentsAt h45 hG hAe haA ha1 Z hZ

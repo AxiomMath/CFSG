@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {M L : Subgroup (MulAut W)} {Z : Subgroup W}
 
+omit [Finite W] in
 private theorem s16c167_mem_stabSub_of_map_eq {Y : Subgroup W} {g : MulAut W}
     (hmap : Y.map g.toMonoidHom = Y) : g ∈ stabSub Y := by
   intro u

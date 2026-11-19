@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 variable {M V₀ V N₁ N₂ Y : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem c23ne_comm_of_conj_comm {a v z : G} (hav : a * v = v * a)
     (hy : (a * z * a⁻¹) * v = v * (a * z * a⁻¹)) : z * v = v * z := by
   have hv : a * v * a⁻¹ = v := by rw [hav]; group
@@ -24,9 +25,11 @@ private theorem c23ne_comm_of_conj_comm {a v z : G} (hav : a * v = v * a)
       _ = a * (v * z) * a⁻¹ := by group
   simpa using h2
 
+omit [Finite G] in
 private theorem c23ne_V₀_le_N₁' (h : C23NePair M V₀ V N₁ N₂ Y) : V₀ ≤ N₁ := by
   rw [← h.inf]; exact inf_le_left
 
+omit [Finite G] in
 theorem c23ne_U_normalizes (h : C23NeO2 M V₀ V N₁ N₂ Y g)
     (h0comm : ∀ u ∈ conjSubgroup V g ⊓ M, ∀ w ∈ V₀, u * w = w * u)
     (h1blk : conjSubgroup N₁ g ≤ M ∨ conjSubgroup N₂ g ≤ M) :
@@ -69,6 +72,7 @@ theorem c23ne_U_normalizes (h : C23NeO2 M V₀ V N₁ N₂ Y g)
     exact h.notLe (hVg_le.trans
       (h.pair.cent (v : G) (Or.inl (c23ne_V₀_le_N₁' h.pair hvV₀)) hv1'))
 
+omit [Finite G] in
 theorem c23ne_U_centralizes_block (h : C23NeO2 M V₀ V N₁ N₂ Y g) {K : Subgroup G}
     (hK : K ≤ conjSubgroup V g) (hKM : K ≤ M) (hKbot : (V ⊓ conjSubgroup V g) ⊓ K = ⊥)
     (hnorm : ∀ a ∈ V ⊓ conjSubgroup M g, a ∈ normalizer (K : Set G)) :
@@ -86,6 +90,7 @@ theorem c23ne_U_centralizes_block (h : C23NeO2 M V₀ V N₁ N₂ Y g) {K : Subg
   calc a * y = a * y * a⁻¹ * a := by group
     _ = y * a := by rw [h1]
 
+omit [Finite G] in
 theorem c23ne_step2 (h : C23NeO2 M V₀ V N₁ N₂ Y g)
     (h0comm : ∀ u ∈ conjSubgroup V g ⊓ M, ∀ w ∈ V₀, u * w = w * u)
     (h1blk : conjSubgroup N₁ g ≤ M ∨ conjSubgroup N₂ g ≤ M) :

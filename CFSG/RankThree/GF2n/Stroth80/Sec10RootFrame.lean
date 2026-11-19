@@ -45,6 +45,7 @@ theorem isRoot_conj_iff {Y : Subgroup G} {g₀ : G} (hY : Y = conjSubgroup g₀ 
     · calc z = g₀⁻¹ * (g₀ * z * g₀⁻¹) * g₀ := by group
         _ = 1 := by rw [h]; group
 
+omit [Finite G] in
 theorem mem_QB_conj_of_mem_centralizer {Y : Subgroup G} {c a : G} (ha : a ∈ QB Y)
     (hac : a ∈ Subgroup.centralizer ({c} : Set G)) : a ∈ QB (conjSubgroup c Y) := by
   rw [QB_conj, mem_conjSubgroup]

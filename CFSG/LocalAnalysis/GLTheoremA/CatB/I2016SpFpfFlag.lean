@@ -68,7 +68,7 @@ theorem sq_trivial_on_flag {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
       rw [← h5]
       refine LinearMap.ext fun q => ?_
       obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective U q
-      simp [Submodule.mapQ_apply, hNpow]
+      simp [hNpow]
     have h3 : Commute NQ γQ := by
       refine LinearMap.ext fun q => ?_
       obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective U q

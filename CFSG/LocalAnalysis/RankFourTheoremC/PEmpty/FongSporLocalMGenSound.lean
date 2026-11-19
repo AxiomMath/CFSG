@@ -49,12 +49,12 @@ theorem wordUnit_regW {C : MCert} (hC : mcertCheck O sA sB C = true) (c : PGen) 
   by_cases hi : i < c.ns.length
   · have hi' : i < (c.ns.map fun n => evalPW (regUnit Sp hC 0) (regUnit Sp hC 1) n.1).length := by
       simp only [List.length_map]; exact hi
-    rw [if_pos hi, wordUnit_pwToWord Sp hC, List.getD_append (h := hi')]
+    rw [ite_eq_left hi, wordUnit_pwToWord Sp hC, List.getD_append (h := hi')]
     exact (getD_map_evalPW (regUnit Sp hC 0) (regUnit Sp hC 1) c.ns (fun n => n.1) ([], 0, 0)
       rfl i).symm
   · have hl : (c.ns.map fun n => evalPW (regUnit Sp hC 0) (regUnit Sp hC 1) n.1).length ≤ i := by
       simp only [List.length_map]; omega
-    rw [if_neg hi, wordUnit_pwToWord Sp hC, List.getD_append_right (h := hl), List.length_map]
+    rw [ite_eq_right hi, wordUnit_pwToWord Sp hC, List.getD_append_right (h := hl), List.length_map]
     exact (getD_map_evalPW (regUnit Sp hC 0) (regUnit Sp hC 1) c.ms (fun m => m.1) ([], 0) rfl
       (i - c.ns.length)).symm
 
@@ -242,13 +242,11 @@ theorem MGen.holdsBase_of_facts {C : MCert} (hC : mcertCheck O sA sB C = true) (
 
 theorem certRegs_zero {C : MCert} (h2 : C.nregs = 2) (hp : C.prog = []) :
     (certRegs O sA sB C)[0]! = O.decode sA := by
-  simp [certRegs, Ops.regsOf, Ops.run, Ops.initRegs, h2, hp, Array.getElem!_eq_getD,
-    Array.getD_getElem?]
+  simp [certRegs, Ops.regsOf, Ops.run, Ops.initRegs, h2, hp]
 
 theorem certRegs_one {C : MCert} (h2 : C.nregs = 2) (hp : C.prog = []) :
     (certRegs O sA sB C)[1]! = O.decode sB := by
-  simp [certRegs, Ops.regsOf, Ops.run, Ops.initRegs, h2, hp, Array.getElem!_eq_getD,
-    Array.getD_getElem?]
+  simp [certRegs, Ops.regsOf, Ops.run, Ops.initRegs, h2, hp]
 
 theorem valHom_regUnit_zero {C : MCert} (hC : mcertCheck O sA sB C = true) (h2 : C.nregs = 2)
     (hp : C.prog = []) {e : ℕ} (hf : MFact.ord 0 e ∈ C.facts) :

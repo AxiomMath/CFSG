@@ -475,7 +475,7 @@ theorem qtwoDB7_diag_cover {Y : Type} [Group Y] [Finite Y] {τ : Y} (hτ : τ ^ 
       have hbot : ⁅Jb, Jb⁆ = ⊥ := Subgroup.commutator_eq_bot_iff_le_centralizer.mpr hcenter
       have hperf : ⁅Jb, Jb⁆ = Jb := qtwoDB7_b2_commutator_eq_self_of_isPerfect hJq.1
       have hJbbot : Jb = ⊥ := by rw [← hperf, hbot]
-      haveI : Nontrivial ↥Jb := CFSG.LocalCores.isQuasisimple_nontrivial hJq
+      have : Nontrivial ↥Jb := CFSG.LocalCores.isQuasisimple_nontrivial hJq
       have hsub : Subsingleton ↥Jb := by rw [hJbbot]; infer_instance
       exact not_subsingleton ↥Jb hsub
   refine ⟨d.codRestrict Jb (fun a => hDJ ▸ (⟨a, rfl⟩ : d a ∈ d.range)), ?_, ?_, ?_⟩

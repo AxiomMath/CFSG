@@ -88,7 +88,7 @@ theorem line_trivial (V₀ V : Submodule K E) (hV₀V : V₀ ≤ V)
     have e : (ρ * ρ') • x - (cf ρ * cf ρ') • x =
         ρ • (ρ' • x - cf ρ' • x) + cf ρ' • (ρ • x - cf ρ • x) := by
       rw [mul_smul, smul_sub, mul_smul, smul_sub, smul_comm ρ (cf ρ') x]
-      simp only [mul_comm (cf ρ) (cf ρ'), mul_smul, smul_comm (cf ρ') (cf ρ) x]
+      simp only [smul_comm (cf ρ') (cf ρ) x]
       abel
     rw [e]
     exact V₀.add_mem (hV₀inv ρ _ (hcf ρ' x hx)) (V₀.smul_mem _ (hcf ρ x hx))

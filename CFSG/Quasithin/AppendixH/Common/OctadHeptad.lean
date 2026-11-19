@@ -60,7 +60,7 @@ private theorem mem_erase₂_iff_pair {O : Finset (Fin 24)} {a b x : Fin 24} (ha
       · rwa [hxa]
       · rwa [hxb]
 
-private theorem mem_erase₂_iff {O : Finset (Fin 24)} {a b y : Fin 24} (ha : a ∈ O) (hb : b ∈ O) :
+private theorem mem_erase₂_iff {O : Finset (Fin 24)} {a b y : Fin 24} (_ha : a ∈ O) (_hb : b ∈ O) :
     y ∈ (O.erase a).erase b ↔ y ∈ O ∧ y ∉ ({a, b} : Finset (Fin 24)) := by
   simp only [Finset.mem_erase, Finset.mem_insert, Finset.mem_singleton]
   constructor
@@ -130,14 +130,14 @@ private theorem mem_M2ab_inf_erase₂_iff (g : S24) {O : Finset (Fin 24)} {a b :
     · rintro ⟨hxO, hxP⟩
       exact ⟨hxO, fun hgxP => hxP ((hP x).mp hgxP)⟩
 
-theorem M23g_inf_stabilizer_erase {O : Finset (Fin 24)} {a : Fin 24} (ha : a ∈ O) :
+theorem M23g_inf_stabilizer_erase {O : Finset (Fin 24)} {a : Fin 24} (_ha : a ∈ O) :
     M23g a ⊓ MulAction.stabilizer S24 (O.erase a) =
       octStab O ⊓ MulAction.stabilizer S24 a := by
   ext g
   exact mem_M23g_inf_erase_iff g
 
-theorem M22g_inf_stabilizer_erase₂ {O : Finset (Fin 24)} {a b : Fin 24} (ha : a ∈ O)
-    (hb : b ∈ O) : M22g a b ⊓ MulAction.stabilizer S24 ((O.erase a).erase b) =
+theorem M22g_inf_stabilizer_erase₂ {O : Finset (Fin 24)} {a b : Fin 24} (_ha : a ∈ O)
+    (_hb : b ∈ O) : M22g a b ⊓ MulAction.stabilizer S24 ((O.erase a).erase b) =
       octStab O ⊓ MulAction.stabilizer S24 a ⊓ MulAction.stabilizer S24 b := by
   ext g
   exact mem_M22g_inf_erase₂_iff g

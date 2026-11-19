@@ -34,7 +34,7 @@ theorem centralizer_le_sup_oddIn {T : Subgroup G}
   have hodd : ∀ x : ↥X, ¬ 2 ∣ orderOf x → x ∈ τ.ker := by
     intro x hx
     rw [MonoidHom.mem_ker]
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P'.isPGroup') (τ x)
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P'.isPGroup) (τ x)
     rcases k with _ | k
     · rw [pow_zero, orderOf_eq_one_iff] at hk
       exact hk

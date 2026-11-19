@@ -27,7 +27,7 @@ universe u
 public theorem secondCase_linear_prime_subgroup_le_sup_of_cyclic_join
     {G : Type u} [Group G] [Finite G]
     {P P0 C Y : Subgroup G} {p : ℕ} [Fact p.Prime]
-    (hPcard : Nat.card P = p) (hP0card : Nat.card P0 = p)
+    (_hPcard : Nat.card P = p) (hP0card : Nat.card P0 = p)
     (hP0leC : P0 ≤ C) (hCcyc : IsCyclic C)
     (hCcentP : C ≤ Subgroup.centralizer (P : Set G))
     (hPinfC : P ⊓ C = ⊥)
@@ -85,7 +85,7 @@ public theorem secondCase_linear_prime_subgroup_le_sup_of_cyclic_join
     simpa using habpow
   have hbH0 : (b : G) ∈ H0 := by
     by_cases hb1 : (b : G) = 1
-    · simpa [hb1] using H0.one_mem
+    · simp [hb1]
     · have horderb : orderOf (b : G) = p := by
         have hdiv : orderOf (b : G) ∣ p :=
           (orderOf_dvd_iff_pow_eq_one (x := (b : G)) (n := p)).mpr hbPow

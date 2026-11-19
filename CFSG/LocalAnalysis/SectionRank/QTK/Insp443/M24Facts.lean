@@ -444,7 +444,7 @@ theorem card_eNorm_et :
     have heq : eNorm basis_et = Nq :=
       (Subgroup.eq_of_le_of_card_ge Nq_le_eNorm_et (by rw [hc, card_Nq])).symm
     exact nE_not_mem_Nq (heq ▸ nE_mem)
-  haveI : IsSimpleGroup G₀ := CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
+  have : IsSimpleGroup G₀ := CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
   have hR1 : eSub basis_et ≠ ⊥ := by
     intro h
     have hc := card_eSub (h := basis_et)

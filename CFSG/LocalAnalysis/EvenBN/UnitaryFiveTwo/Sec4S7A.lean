@@ -92,7 +92,7 @@ theorem le_closure_commAct_of_fix_trivial (hcomm : ∀ a b : V, a * b = b * a)
     (V₀ : Subgroup V) (hV₀ : ∀ g ∈ X, ∀ v ∈ V₀, ρ g v ∈ V₀) (hcard : Nat.card V₀ = 2 ^ 4)
     (hfix : ∀ v ∈ V₀, (∀ g ∈ X, ρ g v = v) → v = 1) :
     V₀ ≤ Subgroup.closure {x : V | ∃ g ∈ X, ∃ w ∈ V₀, x = ρ g w * w⁻¹} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W : Subgroup V := Subgroup.closure {x : V | ∃ g ∈ X, ∃ w ∈ V₀, x = ρ g w * w⁻¹} with hW
   have hgenV₀ : ∀ g ∈ X, ∀ w ∈ V₀, ρ g w * w⁻¹ ∈ V₀ := fun g hg w hw =>
     V₀.mul_mem (hV₀ g hg w hw) (V₀.inv_mem hw)

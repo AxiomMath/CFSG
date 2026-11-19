@@ -46,7 +46,7 @@ theorem swap_mul_diag_mul_swap {ω : K} (hω3 : ω ^ 3 = 1) :
   rw [Matrix.mul_apply]
   simp only [Matrix.mul_diagonal]
   fin_cases i <;> fin_cases j <;>
-    simp [swapMat, Fin.sum_univ_three, Matrix.diagonal_apply, h4] <;> ring
+    simp [swapMat, Fin.sum_univ_three, h4]; ring
 
 theorem eq_one_of_conj_smul_diag {M N : Matrix (Fin 3) (Fin 3) K} (hNM : N * M = 1)
     (hMN : M * N = 1) {ω : K} (hω3 : ω ^ 3 = 1) (hS : M * swapMat K = swapMat K * M) {c : K}
@@ -75,7 +75,7 @@ theorem eq_one_of_conj_smul_diag {M N : Matrix (Fin 3) (Fin 3) K} (hNM : N * M =
   have h2 : (c * c) • (D * D) = c • (D * D) := by
     rw [← h1, hsq, hc, Matrix.smul_mul, Matrix.mul_smul, smul_smul]
   have h3 := congrFun (congrFun h2 2) 2
-  simp [hD, Matrix.smul_apply, Matrix.diagonal_apply] at h3
+  simp [hD, Matrix.smul_apply] at h3
   exact mul_left_cancel₀ hc0 (by rw [mul_one]; exact h3)
 
 theorem eq_smul_one_of_conj_smul {M N : Matrix (Fin 3) (Fin 3) K} (hNM : N * M = 1)

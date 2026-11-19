@@ -15,6 +15,7 @@ variable {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V]
 
 variable [Finite F] [Module.Finite F V]
 
+omit [Finite F] [Module.Finite F V] in
 private lemma act_pow {P : Type} [CommGroup P] {ρ : P →* (V ≃ₗ[F] V)}
     (fr : SemiFrame F ρ) (p : P) (n : ℕ) (w : V) (i : Fin fr.r) :
     fr.Φ (((ρ p : Module.End F V) ^ n) w) i =
@@ -25,6 +26,7 @@ private lemma act_pow {P : Type} [CommGroup P] {ρ : P →* (V ≃ₗ[F] V)}
       rw [pow_succ', Module.End.mul_apply, LinearEquiv.coe_coe,
         fr.act p (((ρ p : Module.End F V) ^ n) w) i, ih w, smul_smul, pow_succ']
 
+omit [Finite F] [Module.Finite F V] in
 private lemma aeval_act {P : Type} [CommGroup P] {ρ : P →* (V ≃ₗ[F] V)}
     (fr : SemiFrame F ρ) (p : P) (q : Polynomial F) (w : V) (i : Fin fr.r) :
     fr.Φ ((Polynomial.aeval (ρ p : Module.End F V) q) w) i =
@@ -39,6 +41,7 @@ private lemma aeval_act {P : Type} [CommGroup P] {ρ : P →* (V ≃ₗ[F] V)}
         Module.algebraMap_end_apply, map_smul, Pi.smul_apply, act_pow fr p n w i, mul_smul,
         IsScalarTower.algebraMap_smul]
 
+omit [Finite F] [Module.Finite F V] in
 private lemma aeval_minpoly_kills_block {P : Type} [CommGroup P] {ρ : P →* (V ≃ₗ[F] V)}
     (fr : SemiFrame F ρ) (p : P) (i : Fin fr.r) (u : Fin (fr.m i) → fr.E i) :
     (Polynomial.aeval (ρ p : Module.End F V)
@@ -53,6 +56,7 @@ private lemma aeval_minpoly_kills_block {P : Type} [CommGroup P] {ρ : P →* (V
     rw [Pi.single_eq_same, minpoly.aeval, zero_smul]
   · rw [Pi.single_eq_of_ne hk, smul_zero]
 
+omit [Module.Finite F V] in
 theorem exists_nesting_index {P P' : Type} [CommGroup P] [CommGroup P']
     (η : P →* SpecialLinearGroup F V) (η' : P' →* SpecialLinearGroup F V) {g : P} {g' : P'}
     (hg' : ∀ x : P', x ∈ Subgroup.zpowers g') (hgg : η' g' = η g)
@@ -150,6 +154,7 @@ theorem exists_nesting_index {P P' : Type} [CommGroup P] [CommGroup P']
           (minpoly.irreducible hx) (minpoly.monic hx)).mpr hz).symm
       exact (SemiFrame.minpoly_ne_of_ne fr' g' hg' hk hmk hmj) (heq.symm.trans hmin.symm)
 
+omit [Finite F] [Module.Finite F V] in
 theorem exists_nesting_embedding {P P' : Type} [CommGroup P] [CommGroup P']
     (η : P →* SpecialLinearGroup F V) (η' : P' →* SpecialLinearGroup F V) {g : P} {g' : P'}
     (hg' : ∀ x : P', x ∈ Subgroup.zpowers g') (hgg : η' g' = η g)
@@ -307,6 +312,7 @@ theorem exists_nesting_embedding {P P' : Type} [CommGroup P] [CommGroup P']
         rw [map_mul ε, mul_smul, ihx (y • z), ihy z, smul_smul]
   exact ⟨ε, fun c u => hA_eps c u, fun c y => hB_eps c y⟩
 
+omit [Module.Finite F V] in
 theorem exists_nesting {P P' : Type} [CommGroup P] [CommGroup P']
     (η : P →* SpecialLinearGroup F V) (η' : P' →* SpecialLinearGroup F V) {g : P} {g' : P'}
     (hg' : ∀ x : P', x ∈ Subgroup.zpowers g') (hgg : η' g' = η g)

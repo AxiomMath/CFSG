@@ -330,7 +330,7 @@ private theorem x2_ne_one : x2 ≠ 1 := by
 
 private theorem sl3_fix_frame (α : MulAut S3) (hα : Nat.Coprime (orderOf α) 6)
     (hαy : α y0 = y0) : α = 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   refine eq_one_of_fix_frame hα hαy (orderOf_eq_prime x1_pow_seven x1_ne_one)
     (orderOf_eq_prime x2_pow_seven x2_ne_one) y0_x1 y0_x2 ?_ ?_ ?_
   · intro q hq hc

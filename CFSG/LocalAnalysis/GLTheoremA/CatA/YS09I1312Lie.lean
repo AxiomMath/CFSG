@@ -62,8 +62,8 @@ theorem i1312_pCore_le_Sbar {G : Type} [Group G] [Finite G] {p : ℕ} {I B S : S
       (QuotientGroup.mk' (GLAPPrimeCore p ↥I)) : Set (PQuot p I))) ≤
       (S.subgroupOf I).map (QuotientGroup.mk' (GLAPPrimeCore p ↥I)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : p ≠ 2 := by omega
   set q : ↥I →* PQuot p I := QuotientGroup.mk' (GLAPPrimeCore p ↥I) with hq
   set O : Subgroup G := GLAPPrimeCoreOf p I with hO
@@ -239,7 +239,7 @@ theorem i1312_pCore_le_Sbar {G : Type} [Group G] [Finite G] {p : ℕ} {I B S : S
       (CFSG.OrderReductions.InvariantSylow.restrictedHomomorphism Ψ Tf hinvT)
       (S.subgroupOf Tf) hSp hSinv
   set Sg : Subgroup G := (P₂ : Subgroup ↥Tf).map Tf.subtype with hSg
-  have hSg2 : IsPGroup 2 Sg := IsPGroup.map P₂.isPGroup' Tf.subtype
+  have hSg2 : IsPGroup 2 Sg := IsPGroup.map P₂.isPGroup Tf.subtype
   have hSgI : Sg ≤ I := by
     intro x hx
     obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.1 hx

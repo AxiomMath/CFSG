@@ -119,7 +119,7 @@ theorem false_of_z_eq_conj_mul (g m : G) (hm : m ∈ D.M) {s t : G}
     (hs : s ∈ h.S) (hy : h.y = g * s * g⁻¹) (ht : t ∈ h.S)
     (hz : h.z = (g * m) * t * (g * m)⁻¹) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let k : G := g * m
   let S' : Subgroup G := Subgroup.map (MulAut.conj k).toMonoidHom h.S
   have hzS' : h.z ∈ S' := by
@@ -242,7 +242,7 @@ theorem zpowers_z_lt_E : Subgroup.zpowers h.z < h.E := by
   exact h.y_not_mem_S (h.zpowers_z_le_S hy)
 
 theorem E_card : Nat.card h.E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hle : Nat.card h.E ≤ 9 := by
     have := CFSG.HardMathSupport.Lang.TwE6Step3.card_closure_pair_le_sq
       (show h.y * h.z = h.z * h.y from
@@ -283,7 +283,7 @@ theorem false_of_centralizing_z {u : G}
     (huE : u ∉ h.E) (hu3 : ∃ k, orderOf u = 3 ^ k)
     (huz : u * h.z = h.z * u) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let F : Subgroup G := h.E ⊔ Subgroup.zpowers u
   have hE_le_F : h.E ≤ F := le_sup_left
   have hu_zp_F : Subgroup.zpowers u ≤ F := le_sup_right
@@ -370,7 +370,6 @@ theorem false_of_centralizing_z {u : G}
     have hcomm : (MulAut.conj m) x * h.y = h.y * (MulAut.conj m) x :=
       ((Subgroup.mem_centralizer_iff.mp (hF_le_Cy hx')) h.y (by simp)).symm
     rw [Subgroup.mem_centralizer_singleton_iff]
-    change x * my = my * x
     dsimp only [my]
     calc x * (m⁻¹ * h.y * m) = m⁻¹ * ((MulAut.conj m) x * h.y) * m := by
           rw [MulAut.conj_apply]; group
@@ -415,7 +414,7 @@ theorem false_of_centralizing_z {u : G}
 theorem conj_ne_y (g : G) {s : G} (hs : s ∈ h.P ⊓ c.L) : g * s * g⁻¹ ≠ h.y := by
   classical
   intro hconj
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hs_ne : s ≠ 1 := by
     intro hs1
     have hy1 : h.y = 1 := by rw [← hconj, hs1]; group
@@ -442,7 +441,7 @@ theorem conj_ne_y (g : G) {s : G} (hs : s ∈ h.P ⊓ c.L) : g * s * g⁻¹ ≠ 
     h.normalizer_le (Subgroup.zpowers s) (Subgroup.zpowers_le.mpr hs)
       (fun hbot => hs_ne ((Subgroup.zpowers_eq_bot).mp hbot)) hwN
   have hw_ord : orderOf w = 3 := by
-    have hwconj : w = MulAut.conj g⁻¹ h.z := by simp [hwdef, MulAut.conj_apply]
+    have hwconj : w = MulAut.conj g⁻¹ h.z := by simp [hwdef]
     calc orderOf w = orderOf ((MulAut.conj g⁻¹) h.z) := by rw [hwconj]
       _ = orderOf h.z := by
           simpa using orderOf_injective (MulAut.conj g⁻¹).toMonoidHom
@@ -573,7 +572,7 @@ theorem conj_ne_y (g : G) {s : G} (hs : s ∈ h.P ⊓ c.L) : g * s * g⁻¹ ≠ 
           rw [show s = m * p * m⁻¹ by dsimp [p]; group, hp1]; group
         exact hs_ne hs1
       have hp_ord : orderOf p = 3 := by
-        have hpc : p = MulAut.conj m⁻¹ s := by simp [p, MulAut.conj_apply]
+        have hpc : p = MulAut.conj m⁻¹ s := by simp [p]
         calc orderOf p = orderOf ((MulAut.conj m⁻¹) s) := by rw [hpc]
           _ = orderOf s := by
               simpa using orderOf_injective (MulAut.conj m⁻¹).toMonoidHom
@@ -727,10 +726,10 @@ theorem conj_ne_y (g : G) {s : G} (hs : s ∈ h.P ⊓ c.L) : g * s * g⁻¹ ≠ 
 theorem false_of_noncentralizing_z {u : G}
     (huC : u ∈ Subgroup.centralizer ({h.y} : Set G))
     (huN : u ∈ Subgroup.normalizer (h.E : Set G))
-    (huE : u ∉ h.E) (hu3 : ∃ k, orderOf u = 3 ^ k)
+    (_huE : u ∉ h.E) (hu3 : ∃ k, orderOf u = 3 ^ k)
     (huz : u * h.z ≠ h.z * u) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let t : G := u * h.z * u⁻¹
   have htE : t ∈ h.E := by
     have hmem := (Subgroup.mem_normalizer_iff.mp huN h.z).mp h.z_mem_E
@@ -870,7 +869,7 @@ theorem false_of_normalizes_E_inverts_y {n : G}
     (hnN : n ∈ Subgroup.normalizer (h.E : Set G))
     (hny : n * h.y * n⁻¹ = h.y⁻¹) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let t : G := n * h.z * n⁻¹
   have htE : t ∈ h.E := by
     have hmem := (Subgroup.mem_normalizer_iff.mp hnN h.z).mp h.z_mem_E
@@ -917,7 +916,7 @@ theorem false_of_normalizes_E_inverts_y {n : G}
       rw [hnt, hzp_t]
     have hnM : n ∈ D.M :=
       h.normalizer_le (Subgroup.zpowers h.z) h.zpowers_z_le_S h.zpowers_z_ne_bot hn_zp
-    exact h.not_conj_inv n hnM (by rw [hny]; simpa using h.S.one_mem)
+    exact h.not_conj_inv n hnM (by rw [hny]; simp)
   ·
     obtain ⟨s, hsS, hst⟩ := h.exists_conj h.y h.y_mem h.y_not_mem_L h.orderOf_y t
       (h.zpowers_z_le_S ht_yinv) ht_ord
@@ -942,7 +941,7 @@ theorem false_of_normalizes_E_inverts_y {n : G}
 theorem E_isSylow_centralizer :
     CFSG.ABGLocalTools.IsSylowOf 3 h.E (Subgroup.centralizer ({h.y} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   by_contra hnot
   have hEC : h.E ≤ Subgroup.centralizer ({h.y} : Set G) := h.E_le_centralizer_y
   obtain ⟨T, hET, hT⟩ :=
@@ -968,7 +967,7 @@ theorem E_isSylow_centralizer :
 theorem mul_conj_not_mem (g : G) : h.y * (g * h.y * g⁻¹) ∉ h.P ⊓ c.L := by
   classical
   intro hmem
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let x : G := g * h.y * g⁻¹
   have hx_ord : orderOf x = 3 := by
     have hxconj : x = MulAut.conj g h.y := by

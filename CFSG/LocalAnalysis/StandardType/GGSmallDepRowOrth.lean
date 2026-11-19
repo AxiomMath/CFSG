@@ -58,9 +58,9 @@ theorem false_of_ggOrthType_pow
       (p = 5 ∧ N = 10))
     (hO : GGOrthType (ggNineQ X)) : False := by
   classical
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Module.Finite (ZMod p) ↥(ggFixLineT r s) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Module.Finite (ZMod p) ↥(ggFixLineT r s) := Module.Finite.of_finite
   rcases hcell with ⟨rfl, rfl, hd6⟩ | ⟨rfl, rfl⟩
   · have hd_ge : 5 ≤ Module.finrank (ZMod 7) ↥(ggFixLineT r s) := by
       simpa using X.d_ge
@@ -131,9 +131,9 @@ theorem false_of_orth
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hiso : ∀ g, g ∈ ggNineQ X ↔ ZS.IsIsom p Q g) : False := by
   classical
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Module.Finite (ZMod p) ↥(ggFixLineT r s) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Module.Finite (ZMod p) ↥(ggFixLineT r s) := Module.Finite.of_finite
   rcases hcell with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
   · have hneg : (LinearEquiv.neg (ZMod 5) :
         ↥(ggFixLineT r s) ≃ₗ[ZMod 5] ↥(ggFixLineT r s)) ∈ ggNineQ X := by
@@ -190,11 +190,11 @@ theorem false_of_orthClass
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {c : ZMod p} (hc : c ≠ 0)
     (hcl : ggNineQ X = Subgroup.closure (ZS.ClassRefl p Q c)) : False := by
   classical
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Module.Finite (ZMod p) ↥(ggFixLineT r s) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Module.Finite (ZMod p) ↥(ggFixLineT r s) := Module.Finite.of_finite
   rcases hcell with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-  · haveI : Finite (↥(ggFixLineT r s) ≃ₗ[ZMod 5] ↥(ggFixLineT r s)) :=
+  · have : Finite (↥(ggFixLineT r s) ≃ₗ[ZMod 5] ↥(ggFixLineT r s)) :=
       Finite.of_injective
         (fun e : ↥(ggFixLineT r s) ≃ₗ[ZMod 5] ↥(ggFixLineT r s) =>
           (e : ↥(ggFixLineT r s) → ↥(ggFixLineT r s)))
@@ -271,7 +271,7 @@ theorem false_of_orthClass
       · rw [← hcard] at hstab
         norm_num at hstab ⊢
         exact hstab
-  · haveI : Finite (↥(ggFixLineT r s) ≃ₗ[ZMod 3] ↥(ggFixLineT r s)) :=
+  · have : Finite (↥(ggFixLineT r s) ≃ₗ[ZMod 3] ↥(ggFixLineT r s)) :=
       Finite.of_injective
         (fun e : ↥(ggFixLineT r s) ≃ₗ[ZMod 3] ↥(ggFixLineT r s) =>
           (e : ↥(ggFixLineT r s) → ↥(ggFixLineT r s)))

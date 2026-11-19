@@ -56,7 +56,7 @@ theorem hasAct_scalar {ζ : L} (h0 : ζ ≠ 0) :
     by_cases hβ : β = α
     · subst hβ
       simp
-    · simp [Pi.single_apply, hβ]
+    · simp [hβ]
   · subst h
     have hconj := ScalarTorusAux.torus_conj_pinnedX hθ hθ (Units.mk0 ζ h0) c
     have e : (MulAut.conj (rootTorusSL2 Tag.F4 L (highRoot Tag.F4)
@@ -100,12 +100,12 @@ theorem escal_mem {H : Subgroup (ModGL Tag.F4 K)} (h1 : D.frame TwClass.f4Six.S�
 
 theorem elts {H : Subgroup (ModGL Tag.F4 K)} (h1 : D.frame TwClass.f4Six.S₁ ≤ H)
     (h2 : D.frame TwClass.f4Six.S₂ ≤ H) : Elts D.Fr (H.map (Θ D)) where
-  eg5 := fun c hc => mem_map_Θ D h2 (pinnedX_mem_rootSpan g5_mem_S₂ c) (sig_g5 hc)
-  eg5n := fun c hc => mem_map_Θ D h2 (pinnedX_mem_rootSpan g5n_mem_S₂ c) (sig_g5n hc)
-  eu := fun s c hs hc => mem_map_Θ D h2 (mul_mem (mul_mem (pinnedX_mem_rootSpan a3_mem_S₂ s)
-    (pinnedX_mem_rootSpan a4_mem_S₂ _)) (pinnedX_mem_rootSpan g5_mem_S₂ c)) (sig_u hs hc)
-  eth := fun c hc => eth_mem D h1 hc
-  ethn := fun c hc => ethn_mem D h1 hc
+  eg5 := fun _c hc => mem_map_Θ D h2 (pinnedX_mem_rootSpan g5_mem_S₂ _c) (sig_g5 hc)
+  eg5n := fun _c hc => mem_map_Θ D h2 (pinnedX_mem_rootSpan g5n_mem_S₂ _c) (sig_g5n hc)
+  eu := fun s _c hs hc => mem_map_Θ D h2 (mul_mem (mul_mem (pinnedX_mem_rootSpan a3_mem_S₂ s)
+    (pinnedX_mem_rootSpan a4_mem_S₂ _)) (pinnedX_mem_rootSpan g5_mem_S₂ _c)) (sig_u hs hc)
+  eth := fun _c hc => eth_mem D h1 hc
+  ethn := fun _c hc => ethn_mem D h1 hc
   er := fun b z hb hz => mem_map_Θ D h1 (mul_mem (mul_mem (pinnedX_mem_rootSpan rS_mem_S₁ b)
     (pinnedX_mem_rootSpan pS_mem_S₁ _)) (pinnedX_mem_rootSpan θ_mem_S₁ z)) (sig_r hb hz)
   escal := fun _ hζ h0 => escal_mem D h1 hζ h0

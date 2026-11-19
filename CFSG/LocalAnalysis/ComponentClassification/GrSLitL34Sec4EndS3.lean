@@ -62,7 +62,7 @@ theorem exists_fourCube_model {S T N : Subgroup X} (hS : ∃ P : Sylow 2 X, (P :
   obtain ⟨P, hPS⟩ := hS
   have hS2 : IsPGroup 2 S := by
     rw [← hPS]
-    exact P.isPGroup'
+    exact P.isPGroup
   have hS₀2 : IsPGroup 2 S₀ := hS2.of_equiv (subgroupOfEquivOfLe hSN).symm
   have hT₀S₀ : T₀ ≤ S₀ := subgroupOf_mono _ hTS
   have hT₀2 : IsPGroup 2 T₀ := hS₀2.to_le hT₀S₀

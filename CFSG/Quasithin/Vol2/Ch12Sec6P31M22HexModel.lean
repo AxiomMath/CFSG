@@ -73,7 +73,7 @@ theorem L6_structure :
     ∃ f : ↥L6 →* ↥(alternatingGroup (Fin 6)), Function.Surjective f ∧
       ∀ a ∈ f.ker, ∀ b ∈ f.ker, a * b = b * a := by
   obtain ⟨-, V, hVn, hVc, -, -, ⟨e⟩⟩ := ext6
-  haveI := hVn
+  have := hVn
   let e0 : ↥L6 ≃* ↥(Subgroup.closure {g | g ∈ l6Gens}) :=
     Subgroup.subgroupOfEquivOfLe l6_le_M
   let f : ↥L6 →* ↥(alternatingGroup (Fin 6)) :=
@@ -111,7 +111,7 @@ theorem normalizer_L6_le (hs : IsSimpleGroup ↥Mgrp) :
   · have h4 : Nat.card ↥(Subgroup.normalizer (L6 : Set ↥Mgrp)) = Nat.card ↥Mgrp := by
       rw [hcardN, card_Mgrp]; rfl
     have htop : Subgroup.normalizer (L6 : Set ↥Mgrp) = ⊤ := Subgroup.eq_top_of_card_eq _ h4
-    haveI : L6.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : L6.Normal := Subgroup.normalizer_eq_top_iff.1 htop
     exfalso
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal L6 with h | h
     · have := card_L6

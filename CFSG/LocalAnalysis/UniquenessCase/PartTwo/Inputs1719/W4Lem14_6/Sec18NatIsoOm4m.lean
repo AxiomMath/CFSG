@@ -65,8 +65,8 @@ private theorem exists_natAct_intertwine_omegaFourMinus {K : Type} [Field K] [Fi
         A (natAct (StatedOmega (StatedQuadMinus 2 K b c)) γ x) =
           natAct (StatedOmega (StatedQuadMinus 2 K b c)) (α γ) (A x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hm1 : 1 ≤ 2 * (m : ℕ) := by
     have := m.pos
@@ -79,7 +79,7 @@ private theorem exists_natAct_intertwine_omegaFourMinus {K : Type} [Field K] [Fi
   have hQnd : LinearMap.Nondegenerate (QuadraticMap.polarBilin Q) :=
     CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadMinus_of_finite 2 K hirr
   have hdim : Module.finrank K (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) = 4 := by
-    simpa using CFSG.GroupTheory.WeirSylow.finrank_quadMinus_space (m := 2) (by norm_num)
+    simp
   have hts : ∀ U : Submodule K (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K),
       Module.finrank K U = 2 → ∃ u ∈ U, Q u ≠ 0 :=
     fun U hU => CFSG.RankThree.GF2n.Stroth80.exists_quadMinus_ne_zero_of_finrank
@@ -87,10 +87,10 @@ private theorem exists_natAct_intertwine_omegaFourMinus {K : Type} [Field K] [Fi
   obtain ⟨E, hEfield, hEalg, D, ψ, ρ, hψQ, hψρ, hρinj, hρmem, hcomm, hsimple, hperf, hna,
     hcard, hidx, hnorm, hodd⟩ :=
     CFSG.RankThree.PartOne.even_minus_four_actual_derived_extraction Q hQnd hdim hts
-  letI : Field E := hEfield
-  letI : Algebra K E := hEalg
-  haveI : Finite E := D.finite_E
-  haveI : CharP E 2 := charP_two_of_algebra (K := K)
+  let : Field E := hEfield
+  let : Algebra K E := hEalg
+  have : Finite E := D.finite_E
+  have : CharP E 2 := charP_two_of_algebra (K := K)
   let Ψ : ↥(StatedOmega (StatedQuadMinus 2 K b c)) ≃* SL(2, E) :=
     ((CFSG.RankThree.GF2n.Stroth80.statedOmegaMulEquivDerived hQ).trans
       (MulEquiv.subgroupCongr hcomm)).trans (MonoidHom.ofInjective hρinj).symm
@@ -152,7 +152,7 @@ private theorem exists_natAct_intertwine_omegaFourMinus {K : Type} [Field K] [Fi
         apply Subtype.ext
         rw [coe_hermFourMap]
         ext i j
-        simp [hermFourMap, Matrix.map_add] }
+        simp [hermFourMap] }
   let Aadd : (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) ≃+
       (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) :=
     (ψ.toAddEquiv.trans (mapσ.trans (hermFourRho D s).toAddEquiv)).trans
@@ -219,9 +219,9 @@ theorem k146NatIsoOm4m_holds : K146NatIsoOm4m := by
   obtain ⟨-, K₂, hf₂, hfin₂, b₂, c₂, hK₂, hirr₂, hreal₂⟩ := hJ
   obtain ⟨π₁, hπ₁⟩ := hreal₁
   obtain ⟨π₂, hπ₂⟩ := hreal₂
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
   have hchar₁ : CharP K₁ 2 :=
     charP_of_card_eq_prime_pow (by rw [Fintype.card_eq_nat_card]; exact hK₁)
   have hchar₂ : CharP K₂ 2 :=

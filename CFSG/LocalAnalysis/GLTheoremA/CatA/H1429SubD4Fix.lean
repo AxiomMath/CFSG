@@ -51,7 +51,7 @@ theorem noU42At_entrywise_D4 [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card
     (T : K ≃+* K) (hT3 : T ^ 3 = 1) (hT1 : T ≠ 1) :
     NoU42At (entrywiseAdjointAut Tag.D4 T) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   set β := entrywiseAdjointAut Tag.D4 T with hβ
   have hk2 : ringChar (fixSubfield T) ≠ 2 := by
@@ -82,7 +82,7 @@ theorem noU42At_entrywise_D4 [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card
     refine Subtype.ext ?_
     rw [coe_entrywiseAdjointAut]
     exact (hJΓ ((hmemJ x).1 hx)).2
-  haveI hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
+  have hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf, hmemJ] at hn ⊢
     have h1 := hnormal.conj_mem ⟨((n : ↥(adjointGroup Tag.D4 K)) : ModGL Tag.D4 K), hΓ n⟩
@@ -90,8 +90,8 @@ theorem noU42At_entrywise_D4 [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card
     simpa using Subgroup.mem_subgroupOf.1 h1
   let eJ : ↥J ≃* adjointGroup Tag.D4 (fixSubfield T) :=
     (Subgroup.subgroupOfEquivOfLe hJA).trans (fixedFieldImageEquiv T).symm
-  haveI := hs
-  haveI hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have := hs
+  have hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eJ.symm x, eJ.symm y, fun h => hxy (by simpa using congrArg eJ h)⟩
@@ -142,7 +142,7 @@ open CFSG.EvenSmallLie.CatalogOrders CFSG.Assembly.LowTwoRank in
 theorem noU42At_alphaOne [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f)
     (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) : NoU42At (alphaOne σ) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   have hσσσ : ∀ c, σ (σ (σ c)) = c := fun c => by
     have h := congrArg (fun g : K ≃+* K => g c) hσ3
@@ -169,8 +169,8 @@ theorem noU42At_alphaOne [CharP K 3] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K =
     (Subgroup.normal_subgroupOf_iff hJN).2 fun h k hh hk => hnormal' _ _ hh hk
   let eJ : ↥J ≃* graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     Subgroup.subgroupOfEquivOfLe hC0A
-  haveI := hs
-  haveI hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have := hs
+  have hJs : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     refine ⟨eJ.symm x, eJ.symm y, fun h => hxy ?_⟩
@@ -238,7 +238,7 @@ theorem noU42At_d4_graphOne {K : Type} [Field K] [Finite K] [CharP K 3]
     (hαdef : α = MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K 1))
     (hα3 : α ^ 3 = 1) : NoU42At α := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨f, hf, hKf⟩ : ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 3 ^ f := by
     have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 3
@@ -247,7 +247,7 @@ theorem noU42At_d4_graphOne {K : Type} [Field K] [Finite K] [CharP K 3]
     dual_data_one (ℓ := 3) hf K hKf α hα3 g a hαdef
   have hchar : CharP K₃ 3 :=
     charP_of_injective_algebraMap (algebraMap K K₃).injective 3
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) :=
     finite_graphFixedRootGroup_D4 Fr
   have hφfix : NoU42At φ := noU42At_trialityD4_three hf hK₃ Fr hFr φ hφ3 hφo
   have hinjA : Function.Injective (baseChangeAdj (algebraMap K K₃)) := fun u u' h =>
@@ -266,8 +266,8 @@ theorem noU42At_d4_graphOne {K : Type} [Field K] [Finite K] [CharP K 3]
     · rintro ⟨y, hy, rfl⟩
       obtain ⟨u, hu⟩ := hfix2 y hy
       exact ⟨u.1, u.2, hu.symm⟩
-  haveI : Finite (adjointGroup Tag.D4 K) := by
-    haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := by
+    have : Finite (ModGL Tag.D4 K) := finite_modGL
     infer_instance
   refine NoU42Sub.of_map_injective ι' hι' ?_
   rw [hmap]

@@ -34,7 +34,7 @@ private theorem CFSG.section10_exists_sigma_prime_of_malpha_ne_bot
     intro hKbot
     apply hMalpha
     simp [section10Malpha, K, hKbot]
-  letI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).2 hKne
+  let : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).2 hKne
   obtain ⟨q, hq⟩ := section10_exists_largest_prime_divisor_of_nontrivial K
   have hqα : q ∈ section10AlphaPrimes M :=
     (section10_malphaSubgroup_isHall hM).p_in_pi_of_p_dvd_card q hq.2.1
@@ -46,16 +46,16 @@ private theorem CFSG.section10_omegaOneCenter_ne_bot_of_sylow_prime_mem
     (P : Sylow p.val M) :
     section10OmegaOneCenter p (section10AmbientSylowSubgroup M P) ≠ ⊥ := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let PG : Subgroup G := section10AmbientSylowSubgroup M P
   have hPne : (P : Subgroup M) ≠ ⊥ := P.ne_bot_of_dvd_card hpM
   have hPGne : PG ≠ ⊥ := by
     simpa [PG, section10AmbientSylowSubgroup] using
       section10_map_subtype_ne_bot_of_ne_bot (G := G) (M := M) hPne
-  letI : Nontrivial PG := (Subgroup.nontrivial_iff_ne_bot PG).2 hPGne
+  let : Nontrivial PG := (Subgroup.nontrivial_iff_ne_bot PG).2 hPGne
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
-    exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+    exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype
   have hZ_nontrivial : Nontrivial (Subgroup.center PG) := hPGp.center_nontrivial
   have hpdvd_center : p.val ∣ Nat.card (Subgroup.center PG) := by
     have hcenter_p : IsPGroup p.val (Subgroup.center PG) :=
@@ -80,7 +80,7 @@ private theorem CFSG.section10_exists_nontrivial_mem_omegaOneCenter_of_sylow_pri
   let Z : Subgroup G := section10OmegaOneCenter p (section10AmbientSylowSubgroup M P)
   have hZne : Z ≠ ⊥ :=
     section10_omegaOneCenter_ne_bot_of_sylow_prime_mem (G := G) hpM P
-  letI : Nontrivial Z := (Subgroup.nontrivial_iff_ne_bot Z).2 hZne
+  let : Nontrivial Z := (Subgroup.nontrivial_iff_ne_bot Z).2 hZne
   obtain ⟨z, hz_ne⟩ := exists_ne (1 : Z)
   exact ⟨z, z.property, by
     intro hz
@@ -123,7 +123,7 @@ public theorem CFSG.section10_zpowers_card_eq_prime_of_mem_omegaOneCenter
     (hx : x ∈ section10OmegaOneCenter p P) (hxne : x ≠ 1) :
     Nat.card (Subgroup.zpowers x) = p.val := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hxΩ : x ∈ (Ω₁Z p.val P).map P.subtype := by
     simpa [section10OmegaOneCenter] using hx
   rcases Subgroup.mem_map.mp hxΩ with ⟨xP, hxPΩ, hx_eq⟩
@@ -133,7 +133,7 @@ public theorem CFSG.section10_zpowers_card_eq_prime_of_mem_omegaOneCenter
   have hΩelem : IsElementaryAbelian p.val (Ω₁Z p.val P) :=
     section10_omega1Z_isElementaryAbelian_pre (p := p.val) P
   have hxPpow : xP ^ p.val = 1 := by
-    letI : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩelem
+    let : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩelem
     exact elemPow_eq_one_of_isElementaryAbelian xP hxPΩ
   have hxpow : x ^ p.val = 1 := by
     simpa [← hx_eq] using congrArg (fun z : P => (z : G)) hxPpow
@@ -183,7 +183,7 @@ public theorem CFSG.section10_isZGroup_of_subgroup_groupRank_le_one
   classical
   rw [isZGroup_iff]
   intro q hq P
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_cases hqdvd : q ∣ Nat.card K
   · have hqodd : q ≠ 2 :=
       Odd.ne_two_of_dvd_nat IsMinCE.odd_order
@@ -196,7 +196,7 @@ public theorem CFSG.section10_isZGroup_of_subgroup_groupRank_le_one
   · have hP_not_dvd : ¬ q ∣ Nat.card P := by
       intro hPdvd
       exact hqdvd (hPdvd.trans (Subgroup.card_subgroup_dvd_card (P : Subgroup K)))
-    rcases P.isPGroup'.exists_card_eq with ⟨n, hcardP⟩
+    rcases P.isPGroup.exists_card_eq with ⟨n, hcardP⟩
     have hn_zero : n = 0 := by
       by_contra hn_ne
       obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hn_ne
@@ -205,7 +205,7 @@ public theorem CFSG.section10_isZGroup_of_subgroup_groupRank_le_one
       exact dvd_mul_right q (q ^ m)
     have hcard_one : Nat.card P = 1 := by
       simpa [hn_zero] using hcardP
-    haveI : Subsingleton P :=
+    have : Subsingleton P :=
       Finite.card_le_one_iff_subsingleton.mp (by omega)
     exact isCyclic_of_subsingleton (α := P)
 
@@ -341,7 +341,7 @@ public theorem CFSG.lemma_10_4_b
   let y' : G := u⁻¹ * y * u
   have hΩchar : (Ω₁Z p.val PG).Characteristic :=
     section10_omega1Z_characteristic_pre p.val PG
-  letI : (Ω₁Z p.val PG).Characteristic := hΩchar
+  let : (Ω₁Z p.val PG).Characteristic := hΩchar
   have hnormPG_le_normΩ :
       Subgroup.normalizer (PG : Set G) ≤
         Subgroup.normalizer (section10OmegaOneCenter p PG : Set G) := by

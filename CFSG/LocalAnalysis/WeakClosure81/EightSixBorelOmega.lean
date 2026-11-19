@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G] {V H T : Subgroup G}
 
+omit [Finite G] in
 private theorem borel86_omega_pow_comm_mem_pCoreOf {K O : Subgroup G}
     (hKO : K ≤ Subgroup.normalizer (O : Set G)) {y : G} (hyK : y ∈ K)
     (hcomm : ∀ x ∈ K, y * x * y⁻¹ * x⁻¹ ∈ O) (j : ℕ) :
@@ -17,7 +18,7 @@ private theorem borel86_omega_pow_comm_mem_pCoreOf {K O : Subgroup G}
   induction j with
   | zero =>
     intro x _
-    simpa using O.one_mem
+    simp
   | succ j ih =>
     intro x hx
     have hconj : y ^ j * (y * x * y⁻¹ * x⁻¹) * (y ^ j)⁻¹ ∈ O :=
@@ -31,6 +32,7 @@ private theorem borel86_omega_pow_comm_mem_pCoreOf {K O : Subgroup G}
     rw [he]
     exact O.mul_mem hconj (ih x hx)
 
+omit [Finite G] in
 private theorem borel86_omega_mem_conjSubgroup_subgroupOf_iff {A H : Subgroup G} {x g : G}
     (hx : x ∈ H) (hg : g ∈ H) :
     (⟨x, hx⟩ : ↥H) ∈ conjSubgroup (A.subgroupOf H) ⟨g, hg⟩ ↔ x ∈ conjSubgroup A g := by

@@ -193,7 +193,7 @@ section Main
 theorem exists_twoB_d0 : ∃ t₁ : NativeSporadic.B, BabyInv 1 t₁ ∧ ∃ D₀ : Subgroup NativeSporadic.B,
     D₀ ≤ Subgroup.centralizer ({t₁} : Set NativeSporadic.B) ∧ IsElemAbelian 3 D₀ ∧
     Nat.card D₀ = 3 ^ 4 ∧ ∃ y ∈ D₀, IsConj y (BThreeFi23.phiB (BThreeFi23.t3 0)) := by
-  haveI : IsMulCommutative (Multiplicative (Fin 4 → ZMod 3)) := ⟨⟨mul_comm⟩⟩
+  have : IsMulCommutative (Multiplicative (Fin 4 → ZMod 3)) := ⟨⟨mul_comm⟩⟩
   refine ⟨BThreeFi23.phiB (kleinD 0) * BThreeFi23.phiB (kleinD 1),
     babyInv_one_map_kleinD_mul BThreeFi23.phiB BThreeFi23.phiB_injective (k := 2) (by norm_num)
       (by norm_num) (by norm_num) (by norm_num) (by decide) (by decide) (by decide),

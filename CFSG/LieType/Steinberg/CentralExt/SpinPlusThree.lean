@@ -52,8 +52,8 @@ theorem not_isLong_add_disjoint {i j k l : Fin n} (hij : i ≠ j) (hik : i ≠ k
     ¬IsLong ((Pi.single i (boolSign s) + Pi.single j (boolSign t) : Fin n → ℤ) +
       (Pi.single k (boolSign u) + Pi.single l (boolSign v))) := by
   refine not_isLong_of_apply_ne_zero hij hik hjk ?_ ?_ ?_ <;>
-    simp [Pi.single_apply, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm,
-      hjl.symm, hkl.symm, boolSign] <;> split_ifs <;> norm_num
+    simp [hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hjk.symm,
+      boolSign] <;> split_ifs <;> norm_num
 
 theorem single_add_single_apply_of_ne' {i j m : Fin n} (hmi : m ≠ i) (hmj : m ≠ j) (a b : ℤ) :
     (Pi.single i a + Pi.single j b : Fin n → ℤ) m = 0 := by
@@ -221,20 +221,18 @@ theorem spinAction_swapPair {i j k l : Fin n} (hij : i ≠ j) (hik : i ≠ k) (h
   rw [spinAction_longWeyl_true F hjl τ₂ m r, map_smul, spinAction_longWeyl_true F hik τ₁, smul_smul]
   by_cases hmi : m = i
   · rw [hmi]
-    simp [Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm,
-      hjk.symm, hjl.symm, hkl.symm]
+    simp [Equiv.swap_apply_def, hij, hik, hil]
   · by_cases hmk : m = k
     · rw [hmk]
-      simp [Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm,
-        hjk.symm, hjl.symm, hkl.symm]
+      simp [Equiv.swap_apply_def, hkl, hik.symm, hjk.symm]
     · by_cases hmj : m = j
       · rw [hmj]
-        simp [Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm,
-          hjk.symm, hjl.symm, hkl.symm]
+        simp [Equiv.swap_apply_def, hjk, hjl, hij.symm, hil.symm,
+          hkl.symm]
       · by_cases hml : m = l
         · rw [hml]
-          simp [Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm,
-            hjk.symm, hjl.symm, hkl.symm]
+          simp [Equiv.swap_apply_def, hjk, hij.symm, hil.symm,
+            hjl.symm, hkl.symm]
         · simp [Equiv.swap_apply_def, hmi, hmk, hmj, hml]
 
 theorem swapPair_swap {i j k l : Fin n} (hij : i ≠ j) (hik : i ≠ k) (hil : i ≠ l)
@@ -258,22 +256,22 @@ theorem swapPair_swap {i j k l : Fin n} (hij : i ≠ j) (hik : i ≠ k) (hil : i
   obtain ⟨ε₂, hε₂, h2⟩ := conj_rootElt_of_signedPerm F g (swapPerm i j k l)
     (swapBool i j k l (xor s u) (xor t v)) (swapSign i j) hw hg hkl (u := u) (v := v) rfl
   have hπi : swapPerm i j k l i = k := by
-    simp [swapPerm, Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+    simp [swapPerm, Equiv.swap_apply_def, hij, hil]
   have hπj : swapPerm i j k l j = l := by
-    simp [swapPerm, Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+    simp [swapPerm, Equiv.swap_apply_def, hil.symm, hkl.symm]
   have hπk : swapPerm i j k l k = i := by
-    simp [swapPerm, Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+    simp [swapPerm, Equiv.swap_apply_def, hkl, hjk.symm]
   have hπl : swapPerm i j k l l = j := by
-    simp [swapPerm, Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+    simp [swapPerm, Equiv.swap_apply_def, hjk, hij.symm]
   have hβi : swapBool i j k l (xor s u) (xor t v) i s = u := by
-    simp [swapBool, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+    simp [swapBool, hik]
   have hβj : swapBool i j k l (xor s u) (xor t v) j t = v := by
-    simp [swapBool, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+    simp [swapBool, hjk, hjl, hij.symm]
   have hβk : swapBool i j k l (xor s u) (xor t v) k u = s := by
-    simp only [swapBool, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm, or_true, ite_true]
+    simp only [swapBool, hkl, hik.symm, hjk.symm, or_true, ite_true]
     cases s <;> cases u <;> rfl
   have hβl : swapBool i j k l (xor s u) (xor t v) l v = t := by
-    simp only [swapBool, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm, or_true, or_false, ite_true, ite_false]
+    simp only [swapBool, hil.symm, hjl.symm, hkl.symm, or_true, or_false, ite_true, ite_false]
     cases t <;> cases v <;> rfl
   rw [hπi, hπj, hβi, hβj] at h1
   rw [hπk, hπl, hβk, hβl] at h2
@@ -282,16 +280,16 @@ theorem swapPair_swap {i j k l : Fin n} (hij : i ≠ j) (hik : i ≠ k) (hil : i
     rw [map_mul, LinearEquiv.mul_apply, hg, map_smul, hg, smul_smul]
     by_cases hxi : x = i
     · rw [hxi]
-      simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+      simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hij, hik, hil, hkl, hik.symm, hjk.symm]
     · by_cases hxk : x = k
       · rw [hxk]
-        simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+        simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hij, hik, hil, hkl, hik.symm, hjk.symm]
       · by_cases hxj : x = j
         · rw [hxj]
-          simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+          simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hjk, hjl, hij.symm, hil.symm, hjl.symm, hkl.symm]
         · by_cases hxl : x = l
           · rw [hxl]
-            simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hij, hik, hil, hjk, hjl, hkl, hij.symm, hik.symm, hil.symm, hjk.symm, hjl.symm, hkl.symm]
+            simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hjk, hjl, hij.symm, hil.symm, hjl.symm, hkl.symm]
           · simp [swapPerm, swapBool, swapSign, Equiv.swap_apply_def, hxi, hxk, hxj, hxl]
   have hd := conj_rootElt_of_diag F _ _ hg2 hij
     (e := Pi.single i (boolSign s) + Pi.single j (boolSign t)) (u := s) (v := t) rfl 1
@@ -415,7 +413,7 @@ theorem spinPlus_three_exists_section_of_central [Finite K] (hK : Nat.card K = 3
         rw [he, he']
         intro h0
         have := congrFun h0 i
-        simp [Pi.single_apply, hij, hk.1.symm, hl.1.symm, boolSign] at this
+        simp [hij, hk.1.symm, hl.1.symm, boolSign] at this
         cases s <;> simp at this
       have hcomm := commute_X_of_swap hn hK hπ hcen (hspec γ hγ) (hspec δ hδ) hnl hn0
         (isLong_of_mem hn hγ) (isLong_of_mem hn hδ) ha h1 h2'

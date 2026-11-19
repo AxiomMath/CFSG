@@ -706,7 +706,7 @@ private theorem qWord_one_eq_qA : qWord [1] = qA 1 := by
   simp [qWord]
 
 private theorem qWord_two_zero_eq : qWord [0, 0] = qA 0 * qA 0 := by
-  simp [qWord, mul_assoc]
+  simp [qWord]
 
 private theorem coord_fixed_of_qA_one {x : ↥Jc} (h : qA 1 x = x) :
     wordAct [1] (coord x) = coord x := by
@@ -767,7 +767,7 @@ private theorem eq_one_or_id_aux {X : Subgroup (MulAut ↥Jc)}
     have hx : x ∈ f.ker := htop ▸ Subgroup.mem_top x
     simpa [MonoidHom.mem_ker] using hx
   · right
-    letI : CommGroup ↥Jc := { (inferInstance : Group ↥Jc) with
+    let : CommGroup ↥Jc := { (inferInstance : Group ↥Jc) with
       mul_comm := fun a b => Subtype.ext (Jc_comm a.2 b.2) }
     let k : ↥Jc →* ↥Jc :=
       { toFun := fun x => f x * x⁻¹

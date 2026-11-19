@@ -44,7 +44,7 @@ private theorem exists_noncomm_of_elemAbelian_cube {p : ℕ} (hp : p.Prime)
     {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S) {A : Subgroup (MulAut S)}
     (hA : CFSG.Open.IsElemAbelian p A) (h3 : p ^ 3 ≤ Nat.card A) :
     ∃ a b : S, a * b ≠ b * a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ^ 2 ≤ Nat.card A :=
     (Nat.pow_le_pow_right hp.pos (by norm_num : 2 ≤ 3)).trans h3
   obtain ⟨E, hEcard⟩ :=
@@ -77,7 +77,7 @@ theorem false_of_reeG2_aut (hI : GL83.I_7_13_1) {p m : ℕ} (hp : p.Prime) (hp2 
     have h2 := hp.two_le
     have h4 : p ≠ 4 := by rintro rfl; norm_num at hp
     omega
-  haveI : CharP (GaloisField 3 (2 * m + 1)) ReeTag.G2.prime :=
+  have : CharP (GaloisField 3 (2 * m + 1)) ReeTag.G2.prime :=
     inferInstanceAs (CharP (GaloisField 3 (2 * m + 1)) 3)
   have hK : Nat.card (GaloisField 3 (2 * m + 1)) = 3 ^ (2 * m + 1) :=
     GaloisField.card 3 (2 * m + 1) (by omega)

@@ -18,11 +18,13 @@ theorem card_sl_three_two : Nat.card (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)
   rw [Nat.card_eq_fintype_card]
   decide +kernel
 
+omit [Finite G] in
 theorem conjAct_mul_mem {V : Subgroup G} {x y : G} (hx : x ∈ Subgroup.normalizer (V : Set G))
     (hy : y ∈ Subgroup.normalizer (V : Set G)) :
     conjAct V ⟨x * y, Subgroup.mul_mem _ hx hy⟩ = conjAct V ⟨x, hx⟩ * conjAct V ⟨y, hy⟩ :=
   map_mul (conjAct V) ⟨x, hx⟩ ⟨y, hy⟩
 
+omit [Finite G] in
 theorem inv_mul_mem_pCore {V L : Subgroup G} [IsMulCommutative ↥V] {x y : G}
     (hxL : x ∈ L) (hyL : y ∈ L) (hx : x ∈ Subgroup.normalizer (V : Set G))
     (hy : y ∈ Subgroup.normalizer (V : Set G))

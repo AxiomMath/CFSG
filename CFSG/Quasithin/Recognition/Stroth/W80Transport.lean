@@ -377,6 +377,7 @@ theorem blockGen_zero_eq_blockElt :
   rw [CFSG.SectionRank.LargeRee.coe_blockGen, CFSG.SectionRank.LargeRee.blockIdx_zero]
   rfl
 
+omit [Finite K] [CharP K F4.prime] [IsSimpleGroup (Gm K a)] in
 theorem xElement_mul_xElement_mem_Uminus_blockGen_zero (c : K) :
     xElement (CFSG.SectionRank.LargeRee.ix 0) c *
         xElement (CFSG.SectionRank.LargeRee.ix 3) (c ^ 2 ^ a) ∈
@@ -388,14 +389,17 @@ theorem xElement_mul_xElement_mem_Uminus_blockGen_zero (c : K) :
     (mem_Uminus_of_mem_X (height_simpleRoot_pos _) height_blockElt_zero_smul_three
       (xElement_mem_X _ _))
 
+omit [Finite K] [CharP K F4.prime] in
 theorem sl2Upper_eq_componentInitial (c : K) :
     sl2Upper c = CFSG.LocalAnalysis.ComponentInitial.sl2Upper K c :=
   Subtype.ext rfl
 
+omit [Finite K] [CharP K F4.prime] in
 theorem sl2Lower_eq_componentInitial (c : K) :
     sl2Lower c = CFSG.LocalAnalysis.ComponentInitial.sl2Lower K c :=
   Subtype.ext rfl
 
+omit [IsSimpleGroup (Gm K a)] in
 theorem mem_blockX_zero_of_sl2Upper
     (ψ : SpecialLinearGroup (Fin 2) K →* reeFixed ReeTag.F4 K a)
     (hup : ∀ c, (ψ (sl2Upper c) : adjointGroup ReeTag.F4.tag K) =
@@ -409,10 +413,11 @@ theorem mem_blockX_zero_of_sl2Upper
   rw [hup c]
   exact xElement_mul_xElement_mem_Uminus_blockGen_zero c
 
+omit [Finite K] in
 theorem sl2Lower_eq_sl2Weyl_mul_sl2Upper_mul_inv (c : K) :
     sl2Lower c = CFSG.SectionRank.LargeRee.sl2Weyl (K := K) * sl2Upper c *
       (CFSG.SectionRank.LargeRee.sl2Weyl (K := K))⁻¹ := by
-  haveI : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+  have : CharP K 2 := ‹CharP K ReeTag.F4.prime›
   have hww : CFSG.SectionRank.LargeRee.sl2Weyl (K := K) *
       CFSG.SectionRank.LargeRee.sl2Weyl (K := K) = 1 :=
     CFSG.SectionRank.LargeRee.sl2Weyl_mul_self (K := K)
@@ -424,6 +429,7 @@ theorem sl2Lower_eq_sl2Weyl_mul_sl2Upper_mul_inv (c : K) :
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two, CharTwo.neg_eq]
 
+omit [IsSimpleGroup (Gm K a)] in
 theorem map_sl2Weyl_eq_map_relNrepHom
     (ψ : SpecialLinearGroup (Fin 2) K →* reeFixed ReeTag.F4 K a)
     (hw : (ψ CFSG.SectionRank.LargeRee.sl2Weyl : adjointGroup ReeTag.F4.tag K) =
@@ -445,12 +451,12 @@ theorem map_sl2Weyl_eq_map_relNrepHom
     CFSG.SectionRank.LargeRee.coe_relNrepHom, blockGen_zero_eq_blockElt]
 
 theorem sl2_image_le_P2
-    (hK : Nat.card K = 2 ^ (2 * a + 1))
+    (_hK : Nat.card K = 2 ^ (2 * a + 1))
     (ψ : SpecialLinearGroup (Fin 2) K →* reeFixed ReeTag.F4 K a)
     (hup : ∀ c, (ψ (sl2Upper c) : adjointGroup ReeTag.F4.tag K) =
       xElement (CFSG.SectionRank.LargeRee.ix 0) c *
         xElement (CFSG.SectionRank.LargeRee.ix 3) (c ^ 2 ^ a))
-    (hlow : ∀ c, (ψ (sl2Lower c) : adjointGroup ReeTag.F4.tag K) =
+    (_hlow : ∀ c, (ψ (sl2Lower c) : adjointGroup ReeTag.F4.tag K) =
       yElement (CFSG.SectionRank.LargeRee.ix 0) c *
         yElement (CFSG.SectionRank.LargeRee.ix 3) (c ^ 2 ^ a))
     (hw : (ψ CFSG.SectionRank.LargeRee.sl2Weyl : adjointGroup ReeTag.F4.tag K) =

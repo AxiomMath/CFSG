@@ -56,6 +56,7 @@ theorem autHom_mem_flagStabilizer (b : ↥(Subgroup.normalizer (Y : Set A)))
 
 variable [Finite A] [Finite K] [CharP K 2]
 
+omit [Finite A] in
 theorem exists_radical (hI : ∀ i ∈ I, 1 ≤ i ∧ i ≤ r) {t : ℕ} (htI : t ∈ I)
     (hmax : ∀ c ∈ I, c ≤ t) (hPY : P ≤ Y) (b : ↥(Subgroup.normalizer (Y : Set A)))
     (hbP : (b : A) ∈ Subgroup.normalizer (P : Set A)) (hW : WCent P (b : A))
@@ -95,6 +96,7 @@ theorem spNormFix_autHom (hI : ∀ i ∈ I, 1 ≤ i ∧ i ≤ r) {t : ℕ} (htI 
     exact ⟨u, hu, hue⟩
 
 include C in
+omit [Finite A] in
 theorem exists_big_block (hI : ∀ i ∈ I, 1 ≤ i ∧ i ≤ r) {t : ℕ} (htI : t ∈ I)
     (hmax : ∀ c ∈ I, c ≤ t) (hPY : P ≤ Y)
     (hna : ∃ x ∈ P, ∃ y ∈ P, x * y * x⁻¹ * y⁻¹ ∉ pCoreOf 2 P) :

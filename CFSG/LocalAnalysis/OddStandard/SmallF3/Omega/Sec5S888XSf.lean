@@ -21,12 +21,12 @@ theorem exists_fixed_in_plane (hS : PlaneSys V W) {F : Subgroup X} (hF : ActsEle
     refine ⟨fun a ha => ?_, fun a ha => hF.sq f hf a (hS.le i ha)⟩
     have h1 : planeHom hS ⟨f, hfn⟩ i = i := by rw [hpl ⟨f, hfn⟩ hf]; rfl
     exact (mem_plane_conj_iff hS ⟨f, hfn⟩ h1 a).mpr ha
-  haveI : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hS.card i]; norm_num)
+  have : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hS.card i]; norm_num)
   by_cases hex : ∃ f ∈ F, ActsNontriv (W i) f
   · obtain ⟨f₀, hf₀, hn₀⟩ := hex
     have hcard : Nat.card {a : W i // f₀ * (a : X) * f₀⁻¹ = a} = 2 :=
       card_fixed_of_actsNontriv (hS.card i) hsqW (hinvol f₀ hf₀) hn₀
-    haveI : Nontrivial {a : W i // f₀ * (a : X) * f₀⁻¹ = a} :=
+    have : Nontrivial {a : W i // f₀ * (a : X) * f₀⁻¹ = a} :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
     obtain ⟨e, he1⟩ := exists_ne (⟨1, by simp⟩ : {a : W i // f₀ * (a : X) * f₀⁻¹ = a})
     have he1' : (e.1 : X) ≠ 1 := fun h => he1 (Subtype.ext (Subtype.ext h))
@@ -45,8 +45,8 @@ theorem exists_fixed_in_plane (hS : PlaneSys V W) {F : Subgroup X} (hF : ActsEle
         _ = f₀⁻¹ * (f₀ * (e.1 : X) * f₀⁻¹) * f₀ := by rw [hfix0]
         _ = e.1 := by group
     · exact not_actsNontriv_iff.mp hfn e.1 e.1.2
-  · push_neg at hex
-    haveI : Nontrivial (W i) :=
+  · push Not at hex
+    have : Nontrivial (W i) :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hS.card i]; norm_num)
     obtain ⟨e, he1⟩ := exists_ne (1 : W i)
     refine ⟨e, e.2, fun h => he1 (Subtype.ext h), fun f hf => ?_⟩

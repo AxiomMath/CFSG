@@ -17,7 +17,7 @@ theorem exists_sylow_image
     rw [Subgroup.index_map_of_injective _ hf]
     intro h
     exact (Nat.Prime.dvd_mul (Fact.out : p.Prime)).mp h |>.elim S.not_dvd_index hindex
-  exact ⟨(S.isPGroup'.map f).toSylow hi, rfl⟩
+  exact ⟨(S.isPGroup.map f).toSylow hi, rfl⟩
 
 end FiveTransitive.OddIndexSylowTransfer
 

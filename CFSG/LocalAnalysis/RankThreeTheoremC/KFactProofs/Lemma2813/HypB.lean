@@ -14,9 +14,11 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem Hyp2813.pCore_X_le_R (h : Hyp2813 X K R P) : pCoreOf 2 X ≤ R :=
   pCoreOf_le_of_odd_index h.R_two h.R_le h.R_sylow
 
+omit [Finite A] in
 theorem Hyp2813.R_sylow_P (h : Hyp2813 X K R P) : ¬ 2 ∣ (R.subgroupOf P).index := by
   intro h2
   apply h.R_sylow
@@ -25,14 +27,17 @@ theorem Hyp2813.R_sylow_P (h : Hyp2813 X K R P) : ¬ 2 ∣ (R.subgroupOf P).inde
   rw [← hmul]
   exact Dvd.dvd.mul_right h2 _
 
+omit [Finite A] in
 theorem Hyp2813.pCore_P_le_R (h : Hyp2813 X K R P) : pCoreOf 2 P ≤ R :=
   pCoreOf_le_of_odd_index h.R_two h.R_le_P h.R_sylow_P
 
+omit [Finite A] in
 theorem Hyp2813.pCore_X_le_pCore_P (h : Hyp2813 X K R P) :
     pCoreOf 2 X ≤ pCoreOf 2 P :=
   le_pCoreOf_of_normalizes (isPGroup_pCoreOf X) (h.pCore_X_le_R.trans h.R_le_P)
     (h.P_le.trans (normalizer_pCoreOf X))
 
+omit [Finite A] in
 theorem Hyp2813.mem_X_iff (h : Hyp2813 X K R P) {g : A} :
     g ∈ X ↔ ∃ k ∈ K, ∃ o ∈ pCoreOf 2 X, g = k * o := by
   constructor
@@ -55,11 +60,12 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem Hyp2813.exists_psi (h : Hyp2813 X K R P) :
     ∃ ψ : ↥X →* GL32, Function.Surjective ψ ∧ ψ.ker = (pCoreOf 2 X).subgroupOf X := by
   obtain ⟨f, hf, hker⟩ := h.quot
   have hle : pCoreOf 2 X ≤ X := pCoreOf_le_self X
-  haveI hN : ((pCoreOf 2 X).subgroupOf X).Normal :=
+  have hN : ((pCoreOf 2 X).subgroupOf X).Normal :=
     (normal_subgroupOf_iff_le_normalizer hle).2 (normalizer_pCoreOf X)
   let g : ↥K →* ↥X ⧸ (pCoreOf 2 X).subgroupOf X :=
     (QuotientGroup.mk' _).comp (Subgroup.inclusion h.K_le)
@@ -87,6 +93,7 @@ theorem Hyp2813.exists_psi (h : Hyp2813 X K R P) :
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply]
     simp
 
+omit [Finite A] in
 theorem Hyp2813.card_X (h : Hyp2813 X K R P) :
     Nat.card ↥X = Nat.card ↥(pCoreOf 2 X) * 168 := by
   obtain ⟨ψ, hψ, hψker⟩ := h.exists_psi

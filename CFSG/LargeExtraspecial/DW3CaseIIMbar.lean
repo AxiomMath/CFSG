@@ -78,7 +78,8 @@ theorem resAt_surjective_of_axisA_eq (hA : MaxEA S A)
       (w : S.Qt) + f w • (d : S.Qt)
     rw [ht w, hgd]
 
-theorem exists_apply_eq_of_surjective (hA : MaxEA S A)
+omit [IsElementaryAbelian 2 ↥A] in
+theorem exists_apply_eq_of_surjective (_hA : MaxEA S A)
     (hM : S.M ≤ normalizer (A : Set G))
     (hsurj : Function.Surjective (resAt S A hM))
     {u v : S.Qt} (hu : u ∈ S.clSub A) (hv : v ∈ S.clSub A) (hu0 : u ≠ 0) (hv0 : v ≠ 0) :
@@ -113,6 +114,7 @@ theorem exists_apply_eq_of_surjective (hA : MaxEA S A)
   rw [coe_resAt_apply] at hcoe
   simpa [U, V] using hcoe
 
+omit [IsElementaryAbelian 2 A] in
 theorem exists_conj_eq_of_surjective (hA : MaxEA S A)
     (hM : S.M ≤ normalizer (A : Set G))
     (hsurj : Function.Surjective (resAt S A hM))
@@ -189,8 +191,8 @@ theorem card_stabilizer_eq (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set G)
     Nat.card (stabMbar S x) = 24 := by
   classical
   change Nat.card (MulAction.stabilizer S.Mbar x) = 24
-  haveI : Fintype (S.clSub A) := Fintype.ofFinite _
-  haveI : Fintype {v : S.clSub A // v ≠ 0} := Fintype.ofFinite _
+  have : Fintype (S.clSub A) := Fintype.ofFinite _
+  have : Fintype {v : S.clSub A // v ≠ 0} := Fintype.ofFinite _
   have hset : (MulAction.orbit S.Mbar x : Set S.Qt) = {v | v ∈ S.clSub A ∧ v ≠ 0} := by
     ext v
     rw [MulAction.mem_orbit_iff]
@@ -216,8 +218,8 @@ theorem card_stabilizer_eq (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set G)
     let e : {v : S.Qt // v ∈ S.clSub A ∧ v ≠ 0} ≃ {v : S.clSub A // v ≠ 0} :=
       { toFun := fun v => ⟨⟨v.1, v.2.1⟩, by simpa using v.2.2⟩
         invFun := fun v => ⟨v.1.1, v.1.2, by simpa using v.2⟩
-        left_inv := fun v => by ext <;> rfl
-        right_inv := fun v => by ext <;> rfl }
+        left_inv := fun v => by ext; rfl
+        right_inv := fun v => by ext; rfl }
     rw [Nat.card_congr e]
     exact hcardne
   have hcardMbar : Nat.card S.Mbar = 168 := by
@@ -242,7 +244,7 @@ theorem map_ne_of_noInvariantCompl (hA : MaxEA S A) (hM : S.M ≤ normalizer (A 
     (hB : B ∈ tsCompl S.q (S.clSub A)) :
     B.map (((t : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) : S.Qt →ₗ[ZMod 2] S.Qt) ≠ B := by
   intro heq
-  letI : MulAction S.Mbar (tsCompl S.q (S.clSub A)) := tsComplAction (S := S) (A := A) hM
+  let : MulAction S.Mbar (tsCompl S.q (S.clSub A)) := tsComplAction (S := S) (A := A) hM
   let x₀ : tsCompl S.q (S.clSub A) := ⟨B, hB⟩
   have hstab : t ∈ MulAction.stabilizer S.Mbar x₀ := by
     rw [MulAction.mem_stabilizer_iff]
@@ -259,9 +261,9 @@ theorem map_ne_of_noInvariantCompl (hA : MaxEA S A) (hM : S.M ≤ normalizer (A 
     rwa [hg] at hdiv
   obtain ⟨e⟩ := nonempty_Mbar_mulEquiv_of_surjective hA hM hsurj
   rw [hw] at e
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
     CFSG.Quasithin.H13.L619.isSimpleGroup_GL_zmod_two (by norm_num)
-  haveI : IsSimpleGroup S.Mbar := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup S.Mbar := MulEquiv.isSimpleGroup e
   have hcardMbar : Nat.card S.Mbar = 168 := by
     rw [Nat.card_congr e.toEquiv, CFSG.Quasithin.H13.L619.card_GL32]
   have hXcard : Nat.card (tsCompl S.q (S.clSub A)) = 8 := by

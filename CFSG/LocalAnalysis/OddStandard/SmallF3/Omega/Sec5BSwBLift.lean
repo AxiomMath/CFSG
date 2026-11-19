@@ -70,17 +70,17 @@ theorem sw_cent_of_conj {Λ : Type} [Group Λ] {A₁ A₂ : Subgroup Λ} {z : Λ
   have hwA₂ : w ∈ A₂ := by
     rw [← h]
     refine Subgroup.mem_map.mpr ⟨z, S.pocket₁.mem, ?_⟩
-    simp [hw, MulAut.conj_apply]
+    simp [hw]
   have hw2 : orderOf w = 2 := by
     have hweq : w = (MulAut.conj c⁻¹) z := by
-      simp [hw, MulAut.conj_apply]
+      simp [hw]
     rw [hweq, MulEquiv.orderOf_eq, hz]
   have hwcent : ∀ a ∈ A₂, a * w = w * a := by
     intro a ha
     rw [← h] at ha
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp ha
     have hxa : (MulAut.conj c⁻¹).toMonoidHom x = c⁻¹ * x * c := by
-      simp [MulAut.conj_apply]
+      simp
     have hxz : x * z = z * x :=
       Subgroup.mem_centralizer_singleton_iff.mp (S.pocket₁.le_cent hx)
     rw [hxa, hw]

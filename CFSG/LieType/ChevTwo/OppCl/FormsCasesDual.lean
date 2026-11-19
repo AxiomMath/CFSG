@@ -66,7 +66,7 @@ theorem split3_exists_dual_bases [FiniteDimensional F V] (hσ : ∀ c, Φ.σ (Φ
       intro l
       rw [Φ.β_sub_left, hsumL]
       simp only [Φ.smul_left, hσ, hdual, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true, sub_self]
+        Finset.mem_univ, ite_true, sub_self]
     rw [hexp w hw, hsumR]
     refine Finset.sum_eq_zero fun k _ => ?_
     rw [Φ.smul_right, hf k, mul_zero]

@@ -16,11 +16,12 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] {ι : Type}
 
 theorem conjSub_eq_of_apply_mem {g : GLV V} {Y : Submodule (ZMod 2) V}
     (h : ∀ u ∈ Y, g u ∈ Y) : conjSub g Y = Y := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   refine Submodule.eq_of_le_of_finrank_eq ?_ (finrank_conjSub g Y)
   rintro _ ⟨u, hu, rfl⟩
   exact h u hu
 
+omit [Finite V] in
 theorem iSup_fix {F : Frame V ι} {Hs : ι → Subgroup (GLV V)}
     (hclos : ∀ j, Hs j = Subgroup.closure {F.x j, F.a j}) (S : Finset ι)
     (Y : Submodule (ZMod 2) V) (hx : ∀ j ∈ S, ∀ u ∈ Y, F.x j u = u)
@@ -66,6 +67,7 @@ section Assemble
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem exists_block_enum {m : ℕ} (F : Frame V (Fin m)) (hB : BlockData F (Bf F)) (i₁ : Fin m) :
     ∃ (r : ℕ) (S : Fin r → Finset (Fin m)) (h0 : 0 < r),
       (∀ k, ∃ i, S k = Bf F i) ∧ (∀ i, ∃ k, i ∈ S k) ∧

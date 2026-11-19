@@ -15,7 +15,7 @@ theorem pRank_top_eq_of_mulEquiv_center_quotient {G T : Type} [Group G] [Finite 
     [Group T] [Finite T] {q : ℕ} (hq : q.Prime) (e : G ⧸ Subgroup.center G ≃* T)
     (hZ : ¬ q ∣ Nat.card (Subgroup.center G)) :
     CFSG.Open.pRank q (⊤ : Subgroup G) = CFSG.Open.pRank q (⊤ : Subgroup T) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   calc CFSG.Open.pRank q (⊤ : Subgroup G)
       = CFSG.Open.pRank q (⊤ : Subgroup (G ⧸ Subgroup.center G)) :=
         (CFSG.SectionRank.pRank_quotient_eq (Subgroup.center G) hZ).symm

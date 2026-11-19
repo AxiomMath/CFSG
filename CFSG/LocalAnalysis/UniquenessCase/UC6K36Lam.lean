@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] noncomputable def lam36 (M : Subgroup G) : Subgroup G := sSup (comps36 M)
 
+omit [Finite G] in
 theorem map_conj_mem_comps36 {M K : Subgroup G} (hK : K ∈ comps36 M) {m : G} (hm : m ∈ M) :
     K.map (MulAut.conj m).toMonoidHom ∈ comps36 M := by
   refine ⟨CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj m) hK.1, ?_⟩
@@ -32,6 +33,7 @@ theorem map_conj_mem_comps36 {M K : Subgroup G} (hK : K ∈ comps36 M) {m : G} (
   rw [hQ, hbot] at h1
   exact (Subgroup.map_eq_bot_iff_of_injective _ (MulAut.conj m).injective).1 h1.symm
 
+omit [Finite G] in
 theorem le_normalizer_lam36 (M : Subgroup G) : M ≤ normalizer (lam36 M : Set G) := by
   have key : ∀ m ∈ M, (lam36 M).map (MulAut.conj m).toMonoidHom ≤ lam36 M := by
     intro m hm
@@ -47,9 +49,10 @@ theorem le_normalizer_lam36 (M : Subgroup G) : M ≤ normalizer (lam36 M : Set G
     Subgroup.mem_map_of_mem _ hx
   have := h2 hx'
   refine ⟨_, this, ?_⟩
-  simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+  simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
   group
 
+omit [Finite G] in
 theorem mem_normalizer_sSup {S : Set (Subgroup G)} {x : G}
     (hx : ∀ K ∈ S, x ∈ normalizer (K : Set G)) : x ∈ normalizer ((sSup S : Subgroup G) : Set G) := by
   have key : ∀ y : G, (∀ K ∈ S, y ∈ normalizer (K : Set G)) →
@@ -67,7 +70,7 @@ theorem mem_normalizer_sSup {S : Set (Subgroup G)} {x : G}
   have hz' : (MulAut.conj x⁻¹).toMonoidHom z ∈ (sSup S).map (MulAut.conj x⁻¹).toMonoidHom :=
     Subgroup.mem_map_of_mem _ hz
   refine ⟨_, h2 hz', ?_⟩
-  simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+  simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
   group
 
 namespace Hyp36
@@ -78,7 +81,7 @@ include h
 theorem exists_noncentral_sylow_inf_of_dvd {K : Subgroup G} (hK : CFSG.IsComponent K)
     (hpK : p ∣ Nat.card K) (P : Sylow p G) :
     ∃ x ∈ (P : Subgroup G) ⊓ K, ∃ y ∈ K, x * y ≠ y * x := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨R, hR⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal P hK.2
@@ -97,9 +100,9 @@ theorem exists_noncentral_sylow_inf_of_dvd {K : Subgroup G} (hK : CFSG.IsCompone
 
 theorem le_of_component_of_not_normalizes {K : Subgroup G} (hK : CFSG.IsComponent K)
     (hpK : p ∣ Nat.card K) (hEN : ¬ E ≤ normalizer (K : Set G)) : K ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow h.isPGroup
-  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup' hEP
+  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup hEP
   have hS := h.exists_noncentral_sylow_inf_of_dvd hK hpK P
   obtain ⟨e, he, heN⟩ := Set.not_subset.1 hEN
   have he1 : e ≠ 1 := by
@@ -152,6 +155,7 @@ end Hyp36
 @[expose] def Rank2Good (K : Subgroup G) : Prop :=
   (∃ A : Subgroup G, A ≤ K ∧ IsElemAbelian 3 A ∧ Nat.card A = 9) ∧ Nat.card (Subgroup.center ↥K) ≤ 3
 
+omit [Finite G] in
 theorem Rank2Good.conj {K : Subgroup G} (hK : Rank2Good K) (g : G) :
     Rank2Good (K.map (MulAut.conj g).toMonoidHom) := by
   obtain ⟨⟨A, hAK, hAel, hAcard⟩, hZ⟩ := hK
@@ -168,6 +172,7 @@ theorem pRank_le_twoLocalPrimeRank {q : ℕ} (hq : q.Prime) {H : Subgroup G} (hH
   rintro _ ⟨K, -, rfl⟩
   exact CFSG.SectionRank.pRank_le_card_of_one_lt hq.one_lt K
 
+omit [Finite G] in
 theorem map_conj_map_conj (K : Subgroup G) (a b : G) :
     (K.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       K.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -185,7 +190,7 @@ theorem normalizes_of_rank (hp3 : p = 3) (he : twoLocalPrimeRank 3 G ≤ 3) {K :
     (hK : CFSG.IsComponent K) (hpK : p ∣ Nat.card K) (hg : Rank2Good K) :
     E ≤ normalizer (K : Set G) := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hEN
   have hKM : K ≤ M := h.le_of_component_of_not_normalizes hK hpK hEN
   obtain ⟨e, heE, heN⟩ := Set.not_subset.1 hEN
@@ -223,7 +228,7 @@ theorem normalizes_of_rank (hp3 : p = 3) (he : twoLocalPrimeRank 3 G ≤ 3) {K :
     rw [e2] at h3
     have e3' : K.map (MulAut.conj (1 : G)).toMonoidHom = K := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [e3'] at h3
     exact h3
   have hcomm : ∀ {X Y : Subgroup G}, CFSG.IsComponent X → CFSG.IsComponent Y → X ≠ Y →
@@ -248,6 +253,7 @@ theorem normalizes_of_rank (hp3 : p = 3) (he : twoLocalPrimeRank 3 G ≤ 3) {K :
 
 end Hyp36
 
+omit [Finite G] in
 theorem mem_normalizer_map_sSup (f : G →* G) {S : Set (Subgroup G)} {x : G}
     (hx : ∀ K ∈ S, x ∈ normalizer ((K.map f : Subgroup G) : Set G)) :
     x ∈ normalizer (((sSup S).map f : Subgroup G) : Set G) := by
@@ -267,7 +273,7 @@ theorem mem_normalizer_map_sSup (f : G →* G) {S : Set (Subgroup G)} {x : G}
   have hz' : (MulAut.conj x⁻¹).toMonoidHom z ∈ ((sSup S).map f).map (MulAut.conj x⁻¹).toMonoidHom :=
     Subgroup.mem_map_of_mem _ hz
   refine ⟨_, h2 hz', ?_⟩
-  simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+  simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
   group
 
 namespace Hyp36
@@ -278,7 +284,7 @@ include h
 theorem normalizer_lam36_eq_top (hE : ∀ (g : G) (K : Subgroup G), K ∈ comps36 M →
     E ≤ normalizer ((K.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G)) :
     normalizer (lam36 M : Set G) = ⊤ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set W : Subgroup G := normalizer (lam36 M : Set G) with hW
   have hconj : ∀ (g : G), ∀ e ∈ E, g * e * g⁻¹ ∈ W := by
     intro g e he
@@ -293,7 +299,7 @@ theorem normalizer_lam36_eq_top (hE : ∀ (g : G) (K : Subgroup G), K ∈ comps3
         lam36 M := by
       rw [map_conj_map_conj, mul_inv_cancel]
       ext x
-      simp [MulAut.conj_apply]
+      simp
     have goal : (lam36 M).map (MulAut.conj (g * e * g⁻¹)).toMonoidHom = lam36 M := by
       rw [← e2, e1, e3]
     exact Subgroup.mem_normalizer_iff_map_conj_eq.2 goal
@@ -309,7 +315,7 @@ theorem normalizer_lam36_eq_top (hE : ∀ (g : G) (K : Subgroup G), K ∈ comps3
   have hER' : E ≤ R' := by
     intro x hx
     exact ⟨⟨x, hEN₁ hx⟩, hER (show (⟨x, hEN₁ hx⟩ : N₁) ∈ E.subgroupOf N₁ from hx), rfl⟩
-  have hR'p : IsPGroup p R' := R.isPGroup'.map _
+  have hR'p : IsPGroup p R' := R.isPGroup.map _
   have hR'M : R' ≤ M := h.le_of_isPGroup hR'p hER'
   have hNM : normalizer (R' : Set G) ≤ M := h.normalizer_le_of_le hER' hR'M
   have hfr := Sylow.normalizer_sup_eq_top R

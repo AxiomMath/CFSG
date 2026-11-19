@@ -52,6 +52,7 @@ theorem length_eq_pred_of_perpL_no_minusPair (hQ : (polarBilin Q).Nondegenerate)
   have h4 := isFrame_length_lt_of_isPlusType_odd hl hdim hplus hodd
   omega
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_hyperbolic_pair_of_no_minusPair {P : Submodule (ZMod 2) V} (hP : P ≠ ⊥)
     (hnd : ∀ x ∈ P, (∀ y ∈ P, polar Q x y = 0) → x = 0)
     (hno : ¬ ∃ a b : V, a ∈ P ∧ b ∈ P ∧ MinusPair Q a b) :
@@ -76,6 +77,7 @@ theorem exists_hyperbolic_pair_of_no_minusPair {P : Submodule (ZMod 2) V} (hP : 
     · rw [polar_add_right, hef', polar_self_zero]
       simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_family_of_isFrame {l : List (V × V)} (hl : IsFrame Q l) {m : ℕ} (hm : l.length = m) :
     ∃ a b : Fin m → V, (∀ i, MinusPair Q (a i) (b i)) ∧
       (∀ i j, i ≠ j → PairPerp Q (a i, b i) (a j, b j)) ∧

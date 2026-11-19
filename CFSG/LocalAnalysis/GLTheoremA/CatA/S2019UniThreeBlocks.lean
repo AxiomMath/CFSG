@@ -42,7 +42,7 @@ theorem sq_sub_one_eq_zero_of_paired (H : UnitaryPrimaryData hK.bar B x)
         ((N w : primaryComponent (x : Module.End K V) (a : K[X])) : V)) :
     ((g : Module.End K V) - 1) ^ 2 = 0 := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   set W := primaryComponent (x : Module.End K V) (a : K[X]) with hW
   have hgC : Commute (g : Module.End K V) (x : Module.End K V) :=
     (mem_unitaryCentralizer.mp hg.1).2
@@ -121,10 +121,10 @@ theorem exists_pGroup_specialBlock_paired [CharP K 3] (H : UnitaryPrimaryData hK
       (∀ u ∈ P, (∀ g ∈ specialBlock B x (a : K[X]), u * g = g * u) → u = 1) ∧
       ∀ u ∈ P, (((u : LinearMap.GeneralLinearGroup K V) : Module.End K V) - 1) ^ 2 = 0 := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
-  haveI := hK.finite
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot (a : K[X])) 3 :=
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have := hK.finite
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have : CharP (AdjoinRoot (a : K[X])) 3 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot (a : K[X]))).injective 3
   set W := primaryComponent (x : Module.End K V) (a : K[X]) with hW
   let b : Module.Basis (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X])))

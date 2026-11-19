@@ -11,12 +11,14 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem weakClosure_weakClosure (X : Subgroup G) (Ω : Set (Subgroup G)) :
     E1.weakClosure (E1.weakClosure X Ω) Ω = E1.weakClosure X Ω := by
   refine le_antisymm E1.weakClosure_le ?_
   refine iSup₂_le fun A hA => iSup_le fun hAX => ?_
   exact E1.le_weakClosure hA (E1.le_weakClosure hA hAX)
 
+omit [Finite G] in
 theorem weakClosure_mono {X Y : Subgroup G} (Ω : Set (Subgroup G)) (h : X ≤ Y) :
     E1.weakClosure X Ω ≤ E1.weakClosure Y Ω := by
   refine iSup₂_le fun A hA => iSup_le fun hAX => ?_
@@ -50,6 +52,7 @@ theorem le_normalizer_weakClosure_of_isInvColl {H T : Subgroup G} {Ω : Set (Sub
   intro w hw
   exact T.mul_mem (T.mul_mem ht (E1.weakClosure_le hw)) (T.inv_mem ht)
 
+omit [Finite G] in
 theorem conjSub_weakClosure_le {H : Subgroup G} {Ω : Set (Subgroup G)} (hΩ : E1.IsInvColl H Ω)
     {g : G} (hg : g ∈ H) (X : Subgroup G) :
     A1b.conjSub g (E1.weakClosure X Ω) ≤ E1.weakClosure (A1b.conjSub g X) Ω := by
@@ -59,6 +62,7 @@ theorem conjSub_weakClosure_le {H : Subgroup G} {Ω : Set (Subgroup G)} (hΩ : E
   rw [← Subgroup.map_le_iff_le_comap]
   exact E1.le_weakClosure (hΩ.conj A hA g hg) (A1b.conjSub_mono g hAX)
 
+omit [Finite G] in
 theorem conjSub_weakClosure {H : Subgroup G} {Ω : Set (Subgroup G)} (hΩ : E1.IsInvColl H Ω)
     {g : G} (hg : g ∈ H) (X : Subgroup G) :
     A1b.conjSub g (E1.weakClosure X Ω) = E1.weakClosure (A1b.conjSub g X) Ω := by
@@ -68,6 +72,7 @@ theorem conjSub_weakClosure {H : Subgroup G} {Ω : Set (Subgroup G)} (hΩ : E1.I
   have h2 := A1b.conjSub_mono g h1
   rwa [← A1b.conjSub_mul, mul_inv_cancel, A1b.conjSub_one] at h2
 
+omit [Finite G] in
 theorem isInvColl_restrict {H N : Subgroup G} {Ω : Set (Subgroup G)} (hΩ : E1.IsInvColl H Ω)
     (hNH : N ≤ H) : E1.IsInvColl N {B | B ∈ Ω ∧ B ≤ N} where
   le B hB := hB.2
@@ -79,6 +84,7 @@ theorem isInvColl_restrict {H N : Subgroup G} {Ω : Set (Subgroup G)} (hΩ : E1.
     have h2 : n * (n⁻¹ * y * n) * n⁻¹ ∈ N := N.mul_mem (N.mul_mem hn h1) (N.inv_mem hn)
     simpa [mul_assoc] using h2
 
+omit [Finite G] in
 theorem weakClosure_restrict {X N : Subgroup G} {Ω : Set (Subgroup G)} (hXN : X ≤ N) :
     E1.weakClosure X {B | B ∈ Ω ∧ B ≤ N} = E1.weakClosure X Ω := by
   refine le_antisymm ?_ ?_

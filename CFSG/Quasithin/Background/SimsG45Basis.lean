@@ -75,7 +75,7 @@ theorem exists_adapted_basis [Finite F] [CharP F 2] (B : BilinForm F V)
       (∀ i j, B (b i) (b j) = if i.val + j.val = 3 then 1 else 0) ∧
       ∀ j, b j + (c * B (b j) u) • u + (d * B (b j) w) • w =
         ∑ i, (SpChain.uMat (0 : F) β 1 0) i j • b i := by
-  haveI : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have halt' : LinearMap.IsAlt B := halt
   have hsymm : ∀ x y, B y x = B x y := fun x y => by
@@ -147,9 +147,8 @@ theorem exists_adapted_basis [Finite F] [CharP F 2] (B : BilinForm F V)
   refine ⟨b, s * r, mul_ne_zero hs0 hr0, fun i j => by rw [hbe]; exact hgram i j, fun j => ?_⟩
   rw [hbe, transv_prod_formula B ht hs hr hu' hw' (e j)]
   fin_cases j <;>
-    simp [Fin.sum_univ_four, SpChain.uMat, he, halt, p01, p02, p03, p10, p12, p13, p20, p21, p23,
-      p30, p31, p32] <;>
-    first | abel | module
+    simp [Fin.sum_univ_four, SpChain.uMat, he, halt, p01, p10, p20, p21, p30, p31] <;>
+    first | abel
 
 theorem toMatrix_eq_minorJ (B : BilinForm F V) (b : Module.Basis (Fin 4) F V)
     (hb : ∀ i j, B (b i) (b j) = if i.val + j.val = 3 then 1 else 0) :

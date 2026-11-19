@@ -12,6 +12,7 @@ section Grp
 
 variable {M : Type*} [Group M] {N : Subgroup M} [N.Normal] {t : M}
 
+omit [N.Normal] in
 theorem t_not_mem_N (hN : ∀ n ∈ N, Odd (orderOf n)) (ht2 : t * t = 1) (ht1 : t ≠ 1) :
     t ∉ N := by
   intro h

@@ -138,7 +138,7 @@ theorem ggE0_e6_normalizes
     {X : Subgroup ↥(adjointGroup .E6 K)} (hX : IsComponentOf X (Subgroup.centralizer {s})) :
     Subgroup.centralizer {s} ≤ Subgroup.normalizer (X : Set ↥(adjointGroup .E6 K)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hqK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   have hpK : ¬ p ∣ Nat.card K := by

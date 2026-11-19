@@ -65,7 +65,7 @@ theorem card_e6HypFin : Nat.card e6HypFin = 3 ^ 5 := by
     exact
       { toFun := fun v => ⟨e6ExpEquiv.symm v.1, by
           refine (e6ExpEquiv_mem_hyp (e6ExpEquiv.symm v.1)).1 ?_
-          simpa using v.2⟩
+          simp⟩
         invFun := fun x => ⟨e6ExpEquiv x.1, (e6ExpEquiv_mem_hyp x.1).2 x.2⟩
         left_inv := fun v => by ext; simp
         right_inv := fun x => by ext; simp }
@@ -147,8 +147,8 @@ theorem card_e6HypFix_mul_card_le_of_le_syl (F : Subgroup (WeylGroup Tag.E6))
     Nat.card {v : Fin 6 → ZMod 3 // v ∈ e6HypFin ∧ ∀ w ∈ F, e6WeylMat w *ᵥ v = v} *
       Nat.card F ≤ 3 ^ 5 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := exists_card_pow_of_isElemAbelian hF
   have hdvd : 3 ^ k ∣ 3 ^ 4 := by
     have h := Subgroup.card_dvd_of_le hFP
@@ -379,7 +379,7 @@ theorem card_e6Hyp_mul_card_le (F : Subgroup (WeylGroup Tag.E6)) (hF : IsElemAbe
     Nat.card {v : ↥(NoOffRest.hypE6) // ∀ a ∈ F, NoOffRest.hypPerm a v = v} * Nat.card F ≤
       3 ^ 5 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 F := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hF.2 g g.2)⟩
   obtain ⟨Q, hFQ⟩ := hp.exists_le_sylow
   let P : Sylow 3 (WeylGroup Tag.E6) :=
@@ -415,9 +415,11 @@ theorem e6K_cast (i : Fin Tag.E6.rank) :
 
 @[expose] def kChar (a : Fin Tag.E6.rank → Kˣ) : Kˣ := ∏ i, a i ^ (e6K i)
 
+omit [Finite K] [CharP K 2] in
 theorem kChar_one : kChar (1 : Fin Tag.E6.rank → Kˣ) = 1 := by
   simp [kChar]
 
+omit [Finite K] [CharP K 2] in
 theorem kChar_pow (a : Fin Tag.E6.rank → Kˣ) (n : ℕ) : kChar (a ^ n) = kChar a ^ n := by
   simp only [kChar, Pi.pow_apply]
   have h : (∏ i, (a i ^ n) ^ e6K i) = ∏ i, (a i ^ e6K i) ^ n := by
@@ -425,6 +427,7 @@ theorem kChar_pow (a : Fin Tag.E6.rank → Kˣ) (n : ℕ) : kChar (a ^ n) = kCha
     rw [← pow_mul, ← pow_mul, mul_comm]
   rw [h, Finset.prod_pow]
 
+omit [Finite K] [CharP K 2] in
 theorem kChar_zetaVec {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (x : Fin Tag.E6.rank → ZMod 3) :
     kChar (TableBExc.E6Three.zetaVec ζ hζ x) = ζ ^ (∑ i, (x i).val * e6K i) := by
   have h : (∏ i, (ζ ^ (x i).val) ^ (e6K i)) = ∏ i, ζ ^ ((x i).val * e6K i) := by
@@ -433,6 +436,7 @@ theorem kChar_zetaVec {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (x : Fin Tag.E6.rank → ZMo
   simp only [kChar, TableBExc.E6Three.zetaVec_apply]
   rw [h, Finset.prod_pow_eq_pow_sum]
 
+omit [Finite K] [CharP K 2] in
 theorem kChar_cartanChar (c : Fin Tag.E6.rank → Kˣ) :
     ∃ y : Kˣ, kChar (cartanChar c) = y ^ 3 := by
   have hT : ∀ j : Fin Tag.E6.rank, ∃ t : ℤ, ∑ i, (Tag.E6.cartan j i : ℤ) * (e6K i : ℤ) = 3 * t := by
@@ -469,7 +473,8 @@ theorem kChar_cartanChar (c : Fin Tag.E6.rank → Kˣ) :
     rw [h, ← Finset.prod_pow]
   rw [step1, step2]
 
-theorem kChar_eq_one_of_cartanChar (h3 : 3 ∣ Nat.card K - 1) (h9 : ¬ 9 ∣ Nat.card K - 1)
+omit [CharP K 2] in
+theorem kChar_eq_one_of_cartanChar (_h3 : 3 ∣ Nat.card K - 1) (h9 : ¬ 9 ∣ Nat.card K - 1)
     {c : Fin Tag.E6.rank → Kˣ} (ha3 : cartanChar c ^ 3 = 1) :
     kChar (cartanChar c) = 1 := by
   obtain ⟨y, hy⟩ := kChar_cartanChar c
@@ -481,7 +486,7 @@ theorem kChar_eq_one_of_cartanChar (h3 : 3 ∣ Nat.card K - 1) (h9 : ¬ 9 ∣ Na
     norm_num at h
     exact h
   have hdvd9 : orderOf y ∣ 9 := orderOf_dvd_iff_pow_eq_one.2 hy9
-  haveI : Fintype Kˣ := Fintype.ofFinite _
+  have : Fintype Kˣ := Fintype.ofFinite _
   have hdvdq : orderOf y ∣ Nat.card K - 1 := by
     rw [← Nat.card_units]
     simpa [Nat.card_eq_fintype_card] using orderOf_dvd_card (G := Kˣ) (x := y)
@@ -505,6 +510,7 @@ theorem kChar_eq_one_of_cartanChar (h3 : 3 ∣ Nat.card K - 1) (h9 : ¬ 9 ∣ Na
     · exact absurd (h9' ▸ hdvdq) h9
   rw [hy, hy3]
 
+omit [Finite K] [CharP K 2] in
 theorem kDotP_eq_zero_of_kChar {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1)
     {x : Fin Tag.E6.rank → ZMod 3} (h : kChar (TableBExc.E6Three.zetaVec ζ hζ x) = 1) :
     NoOffRest.kDotP 3 x = 0 := by
@@ -535,11 +541,13 @@ theorem kDotP_eq_zero_of_kChar {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 
     (Subgroup.subgroupOfEquivOfLe
       (monomialSubgroup_le_adjointGroup' (τ := Tag.E6) (K := K))).toMonoidHom
 
+omit [Finite K] [CharP K 2] in
 theorem e6MonHom_apply (n : e6Mon (K := K)) :
     e6MonHom n = weylQuotientHom Tag.E6 K
       (Subgroup.subgroupOfEquivOfLe
         (monomialSubgroup_le_adjointGroup' (τ := Tag.E6) (K := K)) n) := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem e6MonHom_surjective : Function.Surjective (e6MonHom (K := K)) := by
   have h : Function.Surjective (weylQuotientHom Tag.E6 K) := by
     rw [← MonoidHom.range_eq_top, eq_top_iff,
@@ -549,6 +557,7 @@ theorem e6MonHom_surjective : Function.Surjective (e6MonHom (K := K)) := by
       weylQuotientHom_eq (mapsRootLines_weylElt i)⟩
   exact h.comp (Subgroup.subgroupOfEquivOfLe _).surjective
 
+omit [Finite K] [CharP K 2] in
 theorem e6MonHom_eq_one_iff {n : e6Mon (K := K)} :
     e6MonHom n = 1 ↔ (n : adjointGroup Tag.E6 K) ∈ e6Tor (K := K) := by
   rw [e6MonHom_apply]
@@ -572,6 +581,7 @@ theorem e6MonHom_eq_one_iff {n : e6Mon (K := K)} :
     have hgT : (g : ModGL Tag.E6 K) ∈ torusGroup Tag.E6 K := by rwa [hcoe]
     exact weylQuotientHom_eq (mapsRootLines_of_mem_torusGroup hgT)
 
+omit [Finite K] [CharP K 2] in
 theorem e6Tor_commutative : ∀ a ∈ e6Tor (K := K), ∀ b ∈ e6Tor (K := K), a * b = b * a := by
   intro a ha b hb
   refine Subtype.ext ?_
@@ -579,6 +589,7 @@ theorem e6Tor_commutative : ∀ a ∈ e6Tor (K := K), ∀ b ∈ e6Tor (K := K), 
     (DiagTorus.torusGroup_le_Dgrp (Subgroup.mem_subgroupOf.1 ha))
     (DiagTorus.torusGroup_le_Dgrp (Subgroup.mem_subgroupOf.1 hb))
 
+omit [CharP K 2] in
 theorem not_three_dvd_e6Mon_index (h3 : 3 ∣ Nat.card K - 1) :
     ¬ 3 ∣ (e6Mon (K := K)).index := by
   have hidxeq : (e6Mon (K := K)).index =
@@ -598,6 +609,7 @@ theorem not_three_dvd_e6Mon_index (h3 : 3 ∣ Nat.card K - 1) :
   rw [hidxeq]
   exact DiagTorus.not_three_dvd_relIndex_monomial (K := K) h3
 
+omit [CharP K 2] in
 theorem pRank_three_adjointGroup_E6_le_five (h3 : 3 ∣ Nat.card K - 1)
     (h9 : ¬ 9 ∣ Nat.card K - 1) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (adjointGroup Tag.E6 K)) ≤ 5 := by

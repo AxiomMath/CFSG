@@ -117,7 +117,7 @@ theorem exists_commuting_involution_ne [Finite G] {K : Subgroup G}
   obtain ⟨S, hS⟩ := hu'2.exists_le_sylow
   have huS : u' ∈ (S : Subgroup ↥K) := hS (mem_zpowers u')
   have hS1 : (S : Subgroup ↥K) ≠ ⊥ := fun h => hu'1 (by rw [h] at huS; exact mem_bot.mp huS)
-  obtain ⟨z, hzS, hz2, hzc⟩ := exists_central_involution_of_ne_bot hS1 S.isPGroup'
+  obtain ⟨z, hzS, hz2, hzc⟩ := exists_central_involution_of_ne_bot hS1 S.isPGroup
   by_cases hzu : z = u'
   · have hrank : 2 ≤ CFSG.Open.pRank 2 (S : Subgroup ↥K) := by
       rw [(SectionRank.pRank_sylow S).1, ← SectionRank.pRank_eq_pRank_top_subgroup]

@@ -104,7 +104,7 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
     {w : G} (hw : w = c ∨ w = b) {W : Subgroup G} (hJY : W ≤ Y)
     (hJb : W ≤ Subgroup.centralizer ({w} : Set G)) (hJp : Group.IsPerfect W)
     (hSW : SWFacts W)
-    (hM1 : ∀ hS : IsSimpleGroup (inSubgroup perfectResidual
+    (hM1 : ∀ _hS : IsSimpleGroup (inSubgroup perfectResidual
       (barCentralizer (Subgroup.zpowers w) Y)),
       Nat.card (W ⧸ aschbacherSolvableCore 3 W) =
         Nat.card (inSubgroup perfectResidual (barCentralizer (Subgroup.zpowers w) Y))) :
@@ -131,8 +131,8 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
   have hnot34 : ∀ {z : G} {A₁ : Subgroup G} {d₁ : G} {m : ℕ}, Data83 G a Y z A₁ d₁ m →
       ¬ (IsoSUThree (Y ⧸ aschbacherSolvableCore 3 Y) (2 ^ (3 * m)) ∨
         Nonempty (Y ⧸ aschbacherSolvableCore 3 Y ≃* projSU 3 2 (3 * m))) := by
-    rintro z A₁ d₁ m hD₁ (hS | hP)
-    · exact false_of_su3 hJY hD₁.odd hS hSJ
+    rintro z A₁ d₁ m hD₁ (_hS | hP)
+    · exact false_of_su3 hJY hD₁.odd _hS hSJ
     · exact false_of_psu3 hJY hD₁.odd hP hSJ
   have hb_ne : barAut Y w hbN ≠ 1 := by
     intro h1
@@ -162,7 +162,7 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
         ∃ s : W ⧸ aschbacherSolvableCore 3 W,
           (∃ k : ℕ, s ^ 2 ^ k = 1) ∧ s ^ 2 ^ 2 ≠ 1 := fun ⟨s, hs2, hs4⟩ =>
       ⟨s, hs2, by simpa using hs4⟩
-    rcases hD.cases with h1 | ⟨hR, -, -⟩ | ⟨hS, -, -⟩ | ⟨hP, -, -⟩ | ⟨⟨eS⟩, -, -⟩
+    rcases hD.cases with h1 | ⟨hR, -, -⟩ | ⟨_hS, -, -⟩ | ⟨hP, -, -⟩ | ⟨⟨eS⟩, -, -⟩
     ·
       have hY1 := h1.1
       have hZ := center_trivial_of_eq_bot (Hering88F.center_eq_bot_of_case1 hY1)
@@ -180,7 +180,7 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
           hJY hJb hJp (hs2 h8) hin
       · exact barAut_eq_one_of_centFive hZ (CentFive.of_mulEquiv e (centFive_reeGamma hK')) hbN
           hb3 hJY hJb hJp h5 hin
-    · exact (hnot34 hD (Or.inl hS)).elim
+    · exact (hnot34 hD (Or.inl _hS)).elim
     · exact (hnot34 hD (Or.inr hP)).elim
     ·
       set F := GaloisField 2 (3 * n') with hFdef
@@ -201,13 +201,13 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
           hJY hJb hJp h5 hin
   have hbout : Sec4.InducesOuterTheta w Y := ⟨hbN, hb_out⟩
   have hbY : KFacts.InducesStdKind Y w .field ∨ KFacts.InducesStdKind Y w .graphField := by
-    rcases hD.cases with h1 | ⟨hR, -, -⟩ | ⟨hS, -, -⟩ | ⟨hP, -, -⟩ | ⟨hSp, -, -⟩
+    rcases hD.cases with h1 | ⟨hR, -, -⟩ | ⟨_hS, -, -⟩ | ⟨hP, -, -⟩ | ⟨hSp, -, -⟩
     · rcases h1.1 with hDY | hGY
       · obtain ⟨hm1, K, _, _, σ, hK, hσ, ⟨e⟩⟩ := Item812Res7.exists_trialityD4_model hDY
         exact Or.inr (KFacts.InducesStdKind.triality n' hm1 K hK σ hσ
           (KFacts.inducesKindTriality_graphField hm1 hK hσ Y hb3 hbout e))
       · obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hGY
-        haveI : CharP K 2 :=
+        have : CharP K 2 :=
           CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
             Nat.prime_two (k := 3 * n') (by have := hD.odd.pos; omega) hK
         have hK3 : ringChar K ≠ 3 := by rw [ringChar.eq K 2]; norm_num
@@ -223,14 +223,14 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
       exact Or.inl (KFacts.InducesStdKind.largeRee k hk1 K hK'
         (KFacts.inducesKindLargeRee_field Y hk1 hK'
           (CFSG.RankThree.PartOne.RF4.largeReeOrderThreeFieldConj k K hK') hb3 hbout e))
-    · exact (hnot34 hD (Or.inl hS)).elim
+    · exact (hnot34 hD (Or.inl _hS)).elim
     · exact (hnot34 hD (Or.inr hP)).elim
     · exact Or.inl (KFacts.barCentralizer_mulEquiv_projSp (by have := hD.odd.pos; omega) hb3
         hbout hSp).1
   obtain ⟨A₀', d'', m, hD'⟩ := kF88Data83Y_of h83 (kF88SwapCent_holds h45 h84)
     (kF88SwapInv_holds h45 h84) h hY hIJ hw hbY
   have hm1 : 1 ≤ m := hD'.odd.pos
-  rcases hD'.cases with ⟨hY1, -, hC⟩ | ⟨hR, hRC, -⟩ | ⟨hS, -, -⟩ | ⟨hP, -, -⟩ |
+  rcases hD'.cases with ⟨hY1, -, hC⟩ | ⟨hR, hRC, -⟩ | ⟨_hS, -, -⟩ | ⟨hP, -, -⟩ |
       ⟨hSp, ⟨ι⟩, -⟩
   ·
     rcases Nat.lt_or_ge m 2 with hm | hm2
@@ -240,12 +240,12 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
       · exact Or.inr (Or.inl hG2)
     · exfalso
       rcases hC with hG2 | ⟨-, hP, -⟩
-      · have hS := Hering88E.isSimpleGroup_perfectResidual_of_isoGTwoEven hm2 hG2
+      · have _hS := Hering88E.isSimpleGroup_perfectResidual_of_isoGTwoEven hm2 hG2
         have := card_inSubgroup_perfectResidual_ge_of_isoGTwoEven hm2 hG2
-        rw [← hM1 hS] at this
+        rw [← hM1 _hS] at this
         omega
-      · have hS := isSimpleGroup_inSubgroup_perfectResidual_of_isoPGUThree hm2 hP
-        have hNY := hM1 hS
+      · have _hS := isSimpleGroup_inSubgroup_perfectResidual_of_isoPGUThree hm2 hP
+        have hNY := hM1 _hS
         have h3 := card_le_three_mul_card_inSubgroup_perfectResidual_of_isoPGUThree hm2 hP
         have hle := Subgroup.card_le_of_le
           (Item87Proof.residual_le (barCentralizer (Subgroup.zpowers w) Y))
@@ -261,20 +261,20 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
       obtain ⟨k, K, _, _, _, hkm, hK, ⟨φ⟩⟩ := hRC
       have hk1 : 1 ≤ k := by omega
       have hK' : Nat.card K = 2 ^ (2 * k + 1) := by rw [hK, hkm]
-      haveI : Group.IsPerfect (ReeTag.F4.reeGamma K k) :=
+      have : Group.IsPerfect (ReeTag.F4.reeGamma K k) :=
         ⟨ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hk1 hK'⟩
-      haveI : IsSimpleGroup (ReeTag.F4.reeGamma K k) :=
+      have : IsSimpleGroup (ReeTag.F4.reeGamma K k) :=
         CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hk1 hK'
       have hpC : Group.IsPerfect (barCentralizer (Subgroup.zpowers w) Y) :=
         Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
       have hsC : IsSimpleGroup (barCentralizer (Subgroup.zpowers w) Y) := φ.isSimpleGroup
       have hres : inSubgroup perfectResidual (barCentralizer (Subgroup.zpowers w) Y) =
           barCentralizer (Subgroup.zpowers w) Y := inSubgroup_perfectResidual_of_isPerfect hpC
-      have hS : IsSimpleGroup (inSubgroup perfectResidual
+      have _hS : IsSimpleGroup (inSubgroup perfectResidual
           (barCentralizer (Subgroup.zpowers w) Y)) := by
         rw [hres]
         exact hsC
-      have hNY := hM1 hS
+      have hNY := hM1 _hS
       rw [hres, Nat.card_congr φ.toEquiv] at hNY
       have hge := Item812Res2.card_reeGamma_ge_pow hK'
       have hq : 8 ≤ 2 ^ (2 * k + 1) :=
@@ -286,7 +286,7 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
         rw [← hNY]
         exact hN35
       exact absurd (h12.trans_le (hge.trans hle)) (lt_irrefl _)
-  · exact (hnot34 hD' (Or.inl hS)).elim
+  · exact (hnot34 hD' (Or.inl _hS)).elim
   · exact (hnot34 hD' (Or.inr hP)).elim
   ·
     rcases Nat.lt_or_ge m 2 with hm | hm2
@@ -296,11 +296,11 @@ theorem ybarOne_core (h45 : Sec4.Item4_5) (h83 : Item83) (h84 : Pair84A) (hF : K
       obtain ⟨hsC, hpC⟩ := isSimpleGroup_isPerfect_of_projSp hm2 ι
       have hres : inSubgroup perfectResidual (barCentralizer (Subgroup.zpowers w) Y) =
           barCentralizer (Subgroup.zpowers w) Y := inSubgroup_perfectResidual_of_isPerfect hpC
-      have hS : IsSimpleGroup (inSubgroup perfectResidual
+      have _hS : IsSimpleGroup (inSubgroup perfectResidual
           (barCentralizer (Subgroup.zpowers w) Y)) := by
         rw [hres]
         exact hsC
-      have hNY := hM1 hS
+      have hNY := hM1 _hS
       rw [hres, Nat.card_congr ι.toEquiv] at hNY
       have h3m : 3 ≤ m := by
         obtain ⟨j, hj⟩ := hD'.odd

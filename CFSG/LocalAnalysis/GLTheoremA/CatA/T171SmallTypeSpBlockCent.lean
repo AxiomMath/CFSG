@@ -43,12 +43,12 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
 variable {B : LinearMap.BilinForm (ZMod 2) V}
 
 private noncomputable def restrictLinearEquiv (g : V ≃ₗ[ZMod 2] V) {P : Submodule (ZMod 2) V}
-    (hg : ∀ x ∈ P, g x ∈ P) : P ≃ₗ[ZMod 2] P :=
+    (hg : ∀ _x ∈ P, g _x ∈ P) : P ≃ₗ[ZMod 2] P :=
   LinearEquiv.ofInjectiveEndo
-    { toFun := fun x => ⟨g x, hg x x.2⟩
-      map_add' := fun x y => Subtype.ext (map_add g x.1 y.1)
-      map_smul' := fun c x => Subtype.ext (map_smul g c x.1) }
-    (fun x y h => Subtype.ext (g.injective (congrArg Subtype.val h)))
+    { toFun := fun _x => ⟨g _x, hg _x _x.2⟩
+      map_add' := fun _x _y => Subtype.ext (map_add g _x.1 _y.1)
+      map_smul' := fun c _x => Subtype.ext (map_smul g c _x.1) }
+    (fun _x _y h => Subtype.ext (g.injective (congrArg Subtype.val h)))
 
 private theorem coe_restrictLinearEquiv (g : V ≃ₗ[ZMod 2] V) {P : Submodule (ZMod 2) V}
     (hg : ∀ x ∈ P, g x ∈ P) (x : P) :
@@ -63,9 +63,10 @@ private theorem coe_restrictLinearEquiv_pow (g : V ≃ₗ[ZMod 2] V) {P : Submod
       rw [pow_succ, LinearEquiv.mul_apply, ih, coe_restrictLinearEquiv, pow_succ,
         LinearEquiv.mul_apply]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem maps_plane_of_mem_centralizer
-    (hB : B.IsAlt) (hBn : B.Nondegenerate)
-    (y : ↥(linIsometryGroup B)) (hy3 : y ^ 3 = 1)
+    (_hB : B.IsAlt) (_hBn : B.Nondegenerate)
+    (y : ↥(linIsometryGroup B)) (_hy3 : y ^ 3 = 1)
     (P : Submodule (ZMod 2) V) (hP : comSp (y : V ≃ₗ[ZMod 2] V) = P)
     {g : ↥(linIsometryGroup B)}
     (hg : g ∈ Subgroup.centralizer ({y} : Set ↥(linIsometryGroup B))) :
@@ -85,7 +86,7 @@ theorem maps_plane_of_mem_centralizer
   rw [h]
 
 theorem exists_zpow_mul_mem_pointwiseStab
-    (hB : B.IsAlt) (hBn : B.Nondegenerate)
+    (hB : B.IsAlt) (_hBn : B.Nondegenerate)
     (y : ↥(linIsometryGroup B)) (hy3 : y ^ 3 = 1)
     (P : Submodule (ZMod 2) V) (hPnd : (B.restrict P).Nondegenerate)
     (hP : comSp (y : V ≃ₗ[ZMod 2] V) = P)

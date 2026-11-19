@@ -134,7 +134,7 @@ theorem ff_cover_elemAb2_iff {φ : ↥L →* H} (hφ : OddCentralCover φ) {B : 
   constructor
   · rintro ⟨⟨hcomm, hpow⟩, hcard⟩
     refine ⟨⟨?_, ?_⟩, ?_⟩
-    · haveI : IsMulCommutative ↥B := hcomm
+    · have : IsMulCommutative ↥B := hcomm
       exact Subgroup.map_isMulCommutative (H := B.subgroupOf L) φ
     · intro y hy
       obtain ⟨b, hb⟩ := (ffImgEquiv hφ hBL hB).surjective ⟨y, hy⟩
@@ -154,7 +154,7 @@ theorem ff_cover_elemAb2_iff {φ : ↥L →* H} (hφ : OddCentralCover φ) {B : 
     refine ⟨⟨?_, ?_⟩, ?_⟩
     · have hsurj : Function.Surjective (ffImgEquiv hφ hBL hB).symm.toMonoidHom :=
         (ffImgEquiv hφ hBL hB).symm.surjective
-      haveI := hcomm
+      have := hcomm
       exact hsurj.isMulCommutative
     · intro x hx
       have hxφ : φ ⟨x, hBL hx⟩ ∈ ffImg φ B := by
@@ -199,8 +199,8 @@ theorem ff_cover_img_injective {φ : ↥L →* H} (hφ : OddCentralCover φ) {P 
     exact hlB'
   exact le_antisymm (key h₁ h₂ h) (key h₂ h₁ h.symm)
 
-theorem ff_cover_exists_of_le_img {φ : ↥L →* H} (hφ : OddCentralCover φ) {P : Subgroup G}
-    (hPL : P ≤ L) (hP : IsPGroup 2 P) {B' : Subgroup H} (h : B' ≤ ffImg φ P) :
+theorem ff_cover_exists_of_le_img {φ : ↥L →* H} (_hφ : OddCentralCover φ) {P : Subgroup G}
+    (_hPL : P ≤ L) (_hP : IsPGroup 2 P) {B' : Subgroup H} (h : B' ≤ ffImg φ P) :
     ∃ B : Subgroup G, B ≤ P ∧ ffImg φ B = B' := by
   refine ⟨((B'.comap φ) ⊓ (P.subgroupOf L)).map L.subtype, ?_, ?_⟩
   · rintro x ⟨l, hl, rfl⟩

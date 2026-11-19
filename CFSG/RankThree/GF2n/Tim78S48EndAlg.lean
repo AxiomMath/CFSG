@@ -25,9 +25,9 @@ theorem no_invariant_form_mul (n : ℕ) (hn : 2 ≤ n)
     (hDnd : ∀ b : Λ, b ≠ 1 → ∃ a, D a b ≠ 1)
     (κ : Λ → E) (hκ : ∀ a b, κ (a * b) = κ a * κ b * D a b)
     (hκinv : ∀ (x : X) a, κ (x • a) = κ a) : False := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := hEc }
-  letI : CommGroup Λ := { ‹Group Λ› with mul_comm := hΛ }
-  letI : DistribMulAction X (Additive Λ) :=
+  let : CommGroup E := { ‹Group E› with mul_comm := hEc }
+  let : CommGroup Λ := { ‹Group Λ› with mul_comm := hΛ }
+  let : DistribMulAction X (Additive Λ) :=
     { smul := fun x a => Additive.ofMul (x • Additive.toMul a)
       one_smul := fun a => by
         show Additive.ofMul ((1 : X) • Additive.toMul a) = a

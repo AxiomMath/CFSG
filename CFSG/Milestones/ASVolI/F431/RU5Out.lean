@@ -33,7 +33,7 @@ theorem burnsideF4r_u5_outer_act (hyp : HypF_4_4g .U5 2 1 Gp M₁ M₂) {K : Typ
     (h : UnitaryFieldData 2 1 K) (Ψ : hypPSU h 2 1 ≃* ↥Gp) {e : E} (he : e ∉ Gp) :
     ∃ a : hypPSU h 2 1, ∀ y : hypPSU h 2 1,
       e * (Ψ y : E) * e⁻¹ = (Ψ (a * fieldP h (Un.OL5.bar5 h) y * a⁻¹) : E) := by
-  haveI := hyp.normal
+  have := hyp.normal
   set Θ : E →* MulAut (hypPSU h 2 1) :=
     (MulAut.congr Ψ.symm).toMonoidHom.comp (burnsideF4d_rho Gp) with hΘdef
   have hΘinj : Function.Injective Θ :=
@@ -59,7 +59,7 @@ theorem burnsideF4r_u5_outer_act (hyp : HypF_4_4g .U5 2 1 Gp M₁ M₂) {K : Typ
 
 theorem burnsideF4r_u5_mul_mem (hyp : HypF_4_4g .U5 2 1 Gp M₁ M₂) {e e' : E} (he : e ∉ Gp)
     (he' : e' ∉ Gp) : e * e' ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, h, Ψ, -, -⟩ := burnsideF4m_U5_chart hyp
   obtain ⟨a, ha⟩ := burnsideF4r_u5_outer_act hyp h Ψ he
   obtain ⟨a', ha'⟩ := burnsideF4r_u5_outer_act hyp h Ψ he'
@@ -97,8 +97,8 @@ theorem burnsideF4r_u5_mul_mem (hyp : HypF_4_4g .U5 2 1 Gp M₁ M₂) {e e' : E}
 theorem burnsideF4r_u5_graph_exists (hyp : HypF_4_4 .U5 2 1 Gp M₁ M₂) (hGp : Gp ≠ ⊤) :
     ∃ s ∈ M₁ ⊓ M₂, s ∉ Gp ∧ s * s = 1 ∧ hyp.toHypF_4_4g.chart.IsGraphInv s := by
   classical
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨e, -, he⟩ := IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hGp)
   have hfits := hyp.toHypF_4_4g.chart.coordinatePayload_fits
   have hm := hyp.toHypF_4_4g.chart_matches

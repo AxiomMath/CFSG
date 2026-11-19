@@ -54,7 +54,7 @@ theorem exists_sylow_subgroupOf_inf_normal {p : ℕ} [Fact p.Prime] {Γ : Type*}
   classical
   let P : Subgroup ↥N := ((S : Subgroup Γ) ⊓ N).subgroupOf N
   have hP1 : IsPGroup p P := by
-    have hSn : IsPGroup p (↥((S : Subgroup Γ) ⊓ N)) := S.isPGroup'.to_inf_left
+    have hSn : IsPGroup p (↥((S : Subgroup Γ) ⊓ N)) := S.isPGroup.to_inf_left
     exact hSn.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := (S : Subgroup Γ) ⊓ N) (K := N) inf_le_right).symm
   have hrel1 :

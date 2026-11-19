@@ -92,7 +92,7 @@ public theorem psl2_normal_oddP_dihedral_or_centralized_of_contains_sylow
     simp [hxone]
   let SN : Subgroup M := (S : Subgroup (PSL2MatrixGroup F)).subgroupOf M
   have hSN2 : IsPGroup 2 SN :=
-    S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSM).symm
+    S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSM).symm
   have hS_not_rgroup : ¬ IsPGroup r (S : Subgroup (PSL2MatrixGroup F)) := by
     intro hSr
     have hr_ne_two : 2 ≠ r := by
@@ -103,7 +103,7 @@ public theorem psl2_normal_oddP_dihedral_or_centralized_of_contains_sylow
     have hcoprime : Nat.Coprime (Nat.card S) (Nat.card S) :=
       IsPGroup.coprime_card_of_ne 2 r hr_ne_two
         (S : Subgroup (PSL2MatrixGroup F))
-        (S : Subgroup (PSL2MatrixGroup F)) S.isPGroup' hSr
+        (S : Subgroup (PSL2MatrixGroup F)) S.isPGroup hSr
     have hScard_one : Nat.card S = 1 :=
       hcoprime.eq_one_of_dvd (dvd_refl _)
     rcases psl2_odd_hasDihedralSylowTwo_model F hoddF S with

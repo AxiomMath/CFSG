@@ -159,7 +159,7 @@ theorem e6_posU6_sylow : ∃ P : Sylow 2 (e6Data_valid.minGroup K), (P : Subgrou
   obtain ⟨P, hP⟩ := (isPGroup_posU6 K).exists_le_sylow
   refine ⟨P, ?_⟩
   symm
-  have hPp : IsPGroup 2 (P : Subgroup (e6Data_valid.minGroup K)) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup (e6Data_valid.minGroup K)) := P.isPGroup
   set π := e6Isogeny K with hπ
   have hfin : Finite (adjointGroup Tag.E6 K) := by
     have := finite_modGL (τ := Tag.E6) (K := K)

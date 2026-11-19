@@ -110,7 +110,7 @@ theorem rankOne_action_impossible {X : Type} [Group X] [Finite X]
     (hp : p.Prime) (hp2 : p ≠ 2) {B D : Subgroup X} (hB : IsElemAbelian p B)
     (hB4 : p ^ 4 ≤ Nat.card B) (hD2 : Nat.card D = p ^ 2)
     (a : B →* SL(2, F)) (hker : ∀ b : B, a b = 1 → (b : X) ∈ D) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpF : (p : F) ≠ 0 := by
     intro h
     have h2 : 2 ∣ p := (CharP.cast_eq_zero_iff F 2 p).mp h
@@ -119,7 +119,7 @@ theorem rankOne_action_impossible {X : Type} [Group X] [Finite X]
     simpa using hB.subgroupOf B
   have himage : IsElemAbelian p a.range := by
     simpa only [← MonoidHom.range_eq_map] using htop.map a
-  haveI : Finite a.range :=
+  have : Finite a.range :=
     Finite.of_surjective a.rangeRestrict (MonoidHom.rangeRestrict_surjective a)
   have hbound : Nat.card a.range ≤ p :=
     CFSG.LieType.SeitzGeneration.ExcHigh.card_le_of_isElemAbelian_specialLinear_two hpF himage
@@ -216,10 +216,10 @@ theorem theta_mem_rootSpan_pair_sup_centralizer_of_base
   have hKnoncomm : ∃ y ∈ K, ∃ z ∈ K, y * z ≠ z * y := by
     by_contra hcomm
     push Not at hcomm
-    haveI : IsMulCommutative K := ⟨⟨fun u v => Subtype.ext (hcomm u u.2 v v.2)⟩⟩
-    haveI : Group.IsPerfect K := ⟨P.attach_J.2.2.1⟩
-    haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := P.attach_J.2.2.2
-    haveI : Nontrivial K :=
+    have : IsMulCommutative K := ⟨⟨fun u v => Subtype.ext (hcomm u u.2 v v.2)⟩⟩
+    have : Group.IsPerfect K := ⟨P.attach_J.2.2.1⟩
+    have : IsSimpleGroup (K ⧸ Subgroup.center K) := P.attach_J.2.2.2
+    have : Nontrivial K :=
       Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center K))
     exact Group.IsPerfect.not_isMulCommutative K inferInstance
   have hJG : J ≤ G₀ := hJcomp.1.trans inf_le_left

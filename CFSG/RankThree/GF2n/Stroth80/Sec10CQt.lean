@@ -63,11 +63,13 @@ section Model
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem comp_self_eq_id {T : M₀.E ≃ₗ[K] M₀.E} (hT2 : ∀ e, T (T e) = e) :
     (T : M₀.E →ₗ[K] M₀.E) ∘ₗ (T : M₀.E →ₗ[K] M₀.E) = LinearMap.id := by
   ext e
   simpa [LinearMap.comp_apply] using hT2 e
 
+omit [CharP K 2] [Finite K] in
 private theorem exists_involution_of_LB (hc : Ctx M Q Z B)
     (h : GlobalModelData M Q Z γ M₀) {t : G} (ht : t ∈ LB M Q B) :
     ∃ T : M₀.E ≃ₗ[K] M₀.E,
@@ -130,8 +132,7 @@ private theorem ker_commQBHom (hc : Ctx M Q Z B) {t : G} (htB : t ∈ QB B) :
     (commQBHom hc htB).ker =
       (Q ⊓ QB B ⊓ Subgroup.centralizer ({t} : Set G)).subgroupOf (Q ⊓ QB B) := by
   ext x
-  simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, commQBHom, MonoidHom.coe_mk,
-    MonoidHom.coe_coe]
+  simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, commQBHom, MonoidHom.coe_mk]
   constructor
   · intro h
     refine ⟨x.2, ?_⟩
@@ -211,9 +212,10 @@ private theorem mem_img_inf_QB_inf_centralizer (hc : Ctx M Q Z B)
       (commutatorElement_eq_one_iff_mul_comm.mp hbot).symm
     exact ⟨a, ⟨haA, Subgroup.mem_centralizer_singleton_iff.mpr hat⟩, haQ, rfl⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem img_centralizer_le_sup {R F Abar : Submodule K M₀.E} {t : G}
     (h : GlobalModelData M Q Z γ M₀) {T : M₀.E ≃ₗ[K] M₀.E}
-    (hR : R = LinearMap.range ((T : M₀.E →ₗ[K] M₀.E) - 1))
+    (_hR : R = LinearMap.range ((T : M₀.E →ₗ[K] M₀.E) - 1))
     (hF : F = LinearMap.ker ((T : M₀.E →ₗ[K] M₀.E) - 1))
     (hFR : F = M₀.B.orthogonal R)
     (hSorth : M₀.B.orthogonal (R ⊔ (Abar ⊓ F)) = R ⊔ (Abar ⊓ F))
@@ -322,8 +324,8 @@ private theorem card_img_centralizer_le (hc : Ctx M Q Z B)
     intro e
     exact mem_img_inf_QB_inf_centralizer hc h hw hn hno htM htB hTπ e
   have himgC := img_centralizer_le_sup h hR hF hFR hSorth himgCA hTπ (t := t) hcomm
-  haveI : Finite M₀.E := Module.finite_of_finite K
-  haveI : Finite ↥(R ⊔ (Abar ⊓ F)) :=
+  have : Finite M₀.E := Module.finite_of_finite K
+  have : Finite ↥(R ⊔ (Abar ⊓ F)) :=
     Finite.of_injective (Subtype.val) Subtype.val_injective
   have hcard : Nat.card (M₀.img (Q ⊓ Subgroup.centralizer ({t} : Set G))) ≤
       Nat.card ↥(R ⊔ (Abar ⊓ F)) :=
@@ -396,6 +398,7 @@ private theorem card_centralizer_le_mul (hc : Ctx M Q Z B)
     _ ≤ Nat.card Z * Nat.card ↥(Q ⊓ QB B ⊓ Subgroup.centralizer ({t} : Set G)) :=
         Nat.mul_le_mul_left _ hCA
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem card_img_Ut_eq_card_range {t : G} {T : M₀.E ≃ₗ[K] M₀.E}
     (hUiff : ∀ x ∈ Q, (x ∈ Ut Q Z t ↔
       M₀.π x ∈ LinearMap.range ((T : M₀.E →ₗ[K] M₀.E) - 1))) :
@@ -409,8 +412,10 @@ private theorem card_img_Ut_eq_card_range {t : G} {T : M₀.E ≃ₗ[K] M₀.E}
     obtain ⟨x, hxQ, rfl⟩ := M₀.π_surj e
     exact M₀.pi_mem_img ((hUiff x hxQ).mpr he) hxQ
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 private theorem card_Ut_eq_mul_card_range (hc : Ctx M Q Z B)
-    (h : GlobalModelData M Q Z γ M₀) {t : G} (htM : t ∈ M)
+    (_h : GlobalModelData M Q Z γ M₀) {t : G} (htM : t ∈ M)
     {T : M₀.E ≃ₗ[K] M₀.E}
     (hUiff : ∀ x ∈ Q, (x ∈ Ut Q Z t ↔
       M₀.π x ∈ LinearMap.range ((T : M₀.E →ₗ[K] M₀.E) - 1))) :
@@ -419,6 +424,8 @@ private theorem card_Ut_eq_mul_card_range (hc : Ctx M Q Z B)
   rw [M₀.card_eq (hc.Ut_le_Q htM) (le_sup_right : Z ≤ Ut Q Z t),
     card_img_Ut_eq_card_range hUiff]
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 private theorem finrank_range_eq_of_card_Ut (hc : Ctx M Q Z B)
     (h : GlobalModelData M Q Z γ M₀) {t : G} (htM : t ∈ M)
     {T : M₀.E ≃ₗ[K] M₀.E}
@@ -445,11 +452,13 @@ private theorem finrank_range_eq_of_card_Ut (hc : Ctx M Q Z B)
   have := Nat.pow_right_injective hq2 h2
   omega
 
+omit [CharP K 2] in
+omit [Finite K] in
 private theorem n_le_succ_of_card_Ut (hc : Ctx M Q Z B)
     (h : GlobalModelData M Q Z γ M₀) {n : ℕ} (hw : Width Q Z n) {t : G} (htM : t ∈ M)
     {T : M₀.E ≃ₗ[K] M₀.E}
     (hTπ : ∀ x ∈ Q, M₀.π (t * x * t⁻¹) = T (M₀.π x))
-    (hT2 : ∀ e, T (T e) = e)
+    (_hT2 : ∀ e, T (T e) = e)
     (hU : ∀ x ∈ Q, (x ∈ Ut Q Z t ↔
       M₀.π x ∈ LinearMap.range ((T : M₀.E →ₗ[K] M₀.E) - 1)))
     (hC : Nat.card ↥(Q ⊓ Subgroup.centralizer ({t} : Set G)) ≤ Nat.card Z ^ (n + 1))
@@ -505,6 +514,7 @@ theorem Ctx.card_centralizer_le_of_commute (hc : Ctx M Q Z B) {n : ℕ} (hw : Wi
   intro k hk
   exact n_le_succ_of_card_Ut hc h hw htM hTπ hT2 hU hC hk
 
+omit [Finite K] in
 private theorem Q1_eq_Ut_of_involution (hc : Ctx M Q Z B)
     (h : GlobalModelData M Q Z γ M₀) {n : ℕ} (hw : Width Q Z n) {t : G} (htM : t ∈ M)
     {T : M₀.E ≃ₗ[K] M₀.E}

@@ -162,6 +162,7 @@ section Reach
 variable {L : List Nat} (hR : ReachL L)
 include hR
 
+omit hR in
 theorem ctx_ld_size : (mkCtx ()).ld.size = 65536 := lBFS_twin.1
 
 theorem ctx_lt' {k : Nat} (hk : k < 65536) :
@@ -205,9 +206,9 @@ theorem mem_codes_iff {c : Nat} : c ∈ (mkCtx ()).codes ↔ c < 2 ^ 20 ∧ L.co
 
 theorem tab_of_mem {c : Nat} (hc : c ∈ (mkCtx ()).codes) : (mkCtx ()).tab c = tabC c := by
   obtain ⟨h1, h2⟩ := (mem_codes_iff hR).1 hc
-  rw [tab_eq hR h1, tabK, if_pos h2]
+  rw [tab_eq hR h1, tabK, ite_eq_left h2]
 
-theorem forall_codes {P : Nat → Prop} (hL : ∀ m ∈ L, m < 65536)
+theorem forall_codes {P : Nat → Prop} (_hL : ∀ m ∈ L, m < 65536)
     (h : ∀ m ∈ L, ∀ v < 16, P (v + 16 * m)) : ∀ c ∈ (mkCtx ()).codes, P c := by
   intro c hc
   obtain ⟨h1, h2⟩ := (mem_codes_iff hR).1 hc
@@ -235,7 +236,7 @@ theorem ctxCheck_of (hnd : L.Nodup) (hL : ∀ m ∈ L, m < 65536) (hlen : L.leng
     ctxCheck (mkCtx ()) = true := by
   unfold ctxCheck
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true]
-  refine ⟨⟨ctx_ld_size hR, codes_length hR hnd hL hlen⟩, fun c hc => ?_⟩
+  refine ⟨⟨ctx_ld_size, codes_length hR hnd hL hlen⟩, fun c hc => ?_⟩
   rw [tab_of_mem hR hc, codeOf_tabC ((mem_codes_iff hR).1 hc).1]
 
 end Reach

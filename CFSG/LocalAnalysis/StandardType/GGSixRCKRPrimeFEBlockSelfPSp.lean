@@ -63,18 +63,18 @@ theorem exists_blockAction_selfDual_PSp {n f : ℕ} {F : Type} [Field F] [Finite
           (e *ᵥ m')) = 0 := by
   obtain ⟨K, hKf, hKa, hKfin, l, hdeg, hcard, hfin, π, hπ, hker⟩ :=
     fePSp_selfDual_blockFieldAndInvolution hc hSU hS hodd he hadj hd
-  letI : Field K := hKf
-  letI : Algebra F K := hKa
-  haveI : Finite K := hKfin
+  let : Field K := hKf
+  let : Algebra F K := hKa
+  have : Finite K := hKfin
   obtain ⟨σ, hσ2, hσne, hσalg, hσπ⟩ :=
     fePSp_selfDual_adjointInvolution hdeg hSU hS he hadj hfin π hπ hker
   obtain ⟨W, hWac, hWF, hWK, hTower, hWfd, _, eW, f, hact, _, hfinj, halgact⟩ :=
     fePSp_selfDual_unitaryBlockKAction hS he π hπ hker hfin
-  letI : AddCommGroup W := hWac
-  letI : Module F W := hWF
-  letI : Module K W := hWK
-  haveI : IsScalarTower F K W := hTower
-  haveI : FiniteDimensional K W := hWfd
+  let : AddCommGroup W := hWac
+  let : Module F W := hWF
+  let : Module K W := hWK
+  have : IsScalarTower F K W := hTower
+  have : FiniteDimensional K W := hWfd
   obtain ⟨β, ⟨hβpres, hβadd₁, hβadd₂, hβsmul₁, hβsmul₂, hβsep⟩, hβsym, hβtrace⟩ :=
     fePSp_selfDual_unitaryBlockForm hSU he hadj σ hσ2 hσalg π hπ hσπ W eW f hact halgact
   let βlin : W →ₛₗ[σ.toRingHom] W →ₗ[K] K :=

@@ -41,7 +41,7 @@ theorem titsA_plane_closure (hc : ReeEightChecks) {E : Subgroup ↥titsA} (hE : 
   set F : Subgroup ↥titsA := Subgroup.closure {k : ↥titsA | ∃ b ∈ E, b ≠ 1 ∧ k * b = b * k} with hF
   let F' : Subgroup ↥titsA := F.comap (MulAut.conj g⁻¹).toMonoidHom
   have hmemF' : ∀ t : ↥titsA, t ∈ F' ↔ g⁻¹ * t * g ∈ F := fun t => by
-    simp [F', Subgroup.mem_comap, MulAut.conj_apply]
+    simp [F', Subgroup.mem_comap]
   have hF1 : ∀ k : ↥titsA, k * valA d.u = valA d.u * k → k ∈ F' := fun k hk =>
     (hmemF' k).2 (Subgroup.subset_closure ⟨g⁻¹ * valA d.u * g, hu, conj_ne_one hu1, conj_comm hk⟩)
   have hF2 : ∀ k : ↥titsA, k * valA d.v = valA d.v * k → k ∈ F' := fun k hk =>

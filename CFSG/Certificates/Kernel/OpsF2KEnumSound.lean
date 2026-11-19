@@ -131,7 +131,7 @@ private theorem findK_eq (y : Nat) :
   | z :: zs, i => by
     rw [findK, List.findIdx?_cons]
     cases hz : Nat.beq y z
-    · simp only [Bool.false_eq_true, if_false, findK_eq y zs (i + 1), Option.map_map]
+    · simp only [Bool.false_eq_true, ite_false, findK_eq y zs (i + 1), Option.map_map]
       congr 1
       funext k
       simp only [Function.comp_apply]
@@ -217,7 +217,7 @@ private theorem enumStep_lockstep {d : Nat} {gens : List Nat} (s : EnSt) (hs : C
       hgens
     have hsz : (upk d gens).size = gens.length := by simp [upk]
     unfold hStep enumStepK
-    simp only [upkS, if_pos (show h < (upk d E).size by simpa [upk] using hh), if_pos hh]
+    simp only [upkS, ite_eq_left (show h < (upk d E).size by simpa [upk] using hh), ite_eq_left hh]
     rw [hX, hsz]
     simp only [upk4] at e
     refine ⟨?_, c⟩
@@ -225,7 +225,7 @@ private theorem enumStep_lockstep {d : Nat} {gens : List Nat} (s : EnSt) (hs : C
     rw [e]
     simp
   · unfold hStep enumStepK
-    simp only [upkS, if_neg (show ¬ h < (upk d E).size by simpa [upk] using hh), if_neg hh]
+    simp only [upkS, ite_eq_right (show ¬ h < (upk d E).size by simpa [upk] using hh), ite_eq_right hh]
     exact ⟨by trivial, hs⟩
 
 private theorem enumBFS_lockstep (d : Nat) (gens : List Nat) (cap : Nat) :

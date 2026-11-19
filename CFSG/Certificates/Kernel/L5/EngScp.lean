@@ -88,20 +88,20 @@ theorem count_le {t tp : Idx n} (ht : t ∈ S) (hφt : φ ⟨t, ht⟩ = tp)
   have hle : A.toFinset.card ≤ B.toFinset.card := by
     refine Finset.card_le_card_of_injOn ψ ?_ ?_
     · intro x hx
-      rw [List.coe_toFinset, Set.mem_setOf_eq, List.mem_filter] at hx
+      rw [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_filter] at hx
       have hxS := hLS x hx.1
-      simp only [ψ, dif_pos hxS]
-      rw [List.coe_toFinset, Set.mem_setOf_eq, List.mem_filter]
+      simp only [ψ, dite_eq_left hxS]
+      rw [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_filter]
       refine ⟨mem_elemsI _, ?_⟩
       simp only [Bool.and_eq_true, decide_eq_true_eq]
       refine ⟨hcent _, ?_⟩
       rw [tau_map φ hinj hblk ht hφt]
       exact of_decide_eq_true hx.2
     · intro x hx y hy hxy
-      rw [List.coe_toFinset, Set.mem_setOf_eq, List.mem_filter] at hx hy
+      rw [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_filter] at hx hy
       have hxS := hLS x hx.1
       have hyS := hLS y hy.1
-      simp only [ψ, dif_pos hxS, dif_pos hyS] at hxy
+      simp only [ψ, dite_eq_left hxS, dite_eq_left hyS] at hxy
       exact congrArg Subtype.val (hinj hxy)
   rw [List.toFinset_card_of_nodup hA, List.toFinset_card_of_nodup hB] at hle
   unfold scpRefute
@@ -169,7 +169,7 @@ private theorem ksL5_foldl_set_getD_of_not_mem (L : List (Idx n × List Nat))
     · have hsize : x.v < (a.set! p.1.v (some p.2)).size := by
         rw [ksL5_size_set]; exact hx
       rw [ih (a.set! p.1.v (some p.2)) hsize (fun q hq => h q (by simp [hq])),
-        ksL5_getD_set_some _ _ _ hlt, if_neg hne]
+        ksL5_getD_set_some _ _ _ hlt, ite_eq_right hne]
     · have hset : a.set! p.1.v (some p.2) = a := by
         rw [Array.set!_eq_setIfInBounds, Array.setIfInBounds]
         simp [hlt]
@@ -196,7 +196,7 @@ private theorem ksL5_foldl_set_exists (L : List (Idx n × List Nat))
         exact ⟨w, hw, q, by simp [hq], hqx, hqw⟩
       · have hnot : ∀ q ∈ L, q.1 ≠ x := fun q hq hqx => hL ⟨q, hq, hqx⟩
         have hget : a'.getD x.v none = some p.2 := by
-          rw [ksL5_getD_set_some _ _ _ hx, if_pos rfl]
+          rw [ksL5_getD_set_some _ _ _ hx, ite_eq_left rfl]
         have hpres := ksL5_foldl_set_getD_of_not_mem L a' x ha' hnot
         dsimp only [a'] at hget hpres ⊢
         refine ⟨p.2, ?_, p, by simp, hpx, rfl⟩

@@ -39,7 +39,7 @@ theorem eq_zero_or_eq_or_eq_add_of_finrank_two {F V : Type*} [Field F] [AddCommG
     {w w' : V} (hw : w ∈ M) (hw' : w' ∈ M) (hw0 : w ≠ 0) (hw'0 : w' ≠ 0) (hne : w ≠ w')
     {v : V} (hv : v ∈ M) : v = 0 ∨ v = w ∨ v = w' ∨ v = w + w' := by
   have h2 : (2 : F) = 0 := by
-    haveI := card_two_charP hF
+    have := card_two_charP hF
     exact CharP.cast_eq_zero F 2
   have hww : w + w = 0 := by rw [← two_smul F w, h2, zero_smul]
   have hli : LinearIndependent F ![w, w'] := by
@@ -51,7 +51,7 @@ theorem eq_zero_or_eq_or_eq_add_of_finrank_two {F V : Type*} [Field F] [AddCommG
     · simp at hst; exact absurd hst hw0
     · simp only [one_smul] at hst
       exact absurd (add_left_cancel (hst.trans hww.symm)) hne.symm
-  haveI : Module.Finite F M := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite F M := Module.finite_of_finrank_pos (by omega)
   have hrange : Set.range ![w, w'] = {w, w'} := by
     simp [Matrix.range_cons]
     exact Set.pair_comm _ _
@@ -71,7 +71,7 @@ theorem eq_zero_or_eq_or_eq_add_of_finrank_two {F V : Type*} [Field F] [AddCommG
 
 theorem cast_three_ne_zero_of_card_two {F : Type*} [Field F] (hF : Nat.card F = 2) :
     ((3 : ℕ) : F) ≠ 0 := by
-  haveI := card_two_charP hF
+  have := card_two_charP hF
   intro h
   have h2 : 2 ∣ 3 := (CharP.cast_eq_zero_iff F 2 3).mp h
   omega

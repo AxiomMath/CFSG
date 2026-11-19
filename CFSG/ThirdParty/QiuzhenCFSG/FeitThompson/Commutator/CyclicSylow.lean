@@ -18,18 +18,18 @@ public theorem CFSG.sylow_inf_commutator_eq_bot_or_le_commutator
     {G : Type*} [Group G] [Finite G] (p : ℕ) [Fact p.Prime] (S : Sylow p G)
     (hcyc : IsCyclic (↥(S : Subgroup G))) :
     ((S : Subgroup G) ⊓ commutator G = ⊥) ∨ (S : Subgroup G) ≤ commutator G := by
-  letI : IsCyclic S := by
+  let : IsCyclic S := by
     simpa using hcyc
   rcases Sylow.not_dvd_card_commutator_or_not_dvd_index_commutator S with hnot_card | hnot_index
   · left
-    have hInfP : IsPGroup p ↥((S : Subgroup G) ⊓ commutator G) := S.isPGroup'.to_inf_left
+    have hInfP : IsPGroup p ↥((S : Subgroup G) ⊓ commutator G) := S.isPGroup.to_inf_left
     rcases hInfP.card_eq_or_dvd with hInfCard | hInfDvd
     · exact Subgroup.card_eq_one.mp hInfCard
     · exfalso
       exact hnot_card (hInfDvd.trans (Subgroup.card_dvd_of_le inf_le_right))
   · right
     have hpg : IsPGroup p ↥(Subgroup.map (QuotientGroup.mk' (commutator G)) (S : Subgroup G)) :=
-      IsPGroup.map S.isPGroup' _
+      IsPGroup.map S.isPGroup _
     have hdvd : Nat.card ↥(Subgroup.map (QuotientGroup.mk' (commutator G)) (S : Subgroup G))
         ∣ (commutator G).index := by
       rw [Subgroup.index_eq_card, ← Subgroup.card_top (G := G ⧸ commutator G)]

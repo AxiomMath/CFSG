@@ -23,7 +23,7 @@ theorem map_rootGroup_inclusion {X C : Subgroup G} (hCX : C ≤ X) {t : G} (htC 
   ext x
   constructor
   · rintro ⟨c, hc, rfl⟩
-    rw [Set.mem_setOf_eq, ← map_mul, hc]
+    rw [Set.mem_ofPred_eq, ← map_mul, hc]
     rfl
   · intro hx
     have hx' : (x : G) * x = t := congrArg Subtype.val hx

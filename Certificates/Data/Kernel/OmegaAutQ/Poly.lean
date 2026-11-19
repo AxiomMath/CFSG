@@ -70,7 +70,7 @@ theorem QT.eq_iff {t e : Nat} {a b : QT t e} : a = b ↔ a.v.val = b.v.val := by
   cases b
   simp [Fin.ext_iff]
 
-instance {t e : Nat} : DecidableEq (QT t e) := fun a b => decidable_of_iff _ QT.eq_iff.symm
+instance {t e : Nat} : DecidableEq (QT t e) := fun _a _b => decidable_of_iff _ QT.eq_iff.symm
 
 theorem laneW_lt (t i : Nat) : laneW 5 t i < 32 :=
   Nat.lt_of_le_of_lt Nat.and_le_right (by decide)

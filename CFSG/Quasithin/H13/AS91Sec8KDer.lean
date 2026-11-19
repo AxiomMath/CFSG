@@ -124,7 +124,7 @@ theorem ker_resPermE : c.resPermE.ker = (c.E ⊓ c.K).subgroupOf c.E := by
 
 theorem card_E_mul_inf : Nat.card c.E = 4 * Nat.card ↥(c.E ⊓ c.K) := by
   classical
-  letI : MulAction (↥c.E) (↥c.ptsL) := MulAction.compHom (↥c.ptsL) c.resPermE
+  let : MulAction (↥c.E) (↥c.ptsL) := MulAction.compHom (↥c.ptsL) c.resPermE
   let X0 : ↥c.ptsL := ⟨c.x0, c.x0_mem_ptsL⟩
   obtain ⟨y, hy, hyx⟩ := c.exists_pt c.card_ptsL
   let Y : ↥c.ptsL := ⟨y, hy⟩
@@ -151,7 +151,7 @@ theorem card_E_mul_inf : Nat.card c.E = 4 * Nat.card ↥(c.E ⊓ c.K) := by
       refine ⟨(⟨e, he⟩ : ↥c.E), ?_⟩
       apply Subtype.ext
       simpa [MulAction.compHom_smul_def, Equiv.Perm.smul_def, c.resPermE_apply_val] using hep
-  haveI : Fintype (↥c.ptsL) := Fintype.ofFinite _
+  have : Fintype (↥c.ptsL) := Fintype.ofFinite _
   have hcardcompl : Nat.card {p : ↥c.ptsL // p ≠ X0} = 4 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl]
     have h5 : Fintype.card ↥c.ptsL = 5 := by
@@ -398,7 +398,7 @@ theorem K_le_preFixOct (hS : FixOctSym) : c.K ≤ ρ.preFixOct := by
       rw [ρ.ker_octadPerm, Subgroup.mem_subgroupOf]
       exact hpre
     exact MonoidHom.mem_ker.mp hk
-  haveI hRnormK : (c.R.subgroupOf c.K).Normal :=
+  have hRnormK : (c.R.subgroupOf c.K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer c.R_le_K).2
       (c.le_normalizer_R_of_le_G2 c.K_le_G2)
   let ψbar : (↥c.K ⧸ c.R.subgroupOf c.K) →* Equiv.Perm ↥ρ.l₀ :=
@@ -409,9 +409,9 @@ theorem K_le_preFixOct (hS : FixOctSym) : c.K ≤ ρ.preFixOct := by
         Matrix.GeneralLinearGroup (Fin 3) (ZMod 2) :=
       (QuotientGroup.quotientMulEquivOfEq hφ₀ker).symm.trans
         (QuotientGroup.quotientKerEquivOfSurjective φ₀ hφ₀surj)
-    haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+    have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
     exact MulEquiv.isSimpleGroup e
-  haveI : ψbar.ker.Normal := MonoidHom.normal_ker ψbar
+  have : ψbar.ker.Normal := MonoidHom.normal_ker ψbar
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ψbar.ker with hbot | htop
   · exfalso
     have hinj : Function.Injective ψbar := (MonoidHom.ker_eq_bot_iff ψbar).mp hbot
@@ -447,7 +447,7 @@ theorem preFixOct_eq_sup (hS : FixOctSym) : ρ.preFixOct = c.K ⊔ c.E := by
     rw [← hsub]
     exact c.index_E_inf_K
   have hKE : c.K.relIndex (c.K ⊔ c.E) = 4 := by
-    haveI : (c.K.subgroupOf c.G12).Normal :=
+    have : (c.K.subgroupOf c.G12).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer c.K_le_G12).2
         (fun g hg => c.mem_normalizer_K (c.G12_le_G2 hg))
     have h2 := Subgroup.relIndex_sup_right (H := c.E.subgroupOf c.G12)
@@ -488,7 +488,7 @@ theorem exists_mul_of_mem_preFixOct (hPE : ρ.preFixOct = c.K ⊔ c.E) {x : G}
     (hx : x ∈ ρ.preFixOct) : ∃ k ∈ c.K, ∃ e ∈ c.E, x = k * e := by
   have hKP : c.K ≤ ρ.preFixOct := by rw [hPE]; exact le_sup_left
   have hEP : c.E ≤ ρ.preFixOct := by rw [hPE]; exact le_sup_right
-  haveI : (c.K.subgroupOf ρ.preFixOct).Normal :=
+  have : (c.K.subgroupOf ρ.preFixOct).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKP).2
       (fun g hg => c.mem_normalizer_K (c.G12_le_G2 (ρ.preFixOct_le_G12 hg)))
   have hsup : (c.K.subgroupOf ρ.preFixOct) ⊔ (c.E.subgroupOf ρ.preFixOct) = ⊤ := by
@@ -559,7 +559,7 @@ theorem commutator_E_K_ge_inf (r : ResM24T c) (hS : FixOctSym) (hW : FixOctCommW
       (Subgroup.mem_normalizer_iff.mp (c.K_le_G1 k.2) e).mp e.2⟩
     let z : ↥c.E := ⟨(e : G) * (ke : G)⁻¹, mul_mem e.2 (inv_mem ke.2)⟩
     have hzval : (z : G) = ⁅(e : G), (k : G)⁆ := by
-      simp only [z, ke, commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [z, ke, commutatorElement_def]
       group
     have hzC : z ∈ C := by
       rw [Subgroup.mem_subgroupOf]
@@ -642,7 +642,7 @@ theorem K_eq_commutator_sup (r : ResM24T c) (hS : FixOctSym) (hP : FixOctPerfect
         Subgroup.mem_map_of_mem c.G1.subtype hbB
       rwa [hBamb] at hb
     have hk_eq : k = (b : G) * ((b⁻¹ * kg : ↥c.G1) : G) := by
-      simp [kg, mul_assoc]
+      simp [kg]
     rw [hk_eq]
     exact mul_mem (Subgroup.mem_sup_left hb_amb)
       (Subgroup.mem_sup_right (Subgroup.mem_inf.mpr ⟨heE, heK⟩))

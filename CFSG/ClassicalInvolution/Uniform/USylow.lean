@@ -108,7 +108,7 @@ theorem exists_noncomm_sylow_of_solvable (h : IsClassicalMemberU t K z) (hs : t.
     (T : Sylow 2 ↥K) : ∃ x ∈ (T : Subgroup ↥K), ∃ y ∈ (T : Subgroup ↥K), x * y ≠ y * x := by
   obtain ⟨e⟩ := h.nonempty_equiv_sl2Three hs
   set S : Subgroup ↥K := (T : Subgroup ↥K) with hS
-  have hS2 : IsPGroup 2 S := T.isPGroup'
+  have hS2 : IsPGroup 2 S := T.isPGroup
   let ψ : ↥K →* SL(2, ZMod 3) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (classicalInvolutionOddCore K))
   have hinj : Function.Injective (ψ.comp S.subtype) :=

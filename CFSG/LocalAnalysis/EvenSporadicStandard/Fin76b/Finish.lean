@@ -19,7 +19,7 @@ theorem not_two_dvd_index_of_fusion {Rs : Subgroup G} {z : G} (hR : IsPGroup 2 R
   have hEq : Rs = (P : Subgroup G) := by
     by_contra hne
     have hlt : Rs < (P : Subgroup G) := lt_of_le_of_ne hP hne
-    have : Group.IsNilpotent (↥(P : Subgroup G)) := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (↥(P : Subgroup G)) := P.isPGroup.isNilpotent
     have hproper : Rs.subgroupOf (P : Subgroup G) < ⊤ := by
       rw [lt_top_iff_ne_top]
       intro htop
@@ -45,7 +45,7 @@ theorem not_two_dvd_index_of_fusion {Rs : Subgroup G} {z : G} (hR : IsPGroup 2 R
     have hCR : IsPGroup 2 (Rs.subgroupOf (centralizer ({z} : Set G))) := hR.comap_subtype
     let Sz : Sylow 2 ↥(centralizer ({z} : Set G)) := hCR.toSylow hcent
     have hCP : IsPGroup 2 ((P : Subgroup G).subgroupOf (centralizer ({z} : Set G))) :=
-      P.isPGroup'.comap_subtype
+      P.isPGroup.comap_subtype
     have hle : (Rs.subgroupOf (centralizer ({z} : Set G))) ≤
         (P : Subgroup G).subgroupOf (centralizer ({z} : Set G)) := fun x hx => hP hx
     have heq : (P : Subgroup G).subgroupOf (centralizer ({z} : Set G)) ≤

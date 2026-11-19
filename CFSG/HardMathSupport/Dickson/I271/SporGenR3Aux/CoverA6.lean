@@ -83,6 +83,7 @@ theorem A6Split3.map (e : Q ≃* Q') {L : Subgroup Q} (h : A6Split3 L) :
 
 variable [Finite Q] [Finite Q']
 
+omit [Finite Q] [Finite Q'] in
 theorem SplitGoodAt.of_equiv {p : ℕ} (e : Q ≃* Q') {J : Subgroup Q} (h : SplitGoodAt p J) :
     SplitGoodAt p (J.map e.toMonoidHom) := by
   have f : PSimple p J ≃* PSimple p (J.map e.toMonoidHom) :=
@@ -137,7 +138,7 @@ theorem center_lift_eq_bot {K' Q : Type} [Group K'] [Finite K']
   obtain ⟨⟨eL⟩, t, e₁, e₂, E, a, b, c, d, ht, hEL, hE, he₁, he₂, hcomm, hgen, h1, h2, hdet⟩ :=
     hsplit
   set L : Subgroup Q := J.map π with hL
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJ
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJ
   let q : ↥J →* ↥L := π.subgroupMap J
   have hq : Function.Surjective q := MonoidHom.subgroupMap_surjective π J
   have hqker : q.ker ≤ Subgroup.center ↥J := by
@@ -233,7 +234,7 @@ theorem LeafType.not_nonempty_alt6 {p : ℕ} {T : Type} [Group T] (h : LeafType 
   rintro ⟨f⟩
   rcases h with ⟨-, -, h3⟩ | ⟨n, hn, hn6, hpn, ⟨g⟩⟩
   · exact h3 ⟨f⟩
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     have hcard : Nat.card (alternatingGroup (Fin n)) = Nat.card (alternatingGroup (Fin 6)) :=
       Nat.card_congr (g.symm.trans f).toEquiv
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, card_alternatingGroup,
@@ -277,7 +278,7 @@ theorem comp_dichotomy_coverSplit
           J = J₀) ∧
         GoodSpor 3 [] (PSimple 3 (J₀.subgroupOf K)) ∧ RkTriv3 (PQuot 3 (J₀.subgroupOf K)) := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (3 : ℕ).Prime := ⟨hp⟩
+  have : Fact (3 : ℕ).Prime := ⟨hp⟩
   set k' : ↥K := ⟨k, hk⟩ with hk'
   set π : ↥K →* ↥K ⧸ Subgroup.center ↥K := QuotientGroup.mk' (Subgroup.center ↥K) with hπdef
   have hker : π.ker ≤ Subgroup.center ↥K := (QuotientGroup.ker_mk' _).le
@@ -373,13 +374,13 @@ theorem sporStrong_of_centShapeSplit_cover
   intro Y _ _ K B hC hN hS
   have hq : CFSG.Open.IsQuasisimple ↥K := hC.quasi
   obtain ⟨e⟩ := hS
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hloc : IsLocallyOneBalancedAbs 3 (↥K ⧸ Subgroup.center ↥K) :=
     isLocallyOneBalancedAbs_of_pair hOut hBr hC.prime hC.odd hP _ hq.2
       (exists_noncomm_of_isQuasisimple hq) ⟨e⟩
   let eS : (↥K ⧸ Subgroup.center ↥K) ≃* NativeSporadic.Carrier name :=
     e.trans (hBr name).some.symm
-  haveI : Finite (NativeSporadic.Carrier name) := Finite.of_equiv _ eS.toEquiv
+  have : Finite (NativeSporadic.Carrier name) := Finite.of_equiv _ eS.toEquiv
   have hOall : OPrimeCoreTrivialAt 3 (↥K ⧸ Subgroup.center ↥K) := hP.1 _ ⟨eS⟩
   have hshape : CentShapeSplit 3 (↥K ⧸ Subgroup.center ↥K) :=
     CentShapeSplit.of_equiv Nat.prime_three eS.symm hD

@@ -184,7 +184,7 @@ theorem ggIsCyclic_of_le_of_automizer_refl {G : Type} [Group G] [Finite G] {p : 
   have hQK : IsPGroup p (Q.comap J.subtype) :=
     hQ.comap_of_injective J.subtype J.subtype_injective
   obtain ⟨P, hQKP⟩ := hQK.exists_le_sylow
-  have hP₀p : IsPGroup p ((P : Subgroup ↥J).map J.subtype) := P.isPGroup'.map _
+  have hP₀p : IsPGroup p ((P : Subgroup ↥J).map J.subtype) := P.isPGroup.map _
   have hP₀J : (P : Subgroup ↥J).map J.subtype ≤ J := Subgroup.map_subtype_le _
   obtain ⟨g, hg, hgC⟩ :=
     ggSylow_exists_conj_mem_centralizer hBs hBp hSC hN hA hP₀p hP₀J

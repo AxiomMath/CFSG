@@ -16,7 +16,7 @@ theorem exists_sylow_of_isPGroup {p : ℕ} [Fact p.Prime] {H Q : Subgroup G} (hQ
   have hQ' : IsPGroup p (Q.subgroupOf H) := hQ.comap_subtype
   obtain ⟨S', hQS'⟩ := hQ'.exists_le_sylow
   refine ⟨(S' : Subgroup ↥H).map H.subtype, Subgroup.map_subtype_le (H := H) (S' : Subgroup ↥H),
-    S'.isPGroup'.map H.subtype, ?_, ?_⟩
+    S'.isPGroup.map H.subtype, ?_, ?_⟩
   · have hsub : ((S' : Subgroup ↥H).map H.subtype).subgroupOf H = (S' : Subgroup ↥H) :=
       Subgroup.comap_map_eq_self_of_injective (f := H.subtype) Subtype.coe_injective _
     rw [Subgroup.relIndex, hsub]
@@ -31,7 +31,7 @@ theorem inf_eq_of_isPGroup {S Y T : Subgroup G} (hS : IsPGroup 2 S) (hT : T ≤ 
   have hSi : IsPGroup 2 (S ⊓ Y : Subgroup G) := hS.to_inf_left
   obtain ⟨n, hn⟩ := hSi.exists_card_eq
   have hY : Nat.card Y ≠ 0 := by
-    haveI : Nonempty ↥Y := ⟨⟨1, Y.one_mem⟩⟩
+    have : Nonempty ↥Y := ⟨⟨1, Y.one_mem⟩⟩
     exact (Nat.card_pos (α := ↥Y)).ne'
   have hdiv : 2 ^ n ∣ Nat.card ↥Y :=
     hn ▸ Subgroup.card_dvd_of_le (inf_le_right : S ⊓ Y ≤ Y)

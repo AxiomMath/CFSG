@@ -34,7 +34,7 @@ theorem langNontoralD4Fixed_holds
     : LangNontoralD4Fixed := by
   unfold LangNontoralD4Fixed
   intro L hField hAlg hChar p₀ S a n hpair hker K hK
-  haveI : CharP L 2 := hChar
+  have : CharP L 2 := hChar
   classical
   obtain ⟨ha3, hT, h1, hnM, hn3, hcommd, C, m, hm, hC, hCn, hCd, hW1, hW2⟩ := hpair
   have hpair0 : OrderThreeOutsideConnected S a n :=
@@ -64,7 +64,7 @@ theorem langNontoralD4Fixed_holds
   have hstepY : ∀ y ∈ Y, S.D.step y ∈ Y := ntpD4_step_mem S a hT i hi Y hY
   have hnY : ∀ y ∈ Y, n * y * n⁻¹ ∈ Y :=
     ntpD4_nconj_mem a n (S.D.mem_model.mp hnM).1 hcommd i hi Y hY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r₀, f, hr₀, hchar, hf, hq₀⟩ := exists_char_pow S
   have hr2 : r₀ = 2 := by
     have h1 : ringChar L = r₀ := (ringChar.eq_iff).2 hchar
@@ -85,7 +85,7 @@ theorem langNontoralD4Fixed_holds
     exact ntpD4_no_transposition hf1 (iterateFrobenius L 2 f) hFr
       (fun ε' hε' h => ntpD4_graph_not_inner hε' h) r c g ε hε (by simpa only [pow_one] using hcomm)
   subst hs0
-  simp only [pow_zero, one_mul, mul_one, inv_one] at hfrob hcomm
+  simp only [pow_zero, mul_one, inv_one] at hfrob hcomm
   obtain ⟨Ξ, g', hΞstep, hΞn, hcomm'⟩ :=
     ntpD4_xi n Y S.D.step Θ g ε halpha hf1 (iterateFrobenius L 2 f) hFr r c hfrob hcomm
   have hlab : NTPD4Labels (2 ^ f) K := by

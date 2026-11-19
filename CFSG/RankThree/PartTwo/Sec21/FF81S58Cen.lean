@@ -68,7 +68,7 @@ theorem nonempty_mulEquiv_cen_cen (hB : FF81Basis b L B b₁ b₂ b₃) (h0 : Op
     Nonempty (↥(Cen b) ≃* ↥(Cen (β' b₂ b₃))) := by
   obtain ⟨e1⟩ := nonempty_mulEquiv_cen_b hB h0
   obtain ⟨e2⟩ := nonempty_mulEquiv_cen_β hM7
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz1 : Nat.card (Subgroup.zpowers b) = 3 := hB.hyp.card_zpowers
   have hz2 : Nat.card (Subgroup.zpowers (β' b₂ b₃)) = 3 := by
     rw [Nat.card_zpowers, S59.orderOf_β hB]

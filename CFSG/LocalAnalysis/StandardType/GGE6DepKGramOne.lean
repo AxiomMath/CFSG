@@ -23,7 +23,7 @@ private lemma gbetaR_quad (c r : ZMod 3) (v : Vec6) :
       v 0 * v 0 + v 1 * v 1 + v 2 * v 2 + v 3 * v 3
         + 2 * (v 0 * v 1 + v 1 * v 2 + v 2 * v 3)
         + r * ((c * v 4 - v 5) * (c * v 4 - v 5)) := by
-  simp [gbetaR, Matrix.mulVec, Fin.sum_univ_six, Matrix.vecHead, Matrix.vecTail]
+  simp [gbetaR, Matrix.vecHead, Matrix.vecTail]
   ring
 
 private lemma fibre_card {M : Mat6} {c : ZMod 3} {w : Vec6}
@@ -134,7 +134,7 @@ theorem gbetaR_scale {M : Mat6} {c r : ZMod 3} (hG : Mᵀ * gram6 * M = gbetaR c
   by_cases hr : r = 1
   · exact hr
   · exfalso
-    have h216 : (270 : Nat) = 216 := by simpa [hr] using hAcard
+    have h216 : (270 : Nat) = 216 := by simp [hr] at hAcard
     omega
 
 end E6Dep

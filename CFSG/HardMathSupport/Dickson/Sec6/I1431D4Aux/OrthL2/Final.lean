@@ -68,7 +68,7 @@ theorem rootSL2_of_block (hO : CFSG.ComponentClassification.CatLeaf.LieOrderForm
       ((specialBlock_le_isometryCentralizer h).trans fun _ hg => (Subgroup.mem_inf.mp hg).1)
   have hT' : IsTypeL2 q ↥(specialBlock (quadPlus 4 K) y h) :=
     (isTypeL2_rhoImg_iff hFΩ hqs.1).1 hT
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hle2 : primaryMultiplicity y.toLinearMap h ≤ 2 :=
     specialBlock_multiplicity_le_two hO hy Nat.prime_three (by norm_num) hh hne1 (by omega) hT'
   have hge2 : 2 ≤ primaryMultiplicity y.toLinearMap h := by

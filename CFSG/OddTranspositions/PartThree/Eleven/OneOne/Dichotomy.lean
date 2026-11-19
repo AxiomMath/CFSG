@@ -41,7 +41,7 @@ private theorem s11y_frame_data (h : ElevenOneHyp hC) :
   obtain ⟨v, hv⟩ := h.exists_frame S T hTS
   exact ⟨T, S, v, hTS, hv⟩
 
-private theorem s11y_H_le_centralizer (h : ElevenOneHyp hC) :
+private theorem s11y_H_le_centralizer (_h : ElevenOneHyp hC) :
     Halpha D hC.alpha ≤ Subgroup.centralizer {hC.d} := by
   rw [Halpha, Subgroup.closure_le]
   intro x hx
@@ -67,7 +67,8 @@ private theorem s11y_centralizer_le_normalizer (h : ElevenOneHyp hC) :
     convert h' using 1
     group
 
-private theorem s11y_T_map_eq (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.alpha)}
+omit [Finite G] in
+private theorem s11y_T_map_eq (_h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.alpha)}
     {S : Sylow 2 G} (hTS : (T : Subgroup (Halpha D hC.alpha)).map
       (Halpha D hC.alpha).subtype ≤ (S : Subgroup G)) :
     (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype =
@@ -77,7 +78,7 @@ private theorem s11y_T_map_eq (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.al
   · intro x hx
     rw [Subgroup.mem_inf] at hx
     have hP : IsPGroup 2 (Subgroup.comap (Halpha D hC.alpha).subtype (S : Subgroup G)) :=
-      S.isPGroup'.comap_subtype
+      S.isPGroup.comap_subtype
     have hle : (T : Subgroup (Halpha D hC.alpha)) ≤
         Subgroup.comap (Halpha D hC.alpha).subtype (S : Subgroup G) := by
       intro t ht
@@ -90,7 +91,7 @@ private theorem s11y_T_map_eq (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.al
       exact Subgroup.mem_comap.mpr hx.1
     exact Subgroup.mem_map.mpr ⟨⟨x, hx.2⟩, hxT, rfl⟩
 
-private theorem s11y_d_not_mem_DalphaStar (h : ElevenOneHyp hC) :
+private theorem s11y_d_not_mem_DalphaStar (_h : ElevenOneHyp hC) :
     hC.d ∉ DalphaStar D hC.alpha := by
   intro hd
   rw [hC.DalphaStar_alpha] at hd
@@ -108,7 +109,7 @@ private theorem s11y_T_inter (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.alp
   ext x
   constructor
   · intro hx
-    simp only [Set.mem_inter_iff, Subgroup.mem_inf] at hx
+    simp only [Set.mem_inter_iff] at hx
     obtain ⟨⟨hxS, hxH⟩, hxU⟩ := hx
     have hxD : x ∈ D := DalphaStar_subset hC.isBlock_alpha hxU
     have hxI : x ∈ insert hC.d (Set.range v) := by
@@ -256,7 +257,8 @@ private theorem s11y_closure_le_H (h : ElevenOneHyp hC) {S : Subgroup G} {v : Fi
   · obtain ⟨i, rfl⟩ := hxr
     exact Subgroup.subset_closure (hv.mem i)
 
-private theorem s11y_range_mem_S (h : ElevenOneHyp hC) {S : Subgroup G} {v : Fin 4 → G}
+omit [Finite G] in
+private theorem s11y_range_mem_S (_h : ElevenOneHyp hC) {S : Subgroup G} {v : Fin 4 → G}
     (hv : ElevenFrame hC S v) (i : Fin 4) : v i ∈ (S : Set G) := by
   have : v i ∈ (S : Set G) ∩ D := by
     rw [hv.inter_eq]
@@ -290,7 +292,6 @@ private theorem s11y_sigma_eq_one_iff (h : ElevenOneHyp hC) {S : Subgroup G} {v 
   constructor
   · intro h1
     rw [← h.centralizer_frame hv]
-    change (n : G) ∈ Subgroup.centralizer ((S : Set G) ∩ D)
     rw [Subgroup.mem_centralizer_iff]
     intro x hx
     have hx' : x ∈ insert hC.d (Set.range v) := by rwa [hv.inter_eq] at hx
@@ -305,7 +306,7 @@ private theorem s11y_sigma_eq_one_iff (h : ElevenOneHyp hC) {S : Subgroup G} {v 
       calc v i * (n : G) = (n : G) * v i * (n : G)⁻¹ * (n : G) := by rw [hspec]
         _ = (n : G) * v i := by group
   · intro h1
-    haveI := s11y_isMulCommutative_closure h hv hS2
+    have := s11y_isMulCommutative_closure h hv hS2
     apply Equiv.Perm.ext
     intro i
     have hviB : v i ∈ Subgroup.closure ((S : Set G) ∩ D) := by
@@ -425,6 +426,7 @@ private theorem s11y_sigma_mem_alt_iff (h : ElevenOneHyp hC) {S : Subgroup G} {v
       rw [s11y_sigma_apply]
       exact s11y_sigmaEquiv_spec h hv n i)
 
+omit [Finite G] in
 private theorem s11y_mem_normalizer_map {C : Subgroup G} {Q : Subgroup C} {a : C}
     (ha : a ∈ Subgroup.normalizer Q) :
     (a : G) ∈ Subgroup.normalizer (Q.map (Subgroup.subtype C)) := by
@@ -518,7 +520,7 @@ private theorem s11y_frattini (h : ElevenOneHyp hC) {S : Sylow 2 G} {v : Fin 4 �
   let H : Subgroup G := Halpha D hC.alpha
   have hHC : H ≤ C := s11y_H_le_centralizer h
   let N : Subgroup C := H.subgroupOf C
-  haveI : N.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (s11y_centralizer_le_normalizer h)
+  have : N.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (s11y_centralizer_le_normalizer h)
   let e : H ≃* N := (Subgroup.subgroupOfEquivOfLe hHC).symm
   let P : Sylow 2 N := Sylow.mapSurjective (f := e.toMonoidHom) (EquivLike.surjective e) T
   have hsup : Subgroup.normalizer (P.map N.subtype) ⊔ N = ⊤ := Sylow.normalizer_sup_eq_top P
@@ -569,7 +571,7 @@ private theorem s11y_relIndex_eq (h : ElevenOneHyp hC) {S : Sylow 2 G} {v : Fin 
   have hHC : H ≤ C := s11y_H_le_centralizer h
   have hNuC : Nu ≤ C := inf_le_left
   have hsup : H ⊔ Nu = C := s11y_sup_eq_centralizer h hv hTS
-  haveI : (H.subgroupOf C).Normal :=
+  have : (H.subgroupOf C).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (s11y_centralizer_le_normalizer h)
   have hmap : (Nu.subgroupOf C ⊔ H.subgroupOf C).map (Subgroup.subtype C) = C := by
     rw [Subgroup.map_sup, Subgroup.subgroupOf_map_subtype, Subgroup.subgroupOf_map_subtype,
@@ -616,7 +618,7 @@ private theorem s11y_index_dvd_two (h : ElevenOneHyp hC) {S : Sylow 2 G} {v : Fi
   rwa [alternatingGroup.index_eq_two] at hdvd
 
 private theorem s11y_sigma_surjective (h : ElevenOneHyp hC) {S : Sylow 2 G} {v : Fin 4 → G}
-    (hv : ElevenFrame hC (S : Subgroup G) v) (hS2 : IsPGroup 2 (S : Subgroup G))
+    (hv : ElevenFrame hC (S : Subgroup G) v) (_hS2 : IsPGroup 2 (S : Subgroup G))
     (x : s11y_Nu hC ((S : Set G) ∩ D))
     (hx : s11y_sigma h hv x ∉ alternatingGroup (Fin 4)) :
     (s11y_sigma h hv).range = ⊤ := by
@@ -654,7 +656,7 @@ private theorem s11y_exists_y (h : ElevenOneHyp hC) {S : Sylow 2 G} {v : Fin 4 �
   have hw_inj : Function.Injective w := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      simp_all [hw0, hw1, hw2, hw3, hv.injective.eq_iff, hdn']
+      simp_all [hv.injective.eq_iff]
   have hn₀inv : n₀⁻¹ ∈ Subgroup.normalizer ((S : Set G) ∩ D) :=
     (Subgroup.normalizer _).inv_mem hn₀
   have hΔ : (S : Set G) ∩ D = insert hC.d (Set.range v) := hv.inter_eq
@@ -662,14 +664,14 @@ private theorem s11y_exists_y (h : ElevenOneHyp hC) {S : Sylow 2 G} {v : Fin 4 �
     intro i
     rw [hΔ]
     fin_cases i <;>
-      simp only [hw0, hw1, hw2, hw3, Set.mem_insert_iff, Set.mem_range]
+      simp only [Set.mem_insert_iff, Set.mem_range]
     · exact Or.inr ⟨0, rfl⟩
     · exact Or.inr ⟨1, rfl⟩
     · exact Or.inr ⟨3, rfl⟩
     · exact Or.inl rfl
   have hwv2 : ∀ i, w i ≠ v 2 := by
     intro i
-    fin_cases i <;> simp only [hw0, hw1, hw2, hw3]
+    fin_cases i <;> simp only
     · exact fun hw => by exact absurd (hv.injective hw) (by decide)
     · exact fun hw => by exact absurd (hv.injective hw) (by decide)
     · exact fun hw => by exact absurd (hv.injective hw) (by decide)
@@ -780,6 +782,7 @@ private theorem s11y_v_commute (h : ElevenOneHyp hC) {S : Subgroup G} {v : Fin 4
       (Set.mem_insert_of_mem _ ⟨i, rfl⟩) (Set.mem_insert_of_mem _ ⟨j, rfl⟩)
       (fun h => hij (hv.injective h))
 
+omit [Finite G] in
 private theorem s11y_closure_inter_eq {S : Subgroup G} {v : Fin 4 → G}
     (hv : ElevenFrame hC S v) :
     Subgroup.closure ((S : Set G) ∩ D) = Subgroup.closure (Set.range v) := by
@@ -802,12 +805,12 @@ private theorem s11y_card_closure_range (h : ElevenOneHyp hC) {S : Sylow 2 G} {v
   classical
   have hcommB : (Set.range v).Pairwise (fun a b => Commute a b) := by
     rintro a ⟨i, rfl⟩ b ⟨j, rfl⟩ _
-    exact s11y_v_commute h hv S.isPGroup' i j
+    exact s11y_v_commute h hv S.isPGroup i j
   have hsq : ∀ i, v i * v i = 1 := s11y_v_sq hv
   have hupper : Nat.card (Subgroup.closure (Set.range v)) ≤ 16 := by
     let B : Subgroup G := Subgroup.closure (Set.range v)
-    letI : IsMulCommutative B := Subgroup.isMulCommutative_closure hcommB
-    letI : CommGroup B := IsMulCommutative.instCommGroup
+    let : IsMulCommutative B := Subgroup.isMulCommutative_closure hcommB
+    let : CommGroup B := IsMulCommutative.instCommGroup
     let f : Fin 4 → B := fun i => ⟨v i, Subgroup.subset_closure ⟨i, rfl⟩⟩
     have hf_sq : ∀ i ∈ (Finset.univ : Finset (Fin 4)), f i ^ 2 = 1 := by
       intro i _
@@ -1072,7 +1075,7 @@ private theorem s11y_ne_one_of_sigma_swap (h : ElevenOneHyp hC) {S : Sylow 2 G}
 
 private theorem s11y_exists_involution (h : ElevenOneHyp hC) {S : Sylow 2 G} {v : Fin 4 → G}
     {T : Sylow 2 (Halpha D hC.alpha)} (hv : ElevenFrame hC (S : Subgroup G) v)
-    (hTS : (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype ≤ S)
+    (_hTS : (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype ≤ S)
     (hS2 : IsPGroup 2 (S : Subgroup G))
     (x : s11y_Nu hC ((S : Set G) ∩ D))
     (hx : s11y_sigma h hv x ∉ alternatingGroup (Fin 4)) :
@@ -1085,7 +1088,7 @@ private theorem s11y_exists_involution (h : ElevenOneHyp hC) {S : Sylow 2 G} {v 
       rw [map_mul, hx₁σ]
       apply Equiv.ext
       intro i
-      simp [Equiv.swap_apply_self]
+      simp
     have h2 : ((x₁ * x₁ : s11y_Nu hC ((S : Set G) ∩ D)) : G) ∈
         Subgroup.closure ((S : Set G) ∩ D) :=
       (s11y_sigma_eq_one_iff h hv hS2 (x₁ * x₁)).mp h1
@@ -1145,7 +1148,7 @@ theorem ElevenOneHyp.centralizer_le_or_index_two {hC : HypothesisC D} (h : Eleve
         ∃ x ∈ Subgroup.centralizer {hC.d}, x ∉ Halpha D hC.alpha ∧ orderOf x = 2) := by
   classical
   obtain ⟨T, S, v, hTS, hv⟩ := s11y_frame_data h
-  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   by_cases hodd : ∃ x : s11y_Nu hC ((S : Set G) ∩ D),
       s11y_sigma h hv x ∉ alternatingGroup (Fin 4)
   · right

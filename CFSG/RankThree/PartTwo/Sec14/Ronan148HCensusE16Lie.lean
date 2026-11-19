@@ -52,7 +52,7 @@ theorem exists_E16_statedSL_three_four {K : Type} [Field K] [Finite K] (hK : Nat
     ∃ E : Subgroup (CFSG.Assembly.LowTwoRank.StatedSL 3 K),
       CFSG.Assembly.IsElemAbelian 2 E ∧ Nat.card E = 16 := by
   have hK2 : Nat.card K = 2 ^ 2 := hK.trans (by norm_num)
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hK2
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hK2
   have hφ : Function.Injective (CFSG.SectionRank.ClassicalOdd.linHom (K := K) 3 1 2) :=
     CFSG.SectionRank.ClassicalOdd.linHom_injective (by norm_num)
   have hle : (⊤ : Subgroup (Multiplicative (Fin 1 × Fin 2 → K))).map

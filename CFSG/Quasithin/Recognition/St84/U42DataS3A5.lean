@@ -88,10 +88,10 @@ theorem f112B6Loc_of_s3a5VertexId
   have hNat : ¬ NatSec L2 ⊥ (pCoreOf 2 L2) := by
     rw [f112sa_oTwoPrime_P2'_eq hF h1 h2, ← hB.L2_eq] at hnat
     exact hnat
-  haveI : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
-  haveI : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
-  haveI : DSLeaf LeafM3 := ⟨leafM3⟩
-  haveI : DSLeaf LeafAlt5OfOrth := ⟨leafAlt5OfOrth⟩
+  have : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
+  have : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
+  have : DSLeaf LeafM3 := ⟨leafM3⟩
+  have : DSLeaf LeafAlt5OfOrth := ⟨leafAlt5OfOrth⟩
   refine ⟨isL2Quot_one_iff_perm3.mpr h1, ?_,
     Gold14610.isBlock2_of_short (leafShort2OfA5 h2 hct hE hO16) le_rfl Subgroup.le_normalizer,
     h2, leafOmega4MinusOfOrth h2 hct hE hO16 hNat, leafAlt5OfOrth h2 hct hE hO16 hNat⟩

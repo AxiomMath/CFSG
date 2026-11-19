@@ -77,7 +77,7 @@ private lemma lk0xpa5_e_one {Omega : Type} [Field Omega] [IsAlgClosed Omega] [Ch
     (he : ∀ b i, rootChar b.1 (ρ.nodeMap (Pi.single i 1)) = ρ.zeta ^ ((e b).1 i).val)
     (hp : p.Prime) :
     (e ⟨1, fun _ => by simp⟩).1 = 0 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζ : IsPrimitiveRoot ρ.zeta p := IsPrimitiveRoot.iff_orderOf.mpr ρ.zeta_order
   funext i
   apply lk0xpa5_zeta_pow_inj hζ
@@ -98,7 +98,7 @@ private lemma lk0xpa5_e_add {Omega : Type} [Field Omega] [IsAlgClosed Omega] [Ch
     (b b' : Fin ρ.tau.rank → Omegaˣ) (hb : ∀ i, b i ^ p = 1) (hb' : ∀ i, b' i ^ p = 1)
     (hbb' : ∀ i, (b * b') i ^ p = 1) :
     (e ⟨b * b', hbb'⟩).1 = (e ⟨b, hb⟩).1 + (e ⟨b', hb'⟩).1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζ : IsPrimitiveRoot ρ.zeta p := IsPrimitiveRoot.iff_orderOf.mpr ρ.zeta_order
   funext i
   apply lk0xpa5_zeta_pow_inj hζ
@@ -142,7 +142,7 @@ private noncomputable def lk0xpa5_Bsub {Omega : Type} [Field Omega] [IsAlgClosed
       (lk0xpa5_Ehom ρ e he hp b).toAdd i)}
   one_mem' := by
     have h1 : (lk0xpa5_Ehom ρ e he hp 1).toAdd = 0 := by rw [map_one]; rfl
-    constructor <;> intro i <;> simp [h1]
+    constructor <;> intro i <;> simp
   mul_mem' := by
     intro a b ha hb
     have hmul : (lk0xpa5_Ehom ρ e he hp (a * b)).toAdd =
@@ -213,7 +213,7 @@ private noncomputable def lk0xpa5_eT {Omega : Type} [Field Omega] [IsAlgClosed O
   invFun t := ⟨(e.symm t).1, (e.symm t).2⟩
   left_inv b := by
     apply Subtype.ext
-    simpa using congrArg Subtype.val (Equiv.symm_apply_apply e ⟨b.1, b.2⟩)
+    simp
   right_inv t := by
     apply Subtype.ext
     dsimp only
@@ -273,7 +273,7 @@ theorem PA5_assembly
       Nat.card Ehat = p ^ ρ.row.D.rZ := by
   classical
   have hp : p.Prime := hpair.1
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨e, he⟩ := PA1_nodeExp_equiv hp ρ
   obtain ⟨hS, hnz⟩ := PA4'_orbit_coefficient hpair hc ρ hrz
   have hcardW : Nat.card (lk0xpa5_W ρ) =

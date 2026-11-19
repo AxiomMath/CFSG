@@ -12,6 +12,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 variable {τ : Tag} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem normalizer_posUnipotentSub_eq_borelSub :
     Subgroup.normalizer (posUnipotentSub τ K : Set (adjointGroup τ K)) = borelSub τ K := by
   change Subgroup.normalizer ((posUnipotent τ K).subgroupOf (adjointGroup τ K) :

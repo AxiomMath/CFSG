@@ -22,13 +22,13 @@ theorem false_of_isL24Sz (h29 : Stell.Hyp29.{u} .sz) (h25 : Hyp25dSz.{u}) {S : T
     {L : Subgroup G}
     (hL : Stell.IsL24Sz κ.range (normalizer (((stellW .sz S).map κ : Subgroup G) : Set G))
       ((stellW .sz S).map κ) L) : False := by
-  haveI := hκ.admissible.finite
+  have := hκ.admissible.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj := hκ.admissible.injective
   obtain ⟨Tsyl, hTsyl⟩ := hκ.admissible.sylow
-  have hT : IsPGroup 2 κ.range := hTsyl ▸ Tsyl.isPGroup'
+  have hT : IsPGroup 2 κ.range := hTsyl ▸ Tsyl.isPGroup
   have hTi : ¬ 2 ∣ κ.range.index := hTsyl ▸ Tsyl.not_dvd_index
-  haveI : (stellW .sz S).Characteristic := stellW_characteristic
+  have : (stellW .sz S).Characteristic := stellW_characteristic
   set W := (stellW .sz S).map κ with hWdef
   have hW : CFSG.Open.IsElemAbelian 2 W := isElemAbelian_map isElemAbelian_stellW κ
   have hWT : W ≤ κ.range := map_le_range κ _
@@ -39,15 +39,15 @@ theorem false_of_isL24Sz (h29 : Stell.Hyp29.{u} .sz) (h25 : Hyp25dSz.{u}) {S : T
   obtain ⟨hR, hX⟩ := hcfg.eq_oTwo_and_eq_X hc
   have hC := centralizer_oTwo_le_of_isL24Sz hT hTi hTW hL hκ.admissible.centralizer_le hcfg hR
   obtain ⟨n, hn, hnat⟩ := hcfg.isNatSzExt hc hR hX hC h25
-  haveI : IsMulCommutative (W.subgroupOf L) := hcfg.elemAb.1
+  have : IsMulCommutative (W.subgroupOf L) := hcfg.elemAb.1
   have hale := Stell.ale_one_autOn_of_isNatSzExt_of_isPGroup hcfg.isPGroup_T hcfg.not_dvd_index
     hcfg.elemAb hcfg.W_le_T hcfg.normalizer_le hC hcfg.not_le_oTwo hn hnat
-  haveI : IsMulCommutative W := hW.1
+  have : IsMulCommutative W := hW.1
   have hale' : Stell.ALe (autOn (κ.range ⊓ L) W) ⊤ 1 :=
     Stell.ALe.autOn_map L.subtype_injective hcfg.T_le_normalizer (subgroupOf_map_subtype _ _)
       (by rw [subgroupOf_map_subtype, inf_of_le_left hL.le]) hale
   have hale'' : Stell.ALe (autOn κ.range W) ⊤ 1 := hale'.mono (AutOn.autOn_mono inf_le_left)
-  haveI : IsMulCommutative (stellW .sz S) := isElemAbelian_stellW.1
+  have : IsMulCommutative (stellW .sz S) := isElemAbelian_stellW.1
   have hgt := (Stell.agtOne_stellW (𝒦 := .sz) (S := S) h29).2
   have hiff := Stell.agt_autOn_map_iff (f := κ) hinj (P := ⊤) (U := stellW .sz S) (Y := W)
     (fun x _ => by rw [normalizer_eq_top_iff.mpr inferInstance]; exact mem_top x) le_rfl
@@ -66,16 +66,16 @@ theorem stellW_normal_of_three_four (hThmA : Stell33.ThmA.{u} .sz) (h29 : Stell.
   | _ n ih =>
   intro Y _ κ hκ hn
   by_contra hnot
-  haveI := hκ.admissible.finite
+  have := hκ.admissible.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hmin, -, h32⟩ := hκ.minimal_counterexample h29
     (fun Y' _ κ' hκ' hcard => ih _ (hn ▸ hcard) Y' κ' hκ' rfl) hnot
   obtain ⟨hco, hcore⟩ := Stell33.isCoatom_normalizer_of_minimal hκ hnot hmin h32
   obtain ⟨Tsyl, hTsyl⟩ := hκ.admissible.sylow
-  haveI : (stellW .sz S).Characteristic := stellW_characteristic
+  have : (stellW .sz S).Characteristic := stellW_characteristic
   have hhyp : Stell.Hyp24 κ.range (normalizer (((stellW .sz S).map κ : Subgroup Y) : Set Y))
       ((stellW .sz S).map κ) :=
-    { isPGroup := hTsyl ▸ Tsyl.isPGroup'
+    { isPGroup := hTsyl ▸ Tsyl.isPGroup
       not_dvd_index := hTsyl ▸ Tsyl.not_dvd_index
       isCoatom := hco
       le_M := range_le_normalizer_map κ (inferInstance : (stellW .sz S).Normal)

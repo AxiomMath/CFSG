@@ -16,6 +16,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem MBarGT.mono {M V₀ V : Subgroup G} {m n : ℕ} (h : MBarGT M V₀ V n) (hmn : m ≤ n) :
     MBarGT M V₀ V m := by
   unfold MBarGT at h ⊢
@@ -30,7 +31,7 @@ theorem MBarGT.two_pow_le_card {M V₀ V : Subgroup G} {n : ℕ} (h : MBarGT M V
   · obtain ⟨m, hm, h1, h2⟩ := hex
     have h3 := h.1 m hm h1 h2
     have hpos : 0 < Nat.card (centMod V₀ V m) := by
-      haveI : Nonempty (centMod V₀ V m) := ⟨⟨1, V.one_mem, by simp⟩⟩
+      have : Nonempty (centMod V₀ V m) := ⟨⟨1, V.one_mem, by simp⟩⟩
       exact Nat.card_pos
     calc 2 ^ (n + 1) ≤ 2 ^ (n + 1) * Nat.card (centMod V₀ V m) :=
           Nat.le_mul_of_pos_right _ hpos

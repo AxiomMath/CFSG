@@ -21,12 +21,12 @@ theorem exists_hom_GL23_of_pRank_le_two {Y : Type} [Group Y] [Finite Y] (R : Sub
     [R.Normal] (hR : IsPGroup 3 R) (hrank : CFSG.Open.pRank 3 R ≤ 2) :
     ∃ ρ : Y →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3),
       IsPGroup 3 ↥(ρ.ker.map (MulAut.conjNormal (H := R))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨C, -, -, -, -, hDchar, -, -, hDexp, -, hDdet⟩ :=
     CFSG.RankThree.PartTwo.Sec13.CritProof.exists_isThompsonCritical_omega (P := ↥R) (p := 3)
       (by norm_num) hR
   let D : Subgroup ↥R := CFSG.RankThree.PartTwo.Sec13.CritProof.omegaOneIn 3 C
-  haveI : D.Characteristic := hDchar
+  have : D.Characteristic := hDchar
   have hDp : IsPGroup 3 ↥D := hR.to_subgroup D
   have hr : CFSG.Open.pRank 3 (⊤ : Subgroup ↥D) ≤ 2 := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup D]

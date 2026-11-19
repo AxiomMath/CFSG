@@ -59,7 +59,7 @@ theorem gap17_26a_threeCentral_of_K
     obtain ⟨k, hk⟩ := CFSG.GroupTheory.exists_pow_prime_pow_mem_of_mem_sup (p := 2)
       D.sylowM.isPGroup hTL (x := x) (hXHle hx)
     by_cases hx1 : x = 1
-    · simpa [hx1] using L.one_mem
+    · simp [hx1]
     have hxord3 : orderOf x ∣ 3 := by
       have h := Subgroup.orderOf_dvd_natCard X hx
       rwa [hXcard] at h
@@ -340,7 +340,7 @@ theorem gap17_26a_threeCentral_of_K
     have hqval : (ψ n : ↥Q).1 = qQ.1 := congrArg Subtype.val hqn
     exact hqval
   have hφQL : (QL : Subgroup ↥L).map φL = Q := by
-    have hP3 : IsPGroup 3 ((QL : Subgroup ↥L).map φL) := QL.isPGroup'.map φL
+    have hP3 : IsPGroup 3 ((QL : Subgroup ↥L).map φL) := QL.isPGroup.map φL
     exact hQsyl.eq_of_le hQ_le le_top hP3
   have hφQL_mem : ∀ y : ↥L, y ∈ (QL : Subgroup ↥L) → φL y ∈ Q := by
     intro y hy
@@ -577,14 +577,14 @@ theorem seventeen_twentysix_a_reduction_of_U
     (h23 : R17_23At D V₀ V) (h25 : R17_25At D V₀ V) (hSg : UC6S846.SigmaStd D)
     (h880 : F08.R880 D) (hJ2aut : K_J2_aut_five_rank) (h61 : UC6.R6_1 D) (h66 : UC6.R6_6 D)
     (h88 : W3Thm88 G) (h126 : R126 D) (h861 : W3Lem86_1 G)
-    (h93 : ∀ L, Ctx17_17 D V₀ V L → CFSG.LocalAnalysis.WeakClosure81.Thm93 V₀ D.T)
+    (h93 : ∀ _L, Ctx17_17 D V₀ V _L → CFSG.LocalAnalysis.WeakClosure81.Thm93 V₀ D.T)
     (hNE : ∀ H₀, Gap17_26_NE D V₀ V H₀)
     (hJ2center : K_J2_center_five) (hC117 : C117 D V₀ V) (hK2 : K_J2_centralizer_shape)
     (hK3 : Inputs1719.K_J2_threeCentral)
     (hAlt : Gap17_26a_Alt D V₀ V) (hFirst : Gap17_26a_First D V₀ V) :
     R17_26aAt D V₀ V ∨ Config17_26a_II D V₀ V :=
   seventeen_twentysix_a_reduction hTim hcat D V₀ V h20 h22 h23 h25 hSg h880 hJ2aut h61 h66 h88
-    h126 h861 h93 hNE hJ2center (fun L c => gap17_26a_U_holds c h20 hC117 hK2 hK3) hAlt
+    h126 h861 h93 hNE hJ2center (fun _L c => gap17_26a_U_holds c h20 hC117 hK2 hK3) hAlt
     hFirst
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17

@@ -82,7 +82,7 @@ theorem l8_main {P : Type u} [Group P] [Finite P] {K : Type u} [Group K] [Finite
     (hKgen : Subgroup.closure {k : K | ∃ n : ℕ, k ^ (2 ^ n) = 1} = ⊤)
     (N : Subgroup K) [N.Normal] (hNodd : Odd (Nat.card N))
     (hdich : ∀ N₁ : Subgroup K, N₁.Normal → N₁ = ⊤ ∨ N₁ ≤ N)
-    (Q : Subgroup P) [Q.Characteristic] (hQp : IsPGroup 3 Q) (hQexp : ∀ x ∈ Q, x ^ 3 = 1)
+    (Q : Subgroup P) [Q.Characteristic] (hQp : IsPGroup 3 Q) (_hQexp : ∀ x ∈ Q, x ^ 3 = 1)
     (hQcomm : ⁅Q, (⊤ : Subgroup P)⁆ ≤ Q ⊓ Subgroup.centralizer (Q : Set P))
     (hstar : ∀ α : MulAut P, Nat.Coprime (orderOf α) 3 → (∀ x ∈ Q, α x = x) → α = 1) :
     ∃ ψ : K →* MulAut (Q ⧸ frattini Q),

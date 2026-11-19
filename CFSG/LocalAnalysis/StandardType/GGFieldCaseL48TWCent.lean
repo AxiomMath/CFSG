@@ -32,7 +32,7 @@ theorem not_mem_commutator_H0_of_coverP {p : ℕ} {B Bs : Subgroup G} {x : G}
     x ∉ ⁅ggL48H0 x U₁, ggL48H0 x U₁⁆ ⊔ ggL48U2 x U₁ := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hS.1.1.1.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1

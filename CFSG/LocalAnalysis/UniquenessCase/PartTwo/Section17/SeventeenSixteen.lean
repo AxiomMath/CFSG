@@ -24,16 +24,16 @@ theorem delta_le_M (D : Data G)
   have hLM : L ≤ D.M := hC.memL.1.le
   unfold Delta17_12
   by_cases h1 : P17_12_1 r q L
-  · rw [dif_pos h1]
+  · rw [dite_eq_left h1]
     refine iSup₂_le ?_
     rintro H ⟨x, hx, rfl⟩
     exact sup_le D.sylowM.le (CFSG.CGT.PushingUpLit.BHS.Glauberman.map_conj_le hx hLM)
   · by_cases h2 : P17_12_2 q L
-    · rw [dif_neg h1, dif_pos h2]
+    · rw [dite_eq_right h1, dite_eq_left h2]
       refine iSup₂_le ?_
       rintro H ⟨X, hXL, -, -, rfl⟩
       exact sup_le D.sylowM.le (hXL.trans hLM)
-    · rw [dif_neg h1, dif_neg h2]
+    · rw [dite_eq_right h1, dite_eq_right h2]
       refine iSup₂_le ?_
       rintro H ⟨x, hx, X, hconj⟩
       obtain ⟨hXL, -, hH, -⟩ := hconj
@@ -50,7 +50,7 @@ theorem seventeen_sixteen_case_one (D : Data G)
     (h17_7 : R17_7At D V₀ V L r q hC) :
     R17_16At D 𝔉 V₀ V L r q hC := by
   show UniqueMax D.M (⨆ H ∈ Delta17_12 D 𝔉 r q L, H)
-  rw [Delta17_12, dif_pos h1]
+  rw [Delta17_12, dite_eq_left h1]
   set S : Subgroup G :=
     ⨆ H ∈ {H : Subgroup G | ∃ x ∈ D.M, H = D.T ⊔ L.map (MulAut.conj x).toMonoidHom}, H
   have hLM : L ≤ D.M := hC.memL.1.le
@@ -64,7 +64,7 @@ theorem seventeen_sixteen_case_one (D : Data G)
     ⟨1, D.M.one_mem, by simp⟩
   have hLH0 : L ≤ D.T ⊔ L.map (MulAut.conj (1 : G)).toMonoidHom := by
     have hconj1 : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by
-      ext l; simp [MulAut.conj_apply]
+      ext l; simp
     rw [hconj1, Subgroup.map_id]
     exact le_sup_right
   have hLS : L ≤ S := hLH0.trans (le_iSup₂_of_le _ hH0 le_rfl)

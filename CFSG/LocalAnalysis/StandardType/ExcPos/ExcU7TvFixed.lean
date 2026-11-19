@@ -170,7 +170,7 @@ theorem card_fixed_swapped_le (σ : L ≃+* L) {Q : ℕ} (hσ : ∀ c, σ c = c 
       _ ≤ Q * Q := Nat.mul_le_mul hQ hQ
   have hSfin : {c : L | c ^ (Q * Q) = c}.Finite :=
     (u7fx_finite_card_setOf_pow_eq_self_le (L := L) hQ2).1
-  haveI : Finite ↥{c : L | c ^ (Q * Q) = c} := hSfin
+  have : Finite ↥{c : L | c ^ (Q * Q) = c} := hSfin
   refine ⟨Finite.of_injective p' hp'_inj, ?_⟩
   calc Nat.card ↥A ≤ Nat.card ↥{c : L | c ^ (Q * Q) = c} :=
         Nat.card_le_card_of_injective p' hp'_inj

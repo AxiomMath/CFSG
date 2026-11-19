@@ -208,7 +208,7 @@ theorem two_mul_le_dMinDeg_of_nParam_of
   have := CFSG.LocalAnalysis.UniquenessCase.UC22.MinDegLow.nontrivial_of_isQuasisimple hL
   apply CFSG.LocalAnalysis.UniquenessCase.UC22.MinDegLow.le_dMinDeg
   intro d f hf
-  have hnot : ¬ IsSolvable T :=
+  have hnot : ¬ Group.IsSolvable T :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.MinDegLow.not_isSolvable_of_isSimpleGroup
       hT.nonab
   have hTL' : IsSec T ↥L :=
@@ -263,11 +263,11 @@ theorem sSupIndep_insert_of_disjoint_of_irreducible {α : Type*} [CompleteLattic
     sSupIndep (insert a s) := by
   intro b hb
   rcases hb with rfl | hb
-  · rwa [Set.insert_sdiff_of_mem s (Set.mem_singleton b), Set.diff_singleton_eq_self ha]
+  · rwa [Set.insert_sdiff_of_mem s (Set.mem_singleton b), Set.sdiff_singleton_eq_self ha]
   · have hba : a ∉ ({b} : Set α) := fun h => ha (Set.mem_singleton_iff.mp h ▸ hb)
     rw [Set.insert_sdiff_of_notMem s hba, sSup_insert]
     have h2 : Disjoint (b ⊔ sSup (s \ {b})) a :=
-      (hd.mono_right (sup_le (le_sSup hb) (sSup_le_sSup Set.diff_subset))).symm
+      (hd.mono_right (sup_le (le_sSup hb) (sSup_le_sSup Set.sdiff_subset))).symm
     have h := (hs hb).disjoint_sup_right_of_disjoint_sup_left h2
     rwa [sup_comm] at h
 
@@ -277,7 +277,7 @@ theorem exists_sSupIndep_spanning_of_family {W : Type} [CommGroup W] [Finite W]
     (hSfix : ∀ K ∈ S, K ⊓ fixV L = ⊥) (hSspan : sSup S = ⊤) :
     ∃ s : Set (Subgroup W), I ∈ s ∧ s ⊆ S ∧ sSupIndep s ∧ sSup s = ⊤ := by
   classical
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun K : Subgroup W => (K : Set W)) SetLike.coe_injective
   obtain ⟨s, hs⟩ := (Set.toFinite
     {s : Set (Subgroup W) | I ∈ s ∧ s ⊆ S ∧ sSupIndep s}).exists_maximal
@@ -311,7 +311,7 @@ theorem exists_second_summand_of_rank_two {W : Type} [CommGroup W] [Finite W]
     (hWrk : rk ↥(⊤ : Subgroup W) = 2 * rk ↥I) :
     ∃ J ∈ S, J ≠ I ∧ I ⊓ J = ⊥ ∧ I ⊔ J = ⊤ := by
   classical
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun K : Subgroup W => (K : Set W)) SetLike.coe_injective
   obtain ⟨s, hs⟩ := (Set.toFinite
     {s : Set (Subgroup W) | I ∈ s ∧ s ⊆ S ∧ sSupIndep s}).exists_maximal
@@ -674,14 +674,14 @@ theorem w4Thm14_3_of_kFacts
     (hFix : K14_3FixT) (hExt : K14_3Ext) (hExc : K14_3Exc) : W4Thm14_3 := by
   intro W _ _ hW Y L n hK hO hB hLY hLn hshape h3 hn4 hb
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hcomp : IsComponentOf L Y :=
     ⟨hLY, CFSG.Open.IsSubnormal.step hLY hLn (CFSG.Open.IsSubnormal.refl Y),
       (by
         rcases hshape with h2 | hsz
         · exact CFSG.LocalAnalysis.UniquenessCase.UC22.NatParMax.isQuasisimple_of_isL2 h2
-        · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hsz
+        · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hsz
           exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mp
             (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
               (CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_twistedB2 hsz)).1)⟩
@@ -1065,7 +1065,7 @@ theorem w4Thm14_3_of_kFacts
         · rintro ⟨y, hy, rfl⟩
           simpa [MulAut.conj_apply] using hy
         · intro hx
-          exact ⟨x, hx, by simp [MulAut.conj_apply]⟩
+          exact ⟨x, hx, by simp⟩
       have hmap_one_mod : ∀ K : Subgroup (W ⧸ C),
           Subgroup.map (MulEquiv.refl (W ⧸ C)).toMonoidHom K = K := by
         intro K

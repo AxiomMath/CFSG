@@ -68,7 +68,7 @@ theorem rowC_ofFn (d : ℕ) (f : ℕ → ℕ) : RowC d (V.ofFn d f) := by
   rw [h1, h2]
   simp [show ¬ j < d by omega]
 
-theorem rowC_comb {d n : ℕ} {Y : Array V} {r : V} (hY : ∀ j : ℕ, RowC d Y[j]!) (hr : r.wf = true) :
+theorem rowC_comb {d n : ℕ} {Y : Array V} {r : V} (hY : ∀ j : ℕ, RowC d Y[j]!) (_hr : r.wf = true) :
     RowC d (comb n Y r) := by
   rw [comb_eq_fold]
   induction n with

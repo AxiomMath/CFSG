@@ -16,7 +16,7 @@ theorem ggIOneOrthPlusFourInput_of_midClass (hmid : OPlusEight.MidClassInput) :
     GGIOneOrthPlusFourInput := by
   intro K _ _ hK
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK, pow_one]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       le_rfl hK'
   have hAll : GGEndNodeRootEltAll 3 3 (OrthRest.RPlus K 4) :=

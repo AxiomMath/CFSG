@@ -13,6 +13,7 @@ section Three
 
 variable {H : Type} [Group H] [Finite H] {K B : Subgroup H}
 
+omit [Finite H] in
 theorem sup_Bo_le_inner {E : Subgroup H} (hEK : E ≤ K) :
     E ⊔ Bo K B ≤ ((innerAut ↥K).comap (conjHom K)).map (Subgroup.normalizer (K : Set H)).subtype := by
   refine sup_le (fun e he => ?_) (fun s hs => ?_)

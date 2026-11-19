@@ -42,12 +42,12 @@ public theorem theorem_14_conclusion
   rcases ha with ⟨hfield, hconseq⟩
   rcases hconseq with ⟨hp, hq, _hPelem, _hUcomm, _hPcard, _hUcard,
     _hW2le, _hW2card, hA⟩
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact q.Prime := ⟨hq⟩
   rcases hfield with ⟨_hp', _hq', σ, hσinj, _hTop, _hPeq, hUeq, hP0eq⟩
   rcases hb with ⟨hQelem, hW2norm, y, hyQ, hW2ynorm⟩
-  haveI : IsElementaryAbelian q Q := hQelem
-  haveI : IsMulCommutative Q := hQelem.toIsMulCommutative
+  have : IsElementaryAbelian q Q := hQelem
+  have : IsMulCommutative Q := hQelem.toIsMulCommutative
   have hp_ne_q : p ≠ q := by
     intro hpq_eq
     rw [hpq_eq] at hqp

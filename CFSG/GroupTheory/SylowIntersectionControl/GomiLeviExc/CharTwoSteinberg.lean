@@ -44,7 +44,7 @@ theorem commutatorFormula_one
             ⟨by norm_num, by norm_num, by simpa using h⟩
         rw [hL] at hp
         exact List.not_mem_nil hp
-      rw [if_neg hroot]
+      rw [ite_eq_right hroot]
       simp
   | cons p L' =>
       have hp : p = (1, 1) := hmem p (by simp [hL])
@@ -62,7 +62,7 @@ theorem commutatorFormula_one
         have hp : (1, 1) ∈ O.list α β := by simp [hL]
         have := (O.mem_iff α hα β hβ hαβ (1, 1)).1 hp
         simpa using this.2.2
-      rw [if_pos hroot]
+      rw [ite_eq_left hroot]
       simp
 
 theorem exists_hom_of_isCharTwoSteinberg
@@ -140,8 +140,8 @@ theorem IsCharTwoSteinberg.ext {A : Matrix I I ℤ} {hA : TauCeti.IsFiniteType A
   rw [hx.2 _ ((hroot α).2 hα) _ ((hroot β).2 hβ) (hαβ' α hα β hβ hαβ) c d]
   rw [← CFSG.LieType.RootSystem.Restrict.ext_add he]
   by_cases h : α + β ∈ CFSG.LieType.RootSystem.roots (hA.submatrix he) ∅
-  · rw [if_pos ((hroot (α + β)).2 h), if_pos h]
-  · rw [if_neg (fun hh => h ((hroot (α + β)).1 hh)), if_neg h]
+  · rw [ite_eq_left ((hroot (α + β)).2 h), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h ((hroot (α + β)).1 hh)), ite_eq_right h]
 
 end Ext
 

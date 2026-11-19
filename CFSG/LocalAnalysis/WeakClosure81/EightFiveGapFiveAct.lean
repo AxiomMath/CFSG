@@ -53,7 +53,7 @@ theorem gap5_exists_action {V H T U : Subgroup G} (hD : DispatchHyp V H T U) {X 
         change _ = ρ₀ a (ρ₀ b (φ k))
         rw [hρcj, hρcj] }
   have hρ : ∀ u k, ρ u (φ k) = φ (cj u k) := hρcj
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNC : pCoreOf 2 (kGenIn V H) ≤ Subgroup.centralizer (eSub V H T : Set G) :=
     h83.pCoreOf_kGenIn_le_centralizer_eSub
   have hinj : Function.Injective ρ := by
@@ -425,7 +425,7 @@ theorem gap5_U_facts {V H T U : Subgroup G} (hD : DispatchHyp V H T U) :
     rw [pow_two] at h
     exact Subtype.ext h
   · classical
-    haveI : Fintype ↥U := Fintype.ofFinite _
+    have : Fintype ↥U := Fintype.ofFinite _
     have hnt : Nontrivial ↥U := (Finite.one_lt_card_iff_nontrivial).mp (by omega)
     obtain ⟨a, ha1⟩ := exists_ne (1 : ↥U)
     by_cases hall : ∀ x : ↥U, x ≠ 1 → x = a
@@ -447,6 +447,7 @@ theorem gap5_U_facts {V H T U : Subgroup G} (hD : DispatchHyp V H T U) :
       obtain ⟨b, hb1, hba⟩ := hall
       exact ⟨a, b, ha1, hb1, fun hab => hba hab.symm⟩
 
+omit [Finite G] in
 theorem gap5_kBarCenterShape_of_symSix {V H T : Subgroup G} {Y : Type} [Group Y]
     (ψ : ↥(kGenIn V H) →* Y) (hψ : Function.Surjective ψ)
     (hk : ∀ k : ↥(kGenIn V H), ψ k = 1 ↔ (k : G) ∈ eCentSet V H T) (hY : IsSymGp Y 6) :

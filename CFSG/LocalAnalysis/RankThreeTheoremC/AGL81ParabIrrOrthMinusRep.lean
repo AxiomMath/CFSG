@@ -20,13 +20,14 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K} {r s : ℕ} {d : 
 
 local notation "𝕍" => (Fin r ⊕ Fin r → K) × (Fin 2 → K)
 
-theorem flag_of_stable (hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0) (hd : OrthCuts r d)
+omit [CharP K 2] in
+theorem flag_of_stable (_hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0) (hd : OrthCuts r d)
     {α : MulAut ↥(orthElementaryGroup (quadTail r (minusTailForm K b c)))}
     (hα : ∀ x ∈ orthParab r (minusTailForm K b c) d, α x ∈ orthParab r (minusTailForm K b c) d)
     (S : SemiData K r b c) (hS : S.Induces α) (i : Fin (s + 1)) (v : 𝕍) :
     S.F v ∈ tailFlag K (Fin 2 → K) r (d i) ↔ v ∈ tailFlag K (Fin 2 → K) r (d i) := by
   classical
-  haveI : Finite (𝕍 ≃ₗ[K] 𝕍) := finite_orthLinearEquiv
+  have : Finite (𝕍 ≃ₗ[K] 𝕍) := finite_orthLinearEquiv
   have hnorm : ∀ u ∈ orthParab r (minusTailForm K b c) d,
       ∃ x ∈ orthParab r (minusTailForm K b c) d, ∀ v,
         ((u : ↥(orthElementaryGroup (quadTail r (minusTailForm K b c)))) : 𝕍 ≃ₗ[K] 𝕍) v =
@@ -47,6 +48,7 @@ theorem flag_of_stable (hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0
     rfl
   exact mem_flag_iff_of_normalizes hirr hd S.hF S.hFQ hnorm i v
 
+omit [Finite K] [CharP K 2] in
 theorem isConjBy_semilinConj {α_n α_x α_y : MulAut ↥(orthElementaryGroup (quadTail r
       (minusTailForm K b c)))} (hy : α_y = α_n * α_x * α_n⁻¹) {S : SemiData K r b c}
     (hS : S.Induces α_n) {f : 𝕍 ≃ₗ[K] 𝕍} (hf : IsConjBy α_x f) :

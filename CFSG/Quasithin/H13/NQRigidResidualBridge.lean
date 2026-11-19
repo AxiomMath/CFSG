@@ -47,12 +47,14 @@ variable (hXA : X ≤ A) [(resQ A Q).Normal]
 @[expose] noncomputable def resι : X →* A ⧸ resQ A Q :=
   (QuotientGroup.mk' (resQ A Q)).comp (inclusion hXA)
 
+omit [Q.Normal] in
 theorem ker_resι : (resι Q hXA).ker = Q := by
   ext x
   rw [MonoidHom.mem_ker, resι, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
     QuotientGroup.eq_one_iff, mem_subgroupOf]
   exact mem_map_iff_mem X.subtype_injective
 
+omit [Q.Normal] in
 theorem range_resι : (resι Q hXA).range = (X.subgroupOf A).map
     (QuotientGroup.mk' (resQ A Q)) := by
   ext z

@@ -29,6 +29,7 @@ theorem two_pow_eq_sixteen_pow_of_mod_five {j : ℕ} (h : 2 ^ j % 5 = 1) :
     interval_cases r <;> simp_all
   exact ⟨j / 4, by rw [key, h0, pow_zero, mul_one]⟩
 
+omit [Finite V] in
 theorem mem_fix_zpowers_iff {g : MulAut V} {x : V} :
     x ∈ Fix (Subgroup.zpowers g) ↔ g x = x := by
   refine ⟨fun h => ?_, fun h => ?_⟩
@@ -49,7 +50,7 @@ theorem card_V_eq_two_pow (hV : ∀ v : V, v * v = 1) : ∃ n : ℕ, Nat.card V 
 
 theorem index_fix_zpowers_eq_pow_sixteen (hV : ∀ v : V, v * v = 1) {y : MulAut V} {k : ℕ}
     (hy : y ^ 5 ^ k = 1) : ∃ j : ℕ, (Fix (Subgroup.zpowers y)).index = 16 ^ j := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨n, hn⟩ := card_V_eq_two_pow hV
   have hH : IsPGroup 5 (Subgroup.zpowers y) := by
     obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_five).mp
@@ -83,7 +84,7 @@ theorem index_fix_zpowers_eq_pow_sixteen (hV : ∀ v : V, v * v = 1) {y : MulAut
 
 theorem twentyfive_dvd_card_of_not_isCyclic {K : Subgroup (MulAut V)} (hK5 : IsPGroup 5 K)
     (hKnc : ¬ IsCyclic K) : 25 ∣ Nat.card K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp hK5
   rcases m with _ | _ | m
   · exfalso
@@ -107,6 +108,7 @@ theorem sixteen_pow_eq_sixteen {j : ℕ} (h1 : 16 ^ j ≠ 1) (h2 : 16 ^ j < 2 ^ 
         _ ≤ 16 ^ (j + 1 + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
     exact absurd h2 (not_lt.mpr h3)
 
+omit [Finite V] in
 theorem card_fixedBy_mul_index (g : MulAut V) :
     Nat.card (MulAction.fixedBy V g) * (Fix (Subgroup.zpowers g)).index = Nat.card V := by
   have hc : Nat.card (Fix (Subgroup.zpowers g)) = Nat.card (MulAction.fixedBy V g) :=
@@ -146,10 +148,10 @@ theorem exists_two_pow_eight_of_five_group (hV : ∀ v : V, v * v = 1) {G : Subg
     have hlt := hcon (g : MulAut V) g.2
     rw [hj] at hne1 hlt ⊢
     exact sixteen_pow_eq_sixteen hne1 hlt
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : ∀ g : G, Fintype (MulAction.fixedBy V g) := fun g => Fintype.ofFinite _
-  haveI : Fintype (Quotient (MulAction.orbitRel G V)) := Fintype.ofFinite _
+  have : Fintype V := Fintype.ofFinite V
+  have : Fintype G := Fintype.ofFinite G
+  have : ∀ g : G, Fintype (MulAction.fixedBy V g) := fun g => Fintype.ofFinite _
+  have : Fintype (Quotient (MulAction.orbitRel G V)) := Fintype.ofFinite _
   have hB := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group G V
   simp only [← Nat.card_eq_fintype_card] at hB
   have hfb : ∀ g : G, MulAction.fixedBy V g = MulAction.fixedBy V (g : MulAut V) :=
@@ -159,19 +161,19 @@ theorem exists_two_pow_eight_of_five_group (hV : ∀ v : V, v * v = 1) {G : Subg
     intro g
     rw [hfb g]
     by_cases hg : g = 1
-    · rw [if_pos hg, hg]
+    · rw [ite_eq_left hg, hg]
       have h1 : MulAction.fixedBy V ((1 : G) : MulAut V) = Set.univ := by
-        ext x; simp [MulAction.mem_fixedBy]
+        ext x; simp
       rw [h1, Nat.card_univ]
       ring
-    · rw [if_neg hg, add_zero]
+    · rw [ite_eq_right hg, add_zero]
       have hid := card_fixedBy_mul_index (g : MulAut V)
       rw [h16 g hg] at hid
       omega
   have hsum : 16 * ∑ g : G, Nat.card (MulAction.fixedBy V g) =
       Nat.card G * Nat.card V + 15 * Nat.card V := by
     rw [Finset.mul_sum]
-    simp only [hpt, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+    simp only [hpt, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
       Finset.sum_const, Finset.card_univ, smul_eq_mul, ← Nat.card_eq_fintype_card]
   rw [hB] at hsum
   obtain ⟨t, ht⟩ := h25
@@ -184,7 +186,7 @@ theorem exists_two_pow_eight_of_five_group (hV : ∀ v : V, v * v = 1) {G : Subg
   exact hV5 h4
 
 theorem abelian_case_sixteen (hV : ∀ v : V, v * v = 1) {K : Subgroup (MulAut V)}
-    (hK5 : IsPGroup 5 K) (hKab : ∀ x ∈ K, ∀ y ∈ K, x * y = y * x) (hKnc : ¬ IsCyclic K)
+    (hK5 : IsPGroup 5 K) (_hKab : ∀ x ∈ K, ∀ y ∈ K, x * y = y * x) (hKnc : ¬ IsCyclic K)
     {e : MulAut V} (he : e * e = 1) (hinv : ∀ y ∈ K, e * y * e⁻¹ = y⁻¹) :
     2 ^ 8 ≤ (Fix (Subgroup.zpowers e)).index ^ 2 := by
   obtain ⟨y, hyK, hy⟩ :=

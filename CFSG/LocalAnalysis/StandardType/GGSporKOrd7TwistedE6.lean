@@ -28,7 +28,7 @@ private lemma lr2ote_not_seven_dvd_card_of_cube_eq_one
     (Q : Type) [Group Q] [Finite Q] (h : ∀ a : Q, a ^ 3 = 1) :
     ¬ 7 ∣ Nat.card Q := by
   intro h7
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := Q) 7 h7
   have h3 : orderOf a ∣ 3 := orderOf_dvd_of_pow_eq_one (h a)
   rw [ha] at h3
@@ -45,7 +45,7 @@ private lemma lr2ote_factorization_seven_eq_of_ker
     (hI_le : I ≤ KER)
     (hcube : ∀ a : KER ⧸ I.subgroupOf KER, a ^ 3 = 1) :
     (Nat.card (MulAut C)).factorization 7 = (Nat.card C).factorization 7 := by
-  haveI : Finite Θ.range :=
+  have : Finite Θ.range :=
     Finite.of_surjective Θ.rangeRestrict Θ.rangeRestrict_surjective
   have hconj_inj : Function.Injective (MulAut.conj : C →* MulAut C) := by
     rw [← MonoidHom.ker_eq_bot_iff, lr2ote_conj_ker_eq_center, hcenter]
@@ -167,8 +167,8 @@ theorem ord7_card_mulAut_dvd_twistedE6_two
   · exact absurd hc (by decide)
   · obtain ⟨K, hKfield, hKfin, σ, hKcard, hσ, ⟨e⟩⟩ :=
       CFSG.LieType.Chevalley.exists_mulEquiv_graphFixedRootGroup_E6 hchev
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hmain :=
       CFSG.LieType.Chevalley.twisted_E6_all_characteristic_exact_automorphism_normal_form
         Nat.prime_two (le_refl 1) K hKcard σ hσ
@@ -212,8 +212,8 @@ theorem ord7Param_twistedE6
   · exact absurd hc (by decide)
   · obtain ⟨K, hKfield, hKfin, σ, hKcard, hσ, ⟨e⟩⟩ :=
       CFSG.LieType.Chevalley.exists_mulEquiv_graphFixedRootGroup_E6 hchev
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hf : 1 ≤ f := hchev.1.2.1
     have hmain :=
       CFSG.LieType.Chevalley.twisted_E6_all_characteristic_exact_automorphism_normal_form

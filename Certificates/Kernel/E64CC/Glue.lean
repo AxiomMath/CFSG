@@ -123,8 +123,8 @@ theorem closure_gen6_le {m m' : Nat → Nat} (h : ∀ j < 3, ∃ j' < 3, m j = m
     Subgroup.closure (gen6 m '' {l | l < 6}) ≤ Subgroup.closure (gen6 m' '' {l | l < 6}) := by
   rw [Subgroup.closure_le]
   rintro _ ⟨l, hl, rfl⟩
-  obtain ⟨j', hj', e⟩ := h (l / 2) (by simp only [Set.mem_setOf_eq] at hl; omega)
-  refine Subgroup.subset_closure ⟨2 * j' + l % 2, by simp only [Set.mem_setOf_eq]; omega, ?_⟩
+  obtain ⟨j', hj', e⟩ := h (l / 2) (by simp only [Set.mem_ofPred_eq] at hl; omega)
+  refine Subgroup.subset_closure ⟨2 * j' + l % 2, by simp only [Set.mem_ofPred_eq]; omega, ?_⟩
   simp only [gen6]
   rw [show (2 * j' + l % 2) / 2 = j' by omega, show (2 * j' + l % 2) % 2 = l % 2 by omega, e]
 
@@ -269,7 +269,7 @@ theorem pair_eq (m : Nat → Nat) :
     gen6 m '' {l | l < 6} = ({eW (2 * m 0), eW (2 * m 0 + 1)} ∪ {eW (2 * m 1), eW (2 * m 1 + 1)} ∪
       {eW (2 * m 2), eW (2 * m 2 + 1)} : Set (Wr 7)) := by
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_union, Set.mem_insert_iff,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_union, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨l, hl, rfl⟩

@@ -36,9 +36,9 @@ theorem cfInner_sum_smul_left_of_orthonormal
     (hη : ∀ k l, cfInner (η k) (η l) = if k = l then (1 : ℂ) else 0) (c : ι → ℂ) (l : ι) :
     cfInner (∑ k, c k • η k) (η l) = c l := by
   rw [cfInner_left_sum_smul, Finset.sum_eq_single_of_mem l (Finset.mem_univ l)]
-  · rw [hη, if_pos rfl, mul_one]
+  · rw [hη, ite_eq_left rfl, mul_one]
   · intro k _ hkl
-    rw [hη, if_neg hkl, mul_zero]
+    rw [hη, ite_eq_right hkl, mul_zero]
 
 theorem cfInner_self_add_sum_smul_of_orthonormal
     (hη : ∀ k l, cfInner (η k) (η l) = if k = l then (1 : ℂ) else 0) {Δ : G → ℂ}
@@ -123,8 +123,8 @@ theorem cfInner_nuImage_of_ne {k l : ι} (h : k ≠ l) :
 theorem cfInner_nuImage_nuImage [DecidableEq ι] (k l : ι) :
     cfInner (E.nuImage k) (E.nuImage l) = if k = l then 1 else 0 := by
   by_cases h : k = l
-  · subst h; rw [if_pos rfl, E.cfInner_nuImage_self]
-  · rw [if_neg h, E.cfInner_nuImage_of_ne h]
+  · subst h; rw [ite_eq_left rfl, E.cfInner_nuImage_self]
+  · rw [ite_eq_right h, E.cfInner_nuImage_of_ne h]
 
 include E in
 theorem sub_smul_mem_charSpanZero :
@@ -170,10 +170,10 @@ theorem bCoeff_apply (k : ι) :
     E.bCoeff k = cfInner E.alpha (E.nuImage k) + (d : ℂ) * (if k = k₀ then 1 else 0) := (rfl)
 
 theorem bCoeff_of_ne {k : ι} (h : k ≠ k₀) : E.bCoeff k = cfInner E.alpha (E.nuImage k) := by
-  rw [bCoeff, if_neg h]; ring
+  rw [bCoeff, ite_eq_right h]; ring
 
 theorem bCoeff_self : E.bCoeff k₀ = cfInner E.alpha (E.nuImage k₀) + (d : ℂ) := by
-  rw [bCoeff, if_pos rfl, mul_one]
+  rw [bCoeff, ite_eq_left rfl, mul_one]
 
 noncomputable def remainder : G → ℂ :=
   E.alpha + (d : ℂ) • E.nuImage k₀ - ∑ k, E.bCoeff k • E.nuImage k
@@ -214,7 +214,7 @@ theorem cfInner_remainder_nuImage (k : ι) : cfInner E.remainder (E.nuImage k) =
     E.cfInner_nuImage_nuImage, bCoeff]
   by_cases hk : k = k₀
   · subst hk; simp
-  · rw [if_neg (Ne.symm hk), if_neg hk]; ring
+  · rw [ite_eq_right (Ne.symm hk), ite_eq_right hk]; ring
 
 theorem alpha_eq :
     E.alpha = E.remainder
@@ -226,8 +226,8 @@ theorem alpha_eq :
       Finset.sum_sub_distrib]
     congr 1
     rw [Finset.sum_eq_single_of_mem k₀ (Finset.mem_univ k₀)]
-    · rw [if_pos rfl, mul_one]
-    · intro k _ hk; rw [if_neg hk, mul_zero, zero_smul]
+    · rw [ite_eq_left rfl, mul_one]
+    · intro k _ hk; rw [ite_eq_right hk, mul_zero, zero_smul]
   rw [hsplit, remainder]
   abel
 
@@ -249,10 +249,10 @@ theorem cfInner_self_remainder_add_sum_sq :
       split <;> simp
     rw [hconj]
     by_cases hk : k = k₀
-    · subst hk; rw [if_pos rfl, if_pos rfl]; ring
-    · rw [if_neg hk, if_neg hk]; ring
+    · subst hk; rw [ite_eq_left rfl, ite_eq_left rfl]; ring
+    · rw [ite_eq_right hk, ite_eq_right hk]; ring
   rw [Finset.sum_congr rfl fun k _ => hcc k, Finset.sum_add_distrib,
-    Finset.sum_ite_eq' Finset.univ k₀ _, if_pos (Finset.mem_univ k₀)] at hpy
+    Finset.sum_ite_eq' Finset.univ k₀ _, ite_eq_left (Finset.mem_univ k₀)] at hpy
   linear_combination -hpy
 
 theorem int_remainder_add_sum_sq {b : ι → ℤ} (hb : ∀ k, E.bCoeff k = (b k : ℂ)) {n : ℤ}

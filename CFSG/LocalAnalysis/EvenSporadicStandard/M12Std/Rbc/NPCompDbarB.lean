@@ -13,6 +13,7 @@ open Equiv Subgroup
 
 variable {K : Type*} [Group K] {A : Subgroup K} [A.Normal]
 
+omit [A.Normal] in
 theorem inf_centralizer_single_eq {w c : K} (hS : Alt5Pair A w c) :
     A ⊓ centralizer ({w} : Set K) = A ⊓ centralizer ({c} : Set K) := by
   ext x
@@ -43,6 +44,7 @@ theorem inf_centralizer_single_eq {w c : K} (hS : Alt5Pair A w c) :
       _ = c * ((c⁻¹ * w) * x) := by rw [hxh]
       _ = (c * (c⁻¹ * w)) * x := by group
 
+omit [A.Normal] in
 theorem card_inf_centralizer_h₀_le_two [Finite K] (e : ↥A ≃* alternatingGroup (Fin 5)) {w c : K}
     (hS : Alt5Pair A w c) (hcard : Nat.card ↥(centralizer ({w} : Set K)) ≤ 8) :
     Nat.card ↥(centralizer (A : Set K) ⊓ centralizer ({c⁻¹ * w} : Set K)) ≤ 2 := by

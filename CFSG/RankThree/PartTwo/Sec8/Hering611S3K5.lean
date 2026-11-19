@@ -35,9 +35,11 @@ theorem Xsub_perfect (K V : Subgroup G) : Group.IsPerfect (Xsub K V) := by
     CFSG.perfect_residual_characterization (G := ↥(K ⊓ Subgroup.normalizer (V : Set G)))
   exact Group.IsPerfect.map (K ⊓ Subgroup.normalizer (V : Set G)).subtype
 
+omit [Finite G] in
 theorem Xsub_le_K (K V : Subgroup G) : Xsub K V ≤ K :=
   (Subgroup.map_subtype_le _).trans inf_le_left
 
+omit [Finite G] in
 theorem Xsub_le_normalizer (K V : Subgroup G) : Xsub K V ≤ Subgroup.normalizer (V : Set G) :=
   (Subgroup.map_subtype_le _).trans inf_le_right
 
@@ -83,6 +85,7 @@ theorem imageSub_Xsub {K V : Subgroup G}
       inf_le_left (QuotientGroup.mk' (aschbacherSolvableCore 3 K))
   rw [h1, imageSub_normalizer hθ hVK hV2]
 
+omit [Finite G] in
 theorem mem_Xsub_of_mk_mem {p : ℕ} [Fact p.Prime] {K V : Subgroup G}
     (hθp : ¬ p ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) {x : G} (hxK : x ∈ K)
     (hxN : x ∈ Subgroup.normalizer (V : Set G)) (hxp : ∃ n : ℕ, x ^ (p ^ n) = 1)

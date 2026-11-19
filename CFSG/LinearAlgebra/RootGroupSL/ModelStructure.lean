@@ -12,9 +12,11 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
   [AddCommGroup V₀] [Module k V₀]
   [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀]
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma sl_mul_apply (g₁ g₂ : SpecialLinearGroup k (VJ × V₀)) (p : VJ × V₀) :
     (g₁ * g₂) p = g₁ (g₂ p) := rfl
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma sl_map_add (g : SpecialLinearGroup k (VJ × V₀)) (p q : VJ × V₀) :
     g (p + q) = g p + g q := by
   simpa only [SpecialLinearGroup.toLinearEquiv_apply] using
@@ -32,6 +34,7 @@ private lemma blockSLE_mem_modelJ (B : SpecialLinearGroup E VJ) :
     blockSLE k V₀ B ∈ modelJ k E VJ V₀ :=
   MonoidHom.mem_range.mpr ⟨B, rfl⟩
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelA1_inf_modelK1 : modelA1 k VJ V₀ ⊓ modelK1 k VJ V₀ = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro g hg
@@ -46,6 +49,7 @@ theorem modelA1_inf_modelK1 : modelA1 k VJ V₀ ⊓ modelK1 k VJ V₀ = ⊥ := b
       _ = (v, w) := hp
   exact SpecialLinearGroup.ext _ 1 fun p => by simpa using hfix p
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelA2_inf_modelK1 : modelA2 k VJ V₀ ⊓ modelK1 k VJ V₀ = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro g hg
@@ -78,6 +82,7 @@ theorem modelA2_mul_comm {a b : SpecialLinearGroup k (VJ × V₀)} (ha : a ∈ m
     _ = modelA2Elt (ψ' + ψ) := by rw [add_comm]
     _ = modelA2Elt ψ' * modelA2Elt ψ := modelA2Elt_add ψ' ψ
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelK1_conj_mem_modelA1 {g a : SpecialLinearGroup k (VJ × V₀)}
     (hg : g ∈ modelK1 k VJ V₀) (ha : a ∈ modelA1 k VJ V₀) : g * a * g⁻¹ ∈ modelA1 k VJ V₀ := by
   obtain ⟨hg'1, hg'2⟩ := (modelK1 k VJ V₀).inv_mem hg
@@ -101,6 +106,7 @@ theorem modelK1_conj_mem_modelA1 {g a : SpecialLinearGroup k (VJ × V₀)}
     rw [sl_mul_apply, sl_mul_apply, hg'2 w, haw, hgw]
     simp [hg1 x]
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem modelK1_conj_mem_modelA2 {g a : SpecialLinearGroup k (VJ × V₀)}
     (hg : g ∈ modelK1 k VJ V₀) (ha : a ∈ modelA2 k VJ V₀) : g * a * g⁻¹ ∈ modelA2 k VJ V₀ := by
   obtain ⟨hg'1, hg'2⟩ := (modelK1 k VJ V₀).inv_mem hg
@@ -150,10 +156,10 @@ theorem modelA1_eq_one_of_commute_modelJ (hm : 2 ≤ Module.finrank E VJ)
       have h1 : Module.finrank E (E ∙ φ w) = 1 := finrank_span_singleton hu
       rw [htop, finrank_top] at h1
       omega
-    obtain ⟨u', hu'⟩ := SetLike.exists_not_mem_of_ne_top (E ∙ φ w) hne
+    obtain ⟨u', hu'⟩ := SetLike.exists_notMem_of_ne_top (E ∙ φ w) hne
     have hu'0 : u' ≠ 0 := by
       intro h0
-      exact hu' (by simpa [h0] using Submodule.zero_mem (E ∙ φ w))
+      exact hu' (by simp [h0])
     obtain ⟨B, hB⟩ := exists_specialLinear_apply_eq hm hu hu'0
     have huu : u' = φ w := by rw [← hB, key B w]
     exact hu' (huu.symm ▸ Submodule.mem_span_singleton_self (φ w))
@@ -195,10 +201,10 @@ theorem modelA2_eq_one_of_commute_modelJ (hm : 2 ≤ Module.finrank E VJ)
         have h1 : Module.finrank E (E ∙ x) = 1 := finrank_span_singleton hx
         rw [htop, finrank_top] at h1
         omega
-      obtain ⟨v, hv⟩ := SetLike.exists_not_mem_of_ne_top (E ∙ x) hne
+      obtain ⟨v, hv⟩ := SetLike.exists_notMem_of_ne_top (E ∙ x) hne
       have hv0 : v ≠ 0 := by
         intro h0
-        exact hv (by simpa [h0] using Submodule.zero_mem (E ∙ x))
+        exact hv (by simp [h0])
       have hvx : v + x ≠ 0 := by
         intro h0
         apply hv

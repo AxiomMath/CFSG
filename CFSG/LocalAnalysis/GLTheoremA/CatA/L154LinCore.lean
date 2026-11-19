@@ -25,9 +25,9 @@ instance factorSL'_normal {r : ℕ} (D : Fin r → Type) [∀ i, Field (D i)] (d
 theorem l154_not_isSolvable_of_isQuasisimple {G : Type*} [Group G] (hq : CFSG.Open.IsQuasisimple G) :
     ¬ Group.IsSolvable G := by
   intro hs
-  haveI : Group.IsPerfect G := ⟨hq.1⟩
-  haveI : Nontrivial G := by
-    haveI := hq.2
+  have : Group.IsPerfect G := ⟨hq.1⟩
+  have : Nontrivial G := by
+    have := hq.2
     obtain ⟨a, b, hab⟩ := exists_pair_ne (G ⧸ Subgroup.center G)
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -45,12 +45,12 @@ theorem linear_pcomp_core' {F : Type} [Field F] [Finite F] {n r : ℕ}
   obtain ⟨KP, hKP⟩ : ∃ KP : Subgroup (∀ j, GL (Fin (d j)) (D j)),
       KP = (StatedSL n F).comap θ := ⟨_, rfl⟩
   have memKP : ∀ x, x ∈ KP ↔ θ x ∈ StatedSL n F := fun x => by rw [hKP]; rfl
-  haveI hKPn : KP.Normal := by rw [hKP]; infer_instance
+  have hKPn : KP.Normal := by rw [hKP]; infer_instance
   obtain ⟨T, hT⟩ : ∃ T : Fin r → Subgroup (∀ j, GL (Fin (d j)) (D j)),
       ∀ i, T i = factorSL' D d i ⊓ KP := ⟨fun i => factorSL' D d i ⊓ KP, fun i => rfl⟩
-  haveI hTn : ∀ i, (T i).Normal := fun i => by rw [hT i]; infer_instance
+  have hTn : ∀ i, (T i).Normal := fun i => by rw [hT i]; infer_instance
   obtain ⟨Q, hQ⟩ : ∃ Q : Subgroup (∀ j, GL (Fin (d j)) (D j)), Q = ⨆ i, T i := ⟨_, rfl⟩
-  haveI hQn : Q.Normal := by rw [hQ]; infer_instance
+  have hQn : Q.Normal := by rw [hQ]; infer_instance
   have hQKP : Q ≤ KP := by
     rw [hQ]
     exact iSup_le fun i => by rw [hT i]; exact inf_le_right
@@ -88,7 +88,7 @@ theorem linear_pcomp_core' {F : Type} [Field F] [Finite F] {n r : ℕ}
     obtain ⟨q, hq, hqe⟩ := Subgroup.mem_map.mp he
     refine Subgroup.mem_map.mpr ⟨k * q * k⁻¹, hQn.conj_mem q hq k, ?_⟩
     simp [map_mul, map_inv, hkg, hqe]
-  haveI hEn' : (E.subgroupOf X).Normal := hEn
+  have hEn' : (E.subgroupOf X).Normal := hEn
   have hsolv : Group.IsSolvable (X ⧸ E.subgroupOf X) := by
     apply Group.isSolvable_of_comm
     intro a b
@@ -101,7 +101,7 @@ theorem linear_pcomp_core' {F : Type} [Field F] [Finite F] {n r : ℕ}
     have hc : ((x : GL (Fin n) F) * (y : GL (Fin n) F))⁻¹ *
         ((y : GL (Fin n) F) * (x : GL (Fin n) F)) = θ ⁅l⁻¹, k⁻¹⁆ := by
       rw [← hkx, ← hly]
-      simp only [map_commutatorElement, map_inv, map_mul, commutatorElement_def]
+      simp only [map_inv, map_mul, commutatorElement_def]
       group
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hc, hE]
@@ -168,7 +168,7 @@ theorem linear_pcomp_core' {F : Type} [Field F] [Finite F] {n r : ℕ}
     · right
       have hsolvS : Group.IsSolvable ↥(StatedSL (d i) (D i)) := by
         rcases Nat.lt_or_ge (d i) 2 with hlt | hge
-        · haveI := hct_subsingleton_statedSL_of_le_one (K := D i) (by omega : d i ≤ 1)
+        · have := hct_subsingleton_statedSL_of_le_one (K := D i) (by omega : d i ≤ 1)
           infer_instance
         · have hd2 : d i = 2 := by
             by_contra hne
@@ -196,7 +196,7 @@ theorem linear_pcomp_core' {F : Type} [Field F] [Finite F] {n r : ℕ}
       have hLle : L i ≤ (factorSL' D d i).map θ := by
         rw [hL i]
         exact Subgroup.map_mono hTle
-      haveI hFmap : Group.IsSolvable ↥((factorSL' D d i).map θ) :=
+      have hFmap : Group.IsSolvable ↥((factorSL' D d i).map θ) :=
         Group.isSolvable_of_isSolvable_injective
           (f := (Subgroup.equivMapOfInjective (factorSL' D d i) θ hθ).symm.toMonoidHom)
           (Subgroup.equivMapOfInjective (factorSL' D d i) θ hθ).symm.injective
@@ -237,9 +237,9 @@ theorem exists_linComp {F : Type} [Field F] [Finite F] (h2 : (2 : F) = 0) {d : �
     exact hA
   obtain ⟨r, D, dd, hFld, hFin, hAlg, Φ, θ, _hNZ, hΦinj, _hΦrange, hθinj, hθrange, hθapply⟩ :=
     exists_piMat_commutant (Subgroup.zpowers A) hA'
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
-  letI : ∀ i, Algebra F (D i) := hAlg
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Algebra F (D i) := hAlg
   have hcent : Subgroup.centralizer ((Subgroup.zpowers A : Subgroup (GL (Fin d) F)) :
       Set (GL (Fin d) F)) = Subgroup.centralizer ({A} : Set (GL (Fin d) F)) := by
     ext g

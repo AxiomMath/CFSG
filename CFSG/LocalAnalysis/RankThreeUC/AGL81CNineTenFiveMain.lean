@@ -12,6 +12,7 @@ section Abstract
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem le_oPPrimeHull_top_of_isElemAbelian (hp : p.Prime) {E : Subgroup X}
     (hE : CFSG.Open.IsElemAbelian p E) : E ≤ oPPrimeHull p (⊤ : Subgroup X) := by
   intro x hxE

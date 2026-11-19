@@ -31,10 +31,10 @@ theorem exists_cubeHom (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω}
       ∀ x, ∃ hx : g * rootDiagUnit Tag.E6 (zetaVec ζ hζ (Multiplicative.toAdd x)) * g⁻¹ ∈
         TwistedDiag.Rgrp Ω Fr, Ψ x = rgrpConjAut hn hK σ hσ Fr hFr ⟨_, hx⟩ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   set Φ := rgrpConjAut hn hK σ hσ Fr hFr with hΦ
   have hb : ∀ x : Fin Tag.E6.rank → ZMod 3, ∀ i, zetaVec ζ hζ x i ^ 3 = 1 := fun x i => by
     rw [zetaVec_apply, ← pow_mul, mul_comm, pow_mul, hζ, one_pow]
@@ -70,23 +70,23 @@ theorem exists_coroot_mem_of_le (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω}
       ζ ≠ 1 ∧ ∃ hd : g * rootDiagUnit Tag.E6 (TwE6RootAs.corootTuple γ ζ) * g⁻¹ ∈
         TwistedDiag.Rgrp Ω Fr, rgrpConjAut hn hK σ hσ Fr hFr ⟨_, hd⟩ ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have h30 : (3 : Ω) ≠ 0 := three_ne_zero_of_dvd_card_add_one (ℓ := 2) hn h3
   obtain ⟨ζ, hζ, hζo⟩ := TwistedDiag.exists_cube_root (Ω := Ω) h30
   obtain ⟨Ψ, hΨinj, hΨrange, hΨ⟩ := exists_cubeHom hn hK σ hσ Fr hFr h3 hg hgn hζ hζo
   let S0 : AddSubgroup (Fin Tag.E6.rank → ZMod 3) :=
     { carrier := {x | Ψ (Multiplicative.ofAdd x) ∈ S}
       zero_mem' := by
-        rw [Set.mem_setOf_eq, ofAdd_zero, map_one]
+        rw [Set.mem_ofPred_eq, ofAdd_zero, map_one]
         exact one_mem S
       add_mem' := fun {x y} hx hy => by
-        rw [Set.mem_setOf_eq, ofAdd_add, map_mul]
+        rw [Set.mem_ofPred_eq, ofAdd_add, map_mul]
         exact mul_mem hx hy
       neg_mem' := fun {x} hx => by
-        rw [Set.mem_setOf_eq, ofAdd_neg, map_inv]
+        rw [Set.mem_ofPred_eq, ofAdd_neg, map_inv]
         exact inv_mem hx }
   have hcard : Nat.card S0 = Nat.card S :=
     Nat.card_congr (Equiv.ofBijective (fun x : S0 => (⟨Ψ (Multiplicative.ofAdd x.1), x.2⟩ : S))

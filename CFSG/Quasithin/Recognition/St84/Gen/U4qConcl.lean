@@ -20,7 +20,7 @@ theorem perfectCore_sup_eq_of_isL2Quot {G : Type} [Group G] [Finite G] {L B : Su
     (hBL : B ≤ Subgroup.normalizer (L : Set G)) (hB : Group.IsSolvable ↥B) {f : ℕ} (hf : 2 ≤ f)
     (hq : IsL2Quot f (oTwoQuot ↥L)) (ho : pCoreOf 2 (L ⊔ B) ≤ perfectCore (L ⊔ B)) :
     perfectCore (L ⊔ B) = L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLP : L ≤ L ⊔ B := le_sup_left
   have hn : (L.subgroupOf (L ⊔ B)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLP).mpr (sup_le Subgroup.le_normalizer hBL)
@@ -55,7 +55,7 @@ theorem not_nonempty_perfectCore_sup_mulEquiv_parP {G : Type} [Group G] [Finite 
   have hleft : Nat.card (oTwoQuot ↥L) = 2 ^ (2 * f) * (4 ^ (2 * f) - 1) :=
     IsL2Quot.card (by omega : 1 ≤ 2 * f) hq
   have hright : Nat.card (oTwoQuot ↥(perfectCore (parP h))) = 2 ^ f * (4 ^ f - 1) := by
-    haveI := h.finite
+    have := h.finite
     refine (Nat.card_congr (U4qModel.quotPerfectCoreParP h hf).toEquiv).trans ?_
     refine (Nat.card_congr (CFSG.Quasithin.F146Field.Cover.slTwoCongr
       (CFSG.Quasithin.F146Field.Cover.ringEquivGalois (by omega)
@@ -129,7 +129,7 @@ theorem y9U4q_concl {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : 
     (centerOf S ≤ Subgroup.centralizer (L2 : Set G) →
         centerOf S ≤ Subgroup.centralizer (L1 : Set G)) ∧
       IsBlock2 L2 L2 ∧ IsOmega4MinusType L2 f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hB1, hB2⟩ := bigB_le_normalizer hF.1
   have hc1 := perfectCore_sup_eq_of_isL2Quot hB1 hB hf h1 ho1
   have hc2 := perfectCore_sup_eq_of_isL2Quot hB2 hB (by omega : 2 ≤ 2 * f) h2 ho2

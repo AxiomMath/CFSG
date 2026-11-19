@@ -66,7 +66,7 @@ theorem sup_eq_top :
   · obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 (↥(hz T V) ⧸ CFSG.pCore 2 ↥(hz T V))))
     have hPK : (P : Subgroup _) ≤ modO2Image (hz T V) (oTwoUpper H) := by
       intro x hx
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
       exact E.mem_kdot_of_pow hF (m := k) (by simpa using congrArg Subtype.val hk)
     exact P.not_dvd_index (hpd.trans (Subgroup.index_dvd_of_le (hPK.trans le_sup_left)))
 

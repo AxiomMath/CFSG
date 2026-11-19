@@ -49,7 +49,7 @@ theorem commutator_mem_sup_centralizer_of_mem {L : Subgroup G} {w j : G}
 @[expose] def commutesModInner (L : Subgroup G) (w : G) : Subgroup G where
   carrier := {j | j ∈ Subgroup.normalizer (L : Set G) ∧
     ⁅w, j⁆ ∈ L ⊔ Subgroup.centralizer (L : Set G)}
-  one_mem' := ⟨one_mem _, by simpa using one_mem (L ⊔ Subgroup.centralizer (L : Set G))⟩
+  one_mem' := ⟨one_mem _, by simp⟩
   mul_mem' := by
     rintro j j' ⟨hjN, hjK⟩ ⟨hj'N, hj'K⟩
     refine ⟨mul_mem hjN hj'N, ?_⟩
@@ -69,7 +69,7 @@ theorem commutator_mem_sup_centralizer_of_mem {L : Subgroup G} {w j : G}
 
 theorem sup_centralizer_le_commutesModInner {L : Subgroup G} {w : G}
     (hw : w ∈ Subgroup.normalizer (L : Set G)) :
-    L ⊔ Subgroup.centralizer (L : Set G) ≤ commutesModInner L w := fun j hj =>
+    L ⊔ Subgroup.centralizer (L : Set G) ≤ commutesModInner L w := fun _j hj =>
   ⟨sup_centralizer_le_normalizer L hj, commutator_mem_sup_centralizer_of_mem hw hj⟩
 
 theorem inverted_commutator {a : G} (ha : a * a = 1) (w : G) :

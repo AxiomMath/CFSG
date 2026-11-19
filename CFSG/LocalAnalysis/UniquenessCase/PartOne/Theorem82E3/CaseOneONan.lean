@@ -27,7 +27,7 @@ theorem forall_pow_three_eq_one_mem_L_of_threeCover (c : Ctx82E3 D) (hK3 : K3Exp
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     ∀ x ∈ P, x ^ 3 = 1 → x ∈ c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set Lbar := ↥c.L ⧸ CFSG.Open.pCore 2 ↥c.L with hLbar
   set φ := CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L with hφ
   set C : Subgroup G := φ.ker.map D.M.subtype with hC
@@ -99,7 +99,7 @@ theorem forall_pow_three_eq_one_mem_L_of_threeCover (c : Ctx82E3 D) (hK3 : K3Exp
     (CFSG.GroupTheory.le_map_ker_conjModPCore_iff_commutator 2 c.L D.M C
       c.le_normalizer_L (Subgroup.map_subtype_le φ.ker)).mp (le_refl C)
   have hc0_3N : c0 ^ 3 ∈ CFSG.Open.pCoreOf 2 c.L := by
-    haveI : ((CFSG.Open.pCoreOf 2 c.L).subgroupOf D.M).Normal :=
+    have : ((CFSG.Open.pCoreOf 2 c.L).subgroupOf D.M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hN_le).mpr
         (c.le_normalizer_L.trans
           (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 c.L))
@@ -171,7 +171,7 @@ theorem two_le_pRank_range_of_threeCover_ONan (c : Ctx82E3 D) (hK3 : K3Exp)
     2 ≤ CFSG.Open.pRank p
       (CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L).range := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 D.M
   have hΩ : ∀ x ∈ P, x ^ 3 = 1 → x ∈ c.L :=
     forall_pow_three_eq_one_mem_L_of_threeCover c hK3 hOut hON hP

@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.WeakClosureHeis
 
 theorem sq_dvd_pow_sub_one {p ℓ f : ℕ} (hp : p.Prime) (hℓ : 1 ≤ ℓ) (hpf : p ∣ f)
     (h : p ∣ ℓ ^ f - 1) : p ^ 2 ∣ ℓ ^ f - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, rfl⟩ := hpf
   have hpow : ℓ ^ (p * g) = (ℓ ^ g) ^ p := by rw [← pow_mul, mul_comm]
   rw [hpow] at h ⊢
@@ -38,7 +38,7 @@ theorem sq_dvd_pow_sub_one {p ℓ f : ℕ} (hp : p.Prime) (hℓ : 1 ≤ ℓ) (hp
 
 theorem sq_dvd_pow_add_one {p ℓ f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpf : p ∣ f)
     (h : p ∣ ℓ ^ f + 1) : p ^ 2 ∣ ℓ ^ f + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, rfl⟩ := hpf
   have hpow : ℓ ^ (p * g) = (ℓ ^ g) ^ p := by rw [← pow_mul, mul_comm]
   rw [hpow] at h ⊢
@@ -280,7 +280,7 @@ theorem permGL_mem_normalizer_torusFive {ζ : Fˣ} (σ : Equiv.Perm (Fin 5)) :
 
 theorem isPGroup_torusFive_sup {ζ : Fˣ} (hζ : orderOf ζ = 5) :
     IsPGroup 5 ↥(torusFive ζ ⊔ Subgroup.zpowers (permGL 5 (finRotate 5) : GL (Fin 5) F)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hT : IsPGroup 5 ↥(torusFive ζ : Subgroup (GL (Fin 5) F)) := by
     intro x
     exact ⟨1, by apply Subtype.ext; simpa using pow_five_of_mem_torusFive hζ x.2⟩
@@ -305,7 +305,7 @@ theorem mem_range_conj_of_fixes {S P : Type} [Group S] [Group P] [Finite P]
     (β : MulAut P) (hβ : ∀ s, β (π s) = π (γ s))
     {T : Subgroup P} (hT : IsPGroup 5 T) (hTi : ¬ 5 ∣ T.index) (hβT : ∀ t ∈ T, β t = t) :
     β ∈ (MulAut.conj : P →* MulAut P).range := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨s₁, hs₁⟩ := hD ζ (by rw [← hζ]; exact pow_orderOf_eq_one ζ)
   obtain ⟨s₂, hs₂⟩ := hd
   obtain ⟨s₃, hs₃⟩ := hc

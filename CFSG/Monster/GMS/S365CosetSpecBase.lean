@@ -19,7 +19,7 @@ open CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Sporadic.Co1.Module
   CFSG.Sporadic.Co1.Module.Pairs CFSG.Sporadic.Co1.S365Native CFSG.Sporadic.Co1.InvNative
   CFSG.Sporadic.Co1.S365CentNative
 
-@[expose] def InK (x y κ : Fin 24 → ZMod 2) : Prop := κ = 0 ∨ κ = x ∨ κ = y ∨ κ = x + y
+def InK (x y κ : Fin 24 → ZMod 2) : Prop := κ = 0 ∨ κ = x ∨ κ = y ∨ κ = x + y
 
 theorem vec_add_add_left (u v : Fin 24 → ZMod 2) : u + (u + v) = v := by
   rw [← add_assoc, vec_add_self, zero_add]
@@ -57,7 +57,7 @@ theorem InK.smul {x y κ : Fin 24 → ZMod 2} {g : Co1} (hx : g • x = x)
   · right; right; left; exact hy
   · right; right; right; rw [smul_add, hx, hy]
 
-@[expose] def CosetEq (x y u w : Fin 24 → ZMod 2) : Prop := InK x y (u + w)
+def CosetEq (x y u w : Fin 24 → ZMod 2) : Prop := InK x y (u + w)
 
 theorem CosetEq.refl (x y w : Fin 24 → ZMod 2) : CosetEq x y w w := by
   unfold CosetEq InK
@@ -192,7 +192,7 @@ theorem inK_of_mem {k : ℕ} (hk : k = 0 ∨ k = 2 ∨ k = 4 ∨ k = 6) :
   · right; right; right
     rw [show (6 : ℕ) = 2 ^^^ 4 by decide, toVecD_xor]
 
-@[expose] def canonPatSet (P : ℕ → Bool) (n : ℕ) : Finset ℕ :=
+def canonPatSet (P : ℕ → Bool) (n : ℕ) : Finset ℕ :=
   (Finset.range n).filter fun r => P r = true ∧ canon4 2 4 r = r
 
 theorem mem_canonPatSet (P : ℕ → Bool) (n r : ℕ) :
@@ -273,7 +273,7 @@ theorem exists_cosetElems :
   choose gl hgl using hex
   exact ⟨gl, fun l hl => hgl l hl⟩
 
-@[expose] def pathElem (gl : ℕ → Co1) : List ℕ → Co1
+def pathElem (gl : ℕ → Co1) : List ℕ → Co1
   | [] => 1
   | l :: p => pathElem gl p * gl l
 
@@ -301,7 +301,7 @@ theorem pathElem_fix {gl : ℕ → Co1} {v : Fin 24 → ZMod 2}
     rw [pathElem, mul_smul, hfix l (hp l (List.mem_cons_self ..))]
     exact ih (fun l' hl' => hp l' (List.mem_cons_of_mem _ hl'))
 
-@[expose] def PatSet (a b : Fin 24 → ZMod 2) : Set (Fin 24 → ZMod 2) :=
+def PatSet (a b : Fin 24 → ZMod 2) : Set (Fin 24 → ZMod 2) :=
   {v | v ∈ co1Orbit 2 ∧ v + a ∈ co1Orbit 2 ∧ v + b ∈ co1Orbit 2 ∧ v + a + b ∈ co1Orbit 2}
 
 theorem PatSet.map {a b t : Fin 24 → ZMod 2} (g : Co1) (ht : t ∈ PatSet a b) :

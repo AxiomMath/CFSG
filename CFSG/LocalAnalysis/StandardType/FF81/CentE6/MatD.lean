@@ -144,7 +144,7 @@ private theorem coe_elem_ne {a b : Fin 6} (h : a ≠ b) :
     ((elem a b : SL(6, ZMod 2)) : Matrix (Fin 6) (Fin 6) (ZMod 2)) =
       1 + Matrix.single a b 1 := by
   unfold elem
-  rw [dif_neg h]
+  rw [dite_eq_right h]
   rfl
 
 private theorem blkSLHom_transvection_one (i j : Fin 3) (hij : i ≠ j) :

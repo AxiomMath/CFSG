@@ -11,7 +11,7 @@ open CFSG.Open
 theorem padicValNat_card_statedProj_statedSL {K : Type} [Field K] [Finite K] {p m a : ℕ}
     (hp : p.Prime) (hm : 1 ≤ m) (hK : Nat.card K = p ^ m) (ha : 1 ≤ a) :
     padicValNat p (Nat.card (StatedProj (StatedSL a K))) = m * (a * (a - 1) / 2) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSL ha, hK]
   have hq0 : p ^ m ≠ 0 := pow_ne_zero _ hp.ne_zero
   have hq1 : 1 < p ^ m := Nat.one_lt_pow (by omega) hp.one_lt

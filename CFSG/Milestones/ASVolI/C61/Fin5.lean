@@ -108,9 +108,9 @@ theorem burnsideC56_fin_c3 (hι : Function.Injective ι) (hκ : Function.Injecti
     simp only [burnsideC56_finH_isBlock2 hι, burnsideC56_finH_isLin2Type hι,
       burnsideC56_finH_isAltType hι] at hcond'
     have h1 := c3a hcond'
-    rw [hC, hQ', burnsideC56_tr_rconj hκ, ← burnsideC56_fin_image_pair,
+    rw [hC, hQ', burnsideC56_tr_rconj, ← burnsideC56_fin_image_pair,
       burnsideC56_fin_AFam_eq hκ] at h1
-    rw [← hC', ← hQ'', show (Λ.subtype x₀ : G) = Λ.subtype x₀ from rfl, burnsideC56_tr_rconj hsΛ,
+    rw [← hC', ← hQ'', show (Λ.subtype x₀ : G) = Λ.subtype x₀ from rfl, burnsideC56_tr_rconj,
       ← burnsideC56_fin_image_pair, burnsideC56_fin_AFam_eq hsΛ]
     exact h1
   · intro n hn hb hlin B hB hBe

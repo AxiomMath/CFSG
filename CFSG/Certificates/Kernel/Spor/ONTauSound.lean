@@ -25,13 +25,13 @@ theorem seedL_eq (a ai b bi : Nat) (z : ℤ) :
   · rfl
   · rfl
   · rfl
-  · rw [if_neg (by rw [Int.ofNat_eq_coe]; omega), if_neg (by rw [Int.ofNat_eq_coe]; omega),
-      if_neg (by rw [Int.ofNat_eq_coe]; omega)]
+  · rw [ite_eq_right (by rw [Int.ofNat_eq_natCast]; omega), ite_eq_right (by rw [Int.ofNat_eq_natCast]; omega),
+      ite_eq_right (by rw [Int.ofNat_eq_natCast]; omega)]
     rfl
-  · rw [if_neg (by decide), if_pos (by decide)]
+  · rw [ite_eq_right (by decide), ite_eq_left (by decide)]
     rfl
-  · rw [if_neg (by rw [Int.negSucc_eq]; omega), if_neg (by rw [Int.negSucc_eq]; omega),
-      if_neg (by rw [Int.negSucc_eq]; omega)]
+  · rw [ite_eq_right (by rw [Int.negSucc_eq]; omega), ite_eq_right (by rw [Int.negSucc_eq]; omega),
+      ite_eq_right (by rw [Int.negSucc_eq]; omega)]
     rfl
 
 theorem seedL_reps {a ai b bi : Nat} {gA gB : G} (ha : Reps φ a gA) (hai : Reps φ ai gA⁻¹)
@@ -152,7 +152,7 @@ theorem batK_reps {F : Nat → Nat} {g : G} (hF : ∀ c < 154, PV (F c))
   have hF' : ∀ c < 154, PV (F (0 + c)) := fun c hc => by rw [Nat.zero_add]; exact hF c hc
   refine ⟨batK_canon (le_refl 154) hF', ?_⟩
   ext r c
-  rw [batK_omat (le_refl 154) hF', if_pos c.isLt, Nat.zero_add, hg]
+  rw [batK_omat (le_refl 154) hF', ite_eq_left c.isLt, Nat.zero_add, hg]
 
 theorem relsK_conj {mul : Nat → Nat → Nat → Nat → Nat → Nat → Nat}
     {bat : Nat → Nat → (Nat → Nat) → Nat → Nat → Nat} {cs₀ ds₀ L₀ H₀ cm₀ rm₀ one₀ a b bi : Nat}

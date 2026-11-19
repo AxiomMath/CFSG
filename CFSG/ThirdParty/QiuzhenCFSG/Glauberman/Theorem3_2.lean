@@ -547,7 +547,7 @@ private lemma sylow_subgroupOf_normal {p : ℕ} [Fact p.Prime] {G : Type*} [Grou
   have hT_p : IsPGroup p T := by
     intro x
     let xs : ↥(S : Subgroup G) := ⟨x.1.1, x.2⟩
-    rcases (S.isPGroup' xs) with ⟨n, hn⟩
+    rcases (S.isPGroup xs) with ⟨n, hn⟩
     refine ⟨n, ?_⟩
     apply Subtype.ext
     apply Subtype.ext
@@ -811,7 +811,7 @@ public theorem theorem3_2 {p : ℕ} [Fact p.Prime] (_hpodd : p ≠ 2) {G : Type*
     rw [show x = l * (l⁻¹ * x) by group]
     exact L.mul_mem hl (hC1cen_le_L hxl_inv)
   -- Corollary 3.1 applied to `B ⊆ S`: `∃ A₀ ∈ A(S)` with `[B,A₀,A₀] = 1`
-  obtain ⟨A0, hA0_AS, _hA0_norm, hA0_BAA⟩ := corollary3_1 (P := (S : Subgroup G)) S.isPGroup' (B := B)
+  obtain ⟨A0, hA0_AS, _hA0_norm, hA0_BAA⟩ := corollary3_1 (P := (S : Subgroup G)) S.isPGroup (B := B)
     hB_le_S hB_comm (Subgroup.Normal.subgroupOf hB_norm (S : Subgroup G))
   -- `(3.5)` with `C₁ := B`: `A₀ ≤ L`
   have hC_le_B : C ≤ B := inf_le_right
@@ -860,7 +860,7 @@ public theorem theorem3_2 {p : ℕ} [Fact p.Prime] (_hpodd : p ≠ 2) {G : Type*
   -- `V` is a `p`-subgroup (it lies in `X ≤ L∩S ≤ S`)
   have hV_p : IsPGroup p V := by
     have hV_le_S : V ≤ (S : Subgroup G) := (hV_le_X.trans hX_le_LS).trans inf_le_left
-    exact IsPGroup.to_le S.isPGroup' hV_le_S
+    exact IsPGroup.to_le S.isPGroup hV_le_S
   have hV_comm : IsMulCommutative V := by
     let : IsMulCommutative X := thompsonCenter_isMulCommutative (G := G) ((S : Subgroup G) ⊓ L)
     rw [isMulCommutative_iff]
@@ -878,7 +878,7 @@ public theorem theorem3_2 {p : ℕ} [Fact p.Prime] (_hpodd : p ≠ 2) {G : Type*
     have hJS_eq : thompsonSubgroup (G := G) (S : Subgroup G) =
         thompsonSubgroup (G := G) ((S : Subgroup G) ⊓ L) :=
       (lemma3_5 S).2.2
-        (IsPGroup.to_le S.isPGroup' (inf_le_left : (S : Subgroup G) ⊓ L ≤ (S : Subgroup G))) hJS_le_LS
+        (IsPGroup.to_le S.isPGroup (inf_le_left : (S : Subgroup G) ⊓ L ≤ (S : Subgroup G))) hJS_le_LS
     have hG_le_NC : (⊤ : Subgroup G) ≤ Subgroup.normalizer (C : Set G) := by
       calc
         (⊤ : Subgroup G) = Subgroup.normalizer (((S : Subgroup G) ⊓ L : Subgroup G) : Set G) ⊔ L := hfrattini.symm
@@ -941,7 +941,7 @@ public theorem theorem3_2 {p : ℕ} [Fact p.Prime] (_hpodd : p ≠ 2) {G : Type*
       intro hVAA
       exact hA_notL (h35 A V hA_AS hC_le_V hV_normal hV_p hVAA)
     -- the Replacement Theorem applied to `(V, A)`
-    obtain ⟨Astar, hAstar_AS, hlt, hAstarAA⟩ := theorem3_1b (P := (S : Subgroup G)) S.isPGroup'
+    obtain ⟨Astar, hAstar_AS, hlt, hAstarAA⟩ := theorem3_1b (P := (S : Subgroup G)) S.isPGroup
       hA_AS hV_le_S hV_comm (hA_le_NV A) hVAA_ne
     -- maximality of `A ∩ V` forces `A* ⊆ L ∩ S`
     have hAstar_le_LS : Astar ≤ (S : Subgroup G) ⊓ L := by
@@ -1003,7 +1003,7 @@ public lemma lemma3_7 {p : ℕ} [Fact p.Prime] {G : Type*} [Group G] [Finite G]
   -- a Sylow `p`-subgroup `T₀` of `C(H)` containing `J(S)`
   have hJSsub_p : IsPGroup p ((thompsonSubgroup (G := G) (S : Subgroup G)).subgroupOf C) := by
     have hJS_p : IsPGroup p (thompsonSubgroup (G := G) (S : Subgroup G)) :=
-      IsPGroup.to_le S.isPGroup' (thompsonSubgroup_le (G := G) (S : Subgroup G))
+      IsPGroup.to_le S.isPGroup (thompsonSubgroup_le (G := G) (S : Subgroup G))
     exact hJS_p.of_equiv (Subgroup.subgroupOfEquivOfLe hJS_le_C).symm
   obtain ⟨T0, hJT0⟩ := IsPGroup.exists_le_sylow hJSsub_p
   -- `T = T₀` viewed in `G`
@@ -1016,7 +1016,7 @@ public lemma lemma3_7 {p : ℕ} [Fact p.Prime] {G : Type*} [Group G] [Finite G]
     exact Subgroup.mem_map.mpr ⟨⟨j, hjC⟩, hjT0, rfl⟩
   -- `N_G(T) ≤ N_G(J(S))`: `J(T) = J(S)` (Lemma 3.5(b)) and `J(T)` characteristic in `T`
   have hJT_eq_JS : thompsonSubgroup (G := G) T = thompsonSubgroup (G := G) (S : Subgroup G) := by
-    have hT_p : IsPGroup p T := IsPGroup.map T0.isPGroup' C.subtype
+    have hT_p : IsPGroup p T := IsPGroup.map T0.isPGroup C.subtype
     exact ((lemma3_5 S).2.2 hT_p hJS_le_T).symm
   have hNT_le_NJ : Subgroup.normalizer (T : Set G) ≤
       Subgroup.normalizer ((thompsonSubgroup (G := G) (S : Subgroup G) : Subgroup G) : Set G) := by
@@ -1205,7 +1205,7 @@ public theorem corollary3_4 {p : ℕ} [Fact p.Prime] (hpodd : p ≠ 2) {G : Type
         have hzB : z ∈ B := hZ_le_B hz
         have hzS : z ∈ (S : Subgroup G) := thompsonCenter_le (G := G) (S : Subgroup G) hz
         have hz_order : ∃ k : ℕ, orderOf (⟨z, hzB⟩ : ↥B) = p ^ k := by
-          rcases (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨z, hzS⟩ with ⟨k, hk⟩
+          rcases (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨z, hzS⟩ with ⟨k, hk⟩
           refine ⟨k, ?_⟩
           have h1 : orderOf (⟨z, hzS⟩ : ↥S) = orderOf z := by
             change orderOf (⟨z, hzS⟩ : ↥S) = orderOf ((⟨z, hzS⟩ : ↥S) : G)

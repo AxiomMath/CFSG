@@ -15,7 +15,7 @@ open CFSG.AGLEmbedding.A15Local.Sect (SectionsOrder60)
     ∀ (X : Type) [Group X] [Finite X], CFSG.Open.IsKGroup X → CFSG.pPrimeCore p X = ⊥ →
       2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) → ∀ N : Subgroup X, IsStronglyPEmbedded p N →
         ¬ CoverHasLargeTwoLocal ↥(CFSG.generalizedFitting X) →
-        IsSolvable ↥N ∨ (p = 5 ∧ (Nat.card N).factorization 5 ≤ 2 ∧
+        Group.IsSolvable ↥N ∨ (p = 5 ∧ (Nat.card N).factorization 5 ≤ 2 ∧
           (∀ Y : Subgroup X, Y ≤ N → ⁅Y, Y⁆ = Y → Nat.card Y ≤ 3600) ∧
           ∀ Y : Subgroup X, Y ≤ N → ⁅Y, Y⁆ = Y → SectionsOrder60 ↥Y)
 

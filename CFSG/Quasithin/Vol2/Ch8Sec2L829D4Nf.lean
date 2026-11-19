@@ -43,11 +43,11 @@ theorem comm_sd4_map_sd4 (e : V ≃* W) (Y : Subgroup (MulAut V)) :
   · rintro ⟨s, ⟨y, hy, v, rfl⟩, rfl⟩
     refine ⟨CFSG.Quasithin.H.congrHom e y, Subgroup.mem_map_of_mem _ hy,
       e v, ?_⟩
-    simp [CFSG.Quasithin.H.congrHom_apply]
+    simp
   · rintro ⟨y', hy', w, rfl⟩
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hy'
     refine ⟨y (e.symm w) * (e.symm w)⁻¹, ⟨y, hy, e.symm w, rfl⟩, ?_⟩
-    simp [CFSG.Quasithin.H.congrHom_apply]
+    simp
 
 theorem D4P_sd4_map_sd4 [Finite V] [Finite W] (e : V ≃* W) (H : Subgroup (MulAut V))
     (U : Subgroup V) :
@@ -112,7 +112,7 @@ theorem D4NF_sd4_of_equiv_sd4 [Finite V] [Finite W] (e : V ≃* W) (H : Subgroup
       rw [← hmapC, hC1, hNmap]
   · have happ : ∀ (φ : MulAut V) (m : V), (CFSG.Quasithin.H.congrHom e φ) (e m) = e (φ m) := by
       intro φ m
-      simp [CFSG.Quasithin.H.congrHom_apply]
+      simp
     refine ⟨CFSG.Quasithin.H.congrHom e p, hPmem p hp, CFSG.Quasithin.H.congrHom e q,
       hPmem q hq, e n, ?_, ?_⟩
     · rw [hNmap]

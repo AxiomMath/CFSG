@@ -165,7 +165,7 @@ theorem original_sylow_image_disjoint {G : Type u} [Group G] [Finite G]
     Disjoint (originalSylowImage i p P) (Subgroup.zpowers (nu i (tInC i))) := by
   obtain ⟨-, hz, -, -⟩ := original_odd_quotient_involution i hi
   have hP : IsPGroup p (originalSylowImage i p P) :=
-    P.isPGroup'.map (originalT0 i).subtype
+    P.isPGroup.map (originalT0 i).subtype
   have hZ : IsPGroup 2 (Subgroup.zpowers (nu i (tInC i))) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz, pow_one])
   exact IsPGroup.disjoint_of_coprime hP hZ hpodd.coprime_two_right

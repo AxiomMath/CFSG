@@ -28,7 +28,7 @@ theorem two_pow_nine_le_of_irreducible (hFM : CFSG.Quasithin.H13.Ch9.FactL34Modu
   obtain ⟨a, b, hab⟩ :=
     CFSG.Quasithin.A314.exists_noncomm_of_simple hs (by rw [hcard]; norm_num)
   have hz : Subgroup.center ↥X = ⊥ := by
-    haveI := hs
+    have := hs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥X) with h | h
     · exact h
     · exfalso
@@ -69,12 +69,12 @@ theorem two_pow_nine_le_card (hFM : FaithfulL34ModDim) {L : Type} [Group L] [Fin
     (hperf : ⁅(⊤ : Subgroup L), (⊤ : Subgroup L)⁆ = ⊤)
     (hPSL : CFSG.Quasithin.IsPSL 3 2 2 (L ⧸ Q)) (hnt : ⁅Q, (⊤ : Subgroup L)⁆ ≠ ⊥) :
     2 ^ 9 ≤ Nat.card ↥Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimp : IsSimpleGroup (L ⧸ Q) := CFSG.Quasithin.H13.A5.isSimpleGroup_of_isPSL34 hPSL
   have hfe := CFSG.GroupTheory.frattini_elementary_quotient (p := 2) (P := ↥Q) hQ
   have hcomm : IsMulCommutative (↥Q ⧸ frattini ↥Q) := hfe.2.1
   have hexp : ∀ v : ↥Q ⧸ frattini ↥Q, v ^ 2 = 1 := hfe.2.2.1
-  haveI := hcomm
+  have := hcomm
   have hQC : Q ≤ (frattiniConjAct Q).ker := by
     intro q hq
     exact MonoidHom.mem_ker.mpr (frattiniConjAct_of_mem Q hQ ⟨q, hq⟩)
@@ -104,7 +104,7 @@ theorem two_pow_fifteen_dvd_card (hFM : FaithfulL34ModDim) {L S : Type} [Group L
     (hQ : IsPGroup 2 ↥Q) (hperf : ⁅(⊤ : Subgroup L), (⊤ : Subgroup L)⁆ = ⊤)
     (hPSL : CFSG.Quasithin.IsPSL 3 2 2 (L ⧸ Q)) (hnt : ⁅Q, (⊤ : Subgroup L)⁆ ≠ ⊥) :
     2 ^ 15 ∣ Nat.card S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h9 := two_pow_nine_le_card hFM Q hQ hperf hPSL hnt
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥Q)).mp hQ
   have h9n : 9 ≤ n := by

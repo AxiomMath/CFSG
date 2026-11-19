@@ -30,7 +30,7 @@ private theorem coverrec_isCyclic_of_card {G : Type} [Group G]
   rcases h with h | h
   · have : Subsingleton G := (Nat.card_eq_one_iff_unique.mp h).1
     exact inferInstance
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact isCyclic_of_prime_card h
 
 private theorem coverrec_valid_A_two {q : TauCeti.PrimePower} (h2 : q.card ≠ 2) :
@@ -70,7 +70,7 @@ theorem native_SL3_recognition
           | .A 2 q => q.card = r ^ f
           | _ => False) := by
   have hfpos : 0 < f := by omega
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcen : Subgroup.center (StatedSL 3 K) =
       (StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K) := by
     rw [← CFSG.Assembly.LowTwoRank.map_center_eq_statedScalars 3 K,
@@ -104,9 +104,9 @@ theorem native_SL3_recognition
         apply Subtype.ext
         show ((z : StatedSL 3 K) : Matrix.GeneralLinearGroup (Fin 3) K) = 1
         rw [← hc, hc1, map_one]
-      haveI : Subsingleton (Subgroup.center (StatedSL 3 K)) :=
+      have : Subsingleton (Subgroup.center (StatedSL 3 K)) :=
         ⟨fun a b => (hsub a).trans (hsub b).symm⟩
-      haveI : Nonempty (Subgroup.center (StatedSL 3 K)) := ⟨1⟩
+      have : Nonempty (Subgroup.center (StatedSL 3 K)) := ⟨1⟩
       rw [hcop]
       exact Nat.card_unique
   refine ⟨CFSG.Open.StatedAPI.isQuasisimple_statedSL_of_two_le (m := 2) le_rfl K, hcen.symm, ?_,
@@ -115,9 +115,9 @@ theorem native_SL3_recognition
     rw [hcard]
     exact (Nat.dvd_prime Nat.prime_three).1 (Nat.gcd_dvd_left 3 (r ^ f - 1))
   · let q : TauCeti.PrimePower := ⟨r, f, hr, hfpos⟩
-    haveI : Fact q.p.Prime := ⟨hr⟩
+    have : Fact q.p.Prime := ⟨hr⟩
     by_cases h2 : r ^ f = 2
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       have hK2 : Nat.card K = 2 ^ 1 := by simp [hK, h2]
       have hadm3 : StatedLieAdmissible .PSL 3 2 1 :=
         ⟨Nat.prime_two, le_rfl, by norm_num, by decide, by decide⟩
@@ -126,9 +126,9 @@ theorem native_SL3_recognition
       rcases CFSG.LocalAnalysis.ComponentInitial.PSL3_two_PSL2_seven_paired_isomorphism _
           hmodel with ⟨-, hc7⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
       · obtain ⟨-, K7, _, _, hK7, ⟨e7⟩⟩ := hc7
-        haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+        have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
         let q7 : TauCeti.PrimePower := ⟨7, 1, Nat.prime_seven, by norm_num⟩
-        haveI : Fact q7.p.Prime := ⟨Nat.prime_seven⟩
+        have : Fact q7.p.Prime := ⟨Nat.prime_seven⟩
         have hq7 : q7.card = 7 := by
           rw [TauCeti.PrimePower.card_def]
           norm_num [q7]
@@ -139,7 +139,7 @@ theorem native_SL3_recognition
       · exact absurd h0 (by norm_num)
       · exact absurd h0 (by norm_num)
       · exact absurd h0 (by norm_num)
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       have hv : (TauCeti.LieTypeIndex.A 2 q).Valid := coverrec_valid_A_two (q := q) h2
       let eK := CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL K 3 r f hfpos hK
       refine ⟨.lie ⟨TauCeti.LieTypeIndex.A 2 q, hv⟩, rfl, ⟨eK.trans
@@ -157,7 +157,7 @@ theorem native_SU3_recognition
         match d with
         | .twistedA 2 q => q.card = r ^ f
         | _ => False) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hnq : ((3 : ℕ), r ^ f) ≠ (3, 2) := by
     intro h
     have h2 : r ^ f = 2 := (Prod.mk.inj h).2
@@ -175,8 +175,8 @@ theorem native_SU3_recognition
       coverrec_valid_twistedA_two (q := q) (by change 3 ≤ r ^ f; omega)
     have hGF : Nat.card (GaloisField r (2 * f)) = (r ^ f) ^ 2 := by
       rw [GaloisField.card r (2 * f) (by omega), ← pow_mul, mul_comm]
-    letI : Fintype K := Fintype.ofFinite K
-    letI : Fintype (GaloisField r (2 * f)) := Fintype.ofFinite _
+    let : Fintype K := Fintype.ofFinite K
+    let : Fintype (GaloisField r (2 * f)) := Fintype.ofFinite _
     have hfc : Fintype.card K = Fintype.card (GaloisField r (2 * f)) := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hGF]
     let φ : K ≃+* GaloisField r (2 * f) := FiniteField.ringEquivOfCardEq hfc

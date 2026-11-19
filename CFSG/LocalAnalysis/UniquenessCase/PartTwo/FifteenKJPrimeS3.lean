@@ -67,7 +67,7 @@ theorem s15k_jp_s3 {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 
     rw [← hmap, Subgroup.card_map_of_injective hψ,
       TauCeti.card_alternatingGroup_fin_three]
   have hcyc : IsCyclic ↥⁅J, J⁆ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact isCyclic_of_prime_card hcard
   have hidx : (⁅J, J⁆.subgroupOf J).index ≤ 2 := by
     have hle : ⁅J, J⁆ ≤ J := Subgroup.commutator_le_self J

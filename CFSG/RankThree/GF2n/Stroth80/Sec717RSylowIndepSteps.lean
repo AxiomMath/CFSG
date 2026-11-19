@@ -169,7 +169,7 @@ theorem Ctx.rSylow_of_layerSteps (h34 : Stroth34Statement) (h311a : Stroth311aSt
     hCent G M Q Z B hc n t hs (Or.inl hp3) Z0 hZ0 hZNc k hk2 hkc
   obtain ⟨S, hS⟩ := hc.ySylow hs hZ0 hZt hZcard (sec7_CN_pgroup_bar h34 h311a hc hs) hTI hC
   obtain ⟨e', -, he, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hM.card.trans he)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hM.card.trans he)
   obtain ⟨a₀, ha₀V, ha₀1⟩ := LD.V_ne
   have hKT : ∀ k ∈ (bar M Q (NormH0 M Z Z0)).subgroupOf (bar M Q (H0 M Z)),
       ∀ w ∈ T, φ k w ∈ T := by
@@ -210,7 +210,7 @@ theorem Ctx.rSylow_of_layerSteps (h34 : Stroth34Statement) (h311a : Stroth311aSt
   refine ⟨S, fun s hsS => ?_⟩
   have hsK := hS hsS
   have hs2 : IsPGroup 2 ↥(Subgroup.zpowers s) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hsS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hsS)
   obtain ⟨r, hr, hsr⟩ := h2 s hsK hs2
   exact mem_of_isPGroup_of_agree φ T Bs.NR Bs.N2 Bs.RK Bs.Rn LD.Rb_fix h4 hsK hs2 hr hsr
 

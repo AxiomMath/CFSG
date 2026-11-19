@@ -18,7 +18,7 @@ theorem not_dvd_index_oPrimeResidual (p : ℕ) [Fact p.Prime] (Q : Type*) [Group
   obtain ⟨P⟩ : Nonempty (Sylow p Q) := inferInstance
   have hP : (P : Subgroup Q) ≤ oPrimeResidual p Q := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     refine Subgroup.subset_closure ⟨k, ?_⟩
     simpa using congrArg Subtype.val hk
   exact fun h => P.not_dvd_index (h.trans (Subgroup.index_dvd_of_le hP))
@@ -40,7 +40,7 @@ theorem isPGroup_of_sylow_le_center {p : ℕ} [Fact p.Prime] {Q : Type*} [Group 
   have htop := hcomp.sup_eq_top
   rw [hN, bot_sup_eq] at htop
   intro g
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, htop ▸ Subgroup.mem_top g⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨g, htop ▸ Subgroup.mem_top g⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem isPGroup_of_le_center {p : ℕ} [Fact p.Prime] {Q : Type*} [Group Q] [Finite Q]
@@ -48,7 +48,7 @@ theorem isPGroup_of_le_center {p : ℕ} [Fact p.Prime] {Q : Type*} [Group Q] [Fi
     (hB : B ≤ Subgroup.center Q) : IsPGroup p Q := by
   obtain ⟨P⟩ : Nonempty (Sylow p Q) := inferInstance
   refine isPGroup_of_sylow_le_center hQ P (le_trans ?_ hB)
-  have hmap : IsPGroup p ((P : Subgroup Q).map (QuotientGroup.mk' B)) := P.isPGroup'.map _
+  have hmap : IsPGroup p ((P : Subgroup Q).map (QuotientGroup.mk' B)) := P.isPGroup.map _
   have hbot : (P : Subgroup Q).map (QuotientGroup.mk' B) = ⊥ := by
     rcases hmap.card_eq_or_dvd with h1 | hdvd
     · exact Subgroup.card_eq_one.mp h1
@@ -74,7 +74,7 @@ theorem le_pPrimeCore_of_le_sup {p q : ℕ} [Fact p.Prime] [Fact q.Prime] (hpq :
     calc B.map f ≤ (Z ⊔ pPrimeCore p U).map f := Subgroup.map_mono hBZ
       _ = Z.map f ⊔ (pPrimeCore p U).map f := Subgroup.map_sup _ _ f
       _ = Z.map f := by rw [hNf, sup_bot_eq]
-  haveI : (B.map f).Normal := Subgroup.Normal.map inferInstance f hf
+  have : (B.map f).Normal := Subgroup.Normal.map inferInstance f hf
   have hidx' : ¬ p ∣ (B.map f).index := fun h => hidx (h.trans (Subgroup.index_map_dvd B hf))
   have hQ : IsPGroup p (U ⧸ pPrimeCore p U) :=
     isPGroup_of_le_center (pPrimeCore_quotient_pPrimeCore_eq_bot p) hidx' hBc
@@ -95,7 +95,7 @@ theorem r_le_pPrimeCoreOf_u155 {A X K Y M T P : Subgroup G} (hE : End155N A X K 
   have hV : (CFSG.Open.pCoreOf 2 X).subgroupOf (u155 A M X) ≤ pPrimeCore 3 ↥(u155 A M X) := by
     have hV2 : IsPGroup 2 ((CFSG.Open.pCoreOf 2 X).subgroupOf (u155 A M X)) :=
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X).comap_of_injective _ Subtype.coe_injective
-    haveI : ((CFSG.Open.pCoreOf 2 X).subgroupOf (u155 A M X)).Normal := by
+    have : ((CFSG.Open.pCoreOf 2 X).subgroupOf (u155 A M X)).Normal := by
       refine ⟨fun a ha u => ?_⟩
       rw [Subgroup.mem_subgroupOf] at ha ⊢
       obtain ⟨-, hu, -⟩ := hUC u.2
@@ -133,7 +133,7 @@ theorem r_le_pPrimeCoreOf_u155 {A X K Y M T P : Subgroup G} (hE : End155N A X K 
     exact Subgroup.mul_mem_sup (Subgroup.mem_subgroupOf.mpr hx) hw'
   have hR2 : IsPGroup 2 ((CFSG.Open.pCoreOf 2 Y).subgroupOf (u155 A M X)) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Y).comap_of_injective _ Subtype.coe_injective
-  haveI := CFSG.GH74.GLS.Stage1.Thm6.Prod.oPrimeResidual_normal 3 ↥(u155 A M X)
+  have := CFSG.GH74.GLS.Stage1.Thm6.Prod.oPrimeResidual_normal 3 ↥(u155 A M X)
   have hRU' : (CFSG.Open.pCoreOf 2 Y).subgroupOf (u155 A M X) ≤ pPrimeCore 3 ↥(u155 A M X) :=
     le_pPrimeCore_of_le_sup (p := 3) (q := 2) (by norm_num)
       (not_dvd_index_oPrimeResidual 3 ↥(u155 A M X)) hBZ hZ hR2

@@ -1305,7 +1305,7 @@ private theorem claim3_exists_minimal_invariant_elementaryAbelian
   let : M.Normal := hMnormal
   let : IsInvariant L R M := hMinv
   have hRsolv : Group.IsSolvable R := by
-    let : Group.IsNilpotent R := R.isPGroup'.isNilpotent
+    let : Group.IsNilpotent R := R.isPGroup.isNilpotent
     infer_instance
   have hMsolv : Group.IsSolvable M := by
     let : Group.IsSolvable R := hRsolv
@@ -1317,7 +1317,7 @@ private theorem claim3_exists_minimal_invariant_elementaryAbelian
   have hqr : q = r := by
     have : Fact q.Prime := ⟨hq⟩
     let : IsElementaryAbelian q M := hMelemQ
-    have hMr : IsPGroup r M := R.isPGroup'.to_subgroup M
+    have hMr : IsPGroup r M := R.isPGroup.to_subgroup M
     have hMq : IsPGroup q M := IsElementaryAbelian.isPGroup q M
     obtain ⟨a, ha⟩ := hMr.exists_card_eq
     obtain ⟨b, hb⟩ := hMq.exists_card_eq

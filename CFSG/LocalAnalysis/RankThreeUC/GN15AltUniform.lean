@@ -23,6 +23,7 @@ namespace GNAltModData
 
 variable (S : GNAltModData T L g)
 
+omit [Finite X] in
 theorem swapPair_eq_or_disjoint {a b a₀ b₀ : Fin n} (hab : a ≠ b)
     (hab₀ : a₀ ≠ b₀) (hsQ : swap a b ∈ S.Q) (hs₀Q : swap a₀ b₀ ∈ S.Q) :
     (a₀ ≠ a ∧ a₀ ≠ b ∧ b₀ ≠ a ∧ b₀ ≠ b) ∨ (a = a₀ ∧ b = b₀) ∨ (a = b₀ ∧ b = a₀) := by

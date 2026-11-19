@@ -93,7 +93,7 @@ theorem sec9f_range_ne_bot (h36 : Asc82Lemma36) (h68 : Asc82Lemma68) (hB8 : Asc8
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left : Nt ≤ N)).toEquiv
     rw [h2, hcardN] at h1
     rw [mul_comm (16 : ℕ) (Nat.card ↥Nt)] at h1
-    haveI : Nonempty ↥Nt := ⟨1⟩
+    have : Nonempty ↥Nt := ⟨1⟩
     exact Nat.mul_left_cancel (Nat.card_pos) h1
   have hΓ : Nat.card (MulAut ↥B) = 20160 := sec9m_card_mulAut hctx.B_e16
   exact sec9f_count_contra ρ Nt' hker hidx Ht hHt h360 hΓ

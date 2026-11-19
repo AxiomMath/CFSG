@@ -49,7 +49,7 @@ theorem s8_k4_lift {H : Type} [Group H] {V1 : Subgroup H} (hn : V1.Normal)
     (haa : a * a ∈ V1) (hbb : b * b ∈ V1) (hab : a * b * a⁻¹ * b⁻¹ ∈ V1) :
     ∃ a' b' : H, a'⁻¹ * a ∈ V1 ∧ b'⁻¹ * b ∈ V1 ∧ a' * a' = 1 ∧ b' * b' = 1 ∧
       a' * b' = b' * a' := by
-  haveI : V1.Normal := hn
+  have : V1.Normal := hn
   obtain ⟨u, hu, hau⟩ :=
     s8_k4_lift_step1 hφ s8Pa s8_permVec_sq_a s8_fin_free_a ha haa
   obtain ⟨w, hw, hbw⟩ :=

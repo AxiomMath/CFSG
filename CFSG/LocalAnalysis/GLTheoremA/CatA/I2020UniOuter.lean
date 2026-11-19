@@ -93,8 +93,8 @@ private theorem ordProj_card_primeFormP_eq_of_pow {K₀ K : Type} [Field K₀] [
     ordProj[2] (Nat.card (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) =
       ordProj[2] (Nat.card (primeFormP h₀
         ((1 : GL (Fin n) K₀) : Matrix (Fin n) (Fin n) K₀))) := by
-  haveI : Finite K := h.finite
-  haveI : Finite K₀ := h₀.finite
+  have : Finite K := h.finite
+  have : Finite K₀ := h₀.finite
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hqodd : Odd q := h.prime.odd_of_ne_two hq2
   have hq₀odd : Odd q₀ := h₀.prime.odd_of_ne_two hq₀2
@@ -154,8 +154,8 @@ private theorem ordProj_card_primeFormP_eq_of_pow {K₀ K : Type} [Field K₀] [
         CFSG.NumberTheory.gcd_four_add_one hQ₀odd
       rw [hgn, hgn₀]
       by_cases hh : 4 ∣ Q + 1
-      · rw [if_pos hh, if_pos (hdiv4.mp hh)]
-      · rw [if_neg hh, if_neg (fun h0 => hh (hdiv4.mpr h0))]
+      · rw [ite_eq_left hh, ite_eq_left (hdiv4.mp hh)]
+      · rw [ite_eq_right hh, ite_eq_right (fun h0 => hh (hdiv4.mpr h0))]
   have hP' : Nat.card (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) *
       Nat.gcd n (q ^ f + 1) = lieOrderNumerator .PSU n (q ^ f) :=
     CFSG.HardMathSupport.Lang.Coordinator.card_primeFormP_one_mul_gcd (n := n) h hn1
@@ -189,14 +189,14 @@ private theorem commutator_mem_inner_of_d (h : UnitaryFieldData p f F) {σ : F �
     (hd : (p ^ f + 1).gcd n ∣ Q ^ j - 1)
     (hn : 3 ≤ n) (hne : ¬(n = 3 ∧ p ^ f = 2))
     (γ : MulAut (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)))
-    (hγ : γ ∈ primeFormD h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))
+    (_hγ : γ ∈ primeFormD h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))
     (A : primeFormUnitary h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) :
     ⁅primeFormConjHom h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) A,
         γ * primeFormFieldHom h (isPrimeFormGram_one (n := n)) σ * γ⁻¹⁆ ∈
       inner (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) := by
-  haveI : (primeFormD h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)).Normal :=
+  have : (primeFormD h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)).Normal :=
     primeFormD_normal_of_ne (h := h) (n := n) hn hne
-  haveI : (inner (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))).Normal :=
+  have : (inner (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))).Normal :=
     CFSG.Fischer.innerAut_normal
   have hmem : γ⁻¹ * primeFormConjHom h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) A * γ ∈
       primeFormD h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) :=
@@ -222,11 +222,11 @@ private theorem commutator_mem_inner_of_d (h : UnitaryFieldData p f F) {σ : F �
 theorem i2020UniOuter : I2020UniOuter := by
   intro p q hp hp2 hq hq2 hqp f K _ h n hn hn4 β hβp hβ
   classical
-  haveI := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (GL (Fin n) K) := Finite.of_injective (fun g : GL (Fin n) K =>
+  have := h.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (GL (Fin n) K) := Finite.of_injective (fun g : GL (Fin n) K =>
     (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
-  haveI : Finite (primeFormP h (idGram K n)) :=
+  have : Finite (primeFormP h (idGram K n)) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hqodd : Odd q := hq.odd_of_ne_two hq2
   have hnq : ¬(n = 3 ∧ q ^ f = 2) := by
@@ -264,7 +264,7 @@ theorem i2020UniOuter : I2020UniOuter := by
     have := hqodd.pow (n := f / p)
     rw [h2] at this
     exact absurd this (by decide)
-  haveI : IsSimpleGroup (primeFormP h₀ (idGram (CFSG.LieType.Chevalley.fixSubfield σ) n)) :=
+  have : IsSimpleGroup (primeFormP h₀ (idGram (CFSG.LieType.Chevalley.fixSubfield σ) n)) :=
     isSimpleGroup_primeFormP_one h₀ hn hq₀
   let J₀ : Subgroup (primeFormP h (idGram K n)) := (subfieldPSU h h₀ hbar n).range
   have hJ₀C : J₀ ≤ fixSubgroup (primeFormFieldHom h isPrimeFormGram_one σ) :=
@@ -285,7 +285,7 @@ theorem i2020UniOuter : I2020UniOuter := by
     rw [hβeq, CFSG.LocalAnalysis.GLTheoremA.S2019.fixSubgroup_conj,
       ← Subgroup.map_commutator]
     exact Subgroup.map_mono hcomm₁
-  haveI : IsSimpleGroup (primeFormP h (idGram K n)) :=
+  have : IsSimpleGroup (primeFormP h (idGram K n)) :=
     isSimpleGroup_primeFormP_one h hn hnq
   have hZ : Subgroup.center (primeFormP h (idGram K n)) = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
@@ -371,7 +371,7 @@ theorem i2020UniOuter : I2020UniOuter := by
   have hsyl : (Nat.card J₁).factorization 2 =
       (Nat.card (primeFormP h (idGram K n))).factorization 2 :=
     Nat.pow_right_injective (by norm_num : 2 ≤ 2) hord
-  haveI : (primeFormD h (idGram K n)).Normal := primeFormD_normal_of_ne (h := h) hn hnq
+  have : (primeFormD h (idGram K n)).Normal := primeFormD_normal_of_ne (h := h) hn hnq
   exact i2020FixCentAt_of_sylow hZ (primeFormD h (idGram K n)) hD hDβ hJ₁C hsyl
 
 end CFSG.LocalAnalysis.GLTheoremA.I2020

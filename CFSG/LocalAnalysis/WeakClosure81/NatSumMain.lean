@@ -16,8 +16,8 @@ theorem isNatSL2Section_of_isSumNatSection_of_line {X : Type} [Group X]
     (hX : CFSG.Quasithin.IsPSL 2 2 2 X)
     {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W] (ρ : X →* LGL 2 W)
     {B F : Subgroup X} {Z : Submodule (ZMod 2) W} (hB : B.index = 5)
-    (hstab : ∀ g : X, g ∈ B ↔ ∀ z ∈ Z, ρ g z ∈ Z) (hF : IsElemAbelian 2 F) (hFc : Nat.card F = 4)
-    (hFB : F ≤ B) (hFZ : ∀ f ∈ F, ∀ z ∈ Z, ρ f z = z) (hZ : Module.finrank (ZMod 2) Z = 2)
+    (hstab : ∀ g : X, g ∈ B ↔ ∀ z ∈ Z, ρ g z ∈ Z) (_hF : IsElemAbelian 2 F) (hFc : Nat.card F = 4)
+    (_hFB : F ≤ B) (hFZ : ∀ f ∈ F, ∀ z ∈ Z, ρ f z = z) (hZ : Module.finrank (ZMod 2) Z = 2)
     (hreg : ∀ x ∈ B, Odd (orderOf x) → x ≠ 1 → ∀ z ∈ Z, ρ x z = z → z = 0)
     (hgen : ⨆ g : X, Z.map (ρ g : W →ₗ[ZMod 2] W) = ⊤)
     (hsum : IsSumNatSection ρ ⊥ ⊤ (fixSub ((⊤ : Subgroup X).map ρ)) 2) :

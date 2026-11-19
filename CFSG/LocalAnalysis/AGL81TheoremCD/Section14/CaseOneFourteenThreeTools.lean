@@ -102,17 +102,17 @@ private theorem isSolvable_outer_threeStar_of_star {A : Subgroup G} (hA : IsKCom
   have hcomp : IsPComponentIn 3 A (kSub 3 M N) := hA
   have hq : CFSG.IsQuasisimple (threeStar A) :=
     IsPComponentIn.isQuasisimple_quot Nat.prime_three hcomp
-  haveI : Group.IsPerfect (threeStar A) := hq.1
+  have : Group.IsPerfect (threeStar A) := hq.1
   rcases htype with h34 | h34 | h11 | h6
   · obtain ⟨e⟩ := nonempty_mulEquiv_projSL_quotient_center_of_isL34Type h34.1
-    haveI : Group.IsSolvable (Outer (projectiveSL 3 (GaloisField 2 2))) :=
+    have : Group.IsSolvable (Outer (projectiveSL 3 (GaloisField 2 2))) :=
       isSolvable_out_projectiveSL
         (K := GaloisField 2 2) (by norm_num)
     have hOutBar : Group.IsSolvable (Outer (threeStar A ⧸ Subgroup.center (threeStar A))) :=
       solvable_of_equiv (G := projectiveSL 3 (GaloisField 2 2))
         (H := threeStar A ⧸ Subgroup.center (threeStar A))
         ((e.trans (projSLEquivProjectiveSL 3 (GaloisField 2 2))).symm)
-    haveI : Group.IsSolvable (Outer (threeStar A ⧸ (⊥ : Subgroup (threeStar A)))) :=
+    have : Group.IsSolvable (Outer (threeStar A ⧸ (⊥ : Subgroup (threeStar A)))) :=
       outer_solvable_of_central_quotient
         (G := threeStar A) (Z₀ := ⊥) bot_le hOutBar
     have eBot : (threeStar A ⧸ (⊥ : Subgroup (threeStar A))) ≃* threeStar A :=
@@ -120,24 +120,24 @@ private theorem isSolvable_outer_threeStar_of_star {A : Subgroup G} (hA : IsKCom
     exact solvable_of_equiv (G := threeStar A ⧸ (⊥ : Subgroup (threeStar A)))
       (H := threeStar A) eBot
   · obtain ⟨e⟩ := nonempty_mulEquiv_projSL_of_isL34Type h34.1 h34.2
-    haveI : Group.IsSolvable (Outer (projectiveSL 3 (GaloisField 2 2))) :=
+    have : Group.IsSolvable (Outer (projectiveSL 3 (GaloisField 2 2))) :=
       isSolvable_out_projectiveSL
         (K := GaloisField 2 2) (by norm_num)
     exact solvable_of_equiv (G := projectiveSL 3 (GaloisField 2 2)) (H := threeStar A)
       ((e.trans (projSLEquivProjectiveSL 3 (GaloisField 2 2))).symm)
   · obtain ⟨e⟩ := h11
-    haveI : Group.IsSolvable (Outer (alternatingGroup (Fin 11))) :=
+    have : Group.IsSolvable (Outer (alternatingGroup (Fin 11))) :=
       (CFSG.Quasithin.SteinbergCB.isSolvable_outer_alternatingGroup (n := 11)
         (Or.inr (by norm_num))).1
     exact solvable_of_equiv (G := alternatingGroup (Fin 11)) (H := threeStar A) e.symm
   · obtain ⟨e⟩ := h6.1
-    haveI : Group.IsNilpotent (Outer (alternatingGroup (Fin 6))) :=
+    have : Group.IsNilpotent (Outer (alternatingGroup (Fin 6))) :=
       CFSG.LieType.SteinbergBR.SmallAlt.isPGroup_outer_six.isNilpotent
     have hOut6 : Group.IsSolvable (Outer (alternatingGroup (Fin 6))) := inferInstance
     have hOutBar : Group.IsSolvable (Outer (threeStar A ⧸ Subgroup.center (threeStar A))) :=
       solvable_of_equiv (G := alternatingGroup (Fin 6))
         (H := threeStar A ⧸ Subgroup.center (threeStar A)) e.symm
-    haveI : Group.IsSolvable (Outer (threeStar A ⧸ (⊥ : Subgroup (threeStar A)))) :=
+    have : Group.IsSolvable (Outer (threeStar A ⧸ (⊥ : Subgroup (threeStar A)))) :=
       outer_solvable_of_central_quotient
         (G := threeStar A) (Z₀ := ⊥) bot_le hOutBar
     have eBot : (threeStar A ⧸ (⊥ : Subgroup (threeStar A))) ≃* threeStar A :=
@@ -152,6 +152,7 @@ theorem le_sup_quotientCentralizer_of_star {N₁ A K : Subgroup G} (hA : IsKComp
   perfect_le_sup_quotientCentralizer (pPrimeCore 3 ↥A) hAN hNA hKN hK
     (isSolvable_outer_threeStar_of_star hA htype)
 
+omit [Finite G] in
 private theorem oTwoZStar_le_quotientCentralizer {N₁ A : Subgroup G} (hAN : A ≤ N₁)
     (hNA : N₁ ≤ Subgroup.normalizer (A : Set G)) :
     oTwoZStar A ≤ Xhat N₁ A hAN hNA := by
@@ -179,6 +180,7 @@ private theorem oTwoZStar_le_quotientCentralizer {N₁ A : Subgroup G} (hAN : A 
   rw [← hcomm]
   group
 
+omit [Finite G] in
 private theorem quotientCentralizer_inf_le_oTwoZStar {N₁ A : Subgroup G} (hAN : A ≤ N₁)
     (hNA : N₁ ≤ Subgroup.normalizer (A : Set G)) :
     Xhat N₁ A hAN hNA ⊓ A ≤ oTwoZStar A := by
@@ -207,6 +209,7 @@ private theorem quotientCentralizer_inf_le_oTwoZStar {N₁ A : Subgroup G} (hAN 
   rw [Subgroup.mem_comap]
   simpa [hn_eq] using hcenter
 
+omit [Finite G] in
 theorem quotientCentralizer_inf_eq_oTwoZStar {N₁ A : Subgroup G} (hAN : A ≤ N₁)
     (hNA : N₁ ≤ Subgroup.normalizer (A : Set G)) :
     Xhat N₁ A hAN hNA ⊓ A = oTwoZStar A :=
@@ -234,6 +237,7 @@ private noncomputable def commHomOfCentral {Z S : Subgroup G}
         (Subgroup.mem_centralizer_iff.mp (hZc hw) _
           (S.mul_mem (S.mul_mem (S.mul_mem s.2 hg) (S.inv_mem s.2)) (S.inv_mem hg))).symm
 
+omit [Finite G] in
 private theorem mem_ker_commHomOfCentral {Z S : Subgroup G}
     (hZc : Z ≤ Subgroup.centralizer (S : Set G)) {g : G} (hg : g ∈ S)
     (hcomm : ∀ s ∈ S, s * g * s⁻¹ * g⁻¹ ∈ Z) (s : ↥S) :
@@ -254,7 +258,7 @@ private theorem exists_elemAbelian_nine_of_exp_three {R : Subgroup G}
     (hexp : ∀ x ∈ R, x ^ 3 = 1) (h81 : 81 ≤ Nat.card R) :
     ∃ F : Subgroup G, F ≤ R ∧ IsElemAbelian 3 F ∧ Nat.card F = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hexp' : ∀ x : ↥R, x ^ 3 = 1 := fun x => Subtype.ext (hexp x x.2)
   have hR3 : IsPGroup 3 ↥R := fun x => ⟨1, by simpa using hexp' x⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hR3
@@ -276,7 +280,7 @@ private theorem exists_elemAbelian_nine_of_exp_three {R : Subgroup G}
 private theorem card_eq_three_of_pow_three_eq_one {Z : Subgroup G}
     (hZexp : ∀ z ∈ Z, z ^ 3 = 1) (hZcard : Nat.card Z ≤ 3) (hZne : Z ≠ ⊥) :
     Nat.card Z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ3g : IsPGroup 3 Z := fun z => ⟨1, by
     apply Subtype.ext
     simpa using hZexp z z.2⟩
@@ -306,7 +310,7 @@ private theorem exists_cube_kernel_large {R Z : Subgroup G}
     (hbig : 81 * Nat.card Z ≤ Nat.card R) :
     ∃ Ω : Subgroup G, Ω ≤ R ∧ (∀ y ∈ Ω, y ^ 3 = 1) ∧ 81 ≤ Nat.card Ω := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : ∀ s ∈ R, ∀ t ∈ R, s * t * s⁻¹ * t⁻¹ ∈ Z := fun s hs t ht =>
     hcomm (Subgroup.commutator_mem_commutator hs ht)
   let ω : ↥R →* ↥Z :=
@@ -354,7 +358,7 @@ private theorem exists_commuting_subgroup_large {R Z Ω : Subgroup G} {x : G}
     (hxΩ : x ∈ Ω) (hΩ81 : 81 ≤ Nat.card Ω) :
     ∃ K : Subgroup G, K ≤ Ω ∧ 27 ≤ Nat.card K ∧ (∀ y ∈ K, y * x = x * y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : ∀ s ∈ R, ∀ t ∈ R, s * t * s⁻¹ * t⁻¹ ∈ Z := fun s hs t ht =>
     hcomm (Subgroup.commutator_mem_commutator hs ht)
   have hcx : ∀ s ∈ Ω, s * x * s⁻¹ * x⁻¹ ∈ Z := fun s hs =>
@@ -392,7 +396,7 @@ private theorem exists_commuting_elem_not_mem {Z K : Subgroup G} {x : G}
     (hKx : ∀ y ∈ K, y * x = x * y) (hKexp : ∀ y ∈ K, y ^ 3 = 1) :
     ∃ y ∈ K, y ∉ Subgroup.zpowers x ⊔ Z ∧ y * x = x * y ∧ y ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx1 : x ≠ 1 := fun h1 => hxZ (h1 ▸ Z.one_mem)
   have hxord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hxcard : Nat.card (Subgroup.zpowers x) = 3 := by
@@ -435,7 +439,7 @@ private theorem exists_commuting_elem_not_mem {Z K : Subgroup G} {x : G}
     have hcard := Subgroup.card_le_of_le hle
     rw [hHcard] at hcard
     omega
-  obtain ⟨y, hyK, hyH⟩ := SetLike.not_le_iff_exists.mp hKH
+  obtain ⟨y, hyK, hyH⟩ := IsConcreteLE.not_le_iff_exists.mp hKH
   exact ⟨y, hyK, hyH, hKx y hyK, hKexp y hyK⟩
 
 private theorem exists_elemAbelian_nine_inf_eq_bot_of_central {R Z : Subgroup G}
@@ -445,7 +449,7 @@ private theorem exists_elemAbelian_nine_inf_eq_bot_of_central {R Z : Subgroup G}
     (hbig : 81 * Nat.card Z ≤ Nat.card R) :
     ∃ F : Subgroup G, F ≤ R ∧ IsElemAbelian 3 F ∧ Nat.card F = 9 ∧ F ⊓ Z = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hZbot : Z = ⊥
   · have hRexp : ∀ x ∈ R, x ^ 3 = 1 := fun x hx => by
       have := hcube x hx
@@ -484,6 +488,7 @@ private theorem exists_elemAbelian_nine_inf_eq_bot_of_central {R Z : Subgroup G}
         hy3 hx3 hyH' hxH hxZ hZH hyx
     exact ⟨F, hFmin R hyR hxR, hFelem, hFcard, hFZ⟩
 
+omit [Finite G] in
 theorem le_normalizer_quotientCentralizer {N L : Subgroup G} (Q : Subgroup ↥L)
     [Q.Characteristic] (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G)) :
     N ≤ Subgroup.normalizer (quotientCentralizer N L Q hLN hNL : Set G) := by
@@ -499,14 +504,14 @@ theorem le_normalizer_quotientCentralizer {N L : Subgroup G} (Q : Subgroup ↥L)
       rwa [← hnx']
     · intro hx
       exact (mem_quotientCentralizer Q hLN hNL).mpr ⟨x, rfl, hx⟩
-  haveI : K.Normal := MonoidHom.normal_ker _
+  have : K.Normal := MonoidHom.normal_ker _
   have hnorm : ((quotientCentralizer N L Q hLN hNL).subgroupOf N).Normal :=
     hsub ▸ inferInstance
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hXN).mp hnorm
 
 private theorem pow_three_eq_one_of_isPGroup_card_le_three {H : Subgroup G}
     (hH : IsPGroup 3 H) (hcard : Nat.card H ≤ 3) : ∀ z ∈ H, z ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hH
   have hk1 : k ≤ 1 := by
     by_contra h
@@ -521,7 +526,7 @@ private theorem pow_three_eq_one_of_isPGroup_card_le_three {H : Subgroup G}
   · have hcard1 : Nat.card H = 1 := by
       rw [hk]
       norm_num
-    haveI : Subsingleton ↥H := (Nat.card_eq_one_iff_unique.mp hcard1).1
+    have : Subsingleton ↥H := (Nat.card_eq_one_iff_unique.mp hcard1).1
     have hz1 : (⟨z, hz⟩ : ↥H) = 1 := Subsingleton.elim _ _
     have hz1' : z = 1 := congrArg Subtype.val hz1
     rw [hz1']
@@ -536,7 +541,7 @@ private theorem le_centralizer_of_isPGroup_card_le_three {R R0 : Subgroup G}
     (hR0R : R0 ≤ R) (hR : IsPGroup 3 R) (hR0 : IsPGroup 3 R0)
     (hnormal : (R0.subgroupOf R).Normal) (hcard : Nat.card R0 ≤ 3) :
     R0 ≤ Subgroup.centralizer (R : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hR0
   have hk1 : k ≤ 1 := by
     by_contra h
@@ -559,7 +564,7 @@ private theorem le_centralizer_of_isPGroup_card_le_three {R R0 : Subgroup G}
   · have hcard3 : Nat.card R0 = 3 := by
       rw [hk]
       norm_num
-    haveI : Fact (IsPGroup 3 ↥R) := ⟨hR⟩
+    have : Fact (IsPGroup 3 ↥R) := ⟨hR⟩
     have hcent : R0.subgroupOf R ≤ Subgroup.center ↥R :=
       CFSG.normal_subgroup_card_eq_prime_le_center (G := ↥R) (R0.subgroupOf R)
         (by rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hR0R).toEquiv, hcard3])
@@ -569,6 +574,7 @@ private theorem le_centralizer_of_isPGroup_card_le_three {R R0 : Subgroup G}
     have hcomm := Subgroup.mem_center_iff.mp (hcent hx') (⟨r, hr⟩ : ↥R)
     exact congrArg Subtype.val hcomm
 
+omit [Finite G] in
 private theorem sup_eq_of_isPGroup_relIndex {R L Z : Subgroup G} (hRZ : R ≤ Z) (hLZ : L ≤ Z)
     (hR3 : ¬ 3 ∣ R.relIndex Z) (hL3 : ∃ k, L.relIndex Z = 3 ^ k) : R ⊔ L = Z := by
   obtain ⟨k, hk⟩ := hL3
@@ -591,6 +597,7 @@ private theorem sup_eq_of_isPGroup_relIndex {R L Z : Subgroup G} (hRZ : R ≤ Z)
     Nat.dvd_one.mp (by rw [← hgcd]; exact Nat.dvd_gcd hdvdR hdvdL)
   exact le_antisymm hMZ (Subgroup.relIndex_eq_one.mp hM1)
 
+omit [Finite G] in
 private theorem sup_P_A_eq_sup_A_inf {A X P : Subgroup G} (hPle : P ≤ A ⊔ X)
     (hAX : A ≤ Subgroup.normalizer (X : Set G)) :
     P ⊔ A = A ⊔ ((P ⊔ A) ⊓ X) := by
@@ -608,7 +615,7 @@ theorem exists_elemAbelian_nine_inf_eq_bot {N₁ A P : Subgroup G} (hAN : A ≤ 
     ∃ F : Subgroup G, F ≤ Xhat N₁ A hAN hNA ∧ IsElemAbelian 3 F ∧ Nat.card F = 9 ∧
       F ⊓ A = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let PA : Subgroup G := P ⊔ A
   let X : Subgroup G := Xhat N₁ A hAN hNA
   let Z0 : Subgroup G := PA ⊓ X
@@ -627,9 +634,9 @@ theorem exists_elemAbelian_nine_inf_eq_bot {N₁ A P : Subgroup G} (hAN : A ≤ 
     have hAX : A ≤ Subgroup.normalizer (X : Set G) := hAN.trans hXN
     simpa [PA, Z0] using sup_P_A_eq_sup_A_inf (X := X) hPle hAX
   have hAnormPA : PA ≤ Subgroup.normalizer (A : Set G) := hPAN1.trans hNA
-  haveI hAnormPA' : (A.subgroupOf PA).Normal :=
+  have hAnormPA' : (A.subgroupOf PA).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_right : A ≤ PA)).mpr hAnormPA
-  haveI hP0norm' : ((A ⊓ P).subgroupOf P).Normal := by
+  have hP0norm' : ((A ⊓ P).subgroupOf P).Normal := by
     refine Subgroup.Normal.mk ?_
     intro n hn g
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -641,7 +648,7 @@ theorem exists_elemAbelian_nine_inf_eq_bot {N₁ A P : Subgroup G} (hAN : A ≤ 
     intro z hz x hx
     exact ⟨(Subgroup.mem_normalizer_iff.mp (hZ0NA hz) x).mp hx.1,
       (Subgroup.mem_normalizer_iff.mp (hXN (hZ0N1 hz)) x).mp hx.2⟩
-  haveI : (L.subgroupOf Z0).Normal :=
+  have : (L.subgroupOf Z0).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLZ0).mpr hLZ0norm
   have hZ0A : Z0 ⊔ A = PA := by
     rw [sup_comm]
@@ -654,7 +661,7 @@ theorem exists_elemAbelian_nine_inf_eq_bot {N₁ A P : Subgroup G} (hAN : A ≤ 
     · exact fun h => h.1
     · intro h
       exact ⟨h, (Subgroup.mem_inf.mp x.2).2⟩
-  haveI hA0norm : (A.subgroupOf Z0).Normal := hLsub ▸ inferInstance
+  have hA0norm : (A.subgroupOf Z0).Normal := hLsub ▸ inferInstance
   have hLZ0 : L ≤ Z0 := le_inf (inf_le_left.trans le_sup_right) inf_le_right
   have hZ0A : Z0 ⊔ A = PA := by
     rw [sup_comm]
@@ -807,7 +814,6 @@ theorem exists_elemAbelian_nine_inf_eq_bot {N₁ A P : Subgroup G} (hAN : A ≤ 
       (QuotientGroup.mk g : ↥PA ⧸ A.subgroupOf PA) at hg
     change (QuotientGroup.mk g : ↥PA ⧸ A.subgroupOf PA) ^ 3 = 1
     rw [← hg, ← QuotientGroup.mk_pow]
-    change (QuotientGroup.mk (pPA ^ 3) : ↥PA ⧸ A.subgroupOf PA) = 1
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     simpa using hcube p hp
   have hPAbelian : ∀ g h : ↥PA,

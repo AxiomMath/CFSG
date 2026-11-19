@@ -23,7 +23,7 @@ theorem W_eq : genMon Co2JRank.WG = matGrp wGenWords :=
 
 theorem WGx_eq {i : ℕ} (hi : i < 5) : WGx i = Co2JRank.WG i := by
   unfold WGx
-  rw [selN_eq, if_pos (blt_iff.2 hi)]
+  rw [selN_eq, ite_eq_left (blt_iff.2 hi)]
 
 theorem wg_sq : ∀ i < 5, MatP 22 (Co2JRank.WG i) * MatP 22 (Co2JRank.WG i) = 1 := fun i hi => by
   rw [← WGx_eq hi]

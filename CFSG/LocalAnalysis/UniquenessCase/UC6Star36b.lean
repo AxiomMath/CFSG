@@ -32,7 +32,7 @@ theorem star_a_of_stronglyEmbedded (hU : uniqueFourUnique G) {N : Subgroup G}
     (hSN : S.map H.subtype ≤ N) (hSq : IsPGroup q S) :
     (rankThreeGamma 1 q S ⊔ ⨆ (Y : Subgroup ↥H) (_ : Y ≤ S) (_ : 1 < Open.pRank q Y),
         ⨆ K ∈ calMOf Y, K) ≠ ⊤ := by
-  haveI : Fact q.Prime := ⟨hq.1.1⟩
+  have : Fact q.Prime := ⟨hq.1.1⟩
   have hle : (rankThreeGamma 1 q S ⊔ ⨆ (Y : Subgroup ↥H) (_ : Y ≤ S) (_ : 1 < Open.pRank q Y),
       ⨆ K ∈ calMOf Y, K) ≤ N.subgroupOf H := by
     refine sup_le ?_ ?_
@@ -70,7 +70,7 @@ theorem star_a_of_stronglyEmbedded (hU : uniqueFourUnique G) {N : Subgroup G}
 theorem strongly3_of_three_mem_beta (hU : uniqueFourUnique G) (h3 : 3 ∈ uniqueFourBeta G)
     {H : Subgroup G} (hH : ∀ N : Subgroup G, uniqueFourIsMaxTwoLocal N → ¬ H ≤ N)
     (hdvd : 3 ∣ Nat.card ↥H) : ∃ Y : Subgroup ↥H, IsStronglyPEmbedded 3 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (⊤ : Subgroup ↥H)
   obtain ⟨N₃, hN₃, h3N₃, hQN₃⟩ := exists_sigma_ge hU h3 (hQ.isPGroup.map H.subtype)
   have hNs : IsStronglyPEmbedded 3 N₃ := by
@@ -98,7 +98,7 @@ theorem not_sigmaTwo (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
     (h3 : 3 ∉ uniqueFourBeta G) {q : ℕ} (hq : SigmaTwo4 G q) : False := by
   have hSig2 : SigmaTwo4 G S.p := hMS.2 h3 ⟨q, hq⟩
   obtain ⟨hβ, N₂, hN₂, hpN₂, P₂, hP₂N₂, -, -, -, -, P₀, hP₀⟩ := hSig2
-  haveI : Fact S.p.Prime := ⟨hβ.1⟩
+  have : Fact S.p.Prime := ⟨hβ.1⟩
   have hone : S.p ∈ SigmaOne4 G := (hsub S.hp).2
   have hNs : IsStronglyPEmbedded S.p N₂ := isStronglyPEmbedded_of_sigmaOne hU hN₂ hpN₂ hone
   obtain ⟨hP₀P, hP₀card, -, -, hnlayer, -⟩ := hP₀
@@ -118,7 +118,7 @@ theorem star36At_dataOfSetup4 (hS : Standing4 G) (hU : uniqueFourUnique G) (S : 
   have hH : ∀ N : Subgroup G, uniqueFourIsMaxTwoLocal N → ¬ H ≤ N := fun N hN =>
     not_le_maxLocal hS hU S hC hr hr2 hEM hEel hEcard hΓ hEH HnM hN
   have hβ : q ∈ uniqueFourBeta G := mem_beta_of_twoLocalPrimeRank H hq hq2 h3
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hSqp : IsPGroup q Sq := hSq.isPGroup
   obtain ⟨N, hN, hqN, hSN⟩ := exists_sigma_ge hU hβ (hSqp.map H.subtype)
   rcases stronglyEmbedded_or_sigmaTwo hU hN hqN with hNs | ⟨h5, hSig2⟩

@@ -90,7 +90,7 @@ theorem splCert_cls_of_snd (c : Option (ℕ × ℕ)) (i : ℕ) (h : c.map Prod.s
     exact ⟨u, rfl⟩
 
 theorem splCert_coe_prod {G : Type*} [Group G] (K : Subgroup G) (n : ℕ) (s : ℕ → G)
-    (t : ℕ → K) (ht : ∀ k (hk : k < n), (t k : G) = s k) (L : List ℕ) :
+    (t : ℕ → K) (ht : ∀ k (_hk : k < n), (t k : G) = s k) (L : List ℕ) :
     (∀ l ∈ L, l < n) → (((L.map t).prod : K) : G) = (L.map s).prod := by
   induction L with
   | nil =>
@@ -215,7 +215,7 @@ theorem splCert_simple {G : Type*} [Group G] (K : Subgroup G) (h1 h2 : G)
     apply hnab
     have h' : h1 = 1 := by simpa using congrArg Subtype.val h
     rw [h', one_mul, mul_one]
-  haveI : Nontrivial K := nontrivial_of_ne (⟨h1, hK1⟩ : K) 1 hne
+  have : Nontrivial K := nontrivial_of_ne (⟨h1, hK1⟩ : K) 1 hne
   refine ⟨?_⟩
   intro M hM
   by_cases hbot : M = ⊥

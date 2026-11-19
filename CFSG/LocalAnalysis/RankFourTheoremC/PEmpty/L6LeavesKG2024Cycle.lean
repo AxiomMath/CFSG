@@ -11,10 +11,13 @@ open Equiv Equiv.Perm
 
 variable {Ω : Type} [Fintype Ω] [DecidableEq Ω]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem perm_inv_apply_self (f : Perm Ω) (x : Ω) : f⁻¹ (f x) = x := f.symm_apply_apply x
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem perm_apply_inv_self (f : Perm Ω) (x : Ω) : f (f⁻¹ x) = x := f.apply_symm_apply x
 
+omit [DecidableEq Ω] in
 theorem isCycle_of_order {z : Perm Ω} {p : ℕ} (hp : p.Prime) (hz : orderOf z = p)
     (hn : Fintype.card Ω < 2 * p) : z.IsCycle := by
   rw [← hz] at hp hn
@@ -24,6 +27,7 @@ theorem card_support_eq {z : Perm Ω} {p : ℕ} (hp : p.Prime) (hz : orderOf z =
     (hn : Fintype.card Ω < 2 * p) : z.support.card = p := by
   rw [← (isCycle_of_order hp hz hn).orderOf, hz]
 
+omit [DecidableEq Ω] in
 theorem fixes_of_commute {z t : Perm Ω} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hz : orderOf z = p) (hc : z.IsCycle) (hcomm : t * z = z * t) (ht : t * t = 1) {x : Ω}
     (hx : z x ≠ x) : t x = x := by

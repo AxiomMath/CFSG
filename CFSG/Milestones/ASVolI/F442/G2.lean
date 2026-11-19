@@ -61,8 +61,8 @@ theorem burnsideF42g_g2_cnt_chk : burnsideF42g_g2_cnt 32 = 16 ∧
 theorem burnsideF42g_g2_sylow_rho [Finite k] :
     IsSylowTwoOf ((lat h2 hk2).S ⊓ Subgroup.centralizer ({g2RhoC h2} : Set (G2Group k)))
       (Subgroup.centralizer ({g2RhoC h2} : Set (G2Group k))) := by
-  haveI : Finite (G2Group k) := finite_g2Group
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (G2Group k) := finite_g2Group
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have D := g2IndexTwoData h2 hk2
   have hρ2 : g2RhoC h2 * g2RhoC h2 = 1 := D.sq
   have hCP : Subgroup.centralizer ({g2RhoC h2} : Set (G2Group k)) ≤ (lat h2 hk2).P₁ :=
@@ -226,17 +226,17 @@ theorem burnsideF42g_A42_G2two (hyp : HypF_4_31 .G2 1 Gp M₁ M₂ β ε z) (_hL
     ∃ t : ↥M₂, (t : E) ∈ pCoreOf 2 (Gp ⊓ M₂) ∧ IsShortRootInv .G2 Gp M₁ M₂ (t : E) ∧
       Subgroup.centralizer ({epsG β ε (f2 (c := β) t)} : Set M) ≤ MiTwo β ε := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
   obtain ⟨chart, hm⟩ := hyp.amalgam.lie_amalgam
   rcases chart.coordinates with ⟨c, hk, -⟩ |
       ⟨-, hp, hd, K, fK, finK, hcard, marking, h1, h2', h3, h4, h5⟩ |
       ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨-, e, K', fK', finK', charK', scope, hcase⟩
   · cases c <;> exact absurd hk (by decide)
   · have hcard' : Nat.card K = 2 := by simpa using hcard
-    haveI := finK
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime (p := 2)
+    have := finK
+    have := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime (p := 2)
       (by rw [← Nat.card_eq_fintype_card, hcard'])
     have h2 : (2 : K) = 0 := two_eq_zero_of_card_two hcard'
     have hk2 : ∀ c : K, c = 0 ∨ c = 1 := eq_zero_or_eq_one_of_card_two hcard'

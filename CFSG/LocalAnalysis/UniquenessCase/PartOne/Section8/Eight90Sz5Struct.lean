@@ -388,7 +388,7 @@ theorem sz5e1_heisenberg {Q : Type} {F : Type} [Field F] {V : Type} [Group Q] [F
           intro hh
           exact h1' (by rw [h2', hh])
         rw [h2u, hnegOne]
-        simp only [eps, h2, hneg_ne, if_false, if_true, smul_mul_assoc, one_mul, Units.coe_neg_one]
+        simp only [eps, h2, hneg_ne, ite_false, ite_true, smul_mul_assoc, one_mul, Units.coe_neg_one]
       · rcases hc w q with h | h
         · exact absurd h h1
         · exact absurd h h2

@@ -12,6 +12,7 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem det_blkMatZ_of_perfZ {g : SL(3, K)} (hg : g ∈ perfZ K) :
     (blkMatZ (g : Matrix (Fin 3) (Fin 3) K)).det = 1 := by
   obtain ⟨h10, h20, h00⟩ := hg
@@ -22,6 +23,7 @@ theorem det_blkMatZ_of_perfZ {g : SL(3, K)} (hg : g ∈ perfZ K) :
   simp [h10, h20, h00] at hdet ⊢
   linear_combination hdet
 
+omit [Finite K] [CharP K 2] in
 theorem blkMatZ_embZ (A : SL(2, K)) :
     blkMatZ (embZ A : Matrix (Fin 3) (Fin 3) K) = (A : Matrix (Fin 2) (Fin 2) K) := by
   ext i j

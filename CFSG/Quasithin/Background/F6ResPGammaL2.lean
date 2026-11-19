@@ -72,7 +72,7 @@ theorem sylow_pgl2_equiv (hp : p.Prime) (hK : Nat.card K = p ^ 2) (hp8 : p % 8 =
     ⟨p, 2, hp, hp.odd_of_ne_two hp2, by norm_num, hK⟩
   obtain ⟨N, hN, hPGL, -⟩ := card_pgl2_psl2 hp hK hp8
   obtain ⟨m, -, ⟨e⟩⟩ := pgl2_odd_hasDihedralSylowTwo_model K hodd S
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hidx := S.not_dvd_index
   have hmul := (S : Subgroup (PGL2 K)).card_mul_index
   rw [hk, hPGL] at hmul
@@ -288,7 +288,7 @@ theorem not_sylow_wreath (hp : p.Prime) (hK : Nat.card K = p ^ 2) (hp8 : p % 8 =
   obtain ⟨e₀⟩ := sylow_pgl2_equiv hp hK hp8 S₀
   set ι : PGL2 K →* PGammaL2 K := SemidirectProduct.inl
   have hι : Function.Injective ι := SemidirectProduct.inl_injective
-  obtain ⟨P₁, hP₁⟩ := (S₀.isPGroup'.map ι : IsPGroup 2 ((S₀ : Subgroup (PGL2 K)).map ι))
+  obtain ⟨P₁, hP₁⟩ := (S₀.isPGroup.map ι : IsPGroup 2 ((S₀ : Subgroup (PGL2 K)).map ι))
     |>.exists_le_sylow
   set ψ : DihedralGroup 8 →* Multiplicative (ZMod 4) ≀ᵣ Multiplicative (ZMod 2) :=
     ((Sylow.equiv P₁ P).trans e).toMonoidHom.comp

@@ -14,10 +14,12 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810
 section Offender
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem s0Off_le_thompsonJ {H A : Subgroup X} (hA : Quasithin.IsMaxElemAbelian H A) :
     A ≤ Quasithin.thompsonJ H :=
   le_iSup₂ (f := fun (A : Subgroup X) (_ : Quasithin.IsMaxElemAbelian H A) => A) A hA
 
+omit [Finite X] in
 theorem s0Off_isMaxElemAbelian_conj {T A : Subgroup X} {n : X}
     (hn : ∀ w ∈ T, n * w * n⁻¹ ∈ T) (hn' : ∀ w ∈ T, n⁻¹ * w * n ∈ T)
     (hA : Quasithin.IsMaxElemAbelian T A) :
@@ -35,6 +37,7 @@ theorem s0Off_isMaxElemAbelian_conj {T A : Subgroup X} {n : X}
     rwa [Subgroup.card_map_of_injective (f := (MulAut.conj n).toMonoidHom)
       (MulAut.conj n).injective]
 
+omit [Finite X] in
 theorem s0Off_conj_mem_thompsonJ {T : Subgroup X} {n : X}
     (hn : ∀ w ∈ T, n * w * n⁻¹ ∈ T) (hn' : ∀ w ∈ T, n⁻¹ * w * n ∈ T) {x : X}
     (hx : x ∈ Quasithin.thompsonJ T) : n * x * n⁻¹ ∈ Quasithin.thompsonJ T := by
@@ -45,6 +48,7 @@ theorem s0Off_conj_mem_thompsonJ {T : Subgroup X} {n : X}
     exact s0Off_le_thompsonJ (s0Off_isMaxElemAbelian_conj hn hn' hA)
   simpa [MulAut.conj_apply] using hle hx
 
+omit [Finite X] in
 theorem s0Off_mem_normalizer_thompsonJ {T : Subgroup X} {n : X}
     (hn : ∀ w ∈ T, n * w * n⁻¹ ∈ T) (hn' : ∀ w ∈ T, n⁻¹ * w * n ∈ T) :
     n ∈ Subgroup.normalizer (Quasithin.thompsonJ T : Set X) := by

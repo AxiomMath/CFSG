@@ -152,7 +152,7 @@ theorem exists_pow_two_eq_one_conj_frob (hε : ε ≤ 1) (hI : IsTopCut I t)
       Matrix (HypIndex (t + s) ε) (HypIndex (t + s) ε) K).det = 1 := by
     rw [← Matrix.GeneralLinearGroup.val_det_apply, map_mul, map_mul, map_mul, map_inv, map_inv,
       hdetX]
-    simp [mul_comm, mul_left_comm]
+    simp
   refine exists_pow_two_eq_one_of_blocks hε hI hDsim hdet hstab (fun b => ?_) ?_
   · have hbr : b.1 ≤ t + s := (hI.le b.1 b.2).2.trans (Nat.le_add_right t s)
     obtain ⟨c, hc⟩ := hbG b

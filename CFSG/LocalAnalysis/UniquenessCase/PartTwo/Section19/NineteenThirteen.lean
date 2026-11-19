@@ -31,7 +31,7 @@ theorem nineteen_thirteen_sylow (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L 
     (h12 : Concl19_12 D A 3) :
     3 ∈ piSet A → ∀ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P D.M →
       CFSG.ABGLocalTools.IsSylowOf 3 P ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h3mem P hP
   have h3dvd : 3 ∣ Nat.card A := h3mem.2
   have hAM : A ≤ D.M := A_le_M_of_ctx19_10 D h

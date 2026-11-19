@@ -258,7 +258,7 @@ theorem map_gammaZero_le_alternatingGroup (hTim : CFSG.CGT.Timmesfeld75.NodeStat
       change (z : G) ^ d ∈ Subgroup.zpowers (z : G)
       exact Subgroup.pow_mem _ (Subgroup.mem_zpowers (z : G)) d
     have hXinfT : X ⊓ D.T = ⊥ := by
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       rw [hXcard]
       obtain ⟨n, hn⟩ := hT2.exists_card_eq
       rw [hn]

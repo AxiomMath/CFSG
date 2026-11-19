@@ -224,7 +224,7 @@ theorem J1_centralizer_eq_sylow {T : Subgroup walterJ1}
       (n := (Nat.card (Subgroup.centralizer (T : Set walterJ1))).primeFactorsList.length)
       (Nat.eq_prime_pow_of_unique_prime_dvd hpos (fun {d} hd hdvd => ?_))
     by_contra hd2
-    haveI := Fact.mk hd
+    have := Fact.mk hd
     obtain ⟨z, hz⟩ :=
       exists_prime_orderOf_dvd_card' (G := Subgroup.centralizer (T : Set walterJ1)) d hdvd
     have hzo : orderOf (z : walterJ1) = d := by rw [Subgroup.orderOf_coe, hz]
@@ -282,7 +282,7 @@ theorem J1_invariant_sylow_of_card_four {x : walterJ1}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
   have hC := J1_centralizer_eq_sylow hT4 P hTP
-  refine ⟨P, hTP, P.isPGroup', ?_, (CFSG.Walter.J1Props.jankoHyp.sylow_structure P).1⟩
+  refine ⟨P, hTP, P.isPGroup, ?_, (CFSG.Walter.J1Props.jankoHyp.sylow_structure P).1⟩
   rw [← hC]
   exact mem_normalizer_centralizer189 hxT
 

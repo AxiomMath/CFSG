@@ -32,18 +32,18 @@ theorem mG_eq : mG = mulN mulGP := rfl
 theorem covN_eq (x : CV 16) : covN (G72C.map Subtype.val) mulGP x = covC x := by
   unfold covN covC
   by_cases h : x ∈ G72C
-  · rw [if_pos ((mem_map_val _ _).2 h), if_pos h]
+  · rw [ite_eq_left ((mem_map_val _ _).2 h), ite_eq_left h]
     unfold covIdxN covIdx idx72
     simp only [idxN_map, mG_eq]
-  · rw [if_neg (mt (mem_map_val _ _).1 h), if_neg h]
+  · rw [ite_eq_right (mt (mem_map_val _ _).1 h), ite_eq_right h]
 
 theorem cHatN_eq (x : CV 16) : cHatN (G72C.map Subtype.val) mulGP x = cHatC x := by
   unfold cHatN cHatC
   by_cases h : x ∈ G72C
-  · rw [if_pos ((mem_map_val _ _).2 h), if_pos h]
+  · rw [ite_eq_left ((mem_map_val _ _).2 h), ite_eq_left h]
     unfold idx72
     simp only [idxN_map, mG_eq]
-  · rw [if_neg (mt (mem_map_val _ _).1 h), if_neg h]
+  · rw [ite_eq_right (mt (mem_map_val _ _).1 h), ite_eq_right h]
 
 theorem n24TailN_eq (x : CV 16) (o : List Nat) :
     n24TailN (G72C.map Subtype.val) mulGP x o = n24TailC x o := by

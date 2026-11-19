@@ -212,7 +212,7 @@ theorem _root_.CFSG.OddStandard.Seitz77.CaseBG0.le_normalizer_of_sylow
       rw [htop]
       trivial
     exact (mem_subgroupOf.mp hx').2
-  have : Group.IsNilpotent Tsub := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Tsub := T.isPGroup.isNilpotent
   have hnc : NormalizerCondition Tsub := Group.normalizerCondition_of_isNilpotent (G := Tsub)
   obtain ⟨y, hyN, hyn⟩ := IsConcreteLE.exists_of_lt (hnc _ hlt)
   have hy : (y : G) ∈ normalizer (R : Set G) := by
@@ -223,7 +223,7 @@ theorem _root_.CFSG.OddStandard.Seitz77.CaseBG0.le_normalizer_of_sylow
   have hyR : (y : G) ∉ R := fun h => hyn (mem_subgroupOf.mpr h)
   apply hyR
   refine ⟨y.2, ?_⟩
-  have hRp : IsPGroup 2 R := T.isPGroup'.to_inf_left
+  have hRp : IsPGroup 2 R := T.isPGroup.to_inf_left
   have hRN : R ≤ normalizer ((G₁ ⊔ G₂ : Subgroup G) : Set G) := inf_le_right
   have hSR : S₀ ≤ R := fun s hs => ⟨hST hs, Subgroup.le_normalizer (c.S₀_le hs)⟩
   have hcsR : cs (y : G) R = R := mem_normalizer_iff_cs.1 hy

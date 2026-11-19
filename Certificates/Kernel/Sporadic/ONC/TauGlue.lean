@@ -55,7 +55,7 @@ theorem lift_onGF_tauWords :
   have k1 := mul_inv_eq_one.2 (onG_pairs _ (List.mem_cons_of_mem _ List.mem_cons_self))
   have k2 := mul_inv_eq_one.2
     (onG_pairs _ (List.mem_cons_of_mem _ (List.mem_cons_of_mem _ List.mem_cons_self)))
-  simp only [tauPairs, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
+  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
     mul_inv_rev, mul_assoc] at k0 k1 k2
   intro w hw
   simp only [tauWords, List.mem_cons, List.mem_nil_iff, or_false] at hw

@@ -104,10 +104,10 @@ open scoped Classical in
 noncomputable def tProj (x : R) : R := if x ∈ MR then x else x * tR
 
 theorem tProj_of_mem {x : R} (h : x ∈ MR) : tProj x = x := by
-  rw [tProj, if_pos h]
+  rw [tProj, ite_eq_left h]
 
 theorem tProj_of_not_mem {x : R} (h : x ∉ MR) : tProj x = x * tR := by
-  rw [tProj, if_neg h]
+  rw [tProj, ite_eq_right h]
 
 theorem tProj_mem {x : R} (hx : x * tR = tR * x) : tProj x ∈ MR := by
   by_cases h : x ∈ MR
@@ -183,7 +183,7 @@ section Leaf
 
 theorem fourClassesLarge_centralizer_MR {ρ : MR} (h2 : ρ ^ 2 = 1) (h1 : ρ ≠ 1) :
     FourClassesLarge ↥(Subgroup.centralizer ({ρ} : Set MR)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hv : orderOf (fi23EquivJMR ρ) = 2 := by
     rw [MulEquiv.orderOf_eq]
     exact orderOf_eq_prime h2 h1

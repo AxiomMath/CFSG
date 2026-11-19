@@ -13,13 +13,13 @@ open scoped commutatorElement
 theorem sympData_of_form (hForm : SympForm) : SympData := by
   unfold SympData
   intro G _ _ X N hXn hNn hXp hcomm hsq hcyc hN
-  haveI : X.Normal := hXn
-  haveI : N.Normal := hNn
+  have : X.Normal := hXn
+  have : N.Normal := hNn
   obtain ⟨W, hWac, hWmod, hWfin, B, π, hBnd, hBalt, hπsurj, hπker, hB⟩ :=
     hForm ↥X hXp hcomm hsq hcyc
-  letI := hWac
-  letI := hWmod
-  letI := hWfin
+  let := hWac
+  let := hWmod
+  let := hWfin
   let Φ := conjHom (π := π) hπsurj hπker
   have hNle : N ≤ Φ.ker := N_le_conjHom_ker hπsurj hπker hN
   let φ : G ⧸ N →* (W ≃ₗ[ZMod 2] W) := QuotientGroup.lift N Φ hNle

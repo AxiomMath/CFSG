@@ -118,9 +118,9 @@ theorem l1Elt_mem (i : Fin 16) : l1Elt i ∈ decSubgroup l1Decs := by
   obtain ⟨k, hk, rfl⟩ := List.mem_map.mp hx
   rw [List.mem_range] at hk
   by_cases h : i.val.testBit k
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact l1BasisPerm_mem hk
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact Subgroup.one_mem _
 
 private theorem prod_bit_ite_mul {M : Type*} [CommMonoid M] (b : ℕ → M)
@@ -140,7 +140,7 @@ private theorem prod_bit_ite_mul {M : Type*} [CommMonoid M] (b : ℕ → M)
   intro k hk
   rw [Finset.mem_range] at hk
   rw [Nat.testBit_xor]
-  cases hi : i.val.testBit k <;> cases hj : j.val.testBit k <;> simp [hi, hj, hb k hk]
+  cases hi : i.val.testBit k <;> cases hj : j.val.testBit k <;> simp [hb k hk]
 
 private theorem l1Elt_eq_prod (i : Fin 16) :
     l1Elt i = ((List.range 4).map
@@ -198,7 +198,7 @@ open scoped IsMulCommutative
 theorem l1Elt_xor (hF1 : F1Prop) (i j : Fin 16) :
     l1Elt (xor16 i j) = l1Elt i * l1Elt j := by
   have hEA := l1_elem_abelian hF1
-  haveI : IsMulCommutative ↥(decSubgroup l1Decs) := hEA.1
+  have : IsMulCommutative ↥(decSubgroup l1Decs) := hEA.1
   let b : ℕ → ↥(decSubgroup l1Decs) := fun k =>
     if hk : k < 4 then ⟨l1BasisPerm k, l1BasisPerm_mem hk⟩ else 1
   have hb : ∀ k < 4, b k * b k = 1 := by
@@ -218,7 +218,7 @@ theorem l1Elt_xor (hF1 : F1Prop) (i j : Fin 16) :
     intro k hk
     rw [List.mem_range] at hk
     by_cases h : i.val.testBit k
-    · simp [b, h, dif_pos hk]
+    · simp [b, h, dite_eq_left hk]
     · simp [b, h]
   have hF_eq_sub : ∀ i : Fin 16, (⟨l1Elt i, l1Elt_mem i⟩ : ↥(decSubgroup l1Decs)) =
       ((List.range 4).map fun k => if i.val.testBit k then b k else 1).prod := by

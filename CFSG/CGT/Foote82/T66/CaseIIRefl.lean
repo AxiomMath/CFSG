@@ -20,7 +20,7 @@ theorem cdim6_conj (g a : GL I6 (ZMod 2)) : cdim6 (g * a * g⁻¹) = cdim6 a := 
   rw [cdim6_eq_rank, cdim6_eq_rank]
   have e : mat (g * a * g⁻¹) - 1 = mat g * (mat a - 1) * mat g⁻¹ := by
     rw [Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one]
-    simp [Matrix.GeneralLinearGroup.coe_mul, mul_assoc]
+    simp [mul_assoc]
   rw [e, Matrix.rank_mul_eq_left_of_isUnit_det, Matrix.rank_mul_eq_right_of_isUnit_det]
   · exact (Matrix.isUnit_iff_isUnit_det _).1 g.isUnit
   · exact (Matrix.isUnit_iff_isUnit_det _).1 g⁻¹.isUnit
@@ -133,14 +133,14 @@ theorem range_refl_inf :
     intro a b h
     have hu : a (Sum.inr (Sum.inr 1)) = 0 := by
       have h1 := congrFun h iu
-      simp only [Matrix.sub_mulVec, Matrix.one_mulVec, Pi.sub_apply, Matrix.mulVec, dotProduct,
-        matR₀, matR₁, Matrix.of_apply, Fintype.sum_sum_type, Fin.sum_univ_two, iu, iv, ix, iy,
-        Equiv.swap_apply_def, Pi.zero_apply] at h1
+      simp only [Matrix.mulVec, dotProduct,
+        matR₀, matR₁, Fintype.sum_sum_type, Fin.sum_univ_two, iu, iv, ix, iy,
+        Equiv.swap_apply_def] at h1
       simpa using h1.symm
     funext i
     rcases i with i | i | i <;> fin_cases i <;>
-      simp only [Matrix.sub_mulVec, Matrix.one_mulVec, Pi.sub_apply, Matrix.mulVec, dotProduct,
-        matR₀, Matrix.of_apply, Fintype.sum_sum_type, Fin.sum_univ_two, iu, iv, ix, iy,
+      simp only [Matrix.mulVec, dotProduct,
+        matR₀, Fintype.sum_sum_type, Fin.sum_univ_two, iu, iv,
         Pi.zero_apply] <;>
       simp [hu]
   exact key a b hb
@@ -152,9 +152,9 @@ theorem mem_range_conj {g M : GL I6 (ZMod 2)} {x : I6 → ZMod 2}
   refine ⟨(mat g⁻¹).mulVec a, ?_⟩
   have e : mat (g * M * g⁻¹) - 1 = mat g * (mat M - 1) * mat g⁻¹ := by
     rw [Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one]
-    simp [Matrix.GeneralLinearGroup.coe_mul, mul_assoc]
+    simp [mul_assoc]
   have hgi : mat g⁻¹ * mat g = 1 := by
-    simp [mat, ← Matrix.GeneralLinearGroup.coe_mul]
+    simp [mat]
   simp only [Matrix.mulVecLin_apply]
   rw [e, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, ← Matrix.mul_assoc, ← Matrix.mul_assoc,
     hgi, Matrix.one_mul]
@@ -169,7 +169,7 @@ theorem range_refl_conj_inf (g : GL I6 (ZMod 2)) :
   rw [range_refl_inf, Submodule.mem_bot] at h
   rw [Submodule.mem_bot]
   have hg : mat g * mat g⁻¹ = 1 := by
-    simp [mat, ← Matrix.GeneralLinearGroup.coe_mul]
+    simp [mat]
   calc x = (mat g * mat g⁻¹).mulVec x := by rw [hg, Matrix.one_mulVec]
     _ = (mat g).mulVec ((mat g⁻¹).mulVec x) := by rw [Matrix.mulVec_mulVec]
     _ = 0 := by rw [h, Matrix.mulVec_zero]

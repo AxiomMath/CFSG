@@ -139,7 +139,7 @@ theorem zeroSetOK_eq {u : Nat} {A : List Nat} (hA : adL u = A) : zeroSetOK u = z
   have hs : A.toArray.size = 78 := by rw [List.size_toArray, hl]
   unfold zeroSetOK zeroT
   rw [hC, ← CertificateChecks.KernelMonB.Fischer3066.kLen]
-  simp only [vecMulN_eq hs, List.toList_toArray]
+  simp only [vecMulN_eq hs]
   exact range_all_eq_allIdx (fun q c => decide (vecMulL A c < 2 ^ 78) &&
     (vecMulL A c == 0) == decide (q < 22)) GramLit.rowCoords
 

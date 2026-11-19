@@ -114,7 +114,7 @@ theorem nsQ2U62_member_weyl
   obtain ⟨lab, hΛ, hHas, R, hRg, I, F, θ, hcov⟩ := largeEvenMarking_exists_hasLabel hlab
   obtain ⟨⟨htw, hr5, hn1⟩, -, -⟩ := hcov
   have hp3 : Nat.Prime 3 := hconf.tableB_facts.1
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨f, hN, hf, hpq, hTor⟩ := ggTwA5Three_torDataAt hRig hLB hPJ hH
     (Or.inr ⟨rfl, rfl⟩) rfl hΛ hHas ⟨htw, hr5, by rw [hn1]; norm_num⟩
   have hodd : Odd (2 ^ f + 1) := by

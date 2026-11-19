@@ -48,7 +48,7 @@ private theorem o73_list_eq {Ts : List ℕ} (F : Fin 8 → Matrix Idx Idx (ZMod 
 private theorem o73_tab_eq (F : Fin 8 → Matrix Idx Idx (ZMod 3)) :
     (Array.ofFn fun i : Fin 8 => tabOf (F i)) = ((List.ofFn F).map tabOf).toArray := by
   apply Array.ext'
-  simp [Array.toList_ofFn, List.map_ofFn]
+  simp [Array.toList_ofFn]
 
 private theorem o73_relatorsOK_tab (Ms : List (Matrix Idx Idx (ZMod 3))) (rels : List (List ℕ))
     (h : ∀ w ∈ rels, wordMat Ms w = 1) : relatorsOK 2187 (Ms.map tabOf).toArray rels = true := by
@@ -151,9 +151,9 @@ private theorem o73_wordPF_lt {n w : ℕ} (Ps : List ℕ)
     intro x hx
     show (if c < Ps.length then fd w (Ps.getD c 0) (wordPF w Ps wd x) else wordPF w Ps wd x) < n
     by_cases hc : c < Ps.length
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       exact hPs c hc _ (ih x hx)
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       exact ih x hx
 
 private theorem o73_wordP_lt {n w : ℕ} (hw : n ≤ 2 ^ w) (Ps : List ℕ)
@@ -170,8 +170,7 @@ private theorem o73_relPK {LP : List ℕ} {E : List (List ℕ)} {k : ℕ} (h : r
     (hk : k < E.length) :
     CFSG.KC.Misc.O73.wordP 1134 11 LP E[k] = idP 1134 11 := by
   unfold relPK at h
-  simp only [allN_lqt_iff, letB_eq, impB_eq, Bool.or_eq_true, Bool.not_eq_true', Nat.blt_eq,
-    Nat.beq_eq, lenLLN_eq, nthL_eq] at h
+  simp only [allN_lqt_iff, letB_eq, impB_eq, Bool.or_eq_true, Bool.not_eq_true', Nat.beq_eq, lenLLN_eq, nthL_eq] at h
   have h0 := h 0 (by norm_num)
   have e : k.add 0 = k := rfl
   rw [e] at h0
@@ -245,7 +244,7 @@ private theorem o73_betaK {Rs cB cY YP : List ℕ} {BP : ℕ} (hb : betaK Rs cB 
 private theorem o73_or_pow (D k : ℕ) :
     D ||| 2 ^ k = if D.testBit k = true then D else D + 2 ^ k := by
   by_cases hb : D.testBit k = true
-  · rw [if_pos hb]
+  · rw [ite_eq_left hb]
     apply Nat.eq_of_testBit_eq
     intro j
     rw [Nat.testBit_or, Nat.testBit_two_pow]
@@ -253,13 +252,13 @@ private theorem o73_or_pow (D k : ℕ) :
     · subst hj
       simp [hb]
     · simp [hj]
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     have hb' : D.testBit k = false := by simpa using hb
     have hD := Nat.div_add_mod D (2 ^ (k + 1))
     have hL1 : D % 2 ^ (k + 1) < 2 ^ (k + 1) := Nat.mod_lt _ (Nat.two_pow_pos _)
     have hLk : (D % 2 ^ (k + 1)).testBit k = false := by
       have h := Nat.testBit_two_pow_mul_add (D / 2 ^ (k + 1)) hL1 k
-      rw [if_pos (Nat.lt_succ_self k), hD] at h
+      rw [ite_eq_left (Nat.lt_succ_self k), hD] at h
       rw [← h]
       exact hb'
     have hL : D % 2 ^ (k + 1) < 2 ^ k := by
@@ -332,9 +331,9 @@ private theorem o73_sum_or (b : ℕ → ℕ) : ∀ n : ℕ, o73_O b n ≤ o73_S 
     · split <;> omega
     · intro heq
       by_cases hbit : (o73_O b n).testBit (b n) = true
-      · rw [if_pos hbit] at heq
+      · rw [ite_eq_left hbit] at heq
         omega
-      · rw [if_neg hbit] at heq
+      · rw [ite_eq_right hbit] at heq
         have hSO : o73_S b n = o73_O b n := by omega
         have hfree : ∀ y < n, b y ≠ b n := by
           intro y hy hyn

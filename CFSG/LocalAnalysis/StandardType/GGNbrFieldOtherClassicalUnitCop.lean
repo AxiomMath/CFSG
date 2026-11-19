@@ -29,7 +29,7 @@ theorem largeEvenLabelAll_rowPlain_unitCop {p : ℕ} (hp : p.Prime) {lab : Large
   obtain ⟨hpq, ht, hl, hpl⟩ := h
   have h3 : 3 ≤ ggUnitaryTorusRank p (lab.rank + 1) := by
     unfold ggUnitaryTorusRank
-    rw [if_neg hpl]
+    rw [ite_eq_right hpl]
     omega
   have hinn := largeEvenLabelAll_inn_twA hlab ht
   have hlift := largeEvenLabelAll_torusLift_twA hlab ht hp hpq
@@ -74,7 +74,7 @@ theorem ggFieldFixKnown_unitCop : GGFieldFixKnown GGFieldOtherUnitCopLabel := by
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
   refine ⟨K, i1, i2, hK, hQ', ?_⟩
   intro _ _ f hf hord
   exact CFSG.LocalAnalysis.GLTheoremA.T156.Uni.exists_raw_unitary (d := l + 1) (by omega) hn hK

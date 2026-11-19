@@ -19,6 +19,7 @@ variable {K : Type} [Field K] [Fintype K] [CharP K 2] {ι : Type} [Fintype ι] [
 @[expose] def semiMap (σ : K ≃+* K) (A : Matrix ι ι K) (v : ι → K) : ι → K :=
   A *ᵥ fun i => σ (v i)
 
+omit [Fintype K] [CharP K 2] [DecidableEq ι] in
 theorem semiMap_add (σ : K ≃+* K) (A : Matrix ι ι K) (u v : ι → K) :
     semiMap σ A (u + v) = semiMap σ A u + semiMap σ A v := by
   unfold semiMap
@@ -27,6 +28,7 @@ theorem semiMap_add (σ : K ≃+* K) (A : Matrix ι ι K) (u v : ι → K) :
   funext i
   simp
 
+omit [Fintype K] [CharP K 2] [DecidableEq ι] in
 theorem semiMap_smul (σ : K ≃+* K) (A : Matrix ι ι K) (c : K) (v : ι → K) :
     semiMap σ A (c • v) = σ c • semiMap σ A v := by
   unfold semiMap
@@ -35,6 +37,7 @@ theorem semiMap_smul (σ : K ≃+* K) (A : Matrix ι ι K) (c : K) (v : ι → K
   funext i
   simp
 
+omit [Fintype K] [CharP K 2] in
 theorem semiMap_semiMap (σ : K ≃+* K) (hσ2 : ∀ c, σ (σ c) = c) {A : Matrix ι ι K}
     (hA : A * A.map σ = 1) (v : ι → K) : semiMap σ A (semiMap σ A v) = v := by
   unfold semiMap
@@ -63,10 +66,12 @@ theorem semiMap_semiMap (σ : K ≃+* K) (hσ2 : ∀ c, σ (σ c) = c) {A : Matr
     rw [show semiMap σ A v = v from hv, map_neg, map_one, neg_one_smul] at h
     exact h
 
+omit [Fintype K] [CharP K 2] [DecidableEq ι] in
 theorem mem_semiFix {σ : K ≃+* K} {A : Matrix ι ι K} {v : ι → K} :
     v ∈ semiFix σ A ↔ semiMap σ A v = v :=
   Iff.rfl
 
+omit [Fintype K] in
 theorem semiMap_eq_of_fix (σ : K ≃+* K) (hσ2 : ∀ c, σ (σ c) = c) {A : Matrix ι ι K}
     (hA : A * A.map σ = 1) {ω : K} (hω : σ ω ≠ ω) (v : ι → K) :
     ∃ u₁ ∈ semiFix σ A, ∃ u₂ ∈ semiFix σ A, semiMap σ A v = (ω + σ ω)⁻¹ • (ω • u₁ + u₂) := by
@@ -98,7 +103,7 @@ theorem exists_card_dvd_of_semilinear (hK : Fintype.card K = 4) (σ : K ≃+* K)
     push Not at hall
     exact hσ (RingEquiv.ext hall)
   set V₀ := semiFix σ A with hV₀
-  letI : Module (ZMod 2) V₀ := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) V₀ := AddCommGroup.zmodModule (n := 2) fun x => by
     apply Subtype.ext
     rw [AddSubgroup.coe_nsmul, two_nsmul, AddSubgroup.coe_zero]
     funext i
@@ -142,7 +147,7 @@ theorem exists_card_dvd_of_semilinear (hK : Fintype.card K = 4) (σ : K ≃+* K)
       rw [Matrix.mulVec_single_one, Matrix.col_apply] at h2
       rw [h2, Matrix.one_apply, Pi.single_apply]
     exact Subtype.ext (Units.ext hmat)
-  haveI : Fintype V₀ := Fintype.ofFinite _
+  have : Fintype V₀ := Fintype.ofFinite _
   have hcard := Subgroup.card_dvd_of_injective act.toHomUnits hinj
   have hGL := card_generalLinearGroup (K := ZMod 2) (M := V₀) (n := finrank (ZMod 2) V₀) rfl
   rw [ZMod.card] at hGL
@@ -203,28 +208,28 @@ theorem card_hypSU_two : Nat.card (hypSU h 2 0) = 3 ^ 4 * 320 := by
   norm_num
 
 theorem isSimpleGroup_hypSU_two : IsSimpleGroup (hypSU h 2 0) := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := nonempty_hypSU_equiv_statedProj h
   have hK : Nat.card K = (2 ^ 1) ^ 2 := by rw [h.card]; norm_num
-  haveI := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1 hK 4 (by norm_num)
+  have := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1 hK 4 (by norm_num)
     (by decide)
   exact e.isSimpleGroup
 
 theorem center_hypSU_two_eq_bot : Subgroup.center (hypSU h 2 0) = ⊥ := by
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
-  haveI := isSimpleGroup_hypSU_two h
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := isSimpleGroup_hypSU_two h
   exact center_eq_bot_of_isSimpleGroup (by rw [card_hypSU_two h]; norm_num)
     (by rw [card_hypSU_two h]; norm_num)
 
 theorem false_of_normalizes_hypSU_two {U R : Subgroup (hypSU h 2 0)} (hU : IsPGroup 2 U) (hUne : U ≠ ⊥)
     (hR : Nat.card R = 81) (hRU : R ≤ normalizer (U : Set (hypSU h 2 0))) : False := by
   classical
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Fintype K := Fintype.ofFinite K
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : Fintype K := Fintype.ofFinite K
   have hK : Nat.card K = (2 ^ 1) ^ 2 := by rw [h.card]; norm_num
   obtain ⟨T, hT⟩ := exists_isHypTransport (r := 2) (ε := 0) h
   let e := hypTransport h hT
@@ -282,9 +287,9 @@ theorem false_of_fieldAut_hypSU_two {R : Subgroup (hypSU h 2 0)} (hR : Nat.card 
     {σ : K ≃+* K} (hσ : σ ≠ 1) (ha : a * burnsideF4m_U4_fieldElt h σ a = 1)
     (hfix : ∀ s ∈ R, a * burnsideF4m_U4_fieldElt h σ s * a⁻¹ = s) : False := by
   classical
-  haveI := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := h.charP
+  have := h.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := h.charP
   have hq : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card, h.card]; norm_num
   have hσ2 : ∀ c, σ (σ c) = c := by
     rw [burnsideF4r_ringEquiv_eq_bar h σ hσ]
@@ -319,10 +324,10 @@ theorem false_of_fieldAut_hypSU_two {R : Subgroup (hypSU h 2 0)} (hR : Nat.card 
 theorem twoSigTriv_hypSU_two : TwoSigTriv 3 (hypSU h 2 0) := by
   classical
   intro S W hW hnorm
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card (S : Subgroup (hypSU h 2 0)) = 81 := by
     rw [card_sylow_eq S (card_hypSU_two h) (by norm_num)]
     norm_num
@@ -388,7 +393,7 @@ theorem twoSigTriv_hypSU_two : TwoSigTriv 3 (hypSU h 2 0) := by
 theorem twoSigTriv_u42 {L : Type} [Group L] (d : TauCeti.ValidLieTypeIndex)
     (hd : ∃ q : TauCeti.PrimePower, q.p = 2 ∧ q.exponent = 1 ∧ d.1 = .twistedA 3 q)
     (e : L ≃* (TauCeti.CFSGIndex.lie d).Group) : TwoSigTriv 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, hq2, hq1, hd⟩ := hd
   obtain ⟨x, hv⟩ := d
   simp only at hd
@@ -398,7 +403,7 @@ theorem twoSigTriv_u42 {L : Type} [Group L] (d : TauCeti.ValidLieTypeIndex)
   rw [hq2, hq1] at hF eF
   have hF' : UnitaryFieldData 2 1 F := ⟨Nat.prime_two, le_rfl, by rw [hF]; norm_num⟩
   obtain ⟨e₀⟩ := nonempty_hypSU_equiv_statedProj hF'
-  haveI : Finite (hypSU hF' 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU hF'
+  have : Finite (hypSU hF' 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU hF'
   exact (twoSigTriv_hypSU_two hF').of_mulEquiv (e₀.trans eF.symm)
 
 end U4

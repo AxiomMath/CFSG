@@ -76,7 +76,7 @@ private lemma false_of_le_sup {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.
     (hEsup : E ≤ L ⊔ I) (hE : CFSG.Open.IsElemAbelian p E) (hEcard : Nat.card E = p ^ 2)
     (hfaith : ∀ e ∈ E, e ≠ 1 → ¬ I ≤ Subgroup.centralizer ({e} : Set X))
     (hL2 : 2 ≤ CFSG.Open.pRank p L) : False := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨AL, hALleL, hALel, hALcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (k := 2) hL2
   have hEinfL : E ⊓ L = ⊥ := inf_eq_bot_of_commute_of_faithful hc hfaith
@@ -141,7 +141,7 @@ private lemma false_of_not_le_sup {X : Type} [Group X] [Finite X] {p : ℕ} (hp 
     (hEI : E ≤ Subgroup.normalizer (I : Set X))
     (hinner : ∀ e ∈ E, ∃ k ∈ L, k ^ p = 1 ∧ ∀ y ∈ L, e * y * e⁻¹ = k * y * k⁻¹)
     (hEnot : ¬ E ≤ L ⊔ I) (hL2 : 2 ≤ CFSG.Open.pRank p L) : False := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨AL, hALleL, hALel, hALcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (k := 2) hL2
   have hEnot' : ¬ (E : Set X) ⊆ ((L ⊔ I : Subgroup X) : Set X) :=
@@ -204,7 +204,7 @@ theorem pRank_add_one_le_of_ne_prime {X : Type} [Group X] [Finite X] (hK : CFSG.
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hO : CFSG.pPrimeCore p X = ⊥) {L I : Subgroup X}
     (hL : CFSG.IsComponent L) (hI : CFSG.IsComponent I) (hLI : L ≠ I) :
     CFSG.Open.pRank p I + 1 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨A, hAI, hA, hAc⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank
       (p := p) (k := CFSG.Open.pRank p I) le_rfl

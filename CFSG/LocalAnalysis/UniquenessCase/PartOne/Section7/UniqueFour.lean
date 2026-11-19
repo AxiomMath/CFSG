@@ -29,10 +29,10 @@ theorem pRank_pPrimeCore_le_three_of_uniqueFourUnique (hU : uniqueFourUnique G)
     (hHrank : 2 ≤ CFSG.Open.pRank p (H ⊓ M)) {q : ℕ} (hq : q.Prime) :
     CFSG.Open.pRank q ((CFSG.pPrimeCore p ↥H).map H.subtype) ≤ 3 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let KH : Subgroup ↥H := CFSG.pPrimeCore p ↥H
   let KG : Subgroup G := KH.map H.subtype
-  haveI hKHnormal : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
+  have hKHnormal : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
   have hKM : KG ≤ M := by
     have h := pPrimeCore_le hsp hp.1.1 hHrank
     simpa [KG, KH] using h
@@ -86,7 +86,7 @@ theorem pRank_pPrimeCore_le_three_of_uniqueFourUnique (hU : uniqueFourUnique G)
     exact Subgroup.map_mono hEH_le
   have hRG_q : IsPGroup q RG := by
     dsimp [RG]
-    exact (R_H.isPGroup'.map KH.subtype).map H.subtype
+    exact (R_H.isPGroup.map KH.subtype).map H.subtype
   have hRG_le_KG : RG ≤ KG := by
     dsimp [RG, KG]
     exact Subgroup.map_mono (Subgroup.map_subtype_le (R_H : Subgroup ↥KH))

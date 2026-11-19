@@ -100,7 +100,7 @@ theorem exists_inf_ne (c : MinCex193 D V₀ V p X) (h162 : W3Thm162Gt2 G)
     intro g₁ g₂ K₁ K₂ h₁ h₂
     by_contra h
     exact hcon ⟨g₁, g₂, K₁, K₂, h₁, h₂, h⟩
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   have hH := c.sup_eq_eGen_sup h162 h763
   set Q := pCoreOf 2 (X ⊔ D.T) with hQ
   have hQT : Q ≤ D.T := Hyp193.pCoreOf_le_T c.hyp

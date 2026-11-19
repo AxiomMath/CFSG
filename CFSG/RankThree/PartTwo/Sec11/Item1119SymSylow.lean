@@ -19,8 +19,8 @@ section Facts
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L : Subgroup G} {a : G}
   {R Y : Subgroup G} {d x s r g : G}
 
-theorem sym1119_zpowers_conj (h113 : Item113) (h117 : Item117)
-    (h : Sec11Data G A c L a R Y d x s r g) {n : G}
+theorem sym1119_zpowers_conj (_h113 : Item113) (_h117 : Item117)
+    (_h : Sec11Data G A c L a R Y d x s r g) {n : G}
     (hn : n ∈ Subgroup.normalizer (Subgroup.zpowers d : Set G)) :
     Subgroup.zpowers (n * d * n⁻¹) = Subgroup.zpowers d := by
   have h1 := Subgroup.mem_normalizer_iff_map_conj_eq.mp hn
@@ -28,7 +28,7 @@ theorem sym1119_zpowers_conj (h113 : Item113) (h117 : Item117)
   exact h1
 
 theorem sym1119_conj_not_mem_zpowers_d
-    (h : Sec11Data G A c L a R Y d x s r g) {n : G}
+    (_h : Sec11Data G A c L a R Y d x s r g) {n : G}
     (hn : n⁻¹ ∈ Subgroup.normalizer (Subgroup.zpowers d : Set G))
     (hcd' : c ∉ Subgroup.zpowers d) : n * c * n⁻¹ ∉ Subgroup.zpowers d := by
   intro hmem
@@ -55,7 +55,7 @@ theorem sym1119_not_dvd_index (h113 : Item113) (h117 : Item117)
         n * c * n⁻¹ ∈ Subgroup.closure ({h₀ * c * h₀⁻¹, d} : Set G)) :
     ¬ 3 ∣ (sec11P R g).index := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup G := Subgroup.normalizer ((sec11P R g : Subgroup G) : Set G) with hNdef
   set e₀ : G := h₀ * c * h₀⁻¹ with he₀def
   have hdA : d ∈ A := Item1117Proof.d_mem_A h
@@ -159,7 +159,7 @@ theorem sym1119_false_of_sylow_fixed' (P W₀ : Subgroup G) (r : G) (hP3 : IsPGr
     (hNW : Subgroup.normalizer (P : Set G) ≤ Subgroup.normalizer (W₀ : Set G))
     (hr : r ∈ P) (hrW : r ∉ W₀)
     (hfix : ∀ n ∈ Subgroup.normalizer (P : Set G), n * r * n⁻¹ * r⁻¹ ∈ W₀) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact Item1119Sym.false_of_sylow_fixed (hP3.toSylow hidx) W₀ r hG hW hW0P hPP hNW hr hrW hfix
 
 theorem sym1119_false_of_B (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
@@ -203,7 +203,7 @@ theorem sym1119_false_of_B (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117
       rw [hu]
       exact (hNfix n hn).1
   exact sym1119_false_of_sylow_fixed' (sec11P R g) (sym1119W0 A x) r (sym1119_isPGroup_P h) hidx
-    (by haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    (by have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact hctx.big.toTheoremFourHyp.oResidual_eq_top 3) hnoW (sym1119_W0_le_P h45 h) hPP hNW
     (Item1119Proof.R_le_P R g (sym1119_r_mem_R h)) (sym1119_r_not_mem_W0 h45 h hyr1)
     (fun n hn => (hNfix n hn).2)

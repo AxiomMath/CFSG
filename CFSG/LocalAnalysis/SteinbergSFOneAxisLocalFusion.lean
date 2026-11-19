@@ -326,7 +326,7 @@ theorem act_inner [Finite G] [Finite K] [CharP K 2]
   obtain ⟨R, hXR⟩ := (hX₁2.of_equiv (subgroupOfEquivOfLe hX₁C).symm).exists_le_sylow
   set RG := (R : Subgroup C).map C.subtype
   have hRGC : RG ≤ C := map_subtype_le _
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map _
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map _
   have hX₁R : X₁ ≤ RG := fun x hx => ⟨⟨x, hX₁C hx⟩, hXR (mem_subgroupOf.mpr hx), rfl⟩
   obtain ⟨Pt, hPt⟩ := CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer
     (p := 2) (P := RG) ⟨R, rfl⟩ hS.L_le hS.cent_le

@@ -14,7 +14,7 @@ theorem gomiOdd_exists_centralizer_elem {M : Type} [Group M] [Finite M] (E : Sub
     (hEcard : Nat.card E = 2 ^ 6) (hEsq : ∀ x ∈ E, x * x = 1) :
     ∃ z : M, orderOf z = 2 ∧ ∃ E' : Subgroup ↥(Subgroup.centralizer ({z} : Set M)),
       Nat.card E' = 2 ^ 6 ∧ ∀ x ∈ E', x * x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbot : E ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hEcard

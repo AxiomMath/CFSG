@@ -34,7 +34,7 @@ private theorem glaPLayer_le_of_commutator_le {H B : Subgroup G} (hc : ⁅H, H�
 private theorem glaPPrimeCore_eq_bot_of_isQuasisimple (hp : p.Prime) {S : Subgroup G}
     (hS : CFSG.Open.IsQuasisimple ↥S) (hpS : p ∣ Nat.card ↥S)
     (hZ : IsPGroup p ↥(Subgroup.center ↥S)) : GLAPPrimeCore p ↥S = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop := GL83.PiGen.coprime_card_glaPPrimeCore hp ↥S
   have hne : GLAPPrimeCore p ↥S ≠ ⊤ := by
     intro h
@@ -90,7 +90,7 @@ private theorem center_eq_bot_of_isSimple {M : Type} [Group M] (hM : IsSimpleGro
 private theorem eq_one_of_mk_one_mem {M N : Type} [Group M] [Group N] [Finite M] [Finite N]
     {p : ℕ} (hM : IsSimpleGroup M) (hpM : p ∣ Nat.card M) (O : Subgroup (M × N)) [O.Normal]
     (hO : ¬ p ∣ Nat.card O) {m : M} (hm : ((m, 1) : M × N) ∈ O) : m = 1 := by
-  haveI : (O.comap (MonoidHom.inl M N)).Normal := Subgroup.Normal.comap inferInstance _
+  have : (O.comap (MonoidHom.inl M N)).Normal := Subgroup.Normal.comap inferInstance _
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.comap (MonoidHom.inl M N)) with h | h
   · have hm' : m ∈ O.comap (MonoidHom.inl M N) := hm
     rw [h] at hm'
@@ -109,7 +109,7 @@ private theorem eq_one_of_mk_one_mem {M N : Type} [Group M] [Group N] [Finite M]
 private theorem eq_one_of_one_mk_mem {M N : Type} [Group M] [Group N] [Finite M] [Finite N]
     {p : ℕ} (hN : IsSimpleGroup N) (hpN : p ∣ Nat.card N) (O : Subgroup (M × N)) [O.Normal]
     (hO : ¬ p ∣ Nat.card O) {n : N} (hn : ((1, n) : M × N) ∈ O) : n = 1 := by
-  haveI : (O.comap (MonoidHom.inr M N)).Normal := Subgroup.Normal.comap inferInstance _
+  have : (O.comap (MonoidHom.inr M N)).Normal := Subgroup.Normal.comap inferInstance _
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.comap (MonoidHom.inr M N)) with h | h
   · have hn' : n ∈ O.comap (MonoidHom.inr M N) := hn
     rw [h] at hn'
@@ -170,7 +170,7 @@ theorem nonempty_pQuot_sup_equiv_prod (hp : p.Prime) {S₁ S₂ : Subgroup G}
     (MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hr)
   set O := GLAPPrimeCore p ↥(S₁ ⊔ S₂) with hO
   have hcop : Nat.Coprime p (Nat.card O) := GL83.PiGen.coprime_card_glaPPrimeCore hp _
-  haveI hn : (O.map e.symm.toMonoidHom).Normal :=
+  have hn : (O.map e.symm.toMonoidHom).Normal :=
     Subgroup.Normal.map inferInstance _ e.symm.surjective
   have hcop' : ¬ p ∣ Nat.card (O.map e.symm.toMonoidHom) := by
     rw [Subgroup.card_map_of_injective e.symm.injective]

@@ -69,7 +69,6 @@ theorem adm2014 : admCheck (elemsT QS8) QA8 five8 s8 admConj = true := by
   unfold admCheck
   rw [List.all_eq_true]
   intro s _
-  beta_reduce
   simp only [Bool.or_eq_true]
   by_cases hs : s * s = 1
   · by_cases hA : s ∈ alternatingGroup (Fin 8)

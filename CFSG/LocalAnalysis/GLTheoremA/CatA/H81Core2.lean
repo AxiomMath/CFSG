@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow {p : ℕ} {x : G} (hx : x ^ p = 1) : IsPGroup p (Subgroup.zpowers x) := by
   intro g
   obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.1 g.2
@@ -22,6 +23,7 @@ theorem isPGroup_zpowers_of_pow {p : ℕ} {x : G} (hx : x ^ p = 1) : IsPGroup p 
   rw [pow_one, Subgroup.coe_pow, ← hn, hpow]
   rfl
 
+omit [Finite G] in
 theorem layer_ne_bot_of_component {p : ℕ} {X M : Subgroup G} (hM : GLAPComponent p X M) :
     GLAPLayer p X ≠ ⊥ := by
   intro h
@@ -30,6 +32,7 @@ theorem layer_ne_bot_of_component {p : ℕ} {X M : Subgroup G} (hM : GLAPCompone
   rw [h] at hle
   exact le_bot_iff.1 hle
 
+omit [Finite G] in
 theorem exists_component_of_layer_ne_bot {p : ℕ} {X : Subgroup G} (h : GLAPLayer p X ≠ ⊥) :
     ∃ M : Subgroup G, GLAPComponent p X M := by
   by_contra hno
@@ -40,6 +43,7 @@ theorem exists_component_of_layer_ne_bot {p : ℕ} {X : Subgroup G} (h : GLAPLay
   unfold GLAPLayer
   rw [hE, sSup_empty]
 
+omit [Finite G] in
 theorem normalizer_of_commute {A : Subgroup G} {g : G} (h : ∀ a ∈ A, g * a = a * g) :
     g ∈ Subgroup.normalizer (A : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -79,7 +83,7 @@ theorem core_of_choice {p : ℕ} (hp : p.Prime) {B : Subgroup G} {x : G} {L : Su
       GLAPLayer p (J ⊓ Subgroup.centralizer (E : Set G)) ≠ ⊥ ∧
       ∃ JH : Subgroup (PQuot p L), JType JH ∧ Nonempty (PQuot p J ≃* PQuot p JH) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxL : ∀ l ∈ L, x * l = l * x := fun l hl =>
     Subgroup.mem_centralizer_iff.1 (hcomp.1 hl) x (Set.mem_singleton _)
   have hxL1 : Subgroup.zpowers x ⊓ L = ⊥ :=

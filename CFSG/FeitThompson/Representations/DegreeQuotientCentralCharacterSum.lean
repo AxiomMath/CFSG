@@ -34,7 +34,7 @@ theorem sum_character_mul_character_inv [Fintype G] (ρ : _root_.Representation 
   classical
   have h1 : cfInner ρ.character ρ.character = 1 := by
     rw [cfInner_character_character ρ ρ]
-    exact if_pos ⟨_root_.Representation.Equiv.refl ρ⟩
+    exact ite_eq_left ⟨_root_.Representation.Equiv.refl ρ⟩
   rw [cfInner_def] at h1
   have hcard : (Nat.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
   field_simp at h1

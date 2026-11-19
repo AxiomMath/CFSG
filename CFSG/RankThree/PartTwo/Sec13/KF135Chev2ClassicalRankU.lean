@@ -59,8 +59,8 @@ theorem rankLE1_projSU_of_lt_ordNegQ {m n r : ℕ} (hn : 1 ≤ n) (hm : 0 < m) (
     (hrm : m < r) (hr2 : r ≠ 2) (hrq : ¬ r ∣ 2 ^ n + 1)
     (hlt : m < 2 * CFSG.RankThree.PartOne.KCUnitaryPlane.ordNegQ 2 n r) :
     RankLE1 r (projSU m 2 n) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K := GaloisField 2 (2 * n)
   have h : UnitaryFieldData 2 n K := ⟨Nat.prime_two, hn, GaloisField.card 2 (2 * n) (by omega)⟩
   refine RankLE1.of_pRank hr ?_
@@ -96,10 +96,10 @@ theorem rankLE1_projSU_of_lt_ordNegQ {m n r : ℕ} (hn : 1 ≤ n) (hm : 0 < m) (
 theorem ordNegQ_eq_two_of_eq_one {n r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hx : ((2 ^ n : ℕ) : ZMod r) = 1) :
     CFSG.RankThree.PartOne.KCUnitaryPlane.ordNegQ 2 n r = 2 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rw [CFSG.RankThree.PartOne.KCUnitaryPlane.ordNegQ]
   have hx' : ((2 : ℕ) : ZMod r) ^ n = 1 := by rw [← Nat.cast_pow]; exact hx
-  rw [hx', orderOf_neg_one, ZMod.ringChar_zmod_n, if_neg hr2]
+  rw [hx', orderOf_neg_one, ZMod.ringChar_zmod_n, ite_eq_right hr2]
 
 theorem ordNegQ_eq_four_of_sq_eq_neg_one {n r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hx : ((2 ^ n : ℕ) : ZMod r) ^ 2 = -1) :
@@ -108,10 +108,10 @@ theorem ordNegQ_eq_four_of_sq_eq_neg_one {n r : ℕ} (hr : r.Prime) (hr2 : r ≠
     rw [neg_sq, ← Nat.cast_pow]
     exact hx
   have hne : (-1 : ZMod r) ≠ 1 := by
-    haveI : Fact (1 < r) := ⟨hr.one_lt⟩
+    have : Fact (1 < r) := ⟨hr.one_lt⟩
     exact Ring.neg_one_ne_one_of_char_ne_two (by rw [ZMod.ringChar_zmod_n]; exact hr2)
   have h4 : orderOf (-((2 : ℕ) : ZMod r) ^ n) = 2 ^ (1 + 1) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime_pow (by rw [pow_one, hy2]; exact hne) ?_
     rw [show 2 ^ (1 + 1) = 2 * 2 by norm_num, pow_mul, hy2]
     exact neg_one_sq

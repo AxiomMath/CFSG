@@ -101,7 +101,7 @@ theorem exists_label_of_fieldOn {X S : Subgroup G} {b : G} (hS : GLAPComponent 3
   have hEc := glaPComponent_chevTransfer hp3 hF.1 hap hJ₀
   obtain ⟨e₁⟩ := nonempty_pSimple_equiv_chevTransfer hp3 hF.1 hap hJ₀
   obtain ⟨e₂⟩ := FR.nonempty_pSimple_equiv_of_simple hp3 hE hna hEc
-  haveI := hE
+  have := hE
   obtain ⟨u, v, huv⟩ := hna
   have hZE : Subgroup.center ↥(chevTransfer 3 S J₀) = ⊥ := FR.center_eq_bot_of_simple_nonab huv
   have hEtop : commutator ↥(chevTransfer 3 S J₀) = ⊤ := by

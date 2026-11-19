@@ -27,7 +27,7 @@ theorem barHom_surjective {S : Subgroup G} (hSM : S ≤ M) :
     show QuotientGroup.mk (Subgroup.inclusion hSM ⟨g, hgS⟩) = piM M Q g
     rw [piM_of_mem hgM]; rfl)⟩
 
-theorem barHom_ker {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M) :
+theorem barHom_ker {S : Subgroup G} (_hQS : Q ≤ S) (hSM : S ≤ M) :
     (barHom (Q := Q) hSM).ker = Q.subgroupOf S := by
   ext s
   rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]

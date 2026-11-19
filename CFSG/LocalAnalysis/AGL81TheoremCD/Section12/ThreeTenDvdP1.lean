@@ -14,8 +14,8 @@ open scoped MatrixGroups
 
 theorem card_SL3_zmod {p : ℕ} (hp : p.Prime) :
     Nat.card (SL(3, ZMod p)) = p ^ 3 * ((p ^ 2 - 1) * (p ^ 3 - 1)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_SL_eq (K := ZMod p) (n := 3)
     (by norm_num), Nat.card_zmod]
   norm_num only [show 3 * (3 - 1) / 2 = 3 from rfl]
@@ -24,7 +24,7 @@ theorem card_SL3_zmod {p : ℕ} (hp : p.Prime) :
 theorem dvd_p_add_one_of_dvd_card_SL3 {p d : ℕ} (hp : p.Prime) (hd : d.Prime) (hdp : d ≠ p)
     (hdvd : d ∣ p ^ 3 * ((p ^ 2 - 1) * (p ^ 3 - 1)))
     (h1 : ¬ d ∣ p - 1) (h2 : ¬ d ∣ p ^ 2 + p + 1) : d ∣ p + 1 := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hp1 : 1 ≤ p := hp.one_le
   have hp2 : 1 ≤ p ^ 2 := Nat.succ_le_of_lt (pow_pos hp.pos 2)
   have hp3 : 1 ≤ p ^ 3 := Nat.succ_le_of_lt (pow_pos hp.pos 3)
@@ -75,7 +75,7 @@ theorem dvd_p_add_one_of_dvd_card_SL3 {p d : ℕ} (hp : p.Prime) (hd : d.Prime) 
 theorem dvd_card_SL3_of_isPGroup {p d : ℕ} (hp : p.Prime) (hd : d.Prime) {I : Type} [Group I]
     [Finite I] (hI : IsSLType 3 (ZMod p) I) {D : Subgroup I} (hDne : D ≠ ⊥) (hD : IsPGroup d D) :
     d ∣ p ^ 3 * ((p ^ 2 - 1) * (p ^ 3 - 1)) := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨e⟩ := hI
   obtain ⟨k, hk⟩ := hD.exists_card_eq
   have hk0 : k ≠ 0 := by

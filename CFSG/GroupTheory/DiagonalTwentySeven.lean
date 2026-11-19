@@ -138,9 +138,9 @@ theorem isElementaryAbelian_of_faithful {M : Type*} [Group M] [Finite M] {Y L : 
     (hfaith : ∀ s ∈ L, (∀ y ∈ Y, s * y = y * s) → s = 1) :
     CFSG.IsElementaryAbelian 3 Y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hY3 : IsPGroup 3 Y := IsPGroup.of_card (n := 3) (by rw [hY]; norm_num)
-  haveI : Fact (IsPGroup 3 Y) := ⟨hY3⟩
+  have : Fact (IsPGroup 3 Y) := ⟨hY3⟩
   let ρ : L →* MulAut Y := (Subgroup.normalizerMonoidHom Y).comp (Subgroup.inclusion hLY)
   have hρ_coe : ∀ (s : L) (y : Y), ((ρ s) y : M) = (s : M) * (y : M) * (s : M)⁻¹ := by
     intro s y
@@ -151,9 +151,9 @@ theorem isElementaryAbelian_of_faithful {M : Type*} [Group M] [Finite M] {Y L : 
     dsimp only [ρ]
     exact conjAction_injective hLY hfaith
   let Q := Y ⧸ frattini Y
-  letI : CommGroup Q :=
+  let : CommGroup Q :=
     CFSG.OrderReductions.ElementaryRepresentation.frattiniQuotientCommGroup 3 hY3
-  letI : Module (ZMod 3) (Additive Q) :=
+  let : Module (ZMod 3) (Additive Q) :=
     CFSG.OrderReductions.ElementaryRepresentation.exponentModule 3
       (CFSG.OrderReductions.FrattiniElementary.frattini_quotient_exponent 3 hY3)
   let ρbar : L →* MulAut Q := (CFSG.Walter.Huppert.frattiniAut Y).comp ρ
@@ -176,7 +176,7 @@ theorem isElementaryAbelian_of_faithful {M : Type*} [Group M] [Finite M] {Y L : 
     have hst1 : (s : M) * (t : M)⁻¹ = 1 := by rw [← hu, hu1]; rfl
     exact Subtype.ext (mul_inv_eq_one.mp hst1)
   let V := Additive Q
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hVcard : Nat.card V = 3 ^ Module.finrank (ZMod 3) V := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V), Nat.card_zmod]
   have hVle : Nat.card V ≤ Nat.card Y := by
@@ -301,12 +301,12 @@ theorem exists_diagonal {M : Type*} [Group M] [Finite M] {Y L : Subgroup M}
       (∀ s ∈ L, ∃ c : Fin 3 → ZMod 2,
         s = l 0 ^ (c 0).val * l 1 ^ (c 1).val * l 2 ^ (c 2).val) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hYel : CFSG.IsElementaryAbelian 3 Y :=
     isElementaryAbelian_of_faithful hY hLY hLc hL2 hL8 hfaith
-  haveI : CFSG.IsElementaryAbelian 3 Y := hYel
-  haveI : IsMulCommutative Y := hYel.toIsMulCommutative
-  letI : CommGroup Y := IsMulCommutative.instCommGroup
+  have : CFSG.IsElementaryAbelian 3 Y := hYel
+  have : IsMulCommutative Y := hYel.toIsMulCommutative
+  let : CommGroup Y := IsMulCommutative.instCommGroup
   have hYcomm : ∀ y ∈ Y, ∀ y' ∈ Y, y * y' = y' * y := by
     intro y hy y' hy'
     exact congrArg Subtype.val (mul_comm' (⟨y, hy⟩ : Y) (⟨y', hy'⟩ : Y))
@@ -465,7 +465,7 @@ theorem exists_diagonal {M : Type*} [Group M] [Finite M] {Y L : Subgroup M}
     rw [Nat.bijective_iff_injective_and_card]
     refine ⟨hsd_inj, ?_⟩
     rw [hL8, Nat.card_pi]
-    simp only [Nat.card_zmod, Nat.card_fin, Finset.prod_const, Finset.card_univ]
+    simp only [Nat.card_zmod, Finset.prod_const, Finset.card_univ]
     norm_num
   let l : Fin 3 → L := fun i => Classical.choose (hsd_bij.2 (Pi.single i 1))
   have hl : ∀ i, sd (l i) = Pi.single i 1 := fun i =>
@@ -479,7 +479,7 @@ theorem exists_diagonal {M : Type*} [Group M] [Finite M] {Y L : Subgroup M}
         simp
       have hne : μ₀ (l i) i ≠ 1 := by
         intro h1
-        have : (0 : ZMod 2) = 1 := by simpa [sd, h1] using hsd1
+        have : (0 : ZMod 2) = 1 := by simp [sd, h1] at hsd1
         exact zero_ne_one this
       rcases hμsign (l i) i with h1 | h1
       · exact absurd h1 hne
@@ -491,7 +491,7 @@ theorem exists_diagonal {M : Type*} [Group M] [Finite M] {Y L : Subgroup M}
         by_contra hne
         rcases hμsign (l i) j with h1 | h1
         · exact hne h1
-        · have : (1 : ZMod 2) = 0 := by simpa [sd, hne] using hsd0
+        · have : (1 : ZMod 2) = 0 := by simp [sd, hne] at hsd0
           exact one_ne_zero this
       simp [hji, hμ1]
   have hsquare : ∀ i, ((e i : Y) : M) ^ 2 = (((e i : Y) : M))⁻¹ := by
@@ -511,7 +511,7 @@ theorem exists_diagonal {M : Type*} [Group M] [Finite M] {Y L : Subgroup M}
     have h := hact (l i) j
     have hμ : μ₀ (l i) j = 1 := by
       have := hlμ i j
-      rw [if_neg (Ne.symm hij)] at this
+      rw [ite_eq_right (Ne.symm hij)] at this
       exact this
     rw [hμ, val_one_zmod3] at h
     simpa using h

@@ -127,8 +127,8 @@ theorem isSimpleGroup_native : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
 
 theorem rep12_injective : Function.Injective rep12 := by
   rw [← MonoidHom.ker_eq_bot_iff]
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := isSimpleGroup_native
-  haveI := (rep12).normal_ker
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := isSimpleGroup_native
+  have := (rep12).normal_ker
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (rep12).ker with h | h
   · exact h
   · exfalso

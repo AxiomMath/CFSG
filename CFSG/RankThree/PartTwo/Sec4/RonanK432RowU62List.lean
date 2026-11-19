@@ -162,7 +162,7 @@ theorem exists_witness_of_central {u : P6} (hu3 : orderOf u = 3) (hcomm : ∀ q 
     · exact key d₀⁻¹ rfl (h.trans (map_inv diagP6 d₀).symm)
 
 theorem listRow_P6 : ListRow P6 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := isPGroup_r0.exists_le_sylow
   refine listRow_of_sylow_center 6 (Q : Subgroup P6)
     (by rw [Sylow.card_eq_multiplicity, factorization_card_P6]) not_dvd_card_P6 ?_

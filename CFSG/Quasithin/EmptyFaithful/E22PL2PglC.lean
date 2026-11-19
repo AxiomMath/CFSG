@@ -64,7 +64,7 @@ theorem e22pl2pgl_outer_member_eOne {K : Type} [Field K] [Finite K]
     (hz2 : orderOf z = 2) (hzJ : z ∈ pslRange K) (hAJ : ¬ A ≤ pslRange K) :
     ∃ I : Subgroup (PGL2 K), IsE 1 ⊤ T A I ∧ EOne ↥I (A.subgroupOf I) ∧
       ¬ I ≤ Subgroup.centralizer ({z} : Set (PGL2 K)) := by
-  haveI := e22pl2pgl_finite K
+  have := e22pl2pgl_finite K
   obtain ⟨b, hbA, hbJ⟩ : ∃ b ∈ A, b ∉ pslRange K := by
     by_contra h
     push Not at h
@@ -143,10 +143,10 @@ theorem e22pl2pgl_outer_member_eOne {K : Type} [Field K] [Finite K]
   have hUτsolv : Group.IsSolvable ↥(U ⊔ tauOf ⊤ T A) :=
     CFSG.GroupTheory.isSolvable_sup_of_isPGroup_of_le_normalizer hUsolv
       (hT.isPGroup.to_le (tauOf_le ⊤ T A)) hτ
-  haveI : Group.IsSolvable ↥(U ⊔ tauOf ⊤ T A) := hUτsolv
+  have : Group.IsSolvable ↥(U ⊔ tauOf ⊤ T A) := hUτsolv
   have hP₀τle : P₀ ⊔ tauOf ⊤ T A ≤ U ⊔ tauOf ⊤ T A :=
     sup_le (hP₀U.trans le_sup_left) le_sup_right
-  haveI : Group.IsSolvable ↥((P₀ ⊔ tauOf ⊤ T A).subgroupOf (U ⊔ tauOf ⊤ T A)) :=
+  have : Group.IsSolvable ↥((P₀ ⊔ tauOf ⊤ T A).subgroupOf (U ⊔ tauOf ⊤ T A)) :=
     inferInstance
   have hsolv : Group.IsSolvable ↥(P₀ ⊔ tauOf ⊤ T A) :=
     Group.isSolvable_of_isSolvable_injective

@@ -23,7 +23,7 @@ theorem componentsNoD4_conjAut {n : ℕ} (hn : 2 ≤ n) {k : Type} [Field k]
     (A : GL (Fin n) k) (hβ3 : LinearFlag.conjAut n k A ^ 3 = 1) :
     ComponentsNoD4 (LinearFlag.conjAut n k A) := by
   intro K hK
-  haveI : CharP k 2 :=
+  have : CharP k 2 :=
     finite_field_prime_power_characteristic Nat.prime_two hf hk
   have hpk : ((3 : ℕ) : k) ≠ 0 := fun h0 => by
     have h23 := (CharP.cast_eq_zero_iff k 2 3).1 h0
@@ -95,7 +95,7 @@ theorem componentsNoD4_primeFormP {q : TauCeti.PrimePower} {r : ℕ} {K : Type} 
 
 theorem triD4NoA_holds : TriD4NoA := by
   rintro S _ _ hS hnc ⟨d, hv⟩ ⟨n, q, rfl⟩ hc hf ⟨e⟩ α _ hα hα3 hα1 - - - J hJ hT -
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hk : Nat.card (GaloisField q.p q.exponent) = 2 := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', ← TauCeti.PrimePower.card_def]
     exact hf

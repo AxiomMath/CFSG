@@ -33,7 +33,7 @@ theorem sumOp_sesq_adjoint (B : V →ₛₗ[σ] V →ₗ[F] F)
     (C : Subgroup ↥A) (x y : V) :
     B (sumOp (actionEnd A) C x) y = B x (sumOp (actionEnd A) C y) := by
   unfold sumOp
-  simp only [LinearMap.sum_apply, LinearMap.map_sum₂, map_sum]
+  simp only [LinearMap.sum_apply, map_sum]
   have h : ∀ a : C, B (actionEnd A (a : ↥A) x) y =
       B x (actionEnd A ((a⁻¹ : C) : ↥A) y) := fun a => by
     have h1 := hB (a : ↥A) x (actionEnd A ((a⁻¹ : C) : ↥A) y)
@@ -81,8 +81,8 @@ theorem projBlock_sesq (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian 
       have htop : sumOp (actionEnd A) ⊤ = 0 := LinearMap.ext fun x => by
         have := sumOp_mem_fixSub (actionEnd A) (⊤ : Subgroup ↥A) x
         simpa [hfix] using this
-      simp only [projBlock, LinearMap.sub_apply, LinearMap.smul_apply, map_sub, map_smulₛₗ,
-        hsum, hσD, htop, LinearMap.zero_apply, smul_zero, sub_zero, RingHom.id_apply]
+      simp only [projBlock, LinearMap.smul_apply, map_smulₛₗ,
+        hsum, hσD, htop, smul_zero, sub_zero, RingHom.id_apply]
     ·
       obtain ⟨c, hc, hc0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hfix
       have hrel : avgCoeff A D.1 * (((Fintype.card ↥D.1 : ℕ) : F)) =
@@ -113,7 +113,7 @@ theorem blockSpace_sesq_orthogonal (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hB : ∀ a : ↥A, ∀ u v : V, B ((a : V ≃ₗ[F] V) u) ((a : V ≃ₗ[F] V) v) = B u v)
     {D E : Hyperplane A p} (hDE : D ≠ E) {u v : V} (hu : u ∈ blockSpace A D.1)
     (hv : v ∈ blockSpace A E.1) : B u v = 0 := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hcomm : ∀ a ∈ (⊤ : Subgroup ↥A), ∀ b ∈ (⊤ : Subgroup ↥A), a * b = b * a :=
     fun a _ b _ => mul_comm' a b
   have hgen : D.1 ⊔ E.1 = ⊤ := by
@@ -157,7 +157,7 @@ theorem blockSpace_sesq_orthogonal (hp : p.Prime) (hpF : (p : F) ≠ 0)
   have h5 : B (sumOp (actionEnd A) D.1 u) v = B u (sumOp (actionEnd A) D.1 v) :=
     sumOp_sesq_adjoint A B hB D.1 u v
   rw [hu', hu0, map_zero] at h5
-  simp only [map_smulₛₗ, map_natCast, smul_eq_mul] at h5
+  simp only [map_smulₛₗ, map_natCast] at h5
   exact (mul_eq_zero.mp h5).resolve_left (natCast_card_subgroup_ne_zero' A hp hpF hA D.1)
 
 theorem blockSpace_ker_sesq_orthogonal (hp : p.Prime) (hpF : (p : F) ≠ 0)

@@ -197,8 +197,8 @@ theorem exists_of_mem {L : List Elt} {K : List ℕ} (h : L.map enc = K) {k : ℕ
   exact hk
 
 theorem allL_of {L : List Elt} {K : List ℕ} (h : L.map enc = K) {f : ℕ → Bool}
-    (hf : allL K f = true) : ∀ x ∈ L, f (enc x) = true :=
-  fun x hx => (allL_iff _ _).1 hf _ ((mem_iff h).1 hx)
+    (hf : allL K f = true) : ∀ _x ∈ L, f (enc _x) = true :=
+  fun _x hx => (allL_iff _ _).1 hf _ ((mem_iff h).1 hx)
 
 theorem allL_mk {L : List Elt} {K : List ℕ} (h : L.map enc = K) {f : ℕ → Bool}
     (hf : ∀ x ∈ L, f (enc x) = true) : allL K f = true := by

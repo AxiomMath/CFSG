@@ -82,7 +82,7 @@ theorem mem_iSup_phiTwoComp_of_mem_rootSpan_of_step
     (hS : ∀ γ ∈ S, IsRoot τ γ ∧ v⁻¹ • γ ∈ Φ₁)
     {x : adjointGroup τ K} (hx : (x : ModGL τ K) ∈ rootSpan τ K S) :
     x ∈ ⨆ γ : {γ : Fin τ.rank → ℤ // IsRoot τ γ}, phiTwoComp z γ.1 := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hzC : z ∈ adjointGroup τ (AlgebraicClosure K) :=
     CFSG.LieType.AlgebraicGroups.torus_sup_rootSpan_le_adjointGroup (S := Φ₀) hz
@@ -175,7 +175,7 @@ theorem iSup_phiTwoComp_eq_top_of_kernelRoots_cover
     refine RingHom.ext fun c => ?_
     rw [RingHom.comp_apply, hFr, ← map_pow]
     congr 1
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   have hdFr : Units.map (entrywiseHom Fr) d =

@@ -185,7 +185,7 @@ theorem exists_good_parabolic {L S₀ W A : Subgroup G} [IsMulCommutative ↥W]
       have := key g⁻¹ (inv_mem hg) _ hp
       simpa [mul_assoc] using this⟩
 
-theorem isPGroup_autOn {R W : Subgroup G} (hRW : R ≤ Subgroup.normalizer (W : Set G))
+theorem isPGroup_autOn {R W : Subgroup G} (_hRW : R ≤ Subgroup.normalizer (W : Set G))
     (hR : IsPGroup 2 ↥R) : IsPGroup 2 ↥(autOn R W) :=
   CFSG.Quasithin.AutOn.isPGroup_autOn hR
 

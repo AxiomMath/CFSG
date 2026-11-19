@@ -82,7 +82,7 @@ theorem outer_lit : (allLt cNaL.pts.size fun k =>
           two8U (pcm pw' (pcj (pNa n hn) pw'))]]
   exact outAll k hk
 
-theorem cSL0 : cSL 0 = certL 64 4 S0P S0E S0R S0L := if_pos rfl
+theorem cSL0 : cSL 0 = certL 64 4 S0P S0E S0R S0L := ite_eq_left rfl
 
 theorem pS0 (k : ℕ) (hk : k < 64) : permB 315 9 (lget S0P k) = true :=
   ptPerm (N := 64) (all_of_chunks 64 1 ptS0S) k hk
@@ -105,13 +105,13 @@ theorem pVE (e : ℕ) (he : e < 4) : permB 315 9 (lget VEK e) = true := by
 theorem vEU (e : ℕ) (he : e < 4) : (if e = 0 then idA 315 else if e = 1 then v1Arr else
     if e = 2 then v2Arr else compA 315 v1Arr v2Arr) = unpack 315 9 (lget VEK e) := by
   interval_cases e
-  · rw [if_pos rfl, ← hI]
+  · rw [ite_eq_left rfl, ← hI]
     rfl
-  · rw [if_neg (by decide), if_pos rfl, hv1]
+  · rw [ite_eq_right (by decide), ite_eq_left rfl, hv1]
     rfl
-  · rw [if_neg (by decide), if_neg (by decide), if_pos rfl, hv2]
+  · rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl, hv2]
     rfl
-  · rw [if_neg (by decide), if_neg (by decide), if_neg (by decide), hv1, hv2, compU pV1 pV2]
+  · rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide), hv1, hv2, compU pV1 pV2]
     rfl
 
 theorem chkSProd_lit : (allLt (cSL 0).pts.size fun k => (wElts 0).any fun w =>

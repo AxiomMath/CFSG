@@ -26,7 +26,7 @@ private lemma hdRo7CKContraAux_coord_v_zero {n : ℕ} {V : Type} [AddCommGroup V
     b.coord k (c • b 0 + b 1 + b 2 : V) = 0 := by
   rw [map_add, map_add, hdRo7CKContraAux_coord_smul_basis, hdRo7CKContraAux_coord_basis,
     hdRo7CKContraAux_coord_basis]
-  rw [if_neg (Ne.symm hk0), if_neg (Ne.symm hk1), if_neg (Ne.symm hk2)]
+  rw [ite_eq_right (Ne.symm hk0), ite_eq_right (Ne.symm hk1), ite_eq_right (Ne.symm hk2)]
   ring
 
 private lemma hdRo7CKContraAux_coord_v_zero0 {n : ℕ} {V : Type} [AddCommGroup V]
@@ -34,7 +34,7 @@ private lemma hdRo7CKContraAux_coord_v_zero0 {n : ℕ} {V : Type} [AddCommGroup 
     (k : Fin (n + 1)) (hk1 : k ≠ 1) (hk2 : k ≠ 2) :
     b.coord k (b 1 + b 2 : V) = 0 := by
   rw [map_add, hdRo7CKContraAux_coord_basis, hdRo7CKContraAux_coord_basis]
-  rw [if_neg (Ne.symm hk1), if_neg (Ne.symm hk2)]
+  rw [ite_eq_right (Ne.symm hk1), ite_eq_right (Ne.symm hk2)]
   ring
 
 private lemma hdRo7CKContraAux_coord_signed {n : ℕ} {V : Type} [AddCommGroup V]
@@ -45,8 +45,7 @@ private lemma hdRo7CKContraAux_coord_signed {n : ℕ} {V : Type} [AddCommGroup V
     b.coord k (a (c • b 0 + b 1 + b 2)) =
       c * c' 0 * (if σ 0 = k then 1 else 0) + c' 1 * (if σ 1 = k then 1 else 0) +
         c' 2 * (if σ 2 = k then 1 else 0) := by
-  simp only [map_add, map_smul, happly, hdRo7CKContraAux_coord_smul_basis,
-    hdRo7CKContraAux_coord_basis, smul_eq_mul]
+  simp only [map_add, map_smul, happly, hdRo7CKContraAux_coord_basis, smul_eq_mul]
   ring
 
 private lemma hdRo7CKContraAux_coord_at_sigma0 {n : ℕ} {V : Type} [AddCommGroup V]
@@ -56,7 +55,7 @@ private lemma hdRo7CKContraAux_coord_at_sigma0 {n : ℕ} {V : Type} [AddCommGrou
     (h10 : σ 1 ≠ σ 0) (h20 : σ 2 ≠ σ 0) :
     b.coord (σ 0) (a (c • b 0 + b 1 + b 2)) = c * c' 0 := by
   rw [hdRo7CKContraAux_coord_signed b a c σ c' happly (σ 0)]
-  rw [if_pos rfl, if_neg h10, if_neg h20]
+  rw [ite_eq_left rfl, ite_eq_right h10, ite_eq_right h20]
   ring
 
 private lemma hdRo7CKContraAux_coord_at_sigma1 {n : ℕ} {V : Type} [AddCommGroup V]
@@ -66,7 +65,7 @@ private lemma hdRo7CKContraAux_coord_at_sigma1 {n : ℕ} {V : Type} [AddCommGrou
     (h01 : σ 0 ≠ σ 1) (h21 : σ 2 ≠ σ 1) :
     b.coord (σ 1) (a (c • b 0 + b 1 + b 2)) = c' 1 := by
   rw [hdRo7CKContraAux_coord_signed b a c σ c' happly (σ 1)]
-  rw [if_neg h01, if_pos rfl, if_neg h21]
+  rw [ite_eq_right h01, ite_eq_left rfl, ite_eq_right h21]
   ring
 
 private lemma hdRo7CKContraAux_coord_at_sigma2 {n : ℕ} {V : Type} [AddCommGroup V]
@@ -76,7 +75,7 @@ private lemma hdRo7CKContraAux_coord_at_sigma2 {n : ℕ} {V : Type} [AddCommGrou
     (h02 : σ 0 ≠ σ 2) (h12 : σ 1 ≠ σ 2) :
     b.coord (σ 2) (a (c • b 0 + b 1 + b 2)) = c' 2 := by
   rw [hdRo7CKContraAux_coord_signed b a c σ c' happly (σ 2)]
-  rw [if_neg h02, if_neg h12, if_pos rfl]
+  rw [ite_eq_right h02, ite_eq_right h12, ite_eq_left rfl]
   ring
 
 private lemma hdRo7CKContraAux_fin_zero_ne_one (n : ℕ) (hn : 1 ≤ n) :
@@ -122,11 +121,11 @@ private lemma hdRo7CKContraAux_perm_preserves {n : ℕ} (hn : 5 ≤ n) {V : Type
   intro i hi
   rw [hdRo7CKContraAux_S] at hi ⊢
   by_cases hc : c = 0
-  · rw [if_pos hc] at hi ⊢
+  · rw [ite_eq_left hc] at hi ⊢
     simp only [Finset.mem_insert, Finset.mem_singleton] at hi ⊢
     rcases hi with rfl | rfl
     · by_contra hcon
-      simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hcon
+      simp only [not_or] at hcon
       obtain ⟨hk1, hk2⟩ := hcon
       have hzero : b.coord (σ 1) (a (c • b 0 + b 1 + b 2)) = 0 := by
         rw [hfix, hc]
@@ -134,18 +133,18 @@ private lemma hdRo7CKContraAux_perm_preserves {n : ℕ} (hn : 5 ≤ n) {V : Type
       rw [hdRo7CKContraAux_coord_at_sigma1 b a c σ c' happly h01 h21] at hzero
       exact hc'1 hzero
     · by_contra hcon
-      simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hcon
+      simp only [not_or] at hcon
       obtain ⟨hk1, hk2⟩ := hcon
       have hzero : b.coord (σ 2) (a (c • b 0 + b 1 + b 2)) = 0 := by
         rw [hfix, hc]
         simpa using hdRo7CKContraAux_coord_v_zero0 b (σ 2) hk1 hk2
       rw [hdRo7CKContraAux_coord_at_sigma2 b a c σ c' happly h02 h12] at hzero
       exact hc'2 hzero
-  · rw [if_neg hc] at hi ⊢
+  · rw [ite_eq_right hc] at hi ⊢
     simp only [Finset.mem_insert, Finset.mem_singleton] at hi ⊢
     rcases hi with rfl | rfl | rfl
     · by_contra hcon
-      simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hcon
+      simp only [not_or] at hcon
       obtain ⟨hk0, hk1, hk2⟩ := hcon
       have hzero : b.coord (σ 0) (a (c • b 0 + b 1 + b 2)) = 0 := by
         rw [hfix]
@@ -154,7 +153,7 @@ private lemma hdRo7CKContraAux_perm_preserves {n : ℕ} (hn : 5 ≤ n) {V : Type
         (Ne.symm h02)] at hzero
       exact (mul_ne_zero hc hc'0) hzero
     · by_contra hcon
-      simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hcon
+      simp only [not_or] at hcon
       obtain ⟨hk0, hk1, hk2⟩ := hcon
       have hzero : b.coord (σ 1) (a (c • b 0 + b 1 + b 2)) = 0 := by
         rw [hfix]
@@ -162,7 +161,7 @@ private lemma hdRo7CKContraAux_perm_preserves {n : ℕ} (hn : 5 ≤ n) {V : Type
       rw [hdRo7CKContraAux_coord_at_sigma1 b a c σ c' happly h01 h21] at hzero
       exact hc'1 hzero
     · by_contra hcon
-      simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hcon
+      simp only [not_or] at hcon
       obtain ⟨hk0, hk1, hk2⟩ := hcon
       have hzero : b.coord (σ 2) (a (c • b 0 + b 1 + b 2)) = 0 := by
         rw [hfix]
@@ -208,14 +207,14 @@ private lemma hdRo7CKContraAux_toPerm_apply {n : ℕ} {V : Type} [AddCommGroup V
     (h : C2Full 3 b a) :
     hdRo7CKContraAux_toPerm b a = Classical.choose h := by
   classical
-  rw [hdRo7CKContraAux_toPerm, dif_pos h]
+  rw [hdRo7CKContraAux_toPerm, dite_eq_left h]
 
 private lemma hdRo7CKContraAux_toSign_apply {n : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod 3) V] (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (a : V ≃ₗ[ZMod 3] V)
     (h : C2Full 3 b a) :
     hdRo7CKContraAux_toSign b a = Classical.choose (Classical.choose_spec h) := by
   classical
-  rw [hdRo7CKContraAux_toSign, dif_pos h]
+  rw [hdRo7CKContraAux_toSign, dite_eq_left h]
 
 private lemma hdRo7CKContraAux_toSign_mem {n : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod 3) V] (b : Module.Basis (Fin (n + 1)) (ZMod 3) V) (a : V ≃ₗ[ZMod 3] V)
@@ -341,11 +340,11 @@ theorem c2_kcontra_holds : C2KContraLeaf := by
       · intro j
         dsimp only
         by_cases hj0 : j = 0
-        · rw [if_pos hj0]; exact hε
-        · rw [if_neg hj0]
+        · rw [ite_eq_left hj0]; exact hε
+        · rw [ite_eq_right hj0]
           by_cases hji : j = i
-          · rw [if_pos hji]; exact hε
-          · rw [if_neg hji]; exact Or.inl rfl
+          · rw [ite_eq_left hji]; exact hε
+          · rw [ite_eq_right hji]; exact Or.inl rfl
       · intro j
         by_cases hj0 : j = 0
         · subst hj0
@@ -360,13 +359,13 @@ theorem c2_kcontra_holds : C2KContraLeaf := by
       (Subgroup.closure_le _).mpr fun r hr => hrefl_full r hr.1 hr.2
     intro a ha
     exact hle (by rw [← hgen]; exact ha)
-  haveI : Fintype V := Module.fintypeOfFintype b
-  haveI : Finite V := Finite.of_fintype V
-  haveI : Finite (V → V) := inferInstance
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Fintype V := Module.fintypeOfFintype b
+  have : Finite V := Finite.of_fintype V
+  have : Finite (V → V) := inferInstance
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (fun v => congrFun h v))
-  haveI : Finite ↥AL := Subtype.finite
+  have : Finite ↥AL := Subtype.finite
   let S : Finset (Fin (n + 1)) := hdRo7CKContraAux_S n c
   have hS_mem : ∀ i, i ∈ S ↔ i ∈ hdRo7CKContraAux_S n c := fun i => Iff.rfl
   let f : ↥AL → {σ : Equiv.Perm (Fin (n + 1)) // S.image σ = S} ×
@@ -441,11 +440,11 @@ theorem c2_kcontra_holds : C2KContraLeaf := by
   have hfin : Nat.card AL < 2 ^ n * n.factorial := by
     refine lt_of_le_of_lt hAL_le ?_
     by_cases hc : c = 0
-    · rw [if_pos hc] at hcardS hcardSc
+    · rw [ite_eq_left hc] at hcardS hcardSc
       rw [hcardS, hcardSc]
       norm_num
       exact hdRo7CKContraAux_arith_two n hn
-    · rw [if_neg hc] at hcardS hcardSc
+    · rw [ite_eq_right hc] at hcardS hcardSc
       rw [hcardS, hcardSc]
       norm_num
       exact hdRo7CKContraAux_arith_three n hn

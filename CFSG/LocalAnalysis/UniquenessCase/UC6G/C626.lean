@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat)
 theorem c626_of_kernels (hgen : m.C626gen) (h619 : m.C619) : m.C626 := by
   intro p hp hdvd
   have hpp : p.Prime := (Dat.sig_prime _ hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨P, hP⟩ := exists_isSylowOf p (m.M ⊓ normalizer (m.Z : Set G))
   have hPne : P ≠ ⊥ := by
     intro hbot

@@ -16,8 +16,8 @@ theorem phase45_isSylowOf_two_sup {X : Type} [Group X] [Finite X] {L A T : Subgr
     (hTL : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ L) L) :
     CFSG.ABGLocalTools.IsSylowOf 2 T (L ⊔ (A ⊔ T)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : L.Normal := hLn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : L.Normal := hLn
   have hTLidx : ¬ 2 ∣ (T ⊓ L).relIndex L :=
     (CFSG.ABGLocalTools.isSylowOf_iff.mp hTL).2.2
   have hAL : (A : Set X) * (L : Set X) = (L : Set X) * (A : Set X) := by

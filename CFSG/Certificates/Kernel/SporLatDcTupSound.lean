@@ -27,9 +27,9 @@ theorem nodup_of_distinctB {a : Array Lab} (h : distinctB a = true) : a.toList.N
       intro f S h
       rw [List.foldl_cons] at h
       by_cases hx : S.contains x = true
-      · simp only [hx, if_true] at h
+      · simp only [hx, ite_true] at h
         exact absurd (ih false S h).1 (by decide)
-      · simp only [hx, Bool.false_eq_true, if_false] at h
+      · simp only [hx, Bool.false_eq_true, ite_false] at h
         obtain ⟨hf, hnd, hS⟩ := ih f _ h
         have hS' : ∀ y ∈ l, x ≠ y ∧ S.contains y = false := by
           intro y hy

@@ -33,7 +33,7 @@ theorem exists_pSubgroup_containing (hS : Situation G p P M) {Q : Subgroup G}
     group
   · rintro _ ⟨y, hy, rfl⟩
     exact M.mul_mem (M.mul_mem (M.inv_mem m.2) (hS.sylow_le hy)) (M.inv_mem (M.inv_mem m.2))
-  · obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  · obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     exact IsPGroup.of_card (n := n) (by rw [Subgroup.card_map_of_injective hinj, hn])
   · have : CFSG.IsElementaryAbelian p A₀ := hA₀e
     exact CFSG.IsElementaryAbelian.map _

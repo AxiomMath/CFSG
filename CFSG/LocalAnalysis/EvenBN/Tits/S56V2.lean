@@ -237,8 +237,8 @@ theorem Hyp.s56_V_center_cases (h49 : d.Thm49Statement) (hd : d.Hyp) {z₀ : G}
 theorem Hyp.s56_V_elem_abelian (h49 : d.Thm49Statement) (hd : d.Hyp) {z₀ : G}
     (hz : d.S56Z0 z₀) (hab : ∀ a ∈ d.s56V, ∀ b ∈ d.s56V, a * b = b * a) (h1 : z₀ * z₀ = 1) :
     ∀ v ∈ d.s56V, v * v = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hxM := hd.s56_x5_mem_M
   have hXV : zpowers d.x₅ ≤ normalizer (d.s56V : Set G) :=
     hd.s56_X_le_M.trans (hd.s56_M_le_normalizer_V h49)

@@ -141,12 +141,12 @@ theorem exists_quotient_twist_eq_of_positive_multiplicity
     ∃ chi : (T ⧸ H.subgroupOf T) →* ℂˣ,
       quotientCharacterInflation H T chi * psi i0 = psi i := by
   classical
-  letI : DecidablePred (fun t : T => t ∈ H.subgroupOf T) :=
+  let : DecidablePred (fun t : T => t ∈ H.subgroupOf T) :=
     Classical.decPred _
   have hquot_comm :
       Std.Commutative (fun x y : T ⧸ H.subgroupOf T => x * y) :=
     quotientIsAbelian_commutative H T hquot
-  letI : HasEnoughRootsOfUnity ℂ (Monoid.exponent (T ⧸ H.subgroupOf T)) :=
+  let : HasEnoughRootsOfUnity ℂ (Monoid.exponent (T ⧸ H.subgroupOf T)) :=
     complex_hasEnoughRootsOfUnity (Monoid.exponent (T ⧸ H.subgroupOf T))
   have htwist_sum :
       (e i0 : ℂ) • inducedCF (H.subgroupOf T) (subgroupOfClassFunction theta) =
@@ -221,7 +221,7 @@ public theorem clifford_abelian_quotient_equal_multiplicities
     ∀ i : ι, e i = e i0 := by
   classical
   let T : Subgroup G := inertiaSubgroup H theta
-  letI : (H.subgroupOf T).Normal := subgroupOf_normal_of_normal H T
+  let : (H.subgroupOf T).Normal := subgroupOf_normal_of_normal H T
   have hpsi_class : ∀ i : ι, IsClassFunction (psi i) := fun i =>
     isBookIrreducibleCharacter_isClassFunction (psi i) (hpsi_irreducible i)
   have horthT :
@@ -258,15 +258,15 @@ lemma complement_inducedCF_apply
     inducedCF H theta (k : T) =
       if k = 1 then (Nat.card K : ℂ) * degree theta else 0 := by
   classical
-  letI : Fintype T := Fintype.ofFinite T
+  let : Fintype T := Fintype.ofFinite T
   by_cases hk : k = 1
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     subst hk
     unfold inducedCF inducedClassFunction degree
     have hcardH_ne : (Nat.card H : ℂ) ≠ 0 := by
       exact_mod_cast (Nat.card_pos (α := H)).ne'
     have hcard : (Nat.card T : ℂ) = (Nat.card H : ℂ) * (Nat.card K : ℂ) := by
-      exact_mod_cast hcomp.card_mul.symm
+      exact_mod_cast hcomp.card_mul_card.symm
     calc
       (Nat.card H : ℂ)⁻¹ *
           ∑ x : T,
@@ -278,7 +278,7 @@ lemma complement_inducedCF_apply
               refine Finset.sum_congr rfl ?_
               intro x _hxuniv
               have hx : x * (1 : T) * x⁻¹ ∈ H := by simp
-              rw [dif_pos hx]
+              rw [dite_eq_left hx]
               congr
               simp
       _ = (Nat.card H : ℂ)⁻¹ * ((Nat.card T : ℂ) * theta 1) := by
@@ -289,7 +289,7 @@ lemma complement_inducedCF_apply
               rw [hcard]
               field_simp [hcardH_ne]
       _ = (Nat.card K : ℂ) * theta 1 := rfl
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     unfold inducedCF inducedClassFunction
     have hsum :
         (∑ x : T,
@@ -309,7 +309,7 @@ lemma complement_inducedCF_apply
         have hkone : k = 1 := by
           exact Subtype.ext hkoneT
         exact (hk hkone).elim
-      · rw [dif_neg hx]
+      · rw [dite_eq_right hx]
     rw [hsum, mul_zero]
 
 lemma scalarProduct_restrict_inducedCF_complement_principal
@@ -320,7 +320,7 @@ lemma scalarProduct_restrict_inducedCF_complement_principal
     scalarProduct K (subgroupRestriction K (inducedCF H theta)) (principalCharacter K) =
       degree theta := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcardK_ne : (Nat.card K : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_pos (α := K)).ne'
   rw [scalarProduct]
@@ -459,7 +459,7 @@ public theorem isaacs_corollary_6_28_coprime_extension
   have hnonempty : Nonempty ι := by
     classical
     by_contra hnone
-    haveI : IsEmpty ι := not_nonempty_iff.mp hnone
+    have : IsEmpty ι := not_nonempty_iff.mp hnone
     have hzero :
         weightedFamilySum (fun i : ι => (e i : ℂ)) psi = 0 := by
       ext t
@@ -477,7 +477,7 @@ public theorem isaacs_corollary_6_28_coprime_extension
     rw [hdegree_zero] at hdeg
     exact (mul_eq_zero.mp hdeg.symm).resolve_left hindex_ne_zero
   rcases hnonempty with ⟨i0⟩
-  letI : (H.subgroupOf T).Normal := subgroupOf_normal_of_normal H T
+  let : (H.subgroupOf T).Normal := subgroupOf_normal_of_normal H T
   have hpsi_class : ∀ i : ι, IsClassFunction (psi i) := fun i =>
     isBookIrreducibleCharacter_isClassFunction (psi i) (hpsi_irreducible i)
   have horthT :

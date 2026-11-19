@@ -114,7 +114,7 @@ theorem isL2Quot_two_of_gen4 {G : Type} [Group G] [Finite G] (hG : CFSG.GH74.Gen
     have hPp : IsPGroup 2 (CFSG.Open.pCore 2 ↥Li) := by
       rw [← hpc]
       exact CFSG.pCore_isPGroup (p := 2) (G := ↥Li)
-    haveI : Group.IsNilpotent ↥(CFSG.Open.pCore 2 ↥Li) := hPp.isNilpotent
+    have : Group.IsNilpotent ↥(CFSG.Open.pCore 2 ↥Li) := hPp.isNilpotent
     exact Group.isSolvable_of_ker_le_range (CFSG.Open.pCore 2 ↥Li).subtype
       (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥Li))
       (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])

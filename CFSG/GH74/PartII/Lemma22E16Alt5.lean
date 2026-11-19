@@ -36,14 +36,14 @@ private lemma inv_mem_kleinFourA5F :
       Equiv.swap 0 3 * Equiv.swap 1 2} : Finset (Equiv.Perm (Fin 5)))}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     exact mul_mem_kleinFourA5F a ha b hb
   one_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     exact one_mem_kleinFourA5F
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     exact inv_mem_kleinFourA5F a ha
 
 @[expose] def cycle012A5 : alternatingGroup (Fin 5) :=
@@ -86,7 +86,7 @@ theorem cycle012A5_mem_normalizer : cycle012A5 ∈ normalizer (kleinFourA5 : Set
   intro v
   change v ∈ kleinFourA5.carrier ↔
     cycle012A5 * v * cycle012A5⁻¹ ∈ kleinFourA5.carrier
-  simp only [kleinFourA5, Set.mem_setOf_eq]
+  simp only [kleinFourA5, Set.mem_ofPred_eq]
   exact cycle012A5_mem_normalizer_aux v
 
 private lemma eq_one_of_mem_kleinFourA5_of_commute_aux :
@@ -128,14 +128,14 @@ theorem card_centralizer_eq_64_of_e16_alt5 (hπ : Function.Surjective π)
         exact hx.symm
       exact hk1 (isConj_one_right.mp hx')
     · intro hx
-      rw [Set.mem_diff, Set.mem_singleton_iff] at hx
+      rw [Set.mem_sdiff, Set.mem_singleton_iff] at hx
       obtain ⟨hxK, hx1⟩ := hx
       obtain ⟨g, hg⟩ := htr k hk x hxK hk1 hx1
       change IsConj k x
       exact isConj_iff.mpr ⟨g, hg⟩
   have hcl : (conjugatesOf k).ncard = 15 := by
     rw [hclass]
-    rw [Set.ncard_diff (s := ({1} : Set B)) (t := (π.ker : Set B))
+    rw [Set.ncard_sdiff (s := ({1} : Set B)) (t := (π.ker : Set B))
       (Set.singleton_subset_iff.mpr (π.ker.one_mem))]
     rw [Set.ncard_singleton, ← Nat.card_coe_set_eq]
     change Nat.card ↥(π.ker) - 1 = 15
@@ -154,7 +154,7 @@ theorem centralizer_ker_eq_ker_of_e16_alt5 (hπ : Function.Surjective π)
   have hmapnormal : ((centralizer (π.ker : Set B)).map π).Normal :=
     (Subgroup.normal_centralizer (H := π.ker)).map π hπ
   rcases @IsSimpleGroup.eq_bot_or_eq_top_of_normal (alternatingGroup (Fin 5)) _
-      alternatingGroup.isSimpleGroup_five ((centralizer (π.ker : Set B)).map π)
+      (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge) ((centralizer (π.ker : Set B)).map π)
       hmapnormal with hbot | htop
   · have hle : centralizer (π.ker : Set B) ≤ π.ker := by
       intro c hc

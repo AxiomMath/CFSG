@@ -25,8 +25,8 @@ set_option linter.unusedSectionVars false
 
 theorem leaf_j1 {n : ℕ} : NoTwinS n fun F _ => NativeSporadic.IsSporadic F .J1 := by
   intro Y _ _ R S t h _ hF
-  haveI := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   obtain ⟨f, hf⟩ := CFSG.CGT.PushingUpLit.SolKNA.R4.TwinLeaf.embedsAut_mulAut _ Y

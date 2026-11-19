@@ -19,7 +19,7 @@ theorem w116_outer_ge
     (hLY : L ≤ Y) (hnorm : (L.subgroupOf Y).Normal) (hF : Fstar Y = L)
     (hq : IsQuasisimple ↥L) (hZ : Nat.card (Subgroup.center ↥L) = 3)
     (hSp : IsSpor (↥L ⧸ Subgroup.center ↥L) .M22) (hirr : IsIrrOn L ⊤ ⊥)
-    {s : MulAut W} (hsY : s ∈ Y) (hsL : s ∉ L) (hs2 : orderOf s = 2) :
+    {s : MulAut W} (hsY : s ∈ Y) (hsL : s ∉ L) (_hs2 : orderOf s = 2) :
     4 ≤ rkIdx (fixV (Subgroup.zpowers s)) := by
   have hsN : s ∈ Subgroup.normalizer (L : Set (MulAut W)) := by
     rw [Subgroup.mem_normalizer_iff]
@@ -86,7 +86,7 @@ theorem w116_outer_ge
     exact L.mul_mem k.2 hxL
   have hαinv : α ⟨z, hzL⟩ = (⟨z, hzL⟩ : ↥L)⁻¹ :=
     CFSG.Quasithin.H.Mathieu.M22Link.kg82HatM22Out_holds
-      (↥L) hqOpen hZ hSp α hαouter ⟨z, hzL⟩ (by simpa [z] using z0.2)
+      (↥L) hqOpen hZ hSp α hαouter ⟨z, hzL⟩ (by simp [z])
   have hsz : s * z * s⁻¹ = z⁻¹ := by
     have h := congrArg (fun a : ↥L => (a : MulAut W)) hαinv
     dsimp only [α] at h

@@ -109,7 +109,7 @@ private theorem exists_conj_parabolic_sup_diag_of_layer
       (stdLayerD (twistedE6RootGroup F σ) d).map (MulAut.conj g).toMonoidHom ≤
         graphFixedParabolic TwistTag.E6 F σ.toRingHom J ⊔ twistedE6DiagGL F σ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g₀, hg₀C, J, hJ, hg₀P⟩ :=
     exists_conj_mem_parabolic_sup_torus F σ hσ2 (by rw [ringChar.eq F 2]; exact Nat.prime_two)
       R hRG (by rw [ringChar.eq F 2]; exact hR2) hR
@@ -263,8 +263,8 @@ private theorem le_graphFixedParabolicLevi_sup_diag_of_isComponentOf
       (graphFixedParabolic TwistTag.E6 F σ.toRingHom J ⊔ twistedE6DiagGL F σ))) :
     Kb ≤ graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom J ⊔ twistedE6DiagGL F σ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Γ₂ F) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Γ₂ F) := finite_modGL
   obtain ⟨-, -, -, -, -, -, -, -, hQP0, hQn0, hLP0, -, -, -, -, -, hQgrp, -⟩ :=
     diagram_fixed_parabolic_root_radical_Levi_factors (t := TwistTag.E6) (K := F) σ J
   have hQP : graphFixedParabolicRadical TwistTag.E6 F σ.toRingHom J ≤
@@ -283,7 +283,7 @@ private theorem le_graphFixedParabolicLevi_sup_diag_of_isComponentOf
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQP).2 hPPNQ
   have hQ2 : IsPGroup 2 (graphFixedParabolicRadical TwistTag.E6 F σ.toRingHom J) := hQgrp 2
   have hQs : Group.IsSolvable ↥(graphFixedParabolicRadical TwistTag.E6 F σ.toRingHom J) := by
-    haveI := hQ2.isNilpotent
+    have := hQ2.isNilpotent
     infer_instance
   exact le_of_isComponentOf_centralizer_inf hQP hLP hQn
     (exists_unique_graphFixedParabolic_sup_diag σ J) hQs hd hK
@@ -383,12 +383,12 @@ theorem exists_conj_levi_twE6 {F : Type} [Field F] [Finite F] {n : ℕ}
     have ho : TwistTag.E6.order = 2 := rfl
     rw [ho, pow_two]
     ext c
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hcard : Fintype.card F = 2 ^ n * 2 ^ n := by
       rw [← Nat.card_eq_fintype_card, hF, pow_two]
     show σ (σ c) = c
     rw [hσ, hσ, ← pow_mul, ← hcard, FiniteField.pow_card]
-  haveI : CharP F 2 := by
+  have : CharP F 2 := by
     have hF2 : Nat.card F = 2 ^ (2 * n) := by
       rw [hF, pow_two, ← pow_add, show n + n = 2 * n by omega]
     exact CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hF2

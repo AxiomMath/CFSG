@@ -89,6 +89,7 @@ private theorem card_ctxW_eq_32 {t : G} {L S : Subgroup G} {x₁ x₂ lam rho ta
     _ = 2 * 16 := by rw [hK, hbase_card]
     _ = 32 := by norm_num
 
+omit [Finite G] in
 private theorem not_three_dvd_orderOf_of_isPGroup {H : Subgroup G} (hH : IsPGroup 2 H)
     {g : G} (hg : g ∈ H) : ¬ 3 ∣ orderOf g := by
   obtain ⟨n, hn⟩ := hH ⟨g, hg⟩
@@ -128,7 +129,7 @@ private instance fzV4'Decidable : DecidablePred (· ∈ fzV4') := fun x =>
   decidable_of_iff (x.2 ∈ fzV4) (by simp [fzV4', Subgroup.mem_prod])
 
 private theorem fzV4'_normal : fzV4'.Normal := by
-  haveI : fzV4.Normal := fzV4_normal
+  have : fzV4.Normal := fzV4_normal
   dsimp [fzV4']
   infer_instance
 

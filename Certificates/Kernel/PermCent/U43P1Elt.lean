@@ -22,7 +22,7 @@ open CFSG.ComponentClassification.HarrisLit.P1.U43.Cover CFSG.ComponentClassific
 
 theorem glK_val {k : ℕ} (h : (matK k).det ≠ 0) :
     (glK k : Matrix (Fin 4) (Fin 4) F9) = matK k := by
-  rw [glK, dif_pos (isUnit_iff_ne_zero.mpr h)]
+  rw [glK, dite_eq_left (isUnit_iff_ne_zero.mpr h)]
   rfl
 
 @[expose] noncomputable def eK (k : ℕ) (ε : Bool) : Equiv.Perm (Fin 820) :=
@@ -150,15 +150,15 @@ theorem perm820_frob_mem_normalizer {A : GL (Fin 4) F9} (hA : IsUnitaryF A) {ε 
 
 theorem genX_image : (fun k => psi (genX k)) '' {k | k < 2} = {psi xElt, psi yElt} := by
   ext z
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     interval_cases k
-    · exact Or.inl (by rw [genX, if_pos rfl])
-    · exact Or.inr (by rw [genX, if_neg (by norm_num)])
+    · exact Or.inl (by rw [genX, ite_eq_left rfl])
+    · exact Or.inr (by rw [genX, ite_eq_right (by norm_num)])
   · rintro (rfl | rfl)
-    · exact ⟨0, by norm_num, by rw [genX, if_pos rfl]⟩
-    · exact ⟨1, by norm_num, by rw [genX, if_neg (by norm_num)]⟩
+    · exact ⟨0, by norm_num, by rw [genX, ite_eq_left rfl]⟩
+    · exact ⟨1, by norm_num, by rw [genX, ite_eq_right (by norm_num)]⟩
 
 theorem closure_gen :
     closure ((fun k => psi (genX k)) '' {k | k < 2}) = psi.range := by
@@ -175,9 +175,9 @@ theorem prep_psi_gen {G : ℕ → ℕ} (h0 : tabOK tabA (G 0) = true) (h1 : tabO
     ∀ k < 2, PRep 820 10 (G k) (psi (genX k)) := by
   intro k hk
   interval_cases k
-  · rw [genX, if_pos rfl]
+  · rw [genX, ite_eq_left rfl]
     exact prep_tabOK rep_tabA h0
-  · rw [genX, if_neg (by norm_num)]
+  · rw [genX, ite_eq_right (by norm_num)]
     exact prep_tabOK rep_tabB h1
 
 end CertificateChecks.KernelPermCent.U43P1

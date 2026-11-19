@@ -116,9 +116,9 @@ theorem closureStep_tr {GK : List Nat} {G : List (Equiv.Perm (Fin 45))} (hG : L2
   have hm : R (mulH Y X) (tab (y * x)) := R_tab (R_mul hY hX)
   rw [memH_eq hm hb]
   by_cases hc : tab (y * x) ∈ b
-  · simp only [hc, decide_true, if_true]
+  · simp only [hc, decide_true, ite_true]
     exact hb
-  · simp only [hc, decide_false, Bool.false_eq_true, if_false]
+  · simp only [hc, decide_false, Bool.false_eq_true, ite_false]
     exact L2_snoc hb hm
 
 theorem closureList_tr {GK : List Nat} {G : List (Equiv.Perm (Fin 45))} (hG : L2 GK G) :

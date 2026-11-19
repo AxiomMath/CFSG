@@ -51,8 +51,8 @@ theorem sec128PfPairHom_injective : Function.Injective (sec128PfPairHom (D := D)
   intro p q h
   have h1 := congrArg (fun w : WrZ2 D => w.left 1) h
   have h2 := congrArg (fun w : WrZ2 D => w.left sec128PfSigma) h
-  simp only [sec128PfPairHom, MonoidHom.coe_mk, OneHom.coe_mk, sec128PfPair, if_true,
-    if_neg sec128PfSigma_ne] at h1 h2
+  simp only [sec128PfPairHom, MonoidHom.coe_mk, OneHom.coe_mk, sec128PfPair, ite_true,
+    ite_eq_right sec128PfSigma_ne] at h1 h2
   exact Prod.ext h1 h2
 
 theorem sec128Pf_eq_pair (w : WrZ2 D) (hw : w.right = 1) :
@@ -82,14 +82,14 @@ theorem sec128Pf_swap (a b : D) :
   ext q
   · rcases sec128Pf_cases q with h | h
     · subst h
-      simp [sec128PfPair, sec128PfSigma_inv, sec128PfSigma_ne]
+      simp [sec128PfPair, sec128PfSigma_ne]
     · subst h
       have hσ : sec128PfSigma * sec128PfSigma = 1 := by decide
-      simp [sec128PfPair, sec128PfSigma_inv, sec128PfSigma_ne, hσ]
+      simp [sec128PfPair, sec128PfSigma_ne]
   · simp [sec128PfPair]
 
 theorem sec128_A5_perfect : _root_.commutator ↥(alternatingGroup (Fin 5)) = ⊤ := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (_root_.commutator ↥(alternatingGroup (Fin 5))) with h | h
   · exfalso
@@ -102,7 +102,7 @@ theorem sec128_A5_perfect : _root_.commutator ↥(alternatingGroup (Fin 5)) = �
 
 theorem sec128_A5_exists_noncomm {a : ↥(alternatingGroup (Fin 5))} (ha : a ≠ 1) :
     ∃ h : ↥(alternatingGroup (Fin 5)), h * a ≠ a * h := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   by_contra hcon
   push Not at hcon
   have hz : a ∈ Subgroup.center ↥(alternatingGroup (Fin 5)) := Subgroup.mem_center_iff.mpr hcon
@@ -121,7 +121,7 @@ theorem sec128_pf_wr_normal
     (hN : ⁅N, N⁆ = N) (hN1 : N ≠ ⊥) :
     N = (rightHom : WrZ2 ↥(alternatingGroup (Fin 5)) →* Multiplicative (ZMod 2)).ker := by
   classical
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hle : N ≤ (rightHom : WrZ2 ↥(alternatingGroup (Fin 5)) →*
       Multiplicative (ZMod 2)).ker :=
     sec128_perfect_le_ker (fun a b => mul_comm a b) N hN rightHom
@@ -149,7 +149,7 @@ theorem sec128_pf_wr_normal
       rwa [e] at h2
     let N₁ : Subgroup ↥(alternatingGroup (Fin 5)) :=
       N.comap (sec128PfPairHom.comp (MonoidHom.inl _ _))
-    haveI : N₁.Normal := hNn.comap _
+    have : N₁.Normal := hNn.comap _
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N₁ with h0 | h0
     · exfalso
       have hmem : ⁅h, a⁆ ∈ N₁ := hc

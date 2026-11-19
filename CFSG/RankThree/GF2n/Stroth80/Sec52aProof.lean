@@ -22,21 +22,21 @@ theorem sec52a_card_Vt_inf_QB_plus (h34 : Stroth34Statement)
     (hs : Sec5Hyp hc n t) {m : ℕ} (hm : 3 ≤ m) (hom : OmegaPlusNat hc t m) :
     Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ QB B) = Nat.card Z ^ (2 * m) := by
   obtain ⟨K, fK, finK, hK, hnat⟩ := hom
-  letI := fK
-  letI := finK
+  let := fK
+  let := finK
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm, hnat⟩⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
   have hQ := nondegenerate_polarBilin_quadPlus m K
   have hX := addCommutantScalar_statedOmegaPlus (K := K) (m := m) hm
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs hnatSO hK (ElemMatrixIso.plus hm) hQ h3
     hX φ hφ ψ hψ
   obtain ⟨u, -, hu0, -, hW, -, -⟩ := hc.omega_points_core h34 hRoot hs hnatSO hK
@@ -61,14 +61,14 @@ theorem sec52a_card_Vt_inf_QB_minus (h34 : Stroth34Statement)
     (hs : Sec5Hyp hc n t) {m : ℕ} (hm : 2 ≤ m) (hom : OmegaMinusNat hc t m) :
     Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ QB B) = Nat.card Z ^ (2 * m) := by
   obtain ⟨K, fK, finK, hK, b, c, hirr, hnat⟩ := hom
-  letI := fK
-  letI := finK
+  let := fK
+  let := finK
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
       Fintype.card_fin, Fintype.card_fin]; omega
@@ -76,7 +76,7 @@ theorem sec52a_card_Vt_inf_QB_minus (h34 : Stroth34Statement)
   have hX := addCommutantScalar_statedOmegaMinus (m := m) (b := b) (c := c) hm hirr
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs hnatSO hK (ElemMatrixIso.minus hm hirr) hQ h3
     hX φ hφ ψ hψ
   obtain ⟨u, -, hu0, -, hW, -, -⟩ := hc.omega_points_core h34 hRoot hs hnatSO hK
@@ -125,8 +125,8 @@ theorem sec52a_card_QB_inf_Wt (h34 : Stroth34Statement)
   have hn_gt : 2 < n := hs.n_gt
   obtain ⟨m, hm, hVcard, hVQB⟩ := Ctx.sec52a_card_Vt_inf_QB_of_omegaNat h34 hRoot hc hs hom
   obtain ⟨K, hKf, hKfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hKZ : Nat.card K = Nat.card Z := hD.card
   have hK2 : 1 < Nat.card K := by
     rw [hKZ]
@@ -298,7 +298,7 @@ theorem sec52a_card_QB_inf_Wt (h34 : Stroth34Statement)
   rw [← pow_succ', show n - 1 + 1 = n by omega]
 
 theorem sec52a_B_inf_QB_conj_eq_bot (h34 : Stroth34Statement)
-    (hRoot : Stroth310RootStatement) (hc : Ctx M Q Z B) {n : ℕ} {t : G}
+    (_hRoot : Stroth310RootStatement) (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     (hs : Sec5Hyp hc n t) (hom : OmegaNat hc t) {r : G}
     (hr : r ∈ Rt M (LB M Q B) t) (hplane : HypPlane Q Z B (conjSubgroup r B) t) :
     B ⊓ QB (conjSubgroup r B) = ⊥ := by
@@ -424,28 +424,28 @@ theorem Ctx.sec52a_centLam_omega_of_omegaNat (h34 : Stroth34Statement)
       d ∈ Vt M (LB M Q B) B Z t := by
   rcases hom with ⟨K, fK, finK, hK, hplus | hminus⟩
   · obtain ⟨m, hm, hnat⟩ := hplus
-    letI := fK
-    letI := finK
+    let := fK
+    let := finK
     have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm, hnat⟩⟩
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
     exact hc.centLam_omega h34 hRoot hs hnatSO hK (ElemMatrixIso.plus hm)
       (nondegenerate_polarBilin_quadPlus m K) h3
       (addCommutantScalar_statedOmegaPlus (K := K) (m := m) hm) hnat
   · obtain ⟨m, b, c, hm, hirr, hnat⟩ := hminus
-    letI := fK
-    letI := finK
+    let := fK
+    let := finK
     have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
         Fintype.card_fin, Fintype.card_fin]; omega
@@ -534,7 +534,7 @@ theorem sec52a_prod_decomp (h34 : Stroth34Statement)
   have hBcard : Nat.card ↥B = Nat.card Z := by
     obtain ⟨g, hg⟩ := hc.conj
     rw [hg, card_conjSubgroup]
-  haveI : IsMulCommutative ↥A :=
+  have : IsMulCommutative ↥A :=
     ⟨⟨fun x y => Subtype.ext (hVcomm x.1 (hAV x.2) y.1 (hAV y.2))⟩⟩
   let f : ↥B → ↥A ⧸ (D.subgroupOf A) := fun b =>
     QuotientGroup.mk (s := D.subgroupOf A) (⟨(b : G), hBA b.2⟩ : ↥A)
@@ -631,7 +631,7 @@ theorem sec52a_mem_V_of_mem_QB_QB (h34 : Stroth34Statement)
     {x : G} (hxB : x ∈ QB B) (hxC : x ∈ QB (conjSubgroup r B)) (hxQ : x ∈ Q) :
     x ∈ Vt M (LB M Q B) B Z t :=
   Ctx.sec52a_centLam_omega_of_omegaNat h34 hRoot hc hs hom x ⟨hxQ, hxB⟩
-    (fun l hl => sec52a_comm_mem_Z_of_mem_CN h34 hRoot hc hs hom hr hplane hl hxB hxC hxQ)
+    (fun _l hl => sec52a_comm_mem_Z_of_mem_CN h34 hRoot hc hs hom hr hplane hl hxB hxC hxQ)
 
 theorem sec52a_hboxB (h34 : Stroth34Statement)
     (hRoot : Stroth310RootStatement) (hc : Ctx M Q Z B) {n : ℕ} {t : G}

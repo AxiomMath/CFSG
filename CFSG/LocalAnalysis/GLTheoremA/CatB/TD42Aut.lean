@@ -73,7 +73,7 @@ theorem exists_inner_of_card_nine (hZ : Subgroup.center lineGroup = ⊥)
     (hQ : Nat.card (Outer lineGroup) = 3) {E : Subgroup (MulAut lineGroup)}
     (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 9) :
     ∃ s : lineGroup, s ≠ 1 ∧ s ^ 3 = 1 ∧ MulAut.conj s ∈ E := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   set f : E →* Outer lineGroup := (QuotientGroup.mk' (Inn lineGroup)).comp E.subtype with hf
   have hf1 : Nat.card f.ker * Nat.card f.range = Nat.card E := by
     rw [← Subgroup.index_ker f, Subgroup.card_mul_index]
@@ -87,7 +87,7 @@ theorem exists_inner_of_card_nine (hZ : Subgroup.center lineGroup = ⊥)
       rw [← hf1]
       exact Nat.mul_le_mul h1 hrange
     omega
-  haveI : Nontrivial f.ker := Finite.one_lt_card_iff_nontrivial.1 hker
+  have : Nontrivial f.ker := Finite.one_lt_card_iff_nontrivial.1 hker
   obtain ⟨⟨e, he⟩, hne⟩ := exists_ne (1 : f.ker)
   have hin : (e : MulAut lineGroup) ∈ Inn lineGroup := by
     have : QuotientGroup.mk' (Inn lineGroup) (e : MulAut lineGroup) = 1 := MonoidHom.mem_ker.1 he

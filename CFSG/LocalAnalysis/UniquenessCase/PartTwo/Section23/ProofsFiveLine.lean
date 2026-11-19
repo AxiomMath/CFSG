@@ -24,13 +24,13 @@ variable {D : Data G} {Ch : Choice2011 G}
 
 theorem commutator_L_eq_top (c : Ctx23L D Ch) :
     ⁅(⊤ : Subgroup ↥c.L), (⊤ : Subgroup ↥c.L)⁆ = ⊤ := by
-  haveI : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
+  have : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
   rw [← commutator_def]
   exact Group.IsPerfect.commutator_eq_top
 
 private theorem commutator_H_eq_top (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
     ⁅(⊤ : Subgroup ↥(c.H hV)), (⊤ : Subgroup ↥(c.H hV))⁆ = ⊤ := by
-  haveI : Group.IsPerfect ↥(c.H hV) := Subgroup.isPerfect_iff.mpr (c.commutator_H_eq hV)
+  have : Group.IsPerfect ↥(c.H hV) := Subgroup.isPerfect_iff.mpr (c.commutator_H_eq hV)
   rw [← commutator_def]
   exact Group.IsPerfect.commutator_eq_top
 
@@ -64,8 +64,8 @@ theorem nonempty_bar2_mulEquiv (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
 private theorem one_le_of_isOmegaMinus_four {X : Type} [Group X] {m : ℕ}
     (h : IsOmegaMinus X 4 m) : 1 ≤ m := by
   obtain ⟨-, K, hKfield, hKfinite, b, q, hKcard, -, -⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   refine Nat.one_le_iff_ne_zero.mpr fun h0 => ?_
   have hKgt : 1 < Nat.card K := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
   rw [hKcard, h0, pow_zero] at hKgt
@@ -113,11 +113,11 @@ private theorem fixedPointSubgroup_sylowStar_eq_Ztil' (c : Ctx23L D Ch)
       MulDistribMulAction.compHom (c.W hV)
         ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
     fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) = c.Ztil hV := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   simpa only [MulDistribMulAction.compHom] using
@@ -138,14 +138,14 @@ private theorem mkTil_mem_fixedPointSubgroup (c : Ctx23L D Ch) (hV : IsElemAbeli
         ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
     mkTil (⊥ : Subgroup G) c.V hV (CFSG.Quasithin.IntMod.mk hV ⟨v, hvV⟩) ∈
       fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   rw [FixedPoints.mem_subgroup]
@@ -173,14 +173,14 @@ private theorem infCentralizer_eq_Z (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hA : KTab23a) (hnat : IsNaturalClassicalModule (c.H hV) (CFSG.Open.pRank 2 D.Z))
     (h4 : S23_4 D Ch) (h1930 : H1930 D) :
     D.Z = c.V ⊓ Subgroup.centralizer (((D.T ⊓ c.L : Subgroup G) : Set G)) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hZV : D.Z ≤ c.V := uc22p22v_le_conjClosure c.N D.Z
@@ -319,7 +319,7 @@ private theorem omegaMinus_line (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (hK
 
 private theorem isQuasisimple_of_isL2 {X : Type} [Group X] {j : ℕ}
     (h : IsL2 X j) : CFSG.Open.IsQuasisimple X := by
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) h
   obtain ⟨a, b, hab⟩ := CFSG.ComponentClassification.HarrisLit.nonabelian_of_lieModel_psl2 h
   obtain ⟨hperfect, hsimple, -⟩ :=
@@ -367,12 +367,12 @@ private theorem nine_line (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (hK : KOr
       (CFSG.Open.pRank 2 D.Z = 1 ∧ Hinf (Pstar c hV P) = ⊥)) :
     IsL2 (Bar2 c.L0) (CFSG.Open.pRank 2 D.Z) ∧
       c.B ⊓ Subgroup.centralizer (D.Z : Set G) = ⊥ := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hL2 : IsL2 (Bar2 c.L0) (CFSG.Open.pRank 2 D.Z) :=
@@ -408,7 +408,7 @@ private theorem omegaPlus_case (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hK : KOrdNatural) (hnat : IsNaturalClassicalModule (c.H hV) (CFSG.Open.pRank 2 D.Z))
     (hS : KSchurL2) (hA : KTab23a) (h4 : S23_4 D Ch) (h1930 : H1930 D) (hC : KTab23c)
     {P : Subgroup G} (hP : MinTInvParabolic D.T D.M c.L P) (hL0P : c.L0 = Hinf P)
-    (hY0 : Hinf (Pstar c hV P) = c.Y0 hV)
+    (_hY0 : Hinf (Pstar c hV P) = c.Y0 hV)
     (hPlus : IsOmegaPlus ↥(c.H hV) 4 (CFSG.Open.pRank 2 D.Z))
     (hNatPlus : NatOmegaPlus (c.H hV) ⊤ ⊥ 4 (CFSG.Open.pRank 2 D.Z))
     (hTop : Pstar c hV P = ⊤)
@@ -428,7 +428,7 @@ private theorem omegaPlus_case (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
 private theorem false_of_isL2_alt_of_isL2Square (c : Ctx23L D Ch)
     (hV : IsElemAbelian 2 c.V) (hK : KOrdNatural)
     (hnat : IsNaturalClassicalModule (c.H hV) (CFSG.Open.pRank 2 D.Z)) (hS : KSchurL2)
-    {P : Subgroup G} (hP : MinTInvParabolic D.T D.M c.L P) (hL0P : c.L0 = Hinf P)
+    {P : Subgroup G} (_hP : MinTInvParabolic D.T D.M c.L P) (_hL0P : c.L0 = Hinf P)
     (hY0 : Hinf (Pstar c hV P) = c.Y0 hV)
     (hsq : IsL2Square (Bar2 c.L0) (CFSG.Open.pRank 2 D.Z)) :
     (IsL2 (Bar2 (Hinf (Pstar c hV P))) (CFSG.Open.pRank 2 D.Z) ∨

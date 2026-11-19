@@ -19,12 +19,14 @@ universe u
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem conjAlgEquiv_mul (g h : V ≃ₗ[ZMod 2] V) (z : Module.End (ZMod 2) V) :
     (g * h).conjAlgEquiv (ZMod 2) z = g.conjAlgEquiv (ZMod 2) (h.conjAlgEquiv (ZMod 2) z) := by
   ext v
   simp [LinearEquiv.conjAlgEquiv_apply]
   rw [LinearEquiv.mul_eq_trans, LinearEquiv.symm_trans_apply]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem conjAlgEquiv_one (z : Module.End (ZMod 2) V) :
     (1 : V ≃ₗ[ZMod 2] V).conjAlgEquiv (ZMod 2) z = z := by
   ext v
@@ -35,9 +37,9 @@ theorem centralize_of_odd (K : Subalgebra (ZMod 2) (Module.End (ZMod 2) V)) (hK 
     (t : ℕ) (hdim : finrank (ZMod 2) K = 2 ^ t) (g : V ≃ₗ[ZMod 2] V) (hg : Odd (orderOf g))
     (hn : ∀ z ∈ K, g.conjAlgEquiv (ZMod 2) z ∈ K) :
     ∀ z ∈ K, g.conjAlgEquiv (ZMod 2) z = z := by
-  letI : Field K := hK.toField
+  let : Field K := hK.toField
   have : Finite (Module.End (ZMod 2) V) := Module.finite_of_finite (ZMod 2)
-  haveI : Finite K := Finite.of_injective _ Subtype.val_injective
+  have : Finite K := Finite.of_injective _ Subtype.val_injective
   let σ₀ : K →ₐ[ZMod 2] K :=
     ((g.conjAlgEquiv (ZMod 2)).toAlgHom.comp K.val).codRestrict K (fun z => hn z z.2)
   have hσ₀inj : Function.Injective σ₀ := by

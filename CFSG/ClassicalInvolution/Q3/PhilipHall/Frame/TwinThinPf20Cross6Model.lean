@@ -135,7 +135,7 @@ theorem perm_eq_one_of_pair_comm (hn : 7 ≤ n) (a c : Fin n) (σ : Equiv.Perm (
 theorem ofVec_inv_eq (v : Fin n → ZMod 2) : (ofVec v : Wr n)⁻¹ = ofVec v :=
   Wr.ext (funext fun _ => rfl) (by show ((ofVec v).perm)⁻¹ = 1; exact inv_one)
 
-theorem mkQ_ofVec_of_const (hn : 5 ≤ n) (β : Finset (Fin n)) (hβ : β.card = 4) (f : Fin n → ZMod 2)
+theorem mkQ_ofVec_of_const (_hn : 5 ≤ n) (β : Finset (Fin n)) (hβ : β.card = 4) (f : Fin n → ZMod 2)
     (ε₁ ε₂ : ZMod 2) (h₁ : ∀ x ∈ β, f x = ε₁) (h₂ : ∀ x ∉ β, f x = ε₂) :
     mkQ n (ofVec f) = 1 ∨ mkQ n (ofVec f) = zBar β hβ := by
   classical

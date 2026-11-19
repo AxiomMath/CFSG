@@ -36,10 +36,10 @@ theorem D1CaseTwoDataAt.exists_lift_central (hd : D1CaseTwoDataAt p P M H R Rbar
     have : (⟨x, hNR hx⟩ : Rb) ∈ N' := hx
     rw [h, Subgroup.mem_bot] at this
     exact (Subgroup.mem_bot).mpr (congrArg Subtype.val this)
-  have : Group.IsNilpotent Rb := Rbar.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Rb := Rbar.isPGroup.isNilpotent
   have hZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hN'1
   have hpg : IsPGroup p (N' ⊓ Subgroup.center Rb : Subgroup Rb) :=
-    Rbar.isPGroup'.to_subgroup _
+    Rbar.isPGroup.to_subgroup _
   obtain ⟨c, hcmem, hcp, -⟩ := exists_mem_centralizer_orderOf_eq hpg hZ
   have hcR : (c : H ⧸ primeComplementCore (G := H) p) ∈ (Rbar : Subgroup _) := c.2
   rw [hd.cfg.rbar] at hcR

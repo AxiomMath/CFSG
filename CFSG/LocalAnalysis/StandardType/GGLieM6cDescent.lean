@@ -12,13 +12,13 @@ namespace CFSG.StandardType.GGFinModel
 theorem exists_algebra_isAlgClosure_ggl
     (K : Type) [Field K] [Finite K] [CharP K 2] :
     ∃ (inst : Algebra K GGL), letI := inst; IsAlgClosure K GGL := by
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
-  haveI : Algebra.IsAlgebraic (ZMod 2) K := Algebra.IsAlgebraic.of_finite (ZMod 2) K
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Algebra.IsAlgebraic (ZMod 2) K := Algebra.IsAlgebraic.of_finite (ZMod 2) K
   let f : K →ₐ[ZMod 2] GGL := IsAlgClosed.lift
   let inst : Algebra K GGL := f.toRingHom.toAlgebra
   refine ⟨inst, ?_⟩
-  letI := inst
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let := inst
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq (fun c => (f.commutes c).symm)
   have h : Algebra.IsAlgebraic K GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) (A := GGL)
@@ -87,8 +87,8 @@ theorem exists_finite_adjoint_action_descent
         (∀ n a, e_k (α n a) = j_k n * e_k a * (j_k n)⁻¹) ∧
         (Function.Injective e → Function.Injective e_k) := by
   classical
-  letI : Fintype E := Fintype.ofFinite E
-  letI : Fintype N := Fintype.ofFinite N
+  let : Fintype E := Fintype.ofFinite E
+  let : Fintype N := Fintype.ofFinite N
   let S : Finset (ModGL Tag.E6 Ω) :=
     Finset.univ.image e ∪ Finset.univ.image j
   have hS : (↑S : Set (ModGL Tag.E6 Ω)) ⊆ adjointGroup Tag.E6 Ω := by
@@ -105,8 +105,8 @@ theorem exists_finite_adjoint_action_descent
     Finset.mem_union_right _ (Finset.mem_image_of_mem j (Finset.mem_univ n))
   obtain ⟨k, hk, hkfin, κ, ι, hcomp, hlift⟩ :=
     M6c.exists_finite_subfield_lift_adjoint S hS k₀ ι₀
-  letI : Field k := hk
-  letI : Finite k := hkfin
+  let : Field k := hk
+  let : Finite k := hkfin
   have hchar : CharP k 2 := RingHom.charP ι ι.injective 2
   have build : ∀ {X : Type} [Group X] [Fintype X]
       (f : X →* ModGL Tag.E6 Ω), (∀ x, f x ∈ S) →

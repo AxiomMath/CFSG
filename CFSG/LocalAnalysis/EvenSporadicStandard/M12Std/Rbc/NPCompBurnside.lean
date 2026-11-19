@@ -25,7 +25,7 @@ theorem card_eq_card_sylow_of_oddCore_eq_bot {M : Type*} [Group M] [Finite M]
   · obtain ⟨kernel, hchar, hodd, hcompl, _⟩ :=
       CFSG.TwoRankLowerBound.Helpers.exists_characteristic_odd_complement_of_cyclic_sylow_two
         P hP heven
-    haveI : kernel.Characteristic := hchar
+    have : kernel.Characteristic := hchar
     have hker_le : kernel ≤ CFSG.oddCore M := le_sSup ⟨inferInstance, hodd⟩
     rw [hO, le_bot_iff] at hker_le
     have hcard : Nat.card kernel = 1 := Subgroup.card_eq_one.mpr hker_le
@@ -62,10 +62,10 @@ theorem card_eq_two_of_card_centralizer_le_two {M : Type*} [Group M] [Finite M]
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; norm_num)
   obtain ⟨P, hPle⟩ := hzp.exists_le_sylow
   have hhP : h ∈ (P : Subgroup M) := hPle (Subgroup.mem_zpowers h)
-  haveI : Nontrivial ↥(P : Subgroup M) :=
+  have : Nontrivial ↥(P : Subgroup M) :=
     ⟨⟨⟨h, hhP⟩, 1, fun heq => h1 (by simpa using Subtype.ext_iff.mp heq)⟩⟩
   have hcenter : Nontrivial (Subgroup.center ↥(P : Subgroup M)) :=
-    P.isPGroup'.center_nontrivial
+    P.isPGroup.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center ↥(P : Subgroup M))
   have hzcomm : (⟨h, hhP⟩ : ↥(P : Subgroup M)) * (z : ↥(P : Subgroup M)) =
       (z : ↥(P : Subgroup M)) * (⟨h, hhP⟩ : ↥(P : Subgroup M)) :=

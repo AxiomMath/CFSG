@@ -53,7 +53,7 @@ theorem noncentralSylow_triple_extension
   have hUE : U ≤ E := (Subgroup.map_subtype_le _).trans (Subgroup.map_subtype_le _)
   obtain ⟨_, A, hUA, hzA, _⟩ := triple_invariant_subgroup_extends
     h S hzS hzcenter beta hbeta p hp U (hUE.trans inf_le_left)
-      (P.isPGroup'.map V.subtype) hzP
+      (P.isPGroup.map V.subtype) hzP
   let W := (A : Subgroup E).map E.subtype
   have hWE : W ≤ E := Subgroup.map_subtype_le _
   have hWV : W ⊓ V = U :=

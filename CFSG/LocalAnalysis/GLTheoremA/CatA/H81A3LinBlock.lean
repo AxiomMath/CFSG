@@ -83,10 +83,10 @@ theorem coordBlockSL_le_centralizer_diagSL' {I : Finset (Fin 4)}
   by_cases hiI : i ∈ I
   · by_cases hjI : j ∈ I
     · exact absurd (hI i hiI j hjI) hij
-    · rw [hg' i j (Or.inr hjI), if_neg]
+    · rw [hg' i j (Or.inr hjI), ite_eq_right]
       rintro rfl
       exact hij rfl
-  · rw [hg' i j (Or.inl hiI), if_neg]
+  · rw [hg' i j (Or.inl hiI), ite_eq_right]
     rintro rfl
     exact hij rfl
 
@@ -157,18 +157,18 @@ theorem mem_coordBlockSL_of_corner {g : SpecialLinearGroup (Fin 4) F}
   · by_cases hj : j = 0
     · subst hj
       simp [h1]
-    · rw [(corner_entries hd0 hg hj).1, if_neg (Ne.symm hj)]
+    · rw [(corner_entries hd0 hg hj).1, ite_eq_right (Ne.symm hj)]
   · by_cases hi : i = 0
     · subst hi
       simp [h1]
-    · rw [(corner_entries hd0 hg hi).2, if_neg hi]
+    · rw [(corner_entries hd0 hg hi).2, ite_eq_right hi]
 
 omit hd0 in
 theorem corner_of_mem_coordBlockSL {g : SpecialLinearGroup (Fin 4) F}
     (hg : g ∈ coordBlockSL F blockJ) : (g : Matrix (Fin 4) (Fin 4) F) 0 0 = 1 := by
-  rw [mem_coordBlockSL_iff.1 hg 0 0 (Or.inl (by simp [mem_blockJ])), if_pos rfl]
+  rw [mem_coordBlockSL_iff.1 hg 0 0 (Or.inl (by simp)), ite_eq_left rfl]
 
-theorem coordBlockSL_subgroupOf_eq_ker (hJ : ∀ i j, i ≠ 0 → j ≠ 0 → d i = d j) :
+theorem coordBlockSL_subgroupOf_eq_ker (_hJ : ∀ i j, i ≠ 0 → j ≠ 0 → d i = d j) :
     (coordBlockSL F blockJ).subgroupOf (cent d hd) = (cornerHom hd0).ker := by
   ext g
   rw [Subgroup.mem_subgroupOf, MonoidHom.mem_ker]

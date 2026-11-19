@@ -15,6 +15,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.PartOne.KCOrthogonal CFSG.Ran
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem exists_fixedFree_part {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {N : Submodule F V}
     (hN : RegOn Q N) (hxN : ∀ v ∈ N, x v ∈ N) (hmov : ∃ v ∈ N, x v ≠ v) :
     ∃ U : Submodule F V, U ≤ N ∧ (∀ u ∈ U, x u ∈ U) ∧ RegOn Q U ∧ (∀ u ∈ U, x u = u → u = 0) ∧

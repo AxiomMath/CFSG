@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369u_commSub_map_conj (L : Subgroup (MulAut W)) (g : MulAut W) :
     commSub ⊤ (L.map (MulAut.conj g).toMonoidHom) = (commSub ⊤ L).map g.toMonoidHom := by
   unfold commSub
@@ -29,9 +30,10 @@ private theorem w1369u_commSub_map_conj (L : Subgroup (MulAut W)) (g : MulAut W)
     obtain ⟨x₀, hx₀, v, -, rfl⟩ := hs
     refine ⟨MulAut.conj g x₀, ⟨x₀, hx₀, rfl⟩, g v, trivial, ?_⟩
     change (MulAut.conj g x₀) (g v) * (g v)⁻¹ = g (x₀ v * v⁻¹)
-    simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.apply_inv_self, MulAut.inv_apply_self,
+    simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply_self,
       map_mul, map_inv]
 
+omit [Finite W] in
 private theorem w1369u_le_stabSub_of_stableUnder {K : Subgroup (MulAut W)} {U : Subgroup W}
     (h : StableUnder K U) : K ≤ stabSub U := by
   intro k hk
@@ -42,6 +44,7 @@ private theorem w1369u_le_stabSub_of_stableUnder {K : Subgroup (MulAut W)} {U : 
       simpa using h1,
     fun hu => h k hk u hu⟩
 
+omit [Finite W] in
 private theorem w1369u_centSub_iSup {ι : Sort*} (U : ι → Subgroup W) :
     centSub (⨆ i, U i) = ⨅ i, centSub (U i) := by
   ext g
@@ -60,12 +63,14 @@ private theorem w1369u_centSub_iSup {ι : Sort*} (U : ι → Subgroup W) :
       (fun i x hx => (mem_centSub.mp (h i)) x hx)
       (map_one g) (fun x y hx hy => by rw [map_mul, hx, hy])
 
+omit [Finite W] in
 private theorem w1369u_centSub_top : centSub (⊤ : Subgroup W) = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro g hg
   ext w
   simpa using (mem_centSub.mp hg) w (Subgroup.mem_top w)
 
+omit [Finite W] in
 private theorem w1369u_le_centSub_top_of_family {s : Set (Subgroup W)}
     (hspan : (⨆ X ∈ s, X) = ⊤) {H : Subgroup (MulAut W)}
     (h : ∀ X ∈ s, H ≤ centSub X) : H ≤ centSub ⊤ := by
@@ -75,7 +80,8 @@ private theorem w1369u_le_centSub_top_of_family {s : Set (Subgroup W)}
   rw [w1369u_centSub_iSup (U := fun X : {X : Subgroup W // X ∈ s} => (X : Subgroup W))]
   exact le_iInf fun X => h X X.2
 
-theorem lemmaU (hw2 : ∀ w : W, w * w = 1) {A L N : Subgroup (MulAut W)} (hLN : L ≤ N)
+omit [Finite W] in
+theorem lemmaU (_hw2 : ∀ w : W, w * w = 1) {A L N : Subgroup (MulAut W)} (hLN : L ≤ N)
     (hNA : N ≤ A) (hN : (N.subgroupOf A).Normal)
     (hU1 : ∀ n ∈ N, ∀ w ∈ commSub ⊤ L, n w ∈ commSub ⊤ L)
     (hind : sSupIndep (conjSubs A (commSub ⊤ L)))

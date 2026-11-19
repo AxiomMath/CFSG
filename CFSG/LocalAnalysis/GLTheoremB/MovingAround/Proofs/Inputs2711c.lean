@@ -37,9 +37,11 @@ variable {X : Type} [Group X] [Finite X] {p : ℕ}
 @[expose] noncomputable def prodHom {A C : Subgroup X} (hAC : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a) : ↥A × ↥C →* X :=
   MonoidHom.noncommCoprod A.subtype C.subtype fun a c => hAC a a.2 c c.2
 
+omit [Finite X] in
 theorem prodHom_apply {A C : Subgroup X} (hAC : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a) (x : ↥A × ↥C) :
     prodHom hAC x = (x.1 : X) * (x.2 : X) := rfl
 
+omit [Finite X] in
 theorem card_prodHom_range {A C : Subgroup X} (hA : IsElemAbelian p A) (hC : IsElemAbelian p C)
     (hAC : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a) (hdisj : ∀ x ∈ A, x ∈ C → x = 1) :
     IsElemAbelian p (prodHom hAC).range ∧
@@ -82,6 +84,7 @@ section Reduction
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem mk_mem_fixSubgroup {L : Subgroup X} {e : X} (heN : e ∈ Subgroup.normalizer (L : Set X)) {x : X}
     (hxL : x ∈ L) (hxe : x ∈ Subgroup.centralizer ({e} : Set X)) :
     (QuotientGroup.mk (⟨x, hxL⟩ : ↥L) : ↥L ⧸ Subgroup.center ↥L) ∈
@@ -96,6 +99,7 @@ theorem mk_mem_fixSubgroup {L : Subgroup X} {e : X} (heN : e ∈ Subgroup.normal
   rw [Subgroup.mem_centralizer_singleton_iff] at hxe
   rw [hxe.symm, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite X] in
 theorem isSolvable_inf_centralizer {L : Subgroup X} {e : X}
     (heN : e ∈ Subgroup.normalizer (L : Set X))
     (hsol : Group.IsSolvable ↥(fixSubgroup (centerQuotientHom ↥L (L.normalizerMonoidHom ⟨e, heN⟩)))) :
@@ -107,7 +111,7 @@ theorem isSolvable_inf_centralizer {L : Subgroup X} {e : X}
   have hg₀ : ∀ x, g₀ x ∈ F := fun x =>
     mk_mem_fixSubgroup heN (Subgroup.mem_inf.1 x.2).1 (Subgroup.mem_inf.1 x.2).2
   let g : ↥(L ⊓ Subgroup.centralizer ({e} : Set X)) →* ↥F := g₀.codRestrict F hg₀
-  haveI : IsMulCommutative ↥g.ker := by
+  have : IsMulCommutative ↥g.ker := by
     refine ⟨⟨fun a b => ?_⟩⟩
     have ha : g₀ a.1 = 1 := congrArg Subtype.val ((MonoidHom.mem_ker).1 a.2)
     have ha' : (⟨(a.1 : X), (Subgroup.mem_inf.1 a.1.2).1⟩ : ↥L) ∈ Subgroup.center ↥L :=
@@ -121,11 +125,11 @@ theorem isSolvable_inf_centralizer {L : Subgroup X} {e : X}
 theorem not_glaPComponent_of_solvable {Y I : Subgroup X} (hY : Group.IsSolvable ↥Y)
     (hI : GLAPComponent p Y I) : False := by
   have hIY : I ≤ Y := hI.1
-  haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hI)
-  haveI : Group.IsSolvable ↥I :=
+  have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hI)
+  have : Group.IsSolvable ↥I :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hIY)
       (Subgroup.inclusion_injective hIY)
-  haveI : Nontrivial ↥I :=
+  have : Nontrivial ↥I :=
     (Subgroup.nontrivial_iff_ne_bot I).2 (CFSG.LocalAnalysis.GLTheoremA.glaPComponent_ne_bot' hI)
   exact Group.IsPerfect.not_isSolvable (G := ↥I) inferInstance
 
@@ -133,7 +137,7 @@ theorem inputI2711ChevPOuter_of_facts (hF : ChevOuterFacts) : Inputs2711.InputI2
   intro X _ _ p hp hp2 L B hLK hLq hB hBN hmax hB4 hnA hnC hA hC1 hLie J0 hJ0 hJt hJ5 E hEB hEC hEi
     hEl hE2 hlE hle hout hEcard
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e, he, heC⟩ := Inputs2711b.exists_not_mem_centralizer hp hEB hE2 hC1
   have heN : e ∈ Subgroup.normalizer (L : Set X) := hBN (hEB he)
   have hep : e ^ p = 1 := hB.2 e (hEB he)
@@ -544,7 +548,7 @@ theorem dvd_of_outer_projectiveSL {n : ℕ} (hn : 3 ≤ n) {K : Type} [Field K] 
     {β : MulAut (projectiveSL n K)} (hβ : β ^ p = 1)
     (hout : β ∉ (MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)).range) : p ∣ f := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE : β ∈ semilinearAutGroup n K := by
     refine mem_semilinearAutGroup_of_odd hn ?_
     rcases (Nat.dvd_prime hp).1 (orderOf_dvd_of_pow_eq_one hβ) with h | h
@@ -589,7 +593,7 @@ theorem dvd_of_outer_psl2 {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p.Pr
     {β : MulAut (CFSG.GorensteinWalter.PSL2 K)} (hβ : β ^ p = 1)
     (hout : β ∉ (MulAut.conj : CFSG.GorensteinWalter.PSL2 K →* MulAut _).range) : p ∣ f := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : CFSG.GorensteinWalter.IsOddPrimePower (Nat.card K) :=
     ⟨p, f, hp, hp.odd_of_ne_two hp2, hf, hK⟩
   have hinj := CFSG.GorensteinWalter.pGammaL2ToMulAutPSL2_injective K hodd hK3
@@ -630,7 +634,7 @@ theorem lieOuterFieldFamA : LieOuterFieldFam .A := by
   subst hrq
   simp only [TauCeti.LieTypeIndex.characteristic_A] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   left
   change q.p ∣ q.exponent
   obtain ⟨e0⟩ := hS
@@ -660,7 +664,7 @@ theorem lieRankFiveFamA : LieRankFiveFam .A := by
   subst hrq
   simp only [TauCeti.LieTypeIndex.characteristic_A] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : q.p ∣ q.exponent := hF.resolve_right fun h => h.2
   obtain ⟨e0⟩ := hS
   have hmod := (CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.lieModel_typeA r q hv).2.resolve_right
@@ -706,32 +710,32 @@ theorem isSolvable_of_ne_top_psl2_27
     (H : Subgroup (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup (GaloisField 3 3)))
     (hH : H ≠ ⊤) : Group.IsSolvable ↥H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card (GaloisField 3 3) = 3 ^ 3 := GaloisField.card 3 3 (by norm_num)
   rcases CFSG.Glauberman.Dickson.huppert_II_8_27_dickson_psl2_subgroup_classification hK H with
     hE | ⟨z, -, -, hcyc⟩ | ⟨z, hz, -, ⟨eD⟩⟩ | ⟨-, ⟨eA⟩⟩ | ⟨h16, -⟩ | ⟨h5, -⟩ |
     ⟨m, t, -, -, N, C, hNn, hNe, -, hC, -, -, hsup⟩ | ⟨m, hm0, hm3, hP⟩ | ⟨m, hm0, hm3, -⟩
-  · haveI := hE
+  · have := hE
     infer_instance
-  · haveI := hcyc
-    letI : CommGroup ↥H := IsCyclic.commGroup
+  · have := hcyc
+    let : CommGroup ↥H := IsCyclic.commGroup
     infer_instance
   · rw [hK] at hz
     have hz0 : z ≠ 0 := by
       rintro rfl
       norm_num at hz
-    haveI : NeZero z := ⟨hz0⟩
-    haveI := CFSG.Walter.isSolvable_dihedralGroup' z
+    have : NeZero z := ⟨hz0⟩
+    have := CFSG.Walter.isSolvable_dihedralGroup' z
     exact Group.isSolvable_of_isSolvable_injective (f := eD.toMonoidHom) eD.injective
-  · haveI : Group.IsSolvable (alternatingGroup (Fin 4)) := alternatingGroup.isSolvable (by simp)
+  · have : Group.IsSolvable (alternatingGroup (Fin 4)) := alternatingGroup.isSolvable (by simp)
     exact Group.isSolvable_of_isSolvable_injective (f := eA.toMonoidHom) eA.injective
   · norm_num at h16
   · norm_num at h5
-  · haveI := hNn
-    haveI : IsMulCommutative ↥N := hNe.toIsMulCommutative
-    haveI : IsMulCommutative ↥C := by
-      haveI := hC
-      letI : CommGroup ↥C := IsCyclic.commGroup
+  · have := hNn
+    have : IsMulCommutative ↥N := hNe.toIsMulCommutative
+    have : IsMulCommutative ↥C := by
+      have := hC
+      let : CommGroup ↥C := IsCyclic.commGroup
       infer_instance
     exact CFSG.Walter.isSolvable_of_sup_eq_top (N := N) (C := C) inferInstance inferInstance hsup
   · have hm : m = 1 ∨ m = 3 := by
@@ -753,7 +757,7 @@ theorem isSolvable_of_ne_top_psl2_27
         omega
       have hH12 : Nat.card ↥H = 2 ^ 2 * 3 ^ 1 := by
         rw [Nat.card_congr eP.toEquiv, h12]; norm_num
-      haveI : Fintype ↥H := Fintype.ofFinite _
+      have : Fintype ↥H := Fintype.ofFinite _
       exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
         Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card]; exact hH12)
     · exfalso
@@ -780,7 +784,7 @@ theorem l227Fact_holds : L227Fact := by
   subst hqp3
   have hqe3 : qe = 3 := Nat.pow_right_injective (by norm_num : 2 ≤ 3) h27'
   subst hqe3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlin : CFSG.AGLEmbedding.IsLinTwoIndex 3 3 ⟨.A 1 ⟨3, 3, hqp, hqe⟩, hv⟩ :=
     ⟨⟨3, 3, hqp, hqe⟩, rfl, rfl, rfl⟩
   obtain ⟨e1⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex hlin
@@ -816,7 +820,7 @@ theorem lieOuterFieldFamTwistedA : LieOuterFieldFam .twistedA := by
   subst hrq
   simp only [TauCeti.LieTypeIndex.characteristic_twistedA] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   left
   change q.p ∣ q.exponent
   obtain ⟨e0⟩ := hS
@@ -853,7 +857,7 @@ theorem lieRankFiveFamTwistedA : LieRankFiveFam .twistedA := by
   subst hrq
   simp only [TauCeti.LieTypeIndex.characteristic_twistedA] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : q.p ∣ q.exponent := hF.resolve_right fun h => h.2
   have h3 := three_le_of_dvd hp hp2 hf q.exponent_pos
   obtain ⟨e0⟩ := hS
@@ -878,7 +882,7 @@ theorem dvd_of_outer_sp {r : ℕ} {K : Type} [Field K] [Finite K] {ℓ f : ℕ} 
     (hr : 2 ≤ r) (hK : Nat.card K = ℓ ^ f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {β : MulAut (StatedProj (StatedSp r K))} (hβ : β ^ p = 1)
     (hout : β ∉ (MulAut.conj : StatedProj (StatedSp r K) →* _).range) : p ∣ f := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := K) hℓ hf hr hK
   have hodd : Odd (orderOf β) :=
     (hp.odd_of_ne_two hp2).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ)
@@ -915,6 +919,7 @@ section Gates
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {f p : ℕ}
 
+omit [Finite K] in
 theorem mem_E_of_pow_eq_one_omega' (hg : OrthogonalGates Q f) (hp : p.Prime)
     (h : 3 < p ∨ projectivePointFamilyAut Q = ⊤) {β : MulAut (matrixProjectiveDerived Q)}
     (hβp : β ^ p = 1) : β ∈ matrixProjectiveImage Q := by
@@ -953,7 +958,7 @@ theorem dvd_of_gates_outer {G : Type} [Group G] (e : G ≃* matrixProjectiveDeri
     obtain ⟨t, ht⟩ := mem_inner_of_mem_D_omega' hg hp hp2 hD hβ'
     exact congr_not_inner e hout ⟨t, ht⟩
   · have hne1 : MulAut.congr e β ≠ 1 := fun h => hD (h ▸ one_mem _)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact hdesc _ hE hD (orderOf_eq_prime hβ' hne1)
 
 end Gates
@@ -1046,7 +1051,7 @@ theorem lieRankFiveFamB : LieRankFiveFam .B := by
   subst hrq
   simp only [TauCeti.LieTypeIndex.characteristic_B] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : q.p ∣ q.exponent := hF.resolve_right fun h => h.2
   have h3 := three_le_of_dvd hp hp2 hf q.exponent_pos
   obtain ⟨e0⟩ := hS
@@ -1086,7 +1091,7 @@ theorem lieRankFiveFamC : LieRankFiveFam .C := by
   subst hrq
   simp only [TauCeti.LieTypeIndex.characteristic_C] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : q.p ∣ q.exponent := hF.resolve_right fun h => h.2
   have h3 := three_le_of_dvd hp hp2 hf q.exponent_pos
   obtain ⟨e0⟩ := hS
@@ -1126,7 +1131,7 @@ theorem lieRankFiveFamD (hD43 : D43RankFive) : LieRankFiveFam .D := by
   subst hrq
   simp only [TauCeti.LieTypeIndex.characteristic_D] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨e0⟩ := hS
   obtain ⟨⟨-, -, hn4⟩, K, _, _, hK, ⟨e1⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeD r q hv e0
@@ -1167,7 +1172,7 @@ theorem lieRankFiveFamTwistedD : LieRankFiveFam .twistedD := by
   subst hrq
   simp only [TauCeti.LieTypeIndex.characteristic_twistedD] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : q.p ∣ q.exponent := hF.resolve_right fun h => h.2
   have h3 := three_le_of_dvd hp hp2 hf q.exponent_pos
   obtain ⟨e0⟩ := hS
@@ -1201,7 +1206,7 @@ theorem dvd_of_outer_adjoint {τ : Tag}
     (hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2)
     (hf : 1 ≤ f) (K : Type) [Field K] [Finite K] (hK : Nat.card K = ℓ ^ f)
     (α : MulAut (adjointGroup τ K)) (hαp : α ^ ℓ = 1) (hα : α ∉ inner (adjointGroup τ K)) : ℓ ∣ f := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hαord : orderOf α = ℓ :=
     orderOf_eq_prime hαp fun h1 => hα (h1 ▸ (inner (adjointGroup τ K)).one_mem)
   have : CharP K ℓ := finite_field_prime_power_characteristic hℓ hf hK
@@ -1230,7 +1235,7 @@ theorem two_mul_le_pRank_adjoint {τ : Tag}
     (hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (K : Type) [Field K] [Finite K] (hK : Nat.card K = ℓ ^ f) :
     2 * f ≤ CFSG.Open.pRank ℓ (⊤ : Subgroup (adjointGroup τ K)) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have : CharP K ℓ := finite_field_prime_power_characteristic hℓ hf hK
   rcases hτ with rfl | hτ'
   · exact RootWitness.le_pRank CFSG.HardMathSupport.Timmesfeld.FieldBonus.Untw.witnessG2_check hK
@@ -1494,7 +1499,7 @@ theorem lieRankFiveFamTwistedE6 : LieRankFiveFam .twistedE6 := by
   subst hq
   simp only [TauCeti.LieTypeIndex.characteristic_twistedE6] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : q.p ∣ q.exponent := hF.resolve_right fun h => h.2
   have h3 := three_le_of_dvd hp hp2 hf q.exponent_pos
   obtain ⟨e0⟩ := hS
@@ -1518,7 +1523,7 @@ theorem twistedModel_of_trialityD4 {S : Type} [Group S] (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) (hp2 : q.p ≠ 2)
     (e : S ≃* (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group) :
     TwistedChevalleyModel S TwistTag.D4 (q.p ^ q.exponent) := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : 1 ≤ q.exponent := q.exponent_pos
   have hK₀ : Nat.card (GaloisField q.p (3 * q.exponent)) = (q.p ^ q.exponent) ^ 3 := by
     rw [GaloisField.card q.p (3 * q.exponent) (by omega), ← pow_mul, mul_comm]
@@ -1553,7 +1558,7 @@ theorem lieOuterFieldFamTrialityD4 : LieOuterFieldFam .trialityD4 := by
       rw [h4] at hp
       exact absurd hp (by norm_num)
     omega
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hS
   have hf : 1 ≤ q.exponent := q.exponent_pos
   have hmodel := twistedModel_of_trialityD4 q hv hp2 e
@@ -1585,7 +1590,7 @@ theorem lieRankFiveFamTrialityD4 (hTD : TD43RankFive) :
   subst hq
   simp only [TauCeti.LieTypeIndex.characteristic_trialityD4] at hch
   subst hch
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   by_cases hf1 : q.exponent = 1 ∧ q.p = 3
   · rw [hf1.2]
     refine hTD S q hv ?_ hS
@@ -1752,7 +1757,7 @@ theorem signMat_mul_self (a : Fin 4) : signMat (K := K) a * signMat a = 1 := by
 theorem statedQuadPlus_signMat (a : Fin 4) (v : Fin 4 ⊕ Fin 4 → K) :
     CFSG.Open.StatedQuadPlus 4 K (signMat a *ᵥ v) = CFSG.Open.StatedQuadPlus 4 K v := by
   rw [statedQuadPlus_four_apply, statedQuadPlus_four_apply, signMat, fromBlocks_mulVec]
-  simp only [Sum.elim_inl, Sum.elim_inr, Pi.add_apply, zero_mulVec, zero_add, add_zero,
+  simp only [Sum.elim_inl, Sum.elim_inr, zero_mulVec, zero_add, add_zero,
     Function.comp_apply, signDiag, mulVec_diagonal]
   refine Finset.sum_congr rfl fun i _ => ?_
   split_ifs <;> ring
@@ -1763,12 +1768,11 @@ theorem signMat_siegelMat_single (l : Fin 6) (c : K) :
     signMat (pairFst l) * siegelMat (Pi.single l c) * signMat (pairFst l) =
       siegelMat (Pi.single l (-c)) := by
   rw [signMat, siegelMat, siegelMat, fromBlocks_multiply, fromBlocks_multiply]
-  simp only [Matrix.mul_one, Matrix.mul_zero, add_zero, zero_add, Matrix.zero_mul, Matrix.one_mul,
-    signDiag_mul_self]
+  simp only [Matrix.mul_one, Matrix.mul_zero, add_zero, zero_add, Matrix.zero_mul, signDiag_mul_self]
   congr 1
   ext i j
   simp only [signDiag, diagonal_mul, mul_diagonal]
-  fin_cases l <;> fin_cases i <;> fin_cases j <;> simp [skew4, pairFst, Pi.single_apply]
+  fin_cases l <;> fin_cases i <;> fin_cases j <;> simp [skew4, pairFst]
 
 theorem siegelHom_mem_omega (h2 : (2 : K) ≠ 0) (b : Multiplicative (Fin 6 → K)) :
     siegelHom b ∈ CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 4 K) := by
@@ -1853,7 +1857,7 @@ theorem six_mul_le_pRank_omegaPlus_four [Finite K] {p f : ℕ} [Fact p.Prime] (h
 
 theorem d43RankFive_holds : D43RankFive := by
   intro K _ _ hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := six_mul_le_pRank_omegaPlus_four (K := K) (p := 3) (f := 1) (by norm_num) (by rw [hK]; norm_num)
   omega
 
@@ -2111,7 +2115,7 @@ theorem td43RankFive_holds :
     exact (Nat.prime_dvd_prime_iff_eq q.prime_p Nat.prime_three).1 (by simpa using h1)
   have hmodel := twistedModel_of_trialityD4 q hv (by rw [hqp]; norm_num) e0
   rw [hq3'] at hmodel
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, _, _, _, σ, hK, hσ, hσc, hfr, ⟨u, hu⟩, ⟨e⟩⟩ :=
     CFSG.SectionRank.twistedModel_data (p := 3) (f := 1) le_rfl hmodel
   have hσ3 : ∀ c, σ (σ (σ c)) = c := fun c => by

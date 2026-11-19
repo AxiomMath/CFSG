@@ -43,6 +43,7 @@ theorem commutator_mem_Z0 (h : Hyp65 n M V₀ V g) (hV₀K : ¬ V₀ ≤ KOf M V
         (fun hh => hvD (D.inv_mem_iff.1 (Subgroup.mem_subgroupOf.1 hh))))
     simpa only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subtype.coe_mk] using hmem
 
+omit [Finite G] in
 theorem mem_V₀_of_forall_commutator_mem (h15 : Hyp15 M V₀ V) (h : Hyp65 n M V₀ V g)
     (hD : M ≤ normalizer ((Z0Of M V₀ g : Subgroup G) : Set G))
     (hnot : ¬ ⁅F11.CTilde M V₀ V, V⁆ ≤ Z0Of M V₀ g) {v : G} (hv : v ∈ V)
@@ -187,7 +188,7 @@ theorem exists_cTilde_mul_mem_normalizer_N (h15 : Hyp15 M V₀ V) (h : Hyp65 n M
           rw [mem_conjSubgroup_iff, inv_inv]; exact hh
         rwa [hEq] at hh'
     exact ⟨1, (F11.CTilde M V₀ V).one_mem, k, ⟨hkM, hknormE⟩, by rw [one_mul]⟩
-  · obtain ⟨e₀, he₀, he₀'⟩ := SetLike.not_le_iff_exists.1 hleE
+  · obtain ⟨e₀, he₀, he₀'⟩ := IsConcreteLE.not_le_iff_exists.1 hleE
     let W : Subgroup G := V₀ ⊔ (NOf M V g ⊓ conjSubgroup (NOf M V g) k⁻¹)
     have hWrel : W.relIndex V = 2 :=
       relIndex_sup_inf_eq_two h.elemAbelian h.le hE_le_V h.V₀_inf_N
@@ -281,7 +282,7 @@ theorem commutator_cTilde_le (h15 : Hyp15 M V₀ V) (h : Hyp65 n M V₀ V g)
     have h1 : (Z0Of M V₀ g).relIndex V₀ = 1 := Subgroup.relIndex_eq_one.2 hle
     rw [hD2] at h1
     exact absurd h1 (by norm_num)
-  obtain ⟨v₂, hv₂, hv₂D⟩ := SetLike.not_le_iff_exists.1 hnotV₀
+  obtain ⟨v₂, hv₂, hv₂D⟩ := IsConcreteLE.not_le_iff_exists.1 hnotV₀
   refine false_of_forall_eq_mul h15 h hV₀K ?_
   intro m hm
   obtain ⟨a, haC, -, k, hk, hmk⟩ :=

@@ -29,7 +29,7 @@ theorem not_isPGroup_barOf_sup_of_case_one
     (hne : conjSubgroup g V ≠ V) :
     ¬ IsPGroup 2 ↥(barOf V H V ⊔ barOf V H (conjSubgroup g V)) := by
   intro h2
-  haveI := normal_oddCoreX V H
+  have := normal_oddCoreX V H
   have hle : barOf V H (conjSubgroup g V) ≤ barOf V H V := by
     intro y hy
     have hyX : y ∈ barOf V H (xOf V H) :=
@@ -377,7 +377,7 @@ theorem centralizes_of_act_eq
     {g x y : G} (hg : g ∈ H) (hne : conjSubgroup g V ≠ V) (hx : x ∈ P)
     (hy : y ∈ conjSubgroup g P) (hxy : ∀ w ∈ wOf V H, x * w * x⁻¹ = y * w * y⁻¹) :
     ∀ w ∈ wOf V H, x * w = w * x := by
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
   have hcomm_le : ∀ a ∈ P, ∀ b ∈ P, ⁅a, b⁆ ∈ V := by
     intro a ha b hb
     have h := CFSG.commutator_le_frattini_of_isPGroup (R := ↥P) (p := 2)

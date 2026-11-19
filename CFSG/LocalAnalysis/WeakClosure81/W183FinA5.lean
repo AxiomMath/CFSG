@@ -87,7 +87,7 @@ private theorem w183finA5FinA5B_sound {n : ℕ} {Y P : List (Equiv.Perm (Fin n))
   have hk : w183finA5KleinB a b = true := by simp [w183finA5KleinB, hc, hab]
   have ht : w183finA5TiB Y a b = true := by
     simp only [w183finA5TiB, List.all_eq_true, Bool.or_eq_true, Bool.not_eq_true',
-      Bool.and_eq_true, decide_eq_false_iff_not, decide_eq_true_eq, List.contains_iff_mem]
+      Bool.and_eq_true, decide_eq_false_iff_not, List.contains_iff_mem]
     intro t ht g hg
     by_cases hgt : g * t = t * g
     · exact Or.inr (hTI t ht g hg hgt)
@@ -104,7 +104,7 @@ private theorem w183finA5Rank2B_sound {n : ℕ} {Y : List (Equiv.Perm (Fin n))}
     (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
     b = a ∨ c = a ∨ c = b ∨ c = a * b := by
   simp only [w183finA5Rank2B, w183finA5InvB, List.all_eq_true, List.mem_filter, decide_eq_true_eq,
-    Bool.or_eq_true, Bool.not_eq_true', Bool.and_eq_true, decide_eq_false_iff_not] at h
+    Bool.or_eq_true, Bool.not_eq_true', decide_eq_false_iff_not] at h
   have h1 := h a ⟨ha, ha2, ha1⟩ b ⟨hb, hb2, hb1⟩ c ⟨hc, hc2, hc1⟩
   rcases h1 with (h1 | h1) | h1
   · exact absurd ⟨hab, hac, hbc⟩ h1
@@ -119,7 +119,7 @@ private theorem w183finA5FinG3L32B_sound {n : ℕ} {Y P : List (Equiv.Perm (Fin 
     (hcp : ∀ t ∈ [a, b, a * b], ∀ g ∈ P, g * t = t * g → g * a = a * g ∧ g * b = b * g) :
     False := by
   simp only [w183finA5FinG3L32B, w183finA5InvB, List.all_eq_true, List.mem_filter,
-    decide_eq_true_eq, Bool.or_eq_true, Bool.not_eq_true', Bool.and_eq_true] at h
+    decide_eq_true_eq, Bool.or_eq_true, Bool.not_eq_true'] at h
   have h1 := h a ⟨ha, ha2, ha1⟩ b ⟨hb, hb2, hb1⟩
   have hk : w183finA5KleinB a b = true := by simp [w183finA5KleinB, hc, hab]
   have hp : w183finA5CpB P a b = true := by
@@ -325,7 +325,7 @@ private theorem w183finA5ElemsTA5QPMemAlt (g : Equiv.Perm (Fin 5))
 
 theorem finA5_holds : FinA5 := by
   intro Y _ _ L hLn hL hC A hA4 hAel hTI
-  haveI := hLn
+  have := hLn
   obtain ⟨M, hMP, hMA, h2⟩ := w183finA5A5Model L hL
   have hcardL : Nat.card L = 60 := by
     have h1 : Nat.card ↥L = Nat.card M.P := Nat.card_congr M.e.toEquiv
@@ -340,7 +340,7 @@ theorem finA5_holds : FinA5 := by
       have hsurj : ∀ g ∈ M.A, ∃ y, ψ y = g := by
         let f : Y →* M.A := ψ.codRestrict M.A hψmem
         have hf : Function.Injective f := fun a b hab => hψinj (congrArg Subtype.val hab)
-        haveI : Finite M.A := Nat.finite_of_card_ne_zero (by
+        have : Finite M.A := Nat.finite_of_card_ne_zero (by
           rw [← hcardYA]; exact Nat.card_pos.ne')
         have hfb : Function.Bijective f := hf.bijective_of_nat_card_le (le_of_eq hcardYA.symm)
         intro g hg
@@ -406,7 +406,7 @@ theorem finA5_holds : FinA5 := by
 
 theorem finRk2_holds : FinRk2 := by
   intro Y _ _ L hLn hC hshape A hAel
-  haveI := hLn
+  have := hLn
   rcases hshape with hL2 | hL3
   · obtain ⟨M, hMP, hMA, h2⟩ := w183finA5A5Model L hL2
     let ψ := M.actHom L
@@ -436,7 +436,7 @@ theorem finG3A5_holds
     (hel : IsElemAbelian 2 A)
     (hTI1 : ∀ t ∈ A, t ≠ 1 → ∀ g ∈ L, g * t = t * g → ∀ a ∈ A, g * a = a * g) :
     A ≤ L ∧ ∃ n ∈ L, (∀ x ∈ A, n * x * n⁻¹ ∈ A) ∧ ∀ x ∈ A, x ≠ 1 → n * x * n⁻¹ ≠ x := by
-  haveI := hLn
+  have := hLn
   obtain ⟨M, hMP, hMA, h2⟩ := w183finA5A5Model L hL
   have hPA : M.P ≤ M.A := by rw [hMA]; exact le_top
   let ψ := M.actHom L
@@ -519,7 +519,7 @@ theorem finG3A5_holds
   refine ⟨hA_le_L, (n : Y), n.2, ?_, ?_⟩
   · intro x hx
     rcases hmem x hx with rfl | rfl | rfl | rfl
-    · simpa using A.one_mem
+    · simp
     · exact hna
     · exact hnb
     · have heq : (n : Y) * (a * b) * (n : Y)⁻¹ =
@@ -546,7 +546,7 @@ theorem finG3L32_holds
     (hC : Subgroup.centralizer (L : Set Y) = ⊥) (A : Subgroup Y) (hcard : Nat.card A = 4)
     (hel : IsElemAbelian 2 A)
     (hTI1 : ∀ t ∈ A, t ≠ 1 → ∀ g ∈ L, g * t = t * g → ∀ a ∈ A, g * a = a * g) : False := by
-  haveI := hLn
+  have := hLn
   obtain ⟨M, hMP, hMA, h2⟩ := w183finA5L32Model L hL
   have hPA : M.P ≤ M.A := by rw [hMP, hMA]; exact w183finA5L27PLeA
   let ψ := M.actHom L

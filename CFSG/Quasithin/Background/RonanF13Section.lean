@@ -11,7 +11,7 @@ variable {K : Type*} [Group K]
 @[expose] def restrictAut (H : Subgroup K) (α : MulAut K) (h : ∀ x, α x ∈ H ↔ x ∈ H) : MulAut ↥H where
   toFun x := ⟨α x, (h x).mpr x.2⟩
   invFun x := ⟨α⁻¹ x, by
-    have : α (α⁻¹ (x : K)) ∈ H := by simpa using x.2
+    have : α (α⁻¹ (x : K)) ∈ H := by simp
     exact (h _).mp this⟩
   left_inv x := by ext; simp
   right_inv x := by ext; simp
@@ -43,16 +43,16 @@ theorem singer_sections [Finite K] (A B D : Subgroup K) (hBA : B ≤ A) (hBne : 
     (hαD : ∀ x, α x ∈ D ↔ x ∈ D) :
     IsCyclic ↥D ∧ ∃ k : ℕ, ∀ d ∈ D, α d = d ^ 2 ^ k := by
   classical
-  haveI hN : (B.subgroupOf A).Normal := ⟨fun n hn g => by
+  have hN : (B.subgroupOf A).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h1 := hcomm g g.2 n n.2
     have h2 : (g : K) * n * (g : K)⁻¹ = ((g : K) * n * (g : K)⁻¹ * (n : K)⁻¹) * n := by group
     show (g : K) * n * (g : K)⁻¹ ∈ B
     rw [h2]
     exact B.mul_mem h1 hn⟩
-  letI : CommGroup ↥D :=
+  let : CommGroup ↥D :=
     { (inferInstance : Group ↥D) with mul_comm := fun x y => Subtype.ext (hDcomm x x.2 y y.2) }
-  letI : CommGroup (↥A ⧸ B.subgroupOf A) :=
+  let : CommGroup (↥A ⧸ B.subgroupOf A) :=
     { (inferInstance : Group (↥A ⧸ B.subgroupOf A)) with
       mul_comm := fun x y => by
         induction x using QuotientGroup.induction_on with
@@ -67,8 +67,8 @@ theorem singer_sections [Finite K] (A B D : Subgroup K) (hBA : B ≤ A) (hBne : 
               simp [mul_assoc]
             rw [h2]
             exact h1 }
-  haveI : Nontrivial (↥A ⧸ B.subgroupOf A) := by
-    obtain ⟨a, haA, haB⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hBA hBne)
+  have : Nontrivial (↥A ⧸ B.subgroupOf A) := by
+    obtain ⟨a, haA, haB⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hBA hBne)
     refine ⟨⟨QuotientGroup.mk ⟨a, haA⟩, 1, fun h => haB ?_⟩⟩
     have := (QuotientGroup.eq_one_iff (N := B.subgroupOf A) (⟨a, haA⟩ : ↥A)).mp h
     exact this

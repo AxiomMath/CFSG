@@ -23,7 +23,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
 
 theorem mem_planeKer {b : Fin 2 → Fin Tag.E8.rank → ZMod 3} {α : Fin Tag.E8.rank → ℤ} :
     α ∈ planeKer b ↔ IsRoot Tag.E8 α ∧ triPairing (b 0) α = 0 ∧ triPairing (b 1) α = 0 := by
-  simp only [planeKer, kernelRoots, Set.mem_setOf_eq, MonoidHom.prod_apply, Prod.mk_eq_one,
+  simp only [planeKer, kernelRoots, Set.mem_ofPred_eq, MonoidHom.prod_apply, Prod.mk_eq_one,
     triChar_apply, Z3.ofAdd_eq_one]
 
 private theorem triPairing_neg' (b : Fin Tag.E8.rank → ZMod 3) (α : Fin Tag.E8.rank → ℤ) :
@@ -167,7 +167,7 @@ private theorem gramC_cast {a b : ℕ} (ha : a < 240) (hb : b < 240) :
   rw [iform, sum_E8]
   have hBv : ∀ i j : Fin Tag.E8.rank, Tag.symmetrizedCartan Tag.E8 i j = cN i.val j.val :=
     fun i j => cartanE8_fact (i, j)
-  simp only [sum_E8, hBv, Fin.val_mk, cN]
+  simp only [sum_E8, hBv, cN]
   norm_num
   ring
 
@@ -290,7 +290,7 @@ theorem rtF_sound {RP SP IP : ℕ} (hRP : RP = pk 32 e8Certificate.roots)
     rw [abs_le] at hn
     have hg4 : g ≤ 4 := by omega
     obtain rfl : n = (g : ℤ) - 2 := by omega
-    interval_cases g <;> (norm_num at hcz ⊢ <;> omega)
+    interval_cases g <;> (norm_num at hcz ⊢; omega)
   have hrt : rtF (pk 32 e8Certificate.roots) SP IP b x = z := by
     rw [rtF, E7Plane.letN_eq, E7Plane.letN_eq, E7Plane.letN_eq, fld_RP hx, fld_RP hb, hval,
       bpos_spec hm hp, hpz]
@@ -412,7 +412,7 @@ private theorem tb_eq {i y : ℕ} (hi : i < 8) (hy : y < 240) :
   have e8 : 8 * (8 * y + i) = 64 * y + 8 * i := by ring
   rw [tb, nat_add_eq, nat_mul_eq, E7Plane.fld_eq, RootCertificate.image, e8, pow_add,
     ← Nat.div_div_eq_div_mul, ← hm, hT]
-  simp only [Fin.val_mk]
+  simp only
   rw [pow_mul]
   norm_num
 
@@ -638,7 +638,7 @@ private theorem chv_cast (n k : ℕ) :
   rw [hl 0 (by decide), hl 1 (by decide), hl 2 (by decide), hl 3 (by decide), hl 4 (by decide),
     hl 5 (by decide), hl 6 (by decide), hl 7 (by decide)]
   rw [triPairing, sum_E8]
-  simp only [vec3OfIndex, Fin.val_mk]
+  simp only [vec3OfIndex]
   ring
 
 private theorem testBit_orN1 {N : ℕ} {f : ℕ → ℕ} (hf : ∀ i < N, f i < 2) {i : ℕ} (hi : i < N) :
@@ -822,7 +822,7 @@ private theorem sumN_toN (p : ℕ → Bool) :
     have e : sumN (N + 1) (fun k => E7Plane.toN (p k)) =
         sumN N (fun k => E7Plane.toN (p k)) + E7Plane.toN (p N) := rfl
     rw [e, sumN_toN p N, List.range_succ, List.filter_append, List.length_append]
-    cases h : p N <;> simp [List.filter_cons, h, E7Plane.toN_eq]
+    cases h : p N <;> simp [h, E7Plane.toN_eq]
 
 private theorem pc_kmN {n : ℕ} (hn : n < 6561) :
     pc (kmN (pk 32 e8Certificate.roots) n) =
@@ -1131,7 +1131,7 @@ private theorem fld_shift (v q n : ℕ) (hv : v < 256) :
     fld (v <<< (8 * q)) 8 n = if q = n then v else 0 := by
   rw [E7Plane.fld_eq, Nat.shiftLeft_eq]
   rcases lt_trichotomy q n with h | rfl | h
-  · rw [if_neg h.ne, Nat.div_eq_of_lt, Nat.zero_mod]
+  · rw [ite_eq_right h.ne, Nat.div_eq_of_lt, Nat.zero_mod]
     have h2 : 0 < 2 ^ (8 * q) := by positivity
     have h3 : v * 2 ^ (8 * q) < 256 * 2 ^ (8 * q) := by nlinarith
     have h4 : 256 * 2 ^ (8 * q) = 2 ^ (8 * q + 8) := by
@@ -1139,12 +1139,12 @@ private theorem fld_shift (v q n : ℕ) (hv : v < 256) :
       ring
     have h5 : 2 ^ (8 * q + 8) ≤ 2 ^ (8 * n) := Nat.pow_le_pow_right (by norm_num) (by omega)
     exact lt_of_lt_of_le (h3.trans_eq h4) h5
-  · rw [if_pos rfl, Nat.mul_div_cancel _ (by positivity), Nat.mod_eq_of_lt (by norm_num; omega)]
+  · rw [ite_eq_left rfl, Nat.mul_div_cancel _ (by positivity), Nat.mod_eq_of_lt (by norm_num; omega)]
   · have e : v * 2 ^ (8 * q) = v * 2 ^ (8 * (q - n - 1)) * 2 ^ 8 * 2 ^ (8 * n) := by
       rw [mul_assoc, mul_assoc, ← pow_add, ← pow_add]
       congr 2
       omega
-    rw [if_neg h.ne', e, Nat.mul_div_cancel _ (by positivity), Nat.mul_mod_left]
+    rw [ite_eq_right h.ne', e, Nat.mul_div_cancel _ (by positivity), Nat.mul_mod_left]
 
 private theorem nat_mod_eq' (a b : ℕ) : Nat.mod a b = a % b := rfl
 
@@ -1167,13 +1167,13 @@ private theorem fld_cntP {FC : List ℕ}
     rw [e, fld_or, fld_shift _ _ _ (Nat.mod_lt _ (by norm_num))]
     rcases ih fun y hy => hFC y (List.mem_cons_of_mem _ hy) with h | h <;> rw [h] <;>
       by_cases hq : x / 256 = n
-    · rw [if_pos hq, ← hFC x List.mem_cons_self, hq, Nat.zero_or]
+    · rw [ite_eq_left hq, ← hFC x List.mem_cons_self, hq, Nat.zero_or]
       exact Or.inr rfl
-    · rw [if_neg hq, Nat.or_zero]
+    · rw [ite_eq_right hq, Nat.or_zero]
       exact Or.inl rfl
-    · rw [if_pos hq, ← hFC x List.mem_cons_self, hq, Nat.or_self]
+    · rw [ite_eq_left hq, ← hFC x List.mem_cons_self, hq, Nat.or_self]
       exact Or.inr rfl
-    · rw [if_neg hq, Nat.or_zero]
+    · rw [ite_eq_right hq, Nat.or_zero]
       exact Or.inr rfl
 
 private theorem k78_twin {FC : List ℕ}
@@ -1253,7 +1253,7 @@ private theorem tri_of {rt : Array ℕ} (hrt : ReflTable rt) {W : List ℕ} (hW 
       fun _ => rfl
     have htr' := congrArg (Nat.cast : ℕ → ℤ) htr
     rw [s8] at htr'
-    simp only [nat_add_eq, Nat.cast_add, Nat.cast_zero, Nat.cast_ofNat] at htr'
+    simp only [Nat.cast_add, Nat.cast_zero, Nat.cast_ofNat] at htr'
     rw [hl 0 (by decide), hl 1 (by decide), hl 2 (by decide), hl 3 (by decide), hl 4 (by decide),
       hl 5 (by decide), hl 6 (by decide), hl 7 (by decide)] at htr'
     rw [foldr_range_add, add_zero]
@@ -1279,7 +1279,7 @@ theorem rep4B_facts {T RP SP IP FM : ℕ} {W : List ℕ} {FL : List ℕ} {WS : L
         triPairing (vec3OfIndex (τ := .E8) n) (e8Certificate.root b) = 0 := by
     intro n hn
     have e := hFL n hn
-    simp only [E7Plane.letB_eq, E7Plane.andB_eq, E7Plane.orB_eq, Bool.and_eq_true,
+    simp only [E7Plane.letB_eq, E7Plane.orB_eq, Bool.and_eq_true,
       Bool.or_eq_true, Nat.beq_eq, anyL_eq_true] at e
     obtain ⟨h78, m, hmW, hm⟩ := e
     rw [wmL_eq, List.mem_map] at hmW
@@ -1378,9 +1378,9 @@ theorem rep3B_facts {T RP SP IP FM : ℕ} {W : List ℕ} {FL FC : List ℕ} {WS 
   rw [kmL_eq] at hpairs
   have hp := hpairs _
     (List.mem_map_of_mem (f := fun n => (n, kmN (pk 32 e8Certificate.roots) n)) m0)
-  simp only [allL_eq_true, kmL_eq, List.mem_map] at hp
+  simp only [allL_eq_true, List.mem_map] at hp
   have hp' := hp _ ⟨n₁, m1, rfl⟩
-  simp only [E7Plane.letB_eq, E7Plane.orB_eq, E7Plane.andB_eq, Bool.or_eq_true, Bool.and_eq_true,
+  simp only [E7Plane.orB_eq, Bool.or_eq_true, Bool.and_eq_true,
     anyL_eq_true, memL_iff, Nat.beq_eq] at hp'
   have hσ : Nat.land (kmN (pk 32 e8Certificate.roots) n₀) (kmN (pk 32 e8Certificate.roots) n₁) =
       sgm n₀ n₁ := (congrArg₂ Nat.land (kmN_eq h0) (kmN_eq h1)).trans rfl
@@ -1404,7 +1404,7 @@ theorem rep3B_facts {T RP SP IP FM : ℕ} {W : List ℕ} {FL FC : List ℕ} {WS 
     simp only at hσ'
     subst hσ'
     have e := hD3 _ hx
-    simp only [E7Plane.andB_eq, Bool.and_eq_true] at e
+    simp only [Bool.and_eq_true] at e
     rw [k78_twin hFC' hk, d3_twin hrt hW e.1, d3t_twin rfl hs hrt hW hσlt e.2, Bool.true_and,
       Bool.true_and, Bool.true_or, Bool.or_true]
 

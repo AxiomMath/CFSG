@@ -64,7 +64,7 @@ variable [Finite E]
 
 theorem σ_mul_nrmOp_uc6 (σ : E →* Module.End (ZMod 2) V) (K : Subgroup E) {g : E} (hg : g ∈ K) :
     σ g * nrmOp σ K = nrmOp σ K := by
-  haveI : Fintype ↥K := Fintype.ofFinite _
+  have : Fintype ↥K := Fintype.ofFinite _
   rw [nrmOp_eq_sum_uc6, Finset.mul_sum]
   let g' : ↥K := ⟨g, hg⟩
   have := Fintype.sum_equiv (Equiv.mulLeft g') (fun s : ↥K => σ (g' * s : ↥K)) (fun s : ↥K => σ s)
@@ -76,7 +76,7 @@ theorem σ_mul_nrmOp_uc6 (σ : E →* Module.End (ZMod 2) V) (K : Subgroup E) {g
 
 theorem nrmOp_mul_σ_uc6 (σ : E →* Module.End (ZMod 2) V) (K : Subgroup E) {g : E} (hg : g ∈ K) :
     nrmOp σ K * σ g = nrmOp σ K := by
-  haveI : Fintype ↥K := Fintype.ofFinite _
+  have : Fintype ↥K := Fintype.ofFinite _
   rw [nrmOp_eq_sum_uc6, Finset.sum_mul]
   let g' : ↥K := ⟨g, hg⟩
   have := Fintype.sum_equiv (Equiv.mulRight g') (fun s : ↥K => σ (s * g' : ↥K)) (fun s : ↥K => σ s)
@@ -88,7 +88,7 @@ theorem nrmOp_mul_σ_uc6 (σ : E →* Module.End (ZMod 2) V) (K : Subgroup E) {g
 
 theorem nrmOp_mul_nrmOp_uc6 (σ : E →* Module.End (ZMod 2) V) (K : Subgroup E)
     (hK : Odd (Nat.card K)) : nrmOp σ K * nrmOp σ K = nrmOp σ K := by
-  haveI : Fintype ↥K := Fintype.ofFinite _
+  have : Fintype ↥K := Fintype.ofFinite _
   have h1 : nrmOp σ K * nrmOp σ K = nrmOp σ K * ∑ s : ↥K, σ (s : E) := by
     rw [← nrmOp_eq_sum_uc6 σ K]
   rw [h1, Finset.mul_sum]
@@ -99,7 +99,7 @@ theorem nrmOp_mul_nrmOp_uc6 (σ : E →* Module.End (ZMod 2) V) (K : Subgroup E)
 
 theorem nrmOp_fixed_uc6 (σ : E →* Module.End (ZMod 2) V) (K : Subgroup E) (hK : Odd (Nat.card K))
     {v : V} (hv : ∀ s ∈ K, σ s v = v) : nrmOp σ K v = v := by
-  haveI : Fintype ↥K := Fintype.ofFinite _
+  have : Fintype ↥K := Fintype.ofFinite _
   rw [nrmOp_eq_sum_uc6]
   have h : ∀ s : ↥K, σ (s : E) v = v := fun s => hv s s.2
   simp only [LinearMap.sum_apply, h, Finset.sum_const, Finset.card_univ]
@@ -181,7 +181,7 @@ theorem frobenius_identity_uc6 (σ : E →* Module.End (ZMod 2) V) (hE : Odd (Na
   obtain ⟨r', rfl⟩ : ∃ r', r = r' + 1 := ⟨r - 1, by omega⟩
   rw [Finset.sum_range_succ' (fun i => if i = 0 then (1 : Module.End (ZMod 2) V)
       else nrmAll σ * T ^ i), Finset.sum_range_succ' (fun i => T ^ i)]
-  simp only [Nat.succ_ne_zero, if_false, if_true, pow_zero, add_sub_cancel_right]
+  simp only [Nat.succ_ne_zero, ite_false, ite_true, pow_zero, add_sub_cancel_right]
   rw [Finset.mul_sum, add_comm]
 
 theorem T_mul_sum_uc6 (T : Module.End (ZMod 2) V) (r : ℕ) (hTr : T ^ r = 1) :
@@ -244,7 +244,7 @@ theorem nrmOp_eq_zero_of_fixed_uc6 (σ : E →* Module.End (ZMod 2) V) {q : ℕ}
     (hq2 : q ≠ 2) (hexp : ∀ e : E, e ^ q = 1)
     (K : Subgroup E) (hK : K.index = q) {y : E} (hy : y ∉ K) {u : V} (hyu : σ y u = u)
     (hu : nrmAll σ u = 0) : nrmOp σ K u = 0 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hy1 : y ≠ 1 := fun h => hy (h ▸ K.one_mem)
   have hord : orderOf y = q := orderOf_eq_prime (hexp y) hy1
   have hYcard : Nat.card (Subgroup.zpowers y) = q := by rw [Nat.card_zpowers, hord]
@@ -282,8 +282,8 @@ theorem nrmOp_eq_zero_of_fixed_uc6 (σ : E →* Module.End (ZMod 2) V) {q : ℕ}
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one] at this
         simpa using this.symm
       rw [zpow_sub_one, map_mul, Module.End.mul_apply, hinv, ih]
-  haveI : Fintype ↥K := Fintype.ofFinite _
-  haveI : Fintype ↥(Subgroup.zpowers y) := Fintype.ofFinite _
+  have : Fintype ↥K := Fintype.ofFinite _
+  have : Fintype ↥(Subgroup.zpowers y) := Fintype.ofFinite _
   have h1 : nrmAll σ u = q • nrmOp σ K u := by
     rw [nrmAll_eq_sum_uc6, LinearMap.sum_apply,
       ← Function.Bijective.sum_comp hbij (fun e => σ e u)]

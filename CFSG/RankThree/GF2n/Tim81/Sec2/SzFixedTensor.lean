@@ -19,9 +19,9 @@ variable {K : Type} [Field K] [CharP K 2] [Finite K] [Fintype K]
 variable [Algebra K k]
 
 private def subtypeBEquiv {Ω B : Finset ℕ} (hB : B ⊆ Ω) :
-    {i : Ω // (i : ℕ) ∈ B} ≃ B :=
-  Equiv.subtypeSubtypeEquivSubtype (p := fun i : ℕ => i ∈ Ω) (q := fun i : ℕ => i ∈ B)
-    (fun {i} h => hB h)
+    {_i : Ω // (_i : ℕ) ∈ B} ≃ B :=
+  Equiv.subtypeSubtypeEquivSubtype (p := fun _i : ℕ => _i ∈ Ω) (q := fun _i : ℕ => _i ∈ B)
+    (fun {_i} h => hB h)
 
 @[simp] private theorem subtypeBEquiv_apply {Ω B : Finset ℕ} (hB : B ⊆ Ω)
     (i : {i : Ω // (i : ℕ) ∈ B}) :
@@ -30,7 +30,7 @@ private def subtypeBEquiv {Ω B : Finset ℕ} (hB : B ⊆ Ω) :
 @[simp] private theorem subtypeBEquiv_symm_apply {Ω B : Finset ℕ} (hB : B ⊆ Ω) (i : B) :
     (subtypeBEquiv hB).symm i = ⟨⟨i.1, hB i.2⟩, i.2⟩ := rfl
 
-private def subtypeCEquiv {Ω B : Finset ℕ} (hB : B ⊆ Ω) :
+private def subtypeCEquiv {Ω B : Finset ℕ} (_hB : B ⊆ Ω) :
     {i : Ω // (i : ℕ) ∉ B} ≃ ↥(Ω \ B) :=
   (Equiv.subtypeEquivRight (fun i : Ω => by
       rw [Finset.mem_sdiff]
@@ -102,6 +102,7 @@ private theorem coordinateSplit_symm_snd {Ω B : Finset ℕ} (hB : B ⊆ Ω)
   fun x => u (fun i : B => x ⟨i.1, hB i.2⟩) *
     v (fun j : ↥(Ω \ B) => x ⟨j.1, (Finset.mem_sdiff.mp j.2).1⟩)
 
+omit [Fintype K] in
 theorem prod_merge_split {Ω B : Finset ℕ} (hB : B ⊆ Ω) (z : antiSp K) (x : Ω → Fin 4)
     (f : B → Fin 4) (g : ↥(Ω \ B) → Fin 4) :
     (∏ i : ↥Ω, natRepS (F := K) k (i : ℕ) z (x i)
@@ -119,7 +120,7 @@ theorem prod_merge_split {Ω B : Finset ℕ} (hB : B ⊆ Ω) (z : antiSp K) (x :
        else g ⟨i.1, Finset.mem_sdiff.mpr ⟨i.2, h⟩⟩) = Ψ i := by
     intro i
     simp only [Ψ]
-    rw [dif_pos i.2]
+    rw [dite_eq_left i.2]
   have hL : (∏ i : ↥Ω, natRepS (F := K) k (i : ℕ) z (x i)
       (if h : (i : ℕ) ∈ B then f ⟨i.1, h⟩
        else g ⟨i.1, Finset.mem_sdiff.mpr ⟨i.2, h⟩⟩)) = Ω.prod Ψ := by
@@ -134,7 +135,7 @@ theorem prod_merge_split {Ω B : Finset ℕ} (hB : B ⊆ Ω) (z : antiSp K) (x :
     have h1 : (∏ i : ↥B, natRepS (F := K) k (i : ℕ) z (x ⟨i.1, hB i.2⟩) (f i)) =
         ∏ i : ↥B, Ψ i := Finset.prod_congr rfl (fun i _ => by
       simp only [Ψ]
-      rw [dif_pos (hB i.2), dif_pos i.2])
+      rw [dite_eq_left (hB i.2), dite_eq_left i.2])
     rw [h1]
     exact Finset.prod_coe_sort B Ψ
   have hC' : (∏ j : ↥(Ω \ B), natRepS (F := K) k (j : ℕ) z
@@ -143,7 +144,7 @@ theorem prod_merge_split {Ω B : Finset ℕ} (hB : B ⊆ Ω) (z : antiSp K) (x :
         (x ⟨j.1, (Finset.mem_sdiff.mp j.2).1⟩) (g j)) = ∏ j : ↥(Ω \ B), Ψ j :=
       Finset.prod_congr rfl (fun i _ => by
         simp only [Ψ]
-        rw [dif_pos (Finset.mem_sdiff.mp i.2).1, dif_neg (Finset.mem_sdiff.mp i.2).2])
+        rw [dite_eq_left (Finset.mem_sdiff.mp i.2).1, dite_eq_right (Finset.mem_sdiff.mp i.2).2])
     rw [h1]
     exact Finset.prod_coe_sort (Ω \ B) Ψ
   calc (∏ i : ↥Ω, natRepS (F := K) k (i : ℕ) z (x i)
@@ -156,7 +157,7 @@ theorem prod_merge_split {Ω B : Finset ℕ} (hB : B ⊆ Ω) (z : antiSp K) (x :
         (∏ j : ↥(Ω \ B), natRepS (F := K) k (j : ℕ) z
           (x ⟨j.1, (Finset.mem_sdiff.mp j.2).1⟩) (g j)) := by rw [hB', hC']
 
-@[expose] def extractLM {Ω B : Finset ℕ} (hB : B ⊆ Ω)
+@[expose] def extractLM {Ω B : Finset ℕ} (_hB : B ⊆ Ω)
     (φ : ((↥(Ω \ B) → Fin 4) → k) →ₗ[k] k) :
     ((Ω → Fin 4) → k) →ₗ[k] ((B → Fin 4) → k) where
   toFun w := fun f => φ (fun g => w (fun i : Ω =>
@@ -203,7 +204,7 @@ theorem extractLM_kronFun {Ω B : Finset ℕ} (hB : B ⊆ Ω)
       funext j
       change (if h : (j : ℕ) ∈ B then f ⟨j.1, h⟩
         else g ⟨j.1, Finset.mem_sdiff.mpr ⟨(Finset.mem_sdiff.mp j.2).1, h⟩⟩) = g j
-      rw [dif_neg (Finset.mem_sdiff.mp j.2).2]
+      rw [dite_eq_right (Finset.mem_sdiff.mp j.2).2]
     rw [hf, hg]
   have h2 : (fun g => u f * v g) = u f • v := by
     funext g
@@ -214,14 +215,15 @@ theorem extractLM_kronFun {Ω B : Finset ℕ} (hB : B ⊆ Ω)
 
 @[expose] def evalLM {Ω B : Finset ℕ} (g : ↥(Ω \ B) → Fin 4) :
     ((↥(Ω \ B) → Fin 4) → k) →ₗ[k] k :=
-  { toFun := fun v => v g
-    map_add' := fun v v' => rfl
-    map_smul' := fun c v => rfl }
+  { toFun := fun _v => _v g
+    map_add' := fun _v _v' => rfl
+    map_smul' := fun _c _v => rfl }
 
 theorem evalLM_apply {Ω B : Finset ℕ} (g : ↥(Ω \ B) → Fin 4)
     (v : (↥(Ω \ B) → Fin 4) → k) :
     evalLM g v = v g := rfl
 
+omit [Fintype K] in
 theorem tensorRepS_mulVec_kronFun {Ω B : Finset ℕ} (hB : B ⊆ Ω) (z : antiSp K)
     (u : (B → Fin 4) → k) (v : (↥(Ω \ B) → Fin 4) → k) :
     (tensorRepS (F := K) k Ω z).mulVec (kronFun hB u v) =

@@ -84,10 +84,11 @@ theorem finrank_vInW (hK : KModel hS t Z0 ψ φ₈ e) :
   rw [← Submodule.finrank_map_subtype_eq, S715L.vInW, Submodule.map_comap_subtype,
     inf_eq_right.mpr hK.vtSub_le_wsub]
 
-theorem finrank_V (hK : KModel hS t Z0 ψ φ₈ e) :
+theorem finrank_V (_hK : KModel hS t Z0 ψ φ₈ e) :
     Module.finrank K ↥(hc.VtSub hS.model t) = 8 := by
   rw [e.finrank_eq, Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
 
+omit [Finite G] [Finite K] in
 theorem rho_inv_of_root {Y : M₀.E →ₗ[K] M₀.E} (hY : ∀ x, Y (Y x) = 0) {g : Mbar M Q} {c : K}
     (hg : ∀ y, (ρ g).toAdd y = y + c • Y y) (w : M₀.E) : (ρ g⁻¹).toAdd w = w - c • Y w := by
   apply (ρ g).toAdd.injective
@@ -99,7 +100,7 @@ theorem le_finrank_of_wvQ (hK : KModel hS t Z0 ψ φ₈ e) {x : ↥(bar M Q (Rt 
     (h4 : Module.finrank K (LinearMap.range ((S715L.wvAct hS hK.mem x :
       S715L.wvQ hS t →ₗ[K] S715L.wvQ hS t) - LinearMap.id)) = 4) :
     12 ≤ Module.finrank K ↥((LinearMap.ker ψ).map A ⊔ hc.VtSub hS.model t) := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   set W := S714.wsub hS t with hW
   set N := S715L.vInW hS t with hN
   set f : ↥W →ₗ[K] ↥W := (S715L.wAct hS hK.mem x : ↥W →ₗ[K] ↥W) - LinearMap.id with hf
@@ -173,6 +174,7 @@ theorem ydy_of_rel (hK : KModel hS t Z0 ψ φ₈ e) {Y : M₀.E →ₗ[K] M₀.E
   · exact absurd h3 (mul_ne_zero hc₀ (sub_ne_zero.mpr hc₁))
   · exact h3
 
+omit [Finite K] in
 theorem matrix_sub_one_eq {A B : GL (Fin 4 ⊕ Fin 4) K}
     {T : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] (Fin 4 ⊕ Fin 4 → K)} {c₀ : K}
     (hA : ∀ v, (A : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) *ᵥ v = v + c₀ • T v)

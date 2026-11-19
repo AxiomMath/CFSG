@@ -19,9 +19,11 @@ variable {G₀ G₁ G₂ T Z : Subgroup G} [Finite G]
 
 namespace CritAmalgam
 
+omit [Finite G] in
 theorem stab_γ₀_eq (hc : CritAmalgam G₀ G₁ G₂ T Z) : stab (γ₀ G₀ G₁ G₂) = G₁ :=
   CosetGeom.stab_γ₀ hc.amalgam.le₁
 
+omit [Finite G] in
 theorem stab_γ₁_eq (hc : CritAmalgam G₀ G₁ G₂ T Z) : stab (γ₁ G₀ G₁ G₂) = G₂ :=
   CosetGeom.stab_γ₁ hc.amalgam.le₂
 
@@ -37,7 +39,8 @@ theorem le_centralizer_pCoreOf_right (hc : CritAmalgam G₀ G₁ G₂ T Z) :
 theorem le_pCoreOf_right (hc : CritAmalgam G₀ G₁ G₂ T Z) : Z ≤ pCoreOf 2 G₂ :=
   (le_inf hc.le_right hc.le_centralizer_pCoreOf_right).trans hc.charTwo₂
 
-theorem right_le_normalizer_center (hc : CritAmalgam G₀ G₁ G₂ T Z) :
+omit [Finite G] in
+theorem right_le_normalizer_center (_hc : CritAmalgam G₀ G₁ G₂ T Z) :
     G₂ ≤ Subgroup.normalizer
       ((pCoreOf 2 G₂ ⊓ Subgroup.centralizer (pCoreOf 2 G₂ : Set G) : Subgroup G) : Set G) :=
   le_normalizer_inf (le_normalizer_pCoreOf 2 G₂)
@@ -62,6 +65,7 @@ theorem isElemAbelian_conjClosure (hc : CritAmalgam G₀ G₁ G₂ T Z) :
     rw [conj_pow, this]
     group
 
+omit [Finite G] in
 theorem not_right_le_centralizer (hc : CritAmalgam G₀ G₁ G₂ T Z) :
     ¬ G₂ ≤ Subgroup.centralizer (Z : Set G) := by
   intro h
@@ -73,6 +77,7 @@ theorem not_right_le_centralizer (hc : CritAmalgam G₀ G₁ G₂ T Z) :
   rw [hc.amalgam.o2_trivial] at hZ0
   exact hc.ne_bot (le_bot_iff.mp hZ0)
 
+omit [Finite G] in
 theorem right_inf_centralizer (hc : CritAmalgam G₀ G₁ G₂ T Z) :
     G₂ ⊓ Subgroup.centralizer (Z : Set G) = G₁ ⊓ G₂ := by
   have hle : G₁ ⊓ G₂ ≤ G₂ ⊓ Subgroup.centralizer (Z : Set G) :=
@@ -125,6 +130,7 @@ theorem lemma63_2' (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G�
   exact Subgroup.subset_closure ⟨⟨hel.2.1 hx, hel.2.2 hx⟩,
     F7.isElemAbelian_pow_eq_one hel.1 hx⟩
 
+omit [Finite G] in
 theorem lemma63_3 (hc : CritAmalgam G₀ G₁ G₂ T Z) {γ δ : CosetGeom G₀ G₁ G₂}
     (hγ : vtype γ = false) (hδ : δ ∈ nbrs γ) :
     stab δ ⊓ Subgroup.centralizer (Vv Z γ : Set G) = stab γ ⊓ stab δ := by

@@ -36,7 +36,7 @@ private theorem false_of_normal_sylow_psl2 {L : Type*} [Group L] [Finite L] {n :
   have hcard : Nat.card L = 2 ^ n * ((2 ^ n) ^ 2 - 1) := by
     rw [Nat.card_congr (e.trans (Sec21.projSLTwoEquivSL (GaloisField 2 n))).toEquiv,
       CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two, GaloisField.card 2 n (by omega)]
-  haveI := hUn
+  have := hUn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal U with h | h
   · rw [h, Subgroup.index_bot] at hUi
     apply hUi
@@ -161,7 +161,7 @@ private theorem cgsIn_sup_ne {K T : Subgroup G} {n : ℕ} (hn : 2 ≤ n)
   have hcgs : CFSG.Quasithin.cgsIn X T ≤ P := by
     refine iSup_le fun C => iSup_le fun hCT => iSup_le fun hC1 => iSup_le fun hCc => ?_
     have hTC : T ≤ Subgroup.normalizer (C : Set G) :=
-      (Subgroup.normal_subgroupOf_iff_le_normalizer hCT).mp (by haveI := hCc; infer_instance)
+      (Subgroup.normal_subgroupOf_iff_le_normalizer hCT).mp (by have := hCc; infer_instance)
     set Nc : Subgroup ↥X := (Subgroup.normalizer (C : Set G)).subgroupOf X
     have hSN : Sb ≤ Nc.map π :=
       Subgroup.map_mono (fun t ht => hTC (Subgroup.mem_subgroupOf.mp ht))

@@ -19,6 +19,7 @@ open CFSG.ABGLocalTools (IsSylowOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma ncl_conj_mem {N B' : Subgroup G} {n : G} (hn : n ∈ N)
     {x : G} (hx : x ∈ ncl N B') : n * x * n⁻¹ ∈ ncl N B' := by
   unfold ncl at hx ⊢
@@ -38,12 +39,14 @@ private lemma ncl_conj_mem {N B' : Subgroup G} {n : G} (hn : n ∈ N)
       rw [h]
       exact Subgroup.inv_mem _ iha
 
+omit [Finite G] in
 private lemma ncl_subgroupOf_normal {N B' : Subgroup G} :
     ((ncl N B').subgroupOf N).Normal := by
   refine ⟨fun n hn g => ?_⟩
   simp only [Subgroup.mem_subgroupOf] at hn ⊢
   simpa using ncl_conj_mem g.2 hn
 
+omit [Finite G] in
 private lemma ncl_image_normal {N B' : Subgroup G}
     [hI : ((relPPrimeCore 3 N).subgroupOf N).Normal] :
     (((ncl N B').subgroupOf N).map
@@ -54,6 +57,7 @@ private lemma ncl_image_normal {N B' : Subgroup G}
   have hN₂ : ((ncl N B').subgroupOf N).Normal := ncl_subgroupOf_normal
   exact hN₂.map _ hsurj
 
+omit [Finite G] in
 private lemma ncl_le {N B' : Subgroup G} (hB'N : B' ≤ N) : ncl N B' ≤ N := by
   rw [ncl, Subgroup.closure_le]
   rintro y ⟨g, hg, x, hx, rfl⟩
@@ -69,6 +73,7 @@ private def quotientMapNcl {N B' : Subgroup G} (hB'N : B' ≤ N)
   map_one' := by rfl
   map_mul' := by intro a b; rfl
 
+omit [Finite G] in
 private lemma quotientMapNcl_surjective {N B' : Subgroup G} (hB'N : B' ≤ N)
     [hI : ((relPPrimeCore 3 N).subgroupOf N).Normal] :
     Function.Surjective (quotientMapNcl hB'N) := by
@@ -88,7 +93,7 @@ private lemma pPrimeCore_quotient_eq_bot (N : Subgroup G)
     rw [CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_eq_map
       Nat.prime_three N]
     exact Subgroup.comap_map_eq_self_of_injective N.subtype_injective _
-  haveI : (CFSG.pPrimeCore 3 ↥N).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore 3 ↥N).Normal := CFSG.pPrimeCore_normal
   let e := QuotientGroup.quotientMulEquivOfEq hIeq
   have h := CFSG.pPrimeCore_map_iso 3 e
   have hY' : CFSG.pPrimeCore 3 (↥N ⧸ CFSG.pPrimeCore 3 ↥N) = ⊥ :=
@@ -96,6 +101,7 @@ private lemma pPrimeCore_quotient_eq_bot (N : Subgroup G)
   rw [hY'] at h
   exact (Subgroup.map_eq_bot_iff_of_injective _ e.injective).mp h
 
+omit [Finite G] in
 private lemma quotientMapNcl_ker {N B' : Subgroup G} (hB'N : B' ≤ N)
     [hI : ((relPPrimeCore 3 N).subgroupOf N).Normal] :
     (quotientMapNcl hB'N).ker = (relPPrimeCore 3 N).subgroupOf (ncl N B') := by
@@ -125,14 +131,15 @@ private lemma kOf8103_le_M {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : 
 
 private lemma commutator_kOf8103 (L B : Subgroup G) :
     ⁅F08.KOf8103 L B, F08.KOf8103 L B⁆ = F08.KOf8103 L B := by
-  haveI : Group.IsPerfect ↥(F08.KOf8103 L B) := isPerfect_derInf8 (L ⊓ centralizer (B : Set G))
+  have : Group.IsPerfect ↥(F08.KOf8103 L B) := isPerfect_derInf8 (L ⊓ centralizer (B : Set G))
   exact CFSG.GroupTheory.commutator_eq_self_of_isPerfect_subgroup
 
 private lemma ne_top_of_ctx {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
     (c : Ctx8105 D L P B B' D₀ H N p n) : N ≠ ⊤ := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab c.memN.1.1
 
+omit [Finite G] in
 private lemma relPPrimeCore_le_N (N : Subgroup G) : relPPrimeCore 3 N ≤ N :=
   CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le N
 
@@ -177,7 +184,7 @@ theorem isU3_ncl (hU3 : KU3Ident) (h332 : UCK.K332ThreeAb) (hS : KSuzukiL2) {D :
     (hQ : pCoreOf 2 N ≤ D.M) :
     ∃ (X : Type) (_ : Group X) (φ : ↥(ncl N B') →* X), Function.Surjective φ ∧
       φ.ker = (relPPrimeCore 3 N).subgroupOf (ncl N B') ∧ UC22.IsU3 X (2 * n) := by
-  haveI := relPPrimeCore_subgroupOf_normal N
+  have := relPPrimeCore_subgroupOf_normal N
   have hB'N : B' ≤ N := c.le.trans (kOf8103_le_N c)
   exact ⟨_, inferInstance, quotientMapNcl hB'N, quotientMapNcl_surjective hB'N,
     quotientMapNcl_ker hB'N, isU3_map hU3 h332 hS c hQ⟩
@@ -185,7 +192,7 @@ theorem isU3_ncl (hU3 : KU3Ident) (h332 : UCK.K332ThreeAb) (hS : KSuzukiL2) {D :
 theorem false_of_sylow (hU3 : KU3Ident) (hF : KU3Facts) (h332 : UCK.K332ThreeAb)
     (hS : KSuzukiL2) {D : Data G} {L P B B' D₀ H N T : Subgroup G} {p n : ℕ}
     (c : Ctx8105 D L P B B' D₀ H N p n) (hT : IsSylowOf 2 T N) (hTM : T ≤ D.M) : False := by
-  haveI := relPPrimeCore_subgroupOf_normal N
+  have := relPPrimeCore_subgroupOf_normal N
   have hKN := kOf8103_le_N c
   have hJN := relPPrimeCore_le_N N
   have hTN : T ≤ N := by

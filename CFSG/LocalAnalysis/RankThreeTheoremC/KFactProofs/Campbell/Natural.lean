@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem natB0_surj_of_invariant {B₀ D : Subgroup A} (b : ↥D →* Multiplicative (Fin 3 → ZMod 2))
     (hinv : ∀ (g : GL32) (u : ↥D), (u : A) ∈ B₀ → ∃ u' : ↥D, (u' : A) ∈ B₀ ∧
       Multiplicative.toAdd (b u') =
@@ -113,6 +114,7 @@ theorem natIndex_card_vec : Nat.card (Multiplicative (Fin 3 → ZMod 2)) = 8 := 
   rw [Nat.card_congr Multiplicative.toAdd, Nat.card_eq_fintype_card]
   simp
 
+omit [Finite A] in
 theorem natIndex_relIndex_eight {B₀ D C₀ : Subgroup A} (hB₀D : B₀ ≤ D)
     (b : ↥D →* Multiplicative (Fin 3 → ZMod 2)) (hbker : b.ker = C₀.subgroupOf D)
     (hbB₀ : ∀ v : Fin 3 → ZMod 2, ∃ u : ↥D, (u : A) ∈ B₀ ∧ Multiplicative.toAdd (b u) = v) :
@@ -146,10 +148,12 @@ noncomputable def natFaith_coord (D : Subgroup A) (b : ↥D →* Multiplicative 
     (x : A) : Fin 3 → ZMod 2 :=
   if hx : x ∈ D then Multiplicative.toAdd (b ⟨x, hx⟩) else 0
 
+omit [Finite A] in
 theorem natFaith_coord_of_mem {D : Subgroup A} (b : ↥D →* Multiplicative (Fin 3 → ZMod 2)) {x : A}
     (hx : x ∈ D) : natFaith_coord D b x = Multiplicative.toAdd (b ⟨x, hx⟩) := by
   simp [natFaith_coord, hx]
 
+omit [Finite A] in
 theorem natFaith_coord_mul {D : Subgroup A} (b : ↥D →* Multiplicative (Fin 3 → ZMod 2)) {x y : A}
     (hx : x ∈ D) (hy : y ∈ D) :
     natFaith_coord D b (x * y) = natFaith_coord D b x + natFaith_coord D b y := by
@@ -158,6 +162,7 @@ theorem natFaith_coord_mul {D : Subgroup A} (b : ↥D →* Multiplicative (Fin 3
   have : (⟨x * y, D.mul_mem hx hy⟩ : ↥D) = ⟨x, hx⟩ * ⟨y, hy⟩ := rfl
   rw [this, map_mul, toAdd_mul]
 
+omit [Finite A] in
 theorem natFaith_coord_eq_zero_iff {D C₀ : Subgroup A} (b : ↥D →* Multiplicative (Fin 3 → ZMod 2))
     (hbker : b.ker = C₀.subgroupOf D) {x : A} (hx : x ∈ D) :
     natFaith_coord D b x = 0 ↔ x ∈ C₀ := by
@@ -165,6 +170,7 @@ theorem natFaith_coord_eq_zero_iff {D C₀ : Subgroup A} (b : ↥D →* Multipli
   have h1 : b ⟨x, hx⟩ = 1 ↔ (⟨x, hx⟩ : ↥D) ∈ b.ker := by rw [MonoidHom.mem_ker]
   rw [← toAdd_one, Multiplicative.toAdd.injective.eq_iff, h1, hbker, Subgroup.mem_subgroupOf]
 
+omit [Finite A] in
 theorem natFaith_eq_iff {B₀ C₀ : Subgroup A} (bc : A → (Fin 3 → ZMod 2))
     (hmul : ∀ x ∈ B₀, ∀ y ∈ B₀, bc (x * y) = bc x + bc y)
     (hker : ∀ x ∈ B₀, bc x = 0 ↔ x ∈ C₀) {x y : A} (hx : x ∈ B₀) (hy : y ∈ B₀) :
@@ -179,6 +185,7 @@ theorem natFaith_eq_iff {B₀ C₀ : Subgroup A} (bc : A → (Fin 3 → ZMod 2))
   rw [← hker _ (B₀.mul_mem hx (B₀.inv_mem hy)), hmul x hx y⁻¹ (B₀.inv_mem hy), hinv]
   exact add_neg_eq_zero.symm
 
+omit [Finite A] in
 theorem natFaith_conj_comm {X K Q W : Subgroup A} (hKX : K ≤ X)
     (hKnorm : X ≤ normalizer (K : Set A)) (hQnorm : X ≤ normalizer (Q : Set A))
     (hWcomm : ∀ w ∈ W, ∀ c ∈ K ⊓ Q, c * w = w * c)
@@ -204,6 +211,7 @@ theorem natFaith_conj_comm {X K Q W : Subgroup A} (hKX : K ≤ X)
   calc o * (k * u * k⁻¹) * o⁻¹ = o * (c * (k * u * k⁻¹) * c⁻¹) * o⁻¹ := by rw [h2]
     _ = o * c * (k * u * k⁻¹) * (o * c)⁻¹ := by group
 
+omit [Finite A] in
 theorem natFaith_trivial_action {X K B₀ C₀ W Q : Subgroup A} (hKX : K ≤ X)
     (hKnorm : X ≤ normalizer (K : Set A)) (hQnorm : X ≤ normalizer (Q : Set A))
     (hB₀X : X ≤ normalizer (B₀ : Set A)) (hC₀X : X ≤ normalizer (C₀ : Set A))
@@ -269,6 +277,7 @@ theorem natFaith_trivial_action {X K B₀ C₀ W Q : Subgroup A} (hKX : K ≤ X)
   rw [← hφ x hx]
   exact hid _
 
+omit [Finite A] in
 theorem natFaith_faithful {X K B₀ C₀ W Q : Subgroup A} (hKX : K ≤ X)
     (hKnorm : X ≤ normalizer (K : Set A)) (hQnorm : X ≤ normalizer (Q : Set A))
     (hQX : Q ≤ X)

@@ -41,7 +41,7 @@ theorem mem_fixSubgroup_congr (e : S ≃* P) (φ : MulAut S) (x : P) :
 theorem congr_conj (e : S ≃* P) (s : S) :
     MulAut.congr e (MulAut.conj s) = MulAut.conj (e s) := by
   ext x
-  simp [congr_apply', MulAut.conj_apply]
+  simp [MulAut.conj_apply]
 
 end Congr
 

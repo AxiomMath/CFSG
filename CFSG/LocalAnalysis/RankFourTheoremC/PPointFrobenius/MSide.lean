@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 theorem fr_P_le_M (hl : FrobLocal p P M x) : (P : Subgroup G) ≤ M :=
   CFSG.LocalAnalysis.RankFourTheoremC.sylow_le_of_core hl.loc
 
+omit [Finite G] in
 theorem fr_layer_normal_in_centralizer (x : G) :
     centralizer ({x} : Set G) ≤ normalizer ((layerOf x : Subgroup G) : Set G) := by
   rw [layerOf_eq]
@@ -41,6 +42,7 @@ theorem fr_layer_normal_in_centralizer (x : G) :
   rw [Subgroup.mem_normalizer_iff]
   exact fun y => ⟨key g hg' y, fun hy => by simpa [mul_assoc] using key g⁻¹ (inv_mem hg') _ hy⟩
 
+omit [Finite G] in
 theorem ms_isElemAbelian_mono {E F : Subgroup G} (hFE : F ≤ E)
     (hE : CFSG.Open.IsElemAbelian p E) : CFSG.Open.IsElemAbelian p F := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun x hx => hE.2 x (hFE hx)⟩
@@ -48,6 +50,7 @@ theorem ms_isElemAbelian_mono {E F : Subgroup G} (hFE : F ≤ E)
   have h2 := congrArg Subtype.val h
   exact h2
 
+omit [Finite G] in
 theorem ms_elemAbelian_class {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian p E) :
     CFSG.IsElementaryAbelian p E :=
   { toIsMulCommutative := hE.1
@@ -98,8 +101,8 @@ theorem fr_coprime_le [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M x
     {X : Subgroup G} (hX : Nat.Coprime p (Nat.card X))
     (hUX : frU P x ≤ normalizer (X : Set G)) : X ≤ M := by
   obtain ⟨n, hn3, -, -, hUel, hUcard⟩ := fr_layer_rank hG hl
-  letI : CFSG.IsElementaryAbelian p (frU P x) := ms_elemAbelian_class hUel
-  letI inst : MulDistribMulAction (frU P x) X :=
+  let : CFSG.IsElementaryAbelian p (frU P x) := ms_elemAbelian_class hUel
+  let inst : MulDistribMulAction (frU P x) X :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (frU P x) X hUX
   have hA2 : p ^ 2 ≤ Nat.card (frU P x) := by
     rw [hUcard]
@@ -190,6 +193,6 @@ theorem fr_lemmaQ [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M x)
     Y ≤ centralizer ((layerOf x : Subgroup G) : Set G) := by
   obtain ⟨n, hn, ⟨e⟩, -, -, hcard⟩ := fr_layer_sylow hG hl
   exact le_centralizer_of_coprime_of_psl2GF (by have := hl.p5; omega) hn e inf_le_right
-    (P.isPGroup'.to_inf_left) hcard hYL hUY hYp
+    (P.isPGroup.to_inf_left) hcard hYL hUY hYp
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PPointFrobenius

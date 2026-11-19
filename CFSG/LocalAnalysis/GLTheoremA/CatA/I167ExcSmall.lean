@@ -17,6 +17,7 @@ open CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheoremA.S10
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 private theorem card_pSimple_dvd_of_le_aux1 (p : ℕ) (J : Subgroup Ω) :
     Nat.card (PSimple p J) ∣ Nat.card (↥J ⧸ Subgroup.center ↥J) := by
   have hZker : Subgroup.center ↥J ≤ (chevQuotHom p J).ker := by
@@ -60,13 +61,13 @@ private theorem card_pSimple_dvd_of_le_aux3 {p : ℕ} {X J : Subgroup Ω} (hp : 
     refine ⟨inferInstance, ?_⟩
     rwa [Subgroup.card_top]
   have h1X : Nat.card (PSimple p X) = 1 := by
-    haveI : Subsingleton (PQuot p X) := by
+    have : Subsingleton (PQuot p X) := by
       change Subsingleton (↥X ⧸ GLAPPrimeCore p ↥X)
       rw [htopX]
       exact QuotientGroup.subsingleton_quotient_top
     exact Nat.card_of_subsingleton (1 : PSimple p X)
   have h1J : Nat.card (PSimple p J) = 1 := by
-    haveI : Subsingleton (PQuot p J) := by
+    have : Subsingleton (PQuot p J) := by
       change Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J)
       rw [htopJ]
       exact QuotientGroup.subsingleton_quotient_top
@@ -250,7 +251,7 @@ private theorem type167J_order_facts_aux12 {S : Type} [Group S] [Finite S] {n : 
   · omega
 
 private theorem type167J_order_facts_aux13 {S : Type} [Group S] [Finite S] {n : ℕ}
-    (hne : Even n) (hn6 : 6 ≤ n) (h : catalogIs S (isOmMA n 2)) :
+    (_hne : Even n) (hn6 : 6 ≤ n) (h : catalogIs S (isOmMA n 2)) :
     20160 < Nat.card S ∧ 3 ∣ Nat.card S ∧ 7 ∣ Nat.card S := by
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   rcases hi with h1 | ⟨hm, h2⟩
@@ -337,9 +338,9 @@ private theorem type167J_order_facts_aux17 {S : Type} [Group S] [Finite S] {k : 
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   rcases hi with h2a | ⟨hm, hq, hi⟩ | ⟨hm, hq, hi⟩ | ⟨hm, hq, hi⟩ | ⟨hm, hq, hi⟩
   · cases i with
-    | cyclic pp hpp => simp [onLie, isLnEps] at h2a
-    | alternating m hm => simp [onLie, isLnEps] at h2a
-    | sporadic s => simp [onLie, isLnEps] at h2a
+    | cyclic pp hpp => simp [onLie] at h2a
+    | alternating m hm => simp [onLie] at h2a
+    | sporadic s => simp [onLie] at h2a
     | lie idx =>
       obtain ⟨d, hv⟩ := idx
       cases d with

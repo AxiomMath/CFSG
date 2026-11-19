@@ -230,7 +230,7 @@ private lemma d3_r12 (p : ℕ) : (d3s1 p * d3s2 p) ^ 3 = 1 := by
   rw [h2]
   fin_cases i <;>
     simp [d3s1, MulAut.mul_apply, SpCoord.permAut_apply, SpCoord.sgnAut_apply,
-      Equiv.swap_apply_def, Function.update_apply, pow_succ, pow_two]
+      Equiv.swap_apply_def, pow_succ]
 
 private lemma d3_sq0 (p : ℕ) : d3s0 p * d3s0 p = 1 := by
   simpa [d3s0, pow_two] using SpCoord.permAut_swap_sq (p := p) (0:Fin 4) 1
@@ -270,8 +270,7 @@ private lemma negT_rev (p : ℕ) (a b : Fin 4) :
   refine MulEquiv.ext fun f => ?_
   funext i
   fin_cases a <;> fin_cases b <;> fin_cases i <;>
-    simp [sgn_inv, MulAut.mul_apply, SpCoord.permAut_apply, SpCoord.sgnAut_apply, negTrans_apply,
-      Equiv.swap_apply_def, Function.update_apply]
+    simp [sgn_inv, MulAut.mul_apply, SpCoord.permAut_apply, SpCoord.sgnAut_apply, Equiv.swap_apply_def]
 
 private lemma d3_neg02 (p : ℕ) :
     (SpCoord.sgnAut (p := p) (0:Fin 4) * SpCoord.permAut (p := p) (Equiv.swap (0:Fin 4) 2) *
@@ -281,7 +280,7 @@ private lemma d3_neg02 (p : ℕ) :
   funext i
   fin_cases i <;>
     simp [d3s1, d3s2, sgn_inv, MulAut.mul_apply, SpCoord.permAut_apply, SpCoord.sgnAut_apply,
-      negTrans_apply, Equiv.swap_apply_def, Function.update_apply]
+      Equiv.swap_apply_def]
 
 private lemma d3_neg12 (p : ℕ) :
     (SpCoord.sgnAut (p := p) (1:Fin 4) * SpCoord.permAut (p := p) (Equiv.swap (1:Fin 4) 2) *
@@ -293,9 +292,9 @@ private lemma d3_neg12 (p : ℕ) :
   funext i
   fin_cases i <;>
     simp [d3s0, sgn_inv, MulAut.mul_apply, SpCoord.permAut_apply, SpCoord.sgnAut_apply,
-      negTrans_apply, Equiv.swap_apply_def, Function.update_apply]
+      Equiv.swap_apply_def]
 
-theorem card_bCoordinateBlock_four_le {p : ℕ} (hp : p.Prime) :
+theorem card_bCoordinateBlock_four_le {p : ℕ} (_hp : p.Prime) :
     Nat.card ↥(bCoordinateBlock 4 p 3) ≤ 48 := by
   classical
   let f : Fin 3 → MulAut (V4 p) :=
@@ -340,7 +339,7 @@ theorem card_bCoordinateBlock_four_le {p : ℕ} (hp : p.Prime) :
             bCoordinateBlock 4 p 3
           rw [hφ2]
           exact Subgroup.subset_closure (Or.inl ⟨2, by decide, rfl⟩)
-    | one => simpa using Subgroup.one_mem (bCoordinateBlock 4 p 3)
+    | one => simp
     | mul x y hx hy ihx ihy =>
         rw [map_mul]
         exact Subgroup.mul_mem _ ihx ihy
@@ -407,7 +406,7 @@ theorem card_bCoordinateBlock_four_le {p : ℕ} (hp : p.Prime) :
         | (rw [permAut_swap_rev p]; exact ht12)
         | (rw [permAut_swap_rev p]; exact ht02)
   have hrange : φ.range = bCoordinateBlock 4 p 3 := le_antisymm hφ_le hle_range
-  haveI : Finite (CoxeterMatrix.B 3).Group := by
+  have : Finite (CoxeterMatrix.B 3).Group := by
     refine Nat.finite_of_card_ne_zero ?_
     have h := SpFrame.card_coxeterB_ge 3 (by norm_num)
     norm_num [Nat.factorial] at h
@@ -425,7 +424,7 @@ theorem card_bCoordinateBlock_four_le {p : ℕ} (hp : p.Prime) :
         norm_num [Nat.factorial] at h
         exact h
 
-theorem card_dCoordinateBlock_four_le {p : ℕ} (hp : p.Prime) :
+theorem card_dCoordinateBlock_four_le {p : ℕ} (_hp : p.Prime) :
     Nat.card ↥(dCoordinateBlock 4 p 3) ≤ 24 := by
   classical
   let f : Fin 3 → MulAut (V4 p) := ![d3s0 p, d3s1 p, d3s2 p]
@@ -470,7 +469,7 @@ theorem card_dCoordinateBlock_four_le {p : ℕ} (hp : p.Prime) :
             dCoordinateBlock 4 p 3
           rw [hφ2]
           exact Subgroup.subset_closure (Or.inr ⟨0, 1, by decide, by decide, by decide, rfl⟩)
-    | one => simpa using Subgroup.one_mem (dCoordinateBlock 4 p 3)
+    | one => simp
     | mul x y hx hy ihx ihy =>
         rw [map_mul]
         exact Subgroup.mul_mem _ ihx ihy
@@ -530,7 +529,7 @@ theorem card_dCoordinateBlock_four_le {p : ℕ} (hp : p.Prime) :
         | (rw [negT_rev]; exact hneg02)
         | (rw [negT_rev]; exact hneg12)
   have hrange : φ.range = dCoordinateBlock 4 p 3 := le_antisymm hφ_le hle_range
-  haveI : Finite (CoxeterMatrix.A 3).Group := by
+  have : Finite (CoxeterMatrix.A 3).Group := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [l05nK3a_card_coxeterA 3]
     norm_num
@@ -629,7 +628,7 @@ private lemma negT_ne_three_of_fix {p : ℕ} [Fact p.Prime] {a b : Fin 4} (hab :
     simp [e3, ha3] at hc
 
 private lemma not_sgnAut_of_mul_pow_three {p : ℕ} [Fact p.Prime] {u v : MulAut (V4 p)}
-    (hu : u ∈ bCoordinateBlock 4 p 3) (hv2 : v ^ 2 = 1)
+    (_hu : u ∈ bCoordinateBlock 4 p 3) (hv2 : v ^ 2 = 1)
     (hvsigned : SpCoord.IsSignedPerm ⇑v) (h3 : (u * v) ^ 3 = 1) (hne : u * v ≠ 1)
     (k : Fin 4) : u ≠ SpCoord.sgnAut (p := p) k := by
   intro hk
@@ -657,7 +656,7 @@ theorem le_dCoordinateBlock_of_coxeterA3 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
           f} * p = Nat.card (Fin 4 → Multiplicative (ZMod p))) :
     R ≤ dCoordinateBlock 4 p 3 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let r : Fin 3 → MulAut (V4 p) := fun i =>
     ((e ((CoxeterMatrix.A 3).simple i) : ↥R) : MulAut (V4 p))
   let nb : Fin 3 → Fin 3 := ![1, 0, 1]
@@ -734,7 +733,7 @@ theorem le_dCoordinateBlock_of_coxeterA3 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     | mem y hy =>
         obtain ⟨i, rfl⟩ := hy
         exact hr_dmem i
-    | one => simpa using Subgroup.one_mem (dCoordinateBlock 4 p 3)
+    | one => simp
     | mul u v hu hv ihu ihv =>
         have h : ((e (u * v) : ↥R) : MulAut (V4 p)) =
             ((e u : ↥R) : MulAut (V4 p)) * ((e v : ↥R) : MulAut (V4 p)) := by

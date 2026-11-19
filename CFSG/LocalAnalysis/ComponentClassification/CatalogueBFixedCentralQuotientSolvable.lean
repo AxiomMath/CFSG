@@ -117,7 +117,7 @@ theorem isSolvable_commonFixed_of_quotientFixed
         exact congrArg (fun q : ↥Q => (q : X ⧸ Z)) hx
       exact (QuotientGroup.eq_one_iff x.val).mp h1
     exact Subgroup.mem_center_iff.mp (hcentral hxZ) y.val
-  haveI : Group.IsSolvable ↥Q := hsolv
+  have : Group.IsSolvable ↥Q := hsolv
   exact Group.isSolvable_of_ker_le_range (Subgroup.center ↥C).subtype φ (by
     rw [Subgroup.range_subtype]
     exact hker)

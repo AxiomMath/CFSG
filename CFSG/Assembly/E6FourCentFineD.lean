@@ -69,8 +69,8 @@ theorem e6Four_D4_fine {L : Type} [Field L] [IsAlgClosed L] (S : LangSetup Tag.E
       rw [hre]; norm_num
     exact Nat.pow_right_injective (a := 2) (by norm_num) h2
   subst r; subst e
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP L 2 := hchar
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP L 2 := hchar
   have hq2 : S.D.q = 2 ^ 2 := by rw [hq]; norm_num
   have hnin : ¬ twistInner (componentRoots (rootCharHom a) i)
       ((S.ρ : (Fin Tag.E6.rank → ℤ) → _) ^[componentOrbitLength S.ρ

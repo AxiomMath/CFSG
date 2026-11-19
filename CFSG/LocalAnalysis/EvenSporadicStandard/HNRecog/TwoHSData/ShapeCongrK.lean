@@ -19,7 +19,7 @@ theorem IsPlusExtraspecial.map_mulEquiv {m : ℕ} {Γ Γ' : Type*} [Group Γ] [G
   refine ⟨TwoHSData.isExtraspecial_of_mulEquiv (TwoHSData.mapMulEquiv e D) hExt, ?_,
     E.map e.toMonoidHom, Subgroup.map_mono hED, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective e.injective, hcard]
-  · haveI : IsMulCommutative ↥E := hEel.1
+  · have : IsMulCommutative ↥E := hEel.1
     exact ⟨inferInstance, fun x hx => by
       obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
       rw [← map_pow, hEel.2 y hy, map_one]⟩
@@ -27,10 +27,10 @@ theorem IsPlusExtraspecial.map_mulEquiv {m : ℕ} {Γ Γ' : Type*} [Group Γ] [G
 
 theorem IsShapeK.of_mulEquiv (e : X ≃* X') (h : IsShapeK X) : IsShapeK X' := by
   obtain ⟨N, hNn, hNp, hNcard, ⟨hquot⟩, ⟨hcen⟩, Q, hQplus, hQsup, hQcard⟩ := h
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   let N' : Subgroup X' := N.map e.toMonoidHom
   let φ : N ≃* N' := TwoHSData.mapMulEquiv e N
-  haveI : N'.Normal := TwoHSData.instNormalMapMulEquiv e N
+  have : N'.Normal := TwoHSData.instNormalMapMulEquiv e N
   let Q' : Subgroup N' := Q.map φ.toMonoidHom
   have hmap_center : (Subgroup.center N).map φ.toMonoidHom = Subgroup.center N' := by
     apply le_antisymm

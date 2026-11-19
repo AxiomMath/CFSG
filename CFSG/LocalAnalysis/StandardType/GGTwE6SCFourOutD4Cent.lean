@@ -147,7 +147,7 @@ private theorem d4Cent_eq_six {ρ : ℕ} (hρ : ρ < 8)
     ρ = 6 := by
   have h1 := ncard_kernelRoots_triChar_filter (vec3 (τ := .E6) (e6ThreeReps.getD ρ []))
     (fun _ => True)
-  simp only [and_true, Set.setOf_mem_eq] at h1
+  simp only [and_true, Set.ofPred_mem_eq] at h1
   rw [h1] at h
   clear h1
   revert ρ
@@ -229,7 +229,7 @@ private theorem d4Cent_mem_torusGroup {L : Type} [Field L] [IsAlgClosed L]
     · exact CharP.ringChar_ne_one h1
     · omega
   have : NeZero (ℓ : L) := ⟨hℓL⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L ℓ
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L ℓ
   set ζ : Lˣ := (hζ₀.isUnit hℓ.ne_zero).unit
   have hζ : orderOf ζ = ℓ := (IsPrimitiveRoot.coe_units_iff.1 hζ₀).eq_orderOf.symm
   have hreg' : ∀ α : Fin Tag.E6.rank → ℤ, IsRoot Tag.E6 α →
@@ -283,7 +283,7 @@ theorem mem_torusGroup_of_commute_d4 {K : Type} [Field K] [Finite K] {σ : K ≃
   have hq : D.S.D.q = 2 ∨ 4 ≤ D.S.D.q := by
     have hp2 := D.hℓ.two_le
     have hp3 : ringChar K ≠ 3 := fun h3 => D.hL3 (by
-      haveI := D.hchar
+      have := D.hchar
       rw [← h3]
       exact CharP.cast_eq_zero _ _)
     rw [D.hSq]

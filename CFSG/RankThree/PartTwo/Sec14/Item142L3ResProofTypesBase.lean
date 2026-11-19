@@ -522,6 +522,7 @@ theorem thetaCA_eq_bot' (hC : IsPGroup 3 (fixA A L)) : thetaCA142 A (lB A) c = �
     Subgroup.eq_bot_of_card_eq _ (by rw [hk, hk0, pow_zero])
   rw [thetaCA142, ← hW, inSubgroup, hbot, Subgroup.map_bot]
 
+omit d [(ker142 A (lB A) c).Normal] in
 theorem sigmaOf_comm {a b : G} (haN : a ∈ Subgroup.normalizer (L : Set G))
     (hbN : b ∈ Subgroup.normalizer (L : Set G)) (hab : a * b = b * a) :
     sigmaOf L haN * sigmaOf L hbN = sigmaOf L hbN * sigmaOf L haN := by
@@ -534,23 +535,23 @@ theorem typesOne_of_list {Q : Subgroup G}
       (piCompl 3))
     (hlist : ∀ Y : Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L), ¬ 3 ∣ Nat.card Y →
       (∀ σ ∈ Sec4.autThetaQuot A L, Y.map σ.toMonoidHom ≤ Y) →
-      ∃ (a : G) (ha : a ∈ A) (haN : a ∈ Subgroup.normalizer (L : Set G)),
+      ∃ (a : G) (_ha : a ∈ A) (haN : a ∈ Subgroup.normalizer (L : Set G)),
         sigmaOf L haN ≠ 1 ∧
           Y ≤ inSubgroup (aschbacherSolvableCore 3) (Res5Types.fixSubgroup (sigmaOf L haN)))
     (hC : IsPGroup 3 (fixA A L)) :
-    ∃ (a : G) (ha : a ∈ A), alpha142 A (lB A) c a ha ≠ 1 ∧
+    ∃ (a : G) (_ha : a ∈ A), alpha142 A (lB A) c a _ha ≠ 1 ∧
       img142 A (lB A) c Q =
-        thetaC142 A (lB A) c (alpha142 A (lB A) c a ha) ⊔ thetaCA142 A (lB A) c := by
+        thetaC142 A (lB A) c (alpha142 A (lB A) c a _ha) ⊔ thetaCA142 A (lB A) c := by
   have hD := d.std.toSec13Data
   obtain ⟨hQL, hQ3, hQinv, hQmax⟩ := d.maximal_bar' hQ
-  obtain ⟨a, ha, haN, hσ1, hle⟩ := hlist _ hQ3 hQinv
+  obtain ⟨a, _ha, haN, hσ1, hle⟩ := hlist _ hQ3 hQinv
   set V := inSubgroup (aschbacherSolvableCore 3) (Res5Types.fixSubgroup (sigmaOf L haN)) with hV
   have hV3 : ¬ 3 ∣ Nat.card V :=
     CFSG.RankThree.PartOne.Vanish.not_dvd_card_inSubgroup_aschbacherSolvableCore Nat.prime_three _
   have hVinv : ∀ σ ∈ Sec4.autThetaQuot A L, V.map σ.toMonoidHom ≤ V := by
     intro σ hσ
     obtain ⟨b, hbN, hbA, rfl⟩ := Sec4.mem_autThetaQuot_iff.mp hσ
-    have hcomm := sigmaOf_comm d haN hbN (hD.commute ha hbA)
+    have hcomm := sigmaOf_comm haN hbN (hD.commute _ha hbA)
     have hfix : (Res5Types.fixSubgroup (sigmaOf L haN)).map (sigmaOf L hbN).toMonoidHom ≤
         Res5Types.fixSubgroup (sigmaOf L haN) := by
       rintro _ ⟨z, hz, rfl⟩
@@ -567,8 +568,8 @@ theorem typesOne_of_list {Q : Subgroup G}
         (f := (sigmaOf L hbN).toMonoidHom) (sigmaOf L hbN).injective).ge
     rw [heq]
   have hQV : V = d.bar (img142 A (lB A) c Q) := hQmax V hV3 hVinv hle
-  obtain ⟨hθL, hθbar⟩ := d.thetaC_bar' ha haN
-  refine ⟨a, ha, fun h1 => hσ1 (d.sigmaOf_eq_one_of_alpha ha haN h1), ?_⟩
+  obtain ⟨hθL, hθbar⟩ := d.thetaC_bar' _ha haN
+  refine ⟨a, _ha, fun h1 => hσ1 (d.sigmaOf_eq_one_of_alpha _ha haN h1), ?_⟩
   rw [d.thetaCA_eq_bot' hC, sup_bot_eq]
   exact d.bar_injective hQL hθL (by rw [hθbar, ← hV, hQV])
 

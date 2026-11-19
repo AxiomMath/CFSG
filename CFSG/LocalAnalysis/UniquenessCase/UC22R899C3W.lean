@@ -31,7 +31,7 @@ theorem uc22r899c3_exists_centralizesBar_sq {K : Subgroup G} {n p : ℕ}
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 K))).comp
       φ.range.subtype
   have hker : Nat.card ψ.ker ≤ p := by
-    haveI := P22y.isCyclic_range_inf_inner hX hp hp2 hexp φ
+    have := P22y.isCyclic_range_inf_inner hX hp hp2 hexp φ
     have hle : ψ.ker.map φ.range.subtype ≤
         φ.range ⊓ (MulAut.conj : Bar2 K →* MulAut (Bar2 K)).range := by
       rintro _ ⟨y, hy, rfl⟩
@@ -45,7 +45,7 @@ theorem uc22r899c3_exists_centralizesBar_sq {K : Subgroup G} {n p : ℕ}
     rintro ⟨x, hx, -⟩
     exact Subtype.ext (by rw [Subgroup.coe_pow, hrpow x hx]; rfl)
   have hran : Nat.card ψ.range ≤ p := by
-    haveI := P22y.isCyclic_outer_of_isL2Ev hX
+    have := P22y.isCyclic_outer_of_isL2Ev hX
     refine hcyc _ ?_
     rintro ⟨_, y, rfl⟩
     exact Subtype.ext (by
@@ -66,6 +66,7 @@ theorem uc22r899c3_exists_centralizesBar_sq {K : Subgroup G} {n p : ℕ}
       mul_comm (p ^ 2)]
     exact Nat.mul_le_mul_left _ hrange
 
+omit [Finite G] in
 theorem uc22r899c3_comm_mem_pCoreOf_map_conj {M K : Subgroup G} {c g : G} (hgM : g ∈ M)
     (hcg : g * c = c * g) (h : ∀ k ∈ K, c * k * c⁻¹ * k⁻¹ ∈ pCoreOf 2 M) :
     ∀ k ∈ K.map (MulAut.conj g).toMonoidHom, c * k * c⁻¹ * k⁻¹ ∈ pCoreOf 2 M := by

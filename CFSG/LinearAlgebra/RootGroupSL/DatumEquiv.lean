@@ -40,7 +40,7 @@ private lemma rootNegElt_apply {X : Type} [AddCommGroup X] [Module k X] [Module.
 
 @[expose] def datumElt (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, π (ι t) = 0) (t : E) :
     SpecialLinearGroup k V :=
-  ⟨LinearEquiv.ofLinear (LinearMap.id + ι ∘ₗ (LinearMap.mulLeft k t) ∘ₗ π)
+  ⟨LinearEquiv.ofLinearMap (LinearMap.id + ι ∘ₗ (LinearMap.mulLeft k t) ∘ₗ π)
     (LinearMap.id - ι ∘ₗ (LinearMap.mulLeft k t) ∘ₗ π)
     (by
       ext v
@@ -65,10 +65,12 @@ private lemma rootNegElt_apply {X : Type} [AddCommGroup X] [Module k X] [Module.
         simp
       exact det_one_add_of_sq_eq_zero (ι ∘ₗ (LinearMap.mulLeft k t) ∘ₗ π) hNN⟩
 
+omit [Module.Finite k E] in
 theorem datumElt_apply (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, π (ι t) = 0) (t : E) (v : V) :
     (datumElt ι π h t : V ≃ₗ[k] V) v = v + ι (t * π v) := by
   rfl
 
+omit [Module.Finite k E] in
 theorem datumElt_add (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, π (ι t) = 0) (s t : E) :
     datumElt ι π h (s + t) = datumElt ι π h s * datumElt ι π h t := by
   apply SpecialLinearGroup.ext
@@ -79,6 +81,7 @@ theorem datumElt_add (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, π (�
   rw [add_mul, map_add]
   abel
 
+omit [Module.Finite k E] in
 theorem datumElt_zero (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, π (ι t) = 0) :
     datumElt ι π h 0 = 1 := by
   apply SpecialLinearGroup.ext
@@ -90,6 +93,7 @@ theorem datumElt_zero (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, π (
     Subgroup (SpecialLinearGroup k V) :=
   Subgroup.closure (Set.range (datumElt ι π h))
 
+omit [Module.Finite k E] in
 theorem mem_datumRoot_iff (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, π (ι t) = 0)
     {g : SpecialLinearGroup k V} : g ∈ datumRoot ι π h ↔ ∃ t, datumElt ι π h t = g := by
   let φ : Multiplicative E →* SpecialLinearGroup k V :=
@@ -116,13 +120,15 @@ theorem mem_datumRoot_iff (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, 
     (h4 : ∀ t, π₁ (ι₁ t) = 0) : Subgroup (SpecialLinearGroup k V) :=
   Subgroup.closure (Set.range (datumElt ι π h1) ∪ Set.range (datumElt ι₁ π₁ h4))
 
+omit [Module.Finite k E] in
 theorem datumRoot_le_datumJ0 (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E) (h1 : ∀ t, π (ι t) = 0)
     (h4 : ∀ t, π₁ (ι₁ t) = 0) : datumRoot ι π h1 ≤ datumJ0 ι ι₁ π π₁ h1 h4 :=
   Subgroup.closure_mono Set.subset_union_left
 
+omit [Module.Finite k E] in
 theorem isPGroup_datumRoot [CharP k 2] (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
     (h : ∀ t, π (ι t) = 0) : IsPGroup 2 (datumRoot ι π h) := by
-  haveI : CharP E 2 := charP_of_injective_algebraMap (algebraMap k E).injective 2
+  have : CharP E 2 := charP_of_injective_algebraMap (algebraMap k E).injective 2
   intro g
   obtain ⟨t, ht⟩ := (mem_datumRoot_iff ι π h).mp g.2
   refine ⟨1, ?_⟩
@@ -136,6 +142,7 @@ theorem isPGroup_datumRoot [CharP k 2] (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
   rw [← ht, pow_two]
   exact hsq
 
+omit [Module.Finite k E] in
 theorem datumRoot_ne_bot (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, π (ι t) = 0)
     (hι : Function.Injective ι) (hπ : π ≠ 0) : datumRoot ι π h ≠ ⊥ := by
   intro hbot
@@ -160,8 +167,7 @@ theorem datumRoot_ne_bot (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, �
       rw [h1]
       rfl
     rw [datumElt_apply] at happ
-    simp only [LinearMap.mulLeft_apply, one_mul, LinearEquiv.coe_one, LinearMap.id_coe,
-      id_eq] at happ
+    simp only [one_mul, LinearEquiv.coe_one, id_eq] at happ
     apply hιπ
     have h0 : v + ι (π v) = v + 0 := by simpa using happ
     exact add_left_cancel h0
@@ -170,6 +176,7 @@ theorem datumRoot_ne_bot (ι : E →ₗ[k] V) (π : V →ₗ[k] E) (h : ∀ t, �
 private def datumX (π π₁ : V →ₗ[k] E) : Submodule k V :=
   LinearMap.ker π ⊓ LinearMap.ker π₁
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma mem_datumX {π π₁ : V →ₗ[k] E} {v : V} :
     v ∈ datumX π π₁ ↔ π v = 0 ∧ π₁ v = 0 := by
   rw [datumX, Submodule.mem_inf, LinearMap.mem_ker, LinearMap.mem_ker]
@@ -177,6 +184,7 @@ private lemma mem_datumX {π π₁ : V →ₗ[k] E} {v : V} :
 private def datumMidV (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E) : V →ₗ[k] V :=
   LinearMap.id - ι ∘ₗ π₁ - ι₁ ∘ₗ π
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumMidV_mem (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0) (v : V) :
@@ -211,6 +219,7 @@ private def datumG (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E) :
     + (ι₁ ∘ₗ (LinearMap.snd k ↥(datumX π π₁) E ∘ₗ
         LinearMap.snd k E (↥(datumX π π₁) × E)))
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumF_apply (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0) (v : V) :
@@ -218,17 +227,20 @@ private lemma datumF_apply (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
       = (π₁ v, datumMid ι ι₁ π π₁ h1 h2 h3 h4 v, π v) :=
   rfl
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumG_apply (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (a : E) (x : ↥(datumX π π₁)) (b : E) :
     datumG ι ι₁ π π₁ (a, x, b) = ι a + (x : V) + ι₁ b :=
   rfl
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumMid_apply (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0) (v : V) :
     (datumMid ι ι₁ π π₁ h1 h2 h3 h4 v : V) = datumMidV ι ι₁ π π₁ v :=
   rfl
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma pi_datumG (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (a : E) (x : ↥(datumX π π₁)) (b : E) :
@@ -238,6 +250,7 @@ private lemma pi_datumG (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
   rw [map_add, map_add, h1 a, hx, h2 b]
   abel
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma pi1_datumG (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0)
     (a : E) (x : ↥(datumX π π₁)) (b : E) :
@@ -247,6 +260,7 @@ private lemma pi1_datumG (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
   rw [map_add, map_add, h3 a, hx, h4 b]
   abel
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumG_comp_datumF (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0) :
@@ -258,6 +272,7 @@ private lemma datumG_comp_datumF (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ
   simp only [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.id_apply]
   abel
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumMid_datumG (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0)
@@ -268,6 +283,7 @@ private lemma datumMid_datumG (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k]
   rw [pi1_datumG ι ι₁ π π₁ h3 h4, pi_datumG ι ι₁ π π₁ h1 h2, datumG_apply]
   abel
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumMid_datumG_add_iota (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0)
@@ -280,9 +296,10 @@ private lemma datumMid_datumG_add_iota (ι ι₁ : E →ₗ[k] V) (π π₁ : V 
   have hx2 : π (datumG ι ι₁ π π₁ (a, x, b) + ι s) = b := by
     rw [map_add, pi_datumG ι ι₁ π π₁ h1 h2, h1, add_zero]
   rw [hx1, hx2, datumG_apply]
-  simp only [map_add, add_zero, zero_add, sub_zero]
+  simp only [map_add]
   abel
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumMid_datumG_add_iota₁ (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0)
@@ -295,9 +312,10 @@ private lemma datumMid_datumG_add_iota₁ (ι ι₁ : E →ₗ[k] V) (π π₁ :
   have hx2 : π (datumG ι ι₁ π π₁ (a, x, b) + ι₁ s) = b + s := by
     rw [map_add, pi_datumG ι ι₁ π π₁ h1 h2, h2]
   rw [hx1, hx2, datumG_apply]
-  simp only [map_add, add_zero, zero_add, sub_zero]
+  simp only [map_add]
   abel
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumF_comp_datumG (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0) :
@@ -320,6 +338,7 @@ private noncomputable def datumL (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ
     (datumF_comp_datumG ι ι₁ π π₁ h1 h2 h3 h4)
     (datumG_comp_datumF ι ι₁ π π₁ h1 h2 h3 h4)
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumL_apply (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0) (v : V) :
@@ -327,6 +346,7 @@ private lemma datumL_apply (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
       = (π₁ v, datumMid ι ι₁ π π₁ h1 h2 h3 h4 v, π v) :=
   rfl
 
+omit [Module.Finite k V] [Module.Finite k E] in
 private lemma datumL_symm_apply (ι ι₁ : E →ₗ[k] V) (π π₁ : V →ₗ[k] E)
     (h1 : ∀ t, π (ι t) = 0) (h2 : ∀ t, π (ι₁ t) = t)
     (h3 : ∀ t, π₁ (ι t) = t) (h4 : ∀ t, π₁ (ι₁ t) = 0)

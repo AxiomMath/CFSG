@@ -11,6 +11,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Stroth43C
 
+omit [Finite G] in
 theorem zab_ne_one {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t100 m)) :
     (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m ≠ 1 := by
   intro h1
@@ -26,6 +27,7 @@ theorem zab_ne_one {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t100 
   exact absurd (Nat.le_of_dvd (by positivity) h3)
     (by rw [pow_succ]; exact not_le.2 (by have := Nat.one_le_two_pow (n := m); omega))
 
+omit [Finite G] in
 theorem u_mul_c {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t100 m)) :
     dD.u * (dD.c : G) = (dD.c : G) * dD.u := by
   have h := dD.conj_ofTorus dD.u_mem dD.u_conj Torus.c
@@ -35,6 +37,7 @@ theorem u_mul_c {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t100 m))
     _ = (dD.c : G) * dD.u := by group
 
 
+omit [Finite G] in
 theorem exists_conj_mem_of_isConj {S Du X : Subgroup G} {v z za : G}
     (hsyl : ∀ Q : Subgroup G, IsPGroup 2 Q → Q ≤ Subgroup.centralizer {z} →
       ∃ k ∈ Subgroup.centralizer {z}, ∀ q ∈ Q, k⁻¹ * q * k ∈ S)
@@ -76,6 +79,7 @@ theorem exists_conj_mem_of_isConj {S Du X : Subgroup G} {v z za : G}
       _ = 1 := by rw [hx2]; group
   · exact (Stroth42.isConj_of_conj_eq (g := c⁻¹ * k) rfl).trans hxza
 
+omit [Finite G] in
 theorem not_isConj_of_e8 {S Du F₁ : Subgroup G} {r z za : G}
     (hsyl : ∀ Q : Subgroup G, IsPGroup 2 Q → Q ≤ Subgroup.centralizer {z} →
       ∃ k ∈ Subgroup.centralizer {z}, ∀ q ∈ Q, k⁻¹ * q * k ∈ S)
@@ -104,6 +108,7 @@ theorem not_isConj_of_e8 {S Du F₁ : Subgroup G} {r z za : G}
   have hf1 : f ≠ 1 := by rintro rfl; apply hz1; rw [← hfz]; group
   exact hza ((Stroth42.isConj_of_conj_eq hfz).trans (hFza f hf hf1))
 
+omit [Finite G] in
 theorem false_of_dihedral {S Du : Subgroup G} {r s v z za : G} {m : ℕ}
     (hsyl : ∀ Q : Subgroup G, IsPGroup 2 Q → Q ≤ Subgroup.centralizer {z} →
       ∃ k ∈ Subgroup.centralizer {z}, ∀ q ∈ Q, k⁻¹ * q * k ∈ S)
@@ -160,7 +165,7 @@ theorem not_isConj_of_chain [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b
         calc r = g * (g⁻¹ * r * g) * g⁻¹ := by group
           _ = 1 := by rw [h']; group),
       (Stroth42.isConj_of_conj_eq rfl).symm⟩
-  obtain ⟨g₁, hg₁⟩ := EvenSporadicStandard.exists_conj_mem_complement hnonab S.isPGroup'
+  obtain ⟨g₁, hg₁⟩ := EvenSporadicStandard.exists_conj_mem_complement hnonab S.isPGroup
     S.not_dvd_index hUS hU hrS hrU hro
   obtain ⟨hr'2, hr'1, hrr'⟩ := hinv g₁
   have hr3 : IsConj r za ∨ IsConj r e := by
@@ -176,7 +181,7 @@ theorem not_isConj_of_chain [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b
     rcases hr3 with h' | hre
     · exact h'
     · by_contra hrza
-      obtain ⟨g₂, hg₂⟩ := EvenSporadicStandard.exists_conj_mem_complement hnonab S.isPGroup'
+      obtain ⟨g₂, hg₂⟩ := EvenSporadicStandard.exists_conj_mem_complement hnonab S.isPGroup
         S.not_dvd_index hU₂S hU₂ hrS hrU₂ hro
       obtain ⟨hr''2, hr''1, hrr''⟩ := hinv g₂
       have hrce : IsConj r ce := by
@@ -279,8 +284,8 @@ theorem StrothFrame.IsD.false_of_t100_iii {F : StrothFrame G} {D : Subgroup G} {
       ((dD.c : G) * dD.a * dD.uv * ((dD.c : G) ^ 2 ^ (m - 1) * dD.u)) ^ 2 ^ (m + 1) ≠ 1) :
     False := by
   classical
-  haveI := F.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := F.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnonab := Stroth42.frame_exists_mul_ne F
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set U := Subgroup.closure {(dD.c : G) ^ 2, (dD.a : G), (dD.b : G), dD.uv, dD.t, dD.u, e}
@@ -533,7 +538,7 @@ theorem StrothFrame.IsD.false_of_t100_iii {F : StrothFrame G} {D : Subgroup G} {
     exact h0.trans (Stroth42.isConj_of_conj_eq hrta).symm
   have hM' : IsConj r za → IsConj z e → False := fun hrza hze' =>
     Stroth43C.false_of_dihedral (m := m) hsyl hinDu
-      (F.S.isPGroup'.to_le (by
+      (F.S.isPGroup.to_le (by
         rw [Subgroup.closure_le]
         rintro _ (rfl | rfl)
         exacts [hrS, hzuS]))

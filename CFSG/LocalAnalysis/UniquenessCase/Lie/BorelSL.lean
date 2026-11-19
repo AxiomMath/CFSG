@@ -17,7 +17,7 @@ variable {k : Type} [Field k] [Finite k]
 
 theorem uc22pwlie_exists_zeta {p : ℕ} (hp : p.Prime) (hpk : p ∣ Nat.card k - 1) :
     ∃ ζ : kˣ, orderOf ζ = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card kˣ = Nat.card k - 1 := by
     rw [Nat.card_units]
   rw [← hcard] at hpk
@@ -45,6 +45,7 @@ variable {k : Type} [Field k] [Finite k]
     rw [← h2, h1]
     simp⟩
 
+omit [Finite k] in
 theorem uc22pwlie_diagSL_coe (μ : Subgroup kˣ) (m : ℕ) (g : (uc22pwlie_prodHom μ m).ker) :
     ((uc22pwlie_diagSL μ m g : SpecialLinearGroup (Fin m) k) : Matrix (Fin m) (Fin m) k) =
       Matrix.diagonal (fun i => (((g.1 i : μ) : kˣ) : k)) := rfl
@@ -64,10 +65,12 @@ theorem uc22pwlie_diagSL_coe (μ : Subgroup kˣ) (m : ℕ) (g : (uc22pwlie_prodH
       Matrix.diagonal_mul_diagonal]
     simp [Matrix.diagonal_apply]
 
+omit [Finite k] in
 theorem uc22pwlie_diagHom_coe (μ : Subgroup kˣ) (m : ℕ) (g : (uc22pwlie_prodHom μ m).ker) :
     ((uc22pwlie_diagHom μ m g : SpecialLinearGroup (Fin m) k) : Matrix (Fin m) (Fin m) k) =
       Matrix.diagonal (fun i => (((g.1 i : μ) : kˣ) : k)) := rfl
 
+omit [Finite k] in
 theorem uc22pwlie_diag_const {μ : Subgroup kˣ} {m : ℕ} {g : (uc22pwlie_prodHom μ m).ker}
     (hg : uc22pwlie_diagHom μ m g ∈ scalars m k) (i j : Fin m) : g.1 i = g.1 j := by
   obtain ⟨c, -, hc⟩ := hg
@@ -77,6 +80,7 @@ theorem uc22pwlie_diag_const {μ : Subgroup kˣ} {m : ℕ} {g : (uc22pwlie_prodH
   simp only [Matrix.diagonal_apply_eq, Matrix.scalar_apply] at hi hj
   exact Subtype.ext (Units.ext (hi.trans hj.symm))
 
+omit [Finite k] in
 theorem uc22pwlie_prodHom_surjective (μ : Subgroup kˣ) {m : ℕ} (hm : 1 ≤ m) :
     Function.Surjective (uc22pwlie_prodHom μ m) := by
   intro z
@@ -88,6 +92,7 @@ theorem uc22pwlie_prodHom_surjective (μ : Subgroup kˣ) {m : ℕ} (hm : 1 ≤ m
     simp [Pi.mulSingle_eq_of_ne hb]
   · simp
 
+omit [Finite k] in
 theorem uc22pwlie_card_ker_prod_mul (μ : Subgroup kˣ) {m : ℕ} (hm : 1 ≤ m) :
     Nat.card (uc22pwlie_prodHom μ m).ker * Nat.card μ = Nat.card μ ^ m := by
   rw [Subgroup.card_ker_mul_card_of_surjective (uc22pwlie_prodHom_surjective μ hm)]
@@ -108,6 +113,7 @@ theorem uc22pwlie_range_isElemAbelian {A X : Type} [CommGroup A] [Group X] (ψ :
   · rintro _ ⟨a, rfl⟩
     rw [← map_pow, h a, map_one]
 
+omit [Finite k] in
 theorem uc22pwlie_ker_pow {μ : Subgroup kˣ} {p : ℕ} (hμ : ∀ x : μ, x ^ p = 1) (m : ℕ)
     (a : (uc22pwlie_prodHom μ m).ker) : a ^ p = 1 :=
   Subtype.ext (funext fun i => hμ (a.1 i))
@@ -146,6 +152,7 @@ theorem uc22pwlie_card_range_ge {m : ℕ} (hm : 2 ≤ m) {μ : Subgroup kˣ} {p 
       _ = Nat.card (α.comp (uc22pwlie_diagHom μ m)).range * p ^ 2 := by ring
   exact Nat.le_of_mul_le_mul_right h4 (by positivity)
 
+omit [Finite k] in
 theorem uc22pwlie_range_le_normalizer (μ : Subgroup kˣ) (m : ℕ) {X : Type} [Group X]
     (α : SpecialLinearGroup (Fin m) k →* X) :
     (α.comp (uc22pwlie_diagHom μ m)).range ≤
@@ -166,7 +173,7 @@ theorem uc22pwlie_borelWit_of_sylow {X : Type} [Group X] [Finite X] {p k : ℕ} 
     (F₀ : Subgroup X) (hN : F₀ ≤ normalizer (P₀ : Set X)) (hF : IsElemAbelian p F₀)
     (hc : Nat.card F₀ = p ^ k) : uc22p20oBorelWit X p k := by
   intro P
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X P₀ P
   refine ⟨F₀.map (MulAut.conj g : X →* X), ?_, uc22p20d_isElemAbelian_map _ (MulAut.conj g).injective hF, ?_⟩
   · have h1 : (P : Subgroup X) = (P₀ : Subgroup X).map (MulAut.conj g : X →* X) := by
@@ -187,8 +194,8 @@ theorem uc22pwlie_borelWit_of_cover {m : ℕ} (hm : 2 ≤ m) {k : Type} [Field k
     (hp : p.Prime) (hpk : p ∣ Nat.card k - 1) {X : Type} [Group X] [Finite X]
     (α : SpecialLinearGroup (Fin m) k →* X) (hα : Function.Surjective α)
     (hαc : α.ker ≤ Subgroup.center (SpecialLinearGroup (Fin m) k)) : uc22p20oBorelWit X p (m - 2) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ζ, hζ⟩ := uc22pwlie_exists_zeta hp hpk
   have hcard : Nat.card (Subgroup.zpowers ζ) = p := by rw [Nat.card_zpowers, hζ]
   have hμ : ∀ x : Subgroup.zpowers ζ, x ^ p = 1 := fun x => by
@@ -217,7 +224,7 @@ theorem uc22pwlie_borelWit_of_lieModel {K : Type} [Group K] [Finite K] (hq : CFS
     {m n : ℕ} (hm : 3 ≤ m) (hn : 2 < n) (h : LieModel (K ⧸ Subgroup.center K) .PSL m 2 n) {p : ℕ}
     (hp : p.Prime) (hpn : p ∣ 2 ^ n - 1) : uc22p20oBorelWit K p (m - 2) := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := LinearCover.exists_mulEquiv_projectiveSL_of_lieModel h
-  haveI : CharP F 2 := uc22pwlie_charP_two (n := n) hF
+  have : CharP F 2 := uc22pwlie_charP_two (n := n) hF
   obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
   have hk : 5 ≤ Nat.card F := by
     rw [hF]

@@ -17,23 +17,23 @@ theorem XHyp.concl_of_layer_eq_bot [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t�
   classical
   let F : Subgroup X := fittingSubgroup X
   have hFnormal : F.Normal := fittingSubgroup_normal
-  haveI : F.Normal := hFnormal
+  have : F.Normal := hFnormal
   have hFnil : Group.IsNilpotent F := inferInstance
   have hgen : generalizedFitting X = F := by
     rw [generalizedFitting.eq_sup, hE, sup_bot_eq]
   have hbender : Subgroup.centralizer (F : Set X) ≤ F := by
     have hb := CFSG.centralizer_generalizedFitting_le X
     rwa [hgen] at hb
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [h.card_V]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [h.card_V]; norm_num)
   have hnotdvd : ¬ 2 ∣ Nat.card F := by
     obtain ⟨P⟩ : Nonempty (Sylow 2 F) := inferInstance
     have hPnorm : (P : Subgroup F).Normal :=
       Group.IsNilpotent.sylow_normal hFnil 2 P
     have hPchar : (P : Subgroup F).Characteristic :=
       Sylow.characteristic_of_normal P hPnorm
-    haveI : (P : Subgroup F).Characteristic := hPchar
+    have : (P : Subgroup F).Characteristic := hPchar
     have hmap_normal : (P.map F.subtype).Normal := inferInstance
-    have hmapP : IsPGroup 2 (P.map F.subtype) := P.isPGroup'.map F.subtype
+    have hmapP : IsPGroup 2 (P.map F.subtype) := P.isPGroup.map F.subtype
     have hPmap_bot : P.map F.subtype = ⊥ := h.eq_bot_of_isPGroup hX hmap_normal hmapP
     have hPbot : (P : Subgroup F) = ⊥ := by
       rw [eq_bot_iff]

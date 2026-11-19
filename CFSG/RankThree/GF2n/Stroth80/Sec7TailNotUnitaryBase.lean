@@ -197,7 +197,7 @@ theorem Ctx.yNn {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     (hF : generalizedFitting ↥(bar M Q (NormH0 M Z Z0)) =
       (bar M Q (hc.CN t)).subgroupOf (bar M Q (NormH0 M Z Z0)))
     (hNK : bar M Q (hc.CN t) ≤ bar M Q (NormH0 M Z Z0))
-    (hKH : bar M Q (NormH0 M Z Z0) ≤ bar M Q (H0 M Z)) :
+    (_hKH : bar M Q (NormH0 M Z Z0) ≤ bar M Q (H0 M Z)) :
     ∀ k ∈ (bar M Q (NormH0 M Z Z0)).subgroupOf (bar M Q (H0 M Z)),
       k ∈ Subgroup.normalizer
         (((bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z)) :

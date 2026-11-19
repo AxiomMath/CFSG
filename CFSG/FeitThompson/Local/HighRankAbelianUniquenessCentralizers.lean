@@ -108,7 +108,7 @@ theorem isUniqueMaximalOvergroup_conj_smul_of_three_le_elementaryAbelianPRank_ce
     hPnc (isCyclic_of_surjective
       (Subgroup.topEquiv : (⊤ : Subgroup ↥(P : Subgroup G)) ≃* _) Subgroup.topEquiv.surjective)
   obtain ⟨D₀, -, hD₀norm, hD₀⟩ := exists_normal_le_mulEquiv_pi_of_not_isCyclic hp hpodd
-    P.isPGroup' (⊤ : Subgroup ↥(P : Subgroup G)) hPtopnc
+    P.isPGroup (⊤ : Subgroup ↥(P : Subgroup G)) hPtopnc
   set D : Subgroup G := Subgroup.map (P : Subgroup G).subtype D₀ with hDdef
   have hD : Nonempty (↥D ≃* Multiplicative (Fin 2 → ZMod p)) := by
     obtain ⟨e⟩ := hD₀

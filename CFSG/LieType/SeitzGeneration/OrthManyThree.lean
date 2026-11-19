@@ -56,6 +56,7 @@ section Small
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {E : Subgroup (orthDerived Q)} {P : Submodule K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem manyThree_exists_move_of_closure {x y : E} (hcl : Subgroup.closure ({x, y} : Set E) = ⊤)
     (hP : IsPiece Q E P) :
     (∃ u ∈ P, ((x : orthDerived Q) : V ≃ₗ[K] V) u ≠ u) ∨
@@ -77,6 +78,7 @@ theorem manyThree_exists_move_of_closure {x y : E} (hcl : Subgroup.closure ({x, 
   have hPP : Disjoint P P := hP.disjoint.mono_right hPle
   exact hP.ne_bot (disjoint_self.mp hPP)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem manyThree_tau_eq_neg_one {g : V ≃ₗ[K] V} (hg3 : g ^ 3 = 1) {τ : K} {u : V} (hu : u ≠ 0)
     (hrel : g (g u) = τ • g u - u) (hnoroot : ∀ r : K, r ^ 2 - τ * r + 1 ≠ 0) : τ = -1 := by
   have h3 : g (g (g u)) = u := by
@@ -91,6 +93,7 @@ theorem manyThree_tau_eq_neg_one {g : V ≃ₗ[K] V} (hg3 : g ^ 3 = 1) {τ : K} 
   have := (LinearIndependent.pair_iff.mp hli _ _ key).1
   linear_combination this
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem manyThree_rel_of_order_three {g : V ≃ₗ[K] V} (hg3 : g ^ 3 = 1) {S : Submodule K V}
     (hst : ∀ u ∈ S, g u ∈ S) (hfix : ∀ u ∈ S, g u = u → u = 0) :
     ∀ u ∈ S, g (g u) = (-1 : K) • g u - u := by
@@ -119,7 +122,7 @@ theorem closure_eq_top_of_noSingular_two_three {K V : Type} [Field K] [Finite K]
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Nontrivial V := nontrivial_of_three_singular hT
+  have : Nontrivial V := nontrivial_of_three_singular hT
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, hPP, hPV, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS
@@ -322,8 +325,8 @@ theorem manyThree_not_three_dvd_card {K : Type} [Field K] [Finite K] (hpl : 3 �
     ¬ 3 ∣ Nat.card K := by
   classical
   intro h3
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
   obtain ⟨n, -, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard] at h3
   exact hpl ((Nat.prime_dvd_prime_iff_eq Nat.prime_three Fact.out).mp
@@ -337,7 +340,7 @@ theorem orthMasterNoSingularThree {K V : Type} [Field K] [Finite K] [AddCommGrou
     (hcard : Nat.card E = 3 ^ 2) (hNS : OrthNoInvariantSingular Q E) :
     Subgroup.closure {h : orthDerived Q | ∃ x ∈ E, x ≠ 1 ∧ h * x = x * h} = ⊤ := by
   obtain ⟨he2, -⟩ := noSingular_ord hQ Nat.prime_three (by norm_num) hpl E hcomm hexp hcard hNS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : ((Nat.card K : ℕ) : ZMod 3) ≠ 0 := fun h0 =>
     manyThree_not_three_dvd_card hpl ((ZMod.natCast_eq_zero_iff _ _).mp h0)
   have hle : orderOf ((Nat.card K : ℕ) : ZMod 3) ≤ 2 :=

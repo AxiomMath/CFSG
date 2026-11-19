@@ -197,7 +197,7 @@ end CentHyp
 theorem false_of_cycThree_mem {K : Type} [Field K] [Finite K] {H : Subgroup (GL (Fin 3) K)}
     (hdet : ∀ h ∈ H, (h : Matrix (Fin 3) (Fin 3) K).det = 1)
     (hcyc : CFSG.RankThree.PartTwo.Sec4.cycThree ∈ H) (hC : CentHyp (StatedProj H)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let cycH : H := ⟨CFSG.RankThree.PartTwo.Sec4.cycThree, hcyc⟩
   have hcyc3 : (cycH : GL (Fin 3) K) ^ 3 = 1 := by
     change (CFSG.RankThree.PartTwo.Sec4.cycThree : GL (Fin 3) K) ^ 3 = 1

@@ -83,9 +83,9 @@ theorem map_L_phiA : (c.L.subgroupOf D.M).map F.phiA = alternatingGroup (Fin 10)
     simp at hcard
   have hDleA : H ≤ alternatingGroup (Fin 10) := map_L_phiA_le_alternatingGroup F
   have hDnormal : (H.subgroupOf (alternatingGroup (Fin 10))).Normal := map_L_phiA_normal F
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
-  haveI : (H.subgroupOf (alternatingGroup (Fin 10))).Normal := hDnormal
+  have : (H.subgroupOf (alternatingGroup (Fin 10))).Normal := hDnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (H.subgroupOf (alternatingGroup (Fin 10))) with
     h | h
   · exfalso
@@ -94,7 +94,7 @@ theorem map_L_phiA : (c.L.subgroupOf D.M).map F.phiA = alternatingGroup (Fin 10)
     rwa [Subgroup.map_bot, Subgroup.map_subgroupOf_eq_of_le hDleA] at hmap
   · rw [← Subgroup.map_subgroupOf_eq_of_le hDleA, h, Subgroup.map_top, Subgroup.range_subtype]
 
-theorem exists_map_le_kleinV {S : Subgroup G} (hSM : S ≤ D.M) (hS : IsPGroup 2 S)
+theorem exists_map_le_kleinV {S : Subgroup G} (_hSM : S ≤ D.M) (hS : IsPGroup 2 S)
     (hAS : F.A ≤ Subgroup.normalizer (S : Set G)) :
     ∃ k : Fin 3, (S.subgroupOf D.M).map F.phiA ≤ A10Perm.kleinV k := by
   classical
@@ -103,7 +103,7 @@ theorem exists_map_le_kleinV {S : Subgroup G} (hSM : S ≤ D.M) (hS : IsPGroup 2
     exact hS.comap_subtype (K := D.M)
   have hW2 : IsPGroup 2 ((S.subgroupOf D.M).map F.phiA) := hSx2.map F.phiA
   have hcop : Nat.Coprime (Nat.card ((S.subgroupOf D.M).map F.phiA)) 3 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (Nat.prime_three.coprime_iff_not_dvd.mpr
       (CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := 3) hW2
         Nat.prime_three (by norm_num))).symm
@@ -123,7 +123,7 @@ theorem pCoreOf_le_of_maxInv {S : Subgroup G} (hSM : S ≤ D.M) (hS : IsPGroup 2
     (hmax : ∀ S' : Subgroup G, S' ≤ D.M → IsPGroup 2 S' →
       F.A ≤ Subgroup.normalizer (S' : Set G) → S ≤ S' → S' = S) :
     CFSG.Open.pCoreOf 2 D.M ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup G := CFSG.Open.pCoreOf 2 D.M
   have hQ2 : IsPGroup 2 Q := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D.M
   have hSQ : S ≤ Subgroup.normalizer (Q : Set G) :=
@@ -227,7 +227,7 @@ theorem not_L_le_ker_phiJoin {S : Subgroup G} (hSM : S ≤ D.M) :
 
 private theorem eq_bot_of_normal_isPGroup_alt10 {N : Subgroup (alternatingGroup (Fin 10))}
     [N.Normal] (hN : IsPGroup 2 ↥N) : N = ⊥ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
@@ -241,13 +241,13 @@ private theorem eq_bot_of_normal_isPGroup_alt10 {N : Subgroup (alternatingGroup 
     exact (CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := 3) hA2
       Nat.prime_three (by norm_num)) h3dvd
 
-private theorem quotient_join_isPGroup {S : Subgroup G} (hSM : S ≤ D.M)
+private theorem quotient_join_isPGroup {S : Subgroup G} (_hSM : S ≤ D.M)
     (hS : IsPGroup 2 S) [hLxN : (c.L.subgroupOf (c.L ⊔ S)).Normal] :
     IsPGroup 2 (⊤ : Subgroup (↥(c.L ⊔ S) ⧸ c.L.subgroupOf (c.L ⊔ S))) := by
   classical
   let X := ↥(c.L ⊔ S)
   let Lx : Subgroup X := c.L.subgroupOf (c.L ⊔ S)
-  haveI : Lx.Normal := hLxN
+  have : Lx.Normal := hLxN
   let Sx : Subgroup X := S.subgroupOf (c.L ⊔ S)
   have hSx2 : IsPGroup 2 ↥Sx := by
     rw [show Sx = Subgroup.comap (c.L ⊔ S).subtype S from
@@ -277,7 +277,7 @@ private theorem ker_phiJoin_isPGroup {S : Subgroup G} (hSM : S ≤ D.M)
   classical
   let X := ↥(c.L ⊔ S)
   let Lx : Subgroup X := c.L.subgroupOf (c.L ⊔ S)
-  haveI hLxN : Lx.Normal := normal_L_subgroupOf_join hSM
+  have hLxN : Lx.Normal := normal_L_subgroupOf_join hSM
   let K : Subgroup X := (F.phiJoin hSM).ker
   change IsPGroup 2 ↥K
   have htop2 : IsPGroup 2 (⊤ : Subgroup (X ⧸ Lx)) :=
@@ -328,7 +328,7 @@ private theorem pCoreOf_le_ker_phiJoin {S : Subgroup G} (hSM : S ≤ D.M)
   have hN2 : IsPGroup 2 ↥N := hP2.map _
   have hNnormal : N.Normal :=
     hPnormal.map _ (surjective_phiJoinAlt F hSM hS hAS)
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNbot : N = ⊥ := eq_bot_of_normal_isPGroup_alt10 hN2
   have hPker : P ≤ (F.phiJoinAlt hSM hS hAS).ker :=
     (Subgroup.map_eq_bot_iff _).mp hNbot
@@ -373,7 +373,7 @@ private theorem subgroupOf_pCoreOf_le_ker_phiJoin {S : Subgroup G} (hSM : S ≤ 
   have hN2 : IsPGroup 2 ↥N := hQX2.map _
   have hNnormal : N.Normal :=
     hQXnormal.map _ (surjective_phiJoinAlt F hSM hS hAS)
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNbot : N = ⊥ := eq_bot_of_normal_isPGroup_alt10 hN2
   have hQker : Q.subgroupOf (c.L ⊔ S) ≤ (F.phiJoinAlt hSM hS hAS).ker :=
     (Subgroup.map_eq_bot_iff _).mp hNbot

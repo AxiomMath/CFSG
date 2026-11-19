@@ -38,7 +38,7 @@ theorem isLiftable_reflGL :
   have e := congrArg dec (braid_check i j)
   have hr : ∀ k : Fin Tag.E6.rank, refl' k = reflGL k := fun k => by
     have hk : (k : ℕ) < 6 := k.isLt
-    rw [refl', dif_pos hk]
+    rw [refl', dite_eq_left hk]
     rfl
   rw [dec_pwL, dec_mulL, dec_reflL, dec_reflL, dec_idL, hr, hr] at e
   exact e
@@ -122,13 +122,13 @@ theorem pair_rootRefl (i : Fin 6) (α : Fin 6 → ℤ) (f : Fin 6 → ZMod 3) :
   map_add' v w := by
     funext j
     by_cases h : j = i
-    · simp only [h, if_true, Pi.add_apply, add_mul, Finset.sum_add_distrib]
+    · simp only [h, ite_true, Pi.add_apply, add_mul, Finset.sum_add_distrib]
       ring
     · simp [h]
   map_smul' c v := by
     funext j
     by_cases h : j = i
-    · simp only [h, if_true, Pi.smul_apply, smul_eq_mul, RingHom.id_apply, Finset.mul_sum,
+    · simp only [h, ite_true, Pi.smul_apply, smul_eq_mul, RingHom.id_apply, Finset.mul_sum,
         mul_sub, mul_assoc]
     · simp [h]
 
@@ -280,7 +280,7 @@ theorem x2e6WeylCore_of_checks
     refine ⟨g, hgW, ?_, isElemAbelian_map' _ hA, ?_⟩
     · rintro _ ⟨x, hx, rfl⟩
       have e : (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g := by
-        simp [MulAut.conj_apply]
+        simp
       rw [e]
       exact hg x hx
     · rw [Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective, hr]

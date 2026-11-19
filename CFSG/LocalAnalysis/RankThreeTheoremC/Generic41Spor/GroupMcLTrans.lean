@@ -75,7 +75,7 @@ theorem centerTransAt_of_heisData_two {Q : Type} [Group Q] {p lam e : ℕ} [Fact
     rcases (Nat.dvd_prime hp).1 hdvd with h1 | h1
     · exact absurd (orderOf_eq_one_iff.1 h1) hxy
     · exact h1
-  haveI : Finite (R ⊓ centralizer (R : Set Q) : Subgroup Q) :=
+  have : Finite (R ⊓ centralizer (R : Set Q) : Subgroup Q) :=
     Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
   have hZz : R ⊓ centralizer (R : Set Q) = Subgroup.zpowers c := by
     refine (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hcZ) ?_).symm
@@ -151,7 +151,7 @@ theorem mcl_transCenter :
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
   let θ : K ≃* mcl275P := (e.trans eC.symm).trans mcl275Equiv
   obtain ⟨R₀, hR₀⟩ := mcl_heisData_P
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hC : CenterTransAt (R₀.subgroupOf mcl275P) := centerTransAt_of_heisData_two hR₀ zmod5_gen
   have hcard : Nat.card (R₀.subgroupOf mcl275P) = 5 ^ (Nat.card mcl275P).factorization 5 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hR₀.1).toEquiv, hR₀.2.1,

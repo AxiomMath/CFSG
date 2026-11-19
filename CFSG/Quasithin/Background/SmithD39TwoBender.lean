@@ -193,7 +193,7 @@ theorem exists_two_elt_inverting {G : Type*} [Group G] [Finite G] (hK : CFSG.IsQ
     apply hgC
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_iff]
     intro x hx
-    have key := RankThree.PartTwo.Sec13.conj_eq_of_coprime_pow P.isPGroup' hcomm hgN hn3
+    have key := RankThree.PartTwo.Sec13.conj_eq_of_coprime_pow P.isPGroup hcomm hgN hn3
       (fun y hy => by rw [hcomm _ hgn y hy, mul_inv_cancel_right]) hfix hx
     calc x * g = g * x * g⁻¹ * g := by rw [key]
       _ = g * x := by group

@@ -94,7 +94,7 @@ theorem pCore_graphFixedParabolic_D4
         decide
       rw [hw0]
       rcases key i hi with rfl | rfl | rfl <;>
-      · simp only [mul_smul, simple_smul, one_smul]
+      · simp only [mul_smul, one_smul]
         decide +kernel
     have h1 := (neg_mem_parabolicPosRoots_of_simple_neg hmem hneg hα).2.2
     rw [height_neg] at h1

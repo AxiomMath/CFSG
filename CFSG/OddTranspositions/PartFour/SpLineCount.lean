@@ -40,7 +40,7 @@ theorem spForm_single_inr_right (i : Fin k) (v : Fin k ⊕ Fin k → F) :
         simp [CFSG.ClassicalInvolution.Models.SymplecticPairs.par,
           CFSG.ClassicalInvolution.Models.SymplecticPairs.sgn, Pi.single_apply, eq_comm]
     · intro b _ hb
-      simp [Pi.single_apply, hb]
+      simp [hb]
     · simp
   rw [hmv, dotProduct_single]
   simp
@@ -54,7 +54,7 @@ theorem spForm_single_inr_left (i : Fin k) (v : Fin k ⊕ Fin k → F) :
 theorem spForm_single_inl_inl (i j : Fin k) :
     spForm k F (Pi.single (Sum.inl i) (1 : F)) (Pi.single (Sum.inl j) (1 : F)) = 0 := by
   rw [spForm_single_inl_left]
-  simp [Pi.single_apply]
+  simp
 
 theorem spForm_single_inr_inl (i j : Fin k) :
     spForm k F (Pi.single (Sum.inr i) (1 : F)) (Pi.single (Sum.inl j) (1 : F)) =
@@ -62,7 +62,7 @@ theorem spForm_single_inr_inl (i j : Fin k) :
   rw [spForm_single_inr_left]
   by_cases hij : i = j
   · simp [hij]
-  · simp [hij, Ne.symm hij, Pi.single_apply]
+  · simp [hij]
 
 private theorem spLineCount_spTransvection_noncomm {a b : Fin k ⊕ Fin k → F}
     (hB : spForm k F a b ≠ 0) :
@@ -210,14 +210,14 @@ private theorem spLineCount_eq_smul_single_add {i j : Fin k} (hij : i ≠ j)
     rcases l with m | m
     · by_cases hmi : m = i
       · rw [hmi]
-        simp [s, t, ei, ej, Pi.single_apply, Ne.symm hij]
+        simp [s, t, ei, ej, Ne.symm hij]
       · by_cases hmj : m = j
         · rw [hmj]
-          simp [s, t, ei, ej, Pi.single_apply, hij]
+          simp [s, t, ei, ej, hij]
         · rw [hz_inl m hmi hmj]
-          simp [ei, ej, Pi.single_apply, hmi, hmj]
+          simp [ei, ej, hmi, hmj]
     · rw [hz_inr m]
-      simp [ei, ej, Pi.single_apply]
+      simp [ei, ej]
   have hst : s ≠ 0 ∨ t ≠ 0 := by
     by_contra h
     rcases not_or.mp h with ⟨hs, ht⟩

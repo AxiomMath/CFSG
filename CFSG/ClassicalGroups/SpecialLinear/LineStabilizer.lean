@@ -95,7 +95,7 @@ private lemma independent_of_notMem_span_pair {x y z : Fin m → K}
     have := Submodule.smul_mem (Submodule.span K ({x, z} : Set (Fin m → K))) c⁻¹ hmem
     rwa [smul_smul, inv_mul_cancel₀ hc, one_smul] at this
   subst hc
-  simp only [zero_smul, zero_add, add_zero] at hrel
+  simp only [zero_smul, add_zero] at hrel
   exact ⟨(hxz a d hrel).1, rfl⟩
 
 private lemma exists_statedSL_mulVec_eq_of_independent_fixing
@@ -267,7 +267,7 @@ section
 
 variable {m : ℕ} {K : Type} [Field K]
 
-private lemma card_le_card_of_forall_eq_smul [Finite K] {b : Fin m → K} (hb : b ≠ 0)
+private lemma card_le_card_of_forall_eq_smul [Finite K] {b : Fin m → K} (_hb : b ≠ 0)
     {S : AddSubgroup (Fin m → K)} (hline : ∀ s ∈ S, ∃ c : K, s = c • b) :
     Nat.card S ≤ Nat.card K := by
   classical

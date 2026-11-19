@@ -11,7 +11,7 @@ section Factor
 variable {K : Type} [Field K] [Finite K] {W : Type} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W] {QW : QuadraticForm K W} {p : ℕ} {β : W ≃ₗ[K] W}
 theorem OddOrderIsometry.exists_norm_model3 (hx : OddOrderIsometry QW p β)
-    (hp : p.Prime) (hpne : p ≠ 2) (hK4 : 4 ≤ Nat.card K) (hpq : p ∣ Nat.card K + 1) {h : K[X]}
+    (hp : p.Prime) (hpne : p ≠ 2) (_hK4 : 4 ≤ Nat.card K) (hpq : p ∣ Nat.card K + 1) {h : K[X]}
     (hh : h ∈ primaryFactors β.toLinearMap) (hne1 : h ≠ X - 1) :
     finrank K (AdjoinRoot h) = 2 ∧
     ∃ (m : ℕ) (ι : (Fin m → AdjoinRoot h) →ₗ[K] W),
@@ -217,7 +217,7 @@ theorem OddOrderIsometry.exists_plane_family3 (hx : OddOrderIsometry QW p β)
 end Factor
 section Quad
 variable {K : Type} [Field K] [Finite K]
-theorem exists_quadratic_extension3 {p : ℕ} (hp : p.Prime) (hpne : p ≠ 2) (hK4 : 4 ≤ Nat.card K)
+theorem exists_quadratic_extension3 {p : ℕ} (hp : p.Prime) (hpne : p ≠ 2) (_hK4 : 4 ≤ Nat.card K)
     (hpl : p ≠ ringChar K)
     (hpq : p ∣ Nat.card K + 1) :
     ∃ (E : Type) (_ : Field E) (_ : Algebra K E), finrank K E = 2 ∧ ∃ ζ : E, orderOf ζ = p := by

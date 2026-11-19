@@ -28,6 +28,7 @@ namespace CfgLemmaQ
 
 variable {M V₀ V C : Subgroup G} {h : G}
 
+omit [Finite G] in
 theorem prop24Setup (q : CfgLemmaQ M V₀ V h C) :
     CFSG.RankThree.GF2n.Tim77.Prop24Setup V₀ (conjSubgroup V₀ h) (nVSub V₀ h) (bSub V₀ h)
       (nVSub V₀ h ⊔ bSub V₀ h) := by

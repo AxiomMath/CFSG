@@ -55,7 +55,7 @@ theorem card_le_of_threePrime_isL5Two {X : Type} [Group X] (h : IsL5Two X) (H : 
     (H.map φ.toMonoidHom) (by rw [hcard]; exact hH)
   rwa [hcard] at this
 
-theorem l5Atlas_proved : L5Atlas := fun X _ hX =>
+theorem l5Atlas_proved : L5Atlas := fun _X _ hX =>
   ⟨card_of_isL5Two hX, card_le_of_threePrime_isL5Two hX⟩
 
 end CFSG.AGLEmbeddingD2.McLaughlin

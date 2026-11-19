@@ -216,7 +216,7 @@ theorem sylow_le_normalizer_of_isComponentOf' (hY : HasAbelianSylowTwo Y) (S : S
       apply Subtype.ext
       have hkC := Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm k.2
       exact ((Subgroup.mem_centralizer_iff.mp hkC) t htK').symm
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨t, htS⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨t, htS⟩
     have hk0 : k ≠ 0 := by
       rintro rfl
       rw [pow_zero, orderOf_eq_one_iff] at hk

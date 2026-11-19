@@ -30,7 +30,7 @@ theorem closureSmallCases_holds : HypA2.ClosureSmallCases := by
     omega
   ·
     obtain ⟨e⟩ := hHe
-    haveI : IsSimpleGroup S := a2l_isSimpleGroup_of_equiv e Sporadic.He.isSimpleGroup_He
+    have : IsSimpleGroup S := a2l_isSimpleGroup_of_equiv e Sporadic.He.isSimpleGroup_He
     obtain ⟨eZ⟩ := a2l_fusionZStar_equiv hP
     rcases GrSLit.simpleFixedComponents_held GrSLit.HeldFix.isL34Type_of_isPComponent_centralizer_heA0
         GrSLit.HeldFix.not_isPComponent_centralizer_heT1P S
@@ -46,14 +46,14 @@ theorem closureSmallCases_holds : HypA2.ClosureSmallCases := by
       omega
   ·
     obtain ⟨e⟩ := hM12
-    haveI : IsSimpleGroup S :=
+    have : IsSimpleGroup S :=
       a2l_isSimpleGroup_of_equiv e Sporadic.Mathieu.fam_m12_simplicity.2.2
     left
     have hle := a2l_card_quot_le_fixed hP.2.1
     rcases CatFC.card_fixedSubgroup_m12 e (a2l_orderOf_eq_two hP) with hc | hc | hc <;> omega
   ·
     obtain ⟨e⟩ := hJ2
-    haveI : IsSimpleGroup S := a2l_isSimpleGroup_of_equiv e Sporadic.J2.isSimpleGroup_J2
+    have : IsSimpleGroup S := a2l_isSimpleGroup_of_equiv e Sporadic.J2.isSimpleGroup_J2
     left
     have hle := a2l_card_quot_le_fixed hP.2.1
     rcases GS82PumpInputs.SporFix.card_fixedSubgroup_j2 e (a2l_orderOf_eq_two hP) with

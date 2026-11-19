@@ -47,7 +47,7 @@ theorem exists_hom_section_of_coprime_card {G : Type u} {Q : Type v} [Group G] [
     (hcop : Nat.Coprime (Nat.card π.ker) (Nat.card P)) :
     ∃ σ : P →* G, ∀ p : P, π (σ p) = p := by
   classical
-  haveI : Finite Q := Finite.of_surjective π hπ
+  have : Finite Q := Finite.of_surjective π hπ
   let P' : Subgroup G := P.comap π
   let ψ : P' →* P := (π.domRestrict P').codRestrict P (fun a => a.2)
   have hψπ : ∀ a : P', ((ψ a : P) : Q) = π a := fun a => rfl

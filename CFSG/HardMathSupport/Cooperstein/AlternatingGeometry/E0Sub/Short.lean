@@ -60,7 +60,7 @@ theorem alternatingGroup_le_map {H : Type*} [Group H] {N : ℕ} (hN : 5 ≤ N)
     refine Subgroup.mem_subgroupOf.mpr ⟨m * c * m⁻¹, Subgroup.Normal.conj_mem inferInstance c hc m,
       ?_⟩
     simp [hm, hcn]
-  haveI := hnorm
+  have := hnorm
   rcases hsimple.eq_bot_or_eq_top_of_normal ((C.map θ).subgroupOf (alternatingGroup (Fin N)))
     with h | h
   · exfalso
@@ -177,7 +177,7 @@ theorem pCoreOf_le_of_map_eq_altOn {M L₁ : Subgroup G} (hL₁M : L₁ ≤ M) {
       exact (Subgroup.mem_normalizer_iff.mp
         (CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 L₁ hy) _).mp hr
     · simp [hyg, hrn]
-  haveI := hTnorm
+  have := hTnorm
   have hT : T = ⊥ := by
     rcases hsimple.eq_bot_or_eq_top_of_normal (T.subgroupOf (altOn Ω₁)) with h | h
     · refine (Subgroup.eq_bot_iff_forall _).mpr fun x hx => ?_
@@ -258,7 +258,7 @@ theorem normalClosureSubLStmt_holds : NormalClosureSubLStmt := by
   have hLM : L ≤ L ⊔ S := le_sup_left
   have hMQ := CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 (L ⊔ S)
   have hMV : L ⊔ S ≤ Subgroup.normalizer (blockV S L : Set G) := sup_le_normalizer_blockV S L
-  haveI hCn : (Short.commKerSub (L ⊔ S) (pCoreOf 2 (L ⊔ S)) (blockV S L) hMV).Normal :=
+  have hCn : (Short.commKerSub (L ⊔ S) (pCoreOf 2 (L ⊔ S)) (blockV S L) hMV).Normal :=
     Short.normal_commKerSub hMQ hMV
   set C := Short.commKerSub (L ⊔ S) (pCoreOf 2 (L ⊔ S)) (blockV S L) hMV with hC
   have hL₁C : L₁.subgroupOf (L ⊔ S) ≤ C := fun l hl q hq =>

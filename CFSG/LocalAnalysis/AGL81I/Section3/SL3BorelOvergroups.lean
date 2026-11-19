@@ -89,7 +89,7 @@ theorem isSylowOf_unitriangular_sl3 :
       (⊤ : Subgroup (SpecialLinearGroup (Fin 3) (ZMod p))) := by
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod p) p (n := 3) (by norm_num)
   rw [← hP, CFSG.ABGLocalTools.isSylowOf_iff]
-  exact ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+  exact ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
 
 theorem exists_conj_borel_eq_normalizer
     (P : Sylow p (SpecialLinearGroup (Fin 3) (ZMod p))) :
@@ -137,7 +137,7 @@ theorem isMaxParabolicP_sl3_zmod_two :
       (flagStabilizer 3 (ZMod p) ({2} : Set ℕ)) :=
   isMaxParabolicP_sl3_zmod_singleton (by norm_num) (by norm_num)
 
-theorem flagStabilizer_singleton_ne_upperTriangular_sl3 {d e : ℕ} (hd : 1 ≤ d) (hdn : d < 3)
+theorem flagStabilizer_singleton_ne_upperTriangular_sl3 {d e : ℕ} (_hd : 1 ≤ d) (_hdn : d < 3)
     (he : 1 ≤ e) (hen : e < 3) (hed : d ≠ e) :
     flagStabilizer 3 (ZMod p) ({d} : Set ℕ) ≠ upperTriangular 3 (ZMod p) := by
   intro h

@@ -100,9 +100,9 @@ theorem lin_torsion_data {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : LinA
   obtain ⟨j, rfl⟩ : ∃ j, d = j + 2 := ⟨d - 2, by omega⟩
   have hp : p.Prime := h.1
   have hp2 : p ≠ 2 := h.2.1
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := by
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := by
     apply charP_of_card_eq_prime_pow (p := 2) (f := n)
     rw [← Nat.card_eq_fintype_card]
     exact h.2.2.2.2.1
@@ -149,7 +149,7 @@ private theorem exists_isElemAbelian_le_comap {G : Type} [Group G] [Finite G]
     ∃ B : Subgroup G, B ≤ E.comap (QuotientGroup.mk' N) ∧ IsElemAbelian r B ∧
       Nat.card B = Nat.card E := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set π : G →* G ⧸ N := QuotientGroup.mk' N with hπ
   let ψ : ↥(E.comap π) →* G ⧸ N := π.comp (E.comap π).subtype
   have hψ : ∀ x : ↥(E.comap π), ψ x ∈ E := fun x => x.2
@@ -195,9 +195,9 @@ theorem rank_lift_center_quotient {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω
     (hX2 : IsPGroup 2 X) (hE : IsElemAbelian p E) (hEcard : Nat.card E = p ^ k)
     (hXE : E ≤ Subgroup.normalizer (X : Set R)) : k + 1 ≤ GLATwoLocalRank p Ω := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite R := Finite.of_surjective θ.toMonoidHom θ.surjective
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite R := Finite.of_surjective θ.toMonoidHom θ.surjective
   let π : ↥S →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥S))
   have hπsurj : Function.Surjective π :=
     θ.surjective.comp (QuotientGroup.mk'_surjective (Subgroup.center ↥S))
@@ -277,7 +277,7 @@ theorem rank_lift_center_quotient {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω
     exact hP₀ne ((Subgroup.map_eq_bot_iff_of_injective P₀ (f := S.subtype)
       S.subtype_injective).mp hbot)
   have hPΩ2 : IsPGroup 2 PΩ := by
-    simpa only [PΩ, P₀] using (P.isPGroup'.map H.subtype).map S.subtype
+    simpa only [PΩ, P₀] using (P.isPGroup.map H.subtype).map S.subtype
   have hBΩnorm : B.map S.subtype ≤ Subgroup.normalizer (PΩ : Set Ω) := by
     have h1 : B.map S.subtype ≤ Subgroup.normalizer (P₀.map S.subtype : Set Ω) :=
       (Subgroup.map_mono hPnorm).trans (Subgroup.le_normalizer_map S.subtype)
@@ -306,7 +306,7 @@ theorem rank_lift_center_quotient {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω
     rw [Subgroup.disjoint_def]
     intro y hyB hyzx
     have hyS : y ∈ S := Subgroup.map_subtype_le B hyB
-    haveI : Fact (Nat.card (Subgroup.zpowers x)).Prime := ⟨by rw [hzpcard]; exact hp⟩
+    have : Fact (Nat.card (Subgroup.zpowers x)).Prime := ⟨by rw [hzpcard]; exact hp⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card
         (S.subgroupOf (Subgroup.zpowers x)) with h | h
     · have hy : (⟨y, hyzx⟩ : Subgroup.zpowers x) ∈

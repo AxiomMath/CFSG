@@ -91,10 +91,10 @@ theorem sec38c_normal_two_group_eq_bot {X : Type*} [Group X] [Finite X]
     (hZ : ∀ z ∈ center X, ∀ k : ℕ, z ^ 2 ^ k = 1 → z = 1)
     (Y : Subgroup X) [hYn : Y.Normal] (hY : IsPGroup 2 Y) : Y = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (X ⧸ center X) := hX.2
+  have : IsSimpleGroup (X ⧸ center X) := hX.2
   have hmapN : (Y.map (QuotientGroup.mk' (center X))).Normal :=
     hYn.map _ (QuotientGroup.mk'_surjective _)
-  haveI := hmapN
+  have := hmapN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Y.map (QuotientGroup.mk' (center X))) with hb | ht
   · rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hb
     rw [eq_bot_iff]
@@ -125,12 +125,12 @@ theorem sec38c_normal_two_group_eq_bot {X : Type*} [Group X] [Finite X]
         rw [map_commutatorElement, e1, e2, ← map_commutatorElement, hz12, map_one]
       exact (QuotientGroup.eq_one_iff _).1 h1
     have hYtop : Y = ⊤ := top_le_iff.1 (hX.1 ▸ hcomm)
-    haveI : IsPGroup 2 X := by
+    have : IsPGroup 2 X := by
       subst hYtop
       exact hY.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent X := IsPGroup.isNilpotent this
-    haveI : Group.IsPerfect X := ⟨hX.1⟩
-    haveI : Nontrivial X := (QuotientGroup.mk'_surjective (center X)).nontrivial
+    have : Group.IsNilpotent X := IsPGroup.isNilpotent this
+    have : Group.IsPerfect X := ⟨hX.1⟩
+    have : Nontrivial X := (QuotientGroup.mk'_surjective (center X)).nontrivial
     exact Group.IsPerfect.not_isNilpotent X inferInstance
 
 theorem sec38c_map_conj_le_iff {G : Type*} [Group G] (y : G) {Y Z : Subgroup G} :
@@ -138,13 +138,13 @@ theorem sec38c_map_conj_le_iff {G : Type*} [Group G] (y : G) {Y Z : Subgroup G} 
   constructor
   · intro hle s hs
     refine ⟨y * s * y⁻¹, hle ⟨s, hs, rfl⟩, ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
   · rintro hle _ ⟨s, hs, rfl⟩
     obtain ⟨z, hz, hzs⟩ := hle hs
     have : y * s * y⁻¹ = z := by
       rw [← hzs]
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       group
     change y * s * y⁻¹ ∈ Z
     rwa [this]
@@ -156,6 +156,7 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
+omit [Finite G] in
 theorem sec38c_center_N₂ (d : Data G h) :
     ∀ z ∈ center ↥d.N₂, ∀ k : ℕ, z ^ 2 ^ k = 1 → z = 1 := by
   intro z hz k hk
@@ -178,7 +179,7 @@ theorem sec38c_E_inf_N₂ (hp : d.CaseHyp) : d.E ⊓ d.N₂ = ⊥ := by
   have hq : CFSG.Open.IsQuasisimple ↥d.N₂ :=
     (hp.hyp.quasisimple_lieModel_N₂ (X := ↥d.N₂) ⟨MulEquiv.refl _⟩).1
   set Y : Subgroup ↥d.N₂ := (d.E ⊓ d.N₂).subgroupOf d.N₂ with hY
-  haveI hYn : Y.Normal := ⟨fun y hy n => by
+  have hYn : Y.Normal := ⟨fun y hy n => by
     rw [hY, mem_subgroupOf] at hy ⊢
     refine ⟨?_, ?_⟩
     · have := (mem_normalizer_iff.1 (d.N₂_le_normalizer_E n.2) y).1 hy.1
@@ -263,7 +264,7 @@ theorem sec38c_centre_le (hp : d.CaseHyp) (hi : d.Sec38Input)
     · exact hle
   obtain ⟨hperf, hsimple, hnonab⟩ := hAq
   have hbot : center (↥A ⧸ center ↥A) = ⊥ := by
-    haveI := hsimple
+    have := hsimple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (↥A ⧸ center ↥A)) with h | h
     · exact h
     · exfalso
@@ -288,7 +289,7 @@ theorem sec38c_centre_le (hp : d.CaseHyp) (hi : d.Sec38Input)
       exact QuotientGroup.eq.1 this
     rw [hbot, Subgroup.mem_bot] at hmk
     exact (QuotientGroup.eq_one_iff _).1 hmk
-  haveI hZtn : Zt.Normal := ⟨fun n hn g => by
+  have hZtn : Zt.Normal := ⟨fun n hn g => by
     obtain ⟨hnA, hnC⟩ := Subgroup.mem_inf.1 hn
     refine Subgroup.mem_inf.2 ⟨hnorm.conj_mem n hnA g, ?_⟩
     rw [mem_centralizer_iff]
@@ -335,13 +336,14 @@ theorem sec38c_gms (hp : d.CaseHyp) (hi : d.Sec38Input)
   obtain ⟨-, -, hinj, hord, -, -, -, -, -, -, -, -, hcard, -⟩ := key
   exact ⟨hinj, hord, hcard⟩
 
+omit [Finite G] in
 theorem sec38c_t_notMem_E (hi : d.Sec38Input) : d.t ∉ d.E := fun htE => by
   have h1 : proj d.E ⟨d.t, hi.t_mem⟩ = 1 := proj_eq_one_iff.2 htE
   have := hi.order_two
   rw [h1, orderOf_one] at this
   omega
 
-theorem sec38c_family_conj (hp : d.CaseHyp) {y : G} (hyV : y ∈ normalizer (d.V : Set G))
+theorem sec38c_family_conj (_hp : d.CaseHyp) {y : G} (hyV : y ∈ normalizer (d.V : Set G))
     (hyM : y ∈ normalizer ((d.E ⊔ zpowers d.t : Subgroup G) : Set G)) {Y : Subgroup G}
     (hY : d.V ≤ Y ∧ Y ≤ d.E ⊔ zpowers d.t ∧ ElemAbMod d.V Y) :
     d.V ≤ Y.map (MulAut.conj y).toMonoidHom ∧
@@ -395,7 +397,7 @@ theorem sec38c_partA (hp : d.CaseHyp) (ha : d.Sec38a)
     refine CFSG.ABGLocalTools.isSylowOf_of_card le_top ?_
     rw [Subgroup.card_top, heq, Sylow.card_eq_multiplicity]
   obtain ⟨y, hyN, hyM, hy2⟩ :=
-    exists_mem_normalizer_not_mem_of_card_lt hM2 R.isPGroup' hlt
+    exists_mem_normalizer_not_mem_of_card_lt hM2 R.isPGroup hlt
   have hyV := h3 y hyN
   have hyE : y ∈ normalizer (d.E : Set G) := by
     set E' := d.E.map (MulAut.conj y).toMonoidHom with hE'

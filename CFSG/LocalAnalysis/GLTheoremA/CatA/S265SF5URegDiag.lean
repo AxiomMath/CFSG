@@ -81,7 +81,7 @@ theorem exists_unitary_diag_injective (hF : UnitaryFieldData 2 m F) (h5 : 5 ∣ 
       ∃ t : Fin 5 → F, Function.Injective t ∧ (∀ i, t i ^ 5 = 1) ∧
         ((P⁻¹ * (A : GL (Fin 5) F) * P : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F) =
           diagonal t := by
-  haveI := hF.finite
+  have := hF.finite
   have hq : 3 < 2 ^ m := by
     have := Nat.le_of_dvd (by positivity) h5
     omega

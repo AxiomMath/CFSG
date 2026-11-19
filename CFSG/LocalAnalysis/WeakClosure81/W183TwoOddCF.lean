@@ -27,9 +27,9 @@ theorem isCompositionFactor_oddClassSub {Y : Type} [Group Y] [Finite Y] {a : Y}
     [Group T] (h : CFSG.Quasithin.E1.IsCompositionFactor Y T) (hnab : ∃ u v : T, u * v ≠ v * u) :
     CFSG.Quasithin.E1.IsCompositionFactor ↥(oddClassSub a) T := by
   classical
-  letI := Fintype.ofFinite Y
+  let := Fintype.ofFinite Y
   set N : Subgroup Y := Subgroup.normalClosure ({a} : Set Y) with hN
-  haveI hNn : N.Normal := by rw [hN]; infer_instance
+  have hNn : N.Normal := by rw [hN]; infer_instance
   have hN2' : ∀ y : Y, ∃ k : ℕ, y ^ 2 ^ k ∈ N := by
     intro y
     obtain ⟨k, hk⟩ := hN2 y
@@ -95,8 +95,8 @@ theorem isCompositionFactor_oddClassSub {Y : Type} [Group Y] [Finite Y] {a : Y}
       refine ⟨k, ?_⟩
       rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
       exact hk
-    haveI : Group.IsNilpotent (Y ⧸ N) := hP.isNilpotent
-    haveI : Group.IsSolvable (Y ⧸ N) := IsNilpotent.to_isSolvable
+    have : Group.IsNilpotent (Y ⧸ N) := hP.isNilpotent
+    have : Group.IsSolvable (Y ⧸ N) := IsNilpotent.to_isSolvable
     obtain ⟨u, v, huv⟩ := hnab
     exact absurd
       (CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p20a_abelian_of_compositionFactor

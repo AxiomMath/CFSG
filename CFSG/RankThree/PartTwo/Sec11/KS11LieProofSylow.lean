@@ -36,7 +36,7 @@ theorem isCyclic_sylow_of_quotient {H : Type*} [Group H] [Finite H] {p : ℕ} [F
     intro x hx
     have hxN : (x : H) ∈ N := (QuotientGroup.eq_one_iff _).mp hx
     have h1 : orderOf (x : H) ∣ Nat.card N := Subgroup.orderOf_dvd_natCard _ hxN
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp P.isPGroup')
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp P.isPGroup)
     have h2 : orderOf x ∣ p ^ k := hk ▸ orderOf_dvd_natCard x
     rw [Subgroup.orderOf_coe] at h1
     obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Fact.out).mp h2
@@ -46,7 +46,7 @@ theorem isCyclic_sylow_of_quotient {H : Type*} [Group H] [Finite H] {p : ℕ} [F
     · exfalso
       exact hN ((dvd_pow_self p (by omega)).trans (hi ▸ h1))
   set R := (P : Subgroup H).map (QuotientGroup.mk' N) with hRdef
-  have hR : IsPGroup p R := P.isPGroup'.map (QuotientGroup.mk' N)
+  have hR : IsPGroup p R := P.isPGroup.map (QuotientGroup.mk' N)
   obtain ⟨S, hS⟩ := hR.exists_le_sylow
   have := hQ S
   have hRc : IsCyclic R :=
@@ -93,7 +93,7 @@ theorem false_of_isCyclic_sylow {W : Type} [Group W] [Finite W]
 theorem isCyclic_sylow_three_of_not_nine_dvd {X : Type*} [Group X] [Finite X]
     (h9 : ¬ 9 ∣ Nat.card X) (P : Sylow 3 X) : IsCyclic P := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hdvd : 3 ^ k ∣ Nat.card X := hk ▸ Subgroup.card_subgroup_dvd_card _
   rcases k with _ | _ | k
   · rw [pow_zero] at hk

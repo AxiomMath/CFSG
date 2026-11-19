@@ -99,6 +99,7 @@ variable [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] {G : Subgroup (GL V₄ 
 
 local notation "⟪" x "⟫" => (((x : _) : GL V₄ K) : Matrix V₄ V₄ K)
 
+omit [Finite K] in
 theorem forall_conj_mem_of_orth (hp2 : p ≠ 2) (hGS : G ≤ StatedSp 2 K) (hq : CFSG.IsQuasisimple G)
     (hZ : ∀ z ∈ Subgroup.center G, (z : GL V₄ K) = 1 ∨ (z : GL V₄ K) = -1)
     (hneg : (-1 : GL V₄ K) ∈ G) {t : G} (ht : IsNCInv (t : GL V₄ K)) {P : Set (Matrix V₄ V₄ K)}
@@ -152,6 +153,7 @@ theorem forall_conj_mem_of_orth (hp2 : p ≠ 2) (hGS : G ≤ StatedSp 2 K) (hq :
   · exact (hN g).2.2.1 h
   · exact (hN g).2.2.2 h
 
+omit [Finite K] in
 theorem exists_conj_not_mem_span_three (hp2 : p ≠ 2) (hGS : G ≤ StatedSp 2 K)
     (hq : CFSG.IsQuasisimple G)
     (hZ : ∀ z ∈ Subgroup.center G, (z : GL V₄ K) = 1 ∨ (z : GL V₄ K) = -1)
@@ -208,7 +210,7 @@ theorem exists_conj_not_mem_span_three (hp2 : p ≠ 2) (hGS : G ≤ StatedSp 2 K
   have hall : ∀ g : G, ∃ a b c : K, ⟪g * t * g⁻¹⟫ = a • ⟪t⟫ + b • ⟪e⟫ + c • ⟪f⟫ := by
     refine forall_conj_mem_of_orth (P := {X | ∃ a b c : K, X = a • ⟪t⟫ + b • ⟪e⟫ + c • ⟪f⟫}) hp2 hGS
       hq hZ hneg ht ⟨1, 0, 0, by simp⟩ fun g g' hg hg' => ?_
-    simp only [Set.mem_setOf_eq, not_exists] at hg
+    simp only [Set.mem_ofPred_eq, not_exists] at hg
     obtain ⟨a, b, c, hab⟩ := hg'
     rw [hab, cliffB_add_right, cliffB_add_right, cliffB_smul_right, cliffB_smul_right,
       cliffB_smul_right, cliffB_comm _ ⟪t⟫, cliffB_comm _ ⟪e⟫, cliffB_comm _ ⟪f⟫,

@@ -72,7 +72,7 @@ private theorem k0patAct_getD_set_self {l : List ℕ} {i : ℕ} (h : i < l.lengt
 theorem k0patAct_getD_map (f : ℕ → ℕ) (hf : f 0 = 0) (s : List ℕ) (i : ℕ) :
     (s.map f).getD i 0 = f (s.getD i 0) := by
   induction s generalizing i with
-  | nil => simpa [hf]
+  | nil => simp [hf]
   | cons x xs ih =>
       cases i with
       | zero => rfl
@@ -176,7 +176,7 @@ theorem k0pat_foldl_gcd_dvd (l : List ℕ) (f : ℕ → ℕ) (g : ℕ) :
     l.foldl (fun g i => Nat.gcd g (f i)) g ∣ g ∧
       ∀ i ∈ l, l.foldl (fun g i => Nat.gcd g (f i)) g ∣ f i := by
   induction l generalizing g with
-  | nil => simpa using (dvd_refl g)
+  | nil => simp
   | cons a l ih =>
       have h := ih (Nat.gcd g (f a))
       rw [List.foldl_cons]

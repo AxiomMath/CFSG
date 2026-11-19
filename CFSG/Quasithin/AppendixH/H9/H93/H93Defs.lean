@@ -19,7 +19,7 @@ open CFSG.Quasithin CFSG.Open
 theorem psiExt_of_mem (ψ : ↥(Mg 4) ≃* Equiv.Perm (Fin 8)) {t : MulAut (PairN 4)} (ht : t ∈ Mg 4) :
     psiExt ψ t = ψ ⟨t, ht⟩ := by
   unfold psiExt
-  rw [dif_pos ht]
+  rw [dite_eq_left ht]
 
 theorem mem_imgPermOf (ψ : ↥(Mg 4) ≃* Equiv.Perm (Fin 8)) {A : Subgroup (MulAut (PairN 4))}
     {x : Equiv.Perm (Fin 8)} :

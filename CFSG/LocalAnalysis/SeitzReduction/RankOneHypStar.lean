@@ -193,7 +193,7 @@ theorem not_hypothesisOneStar_of_full_conj {G : Type*} [Group G] [Finite G] {L :
     apply Subgroup.eq_of_le_of_card_ge hPQ
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTQ).toEquiv, hTcard]
     have h := hQp ((PQ : Subgroup Q).map Q.subtype) (Subgroup.map_subtype_le _)
-      (PQ.isPGroup'.map _)
+      (PQ.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective (Subgroup.subtype_injective Q)] at h
   have hPQcyc : IsCyclic (PQ : Subgroup Q) := by
     rw [hPQeq]
@@ -358,7 +358,7 @@ theorem card_sylow_eq_two_of_standard_star {L : Subgroup G} (hset : StandardSett
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS := hset.isCyclic_sylow S
   have h2 : 2 ∣ Nat.card S := S.dvd_card_of_dvd_card (even_iff_two_dvd.mp hset.standard.2.1)
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   by_contra hne
   have hS4 : 4 ≤ Nat.card S := by
     rw [hn] at h2 hne ⊢

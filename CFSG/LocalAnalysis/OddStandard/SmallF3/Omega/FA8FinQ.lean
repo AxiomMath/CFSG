@@ -24,7 +24,7 @@ private lemma fa8fin_h_a2_central (y : QuaternionGroup 2) :
   decide +kernel
 
 private lemma fa8fin_h_eq_of_mem_zpowers {G : Type*} [Group G] {z w : G} (hz2 : z * z = 1)
-    (hw2 : w * w = 1) (hw1 : w ≠ 1) (hw : w ∈ zpowers z) : w = z := by
+    (_hw2 : w * w = 1) (hw1 : w ≠ 1) (hw : w ∈ zpowers z) : w = z := by
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hw
   have hmod : z ^ k = z ^ (k % 2) :=
     zpow_eq_zpow_emod k (by rw [zpow_ofNat, pow_two, hz2])
@@ -37,8 +37,8 @@ private lemma fa8fin_h_eq_of_mem_zpowers {G : Type*} [Group G] {z w : G} (hz2 : 
     exact hk.symm
 
 private lemma fa8fin_h_factor_z {G : Type} [Group G] {Q P R : Subgroup G} {z : G}
-    (hz2 : z * z = 1) (hz1 : z ≠ 1) (hz : centerIn R = zpowers z)
-    (hQR : Q ≤ R) (hPR : P ≤ R) (hsup : Q ⊔ P = R)
+    (hz2 : z * z = 1) (_hz1 : z ≠ 1) (hz : centerIn R = zpowers z)
+    (hQR : Q ≤ R) (_hPR : P ≤ R) (hsup : Q ⊔ P = R)
     (hcross : ∀ x ∈ Q, ∀ y ∈ P, x * y = y * x)
     (e : ↥Q ≃* QuaternionGroup 2) :
     ∃ hzQ : z ∈ Q, e ⟨z, hzQ⟩ = QuaternionGroup.a 2 := by
@@ -226,7 +226,7 @@ theorem fa8fin_partner {G : Type} [Group G] {Q₁ Q₂ : Subgroup G} {z : G}
         exact Q₂.mul_mem hxQ2 hy
       obtain ⟨h, hhQ, hh⟩ := fa8fin_h_single_partner hzQ2 e₂ hez2 hgQ2 hg1 hgz
       exact ⟨h, (le_sup_right : Q₂ ≤ Q₁ ⊔ Q₂) hhQ, hh⟩
-    · push_neg at hx0
+    · push Not at hx0
       obtain ⟨hx1, hxz⟩ := hx0
       obtain ⟨h, hhQ, hh⟩ := fa8fin_h_single_partner hzQ1 e₁ hez1 hx hx1 hxz
       refine ⟨h, (le_sup_left : Q₁ ≤ Q₁ ⊔ Q₂) hhQ, ?_⟩

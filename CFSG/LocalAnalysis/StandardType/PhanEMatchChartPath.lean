@@ -47,7 +47,7 @@ theorem exists_chart_flagCode (hK : Nat.card Fld = (2 ^ f) ^ 2)
   obtain ⟨hIJ, hR, hcoreF, ht₀, hl₀, hψ⟩ := hfr
   obtain ⟨hd, hI, hPu, hPl⟩ := seam_hyps_of_match hct F PC hc L hcore hperm hπ
   obtain ⟨Θ₀, N, hN, hS, hψ'⟩ :=
-    exists_seam hct hext F hw₀ hsq L hJ hIJ hR hcoreF ht₀ hl₀ hψ hd hI
+    exists_seam hct hext F L hJ hIJ hR hcoreF ht₀ hl₀ hψ hd hI
       (sg Fld f : Fld →+* Fld) (permSL c.blockPerm) c.polB hPu hPl
   obtain ⟨ψ, hψ1, hψ2, hψ3⟩ := exists_psiRes hct hext F hw₀ hsq hpanel J a
   let S : Set ↥(residue (cs) (stdδ hct) J a) :=
@@ -91,7 +91,7 @@ theorem exists_chart_22x_of_frame (hK : Nat.card Fld = (2 ^ f) ^ 2)
     seam_hyps_of_match (c := PhanCode.a3_22x) hct F PC
       (by simp [PhanCode.IsFlagCode]) L hcore hperm hπ
   obtain ⟨Θ₀, N, hN, hS, hψ'⟩ :=
-    exists_seam hct hext F hw₀ hsq L hJ hIJ hR hcoreF ht₀ hl₀ hψ hd hI
+    exists_seam hct hext F L hJ hIJ hR hcoreF ht₀ hl₀ hψ hd hI
       (sg Fld f : Fld →+* Fld) (permSL PhanCode.a3_22x.blockPerm)
       PhanCode.a3_22x.polB hPu hPl
   obtain ⟨ψ, hψ1, hψ2, hψ3⟩ := exists_psiRes hct hext F hw₀ hsq hpanel J a

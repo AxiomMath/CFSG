@@ -30,7 +30,7 @@ private lemma sl23_card_eq_twelve_or_twentyfour
   have hn_ne_one : Nat.card (Sylow 3 H) ≠ 1 := by
     intro h1
     have hsub : Subsingleton (Sylow 3 H) := (Nat.card_eq_one_iff_unique.mp h1).1
-    exact hS (by haveI := hsub; exact Sylow.normal_of_subsingleton S)
+    exact hS (by have := hsub; exact Sylow.normal_of_subsingleton S)
   have hmod : Nat.card (Sylow 3 H) % 3 = 1 := by
     have h := card_sylow_modEq_one 3 H
     rw [Nat.ModEq] at h

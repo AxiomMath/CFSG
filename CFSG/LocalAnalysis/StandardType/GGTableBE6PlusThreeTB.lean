@@ -18,11 +18,12 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 section Frame
 
 
+omit [CharP K 2] in
 theorem exists_conj_map_eq_frame_range (D : ExcFrames.E6QPlusThree.E6QPlusThreeFrame K)
     {A : Subgroup (adjointGroup .E6 K)} (hA : IsElemAbelian 3 A) (hA4 : 3 ^ 4 ≤ Nat.card A) :
     ∃ c : adjointGroup .E6 K, A.map (MulAut.conj c).toMonoidHom = D.frame.range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (adjointGroup .E6 K) := generated_group_finite .E6 K
   obtain ⟨P, hP⟩ := D.exists_sylow_le
   obtain ⟨c, -, hc⟩ := CFSG.QuasiDihedralFusion.exists_conj_le_sylow (p := 3)
     (H := adjointGroup .E6 K) ⊤ P le_top A le_top (CFSG.Open.IsElemAbelian.isPGroup hA)

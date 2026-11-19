@@ -82,7 +82,7 @@ theorem false_of_altSpor (hp2 : p ≠ 2) (h243 : GL83ComponentPCoreTrivial)
     · rw [Subgroup.card_map_of_injective E.subtype_injective, hK]
   obtain ⟨y0, hy0Q, hy0c, hy0p, hy0x⟩ :=
     h.exists_central_of_not_mem_zpowers hp2 h243 hS hFC hloc
-  exact hEnd G p P P.isPGroup' x y0 h.elem.2.1 h.mem hy0Q hy0c hy0p hy0x hA4 hQ3
+  exact hEnd G p P P.isPGroup x y0 h.elem.2.1 h.mem hy0Q hy0c hy0p hy0x hA4 hQ3
     fun D hDQ hD hDc => h.not_exists_conj_lines hp2 h243 h244 hsig hS hD1 hFC hloc hDQ hD hDc
 
 end Groups

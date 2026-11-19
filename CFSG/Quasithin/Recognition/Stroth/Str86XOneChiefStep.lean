@@ -64,11 +64,11 @@ theorem str86_exists_chiefStep_X1_z1
   obtain ⟨hE, hNat⟩ :=
     str86_X1_chiefFactor_natural hF hSB hk hFc hU3 hB2 h2 hZI hZQ hL2 hZ2 hZ1 hY hX1'
       hX1Q1 hstep hnc hZL
-  letI : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
+  let : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
   have hgeChief : (2 ^ k) ^ 6 ≤ Nat.card (Ch3z.chiefMod L N) := by
     obtain ⟨K, hKfield, hKfin, hKcard, hreal⟩ := hNat
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     obtain ⟨π, hπ⟩ := hreal
     obtain ⟨-, -, -, -, -, -, -, β, hβsurj, -, -⟩ := hπ
     have hcard := Nat.card_le_card_of_surjective β hβsurj
@@ -117,9 +117,9 @@ theorem str86_exists_chiefStep_X1_z1
     · exact fun h => h.2
     · exact fun h => ⟨x.2, h⟩
   have hrelNZ : (N ⊓ Z1 L1 L2 S).relIndex N = (Z1 L1 L2 S).relIndex (N ⊔ Z1 L1 L2 S) := by
-    haveI : ((Z1 L1 L2 S).subgroupOf N).Normal :=
+    have : ((Z1 L1 L2 S).subgroupOf N).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hNZn
-    haveI : ((Z1 L1 L2 S).subgroupOf (N ⊔ Z1 L1 L2 S)).Normal :=
+    have : ((Z1 L1 L2 S).subgroupOf (N ⊔ Z1 L1 L2 S)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hNZn Subgroup.le_normalizer)
     have hiso := QuotientGroup.quotientInfEquivProdNormalizerQuotient N (Z1 L1 L2 S) hNZn
     have hcard := Nat.card_congr (MulEquiv.toEquiv hiso)

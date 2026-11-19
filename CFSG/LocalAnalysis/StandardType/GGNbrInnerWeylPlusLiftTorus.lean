@@ -94,7 +94,7 @@ theorem ggTorusLift_of_commutingSL2 (hp : p.Prime) (hp2 : p ≠ 2)
     (hc : ∀ i j, i ≠ j → ∀ A B, Commute (ρ i A) (ρ j B)) :
     GGTorusLift p d R := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨s, n, hsorder, hconj⟩ := GGPlusLiftSL2.exists_order_p_inverting_sl2 hp hp2 hpq
   have hs_pow : s ^ p = 1 := by rw [← hsorder]; exact pow_orderOf_eq_one s
   have hpow : ∀ i : Fin d, (ρ i.castSucc s) ^ p = 1 := fun i => by

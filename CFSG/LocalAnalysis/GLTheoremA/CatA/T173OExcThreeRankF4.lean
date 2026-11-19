@@ -24,8 +24,8 @@ theorem parabolicLevi_le_rootSpan_c3_or_b3 (hF : Nat.card F = 2) {J : Set (Fin T
     (hE27 : Nat.card E = 27) :
     parabolicLevi .F4 F J ≤ rootSpan .F4 F c3LeviRoots ∨
       parabolicLevi .F4 F J ≤ rootSpan .F4 F b3LeviRoots := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have : Finite (ModGL .F4 F) := finite_modGL
   obtain ⟨i, hi⟩ := (Set.ne_univ_iff_exists_notMem J).1 hJ
@@ -114,8 +114,8 @@ theorem three_le_glaTwoLocalRank_F4 [CharP F 2] [Finite ↥(adjointGroup .F4 F)]
 
 theorem glaTwoLocalRank_three_F4_two [Finite ↥(adjointGroup .F4 F)] (hF : Nat.card F = 2) :
     GLATwoLocalRank 3 ↥(adjointGroup .F4 F) = 3 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   exact le_antisymm (glaTwoLocalRank_three_F4_le hF) three_le_glaTwoLocalRank_F4
 

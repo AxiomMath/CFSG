@@ -50,7 +50,7 @@ public theorem secondCase_involution_K_quotient_card_eq_card
     exact Subgroup.mem_bot.mp hxbot
   have hformula := card_map_eq_card_mul_card_ker q (K.subgroupOf M)
   have hker : q.ker = O := by
-    simpa [q] using QuotientGroup.ker_mk' O
+    simp [q]
   rw [hker, hInf, Subgroup.card_bot, mul_one] at hformula
   have hsubcard : Nat.card (K.subgroupOf M) = Nat.card K :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe

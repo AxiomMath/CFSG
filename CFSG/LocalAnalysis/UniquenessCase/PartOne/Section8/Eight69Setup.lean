@@ -28,7 +28,7 @@ private lemma surjective_inclusion_comp_pCore_mk {G : Type} [Group G]
   have hO_le_L : CFSG.Open.pCoreOf 2 L ≤ L := Subgroup.map_subtype_le _
   have hsup_l : X.subgroupOf L ⊔ (CFSG.Open.pCoreOf 2 L).subgroupOf L = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hXL hO_le_L, hsup, Subgroup.subgroupOf_self]
-  haveI : ((CFSG.Open.pCoreOf 2 L).subgroupOf L).Normal := by
+  have : ((CFSG.Open.pCoreOf 2 L).subgroupOf L).Normal := by
     have h : (CFSG.Open.pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 ↥L := by
       change (CFSG.Open.pCoreOf 2 L).comap L.subtype = CFSG.pCore 2 ↥L
       rw [CFSG.Open.pCoreOf, Subgroup.comap_map_eq_self_of_injective L.subtype_injective]
@@ -92,7 +92,7 @@ theorem commutator_eq_self_of_minimal_supplement {G : Type} [Group G]
   have hOl_map : Ol.map L.subtype = CFSG.Open.pCoreOf 2 L := rfl
   have hsup_l : Xl ⊔ Ol = ⊤ := by
     simpa [Xl, Ol] using subgroupOf_sup_pCore_eq_top L X hXL hsup
-  haveI : Ol.Normal := by
+  have : Ol.Normal := by
     rw [hOl]
     exact CFSG.pCore_normal (p := 2) (G := ↥L)
   let π : ↥L →* CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L :=

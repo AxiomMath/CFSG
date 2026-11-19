@@ -59,9 +59,9 @@ theorem ggQ2s08r6_exists_data
   have hcard : Nat.card Bs = 3 ^ 6 := by
     have h1 : Nat.card Bs = Nat.card M.V :=
       Nat.card_congr ((Additive.ofMul : ↥Bs ≃ Additive ↥Bs).trans M.model.toEquiv)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Finite M.V := Finite.of_equiv _ M.model.toEquiv
-    haveI : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Finite M.V := Finite.of_equiv _ M.model.toEquiv
+    have : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
     rw [h1, Module.natCard_eq_pow_finrank (K := ZMod 3) (V := M.V), Nat.card_zmod,
       hShape.2.2.2.1, hΛ]
   have hK' : Nat.card K = 4 := hK

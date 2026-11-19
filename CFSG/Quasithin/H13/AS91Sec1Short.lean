@@ -62,7 +62,7 @@ theorem inClosure_of_length_le_five {c : List V} (hc : IsCycle Δ c) (hlen : c.l
       exact h1.trans h2
     exact inClosure_of_mem (isNGon_four hab hbc hcd hde hac hbd).1
       (Or.inr (isNGon_four hab hbc hcd hde hac hbd))
-  | _ :: _ :: _ :: _ :: _ :: _ :: _, h => simp only [List.length_cons] at h <;> omega
+  | _ :: _ :: _ :: _ :: _ :: _ :: _, h => simp only [List.length_cons] at h; omega
 
 theorem moves_triangle_shortcut (hC : ∀ p, IsNGon Δ 3 p → p ∈ C) (l₁ l₂ : List V) {x y z : V}
     (hxy : Δ.Adj x y) (hyz : Δ.Adj y z) (hxz : Δ.Adj x z) :

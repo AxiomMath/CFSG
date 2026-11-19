@@ -191,7 +191,7 @@ noncomputable def innerSub (L : Subgroup X) : Subgroup X where
     have hm : x⁻¹ * (l : X) * x⁻¹⁻¹ ∈ L :=
       (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hxN) l).mp l.2
     have h1 := hkx ⟨_, hm⟩
-    simp only [Subgroup.coe_mk] at h1
+    simp only at h1
     have h2 : x * (x⁻¹ * (l : X) * x⁻¹⁻¹) * x⁻¹ = (l : X) := by group
     rw [h2] at h1
     simp only [Subgroup.coe_inv]
@@ -236,7 +236,7 @@ noncomputable def innerHom {L : Subgroup X} (hZ : Subgroup.center L = ⊥) : inn
     have h2 := innerElt_spec y l
     simp only [hm, Subgroup.coe_mul, Subgroup.coe_inv] at h1
     rw [← h2] at h1
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     calc (x : X) * y * l * ((x : X) * y)⁻¹ = x * (y * l * (y : X)⁻¹) * (x : X)⁻¹ := by group
       _ = (innerElt x : X) * (y * l * (y : X)⁻¹) * (innerElt x : X)⁻¹ := h1
       _ = (innerElt x : X) * ((innerElt y : X) * l * (innerElt y : X)⁻¹) * (innerElt x : X)⁻¹ :=
@@ -309,7 +309,7 @@ theorem olRow_of_inner (S : Type) [Group S] [Finite S] [IsSimpleGroup S]
       have hm : q⁻¹ * (l : X) * q⁻¹⁻¹ ∈ L :=
         (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hqN) l).mp l.2
       have h1 := hkp ⟨_, hm⟩
-      simp only [Subgroup.coe_mk] at h1 ⊢
+      simp only at h1 ⊢
       calc q * p * q⁻¹ * (l : X) * (q * p * q⁻¹)⁻¹ =
           q * (p * (q⁻¹ * (l : X) * q⁻¹⁻¹) * p⁻¹) * q⁻¹ := by group
         _ = q * ((kp : X) * (q⁻¹ * (l : X) * q⁻¹⁻¹) * (kp : X)⁻¹) * q⁻¹ := by rw [h1]

@@ -36,10 +36,10 @@ theorem hasCleanFullClassBMember_of_lieModel_e8
     Upgrade.lieModelCentralCover .E8 0 3 1 Nat.prime_three (by norm_num) trivial hadm Q h
   obtain ⟨Θ, hΘk, hΘr, hΘc⟩ := exists_thetaE8 hadm
   have hX : BlockData (E7sc 3 1) := blockData_e7sc
-  haveI : Finite (E7sc 3 1) :=
+  have : Finite (E7sc 3 1) :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' (K := GaloisField 3 1)
       CFSG.LieType.Steinberg.Minuscule.e7Data_valid
-  haveI : Group.IsPerfect (E7sc 3 1) := hX.quasisimple.1
+  have : Group.IsPerfect (E7sc 3 1) := hX.quasisimple.1
   have hperf : commutator (E7sc 3 1) = ⊤ := by simp
   have hZ2 : Nat.card ↥(center (E7sc 3 1)) = 2 :=
     ComponentClassification.HarrisLit.T1.P54.E7Row.card_center_E7sc (p := 3) (f := 1)

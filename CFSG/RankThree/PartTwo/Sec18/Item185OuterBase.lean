@@ -215,7 +215,7 @@ private theorem oTwoP_fixed_map_mem [Finite X] (c : MulAut X)
     (QuotientGroup.mk' (Subgroup.center X) (o : X)) ∈
       (Sec4.oTwoP 3 ↥(fixedSubgroup (Sec19.SimsC198.centerQuotAut X c))).map
         (fixedSubgroup (Sec19.SimsC198.centerQuotAut X c)).subtype := by
-  haveI := fixedQuotSub_normal c
+  have := fixedQuotSub_normal c
   let g : ↥(fixedSubgroup c) →* ↥(fixedQuotSub c) :=
     { toFun := fun x =>
         ⟨⟨QuotientGroup.mk' (Subgroup.center X) (x : X),
@@ -269,7 +269,7 @@ theorem OuterData.quotient (hX : RankHyp X) {P A B : Subgroup (MulAut X)} {c : M
     OuterData (X ⧸ Subgroup.center X) (P.map (Sec19.SimsC198.centerQuotAut X))
       (A.map (Sec19.SimsC198.centerQuotAut X)) (B.map (Sec19.SimsC198.centerQuotAut X))
       (Sec19.SimsC198.centerQuotAut X c) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : Group.IsPerfect X := hX.quasisimple.1
   have hinj : Function.Injective (Sec19.SimsC198.centerQuotAut X) :=
     Sec19.SimsC198.centerQuotAut_injective hperf
@@ -308,7 +308,7 @@ end Reduction
 
 theorem OuterCase.of_noOuterData {P : (S : Type) → [Group S] → Prop}
     (h : ∀ (S : Type) [Group S] [Finite S], P S → NoOuterData S) : OuterCase P :=
-  fun X _ _ hX _ _ _ _ hd hP => h _ hP _ _ _ _ (hd.quotient hX)
+  fun _X _ _ hX _ _ _ _ hd hP => h _ hP _ _ _ _ (hd.quotient hX)
 
 theorem OuterCase.of_rankHyp {P : (S : Type) → [Group S] → Prop}
     (h : ∀ (X : Type) [Group X] [Finite X], RankHyp X → P (X ⧸ Subgroup.center X) → False) :
@@ -319,7 +319,7 @@ private theorem outerData_map_congr {S T : Type} [Group S] [Group T] [Finite S] 
     (e : S ≃* T) {P A B : Subgroup (MulAut S)} {c : MulAut S} (h : OuterData S P A B c) :
     OuterData T (P.map (MulAut.congr e).toMonoidHom) (A.map (MulAut.congr e).toMonoidHom)
       (B.map (MulAut.congr e).toMonoidHom) (MulAut.congr e c) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective (MulAut.congr e).toMonoidHom := (MulAut.congr e).injective
   have hinn : (innerAut S).map (MulAut.congr e).toMonoidHom = innerAut T :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_map_congr e
@@ -362,7 +362,7 @@ theorem noOuterData_of_autNoE27 {S : Type} [Group S] [Finite S] (h : AutNoE27 S)
 theorem noOuterData_of_not_three_dvd_outer {S : Type} [Group S] [Finite S]
     (h : ¬ 3 ∣ Nat.card (Outer S)) : NoOuterData S := by
   intro P A B c hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcA : c ∈ A := by rw [hd.eq_sup]; exact Subgroup.mem_sup_left (Subgroup.mem_zpowers c)
   have hc3 : c ^ 3 = 1 := hd.isElemAbelian.2 c hcA
   have hq3 : (QuotientGroup.mk c : Outer S) ^ 3 = 1 := by
@@ -445,7 +445,7 @@ theorem noOmega_of_fixed_facts {S : Type} [Group S] [Finite S]
         ¬ 9 ∣ Nat.card (fixedSubgroup σ)) : NoOmega S := by
   intro σ hσ hσ3 B _ hBc hBO
   rcases h σ hσ hσ3 with ⟨N, hN, hsimp, hna, hcent⟩ | hnd
-  · haveI := hN
+  · have := hN
     have hO := oTwoP_le_centralizer_of_simple_normal N hsimp hna
     rw [hcent] at hO
     have hB0 : B ≤ ⊥ := by

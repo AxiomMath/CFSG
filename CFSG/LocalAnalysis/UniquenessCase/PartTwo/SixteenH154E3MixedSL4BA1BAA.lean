@@ -24,7 +24,7 @@ theorem s16h_sl4_natNorm_involution {K : Type} [Field K] [Finite K] (hK : Nat.ca
     (hs2 : s ^ 2 = 1) (hs1 : s ≠ 1) :
     2 ≤ rkIdx (fixV (Subgroup.zpowers s)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 ^ 2 := by rw [hK]; norm_num
   have hΓ : HasScalarCommutant (CFSG.Assembly.LowTwoRank.StatedSL 2 K) :=
     hasScalarCommutant_statedSL (K := K) (by norm_num)

@@ -47,7 +47,7 @@ public theorem hall_lemma_14_4_3_transfer_diagonal_defect_formula
   refine ⟨defectTerms, ?_⟩
   intro h
   let Ω := Quotient (MulAction.orbitRel (Subgroup.zpowers (h : G)) (G ⧸ H))
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   let m : Ω → ℕ := fun q => Function.minimalPeriod ((h : G) • ·) q.out
   let cycleTerm : Ω → H := fun q =>
     ⟨q.out.out⁻¹ * (h : G) ^ m q * q.out.out,

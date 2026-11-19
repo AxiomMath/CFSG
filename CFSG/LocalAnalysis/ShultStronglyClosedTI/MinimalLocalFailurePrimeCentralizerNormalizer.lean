@@ -105,7 +105,7 @@ theorem exists_sylow_of_fixed_pair {G Ω : Type*} [Group G] [Finite G]
     ∃ S : Sylow p C, (S : Subgroup C).map C.subtype = (P : Subgroup K).map K.subtype := by
   have hKC : K ≤ C := fun g hg => ((hK g).1 hg).1
   have hQK : (P : Subgroup K).map K.subtype ≤ K := map_subtype_le _
-  have hQp : IsPGroup p ((P : Subgroup K).map K.subtype) := P.isPGroup'.map K.subtype
+  have hQp : IsPGroup p ((P : Subgroup K).map K.subtype) := P.isPGroup.map K.subtype
   have hmaxC := pSubgroup_maximal_of_fixed_pair act act_one act_mul Fact.out hp2 hαβ C _ hQp
     (hQK.trans hKC) hPfix fun P' hP' hQP' hP'C hfix => by
       have hP'K : P' ≤ K := fun g hg => (hK g).2 ⟨hP'C hg, hfix g hg⟩
@@ -113,7 +113,7 @@ theorem exists_sylow_of_fixed_pair {G Ω : Type*} [Group G] [Finite G]
         fun x hx => mem_subgroupOf.2 (hQP' (mem_map_of_mem K.subtype hx))).symm
       rw [← inf_of_le_left hP'K, ← subgroupOf_map_subtype, hsub]
   obtain ⟨S, hS⟩ := (hQp.comap_subtype (K := C)).exists_le_sylow
-  refine ⟨S, hmaxC _ (S.isPGroup'.map C.subtype) ?_ (map_subtype_le _)⟩
+  refine ⟨S, hmaxC _ (S.isPGroup.map C.subtype) ?_ (map_subtype_le _)⟩
   rw [← inf_of_le_left (hQK.trans hKC), ← subgroupOf_map_subtype]
   exact map_mono hS
 

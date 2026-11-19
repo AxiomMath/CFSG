@@ -10,6 +10,7 @@ open Matrix CFSG.LargeExtraspecial.A2Mod
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem exists_sl2_hom_of_le_map {Γ : Type} [Group Γ] {P : Subgroup Γ}
     (ρ : ↥P →* GL (Fin 2) F) {W : Subgroup Γ}
     (h : (SpecialLinearGroup.toGL : SpecialLinearGroup (Fin 2) F →* GL (Fin 2) F).range ≤
@@ -39,10 +40,10 @@ theorem exists_sl2_hom_of_le_map {Γ : Type} [Group Γ] {P : Subgroup Γ}
     refine ⟨eS ⟨x, hxS⟩, ?_⟩
     show eGL (f (eS.symm (eS ⟨x, hxS⟩))) = s
     rw [MulEquiv.symm_apply_apply, hfx]
-    simpa [eGL] using
-      MulEquiv.symm_apply_apply (MonoidHom.ofInjective Matrix.SpecialLinearGroup.toGL_injective) s
+    simp [eGL]
   exact ⟨S.map P.subtype, hW₁, φ, hφ⟩
 
+omit [Finite F] in
 private lemma oddIdxRest_surj_of_le_P1 (hmax : GL2NonsplitMax F) {W : Subgroup (SL3 F)}
     (hWP : W ≤ P1)
     (hNW : Subgroup.normalizer ((A0 : Subgroup (SL3 F)) : Set (SL3 F)) ≤ W)

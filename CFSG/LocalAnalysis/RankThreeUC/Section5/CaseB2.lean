@@ -32,15 +32,15 @@ theorem alphaPrimeInvolutionBound_holds :
   by_contra hle
   push Not at hle
   have hS := hc.oddPrimeClassTwoAction.setting
-  haveI : Fact q.Prime := ⟨hS.prime⟩
+  have : Fact q.Prime := ⟨hS.prime⟩
   have hq2 : q ≠ 2 := by
     intro h
     have hodd := hS.odd
     rw [h] at hodd
     exact absurd hodd (by decide)
-  haveI : FiniteDimensional (ZMod 2) V :=
+  have : FiniteDimensional (ZMod 2) V :=
     hc.faithfulBinaryIrreducibleAction.irreducible.finiteDimensional
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have ht2 : t * t = 1 := by rw [← pow_two, ← ht]; exact pow_orderOf_eq_one t
   obtain ⟨Q, hQn, hPQ, hQP, hQexp, hQcb, hQQP, hcenter, y₀, hy₀Q, hy₀⟩ :=
     SymmetryReduction.exists_special hc ht htP hOt
@@ -65,7 +65,7 @@ theorem alphaPrimeInvolutionBound_holds :
     exact ⟨hS.prime, h⟩
   obtain ⟨r, hr, hre, hcount⟩ := FreeTranslates.exists_prime_mul_sq_lt
     hc.oddPrimeClassTwoAction.two_lt hpp hS.prime hq2 hpe hk hk5 hcard.1 hcard.2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrB : r ∣ Nat.card B := by
     have h3 : r ∈ piOf B := by
       rw [hc.oddPrimeClassTwoAction.pi_eq]

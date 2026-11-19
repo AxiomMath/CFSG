@@ -81,7 +81,7 @@ private theorem nonempty_quotCenter_alt8 {X : Type} [Group X]
 
 private theorem card_alt (n : ℕ) (hn : 2 ≤ n) :
     Nat.card ↥(alternatingGroup (Fin n)) = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [nat_card_alternatingGroup, Nat.card_fin]
 
 section Cert
@@ -90,7 +90,7 @@ section Cert
 theorem i2017LieClassification_of (hI : InnA8) (hO : OutA8) : I2017LieClassification := by
   intro Q _ _ hQ α J hα3 hα1 hJ hJ8 d hcat
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨idx, hidx, ⟨e⟩⟩ : ∃ idx : TauCeti.ValidLieTypeIndex, idx.1 = d ∧
       Nonempty (Q ⧸ Subgroup.center Q ≃* (TauCeti.CFSGIndex.lie idx).Group) := by
     obtain ⟨i, hi, he⟩ := hcat
@@ -99,7 +99,7 @@ theorem i2017LieClassification_of (hI : InnA8) (hO : OutA8) : I2017LieClassifica
     all_goals exact (hi : False).elim
   subst hidx
   set T : Type := (TauCeti.CFSGIndex.lie idx).Group with hTdef
-  haveI : Finite T := Finite.of_equiv _ e.toEquiv
+  have : Finite T := Finite.of_equiv _ e.toEquiv
   set Z := Subgroup.center Q with hZdef
   set ψ : Q →* T := e.toMonoidHom.comp (QuotientGroup.mk' Z) with hψdef
   have hψs : Function.Surjective ψ := e.surjective.comp (QuotientGroup.mk'_surjective Z)

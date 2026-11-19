@@ -76,6 +76,7 @@ section Base
 
 variable {τ : Tag} {K : Type} [Field K] [Finite K] {p m : ℕ} [Fact p.Prime]
 
+omit [Finite K] in
 theorem units_map_entrywise_baseChangeGL {K₀ : Type} [Field K₀] (ι : K₀ →+* K) (σ : K ≃+* K)
     (hσ : ∀ x, σ (ι x) = ι x) (g : ModGL τ K₀) :
     Units.map (entrywiseHom σ.toRingHom) (baseChangeGL ι g) = baseChangeGL ι g := by

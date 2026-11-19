@@ -35,7 +35,7 @@ theorem testBit_exC (s : ℕ) (T : ℕ) :
 theorem exL_apply_of_ne (v : V) {T : Fin 64} (hT : ∀ c, evF c ≠ T) : exL v T = 0 := by
   rw [exL_apply, Finset.sum_apply, Finset.sum_eq_zero]
   intro c _
-  simp [Pi.single_apply, Ne.symm (hT c)]
+  simp [Ne.symm (hT c)]
 
 theorem decode64_exC (s : ℕ) : decode64 (exC s) = exL (decode32 s) := by
   funext T

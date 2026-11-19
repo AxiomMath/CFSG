@@ -27,7 +27,7 @@ theorem planeCondP_J3
     (kFactJ3OuterRank_closed CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv) J hJ
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine planeCondP_of_sylow Nat.prime_three T Z ⟨H.Zcomm, H.Z3⟩ H.Z9 H.Zc fun z hz hz1 => ?_
-  exact (T.isPGroup').to_le (centralizer_le_of_outerSetup H hz hz1)
+  exact (T.isPGroup).to_le (centralizer_le_of_outerSetup H hz hz1)
 
 theorem oPrimeCoreTrivialAt_J3
     (J : Type) [Group J] [Finite J]

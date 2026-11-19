@@ -24,7 +24,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Che
 
 private theorem center_eq_bot_twF4Cell {R : Type} [Group R] (hs : IsSimpleGroup R)
     (hna : ∃ a b : R, a * b ≠ b * a) : Subgroup.center R = ⊥ := by
-  haveI := hs
+  have := hs
   obtain ⟨a, b, hab⟩ := hna
   exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R)).resolve_right fun h =>
     hab (Subgroup.mem_center_iff.mp (by rw [h]; exact Subgroup.mem_top b) a)

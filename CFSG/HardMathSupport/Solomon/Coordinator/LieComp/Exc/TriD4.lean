@@ -53,7 +53,7 @@ theorem lieCompExport_triD4 (hres : ExcRationalLieTypes) (hout : TrialityOuterEx
   · have hout' : MulAut.congr e' β ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
         MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range := fun hmem =>
       hΘβ (by rw [← MonoidHom.mem_ker, hΘker]; exact hmem)
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     exact hout q.p q.exponent hq3.symm q.exponent_pos K hK σ hσ _ hβ' hout'
 
 end CFSG.HardMathSupport.Solomon.Coordinator.LieComp

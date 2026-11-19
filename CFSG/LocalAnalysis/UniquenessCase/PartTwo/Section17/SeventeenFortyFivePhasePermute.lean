@@ -37,7 +37,7 @@ theorem le_normalizer_or_fermat_dvd_of_splitBN {K : Type} [Group K] [Finite K]
   · exact Or.inl (le_sup_left.trans hY)
   · right
     obtain ⟨k, hk1, hdvd⟩ := uc22p20k_div_of_splitBN hBN U (E ⊔ U) le_sup_right hY
-    obtain ⟨a, ha⟩ := U.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := U.isPGroup.exists_card_eq
     have hcop : Nat.Coprime (Nat.card E) (2 ^ a) := hE.coprime_two_right.pow_right a
     have hEU : E ⊓ (U : Subgroup K) = ⊥ :=
       disjoint_iff.mp (Subgroup.disjoint_of_coprime_natCard (by rwa [ha]))

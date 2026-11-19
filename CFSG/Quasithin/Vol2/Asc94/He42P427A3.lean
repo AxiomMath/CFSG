@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem p427_exists_b (T : HeSetup G) :
     ∃ b ∈ T.B, b ≠ 1 ∧ b ≠ T.a ∧ T.m b = T.g.val := by
-  obtain ⟨b, hbB, hbm⟩ := T.hD.exists_b T.hxN T.hxa T.hx3
+  obtain ⟨b, hbB, hbm⟩ := T.hD.exists_b T.hxN T.hxa
   have hg1 : T.g ≠ 1 := T.hD.g_ne_one T.hxN T.hxa T.hx3
   have hbm' : T.m b = T.g.val := hbm
   refine ⟨b, hbB, ?_, ?_, hbm'⟩
@@ -41,7 +41,7 @@ theorem p427_L_le_KB (T : HeSetup G) (hB : T.BaseFacts) : T.L ≤ KB T := by
   have hcB := p427_L_le_centB T hB hc
   refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
   · rw [mem_centralizer_singleton_iff]
-    exact (mem_centralizer_iff.1 hcB T.a (T.hD.a_mem_B T.hxN T.hxa T.hx3)).symm
+    exact (mem_centralizer_iff.1 hcB T.a (T.hD.a_mem_B T.hxa)).symm
   · apply Subgroup.mem_normalizer_fintype
     intro n hn
     have hcn := mem_centralizer_iff.1 hcB n hn
@@ -51,7 +51,7 @@ theorem p427_L_le_KB (T : HeSetup G) (hB : T.BaseFacts) : T.L ≤ KB T := by
     rw [e]
     exact hn
 
-theorem p427_KB_coset (T : HeSetup G) (hB : T.BaseFacts)
+theorem p427_KB_coset (T : HeSetup G) (_hB : T.BaseFacts)
     (hL : ∀ c : G, (∀ b ∈ T.B, c * b = b * c) → c ∈ T.L)
     {b : G} (hbB : b ∈ T.B) (hb1 : b ≠ 1) (hba : b ≠ T.a)
     {s₀ : G} (hs₀ : s₀ ∈ KB T) (hs₀L : s₀ ∉ T.L) {k : G} (hk : k ∈ KB T) :
@@ -152,7 +152,7 @@ theorem p427_KB_card (T : HeSetup G) (hB : T.BaseFacts)
     (hLcard : Nat.card T.L = 80640) {z : G} (hz : z ∈ T.Z) (ha : T.a ∈ T.Z)
     (hS : Nat.card ↥(centralizer ({z} : Set G) ⊓ centralizer ({T.a} : Set G)) = 512) :
     Nat.card ↥(KB T) = 161280 := by
-  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxN T.hxa T.hx3
+  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxa
   have ha1 : T.a ≠ 1 := by
     intro h
     have := T.hD.ham
@@ -163,7 +163,7 @@ theorem p427_KB_card (T : HeSetup G) (hB : T.BaseFacts)
   obtain ⟨b, hbB, hb1, hba, -⟩ := p427_exists_b T
   obtain ⟨s₀, hs₀, hs₀L⟩ : ∃ s₀ ∈ KB T, s₀ ∉ T.L := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hEq : KB T ≤ T.L := hcon
     have hK : KB T = T.L := le_antisymm hEq hLK
     have h1 := Subgroup.card_dvd_of_le hSK
@@ -183,7 +183,7 @@ theorem p427_KB_card (T : HeSetup G) (hB : T.BaseFacts)
   have hpos : 0 < Nat.card ↥(KB T) := Nat.card_pos
   omega
 
-theorem p427_conj_KB (T : HeSetup G) (hB : T.BaseFacts) {z : G}
+theorem p427_conj_KB (T : HeSetup G) (_hB : T.BaseFacts) {z : G}
     (hS : Nat.card ↥(centralizer ({z} : Set G) ⊓ centralizer ({T.a} : Set G)) = 512)
     (hSK : centralizer ({z} : Set G) ⊓ centralizer ({T.a} : Set G) ≤ KB T)
     (hKB : Nat.card ↥(KB T) = 161280) {c : G} (hc : c ∈ KB T) (hc2 : c * c = 1) :

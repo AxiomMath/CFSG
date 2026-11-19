@@ -53,7 +53,7 @@ theorem uc22s2114_e3r4_four_le_pRank
       rw [uc22s2114_pRank_psl_of_five_le hT hq (hM.statedClassicalModel (by decide)) hm
         Nat.prime_three h3,
         uc22p20v_rkLin_true_two
-        (by rw [uc22p20v_eP_three, if_neg (by decide)] : eP (2 ^ 1) 3 = 2)]
+        (by rw [uc22p20v_eP_three, ite_eq_right (by decide)] : eP (2 ^ 1) 3 = 2)]
       omega
     · obtain ⟨r, hr, hrf, hr5⟩ := uc22p20o_prime_sub_one_ne_five hf2
       have hr2 : r ≠ 2 := by
@@ -136,7 +136,7 @@ theorem s21_14R4_of_s21_14R4T
           ((LieModel.of_mulEquiv e hmod).statedClassicalModel (by decide)) hm Nat.prime_three
           (by norm_num),
         uc22p20v_rkLin_true_two
-          (by rw [uc22p20v_eP_three, if_neg (by decide)] : eP (2 ^ 1) 3 = 2)]
+          (by rw [uc22p20v_eP_three, ite_eq_right (by decide)] : eP (2 ^ 1) 3 = 2)]
     have hBL := uc22s2114_B0_le_normalizer h5 hH c hL
     have hfaith := uc22s2114_faithful h3 hH c hL fun hthin => by
       have := hthin 3 Nat.prime_three (by norm_num)
@@ -151,7 +151,7 @@ theorem s21_14R4_of_s21_14R4T
     · have hk : D.k = 1 := by
         have h := h82 L ⟨hL.1, hL.2.1, by omega, Or.inl (PartTwo.s15_Three_qs_of_open hL.2.2)⟩
         unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-        rw [if_pos h]
+        rw [ite_eq_left h]
       refine hR4T hH c L hL hX hpow (Or.inr ⟨?_, hk⟩) (hn3 hH c) hBL hfaith hk1
       rcases h67 with rfl | rfl
       · exact Or.inl hmod

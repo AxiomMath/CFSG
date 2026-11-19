@@ -37,7 +37,7 @@ private theorem a11tm_good_or : a11tm_good ggSL9Zeta ∨ a11tm_good ggSL9Zeta⁻
     have hmul : (x + 1) * (x^6 + x^5 + x^4 + x^3 + x^2 + x + 1) = 0 := by
       have hexp : (x + 1) * (x^6 + x^5 + x^4 + x^3 + x^2 + x + 1) = x^7 + 1 := by
         ring_nf
-        simp only [a11tm_two, a11tm_three, mul_zero, mul_one, add_zero, zero_add]
+        simp only [a11tm_two, mul_zero, add_zero]
       rw [hexp, h7]
       exact CharTwo.add_self_eq_zero 1
     exact (mul_eq_zero.mp hmul).resolve_left (by
@@ -50,7 +50,7 @@ private theorem a11tm_good_or : a11tm_good ggSL9Zeta ∨ a11tm_good ggSL9Zeta⁻
   have hprod : (x^3 + x + 1) * (x^3 + x^2 + 1) = 0 := by
     have hp : (x^3 + x + 1) * (x^3 + x^2 + 1) = x^6 + x^5 + x^4 + x^3 + x^2 + x + 1 := by
       ring_nf
-      simp only [a11tm_two, a11tm_three, mul_zero, mul_one, add_zero, zero_add]
+      simp only [a11tm_three, mul_one]
     rw [hp, hsum]
   rcases mul_eq_zero.mp hprod with h | h
   · left
@@ -91,7 +91,7 @@ private theorem a11tm_zpowers_eq_top (u : (GaloisField 2 3)ˣ) (h : a11tm_good u
 
 private theorem a11tm_adjoin_eq_top (u : (GaloisField 2 3)ˣ) (h : a11tm_good u) :
     Algebra.adjoin (ZMod 2) ({(u : GaloisField 2 3)} : Set (GaloisField 2 3)) = ⊤ := by
-  haveI : Algebra.IsAlgebraic (ZMod 2) (GaloisField 2 3) := Algebra.IsAlgebraic.of_finite _ _
+  have : Algebra.IsAlgebraic (ZMod 2) (GaloisField 2 3) := Algebra.IsAlgebraic.of_finite _ _
   rw [← IntermediateField.adjoin_eq_top_iff]
   apply IntermediateField.ext
   intro y
@@ -131,7 +131,7 @@ private theorem a11tm_bF_apply (u : (GaloisField 2 3)ˣ) (h : a11tm_good u) (i :
     a11tm_bF u h i = (u : GaloisField 2 3) ^ (i : ℕ) := by
   rw [a11tm_bF, Basis.reindex_apply, PowerBasis.basis_eq_pow]
   simp only [a11tm_pb, PowerBasis.ofAdjoinEqTop_gen]
-  congr 1 <;> simp [finCongr]
+  congr 1
 
 
 private def a11tm_blk3 (p : Fin 9) : Fin 3 :=
@@ -193,17 +193,17 @@ private theorem a11tm_bF_repr_mul (u : (GaloisField 2 3)ˣ) (h : a11tm_good u) (
       a11tm_e2 (Om a 0)
     rw [hb0]
     fin_cases a <;>
-      simp [Om, e0, e1, Basis.repr_self, Finsupp.single_apply, Matrix.cons_val]
+      simp [Om, e0, e1, Basis.repr_self, Matrix.cons_val]
   · show (a11tm_bF u h).repr ((u : GaloisField 2 3) * a11tm_bF u h 1) a =
       a11tm_e2 (Om a 1)
     rw [hb1]
     fin_cases a <;>
-      simp [Om, e0, e1, Basis.repr_self, Finsupp.single_apply, Matrix.cons_val]
+      simp [Om, e0, e1, Basis.repr_self, Matrix.cons_val]
   · show (a11tm_bF u h).repr ((u : GaloisField 2 3) * a11tm_bF u h 2) a =
       a11tm_e2 (Om a 2)
     rw [hb2]
     fin_cases a <;>
-      simp [Om, e0, e1, Basis.repr_self, Finsupp.single_apply, Matrix.cons_val, map_add]
+      simp [Om, e0, e1, Basis.repr_self, Matrix.cons_val, map_add]
 
 
 private theorem a11tm_bV_repr_single (u : (GaloisField 2 3)ˣ) (h : a11tm_good u) (i : Fin 3)
@@ -212,8 +212,8 @@ private theorem a11tm_bV_repr_single (u : (GaloisField 2 3)ˣ) (h : a11tm_good u
       if a11tm_blk3 p = i then (a11tm_bF u h).repr x (a11tm_idx3 p) else 0 := by
   rw [a11tm_bV_repr]
   by_cases hp : a11tm_blk3 p = i
-  · rw [if_pos hp, hp, Pi.single_eq_same]
-  · rw [if_neg hp, Pi.single_eq_of_ne hp, map_zero]
+  · rw [ite_eq_left hp, hp, Pi.single_eq_same]
+  · rw [ite_eq_right hp, Pi.single_eq_of_ne hp, map_zero]
     rfl
 
 private theorem a11tm_mulCoord_bV (u : (GaloisField 2 3)ˣ) (h : a11tm_good u) (i : Fin 3)
@@ -223,13 +223,13 @@ private theorem a11tm_mulCoord_bV (u : (GaloisField 2 3)ˣ) (h : a11tm_good u) (
       else Pi.single (a11tm_blk3 q) (a11tm_bF u h (a11tm_idx3 q)) := by
   rw [a11tm_bV_apply]
   by_cases hq : a11tm_blk3 q = i
-  · rw [if_pos hq, hq]
+  · rw [ite_eq_left hq, hq]
     funext l
     rw [a11tm_mulCoord_apply]
     by_cases hl : l = i
     · subst hl; simp [Function.update, Pi.single_eq_same]
     · simp [Function.update, hl, Pi.single_eq_of_ne]
-  · rw [if_neg hq]
+  · rw [ite_eq_right hq]
     funext l
     rw [a11tm_mulCoord_apply]
     by_cases hl : l = i
@@ -259,28 +259,28 @@ private theorem a11tm_toMatrix_mulCoord (u : (GaloisField 2 3)ˣ) (h : a11tm_goo
     a11tm_e2 (T9mat i p q)
   rw [a11tm_mulCoord_bV, a11tm_T9mat_apply]
   by_cases hq : a11tm_blk3 q = i
-  · rw [if_pos hq, a11tm_bV_repr_single]
+  · rw [ite_eq_left hq, a11tm_bV_repr_single]
     by_cases hp : a11tm_blk3 p = i
-    · rw [if_pos hp, if_pos (show a11tm_blk3 p = i ∧ a11tm_blk3 q = i from ⟨hp, hq⟩)]
+    · rw [ite_eq_left hp, ite_eq_left (show a11tm_blk3 p = i ∧ a11tm_blk3 q = i from ⟨hp, hq⟩)]
       exact a11tm_bF_repr_mul u h (a11tm_idx3 p) (a11tm_idx3 q)
-    · rw [if_neg hp,
-        if_neg (show ¬ (a11tm_blk3 p = i ∧ a11tm_blk3 q = i) from fun hc => hp hc.1),
-        if_neg (show ¬ p = q from fun hpq => hp (hpq ▸ hq))]
+    · rw [ite_eq_right hp,
+        ite_eq_right (show ¬ (a11tm_blk3 p = i ∧ a11tm_blk3 q = i) from fun hc => hp hc.1),
+        ite_eq_right (show ¬ p = q from fun hpq => hp (hpq ▸ hq))]
       exact (map_zero a11tm_e2).symm
-  · rw [if_neg hq, a11tm_bV_repr_single,
-      if_neg (show ¬ (a11tm_blk3 p = i ∧ a11tm_blk3 q = i) from fun hc => hq hc.2)]
+  · rw [ite_eq_right hq, a11tm_bV_repr_single,
+      ite_eq_right (show ¬ (a11tm_blk3 p = i ∧ a11tm_blk3 q = i) from fun hc => hq hc.2)]
     by_cases hpq : p = q
     · subst hpq
-      rw [if_pos rfl, if_pos rfl, Basis.repr_self, Finsupp.single_eq_same, map_one]
-    · rw [if_neg hpq]
+      rw [ite_eq_left rfl, ite_eq_left rfl, Basis.repr_self, Finsupp.single_eq_same, map_one]
+    · rw [ite_eq_right hpq]
       by_cases hblk : a11tm_blk3 p = a11tm_blk3 q
-      · rw [if_pos hblk, Basis.repr_self,
+      · rw [ite_eq_left hblk, Basis.repr_self,
           Finsupp.single_eq_of_ne (show a11tm_idx3 p ≠ a11tm_idx3 q from fun hidx => hpq (by
             apply a11tm_e9_injective
             simp only [a11tm_e9, Equiv.ofBijective_apply, Prod.mk.injEq]
             exact ⟨hblk, hidx⟩))]
         exact (map_zero a11tm_e2).symm
-      · rw [if_neg hblk]
+      · rw [ite_eq_right hblk]
         exact (map_zero a11tm_e2).symm
 
 

@@ -25,7 +25,7 @@ private theorem sub_one_mem_flag {V : Type*} [AddCommGroup V] [Module K V] {n : 
     rw [SetLike.mem_coe, mem_comap, Basis.mem_span_image]
     intro k hk
     rw [Finset.mem_coe, Finsupp.mem_support_iff] at hk
-    simp only [Set.mem_setOf_eq] at hj ⊢
+    simp only [Set.mem_ofPred_eq] at hj ⊢
     by_contra hki
     apply hk
     have hjk : j ≤ k := by
@@ -35,7 +35,7 @@ private theorem sub_one_mem_flag {V : Type*} [AddCommGroup V] [Module K V] {n : 
     · have h0 : LinearMap.toMatrixAlgEquiv b T k j = 0 := hTu (show id j < id k from hlt)
       rw [LinearMap.toMatrixAlgEquiv_apply] at h0
       rw [LinearMap.sub_apply, map_sub, Finsupp.sub_apply, h0, Module.End.one_apply,
-        Basis.repr_self, Finsupp.single_apply, if_neg hlt.ne, sub_zero]
+        Basis.repr_self, Finsupp.single_apply, ite_eq_right hlt.ne, sub_zero]
     · subst heq
       have h1 : LinearMap.toMatrixAlgEquiv b T j j = 1 := hTd j
       rw [LinearMap.toMatrixAlgEquiv_apply] at h1
@@ -107,7 +107,7 @@ theorem card_unipGL_le [Finite K] {W : Submodule K (Fin 6 → K)} (hW : finrank 
       rw [Matrix.toLin'_apply, Matrix.toLin'_apply, Matrix.mulVec_add, Matrix.mulVec_add,
         hw w hw0, hc c hc0]
     exact Subtype.ext (Units.ext hall)
-  haveI : Finite (C →ₗ[K] W) := Module.finite_of_finite K
+  have : Finite (C →ₗ[K] W) := Module.finite_of_finite K
   calc Nat.card ↥(UnipGL K W) ≤ Nat.card (C →ₗ[K] W) := Nat.card_le_card_of_injective f hinj
     _ = Nat.card K ^ finrank K (C →ₗ[K] W) :=
       Module.natCard_eq_pow_finrank (K := K) (V := C →ₗ[K] W)
@@ -119,7 +119,7 @@ theorem lemmaJ [Finite K] [CharP K 2] {E : Subgroup (GL (Fin 6) K)}
     ∃ W : Submodule K (Fin 6 → K), finrank K W = 3 ∧ E = UnipGL K W := by
   classical
   let ρ : Representation K E (Fin 6 → K) :=
-    (MonoidHomClass.toMonoidHom (Matrix.toLinAlgEquiv' (R := K) (n := Fin 6))).comp
+    (MonoidHom.ofClass (Matrix.toLinAlgEquiv' (R := K) (n := Fin 6))).comp
       ((Units.coeHom (Matrix (Fin 6) (Fin 6) K)).comp E.subtype)
   have hρ : Function.Injective ρ := by
     intro a a' ha
@@ -155,7 +155,7 @@ theorem lemmaJ [Finite K] [CharP K 2] {E : Subgroup (GL (Fin 6) K)}
   set N : Submodule K ((Fin 6 → K) →ₗ[K] (Fin 6 → K)) := span K S with hN
   set F : ℕ → Submodule K (Fin 6 → K) := fun i => span K (b '' {j | (j : ℕ) < i}) with hFdef
   have hF0 : F 0 = ⊥ := by
-    simp only [hFdef, Nat.not_lt_zero, Set.setOf_false, Set.image_empty, span_empty]
+    simp only [hFdef, Nat.not_lt_zero, Set.ofPred_false, Set.image_empty, span_empty]
   have hFm : F m = ⊤ := by
     have : {j : Fin m | (j : ℕ) < m} = Set.univ := Set.eq_univ_of_forall fun j => j.isLt
     simp only [hFdef, this, Set.image_univ, b.span_eq]
@@ -180,7 +180,7 @@ theorem lemmaJ [Finite K] [CharP K 2] {E : Subgroup (GL (Fin 6) K)}
     apply hρ
     have := congrArg Subtype.val ha
     simpa using this
-  haveI : Finite ((Fin 6 → K) →ₗ[K] (Fin 6 → K)) := Module.finite_of_finite K
+  have : Finite ((Fin 6 → K) →ₗ[K] (Fin 6 → K)) := Module.finite_of_finite K
   have hcardE : Nat.card E ≤ Nat.card K ^ finrank K N :=
     calc Nat.card E ≤ Nat.card N := Nat.card_le_card_of_injective _ hinjA
       _ = Nat.card K ^ finrank K N := Module.natCard_eq_pow_finrank (K := K) (V := N)
@@ -216,7 +216,7 @@ theorem lemmaJ [Finite K] [CharP K 2] {E : Subgroup (GL (Fin 6) K)}
     · have h1 := hWN0 _ hy s hs
       rw [LinearMap.sub_apply, Module.End.one_apply, hact, sub_eq_zero] at h1
       exact h1
-  haveI : Finite (GL (Fin 6) K) :=
+  have : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K))
       (fun a b h => Units.ext h)
   exact Subgroup.eq_of_le_of_card_ge hle ((card_unipGL_le hW3).trans h)

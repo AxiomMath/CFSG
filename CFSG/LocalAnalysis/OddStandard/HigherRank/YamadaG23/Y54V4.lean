@@ -10,7 +10,8 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem y54_V_cycle {V : Subgroup G} (hV2 : ∀ v ∈ V, v ^ 2 = 1) (hV4 : Nat.card ↥V = 4) {κ : G}
+omit [Finite G] in
+theorem y54_V_cycle {V : Subgroup G} (hV2 : ∀ v ∈ V, v ^ 2 = 1) (_hV4 : Nat.card ↥V = 4) {κ : G}
     (hκV : ∀ v ∈ V, κ * v * κ⁻¹ ∈ V) (hκ3 : κ ^ 3 = 1)
     (hfpf : ∀ v ∈ V, κ * v * κ⁻¹ = v → v = 1) :
     ∀ v ∈ V, v * (κ * v * κ⁻¹) = κ * (κ * v * κ⁻¹) * κ⁻¹ := by

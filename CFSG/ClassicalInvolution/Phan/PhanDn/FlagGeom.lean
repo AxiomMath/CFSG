@@ -118,15 +118,15 @@ theorem coe_smul_flagVert (E : QuadExt F K σ)
     refine ⟨fun hbot => ?_, fun hm => ?_⟩
     · rw [hbot, finrank_bot] at h
       by_cases h' : (i : ℕ) + 1 < m
-      · rw [if_pos h'] at h
+      · rw [ite_eq_left h'] at h
         omega
-      · rw [if_neg h'] at h
+      · rw [ite_eq_right h'] at h
         omega
     · rw [hm] at h
       by_cases h' : (i : ℕ) + 1 < m
-      · rw [if_pos h'] at h
+      · rw [ite_eq_left h'] at h
         omega
-      · rw [if_neg h'] at h
+      · rw [ite_eq_right h'] at h
         omega⟩
 
 omit [CharP K 2] in

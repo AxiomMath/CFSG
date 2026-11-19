@@ -20,7 +20,7 @@ theorem eq_zero_or_eq_one_of_card_two (hK : Nat.card K = 2) (x : K) : x = 0 ∨ 
   classical
   by_contra h
   push Not at h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h3 : ({0, 1, x} : Finset K).card = 3 := by
     rw [Finset.card_insert_of_notMem, Finset.card_pair h.2.symm]
     simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
@@ -59,7 +59,7 @@ theorem center_eq_bot_of_isSimpleGroup {P : Type*} [Group P] [Finite P] [IsSimpl
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center P) with h | h
   · exact h
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
     have hn : (zpowers x).Normal := by
       constructor
@@ -80,10 +80,10 @@ theorem exists_card_dvd_of_normalizes_sp (hK : Nat.card K = 2) {r : ℕ} {U R : 
     ∃ a, 1 ≤ a ∧ a ≤ r ∧ Nat.card R ∣ (∏ i : Fin a, (2 ^ a - 2 ^ (i : ℕ))) *
       ∏ i : Fin (2 * r - 2 * a), (2 ^ (2 * r - 2 * a) - 2 ^ (i : ℕ)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
   have hρ := isIsometric_natRep_statedSp (n := r) (K := K)
   have hinj := natRep_injective (StatedSp r K)
   set W₀ := isoSeq (spForm r K) (natRep (StatedSp r K)) U 1 with hW₀
@@ -136,12 +136,12 @@ theorem twoSigTriv_statedProj_sp_of_num (hK : Nat.card K = 2) {r k m : ℕ} (hr 
     TwoSigTriv 3 (StatedProj (StatedSp r K)) := by
   classical
   intro S W hW hnorm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := StatedProj (StatedSp r K) with hPdef
   have hPcard : Nat.card P = 3 ^ k * m := by rw [card_statedProj_sp hK r (by omega), hcard]
   have hS : Nat.card (S : Subgroup P) = 3 ^ k := card_sylow_eq S hPcard hm
-  haveI : IsSimpleGroup P :=
+  have : IsSimpleGroup P :=
     CFSG.LieType.SeitzGeneration.isSimpleGroup_statedProj_statedSp_of_two_le (by omega) (by omega)
   have hP2 : 2 ∣ Nat.card P := by
     rw [card_statedProj_sp hK r (by omega)]
@@ -198,7 +198,7 @@ theorem twoSigTriv_statedProj_sp_of_num (hK : Nat.card K = 2) {r k m : ℕ} (hr 
   set U' : Subgroup (StatedSp r K) := U.comap (proj r K) with hU'
   set R' : Subgroup (StatedSp r K) := (S : Subgroup P).comap (proj r K) with hR'
   have hU'2 : IsPGroup 2 U' := hU2.comap_of_injective _ hinj
-  have hR'3 : IsPGroup 3 R' := S.isPGroup'.comap_of_injective _ hinj
+  have hR'3 : IsPGroup 3 R' := S.isPGroup.comap_of_injective _ hinj
   have hU'ne : U' ≠ ⊥ := by
     intro h
     apply hUne
@@ -240,7 +240,7 @@ theorem twoSigTriv_statedProj_sp_four (hK : Nat.card K = 2) : TwoSigTriv 3 (Stat
 theorem twoSigTriv_sp {L : Type} [Group L] [Finite L] (d : TauCeti.ValidLieTypeIndex)
     (hd : ∃ q : TauCeti.PrimePower, q.p = 2 ∧ q.exponent = 1 ∧ (d.1 = .B 3 q ∨ d.1 = .B 4 q))
     (e : L ≃* (TauCeti.CFSGIndex.lie d).Group) : TwoSigTriv 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, hq2, hq1, hd⟩ := hd
   obtain ⟨⟨x, hv⟩, rfl⟩ : ∃ d' : {d : TauCeti.LieTypeIndex // d.Valid}, d' = d := ⟨d, rfl⟩
   simp only at hd

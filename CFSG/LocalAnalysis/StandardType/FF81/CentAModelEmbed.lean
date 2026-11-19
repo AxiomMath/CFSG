@@ -70,12 +70,12 @@ private theorem caEmb_extB_apply_of_le (k : ℕ) (b : Matrix (Fin k) (Fin 1) (ZM
 private theorem caEmb_extA_zero (k : ℕ) :
     caEmb_extA k (0 : Matrix (Fin 1) (Fin k) (ZMod 2)) = 0 := by
   ext i j
-  by_cases h : (j : ℕ) < k <;> simp [caEmb_extA, h]
+  by_cases h : (j : ℕ) < k <;> simp [caEmb_extA]
 
 private theorem caEmb_extB_zero (k : ℕ) :
     caEmb_extB k (0 : Matrix (Fin k) (Fin 1) (ZMod 2)) = 0 := by
   ext i j
-  by_cases h : (i : ℕ) < k <;> simp [caEmb_extB, h]
+  by_cases h : (i : ℕ) < k <;> simp [caEmb_extB]
 
 private theorem caEmb_embGL_uGL (k : ℕ) (a : Matrix (Fin 1) (Fin k) (ZMod 2))
     (b : Matrix (Fin k) (Fin 1) (ZMod 2)) (c : Matrix (Fin 1) (Fin 1) (ZMod 2)) :
@@ -141,7 +141,7 @@ private theorem caEmb_embGL_uGL (k : ℕ) (a : Matrix (Fin 1) (Fin k) (ZMod 2))
         have h1 : (1 : Matrix (Fin k) (Fin k) (ZMod 2)) ⟨↑m, hm⟩ ⟨↑m', hm'⟩ =
             (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) (ZMod 2))
               (Fin.castAdd 2 (⟨m, hm⟩ : Fin k)) (Fin.castAdd 2 (⟨m', hm'⟩ : Fin k)) := by
-          simp [Matrix.one_apply, Fin.castAdd_inj, Fin.ext_iff]
+          simp [Matrix.one_apply, Fin.ext_iff]
         rw [h1, hm1, hm2]
       · have hnot : ¬ ((Sum.inr (Sum.inl m) : BlkIdx 1 (k + 2)) ∈ Set.range (embIdx k) ∧
             (Sum.inr (Sum.inl m') : BlkIdx 1 (k + 2)) ∈ Set.range (embIdx k)) := by
@@ -209,7 +209,7 @@ private theorem caEmb_piPerm_mul_self (k : ℕ) : piPerm k * piPerm k = 1 := by
     (Fin.castSucc_lt_last (Fin.last k)).ne
   have hst : Commute s t := by
     refine (Equiv.Perm.disjoint_swap_swap ?_).commute
-    simp [hne, Ne.symm hne]
+    simp [Ne.symm hne]
   change s * t * (s * t) = 1
   calc s * t * (s * t) = s * (t * s) * t := by group
     _ = s * (s * t) * t := by rw [← hst.eq]
@@ -242,7 +242,7 @@ private theorem caEmb_piPerm_A (k : ℕ) (a : Fin 1) :
     piPerm k (Sum.inl a) = Sum.inr (Sum.inl (Fin.last (k + 1))) := by
   have ha : a = 0 := Subsingleton.elim a 0
   subst ha
-  simp [piPerm, Equiv.swap_apply_def, Fin.ext_iff]
+  simp [piPerm, Equiv.swap_apply_def]
 
 private theorem caEmb_piPerm_BL (k : ℕ) :
     piPerm k (Sum.inr (Sum.inl (Fin.last (k + 1)))) = Sum.inl 0 := by
@@ -256,12 +256,12 @@ private theorem caEmb_piPerm_C (k : ℕ) (c : Fin 1) :
 
 private theorem caEmb_piPerm_BK (k : ℕ) :
     piPerm k (Sum.inr (Sum.inl ((Fin.last k).castSucc))) = Sum.inr (Sum.inr 0) := by
-  simp [piPerm, Equiv.swap_apply_def, Fin.ext_iff]
+  simp [piPerm, Equiv.swap_apply_def]
 
 private theorem caEmb_piPerm_fixed (k : ℕ) {m : Fin (k + 2)}
     (hm : m ≠ (Fin.last k).castSucc) (hm' : m ≠ Fin.last (k + 1)) :
     piPerm k (Sum.inr (Sum.inl m)) = Sum.inr (Sum.inl m) := by
-  simp [piPerm, Equiv.swap_apply_def, Fin.ext_iff, hm, hm']
+  simp [piPerm, Equiv.swap_apply_def, hm, hm']
 
 theorem piStd_conj_betaStd (k : ℕ) :
     piStd k * betaStd (k + 2) * (piStd k)⁻¹ = bStar (k + 2) := by
@@ -274,232 +274,126 @@ theorem piStd_conj_betaStd (k : ℕ) :
   ·
     try fin_cases a
     try fin_cases a'
-    try fin_cases c
-    try fin_cases c'
     simp [caEmb_piPerm_A, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-      CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne, Ne.symm hne]
+      CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
   ·
     by_cases hm' : m' = (Fin.last k).castSucc
     · subst hm'
       try fin_cases a
-      try fin_cases a'
-      try fin_cases c
-      try fin_cases c'
       simp [caEmb_piPerm_A, caEmb_piPerm_BK, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
-        lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-        Ne.symm hne]
+        lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
     · by_cases hm2' : m' = Fin.last (k + 1)
       · subst hm2'
         try fin_cases a
-        try fin_cases a'
-        try fin_cases c
-        try fin_cases c'
         simp [caEmb_piPerm_A, caEmb_piPerm_BL, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
-          lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+          lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
       ·
         try fin_cases a
-        try fin_cases a'
-        try fin_cases c
-        try fin_cases c'
-        simp [caEmb_piPerm_A, caEmb_piPerm_fixed k hm' hm2', hm', hm2', Ne.symm hm', Ne.symm hm2',
+        simp [caEmb_piPerm_A, caEmb_piPerm_fixed k hm' hm2', Ne.symm hm2',
           betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
   ·
     try fin_cases a
-    try fin_cases a'
-    try fin_cases c
     try fin_cases c'
     simp [caEmb_piPerm_A, caEmb_piPerm_C, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-      CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne, Ne.symm hne]
+      CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, Ne.symm hne]
   ·
     by_cases hm : m = (Fin.last k).castSucc
     · subst hm
-      try fin_cases a
       try fin_cases a'
-      try fin_cases c
-      try fin_cases c'
       simp [caEmb_piPerm_BK, caEmb_piPerm_A, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
-        lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-        Ne.symm hne]
+        lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
     · by_cases hm2 : m = Fin.last (k + 1)
       · subst hm2
-        try fin_cases a
         try fin_cases a'
-        try fin_cases c
-        try fin_cases c'
         simp [caEmb_piPerm_BL, caEmb_piPerm_A, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
-          lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+          lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
       ·
-        try fin_cases a
         try fin_cases a'
-        try fin_cases c
-        try fin_cases c'
-        simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_A, hm, hm2, Ne.symm hm, Ne.symm hm2,
-          betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+        simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_A, hm2, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
+          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
   ·
     by_cases hm : m = (Fin.last k).castSucc
     · subst hm
       by_cases hm' : m' = (Fin.last k).castSucc
       · subst hm'
-        try fin_cases a
-        try fin_cases a'
-        try fin_cases c
-        try fin_cases c'
         simp [caEmb_piPerm_BK, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
       · by_cases hm2' : m' = Fin.last (k + 1)
         · subst hm2'
-          try fin_cases a
-          try fin_cases a'
-          try fin_cases c
-          try fin_cases c'
           simp [caEmb_piPerm_BK, caEmb_piPerm_BL, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
             lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo,
-            hne, Ne.symm hne]
-        ·
-          try fin_cases a
-          try fin_cases a'
-          try fin_cases c
-          try fin_cases c'
-          simp [caEmb_piPerm_BK, caEmb_piPerm_fixed k hm' hm2', hm', hm2', Ne.symm hm',
-            Ne.symm hm2', betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-            CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
             Ne.symm hne]
+        ·
+          simp [caEmb_piPerm_BK, caEmb_piPerm_fixed k hm' hm2', hm', hm2', betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
+            CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
     · by_cases hm2 : m = Fin.last (k + 1)
       · subst hm2
         by_cases hm' : m' = (Fin.last k).castSucc
         · subst hm'
-          try fin_cases a
-          try fin_cases a'
-          try fin_cases c
-          try fin_cases c'
           simp [caEmb_piPerm_BL, caEmb_piPerm_BK, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
             lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo,
-            hne, Ne.symm hne]
-        · by_cases hm2' : m' = Fin.last (k + 1)
-          · subst hm2'
-            try fin_cases a
-            try fin_cases a'
-            try fin_cases c
-            try fin_cases c'
-            simp [caEmb_piPerm_BL, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-              CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-              Ne.symm hne]
-          ·
-            try fin_cases a
-            try fin_cases a'
-            try fin_cases c
-            try fin_cases c'
-            simp [caEmb_piPerm_BL, caEmb_piPerm_fixed k hm' hm2', hm', hm2', Ne.symm hm',
-              Ne.symm hm2', betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-              CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-              Ne.symm hne]
-      ·
-        by_cases hm' : m' = (Fin.last k).castSucc
-        · subst hm'
-          try fin_cases a
-          try fin_cases a'
-          try fin_cases c
-          try fin_cases c'
-          simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_BK, hm, hm2, Ne.symm hm, Ne.symm hm2,
-            betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-            CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
             Ne.symm hne]
         · by_cases hm2' : m' = Fin.last (k + 1)
           · subst hm2'
-            try fin_cases a
-            try fin_cases a'
-            try fin_cases c
-            try fin_cases c'
-            simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_BL, hm, hm2, Ne.symm hm, Ne.symm hm2,
-              betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-              CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-              Ne.symm hne]
+            simp [caEmb_piPerm_BL, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
+              CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, Ne.symm hne]
           ·
-            try fin_cases a
-            try fin_cases a'
-            try fin_cases c
-            try fin_cases c'
-            simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_fixed k hm' hm2', hm, hm2, hm', hm2',
-              Ne.symm hm, Ne.symm hm2, Ne.symm hm', Ne.symm hm2', betaStd, bStar, leviOne,
+            simp [caEmb_piPerm_BL, caEmb_piPerm_fixed k hm' hm2', hm', hm2', betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
+              CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, Ne.symm hne]
+      ·
+        by_cases hm' : m' = (Fin.last k).castSucc
+        · subst hm'
+          simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_BK, hm, hm2, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
+            CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
+        · by_cases hm2' : m' = Fin.last (k + 1)
+          · subst hm2'
+            simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_BL, hm, hm2, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
+              CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
+          ·
+            simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_fixed k hm' hm2', hm, hm2, betaStd, bStar, leviOne,
               coe_pairGL, coe_levi, lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk,
-              Matrix.one_apply, betaTwo, rhoTwo, hne, Ne.symm hne]
+              Matrix.one_apply, betaTwo, rhoTwo]
   ·
     by_cases hm : m = (Fin.last k).castSucc
     · subst hm
-      try fin_cases a
-      try fin_cases a'
-      try fin_cases c
       try fin_cases c'
       simp [caEmb_piPerm_BK, caEmb_piPerm_C, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
-        lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-        Ne.symm hne]
+        lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
     · by_cases hm2 : m = Fin.last (k + 1)
       · subst hm2
-        try fin_cases a
-        try fin_cases a'
-        try fin_cases c
         try fin_cases c'
         simp [caEmb_piPerm_BL, caEmb_piPerm_C, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
-          lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+          lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
       ·
-        try fin_cases a
-        try fin_cases a'
-        try fin_cases c
         try fin_cases c'
-        simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_C, hm, hm2, Ne.symm hm, Ne.symm hm2,
-          betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+        simp [caEmb_piPerm_fixed k hm hm2, caEmb_piPerm_C, hm, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
+          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
   ·
-    try fin_cases a
     try fin_cases a'
     try fin_cases c
-    try fin_cases c'
     simp [caEmb_piPerm_C, caEmb_piPerm_A, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-      CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne, Ne.symm hne]
+      CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne]
   ·
     by_cases hm' : m' = (Fin.last k).castSucc
     · subst hm'
-      try fin_cases a
-      try fin_cases a'
       try fin_cases c
-      try fin_cases c'
       simp [caEmb_piPerm_C, caEmb_piPerm_BK, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
-        lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-        Ne.symm hne]
+        lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
     · by_cases hm2' : m' = Fin.last (k + 1)
       · subst hm2'
-        try fin_cases a
-        try fin_cases a'
         try fin_cases c
-        try fin_cases c'
         simp [caEmb_piPerm_C, caEmb_piPerm_BL, betaStd, bStar, leviOne, coe_pairGL, coe_levi,
-          lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+          lastTwo, CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
       ·
-        try fin_cases a
-        try fin_cases a'
         try fin_cases c
-        try fin_cases c'
-        simp [caEmb_piPerm_C, caEmb_piPerm_fixed k hm' hm2', hm', hm2', Ne.symm hm', Ne.symm hm2',
-          betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne,
-          Ne.symm hne]
+        simp [caEmb_piPerm_C, caEmb_piPerm_fixed k hm' hm2', Ne.symm hm', betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
+          CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
   ·
-    try fin_cases a
-    try fin_cases a'
     try fin_cases c
     try fin_cases c'
     simp [caEmb_piPerm_C, betaStd, bStar, leviOne, coe_pairGL, coe_levi, lastTwo,
-      CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo, hne, Ne.symm hne]
+      CFSG.LieType.Steinberg.Sp.blockMat, blk, Matrix.one_apply, betaTwo, rhoTwo]
 
 private theorem caEmb_mem_range_iff (k : ℕ) (z : BlkIdx 1 (k + 2)) :
     z ∈ Set.range (embIdx k) ↔

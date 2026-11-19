@@ -26,7 +26,7 @@ theorem coprime_card_kerMV (c : MinCex183 D V₀ V H i)
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M) :
     Nat.Coprime 3 (Nat.card ↥(kerMV V H)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcop
   have h3 : 3 ∣ Nat.card ↥(kerMV V H) := by
     by_contra hn

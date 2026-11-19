@@ -51,7 +51,7 @@ theorem sign_vector_invariant [CharP K 3] {α : MulAut ↥(adjointGroup Tag.D4 K
       exact permLattice_single _ i
     rw [h2] at h1
     have hr1 : ∀ j : D4Idx, rA j ∈ d4RootsFrom 1 := fun j => by
-      refine mem_d4RootsFrom.2 ⟨rA_isRoot j, ?_, ?_⟩ <;> rw [height_rA] <;> norm_num
+      refine mem_d4RootsFrom.2 ⟨rA_isRoot j, ?_, ?_⟩ <;> rw [height_rA]; norm_num
     have h3 : σ (hs.s (rA ((d4Rho ^ (2 * ε)) i))) = hs.s (rA i) := h1
     rw [hb _ (hr1 _), hb _ (hr1 _), sgnB_rA, sgnB_rA] at h3
     cases h4 : b ((d4Rho ^ (2 * ε)) i) <;> cases h5 : b i <;> simp [h4, h5] at h3 ⊢
@@ -164,7 +164,7 @@ theorem four_group_borel_c [CharP K 3] {α : MulAut ↥(adjointGroup Tag.D4 K)} 
     (fun k => Nat.card (layerImage A k)) (fun k _ => le_rfl)
   have hlay : ∀ k, Nat.card (layerImage A k) ≤ 1 := by
     intro k
-    haveI : Subsingleton (layerImage A k) := ⟨fun q q' => by
+    have : Subsingleton (layerImage A k) := ⟨fun q q' => by
       apply Subtype.ext
       have h1 : ∀ r : layerImage A k, (r : UnitCoord Tag.D4 K k) = 1 := fun r => by
         apply Multiplicative.toAdd.injective
@@ -176,7 +176,7 @@ theorem four_group_borel_c [CharP K 3] {α : MulAut ↥(adjointGroup Tag.D4 K)} 
       _ = 1 := by simp
   have hA1 : Nat.card A ≤ 1 := by
     calc Nat.card A ≤ ∏ k ∈ Finset.range d, Nat.card (layerImage A k) := hprod
-      _ ≤ ∏ k ∈ Finset.range d, 1 := Finset.prod_le_prod' fun k _ => hlay k
+      _ ≤ ∏ k ∈ Finset.range d, 1 := Finset.prod_le_prod fun k _ => hlay k
       _ = 1 := Finset.prod_const_one
   exact le_antisymm hA1 Nat.card_pos
 

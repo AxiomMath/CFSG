@@ -29,7 +29,7 @@ theorem orb_code (k : Nat) (hk : k < 5) (j : Nat) (hj : j < OM.getD k 0) :
   rw [← hxc, decE_codeE]
 
 theorem nx_filter_of {t g a b : E} (ht : validE t = true) (hg : validE g = true)
-    (ha : validE a = true) (hb : validE b = true) {XXl NXl : List Nat} {W : List (Nat × Nat)} {dc : Nat}
+    (_ha : validE a = true) (_hb : validE b = true) {XXl NXl : List Nat} {W : List (Nat × Nat)} {dc : Nat}
     (hXX : (ppE g (conjE t g) 5 5).map codeE = XXl)
     (hNX : (prod3 (ppE g (conjE t g) 5 5) (ppE a b 4 4) [oneE, t]).map codeE = NXl)
     (hdc : validK dc = true) (hdg : Nat.beq (cjK dc (invK dc) (RP.getD 2 0)) (codeE g) = true)
@@ -90,9 +90,9 @@ theorem nx_filter_of {t g a b : E} (ht : validE t = true) (hg : validE g = true)
       apply codeE_injective
       rw [conj_code, hwcode, hwg, hey]
     obtain ⟨j', hj', hcj⟩ := conj_cands (by norm_num) hd hgd hw hwy hcv rfl
-    have hb := cb_valid 2 (by norm_num) j' hj'
+    have _hb := cb_valid 2 (by norm_num) j' hj'
     have hcc : codeE c = mulK e.2 (cjK dc (invK dc) (f20 (CB.getD 2 0) j')) := by
-      rw [hcj, codeE_mulE, conj_code, hwcode, hdcode, codeE_decE (validK_lt hb)]
+      rw [hcj, codeE_mulE, conj_code, hwcode, hdcode, codeE_decE (validK_lt _hb)]
     have hk := (allN_iff _ _).1 hall j' hj'
     rw [letB_eq, orB_eq, Bool.or_eq_true, ← hcc] at hk
     have hm2 : memL XXl (cjK (codeE c) (invK (codeE c)) (codeE g2)) = true := by

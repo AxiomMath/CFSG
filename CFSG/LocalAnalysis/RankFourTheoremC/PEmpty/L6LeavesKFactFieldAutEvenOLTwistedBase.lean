@@ -88,7 +88,7 @@ theorem not_dvd_card_graphFixedRootBorel {t : TwistTag} {K : Type} [Field K] [Fi
       Dvd.intro _ (card_compatTorus_mul (t := t) σ.toRingHom)
     rw [card_compatSubgroup] at h2
     have h3 := h1.trans h2
-    obtain ⟨a, -, ha⟩ := (Prime.dvd_finset_prod_iff hr.prime _).1 h3
+    obtain ⟨a, -, ha⟩ := (Prime.dvd_finsetProd_iff hr.prime _).1 h3
     rw [hq a] at ha
     exact hrT a ha
   · exact hrq (hr.dvd_of_dvd_pow h1)

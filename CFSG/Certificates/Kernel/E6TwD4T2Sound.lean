@@ -81,7 +81,7 @@ theorem get_pack {a b c : ℕ} (ha : a < 2 ^ 729) (hb : b < 2 ^ 729) (k : ℕ) :
     have d5 : decide (1458 + k ≥ 729) = true := decide_eq_true (by clear ha hb; omega)
     have d6 : decide (1458 + k ≥ 1458) = true := decide_eq_true (by clear ha hb; omega)
     have e : pack a b c = a ||| (b <<< 729 ||| c <<< 1458) := rfl
-    simp only [i0, i1, i2, e, Nat.testBit_or, Nat.testBit_shiftLeft, ha1, ha2, hb2, j1, j2, j3,
+    simp only [i0, i1, i2, e, Nat.testBit_or, Nat.testBit_shiftLeft, ha1, ha2, j1, j2, j3,
       d1, d2, d3, d4, d5, d6, hb1, hk, decide_true,
       Bool.true_and, Bool.false_and, Bool.or_false, Bool.false_or]
     all_goals trivial
@@ -96,7 +96,7 @@ theorem rep_congr {S : ℕ} {f g : ℕ → ℕ} (h : Rep S f) (e : ∀ k, f k % 
 theorem rep_full : Rep full fun _ => 0 := by
   intro s hs k
   rw [get_testBit, testBit_full]
-  interval_cases s <;> by_cases hk : k < 729 <;> simp [hk] <;> omega
+  interval_cases s <;> by_cases hk : k < 729 <;> simp [hk]; omega
 
 theorem land_lt {A P : ℕ} (h : A < 2 ^ 729) : Nat.land A P < 2 ^ 729 := by
   rw [Nat.land_eq, Nat.and_comm]; exact Nat.and_lt_two_pow _ h
@@ -250,7 +250,6 @@ theorem lvl_rep (hP : planesOK = true) :
     have h := ih (j + 1) (stepL j x S) _ (by simp at hlen; omega) (fun y hy => hv y (by simp [hy]))
       (step_rep hP (by simp at hlen; omega) hx hS)
     refine rep_congr h (fun k => congrArg (· % 3) ?_)
-    beta_reduce
     rw [List.length_cons, Finset.sum_range_succ']
     simp only [List.getD_cons_succ, List.getD_cons_zero, Nat.add_zero]
     rw [Finset.sum_congr rfl (fun i _ => by rw [show j + 1 + i = j + (i + 1) by omega])]
@@ -385,7 +384,7 @@ theorem pairsK_sound {r3 wts wlv : List (List ℕ)} {sig sigL : List ℕ} {G : �
     · obtain ⟨M, hM, hz⟩ := (lor_fold_tb _ wlv k₂).1 hb
       rw [← htab'] at hM
       obtain ⟨ws, hws, rfl⟩ := List.mem_map.1 hM
-      simp only [Nat.lor_eq, Nat.testBit_or, Bool.or_eq_true] at hz
+      simp only [Nat.testBit_or, Bool.or_eq_true] at hz
       rcases hz with hz | hz
       · right; right; right; left
         refine ⟨ws, hws, fun w hw => ?_⟩

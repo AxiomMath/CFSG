@@ -17,8 +17,8 @@ theorem ker_le_center_of_simple {A C : Type} [Group A] [Group C]
     (f : A →* C) (hf : Function.Surjective f)
     (hS : IsSimpleGroup (A ⧸ center A)) (hC : ∃ c c' : C, c * c' ≠ c' * c) :
     f.ker ≤ center A := by
-  haveI := hS
-  haveI : (f.ker.map (QuotientGroup.mk' (center A))).Normal :=
+  have := hS
+  have : (f.ker.map (QuotientGroup.mk' (center A))).Normal :=
     (inferInstance : f.ker.Normal).map _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (f.ker.map (QuotientGroup.mk' (center A))) with
     h | h
@@ -83,7 +83,7 @@ theorem marking_of_surjective {A C : Type} [Group A] [Group C]
   obtain ⟨R, _, I, F, hRs, ⟨u, v, huv⟩, θ, -⟩ := CFSG.StandardType.largeEvenRawDatum_exists hraw
   have hnc : ∃ a b : A ⧸ center A, a * b ≠ b * a :=
     ⟨θ.symm u, θ.symm v, fun h' => huv (by simpa [map_mul] using congrArg θ h')⟩
-  haveI : IsSimpleGroup (A ⧸ center A) := (MulEquiv.isSimpleGroup_congr θ).2 hRs
+  have : IsSimpleGroup (A ⧸ center A) := (MulEquiv.isSimpleGroup_congr θ).2 hRs
   have hZ : center (A ⧸ center A) = ⊥ := center_eq_bot_of_noncomm hnc
   obtain ⟨e⟩ := quotCenter_equiv_of_surjective f hf hker hZ
   refine ⟨?_, lab, hlab, CFSG.StandardType.largeEvenRawDatum_mono ?_ hraw⟩
@@ -110,7 +110,7 @@ theorem o1pp_marking {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} 
     (MulEquiv.subgroupCongr hrange).surjective.comp f₀.rangeRestrict_surjective
   obtain ⟨-, lab, -, hraw⟩ := id hmark
   obtain ⟨R, _, I, F, hRs, -, θ, -⟩ := CFSG.StandardType.largeEvenRawDatum_exists hraw
-  haveI hS : IsSimpleGroup (K ⧸ center K) := (MulEquiv.isSimpleGroup_congr θ).2 hRs
+  have hS : IsSimpleGroup (K ⧸ center K) := (MulEquiv.isSimpleGroup_congr θ).2 hRs
   obtain ⟨⟨a₁, ha₁, b₁, hb₁, hab₁⟩, -⟩ := o1pp_Xbar_facts h
   have hXKb : O1ppXBar x zn X ≤ O1ppXBar x zn K :=
     map_mono fun a ha => mem_subgroupOf.2 (hXK (mem_subgroupOf.1 ha))
@@ -120,11 +120,11 @@ theorem o1pp_marking {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G} 
 
 theorem o1pp_cent_of_commutator {G : Type} [Group G] [Finite G] {B L X Xk Tk : Subgroup G}
     {x zn : G} (h : O1ppData B x zn L X Xk Tk) {K : Subgroup G}
-    (hKH : K ≤ centralizer ({x * zn⁻¹} : Set G))
+    (_hKH : K ≤ centralizer ({x * zn⁻¹} : Set G))
     (hKs : CFSG.Assembly.IsSubnormal K (centralizer ({x * zn⁻¹} : Set G)))
     (hc : (⁅K, zpowers x⁆ : Subgroup G) ≤ LargeEvenPPrimeCoreOf 3 K) :
     O1ppXBar x zn K ≤ centralizer ({o1ppMk x zn x} : Set (O1ppBar x zn)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hBab, hxB, -⟩ := ggThmIHyp_unpack h.hyp
   have hxH := o1pp_B_le_H h hxB
   have hKO : LargeEvenPPrimeCoreOf 3 K ≤ CFSG.Open.lBalancePrimeCore 3

@@ -31,7 +31,7 @@ theorem exists_unitary_pin (hT : rootDiagUnit τ ta ∈ S.D.torus)
     {ψ : SL(ν, L) →* ModGL τ L} {σ : Fin ν → Fin ν → Fin τ.rank → ℤ} (hψ : IsSLFrame ψ σ)
     (hΨ : componentRoots (rootCharHom ta) i = frameRoots σ) (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → S.ρ (σ a b) = σ (π b) (π a))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e) :
+    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (_he : 0 < e) (hq : S.D.q = r ^ e) :
     ∃ (σQ : L ≃+* L) (B : SL(ν, L)) (d : Fin ν → Lˣ) (z : ModGL τ L),
       (∀ c, σQ c = c ^ S.D.q) ∧
       (∀ Y : Matrix (Fin ν) (Fin ν) L, (B : Matrix (Fin ν) (Fin ν) L) * Y *
@@ -42,7 +42,7 @@ theorem exists_unitary_pin (hT : rootDiagUnit τ ta ∈ S.D.torus)
       z ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom ta)) ∧
       S.D.step z = z * ψ B := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨σQ, hσQ⟩ := exists_ringEquiv_frob (L := L) r e
   have hσc : ∀ c, σQ c = c ^ S.D.q := fun c => by
     have h1 : σQ c = iterateFrobenius L r e c := by

@@ -45,7 +45,7 @@ theorem GGResHyp.card_bstar_of_e7_two
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hL : GGInnerDiagOnLabel (fun _ lab => lab.tag = .E7 ∧ lab.n = 1) 3 Bs L) :
     Nat.card Bs = 3 ^ 8 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, _, _, ι, φ, h, α, _, _, _, _, _, hcard, _⟩ :=
     e78_e7_actual_module hH (hL.mono_label fun _ h => ⟨rfl, h⟩)
   exact hcard
@@ -56,7 +56,7 @@ theorem GGResHyp.card_bstar_of_e8_two
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hL : GGInnerDiagOnLabel (fun _ lab => lab.tag = .E8 ∧ lab.n = 1) 3 Bs L) :
     Nat.card Bs = 3 ^ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, _, _, ι, φ, h, α, _, _, _, _, _, hcard, _⟩ :=
     e78_e8_actual_module hH (hL.mono_label fun _ h => ⟨rfl, h⟩)
   exact hcard
@@ -67,7 +67,7 @@ theorem GGResHyp.card_automizer_L_of_e7_two
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hL : GGInnerDiagOnLabel (fun _ lab => lab.tag = .E7 ∧ lab.n = 1) 3 Bs L) :
     Nat.card (ggAutomizer L Bs) = 2903040 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, _, _, ι, φ, h, α, _, _, _, ⟨e, _⟩, _⟩ :=
     e78_e7_actual_module hH (hL.mono_label fun _ h => ⟨rfl, h⟩)
   exact (Nat.card_congr e.toEquiv).symm.trans card_coxeterE7_group
@@ -78,7 +78,7 @@ theorem GGResHyp.card_automizer_L_of_e8_two
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hL : GGInnerDiagOnLabel (fun _ lab => lab.tag = .E8 ∧ lab.n = 1) 3 Bs L) :
     Nat.card (ggAutomizer L Bs) = 696729600 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, _, _, ι, φ, h, α, _, _, _, ⟨e, _⟩, _⟩ :=
     e78_e8_actual_module hH (hL.mono_label fun _ h => ⟨rfl, h⟩)
   exact (Nat.card_congr e.toEquiv).symm.trans card_coxeterE8_group
@@ -192,8 +192,8 @@ private theorem e78_core_std
     (hnumFix : 8 * ((3 - 1) * 6 * M) < 3 ^ (n * (n - 1) / 2)) :
     ZS.LinWeyl 3 ((ggAutomizer L Bs ⊔ ggAutomizer K Bs).map (ggLin (p := 3) ι)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   let r : Λ ⊕ Λa → V ≃ₗ[ZMod 3] V := fun o => ggLin (p := 3) ι (φ o)
   let A : Subgroup (V ≃ₗ[ZMod 3] V) :=
     (ggAutomizer L Bs ⊔ ggAutomizer K Bs).map (ggLin (p := 3) ι)
@@ -306,7 +306,7 @@ private theorem e78_core_std
   have hcomp : IsCompl Sspan (Submodule.span (ZMod 3) ({xv} : Set V)) :=
     ⟨disjoint_iff.mpr hcompl.1, codisjoint_iff.mpr hcompl.2⟩
   have hdimV : Module.finrank (ZMod 3) V = n + 1 := by
-    haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
     have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)
     rw [Nat.card_zmod, hcardV] at h
     exact (Nat.pow_right_injective (by norm_num : 2 ≤ (3 : ℕ)) h).symm
@@ -474,16 +474,16 @@ theorem GGResHyp.weyl_of_exact2_e78_two
     (hD : GGResLeviDatumExact2 3 Bs L J K ggSelAny ggTypAny) :
     GGWeylReflectionGroup 3 (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Λ, instΛ, decΛ, S, Λa, instΛa, decΛa, ML, CL, MK, CK, V, instV, instMod, ι, φ, h, α,
     hScard, -, -, hWML, hCL, hWMK, hCK, -, hform, -, hpairL, hpairK, -, hfL, -, hgenL, hgenK,
     -, -⟩ := hD
-  letI := instΛ
-  letI := decΛ
-  letI := instΛa
-  letI := decΛa
-  letI := instV
-  letI := instMod
+  let := instΛ
+  let := decΛ
+  let := instΛa
+  let := decΛa
+  let := instV
+  let := instMod
   have hLsplit : GGInnerDiagOnLabel
       (fun _ lab => (lab.tag = .E7 ∧ lab.n = 1) ∨ (lab.tag = .E8 ∧ lab.n = 1)) 3 Bs L :=
     hL.mono_label fun lab h =>

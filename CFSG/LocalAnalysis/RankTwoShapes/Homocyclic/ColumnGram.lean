@@ -192,7 +192,7 @@ variable {G : Type} [Group G] [Fintype G] {n : ℕ} (S : Sylow 2 G)
 
 omit [Fintype G] in
 theorem sylow_two_orderOf_dvd (s : G) (hs : s ∈ (S : Subgroup G)) : ∃ k : ℕ, orderOf s ∣ 2 ^ k := by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
   refine ⟨k, orderOf_dvd_of_pow_eq_one ?_⟩
   have := congrArg Subtype.val hk
   simpa using this

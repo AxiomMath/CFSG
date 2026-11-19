@@ -40,16 +40,17 @@ namespace ZJData
 
 variable (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
+omit [Finite H] in
 theorem exists_Mh : ∃ Mh : Subgroup H, IsZJMh y z v₁ v₂ Mh := by
   refine ⟨⟨⟨⟨{g : H | zjMat y z v₁ v₂ g ∈ ZJFin.Mlist}, ?_⟩, ?_⟩, ?_⟩, fun g => Iff.rfl⟩
   · intro a b ha hb
-    rw [Set.mem_setOf_eq] at ha hb ⊢
+    rw [Set.mem_ofPred_eq] at ha hb ⊢
     rw [h.mat_mul]
     exact ZJFin.M_mul _ ha _ hb
-  · rw [Set.mem_setOf_eq, h.mat_one]
+  · rw [Set.mem_ofPred_eq, h.mat_one]
     exact ZJFin.one_mem_M
   · intro a ha
-    rw [Set.mem_setOf_eq] at ha ⊢
+    rw [Set.mem_ofPred_eq] at ha ⊢
     have hmul : ZJFin.mmul (zjMat y z v₁ v₂ a) (zjMat y z v₁ v₂ a⁻¹) = ZJFin.one := by
       rw [← h.mat_mul, mul_inv_cancel, h.mat_one]
     exact ZJFin.M_inv _ ha _ (h.mat_mem_P a⁻¹) hmul
@@ -71,6 +72,7 @@ theorem Mh_normal {g x : H} (hx : x ∈ Mh) : g * x * g⁻¹ ∈ Mh := by
     show (a * g) * g⁻¹ = a by group, ha]
   exact hm'
 
+omit [Finite H] in
 theorem E_le_Mh {e : H} (he : e ∈ centralizer (Y : Set H)) : e ∈ Mh := by
   rw [hMh]
   have h1 : zjMat y z v₁ v₂ (1 : H) = zjMat y z v₁ v₂ e :=
@@ -78,18 +80,21 @@ theorem E_le_Mh {e : H} (he : e ∈ centralizer (Y : Set H)) : e ∈ Mh := by
   rw [← h1, h.mat_one]
   exact ZJFin.one_mem_M
 
+omit [Finite H] in
 theorem t_not_mem_Mh : t ∉ Mh := by
   intro ht
   have hmem : zjMat y z v₁ v₂ t ∈ ZJFin.Mlist := (hMh t).mp ht
   rw [h.mat_t] at hmem
   exact ZJFin.T_not_M hmem
 
+omit [Finite H] in
 theorem l_not_mem_Mh : l ∉ Mh := by
   intro ht
   have hmem : zjMat y z v₁ v₂ l ∈ ZJFin.Mlist := (hMh l).mp ht
   rw [h.mat_l] at hmem
   exact ZJFin.L_not_M hmem
 
+omit [Finite H] in
 theorem tl_not_mem_Mh : t * l ∉ Mh := by
   intro ht
   have hmem : zjMat y z v₁ v₂ (t * l) ∈ ZJFin.Mlist := (hMh (t * l)).mp ht
@@ -136,6 +141,7 @@ theorem Mh_isPGroup : IsPGroup 2 Mh := by
   rw [card_Mh h hMh]
   norm_num
 
+omit [Finite H] in
 theorem cent_rho_Mh {m : H} (hm : m ∈ Mh) (hc : ρ * m * ρ⁻¹ = m) :
     m ∈ centralizer (Y : Set H) := by
   have hcomm : ρ * m = m * ρ := by
@@ -156,6 +162,7 @@ theorem cent_rho_Mh {m : H} (hm : m ∈ Mh) (hc : ρ * m * ρ⁻¹ = m) :
   have h3 := (h.mat_eq_iff 1 m).mp h2
   simpa using h3
 
+omit [Finite H] in
 theorem Mh_inf_cent_rho : Mh ⊓ centralizer ({ρ} : Set H) = zpowers τ := by
   apply le_antisymm
   · intro m hm

@@ -84,7 +84,7 @@ theorem exists_fixing_element_of_abelian_nine {A Ω : Type*} [Group A] [Finite A
     intro n m h1 h2 h3
     interval_cases n <;> omega
   obtain ⟨hS0three, hstab3⟩ := key S0.card _ (by omega) hS0le hmul
-  haveI : Nontrivial (MulAction.stabilizer A b0) :=
+  have : Nontrivial (MulAction.stabilizer A b0) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hstab3]; norm_num)
   obtain ⟨x, hxH, hx1, hx3⟩ : ∃ x : A, x ∈ MulAction.stabilizer A b0 ∧ x ≠ 1 ∧ x ^ 3 = 1 := by
     obtain ⟨y, hy⟩ := exists_ne (1 : MulAction.stabilizer A b0)
@@ -126,7 +126,7 @@ theorem exists_fixing_element_of_abelian_nine {A Ω : Type*} [Group A] [Finite A
     · intro hc
       have := hinv x⁻¹ _ hc
       rwa [inv_smul_smul] at this
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := card_filter_fix_modEq_abelNine σ 𝔅 hsσ 3 hσ3
   have hfilt : 𝔅.filter (fun c => σ c = c) = S := by
     rw [hSdef]

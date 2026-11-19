@@ -42,7 +42,7 @@ theorem isSolvable_normalizer_sylow [Finite G] (S : Sylow 2 G) :
   have hnorm : ((S : Subgroup G).subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hle).2 le_rfl
   have hp : IsPGroup 2 ↥((S : Subgroup G).subgroupOf M) :=
-    S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
+    S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
   have hSsolv : Group.IsSolvable ↥((S : Subgroup G).subgroupOf M) := by
     have hnil := hp.isNilpotent
     exact inferInstance

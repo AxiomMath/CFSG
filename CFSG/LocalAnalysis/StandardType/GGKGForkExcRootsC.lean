@@ -66,8 +66,8 @@ theorem ggKGExc_no_transvection
     (hv : orderOf v = p) :
     ¬ ∀ x : Fin τ.rank → ℤ, ∃ c : ℤ, ∀ i, (p : ℤ) ∣ (v • x - x) i - c * γ i := by
   intro h
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrank : 1 ≤ τ.rank := by rcases hτ with rfl | rfl | rfl | rfl <;> decide
   have hoff : GGWeylNoOffender τ p := by
     rcases hτ with rfl | rfl | rfl | rfl
@@ -229,7 +229,7 @@ private theorem ggKGEc_rootReflection_mem_familyStabilizer {τ : Tag} {k : Type}
     rootReflection γ ∈ familyStabilizer a := by
   intro i v
   rw [rootReflection]
-  rw [dif_pos hγ]
+  rw [dite_eq_left hγ]
   obtain ⟨c, hc⟩ := exists_conj_simple_smul
     (Classical.choose (isRoot_iff_exists_smul_single.1 hγ))
     (Classical.choose (Classical.choose_spec (isRoot_iff_exists_smul_single.1 hγ))) v
@@ -243,8 +243,8 @@ private theorem ggKGEc_eq_one_of_fixRoot
     {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ)
     (hall : ∀ b : Fin τ.rank → kˣ, (∀ j, b j ^ p = 1) → rootChar b γ = 1 → ∃ i, a i = b)
     {w : WeylGroup τ} (hw : w ∈ familyStabilizer a) (hwγ : w • γ = γ) : w = 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ζ' : kˣ := (hζ.isUnit hp.ne_zero).unit
   have hζ'coe : (ζ' : k) = ζ := (hζ.isUnit hp.ne_zero).unit_spec
   have hζ' : IsPrimitiveRoot ζ' p := by
@@ -280,8 +280,7 @@ private theorem ggKGEc_eq_one_of_fixRoot
     intro i
     rw [← ZMod.intCast_zmod_eq_zero_iff_dvd]
     have hci := congrFun hc i
-    simp only [TableBExc.redMod, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Int.cast_sub,
-      Int.cast_mul] at hci
+    simp only [TableBExc.redMod, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Int.cast_sub] at hci
     simp only [Int.cast_sub, Int.cast_mul, Int.cast_natCast, ZMod.natCast_zmod_val,
       Pi.sub_apply]
     rw [hci]
@@ -313,7 +312,7 @@ private theorem ggKGEc_eq_one_of_fixRoot
       funext i
       have hci := hc i
       rw [← ZMod.intCast_zmod_eq_zero_iff_dvd] at hci
-      simp only [TableBExc.redMod, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Int.cast_sub,
+      simp only [TableBExc.redMod, Pi.sub_apply, Pi.smul_apply, Int.cast_sub,
         Int.cast_mul] at hci ⊢
       linear_combination hci
     have hsub : TableBExc.redMod τ p (w • TableBExc.liftMod τ p x - TableBExc.liftMod τ p x)

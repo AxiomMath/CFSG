@@ -50,7 +50,7 @@ private theorem eq_zero_of_sum_sq_le_two_aux {a : I × J → ℤ} {p q : I × J}
         · simp [hzp]
         · by_cases hzq : z = q
           · simp [hzq]
-          · simp only [hd, hzp, hzq, if_false, sub_zero, add_zero] at hzn
+          · simp only [hd, hzp, hzq, ite_false, sub_zero, add_zero] at hzn
             exact absurd hzn hz'
       · exact Finset.mem_union_left _ (by simpa using hzn)
     have h2 : (#({z : I × J | a z + d z ≠ 0} : Finset (I × J)) : ℤ) ≤ 2 :=
@@ -82,7 +82,7 @@ private theorem eq_zero_of_sum_sq_le_two_aux {a : I × J → ℤ} {p q : I × J}
         (Finset.univ : Finset J) := by
       intro x _ y _ hxy
       by_cases hx : a (i₁, x) ≠ 0 <;> by_cases hy : a (i₁, y) ≠ 0 <;>
-        simp only [hx, hy, if_false, ne_eq] at hxy <;>
+        simp only [hx, hy, ite_false, ne_eq] at hxy <;>
         exact (Prod.mk.injEq _ _ _ _ ▸ hxy).2
     have := Finset.card_le_card_of_injOn _ (fun j _ => hmaps j) hinj
     rw [Finset.card_univ] at this
@@ -97,16 +97,16 @@ private theorem eq_zero_of_sum_sq_le_two_aux {a : I × J → ℤ} {p q : I × J}
   have hcross : ∑ z : I × J, a z * d z = b p.2 - b q.2 := by
     simp only [hd, mul_sub, Finset.sum_sub_distrib, mul_ite, mul_one, mul_zero]
     rw [Finset.sum_ite_eq' Finset.univ p a, Finset.sum_ite_eq' Finset.univ q a,
-      if_pos (Finset.mem_univ p), if_pos (Finset.mem_univ q), hab p, hab q]
+      ite_eq_left (Finset.mem_univ p), ite_eq_left (Finset.mem_univ q), hab p, hab q]
   have hdsq : ∑ z : I × J, d z ^ 2 = 2 := by
     have hterm : ∀ z : I × J, d z ^ 2 = (if z = p then 1 else 0) + (if z = q then 1 else 0) := by
       intro z
       by_cases hzp : z = p
       · have hzq : z ≠ q := by rw [hzp]; exact hpq
-        simp [hd, if_pos hzp, if_neg hzq]
+        simp [hd, ite_eq_left hzp, ite_eq_right hzq]
       · by_cases hzq : z = q
-        · simp [hd, if_neg hzp, if_pos hzq]
-        · simp [hd, if_neg hzp, if_neg hzq]
+        · simp [hd, ite_eq_right hzp, ite_eq_left hzq]
+        · simp [hd, ite_eq_right hzp, ite_eq_right hzq]
     rw [Finset.sum_congr rfl fun z _ => hterm z, Finset.sum_add_distrib]
     simp
   have hexpand : ∑ z : I × J, (a z + d z) ^ 2
@@ -342,7 +342,7 @@ theorem eq_signed_sub_prodCharEta (hW : IsCyclicTIPair W W1 W2)
     simp
   have hFρ : cfInner F ρ = 2 := by
     rw [hρ, cfInner_sub_right, hFη p, hFη q]
-    simp only [hm, ha0, Pi.zero_apply, zero_add, if_neg hpq, if_neg (Ne.symm hpq)]
+    simp only [hm, ha0, Pi.zero_apply, zero_add, ite_eq_right hpq, ite_eq_right (Ne.symm hpq)]
     push_cast
     ring
   have h1 : cfInner F Φ = 0 := by rw [hΦdef, cfInner_sub_right, hFnorm, hFρ, sub_self]

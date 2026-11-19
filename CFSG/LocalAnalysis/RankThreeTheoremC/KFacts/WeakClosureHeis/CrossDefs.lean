@@ -53,7 +53,7 @@ theorem permGL_mul_diagGL_mul_inv (n : ℕ) (σ : Equiv.Perm (Fin n)) (u : Fin n
       · simp [h]
     · intro h
       exact absurd (Finset.mem_univ _) h
-  · simp only [hij, if_false]
+  · simp only [hij, ite_false]
     apply Finset.sum_eq_zero
     intro b _
     by_cases h1 : σ b = i

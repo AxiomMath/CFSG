@@ -13,7 +13,7 @@ theorem card_center_dvd_gcd_of_psl_of_five_le
     (e : (Q ⧸ Subgroup.center Q) ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin n) K) :
     Nat.card (Subgroup.center Q) ∣ Nat.gcd n (Nat.card K - 1) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hdvd := CFSG.AGLEmbedding.card_center_dvd_card_griessHopfMultiplier hQ e
   obtain ⟨eM⟩ := (CFSG.LieType.Steinberg.CentralExt.SLClosed.psl_hopfMultiplier_of_five_le
     (k := K) hn).2

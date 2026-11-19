@@ -126,7 +126,7 @@ theorem exists_mem_of_involutory {X : Type} [Group X] [Finite X] [Group.IsPerfec
   congr 1
 
 theorem card_le_of_forall_exists_conj {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
-    {S : Subgroup X} (A : Subgroup (MulAut X)) (haZ : ∀ a ∈ A, ∀ z ∈ Subgroup.center X, a z = z)
+    {S : Subgroup X} (A : Subgroup (MulAut X)) (_haZ : ∀ a ∈ A, ∀ z ∈ Subgroup.center X, a z = z)
     (hconj : ∀ a ∈ A, ∃ s ∈ S, ∀ x : X, (QuotientGroup.mk (a x) : X ⧸ Subgroup.center X) =
       QuotientGroup.mk (s * x * s⁻¹)) :
     Nat.card A ≤ Nat.card S := by
@@ -167,7 +167,7 @@ theorem card_le_of_threeCover {X : Type} [Group X] [Finite X] {S : Subgroup X}
     (e : X ⧸ Subgroup.center X ≃* alternatingGroup (Fin 6)) (hS4 : Nat.card S = 4)
     {A : Subgroup (MulAut X)} (hA : IsElemAbelian 2 A) (hAS : ∀ a ∈ A, ∀ s ∈ S, a s = s)
     (hAZ : ∀ a ∈ A, ∀ z ∈ Subgroup.center X, a z = z) : Nat.card A ≤ Nat.card S := by
-  haveI := isPerfect_of_barSituation hS hZ e
+  have := isPerfect_of_barSituation hS hZ e
   refine card_le_of_forall_exists_conj A hAZ fun a ha => ?_
   exact exists_mem_of_involutory hZ e hS4
     (fun s hs => by simpa [pow_two] using hS.elemAbelian.2 s hs)

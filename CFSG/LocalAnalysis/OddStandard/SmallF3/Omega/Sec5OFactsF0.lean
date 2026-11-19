@@ -20,11 +20,11 @@ open scoped commutatorElement
 theorem asc82FactPockets6_of (hS : Asc82SchurU43) : Asc82FactPockets6 := by
   intro G _ _ L z hL hz
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, hφ⟩ := t5_exists_cover hS hL
-  letI := i1
-  letI := i2
-  letI := i3
-  haveI : Finite (OGroup Q) := sec5c_finite_ogroup
-  haveI : Finite ↥(omegaGroup hQ) := Subtype.finite
+  let := i1
+  let := i2
+  let := i3
+  have : Finite (OGroup Q) := sec5c_finite_ogroup
+  have : Finite ↥(omegaGroup hQ) := Subtype.finite
   have hO : OddCentralCover φ := hφ.oddCentralCover hL
   have hzL : z ∈ L := sec5c_mem_of_isI4PlusIn hz
   have hzz : z * z = 1 := by
@@ -378,7 +378,7 @@ theorem asc82FactPockets6_of (hS : Asc82SchurU43) : Asc82FactPockets6 := by
         _ = a * (b * z) := by rw [hz2central b hb]
         _ = (a * b) * z := by group
   have hzord : orderOf z = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hzz) hzne
   have hznotcenter : z ∉ centerIn L := by
     intro hzc

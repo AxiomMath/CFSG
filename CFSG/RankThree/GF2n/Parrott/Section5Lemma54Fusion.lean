@@ -76,6 +76,7 @@ private theorem exists_zstar_y (h : Tim79a.ParrottHyp z)
   have hnotT₂ : ∀ c ∈ H z, c * y * c⁻¹ ∉ T₂ := not_mem_T2_of_isConj hSup hyne hyconj
   exact ⟨y, g, hgy, hyH, hyne, hyconj, hnotT₂⟩
 
+omit [Finite G] in
 private theorem zstar_pair_y' (h : Tim79a.ParrottHyp z) {y g : G}
     (hgy : g * z * g⁻¹ = y) (hyH : y ∈ H z) (hyne : y ≠ z) :
     ∃ y' : G, g * y' * g⁻¹ = z ∧ y' ∈ H z ∧ y' ≠ z ∧ IsConj z y' ∧ orderOf y' = 2 := by
@@ -108,6 +109,7 @@ private theorem zstar_pair_y' (h : Tim79a.ParrottHyp z) {y g : G}
   have hy'ord : orderOf y' = 2 := (IsConj.orderOf_eq hy'conj).symm.trans h.1
   exact ⟨y', hgy', hy'H, hy'ne, hy'conj, hy'ord⟩
 
+omit [Finite G] in
 private theorem sym_pair_B_le {y y' g : G} (hgy : g * z * g⁻¹ = y)
     (hy'rel : g * y' * g⁻¹ = z) :
     conjugate (J z ⊓ centralizer ({y'} : Set G)) g⁻¹ ≤
@@ -154,6 +156,7 @@ private theorem sym_pair_B_le {y y' g : G} (hgy : g * z * g⁻¹ = y)
   calc b * y = (b * y * b⁻¹) * b := by group
     _ = y * b := by rw [hby]
 
+omit [Finite G] in
 private theorem conj_mem_H_of_mem_H_of_mem_centralizer {c y g : G}
     (hcy : c * y * c⁻¹ = y) (hgy : g * z * g⁻¹ = y) :
     g⁻¹ * c * g ∈ H z := by
@@ -168,6 +171,7 @@ private theorem conj_mem_H_of_mem_H_of_mem_centralizer {c y g : G}
       = ((g⁻¹ * c * g) * z * (g⁻¹ * c * g)⁻¹) * (g⁻¹ * c * g) := by group
     _ = z * (g⁻¹ * c * g) := by rw [h1]
 
+omit [Finite G] in
 private theorem conj_mem_centralizer_y' {c y' g : G} (hcH : c ∈ H z)
     (hgy' : g * y' * g⁻¹ = z) :
     g⁻¹ * c * g ∈ Subgroup.centralizer ({y'} : Set G) := by
@@ -189,6 +193,7 @@ private theorem conj_mem_centralizer_y' {c y' g : G} (hcH : c ∈ H z)
       = ((g⁻¹ * c * g) * y' * (g⁻¹ * c * g)⁻¹) * (g⁻¹ * c * g) := by group
     _ = y' * (g⁻¹ * c * g) := by rw [h1]
 
+omit [Finite G] in
 private theorem sym_pair_B_normal {y y' g : G} (hgy : g * z * g⁻¹ = y)
     (hy'rel : g * y' * g⁻¹ = z) :
     ∀ c ∈ H z ⊓ centralizer ({y} : Set G),
@@ -226,6 +231,7 @@ private theorem sym_pair_B_normal {y y' g : G} (hgy : g * z * g⁻¹ = y)
   rw [heq]
   exact ⟨hdeJ, hdeCy'⟩
 
+omit [Finite G] in
 private theorem sym_pair_B_mem (h : Tim79a.ParrottHyp z) {T₂ : Subgroup G}
     (hJT : ∀ j ∈ J z, orderOf j = 2 → j ≠ z → ∃ c ∈ H z, c * j * c⁻¹ ∈ T₂)
     (hSup : ∀ x ∈ T₂, x ≠ z → ¬ IsConj z x) {y y' g : G}
@@ -254,6 +260,7 @@ private theorem sym_pair_B_mem (h : Tim79a.ParrottHyp z) {T₂ : Subgroup G}
     exact hy'ne (eq_z_of_mem_J_of_isConj hJT hSup hy'C.1 hy'ord hy'conj)
   exact ⟨hyB, hzB⟩
 
+omit [Finite G] in
 private theorem sym_pair_final_contradiction (h : Tim79a.ParrottHyp z) {T₂ : Subgroup G}
     (hJT : ∀ j ∈ J z, orderOf j = 2 → j ≠ z → ∃ c ∈ H z, c * j * c⁻¹ ∈ T₂)
     (hSup : ∀ x ∈ T₂, x ≠ z → ¬ IsConj z x) {y y' g : G}
@@ -433,6 +440,7 @@ private theorem conj_z_eq_z_of_pair (h : Tim79a.ParrottHyp z) {n a : G}
       _ = z := z_inv h
   · exact absurd (by rw [h1, h2]) hdist
 
+omit [Finite G] in
 private theorem normalizer_inf_le_H_of_Ktype (h : Tim79a.ParrottHyp z) {σ x : G}
     {K W : Subgroup G} (hzK : z ∈ K) (hzCK : z ∈ Subgroup.centralizer (K : Set G))
     {a : G} (haK : a ∈ centerIn K) (ha1 : a ≠ 1) (haz : a ≠ z)
@@ -518,6 +526,7 @@ private theorem mem_normalizer_closure_squares {n : G} {K : Subgroup G}
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, MonoidHom.map_closure]
   exact congrArg Subgroup.closure hS
 
+omit [Finite G] in
 private theorem normalizer_inf_le_H_of_Ltype (h : Tim79a.ParrottHyp z) {σ x : G}
     {K W : Subgroup G}
     (hKle : K ≤ H z ⊓ centralizer ({σ} : Set G) ⊓ centralizer ({x} : Set G))
@@ -632,6 +641,7 @@ theorem exists_mem_W_isConj_z (h : Tim79a.ParrottHyp z) {σ : G} {T₂ W : Subgr
     · exact normalizer_inf_le_H_of_Ltype h hK.le hzM hMJ hJY hSup2
   exact sylow_card_contradiction h hP4 hT₂ hT₂c hK hNle hKcard hzx hxY
 
+omit [Finite G] in
 private theorem conj_W_le_Y {σ : G} {T₂ W : Subgroup G} {c w : G}
     (hT₂ : IsSylowOf 2 T₂ (H z ⊓ centralizer ({σ} : Set G)))
     (hWT : W ≤ T₂) (hWab : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a)
@@ -701,6 +711,7 @@ private theorem exists_conj_W_eq_W {σ : G} {T₂ W : Subgroup G} {c : G}
     rw [hW''form, card_conjugate', hWc]
   exact hWu W'' hW''T hW''ab hW''2 hW''c
 
+omit [Finite G] in
 private theorem exists_normalizer_conj_of_W {σ : G} {W : Subgroup G} {c d w : G}
     (hcCσ : c ∈ centralizer ({σ} : Set G))
     (hdY : d ∈ H z ⊓ centralizer ({σ} : Set G))

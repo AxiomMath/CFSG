@@ -110,7 +110,7 @@ theorem connected_iff_transitive {Γ : Type*} [Group Γ] (D : Set Γ) (hD : D.No
       | inv g hg ih =>
         intro x y hy
         exact (ih y x (by rw [hy]; simp [mul_assoc])).symm
-    haveI : Nonempty ↥D := hD.to_subtype
+    have : Nonempty ↥D := hD.to_subtype
     refine ⟨fun u v => ?_⟩
     obtain ⟨g, hg, hgu⟩ := htrans u u.2 v v.2
     exact hmain g hg u v hgu.symm

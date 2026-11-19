@@ -169,7 +169,7 @@ theorem isSylowOf_top_map_mk [Fact p.Prime] {U : Subgroup G} (hU : IsSylowOf p U
       (U.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) p)) := by
     rw [Sylow.coe_mapSurjective, hT]
   rw [isSylowOf_iff, Subgroup.relIndex_top_right, ← hS]
-  exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+  exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
 
 theorem coprime_card_map_of_isPGroup_two {X Y : Type*} [Group X] [Group Y] [Finite Y]
     (hp : p.Prime) (hp2 : p ≠ 2) (f : X →* Y) {W : Subgroup X} (hW : IsPGroup 2 W) :
@@ -219,7 +219,7 @@ theorem isMulCommutative_sylow_quotient [Fact p.Prime]
     IsMulCommutative (S : Subgroup (N ⧸ primeComplementCore (G := N) p)) := by
   obtain ⟨T, rfl⟩ := Sylow.mapSurjective_surjective
     (QuotientGroup.mk'_surjective (primeComplementCore (G := N) p)) p S
-  have hT : IsMulCommutative ((T : Subgroup N).map N.subtype) := h _ (T.isPGroup'.map _)
+  have hT : IsMulCommutative ((T : Subgroup N).map N.subtype) := h _ (T.isPGroup.map _)
   have hT' : IsMulCommutative (T : Subgroup N) := by
     have := Subgroup.comap_injective_isMulCommutative (H := (T : Subgroup N).map N.subtype)
       N.subtype_injective

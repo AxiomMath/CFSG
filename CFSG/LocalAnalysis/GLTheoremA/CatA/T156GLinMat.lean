@@ -29,7 +29,7 @@ variable {d : ℕ}
 
 theorem commutator_slGroup' {F : Type} [Field F] (hd : 2 ≤ d) (h : SLOK d F) :
     ⁅LargeEvenSLGroup (Fin d) F, LargeEvenSLGroup (Fin d) F⁆ = LargeEvenSLGroup (Fin d) F := by
-  haveI hP : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) F) :=
+  have hP : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) F) :=
     CFSG.LinearGroups.special_linear_isPerfect (K := F) (n := d) hd h
   have hP' : Group.IsPerfect (↥(LargeEvenSLGroup (Fin d) F)) :=
     Group.IsPerfect.ofSurjective (f := (TypeA.slKerEquiv d F).symm.toMonoidHom)
@@ -38,7 +38,7 @@ theorem commutator_slGroup' {F : Type} [Field F] (hd : 2 ≤ d) (h : SLOK d F) :
 
 theorem isSimpleGroup_proj' (hd : 2 ≤ d) (F : Type) [Field F] (h : SLOK d F) :
     IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) := by
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin d) F) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin d) F) :=
     (CFSG.LinearGroups.linear_projective_simple (K := F) (n := d) hd h).2.1
   exact MulEquiv.isSimpleGroup
     ((TypeA.recipeEquiv d F).trans
@@ -52,15 +52,15 @@ theorem exists_noncomm_proj' (hd : 2 ≤ d) (F : Type) [Field F] (h : SLOK d F) 
     (TypeA.recipeEquiv d F).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL
         d F).symm
-  haveI : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin d) F) :=
+  have : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin d) F) :=
     CFSG.LinearGroups.linear_projective_perfect (K := F) (n := d) hd h
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :=
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Nontrivial (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :=
+  have : Nontrivial (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :=
     (isSimpleGroup_proj' hd F h).toNontrivial
   by_contra hc
   push Not at hc
-  haveI : IsMulCommutative (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :=
+  have : IsMulCommutative (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :=
     IsMulCommutative.of_comm hc
   exact Group.IsPerfect.not_isMulCommutative (LargeEvenProj (LargeEvenSLGroup (Fin d) F))
     inferInstance

@@ -17,11 +17,11 @@ set_option linter.unusedSectionVars false
 
 theorem trialityOddLocalGen_holds : TrialityOddLocalGen := by
   intro q hv hq2 hq3 Y _ _ K hKn hC he hno E hE hEc a haEK ha1 k hk hka
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   obtain ⟨e₀⟩ := he
   obtain ⟨X, _, _, σ, hX, hσ, ⟨φ⟩⟩ := exists_trialityD4_model_odd hq2 (K := K) ⟨hv, ⟨e₀⟩⟩
   have P : D4ParOdd q.p q.exponent X σ := ⟨q.prime_p, hq2, hq3, q.exponent_pos, hX, hσ⟩
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have haK : a ∈ K := (Subgroup.mem_inf.1 haEK).2
   have haE : a ∈ E := (Subgroup.mem_inf.1 haEK).1
   set ρ : Y →* MulAut (C0 σ) := (MulAut.congr φ).toMonoidHom.comp MulAut.conjNormal with hρ

@@ -515,7 +515,7 @@ theorem false_of_moved (h38 : A38ForSQTKCat) {X : Type} [Group X] [Finite X] (hX
     exact hpJ (map_injOn_cComp_top π hsolv (hconjC p) hJ h)
   obtain ⟨S, hS⟩ := (hP.map π).exists_le_sylow
   have hT : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup (X ⧸ CFSG.pCore 2 X)) ⊤ :=
-    ⟨le_top, S.isPGroup', by
+    ⟨le_top, S.isPGroup, by
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
       exact S.not_dvd_index⟩
   have hmemT : ∀ q ∈ P, CFSG.conjugate (J.map π) (π q) ∈

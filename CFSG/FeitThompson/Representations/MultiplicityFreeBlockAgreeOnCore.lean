@@ -74,7 +74,7 @@ theorem resClassFun_eq_sum_conjOrbit [H.Normal] {lam : H → ℂ} (hlam : lam �
   have : Fintype H := Fintype.ofFinite H
   have hχIrr : χ ∈ Irr L := hS hχ
   have hone : cfInner (indClassFun H lam) χ = 1 := by
-    rw [hθ, cfInner_sum_eq_ite hS hχIrr, if_pos hχ]
+    rw [hθ, cfInner_sum_eq_ite hS hχIrr, ite_eq_left hχ]
   have h1 : cfInner (resClassFun H χ) lam = 1 := by
     rw [← cfInner_indClassFun_eq_cfInner_resClassFun hχIrr hlam, hone]
   have hmem : lam ∈ resConstituents H χ :=

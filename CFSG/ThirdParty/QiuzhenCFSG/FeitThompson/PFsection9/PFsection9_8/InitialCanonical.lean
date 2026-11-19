@@ -163,16 +163,16 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
+  let : Group Clam := inferInstance
   have hAnormalA : A.Normal := by
     simpa [Dm, A] using hAnormal
-  letI : B.Normal := hBnormal
-  letI : A.Normal := hAnormalA
-  letI : (A.subgroupOf B).Normal := hAnormalA.subgroupOf B
+  let : B.Normal := hBnormal
+  let : A.Normal := hAnormalA
+  let : (A.subgroupOf B).Normal := hAnormalA.subgroupOf B
   let Q : Type u := B ⧸ A.subgroupOf B
-  letI : Group Q := inferInstance
+  let : Group Q := inferInstance
   let qB : B →* Q := QuotientGroup.mk' (A.subgroupOf B)
   let WB : Subgroup Dm := W ⊓ B
   let WBsubB : Subgroup B := WB.subgroupOf B
@@ -268,7 +268,7 @@ public theorem
   have hA_of_WB_le_UprimeD :
       ∀ x : WB, ((x : Dm) ∈ A) → (x : Dm) ∈ UprimeD := by
     intro x hxA
-    letI : H0D.Normal := hH0Dnormal
+    let : H0D.Normal := hH0Dnormal
     exact
       theorem_9_8_mem_right_of_mem_sup_inf_and_left_inf_eq_bot_sec9
         H0D UprimeD W B ((MF.subgroupOf M).subgroupOf Dm)
@@ -277,13 +277,13 @@ public theorem
   have hWBUprimeNormal : WBUprime.Normal := by
     rw [hWBUprime_eq]
     exact (hUprimeNormal.subgroupOf K).comap hWBK.toMonoidHom
-  letI : WBUprime.Normal := hWBUprimeNormal
+  let : WBUprime.Normal := hWBUprimeNormal
   let QClam : Subgroup Q := WBsubB.map qB
   let eWBsub : WBsubB ≃* WB := Subgroup.subgroupOfEquivOfLe inf_le_right
   let Nsub : Subgroup WBsubB := (A.subgroupOf B).subgroupOf WBsubB
   have hNsubNormal : Nsub.Normal := by
     exact (hAnormalA.subgroupOf B).subgroupOf WBsubB
-  letI : Nsub.Normal := hNsubNormal
+  let : Nsub.Normal := hNsubNormal
   have hNmap : Nsub.map eWBsub.toMonoidHom = WBUprime := by
     ext x
     constructor
@@ -361,8 +361,7 @@ public theorem
     rw [show eQuot (QuotientGroup.mk' Nsub w) =
       QuotientGroup.mk' WBUprime (eWBsub w) by
         exact QuotientGroup.congr_mk' Nsub WBUprime eWBsub hNmap w]
-    simp only [eWBUprime, MulEquiv.trans_apply,
-      QuotientGroup.quotientMulEquivOfEq_mk]
+    simp only [eWBUprime, MulEquiv.trans_apply]
     simpa [heWBsub, eWBsub] using hWBHsub_apply wWB
   let MFD : Subgroup Dm := (MF.subgroupOf M).subgroupOf Dm
   let MFDsubB : Subgroup B := MFD.subgroupOf B
@@ -382,7 +381,7 @@ public theorem
       simpa [H0D, Subgroup.mem_subgroupOf] using hx
     exact hH0MF hxH0
   let H0DsubMFD : Subgroup MFD := H0D.subgroupOf MFD
-  haveI : H0DsubMFD.Normal := hH0Dnormal.subgroupOf MFD
+  have : H0DsubMFD.Normal := hH0Dnormal.subgroupOf MFD
   have hMFD_kernel_map : H0DsubMFD.map (eMFD : MFD →* MF) = H0.subgroupOf MF := by
     ext x
     constructor
@@ -417,7 +416,7 @@ public theorem
   let NMFsub : Subgroup MFDsubB := (A.subgroupOf B).subgroupOf MFDsubB
   have hNMFsubNormal : NMFsub.Normal := by
     exact (hAnormalA.subgroupOf B).subgroupOf MFDsubB
-  letI : NMFsub.Normal := hNMFsubNormal
+  let : NMFsub.Normal := hNMFsubNormal
   let eMFDsub : MFDsubB ≃* MFD := Subgroup.subgroupOfEquivOfLe hBsemi.left_le
   have hNMF_map : NMFsub.map (eMFDsub : MFDsubB →* MFD) = H0DsubMFD := by
     ext x
@@ -437,7 +436,7 @@ public theorem
         rw [hval'] at hyA_image
         exact hyA_image
       have hxH0D : (x : Dm) ∈ H0D := by
-        letI : H0D.Normal := hH0Dnormal
+        let : H0D.Normal := hH0Dnormal
         exact
           theorem_9_8_mem_left_of_mem_sup_and_left_inf_right_eq_bot_sec9
             H0D UprimeD MFD WB hH0D_le_MFD hUprimeD_le_WB
@@ -725,7 +724,7 @@ public theorem
       rcases hx.2 with ⟨w, hwWBsub, hwx⟩
       have hmwA_B : m / w ∈ A.subgroupOf B := by
         exact QuotientGroup.eq_iff_div_mem.mp (hmx.trans hwx.symm)
-      letI : H0D.Normal := hH0Dnormal
+      let : H0D.Normal := hH0Dnormal
       have hmwA_D : ((m / w : B) : Dm) ∈ A := by
         simpa [Subgroup.mem_subgroupOf] using hmwA_B
       have hmwSup : ((m / w : B) : Dm) ∈ H0D ⊔ UprimeD := by
@@ -1218,7 +1217,7 @@ public theorem
     simpa [Dm, MFD] using
       theorem_9_8_MF_subgroupOf_ambientDerived_normal_sec9
         M MF U W1 W2 H0 C p q a hcase
-  letI : MFD.Normal := hMFDnormal
+  let : MFD.Normal := hMFDnormal
   have hsemi : Section2.IsInternalSemidirectProduct (⊤ : Subgroup Dm) MFD W := by
     simpa [Dm, MFD, W] using
       theorem_9_8_MF_U_internalSemidirect_ambientDerived_sec9
@@ -1412,8 +1411,8 @@ public theorem
   let WBHsub : Subgroup ↥(W ⊓ B) := Hsub.comap eWBK.toMonoidHom
   have hWBHsub_map : WBHsub.map eWBK.toMonoidHom = Hsub := by
     exact Subgroup.map_comap_eq_self_of_surjective eWBK.surjective Hsub
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
-  letI : WBHsub.Normal := (hUprimeNormal.subgroupOf K).comap eWBK.toMonoidHom
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : WBHsub.Normal := (hUprimeNormal.subgroupOf K).comap eWBK.toMonoidHom
   let hWBHsubQuot : (↥(W ⊓ B) ⧸ WBHsub) ≃* (K ⧸ Hsub) := by
     exact QuotientGroup.congr WBHsub Hsub eWBK hWBHsub_map
   have hWBHsubQuot_apply :

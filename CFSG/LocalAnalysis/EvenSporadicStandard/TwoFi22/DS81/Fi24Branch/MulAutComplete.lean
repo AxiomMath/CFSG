@@ -27,7 +27,7 @@ theorem mulAut_complete [IsSimpleGroup U] (hna : ∃ a b : U, a * b ≠ b * a)
     (α : MulAut (MulAut U)) : ∃ a : MulAut U, α = MulAut.conj a := by
   have hle : ∀ β : MulAut (MulAut U), inn U ≤ (inn U).map β.toMonoidHom := by
     intro β
-    haveI : ((inn U).map β.toMonoidHom).Normal :=
+    have : ((inn U).map β.toMonoidHom).Normal :=
       Subgroup.Normal.map inferInstance β.toMonoidHom β.surjective
     refine inn_le_of_normal hna _ ?_
     intro hbot

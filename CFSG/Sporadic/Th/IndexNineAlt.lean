@@ -156,17 +156,17 @@ theorem isPart_canon {p : Fin 9} {B : Finset (Fin 9)} (hp : p ∉ B) (hB : B.car
     · rw [hD, mem_diff_insert]
       exact ⟨mpoint_ne p, h⟩
 
-theorem canon_compl {p : Fin 9} {B : Finset (Fin 9)} (hp : p ∉ B) (hB : B.card = 4) :
+theorem canon_compl {p : Fin 9} {B : Finset (Fin 9)} (hp : p ∉ B) (_hB : B.card = 4) :
     canonBlock p (Finset.univ \ insert p B) = canonBlock p B := by
   by_cases h : mpoint p ∈ B
   · have hm : mpoint p ∉ (Finset.univ \ insert p B : Finset (Fin 9)) :=
       fun hc => (mem_diff_insert.mp hc).2 h
-    simp only [canonBlock, h, hm, if_true, if_false]
+    simp only [canonBlock, h, hm, ite_true, ite_false]
     exact sdiff_insert_self hp
   · have hm : mpoint p ∈ (Finset.univ \ insert p B : Finset (Fin 9)) := by
       rw [mem_diff_insert]
       exact ⟨mpoint_ne p, h⟩
-    simp only [canonBlock, h, hm, if_false, if_true]
+    simp only [canonBlock, h, hm, ite_false, ite_true]
 
 theorem image_diff_insert (g : Equiv.Perm (Fin 9)) (p : Fin 9) (B : Finset (Fin 9)) :
     (Finset.univ \ insert p B : Finset (Fin 9)).image g =
@@ -204,7 +204,7 @@ theorem canon_image (g : Equiv.Perm (Fin 9)) {p : Fin 9} {B : Finset (Fin 9)}
 theorem actPair_one {p : Fin 9} {B : Finset (Fin 9)} (h : mpoint p ∈ B) :
     actPair 1 (p, B) = (p, B) := by
   simp only [actPair, canon, Equiv.Perm.coe_one, id_eq, Finset.image_id, canonBlock, h,
-    if_true]
+    ite_true]
 
 theorem actPair_mem {g : Equiv.Perm (Fin 9)} {p : Fin 9} {B : Finset (Fin 9)}
     (hp : p ∉ B) (hB : B.card = 4) :

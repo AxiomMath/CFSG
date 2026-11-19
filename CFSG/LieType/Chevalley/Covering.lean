@@ -314,10 +314,10 @@ theorem exists_sylow_eq_U [Finite G] (p : ℕ) [Fact p.Prime] (hU : IsPGroup p D
   obtain ⟨S, hS⟩ := hU.exists_le_sylow
   refine ⟨S, le_antisymm ?_ hS⟩
   have key : (S : Subgroup G) ⊓ Subgroup.normalizer (D.U : Set G) ≤ D.U :=
-    le_U_of_isPGroup p hH (S.isPGroup'.to_le inf_le_left)
+    le_U_of_isPGroup p hH (S.isPGroup.to_le inf_le_left)
       (le_inf hS Subgroup.le_normalizer) (inf_le_right.trans hN)
   by_contra hne
-  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : D.U.subgroupOf S < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun htop => hne fun x hx => ?_
     have : (⟨x, hx⟩ : (S : Subgroup G)) ∈ D.U.subgroupOf S := htop ▸ Subgroup.mem_top _

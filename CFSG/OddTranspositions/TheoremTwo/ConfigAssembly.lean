@@ -56,6 +56,7 @@ theorem mem_normalizer_derivedLocal (hS : Setup G D) {z g : G} (hgz : Commute g 
   have h := hconj hgz.inv_left _ hx
   rwa [show g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x by group] at h
 
+omit [Finite G] in
 theorem localGroup_transitive (hS : Setup G D) (hL : LocalSecond D) {u w v : G}
     (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n) (hord : orderOf (u * v * w) = 2 * n) :
     ∀ x ∈ centSet D ((u * v * w) ^ n), ∀ y ∈ centSet D ((u * v * w) ^ n),

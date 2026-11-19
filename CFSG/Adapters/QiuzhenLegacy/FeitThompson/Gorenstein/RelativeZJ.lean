@@ -72,7 +72,7 @@ private theorem rzj_pConstrained_quotient_pPrimeCore
     simpa [M] using (pPrimeCore_coprime_card (G := G) (p := p))
   have hTG_p : IsPGroup p TG := by
     simpa [TG] using
-      (IsPGroup.map (p := p) (H := (T : Subgroup (Op_p'p p G))) T.isPGroup'
+      (IsPGroup.map (p := p) (H := (T : Subgroup (Op_p'p p G))) T.isPGroup
         (Op_p'p p G).subtype)
   have hTG_le_op : TG ≤ Op_p'p p G := by
     simpa [TG] using
@@ -319,11 +319,11 @@ theorem relative_zj_normal (hp : p ≠ 2) (U : Subgroup G) (hU : IsPGroup p U)
 private theorem rzj_le_normalizer_of_sup_normal {P : Subgroup G} (S : Sylow p G)
     (hPS : P ≤ S) (hn : (pPrimeCore p G ⊔ P).Normal) :
     (S : Subgroup G) ≤ normalizer (P : Set G) := by
-  have hPp : IsPGroup p P := S.isPGroup'.to_le hPS
+  have hPp : IsPGroup p P := S.isPGroup.to_le hPS
   have hsyl : IsSylowOf p P (pPrimeCore p G ⊔ P) :=
     isSylowOf_sup_of_coprime pPrimeCore_coprime_card hPp
   have heq : (S : Subgroup G) ⊓ (pPrimeCore p G ⊔ P) = P :=
-    hsyl.eq_of_le (le_inf hPS le_sup_right) inf_le_right (S.isPGroup'.to_le inf_le_left)
+    hsyl.eq_of_le (le_inf hPS le_sup_right) inf_le_right (S.isPGroup.to_le inf_le_left)
   intro s hs
   rw [← heq]
   exact Subgroup.inf_normalizer_le_normalizer_inf ⟨Subgroup.le_normalizer hs,

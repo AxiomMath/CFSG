@@ -46,15 +46,15 @@ theorem zGroup_le_of_transitive (h : EndHyp Ω) (s : TwinSit Ω K K' z) {A Λ : 
     | refl =>
       refine ⟨s.mem, fun u hu => ?_⟩
       rw [← s.isInv.eq hu]
-      exact hEA (h.mem_eGroup_of_isUniqueInvolution s.isInv)
+      exact hEA (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_isUniqueInvolution s.isInv)
     | tail _ hadj ih =>
       obtain ⟨hR, hRA⟩ := ih
       obtain ⟨hc, hcadj⟩ := hadj
       have hE := e15e_eGroup_le h s hEA hΛ htr hR hRA
       refine ⟨hc, fun u hu => ?_⟩
       rcases hcadj with hcR | hRc
-      · exact hE (h.mem_eGroup_of_mem_omegaStarNbr hcR hu)
-      · exact hE (h.mem_eGroup_of_mem_omegaStarNbr
+      · exact hE (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hcR hu)
+      · exact hE (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr
           (Q3T6.Mu.omegaStarNbr_symm h.thmD.hyp hc hR hRc) hu)
   refine (Subgroup.closure_le _).mpr ?_
   rintro u ⟨L, hL, hu⟩

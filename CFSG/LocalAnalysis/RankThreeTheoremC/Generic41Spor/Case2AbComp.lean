@@ -16,11 +16,13 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.AGLEmbedding Subgroup
 
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y}
 
+omit [Finite Y] in
 theorem case2ab_pow_pow_eq_one_of_mem_sylow (S : Sylow p Y) {a : Y} (ha : a ∈ (S : Subgroup Y)) :
     ∃ k : ℕ, a ^ (p ^ k) = 1 := by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨a, ha⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨a, ha⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
+omit [Finite Y] in
 theorem case2ab_mem_normalizer_of_pow_coprime {H : Subgroup Y} {y : Y} {n : ℕ}
     (hy : y ^ n = 1) {m : ℕ} (hm : Nat.Coprime m n) (hym : y ^ m ∈ normalizer (H : Set Y)) :
     y ∈ normalizer (H : Set Y) := by
@@ -133,7 +135,7 @@ theorem case2ab_not_le_centralizer_x (h : Case2DataAb p P T D F x) {L : Subgroup
     ¬ L ≤ centralizer ({x} : Set Y) := by
   intro hLW
   obtain ⟨N, hser⟩ := h.series
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have h5 : 5 ≤ p := h.five
   obtain ⟨S, hS⟩ := h.sylow
   obtain ⟨t, htmem, hto, htc⟩ :=
@@ -145,7 +147,7 @@ theorem case2ab_not_le_centralizer_x (h : Case2DataAb p P T D F x) {L : Subgroup
     rwa [hto] at this
   have hPp : ∀ a ∈ P, ∃ k : ℕ, a ^ p ^ k = 1 := by
     intro a ha
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨a, by rw [hS]; exact ha⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨a, by rw [hS]; exact ha⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hPW : P ≤ centralizer ({x} : Set Y) := hser.P_le
   have hPN : P ≤ Subgroup.normalizer N := by
@@ -173,7 +175,7 @@ theorem case2ab_not_le_centralizer_x (h : Case2DataAb p P T D F x) {L : Subgroup
     obtain ⟨k, hk⟩ := hPp a ha
     exact ⟨k, case2ab_pow_mul_mem_of_pow_eq_one (hconj a ha) hk n hn⟩
   obtain ⟨hcomm, hsimp⟩ := hL.2.2
-  haveI := hsimp
+  have := hsimp
   obtain ⟨ρ, hρ⟩ : ∃ ρ : L →* L ⧸ Subgroup.center L, ρ = QuotientGroup.mk' (Subgroup.center L) :=
     ⟨_, rfl⟩
   have hρsurj : Function.Surjective ρ := by
@@ -209,10 +211,10 @@ theorem case2ab_not_le_centralizer_x (h : Case2DataAb p P T D F x) {L : Subgroup
     rw [← ht']
     simpa using this
   have htPN : t ∈ P ⊔ N := (le_sup_left : P ≤ P ⊔ N) htP
-  haveI hK₁map : ((N.subgroupOf L).map ρ).Normal := hK₁.map ρ hρsurj
+  have hK₁map : ((N.subgroupOf L).map ρ).Normal := hK₁.map ρ hρsurj
   rcases hsimp.eq_bot_or_eq_top_of_normal ((N.subgroupOf L).map ρ) with hA₁ | hA₁
   ·
-    haveI hK₂map : (((P ⊔ N).subgroupOf L).map ρ).Normal := hK₂.map ρ hρsurj
+    have hK₂map : (((P ⊔ N).subgroupOf L).map ρ).Normal := hK₂.map ρ hρsurj
     have hB : ((P ⊔ N).subgroupOf L).map ρ = ⊤ := by
       rcases hsimp.eq_bot_or_eq_top_of_normal (((P ⊔ N).subgroupOf L).map ρ) with hB | hB
       · exfalso
@@ -264,7 +266,7 @@ theorem case2ab_P_comm (h : Case2DataAb p P T D F x) : IsMulCommutative P := by
   have hT : T ≤ centralizer (T : Set Y) :=
     le_centralizer_iff_isMulCommutative.mpr h.pdata.T_comm
   have hD : D ≤ centralizer (D : Set Y) := by
-    haveI := h.pdata.D_cyc
+    have := h.pdata.D_cyc
     exact le_centralizer_iff_isMulCommutative.mpr IsCyclic.isMulCommutative
   have hTD : T ≤ centralizer (D : Set Y) := fun t ht =>
     mem_centralizer_iff.mpr fun d hd => (h.pdata.comm t ht d hd).symm
@@ -303,7 +305,7 @@ theorem case2ab_exists_psi (h : Case2DataAb p P T D F x) {L : Subgroup Y} (hL : 
       ∀ g : X, (zpowers (ψ ⟨x, case2ab_x_mem_P h⟩)).map (MulAut.conj g).toMonoidHom ≤ (Q : Subgroup X) →
         (zpowers (ψ ⟨x, case2ab_x_mem_P h⟩)).map (MulAut.conj g).toMonoidHom =
           zpowers (ψ ⟨x, case2ab_x_mem_P h⟩) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨X, hG, hF, π, K, Q, hπ⟩ :=
     exists_almostSimple h.core h.catalog hL h.sylow (case2ab_P_normalizes_component h hL)
   have hPL : P ≤ L ⊔ P := le_sup_right
@@ -343,7 +345,7 @@ theorem case2ab_inf_centralizer_ne_bot (h : Case2DataAb p P T D F x) (hInn : KFa
     (hWC : KFactWeakClosure) {L : Subgroup Y} (hL : IsComponentOf L ⊤) :
     T ⊓ centralizer (L : Set Y) ≠ ⊥ := by
   intro hbot
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨X, _, _, K, Q, ψ, hKn, hKs, hKnab, hKcat, hKc, hKdvd, hKsup, hker, hrange, hwc⟩ :=
     case2ab_exists_psi h hL
   set x' : ↥P := ⟨x, case2ab_x_mem_P h⟩ with hx'
@@ -362,7 +364,7 @@ theorem case2ab_inf_centralizer_ne_bot (h : Case2DataAb p P T D F x) (hInn : KFa
     have : x' ^ p = 1 := Subtype.ext (by simpa using case2ab_x_pow_p h)
     rw [this, map_one]
   have hAord : orderOf (ψ x') = p := orderOf_eq_prime hψxp hψx
-  haveI hPcomm : IsMulCommutative P := case2ab_P_comm h
+  have hPcomm : IsMulCommutative P := case2ab_P_comm h
   have hQab : IsMulCommutative (Q : Subgroup X) := by
     rw [← hrange]
     refine isMulCommutative_iff.2 fun u v => ?_
@@ -383,7 +385,7 @@ theorem case2ab_inf_centralizer_ne_bot (h : Case2DataAb p P T D F x) (hInn : KFa
       have h3 : (t : Y) ∈ T ⊓ centralizer (L : Set Y) := ⟨t.2, h2⟩
       rw [hbot, Subgroup.mem_bot] at h3
       exact Subtype.ext h3
-    haveI hTcomm : IsMulCommutative T := h.pdata.T_comm
+    have hTcomm : IsMulCommutative T := h.pdata.T_comm
     refine le_pRank_of_elemAbelian_card (p := p) (P := (Q : Subgroup X)) (E := ψT.range) (k := 2) ?_ ?_ ?_
     · rw [← hrange]
       rintro _ ⟨t, rfl⟩

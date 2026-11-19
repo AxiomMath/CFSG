@@ -31,7 +31,7 @@ private theorem w16l_eq_of_agree_on_sup {X : Type} [Group X] {Y O : Subgroup X} 
   obtain ⟨y, hy, z, hz, rfl⟩ := hx
   rw [map_mul, map_mul, hY y hy, hO z hz]
 
-theorem autRank166_dih {X : Type} [Group X] [Finite X] (Y : Subgroup X) (hY : Nat.card Y = 2)
+theorem autRank166_dih {X : Type} [Group X] [Finite X] (Y : Subgroup X) (_hY : Nat.card Y = 2)
     (hX : Y ⊔ fusionOddCore X = ⊤) (hp : ∃ p : ℕ, p.Prime ∧ Nat.card (fusionOddCore X) = p)
     (E : Subgroup (MulAut X)) (hE : IsElemAbelian 2 E) (hEY : ∀ α ∈ E, ∀ y ∈ Y, α y = y) :
     Nat.card E ≤ 2 := by
@@ -40,7 +40,7 @@ theorem autRank166_dih {X : Type} [Group X] [Finite X] (Y : Subgroup X) (hY : Na
   let O : Subgroup X := fusionOddCore X
   have hOcard' : Nat.card O = p := hOcard
   have hOnorm : O.Normal := fusionOddCore_normal X
-  haveI : O.Normal := hOnorm
+  have : O.Normal := hOnorm
   have hX' : Y ⊔ O = ⊤ := hX
   have hchar : ∀ α : MulAut X, O.map (α : X →* X) = O := by
     intro α
@@ -61,9 +61,9 @@ theorem autRank166_dih {X : Type} [Group X] [Finite X] (Y : Subgroup X) (hY : Na
       have h := congrArg (fun β : MulAut O => (β ⟨z, hz⟩ : X)) hab
       rwa [w16l_autRestrict_coe, w16l_autRestrict_coe] at h
   have hOprime : (Nat.card O).Prime := by rw [hOcard']; exact hpprime
-  haveI : Fact (Nat.card O).Prime := ⟨hOprime⟩
-  haveI : IsCyclic O := isCyclic_of_prime_card (p := Nat.card O) rfl
-  haveI : IsCyclic (ZMod (Nat.card O))ˣ := ZMod.isCyclic_units_prime hOprime
+  have : Fact (Nat.card O).Prime := ⟨hOprime⟩
+  have : IsCyclic O := isCyclic_of_prime_card (p := Nat.card O) rfl
+  have : IsCyclic (ZMod (Nat.card O))ˣ := ZMod.isCyclic_units_prime hOprime
   let e := IsCyclic.mulAutMulEquiv O
   let φ : E → {a : (ZMod (Nat.card O))ˣ // a ^ 2 = 1} :=
     fun α => ⟨e (w16l_autRestrict (α : MulAut X) (hchar α)), by

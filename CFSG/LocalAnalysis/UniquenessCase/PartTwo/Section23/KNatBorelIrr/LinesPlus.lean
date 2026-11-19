@@ -25,9 +25,9 @@ theorem borelIrr_of_omegaPlusFour {W : Type} [CommGroup W] [Finite W]
     (hstab : StableUnder (Hinf P ⊓ normalizer (S : Set (MulAut W))) J) :
     J = ⊥ ∨ J = fixV S := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   by_cases hK2 : 2 < Nat.card K
   · have hn2 : 2 ≤ n := by
       rcases n with _ | _ | k
@@ -61,9 +61,9 @@ theorem borelIrr_of_omegaPlusSix {W : Type} [CommGroup W] [Finite W]
     (hstab : StableUnder (Hinf P ⊓ normalizer (S : Set (MulAut W))) J) :
     J = ⊥ ∨ J = fixV S := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   rw [show 6 / 2 = 3 by norm_num] at hR
   have he0 : (Pi.single (Sum.inl 0) (1 : K) : Fin 3 ⊕ Fin 3 → K) ≠ 0 := by
     intro h0

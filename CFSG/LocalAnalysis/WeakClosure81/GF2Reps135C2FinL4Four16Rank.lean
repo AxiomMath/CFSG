@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 open CFSG.LieType.SpecialLinear CFSG.LieType.SpecialLinear.SLModel
 
 theorem six_le_finrank_range_sub_one_of_pair {K : Type} [Field K] [Fintype K] [CharP K 2]
-    (hK : Fintype.card K = 4) {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
+    (_hK : Fintype.card K = 4) {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     (ρ : Representation (ZMod 2) (Matrix.SpecialLinearGroup (Fin 4) K) W)
     [ρ.IsIrreducible] {ε : Fin 2 → Finset (Fin 4)} (hε : HasTwistedLabel ρ ε)
     (hE : Nat.card (Module.End (MonoidAlgebra (ZMod 2) (Matrix.SpecialLinearGroup (Fin 4) K))
@@ -21,11 +21,11 @@ theorem six_le_finrank_range_sub_one_of_pair {K : Type} [Field K] [Fintype K] [C
     6 ≤ Module.finrank (ZMod 2) (LinearMap.range (ρ y - 1)) := by
   classical
   obtain ⟨k, hfield, hcharp, hEalg, hKalg, y₀, χ, J, h0', ht, hχ, hJ, β, hβ⟩ := hε
-  letI : Field k := hfield
-  letI : CharP k 2 := hcharp
-  letI : Algebra (Module.End (MonoidAlgebra (ZMod 2)
+  let : Field k := hfield
+  let : CharP k 2 := hcharp
+  let : Algebra (Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin 4) K)) ρ.asModule) k := hEalg
-  letI : Algebra K k := hKalg
+  let : Algebra K k := hKalg
   have hE' : Nat.card (Module.End (MonoidAlgebra (ZMod 2)
       (Matrix.SpecialLinearGroup (Fin 4) K)) ρ.asModule) = 2 ^ 1 := by
     simpa using hE

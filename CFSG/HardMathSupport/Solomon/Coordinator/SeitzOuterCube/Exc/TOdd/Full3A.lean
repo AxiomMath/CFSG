@@ -106,7 +106,7 @@ theorem cen_le_closure_classX_odd (P : D4ParOdd ℓ f X σ) {E : Subgroup (MulAu
     (hbE : MulAut.conj b ∈ E) (hbx : MulAut.conj b ∉ Subgroup.zpowers (MulAut.conj x)) :
     cenX σ x ≤ Subgroup.closure {l | l ∈ cenX σ x ∧ ∃ y ∈ E,
       y ∉ Subgroup.zpowers (MulAut.conj x : MulAut (C0 σ)) ∧ y l = l} := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have hinj := conj_injective_odd P
   have hx3 : x ^ 3 = 1 := pow_three_of_conj_mem P hE hx
   have hb3 : b ^ 3 = 1 := pow_three_of_conj_mem P hE hbE

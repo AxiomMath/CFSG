@@ -21,7 +21,7 @@ private theorem isNatSumModule_of_subsingleton
     {F : Type} [Field F] [Fintype F] [CharP F 2]
     {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Subsingleton W]
     (ρ : Representation (ZMod 2) SL(2, F) W) : Sec2.IsNatSumModule ρ := by
-  letI : Module (ZMod 2) (Fin 0 → Fin 2 → F) :=
+  let : Module (ZMod 2) (Fin 0 → Fin 2 → F) :=
     AddCommGroup.zmodModule (fun v => by
       ext i
       exact i.elim0)
@@ -29,13 +29,14 @@ private theorem isNatSumModule_of_subsingleton
   intro g w i
   exact i.elim0
 
+omit [Finite G] in
 private theorem kModWNatSum_of_eq_xOf {F : Type} [Field F] [Fintype F] [CharP F 2]
     (ψ : HBar V H ≃* SL(2, F)) (hKW : kOf V H = Tim79a.xOf V H)
     [hWnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal] :
     KModWNatSum V H ψ := by
   intro hs hmod
-  letI := hmod
-  haveI : Subsingleton (SecMod hs) :=
+  let := hmod
+  have : Subsingleton (SecMod hs) :=
     ⟨fun a b => by
       obtain ⟨n, rfl⟩ := SecMod.mk_surjective hs a
       obtain ⟨m, rfl⟩ := SecMod.mk_surjective hs b
@@ -56,12 +57,12 @@ private theorem sec45Shape_of_abelian
   have hPH : Pc M V ≤ H := hH ▸ le_sup_left
   have hnM : ¬ H ≤ M := hmem.2.2
   have hW := h.isElemAbelian_xOf hPH hVH
-  letI hmodW := moduleOfElemAbelian hW
+  let hmodW := moduleOfElemAbelian hW
   obtain ⟨F, hField, hFintype, hCharP, l, hl1, hl, ψ, horth, hKW, hcardV, hcardW⟩ :=
     exists_orth_xOf_of_kOf_abelian (hW := hW) h hPH hVH hH hnM hK haber hL
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have horth' : Sec2.IsOrthModule hl (repW (hW := hW) ψ) := horth
   have hcentW : Tim79a.xOf V H ≤ Subgroup.centralizer (Tim79a.xOf V H : Set G) :=
     Subgroup.le_centralizer_iff_isMulCommutative.mpr hW.1
@@ -89,7 +90,7 @@ private theorem sec45Shape_of_abelian
   · intro hW' hmod'
     exact Sec45ShapeWith.isOrthModule_repW_of_one (hW := hW) (inst := hmodW) ψ hl horth' hW'
       hmod'
-  · haveI hWnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := by
+  · have hWnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := by
       rw [hKW, Subgroup.subgroupOf_self]
       infer_instance
     exact kModWNatSum_of_eq_xOf (H := H) (V := V) ψ hKW (hWnormal := hWnormal)
@@ -107,12 +108,12 @@ private theorem sec45Shape_of_nonabelian
   have hPH : Pc M V ≤ H := hH ▸ le_sup_left
   have hnM : ¬ H ≤ M := hmem.2.2
   have hW := h.isElemAbelian_xOf hPH hVH
-  letI hmodW := moduleOfElemAbelian hW
+  let hmodW := moduleOfElemAbelian hW
   obtain ⟨F, hField, hFintype, hCharP, ψ, l, hl1, hl, horth, hcardV, hWK'⟩ :=
     exists_orth_and_card_of_nonabelian (hW := hW) h hPH hVH hH hnM hK hnab hL
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hcomm := commutator_kOf_eq_xOf (hW := hW) h hPH hVH hH hnM hK hnab hL ψ hl horth hWK'
   have hsq := sq_mem_xOf_of_mem_kOf (hW := hW) h hPH hVH hH hnM hK hnab hL ψ hl horth hWK'
   have hfratt := frattini_kOf_eq_xOf (hW := hW) h hPH hVH hH hnM hK hnab hL ψ hl horth hWK'
@@ -120,7 +121,7 @@ private theorem sec45Shape_of_nonabelian
     horth hWK'
   have hcenterPK := inf_kOf_inf_centralizer_eq_inf_xOf (hW := hW) h hPH hVH hH hnM hK hnab
     ψ hl horth
-  haveI hWnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal :=
+  have hWnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (xOf_le_kOf h hPH hVH)).mpr
       (fun k hk => Subgroup.centralizer_le_normalizer _
         ((mem_kOf_iff.mp hk).2))

@@ -46,7 +46,7 @@ theorem T29Setup.exists_mul_of_inner (h : T29Setup X L x) {S : Type} [Group S]
     (e : (↥L ⧸ center ↥L) ≃* S)
     (hin : ∀ ψ : MulAut S, ψ ^ 3 = 1 → ∃ a : S, ψ = MulAut.conj a) {g : X} (hg : g ^ 3 = 1) :
     ∃ l ∈ L, ∃ c ∈ centralizer (L : Set X), g = l * c := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   have hN : ∀ y : X, y ∈ Subgroup.normalizer (L : Set X) := by
     intro y
     rw [Subgroup.normalizer_eq_top_iff.mpr hLn]
@@ -155,8 +155,8 @@ def commutatorSubgroupLocal {P : Subgroup X} {z : X} (hzc : ∀ y ∈ P, z * y =
 theorem T29Setup.isCyclic_pCore_of_center_cyclic (h : T29Setup X L x)
     (hZc : IsCyclic ↥(center ↥L)) (hZ : center ↥L ≠ ⊥) : IsCyclic ↥(CFSG.pCore 3 X) := by
   by_contra hnc
-  haveI hLn : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := by
     have := pow_orderOf_eq_one x
     rwa [h.ord] at this
@@ -166,9 +166,9 @@ theorem T29Setup.isCyclic_pCore_of_center_cyclic (h : T29Setup X L x)
     obtain ⟨P, hP⟩ := hp.exists_le_sylow
     exact ⟨P, hP (mem_zpowers x)⟩
   obtain ⟨z, hz⟩ := h.exists_omegaCentral hxP
-  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup'
+  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup
   set O : Subgroup X := CFSG.pCore 3 X with hO
-  haveI hOn : O.Normal := CFSG.pCore_normal
+  have hOn : O.Normal := CFSG.pCore_normal
   have hOP : O ≤ (P : Subgroup X) := pCore_le_sylow P
   have hOnorm : (P : Subgroup X) ≤ normalizer (O : Set X) := le_normalizer_of_normal
   obtain ⟨U₂, hU₂O, hU₂el, hU₂9, hU₂n⟩ := exists_normal_E9 hP3 hOP hOnorm hnc
@@ -206,9 +206,9 @@ theorem T29Setup.isCyclic_pCore_of_center_cyclic (h : T29Setup X L x)
       rw [Nat.card_zpowers, hz.order] at h1
       exact h1
     have hle : Nat.card (U₁ ⊓ U₂ : Subgroup X) ≤ 3 := by
-      haveI hcyc : IsCyclic ↥(center ↥L) := hZc
+      have hcyc : IsCyclic ↥(center ↥L) := hZc
       set ZL : Subgroup X := (center ↥L).map L.subtype with hZL
-      haveI : IsCyclic ↥ZL :=
+      have : IsCyclic ↥ZL :=
         isCyclic_of_surjective (Subgroup.equivMapOfInjective (center ↥L) L.subtype
           L.subtype_injective).toMonoidHom (Subgroup.equivMapOfInjective (center ↥L)
           L.subtype L.subtype_injective).surjective
@@ -219,7 +219,7 @@ theorem T29Setup.isCyclic_pCore_of_center_cyclic (h : T29Setup X L x)
         refine ⟨⟨g, hgL⟩, Subgroup.mem_center_iff.mpr fun l => ?_, rfl⟩
         have := h.pCore_inf_commute g hgL hgO l l.2
         exact Subtype.ext this
-      haveI : IsCyclic ↥(U₁ ⊓ U₂) := isCyclic_of_le hWZ
+      have : IsCyclic ↥(U₁ ⊓ U₂) := isCyclic_of_le hWZ
       refine card_le_three_of_cyclic (W := ↥(U₁ ⊓ U₂)) ?_
       intro w
       have hw : (w : X) ∈ U₁ := w.2.1
@@ -246,15 +246,15 @@ theorem T29Setup.mem_of_triple_cover (h : T29Setup X L x) (hO : IsCyclic ↥(CFS
     (hdec : ∀ g : X, g ^ 3 = 1 → ∃ l ∈ L, ∃ c ∈ centralizer (L : Set X), g = l * c)
     (hfus : ∀ l : ↥L, l ∉ center ↥L → l ^ 3 ∈ center ↥L → l ^ 3 = 1)
     {g : X} (hg : g ^ 3 = 1) : g ∈ L := by
-  haveI hLn : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨l, hl, c, hc, rfl⟩ := hdec g hg
   set Zc : Subgroup X := (center ↥L).map L.subtype with hZc
   have hZcard : Nat.card Zc = 3 := by
     rw [hZc, Subgroup.card_map_of_injective L.subtype_injective]
     exact hcard3
   have hZcpg : IsPGroup 3 Zc := IsPGroup.of_card (n := 1) (by rw [hZcard, pow_one])
-  haveI hZcn : Zc.Normal := normal_map_center_subtype L
+  have hZcn : Zc.Normal := normal_map_center_subtype L
   have hZO : Zc ≤ CFSG.pCore 3 X := normal_pGroup_le_pCore 3 Zc hZcn hZcpg
   have hZL : Zc ≤ L := Subgroup.map_subtype_le _
   have hZcube : ∀ z ∈ Zc, z ^ 3 = 1 := by
@@ -379,8 +379,8 @@ theorem T29Setup.false_of_abelian_bound (h : T29Setup X L x) (hO : IsCyclic ↥(
     (hdec : ∀ g : X, g ^ 3 = 1 → ∃ l ∈ L, ∃ c ∈ centralizer (L : Set X), g = l * c)
     (hA : ∀ A : Subgroup ↥L, IsPGroup 3 A → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →
       Nat.card A ≤ 9) : False := by
-  haveI hLn : L.Normal := h.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLn : L.Normal := h.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrank := h.pRank_top_eq
   obtain ⟨E, -, hEel, hE27⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (⊤ : Subgroup X)
   rw [hrank] at hE27
@@ -391,8 +391,8 @@ theorem T29Setup.false_of_abelian_bound (h : T29Setup X L x) (hO : IsCyclic ↥(
   have hEC : Nat.card (E ⊓ C : Subgroup X) ≤ 3 := by
     have hle : (E ⊓ C : Subgroup X) ≤ CFSG.pCore 3 X :=
       h.le_pCore_of_centralizer hO (hEp.to_le inf_le_left) inf_le_right
-    haveI : IsCyclic ↥(CFSG.pCore 3 X) := hO
-    haveI : IsCyclic ↥(E ⊓ C : Subgroup X) := isCyclic_of_le hle
+    have : IsCyclic ↥(CFSG.pCore 3 X) := hO
+    have : IsCyclic ↥(E ⊓ C : Subgroup X) := isCyclic_of_le hle
     refine card_le_three_of_cyclic (W := ↥(E ⊓ C : Subgroup X)) ?_
     intro w
     have := hEel.2 (w : X) w.2.1
@@ -414,7 +414,7 @@ theorem T29Setup.false_of_abelian_bound (h : T29Setup X L x) (hO : IsCyclic ↥(
   have hC3 : ∀ B : Subgroup X, B ≤ C → IsPGroup 3 B → ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b := by
     intro B hBC hB b hb b' hb'
     have hle : B ≤ CFSG.pCore 3 X := h.le_pCore_of_centralizer hO hB hBC
-    haveI : IsCyclic ↥(CFSG.pCore 3 X) := hO
+    have : IsCyclic ↥(CFSG.pCore 3 X) := hO
     have := (inferInstance : IsMulCommutative ↥(CFSG.pCore 3 X)).is_comm.comm
       (⟨b, hle hb⟩ : ↥(CFSG.pCore 3 X)) ⟨b', hle hb'⟩
     exact congrArg Subtype.val this
@@ -434,7 +434,7 @@ theorem T29Setup.false_of_abelian_bound (h : T29Setup X L x) (hO : IsCyclic ↥(
 theorem T29Setup.three_le_pRank_quotient (h : T29Setup X L x) (hZ : center ↥L = ⊥)
     (hout : Nat.card (Outer (↥L ⧸ center ↥L)) ≤ 2) :
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (↥L ⧸ center ↥L)) := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   have hC : centralizer (L : Set X) = ⊥ := h.centralizer_eq_bot hZ
   have hinj : Function.Injective (MulAut.conjNormal : X →* MulAut L) :=
     conjNormal_injective_of_centralizer_eq_bot L hC
@@ -468,7 +468,7 @@ theorem T29Setup.false_of_center_bot_cent (h : T29Setup X L x) (hZ : center ↥L
     {S : Type} [Group S] [Finite S] (e : (↥L ⧸ center ↥L) ≃* S)
     (hJ : ∀ y : S, orderOf y = 3 → 3 ≤ CFSG.Open.pRank 3 (centralizer ({y} : Set S))) :
     False := by
-  haveI hLn : L.Normal := h.normal
+  have hLn : L.Normal := h.normal
   have hC : centralizer (L : Set X) = ⊥ := h.centralizer_eq_bot hZ
   have hx3 : x ^ 3 = 1 := by
     have := pow_orderOf_eq_one x

@@ -39,9 +39,9 @@ private theorem signedVector_mem_orbit
       rw [Equiv.Perm.mul_apply, hh', coordInv_apply]
       by_cases ht : t = t₀
       · rw [ht]
-        simp [signedVector, Function.update_apply, ht₀]
+        simp [signedVector, ht₀]
       · rw [Function.update_of_ne ht]
-        simp [signedVector, ht, ht₀]
+        simp [signedVector, ht]
 
 private theorem mem_image_iff_symm_mem {α : Type*} [DecidableEq α] (σ : Equiv.Perm α)
     (U : Finset α) (x : α) : x ∈ U.image σ ↔ σ.symm x ∈ U := by
@@ -65,7 +65,7 @@ private theorem ite_inv_eq_ite_inv_iff {G : Type*} [Group G] {g : G} (hg : g⁻�
 
 private theorem inv_ne_self_of_ne_one (hp : p.Prime) (hp2 : p ≠ 2)
     {g : Multiplicative (ZMod p)} (hg : g ≠ 1) : g⁻¹ ≠ g := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro h
   have hg2 : g ^ 2 = 1 := by
     have hmul : g * g = g * g⁻¹ := by rw [h]
@@ -137,9 +137,9 @@ private theorem signedVector_swap_injOn (hp : p.Prime) (hp2 : p ≠ 2)
     have hval := hyval
     simp only [signedVector] at hval
     by_cases hcond : c ∈ U'.image (Equiv.swap i c')
-    · rw [if_pos hcond] at hval
+    · rw [ite_eq_left hcond] at hval
       simpa [inv_eq_one] using hval
-    · rw [if_neg hcond] at hval
+    · rw [ite_eq_right hcond] at hval
       exact hval
   have hmem : c ∈ (nontrivialCoordinates a).image (Equiv.swap i c') :=
     (mem_image_iff_symm_mem (Equiv.swap i c') _ c).mpr hmem'
@@ -212,7 +212,7 @@ theorem two_mul_add_two_lt_ncard_image
     2 * n + 2 < Set.ncard
       ((fun h : Equiv.Perm (Fin n → Multiplicative (ZMod p)) => h a) '' (H : Set _)) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set φ : Fin n × Finset (Fin n) → (Fin n → Multiplicative (ZMod p)) :=
     fun x => signedVector a (Equiv.swap i x.1) (x.2.image (Equiv.swap i x.1)) with hφ
   set D : Finset (Fin n × Finset (Fin n)) :=

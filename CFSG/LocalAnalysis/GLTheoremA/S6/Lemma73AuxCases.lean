@@ -21,6 +21,7 @@ theorem l73_Cx_le_normalizer (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subg
   have h2 := L62.le_normalizer_glaPLayer 3 (Subgroup.centralizer ({x} : Set G))
   rwa [h] at h2
 
+omit [Finite G] in
 theorem l73_comm_eq_inf {B U : Subgroup G} {x : G} {L : Subgroup G} (hdir : IsDirectZpowersInf B x L)
     (hUx : U ≤ Subgroup.centralizer ({x} : Set G)) (hBU : B ≤ Subgroup.normalizer (U : Set G)) :
     (⁅U, B⁆ : Subgroup G) = ⁅U, B ⊓ L⁆ := by
@@ -127,6 +128,7 @@ theorem l73_n9 (hc : S6Ctx G 3) (i203 : I203At) {B : Subgroup G} {x : G} {L : Su
     simpa using this)
 
 
+omit [Finite G] in
 theorem inf_centralizer_D_eq {K D : Subgroup G} {a b : G} (hKa : K ≤ Subgroup.centralizer ({a} : Set G))
     (hD : D = Subgroup.zpowers a ⊔ Subgroup.zpowers b) :
     K ⊓ Subgroup.centralizer (D : Set G) = K ⊓ Subgroup.centralizer ({b} : Set G) := by
@@ -184,6 +186,7 @@ theorem isRootAlt_of_transport {Q₁ Q₂ : Type} [Group Q₁] [Group Q₂] {k N
     rw [himage, Set.ncard_image_of_injective _ hfinj] at h2
     exact h2
 
+omit [Finite G] in
 theorem exists_equiv_imageMod_map {p : ℕ} {I J K : Subgroup G} (hI : I ≤ J) (hJ : J ≤ K)
     (hker : J ⊓ GLAPPrimeCoreOf p K = GLAPPrimeCoreOf p J) :
     ∃ θ : PQuot p J ≃* ↥(imageMod p K J),
@@ -221,7 +224,7 @@ theorem l73_root_in_J {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G
   obtain ⟨u⟩ := hrootJ.1
   have hcard5 : 5 ≤ Nat.card (Fin (n - 3)) := by
     rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega
-  haveI : IsSimpleGroup (alternatingGroup (Fin (n - 3))) := alternatingGroup.isSimpleGroup hcard5
+  have : IsSimpleGroup (alternatingGroup (Fin (n - 3))) := alternatingGroup.isSimpleGroup hcard5
   have hsimple : IsSimpleGroup ↥(imageMod 3 L J) := u.isSimpleGroup
   have hdvd : 3 ∣ Nat.card ↥(imageMod 3 L J) := by
     rw [Nat.card_congr u.toEquiv]
@@ -280,11 +283,13 @@ theorem l73_rootK (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {n 
       exact ⟨hker, N, eK, hr⟩
   exact l72_transport C.ti.I_le_J hK.J_le hn (by omega) hSh eJ hroot
 
+omit [Finite G] in
 theorem l73_S_le_core_of_cen {K I S : Subgroup G} (hIK : I ≤ K) (hSK : S ≤ K) (hSI : S ≤ ⁅S, I⁆)
     (hcen : imageMod 3 K I ≤ Subgroup.centralizer ((imageMod 3 K S : Subgroup (PQuot 3 K)) :
       Set (PQuot 3 K))) : S ≤ GLAPPrimeCoreOf 3 K :=
   hSI.trans (l72_comm_le_core hIK hSK hcen)
 
+omit [Finite G] in
 theorem l73_S_le_core (i2013 : I2013At) {K I S : Subgroup G} (hIK : I ≤ K) (hSK : S ≤ K) (hS2 : IsPGroup 2 S)
     (hIS : I ≤ Subgroup.normalizer (S : Set G)) (hSI : S ≤ ⁅S, I⁆) {N' m : ℕ}
     (e' : PQuot 3 K ≃* ↥(alternatingGroup (Fin N'))) (h5 : 5 ≤ m) (hm : m ≤ N')
@@ -293,6 +298,7 @@ theorem l73_S_le_core (i2013 : I2013At) {K I S : Subgroup G} (hIK : I ≤ K) (hS
   have hcen := i2013 (PQuot 3 K) N' m e' (imageMod 3 K I) h5 hm hroot (imageMod 3 K S) hT2 hnorm
   exact l73_S_le_core_of_cen hIK hSK hSI hcen
 
+omit [Finite G] in
 private theorem y5x_exists_E_cycle {L J : Subgroup G} {n : ℕ} {y : G} (hyL : y ∈ L)
     (e : PQuot 3 L ≃* ↥(alternatingGroup (Fin n)))
     (hcyc : (permOfMod 3 L n e y).cycleType = {3})
@@ -300,7 +306,7 @@ private theorem y5x_exists_E_cycle {L J : Subgroup G} {n : ℕ} {y : G} (hyL : y
       fixingSubgroup (alternatingGroup (Fin n)) ((permOfMod 3 L n e y).support : Set (Fin n)))
     (hy3 : y ^ 3 = 1) {k : ℤ} (hyk : y ^ k ∈ J) : y ^ k = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Φ, hΦ⟩ : ∃ Φ : ↥L →* Equiv.Perm (Fin n), ∀ u : ↥L,
       Φ u = ((e (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L) u) : ↥(alternatingGroup (Fin n))) :
         Equiv.Perm (Fin n)) :=
@@ -311,7 +317,7 @@ private theorem y5x_exists_E_cycle {L J : Subgroup G} {n : ℕ} {y : G} (hyL : y
   have hσ : σ = Φ ⟨y, hyL⟩ := by
     rw [hσdef, hΦ]
     unfold permOfMod
-    rw [dif_pos hyL]
+    rw [dite_eq_left hyL]
     rfl
   have hy3z : y ^ (3 : ℤ) = 1 := by
     rw [show (3 : ℤ) = ((3 : ℕ) : ℤ) by norm_num, zpow_natCast, hy3]
@@ -361,7 +367,7 @@ private theorem y5x_exists_E_cycle {L J : Subgroup G} {n : ℕ} {y : G} (hyL : y
   rw [hc, zpow_mul, hy3n, one_zpow]
 
 theorem l73_exists_E {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G} {J : Subgroup G}
-    (hc : S6Ctx G 3) (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J) :
+    (_hc : S6Ctx G 3) (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L n y J) :
     ∃ E : Subgroup G, altDxy x y ≤ E ∧ IsElemAbelian 3 E ∧
       E ≤ Subgroup.centralizer (altDxy x y : Set G) ∧ Nat.card ↥E = 3 ^ (n / 3 + 1) := by
   classical
@@ -454,7 +460,7 @@ theorem l73_five_of_coOne (i1016 : I1016CoAt G) {X K : Subgroup G} {a : G}
     ∃ E U : Subgroup G, IsElemAbelian 3 E ∧ 3 ^ 5 ≤ Nat.card ↥E ∧ U ≠ ⊥ ∧ IsPGroup 2 U ∧
       E ≤ Subgroup.normalizer (U : Set G) := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hZ, E₀, U, hE₀K, hE₀el, hE₀card, hUK, hU2, hUO, hE₀N⟩ := i1016 X K hK hCo
   have haN : ∀ S : Subgroup G, S ≤ K → a ∈ Subgroup.normalizer (S : Set G) := fun S hS =>
     Subgroup.centralizer_le_normalizer (S : Set G)

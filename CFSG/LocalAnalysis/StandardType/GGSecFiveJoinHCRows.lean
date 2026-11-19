@@ -52,7 +52,7 @@ theorem ggSecFive_join_of_rows (hT : GGTBFixInput)
   rcases hM with ⟨n, e', hn, hM | ⟨hn2, hM⟩ | ⟨hn4, hM⟩⟩ | ⟨e', hM⟩ | ⟨e', hM⟩ |
     ⟨e', hM⟩ | ⟨e', hM⟩ | ⟨e', hM⟩
   ·
-    haveI : Fintype ι := Fintype.ofEquiv (Fin n) e'
+    have : Fintype ι := Fintype.ofEquiv (Fin n) e'
     have hcard : Fintype.card ι = n := by rw [Fintype.card_congr e'.symm, Fintype.card_fin]
     have hm3 : 3 ≤ n := hcard ▸ ggSecFive_three_le_card_of_tbfix hT hcfg hpres
     have hns : ¬ GGSplitLie p L :=
@@ -90,7 +90,7 @@ theorem ggSecFive_join_of_rows (hT : GGTBFixInput)
     exact hJE G p B Bs x L D J 𝒦 hcfg hns ⟨ι, M, e, hpres, hE, hguard⟩
   · exact hF G p B Bs x L D J 𝒦 hcfg hReg hQ ι M e hpres ⟨e', hM⟩
   ·
-    haveI : Fintype ι := Fintype.ofEquiv (Fin 2) e'
+    have : Fintype ι := Fintype.ofEquiv (Fin 2) e'
     have hcard : Fintype.card ι = 2 := by rw [Fintype.card_congr e'.symm, Fintype.card_fin]
     have h3 := ggSecFive_three_le_card_of_tbfix hT hcfg hpres
     exfalso

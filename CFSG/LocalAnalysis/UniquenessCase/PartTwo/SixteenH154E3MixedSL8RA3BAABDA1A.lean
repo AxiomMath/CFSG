@@ -129,6 +129,6 @@ theorem s16h_exists_mul_of_mem_of_aut_card [Finite 𝔾]
     rw [hker, Subgroup.mem_subgroupOf] at hmem
     exact (Subgroup.mem_inf.mp hmem).2
   · have hgroup : (⟨x, hx⟩ : ↥G) = s * (s⁻¹ * ⟨x, hx⟩) := by group
-    simpa using congrArg (fun y : ↥G => (y : 𝔾)) hgroup
+    simp
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

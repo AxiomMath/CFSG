@@ -59,12 +59,12 @@ private theorem BSInv.perm {n : Nat} {F : Nat → Nat → Nat} {lv : List Nat} {
     by_cases hc : 0 < k ∧ s.par.getD k 0 < k
     · have e : BS.trans F s k = fun x => F (s.lab.getD k 0) (BS.trans F s (s.par.getD k 0) x) := by
         funext x
-        rw [BS.trans.eq_1, dif_pos hc]
+        rw [BS.trans.eq_1, dite_eq_left hc]
       rw [e]
       exact (hF _ (hs.lab_mem k hc.1 hk)).comp (ih _ hc.2 (by omega))
     · have e : BS.trans F s k = fun x => x := by
         funext x
-        rw [BS.trans.eq_1, dif_neg hc]
+        rw [BS.trans.eq_1, dite_eq_right hc]
       rw [e]
       exact isPermN_id n
 
@@ -79,19 +79,19 @@ private theorem bs_trans_congr {F : Nat → Nat → Nat} {s s' : BS} :
     have h1 := hk k (Nat.le_refl k)
     rw [BS.trans.eq_1 F s', BS.trans.eq_1 F s, h1.1, h1.2]
     by_cases hc : 0 < k ∧ s.par.getD k 0 < k
-    · rw [dif_pos hc, dif_pos hc, ih _ hc.2 (fun j hj => hk j (by omega))]
-    · rw [dif_neg hc, dif_neg hc]
+    · rw [dite_eq_left hc, dite_eq_left hc, ih _ hc.2 (fun j hj => hk j (by omega))]
+    · rw [dite_eq_right hc, dite_eq_right hc]
 
 private theorem bs_letter_of_mem {F : Nat → Nat → Nat} {h p l : Nat} {s : BS} (hm : F l p ∈ s.pts) :
     BS.letter F h p s l = s := by
   unfold BS.letter
-  rw [if_pos hm]
+  rw [ite_eq_left hm]
 
 private theorem bs_letter_of_not_mem {F : Nat → Nat → Nat} {h p l : Nat} {s : BS}
     (hm : F l p ∉ s.pts) :
     BS.letter F h p s l = ⟨s.pts ++ [F l p], s.par ++ [h], s.lab ++ [l]⟩ := by
   unfold BS.letter
-  rw [if_neg hm]
+  rw [ite_eq_right hm]
 
 private theorem bs_letter_inv {n : Nat} {F : Nat → Nat → Nat} {lv : List Nat} {s : BS} {h p l : Nat}
     (hs : BSInv n lv s) (hl : l ∈ lv) (hq : F l p < n) : BSInv n lv (BS.letter F h p s l) := by
@@ -175,7 +175,7 @@ private theorem bs_letter_trans {n : Nat} {F : Nat → Nat → Nat} {lv : List N
 private theorem bs_posBS_lt {w : Nat} {s : BS} {x : Nat} (hx : x ∈ s.pts) :
     posBS w s x < s.pts.length := by
   unfold posBS
-  rw [if_pos hx]
+  rw [ite_eq_left hx]
   exact List.idxOf_lt_length_of_mem hx
 
 private theorem bs_recOK_recBS {n w : Nat} {F : Nat → Nat → Nat} {lv : List Nat} {s : BS}
@@ -199,25 +199,25 @@ private theorem bs_recOK_recBS {n w : Nat} {F : Nat → Nat → Nat} {lv : List 
     · have := bs_posBS_lt (w := w) hx
       omega
     · unfold posBS
-      rw [if_neg hx, mask_eq]
+      rw [ite_eq_right hx, mask_eq]
       omega
   · intro k _
     show (if k < s.pts.length then enc w (BS.trans F s k) n else 0) < 2 ^ (n * w)
     by_cases hk : k < s.pts.length
-    · rw [if_pos hk, Nat.mul_comm n w]
+    · rw [ite_eq_left hk, Nat.mul_comm n w]
       refine enc_lt fun i hi => ?_
       have := (hs.perm hF k hk).1 i hi
       omega
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       exact Nat.two_pow_pos _
   · intro k _
     show (if k < s.pts.length then enc w (finv n (BS.trans F s k)) n else 0) < 2 ^ (n * w)
     by_cases hk : k < s.pts.length
-    · rw [if_pos hk, Nat.mul_comm n w]
+    · rw [ite_eq_left hk, Nat.mul_comm n w]
       refine enc_lt fun i hi => ?_
       have := (hs.perm hF k hk).finv.1 i hi
       omega
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       exact Nat.two_pow_pos _
 
 private theorem bs_recOf_congr {n w c : Nat} {P P' Pos Pos' T T' Ti Ti' : Nat → Nat} {LV : Nat}
@@ -232,13 +232,13 @@ private abbrev bsSnoc (s : BS) (q h l : Nat) : BS := ⟨s.pts ++ [q], s.par ++ [
 private theorem bs_getD_append_single (l : List Nat) (q k : Nat) :
     (l ++ [q]).getD k 0 = if k = l.length then q else l.getD k 0 := by
   by_cases h1 : k < l.length
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     simp only [List.getD_eq_getElem?_getD]
     rw [List.getElem?_append_left h1]
   · by_cases h2 : k = l.length
     · subst h2
       simp [List.getD_eq_getElem?_getD]
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       simp only [List.getD_eq_getElem?_getD]
       rw [List.getElem?_append_right (by omega), List.getElem?_eq_none (by simp; omega),
         List.getElem?_eq_none (by omega)]
@@ -249,7 +249,7 @@ private theorem bs_snoc_trans_old {F : Nat → Nat → Nat} {s : BS}
     BS.trans F (bsSnoc s q h l) k = BS.trans F s k := by
   refine bs_trans_congr k fun j hj => ?_
   show (s.par ++ [h]).getD j 0 = s.par.getD j 0 ∧ (s.lab ++ [l]).getD j 0 = s.lab.getD j 0
-  rw [bs_getD_append_single, bs_getD_append_single, if_neg (by omega), if_neg (by omega)]
+  rw [bs_getD_append_single, bs_getD_append_single, ite_eq_right (by omega), ite_eq_right (by omega)]
   exact ⟨rfl, rfl⟩
 
 private theorem bs_snoc_trans_new {F : Nat → Nat → Nat} {s : BS}
@@ -260,21 +260,21 @@ private theorem bs_snoc_trans_new {F : Nat → Nat → Nat} {s : BS}
   rw [BS.trans.eq_1]
   have h1 : (bsSnoc s q h l).par.getD s.pts.length 0 = h := by
     show (s.par ++ [h]).getD s.pts.length 0 = h
-    rw [bs_getD_append_single, if_pos hpar.symm]
+    rw [bs_getD_append_single, ite_eq_left hpar.symm]
   have h2 : (bsSnoc s q h l).lab.getD s.pts.length 0 = l := by
     show (s.lab ++ [l]).getD s.pts.length 0 = l
-    rw [bs_getD_append_single, if_pos hlab.symm]
+    rw [bs_getD_append_single, ite_eq_left hlab.symm]
   have hc : 0 < s.pts.length ∧ (bsSnoc s q h l).par.getD s.pts.length 0 < s.pts.length :=
     ⟨hpos, by rw [h1]; exact hh⟩
-  rw [dif_pos hc, h1, h2, bs_snoc_trans_old hpar hlab hh]
+  rw [dite_eq_left hc, h1, h2, bs_snoc_trans_old hpar hlab hh]
 
 private theorem bs_upd_same (f : Nat → Nat) (i v : Nat) : upd f i v i = v := by
   unfold upd
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem bs_upd_other {f : Nat → Nat} {i v j : Nat} (h : j ≠ i) : upd f i v j = f j := by
   unfold upd
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 private theorem bs_posBS_snoc {w : Nat} {s : BS} {q h l : Nat} (hm : q ∉ s.pts) (x : Nat) :
     posBS w (bsSnoc s q h l) x = upd (posBS w s) q s.pts.length x := by
@@ -282,17 +282,17 @@ private theorem bs_posBS_snoc {w : Nat} {s : BS} {q h l : Nat} (hm : q ∉ s.pts
   · subst hx
     rw [bs_upd_same]
     unfold posBS
-    rw [if_pos (by simp)]
+    rw [ite_eq_left (by simp)]
     show (s.pts ++ [x]).idxOf x = _
-    rw [List.idxOf_append, if_neg hm]
+    rw [List.idxOf_append, ite_eq_right hm]
     simp
   · rw [bs_upd_other hx]
     unfold posBS
     by_cases hxs : x ∈ s.pts
-    · rw [if_pos (by simp [hxs]), if_pos hxs]
+    · rw [ite_eq_left (by simp [hxs]), ite_eq_left hxs]
       show (s.pts ++ [q]).idxOf x = _
-      rw [List.idxOf_append, if_pos hxs]
-    · rw [if_neg (by simp [hxs, hx]), if_neg hxs]
+      rw [List.idxOf_append, ite_eq_left hxs]
+    · rw [ite_eq_right (by simp [hxs, hx]), ite_eq_right hxs]
 
 private theorem bs_recBS_snoc {n w : Nat} {F : Nat → Nat → Nat} {lv : List Nat} {s : BS}
     (hs : BSInv n lv s) {q h l : Nat} (hm : q ∉ s.pts) (hh : h < s.pts.length) (LV : Nat) :
@@ -316,21 +316,21 @@ private theorem bs_recBS_snoc {n w : Nat} {F : Nat → Nat → Nat} {lv : List N
   · intro k _
     show (if k < s.pts.length + 1 then enc w (BS.trans F (bsSnoc s q h l) k) n else 0) = _
     by_cases hk : k < s.pts.length
-    · rw [if_pos (by omega), bs_upd_other (by omega), if_pos hk,
+    · rw [ite_eq_left (by omega), bs_upd_other (by omega), ite_eq_left hk,
         bs_snoc_trans_old hs.len_par hs.len_lab hk]
     · by_cases hkc : k = s.pts.length
       · subst hkc
-        rw [if_pos (by omega), bs_upd_same, bs_snoc_trans_new hs.len_par hs.len_lab hs.pos hh]
-      · rw [if_neg (by omega), bs_upd_other hkc, if_neg hk]
+        rw [ite_eq_left (by omega), bs_upd_same, bs_snoc_trans_new hs.len_par hs.len_lab hs.pos hh]
+      · rw [ite_eq_right (by omega), bs_upd_other hkc, ite_eq_right hk]
   · intro k _
     show (if k < s.pts.length + 1 then enc w (finv n (BS.trans F (bsSnoc s q h l) k)) n else 0) = _
     by_cases hk : k < s.pts.length
-    · rw [if_pos (by omega), bs_upd_other (by omega), if_pos hk,
+    · rw [ite_eq_left (by omega), bs_upd_other (by omega), ite_eq_left hk,
         bs_snoc_trans_old hs.len_par hs.len_lab hk]
     · by_cases hkc : k = s.pts.length
       · subst hkc
-        rw [if_pos (by omega), bs_upd_same, bs_snoc_trans_new hs.len_par hs.len_lab hs.pos hh]
-      · rw [if_neg (by omega), bs_upd_other hkc, if_neg hk]
+        rw [ite_eq_left (by omega), bs_upd_same, bs_snoc_trans_new hs.len_par hs.len_lab hs.pos hh]
+      · rw [ite_eq_right (by omega), bs_upd_other hkc, ite_eq_right hk]
 
 private theorem bs_fd_blk (LT n w l x : Nat) :
     fd w (blk LT (n * w) (mask (n * w)) l) x = letF n w LT l x := by
@@ -390,21 +390,21 @@ private theorem bs_bfsLetter_eq {n w LT NL LV h p tp l : Nat} {s : BS}
   · have h1 := bs_posBS_lt (w := w) hm
     have h2 := hs.le
     simp only [Nat.beq_eq]
-    rw [if_neg (by omega), bs_letter_of_mem hm]
+    rw [ite_eq_right (by omega), bs_letter_of_mem hm]
   · have hposq : posBS w s (letF n w LT l p) = mask w := by
       unfold posBS
-      rw [if_neg hm]
+      rw [ite_eq_right hm]
     have hinv' := bs_letter_inv (h := h) (p := p) hs hl hq
     rw [bs_letter_of_not_mem hm] at hinv'
     have hle' := hinv'.le
     simp only [List.length_append, List.length_singleton] at hle'
     have hG := (hL l hl).comp (hs.perm hL h hh)
-    rw [hposq, Nat.beq_refl, if_pos rfl, bs_letter_of_not_mem hm]
+    rw [hposq, Nat.beq_refl, ite_eq_left rfl, bs_letter_of_not_mem hm]
     show _ = recBS n w (letF n w LT) (bsSnoc s (letF n w LT l p) h l) LV
     rw [bs_recBS_snoc hs hm hh, bs_pcomp_new hn16 hw (hs.perm hL h hh) htp, bs_pinvS_new hn16 hw hG]
     unfold recBS
     rw [lAdd_eq hOK (by omega) (by omega) hq hnw (bs_getD_of_le (Nat.le_refl _))
-      (if_neg (Nat.lt_irrefl _)) (if_neg (Nat.lt_irrefl _)) hposq (bs_enc_lt_perm hnw hG)
+      (ite_eq_right (Nat.lt_irrefl _)) (ite_eq_right (Nat.lt_irrefl _)) hposq (bs_enc_lt_perm hnw hG)
       (bs_enc_lt_perm hnw hG.finv)]
 
 private theorem bs_loop_eq {n w LT NL LV h p tp : Nat} (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
@@ -442,18 +442,18 @@ private theorem bs_bfsStep_eq {n w LT NL LV : Nat} {s : BS} (hn16 : n < 2 ^ 16)
   unfold bfsStep BS.step
   simp only [strictN_eq, nIf_eq, hcnt, Nat.blt_eq]
   by_cases hh : h < s.pts.length
-  · simp only [if_pos hh]
+  · simp only [ite_eq_left hh]
     have hhn : h < n := Nat.lt_of_lt_of_le hh hs.le
     have hpt : lpt w (mask w) (recBS n w (letF n w LT) s LV) h = s.pts.getD h 0 :=
       lpt_recOf hOK hhn
     have htr : ltr (n * w) (mask (n * w)) (recBS n w (letF n w LT) s LV) h =
         enc w (BS.trans (letF n w LT) s h) n := by
       have := ltr_recOf (LV := LV) hOK hhn
-      rw [if_pos hh] at this
+      rw [ite_eq_left hh] at this
       exact this
     rw [hpt, htr, foldUp_eq, bs_foldl_mask]
     exact bs_loop_eq hn16 hw hL (maskL NL LV) (fun l hl => hl) hs hh rfl rfl
-  · simp only [if_neg hh]
+  · simp only [ite_eq_right hh]
 
 private theorem bs_outer_eq {n w LT NL LV : Nat} (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
     (hL : ∀ l ∈ maskL NL LV, IsPermN n (letF n w LT l)) :
@@ -480,7 +480,7 @@ private theorem bs_sinv_init {n r : Nat} {lv : List Nat} (hr : r < n) :
 
 private theorem bs_trans_zero {F : Nat → Nat → Nat} {s : BS} : BS.trans F s 0 = fun x => x := by
   funext x
-  rw [BS.trans.eq_1, dif_neg (by simp)]
+  rw [BS.trans.eq_1, dite_eq_right (by simp)]
 
 private theorem bs_init_eq {n w LV r : Nat} {F : Nat → Nat → Nat} (hn16 : n < 2 ^ 16)
     (hw : n + 1 < 2 ^ w) (hr : r < n) :

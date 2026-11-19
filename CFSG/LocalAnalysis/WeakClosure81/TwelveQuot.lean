@@ -16,6 +16,7 @@ section Quot
 
 variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 
+omit [Finite G] in
 theorem kerIn_map_top_eq (M C : Subgroup G) [C.Normal] (hC : C ≤ M) :
     CFSG.Quasithin.kerIn (M.map (QuotientGroup.mk' C)) ⊤ =
       (CFSG.Quasithin.kerIn M ⊤).map (QuotientGroup.mk' C) := by
@@ -44,6 +45,7 @@ theorem kerIn_map_top_eq (M C : Subgroup G) [C.Normal] (hC : C ≤ M) :
     refine Subgroup.mem_map.mpr ⟨g * y * g⁻¹, hy', ?_⟩
     simp [map_mul]
 
+omit [Finite G] in
 theorem Setting12Two.quotient (h : Setting12Two A M n) (C : Subgroup G) [C.Normal]
     (hC : C ≤ CFSG.Quasithin.kerIn M ⊤) :
     Setting12Two (A.map (QuotientGroup.mk' C)) (M.map (QuotientGroup.mk' C)) n := by
@@ -82,6 +84,7 @@ theorem Setting12Two.quotient (h : Setting12Two A M n) (C : Subgroup G) [C.Norma
     · exact Or.inl (CFSG.Quasithin.IsPSL.of_mulEquiv e.symm ht)
     · exact Or.inr (CFSG.Quasithin.IsSz.of_mulEquiv e.symm ht)
 
+omit [Finite G] in
 theorem Setting12Two.ker_le_of_irreducible (h : Setting12Two A M n) {X : Type} [AddCommGroup X]
     [Module (ZMod 2) X] [Finite X] (σ : G →* LGL 2 X) (hirr : IsChiefFactor σ ⊤ ⊥)
     (hnt : IsNoncentral σ ⊤ ⊥) : σ.ker ≤ CFSG.Quasithin.kerIn M ⊤ := by
@@ -135,6 +138,7 @@ section KerLift
 
 variable {G : Type} [Group G]
 
+omit [Finite V] in
 private theorem b12_TwelveQuot_forall_map_iff (ρ : G →* LGL 2 V) (W : Submodule (ZMod 2) V) :
     (∀ g : G ⧸ ρ.ker, ∀ w ∈ W, QuotientGroup.kerLift ρ g w ∈ W) ↔
       (∀ g : G, ∀ w ∈ W, ρ g w ∈ W) := by
@@ -145,6 +149,7 @@ private theorem b12_TwelveQuot_forall_map_iff (ρ : G →* LGL 2 V) (W : Submodu
     obtain ⟨g', rfl⟩ := QuotientGroup.mk'_surjective ρ.ker g
     simpa using h g' w hw
 
+omit [Finite V] in
 theorem repQuad_kerLift (ρ : G →* LGL 2 V) (A : Subgroup G) :
     RepQuad (QuotientGroup.kerLift ρ) (A.map (QuotientGroup.mk' ρ.ker)) ↔ RepQuad ρ A := by
   have hcomp : (QuotientGroup.kerLift ρ).comp (QuotientGroup.mk' ρ.ker) = ρ :=
@@ -154,6 +159,7 @@ theorem repQuad_kerLift (ρ : G →* LGL 2 V) (A : Subgroup G) :
   unfold RepQuad
   rw [hmap]
 
+omit [Finite V] in
 theorem isChiefFactor_kerLift (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2) V) :
     IsChiefFactor (QuotientGroup.kerLift ρ) W₁ W₂ ↔ IsChiefFactor ρ W₁ W₂ := by
   unfold IsChiefFactor
@@ -163,6 +169,7 @@ theorem isChiefFactor_kerLift (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod
   exact imp_congr Iff.rfl (imp_congr Iff.rfl
     (imp_congr (b12_TwelveQuot_forall_map_iff ρ U) Iff.rfl))
 
+omit [Finite V] in
 theorem isNoncentral_kerLift (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2) V) :
     IsNoncentral (QuotientGroup.kerLift ρ) W₁ W₂ ↔ IsNoncentral ρ W₁ W₂ := by
   unfold IsNoncentral

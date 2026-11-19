@@ -20,7 +20,7 @@ theorem zpowers_inf_eq_bot_of_centralizer {p : ℕ} (hp : p.Prime) {L : Subgroup
     rw [Subgroup.mem_center_iff]
     intro g
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     exact Subgroup.mem_centralizer_iff.mp hzC g.1 g.2
   rcases Subgroup.mem_zpowers_iff.mp hzpow with ⟨k, hk⟩
   have hzp : z ^ p = 1 := by

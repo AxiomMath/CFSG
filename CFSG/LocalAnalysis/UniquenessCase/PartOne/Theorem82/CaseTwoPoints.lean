@@ -122,7 +122,7 @@ theorem exists_mem_A_mul_mem_A_mul {x : G} (hx : x ∈ t.d.AA) :
 
 private theorem exists_ne_one_A0 : ∃ a : ↥(t.d.A 0), a ≠ 1 := by
   have hcard : Nat.card (t.d.A 0) = 3 := t.d.card_A 0
-  haveI : Nontrivial ↥(t.d.A 0) :=
+  have : Nontrivial ↥(t.d.A 0) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   exact exists_ne (1 : ↥(t.d.A 0))
 
@@ -181,7 +181,7 @@ private theorem S_commute' {a b : G} (ha : a ∈ t.d.S) (hb : b ∈ t.d.S) : a *
 
 private theorem mul_rotate_S {a b c : G} (ha : a ∈ t.d.S) (hb : b ∈ t.d.S) (hc : c ∈ t.d.S) :
     a * b * c = b * c * a := by
-  letI : CommGroup ↥(t.d.S) :=
+  let : CommGroup ↥(t.d.S) :=
     { (inferInstance : Group ↥(t.d.S)) with
       mul_comm := fun x y => Subtype.ext (t.d.S_commute x y x.2 y.2) }
   let a' : ↥(t.d.S) := ⟨a, ha⟩
@@ -253,7 +253,7 @@ private theorem zPt_ne_one : t.zPt ≠ 1 := by
   exact t.a0_ne_one (Subtype.ext hcoord.1)
 
 private theorem zPt_orderOf : orderOf t.zPt = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime t.zPt_pow_three t.zPt_ne_one
 
 private theorem z_coord_shift {x b0 b1 b2 : G} (hxZ : x ∈ t.Z) (hx : x = b0 * b1 * b2)
@@ -312,7 +312,7 @@ private theorem le_zpowers_zPt : t.Z ≤ Subgroup.zpowers t.zPt := by
       rw [← hs0, ← he]
       have hmap : (MulAut.conj t.y) ((t.a0 : G) ^ e) = ((MulAut.conj t.y) (t.a0 : G)) ^ e :=
         map_zpow (MulAut.conj t.y) (t.a0 : G) e
-      simpa [MulAut.conj_apply, zP1] using hmap
+      simp [zP1]
     have hb2_eq : b2 = t.zP2 ^ e := by
       rw [← hs1, hb1_eq]
       have hmap : (MulAut.conj t.y) (t.zP1 ^ e) = ((MulAut.conj t.y) t.zP1) ^ e :=
@@ -434,6 +434,7 @@ private theorem eq_inv_of_ne_of_mem_card_three {A : Subgroup G} (hA : Nat.card A
     exact ha1 this
   · exact hb'.symm
 
+omit [Finite G] in
 private theorem conj_three {l0 l1 l2 x y0 y1 y2 : G}
     (h0 : l0 * x * l0⁻¹ = y0) (h1 : l1 * y0 * l1⁻¹ = y1)
     (h2 : l2 * y1 * l2⁻¹ = y2) :
@@ -480,7 +481,7 @@ theorem exists_conj_mem_Z {x : G} (hx : x ∈ t.d.AA)
     · have hb0inv : b0 = (t.a0 : G)⁻¹ :=
         eq_inv_of_ne_of_mem_card_three (t.d.card_A 0) t.a0.2 hb0 t.a0_ne_one_G hb0_ne h
       dsimp [l0]
-      rw [if_neg h, hb0inv]
+      rw [ite_eq_right h, hb0inv]
       simpa using hs0 0 ((t.a0 : G)⁻¹) ((t.d.A 0).inv_mem t.a0.2)
   have hl1_b1 : l1 * b1 * l1⁻¹ = t.zP1 := by
     by_cases h : b1 = t.zP1
@@ -489,7 +490,7 @@ theorem exists_conj_mem_Z {x : G} (hx : x ∈ t.d.AA)
         eq_inv_of_ne_of_mem_card_three (t.d.card_A 1) t.zP1_mem_A1 hb1
           t.zP1_ne_one hb1_ne h
       dsimp [l1]
-      rw [if_neg h, hb1inv]
+      rw [ite_eq_right h, hb1inv]
       simpa using hs1 1 (t.zP1⁻¹) ((t.d.A 1).inv_mem t.zP1_mem_A1)
   have hl2_b2 : l2 * b2 * l2⁻¹ = t.zP2 := by
     by_cases h : b2 = t.zP2
@@ -498,43 +499,43 @@ theorem exists_conj_mem_Z {x : G} (hx : x ∈ t.d.AA)
         eq_inv_of_ne_of_mem_card_three (t.d.card_A 2) t.zP2_mem_A2 hb2
           t.zP2_ne_one hb2_ne h
       dsimp [l2]
-      rw [if_neg h, hb2inv]
+      rw [ite_eq_right h, hb2inv]
       simpa using hs2 2 (t.zP2⁻¹) ((t.d.A 2).inv_mem t.zP2_mem_A2)
   have hl0_b1 : l0 * b1 * l0⁻¹ = b1 := by
     by_cases h : b0 = (t.a0 : G)
     · simp [l0, h]
     · dsimp [l0]
-      rw [if_neg h]
+      rw [ite_eq_right h]
       simpa using hs0 1 b1 hb1
   have hl0_b2 : l0 * b2 * l0⁻¹ = b2 := by
     by_cases h : b0 = (t.a0 : G)
     · simp [l0, h]
     · dsimp [l0]
-      rw [if_neg h]
+      rw [ite_eq_right h]
       simpa using hs0 2 b2 hb2
   have hl1_a0 : l1 * (t.a0 : G) * l1⁻¹ = (t.a0 : G) := by
     by_cases h : b1 = t.zP1
     · simp [l1, h]
     · dsimp [l1]
-      rw [if_neg h]
+      rw [ite_eq_right h]
       simpa using hs1 0 (t.a0 : G) t.a0.2
   have hl1_b2 : l1 * b2 * l1⁻¹ = b2 := by
     by_cases h : b1 = t.zP1
     · simp [l1, h]
     · dsimp [l1]
-      rw [if_neg h]
+      rw [ite_eq_right h]
       simpa using hs1 2 b2 hb2
   have hl2_a0 : l2 * (t.a0 : G) * l2⁻¹ = (t.a0 : G) := by
     by_cases h : b2 = t.zP2
     · simp [l2, h]
     · dsimp [l2]
-      rw [if_neg h]
+      rw [ite_eq_right h]
       simpa using hs2 0 (t.a0 : G) t.a0.2
   have hl2_a1 : l2 * t.zP1 * l2⁻¹ = t.zP1 := by
     by_cases h : b2 = t.zP2
     · simp [l2, h]
     · dsimp [l2]
-      rw [if_neg h]
+      rw [ite_eq_right h]
       simpa using hs2 1 t.zP1 t.zP1_mem_A1
   have hstep0 : l0 * x * l0⁻¹ = (t.a0 : G) * b1 * b2 := by
     rw [hx_eq]
@@ -607,7 +608,7 @@ theorem centralizer_le_of_mem_AA {p : ℕ} (hN : t.PairNormalizerLe p)
         _ = 1 := by group
     have hygen : t.Z = Subgroup.zpowers y := by
       refine (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hyZ) ?_).symm
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       rw [Nat.card_zpowers,
         orderOf_eq_prime (t.d.isElemAbelian_AA.2 y (t.Z_le_AA hyZ)) hy1, t.card_Z]
     have hCeq : Subgroup.centralizer (t.Z : Set G) =
@@ -633,7 +634,7 @@ theorem normalizer_Z_le {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     Subgroup.normalizer (t.Z : Set G) ≤ c.S.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let CZ : Subgroup G := Subgroup.centralizer (t.Z : Set G)
   have hPZ : CFSG.ABGLocalTools.IsSylowOf 3 t.P CZ :=
     (t.isSylowOf_top hp hN).of_le t.le_centralizer_Z le_top

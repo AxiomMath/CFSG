@@ -88,7 +88,7 @@ theorem foldl_count (c : ℕ → Bool) (v : ℕ → ℕ) : ∀ (l : List ℕ) (s
   | cons i l ih =>
     intro s
     rw [List.foldl_cons, ih, List.map_cons, List.sum_cons]
-    cases c i <;> simp <;> omega
+    cases c i <;> simp; omega
 
 theorem list_sum_range (f : ℕ → ℕ) (n : ℕ) :
     ((List.range n).map f).sum = ∑ i ∈ Finset.range n, f i := by
@@ -315,7 +315,7 @@ theorem card_aut_le {GN k f c : ℕ} (h : eTupK ET GN k f c = true) : Nat.card (
   · refine mulAut_ext_sg R (sg_eq_of_gen R hM (fun j hj => (hg' j hj).1) hgen φ ψ fun j hj => ?_)
     have h1 := congrArg (fun l : List ℕ => l.getD j 0) hφψ
     simp only [F, List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range',
-      show j < k from hj, if_true] at h1
+      show j < k from hj] at h1
     simpa using h1
 
 end Aut

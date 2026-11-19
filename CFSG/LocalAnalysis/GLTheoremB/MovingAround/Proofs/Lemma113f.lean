@@ -16,6 +16,7 @@ namespace Lemma113f
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_of_isElemAbelian {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) {x y : G}
     (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x :=
   congrArg Subtype.val (hE.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
@@ -129,16 +130,17 @@ theorem zmod3_pow_three_pow (y : ZMod 3) (m : ℕ) : y ^ (3 ^ m) = y := by
     rw [pow_succ, pow_mul, ih]
     exact ZMod.pow_card y
 
+omit [Finite G] in
 theorem mul_comm_of_normalizer_zpowers_three_pow {e x : G} (he3 : e ^ 3 = 1) (he1 : e ≠ 1)
     (hx : x ∈ Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G))
     {m : ℕ} (hm : x ^ (3 ^ m) = 1) : x * e = e * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf e = 3 := orderOf_eq_prime he3 he1
   obtain ⟨k, hk⟩ : ∃ k : ℤ, e ^ k = x * e * x⁻¹ :=
     Subgroup.mem_zpowers_iff.1 ((Subgroup.mem_normalizer_iff.1 hx e).1 (Subgroup.mem_zpowers e))
   have hc : ∀ j : ℤ, x * e ^ j * x⁻¹ = (x * e * x⁻¹) ^ j := fun j => by
     have := map_zpow (MulAut.conj x) e j
-    simpa [MulAut.conj_apply] using this
+    simp
   have hpow : ∀ n : ℕ, x ^ n * e * (x ^ n)⁻¹ = e ^ (k ^ n) := by
     intro n
     induction n with
@@ -191,7 +193,7 @@ theorem exists_sylow_three_eight_of_index {E Q : Subgroup G} {e : G}
         Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G))) :
     ∃ R : Subgroup G, IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R ∧ Q ≤ R ∧
       Nat.card R = 3 ^ 8 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup G := Subgroup.normalizer (E : Set G) with hN
   set S : Subgroup G := N ⊓ Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G)
     with hS
@@ -235,6 +237,7 @@ theorem exists_sylow_three_eight_of_index {E Q : Subgroup G} {e : G}
     exact Lemma113c.pow_three_eq_of_mul h hk2' hk1'
   exact ⟨R, hRsyl, hQR, by rw [hj, hj8]⟩
 
+omit [Finite G] in
 theorem mem_centBar_iff {p : ℕ} {X L : Subgroup G} {g : G} :
     g ∈ centBar p X L ↔ g ∈ X ∧ ∃ h : g ∈ Subgroup.normalizer (L : Set G),
       barAut p L ⟨g, h⟩ = 1 := by
@@ -254,10 +257,11 @@ noncomputable def qBarHom {K Q : Subgroup G} (hQN : Q ≤ Subgroup.normalizer (K
       map_one' := rfl
       map_mul' := fun _ _ => rfl }
 
+omit [Finite G] in
 theorem card_le_mul_of_centBar {K Q : Subgroup G} (hKI : IsLTwoTwentySeven (barOf 3 K))
     (hQN : Q ≤ Subgroup.normalizer (K : Set G)) (hQ3 : IsPGroup 3 ↥Q) :
     Nat.card ↥Q ≤ Nat.card ↥(centBar 3 Q K) * 81 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hKI
   set f := qBarHom hQN with hf
   have hker : f.ker.map Q.subtype = centBar 3 Q K := by
@@ -284,7 +288,7 @@ theorem card_le_mul_of_centBar {K Q : Subgroup G} (hKI : IsLTwoTwentySeven (barO
 theorem three_pow_five_le_card_of_sup {M Q E A : Subgroup G} (hE : IsSCp 3 M E)
     (hA : IsSCp 3 M A) (hE4 : CFSG.Open.pRank 3 E = 4) (hA3 : CFSG.Open.pRank 3 A = 3)
     (hEQ : E ≤ Q) (hAQ : A ≤ Q) (hQ3 : IsPGroup 3 ↥Q) : 3 ^ 5 ≤ Nat.card ↥Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEA_le : E ⊔ A ≤ Q := sup_le hEQ hAQ
   have hAnot : ¬ A ≤ E := by
     intro hAE
@@ -336,21 +340,21 @@ theorem le_normalizer_of_eq_thompsonJ {E Q : Subgroup G} (hEJ : E = thompsonJ 3 
 
 @[expose] def PieceC_Q1 : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q)
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q)
     (_hB : ¬ Subgroup.normalizer (E : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G)),
     Nat.card ↥(centBar 3 Q K) ≤ 3
 
 @[expose] def PieceC_SylCE : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q)
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q)
     (_hB : ¬ Subgroup.normalizer (E : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G)),
     IsSylowIn 3 (Subgroup.centralizer (E : Set G)) E
 
 @[expose] def PieceC_Index : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q)
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q)
     (_hB : ¬ Subgroup.normalizer (E : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G)),
     Nat.card ↥(Subgroup.normalizer (E : Set G)) =
@@ -359,7 +363,7 @@ theorem le_normalizer_of_eq_thompsonJ {E Q : Subgroup G} (hEJ : E = thompsonJ 3 
 
 @[expose] def PieceC_R1 : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q)
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q)
     (_hB : ¬ Subgroup.normalizer (E : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G))
     (R : Subgroup G), IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R → Q ≤ R →

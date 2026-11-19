@@ -33,7 +33,7 @@ theorem app6_eq (x v : Nat) : app6 x v = applyCols (unpackC 6 x) v := by
 theorem mulS_eq (x y : Nat) : mulS x y = mulSSpec x y := by
   unfold mulS mulSSpec packC compCols
   simp only [app6_eq]
-  simp [unpackC, List.range_succ, Nat.div_div_eq_div_mul]
+  simp [unpackC, List.range_succ]
 
 @[expose] noncomputable def pk (σ : Equiv.Perm (Fin (2 ^ 6))) : Nat := packC (colsOf σ)
 
@@ -84,7 +84,7 @@ theorem pkSet_mul {R : Subgroup (Equiv.Perm (Fin (2 ^ 6)))} (hR : R ≤ Sig 6 φ
 theorem pkSet_one {R : Subgroup (Equiv.Perm (Fin (2 ^ 6)))} : pkSet R oneS :=
   ⟨1, R.one_mem, pk_one⟩
 
-theorem card_le_of_pkSet {R : Subgroup (Equiv.Perm (Fin (2 ^ 6)))} (hR : R ≤ Sig 6 φ)
+theorem card_le_of_pkSet {R : Subgroup (Equiv.Perm (Fin (2 ^ 6)))} (_hR : R ≤ Sig 6 φ)
     (l : List Nat) (hnd : l.Nodup) (hl : ∀ y ∈ l, pkSet R y) : l.length ≤ Nat.card R := by
   classical
   let f : {y // y ∈ l} → R := fun y => ⟨(hl y.1 y.2).choose, (hl y.1 y.2).choose_spec.1⟩
@@ -159,7 +159,7 @@ theorem mulS_one_right {R : Subgroup (Equiv.Perm (Fin (2 ^ 6)))} (hR : R ≤ Sig
   obtain ⟨σ, hσ, rfl⟩ := hs
   rw [← pk_one, ← pk_mul (hR hσ).1, mul_one]
 
-theorem mulS_one_left {R : Subgroup (Equiv.Perm (Fin (2 ^ 6)))} (hR : R ≤ Sig 6 φ) {s : Nat}
+theorem mulS_one_left {R : Subgroup (Equiv.Perm (Fin (2 ^ 6)))} (_hR : R ≤ Sig 6 φ) {s : Nat}
     (hs : pkSet R s) : mulS oneS s = s := by
   obtain ⟨σ, hσ, rfl⟩ := hs
   rw [← pk_one, ← pk_mul (Sig 6 φ).one_mem.1, one_mul]
@@ -196,7 +196,7 @@ theorem ctInner (S : Node) (x : Nat) (reps : List Nat) (hx : x ∈ reps) :
         · exact absurd h hky
         · exact h
       rw [HashMap.getD_insert]
-      simp only [hky', Bool.false_eq_true, if_false]
+      simp only [hky', Bool.false_eq_true, ite_false]
       exact ht y hy'
 
 theorem ctOuter (S : Node) (sigP : List Nat) :
@@ -253,7 +253,7 @@ theorem cosetTab_spec (S : Node) (sigP : List Nat) :
   show oneS ∈ ((oneS :: sigP).foldl _ ((∅ : HashMap Nat Nat), ([] : List Nat))).2
   simp only [List.foldl_cons]
   have hc : ((∅ : HashMap Nat Nat)).contains oneS = false := by simp
-  rw [if_neg (by simp [hc])]
+  rw [ite_eq_right (by simp [hc])]
   exact ctMono S sigP _ oneS List.mem_cons_self
 
 theorem mem_cosetUnion (S : Node) (O : HashSet Nat) (y : Nat) :
@@ -375,8 +375,7 @@ theorem lattice_complete {R : Subgroup (Equiv.Perm (Fin (2 ^ 6)))} (hR : R ≤ S
     ∃ S ∈ nodes, ∀ y, pkSet R y ↔ y ∈ S.elems := by
   classical
   unfold latOK at hlat
-  simp only [Bool.and_eq_true, List.any_eq_true, List.all_eq_true, beq_iff_eq,
-    decide_eq_true_eq] at hlat
+  simp only [Bool.and_eq_true, List.any_eq_true, List.all_eq_true, beq_iff_eq] at hlat
   obtain ⟨⟨S0', hS0'mem, hS0'eq⟩, hnodes⟩ := hlat
   have key : ∀ l : List Nat, (∀ x ∈ l, pkSet R x ∧ x ∈ sigP) →
       ∃ S ∈ nodes, (∀ x ∈ l, x ∈ S.elems) ∧ ∀ y ∈ S.elems, pkSet R y := by

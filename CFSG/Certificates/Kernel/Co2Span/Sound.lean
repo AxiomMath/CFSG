@@ -150,11 +150,11 @@ theorem Xfin_eq_xPack (θ : Matrix (Fin 2) (Fin 2) (ZMod 2)) (σ : Fin 10 → Fi
       simp only []
       by_cases he : ((r.val - 2) / 2 : Nat) = (σ ⟨(k.val - 2) / 2, hi⟩).val
       · have he' : (⟨(r.val - 2) / 2, by omega⟩ : Fin 10) = σ ⟨(k.val - 2) / 2, hi⟩ := Fin.ext he
-        rw [if_pos he', he]
+        rw [ite_eq_left he', he]
         simp
       · have he' : (⟨(r.val - 2) / 2, by omega⟩ : Fin 10) ≠ σ ⟨(k.val - 2) / 2, hi⟩ :=
           fun h => he (congrArg Fin.val h)
-        rw [if_neg he']
+        rw [ite_eq_right he']
         have : ((σ ⟨(k.val - 2) / 2, hi⟩).val == (r.val - 2) / 2) = false := by
           rw [beq_eq_false_iff_ne]
           exact fun h => he h.symm

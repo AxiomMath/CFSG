@@ -47,7 +47,7 @@ theorem liftL_spec {g : OGroup Q} (hg : g ∈ ffB0 fr) :
     (sec5c_liftL L B φc g : G) ∈ B ∧ (φc (sec5c_liftL L B φc g) : OGroup Q) = g := by
   have hex : ∃ b : ↥L, (b : G) ∈ B ∧ (φc b : OGroup Q) = g := h.B_onto g hg
   unfold sec5c_liftL
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact Classical.choose_spec hex
 
 theorem liftL_mem {g : OGroup Q} (hg : g ∈ ffB0 fr) : (sec5c_liftL L B φc g : G) ∈ B :=

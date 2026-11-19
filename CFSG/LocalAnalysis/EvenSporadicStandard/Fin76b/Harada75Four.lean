@@ -56,7 +56,7 @@ theorem four_exists_central_involution {Q F : Type} [Group Q] [Finite Q] [Group 
   have : Nontrivial Q := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     omega
-  letI : MulAction F (Subgroup.center Q) :=
+  let : MulAction F (Subgroup.center Q) :=
     { smul := fun f z => ⟨φ f (z : Q), four_mem_center_aut (φ f) z.2⟩
       one_smul := fun z => Subtype.ext (show φ 1 (z : Q) = z by simp)
       mul_smul := fun f g z => Subtype.ext (show φ (f * g) (z : Q) = φ f (φ g (z : Q)) by
@@ -229,7 +229,7 @@ theorem four_false_of_card_four {Q F : Type} [Group Q] [Finite Q] [Group F] [Fin
     (hfix : ∀ f : F, f ≠ 1 → Nat.card {q : Q // φ f q = q} ≤ 2) : False := by
   classical
   have hT : Nat.card {q : Q // q ≠ 1} = 3 := four_card_ne_one hQ4
-  letI : MulAction F {q : Q // q ≠ 1} :=
+  let : MulAction F {q : Q // q ≠ 1} :=
     { smul := fun f t => ⟨φ f (t : Q), fun h => t.2 ((MulEquiv.map_eq_one_iff (φ f)).mp h)⟩
       one_smul := fun t => Subtype.ext (show φ 1 (t : Q) = t by simp)
       mul_smul := fun f g t => Subtype.ext (show φ (f * g) (t : Q) = φ f (φ g (t : Q)) by

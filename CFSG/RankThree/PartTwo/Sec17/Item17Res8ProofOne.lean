@@ -125,7 +125,7 @@ theorem exists_sylow_threeCentral {L Y₀ D : Subgroup G} (hLY : L ≤ Y₀)
   have hP'coe : (P' : Subgroup (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀)) = (SL : Subgroup ↥L).map π := rfl
   have hinj : ∀ u ∈ (SL : Subgroup ↥L), π u = 1 → u = 1 := by
     intro u hu h1
-    obtain ⟨k, hk⟩ := SL.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := SL.isPGroup ⟨u, hu⟩
     have hu2 : Subgroup.inclusion hLY u ∈ CFSG.pCore 2 ↥Y₀ :=
       (QuotientGroup.eq_one_iff _).mp h1
     obtain ⟨m, hm⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥Y₀)) ⟨_, hu2⟩

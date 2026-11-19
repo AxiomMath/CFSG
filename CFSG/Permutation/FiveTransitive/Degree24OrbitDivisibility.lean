@@ -16,7 +16,7 @@ theorem card_order_five_elements_of_sylow_card_five
     Nat.card {u : G // orderOf u = 5} =
       Nat.card (Sylow 5 G) * 4 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let A := Degree15.NonidentitySylowElements 5 G
   let B := {u : G // orderOf u = 5}
   let f : A → B :=
@@ -91,7 +91,7 @@ private theorem four_dvd_card_orderFiveSupport_of_sylow_card_five
           orderOf u = 5 ∧
             (ρ u).support.card = d} := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let A :=
     Σ S : Sylow 5 G,
       {u : S //
@@ -239,7 +239,7 @@ private theorem four_dvd_card_orderFiveSupport_of_sylow_card_five
             exact
               Degree15.sylow_card_eq_of_card_eq
                 S₀ hS₀ S)]
-    · letI :
+    · let :
           IsEmpty
             {u : S //
               u ≠ 1 ∧
@@ -266,7 +266,7 @@ theorem four_dvd_card_localOrderFiveSupportElements
         (LocalOrderFiveSupportElements X P s d) := by
   classical
   let H : Subgroup P := fixingSubgroup P s
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   let ρ : H →* Equiv.Perm X :=
     P.subtype.comp H.subtype
   change

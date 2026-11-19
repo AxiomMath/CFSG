@@ -244,7 +244,7 @@ theorem dvd_card_of_isComponentOf_twE6_of_phiSix {K : Type} [Field K] [Finite K]
     p ∣ Nat.card X := by
   have hpq : (p : ℤ) ∣ ((2 ^ f : ℕ) : ℤ) ^ 2 - ((2 ^ f : ℕ) : ℤ) + 1 := by
     simpa [CFSG.RankThree.Chevalley.exhaustionPhi] using hpf
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   exact tw6_six_components_dvd (ℓ := 2) (K := K) (f := f) (L := AlgebraicClosure K)
     (σ := σ) hf hK hσ hp hp3 hpq a ha X hX

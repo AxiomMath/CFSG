@@ -42,6 +42,7 @@ section SLQ
 
 variable (n : ℕ) {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem exists_statedSL_of_sq_zero_q (q : ℕ) [Fact q.Prime] [CharP F q]
     (g : (Fin n → F) →ₗ[F] (Fin n → F)) (hg : ∀ v, g (g v) = 0) :
     ∃ y : StatedSL n F, ∀ v, natRep (StatedSL n F) y v = v + g v := by
@@ -71,6 +72,7 @@ theorem exists_statedSL_of_sq_zero_q (q : ℕ) [Fact q.Prime] [CharP F q]
   · rw [natRep_apply]
     exact hMv v
 
+omit [Finite F] in
 theorem exists_transvection_mem_flagKernel_q (q : ℕ) [Fact q.Prime] [CharP F q]
     (Q : Subgroup (StatedSL n F)) (w : Fin n → F)
     (hw : w ∈ fixFlag (natRep (StatedSL n F)) Q 1) (φ : (Fin n → F) →ₗ[F] F)

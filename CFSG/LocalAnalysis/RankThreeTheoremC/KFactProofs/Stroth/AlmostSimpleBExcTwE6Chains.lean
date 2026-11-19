@@ -123,7 +123,7 @@ theorem foldMask_compl_E6 (a : Fin TwistTag.E6.foldedTag.rank) :
       ((maskSet TwistTag.E6.tag (twE6Mask a) : Finset (Fin TwistTag.E6.tag.rank)) :
         Set (Fin TwistTag.E6.tag.rank)) := by
   ext i
-  simp only [foldMask, Set.mem_setOf_eq, Finset.mem_coe, mem_maskSet]
+  simp only [foldMask, Set.mem_ofPred_eq, Finset.mem_coe, mem_maskSet]
   revert a i
   decide
 

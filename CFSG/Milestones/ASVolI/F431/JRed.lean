@@ -39,9 +39,9 @@ variable [Finite G]
 
 theorem burnsideF4ja_exists_isSylowOf_ge {K Q : Subgroup G} (hQ : IsPGroup 2 Q) (hQK : Q ≤ K) :
     ∃ S : Subgroup G, ChF.IsSylowOf 2 S K ∧ Q ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow
-  refine ⟨(S₀ : Subgroup K).map K.subtype, ⟨Subgroup.map_subtype_le _, S₀.isPGroup'.map _, ?_⟩,
+  refine ⟨(S₀ : Subgroup K).map K.subtype, ⟨Subgroup.map_subtype_le _, S₀.isPGroup.map _, ?_⟩,
     fun x hx => ⟨⟨x, hQK hx⟩, hS₀ (show (⟨x, hQK hx⟩ : K) ∈ Q.subgroupOf K from hx), rfl⟩⟩
   have h : ((S₀ : Subgroup K).map K.subtype).subgroupOf K = (S₀ : Subgroup K) :=
     Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
@@ -119,9 +119,9 @@ end F440
 
 theorem burnsideF4ja_F_4_40_of (h33 : F_4_33) (h35 : F_4_35) (h38 : F_4_38) : F_4_40 := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hL v hvS hv1 hv2 hsyl
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb₁ : Function.Injective (burnsideF4d_bOne β ε) :=
     hyp.inj.comp (f1_injective β hyp.faithful)
   have hbM : Function.Injective (bM β ε) :=
@@ -219,10 +219,10 @@ theorem burnsideF4ja_F_4_40_of (h33 : F_4_33) (h35 : F_4_35) (h38 : F_4_38) : F_
 theorem burnsideF4ja_F_4_44_of
     (h24 : F_4_24) (h38 : F_4_38) (h43 : F_4_43) : F_4_44_partial := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hL hκ
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   have hME : Nat.card M = Nat.card E := h43 κ f E Gp M₁ M₂ Y β M ε z hyp hL hκ
-  haveI : Finite β.G0 := Finite.of_injective _ hyp.inj
+  have : Finite β.G0 := Finite.of_injective _ hyp.inj
   have hle : Nat.card β.G0 ≤ Nat.card E := hME ▸ Nat.card_le_card_of_injective _ hyp.inj
   obtain ⟨hcard, Ġ, _, ⟨Gq, hGq⟩, ⟨e⟩⟩ :=
     h24 κ 2 f E Gp M₁ M₂ hyp.amalgam Y β hyp.faithful inferInstance hle

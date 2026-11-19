@@ -11,9 +11,10 @@ open scoped commutatorElement
 
 variable {Y : Type*} [Group Y] {T Z : Subgroup Y} [Z.Normal]
 
+omit [Z.Normal] in
 private theorem conjSubgroup_eq_self_of_le_center (hZ : Z ≤ Subgroup.center Y) (g : Y) :
     conjSubgroup g Z = Z := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   refine le_antisymm ?_ ?_
   · intro x hx
     rw [mem_conjSubgroup] at hx
@@ -24,10 +25,12 @@ private theorem conjSubgroup_eq_self_of_le_center (hZ : Z ≤ Subgroup.center Y)
     rw [mem_conjSubgroup]
     simpa using Subgroup.Normal.conj_mem inferInstance x hx g⁻¹
 
+omit [Z.Normal] in
 theorem sup_le_normalizer (hZ : Z ≤ Subgroup.center Y) :
     T ⊔ Z ≤ Subgroup.normalizer (T : Set Y) :=
-  sup_le Subgroup.le_normalizer fun x hx => Subgroup.center_le_normalizer (T : Set Y) (hZ hx)
+  sup_le Subgroup.le_normalizer fun _x hx => Subgroup.center_le_normalizer (T : Set Y) (hZ hx)
 
+omit [Z.Normal] in
 private theorem normalizer_sup_eq_normalizer (hZ : Z ≤ Subgroup.center Y)
     (hwc : WeaklyClosedIn T (Subgroup.normalizer (T : Set Y))) :
     Subgroup.normalizer ((T ⊔ Z : Subgroup Y) : Set Y) = Subgroup.normalizer (T : Set Y) := by
@@ -73,10 +76,10 @@ theorem inf_eq_bot_of_not_isMulCommutative (hT : Assembly.IsElemAbelian 2 T)
     have h := hle g⁻¹ hx
     rw [mem_conjSubgroup] at h
     simpa using h
-  haveI : T.Normal := hnormal
+  have : T.Normal := hnormal
   have htop : T = ⊤ := by rw [← hgen, Subgroup.normalClosure_eq_self]
-  haveI : IsMulCommutative T := hT.1
-  haveI : IsMulCommutative Y := IsMulCommutative.of_comm fun a b => by
+  have : IsMulCommutative T := hT.1
+  have : IsMulCommutative Y := IsMulCommutative.of_comm fun a b => by
     have ha : a ∈ T := by rw [htop]; exact Subgroup.mem_top a
     have hb : b ∈ T := by rw [htop]; exact Subgroup.mem_top b
     exact congrArg Subtype.val (mul_comm' ⟨a, ha⟩ ⟨b, hb⟩)
@@ -125,7 +128,7 @@ theorem weaklyClosed_map_mulEquiv {L : Type*} [Group L] (e : Y ≃* L) {U : Subg
         Subgroup.normalizer ((U.map e.toMonoidHom) : Set L) →
       conjSubgroup g (U.map e.toMonoidHom) = U.map e.toMonoidHom := by
   intro g hg
-  obtain ⟨y, rfl⟩ : ∃ y, e.toMonoidHom y = g := ⟨e.symm g, by simpa using e.apply_symm_apply g⟩
+  obtain ⟨y, rfl⟩ : ∃ y, e.toMonoidHom y = g := ⟨e.symm g, by simp⟩
   rw [← map_conjSubgroup] at hg ⊢
   refine congrArg (Subgroup.map e.toMonoidHom) (hwc y fun u hu => ?_)
   rw [mem_normalizer_iff_conjSubgroup_eq]

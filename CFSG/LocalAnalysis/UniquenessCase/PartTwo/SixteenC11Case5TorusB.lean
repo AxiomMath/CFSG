@@ -12,12 +12,14 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 abbrev s16c11_case5_sigma : MulAut (VM K) := trM
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_sigma_ofAdd (X : Matrix (Fin 2) (Fin 2) K) :
     s16c11_case5_sigma (Multiplicative.ofAdd X) = Multiplicative.ofAdd Xᵀ := by
   apply Multiplicative.toAdd.injective
   rw [s16c11_case5_sigma, toAdd_trM]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_sigma_mul_self :
     (s16c11_case5_sigma (K := K)) * s16c11_case5_sigma = 1 :=
   trM_mul_self (K := K)
@@ -25,6 +27,7 @@ theorem s16c11_case5_sigma_mul_self :
 @[expose] noncomputable def s16c11_case5_sa (a : K) : MulAut (VM K) :=
   s16c11_case5_rhoU a a * s16c11_case5_sigma
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_sa_toAdd (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
     Multiplicative.toAdd (s16c11_case5_sa a (Multiplicative.ofAdd X)) =
       (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K) * Xᵀ *
@@ -32,6 +35,7 @@ theorem s16c11_case5_sa_toAdd (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
   rw [s16c11_case5_sa, MulAut.mul_apply, s16c11_case5_sigma_ofAdd,
     s16c11_case5_rhoU_toAdd]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_actT_entry_00 (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
     ((s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K) * Xᵀ *
         (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K)ᵀ) 0 0 =
@@ -40,6 +44,7 @@ theorem s16c11_case5_actT_entry_00 (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
     Matrix.transpose_apply, mul_comm]
   ring
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_actT_entry_01 (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
     ((s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K) * Xᵀ *
         (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K)ᵀ) 0 1 =
@@ -47,6 +52,7 @@ theorem s16c11_case5_actT_entry_01 (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
   simp [s16c11_case5_u, tv, Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.transpose_apply, mul_comm]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_actT_entry_10 (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
     ((s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K) * Xᵀ *
         (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K)ᵀ) 1 0 =
@@ -54,6 +60,7 @@ theorem s16c11_case5_actT_entry_10 (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
   simp [s16c11_case5_u, tv, Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.transpose_apply, mul_comm]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_actT_entry_11 (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
     ((s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K) * Xᵀ *
         (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K)ᵀ) 1 1 =
@@ -61,6 +68,7 @@ theorem s16c11_case5_actT_entry_11 (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
   simp [s16c11_case5_u, tv, Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.transpose_apply, mul_comm]
 
+omit [Finite K] in
 theorem s16c11_case5_sa_conds (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
     (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K) * Xᵀ *
         (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K)ᵀ = X ↔
@@ -101,6 +109,7 @@ theorem s16c11_case5_sa_conds (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
         (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K)ᵀ) 1 1 = X 1 1
       rw [s16c11_case5_actT_entry_11]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_mem_fixV_sa_iff (a : K) (X : Matrix (Fin 2) (Fin 2) K) :
     Multiplicative.ofAdd X ∈ fixV (Subgroup.zpowers (s16c11_case5_sa a)) ↔
       (s16c11_case5_u a : Matrix (Fin 2) (Fin 2) K) * Xᵀ *

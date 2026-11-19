@@ -152,7 +152,7 @@ theorem eStruct_ok : j2EStructOK = true := by
     have h := allN_spec cz i (by rw [e_cnt] at hi; exact hi)
     rw [hall i hi, hid, tA_tab, tblEq_unpack (eT hi) hidc, tblEq_unpack (eT hi) tK_canon]
     rw [bIf_true_right'] at h
-    simp only [bOr_eq, Bool.or_assoc] at h
+    simp only [bOr_eq] at h
     simp only [Bool.or_assoc]
     exact h
   · rw [all_hRec_iff]
@@ -183,7 +183,7 @@ theorem eCent_ok : j2ECentOK = true := by
     rfl
   rw [hg, hid, tA_tab, tblEq_unpack hT hidc, tblEq_unpack hT tK_canon]
   rw [bIf_true_right'] at h
-  simp only [bOr_eq, Bool.or_assoc] at h
+  simp only [bOr_eq] at h
   simp only [Bool.or_assoc]
   exact h
 

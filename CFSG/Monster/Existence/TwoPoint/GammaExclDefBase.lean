@@ -15,12 +15,12 @@ open CFSG.Monster CFSG.Monster.AxisCount CFSG.Monster.Griess
 open CFSG.Sporadic.Bridge (wordProd)
 open CFSG.Sporadic.Bridge.Fi23GPL.Native (rels)
 
-@[expose] noncomputable def gxElem (k : ℕ) : MGriess :=
+noncomputable def gxElem (k : ℕ) : MGriess :=
   if k < 10 then fiE k else if k = 10 then gammaZero else if k = 11 then fiAlpha else fiBeta
 
-@[expose] noncomputable def gxW (h : List ℕ) : MGriess := (h.map fun c => fiE (gxSigma c)).prod
+noncomputable def gxW (h : List ℕ) : MGriess := (h.map fun c => fiE (gxSigma c)).prod
 
-@[expose] noncomputable def gxT (j : ℕ) : MGriess :=
+noncomputable def gxT (j : ℕ) : MGriess :=
   gxW (gxWord j) * gammaZero * (gxW (gxWord j))⁻¹
 
 noncomputable def xHat (j : ℕ) : MGriess :=
@@ -28,9 +28,9 @@ noncomputable def xHat (j : ℕ) : MGriess :=
 termination_by j
 decreasing_by exact _h.2
 
-@[expose] noncomputable def deltaHat (j : ℕ) : MGriess := xHat j * fiAlpha * (xHat j)⁻¹
+noncomputable def deltaHat (j : ℕ) : MGriess := xHat j * fiAlpha * (xHat j)⁻¹
 
-@[expose] noncomputable def betaPrime : MGriess := fiAlpha * fiBeta * fiAlpha
+noncomputable def betaPrime : MGriess := fiAlpha * fiBeta * fiAlpha
 
 theorem xHat_zero : xHat 0 = 1 := by
   rw [xHat, dite_eq_right (by omega)]
@@ -55,14 +55,14 @@ theorem xHat_one : xHat 1 = gammaZero := by
   rw [e0, xHat_zero, gxT, e1]
   simp [gxW]
 
-@[expose] def gxElemWord (k : ℕ) : List Native.Gen :=
+def gxElemWord (k : ℕ) : List Native.Gen :=
   if k < 10 then fiWU[k]! else if k = 10 then s4WGamma else if k = 11 then fiWAlpha else fiWBeta
 
 theorem fiMkW_gxElemWord (k : ℕ) : fiMkW (gxElemWord k) = gxElem k := by
   unfold gxElemWord gxElem
   split_ifs <;> rfl
 
-@[expose] def gxProdWord (L : List ℕ) : List Native.Gen := (L.reverse.map gxElemWord).flatten
+def gxProdWord (L : List ℕ) : List Native.Gen := (L.reverse.map gxElemWord).flatten
 
 theorem gxProdWord_cons (k : ℕ) (L : List ℕ) :
     gxProdWord (k :: L) = gxProdWord L ++ gxElemWord k := by
@@ -74,9 +74,9 @@ theorem fiMkW_gxProdWord (L : List ℕ) : fiMkW (gxProdWord L) = (L.map gxElem).
   | cons k L ih =>
     rw [gxProdWord_cons, fiMkW_append, fiMkW_gxElemWord, ih, List.map_cons, List.prod_cons]
 
-@[expose] def gxElemP (k : ℕ) : List Native.PGen := if k < 10 then fiPU[k]! else s4PGamma
+def gxElemP (k : ℕ) : List Native.PGen := if k < 10 then fiPU[k]! else s4PGamma
 
-@[expose] def gxProdP (L : List ℕ) : List Native.PGen := (L.reverse.map gxElemP).flatten
+def gxProdP (L : List ℕ) : List Native.PGen := (L.reverse.map gxElemP).flatten
 
 theorem gxElemP_eq {k : ℕ} (hk : k < 11) : gxElemP k = HS.pw (gxElemWord k) := by
   unfold gxElemP gxElemWord

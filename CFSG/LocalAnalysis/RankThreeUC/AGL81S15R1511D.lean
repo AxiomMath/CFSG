@@ -64,6 +64,7 @@ def normalizer_le_normalizer_of_characteristic_aux1 (T : Subgroup G) {g : G}
     ext
     simp [mul_assoc]
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_of_characteristic {T Ti : Subgroup G} (hle : Ti ≤ T)
     (hchar : (Ti.subgroupOf T).Characteristic) :
     normalizer (T : Set G) ≤ normalizer (Ti : Set G) := by
@@ -82,6 +83,7 @@ theorem normalizer_le_normalizer_of_characteristic {T Ti : Subgroup G} (hle : Ti
     have h := key g⁻¹ (inv_mem hg) (g * y * g⁻¹) hy
     simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem isStronglyPEmbedded_subgroupOf_inf {M H : Subgroup G} {p : ℕ}
     (hM : CFSG.RankThree.PartOne.IsStronglyPEmbedded p M) (hHM : ¬ H ≤ M)
     (hp : p ∣ Nat.card ↥(H ⊓ M)) :
@@ -191,6 +193,7 @@ theorem normalizer_inf_le_of_sylow {M H T S : Subgroup G}
   rw [hxeq]
   exact M.mul_mem (M.mul_mem hgM hx'M) (M.inv_mem hgM)
 
+omit [Finite G] in
 theorem false_of_threeComponent_aux1 {M : Subgroup G} {Ti : Subgroup ↥M} (x : ↥M) :
     (x : G) ∈ normalizer ((Ti.map M.subtype : Subgroup G) : Set G) ↔
       x ∈ normalizer (Ti : Set ↥M) := by
@@ -211,6 +214,7 @@ theorem false_of_threeComponent_aux1 {M : Subgroup G} {Ti : Subgroup ↥M} (x : 
         simpa [mul_assoc] using this
       exact ⟨fun h1 => absurd h1 hzT, fun h1 => absurd h1 hxzT⟩
 
+omit [Finite G] in
 theorem false_of_threeComponent_aux2 {M : Subgroup G} (Ti : Subgroup ↥M) :
     normalizer ((Ti.map M.subtype : Subgroup G) : Set G) ⊓ M =
       (normalizer (Ti : Set ↥M)).map M.subtype := by

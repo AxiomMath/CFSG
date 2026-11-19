@@ -11,7 +11,7 @@ open CFSG CFSG.Open CFSG.Blueprint CFSG.Assembly.LowTwoRank CFSG.RankThree.Perfe
 
 theorem isCyclic_prod_of_subsingleton {A B : Type*} [Group A] [Group B] [IsCyclic A]
     [Subsingleton B] : IsCyclic (A × B) := by
-  haveI : Unique B := ⟨⟨1⟩, fun b => Subsingleton.elim _ _⟩
+  have : Unique B := ⟨⟨1⟩, fun b => Subsingleton.elim _ _⟩
   exact isCyclic_of_surjective (MulEquiv.prodUnique (M := A) (N := B)).symm.toMonoidHom
     (MulEquiv.prodUnique (M := A) (N := B)).symm.surjective
 
@@ -30,14 +30,14 @@ theorem isCyclic_hopfMultiplier_psu (hGA : GriessAllModelsStatement) {X : Type} 
   have hgb : (Multiplier.genericOrders .PSU n p f).2 = 1 := rfl
   have hE1 : (Multiplier.exceptionalOrders .PSU n p f).1 = 1 := by rw [hex]
   have hE2 : (Multiplier.exceptionalOrders .PSU n p f).2 = 1 := by rw [hex]
-  haveI : Subsingleton (Multiplicative (ZMod (Multiplier.genericOrders .PSU n p f).2)) := by
+  have : Subsingleton (Multiplicative (ZMod (Multiplier.genericOrders .PSU n p f).2)) := by
     rw [hgb]; infer_instance
-  haveI : Subsingleton (Multiplicative (ZMod (Multiplier.exceptionalOrders .PSU n p f).1)) := by
+  have : Subsingleton (Multiplicative (ZMod (Multiplier.exceptionalOrders .PSU n p f).1)) := by
     rw [hE1]; infer_instance
-  haveI : Subsingleton (Multiplicative (ZMod (Multiplier.exceptionalOrders .PSU n p f).2)) := by
+  have : Subsingleton (Multiplicative (ZMod (Multiplier.exceptionalOrders .PSU n p f).2)) := by
     rw [hE2]; infer_instance
-  haveI : IsCyclic (Multiplier.generic .PSU n p f × Multiplier.exceptional .PSU n p f) := by
-    haveI : IsCyclic (Multiplier.generic .PSU n p f) := isCyclic_prod_of_subsingleton
+  have : IsCyclic (Multiplier.generic .PSU n p f × Multiplier.exceptional .PSU n p f) := by
+    have : IsCyclic (Multiplier.generic .PSU n p f) := isCyclic_prod_of_subsingleton
     exact isCyclic_prod_of_subsingleton
   let e' : hopfMultiplier X ≃* Multiplier.generic .PSU n p f × Multiplier.exceptional .PSU n p f :=
     (hopfMultiplierEquivGriess X).symm.trans e

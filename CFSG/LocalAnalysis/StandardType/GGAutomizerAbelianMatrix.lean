@@ -381,11 +381,11 @@ theorem card_ggAutomizer_dvd_factorial {d : ℕ} (hd : 1 ≤ d) {K : Type} [Fiel
     Matrix.GeneralLinearGroup.toLin
   let Blin : Subgroup (LinearMap.GeneralLinearGroup K (Fin d → K)) :=
     Bmat.map eGL.toMonoidHom
-  letI : Finite (GL (Fin d) K) := by
+  let : Finite (GL (Fin d) K) := by
     unfold Matrix.GeneralLinearGroup
     infer_instance
-  letI : Finite ↥Bmat := Subtype.finite
-  letI : Finite ↥Blin :=
+  let : Finite ↥Bmat := Subtype.finite
+  let : Finite ↥Blin :=
     Finite.of_equiv ↥Bmat
       (Subgroup.equivMapOfInjective Bmat eGL.toMonoidHom eGL.injective).toEquiv
   have hBlin_comm : ∀ a ∈ Blin, ∀ b ∈ Blin, a * b = b * a := by

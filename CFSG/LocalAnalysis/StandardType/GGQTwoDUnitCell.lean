@@ -29,9 +29,9 @@ theorem ggQTwoCellInputOn_unitary {R : ℕ → Prop} (hR : ∀ m, R m → 7 ≤ 
   have hm : 7 ≤ m := hR m hRm
   obtain ⟨F0, hF0, hF0fin, hF0char, ψ, ε, hbase⟩ :=
     ggQTwoDUnit_base hRig hTBF hWI hcfg e' hm hM hL
-  letI : Field F0 := hF0
-  letI : Finite F0 := hF0fin
-  letI : CharP F0 2 := hF0char
+  let : Field F0 := hF0
+  let : Finite F0 := hF0fin
+  let : CharP F0 2 := hF0char
   obtain ⟨βL, ω, hcoords⟩ := ggQTwoDUnit_coords hTBF hWI hcfg e' (by omega) hM hbase
   have hBBs : B ≤ Bs := hcfg.1.1.1.2.1.1
   have hshape0 := ggQTwoDUnit_B_shape hcfg.1 (by omega) hbase

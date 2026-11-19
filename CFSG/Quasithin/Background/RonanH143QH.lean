@@ -43,8 +43,8 @@ theorem mem_MHt_iff {g : P24} : g ∈ MHt ↔ g ∈ MY mog22plus Hstd ∧ g • 
   simp [MHt, MulAction.mem_stabilizer_iff]
 
 theorem exists_piHt :
-    ∃ π : ↥MHt →* Equiv.Perm (Fin 6), ∀ (g : ↥MHt) (i : Fin 6), Tot (π g i) = (g : P24) • Tot i :=
-  exists_labAct Tot Tot_injective MHt fun g hg i =>
+    ∃ π : ↥MHt →* Equiv.Perm (Fin 6), ∀ (_g : ↥MHt) (i : Fin 6), Tot (π _g i) = (_g : P24) • Tot i :=
+  exists_labAct Tot Tot_injective MHt fun _g hg i =>
     exists_Tot_of_smul_TotSet (mem_MHt_iff.1 hg).2 i
 
 noncomputable def piHt : ↥MHt →* Equiv.Perm (Fin 6) := Classical.choose exists_piHt
@@ -145,8 +145,8 @@ theorem MY_H_smul_TotSet {g : P24}
 
 theorem exists_piH2 :
     ∃ π : ↥(MY mog22plus Hstd) →* Equiv.Perm (Fin 6),
-      ∀ (g : ↥(MY mog22plus Hstd)) (i : Fin 6), Tot (π g i) = (g : P24) • Tot i :=
-  exists_labAct Tot Tot_injective (MY mog22plus Hstd) fun g hg i =>
+      ∀ (_g : ↥(MY mog22plus Hstd)) (i : Fin 6), Tot (π _g i) = (_g : P24) • Tot i :=
+  exists_labAct Tot Tot_injective (MY mog22plus Hstd) fun _g hg i =>
     exists_Tot_of_smul_TotSet (MY_H_smul_TotSet hg) i
 
 noncomputable def piH2 :

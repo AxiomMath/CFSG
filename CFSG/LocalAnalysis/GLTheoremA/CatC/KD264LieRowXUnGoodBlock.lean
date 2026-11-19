@@ -20,7 +20,7 @@ theorem card_xunK_sq : Nat.card xunK = (2 ^ 1) ^ 2 := by
 
 theorem pow_three_eq_one_of_ne_zero {x : xunK} (hx : x ≠ 0) : x ^ 3 = 1 := by
   classical
-  haveI : Fintype xunK := Fintype.ofFinite xunK
+  have : Fintype xunK := Fintype.ofFinite xunK
   have h := FiniteField.pow_card_sub_one_eq_one x hx
   have hc : Fintype.card xunK = 4 := by
     rw [← Nat.card_eq_fintype_card, xunK_card]
@@ -52,7 +52,7 @@ theorem mem_range_blk (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card)
     StatedSU C.card (2 ^ 1) xunK →* xunM N :=
   (projH (StatedSU N (2 ^ 1) xunK)).comp (blk hN C hC)
 
-@[expose] noncomputable abbrev blkRange (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card) : Subgroup (xunM N) :=
+noncomputable abbrev blkRange (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card) : Subgroup (xunM N) :=
   (blkProj hN C hC).range
 
 theorem blkProj_injective (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card)
@@ -69,8 +69,7 @@ theorem blkProj_injective (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card
   have hout := (mem_range_blk hN C hC (blk hN C hC x)).1 ⟨x, rfl⟩
   have hjj := hout j j (Or.inl (by simpa using hj))
   have e := congrArg (fun g : GL (Fin N) xunK => (g : Matrix (Fin N) (Fin N) xunK) j j) hc
-  simp only [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_eq,
-    Subgroup.coe_mul] at e
+  simp only [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_eq] at e
   have hc1 : (c : xunK) = 1 := by
     rw [e, hjj]
     simp
@@ -120,7 +119,7 @@ theorem diagGL_mem {m : ℕ} (hm : 1 ≤ m) (a : Fin m → xunK) (ha : ∀ i, a 
       Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
     congr 1
     funext i
-    simp only [iterateFrobenius_def, pow_one, Pi.one_apply]
+    simp only [iterateFrobenius_def, pow_one]
     rw [← pow_succ]
     exact h3 i
 

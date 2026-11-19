@@ -329,11 +329,11 @@ private theorem exc_contra_U6 (hc : CatDistinct.Ctx) {S : Type} [Group S] [Finit
     rw [hO] at hcard
     rcases hi with rfl | rfl
     · have e : 2 ^ (n * 15) * A = 2 ^ 3 * 45 := by
-        rw [← hcard] <;> norm_num [Nat.factorial]
+        rw [← hcard]; norm_num [Nat.factorial]
       have hu := exp_eq_of_two_pow_mul hA (by decide : Odd 45) e
       omega
     · have e : 2 ^ (n * 15) * A = 2 ^ 3 * 315 := by
-        rw [← hcard] <;> norm_num [Nat.factorial]
+        rw [← hcard]; norm_num [Nat.factorial]
       have hu := exp_eq_of_two_pow_mul hA (by decide : Odd 315) e
       omega
   | sporadic s =>
@@ -343,7 +343,7 @@ private theorem exc_contra_U6 (hc : CatDistinct.Ctx) {S : Type} [Group S] [Finit
       rw [Nat.card_congr f.toEquiv]
       exact hc.m22
     have e : 2 ^ (n * 15) * A = 2 ^ 7 * 3465 := by
-      rw [← hO, ← hcard, hM] <;> norm_num
+      rw [← hO, ← hcard, hM]; norm_num
     have hu := exp_eq_of_two_pow_mul hA (by decide : Odd 3465) e
     omega
   | lie idx =>
@@ -418,11 +418,11 @@ private theorem exc_contra_TE6 (hc : CatDistinct.Ctx) {S : Type} [Group S] [Fini
     rw [hO] at hcard
     rcases hi with rfl | rfl
     · have e : 2 ^ (n * 36) * A = 2 ^ 3 * 45 := by
-        rw [← hcard] <;> norm_num [Nat.factorial]
+        rw [← hcard]; norm_num [Nat.factorial]
       have hu := exp_eq_of_two_pow_mul hA (by decide : Odd 45) e
       omega
     · have e : 2 ^ (n * 36) * A = 2 ^ 3 * 315 := by
-        rw [← hcard] <;> norm_num [Nat.factorial]
+        rw [← hcard]; norm_num [Nat.factorial]
       have hu := exp_eq_of_two_pow_mul hA (by decide : Odd 315) e
       omega
   | sporadic s =>
@@ -432,7 +432,7 @@ private theorem exc_contra_TE6 (hc : CatDistinct.Ctx) {S : Type} [Group S] [Fini
       rw [Nat.card_congr f.toEquiv]
       exact hc.m22
     have e : 2 ^ (n * 36) * A = 2 ^ 7 * 3465 := by
-      rw [← hO, ← hcard, hM] <;> norm_num
+      rw [← hO, ← hcard, hM]; norm_num
     have hu := exp_eq_of_two_pow_mul hA (by decide : Odd 3465) e
     omega
   | lie idx =>

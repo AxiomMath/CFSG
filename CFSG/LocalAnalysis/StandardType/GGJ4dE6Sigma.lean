@@ -91,7 +91,7 @@ theorem j4dE6Sigma_moved_orthogonal
   simp only at hk2
   have hmoved' : permLattice e6Graph (e6Certificate.root k) ≠ e6Certificate.root k := by
     simpa [hroot] using hmoved
-  rw [if_neg hmoved'] at hk2
+  rw [ite_eq_right hmoved'] at hk2
   have h0 := beq_iff_eq.1 hk2
   simpa [hroot] using h0
 
@@ -115,7 +115,7 @@ theorem j4dE6Sigma_no_antifixed
   have hanti : permLattice e6Graph (e6Certificate.root k) = -e6Certificate.root k := by
     simpa [hroot] using h
   rw [hanti] at hk2
-  simpa using hk2
+  simp at hk2
 
 theorem j4dE6Sigma_pair_kills
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup τ L p₀)

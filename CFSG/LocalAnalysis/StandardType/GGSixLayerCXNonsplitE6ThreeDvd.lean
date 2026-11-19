@@ -114,7 +114,7 @@ theorem phi3_A2_kernelLayer_dvd {K : Type} [Field K] [Finite K] [Algebra K Ω]
     (hpq : p ∣ Nat.card K ^ 2 + Nat.card K + 1) :
     ∃ KL : KernelLayer (phi3N Ω) (Units.map (entrywiseHom Fr)) (torusRootKernel x) K Unit,
       ∀ i, p ∣ Nat.card ↥(KL.P i) := by
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   obtain ⟨w, hw⟩ := hA2
   obtain ⟨hQ, hfin, hq, hcomm, h₀, hsl⟩ := phi3_A2_layer_data hf hK hFr hx hw
   obtain ⟨KL, hKL⟩ := exists_kernelLayer_single_P (S := torusRootKernel x) (fun α hα => hα.1) hQ hfin hq hcomm

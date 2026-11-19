@@ -68,7 +68,7 @@ theorem Data.Hyp.t_conj_comm_of_comm (h : d.Hyp) {x y : G} (e : x * y = y * x) :
 
 include h hKU in
 theorem Data.Hyp.P_le_centralizer_W_u : d.P ≤ centralizer (d.W : Set G) :=
-  h.P_le_centralizer_W (h.comm_M_V₂_mem_W hKU) (fun m hm => h.M_le_normalizer_Y hKU hm)
+  h.P_le_centralizer_W (h.comm_M_V₂_mem_W hKU) (fun _m hm => h.M_le_normalizer_Y hKU hm)
 
 include h hKU in
 theorem Data.Hyp.W_comm_P {w p : G} (hw : w ∈ d.W) (hp : p ∈ d.P) : w * p = p * w :=

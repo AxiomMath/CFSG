@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def rCore (p : ℕ) (N : Subgroup G) : Subgroup G :=
   (CFSG.pPrimeCore p ↥N).map N.subtype
 
+omit [Finite G] in
 theorem rCore_le (p : ℕ) (N : Subgroup G) : rCore p N ≤ N := map_subtype_le _
 
 theorem coprime_card_rCore (p : ℕ) [Fact p.Prime] (N : Subgroup G) :
@@ -72,7 +73,7 @@ theorem L_le_of_gen (T : Subgroup G) (hT : ∀ ℓ ∈ m.L, (∃ a : ℕ, orderO
   exact Subgroup.subset_closure hx
 
 theorem L_perfect_of_simple (h620 : m.C620) (hL1 : IsSimpleGroup ↥m.L) : ⁅m.L, m.L⁆ = m.L := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have htop : commutator ↥m.L = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator ↥m.L) with h | h
     · exfalso
@@ -132,12 +133,12 @@ theorem L_GL_trivial (h620 : m.C620) (hL1 : IsSimpleGroup ↥m.L)
     (hL3 q hq hqr d hd) f
 
 theorem rCore_le_M {N : Subgroup G} (hEN : m.E ≤ N) : rCore m.r N ≤ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI : IsMulCommutative ↥m.E := m.d.E_el.1
-  haveI : CFSG.IsElementaryAbelian m.r ↥m.E :=
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have : IsMulCommutative ↥m.E := m.d.E_el.1
+  have : CFSG.IsElementaryAbelian m.r ↥m.E :=
     ⟨Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (by
       rw [Subgroup.coe_pow, Subgroup.coe_one]; exact m.d.E_el.2 x x.2)⟩
-  haveI : Nontrivial ↥m.E := (Subgroup.nontrivial_iff_ne_bot _).2 (Mc614.E_ne_bot m.toMc614)
+  have : Nontrivial ↥m.E := (Subgroup.nontrivial_iff_ne_bot _).2 (Mc614.E_ne_bot m.toMc614)
   have hAV : m.E ≤ normalizer ((rCore m.r N : Subgroup G) : Set G) :=
     hEN.trans (le_normalizer_rCore _ N)
   have hVp : ¬ m.r ∣ Nat.card (rCore m.r N) :=
@@ -182,7 +183,7 @@ theorem pRank_rCore_le_three (h619 : m.C619) {N : Subgroup G} (hN : m.A ⊔ m.L 
   have hOM : rCore m.r N ≤ m.M :=
     m.rCore_le_M ((m.E_le_A.trans le_sup_left).trans hN)
   by_cases hqσ : q ∈ uniqueFourSigma m.M
-  · haveI : Fact q.Prime := ⟨hq⟩
+  · have : Fact q.Prime := ⟨hq⟩
     have hnd : ¬ q ∣ Nat.card (rCore m.r N) := by
       intro hd
       obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow q ↥(rCore m.r N)))
@@ -199,7 +200,7 @@ theorem pRank_rCore_le_three (h619 : m.C619) {N : Subgroup G} (hN : m.A ⊔ m.L 
         rw [h, mem_bot] at this
         exact (mem_bot).2 (Subtype.ext this)
       have hQp : IsPGroup q ((P : Subgroup ↥(rCore m.r N)).map (rCore m.r N).subtype) :=
-        P.isPGroup'.map _
+        P.isPGroup.map _
       have hNQ := (m.isStronglyPEmbedded_M hqσ).normalizer_le hQne hQp
         ((map_subtype_le _).trans hOM)
       have hON : rCore m.r N ⊔ m.L ≤ normalizer ((rCore m.r N : Subgroup G) : Set G) :=
@@ -239,7 +240,7 @@ theorem L_le_centralizer_fitting_rCore (h619 : m.C619) (h620 : m.C620)
   apply CFSG.subgroup_le_centralizer_iSup_of_le_centralizer
   rintro ⟨⟨q, hqmem⟩, -⟩
   have hq : q.Prime := Nat.prime_of_mem_primeFactors hqmem
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   show m.L ≤ centralizer (((CFSG.pCore q ↥(rCore m.r N)).map (rCore m.r N).subtype :
     Subgroup G) : Set G)
   have hLP : m.L ≤ normalizer (((CFSG.pCore q ↥(rCore m.r N)).map (rCore m.r N).subtype :
@@ -256,7 +257,7 @@ theorem L_le_centralizer_fitting_rCore (h619 : m.C619) (h620 : m.C620)
     rw [hy, one_mul, mul_one]
   by_cases hqr : q = m.r
   · have hbot : (CFSG.pCore q ↥(rCore m.r N)).map (rCore m.r N).subtype = ⊥ := by
-      haveI : Fact m.r.Prime := ⟨m.hr⟩
+      have : Fact m.r.Prime := ⟨m.hr⟩
       obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hPp
       have hdvd : Nat.card ((CFSG.pCore q ↥(rCore m.r N)).map (rCore m.r N).subtype) ∣
           Nat.card (rCore m.r N) := Subgroup.card_dvd_of_le (map_subtype_le _)
@@ -286,7 +287,7 @@ theorem L_le_centralizer_component_rCore (hSch : UCK.KSch) (h619 : m.C619) (h620
       ∀ f : ↥m.L →* (GL (Fin d) (ZMod q)) ⧸ center (GL (Fin d) (ZMod q)), f = 1)
     (hr3 : m.r ≠ 3) {N : Subgroup G} (hN : N ∈ calNOf (m.A ⊔ m.L)) {K : Subgroup G}
     (hK : CFSG.GorensteinWalter.IsComponentOf K (rCore m.r N)) : m.L ≤ centralizer (K : Set G) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hNle : m.A ⊔ m.L ≤ N := hN.2
   have hLperf := m.L_perfect_of_simple h620 hL1
   have hLO : m.L ≤ normalizer ((rCore m.r N : Subgroup G) : Set G) :=

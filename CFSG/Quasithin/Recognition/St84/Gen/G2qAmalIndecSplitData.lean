@@ -19,7 +19,7 @@ noncomputable def natSecScalar (E : Subgroup G) (v φ : G → Fin 2 → F) : F :
 
 theorem natSecScalar_spec {E : Subgroup G} {v φ : G → Fin 2 → F}
     (h : ∃ s : F, ∀ x ∈ E, φ x = s • v x) : ∀ x ∈ E, φ x = natSecScalar E v φ • v x := by
-  rw [natSecScalar, dif_pos h]
+  rw [natSecScalar, dite_eq_left h]
   exact h.choose_spec
 
 noncomputable def natSecConjScalar (E : Subgroup G) (v : G → Fin 2 → F) (k : G) : F :=
@@ -101,7 +101,7 @@ theorem conj_eq_of_mem (hd : G2qSplitData L Q Z W α nv zv) {a z : G} (ha : a �
     (hz : z ∈ Z) : a * z * a⁻¹ = z := by
   rw [hd.comm z hz a ha, mul_inv_cancel_right]
 
-theorem commutator_mul_left (hd : G2qSplitData L Q Z W α nv zv) {a b c : G} (ha : a ∈ Q)
+theorem commutator_mul_left (hd : G2qSplitData L Q Z W α nv zv) {a b c : G} (_ha : a ∈ Q)
     (hb : b ∈ Q) (hc : c ∈ Z) : ⁅a * c, b⁆ = ⁅a, b⁆ := by
   have h : c * b * c⁻¹ = b := by
     rw [← hd.comm c hc b hb, mul_inv_cancel_right]
@@ -110,7 +110,7 @@ theorem commutator_mul_left (hd : G2qSplitData L Q Z W α nv zv) {a b c : G} (ha
     _ = a * b * a⁻¹ * b⁻¹ := by rw [h]
 
 theorem commutator_mul_right (hd : G2qSplitData L Q Z W α nv zv) {a b c : G} (ha : a ∈ Q)
-    (hb : b ∈ Q) (hc : c ∈ Z) : ⁅a, b * c⁆ = ⁅a, b⁆ := by
+    (_hb : b ∈ Q) (hc : c ∈ Z) : ⁅a, b * c⁆ = ⁅a, b⁆ := by
   have h : c * a⁻¹ * c⁻¹ = a⁻¹ := by
     rw [← hd.comm c hc a⁻¹ (inv_mem ha), mul_inv_cancel_right]
   rw [commutatorElement_def, commutatorElement_def]

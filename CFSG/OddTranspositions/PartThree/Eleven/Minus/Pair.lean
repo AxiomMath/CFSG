@@ -79,12 +79,12 @@ theorem nonempty_minusL_mulEquiv_psl225 : Nonempty (minusL ≃* QZ.PSL225) := by
     rw [minusL]
     exact CFSG.GorensteinWalter.hasDihedralSylowTwo_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe minusLPerm_le_minusPerm) hLP
-  haveI : IsSimpleGroup minusL := isSimpleGroup_minusL
+  have : IsSimpleGroup minusL := isSimpleGroup_minusL
   exact nonempty_mulEquiv_psl225_of_card card_minusL hdih
 
 theorem isO4Minus5Pair_minusPerm : QZ.IsO4Minus5Pair minusPerm minusClass := by
   have hmem := minusLocal_mem
-  haveI : minusL.Normal := minusL_normal
+  have : minusL.Normal := minusL_normal
   obtain ⟨eL⟩ := nonempty_minusL_mulEquiv_psl225
   have hA5le : minusA5Perm ≤ minusLPerm :=
     minusA5Perm_le hmem.2.2.1 hmem.2.2.2

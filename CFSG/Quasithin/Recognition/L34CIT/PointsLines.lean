@@ -18,7 +18,7 @@ theorem isElemAbelian_conj {p : ℕ} {H : Subgroup A} (h : IsElemAbelian p H) (a
 
 theorem card_conj (a : A) (H : Subgroup A) : Nat.card ↥(MulAut.conj a • H) = Nat.card H :=
   Subgroup.card_map_of_injective (f := (MulAut.conj a).toMonoidHom)
-    (fun x y h => (MulAut.conj a).injective h)
+    (fun _x _y h => (MulAut.conj a).injective h)
 
 namespace Config
 
@@ -33,7 +33,7 @@ theorem normalizer_T_le (C : Config A) [Finite A] :
     rw [hidx] at hP
     exact Nat.not_even_iff_odd.mp fun he => hP (even_iff_two_dvd.mp he)
   have hnpow : n ^ ((C.T : Subgroup A).subgroupOf N).index ∈ C.T := by
-    haveI : ((C.T : Subgroup A).subgroupOf N).Normal := Subgroup.normal_in_normalizer
+    have : ((C.T : Subgroup A).subgroupOf N).Normal := Subgroup.normal_in_normalizer
     have hmem : (⟨n, hn⟩ : ↥N) ^ ((C.T : Subgroup A).subgroupOf N).index ∈
         (C.T : Subgroup A).subgroupOf N :=
       Subgroup.pow_index_mem ((C.T : Subgroup A).subgroupOf N) ⟨n, hn⟩
@@ -77,7 +77,7 @@ theorem normalizer_T_le (C : Config A) [Finite A] :
     have hfixpow : ∀ m : ℕ, MulAut.conj ((n * n) ^ m) • C.M = C.M := by
       intro m
       induction m with
-      | zero => simpa using (one_smul (MulAut.conj (1 : A)) C.M)
+      | zero => simp
       | succ m ih =>
           rw [pow_succ, map_mul, mul_smul, hfix2, ih]
     rcases hodd with ⟨m, hm⟩
@@ -216,7 +216,7 @@ theorem inf_eq_bot_of_ne_L (C : Config A) [Finite A] {a b : A}
     intro w hw
     rw [Set.mem_singleton_iff] at hw
     rw [hw]
-    haveI := hXea.1
+    have := hXea.1
     exact congrArg Subtype.val (mul_comm' (⟨e, he.1⟩ : ↥(MulAut.conj a • C.L)) ⟨x, hx⟩)
   have hYc : MulAut.conj b • C.L ≤ centralizer ({e} : Set A) := by
     intro x hx
@@ -224,7 +224,7 @@ theorem inf_eq_bot_of_ne_L (C : Config A) [Finite A] {a b : A}
     intro w hw
     rw [Set.mem_singleton_iff] at hw
     rw [hw]
-    haveI := hYea.1
+    have := hYea.1
     exact congrArg Subtype.val (mul_comm' (⟨e, he.2⟩ : ↥(MulAut.conj b • C.L)) ⟨x, hx⟩)
   obtain ⟨P, hP⟩ := C.exists_sylow_eq_centralizer he2 he1
   rw [hP] at hXc hYc
@@ -249,7 +249,7 @@ theorem inf_eq_bot_of_ne_M (C : Config A) [Finite A] {a b : A}
     intro w hw
     rw [Set.mem_singleton_iff] at hw
     rw [hw]
-    haveI := hXea.1
+    have := hXea.1
     exact congrArg Subtype.val (mul_comm' (⟨e, he.1⟩ : ↥(MulAut.conj a • C.M)) ⟨x, hx⟩)
   have hYc : MulAut.conj b • C.M ≤ centralizer ({e} : Set A) := by
     intro x hx
@@ -257,7 +257,7 @@ theorem inf_eq_bot_of_ne_M (C : Config A) [Finite A] {a b : A}
     intro w hw
     rw [Set.mem_singleton_iff] at hw
     rw [hw]
-    haveI := hYea.1
+    have := hYea.1
     exact congrArg Subtype.val (mul_comm' (⟨e, he.2⟩ : ↥(MulAut.conj b • C.M)) ⟨x, hx⟩)
   obtain ⟨P, hP⟩ := C.exists_sylow_eq_centralizer he2 he1
   rw [hP] at hXc hYc

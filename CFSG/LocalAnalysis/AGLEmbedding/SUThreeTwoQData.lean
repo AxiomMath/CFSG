@@ -36,7 +36,7 @@ variable {K : Type} [Field K] (o : OmegaData K)
 
 theorem sG_sq : OmegaData.sG o ^ 2 = OmegaData.sP o := by
   apply su_ext
-  simp only [mat_pow, OmegaData.sG, OmegaData.sP, mat_suMk, pow_two]
+  simp only [OmegaData.sG, OmegaData.sP, mat_suMk, pow_two]
   exact mat_G_G o.hω o.h2
 
 theorem sG_mul_sF :
@@ -86,7 +86,7 @@ theorem exists_qdata_of_su {T : Subgroup Y}
       s ∈ oUpperTwo T ∧ d ∈ oUpperTwo T ∧ s * d ≠ d * s ∧
       g ∈ T ∧ f ^ 2 ≠ 1 ∧ g ^ 2 = f ^ 2 ∧ g * f * g⁻¹ = f⁻¹ ∧ Nat.card T = 216 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, _, _, hK4, ⟨e⟩⟩ := h
   obtain ⟨ω, hω, h2⟩ := exists_omega hK4
   let o : OmegaData K := ⟨ω, hω, h2⟩
@@ -107,7 +107,7 @@ theorem exists_qdata_of_su {T : Subgroup Y}
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := OmegaData.sF o) (by simpa using hF2)
       (by simpa using hF4)
     simpa using this
-  haveI := heisSubgroup_normal hcard hrel hZ1 (hrel.F_mem_normalizer hFS hFD) hord
+  have := heisSubgroup_normal hcard hrel hZ1 (hrel.F_mem_normalizer hFS hFD) hord
   have hO : oUpperTwo (⊤ : Subgroup (SUg K)) = heisSubgroup hrel := by
     apply le_antisymm
     · exact (closure_le _).mpr fun x hx => odd_mem_heisSubgroup hcard hrel hZ1 hx.2

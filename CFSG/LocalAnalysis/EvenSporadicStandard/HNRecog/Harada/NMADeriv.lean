@@ -23,6 +23,7 @@ private lemma eq_of_add_eq_zero_V6 {u c : V6} (h : u + c = 0) : u = c := by
     _ = 0 + c := by rw [h]
     _ = c := zero_add c
 
+omit [Finite G] in
 private lemma coordElt_inv (ι : Elem2 6 →* G) (v : V6) : (coordElt ι v)⁻¹ = coordElt ι v := by
   apply inv_eq_of_mul_eq_one_right
   rw [← coordElt_add, add_self_eq_zero_V6, coordElt_zero]

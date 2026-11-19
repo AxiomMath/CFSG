@@ -16,7 +16,7 @@ open SymplecticHigher (flagStabilizer)
 
 theorem odd_card_center_of_pCore_eq_bot {X : Type} [Group X] [Finite X]
     (h : CFSG.pCore 2 X = ⊥) : Odd (Nat.card (Subgroup.center X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center X) 2
     (even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hne))

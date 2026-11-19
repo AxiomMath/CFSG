@@ -54,7 +54,7 @@ theorem mul_rep1_testBit {s v : Nat} (hs : 0 < s) (hv : v < 2 ^ s) (m u : Nat) :
     by_cases h : u < s * m
     · have hq : u / s < m := (Nat.div_lt_iff_lt_mul hs).2 (by rwa [Nat.mul_comm])
       simp [h, hq, Nat.lt_succ_of_lt hq]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hq : m ≤ u / s := (Nat.le_div_iff_mul_le hs).2 (by rw [Nat.mul_comm]; omega)
       by_cases he : u / s = m
       · have e : u - s * m = u % s := by
@@ -133,7 +133,7 @@ theorem colK_testBit {x i : Nat} (hp : vP x < 2 ^ 154) (hm : vM x < 2 ^ 154) (hi
       have hne : q ≠ 11 * i := by omega
       by_cases hq2 : q = 11 * i + 1
       · have : q - 11 * i - 1 = 0 := by omega
-        simp [hq1, this, hq2, hne, hge]
+        simp [hq2]
       · have : q - 11 * i - 1 ≠ 0 := by omega
         simp [hq1, this, hq2, hne, hge]
   · have hne1 : q ≠ 11 * i := by omega
@@ -207,9 +207,9 @@ theorem batK_lane {F : Nat → Nat} {lo cnt : Nat} (hcnt : cnt ≤ 154)
     have e2 : (11 * c + j) % 11 = j := by omega
     rw [e1, e2]
     by_cases h : c < cnt
-    · rw [if_pos h, pair_testBit]
+    · rw [ite_eq_left h, pair_testBit]
       simp [hj, hr, h]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       simp [hj, hr, h]
   · have hz : ∀ v : Nat, v < 4 → v.testBit j = false := fun v hv =>
       Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hv (by
@@ -219,9 +219,9 @@ theorem batK_lane {F : Nat → Nat} {lo cnt : Nat} (hcnt : cnt ≤ 154)
     symm
     apply hz
     by_cases h : c < cnt
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       split_ifs <;> norm_num
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       norm_num
 
 theorem batK_lt {F : Nat → Nat} {lo cnt : Nat} (hcnt : cnt ≤ 154)
@@ -251,7 +251,7 @@ theorem batK_canon {F : Nat → Nat} {lo cnt : Nat} (hcnt : cnt ≤ 154) (hF : �
 
 theorem bitVal_pair {b0 b1 : Bool} (h : ¬ (b0 = true ∧ b1 = true)) :
     (((if b0 then 1 else 0) + (if b1 then 2 else 0) : Nat) : ZMod 3) = CFSG.F3.Native.bitVal b0 b1 := by
-  cases b0 <;> cases b1 <;> simp_all [CFSG.F3.Native.bitVal] <;> rfl
+  cases b0 <;> cases b1 <;> simp_all [CFSG.F3.Native.bitVal]
 
 theorem batK_omat {F : Nat → Nat} {lo cnt : Nat} (hcnt : cnt ≤ 154) (hF : ∀ c < cnt, PV (F (lo + c)))
     (r c : Fin 154) :
@@ -261,7 +261,7 @@ theorem batK_omat {F : Nat → Nat} {lo cnt : Nat} (hcnt : cnt ≤ 154) (hF : �
   unfold omat ordMat
   rw [batK_lane hcnt hF' r.isLt c.isLt]
   by_cases h : c.val < cnt
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     unfold vecK
     apply bitVal_pair
     rintro ⟨h2, h3⟩
@@ -269,7 +269,7 @@ theorem batK_omat {F : Nat → Nat} {lo cnt : Nat} (hcnt : cnt ≤ 154) (hF : �
     have := congrArg (fun z => z.testBit r.val) hd
     simp only [Nat.testBit_and, Nat.zero_testBit, h2, h3, Bool.and_self] at this
     exact absurd this (by decide)
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     simp
 
 theorem redK_eq (w L H p T x : Nat) : redK w L H p T x = redP w L H p T x := by
@@ -302,13 +302,12 @@ theorem batCnt_eq (n s : Nat) :
   unfold batCnt
   by_cases h : (s + 1) * 154 ≤ n
   · have hb : Nat.ble (Nat.mul (Nat.succ s) 154) n = true := Nat.ble_eq_true_of_le h
-    rw [hb, if_pos h]
-    try rfl
+    rw [hb, ite_eq_left h]
   · have hb : Nat.ble (Nat.mul (Nat.succ s) 154) n = false := by
       cases e : Nat.ble (Nat.mul (Nat.succ s) 154) n
       · rfl
       · exact absurd (Nat.le_of_ble_eq_true e) h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
     try rfl
 
 theorem batCnt_le (n s : Nat) : batCnt n s ≤ 154 := by
@@ -348,10 +347,10 @@ theorem letS_sound {ML : Nat → Nat} {LT : Nat → Nat → Nat} {K : Nat → Na
   funext r
   have hrc := congrFun (congrFun hm r) ⟨i, hi'⟩
   rw [batK_omat (F := fun x => K (LT (2 * j) x)) hc
-    (fun c hc' => hK _ (hLT j hj _ (batCnt_spec hs hc'))), Matrix.mul_apply, if_pos hi] at hrc
+    (fun c hc' => hK _ (hLT j hj _ (batCnt_spec hs hc'))), Matrix.mul_apply, ite_eq_left hi] at hrc
   have hcol : ∀ k : Fin 154, omat (batK CS DS K (s * 154) (batCnt n s)) k ⟨i, hi'⟩ =
       vecK (K (s * 154 + i)) k := fun k => by
-    rw [batK_omat (F := K) hc (fun c hc' => hK _ (batCnt_spec hs hc')), if_pos hi]
+    rw [batK_omat (F := K) hc (fun c hc' => hK _ (batCnt_spec hs hc')), ite_eq_left hi]
   have hv : (omat (ML j) *ᵥ vecK (K (s * 154 + i))) r =
       ∑ k, omat (ML j) r k * omat (batK CS DS K (s * 154) (batCnt n s)) k ⟨i, hi'⟩ := by
     simp only [Matrix.mulVec, dotProduct, hcol]
@@ -402,10 +401,10 @@ theorem step_inv_gen {mul : Nat → Nat → Nat} {vld : Nat → Bool} {one : Nat
       obtain ⟨cj, ej⟩ := hR hok j hj
       rw [getD_set' R (by omega), CFSG.Sporadic.Th.stepG, Function.update_apply]
       by_cases e : r = k
-      · rw [if_pos e, if_pos e]
+      · rw [ite_eq_left e, ite_eq_left e]
         obtain ⟨c, hm⟩ := hmul ci cj
         exact ⟨c, by rw [hm, ei, ej, map_mul]⟩
-      · rw [if_neg e, if_neg e]
+      · rw [ite_eq_right e, ite_eq_right e]
         exact hR hok r hr
   | pwr e i k =>
     exact ⟨by simp only [slpStep, hl], fun h => absurd h (by simp [slpStep])⟩
@@ -420,12 +419,12 @@ theorem step_inv_gen {mul : Nat → Nat → Nat} {vld : Nat → Bool} {one : Nat
       have cx := hvld hv
       rw [getD_set' R (by omega), CFSG.Sporadic.Th.stepG, Function.update_apply]
       by_cases e : r = k
-      · rw [if_pos e, if_pos e]
+      · rw [ite_eq_left e, ite_eq_left e]
         refine ⟨cx, ?_⟩
         have hm := (hmul ci cx).2
         rw [Nat.eq_of_beq_eq_true he, hone, ei] at hm
         exact hom_inv_of_mul_eq_one φ hm.symm
-      · rw [if_neg e, if_neg e]
+      · rw [ite_eq_right e, ite_eq_right e]
         exact hR hok0 r hr
 
 variable {φ} in
@@ -489,10 +488,10 @@ theorem slpK_sound {prog : List CFSG.Sporadic.Th.Native.Instr} {nr : Nat} {FA FB
   have cb := batK_canon (le_refl 154) hFB'
   have ea : omat (batK CS DS FA 0 154) = φ gA := by
     ext r c
-    rw [batK_omat (le_refl 154) hFA', if_pos c.isLt, Nat.zero_add, hA]
+    rw [batK_omat (le_refl 154) hFA', ite_eq_left c.isLt, Nat.zero_add, hA]
   have eb : omat (batK CS DS FB 0 154) = φ gB := by
     ext r c
-    rw [batK_omat (le_refl 154) hFB', if_pos c.isLt, Nat.zero_add, hB]
+    rw [batK_omat (le_refl 154) hFB', ite_eq_left c.isLt, Nat.zero_add, hB]
   obtain ⟨cba, eba⟩ := mul3_sound cb ca
   obtain ⟨cbab, ebab⟩ := mul3_sound cba cb
   have H0 : SInv φ nr (batK CS DS FA 0 154 :: mul3 LL HH CM RM (mul3 LL HH CM RM
@@ -517,7 +516,7 @@ theorem slpK_sound {prog : List CFSG.Sporadic.Th.Native.Instr} {nr : Nat} {FA FB
         have e : (fun r => if r = 0 then gA else if r = 1 then gB * gA * gB else (1 : G)) (r + 1 + 1) =
             1 := by simp
         rw [List.getD_cons_succ, List.getD_cons_succ, List.getD_eq_getElem?_getD,
-          List.getElem?_replicate, if_pos hr', Option.getD_some, e, map_one]
+          List.getElem?_replicate, ite_eq_left hr', Option.getD_some, e, map_one]
         exact one_canon
   obtain ⟨st', hfin, hinv⟩ := run_inv prog _ _ hprog H0 h
   rw [bAnd_iff'] at hfin

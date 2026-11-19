@@ -13,17 +13,20 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem seven_eight_core_lift_coe_mul {H : Subgroup G} {Q : Type} [Group Q]
     (φ : ↥H →* Q) {a b : G} (ha : a ∈ H) (hb : b ∈ H) :
     φ ⟨a * b, H.mul_mem ha hb⟩ = φ ⟨a, ha⟩ * φ ⟨b, hb⟩ := by
   rw [show (⟨a * b, H.mul_mem ha hb⟩ : ↥H) = ⟨a, ha⟩ * ⟨b, hb⟩ from Subtype.ext rfl,
     map_mul]
 
+omit [Finite G] in
 private theorem seven_eight_core_lift_coe_inv {H : Subgroup G} {Q : Type} [Group Q]
     (φ : ↥H →* Q) {a : G} (ha : a ∈ H) :
     φ ⟨a⁻¹, H.inv_mem ha⟩ = (φ ⟨a, ha⟩)⁻¹ := by
   rw [show (⟨a⁻¹, H.inv_mem ha⟩ : ↥H) = ⟨a, ha⟩⁻¹ from Subtype.ext rfl, map_inv]
 
+omit [Finite G] in
 private theorem seven_eight_core_lift_coe_pow {H : Subgroup G} {Q : Type} [Group Q]
     (φ : ↥H →* Q) {a : G} (ha : a ∈ H) (n : ℕ) :
     φ ⟨a ^ n, H.pow_mem ha n⟩ = (φ ⟨a, ha⟩) ^ n := by
@@ -50,7 +53,7 @@ theorem Hyp73.exists_isHallCompl_le_kSub {V H E J : Subgroup G} (h : Hyp73 V H E
     rw [Subgroup.mem_inf, Subgroup.mem_inf]
     exact ⟨fun h => ⟨(hKx y).mp h.1, (hJx y).mp h.2⟩,
       fun h => ⟨(hKx y).mpr h.1, (hJx y).mpr h.2⟩⟩
-  haveI hJ'n : ((kSub V H E ⊓ J).subgroupOf H).Normal :=
+  have hJ'n : ((kSub V H E ⊓ J).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJ'KH).2 hHnormJ'
   have hJ'X' : kSub V H E ⊓ J ≤ barPre H φ Xb ⊓ kSub V H E :=
     le_inf (inf_le_right.trans (le_barPre hJH hφ Xb)) inf_le_left
@@ -59,7 +62,7 @@ theorem Hyp73.exists_isHallCompl_le_kSub {V H E J : Subgroup G} (h : Hyp73 V H E
   have hX'normJ' : barPre H φ Xb ⊓ kSub V H E ≤
       Subgroup.normalizer ((kSub V H E ⊓ J : Subgroup G) : Set G) :=
     hX'H.trans hHnormJ'
-  haveI hJ'X'n : ((kSub V H E ⊓ J).subgroupOf (barPre H φ Xb ⊓ kSub V H E)).Normal :=
+  have hJ'X'n : ((kSub V H E ⊓ J).subgroupOf (barPre H φ Xb ⊓ kSub V H E)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJ'X').2 hX'normJ'
   have hexp' : ∀ y ∈ barPre H φ Xb ⊓ kSub V H E, y ^ p ∈ kSub V H E ⊓ J := by
     intro y hy
@@ -71,7 +74,7 @@ theorem Hyp73.exists_isHallCompl_le_kSub {V H E J : Subgroup G} (h : Hyp73 V H E
     have h1 : φ ⟨y ^ p, H.pow_mem hyH p⟩ = 1 := by
       rw [seven_eight_core_lift_coe_pow φ hyH p, hexp _ hyXb]
     exact (hφ.ker_iff ⟨y ^ p, H.pow_mem hyH p⟩).mp h1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg := isPGroup_quotient_of_exp (J := kSub V H E ⊓ J)
     (Y := barPre H φ Xb ⊓ kSub V H E) hexp'
   have h76 : Hyp76 V H E (kSub V H E ⊓ J) ⊥ (barPre H φ Xb ⊓ kSub V H E) := by
@@ -119,6 +122,7 @@ theorem Hyp73.exists_isHallCompl_le_kSub {V H E J : Subgroup G} (h : Hyp73 V H E
     rw [hg_eq]
     exact (Y ⊔ J).mul_mem hkYJ (Subgroup.mem_sup_right hjJ)
 
+omit [Finite G] in
 theorem IsHallCompl.relIndex_inf_barPre {V H E J Y : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} (hφ : IsBarMap H J φ) (hJH : J ≤ H) (hJn : (J.subgroupOf H).Normal)
     {Xb : Subgroup Q} (hY : IsHallCompl V H E J (barPre H φ Xb) Y) {Ab : Subgroup Q}
@@ -166,6 +170,7 @@ theorem IsHallCompl.relIndex_inf_barPre {V H E J Y : Subgroup G} {Q : Type} [Gro
     _ = J.relIndex (barPre H φ Ab) := by rw [hBJsup]
     _ = Nat.card Ab := relIndex_barPre hJH hφ Ab
 
+omit [Finite G] in
 theorem IsHallCompl.exists_mem_eq {V H E J Y : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} (hφ : IsBarMap H J φ) (hJH : J ≤ H) (hJn : (J.subgroupOf H).Normal)
     {Xb : Subgroup Q} (hY : IsHallCompl V H E J (barPre H φ Xb) Y) {q : Q} (hq : q ∈ Xb) :
@@ -199,6 +204,7 @@ theorem IsHallCompl.exists_mem_eq {V H E J Y : Subgroup G} {Q : Type} [Group Q]
   rw [hj1, inv_one, mul_one]
   exact hk
 
+omit [Finite G] in
 theorem IsHallCompl.barSub_inf_barPre {V H E J Y : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} (hφ : IsBarMap H J φ) (hJH : J ≤ H) (hJn : (J.subgroupOf H).Normal)
     {Xb : Subgroup Q} (hY : IsHallCompl V H E J (barPre H φ Xb) Y) {Ab : Subgroup Q}
@@ -215,6 +221,7 @@ theorem IsHallCompl.barSub_inf_barPre {V H E J Y : Subgroup G} {Q : Type} [Group
       mem_barPre.mpr ⟨hyH, by rw [hyφ]; exact hq⟩
     exact mem_barSub.mpr ⟨⟨y, hyH⟩, ⟨hyY, hybar⟩, hyφ⟩
 
+omit [Finite G] in
 theorem IsHallCompl.inf_barPre_le {V H E J Y : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} (hφ : IsBarMap H J φ) {Xb : Subgroup Q}
     (hY : IsHallCompl V H E J (barPre H φ Xb) Y) {T : Subgroup G} (hIT : iSub V H E ≤ T)
@@ -240,6 +247,7 @@ theorem IsHallCompl.inf_barPre_le {V H E J Y : Subgroup G} {Q : Type} [Group Q]
   rw [hy_eq]
   exact T.mul_mem htT htyT
 
+omit [Finite G] in
 theorem IsHallCompl.commutator_zpowers_le_barSub {V H E J Y : Subgroup G} {Q : Type}
     [Group Q] {φ : ↥H →* Q} (hφ : IsBarMap H J φ) (hJH : J ≤ H)
     (hJn : (J.subgroupOf H).Normal) {Xb : Subgroup Q}
@@ -264,6 +272,7 @@ theorem IsHallCompl.commutator_zpowers_le_barSub {V H E J Y : Subgroup G} {Q : T
   rw [hcoe]
   exact Subgroup.commutator_mem_commutator hyY (Subgroup.zpow_mem_zpowers w n)
 
+omit [Finite G] in
 theorem barSub_map_conj {H : Subgroup G} {Q : Type} [Group Q] (φ : ↥H →* Q) (A : Subgroup G)
     (k : ↥H) :
     barSub H φ (A.map (MulAut.conj (k : G)).toMonoidHom) =

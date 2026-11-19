@@ -11,6 +11,7 @@ open Subgroup
 
 variable {X : Type*} [Group X] [Finite X] {τ : X} {A : Subgroup X}
 
+omit [Finite X] in
 theorem y6f4a_mem_normalizer_cent_of_mem_normalizer {y : X} (hy : y ∈ normalizer (A : Set X)) :
     y ∈ normalizer ((centralizer (A : Set X) : Subgroup X) : Set X) := by
   rw [Subgroup.mem_set_normalizer_iff]
@@ -135,7 +136,7 @@ theorem y6f4a_standard_of_invol (hτ : orderOf τ = 2) (hA : CFSG.Open.IsQuasisi
     (h4 : 4 ∣ Nat.card ↥A) :
     CFSG.Open.standardComponentIsStandard A ∧
       ∀ S : Sylow 2 ↥(centralizer (A : Set X)), Nat.card S = 2 := by
-  haveI : Group.IsPerfect ↥A := ⟨hA.1⟩
+  have : Group.IsPerfect ↥A := ⟨hA.1⟩
   refine ⟨?_, fun S => y6f4a_sylow_card_two hτA hτ hC S⟩
   unfold CFSG.Open.standardComponentIsStandard
   refine ⟨hA, ?_, ?_, ?_, ?_⟩

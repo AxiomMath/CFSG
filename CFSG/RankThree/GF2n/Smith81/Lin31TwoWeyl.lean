@@ -48,7 +48,7 @@ private theorem ringAut_eq_one_of_iterate {K : Type} [Field K] [Finite K] (σ : 
   have hiter : ∀ i : ℕ, (fun x => a * σ x)^[i] x₁ = a ^ i * x₁ := by
     intro i
     rw [hσ]
-    simpa using CFSG.GH74.GLS.IVK.L2Borel.iterate_mul_left a i x₁
+    simp
   have hiff : ∀ i : ℕ, a ^ i = 1 ↔ Nat.card K - 1 ∣ i := by
     intro i
     rw [← h i, hiter i]
@@ -192,6 +192,7 @@ theorem exists_frame (hc : Ctx M Q Z C) :
     rw [hψ]
     simp [hC0 ⟨c, Subgroup.mem_sup_right hc'⟩ hc']
 
+omit [Finite G] in
 private theorem exists_torus_power {n : ℕ} (hn2 : 2 ≤ n)
     {φ : ↥(Q ⊔ QB C) →* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)}
     (hφs : Function.Surjective φ)
@@ -237,6 +238,7 @@ private theorem exists_torus_power {n : ℕ} (hn2 : 2 ≤ n)
     exact Odd.of_dvd_nat hodd (orderOf_dvd_of_pow_eq_one htq)
   exact ⟨t', t'.2, c₀ ^ k, htM, htodd, htC, ht'φ, hμord⟩
 
+omit [Finite G] in
 private theorem exists_torus_orbit_z {n : ℕ}
     {ψ : ↥(Z ⊔ C) ≃* Multiplicative (Fin 2 → GaloisField 2 n)}
     {t x₀ c : G} (htM : t ∈ M) (hZnorm : M ≤ Subgroup.normalizer Z)
@@ -325,6 +327,7 @@ private theorem exists_torus_orbit_z {n : ℕ}
       exact eq_of_toAdd_psi_eq ψ (Subgroup.mem_sup_left (hpowZ i)) (hcommW c hcW) hcoord
   exact ⟨hpowZ, hfixZ⟩
 
+omit [Finite G] in
 private theorem exists_torus_semilinear {K : Type} [Field K] [Finite K] [CharP K 2]
     {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (gm : GlobalModelData M Q Z γ M₀) {t z₁ : G} (htM : t ∈ M) {n : ℕ}
@@ -366,6 +369,7 @@ private theorem exists_torus_semilinear {K : Type} [Field K] [Finite K] [CharP K
   obtain ⟨hσ, haord⟩ := ringAut_eq_one_of_iterate σ hγz₁ (fun i => hfixγ i)
   exact ⟨σ, a, T, hTσ, hTπ, hTγ, hTQ, hσ, haord⟩
 
+omit [Finite G] in
 private theorem exists_torus_linear {K : Type} [Field K] [Finite K] [CharP K 2]
     {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (gm : GlobalModelData M Q Z γ M₀) (hc : Ctx M Q Z C)

@@ -21,22 +21,24 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {X : Type} [AddCommGroup X]
   zero_mem' p _ := map_zero _
   smul_mem' c v hv p hp := by rw [map_smul, hv p hp]
 
+omit [Finite K] [CharP K 2] in
 theorem mem_fixP {A : Γ →* (X ≃ₗ[K] X)} {P : Subgroup Γ} {v : X} :
     v ∈ fixP A P ↔ ∀ p ∈ P, A p v = v := Iff.rfl
 
+omit [Finite K] [CharP K 2] in
 theorem fixP_anti {A : Γ →* (X ≃ₗ[K] X)} {P P' : Subgroup Γ} (h : P ≤ P') :
     fixP A P' ≤ fixP A P := fun _ hv p hp => hv p (h hp)
 
 theorem exists_fixed_ne_zero [Finite X] [Nontrivial X] (A : Γ →* (X ≃ₗ[K] X)) {P : Subgroup Γ}
     (hP : IsPGroup 2 P) : ∃ x : X, x ≠ 0 ∧ ∀ p ∈ P, A p x = x := by
   classical
-  letI : MulAction P X := MulAction.compHom X (A.comp P.subtype)
+  let : MulAction P X := MulAction.compHom X (A.comp P.subtype)
   have h2 : 2 ∣ Nat.card K := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hKn⟩ := FiniteField.card K 2
     rw [Nat.card_eq_fintype_card, hKn]
     exact dvd_pow_self 2 n.ne_zero
-  haveI : Module.Finite K X := Module.Finite.of_finite
+  have : Module.Finite K X := Module.Finite.of_finite
   have hdvd : 2 ∣ Nat.card X := by
     rw [Module.natCard_eq_pow_finrank (K := K) (V := X)]
     exact dvd_pow h2 (Module.finrank_pos (R := K) (M := X)).ne'
@@ -47,8 +49,8 @@ theorem exists_fixed_ne_zero [Finite X] [Nontrivial X] (A : Γ →* (X ≃ₗ[K]
 
 theorem fixP_eq_of_le_line [Finite X] (A : Γ →* (X ≃ₗ[K] X)) {P : Subgroup Γ} (hP : IsPGroup 2 P)
     {ℓ : Submodule K X} (hℓ : finrank K ℓ = 1) (hle : fixP A P ≤ ℓ) : fixP A P = ℓ := by
-  haveI : Module.Finite K X := Module.Finite.of_finite
-  haveI : Nontrivial X := by
+  have : Module.Finite K X := Module.Finite.of_finite
+  have : Nontrivial X := by
     have hne : ℓ ≠ ⊥ := fun h => by
       rw [h, finrank_bot] at hℓ
       exact zero_ne_one hℓ
@@ -72,6 +74,7 @@ theorem mem_smul_sylow {S : Sylow 2 Γ} {g x : Γ} :
     refine ⟨g⁻¹ * x * g, h, ?_⟩
     simp [MulAut.smul_def, MulAut.conj_apply, mul_assoc]
 
+omit [Finite K] [CharP K 2] in
 theorem fixP_map_conj (A : Γ →* (X ≃ₗ[K] X)) (H : Subgroup Γ) (g : Γ) :
     fixP A (H.map (MulAut.conj g).toMonoidHom) = (fixP A H).map (A g : X →ₗ[K] X) := by
   ext v
@@ -111,12 +114,12 @@ theorem exists_sylow_translate [Finite Γ] [Finite X] (A : Γ →* (X ≃ₗ[K] 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₁, hS₁⟩ := h₁.exists_le_sylow
   obtain ⟨S₂, hS₂⟩ := h₂.exists_le_sylow
-  haveI : Finite (Sylow 2 Γ) := inferInstance
+  have : Finite (Sylow 2 Γ) := inferInstance
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Γ S₁ S₂
   have e₁ : fixP A S₁ = ℓ₁ :=
-    fixP_eq_of_le_line A S₁.isPGroup' hℓ₁ ((fixP_anti hS₁).trans hle₁)
+    fixP_eq_of_le_line A S₁.isPGroup hℓ₁ ((fixP_anti hS₁).trans hle₁)
   have e₂ : fixP A S₂ = ℓ₂ :=
-    fixP_eq_of_le_line A S₂.isPGroup' hℓ₂ ((fixP_anti hS₂).trans hle₂)
+    fixP_eq_of_le_line A S₂.isPGroup hℓ₂ ((fixP_anti hS₂).trans hle₂)
   refine ⟨g, ?_⟩
   rw [← e₁, ← e₂, ← hg, coe_smul_sylow, fixP_map_conj]
 
@@ -150,6 +153,7 @@ section Points
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {K : Type}
   [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem sup_eq_of_img_iff {A A' : Subgroup G} (hAQ : A ≤ Q) (hA'Q : A' ≤ Q)
     (h : ∀ v : M₀.E, (∃ x ∈ A, M₀.π x = v) ↔ ∃ x ∈ A', M₀.π x = v) : A ⊔ Z = A' ⊔ Z := by
   have key : ∀ {A A' : Subgroup G}, A ≤ Q → A' ≤ Q →
@@ -166,6 +170,7 @@ theorem sup_eq_of_img_iff {A A' : Subgroup G} (hAQ : A ≤ Q) (hA'Q : A' ≤ Q)
 
 variable {Λ : Subgroup G}
 
+omit [Finite G] in
 theorem img_conj_iff (T : Λ →* (M₀.E ≃ₗ[K] M₀.E)) (hBQ : B ≤ Q)
     (hTe : ∀ (s : Λ) (x : G), x ∈ Q → M₀.π ((s : G) * x * (s : G)⁻¹) = T s (M₀.π x)) (s : Λ)
     (v : M₀.E) :
@@ -182,6 +187,7 @@ theorem img_conj_iff (T : Λ →* (M₀.E ≃ₗ[K] M₀.E)) (hBQ : B ≤ Q)
     rw [mem_conjSubgroup, show (s : G)⁻¹ * ((s : G) * b * (s : G)⁻¹) * (s : G) = b by group]
     exact hb
 
+omit [Finite G] in
 theorem LB_eq_conj_of_img (hSame : ∀ C C' : Subgroup G, Ctx M Q Z C → Ctx M Q Z C' →
       C ⊔ Z = C' ⊔ Z → LB M Q C = LB M Q C')
     (hctx : Ctx M Q Z B) {A : Subgroup G} (hA : Ctx M Q Z A) (T : Λ →* (M₀.E ≃ₗ[K] M₀.E))
@@ -202,6 +208,7 @@ section PointLift
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [CharP K 2] [Finite K] in
 theorem exists_line_fix (h34 : Stroth34Statement) {A : Subgroup G} (hctxA : Ctx M Q Z A) {n : ℕ}
     (hw : Width Q Z n) (hn : 2 < n) (hg : GlobalModelData M Q Z γ M₀) (hno : NoA2 Q Z (LB M Q A))
     (hgen : GenByB M Q A) {Lg : Subgroup G} (T : Lg →* (M₀.E ≃ₗ[K] M₀.E))
@@ -233,7 +240,7 @@ theorem exists_lift_point (hSame : ∀ C C' : Subgroup G, Ctx M Q Z C → Ctx M 
     ∃ s : Lgen M (LB M Q B), LB M Q A = conjSubgroup (s : G) (LB M Q B) ∧
       ∀ v : M₀.E, (∃ x ∈ A, M₀.π x = v) ↔ ∃ w, (∃ b ∈ B, M₀.π b = w) ∧ T s w = v := by
   classical
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hline : ∀ C : Subgroup G, Ctx M Q Z C →
       ∃ e : M₀.E, e ≠ 0 ∧ (∀ v : M₀.E, (∃ x ∈ C, M₀.π x = v) ↔ v ∈ Submodule.span K {e}) ∧
         ∀ v : M₀.E, (∀ s : Lgen M (LB M Q B), (s : G) ∈ LB M Q C → T s v = v) ↔
@@ -272,6 +279,8 @@ theorem exists_lift_point (hSame : ∀ C C' : Subgroup G, Ctx M Q Z C → Ctx M 
   have hsM : (s : G) ∈ M := Lgen_le hctx.LB_le_M s.2
   exact LB_eq_conj_of_img hSame hctx hctxA T hTe s hsM himg
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 theorem mem_normalizer_of_stab (hSame : ∀ C C' : Subgroup G, Ctx M Q Z C → Ctx M Q Z C' →
       C ⊔ Z = C' ⊔ Z → LB M Q C = LB M Q C')
     (hctx : Ctx M Q Z B) {Γ : Type*} [Group Γ] (θ : Lgen M (LB M Q B) →* Γ)
@@ -319,6 +328,7 @@ theorem mem_normalizer_of_stab (hSame : ∀ C C' : Subgroup G, Ctx M Q Z C → C
     · rw [map_mul, map_mul, map_inv, hth]
       group
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem point_of_translate {V : Type} [AddCommGroup V] [Module K V] {Γ : Subgroup (V ≃ₗ[K] V)}
     {p₀ : V} {U₀ : Subgroup (V ≃ₗ[K] V)} (hctx : Ctx M Q Z B)
     (T : Lgen M (LB M Q B) →* (M₀.E ≃ₗ[K] M₀.E)) (ψ : M₀.E ≃ₗ[K] V)

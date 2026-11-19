@@ -47,8 +47,8 @@ theorem exists_leviData_sec [Finite G]
   have hYL : Y ≤ L := hYH.trans ((uc22p21c_Hinf_le P).trans hPL)
   obtain ⟨T, hTgrp, hTfin, hTsec, hTdata⟩ :=
     exists_leviData_of_nParamSingle hSz hY hn
-  letI : Group T := hTgrp
-  letI : Finite T := hTfin
+  let : Group T := hTgrp
+  let : Finite T := hTfin
   have hBarY_L : IsSec (Bar2 Y) ↥L := by
     have hq : IsSec (Bar2 Y) ↥Y :=
       isSec_of_surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y))
@@ -59,11 +59,11 @@ theorem exists_leviData_sec [Finite G]
           (isSec_self (G := ↥(Y.subgroupOf L))))
     exact isSec_trans hq hincl
   have hT_L : IsSec T ↥L := isSec_trans hTsec hBarY_L
-  haveI : IsSimpleGroup T := hTdata.simple
-  have hnot : ¬ IsSolvable T := not_isSolvable_of_isSimpleGroup hTdata.nonab
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥L) := CFSG.pCore_isNilpotent
-  have hN : IsSolvable (CFSG.pCore 2 ↥L) := IsNilpotent.to_isSolvable
+  have : IsSimpleGroup T := hTdata.simple
+  have hnot : ¬ Group.IsSolvable T := not_isSolvable_of_isSimpleGroup hTdata.nonab
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥L) := CFSG.pCore_isNilpotent
+  have hN : Group.IsSolvable (CFSG.pCore 2 ↥L) := IsNilpotent.to_isSolvable
   exact ⟨T, hTgrp, hTfin,
     IsSec.quotient_of_isSolvable (N := CFSG.pCore 2 ↥L) hnot hN hT_L, hTdata⟩
 

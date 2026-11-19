@@ -25,7 +25,7 @@ theorem exists_invariant_sylow_swap (h : ResidueConfig G A c L a R Y d) {n : G}
       ¬ 2 ∣ S.relIndex (thetaCent a) ∧ A ≤ Subgroup.normalizer (S : Set G) ∧
       y ∈ thetaCent a ∧ (∀ x ∈ A, y * x = x * y) ∧
       y⁻¹ * n ∈ Subgroup.normalizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAe := h.mem_partTwoF.1
   have hexp : ∀ u ∈ A, u ^ 3 = 1 := hAe.2
   have haA := h.a_mem
@@ -97,7 +97,7 @@ theorem exists_invariant_sylow_swap (h : ResidueConfig G A c L a R Y d) {n : G}
     CFSG.RankThreeEvenClassification.Helpers.exists_centralizing_conjugator_of_normalized_sylows
       3 Nat.prime_three 2 Nat.prime_two A (thetaCent a) hA3 hθ3 hAθ S₀ S₁ hS₀A hS₁A
   set S : Subgroup G := (S₀ : Subgroup (thetaCent a)).map (thetaCent a).subtype with hSdef
-  refine ⟨S, y, Subgroup.map_subtype_le _, S₀.isPGroup'.map _, ?_, hS₀A,
+  refine ⟨S, y, Subgroup.map_subtype_le _, S₀.isPGroup.map _, ?_, hS₀A,
     (Subgroup.mem_inf.mp hy).1, ?_, ?_⟩
   · have hrel : S.relIndex (thetaCent a) = (S₀ : Subgroup (thetaCent a)).index := by
       rw [hSdef, Subgroup.relIndex, Subgroup.subgroupOf,
@@ -138,7 +138,7 @@ theorem exists_not_centralize_d (hP2b : Item116P2b) (hP2c : Item116P2c) (h45 : S
     {n' : G} (hnW : n' ∈ Subgroup.normalizer (A : Set G))
     (hnc : n' * c * n'⁻¹ ∈ Subgroup.zpowers d) (hnd : n' * d * n'⁻¹ ∈ Subgroup.zpowers c)
     (hna : n' * a * n'⁻¹ = a⁻¹) {S : Subgroup G} (hSθ : S ≤ thetaCent a) (hS2 : IsPGroup 2 S)
-    (hSidx : ¬ 2 ∣ S.relIndex (thetaCent a)) (hAS : A ≤ Subgroup.normalizer (S : Set G))
+    (hSidx : ¬ 2 ∣ S.relIndex (thetaCent a)) (_hAS : A ≤ Subgroup.normalizer (S : Set G))
     (hn'S : n' ∈ Subgroup.normalizer (S : Set G)) :
     ∃ s ∈ S, d * s * d⁻¹ ≠ s := by
   by_contra! hcon
@@ -147,7 +147,7 @@ theorem exists_not_centralize_d (hP2b : Item116P2b) (hP2c : Item116P2c) (h45 : S
   have hSfus : CFSG.Open.fusionIsSylowIn 2 S (thetaCent a) := by
     unfold CFSG.Open.fusionIsSylowIn
     refine ⟨hSθ, hS2, fun P hPθ hP2 hSP => ?_⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmul := Subgroup.relIndex_mul_relIndex S P (thetaCent a) hSP hPθ
     have hdvdθ : S.relIndex P ∣ S.relIndex (thetaCent a) :=
       ⟨P.relIndex (thetaCent a), hmul.symm⟩

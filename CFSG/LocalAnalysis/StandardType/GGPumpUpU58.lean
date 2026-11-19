@@ -27,7 +27,7 @@ theorem outer_u58 {X : Type} [Group X] [Finite X]
       Odd (Nat.card (Subgroup.centralizer ({x} : Set S)))
 
 theorem no_four_of_odd_centralizer {S : Type} [Group S] [Finite S] (x : S)
-    (hx : orderOf x = 5)
+    (_hx : orderOf x = 5)
     (hodd : Odd (Nat.card (Subgroup.centralizer ({x} : Set S))))
     (hout : Nat.card (Outer S) = 6)
     (Qbar : Subgroup (MulAut S)) (hQbar : Nat.card Qbar = 4)
@@ -85,7 +85,7 @@ theorem u58_no_four_fix_u42 (hC : U58OddCentralizer)
     {Wk : Subgroup K} (hWk : CFSG.Models.LieModel Wk .PSU 4 2 1)
     (Q : Subgroup (MulAut K)) (hQcard : Nat.card Q = 4)
     (hQfix : ∀ q ∈ Q, ∀ w ∈ Wk, q w = w) : False := by
-  haveI : Group.IsPerfect K := ⟨hquasi.1⟩
+  have : Group.IsPerfect K := ⟨hquasi.1⟩
   have hconj_inj : Function.Injective
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom K) :=
     CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective K
@@ -114,7 +114,7 @@ theorem u58_no_four_fix_u42 (hC : U58OddCentralizer)
       · exact h
       · exfalso
         have hcomm : IsMulCommutative Wk := Subgroup.center_eq_top_iff.mp h
-        haveI := hcomm
+        have := hcomm
         have hp : (Nat.card Wk).Prime :=
           (Group.is_simple_iff_prime_card (α := Wk)).mp hWksimple
         rw [hWkcard] at hp
@@ -136,7 +136,7 @@ theorem u58_no_four_fix_u42 (hC : U58OddCentralizer)
   have h5dvd : 5 ∣ Nat.card Wk := by rw [hWkcard]; norm_num
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := Wk) 5 h5dvd
   let S := K ⧸ Subgroup.center K
-  haveI : Finite S := inferInstance
+  have : Finite S := inferInstance
   let x : S := ι w
   have hx : orderOf x = 5 := by
     have hxw := orderOf_injective ι hι_inj w
@@ -163,7 +163,7 @@ theorem u58_no_four_fix_u42 (hC : U58OddCentralizer)
 
 theorem u58OddCentralizer_holds : U58OddCentralizer := by
   intro S _ _ h x hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB : CFSG.Blueprint.LieModel S .PSU 5 2 3 :=
     CFSG.StandardType.ChevTwo.blueprintLieModel_of_modelsLieModel
       (t := .PSU) (by simp [CFSG.Blueprint.classicalTags]) h

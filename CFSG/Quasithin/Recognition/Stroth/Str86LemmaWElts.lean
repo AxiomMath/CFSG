@@ -82,9 +82,9 @@ private theorem exists_su3Anti_model_equiv {V : Type} [CommGroup V] [Finite V]
   classical
   obtain ⟨K, hKf, hKfin, hKchar, hKcard, Φ, ρ, hρsurj, hΦ⟩ :=
     binaryNaturalSU3_su3Anti_model (V := V) hk h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hρinj : Function.Injective ρ := by
     rw [injective_iff_map_eq_one]
     intro x hx
@@ -136,7 +136,7 @@ private theorem mem_normalizer_map_iff_of_preimage {X Y : Type*} [Group X] [Grou
       have h' : (f g)⁻¹ * f s * f g ∈ S.map f := by
         simpa only [map_mul, map_inv, inv_inv] using h
       rw [hfs] at h'
-      convert h' using 2 <;> group
+      convert h' using 2; group
   · intro hg
     rw [Subgroup.mem_normalizer_iff] at hg ⊢
     intro s
@@ -224,6 +224,7 @@ private theorem eq_one_of_model_fixed {K : Type} [Field K] [Finite K] [CharP K 2
       _ = 1 := rfl
   exact Φ.injective (by simpa using h5)
 
+omit [Finite G] in
 private theorem mem_L_of_chiefHom_fixed {H U L N : Subgroup G}
     (hstep : IsChiefStep H U L N) (hUH : U ≤ H) {g : G} (hg : g ∈ H)
     (hfix : ∀ v : ↥(Ch3z.chiefMod L N),
@@ -301,7 +302,7 @@ private theorem one_le_k_of_natCard_eq_sq {K : Type} [Field K] [Finite K] {k : �
   rcases Nat.eq_zero_or_pos k with rfl | hk
   · exfalso
     have h2 : 1 < Nat.card K := Finite.one_lt_card (α := K)
-    simp only [pow_zero, one_pow, one_mul] at hK
+    simp only [pow_zero, one_pow] at hK
     omega
   · exact hk
 
@@ -521,12 +522,12 @@ private theorem exists_model_and_sylow
         T = (S.subgroupOf (L1 ⊔ S)).map (Ch3z.chiefHom hHL hHN) ∧
         IsSylowIn 2 (T.map eρ.toMonoidHom) ⊤ := by
   classical
-  letI : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
+  let : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
   obtain ⟨K, hKf, hKfin, hKchar, hKcard, Φ, eρ, hΦ⟩ :=
     exists_su3Anti_model_equiv (V := ↥(Ch3z.chiefMod L N)) hI.hk hnat
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   let H : Subgroup G := L1 ⊔ S
   let f : ↥H →* ↥(Ch3z.chiefAut H L N) := Ch3z.chiefHom hHL hHN
   have hSylH : IsSylowTwoOf S H := isSylowTwoOf_sup_s hI
@@ -584,6 +585,7 @@ private theorem exists_lift_of_torus_data {X A B : Type*} [Group X] [Group A] [G
     exists_lift_pair f hf hK hp hp2 hWApow hyoddA hYAcomm
   exact ⟨ω, h, hωf, hωpow, hhf, hhodd, hhcomm, hWAnorm, hYAnot⟩
 
+omit [Finite G] in
 private theorem not_mem_bigB_of_map_not_normalizer {L1 L2 S H : Subgroup G}
     {A : Type*} [Group A] (f : ↥H →* A) {h : G}
     (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
@@ -659,12 +661,12 @@ theorem Str86AbHyp.exists_lemmaW_elements
   have hf : Function.Surjective f := Ch3z.chiefHom_surjective hHL hHN
   have hKf : IsPGroup 2 f.ker := by
     simpa [f] using isPGroup_ker_chiefHom hI hUH hstep hE hnat
-  letI : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
+  let : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
   obtain ⟨K, hKfld, hKfin, hKchar, hKcard, Φ, eρ, T, hΦ, hTmap, hTe⟩ :=
     exists_model_and_sylow hI hHL hHN hE hnat
-  letI : Field K := hKfld
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfld
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   obtain ⟨w, y, hwN, hwn, hwfp, hyodd, hyw, hyNot⟩ :=
     exists_torus_and_block_of_isSylow (K := K) (k := k) hKcard
       ((hp.odd_of_ne_two hp2).pow) hpa hd hTe

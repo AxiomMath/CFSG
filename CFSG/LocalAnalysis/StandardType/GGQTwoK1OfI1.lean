@@ -50,7 +50,7 @@ theorem ggQ2_K1_of_I1 {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInput)
   obtain ⟨hcfg, -, hIDAll, -, -⟩ := hHyp
   obtain ⟨hI, hBstar, hStdSub⟩ := hcfg
   have hp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsabel : IsElemAbelian p Bs := hBstar.2.1
   have hpJ : p ∣ Nat.card J := hP G p B x L D J hI hStdSub
   have hJq : CFSG.Assembly.IsQuasisimple ↥J := hStdSub.1.2.2.2.2.2.1.2.2

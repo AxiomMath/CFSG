@@ -42,11 +42,11 @@ private theorem le_sylow_of_normal {Q A L : Subgroup G} [Finite ↥L] (hA : IsSy
     change 2 ∣ A.relIndex L
     rw [← Subgroup.relIndex_mul_relIndex A (A ⊔ Q) L le_sup_left hAQle]
     exact dvd_mul_of_dvd_left h2 _
-  haveI hfinA : Finite ↥A :=
+  have hfinA : Finite ↥A :=
     Finite.of_injective (Subgroup.inclusion hA.1) (Subgroup.inclusion_injective hA.1)
-  haveI hfinAQ : Finite ↥(A ⊔ Q) :=
+  have hfinAQ : Finite ↥(A ⊔ Q) :=
     Finite.of_injective (Subgroup.inclusion hAQle) (Subgroup.inclusion_injective hAQle)
-  haveI hfinSub : Finite ↥(A.subgroupOf (A ⊔ Q)) :=
+  have hfinSub : Finite ↥(A.subgroupOf (A ⊔ Q)) :=
     Finite.of_injective (Subgroup.inclusion (le_top : A.subgroupOf (A ⊔ Q) ≤ ⊤))
       (Subgroup.inclusion_injective le_top)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hAQ2
@@ -88,7 +88,7 @@ private theorem isSylowTwoOf_inf_of_complement {L L' Q A : Subgroup G} [Finite �
   have hQL : Q ≤ L := by rw [hL]; exact le_sup_right
   have hQA : Q ≤ A := le_sylow_of_normal hA hQL hQn hQ2
   have hL'Qn : L' ≤ Subgroup.normalizer (Q : Set G) := hL'L.trans hQn
-  haveI hQsubN : (Q.subgroupOf L).Normal :=
+  have hQsubN : (Q.subgroupOf L).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQn
   let mkL : ↥L →* (↥L ⧸ Q.subgroupOf L) := QuotientGroup.mk' (Q.subgroupOf L)
   let inc : ↥L' →* ↥L := Subgroup.inclusion hL'L
@@ -181,11 +181,11 @@ private theorem index_of_complement {L L' E Z W Q : Subgroup G} {n : ℕ} [Finit
   have hL'L : L' ≤ L := by rw [hL]; exact le_sup_left
   have hWL' : W ≤ L' := (hW ▸ (le_sup_left : W ≤ W ⊔ Z)).trans h.E_le
   have hZL' : Z ≤ L' := h.Z_le.trans h.E_le
-  haveI : Finite ↥L' :=
+  have : Finite ↥L' :=
     Finite.of_injective (Subgroup.inclusion hL'L) (Subgroup.inclusion_injective hL'L)
-  haveI : Finite ↥W :=
+  have : Finite ↥W :=
     Finite.of_injective (Subgroup.inclusion hWL') (Subgroup.inclusion_injective hWL')
-  haveI : Finite ↥Z :=
+  have : Finite ↥Z :=
     Finite.of_injective (Subgroup.inclusion hZL') (Subgroup.inclusion_injective hZL')
   rw [Subgroup.relIndex_bot_left]
   have hZC : Z ≤ Subgroup.centralizer (W : Set G) := by
@@ -211,7 +211,7 @@ private theorem sylow_eq_inf_sup {L L' Q A : Subgroup G} [Finite ↥L]
   exact h.symm
 
 private theorem commutator_mem_of_le_normalizer {W L A : Subgroup G}
-    (hWL : W ≤ L) (hAL : A ≤ L) (hWn : L ≤ Subgroup.normalizer (W : Set G)) :
+    (_hWL : W ≤ L) (hAL : A ≤ L) (hWn : L ≤ Subgroup.normalizer (W : Set G)) :
     ∀ w ∈ W, ∀ a ∈ A, ⁅w, a⁆ ∈ W := by
   intro w hw a ha
   have hainv : a⁻¹ ∈ Subgroup.normalizer (W : Set G) :=
@@ -231,11 +231,11 @@ private theorem commutator_mem_of_le_normalizer {W L A : Subgroup G}
 
 private theorem relCent_eq_inf {L L' E Z W Q A : Subgroup G} {n : ℕ} [Finite ↥L]
     (h : NatQuot L' E Z n) (hL : L = L' ⊔ Q) (hQ2 : IsPGroup 2 Q)
-    (hQn : L ≤ Subgroup.normalizer (Q : Set G)) (hEQ : E ≤ Q)
+    (hQn : L ≤ Subgroup.normalizer (Q : Set G)) (_hEQ : E ≤ Q)
     (hW : W ⊔ Z = E) (hWZ : W ⊓ Z = ⊥)
     (hWn : L ≤ Subgroup.normalizer (W : Set G))
     (hQW : ∀ q ∈ Q, ∀ w ∈ W, q * w = w * q)
-    (hZ : ∀ z ∈ Z, ∀ l ∈ L', z * l = l * z)
+    (_hZ : ∀ z ∈ Z, ∀ l ∈ L', z * l = l * z)
     (hA : IsSylowTwoOf A L) :
     relCent W ⊥ A = W ⊓ relCent E Z (A ⊓ L') := by
   have hL'L : L' ≤ L := by rw [hL]; exact le_sup_left
@@ -282,7 +282,7 @@ private theorem relCent_eq_inf {L L' E Z W Q A : Subgroup G} {n : ℕ} [Finite �
     rw [hWZ] at hmem
     exact hmem
 
-private theorem relCent_eq_sup {L L' E Z W Q A' : Subgroup G} {n : ℕ}
+private theorem relCent_eq_sup {_L L' E Z W Q A' : Subgroup G} {n : ℕ}
     (h : NatQuot L' E Z n) (hEQ : E ≤ Q) (hW : W ⊔ Z = E)
     (hQW : ∀ q ∈ Q, ∀ w ∈ W, q * w = w * q)
     (hZ : ∀ z ∈ Z, ∀ l ∈ L', z * l = l * z)
@@ -337,20 +337,20 @@ private theorem line_of_complement {L L' E Z W Q A : Subgroup G} {n : ℕ} [Fini
   have hrel : relCent W ⊥ A = W ⊓ relCent E Z (A ⊓ L') :=
     relCent_eq_inf h hL hQ2 hQn hEQ hW hWZ hWn hQW hZ hA
   have hsup : relCent E Z (A ⊓ L') = (W ⊓ relCent E Z (A ⊓ L')) ⊔ Z :=
-    relCent_eq_sup (L := L) (Q := Q) h hEQ hW hQW hZ (inf_le_right : A ⊓ L' ≤ L')
+    relCent_eq_sup (_L := L) (Q := Q) h hEQ hW hQW hZ (inf_le_right : A ⊓ L' ≤ L')
   have hline : Z.relIndex (relCent E Z (A ⊓ L')) = 2 ^ n := h.line (A ⊓ L') hA'
   have hXleE : relCent E Z (A ⊓ L') ≤ E := fun x hx => ((mem_relCent hEZn).mp hx).1
-  haveI hfinL' : Finite ↥L' :=
+  have hfinL' : Finite ↥L' :=
     Finite.of_injective (Subgroup.inclusion hL'L) (Subgroup.inclusion_injective hL'L)
-  haveI hfinZ : Finite ↥Z :=
+  have hfinZ : Finite ↥Z :=
     Finite.of_injective (Subgroup.inclusion (hZL'.trans hL'L))
       (Subgroup.inclusion_injective (hZL'.trans hL'L))
-  haveI hfinW : Finite ↥W :=
+  have hfinW : Finite ↥W :=
     Finite.of_injective (Subgroup.inclusion hWL) (Subgroup.inclusion_injective hWL)
-  haveI hfinX : Finite ↥(relCent E Z (A ⊓ L')) :=
+  have hfinX : Finite ↥(relCent E Z (A ⊓ L')) :=
     Finite.of_injective (Subgroup.inclusion (hXleE.trans (hEL'.trans hL'L)))
       (Subgroup.inclusion_injective (hXleE.trans (hEL'.trans hL'L)))
-  haveI hfinA0 : Finite ↥(W ⊓ relCent E Z (A ⊓ L')) :=
+  have hfinA0 : Finite ↥(W ⊓ relCent E Z (A ⊓ L')) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left.trans hWL))
       (Subgroup.inclusion_injective (inf_le_left.trans hWL))
   have hAZ : Z ⊓ (W ⊓ relCent E Z (A ⊓ L')) = ⊥ := by
@@ -569,7 +569,7 @@ private theorem lines_inf_of_complement {L L' E Z W Q A B : Subgroup G} {n : ℕ
   have hcardSupY : Nat.card ↥((W ⊓ relCent E Z (A ⊓ L')) ⊔
       (W ⊓ relCent E Z (B ⊓ L'))) = 2 ^ (2 * n) := by
     rw [hcardSup, hcardYA, hcardYB, ← pow_add, two_mul]
-  haveI hfinW : Finite ↥W :=
+  have hfinW : Finite ↥W :=
     Finite.of_injective (Subgroup.inclusion hWL) (Subgroup.inclusion_injective hWL)
   have hleW : (W ⊓ relCent E Z (A ⊓ L')) ⊔ (W ⊓ relCent E Z (B ⊓ L')) ≤ W :=
     sup_le inf_le_left inf_le_left
@@ -609,7 +609,7 @@ private theorem fpf_of_complement {L L' E Z W Q : Subgroup G} {n : ℕ} [Finite 
   have hlL : l ∈ L := hL'L hlL'
   have hqL : q ∈ L := hQL hq
   let NQ : Subgroup ↥L := Q.subgroupOf L
-  haveI hNQ : NQ.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQn
+  have hNQ : NQ.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQn
   let π : ↥L →* (↥L ⧸ NQ) := QuotientGroup.mk' NQ
   let lL : ↥L := ⟨l, hlL⟩
   let gL : ↥L := ⟨g, hgL⟩
@@ -680,7 +680,7 @@ private theorem fpf_of_complement {L L' E Z W Q : Subgroup G} {n : ℕ} [Finite 
   have hzQ : z ∈ Q := Subgroup.mem_subgroupOf.mp hzN
   have hl3_eq : l ^ (2 ^ s * β) = l * z := by
     have h := congrArg Subtype.val hlLz
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk] at h
+    simp only [Subgroup.coe_mul] at h
     exact h.symm
   have hl3_notE : l ^ (2 ^ s * β) ∉ E := by
     intro hl3E

@@ -118,7 +118,7 @@ theorem comap_normalizer_map_le_sup (hp : p.Prime) (O : Subgroup X) [O.Normal]
   have hSeq : (S : Subgroup K) = Q.subgroupOf K := by
     symm
     refine Subgroup.eq_of_le_of_card_ge hS ?_
-    have hSmap := hbound ((S : Subgroup K).map K.subtype) (S.isPGroup'.map _)
+    have hSmap := hbound ((S : Subgroup K).map K.subtype) (S.isPGroup.map _)
       (Subgroup.map_subtype_le _)
     rw [Subgroup.card_map_of_injective K.subtype_injective] at hSmap
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQK).toEquiv]
@@ -213,7 +213,7 @@ theorem weakCore_map_le_map_inf_of_coprime (hp : p.Prime) (P : Sylow p G) {M H R
     (hOM : O ≤ (H ⊓ M).subgroupOf H) :
     GLBWeakCore p ((R.subgroupOf H).map (QuotientGroup.mk' O)) ≤
       ((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' O) := by
-  have hR : IsPGroup p (R.subgroupOf H) := (P.isPGroup'.to_le hRP).comap_subtype
+  have hR : IsPGroup p (R.subgroupOf H) := (P.isPGroup.to_le hRP).comap_subtype
   have hRG : (R.subgroupOf H).map H.subtype ≤ P :=
     (Subgroup.map_subgroupOf_eq_of_le hRH).le.trans hRP
   refine (weakCore_le_iff p _ _).mpr fun Qbar hQR hQ2 hQ3 => ?_

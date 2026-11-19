@@ -56,10 +56,10 @@ theorem popK_eq {N : Nat} : ∀ (f x : Nat), (∀ b, N ≤ b → x.testBit b = f
   | f + 1, x, hN, hc => by
     rw [popK]
     by_cases hx : x = 0
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       subst hx
       simp [bitsFin]
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       obtain ⟨k, hk, hb⟩ := testBit_and_sub_one x hx
       have hkN : k < N := by
         by_contra h
@@ -86,12 +86,12 @@ theorem testBit_rowAux (i : Nat) :
     rcases Nat.lt_trichotomy b n with hlt | rfl | hgt
     · have h1 : b < n + 1 := by omega
       have h2 : n ≠ b := by omega
-      split <;> simp [hlt, h1, h2, Nat.testBit_two_pow]
-    · split <;> simp_all [Nat.testBit_two_pow]
+      split <;> simp [hlt, h1, h2]
+    · split <;> simp_all
     · have h1 : ¬ b < n + 1 := by omega
       have h0 : ¬ b < n := by omega
       have h2 : n ≠ b := by omega
-      split <;> simp [h0, h1, h2, Nat.testBit_two_pow]
+      split <;> simp [h0, h1, h2]
 
 theorem testBit_rowOf (i b : Nat) : (rowOf i).testBit b = (decide (b < 100) && modelAdjN i b) :=
   testBit_rowAux i 100 b
@@ -183,7 +183,7 @@ theorem srg_of (hinj : Function.Injective modelVertAtF) (h : srgK rowOf = true) 
   refine ⟨fun v => ?_, fun v w hvw => ?_, fun v w hne hvw => ?_⟩
   · obtain ⟨i, rfl⟩ := modelVertAtF_surjective v
     have hp := hpair i i
-    rw [srgPair, if_pos rfl, beq_iff_eq] at hp
+    rw [srgPair, ite_eq_left rfl, beq_iff_eq] at hp
     rw [← SimpleGraph.card_neighborSet_eq_degree,
       card_set_vert hinj _ (fun j => (rowOf i).testBit j = true)
         (fun j => by rw [SimpleGraph.mem_neighborSet, adj_iff_row])]
@@ -196,13 +196,13 @@ theorem srg_of (hinj : Function.Injective modelVertAtF) (h : srgK rowOf = true) 
       rw [Fin.ext h] at hvw
       exact (hsGraph hexads).loopless.irrefl _ hvw
     have hp := hpair i j
-    rw [srgPair, if_neg hij, if_pos ((adj_iff_row i j).1 hvw), beq_iff_eq] at hp
+    rw [srgPair, ite_eq_right hij, ite_eq_left ((adj_iff_row i j).1 hvw), beq_iff_eq] at hp
     rw [hcommon, hp]
   · obtain ⟨i, rfl⟩ := modelVertAtF_surjective v
     obtain ⟨j, rfl⟩ := modelVertAtF_surjective w
     have hij : i.val ≠ j.val := fun h => hne (congrArg modelVertAtF (Fin.ext h))
     have hp := hpair i j
-    rw [srgPair, if_neg hij, if_neg (fun h => hvw ((adj_iff_row i j).2 h)), beq_iff_eq] at hp
+    rw [srgPair, ite_eq_right hij, ite_eq_right (fun h => hvw ((adj_iff_row i j).2 h)), beq_iff_eq] at hp
     rw [hcommon, hp]
 
 theorem psi_check_of (h : psiK psiList = true) (i j : Fin 100) :
@@ -220,7 +220,7 @@ theorem psi_check_of (h : psiK psiList = true) (i j : Fin 100) :
   rw [hp]
 
 theorem sigN_pt {k : Nat} (hk : k < 22) : sigN (k + 1) = (sigmaFun ⟨k, hk⟩).val + 1 := by
-  rw [sigN, if_neg (by omega), if_pos (by omega)]
+  rw [sigN, ite_eq_right (by omega), ite_eq_left (by omega)]
   exact congrArg (fun a : Fin 22 => (sigmaFun a).val + 1)
     (Fin.ext (by change (k + 1 - 1) % 22 = k; omega))
 

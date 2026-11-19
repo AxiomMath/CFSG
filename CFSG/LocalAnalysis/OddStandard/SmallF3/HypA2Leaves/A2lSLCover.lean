@@ -14,20 +14,20 @@ theorem a2l_isSLTwoOver_commutator_of_cover (hGA : TBLit.GriessMultipliersOdd)
     (hH : HarrisLit.IsSLTwoOver q₀ H) (f : G →* H) (hf : Function.Surjective f)
     (hker : f.ker ≤ center G) (h2 : IsPGroup 2 f.ker) :
     HarrisLit.IsSLTwoOver q₀ ↥(commutator G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite H := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite H := Finite.of_surjective f hf
   obtain ⟨p, k, hp, hk, hpk⟩ := (isPrimePow_nat_iff q₀).1 (HypA2.isPrimePow_of_isSLTwoOver hH)
   subst hpk
   have hp2 : p ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.2 hodd) (Even.pow_of_ne_zero even_two hk.ne')
   obtain ⟨hHq, hZH, hmH, -⟩ := HarrisLit.Lemma47.sl2_facts hp hp2 hk h5 hH
-  haveI : Group.IsPerfect H := hHq.1
+  have : Group.IsPerfect H := hHq.1
   have hDq : CFSG.IsQuasisimple (commutator G) :=
     (AssemblyBPredicates.isQuasisimple_iff_native _).1
       (CentralExtensions.derived_quasisimple
         ((AssemblyBPredicates.isQuasisimple_iff_native H).2 hHq) f hf hker)
-  haveI : Group.IsPerfect (commutator G) := hDq.1
+  have : Group.IsPerfect (commutator G) := hDq.1
   let ψ : ↥(commutator G) →* H := f.domRestrict (commutator G)
   have hψ : Function.Surjective ψ := by
     intro h

@@ -20,7 +20,7 @@ open scoped commutatorElement
 
 private lemma nbrPSL_mem_sup_central {U : Type} [Group U] {K Z : Subgroup U}
     (hZ : Z ≤ Subgroup.center U) {x : U} : x ∈ K ⊔ Z ↔ ∃ k ∈ K, ∃ z ∈ Z, k * z = x := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   exact Subgroup.mem_sup_of_normal_right
 
 private lemma nbrPSL_commutatorElement_mul_central_left {U : Type} [Group U]
@@ -52,7 +52,7 @@ private lemma nbrPSL_commutator_sup_central_le {U : Type} [Group U] {K Z : Subgr
 
 private lemma nbrPSL_perfect_le_of_le_sup_center {U : Type} [Group U] {J K Z : Subgroup U}
     (hZ : Z ≤ Subgroup.center U) (hle : J ≤ K ⊔ Z) (hperf : commutator ↥J = ⊤) : J ≤ K := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   have hmap2 : Subgroup.map (Subgroup.subtype J) (commutator ↥J) = ⁅J, J⁆ := by
     have hc : commutator ↥J = ⁅(⊤ : Subgroup ↥J), ⊤⁆ := rfl
     rw [hc, Subgroup.map_commutator]
@@ -505,14 +505,14 @@ private lemma nbrPSL_blockDegree_K
   have heJε : e_J * ε = e_J := nbrPSL_eJ_mul_eps hSe hS heJ hε hJ' hK' hJK
   obtain ⟨Ke, hKeField, hKeAlg, hKefin, πe, hπe_surj, hπe_ker, hπe_fin⟩ :=
     exists_blockField (F := GaloisField 2 f) hS_e hodd_e hε
-  letI : Field Ke := hKeField
-  letI : Algebra (GaloisField 2 f) Ke := hKeAlg
-  letI : Finite Ke := hKefin
+  let : Field Ke := hKeField
+  let : Algebra (GaloisField 2 f) Ke := hKeAlg
+  let : Finite Ke := hKefin
   obtain ⟨KJ, hKJField, hKJAlg, hKJfin, πJ, hπJ_surj, hπJ_ker, hπJ_fin⟩ :=
     exists_blockField (F := GaloisField 2 f) hS hodd heJ
-  letI : Field KJ := hKJField
-  letI : Algebra (GaloisField 2 f) KJ := hKJAlg
-  letI : Finite KJ := hKJfin
+  let : Field KJ := hKJField
+  let : Algebra (GaloisField 2 f) KJ := hKJAlg
+  let : Finite KJ := hKJfin
   let φ : Algebra.adjoin (GaloisField 2 f) (Units.val '' S_e) →ₐ[GaloisField 2 f] KJ :=
     πJ.comp (Subalgebra.inclusion hAe_le)
   have hker_le : RingHom.ker πe ≤ RingHom.ker φ := by
@@ -584,12 +584,12 @@ private lemma nbrPSL_blockDegree_K
     have heM : e_J ∈ M := by
       rw [Submodule.mem_map]
       refine ⟨1, ?_, ?_⟩
-      · simpa using (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)).one_mem
+      · simp
       · rw [LinearMap.mulRight_apply, one_mul]
     have hne : (⟨e_J, heM⟩ : M) ≠ 0 := by
       intro h
       exact heJ.2.2.1 (by simpa using congrArg Subtype.val h)
-    haveI : Nontrivial M := ⟨⟨⟨e_J, heM⟩, 0, hne⟩⟩
+    have : Nontrivial M := ⟨⟨⟨e_J, heM⟩, 0, hne⟩⟩
     have hpos : 0 < Module.finrank (GaloisField 2 f) M :=
       Module.finrank_pos_iff.mpr inferInstance
     change Module.finrank (GaloisField 2 f) M = 1
@@ -644,7 +644,7 @@ private lemma nbrPSL_rootImage
       rw [hc0, zero_pow (Nat.succ_ne_zero m)] at hc'
       exact one_ne_zero hc'.symm
     have hcf : c ^ (2 ^ f - 1) = 1 := by
-      haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+      have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
       have h := FiniteField.pow_card_sub_one_eq_one c hc0
       have hcard : Fintype.card (GaloisField 2 f) = 2 ^ f := by
         rw [← Nat.card_eq_fintype_card, GaloisField.card 2 f (by omega)]
@@ -713,11 +713,11 @@ private lemma nbrPSL_mul_e_eq_smul {ι F : Type} [Fintype ι] [DecidableEq ι] [
     {A : Subalgebra F (Matrix ι ι F)} {e : Matrix ι ι F} (he : IsPrimIdemIn A e)
     (hdeg : blockDegree A e < 2) : ∀ a ∈ A, ∃ c : F, a * e = c • e := by
   let M : Submodule F (Matrix ι ι F) := (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e)
-  have heM : e ∈ M := ⟨1, by simpa using A.one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
+  have heM : e ∈ M := ⟨1, by simp, by rw [LinearMap.mulRight_apply, one_mul]⟩
   have hne : (⟨e, heM⟩ : M) ≠ 0 := by
     intro h
     exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-  haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+  have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
   have hpos : 0 < Module.finrank F M := Module.finrank_pos_iff.mpr inferInstance
   have hlt : Module.finrank F M < 2 := hdeg
   have hfin : Module.finrank F M = 1 := by omega

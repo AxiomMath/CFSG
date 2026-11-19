@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem etaSet_one : etaSet 1 = ∅ := by
   ext p
-  simp only [etaSet, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+  simp only [etaSet, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
   intro hp hdvd
   rw [show 2 ^ 1 - 1 = 1 by norm_num] at hdvd
   exact hp.ne_one (Nat.dvd_one.mp hdvd)
@@ -56,7 +56,7 @@ private theorem eq_zero_of_etaSet_zero_eq {m : ℕ} (h : etaSet 0 = etaSet m) : 
 
 private theorem etaSet_six : etaSet 6 = {3, 7} := by
   ext p
-  simp only [etaSet, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [etaSet, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hp, hdvd⟩
     have h63 : 2 ^ 6 - 1 = 3 ^ 2 * 7 := by norm_num

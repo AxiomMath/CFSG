@@ -33,7 +33,7 @@ private lemma relSignOr_cast_eq_one
   · rw [relSignOr_of_isRoot h]
     exact intCast_eq_one_of_sign (RootOperatorFamily'.relSign_eq F hD ⟨α, h⟩)
   · classical
-    rw [relSignOr, dif_neg h, Int.cast_one]
+    rw [relSignOr, dite_eq_right h, Int.cast_one]
 
 theorem ggE6_isogeny_xm_pinned
     (k : Type) [Field k] [Finite k] [CharP k 2]

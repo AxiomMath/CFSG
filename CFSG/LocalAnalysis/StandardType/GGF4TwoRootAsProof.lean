@@ -22,6 +22,7 @@ section Adjoint
 variable
   {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem rootInv_mem_highestRootRankOne :
     TableBF4Two.rootInv K ∈ (highestRootRankOne K).subgroupOf (adjointGroup .F4 K) := by
   rw [Subgroup.mem_subgroupOf, highestRootRankOne_eq_rootSL2R, ← range_rootSL2_rootR]

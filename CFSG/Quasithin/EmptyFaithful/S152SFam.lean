@@ -179,7 +179,7 @@ theorem BorelTitsLite.prod {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y
   obtain ⟨S₂, P₂, hP₂, hN₂, hS₂⟩ := h2
   let S : Sylow 2 (X × Y) := IsPGroup.toSylow
     (P := (S₁ : Subgroup X).prod (S₂ : Subgroup Y))
-    (isPGroup_two_prod S₁.isPGroup' S₂.isPGroup')
+    (isPGroup_two_prod S₁.isPGroup S₂.isPGroup)
     (by
       rw [Subgroup.index_prod]
       intro h

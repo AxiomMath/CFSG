@@ -139,7 +139,7 @@ theorem sec53_orbit_three {G : Type} [Group G] [Finite G] {A Ab L Lb M : Subgrou
 
 theorem sec53_cube_of_inner {G : Type} [Group G] [Finite G] {A Ab L Lb M : Subgroup G}
     (S : Prop24Setup A Ab L Lb M) {y : G}
-    (hyX : y ∈ Subgroup.normalizer ((A ⊔ Ab : Subgroup G) : Set G))
+    (_hyX : y ∈ Subgroup.normalizer ((A ⊔ Ab : Subgroup G) : Set G))
     (hyM : ∀ x ∈ A ⊔ Ab, y * x * y⁻¹ * x⁻¹ ∈ M)
     (hyL : ∃ l ∈ L, y * l * y⁻¹ ≠ l)
     (hL2 : ∀ l ∈ L, ∀ l' ∈ L, y * l * y⁻¹ * l⁻¹ = 1 ∨ y * l' * y⁻¹ * l'⁻¹ = 1 ∨

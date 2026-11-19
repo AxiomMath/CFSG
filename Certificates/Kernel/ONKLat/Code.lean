@@ -61,7 +61,7 @@ theorem pisInv_inv_of {n w P : ℕ}
 theorem prep_onKPerm_inv {n w P : ℕ}
     (hf : ∀ x < n, pg w (mask w) P x < n ∧ pg w (mask w) P (pg w (mask w) P x) = x) :
     PRep n (unpack n w P) (onKPerm n (unpack n w P)) := fun x => by
-  rw [onKPerm, dif_pos (pisInv_inv_of hf)]
+  rw [onKPerm, dite_eq_left (pisInv_inv_of hf)]
   rfl
 
 theorem henc120 : CFSG.KC.Misc.Clos.ClosEnc (wcode (n := 120) 7) (pcomp 120 7 (mask 7))

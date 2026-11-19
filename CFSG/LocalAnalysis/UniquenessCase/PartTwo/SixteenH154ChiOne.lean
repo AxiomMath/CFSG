@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16h_chione_noncyclic_of_pRank {H : Subgroup G} {q : ℕ} (hq : q.Prime)
     (h2 : 2 ≤ CFSG.Open.pRank q H) :
     ∃ E : Subgroup G, E ≤ H ∧ IsPGroup q E ∧ ¬ IsCyclic ↥E := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E, hEH, hE, hEc⟩ := CFSG.SectionRank.exists_pRank hq.one_lt H
   have hEp : IsPGroup q E := CFSG.Open.IsElemAbelian.isPGroup hE
   refine ⟨E, hEH, hEp, fun hcyc => ?_⟩
@@ -61,7 +61,7 @@ theorem s16h_halfRank_le_pRank_of_bar (D : Data G) (hSig : UC6S846.SigmaStd D)
   have hXM : X ≤ Mbar D.M V₀ V hV := hXd.trans (Subgroup.commutator_le_self _)
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp125.pairFacts.le_normalizer h.hyp125.pairFacts.le_normalizer₀
-  haveI hCTilde : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hCTilde : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal hV hMs
   obtain ⟨e, -⟩ := s15_Three_barImage_equiv hV hMs
   set Xbar : Subgroup (F11.MBar11 D.M V₀ V) :=
@@ -91,7 +91,7 @@ theorem s16h_halfRank_le_pRank_of_bar (D : Data G) (hSig : UC6S846.SigmaStd D)
   have hXc : Xbar ≤ ⁅(⊤ : Subgroup (F11.MBar11 D.M V₀ V)), ⊤⁆ := by
     rw [hXbar]
     exact le_trans (Subgroup.map_mono hcomm_le) (le_of_eq hcommmap)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥(F11.O2p p D.M)) := inferInstance
   have hP : CFSG.ABGLocalTools.IsSylowOf p
       ((Q : Subgroup ↥(F11.O2p p D.M)).map (F11.O2p p D.M).subtype) (F11.O2p p D.M) :=

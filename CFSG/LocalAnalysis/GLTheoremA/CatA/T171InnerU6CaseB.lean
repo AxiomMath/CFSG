@@ -39,8 +39,8 @@ theorem stepCaseB_holds :
   have hDeq : D = B ⊓ Subgroup.centralizer (K : Set Ω) := hpre.2.2.2.2.2.2
   have hDcentK : D ≤ Subgroup.centralizer (K : Set Ω) := hDeq ▸ inf_le_right
   have hB_el : IsElemAbelian 3 B := hcfg.elem
-  haveI hLperf : Group.IsPerfect ↥L := isPerfect_of_cfg hcfg
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLperf : Group.IsPerfect ↥L := isPerfect_of_cfg hcfg
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxcent : x ∈ Subgroup.centralizer (L : Set Ω) :=
     (hcfg.cent x hcfg.mem).2 (Subgroup.mem_zpowers x)
   have hxle : Subgroup.zpowers x ≤ Subgroup.centralizer (L : Set Ω) :=
@@ -77,7 +77,7 @@ theorem stepCaseB_holds :
   have hd_fix : theta L e d t = t := by rw [← hg]; exact htfix
   have hKnab : ¬ IsMulCommutative ↥K := by
     intro hc
-    haveI : IsMulCommutative ↥K := hc
+    have : IsMulCommutative ↥K := hc
     have hp : Nat.Prime (Nat.card ↥K) := (Group.is_simple_iff_prime_card).1 hKsimple
     rw [hKcard] at hp
     exact (by norm_num : ¬ Nat.Prime 25920) hp
@@ -222,7 +222,7 @@ theorem stepCaseB_holds :
     rw [Subgroup.coe_mul, Subgroup.coe_mul]
     exact Subgroup.mem_center_iff.mp hyZ (z : ↥L)
   have hPcomm : ∀ a b : ↥P, a * b = b * a := by
-    haveI hcommP : IsMulCommutative ↥P :=
+    have hcommP : IsMulCommutative ↥P :=
       MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center φ hφker
     exact fun a b => mul_comm' a b
   have hPcomm' : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := fun a ha b hb =>

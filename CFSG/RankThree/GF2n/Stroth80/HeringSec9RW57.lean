@@ -20,7 +20,7 @@ theorem exists_mem_Vt_not_mem_sup_of_SLNat (hc : Ctx M Q Z B) {t : G} (hSL : SLN
   by_contra hno
   push Not at hno
   have hle : Vt M (LB M Q B) B Z t ≤ B ⊔ Z := fun v hv => hno v hv
-  haveI := hZn
+  have := hZn
   have hcardQ : Nat.card (↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t)) =
       Nat.card Z ^ m := by
     rw [Nat.card_congr ψ.toEquiv,

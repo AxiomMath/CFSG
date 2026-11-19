@@ -9,6 +9,7 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem gamma_card_dvd_seven_of_le_centralizer
     (h7 : ∀ g : K, orderOf g = 7 → Nat.card ↥(Subgroup.centralizer ({g} : Set K)) ∣ 7)
     {H R : Subgroup K} (hHR : H ≤ Subgroup.centralizer (R : Set K))
@@ -24,7 +25,7 @@ private lemma gamma_centralizer_sylow_eq_top_105
     {p : ℕ} [Fact p.Prime] (hK : Nat.card K = 105) (hp : p = 3 ∨ p = 5)
     {P : Sylow p K} (hPnormal : P.Normal) (hPcard : Nat.card (P : Subgroup K) = p) :
     Subgroup.centralizer (P : Set K) = ⊤ := by
-  haveI : P.Normal := hPnormal
+  have : P.Normal := hPnormal
   let C : Subgroup K := Subgroup.centralizer (P : Set K)
   have hC105 : Nat.card C ∣ 105 := by
     have := Subgroup.card_dvd_of_le (le_top : C ≤ ⊤)
@@ -52,7 +53,7 @@ private lemma gamma_false_of_sylow_prime_105 (hK : Nat.card K = 105)
     {p : ℕ} [Fact p.Prime] {P : Sylow p K} (hp : p = 3 ∨ p = 5)
     (hPnormal : P.Normal) (hPcard : Nat.card (P : Subgroup K) = p) : False := by
   have hCtop := gamma_centralizer_sylow_eq_top_105 hK hp hPnormal hPcard
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨g, hgord⟩ := exists_prime_orderOf_dvd_card' (G := K) 7 (by rw [hK]; norm_num)
   have hgC : g ∈ Subgroup.centralizer (P : Set K) := by rw [hCtop]; trivial
   have hPleCg : (P : Subgroup K) ≤ Subgroup.centralizer ({g} : Set K) := by
@@ -74,7 +75,7 @@ theorem gamma_odd_false_63 (hK : Nat.card K = 63)
     (h7 : ∀ g : K, orderOf g = 7 → Nat.card ↥(Subgroup.centralizer ({g} : Set K)) ∣ 7) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hf7 : (Nat.card K).factorization 7 = 1 := by
     rw [hK]
     exact CFSG.GroupTheory.factorization_eq_of_pow_dvd (by norm_num) (by norm_num)
@@ -86,9 +87,9 @@ theorem gamma_odd_false_63 (hK : Nat.card K = 63)
     have hle := Nat.le_of_dvd (by norm_num) hdvd
     generalize Nat.card (Sylow 7 K) = n at hdvd hmod hpos hle ⊢
     interval_cases n <;> first | rfl | (exfalso; revert hdvd hmod; decide)
-  haveI : Subsingleton (Sylow 7 K) := (Nat.card_eq_one_iff_unique.1 hn7).1
+  have : Subsingleton (Sylow 7 K) := (Nat.card_eq_one_iff_unique.1 hn7).1
   obtain ⟨P⟩ : Nonempty (Sylow 7 K) := inferInstance
-  haveI : P.Normal := P.normal_of_subsingleton
+  have : P.Normal := P.normal_of_subsingleton
   have hPcard : Nat.card (P : Subgroup K) = 7 := by
     rw [P.card_eq_multiplicity, hf7, pow_one]
   have htop : Subgroup.normalizer ((P : Subgroup K) : Set K) = ⊤ :=
@@ -117,9 +118,9 @@ theorem gamma_odd_false_105 (hK : Nat.card K = 105)
     (h7 : ∀ g : K, orderOf g = 7 → Nat.card ↥(Subgroup.centralizer ({g} : Set K)) ∣ 7) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hf3 : (Nat.card K).factorization 3 = 1 := by
     rw [hK]
     exact CFSG.GroupTheory.factorization_eq_of_pow_dvd (by norm_num) (by norm_num)
@@ -151,10 +152,10 @@ theorem gamma_odd_false_105 (hK : Nat.card K = 105)
   have hP5card : Nat.card (P5 : Subgroup K) = 5 := by
     rw [P5.card_eq_multiplicity, hf5, pow_one]
   rcases h5cases with h5n | h5n
-  · haveI : Subsingleton (Sylow 5 K) := (Nat.card_eq_one_iff_unique.1 h5n).1
+  · have : Subsingleton (Sylow 5 K) := (Nat.card_eq_one_iff_unique.1 h5n).1
     exact gamma_false_of_sylow_prime_105 hK h7 (Or.inr rfl) P5.normal_of_subsingleton hP5card
   · rcases h3cases with h3n | h3n
-    · haveI : Subsingleton (Sylow 3 K) := (Nat.card_eq_one_iff_unique.1 h3n).1
+    · have : Subsingleton (Sylow 3 K) := (Nat.card_eq_one_iff_unique.1 h3n).1
       exact gamma_false_of_sylow_prime_105 hK h7 (Or.inl rfl) P3.normal_of_subsingleton
         hP3card
     ·

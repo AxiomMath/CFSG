@@ -17,7 +17,7 @@ private theorem dickson_open_isQuasisimple {Q : Type*} [Group Q]
 theorem perfectInLayer_of_isSolvable {S : Type*} [Group S] (β : MulAut S)
     (h : Group.IsSolvable ↥(fixSubgroup β)) : PerfectInLayer β := by
   intro P hPC hP
-  haveI := h
+  have := h
   have hbot : P ≤ ⊥ := by
     intro x hx
     have h1 := LieSemisimple.map_eq_one_of_perfect hPC hP (MonoidHom.id ↥(fixSubgroup β)) x hx

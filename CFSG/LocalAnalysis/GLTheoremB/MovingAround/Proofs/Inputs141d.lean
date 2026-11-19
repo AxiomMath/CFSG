@@ -35,7 +35,7 @@ theorem exists_pow_eq_one_of_isPGroup {g : G} (h : IsPGroup 2 ↥(Subgroup.zpowe
 
 variable [Finite G]
 
-theorem exists_two_parts {a c : G} (hac : Commute a c) (hg : IsPGroup 2 ↥(Subgroup.zpowers (a * c))) :
+theorem exists_two_parts {a c : G} (_hac : Commute a c) (hg : IsPGroup 2 ↥(Subgroup.zpowers (a * c))) :
     ∃ k : ℕ, (a * c) ^ k = a * c ∧ IsPGroup 2 ↥(Subgroup.zpowers (a ^ k)) ∧
       IsPGroup 2 ↥(Subgroup.zpowers (c ^ k)) := by
   have hN0 : Nat.card G ≠ 0 := Nat.card_pos.ne'
@@ -140,11 +140,11 @@ variable {ℓ f n : ℕ} {K : Type} [Field K]
 
 theorem coprime_two_card_normOneScalars (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 2) (hn : 1 ≤ n)
     (C : Matrix (Fin n) (Fin n) K) : Nat.Coprime 2 (Nat.card (normOneScalars h (gramSU h C) n)) := by
-  haveI : CharP K 2 := hℓ ▸ h.charP
-  haveI := h.finite
+  have : CharP K 2 := hℓ ▸ h.charP
+  have := h.finite
   rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_two]
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hz2 : z ^ 2 = 1 := hz ▸ pow_orderOf_eq_one z
   obtain ⟨c, -, -, hzc⟩ := z.2
@@ -173,7 +173,7 @@ theorem structAt_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 
     {J : Subgroup (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))}
     (hJ : GLAPComponent 3 (fixSubgroup (primeFormFieldHom h hC σ)) J) :
     StructAt (primeFormFieldHom h hC σ) J := by
-  haveI := h.finite
+  have := h.finite
   set X := gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hX
   let π : ↥X →* primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) :=
     QuotientGroup.mk' (normOneScalars h X n)
@@ -194,15 +194,15 @@ theorem structAt_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 
   · exfalso
     obtain ⟨hn3, hq2⟩ := hq₀
     subst hn3
-    haveI := isSolvable_gramSU_three_two h₀ hq2
-    haveI : Group.IsSolvable ↥(CFSG.Open.StatedSU 3 (ℓ ^ (f / 3)) (CFSG.LieType.Chevalley.fixSubfield σ)) :=
+    have := isSolvable_gramSU_three_two h₀ hq2
+    have : Group.IsSolvable ↥(CFSG.Open.StatedSU 3 (ℓ ^ (f / 3)) (CFSG.LieType.Chevalley.fixSubfield σ)) :=
       Group.isSolvable_of_surjective
         (f := (MulEquiv.subgroupCongr (unitarySU_eq_gramSU h₀ 3)).symm.toMonoidHom)
         (MulEquiv.surjective _)
     have hsolv : Group.IsSolvable ↥(fixSubgroup (primeFormFieldSU h hC σ)) :=
       Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
     exact false_of_glaPComponent_of_isSolvable hsolv hJ₀
-  · haveI : Fact ℓ.Prime := ⟨h.prime⟩
+  · have : Fact ℓ.Prime := ⟨h.prime⟩
     have hcard : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = (ℓ ^ (f / 3)) ^ 2 := by
       rw [h₀.card, ← pow_mul, mul_comm]
     have hq : CFSG.IsQuasisimple ↥(fixSubgroup (primeFormFieldSU h hC σ)) :=
@@ -224,8 +224,8 @@ theorem structAt_primeFormConjHom (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 2
     (hJ : GLAPComponent 3 (fixSubgroup (primeFormConjHom h (idGram K n) A)) J) :
     StructAt (primeFormConjHom h (idGram K n) A) J := by
   classical
-  haveI := h.finite
-  haveI : CharP K 2 := hℓ ▸ h.charP
+  have := h.finite
+  have : CharP K 2 := hℓ ▸ h.charP
   have h3ℓ : 3 ≠ ℓ := by omega
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
@@ -248,7 +248,7 @@ theorem structAt_primeFormConjHom (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 2
   obtain ⟨a, ha⟩ := exists_good_primaryFactor_of_component hq A rfl H J hJc
   obtain ⟨hcomm, -, hgen⟩ := (CFSG.RankThree.PartOne.r3e_unitary_semisimple_primary_algebra_and_full_centralizer h
     (idForm h n) H.symm H.sep x H.isom H.squarefree).directProduct
-  haveI : Finite (CFSG.RankThree.PartOne.adjointOrbits h x) :=
+  have : Finite (CFSG.RankThree.PartOne.adjointOrbits h x) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   let B' : CFSG.RankThree.PartOne.adjointOrbits h x → Subgroup (LinearMap.GeneralLinearGroup K (Fin n → K)) :=
     fun O => supportedUnitary (idForm h n) x (O : Set K[X]) ⊓ sesqSpecialUnitaryGroup (idForm h n) ⊓
@@ -290,8 +290,8 @@ theorem structAt_primeFormConjHom (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 2
         · change y ∈ supportedUnitary (idForm h n) x {(a.1 : K[X]), dualPoly h.bar (a.1 : K[X])}
           rw [← horbit O haO]
           exact hy
-        · haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
-          haveI : CharP (AdjoinRoot (a.1 : K[X])) 2 :=
+        · have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+          have : CharP (AdjoinRoot (a.1 : K[X])) 2 :=
             charP_of_injective_algebraMap (algebraMap K (AdjoinRoot (a.1 : K[X]))).injective 2
           apply Units.ext
           refine eq_one_of_pow_two_pow_eq_one (m := m) ?_
@@ -307,7 +307,7 @@ theorem structAt_primeFormConjHom (h : UnitaryFieldData ℓ f K) (hℓ : ℓ = 2
   ·
     have hin : (a.1 : K[X]) ∈ (O₀ : Set K[X]) := Or.inl rfl
     have hB0 : B' O₀ = specialBlock (idForm h n) x (a.1 : K[X]) := by
-      simp only [B', if_pos hin]
+      simp only [B', ite_eq_left hin]
       exact le_antisymm inf_le_right (le_inf (le_inf specialBlock_le_orbitFactor
         (specialBlock_le_sesqSpecialUnitaryGroup_of_good H hq a.1 a.2)) le_rfl)
     rw [ha]
@@ -331,7 +331,7 @@ theorem input14_1StructFor_unitary :
       TauCeti.LieTypeIndex.characteristic_twistedA r q
     rw [← h1]
     exact hchar
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨e⟩ := he
   obtain ⟨⟨hℓ, hf, hn3, hq⟩, K, _, _, hK, ⟨eT⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
@@ -360,7 +360,7 @@ theorem input14_1StructFor_unitary :
     exact structAt_primeFormConjHom h hq2 (by omega) A hA3 hJ'
   ·
     have hne : MulAut.congr e' β ≠ 1 := fun h1 => hσ (by rw [h1, map_one])
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf (MulAut.congr e' β) = 3 := orderOf_eq_prime hβ' hne
     have hσp : orderOf (primeFormFieldFactor h hC hn3 hq' (MulAut.congr e' β)) = 3 :=
       orderOf_eq_prime (by rw [← map_pow, hβ', map_one]) hσ

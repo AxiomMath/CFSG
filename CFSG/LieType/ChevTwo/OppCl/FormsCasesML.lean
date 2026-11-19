@@ -20,6 +20,7 @@ variable {Φ : ReflForm F V} {Sing : V → Prop} {TS : Submodule F V → Prop}
   {ρ : H →* Module.End F V} {p : ℕ} [Fact p.Prime]
   {Rh : Subgroup (Equiv.Perm V)} {X : ℕ → Submodule F V} {m : ℕ} {M W' : Submodule F V}
 
+omit [Finite F] in
 theorem lift_mid_core (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (a : V →ₗ[F] V)
     (hac : ∀ r ∈ Rh, ∀ v, r (a v) = a (r v)) (u₀ : H) (hu₀ : u₀ ∈ Urad Φ ρ W')
     (hlead : ∀ w ∈ X m, ρ u₀ w - w - a w ∈ W') :

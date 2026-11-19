@@ -44,10 +44,10 @@ theorem burnsideF46_g2d_exists_theta
     {E : Type} [Group E] {M₁ M₂ : Subgroup E} (hyp : HypF_4_4g .G2d 2 1 (⊤ : Subgroup E) M₁ M₂) :
     ∃ θ : U33G ≃* E, M₁ = u33Data.B.map θ.toMonoidHom := by
   obtain ⟨K, fK, finK, hcard, marking, h1, -⟩ := burnsideF4gG2Two_chart_G2d hyp
-  letI := fK
-  haveI := finK
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2)
+  let := fK
+  have := finK
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2)
     (by rw [← Nat.card_eq_fintype_card, hcard])
   have h2eq : (2 : K) = 0 := two_eq_zero_of_card_two hcard
   have hk2 := eq_zero_or_eq_one_of_card_two hcard
@@ -71,7 +71,7 @@ open CFSG.ASVolI.ChF in
 theorem burnsideF46_g2d_invol_mem
     {E : Type} [Group E] {M₁ M₂ : Subgroup E} (hyp : HypF_4_4g .G2d 2 1 (⊤ : Subgroup E) M₁ M₂)
     {h : E} (hh : h ∈ M₁) (hh2 : h * h = 1) : h ∈ M₂ := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨θ, hθ⟩ := burnsideF46_g2d_exists_theta hyp
   set S : Set E := {g | g ∈ M₁ ∧ g * g = 1} with hS
   have hSle : Subgroup.closure S ≤ M₁ := (Subgroup.closure_le _).2 fun g hg => hg.1
@@ -98,7 +98,7 @@ theorem burnsideF46_g2d_invol_mem
   have hcore : Subgroup.closure S ≤ pCoreOf 2 M₁ :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hSle hnorm hp
   obtain ⟨K, fK, finK, hK, π, h1, h2⟩ := burnsideF45_g2d_chart hyp
-  letI := fK
+  let := fK
   have hP := burnsideF45_g2d_isLie hK π h1 h2
   have hQ := (burnsideF4b_pCoreOf_le Nat.prime_two hP).1
   rw [top_inf_eq] at hQ

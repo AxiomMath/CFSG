@@ -122,7 +122,7 @@ theorem isPGroup_cent_of_rkIdx_lt (U : Subgroup WMod) (hU : rkIdx U < 6) :
   have hfin : Finite (MulAut WMod) := MulEquiv.finite_left
   have hWcard : Nat.card WMod = 2 ^ 9 := by
     show Nat.card (Matrix (Fin 3) (Fin 3) (ZMod 2)) = 2 ^ 9
-    rw [Matrix.card_matrix, Nat.card_zmod, Nat.card_fin] <;> norm_num
+    rw [Matrix.card_matrix, Nat.card_zmod, Nat.card_fin]
   have hrkW : rk WMod = 9 := by
     show padicValNat 2 (Nat.card WMod) = 9
     rw [hWcard, padicValNat.prime_pow]
@@ -137,7 +137,7 @@ theorem isPGroup_cent_of_rkIdx_lt (U : Subgroup WMod) (hU : rkIdx U < 6) :
     intro d hd hdC
     by_contra hne
     have hodd : Odd d := hd.odd_of_ne_two hne
-    haveI hfact : Fact d.Prime := ⟨hd⟩
+    have hfact : Fact d.Prime := ⟨hd⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' d hdC
     have hxC : (x : MulAut WMod) ∈ GW ⊓ centSub U := x.2
     have hord : orderOf (x : MulAut WMod) = d := by

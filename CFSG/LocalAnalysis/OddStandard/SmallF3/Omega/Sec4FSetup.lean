@@ -39,6 +39,7 @@ structure Sec4FSetup {G : Type} [Group G] [Finite G] (t : G) (L S : Subgroup G) 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B : Subgroup G}
   {φ : (Fin 7 → ZMod 2) → G}
 
+omit [Finite G] in
 theorem sec4F_mem_sup_comm {X Y : Subgroup G} (hc : ∀ a ∈ X, ∀ b ∈ Y, a * b = b * a) {x : G}
     (hx : x ∈ X ⊔ Y) : ∃ a ∈ X, ∃ b ∈ Y, x = a * b := by
   let T : Subgroup G :=
@@ -88,7 +89,7 @@ theorem Sec4FSetup.t_mem_cent (h : Sec4FSetup t L S z A B φ) : t ∈ centralize
 
 theorem Sec4FSetup.A_comm (h : Sec4FSetup t L S z A B φ) {a b : G} (ha : a ∈ A) (hb : b ∈ A) :
     a * b = b * a := by
-  haveI : IsMulCommutative ↥A := h.data.isMax.2.1.1
+  have : IsMulCommutative ↥A := h.data.isMax.2.1.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : A) ⟨b, hb⟩)
 
 theorem Sec4FSetup.A_sq (h : Sec4FSetup t L S z A B φ) {a : G} (ha : a ∈ A) : a * a = 1 := by

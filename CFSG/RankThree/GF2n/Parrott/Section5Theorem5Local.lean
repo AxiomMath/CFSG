@@ -170,7 +170,7 @@ theorem parrott_theorem5_of_quotientData [DecidableEq G] (h : Tim79a.ParrottHyp 
     Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp
       (Subgroup.mem_inf.mp (hT₁.le htT.1)).2)
   have hτ₂ : τ * σ₂ = σ₂ * τ := Subtype.ext hσ₂t.symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₃, hT₃⟩ := exists_isSylowOf 2
     (H z ⊓ centralizer ({((sigma1Nine (z := z) D * σ₂ : ↥(H z)) : G)} : Set G))
   exact parrott_theorem5_of_choice D h hZ hHO hIII P hP hz₁ hz₁z hord (hT2 z₁ hz₁ hz₁z hord)

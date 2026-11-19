@@ -41,14 +41,14 @@ theorem isChevTwoLayered_specialLinear (n : Type) [Fintype n] [DecidableEq n]
   let e : n ≃ Fin m := Fintype.equivFin n
   let ere : Matrix.SpecialLinearGroup n E ≃* Matrix.SpecialLinearGroup (Fin m) E :=
     CFSG.RankThree.PartOne.KFCL.BlockSL.reindexSL e
-  haveI : Finite (Matrix.SpecialLinearGroup n E) := inferInstance
+  have : Finite (Matrix.SpecialLinearGroup n E) := inferInstance
   by_cases hm : m ≤ 1
-  · haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin m) E) := by
+  · have : Subsingleton (Matrix.SpecialLinearGroup (Fin m) E) := by
       have hm01 : m = 0 ∨ m = 1 := by omega
       rcases hm01 with hm0 | hm1
       · rw [hm0]; exact inferInstance
       · rw [hm1]; exact inferInstance
-    haveI : Subsingleton (Matrix.SpecialLinearGroup n E) :=
+    have : Subsingleton (Matrix.SpecialLinearGroup n E) :=
       ⟨fun a b => ere.injective (Subsingleton.elim (ere a) (ere b))⟩
     exact isChevTwoLayered_of_isSolvable
       (Group.isSolvable_of_comm fun a b => Subsingleton.elim _ _)
@@ -62,7 +62,7 @@ theorem isChevTwoLayered_specialLinear (n : Type) [Fintype n] [DecidableEq n]
         CFSG.RankThree.PartOne.KFCL.BlockSL.reindexSL e2n
       obtain ⟨e2⟩ := CFSG.StandardType.RCSPSL.nonempty_sl2_equiv_perm
         (F := E) (by rwa [Nat.card_eq_fintype_card])
-      haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
+      have : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
       have hsolv2 : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
         Group.isSolvable_of_isSolvable_injective (f := e2.toMonoidHom) e2.injective
       have hsolv : Group.IsSolvable (Matrix.SpecialLinearGroup n E) :=
@@ -99,10 +99,10 @@ theorem isChevTwoLayered_specialLinear (n : Type) [Fintype n] [DecidableEq n]
 
 theorem isChevTwoLayered_statedSp (m : ℕ) (E : Type) [Field E] [Fintype E] [CharP E 2] :
     IsChevTwoLayered ↥(CFSG.Open.StatedSp m E) := by
-  haveI : Finite ↥(CFSG.Open.StatedSp m E) := inferInstance
+  have : Finite ↥(CFSG.Open.StatedSp m E) := inferInstance
   rcases Nat.eq_zero_or_pos m with hm0 | hmpos
   · subst m
-    haveI : Subsingleton ↥(CFSG.Open.StatedSp 0 E) := inferInstance
+    have : Subsingleton ↥(CFSG.Open.StatedSp 0 E) := inferInstance
     exact isChevTwoLayered_of_isSolvable
       (Group.isSolvable_of_comm fun a b => Subsingleton.elim _ _)
   · by_cases hm1 : m = 1
@@ -114,7 +114,7 @@ theorem isChevTwoLayered_statedSp (m : ℕ) (E : Type) [Field E] [Fintype E] [Ch
       · obtain ⟨hm2', hcardE⟩ := h22
         subst hm2'
         have hcardE' : Nat.card E = 2 := by rwa [Nat.card_eq_fintype_card]
-        haveI : (commutator ↥(CFSG.Open.StatedSp 2 E)).Normal := inferInstance
+        have : (commutator ↥(CFSG.Open.StatedSp 2 E)).Normal := inferInstance
         have hQN : CFSG.Open.IsQuasisimple ↥(commutator ↥(CFSG.Open.StatedSp 2 E)) :=
           CFSG.ComponentClassification.CatalogueBAlternating.quasisimple_iff_native.mp
             (CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.isChevComponent_comm_sp_four_two
@@ -124,7 +124,7 @@ theorem isChevTwoLayered_statedSp (m : ℕ) (E : Type) [Field E] [Fintype E] [Ch
           CFSG.HardMathSupport.Solomon.Coordinator.LieComp.spFourTwoFacts_holds E hcardE
         have hN : IsChevTwoLayered ↥(commutator ↥(CFSG.Open.StatedSp 2 E)) :=
           isChevTwoLayered_of_isQuasisimple hQN hNFD.chev
-        haveI : IsMulCommutative
+        have : IsMulCommutative
             (↥(CFSG.Open.StatedSp 2 E) ⧸ commutator ↥(CFSG.Open.StatedSp 2 E)) :=
           Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr le_rfl
         have hq : Group.IsSolvable
@@ -156,7 +156,7 @@ theorem isChevTwoLayered_statedSp (m : ℕ) (E : Type) [Field E] [Fintype E] [Ch
 
 theorem isChevTwoLayered_statedSU (m q : ℕ) (K : Type) [Field K] [Fintype K] [CharP K 2]
     (hK : Fintype.card K = q ^ 2) : IsChevTwoLayered ↥(CFSG.Open.StatedSU m q K) := by
-  haveI : Finite ↥(CFSG.Open.StatedSU m q K) := inferInstance
+  have : Finite ↥(CFSG.Open.StatedSU m q K) := inferInstance
   have hq2 : 2 ≤ q := by
     by_contra h
     have hq1 : q ≤ 1 := by omega
@@ -175,7 +175,7 @@ theorem isChevTwoLayered_statedSU (m q : ℕ) (K : Type) [Field K] [Fintype K] [
     have hm01 : m = 0 ∨ m = 1 := by omega
     rcases hm01 with hm0 | hm1
     · subst m
-      haveI : Subsingleton ↥(CFSG.Open.StatedSU 0 (2 ^ f) K) := inferInstance
+      have : Subsingleton ↥(CFSG.Open.StatedSU 0 (2 ^ f) K) := inferInstance
       exact isChevTwoLayered_of_isSolvable
         (Group.isSolvable_of_comm fun a b => Subsingleton.elim _ _)
     · subst m
@@ -190,12 +190,12 @@ theorem isChevTwoLayered_statedSU (m q : ℕ) (K : Type) [Field K] [Fintype K] [
       exact isChevTwoLayered_of_isSolvable (Group.isSolvable_of_comm hcomm)
   · by_cases hm2' : m = 2
     · subst m
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hK' : Nat.card K = (2 ^ f) ^ 2 := hKq
       obtain ⟨e⟩ :=
         CFSG.RankThree.SubgroupLists.nonempty_sl2_mulEquiv_statedSU_two
           (K := K) (r := 2) (f := f) hK'
-      haveI : Fintype ↥(CFSG.LieType.Steinberg.fixedSubfield K 2 f) := Fintype.ofFinite _
+      have : Fintype ↥(CFSG.LieType.Steinberg.fixedSubfield K 2 f) := Fintype.ofFinite _
       exact (isChevTwoLayered_specialLinear (Fin 2)
         ↥(CFSG.LieType.Steinberg.fixedSubfield K 2 f)).of_mulEquiv e.symm
     · by_cases h32 : m = 3 ∧ q = 2
@@ -210,7 +210,7 @@ theorem isChevTwoLayered_statedSU (m q : ℕ) (K : Type) [Field K] [Fintype K] [
             hK'
         have h216' : Nat.card ↥(CFSG.Open.StatedSU 3 2 K) = 216 := by
           simpa using h216
-        haveI : Fintype ↥(CFSG.Open.StatedSU 3 2 K) := Fintype.ofFinite _
+        have : Fintype ↥(CFSG.Open.StatedSU 3 2 K) := Fintype.ofFinite _
         have hcard : Fintype.card ↥(CFSG.Open.StatedSU 3 2 K) = 2 ^ 3 * 3 ^ 3 := by
           rw [← Nat.card_eq_fintype_card, h216']
           norm_num

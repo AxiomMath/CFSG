@@ -100,11 +100,11 @@ theorem torusAct_simple (τ : Tag) {p : ℕ} [NeZero p] (i : Fin τ.rank) (x : F
   simp only [TableBExc.torusAct, simple_smul, reflect, TableBExc.redMod, TableBExc.liftMod,
     Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   push_cast
-  simp only [ZMod.natCast_zmod_val, ZMod.cast_id', id_eq]
+  simp only [ZMod.natCast_zmod_val]
   congr 2
   by_cases h : k = i
   · subst h; simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 theorem torusAct_simple_E6 {p : ℕ} [NeZero p] (i : Fin 6) (s : Fin 6 → ZMod p) :
     TableBExc.torusAct Tag.E6 p (simple Tag.E6 i) s = TwE6TB.reflE6 p i s := by
@@ -144,7 +144,7 @@ theorem exists_langFrame_weyl {f p : ℕ} (hf : 1 ≤ f) [NeZero p]
   set R' : Subgroup (ModGL TwistTag.E6.tag L) := twistedFixedGroup TwistTag.E6 L Fr with hR'
   set C' : Subgroup (ModGL TwistTag.E6.tag L) :=
     (graphFixedRootGroup TwistTag.E6 K σ).map (baseChangeGL (algebraMap K L)) with hC'
-  haveI : Finite R' := hfinR
+  have : Finite R' := hfinR
   have hnormal : (C'.subgroupOf R').Normal := by
     have e : C'.subgroupOf R' = ⁅(⊤ : Subgroup R'), ⊤⁆ := by
       have h1 : ⁅R', R'⁆ = Subgroup.map R'.subtype ⁅(⊤ : Subgroup R'), ⊤⁆ := by

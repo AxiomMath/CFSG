@@ -26,7 +26,7 @@ open CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley
       g0⁻¹ = 1
     have h0 : TableBExc.E6Three.zetaVec ζ hζ (0 : Fin τ.rank → ZMod p) = 1 := by
       funext i
-      simpa [TableBExc.E6Three.zetaVec]
+      simp [TableBExc.E6Three.zetaVec]
     rw [h0, rootDiagUnit_one]
     group
   map_mul' x y := by

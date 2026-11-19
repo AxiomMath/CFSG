@@ -57,8 +57,8 @@ theorem ggDelta63_proj_eq_one_scalar {K : Type} [Field K] [Finite K] {n : ℕ}
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-  · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+  · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
 
 theorem ggDelta63_sup_elemAbelian {L' : Type} [Group L'] [Finite L'] {E₂ : Subgroup L'}
     (hE₂ : CFSG.Open.IsElemAbelian 3 E₂) {z : L'} (hz : z ∈ Subgroup.center L')
@@ -67,7 +67,7 @@ theorem ggDelta63_sup_elemAbelian {L' : Type} [Group L'] [Finite L'] {E₂ : Sub
   have hZcen : Subgroup.zpowers z ≤ Subgroup.center L' := Subgroup.zpowers_le.mpr hz
   have hcomm_z : ∀ w ∈ Subgroup.zpowers z, ∀ g : L', Commute w g := fun w hw g =>
     (Subgroup.mem_center_iff.mp (hZcen hw) g).symm
-  haveI hZN : (Subgroup.zpowers z).Normal := ⟨fun w hw g => by
+  have hZN : (Subgroup.zpowers z).Normal := ⟨fun w hw g => by
     have hc := Subgroup.mem_center_iff.mp (hZcen hw) g
     rw [hc, mul_inv_cancel_right]
     exact hw⟩
@@ -135,7 +135,7 @@ theorem ggStdSubTwoTorusDeltaSmall_unitDvd63
   exfalso
   have hn : 1 ≤ n := by omega
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : ((6 : ℕ), n) ≠ (6, 1) := fun he => by
     have := congrArg Prod.snd he
     simp only at this

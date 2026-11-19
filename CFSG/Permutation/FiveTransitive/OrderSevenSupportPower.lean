@@ -128,7 +128,7 @@ theorem three_dvd_card_orderSevenSupportElements
     squareOrderSevenSupportEquiv_order X P d hne
   have hTcard : Nat.card T = 3 := by
     rw [Nat.card_zpowers, heOrder]
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hTp : IsPGroup 3 T := by
     apply IsPGroup.of_card (n := 1)
     rw [hTcard]
@@ -155,7 +155,7 @@ theorem three_dvd_card_orderSevenSupportElements
           (MulAction.fixedPoints T
             (OrderPrimeSupportElements X P 7 d)) =
         0 := by
-    letI := hfixedEmpty
+    let := hfixedEmpty
     rw [Nat.card_eq_fintype_card]
     exact Fintype.card_eq_zero
   have hmod :=

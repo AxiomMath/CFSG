@@ -214,7 +214,7 @@ public theorem CFSG.isInvariant_sup_of_le_normalizer
     [IsInvariant A G X] [IsInvariant A G Y] :
     IsInvariant A G (X ⊔ Y) := by
   have hXY_le_normX : X ⊔ Y ≤ Subgroup.normalizer (X : Set G) := sup_le X.le_normalizer hY_le_normX
-  letI : (X.subgroupOf (X ⊔ Y)).Normal :=
+  let : (X.subgroupOf (X ⊔ Y)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (H := X ⊔ Y) (N := X) hXY_le_normX
   have hsub_sup : X.subgroupOf (X ⊔ Y) ⊔ Y.subgroupOf (X ⊔ Y) = ⊤ := by
     calc

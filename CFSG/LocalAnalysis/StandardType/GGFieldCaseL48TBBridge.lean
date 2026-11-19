@@ -52,7 +52,7 @@ theorem card_eq_card_range_mul
 
 theorem pow_le_card_range_of_torusLift
     {M : Type} [Group M] [Finite M] {L' : Subgroup M} {E : Subgroup M} {R : Type} [Group R] {I : Set (MulAut R)} {θ : L' ⧸ Subgroup.center L' ≃* R} {hE : E ≤ Subgroup.normalizer (L' : Set M)} {p : ℕ} {r : ℕ} (hP : GGTableBPosition p L' E I θ hE)
-    (hp : p.Prime) (hL : GGTorusLift p r R) : p ^ r ≤ Nat.card (ggGamma L' hE).range := by
+    (_hp : p.Prime) (hL : GGTorusLift p r R) : p ^ r ≤ Nat.card (ggGamma L' hE).range := by
   obtain ⟨hperf, hEA, -, -, -, -, h7⟩ := hP
   obtain ⟨U, E₀, hU, hU2, hE₀U, hE₀A, hE₀card, hE₀ker⟩ := hL L' (ggQuotHom θ)
     (ggQuotHom_surjective θ) (by rw [ker_ggQuotHom]) hperf

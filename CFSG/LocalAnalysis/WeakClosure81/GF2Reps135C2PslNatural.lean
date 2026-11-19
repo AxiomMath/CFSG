@@ -88,7 +88,7 @@ private theorem c2slnat_eq_one_of_extTwist_one {K : Type} [Field K] [Fintype K] 
       simp
     · have he : ¬ (Set.powersetCard.ofSingleton a = Set.powersetCard.ofSingleton b) :=
         fun hh => hab (Set.powersetCard.ofSingleton.injective hh)
-      rw [if_neg hab, if_neg he]
+      rw [ite_eq_right hab, ite_eq_right he]
   have h1 : slFrobAut n r K z = 1 := Subtype.ext hmat
   exact (slFrobAut n r K).injective (by rw [h1, map_one])
 
@@ -107,7 +107,7 @@ private theorem c2slnat_eq_one_of_extTwist_compl {K : Type} [Field K] [Fintype K
       simp
     · have he : ¬ (c2slnat_complsEquiv n hn a = c2slnat_complsEquiv n hn b) :=
         fun hh => hab ((c2slnat_complsEquiv n hn).injective hh)
-      rw [if_neg hab, if_neg he]
+      rw [ite_eq_right hab, ite_eq_right he]
   have hA : slTransposeInvAut n K (slFrobAut n r K z) = 1 := Subtype.ext hmat
   have h1 : slFrobAut n r K z = 1 :=
     (slTransposeInvAut n K).injective (by rw [hA, map_one])
@@ -177,7 +177,7 @@ private theorem c2slnat_binaryNaturalSL_compl {W : Type} [CommGroup W]
 theorem w135c2_psl_natural {W : Type} [CommGroup W] [Finite W] [Module (ZMod 2) (Additive W)]
     {L : Subgroup (MulAut W)} {n f : ℕ} (hn : 2 ≤ n) {K : Type} [Field K] [Fintype K] [CharP K 2]
     (hK : Fintype.card K = 2 ^ f) (φ : SpecialLinearGroup (Fin n) K →* ↥L)
-    (hφ : Function.Surjective φ) (hker : φ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin n) K))
+    (hφ : Function.Surjective φ) (_hker : φ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin n) K))
     {j r : ℕ} (hj : j = 1 ∨ j + 1 = n) (β : Additive W ≃+ (Set.powersetCard (Fin n) j → K))
     (hβ : ∀ g w, β (pslRep φ g w) = extTwist n j r K g *ᵥ β w) : Chev2Natural W L := by
   classical

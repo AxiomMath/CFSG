@@ -28,6 +28,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace SylowFusion
 
+omit [Finite G] in
 theorem pow_conj_mul_inv_mem {K Y : Subgroup G} {a k : G}
     (haK : a ∈ Subgroup.normalizer (K : Set G)) (hkY : k ∈ Subgroup.normalizer (Y : Set G))
     (hak : ∀ y ∈ K, a * y * a⁻¹ * (k * y * k⁻¹)⁻¹ ∈ Y) (n : ℕ) :
@@ -43,6 +44,7 @@ theorem pow_conj_mul_inv_mem {K Y : Subgroup G} {a k : G}
     rw [pow_succ', pow_succ']
     group
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_forall_mem {K : Subgroup G}
     (hZ : Subgroup.center (K ⧸ CFSG.pCore 2 K) = ⊥) {x : G} (hx : x ∈ K)
     (hcen : ∀ y ∈ K, x * y * x⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 K) :
@@ -105,7 +107,7 @@ theorem commute_of_inducesInnerMod {K S : Subgroup G} {a : G} (ha3 : a ^ 3 = 1)
     have h2 := (Subgroup.mem_normalizer_iff.mp (hKQ (K.inv_mem (hSK hapS))) _).mp
       (Q.inv_mem (hak p (hSK hpS)))
     convert h2 using 1
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     group
   have hk3' : IsPGroup 3 (Subgroup.zpowers ((⟨k, hk⟩ : K) : K ⧸ CFSG.pCore 2 K)) := by
     have hpow : ((⟨k, hk⟩ : K) : K ⧸ CFSG.pCore 2 K) ^ 3 = 1 := by
@@ -151,6 +153,7 @@ theorem commute_of_inducesInnerMod {K S : Subgroup G} {a : G} (ha3 : a ^ 3 = 1)
 
 variable {A M H : Subgroup G} {c : G}
 
+omit [Finite G] in
 theorem lc_le_centralizer (H : Subgroup G) (c : G) :
     lc H c ≤ Subgroup.centralizer ({c} : Set G) :=
   (Subgroup.map_subtype_le _).trans

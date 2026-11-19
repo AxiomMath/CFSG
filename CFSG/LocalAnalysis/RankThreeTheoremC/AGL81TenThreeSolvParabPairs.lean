@@ -80,7 +80,7 @@ private theorem exists_lift {Λ Γ : Type} [Group Λ] [Group Γ] [Finite Λ] (ψ
   set C : Subgroup Λ := T.comap ψ with hC
   set f : ↥C →* Equiv.Perm (Fin 3) := e.toMonoidHom.comp (ψ.subgroupComap T) with hf
   have hfs : Function.Surjective f :=
-    e.surjective.comp (ψ.subgroupComap_surjective_of_surjective T hψ)
+    e.surjective.comp (ψ.subgroupComap_surjective T hψ)
   have hfker : ∀ x : ↥C, x ∈ f.ker ↔ (x : Λ) ∈ ψ.ker := by
     intro x
     rw [MonoidHom.mem_ker, MonoidHom.mem_ker, hf, MonoidHom.comp_apply,
@@ -119,7 +119,7 @@ private theorem exists_lift {Λ Γ : Type} [Group Λ] [Group Γ] [Finite Λ] (ψ
         rw [MonoidHom.range_comp, range_subtype]
       rw [← hr]
       exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
-    haveI : Finite ↥T := Finite.of_equiv _ e.symm.toEquiv
+    have : Finite ↥T := Finite.of_equiv _ e.symm.toEquiv
     refine eq_of_le_of_card_ge hle ?_
     rw [hcard, SymThree.card_eq_six_of_mulEquiv e', SymThree.card_eq_six_of_mulEquiv e]
 
@@ -199,13 +199,13 @@ theorem symThreePairs_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subgroup 
     (hZ : Z ≤ center J) (hZo : Odd (Nat.card Z)) (h96 : Nat.card (J ⧸ Z) ∣ 96) :
     SymThreePairs (J ⧸ CFSG.pCore 2 J) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R := J ⧸ CFSG.pCore 2 J
   set π : J →* R := QuotientGroup.mk' (CFSG.pCore 2 J) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set Zb : Subgroup R := Z.map π with hZb
-  haveI hZbn : Zb.Normal := Subgroup.Normal.map inferInstance π hπs
+  have hZbn : Zb.Normal := Subgroup.Normal.map inferInstance π hπs
   have hZbc : Zb ≤ center R := by
     rintro _ ⟨z, hz, rfl⟩
     rw [mem_center_iff]
@@ -224,7 +224,7 @@ theorem symThreePairs_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subgroup 
       intro z hz
       rw [hM, mem_comap, show ρ z = 1 from by rw [← MonoidHom.mem_ker, hρker]; exact hz]
       exact one_mem _
-    haveI : (Zb.subgroupOf M).Normal := hZbn.subgroupOf M
+    have : (Zb.subgroupOf M).Normal := hZbn.subgroupOf M
     have hq : IsPGroup 2 (↥M ⧸ Zb.subgroupOf M) :=
       ParabCensus.isPGroup_quotient_subgroupOf_comap hρs hρker.symm CFSG.pCore_isPGroup
     have hle := ParabCensus.le_sup_pCore_two_of_central_odd_quotient_two hMn hZM hZbc hZbo hq

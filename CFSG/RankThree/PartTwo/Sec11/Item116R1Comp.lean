@@ -446,7 +446,7 @@ theorem compT_map_conj_eq_self {X : Type*} [Group X] {K : Subgroup X} {g : X}
 
 theorem compT_main {X : Type*} [Group X] [Finite X]
     (hO2 : CFSG.pCore 2 X = ⊥) (hF : CFSG.fittingSubgroup X ≤ CFSG.pCore 3 X)
-    {K₁ K₂ : Subgroup X} (h1 : CFSG.IsComponent K₁) (h2 : CFSG.IsComponent K₂) (hne : K₁ ≠ K₂)
+    {K₁ K₂ : Subgroup X} (h1 : CFSG.IsComponent K₁) (h2 : CFSG.IsComponent K₂) (_hne : K₁ ≠ K₂)
     {c d : X} (hd : d ∈ K₁) (hc : c ∈ K₂)
     {Pc Pd : Subgroup X}
     (hPc2 : ∀ x ∈ Pc, ∃ k : ℕ, x ^ 2 ^ k = 1)
@@ -596,10 +596,10 @@ theorem compT_main {X : Type*} [Group X] [Finite X]
         rw [Subgroup.mem_subgroupOf, Subgroup.mem_inf] at hgmem
         obtain ⟨k, hk⟩ := hI2 (g : X) ((hN_mem _).mp hgmem.2).1
         exact ⟨k, Subtype.ext (by simpa using hk)⟩
-      haveI : Group.IsNilpotent ↥J := IsPGroup.isNilpotent hJ2'
-      haveI : Group.IsSolvable ↥J := inferInstance
-      haveI : Nontrivial ↥J := CFSG.LocalCores.isQuasisimple_nontrivial hJ.1
-      haveI : Group.IsPerfect ↥J := hJ.1.1
+      have : Group.IsNilpotent ↥J := IsPGroup.isNilpotent hJ2'
+      have : Group.IsSolvable ↥J := inferInstance
+      have : Nontrivial ↥J := CFSG.LocalCores.isQuasisimple_nontrivial hJ.1
+      have : Group.IsPerfect ↥J := hJ.1.1
       exact (Group.IsPerfect.not_isSolvable ↥J) inferInstance
     have hcentJ : ∀ x ∈ J ⊓ N, ∀ j ∈ J, j * x = x * j := by
       intro x hx j hj

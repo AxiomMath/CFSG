@@ -19,6 +19,7 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem coe_conj_mul_exactNormalAut_one (g : adjointGroup Tag.D4 K)
     (a : Fin Tag.D4.rank → Kˣ) (h : adjointGroup Tag.D4 K) :
     ((MulAut.conj g * exactNormalAut Tag.D4 K a 1 0) h : ModGL Tag.D4 K) =
@@ -32,7 +33,8 @@ private theorem coe_conj_mul_exactNormalAut_one (g : adjointGroup Tag.D4 K)
     coe_exactNormalAut, exactQ_zero, h1]
   group
 
-theorem d4_inner_of_diag (hK3 : ringChar K ≠ 3) (g : adjointGroup Tag.D4 K)
+omit [Finite K] in
+theorem d4_inner_of_diag (_hK3 : ringChar K ≠ 3) (g : adjointGroup Tag.D4 K)
     (a : Fin Tag.D4.rank → Kˣ) (hα : (MulAut.conj g * exactNormalAut Tag.D4 K a 1 0) ^ 3 = 1) :
     ∃ h : adjointGroup Tag.D4 K, MulAut.conj g * exactNormalAut Tag.D4 K a 1 0 = MulAut.conj h := by
   set α := MulAut.conj g * exactNormalAut Tag.D4 K a 1 0 with hαdef
@@ -160,6 +162,7 @@ private theorem perfectInLayer_entrywiseAdjointAut_D4 (σ : K ≃+* K) :
     exact hq
   exact perfectInLayer_of_normal_quasisimple hJle (isQuasisimple_of_isSimpleGroup hJs hJnc) hsol
 
+omit [Finite K] in
 private theorem d4Graph_zero' : d4Graph K 0 = 1 :=
   MulEquiv.ext fun h => Subtype.ext (by
     rw [coe_d4Graph, pow_zero, one_mul, inv_one, mul_one]; rfl)
@@ -202,12 +205,13 @@ private theorem perfectInLayer_of_lang {ℓ e : ℕ} [Fact ℓ.Prime] [CharP K �
       hT (mul_inv_cancel T) α hα g a ε hαdef
     exact perfectInLayer_of_inv (perfectInLayer_of_conj_eq hψ (hP _ (Or.inr rfl)))
 
+omit [Finite K] in
 private theorem perfectInLayer_twistedEntrywiseAut_one {ℓ e : ℕ} [Fact ℓ.Prime] [CharP K ℓ]
     (he : 1 ≤ e) (hK : Nat.card K = ℓ ^ (e * 3)) (σ : K ≃+* K) (r : ℕ) (hr : r = 1 ∨ r = 2)
     (hσ : ∀ c, σ c = c ^ ((ℓ ^ e) ^ r)) :
     PerfectInLayer (twistedEntrywiseAut TwistTag.D4 1 σ) := by
   classical
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   obtain ⟨-, -, hfixeq, hsimple, hnc⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group ℓ e Fact.out he K
@@ -259,12 +263,12 @@ private theorem perfectInLayer_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.Pr
     exact perfectInLayer_of_fix_eq (fixedSubgroup_twistedEntrywiseAut_D4_two T).symm
       (perfectInLayer_twistedEntrywiseAut_one he hK T⁻¹ 2 (Or.inr rfl) hinv)
 
-theorem perfectInLayer_d4_field (hK3 : ringChar K ≠ 3) (g : adjointGroup Tag.D4 K)
+theorem perfectInLayer_d4_field (_hK3 : ringChar K ≠ 3) (g : adjointGroup Tag.D4 K)
     (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (hσ : σ ≠ 1) (hσ3 : σ ^ 3 = 1)
     (hα : (MulAut.conj g * exactNormalAut Tag.D4 K a σ 0) ^ 3 = 1) :
     PerfectInLayer (MulAut.conj g * exactNormalAut Tag.D4 K a σ 0) := by
   obtain ⟨ℓ, e, T, hℓ, hchar, he, hK, hT, hσT⟩ := exists_frobenius_data σ hσ hσ3
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hα' : (MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K 0)) ^ 3 = 1 := by
     rwa [d4Graph_zero', mul_one]
   have h := perfectInLayer_of_lang he hK T hT g a σ hσT 0 (fun j hj => ?_) hα'
@@ -278,13 +282,13 @@ theorem perfectInLayer_d4_field (hK3 : ringChar K ≠ 3) (g : adjointGroup Tag.D
     rw [e0]
     exact perfectInLayer_entrywiseAdjointAut_D4 T
 
-theorem perfectInLayer_d4_graphField (hK3 : ringChar K ≠ 3) (g : adjointGroup Tag.D4 K)
+theorem perfectInLayer_d4_graphField (_hK3 : ringChar K ≠ 3) (g : adjointGroup Tag.D4 K)
     (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (hσ : σ ≠ 1) (hσ3 : σ ^ 3 = 1) {ε : ℕ}
     (hε : ε = 1 ∨ ε = 2)
     (hα : (MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) ^ 3 = 1) :
     PerfectInLayer (MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) := by
   obtain ⟨ℓ, e, T, hℓ, hchar, he, hK, hT, hσT⟩ := exists_frobenius_data σ hσ hσ3
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   refine perfectInLayer_of_lang he hK T hT g a σ hσT ε (fun j hj => ?_) hα
   refine perfectInLayer_twistedEntrywiseAut_D4 he hK T hT j ?_
   rcases hε with rfl | rfl <;> rcases hj with rfl | rfl <;> omega

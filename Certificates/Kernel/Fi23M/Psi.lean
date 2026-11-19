@@ -40,7 +40,7 @@ theorem X9_surj1 : (((surjWords ())[1]!).map fun z =>
 
 theorem X9_sq {k : ℕ} (hk : k < 10) : X9 k * X9 k = 1 := by
   have h := X9_rel _ (sq_rel k hk)
-  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, if_true, mul_one] at h
+  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, ite_true, mul_one] at h
   exact h
 
 theorem X9_inv {k : ℕ} (hk : k < 10) : (X9 k)⁻¹ = X9 k := Matrix.inv_eq_right_inv (X9_sq hk)
@@ -50,11 +50,11 @@ noncomputable def u (k : ℕ) : M253ˣ :=
 
 theorem u_val {k : ℕ} (hk : k < 10) : (u k).val = X9 k := by
   unfold u
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
 
 theorem u_inv_val {k : ℕ} (hk : k < 10) : (u k)⁻¹.val = X9 k := by
   unfold u
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   rfl
 
 theorem rels_u : ∀ w ∈ P23.relatorLetters, wordVal u w = 1 := by
@@ -78,7 +78,7 @@ noncomputable def σ : PG →* M253ˣ := presHom P23 u rels_u
 
 theorem σ_gen {k : ℕ} (hk : k < 10) : σ (gen k) = u k := by
   unfold gen
-  rw [dif_pos (by rw [generatorCount_P23]; exact hk)]
+  rw [dite_eq_left (by rw [generatorCount_P23]; exact hk)]
   exact presHom_of P23 u rels_u _
 
 theorem σ_wordP {w : List ℕ} (hw : ∀ k ∈ w, k < 10) : (σ (wordP w)).val = (w.map X9).prod := by

@@ -126,7 +126,7 @@ private lemma fst_eq_of_mul_mul_eq_mul_mul {X : Type*} [Group X] {A B C : Subgro
     _ = b₁ := by group
 
 private lemma eq_of_mul_eq_mul {X : Type*} [Group X] {B C : Subgroup X}
-    (hBC : ∀ b ∈ B, ∀ c ∈ C, b * c = c * b) (hBCbot : B ⊓ C = ⊥)
+    (_hBC : ∀ b ∈ B, ∀ c ∈ C, b * c = c * b) (hBCbot : B ⊓ C = ⊥)
     {a₂ a₃ b₂ b₃ : X} (ha₂ : a₂ ∈ B) (ha₃ : a₃ ∈ C)
     (hb₂ : b₂ ∈ B) (hb₃ : b₃ ∈ C) (h : a₂ * a₃ = b₂ * b₃) :
     a₂ = b₂ ∧ a₃ = b₃ := by
@@ -243,7 +243,7 @@ private lemma cyclic_conj_mul {X : Type*} [Group X] {L₁ L₂ L₃ : Subgroup X
     _ = (b * y₃ * b⁻¹) * (b * y₁ * b⁻¹) * (b * y₂ * b⁻¹) := by group
 
 private lemma exists_diagHom_eq {X : Type*} [Group X] {L₁ L₂ L₃ : Subgroup X} {b : X}
-    (hb : b ^ 3 = 1)
+    (_hb : b ^ 3 = 1)
     (hb₁ : L₁.map (MulAut.conj b).toMonoidHom = L₂)
     (hb₂ : L₂.map (MulAut.conj b).toMonoidHom = L₃)
     (hb₃ : L₃.map (MulAut.conj b).toMonoidHom = L₁)
@@ -282,7 +282,7 @@ theorem nonempty_centralizer_inf_sup_mulEquiv {X : Type*} [Group X] {L₁ L₂ L
     {b : X} (hb : b ^ 3 = 1)
     (h12 : L₁ ≤ Subgroup.centralizer (L₂ : Set X)) (h13 : L₁ ≤ Subgroup.centralizer (L₃ : Set X))
     (h23 : L₂ ≤ Subgroup.centralizer (L₃ : Set X))
-    (hind₁ : L₁ ⊓ (L₂ ⊔ L₃) = ⊥) (hind₂ : L₂ ⊓ (L₁ ⊔ L₃) = ⊥) (hind₃ : L₃ ⊓ (L₁ ⊔ L₂) = ⊥)
+    (hind₁ : L₁ ⊓ (L₂ ⊔ L₃) = ⊥) (hind₂ : L₂ ⊓ (L₁ ⊔ L₃) = ⊥) (_hind₃ : L₃ ⊓ (L₁ ⊔ L₂) = ⊥)
     (hb₁ : L₁.map (MulAut.conj b).toMonoidHom = L₂)
     (hb₂ : L₂.map (MulAut.conj b).toMonoidHom = L₃)
     (hb₃ : L₃.map (MulAut.conj b).toMonoidHom = L₁) :

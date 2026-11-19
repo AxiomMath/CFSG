@@ -20,7 +20,7 @@ namespace RankSmall
 
 theorem one_le_pRank_of_prime_dvd {G : Type*} [Group G] [Finite G] {r : ℕ} (hr : r.Prime)
     (h : r ∣ Nat.card G) : 1 ≤ CFSG.Open.pRank r (⊤ : Subgroup G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r h
   refine CFSG.SectionRank.le_pRank hr.one_lt (le_top : Subgroup.zpowers x ≤ ⊤) ⟨inferInstance, ?_⟩ ?_
   · rintro y ⟨k, rfl⟩
@@ -32,11 +32,11 @@ theorem pRank_top_eq_of_card {G : Type*} [Group G] [Finite G] {r N : ℕ} (hr : 
     (hN : Nat.card G = N) (h2 : ¬ r ^ 2 ∣ N) :
     CFSG.Open.pRank r (⊤ : Subgroup G) = if r ∣ N then 1 else 0 := by
   by_cases hd : r ∣ N
-  · rw [if_pos hd]
+  · rw [ite_eq_left hd]
     refine le_antisymm ?_ (one_le_pRank_of_prime_dvd hr (hN ▸ hd))
     exact CFSG.HardMathSupport.Timmesfeld.Tables.Alt.pRank_top_le_of_not_dvd (k := 1) hr.one_lt
       (by rwa [hN])
-  · rw [if_neg hd]
+  · rw [ite_eq_right hd]
     refine Nat.le_zero.1 ?_
     exact CFSG.HardMathSupport.Timmesfeld.Tables.Alt.pRank_top_le_of_not_dvd (k := 0) hr.one_lt
       (by rw [hN]; simpa using hd)
@@ -77,7 +77,7 @@ end RankSmall
 
 theorem lieOddRankSmall_of_griess (hG : CFSG.Open.GriessAllModelsStatement) : LieOddRankSmall := by
   intro K _ _ hq r hr hr2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine ⟨?_, ?_⟩
   · rintro ⟨q, ⟨d1, hv⟩, hq7, hd, ⟨e⟩⟩
     simp only at hd
@@ -130,10 +130,10 @@ theorem lieOddRankSmall_of_griess (hG : CFSG.Open.GriessAllModelsStatement) : Li
       CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_three_three hm
     by_cases hr3 : r = 3
     · subst hr3
-      simp only [if_true]
+      simp only [ite_true]
       exact CFSG.Quasithin.pRank_three_psu33 hm
     · obtain ⟨h6048, hsq⟩ := RankSmall.prime_dvd_6048 hr hr2 hr3
-      rw [RankSmall.pRank_top_eq_of_card hr hcard hsq, if_neg hr3]
+      rw [RankSmall.pRank_top_eq_of_card hr hcard hsq, ite_eq_right hr3]
       by_cases hr7 : r = 7
       · subst hr7; simp
       · simp [h6048, hr7]

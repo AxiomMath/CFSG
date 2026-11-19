@@ -69,8 +69,8 @@ private lemma card_fixed_signed {r : ℕ} (S : Finset (Fin r)) :
     Nat.card {f : Fin r → Multiplicative (ZMod 3) //
         ∀ τ ∈ TypeBDatum.signedSupportedAut r 3 S, τ f = f} = 3 ^ (r - S.card) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   rw [Nat.card_congr (Equiv.subtypeEquivRight fun f => ⟨
     fun hf i hi => OrthTorus.tbjA_fixed_of_mem_signedSupportedAut (p := 3) (by norm_num)
       hf i hi,
@@ -82,7 +82,7 @@ private lemma card_fixed_twisted {r : ℕ} {S : Finset (Fin r)} {s : Fin r → Z
     Nat.card {f : Fin r → Multiplicative (ZMod 3) //
         ∀ τ ∈ TypeBDatum.twistedPermAut r 3 S s hs, τ f = f} = 3 ^ (r + 1 - S.card) := by
   classical
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   obtain ⟨i₀, hi₀⟩ := Finset.card_pos.mp (by omega : 0 < S.card)
   let fwd : {f : Fin r → Multiplicative (ZMod 3) //
         ∀ τ ∈ TypeBDatum.twistedPermAut r 3 S s hs, τ f = f} →
@@ -94,7 +94,7 @@ private lemma card_fixed_twisted {r : ℕ} {S : Finset (Fin r)} {s : Fin r → Z
     ⟨fun i => if h : i ∈ S then ofAdd (s i * ag.1) else ag.2 ⟨i, h⟩, by
       refine SympMinus.fixed_of_twisted_twistedPermAut (p := 3) S hs (a := ag.1) ?_
       intro i hi
-      simp only [hi, dif_pos, toAdd_ofAdd]⟩
+      simp only [hi, dite_eq_left, toAdd_ofAdd]⟩
   have hleft : Function.LeftInverse bwd fwd := by
     intro f
     apply Subtype.ext
@@ -104,18 +104,18 @@ private lemma card_fixed_twisted {r : ℕ} {S : Finset (Fin r)} {s : Fin r → Z
     · obtain ⟨a, ha⟩ := OrthTorus.tbjA_fixed_of_mem_twistedPermAut (p := 3) s hs f.2
       have h0 : toAdd (f.1 i₀) * s i₀ = a := by
         rw [ha i₀ hi₀, mul_assoc, hs i₀, mul_one]
-      rw [dif_pos hi, h0, mul_comm (s i) a, ← ha i hi, ofAdd_toAdd]
-    · rw [dif_neg hi]
+      rw [dite_eq_left hi, h0, mul_comm (s i) a, ← ha i hi, ofAdd_toAdd]
+    · rw [dite_eq_right hi]
   have hright : Function.RightInverse bwd fwd := by
     intro ag
     refine Prod.ext ?_ ?_
     · change toAdd (if h : i₀ ∈ S then ofAdd (s i₀ * ag.1) else ag.2 ⟨i₀, h⟩) * s i₀ = ag.1
-      rw [dif_pos hi₀]
+      rw [dite_eq_left hi₀]
       simp only [toAdd_ofAdd]
       rw [mul_comm (s i₀) ag.1, mul_assoc, hs i₀, mul_one]
     · funext i
       change (if h : i.1 ∈ S then ofAdd (s i.1 * ag.1) else ag.2 ⟨i.1, h⟩) = ag.2 i
-      rw [dif_neg i.2]
+      rw [dite_eq_right i.2]
   rw [Nat.card_congr
     { toFun := fwd, invFun := bwd, left_inv := hleft, right_inv := hright }]
   rw [Nat.card_prod, Nat.card_zmod, Nat.card_fun,
@@ -130,7 +130,7 @@ private lemma card_fixed_twisted {r : ℕ} {S : Finset (Fin r)} {s : Fin r → Z
 theorem ggCommonJSpTwo_count_signed {K : Type} [Field K] [Finite K] {r : ℕ}
     {ζ : Multiplicative (ZMod 3) →* Matrix.SpecialLinearGroup (Fin 2) K}
     (hζ : Function.Injective ζ)
-    {J : Subgroup (StatedSp r K)} {S : Finset (Fin r)} (hS : 1 ≤ S.card)
+    {J : Subgroup (StatedSp r K)} {S : Finset (Fin r)} (_hS : 1 ≤ S.card)
     (hAut : FrameBs.sectionFrameAut (spPlaneTorus r ζ) J =
       TypeBDatum.signedSupportedAut r 3 S)
     (hfix : ∀ f : Fin r → Multiplicative (ZMod 3),

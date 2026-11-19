@@ -132,7 +132,7 @@ theorem kList46_thetaQuot {Γ : Type} [Group Γ] [Finite Γ] {L : Subgroup Γ}
   intro J hJp hJq
   obtain ⟨-, hθc, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥L) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 ↥L).Normal := by haveI := hθc; infer_instance
+  have : (aschbacherSolvableCore 3 ↥L).Normal := by have := hθc; infer_instance
   set N := aschbacherSolvableCore 3 ↥L with hN
   set π : ↥L →* ↥L ⧸ N := QuotientGroup.mk' N with hπ
   obtain ⟨P, hPp, hPJ⟩ :=

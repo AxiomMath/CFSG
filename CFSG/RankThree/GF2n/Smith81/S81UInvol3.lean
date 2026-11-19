@@ -13,6 +13,7 @@ open CFSG.RankThree.GF2n.Smith81 CFSG.RankThree.GF2n.Smith81.A5Cube Matrix exter
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 
+omit [CharP F 2] in
 private theorem h62_tInv3_matrix : ((tInv3 F : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) =
     Matrix.transvection (0 : Fin 6) 1 1 * Matrix.transvection (2 : Fin 6) 3 1 *
       Matrix.transvection (4 : Fin 6) 5 1 := by
@@ -24,6 +25,7 @@ private theorem h62_tv_unitary (hσ : ∀ c, σ (σ c) = c) {a b : Fin 6} (hb : 
   subst hb
   exact transvection_long_unitary hσ a hc
 
+omit [CharP F 2] in
 private theorem h62_unitary_mul {A B : Matrix (Fin 6) (Fin 6) F}
     (hA : conjTr σ A * hypGram F * A = hypGram F) (hB : conjTr σ B * hypGram F * B = hypGram F) :
     conjTr σ (A * B) * hypGram F * (A * B) = hypGram F := by
@@ -42,6 +44,7 @@ theorem tInv3_unitary (hσ : ∀ c, σ (σ c) = c) :
     (h62_tv_unitary hσ (a := (2 : Fin 6)) (b := 3) (by decide) (map_one σ)))
     (h62_tv_unitary hσ (a := (4 : Fin 6)) (b := 5) (by decide) (map_one σ))
 
+omit [CharP F 2] in
 theorem tInv3_det : ((tInv3 F : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).det = 1 := by
   rw [h62_tInv3_matrix, Matrix.det_mul, Matrix.det_mul,
     Matrix.det_transvection_of_ne (0 : Fin 6) 1 (by decide) 1,
@@ -52,20 +55,25 @@ theorem tInv3_det : ((tInv3 F : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).det = 
   ⟨frameGL σ ω hω * tInv3 F * (frameGL σ ω hω)⁻¹,
     frame_conj_mem_SUid hσ.invol hω tInv3_det (tInv3_unitary hσ.invol)⟩
 
+omit [CharP F 2] in
 private theorem h62_rho_mul_apply (g g' : GL (Fin 6) F) (v : Cube F) :
     rho F (g * g') v = rho F g (rho F g' v) := by
   rw [rho_mul, Module.End.mul_apply]
 
+omit [CharP F 2] in
 private theorem h62_conj_apply (g h : GL (Fin 6) F) (v : Cube F) :
     rho F (g * h * g⁻¹) v = rho F g (rho F h (rho F g⁻¹ v)) := by
   rw [h62_rho_mul_apply, h62_rho_mul_apply]
 
+omit [CharP F 2] in
 private theorem h62_inv_rho (g : GL (Fin 6) F) (v : Cube F) : rho F g⁻¹ (rho F g v) = v := by
   rw [← Module.End.mul_apply, ← rho_mul, inv_mul_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem h62_rho_inv_rho (g : GL (Fin 6) F) (v : Cube F) : rho F g (rho F g⁻¹ v) = v := by
   rw [← Module.End.mul_apply, ← rho_mul, mul_inv_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem h62_conj_rho (g h : GL (Fin 6) F) (v : Cube F) :
     rho F (g * h * g⁻¹) (rho F g v) = rho F g (rho F h v) := by
   rw [h62_conj_apply, h62_inv_rho]
@@ -95,6 +103,7 @@ private theorem h62_long_mem (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω +
   subst hb
   exact frameConj_long_mem hσ hω a hc
 
+omit [CharP F 2] in
 private theorem h62_tv_e_self {i j : Fin 6} (hij : i ≠ j) (c : F) :
     ((transvGL F i j hij c : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) *ᵥ e F j =
       e F j + c • e F i := by
@@ -103,15 +112,16 @@ private theorem h62_tv_e_self {i j : Fin 6} (hij : i ≠ j) (c : F) :
   funext k
   by_cases hki : k = i
   · subst hki
-    simp [Matrix.single_apply, Matrix.col_apply, e, Pi.single_apply]
-  · simp [Matrix.single_apply, Matrix.col_apply, e, Pi.single_apply, hki, Ne.symm hki]
+    simp [Matrix.col_apply, e, Pi.single_apply]
+  · simp [Matrix.col_apply, e, Pi.single_apply, hki, Ne.symm hki]
 
+omit [CharP F 2] in
 private theorem h62_tv_e_of_ne {i j m : Fin 6} (hij : i ≠ j) (c : F) (hm : m ≠ j) :
     ((transvGL F i j hij c : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) *ᵥ e F m = e F m := by
   rw [transvGL_val, Matrix.transvection, Matrix.add_mulVec, Matrix.one_mulVec,
     Matrix.mulVec_single_one]
   funext k
-  simp [Matrix.single_apply, Matrix.col_apply, Ne.symm hm, e, Pi.single_apply]
+  simp [Matrix.col_apply, Ne.symm hm, e, Pi.single_apply]
 
 private theorem h62_sw_a (a b : Fin 6) (hab : a ≠ b) (hba : b ≠ a) :
     ((transvGL F a b hab 1 * transvGL F b a hba 1 : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) *ᵥ
@@ -124,6 +134,7 @@ private theorem h62_sw_a (a b : Fin 6) (hab : a ≠ b) (hba : b ≠ a) :
   calc e F a + (e F b + e F a) = e F b + (e F a + e F a) := by abel
     _ = e F b := by rw [hh, add_zero]
 
+omit [CharP F 2] in
 private theorem h62_sw_other (a b m : Fin 6) (hab : a ≠ b) (hba : b ≠ a) (hma : m ≠ a)
     (hmb : m ≠ b) :
     ((transvGL F a b hab 1 * transvGL F b a hba 1 : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) *ᵥ
@@ -218,12 +229,14 @@ theorem rootPt_u135 (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ ω = 
   rw [h62_key ω hω _ _ h62_X_rho_p0]
   exact rho_mem_RootPt (h62_X_mem hσ hω) pt0_mem_RootPt
 
+omit [CharP F 2] in
 private theorem h62_beta_ub_zero {a b d p q r : Fin 6} (hab : a < b) (hbd : b < d)
     (hpq : p < q) (hqr : q < r) (h : ¬ Disjoint ({a, b, d} : Finset (Fin 6)) {p, q, r}) :
     beta F (ub F a b d hab hbd) (ub F p q r hpq hqr) = 0 := by
   unfold ub
   exact beta_cubeBasis_of_not_disjoint h
 
+omit [CharP F 2] in
 private theorem h62_beta_ub_ne_zero {a b d p q r : Fin 6} (hab : a < b) (hbd : b < d)
     (hpq : p < q) (hqr : q < r) (h : Disjoint ({a, b, d} : Finset (Fin 6)) {p, q, r}) :
     beta F (ub F a b d hab hbd) (ub F p q r hpq hqr) ≠ 0 := by

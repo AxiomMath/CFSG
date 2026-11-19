@@ -287,7 +287,7 @@ theorem inv_equiv_one (n : ℕ) : ∀ (k : ℕ) (S : Finset (Fin n)), S.card = 2
     intro S hS
     have : S = ∅ := Finset.card_eq_zero.1 (by simpa using hS)
     subst this
-    simp only [Finset.notMem_empty, if_false]
+    simp only [Finset.notMem_empty, ite_false]
     exact QuadraticMap.Equivalent.refl _
   | succ k ih =>
     intro S hS
@@ -386,7 +386,7 @@ theorem inv_type {w : GL6} (hw : w ∈ MDot) (hww : w * w = 1) :
     · simp [hS_def, h]
     · have h3 : ∀ a : ZMod 3, a ≠ 0 → a ≠ -1 → a = 1 := by decide
       have : qV (b j : V6) = 1 := h3 _ (hne j) h
-      simp [hS_def, h, this]
+      simp [hS_def, this]
   have e1 : (QV.restrict (commSp w)).Equivalent
       (QuadraticMap.weightedSumSquares (ZMod 3) fun j => if j ∈ S then (-1 : ZMod 3) else 1) := by
     rw [← hweights]

@@ -53,8 +53,8 @@ theorem hexDigit_eq {c : Char} (h : hexL c.toNat < 16) :
     rw [char_le, char_le]
     rfl
   rcases hexL_dig h with ⟨a, b, e⟩ | ⟨a, b, e⟩
-  · rw [if_pos (h0.2 ⟨a, by omega⟩), e]
-  · rw [if_neg (fun hc => by have := (h0.1 hc).2; omega), e]
+  · rw [ite_eq_left (h0.2 ⟨a, by omega⟩), e]
+  · rw [ite_eq_right (fun hc => by have := (h0.1 hc).2; omega), e]
 
 private noncomputable def stepH (d n w N : Nat) (F : Nat → Nat) (ch : Char)
     (ih : Nat → Nat → Nat → Nat → Nat → Bool) (j e t v acc : Nat) : Bool :=
@@ -91,7 +91,6 @@ private theorem stepH_bad (hj : Nat.beq j N = false)
   rw [hj]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [hh]
 
 private theorem stepH_dig (hj : Nat.beq j N = false)
@@ -102,11 +101,9 @@ private theorem stepH_dig (hj : Nat.beq j N = false)
   rw [hj]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [ht]
 
 private theorem stepH_big (hj : Nat.beq j N = false)
@@ -117,11 +114,9 @@ private theorem stepH_big (hj : Nat.beq j N = false)
   rw [hj]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [ht]
   try dsimp only
   rw [hv]
@@ -137,17 +132,14 @@ private theorem stepH_ent (hj : Nat.beq j N = false)
   rw [hj]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [ht]
   try dsimp only
   rw [hv]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [he]
 
 private theorem stepH_tab (hj : Nat.beq j N = false)
@@ -161,17 +153,14 @@ private theorem stepH_tab (hj : Nat.beq j N = false)
   rw [hj]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [ht]
   try dsimp only
   rw [hv]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [he]
 
 end Steps

@@ -25,19 +25,22 @@ section Step1
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem caseA_conj_eq_inv_mul (t y : G) : y * t * y⁻¹ = ⁅t, y⁆⁻¹ * t := by
   rw [commutatorElement_def]
   group
 
+omit [Finite G] in
 theorem caseA_conj_of_mem_H0 {r : G} (hr : r ∈ H0 M Z) {z : G} (hz : z ∈ Z) :
     r * z * r⁻¹ = z := by
   have h := Subgroup.mem_centralizer_iff.mp hr.2 z hz
   rw [← h]
   group
 
+omit [Finite G] in
 theorem caseA_conj_pair {t a₁ a₂ w₁ w₂ : G} {Z Q : Subgroup G}
     (hcen : ∀ x ∈ Q, ∀ z ∈ Z, x * z = z * x) (hZQ : ∀ z ∈ Z, z ∈ Q)
-    (htc : ∀ z ∈ Z, t * z = z * t) (hw₁ : w₁ ∈ Q) (hw₂ : w₂ ∈ Q)
+    (htc : ∀ z ∈ Z, t * z = z * t) (hw₁ : w₁ ∈ Q) (_hw₂ : w₂ ∈ Q)
     (ha₁ : a₁ ∈ Z) (ha₂ : a₂ ∈ Z) (e₁ : w₁ * t * w₁⁻¹ = a₁⁻¹ * t)
     (e₂ : w₂ * t * w₂⁻¹ = a₂⁻¹ * t) :
     w₁⁻¹ * w₂ * t * (w₁⁻¹ * w₂)⁻¹ = t * (a₁ * a₂⁻¹) := by
@@ -62,8 +65,9 @@ theorem caseA_conj_pair {t a₁ a₂ w₁ w₂ : G} {Z Q : Subgroup G}
     _ = t * (a₂⁻¹ * a₁) := (htc _ (Z.mul_mem (Z.inv_mem ha₂) ha₁)).symm
     _ = t * (a₁ * a₂⁻¹) := by rw [hcen a₁ (hZQ a₁ ha₁) a₂⁻¹ (Z.inv_mem ha₂)]
 
+omit [Finite G] in
 theorem caseA_comm_eq {t r y y₃ u a a₃ : G} {Z Q : Subgroup G}
-    (hcen : ∀ x ∈ Q, ∀ z ∈ Z, x * z = z * x) (htc : ∀ z ∈ Z, t * z = z * t)
+    (_hcen : ∀ x ∈ Q, ∀ z ∈ Z, x * z = z * x) (htc : ∀ z ∈ Z, t * z = z * t)
     (hrZ : ∀ z ∈ Z, r * z * r⁻¹ = z) (ha : a ∈ Z) (ha₃ : a₃ ∈ Z)
     (e_y : y * t * y⁻¹ = a⁻¹ * t) (e_y₃ : y₃ * t * y₃⁻¹ = a₃⁻¹ * t)
     (hy₃ : y = r * y₃ * r⁻¹) (hrt : r * t * r⁻¹ = t * u) :
@@ -245,6 +249,7 @@ section Step2
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem caseA_inv_conj_of {t a z : G} {Z : Subgroup G} (haZ : ∀ x ∈ Z, a * x * a⁻¹ = x)
     (hz : z ∈ Z) (h : a * t * a⁻¹ = t * z) : a⁻¹ * t * a = t * z⁻¹ := by
   have hza : a * z = z * a := by
@@ -264,6 +269,7 @@ theorem caseA_inv_conj_of {t a z : G} {Z : Subgroup G} (haZ : ∀ x ∈ Z, a * x
   calc a⁻¹ * t * a = (a⁻¹ * t * a) * z * z⁻¹ := by group
     _ = t * z⁻¹ := by rw [h3]
 
+omit [Finite G] in
 theorem caseA_comm_centralizes {t c₁ c₂ w₁ w₂ : G} {Z : Subgroup G}
     (hZ₁ : ∀ x ∈ Z, c₁ * x * c₁⁻¹ = x) (hZ₂ : ∀ x ∈ Z, c₂ * x * c₂⁻¹ = x)
     (hw₁ : w₁ ∈ Z) (hw₂ : w₂ ∈ Z) (hcomm : ∀ x ∈ Z, ∀ y ∈ Z, x * y = y * x)
@@ -339,6 +345,7 @@ theorem statedSL_le_of_commutator {K : Type} [Field K] [Finite K] {m : ℕ} (hm 
   obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp hg
   exact Subgroup.mem_comap.mp (hle (Subgroup.mem_top x))
 
+omit [Finite G] in
 theorem caseA_conj_P (hc : Ctx M Q Z B) {t c b : G} (hcM : c ∈ M) (hct : c * t = t * c)
     (hb : b ∈ Q ⊓ QB (Subgroup.zpowers t)) : c * b * c⁻¹ ∈ Q ⊓ QB (Subgroup.zpowers t) := by
   have hzc : conjSubgroup c (Subgroup.zpowers t) = Subgroup.zpowers t := by

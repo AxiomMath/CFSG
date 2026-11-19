@@ -46,9 +46,9 @@ theorem GGResHyp.not_B2der_of_lineJDatum_A2
     (hJ : GGHasLabel (⟨.B2der, 0, 1⟩ : LargeEvenLabel) (↥J ⧸ Subgroup.center ↥J)) :
     False := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJperf : commutator ↥J = ⊤ := hH.1.2.2.1.2.2.2.2.2.1.2.2.1
-  haveI hJperfI : Group.IsPerfect ↥J := Group.IsPerfect.mk hJperf
+  have hJperfI : Group.IsPerfect ↥J := Group.IsPerfect.mk hJperf
   obtain ⟨e⟩ := ggB2der_label_iso_A6 hJ
   have hBN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hinner : ∀ b ∈ Bs, ∃ j ∈ J, ∀ t ∈ J, b * t * b⁻¹ = j * t * j⁻¹ := by
@@ -253,7 +253,7 @@ theorem GGResHyp.not_B2der_of_lineJDatum_A2
       have he'' : (⟨e, hE'P he⟩ : ↥P) ∈ E'' := he
       exact ⟨⟨e, hE'P he⟩, hE''S he'', rfl⟩
     have hSsub3 : IsPGroup 3 ↥Ssub :=
-      IsPGroup.of_equiv (Sylow.isPGroup' S)
+      IsPGroup.of_equiv (Sylow.isPGroup S)
         (Subgroup.equivMapOfInjective (S : Subgroup ↥P) P.subtype P.subtype_injective)
     obtain ⟨SJ, hSsubSJ⟩ := IsPGroup.exists_le_sylow (p := 3) hSsub3
     have hJfac : (Nat.card ↥J).factorization 3 = 3 := by
@@ -300,7 +300,7 @@ theorem GGResHyp.not_B2der_of_lineJDatum_A2
       apply Subtype.ext
       have hsP : (s : ↥J) ∈ P := hSJP s.2
       have hcomm := hEcent (s : ↥J) hsP e he
-      simp only [Subgroup.coe_mul, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul]
       change ((s : ↥J) : G) * (e : G) = (e : G) * ((s : ↥J) : G)
       calc ((s : ↥J) : G) * (e : G) =
           (((s : ↥J) : G) * e * (((s : ↥J) : G))⁻¹) * ((s : ↥J) : G) := by group

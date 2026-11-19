@@ -61,6 +61,7 @@ variable [Finite G] {M B Q P T : Subgroup G} {g : G}
   {C L : Subgroup G} (E : EndgameData M B Q P T g C L) (H : Hyp4 M B Q P T)
 include E H
 
+omit [Finite G] in
 theorem L_inf_Q : L ⊓ Q = C := by
   refine le_antisymm (fun l hl => ?_) (le_inf E.C_le_L (E.C_le_Q H))
   have hlL := hl.1
@@ -75,10 +76,12 @@ theorem L_inf_Q : L ⊓ Q = C := by
   rw [this, mul_one]
   exact hc
 
+omit [Finite G] in
 theorem L_inf_P : L ⊓ P = C :=
   le_antisymm ((inf_le_inf_left L H.P_le_Q).trans (E.L_inf_Q H).le)
     (le_inf E.C_le_L E.C_le_P)
 
+omit [Finite G] in
 theorem conj_inf_Q {r : G} (hr : r ∈ Subgroup.normalizer (L : Set G)) :
     L ⊓ conjSubgroup r Q = conjSubgroup r C := by
   have hrL : conjSubgroup r L = L := conjSubgroup_eq_self_iff.mpr hr
@@ -86,6 +89,7 @@ theorem conj_inf_Q {r : G} (hr : r ∈ Subgroup.normalizer (L : Set G)) :
     _ = conjSubgroup r (L ⊓ Q) := (conjSubgroup_inf r L Q).symm
     _ = conjSubgroup r C := by rw [E.L_inf_Q H]
 
+omit [Finite G] in
 theorem conj_inf_P {r : G} (hr : r ∈ Subgroup.normalizer (L : Set G)) :
     L ⊓ conjSubgroup r P = conjSubgroup r C := by
   have hrL : conjSubgroup r L = L := conjSubgroup_eq_self_iff.mpr hr
@@ -93,6 +97,7 @@ theorem conj_inf_P {r : G} (hr : r ∈ Subgroup.normalizer (L : Set G)) :
     _ = conjSubgroup r (L ⊓ P) := (conjSubgroup_inf r L P).symm
     _ = conjSubgroup r C := by rw [E.L_inf_P H]
 
+omit [Finite G] in
 theorem pt_le_conjC (h45 : Meet45 B Q P) {r : G} (hr : r ∈ Subgroup.normalizer (L : Set G))
     {D : Subgroup G} (hD : D ∈ classIn B L) (hne : D ⊓ conjSubgroup r C ≠ ⊥) :
     D ≤ conjSubgroup r C := by
@@ -112,6 +117,7 @@ theorem pt_le_conjC (h45 : Meet45 B Q P) {r : G} (hr : r ∈ Subgroup.normalizer
   rw [← E.conj_inf_P H hr]
   exact le_inf hDL h3
 
+omit E in
 theorem symm_Q {r r' : G} (h : conjSubgroup r' B ≤ conjSubgroup r Q)
     (hne : conjSubgroup r' B ≠ conjSubgroup r B) : conjSubgroup r B ≤ conjSubgroup r' Q := by
   have h1 : conjSubgroup (r⁻¹ * r') B ≤ Q := by
@@ -126,12 +132,13 @@ theorem symm_Q {r r' : G} (h : conjSubgroup r' B ≤ conjSubgroup r Q)
   have := (conj_le_conj_iff r).mpr h3
   rwa [← conjSubgroup_mul, mul_inv_cancel_left] at this
 
+omit [Finite G] E in
 theorem Bg_ne_bot : conjSubgroup g B ≠ ⊥ := fun h => H.B_ne_bot ((conj_eq_bot_iff g).mp h)
 
-omit H in
+omit H [Finite G] in
 theorem B_mem_classIn : B ∈ classIn B L := ⟨⟨1, (conjSubgroup_one B).symm⟩, E.B_le_L⟩
 
-omit H in
+omit H [Finite G] in
 theorem conjC_le_L {r : G} (hr : r ∈ Subgroup.normalizer (L : Set G)) : conjSubgroup r C ≤ L :=
   conj_le_of_mem_normalizer hr E.C_le_L
 
@@ -142,13 +149,13 @@ theorem B_inf_conjC (h45 : Meet45 B Q P) (hg : g ∈ Subgroup.normalizer (L : Se
   have hBQ : conjSubgroup 1 B ≤ conjSubgroup g Q := by
     rw [conjSubgroup_one]
     exact hB.trans ((conj_le_conj_iff g).mpr (E.C_le_Q H))
-  have h1 := E.symm_Q H hBQ (by rw [conjSubgroup_one]; exact (E.Bg_ne_B H).symm)
+  have h1 := CFSG.RankThree.GF2n.Tim78.EndgameData.symm_Q H hBQ (by rw [conjSubgroup_one]; exact (E.Bg_ne_B H).symm)
   rw [conjSubgroup_one] at h1
   have h2 : conjSubgroup g B ≤ conjSubgroup g B ⊓ Q := le_inf le_rfl h1
   rw [E.Bg_inf] at h2
-  exact E.Bg_ne_bot H (le_bot_iff.mp h2)
+  exact CFSG.RankThree.GF2n.Tim78.EndgameData.Bg_ne_bot H (le_bot_iff.mp h2)
 
-omit H in
+omit H [Finite G] in
 theorem card_L : Nat.card L = Nat.card C * Nat.card B := by
   have h := Subgroup.relIndex_mul_card (H := C) (K := L)
   rw [E.relIndex_L, inf_eq_left.mpr E.C_le_L] at h
@@ -196,6 +203,7 @@ theorem L₀_ne_bot {L₀ : Subgroup G} (S : CSplit B C L₀) : L₀ ≠ ⊥ := 
     exact fun y hy => E.comm_C (hPC hy) (hPC hx)
   exact (H.B_lt_P.trans_le hP).false
 
+omit [Finite G] in
 theorem pt_le_L₀ (h45 : Meet45 B Q P) (hg : g ∈ Subgroup.normalizer (L : Set G))
     {D : Subgroup G} (hD : D ∈ classIn B L) (hne : D ⊓ (C ⊓ conjSubgroup g C) ≠ ⊥) :
     D ≤ C ⊓ conjSubgroup g C := by
@@ -231,7 +239,7 @@ theorem perp_of_le_L₀ (h45 : Meet45 B Q P) (hg : g ∈ Subgroup.normalizer (L 
     rw [S.inf_B] at h2
     exact H.B_ne_bot (le_bot_iff.mp h2)
   have hB : B ≤ conjSubgroup r C := by
-    have h1 := E.symm_Q H (r := 1) (r' := r) (by rw [conjSubgroup_one]; exact hDQ)
+    have h1 := CFSG.RankThree.GF2n.Tim78.EndgameData.symm_Q H (r := 1) (r' := r) (by rw [conjSubgroup_one]; exact hDQ)
       (by rw [conjSubgroup_one]; exact hDB)
     rw [conjSubgroup_one] at h1
     rw [← E.conj_inf_Q H hr]
@@ -243,9 +251,9 @@ theorem perp_of_le_L₀ (h45 : Meet45 B Q P) (hg : g ∈ Subgroup.normalizer (L 
     have h1 : conjSubgroup g B ≤ C := h ▸ (hD.trans inf_le_left)
     have h2 : conjSubgroup g B ≤ C ⊓ conjSubgroup g B := le_inf h1 le_rfl
     rw [E.C_inf] at h2
-    exact E.Bg_ne_bot H (le_bot_iff.mp h2)
+    exact CFSG.RankThree.GF2n.Tim78.EndgameData.Bg_ne_bot H (le_bot_iff.mp h2)
   have hBg : conjSubgroup g B ≤ conjSubgroup r C := by
-    have h1 := E.symm_Q H (r := g) (r' := r) hDQg hDBg
+    have h1 := CFSG.RankThree.GF2n.Tim78.EndgameData.symm_Q H (r := g) (r' := r) hDQg hDBg
     rw [← E.conj_inf_Q H hr]
     exact le_inf E.Bg_le_L h1
   exact ⟨hB, hBg⟩
@@ -280,7 +288,7 @@ theorem exists_pair (h45 : Meet45 B Q P) (hg : g ∈ Subgroup.normalizer (L : Se
     rwa [conj_inv_conj, conjSubgroup_eq_self_iff.mpr (Subgroup.inv_mem _ hr₁)] at this
   have h6 : conjSubgroup g B ≤ C ⊓ conjSubgroup g B := le_inf (E.Bg_le_L.trans h5) le_rfl
   rw [E.C_inf] at h6
-  exact E.Bg_ne_bot H (le_bot_iff.mp h6)
+  exact CFSG.RankThree.GF2n.Tim78.EndgameData.Bg_ne_bot H (le_bot_iff.mp h6)
 
 end EndgameData
 

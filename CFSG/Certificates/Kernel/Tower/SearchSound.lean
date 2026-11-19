@@ -426,12 +426,12 @@ theorem search_complete (M : IsModel (⊤ : Subgroup X) 8192 mul dec) {GS PT t :
   generalize Nat.shiftRight (r3L R3 r3) 25 = o at ho2
   unfold outC at ho2
   cases hb : Nat.beq (Nat.land o 1) 0
-  · rw [hb, cond_false] at ho2
+  · rw [hb, Bool.cond_false] at ho2
     simp only [Bool.and_eq_true, Bool.not_eq_true'] at ho2
     obtain ⟨⟨⟨⟨hx, hs⟩, hd1⟩, hd2⟩, hne⟩ := ho2
     exact absurd (s13_edge M hT γ₃ hIM (Nat.le_of_ble_eq_true hx) (Nat.le_of_ble_eq_true hs)
       (Nat.le_of_ble_eq_true hd1) (Nat.le_of_ble_eq_true hd2)) (Nat.ne_of_beq_eq_false hne)
-  · rw [hb, cond_true, Bool.and_eq_true] at ho2
+  · rw [hb, _root_.Bool.cond_true, Bool.and_eq_true] at ho2
     obtain ⟨ha, hAI⟩ := ho2
     refine ⟨dec (hL HL j3) * dec (hL HL j2) * dec (hL HL j1), ?_, Nat.shiftRight o 1,
       Nat.le_of_ble_eq_true ha, fun i hi => ?_⟩

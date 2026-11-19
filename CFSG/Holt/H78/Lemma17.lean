@@ -121,7 +121,7 @@ theorem lemma_1_7 [Finite G] {S U : Subgroup G} (T : Sylow 2 G) (hSc : S ≤ cen
     rw [mem_subgroupOf] at hn ⊢; exact hWn x x.2 n hn⟩
   have hR'n : (U.subgroupOf T).Normal := ⟨fun n hn x => by
     rw [mem_subgroupOf] at hn ⊢; exact hTU x x.2 n hn⟩
-  obtain ⟨V', ⟨-, -, hRV', hTV', hTV'top⟩, -⟩ := lemma_1_6_rel T.isPGroup'
+  obtain ⟨V', ⟨-, -, hRV', hTV', hTV'top⟩, -⟩ := lemma_1_6_rel T.isPGroup
     (conjRestrict (T : Subgroup G) hgT) (T := (U ⊔ S).subgroupOf T) (R := U.subgroupOf T)
     (N := N)
     (fun x hx => mem_subgroupOf.2 (mem_sup_left (mem_subgroupOf.1 hx)))

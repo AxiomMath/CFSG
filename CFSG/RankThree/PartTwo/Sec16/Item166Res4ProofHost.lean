@@ -159,7 +159,7 @@ theorem stellmacherWSz_map_normal_of_center (hU3 : ¬ 3 ∣ Nat.card U)
   set Q := CFSG.pPrimeCore 2 U with hQ
   set π := QuotientGroup.mk' Q with hπ
   obtain ⟨P0, hP0⟩ := hsyl
-  have hS2 : IsPGroup 2 ι.range := hP0 ▸ P0.isPGroup'
+  have hS2 : IsPGroup 2 ι.range := hP0 ▸ P0.isPGroup
   have hfin : Finite S := Finite.of_injective ι hι
   have hadm : S4Free.IsAdmissibleHost (π.comp ι) := by
     refine S4Free.isAdmissibleHost_of_not_three_dvd ?_ ?_ ?_ ?_

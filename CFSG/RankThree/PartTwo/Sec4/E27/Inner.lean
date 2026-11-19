@@ -284,7 +284,7 @@ theorem hinner_unitary4 {ℓ f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData
     ∀ E : Subgroup (primeFormP h (idGram K 4)), IsElemAbelian 3 E → Nat.card E = 27 →
       HyperGen 3 (⊤ : Subgroup (primeFormP h (idGram K 4))) E := by
   intro E hE hc
-  haveI := h.finite
+  have := h.finite
   have hne : ¬ (4 = 3 ∧ ℓ ^ f = 2) := by omega
   let ψ : primeFormP h (idGram K 4) ≃* StatedProj (StatedSU 4 (ℓ ^ f) K) :=
     (Classical.choice (unitary_prime_form_full_semilinear_realization h
@@ -309,9 +309,9 @@ theorem hinner_unitary4 {ℓ f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData
       Nat.prime_three (by norm_num) hq' hE' hc'
 
 theorem primeFormP_prime_order_three_inner {ℓ : ℕ} {K : Type} [Field K] (h : UnitaryFieldData ℓ 1 K)
-    (hℓ3 : 3 < ℓ) (α : MulAut (primeFormP h (idGram K 4))) (hα : α ^ 3 = 1) :
+    (_hℓ3 : 3 < ℓ) (α : MulAut (primeFormP h (idGram K 4))) (hα : α ^ 3 = 1) :
     α ∈ (MulAut.conj : primeFormP h (idGram K 4) →* MulAut (primeFormP h (idGram K 4))).range := by
-  haveI := h.finite
+  have := h.finite
   have hne : ¬ (4 = 3 ∧ ℓ ^ 1 = 2) := by omega
   have hC : IsPrimeFormGram (1 : GL (Fin 4) K) := isPrimeFormGram_one
   have hg : ¬ 3 ∣ Nat.gcd 4 (ℓ ^ 1 + 1) := by
@@ -342,9 +342,9 @@ theorem seitz27_projSU4_prime {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) {X : Type} 
   have hp : p.Prime := Fact.out
   have hU : UnitaryFieldData p 1 (GaloisField p (2 * 1)) :=
     CFSG.RankThree.PartTwo.Sec4.unitaryFieldData_galoisField p 1 le_rfl
-  haveI := hU.finite
+  have := hU.finite
   have hne : ¬ (4 = 3 ∧ p ^ 1 = 2) := by omega
-  haveI : IsSimpleGroup (primeFormP hU (idGram (GaloisField p (2 * 1)) 4)) :=
+  have : IsSimpleGroup (primeFormP hU (idGram (GaloisField p (2 * 1)) 4)) :=
     CFSG.RankThree.Classical.isSimpleGroup_primeFormP_one hU (by norm_num) hne
   have hnab : ∃ a b : primeFormP hU (idGram (GaloisField p (2 * 1)) 4), a * b ≠ b * a := by
     have hnc := CFSG.RankThree.Classical.not_commute_primeFormP_one hU (by norm_num) hne

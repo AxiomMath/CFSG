@@ -66,7 +66,7 @@ theorem cyclic_sylow_le_every_centralizer_sylow
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAB).mp hAnormal
   let : (AG.subgroupOf C).Normal := Subgroup.normal_subgroupOf_of_le_normalizer
     ((show C ≤ B from inf_le_left).trans hBnorm)
-  have hAp : IsPGroup p AG := A.isPGroup'.map X.subtype
+  have hAp : IsPGroup p AG := A.isPGroup.map X.subtype
   have hApC : IsPGroup p (AG.subgroupOf C) := hAp.comap_of_injective C.subtype Subtype.coe_injective
   have hAR : AG.subgroupOf C ≤ (R : Subgroup C) := hApC.le_sylow_of_normal R
   intro x hx
@@ -96,7 +96,7 @@ theorem centralizer_sylow_whole_fixed_set
       {rightCosetMk H 1, beta} := by
   let C := pairPointStabilizer H beta ⊓ Subgroup.centralizer ({y} : Set G)
   let RG : Subgroup G := (R : Subgroup C).map C.subtype
-  have hRp : IsPGroup p RG := R.isPGroup'.map C.subtype
+  have hRp : IsPGroup p RG := R.isPGroup.map C.subtype
   have hRG : RG ≤ C := Subgroup.map_subtype_le _
   have hRB : RG ≤ pairPointStabilizer H beta := hRG.trans inf_le_left
   have hAR := cyclic_sylow_le_every_centralizer_sylow _ X hXB hXnormal p hp A y hy R

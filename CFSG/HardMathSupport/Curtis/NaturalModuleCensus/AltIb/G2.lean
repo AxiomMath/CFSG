@@ -41,7 +41,7 @@ theorem exists_conj_le_of_sup [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h2))
   obtain ⟨S₁⟩ : Nonempty (Sylow p L') := inferInstance
   set S : Subgroup N := (S₁ : Subgroup L').map L'.subtype with hS
-  have hSp : IsPGroup p S := S₁.isPGroup'.map _
+  have hSp : IsPGroup p S := S₁.isPGroup.map _
   have hSi : ¬ p ∣ S.index := by
     rw [hS, Subgroup.index_map_subtype]
     exact fun hd => (hp.dvd_mul.1 hd).elim S₁.not_dvd_index hpL
@@ -178,7 +178,7 @@ theorem sylow_isCyclic_sl2 (h4 : 4 ≤ Nat.card F) {p : ℕ} (hp : p.Prime) (hp2
     have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) = 60 := by
       rw [card_sl2, h4']; norm_num
     intro P
-    refine isCyclic_of_isPGroup_of_not_sq_dvd hp ?_ P.isPGroup'
+    refine isCyclic_of_isPGroup_of_not_sq_dvd hp ?_ P.isPGroup
     rw [hcard]
     intro hd
     have hle : p ^ 2 ≤ 60 := Nat.le_of_dvd (by norm_num) hd

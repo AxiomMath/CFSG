@@ -14,7 +14,7 @@ theorem pPrimeCore_eq_bot_of_centralizers {G : Type} [Group G] [Finite G] {p : �
     (hR : ¬ p ∣ Nat.card R) (hER : ∀ e ∈ E, ∀ r ∈ R, e * r * e⁻¹ ∈ R)
     (hC : ∀ e ∈ E, e ≠ 1 → R ⊓ Subgroup.centralizer {e} = ⊥) : R = ⊥ := by
   classical
-  haveI : IsElementaryAbelian p E :=
+  have : IsElementaryAbelian p E :=
     { toIsMulCommutative := hE.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x => by
         apply Subtype.ext
@@ -30,7 +30,7 @@ theorem pPrimeCore_eq_bot_of_centralizers {G : Type} [Group G] [Finite G] {p : �
       have h := hER e he (e⁻¹ * r * e) hr
       have heq : e * (e⁻¹ * r * e) * e⁻¹ = r := by group
       rwa [heq] at h
-  letI : MulDistribMulAction E R :=
+  let : MulDistribMulAction E R :=
     MulDistribMulAction.compHom R (R.normalizerMonoidHom.comp (Subgroup.inclusion hEnorm))
   have hact : ∀ (a : E) (x : R), ((a • x : R) : G) = (a : G) * (x : G) * (a : G)⁻¹ :=
     fun _ _ => rfl

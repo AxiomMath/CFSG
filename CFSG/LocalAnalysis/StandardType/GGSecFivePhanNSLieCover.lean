@@ -119,7 +119,7 @@ theorem ggSU_central_extension_splits
     (hK : Nat.card K = (2 ^ f) ^ 2) (hn : 4 ≤ n) (hn4 : ¬ (n = 4 ∧ f = 1))
     (hn6 : ¬ (n = 6 ∧ f = 1)) (E : Type) [Group E] [Finite E] (π : E →* Su K 2 f n) (hπ : Function.Surjective π)
     (hc : π.ker ≤ Subgroup.center E) : ∃ s : Su K 2 f n →* E, π.comp s = MonoidHom.id (Su K 2 f n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := by
     by_contra h
     have hf0 : f = 0 := by omega

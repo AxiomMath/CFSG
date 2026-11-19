@@ -94,7 +94,7 @@ theorem eq_bot_of_le_centralizer {G₀ L₀ P X : Subgroup Γ}
       fun hx => ?_⟩
     have h1 := CFSG.LyonsUnitaryFour.conj_mem_map_of_characteristic (hGE (inv_mem hg)) hx
     simpa [mul_assoc] using h1
-  have hQ0 := hO2 _ ((map_subtype_le _).trans inf_le_left) hQG (Q.isPGroup'.map _)
+  have hQ0 := hO2 _ ((map_subtype_le _).trans inf_le_left) hQG (Q.isPGroup.map _)
   rw [eq_bot_iff]
   intro x hx
   have hxE : x ∈ E := ⟨hXG hx, hXL hx⟩

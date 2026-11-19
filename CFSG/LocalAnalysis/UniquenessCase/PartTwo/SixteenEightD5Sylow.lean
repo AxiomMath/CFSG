@@ -20,7 +20,7 @@ theorem s16e_d5_sylow (hfr : s16e_d5_Frame L K Z) {A : Subgroup (MulAut W)} (hLA
     (hLn : ∀ g ∈ A, g ∈ Subgroup.normalizer (L : Set (MulAut W))) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (h3 : 3 ≤ CFSG.Open.pRank p A) :
     p = 3 ∧ 27 ≤ Nat.card ↥(A ⊓ Subgroup.centralizer (L : Set (MulAut W))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup (MulAut W) := Subgroup.centralizer (L : Set (MulAut W)) with hC
   obtain ⟨E0, hE0A, hE0el, hE0card⟩ := CFSG.SectionRank.exists_pRank hp.one_lt A
   have hdvd0 : p ^ 3 ∣ Nat.card ↥E0 := by
@@ -36,7 +36,7 @@ theorem s16e_d5_sylow (hfr : s16e_d5_Frame L K Z) {A : Subgroup (MulAut W)} (hLA
   have hEA : E ≤ A := hE0le.trans hE0A
   have hEcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := by
     intro x hx y hy
-    haveI : IsMulCommutative ↥E0 := hE0el.1
+    have : IsMulCommutative ↥E0 := hE0el.1
     exact congrArg Subtype.val (mul_comm' ⟨x, hE0le hx⟩ ⟨y, hE0le hy⟩)
   have hIdxA : ((A ⊓ C).subgroupOf A).index ∣ 48 := by
     have h := s16e_d5_index_dvd_48 (G := MulAut W) (L := L) (A := A)

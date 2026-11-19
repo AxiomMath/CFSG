@@ -20,10 +20,10 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_sl28_involution_of_C_TZ_eq_top
-    (D : Data G) (S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
     {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
-    (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t
+    (_hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t
       (lBar ⊥ V h.hyp151.isElemAbelian L))
     (hrow : s16h_H5RowSL2 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
@@ -50,7 +50,7 @@ theorem s16h_sl28_involution_of_C_TZ_eq_top
       T = (T ⊓ Subgroup.normalizer
         ((lBar ⊥ V h.hyp151.isElemAbelian L : Subgroup _) : Set _)) ⊔ Subgroup.zpowers τ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let hV := h.hyp151.isElemAbelian
   let W := Vtil ⊥ V hV
   let Mb : Subgroup (MulAut W) := Mbar D.M ⊥ V hV
@@ -72,7 +72,7 @@ theorem s16h_sl28_involution_of_C_TZ_eq_top
               (MulAut.conj (((g : Mb) : MulAut W))).toMonoidHom
           rw [Subgroup.map_map]
           congr 1 }
-    letI : MulAction Mb (Subgroup (MulAut W)) := act
+    let : MulAction Mb (Subgroup (MulAut W)) := act
     have hstab : MulAction.stabilizer Mb A = N.subgroupOf Mb := by
       ext g
       rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf]

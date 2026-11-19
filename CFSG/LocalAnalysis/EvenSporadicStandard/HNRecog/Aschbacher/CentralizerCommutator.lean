@@ -30,8 +30,8 @@ theorem AschbacherHyp.centralizer_commutator_le_of_le_commutator [Finite C]
     (hC : AschbacherHyp C Q) (hQL : Q ≤ commutator C) :
     centralizer (commutator C : Set C) ≤ centerOf Q := by
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
-  haveI : Finite Q := hC.plus.finite
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite Q := hC.plus.finite
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
   let W : Subgroup C :=
     { carrier := {x | x ∈ Q ∧ ∀ g ∈ commutator C, ⁅g, x⁆ ∈ centerOf Q}
@@ -104,7 +104,7 @@ theorem AschbacherHyp.centralizer_commutator_le_of_le_commutator [Finite C]
       intro g hg x hx
       have hxW : x ∈ W := hW.symm ▸ hx
       exact hxW.2 g hg
-    haveI : IsMulCommutative (C ⧸ Q) :=
+    have : IsMulCommutative (C ⧸ Q) :=
       Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm
     obtain ⟨a, b, hab⟩ := A5WrTwo.exists_mul_ne_mul
     obtain ⟨e⟩ := hC.quotient

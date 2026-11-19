@@ -43,12 +43,12 @@ theorem isSimpleGroup_oPrimeRes_of_pCore {C : Type} [Group C] [Finite C]
     (hcop : Nat.Coprime 5 (Nat.card (CFSG.pCore 2 C)))
     (hT : IsSimpleGroup ↥(oPrimeRes 5 (C ⧸ CFSG.pCore 2 C))) :
     IsSimpleGroup ↥(oPrimeRes 5 (C ⧸ GLAPPrimeCore 5 C)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hQL : CFSG.pCore 2 C ≤ GLAPPrimeCore 5 C := by
     show CFSG.pCore 2 C ≤ CFSG.pPrimeCore 5 C
     exact le_sSup ⟨inferInstance, hcop⟩
   let K : Subgroup (C ⧸ CFSG.pCore 2 C) := (GLAPPrimeCore 5 C).map (QuotientGroup.mk' (CFSG.pCore 2 C))
-  haveI : K.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
+  have : K.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hKcop : Nat.Coprime 5 (Nat.card K) :=
     Nat.Coprime.coprime_dvd_right (Subgroup.card_map_dvd _ _) CFSG.pPrimeCore_coprime_card
   have hA := isSimpleGroup_oPrimeRes_quotient hKcop hT
@@ -134,9 +134,9 @@ theorem timmesfeldAt_of_residual (hU : TimmesfeldUnitaryAt) : TimmesfeldAt := by
     omega
   · have := h6.1
     omega
-  · haveI := h7.2.1
+  · have := h7.2.1
     exact isSimpleGroup_oPrimeRes_of_pCore hcopQ (isSimpleGroup_oPrimeRes_of_simple hdiv)
-  · haveI := h8.1
+  · have := h8.1
     exact isSimpleGroup_oPrimeRes_of_pCore hcopQ (isSimpleGroup_oPrimeRes_of_simple hdiv)
 
 end Final

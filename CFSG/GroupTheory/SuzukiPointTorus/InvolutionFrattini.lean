@@ -23,7 +23,7 @@ abbrev FrattiniV (U : Sylow 2 X) :=
   Additive (↥(U : Subgroup X) ⧸ frattini ↥(U : Subgroup X))
 
 scoped instance frattiniVFact (U : Sylow 2 X) : Fact (IsPGroup 2 (U : Subgroup X)) :=
-  ⟨Sylow.isPGroup' U⟩
+  ⟨Sylow.isPGroup U⟩
 
 scoped instance frattiniVElementary (U : Sylow 2 X) :
     IsElementaryAbelian 2 (↥(U : Subgroup X) ⧸ frattini ↥(U : Subgroup X)) :=

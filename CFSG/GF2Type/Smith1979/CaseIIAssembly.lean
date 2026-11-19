@@ -28,7 +28,7 @@ theorem caseIIStmt_of_inputs (hU : Case2.U43Frob56Free) (hR : Case2.RderFacts) :
   obtain ⟨hodd, hq, -⟩ := S5.timmesfeld_5_5 I.hCE (S14.irr_of_not_isReducible hirr) H hNo C
     (S45Q.hyp45Q H C) (by omega)
   have hM : S.M ≠ ⊤ := Case25.M_ne_top_of_isSimpleGroup S
-  haveI : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
+  have : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
   have hS := CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds
   have hcrit := Case2.critII_X D I.hCE hS hK hM hq hodd
   have hfilter := Case2.filterIIInCatalog_of_bridge

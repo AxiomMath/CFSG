@@ -18,16 +18,16 @@ theorem pow_three_units (u : F4ˣ) : u ^ 3 = 1 :=
     rwa [card_units_F4] at h)
 
 @[expose] noncomputable def mulUnitEquiv (u : F4ˣ) : F4 ≃ₗ[ZMod 2] F4 :=
-  LinearEquiv.ofLinear (LinearMap.mulLeft (ZMod 2) (u : F4))
+  LinearEquiv.ofLinearMap (LinearMap.mulLeft (ZMod 2) (u : F4))
     (LinearMap.mulLeft (ZMod 2) ((u⁻¹ : F4ˣ) : F4))
     (by
       apply LinearMap.ext
       intro x
-      simp [LinearMap.mulLeft_apply, ← mul_assoc])
+      simp [LinearMap.mulLeft_apply])
     (by
       apply LinearMap.ext
       intro x
-      simp [LinearMap.mulLeft_apply, ← mul_assoc])
+      simp [LinearMap.mulLeft_apply])
 
 theorem mulUnitEquiv_apply (u : F4ˣ) (x : F4) : mulUnitEquiv u x = (u : F4) * x := rfl
 
@@ -41,8 +41,7 @@ theorem blockAct_mul (m ε : ℕ) (x y : Fin m → F4ˣ) :
   apply LinearEquiv.ext
   rintro ⟨v, c⟩
   simp only [blockAct, LinearEquiv.mul_apply, LinearEquiv.prodCongr_apply, LinearEquiv.refl_apply,
-    LinearEquiv.piCongrRight_apply, Pi.mul_apply, Units.val_mul, mul_assoc, mulUnitEquiv_apply,
-    Prod.map_apply, id_eq]
+    Pi.mul_apply]
   refine Prod.ext (funext fun j => ?_) rfl
   simp [LinearEquiv.piCongrRight_apply, mulUnitEquiv_apply, mul_assoc]
 
@@ -96,8 +95,7 @@ theorem isElemAbelian_map' {G H : Type*} [Group G] [Group H] (f : G →* H) {K :
   MonoidHom.mk' (fun g => e.trans (g.trans e.symm)) (fun g h => by
     apply LinearEquiv.ext
     intro x
-    simp only [LinearEquiv.trans_apply, LinearEquiv.mul_apply, LinearEquiv.symm_apply_apply,
-      LinearEquiv.apply_symm_apply])
+    simp only [LinearEquiv.trans_apply, LinearEquiv.mul_apply, LinearEquiv.apply_symm_apply])
 
 theorem conjHom_injective {V W : Type} [AddCommGroup V] [Module (ZMod 2) V]
     [AddCommGroup W] [Module (ZMod 2) W] (e : V ≃ₗ[ZMod 2] W) : Function.Injective (conjHom e) := by

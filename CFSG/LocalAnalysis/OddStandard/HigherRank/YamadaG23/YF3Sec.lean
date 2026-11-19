@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.HigherRank.YamadaG23
 open Subgroup CFSG.OddStandard.HigherRank.G2Three.Sec1
 open scoped commutatorElement
 
-theorem isE2_image {A : Type} [Group A] [Finite A] {Q K : Subgroup A} [Q.Normal] (hQK : Q ≤ K)
+theorem isE2_image {A : Type} [Group A] [Finite A] {Q K : Subgroup A} [Q.Normal] (_hQK : Q ≤ K)
     (hsq : ∀ x ∈ K, x ^ 2 ∈ Q) (hidx : Q.relIndex K = 4) :
     IsE 2 ↥(K.map (QuotientGroup.mk' Q)) := by
   have hsq' : ∀ y : ↥(K.map (QuotientGroup.mk' Q)), y ^ 2 = 1 := by
@@ -58,7 +58,7 @@ theorem secProp_iso {G : Type} [Group G] [Finite G] {C P : Subgroup G} {W : Type
     ext c
     rw [Subgroup.mem_subgroupOf, MonoidHom.mem_ker]
     exact (hker c).symm
-  haveI : (P.subgroupOf C).Normal := by
+  have : (P.subgroupOf C).Normal := by
     rw [hker_eq]
     infer_instance
   refine ⟨inferInstance, (QuotientGroup.quotientMulEquivOfEq hker_eq).trans
@@ -78,7 +78,7 @@ theorem secProp_d8 {G : Type} [Group G] [Finite G] {T₂ Q K₁ K₂ : Subgroup 
           {(K₁.subgroupOf T₂).map π, (K₂.subgroupOf T₂).map π}) := by
   have hQn' : ∀ h k, h ∈ Q → k ∈ T₂ → k * h * k⁻¹ ∈ Q :=
     fun h k hh hk => hQn k hk h hh
-  haveI : (Q.subgroupOf T₂).Normal := (Subgroup.normal_subgroupOf_iff hQT).mpr hQn'
+  have : (Q.subgroupOf T₂).Normal := (Subgroup.normal_subgroupOf_iff hQT).mpr hQn'
   let D := ↥T₂ ⧸ Q.subgroupOf T₂
   let π : ↥T₂ →* D := QuotientGroup.mk' (Q.subgroupOf T₂)
   have hD : Nat.card D = 8 := by

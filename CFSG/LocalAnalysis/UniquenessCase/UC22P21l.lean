@@ -15,8 +15,8 @@ theorem uc22p21l_j1NotSp4SU3 : J1NotSp4SU3 := by
   obtain ⟨e⟩ := hX
   have hcard : Nat.card X = 175560 :=
     (Nat.card_congr e.toEquiv).trans CFSG.Sporadic.J1.card_J1
-  haveI : IsSimpleGroup X := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J1) :=
+  have : IsSimpleGroup X := by
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J1) :=
       CFSG.Sporadic.J1.isSimpleGroup_J1
     exact e.isSimpleGroup
   have hc : Subgroup.center X = ⊥ := by
@@ -25,8 +25,8 @@ theorem uc22p21l_j1NotSp4SU3 : J1NotSp4SU3 := by
     · exfalso
       have hcomm : ∀ a b : X, a * b = b * a := fun a b =>
         (Subgroup.mem_center_iff.1 (h ▸ Subgroup.mem_top a) b).symm
-      letI : CommGroup X := { ‹Group X› with mul_comm := hcomm }
-      haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+      let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
+      have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
       have hp : (Nat.card X).Prime := IsSimpleGroup.prime_card
       rw [hcard] at hp
       exact absurd hp (by norm_num)

@@ -39,10 +39,10 @@ private theorem exists_pPart_mul {p : ℕ} (hp : p.Prime) (c : G) :
         pow_orderOf_eq_one, _root_.one_zpow]
     exact Nat.Coprime.of_dvd_right h1 hpm'
 
-private theorem relPPrimeCore_eq_map_self {p : ℕ} (hp : p.Prime) (C : Subgroup G) :
+private theorem relPPrimeCore_eq_map_self {p : ℕ} (_hp : p.Prime) (C : Subgroup G) :
     CFSG.Open.relPPrimeCore p C =
       (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥C) p).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -64,6 +64,7 @@ private theorem relPPrimeCore_eq_map_self {p : ℕ} (hp : p.Prime) (C : Subgroup
     · rw [Subgroup.card_map_of_injective C.subtype_injective]
       exact CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore_coprime p
 
+omit [Finite G] in
 private theorem relPPrimeCore_le_self (p : ℕ) (C : Subgroup G) :
     CFSG.Open.relPPrimeCore p C ≤ C :=
   sSup_le fun _ hN => hN.1
@@ -82,6 +83,7 @@ private theorem relPPrimeCore_normal_self {p : ℕ} (hp : p.Prime) (C : Subgroup
   rw [Subgroup.comap_map_eq_self_of_injective C.subtype_injective]
   infer_instance
 
+omit [Finite G] in
 private theorem subgroupOf_inf_normal {H K N : Subgroup G} (hKH : K ≤ H)
     (hK : (K.subgroupOf H).Normal) (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal) :
     ((K ⊓ N).subgroupOf H).Normal := by
@@ -92,6 +94,7 @@ private theorem subgroupOf_inf_normal {H K N : Subgroup G} (hKH : K ≤ H)
   exact Subgroup.normal_subgroupOf_of_le_normalizer
     ((le_inf hHK hHN).trans Subgroup.inf_normalizer_le_normalizer_inf)
 
+omit [Finite G] in
 private theorem mem_map_conj_iff' {A : Subgroup G} {g z : G} :
     z ∈ A.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * z * g ∈ A := by
   constructor
@@ -108,6 +111,7 @@ private theorem mem_map_conj_iff' {A : Subgroup G} {g z : G} :
     rw [MulAut.conj_apply]
     group
 
+omit [Finite G] in
 private theorem mem_sup_of_le_normalizer {A B : Subgroup G}
     (h : B ≤ Subgroup.normalizer (A : Set G)) {x : G} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
@@ -116,7 +120,7 @@ private theorem mem_sup_of_le_normalizer {A B : Subgroup G}
   have htop : (A.subgroupOf (A ⊔ B)) ⊔ (B.subgroupOf (A ⊔ B)) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (le_sup_left : A ≤ A ⊔ B) (le_sup_right : B ≤ A ⊔ B),
       Subgroup.subgroupOf_self]
-  haveI := hAn
+  have := hAn
   have hz : (⟨x, hx⟩ : ↥(A ⊔ B)) ∈
       (A.subgroupOf (A ⊔ B)) ⊔ (B.subgroupOf (A ⊔ B)) := by
     rw [htop]
@@ -234,7 +238,7 @@ theorem le_closure_pElem_sup_inf {p q : ℕ} [Fact q.Prime] (hp : p.Prime)
     have hKnormK₀ : K ≤ Subgroup.normalizer ((K ⊓ N : Subgroup G) : Set G) :=
       hKH.trans hHnormK₀
     let K₀' : Subgroup ↥K := (K ⊓ N).subgroupOf K
-    haveI : K₀'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKnormK₀
+    have : K₀'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKnormK₀
     let ν : ↥K →* ↥K ⧸ K₀' := QuotientGroup.mk' K₀'
     have hkK : k ∈ K := hk.1
     have hkK₀' : (⟨k, hkK⟩ : ↥K) ∈ K₀' := Subgroup.mem_subgroupOf.mpr hk
@@ -283,7 +287,7 @@ theorem le_inf_centralizer_sup_inf {p q : ℕ} [Fact q.Prime] (hp : p.Prime)
   exact h1.trans (sup_le_sup_right hcl _)
 
 theorem inf_relPPrimeCore_le_relPPrimeCore {p : ℕ} (hp : p.Prime) {H K : Subgroup G} (hKH : K ≤ H)
-    (hK : (K.subgroupOf H).Normal) :
+    (_hK : (K.subgroupOf H).Normal) :
     K ⊓ CFSG.Open.relPPrimeCore p H ≤ CFSG.Open.relPPrimeCore p K := by
   have hOH : CFSG.Open.relPPrimeCore p H ≤ H := relPPrimeCore_le_self p H
   have hHnorm : H ≤ Subgroup.normalizer ((CFSG.Open.relPPrimeCore p H : Subgroup G) : Set G) :=

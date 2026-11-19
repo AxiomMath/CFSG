@@ -25,16 +25,16 @@ theorem hasSmallLinearModel {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {V : Type} 
       exact Subsingleton.elim _ _
   obtain ⟨D, hDchar, -, hDcomm, hDexp, hDfix⟩ :=
     CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup hq2 hV
-  haveI := hDchar
+  have := hDchar
   have hDq : IsPGroup q D := hV.to_subgroup D
   obtain ⟨-, -, -, hEA, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hDq
   obtain ⟨-, hker⟩ := CFSG.GroupTheory.frattini_automorphism_kernel hDq
   set Q := D ⧸ frattini D with hQ
-  haveI : IsMulCommutative Q := hEA.toIsMulCommutative
-  letI : AddCommGroup (Additive Q) := Additive.addCommGroup
-  letI : Module (ZMod q) (Additive Q) := IsElementaryAbelian.isVectorSpace q
-  haveI : Finite (Additive Q) := inferInstanceAs (Finite Q)
-  haveI : Module.Finite (ZMod q) (Additive Q) := Module.Finite.of_finite
+  have : IsMulCommutative Q := hEA.toIsMulCommutative
+  let : AddCommGroup (Additive Q) := Additive.addCommGroup
+  let : Module (ZMod q) (Additive Q) := IsElementaryAbelian.isVectorSpace q
+  have : Finite (Additive Q) := inferInstanceAs (Finite Q)
+  have : Module.Finite (ZMod q) (Additive Q) := Module.Finite.of_finite
   let lin : MulAut Q →* Module.End (ZMod q) (Additive Q) :=
     { toFun := fun σ => (MonoidHom.toAdditive σ.toMonoidHom).toZModLinearMap q
       map_one' := LinearMap.ext fun _ => rfl

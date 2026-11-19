@@ -114,7 +114,7 @@ theorem centralizer_isCyclic_card {f : ℕ} (hf : 2 ≤ f) {X : Type*} [Group X]
     rcases hT with ⟨g, rfl⟩ | ⟨g, rfl⟩ | ⟨g, rfl⟩
     · exfalso
       have h2 : IsPGroup 2 ((P₂ : Subgroup P).map (MulAut.conj g).toMonoidHom) :=
-        P₂.isPGroup'.map _
+        P₂.isPGroup.map _
       obtain ⟨n, hn⟩ := h2 ⟨x, hxT⟩
       have hxn : x ^ 2 ^ n = 1 := by
         have := congrArg Subtype.val hn

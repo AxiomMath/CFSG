@@ -37,7 +37,7 @@ theorem a5Pre_sec [Finite G] {L : Subgroup G} (hq : IsL2Quot 2 (oTwoQuot ↥L))
     (hidx : (centerOf L).relIndex (pCoreOf 2 L) = 16)
     (hnat : NatSec L (centerOf L) (pCoreOf 2 L)) :
     A5Pre L L (pCoreOf 2 L) (centerOf L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ a ∈ pCoreOf 2 L, ∀ b ∈ pCoreOf 2 L, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hQe.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hcomm1 : ∀ a ∈ pCoreOf 2 L, ∀ b ∈ pCoreOf 2 L, ⁅a, b⁆ = 1 := fun a ha b hb =>
@@ -355,7 +355,7 @@ theorem invariant_le_center_or_eq [Finite G] {L : Subgroup G}
       exact hwcomm
     exact le_antisymm hWQ hQW
 
-theorem eq_smul_of_commute_sl {K : Type*} [Field K] [Fintype K] (hK : Fintype.card K = 4)
+theorem eq_smul_of_commute_sl {K : Type*} [Field K] [Fintype K] (_hK : Fintype.card K = 4)
     (f : (Fin 2 → K) →+ (Fin 2 → K))
     (hf : ∀ (M : Matrix.SpecialLinearGroup (Fin 2) K) v,
       f ((M : Matrix (Fin 2) (Fin 2) K) *ᵥ v) = (M : Matrix (Fin 2) (Fin 2) K) *ᵥ f v) :
@@ -441,7 +441,7 @@ theorem eq_smul_of_commute_sl {K : Type*} [Field K] [Fintype K] (hK : Fintype.ca
   have hv : v = v 0 • e1 + v 1 • e2 := by
     ext i; fin_cases i <;> simp [e1, e2]
   rw [hv, f.map_add, hC1, hC2, hfe1, hfe2, smul_add, smul_smul, smul_smul]
-  ext i; fin_cases i <;> simp [he1, he2, Pi.smul_apply, hD]
+  ext i; fin_cases i <;> simp [he1, he2, hD]
   · ring
   · ring
 

@@ -47,7 +47,7 @@ theorem factorization_card_commutator (hp2 : p ≠ 2) {O : Type*} [Group O] [Fin
 theorem factorization_card_of_surjective (hp2 : p ≠ 2) {G H : Type} [Group G] [Group H] [Finite G]
     (π : G →* H) (hπ : Function.Surjective π) (hker : ∀ x, π x = 1 → x ^ 2 = 1) :
     (Nat.card H).factorization p = (Nat.card G).factorization p := by
-  haveI : Finite H := Finite.of_surjective π hπ
+  have : Finite H := Finite.of_surjective π hπ
   have hcard : Nat.card G = Nat.card H * Nat.card π.ker := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup π.ker,
       Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective π hπ).toEquiv]
@@ -78,12 +78,12 @@ theorem wcOn_projOmega_of_sylowData {F : Type} [Field F] [Finite F] {ι : Type} 
   have hsq : ∀ g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q),
       g ^ 2 ∈ commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := fun g =>
     mem_commutator_of_coe_mem (by simpa using hsq' (g : (ι → F) ≃ₗ[F] (ι → F)) g.2)
-  haveI : Nontrivial (ι → F) := by
+  have : Nontrivial (ι → F) := by
     obtain ⟨T, hT3, -⟩ := hT
     refine Module.nontrivial_of_finrank_pos (R := F) ?_
     have := Submodule.finrank_le T
     omega
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := inferInstance
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := inferInstance
   set O := TauCeti.QuadraticMap.orthogonalGroup Q with hO
   let Θ₁ : ↥O →* GL ι F := (toLinEquiv ι F).symm.toMonoidHom.comp O.subtype
   have hΘ₁ : ∀ x : ↥O, toLinEquiv ι F (Θ₁ x) = (x : (ι → F) ≃ₗ[F] (ι → F)) := fun x =>

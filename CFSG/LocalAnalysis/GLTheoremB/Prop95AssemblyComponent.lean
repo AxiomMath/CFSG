@@ -24,6 +24,7 @@ theorem pCore_two_le_glaPPrimeCore {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (M :
   unfold pCoreOf GLAPPrimeCoreOf at h
   exact (Subgroup.map_le_map_iff_of_injective M.subtype_injective).1 h
 
+omit [Finite G] in
 theorem isSubnormal_tl {M L : Subgroup G} (hL : L ≤ M) (hsn : CFSG.Open.IsSubnormal L M) :
     CFSG.Open.IsSubnormal (tl M L) ⊤ := by
   have h1 : (L.subgroupOf M).IsSubnormal := (CFSG.Open.IsSubnormal.iff_subgroupOf hL).1 hsn

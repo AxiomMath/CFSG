@@ -16,6 +16,7 @@ section Comp
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_barX_gammaD_eq {p : ℕ} {M D L : Subgroup G} (hL : GLAPComponent p M L)
     (hn : barX p M (gammaD D) ≤ Subgroup.normalizer
       ((barX p M L : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) : Set (↥M ⧸ GLAPPrimeCore p ↥M)))
@@ -55,6 +56,7 @@ theorem commutator_gammaD_eq {p : ℕ} (hp : p.Prime) {M D L : Subgroup G}
   by_contra hne
   exact hL.2.2.2 _ (lt_of_le_of_ne hKL hne) hsub hbar
 
+omit [Finite G] in
 theorem tl_commutator {M A B : Subgroup G} (hA : A ≤ M) (hB : B ≤ M) :
     tl M ⁅A, B⁆ = ⁅tl M A, tl M B⁆ := by
   unfold tl
@@ -69,6 +71,7 @@ theorem tl_commutator_gammaD {p : ℕ} (hp : p.Prime) {M D L : Subgroup G}
     ⁅tl M (gammaD D), tl M L⁆ = tl M L := by
   rw [← tl_commutator (gammaD_le hD) hL.1, commutator_gammaD_eq hp hD hL hn hnc]
 
+omit [Finite G] in
 theorem tl_pCoreOf_eq_bot (M : Subgroup G) : tl M (pCoreOf 2 M) = ⊥ := by
   rw [eq_bot_iff]
   rintro _ ⟨m, hm, rfl⟩
@@ -80,9 +83,11 @@ theorem tl_pCoreOf_eq_bot (M : Subgroup G) : tl M (pCoreOf 2 M) = ⊥ := by
   rw [Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact hm'
 
+omit [Finite G] in
 theorem tl_mono' {M X Y : Subgroup G} (h : X ≤ Y) : tl M X ≤ tl M Y :=
-  Subgroup.map_mono fun x hx => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx))
+  Subgroup.map_mono fun _x hx => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx))
 
+omit [Finite G] in
 theorem tl_glaPPrimeCoreOf_normal (p : ℕ) (M : Subgroup G) :
     (tl M (GLAPPrimeCoreOf p M)).Normal := by
   have hN : ((GLAPPrimeCoreOf p M).subgroupOf M).Normal :=
@@ -91,6 +96,7 @@ theorem tl_glaPPrimeCoreOf_normal (p : ℕ) (M : Subgroup G) :
   unfold tl
   exact Subgroup.Normal.map hN _ (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem commutator_tl_gammaD_glaPPrimeCore_eq_bot {p : ℕ} {M D : Subgroup G}
     (hD : Prop95Hyp p M D) (hQ : ⁅gammaD D, GLAPPrimeCoreOf p M⁆ ≤ pCoreOf 2 M) :
     ⁅tl M (gammaD D), tl M (GLAPPrimeCoreOf p M)⁆ = ⊥ := by
@@ -111,7 +117,7 @@ theorem commutator_tl_L_glaPPrimeCore_eq_bot {p : ℕ} (hp : p.Prime) {M D L : S
     rw [Subgroup.commutator_comm]
     exact commutator_tl_gammaD_glaPPrimeCore_eq_bot hD hQ
   have hc : ⁅⁅tl M L, tl M (GLAPPrimeCoreOf p M)⁆, tl M (gammaD D)⁆ = ⊥ := by
-    haveI := tl_glaPPrimeCoreOf_normal p M
+    have := tl_glaPPrimeCoreOf_normal p M
     have h1 : ⁅tl M L, tl M (GLAPPrimeCoreOf p M)⁆ ≤ tl M (GLAPPrimeCoreOf p M) :=
       Subgroup.commutator_le_right _ _
     refine eq_bot_iff.2 ?_

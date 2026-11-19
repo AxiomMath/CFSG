@@ -53,10 +53,10 @@ theorem ggQ2s08_sym {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p = 3) {Bs :
     (hg : GGQ2Ind Bs g φ) (hn : GGQ2Ind Bs n ν) (hR : GGIsReflection p φ)
     (hν : ∀ b : ↥Bs, ν (b⁻¹ * φ b) = b⁻¹ * φ b) (b : ↥Bs) :
     φ (b⁻¹ * ν b) = b⁻¹ * ν b := by
-  haveI : Fact p.Prime := ⟨by rw [hp]; norm_num⟩
+  have : Fact p.Prime := ⟨by rw [hp]; norm_num⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨V, _, _, ⟨ι⟩⟩ := exists_ggLinData (p := p) hBs
-  letI : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ι.toEquiv)
+  let : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ι.toEquiv)
   obtain ⟨x, f, hfx, hφx⟩ := exists_of_ggIsReflection (p := p) ι hR
   obtain ⟨hx0, hf0⟩ := ne_zero_of_apply_eq_two hp2 hfx
   have hTx : (ggLin (p := p) ι) ν x = x := ggQ2s08t2a_fix_coroot ι hp2 hfx hφx hν

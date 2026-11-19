@@ -36,7 +36,7 @@ private lemma w183b5_permMatrix_pow {ι K : Type*} [Semiring K] [Fintype ι] [De
 
 theorem exists_orderOf_four_of_isAlt_six_or_isSp4 {X : Type} [Group X]
     (hX : IsAlt X 6 ∨ IsSp4 X 2) : ∃ x : X, orderOf x = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hX with hAlt | hSp
   · obtain ⟨e⟩ := hAlt
     let c : Equiv.Perm (Fin 6) := List.formPerm [0, 1, 2, 3] * List.formPerm [4, 5]
@@ -61,10 +61,10 @@ theorem exists_orderOf_four_of_isAlt_six_or_isSp4 {X : Type} [Group X]
     exact hord
   · obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ :=
       CFSG.Blueprint.LieModel.statedClassicalModel hSp (by decide)
-    letI : Field K := hKfield
-    letI : Finite K := hKfinite
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 :=
+    let : Field K := hKfield
+    let : Finite K := hKfinite
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 :=
       charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card]; exact hKcard)
     let J : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K := Matrix.fromBlocks 0 1 (-1) 0
     let σ : Equiv.Perm (Fin 2 ⊕ Fin 2) :=

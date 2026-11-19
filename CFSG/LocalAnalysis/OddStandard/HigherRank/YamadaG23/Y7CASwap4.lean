@@ -22,7 +22,7 @@ theorem y7c_swap_center_N_trivial (c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComp
     (hzc : ∀ n ∈ Subgroup.normalClosure (J : Set Γ), z * n = n * z) : z = 1 := by
   let N : Subgroup Γ := Subgroup.normalClosure (J : Set Γ)
   let Zc : Subgroup ↥N := Subgroup.center ↥N
-  haveI : Zc.Normal := Subgroup.instNormalCenter
+  have : Zc.Normal := Subgroup.instNormalCenter
   let P' : Subgroup ↥N := P.subgroupOf N
   let S : Subgroup ↥N := Zc ⊔ P'
   have hzN : z ∈ N := hz

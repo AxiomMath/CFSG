@@ -64,7 +64,7 @@ theorem ggCompatPresented_slBlock₃_conj {G : Type*} [Group G] {n f : ℕ} (hn 
   have hij : (⟨0, by omega⟩ : Fin (n + 1)) ≠ ⟨1, by omega⟩ := by simp [Fin.ext_iff]
   have hij₃ : (⟨0, by omega⟩ : Fin (n + 1)).castSucc.castSucc.castSucc ≠
       (⟨1, by omega⟩ : Fin (n + 1)).castSucc.castSucc.castSucc := by
-    simp [Fin.ext_iff]
+    simp
   exact ggCompatPresented_conj_comp (t' := .PSL) (n' := n + 1) (f' := f) hker
     (statedLieAdmissible_PSL hn hf) (by change 2 ≤ n; omega)
     (ι := slBlockHom₃ n (GaloisField 2 f)) slBlockHom₃_injective u

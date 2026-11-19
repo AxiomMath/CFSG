@@ -16,7 +16,7 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {d : Data G}
 
 
-theorem s56_lift_mem_liftSub_iff {X : Subgroup (Equiv.Perm (Fin 1755))} (hXD : X ≤ titsD)
+theorem s56_lift_mem_liftSub_iff {X : Subgroup (Equiv.Perm (Fin 1755))} (_hXD : X ≤ titsD)
     {a : Equiv.Perm (Fin 1755)} (ha : a ∈ titsD) : d.lift a ∈ d.liftSub X ↔ a ∈ X := by
   constructor
   · intro h
@@ -203,7 +203,7 @@ theorem s56_card_K (d : Data G) : Nat.card d.s56K = 1024 :=
   (d.card_liftSub titsK_le_titsD).trans titsQK_facts.2.2.2
 
 theorem s56_K_isPGroup (d : Data G) : IsPGroup 2 d.s56K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.of_card (n := 10) (by rw [s56_card_K]; norm_num)
 
 theorem s56_twoF4N_le_normalizer_titsK :

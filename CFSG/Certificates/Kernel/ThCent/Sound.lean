@@ -279,7 +279,6 @@ theorem formOK_spec {B LT : ℕ} (h : formOK B LT = true) :
   have hmj : Nat.mod (24 * (i : ℕ) + j) 24 = j := by
     change (24 * (i : ℕ) + j) % 24 = j
     omega
-  unfold formStep at h3
   rw [hdi, hmj] at h3
   have e := congrArg (fun n : ℕ => (n : ZMod 2)) h3
   simp only at e
@@ -458,8 +457,8 @@ theorem getN_eq' (l : List ℕ) : ∀ p, getN l p = l.getD p 0 := by
 theorem eqB_eq (y x : ℕ) : eqB y x = if y = x then 1 else 0 := by
   unfold eqB
   cases e : Nat.beq y x
-  · rw [if_neg (Nat.ne_of_beq_eq_false e)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true e)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false e)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true e)]
 
 theorem codeF_cons (Y : ℕ) (FL : List ℕ) (x : ℕ) :
     codeF (Y :: FL) x = Nat.add (codeF FL x) (eqB (vecmul x Y) x) := rfl
@@ -468,8 +467,8 @@ theorem eqB_vec {x y : ℕ} (hx : x < 2 ^ 24) (hy : y < 2 ^ 24) :
     eqB y x = if toVec y = toVec x then 1 else 0 := by
   rw [eqB_eq]
   by_cases h : y = x
-  · rw [if_pos h, if_pos (by rw [h])]
-  · rw [if_neg h, if_neg (fun e => h (eq_of_toVec_eq hy hx e))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+  · rw [ite_eq_right h, ite_eq_right (fun e => h (eq_of_toVec_eq hy hx e))]
 
 theorem codeF_eq {x : ℕ} (hx : x < 2 ^ 24) : ∀ FL : List ℕ,
     codeF FL x = codeFM (FL.map toMat) (toVec x)
@@ -479,13 +478,13 @@ theorem codeF_eq {x : ℕ} (hx : x < 2 ^ 24) : ∀ FL : List ℕ,
     unfold codeFM
     rw [List.map_cons, List.filter_cons]
     by_cases h : Matrix.vecMul (toVec x) (toMat Y) = toVec x
-    · rw [if_pos h, if_pos (by simp [h]), List.length_cons]
-    · rw [if_neg h, if_neg (by simp [h])]
+    · rw [ite_eq_left h, ite_eq_left (by simp [h]), List.length_cons]
+    · rw [ite_eq_right h, ite_eq_right (by simp [h])]
       rfl
 
 theorem comp_eq {SV : ℕ → ℕ} {N : ℕ} (hinc : ∀ k, k + 1 < N → SV k < SV (k + 1))
     (hSV : ∀ k < N, SV k < 2 ^ 24) {B : ℕ} {Ps FL : List ℕ} {x q h : ℕ} (hx : x < 2 ^ 24)
-    (hq : q ≤ 3 * Ps.length) (hh : hintOK SV N Ps x q h = true) :
+    (_hq : q ≤ 3 * Ps.length) (hh : hintOK SV N Ps x q h = true) :
     comp SV N B Ps FL x q h = compM {u | ∃ k < N, toVec (SV k) = u} (toMat B) (Ps.map toMat)
       (FL.map toMat) (toVec x) q := by
   classical
@@ -499,10 +498,10 @@ theorem comp_eq {SV : ℕ → ℕ} {N : ℕ} (hinc : ∀ k, k + 1 < N → SV k <
   · have : Nat.beq q (Nat.mul (nat_lit 3) (List.length Ps)) = true := by
       rw [hq3]
       exact Nat.beq_refl _
-    rw [this, if_pos hq3]
+    rw [this, ite_eq_left hq3]
     exact codeF_eq hx FL
   have hb : Nat.beq q (Nat.mul (nat_lit 3) (List.length Ps)) = false := beqF hq3
-  rw [hb, if_neg hq3]
+  rw [hb, ite_eq_right hq3]
   have hget : (Ps.map toMat).getD (q / 3) 0 = toMat (Ps.getD (q / 3) 0) := getD_map_toMat Ps _
   have hgN : getN Ps (Nat.div q (nat_lit 3)) = Ps.getD (q / 3) 0 := getN_eq' Ps _
   rw [hget, hgN]
@@ -524,18 +523,18 @@ theorem comp_eq {SV : ℕ → ℕ} {N : ℕ} (hinc : ∀ k, k + 1 < N → SV k <
   rw [show Nat.mod q (nat_lit 3) = q % 3 from rfl] at hh' ⊢
   unfold compP
   by_cases h0 : q % 3 = 0
-  · rw [h0, if_pos rfl]
+  · rw [h0, ite_eq_left rfl]
     change eqB w 0 = _
     rw [eqB_vec (x := 0) (y := w) (by norm_num) hwl, toVec_zero']
   have hb0 : Nat.beq (q % 3) (nat_lit 0) = false := beqF h0
-  rw [hb0, if_neg h0]
+  rw [hb0, ite_eq_right h0]
   by_cases h1 : q % 3 = 1
-  · rw [h1, if_pos rfl]
+  · rw [h1, ite_eq_left rfl]
     change bf B x w = _
     have hc := bf_cast hx B w
     rw [← hc, ZMod.val_natCast, Nat.mod_eq_of_lt (bf_lt B x w)]
   have hb1 : Nat.beq (q % 3) (nat_lit 1) = false := beqF h1
-  rw [hb1, if_neg h1]
+  rw [hb1, ite_eq_right h1]
   have h2 : q % 3 = 2 := by omega
   have hm := hint_mem hinc (hh' h2)
   have hmem : (∃ k < N, toVec (SV k) = toVec w) ↔ ∃ k < N, SV k = w := by
@@ -545,18 +544,18 @@ theorem comp_eq {SV : ℕ → ℕ} {N : ℕ} (hinc : ∀ k, k + 1 < N → SV k <
     · rintro ⟨k, hk, e⟩
       exact ⟨k, hk, by rw [e]⟩
   change Bool.rec (motive := fun _ => Nat) (nat_lit 0) (nat_lit 1) (memH SV N w h) = _
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   revert hm
   cases memH SV N w h
   · intro hm
     have : ¬∃ k < N, toVec (SV k) = toVec w := by
       rw [hmem, ← hm]
       decide
-    rw [if_neg this]
+    rw [ite_eq_right this]
   · intro hm
     have : ∃ k < N, toVec (SV k) = toVec w := by
       rw [hmem, ← hm]
-    rw [if_pos this]
+    rw [ite_eq_left this]
 
 theorem diffOK_ne {SV R H1 : ℕ → ℕ} {N B : ℕ} {Ps FL : List ℕ} {i1 k : ℕ}
     (hinc : ∀ k, k + 1 < N → SV k < SV (k + 1)) (hSV : ∀ k < N, SV k < 2 ^ 24)

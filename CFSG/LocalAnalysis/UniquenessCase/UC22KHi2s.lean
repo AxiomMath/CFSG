@@ -16,11 +16,11 @@ theorem rad118_subnormal (D : Data G) :
     ∀ K : Subgroup G, pCoreOf 2 D.M ≤ K → K ≤ rad118 D →
       K ≤ preMbar D (pCoreOf 3 (mbarImage D.M D.U (proofN D))) → (K.subgroupOf D.M).IsSubnormal := by
   intro K hQK hKR hKΘ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hNbn : (mbarImage D.M D.U (proofN D)).Normal :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hNbn : (mbarImage D.M D.U (proofN D)).Normal :=
     uc22br4_mbarImage_normal D.M D.U _ (uc22p22e_jOf_le_self D.M) (uc22p22t_M_le_normalizer_jOf D)
   set T3 : Subgroup (MBar D.M D.U) := pCoreOf 3 (mbarImage D.M D.U (proofN D))
-  haveI hT3n : T3.Normal := by
+  have hT3n : T3.Normal := by
     change ((CFSG.pCore 3 ↥(mbarImage D.M D.U (proofN D))).map (mbarImage D.M D.U (proofN D)).subtype).Normal
     infer_instance
   have hT3p : IsPGroup 3 ↥T3 :=
@@ -42,13 +42,13 @@ theorem rad118_subnormal (D : Data G) :
     have hcop : Nat.Coprime (2 ^ k) (3 ^ j) := Nat.Coprime.pow k j (by norm_num)
     have h3 : orderOf (ψ₀ m) ∣ 1 := hcop ▸ Nat.dvd_gcd h1 h2
     exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3)
-  haveI : (CFSG.pCore 2 ↥D.M).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥D.M).Normal := CFSG.pCore_normal
   let ψ : Bar2 D.M →* MBar D.M D.U := QuotientGroup.lift (CFSG.pCore 2 ↥D.M) ψ₀ hQker
   have hψπ : ∀ m : ↥D.M, ψ (uc22p21cPi D.M m) = ψ₀ m := fun m => rfl
   let Z : Subgroup (Bar2 D.M) := centralizer (fStar D : Set (Bar2 D.M)) ⊓ T3.comap ψ
-  haveI hZn : Z.Normal := by
-    haveI := centralizer_fStar_normal D
-    haveI : (T3.comap ψ).Normal := hT3n.comap ψ
+  have hZn : Z.Normal := by
+    have := centralizer_fStar_normal D
+    have : (T3.comap ψ).Normal := hT3n.comap ψ
     infer_instance
   have hZnil : Group.IsNilpotent ↥Z := by
     refine uc22p22u_isNilpotent_of_isPGroup_map ψ 3 Z ?_ ?_

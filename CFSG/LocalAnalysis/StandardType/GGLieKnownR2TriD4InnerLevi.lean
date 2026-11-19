@@ -22,12 +22,12 @@ theorem triD4_inner_C0
   have hσ' : σ'.toRingHom = σ := rfl
   have hσ'f : ∀ c, σ' c = c ^ (2 ^ f) := hσ
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK3
   have hσ3 : ∀ c, σ' (σ' (σ' c)) = c := by
     intro c
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hexp : ((c ^ 2 ^ f) ^ 2 ^ f) ^ 2 ^ f = c ^ ((2 ^ f) ^ 3) := by
       rw [← pow_mul, ← pow_mul]
       congr 1

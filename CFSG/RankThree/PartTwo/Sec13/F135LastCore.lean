@@ -116,7 +116,7 @@ theorem last_step {M : Type*} [Group M] [Finite M]
     rw [Subgroup.normalizer_eq_top_iff.2 ‹R.Normal›]; exact Subgroup.mem_top k
   have hKSR : ∀ k ∈ K, ∀ s ∈ S ⊓ R, k * s = s * k := by
     by_contra hnot
-    push_neg at hnot
+    push Not at hnot
     obtain ⟨k₀, hk₀, s₀, hs₀, hne⟩ := hnot
     have hKnormSR : K ≤ normalizer ((S ⊓ R : Subgroup M) : Set M) := fun k hk =>
       Subgroup.inf_normalizer_le_normalizer_inf ⟨hKS k hk, hRn k⟩
@@ -132,11 +132,11 @@ theorem last_step {M : Type*} [Group M] [Finite M]
     have hrank := hrank_of_hrank3 K (S ⊓ R) hKnormSR hP3 hrank3
     have hKperf' := commutator_top_of_comm_eq_self K hKperf
     obtain ⟨πK, hπK, hcop⟩ := exists_surjection_coprime R K J hKJ (2 * p) hR hZ
-    haveI : πK.ker.Normal := MonoidHom.normal_ker πK
+    have : πK.ker.Normal := MonoidHom.normal_ker πK
     have hNodd : Odd (Nat.card πK.ker) :=
       Nat.coprime_two_right.1 (Nat.Coprime.coprime_dvd_right (dvd_mul_right 2 p) hcop)
     have hSsimple : IsSimpleGroup (↥K ⧸ πK.ker) := by
-      haveI : IsSimpleGroup (↥J ⧸ center ↥J) := hJ.2.1
+      have : IsSimpleGroup (↥J ⧸ center ↥J) := hJ.2.1
       exact (QuotientGroup.quotientKerEquivOfSurjective πK hπK).isSimpleGroup
     have hstruct : (∃ T : Subgroup ↥K, (∀ t ∈ T, t * t = 1) ∧ Nat.card T = 2 ^ 6) ∨
         ∃ (A : Subgroup ↥K) (x : ↥K), FourCubeSeven A x := by

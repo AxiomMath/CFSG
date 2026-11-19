@@ -197,7 +197,7 @@ theorem inv_mul_mem_HS {a₀ b₀ a₁ b₁ : Shat} (ha₀ : IsTriA 0 a₀) (hb�
   obtain ⟨Φ, ⟨hΦv, -, -⟩, -⟩ := native_universal_completion_of_ambient_cu ambientRootOrbitsHyp
     chiH φe φt (fun x ha hb => (hφ x (mem_cEdgeFix_of_mem ha hb)).symm)
     (fun j x ha hb => (hφt₁ j x hb ha).symm) (fun j x ha hb => (hφt₂ j x hb ha).symm)
-  haveI : IsSimpleGroup Shat := CFSG.Monster.B.GSide.isSimpleGroup_Shat
+  have : IsSimpleGroup Shat := CFSG.Monster.B.GSide.isSimpleGroup_Shat
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Φ.ker with hk | hk
   · have h1 : (cV0 : Shat) ∈ Φ.ker := by
       rw [MonoidHom.mem_ker, hΦv cV0]

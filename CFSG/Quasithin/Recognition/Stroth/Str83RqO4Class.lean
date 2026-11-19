@@ -22,18 +22,21 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S) {X : Subgroup G}
 
+omit [Finite G] in
 private theorem CosetTrans.of_le_inf {H H' A B : Subgroup G} (h : CosetTrans H A B)
     (hH : H ⊓ A ≤ H') : CosetTrans H' A B := by
   intro g hg
   obtain ⟨n, hn, hnb⟩ := h g hg
   exact ⟨n, ⟨hH hn, hn.2⟩, hnb⟩
 
+omit [Finite G] in
 private theorem CosetTrans.inf_right {H A B : Subgroup G} (h : CosetTrans H A B) :
     CosetTrans H A (A ⊓ B) := by
   intro g hg
   obtain ⟨n, hn, hnb⟩ := h g hg
   exact ⟨n, hn, ⟨A.mul_mem (A.inv_mem hn.2) hg, hnb⟩⟩
 
+omit [Finite G] in
 private theorem relIndex_eq_of_cosetTrans {M A B : Subgroup G} (hM : M ≤ A)
     (h : CosetTrans M A B) : (M ⊓ B).relIndex M = B.relIndex A := by
   classical
@@ -87,6 +90,7 @@ private theorem eq_pCoreOf_sup_of_le {E W K : Subgroup G} (hE : E = pCoreOf 2 E 
     rwa [mul_inv_cancel_right] at this
   exact mul_mem (mem_sup_left (F7.pCoreOf_inf_le hWE ⟨hs, hsW⟩)) (mem_sup_right hk)
 
+omit [Finite G] in
 private theorem pow_not_mem_of_sq_mem {H : Subgroup G} {y : G} (hy : y ∉ H)
     (hy2 : y ^ 2 ∈ H) : ∀ m : ℕ, Odd m → y ^ m ∉ H := by
   intro m hm
@@ -100,6 +104,7 @@ private theorem pow_not_mem_of_sq_mem {H : Subgroup G} {y : G} (hy : y ∉ H)
   convert H.mul_mem (H.inv_mem hk) hmem using 1
   group
 
+omit [Finite G] in
 theorem ArcL.normIn_Gw_zero_one (hX : t.ArcL X) :
     normIn X (t.Gw 0 1) = normIn X (t.Gw (-1) 1) := by
   have h1 : t.Gw 0 1 = t.Gv 0 ⊓ t.Gv 1 := by simpa using t.Gw_add_one 0
@@ -128,7 +133,7 @@ theorem ArcL.normIn_Gw_zero_one (hX : t.ArcL X) :
 theorem pX_eq_pCoreOf {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     t.PX X = pCoreOf 2 (normIn X (t.Gw (-1) 1)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hGm : t.Gw (-1) 1 = t.Gv (-1) ⊓ t.Gv 0 ⊓ t.Gv 1 := by
     simpa using t.Gw_sub_one_add_one 0
   have hWm : t.Gw (-1) 1 ≤ t.Gv (-1) := win_le_qv le_rfl (by norm_num)
@@ -183,7 +188,7 @@ private theorem ArcL.isSylowTwoOf_pX_gw_zero_one {a f : ℕ}
     (hfr : Frame L1 L2 S a f) (hX : t.ArcL X) :
     IsSylowTwoOf (t.PX X) (normIn X (t.Gw 0 1)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let A : Subgroup G := normIn X (t.Gw 0 1)
   have hG01 : t.Gw 0 1 = t.Gv 0 ⊓ t.Gv 1 := by simpa using t.Gw_add_one 0
   have hAdef : A = t.MX X 1 ⊓ t.Gv 0 := by
@@ -265,7 +270,7 @@ private theorem ArcL.odd_relIndex_gw_zero_one {a f : ℕ}
 
 theorem ArcL.isSylowTwoOf_pX_one {a f : ℕ}
     (hfr : Frame L1 L2 S a f) (hX : t.ArcL X) : IsSylowTwoOf (t.PX X) (t.MX X 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let A : Subgroup G := normIn X (t.Gw 0 1)
   have hSylA : IsSylowTwoOf (t.PX X) A :=
     ArcL.isSylowTwoOf_pX_gw_zero_one (t := t) hfr hX
@@ -303,6 +308,7 @@ theorem ArcL.normIn_Gw_eq_sup {a f : ℕ}
   rw [← hP'] at hEq
   exact hX.normIn_Gw_zero_one.symm.trans hEq
 
+omit [Finite G] in
 private theorem ArcL.exists_swap_conj {g : G} (hgM0 : g ∈ t.MX X 0)
     (hgu : t.x₁⁻¹ * g ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     conjSub g (normIn X (t.Gw (-1) 1)) = normIn X (t.Gw (-1) 1) := by
@@ -343,6 +349,7 @@ private theorem ArcL.exists_swap_conj {g : G} (hgM0 : g ∈ t.MX X 0)
     ac_rfl
   simpa [A] using hAconj
 
+omit [Finite G] in
 private theorem ArcL.exists_swap_mem_data (hX : t.ArcL X) {g : G} (hgM0 : g ∈ t.MX X 0)
     (hgu : t.x₁⁻¹ * g ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     g ∉ normIn X (t.Gw (-1) 1) ∧ g * g ∈ normIn X (t.Gw (-1) 1) := by
@@ -395,7 +402,7 @@ private theorem ArcL.exists_swap_A_sylow {a f : ℕ}
       ((t.PX X).subgroupOf (normIn X (t.Gw (-1) 1))).Normal ∧
       normIn X (t.Gw (-1) 1) = t.PX X ⊔ t.K ∧ t.PX X ⊓ t.K = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let A : Subgroup G := normIn X (t.Gw (-1) 1)
   let P : Subgroup G := t.PX X
   have hA_PK : A = P ⊔ t.K := by
@@ -437,7 +444,7 @@ private theorem ArcL.exists_swap_A_sylow {a f : ℕ}
     exact Subgroup.normal_subgroupOf_of_le_normalizer (le_normalizer_pCoreOf 2 A)
   have hPK_bot : P ⊓ t.K = ⊥ := by
     obtain ⟨n, hn⟩ := (pCoreOf_isPGroup 2 A).exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hP_eq, hn]
     exact Nat.Coprime.pow_left n (Nat.coprime_two_left.mpr t.hHall.2.1)
   exact ⟨by simpa [A, P] using hSylP_A, by simpa [A, P] using hPnorm,
@@ -450,7 +457,7 @@ private theorem ArcL.exists_swap_conj_K {a f : ℕ}
       t.PX X ⊔ conjSub g t.K = normIn X (t.Gw (-1) 1) ∧
         t.PX X ⊓ conjSub g t.K = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let A : Subgroup G := normIn X (t.Gw (-1) 1)
   let P : Subgroup G := t.PX X
   have hA_PK : A = P ⊔ t.K := by
@@ -472,7 +479,7 @@ private theorem ArcL.exists_swap_conj_K {a f : ℕ}
     obtain ⟨n, hn⟩ := (pCoreOf_isPGroup 2 A).exists_card_eq
     have hcard : Nat.card (conjSub g t.K) = Nat.card t.K :=
       Subgroup.card_map_of_injective (MulAut.conj g).injective
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hP_eq, hn, hcard]
     exact Nat.Coprime.pow_left n (Nat.coprime_two_left.mpr t.hHall.2.1)
   exact ⟨by simpa [P] using hPconj, by simpa [A] using hKg, by simpa [A, P] using hA_gK,
@@ -483,7 +490,7 @@ private theorem ArcL.exists_swap_y {a f : ℕ}
     ∃ y, y ∈ t.MX X 0 ∧ y ∉ normIn X (t.Gw (-1) 1) ∧
       y ∈ normalizer (t.K : Set G) ∧ y * y ∈ normIn X (t.Gw (-1) 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hgM0, hgu⟩ := hX.swap
   have hAconj := ArcL.exists_swap_conj (t := t) hgM0 hgu
   obtain ⟨hgA, hg2A⟩ := ArcL.exists_swap_mem_data (t := t) hX hgM0 hgu
@@ -538,12 +545,12 @@ private theorem ArcL.exists_swap_pow2 {a f : ℕ}
     ∃ s, s ∈ t.MX X 0 ∧ s ∈ normalizer (t.K : Set G) ∧
       s ∉ normIn X (t.Gw (-1) 1) ∧ (∃ n : ℕ, s ^ 2 ^ n = 1) ∧ s * s ∈ t.PX X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let A : Subgroup G := normIn X (t.Gw (-1) 1)
   let P : Subgroup G := t.PX X
   have hy2A' : y ^ 2 ∈ A := by simpa [A, pow_two] using hy2A
   have hyfin : IsOfFinOrder y := by
-    haveI : Finite ↥(t.MX X 0) :=
+    have : Finite ↥(t.MX X 0) :=
       Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
     obtain ⟨k, hkpos, hk⟩ := (isOfFinOrder_of_finite
       (⟨y, hyM0⟩ : ↥(t.MX X 0))).exists_pow_eq_one
@@ -599,6 +606,7 @@ theorem ArcL.exists_swap {a f : ℕ} (hfr : Frame L1 L2 S a f)
     · exact hswap
   exact ⟨s, hsM0, hsK, hswap, hspow, hssP⟩
 
+omit [Finite G] in
 theorem map_MX_of_swap {s : G} (hsX : s ∈ normalizer (X : Set G))
     (hs : t.x₁⁻¹ * s ∈ t.Gv 1) :
     (t.MX X 1).map (MulAut.conj s).toMonoidHom = t.MX X (-1) := by
@@ -734,7 +742,7 @@ private theorem isSylowTwoOf_of_normalizer_le {U C X : Subgroup G} (hUC : U ≤ 
     (hU : IsPGroup 2 U) (hNX : C ⊓ normalizer (U : Set G) ≤ X)
     (hsyl : IsSylowTwoOf U X) : IsSylowTwoOf U C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS, hUS⟩ := A4.exists_isSylowTwoOf_ge hUC hU
   have hSU : S ≤ U := by
     by_contra hSU
@@ -745,9 +753,9 @@ private theorem isSylowTwoOf_of_normalizer_le {U C X : Subgroup G} (hUC : U ≤ 
       intro x hx
       have hx' : (⟨x, hx⟩ : S) ∈ U.subgroupOf S := by rw [htop]; trivial
       exact Subgroup.mem_subgroupOf.mp hx'
-    haveI : Group.IsNilpotent ↥S := hS.2.1.isNilpotent
+    have : Group.IsNilpotent ↥S := hS.2.1.isNilpotent
     have hnc : NormalizerCondition ↥S := Group.normalizerCondition_of_isNilpotent
-    obtain ⟨x, hxN, hxU⟩ := SetLike.exists_of_lt (hnc (U.subgroupOf S) hlt)
+    obtain ⟨x, hxN, hxU⟩ := _root_.IsConcreteLE.exists_of_lt (hnc (U.subgroupOf S) hlt)
     have hxS : (x : G) ∈ S := x.2
     have hxNorm : (x : G) ∈ normalizer (U : Set G) := by
       have hxsub : x ∈ (normalizer (U : Set G)).subgroupOf S := by
@@ -779,7 +787,7 @@ private theorem ArcLMax.arcL_of_char
     (hM1norm : t.MX X 1 ≤ normalizer (C : Set G)) :
     t.ArcL C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Subgroup G := t.PX X
   have hGm : t.Gw (-1) 1 = t.Gv (-1) ⊓ t.Gv 0 ⊓ t.Gv 1 := by
     simpa using t.Gw_sub_one_add_one 0
@@ -804,7 +812,7 @@ private theorem ArcLMax.arcL_of_char
     rw [hPdef]
     exact h
   have hCnormP : normalizer (P : Set G) ≤ normalizer (C : Set G) := by
-    haveI : (C.subgroupOf P).Characteristic := hCchar
+    have : (C.subgroupOf P).Characteristic := hCchar
     have hmap : (C.subgroupOf P).map P.subtype = C := Subgroup.map_subgroupOf_eq_of_le hCP
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (H := P) (K := C.subgroupOf P)
@@ -846,7 +854,7 @@ private theorem ArcLMax.normalizer_pX_le_MX_one
     t.Gv 1 ⊓ normalizer (t.PX X : Set G) ≤ t.MX X 1 := by
   let P : Subgroup G := t.PX X
   have hCnormP : normalizer (P : Set G) ≤ normalizer (C : Set G) := by
-    haveI : (C.subgroupOf P).Characteristic := hCchar
+    have : (C.subgroupOf P).Characteristic := hCchar
     have hmap : (C.subgroupOf P).map P.subtype = C := Subgroup.map_subgroupOf_eq_of_le hCP
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (H := P) (K := C.subgroupOf P)
@@ -882,7 +890,7 @@ theorem ArcLMax.noCharNormal
         t.x₁⁻¹ * g ∈ t.Gv 1 ⊓ t.Gv (-1)) ∨ L1 ≤ normIn R (t.Gv 0) ⊔ t.Qv 0) :
     NoCharNormal (t.PX X) (t.MX X 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro C hCP hCne hCchar hM1norm
   let P : Subgroup G := t.PX X
   have hSylP_G1 : IsSylowTwoOf P (t.Gv 1) :=
@@ -914,7 +922,7 @@ theorem ArcLMax.noCharNormal
 theorem exists_arcLMax (hX : t.ArcL X) (hX2 : IsPGroup 2 X) :
     ∃ Y, t.ArcLMax Y ∧ t.MX X 1 ≤ t.MX Y 1 := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) (by
       intro H K h
       exact Subgroup.ext (fun x => by simpa using Set.ext_iff.mp h x))
@@ -937,7 +945,7 @@ theorem exists_arcLMax (hX : t.ArcL X) (hX2 : IsPGroup 2 X) :
 theorem exists_arcSzMax {X : Subgroup G} (hX : t.ArcSz X) (hX2 : IsPGroup 2 X) :
     ∃ Y, t.ArcSzMax Y ∧ t.MX X 0 ≤ t.MX Y 0 := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) (by
       intro H K h
       exact Subgroup.ext (fun x => by simpa using Set.ext_iff.mp h x))

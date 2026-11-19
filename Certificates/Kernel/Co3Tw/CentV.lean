@@ -72,7 +72,7 @@ theorem closed_of_V {H V : Subgroup (Equiv.Perm (Fin 276))} (hcard : Nat.card H 
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVH).toEquiv, hV]
   have hconj : ∀ z : H, (((⟨c, hcH⟩ : H) * z * (⟨c, hcH⟩ : H)⁻¹ : H) : Equiv.Perm (Fin 276)) =
       c * z * c⁻¹ := fun z => by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   have hcN' : (⟨c, hcH⟩ : H) ∈ Subgroup.normalizer (W : Set H) := by
     rw [Subgroup.mem_normalizer_iff]
     intro z
@@ -142,7 +142,7 @@ theorem closed_of_vOK {k : Nat} (hk : k < 7) (hcard : Nat.card (Cent k) = 972) {
   have hgen : ∀ t ∈ permsA 276 gs, ∃ j < 5, t = ppK (G j) := by
     intro t ht
     obtain ⟨j, hj, rfl⟩ := ht
-    rw [Set.mem_setOf_eq, gs_size] at hj
+    rw [Set.mem_ofPred_eq, gs_size] at hj
     refine ⟨j, hj, ?_⟩
     change permOfArr 276 gs[j]! = ppK (G j)
     rw [gs_get j hj]

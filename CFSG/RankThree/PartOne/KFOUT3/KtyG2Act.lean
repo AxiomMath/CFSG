@@ -2,7 +2,7 @@ module
 
 public import CFSG.RankThree.PartOne.KFOUT3.KtyPairAct
 public import CFSG.RankThree.PartOne.KF.G2Dih
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

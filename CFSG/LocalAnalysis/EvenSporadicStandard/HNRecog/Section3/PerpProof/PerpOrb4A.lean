@@ -22,7 +22,7 @@ theorem perp_card_of_shape {X : Type*} [Group X] (h : IsShapeTwoOneSixByFive X) 
 theorem perp_mem_pCoreOf_of_shape {X : Subgroup G} (hX : IsShapeTwoOneSixByFive ↥X) {x : G}
     (hx : x ∈ X) (hx2 : x ^ 2 = 1) : x ∈ CFSG.Open.pCoreOf 2 X := by
   obtain ⟨N, hN, hNcard, hquot⟩ := hX
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hNp : IsPGroup 2 N := IsPGroup.of_card hNcard
   have hNle : N ≤ CFSG.pCore 2 ↥X := le_sSup ⟨hN, hNp⟩
   let x' : ↥X := ⟨x, hx⟩

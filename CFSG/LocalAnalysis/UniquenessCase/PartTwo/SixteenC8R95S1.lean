@@ -39,7 +39,7 @@ theorem r95s_sylow_of_odd_index {H I M : Subgroup G} (hIH : I ≤ H)
     (hHI : H ≤ normalizer (I : Set G)) (hI : ¬ 2 ∣ (I ⊓ M).relIndex I)
     (hB : ¬ 2 ∣ ((H ⊓ M) ⊔ I).relIndex H) :
     ∃ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 S H ∧ S ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsplit := r95s_relIndex_split (H := H) (A := H ⊓ M) (B := I) inf_le_left hIH hHI
   have hinf : (H ⊓ M) ⊓ I = I ⊓ M := by
     rw [inf_assoc, inf_comm M I, ← inf_assoc, inf_eq_right.mpr hIH]

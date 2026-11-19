@@ -12,6 +12,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (barOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centerOf_iff' {R : Subgroup G} {z : G} :
     z ∈ centerOf R ↔ z ∈ R ∧ ∀ r ∈ R, r * z = z * r := by
   unfold centerOf
@@ -27,6 +28,7 @@ theorem mem_centerOf_iff' {R : Subgroup G} {z : G} :
     rintro ⟨g, hg⟩
     exact Subtype.ext (hc g hg)
 
+omit [Finite G] in
 theorem conj_mem_omegaOne {p : ℕ} {R : Subgroup G} {y : G}
     (hy : y ∈ Subgroup.normalizer (R : Set G)) {n : G} (hn : n ∈ omegaOne p (centerOf R)) :
     y * n * y⁻¹ ∈ omegaOne p (centerOf R) := by
@@ -53,6 +55,7 @@ theorem conj_mem_omegaOne {p : ℕ} {R : Subgroup G} {y : G}
     exact Subgroup.mem_comap.2 (Subgroup.subset_closure (hS s hs))
   exact Subgroup.mem_comap.1 (key hn)
 
+omit [Finite G] in
 theorem mem_normalizer_omegaOne {p : ℕ} {R : Subgroup G} {y : G}
     (hy : y ∈ Subgroup.normalizer (R : Set G)) :
     y ∈ Subgroup.normalizer ((omegaOne p (centerOf R) : Subgroup G) : Set G) := by
@@ -70,7 +73,7 @@ theorem sylow_of_central_rank_two {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d
     (hUZ : U ≤ centerOf R) : IsSylowIn p ⊤ R := by
   have hβ : p.Prime ∧ p ≠ 2 ∧ p ∣ Nat.card G ∧ m ≤ GLATwoLocalRank p G := h.standing.beta
   have hp : p.Prime := hβ.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBSC : IsSCp p ⊤ B := lemma23_proved G m p h.standing B h.bOne
   have hBR : B ≤ R := le_trans le_sup_right h.hR.2
   have hRM : IsSylowIn p M R := h.hR.1
@@ -88,7 +91,7 @@ theorem sylow_of_central_rank_two {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d
   refine ⟨le_top, hRM.2.1, fun R' _ hR'p hRR' => ?_⟩
   by_contra hne
   have hlt : R < R' := lt_of_le_of_ne hRR' (Ne.symm hne)
-  haveI : Group.IsNilpotent ↥R' := IsPGroup.isNilpotent hR'p
+  have : Group.IsNilpotent ↥R' := IsPGroup.isNilpotent hR'p
   have hKne : R.subgroupOf R' ≠ ⊤ := by
     intro hK
     apply hlt.ne'
@@ -101,7 +104,7 @@ theorem sylow_of_central_rank_two {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d
   have hgrow : R.subgroupOf R' <
       Subgroup.normalizer ((R.subgroupOf R' : Subgroup ↥R') : Set ↥R') :=
     Group.normalizerCondition_of_isNilpotent (G := ↥R') (R.subgroupOf R') (lt_top_iff_ne_top.2 hKne)
-  obtain ⟨-, x, hxN, hxK⟩ := SetLike.lt_iff_le_and_exists.1 hgrow
+  obtain ⟨-, x, hxN, hxK⟩ := IsConcreteLE.lt_iff_le_and_exists.1 hgrow
   have hxiff : ∀ k : ↥R', k ∈ R.subgroupOf R' ↔ x * k * x⁻¹ ∈ R.subgroupOf R' := fun k =>
     Subgroup.mem_set_normalizer_iff.1 hxN k
   set g : G := (x : G) with hg

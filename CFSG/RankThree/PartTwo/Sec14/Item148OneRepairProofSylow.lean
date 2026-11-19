@@ -62,7 +62,7 @@ theorem exists_commute_pow_three_not_mem148 [Finite M] {s t : M} (hs : s ≠ 1)
   obtain ⟨T, hT⟩ := (isPGroup_zpowers148 hu3).exists_le_sylow
   have huT : u ∈ (T : Subgroup M) := hT (Subgroup.mem_zpowers u)
   have hcomm : ∀ w ∈ (T : Subgroup M), u * w = w * u := by
-    have hTp : IsPGroup 3 (T : Subgroup M) := T.isPGroup'
+    have hTp : IsPGroup 3 (T : Subgroup M) := T.isPGroup
     have : Nontrivial (T : Subgroup M) :=
       ⟨⟨⟨u, huT⟩, 1, fun h => hu1 (congrArg Subtype.val h)⟩⟩
     have hZ := hTp.center_nontrivial

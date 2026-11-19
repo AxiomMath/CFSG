@@ -15,7 +15,7 @@ variable {K : Type*} [Field K] {ι : Type*} [Fintype ι] [DecidableEq ι]
 
 theorem exists_cube_root {n : ℕ} (h : UnitaryFieldData 2 n K) (hn : Even n) :
     ∃ ω : K, ω ^ 2 + ω + 1 = 0 ∧ h.bar ω = ω := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hcard_units : Nat.card Kˣ = 2 ^ (2 * n) - 1 := by
     rw [Nat.card_units, h.card]
   rcases even_iff_exists_two_mul.mp hn with ⟨m, rfl⟩
@@ -57,6 +57,7 @@ theorem exists_cube_root {n : ℕ} (h : UnitaryFieldData 2 n K) (hn : Even n) :
 
 variable [CharP K 2] {B : Matrix ι ι K}
 
+omit [CharP K 2] in
 private theorem mul_poly (hB3 : B ^ 3 = 1) (c0 c1 c2 d0 d1 d2 : K) :
     (c0 • 1 + c1 • B + c2 • B ^ 2) * (d0 • 1 + d1 • B + d2 • B ^ 2) =
       (c0 * d0 + c1 * d2 + c2 * d1) • 1 +
@@ -72,6 +73,7 @@ private theorem mul_poly (hB3 : B ^ 3 = 1) (c0 c1 c2 d0 d1 d2 : K) :
     hBB, hBB2, hB2B, hB2B2, smul_smul]
   module
 
+omit [CharP K 2] in
 private theorem mul_poly_one (hB3 : B ^ 3 = 1) (a1 a2 b1 b2 : K) :
     (1 + a1 • B + a2 • B ^ 2) * (1 + b1 • B + b2 • B ^ 2) =
       (1 + a1 * b2 + a2 * b1) • 1 + (b1 + a1 + a2 * b2) • B +
@@ -79,16 +81,19 @@ private theorem mul_poly_one (hB3 : B ^ 3 = 1) (a1 a2 b1 b2 : K) :
   have h := mul_poly hB3 1 a1 a2 1 b1 b2
   simpa only [one_smul, one_mul, mul_one] using h
 
+omit [CharP K 2] in
 private theorem eq_of_coeff_one {a1 a2 b1 b2 : K} (h1 : a1 = b1) (h2 : a2 = b2) :
     (1 : Matrix ι ι K) + a1 • B + a2 • B ^ 2 = 1 + b1 • B + b2 • B ^ 2 := by
   rw [h1, h2]
 
+omit [CharP K 2] in
 private theorem eq_of_coeff {a0 a1 a2 b0 b1 b2 : K} (h0 : a0 = b0) (h1 : a1 = b1)
     (h2 : a2 = b2) :
     a0 • (1 : Matrix ι ι K) + a1 • B + a2 • B ^ 2 =
       b0 • (1 : Matrix ι ι K) + b1 • B + b2 • B ^ 2 := by
   rw [h0, h1, h2]
 
+omit [CharP K 2] in
 private theorem mul_poly_B (hB3 : B ^ 3 = 1) (d1 d2 : K) :
     B * (1 + d1 • B + d2 • B ^ 2) = d2 • 1 + (1 : K) • B + d1 • B ^ 2 := by
   have hBB : B * B = B ^ 2 := by rw [sq]
@@ -96,6 +101,7 @@ private theorem mul_poly_B (hB3 : B ^ 3 = 1) (d1 d2 : K) :
   simp only [mul_add, mul_one, Matrix.mul_smul, hBB, hBB2]
   module
 
+omit [CharP K 2] in
 theorem mul_eigenProj (hB3 : B ^ 3 = 1) {t : K} (ht : t ^ 3 = 1) :
     B * eigenProj B t = t • eigenProj B t := by
   simp only [eigenProj]
@@ -124,6 +130,7 @@ theorem eigenProj_mul_self (hB3 : B ^ 3 = 1) {t : K} (ht : t ^ 3 = 1) :
   · rw [show t ^ 2 * t ^ 2 = t by rw [← sq, ← pow_mul]; exact ht4]
     linear_combination t * h2
 
+omit [CharP K 2] in
 theorem eigenProj_mul_eigenProj (hB3 : B ^ 3 = 1) {s t : K} (hs : s ^ 3 = 1) (ht : t ^ 3 = 1)
     (hst : s ≠ t) : eigenProj B s * eigenProj B t = 0 := by
   have hquad : s ^ 2 + s * t + t ^ 2 = 0 := by
@@ -151,7 +158,7 @@ theorem eigenProj_mul_eigenProj (hB3 : B ^ 3 = 1) {s t : K} (hs : s ^ 3 = 1) (ht
   rw [hc0, hc1, hc2]
   simp
 
-theorem eigenProj_add (hB3 : B ^ 3 = 1) {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
+theorem eigenProj_add (_hB3 : B ^ 3 = 1) {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     eigenProj B 1 + eigenProj B ω + eigenProj B (ω ^ 2) = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hω4 : (ω ^ 2) ^ 2 = ω := by linear_combination (ω ^ 2 - ω) * hω
@@ -167,6 +174,7 @@ theorem eigenProj_add (hB3 : B ^ 3 = 1) {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     module
   rw [hcoll, hA, hB', zero_smul, zero_smul, add_zero, add_zero, h3, one_smul]
 
+omit [CharP K 2] in
 theorem map_transpose_eigenProj (σ : K →+* K) (hB : (B.map σ)ᵀ * B = 1) (hB3 : B ^ 3 = 1) {t : K}
     (ht : t ^ 3 = 1) (hσ : σ t = t) : ((eigenProj B t).map σ)ᵀ = eigenProj B (t ^ 2) := by
   have ht4 : t ^ 4 = t := by

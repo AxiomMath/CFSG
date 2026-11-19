@@ -161,7 +161,7 @@ theorem exists_frame (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1) (hA : IsUnit 
     · exact ⟨hu1, hAinj _ hu⟩
     · exact ⟨hu2, hAinj _ (hAinj _ hu)⟩
   set P : Matrix (Fin 3) (Fin 3) L := Matrix.of fun i j => U j i with hPdef
-  have hPu : IsUnit P := Matrix.linearIndependent_cols_iff_isUnit.mp hli
+  have hPu : IsUnit P := Matrix.linearIndependent_col_iff_isUnit.mp hli
   have hcol : ∀ (M : Matrix (Fin 3) (Fin 3) L) i j, (M * P) i j = (M *ᵥ U j) i := by
     intro M i j
     rfl

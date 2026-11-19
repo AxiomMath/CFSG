@@ -37,7 +37,7 @@ private theorem rkA_prod_cOn {p r : Fin 6} (hpr : p ≠ r) (c : Kˣ) (S : Finset
       · simp [cOn, hip, hir]
   rw [Finset.prod_congr rfl (fun i _ => key i), Finset.prod_mul_distrib, Finset.prod_ite_eq',
     Finset.prod_ite_eq']
-  by_cases hp : p ∈ S <;> by_cases hr : r ∈ S <;> simp [hp, hr, _root_.zpow_neg, _root_.zpow_one]
+  by_cases hp : p ∈ S <;> by_cases hr : r ∈ S <;> simp [hp, hr, _root_.zpow_neg]
 
 private theorem rkA_zpow_eq_one [CharP K 2] {x : Kˣ} {n : ℤ}
     (hn : n = 1 ∨ n = -1 ∨ n = 2 ∨ n = -2) (h : x ^ n = 1) : x = 1 := by
@@ -96,6 +96,7 @@ variable [CharP K 2] (A : SLAct K V)
 
 @[expose] noncomputable def Y (t : K) : V →ₗ[K] V := A.act (transvGL K 3 0 (by decide) t)
 
+omit [CharP K 2] in
 theorem X_add (s t : K) : A.X (s + t) = A.X s * A.X t := by
   have h03 : (0 : Fin 6) ≠ 3 := by decide
   show A.act (transvGL K 0 3 h03 (s + t)) =
@@ -103,6 +104,7 @@ theorem X_add (s t : K) : A.X (s + t) = A.X s * A.X t := by
   rw [← tr_mul_tr h03 s t]
   exact A.act_mul _ _ (det_tr _ _) (det_tr _ _)
 
+omit [CharP K 2] in
 theorem X_zero : A.X 0 = 1 := by
   have h03 : (0 : Fin 6) ≠ 3 := by decide
   show A.act (transvGL K 0 3 h03 0) = 1
@@ -114,12 +116,14 @@ theorem X_X_self (t : K) (v : V) : A.X t (A.X t v) = v := by
   calc A.X t (A.X t v) = (A.X t * A.X t) v := rfl
     _ = v := by rw [h, Module.End.one_apply]
 
+omit [CharP K 2] in
 theorem X_fix_I0 {v : V} (hv : v ∈ A.Fix (Wc K I0)) (t : K) : A.X t v = v := by
   have h03 : (0 : Fin 6) ≠ 3 := by decide
   have h0 : (0 : Fin 6) ∈ I0 := by decide
   have h3 : (3 : Fin 6) ∉ I0 := by decide
   exact (A.mem_Fix.1 hv) _ (tr_mem_UnipGL h03 t h0 h3)
 
+omit [CharP K 2] in
 theorem dg_X (d : Fin 6 → Kˣ) (hd : ∏ i, d i = 1) (t : K) (v : V) :
     A.act (dg d) (A.X t v) = A.X ((d 0 : K) * ((d 3 : K))⁻¹ * t) (A.act (dg d) v) := by
   have h03 : (0 : Fin 6) ≠ 3 := by decide
@@ -169,6 +173,7 @@ theorem linearIndependent_v0_v1 {v₀ : V} {ξ : Kˣ →* Kˣ} (S : Setup A v₀
   rw [heq] at h
   exact h
 
+omit [CharP K 2] in
 theorem rkB1_repr_sum {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι K V)
     (c : ι → K) (I : ι) :
     b.repr (∑ J, c J • b J) I = c I := by
@@ -335,6 +340,7 @@ theorem beta_scale {v₀ : V} {ξ : Kˣ →* Kˣ} (S : Setup A v₀ ξ) {β : K 
     exact Units.inv_mul _
   linear_combination (-((ξ c : Kˣ) : K)) * hscal - β (((c : Kˣ) : K) ^ 2 * t) * hinv
 
+omit [CharP K 2] in
 private theorem rkB2_unip_sq [CharP K 2] {W : Submodule K (Fin 6 → K)} {g : GL (Fin 6) K}
     (hg : g ∈ UnipGL K W) : g * g = 1 := by
   apply Units.ext
@@ -403,11 +409,13 @@ theorem beta_ne_zero {v₀ : V} {ξ : Kˣ →* Kˣ} (S : Setup A v₀ ξ) {β : 
   have h := (LinearIndependent.pair_iff.1 (A.linearIndependent_v0_v1 S)) c (-1) hdep
   exact one_ne_zero (neg_eq_zero.1 h.2)
 
+omit [CharP K 2] in
 private theorem rkC_transv_congr {a b c d : Fin 6} (hab : a ≠ b) (hcd : c ≠ d) (t : K)
     (h1 : a = c) (h2 : b = d) : transvGL K a b hab t = transvGL K c d hcd t := by
   subst h1 h2
   rfl
 
+omit [CharP K 2] in
 private theorem rkC_det_mul {g h : GL (Fin 6) K}
     (hg : (g : Matrix (Fin 6) (Fin 6) K).det = 1) (hh : (h : Matrix (Fin 6) (Fin 6) K).det = 1) :
     ((g * h : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K).det = 1 := by

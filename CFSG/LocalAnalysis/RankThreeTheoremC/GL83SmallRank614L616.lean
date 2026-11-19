@@ -140,7 +140,7 @@ theorem Prop614Extremal.normalizer_le_of_characteristic (hS : Setting G) (hU0 : 
     obtain ⟨g, hgM, hPg⟩ := exists_conj_le_normalizer_of_isMax hS hU0 hsit hsolv hx hz hT
     have hPM := (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).1
     refine le_of_twentySeven_le_card hS hU0 hD2 hsit hsolv e hH₁ (hPg.trans hNN) ?_
-      (P.isPGroup'.map _) ?_
+      (P.isPGroup.map _) ?_
     · rintro _ ⟨y, hy, rfl⟩
       exact mul_mem (mul_mem hgM (hPM hy)) (inv_mem hgM)
     · rw [Subgroup.card_map_of_injective (MulAut.conj g).injective,

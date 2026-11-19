@@ -42,6 +42,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {G L : Subgroup (GLV V)} {z : GLV V} {v : V} {H₁ : Subgroup (GLV V)}
   {ψ : ↥H₁ ≃* ↥(orthogonalMinus 2 (ZMod 2) 1 1)}
 
+omit [Finite V] in
 theorem mem_commSpace_iff_of_comm {a k : GLV V} (ha : a * a = 1) (hk : k * a = a * k) (w : V) :
     w ∈ commSpace (Subgroup.zpowers a) ⊤ ↔ k w ∈ commSpace (Subgroup.zpowers a) ⊤ := by
   have hka : ∀ x : V, k (a x) = a (k x) := fun x => by
@@ -109,12 +110,12 @@ theorem cent_u_of (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) {S : Su
     intro w
     simp only [UU, Submodule.mem_inf]
     rw [mem_commSpace_iff_of_comm c.z_mul_z hkz w,
-      mem_commSpace_iff_of_comm d.u_mul_u hku w]
+      mem_commSpace_iff_of_comm (CFSG.CGT.Foote82.CaseII.GD.u_mul_u c) hku w]
   have hkN := d.mem_normalizer_H hs hkG hxU
   obtain ⟨h₁, hh₁, hconj⟩ := c.exists_H₁_of_normalizer haut hkN
   have hh₁L : ∀ l ∈ L, h₁ * l = l * h₁ := by
     intro l hl
-    have h1 := hconj l (c.L_le_H hl)
+    have h1 := hconj l (CFSG.CGT.Foote82.CaseII.Ctx.L_le_H hl)
     have h2 : k * l * k⁻¹ = l := by
       rw [← Subgroup.mem_centralizer_iff.1 (hSK hk).2 l hl, mul_inv_cancel_right]
     rw [h2] at h1
@@ -138,6 +139,9 @@ theorem cent_u_of (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) {S : Su
     have : k = z * (z⁻¹ * k) := by group
     rw [this, h1, mul_one]
 
+omit d in
+include c in
+variable (c) in
 theorem eq_one_of_mem_center (ad : ∃ α : ↥L →* ↥(alternatingGroup (Fin 6)),
       ∃ β : ↥(commSpace L ⊤) →+ altHeart 6, AD L α β)
     {y : GLV V} (hyL : y ∈ L) (hyC : y ∈ Subgroup.centralizer (L : Set (GLV V))) : y = 1 := by
@@ -163,7 +167,7 @@ theorem exists_sd (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) :
   have hL := c.data.L_iso
   obtain ⟨r, s, hrL, hsL, hr4, hss, hsrs, hsr, hru, hsu⟩ := d.exists_rs hs hG1 ad hL
   set u := g * z * g⁻¹ with hu
-  have hu2 : u * u = 1 := d.u_mul_u
+  have hu2 : u * u = 1 := (CFSG.CGT.Foote82.CaseII.GD.u_mul_u c)
   have hui : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu2
   set Cz := G ⊓ Subgroup.centralizer ({z} : Set (GLV V)) with hCz
   have hLCz : ∀ l ∈ L, l ∈ Cz := fun l hl =>
@@ -179,7 +183,7 @@ theorem exists_sd (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) :
   have hz2 : IsPGroup 2 ↥(Subgroup.zpowers z) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, c.orderOf_z, pow_one])
   have hu2' : IsPGroup 2 ↥(Subgroup.zpowers u) :=
-    IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, d.orderOf_u, pow_one])
+    IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, c.orderOf_conj_z g, pow_one])
   have hE2 : IsPGroup 2 ↥(Subgroup.zpowers z ⊔ Subgroup.zpowers u) :=
     IsPGroup.to_sup_of_normal_left' hz2 hu2' (le_normalizer_of_commute fun a ha b hb => by
       obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
@@ -210,7 +214,7 @@ theorem exists_sd (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) :
   obtain ⟨Qs, hQs⟩ := (hR₀2.of_equiv (Subgroup.subgroupOfEquivOfLe hR₀Cz).symm).exists_le_sylow
   set Q : Subgroup (GLV V) := (Qs : Subgroup ↥Cz).map Cz.subtype with hQ
   have hQCz : Q ≤ Cz := Subgroup.map_subtype_le _
-  have hQ2 : IsPGroup 2 ↥Q := Qs.isPGroup'.map _
+  have hQ2 : IsPGroup 2 ↥Q := Qs.isPGroup.map _
   have hR₀Q : (Subgroup.zpowers z ⊔ Subgroup.zpowers u) ⊔ P₂ ≤ Q := by
     intro x hx
     exact ⟨⟨x, hR₀Cz hx⟩, hQs (Subgroup.mem_subgroupOf.2 hx), rfl⟩
@@ -265,7 +269,7 @@ theorem exists_sd (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) :
       rcases eq_one_or_eq_of_mem_zpowers hu2 hy1 with h | h
       · exact h
       · exact absurd (h ▸ hy2) huS
-    rw [hinf, Subgroup.card_bot, mul_one, Nat.card_zpowers, d.orderOf_u, sup_comm] at h1
+    rw [hinf, Subgroup.card_bot, mul_one, Nat.card_zpowers, c.orderOf_conj_z g, sup_comm] at h1
     exact h1
   have hcomm : ∀ a ∈ P₁, ∀ b ∈ P₂, a * b = b * a := by
     have hP₂C : P₂ ≤ Subgroup.centralizer (P₁ : Set (GLV V)) := by
@@ -302,7 +306,7 @@ theorem exists_sd (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) :
     have hyL : y ∈ L := hP₂L hy2
     rw [Subgroup.mem_bot]
     by_cases hyS : y ∈ S
-    · exact d.eq_one_of_mem_center ⟨α, β, ad⟩ hyL hyS.2
+    · exact (CFSG.CGT.Foote82.CaseII.GD.eq_one_of_mem_center c) ⟨α, β, ad⟩ hyL hyS.2
     · exfalso
       have hyu : y * u ∈ S := by
         have h1 := (Subgroup.mul_mem_iff_of_index_two hidx (a := ⟨y, hy1⟩) (b := ⟨u, huP₁⟩)).2

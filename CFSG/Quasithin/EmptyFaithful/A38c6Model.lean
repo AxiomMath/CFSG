@@ -33,7 +33,7 @@ private theorem exists_conj_of_isSylowTwoOf_top {X : Type} [Group X] [Finite X] 
 
 private theorem isSylowTwoOf_top_of_sylow {X : Type} [Group X] [Finite X] (T : Sylow 2 X) :
     IsSylowTwoOf (T : Subgroup X) ⊤ := by
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   show ¬ 2 ∣ (T : Subgroup X).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact T.not_dvd_index

@@ -254,7 +254,7 @@ theorem sylow_shape_central_kernel_bound {S E : Type*} [Group S] [Finite S] [Gro
       exact congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨b, hb⟩ : (T : Subgroup E))
         ⟨a, ha⟩)
     have hp : IsPGroup p (f.ker ⊓ (T : Subgroup E) : Subgroup E) :=
-      IsPGroup.to_le T.isPGroup' inf_le_right
+      IsPGroup.to_le T.isPGroup inf_le_right
     have := (CFSG.ShultStronglyClosedTI.MiscAlgebra.central_sylow_transfer_derived T _
       (inf_le_left.trans hker) hp).1
     rwa [hd, le_bot_iff] at this

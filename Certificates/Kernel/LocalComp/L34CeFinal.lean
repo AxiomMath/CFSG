@@ -78,7 +78,6 @@ theorem ce_at {q : ℕ} (hq : q < 7755) (h1 : L34N.J q % 2 = 1) :
   have h := CFSG.KS.Raw.Orb.allN_iff.1 kCe q hq
   beta_reduce at h
   rw [CFSG.KC.L34Norm.strictB_eq] at h
-  beta_reduce at h
   have hb : Nat.beq (Nat.mod (L34N.J q) 2) 1 = true := Nat.beq_eq.mpr h1
   rw [hb] at h
   exact h

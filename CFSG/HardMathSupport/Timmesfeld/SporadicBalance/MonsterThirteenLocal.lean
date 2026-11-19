@@ -90,7 +90,7 @@ theorem card_centralizer_dvd_two_mul {H Q : Type*} [Group H] [Group Q] [Finite H
     rw [ha] at hKC ⊢
     have ha1 : a ≤ 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have : 2 ^ 2 ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) hc
       omega
     interval_cases a <;> norm_num
@@ -248,12 +248,12 @@ theorem card_cent_inf_eq {f : Gmat} (hf : f ∈ cent xGmat) :
       Subgroup Gmat) =
       Nat.card (Subgroup.centralizer ({(⟨f, hf⟩ : cent xGmat)} : Set (cent xGmat))) :=
   Nat.card_congr
-    { toFun := fun y => ⟨⟨y.1, (Subgroup.mem_inf.1 y.2).1⟩, Subgroup.mem_centralizer_singleton_iff.2
-        (Subtype.ext (Subgroup.mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 y.2).2))⟩
-      invFun := fun y => ⟨y.1.1, Subgroup.mem_inf.2 ⟨y.1.2, Subgroup.mem_centralizer_singleton_iff.2
-        (congrArg Subtype.val (Subgroup.mem_centralizer_singleton_iff.1 y.2))⟩⟩
-      left_inv := fun y => rfl
-      right_inv := fun y => rfl }
+    { toFun := fun _y => ⟨⟨_y.1, (Subgroup.mem_inf.1 _y.2).1⟩, Subgroup.mem_centralizer_singleton_iff.2
+        (Subtype.ext (Subgroup.mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 _y.2).2))⟩
+      invFun := fun _y => ⟨_y.1.1, Subgroup.mem_inf.2 ⟨_y.1.2, Subgroup.mem_centralizer_singleton_iff.2
+        (congrArg Subtype.val (Subgroup.mem_centralizer_singleton_iff.1 _y.2))⟩⟩
+      left_inv := fun _y => rfl
+      right_inv := fun _y => rfl }
 
 theorem card_inf_centralizer_dvd {u h f : Gmat} (hh : h * u * h⁻¹ = xGmat) (hfu : f * u = u * f)
     (hfo : orderOf f = 13) :
@@ -333,7 +333,7 @@ theorem inf_centralizer_eq_bot_of_twoB {u h f w : Gmat} (hh : h * u * h⁻¹ = x
     obtain ⟨a, ha, hay⟩ := (hYmem y).1 hy
     rw [Subgroup.mem_centralizer_singleton_iff]
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     rw [← hay]
     exact hconjF a (Subgroup.mem_centralizer_singleton_iff.1 (hNf (Subgroup.mem_inf.1 ha).1))
   · rw [Subgroup.mem_centralizer_singleton_iff]
@@ -344,16 +344,16 @@ theorem inf_centralizer_eq_bot_of_twoB {u h f w : Gmat} (hh : h * u * h⁻¹ = x
     · have hau : Commute a u := Subgroup.mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 ha).2
       have hwu' : Commute w u := hwu
       exact Subgroup.mem_centralizer_singleton_iff.2 ((hwu'.mul_left hau).mul_left hwu'.inv_left).eq
-    · simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    · simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       rw [← hay]
       group
   · apply Subtype.ext
-    simp only [Subgroup.coe_pow, Subgroup.coe_one, Subgroup.coe_mk]
+    simp only [Subgroup.coe_pow, Subgroup.coe_one]
     rw [show (h * w * h⁻¹) ^ 4 = (MulAut.conj h) (w ^ 4) by simp [MulAut.conj_apply], hw4, map_one]
   · intro h2
     apply hw2
     have := congrArg Subtype.val h2
-    simp only [Subgroup.coe_pow, Subgroup.coe_one, Subgroup.coe_mk] at this
+    simp only [Subgroup.coe_pow, Subgroup.coe_one] at this
     rw [show (h * w * h⁻¹) ^ 2 = (MulAut.conj h) (w ^ 2) by simp [MulAut.conj_apply]] at this
     exact (MulEquiv.map_eq_one_iff _).1 this
 

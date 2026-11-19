@@ -39,7 +39,7 @@ theorem xord_PSp {r : ℕ} {F : Type} [Field F] [Finite F] (hr : 3 ≤ r ∨ (r 
     {p e : ℕ} (hp : p = ringChar F) (hq : Nat.card F = p ^ e) :
     XOrd (Nat.card (StatedProj (StatedSp r F))) p e := by
   by_cases h2 : ringChar F = 2
-  · haveI : CharP F 2 := h2 ▸ ringChar.charP F
+  · have : CharP F 2 := h2 ▸ ringChar.charP F
     have hr3 : 3 ≤ r := by
       rcases hr with h | ⟨-, h⟩
       · exact h
@@ -68,7 +68,7 @@ instance finite_statedProj_statedSp {r : ℕ} {F : Type} [Field F] [Finite F] :
     Finite (StatedProj (StatedSp r F)) :=
   haveI : Finite (CFSG.Assembly.LowTwoRank.StatedSp r F) :=
     Finite.of_injective (fun g => ((g : Matrix.GeneralLinearGroup (Fin r ⊕ Fin r) F) :
-      Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) F)) fun a b h =>
+      Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) F)) fun _a _b h =>
         Subtype.ext (Units.ext h)
   inferInstance
 

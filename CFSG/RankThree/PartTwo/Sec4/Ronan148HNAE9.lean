@@ -16,6 +16,7 @@ section Split
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_of_mem_of_commute {L : Subgroup G} (hZ : Subgroup.center L = ⊥) {x : G}
     (hx : x ∈ L) (hc : ∀ g ∈ L, g * x = x * g) : x = 1 := by
   have hmem : (⟨x, hx⟩ : L) ∈ Subgroup.center L := by
@@ -39,7 +40,7 @@ theorem inner_split_of_inner {L A : Subgroup G} (hZ : Subgroup.center L = ⊥)
   have hA27 : Nat.card A = 27 := hA.2
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
     intro a ha b hb
-    haveI := hAel.1
+    have := hAel.1
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : A) ⟨b, hb⟩)
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := fun a ha => hAel.2 a ha
   have hAc' : ∀ a b : A, a * b = b * a := fun a b => Subtype.ext (hAc a a.2 b b.2)
@@ -215,12 +216,12 @@ theorem mem_of_isInnerAut {L A : Subgroup G} (hZ : Subgroup.center L = ⊥)
     (hE₀fix : ∀ e ∈ E₀, L.normalizerMonoidHom (Subgroup.inclusion hAN a₀) e = e)
     (x : A) (hx : IsInnerAut (L.normalizerMonoidHom (Subgroup.inclusion hAN x))) :
     (x : G) ∈ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set act : A →* MulAut L := L.normalizerMonoidHom.comp (Subgroup.inclusion hAN) with hactdef
   have hact : ∀ (a : A) (l : L), ((act a l : L) : G) = (a : G) * (l : G) * (a : G)⁻¹ :=
     fun _ _ => rfl
   have hAc : ∀ a b : A, a * b = b * a := fun a b => by
-    haveI := hA.1
+    have := hA.1
     exact mul_comm' a b
   have hpow3 : ∀ a : A, a ^ 3 = 1 := fun a => Subtype.ext (by simpa using hA.2 a a.2)
   have hcinj := conj_injective_of_center_eq_bot hZ

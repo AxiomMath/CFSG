@@ -15,7 +15,7 @@ theorem four_le_pRank_of_linCover {K : Type} [Field K] [Finite K] {n : ℕ} (hn 
     (ρ : SpecialLinearGroup (Fin n) K →* L)
     (hker : ρ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin n) K)) :
     4 ≤ pRank 3 (⊤ : Subgroup L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 h3
   set e := specialLinearGroupEquivStatedSL n K
   let π : StatedSL n K →* L := ρ.comp e.symm.toMonoidHom
@@ -34,7 +34,7 @@ theorem four_le_pRank_of_uniCover {K : Type} [Field K] [Finite K] {f n : ℕ}
     [Finite L] (ρ : StatedSU n (2 ^ f) K →* L)
     (hker : ρ.ker ≤ Subgroup.center (StatedSU n (2 ^ f) K)) :
     4 ≤ pRank 3 (⊤ : Subgroup L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card Kˣ = 2 ^ f * 2 ^ f - 1 := by
     rw [Nat.card_units, hK, sq]
   have h3K : 3 ∣ Nat.card Kˣ := by

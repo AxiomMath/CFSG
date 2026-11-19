@@ -21,13 +21,13 @@ theorem s16k_false_of_binaryNaturalSL (h : S16gRowCtx D V₀ V L hV)
     (hN : BinaryNaturalSL (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) n a) : False := by
   obtain ⟨K, hF, hFin, hK, hR⟩ := hN
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   by_cases hn : n ≤ 1
   · exact s16g_not_isQuasisimple_of_realizes_comm
       (fun x _ y _ => s16g_mul_comm_of_card_le_one (by rw [Fintype.card_fin]; omega) x y) hR
       h.quasi
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨p, hpσ⟩ := h.std.hx.sig_nonempty
   have hp : p.Prime := (D.sig_prime p hpσ).1
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2

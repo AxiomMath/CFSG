@@ -50,7 +50,7 @@ theorem eq_bot_of_stronglyClosed_of_abelian3 [Finite G] [IsSimpleGroup G]
     intro a j ha hj hG
     obtain ⟨T', hRT'⟩ := hR2.exists_le_sylow
     have hT'le : Nat.card (T' : Subgroup G) ≤ 8 :=
-      (card_le_of_isPGroup_of_card_eq T'.isPGroup' hj hG).trans
+      (card_le_of_isPGroup_of_card_eq T'.isPGroup hj hG).trans
         (le_of_le_of_eq (Nat.pow_le_pow_right (by norm_num) ha) (by norm_num))
     have hRT : R = (T' : Subgroup G) := Subgroup.eq_of_le_of_card_ge hRT' (hT'le.trans hR8)
     have h1 := twoRank_le_one_of_sylow_unique_involution T' (hRT ▸ hRu)

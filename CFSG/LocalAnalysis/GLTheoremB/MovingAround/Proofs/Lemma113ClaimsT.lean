@@ -41,9 +41,9 @@ theorem vanishing_V1 [Finite G] {Q0 : Subgroup G} {m : G} (hQel : IsElemAbelian 
     (hβa : ∀ a ∈ Q0, β a a = 1)
     (hβm : ∀ a ∈ Q0, ∀ b ∈ Q0, β (m * a * m⁻¹) (m * b * m⁻¹) = m * β a b * m⁻¹) :
     ∀ a ∈ Q0, ∀ b ∈ Q0, β a b = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : CommGroup Q0 := { (inferInstance : Group Q0) with mul_comm := hQel.1.is_comm.comm }
-  letI : Module (ZMod 3) (Additive Q0) := AddCommGroup.zmodModule (n := 3) fun x => by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : CommGroup Q0 := { (inferInstance : Group Q0) with mul_comm := hQel.1.is_comm.comm }
+  let : Module (ZMod 3) (Additive Q0) := AddCommGroup.zmodModule (n := 3) fun x => by
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero]
     exact Subtype.ext (by simpa using hQel.2 _ x.toMul.2)
@@ -120,21 +120,28 @@ namespace Hyp
 variable [Finite G] {T E Q0 : Subgroup G} {e m : G} (h : Hyp T E Q0 e m)
 include h
 
+omit [Finite G] in
 theorem QT : Q0 ≤ T := h.QE.trans h.ET
 
+omit [Finite G] in
 theorem eT : e ∈ T := h.ET h.eE
 
+omit [Finite G] in
 theorem Qcomm {a b : G} (ha : a ∈ Q0) (hb : b ∈ Q0) : a * b = b * a :=
   h.Qcent a (h.QT ha) b hb
 
+omit [Finite G] in
 theorem Ecomm {a b : G} (ha : a ∈ E) (hb : b ∈ E) : a * b = b * a := by
-  haveI := h.Eel.1
+  have := h.Eel.1
   exact setLike_mul_comm ha hb
 
+omit [Finite G] in
 theorem Q3 {a : G} (ha : a ∈ Q0) : a ^ 3 = 1 := h.Qel.2 a ha
 
+omit [Finite G] in
 theorem e3 : e ^ 3 = 1 := h.Eel.2 e h.eE
 
+omit [Finite G] in
 theorem θ_mul {r s : G} (hr : r ∈ T) (hs : s ∈ T) : ⁅r * s, e⁆ = ⁅r, e⁆ * ⁅s, e⁆ := by
   have hb := h.θQ s hs
   have h1 : r * ⁅s, e⁆ = ⁅s, e⁆ * r := h.Qcent r hr _ hb
@@ -142,32 +149,40 @@ theorem θ_mul {r s : G} (hr : r ∈ T) (hs : s ∈ T) : ⁅r * s, e⁆ = ⁅r, 
     _ = ⁅s, e⁆ * ⁅r, e⁆ := by rw [h1]; simp only [commutatorElement_def]; group
     _ = ⁅r, e⁆ * ⁅s, e⁆ := h.Qcomm hb (h.θQ r hr)
 
+omit [Finite G] in
 theorem θ_inv {r : G} (hr : r ∈ T) : ⁅r⁻¹, e⁆ = ⁅r, e⁆⁻¹ := by
   have := h.θ_mul (T.inv_mem hr) hr
   rw [inv_mul_cancel, commutatorElement_one_left] at this
   exact eq_inv_of_mul_eq_one_left this.symm
 
+omit [Finite G] in
 theorem θ_conj {y z : G} (hy : y ∈ T) (hz : z ∈ T) : ⁅y * z * y⁻¹, e⁆ = ⁅z, e⁆ := by
   rw [h.θ_mul (T.mul_mem hy hz) (T.inv_mem hy), h.θ_mul hy hz, h.θ_inv hy,
     h.Qcomm (h.θQ y hy) (h.θQ z hz), mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem θ_m (r : G) : ⁅m * r * m⁻¹, e⁆ = m * ⁅r, e⁆ * m⁻¹ := by
   calc ⁅m * r * m⁻¹, e⁆ = ⁅m * r * m⁻¹, m * e * m⁻¹⁆ := by rw [h.me]
     _ = m * ⁅r, e⁆ * m⁻¹ := by simp only [commutatorElement_def]; group
 
+omit [Finite G] in
 theorem θ_eq_one {c : G} (hc : c ∈ E) : ⁅c, e⁆ = 1 :=
   commutatorElement_eq_one_iff_mul_comm.mpr (h.Ecomm hc h.eE)
 
+omit [Finite G] in
 theorem mem_E {r : G} (hr : r ∈ T) (h1 : ⁅r, e⁆ = 1) : r ∈ E :=
   h.θker r hr (commutatorElement_eq_one_iff_mul_comm.mp h1)
 
+omit [Finite G] in
 theorem e_comm_mem {w : G} (hw : w ∈ T) : ⁅e, w⁆ ∈ Q0 := by
   rw [← commutatorElement_inv]
   exact Q0.inv_mem (h.θQ w hw)
 
+omit [Finite G] in
 theorem e_comm_conj {y z : G} (hy : y ∈ T) (hz : z ∈ T) : ⁅e, y * z * y⁻¹⁆ = ⁅e, z⁆ := by
   rw [← commutatorElement_inv, h.θ_conj hy hz, commutatorElement_inv]
 
+omit [Finite G] in
 theorem e2_not_mem : e ^ 2 ∉ Q0 := by
   intro h2
   apply h.eQ
@@ -176,9 +191,11 @@ theorem e2_not_mem : e ^ 2 ∉ Q0 := by
   rw [← this]
   exact Q0.pow_mem h2 2
 
+omit [Finite G] in
 theorem e2_inv : (e ^ 2)⁻¹ = e := by
   rw [inv_eq_iff_mul_eq_one, ← pow_succ, h.e3]
 
+omit [Finite G] in
 theorem pow_mul_inv_mem {k l : Fin 3} (hkl : e ^ (k : ℕ) * (e ^ (l : ℕ))⁻¹ ∈ Q0) : k = l := by
   have hQ1 := h.eQ
   have hQ2 := h.e2_not_mem
@@ -210,6 +227,7 @@ theorem E_decomp {c : G} (hc : c ∈ E) : ∃ k : Fin 3, ∃ q ∈ Q0, c = q * e
   obtain ⟨⟨k, q⟩, hq⟩ := (hf.bijective_of_nat_card_le hcard).2 ⟨c, hc⟩
   exact ⟨k, q, q.2, (congrArg Subtype.val hq).symm⟩
 
+omit [Finite G] in
 theorem comm_e_pow {w : G} (hw : w ∈ T) (n : ℕ) : ⁅e ^ n, w⁆ = ⁅e, w⁆ ^ n := by
   have hb := h.e_comm_mem hw
   induction n with
@@ -222,6 +240,7 @@ theorem comm_e_pow {w : G} (hw : w ∈ T) (n : ℕ) : ⁅e ^ n, w⁆ = ⁅e, w�
       _ = ⁅e, w⁆ ^ n * ⁅e, w⁆ := by congr 1; simp only [commutatorElement_def]; group
       _ = ⁅e, w⁆ ^ (n + 1) := (pow_succ _ _).symm
 
+omit [Finite G] in
 theorem comm_Qe_pow {q w : G} (hq : q ∈ Q0) (hw : w ∈ T) (n : ℕ) :
     ⁅q * e ^ n, w⁆ = ⁅e, w⁆ ^ n := by
   have hX : ⁅e ^ n, w⁆ ∈ Q0 := by rw [h.comm_e_pow hw]; exact Q0.pow_mem (h.e_comm_mem hw) n
@@ -237,16 +256,19 @@ theorem comm_E {c w : G} (hc : c ∈ E) (hw : w ∈ T) : ∃ k : Fin 3, ⁅c, w�
   obtain ⟨k, q, hq, rfl⟩ := h.E_decomp hc
   exact ⟨k, h.comm_Qe_pow hq hw k⟩
 
+omit [Finite G] h in
 theorem comm_mem_T {x y : G} (hx : x ∈ T) (hy : y ∈ T) : ⁅x, y⁆ ∈ T :=
   T.mul_mem (T.mul_mem (T.mul_mem hx hy) (T.inv_mem hx)) (T.inv_mem hy)
 
+omit [Finite G] in
 theorem comm_mem_E {x y : G} (hx : x ∈ T) (hy : y ∈ T) : ⁅x, y⁆ ∈ E := by
   have hxy : x * y * x⁻¹ ∈ T := T.mul_mem (T.mul_mem hx hy) (T.inv_mem hx)
-  refine h.mem_E (h.comm_mem_T hx hy) ?_
+  refine h.mem_E (Hyp.comm_mem_T hx hy) ?_
   rw [commutatorElement_def x y, h.θ_mul hxy (T.inv_mem hy), h.θ_conj hx hy, h.θ_inv hy,
     mul_inv_cancel]
 
 omit h in
+omit [Finite G] in
 theorem hall_witt (x y z : G) :
     ⁅⁅x, y⁆, y * z * y⁻¹⁆ * ⁅⁅y, z⁆, z * x * z⁻¹⁆ * ⁅⁅z, x⁆, x * y * x⁻¹⁆ = 1 := by
   simp only [commutatorElement_def]; group
@@ -285,23 +307,25 @@ theorem not_comm_eq {x y q : G} (hx : x ∈ T) (hy : y ∈ T) (hq : q ∈ Q0) (h
 theorem comm_mem_Q {x y : G} (hx : x ∈ T) (hy : y ∈ T) : ⁅x, y⁆ ∈ Q0 := by
   obtain ⟨k, q, hq, hk⟩ := h.E_decomp (h.comm_mem_E hx hy)
   fin_cases k
-  · simp only [Fin.zero_eta, Fin.val_zero, pow_zero, mul_one] at hk
+  · simp only [pow_zero, mul_one] at hk
     rw [hk]
     exact hq
   · exact (h.not_comm_eq hx hy hq (by simpa using hk)).elim
   · refine (h.not_comm_eq hy hx (Q0.inv_mem hq) ?_).elim
     rw [← commutatorElement_inv, hk]
-    simp only [Fin.reduceFinMk, Fin.val_two]
+    simp only
     rw [mul_inv_rev, h.e2_inv]
     exact h.Ecomm h.eE (h.QE (Q0.inv_mem hq))
 
 omit h in
+omit [Finite G] in
 theorem comm_mul_central_left {x z c : G} (hc : z * c = c * z) : ⁅x * c, z⁆ = ⁅x, z⁆ := by
   calc ⁅x * c, z⁆ = x * (c * z) * c⁻¹ * x⁻¹ * z⁻¹ := by simp only [commutatorElement_def]; group
     _ = x * (z * c) * c⁻¹ * x⁻¹ * z⁻¹ := by rw [hc]
     _ = ⁅x, z⁆ := by simp only [commutatorElement_def]; group
 
 omit h in
+omit [Finite G] in
 theorem comm_mul_central_right {x y c : G} (hc : x * c = c * x) : ⁅x, y * c⁆ = ⁅x, y⁆ := by
   have hc' : c * x⁻¹ = x⁻¹ * c := ((show Commute x c from hc).inv_left).eq.symm
   calc ⁅x, y * c⁆ = x * y * (c * x⁻¹) * c⁻¹ * y⁻¹ := by simp only [commutatorElement_def]; group
@@ -336,6 +360,7 @@ theorem cube_mul {f y : G} (hf : f ∈ T) (hy : y ∈ T) : (f * y) ^ 3 = f ^ 3 *
   simp only [pow_succ, pow_zero, one_mul, mul_assoc]
   rw [key, hc3]
 
+omit [Finite G] in
 theorem comm_m_mem {s : G} (hs : s ∈ T) : ⁅m, s⁆ ∈ T :=
   T.mul_mem (h.mT s hs) (T.inv_mem hs)
 
@@ -350,6 +375,7 @@ theorem comm_m_E {s : G} (hs : s ∈ E) : ⁅m, s⁆ ∈ Q0 := by
   rw [this]
   exact Q0.mul_mem (h.mQ q hq) (Q0.inv_mem hq)
 
+omit [Finite G] in
 theorem θ_comm_m {s : G} (hs : s ∈ T) : ⁅⁅m, s⁆, e⁆ = m * ⁅s, e⁆ * m⁻¹ * ⁅s, e⁆⁻¹ := by
   rw [commutatorElement_def m s, h.θ_mul (h.mT s hs) (T.inv_mem hs), h.θ_m, h.θ_inv hs]
 
@@ -434,6 +460,7 @@ theorem exists_F : ∃ F : Subgroup G, F ≤ T ∧ Q0 ≤ F ∧ (∀ x ∈ F, m 
     have hθs : ⁅s, e⁆ = 1 := h.mfix _ (h.θQ s hs) (mul_inv_eq_one.mp h1)
     exact Q0.mul_mem (h.comm_m_E (h.mem_E hs hθs)) hq
 
+omit [Finite G] in
 theorem card_F {F : Subgroup G} (hFT : F ≤ T) (hQF : Q0 ≤ F)
     (hsurj : ∀ a ∈ Q0, ∃ x ∈ F, ⁅x, e⁆ = a) (hker : ∀ x ∈ F, ⁅x, e⁆ = 1 → x ∈ Q0) :
     Nat.card F = 3 ^ 6 := by
@@ -459,6 +486,7 @@ theorem card_F {F : Subgroup G} (hFT : F ≤ T) (hQF : Q0 ≤ F)
   rw [← this]
   norm_num
 
+omit [Finite G] in
 theorem exists_moved : ∃ q ∈ Q0, m * q * m⁻¹ ≠ q := by
   by_contra hcon
   push Not at hcon
@@ -599,8 +627,8 @@ theorem inv_sub {S : Subgroup G} (hSQ : S ≤ Q0) (hmS : ∀ x ∈ S, m * x * m�
     S = ⊥ ∨ S = Q0 := by
   classical
   obtain ⟨a, ha⟩ := h.m13
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fintype S := Fintype.ofFinite S
   let f : Function.End S := fun x => ⟨m * x * m⁻¹, hmS x x.2⟩
   have hfpow : ∀ (n : ℕ) (x : S), (((f ^ n) x : S) : G) = m ^ n * x * (m ^ n)⁻¹ := by
     intro n
@@ -639,11 +667,13 @@ theorem inv_sub {S : Subgroup G} (hSQ : S ≤ Q0) (hmS : ∀ x ∈ S, m * x * m�
   · right
     exact Subgroup.eq_of_le_of_card_ge hSQ (by rw [h.Qcard, hk'])
 
+omit [Finite G] in
 theorem θ_pow {r : G} (hr : r ∈ T) (n : ℕ) : ⁅r ^ n, e⁆ = ⁅r, e⁆ ^ n := by
   induction n with
   | zero => simp
   | succ n ih => rw [pow_succ, h.θ_mul (T.pow_mem hr n) hr, ih, pow_succ]
 
+omit [Finite G] in
 theorem cube_mem_Q {F : Subgroup G} (hFT : F ≤ T) (hker : ∀ x ∈ F, ⁅x, e⁆ = 1 → x ∈ Q0)
     {f : G} (hf : f ∈ F) : f ^ 3 ∈ Q0 :=
   hker _ (F.pow_mem hf 3) (by rw [h.θ_pow (hFT hf), h.Q3 (h.θQ f (hFT hf))])
@@ -711,6 +741,7 @@ theorem cube_onto {F : Subgroup G} (hFT : F ≤ T) (hQF : Q0 ≤ F) (hFcard : Na
   obtain ⟨x, hx⟩ := MonoidHom.range_eq_top.mp htop ⟨q, hq⟩
   exact ⟨x, x.2, congrArg Subtype.val hx⟩
 
+omit [Finite G] in
 theorem T_eq_FE {F : Subgroup G} (hFT : F ≤ T) (hsurj : ∀ a ∈ Q0, ∃ x ∈ F, ⁅x, e⁆ = a) :
     ∀ t ∈ T, ∃ f ∈ F, ∃ y ∈ E, t = f * y := by
   intro t ht
@@ -746,7 +777,7 @@ theorem structure_core :
 end Hyp
 
 theorem T_structure {G : Type} [Group G] [Finite G] {T E Q0 : Subgroup G} {e m : G}
-    (hT3 : IsPGroup 3 ↥T) (hTcard : Nat.card ↥T = 3 ^ 7)
+    (_hT3 : IsPGroup 3 ↥T) (hTcard : Nat.card ↥T = 3 ^ 7)
     (hEel : IsElemAbelian 3 E) (hEcard : Nat.card ↥E = 3 ^ 4) (hET : E ≤ T)
     (hQel : IsElemAbelian 3 Q0) (hQcard : Nat.card ↥Q0 = 3 ^ 3) (hQE : Q0 ≤ E)
     (heE : e ∈ E) (heQ : e ∉ Q0)
@@ -754,8 +785,8 @@ theorem T_structure {G : Type} [Group G] [Finite G] {T E Q0 : Subgroup G} {e m :
     (hθQ : ∀ r ∈ T, r * e * r⁻¹ * e⁻¹ ∈ Q0)
     (hθker : ∀ r ∈ T, r * e = e * r → r ∈ E)
     (hθsurj : ∀ q ∈ Q0, ∃ r ∈ T, r * e * r⁻¹ * e⁻¹ = q)
-    (hmT : ∀ r ∈ T, m * r * m⁻¹ ∈ T) (hmT' : ∀ r ∈ T, m⁻¹ * r * m ∈ T)
-    (hmE : ∀ r ∈ E, m * r * m⁻¹ ∈ E)
+    (hmT : ∀ r ∈ T, m * r * m⁻¹ ∈ T) (_hmT' : ∀ r ∈ T, m⁻¹ * r * m ∈ T)
+    (_hmE : ∀ r ∈ E, m * r * m⁻¹ ∈ E)
     (hmQ : ∀ r ∈ Q0, m * r * m⁻¹ ∈ Q0) (hme : m * e * m⁻¹ = e)
     (hm13 : ∃ a : ℕ, m ^ 13 ^ a = 1)
     (hm13Q : ∀ q ∈ Q0, m ^ 13 * q * (m ^ 13)⁻¹ = q)

@@ -87,17 +87,17 @@ theorem sgn_rot_commute {k0 k1 : Fin n} (h : k0 ≠ k1) :
   · subst hb1
     by_cases ha : a = Sum.inr k0
     · subst ha; simp [h1, h2]
-    · simp [Pi.single_apply, ha]
+    · simp [ha]
   by_cases hb2 : b = Sum.inr k0
   · subst hb2
     by_cases ha1 : a = Sum.inl k0
     · subst ha1; simp [h1, h2]
     by_cases ha2 : a = Sum.inr k0
-    · subst ha2; simp [h1, h2]
-    · simp [Pi.single_apply, ha1, ha2]
+    · subst ha2; simp [h2]
+    · simp [ha1, ha2]
   · by_cases hab : a = b
-    · subst hab; simp [hb1, hb2, Pi.single_apply]
-    · simp [hb1, hb2, Pi.single_apply, hab]
+    · subst hab; simp [hb1, hb2]
+    · simp [hb1, hb2, hab]
 
 @[expose] def tvMat (k : Fin n) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K :=
   1 + Matrix.single (Sum.inl k) (Sum.inr k) 1
@@ -108,14 +108,14 @@ theorem tvMat_symplectic (k : Fin n) :
     mul_one]
   ext (a | a) (b | b) <;>
   simp [Matrix.mul_apply, Matrix.single_apply, fromBlocks, Fintype.sum_sum_type,
-    Matrix.one_apply] <;>
+    Matrix.one_apply];
   by_cases ha : k = a <;> by_cases hb : k = b <;>
     simp [ha, hb, eq_comm, ite_and, Finset.sum_ite_eq] <;> split_ifs <;> simp
 
 theorem tvMat_mul_self (h2 : (1 : K) + 1 = 0) (k : Fin n) : tvMat (K := K) k * tvMat k = 1 := by
   ext (a | a) (b | b) <;>
   simp [tvMat, mul_add, Matrix.mul_apply, Matrix.single_apply, Fintype.sum_sum_type,
-    Matrix.one_apply] <;>
+    Matrix.one_apply];
   by_cases ha : k = a <;> by_cases hb : k = b <;>
     simp [ha, hb, eq_comm, ite_and, Finset.sum_ite_eq] <;> split_ifs <;> simp [h2]
 
@@ -125,7 +125,7 @@ theorem rotMatrix_apply_of_ne_left {ι : Type} [DecidableEq ι] {i j x : ι} (b 
   by_cases hb1 : b = i
   · subst hb1; simp [hxi, hxj]
   by_cases hb2 : b = j
-  · subst hb2; simp [hb1, hxi, hxj, Pi.single_apply]
+  · subst hb2; simp [hb1, hxi, hxj]
   · simp [hb1, hb2, Pi.single_apply]
 
 theorem rotMatrix_apply_of_ne_right {ι : Type} [DecidableEq ι] {i j y : ι} (a : ι) (hyi : y ≠ i)
@@ -182,8 +182,7 @@ theorem threeTwoWitness_psp [Finite K] (hn : 2 ≤ n) :
     · intro u hu
       have e := congrArg (fun A : GL (Fin n ⊕ Fin n) K =>
         (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) (Sum.inl k1) (Sum.inr k1)) hu
-      simp [glTv, tvMat, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-        Matrix.diagonal_apply] at e
+      simp [glTv, tvMat, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at e
     · exact Commute.units_val_iff.1 (tv_rot_commute hk)
   · refine threeTwoWitness_statedProj_commuting (glSgn k1) (rotGL (Sum.inl k0) (Sum.inr k0))
       (glSgn_mem k1) (rotGL_mem_sp k0) (Units.ext ?_) ?_ (rotGL_pow_three _ _) hxns ?_
@@ -197,8 +196,7 @@ theorem threeTwoWitness_psp [Finite K] (hn : 2 ≤ n) :
         (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) (Sum.inl k1) (Sum.inl k1)) hu
       have e0 := congrArg (fun A : GL (Fin n ⊕ Fin n) K =>
         (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) (Sum.inl k0) (Sum.inl k0)) hu
-      simp [glSgn, sgnVec, hk, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-        Matrix.diagonal_apply] at e1 e0
+      simp [glSgn, sgnVec, hk, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at e1 e0
       have := congrArg Units.val (e1.symm.trans e0)
       rw [Units.val_neg, Units.val_one] at this
       exact h2 (by linear_combination -this)

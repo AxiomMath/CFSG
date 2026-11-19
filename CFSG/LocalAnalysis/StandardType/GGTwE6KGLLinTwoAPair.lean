@@ -57,7 +57,7 @@ private theorem eq_one_of_commute_singer_linTwo {K : Type} [Field K] [Fintype K]
     (hK : Fintype.card K = 2) {p : ℕ} (hp : Timmesfeld.IsPrimitivePrimeDivisor p 9)
     {A M : Matrix (Fin 9) (Fin 9) K} (hA : A ^ 3 = 1) (hM : M ^ p = 1) (hM1 : M ≠ 1)
     (hAM : A * M = M * A) : A = 1 := by
-  haveI : Fact p.Prime := ⟨hp.1⟩
+  have : Fact p.Prime := ⟨hp.1⟩
   have hord : orderOf ((Fintype.card K : ℕ) : ZMod p) = 9 := by
     rw [hK, Nat.cast_ofNat]
     exact (orderOf_eq_iff (by norm_num)).2 ⟨(Timmesfeld.Bang.dvd_two_pow_sub_one_iff 9).1 hp.2.1,
@@ -67,7 +67,7 @@ private theorem eq_one_of_commute_singer_linTwo {K : Type} [Field K] [Fintype K]
       (by norm_num) hord hM hM1
   have hroot := minpoly.aeval K M
   generalize minpoly K M = μ at hirr hdeg hroot
-  haveI : Fact (Irreducible μ) := ⟨hirr⟩
+  have : Fact (Irreducible μ) := ⟨hirr⟩
   have hμ0 : μ ≠ 0 := hirr.ne_zero
   have hker : ∀ a ∈ Ideal.span ({μ} : Set (Polynomial K)),
       (Polynomial.aeval M).toRingHom a = 0 := by
@@ -79,9 +79,9 @@ private theorem eq_one_of_commute_singer_linTwo {K : Type} [Field K] [Fintype K]
       hker
   obtain ⟨a, ha⟩ := CFSG.HardMathSupport.Foote.Coordinator.SplitFrame.eq_image_of_commute
     (by norm_num) hirr hdeg ψ (fun _ => rfl) hAM
-  haveI : Module.Finite K (AdjoinRoot μ) := (AdjoinRoot.powerBasis hμ0).finite
-  haveI : Finite (AdjoinRoot μ) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot μ) := Fintype.ofFinite _
+  have : Module.Finite K (AdjoinRoot μ) := (AdjoinRoot.powerBasis hμ0).finite
+  have : Finite (AdjoinRoot μ) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot μ) := Fintype.ofFinite _
   have hcard : Fintype.card (AdjoinRoot μ) = 2 ^ 9 := by
     rw [Module.card_eq_pow_finrank (K := K), (AdjoinRoot.powerBasis hμ0).finrank,
       AdjoinRoot.powerBasis_dim hμ0, hdeg, hK]
@@ -113,7 +113,7 @@ private theorem largeEvenLabelAll_singer_linTwo (r : ℕ) :
   refine ⟨K, i1, i2, hK, hq, fun h8 => ?_⟩
   subst h8
   have hK2 : Nat.card K = 2 := hK
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK2]
   have hu : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK2]
   show LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin 9) K)) Set.univ ⊆
@@ -144,7 +144,7 @@ private theorem ne_top_of_isComponentOf_ggFix_linTwo {R : Type} [Group R] {s : M
 
 private theorem center_eq_bot_linTwo {R : Type} [Group R] (hs : IsSimpleGroup R)
     (hna : ∃ a b : R, a * b ≠ b * a) : Subgroup.center R = ⊥ := by
-  haveI := hs
+  have := hs
   obtain ⟨a, b, hab⟩ := hna
   exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R)).resolve_right fun h =>
     hab (Subgroup.mem_center_iff.mp (by rw [h]; exact Subgroup.mem_top b) a)
@@ -162,7 +162,7 @@ theorem ggInndiagOnCompAt_A_two_aPair {lab : LargeEvenLabel} (hlab : LargeEvenIn
   refine (largeEvenLabelAll_and (largeEvenLabelAll_card_linTwo r)
     (largeEvenLabelAll_singer_linTwo r)).mono
     fun R _ I _ ⟨hcard, hsing⟩ hR hna hfin s _ n hs3 hs1 _ _ hsI _ h3 J₁ hJ₁ hmark _ => ?_
-  haveI := hfin
+  have := hfin
   have hJ : J₁ ≠ ⊤ := ne_top_of_isComponentOf_ggFix_linTwo hs1 hJ₁
   have hN : 0 < ordA r (2 ^ 1) := by
     rw [← hcard]
@@ -174,7 +174,7 @@ theorem ggInndiagOnCompAt_A_two_aPair {lab : LargeEvenLabel} (hlab : LargeEvenIn
       obtain ⟨hinn, hS⟩ := hsing rfl
       obtain ⟨-, hdvd⟩ := ordA_two_dvd_card_of_marking hm
       obtain ⟨p, hp, hpd⟩ := exists_ppd_dvd_ordA_two_nine (n := 1) le_rfl
-      haveI : Fact p.Prime := ⟨hp.1⟩
+      have : Fact p.Prime := ⟨hp.1⟩
       obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' p (hpd.trans hdvd)
       obtain ⟨x, rfl⟩ := hinn hsI
       have hinj := CFSG.mulAutConj_injective_of_center_eq_bot (center_eq_bot_linTwo hR hna)

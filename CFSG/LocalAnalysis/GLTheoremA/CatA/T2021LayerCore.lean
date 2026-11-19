@@ -106,7 +106,6 @@ theorem t2021Layer_fix_of_card_le_two {S : Type} [Group S] [Finite S] {U : Subgr
         | exact absurd hv.symm h1
         | exact absurd hv h1
         | exact absurd hv.symm hφ1
-        | exact absurd hv hφ1
         | exact absurd hv.symm hne
         | exact absurd hv hne
   have h3 := Nat.card_le_card_of_injective f hf

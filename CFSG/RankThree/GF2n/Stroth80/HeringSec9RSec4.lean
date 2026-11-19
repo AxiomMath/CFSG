@@ -21,6 +21,7 @@ section Matrices
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem vecMulVec_mulVec_fix (u v w : Fin 2 → K) :
     Matrix.vecMulVec u v *ᵥ w = (v ⬝ᵥ w) • u := by
   ext i
@@ -28,6 +29,7 @@ theorem vecMulVec_mulVec_fix (u v w : Fin 2 → K) :
     Fin.sum_univ_two]
   ring
 
+omit [Finite K] [CharP K 2] in
 theorem eig_of_vecMulVec_eq {v w a b : Fin 2 → K} (ha : a ≠ 0) (hb : b ≠ 0)
     (h : Matrix.vecMulVec v w = Matrix.vecMulVec a b) : ∃ μ : K, v = μ • a := by
   obtain ⟨j, hj⟩ : ∃ j, b j ≠ 0 := by
@@ -45,6 +47,7 @@ theorem eig_of_vecMulVec_eq {v w a b : Fin 2 → K} (ha : a ≠ 0) (hb : b ≠ 0
   refine ⟨(w ⬝ᵥ x)⁻¹, ?_⟩
   rw [← h2, smul_smul, inv_mul_cancel₀ hc, one_smul]
 
+omit [Finite K] in
 theorem fix_mat_of_pow {A B' : Matrix (Fin 2) (Fin 2) K} {a b : Fin 2 → K} (ha : a ≠ 0)
     (hb : b ≠ 0) {k : ℕ} (hA : A ^ (2 ^ k) = 1)
     (hfix : A * (Matrix.vecMulVec a b * B') = Matrix.vecMulVec a b) :
@@ -78,6 +81,7 @@ theorem fix_mat_of_pow {A B' : Matrix (Fin 2) (Fin 2) K} {a b : Fin 2 → K} (ha
   · rw [Matrix.mul_vecMulVec, hAa]
   · rw [Matrix.vecMulVec_mul, hw]
 
+omit [Finite K] in
 theorem coe_pow_eq_one_of_rho {A B : Matrix.SpecialLinearGroup (Fin 2) K} {k : ℕ}
     (h : rho' K (A, B) ^ (2 ^ k) = 1) : (A : Matrix (Fin 2) (Fin 2) K) ^ (2 ^ k) = 1 := by
   have h' : rho' K ((A, B) ^ (2 ^ k)) = rho' K 1 := by
@@ -87,6 +91,7 @@ theorem coe_pow_eq_one_of_rho {A B : Matrix.SpecialLinearGroup (Fin 2) K} {k : �
   have h3 : A ^ (2 ^ k) = 1 := congrArg Prod.fst h2
   rw [← Matrix.SpecialLinearGroup.coe_pow, h3, Matrix.SpecialLinearGroup.coe_one]
 
+omit [Finite K] in
 theorem fix_of_two_power
     {H₁ H₂ : Subgroup (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K)}
     (hH : (H₁ = leftF K ∧ H₂ = rightF K) ∨ (H₁ = rightF K ∧ H₂ = leftF K))
@@ -141,21 +146,25 @@ def stab9U (c : K) : Matrix.SpecialLinearGroup (Fin 2) K :=
 def stab9T (μ : K) (hμ : μ ≠ 0) : Matrix.SpecialLinearGroup (Fin 2) K :=
   ⟨!![μ, 0; 0, μ⁻¹], by simp [Matrix.det_fin_two_of, hμ]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem stab9U_mul (b c : K) : stab9U b * stab9U c = stab9U (b + c) := by
   apply Subtype.ext
   change (!![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) K) * !![1, c; 0, 1] = !![1, b + c; 0, 1]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; ring
 
+omit [Finite K] [CharP K 2] in
 theorem stab9U_zero : stab9U (0 : K) = 1 := by
   apply Matrix.SpecialLinearGroup.ext
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [stab9U, Matrix.SpecialLinearGroup.coe_one, Matrix.one_apply]
+    simp [stab9U, Matrix.SpecialLinearGroup.coe_one]
 
+omit [Finite K] [CharP K 2] in
 theorem stab9U_inv (c : K) : (stab9U c)⁻¹ = stab9U (-c) := by
   rw [inv_eq_iff_mul_eq_one, stab9U_mul, add_neg_cancel, stab9U_zero]
 
+omit [Finite K] [CharP K 2] in
 theorem stab9T_conj (μ : K) (hμ : μ ≠ 0) (c : K) :
     stab9T μ hμ * stab9U c * (stab9T μ hμ)⁻¹ = stab9U (μ ^ 2 * c) := by
   rw [mul_inv_eq_iff_eq_mul]
@@ -163,12 +172,14 @@ theorem stab9T_conj (μ : K) (hμ : μ ≠ 0) (c : K) :
   change (!![μ, 0; 0, μ⁻¹] : Matrix (Fin 2) (Fin 2) K) * !![1, c; 0, 1] =
     !![1, μ ^ 2 * c; 0, 1] * !![μ, 0; 0, μ⁻¹]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; field_simp
 
+omit [Finite K] [CharP K 2] in
 theorem stab9U_mulVec (c : K) : (stab9U c : Matrix (Fin 2) (Fin 2) K) *ᵥ ![1, 0] = ![1, 0] := by
   ext i
   fin_cases i <;> simp [stab9U, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
 
+omit [Finite K] [CharP K 2] in
 theorem stab9_fix_e1 {X : Matrix.SpecialLinearGroup (Fin 2) K}
     (hX : (X : Matrix (Fin 2) (Fin 2) K) *ᵥ ![1, 0] = ![1, 0]) :
     X = stab9U ((X : Matrix (Fin 2) (Fin 2) K) 0 1) := by
@@ -182,6 +193,7 @@ theorem stab9_fix_e1 {X : Matrix.SpecialLinearGroup (Fin 2) K}
   intro i j
   fin_cases i <;> fin_cases j <;> simp [stab9U, h0, h1, h11]
 
+omit [Finite K] [CharP K 2] in
 theorem stab9_exists_mu (h4 : 4 ≤ Nat.card K) : ∃ μ : K, μ ≠ 0 ∧ μ ≠ 1 := by
   by_contra hcon
   push Not at hcon
@@ -295,12 +307,14 @@ theorem sl2_stab_data (h4 : 4 ≤ Nat.card K) {w₀ : Fin 2 → K} (hw₀ : w₀
     _ = (g * stab9U c * g⁻¹)⁻¹ * (g * stab9T μ hμ0 * g⁻¹ * (g * stab9U c * g⁻¹) *
         (g * stab9T μ hμ0 * g⁻¹)⁻¹) := by group
 
+omit [Finite K] [CharP K 2] in
 theorem matrix_eq_of_mulVec_eq {A B : Matrix (Fin 2) (Fin 2) K}
     (h : ∀ w : Fin 2 → K, A *ᵥ w = B *ᵥ w) : A = B := by
   ext i j
   have := congrFun (h (Pi.single j 1)) i
   simpa [Matrix.mulVec_single_one] using this
 
+omit [Finite K] [CharP K 2] in
 theorem ActsNat.exists_hom
     {H : Subgroup (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K)}
     {Φ : (Fin 2 → K) →ₗ[K] Matrix (Fin 2) (Fin 2) K} (hA : ActsNat H Φ) :
@@ -593,13 +607,13 @@ theorem sec4_model (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   obtain ⟨⟨hQX, hXR, hQY, hYR, hXY, hXYQ, hcomm⟩, hYsl, -⟩ := hsplit
   have hYM : Y ≤ M := hYR.trans (Rt_le_M hc.LB_le_M t)
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, hnorm, hn, ψ, hψ⟩ := hs.plus4
-  haveI := hn
-  haveI : CharP K 2 := by
+  have := hn
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hq4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
   obtain ⟨c0, hc0, hc1⟩ := exists_ne_zero_ne_one_of_nat_card_ge_four hq4
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   have h3 : 3 ≤ Module.finrank K (Fin 2 ⊕ Fin 2 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     omega
@@ -652,7 +666,7 @@ theorem sec4_model (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
       Nat.card K * (Nat.card K ^ 2 - 1) * (Nat.card K * (Nat.card K ^ 2 - 1)) := by
     rw [← Nat.card_congr (MonoidHom.ofInjective (rho'_injective (K := K))).toEquiv,
       Nat.card_prod, hcardSL]
-  haveI hΛfin : Finite (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K) :=
+  have hΛfin : Finite (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K) :=
     Finite.of_injective (fun f => (f : Matrix (Fin 2) (Fin 2) K → Matrix (Fin 2) (Fin 2) K))
       (fun f g h => LinearEquiv.ext (congrFun h))
   let HY := (Y.subgroupOf (Rt M (LB M Q B) t)).map φ''

@@ -33,7 +33,7 @@ private theorem perfectInLayer_of_fix_eq_omega {S : Type*} [Group S] {β : MulAu
     (hJq : CFSG.IsQuasisimple J) (hsol : Group.IsSolvable (↥N ⧸ J.subgroupOf N)) :
     PerfectInLayer β := by
   subst hfix
-  haveI := hJn
+  have := hJn
   exact perfectInLayer_of_normal_quasisimple hJN hJq hsol
 
 section Field
@@ -51,10 +51,10 @@ private theorem perfectInLayer_fieldAutT_omega (S : SubfieldSetup k Q₀ Q σ p)
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
   have hJn := subfieldDerivedImage_normal k S.hext
-  haveI := hJn
+  have := hJn
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   exact perfectInLayer_of_fix_eq_omega hfix (subfieldDerivedImage_le k S.hext) hJn hJq
     inferInstance
 
@@ -80,6 +80,7 @@ section Gates
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {f p : ℕ}
 
+omit [Finite K] in
 private theorem mem_E_of_pow_eq_one_omega (hg : OrthogonalGates Q f) (hp : p.Prime)
     (h : 3 < p ∨ projectivePointFamilyAut Q = ⊤) {β : MulAut (matrixProjectiveDerived Q)}
     (hβp : β ^ p = 1) : β ∈ matrixProjectiveImage Q := by
@@ -265,7 +266,7 @@ private theorem classicalModel_of_lieModel {G : Type} [Group G] {t : StatedLieTa
 
 theorem perfectInLayer_B_outer (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.B r q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.B r q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     (hr : 3 ≤ r)
@@ -277,9 +278,9 @@ theorem perfectInLayer_B_outer (r : ℕ) (q : TauCeti.PrimePower)
 
 theorem perfectInLayer_D_outer (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.D r q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.D r q, hv⟩)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
+    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hpc : p = q.p)
     (h43 : r = 4 → p ≠ 3)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
     PerfectInLayer β :=
@@ -288,9 +289,9 @@ theorem perfectInLayer_D_outer (r : ℕ) (q : TauCeti.PrimePower)
 
 theorem perfectInLayer_twistedD_outer (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedD r q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.twistedD r q, hv⟩)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
+    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
     PerfectInLayer β :=
   perfectInLayer_omega_minus_outer

@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Sub
 private theorem relPPrimeCore_eq_map' {p : ℕ} (hp : p.Prime) (C : Subgroup G) :
     CFSG.Open.relPPrimeCore p C =
       (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥C) p).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN

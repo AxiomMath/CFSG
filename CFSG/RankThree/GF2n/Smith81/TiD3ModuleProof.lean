@@ -13,8 +13,8 @@ open scoped MatrixGroups
 theorem d3ModuleStatement_holds : D3ModuleStatement := by
   intro K F _ _ _ _ _ _ hcard hK4 E _ _ _ B Qf halt hnd hQadd hQsmul _ hdim ρ hρQ hρinj hC
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
   obtain ⟨k, -, hk⟩ := FiniteField.card K 2
   have hkK : Fintype.card K = 2 ^ (k : ℕ) := hk
   have hK4' : 4 ≤ Fintype.card K := by rwa [Nat.card_eq_fintype_card] at hK4

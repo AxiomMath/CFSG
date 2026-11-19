@@ -56,7 +56,7 @@ theorem exists_twoSubgroup_lift {ψ : L' →* R} (hker : ψ.ker ≤ Subgroup.cen
     rw [← hQP]
     exact hQ (Subgroup.mem_zpowers h)
   refine ⟨(P : Subgroup H).map H.subtype, (Subgroup.map_subtype_le _).trans inf_le_left, ?_,
-    P.isPGroup'.map _, ?_⟩
+    P.isPGroup.map _, ?_⟩
   · intro hbot
     rw [Subgroup.map_eq_bot_iff_of_injective _ H.subtype_injective] at hbot
     rw [hbot, Subgroup.map_bot] at htop
@@ -67,7 +67,7 @@ theorem exists_twoSubgroup_lift {ψ : L' →* R} (hker : ψ.ker ≤ Subgroup.cen
     exact congrArg Subtype.val (Subgroup.mem_bot.mp this)
   · rintro a ha _ ⟨q, hq, rfl⟩
     have haH : a q ∈ H := ⟨hSX a ha q q.2.1, hSV a ha q q.2.2⟩
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨q, hq⟩
     have hqk : (q : L') ^ 2 ^ k = 1 := by
       have := congrArg (fun z : (P : Subgroup H) => ((z : H) : L')) hk
       simpa using this

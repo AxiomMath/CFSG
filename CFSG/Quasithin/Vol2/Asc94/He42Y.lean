@@ -18,8 +18,8 @@ private theorem he42y_pow_three_of_pow_nine (p : GL2) (h : p ^ 9 = 1) : p ^ 3 = 
   simpa using h'
 
 theorem HeSetup.stepY (S : HeSetup G) : ∃ y₁ y₂ : G, YSpec S y₁ y₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   obtain ⟨P, hP⟩ : ∃ P : Subgroup ↥S.N, Nat.card P = 3 ^ 2 :=
     Sylow.exists_subgroup_card_pow_prime 3 (by rw [S.hD.cardN]; norm_num)

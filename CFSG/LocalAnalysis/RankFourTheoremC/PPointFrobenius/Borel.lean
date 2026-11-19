@@ -48,6 +48,7 @@ theorem fr_solvable_inf_normalizer [Fact p.Prime] (hG : FrobGlobal G) (hl : Frob
   exact CFSG.LocalAnalysis.RankThreeTheoremC.isSolvable_of_le_normalizer_of_mulEquiv_psl2GF hp2
     (by omega) e hU inf_le_right (fr_inf_normalizer_le hG hl)
 
+omit [Finite G] in
 theorem frN_normalizer_centralizer_le (H : Subgroup G) :
     normalizer (H : Set G) ≤ normalizer ((centralizer (H : Set G) : Subgroup G) : Set G) := by
   have key : ∀ g ∈ normalizer (H : Set G), ∀ c ∈ centralizer (H : Set G),
@@ -67,6 +68,7 @@ theorem frN_normalizer_centralizer_le (H : Subgroup G) :
   have h := key g⁻¹ (inv_mem hg) _ hc
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem frN_normalizer_layer_le (H : Subgroup G) :
     normalizer (H : Set G) ≤ normalizer ((CFSG.Open.GLBLayer H : Subgroup G) : Set G) := by
   have hmap : ∀ (e : G ≃* G) (K : Subgroup G),
@@ -87,7 +89,7 @@ theorem frN_normalizer_layer_le (H : Subgroup G) :
   rw [mem_normalizer_iff]
   exact fun y => ⟨key g hg y, fun hy => by simpa [mul_assoc] using key g⁻¹ (inv_mem hg) _ hy⟩
 
-theorem fr_normalizer_sylow_le [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M x) :
+theorem fr_normalizer_sylow_le [Fact p.Prime] (_hG : FrobGlobal G) (hl : FrobLocal p P M x) :
     normalizer ((P : Subgroup G) : Set G) ≤ normalizer ((layerOf x : Subgroup G) : Set G) := by
   intro g hg
   have hgx : g * x * g⁻¹ ∈ (P : Subgroup G) :=

@@ -13,23 +13,28 @@ variable {G : Type} [Group G] [Finite G]
 private def oTwoSetA (N K : Subgroup G) : Set (Subgroup G) :=
   {W | N ≤ W ∧ W ≤ K ∧ (W.subgroupOf K).Normal ∧ ∀ w ∈ W, ∃ k : ℕ, w ^ 2 ^ k ∈ N}
 
+omit [Finite G] in
 private theorem oTwoMod_eq_iSup_A (N K : Subgroup G) :
     oTwoMod N K = ⨆ W ∈ oTwoSetA N K, W := rfl
 
+omit [Finite G] in
 private theorem le_oTwoMod_of_A {N K W : Subgroup G} (hNW : N ≤ W) (hWK : W ≤ K)
     (hWnorm : (W.subgroupOf K).Normal)
     (hpow : ∀ w ∈ W, ∃ k : ℕ, w ^ 2 ^ k ∈ N) : W ≤ oTwoMod N K :=
   le_iSup₂ (f := fun W (_ : W ∈ oTwoSetA N K) => W) W ⟨hNW, hWK, hWnorm, hpow⟩
 
+omit [Finite G] in
 theorem le_oTwoMod_self {N K : Subgroup G} (hNK : N ≤ K)
     (hN : (N.subgroupOf K).Normal) : N ≤ oTwoMod N K :=
   le_oTwoMod_of_A le_rfl hNK hN (fun w hw => ⟨0, by simpa using hw⟩)
 
+omit [Finite G] in
 theorem oTwoMod_le_self {N K : Subgroup G} : oTwoMod N K ≤ K :=
   iSup₂_le fun _ hW => hW.2.1
 
-theorem normal_oTwoMod_of_normal {N K : Subgroup G} (hNK : N ≤ K)
-    (hN : (N.subgroupOf K).Normal) : ((oTwoMod N K).subgroupOf K).Normal := by
+omit [Finite G] in
+theorem normal_oTwoMod_of_normal {N K : Subgroup G} (_hNK : N ≤ K)
+    (_hN : (N.subgroupOf K).Normal) : ((oTwoMod N K).subgroupOf K).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer oTwoMod_le_self]
   have hle : K ≤ ⨅ x : oTwoSetA N K, Subgroup.normalizer ((x : Subgroup G) : Set G) := by
     intro k hk
@@ -66,7 +71,7 @@ private theorem sit813_section_simple_A {V H T A L K : Subgroup G} {i : ℕ}
       (∀ k : ↥K, φ k = 1 ↔ (k : G) ∈ oTwoMod (cGrp H T) K) ∧
       IsSimpleGroup X ∧ Nat.card X = 60 ∧ ¬ IsMulCommutative X := by
   obtain ⟨X, hXgrp, φ, hφ, hker, hX⟩ := h.concl813.c_shape
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   have hX' : CFSG.Blueprint.LieModel X .PSL 2 2 2 := hX
   have hXs : IsSimpleGroup X :=
     CFSG.ComponentClassification.FooteLit.isSimpleGroup_of_lieModel_psl_two hX'
@@ -75,7 +80,7 @@ private theorem sit813_section_simple_A {V H T A L K : Subgroup G} {i : ℕ}
       show CFSG.Open.ordA 1 (2 ^ 2) = 60 by decide]
   refine ⟨X, hXgrp, φ, hφ, hker, hXs, hXcard, ?_⟩
   intro hcomm
-  haveI : IsMulCommutative X := hcomm
+  have : IsMulCommutative X := hcomm
   have hp := (Group.is_simple_iff_prime_card (α := X)).mp hXs
   rw [hXcard] at hp
   norm_num at hp
@@ -84,9 +89,9 @@ theorem Sit813.kn1 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L 
     ∀ B : Subgroup G, oTwoMod (cGrp H T) K ≤ B → B ≤ K →
       (B.subgroupOf K).Normal → B = oTwoMod (cGrp H T) K ∨ B = K := by
   obtain ⟨X, hXgrp, φ, hφ, hker, hXs, -, -⟩ := sit813_section_simple_A h
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   intro B hNB hBK hBnorm
-  haveI : ((B.subgroupOf K).map φ).Normal := hBnorm.map φ hφ
+  have : ((B.subgroupOf K).map φ).Normal := hBnorm.map φ hφ
   rcases hXs.eq_bot_or_eq_top_of_normal ((B.subgroupOf K).map φ) with hbot | htop
   · left
     apply le_antisymm ?_ hNB
@@ -118,7 +123,7 @@ theorem Sit813.kn1 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L 
 theorem Sit813.kn2 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L K) :
     ∃ k₁ ∈ K, ∃ k₂ ∈ K, k₁ * k₂ * k₁⁻¹ * k₂⁻¹ ∉ oTwoMod (cGrp H T) K := by
   obtain ⟨X, hXgrp, φ, hφ, hker, -, -, hXnab⟩ := sit813_section_simple_A h
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   by_contra hcon
   push Not at hcon
   apply hXnab
@@ -134,7 +139,7 @@ theorem Sit813.kn3 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L 
     ∀ k ∈ K, (∀ x ∈ K, k * x * k⁻¹ * x⁻¹ ∈ oTwoMod (cGrp H T) K) →
       k ∈ oTwoMod (cGrp H T) K := by
   obtain ⟨X, hXgrp, φ, hφ, hker, hXs, -, hXnab⟩ := sit813_section_simple_A h
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   intro k hkK hcomm
   have hcenter : Subgroup.center X = ⊥ := by
     rcases hXs.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
@@ -159,8 +164,8 @@ theorem Sit813.kn3 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L 
 theorem Sit813.kn4 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L K) :
     (oTwoMod (cGrp H T) K).relIndex K = 60 := by
   obtain ⟨X, hXgrp, φ, hφ, hker, -, hXcard, -⟩ := sit813_section_simple_A h
-  letI : Group X := hXgrp
-  haveI : ((oTwoMod (cGrp H T) K).subgroupOf K).Normal := h.oTwoMod_normal
+  let : Group X := hXgrp
+  have : ((oTwoMod (cGrp H T) K).subgroupOf K).Normal := h.oTwoMod_normal
   have hker_eq : φ.ker = (oTwoMod (cGrp H T) K).subgroupOf K := by
     ext x
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]

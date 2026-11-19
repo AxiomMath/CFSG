@@ -13,10 +13,12 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w16q_mQuot_inf (V I : Subgroup G) : E3.mQuot V (V ⊓ I) = E3.mQuot V I := by
   show padicValNat 2 ((V ⊓ I).relIndex V) = padicValNat 2 (I.relIndex V)
   rw [Subgroup.inf_relIndex_left]
 
+omit [Finite G] in
 theorem w16q_conjSubgroup_le_of_le {A K : Subgroup G} (hA : A ≤ K) {k : G} (hk : k ∈ K) :
     conjSubgroup A k ≤ K := by
   intro x hx
@@ -26,8 +28,9 @@ theorem w16q_conjSubgroup_le_of_le {A K : Subgroup G} (hA : A ≤ K) {k : G} (hk
   rw [this]
   exact K.mul_mem (K.mul_mem (K.inv_mem hk) hxk) hk
 
+omit [Finite G] in
 theorem w16q_map_conjSubgroup {X : Type} [Group X] {K : Subgroup G} (φ : ↥K →* X)
-    {V : Subgroup G} (hVK : V ≤ K) {k : G} (hk : k ∈ K) :
+    {V : Subgroup G} (_hVK : V ≤ K) {k : G} (hk : k ∈ K) :
     ((conjSubgroup V k).subgroupOf K).map φ =
       CFSG.CGT.Timmesfeld75.conjSubgroup (φ ⟨k, hk⟩)⁻¹ ((V.subgroupOf K).map φ) := by
   ext y

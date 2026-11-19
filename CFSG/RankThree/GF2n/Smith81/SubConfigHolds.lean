@@ -30,6 +30,7 @@ section Holds
 
 variable [Finite G] {M Q Z B : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem Q_le_conj_LB (H : StrothHyp M Q Z) {m : G} (hm : m ∈ M) :
     Q ≤ conjSubgroup m (LB M Q B) := by
   intro x hx
@@ -41,7 +42,7 @@ theorem Q_le_conj_LB (H : StrothHyp M Q Z) {m : G} (hm : m ∈ M) :
 theorem mem_Nt_of_mem_conj (hc : Ctx M Q Z B) {m₀ : G} (hm₀ : m₀ ∈ M)
     (ht : t ∈ conjSubgroup m₀ (LB M Q B)) : t ∈ Nt M (LB M Q B) t := by
   have htR : t ∈ Rt M (LB M Q B) t := conjSubgroup_le_Rt hm₀ ht ht
-  haveI : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
+  have : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hc.hyp.Q_normal.2 (hc.Rt_le_M t hx)
   have hp : IsPGroup 2 (Q.subgroupOf (Rt M (LB M Q B) t)) :=
     (isPGroup_Q' hc.hyp).comap_of_injective _ (Subgroup.subtype_injective _)
@@ -133,6 +134,7 @@ theorem subConfigNorm_of (hc : Ctx M Q Z B) (h1 : 1 < Nat.card (Nt M (LB M Q B) 
     ((Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hhM) _).mp h2)
   simpa [mul_assoc] using h3
 
+omit [(Q.subgroupOf (H0 M Z)).Normal] in
 theorem one_lt_card_Nt (hc : Ctx M Q Z B) {w : ℕ}
     (hN : Nat.card (Nt M (LB M Q B) t) = Nat.card Q * Nat.card Z ^ w) :
     1 < Nat.card (Nt M (LB M Q B) t) := by

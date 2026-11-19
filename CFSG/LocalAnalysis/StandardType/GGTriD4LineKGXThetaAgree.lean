@@ -62,10 +62,10 @@ theorem triD4LineTheta_agree
       triD4LineSL3 k K s =
         triD4LineMk k K g (Units.map (algebraMap k K).toMonoidHom c * a) hdet := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   let B : Kˣ := Units.map (algebraMap k K).toMonoidHom c
   let bL : Fin Tag.D4.rank → Lˣ := fun i => Units.map (algebraMap K L) (thetaTuple σ a B i)

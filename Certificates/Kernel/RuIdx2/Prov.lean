@@ -18,12 +18,16 @@ section Group
 
 variable {Γ : Type} [Group Γ] [MulAction Γ (Fin 4060)] (a b : Γ)
 
+omit [MulAction Γ (Fin 4060)] in
 theorem lt_two : lt a b 2 = ruT1 a b := (Ru4120.H.slpElts_ruProg a b (by decide)).symm
 
+omit [MulAction Γ (Fin 4060)] in
 theorem lt_three : lt a b 3 = ruT2 a b := (Ru4120.H.slpElts_ruProg a b (by decide)).symm
 
+omit [MulAction Γ (Fin 4060)] in
 theorem lt_four : lt a b 4 = ruT3 a b := (Ru4120.H.slpElts_ruProg a b (by decide)).symm
 
+omit [MulAction Γ (Fin 4060)] in
 theorem RS_eq {u : Nat} {Ls : List (List Nat)}
     (hn : (List.range (nr u)).map (fun l => unW (RG u l)) = Ls) :
     RS a b u = Ls.map fun L => (L.map (lt a b)).prod := by
@@ -31,6 +35,7 @@ theorem RS_eq {u : Nat} {Ls : List (List Nat)}
   rw [← hn, List.map_map]
   rfl
 
+omit [MulAction Γ (Fin 4060)] in
 theorem Rv_100 : Rv a b 0 = Subgroup.closure {x | x ∈ [ruT2 a b, ruT1 a b * ruT2 a b * ruT1 a b,
     ruT3 a b, ruT1 a b * ruT3 a b * ruT1 a b]} := by
   unfold Rv
@@ -38,6 +43,7 @@ theorem Rv_100 : Rv a b 0 = Subgroup.closure {x | x ∈ [ruT2 a b, ruT1 a b * ru
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, lt_two, lt_three,
     lt_four, mul_assoc]
 
+omit [MulAction Γ (Fin 4060)] in
 theorem Rv_010 : Rv a b 1 = Subgroup.closure {x | x ∈ [ruT1 a b, ruT2 a b * ruT1 a b * ruT2 a b,
     ruT3 a b, ruT2 a b * ruT3 a b * ruT2 a b]} := by
   unfold Rv
@@ -45,6 +51,7 @@ theorem Rv_010 : Rv a b 1 = Subgroup.closure {x | x ∈ [ruT1 a b, ruT2 a b * ru
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, lt_two, lt_three,
     lt_four, mul_assoc]
 
+omit [MulAction Γ (Fin 4060)] in
 theorem Rv_001 : Rv a b 2 = Subgroup.closure {x | x ∈ [ruT1 a b, ruT3 a b * ruT1 a b * ruT3 a b,
     ruT2 a b, ruT3 a b * ruT2 a b * ruT3 a b]} := by
   unfold Rv
@@ -52,6 +59,7 @@ theorem Rv_001 : Rv a b 2 = Subgroup.closure {x | x ∈ [ruT1 a b, ruT3 a b * ru
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, lt_two, lt_three,
     lt_four, mul_assoc]
 
+omit [MulAction Γ (Fin 4060)] in
 theorem Rv_110 : Rv a b 3 = Subgroup.closure {x | x ∈ [ruT2 a b * ruT1 a b, ruT3 a b,
     ruT1 a b * ruT3 a b * ruT1 a b]} := by
   unfold Rv
@@ -59,6 +67,7 @@ theorem Rv_110 : Rv a b 3 = Subgroup.closure {x | x ∈ [ruT2 a b * ruT1 a b, ru
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, lt_two, lt_three,
     lt_four, mul_assoc]
 
+omit [MulAction Γ (Fin 4060)] in
 theorem Rv_101 : Rv a b 4 = Subgroup.closure {x | x ∈ [ruT2 a b, ruT1 a b * ruT2 a b * ruT1 a b,
     ruT3 a b * ruT1 a b]} := by
   unfold Rv
@@ -66,6 +75,7 @@ theorem Rv_101 : Rv a b 4 = Subgroup.closure {x | x ∈ [ruT2 a b, ruT1 a b * ru
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, lt_two, lt_three,
     lt_four, mul_assoc]
 
+omit [MulAction Γ (Fin 4060)] in
 theorem Rv_011 : Rv a b 5 = Subgroup.closure {x | x ∈ [ruT1 a b, ruT2 a b * ruT1 a b * ruT2 a b,
     ruT3 a b * ruT2 a b]} := by
   unfold Rv
@@ -73,12 +83,13 @@ theorem Rv_011 : Rv a b 5 = Subgroup.closure {x | x ∈ [ruT1 a b, ruT2 a b * ru
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, lt_two, lt_three,
     lt_four, mul_assoc]
 
+omit [MulAction Γ (Fin 4060)] in
 theorem Rv_111 : Rv a b 6 = Subgroup.closure {x | x ∈ [ruT2 a b * ruT1 a b,
     ruT3 a b * ruT1 a b]} := by
   unfold Rv
   rw [RS_eq a b (u := 6) (Ls := [[3, 2], [4, 2]]) (by decide +kernel)]
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, lt_two, lt_three,
-    lt_four, mul_assoc]
+    lt_four]
 
 end Group
 

@@ -94,7 +94,7 @@ theorem isElemAbelian_torusSU_three (F : Type) [Field F] :
 
 theorem exists_e9_unitarySU {f : ℕ} (h : UnitaryFieldData 2 f F) (h3 : 3 ∣ 2 ^ f + 1) :
     ∃ E : Subgroup (unitarySU 2 f F 3), CFSG.Assembly.IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI := h.finite
+  have := h.finite
   have hζ : ∃ ζ : Fˣ, IsPrimitiveRoot ζ 3 := by
     obtain ⟨z, hz⟩ := CFSG.RankThree.PartOne.KFU.exists_isPrimitiveRoot h Nat.prime_three h3
     have hz0 : z ≠ 0 := hz.ne_zero (by norm_num)
@@ -123,8 +123,8 @@ variable (a : ℕ) (K : Type) [Field K] [Finite K] [CharP K ReeTag.F4.prime]
 theorem e9Move_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     E9Move (ReeTag.F4.reeGamma K a) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro B hB hB9 c hcB hc1
   have hc3 : c ^ 3 = 1 := hB.2 c hcB
   have hBc : ∀ x ∈ B, ∀ z ∈ B, x * z = z * x := fun x hx z hz =>
@@ -144,7 +144,7 @@ theorem e9Move_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) :
   set Fq := GaloisField 2 (2 * (2 * a + 1)) with hFq
   have hU : UnitaryFieldData 2 (2 * a + 1) Fq :=
     ⟨Nat.prime_two, by omega, GaloisField.card 2 _ (by omega)⟩
-  haveI := hU.finite
+  have := hU.finite
   have hpq := three_dvd_two_pow_odd_add_one a
   set C := Subgroup.centralizer ({y} : Set (ReeTag.F4.reeGamma K a)) with hCdef
   have hBC : B ≤ C := fun x hx => Subgroup.mem_centralizer_singleton_iff.mpr (hBc x hx y hyB)
@@ -303,9 +303,9 @@ theorem e9Move_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) :
 
 theorem exists_e9_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     ∃ E : Subgroup (ReeTag.F4.reeGamma K a), CFSG.Assembly.IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ReeTag.F4.reeGamma K a) := by
-    haveI : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ReeTag.F4.reeGamma K a) := by
+    have : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
       CFSG.LieType.Chevalley.finite_modGL
     exact Subtype.finite
   have h3 : 3 ∣ Nat.card (ReeTag.F4.reeGamma K a) := by
@@ -324,11 +324,11 @@ theorem exists_e9_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) :
 theorem out_cube_reeGamma (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     (α β : MulAut (ReeTag.F4.reeGamma K a)) (hα : α ^ 3 = 1) (hβ : β ^ 3 = 1)
     (hαo : ¬ IsInnerAut α) : ∃ k : ℕ, IsInnerAut (α ^ k * β) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, -, hcyc, hcard, -⟩ :=
     CFSG.ComponentClassification.UnbalancedCatalog.large_Ree_full_inner_field_automorphism_normal_form
       a ha K hK
-  haveI : Finite (Outer (ReeTag.F4.reeGamma K a)) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (Outer (ReeTag.F4.reeGamma K a)) := Nat.finite_of_card_ne_zero (by omega)
   set abar : Outer (ReeTag.F4.reeGamma K a) := QuotientGroup.mk α with habar
   set bbar : Outer (ReeTag.F4.reeGamma K a) := QuotientGroup.mk β with hbbar
   have habar1 : abar ≠ 1 := fun h => hαo ((QuotientGroup.eq_one_iff α).mp h)
@@ -354,7 +354,7 @@ theorem fix_reeGamma (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     (α : MulAut (ReeTag.F4.reeGamma K a)) (hα : α ^ 3 = 1) (hαo : ¬ IsInnerAut α) :
     (∃ E : Subgroup (autFix α), CFSG.Assembly.IsElemAbelian 3 E ∧ Nat.card E = 9) ∧
       E9Move (autFix α) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hα1 : α ≠ 1 := by
     rintro rfl
     exact hαo ⟨1, map_one _⟩
@@ -364,8 +364,8 @@ theorem fix_reeGamma (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
   obtain ⟨b, hkcard, hchar, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_fixSubgroup_fieldAut_equiv hK
       Nat.prime_three (by norm_num) β hβ
-  haveI := hchar
-  haveI : Finite (CFSG.LieType.Chevalley.fixSubfield β) := Subtype.finite
+  have := hchar
+  have : Finite (CFSG.LieType.Chevalley.fixSubfield β) := Subtype.finite
   set δ := ReeTag.F4.reeGammaFieldAut K a β with hδ
   have hfix : autFix δ = CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup δ :=
     Subgroup.ext fun _ => Iff.rfl

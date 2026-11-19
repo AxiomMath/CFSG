@@ -62,7 +62,7 @@ theorem not_le_centralizer_x (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : 
     ¬ L ≤ centralizer ({x} : Set Y) := by
   intro hLW
   obtain ⟨N, hser⟩ := h.series
-  haveI : Fact p.Prime := h.fact
+  have : Fact p.Prime := h.fact
   have h5 : 5 ≤ p := h.five
   obtain ⟨S, hS⟩ := h.sylow
   obtain ⟨t, htmem, hto, htc⟩ :=
@@ -74,7 +74,7 @@ theorem not_le_centralizer_x (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : 
     rwa [hto] at this
   have hPp : ∀ a ∈ P, ∃ k : ℕ, a ^ p ^ k = 1 := by
     intro a ha
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨a, by rw [hS]; exact ha⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨a, by rw [hS]; exact ha⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hPW : P ≤ centralizer ({x} : Set Y) := hser.P_le
   have hPN : P ≤ Subgroup.normalizer N := by
@@ -102,7 +102,7 @@ theorem not_le_centralizer_x (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : 
     obtain ⟨k, hk⟩ := hPp a ha
     exact ⟨k, pow_mul_mem_of_pow_eq_one (hconj a ha) hk n hn⟩
   obtain ⟨hcomm, hsimp⟩ := hL.2.2
-  haveI := hsimp
+  have := hsimp
   obtain ⟨ρ, hρ⟩ : ∃ ρ : L →* L ⧸ Subgroup.center L, ρ = QuotientGroup.mk' (Subgroup.center L) :=
     ⟨_, rfl⟩
   have hρsurj : Function.Surjective ρ := by
@@ -138,10 +138,10 @@ theorem not_le_centralizer_x (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : 
     rw [← ht']
     simpa using this
   have htPN : t ∈ P ⊔ N := (le_sup_left : P ≤ P ⊔ N) htP
-  haveI hK₁map : ((N.subgroupOf L).map ρ).Normal := hK₁.map ρ hρsurj
+  have hK₁map : ((N.subgroupOf L).map ρ).Normal := hK₁.map ρ hρsurj
   rcases hsimp.eq_bot_or_eq_top_of_normal ((N.subgroupOf L).map ρ) with hA₁ | hA₁
   ·
-    haveI hK₂map : (((P ⊔ N).subgroupOf L).map ρ).Normal := hK₂.map ρ hρsurj
+    have hK₂map : (((P ⊔ N).subgroupOf L).map ρ).Normal := hK₂.map ρ hρsurj
     have hB : ((P ⊔ N).subgroupOf L).map ρ = ⊤ := by
       rcases hsimp.eq_bot_or_eq_top_of_normal (((P ⊔ N).subgroupOf L).map ρ) with hB | hB
       · exfalso

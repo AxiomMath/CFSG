@@ -29,9 +29,9 @@ private theorem he42zm_m_conj (S : HeSetup G) {y : G} (hy : y ∈ S.N) {z : G} (
   rw [S.rhoG_of_mem hy]
   exact S.hD.hT.m_conj S.N S.hD.hK.norm ⟨y, hy⟩ hz
 
-theorem HeSetup.stepZmat (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) :
+theorem HeSetup.stepZmat (S : HeSetup G) (_hB : S.BaseFacts) {y₁ y₂ : G} (hY : YSpec S y₁ y₂) :
     S.StepZmat y₁ y₂ := by
-  have g3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have g3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have g1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hy0N : y₁ * y₂⁻¹ ∈ S.N := S.N.mul_mem hY.mem₁ (S.N.inv_mem hY.mem₂)
   have hρ0 : S.rhoG (y₁ * y₂⁻¹) = (S.g, S.g⁻¹) := by
@@ -57,10 +57,10 @@ theorem HeSetup.stepZmat (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY 
     have hc : S.m (y₁ * z * y₁⁻¹) = (S.g : M2) * S.m z := by
       rw [he42zm_m_conj S hY.mem₁ hz, hY.rho₁]
       simp
-    have hcomm := ((S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hB0).2
+    have hcomm := ((S.hD.mem_B_iff S.hxN S.hxa).1 hB0).2
     rw [hmul, hc] at hcomm
     show z ∈ (S.A ⊓ S.A') ⊓ centralizer ({S.x} : Set G)
-    exact (S.hD.mem_B_iff S.hxN S.hxa S.hx3).2 ⟨hz, he42zm_fin_left S.g g3 (S.m z) hcomm⟩
+    exact (S.hD.mem_B_iff S.hxN S.hxa).2 ⟨hz, he42zm_fin_left S.g g3 (S.m z) hcomm⟩
   · intro z hz hB'
     have hB0 : y₂ * z * y₂⁻¹ * z⁻¹ ∈ (S.A ⊓ S.A') ⊓ centralizer ({S.x} : Set G) := hB'
     have hw : y₂ * z * y₂⁻¹ ∈ S.A ⊓ S.A' := S.hD.mem_Z_conj hY.mem₂ hz
@@ -70,10 +70,10 @@ theorem HeSetup.stepZmat (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY 
     have hc : S.m (y₂ * z * y₂⁻¹) = S.m z * (S.g : M2)ᵀ := by
       rw [he42zm_m_conj S hY.mem₂ hz, hY.rho₂]
       simp
-    have hcomm := ((S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hB0).2
+    have hcomm := ((S.hD.mem_B_iff S.hxN S.hxa).1 hB0).2
     rw [hmul, hc] at hcomm
     show z ∈ (S.A ⊓ S.A') ⊓ centralizer ({S.x} : Set G)
-    exact (S.hD.mem_B_iff S.hxN S.hxa S.hx3).2 ⟨hz, he42zm_fin_right S.g g3 (S.m z) hcomm⟩
+    exact (S.hD.mem_B_iff S.hxN S.hxa).2 ⟨hz, he42zm_fin_right S.g g3 (S.m z) hcomm⟩
   · obtain ⟨z, hz, hzs⟩ := S.hD.hT.msurj (!![0, 1; 1, 0] : M2)
     refine ⟨z, hz, fun h => ?_⟩
     have h1 := congrArg S.m h

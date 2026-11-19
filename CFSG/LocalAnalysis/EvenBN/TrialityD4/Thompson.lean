@@ -538,7 +538,7 @@ theorem isPGroup_sup_zpowers_φ_pow :
   have hS : IsPGroup 2 ↥(d.S.map (MulAut.conj : X →* MulAut X)) := by
     obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
     rw [← hP]
-    exact P.isPGroup'.map _
+    exact P.isPGroup.map _
   have hz : IsPGroup 2 ↥(zpowers (d.φ ^ (3 * e))) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, (d.orderOf_φ_pow_three_mul hq).1,
       pow_one])

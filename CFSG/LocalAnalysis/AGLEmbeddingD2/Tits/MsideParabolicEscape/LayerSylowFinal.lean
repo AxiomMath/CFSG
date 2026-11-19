@@ -9,8 +9,8 @@ namespace CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape
 
 theorem invariantSylowStmt : InvariantSylowStmt := by
   intro M _ _ A S X hA hS hAS hXS hX2 hAX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.InvariantSylow.exists_invariant_sylow_ge
     (p := 3) (q := 2) A S X hA hS hAS hXS hX2 hAX
 

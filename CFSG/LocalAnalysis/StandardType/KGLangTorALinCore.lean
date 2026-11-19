@@ -339,13 +339,13 @@ private theorem kgLangTorALinCoreAux_units_pow_dvd {F : Type} [Field F] [Finite 
 
 private theorem kgLangTorALinCoreAux_commute_lift {d p m : ℕ} {F : Type} [Field F] [Finite F]
     {X : Subgroup (MulAut (LinearFlag.projectiveSL d F))} (hX : IsElemAbelian p X)
-    (hd : 0 < d) (hp : p.Prime) (hcop : Nat.Coprime p m)
+    (hd : 0 < d) (_hp : p.Prime) (hcop : Nat.Coprime p m)
     (hpow : ∀ u : Fˣ, u ^ m = 1)
     {eB : GL (Fin d) F} (hep : eB ^ p = 1)
     {x : MulAut (LinearFlag.projectiveSL d F)} (heBx : LinearFlag.conjAut d F eB = x)
     (hxX : x ∈ X) :
     ∀ B : GL (Fin d) F, LinearFlag.conjAut d F B ∈ X → B * eB = eB * B := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   intro B hBX
   have hcommx : LinearFlag.conjAut d F B * x = x * LinearFlag.conjAut d F B :=
     congrArg Subtype.val (hX.1.is_comm.comm ⟨LinearFlag.conjAut d F B, hBX⟩ ⟨x, hxX⟩)
@@ -378,7 +378,7 @@ private theorem kgLangTorALinCoreAux_commute_lift {d p m : ℕ} {F : Type} [Fiel
     _ = eB * B := by rw [hζ1, map_one, one_mul]
 
 theorem kgLangTorA_lin_core_nonsplit {d n p : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime)
-    (hp2 : p ≠ 2) (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n) (hd : 3 ≤ d)
+    (_hp2 : p ≠ 2) (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n) (hd : 3 ≤ d)
     {σ : F ≃+* F} (hσ : orderOf σ = p)
     {X : Subgroup (MulAut (LinearFlag.projectiveSL d F))} (hX : IsElemAbelian p X)
     (hXc : ∀ x ∈ X, x ∈ Set.range (LinearFlag.conjAut d F))

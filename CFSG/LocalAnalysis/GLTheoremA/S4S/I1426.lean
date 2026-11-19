@@ -138,23 +138,23 @@ private theorem i1426_fullCoverLevel_congr {Q Q' : Type} [Group Q] [Group Q'] (e
   have h3 : K3Cover p Q ↔ K3Cover p Q' := ⟨i1426_k3Cover_congr e p, i1426_k3Cover_congr e.symm p⟩
   unfold fullCoverLevel
   by_cases a : K1Cover p Q
-  · rw [if_pos a, if_pos (h1.1 a)]
-  · rw [if_neg a, if_neg (fun b => a (h1.2 b))]
+  · rw [ite_eq_left a, ite_eq_left (h1.1 a)]
+  · rw [ite_eq_right a, ite_eq_right (fun b => a (h1.2 b))]
     by_cases c : K2Cover p Q
-    · rw [if_pos c, if_pos (h2.1 c)]
-    · rw [if_neg c, if_neg (fun d => c (h2.2 d))]
+    · rw [ite_eq_left c, ite_eq_left (h2.1 c)]
+    · rw [ite_eq_right c, ite_eq_right (fun d => c (h2.2 d))]
       by_cases g : K3Cover p Q
-      · rw [if_pos g, if_pos (h3.1 g)]
-      · rw [if_neg g, if_neg (fun k => g (h3.2 k))]
+      · rw [ite_eq_left g, ite_eq_left (h3.1 g)]
+      · rw [ite_eq_right g, ite_eq_right (fun k => g (h3.2 k))]
 
 private theorem i1426_fixed_coset {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     (N : Subgroup X) [N.Normal] (hN : ¬ p ∣ Nat.card N) {P : Subgroup X} (hP : IsPGroup p P)
     {y : X} (hy : ∀ g ∈ P, g * y * g⁻¹ * y⁻¹ ∈ N) :
     ∃ x : X, x * y⁻¹ ∈ N ∧ ∀ g ∈ P, g * x = x * g := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S := {x : X // x * y⁻¹ ∈ N}
-  letI : MulAction P S :=
+  let : MulAction P S :=
     { smul := fun g x => ⟨(g : X) * x.1 * (g : X)⁻¹, by
         have h1 : (g : X) * x.1 * (g : X)⁻¹ * y⁻¹ =
             ((g : X) * (x.1 * y⁻¹) * (g : X)⁻¹) * ((g : X) * y * (g : X)⁻¹ * y⁻¹) := by group
@@ -172,7 +172,7 @@ private theorem i1426_fixed_coset {X : Type} [Group X] [Finite X] {p : ℕ} (hp 
   have hcard : ¬ p ∣ Nat.card S := by
     have e : S ≃ N :=
       { toFun := fun x => ⟨x.1 * y⁻¹, x.2⟩
-        invFun := fun n => ⟨n.1 * y, by simpa using n.2⟩
+        invFun := fun n => ⟨n.1 * y, by simp⟩
         left_inv := fun x => Subtype.ext (by simp)
         right_inv := fun n => Subtype.ext (by simp) }
     rw [Nat.card_congr e]
@@ -341,7 +341,7 @@ private theorem i1426_inj_pgroup {X : Type} [Group X] {N W : Subgroup X} (hN : �
 private theorem i1426_exists_ne_bot_component {X : Type} [Group X] {Z : Subgroup X}
     (h : GLAPLayer 3 Z ≠ ⊥) : ∃ J : Subgroup X, GLAPComponent 3 Z J ∧ J ≠ ⊥ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h
   refine le_antisymm (sSup_le fun J hJ => ?_) bot_le
   exact le_of_eq (hcon J hJ)
@@ -462,7 +462,7 @@ private theorem i1426_E_cond {X : Type} [Group X] [Finite X] (L₀ : Subgroup X)
       GLAPLayer 3 (L₀ ⊓ Subgroup.centralizer (E : Set X)) = ⊥)
     (Ē : Subgroup (X ⧸ GLAPPrimeCoreOf 3 L₀))
     (hĒ : Ē ≤ B₀.map (QuotientGroup.mk' (GLAPPrimeCoreOf 3 L₀)))
-    (hĒab : IsElemAbelian 3 Ē) (hcard : Nat.card Ē = 3 ^ 3) :
+    (_hĒab : IsElemAbelian 3 Ē) (hcard : Nat.card Ē = 3 ^ 3) :
     GLAPLayer 3 ((L₀.map (QuotientGroup.mk' (GLAPPrimeCoreOf 3 L₀))) ⊓
       Subgroup.centralizer (Ē : Set (X ⧸ GLAPPrimeCoreOf 3 L₀))) = ⊥ := by
   have hN : ¬ 3 ∣ Nat.card (GLAPPrimeCoreOf 3 L₀) := not_dvd_card_glaPPrimeCoreOf Nat.prime_three L₀
@@ -662,8 +662,8 @@ private theorem i1426_two_lift {X : Type} [Group X] [Finite X] (L₀ B₀ J₀ :
     ∃ T' : Subgroup X, T' ≤ J₀ ∧ IsPGroup 2 T' ∧ B₀ ≤ Subgroup.normalizer (T' : Set X) ∧
       T'.map (QuotientGroup.mk' (GLAPPrimeCoreOf 3 L₀)) = T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : ¬ 3 ∣ Nat.card (GLAPPrimeCoreOf 3 L₀) := not_dvd_card_glaPPrimeCoreOf Nat.prime_three L₀
   set ψ := QuotientGroup.mk' (GLAPPrimeCoreOf 3 L₀) with hψ
   set P : Subgroup X := J₀ ⊓ T.comap ψ with hPdef
@@ -707,7 +707,7 @@ private theorem i1426_two_lift {X : Type} [Group X] [Finite X] (L₀ B₀ J₀ :
   obtain ⟨Ps, hPs⟩ := exists_sylow_normalized (r := 2) (p := 3) (W := P) (S := B₀) hBP
     (isPGroup_of_isElemAbelian hB) hP3
   refine ⟨(Ps : Subgroup P).map P.subtype, (Subgroup.map_subtype_le _).trans hPJ,
-    Ps.isPGroup'.map P.subtype, hPs, ?_⟩
+    Ps.isPGroup.map P.subtype, hPs, ?_⟩
   set φ : P →* (X ⧸ GLAPPrimeCoreOf 3 L₀) := ψ.comp P.subtype with hφ
   have hφrange : φ.range = T := by
     rw [hφ, MonoidHom.range_comp, Subgroup.range_subtype, hPT]
@@ -910,7 +910,7 @@ private theorem i1426_xlevel {X : Type} [Group X] [Finite X] (L₀ B₀ : Subgro
     (hB : IsElemAbelian 3 B₀)
     (Ā : Subgroup (X ⧸ GLAPPrimeCoreOf 3 L₀))
     (hĀ : Ā ≤ B₀.map (QuotientGroup.mk' (GLAPPrimeCoreOf 3 L₀)))
-    (hĀab : IsElemAbelian 3 Ā) (hĀcard : Nat.card Ā = 3 ^ 2)
+    (_hĀab : IsElemAbelian 3 Ā) (hĀcard : Nat.card Ā = 3 ^ 2)
     (hJ : GLAPComponent 3 (L₀.map (QuotientGroup.mk' (GLAPPrimeCoreOf 3 L₀)) ⊓
       Subgroup.centralizer (Ā : Set (X ⧸ GLAPPrimeCoreOf 3 L₀))) (GLAPLayer 3
       (L₀.map (QuotientGroup.mk' (GLAPPrimeCoreOf 3 L₀)) ⊓
@@ -1168,7 +1168,7 @@ theorem i1426At_of {G : Type} [Group G] [Finite G] (h : KD1426Cat) {p : ℕ} :
   have hLH : L ≤ H := le_sup_left
   have hBH : B ≤ H := le_sup_right
   have hxH : x ∈ H := hBH hxB
-  haveI hL₀n : (L.subgroupOf H).Normal :=
+  have hL₀n : (L.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 (sup_le Subgroup.le_normalizer hBN)
   have hinj : Function.Injective H.subtype := H.subtype_injective
   have hB₀map : (B.subgroupOf H).map H.subtype = B := Subgroup.map_subgroupOf_eq_of_le hBH

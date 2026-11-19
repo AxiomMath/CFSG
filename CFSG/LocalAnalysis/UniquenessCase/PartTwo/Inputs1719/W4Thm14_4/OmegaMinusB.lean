@@ -22,12 +22,12 @@ private lemma irrSet_nonempty_of_isAlt_five {W : Type} [CommGroup W]
   rw [Set.not_nonempty_iff_eq_empty] at hempty
   have hbot : (⊥ : Subgroup W) = ⊤ := by
     simpa [hempty] using hsup
-  haveI hsubW : Subsingleton W := ⟨fun x y => by
+  have hsubW : Subsingleton W := ⟨fun x y => by
     have hx : x ∈ (⊥ : Subgroup W) := by rw [hbot]; exact Subgroup.mem_top x
     have hy : y ∈ (⊥ : Subgroup W) := by rw [hbot]; exact Subgroup.mem_top y
     rw [Subgroup.mem_bot] at hx hy
     rw [hx, hy]⟩
-  haveI hsubA : Subsingleton (MulAut W) :=
+  have hsubA : Subsingleton (MulAut W) :=
     ⟨fun a b => MulEquiv.ext fun x => Subsingleton.elim (a x) (b x)⟩
   obtain ⟨e⟩ := hL
   have hnt : Nontrivial ↥L := e.isSimpleGroup.toNontrivial

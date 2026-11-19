@@ -21,6 +21,7 @@ theorem cc {a b : ℕ} (ha : a < N) (hb : b < N) :
     cconj mul inv a b = Φ.f (Φ.g a * Φ.g b * (Φ.g a)⁻¹) := by
   rw [Φ.f_conj h0 (fun c hc => inv_spec hinv hc), Φ.f_g ha, Φ.f_g hb]
 
+omit h0 hinv in
 theorem mul_lt {a b : ℕ} (ha : a < N) (hb : b < N) : mul a b < N := by
   rw [← Φ.f_g ha, ← Φ.f_g hb, ← Φ.map_mul]
   exact Φ.lt _
@@ -31,13 +32,13 @@ theorem cor_step {u o w g : ℕ} (hu : u < N) (hg : g ∈ gens) (h : Cor mul inv
   obtain ⟨hw, ho⟩ := h
   simp only at hw ho
   have hgN := hgens g hg
-  refine ⟨mul_lt Φ h0 hinv hgN hw, ?_⟩
+  refine ⟨mul_lt Φ hgN hw, ?_⟩
   simp only
   have hoN : o < N := by rw [ho, cc Φ h0 hinv hw hu]; exact Φ.lt _
   have hm : Φ.g (mul g w) = Φ.g g * Φ.g w := by
     refine Φ.inj ?_
-    rw [Φ.map_mul, Φ.f_g hgN, Φ.f_g hw, Φ.f_g (mul_lt Φ h0 hinv hgN hw)]
-  rw [cc Φ h0 hinv hgN hoN, cc Φ h0 hinv (mul_lt Φ h0 hinv hgN hw) hu, ho,
+    rw [Φ.map_mul, Φ.f_g hgN, Φ.f_g hw, Φ.f_g (mul_lt Φ hgN hw)]
+  rw [cc Φ h0 hinv hgN hoN, cc Φ h0 hinv (mul_lt Φ hgN hw) hu, ho,
     cc Φ h0 hinv hw hu, Φ.g_f, hm]
   congr 1
   group
@@ -63,7 +64,7 @@ theorem fold_post {u o w : ℕ} (hu : u < N) (hc : Cor mul inv N u (o, w)) :
     by_cases h : M.testBit (cconj mul inv g o) = true
     · have e : recAdd mul inv o w (R, B, M) g = (R, B, M) := by
         unfold recAdd
-        simp only [h, if_true]
+        simp only [h, ite_true]
       rw [e]
       obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, k, hk1, hk2⟩ :=
         fold_post hu hc L hLg R B M hM hR hN
@@ -75,7 +76,7 @@ theorem fold_post {u o w : ℕ} (hu : u < N) (hc : Cor mul inv N u (o, w)) :
     · have e : recAdd mul inv o w (R, B, M) g = ((cconj mul inv g o, mul g w) :: R,
           B ++ [(cconj mul inv g o, mul g w)], M ||| 2 ^ cconj mul inv g o) := by
         unfold recAdd
-        simp only [h, Bool.false_eq_true, if_false]
+        simp only [h, Bool.false_eq_true, ite_false]
       rw [e]
       set v := cconj mul inv g o
       have hM' : Tracks (M ||| 2 ^ v) ((v, mul g w) :: R) := by

@@ -86,14 +86,14 @@ theorem blk_mem_TB3 {g h : Equiv.Perm (Fin 8)} (hg : g ∈ D16) (hh : h ∈ D16)
       rw [D16, map_closure_list, closure_le]
       intro x hx
       simp only [List.map_cons, List.map_nil, MonoidHom.comp_apply, MonoidHom.inl_apply,
-        blk_pu, blk_pv, blk_g2, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+        blk_pu, blk_pv, blk_g2, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl <;> exact mem_TB (by simp [bGens])
     exact h1 (mem_map_of_mem _ hg)
   · have h1 : D16.map (blk.comp (MonoidHom.inr _ _)) ≤ TB 3 := by
       rw [D16, map_closure_list, closure_le]
       intro x hx
       simp only [List.map_cons, List.map_nil, MonoidHom.comp_apply, MonoidHom.inr_apply,
-        blk_pu', blk_pv', blk_g2', Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil,
+        blk_pu', blk_pv', blk_g2', Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil,
         or_false] at hx
       rcases hx with rfl | rfl | rfl
       · exact mem_TB (by simp [bGens])
@@ -111,7 +111,7 @@ theorem mem_H0_iff (σ : Equiv.Perm (Fin 8)) :
 theorem D_le_H0 : D ≤ H0 := by
   rw [D, closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl
   · exact (mem_H0_iff _).2 pu_mem_h
   · exact (mem_H0_iff _).2 pv_mem_h
@@ -176,13 +176,13 @@ theorem mem_GB {i : Fin 4} {g : P16} (hg : g ∈ [a1, b1, a2, b2] ++ bGens i) : 
 theorem L01_le_GB (i : Fin 4) : L01 ≤ GB i := by
   rw [L01, closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl <;> exact mem_GB (by simp)
 
 theorem L02_le_GB (i : Fin 4) : L02 ≤ GB i := by
   rw [L02, closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl <;> exact mem_GB (by simp)
 
 theorem u1_mem_L01 : u1 ∈ L01 := by
@@ -204,7 +204,7 @@ theorem v2_mem_L02 : v2 ∈ L02 := by
 theorem TB_le_GB (i : Fin 4) : TB i ≤ GB i := by
   rw [TB, closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_append, List.mem_cons, List.not_mem_nil,
+  simp only [Set.mem_ofPred_eq, List.mem_append, List.mem_cons, List.not_mem_nil,
     or_false] at hx
   rcases hx with (rfl | rfl | rfl | rfl) | hx
   · exact L01_le_GB i u1_mem_L01
@@ -217,7 +217,7 @@ theorem sup_TB_eq_GB (i : Fin 4) : L01 ⊔ L02 ⊔ TB i = GB i := by
   refine le_antisymm (sup_le (sup_le (L01_le_GB i) (L02_le_GB i)) (TB_le_GB i)) ?_
   rw [GB, closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_append, List.mem_cons, List.not_mem_nil,
+  simp only [Set.mem_ofPred_eq, List.mem_append, List.mem_cons, List.not_mem_nil,
     or_false] at hx
   rcases hx with (rfl | rfl | rfl | rfl) | hx
   · exact mem_sup_left (mem_sup_left (subset_closure (by simp)))

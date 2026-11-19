@@ -62,7 +62,7 @@ theorem lyThree : lyCheck (opsP 5 111) NativeSporadic.LySeed1 NativeSporadic.LyS
     eq_of_rel HL hR (by rw [hlen]; decide) (vldL LyBS.vB), q0, q1,
     facts_of_rel HL hR hlen, h0, h1, hc0, hc1]
   unfold certN at hc
-  simp only [Bool.and_eq_true, decide_eq_true_eq, and_assoc, and_true, true_and] at hc ⊢
+  simp only [Bool.and_eq_true, decide_eq_true_eq, and_assoc, and_true] at hc ⊢
   exact ⟨hc.1, hc.2.1, hc.2.2, by decide +kernel⟩
 
 theorem lyFive : ly5Check (opsP 5 111) NativeSporadic.LySeed1 NativeSporadic.LySeed2
@@ -110,7 +110,7 @@ theorem lyFive : ly5Check (opsP 5 111) NativeSporadic.LySeed1 NativeSporadic.LyS
     eq_of_rel HL hR (by rw [hlen]; decide) (vldL LyBS.vA),
     eq_of_rel HL hR (by rw [hlen]; decide) (vldL LyBS.vB), facts_of_rel HL hR hlen, h0, h1]
   unfold certN at hc
-  simp only [Bool.and_eq_true, decide_eq_true_eq, and_assoc, and_true, true_and] at hc ⊢
+  simp only [Bool.and_eq_true, decide_eq_true_eq, and_assoc, and_true] at hc ⊢
   exact ⟨hc.1, hc.2.1, hc.2.2, by decide, by decide, hels', hstab, rfl, rfl, by decide +kernel,
     by decide +kernel, by decide +kernel⟩
 

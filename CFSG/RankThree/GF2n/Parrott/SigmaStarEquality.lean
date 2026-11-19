@@ -28,6 +28,7 @@ private theorem factorization_two_pow_mul_odd_aux {k m : ℕ} (hm0 : m ≠ 0) (h
   rw [Finsupp.add_apply, Nat.factorization_pow_self Nat.prime_two,
     Nat.factorization_eq_zero_of_not_dvd hm, add_zero]
 
+omit [Finite G] in
 private theorem hJ_conj_aux
     (hJ : ∀ j : G, j ∈ J z → orderOf j = 2 → j ≠ z → ∀ g : G, g * z * g⁻¹ ≠ j) :
     ∀ j ∈ J z, orderOf j = 2 → j ∉ Subgroup.zpowers z → ¬ IsConj z j := by

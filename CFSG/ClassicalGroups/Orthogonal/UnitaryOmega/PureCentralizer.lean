@@ -712,6 +712,7 @@ private theorem commutator_mem_supportedDerived
   · exact commutator_fixes_suppPerp hQ hX hY hXY hXdim hρ hρfix hρns hg hh
   · exact commutator_restricts hQ hX hY hXY hρ hρfix hg hh
 
+omit [Finite K] in
 private theorem supportedDerived_le_commutator_centralizer
     (hX : (polarBilin (Q.comp X.subtype)).Nondegenerate)
     (hY : (polarBilin (Q.comp Y.subtype)).Nondegenerate)
@@ -748,6 +749,7 @@ private theorem supportedDerived_le_commutator_centralizer
           supportedDerived Q (X ⊔ Y)⁆ :=
         Subgroup.commutator_mono (fun y hy => hMY y hy) (fun y hy => hMY y hy)
 
+omit [Finite K] in
 theorem commutator_centralizer_supportedDerived_eq
     (hQ : (polarBilin Q).Nondegenerate)
     (hX : (polarBilin (Q.comp X.subtype)).Nondegenerate)

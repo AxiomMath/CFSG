@@ -140,7 +140,7 @@ private theorem cenD_unitary_of_le {p nf N d : ℕ} {K : Type} [Field K] [Finite
     exact commute_of_mem_ggK1A_torsGL (hTtors ht) hA
 
 theorem ggK1A_core_center {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (hRA : ¬ (p ∣ N ∧ p ∣ 2 ^ nf - 1))
     (hd : d = ggMultOrd p nf)
     {xhat : ↥(LargeEvenSLGroup (Fin N) K)} (hxp : xhat ^ p = 1) {m : List ℕ}
@@ -156,7 +156,7 @@ theorem ggK1A_core_center {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
     squarefree_minpoly_ggK1A_glEnd (cenD_natCast_ne_zero hp hp2) (cenD_coe_pow hxp)
   have hN : 3 ≤ N := ggK1A_three_le_of_two_le_rZ hp hp2 hdvd hd hm h2
   rcases hdvd with hsub | hadd
-  · have hord : ggMultOrd p nf = 1 := by rw [ggMultOrd, if_pos hsub]
+  · have hord : ggMultOrd p nf = 1 := by rw [ggMultOrd, ite_eq_left hsub]
     have hNp : ¬ p ∣ N := fun h => hRA ⟨h, hsub⟩
     obtain ⟨T, hTSL, hTtors, hTscal, hTcard⟩ :=
       ggK1A_exists_torsion_sl_of_dvd_sub_one hp hK hsub hNp (cenD_coe_pow hxp)
@@ -166,7 +166,7 @@ theorem ggK1A_core_center {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
       rw [hTcard, hcnt]
     exact cenD_linear_of_le hp hK hRA hN hxp hTSL hTtors hTscal hcard h2
   · have hnot : ¬ p ∣ 2 ^ nf - 1 := cenD_not_dvd_sub_one_of_dvd_add_one hp hp2 hadd
-    have hord : ggMultOrd p nf = 2 := by rw [ggMultOrd, if_neg hnot, if_pos hadd]
+    have hord : ggMultOrd p nf = 2 := by rw [ggMultOrd, ite_eq_right hnot, ite_eq_left hadd]
     obtain ⟨T, hTSL, hTtors, hTscal, hTcard⟩ :=
       ggK1A_exists_torsion_sl_of_dvd_add_one hp hK hadd (cenD_coe_pow hxp)
     have hcnt := ggK1A_rZ_eq_card_selfDualFactors hd hord hm
@@ -175,7 +175,7 @@ theorem ggK1A_core_center {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
     exact cenD_linear_of_le hp hK hRA hN hxp hTSL hTtors hTscal hcard h2
 
 theorem ggK1A_uni_core_center {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = (2 ^ nf) ^ 2)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = (2 ^ nf) ^ 2)
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (hRA : ¬ (p ∣ N ∧ p ∣ 2 ^ nf + 1))
     (hd : d = ggMultOrd p nf)
     {xhat : ↥(LargeEvenSUGroup (Fin N) K (2 ^ nf))} (hxp : xhat ^ p = 1) {m : List ℕ}
@@ -195,7 +195,7 @@ theorem ggK1A_uni_core_center {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
     squarefree_minpoly_ggK1A_glEnd (cenD_natCast_ne_zero hp hp2) (cenD_coe_pow hxp)
   have hN : 3 ≤ N := ggK1A_three_le_of_two_le_rZ hp hp2 hdvd hd hm h2
   rcases hdvd with hsub | hadd
-  · have hord : ggMultOrd p nf = 1 := by rw [ggMultOrd, if_pos hsub]
+  · have hord : ggMultOrd p nf = 1 := by rw [ggMultOrd, ite_eq_left hsub]
     obtain ⟨T, hTSU, hTtors, hTscal, hTcard⟩ :=
       ggK1A_exists_torsion_su_of_dvd_sub_one hp hp2 hK hsub xhat.2 (cenD_coe_pow hxp)
     have hcnt := ggK1A_uni_two_mul_rZ_eq_card_selfDualFactors hp hp2 hd hord hm
@@ -206,7 +206,7 @@ theorem ggK1A_uni_core_center {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
     exact cenD_unitary_of_le hp hK hRA hN (cenD_pair_ne_three_two hp (Or.inl hsub) hRA)
       hxp hTSU hTtors hTscal hcard h2
   · have hnot : ¬ p ∣ 2 ^ nf - 1 := cenD_not_dvd_sub_one_of_dvd_add_one hp hp2 hadd
-    have hord : ggMultOrd p nf = 2 := by rw [ggMultOrd, if_neg hnot, if_pos hadd]
+    have hord : ggMultOrd p nf = 2 := by rw [ggMultOrd, ite_eq_right hnot, ite_eq_left hadd]
     have hNp : ¬ p ∣ N := fun h => hRA ⟨h, hadd⟩
     obtain ⟨T, hTSU, hTtors, hTscal, hTcard⟩ :=
       ggK1A_exists_torsion_su_of_dvd_add_one hp hK hadd hNp xhat.2 (cenD_coe_pow hxp)

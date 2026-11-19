@@ -73,14 +73,14 @@ theorem pts_eq {k : Nat} (hk : k < 165) : (burnsideF48t_u52Pt ())[k]! = unpack 5
   simp only [Array.getElem_map, Array.getElem_range, unpack, Array.getElem_ofFn]
   have e := congrArg (fun a => a[j]!) hT
   simp only at e
-  rw [CFSG.KS.WordF.getElem!_unpack, if_pos hj,
+  rw [CFSG.KS.WordF.getElem!_unpack, ite_eq_left hj,
     getElem!_pos _ j (by simpa [CFSG.Monster.B.Co2.Native.hexTable] using hj)] at e
   simp only [CFSG.Monster.B.Co2.Native.hexTable, Array.getElem_ofFn,
     CFSG.Monster.B.Co2.Native.hexAt, CFSG.Monster.B.Co2.Native.hexVal, Nat.one_mul, Nat.add_zero,
     Nat.zero_mul, Nat.zero_add] at e
   have hl := byte_lt (m := 5 * k + j) (by omega)
   rw [bytes_get]
-  rw [if_pos hl] at e
+  rw [ite_eq_left hl] at e
   rw [e]
 
 theorem lns_eq {l : Nat} (hl : l < 297) : burnsideF48t_u52LnPts[l]! = unpack 5 8 (LP l) :=
@@ -100,7 +100,7 @@ theorem g_size : (burnsideF48t_u52Gens ()).size = 6 := by
 
 theorem g_get {k : Nat} (hk : k < 6) {x : Nat} (hx : x < 462) :
     ((burnsideF48t_u52Gens ())[k]!)[x]! = pg 9 (mask 9) (CX.S k) x := by
-  rw [g_eq k hk, CFSG.KS.WordF.getElem!_unpack, if_pos hx]
+  rw [g_eq k hk, CFSG.KS.WordF.getElem!_unpack, ite_eq_left hx]
 
 theorem pts_small : ∀ p ∈ burnsideF48t_u52Pt (), p.size = 5 ∧ ∀ x ∈ p, x < 4 := by
   intro p hp

@@ -207,7 +207,7 @@ theorem u4Eps_good_projSU {p : ℕ} [Fact p.Prime] (hp : 3 < p) (hp2 : p % 3 = 2
 theorem rowSEpsOf_four_SU_mod_two : ∀ (p : ℕ) [Fact p.Prime], 3 < p → p % 3 = 2 →
     RowSEpsOf (projSU 4 p 1) := by
   intro p _ hp hp2 S _ _ hs hna ⟨e⟩
-  haveI := hs
+  have := hs
   exact noCfgSEps_of_goodEps_model e (center_eq_bot_of_simple_nonab hna)
     (not_three_dvd_outer_of_mulEquiv e RonanK432.not_three_dvd_card_outer_projSU_four_prime)
     (fun x hx => u4Eps_good_projSU hp hp2 x hx)

@@ -75,7 +75,7 @@ theorem relIndex_autOn [Finite G] {S T V : Subgroup G} (hST : S ≤ T)
   exact Nat.eq_of_mul_eq_mul_right hpos this
 
 theorem isPGroup_autOn {P V : Subgroup G} (hP : IsPGroup 2 P)
-    (hPV : P ≤ Subgroup.normalizer (V : Set G)) : IsPGroup 2 (autOn P V) :=
+    (_hPV : P ≤ Subgroup.normalizer (V : Set G)) : IsPGroup 2 (autOn P V) :=
   CFSG.Quasithin.AutOn.isPGroup_autOn hP
 
 theorem coe_mem_commutator_of_mem_commV {P V : Subgroup G} (hV : IsElemAbelian 2 V)

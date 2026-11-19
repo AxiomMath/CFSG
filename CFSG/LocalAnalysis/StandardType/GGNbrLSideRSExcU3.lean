@@ -302,7 +302,7 @@ private lemma u3main_frameRoots_ncard
     (frameRoots σ).ncard = ν * (ν - 1) := by
   have hinj : Set.InjOn (fun q : Fin ν × Fin ν => σ q.1 q.2) {q | q.1 ≠ q.2} := by
     rintro ⟨x, y⟩ hxy ⟨u, v⟩ huv h
-    simp only [Set.mem_setOf_eq] at hxy huv
+    simp only [Set.mem_ofPred_eq] at hxy huv
     obtain ⟨rfl, rfl⟩ := hψ.eq_of_eq hκ hnorm hxy huv h
     rfl
   have himg : frameRoots σ = (fun q : Fin ν × Fin ν => σ q.1 q.2) '' {q | q.1 ≠ q.2} := by
@@ -316,13 +316,13 @@ private lemma u3main_frameRoots_ncard
   have hoff : ({q : Fin ν × Fin ν | q.1 ≠ q.2} : Set (Fin ν × Fin ν)) =
       ↑(Finset.univ.offDiag : Finset (Fin ν × Fin ν)) := by
     ext q
-    simp [Finset.mem_offDiag]
+    simp
   rw [hoff, Set.ncard_coe_finset, Finset.offDiag_card, Finset.card_univ, Fintype.card_fin,
     Nat.mul_sub_left_distrib, mul_one]
 
 private lemma u3main_frame
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup τ L p₀)
-    (h2 : (2 : L) = 0) {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus)
+    (h2 : (2 : L) = 0) {a : Fin τ.rank → Lˣ} (_hT : rootDiagUnit τ a ∈ S.D.torus)
     (ha3 : ∀ j, a j ^ 3 = 1) (i : KernelComponent (rootCharHom a))
     (hrk : compRank (componentRoots (rootCharHom a) i) = 2)
     (hcard : (componentRoots (rootCharHom a) i).ncard = 6) :
@@ -525,8 +525,8 @@ theorem ggNbrLSideRSExc_u3
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.splitShape_of_twistKind_inner
       S hT i hkind (le_refl 3) hψ hκ hnorm hΨc
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   have hQs : Q = r ^ (e * s) := by rw [hQq, hq, hsdef, pow_mul]
@@ -545,7 +545,7 @@ theorem ggNbrLSideRSExc_u3
   have hFix := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.finite_card_fixSubfield
     (r := r) (n := e * s) (Nat.mul_pos he hs0) σQ hσQ
   have hKfin : Finite K := hFix.1
-  haveI : Finite K := hKfin
+  have : Finite K := hKfin
   have hKcard : Nat.card K = Q := by rw [hQs, hFix.2]
   have hyR : R.map (MulAut.conj y).toMonoidHom = R := by
     apply le_antisymm

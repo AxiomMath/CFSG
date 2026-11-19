@@ -75,9 +75,11 @@ private def innerStep (key : S → ℕ) (Rl : List S) (tk : (S × S) × ℕ)
   Rl.zipIdx.foldl (fun m rr =>
     m.insertIfNew (key (rr.1⁻¹ * tk.1.1 * rr.1), key (rr.1⁻¹ * tk.1.2 * rr.1)) (tk.2, rr.2)) m
 
+omit [DecidableEq S] in
 private theorem coverMapG_eq (key : S → ℕ) (Rl : List S) (reps : List (S × S)) :
     coverMapG key Rl reps = reps.zipIdx.foldl (fun m tk => innerStep key Rl tk m) {} := rfl
 
+omit [DecidableEq S] in
 private theorem outer_mono (key : S → ℕ) (Rl : List S) (T : List ((S × S) × ℕ)) :
     ∀ (m0 : Std.HashMap (ℕ × ℕ) (ℕ × ℕ)) (k : ℕ × ℕ), k ∈ m0 →
       k ∈ T.foldl (fun m tk => innerStep key Rl tk m) m0 := by
@@ -88,6 +90,7 @@ private theorem outer_mono (key : S → ℕ) (Rl : List S) (T : List ((S × S) �
     rw [List.foldl_cons]
     exact ih _ _ (fold_mono _ _ _ _ _ hk)
 
+omit [DecidableEq S] in
 private theorem outer_mem (key : S → ℕ) (Rl : List S) (T : List ((S × S) × ℕ)) :
     ∀ (m0 : Std.HashMap (ℕ × ℕ) (ℕ × ℕ)), ∀ tk ∈ T, ∀ rr ∈ Rl.zipIdx,
       (key (rr.1⁻¹ * tk.1.1 * rr.1), key (rr.1⁻¹ * tk.1.2 * rr.1)) ∈
@@ -103,7 +106,8 @@ private theorem outer_mem (key : S → ℕ) (Rl : List S) (T : List ((S × S) ×
         (fun rr : S × ℕ => (tk.2, rr.2)) _ _ rr hrr)
     · exact ih _ tk htk rr hrr
 
-private theorem outer_inv (key : S → ℕ) (Rl : List S) (reps : List (S × S))
+omit [DecidableEq S] in
+private theorem outer_inv (key : S → ℕ) (Rl : List S) (_reps : List (S × S))
     (Q : ℕ × ℕ → ℕ × ℕ → Prop) (T : List ((S × S) × ℕ))
     (hT : ∀ tk ∈ T, ∀ rr ∈ Rl.zipIdx,
       Q (key (rr.1⁻¹ * tk.1.1 * rr.1), key (rr.1⁻¹ * tk.1.2 * rr.1)) (tk.2, rr.2)) :
@@ -266,7 +270,7 @@ private theorem filter_len_le {α : Type} (B : α → Bool) (g : α → ℕ × �
       · have hg : g x q ≠ 0 := fun h0 => by
           have := hcov x q (by rw [hz]; exact List.mem_cons_self) h0
           rw [hB] at this; exact absurd this (by simp)
-        simp only [hB, if_true, List.length_cons]
+        simp only [hB, ite_true, List.length_cons]
         omega
       · have hB' : B x = false := by simpa using hB
         simp only [hB', Bool.false_eq_true, ↓reduceIte]
@@ -517,7 +521,7 @@ private theorem blk32_get {α : Type} (d : α) : ∀ (f : ℕ) (L : List α) (i 
     rw [e]
     rcases Nat.lt_or_ge i 32 with hi | hi
     · rw [Nat.div_eq_of_lt hi, Nat.mod_eq_of_lt hi, getK_eq, getK_eq, getK_eq]
-      simp [List.getD_eq_getElem?_getD, List.getElem?_take, hi]
+      simp [List.getD_eq_getElem?_getD, hi]
     · obtain ⟨j, rfl⟩ : ∃ j, i = j + 32 := ⟨i - 32, by omega⟩
       have h1 : (j + 32) / 32 = j / 32 + 1 := by omega
       have h2 : (j + 32) % 32 = j % 32 := by omega

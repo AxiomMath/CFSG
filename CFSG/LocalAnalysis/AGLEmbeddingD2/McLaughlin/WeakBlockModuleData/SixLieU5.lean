@@ -26,11 +26,13 @@ variable {ω : F}
 
 @[expose] def eltBInv : Matrix (Fin 3) (Fin 3) F := !![0, 0, 1; 0, 1, 0; 1, 0, 1]
 
+omit [Finite F] [CharP F 2] in
 theorem eltA_eq_scalar : eltA ω = Matrix.scalar (Fin 3) ω := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [eltA]
 
 omit [Finite F] in
+omit [CharP F 2] in
 theorem eltA_mul_inv (hω3 : ω ^ 3 = 1) :
     eltA ω * eltAInv ω = 1 ∧ eltAInv ω * eltA ω = 1 := by
   refine ⟨?_, ?_⟩ <;>
@@ -78,6 +80,7 @@ end Mats
 
 section Lift
 
+omit [Finite F] [CharP F 2] in
 theorem commute_diag_of_block {σ : F ≃+* F} {n r : ℕ} {e : Fin r → Fin n} {t : Fin n → F}
     {d q : SU σ n} (hd : mat σ n d = diagonal t) (hq : IsBlkOn e (mat σ n q))
     (hc : ∀ i j, t (e i) * mat σ n q (e i) (e j) = mat σ n q (e i) (e j) * t (e j)) :
@@ -182,7 +185,7 @@ theorem exists_su_odd_triple (hn5 : 5 ≤ n) (hn : ¬Even n) {k : Fin (n / 2)}
     have h1 := congrFun (congrFun hYm i) j
     simp only [submatrix_apply] at h1
     rw [h1, htD i, htD j]
-    fin_cases i <;> fin_cases j <;> simp [eltB] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [eltB]
   have hAB : A3 * B3 = B3 * A3 := by
     apply mat_injective
     rw [map_mul, map_mul, hA3, hB3, eltA_eq_scalar]

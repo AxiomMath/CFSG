@@ -53,6 +53,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace End18
 
+omit [Finite G] in
 private theorem e18a_sq {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {x : G}
     (hx : x ∈ K) : x * x ∈ Subgroup.zpowers z := by
   rcases det_tw_sq_mem hQ hx with h | h
@@ -61,6 +62,7 @@ private theorem e18a_sq {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {x : 
   · rw [h]
     exact Subgroup.mem_zpowers z
 
+omit [Finite G] in
 private theorem e18a_comm {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {a b : G}
     (ha : a ∈ K) (hb : b ∈ K) : a * b * a⁻¹ * b⁻¹ ∈ Subgroup.zpowers z := by
   have hzz : z * z = 1 := hQ.inv.sq
@@ -79,16 +81,19 @@ private theorem e18a_comm {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {a 
     rw [h2]
     exact Subgroup.mem_zpowers z
 
+omit [Finite G] in
 private theorem e18a_cent {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {x : G}
     (hx : x ∈ K) (hc : ∀ y ∈ K, x * y = y * x) : x ∈ Subgroup.zpowers z := by
   by_contra hxz
   obtain ⟨w, hw, hne⟩ := det_tw_q8_noncomm hQ hx hxz
   exact hne (hc w hw)
 
+omit [Finite G] in
 private theorem e18a_zc {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {x : G}
     (hx : x ∈ K) : z * x = x * z :=
   det_tw_q8_central hQ hx
 
+omit [Finite G] in
 private theorem e18a_card_zpowers {z : G} (hzz : z * z = 1) (hz1 : z ≠ 1) :
     Nat.card ↥(Subgroup.zpowers z) = 2 := by
   rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact hzz) hz1]
@@ -98,11 +103,13 @@ private def e18a_Good (X : Subgroup G) (z : G) : Prop :=
     (∀ x ∈ X, ∀ y ∈ X, x * y * x⁻¹ * y⁻¹ ∈ Subgroup.zpowers z) ∧
     (∀ x ∈ X, z * x = x * z) ∧ (∀ x ∈ X, (∀ y ∈ X, x * y = y * x) → x ∈ Subgroup.zpowers z)
 
+omit [Finite G] in
 private theorem e18a_base {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     e18a_Good K z :=
-  ⟨hQ.inv.mem, fun x hx => e18a_sq hQ hx, fun x hx y hy => e18a_comm hQ hx hy,
-    fun x hx => e18a_zc hQ hx, fun x hx hc => e18a_cent hQ hx hc⟩
+  ⟨hQ.inv.mem, fun _x hx => e18a_sq hQ hx, fun _x hx _y hy => e18a_comm hQ hx hy,
+    fun _x hx => e18a_zc hQ hx, fun _x hx hc => e18a_cent hQ hx hc⟩
 
+omit [Finite G] in
 private theorem e18a_mem_sup {X K : Subgroup G} (hXK : ∀ a ∈ X, ∀ k ∈ K, a * k = k * a)
     {y : G} (hy : y ∈ X ⊔ K) : ∃ a ∈ X, ∃ k ∈ K, y = a * k := by
   rw [Subgroup.sup_eq_closure] at hy
@@ -124,6 +131,7 @@ private theorem e18a_mem_sup {X K : Subgroup G} (hXK : ∀ a ∈ X, ∀ k ∈ K,
     refine ⟨a⁻¹, X.inv_mem ha, k⁻¹, K.inv_mem hk, ?_⟩
     rw [hXK a ha k hk, mul_inv_rev]
 
+omit [Finite G] in
 private theorem e18a_comm_prod {K : Subgroup G} {a a' k k' : G}
     (ha : ∀ x ∈ K, a * x = x * a) (ha' : ∀ x ∈ K, a' * x = x * a')
     (hk : k ∈ K) (hk' : k' ∈ K) :
@@ -153,6 +161,7 @@ private theorem e18a_comm_prod {K : Subgroup G} {a a' k k' : G}
     _ = a * a' * a⁻¹ * (a'⁻¹ * (k * k' * k⁻¹ * k'⁻¹)) := by rw [hA' _ hy]
     _ = (a * a' * a⁻¹ * a'⁻¹) * (k * k' * k⁻¹ * k'⁻¹) := by group
 
+omit [Finite G] in
 private theorem e18a_inf {X K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) (hzX : z ∈ X)
     (hXK : ∀ a ∈ X, ∀ k ∈ K, a * k = k * a) : X ⊓ K = Subgroup.zpowers z := by
   apply le_antisymm
@@ -160,6 +169,7 @@ private theorem e18a_inf {X K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) (h
     exact e18a_cent hQ hx.2 (fun y hy => hXK x hx.1 y hy)
   · exact Subgroup.zpowers_le.mpr ⟨hzX, hQ.inv.mem⟩
 
+omit [Finite G] in
 private theorem e18a_chain {X K : Subgroup G} {z i j : G} (hX : e18a_Good X z)
     (hQ : Q8Data K z i j) (hK8 : Nat.card K = 8) (hzz : z * z = 1) (hz1 : z ≠ 1)
     (hXK : ∀ a ∈ X, ∀ k ∈ K, a * k = k * a) :
@@ -210,6 +220,7 @@ private theorem e18a_chain {X K : Subgroup G} {z i j : G} (hX : e18a_Good X z)
     have hkX : k ∈ X := (Subgroup.zpowers_le.mpr hzX) hkc
     exact hXcen (a * k) (X.mul_mem ha hkX) (fun y hy => hc y (Subgroup.mem_sup_left hy))
 
+omit [Finite G] in
 private theorem e18a_sup_comm {A B K : Subgroup G} (hA : ∀ x ∈ A, ∀ k ∈ K, x * k = k * x)
     (hB : ∀ x ∈ B, ∀ k ∈ K, x * k = k * x) : ∀ x ∈ A ⊔ B, ∀ k ∈ K, x * k = k * x := by
   have hle : A ⊔ B ≤ Subgroup.centralizer (K : Set G) :=
@@ -244,9 +255,9 @@ private theorem e18a_bound {A : Type} [CommGroup A] [Finite A] {n : ℕ}
       rfl
     rw [e, hsq]
     rfl
-  letI : Module (ZMod 2) (Additive A) := AddCommGroup.zmodModule (n := 2) h2
-  haveI : Finite (Additive A) := ‹Finite A›
-  haveI : FiniteDimensional (ZMod 2) (Additive A) := inferInstance
+  let : Module (ZMod 2) (Additive A) := AddCommGroup.zmodModule (n := 2) h2
+  have : Finite (Additive A) := ‹Finite A›
+  have : FiniteDimensional (ZMod 2) (Additive A) := inferInstance
   have hc1 : ∀ d : A, c 1 d = 0 := by
     intro d
     have h := hL 1 1 d
@@ -321,16 +332,16 @@ private noncomputable def e18a_cfun {H : Type} [Group H] (a b : H) : ZMod 2 :=
 private theorem e18a_cfun_comm {H : Type} [Group H] (a b : H) : e18a_cfun a b = e18a_cfun b a := by
   unfold e18a_cfun
   by_cases h : a * b = b * a
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg (fun h' => h h'.symm)]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h h'.symm)]
 
 private theorem e18a_cfun_eq_zero {H : Type} [Group H] {a b : H} (h : a * b = b * a) :
     e18a_cfun a b = 0 := by
-  unfold e18a_cfun; rw [if_pos h]
+  unfold e18a_cfun; rw [ite_eq_left h]
 
 private theorem e18a_cfun_eq_one {H : Type} [Group H] {a b : H} (h : a * b ≠ b * a) :
     e18a_cfun a b = 1 := by
-  unfold e18a_cfun; rw [if_neg h]
+  unfold e18a_cfun; rw [ite_eq_right h]
 
 private theorem e18a_cfun_mul_central {H : Type} [Group H] {n : H}
     (hn : ∀ x : H, n * x = x * n) (a b : H) :
@@ -365,7 +376,7 @@ private theorem e18a_cfun_mul_central {H : Type} [Group H] {n : H}
         exact mul_right_cancel h''
       rw [e18a_cfun_eq_one h, e18a_cfun_eq_one h']
 
-private theorem e18a_split {H : Type} [Group H] {z x d : H} (hz1 : z ≠ 1)
+private theorem e18a_split {H : Type} [Group H] {z x d : H} (_hz1 : z ≠ 1)
     (hx : x * d * x⁻¹ * d⁻¹ = 1 ∨ x * d * x⁻¹ * d⁻¹ = z) :
     x * d = d * x ∨ x * d = z * (d * x) := by
   rcases hx with h | h
@@ -440,6 +451,7 @@ private theorem e18a_cfun_mul {H : Type} [Group H] {z a b d : H} (hz1 : z ≠ 1)
       e18a_cfun_eq_one (e18a_ne_of_split hz1 hb')]
     decide
 
+omit [Finite G] in
 private theorem e18a_x_eq_one_or {z : G} (hzz : z * z = 1) (hz1 : z ≠ 1) {x : G}
     (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -484,14 +496,14 @@ private theorem e18a_group_bound {X : Subgroup G} {z : G}
     exact Subgroup.mem_center_iff.mpr (fun g => (hzcen g).symm)
   have hNcomm : ∀ m ∈ N, ∀ x : X, m * x = x * m := fun m hm x =>
     ((Subgroup.mem_center_iff.mp (hNc hm)) x).symm
-  haveI : N.Normal := Subgroup.normal_of_le_center hNc
+  have : N.Normal := Subgroup.normal_of_le_center hNc
   have hcomm' : _root_.commutator X ≤ N := by
     rw [commutator_def, Subgroup.commutator_le]
     intro g₁ _ g₂ _
     rw [hmemN, commutatorElement_def]
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact hcomm g₁ g₁.2 g₂ g₂.2
-  haveI : IsMulCommutative (X ⧸ N) :=
+  have : IsMulCommutative (X ⧸ N) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm'
   have key : ∀ a a' b b' : X, a⁻¹ * a' ∈ N → b⁻¹ * b' ∈ N → e18a_cfun a b = e18a_cfun a' b' := by
     intro a a' b b' ha hb
@@ -660,6 +672,7 @@ private theorem e18a_ncard {Ω : Set (Subgroup G)} (h : EndHyp Ω) (h9 : Perp9 �
   rw [Set.inter_eq_left.mpr hsub', kp] at hcount
   exact hcount
 
+omit [Finite G] in
 private theorem e18a_twin_inv {Ω : Set (Subgroup G)} {K J : Subgroup G} {z : G}
     (hz : IsUniqueInvolution K z) (hJ : J ∈ twinSet Ω K) : J ∈ Ω ∧ IsUniqueInvolution J z := by
   obtain ⟨hJΩ, z', hz'K, hz'J⟩ := hJ
@@ -687,13 +700,14 @@ private theorem e18a_pair_good {Ω : Set (Subgroup G)} (h : EndHyp Ω) {K J J' :
   refine ⟨hG, ?_⟩
   rw [hcard, h.card_eq_eight hJΩ]
 
+omit [Finite G] in
 private theorem e18a_enum {V : Set (Subgroup G)} {K : Subgroup G} (hKV : K ∈ V)
     (hV : V.ncard = 4) :
     ∃ a b c : Subgroup G, K ≠ a ∧ K ≠ b ∧ K ≠ c ∧ a ≠ b ∧ a ≠ c ∧ b ≠ c ∧
       V = {K, a, b, c} := by
   have hfin : V.Finite := Set.finite_of_ncard_ne_zero (by rw [hV]; norm_num)
   have h3 : (V \ {K}).ncard = 3 := by
-    rw [Set.ncard_diff_singleton_of_mem hKV, hV]
+    rw [Set.ncard_sdiff_singleton_of_mem hKV, hV]
   obtain ⟨a, b, c, hab, hac, hbc, hVK⟩ := Set.ncard_eq_three.mp h3
   have hmemVK : ∀ x, x ∈ V \ {K} ↔ x = a ∨ x = b ∨ x = c := by
     intro x
@@ -776,6 +790,7 @@ private theorem e18a_abelian {X : Subgroup G} {z : G} (hzz : z * z = 1) (hz1 : z
     Nat.card B ≤ 2 ^ (n + 1) :=
   e18a_group_bound hzz hz1 hX.1 hX.2.1 hX.2.2.1 hX.2.2.2.1 hX.2.2.2.2 hcard hB hab
 
+omit [Finite G] in
 private theorem e18a_conj_le_of_normal {N : Subgroup G} [N.Normal] (g : G) {S : Subgroup G}
     (hS : S ≤ N) : conjSub g S ≤ N := by
   intro y hy
@@ -800,6 +815,7 @@ theorem kPerp_eq_twinSet {K : Subgroup G} (hK : K ∈ Ω) : KPerp Ω K = twinSet
 theorem ncard_twinSet {K : Subgroup G} (hK : K ∈ Ω) : (twinSet Ω K).ncard = 4 :=
   e18a_ncard H.endHyp H.perp9 H.wyl hK
 
+omit H [Finite G] in
 theorem pCore_le_normalizer {W : Subgroup G} (hW : W ∈ WSet Ω) :
     pCore 2 G ≤ Subgroup.normalizer (W : Set G) := by
   obtain ⟨η, hη, rfl⟩ := hW
@@ -852,7 +868,7 @@ theorem inf_pCore {K : Subgroup G} (hK : K ∈ Ω) {z : G} (hz : IsUniqueInvolut
   refine le_antisymm ?_ (Subgroup.zpowers_le.mpr ⟨hz.mem, hzQ⟩)
   intro x hx
   by_contra hxz
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   have hm4 : 4 ≤ Nat.card ↥(K ⊓ pCore 2 G) := by
     have hd1 : Nat.card ↥(Subgroup.zpowers z) ∣ Nat.card ↥(K ⊓ pCore 2 G) :=
       Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr ⟨hz.mem, hzQ⟩)
@@ -917,7 +933,7 @@ theorem normalizes_iff {K M : Subgroup G} (hK : K ∈ Ω) (hM : M ∈ Ω) {s : G
     · obtain ⟨-, z', hz'K, hz'M⟩ := hMT
       rw [hs.eq hz'M]
       exact Subgroup.le_normalizer hz'K.mem
-    · exact H.endHyp.eGroup_le_normalizer hK (H.endHyp.mem_eGroup_of_mem_omegaStarNbr hMO hs)
+    · exact H.endHyp.eGroup_le_normalizer hK (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hMO hs)
 
 theorem mem_eGroup_iff_normalizes {K M : Subgroup G} (hK : K ∈ Ω) (hM : M ∈ Ω) {s : G}
     (hs : IsUniqueInvolution M s) :

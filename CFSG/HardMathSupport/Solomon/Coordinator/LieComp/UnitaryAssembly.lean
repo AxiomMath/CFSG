@@ -20,7 +20,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Uni
 
 private theorem eq_one_of_pow_three_eq_one {K : Type} [Field K] [CharP K 3] {x : K}
     (hx : x ^ 3 = 1) : x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h : (x - 1) ^ 3 = 0 := by
     rw [sub_pow_char, hx]
     simp
@@ -62,8 +62,8 @@ private theorem exists_conj_of_cube_scalar {ℓ f n : ℕ} {K : Type} [Field K]
     (hA : (A : GL (Fin n) K) ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     ∃ u : gramSU h (idGram K n), u ^ 3 = 1 ∧
       primeFormConjHom h (idGram K n) A = MulAut.conj (u : primeFormP h (idGram K n)) := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 3 := hℓ ▸ h.charP
+  have : Finite K := h.finite
+  have : CharP K 3 := hℓ ▸ h.charP
   obtain ⟨l₀, hl₀⟩ : ∃ l : K, l ^ 3 = c := by
     obtain ⟨l, hl⟩ := Finite.surjective_of_injective (frobenius_inj K 3) (c : K)
     exact ⟨l, hl⟩
@@ -117,7 +117,7 @@ theorem lieCompCase_unitary (hb : LieOrderBridge) (hQ : YS08.LieQ.LieQConstraine
     (r : ℕ) (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.twistedA r q).Valid)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.twistedA r q, hv⟩).Group))
     (β : MulAut S) (hβ : β ^ 3 = 1) : LieCompExport q.p β ∨ NoThreeComponents β := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact Or.inl (lieCompExport_one hna ⟨.twistedA r q, hv⟩ he

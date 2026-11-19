@@ -127,13 +127,13 @@ private theorem slg_compLabSLAt_adjointGroup
       β ∈ innAutDerived ↥(adjointGroup τ K) →
       β ^ p = 1 → β ≠ 1 → ∃ h ∈ inndiagGroup τ K,
         (∀ c : adjointGroup τ K, (β c : ModGL τ K) = h * c * h⁻¹) ∧ h ^ p = 1 ∧ h ≠ 1)
-    {d : TauCeti.LieTypeIndex} (hdc : d.characteristic = ringChar K)
+    {d : TauCeti.LieTypeIndex} (_hdc : d.characteristic = ringChar K)
     (hdf : CFSG.LocalAnalysis.GLTheoremA.KD264Lie.fieldSize d = Nat.card K) :
     CompLabSLAt p d ↥(adjointGroup τ K) := by
   classical
   intro β hβmem hβp hβ1 J hJ
   obtain ⟨h, hh, hβh, hp1, hh1⟩ := hinn β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]; exact hcardK
@@ -157,7 +157,7 @@ private theorem slg_compLabSLAt_adjointGroup
       (baseChange_mem_adjointGroup_of_mem_inndiag hh) hβh hp1 hh1
   have hℓL : ringChar (AlgebraicClosure K) = ringChar K := ringChar_algebraicClosure K
   have hℓ2 : ringChar (AlgebraicClosure K) = 2 := by rw [hℓL, hK2]
-  haveI : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
+  have : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne hp (by rw [hℓL]; exact hpℓ.symm)
   have hsmall : τ = .G2 → 5 ≤ p ∨ 4 ≤ S.D.q := by
@@ -188,7 +188,7 @@ theorem compLabSL_cat_of_lang
     subst hq
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-    haveI := hKc
+    have := hKc
     have hqp : q.p = 2 := (TauCeti.LieTypeIndex.characteristic_E6 q).symm.trans hch
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hK2 : ringChar K = 2 := hchar.trans hqp
@@ -203,7 +203,7 @@ theorem compLabSL_cat_of_lang
     subst hq
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-    haveI := hKc
+    have := hKc
     have hqp : q.p = 2 := (TauCeti.LieTypeIndex.characteristic_E7 q).symm.trans hch
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hK2 : ringChar K = 2 := hchar.trans hqp
@@ -218,7 +218,7 @@ theorem compLabSL_cat_of_lang
     subst hq
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-    haveI := hKc
+    have := hKc
     have hqp : q.p = 2 := (TauCeti.LieTypeIndex.characteristic_E8 q).symm.trans hch
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hK2 : ringChar K = 2 := hchar.trans hqp
@@ -232,11 +232,11 @@ theorem compLabSL_cat_of_lang
   ·
     subst hq
     obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := exists_catEquiv_twistedE6 q hv
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by
+    have : Finite K := Nat.finite_of_card_ne_zero (by
       rw [hK]
       exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-    haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-    haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+    have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+    have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
     have hqp : q.p = 2 := (TauCeti.LieTypeIndex.characteristic_twistedE6 q).symm.trans hch
     have hpq : p ≠ q.p := fun h => hp2 (h.trans hqp)
     refine compLabSLAt_of_mulEquiv eK.symm ?_
@@ -287,7 +287,7 @@ theorem compLabSL_cat_of_lang
         (n := q.exponent * 2) q.prime_p (by have := q.exponent_pos; omega)
         (by rw [hK, ← pow_mul])
     have hℓ2 : ringChar (AlgebraicClosure K) = 2 := hℓL.trans hqp
-    haveI : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
+    have : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
     have hdata := hF Tag.E6 (AlgebraicClosure K) p₀ S (Or.inl rfl) p hp hp2 a hT hap h1 i hqi
     let eJ : ↥J ≃* ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       (J.equivMapOfInjective ι hinj).trans (MulEquiv.subgroupCongr hJR)

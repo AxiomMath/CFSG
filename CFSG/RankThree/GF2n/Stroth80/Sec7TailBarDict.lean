@@ -18,6 +18,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem exists_pre (hQM : Q ≤ M) (A' : Subgroup (Mbar M Q)) :
     ∃ A : Subgroup G, Q ≤ A ∧ A ≤ M ∧ bar M Q A = A' := by
   refine ⟨(A'.comap (QuotientGroup.mk' (Q.subgroupOf M))).map M.subtype, ?_, ?_, ?_⟩
@@ -61,8 +62,9 @@ theorem le_of_normal_nilpotent_of_fstar {Y : Type*} [Group Y] [Finite Y] {P N' :
     exact le_sup_of_le_left (le_sSup ⟨inferInstance, hP⟩)
   exact hPF
 
+omit [Finite G] in
 theorem bar_mono' {S T : Subgroup G} (h : S ≤ T) : bar M Q S ≤ bar M Q T :=
-  Subgroup.map_mono fun x hx => h hx
+  Subgroup.map_mono fun _x hx => h hx
 
 theorem Ctx.tiConfig (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)

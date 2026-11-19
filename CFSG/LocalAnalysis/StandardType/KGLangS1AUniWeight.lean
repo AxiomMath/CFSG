@@ -54,7 +54,7 @@ theorem kgLangS1A_uni_weight {d m p : ℕ} {K : Type} [Field K] [Finite K]
   refine ⟨P, P.2, a, ?_, hsum, hneq⟩
   intro x hx i j hij
   have h := ha x hx i j hij
-  simp only [Units.val_mul, Subgroup.coe_inv, inv_inv] at h ⊢
+  simp only [Units.val_mul, inv_inv] at h ⊢
   exact h
 
 end CFSG.StandardType

@@ -34,7 +34,7 @@ theorem noNormalTwo_of_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃* B)
 
 theorem not_noNormalTwo_dihedralGroup_six : ¬ NoNormalTwo (DihedralGroup 6) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc := DihedralGroup.center_eq_closure_of_even_ne_two (n := 6) (by decide) (by decide)
   have h2 : IsPGroup 2 (Subgroup.center (DihedralGroup 6)) := by
     rw [hc]
@@ -62,7 +62,7 @@ theorem false_of_conclG (hR : RowClassAEmpty) {M : Subgroup G}
   set Ψ := CoreAssembly.conjClass M with hΨdef
   set L := genFittingFStar G with hLdef
   set X := omegaGen (aStar Ψ M) with hXdef
-  haveI : IsSimpleGroup ↥L := hF.1
+  have : IsSimpleGroup ↥L := hF.1
   have hLn : L.Normal := genFittingFStar_normal G
   have hCL : Subgroup.centralizer (L : Set G) = ⊥ := centralizer_eq_bot_of_fStarSimple hF
   have hMΨ : M ∈ Ψ := CoreAssembly.mem_conjClass_self M
@@ -92,7 +92,7 @@ theorem false_of_conclG (hR : RowClassAEmpty) {M : Subgroup G}
       CFSG.Blueprint.NativeSporadic.IsSporadic ↥X .M12 := by
     rcases hC.2 with hG | ⟨N, hN, hidx, hLie⟩ | hM12 | ⟨E, hE, -, hcard, -⟩ | ⟨W, hW, hWset, ⟨d⟩⟩
     · exact Or.inl (CFSG.Blueprint.LieModel.of_mulEquiv e hG)
-    · haveI := hN
+    · have := hN
       exact Or.inr (Or.inl ⟨N.map e.toMonoidHom, hN.map _ e.surjective,
         (Subgroup.index_map_equiv N e).trans hidx,
         CFSG.Blueprint.LieModel.of_mulEquiv (N.equivMapOfInjective e.toMonoidHom e.injective)
@@ -101,16 +101,16 @@ theorem false_of_conclG (hR : RowClassAEmpty) {M : Subgroup G}
           CFSG.Blueprint.NativeSporadic.Carrier .M12) := hM12
       exact Or.inr (Or.inr ⟨e.symm.trans f⟩)
     · exfalso
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hE2 : IsPGroup 2 ↥E := IsPGroup.of_card (n := 3) (by rw [hcard]; norm_num)
       rw [h2Q E hE hE2, Subgroup.card_bot] at hcard
       norm_num at hcard
     · exfalso
-      haveI := hW
+      have := hW
       have hW2 : IsPGroup 2 ↥W := by
         obtain ⟨η, ⟨S, hS, -⟩, hWη⟩ : W ∈ WSet _ := by rw [hWset]; exact Set.mem_singleton W
         rw [hWη]
-        exact S.isPGroup'.to_le (iSup₂_le fun U hU => (hS.1 hU).2)
+        exact S.isPGroup.to_le (iSup₂_le fun U hU => (hS.1 hU).2)
       have hWb : W = ⊥ := h2Q W hW hW2
       exact not_noNormalTwo_dihedralGroup_six (noNormalTwo_of_mulEquiv
         (d.symm.trans ((QuotientGroup.quotientMulEquivOfEq hWb).trans QuotientGroup.quotientBot))
@@ -147,7 +147,7 @@ theorem aEmpty_lOrbit (hR : RowClassAEmpty) {m : ℕ} {Y : Type} [Group Y] [Fini
   set L := genFittingFStar Y with hLdef
   set Ψ := lOrbit L M with hΨdef
   set H := omegaGen Ψ with hHdef
-  haveI : IsSimpleGroup ↥L := hF.1
+  have : IsSimpleGroup ↥L := hF.1
   have hLn : L.Normal := genFittingFStar_normal Y
   have hC := centralizer_eq_bot_of_fStarSimple hF
   have hΨΦ : Ψ ⊆ Φ := lOrbit_subset hc.hyp.hyp.conjInvariant hM

@@ -60,8 +60,8 @@ theorem pair_group_facts {G : Type*} [Group G] {x₀ y₀ : G} {p : ℕ} (hp : 0
       rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hyp, one_zpow]
     rw [h1, h2, one_mul]
   · rw [hAset]
-    haveI := (isOfFinOrder_iff_pow_eq_one.2 ⟨p, hp, hxp⟩).finite_zpowers
-    haveI := (isOfFinOrder_iff_pow_eq_one.2 ⟨p, hp, hyp⟩).finite_zpowers
+    have := (isOfFinOrder_iff_pow_eq_one.2 ⟨p, hp, hxp⟩).finite_zpowers
+    have := (isOfFinOrder_iff_pow_eq_one.2 ⟨p, hp, hyp⟩).finite_zpowers
     exact (Set.toFinite (Subgroup.zpowers x₀ : Set G)).mul
       (Set.toFinite (Subgroup.zpowers y₀ : Set G))
 

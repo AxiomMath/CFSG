@@ -94,7 +94,7 @@ theorem starDich_of_swap {K Ts R₀ : Subgroup G} (hKn : K.Normal) (hR₀K : R�
         simpa [mul_assoc] using hh
       have h2 := (Subgroup.mem_centralizer_iff.mp hzC) _ hh'
       have h3 := congrArg (fun w => t⁻¹ * w * t) h2
-      simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left] at h3 ⊢
+      simp only [mul_assoc, inv_mul_cancel_left] at h3 ⊢
       simpa [mul_assoc] using h3
     have hd := hD _ hR hR'T hR'K (conjSub t Y) hY'K hC'
     have key : ∀ X : Subgroup G, conjSub t⁻¹ (conjSub t X) = X := fun X => by

@@ -47,7 +47,7 @@ open CFSG.StandardType.FrameRoute
 
 theorem getD_map_range {n p : ℕ} (f : ℕ → ℕ) (hp : p < n) :
     ((List.range n).map f).getD p 0 = f p := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, hp]
+  simp [List.getD_eq_getElem?_getD, hp]
 
 theorem sub_eq_add_two_mul (x y : ZMod 3) : x - y = x + 2 * y := by
   revert x y
@@ -62,7 +62,7 @@ theorem eq_of_bridgeB {n L : ℕ} {R : Fin L → FEVec n} {T : ℕ} (h : bridgeB
   simp only [bridgeB, List.all_eq_true, List.mem_finRange, beq_iff_eq, true_implies] at h
   funext p
   rw [ofL, ← h x]
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_ofFn]
+  simp [List.getD_eq_getElem?_getD]
 
 theorem feCol_eq_ofL {n : ℕ} {C : List (List ℕ)} (h : colOK n C = true) (i : Fin n) :
     feCol n i = ofL n (C.getD i []) := by

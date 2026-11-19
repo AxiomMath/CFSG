@@ -52,8 +52,8 @@ end T84Co
 
 theorem sec8t84FactLift_of_cert : Sec8T84FactLift := by
   intro G _ U hcomm hcard h4 hsq H hH hinv
-  haveI : Finite ↥U := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  letI : CommGroup ↥U :=
+  have : Finite ↥U := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  let : CommGroup ↥U :=
     { (inferInstance : Group ↥U) with
       mul_comm := fun a b => Subtype.ext (hcomm _ a.2 _ b.2) }
   have h4' : ∀ x : ↥U, x ^ 4 = 1 := fun x => Subtype.ext (by simpa using h4 x x.2)

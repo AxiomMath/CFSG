@@ -131,12 +131,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V A B : Subgroup G} {h : G} {n f : ℕ}
 
+omit [Finite G] in
 theorem IsL2Gen.exists_mem_conj_eq_inv (hAB : IsL2Gen A B) {x : G} (hx : x ∈ A ⊔ B)
     (hord : orderOf x = Nat.card A + 1) : ∃ t ∈ A, t * x * t⁻¹ = x⁻¹ := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, -⟩ := hAB
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   have hxo : orderOf (φ ⟨x, hx⟩) = Nat.card F + 1 := by
     rw [MulEquiv.orderOf_eq, Subgroup.orderOf_mk, hord, hcard]
   obtain ⟨s, hs⟩ := CFSG.GroupTheory.exists_utriElt_conj_eq_inv hxo
@@ -152,6 +153,7 @@ theorem IsL2Gen.exists_mem_conj_eq_inv (hAB : IsL2Gen A B) {x : G} (hx : x ∈ A
     exact hs
   exact congrArg Subtype.val key
 
+omit [Finite G] in
 theorem L2Datum.exists_mem_conj_eq_inv (hD : L2Datum M V A B h) :
     (∃ t ∈ A, t * h * t⁻¹ = h⁻¹) ∧ ∃ t ∈ B, t * h * t⁻¹ = h⁻¹ := by
   have hA : Nat.card A = Nat.card V := by
@@ -166,6 +168,7 @@ theorem L2Datum.exists_mem_conj_eq_inv (hD : L2Datum M V A B h) :
     hD.l2.symm.exists_mem_conj_eq_inv (by rw [sup_comm]; exact hD.mem)
       (by rw [hB]; exact hD.order)⟩
 
+omit [Finite G] in
 theorem L2Datum.mul_self_ne_one (hD : L2Datum M V A B h) (hR : RootHyp M V) : h * h ≠ 1 := by
   intro hh
   have hdvd : orderOf h ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hh)
@@ -174,6 +177,7 @@ theorem L2Datum.mul_self_ne_one (hD : L2Datum M V A B h) (hR : RootHyp M V) : h 
   have := hR.four_le_card
   omega
 
+omit [Finite G] in
 theorem L2Datum.cenOf_le_yOf (hD : L2Datum M V A B h) : cenOf (A ⊔ B) ≤ yOf h :=
   Subgroup.centralizer_le (Subgroup.zpowers_le.mpr hD.mem)
 
@@ -198,7 +202,7 @@ theorem L2Datum.conj_inv_of_le_cenOf (hS : Sec6Hyp M V) (hD : L2Datum M V A B h)
   · rw [← conjSubgroup_sup, mem_conjSubgroup, inv_inv,
       show g * (g⁻¹ * h * g) * g⁻¹ = h by group]
     exact hD.mem
-  · rw [show g⁻¹ * h * g = MulAut.conj g⁻¹ h by simp [MulAut.conj_apply], MulEquiv.orderOf_eq,
+  · rw [show g⁻¹ * h * g = MulAut.conj g⁻¹ h by simp, MulEquiv.orderOf_eq,
       hD.order]
 
 theorem Sec5Hyp.lOf_le_cenOf (hS : Sec5Hyp M V) {g : G}

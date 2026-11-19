@@ -133,7 +133,7 @@ theorem rep4 [Finite G] [Finite W] (ρ : Representation (ZMod 2) G W) (hρ : Fun
       rw [repL_apply_coe, hθT ⟨t, ht⟩ v v.2]
       exact hfixt v ⟨v, hv, rfl⟩
     have hlR : θT ⟨t, ht⟩ ∈ R₀ :=
-      fixing_le_of_two_group ρ eL hUc hUUL hU0 HL hU16 hfix0 hDp hR₀D hR₀4 hℓ₀4
+      fixing_le_of_two_group ρ eL hUc HL hU16 hfix0 hDp hR₀D hR₀4 hℓ₀4
         ⟨⟨t, ht⟩, rfl⟩ hlfix
     have hlT : ((θT ⟨t, ht⟩ : ↥L) : G) ∈ T₁ :=
       mem_of_theta_sylow ρ eL hUc hUUL hU0 hSA hT₁ ht (θT ⟨t, ht⟩).2

@@ -40,11 +40,11 @@ theorem card_f4InTwistedE6 (σ : K ≃+* K)
   exact card_adjointGroup_F4_eq F
 
 theorem card_twistedE6RootGroup_eq_card (σ : K ≃+* K)
-    (hfix : ∀ c : F, σ (algebraMap F K c) = algebraMap F K c)
+    (_hfix : ∀ c : F, σ (algebraMap F K c) = algebraMap F K c)
     (hK : Nat.card K = (Nat.card F) ^ 2)
     (hσ : ∀ c : K, σ c = c ^ Nat.card F) :
     Nat.card (twistedE6RootGroup K σ) = ordTwistedE6 (Nat.card F) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, hp, hFcard⟩ := FiniteField.card F (ringChar F)
   have hFq : Nat.card F = ringChar F ^ (n : ℕ) := by
     simpa [Nat.card_eq_fintype_card] using hFcard
@@ -113,21 +113,21 @@ theorem exists_f4_in_twistedE6 {F K : Type} [Field F] [Finite F] [Field K] [Fini
     ∃ H : Subgroup ↥(twistedE6RootGroup K σ),
       Nonempty (adjointGroup Tag.F4 F ≃* H) ∧ ¬ 3 ∣ H.relIndex ⊤ := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hFcard⟩ := FiniteField.card F (ringChar F)
   have hFq : Nat.card F = ringChar F ^ (n : ℕ) := by
     simpa [Nat.card_eq_fintype_card] using hFcard
-  haveI : Fact (ringChar F).Prime := ⟨hp⟩
+  have : Fact (ringChar F).Prime := ⟨hp⟩
   have hKq : Nat.card K = (ringChar F ^ (n : ℕ)) ^ 2 := by
     rw [← hFq, hF]
     exact hK
   have hKcard : Fintype.card K = ringChar F ^ ((n : ℕ) * 2) := by
     rw [← Nat.card_eq_fintype_card, hKq, pow_mul]
-  haveI : CharP K (ringChar F) := charP_of_card_eq_prime_pow hKcard
+  have : CharP K (ringChar F) := charP_of_card_eq_prime_pow hKcard
   obtain ⟨φ⟩ := nonempty_ringHom_of_card_sq (ℓ := ringChar F) (f := (n : ℕ))
     (k := F) (K := K) hFq hKq
-  letI : Algebra F K := φ.toAlgebra
+  let : Algebra F K := φ.toAlgebra
   have hfix : ∀ c : F, σ (algebraMap F K c) = algebraMap F K c := by
     intro c
     rw [RingHom.algebraMap_toAlgebra, hσ, ← map_pow]

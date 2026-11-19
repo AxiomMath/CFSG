@@ -26,7 +26,7 @@ theorem ZJ_conj {z : CJ} (hz : z ∈ ZJ) (g : CJ) : g * z * g⁻¹ ∈ ZJ := by
     _ = g * z * g⁻¹ * y := by group
 
 theorem rhoGen_eq_rhoJ {g : ℕ} (hg : g < 10) : rhoGen g = rhoJ (gJn g) := by
-  rw [gJn, dif_pos hg, rhoJ_gJ]
+  rw [gJn, dite_eq_left hg, rhoJ_gJ]
 
 open scoped Classical in
 @[expose] def TZ : Finset ℕ := (Finset.range 256).filter fun m => qb m ∈ ZJ.map rhoJ
@@ -80,9 +80,9 @@ theorem TZ_closed : ∀ l : ℤ, plettersOK 10 [l] = true → ∀ m ∈ TZ,
   have hm256 : m < 256 := (mem_TZ.1 hm).1
   unfold pletter
   by_cases hpos : 0 < l
-  · rw [if_pos hpos]
+  · rw [ite_eq_left hpos]
     exact TZ_conj (g := l.toNat - 1) (by omega) hm256 hm
-  · rw [if_neg hpos]
+  · rw [ite_eq_right hpos]
     exact TZ_conj_inv (g := (-l).toNat - 1) (by omega) hm256 hm
 
 theorem zero_mem_TZ : 0 ∈ TZ :=

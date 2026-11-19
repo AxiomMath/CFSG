@@ -30,7 +30,7 @@ theorem genBelow_mono {Y : Type*} [Group Y] [Finite Y] {A A' : Subgroup (MulAut 
     omega
   have h3 : S'.relIndex A' ≤ 3 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : 4 * Nat.card S' ≤ S'.relIndex A' * Nat.card S' := Nat.mul_le_mul_right _ hlt
     omega
   have h4 : S'.relIndex A ≤ S'.relIndex A' := Subgroup.relIndex_le_of_le_right h hne

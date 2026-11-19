@@ -24,7 +24,7 @@ theorem fz_inj {x y : F3} (h : fz x = fz y) : x = y := h
 theorem toM_apply (A : Mat) (i j : Fin 12) : toM A i j = fz (mget A i j) := rfl
 
 theorem mget_mofFn (f : Fin 12 → Fin 12 → F3) (i j : Fin 12) : mget (mofFn f) i j = f i j := by
-  simp [mget, vget, mofFn, vofFn, getElem!_def]
+  simp [mget, vget, mofFn, vofFn]
 
 theorem toM_mofFn (f : Fin 12 → Fin 12 → F3) (i j : Fin 12) : toM (mofFn f) i j = fz (f i j) := by
   rw [toM_apply, mget_mofFn]

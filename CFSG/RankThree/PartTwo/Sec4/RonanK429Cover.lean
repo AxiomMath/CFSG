@@ -16,7 +16,7 @@ open CFSG CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec4 CFSG.RankThree.Part
 theorem k429CoverL3 : K429CoverL3 := by
   intro L _ _ hLq hZ3 n hn hS α hα3 hfield K hKfix hKq hKsn hKZ
   by_contra hZ
-  haveI : Group.IsPerfect L := hLq.1
+  have : Group.IsPerfect L := hLq.1
   have hZodd : Odd (Nat.card (Subgroup.center L)) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hZ3
     rw [hk]

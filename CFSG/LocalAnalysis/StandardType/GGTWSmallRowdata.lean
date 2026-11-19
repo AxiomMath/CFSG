@@ -74,7 +74,7 @@ private lemma l05nQD_twA_of_ennola {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prim
     have hM : ggTorM lab = 2 ^ lab.n - 1 := by
       unfold ggTorM
       rw [hA]
-      rw [if_neg (by decide : ¬ ((.A : LargeEvenLieTag) = .twA ∨
+      rw [ite_eq_right (by decide : ¬ ((.A : LargeEvenLieTag) = .twA ∨
         (.A : LargeEvenLieTag) = .twE6))]
     have hdiv2 : p ∣ 2 ^ lab.n - 1 := by rw [← hM]; exact hdvdM
     have h2 : p ∣ 2 := by
@@ -92,7 +92,7 @@ theorem ggTWSmall_rowdata {r₀ : ℕ}
     {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G}
     {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hrow : GGResRowAt (fun p J X => ggRowTwoNode p J X ∧ r₀ ≤ X.rank ∧ X.rank ≤ 9) p J L)
-    (hxL : x ∉ L) :
+    (_hxL : x ∉ L) :
     ∃ (N : ℕ) (labJ labX : LargeEvenLabel),
       ((p = 5 ∧ N = 5) ∨ (p = 3 ∧ N = 6) ∨ (p = 7 ∧ N = 7) ∨ (p = 3 ∧ N = 9) ∨
         (p = 5 ∧ N = 10)) ∧

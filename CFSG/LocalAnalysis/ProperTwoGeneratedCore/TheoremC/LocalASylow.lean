@@ -115,7 +115,7 @@ theorem exists_sylow_le (hc : CoreConfig Y u z) {a : X ⧸ CFSG.Open.pCore 2 X}
   obtain ⟨S, hzS⟩ := hzp.exists_le_sylow
   set R := (S : Subgroup N).map N.subtype with hR
   have hRN : R ≤ N := Subgroup.map_subtype_le _
-  have hR2 : IsPGroup 2 R := S.isPGroup'.map N.subtype
+  have hR2 : IsPGroup 2 R := S.isPGroup.map N.subtype
   have hRmax : ∀ R' : Subgroup X, R' ≤ N → IsPGroup 2 R' → Nat.card R' ≤ Nat.card R := by
     intro R' hR'N hR'
     rw [hR, Subgroup.card_map_of_injective N.subtype_injective]

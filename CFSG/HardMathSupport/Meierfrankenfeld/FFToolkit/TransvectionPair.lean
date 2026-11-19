@@ -29,6 +29,7 @@ theorem mem_zpowers_iff_eq_one_or_eq_of_mul_self {G : Type*} [Group G] {x w : G}
     · exact Subgroup.one_mem _
     · exact Subgroup.mem_zpowers _
 
+omit [Finite V] in
 theorem IsTransvCentred.center_unique {τ : MulAut V} {u u' : V}
     (h : IsTransvCentred τ u) (h' : IsTransvCentred τ u') : u = u' := by
   obtain ⟨hτ1, -, -, -, hstep⟩ := h
@@ -41,6 +42,7 @@ theorem IsTransvCentred.center_unique {τ : MulAut V} {u u' : V}
   have h2 : τ v = v * u' := (hstep' v).resolve_left hv
   exact mul_left_cancel (h1.symm.trans h2)
 
+omit [Finite V] in
 theorem IsTransvCentred.conj {τ : MulAut V} {u : V} (h : IsTransvCentred τ u)
     (k : MulAut V) : IsTransvCentred (k * τ * k⁻¹) (k u) := by
   obtain ⟨hτ1, hτ2, hu1, hu, hstep⟩ := h
@@ -160,6 +162,7 @@ theorem exists_isTransvCentred (hV : ∀ v : V, v * v = 1) {τ : MulAut V}
     calc τ v = v * (v⁻¹ * τ v) := by group
       _ = v * u := by rw [h1']
 
+omit [Finite V] in
 theorem IsTransvCentred.card_eq_two_mul_card_fix (hV : ∀ v : V, v * v = 1)
     {τ : MulAut V} {u : V} (h : IsTransvCentred τ u) :
     Nat.card V = 2 * Nat.card (fixV (Subgroup.zpowers τ)) := by
@@ -207,6 +210,7 @@ theorem IsTransvCentred.card_eq_two_mul_card_fix (hV : ∀ v : V, v * v = 1)
     orderOf_eq_prime (by rw [pow_two]; exact hV u) hu1] at hmul
   simpa [mul_comm] using hmul.symm
 
+omit [Finite V] in
 theorem IsTransvCentred.mul_comm_of_fixes {τ τ' : MulAut V} {u u' : V}
     (h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u')
     (hu' : τ u' = u') (hu : τ' u = u) : τ * τ' = τ' * τ := by
@@ -238,8 +242,9 @@ theorem IsTransvCentred.mul_comm_of_fixes {τ τ' : MulAut V} {u u' : V}
       _ = τ' (v * u) := by rw [map_mul]
       _ = τ' (τ v) := by rw [e]
 
+omit [Finite V] in
 theorem IsTransvCentred.mul_ne_one_of_ne {τ τ' : MulAut V} {u u' : V}
-    (h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u') (hne : τ ≠ τ') :
+    (_h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u') (hne : τ ≠ τ') :
     τ * τ' ≠ 1 := by
   intro h1
   apply hne
@@ -247,6 +252,7 @@ theorem IsTransvCentred.mul_ne_one_of_ne {τ τ' : MulAut V} {u u' : V}
     _ = (τ * τ') * τ' := by group
     _ = τ' := by rw [h1, one_mul]
 
+omit [Finite V] in
 theorem IsTransvCentred.mul_mul_self_of_comm {τ τ' : MulAut V} {u u' : V}
     (h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u')
     (hcomm : τ * τ' = τ' * τ) : (τ * τ') * (τ * τ') = 1 := by
@@ -255,6 +261,7 @@ theorem IsTransvCentred.mul_mul_self_of_comm {τ τ' : MulAut V} {u u' : V}
     _ = (τ * τ) * (τ' * τ') := by group
     _ = 1 := by rw [h.2.1, h'.2.1, mul_one]
 
+omit [Finite V] in
 theorem fixV_inf_le_fixV_mul {τ τ' : MulAut V} :
     fixV (Subgroup.zpowers τ) ⊓ fixV (Subgroup.zpowers τ') ≤
       fixV (Subgroup.zpowers (τ * τ')) := by
@@ -265,7 +272,7 @@ theorem fixV_inf_le_fixV_mul {τ τ' : MulAut V} :
 
 theorem card_le_four_mul_card_fix_mul (hV : ∀ v : V, v * v = 1) {τ τ' : MulAut V} {u u' : V}
     (h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u')
-    (hu' : τ u' = u') (hu : τ' u = u) (hne : τ ≠ τ') :
+    (_hu' : τ u' = u') (_hu : τ' u = u) (_hne : τ ≠ τ') :
     Nat.card V ≤ 4 * Nat.card (fixV (Subgroup.zpowers (τ * τ'))) := by
   let Cτ : Subgroup V := fixV (Subgroup.zpowers τ)
   let Cτ' : Subgroup V := fixV (Subgroup.zpowers τ')
@@ -293,9 +300,10 @@ theorem card_le_four_mul_card_fix_mul (hV : ∀ v : V, v * v = 1) {τ τ' : MulA
     _ ≤ Nat.card (fixV (Subgroup.zpowers (τ * τ'))) * 4 := Nat.mul_le_mul_right _ hleAB
     _ = 4 * Nat.card (fixV (Subgroup.zpowers (τ * τ'))) := by ring
 
+omit [Finite V] in
 theorem IsTransvCentred.sq_mul_apply_of_fixes (hV : ∀ v : V, v * v = 1) {τ τ' : MulAut V}
     {u u' : V} (h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u')
-    (hu' : τ u' = u' * u) (hu : τ' u = u) {v : V} (hv : τ' v = v) :
+    (_hu' : τ u' = u' * u) (hu : τ' u = u) {v : V} (hv : τ' v = v) :
     ((τ * τ') * (τ * τ')) v = v := by
   obtain ⟨-, -, -, hu_fix, hstep⟩ := h
   obtain ⟨-, -, -, hu'_fix, -⟩ := h'
@@ -308,6 +316,7 @@ theorem IsTransvCentred.sq_mul_apply_of_fixes (hV : ∀ v : V, v * v = 1) {τ τ
       rw [mul_assoc, hV u, mul_one]
     rw [MulAut.mul_apply, hw, h2]
 
+omit [Finite V] in
 theorem IsTransvCentred.sq_mul_apply_of_moves (hV : ∀ v : V, v * v = 1) {τ τ' : MulAut V}
     {u u' : V} (h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u')
     (hu' : τ u' = u' * u) (hu : τ' u = u) {v : V} (hv : τ' v = v * u') :
@@ -339,6 +348,7 @@ theorem IsTransvCentred.sq_mul_apply_of_moves (hV : ∀ v : V, v * v = 1) {τ τ
             _ = v := by rw [hV u', mul_one]
       _ = v * u := e
 
+omit [Finite V] in
 theorem IsTransvCentred.sq_mul_ne_one (hV : ∀ v : V, v * v = 1) {τ τ' : MulAut V} {u u' : V}
     (h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u')
     (hu' : τ u' = u' * u) (hu : τ' u = u) :
@@ -360,6 +370,7 @@ theorem IsTransvCentred.sq_mul_ne_one (hV : ∀ v : V, v * v = 1) {τ τ' : MulA
     exact h3.symm
   exact hu1 this
 
+omit [Finite V] in
 theorem IsTransvCentred.sq_mul_mul_self (hV : ∀ v : V, v * v = 1) {τ τ' : MulAut V} {u u' : V}
     (h : IsTransvCentred τ u) (h' : IsTransvCentred τ' u')
     (hu' : τ u' = u' * u) (hu : τ' u = u) :
@@ -400,6 +411,7 @@ theorem card_le_two_mul_card_fix_sq (hV : ∀ v : V, v * v = 1) {τ τ' : MulAut
     _ ≤ 2 * Nat.card (fixV (Subgroup.zpowers ((τ * τ') * (τ * τ')))) :=
         Nat.mul_le_mul_left _ (Subgroup.card_le_of_le hle)
 
+omit [Finite V] in
 theorem conj_mul_conj_mem {L : Subgroup (MulAut V)} {σ : MulAut V}
     (hσN : σ ∈ Subgroup.normalizer (L : Set (MulAut V))) (hσ2 : σ * σ = 1)
     (g h : ↥L) :
@@ -418,6 +430,7 @@ theorem conj_mul_conj_mem {L : Subgroup (MulAut V)} {σ : MulAut V}
   rw [heq]
   exact L.mul_mem (L.mul_mem g.2 hconj) (L.inv_mem h.2)
 
+omit [Finite V] in
 theorem exists_conj_mul_conj {L : Subgroup (MulAut V)} {σ : MulAut V}
     (hσN : σ ∈ Subgroup.normalizer (L : Set (MulAut V))) (hσ2 : σ * σ = 1)
     (g h : ↥L) :
@@ -613,17 +626,17 @@ theorem exists_involution_of_transvection {V : Type} [CommGroup V] [Finite V]
         _ = 4 := by norm_num
     have hPerm : Group.IsSolvable (Equiv.Perm V) := Equiv.Perm.isSolvable (by simpa using hV4)
     have hAutSolv : Group.IsSolvable (MulAut V) := by
-      haveI := hPerm
+      have := hPerm
       refine Group.isSolvable_of_isSolvable_injective (f := MulAut.toPerm (M := V)) ?_
       intro f g hfg
       ext v
       exact congrArg (fun e : Equiv.Perm V => e v) hfg
     have hLsolv : Group.IsSolvable ↥L := by
-      haveI := hAutSolv
+      have := hAutSolv
       infer_instance
     have hLbot : L = ⊥ := by
       by_contra hne
-      haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hne
+      have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hne
       exact Group.IsPerfect.not_isSolvable ↥L hLsolv
     have hσcent : σ ∈ Subgroup.centralizer (L : Set (MulAut V)) := by
       rw [hLbot, Subgroup.mem_centralizer_iff]

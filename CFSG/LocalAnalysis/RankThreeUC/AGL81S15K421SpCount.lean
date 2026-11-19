@@ -60,7 +60,7 @@ theorem spc_root_dvd_three {F : Type} [Field F] [Fintype F] [CharP F 2] {γ : F}
 
 theorem spc_exists_root {F : Type} [Field F] [Fintype F] [CharP F 2] (h : 3 ∣ Nat.card F - 1) :
     ∃ γ : F, γ ^ 2 + γ + 1 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Fˣ := by
     rw [Nat.card_units F]
     exact h
@@ -113,7 +113,7 @@ theorem card_roots_cube {F : Type} [Field F] [Fintype F] [CharP F 2] :
   split_ifs with h
   · obtain ⟨γ, hγ⟩ := spc_exists_root h
     exact spc_card_roots_two hγ
-  · haveI : IsEmpty {γ : F // γ ^ 2 + γ + 1 = 0} :=
+  · have : IsEmpty {γ : F // γ ^ 2 + γ + 1 = 0} :=
       ⟨fun γ => h (spc_root_dvd_three γ.2)⟩
     exact Nat.card_of_isEmpty
 

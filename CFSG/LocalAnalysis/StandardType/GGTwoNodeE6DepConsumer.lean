@@ -31,8 +31,8 @@ theorem ggTwoNodeE6DepL_core (hDep : LR6E6DepAll) (hOrbK : GGResCentBoundNbrInpu
   classical
   subst hp3
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   let xv : V := ι (Additive.ofMul ⟨x, hx⟩)
   have hcardV : Nat.card ↥Bs = 3 ^ Module.finrank (ZMod 3) V :=
     calc Nat.card ↥Bs = Nat.card (Additive ↥Bs) := Nat.card_congr Additive.ofMul
@@ -85,8 +85,8 @@ theorem ggTwoNodeE6DepL_core (hDep : LR6E6DepAll) (hOrbK : GGResCentBoundNbrInpu
     (AA.map (ggLin (p := 3) ι)) hrR hnt hcardR
   obtain ⟨Λ', i1', i2', M', C', V', i3', i4', ι', φ', h', α', e', hM', hW', hC', hlin', hrefl',
     hpair', ⟨f', hf'⟩, hcl'⟩ := hKd
-  letI := i1'; letI := i2'
-  haveI : Nontrivial Λ' := ⟨e' 0, e' 1, fun hh => by
+  let := i1'; let := i2'
+  have : Nontrivial Λ' := ⟨e' 0, e' 1, fun hh => by
     have h01 : (0 : Fin 5) = 1 := e'.injective hh
     exact (by decide : (0 : Fin 5) ≠ 1) h01⟩
   have hKA : ggAutomizer K Bs ≤ AA := hAA ▸ le_sup_right
@@ -109,7 +109,7 @@ theorem ggTwoNodeE6L_LE3
   obtain ⟨hE6, hKd⟩ := ggLE3Small_E6_L hRig hT hLift hR hTw hJ2S hH hrow hL3 hL2 hp3 hcard
   obtain ⟨Λ, i1, i2, M, C, V, i3, i4, ι, φ, h, α, e, hM, hW, hC, hlin, hrefl, hpair,
     ⟨f, hf⟩, hclos⟩ := hE6
-  letI := i1; letI := i2; letI := i3; letI := i4
+  let := i1; let := i2; let := i3; let := i4
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   by_cases hind : LinearIndependent (ZMod p) h
   · exact ggTwoNodeIndepAtL_e6 hAll hOrb hFix hFixK hp3 hH hx (by rw [hcard]; norm_num) e hM hC

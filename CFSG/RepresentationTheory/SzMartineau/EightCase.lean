@@ -130,7 +130,7 @@ private lemma z_unit_data {z : F 1} (hz : z ^ 3 = z + 1) :
     intro h
     apply hz1
     rw [← hu, h, Units.val_one]
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine ⟨u, hu, orderOf_eq_prime hz7u hu1, ?_, hz1⟩
   rw [inv_eq_of_mul_eq_one_right (by rw [← pow_succ']; exact hz7)]
 
@@ -252,7 +252,7 @@ private lemma relations_zero_a
   have e21 := congrFun (congrFun hR 2) 1
   have e32 := congrFun (congrFun hR 3) 2
   simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_four, rootMat,
-    Matrix.diagonal_mul, Matrix.mul_diagonal, AOf] at e00 e10 e21 e32
+    AOf] at e00 e10 e21 e32
   ring_nf at e00 e10 e21 e32
   simp only [CharTwo.ofNat_eq_mod] at e00 e10 e21 e32
   norm_num at e00 e10 e21 e32
@@ -266,7 +266,7 @@ private lemma relations_zero_a
   simp only [CharTwo.ofNat_eq_mod] at e00 e10 e21 e32
   norm_num at e00 e10 e21 e32
   obtain ⟨hz4, hz5, hz6⟩ := z_pow_reduce hz
-  simp only [hz, hz4, hz5, hz6] at e00 e10 e21 e32
+  simp only [hz, hz4, hz6] at e00 e10 e21 e32
   refine ⟨?_, ?_, ?_, ?_⟩
   · linear_combination (norm := grind) (z ^ 2 + 1) * e10 + (z + 1) * e21
   · linear_combination (norm := grind) (z ^ 2 + 1) * e10 + (z + 1) * e21 + (z ^ 2 + 1) * e32
@@ -287,7 +287,7 @@ private lemma relations_zero_b
   have e23 := congrFun (congrFun hR 2) 3
   have e32 := congrFun (congrFun hR 3) 2
   simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_four, rootMat,
-    Matrix.diagonal_mul, Matrix.mul_diagonal, AOf] at e10 e22 e23 e32
+    AOf] at e10 e22 e23 e32
   ring_nf at e10 e22 e23 e32
   simp only [CharTwo.ofNat_eq_mod] at e10 e22 e23 e32
   norm_num at e10 e22 e23 e32
@@ -321,7 +321,7 @@ private lemma relations_one_a
   have e12 := congrFun (congrFun hR 1) 2
   have e23 := congrFun (congrFun hR 2) 3
   simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_four, rootMat,
-    Matrix.diagonal_mul, Matrix.mul_diagonal, AOf] at e10 e11 e12 e23
+    AOf] at e10 e11 e12 e23
   ring_nf at e10 e11 e12 e23
   simp only [CharTwo.ofNat_eq_mod] at e10 e11 e12 e23
   norm_num at e10 e11 e12 e23
@@ -352,7 +352,7 @@ private lemma relations_one_b
   have e23 := congrFun (congrFun hR 2) 3
   have e33 := congrFun (congrFun hR 3) 3
   simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_four, rootMat,
-    Matrix.diagonal_mul, Matrix.mul_diagonal, AOf] at e01 e20 e23 e33
+    AOf] at e01 e20 e23 e33
   ring_nf at e01 e20 e23 e33
   simp only [CharTwo.ofNat_eq_mod] at e01 e20 e23 e33
   norm_num at e01 e20 e23 e33
@@ -386,7 +386,7 @@ private lemma relations_one_c
   have e10 := congrFun (congrFun hR 1) 0
   have e11 := congrFun (congrFun hR 1) 1
   simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_four, rootMat,
-    Matrix.diagonal_mul, Matrix.mul_diagonal, AOf] at e00 e01 e10 e11
+    AOf] at e00 e01 e10 e11
   ring_nf at e00 e01 e10 e11
   simp only [CharTwo.ofNat_eq_mod] at e00 e01 e10 e11
   norm_num at e00 e01 e10 e11
@@ -419,7 +419,7 @@ private lemma relations_two_a
   have e10 := congrFun (congrFun hR 1) 0
   have e11 := congrFun (congrFun hR 1) 1
   simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_four, rootMat,
-    Matrix.diagonal_mul, Matrix.mul_diagonal, AOf] at e00 e01 e10 e11
+    AOf] at e00 e01 e10 e11
   ring_nf at e00 e01 e10 e11
   simp only [CharTwo.ofNat_eq_mod] at e00 e01 e10 e11
   norm_num at e00 e01 e10 e11
@@ -454,7 +454,7 @@ private lemma relations_two_b
   have e10 := congrFun (congrFun hR 1) 0
   have e12 := congrFun (congrFun hR 1) 2
   simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_four, rootMat,
-    Matrix.diagonal_mul, Matrix.mul_diagonal, AOf] at e00 e01 e10 e12
+    AOf] at e00 e01 e10 e12
   ring_nf at e00 e01 e10 e12
   simp only [CharTwo.ofNat_eq_mod] at e00 e01 e10 e12
   norm_num at e00 e01 e10 e12
@@ -485,7 +485,7 @@ private lemma relations_two_c
   have e10 := congrFun (congrFun hR 1) 0
   have e11 := congrFun (congrFun hR 1) 1
   simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_four, rootMat,
-    Matrix.diagonal_mul, Matrix.mul_diagonal, AOf] at e00 e02 e10 e11
+    AOf] at e00 e02 e10 e11
   ring_nf at e00 e02 e10 e11
   simp only [CharTwo.ofNat_eq_mod] at e00 e02 e10 e11
   norm_num at e00 e02 e10 e11
@@ -546,8 +546,8 @@ private lemma torus_zero (X : Matrix (Fin 4) (Fin 4) (F 1)) (hXJ : szJ * X = X *
   obtain ⟨e20, e21, e22, e23, e30, e31, e32, e33⟩ := szJ_symmetry X hXJ
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.sub_apply, Matrix.smul_apply, torusMat, Matrix.mul_apply, Fin.sum_univ_four,
-      CharTwo.sub_eq_add, CharTwo.neg_eq, CharTwo.add_self_eq_zero,
+    simp [Matrix.smul_apply, torusMat, Matrix.mul_apply, Fin.sum_univ_four,
+      CharTwo.sub_eq_add, CharTwo.add_self_eq_zero,
       h1, h2, h3, h4, h6, h7, e20, e21, e22, e23, e30, e31, e32, e33]
   all_goals ring
 
@@ -563,10 +563,10 @@ private lemma torus_one (X : Matrix (Fin 4) (Fin 4) (F 1)) (hXJ : szJ * X = X * 
   have hx7 := unit_pow_seven_val x
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.sub_apply, Matrix.smul_apply, torusMat, Matrix.mul_apply, Fin.sum_univ_four,
-      CharTwo.sub_eq_add, CharTwo.neg_eq, CharTwo.add_self_eq_zero,
-      h1, h3, h4, h6, h7, h05, h05', e20, e21, e22, e23, e30, e31, e32, e33,
-      hx2, hx3, hx4, hx5, hx6, ← inv_pow]
+    simp [Matrix.smul_apply, torusMat, Matrix.mul_apply, Fin.sum_univ_four,
+      CharTwo.sub_eq_add, CharTwo.add_self_eq_zero,
+      h1, h3, h4, h6, h7, h05', e20, e21, e22, e23, e30, e31, e32, e33,
+      hx2, hx3, ← inv_pow]
   all_goals grind
 
 private lemma torus_two (X : Matrix (Fin 4) (Fin 4) (F 1)) (hXJ : szJ * X = X * szJ)
@@ -581,10 +581,10 @@ private lemma torus_two (X : Matrix (Fin 4) (Fin 4) (F 1)) (hXJ : szJ * X = X * 
   have hx7 := unit_pow_seven_val x
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.sub_apply, Matrix.smul_apply, torusMat, Matrix.mul_apply, Fin.sum_univ_four,
-      CharTwo.sub_eq_add, CharTwo.neg_eq, CharTwo.add_self_eq_zero,
-      h1, h2, h3, h4, h6, h05, h05', e20, e21, e22, e23, e30, e31, e32, e33,
-      hx2, hx3, hx4, hx5, hx6, ← inv_pow]
+    simp [Matrix.smul_apply, torusMat, Matrix.mul_apply, Fin.sum_univ_four,
+      CharTwo.sub_eq_add, CharTwo.add_self_eq_zero,
+      h1, h2, h3, h4, h6, h05', e20, e21, e22, e23, e30, e31, e32, e33,
+      hx2, hx3, hx4, ← inv_pow]
   all_goals grind
 
 private lemma units_pow_two_pow_mod_three (x : (F 1)ˣ) (c : ℕ) :
@@ -641,7 +641,7 @@ theorem IsTwistedCocycle.exists_diag_one
       rootMat 1 1 0 * D + D * rootMat 1 1 0
           = rootMat 1 1 0 * X - X 0 0 • rootMat 1 1 0 +
               (X * rootMat 1 1 0 - X 0 0 • rootMat 1 1 0) := by
-            simp [D, Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_smul, Matrix.smul_mul]
+            simp [D, Matrix.mul_sub, Matrix.sub_mul]
       _ = rootMat 1 1 0 * X + X * rootMat 1 1 0 -
             (X 0 0 • rootMat 1 1 0 + X 0 0 • rootMat 1 1 0) := by
             abel

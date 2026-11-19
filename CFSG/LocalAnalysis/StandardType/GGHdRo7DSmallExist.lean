@@ -51,7 +51,7 @@ private lemma hdRo7DSmExistAux_dAct_dE {n : ℕ} (σ : Equiv.Perm (Fin (n + 1)))
   · subst hj
     simp
   · have hji : σ.symm j ≠ i := fun h => hj ((Equiv.symm_apply_eq σ).mp h)
-    rw [if_neg hj, if_neg hji, mul_zero, mul_zero]
+    rw [ite_eq_right hj, ite_eq_right hji, mul_zero, mul_zero]
 
 private lemma hdRo7DSmExistAux_move_le {n : ℕ} {ρ : ZMod 3} {r : DGL n} {h : DV n}
     (hr : DRefl ρ r h) (h0 : h 0 = 0) :

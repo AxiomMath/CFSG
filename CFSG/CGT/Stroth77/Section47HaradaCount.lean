@@ -11,6 +11,7 @@ namespace Stroth47
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_inf_centralizer_dvd {S : Subgroup G} {p : G} (hp : p ∈ S) (w : G) :
     Nat.card ↥(S ⊓ Subgroup.centralizer {w}) ∣
       Nat.card ↥(S ⊓ Subgroup.centralizer {p⁻¹ * w * p}) := by
@@ -49,7 +50,7 @@ theorem false_of_harada_count [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠
         Nat.card ↥(Subgroup.centralizer {x ^ 2 ^ k}))
     (hconj : ∀ g : G, g⁻¹ * x * g ∉ U) : False := by
   refine EvenSporadicStandard.not_exists_normal_index_two_of_nonabelian hnonab
-    (ThompsonTransferCount.exists_normal_index_two_of_count S.isPGroup' S.not_dvd_index hU hxS
+    (ThompsonTransferCount.exists_normal_index_two_of_count S.isPGroup S.not_dvd_index hU hxS
       hxU hconj ?_)
   intro g k hk hgS hgU
   set y := g⁻¹ * x ^ 2 ^ k * g with hy
@@ -62,7 +63,7 @@ theorem false_of_harada_count [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠
     rintro h1
     apply hgU
     rw [hy, h1]
-    simpa using U.one_mem
+    simp
   obtain ⟨l, -, hl, -⟩ := Stroth42.exists_pow_eq_of_even hxz hz2 hz1 hk'
   rw [h2k] at hl
   have hrz : IsConj (y ^ 2 ^ l) z := by

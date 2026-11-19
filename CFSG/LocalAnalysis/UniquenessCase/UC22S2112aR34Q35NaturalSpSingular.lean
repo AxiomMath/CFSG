@@ -542,9 +542,9 @@ private lemma prod4_conj {Z N : Subgroup Γ} [N.Normal] {z c s₀ : Γ}
     intro i
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, pow_zero, one_mul]
+      rw [ite_eq_left rfl, pow_zero, one_mul]
       exact conj_pow_self (orbit c s₀ (i : ℕ)) (e i : ℕ)
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       have hA : orbit c s₀ (j : ℕ) * orbit c s₀ (i : ℕ)
           = z * (orbit c s₀ (i : ℕ) * orbit c s₀ (j : ℕ)) := by
         rw [hanti i j hij, ← mul_assoc, hz2, one_mul]

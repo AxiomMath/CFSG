@@ -27,7 +27,7 @@ theorem component_normal_of_seven_of_pRank {X : Type} [Group X] [Finite X]
     (hZ7 : ¬ 7 ∣ Nat.card (Subgroup.center J)) :
     J.Normal := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hrank' : CFSG.pRank 7 X ≤ 1 := by
     rwa [CFSG.SectionRank.pRank_eq_open_pRank_top]
   have h7Jcard : 7 ∣ Nat.card J := by
@@ -207,7 +207,7 @@ theorem componentsImage_eq_bot_of_mem_theta_wPL11
     have hθX : CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 (componentsQuot e) = ⊥ :=
       theta_quotient_core_eq_bot_wPL11 e
     have hsol : Group.IsSolvable ↥(W.map π) := by
-      haveI : Group.IsNilpotent ↥(W.map π) := (componentsImage_isPGroup (D := D) e).isNilpotent
+      have : Group.IsNilpotent ↥(W.map π) := (componentsImage_isPGroup (D := D) e).isNilpotent
       infer_instance
     have hmax := (solvable_prime_complement_core_characterization (H := componentsQuot e)
       Nat.prime_three).2.2.2.1
@@ -222,10 +222,10 @@ theorem componentsImage_eq_bot_of_mem_theta_wPL11
   exact hWbot
 
 theorem false_of_not_mem_theta_of_suzuki_f_three_wPL11
-    (c : Ctx82E3 D) (h7 : D.sig = {7})
+    (c : Ctx82E3 D) (_h7 : D.sig = {7})
     (P : Subgroup G) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (e : G) (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({e} : Set G)) = 1)
-    (he : e ∈ P ⊓ c.L) (heZ : e ∉ zSub P c.L)
+    (he : e ∈ P ⊓ c.L) (_heZ : e ∉ zSub P c.L)
     {J : Subgroup (componentsQuot e)} (hJ : CFSG.IsComponent J)
     (hntriv : ¬ TrivialZComponentAction (D := D) c P e J)
     {f : ℕ} (hSz : CFSG.Blueprint.SuzukiModel (J ⧸ Subgroup.center J) 2 f) (hf : f = 3)
@@ -234,8 +234,8 @@ theorem false_of_not_mem_theta_of_suzuki_f_three_wPL11
     (hyθ : y ∉ theta3 (Subgroup.centralizer ({e} : Set G))) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H : Subgroup G := Subgroup.centralizer ({e} : Set G)
   let θH : Subgroup H := CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 H
   let π : H →* componentsQuot e := QuotientGroup.mk' θH
@@ -273,8 +273,8 @@ theorem false_of_not_mem_theta_of_suzuki_f_three_wPL11
       Nat.prime_seven (by norm_num) hrankX S
   have h7Jquot : 7 ∣ Nat.card (J ⧸ Subgroup.center J) := by
     obtain ⟨-, a, ha, K, hKf, hKfin, hf', hKcard, ⟨eSZ⟩⟩ := hSz
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     have ha1 : a = 1 := by omega
     subst ha1
     have hKcard' : Nat.card K = 2 ^ (2 * 1 + 1) := by
@@ -298,7 +298,7 @@ theorem false_of_not_mem_theta_of_suzuki_f_three_wPL11
   obtain ⟨S, hyS⟩ := hystarP.exists_le_sylow
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 7 (S : Subgroup (componentsQuot e)) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup',
+    exact ⟨le_top, S.isPGroup,
       by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hJS : CFSG.ABGLocalTools.IsSylowOf 7
       ((S : Subgroup (componentsQuot e)) ⊓ J) J := by
@@ -323,7 +323,7 @@ theorem false_of_not_mem_theta_of_suzuki_f_three_wPL11
     ⟨ystar, hyS (Subgroup.mem_zpowers ystar)⟩
   have hySord : orderOf yS = 7 := by
     rw [← Subgroup.orderOf_coe yS]; exact hystar7
-  haveI : IsCyclic ↥(S : Subgroup (componentsQuot e)) := hcycS S
+  have : IsCyclic ↥(S : Subgroup (componentsQuot e)) := hcycS S
   have hEq : Subgroup.zpowers uS = Subgroup.zpowers yS :=
     (IsCyclic.subgroup_eq_iff_card_eq (H := Subgroup.zpowers uS)
       (K := Subgroup.zpowers yS)).mpr (by
@@ -381,7 +381,7 @@ theorem false_of_not_mem_theta_of_suzuki_f_three_wPL11
   have hnebotZh : autThetaQuot Zh Lh ≠ ⊥ := by
     intro h
     exact hntrivZh (by rw [h, Subgroup.card_bot])
-  haveI : Nontrivial ↥(autThetaQuot Zh Lh) :=
+  have : Nontrivial ↥(autThetaQuot Zh Lh) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr hnebotZh
   obtain ⟨τh, hτhne⟩ := exists_ne (1 : ↥(autThetaQuot Zh Lh))
   obtain ⟨z0, hz0Nh, hz0Zh, hτheq⟩ := mem_autThetaQuot_iff.mp τh.2
@@ -433,7 +433,7 @@ theorem false_of_not_mem_theta_of_suzuki_f_three_wPL11
   let αJ : MulAut J := J.normalizerMonoidHom ⟨z0star, hz0starN⟩
   let σJ : MulAut (J ⧸ Subgroup.center J) :=
     CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom J αJ
-  haveI : Group.IsPerfect ↥J := hJ.1.1
+  have : Group.IsPerfect ↥J := hJ.1.1
   have hσJne : σJ ≠ 1 := by
     intro hσ
     apply hz0_not_central
@@ -549,7 +549,7 @@ theorem suzukiComponents_centralize_of_f_eq_three'
     (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
     (P : Subgroup G) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     (e : G) (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({e} : Set G)) = 1)
     (hZ3 : ∀ J ∈ thetaComponentsAt 3 e, 3 ∣ Nat.card J →
       Nat.card (autThetaQuot (zSub P c.L) J) = 1)
@@ -568,7 +568,6 @@ theorem suzukiComponents_centralize_of_f_eq_three'
   have hyC : y ∈ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G) :=
     Subgroup.mem_centralizer_iff.mpr (fun q hq => (hycent q hq).symm)
   have hyH : y ∈ Subgroup.centralizer ({e} : Set G) := by
-    change y ∈ Subgroup.centralizer ({e} : Set G)
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.mp hyC e he).symm
   by_cases hyθ : y ∈ theta3 (Subgroup.centralizer ({e} : Set G))

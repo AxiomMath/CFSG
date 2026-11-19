@@ -49,6 +49,7 @@ variable {K L : Type} [Group K] [Group L] (α : L →* K)
   toLinearMap := (factorSub S S').mkQ
   isIntertwining' g := by ext x; rfl
 
+omit [Finite V] in
 theorem exact_subInclusion_factorProj {ρ : Representation (ZMod 2) K V}
     {S S' : Subrepresentation ρ} (h : S ≤ S') :
     Function.Exact (subInclusion h) (factorProj S S') := by
@@ -68,7 +69,7 @@ theorem nontrivCount_comp_factor_add {ρ : Representation (ZMod 2) K V}
     {S S' : Subrepresentation ρ} (h : S ≤ S') :
     nontrivCount (S'.toRepresentation.comp α) =
       nontrivCount (S.toRepresentation.comp α) + nontrivCount ((factorRep S S').comp α) := by
-  haveI := factor_finite S S'
+  have := factor_finite S S'
   exact nontrivCount_comp_eq_add_of_exact α (subInclusion h) (factorProj S S')
     (Submodule.inclusion_injective (show S.toSubmodule ≤ S'.toSubmodule from h))
     (Submodule.mkQ_surjective _) (exact_subInclusion_factorProj h)
@@ -76,13 +77,14 @@ theorem nontrivCount_comp_factor_add {ρ : Representation (ZMod 2) K V}
 theorem nontrivCount_comp_sub_quot (ρ : Representation (ZMod 2) K V) (W : Subrepresentation ρ) :
     nontrivCount (ρ.comp α) =
       nontrivCount (W.toRepresentation.comp α) + nontrivCount (W.quotient.comp α) := by
-  haveI : Finite (V ⧸ W.toSubmodule) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective _)
+  have : Finite (V ⧸ W.toSubmodule) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective _)
   exact nontrivCount_comp_eq_add_of_exact α (subIncl ρ W) (quotProj ρ W)
     W.toSubmodule.injective_subtype W.toSubmodule.mkQ_surjective (LinearMap.exact_subtype_mkQ _)
 
+omit [Finite V] in
 theorem nontrivCount_comp_bot (ρ : Representation (ZMod 2) K V) :
     nontrivCount ((⊥ : Subrepresentation ρ).toRepresentation.comp α) = 0 := by
-  haveI : Subsingleton ↥(⊥ : Subrepresentation ρ).toSubmodule :=
+  have : Subsingleton ↥(⊥ : Subrepresentation ρ).toSubmodule :=
     inferInstanceAs (Subsingleton ↥(⊥ : Submodule (ZMod 2) V))
   exact nontrivCount_of_subsingleton _
 
@@ -90,7 +92,7 @@ theorem nontrivCount_comp_top (ρ : Representation (ZMod 2) K V) :
     nontrivCount ((⊤ : Subrepresentation ρ).toRepresentation.comp α) =
       nontrivCount (ρ.comp α) := by
   have h := nontrivCount_comp_sub_quot α ρ ⊤
-  haveI : Subsingleton (V ⧸ (⊤ : Subrepresentation ρ).toSubmodule) :=
+  have : Subsingleton (V ⧸ (⊤ : Subrepresentation ρ).toSubmodule) :=
     Submodule.Quotient.subsingleton_iff.mpr rfl
   rw [nontrivCount_of_subsingleton ((⊤ : Subrepresentation ρ).quotient.comp α)] at h
   omega
@@ -113,7 +115,7 @@ theorem three_le_nontrivCount (hperf : commutator L = ⊤) {ρ : Representation 
   have pos : ∀ {S S' : Subrepresentation ρ}, (∃ l : L, factorRep S S' (α l) ≠ 1) →
       1 ≤ nontrivCount ((factorRep S S').comp α) := by
     intro S S' ⟨l, hl⟩
-    haveI := factor_finite S S'
+    have := factor_finite S S'
     by_contra hc
     have h0 : nontrivCount ((factorRep S S').comp α) = 0 := by omega
     exact hl (trivial_of_nontrivCount_eq_zero hperf ((factorRep S S').comp α) h0 l)
@@ -126,11 +128,12 @@ theorem three_le_nontrivCount (hperf : commutator L = ⊤) {ρ : Representation 
   have p3 := pos n3
   omega
 
+omit [Finite V] in
 theorem isIrreducible_factor_comp {ρ : Representation (ZMod 2) K V}
     {U U' : Subrepresentation ρ} (h : U ⋖ U')
     (hsurj : ∀ k : K, ∃ l : L, factorRep U U' k = factorRep U U' (α l)) :
     Representation.IsIrreducible ((factorRep U U').comp α) := by
-  haveI : Nontrivial (U'.toSubmodule ⧸ factorSub U U') := factor_nontrivial h
+  have : Nontrivial (U'.toSubmodule ⧸ factorSub U U') := factor_nontrivial h
   refine { exists_pair_ne := ⟨⊥, ⊤, ?_⟩, eq_bot_or_eq_top := ?_ }
   · intro hbt
     exact bot_ne_top (congrArg Subrepresentation.toSubmodule hbt)
@@ -149,7 +152,7 @@ theorem nontrivCount_factor_comp_le {ρ : Representation (ZMod 2) K V}
     {U U' : Subrepresentation ρ} (h : U ⋖ U')
     (hsurj : ∀ k : K, ∃ l : L, factorRep U U' k = factorRep U U' (α l)) :
     nontrivCount ((factorRep U U').comp α) ≤ if ∃ k, factorRep U U' k ≠ 1 then 1 else 0 := by
-  haveI := factor_finite U U'
+  have := factor_finite U U'
   split_ifs with hnt
   · exact nontrivCount_le_one_of_isIrreducible _ (isIrreducible_factor_comp α h hsurj)
   · have h0 : nontrivCount ((factorRep U U').comp α) = 0 :=
@@ -168,7 +171,7 @@ theorem nontrivCount_comp_le_card {ρ : Representation (ZMod 2) K V} {r : ℕ}
       ≤ ∑ i : Fin r, if i ∈ nontrivialFactors Vs then 1 else 0 := Finset.sum_le_sum fun i _ => by
         have := nontrivCount_factor_comp_le α (hVs.covBy i) (hsurj i)
         simpa only [mem_nontrivialFactors] using this
-    _ = (nontrivialFactors Vs).card := by simp [Finset.sum_boole]
+    _ = (nontrivialFactors Vs).card := by simp
 
 end Chain
 

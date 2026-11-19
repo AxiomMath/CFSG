@@ -92,7 +92,7 @@ theorem layer_prime_step (hI : PositiveInputs G t s₀ d J p f)
   set X := O ⊔ B with hX
   obtain ⟨Br⟩ : Nonempty (Sylow r B) := inferInstance
   have hBrX : (Br : Subgroup B).map B.subtype ≤ X := (Subgroup.map_subtype_le _).trans le_sup_right
-  obtain ⟨Xr, hXr, hBrXr⟩ := exists_isSylowOf_le hBrX (Br.isPGroup'.map B.subtype)
+  obtain ⟨Xr, hXr, hBrXr⟩ := exists_isSylowOf_le hBrX (Br.isPGroup.map B.subtype)
   obtain ⟨Or, hOr, hXrOr⟩ := exists_isSylowOf_le (hXr.le.trans hXO) hXr.isPGroup
   obtain ⟨hOrC, -⟩ := hI.le_C_of_isPGroup hr hrb Br hOr.isPGroup (hBrXr.trans hXrOr)
   have hXrC : IsSylowOf r Xr (C t) := by

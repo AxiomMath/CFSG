@@ -49,8 +49,8 @@ theorem triNorm_of (hL : CatLayer) (hI : ShapeModelNormIso) :
         rw [← TauCeti.LieTypeIndex.characteristic_trialityD4]; exact hPchar
       obtain ⟨K, hKf, hKfin, σ, hK, hσ, -, ⟨eB⟩⟩ :=
         CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-      letI := hKf
-      letI := hKfin
+      let := hKf
+      let := hKfin
       have hcatM : catalogIs ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
           (onLie fun d => d.characteristic = 2) :=
         ⟨.lie ⟨.trialityD4 q, hv⟩, hPchar, ⟨eB.symm⟩⟩

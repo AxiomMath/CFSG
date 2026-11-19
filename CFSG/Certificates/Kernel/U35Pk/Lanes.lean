@@ -20,8 +20,8 @@ theorem land_split (x m L w : ℕ) (hm : m < 2 ^ w) :
   rw [Nat.add_comm (x % 2 ^ w &&& m), Nat.testBit_two_pow_mul_add _ h1, Nat.testBit_and,
     Nat.add_comm m, Nat.testBit_two_pow_mul_add _ hm]
   by_cases hj : j < w
-  · simp only [hj, if_true, Nat.testBit_and, Nat.testBit_mod_two_pow, decide_true, Bool.true_and]
-  · simp only [hj, if_false, Nat.testBit_and, ← Nat.shiftRight_eq_div_pow, Nat.testBit_shiftRight]
+  · simp only [hj, ite_true, Nat.testBit_and, Nat.testBit_mod_two_pow, decide_true, Bool.true_and]
+  · simp only [hj, ite_false, Nat.testBit_and, ← Nat.shiftRight_eq_div_pow, Nat.testBit_shiftRight]
     congr 2
     omega
 

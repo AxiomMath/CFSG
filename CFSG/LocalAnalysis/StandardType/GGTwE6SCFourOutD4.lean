@@ -44,8 +44,8 @@ theorem exists_not_inner_of_d4 (hS : E6LeviThreeToralBar)
   have hq2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := (pow_one 2).symm
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   have hK3 : ringChar K ≠ 3 := by
     rw [ringChar.eq K 2]
@@ -58,8 +58,8 @@ theorem exists_not_inner_of_d4 (hS : E6LeviThreeToralBar)
   have hall : (kernelRoots (rootCharHom D.a)).ncard = 24 := by
     have := D.hker
     omega
-  haveI : Fact (ringChar K).Prime := ⟨D.hℓ⟩
-  haveI := D.hchar
+  have : Fact (ringChar K).Prime := ⟨D.hℓ⟩
+  have := D.hchar
   have hcomp0 : ∀ (x : ↥(twistedE6InndiagGL K σ)) (y : ↥(twistedE6RootGroup K σ)),
       baseChangeGL (algebraMap K (AlgebraicClosure K))
           ((twistedE6InndiagConj K σ x y : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =

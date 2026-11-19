@@ -32,7 +32,7 @@ theorem normal_kernel_sylow_enlargement
   have hRimage : (R.subgroupOf B).map B.subtype = R :=
     Subgroup.map_subgroupOf_eq_of_le le_sup_right
   have hS := normal_subgroup_image_sylow_intersection p hp B (R.subgroupOf B) P
-  refine ⟨T, P.isPGroup'.map B.subtype, hQT, hTB, hjoin, ?_⟩
+  refine ⟨T, P.isPGroup.map B.subtype, hQT, hTB, hjoin, ?_⟩
   rw [hRimage] at hS
   exact hS
 

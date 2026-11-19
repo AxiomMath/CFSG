@@ -51,7 +51,7 @@ theorem card_psl2_seven_sq {X : Type} [Group X] (h : IsPSL 2 7 2 X) : Nat.card X
 theorem card_sl2 {X : Type} [Group X] {p : ℕ} (hp : p.Prime) (h : CFSG.Quasithin.IsSL2 p X) :
     Nat.card X = p * (p ^ 2 - 1) := by
   obtain ⟨e⟩ := h
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [Nat.card_congr e.toEquiv, CFSG.GorensteinWalter.sl2_card_formula, Nat.card_zmod]
 
 theorem card_alt5 {X : Type} [Group X] (h : IsAlt 5 X) : Nat.card X = 60 := by
@@ -105,7 +105,7 @@ theorem card_multiplicative_fin_zmod (p n : ℕ) [Fact p.Prime] :
     Nat.card (Multiplicative (Fin n → ZMod p)) = p ^ n := by
   rw [← Nat.card_congr (Multiplicative.ofAdd : (Fin n → ZMod p) ≃ Multiplicative (Fin n → ZMod p)),
     Nat.card_pi]
-  simp [Nat.card_zmod]
+  simp
 
 theorem mod_eight_L2 {q : ℕ} (hq : q % 8 = 3 ∨ q % 8 = 5) : q * (q ^ 2 - 1) / 2 % 8 = 4 := by
   have h := CFSG.Quasithin.H13.InspA312.ordProj_two_card_L2_of_mod_eight hq

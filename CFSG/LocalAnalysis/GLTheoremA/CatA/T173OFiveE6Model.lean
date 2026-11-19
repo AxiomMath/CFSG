@@ -333,12 +333,12 @@ theorem exists_dmodel_E6 {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgrou
     dsimp only at hQ
     obtain ⟨_, _, θ, hlabEq, _, hN, hind⟩ := hQ
     subst hlabEq
-    letI : Field K := hK
-    letI : Finite K := hKin
+    let : Field K := hK
+    let : Finite K := hKin
     obtain ⟨T, -, -⟩ := InnerDiagE6.exists_largeEvenChevEquiv (τ := .E6) (K := K)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by
       rw [← Nat.card_eq_fintype_card, hKcard])
     have hdn : 1 ≤ n := hlab.1
     refine ⟨K, hK, hKin, ‹CharP K 2›, hKcard, ?_, ?_⟩

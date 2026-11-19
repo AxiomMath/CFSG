@@ -90,8 +90,8 @@ theorem card_le_32_of_isConj (hD3 : HData3 G t z z₁) {a : G}
     intro h0
     rw [h0, zero_dvd_iff] at hdvd
     exact absurd hdvd (by norm_num)
-  haveI : Finite ↥(R.map f) := Nat.finite_of_card_ne_zero hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(R.map f) := Nat.finite_of_card_ne_zero hne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hR'2.exists_card_eq
   have hk5 : k ≤ 5 := by
     have hdvd2 : 2 ^ k ∣ 2 ^ 5 * 45 := by

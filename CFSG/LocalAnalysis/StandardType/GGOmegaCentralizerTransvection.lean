@@ -163,7 +163,7 @@ private theorem ggOmW5b_fin_symmetryGL_not_mem_derived {K : Type} [Field K]
     symmetryGL Q v ∉ matrixDerived Q := by
   intro h
   have hv0 : Q v ≠ 0 := by rw [hv]; exact one_ne_zero
-  letI : Invertible (Q v) := invertibleOfNonzero hv0
+  let : Invertible (Q v) := invertibleOfNonzero hv0
   have h2 : CFSG.ClassicalGroups.Orthogonal.reflect Q v ∈
       CFSG.RankThree.Classical2.orthDerived Q := by
     rw [CFSG.RankThree.Classical2.orthDerived, ← matrixLinearIso_symmetryGL]
@@ -348,12 +348,12 @@ private theorem ggOmW5b_statedSp_commutator_top {K : Type} [Field K] [Fintype K]
           _ ≤ 2 ^ (k : ℕ) := Nat.pow_le_pow_right (by norm_num) hk
       exact Or.inl (Or.inr h4)
   have hperf := (CFSG.LieType.Universal.Symplectic.isQuasisimple m K (by omega) hF).1
-  haveI : Group.IsPerfect ↥(StatedSp m K) := hperf
+  have : Group.IsPerfect ↥(StatedSp m K) := hperf
   exact Group.IsPerfect.commutator_eq_top
 
 private theorem ggOmW5b_statedSp_pCore_bot {K : Type} [Field K] [Fintype K] [CharP K 2]
     (m : ℕ) (hm : 3 ≤ m) : pCoreOf 2 (⊤ : Subgroup (StatedSp m K)) = ⊥ := by
-  haveI : IsSimpleGroup (StatedSp m K) := ggOmW5b_statedSp_simple m hm
+  have : IsSimpleGroup (StatedSp m K) := ggOmW5b_statedSp_simple m hm
   have hnormal : (pCoreOf 2 (⊤ : Subgroup (StatedSp m K))).Normal := by
     rw [pCoreOf]
     exact Subgroup.Normal.map pCore_normal (⊤ : Subgroup (StatedSp m K)).subtype

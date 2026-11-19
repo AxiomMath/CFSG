@@ -18,7 +18,7 @@ theorem ggF4Orig_xDatum_of_route
     (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) :
     @GGResXDatum G _ _ p ⟨(GGConfig.tableB_facts hcfg.1.1).1⟩ Bs L := by
   have hp : p.Prime := (GGConfig.tableB_facts hcfg.1.1).1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrest : GGSecFiveRestHyp p B Bs x L D J := hcfg.1
   have hW : GGSecFiveWeylCase' p B Bs x D J := hcfg.2.1
   have hc : GGConfig p B Bs x L D J := hrest.1
@@ -37,7 +37,7 @@ theorem ggF4Orig_weyl_of_route
     {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)}
     (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) :
     GGWeylReflectionGroup p (ggAutomizer L Bs) := by
-  haveI : Fact p.Prime := ⟨(GGConfig.tableB_facts hcfg.1.1).1⟩
+  have : Fact p.Prime := ⟨(GGConfig.tableB_facts hcfg.1.1).1⟩
   exact HdRo7C.weyl_of_xDatum (ggF4Orig_xDatum_of_route hX hTCJ hRig hcfg)
 
 end CFSG.StandardType

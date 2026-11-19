@@ -20,7 +20,7 @@ theorem nf5_B_inf_L (hc : NF5Cfg F Γ B R₀ x L z)
     ∀ b ∈ B, b ∈ L → b ∈ Subgroup.zpowers z := by
   intro b hb hbL
   obtain ⟨hbF, hb5⟩ := (hc.data.hB b).1 hb
-  haveI : IsCyclic (F ⊓ L : Subgroup Y) := hcyc.2
+  have : IsCyclic (F ⊓ L : Subgroup Y) := hcyc.2
   obtain ⟨z', hzz⟩ : ∃ z' : (F ⊓ L : Subgroup Y), (z' : Y) = z :=
     ⟨⟨z, Subgroup.mem_inf.2 ⟨hc.zgen.mem, hc.zL⟩⟩, rfl⟩
   obtain ⟨b', hbb⟩ : ∃ b' : (F ⊓ L : Subgroup Y), (b' : Y) = b :=
@@ -40,8 +40,8 @@ theorem nf5_B_inf_L (hc : NF5Cfg F Γ B R₀ x L z)
 
 theorem nf5_sylow_cyclic (hc : NF5Cfg F Γ B R₀ x L z) (hcyc : IsCyclic ((F ⊓ L : Subgroup Y))) :
     ∀ S : Sylow 5 ↥L, IsCyclic (S : Subgroup ↥L) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI := hc.normal
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := hc.normal
   obtain ⟨hFp, hFidx⟩ : IsPGroup 5 F ∧ ¬ 5 ∣ F.index := by
     obtain ⟨_, hFp, hFdvd⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hc.data.sylow
     exact ⟨hFp, by rwa [Subgroup.relIndex_top_right] at hFdvd⟩
@@ -69,7 +69,7 @@ theorem nf5_generation (h10 : KFactFieldGeneration5) (hc : NF5Cfg F Γ B R₀ x 
   have hsimp : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr e).1 hq.2
   have hnonab : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hcomm
-    push_neg at hcomm
+    push Not at hcomm
     have hbot : commutator ↥L = ⊥ := (commutator_eq_bot_iff _).2 (isMulCommutative_iff.2 hcomm)
     have htop : (⊤ : Subgroup ↥L) = ⊥ := hq.1.symm.trans hbot
     obtain ⟨a, b, hab⟩ := exists_pair_ne ↥L

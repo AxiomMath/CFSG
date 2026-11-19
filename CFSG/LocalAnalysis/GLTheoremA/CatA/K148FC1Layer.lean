@@ -115,7 +115,7 @@ private theorem k148fc1_from_model {P : Type} [Group P] [Finite P] {f : ℕ} (hf
   have hcardF : Nat.card (CFSG.LieType.Chevalley.orbitField TwistTag.D4 K σ.toRingHom
       CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.d4Outer) = 2 ^ (3 * f) := by
     rw [Nat.card_congr (Equiv.subtypeUnivEquiv hmem), hK, ← pow_mul, mul_comm]
-  haveI : Finite (CFSG.LieType.Chevalley.orbitField TwistTag.D4 K σ.toRingHom
+  have : Finite (CFSG.LieType.Chevalley.orbitField TwistTag.D4 K σ.toRingHom
       CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.d4Outer) := Subtype.finite
   set S : Subgroup P := S₀.map (ε.symm : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →* P) with hS
   have hmemS : ∀ p : P, p ∈ S ↔ ε p ∈ S₀ := fun p => by
@@ -218,7 +218,7 @@ theorem k148FC1LayerFact_holds : K148FC1LayerFact := by
     exfalso
     obtain ⟨e2⟩ := he2
     obtain ⟨-, ⟨eG⟩⟩ := CFSG.LocalAnalysis.GLTheoremA.T266.G2Holds.g2_adjoint_equiv hFG2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hcardFix : Nat.card ↥(CFSG.RankThree.PartTwo.Sec4.autFix τ) = CFSG.Open.ordG2 (2 ^ n) := by
       rw [← Nat.card_congr eG.toEquiv, CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2,
         GaloisField.card 2 n (by omega)]

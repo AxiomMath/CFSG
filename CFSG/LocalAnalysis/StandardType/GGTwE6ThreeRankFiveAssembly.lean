@@ -66,12 +66,12 @@ theorem ggTwE6ThreeRankFiveInput_of_a2Block
     (hblock : A2BlockTwoInput) : GGTwE6ThreeRankFiveInput := by
   intro f hf h3 S hSel hSI h5
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   let Ω := AlgebraicClosure K
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP K 2 := inferInstance
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 f
   have hFr : ∀ c, Fr c = c ^ 2 ^ f := fun c => iterateFrobenius_def 2 f c
   have hσ : ∀ c : K, frobQ 2 f c = c ^ 2 ^ f := fun c => frobQ_apply 2 f c
@@ -174,8 +174,7 @@ theorem ggTwE6ThreeRankFiveInput_of_a2Block
   obtain ⟨-, hCR, hCnorm, -, -⟩ :=
     TwistedDiag.cgrp_facts hf K hK (frobQ 2 f) hσ h3 Ω Fr hFr
   refine ⟨Y, hYle, hSY, hYel, hYcard, ?_⟩
-  intro h9
-  intro y hy
+  intro h9 y hy
   obtain ⟨yR, hyRmem, rfl⟩ := Subgroup.mem_map.1 hy
   have hyYR : (yR : ModGL Tag.E6 Ω) ∈ Y_R := Subgroup.mem_subgroupOf.1 hyRmem
   obtain ⟨h, hhH3, hhy⟩ := Subgroup.mem_map.1 hyYR

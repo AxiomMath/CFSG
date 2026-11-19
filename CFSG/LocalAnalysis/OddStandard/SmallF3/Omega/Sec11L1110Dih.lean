@@ -13,7 +13,7 @@ open Subgroup
 private theorem dih_unique_involution {X : Type} [Group X] [Finite X] [IsCyclic X]
     {a b : X} (ha : orderOf a = 2) (hb : orderOf b = 2) : a = b := by
   classical
-  letI : Fintype X := Fintype.ofFinite X
+  let : Fintype X := Fintype.ofFinite X
   by_contra hab
   have hle := IsCyclic.card_pow_eq_one_le (α := X) (n := 2) (by norm_num)
   have ha1 : a ≠ 1 := by
@@ -57,7 +57,7 @@ private theorem dih_case {E : Type} [Group E] [Finite E] {D : Subgroup E} {m : �
     (n := m + 1) (by omega) hS
   rcases hshapes.1 (C.subgroupOf D) with hcyc | ⟨m', hm'2, -, ⟨eT⟩⟩
   · exfalso
-    haveI : IsCyclic C := (Subgroup.subgroupOfEquivOfLe hCD).isCyclic.mp hcyc
+    have : IsCyclic C := (Subgroup.subgroupOfEquivOfLe hCD).isCyclic.mp hcyc
     have htC : t ∈ C := Subgroup.subset_closure ht
     have htzC : t * z ∈ C := Subgroup.subset_closure htz
     have hzC : z ∈ C := by
@@ -82,7 +82,7 @@ private theorem dih_case {E : Type} [Group E] [Finite E] {D : Subgroup E} {m : �
 
 theorem sec11L1110_isDih2_closure {E : Type} [Group E] [Finite E] {D : Subgroup E}
     (hD : IsDihSd D) {Θ : Set E} (hΘD : Θ ⊆ D) (hΘ2 : ∀ s ∈ Θ, orderOf s = 2) {t z : E}
-    (ht : t ∈ Θ) (htz : t * z ∈ Θ) (hz : z * z = 1) (hz1 : z ≠ 1) (hcomm : t * z = z * t) :
+    (ht : t ∈ Θ) (htz : t * z ∈ Θ) (hz : z * z = 1) (hz1 : z ≠ 1) (_hcomm : t * z = z * t) :
     IsDih2 (Subgroup.closure Θ) := by
   rcases hD with ⟨m, hm, hD⟩ | ⟨n, hn, ⟨e⟩⟩
   · exact dih_case hm hD hΘD hΘ2 ht htz hz hz1

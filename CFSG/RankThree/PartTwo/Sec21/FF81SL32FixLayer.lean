@@ -69,7 +69,7 @@ theorem card_fix_mul [Finite X] (hWM : W ≤ M) {y : X} (hy : y ∈ K) (hy3 : y 
     Nat.card ↥(W ⊓ centralizer ({y} : Set X)) * Nat.card ↥(fixQ hKM hKW ⟨y, hy⟩) =
       Nat.card ↥(M ⊓ centralizer ({y} : Set X)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set H : Subgroup X := M ⊓ centralizer ({y} : Set X) with hH
   let π₀ : ↥H →* (M ⧸ W.subgroupOf M) :=
     (QuotientGroup.mk' (W.subgroupOf M)).comp (Subgroup.inclusion inf_le_left)

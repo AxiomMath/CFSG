@@ -42,7 +42,7 @@ theorem sec8_card_isotropic_sub (hpts : Sec8Pts hc t r m K φ u u')
       spForm m K y ((φ ⟨l, le_Rt (M := M) (LB M Q B) ht (hSL hl)⟩ :
         Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ y) = 0) :
     Nat.card ↥S * Nat.card Z ≤ Nat.card ↥(LB M Q B ⊓ hc.CN t) * Nat.card Z ^ m := by
-  haveI := hpts.charP
+  have := hpts.charP
   have hLR : LB M Q B ≤ Rt M (LB M Q B) t := le_Rt (M := M) (LB M Q B) ht
   have hSR : S ≤ Rt M (LB M Q B) t := hSL.trans hLR
   have h1 := card_inf_mul_card_map hSR φ hpts.ker
@@ -98,7 +98,7 @@ theorem sec8_card_index {hc : Ctx M Q Z B} {t r : G} {m : ℕ} {K : Type} [Field
     {S : Subgroup G} (hSL : S ≤ LB M Q B)
     (hS : ∀ l ∈ LB M Q B, l ∈ S ↔ ∀ v ∈ Vt M (LB M Q B) B Z t, ⁅v, l⁆ ∈ D) :
     Nat.card ↥(LB M Q B) * Nat.card ↥D ≤ Nat.card ↥S * Nat.card Z ^ (2 * m) := by
-  letI := hpts.vecAct
+  let := hpts.vecAct
   have hconj : ∀ (s : ↥(Rt M (LB M Q B) t)) (v : ↥(Vt M (LB M Q B) B Z t)),
       (s : G) * (v : G) * (s : G)⁻¹ ∈ Vt M (LB M Q B) B Z t := fun s v =>
     (Subgroup.mem_normalizer_iff.mp (hc.Rt_normalizes_Vt ht s.2) (v : G)).mp v.2
@@ -235,6 +235,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_card_comm_smul_sub {R P I : Subgroup G} {Md : Type} [AddCommGroup Md]
     [DistribMulAction ↥R Md] {κ : ↥P →* Multiplicative Md} (hκ : IsSecMod R P I Md κ)
     (hP : ∀ r ∈ R, ∀ x ∈ P, r * x * r⁻¹ ∈ P)
@@ -251,15 +252,16 @@ theorem sec8_card_comm_smul_sub {R P I : Subgroup G} {Md : Type} [AddCommGroup M
   rw [← h3]
   abel
 
+omit [Finite G] in
 theorem sec8_card_comm {hc : Ctx M Q Z B} {t r : G} {m : ℕ} {K : Type} [Field K] [Finite K]
     {φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m ⊕ Fin m) K} {u u' : Fin m ⊕ Fin m → K}
-    (hpts : Sec8Pts hc t r m K φ u u') (ht : t ∈ LB M Q B)
+    (hpts : Sec8Pts hc t r m K φ u u') (_ht : t ∈ LB M Q B)
     {D : Subgroup G} (hZD : Z ≤ D) (hDV : D ≤ Vt M (LB M Q B) B Z t)
     (hD : ∀ l ∈ LB M Q B, ∀ v ∈ Vt M (LB M Q B) B Z t, ⁅v, l⁆ ∈ D) :
     Nat.card Z ^ (2 * m) ≤ Nat.card ↥D := by
-  haveI := hpts.charP
+  have := hpts.charP
   obtain ⟨κ, hκ⟩ := hpts.isSecMod
-  letI : DistribMulAction ↥(Rt M (LB M Q B) t) (Fin m ⊕ Fin m → K) := hpts.vecAct
+  let : DistribMulAction ↥(Rt M (LB M Q B) t) (Fin m ⊕ Fin m → K) := hpts.vecAct
   have hRV : ∀ r ∈ Rt M (LB M Q B) t, ∀ y ∈ Vt M (LB M Q B) B Z t,
       r * y * r⁻¹ ∈ Vt M (LB M Q B) B Z t := fun r hr y hy =>
     (Subgroup.mem_normalizer_iff.mp (hpts.act.1 hr) y).mp hy

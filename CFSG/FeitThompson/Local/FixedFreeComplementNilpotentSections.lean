@@ -61,7 +61,7 @@ theorem isInvariantSubgroup_subgroupOf_conjSubgroupAut [H.Normal] [N.Normal] :
   refine le_antisymm ?_ ?_
   · rintro x ⟨y, hy, rfl⟩
     simp only [SetLike.mem_coe, mem_subgroupOf] at hy ⊢
-    rw [MonoidHom.coe_coe, coe_conjSubgroupAut_apply]
+    rw [_root_.MonoidHom.coe_ofClass, coe_conjSubgroupAut_apply]
     exact ‹N.Normal›.conj_mem _ hy _
   · intro x hx
     rw [mem_subgroupOf] at hx
@@ -69,7 +69,7 @@ theorem isInvariantSubgroup_subgroupOf_conjSubgroupAut [H.Normal] [N.Normal] :
     · simp only [SetLike.mem_coe, mem_subgroupOf, coe_conjSubgroupAut_apply, InvMemClass.coe_inv]
       simpa using ‹N.Normal›.conj_mem _ hx (a : L)⁻¹
     · refine Subtype.ext ?_
-      rw [MonoidHom.coe_coe, coe_conjSubgroupAut_apply, coe_conjSubgroupAut_apply,
+      rw [_root_.MonoidHom.coe_ofClass, coe_conjSubgroupAut_apply, coe_conjSubgroupAut_apply,
         InvMemClass.coe_inv]
       group
 

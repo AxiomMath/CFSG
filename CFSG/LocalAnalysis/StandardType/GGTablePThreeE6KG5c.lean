@@ -66,7 +66,7 @@ private theorem e6_split_concl {lab : LargeEvenLabel} (hsplit : LargeEvenSplit 3
     · exact Or.inl ⟨rfl, hdiv⟩
     · exact absurd hunt (by simp [LargeEvenUntwisted])
   · rcases htag with rfl | rfl
-    · exact absurd trivial (by simpa [LargeEvenUntwisted] using hunt)
+    · exact absurd trivial (by simp [LargeEvenUntwisted] at hunt)
     · exact Or.inr ⟨rfl, hdiv⟩
   · rcases htag with rfl | rfl <;> rcases htag' with htag'' | htag'' <;>
       exact absurd htag'' (by simp)
@@ -246,7 +246,7 @@ theorem kg5c_E6eps
   have hTw : TwE6A2CentreCont labD.n R I F := hQ2.2
   obtain ⟨hfinC, hCperf, θC, κ, lift, hκsurj, hκker, hκmk, hκlift, hkg⟩ :=
     CFSG.StandardType.KGUniv.exists_universal_cover_lift hX θ
-  haveI : Finite (CFSG.RankThree.PerfectCover.HopfCover R) := hfinC
+  have : Finite (CFSG.RankThree.PerfectCover.HopfCover R) := hfinC
   have hα3 : (lift δ) ^ 3 = 1 := by
     simpa using congrArg lift hδ3
   have hαne : lift δ ≠ 1 := by

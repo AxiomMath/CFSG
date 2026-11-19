@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_preTil_fixV_actTil_mod {V₀ V C : Subgroup G} (hV : IsElemAbelian 2 V)
     {t : G} (hts : t ∈ stabTil V₀ V) (hCV : C ≤ V)
     (hCt : ∀ c ∈ C, t * c * t⁻¹ * c⁻¹ ∈ V₀) :
@@ -22,14 +23,14 @@ private theorem le_preTil_fixV_actTil_mod {V₀ V C : Subgroup G} (hV : IsElemAb
   rw [mem_fixV_zpowers, actTil_mk, mkTil_eq_iff, actStab_apply_val]
   exact hCt c hc
 
-theorem mem_cTilde_of_mQuot_lt_mod {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V)
+theorem mem_cTilde_of_mQuot_lt_mod {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (_hV₀ : V₀ ≤ V)
     (hM : M ≤ Subgroup.normalizer (V : Set G))
     (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G)) {t : G} (ht : t ∈ M)
     (ht2 : ∃ k : ℕ, orderOf t = 2 ^ k) {C : Subgroup G} (hCV : C ≤ V)
     (hCt : ∀ c ∈ C, t * c * t⁻¹ * c⁻¹ ∈ V₀)
     (hlt : (E3.mQuot V C : ℕ∞) < (mBar M V₀ V hV : ℕ∞)) :
     t ∈ F11.CTilde M V₀ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMs : M ≤ stabTil V₀ V := le_inf hM hM₀
   have hts : t ∈ stabTil V₀ V := hMs ht
   by_contra hmem
@@ -67,6 +68,7 @@ namespace Cex16
 
 variable {M V₀ V U S : Subgroup G}
 
+omit [Finite G] in
 theorem comm_mem_V₀_of_mem_sup (h : Cex16 M V₀ V U S) {t : G} (ht : t ∈ M ⊓ centralizer (U : Set G))
     {c : G} (hc : c ∈ U ⊔ V₀) : t * c * t⁻¹ * c⁻¹ ∈ V₀ := by
   have hH := h.hyp
@@ -96,7 +98,7 @@ theorem mem_cTilde_of_orderOf (h : Cex16 M V₀ V U S) {t : G}
     (fun _ hc => h.comm_mem_V₀_of_mem_sup ht hc) hlt
 
 theorem S_le_cTilde (h : Cex16 M V₀ V U S) : S ≤ F11.CTilde M V₀ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro t ht
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 h.sylow.isPGroup) ⟨t, ht⟩
   exact h.mem_cTilde_of_orderOf (h.sylow.le ht)

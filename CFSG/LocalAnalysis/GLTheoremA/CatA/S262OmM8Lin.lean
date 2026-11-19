@@ -21,17 +21,20 @@ open CFSG.AGLEmbedding.ToralCensus
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem three_ne_zero : ((3 : ℕ) : K) ≠ 0 := by
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   rw [show ((3 : ℕ) : K) = 2 + 1 by norm_num, h2, zero_add]
   exact one_ne_zero
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem two_eq_zero_end : (2 : Module.End K V) = 0 := by
   have h2K : (2 : K) = 0 := CharP.cast_eq_zero K 2
   rw [← Nat.cast_two, ← map_natCast (algebraMap K (Module.End K V))]
   exact (congrArg (algebraMap K (Module.End K V)) h2K).trans (map_zero _)
 
-theorem eIdem_ring_identity {X Y : Module.End K V} (hX : X ^ 3 = 1) (hY : Y ^ 3 = 1)
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
+theorem eIdem_ring_identity {X Y : Module.End K V} (_hX : X ^ 3 = 1) (hY : Y ^ 3 = 1)
     (hXY : X * Y = Y * X) (h2 : (2 : Module.End K V) = 0) :
     (1 + X + X ^ 2) + (1 + Y + Y ^ 2) + (1 + X * Y + (X * Y) ^ 2) +
       (1 + X * Y ^ 2 + (X * Y ^ 2) ^ 2) + (1 + X + X ^ 2) * (1 + Y + Y ^ 2) = 1 := by
@@ -63,6 +66,7 @@ theorem eIdem_ring_identity {X Y : Module.End K V} (hX : X ^ 3 = 1) (hY : Y ^ 3 
 @[expose] noncomputable def eIdem (g : V ≃ₗ[K] V) : Module.End K V :=
   1 + (g : Module.End K V) + (g : Module.End K V) ^ 2
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem coe_mul_eIdem {g : V ≃ₗ[K] V} (hg : g ^ 3 = 1) :
     (g : Module.End K V) * eIdem g = eIdem g := by
   have h3 : (g : Module.End K V) ^ 3 = 1 := by
@@ -75,12 +79,14 @@ theorem coe_mul_eIdem {g : V ≃ₗ[K] V} (hg : g ^ 3 = 1) :
       (pow_succ' (g : Module.End K V) 2).symm, h3]
   noncomm_ring
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem eIdem_apply_mem_fixedSpace {g : V ≃ₗ[K] V} (hg : g ^ 3 = 1) (v : V) :
     eIdem g v ∈ fixedSpace g := by
   rw [mem_fixedSpace]
   show (g : Module.End K V) (eIdem g v) = eIdem g v
   rw [← Module.End.mul_apply, coe_mul_eIdem hg]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem sup_fixedSpace_eq_top_of_commute {x y : V ≃ₗ[K] V} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
     (hcomm : Commute x y) :
     fixedSpace x ⊔ fixedSpace y ⊔ fixedSpace (x * y) ⊔ fixedSpace (x * y ^ 2) = ⊤ := by
@@ -124,6 +130,7 @@ theorem sup_fixedSpace_eq_top_of_commute {x y : V ≃ₗ[K] V} (hx : x ^ 3 = 1) 
     · exact eIdem_apply_mem_fixedSpace hxy3 v
   · exact eIdem_apply_mem_fixedSpace hxy23 v
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_le_sum_finrank_sub_four {U₁ U₂ U₃ U₄ W : Submodule K V}
     (h1 : W ≤ U₁) (h2 : W ≤ U₂) (h3 : W ≤ U₃) (h4 : W ≤ U₄)
     (hsup : U₁ ⊔ U₂ ⊔ U₃ ⊔ U₄ = ⊤) :
@@ -157,7 +164,8 @@ theorem finrank_le_sum_finrank_sub_four {U₁ U₂ U₃ U₄ W : Submodule K V}
   have hwd : finrank K W ≤ finrank K U₄ := Submodule.finrank_mono h4
   omega
 
-theorem even_finrank_inf_fixedSpace (hQ : (polarBilin Q).Nondegenerate)
+omit [Finite K] in
+theorem even_finrank_inf_fixedSpace (_hQ : (polarBilin Q).Nondegenerate)
     {x y : V ≃ₗ[K] V} (hx : OddOrderIsometry Q 3 x) (hy3 : y ^ 3 = 1)
     (hyO : y ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hcomm : Commute x y) :
     Even (finrank K (fixedSpace x ⊓ fixedSpace y : Submodule K V)) := by
@@ -192,13 +200,14 @@ theorem even_finrank_inf_fixedSpace (hQ : (polarBilin Q).Nondegenerate)
   rw [hfix, he] at hW
   exact hW
 
-theorem charSum_modEq_one_of_disjoint [Fintype V] (hK : Nat.card K = 2)
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
+theorem charSum_modEq_one_of_disjoint [Fintype V] (_hK : Nat.card K = 2)
     {x y : V ≃ₗ[K] V} (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (hcomm : Commute x y)
     (hxQ : ∀ v, Q (x v) = Q v) (hyQ : ∀ v, Q (y v) = Q v)
     (hW : fixedSpace x ⊓ fixedSpace y = ⊥) :
     (∑ v, chi (Q v)) ≡ 1 [ZMOD 3] := by
   classical
-  letI : Fintype ↥(fixedSpace x) := Fintype.ofFinite _
+  let : Fintype ↥(fixedSpace x) := Fintype.ofFinite _
   have hyC : y ∈ isometryCentralizer Q x := by
     refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩
     · rw [TauCeti.QuadraticMap.mem_orthogonalGroup_iff]
@@ -272,10 +281,11 @@ theorem charSum_modEq_one_of_disjoint [Fintype V] (hK : Nat.card K = 2)
   have h1 := charSum_modEq_fixed Q x hxQ hx3
   have hsub1 : (∑ v ∈ Finset.univ.filter (fun v : V => x v = v), chi (Q v)) =
       ∑ u : fixedSpace x, chi (Q₁ u) :=
-    Finset.sum_subtype (p := (· ∈ fixedSpace x)) _ (fun v => by simp [mem_fixedSpace, Q₁]) _
+    Finset.sum_subtype (p := (· ∈ fixedSpace x)) _ (fun v => by simp [mem_fixedSpace]) _
   rw [hsub1] at h1
   exact h1.trans h2
 
+omit [Finite K] in
 theorem false_of_fixedSpace_le_three [Fintype V]
     (hK : Nat.card K = 2) (hQ : (polarBilin Q).Nondegenerate)
     (hdim : finrank K V = 8) (hS : (∑ v, chi (Q v)) = -16)
@@ -319,6 +329,7 @@ theorem false_of_fixedSpace_le_three [Fintype V]
   rw [hS] at hmod
   norm_num at hmod
 
+omit [Finite K] in
 theorem exists_fixedSpace_finrank_ge_four [Fintype V]
     (hK : Nat.card K = 2) (hQ : (polarBilin Q).Nondegenerate)
     (hdim : finrank K V = 8) (hS : (∑ v, chi (Q v)) = -16)
@@ -331,7 +342,7 @@ theorem exists_fixedSpace_finrank_ge_four [Fintype V]
     intro a ha ha1
     have := hcon a ha ha1
     omega
-  haveI : Nontrivial ↥A := by
+  have : Nontrivial ↥A := by
     rw [← Finite.one_lt_card_iff_nontrivial, h9]
     norm_num
   obtain ⟨x, hxA, hx1⟩ := Subgroup.exists_ne_one_of_nontrivial A
@@ -342,7 +353,7 @@ theorem exists_fixedSpace_finrank_ge_four [Fintype V]
     intro hle
     have := Subgroup.card_le_of_le hle
     omega
-  obtain ⟨y, hyA, hyx⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨y, hyA, hyx⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hy1 : y ≠ 1 := fun h => hyx (h ▸ Subgroup.one_mem _)
   have hy3 : y ^ 3 = 1 := hA.2 y hyA
   have hcomm : Commute (x : V ≃ₗ[K] V) (y : V ≃ₗ[K] V) := by
@@ -376,12 +387,12 @@ theorem exists_fixedSpace_finrank_ge_four [Fintype V]
     (h3 (x * y ^ 2) (A.mul_mem hxA (Subgroup.pow_mem A hyA 2)) hxy21)
 
 theorem not_exists_totallySingular_fixed_minus_four [Fintype V]
-    (hK : Nat.card K = 2) (hQ : (polarBilin Q).Nondegenerate)
-    (hdim : finrank K V = 8) (hS : (∑ v, chi (Q v)) = -16)
+    (hK : Nat.card K = 2) (_hQ : (polarBilin Q).Nondegenerate)
+    (_hdim : finrank K V = 8) (hS : (∑ v, chi (Q v)) = -16)
     {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q 3 x) (hd : finrank K (fixedSpace x) = 4) :
     ¬ ∃ W : Submodule K V, W ≤ fixedSpace x ∧ finrank K W = 2 ∧ ∀ w ∈ W, Q w = 0 := by
   classical
-  letI : Fintype ↥(fixedSpace x) := Fintype.ofFinite _
+  let : Fintype ↥(fixedSpace x) := Fintype.ofFinite _
   rintro ⟨W, hWle, hWdim, hWQ⟩
   let W' : Submodule K ↥(fixedSpace x) := W.comap (fixedSpace x).subtype
   have hW'dim : finrank K W' = 2 := by

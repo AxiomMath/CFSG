@@ -46,8 +46,8 @@ theorem exists_zpow_mul_of_mem_glPi (hK : PiField π p f F) (hq : ModThree π (p
     ∃ j : ℤ, ∃ s ∈ slPi π 3 (p ^ f) F,
       ProjGenLinGroup.mk m = ProjGenLinGroup.mk y ^ j * ProjGenLinGroup.mk s := by
   have hπ : π = false → UnitaryFieldData p f F := fun h => by subst h; exact hK.unitary
-  haveI : Finite F := hK.finite
-  haveI : Finite (ProjGenLinGroup (Fin 3) F) :=
+  have : Finite F := hK.finite
+  have : Finite (ProjGenLinGroup (Fin 3) F) :=
     Finite.of_surjective (ProjGenLinGroup.mk : GL (Fin 3) F →* _) (QuotientGroup.mk'_surjective _)
   set D := projImage (glPi π 3 (p ^ f) F) with hDdef
   set D' := projImage (slPi π 3 (p ^ f) F) with hD'def

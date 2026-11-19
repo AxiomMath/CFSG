@@ -149,9 +149,8 @@ theorem componentType_oddLieType_of_blueprint (hB : TypewiseBridges)
     · exact .inl ⟨.POmegaOdd, n, p, f, inferInstance, hp2, (hO X n p f).1 hc⟩
     · exact .inl ⟨.POmegaPlus, n, p, f, inferInstance, hp2, (hO X n p f).2.1 hc⟩
     · exact .inl ⟨.POmegaMinus, n, p, f, inferInstance, hp2, (hO X n p f).2.2 hc⟩
-  all_goals first
+  all_goals try first
     | exact absurd hs.1 hp2
-    | skip
   · obtain ⟨d, hd, he'⟩ := exists_index_of_exceptional hB hp hp2 (.inl he)
     refine .inr ⟨d, ?_, ?_, he'⟩ <;> obtain ⟨⟨_ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |
       _ | _ | _ | _ | _, _⟩⟩ := d <;> cases t <;>

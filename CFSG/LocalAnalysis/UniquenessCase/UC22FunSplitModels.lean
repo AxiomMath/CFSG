@@ -19,7 +19,7 @@ theorem exists_sl2_or_psl2_of_isFundamentalOver {X : Type} [Group X] {q : ℕ}
         Nonempty (K ≃* PSL(2, GaloisField p e))) := by
   obtain ⟨p, e₀, e, hp, hp2, he₀, hq, he, φ, hφrange, hφker⟩ :=
     uc22s2112r34_exists_sl2_cover hK
-  letI : Fact p.Prime := hp
+  let : Fact p.Prime := hp
   let φK : SL(2, GaloisField p e) →* K :=
     φ.codRestrict K fun g => by
       rw [← hφrange]

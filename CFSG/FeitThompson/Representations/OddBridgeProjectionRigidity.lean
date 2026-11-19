@@ -73,7 +73,7 @@ theorem cfInner_eq_sub_ite_of_sum_smul_eq (he : IsOrthonormalFamily e) {f : G �
   rw [h]
   by_cases hs : s = r₁
   · subst hs; simp
-  · rw [if_neg hs, if_neg (Ne.symm hs)]
+  · rw [ite_eq_right hs, ite_eq_right (Ne.symm hs)]
     push_cast
     ring
 
@@ -232,7 +232,7 @@ theorem eq_prodCharEta_sub_of_isOrthonormal_of_odd (hW : IsCyclicTIPair W W1 W2)
       hP0e r₁,
       hW.cfInner_prodCharEtaColSum_prodCharEta hσ (principalIrr ↥W2) i j,
       hW.cfInner_prodCharEtaColSum_prodCharEta hσ (principalIrr ↥W2) i (principalIrr ↥W2),
-      if_neg (Ne.symm hj), if_pos rfl]
+      ite_eq_right (Ne.symm hj), ite_eq_left rfl]
     ring
   have haeven : (2 : ℤ) ∣ a := by
     obtain ⟨p, hp⟩ := exists_int_cfInner_of_mem_span_Irr hP0mem

@@ -123,7 +123,7 @@ theorem exists_subgroups_of_almostSimple_overgroups
   have hρS₀ : IsPGroup 2 ρ.range :=
     IsPGroup.of_surjective hB ρ.rangeRestrict ρ.rangeRestrict_surjective
   let A : Subgroup (MulAut ↥L) := innAutOf ↥L ⊔ ρ.range
-  haveI : Finite (MulAut ↥L) :=
+  have : Finite (MulAut ↥L) :=
     Finite.of_injective (fun f : MulAut ↥L => (f : ↥L → ↥L)) DFunLike.coe_injective
   obtain ⟨S, hSylowOf, hρS⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.exists_isSylowOf_ge_of_isPGroup hρS₀

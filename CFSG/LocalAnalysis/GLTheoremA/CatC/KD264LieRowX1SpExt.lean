@@ -99,7 +99,7 @@ theorem extFun_on_Wc (φ : U ≃ₗ[ZMod 2] U) (w : Wc) :
   simpa using h
 
 theorem conj_extFun (g : W ≃ₗ[ZMod 2] W) (hU : ∀ u ∈ U, g u ∈ U)
-    (hUi : ∀ u ∈ U, g.symm u ∈ U) (hW : ∀ w ∈ Wc, g w ∈ Wc) (hWi : ∀ w ∈ Wc, g.symm w ∈ Wc)
+    (hUi : ∀ u ∈ U, g.symm u ∈ U) (_hW : ∀ w ∈ Wc, g w ∈ Wc) (hWi : ∀ w ∈ Wc, g.symm w ∈ Wc)
     (φ : U ≃ₗ[ZMod 2] U) :
     g * extFun U Wc hc φ * g.symm =
       extFun U Wc hc (restrictU U g hU hUi * φ * (restrictU U g hU hUi).symm) := by

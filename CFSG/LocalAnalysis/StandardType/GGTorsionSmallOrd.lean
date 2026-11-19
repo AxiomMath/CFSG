@@ -45,7 +45,7 @@ private theorem ts_not_three_dvd_ordSuzuki {n : ℕ} (hn : Odd n) :
     have hge : 1 ≤ 2 ^ n := by omega
     have hpow : 2 ^ n = (2 ^ n - 1) + 1 := by omega
     have : 2 ^ n % 3 = 1 := by
-      rw [hpow, Nat.add_mod, hz] <;> norm_num
+      rw [hpow, Nat.add_mod, hz]
     omega
 
 theorem ggTorsionKnownOver_smallOrd :
@@ -57,7 +57,7 @@ theorem ggTorsionKnownOver_smallOrd :
     largeEvenMarking_exists_markedModel hmark
   obtain ⟨hJge, h3J⟩ := ggTorsion_marking_card hJ
   obtain ⟨H, hHne, hJdvdH⟩ := ggTorsion_dvd_proper hX θ hδ1 hcomp.1
-  haveI : Finite R := Finite.of_equiv (X ⧸ Subgroup.center X) θ.toEquiv
+  have : Finite R := Finite.of_equiv (X ⧸ Subgroup.center X) θ.toEquiv
   have hHdvdR : Nat.card ↥H ∣ Nat.card R := Subgroup.card_subgroup_dvd_card H
   have hHleR : Nat.card ↥H ≤ Nat.card R :=
     Nat.card_le_card_of_injective H.subtype H.subtype_injective

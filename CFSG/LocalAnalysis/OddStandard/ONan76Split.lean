@@ -71,8 +71,8 @@ theorem conj_vec_s (p r : Vec n) (i : ℕ) :
     _ = _ := by rw [hF.s_pow_mul_vec, ← mul_assoc, ← hF.vec_add]
 
 theorem vec_one_zero_one (hn : 1 ≤ n) : vec v₁ v₂ v₃ ((1, 0, 1) : Vec n) = v₁ * v₃ := by
-  rw [show ((1, 0, 1) : Vec n) = (1, 0, 0) + (0, 0, 1) by simp, hF.vec_add, hF.vec_e1 hn,
-    hF.vec_e3 hn]
+  rw [show ((1, 0, 1) : Vec n) = (1, 0, 0) + (0, 0, 1) by simp, hF.vec_add, CFSG.OddStandard.ONan76.AlperinFrame.vec_e1 hn,
+    CFSG.OddStandard.ONan76.AlperinFrame.vec_e3 hn]
 
 theorem conj_vec_s_vec (q p : Vec n) (i : ℕ) :
     vec v₁ v₂ v₃ q * s ^ i * vec v₁ v₂ v₃ p * (vec v₁ v₂ v₃ q * s ^ i)⁻¹ =

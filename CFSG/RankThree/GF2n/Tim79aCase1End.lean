@@ -73,7 +73,7 @@ theorem pCap_wOf_le_V
       · exact (Subgroup.mem_normalizer_iff.1 (hc.M_le_normalizer_P hm) t).1 ht.1
       · calc m * t * m⁻¹ * (m * t * m⁻¹) = m * (t * t) * m⁻¹ := by group
           _ = 1 := by rw [ht.2]; group
-    | one => simpa using L.one_mem
+    | one => simp
     | mul a b _ _ iha ihb =>
       have : m * (a * b) * m⁻¹ = m * a * m⁻¹ * (m * b * m⁻¹) := by group
       rw [this]
@@ -96,7 +96,7 @@ theorem sq_central_of_mem_P
     (hA6 : ∀ v ∈ V, v ∉ wOf V H → ∀ w ∈ wOf V H, v * w = w * v → w ∈ P) :
     ∀ x ∈ P, ∀ w ∈ wOf V H, x * x * w = w * (x * x) := by
   intro x hxP
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
   have hsqF : (⟨x, hxP⟩ : P) ^ 2 ∈ frattini ↥P :=
     CFSG.pth_power_mem_frattini_of_isPGroup (R := ↥P) (p := 2) _
   have hxV : x * x ∈ V := hc.frattini_P_le ⟨_, hsqF, by simp [pow_two]⟩

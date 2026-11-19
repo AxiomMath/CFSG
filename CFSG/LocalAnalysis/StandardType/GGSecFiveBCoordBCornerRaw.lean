@@ -322,7 +322,7 @@ private lemma row_two_of_zero {r : ℕ} (hr : 4 ≤ r) {W : Submodule F (V r)} {
     apply hns
     have hS2 : S.card = 2 := by rw [hScard, hr4]
     simp only [label]
-    rw [if_pos hS2]
+    rw [ite_eq_left hS2]
   refine ⟨k, l, hkl, s, hs, hWkl, hsupp, ?_, h5⟩
   rw [hS']
 

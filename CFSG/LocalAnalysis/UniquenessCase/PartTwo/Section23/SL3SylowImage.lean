@@ -86,7 +86,7 @@ private theorem phiT_mem_H_of_sl3 (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hm : 2 ≤ CFSG.Open.pRank 2 D.Z)
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z))
     (t : ↥D.T) : c.phiT hV t ∈ c.H hV := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZel : IsElemAbelian 2 D.Z :=
     CFSG.CGT.PushingUpLit.CGT6.isElemAbelian_omegaOneCenterIn D.T
   have hZcard : Nat.card D.Z = 2 ^ CFSG.Open.pRank 2 D.Z :=
@@ -117,7 +117,7 @@ theorem phiT_mem_sylowStar_of_sl3 (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hnat : CFSG.Quasithin.BinaryNaturalSL (c.H hV) ⊤ ⊥ 3 (CFSG.Open.pRank 2 D.Z))
     (t : ↥D.T) :
     ∃ s ∈ (c.sylowStar hV : Subgroup ↥(c.H hV)), (s : MulAut (c.W hV)) = c.phiT hV t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTstar_le_H : c.Tstar hV ≤ c.H hV := Tstar_le_H c hV hm hnat
   let TstarH : Subgroup ↥(c.H hV) := (c.Tstar hV).subgroupOf (c.H hV)
   have hTstarH : IsPGroup 2 TstarH := (c.isPGroup_Tstar hV).comap_subtype
@@ -130,7 +130,7 @@ theorem phiT_mem_sylowStar_of_sl3 (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
   let Q : Subgroup ↥(c.H hV) :=
     (TstarH : Subgroup ↥(c.H hV)) ⊔ (c.sylowStar hV : Subgroup ↥(c.H hV))
   have hsup : IsPGroup 2 Q :=
-    IsPGroup.to_sup_of_normal_left' hTstarH (c.sylowStar hV).isPGroup' hnorm
+    IsPGroup.to_sup_of_normal_left' hTstarH (c.sylowStar hV).isPGroup hnorm
   have heq : Q = (c.sylowStar hV : Subgroup ↥(c.H hV)) :=
     le_antisymm (((c.sylowStar hV).maximal_isPGroup).2 hsup le_sup_right) le_sup_right
   let sH : ↥(c.H hV) := ⟨c.phiT hV t, phiT_mem_H_of_sl3 c hV hm hnat t⟩

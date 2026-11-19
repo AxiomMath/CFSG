@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] (D : SplitData G)
 
+omit [Finite G] in
 theorem T_le_X : D.T ≤ D.X := inf_le_left
 
 theorem commutator_T_eq : (commutator D.T).map D.T.subtype = closure {D.u, D.v} := by
@@ -41,7 +42,7 @@ theorem commutator_T_eq : (commutator D.T).map D.T.subtype = closure {D.u, D.v} 
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (mem_centralizer_iff.mp (hT_cent hx) y.1 y.2)
-  haveI : N.Normal := Subgroup.normal_of_le_center hN_le_center
+  have : N.Normal := Subgroup.normal_of_le_center hN_le_center
   let Q := ↥D.T ⧸ N
   let q : ↥D.T →* Q := QuotientGroup.mk' N
   let gens : Set ↥D.T :=
@@ -194,7 +195,7 @@ theorem commutator_T_eq : (commutator D.T).map D.T.subtype = closure {D.u, D.v} 
         · exact ⟨⟨D.r, D.r_mem_T⟩, by simp [gens], rfl⟩
     simpa [h2] using h1
   have hQ : IsMulCommutative Q := by
-    haveI : IsMulCommutative (⊤ : Subgroup Q) := by
+    have : IsMulCommutative (⊤ : Subgroup Q) := by
       rw [← hS_top]
       exact Subgroup.isMulCommutative_closure hpair
     refine IsMulCommutative.of_comm fun x y => ?_
@@ -243,7 +244,7 @@ theorem commutator_M_eq : (commutator D.M).map D.M.subtype = zpowers D.v := by
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (mem_centralizer_iff.mp (hH_cent hx) y.1 y.2)
-  haveI : N.Normal := Subgroup.normal_of_le_center hN_le_center
+  have : N.Normal := Subgroup.normal_of_le_center hN_le_center
   let Q := ↥D.M ⧸ N
   let q : ↥D.M →* Q := QuotientGroup.mk' N
   let gens : Set ↥D.M := {⟨D.a, Subgroup.subset_closure (by simp)⟩,
@@ -345,7 +346,7 @@ theorem commutator_M_eq : (commutator D.M).map D.M.subtype = zpowers D.v := by
         · exact ⟨⟨D.w, Subgroup.subset_closure (by simp)⟩, by simp [gens], rfl⟩
     simpa [h2] using h1
   have hQ : IsMulCommutative Q := by
-    haveI : IsMulCommutative (⊤ : Subgroup Q) := by
+    have : IsMulCommutative (⊤ : Subgroup Q) := by
       rw [← hS_top]
       exact Subgroup.isMulCommutative_closure hpair
     refine IsMulCommutative.of_comm fun x y => ?_

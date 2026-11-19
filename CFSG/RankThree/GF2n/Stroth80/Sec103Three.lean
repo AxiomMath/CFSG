@@ -29,7 +29,7 @@ theorem Good101.exists_mem_inf_comm_eq (h34 : Stroth34Statement)
     (hhQ : h ∈ Q) (hz : z ∈ Z) {m : G} (hm : m ∈ M) (htm : t ∈ conjSubgroup m (LB M Q B))
     (hnc : ¬ conjSubgroup m B ≤ Subgroup.centralizer ({h} : Set G)) :
     ∃ a ∈ Q ⊓ QB Y ⊓ Vt M (LB M Q B) B Z t, ⁅h, a⁆ = z := by
-  obtain ⟨b, hb, hbc⟩ := SetLike.not_le_iff_exists.mp hnc
+  obtain ⟨b, hb, hbc⟩ := IsConcreteLE.not_le_iff_exists.mp hnc
   have hbh : b * h ≠ h * b := fun e =>
     hbc (Subgroup.mem_centralizer_singleton_iff.mpr e)
   obtain ⟨β, hβ, hβh⟩ := (hc.conj_of_mem hm).exists_mem_comm_eq hb hhQ hbh (Z.inv_mem hz)

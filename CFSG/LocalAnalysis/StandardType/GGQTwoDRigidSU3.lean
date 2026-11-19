@@ -121,7 +121,7 @@ private theorem centralizer_diagSub_le (hK : Nat.card K = 4) :
       Matrix.diagonal (unitLambdaDiag ((g : Kˣ) : K) 0 1) := hM
   have htA : t ∈ diagSub := by
     intro i j hij
-    rw [htmat, Matrix.diagonal_apply, if_neg hij]
+    rw [htmat, Matrix.diagonal_apply, ite_eq_right hij]
   have hcomm := hy t htA
   have hmat := congrArg (fun z : Su K 2 1 3 =>
     ((z : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) hcomm
@@ -170,7 +170,7 @@ private theorem sum_cube_col (g : Su K 2 1 3) (l : Fin 3) :
     ∑ k : Fin 3, (((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) k l) ^ 3 = 1 := by
   have h := congrFun (congrFun g.2.2 l) l
   simp only [conjTr, Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply,
-    Matrix.one_apply, unitaryInvolution_apply, pow_one, if_true] at h
+    Matrix.one_apply, unitaryInvolution_apply, pow_one, ite_true] at h
   simpa only [pow_succ] using h
 
 private theorem coordBlockSU_entry_unique (hK : Nat.card K = 4) {J : Finset (Fin 3)}
@@ -329,11 +329,11 @@ private theorem diagSub_eq_mul_coordBlocks (hK : Nat.card K = 4) {g : Su K 2 1 3
   have hg1A : g1 ∈ diagSub := by
     intro i j hij
     change ((diagGL d1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) i j = 0
-    rw [coe_diagGL, Matrix.diagonal_apply, if_neg hij]
+    rw [coe_diagGL, Matrix.diagonal_apply, ite_eq_right hij]
   have hg2A : g2 ∈ diagSub := by
     intro i j hij
     change ((diagGL d2 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) i j = 0
-    rw [coe_diagGL, Matrix.diagonal_apply, if_neg hij]
+    rw [coe_diagGL, Matrix.diagonal_apply, ite_eq_right hij]
   have hd12 : d1 * d2 = u := by
     funext i
     fin_cases i <;> simp [d1, d2]
@@ -426,7 +426,7 @@ theorem mulAut_su3_eq_one (hK : Nat.card K = 4) (α : MulAut (Su K 2 1 3)) {k : 
     rw [hft, htmat, Matrix.diagonal_map (f := σ) (map_zero σ)] at h
     rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal] at h
     have h00 := congrFun (congrFun h 0) 0
-    simp only [Matrix.diagonal_apply, unitLambdaDiag, if_true] at h00
+    simp only [Matrix.diagonal_apply, unitLambdaDiag, ite_true] at h00
     have hσu : σ (a : K) = (a : K) := by
       calc σ (a : K) = (d 0 : K) * σ (a : K) * ((d 0 : K)⁻¹) :=
             (conj_eq_self_of_ne_zero _ _ (d 0).ne_zero).symm

@@ -43,7 +43,7 @@ theorem isSylowOf_of_card_le_two_mul {K L B : Subgroup G} (hKL : K ≤ L) (hK : 
   have hKS : K ≤ (Q : Subgroup L).map L.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hKL]
     exact Subgroup.map_mono hKQ
-  have hcard := hS _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map L.subtype)
+  have hcard := hS _ (Subgroup.map_subtype_le _) (Q.isPGroup.map L.subtype)
   exact ⟨Q, (Subgroup.eq_of_le_of_card_ge hKS (hcard.trans hK2)).symm⟩
 
 section Bound
@@ -253,7 +253,7 @@ theorem zpowers_commute_CJs {t₁ : G} (htC : ∀ c ∈ CJ z (s1 * s2⁻¹), t�
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hτ
   exact (Commute.zpow_left (show Commute t₁ c from htC c hc) k).eq
 
-omit hy in
+omit hy [Finite G] in
 theorem T2_le {t₁ : G} (ht₁H : t₁ ∈ H z) (hts : t₁ * (s1 * s2⁻¹) = (s1 * s2⁻¹) * t₁) :
     CJ z (s1 * s2⁻¹) ⊔ zpowers t₁ ≤
       Subgroup.centralizer ({s1 * s2⁻¹} : Set G) ⊓ H z := by

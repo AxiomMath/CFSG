@@ -76,7 +76,7 @@ theorem side_iso [Finite G] {Y : Type} [Group Y] [Finite Y]
       (∀ z : ↥L1, (z : G) ∈ Subgroup.normalizer (S : Set G) ↔
         (ψ z : Y) ∈ Subgroup.normalizer (T0 : Set Y)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSL1 : S ≤ L1 := hS.1
   obtain ⟨K1, hK1L, hK1Q, hQK1⟩ := split_of_sylow hS hS64 hQ1S hQ1e hQ1c hQ2S hQ2e hQ2c hE
   have hdecL : ∀ z ∈ L1, ∃ q ∈ pCoreOf 2 L1, ∃ k ∈ K1, q * k = z := fun z hz => by

@@ -63,13 +63,13 @@ theorem exists_gammaTwo_barSub_ne_bot {D : Data G} {V : Subgroup G} (h : Hyp125 
 
 theorem not_le_conjSubgroup_of_mem_gammaTwo {D : Data G} {V : Subgroup G} (h : Hyp125 D ⊥ V)
     (hW0 : E3.wClos V 0 D.T ≤ Subgroup.centralizer (V : Set G))
-    {A : Subgroup G} (hA : A ∈ E3.gammaSet V 2 D.T)
+    {A : Subgroup G} (_hA : A ∈ E3.gammaSet V 2 D.T)
     (hAne : ¬ A ≤ Subgroup.centralizer (V : Set G)) {g : G}
     (hAg : A ≤ conjSubgroup V g) :
     ¬ V ≤ conjSubgroup D.M g := by
   classical
   intro hVMg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVginvM : conjSubgroup V g⁻¹ ≤ D.M :=
     (E3.conjSubgroup_le_iff_le_inv (A := V) (B := D.M) g⁻¹).2
       (by simpa using hVMg)
@@ -115,7 +115,7 @@ theorem le_conjSubgroup_of_mem_gammaTwo {D : Data G} {V : Subgroup G} (h : Hyp12
     (h41_3 : (8 : ℕ∞) ≤ rMV D.M V)
     (hpR : CFSG.Open.pRank 2 (Mbar D.M ⊥ V h.isElemAbelian) ≤ 3)
     {A : Subgroup G} (hA : A ∈ E3.gammaSet V 2 D.T)
-    (hAne : barSub ⊥ V h.isElemAbelian A ≠ ⊥) {g : G}
+    (_hAne : barSub ⊥ V h.isElemAbelian A ≠ ⊥) {g : G}
     (hmA : E3.mQuot (conjSubgroup V g) A = 2)
     (hAg : A ≤ conjSubgroup V g) :
     V ≤ conjSubgroup D.M g := by

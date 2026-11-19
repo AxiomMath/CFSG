@@ -14,8 +14,8 @@ theorem nonempty_bar2_hinf_equiv_of_leviHom_of_equiv {G A : Type} [Group G] [Fin
     (P : Subgroup G) (β : ↥P →* A) (hker : IsPGroup 2 ↥β.ker) (S : Subgroup A)
     (hSR : S ≤ β.range) (hcomm : ⁅β.range, β.range⁆ ≤ S) {T : Type} [Group T] (eS : ↥S ≃* T)
     (hperf : Group.IsPerfect T) (hT : CFSG.pCore 2 T = ⊥) : Nonempty (Bar2 (Hinf P) ≃* T) := by
-  haveI : Group.IsPerfect T := hperf
-  haveI : Group.IsPerfect ↥S :=
+  have : Group.IsPerfect T := hperf
+  have : Group.IsPerfect ↥S :=
     Group.IsPerfect.ofSurjective (f := eS.symm.toMonoidHom) eS.symm.surjective
   have hSperf : ⁅S, S⁆ = S := Subgroup.commutator_eq_self (H := S)
   have hSO2 : CFSG.pCore 2 ↥S = ⊥ := by
@@ -57,7 +57,7 @@ theorem range_toGL_eq_bot_of_eq_one {K : Type} [Field K] {k : ℕ} (hk : k = 1) 
   subst hk
   rw [Subgroup.eq_bot_iff_forall]
   rintro _ ⟨A, rfl⟩
-  haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin 1) K) := inferInstance
+  have : Subsingleton (Matrix.SpecialLinearGroup (Fin 1) K) := inferInstance
   rw [Subsingleton.elim A 1]
   simp
 

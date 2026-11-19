@@ -24,14 +24,17 @@ theorem zmod5_sq_add_sq_eq_one (a b : ZMod 5) (h : a ^ 2 + b ^ 2 = 1) :
     decide
   exact h' a b h
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem mem_signedFrame_iff (F : FrameData Q) (x : V) :
     x ∈ (Set.range F.e ∪ -(Set.range F.e)) ↔ (∃ i, x = F.e i) ∨ (∃ i, -x = F.e i) := by
   simp [eq_comm]
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem signedFrame_finite (F : FrameData Q) :
     (Set.range F.e ∪ -(Set.range F.e)).Finite :=
   (Set.finite_range F.e).union (Set.finite_range F.e).neg
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem neg_mem_signedFrame (F : FrameData Q) {x : V}
     (hx : x ∈ (Set.range F.e ∪ -(Set.range F.e))) :
     -x ∈ (Set.range F.e ∪ -(Set.range F.e)) := by
@@ -40,6 +43,7 @@ theorem neg_mem_signedFrame (F : FrameData Q) {x : V}
   · right; exact ⟨i, by simp⟩
   · left; exact ⟨i, by simpa using hi⟩
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem signed_pair_of_basis (F : FrameData Q) {i j : Fin 5}
     {a b : ZMod 5} (h : a ^ 2 + b ^ 2 = 1) :
     a • F.e i + b • F.e j ∈ (Set.range F.e ∪ -(Set.range F.e)) := by
@@ -64,30 +68,35 @@ theorem signed_pair_of_basis (F : FrameData Q) {i j : Fin 5}
     rw [show (-1 : ZMod 5) • F.e j = -F.e j from neg_one_smul (ZMod 5) (F.e j)]
     simp
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem beta_e0_mem (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
     F.beta d1 d2 (F.e 0) ∈ (Set.range F.e ∪ -(Set.range F.e)) := by
   rw [FrameData.beta_e_zero]
   refine signed_pair_of_basis F (i := 0) (j := 1) ?_
   simpa [pow_two] using FrameData.O2_entry_00 (K := ZMod 5) d1
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem beta_e1_mem (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
     F.beta d1 d2 (F.e 1) ∈ (Set.range F.e ∪ -(Set.range F.e)) := by
   rw [FrameData.beta_e_one]
   refine signed_pair_of_basis F (i := 0) (j := 1) ?_
   simpa [pow_two] using FrameData.O2_entry_11 (K := ZMod 5) d1
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem beta_e2_mem (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
     F.beta d1 d2 (F.e 2) ∈ (Set.range F.e ∪ -(Set.range F.e)) := by
   rw [FrameData.beta_e_two]
   refine signed_pair_of_basis F (i := 2) (j := 3) ?_
   simpa [pow_two] using FrameData.O2_entry_00 (K := ZMod 5) d2
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem beta_e3_mem (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
     F.beta d1 d2 (F.e 3) ∈ (Set.range F.e ∪ -(Set.range F.e)) := by
   rw [FrameData.beta_e_three]
   refine signed_pair_of_basis F (i := 2) (j := 3) ?_
   simpa [pow_two] using FrameData.O2_entry_11 (K := ZMod 5) d2
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem beta_e4_mem (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
     F.beta d1 d2 (F.e 4) ∈ (Set.range F.e ∪ -(Set.range F.e)) := by
   rw [FrameData.beta_e_four]
@@ -101,6 +110,7 @@ theorem beta_e4_mem (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
   · simpa [x] using h
   · simpa using hx
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem beta_mapsTo_signedFrame (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
     Set.MapsTo (F.beta d1 d2) (Set.range F.e ∪ -(Set.range F.e))
       (Set.range F.e ∪ -(Set.range F.e)) := by
@@ -123,6 +133,7 @@ theorem beta_mapsTo_signedFrame (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
     · exact beta_e3_mem F d1 d2
     · exact beta_e4_mem F d1 d2
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem s_e_mem (F : FrameData Q) (i : Fin 5) :
     F.s (F.e i) ∈ (Set.range F.e ∪ -(Set.range F.e)) := by
   rw [mem_signedFrame_iff]
@@ -133,6 +144,7 @@ theorem s_e_mem (F : FrameData Q) (i : Fin 5) :
   · left; exact ⟨1, by simp [FrameData.s_e]⟩
   · left; exact ⟨4, by simp [FrameData.s_e]⟩
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem s_mapsTo_signedFrame (F : FrameData Q) :
     Set.MapsTo F.s (Set.range F.e ∪ -(Set.range F.e))
       (Set.range F.e ∪ -(Set.range F.e)) := by
@@ -153,6 +165,7 @@ noncomputable def frameStabilizerO (F : FrameData Q) :
   @MulAction.stabilizer (TauCeti.QuadraticMap.orthogonalGroup Q) (Set V) _
     (Set.mulActionSet) (Set.range F.e ∪ -(Set.range F.e))
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem betaSO_mem_frameStabilizerSO (F : FrameData Q) (d1 d2 : O2 (ZMod 5)) :
     F.betaSO d1 d2 ∈ frameStabilizerSO F := by
   unfold frameStabilizerSO
@@ -169,6 +182,7 @@ theorem sSO_mem_frameStabilizerSO (F : FrameData Q) :
   simpa [Subgroup.smul_def, LinearEquiv.smul_def, FrameData.sSO, FrameData.sO] using
     (s_mapsTo_signedFrame F hx)
 
+omit [FiniteDimensional (ZMod 5) V] in
 theorem betaBase_le_frameStabilizerSO (F : FrameData Q) (D : Subgroup (O2 (ZMod 5))) :
     betaBase F D ≤ frameStabilizerSO F := by
   intro g hg
@@ -273,7 +287,7 @@ theorem exists_overgroups_of_frame
     change (⁅(⊤ : Subgroup ↥(OGg (V := V) (Q := Q))),
       ⊤⁆ : Subgroup ↥(OGg (V := V) (Q := Q))).Normal
     exact Subgroup.commutator_normal _ _
-  haveI : (D0g (V := V) (Q := Q)).Normal := hDnorm
+  have : (D0g (V := V) (Q := Q)).Normal := hDnorm
   have hDconj : ∀ g : ↥(OGg (V := V) (Q := Q)),
       (D0g (V := V) (Q := Q)).map (MulAut.conj g).toMonoidHom =
         D0g (V := V) (Q := Q) := by

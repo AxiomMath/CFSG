@@ -28,7 +28,7 @@ theorem e6QTwoSix_C0_le_sup_Z
     Subgroup.centralizer (L : Set G) ⊓ (L ⊔ Bs) ≤
       Bs ⊔ (L ⊓ Subgroup.centralizer (L : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer (L : Set G)
   set Z : Subgroup G := L ⊓ C
   set C0 : Subgroup G := C ⊓ (L ⊔ Bs)

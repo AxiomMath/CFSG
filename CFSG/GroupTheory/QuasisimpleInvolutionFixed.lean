@@ -66,6 +66,7 @@ theorem exists_noncentral_commute_of_odd_center {K : Subgroup G} (hK : CFSG.IsQu
           rw [mul_assoc (v * (k * w)) v v, hv, mul_one]
       _ = k * w * v := by rw [hfix]
 
+omit [Finite G] in
 theorem le_of_normal_inf_of_noncentral_mem {K M : Subgroup G}
     (hK : CFSG.Open.IsQuasisimple ↥K) (hn : ((K ⊓ M).subgroupOf K).Normal) {k : G}
     (hk : k ∈ K) (hkZ : k ∉ Zsub K) (hkM : k ∈ M) : K ≤ M := by

@@ -29,6 +29,7 @@ private theorem inv_mul_centralizes_of_conj {G : Type} [Group G] {L : Subgroup G
     _ = t⁻¹ * (t * l * t⁻¹ * c) := by rw [h1]
     _ = l * (t⁻¹ * c) := by group
 
+omit [Finite G] in
 private theorem centralizer_dPrime_inf_L (hxL : ∀ l ∈ L, x * l = l * x) :
     L ⊓ Subgroup.centralizer (dPrime x φ₁ φ₂ : Set G) =
       Subgroup.centralizer ({bElt φ₁ φ₂} : Set G) ⊓ L := by
@@ -70,10 +71,10 @@ theorem stdSub_lb :
   have hb1 : bElt φ₁ φ₂ ≠ 1 := fun h1 => hbnot (by rw [h1]; exact Subgroup.one_mem _)
   have hx3 : x ^ 3 = 1 := hexp x hxB
   have hxord : orderOf x = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hx3 hx1
   have hbord : orderOf (bElt φ₁ φ₂) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hb3 hb1
   have hcardx : Nat.card (Subgroup.zpowers x) = 3 := by rw [Nat.card_zpowers, hxord]
   have hcardb : Nat.card (Subgroup.zpowers (bElt φ₁ φ₂)) = 3 := by

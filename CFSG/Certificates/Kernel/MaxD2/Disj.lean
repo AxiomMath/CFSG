@@ -68,7 +68,7 @@ theorem sum_bij_range {b : Nat → Nat} (hb : ∀ x < n, b x < n)
   obtain ⟨a, ha, e⟩ := hsurj z hz
   exact ⟨a, ha, e.symm⟩
 
-theorem mkey_eq (hn : szOK n w = true) {hi cw nl : Nat} {L : Nat → Nat} {g gi g' a b : Nat}
+theorem mkey_eq (_hn : szOK n w = true) {hi cw nl : Nat} {L : Nat → Nat} {g gi g' a b : Nat}
     (hm : n ≤ 64 * hi) (hg : permOK n w (mask w) (n * w) g gi = true) (hg' : ∀ y < n, pg w (mask w) g' y < n)
     (ha : LPerm n w L a) (hb : LPerm n w L b)
     (h : ∀ y < n, pg w (mask w) gi (pg w (mask w) a (pg w (mask w) g' y)) = pg w (mask w) b y) :

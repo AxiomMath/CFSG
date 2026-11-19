@@ -19,7 +19,7 @@ variable {D : Data G} {V₀ V H : Subgroup G} {i : ℕ}
 
 theorem exists_shape512 (h172 : W3Thm172Weak G) (h5_12 : Asch5_12) (c : MinCex183 D V₀ V H i)
     (h1 : ¬ Concl181 D V₀ V H) :
-    IsSolvable ↥(relPPrimeCore 3 H) ∧ relPPrimeCore 3 H ≤ H ⊓ D.M ∧ Shape512 H := by
+    Group.IsSolvable ↥(relPPrimeCore 3 H) ∧ relPPrimeCore 3 H ≤ H ⊓ D.M ∧ Shape512 H := by
   obtain ⟨hK, hT, hTlt, h3, hno, hne⟩ := c.hyps_5_13 h1
   obtain ⟨-, hcase⟩ := h5_12 G H D.T hK hT hTlt h3 hno hne
   rcases hcase with hsolv | ⟨hsolv, hle, hshape⟩

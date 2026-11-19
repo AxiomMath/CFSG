@@ -121,7 +121,7 @@ theorem bal207PlusNoSmallFive (G : ∀ (S : Type) [Group S], MulAut S → Prop) 
   obtain ⟨dd, hv⟩ := d
   cases dd with
   | tits =>
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := ctx.comp.2.2.2
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := ctx.comp.2.2.2
     have hnc := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _
       ctx.comp.2.2
     exact (excVac_false_of_glaPComponent ctx.prime ctx.comp.2.2

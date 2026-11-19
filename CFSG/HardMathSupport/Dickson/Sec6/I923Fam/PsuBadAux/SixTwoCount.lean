@@ -18,8 +18,8 @@ theorem card_modEq_fixed (g : Matrix (Fin n) (Fin n) K) (hg : g ^ 11 = 1)
     ∃ F : Submodule K (Fin n → K), F ≤ U ∧ (∀ v, v ∈ F ↔ v ∈ U ∧ g *ᵥ v = v) ∧
       Nat.card U ≡ Nat.card F [MOD 11] := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let F : Submodule K (Fin n → K) :=
     { carrier := {v | v ∈ U ∧ g *ᵥ v = v}
       add_mem' := fun {a b} ha hb => ⟨U.add_mem ha.1 hb.1, by rw [mulVec_add, ha.2, hb.2]⟩
@@ -58,8 +58,8 @@ theorem card_modEq_fixed (g : Matrix (Fin n) (Fin n) K) (hg : g ^ 11 = 1)
 
 theorem natCard_submodule (hK : Nat.card K = 4) (U : Submodule K (Fin n → K)) :
     Nat.card U = 4 ^ Module.finrank K U := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype U := Fintype.ofFinite U
   rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := K) (V := U),
     ← Nat.card_eq_fintype_card (α := K), hK]
 

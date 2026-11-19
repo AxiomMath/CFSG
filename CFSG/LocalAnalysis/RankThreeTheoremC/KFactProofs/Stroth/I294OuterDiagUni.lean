@@ -77,10 +77,10 @@ theorem uniThree_two_false {p f : ℕ} {K : Type} [Field K] [Finite K] [Fact p.P
     {L : Type} [Group L] [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠ b * a)
     (e : L ≃* StatedProj (StatedSU 3 (p ^ f) K)) : False := by
   have hc := uniThree_card_two hK hf h2
-  haveI : Finite (StatedProj (StatedSU 3 (p ^ f) K)) := by
+  have : Finite (StatedProj (StatedSU 3 (p ^ f) K)) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [hc]; norm_num
-  haveI : Finite L := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite L := Finite.of_equiv _ e.symm.toEquiv
   have hsolv : Group.IsSolvable L := by
     have h72 : Nat.card L ∣ 72 := by
       rw [Nat.card_congr e.toEquiv, hc]
@@ -92,14 +92,14 @@ theorem uniThree_two_false {p f : ℕ} {K : Type} [Field K] [Finite K] [Fact p.P
 theorem uniThree_nine_dvd {p f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData p f K)
     (hq : 2 < p ^ f) (h3 : 3 ∣ p ^ f + 1) (B : Subgroup (MulAut (unitaryPSU h 3)))
     (hB : IsElemAbelian 3 B) (hc : 27 ≤ Nat.card B) : 9 ∣ p ^ f + 1 := by
-  haveI := h.finite
+  have := h.finite
   have hp := h.prime
   have hp3 : p ≠ 3 := by
     rintro rfl
     have h1 : 3 ∣ 3 ^ f := dvd_pow_self 3 (by have := h.one_le; omega)
     have := (Nat.dvd_add_right h1).1 h3
     omega
-  haveI := h.charP
+  have := h.charP
   have h30 : (3 : K) ≠ 0 := od_three_ne_zero_of_charP hp hp3
   by_contra h9
   set N := (psuConj h).range with hN
@@ -126,7 +126,7 @@ theorem uniThree_nine_dvd {p f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData
       have h4 : psuConj h (A * A₁ * A₂) * psuField h (σ ^ 3) = 1 := h3'.symm
       have hσ3 : σ ^ 3 = 1 := (eq_one_of_psuConj_mul_psuField_eq_one _ _ h4).1
       have hord : orderOf σ = 3 := by
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact orderOf_eq_prime hσ3 hσ
       have hcard := (card_ringAut_and_isCyclic hp K h.card).1
       have h3f : 3 ∣ 2 * f := by

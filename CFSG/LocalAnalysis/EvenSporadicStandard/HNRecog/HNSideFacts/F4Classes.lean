@@ -51,7 +51,7 @@ private lemma pathEval_mem (T : Finset ℕ)
       rw [hstep]
       exact ih hwt _ (hcl l hl m hm)
 
-private lemma exists_bitmask (L : Finset ℕ) (hL : ∀ l ∈ L, l < 4) :
+private lemma exists_bitmask (L : Finset ℕ) (_hL : ∀ l ∈ L, l < 4) :
     ∃ b < 16, ∀ l < 4, b.testBit l = true ↔ l ∈ L := by
   have key : ∀ S : Finset (Fin 4), ∃ b : Fin 16, ∀ i : Fin 4,
       (b : ℕ).testBit (i : ℕ) = true ↔ i ∈ S := by decide

@@ -47,10 +47,10 @@ theorem te6_noAct_core
       | _ => simp [S10.isTE6n, onLie] at hi
   obtain ⟨n', K', hKfield, hKfinite, hn1, h3dvd, hKcard, hsimple, θ, hmark⟩ :=
     twE6Marking_holds Ω L K A d β hSetup hE6cat
-  letI := hKfield
-  letI := hKfinite
-  haveI : Finite (TwE6Delta.RecipeR K' n') := TwE6Delta.finite_recipeR hKcard
-  haveI : Finite (MulAut (TwE6Delta.RecipeR K' n')) := TwE6Delta.finite_mulAut_recipeR hKcard
+  let := hKfield
+  let := hKfinite
+  have : Finite (TwE6Delta.RecipeR K' n') := TwE6Delta.finite_recipeR hKcard
+  have : Finite (MulAut (TwE6Delta.RecipeR K' n')) := TwE6Delta.finite_mulAut_recipeR hKcard
   have hL : commutator ↥L = ⊤ := hSetup.qs.1
   let N := Subgroup.normalizer (L : Set Ω)
   have hBN : B ≤ N := hBN0
@@ -154,7 +154,7 @@ theorem te6_noAct_core
         have h := map_commutatorElement lam
           (⟨t, hTN ht⟩ : Subgroup.normalizer (L : Set Ω))
           (⟨b, hBN hb⟩ : Subgroup.normalizer (L : Set Ω))
-        convert h using 3 <;> rfl
+        convert h using 3
       rw [h1]
       exact hcomm
     exact mem_centralizer_of_ggLAut_eq_one L θ hL hlz

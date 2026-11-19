@@ -351,8 +351,8 @@ theorem ratTwo_shape_twoDHigh
     change S.D.step (z * c * z⁻¹) = z * c * z⁻¹
     calc S.D.step (z * c * z⁻¹) = z * (z⁻¹ * S.D.step (z * c * z⁻¹) * z) * z⁻¹ := by group
       _ = z * c * z⁻¹ := by rw [← h1]
-  haveI : Finite S.D.model := S.finite
-  haveI : Finite ↥C := Finite.of_injective (fun c : C => (⟨z * c * z⁻¹, hCM c c.2⟩ : S.D.model))
+  have : Finite S.D.model := S.finite
+  have : Finite ↥C := Finite.of_injective (fun c : C => (⟨z * c * z⁻¹, hCM c c.2⟩ : S.D.model))
     (fun c d hcd => by
       have h1 := congrArg Subtype.val hcd
       exact Subtype.ext (mul_left_cancel (mul_right_cancel h1)))
@@ -407,8 +407,8 @@ theorem langOuterTwo_holds :
   have hp2 : p ≠ 2 := by omega
   have hTp : rootDiagUnit τ a ^ p = 1 :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.rootDiagUnit_pow_eq_one_of_forall hap
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]

@@ -45,7 +45,7 @@ theorem gen_of_pglModel
   have hperfM : Group.IsPerfect (projImage (slPi π 3 (p ^ f) K)) :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   have hgen := ks142L3PGLGenModel_proof π p f K hπ hK hq hperfM y s hyH hsH hy3 hs hsZ hs3 hysZ
-  haveI : Finite (projImage (slPi π 3 (p ^ f) K)) := Finite.of_equiv X e.toEquiv
+  have : Finite (projImage (slPi π 3 (p ^ f) K)) := Finite.of_equiv X e.toEquiv
   have hmem : ∀ Y ∈ invSet142 (Res8Hess.conjM' hπ hyH) (Res8Hess.conjM' hπ hsH),
       Y.map e.symm.toMonoidHom ∈ {Y : Subgroup X | ¬ 3 ∣ Nat.card Y ∧
         ∀ σ ∈ P, Y.map σ.toMonoidHom ≤ Y} := by

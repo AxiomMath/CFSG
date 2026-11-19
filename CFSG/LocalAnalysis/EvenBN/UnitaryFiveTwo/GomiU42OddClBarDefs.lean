@@ -35,7 +35,7 @@ theorem u42_factorization_three_u42ProdSq {f : ℕ} (hf : 1 ≤ f) (m : ℕ) :
     have hlt : 1 < (3 ^ f) ^ (2 * j) :=
       Nat.one_lt_pow (by omega) (Nat.one_lt_pow (by omega) (by norm_num))
     omega
-  rw [Nat.factorization_prod hne, Finsupp.coe_finset_sum, Finset.sum_apply]
+  rw [Nat.factorization_prod hne, _root_.Finsupp.coe_finsetSum, Finset.sum_apply]
   apply Finset.sum_eq_zero
   intro j hj
   have hj1 : 1 ≤ j := (Finset.mem_Icc.mp hj).1

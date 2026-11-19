@@ -25,6 +25,7 @@ theorem invol_P_conj (hII : II4_4_4_center) (h31 : IVK_3_1a_lifted)
   exact (lemma_4_2 hII h31 G z S K₁ K₂ hs.fused.std
     ⟨u', Subgroup.mem_sup_left hu'P, hord', hu'c, hu'z⟩).1
 
+omit [Finite G] in
 theorem Nh_elems (cfg : Cfg88 z S K₁ W₂ U u h Y t w) :
     ∀ x ∈ Nh S h, x = 1 ∨ x = t ∨ x = w ∨ x = t * w := by
   intro x hx
@@ -44,12 +45,14 @@ theorem Nh_elems (cfg : Cfg88 z S K₁ W₂ U u h Y t w) :
   · right; left; rw [h1, h2, mul_one]
   · right; right; right; rw [h1, h2]
 
+omit [Finite G] in
 theorem tw_sq (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : (t * w) * (t * w) = 1 := by
   calc (t * w) * (t * w) = t * (w * t) * w := by group
     _ = t * (t * w) * w := by rw [← cfg.htw]
     _ = (t * t) * (w * w) := by group
     _ = 1 := by rw [cfg.ht2, cfg.hw2, one_mul]
 
+omit [Finite G] in
 theorem Nh_sq (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : ∀ x ∈ Nh S h, x * x = 1 := by
   intro x hx
   rcases Nh_elems cfg x hx with h1 | h1 | h1 | h1
@@ -58,6 +61,7 @@ theorem Nh_sq (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : ∀ x ∈ Nh S h, x * x 
   · rw [h1]; exact cfg.hw2
   · rw [h1]; exact tw_sq cfg
 
+omit [Finite G] in
 theorem S4_mem_U (cfg : Cfg88 z S K₁ W₂ U u h Y t w) (hsq : ∀ a ∈ Y, a * a ∈ U) :
     ∀ s ∈ S, s ^ 4 ∈ U := by
   intro s hs

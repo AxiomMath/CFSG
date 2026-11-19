@@ -81,7 +81,7 @@ theorem eq_bot_of_odd_normal_Xq {z : G} (hz : z * z = 1) (hz1 : z ≠ 1)
   have hcop : Nat.Coprime (Nat.card N0) N0.index := by
     rw [hN0card, hN0index]
     exact Nat.coprime_two_left.mpr hPodd'
-  haveI : N0.Normal := hN0_normal
+  have : N0.Normal := hN0_normal
   obtain ⟨K, hK⟩ := Subgroup.exists_right_complement'_of_coprime (G := P') (N := N0) hcop
   have hKcard : Nat.card K = n := by
     have h := hK.card_mul_card

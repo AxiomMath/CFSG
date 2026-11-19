@@ -25,7 +25,7 @@ section U1
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {c : G}
 
-theorem mem_oddCoreOf_coreLayer (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c))
+theorem mem_oddCoreOf_coreLayer (_hΩ : HypOmegaGen Ω) (_hc2 : IsPGroup 2 (Subgroup.zpowers c))
     {n : ↥(coreHull Ω c)} (hn : n ∈ classicalInvolutionOddCore ↥(coreHull Ω c)) :
     (((n : ↥(Subgroup.centralizer ({c} : Set G))) : G)) ∈ oddCoreOf (coreLayer Ω c) := by
   set C := Subgroup.centralizer ({c} : Set G) with hC

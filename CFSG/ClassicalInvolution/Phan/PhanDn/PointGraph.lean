@@ -317,7 +317,7 @@ theorem isFlipflopPt_stdE (hn : 1 ≤ n) :
     have h1 := congrFun h (Sum.inl (⟨0, by omega⟩ : Fin n))
     rw [stdE_inl] at h1
     simp at h1
-  · rw [flipHerm_stdE_stdE, if_pos rfl]
+  · rw [flipHerm_stdE_stdE, ite_eq_left rfl]
     exact one_ne_zero
 
 theorem ncard_ptsOn (hσ : IsUnitaryInvolution σ) [Finite K] {q : ℕ}

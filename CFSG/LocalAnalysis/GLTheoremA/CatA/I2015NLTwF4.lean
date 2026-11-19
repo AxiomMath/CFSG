@@ -79,7 +79,7 @@ private theorem twF4FixedData {a : ℕ} {K : Type} [Field K] [Finite K] [CharP K
     rw [← h3] at hcardC
     have := Nat.le_of_dvd (by norm_num) hcardC
     norm_num at this
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   exact ⟨hsC, FR.Res.nonab_of_simple hsC hnp,
     CFSG.SignalizerFunctorTheorem.CatalogBridge.nonLocalized_largeRee_of_simple hK σ hsC hcardC⟩
 
@@ -132,12 +132,12 @@ theorem twF4NLWitness {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     (hord : orderOf f = p)
     (hnot : f ∉ (MulAut.conj : LargeEvenCenterQuot (LargeEvenTwF4H a K) →* _).range) :
     NLWitness f := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
     rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨β, eT, hβord, key⟩ := twF4Lang ha hK hp hord hnot
   obtain ⟨hsC, hnaC, hNL⟩ := twF4FixedData hK hp hp2 hpa β hβord
-  haveI : Finite (ModGL F4.tag K) := finite_modGL
+  have : Finite (ModGL F4.tag K) := finite_modGL
   refine nlWitness_of_nonLocalized eT hsC hnaC hNL ?_
   rintro _ ⟨x, hx, rfl⟩
   have hx' : F4.reeGammaFieldAut K a β x = x := hx

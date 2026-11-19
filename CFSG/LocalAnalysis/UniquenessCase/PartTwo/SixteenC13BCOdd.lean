@@ -14,7 +14,7 @@ theorem s16c13bc_pCoreOf_le_oddBar (D : Data G) {V₀ V : Subgroup G} (hV : IsEl
     {p : ℕ} (hp : p ∈ D.sig) : pCoreOf p (Mbar D.M V₀ V hV) ≤ oddBar D.M V₀ V hV := by
   have hpp : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hpg : IsPGroup p ↥(pCoreOf p (Mbar D.M V₀ V hV)) :=
     (CFSG.pCore_isPGroup (p := p) (G := ↥(Mbar D.M V₀ V hV))).map (Mbar D.M V₀ V hV).subtype
   obtain ⟨n, hn⟩ := hpg.exists_card_eq
@@ -28,17 +28,17 @@ theorem s16c13bc_pCoreOf_le_oddBar (D : Data G) {V₀ V : Subgroup G} (hV : IsEl
 
 theorem s16c13bc_not_quasisimple_of_isPGroup {K : Type} [Group K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hK : CFSG.Open.IsQuasisimple K) (hpg : IsPGroup p K) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hperf, hs⟩ := hK
-  haveI : Group.IsPerfect K := ⟨hperf⟩
-  haveI := hs.toNontrivial
-  haveI : Nontrivial K := (QuotientGroup.mk'_surjective (Subgroup.center K)).nontrivial
+  have : Group.IsPerfect K := ⟨hperf⟩
+  have := hs.toNontrivial
+  have : Nontrivial K := (QuotientGroup.mk'_surjective (Subgroup.center K)).nontrivial
   exact Group.IsPerfect.not_isNilpotent K (hpg.isNilpotent)
 
 theorem s16c13bc_prime_eq_of_mem_pCoreOf {Q : Type} [Group Q] [Finite Q] {H : Subgroup Q}
     {p p' : ℕ} (hp : p.Prime) (hp' : p'.Prime) {x : Q} (hx : orderOf x = p)
     (hxH : x ∈ pCoreOf p' H) : p' = p := by
-  haveI : Fact p'.Prime := ⟨hp'⟩
+  have : Fact p'.Prime := ⟨hp'⟩
   have hpg : IsPGroup p' ↥(pCoreOf p' H) :=
     (CFSG.pCore_isPGroup (p := p') (G := ↥H)).map H.subtype
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hpg) ⟨x, hxH⟩
@@ -56,8 +56,8 @@ theorem s16c13bc_lBar_le_pCoreOf (D : Data G) {V₀ V L : Subgroup G} (hV : IsEl
     (hc : Counterex16 D V₀ V L hV) {p : ℕ} (hp : p.Prime)
     (hLp : IsPGroup p ↥(lBar V₀ V hV L)) (hL1 : lBar V₀ V hV L ≠ ⊥) :
     lBar V₀ V hV L ≤ pCoreOf p (Mbar D.M V₀ V hV) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥(lBar V₀ V hV L) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥(lBar V₀ V hV L) := Subtype.finite
   obtain ⟨n, hn⟩ := hLp.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -97,7 +97,7 @@ theorem s16c13bc_oddNcCore_of_case168_3 (D : Data G) {V₀ V L : Subgroup G}
   have h3σ : 3 ∈ D.sig := by
     rw [hsig]
     exact Set.mem_singleton 3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLp : IsPGroup 3 ↥(lBar V₀ V hV L) := IsPGroup.of_card hcard
   have hL1 : lBar V₀ V hV L ≠ ⊥ := by
     intro h
@@ -114,19 +114,19 @@ theorem s16c13bc_oddNcCore_of_case168_3 (D : Data G) {V₀ V L : Subgroup G}
 
 theorem s16c13bc_card_elemAbelianOfRank {X : Type} [Group X] {p r : ℕ} (hp : p.Prime)
     (h : IsElemAbelianOfRank p r X) : Nat.card X = p ^ r := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := h
   rw [Nat.card_congr e.toEquiv]
   simp [Nat.card_eq_fintype_card]
 
 theorem s16c13bc_isPGroup_of_elemAbelianOfRank {X : Type} [Group X] {p r : ℕ} (hp : p.Prime)
     (h : IsElemAbelianOfRank p r X) : IsPGroup p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact IsPGroup.of_card (s16c13bc_card_elemAbelianOfRank hp h)
 
 theorem s16c13bc_not_isCyclic_of_elemAbelianOfRank {X : Type} [Group X] {p r : ℕ}
     (hp : p.Prime) (hr : 2 ≤ r) (h : IsElemAbelianOfRank p r X) : ¬ IsCyclic X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := h
   intro hc
   have hc' : IsCyclic (Multiplicative (Fin r → ZMod p)) := e.isCyclic.1 hc

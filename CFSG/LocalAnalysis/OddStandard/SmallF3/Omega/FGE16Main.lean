@@ -29,7 +29,7 @@ theorem fg_exists_sylow_normalE16 {G : Type} [Group G] [Finite G] {K : Subgroup 
   have hB2 : IsPGroup 2 B := IsPGroup.of_card (p := 2) (n := 4) hB.2
   set U : Subgroup ↥(omegaProj hQ) := ffImg (ff6mPhi e) B with hUdef
   have hU : IsElemAb2 U 4 := (ff_cover_elemAb2_iff hφ hBK hB2 4).mp hB
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 h5
   have hxK : (x : G) ∈ K := (Subgroup.mem_inf.mp x.2).1
   have hxN : (x : G) ∈ normalizer (B : Set G) := (Subgroup.mem_inf.mp x.2).2
@@ -48,8 +48,8 @@ theorem fg_exists_sylow_normalE16 {G : Type} [Group G] [Finite G] {K : Subgroup 
   have hB'card : Nat.card ↥(ffLift hQ U) = 16 := by
     rw [hB'E.2]
     norm_num
-  haveI : Finite ↥(ffLift hQ U) := Nat.finite_of_card_ne_zero (by rw [hB'card]; norm_num)
-  letI : Fintype ↥(ffLift hQ U) := Fintype.ofFinite _
+  have : Finite ↥(ffLift hQ U) := Nat.finite_of_card_ne_zero (by rw [hB'card]; norm_num)
+  let : Fintype ↥(ffLift hQ U) := Fintype.ofFinite _
   obtain ⟨b, a, ha, horth, hnone, hsome, hdiag⟩ :=
     fg_frame_E16 (ffLift hQ U) hB'E hdim f hfn hf5 hf1 hQ hsgn
   obtain ⟨γ, fr, hγ⟩ := fg_conj_E16 hQ hdim (ffLift hQ U) (ffLift_le_omega hQ U) hB'card b ha

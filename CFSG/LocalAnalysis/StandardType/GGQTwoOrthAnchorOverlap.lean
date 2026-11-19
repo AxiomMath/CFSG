@@ -46,7 +46,7 @@ private theorem oaK_finRotate_castSucc {k : ℕ} {j : Fin (k + 3)}
   rw [coe_finRotate (i := Fin.castSucc j)]
   simp only [Fin.val_castSucc]
   rw [coe_finRotate (i := j)]
-  rw [if_neg (Fin.castSucc_ne_last j), if_neg hj]
+  rw [ite_eq_right (Fin.castSucc_ne_last j), ite_eq_right hj]
 
 private theorem oaK_finRotate_castSucc_last {k : ℕ} :
     finRotate (k + 4) (Fin.castSucc (Fin.last (k + 2))) = Fin.last (k + 3) := by

@@ -46,7 +46,7 @@ theorem dec_finv : ∀ c < 25, dec (finv c) = (dec c)⁻¹ := by decide +kernel
 
 theorem exists_code : ∀ x : F25, ∃ n < 25, dec n = x := by decide +kernel
 
-@[expose] def Good (A : Array ℕ) : Prop := A.size = 9 ∧ ∀ k < 9, ent A k < 25
+def Good (A : Array ℕ) : Prop := A.size = 9 ∧ ∀ k < 9, ent A k < 25
 
 theorem decMat_eq_of_eq {f g : ℕ → ℕ} (h : ∀ k < 9, f k = g k) : decMat f = decMat g := by
   ext r s
@@ -67,7 +67,7 @@ theorem decMat_mPow (A : Array ℕ) : ∀ k, decMat (ent (mPow A k)) = decMat (e
   | 0 => by rw [pow_zero]; exact decMat_mId
   | k + 1 => by rw [mPow, decMat_mMul, decMat_mPow A k, pow_succ']
 
-@[expose] noncomputable def suMat : unitarySU 5 1 F25 3 →* Matrix (Fin 3) (Fin 3) F25 :=
+noncomputable def suMat : unitarySU 5 1 F25 3 →* Matrix (Fin 3) (Fin 3) F25 :=
   (Units.coeHom _).comp (unitarySU 5 1 F25 3).subtype
 
 theorem suMat_apply (g : unitarySU 5 1 F25 3) :

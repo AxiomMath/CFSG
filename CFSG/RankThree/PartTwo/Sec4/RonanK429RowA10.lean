@@ -88,7 +88,7 @@ theorem isThreeCycle_or_card_centralizer_le {τ : Perm (Fin 10)} (h3 : τ ^ 3 = 
     rw [IsThreeCycle, hrep, hk1', Multiset.replicate_one]
   · right
     rw [nat_card_centralizer, hrep, Multiset.sum_replicate, Multiset.prod_replicate,
-      Fintype.card_fin, smul_eq_mul, Multiset.toFinset_replicate, if_neg (by omega),
+      Fintype.card_fin, smul_eq_mul, Multiset.toFinset_replicate, ite_eq_right (by omega),
       Finset.prod_singleton, Multiset.count_replicate_self]
     have : k = 2 ∨ k = 3 := by omega
     rcases this with h | h <;> rw [h] <;> decide
@@ -172,7 +172,7 @@ theorem le_aSevenIn_of_isPerfect {K : Subgroup (alternatingGroup (Fin 10))}
   map_one' := Subtype.ext (Subtype.ext (map_one embedSeven))
   map_mul' s t := Subtype.ext (Subtype.ext (map_mul embedSeven (s : Perm (Fin 7)) t))
 
-theorem iotaSeven_injective : Function.Injective iotaSeven := fun s t h =>
+theorem iotaSeven_injective : Function.Injective iotaSeven := fun _s _t h =>
   Subtype.ext (embedSeven_injective
     (congrArg (fun x : autFix (conjPerm 10 dThree) => ((x : alternatingGroup (Fin 10)) :
       Perm (Fin 10))) h))
@@ -215,13 +215,13 @@ theorem exists_iotaSeven_of_pow_two_pow {x : autFix (conjPerm 10 dThree)} {a : �
   rw [hxs, hi, pow_zero, one_mul]
 
 theorem pCore_two_autFix_dThree : CFSG.pCore 2 (autFix (conjPerm 10 dThree)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := CFSG.pCore 2 (autFix (conjPerm 10 dThree)) with hP
   set P7 := P.comap iotaSeven with hP7
-  haveI : P7.Normal := Subgroup.Normal.comap inferInstance _
+  have : P7.Normal := Subgroup.Normal.comap inferInstance _
   have hP7p : IsPGroup 2 P7 :=
     (CFSG.pCore_isPGroup : IsPGroup 2 P).comap_of_injective _ iotaSeven_injective
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   have hP7b : P7 = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P7 with h | h
     · exact h
@@ -249,7 +249,7 @@ theorem conclS429_dThree
     (hc : CfgS429 (alternatingGroup (Fin 10)) A (conjPerm 10 dThree) K) :
     ConclS429 (alternatingGroup (Fin 10)) (conjPerm 10 dThree) K := by
   refine ⟨pCore_two_autFix_dThree, Or.inl (Or.inl ⟨?_, ⟨MulEquiv.refl _⟩⟩)⟩
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have hKE : K ≤ aSevenIn := le_aSevenIn_of_isPerfect hc.le_autFix
   have hcard : Nat.card aSevenIn ≤ Nat.card K := by
     rw [card_aSevenIn]
@@ -279,7 +279,7 @@ theorem rowS429_alternatingGroup_ten :
     rw [← hψ] at hconc
     exact ConclS429.of_map (conjPerm 10 g⁻¹) hconc
   · exfalso
-    haveI := hc.isPerfect
+    have := hc.isPerfect
     have h1 := le_card_of_isType429 hc.isType
     have h2 : Nat.card (K ⧸ CFSG.pCore 2 K) ≤ Nat.card K :=
       Nat.le_of_dvd Nat.card_pos (Subgroup.card_quotient_dvd_card _)

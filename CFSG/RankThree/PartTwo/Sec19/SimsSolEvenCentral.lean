@@ -342,7 +342,7 @@ namespace Cfg
 
 variable {G : Type} [Group G] [Finite G] {M X : Subgroup G} {n : ℕ} (C : Cfg G M X n)
 
-theorem Q_le_K : CFSG.Open.pCoreOf 2 M ≤ C.K := fun q hq =>
+theorem Q_le_K : CFSG.Open.pCoreOf 2 M ≤ C.K := fun _q hq =>
   C.mem_K.2 ⟨pCoreOf_le_self M hq, C.theta_Q C.S.five_le_degree hq⟩
 
 theorem K_comm_W (D : C.PiData) (hW0 : Nat.card ↥(blockZ X) ≤ 2) {k w : G} (hk : k ∈ C.K)

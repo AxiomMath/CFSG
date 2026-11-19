@@ -133,8 +133,8 @@ theorem no_beta
   have hcard9 : Fintype.card ι ≤ 9 :=
     card_le_nine hSF hπ V N K hVGs hV2 hinj hKnV' hKV hpc' q (by omega) hVcard hNcard
   obtain ⟨hsimp4, hnab4⟩ := statedProj_statedSL_four_simple_nonabelian K₀
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 K₀)) := hsimp4
-  haveI : Finite (StatedProj (StatedSL 4 K₀)) := Finite.of_equiv _ eRN.toEquiv
+  have : IsSimpleGroup (StatedProj (StatedSL 4 K₀)) := hsimp4
+  have : Finite (StatedProj (StatedSL 4 K₀)) := Finite.of_equiv _ eRN.toEquiv
   have hperf4 : Group.IsPerfect (StatedProj (StatedSL 4 K₀)) :=
     isPerfect_of_simple_nonabelian hnab4
   have hperfRN : commutator (↥R ⧸ N.subgroupOf R) = ⊤ :=
@@ -145,7 +145,7 @@ theorem no_beta
     intro h
     have hRN' : R ≤ N := by
       rw [← hEN, h, bot_sup_eq]
-    haveI : Subsingleton (↥R ⧸ N.subgroupOf R) := by
+    have : Subsingleton (↥R ⧸ N.subgroupOf R) := by
       have : N.subgroupOf R = ⊤ := Subgroup.subgroupOf_eq_top.mpr hRN'
       rw [this]
       exact QuotientGroup.subsingleton_quotient_top
@@ -202,7 +202,7 @@ theorem caseOne_abstract
   have hV2 : IsPGroup 2 ↥V := corB_isPGroup_of_isElemAbelian V hVab
   have hcor := hCor2 Y V hVab hti hWAC hSyl
   set Gs : Subgroup Y := Subgroup.normalClosure (V : Set Y) with hGs
-  haveI hGsn : Gs.Normal := inferInstance
+  have hGsn : Gs.Normal := inferInstance
   have hVGs : V ≤ Gs := Subgroup.le_normalClosure
   have hCGs : ∀ c : Y, (∀ s ∈ Gs, c * s = s * c) → c = 1 := hC Gs hGsn hVGs
   have hcentre : Subgroup.center ↥Gs = ⊥ := corB_center_eq_bot hO hO2 Gs
@@ -218,7 +218,7 @@ theorem caseOne_abstract
     rcases alphaList_cases hAlpha with hlist | hextra
     · exact tail (Or.inl hlist)
     · refine tail (Or.inr ⟨hextra, ?_⟩)
-      haveI : Nontrivial ↥Gs := by
+      have : Nontrivial ↥Gs := by
         obtain ⟨v, hv, hv1⟩ := Subgroup.exists_mem_ne_one_of_ne_bot hVne
         exact ⟨⟨⟨v, hVGs hv⟩, 1, fun h => hv1 (congrArg Subtype.val h)⟩⟩
       exact exists_noncomm_of_perfect (Group.isPerfect_def.mpr hα.1)

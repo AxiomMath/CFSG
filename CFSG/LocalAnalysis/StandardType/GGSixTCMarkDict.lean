@@ -39,7 +39,7 @@ theorem halfSplit_of_markTag_PSL {p : ℕ} {lab : LargeEvenLabel} {k g : ℕ} {Z
     (try split_ifs at ht hk hg) <;>
     first
     | (simp_all [LargeEvenHalfSplit, LargeEvenSplit, LargeEvenUntwisted]; done)
-    | (subst hk hg; simp_all [LargeEvenHalfSplit, LargeEvenSplit, LargeEvenUntwisted] <;>
+    | (subst hk hg; simp_all [LargeEvenHalfSplit, LargeEvenSplit, LargeEvenUntwisted]; try
         first | omega | tauto)
 
 theorem split_of_markTag_PSU {p : ℕ} {lab : LargeEvenLabel} {k g : ℕ}
@@ -62,7 +62,7 @@ theorem halfSplit_of_markTag_PSU {p : ℕ} {lab : LargeEvenLabel} {k g : ℕ} {Z
     (try split_ifs at ht hk hg) <;>
     first
     | (simp_all [LargeEvenHalfSplit, LargeEvenSplit, LargeEvenUntwisted]; done)
-    | (subst hk hg; simp_all [LargeEvenHalfSplit, LargeEvenSplit, LargeEvenUntwisted] <;> omega)
+    | (subst hk hg; simp_all [LargeEvenHalfSplit, LargeEvenSplit, LargeEvenUntwisted]; try omega)
 
 private theorem tcDict_exp_eq {m N a r : ℕ} {Z : ℕ → Prop}
     (h : CFSG.Timmesfeld.Orders.Profile m N Z) (hr : Odd r) (hm : m = 2 ^ a * r) : N = a := by

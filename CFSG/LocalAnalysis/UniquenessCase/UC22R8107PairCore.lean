@@ -28,7 +28,7 @@ theorem exists_elemAbelian_of_fixed_pair {M K L : Subgroup G} (hK : K ∈ calC M
     ∃ R E A : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 R M ∧ E ≤ R ⊓ centralizer (R : Set G) ∧
       IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 ∧ A ≤ M ⊓ centralizer (E : Set G) ∧
       IsElemAbelian p A ∧ Nat.card A = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQp : IsPGroup p Q := hQ.isPGroup
   have hQodd : Odd (Nat.card Q) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hQp

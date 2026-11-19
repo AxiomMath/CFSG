@@ -46,7 +46,7 @@ theorem le_pCoreOf {A N : Subgroup G} (hNA : N ≤ A) (hN : ∀ a ∈ A, ∀ n �
 @[expose] def centMod (A M O : Subgroup G) (hO : ∀ a ∈ A, ∀ o ∈ O, a * o * a⁻¹ ∈ O) :
     Subgroup G where
   carrier := {g | g ∈ A ∧ ∀ s ∈ M, g * s * g⁻¹ * s⁻¹ ∈ O}
-  one_mem' := ⟨A.one_mem, fun s _ => by simpa using O.one_mem⟩
+  one_mem' := ⟨A.one_mem, fun s _ => by simp⟩
   mul_mem' := fun {g h} hg hh => ⟨A.mul_mem hg.1 hh.1, fun s hs => by
     have e : g * h * s * (g * h)⁻¹ * s⁻¹ =
         g * (h * s * h⁻¹ * s⁻¹) * g⁻¹ * (g * s * g⁻¹ * s⁻¹) := by group
@@ -102,6 +102,7 @@ theorem xPar_mem_rankOne (i : Fin (Tag.rank .G2)) (c : K) :
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_conj_mul_g2FieldHom {f : ℕ} (hf : 2 ≤ f) (hK : Nat.card K = 2 ^ f)
     (α : MulAut (adjointGroup .G2 K)) :
     ∃ (g : adjointGroup .G2 K) (σ : K ≃+* K), α = MulAut.conj g * g2FieldHom K σ := by
@@ -114,7 +115,7 @@ theorem exists_mem_conj_mul {f : ℕ} (hf : 2 ≤ f) (hK : Nat.card K = 2 ^ f)
     {A : Subgroup (adjointGroup .G2 K)} (hBA : borel (g2Datum K) (torus (τ := .G2) K) ≤ A)
     {α : MulAut (adjointGroup .G2 K)} (hA : ∀ a ∈ A, α a ∈ A) :
     ∃ g ∈ A, ∃ σ : K ≃+* K, α = MulAut.conj g * g2FieldHom K σ := by
-  haveI : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
   obtain ⟨g, σ, rfl⟩ := exists_conj_mul_g2FieldHom hf hK α
   refine ⟨g, mem_of_mem_normalizer_of_borel_le hBA
     (Subgroup.mem_normalizer_fintype fun a ha => ?_), σ, rfl⟩
@@ -129,7 +130,7 @@ theorem eq_one_of_conj_mul_mem (h4 : 4 ≤ Nat.card K) {A : Subgroup (adjointGro
     (hI : negIndices (g2Datum K) A = {i}) {g : adjointGroup .G2 K} (hg : g ∈ A) (σ : K ≃+* K)
     (hW : ∀ s ∈ rankOne (g2Datum K).rootGroup i,
       g * g2FieldHom K σ s * g⁻¹ * s⁻¹ ∈ CFSG.Open.pCoreOf 2 A) : σ = 1 := by
-  haveI : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
   have hB := borelQuotient_g2 (CFSG.AGLEmbedding.ParabAutIrr.adjointQuotientEquiv K).symm
   set M := rankOne (g2Datum K).rootGroup i with hMdef
   set U := posUnipotentExcept (g2Datum K) i with hUdef
@@ -205,7 +206,7 @@ theorem commutator_mem_of_centMod (h4 : 4 ≤ Nat.card K) {A : Subgroup (adjoint
     (hW₁ : ∀ s ∈ rankOne (g2Datum K).rootGroup i, g₁ * s * g₁⁻¹ * s⁻¹ ∈ CFSG.Open.pCoreOf 2 A)
     (hW₂ : ∀ s ∈ rankOne (g2Datum K).rootGroup i, g₂ * s * g₂⁻¹ * s⁻¹ ∈ CFSG.Open.pCoreOf 2 A) :
     ⁅g₁, g₂⁆ ∈ posUnipotentExcept (g2Datum K) i := by
-  haveI : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
   have hB := borelQuotient_g2 (CFSG.AGLEmbedding.ParabAutIrr.adjointQuotientEquiv K).symm
   set M := rankOne (g2Datum K).rootGroup i with hMdef
   set U := posUnipotentExcept (g2Datum K) i with hUdef
@@ -267,7 +268,7 @@ theorem g2_model_comm {f : ℕ} (hf : 2 ≤ f) (hK : Nat.card K = 2 ^ f)
     (hW₁ : ∀ s ∈ rankOne (g2Datum K).rootGroup i, α₁ s * s⁻¹ ∈ CFSG.Open.pCoreOf 2 A)
     (hW₂ : ∀ s ∈ rankOne (g2Datum K).rootGroup i, α₂ s * s⁻¹ ∈ CFSG.Open.pCoreOf 2 A)
     (hodd : Odd (orderOf ⁅α₁, α₂⁆)) : ⁅α₁, α₂⁆ = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num

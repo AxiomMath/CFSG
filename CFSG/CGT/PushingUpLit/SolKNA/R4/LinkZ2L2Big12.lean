@@ -24,23 +24,24 @@ section Classify
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem autU_fix_of_comm_A {g : PGammaL2 F} (hg : IsMon g) {x₀ : Fˣ}
     (hA : g * gD x₀ 1 = gD x₀ 1 * g) :
     autU g.right x₀ = x₀ ∨ autU g.right x₀ = x₀⁻¹ := by
   rcases hg with ⟨u, hu⟩ | ⟨u, hu⟩
   · rw [hu] at hA
-    simp only [gD_right, gD_mul_gD, mul_one, one_mul, autU_one_aut] at hA
+    simp only [gD_mul_gD, mul_one, one_mul, autU_one_aut] at hA
     obtain ⟨h1, -⟩ := gD_eq_iff.mp hA
     left
     exact mul_left_cancel (h1.trans (mul_comm x₀ u))
   · rw [hu] at hA
-    simp only [gD_right, gA_right, gA_mul_gD, gD_mul_gA, mul_one, one_mul, autU_one_aut] at hA
+    simp only [gA_mul_gD, gD_mul_gA, mul_one, one_mul, autU_one_aut] at hA
     obtain ⟨h1, -⟩ := gA_eq_iff.mp hA
     right
     have h2 : (autU g.right x₀)⁻¹ = x₀ := mul_left_cancel (h1.trans (mul_comm x₀ u))
     simpa using congrArg Inv.inv h2
 
-theorem centralizer_diag (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1)
+theorem centralizer_diag (_h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1)
     (hσ₀ : ∀ σ : F ≃+* F, σ * σ = 1 → σ = 1 ∨ σ = σ₀) {q : ℕ}
     (hq : ∀ x : F, σ₀ x = x ^ q) {r : ℕ} (hr : 4 ≤ r) {x₀ y : Fˣ}
     (hx₀ : orderOf x₀ = 2 ^ (r - 1)) (hx : autU σ₀ x₀ = x₀⁻¹) (hy : y * autU σ₀ y = -1)
@@ -63,7 +64,7 @@ theorem centralizer_diag (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ�
   have hσcases : g.right = 1 ∨ g.right = σ₀ := hσ₀ g.right hgr
   rcases hg with ⟨u, hu⟩ | ⟨u, hu⟩
   · rw [hu] at hA hB hk
-    simp only [gD_right, gD_mul_gD, mul_one, one_mul, autU_one_aut] at hA
+    simp only [gD_mul_gD, mul_one, one_mul, autU_one_aut] at hA
     obtain ⟨hfix, -⟩ := gD_eq_iff.mp hA
     have hfix' : autU g.right x₀ = x₀ := mul_left_cancel (hfix.trans (mul_comm x₀ u))
     rcases hσcases with hgr1 | hgrσ
@@ -95,7 +96,7 @@ theorem centralizer_diag (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ�
     · rw [hgrσ] at hfix'
       exact absurd (hfix'.symm.trans hx) hx₀ne
   · rw [hu] at hA hB
-    simp only [gA_right, gA_mul_gD, gD_mul_gA, mul_one, one_mul, autU_one_aut] at hA
+    simp only [gA_mul_gD, gD_mul_gA, mul_one, one_mul, autU_one_aut] at hA
     obtain ⟨h1, -⟩ := gA_eq_iff.mp hA
     have hanti : autU g.right x₀ = x₀⁻¹ := by
       have h2' : (autU g.right x₀)⁻¹ = x₀ := mul_left_cancel (h1.trans (mul_comm x₀ u))
@@ -104,7 +105,7 @@ theorem centralizer_diag (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ�
     · rw [hgr1, autU_one_aut] at hanti
       exact absurd hanti hx₀ne
     · rw [hgrσ] at hB
-      simp only [gA_mul_gD, gD_mul_gA, hσ₀2, one_mul, mul_one] at hB
+      simp only [gA_mul_gD, gD_mul_gA, hσ₀2] at hB
       obtain ⟨hB1, -⟩ := gA_eq_iff.mp hB
       have hkey : u * (autU σ₀ u)⁻¹ = y * autU σ₀ y :=
         mul_inv_eq_mul_inv_of_mul_inv_eq_mul hB1
@@ -112,7 +113,7 @@ theorem centralizer_diag (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ�
       · rw [hu, hgrσ]
       · rw [hkey, hy]
 
-theorem centralizer_anti (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1)
+theorem centralizer_anti (_h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1)
     (hσ₀ : ∀ σ : F ≃+* F, σ * σ = 1 → σ = 1 ∨ σ = σ₀) {q : ℕ}
     (hq : ∀ x : F, σ₀ x = x ^ q) {r : ℕ} (hr : 4 ≤ r) {x₀ y : Fˣ}
     (hx₀ : orderOf x₀ = 2 ^ (r - 1)) (hx : autU σ₀ x₀ = x₀) (hy : y * (autU σ₀ y)⁻¹ = -1)
@@ -174,7 +175,7 @@ theorem centralizer_anti (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ�
       · right; left
         rw [hu, hgr1, h1, ubar_eq]
     · rw [hgrσ] at hB
-      simp only [gD_mul_gA, gA_mul_gD, hσ₀2, one_mul, mul_one] at hB
+      simp only [gD_mul_gA, gA_mul_gD, hσ₀2] at hB
       obtain ⟨hB1, -⟩ := gA_eq_iff.mp hB
       have hkey : u * autU σ₀ u = y * (autU σ₀ y)⁻¹ :=
         mul_eq_mul_inv_of_mul_eq_mul_inv hB1
@@ -182,7 +183,7 @@ theorem centralizer_anti (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} (hσ₀2 : σ�
       · rw [hu, hgrσ]
       · rw [hkey, hy]
   · rw [hu] at hA hB
-    simp only [gA_right, gA_mul_gD, gD_mul_gA, mul_one, one_mul, autU_one_aut] at hA
+    simp only [gA_mul_gD, gD_mul_gA, mul_one, one_mul, autU_one_aut] at hA
     obtain ⟨h1, -⟩ := gA_eq_iff.mp hA
     have hanti : autU g.right x₀ = x₀⁻¹ := by
       have h2' : (autU g.right x₀)⁻¹ = x₀ := mul_left_cancel (h1.trans (mul_comm x₀ u))
@@ -347,6 +348,7 @@ theorem not_isSquare_third_anti (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} {q : �
     simp
   rwa [← hneg] at hfinal
 
+omit [Finite F] in
 theorem third_diag_quot {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1) (u y : Fˣ) :
     gA u σ₀ * (gD y σ₀)⁻¹ = gA (u * y) 1 := by
   have hσinv : σ₀⁻¹ = σ₀ := inv_eq_of_mul_eq_one_right hσ₀2
@@ -354,6 +356,7 @@ theorem third_diag_quot {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1) (u y :
   refine ⟨?_, rfl⟩
   rw [autU_inv, inv_inv, ← autU_comp, hσ₀2, autU_one_aut]
 
+omit [Finite F] in
 theorem third_anti_quot {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1) (u y : Fˣ) :
     gD u σ₀ * (gA y σ₀)⁻¹ = gA (u * y) 1 := by
   have hσinv : σ₀⁻¹ = σ₀ := inv_eq_of_mul_eq_one_right hσ₀2

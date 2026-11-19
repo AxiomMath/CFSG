@@ -55,9 +55,9 @@ theorem s1611e3_fixSub_card {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2
     {P : Subgroup ↥(StatedSL 3 K)} (hP : IsPGroup 2 P) (hodd : ¬ 2 ∣ P.index) :
     Nat.card ↥(s1611e3_fixSub P) = 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf2 : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK]
-  letI : MulAction ↥P (Multiplicative (Fin 3 → K)) :=
+  let : MulAction ↥P (Multiplicative (Fin 3 → K)) :=
     { smul := fun p m => natHom (p : ↥(StatedSL 3 K)) m
       one_smul := by
         intro m
@@ -95,7 +95,7 @@ theorem s1611e3_fixSub_card {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2
   have hm₀ : m₀ ∈ s1611e3_fixSub P := (hfixP m₀).2 hm₀fix
   have hset : (s1611e3_fixSub P : Set (Multiplicative (Fin 3 → K))) = {1, m₀} := by
     ext m
-    simp only [s1611e3_fixSub, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [s1611e3_fixSub, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · intro hm
       rcases eq_or_ne m 1 with h1 | h1
@@ -111,7 +111,7 @@ theorem s1611e3_fixSub_card {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2
 theorem s1611e3_stabSL_card {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {m : Multiplicative (Fin 3 → K)} (hm : m ≠ 1) :
     Nat.card ↥(s1611e3_stabSL m) = 24 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf2 : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK]
   have hSLtop : StatedSL 3 K = ⊤ := CFSG.Open.StatedAPI.statedSL_eq_top_of_card_two hK 3
   have hstab : s1611e3_stabSL m =

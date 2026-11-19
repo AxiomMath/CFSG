@@ -175,7 +175,7 @@ theorem false_of_product_of_sylow
   have hG : IsSimpleGroup G := h.setting.1
   have hnonab : ∃ a b : G, a * b ≠ b * a := h.setting.2.1
   apply Endings.not_exists_normal_index_two hnonab
-  refine CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson S.isPGroup' S.not_dvd_index
+  refine CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson S.isPGroup S.not_dvd_index
     inf_le_left hidx htS htQ ?_ ?_
   · intro y _ hyQ
     rw [h.inv]

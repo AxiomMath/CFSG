@@ -17,7 +17,7 @@ variable {K : Type} [Field K]
 
 private lemma quadPlus_coord (v : ιP → K) :
     StatedQuadPlus 2 K v = v (Sum.inl 0) * v (Sum.inr 0) + v (Sum.inl 1) * v (Sum.inr 1) := by
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two]
+  simp [StatedQuadPlus, Fin.sum_univ_two]
 
 private lemma quadPlus_diagonal_mulVec (f v : ιP → K)
     (h0 : f (Sum.inl 0) * f (Sum.inr 0) = 1)
@@ -100,7 +100,7 @@ private noncomputable def dgHom : Kˣ × Kˣ →* GL ιP K where
     rw [← map_mul]
     congr 1
     funext i
-    rcases i with i | i <;> fin_cases i <;> simp [dgVec, mul_inv, mul_comm]
+    rcases i with i | i <;> fin_cases i <;> simp [dgVec, mul_comm]
 
 private lemma dg_mul (α β γ δ : Kˣ) : dg α β * dg γ δ = dg (α * γ) (β * δ) := by
   simpa [dgHom] using (map_mul dgHom (α, β) (γ, δ)).symm
@@ -233,7 +233,7 @@ theorem exists_torus_weyl [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) :
         ∀ c : K, (w : Matrix ιP ιP K) *ᵥ KTabC.e1P K ≠ c • KTabC.e1P K := by
   have hqne : Nat.card K - 1 ≠ 1 := by omega
   obtain ⟨r, hrprime, hrdvd⟩ := Nat.exists_prime_and_dvd hqne
-  haveI : Fact r.Prime := ⟨hrprime⟩
+  have : Fact r.Prime := ⟨hrprime⟩
   have hcard_units : Nat.card Kˣ = Nat.card K - 1 := Nat.card_units K
   obtain ⟨lam, hlam⟩ := exists_prime_orderOf_dvd_card' r (by rw [hcard_units]; exact hrdvd)
   have hlam_ne_one : lam ≠ 1 := by

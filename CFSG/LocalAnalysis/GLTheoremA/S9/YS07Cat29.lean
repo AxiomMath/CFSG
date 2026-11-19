@@ -27,7 +27,7 @@ theorem ys07_of_cat29_inputs
   ys07_of_cat20_inputs ⟨KD264Gen.kd264SporS_of_B7
       (KD264Gen.B7.kd264SporAt_B_seven
           CFSG.HardMathSupport.Timmesfeld.Proving.sporadicOuterLeTwo_holds), hLie⟩ CatB.u4InnRest_holds hI5.toI107Res4.toI107Res3 hR
-    fun G _ _ m _ p _ =>
+    fun G _ _ _m _ p _ =>
       S9Cat21Inputs.toS9Cat19InputsK hI3
         ⟨i137_of_comp h137'.chev h137'.bt h137'.o5 h137'.l3, i137_3_of_comp h137'.chev h137'.bt h137'.o5 h137'.l3,
           I141F.i141At_of_facts hPar G p,

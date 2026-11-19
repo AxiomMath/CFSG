@@ -27,8 +27,6 @@ private lemma div_mod_spec {m : ℕ} (hm : 1 ≤ m) (j : ℤ) :
     (h1 : t • γ.vert 1 ≠ γ.vert (m - 1)) : Line Γ where
   vert j := t ^ (j / (m : ℤ)) • γ.vert (j % (m : ℤ)).toNat
   adj j := by
-    change Γ.Adj (t ^ (j / (m : ℤ)) • γ.vert (j % (m : ℤ)).toNat)
-      (t ^ ((j + 1) / (m : ℤ)) • γ.vert ((j + 1) % (m : ℤ)).toNat)
     have hm0 : (0 : ℤ) < (m : ℤ) := by omega
     obtain ⟨he0, helt, hdec⟩ := div_mod_spec hm j
     set q : ℤ := j / (m : ℤ) with hq
@@ -64,8 +62,6 @@ private lemma div_mod_spec {m : ℕ} (hm : 1 ≤ m) (j : ℤ) :
       rw [hdiv.1, hdiv.2, hstep]
       exact (hadj (t ^ q) _ _).2 (γ.adj e.toNat he_lt)
   nb j := by
-    change t ^ (j / (m : ℤ)) • γ.vert (j % (m : ℤ)).toNat ≠
-      t ^ ((j + 2) / (m : ℤ)) • γ.vert ((j + 2) % (m : ℤ)).toNat
     have hm0 : (0 : ℤ) < (m : ℤ) := by omega
     obtain ⟨he0, helt, hdec⟩ := div_mod_spec hm j
     set q : ℤ := j / (m : ℤ) with hq

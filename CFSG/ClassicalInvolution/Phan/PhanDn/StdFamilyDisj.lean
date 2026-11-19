@@ -158,8 +158,8 @@ private theorem stdTau_single_of_ne_last {m : ℕ} {c : Fin (m + 1)} (hc : c ≠
   rw [tauAt_apply]
   by_cases hd : d = Fin.last m
   · subst hd
-    rw [if_pos rfl, Pi.single_eq_of_ne (Ne.symm hc), map_zero]
-  · rw [if_neg hd]
+    rw [ite_eq_left rfl, Pi.single_eq_of_ne (Ne.symm hc), map_zero]
+  · rw [ite_eq_right hd]
 
 theorem stdForkTheta_single_of_not_mem {m : ℕ} (hm : 3 ≤ m) (a : Su K 2 f 3)
     {c : Fin (m + 1)} (h1 : c.val ≠ m - 2) (h2 : c.val ≠ m - 1) (h3 : c.val ≠ m) :
@@ -220,14 +220,14 @@ theorem stdForkIota_apply_of_not_mem {m : ℕ} (hm : 3 ≤ m) (b : Su K 2 f 2)
     exact hd2 (by simpa using congrArg Fin.val h)
   have hτv : stdTau E m v d = v d := by
     unfold stdTau
-    rw [tauAt_apply, if_neg hdq]
+    rw [tauAt_apply, ite_eq_right hdq]
   have hsd : (blockEmb2 K 2 f m ⟨m - 1, by omega⟩ b • (stdTau E m v)) d =
       (stdTau E m v) d :=
     blockEmb2_last_smul_of_ne hm b _ hd1 hd2
   have hgoal : stdTau E m (blockEmb2 K 2 f m ⟨m - 1, by omega⟩ b • (stdTau E m v)) d =
       v d := by
     unfold stdTau at hsd hτv ⊢
-    rw [tauAt_apply, if_neg hdq]
+    rw [tauAt_apply, ite_eq_right hdq]
     rw [hsd, hτv]
   exact hgoal
 
@@ -244,13 +244,13 @@ theorem stdForkIota_apply_left {m : ℕ} (hm : 3 ≤ m) (b : Su K 2 f 2)
     simp only [Fin.val_last] at this
     omega
   unfold stdTau
-  rw [tauAt_apply, if_neg hp]
+  rw [tauAt_apply, ite_eq_right hp]
   rw [blockEmb2_last_smul_zero hm b]
   rw [show (tauAt E (Fin.last m) v) ⟨m - 1, by omega⟩ = v ⟨m - 1, by omega⟩ from by
-    rw [tauAt_apply, if_neg hp]]
+    rw [tauAt_apply, ite_eq_right hp]]
   rw [show (tauAt E (Fin.last m) v) (Fin.last m) =
       unitaryInvolution K 2 f (v (Fin.last m)) from by
-    rw [tauAt_apply, if_pos rfl]]
+    rw [tauAt_apply, ite_eq_left rfl]]
 
 theorem stdForkIota_apply_right {m : ℕ} (hm : 3 ≤ m) (b : Su K 2 f 2)
     (v : Fin (m + 1) → K) :
@@ -266,14 +266,14 @@ theorem stdForkIota_apply_right {m : ℕ} (hm : 3 ≤ m) (b : Su K 2 f 2)
     simp only [Fin.val_last] at this
     omega
   unfold stdTau
-  rw [tauAt_apply, if_pos rfl]
+  rw [tauAt_apply, ite_eq_left rfl]
   rw [blockEmb2_last_smul_one hm b]
   rw [map_add, map_mul, map_mul]
   rw [show (tauAt E (Fin.last m) v) ⟨m - 1, by omega⟩ = v ⟨m - 1, by omega⟩ from by
-    rw [tauAt_apply, if_neg hp]]
+    rw [tauAt_apply, ite_eq_right hp]]
   rw [show (tauAt E (Fin.last m) v) (Fin.last m) =
       unitaryInvolution K 2 f (v (Fin.last m)) from by
-    rw [tauAt_apply, if_pos rfl]]
+    rw [tauAt_apply, ite_eq_left rfl]]
   rw [E.isUnitary.invol]
 
 theorem stdForkIota_single_of_not_mem {m : ℕ} (hm : 3 ≤ m) (b : Su K 2 f 2)
@@ -549,7 +549,7 @@ theorem stdThetaAt_eq_chainTheta {m : ℕ} {i : Fin (m + 1)} {j' : Fin m}
       stdChainTheta (F := F) (K := K) (f := f) m ⟨i.val, hi⟩
         (by have := j'.isLt; simp; omega) := by
   unfold stdThetaAt
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem stdFamilyV_θ_inj (E : QuadExt F K (unitaryInvolution K 2 f)) {m : ℕ} (hm : 3 ≤ m) :
     ∀ i j, i < j → CFSG.StandardType.ggCoxeterMatrixD (m + 1) i j = 3 →

@@ -48,7 +48,7 @@ private theorem sec8a_A_elem {G : Type} [Group G] [Finite G] {t : G} {L S : Subg
 private theorem sec8a_A_le_cent {G : Type} [Group G] {t : G} {B : Subgroup G}
     (hAel : CFSG.Open.IsElemAbelian 2 (Asub8 t B)) :
     Asub8 t B ≤ centralizer (Asub8 t B : Set G) := by
-  haveI : IsMulCommutative (Asub8 t B) := hAel.1
+  have : IsMulCommutative (Asub8 t B) := hAel.1
   intro a ha
   exact Subgroup.mem_centralizer_iff.mpr fun a' ha' => setLike_mul_comm ha' ha
 

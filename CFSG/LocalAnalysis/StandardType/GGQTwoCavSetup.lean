@@ -49,7 +49,7 @@ theorem pow_three_le_beta_card (hS : GGQTwoSetting p B Bs x L D J)
     {R : Type} [Group R] (θ : L ⧸ Subgroup.center L ≃* R)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) :
     p ^ 3 ≤ Nat.card (ggBeta L θ hN).range := by
-  letI : Finite R := Finite.of_surjective θ θ.surjective
+  let : Finite R := Finite.of_surjective θ θ.surjective
   have hB : B ≤ Bs := hS.1.1.2.1.1
   have hBN : B ≤ Subgroup.normalizer (L : Set G) := hB.trans hN
   have h := card_range_ggBeta_bstar hS.1.1 hS.2.1.1 θ hBN hN

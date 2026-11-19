@@ -222,9 +222,9 @@ theorem not_dvd_card_famCentralizer_of_ppd
     (hr : IsTwoPowPpd f e r) :
     ¬ r ∣ Nat.card (LayerSixE.famCentralizer (τ := Tag.E6) (K := K) {b}) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : Fintype (WeylGroup Tag.E6) := Fintype.ofFinite _
-  haveI : Finite ↥(adjointGroup Tag.E6 K) := generated_group_finite Tag.E6 K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Fintype (WeylGroup Tag.E6) := Fintype.ofFinite _
+  have : Finite ↥(adjointGroup Tag.E6 K) := generated_group_finite Tag.E6 K
   have hf : 1 ≤ f := by
     by_contra h0
     have h1 : 1 < Nat.card K := Finite.one_lt_card
@@ -232,7 +232,7 @@ theorem not_dvd_card_famCentralizer_of_ppd
     exact lt_irrefl 1 h1
   obtain ⟨v, hnf⟩ := exists_weylAct_eq_normal hb hb1
   intro hdvd
-  haveI : Fact r.Prime := ⟨hr.1⟩
+  have : Fact r.Prime := ⟨hr.1⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' r hdvd
   set n : adjointGroup Tag.E6 K :=
     ⟨canonicalRep (coxeterSystem Tag.E6) K v, canonicalRep_mem_adjointGroup (coxeterSystem Tag.E6) K v⟩

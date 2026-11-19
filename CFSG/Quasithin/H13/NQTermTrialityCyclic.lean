@@ -55,7 +55,7 @@ theorem threeFreeBorelDatum_fixed
     obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem t.tag).length
     obtain ⟨⟨P, hP⟩, -⟩ := exceptional_fixed_Sylow_opposition t K 2 σ w₀ hw₀
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   three_free D hUD h3 := by
     have hle := Quasithin.SteinbergCD.even_diagram_fixed_three_free_posUnipotent_overgroups_le_borel
       t K σ (D := D.map (graphFixedRootGroup t K σ.toRingHom).subtype) (Subgroup.map_subtype_le D)

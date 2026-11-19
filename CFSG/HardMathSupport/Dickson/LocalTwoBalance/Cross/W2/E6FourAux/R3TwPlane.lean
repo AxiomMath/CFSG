@@ -34,8 +34,8 @@ theorem innerPlaneBalance_twistedE6_four_R3 {ℓ f : ℕ} [Fact ℓ.Prime] (K : 
   have : Fintype K := Fintype.ofFinite K
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hpq : (p : ℤ) ∣ ((ℓ ^ f : ℕ) : ℤ) ^ 2 + 1 := by exact_mod_cast hpd
   obtain ⟨-, hordq, hΦ, -⟩ := e6Four_data hp hp3 hpq
   set n : ModGL Tag.E6 L := canonicalRep (coxeterSystem Tag.E6) L (e6F4U * e6NegRho) with hn
@@ -125,10 +125,10 @@ theorem innerPlaneBalance_twistedE6_four_R3' {ℓ f : ℕ} (hℓ : ℓ.Prime) (K
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   exact innerPlaneBalance_twistedE6_four_R3 K hf hK σ hσ hp hp5 hpd
 

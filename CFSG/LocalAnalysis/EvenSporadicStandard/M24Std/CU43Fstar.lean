@@ -90,7 +90,7 @@ theorem normal_twoGroup_eq_bot (hO : Odd (Nat.card O)) {z : Y} (hz : z * z = 1) 
   obtain ⟨S, hS⟩ := hζp.exists_le_sylow
   have hWS : W ≤ (S : Subgroup (Y ⧸ O)) := hW2.le_sylow_of_normal S
   have hζS : ζ ∈ (S : Subgroup (Y ⧸ O)) := hS (mem_zpowers ζ)
-  have hSnil : Group.IsNilpotent (S : Subgroup (Y ⧸ O)) := S.isPGroup'.isNilpotent
+  have hSnil : Group.IsNilpotent (S : Subgroup (Y ⧸ O)) := S.isPGroup.isNilpotent
   have hW'ne : W.subgroupOf (S : Subgroup (Y ⧸ O)) ≠ ⊥ := by
     intro h
     apply hWne
@@ -118,7 +118,7 @@ theorem normal_twoGroup_eq_bot (hO : Odd (Nat.card O)) {z : Y} (hz : z * z = 1) 
   have hζC : ζ ∈ Cζ := mem_centralizer_singleton_iff.2 rfl
   have hVC : V ≤ Cζ := sup_le inf_le_right (zpowers_le.2 hζC)
   have hVS : V ≤ (S : Subgroup (Y ⧸ O)) := sup_le (inf_le_left.trans hWS) hS
-  have hVp : IsPGroup 2 V := S.isPGroup'.to_le hVS
+  have hVp : IsPGroup 2 V := S.isPGroup.to_le hVS
   have hVn : ∀ ω ∈ ρ.range, ∀ n ∈ V, ω * n * ω⁻¹ ∈ V := by
     intro ω hω n hn
     have hωC : ω ∈ Cζ := hrange ▸ hω

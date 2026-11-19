@@ -32,7 +32,7 @@ theorem L_le_M_of_genEL {p : ℕ} (hp : p ∈ uniqueFourSigma m.M) {P : Subgroup
     (hP : IsSylowOf p P (m.M ⊓ normalizer (m.Z : Set G)))
     (h620 : m.C620) (hL : m.L ≤ gammaL m.L p P ⊔ gammaL m.L m.r m.EL) : m.L ≤ m.M := by
   have hpp : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hPM : P ≤ m.M := hP.le.trans inf_le_left
   have hstrong : IsStronglyPEmbedded p m.M :=
     isStronglyPEmbedded_of_sigmaOne m.hU m.S.maxLocal hp (m.hσ1 hp)
@@ -57,11 +57,11 @@ theorem exists_mem_normalizer_EL_mk_eq {n : m.Lbar}
     (hn : n ∈ normalizer (m.Ebar : Set m.Lbar)) :
     ∃ l : ↥m.L, (l : G) ∈ normalizer (m.EL : Set G) ∧ (QuotientGroup.mk l : m.Lbar) = n := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   set N : Subgroup ↥m.L := CFSG.pPrimeCore m.r ↥m.L with hN
-  haveI hNn : N.Normal := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
+  have hNn : N.Normal := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
   set T : Subgroup ↥m.L := m.EL.subgroupOf m.L with hT
-  haveI : Fact (IsPGroup m.r T) := ⟨(IsElemAbelian.isPGroup m.isElemAbelian_EL').comap_subtype⟩
+  have : Fact (IsPGroup m.r T) := ⟨(IsElemAbelian.isPGroup m.isElemAbelian_EL').comap_subtype⟩
   have hcop : Nat.Coprime m.r (Nat.card N) := CFSG.pPrimeCore_coprime_card
   have key := CFSG.normalizer_map_quotient_eq_map_normalizer m.r T N hNn hcop
   simp only at key
@@ -115,7 +115,7 @@ theorem c626genEL_of_l34
   classical
   intro p hp P hP hPne
   have hpp : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := hp.1.2.1
   have hp3 : p ≠ 3 := by
     rintro rfl

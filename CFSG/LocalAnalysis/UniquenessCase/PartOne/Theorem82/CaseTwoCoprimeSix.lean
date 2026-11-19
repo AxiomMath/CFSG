@@ -67,7 +67,7 @@ theorem le_of_index_coprime_six (hblk : CFSG.AGLEmbedding.AschbacherLocalCGTBloc
     exact hnotX ((hXH₀.trans (le_of_eq hEq.symm)).trans hcgs)
   obtain ⟨Y, hYH₀, _hYsub, hYclass, _hYnot⟩ := hblk G H₀ S hK hchar₀ hSylow hcgsne
   have hYshort : CFSG.QuasithinUnique.IsShort2 Y := hYclass.1
-  haveI hXnH₀ : (X.subgroupOf H₀).Normal :=
+  have hXnH₀ : (X.subgroupOf H₀).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXH₀).mpr hH₀X
   have hsupH : (X.subgroupOf H₀) ⊔ (S.subgroupOf H₀) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hXH₀ hSH₀, Subgroup.subgroupOf_self]
@@ -97,7 +97,7 @@ theorem le_of_index_coprime_six (hblk : CFSG.AGLEmbedding.AschbacherLocalCGTBloc
   have hker : φ.ker = (X ⊓ Y).subgroupOf Y := by
     ext y
     simp [φ, Subgroup.mem_subgroupOf]
-  haveI hNYnorm : ((X ⊓ Y).subgroupOf Y).Normal := by
+  have hNYnorm : ((X ⊓ Y).subgroupOf Y).Normal := by
     rw [← hker]
     infer_instance
   have hNY2 : IsPGroup 2 (↥Y ⧸ (X ⊓ Y).subgroupOf Y) :=
@@ -108,8 +108,8 @@ theorem le_of_index_coprime_six (hblk : CFSG.AGLEmbedding.AschbacherLocalCGTBloc
   have h3Y : 3 ∣ Nat.card (↥Y ⧸ CFSG.pCore 2 ↥Y) := by
     rcases hYclass.2 with ⟨n, hn, hLin⟩ | ⟨n, hn, hAlt⟩
     · obtain ⟨F, hF, hFfin, _hFcard, α, hα, hker, -⟩ := hLin
-      letI : Field F := hF
-      letI : Fintype F := hFfin
+      let : Field F := hF
+      let : Fintype F := hFfin
       have e : (↥Y ⧸ CFSG.pCore 2 ↥Y) ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
         (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
           (QuotientGroup.quotientKerEquivOfSurjective α hα)

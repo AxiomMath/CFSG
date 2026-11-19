@@ -62,10 +62,10 @@ theorem borelTits_normalized (h : Std e K σ) (T : Subgroup ↥𝐂) (hT : T ≠
       T.map (MulAut.conj g).toMonoidHom ≤ R ∧
       (Subgroup.normalizer (T : Set ↥𝐂)).map (MulAut.conj g).toMonoidHom ≤ 𝐏(J) := by
   classical
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite ↥𝐂 := inferInstance
-  haveI := h.charP_two
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite ↥𝐂 := inferInstance
+  have := h.charP_two
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmodel := CFSG.RankThree.PartOne.Sec66T.lieModel_graphFixedRootGroup_trialityD4 h.he h.hK σ
     h.hσ
   obtain ⟨S, P, hPtop, hNP, -, hTP, hSP, -⟩ :=
@@ -163,11 +163,11 @@ theorem not_dvd_relIndex_borel (h : Std e K σ) (hQ : 2 ^ e % 3 = 1)
       simp
     omega
 
-theorem relIndex_torus_borel (h : Std e K σ) :
+theorem relIndex_torus_borel (_h : Std e K σ) :
     (graphFixedRootTorus TwistTag.D4 K σ.toRingHom).relIndex
       (graphFixedRootBorel TwistTag.D4 K σ.toRingHom) =
       Nat.card (graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom) := by
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   set U := graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom with hU
   set H := graphFixedRootTorus TwistTag.D4 K σ.toRingHom with hH
   set B := graphFixedRootBorel TwistTag.D4 K σ.toRingHom with hB
@@ -192,8 +192,8 @@ theorem relIndex_torus_borel (h : Std e K σ) :
 
 theorem isPGroup_two_posUnipotent (h : Std e K σ) :
     IsPGroup 2 ↥(graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom) := by
-  haveI := h.charP_two
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.charP_two
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (isPGroup_graphFixedPosUnipotent_subgroupOf (p := 2) (t := TwistTag.D4)
     (σ := σ.toRingHom)).of_equiv
     (Subgroup.subgroupOfEquivOfLe (graphFixedPosUnipotent_le_graphFixedRootGroup _ _ _))
@@ -206,7 +206,7 @@ theorem torus_parabolic_conditions (h : Std e K σ) (hQ : 2 ^ e % 3 = 1)
         graphFixedParabolic TwistTag.D4 K σ.toRingHom J ∧
       ¬ 3 ∣ (graphFixedRootTorus TwistTag.D4 K σ.toRingHom).relIndex
         (graphFixedParabolic TwistTag.D4 K σ.toRingHom J) := by
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hBP := graphFixedRootBorel_le_graphFixedParabolic TwistTag.D4 K σ.toRingHom J
   have hHB : graphFixedRootTorus TwistTag.D4 K σ.toRingHom ≤
       graphFixedRootBorel TwistTag.D4 K σ.toRingHom := graphFixedRootTorus_le_graphFixedRootBorel

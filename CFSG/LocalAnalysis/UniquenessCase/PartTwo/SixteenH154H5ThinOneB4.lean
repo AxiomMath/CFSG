@@ -91,17 +91,17 @@ private theorem s16h_ambSLtoSp_natAct {K : Type} [Field K] (γ : ↥(StatedSL 2 
   rw [s16h_ambSLtoSpAdd_mulVec]
 
 theorem s16h_H5_rowSL2_of_isSpn_two [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
-    (hc : s16h_H5Cfg A L t) {a : ℕ} (h : IsSpn ↥L 2 a)
+    (_hc : s16h_H5Cfg A L t) {a : ℕ} (h : IsSpn ↥L 2 a)
     (hN : NatSpn L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2 a) :
     s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) a := by
   obtain ⟨-, K, hF, hFin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   refine ⟨?_, ?_⟩
   · exact ⟨K, hF, hFin, hKcard, ⟨e.trans (s16h_slEquivSp K).symm⟩⟩
   · obtain ⟨-, K', hF', hFin', hKcard', hReal⟩ := hN
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hReal' : (FFModel.nat (StatedSp 1 K')).Realizes L (commSub ⊤ L)
         (commSub ⊤ L ⊓ fixV L) := by simpa using hReal
     obtain ⟨π, hπ⟩ := hReal'

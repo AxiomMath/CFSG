@@ -192,7 +192,7 @@ theorem exists_eight_normalizers_top_of_on
   let Y := H ⧸ pPrimeCore 2 H
   let π : H →* Y := QuotientGroup.mk' (pPrimeCore 2 H)
   let R' : Subgroup H := R
-  have hR'2 : IsPGroup 2 R' := R.isPGroup'
+  have hR'2 : IsPGroup 2 R' := R.isPGroup
   let Rbar : Sylow 2 Y := R.mapSurjective (f := π) (QuotientGroup.mk'_surjective _)
   have hRbar : (Rbar : Subgroup Y) = R'.map π := Sylow.coe_mapSurjective _ _
   obtain ⟨Fbar0, Fbar1, hFbar0R, hFbar1R, hc0, hs0, h8_0, hc1, hs1, h8_1, hgen⟩ :=

@@ -37,7 +37,7 @@ theorem eq_bot_of_normal_of_isSolvable_adjointGroup (τ : Tag) (K : Type) [Field
   obtain ⟨-, hsol, -⟩ := noncentral_normal_solvable_quotient τ K M hnc
   have : Group.IsSolvable (adjointGroup τ K ⧸ M) := hsol
   have hG : Group.IsSolvable (adjointGroup τ K) :=
-    solvable_of_ker_le_range M.subtype (QuotientGroup.mk' M) (by
+    Group.isSolvable_of_ker_le_range M.subtype (QuotientGroup.mk' M) (by
       rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
   have hperf := generated_group_perfect_away_from_two τ K hK
   have htop : ∀ n, derivedSeries (adjointGroup τ K) n = ⊤ := by
@@ -101,7 +101,7 @@ theorem eq_augmentation_of_normal_unipotent_coordinate_adjointGroup
     exact (algebraMap K' (AlgebraicClosure K')).injective h
   have : Group.IsSolvable (PQ : Type) := Group.isSolvable_of_isSolvable_injective (f := ι) hι
   let f := (TauCeti.CommHopfAlgCat.quotientPointsHom B.obj I A).hom
-  have : Group.IsSolvable S := solvable_of_surjective f.rangeRestrict_surjective
+  have : Group.IsSolvable S := Group.isSolvable_of_surjective f.rangeRestrict_surjective
   have hG : IsPointClosed k
       (transportPoints (modGLPoint τ k) (adjointGroup τ k : Set (ModGL τ k))) := by
     rw [transportPoints_modGLPoint]
@@ -114,7 +114,7 @@ theorem eq_augmentation_of_normal_unipotent_coordinate_adjointGroup
   have hφi : Function.Injective φ := e.injective
   let S' := S.map φ
   have : S'.Normal := hSnormal.map φ hφs
-  have : Group.IsSolvable S' := solvable_of_surjective (φ.subgroupMap_surjective S)
+  have : Group.IsSolvable S' := Group.isSolvable_of_surjective (φ.subgroupMap_surjective S)
   have hk3 : (3 : ℕ∞) ≤ ENat.card k := by
     rw [ENat.card_eq_top_of_infinite]
     exact le_top

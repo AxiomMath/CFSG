@@ -89,7 +89,7 @@ private lemma exists_central_isometry {W : Type} [AddCommGroup W] [Module (ZMod 
     intro hN
     have hinj := (MonoidHom.ker_eq_bot_iff _).mp hN
     exact hna ⟨⟨fun s t => hinj (by rw [map_mul, map_mul, mul_comm])⟩⟩
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   have hNZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hN
   have hdvd : 3 ∣ Nat.card ↥(lam.toHomUnits.ker ⊓ Subgroup.center ↥T) := by
     rcases (hT.to_subgroup (lam.toHomUnits.ker ⊓ Subgroup.center ↥T)).card_eq_or_dvd with h | h
@@ -227,7 +227,7 @@ private lemma comm_of_central_isometry (hq3 : q ≠ 3) {ω : ZMod q} (hω : ω ^
     comm_on_invariant hq3 hT hd₁ (hinv ω) a.2 b.2 hy,
     comm_on_invariant hq3 hT hd₂ (hinv (ω ^ 2)) a.2 b.2 hz]
 
-theorem similitudeThreeAbelian {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) (hq3 : q ≠ 3) :
+theorem similitudeThreeAbelian {q : ℕ} [Fact q.Prime] (_hq2 : q ≠ 2) (hq3 : q ≠ 3) :
     SimilitudeThreeAbelian q := by
   intro W _ _ _ hW B hnd _ T hT hsim
   have hq : q.Prime := Fact.out
@@ -238,7 +238,7 @@ theorem similitudeThreeAbelian {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) (hq3 : q
   rcases (by omega : q % 3 = 1 ∨ q % 3 = 2) with h1 | h2
   · obtain ⟨ω, hω⟩ := exists_cube_root h1
     by_contra hna
-    haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod q) (by omega)
+    have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod q) (by omega)
     obtain ⟨u₀, hu₀⟩ := exists_ne (0 : W)
     obtain ⟨v₀, hv₀⟩ : ∃ v₀, B u₀ v₀ ≠ 0 := by
       by_contra h

@@ -308,7 +308,7 @@ theorem twoRank_eq_one_of_sylow (P : Sylow 2 L) (hP : AtMostOneInvolution (P : S
     omega
   · obtain ⟨⟨p, hp⟩, hp1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
     have hp1' : p ≠ 1 := fun h => hp1 (Subtype.ext h)
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     have hk' : p ^ 2 ^ k = 1 := congrArg Subtype.val hk
     have hdvd : 2 ∣ orderOf p := by
       have h1 : orderOf p ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk'
@@ -333,7 +333,7 @@ theorem sylow_not_le_center (hL : IsQuasisimple L) (P : Sylow 2 L) :
   intro hPZ
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Group.IsPerfect L := ⟨hL.1⟩
-  have h8 := central_sylow_commutator P hPZ P.isPGroup'
+  have h8 := central_sylow_commutator P hPZ P.isPGroup
   rw [show commutator L = ⊤ from hL.1, inf_top_eq] at h8
   have hab : commutator (P : Subgroup L) = ⊥ := by
     rw [eq_bot_iff, _root_.commutator_def, Subgroup.commutator_le]

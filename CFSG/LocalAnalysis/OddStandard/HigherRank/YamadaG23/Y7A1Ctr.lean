@@ -33,7 +33,7 @@ private lemma conj_mem_sup {G : Type} [Group G] {U V : Subgroup G} {c : G}
     rcases hy with hy | hy
     · exact hU y hy
     · exact mem_of_le_of_mem le_sup_right (hV y hy)
-  · simpa using one_mem (U ⊔ V)
+  · simp
   · intro y z _ _ ihy ihz
     rw [show c * (y * z) * c⁻¹ = (c * y * c⁻¹) * (c * z * c⁻¹) by group]
     exact mul_mem ihy ihz

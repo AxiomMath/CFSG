@@ -31,8 +31,8 @@ theorem c23_ncard_fixed_eq_two [Finite U] {Y : Subgroup U} (hY : Nat.card Y = 8)
     (hinv : ∀ r ∈ R, ∀ y ∈ Y, (r : MulAut U) y ∈ Y)
     (hnt : ∃ r ∈ R, ∃ y ∈ Y, (r : MulAut U) y ≠ y) :
     {y : U | y ∈ Y ∧ ∀ r ∈ R, (r : MulAut U) y = y}.ncard = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : MulAction R U := MulAction.compHom U R.subtype
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : MulAction R U := MulAction.compHom U R.subtype
   let Y' : SubMulAction R U :=
     { carrier := Y, smul_mem' := fun r y hy => hinv r r.2 y hy }
   let Fix : Subgroup U :=
@@ -199,7 +199,7 @@ theorem c23_unique_fixed [Finite U] (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {X : Su
     (hfu' : ∀ x ∈ X, (x : MulAut U) u' = u') : u = u' := by
   have hR₁ : Nat.card ↥(X ⊓ A₁) = 3 := (c23_card_inf_eq_three h hX hcard).1
   have hR₂ : Nat.card ↥(X ⊓ A₂) = 3 := (c23_card_inf_eq_three h hX hcard).2
-  simp only [c23Omega, Set.mem_setOf_eq] at hu hu'
+  simp only [c23Omega, Set.mem_ofPred_eq] at hu hu'
   obtain ⟨hu₁, hu₂⟩ := hu
   obtain ⟨hu₁', hu₂'⟩ := hu'
   obtain ⟨y₁, hy₁, y₂, hy₂, hy₁y₂⟩ :=
@@ -228,7 +228,7 @@ theorem c23_unique_fixed [Finite U] (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {X : Su
     rw [← hmap]
     exact Subgroup.mem_map_of_mem (r : MulAut U).toMonoidHom hy
   have hnt₁ : ∃ r ∈ X ⊓ A₁, ∃ y ∈ Y₁, (r : MulAut U) y ≠ y := by
-    haveI : Nontrivial ↥(X ⊓ A₁) := by
+    have : Nontrivial ↥(X ⊓ A₁) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hR₁]
       norm_num
     obtain ⟨r, hrne⟩ := exists_ne (1 : ↥(X ⊓ A₁))
@@ -273,7 +273,7 @@ theorem c23_unique_fixed [Finite U] (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {X : Su
     rw [← hmap]
     exact Subgroup.mem_map_of_mem (r : MulAut U).toMonoidHom hy
   have hnt₂ : ∃ r ∈ X ⊓ A₂, ∃ y ∈ Y₂, (r : MulAut U) y ≠ y := by
-    haveI : Nontrivial ↥(X ⊓ A₂) := by
+    have : Nontrivial ↥(X ⊓ A₂) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hR₂]
       norm_num
     obtain ⟨r, hrne⟩ := exists_ne (1 : ↥(X ⊓ A₂))

@@ -41,9 +41,9 @@ theorem burnsideF4m_A42_engine3 (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hL3
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
   classical
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hyam : IsYAmalgamPair (U.map ψ.toMonoidHom) (M₁.subgroupOf Gp) (M₂.subgroupOf Gp) := by
     rw [hP, hP']
     exact CFSG.Quasithin.IsYAmalgamPair.map ψ hYam
@@ -79,7 +79,7 @@ theorem burnsideF4m_A42_engine3 (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hL3
   have hz3 := Lift.not_three_dvd_commutator_cent_iK A hgen hcen hF3' HO.F1
   have ht3 := Lift.three_dvd_commutator_cent_iK A hgen hcen HO.F2
   obtain ⟨θ, h1, h2, hθ⟩ := burnsideF4m_A42_exists_theta hyp.amalgam hyam
-  haveI : Finite ↥A.K := Finite.of_equiv E θ.toEquiv
+  have : Finite ↥A.K := Finite.of_equiv E θ.toEquiv
   obtain ⟨hC, hr1, hr2, -⟩ := burnsideF4m_comp_data hyp θ h1 h2
   have hyp1 : ∀ w ∈ centerOf (perfectCore (MiOne β ε)), orderOf w = 2 →
       Subgroup.centralizer ({w} : Set M) ≤ MiOne β ε :=

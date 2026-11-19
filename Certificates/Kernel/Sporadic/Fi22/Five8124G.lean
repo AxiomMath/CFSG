@@ -73,7 +73,7 @@ theorem pe_pw {p : ℕ} (hp : PP 3510 12 p) (k : ℕ) : pe (pwK p k) = pe p ^ k 
     rw [pe_c hp (PP_pw hp k), ih, pow_succ']
 
 theorem pe_apply {p : ℕ} (hp : PP 3510 12 p) (x : Fin 3510) : ((pe p x : Fin 3510) : ℕ) = ev p x := by
-  rw [← rep_pe hp x, unpack_getElem!, if_pos x.2]
+  rw [← rep_pe hp x, unpack_getElem!, ite_eq_left x.2]
   rfl
 
 theorem mem_P {p : ℕ}
@@ -126,7 +126,7 @@ theorem okH' {j : ℕ} (hj : j < 5) : isP (H (j + 1)) = true ∧ Fi22X.siftP (H 
   have h := okH
   simp only [strictB_eq] at h
   have h' := allN_spec' h hj
-  simp only [strictB_eq, chkH, Bool.and_eq_true] at h'
+  simp only [chkH, Bool.and_eq_true] at h'
   obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := h'
   exact ⟨h1, h2, h3, h4⟩
 
@@ -335,7 +335,7 @@ theorem simple_D0 : IsSimpleGroup D0 := by
 theorem get_ev {p : ℕ} (hp : PP 3510 12 p) {x : ℕ} (hx : x < 3510) :
     (unpack 3510 12 p)[x]! = ev p x ∧ ev p x < 3510 := by
   have h1 : (unpack 3510 12 p)[x]! = ev p x := by
-    rw [unpack_getElem!, if_pos hx]
+    rw [unpack_getElem!, ite_eq_left hx]
     rfl
   exact ⟨h1, h1 ▸ (rep_pe hp).lt hx⟩
 
@@ -549,11 +549,11 @@ theorem lineK_ge (a b j : ℕ) (hb : Nat.beq j 1 = false) : lineK a b j = Fi22X.
 
 theorem lineE_zero {G : Type*} [Group G] (x y : G) : lineE x y 0 = x := by
   unfold lineE
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem lineE_one {G : Type*} [Group G] (x y : G) : lineE x y 1 = y := by
   unfold lineE
-  rw [if_neg (by norm_num), if_pos rfl]
+  rw [ite_eq_right (by norm_num), ite_eq_left rfl]
 
 theorem lineK_facts {j : ℕ} (h1 : 1 ≤ j) :
     PP 3510 12 (lineK Q1 Q2 j) ∧ pe (lineK Q1 Q2 j) = lineE (pe Q1) (pe Q2) j := by
@@ -569,7 +569,7 @@ theorem lineK_facts {j : ℕ} (h1 : 1 ≤ j) :
     refine ⟨PP_c pQ1 (PP_pw pQ2 _), ?_⟩
     rw [pe_c pQ1 (PP_pw pQ2 _), pe_pw pQ2]
     unfold lineE
-    rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 @[expose] noncomputable def hT (j : ℕ) : Equiv.Perm (Fin 3510) := permOfArr 3510 (fi22FiveHArr j)
 
@@ -578,14 +578,14 @@ theorem hArr_facts {j : ℕ} (hj1 : 1 ≤ j) (hj : j < 6) :
   obtain ⟨k, rfl⟩ : ∃ k, j = k + 1 := ⟨j - 1, by omega⟩
   refine ⟨?_, PP_of_isP (okH' (by omega)).1⟩
   unfold fi22FiveHArr
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   exact fiveArr_eq (by omega)
 
 theorem validH {j : ℕ} (hj : j < 6) : validA 3510 (fi22FiveHArr j) = true := by
   rcases Nat.eq_zero_or_pos j with rfl | h0
   · have e : fi22FiveHArr 0 = unpack 3510 12 idP := by
       unfold fi22FiveHArr
-      rw [if_pos rfl, idP, ← idA_eq hsz]
+      rw [ite_eq_left rfl, idP, ← idA_eq hsz]
     rw [e]
     exact CFSG.KC.B3S3K.validA_of (CFSG.KC.Misc.ArrEnum.permB_of_pp PP_id)
   · rw [(hArr_facts h0 hj).1]
@@ -599,7 +599,7 @@ theorem trans_facts (j : Fin 6) :
       rw [h0]
       apply permOfArr_eq_of_rep
       unfold fi22FiveHArr
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact rep_idA
     have ej : j = 0 := Fin.ext h0
     rw [e, ej]

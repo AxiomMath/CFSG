@@ -13,7 +13,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private theorem ds_odd_card_oddCore (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -23,11 +23,11 @@ theorem sec8t84_sylow_model {G : Type} [Group G] [Finite G] {L P : Subgroup G} (
       (_ : FiniteDimensional (ZMod 3) V) (Q : QuadraticForm (ZMod 3) V)
       (hQ : Q.Nondegenerate), Module.finrank (ZMod 3) V = 6 ∧ quadSign Q = -1 ∧
         ∃ P' : Subgroup (ProjOrth Q), IsSylow2Of P' (omegaProj hQ) ∧ Nonempty (↥P ≃* ↥P') := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hsgn, ⟨e⟩⟩ := ff_isOmegaStar_center_six_minus hL
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   let π : ↥L →* ↥(omegaProj hQ) := e.toMonoidHom.comp (QuotientGroup.mk' (center ↥L))
   let ψ : ↥P →* ↥(omegaProj hQ) := π.comp (Subgroup.inclusion hP.1)
   let PM : Subgroup ↥(omegaProj hQ) := ψ.range
@@ -58,7 +58,7 @@ theorem sec8t84_sylow_model {G : Type} [Group G] [Finite G] {L P : Subgroup G} (
     rw [h0]
     exact dvd_zero 2
   have hZne : Nat.card (center ↥L) ≠ 0 := by
-    haveI : Nonempty ↥(center ↥L) := ⟨⟨1, (center ↥L).one_mem⟩⟩
+    have : Nonempty ↥(center ↥L) := ⟨⟨1, (center ↥L).one_mem⟩⟩
     exact (Nat.card_pos (α := ↥(center ↥L))).ne'
   have hprod_ne : Nat.card (center ↥L) * 25515 ≠ 0 :=
     Nat.mul_ne_zero hZne (by norm_num)

@@ -26,7 +26,7 @@ theorem k3ActT_mul (A B : Matrix (Fin 6) (Fin 6) ℤ) (y : Fin 6 → ZMod 7) :
 
 theorem k3ActT_one (y : Fin 6 → ZMod 7) : k3ActT 1 y = y := by
   funext i
-  simp [k3ActT, Matrix.one_apply, Finset.sum_ite_eq]
+  simp [k3ActT, Matrix.one_apply]
 
 theorem k3Star_mul (c d : WeylGroup .E6) (y : Fin 6 → ZMod 7) :
     k3Star (c * d) y = k3Star c (k3Star d y) := by

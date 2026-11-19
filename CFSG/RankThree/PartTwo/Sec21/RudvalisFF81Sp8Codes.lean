@@ -120,7 +120,7 @@ theorem neg_zmod2 (x : ZMod 2) : -x = x := by fin_cases x <;> rfl
 
 theorem jM_mulVec (x : ι8 → ZMod 2) (i : ι8) : (jM *ᵥ x) i = x i.swap := by
   rcases i with a | a <;>
-    simp [jM, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Matrix.one_apply, neg_zmod2]
+    simp [jM, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Matrix.one_apply]
 
 theorem form_vecS (u w : ℕ) : vecS u ⬝ᵥ (jM *ᵥ vecS w) = b2z (b4N u w) := by
   rw [b4N_spec]
@@ -202,7 +202,7 @@ theorem image_gens {gens : List (List ℕ)} (hg : gens.all spS = true) :
     exact ⟨codeS g, hg', decS_codeS g⟩
   · rintro ⟨c, hc, rfl⟩
     have hs : spS c = true := List.all_eq_true.mp hg c hc
-    exact ⟨mkS c hs, by rw [Set.mem_setOf_eq, codeS_mkS]; exact hc, rfl⟩
+    exact ⟨mkS c hs, by rw [Set.mem_ofPred_eq, codeS_mkS]; exact hc, rfl⟩
 
 theorem found_spec {es : Array (List ℕ)} {m : Std.HashMap (List ℕ) ℕ} {y : List ℕ}
     (h : found es m y = true) : ∃ t < es.size, es.getD t [] = y := by

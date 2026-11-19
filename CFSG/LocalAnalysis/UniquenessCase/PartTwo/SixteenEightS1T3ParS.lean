@@ -63,7 +63,7 @@ theorem T3ParabIn.of_conj {E : Type*} [Group E] {G N P X : Subgroup E} {B : Set 
 theorem s16t3_exists_conj_sylow {E : Type*} [Group E] [Finite E] {G B X : Subgroup E}
     (hB : CFSG.ABGLocalTools.IsSylowOf 2 B G) (hX : IsPGroup 2 ↥X) (hXG : X ≤ G) :
     ∃ g ∈ G, ∀ x ∈ X, g⁻¹ * x * g ∈ B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q₀, hQ₀⟩ := hB.exists_sylow_eq_subgroupOf
   have hX' : IsPGroup 2 ↥(X.subgroupOf G) := hX.comap_subtype
   obtain ⟨Q, hQ⟩ := hX'.exists_le_sylow
@@ -89,10 +89,10 @@ theorem T3ParabIn.of_sylow {E : Type*} [Group E] [Finite E] {G N Y P X : Subgrou
 theorem T3ParabIn.of_sylow_le {E : Type*} [Group E] [Finite E] {N Y P X : Subgroup E} {a : ℕ}
     (hY : CFSG.ABGLocalTools.IsSylowOf 2 Y N) (hYP : Y ≤ P) (hPN : P ≤ N)
     (hcard : Nat.card ↥P = 3 ^ a * 2 ^ (Nat.card ↥N).factorization 2)
-    (hexp : ∀ p ∈ P, ∀ m : ℕ, p ^ 3 ^ m = 1 → p ^ 3 = 1) (hX : IsPGroup 2 ↥X) (hXN : X ≤ N) :
+    (hexp : ∀ _p ∈ P, ∀ m : ℕ, _p ^ 3 ^ m = 1 → _p ^ 3 = 1) (hX : IsPGroup 2 ↥X) (hXN : X ≤ N) :
     T3ParabIn N X a :=
   T3ParabIn.of_sylow Subgroup.le_normalizer hY hPN
-    (fun y hy p hp => P.mul_mem (P.mul_mem (hYP hy) hp) (P.inv_mem (hYP hy)))
-    (fun y hy => hYP hy.1) hcard hexp hX hXN
+    (fun _y hy _p hp => P.mul_mem (P.mul_mem (hYP hy) hp) (P.inv_mem (hYP hy)))
+    (fun _y hy => hYP hy.1) hcard hexp hX hXN
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

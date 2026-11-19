@@ -23,6 +23,7 @@ section FixedField
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem card_fixField_of_orderOf_three {p n : ℕ} (hp : p.Prime) (hn : 1 ≤ n)
     (hK : Nat.card K = p ^ n) {τ : K ≃+* K} (hτ : orderOf τ = 3) :
     3 ∣ n ∧ Nat.card (fixField τ) = p ^ (n / 3) := by
@@ -36,7 +37,7 @@ theorem card_fixField_of_orderOf_three {p n : ℕ} (hp : p.Prime) (hn : 1 ≤ n)
     refine SetLike.ext' ?_
     rw [hS]
     ext a
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
     change (∀ σ ∈ Subgroup.zpowers τ, σ a = a) ↔ τ a = a
     constructor
     · intro h
@@ -83,7 +84,7 @@ theorem exists_fix_norm_eq (hK : Nat.card K = (p ^ f) ^ 2) {τ : K ≃+* K} (hτ
     {c : K} (hc : τ c = c) (hcb : unitaryInvolution K p f c = c) (hc0 : c ≠ 0) :
     ∃ b : K, τ b = b ∧ unitaryInvolution K p f b * b = c := by
   obtain ⟨-, hcard, hbar⟩ := fixField_unitary hK hτ
-  haveI : CharP (fixField τ) p := Subfield.charP (fixField τ) p
+  have : CharP (fixField τ) p := Subfield.charP (fixField τ) p
   have hc' : unitaryInvolution (fixField τ) p (f / 3) ⟨c, hc⟩ = ⟨c, hc⟩ := by
     apply Subtype.ext
     rw [unitaryInvolution_apply, SubmonoidClass.coe_pow]
@@ -102,7 +103,7 @@ theorem exists_fix_norm_one (hK : Nat.card K = (p ^ f) ^ 2) (hp2 : p ≠ 2) (hp3
     {τ : K ≃+* K} (hτ : orderOf τ = 3) :
     ∃ l : K, τ l = l ∧ unitaryInvolution K p f l * l = 1 ∧ l ^ 2 ≠ 1 := by
   obtain ⟨h3f, hcard, hbar⟩ := fixField_unitary hK hτ
-  haveI : CharP (fixField τ) p := Subfield.charP (fixField τ) p
+  have : CharP (fixField τ) p := Subfield.charP (fixField τ) p
   have hp := (Fact.out : p.Prime)
   have hf : 1 ≤ f := by
     by_contra h0
@@ -125,7 +126,7 @@ theorem exists_fix_norm_one (hK : Nat.card K = (p ^ f) ^ 2) (hp2 : p ≠ 2) (hp3
   rw [h1]
   exact congrArg Subtype.val hl₀
 
-theorem exists_norm_one_not_fix (hK : Nat.card K = (p ^ f) ^ 2) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
+theorem exists_norm_one_not_fix (hK : Nat.card K = (p ^ f) ^ 2) (_hp2 : p ≠ 2) (_hp3 : p ≠ 3)
     {τ : K ≃+* K} (hτ : orderOf τ = 3) :
     ∃ l : K, τ l ≠ l ∧ unitaryInvolution K p f l * l = 1 := by
   classical
@@ -261,7 +262,7 @@ theorem uData_layer {hK : Nat.card K = (p ^ f) ^ 2} {h2 : (2 : K) ≠ 0} {τ : K
   set D := uData μ hK h2 τ hτ3 b l hτb hb hb0 hl hτl with hD
   obtain ⟨h3f, hcardE, hbar⟩ := fixField_unitary hK hτ
   set E := fixField τ with hE
-  haveI : CharP E p := Subfield.charP E p
+  have : CharP E p := Subfield.charP E p
   set f₀ := f / 3 with hf₀
   have hp := (Fact.out : p.Prime)
   have hf : 1 ≤ f := by
@@ -398,6 +399,7 @@ theorem SUid_eq_gramSU (h : UnitaryFieldData p f K) (n : ℕ) :
     and_comm]
   rfl
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 theorem scalars_eq_normOneScalars (h : UnitaryFieldData p f K) (n : ℕ) (hn : 0 < n) :
     (StatedScalars (Fin n) K).subgroupOf (gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) =
       normOneScalars h (gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) n := by
@@ -490,8 +492,8 @@ theorem modelB_primeFormP {K : Type} [Field K] [Finite K] {p f : ℕ} (h : Unita
     (hp2 : p ≠ 2) (hp3 : p ≠ 3) {n : ℕ} (hn : n = 4 ∨ n = 5) {τ : K ≃+* K} (hτ : orderOf τ = 3) :
     ModelB (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))
       (primeFormFieldHom h isPrimeFormGram_one τ) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : CharP K p := h.charP
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : CharP K p := h.charP
   have hK : Nat.card K = (p ^ f) ^ 2 := h.card_eq_sq
   have hp := h.prime
   have hτ3 : τ ^ 3 = 1 := hτ ▸ pow_orderOf_eq_one τ

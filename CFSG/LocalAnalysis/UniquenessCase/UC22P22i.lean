@@ -33,14 +33,14 @@ theorem uc22p22i_dvd_of_forall_prime {m N : ℕ} (hm : 1 ≤ m)
 
 theorem uc22p22i_exists_elt_of_mem_piSet {B : Subgroup G} {r : ℕ} (hr : r ∈ piSet B) :
     ∃ b ∈ B, orderOf b = r := by
-  haveI : Fact r.Prime := ⟨hr.1⟩
+  have : Fact r.Prime := ⟨hr.1⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) r hr.2
   exact ⟨x, x.2, by rw [← hx, Subgroup.orderOf_coe]⟩
 
 theorem uc22p22i_lt_of_primitive {r m : ℕ} (h : IsPrimitivePrimeDivisor r m) (hm : 0 < m) : m < r := by
   have hr := h.prime
   have h2 : r ≠ 2 := h.ne_two hm
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr1 : r ∣ 2 ^ (r - 1) - 1 := by
     have hcop : ¬ r ∣ 2 := fun hd => h2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 hd)
     have := Nat.ModEq.pow_totient (Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd hr).2 hcop))

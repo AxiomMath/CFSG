@@ -35,6 +35,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem kuPred_conj_conj_iff {n : G} (hn : n ∈ kuN P H) (x y : G) :
     kuPred P H z (n * x * n⁻¹) (n * y * n⁻¹) ↔ kuPred P H z x y := by
   unfold kuPred
@@ -59,12 +60,13 @@ theorem kuPred_conj_conj_iff {n : G} (hn : n ∈ kuN P H) (x y : G) :
     rw [e] at this
     exact this
 
+omit [Finite G] in
 theorem kuPolar_conj_conj {n : G} (hn : n ∈ kuN P H) (x y : G) :
     kuPolar P H z (n * x * n⁻¹) (n * y * n⁻¹) = kuPolar P H z x y := by
   unfold kuPolar
   by_cases hp : kuPred P H z x y
-  · rw [if_pos hp, if_pos ((kuPred_conj_conj_iff hn x y).mpr hp)]
-  · rw [if_neg hp, if_neg (fun h' => hp ((kuPred_conj_conj_iff hn x y).mp h'))]
+  · rw [ite_eq_left hp, ite_eq_left ((kuPred_conj_conj_iff hn x y).mpr hp)]
+  · rw [ite_eq_right hp, ite_eq_right (fun h' => hp ((kuPred_conj_conj_iff hn x y).mp h'))]
 
 theorem kuPred_self (h : KuHyp G T M H P z) (x : G) : kuPred P H z x x := by
   by_cases hx : ∃ n ∈ kuN P H, n * z * n⁻¹ = x
@@ -78,26 +80,29 @@ theorem kuPred_self (h : KuHyp G T M H P z) (x : G) : kuPred P H z x x := by
 
 theorem kuPolar_self (h : KuHyp G T M H P z) (x : G) : kuPolar P H z x x = 0 := by
   unfold kuPolar
-  rw [if_pos (h.kuPred_self x)]
+  rw [ite_eq_left (h.kuPred_self x)]
 
+omit [Finite G] in
 theorem kuPolar_of_not_orbit {x : G} (hx : ¬ ∃ n ∈ kuN P H, n * z * n⁻¹ = x) (y : G) :
     kuPolar P H z x y = 0 := by
   have hp : kuPred P H z x y := by
     intro n hn hnz
     exact (hx ⟨n, hn, hnz⟩).elim
   unfold kuPolar
-  rw [if_pos hp]
+  rw [ite_eq_left hp]
 
+omit [Finite G] in
 theorem kuPolar_conj_eq_zero_iff (h : KuHyp G T M H P z) {n₀ : G} (hn₀ : n₀ ∈ kuN P H)
     (y : G) : kuPolar P H z (n₀ * z * n₀⁻¹) y = 0 ↔ n₀⁻¹ * y * n₀ ∈ kuW P H := by
   unfold kuPolar
   by_cases hp : kuPred P H z (n₀ * z * n₀⁻¹) y
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     exact ⟨fun _ => (h.kuPred_conj_iff hn₀ y).mp hp, fun _ => rfl⟩
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     exact ⟨fun h1 => absurd h1 (by decide),
       fun hy => absurd ((h.kuPred_conj_iff hn₀ y).mpr hy) hp⟩
 
+omit [Finite G] in
 theorem inv_conj_mem_kuA {n₀ : G} (hn₀ : n₀ ∈ kuN P H) {y : G} (hy : y ∈ kuA P H) :
     n₀⁻¹ * y * n₀ ∈ kuA P H := by
   have h1 := (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hn₀) y).mp hy

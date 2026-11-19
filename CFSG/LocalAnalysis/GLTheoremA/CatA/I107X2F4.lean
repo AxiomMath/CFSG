@@ -24,7 +24,7 @@ theorem f4Seven_check : f4Seven.check = true := by decide +kernel
 
 theorem charP_two_of_card' {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n) :
     CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hc, m, hp, hcard⟩ := FiniteField.card' K
   rw [← Nat.card_eq_fintype_card, hK] at hcard
   have hdvd : p ∣ 2 ^ n := by
@@ -36,7 +36,7 @@ theorem charP_two_of_card' {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.c
 
 theorem f4Seven_pRank {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n) :
     7 * n ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (adjointGroup Tag.F4 K)) := by
-  haveI : CharP K 2 := charP_two_of_card' hK
+  have : CharP K 2 := charP_two_of_card' hK
   exact SepWitness.le_pRank (p := 2) f4Seven_check hK
 
 theorem twoRankLow_F4_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS : IsSimpleGroup S)
@@ -52,10 +52,10 @@ theorem twoRankLow_F4_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS
   have e0 : LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false) ≃*
       AdjointQuotient Tag.F4 K :=
     (CFSG.StandardType.centerQuot_chevGroup_equiv K Tag.F4).some
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) :=
     Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (AdjointQuotient Tag.F4 K) := Finite.of_equiv _ e0.toEquiv
-  haveI : Finite (adjointGroup Tag.F4 K) :=
+  have : Finite (AdjointQuotient Tag.F4 K) := Finite.of_equiv _ e0.toEquiv
+  have : Finite (adjointGroup Tag.F4 K) :=
     Finite.of_equiv _ (adjointQuotientEquiv Tag.F4 K).toEquiv
   rw [CFSG.LocalAnalysis.GLTheoremA.I107L.pRank_eq_of_quotient θ hna,
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 2) e0,

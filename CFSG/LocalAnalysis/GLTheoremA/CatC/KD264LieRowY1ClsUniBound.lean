@@ -116,7 +116,7 @@ theorem card_le_pow_half_of_sesq {q : ℕ} (h3 : (3 : K) ≠ 0)
     rw [hk] at hsmall ⊢
     have hk2 : k < 2 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : 3 ^ 2 ≤ 3 ^ k := Nat.pow_le_pow_right (by norm_num) hcon
       omega
     interval_cases k
@@ -187,7 +187,7 @@ theorem card_le_pow_half_of_sesq {q : ℕ} (h3 : (3 : K) ≠ 0)
       Module.finrank_pos_iff_exists_ne_zero.mpr ⟨⟨v, hvU⟩, fun h => hv0 (congrArg Subtype.val h)⟩
     obtain ⟨v', hv'⟩ : ∃ v' : V, x v' ≠ v' := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hx1 (LinearEquiv.ext hcon)
     have hwW : x v' - v' ∈ W := mem_commSpace.mpr ⟨v', rfl⟩
     have hb : 0 < finrank K W :=
@@ -217,8 +217,8 @@ theorem card_le_pow_half_of_sesq {q : ℕ} (h3 : (3 : K) ≠ 0)
     have he2 : ∀ g ∈ ρ₂.range, g ^ 3 = 1 := by
       rintro _ ⟨g, rfl⟩
       rw [← map_pow, hexpE g, map_one]
-    haveI : Finite ρ₁.range := Finite.of_surjective _ ρ₁.rangeRestrict_surjective
-    haveI : Finite ρ₂.range := Finite.of_surjective _ ρ₂.rangeRestrict_surjective
+    have : Finite ρ₁.range := Finite.of_surjective _ ρ₁.rangeRestrict_surjective
+    have : Finite ρ₂.range := Finite.of_surjective _ ρ₂.rangeRestrict_surjective
     have hlt1 : finrank K U < n := by omega
     have hlt2 : finrank K W < n := by omega
     have hb1 : Nat.card ρ₁.range ≤ 3 ^ (finrank K U / 2) :=

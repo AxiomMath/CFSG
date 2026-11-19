@@ -33,7 +33,7 @@ theorem ggQ2s08r4_diagLin_comp {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
 noncomputable def ggQ2s08r4_diagEquiv {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     {N : ℕ} (M : GGQ2LDatum 3 Bs L x) (b : Module.Basis (Fin N) (ZMod 3) M.V)
     (ε : Fin N → ZMod 3) (h : ∀ i, ε i ≠ 0) : M.V ≃ₗ[ZMod 3] M.V :=
-  LinearEquiv.ofLinear (ggQ2s08r4_diagLin M b ε) (ggQ2s08r4_diagLin M b (fun i => (ε i)⁻¹))
+  LinearEquiv.ofLinearMap (ggQ2s08r4_diagLin M b ε) (ggQ2s08r4_diagLin M b (fun i => (ε i)⁻¹))
     (ggQ2s08r4_diagLin_comp M b ε (fun i => (ε i)⁻¹) (by
       intro i; exact mul_inv_cancel₀ (h i)))
     (ggQ2s08r4_diagLin_comp M b (fun i => (ε i)⁻¹) ε (by
@@ -43,7 +43,7 @@ theorem ggQ2s08r4_diagEquiv_basis {G : Type} [Group G] {Bs L : Subgroup G} {x : 
     {N : ℕ} (M : GGQ2LDatum 3 Bs L x) (b : Module.Basis (Fin N) (ZMod 3) M.V)
     (ε : Fin N → ZMod 3) (h : ∀ i, ε i ≠ 0) (i : Fin N) :
     ggQ2s08r4_diagEquiv M b ε h (b i) = ε i • b i := by
-  rw [ggQ2s08r4_diagEquiv, LinearEquiv.ofLinear_apply, ggQ2s08r4_diagLin_basis]
+  rw [ggQ2s08r4_diagEquiv, LinearEquiv.coe_ofLinearMap, ggQ2s08r4_diagLin_basis]
 
 noncomputable def ggQ2s08r4_singleSign {N : ℕ} (k : Fin N) : Fin N → ZMod 3 :=
   fun i => if i = k then -1 else 1
@@ -83,7 +83,7 @@ theorem ggQ2s08r4_singleEquiv_basis_self {G : Type} [Group G] {Bs L : Subgroup G
     {N : ℕ} (M : GGQ2LDatum 3 Bs L x) (b : Module.Basis (Fin N) (ZMod 3) M.V)
     (k : Fin N) :
     ggQ2s08r4_singleEquiv M b k (b k) = -b k := by
-  rw [ggQ2s08r4_singleEquiv_basis, ggQ2s08r4_singleSign, if_pos rfl]
+  rw [ggQ2s08r4_singleEquiv_basis, ggQ2s08r4_singleSign, ite_eq_left rfl]
   simp
 
 theorem ggQ2s08r4_diagLin_involutive {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
@@ -111,7 +111,7 @@ theorem ggQ2s08r4_singleEquiv_involutive {G : Type} [Group G] {Bs L : Subgroup G
     (k : Fin N) :
     ggQ2s08r4_singleEquiv M b k * ggQ2s08r4_singleEquiv M b k = 1 := by
   refine LinearEquiv.ext (R := ZMod 3) (M := M.V) fun v => ?_
-  simp only [LinearEquiv.mul_apply, LinearEquiv.refl_apply]
+  simp only [LinearEquiv.mul_apply]
   exact congrArg (fun e : M.V →ₗ[ZMod 3] M.V => e v)
     (ggQ2s08r4_diagLin_involutive M b (ggQ2s08r4_singleSign k)
       (ggQ2s08r4_singleSign_sq k))

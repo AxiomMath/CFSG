@@ -11,7 +11,7 @@ open CFSG.Quasithin
 theorem center_eq_ker_of_central_cover {Y S : Type*} [Group Y] [Group S] (p : Y →* S)
     (hp : Function.Surjective p) (hS : IsSimpleGroup S) (hSnc : ∃ a b : S, a * b ≠ b * a)
     (hker : p.ker ≤ Subgroup.center Y) : Subgroup.center Y = p.ker := by
-  haveI : IsSimpleGroup S := hS
+  have : IsSimpleGroup S := hS
   refine le_antisymm ?_ hker
   intro x hx
   rw [MonoidHom.mem_ker]
@@ -55,7 +55,7 @@ theorem isHat_of_central_cover {Y S : Type} [Group Y] [Group S] (p : Y →* S)
     (hp : Function.Surjective p) (hS : IsSimpleGroup S) (hSnc : ∃ a b : S, a * b ≠ b * a)
     (ω : Y) (hω : orderOf ω = 3) (hωc : ω ∈ Subgroup.center Y)
     (hker : p.ker = Subgroup.zpowers ω) (hperf : Group.IsPerfect Y) : IsHat Y S := by
-  haveI : IsSimpleGroup S := hS
+  have : IsSimpleGroup S := hS
   have hcenter : Subgroup.center Y = p.ker :=
     center_eq_ker_of_central_cover p hp hS hSnc (by rw [hker]; exact Subgroup.zpowers_le.mpr hωc)
   let e : Y ⧸ Subgroup.center Y ≃* S :=

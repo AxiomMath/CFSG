@@ -63,7 +63,7 @@ theorem centralizer_twE6_trivial {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     have hℓ3 : ℓ = 3 := (Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).1 hdvd
     exact h3 (hℓ3 ▸ dvd_pow_self ℓ (by omega))
   have : NeZero ((3 : ℕ) : L) := ⟨h3L⟩
-  obtain ⟨ω₀, hω₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  obtain ⟨ω₀, hω₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   set ω : Lˣ := (hω₀.isUnit (by norm_num)).unit with hωdef
   have hωord : orderOf ω = 3 := (IsPrimitiveRoot.coe_units_iff.1 hω₀).eq_orderOf.symm
   have hω3 : ω ^ 3 = 1 := by rw [← hωord]; exact pow_orderOf_eq_one ω
@@ -142,7 +142,7 @@ theorem centralizer_twE6_trivial {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     exact hω1 h3'
   have hcomm : Commute d₁ d₂ :=
     (Commute.all a₁ a₂).map (rootDiagUnitHom TwistTag.E6.tag L)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord₁ : orderOf d₁ = 3 := orderOf_eq_prime hd₁3 hd₁1
   have hA3 : Nat.card (Subgroup.zpowers d₁) = 3 := by rw [Nat.card_zpowers, hord₁]
   have hAfin : (Subgroup.zpowers d₁ : Set (ModGL TwistTag.E6.tag L)).Finite :=
@@ -167,7 +167,7 @@ theorem centralizer_twE6_trivial {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       (Subgroup.zpowers d₁ : Set (ModGL TwistTag.E6.tag L)) *
         (Subgroup.zpowers d₂ : Set (ModGL TwistTag.E6.tag L)) :=
     Subgroup.coe_mul_of_left_le_normalizer_right _ _ hAnorm
-  haveI hD0fin : Finite D0 := by
+  have hD0fin : Finite D0 := by
     have : (D0 : Set (ModGL TwistTag.E6.tag L)).Finite := by
       rw [hmul]
       exact hAfin.mul hBfin

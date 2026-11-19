@@ -87,6 +87,7 @@ private lemma sec4ISignUnit_eq_one_iff (s : ℤˣ) : sec4ISignUnit s = 1 ↔ s =
     · intro hh
       exact absurd hh (by decide : (-1 : ℤˣ) ≠ 1)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4IT_single_eq_reflection (fr : Sec4IFrame Q) (i : Fin 7)
     [Invertible (Q (fr.b i))] :
     sec4IT fr (Pi.single i 1) = TauCeti.QuadraticMap.reflectionOrthogonal Q (fr.b i) := by
@@ -109,7 +110,7 @@ private theorem sec4IT_single_eq_reflection (fr : Sec4IFrame Q) (i : Fin 7)
 private theorem detSpinorNorm_sec4IT_single (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q)
     (i : Fin 7) :
     detSpinorNorm hQ (sec4IT fr (Pi.single i 1)) = ((-1 : (ZMod 3)ˣ), sec4INegClass) := by
-  haveI : Invertible (Q (fr.b i)) := invertibleOfNonzero (by rw [fr.neg i]; decide)
+  have : Invertible (Q (fr.b i)) := invertibleOfNonzero (by rw [fr.neg i]; decide)
   rw [sec4IT_single_eq_reflection fr i, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (Q (fr.b i)) = (-1 : (ZMod 3)ˣ) :=
     Units.ext (by rw [val_unitOfInvertible, fr.neg i]; rfl)
@@ -128,7 +129,7 @@ private lemma sum_sec4IEvec_filter (u : Fin 7 → ZMod 2) :
   funext j
   by_cases hj : u j = 0
   · simp [hj]
-  · rw [if_pos (Finset.mem_filter.mpr ⟨Finset.mem_univ j, hj⟩),
+  · rw [ite_eq_left (Finset.mem_filter.mpr ⟨Finset.mem_univ j, hj⟩),
       sec4IZMod2_eq_one_of_ne_zero hj]
 
 private theorem detSpinorNorm_sec4IT_sum (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q)
@@ -154,29 +155,34 @@ private theorem detSpinorNorm_sec4IT (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q)
   rw [detSpinorNorm_sec4IT_sum]
   simp only [vecWeight]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4IQ_sub (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b) :
     Q (fr.b a - fr.b b) = 1 := by
   rw [sub_eq_add_neg, QuadraticMap.map_add Q, QuadraticMap.map_neg, QuadraticMap.polar_neg_right,
     fr.neg a, fr.neg b, fr.orth a b hab, neg_zero, add_zero]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4I_polar_sub_left (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b) :
     polar Q (fr.b a - fr.b b) (fr.b a) = 1 := by
   rw [QuadraticMap.polar_sub_left, QuadraticMap.polar_self,
     QuadraticMap.polar_comm Q (fr.b b) (fr.b a), fr.neg a, fr.orth a b hab]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4I_polar_sub_right (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b) :
     polar Q (fr.b a - fr.b b) (fr.b b) = -1 := by
   rw [QuadraticMap.polar_sub_left, QuadraticMap.polar_self, fr.neg b, fr.orth a b hab]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4I_polar_sub_of_ne (fr : Sec4IFrame Q) {a b c : Fin 7}
     (hca : c ≠ a) (hcb : c ≠ b) :
     polar Q (fr.b a - fr.b b) (fr.b c) = 0 := by
   rw [QuadraticMap.polar_sub_left, fr.orth a c hca.symm, fr.orth b c hcb.symm]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4IP_swap_eq_reflection (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b)
     [Invertible (Q (fr.b a - fr.b b))] :
     sec4IP fr (Equiv.swap a b) = TauCeti.QuadraticMap.reflectionOrthogonal Q (fr.b a - fr.b b) := by
@@ -200,7 +206,7 @@ private theorem sec4IP_swap_eq_reflection (fr : Sec4IFrame Q) {a b : Fin 7} (hab
 private theorem detSpinorNorm_sec4IP_swap (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q)
     {a b : Fin 7} (hab : a ≠ b) :
     detSpinorNorm hQ (sec4IP fr (Equiv.swap a b)) = ((-1 : (ZMod 3)ˣ), 1) := by
-  haveI : Invertible (Q (fr.b a - fr.b b)) :=
+  have : Invertible (Q (fr.b a - fr.b b)) :=
     invertibleOfNonzero (by rw [sec4IQ_sub fr hab]; decide)
   rw [sec4IP_swap_eq_reflection fr hab, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (Q (fr.b a - fr.b b)) = 1 :=

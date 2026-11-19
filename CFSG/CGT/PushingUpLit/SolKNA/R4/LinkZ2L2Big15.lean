@@ -82,7 +82,7 @@ theorem z2BigModelCent_holds (r : ℕ) : Z2BigModelCent r := by
     exists_normalized_emb hL.simple hL.odd hL.even hL.model
       (quatInvolution_sq hr e) (quatInvolution_ne_one hr e)
       (quatInvolution_mem_fstar hL.index hr e)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf0 : f ≠ 0 := by
     rintro rfl
     simp only [pow_zero] at hF h4
@@ -105,7 +105,6 @@ theorem z2BigModelCent_holds (r : ℕ) : Z2BigModelCent r := by
       intro h
       apply quatInvolution_ne_one hr e
       apply E.conjInj
-      change MulAut.conj (quatInvolution r e) = MulAut.conj (1 : X)
       rw [show MulAut.conj (quatInvolution r e) = 1 from h, map_one]
     have hθ : ∀ β ∈ H, θ β = 1 ∨ θ β = σ₀ := by
       intro β hβ

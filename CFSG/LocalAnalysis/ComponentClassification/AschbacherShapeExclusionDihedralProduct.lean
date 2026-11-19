@@ -32,7 +32,7 @@ theorem mem_of_bar_mem [Finite G] (hs : Setting A S₀ t x ρ k) {g : G} (hgA : 
       rw [eq_inv_iff_mul_eq_one, ← hcs.symm.mul_pow, hcs.symm.eq, ← hgsc, hm]
     rw [this]
     exact inv_mem (pow_mem hsS _)
-  have hS2 : IsPGroup 2 ((S₀ : Subgroup A).map A.subtype) := S₀.isPGroup'.map _
+  have hS2 : IsPGroup 2 ((S₀ : Subgroup A).map A.subtype) := S₀.isPGroup.map _
   obtain ⟨m', hm'⟩ := hS2 ⟨_, hcm⟩
   have hc2 : c ^ 2 ^ (m + m') = 1 := by
     rw [pow_add, pow_mul]
@@ -270,7 +270,7 @@ theorem false_of_caseIIa_E8 [Finite G] (hs : Setting A S₀ t x ρ k) {u : G}
   refine false_of_abelian_sylow_fixed (DihedralTimesTwo.commutator_eq_top_of_simple hnonab)
     (sylowBar S₀) hT (bar_mem_sylowBar S₀ h.e_mem) he1 fun nbar hn => ?_
   obtain ⟨n, hnA, rfl⟩ := bar_surjective nbar
-  have hS2 : IsPGroup 2 ((S₀ : Subgroup A).map A.subtype) := S₀.isPGroup'.map _
+  have hS2 : IsPGroup 2 ((S₀ : Subgroup A).map A.subtype) := S₀.isPGroup.map _
   have hconjS : ∀ m : A ⧸ center A,
       m ∈ normalizer ((sylowBar S₀ : Subgroup (A ⧸ center A)) : Set (A ⧸ center A)) →
       ∀ g ∈ A, bar A g = m → ∀ s ∈ (S₀ : Subgroup A).map A.subtype,

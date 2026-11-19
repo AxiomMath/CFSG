@@ -69,7 +69,7 @@ theorem lt_gammaN_of_bar_of_lift {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
 
 theorem s19_one_le_pRank_of_mem_V0 (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L K : Subgroup G}
     (h : Ctx19_1 D V₀ V p L K) (h3 : R19_3At D V₀ V p L K h) {z : G} (hz : z ∈ V₀)
-    (hz1 : z ≠ 1) : 1 ≤ CFSG.Open.pRank 5 (D.M ⊓ centralizer ({z} : Set G)) := by
+    (_hz1 : z ≠ 1) : 1 ≤ CFSG.Open.pRank 5 (D.M ⊓ centralizer ({z} : Set G)) := by
   have hLM : L ≤ D.M := CFSG.Quasithin.A3.subnormal_le h.hyp.hL.1.1
   have hLcent : L ≤ centralizer (V₀ : Set G) :=
     le_sup_left.trans (Subgroup.commutator_eq_bot_iff_le_centralizer.1 h3)

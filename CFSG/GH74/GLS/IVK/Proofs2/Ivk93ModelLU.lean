@@ -79,7 +79,7 @@ theorem jmlu_card_inf_of_comps {K : Type} [Group K] [Finite K] {q : ℕ} {z : K}
   have hPC : (P : Subgroup K) ≤ Cz z := fun x hx => mem_centralizer_singleton_iff.mpr (hzc x hx)
   have htop : IsSylowOf 2 (P : Subgroup K) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hsyl : IsSylowOf 2 (P : Subgroup K) (Cz z) := htop.of_le hPC le_top

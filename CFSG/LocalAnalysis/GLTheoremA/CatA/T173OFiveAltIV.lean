@@ -51,7 +51,7 @@ private lemma isTwoElement_mul_of_commute {G : Type*} [Group G] {x y : G}
   exact ⟨k, hk⟩
 
 private lemma isTwoElement_conj_mul_inv {G : Type*} [Group G] {g t : G} {S : Subgroup G}
-    (htS : t ∈ S) (hgtS : g * t * g⁻¹ ∈ S)
+    (htS : t ∈ S) (_hgtS : g * t * g⁻¹ ∈ S)
     (hc : g * t * g⁻¹ * t⁻¹ ∈ Subgroup.centralizer (S : Set G))
     (ht2 : ∃ k, orderOf t = 2 ^ k) :
     ∃ k, orderOf (g * t * g⁻¹ * t⁻¹) = 2 ^ k := by
@@ -114,7 +114,7 @@ private lemma commutator_mem_centralizer_of_pi (M : S172DModel S B G₀ Ghat)
   have e : (⟨g * t * g⁻¹ * t⁻¹, hmem⟩ : ↥S) =
       (⟨g * t * g⁻¹, hgS t htS⟩ : ↥S) * (⟨t, htS⟩ : ↥S)⁻¹ := by
     apply Subtype.ext
-    simp [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [Subgroup.coe_mul]
   rw [e, map_mul, map_inv]
   rw [Subgroup.coe_mul, Subgroup.coe_inv, hπ, mul_inv_cancel]
 
@@ -170,7 +170,7 @@ private lemma conjugate_pow_eq_of_commutator {G : Type*} [Group G] {p N : ℕ} (
   have hconj : g * u * g⁻¹ = (g * x * g⁻¹) ^ N := by
     rw [hu]
     have h := map_pow (MulAut.conj g).toMonoidHom x N
-    simpa [MulAut.conj_apply, MulAut.conj] using h.symm
+    simp
   have hpow : g * u * g⁻¹ = c ^ N * u := by
     rw [hconj, hcx, hcomm.mul_pow N, hu]
   have hcpN : (c ^ N) ^ p = 1 := by
@@ -178,7 +178,7 @@ private lemma conjugate_pow_eq_of_commutator {G : Type*} [Group G] {p N : ℕ} (
       rw [hu]
       have hconjpow : g * x ^ N * g⁻¹ = (g * x * g⁻¹) ^ N := by
         have h := map_pow (MulAut.conj g).toMonoidHom x N
-        simpa [MulAut.conj_apply, MulAut.conj] using h.symm
+        simp
       rw [hconjpow, show g * x * g⁻¹ = (MulAut.conj g) x from (MulAut.conj_apply g x).symm,
         ← map_pow, ← map_pow, ← hu, hup, map_one]
     rw [hpow] at h1
@@ -271,7 +271,7 @@ private lemma exists_fermat_exponent {G : Type*} [Group G] {p : ℕ} (hp : Nat.P
     exact dvd_pow_self _ (by omega)
   exact ⟨N, hNpos, hFermat, hzN⟩
 
-private lemma pow_eq_self_of_fermat {G : Type*} [Group G] {p N : ℕ} (hp : Nat.Prime p)
+private lemma pow_eq_self_of_fermat {G : Type*} [Group G] {p N : ℕ} (_hp : Nat.Prime p)
     {u : G} (hu : orderOf u = p) (hN : N ≡ 1 [MOD p]) (hNpos : 0 < N) :
     u ^ N = u := by
   have hdvd : p ∣ N - 1 := hN.symm.dvd'
@@ -350,7 +350,7 @@ private lemma pi_conj_of_mem_K [Finite Ω] {K : Subgroup Ω}
   have e : (⟨kk * uT * kk⁻¹, hgS uT uT.2⟩ : ↥S) =
       (⟨kk, hkS⟩ : ↥S) * uT * (⟨kk, hkS⟩ : ↥S)⁻¹ := by
     apply Subtype.ext
-    simp [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [Subgroup.coe_mul]
   rw [e, map_mul, map_mul, map_inv]
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   rw [huπ, hcomm, mul_assoc, mul_inv_cancel, mul_one]
@@ -422,7 +422,7 @@ private lemma not_mem_B_of_pow_lift [Finite Ω] (M : S172DModel S B G₀ Ghat)
   exact htsnot hbar
 
 private lemma pow_lift_core [Finite Ω] {p : ℕ} {N D K : Subgroup Ω} {x : Ω}
-    (hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat)
+    (_hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat)
     {tg sg ts : ↥G₀} (htg2 : tg ^ 2 = 1) (hsg2 : sg ^ 2 = 1)
     (hts : ((ts : ↥G₀) : Γ) = ((tg : ↥G₀) : Γ) * ((sg : ↥G₀) : Γ))
     (htsp : ts ^ p = 1)
@@ -510,7 +510,7 @@ private lemma exists_pElement_of_involution_pair [Finite Ω] {p : ℕ} {N D K : 
     ∃ y : Ω, y ∈ S ∧ y ^ p = 1 ∧ y ∈ Subgroup.centralizer (B : Set Ω) ∧
       y ∈ Subgroup.centralizer (K : Set Ω) ∧ y ∉ B := by
   classical
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   obtain ⟨t, htG, s, hsG, ht2, hs2, htcent, hscent, htsp, htsnot⟩ := hy
   let tg : ↥G₀ := ⟨t, htG⟩
   let sg : ↥G₀ := ⟨s, hsG⟩

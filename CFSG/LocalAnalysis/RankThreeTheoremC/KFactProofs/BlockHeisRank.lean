@@ -11,7 +11,7 @@ theorem exists_lift_elemAbelian {L : Type*} [Group L] [Finite L] {q : ℕ} (hq :
     (hZ : ¬ q ∣ Nat.card (Subgroup.center L)) (A : Subgroup (L ⧸ Subgroup.center L))
     (hA : IsMulCommutative A) (hAq : ∀ x ∈ A, x ^ q = 1) :
     ∃ T : Subgroup L, IsMulCommutative T ∧ (∀ x ∈ T, x ^ q = 1) ∧ Nat.card T = Nat.card A := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : L →* L ⧸ Subgroup.center L := QuotientGroup.mk' (Subgroup.center L)
   let Ã : Subgroup L := A.comap π
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -37,7 +37,7 @@ theorem exists_lift_elemAbelian {L : Type*} [Group L] [Finite L] {q : ℕ} (hq :
         congrArg (fun z : Subgroup.center L => (z : L)) hxy
       exact Subtype.ext (Subtype.ext h)
     exact Subgroup.card_dvd_of_injective ι hι
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨T'⟩ := (inferInstance : Nonempty (Sylow q Ã))
   have hcardÃ : Nat.card Ã = Nat.card ψ.ker * Nat.card A := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup ψ.ker
@@ -52,10 +52,10 @@ theorem exists_lift_elemAbelian {L : Type*} [Group L] [Finite L] {q : ℕ} (hq :
     rw [hn, Nat.Prime.factorization_pow hq]
     simp
   have hinj : Function.Injective (ψ.comp (T' : Subgroup Ã).subtype) :=
-    injective_comp_subtype_of_isPGroup ψ hker T'.isPGroup'
+    injective_comp_subtype_of_isPGroup ψ hker T'.isPGroup
   have hT'card : Nat.card (T' : Subgroup Ã) = Nat.card A := by
     rw [T'.card_eq_multiplicity, hfact, hAfact, hn]
-  haveI := hA
+  have := hA
   have hcomm : ∀ x y : (T' : Subgroup Ã), x * y = y * x := fun x y => by
     apply hinj
     rw [map_mul, map_mul]

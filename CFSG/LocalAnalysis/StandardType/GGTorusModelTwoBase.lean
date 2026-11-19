@@ -367,11 +367,11 @@ theorem ggTorusModelAt_of_twoBase {p k : ℕ} {G : Type} [Group G] {E : Subgroup
     rcases a with i | j
     · rw [hw'inl i]
       dsimp only [τ]
-      simp only [MonoidHom.comp_apply, MulEquiv.symm_apply_apply]
+      simp only [MonoidHom.comp_apply]
       exact hw i t
     · rw [hw'inr j]
       dsimp only [τ]
-      simp only [MonoidHom.comp_apply, MulEquiv.symm_apply_apply]
+      simp only [MonoidHom.comp_apply]
       exact conj_mul_conj_of_add T n u hn (hw j) t
   refine ⟨k, τ, ι ⊕ ι, w', s, S', ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · exact ⟨Sum.inl (Classical.arbitrary ι)⟩

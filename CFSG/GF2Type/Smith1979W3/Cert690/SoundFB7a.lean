@@ -60,7 +60,7 @@ theorem bitCount_maskOf {n : ℕ} {S : Finset ℕ} (hS : S ⊆ Finset.range n) :
   rw [hfilter]
 
 theorem maskAllTrue_maskOf {B : Array Bool} {S : Finset ℕ} {n : ℕ}
-    (hS : S ⊆ Finset.range n) (hB : ∀ i ∈ S, B[i]! = true) :
+    (_hS : S ⊆ Finset.range n) (hB : ∀ i ∈ S, B[i]! = true) :
     maskAllTrue B (maskOf S) n = true := by
   unfold maskAllTrue
   rw [List.all_eq_true]
@@ -72,7 +72,7 @@ theorem maskAllTrue_maskOf {B : Array Bool} {S : Finset ℕ} {n : ℕ}
   · simp [hmem]
 
 theorem maskClosed_maskOf {M : Array (Array ℕ)} {S : Finset ℕ} {n : ℕ}
-    (hS : S ⊆ Finset.range n)
+    (_hS : S ⊆ Finset.range n)
     (hclosed : ∀ i ∈ S, ∀ j ∈ S, (M[i]!)[j]! ∈ S) :
     maskClosed M (maskOf S) n = true := by
   unfold maskClosed
@@ -83,8 +83,8 @@ theorem maskClosed_maskOf {M : Array (Array ℕ)} {S : Finset ℕ} {n : ℕ}
     rw [List.all_eq_true]
     intro j hj
     by_cases hjS : j ∈ S
-    · simp [testBit_maskOf, hjS, hclosed i hiS j hjS]
-    · simp [testBit_maskOf, hjS]
+    · simp [hjS, hclosed i hiS j hjS]
+    · simp [hjS]
   · simp [testBit_maskOf, hiS]
 
 theorem normalizesMask_maskOf {row : Array ℕ} {S : Finset ℕ} {n : ℕ}
@@ -127,10 +127,10 @@ private theorem idxFold_spec (A : Array ℕ) :
       have hins := Std.HashMap.getD_insert (m := idxFold A m) (k := A[m]!) (a := A[p]!)
         (v := m) (fallback := A.size)
       by_cases hbeq : A[m]! == A[p]!
-      · rw [if_pos hbeq] at hins
+      · rw [ite_eq_left hbeq] at hins
         rw [hins]
         exact ⟨by omega, by rwa [beq_iff_eq] at hbeq⟩
-      · rw [if_neg hbeq] at hins
+      · rw [ite_eq_right hbeq] at hins
         rw [hins]
         exact ⟨by omega, hprev.2⟩
     · rw [Std.HashMap.getD_insert_self]
@@ -263,7 +263,7 @@ theorem foldl_push_any {α β : Type*} (l : List β) (f : β → Option α) (acc
     rw [List.foldl_cons, ih]
     cases hb : f b with
     | none => simp [hb, List.any_cons]
-    | some a => simp [hb, Array.any_push, List.any_cons, Bool.or_assoc]
+    | some a => simp [hb, List.any_cons, Bool.or_assoc]
 
 theorem foldl_push_any_ite {α β : Type*} (l : List β) (cond : β → Bool) (val : β → α)
     (acc : Array α) (p : α → Bool) :
@@ -275,7 +275,7 @@ theorem foldl_push_any_ite {α β : Type*} (l : List β) (cond : β → Bool) (v
     rw [List.foldl_cons, ih]
     by_cases hb : cond b
     · simp [hb, List.any_cons]
-    · simp [hb, List.any_cons, Array.any_push, Bool.or_assoc]
+    · simp [hb, List.any_cons, Bool.or_assoc]
 
 theorem testBit_one_shift (i j : ℕ) : (1 <<< j).testBit i = decide (i = j) := by
   rw [Nat.one_shiftLeft, Nat.testBit_two_pow]
@@ -293,7 +293,7 @@ theorem foldl_or_pow_testBit (n mask : ℕ) (f : ℕ → Bool) (j : ℕ) :
     rw [List.range_succ, List.foldl_append]
     simp only [List.foldl_cons, List.foldl_nil]
     by_cases hfn : f n
-    · rw [if_pos hfn, testBit_or_pow, ih]
+    · rw [ite_eq_left hfn, testBit_or_pow, ih]
       by_cases hj : j < n
       · have hjn : j ≠ n := by omega
         have hlt : j < n + 1 := by omega
@@ -302,14 +302,14 @@ theorem foldl_or_pow_testBit (n mask : ℕ) (f : ℕ → Bool) (j : ℕ) :
         · simp [hjn, hfn]
         · have hlt : ¬ j < n + 1 := by omega
           simp [hj, hjn, hlt]
-    · rw [if_neg hfn, ih]
+    · rw [ite_eq_right hfn, ih]
       by_cases hj : j < n
       · have hlt : j < n + 1 := by omega
         simp [hj, hlt]
       · by_cases hjn : j = n
         · simp [hjn, hfn]
         · have hlt : ¬ j < n + 1 := by omega
-          simp [hj, hjn, hlt]
+          simp [hj, hlt]
 
 
 theorem centralMaskTable_testBit (A K : Array ℕ) {h i : ℕ} (hh : h < K.size)

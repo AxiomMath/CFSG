@@ -147,36 +147,36 @@ theorem PR_el5 (w : List ℤ) : PR (el5 w) (encR (wR w)) :=
 theorem PR_gE_q {n : ℕ} (hn : n < 12) : PR (gE n) (getN one QAs n) := by
   have h := qR_enc hn
   refine PR_of h ?_
-  rw [gE, genWord, if_pos hn, Mx_el5 matFacts]
+  rw [gE, genWord, ite_eq_left hn, Mx_el5 matFacts]
   rfl
 
 theorem PR_gE_a : PR (gE 12) YA := by
   refine PR_of ya_enc ?_
-  rw [gE, genWord, if_neg (by norm_num), if_pos rfl, Mx_el5 matFacts]
+  rw [gE, genWord, ite_eq_right (by norm_num), ite_eq_left rfl, Mx_el5 matFacts]
 
 theorem PR_gE_b : PR (gE 13) YB := by
   refine PR_of yb_enc ?_
-  rw [gE, genWord, if_neg (by norm_num), if_neg (by norm_num), if_pos rfl, Mx_el5 matFacts]
+  rw [gE, genWord, ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_left rfl, Mx_el5 matFacts]
 
 theorem Mx_el5_pow (w : List ℤ) (e : ℕ) : Mx (el5 (powWord w e)) = rowsMatrix (powRows (wR w) e) := by
   rw [el5_powWord, map_pow, Mx_el5 matFacts, rowsMatrix_powRows]
 
 theorem PR_gE_5 : PR (gE 14) YP5 := by
   refine PR_of y5_enc ?_
-  rw [gE, genWord, if_neg (by norm_num), if_neg (by norm_num), if_neg (by norm_num),
-    if_pos rfl, Mx_el5_pow]
+  rw [gE, genWord, ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num),
+    ite_eq_left rfl, Mx_el5_pow]
   rfl
 
 theorem PR_gE_7 : PR (gE 15) YP7 := by
   refine PR_of y7_enc ?_
-  rw [gE, genWord, if_neg (by norm_num), if_neg (by norm_num), if_neg (by norm_num),
-    if_neg (by norm_num), if_pos rfl, Mx_el5_pow]
+  rw [gE, genWord, ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num),
+    ite_eq_right (by norm_num), ite_eq_left rfl, Mx_el5_pow]
   rfl
 
 theorem PR_gE_11 : PR (gE 16) YP11 := by
   refine PR_of y11_enc ?_
-  rw [gE, genWord, if_neg (by norm_num), if_neg (by norm_num), if_neg (by norm_num),
-    if_neg (by norm_num), if_neg (by norm_num), if_pos rfl, Mx_el5_pow]
+  rw [gE, genWord, ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_right (by norm_num),
+    ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_left rfl, Mx_el5_pow]
   rfl
 
 theorem PR_uJ {j : ℕ} (hj : j < 11) : PR (uJ j) (getN one UL j) := by

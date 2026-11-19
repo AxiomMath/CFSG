@@ -27,7 +27,7 @@ theorem exists_inverting_involution_of_cartan_linear
   obtain ⟨t, ht2, htB, hcart⟩ := exists_involution_cartan_eq hB Q hD hDodd hQD
   obtain ⟨_, hc⟩ := hB.exists_benderCore Q
   have hc' : BenderCore (2 ^ n) 1 1 (Q : Subgroup K) t := hc.of_involution ht2 htB
-  haveI : IsSimpleGroup K := hB.isSimple
+  have : IsSimpleGroup K := hB.isSimple
   refine ⟨t, ht2, htB, ?_, hc'.sup_conjugate_eq_top⟩
   intro d hd
   have hd' : d ∈ cartan (Q : Subgroup K) t := by rw [hcart]; exact hd
@@ -48,7 +48,7 @@ theorem exists_mem_normalizer_of_mem_normalizer_sup
   have hDHle : D ≤ H := by rw [hH]; exact le_sup_right
   let QH : Subgroup ↥H := Q.subgroupOf H
   let DH : Subgroup ↥H := D.subgroupOf H
-  haveI : QH.Normal := Subgroup.Normal.subgroupOf (inferInstance : Q.Normal) H
+  have : QH.Normal := Subgroup.Normal.subgroupOf (inferInstance : Q.Normal) H
   have hQHp : IsPGroup 2 QH :=
     hQ.of_injective (Subgroup.subgroupOfEquivOfLe hQHle).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hQHle).injective
@@ -118,7 +118,7 @@ theorem q1_sup_q2_eq_s_of_caseII
     {L1 L2 S : Subgroup G} {a : ℕ} (hF : F112HypW L1 L2 S) (ha : 1 ≤ a)
     (hSz : Nonempty (oTwoQuot ↥L1 ≃* Sz a))
     (hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
-    (hJ1 : thompsonJ S ≤ Q1 L1 L2 S) (hJ2 : ¬ thompsonJ S ≤ Q2 L1 L2 S) :
+    (_hJ1 : thompsonJ S ≤ Q1 L1 L2 S) (_hJ2 : ¬ thompsonJ S ≤ Q2 L1 L2 S) :
     Q1 L1 L2 S ⊔ Q2 L1 L2 S = S := by
   have hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G) :=
     str83_bigB_le_normalizer hF.1 ha hSz hL2

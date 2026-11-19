@@ -30,8 +30,8 @@ theorem mem_diagFour {t : GL (Fin 3) K} :
 
 private theorem neg_one_ne_one_units (hK : PiField π p f K) (hp : 5 ≤ p) :
     (-1 : Kˣ) ≠ 1 := by
-  haveI : Fact (2 < p) := ⟨by omega⟩
-  haveI : CharP K p := hK.charP
+  have : Fact (2 < p) := ⟨by omega⟩
+  have : CharP K p := hK.charP
   intro h
   exact CharP.neg_one_ne_one (R := K) p (congrArg Units.val h)
 
@@ -107,8 +107,8 @@ theorem card_diagFour (hK : PiField π p f K) (hp : 5 ≤ p) :
 theorem diagFour_inf_zPi (hK : PiField π p f K) (hp : 5 ≤ p) (hq : ModThree π (p ^ f)) {τ : K}
     (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) :
     diagFour (K := K) ⊓ zPi π 3 (p ^ f) K = ⊥ := by
-  haveI : Fact (2 < p) := ⟨by omega⟩
-  haveI : CharP K p := hK.charP
+  have : Fact (2 < p) := ⟨by omega⟩
+  have : CharP K p := hK.charP
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   rw [eq_bot_iff]
   intro t ht
@@ -193,6 +193,7 @@ theorem diagFour_normalized {c : GL (Fin 3) K}
       Fintype.prod_equiv σ.symm (fun i : Fin 3 => d (σ.symm i)) d (fun i => rfl)
     simpa [Fin.prod_univ_three] using hperm.trans (by simpa [Fin.prod_univ_three] using hprod)
 
+omit [Field K] in
 theorem const_of_invariant_threeCycle {d : Fin 3 → K} {σ : Equiv.Perm (Fin 3)}
     (hσ3 : σ ^ 3 = 1) (hσne : σ ≠ 1) (hinv : ∀ i, d i = d (σ.symm i)) :
     ∀ i, d i = d 0 := by
@@ -272,8 +273,8 @@ theorem fixedPointFree_of_threeCycle (hK : PiField π p f K) (hp : 5 ≤ p) {c :
     · exfalso
       rw [h] at hcube
       norm_num at hcube
-      haveI : Fact (2 < p) := ⟨by omega⟩
-      haveI : CharP K p := hK.charP
+      have : Fact (2 < p) := ⟨by omega⟩
+      have : CharP K p := hK.charP
       exact CharP.neg_one_ne_one (R := K) p hcube
   have hdall : d = fun _ => (1 : K) := by
     funext i
@@ -304,10 +305,8 @@ theorem isMonomial_of_conj_diagTau {τ : K}
   have hlam : Function.Injective (![τ, τ ^ 2, 1] : Fin 3 → K) := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.head_cons, Matrix.tail_cons] at hij ⊢ <;>
+      simp only at hij ⊢ <;>
       first
-        | rfl
         | exact absurd hij hτ1
         | exact absurd hij.symm hτ1
         | exact absurd hij hτ2
@@ -315,7 +314,7 @@ theorem isMonomial_of_conj_diagTau {τ : K}
         | exact absurd hij hττ2
         | exact absurd hij.symm hττ2
   have hmat := congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K)) h
-  simp only [Units.val_mul, Units.val_inv_eq_inv_val] at hmat
+  simp only [Units.val_mul] at hmat
   have h2 : (c : Matrix (Fin 3) (Fin 3) K) * diagonal ![τ, τ ^ 2, 1] =
       (GeneralLinearGroup.scalar (Fin 3) ξ : Matrix (Fin 3) (Fin 3) K) *
         diagonal ![τ, τ ^ 2, 1] * (c : Matrix (Fin 3) (Fin 3) K) := by

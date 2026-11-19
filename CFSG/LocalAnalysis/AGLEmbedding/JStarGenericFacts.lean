@@ -66,7 +66,7 @@ theorem eq_top_of_coprime_card_quotient (h : JStarHypOf p Rb Y₀ Jt Xt T B φ) 
     [V.Normal] (hV : p.Coprime (Nat.card (Jt ⧸ V))) : V = ⊤ := by
   have hX : ∀ x : Jt, (x : Y) ∈ Xt → x ∈ V := by
     intro x hxX
-    obtain ⟨k, hk⟩ := Rb.isPGroup' ⟨x, h.le_R hxX⟩
+    obtain ⟨k, hk⟩ := Rb.isPGroup ⟨x, h.le_R hxX⟩
     have hxk : x ^ p ^ k = 1 := Subtype.ext (by simpa using congrArg Subtype.val hk)
     have h1 : orderOf (x : Jt ⧸ V) ∣ p ^ k := orderOf_dvd_of_pow_eq_one (by
       rw [← QuotientGroup.mk_pow, hxk, QuotientGroup.mk_one])
@@ -162,7 +162,7 @@ theorem exists_elem_le_sylow_of_le_pRank (h : JStarHypOf p Rb Y₀ Jt Xt T B φ)
     (hk : k ≤ Open.pRank p (⊤ : Subgroup T)) (S : Sylow p Jt) :
     ∃ E : Subgroup Jt, E ≤ S ∧ IsElemAbelian p E ∧ Nat.card E = p ^ k := by
   have hdisj : (S : Subgroup Jt) ⊓ φ.ker = ⊥ := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
     exact (Subgroup.disjoint_of_coprime_natCard (hk ▸ h.coprime.pow_left k)).eq_bot
   set ψ : (S : Subgroup Jt) →* T := φ.comp (S : Subgroup Jt).subtype
   have hinj : Function.Injective ψ := by

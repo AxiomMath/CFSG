@@ -28,7 +28,7 @@ theorem c104_exists_isSCp_top {p : ℕ} {Y : Subgroup G} (hY : CFSG.Open.IsElemA
 theorem c104_rank_inf_le_two {p : ℕ} (hp : p.Prime) {E A : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian p E) (hE3 : CFSG.Open.pRank p E = 3) (hne : E ⊓ A ≠ E) :
     CFSG.Open.pRank p (E ⊓ A) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   have hX3 : 3 ≤ CFSG.Open.pRank p (E ⊓ A) := by omega
   obtain ⟨E'', hE''X, -, hE''card⟩ :=
@@ -112,7 +112,7 @@ end Helpers
 theorem lemma104_v_of_input31_8 (hI : Input31_8) : Lemma104_vStatement := by
   intro G _ _ m p B M h E A hEA h3 R hR
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hRp : IsPGroup p ↥R := hR.2.1
   have hB : inD p M B := lemma101_ii_holds h

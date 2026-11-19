@@ -42,7 +42,7 @@ structure PointKernelRootData (H : Subgroup G) (z w : G) (U R : Subgroup G) (q i
 theorem pow_two_pow_of_mem_sylow_map {K : Subgroup G} (R : Sylow 2 K) {y : G}
     (hy : y ∈ (R : Subgroup K).map K.subtype) : ∃ k : ℕ, y ^ 2 ^ k = 1 := by
   obtain ⟨r, hr, rfl⟩ := hy
-  obtain ⟨k, hk⟩ := R.isPGroup' ⟨r, hr⟩
+  obtain ⟨k, hk⟩ := R.isPGroup ⟨r, hr⟩
   exact ⟨k, by simpa using congrArg (fun s : (R : Subgroup K) => ((s : K) : G)) hk⟩
 
 abbrev hullQuotient (L : Subgroup G) : Type u := L ⧸ CFSG.oddCore L
@@ -80,7 +80,7 @@ theorem hull_point_sylow_root {H L : Subgroup G}
       rwa [← Subtype.ext hyx]
   have hpow : ∀ x : L, x ∈ (R' : Subgroup L) → ∃ k : ℕ, x ^ 2 ^ k = 1 := by
     intro x hx
-    obtain ⟨k, hk⟩ := R'.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := R'.isPGroup ⟨x, hx⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hinj : ∀ x y : L, x ∈ (R' : Subgroup L) → y ∈ (R' : Subgroup L) → π x = π y → x = y := by
     intro x y hx hy hxy
@@ -102,7 +102,7 @@ theorem hull_point_sylow_root {H L : Subgroup G}
     obtain ⟨k, hk⟩ := hpow x hx
     exact mem_sylow_of_mem_normalizer S (hinB x (hRgLH ((hmem x).mp hx)).2) (k := k)
       (by rw [← map_pow, hk, map_one])
-  have hSQ : (S : Subgroup (L ⧸ Z)) = Q := Q.maximal_isPGroup.eq_of_ge S.isPGroup' hQS
+  have hSQ : (S : Subgroup (L ⧸ Z)) = Q := Q.maximal_isPGroup.eq_of_ge S.isPGroup hQS
   refine ⟨?_, fun x y hx hy hxy => hinj x y ((hmem x).mpr hx) ((hmem y).mpr hy) hxy, Q, ?_, ?_⟩
   · rintro y hyL hyH ⟨k, hk⟩
     let y' : L := ⟨y, hyL⟩

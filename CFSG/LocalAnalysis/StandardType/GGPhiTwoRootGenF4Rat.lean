@@ -82,7 +82,7 @@ private theorem single_mem_phiTwoB4RootSet (i : Fin Tag.F4.rank)
   have h3 : (⟨3, by decide⟩ : Fin Tag.F4.rank) =
       CFSG.ComponentClassification.CatLeafProof.f4Node 3 := by congr 1
   rw [h3]
-  simp [Pi.single_apply, hi]
+  simp [hi]
 
 private theorem neg_single_mem_phiTwoB4RootSet (i : Fin Tag.F4.rank)
     (hi : i ≠ CFSG.ComponentClassification.CatLeafProof.f4Node 3) :
@@ -91,7 +91,7 @@ private theorem neg_single_mem_phiTwoB4RootSet (i : Fin Tag.F4.rank)
   have h3 : (⟨3, by decide⟩ : Fin Tag.F4.rank) =
       CFSG.ComponentClassification.CatLeafProof.f4Node 3 := by congr 1
   rw [h3, Pi.neg_apply]
-  simp [Pi.single_apply, hi]
+  simp [hi]
 
 private theorem neg_mem_phiTwoB4RootSet {γ : Fin Tag.F4.rank → ℤ}
     (hγ : γ ∈ phiTwoB4RootSet) : -γ ∈ phiTwoB4RootSet :=

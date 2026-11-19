@@ -59,11 +59,11 @@ private lemma ci5_pCore_le_of_normal_quotient_perm5 {X : Type*} [Group X] {N : S
   let π : X →* X ⧸ N := QuotientGroup.mk' N
   obtain ⟨e⟩ := hq
   have hmap : (CFSG.pCore 2 X).map π = ⊥ := by
-    haveI : ((CFSG.pCore 2 X).map π).Normal :=
+    have : ((CFSG.pCore 2 X).map π).Normal :=
       Subgroup.Normal.map (inferInstance : (CFSG.pCore 2 X).Normal) π
         (QuotientGroup.mk'_surjective N)
     have hsub : ((CFSG.pCore 2 X).map π).map e.toMonoidHom = ⊥ := by
-      haveI : (((CFSG.pCore 2 X).map π).map e.toMonoidHom).Normal :=
+      have : (((CFSG.pCore 2 X).map π).map e.toMonoidHom).Normal :=
         Subgroup.Normal.map ‹((CFSG.pCore 2 X).map π).Normal› e.toMonoidHom e.surjective
       exact ci5_eq_bot_of_normal_isPGroup_perm5 _
         (((CFSG.pCore_isPGroup (p := 2) (G := X)).map π).map e.toMonoidHom)
@@ -82,7 +82,7 @@ theorem exists_mulEquiv_map_centralizer_perm5 {C : Type} [Group C] [Finite C] {Q
   have hsh' : IsShapeTwoTwoSixS5 ↥X := hsh
   change Nonempty (↥(X.map π) ≃* Equiv.Perm (Fin 5))
   obtain ⟨V, N, hVnorm, hNnorm, hVN, hVshape, hNVshape, hXshape⟩ := hsh'
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   have hNcard : Nat.card N = 2 ^ 8 := by
     have hVcard : Nat.card V = 2 ^ 2 := by
       obtain ⟨eV⟩ := hVshape

@@ -25,9 +25,9 @@ theorem orderOf_conj_aux (x t : G) : orderOf (x⁻¹ * t * x) = orderOf t := by
 
 theorem exists_conj_mem_of_isPGroup [Finite G] {T : Subgroup G} (hT2 : IsPGroup 2 T)
     (hTidx : ¬ 2 ∣ T.index) {u : G} (hu : orderOf u = 2) : ∃ g : G, g⁻¹ * u * g ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Ts : Sylow 2 G := hT2.toSylow hTidx
-  haveI : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex Ts
+  have : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex Ts
   have hu2 : IsPGroup 2 (Subgroup.zpowers u) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hu]; norm_num)
   obtain ⟨Q, hQ⟩ := hu2.exists_le_sylow
@@ -46,7 +46,7 @@ theorem exists_conj_mem_of_isPGroup [Finite G] {T : Subgroup G} (hT2 : IsPGroup 
 
 theorem exists_conj_mem_of_thompson [Finite G] {T U : Subgroup G} (hT2 : IsPGroup 2 T)
     (hTidx : ¬ 2 ∣ T.index) (hUT : U ≤ T) (hU2 : U.relIndex T = 2)
-    (hO2 : CFSG.Quasithin.pResidualOf 2 (⊤ : Subgroup G) = ⊤) {t : G} (htT : t ∈ T)
+    (hO2 : CFSG.Quasithin.pResidualOf 2 (⊤ : Subgroup G) = ⊤) {t : G} (_htT : t ∈ T)
     (ht : orderOf t = 2) : ∃ x : G, x⁻¹ * t * x ∈ U := by
   by_contra hno
   push Not at hno
@@ -57,7 +57,7 @@ theorem exists_conj_mem_of_thompson [Finite G] {T U : Subgroup G} (hT2 : IsPGrou
 
 theorem pResidualOf_top_eq_top [Finite G] [IsSimpleGroup G] {x : G} (hx : Odd (orderOf x))
     (hx1 : x ≠ 1) : CFSG.Quasithin.pResidualOf 2 (⊤ : Subgroup G) = ⊤ := by
-  haveI := CFSG.Quasithin.B2F.normal_pResidualOf_top (G := G)
+  have := CFSG.Quasithin.B2F.normal_pResidualOf_top (G := G)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.Quasithin.pResidualOf 2 (⊤ : Subgroup G))
     with h | h
   · exfalso
@@ -82,7 +82,7 @@ theorem e0_ne_one_aux {H H₁ H₂ : Subgroup G} {e : Fin 6 → G} (hH : G23One 
 theorem zOf_ne_one_aux {H H₁ H₂ : Subgroup G} {e : Fin 6 → G} (hH : G23One H H₁ H₂)
     (hF : HFacts H H₁ H₂ e) (hL : HLetters H H₁ H₂ e) (he01 : e 0 ≠ 1) : zOf e ≠ 1 := by
   intro hz1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have he0H₁ : e 0 ∈ H₁ := by
     rw [← hL.gen₁]
     exact Subgroup.subset_closure (Set.mem_insert _ _)
@@ -145,7 +145,7 @@ theorem zOf_ne_one_aux {H H₁ H₂ : Subgroup G} {e : Fin 6 → G} (hH : G23One
 theorem oneClass_of_setup [Finite G] {T H H₁ H₂ M : Subgroup G} {e : Fin 6 → G}
     (hctx : G23Ctx G T H H₁ H₂ M) (hL : HLetters H H₁ H₂ e) (hF : HFacts H H₁ H₂ e)
     (hz : zOf e ∈ quasithinGenFitting M) : OneClass e := by
-  haveI : IsSimpleGroup G := hctx.simple
+  have : IsSimpleGroup G := hctx.simple
   have hH : G23One H H₁ H₂ := hctx.one
   have hM : G23Two M := hctx.two
   obtain ⟨hT2, hTidxG⟩ : IsPGroup 2 T ∧ ¬ 2 ∣ T.index := hctx.sylow

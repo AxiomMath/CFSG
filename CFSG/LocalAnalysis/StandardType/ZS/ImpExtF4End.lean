@@ -2957,7 +2957,7 @@ theorem oPhi_le_of_not_irred (hp : p ≠ 2) (h : FFourData f a b c g H G)
   have hcH : c ∈ H := by rw [h.H_eq]; exact Subgroup.subset_closure (by simp)
   rw [basisClosure, Subgroup.closure_le]
   intro z hz
-  simp only [Set.mem_setOf_eq, oPhiOneMats, Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+  simp only [Set.mem_ofPred_eq, oPhiOneMats, Set.mem_insert_iff, Set.mem_singleton_iff] at hz
   rcases hz with hz | hz | hz | hz
   · rw [toMatrix_inj_four (hz.trans h'.toMatrix_a.symm)]; exact h.H_le haH
   · rw [toMatrix_inj_four (hz.trans h'.toMatrix_b.symm)]; exact h.H_le hbH
@@ -3246,8 +3246,8 @@ private lemma zs4k_coord_apply_basis (k l : Fin 4) :
     f.coord k (f l) = if k = l then 1 else 0 := by
   rw [Module.Basis.coord_apply, Module.Basis.repr_self]
   by_cases h : k = l
-  · subst h; rw [Finsupp.single_eq_same, if_pos rfl]
-  · rw [Finsupp.single_eq_of_ne h, if_neg h]
+  · subst h; rw [Finsupp.single_eq_same, ite_eq_left rfl]
+  · rw [Finsupp.single_eq_of_ne h, ite_eq_right h]
 
 omit [Module.Finite (ZMod p) U] in
 private lemma zs4k_sum_coord_apply_basis (w : Fin 4 → ZMod p) (k : Fin 4) :
@@ -3284,17 +3284,17 @@ private lemma zs4k_pairing_pij_one {i j : Fin 4} (hij : i ≠ j) :
     (f.coord i - f.coord j) (f i - f j) = 2 := by
   have h1 : (f.coord i - f.coord j) (f i) = 1 := by
     rw [LinearMap.sub_apply, zs4k_coord_apply_basis, zs4k_coord_apply_basis,
-      if_pos rfl, if_neg (Ne.symm hij), sub_zero]
+      ite_eq_left rfl, ite_eq_right (Ne.symm hij), sub_zero]
   have h2 : (f.coord i - f.coord j) (f j) = -1 := by
     rw [LinearMap.sub_apply, zs4k_coord_apply_basis, zs4k_coord_apply_basis,
-      if_neg hij, if_pos rfl, zero_sub]
+      ite_eq_right hij, ite_eq_left rfl, zero_sub]
   rw [map_sub, h1, h2]
   norm_num
 
 omit [Module.Finite (ZMod p) U] in
 private lemma zs4k_pairing_diag (i : Fin 4) :
     ((2 : ZMod p) • f.coord i) (f i) = 2 := by
-  rw [LinearMap.smul_apply, zs4k_coord_apply_basis, if_pos rfl, smul_eq_mul, mul_one]
+  rw [LinearMap.smul_apply, zs4k_coord_apply_basis, ite_eq_left rfl, smul_eq_mul, mul_one]
 
 omit [Module.Finite (ZMod p) U] in
 private lemma zs4k_eq_reflection_of_pij_one {i j : Fin 4} (hij : i ≠ j)
@@ -4927,9 +4927,9 @@ private lemma zs4h_d_card_cast_zero {v w : Fin 4 → ZMod p}
         ∑ i, (if 2 * (w i * v i) = 2 then (1 : ZMod p) else 0) := by
       refine Finset.sum_congr rfl (fun i _ => ?_)
       by_cases hi : 2 * (w i * v i) = 2
-      · rw [if_pos hi, hi]; ring
+      · rw [ite_eq_left hi, hi]; ring
       · have h1' : 2 * (w i * v i) = 1 := (hD i).resolve_right hi
-        rw [if_neg hi, h1']; ring
+        rw [ite_eq_right hi, h1']; ring
     rw [hcongr, ← Finset.sum_filter]
     rw [Finset.sum_const, nsmul_eq_mul, mul_one]
   have h2 : (∑ i, (2 * (w i * v i) - 1)) = 0 := by
@@ -5094,8 +5094,8 @@ private lemma zs4h_sum_smul_not_mem_span {v : Fin 4 → ZMod p} (hv : ∀ l, v l
   have hker : Submodule.span (ZMod p) ({f 0, f i} : Set U) ≤ LinearMap.ker (f.coord j) := by
     rw [Submodule.span_le]
     rintro y (rfl | rfl)
-    · rw [SetLike.mem_coe, LinearMap.mem_ker, zs4k_coord_apply_basis, if_neg hj0]
-    · rw [SetLike.mem_coe, LinearMap.mem_ker, zs4k_coord_apply_basis, if_neg hji]
+    · rw [SetLike.mem_coe, LinearMap.mem_ker, zs4k_coord_apply_basis, ite_eq_right hj0]
+    · rw [SetLike.mem_coe, LinearMap.mem_ker, zs4k_coord_apply_basis, ite_eq_right hji]
   have h0 : f.coord j (∑ l, v l • f l) = 0 := hker hmem
   rw [zs4k_coord_apply_sum] at h0
   exact hv j h0
@@ -5748,7 +5748,7 @@ theorem weylF4_le (h : FFourData f a b c g H G) {x : U ≃ₗ[ZMod p] U} (hx : x
   have hcH : c ∈ H := by rw [h.H_eq]; exact Subgroup.subset_closure (by simp)
   rw [basisClosure, Subgroup.closure_le]
   intro y hy
-  simp only [Set.mem_setOf_eq, weylF4Mats, Set.mem_insert_iff, Set.mem_singleton_iff] at hy
+  simp only [Set.mem_ofPred_eq, weylF4Mats, Set.mem_insert_iff, Set.mem_singleton_iff] at hy
   rcases hy with hy | hy | hy | hy
   · rw [toMatrix_inj_four (hy.trans h.toMatrix_a.symm)]
     exact h.H_le haH
@@ -5986,12 +5986,12 @@ private theorem zs4q_exists_a (hH : movedGroup H = g2mmn p e j₀ j₁ ζ)
   have ha1 : a (f 1) = f 1 := by
     have hne : σ 1 ≠ j₀ := by rw [← hσ₀]; exact σ.injective.ne (by decide)
     have h : a (f (1 : Fin 3).castSucc) = f (1 : Fin 3).castSucc := by
-      rw [hact 1, if_neg hne, one_smul]
+      rw [hact 1, ite_eq_right hne, one_smul]
     simpa using h
   have ha2 : a (f 2) = f 2 := by
     have hne : σ 2 ≠ j₀ := by rw [← hσ₀]; exact σ.injective.ne (by decide)
     have h : a (f (2 : Fin 3).castSucc) = f (2 : Fin 3).castSucc := by
-      rw [hact 2, if_neg hne, one_smul]
+      rw [hact 2, ite_eq_right hne, one_smul]
     simpa using h
   refine ⟨a, haH, haact, ?_⟩
   ext r col

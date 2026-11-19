@@ -80,13 +80,13 @@ theorem getD_idxOf {X : B6} (hX : X ∈ G0) : G0.getD (G0.idxOf X) B6.id = X := 
 theorem appA_getD {n : ℕ} (hn : n < G0.length * 64) :
     (mkTab G0).appA.getD n 0 = (G0.getD (n / 64) B6.id).app (n % 64) := by
   change ((List.range (G0.length * 64)).map _).toArray.getD n 0 = _
-  rw [CFSG.KS.S1277Mod.getD_range_map, if_pos hn]
+  rw [CFSG.KS.S1277Mod.getD_range_map, ite_eq_left hn]
 
 theorem compA_getD {n : ℕ} (hn : n < G0.length * G0.length) :
     (mkTab G0).compA.getD n 0 =
       G0.idxOf ((G0.getD (n / G0.length) B6.id).comp (G0.getD (n % G0.length) B6.id)) := by
   change ((List.range (G0.length * G0.length)).map _).toArray.getD n 0 = _
-  rw [CFSG.KS.S1277Mod.getD_range_map, if_pos hn]
+  rw [CFSG.KS.S1277Mod.getD_range_map, ite_eq_left hn]
 
 theorem mulN_eq {x y : ℕ} (hx : x < G0.length * 64) (hy : y < G0.length * 64) :
     mulN (mkTab G0) x y =

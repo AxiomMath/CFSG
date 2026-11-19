@@ -40,7 +40,7 @@ theorem RankLE.sup {U V : Subgroup G} {a b : ℕ} (hcomm : ∀ u ∈ U, ∀ v �
   intro Q hQ
   let QV : Subgroup G :=
     { carrier := {v | v ∈ V ∧ ∃ u ∈ U, u * v ∈ Q}
-      one_mem' := ⟨V.one_mem, 1, U.one_mem, by simpa using Q.one_mem⟩
+      one_mem' := ⟨V.one_mem, 1, U.one_mem, by simp⟩
       mul_mem' := by
         rintro v₁ v₂ ⟨hv₁, u₁, hu₁, hq₁⟩ ⟨hv₂, u₂, hu₂, hq₂⟩
         refine ⟨V.mul_mem hv₁ hv₂, u₁ * u₂, U.mul_mem hu₁ hu₂, ?_⟩
@@ -129,7 +129,7 @@ theorem RankLE.of_relIndex_two [Finite G] {N S : Subgroup G} {a : ℕ} (hNS : N 
   · refine ⟨s, hs.trans (Nat.le_succ a), ?_⟩
     rw [hsc]
     exact inf_eq_left.mpr hQN
-  · obtain ⟨q, hqQ, hqN⟩ := SetLike.not_le_iff_exists.mp hQN
+  · obtain ⟨q, hqQ, hqN⟩ := IsConcreteLE.not_le_iff_exists.mp hQN
     refine ⟨insert q s, (Finset.card_insert_le _ _).trans (Nat.succ_le_succ hs), ?_⟩
     apply le_antisymm
     · rw [Subgroup.closure_le]

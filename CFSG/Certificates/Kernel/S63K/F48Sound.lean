@@ -35,15 +35,15 @@ theorem tSig_stable (h : TRec r p0) :
     obtain ⟨f', rfl⟩ : ∃ g, f' = g + 1 := ⟨f' - 1, by omega⟩
     rw [tSig_add, tSig_add]
     by_cases h0 : i = 0
-    · rw [if_pos h0, if_pos h0]
-    · rw [if_neg h0, if_neg h0]
+    · rw [ite_eq_left h0, ite_eq_left h0]
+    · rw [ite_eq_right h0, ite_eq_right h0]
       have hp := h.par i (by omega) hi
       rw [ih _ hp (by omega) f f' (by omega) (by omega)]
 
 theorem tSig_succ (h : TRec r p0) {i : ℕ} (hi : i < 512) (h0 : i ≠ 0) :
     tSig F r k 512 i = (F[r.lab[i]!]!)[tSig F r k 512 r.par[i]!]! := by
   have e : tSig F r k 512 i = (F[r.lab[i]!]!)[tSig F r k 511 r.par[i]!]! := by
-    rw [tSig_add 511 i, if_neg h0]
+    rw [tSig_add 511 i, ite_eq_right h0]
   have hp := h.par i (by omega) hi
   rw [e, tSig_stable h _ (by omega) 511 512 (by omega) (by omega)]
 
@@ -66,9 +66,9 @@ theorem tInv_fold (h : TRec r p0) (hp0 : p0 < 819) :
     refine ⟨by simp [idA], fun i hi => ?_, fun p hp hn => ?_⟩
     · obtain rfl : i = 0 := by omega
       rw [List.range'_zero, List.foldl_nil, h.root,
-        get_set _ _ (by simp [idA, hp0]), if_pos rfl, tSig_add 511 0, if_pos rfl]
+        get_set _ _ (by simp [idA, hp0]), ite_eq_left rfl, tSig_add 511 0, ite_eq_left rfl]
     · rw [List.range'_zero, List.foldl_nil, get_set _ _ (by simp [idA, hp]),
-        if_neg (by have := hn 0 (by omega); rw [h.root] at this; exact Ne.symm this),
+        ite_eq_right (by have := hn 0 (by omega); rw [h.root] at this; exact Ne.symm this),
         idA_get hp]
   | n + 1, hn => by
     obtain ⟨hs, hv, hf⟩ := tInv_fold h hp0 n (by omega)
@@ -84,9 +84,9 @@ theorem tInv_fold (h : TRec r p0) (hp0 : p0 < 819) :
     refine ⟨by simp [hs], fun i hi => ?_, fun p hp hn' => ?_⟩
     · rw [get_set _ _ (by rw [hs]; exact h.lt i (by omega))]
       by_cases e : i = n + 1
-      · rw [if_pos (by rw [e]), e]
-      · rw [if_neg (fun he => e (h.inj i (by omega) (n + 1) (by omega) he)), hv i (by omega)]
-    · rw [get_set _ _ (by rw [hs]; exact hp), if_neg (Ne.symm (hn' (n + 1) (by omega)))]
+      · rw [ite_eq_left (by rw [e]), e]
+      · rw [ite_eq_right (fun he => e (h.inj i (by omega) (n + 1) (by omega) he)), hv i (by omega)]
+    · rw [get_set _ _ (by rw [hs]; exact hp), ite_eq_right (Ne.symm (hn' (n + 1) (by omega)))]
       exact hf p hp fun i hi => hn' i (by omega)
 
 theorem tArr_spec (h : TRec r p0) (hp0 : p0 < 819) :
@@ -106,7 +106,7 @@ theorem candOK (lay : Array ℕ) (h : TRec r p0) (hp0 : p0 < 819)
   simp only [Bool.and_eq_true]
   refine ⟨⟨beq_true_nat ?_, allLt_iff.2 fun p hp => ?_⟩, allLt_iff.2 fun i hi => ?_⟩
   · have e0 := hv 0 (by omega)
-    rw [h.root, tSig_add 511 0, if_pos rfl] at e0
+    rw [h.root, tSig_add 511 0, ite_eq_left rfl] at e0
     exact e0
   · by_cases hl : 4 < lay[p]!
     · simp [hl]
@@ -129,7 +129,7 @@ theorem tArr_id (h : TRec r p0) (hp0 : p0 < 819)
       intro hi
       by_cases h0 : i = 0
       · subst h0
-        rw [h.root, tSig_add 511 0, if_pos rfl]
+        rw [h.root, tSig_add 511 0, ite_eq_left rfl]
       · have hpar := h.par i (by omega) hi
         rw [tSig_succ h hi h0, ih _ hpar (by omega), ht i (by omega) hi]
   unfold eqA
@@ -170,7 +170,7 @@ theorem powLoop_get :
     by_cases h0 : e = 0
     · subst h0
       rfl
-    · rw [if_neg (by simpa using h0)]
+    · rw [ite_eq_right (by simpa using h0)]
       have hb2 : ∀ y < 819, (compA 819 b b)[y]! < 819 := fun y hy => by
         rw [compA_get hy]
         exact hb _ (hb y hy)
@@ -179,9 +179,9 @@ theorem powLoop_get :
         intro x hx
         rw [hr']
         by_cases hm : e % 2 = 1
-        · rw [if_pos (by simpa using hm), compA_get hx, hm]
+        · rw [ite_eq_left (by simpa using hm), compA_get hx, hm]
           exact ⟨hb _ (hr x hx), rfl⟩
-        · rw [if_neg (by simpa using hm), show e % 2 = 0 by omega]
+        · rw [ite_eq_right (by simpa using hm), show e % 2 = 0 by omega]
           exact ⟨hr x hx, rfl⟩
       rw [powLoop_get fuel _ _ (e / 2) hb2 (fun x hx => (hr2 x hx).1)
         (by rw [Nat.pow_succ] at he; omega) x hx, iter_comp hb _ _ (hr2 x hx).1, (hr2 x hx).2,

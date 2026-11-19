@@ -27,7 +27,7 @@ open CFSG.LieType.Steinberg.Minuscule CFSG.Blueprint.Chevalley CFSG.LieType.Chev
 
 section LevelE6
 
-@[expose] abbrev fE6 : (Fin Tag.E6.rank → ℤ) →+ ℤ := fWt Tag.E6.rank
+abbrev fE6 : (Fin Tag.E6.rank → ℤ) →+ ℤ := fWt Tag.E6.rank
 
 theorem posS_finite : (posS fE6 : Set (Fin Tag.E6.rank → ℤ)).Finite :=
   isRoot_finite.subset fun _ h => h.1
@@ -288,9 +288,9 @@ theorem adj_pair_core (A : Subgroup ↥(adjointGroup .E6 K)) (hA : A ≠ ⊥)
     (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :
     Nat.card A ^ 2 * Nat.card ↥(adjFix K A) ≤ Nat.card K ^ 59 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (Label .E6) := Fintype.ofFinite _
-  haveI : Finite (Module.End K (RootModule .E6 K)) := Module.finite_of_finite K
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (Label .E6) := Fintype.ofFinite _
+  have : Finite (Module.End K (RootModule .E6 K)) := Module.finite_of_finite K
   let A₀ : Subgroup (Module.End K (RootModule .E6 K))ˣ := A.map (adjointGroup .E6 K).subtype
   have hA₀ : A₀ ≤ lvl (rootSubgroup .E6 K) (posS fE6) fE6 1 := by
     rintro _ ⟨a, ha, rfl⟩

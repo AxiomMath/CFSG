@@ -162,6 +162,7 @@ theorem q13d_mem_N (h : Q13Om t L S x₁ x₂ lam rho tau om) {n : G} :
     · exact q13b_V_le_N h hV
     · exact Subgroup.mul_mem _ (q13b_tau_mem_N h) (q13b_V_le_N h hv)
 
+omit [Finite G] in
 theorem q13d_conj_mem_of_charIn {A B : Subgroup G} (hAB : CharIn A B) {g : G}
     (hg : g ∈ normalizer (B : Set G)) : ∀ a ∈ A, g * a * g⁻¹ ∈ A := by
   obtain ⟨hABle, hABchar⟩ := hAB
@@ -178,6 +179,7 @@ theorem q13d_conj_mem_of_charIn {A B : Subgroup G} (hAB : CharIn A B) {g : G}
   have := (Subgroup.mem_subgroupOf (H := A) (K := B)).mp hφ
   rwa [hcoe] at this
 
+omit [Finite G] in
 theorem q13d_normalizer_le_of_charIn {A B : Subgroup G} (hAB : CharIn A B) :
     normalizer (B : Set G) ≤ normalizer (A : Set G) := by
   intro g hg

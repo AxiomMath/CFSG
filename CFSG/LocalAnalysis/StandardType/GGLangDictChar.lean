@@ -38,7 +38,7 @@ theorem latChar_eq_zero_iff_rootChar_eq_one (B : GGLangData L t n f p Bs S π co
     (b : Bs) (v : Fin (ggU (absTag t) 6 f).D.rank → ℤ) :
     latChar p (Multiplicative.toAdd (coord b)) v = 0 ↔
       rootChar (B.a b) (ggLangReidx B.rank_eq v) = 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hsum : ∀ (s : Finset (Fin (ggU (absTag t) 6 f).D.rank))
       (e : Fin (ggU (absTag t) 6 f).D.rank → ℤ), ∏ k ∈ s, B.ζ ^ e k = B.ζ ^ ∑ k ∈ s, e k := by
     intro s e

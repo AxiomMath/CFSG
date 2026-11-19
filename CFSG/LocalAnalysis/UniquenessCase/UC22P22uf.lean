@@ -61,14 +61,14 @@ theorem uc22p22u_isSolvable_of_pi_comm {M S : Subgroup G} (hSM : S ≤ M)
       uc22p21cPi M a * uc22p21cPi M b = uc22p21cPi M b * uc22p21cPi M a) :
     Group.IsSolvable ↥S := by
   let ψ : ↥S →* Bar2 M := (uc22p21cPi M).comp (Subgroup.inclusion hSM)
-  haveI : Group.IsSolvable ↥ψ.range := by
+  have : Group.IsSolvable ↥ψ.range := by
     refine Group.isSolvable_of_comm fun x y => ?_
     obtain ⟨a, ha⟩ := x.2
     obtain ⟨b, hb⟩ := y.2
     exact Subtype.ext (by
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← ha, ← hb]
       exact hcomm _ _ a.2 b.2)
-  haveI : Group.IsSolvable ↥ψ.ker := by
+  have : Group.IsSolvable ↥ψ.ker := by
     let ι : ↥ψ.ker →* ↥(CFSG.pCore 2 ↥M) :=
       ((Subgroup.inclusion hSM).comp ψ.ker.subtype).codRestrict (CFSG.pCore 2 ↥M) fun k =>
         (QuotientGroup.eq_one_iff _).1 k.2
@@ -76,8 +76,8 @@ theorem uc22p22u_isSolvable_of_pi_comm {M S : Subgroup G} (hSM : S ≤ M)
       apply Subtype.ext
       apply Subtype.ext
       exact congrArg (fun z : ↥(CFSG.pCore 2 ↥M) => ((z : ↥M) : G)) hab
-    haveI : IsPGroup 2 ↥ψ.ker := (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).of_injective ι hι
-    haveI := this.isNilpotent
+    have : IsPGroup 2 ↥ψ.ker := (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).of_injective ι hι
+    have := this.isNilpotent
     infer_instance
   exact Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ.rangeRestrict (by
     rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype])
@@ -92,7 +92,7 @@ theorem uc22p22u_r119W (D : Data G) (h118 : R118W D) : R119W D := by
   have hn : D.M ≤ normalizer ((F11.CTilde D.M ⊥ V : Subgroup G) : Set G) := by
     rw [hVc]
     exact uc22p22u_normalizes_cent hW.1.1.2.2.1
-  haveI hNn : (barImage D.M (F11.CTilde D.M ⊥ V)).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M (F11.CTilde D.M ⊥ V)).Normal := uc22p22u_barImage_normal hn
   obtain ⟨φ, hφs, hφk, hφπ⟩ := uc22p22u_exists_phi (M := D.M) (X := F11.CTilde D.M ⊥ V) hO
   have h118V := h118 V hV
   set X₀ : Subgroup G := F11.CTilde D.M ⊥ V with hX₀
@@ -100,11 +100,11 @@ theorem uc22p22u_r119W (D : Data G) (h118 : R118W D) : R119W D := by
   set Fs : Subgroup (Bar2 D.M) :=
     (CFSG.fittingSubgroup ↥N).map N.subtype ⊔ (CFSG.layer ↥N).map N.subtype with hFs
   set C : Subgroup (Bar2 D.M) := centralizer (Fs : Set (Bar2 D.M)) with hC
-  haveI : (CFSG.layer ↥N).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hFn : ((CFSG.fittingSubgroup ↥N).map N.subtype).Normal := inferInstance
-  haveI hEn : ((CFSG.layer ↥N).map N.subtype).Normal := inferInstance
-  haveI hFsn : Fs.Normal := Subgroup.sup_normal _ _
-  haveI hCn : C.Normal := uc22p21c_normal_centralizer Fs
+  have : (CFSG.layer ↥N).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hFn : ((CFSG.fittingSubgroup ↥N).map N.subtype).Normal := inferInstance
+  have hEn : ((CFSG.layer ↥N).map N.subtype).Normal := inferInstance
+  have hFsn : Fs.Normal := Subgroup.sup_normal _ _
+  have hCn : C.Normal := uc22p21c_normal_centralizer Fs
   set Xb : Subgroup (F11.MBar11 D.M ⊥ V) := F11.barImage11 D.M ⊥ V X with hXb
   have hXbperf : ⁅Xb, Xb⁆ = Xb := uc22p22u_isPerfect_of_rankThreeLayer hlayer
   have hXblayer : CFSG.layer ↥Xb = ⊤ := uc22p22u_layer_eq_top_of_rankThreeLayer hlayer
@@ -212,7 +212,7 @@ theorem uc22p22u_r119W (D : Data G) (h118 : R118W D) : R119W D := by
       have ha' : (a : G) ∈ X₀ := ha
       exact (mem_normalizer_iff.1 (hn (hYM g.2)) (a : G)).1 ha'
     have hsolv : Group.IsSolvable ↥((Y ⊓ X₀).subgroupOf Y) := by
-      haveI := hS
+      have := hS
       exact Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left : Y ⊓ X₀ ≤ Y)).toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe (inf_le_left : Y ⊓ X₀ ≤ Y)).injective
@@ -235,7 +235,7 @@ theorem uc22p22u_r119W (D : Data G) (h118 : R118W D) : R119W D := by
       ((QuotientGroup.eq_one_iff (N := (F11.CTilde D.M ⊥ V).subgroupOf D.M)
         (Subgroup.inclusion hYM k)).1 h1)
   have hle2 : (pCoreOf 2 D.M).subgroupOf Y ≤ CFSG.pCore 2 ↥Y := by
-    haveI : ((pCoreOf 2 D.M).subgroupOf Y).Normal := by
+    have : ((pCoreOf 2 D.M).subgroupOf Y).Normal := by
       refine ⟨fun a ha g => ?_⟩
       have ha' : (a : G) ∈ pCoreOf 2 D.M := ha
       exact uc22p21c_conj_mem_pCoreOf_self (hYM g.2) ha'

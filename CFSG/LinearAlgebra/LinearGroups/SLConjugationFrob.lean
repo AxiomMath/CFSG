@@ -19,7 +19,7 @@ private lemma frobenius_sq {F : Type} [Field F] [Finite F] {q : ℕ} (hF : Nat.c
     (σ : F ≃+* F) (hσ : ∀ c, σ c = c ^ q) : σ * σ = 1 := by
   ext c
   change σ (σ c) = c
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hqq : q * q = Nat.card F := by rw [← pow_two, hF]
   rw [hσ, hσ, ← pow_mul, hqq, Nat.card_eq_fintype_card]
   exact FiniteField.pow_card c
@@ -28,7 +28,7 @@ private lemma frobenius_ne_one {F : Type} [Field F] [Finite F] {q : ℕ} (hq : 2
     (hF : Nat.card F = q ^ 2) (σ : F ≃+* F) (hσ : ∀ c, σ c = c ^ q) : σ ≠ 1 := by
   intro h1
   have hfix : ∀ c : F, c ^ q = c := fun c => by rw [← hσ c, h1]; rfl
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hdeg : (Polynomial.X ^ q - Polynomial.X : Polynomial F).natDegree = q := by
     have hlt : (Polynomial.X : Polynomial F).natDegree <
         (Polynomial.X ^ q : Polynomial F).natDegree := by
@@ -128,9 +128,9 @@ private lemma slFieldAut_mul_slConjugation (n : ℕ) (K : Type) [Field K]
   simpa [CFSG.ComponentClassification.CatalogueBLinearSemilinear.slSemilinearAction] using h
 
 private lemma range_le_slConjugation_frob_range {F : Type} [Field F] [Finite F] {q : ℕ}
-    (hF : Nat.card F = q ^ 2) (σ : F ≃+* F) (hσ : ∀ c, σ c = c ^ q)
+    (_hF : Nat.card F = q ^ 2) (σ : F ≃+* F) (_hσ : ∀ c, σ c = c ^ q)
     {G : Type*} [Group G] {E : Subgroup G} [Finite E]
-    (hE : CFSG.Open.IsElemAbelian 3 E)
+    (_hE : CFSG.Open.IsElemAbelian 3 E)
     (θ : ↥E →* MulAut (Matrix.SpecialLinearGroup (Fin 3) F))
     (hθ : θ.range ≤ (slConjugation 3 F).range)
     (hθσ : ∀ x, θ x * slFieldAut (Fin 3) F σ = slFieldAut (Fin 3) F σ * θ x) :
@@ -219,7 +219,7 @@ private lemma exists_isElemAbelian_card_of_hom {X Y : Type*} [Group X] [Finite X
     [Finite Y] {p : ℕ} (hp : p.Prime) (f : X →* Y) {R : Subgroup Y}
     (hR : CFSG.Open.IsElemAbelian p R) (hRle : R ≤ f.range) (hker : ¬ p ∣ Nat.card f.ker) :
     ∃ S : Subgroup X, CFSG.Open.IsElemAbelian p S ∧ Nat.card S = Nat.card R := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let H : Subgroup X := R.comap f
   let φH : ↥H →* Y := f.comp H.subtype
   have hφHrange : φH.range = R := by

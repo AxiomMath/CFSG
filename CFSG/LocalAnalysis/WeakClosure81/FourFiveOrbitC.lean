@@ -12,6 +12,7 @@ open CFSG.Quasithin (IsSylowIn)
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem fourFive_exists_pow_two_mem_of_mem_sup {Y S : Subgroup Q} (hS2 : IsPGroup 2 S)
     (hSY : S ≤ Subgroup.normalizer (Y : Set Q)) {x : Q} (hx : x ∈ Y ⊔ S) :
     ∃ a : ℕ, x ^ 2 ^ a ∈ Y := by
@@ -34,12 +35,14 @@ private theorem fourFive_exists_pow_two_mem_of_mem_sup {Y S : Subgroup Q} (hS2 :
   obtain ⟨y', hy', he⟩ := hm (2 ^ a)
   exact ⟨a, by rw [he, ha', one_mul]; exact hy'⟩
 
+omit [Finite Q] in
 theorem fourFive_isSylowIn_of_le {T U : Subgroup Q} (hT : IsSylowIn 2 T ⊤) (hTU : T ≤ U) :
     IsSylowIn 2 T U :=
   ⟨hTU, hT.isPGroup, fun hdvd => hT.not_dvd_relIndex
     (hdvd.trans ⟨U.relIndex ⊤,
       (Subgroup.relIndex_mul_relIndex T U ⊤ hTU le_top).symm⟩)⟩
 
+omit [Finite Q] in
 theorem fourFive_normal_inf_centralizer {U X : Subgroup Q}
     (h : U ≤ Subgroup.normalizer (X : Set Q)) :
     ((U ⊓ Subgroup.centralizer (X : Set Q)).subgroupOf U).Normal := by
@@ -76,7 +79,7 @@ theorem fourFive_orbit_centralizer_le {T N J X U C : Subgroup Q} (hT : IsSylowIn
       exact ⟨hcC, hk⟩
     have h1 : (c : Q) ^ 2 ^ k = 1 := Subgroup.mem_bot.mp hbot
     exact ⟨k, by rw [orderOf_dvd_iff_pow_eq_one]; exact Subtype.ext (by simpa using h1)⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (fourFive_isSylowIn_of_le hT hTU).le_of_normal hCU hCnormal hC2
 
 end CFSG.LocalAnalysis.WeakClosure81

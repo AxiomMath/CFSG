@@ -29,7 +29,7 @@ theorem iSup_sup_zpowers_eq_top_of_meetsLines (hΔ : TransvectionHyp H Δ) (hlin
     {A B : Subgroup H} (hA : A ∈ Δ) (hB : B ∈ Δ) (hAB : Opposite A B) {b : H} (hb : b ∈ B)
     (hb1 : b ≠ 1) :
     (⨆ C ∈ Δ, ⨆ (_ : C ≤ Subgroup.centralizer (A : Set H)), C) ⊔ Subgroup.zpowers b = ⊤ := by
-  haveI := hΔ.finite
+  have := hΔ.finite
   have hR := hΔ.cls.root
   set L := (⨆ C ∈ Δ, ⨆ (_ : C ≤ Subgroup.centralizer (A : Set H)), C) ⊔ Subgroup.zpowers b
   have hkey : ∀ g ∈ L, ∀ C ∈ Δ, Commuting (conjSub A g) C → C ≤ L :=

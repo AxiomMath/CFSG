@@ -34,6 +34,7 @@ open QuadraticMap CFSG.ClassicalGroups.Alternating CFSG.RankThree.Classical2
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V}
 
+omit [Finite F] [CharP F 2] in
 theorem isComponentOf_map_omegaToGsp {X : Set ↥(orthDerived Q)} {z : ↥(orthDerived Q)}
     (hzX : z ∈ X) (hz : ∀ v, (z : V ≃ₗ[F] V) v = v → v = 0) {L : Subgroup ↥(orthDerived Q)}
     (hL : CFSG.Assembly.IsComponentOf L (Subgroup.centralizer X)) :
@@ -121,6 +122,7 @@ theorem isComponentOf_map_omegaToGsp {X : Set ↥(orthDerived Q)} {z : ↥(orthD
   exact CFSG.ComponentClassification.OddClassSelector.isComponentOf_of_normal_le hY
     inf_le_right hN
 
+omit [CharP F 2] in
 private theorem eq_zero_of_fixed_of_planePowers {p k : ℕ}
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp : p.Prime)
     {U : Fin k → Submodule F V} {e : Fin k → ↥(orthDerived Q)}
@@ -130,7 +132,7 @@ private theorem eq_zero_of_fixed_of_planePowers {p k : ℕ}
     (hact : ∀ c, ∀ x ∈ U c, (d : V ≃ₗ[F] V) x =
       ((e c : V ≃ₗ[F] V) ^ (Multiplicative.toAdd (f c)).val) x)
     (hne : ∀ c, f c ≠ 1) : ∀ v, (d : V ≃ₗ[F] V) v = v → v = 0 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hplane : ∀ c, ∀ x ∈ U c,
       ((e c : V ≃ₗ[F] V) ^ (Multiplicative.toAdd (f c)).val) x = x → x = 0 := by
     intro c x hx hfix
@@ -189,7 +191,7 @@ private theorem eq_zero_of_fixed_of_planePowers {p k : ℕ}
         map_add' := by
           intro x y
           exact Subtype.ext (by
-            simp only [Submodule.coe_mk, Submodule.coe_add, map_add]
+            simp only [Submodule.coe_add, map_add]
             abel)
         map_smul' := by
           intro a x
@@ -246,13 +248,14 @@ private theorem omPlusRefl_true_update {p k : ℕ} [NeZero p] {i j : Fin k} (hij
     CFSG.StandardType.SpCoord.permAut_apply, Function.comp_apply, Equiv.swap_inv]
   by_cases hli : l = i
   · subst hli
-    simp [Function.update_of_ne hne, Function.update_of_ne hne.symm, Function.update_self]
+    simp [Function.update_of_ne hne, Function.update_self]
   · by_cases hlj : l = j
     · subst hlj
       simp [Function.update_of_ne hne, Function.update_of_ne hne.symm, Function.update_self]
     · simp [Function.update_of_ne hli, Function.update_of_ne hlj,
         Equiv.swap_apply_of_ne_of_ne hli hlj]
 
+omit [CharP F 2] in
 theorem exists_fixedPointFree_mem_image_fix_omPlusRefl
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p k : ℕ} (hp : p.Prime)
     {U : Fin k → Submodule F V} {e : Fin k → ↥(orthDerived Q)} {E : Subgroup ↥(orthDerived Q)}
@@ -263,7 +266,7 @@ theorem exists_fixedPointFree_mem_image_fix_omPlusRefl
     (x : CFSG.StandardType.OmPlusIdx k) :
     ∃ z ∈ τ '' {f | CFSG.StandardType.omPlusRefl p x f = f},
       ∀ v, (z : V ≃ₗ[F] V) v = v → v = 0 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hone : (1 : ZMod p) = 0 → False := by
     intro h1
     have hd : p ∣ 1 := (ZMod.natCast_eq_zero_iff 1 p).mp (by simpa using h1)
@@ -280,8 +283,7 @@ theorem exists_fixedPointFree_mem_image_fix_omPlusRefl
         simp [CFSG.StandardType.SpCoord.permAut_apply]
       · refine eq_zero_of_fixed_of_planePowers (Q := Q) hQ hp hF htop
           (fun c₀ => hact (fun _ => Multiplicative.ofAdd (1 : ZMod p)) c₀) ?_
-        intro c₀
-        intro h1
+        intro c₀ h1
         rw [ofAdd_eq_one] at h1
         exact hone h1
   | true =>

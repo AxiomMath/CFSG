@@ -39,9 +39,9 @@ theorem sq_card_le_natCard_of_ne_one {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : 4 ≤ Nat.card K) {M : Type} [AddCommGroup M] [Finite M] (hM : ∀ a : M, a + a = 0)
     (ρ : SL(2, K) →* AddMonoid.End M) (hρ : ∃ g, ρ g ≠ 1) :
     Nat.card K ^ 2 ≤ Nat.card M := by
-  letI : Module (ZMod 2) M := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) M := AddCommGroup.zmodModule (n := 2) fun x => by
     rw [two_nsmul, hM x]
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hm⟩ : ∃ m : ℕ, Nat.card K = 2 ^ m := by
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact ⟨(n : ℕ), by rw [Nat.card_eq_fintype_card, hn]⟩
@@ -51,12 +51,12 @@ theorem sq_card_le_natCard_of_ne_one {K : Type} [Field K] [Finite K] [CharP K 2]
     have h2 : (2 : ℕ) ^ 1 = 2 := by norm_num
     omega
   have hm0 : m ≠ 0 := by omega
-  letI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card (GaloisField 2 m) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hm, GaloisField.card 2 m hm0]
   let σ : K ≃+* GaloisField 2 m := FiniteField.ringEquivOfCardEq hcard
   let eG : SL(2, K) ≃* SL(2, GaloisField 2 m) := slRingEquiv σ
-  haveI : IsSimpleGroup SL(2, K) := CFSG.Quasithin.C126.Nat.isSimpleGroup_sl2 hK
+  have : IsSimpleGroup SL(2, K) := CFSG.Quasithin.C126.Nat.isSimpleGroup_sl2 hK
   have hperf : Group.IsPerfect SL(2, K) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
   have hρ' : ∃ g, linearOfEnd ρ g ≠ 1 := by

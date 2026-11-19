@@ -26,14 +26,14 @@ theorem nineTenTwo_five (h72 : KFactOmegaNotCentral) (h2 : KFactCenterRankTwo)
     (hY : ¬ centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) ≤ starImg p H M)
     (hL : pLayerIn p H ≠ ⊥) (hp3 : p ≠ 3) :
     pLayerIn p H ≤ M ∧ NineTenTwo p M H E := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hR : 2 ≤ CFSG.Open.pRank p (CFSG.pCore p (StarGroup p H)) :=
     h.two_le_pRank_pCore hU hQ hY
   obtain ⟨hR2, J, hJ, _, hlayer, hpc, hJ5⟩ :=
     h.single_component h72 h2 h5c hH2 hp hR hL
   let L : Subgroup (StarGroup p H) := CFSG.layer (StarGroup p H)
-  haveI hLchar : L.Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLn : L.Normal := inferInstance
+  have hLchar : L.Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLn : L.Normal := inferInstance
   have hLc : CFSG.IsComponent L := by
     change CFSG.IsComponent (CFSG.layer (StarGroup p H))
     rw [hlayer]

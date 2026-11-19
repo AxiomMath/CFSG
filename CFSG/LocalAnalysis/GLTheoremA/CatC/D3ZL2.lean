@@ -33,9 +33,7 @@ theorem exists_unit_of_diag {W : SL2 K} (w01 : (W : Matrix (Fin 2) (Fin 2) K) 0 
   · simp [coe_HSL, w10]
   · have : (W : Matrix (Fin 2) (Fin 2) K) 0 0 * (W : Matrix (Fin 2) (Fin 2) K) 1 1 = 1 := by
       linear_combination hdetW
-    simp only [coe_HSL, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons,
-      Units.val_inv_eq_inv_val, Units.val_mk0]
+    simp only [coe_HSL, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, Units.val_inv_eq_inv_val, Units.val_mk0]
     exact eq_inv_of_mul_eq_one_right this
 
 theorem split_two (hK2 : ringChar K ≠ 2) {m : ModGL Tag.D4 K}
@@ -127,10 +125,10 @@ theorem factor_unit (hK2 : ringChar K ≠ 2) (b : Fin Tag.D4.rank → Kˣ) (k : 
   obtain ⟨u, hWu, hu⟩ := exists_unit_of_diag w01 w10
   exact ⟨⟨w01, w10, w11⟩, u, by rw [hWu, simpleRootSL2_HSL], hu⟩
 
-theorem isSquare_of_three (hK2 : ringChar K ≠ 2) {x y z : K} (hx : x ≠ 0) (hy : y ≠ 0) (hz : z ≠ 0)
+theorem isSquare_of_three (_hK2 : ringChar K ≠ 2) {x y z : K} (hx : x ≠ 0) (hy : y ≠ 0) (hz : z ≠ 0)
     (h : IsSquare (x * y * z)) : IsSquare x ∨ IsSquare y ∨ IsSquare z := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_contra hcon
   push Not at hcon
   obtain ⟨hx', hy', hz'⟩ := hcon
@@ -215,7 +213,7 @@ theorem split_three (hK2 : ringChar K ≠ 2) {m : ModGL Tag.D4 K}
     have : u₀ * u₁ * u₃ = b 2 * b 2 := by
       have h' : (b 2 * b 2) * (u₀⁻¹ * (u₁⁻¹ * u₃⁻¹)) = 1 := hu2
       have h'' : (b 2 * b 2) * (u₀ * u₁ * u₃)⁻¹ = 1 := by
-        rw [← h']; congr 1; simp [mul_comm, mul_left_comm, mul_assoc]
+        rw [← h']; congr 1; simp [mul_comm, mul_left_comm]
       exact (eq_of_mul_inv_eq_one h'').symm
     have := congrArg (fun x : Kˣ => (x : K)) this
     simpa [sq] using this

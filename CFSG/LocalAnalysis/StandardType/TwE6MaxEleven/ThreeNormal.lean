@@ -64,13 +64,13 @@ private theorem maxElevenB_factorization_eleven :
   omega
 
 theorem maxElevenB_of_elemAbelian_three (hX : LocalFacts X) {M E : Subgroup X} (hM : IsCoatom M)
-    {t : X} (htM : t ∈ M) (ht : orderOf t = 11) (hE1 : E ≠ ⊥) (hEM : E ≤ M)
+    {t : X} (htM : t ∈ M) (ht : orderOf t = 11) (hE1 : E ≠ ⊥) (_hEM : E ≤ M)
     (hME : M ≤ normalizer (E : Set X)) (hE3 : ∀ a ∈ E, a ^ 3 = 1)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) :
     ∃ N : Subgroup X, N ≤ M ∧ Nat.card N = 9196830720 ∧
       ∀ P : Subgroup X, P ≤ M → ⁅P, P⁆ = P → P ≤ N := by
   classical
-  haveI : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
+  have : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
   have hE3p : IsPGroup 3 E := by
     rw [isPGroup_iff_pow_pow_eq_one]
     intro e
@@ -94,7 +94,7 @@ theorem maxElevenB_of_elemAbelian_three (hX : LocalFacts X) {M E : Subgroup X} (
     change Nat.card (zpowers t) = 11
     rw [Nat.card_zpowers, ht]
   have hA11 : IsPGroup 11 A := IsPGroup.of_card (n := 1) (by rw [hAcard, pow_one])
-  letI : Subgroup.Normalizes A E := ⟨hAE⟩
+  let : Subgroup.Normalizes A E := ⟨hAE⟩
   let C : Subgroup X := E ⊓ centralizer ({t} : Set X)
   have hCeq : MulAction.fixedPoints A E = (fixedPointSubgroup A E : Set E) := rfl
   have hCsub : fixedPointSubgroup A E = C.subgroupOf E := by
@@ -178,7 +178,7 @@ theorem maxElevenB_of_elemAbelian_three (hX : LocalFacts X) {M E : Subgroup X} (
     exact hME
   have hNne : normalizer (zpowers (z : X) : Set X) ≠ ⊤ := by
     intro htop
-    haveI : (zpowers (z : X)).Normal := Subgroup.normalizer_eq_top_iff.mp htop
+    have : (zpowers (z : X)).Normal := Subgroup.normalizer_eq_top_iff.mp htop
     rcases hX.simple.eq_bot_or_eq_top_of_normal (zpowers (z : X)) with hbot | htop'
     · have h3 : Nat.card (zpowers (z : X)) = 3 := by rw [Nat.card_zpowers, hzX]
       rw [hbot, Subgroup.card_bot] at h3

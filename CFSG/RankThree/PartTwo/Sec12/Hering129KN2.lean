@@ -196,7 +196,7 @@ theorem slFactor_of_slPi {X : Type} [Group X] {U : Subgroup X} {π : Bool} {p f 
   set φ : U →* GL (Fin 3) K := (MulAut.conj g⁻¹).toMonoidHom.comp
     ((Sec4.slPi π 3 (p ^ f) K).subtype.comp e.toMonoidHom)
   have hφ : ∀ u, φ u = g⁻¹ * (e u : GL (Fin 3) K) * g := fun u => by
-    simp [φ, MulAut.conj_apply]
+    simp [φ]
   have hφinj : Function.Injective φ := by
     intro u v h
     rw [hφ, hφ] at h

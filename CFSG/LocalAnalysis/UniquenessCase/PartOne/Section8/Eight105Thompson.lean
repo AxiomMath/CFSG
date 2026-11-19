@@ -17,12 +17,14 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma ncl_le (N X : Subgroup G) (hX : X ≤ N) : ncl N X ≤ N := by
   rw [ncl]
   refine (Subgroup.closure_le N).mpr ?_
   rintro y ⟨g, hg, x, hx, rfl⟩
   exact N.mul_mem (N.mul_mem hg (hX hx)) (N.inv_mem hg)
 
+omit [Finite G] in
 private lemma ncl_normal (N X : Subgroup G) : N ≤ normalizer (ncl N X : Set G) := by
   intro g hg
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, ncl, MonoidHom.map_closure]
@@ -45,7 +47,7 @@ private def modCentralizer (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
   one_mem' := by
     refine ⟨R.one_mem, ?_⟩
     intro x _
-    simp [CentMod]
+    simp
   mul_mem' := by
     rintro r s ⟨hrR, hr⟩ ⟨hsR, hs⟩
     refine ⟨R.mul_mem hrR hsR, ?_⟩
@@ -68,10 +70,12 @@ private def modCentralizer (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
     rw [e]
     exact hq
 
+omit [Finite G] in
 private lemma modCentralizer_le (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
     (hNQ : N ≤ normalizer (Q : Set G)) :
     modCentralizer N N₂ Q R hRN hNQ ≤ R := fun _ h => h.1
 
+omit [Finite G] in
 private lemma modCentralizer_normal (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
     (hNQ : N ≤ normalizer (Q : Set G)) (hN₂ : N ≤ normalizer (N₂ : Set G)) :
     R ≤ normalizer (modCentralizer N N₂ Q R hRN hNQ : Set G) := by
@@ -99,6 +103,7 @@ private lemma modCentralizer_normal (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
   have e : s⁻¹ * (s * x * s⁻¹) * s = x := by group
   simpa [e] using h2
 
+omit [Finite G] in
 private lemma modCentralizer_conj_mem (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
     (hNQ : N ≤ normalizer (Q : Set G)) (hN₂ : N ≤ normalizer (N₂ : Set G))
     (hN₂N : N₂ ≤ N) (hQR : Q ≤ R) :
@@ -135,6 +140,7 @@ private lemma modCentralizer_conj_mem (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
   have e : y⁻¹ * (y * x * y⁻¹) * y = x := by group
   simpa [e] using h2
 
+omit [Finite G] in
 private lemma le_modCentralizer_Q (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
     (hNQ : N ≤ normalizer (Q : Set G)) (hN₂N : N₂ ≤ N) (hQR : Q ≤ R) :
     Q ≤ modCentralizer N N₂ Q R hRN hNQ := by
@@ -149,6 +155,7 @@ private lemma le_modCentralizer_Q (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
   rw [e]
   exact Q.mul_mem hq hxq
 
+omit [Finite G] in
 private lemma omegaOneCenterIn_eq_omegaOneCenterOf (T : Subgroup G) :
     CFSG.RankThree.PartOne.omegaOneCenterIn T = CFSG.Quasithin.omegaOneCenterOf T := by
   rw [CFSG.RankThree.PartOne.omegaOneCenterIn, CFSG.Quasithin.omegaOneCenterOf,
@@ -157,11 +164,13 @@ private lemma omegaOneCenterIn_eq_omegaOneCenterOf (T : Subgroup G) :
   unfold CFSG.centerIn
   rfl
 
+omit [Finite G] in
 private lemma omegaOneCenterIn_characteristic (T : Subgroup G) :
     ((CFSG.RankThree.PartOne.omegaOneCenterIn T).subgroupOf T).Characteristic := by
   rw [omegaOneCenterIn_eq_omegaOneCenterOf T]
   exact CFSG.QuasithinUnique.Setup.characteristic_omegaOneCenterOf T
 
+omit [Finite G] in
 private lemma le_centralizer_omegaOneCenterIn (T : Subgroup G) :
     T ≤ Subgroup.centralizer (CFSG.RankThree.PartOne.omegaOneCenterIn T : Set G) := by
   intro t ht
@@ -169,6 +178,7 @@ private lemma le_centralizer_omegaOneCenterIn (T : Subgroup G) :
   intro z hz
   exact ((CFSG.RankThree.PartOne.Sec15Final.mem_omegaOneCenterIn_iff.mp hz).2.1 t ht).symm
 
+omit [Finite G] in
 private lemma isElemAbelian_omegaOneCenterIn (T : Subgroup G) :
     IsElemAbelian 2 (CFSG.RankThree.PartOne.omegaOneCenterIn T) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun x hx => ?_⟩
@@ -176,16 +186,19 @@ private lemma isElemAbelian_omegaOneCenterIn (T : Subgroup G) :
     exact hb a (CFSG.RankThree.PartOne.Sec15Final.omegaOneCenterIn_le T a.2)
   · exact (CFSG.RankThree.PartOne.Sec15Final.mem_omegaOneCenterIn_iff.mp hx).2.2
 
+omit [Finite G] in
 private lemma omegaOneCenterIn_le (T : Subgroup G) :
     CFSG.RankThree.PartOne.omegaOneCenterIn T ≤ T :=
   CFSG.RankThree.PartOne.Sec15Final.omegaOneCenterIn_le T
 
+omit [Finite G] in
 private lemma normalizer_le_calCGS_of_characteristic {R C : Subgroup G} (hC1 : C ≠ ⊥)
     (hCR : C ≤ R) (hchar : (C.subgroupOf R).Characteristic) :
     Subgroup.normalizer (C : Set G) ≤ UC6.calCGS R := by
   rw [UC6.calCGS]
   exact le_iSup_of_le C (le_iSup_of_le hC1 (le_iSup_of_le hCR (le_iSup_of_le hchar le_rfl)))
 
+omit [Finite G] in
 private lemma centerIn_le_modCentralizer (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
     (hNQ : N ≤ normalizer (Q : Set G)) (hN₂N : N₂ ≤ N) (hQR : Q ≤ R)
     (hchar : N ⊓ Subgroup.centralizer (Q : Set G) ≤ Q) :
@@ -199,6 +212,7 @@ private lemma centerIn_le_modCentralizer (N N₂ Q R : Subgroup G) (hRN : R ≤ 
   have hzQ : z ∈ Q := hchar ⟨hzN, hzCQ⟩
   exact le_modCentralizer_Q N N₂ Q R hRN hNQ hN₂N hQR hzQ
 
+omit [Finite G] in
 private lemma omegaOneCenterIn_le_of_centerIn_le {A B : Subgroup G}
     (h : CFSG.centerIn A ≤ CFSG.centerIn B) :
     CFSG.RankThree.PartOne.omegaOneCenterIn A ≤
@@ -209,6 +223,7 @@ private lemma omegaOneCenterIn_le_of_centerIn_le {A B : Subgroup G}
   unfold CFSG.RankThree.PartOne.omegaOneCenterIn CFSG.RankThree.PartOne.omegaOne
   exact Subgroup.closure_mono fun x hx => ⟨h' hx.1, hx.2⟩
 
+omit [Finite G] in
 private lemma centerIn_le_centerIn (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
     (hNQ : N ≤ normalizer (Q : Set G)) (hZ : CFSG.centerIn R ≤
       modCentralizer N N₂ Q R hRN hNQ) :
@@ -219,7 +234,8 @@ private lemma centerIn_le_centerIn (N N₂ Q R : Subgroup G) (hRN : R ≤ N)
   intro r hr
   exact (Subgroup.mem_centralizer_iff.mp hzC) r ((modCentralizer_le N N₂ Q R hRN hNQ) hr)
 
-private lemma inf_centralizer_le_pCoreOf (N N₂ Q V₁ V M : Subgroup G)
+omit [Finite G] in
+private lemma inf_centralizer_le_pCoreOf (_N N₂ Q V₁ V M : Subgroup G)
     (hN₂V : N₂ ≤ Subgroup.normalizer (V : Set G))
     (hQV : Q ≤ Subgroup.centralizer (V : Set G)) (hV₁V : V₁ ≤ V)
     (hMV₁ : Subgroup.normalizer (V₁ : Set G) ≤ M) (hnot : ¬ N₂ ≤ M)
@@ -243,6 +259,7 @@ private lemma inf_centralizer_le_pCoreOf (N N₂ Q V₁ V M : Subgroup G)
     have hNV₁ : N₂ ≤ Subgroup.normalizer (V₁ : Set G) :=
       hCV₁.trans (Subgroup.centralizer_le_normalizer (V₁ : Set G))
     exact hnot (hNV₁.trans hMV₁)
+omit [Finite G] in
 private lemma thompsonJ_normalized_by_ncl {N₂ R R₀ J : Subgroup G}
     (hJ : J = CFSG.Quasithin.thompsonJ R) (hJle : J ≤ R₀) (hR₀R : R₀ ≤ R)
     (hN₂R₀ : N₂ ≤ Subgroup.normalizer (R₀ : Set G)) :
@@ -274,9 +291,10 @@ private lemma thompsonJ_normalized_by_ncl {N₂ R R₀ J : Subgroup G}
   rw [Subgroup.map_conj_map_conj, mul_inv_cancel] at h
   have hone : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   rwa [hone, Subgroup.map_id] at h
 
+omit [Finite G] in
 private lemma false_of_thompsonJ_le {N₂ R R₀ J M : Subgroup G}
     (hC : UC6.calCGS R ≤ M) (hJ : J = CFSG.Quasithin.thompsonJ R)
     (hJle : J ≤ R₀) (hR₀R : R₀ ≤ R) (hN₂R₀ : N₂ ≤ Subgroup.normalizer (R₀ : Set G))
@@ -348,6 +366,7 @@ private lemma card_inf_centralizer_le_of_mem {V A : Subgroup G} {t : G} (ht : t 
   subst t
   exact (Subgroup.mem_centralizer_iff.mp hx.2) y ht
 
+omit [Finite G] in
 private lemma card_inf_centralizer_conj (V : Subgroup G) {g t : G}
     (hV : V.map (MulAut.conj g).toMonoidHom = V) :
     Nat.card (V ⊓ Subgroup.centralizer ({g * t * g⁻¹} : Set G) : Subgroup G) =
@@ -387,6 +406,7 @@ private lemma card_inf_centralizer_conj (V : Subgroup G) {g t : G}
   exact Subgroup.card_map_of_injective (f := (MulAut.conj g).toMonoidHom)
     (MulAut.conj g).injective
 
+omit [Finite G] in
 private lemma pow_mul_pow_mem_mul {Q N : Subgroup G} (hNQ : N ≤ Subgroup.normalizer (Q : Set G))
     {q g : G} (hq : q ∈ Q) (hg : g ∈ N) (m k : ℕ) :
     ∃ q' ∈ Q, (q * g ^ m) ^ k = q' * g ^ (m * k) := by
@@ -404,7 +424,7 @@ private lemma pow_mul_pow_mem_mul {Q N : Subgroup G} (hNQ : N ≤ Subgroup.norma
       rw [e]
 
 private lemma offender_card_le {N₂ Q R R₀ V A : Subgroup G} {t : G}
-    (hVR : V ≤ R) (hR₀R : R₀ ≤ R) (hR₀CV : R₀ ≤ Subgroup.centralizer (V : Set G))
+    (hVR : V ≤ R) (_hR₀R : R₀ ≤ R) (hR₀CV : R₀ ≤ Subgroup.centralizer (V : Set G))
     (hA : CFSG.Quasithin.IsMaxElemAbelian R A) (htA : t ∈ A) (htR₀ : t ∉ R₀)
     (hcent : ∀ r ∈ R, (r ∈ R₀ ↔ CentMod N₂ Q r))
     (hidx : ∀ x ∈ R, ∀ y ∈ R, ¬ CentMod N₂ Q x → ¬ CentMod N₂ Q y →
@@ -462,6 +482,7 @@ private lemma offender_pow_twelve {V : Subgroup G} {g t : G}
       _ = 1 := by rw [ht2]; group
   exact pow_twelve_mem_centralizer hVab hV2 htV ht'V ht2 ht'2 htcard ht'card
 
+omit [Finite G] in
 private lemma offender_g_pow {N N₂ Q V : Subgroup G} {g t : G}
     (hNQ : N ≤ Subgroup.normalizer (Q : Set G))
     (hQV : Q ≤ Subgroup.centralizer (V : Set G)) (hN₂N : N₂ ≤ N) (hg : g ∈ N₂)
@@ -517,7 +538,7 @@ private lemma not_dvd_twentyfour {n : ℕ} (hn : 2 ≤ n) : ¬ (2 ^ (2 * n) + 1)
 private lemma false_of_offender {N N₂ Q R R₀ V A : Subgroup G} {g t : G} {n : ℕ}
     (hVR : V ≤ R) (hR₀R : R₀ ≤ R) (hR₀C : R₀ ≤ Subgroup.centralizer (V : Set G))
     (hQR₀ : Q ≤ R₀) (hNQ : N ≤ Subgroup.normalizer (Q : Set G)) (hN₂N : N₂ ≤ N)
-    (hN₂R₀ : N₂ ≤ Subgroup.normalizer (R₀ : Set G))
+    (_hN₂R₀ : N₂ ≤ Subgroup.normalizer (R₀ : Set G))
     (hA : CFSG.Quasithin.IsMaxElemAbelian R A) (htA : t ∈ A) (htR₀ : t ∉ R₀)
     (hcent : ∀ r ∈ R, (r ∈ R₀ ↔ CentMod N₂ Q r))
     (hidx : ∀ x ∈ R, ∀ y ∈ R, ¬ CentMod N₂ Q x → ¬ CentMod N₂ Q y →

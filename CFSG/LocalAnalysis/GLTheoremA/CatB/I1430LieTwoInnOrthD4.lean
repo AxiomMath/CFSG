@@ -24,7 +24,7 @@ private theorem not_compOfType_isA6_d4_outer {S : Type} [Group S] [Finite S] {f 
   obtain ⟨e₁⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
   let E : S ≃* adjointGroup Tag.D4 K := e₀.trans e₁
-  haveI : Finite (adjointGroup Tag.D4 K) := Finite.of_equiv S E.toEquiv
+  have : Finite (adjointGroup Tag.D4 K) := Finite.of_equiv S E.toEquiv
   have hE3 : MulAut.congr E α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
   have hEout : MulAut.congr E α ∉ inner (adjointGroup Tag.D4 K) := fun h =>
     hin ((CFSG.Sporadic.FischerOddCore.congr_mem_inner_iff E α).1 h)

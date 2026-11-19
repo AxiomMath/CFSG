@@ -85,13 +85,13 @@ theorem ggQ2s08_big_restrict (hKG : GGReflClassLargeThree) {V : Type} [AddCommGr
     (hb : 8 * Nat.card R < 3 ^ (d * (d - 1) / 2)) :
     ∀ g ∈ R, ∃ w ∈ W, ∀ u ∈ H, g u = w u := by
   classical
-  haveI : Fintype V := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) V)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Fintype V := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) V)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e1 e2 h => LinearEquiv.ext (fun v => congrFun h v))
-  haveI : Module.Finite (ZMod 3) ↥H := Module.finite_of_finrank_pos (by rw [hfinH]; omega)
-  haveI : Fintype ↥H := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) ↥H)
-  haveI : Finite (↥H ≃ₗ[ZMod 3] ↥H) :=
+  have : Module.Finite (ZMod 3) ↥H := Module.finite_of_finrank_pos (by rw [hfinH]; omega)
+  have : Fintype ↥H := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) ↥H)
+  have : Finite (↥H ≃ₗ[ZMod 3] ↥H) :=
     Finite.of_injective (fun e : ↥H ≃ₗ[ZMod 3] ↥H => (e : ↥H → ↥H))
       (fun e1 e2 h => LinearEquiv.ext (fun v => congrFun h v))
   let Rb : Subgroup (↥H ≃ₗ[ZMod 3] ↥H) := GGQ2S08Res H R hpres
@@ -211,7 +211,7 @@ theorem ggQ2s08_big_restrict (hKG : GGReflClassLargeThree) {V : Type} [AddCommGr
     push Not at hcon
     have hempty : {a : ↥H ≃ₗ[ZMod 3] ↥H | a ∈ Rb ∧ GGLinRefl a} = ∅ := by
       ext a
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       rintro ⟨ha, hr⟩
       exact hcon a ha hr
     exact hRb_ne_bot (by rw [hgen', hempty, Subgroup.closure_empty])

@@ -66,7 +66,7 @@ theorem fnK_eq {f : Nat → Nat} (h : fnLtK NSM f = true) :
     have := hb i.val hi
     rwa [Nat.blt_eq, fget_pg8] at this
   have hc : ∀ k, nsMap NSM NIM f k < 2 ^ 8 := fun k => fget_lt8 _ _
-  rw [← CFSG.KC.O8.PA.fget_eq_pg, fnK, CFSG.KC.U62P.Snd.fget_orN hc, if_pos hi]
+  rw [← CFSG.KC.O8.PA.fget_eq_pg, fnK, CFSG.KC.U62P.Snd.fget_orN hc, ite_eq_left hi]
   unfold nsMap
   rw [fget_pg8, fget_pg8, ns_bindM i.val hi, ni_bindM _ hl]
 
@@ -252,7 +252,7 @@ theorem mem_k : CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Omega8Frame.mem
   · have h := band (allN_spec kSix k hk)
     have h2 := allN_spec h.2 l hl
     rw [(six_eq hk).1, (six_eq hl).1, eqA_pcM (six_eq hk).2 (six_eq hl).2]
-    simp only [Bool.or_eq_true, beq_iff_eq] at h2 ⊢
+    simp only [Bool.or_eq_true] at h2 ⊢
     rcases h2 with h2 | h2
     · exact Or.inl (Nat.eq_of_beq_eq_true h2)
     · exact Or.inr h2

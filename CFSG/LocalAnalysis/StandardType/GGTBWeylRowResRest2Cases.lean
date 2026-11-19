@@ -69,7 +69,7 @@ private theorem rc_cases_A {p r n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hr : 1 
           · exact absurd hp (by norm_num)
       · exact rc_cover hcov (GGTBTorRowAt.aInd (Or.inl rfl) hd (by simpa [ggTorM] using h1))
     · exfalso
-      first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+      first | exact hnu trivial
     · exfalso
       simp at ht
     · exact key hn1 hp3
@@ -120,7 +120,7 @@ private theorem rc_cases_twA {p r n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hr : 
     · exact rc_cover hcov (GGTBTorRowAt.aInd (Or.inr rfl) hd (by simpa [ggTorM] using h3))
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨hu, -⟩ | ⟨-, -, h3⟩ | ⟨ht, -⟩ | ⟨hn1, hp3⟩
-    · first | exact (hu : False).elim | simp [LargeEvenUntwisted] at hu
+    · first | exact (hu : False).elim
     · exact key h3
     · simp at ht
     · have hn1' : n = 1 := hn1
@@ -145,7 +145,7 @@ private theorem rc_cases_B {p r n : ℕ} (hp : p.Prime)
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨-, h1⟩ | ⟨hnu, -⟩ | ⟨ht, -⟩ | ⟨hn1, hp3⟩
     · exact rc_cover hcov (GGTBTorRowAt.c (Or.inl rfl) (hprod.mpr (Or.inl h1)))
-    · first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+    · first | exact hnu trivial
     · simp at ht
     · have hn1' : n = 1 := hn1
       subst hn1' hp3
@@ -166,7 +166,7 @@ private theorem rc_cases_C {p r n : ℕ} (hp : p.Prime)
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨-, h1⟩ | ⟨hnu, -⟩ | ⟨ht, -⟩ | ⟨hn1, hp3⟩
     · exact rc_cover hcov (GGTBTorRowAt.c (Or.inr rfl) (hprod.mpr (Or.inl h1)))
-    · first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+    · first | exact hnu trivial
     · simp at ht
     · have hn1' : n = 1 := hn1
       subst hn1' hp3
@@ -192,7 +192,7 @@ private theorem rc_cases_D {p r n : ℕ}
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨-, h1⟩ | ⟨hnu, -⟩ | ⟨ht, -⟩ | ⟨hn1, hp3⟩
     · exact rc_cover hcov (GGTBTorRowAt.d (Or.inl ⟨rfl, Or.inl h1⟩))
-    · first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+    · first | exact hnu trivial
     · simp at ht
     · have hn1' : n = 1 := hn1
       subst hn1' hp3
@@ -219,7 +219,7 @@ private theorem rc_cases_twD {p r n : ℕ}
     · exact rc_cover hcov (GGTBTorRowAt.d (Or.inr ⟨rfl, h3, ho⟩))
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨hu, -⟩ | ⟨-, -, h3⟩ | ⟨-, h1⟩ | ⟨hn1, hp3⟩
-    · first | exact (hu : False).elim | simp [LargeEvenUntwisted] at hu
+    · first | exact (hu : False).elim
     · exact key3 h3
     · exact key1 h1
     · have hn1' : n = 1 := hn1
@@ -247,7 +247,7 @@ private theorem rc_cases_E6 {p r n : ℕ} (hr : r = 0)
         exact rc_cover hcov (GGTBTorRowAt.e6Three rfl rfl (by simpa [ggTorM] using h1))
       · exact rc_cover hcov (GGTBTorRowAt.e6Ind hp3 (Or.inl rfl) (by simpa [ggTorM] using h1))
     · exfalso
-      first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+      first | exact hnu trivial
     · exfalso
       simp at ht
     · exact ⟨hn1, hp3⟩
@@ -275,7 +275,7 @@ private theorem rc_cases_E7 {p r n : ℕ} (hp : p.Prime)
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨-, h1⟩ | ⟨hnu, -⟩ | ⟨ht, -⟩ | ⟨hn1, hp3⟩
     · exact rc_cover hcov (GGTBTorRowAt.e7 rfl (hprod.mpr (Or.inl h1)))
-    · first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+    · first | exact hnu trivial
     · simp at ht
     · have hn1' : n = 1 := hn1
       subst hn1' hp3
@@ -301,7 +301,7 @@ private theorem rc_cases_E8 {p r n : ℕ} (hp : p.Prime)
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨-, h1⟩ | ⟨hnu, -⟩ | ⟨ht, -⟩ | ⟨hn1, hp3⟩
     · exact key (hprod.mpr (Or.inl h1))
-    · first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+    · first | exact hnu trivial
     · simp at ht
     · have hn1' : n = 1 := hn1
       subst hn1' hp3
@@ -333,7 +333,7 @@ private theorem rc_cases_F4 {p r n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     · exact (rc_cover hcov (GGTBTorRowAt.f4 rfl (hprod.mpr (Or.inl h1))
         (fun h => hboth ⟨h1, h.2⟩))).elim
     · exfalso
-      first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+      first | exact hnu trivial
     · exfalso
       simp at ht
     · have hn1' : n = 1 := hn1
@@ -358,7 +358,7 @@ private theorem rc_cases_G2 {p r n : ℕ} (hn2 : 2 ≤ n)
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨-, h1⟩ | ⟨hnu, -⟩ | ⟨ht, -⟩ | ⟨hn1, -⟩
     · exact rc_cover hcov (GGTBTorRowAt.g2 rfl h1)
-    · first | exact hnu trivial | simp [LargeEvenUntwisted] at hnu
+    · first | exact hnu trivial
     · simp at ht
     · have hn1' : n = 1 := hn1
       omega
@@ -392,7 +392,7 @@ private theorem rc_cases_twE6 {p r n : ℕ}
   rcases hHS with hS | hH2 | hH3 | hH4 | hH5 | hH6
   · rcases hS with ⟨hu, -⟩ | ⟨-, -, h3⟩ | ⟨ht, -⟩ | ⟨hn1, hp3⟩
     · exfalso
-      first | exact (hu : False).elim | simp [LargeEvenUntwisted] at hu
+      first | exact (hu : False).elim
     · exact ⟨(key3 h3).1, Or.inr (key3 h3).2⟩
     · exfalso
       simp at ht

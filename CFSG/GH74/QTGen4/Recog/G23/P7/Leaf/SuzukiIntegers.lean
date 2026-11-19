@@ -54,12 +54,12 @@ theorem suzI_eq_of_mem_specialD_of_sq {z x : G} {H : Subgroup G} (hx : x ∈ spe
 
 theorem suzI_mem_specialD_of_root {z x : G} {H : Subgroup G} (hxH : x ∈ H)
     (ho : orderOf x = 4) (hsq : x ^ 2 = z) : x ∈ specialD z H := by
-  simp only [specialD, Set.mem_setOf_eq]
+  simp only [specialD, Set.mem_ofPred_eq]
   exact ⟨hxH, Or.inr ⟨2, by norm_num, by omega, hsq⟩⟩
 
 theorem suzI_mem_specialD_self {z : G} {H : Subgroup G} (hzH : z ∈ H) (ho : orderOf z = 2) :
     z ∈ specialD z H := by
-  simp only [specialD, Set.mem_setOf_eq]
+  simp only [specialD, Set.mem_ofPred_eq]
   exact ⟨hzH, Or.inr ⟨1, by norm_num, by omega, pow_one z⟩⟩
 
 theorem suzI_order4_conj {z : G} {H : Subgroup G} [Finite G]
@@ -90,7 +90,7 @@ theorem suzI_zOf_facts [Finite G] {H H₁ H₂ : Subgroup G} {e : Fin 6 → G}
     (hH : G23One H H₁ H₂) (hL : HLetters H H₁ H₂ e) (hF : HFacts H H₁ H₂ e) (hO : OneClass e) :
     zOf e ∈ H₁ ⊓ H₂ ∧ zOf e ≠ 1 ∧ orderOf (zOf e) = 2 ∧ zOf e ∈ H ∧
       ∀ g : G, g ∈ H ↔ g * zOf e = zOf e * g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have he0 : e 0 ∈ H₁ := by
     rw [← hL.gen₁]; exact Subgroup.subset_closure (Set.mem_insert _ _)
   have he1 : e 1 ∈ H₁ := by
@@ -155,7 +155,7 @@ theorem suzI_card_pairs {H : Subgroup G} [Fintype G] {z σ : G}
         (if σ = z then (u : G) ≠ z else (u : G) * σ * (u : G)⁻¹ = σ⁻¹)).card =
       (((Finset.univ.filter fun g : G => IsConj g z) ×ˢ
           (Finset.univ.filter fun g : G => IsConj g z)).filter fun q => q.1 * q.2 = σ).card := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzz : z * z = 1 := by
     have := pow_orderOf_eq_one z
     rw [hz2, sq] at this
@@ -174,7 +174,7 @@ theorem suzI_card_pairs {H : Subgroup G} [Fintype G] {z σ : G}
       by_cases hσz : σ = z
       · have huz : (u : G) * z = z * (u : G) := (hC (u : G)).mp u.2
         rw [hσz, huz, mul_assoc, mul_inv_cancel, mul_one, inv_eq_of_mul_eq_one_right hzz]
-      · rw [if_neg hσz] at hcond
+      · rw [ite_eq_right hσz] at hcond
         exact hcond
     have hvv : ((u : G)⁻¹ * σ) * ((u : G)⁻¹ * σ) = 1 := by
       have e1 : ((u : G)⁻¹ * σ) * ((u : G)⁻¹ * σ) = ((u : G) * σ * (u : G)⁻¹) * σ := by
@@ -186,7 +186,7 @@ theorem suzI_card_pairs {H : Subgroup G} [Fintype G] {z σ : G}
       have hσsq : σ ^ 2 = 1 := by rw [sq, ← hua, haa]
       have hσz' : σ = z := suzI_eq_of_mem_specialD_of_sq hσ hσsq
       by_cases hσz : σ = z
-      · rw [if_pos hσz] at hcond
+      · rw [ite_eq_left hσz] at hcond
         exact hcond (hua.trans hσz')
       · exact hσz hσz'
     have hv2 : orderOf ((u : G)⁻¹ * σ) = 2 := orderOf_eq_prime (by rw [sq]; exact hvv) hv1
@@ -226,14 +226,14 @@ theorem suzI_card_pairs {H : Subgroup G} [Fintype G] {z σ : G}
     · refine Finset.mem_filter.mpr ⟨Finset.mem_univ _, ?_, ?_⟩
       · rw [← Subgroup.orderOf_coe]; exact ha2
       · by_cases hσz : σ = z
-        · rw [if_pos hσz]
+        · rw [ite_eq_left hσz]
           intro hpz
           have hpz' : p.1 = z := hpz
           have h2' : p.1 * p.2 = p.1 := by rw [hprod', hσz, hpz']
           have hp2one : p.2 = 1 := mul_eq_left.mp h2'
           rw [hp2one, orderOf_one] at hb2
           exact absurd hb2 (by norm_num)
-        · rw [if_neg hσz]
+        · rw [ite_eq_right hσz]
           exact hpinv
     · refine Prod.ext rfl ?_
       show p.1⁻¹ * σ = p.2
@@ -380,11 +380,12 @@ theorem suzI_card_isConj_mul [Fintype G] (z : G) :
   rw [hfilt, hcard]
   exact suzI_card_conj_mul_centralizer z
 
+omit [Group G] in
 theorem suzI_sum_irr_ite [DecidableEq (G → ℂ)] (S : Finset (G → ℂ)) (F : (G → ℂ) → ℂ) {a : G → ℂ}
     (ha : a ∈ S) :
     ∑ θ ∈ S, F θ * (if a = θ then 1 else 0) = F a := by
   simp only [mul_ite, mul_one, mul_zero]
-  rw [Finset.sum_ite_eq, if_pos ha]
+  rw [Finset.sum_ite_eq, ite_eq_left ha]
 
 theorem leafSuzukiIntegers : LeafSuzukiIntegers := by
   intro G _ _ T H H₁ H₂ M e χ X₁ X₂ ε₁ ε₂ h hF hO hD hχ hc

@@ -53,6 +53,7 @@ theorem orthRoots_rotation (α : Fin Tag.E6.rank → ℤ) (hα : α ∈ orthRoot
 variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 
 set_option maxRecDepth 1000000 in
+omit [CharP L 2] in
 theorem rootChar_eq_one_of_mem_connected_centralizer_orthRoots
     (hL : ringChar L ≠ 3)
     {E : Subgroup (ModGL .E6 L)} [Finite E]
@@ -95,7 +96,7 @@ theorem diagTuple_explicit {L : Type} [Field L] (s u : Lˣ) :
     fixedA2ActionVec j i) = _
   simp only [Fin.prod_univ_succ]
   fin_cases j <;> norm_num [Tag.cartan, Tag.cartanE, fixedA2ActionVec]
-  all_goals ext <;> simp <;> field_simp <;> ring
+  all_goals ext; simp; field_simp
 
 set_option maxRecDepth 1000000 in
 theorem corootPair_gamma1_single (j : Fin Tag.E6.rank) :
@@ -124,6 +125,7 @@ theorem corootCurve_explicit {L : Type} [Field L] (s u : Lˣ) :
   Set.range (fun p : Lˣ × Lˣ => fixedA2Rho L (diagSL3 p.1 p.2))
 
 set_option backward.isDefEq.respectTransparency false in
+omit [IsAlgClosed L] [CharP L 2] in
 theorem mem_fixedA2Torus_of_orthRoots {b : Fin Tag.E6.rank → Lˣ}
     (h : ∀ α ∈ orthRoots, rootChar b α = 1) :
     ∃ s u : Lˣ, b = diagTuple s u := by
@@ -163,10 +165,11 @@ theorem mem_fixedA2Torus_of_orthRoots {b : Fin Tag.E6.rank → Lˣ}
   rw [diagTuple_explicit]
   change (fun j : Fin 6 => b j) = _
   funext j
-  fin_cases j <;> simp [h12, h14, h05, hb3, mul_pow, pow_two,
+  fin_cases j <;> simp [h12, h14, h05, hb3, pow_two,
     mul_assoc, mul_comm, mul_left_comm]
 
 set_option backward.isDefEq.respectTransparency false in
+omit [CharP L 2] in
 theorem fixedA2Torus_le_connectedCentralizer
     {E : Subgroup (ModGL .E6 L)} [Finite E]
     (hEM : E ≤ monomialSubgroup .E6 L)
@@ -214,6 +217,7 @@ theorem fixedA2Torus_le_connectedCentralizer
   rw [diagTuple_explicit, corootCurve_explicit]
 
 set_option backward.isDefEq.respectTransparency false in
+omit [CharP L 2] in
 theorem connectedCentralizer_le_fixedA2Torus
     (hchar : ringChar L ≠ 3)
     {E : Subgroup (ModGL .E6 L)} [Finite E]
@@ -239,6 +243,7 @@ theorem connectedCentralizer_le_fixedA2Torus
   rw [hsu, ← fixedA2Rho_diagSL3]
   exact ⟨(s, u), rfl⟩
 
+omit [CharP L 2] in
 theorem connectedCentralizer_eq_fixedA2Torus
     (hchar : ringChar L ≠ 3)
     {E : Subgroup (ModGL .E6 L)} [Finite E]
@@ -273,7 +278,7 @@ theorem exists_conj_connectedCentralizer_eq_fixedA2Torus
   obtain ⟨y₀, hy₀, hEM, hw, x, hx, hxc⟩ :=
     TwE6HyperplaneFrame.exists_conj_weylImage_zpowers_c halg hEG hE hcard hnt he1 heS
   let E' := E.map (MulAut.conj y₀).toMonoidHom
-  haveI : Finite E' := Finite.of_surjective _
+  have : Finite E' := Finite.of_surjective _
     ((MulAut.conj y₀).toMonoidHom.subgroupMap_surjective E)
   have hE' : IsElemAbelian 3 E' := hE.map _
   have hcard' : Nat.card E' = 3 ^ 4 := by
@@ -305,9 +310,9 @@ theorem weylMatList_parameter_iterate_six {F : Type} [Field F]
   rcases h with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ |
     ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ |
     ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-  all_goals simp [Function.iterate_succ_apply', Function.iterate_zero,
-    mul_inv_rev, mul_assoc, mul_comm, mul_left_comm]
+  all_goals simp [Function.iterate_succ_apply', mul_inv_rev, mul_assoc, mul_comm, mul_left_comm]
 
+omit [CharP L 2] in
 theorem normalizer_fixedA2Torus_pow_six
     (R : ModGL .E6 L) (hR : R ∈ Subgroup.normalizer (fixedA2Torus L))
     {t : ModGL .E6 L} (ht : t ∈ fixedA2Torus L) :

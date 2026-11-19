@@ -23,10 +23,10 @@ theorem two_lt_card_of_nonabelian {G : Type} [Group G] [Finite G]
   apply hab
   have hpos : 0 < Nat.card G := Nat.card_pos
   rcases (by omega : Nat.card G = 1 ∨ Nat.card G = 2) with h1 | h2
-  · haveI : Subsingleton G := (Nat.card_eq_one_iff_unique.mp h1).1
+  · have : Subsingleton G := (Nat.card_eq_one_iff_unique.mp h1).1
     exact Subsingleton.elim _ _
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsCyclic G := isCyclic_of_prime_card (p := 2) h2
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsCyclic G := isCyclic_of_prime_card (p := 2) h2
     exact (IsCyclic.commGroup (α := G)).mul_comm a b
 
 @[expose] def GenData (X : Type) [Group X] [Finite X] (p : ℕ) [Fact p.Prime] : Prop :=
@@ -98,7 +98,7 @@ theorem false_of_rank_two (hred : ReducedNongeneration p Y Rb Y₀) (hK : IsComp
     IsPGroup.le_sylow_of_normal hCp Rb
   have hRK : (Rb : Subgroup Y) ≤ K ⊔ Subgroup.centralizer (K : Set Y) := by
     intro x hx
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rb.isPGroup') ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rb.isPGroup) ⟨x, hx⟩
     refine mem_sup_centralizer_of_pow hp hOut (n := n) ?_
     have h1 := pow_orderOf_eq_one (⟨x, hx⟩ : (Rb : Subgroup Y))
     rw [hn] at h1

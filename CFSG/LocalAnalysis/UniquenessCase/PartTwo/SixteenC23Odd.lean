@@ -117,7 +117,7 @@ theorem c23_barSub_conj_cases (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151 D
 
 theorem c23_barSub_le_normalizer_conjSubgroup (D : Data G) {V₀ V L : Subgroup G}
     (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) (hs : s15 D.M V₀ V hV L = 2) {x : G}
-    (hx : x ∈ D.M) (hxn : x ∉ nBar D.M V₀ V hV L) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (hx : x ∈ D.M) (_hxn : x ∉ nBar D.M V₀ V hV L) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E : Subgroup G} (hEM : E ≤ D.M) (hE : IsPGroup p E) :
     barSub V₀ V hV E ≤
       normalizer (barSub V₀ V hV (conjSubgroup L x) : Set (MulAut (Vtil V₀ V hV))) := by
@@ -131,7 +131,7 @@ theorem c23_barSub_le_normalizer_conjSubgroup (D : Data G) {V₀ V L : Subgroup 
     simpa using this
   have hgk : g ^ p ^ k = 1 := by
     ext
-    simpa [Subgroup.coe_pow, hek]
+    simp [hek]
   have hφk : φ ^ p ^ k = 1 := by
     rw [← hgφ, ← map_pow, hgk, map_one]
   have hodd : Odd (p ^ k) := (hp.odd_of_ne_two hp2).pow
@@ -155,6 +155,7 @@ theorem c23_barSub_le_normalizer_conjSubgroup (D : Data G) {V₀ V L : Subgroup 
   have hKmap := c23_map_conj_eq_of_odd_order hs2 hodd hφk hSφ hKS
   exact (Subgroup.mem_normalizer_iff_map_conj_eq).2 hKmap
 
+omit [Finite G] in
 theorem c23_card_barSub_conjSubgroup {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {x : G}
     (hx : x ∈ stabTil V₀ V) (L : Subgroup G) :
     Nat.card (barSub V₀ V hV (conjSubgroup L x)) = Nat.card (barSub V₀ V hV L) := by

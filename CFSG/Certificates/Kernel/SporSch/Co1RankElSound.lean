@@ -20,7 +20,7 @@ theorem bitB_eq (v s : ℕ) : bitB v s = v.testBit s := by
   change ((v >>> s) &&& 1).beq 1 = (1 &&& v >>> s != 0)
   rw [Nat.land_comm]
   rcases Nat.and_one_is_mod (v >>> s) ▸ Nat.mod_two_eq_zero_or_one (v >>> s) with h | h <;>
-    simp [Nat.land_comm, Nat.and_one_is_mod, h]
+    simp [Nat.land_comm, h]
   all_goals rfl
 
 theorem strictN_eq (y : ℕ) (k : ℕ → ℕ) : strictN y k = k y := by
@@ -54,7 +54,7 @@ theorem qProd_congr (b : ℕ → M) : ∀ n {u v : ℕ}, (∀ s < n, u.testBit s
 
 theorem qProd_zero (b : ℕ → M) : ∀ n, qProd b n 0 = 1
   | 0 => rfl
-  | n + 1 => by rw [qProd, bitB_eq, Nat.zero_testBit, if_neg (by simp), qProd_zero b n]
+  | n + 1 => by rw [qProd, bitB_eq, Nat.zero_testBit, ite_eq_right (by simp), qProd_zero b n]
 
 theorem qProd_mod (b : ℕ → M) (n v : ℕ) : qProd b n (v % 2 ^ n) = qProd b n v :=
   qProd_congr b n fun s hs => by rw [Nat.testBit_mod_two_pow, decide_eq_true hs, Bool.true_and]
@@ -109,11 +109,9 @@ theorem qProd_xor : ∀ n ≤ d, ∀ u v, qProd b n (u ^^^ v) = qProd b n u * qP
     have hcm := qProd_comm hc n (by omega) v n (by omega)
     rw [qProd, qProd, qProd, bitB_eq, bitB_eq, bitB_eq, Nat.testBit_xor, ih]
     cases u.testBit n <;> cases v.testBit n <;> simp only [Bool.xor, Bool.false_bne, Bool.true_bne,
-      Bool.not_true, Bool.not_false, Bool.bne_false, if_true, if_false, Bool.false_eq_true]
+      Bool.not_true, Bool.bne_false, ite_true, ite_false, Bool.false_eq_true]
     all_goals first
-      | rfl
       | (simp only [mul_assoc]; done)
-      | rw [hsq n (by omega), mul_one]
       | rw [mul_assoc, hcm, mul_assoc]
       | (simp only [mul_assoc]; rw [hcm, ← mul_assoc (b n), hsq n (by omega), one_mul])
 

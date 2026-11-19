@@ -95,7 +95,7 @@ theorem exists_shift_pow (j : ℕ) (hj : j < 3) :
   · refine ⟨0, by simp, fun i => ?_⟩
     rw [pow_zero, add_zero]
     ext x
-    simp [Subgroup.mem_map, MulAut.conj_apply]
+    simp [Subgroup.mem_map]
   · refine ⟨1, by decide, fun i => ?_⟩
     rw [pow_one]
     exact e6LineFactor_conj i

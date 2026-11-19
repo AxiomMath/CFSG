@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_t_notin_normalizer {T L H K : Subgroup G} (h2 : Case2 T L H K) :
     ∃ t ∈ T, t ∉ Subgroup.normalizer (K : Set G) := by
   by_contra hcon
@@ -46,6 +47,7 @@ theorem autOn_K0_eq_sup {T L H K A B : Subgroup G} (h2 : Case2 T L H K) {t : G} 
   rw [autOn_tilde_eq_map_actH hAH hBH hK0H, ← hstar, ← sup_star_K_K2 h2 ht hKc hTH htK,
     Subgroup.map_sup]
 
+omit [Finite G] in
 theorem conjSub_inv_le_H {T H K : Subgroup G} (hTH : T ≤ H) (hKH : K ≤ H) {t : G} (ht : t ∈ T) :
     conjSub t⁻¹ K ≤ H := by
   intro x hx
@@ -87,8 +89,8 @@ theorem ffSteps12633I_of (hA21 : AsA21SQTKSection) (h56 : AsB56) :
     h918.isElemAbelian_tilde_of_le hIHU
   have hE2 : IsElemAbelian 2 (tildeOf (conjClosure I H) (conjClosure F.V5 H)) :=
     h918.isElemAbelian_quotient (conjClosure I H)
-  letI instE1 : CommGroup ↥(tildeOf F.V1 (conjClosure I H)) := commGroupOfElemAbelian hE1
-  letI instE2 : CommGroup ↥(tildeOf (conjClosure I H) (conjClosure F.V5 H)) :=
+  let instE1 : CommGroup ↥(tildeOf F.V1 (conjClosure I H)) := commGroupOfElemAbelian hE1
+  let instE2 : CommGroup ↥(tildeOf (conjClosure I H) (conjClosure F.V5 H)) :=
     commGroupOfElemAbelian hE2
   obtain ⟨t₀, ht₀, ht₀K⟩ := exists_t_notin_normalizer h2
   have hcomm1 : ∀ b ∈ conjClosure I H, ∀ q ∈ pCoreOf 2 H, q * b * q⁻¹ * b⁻¹ ∈ F.V1 :=
@@ -120,7 +122,7 @@ theorem ffSteps12633I_of (hA21 : AsA21SQTKSection) (h56 : AsB56) :
     · intro hS
       have hbot : tildeOf (conjClosure I H) (conjClosure F.V5 H) = ⊥ :=
         tildeOf_eq_bot_of_le hUW
-      haveI : Subsingleton ↥(tildeOf (conjClosure I H) (conjClosure F.V5 H)) := by
+      have : Subsingleton ↥(tildeOf (conjClosure I H) (conjClosure F.V5 H)) := by
         refine ⟨fun a b => Subtype.ext ?_⟩
         have ha : (a : SecQuot (Subgroup.normalizer (conjClosure I H : Set G)) (conjClosure I H)) ∈
             (⊥ : Subgroup _) := hbot ▸ a.2
@@ -170,7 +172,7 @@ theorem ffSteps12633I_of (hA21 : AsA21SQTKSection) (h56 : AsB56) :
     have eL : ↥(S126.star H K) ≃* ↥((S126.star H K).map ρs) :=
       (MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrange)
     have hqL : CFSG.IsQuasisimple ↥((S126.star H K).map ρs) := by
-      haveI := isSimpleGroup_star_K h2
+      have := isSimpleGroup_star_K h2
       exact CFSG.LocalCores.isQuasisimple_of_mulEquiv eL
         (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (nonabelian_star_K h2)).1
     have hL1 : (S126.star H K).map ρs ≠ ⊥ := by
@@ -180,8 +182,8 @@ theorem ffSteps12633I_of (hA21 : AsA21SQTKSection) (h56 : AsB56) :
         exact (Nat.card_congr eL.toEquiv).symm
       rw [hbot, Subgroup.card_bot] at hc
       norm_num at hc
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI : Fintype ↥(S126.star H K) := Fintype.ofFinite _
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fintype ↥(S126.star H K) := Fintype.ofFinite _
     have h3dvd : 3 ∣ Fintype.card ↥(S126.star H K) := by
       rw [← Nat.card_eq_fintype_card, star_card_K h2]
       norm_num

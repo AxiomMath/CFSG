@@ -13,36 +13,43 @@ open scoped commutatorElement
 
 variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] [Finite Γ₁] [Finite Γ₂] {f : Γ₁ →* Γ₂}
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma closure_singleton_map (z : Γ₁) : closure {f z} = (closure {z}).map f := by
   rw [MonoidHom.map_closure]
   congr 1
   simp
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma image_eq_image_iff (hf : Function.Injective f) {A B : Set Γ₁} :
     f '' A = f '' B ↔ A = B :=
   ((Set.image_injective (f := f)).2 hf).eq_iff
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma image_image_eq_iff (hf : Function.Injective f) {A B : Set (Set Γ₁)} :
     (fun C : Set Γ₁ => f '' C) '' A = (fun C : Set Γ₁ => f '' C) '' B ↔ A = B :=
   ((Set.image_injective (f := Set.image f)).2
     ((Set.image_injective (f := f)).2 hf)).eq_iff
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_centEl_eq_map_iff (hf : Function.Injective f) {V W : Subgroup Γ₁} {y : Γ₁} :
     centEl (V.map f) (f y) = W.map f ↔ centEl V y = W := by
   rw [centEl_map hf V y]
   exact (Subgroup.map_injective hf).eq_iff
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_centEl_eq_iff (hf : Function.Injective f) {V W : Subgroup Γ₁} {y : Γ₁} :
     centEl (V.map f) (f y) = centEl (W.map f) (f y) ↔ centEl V y = centEl W y := by
   rw [centEl_map hf V y, centEl_map hf W y]
   exact (Subgroup.map_injective hf).eq_iff
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_centEl_sup_eq_iff (hf : Function.Injective f) {V W : Subgroup Γ₁} {y z : Γ₁} :
     centEl (V.map f) (f y) = centEl (W.map f) (f y) ⊔ closure {f z} ↔
       centEl V y = centEl W y ⊔ closure {z} := by
   rw [centEl_map hf V y, centEl_map hf W y, closure_singleton_map z, ← Subgroup.map_sup]
   exact (Subgroup.map_injective hf).eq_iff
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_involSet (gf : GFrame Γ₁) (hf : Function.Injective f) :
     {y : Γ₂ | (∃ s ∈ (gf.map f).S, y = s * (gf.map f).σ) ∧ orderOf y = 2} =
       f '' {y : Γ₁ | (∃ s ∈ gf.S, y = s * gf.σ) ∧ orderOf y = 2} := by
@@ -61,6 +68,7 @@ private lemma map_involSet (gf : GFrame Γ₁) (hf : Function.Injective f) :
     refine ⟨⟨f s, Subgroup.mem_map.mpr ⟨s, hs, rfl⟩, map_mul f s gf.σ⟩, ?_⟩
     exact (orderOf_injective f hf (s * gf.σ)) ▸ ho
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_centElSet (gf : GFrame Γ₁) (hf : Function.Injective f) :
     {y : Γ₂ | ∃ c ∈ centEl (gf.map f).S (gf.map f).σ, y = c * (gf.map f).σ} =
       f '' {y : Γ₁ | ∃ c ∈ centEl gf.S gf.σ, y = c * gf.σ} := by
@@ -79,6 +87,7 @@ private lemma map_centElSet (gf : GFrame Γ₁) (hf : Function.Injective f) :
     rw [hcent]
     exact Subgroup.mem_map.mpr ⟨c, hc, rfl⟩
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_classSet (gf : GFrame Γ₁) (hf : Function.Injective f) :
     {C : Set Γ₂ | ∃ y ∈ invols (gf.map f).Sσ, C = conjClass (gf.map f).Sσ y} =
       (fun C : Set Γ₁ => f '' C) ''
@@ -98,6 +107,7 @@ private lemma map_classSet (gf : GFrame Γ₁) (hf : Function.Injective f) :
     · rw [← hC, GFrame.map_Sσ]
       exact (conjClass_map gf.Sσ y).symm
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_rangeClass (gf : GFrame Γ₁) :
     Set.range (fun i => conjClass (gf.map f).Sσ ((gf.map f).reps13 i)) =
       (fun C : Set Γ₁ => f '' C) ''
@@ -116,6 +126,7 @@ private lemma map_rangeClass (gf : GFrame Γ₁) :
     rw [GFrame.map_Sσ, GFrame.map_reps13]
     exact (conjClass_map gf.Sσ (gf.reps13 i)).trans hC
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem f13_map_iff (hf : Function.Injective f) (gf : GFrame Γ₁) :
     (gf.map f).F13 ↔ gf.F13 := by
   have h1 : centEl (gf.map f).S (gf.map f).σ =

@@ -60,7 +60,7 @@ theorem s16h_three_le_rk_of_stab_Z7 {W : Type} [CommGroup W] [Finite W]
     rw [resHom_apply] at h3
     simpa using h3
   have hcyc : IsCyclic ↥L' := by
-    haveI : IsCyclic ↥L := hLp.1
+    have : IsCyclic ↥L := hLp.1
     exact isCyclic_of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   have hcard : Nat.card ↥L' = 7 := by
     change Nat.card ↥φ.range = 7
@@ -177,8 +177,7 @@ theorem s16h_two_lt_mParam_of_Z7_six {W : Type} [CommGroup W] [Finite W]
         apply iSup_le
         intro X
         apply iSup_le
-        intro hX
-        intro w hw
+        intro hX w hw
         rw [mem_fixV_zpowers_iff]
         obtain ⟨a, ha, rfl⟩ := hX
         obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hw
@@ -241,7 +240,7 @@ theorem s16h_two_lt_mParam_of_Z7_six {W : Type} [CommGroup W] [Finite W]
   · set S : Set ℕ := {n : ℕ | ∃ t ∈ A, orderOf t = 2 ∧
         n = rkIdx (fixV (Subgroup.zpowers t))}
     have hne : S.Nonempty := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) 2 (even_iff_two_dvd.1 hev)
       refine ⟨rkIdx (fixV (Subgroup.zpowers (x : MulAut W))), (x : MulAut W), x.2, ?_, rfl⟩
       rw [Subgroup.orderOf_coe]

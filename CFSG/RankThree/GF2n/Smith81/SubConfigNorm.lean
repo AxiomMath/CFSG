@@ -285,14 +285,14 @@ theorem subConfigE4_main (hc : Ctx M Q Z B) (h4 : CaseE4 M Q Z B t)
     interval_cases f <;> norm_num at h4
   obtain ⟨hQN, -⟩ := card_subCfgQ_of hc hN17
   obtain ⟨hn, K, _, _, hK, ⟨e⟩⟩ := hR
-  haveI := Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans hf)
+  have := Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans hf)
   have hK4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
   obtain ⟨hΩs, h16, -⟩ := endg_omegaPlus_facts (K := K) hK4 (m := 4) (by norm_num)
   have hΩp := CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus (K := K) (n := 4)
     (by norm_num)
   have hΩo : Nat.card ↥(StatedOmega (StatedQuadPlus 4 K)) = ordD 4 (2 ^ f) :=
     card_omegaPlus_eq_ordD (by norm_num) (by omega) (hK.trans hf)
-  haveI : IsSimpleGroup (↥(Rt M (LB M Q B) t) ⧸
+  have : IsSimpleGroup (↥(Rt M (LB M Q B) t) ⧸
     (Nt M (LB M Q B) t).subgroupOf (Rt M (LB M Q B) t)) := e.isSimpleGroup
   have hcardq := Nat.card_congr e.toEquiv
   obtain ⟨g, -, hg, -⟩ := hH'.cp
@@ -346,11 +346,11 @@ theorem subConfigE4_main (hc : Ctx M Q Z B) (h4 : CaseE4 M Q Z B t)
     have hgm : g * (4 * m + 1) = 17 * f := hdm ▸ hgd
     rcases hpm with ⟨hRp, hSp⟩ | ⟨hRm, hSm⟩
     · obtain ⟨hnS, A, Bg, _, _, ⟨KA, _, _, hKA, ⟨eA⟩⟩, ⟨KB, _, _, hKB, ⟨eB⟩⟩, ⟨eAB⟩⟩ := hSp
-      haveI : Finite A := Finite.of_equiv _ eA.symm.toEquiv
-      haveI : Finite Bg := Finite.of_equiv _ eB.symm.toEquiv
+      have : Finite A := Finite.of_equiv _ eA.symm.toEquiv
+      have : Finite Bg := Finite.of_equiv _ eB.symm.toEquiv
       have hKB' : Nat.card KB = 2 ^ g := hKB.trans hg
-      haveI := Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKB'
-      haveI : IsSimpleGroup Bg := @MulEquiv.isSimpleGroup _ _ _ _
+      have := Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKB'
+      have : IsSimpleGroup Bg := @MulEquiv.isSimpleGroup _ _ _ _
         (endg_omegaPlus_facts (K := KB) (by rw [hKB']; exact hg ▸ hq'4) (by omega)).1 eB
       rcases card_quot_dvd_or_eq_of_prod hc hQN e hNorm hRS eAB with hA | hB
       · exfalso
@@ -367,11 +367,11 @@ theorem subConfigE4_main (hc : Ctx M Q Z B) (h4 : CaseE4 M Q Z B t)
     · exfalso
       obtain ⟨hnS, A, Bg, _, _, ⟨KA, _, _, hKA, ⟨eA⟩⟩, ⟨KB, _, _, hKB, b, c, hirr, ⟨eB⟩⟩,
         ⟨eAB⟩⟩ := hSm
-      haveI : Finite A := Finite.of_equiv _ eA.symm.toEquiv
-      haveI : Finite Bg := Finite.of_equiv _ eB.symm.toEquiv
+      have : Finite A := Finite.of_equiv _ eA.symm.toEquiv
+      have : Finite Bg := Finite.of_equiv _ eB.symm.toEquiv
       have hKB' : Nat.card KB = 2 ^ g := hKB.trans hg
-      haveI := Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKB'
-      haveI : IsSimpleGroup Bg := @MulEquiv.isSimpleGroup _ _ _ _
+      have := Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKB'
+      have : IsSimpleGroup Bg := @MulEquiv.isSimpleGroup _ _ _ _
         (endg_omegaMinus_facts (K := KB) (by rw [hKB']; exact hg ▸ hq'4) hm2 hirr).1 eB
       rcases card_quot_dvd_or_eq_of_prod hc hQN e hNorm hRS eAB with hA | hB
       · rw [Nat.card_congr eA.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hKA, hg,
@@ -396,10 +396,10 @@ theorem subConfigE4_main (hc : Ctx M Q Z B) (h4 : CaseE4 M Q Z B t)
     · exact false_of_centDvd hc hQN (hcardq ▸ (dvd_trans (by norm_num) h16)) hg1 hg hRH' hCD
         hcomm
     have hK'g : Nat.card K' = 2 ^ g := hK'.trans hg
-    haveI : Nontrivial ↥(StatedOmega (StatedQuadPlus 4 K)) := hΩs.toNontrivial
+    have : Nontrivial ↥(StatedOmega (StatedQuadPlus 4 K)) := hΩs.toNontrivial
     obtain ⟨hGL, hSL⟩ := card_quot_of_SL hc hQN hΩp e hNorm hRS φ hφr hφk
     have hGLc : Nat.card (GL (Fin n) K') = ∏ i : Fin n, ((2 ^ g) ^ n - (2 ^ g) ^ (i : ℕ)) := by
-      haveI := Fintype.ofFinite K'
+      have := Fintype.ofFinite K'
       rw [Matrix.card_GL_field, ← Nat.card_eq_fintype_card, hK'g]
     rcases Nat.lt_or_ge n 3 with hn3 | hn3
     · rw [hGLc, hΩo] at hGL
@@ -408,7 +408,7 @@ theorem subConfigE4_main (hc : Ctx M Q Z B) (h4 : CaseE4 M Q Z B t)
       have : g * (n * (n - 1) / 2) ≤ g := by nlinarith
       omega
     · have hSLc := hSL hn3
-      haveI : NeZero n := ⟨by omega⟩
+      have : NeZero n := ⟨by omega⟩
       have hunits := Matrix.card_SL_mul_card_units (n := Fin n) (R := K')
       rw [Nat.card_units, hK'g, ← hSLc, hΩo, hGLc] at hunits
       exact e4_ordD_mul_ne_prod_GL hf2 hg1 hunits
@@ -447,14 +447,14 @@ theorem subConfigE5_main (hc : Ctx M Q Z B) (h5 : CaseE5 M Q Z B t)
     interval_cases f <;> norm_num at h4
   obtain ⟨hQN, -⟩ := card_subCfgQ_of hc hN33
   obtain ⟨hn, K, _, _, hK, ⟨e⟩⟩ := hR
-  haveI := Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans hf)
+  have := Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans hf)
   have hK4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
   obtain ⟨hΩs, h16, -⟩ := endg_omegaPlus_facts (K := K) hK4 (m := 6) (by norm_num)
   have hΩp := CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus (K := K) (n := 6)
     (by norm_num)
   have hΩo : Nat.card ↥(StatedOmega (StatedQuadPlus 6 K)) = ordD 6 (2 ^ f) :=
     card_omegaPlus_eq_ordD (by norm_num) (by omega) (hK.trans hf)
-  haveI : IsSimpleGroup (↥(Rt M (LB M Q B) t) ⧸
+  have : IsSimpleGroup (↥(Rt M (LB M Q B) t) ⧸
     (Nt M (LB M Q B) t).subgroupOf (Rt M (LB M Q B) t)) := e.isSimpleGroup
   have hcardq := Nat.card_congr e.toEquiv
   obtain ⟨g, -, hg, -⟩ := hH'.cp
@@ -509,11 +509,11 @@ theorem subConfigE5_main (hc : Ctx M Q Z B) (h5 : CaseE5 M Q Z B t)
     have hgm : g * (4 * m + 1) = 33 * f := hdm ▸ hgd
     rcases hpm with ⟨-, hSp⟩ | ⟨-, hSm⟩
     · obtain ⟨hnS, A, Bg, _, _, ⟨KA, _, _, hKA, ⟨eA⟩⟩, ⟨KB, _, _, hKB, ⟨eB⟩⟩, ⟨eAB⟩⟩ := hSp
-      haveI : Finite A := Finite.of_equiv _ eA.symm.toEquiv
-      haveI : Finite Bg := Finite.of_equiv _ eB.symm.toEquiv
+      have : Finite A := Finite.of_equiv _ eA.symm.toEquiv
+      have : Finite Bg := Finite.of_equiv _ eB.symm.toEquiv
       have hKB' : Nat.card KB = 2 ^ g := hKB.trans hg
-      haveI := Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKB'
-      haveI : IsSimpleGroup Bg := @MulEquiv.isSimpleGroup _ _ _ _
+      have := Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKB'
+      have : IsSimpleGroup Bg := @MulEquiv.isSimpleGroup _ _ _ _
         (endg_omegaPlus_facts (K := KB) (by rw [hKB']; exact hg ▸ hq'4) hm3).1 eB
       rcases card_quot_dvd_or_eq_of_prod hc hQN e hNorm hRS eAB with hA | hB
       · rw [Nat.card_congr eA.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hKA, hg,
@@ -525,11 +525,11 @@ theorem subConfigE5_main (hc : Ctx M Q Z B) (h5 : CaseE5 M Q Z B t)
         exact e5_no_width (by omega) (by linarith) hgm
     · obtain ⟨hnS, A, Bg, _, _, ⟨KA, _, _, hKA, ⟨eA⟩⟩, ⟨KB, _, _, hKB, b, c, hirr, ⟨eB⟩⟩,
         ⟨eAB⟩⟩ := hSm
-      haveI : Finite A := Finite.of_equiv _ eA.symm.toEquiv
-      haveI : Finite Bg := Finite.of_equiv _ eB.symm.toEquiv
+      have : Finite A := Finite.of_equiv _ eA.symm.toEquiv
+      have : Finite Bg := Finite.of_equiv _ eB.symm.toEquiv
       have hKB' : Nat.card KB = 2 ^ g := hKB.trans hg
-      haveI := Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKB'
-      haveI : IsSimpleGroup Bg := @MulEquiv.isSimpleGroup _ _ _ _
+      have := Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKB'
+      have : IsSimpleGroup Bg := @MulEquiv.isSimpleGroup _ _ _ _
         (endg_omegaMinus_facts (K := KB) (by rw [hKB']; exact hg ▸ hq'4) hm2 hirr).1 eB
       rcases card_quot_dvd_or_eq_of_prod hc hQN e hNorm hRS eAB with hA | hB
       · rw [Nat.card_congr eA.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hKA, hg,
@@ -549,10 +549,10 @@ theorem subConfigE5_main (hc : Ctx M Q Z B) (h5 : CaseE5 M Q Z B t)
     · exact false_of_centDvd hc hQN (hcardq ▸ (dvd_trans (by norm_num) h16)) hg1 hg hRH' hCD
         hcomm
     have hK'g : Nat.card K' = 2 ^ g := hK'.trans hg
-    haveI : Nontrivial ↥(StatedOmega (StatedQuadPlus 6 K)) := hΩs.toNontrivial
+    have : Nontrivial ↥(StatedOmega (StatedQuadPlus 6 K)) := hΩs.toNontrivial
     obtain ⟨hGL, hSL⟩ := card_quot_of_SL hc hQN hΩp e hNorm hRS φ hφr hφk
     have hGLc : Nat.card (GL (Fin n) K') = ∏ i : Fin n, ((2 ^ g) ^ n - (2 ^ g) ^ (i : ℕ)) := by
-      haveI := Fintype.ofFinite K'
+      have := Fintype.ofFinite K'
       rw [Matrix.card_GL_field, ← Nat.card_eq_fintype_card, hK'g]
     rcases Nat.lt_or_ge n 3 with hn3 | hn3
     · rw [hGLc, hΩo] at hGL
@@ -561,7 +561,7 @@ theorem subConfigE5_main (hc : Ctx M Q Z B) (h5 : CaseE5 M Q Z B t)
       have : g * (n * (n - 1) / 2) ≤ g := by nlinarith
       omega
     · have hSLc := hSL hn3
-      haveI : NeZero n := ⟨by omega⟩
+      have : NeZero n := ⟨by omega⟩
       have hunits := Matrix.card_SL_mul_card_units (n := Fin n) (R := K')
       rw [Nat.card_units, hK'g, ← hSLc, hΩo, hGLc] at hunits
       exact e5_ordD_mul_ne_prod_GL hf2 hg1 hunits

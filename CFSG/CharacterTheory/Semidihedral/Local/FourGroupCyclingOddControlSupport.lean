@@ -122,7 +122,7 @@ theorem sylow_eq_of_commutator_mem {n : ℕ} (hn : 4 ≤ n) (S : Sylow 2 G)
     (f : SemidihedralGroup n ≃* S) {A V : Subgroup G} (hVA : V ≤ A) [IsKleinFour V]
     (hV : ∀ v ∈ V, ∀ a ∈ A, v * a * v⁻¹ * a⁻¹ ∈ (pPrimeCore 2 A).map A.subtype)
     (T : Sylow 2 A) (hVT : V.subgroupOf A ≤ T) : (T : Subgroup A) = V.subgroupOf A := by
-  have hTG2 : IsPGroup 2 ((T : Subgroup A).map A.subtype) := T.isPGroup'.map A.subtype
+  have hTG2 : IsPGroup 2 ((T : Subgroup A).map A.subtype) := T.isPGroup.map A.subtype
   obtain ⟨S', hS'⟩ := hTG2.exists_le_sylow
   have hVTG : V ≤ (T : Subgroup A).map A.subtype := fun v hv =>
     ⟨⟨v, hVA hv⟩, hVT (Subgroup.mem_subgroupOf.mpr hv), rfl⟩

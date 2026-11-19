@@ -82,6 +82,7 @@ theorem wordV_rep {R : List α} {RG : List G} (hR : RepL Rep one R RG) :
 
 include hone
 
+omit hmul in
 theorem repL_push {R : List α} {RG : List G} (hR : RepL Rep one R RG) {x : α} {g : G}
     (hx : Rep x g) : RepL Rep one (R ++ [x]) (RG ++ [g]) := by
   refine ⟨by simp [hR.1], fun i => ?_⟩
@@ -100,7 +101,7 @@ theorem slpV_rep (prog : List (List Nat)) :
     intro R RG h
     have hw := wordV_rep hmul h w one 1 hone
     rw [one_mul] at hw
-    exact ih _ _ (repL_push hmul hone h hw)
+    exact ih _ _ (repL_push hone h hw)
 
 omit hmul hone in
 theorem pairsS_spec (hfrc : ∀ x k, frc x k = k x) {eq : α → α → Bool} (R : List α) :

@@ -104,6 +104,7 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_sup_of_forall_commute {A B : Subgroup G} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     {x : G} : x ∈ A ⊔ B ↔ ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
   constructor
@@ -132,6 +133,7 @@ theorem mem_sup_of_forall_commute {A B : Subgroup G} (h : ∀ a ∈ A, ∀ b ∈
   · rintro ⟨a, ha, b, hb, rfl⟩
     exact mul_mem (mem_sup_left ha) (mem_sup_right hb)
 
+omit [Finite G] in
 theorem inf_sup_eq_of_le_of_commute {A B C : Subgroup G} (hAC : A ≤ C)
     (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : C ⊓ (A ⊔ B) = A ⊔ (C ⊓ B) := by
   apply le_antisymm
@@ -147,7 +149,7 @@ theorem inf_sup_eq_of_le_of_commute {A B C : Subgroup G} (hAC : A ≤ C)
 
 theorem eq_sup_commutator_of_complement {C O E E' J : Subgroup G}
     (hCO : C ≤ O) (hO2 : IsPGroup 2 O) (hJ : Odd (Nat.card J))
-    (hJC : J ≤ normalizer (C : Set G)) (hEC : E ≤ C) (hE'O : E' ≤ O)
+    (hJC : J ≤ normalizer (C : Set G)) (hEC : E ≤ C) (_hE'O : E' ≤ O)
     (hE'c : E' ≤ centralizer (O : Set G)) (hJE' : J ≤ centralizer (E' : Set G))
     (hCE' : C ⊓ E' = ⊥) (hCsup : C ⊔ E' = O)
     (hfix : O ⊓ centralizer (J : Set G) ≤ E ⊔ E') :
@@ -164,7 +166,7 @@ theorem eq_sup_commutator_of_complement {C O E E' J : Subgroup G}
       rw [hn]
       exact Nat.Coprime.pow_right n (Nat.coprime_two_right.2 hJ)
     have hsolv : Group.IsSolvable C := by
-      haveI : Group.IsNilpotent C := hC2.isNilpotent
+      have : Group.IsNilpotent C := hC2.isNilpotent
       infer_instance
     obtain ⟨c, hc, n, hn, rfl⟩ := exists_mem_inf_centralizer_mul_of_coprime hNM
       (normalizer_commutator_ge_left C J) hJC (normalizer_commutator_ge_right C J) hsolv hcop hm
@@ -221,13 +223,13 @@ theorem commutator_inf_eq_bot_of_sylow_complement {T V S₀ P₀ : Subgroup G}
   have hcentral : ∀ v ∈ V', ∀ t : T, t * v = v * t := by
     intro v hv t
     exact Subtype.ext (mem_centralizer_iff.1 (hVc hv) t t.2)
-  haveI : V'.Normal := ⟨fun n hn g => by
+  have : V'.Normal := ⟨fun n hn g => by
     have e : g * n * g⁻¹ = n := by
       rw [hcentral n hn g]
       group
     rw [e]
     exact hn⟩
-  haveI : IsMulCommutative V' := ⟨⟨fun a b => Subtype.ext (hcentral b b.2 a)⟩⟩
+  have : IsMulCommutative V' := ⟨⟨fun a b => Subtype.ext (hcentral b b.2 a)⟩⟩
   have hV'2 : IsPGroup 2 V' := hV2.comap_subtype
   have hex : ∃ K : Subgroup T, K ≤ (Q : Subgroup T) ∧ V' ⊓ K = ⊥ ∧ V' ⊔ K = (Q : Subgroup T) := by
     refine ⟨P₀.subgroupOf T, ?_, ?_, ?_⟩
@@ -289,6 +291,7 @@ theorem commutator_inf_eq_bot_of_sylow_complement {T V S₀ P₀ : Subgroup G}
   rw [mem_bot, ← hkz, hk1]
   rfl
 
+omit [Finite G] in
 private theorem aux_G2_exists_mul_of_mem_sup {A B : Subgroup G}
     (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {x : G} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
@@ -311,6 +314,7 @@ private theorem aux_G2_exists_mul_of_mem_sup {A B : Subgroup G}
     calc a⁻¹ * b⁻¹ = (b * a)⁻¹ := by group
       _ = (a * b)⁻¹ := by rw [this]
 
+omit [Finite G] in
 private theorem aux_G2_mem_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ normalizer (A : Set G)) (hB : g ∈ normalizer (B : Set G)) :
     g ∈ normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -330,10 +334,12 @@ theorem pCoreOf_eq_inf_of_normal {N T : Subgroup G} (hNT : N ≤ T)
         (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 T (hNT hg)))
       ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 T).to_le inf_le_right)
 
+omit [Finite G] in
 theorem mem_normalizer_pCoreOf {H : Subgroup G} {g : G} (hg : g ∈ normalizer (H : Set G)) :
     g ∈ normalizer (pCoreOf 2 H : Set G) :=
   CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 H hg
 
+omit [Finite G] in
 theorem pCoreOf_map_conj (H : Subgroup G) (g : G) :
     pCoreOf 2 (H.map (MulAut.conj g).toMonoidHom) =
       (pCoreOf 2 H).map (MulAut.conj g).toMonoidHom :=
@@ -375,6 +381,7 @@ theorem pCoreOf_sup_of_central {A Z : Subgroup G} (hZ : IsPGroup 2 Z)
     exact ⟨ha, haO⟩
   exact Subgroup.mul_mem_sup hA hz
 
+omit [Finite G] in
 theorem le_commutator_sup_of_isQuotientIso {X N : Subgroup G} {T : Type*} [Group T]
     (h : IsQuotientIso X N T) (hT : Group.IsPerfect T) : X ≤ ⁅X, X⁆ ⊔ N := by
   obtain ⟨φ, hφ, hker⟩ := h
@@ -396,18 +403,20 @@ theorem le_commutator_sup_of_isQuotientIso {X N : Subgroup G} {T : Type*} [Group
   have := Subgroup.mul_mem_sup hyc hyN
   simpa using this
 
+omit [Finite G] in
 theorem le_commutator_sup_of_sectionIso {A B A' B' : Subgroup G} (h : SectionIso A B A' B')
     (hA' : ⁅A', A'⁆ = A') : A ≤ ⁅A, A⁆ ⊔ B := by
   obtain ⟨hB, hB', ⟨e⟩⟩ := h
-  haveI : Group.IsPerfect ↥A' := Subgroup.isPerfect_iff.mpr hA'
-  haveI := hB'
-  haveI : Group.IsPerfect (A' ⧸ B'.subgroupOf A') := inferInstance
+  have : Group.IsPerfect ↥A' := Subgroup.isPerfect_iff.mpr hA'
+  have := hB'
+  have : Group.IsPerfect (A' ⧸ B'.subgroupOf A') := inferInstance
   have hP : Group.IsPerfect (A ⧸ B.subgroupOf A) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact le_commutator_sup_of_isQuotientIso
     ⟨QuotientGroup.mk' (B.subgroupOf A), QuotientGroup.mk'_surjective _,
       QuotientGroup.ker_mk' _⟩ hP
 
+omit [Finite G] in
 theorem card_mul_card_of_sectionIso {A B A' B' : Subgroup G} (h : SectionIso A B A' B')
     (hB : B ≤ A) (hB' : B' ≤ A') :
     Nat.card A * Nat.card B' = Nat.card A' * Nat.card B := by
@@ -429,24 +438,27 @@ section Local
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
+omit [Finite G] in
 theorem odd_card_jZeroG {q : ℕ} (d : TrialityD4Data L q) :
     Odd (Nat.card (jZeroG d : Subgroup G)) := by
   unfold jZeroG
   rw [Subgroup.card_map_of_injective L.subtype_injective]
   exact d.odd_card_J₀
 
+omit [Finite G] in
 theorem jZeroG_le_cLV {q : ℕ} (d : TrialityD4Data L q) :
     (jZeroG d : Subgroup G) ≤ cLV d := by
   unfold jZeroG cLV
   exact Subgroup.map_mono (d.J₀_le_J₆.trans inf_le_right)
 
+omit [Finite G] in
 theorem vG_mem_normalizer_jZeroG {q : ℕ} (d : TrialityD4Data L q) :
     vG d ∈ normalizer ((jZeroG d : Subgroup G) : Set G) :=
   Setup.coe_mem_normalizer_map d.v_mem_normalizer_J₀
 
 theorem jZeroG_le_normalizer_yamadaP (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) :
-    (jZeroG d : Subgroup G) ≤ normalizer ((yamadaP d t : Subgroup G) : Set G) := fun x hx =>
+    (jZeroG d : Subgroup G) ≤ normalizer ((yamadaP d t : Subgroup G) : Set G) := fun _x hx =>
   ncs_le_normalizer_yamadaP h d hlay
     ⟨Setup.J₀_map_le_centralizer h d hx, Setup.J₀_map_le_normalizer_S d hx⟩
 
@@ -454,6 +466,7 @@ theorem jZeroG_le_centralizer_t (h : Setup G L f t) {q : ℕ} (d : TrialityD4Dat
     (jZeroG d : Subgroup G) ≤ centralizer ({t} : Set G) :=
   Setup.J₀_map_le_centralizer h d
 
+omit [Finite G] in
 theorem uG_mem_cLV {q : ℕ} (d : TrialityD4Data L q) : uG d ∈ cLV d := by
   refine ⟨d.u, mem_centralizer_iff.2 ?_, rfl⟩
   rintro y ⟨a, rfl⟩
@@ -461,6 +474,7 @@ theorem uG_mem_cLV {q : ℕ} (d : TrialityD4Data L q) : uG d ∈ cLV d := by
     _ = d.u * d.x₆ a := by rw [mul_assoc, d.u_mul_self, mul_one]
 
 open scoped commutatorElement in
+omit [Finite G] in
 private theorem aux_L1_Y_le_commutator_S {q : ℕ} (d : TrialityD4Data L q) :
     d.Y ≤ ⁅d.S, d.S⁆ := by
   refine sup_le ?_ ?_
@@ -477,17 +491,20 @@ private theorem aux_L1_Y_le_commutator_S {q : ℕ} (d : TrialityD4Data L q) :
     exact Subgroup.commutator_mem_commutator (d.U₂_le_S (d.x₂_mem_U₂ c))
       (d.U₅_le_S (d.x₅_mem_U₅ 1))
 
+omit [Finite G] in
 theorem Y_map_le_commutator_S {q : ℕ} (d : TrialityD4Data L q) :
     d.Y.map L.subtype ≤ ⁅d.S.map L.subtype, d.S.map L.subtype⁆ := by
   rw [← Subgroup.map_commutator]
   exact Subgroup.map_mono (aux_L1_Y_le_commutator_S d)
 
 open scoped commutatorElement in
+omit [Finite G] in
 private theorem aux_L1_x₆_eq {q : ℕ} (d : TrialityD4Data L q) (c : d.Γ₀) :
     d.x₆ c = ⁅d.x₂ c, d.x₅ 1⁆ := by
   rw [d.comm₂₅, mul_one]
 
 open scoped commutatorElement in
+omit [Finite G] in
 private theorem aux_L1_x₅_eq {q : ℕ} (d : TrialityD4Data L q) (c : d.Γ₀) :
     d.x₅ c = ⁅d.v * d.x₂ c * d.v⁻¹, d.x₆ 1⁆ := by
   have e₅ : ∀ c : d.Γ₀, d.x₅ c = d.v * d.x₆ c * d.v⁻¹ := fun c => by
@@ -500,6 +517,7 @@ private theorem aux_L1_x₅_eq {q : ℕ} (d : TrialityD4Data L q) (c : d.Γ₀) 
       simp only [commutatorElement_def]; group
     _ = ⁅d.v * d.x₂ c * d.v⁻¹, d.x₆ 1⁆ := by rw [← e₆']
 
+omit [Finite G] in
 theorem Y_map_le_commutator_of {q : ℕ} (d : TrialityD4Data L q) {T : Subgroup G}
     (hU₂ : d.U₂.map L.subtype ≤ T) (hv : vG d ∈ T) (hY : d.Y.map L.subtype ≤ T) :
     d.Y.map L.subtype ≤ ⁅T, T⁆ := by
@@ -524,6 +542,7 @@ theorem Y_map_le_commutator_of {q : ℕ} (d : TrialityD4Data L q) {T : Subgroup 
     rw [h1]
     exact Subgroup.commutator_mem_commutator (hx₂ c) (hx₅Y 1)
 
+omit [Finite G] in
 theorem card_Y_map {q : ℕ} (d : TrialityD4Data L q) : Nat.card (d.Y.map L.subtype) = q ^ 2 := by
   rw [Subgroup.card_map_of_injective L.subtype_injective]
   exact d.card_Y
@@ -541,6 +560,7 @@ theorem qThree_le_kThree (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     simpa using congrArg Subtype.val h1
   exact Subgroup.subset_closure ⟨Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hx).2, hxN⟩, f * 3, hx2⟩
 
+omit [Finite G] in
 theorem isPerfect_sl2_Γ₀ (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
     Group.IsPerfect SL(2, d.Γ₀) := by
   refine CFSG.ClassicalInvolution.sl2_isPerfect ?_
@@ -548,6 +568,7 @@ theorem isPerfect_sl2_Γ₀ (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
   calc 4 = 2 ^ 2 := by norm_num
     _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
 
+omit [Finite G] in
 theorem isPerfect_sl2_Γ (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
     Group.IsPerfect SL(2, d.Γ) := by
   refine CFSG.ClassicalInvolution.sl2_isPerfect ?_
@@ -556,6 +577,7 @@ theorem isPerfect_sl2_Γ (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
     _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
     _ ≤ (2 ^ f) ^ 3 := Nat.le_self_pow (by norm_num) _
 
+omit [Finite G] in
 private theorem aux_L2a_conj_mem {q : ℕ} {d : TrialityD4Data L q} {K₁ : Subgroup G}
     (hK₁ : IsN1Factor d t K₁) {k' k : G} (hk' : k' ∈ K₁ᵍ[t]) (hk : k ∈ K₁) :
     k' * k * k'⁻¹ ∈ K₁ := by
@@ -566,6 +588,7 @@ private theorem aux_L2a_conj_mem {q : ℕ} {d : TrialityD4Data L q} {K₁ : Subg
   rw [e]
   exact mul_mem h2 hk
 
+omit [Finite G] in
 private theorem aux_L2a_conj_le_normalizer {q : ℕ} {d : TrialityD4Data L q} {K₁ : Subgroup G}
     (hK₁ : IsN1Factor d t K₁) : K₁ᵍ[t] ≤ normalizer (K₁ : Set G) := by
   intro k' hk'
@@ -577,6 +600,7 @@ private theorem aux_L2a_conj_le_normalizer {q : ℕ} {d : TrialityD4Data L q} {K
   rw [e] at h1
   exact h1
 
+omit [Finite G] in
 theorem nOne_le_normalizer {q : ℕ} {d : TrialityD4Data L q} {K₁ : Subgroup G}
     (hK₁ : IsN1Factor d t K₁) :
     nOne d t ≤ normalizer (K₁ : Set G) ∧ nOne d t ≤ normalizer ((⁅K₁, K₁⁆ : Subgroup G) : Set G) ∧
@@ -613,10 +637,12 @@ theorem card_yamadaV₁ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp :
     Nat.card (yamadaV₁ d t) = (2 ^ f) ^ 2 := by
   exact (h.yamada_5_6_2 d hp.layer).2.1
 
+omit [Finite G] in
 private theorem aux_L2b_card_V_map (d : TrialityD4Data L (2 ^ f)) :
     Nat.card (d.V.map L.subtype) = 2 ^ f := by
   rw [Subgroup.card_map_of_injective L.subtype_injective, d.card_V]
 
+omit [Finite G] in
 private theorem aux_L2b_V_map_le_cLV (d : TrialityD4Data L (2 ^ f)) :
     d.V.map L.subtype ≤ cLV d :=
   Subgroup.map_mono (d.V_le_S.trans d.S_le_centralizer_V)
@@ -638,7 +664,7 @@ private theorem aux_L2b_isSylowOf_S_cLV (d : TrialityD4Data L (2 ^ f)) :
   obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
   have hSyl : IsSylowOf 2 d.S (⊤ : Subgroup L) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, hP ▸ P.isPGroup', ?_⟩
+    refine ⟨le_top, hP ▸ P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact d.not_two_dvd_index_S
   exact (CFSG.ABGLocalTools.isSylowOf_map_subtype_iff L).2
@@ -708,6 +734,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def dg (A : Subgroup G) (t : G) (hc : ⁅A, Aᵍ[t]⁆ = ⊥) (B : Subgroup G) : Subgroup G :=
   (B.subgroupOf A).map (diagonalHom A t hc)
 
+omit [Finite G] in
 theorem mem_dg_iff {A : Subgroup G} {t : G} {hc : ⁅A, Aᵍ[t]⁆ = ⊥} {B : Subgroup G} {y : G} :
     y ∈ dg A t hc B ↔ ∃ b : G, b ∈ A ∧ b ∈ B ∧ b * (t⁻¹ * b * t) = y := by
   constructor
@@ -716,14 +743,17 @@ theorem mem_dg_iff {A : Subgroup G} {t : G} {hc : ⁅A, Aᵍ[t]⁆ = ⊥} {B : S
   · rintro ⟨b, hbA, hbB, rfl⟩
     exact ⟨⟨b, hbA⟩, hbB, rfl⟩
 
+omit [Finite G] in
 theorem delta_mem_dg {A : Subgroup G} {t : G} {hc : ⁅A, Aᵍ[t]⁆ = ⊥} {B : Subgroup G} {b : G}
     (hbA : b ∈ A) (hbB : b ∈ B) : b * (t⁻¹ * b * t) ∈ dg A t hc B :=
   mem_dg_iff.2 ⟨b, hbA, hbB, rfl⟩
 
+omit [Finite G] in
 theorem dg_mono {A : Subgroup G} {t : G} {hc : ⁅A, Aᵍ[t]⁆ = ⊥} {B B' : Subgroup G}
     (h : B ≤ B') : dg A t hc B ≤ dg A t hc B' :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 theorem diagonalHom_injective_of_inf_eq_bot {A : Subgroup G} {t : G} (hc : ⁅A, Aᵍ[t]⁆ = ⊥)
     (hi : A ⊓ Aᵍ[t] = ⊥) : Function.Injective (diagonalHom A t hc) := by
   rw [injective_iff_map_eq_one]
@@ -734,11 +764,13 @@ theorem diagonalHom_injective_of_inf_eq_bot {A : Subgroup G} {t : G} (hc : ⁅A,
   rw [hi] at h3
   exact Subtype.ext (mem_bot.1 h3)
 
+omit [Finite G] in
 theorem eq_of_delta_eq {A : Subgroup G} {t : G} (hc : ⁅A, Aᵍ[t]⁆ = ⊥) (hi : A ⊓ Aᵍ[t] = ⊥)
     {a b : G} (ha : a ∈ A) (hb : b ∈ A) (h : a * (t⁻¹ * a * t) = b * (t⁻¹ * b * t)) : a = b := by
   have := diagonalHom_injective_of_inf_eq_bot hc hi (a₁ := ⟨a, ha⟩) (a₂ := ⟨b, hb⟩) h
   exact congrArg Subtype.val this
 
+omit [Finite G] in
 theorem le_of_dg_le {A : Subgroup G} {t : G} {hc : ⁅A, Aᵍ[t]⁆ = ⊥} (hi : A ⊓ Aᵍ[t] = ⊥)
     {B B' : Subgroup G} (hB : B ≤ A) (h : dg A t hc B ≤ dg A t hc B') : B ≤ B' := by
   intro b hb
@@ -748,12 +780,14 @@ theorem le_of_dg_le {A : Subgroup G} {t : G} {hc : ⁅A, Aᵍ[t]⁆ = ⊥} (hi :
   rw [this] at hb'B'
   exact hb'B'
 
+omit [Finite G] in
 theorem card_dg {A : Subgroup G} {t : G} {hc : ⁅A, Aᵍ[t]⁆ = ⊥} (hi : A ⊓ Aᵍ[t] = ⊥)
     {B : Subgroup G} (hB : B ≤ A) : Nat.card (dg A t hc B) = Nat.card B := by
   unfold dg
   rw [Subgroup.card_map_of_injective (diagonalHom_injective_of_inf_eq_bot hc hi)]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hB).toEquiv
 
+omit [Finite G] in
 theorem subgroupOf_commutator {A B B' : Subgroup G} (hB : B ≤ A) (hB' : B' ≤ A) :
     (⁅B, B'⁆ : Subgroup G).subgroupOf A = ⁅B.subgroupOf A, B'.subgroupOf A⁆ := by
   have hle : (⁅B, B'⁆ : Subgroup G) ≤ A := by
@@ -765,12 +799,14 @@ theorem subgroupOf_commutator {A B B' : Subgroup G} (hB : B ≤ A) (hB' : B' ≤
   rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hle,
     Subgroup.map_subgroupOf_eq_of_le hB, Subgroup.map_subgroupOf_eq_of_le hB']
 
+omit [Finite G] in
 theorem dg_commutator {A : Subgroup G} {t : G} {hc : ⁅A, Aᵍ[t]⁆ = ⊥} {B B' : Subgroup G}
     (hB : B ≤ A) (hB' : B' ≤ A) :
     dg A t hc ⁅B, B'⁆ = ⁅dg A t hc B, dg A t hc B'⁆ := by
   unfold dg
   rw [subgroupOf_commutator hB hB', Subgroup.map_commutator]
 
+omit [Finite G] in
 theorem dg_eq_inf_centralizer {A : Subgroup G} {t : G} (ht : t * t = 1)
     (hc : ⁅A, Aᵍ[t]⁆ = ⊥) (hi : A ⊓ Aᵍ[t] = ⊥) {B : Subgroup G} (hBA : B ≤ A) :
     dg A t hc B = (B ⊔ Bᵍ[t]) ⊓ centralizer ({t} : Set G) := by
@@ -833,6 +869,7 @@ theorem dg_eq_inf_centralizer {A : Subgroup G} {t : G} (ht : t * t = 1)
     refine ⟨b, hbbA, hb, ?_⟩
     rw [h5, hti]
 
+omit [Finite G] in
 theorem diagonalHom_range_eq_dg {A : Subgroup G} {t : G} (hc : ⁅A, Aᵍ[t]⁆ = ⊥) :
     (diagonalHom A t hc).range = dg A t hc A := by
   unfold dg
@@ -900,11 +937,13 @@ section Phase2
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
+omit [Finite G] in
 theorem commutator_self_le (H : Subgroup G) : ⁅H, H⁆ ≤ H := by
   refine Subgroup.commutator_le.2 fun g hg k hk => ?_
   rw [commutatorElement_def]
   exact H.mul_mem (H.mul_mem (H.mul_mem hg hk) (H.inv_mem hg)) (H.inv_mem hk)
 
+omit [Finite G] in
 theorem commutator_self_eq_bot_of_isElemAbelian {E : Subgroup G} (hE : IsElemAbelian 2 E) :
     ⁅E, E⁆ = ⊥ := by
   rw [commutator_eq_bot_iff]
@@ -912,7 +951,8 @@ theorem commutator_self_eq_bot_of_isElemAbelian {E : Subgroup G} (hE : IsElemAbe
   have := hE.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : E) ⟨b, hb⟩)
 
-theorem commutator_conjT_self_eq_bot {t : G} (ht : t * t = 1) {E : Subgroup G}
+omit [Finite G] in
+theorem commutator_conjT_self_eq_bot {t : G} (_ht : t * t = 1) {E : Subgroup G}
     (hE : IsElemAbelian 2 E) : ⁅Eᵍ[t], Eᵍ[t]⁆ = ⊥ := by
   rw [← conjT_commutator, commutator_self_eq_bot_of_isElemAbelian hE, conjT_bot]
 
@@ -987,6 +1027,7 @@ theorem K5_split (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     ac_rfl
   · rw [inf_comm]; exact hQ2
 
+omit [Finite G] in
 theorem kThree_le (d : TrialityD4Data L (2 ^ f)) (t : G) (K : Subgroup G) :
     kThree d t K ≤ K := by
   unfold kThree oTwoPrimeRes
@@ -994,6 +1035,7 @@ theorem kThree_le (d : TrialityD4Data L (2 ^ f)) (t : G) (K : Subgroup G) :
   rintro x ⟨hx, -⟩
   exact (mem_inf.1 hx).1
 
+omit [Finite G] in
 theorem jZero_le_centralizer_K (d : TrialityD4Data L (2 ^ f)) {K : Subgroup G}
     (hK : IsLayerComponent d t K) :
     (jZeroG d : Subgroup G) ≤ centralizer (K : Set G) :=
@@ -1285,6 +1327,7 @@ theorem yamadaM₆_eq_aTwo (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (sup_le_sup le_sup_left le_sup_left)
   exact (Subgroup.map_mono hE1XQ).trans le_sup_right
 
+omit [Finite G] in
 theorem pZero_le_yamadaP (d : TrialityD4Data L (2 ^ f)) (t : G) (K K₁ : Subgroup G) :
     pZero d t K K₁ ≤ yamadaP d t := by
   refine sup_le ?_ ?_
@@ -1655,6 +1698,7 @@ theorem qThree_le_aOne (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
   calc (eOne d t K)ᵍ[uG d] ≤ (aOne K₁)ᵍ[uG d] := Subgroup.map_mono hE1A
     _ = aOne K₁ := conjT_eq_of_mem_normalizer hu
 
+omit [Finite G] in
 theorem qThree_le_yamadaP (d : TrialityD4Data L (2 ^ f)) (t : G) (K : Subgroup G) :
     qThree d t K ≤ yamadaP d t :=
   (inf_le_left : qThree d t K ≤ prodX d t).trans

@@ -40,7 +40,7 @@ theorem xor_left_inj' {a x y : Nat} (h : a ^^^ x = a ^^^ y) : x = y := by
   simp only [← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor] at this
   exact this
 
-theorem supp_iff {c : Nat} (hc : c < 2 ^ 20) : eaSupp c = true ↔ c &&& 65520 = 0 := by
+theorem supp_iff {c : Nat} (_hc : c < 2 ^ 20) : eaSupp c = true ↔ c &&& 65520 = 0 := by
   have hR : ∀ m < 20, (65520 : Nat).testBit m = !eaBits.contains m := by decide
   unfold eaSupp
   simp only [List.all_eq_true, List.mem_range, Bool.or_eq_true, Bool.not_eq_true']
@@ -98,6 +98,7 @@ variable {C I : Nat} (hC : ∀ k < 1953, fldW 12 C k = codeOf (tvPair k))
   (hI : ∀ n < 4096, fldW 11 I n = tvIdxTab[n]!)
 include hC
 
+omit hC in
 theorem conjC_code {a b : Nat} (ha : a < 1953) (hb : b < 1953) :
     conjC (codeOf (tvPair a)) (codeOf (tvPair b)) = codeOf (tvPair (tvImg a b)) := by
   rw [conjC_codeOf (tvP_tvPair ha) (tvP_tvPair hb), tvPair_tvImg ha hb]
@@ -108,12 +109,12 @@ theorem eaRel_eq {a b : Nat} (ha : a < 1953) (hb : b < 1953) :
   have i1 : a = b ↔ codeOf (tvPair a) = codeOf (tvPair b) :=
     ⟨fun h => congrArg (fun x => codeOf (tvPair x)) h, codeOf_tvPair_inj ha hb⟩
   have i2 : tvImg a b = b ↔ conjC (codeOf (tvPair a)) (codeOf (tvPair b)) = codeOf (tvPair b) := by
-    rw [conjC_code hC ha hb]
+    rw [conjC_code ha hb]
     exact ⟨fun h => congrArg (fun x => codeOf (tvPair x)) h,
       codeOf_tvPair_inj (tvImg_lt ha hb) hb⟩
   have i3 : tvImg a b = tvImg b a ↔ conjC (codeOf (tvPair a)) (codeOf (tvPair b)) =
       conjC (codeOf (tvPair b)) (codeOf (tvPair a)) := by
-    rw [conjC_code hC ha hb, conjC_code hC hb ha]
+    rw [conjC_code ha hb, conjC_code hb ha]
     exact ⟨fun h => congrArg (fun x => codeOf (tvPair x)) h,
       codeOf_tvPair_inj (tvImg_lt ha hb) (tvImg_lt hb ha)⟩
   unfold eaRel eaRelC

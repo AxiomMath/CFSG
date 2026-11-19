@@ -14,8 +14,8 @@ theorem exists_conj_mem_centralizer_of_threeCentral {G : Type*} [Group G] [Finit
     (hz : ∃ S : Sylow 3 G, (S : Subgroup G) ≤ Subgroup.centralizer ({z} : Set G)) :
     ∃ g : G, g * z * g⁻¹ ∈ Subgroup.centralizer (E : Set G) ∧
       g * z * g⁻¹ ∈ Subgroup.centralizer (H : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Sylow 3 G) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Sylow 3 G) :=
     Finite.of_injective (fun P : Sylow 3 G => (P : Set G)) SetLike.coe_injective
   obtain ⟨S, hS⟩ := hz
   obtain ⟨Q, hQ⟩ := (hH.to_sup_of_normal_right' hE hHE).exists_le_sylow

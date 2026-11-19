@@ -24,7 +24,7 @@ theorem card_omega₁_eq_pow_pRank_of_isMulCommutative {X : Type*} [Group X] [Fi
   have hge : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ CFSG.Open.pRank p Ω := by
     refine CFSG.SectionRank.pRank_le hp.out.one_lt (H := ⊤) ?_
     intro E _ hE
-    haveI : IsElementaryAbelian p E :=
+    have : IsElementaryAbelian p E :=
       (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p E).2 hE
     have hEΩ : E ≤ Ω := CFSG.elementaryAbelian_le_omega₁
     have hEcard : Nat.card E = p ^ CFSG.Open.pRank p E :=

@@ -12,9 +12,9 @@ open scoped Pointwise
 variable {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgroup X}
 
 theorem k517_4b_normalizer_data_of_mulCommutative
-    (hX : GNSetting X T) (hGood : GNGood T T₁ T₂)
+    (hX : GNSetting X T) (_hGood : GNGood T T₁ T₂)
     {Ls : Subgroup (X ⧸ gnC T)}
-    (hLs : GNYComponent T T₁ T₂ Ls)
+    (_hLs : GNYComponent T T₁ T₂ Ls)
     (hTinv : gnImg T T ≤ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)))
     {U : Subgroup ↥Ls}
     (hU : U = (gnImg T T ⊓ Ls).subgroupOf Ls)
@@ -111,7 +111,7 @@ theorem k517_4b_normalizer_data_of_mulCommutative
     rw [hb1, one_mul]
   have hquot : IsPGroup 2 (↥Y ⧸ BY) := hT2.of_surjective q' hq'surj
   have hHallB : ∀ H : Subgroup ↥Y, IsHallSubgroup {p : Nat.Primes | (p : ℕ) ≠ 2} H → H ≤ BY := by
-    haveI : BY.Normal := hB
+    have : BY.Normal := hB
     exact fun H hH => le_of_isHallSubgroup_of_quotient_isPGroup BY hquot hH
   let N : Subgroup ↥Ls := Subgroup.normalizer (U : Set ↥Ls)
   have hcommN : IsMulCommutative (↥N ⧸ CFSG.pCore 2 ↥N) := hcomm
@@ -153,7 +153,7 @@ theorem k517_4b_normalizer_data_of_mulCommutative
 theorem k517_4b_of_setting_of_hall
     (hX : GNSetting X T) (hGood : GNGood T T₁ T₂)
     {Ls : Subgroup (X ⧸ gnC T)} {q : ℕ}
-    (hLs : GNYComponent T T₁ T₂ Ls)
+    (_hLs : GNYComponent T T₁ T₂ Ls)
     (hq : q.Prime) (hq2 : q ≠ 2)
     {U : Subgroup ↥Ls}
     (hHc : ∃ Hc : Subgroup ↥Ls, Hc ≤ Subgroup.normalizer (U : Set ↥Ls) ∧

@@ -170,6 +170,7 @@ theorem permutable_map {N P : Type} [Group N] [Group P] (ρ : N →* P) {A T : S
   unfold Permutable at h ⊢
   rw [Subgroup.coe_map, Subgroup.coe_map, ← Set.image_mul, ← Set.image_mul, h]
 
+omit [Finite X] in
 theorem map_inf_innAut_eq_bot {Y : Type} [Group Y] [Finite Y] (π : X →* Y) {Jn : Subgroup X}
     [hN : (Jn.map π).Normal] {A : Subgroup X}
     (h : A ⊓ (Jn ⊔ ((MulAut.conjNormal : Y →* MulAut ↥(Jn.map π)).comp π).ker) = ⊥) :
@@ -191,6 +192,7 @@ theorem map_inf_innAut_eq_bot {Y : Type} [Group Y] [Finite Y] (π : X →* Y) {J
   rw [this]
   simp
 
+omit [Finite X] in
 theorem ker_conjNormal_comp {Y : Type} [Group Y] (π : X →* Y) {K : Subgroup Y} [hN : K.Normal] :
     ((MulAut.conjNormal : Y →* MulAut ↥K).comp π).ker =
       (Subgroup.centralizer (K : Set Y)).comap π := by
@@ -338,7 +340,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem gnV_comm_exp_two {T : Subgroup X} (hX : GNSetting X T) :
     (∀ a ∈ gnV T, ∀ b ∈ gnV T, a * b = b * a) ∧ (∀ v ∈ gnV T, v ^ 2 = 1) := by
   have h := CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542.isElemAbelian_gnV T hX
-  haveI := h.1
+  have := h.1
   refine ⟨fun a ha b hb => ?_, fun v hv => h.2 v hv⟩
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(gnV T)) ⟨b, hb⟩)
 
@@ -350,10 +352,10 @@ theorem exists_elemAbelian_sq {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.
     {H : Subgroup Y} (h : 2 ≤ CFSG.Open.pRank p H) :
     ∃ E : Subgroup Y, E ≤ H ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
   obtain ⟨E₀, hE₀H, hE₀, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt H
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ^ 2 ∣ Nat.card E₀ := by rw [hcard]; exact pow_dvd_pow p h
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := E₀) p hdvd
-  haveI := hE₀.1
+  have := hE₀.1
   have hcomm : ∀ a b : E₀, a * b = b * a := fun a b => mul_comm' a b
   have hKe : IsElemAbelian p K := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩

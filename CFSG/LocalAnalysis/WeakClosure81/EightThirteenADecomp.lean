@@ -20,7 +20,7 @@ theorem Sit813.eq_of_decomp {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H
   have D := h.fiveData
   set K₁ : Subgroup G := K ⊓ normalizer (V : Set G) with hK₁def
   have S : Five.FiveSetup K K₁ (oTwoMod (cGrp H T) K) := D.setup
-  haveI : Fintype (Five.Cosets K K₁) := Fintype.ofFinite _
+  have : Fintype (Five.Cosets K K₁) := Fintype.ofFinite _
   have hcard : Fintype.card (Five.Cosets K K₁) = 5 := by
     rw [← Nat.card_eq_fintype_card]
     exact S.card_cosets
@@ -56,7 +56,7 @@ theorem Sit813.eq_of_decomp {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H
   have hone : Five.conjPerm K K₁ (a * b) habK habK₁ = 1 := by
     rw [Five.conjPerm_mul a b haK haK₁ hbK hbK₁ habK habK₁, hpb, ← hpab, ← hpa]
     exact hsq
-  haveI : Nontrivial (Five.Cosets K K₁) := by
+  have : Nontrivial (Five.Cosets K K₁) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, hcard]
     norm_num
   obtain ⟨ω, hω⟩ := exists_ne (QuotientGroup.mk 1 : Five.Cosets K K₁)

@@ -122,7 +122,7 @@ private lemma hdRo7SmBDAux_reflB7_eq_sgn :
     hdRo7SmBDAux_b7fst, hdRo7SmBDAux_sgn_apply]
   by_cases h : k = hdRo7SmBDAux_p7
   · subst h
-    simp only [if_true, mul_one, smul_smul]
+    simp only [ite_true, smul_smul]
     module
   · simp [h]
 
@@ -230,7 +230,7 @@ private lemma hdRo7SmBDAux_reflB8_eq_sgn :
   intro k
   fin_cases k <;>
     simp [hdRo7SmBDAux_reflB8, Module.reflection_apply, hdRo7SmBDAux_b8fst,
-      hdRo7SmBDAux_b8snd, hdRo7SmBDAux_sgn_apply, hdRo7SmBDAux_smDual_apply, smDot,
+      hdRo7SmBDAux_b8snd, hdRo7SmBDAux_smDual_apply, smDot,
       Pi.basisFun_apply, Fin.sum_univ_succ] <;> decide
 
 private lemma hdRo7SmBDAux_reflD8_prod :

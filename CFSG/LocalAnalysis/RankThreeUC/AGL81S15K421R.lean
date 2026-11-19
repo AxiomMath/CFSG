@@ -31,13 +31,14 @@ theorem monoMat_mul (c : S →* Fˣ) (w₁ w₂ : S ≀ᵣ T) :
   rw [Finset.sum_eq_single (w₂.right * z)]
   · by_cases hx : x = w₁.right * (w₂.right * z)
     · have h1 : w₁.right⁻¹ * x = w₂.right * z := by rw [hx]; group
-      simp [hx, RegularWreathProduct.mul_left, h1]
+      simp [hx, RegularWreathProduct.mul_left]
     · simp [hx]
   · intro y _ hy
     simp [hy]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
+omit [Fintype T] in
 theorem monoMat_one (c : S →* Fˣ) : monoMat c (1 : S ≀ᵣ T) = (1 : Matrix T T F) := by
   ext x y
   simp [monoMat, Matrix.one_apply]
@@ -49,26 +50,27 @@ theorem monoMat_transpose_mul (c : S →* Fˣ) (w : S ≀ᵣ T) :
   rw [Finset.sum_eq_single (w.right * x)]
   · by_cases hxz : x = z
     · subst hxz
-      simp [Matrix.one_apply]
+      simp
     · have h : ¬ w.right * x = w.right * z := fun h => hxz (mul_left_cancel h)
-      simp [h, hxz, Matrix.one_apply]
+      simp [h, hxz]
   · intro y _ hy
     simp [hy]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
-theorem eq_one_of_monoMat_eq_one [Nontrivial F] (c : S →* Fˣ) (hc : Function.Injective c)
+omit [Fintype T] in
+theorem eq_one_of_monoMat_eq_one (c : S →* Fˣ) (hc : Function.Injective c)
     {w : S ≀ᵣ T} (h : monoMat c w = (1 : Matrix T T F)) : w = 1 := by
   have h1 : w.right = 1 := by
     by_contra hne
     have := congrFun (congrFun h 1) 1
     simp only [monoMat, Matrix.of_apply, Matrix.one_apply_eq] at this
-    rw [if_neg (by simpa using Ne.symm hne)] at this
+    rw [ite_eq_right (by simpa using Ne.symm hne)] at this
     exact zero_ne_one this
   refine RegularWreathProduct.ext ?_ h1
   funext x
   have := congrFun (congrFun h x) x
-  simp only [monoMat, Matrix.of_apply, Matrix.one_apply_eq, h1, one_mul, if_true] at this
+  simp only [monoMat, Matrix.of_apply, Matrix.one_apply_eq, h1, one_mul, ite_true] at this
   have h2 : c (w.left x) = 1 := Units.ext this
   exact hc (h2.trans (map_one c).symm)
 
@@ -86,6 +88,7 @@ theorem spMat_mul (c : S →* Fˣ) (w₁ w₂ : S ≀ᵣ T) :
   simp only [spMat, monoMat_mul, Matrix.fromBlocks_multiply]
   simp
 
+omit [Fintype T] in
 theorem spMat_one (c : S →* Fˣ) : spMat c (1 : S ≀ᵣ T) = (1 : Matrix (T ⊕ T) (T ⊕ T) F) := by
   simp only [spMat, monoMat_one, Matrix.fromBlocks_one]
 
@@ -102,6 +105,7 @@ theorem spMat_symplectic (c : S →* Fˣ) (w : S ≀ᵣ T) :
   simp only [spMat, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply]
   simp [h1, h2]
 
+omit [Group T] in
 theorem submatrix_symplectic {n : ℕ} (e : T ≃ Fin n) {M : Matrix (T ⊕ T) (T ⊕ T) F}
     (hM : Mᵀ * (Matrix.fromBlocks 0 1 (-1) 0 : Matrix (T ⊕ T) (T ⊕ T) F) * M =
       Matrix.fromBlocks 0 1 (-1) 0) :

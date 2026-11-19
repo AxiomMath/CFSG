@@ -17,7 +17,7 @@ theorem a6c_check6_tau {Γ : Type} [Group Γ] (m : A6CModel 6 Γ) (hΓ : Nat.car
         ∃ y ∈ k0Of 6 (g0M6 ()) rCT, A6CElt m y = c) ∧
       (k0Of 6 (g0M6 ()) rCT).length = 40 := by
   classical
-  haveI : Finite Γ := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite Γ := Nat.finite_of_card_ne_zero (by omega)
   have h' := h
   unfold part62 at h'
   dsimp at h'

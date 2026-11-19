@@ -19,10 +19,12 @@ open CFSG.Open CFSG.Open.StatedAPI CFSG.GroupTheory.WeirSylow
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem index_statedSL_dvd (n : ℕ) : (StatedSL n F).index ∣ Nat.card F - 1 := by
   rw [statedSL_eq_ker_det, Subgroup.index_ker, ← Nat.card_units]
   exact Subgroup.card_subgroup_dvd_card _
 
+omit [Finite F] in
 theorem card_scalars_subgroupOf_dvd (n : ℕ) :
     Nat.card ((StatedScalars (Fin n) F).subgroupOf (StatedSL n F)) ∣ Nat.card F - 1 := by
   have h1 : Nat.card ((StatedScalars (Fin n) F).subgroupOf (StatedSL n F)) =
@@ -35,17 +37,19 @@ theorem card_scalars_subgroupOf_dvd (n : ℕ) :
     (Matrix.GeneralLinearGroup.scalar (Fin n) : Fˣ →* GL (Fin n) F)
   rwa [Nat.card_units] at h2
 
+omit [Field F] [Finite F] in
 theorem orderOf_pos_card [Fintype F] {p : ℕ} (hp : p.Prime) (hpF : ¬ p ∣ Fintype.card F) :
     0 < orderOf (Fintype.card F : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : (Fintype.card F : ZMod p) ≠ 0 := by
     rwa [Ne, ZMod.natCast_eq_zero_iff]
   rw [orderOf_pos_iff, isOfFinOrder_iff_pow_eq_one]
   exact ⟨p - 1, Nat.sub_pos_of_lt hp.one_lt, ZMod.pow_card_sub_one_eq_one hne⟩
 
+omit [Finite F] in
 theorem one_le_padicValNat_card [Fintype F] {p : ℕ} (hp : p.Prime) (hpF : ¬ p ∣ Fintype.card F) :
     1 ≤ padicValNat p (Fintype.card F ^ orderOf (Fintype.card F : ZMod p) - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he := orderOf_pos_card (F := F) hp hpF
   have hq : 1 < Fintype.card F := Fintype.one_lt_card
   have hlt : 1 < Fintype.card F ^ orderOf (Fintype.card F : ZMod p) := Nat.one_lt_pow he.ne' hq
@@ -56,8 +60,8 @@ theorem one_le_padicValNat_card [Fintype F] {p : ℕ} (hp : p.Prime) (hpF : ¬ p
 
 theorem sylowDichotomyAt_proj_SL {n p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p)
     (hpF : ¬ p ∣ Nat.card F) : SylowDichotomyAt (StatedProj (StatedSL n F)) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hp1 : Odd p := hp.odd_of_ne_two (by omega)
   have hpF' : ¬ p ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hGL : ∀ P : Sylow p (GL (Fin n) F), Nonempty (P ≃* sigmaModel p
@@ -96,7 +100,7 @@ theorem sylowDichotomyAt_proj_SL {n p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p)
         exact SylowDichotomyAt.of_not_cyclic_derived hU hnc
     · have hdichGL : SylowDichotomyAt (GL (Fin n) F) p :=
         SylowDichotomyAt.of_sylow_sigmaModel hp h5 (one_le_padicValNat_card hp hpF') hGL
-      haveI : (StatedSL n F).Normal := by rw [statedSL_eq_ker_det]; infer_instance
+      have : (StatedSL n F).Normal := by rw [statedSL_eq_ker_det]; infer_instance
       have hSL : SylowDichotomyAt (StatedSL n F) p :=
         SylowDichotomyAt.of_normal_coprime_index hp (StatedSL n F)
           (fun hd => hA (hd.trans (index_statedSL_dvd n))) hdichGL

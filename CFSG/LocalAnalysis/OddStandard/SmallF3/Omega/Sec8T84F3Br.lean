@@ -44,7 +44,7 @@ private theorem sec8t84_factP_quot_subgroupOf (hP : Sec8T84FactP) {G : Type} [Gr
       Sec8T84PFacts (↥Y ⧸ O.subgroupOf Y)
         ((V.subgroupOf Y).map (QuotientGroup.mk' (O.subgroupOf Y)))
         (P'.map (QuotientGroup.mk' (O.subgroupOf Y))) Fb := by
-  haveI : (V.subgroupOf Y).Normal := hY.V_norm
+  have : (V.subgroupOf Y).Normal := hY.V_norm
   have hNodd : Odd (Nat.card (O.subgroupOf Y)) := by
     rw [sec8t84_card_subgroupOf hY.O_le]; exact hY.O_odd
   have hV : IsElemAb2 (V.subgroupOf Y) 4 :=
@@ -80,8 +80,8 @@ theorem sec8t84_pmod_of (hP : Sec8T84FactP) {G : Type} [Group G] [Finite G]
     {Y O V H P : Subgroup G} (hY : Sec8T84YData G Y O V H) (hPY : IsSylow2Of P Y)
     (hVP : V ≤ P) (hVPn : (V.subgroupOf P).Normal) :
     ∃ F : Subgroup G, Sec8T84PMod G V P F := by
-  haveI : (O.subgroupOf Y).Normal := hY.O_norm
-  haveI : (V.subgroupOf Y).Normal := hY.V_norm
+  have : (O.subgroupOf Y).Normal := hY.O_norm
+  have : (V.subgroupOf Y).Normal := hY.V_norm
   have hP' : IsSylow2Of (P.subgroupOf Y) ⊤ := sec8t84_isSylow2Of_subgroupOf hPY
   obtain ⟨Fb, hFb⟩ := sec8t84_factP_quot_subgroupOf hP hY hP'
   obtain ⟨hdisj, -⟩ := sec8t84_sylow_map_quot (O.subgroupOf Y) (P.subgroupOf Y)
@@ -113,8 +113,8 @@ theorem sec8t84_rank_piece (hP : Sec8T84FactP) {G : Type} [Group G] [Finite G]
     (hs : s * s = 1) :
     ∃ D : Subgroup G, O ≤ D ∧ D ≤ Y ∧ s ∈ D ∧ (∀ x ∈ D, x * x ∈ O) ∧
       (∀ x ∈ D, ∀ y ∈ D, x * y * x⁻¹ * y⁻¹ ∈ O) ∧ Nat.card D = 16 * Nat.card O := by
-  haveI : (O.subgroupOf Y).Normal := hY.O_norm
-  haveI : (V.subgroupOf Y).Normal := hY.V_norm
+  have : (O.subgroupOf Y).Normal := hY.O_norm
+  have : (V.subgroupOf Y).Normal := hY.V_norm
   obtain ⟨P', hP'⟩ := exists_isSylow2Of (⊤ : Subgroup ↥Y)
   obtain ⟨Fb, hFb⟩ := sec8t84_factP_quot_subgroupOf hP hY hP'
   have hrk : ∀ t : ↥Y ⧸ O.subgroupOf Y, orderOf t = 2 →

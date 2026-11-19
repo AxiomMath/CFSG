@@ -29,6 +29,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ : G}
 
+omit [Finite G] in
 theorem isPGroup_three_zpowers {y : G} {k : ℕ} (h : y ^ 3 ^ k = 1) :
     IsPGroup 3 (Subgroup.zpowers y) := by
   rintro ⟨g, hg⟩
@@ -88,13 +89,16 @@ section Coord
 
 variable [IsElementaryAbelian 3 B] (β : Module.Basis (Fin 4) (ZMod 3) (Additive B))
 
+omit [Finite G] in
 theorem cvG_zpow {g : G} (hg : g ∈ B) (k : ℤ) : cvG β (g ^ k) = k • cvG β g := by
   rw [cvG_of_mem β (B.zpow_mem hg k), cvG_of_mem β hg, ← cv_zpow]; rfl
 
+omit [Finite G] in
 theorem cvG_pow {g : G} (hg : g ∈ B) (k : ℕ) : cvG β (g ^ k) = k • cvG β g := by
   have := cvG_zpow β hg k
   rwa [zpow_natCast, natCast_zsmul] at this
 
+omit [Finite G] in
 theorem cvG_gens {c₀ c₁ c₂ c₃ : G}
     (hβ : ∀ i, ((Additive.toMul (β i) : B) : G) = ![c₀, c₁, c₂, c₃] i) :
     cvG β c₀ = e 0 ∧ cvG β c₁ = e 1 ∧ cvG β c₂ = e 2 ∧ cvG β c₃ = e 3 := by
@@ -141,7 +145,7 @@ theorem FF81Sec4.conj_b : (∃ g : G, g * b * g⁻¹ = b₁) ∧ (∃ g : G, g *
 theorem FF81Sec4.exists_coord : haveI := h4.basis.mono.1.1
     ∃ β : Module.Basis (Fin 4) (ZMod 3) (Additive B),
       cvG β b = e 0 ∧ cvG β b₁ = e 1 ∧ cvG β b₂ = e 2 ∧ cvG β b₃ = e 3 := by
-  haveI := h4.basis.mono.1.1
+  have := h4.basis.mono.1.1
   obtain ⟨β, hβ⟩ := exists_basis (B := B) (by rw [h4.basis.mono.1.2]) h4.basis.mono.2.1
   exact ⟨β, cvG_gens β hβ⟩
 
@@ -168,7 +172,7 @@ theorem FF81Sec4.cvG_line [IsElementaryAbelian 3 B] (β : Module.Basis (Fin 4) (
 
 theorem FF81Sec4.eq_of_conj_pair {y : G} (hyB : y ∈ B) (hy : ∃ g : G, g * b * g⁻¹ = y)
     (hy' : ∃ g : G, g * b * g⁻¹ = y⁻¹ * (b * b₂)) : y = b ∨ y = b₂ := by
-  haveI := h4.basis.mono.1.1
+  have := h4.basis.mono.1.1
   obtain ⟨β, hβ⟩ := h4.exists_coord
   obtain ⟨hbB, -, hb2B, -⟩ := h4.basis.mem
   have hy'B : y⁻¹ * (b * b₂) ∈ B := B.mul_mem (B.inv_mem hyB) (B.mul_mem hbB hb2B)
@@ -201,9 +205,9 @@ theorem FF81Sec4.fix_or_swap {u : G} (hu : u ∈ Cen (b * b₂))
   · refine Or.inr ⟨h, ?_⟩
     rw [hy', h, h4.b2_comm]; group
 
-theorem FF81Sec4.mem_zpowers_of_line {u c : G} (hc : c = b₁ ∨ c = b₃) (hu : u ∈ Cen (b * b₂))
+theorem FF81Sec4.mem_zpowers_of_line {u c : G} (hc : c = b₁ ∨ c = b₃) (_hu : u ∈ Cen (b * b₂))
     (huc : u * c * u⁻¹ ∈ Subgroup.closure {c, b * b₂}) : u * c * u⁻¹ ∈ Subgroup.zpowers c := by
-  haveI := h4.basis.mono.1.1
+  have := h4.basis.mono.1.1
   obtain ⟨β, hβ⟩ := h4.exists_coord
   obtain ⟨hbB, hb1B, hb2B, hb3B⟩ := h4.basis.mem
   obtain ⟨h1, -, h3, -, -, -⟩ := h4.basis.b_facts
@@ -242,7 +246,7 @@ theorem FF81Sec4.mem_zpowers_of_line {u c : G} (hc : c = b₁ ∨ c = b₃) (hu 
 
 theorem FF81Sec4.mono_pair {w : G} (hw : w ∈ Subgroup.closure {b₁, b₃})
     (hwc : ∃ g : G, g * b * g⁻¹ = w) : w ∈ ({b₁, b₁⁻¹, b₃, b₃⁻¹} : Set G) := by
-  haveI := h4.basis.mono.1.1
+  have := h4.basis.mono.1.1
   obtain ⟨β, hβ⟩ := h4.exists_coord
   obtain ⟨hbB, hb1B, hb2B, hb3B⟩ := h4.basis.mem
   obtain ⟨h1, -, h3, -, h13, -⟩ := h4.basis.b_facts
@@ -274,14 +278,17 @@ theorem FF81Sec4.mono_pair {w : G} (hw : w ∈ Subgroup.closure {b₁, b₃})
 
 end Sec4
 
+omit [Finite G] in
 theorem mem_cen_of_conj {g x : G} (h : g * x * g⁻¹ = x) : g ∈ Cen x :=
   Subgroup.mem_centralizer_singleton_iff.mpr (by
     calc g * x = g * x * g⁻¹ * g := by group
       _ = x * g := by rw [h])
 
+omit [Finite G] in
 theorem conj_of_mem_cen {g x : G} (h : g ∈ Cen x) : g * x * g⁻¹ = x := by
   rw [Subgroup.mem_centralizer_singleton_iff.mp h]; group
 
+omit [Finite G] in
 theorem conj_mem_zpowers {g x y z : G} (h : g * x * g⁻¹ = y) (hz : z ∈ Subgroup.zpowers x) :
     g * z * g⁻¹ ∈ Subgroup.zpowers y := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
@@ -289,6 +296,7 @@ theorem conj_mem_zpowers {g x y z : G} (h : g * x * g⁻¹ = y) (hz : z ∈ Subg
   rw [← h]
   exact (map_zpow (MulAut.conj g) x k).symm
 
+omit [Finite G] in
 theorem eq_or_eq_inv_of_orderOf_three {x y : G} (hx : orderOf x = 3) (hy : y ∈ Subgroup.zpowers x)
     (hy1 : y ≠ 1) : y = x ∨ y = x⁻¹ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
@@ -310,6 +318,7 @@ theorem perm_six_eq_one_of_comm : ∀ σ : Equiv.Perm (Fin 6),
     σ * Equiv.swap 0 5 = Equiv.swap 0 5 * σ → σ = 1 := by
   decide
 
+omit [Finite G] in
 theorem eq_one_of_central {J : Subgroup G} (φ : ↥J ≃* Equiv.Perm (Fin 6)) {z : G} (hz : z ∈ J)
     (hc : ∀ j ∈ J, z * j = j * z) : z = 1 := by
   have key : ∀ σ : Equiv.Perm (Fin 6), φ ⟨z, hz⟩ * σ = σ * φ ⟨z, hz⟩ := fun σ => by
@@ -320,6 +329,7 @@ theorem eq_one_of_central {J : Subgroup G} (φ : ↥J ≃* Equiv.Perm (Fin 6)) {
   have : (⟨z, hz⟩ : J) = 1 := φ.injective (by rw [h1, map_one])
   exact congrArg Subtype.val this
 
+omit [Finite G] in
 theorem le_closure_of_involutions {J : Subgroup G} (φ : ↥J ≃* Equiv.Perm (Fin 6)) {S : Set G}
     (hS : ∀ j ∈ J, j * j = 1 → j ∈ S) : J ≤ Subgroup.closure S := by
   intro j hj
@@ -337,6 +347,7 @@ theorem le_closure_of_involutions {J : Subgroup G} (φ : ↥J ≃* Equiv.Perm (F
   show ((φ.symm (Equiv.swap a c) : J) : G) * (φ.symm (Equiv.swap a c) : J) = 1
   rw [← Subgroup.coe_mul, ← map_mul, Equiv.swap_mul_self, map_one, Subgroup.coe_one]
 
+omit [Finite G] in
 theorem preserve_cen_pair {u : G}
     (h : (u * b * u⁻¹ = b ∧ u * b₂ * u⁻¹ = b₂) ∨ (u * b * u⁻¹ = b₂ ∧ u * b₂ * u⁻¹ = b)) :
     ∀ y ∈ Cen b ⊓ Cen b₂, u * y * u⁻¹ ∈ Cen b ⊓ Cen b₂ := by

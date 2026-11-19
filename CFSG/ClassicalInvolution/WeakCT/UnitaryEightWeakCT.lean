@@ -205,7 +205,7 @@ theorem weakCT_unitary_eight_even (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 2 ≤ f)
         ∀ g : D.rootGroup (-Pi.single k 1), φE (E.preimage g) = (nd k).ψm g := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      first | (exfalso; revert hij; simp [Fin.le_def]; done) | skip
+      try (exfalso; revert hij; simp [Fin.le_def]; done)
     · exact exists_levi_node hdiv hCTG nd P0 (rS8_injective _ hσ 0)
     ·
       obtain ⟨ψ, hψ0, hψ1⟩ := hρSψ 0 1 rfl

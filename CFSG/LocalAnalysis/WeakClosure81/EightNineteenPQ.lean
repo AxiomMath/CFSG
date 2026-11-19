@@ -45,7 +45,7 @@ theorem Cfg813.inf_ne_bot (hF0 : OddSchurMultiplierFact) (hF1 : InvolutionCentra
 
 private theorem wc819pq_eq_of_isSylowIn_ge {H P K : Subgroup Q} (hP : IsSylowIn 2 P H)
     (hKH : K ≤ H) (hK : IsPGroup 2 K) (hPK : P ≤ K) : K = P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine (Subgroup.eq_of_le_of_card_ge hPK ?_).symm
   rw [hP.card_eq]
   obtain ⟨j, hj⟩ := hK.exists_card_eq
@@ -56,6 +56,7 @@ private theorem wc819pq_eq_of_isSylowIn_ge {H P K : Subgroup Q} (hP : IsSylowIn 
     exact Subgroup.card_dvd_of_le hKH
   exact (Nat.prime_two.pow_dvd_iff_le_factorization (Nat.card_pos (α := ↥H)).ne').mp hdvd
 
+omit [Finite Q] in
 private theorem wc819pq_exists_mul_sup_of_commute {A C : Subgroup Q}
     (hcomm : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a) {x : Q} (hx : x ∈ A ⊔ C) :
     ∃ a ∈ A, ∃ c ∈ C, (∀ y ∈ A, c * y = y * c) ∧ x = a * c := by
@@ -68,9 +69,9 @@ private theorem wc819pq_exists_mul_sup_of_commute {A C : Subgroup Q}
     (∀ y ∈ A, c * y = y * c) ∧ x = a * c) hx' ?_ ?_ ?_
   · intro b z hz
     cases b
-    · simp only [F, Bool.false_eq_true, if_false] at hz
+    · simp only [F, Bool.false_eq_true, ite_false] at hz
       exact ⟨z, hz, 1, C.one_mem, fun y _ => by simp, by simp⟩
-    · simp only [F, if_true] at hz
+    · simp only [F, ite_true] at hz
       exact ⟨1, A.one_mem, z, hz, fun y hy => (hcomm y hy z hz).symm, by simp⟩
   · exact ⟨1, A.one_mem, 1, C.one_mem, fun y _ => by simp, by simp⟩
   · rintro u v ⟨a₁, ha₁, c₁, hc₁, hc₁comm, rfl⟩ ⟨a₂, ha₂, c₂, hc₂, hc₂comm, rfl⟩
@@ -203,7 +204,7 @@ theorem Cfg813.inf_layer_inf_B_le_iSup (hF0 : OddSchurMultiplierFact)
     genFittingLayer Q ⊓ B ≤ ⨆ (J : Subgroup Q) (_ : IsComponentOf J ⊤), B ⊓ J := by
   classical
   let idx := {J : Subgroup Q // IsComponentOf J ⊤}
-  haveI : Fintype idx := Fintype.ofFinite idx
+  have : Fintype idx := Fintype.ofFinite idx
   have hmain := wc819pq_sup_components_inf_le hF0 hF1 hF2 hF3 h (Finset.univ : Finset idx)
   have hE : (Finset.univ : Finset idx).sup (fun J => J.1) = genFittingLayer Q := by
     have hrange : Set.range (fun J : idx => J.1) = {L : Subgroup Q | IsComponentOf L ⊤} := by
@@ -222,6 +223,7 @@ theorem Cfg813.inf_layer_inf_B_le_iSup (hF0 : OddSchurMultiplierFact)
 private def wc819pq_oddSet (P : Subgroup Q) : Set (Subgroup Q) :=
   {Q' | ⊥ ≤ Q' ∧ Q' ≤ P ∧ (Q'.subgroupOf P).Normal ∧ Odd (Q'.relIndex P)}
 
+omit [Finite Q] in
 private theorem wc819pq_relIndex_sup_eq {T D : Subgroup Q}
     (hT : T ≤ Subgroup.normalizer (D : Set Q)) : D.relIndex (T ⊔ D) = D.relIndex T := by
   have := Subgroup.normal_subgroupOf_of_le_normalizer hT
@@ -252,7 +254,7 @@ private theorem wc819pq_not_two_dvd_relIndex_inf {T H D : Subgroup Q} [Finite T]
   exact hd.mul_right _
 
 private theorem wc819pq_odd_inf_relIndex {H K P : Subgroup Q} (hHP : H ≤ P) (hKP : K ≤ P)
-    (hHnormal : (H.subgroupOf P).Normal) (hKnormal : (K.subgroupOf P).Normal)
+    (_hHnormal : (H.subgroupOf P).Normal) (hKnormal : (K.subgroupOf P).Normal)
     (hHodd : Odd (H.relIndex P)) (hKodd : Odd (K.relIndex P)) :
     Odd ((H ⊓ K).relIndex P) := by
   have hHnormK : H ≤ Subgroup.normalizer (K : Set Q) :=
@@ -310,10 +312,10 @@ private theorem wc819pq_oddResMod_relIndex (P : Subgroup Q) :
   classical
   let S := wc819pq_oddSet P
   let idx := {Q' : Subgroup Q // Q' ∈ S}
-  haveI : Fintype idx := Fintype.ofFinite idx
+  have : Fintype idx := Fintype.ofFinite idx
   have hPmem : P ∈ S := by
     refine ⟨bot_le, le_rfl, ?_, ?_⟩
-    · simpa [Subgroup.subgroupOf_self]
+    · simp [Subgroup.subgroupOf_self]
     · simp [Subgroup.relIndex_self]
   have hfact := wc819pq_finset_inf_facts P (Finset.univ : Finset idx)
   have hinf_le_P : (Finset.univ : Finset idx).inf (fun i => i.1) ≤ P := by
@@ -337,7 +339,7 @@ private theorem wc819pq_oddResMod_relIndex (P : Subgroup Q) :
 private theorem wc819pq_caseB (hF0 : OddSchurMultiplierFact)
     (hF1 : InvolutionCentralizerFact) (hF2 : FourGroupInnerFact) (hF3 : BorelOvergroupFact)
     (h : Cfg813 T A B R L₀) {L K P : Subgroup Q} (hL : IsComponentOf L ⊤) (hK : K ≤ L)
-    (hc : HasQuotShape K ((oTwoMod (⊥ : Subgroup Q) K : Subgroup Q) : Set Q)
+    (_hc : HasQuotShape K ((oTwoMod (⊥ : Subgroup Q) K : Subgroup Q) : Set Q)
       (fun X _ => IsL2 X 2))
     (hT : IsSylowIn 2 (T ⊓ K) K)
     (hPmax : IsMaxParabolicMod (⊥ : Subgroup Q) L P)
@@ -354,7 +356,7 @@ private theorem wc819pq_caseB (hF0 : OddSchurMultiplierFact)
     Odd (Q'.relIndex P)}
   have hPmem : P ∈ Sset := by
     refine ⟨bot_le, le_rfl, ?_, ?_⟩
-    · simpa [Subgroup.subgroupOf_self]
+    · simp [Subgroup.subgroupOf_self]
     · simp [Subgroup.relIndex_self]
   have hKleP : K ≤ P := by
     rw [hKeq]

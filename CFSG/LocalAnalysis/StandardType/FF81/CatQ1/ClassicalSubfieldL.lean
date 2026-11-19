@@ -209,7 +209,7 @@ theorem pRank_projectiveSL_three_le_two {F : Type} [Field F] [Finite F] (hpF : �
   · have hdiv : ¬ 3 ∣ Nat.gcd 3 (Nat.card F - 1) := fun h =>
       h3 (h.trans (Nat.gcd_dvd_right 3 (Nat.card F - 1)))
     rw [CFSG.LieType.OutStructure.pRank_projectiveSL_formula (N := 3) (K := F)
-      (p := 3) Nat.prime_three (by norm_num) (by norm_num) hpF hdiv, if_neg h3]
+      (p := 3) Nat.prime_three (by norm_num) (by norm_num) hpF hdiv, ite_eq_right h3]
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hz : (Nat.card F : ZMod 3) ≠ 1 := by
       intro h1

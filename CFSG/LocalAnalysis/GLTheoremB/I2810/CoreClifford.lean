@@ -27,8 +27,8 @@ theorem irred_of_irred_transvection (Kh : Subgroup (LinearMap.GeneralLinearGroup
   by_contra hcon
   push Not at hcon
   obtain ⟨hW0, hWtop⟩ := hcon
-  haveI : Module.Finite (ZMod 2) P := Module.Finite.of_finite
-  haveI : Finite (P →ₗ[ZMod 2] P) := Module.finite_of_finite (ZMod 2)
+  have : Module.Finite (ZMod 2) P := Module.Finite.of_finite
+  have : Finite (P →ₗ[ZMod 2] P) := Module.finite_of_finite (ZMod 2)
   have htt : t * t = 1 := isF2Transvection_mul_self htr
   have hn' : ∀ k ∈ Kh, t⁻¹ * k * t ∈ Kh := by
     have ht : t ∈ Subgroup.normalizer (Kh : Set (LinearMap.GeneralLinearGroup (ZMod 2) P)) :=
@@ -171,7 +171,7 @@ theorem kirred_of_irredM_proof {a : X} {K V U₁ U₂ : Subgroup X}
   have hel : IsElemAbelian 2 U₁ := hV.mono hts.le.2
   obtain ⟨P, _, _, _, ρ, φ, hd⟩ := secRep_exists_proof K a U₁ U₂ hel hts.le.1 hts.inv₁ hts.inv₂
     hts.asec.inv₁ hts.asec.inv₂
-  haveI : Module.Finite (ZMod 2) P := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) P := Module.Finite.of_finite
   have htr : IsF2Transvection (ρ (aM K a)) := rho_isF2Transvection hts.asec hd
   have hnormt := rho_aM_mem_normalizer_of_mem haN ρ
   have hKh : ∀ k ∈ (K.subgroupOf (Mof K a)).map ρ, ∀ u u' : ↥U₁, (∃ m : ↥(Mof K a), (m : X) ∈ K ∧

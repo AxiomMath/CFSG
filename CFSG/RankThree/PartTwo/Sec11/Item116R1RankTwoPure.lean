@@ -91,9 +91,9 @@ theorem IsRankTwoByCyclic.of_surjective {S Q : Type*} [Group S] [Finite S] [Grou
     show f x * f y = f y * f x
     rw [← map_mul, ← map_mul, hxy]
   have hfin : Finite ↥(N.map f) := Finite.of_surjective (f.subgroupMap N) (f.subgroupMap_surjective N)
-  letI : CommGroup ↥N :=
+  let : CommGroup ↥N :=
     { (inferInstance : Group ↥N) with mul_comm := fun a b => hcomm.is_comm.comm a b }
-  letI : CommGroup ↥(N.map f) :=
+  let : CommGroup ↥(N.map f) :=
     { (inferInstance : Group ↥(N.map f)) with mul_comm := fun a b => hMc.is_comm.comm a b }
   have hcard := card_pow_three_le_of_surjective (f.subgroupMap N) (f.subgroupMap_surjective N)
   have hq : Function.Surjective (QuotientGroup.map N (N.map f) f (Subgroup.le_comap_map f N)) :=
@@ -170,7 +170,7 @@ theorem IsRankTwoByCyclic.map {X Y : Type*} [Group X] [Finite X] [Group Y] {H : 
 
 theorem IsRankTwoByCyclic.sylow_conj {Y : Type*} [Group Y] [Finite Y] {T T' : Sylow 3 Y}
     (h : IsRankTwoByCyclic ↥(T' : Subgroup Y)) : IsRankTwoByCyclic ↥(T : Subgroup Y) := by
-  haveI : Finite (Sylow 3 Y) :=
+  have : Finite (Sylow 3 Y) :=
     Finite.of_injective (fun P : Sylow 3 Y => ((P : Subgroup Y) : Set Y))
       (fun P Q hPQ => Sylow.ext (SetLike.coe_injective hPQ))
   exact IsRankTwoByCyclic.of_mulEquiv (Sylow.equiv T' T) h
@@ -248,7 +248,7 @@ theorem card_pow_three_closure_pair_le {X : Type*} [Group X] [Finite X] (u v : X
       first | exact Commute.refl _ | exact huv | exact huv.symm
   have hcomm : IsMulCommutative (Subgroup.closure ({u, v} : Set X)) :=
     Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup (Subgroup.closure ({u, v} : Set X)) := by
+  let : CommGroup (Subgroup.closure ({u, v} : Set X)) := by
     open scoped IsMulCommutative in exact inferInstance
   obtain ⟨p, hp⟩ : ∃ p : Subgroup.closure ({u, v} : Set X), (p : X) = u :=
     ⟨⟨u, Subgroup.subset_closure (by simp)⟩, rfl⟩
@@ -290,7 +290,7 @@ theorem isRankTwoByCyclic_of_generators {R : Type*} [Group R] [Finite R] (r x s 
       have hai : y * a⁻¹ * y⁻¹ = (y * a * y⁻¹)⁻¹ := by group
       rw [hai]
       exact inv_mem ha
-  haveI hnorm : (Subgroup.closure ({s, x} : Set R)).Normal := ⟨fun n hn g => hconj g n hn⟩
+  have hnorm : (Subgroup.closure ({s, x} : Set R)).Normal := ⟨fun n hn g => hconj g n hn⟩
   have hpair : (({s, x} : Set R)).Pairwise Commute := by
     intro a ha b hb _
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb

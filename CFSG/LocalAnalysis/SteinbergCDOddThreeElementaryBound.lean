@@ -232,7 +232,7 @@ theorem card_le_four_of_quotient {S : Type*} [Group S] [Finite S] (ρ : S →* G
       have : π ((x : At) : S) = 1 := congrArg Subtype.val hx
       exact (QuotientGroup.eq_one_iff _).1 this
     have h3 := hZ _ hxZ
-    obtain ⟨k, hk⟩ := P.isPGroup' x
+    obtain ⟨k, hk⟩ := P.isPGroup x
     have hk' : (((x : At) : S)) ^ 2 ^ k = 1 := by
       have := congrArg (fun y : (P : Subgroup At) => ((y : At) : S)) hk
       simpa using this

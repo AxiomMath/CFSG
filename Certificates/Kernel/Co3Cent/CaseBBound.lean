@@ -34,7 +34,7 @@ theorem card_le_list (L : List ℕ) :
     (Finset.univ.filter fun y : Fin 276 => y.val ∈ L).card ≤ L.length := by
   refine le_trans ?_ (List.toFinset_card_le L)
   refine Finset.card_le_card_of_injOn (fun y => y.val) (fun y hy => ?_) (fun y _ z _ he => Fin.ext he)
-  simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hy
+  simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hy
   simpa using hy
 
 @[expose] noncomputable def FBs : Finset (Fin 276) :=

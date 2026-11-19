@@ -52,7 +52,7 @@ private lemma ggQ2x_rootRefl_mem_weyl (D : GGQ2Lin 3) (γ : ↥D.rootPairs) :
       Module.reflection_apply (w.symm v) (D.root_coroot_self k)]
     rw [map_sub, map_smul, LinearEquiv.apply_symm_apply]
     rw [hq1, hq2]
-    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply]
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
   rw [heq]
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hw (ggQ2x_simpleRefl_mem_weyl D k))
     (Subgroup.inv_mem _ hw)
@@ -230,7 +230,7 @@ private lemma ggQ2x_prod_kill (D : GGQ2Lin 3) (k : D.ι) (m : ℕ) (j : ℕ → 
 
 private lemma ggQ2x_prod_ne_zero (D : GGQ2Lin 3) (hbas : D.Basis)
     (h4 : 4 ≤ Fintype.card D.ι) (δ : ↥D.rootPairs) (k : D.ι)
-    (hk : D.root k δ.1.2 = 0) :
+    (_hk : D.root k δ.1.2 = 0) :
     ∀ (m : ℕ) (j : ℕ → D.ι), j 0 = k →
       (∀ r < m, (ggQ2x_graph D).Adj (j r) (j (r + 1))) →
       (∀ r ≤ m, (ggQ2x_graph D).dist k (j r) = r) →

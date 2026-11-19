@@ -69,6 +69,7 @@ variable (R Rm : Subgroup X) (hR : R ≤ J) (hR0 : GGRootPosG0 .POmegaMinus n f 
   (hKne : K ≠ J)
 include hR hR0 hKne
 
+omit hKne heJ e_J in
 theorem nbrpmmx_K_setup :
     ∃ (S' : Set (GL (Ix n) (GaloisField 2 f))) (K' R' : Subgroup (UK n f)) (ε' e' : Mx n f),
       S' ⊆ S ∧ SetD n f ψ K S' K' ∧ EpsD n f S' K' ε' ∧ IsPrimIdemIn (AdS f S') e' ∧
@@ -86,7 +87,7 @@ theorem nbrpmmx_K_setup :
         (e' = ε' ∧ 2 ≤ blockDegree (AdS f S') e' ∧ blockDegree (AdS f S') e' < 4) ∨
         (e' ≠ ε' ∧ blockDegree (AdS f S') e' < 2)) := by
   obtain ⟨S', K', ε', e', hSe, hKd, hEd, he', he'ε', hsplit', hJK', htie⟩ :=
-    nbrpmmx_neighbourBlockData n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ e heD K hKG₀
+    nbrpmmx_neighbourBlockData n f hn ψ p G₀ B₁ D J L x hH S J' ε hB hF hE e heD K hKG₀
       hKcomp hJK
   obtain ⟨hSU', hS', hodd', hK'comp, hK'map⟩ := hKd
   obtain ⟨hε', hK'ε'⟩ := hEd

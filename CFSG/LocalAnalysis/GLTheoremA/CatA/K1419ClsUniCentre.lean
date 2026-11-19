@@ -19,7 +19,7 @@ open CFSG.LieType.SemisimpleCentralizers.Held (heldSU mem_heldGU)
 private theorem scalar_injective_of_ne_zero {E : Type} [Field E] {n : ℕ} (hn : n ≠ 0)
     (x y : Eˣ) (h : Matrix.GeneralLinearGroup.scalar (Fin n) x =
       Matrix.GeneralLinearGroup.scalar (Fin n) y) : x = y := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_ne_zero hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_ne_zero hn⟩⟩
   apply Units.ext
   exact Matrix.scalar_inj.mp (by
     simpa only [Matrix.GeneralLinearGroup.coe_scalar] using
@@ -30,7 +30,7 @@ theorem k1419ClsUniCentreSU {E : Type} [Field E] [Finite E] {q a : ℕ} (hq : �
     (hE : Nat.card E = q ^ 2) (ha2 : 2 ≤ a) (ha : 3 ∣ a) (hq3 : 3 ∣ q + 1) :
     ∃ z : GL (Fin a) E, z ∈ heldSU a E τ' hτ' ∧ z ≠ 1 ∧ z ^ 3 = 1 ∧
       ∀ y ∈ heldSU a E τ' hτ', z * y = y * z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq2 : 2 ≤ q := CFSG.Open.StatedCenterThree.two_le_of_card_eq_sq hE
   have h3units : 3 ∣ Nat.card Eˣ := by
     rw [Nat.card_units, hE, CFSG.Open.StatedCenterThree.sq_sub_one_eq (by omega : 1 ≤ q)]
@@ -75,7 +75,7 @@ theorem k1419ClsUniCentreSL {E : Type} [Field E] [Finite E] {b : ℕ} (hb2 : 2 �
     (hE : 3 ∣ Nat.card E - 1) :
     ∃ z : GL (Fin b) E, z ∈ StatedSL b E ∧ z ≠ 1 ∧ z ^ 3 = 1 ∧
       ∀ y ∈ StatedSL b E, z * y = y * z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3units : 3 ∣ Nat.card Eˣ := by rwa [Nat.card_units]
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Eˣ) 3 h3units
   have hu3 : u ^ 3 = 1 := by

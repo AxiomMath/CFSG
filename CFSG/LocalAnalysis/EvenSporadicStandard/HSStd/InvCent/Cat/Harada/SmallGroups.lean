@@ -16,13 +16,13 @@ theorem isMulCommutative_of_card_dvd_four {H : Type*} [Group H] [Finite H]
   obtain ⟨k, hk, hk'⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 h4
   interval_cases k
   · have h1 : Nat.card H = 1 := by simpa using hk'
-    haveI : Subsingleton H := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton H := (Nat.card_eq_one_iff_unique.1 h1).1
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-  · haveI : Fact (Nat.Prime (Nat.card H)) :=
+  · have : Fact (Nat.Prime (Nat.card H)) :=
       ⟨by rw [show Nat.card H = 2 by simpa using hk']; exact Nat.prime_two⟩
-    haveI : IsCyclic H := isCyclic_of_prime_card (p := Nat.card H) rfl
+    have : IsCyclic H := isCyclic_of_prime_card (p := Nat.card H) rfl
     infer_instance
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by simpa using hk')
 
 theorem commutator_eq_bot_of_isMulCommutative {H : Type*} [Group H] [IsMulCommutative H] :
@@ -76,7 +76,7 @@ theorem derivedSeries_two_alternatingGroup_four :
 theorem derivedSeries_two_eq_bot_of_card_dvd_twelve {H : Type*} [Group H] [Finite H]
     (h : Nat.card H ∣ 12) : derivedSeries H 2 = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdiv : Nat.card H ∈ Nat.divisors 12 := by simpa using h
   have hc : Nat.card H = 1 ∨ Nat.card H = 2 ∨ Nat.card H = 3 ∨ Nat.card H = 4 ∨
       Nat.card H = 6 ∨ Nat.card H = 12 := by
@@ -113,8 +113,8 @@ theorem derivedSeries_two_eq_bot_of_card_dvd_twelve {H : Type*} [Group H] [Finit
       have h1 := card_sylow_modEq_one 3 H
       simpa [Nat.ModEq] using h1
     have hPcomm : IsMulCommutative (P : Subgroup H) := by
-      haveI : Fact (Nat.Prime (Nat.card (P : Subgroup H))) := ⟨by rw [hP]; exact Nat.prime_three⟩
-      haveI : IsCyclic (P : Subgroup H) :=
+      have : Fact (Nat.Prime (Nat.card (P : Subgroup H))) := ⟨by rw [hP]; exact Nat.prime_three⟩
+      have : IsCyclic (P : Subgroup H) :=
         isCyclic_of_prime_card (p := Nat.card (P : Subgroup H)) rfl
       infer_instance
     have hn : Nat.card (Sylow 3 H) = 1 ∨ (Nat.card H = 12 ∧ Nat.card (Sylow 3 H) = 4) := by
@@ -138,8 +138,8 @@ theorem derivedSeries_two_eq_bot_of_card_dvd_twelve {H : Type*} [Group H] [Finit
         · omega
         · right; exact ⟨hH, h4⟩
     rcases hn with hn | ⟨hH12, hn⟩
-    · haveI : Subsingleton (Sylow 3 H) := (Nat.card_eq_one_iff_unique.1 hn).1
-      haveI : (P : Subgroup H).Normal := Sylow.normal_of_subsingleton P
+    · have : Subsingleton (Sylow 3 H) := (Nat.card_eq_one_iff_unique.1 hn).1
+      have : (P : Subgroup H).Normal := Sylow.normal_of_subsingleton P
       refine derivedSeries_two_eq_bot_of_normal (P : Subgroup H) hPcomm ?_
       have hq : Nat.card (H ⧸ (P : Subgroup H)) ∣ 4 := by
         rw [← Subgroup.index_eq_card]
@@ -162,8 +162,8 @@ theorem derivedSeries_two_eq_bot_of_card_dvd_twelve {H : Type*} [Group H] [Finit
   rcases hc with hc | hc | hc | hc | hc | hc
   · exact hcommCase (isMulCommutative_of_card_dvd_four (by rw [hc]; norm_num))
   · exact hcommCase (isMulCommutative_of_card_dvd_four (by rw [hc]; norm_num))
-  · haveI : Fact (Nat.Prime (Nat.card H)) := ⟨by rw [hc]; exact Nat.prime_three⟩
-    haveI : IsCyclic H := isCyclic_of_prime_card (p := Nat.card H) rfl
+  · have : Fact (Nat.Prime (Nat.card H)) := ⟨by rw [hc]; exact Nat.prime_three⟩
+    have : IsCyclic H := isCyclic_of_prime_card (p := Nat.card H) rfl
     exact hcommCase inferInstance
   · exact hcommCase (isMulCommutative_of_card_dvd_four (by rw [hc]))
   · exact hsyl (Or.inl hc)

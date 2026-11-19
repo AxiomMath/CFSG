@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem u4x_s21_1Hyp {D : Data G} {X : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hXr : Nat.card X = r) {a : ℕ} (hcard : Nat.card ↥(X ⊔ D.T) ∣ 2 ^ a * r ^ 2)
     (hXU : X ∈ uniqueSet D.M) : S21_1Hyp D X := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcop : ∀ j, Nat.Coprime (r ^ j) (2 ^ a) := fun j =>
     Nat.Coprime.pow _ _ ((Nat.coprime_primes hr Nat.prime_two).2 hr2)
   have hpr : ∀ p ∈ piSet (X ⊔ D.T), p = 2 ∨ p = r := fun p hp => by
@@ -47,9 +47,9 @@ theorem u4x_s21_1Hyp {D : Data G} {X : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2
     · exact h
     · exact absurd hdi hPi
   · interval_cases j
-    · haveI : Subsingleton ↥P := (Nat.card_eq_one_iff_unique.1 (by rw [hj, pow_zero])).1
+    · have : Subsingleton ↥P := (Nat.card_eq_one_iff_unique.1 (by rw [hj, pow_zero])).1
       exact ⟨⟨fun _ _ => Subsingleton.elim _ _⟩⟩
-    · haveI : IsCyclic ↥P := isCyclic_of_prime_card (p := r) (by rw [hj, pow_one])
+    · have : IsCyclic ↥P := isCyclic_of_prime_card (p := r) (by rw [hj, pow_one])
       exact IsCyclic.isMulCommutative
     · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hj
   · obtain rfl := (hpr p hp).resolve_left hp2
@@ -73,7 +73,7 @@ theorem false_of_eq_one (u : U4X D L K n) {Ch : Choice2011 G} (h211 : S21_1 D Ch
     {x₀ x₁ : Bar2 D.M} (hx₀ : x₀ ∈ barImage D.M L) (hx₁ : x₁ ∈ barImage D.M K)
     (hx₀q : x₀ ^ (2 ^ n - 1) = 1) (hx₁q : x₁ ^ (2 ^ n - 1) = 1) (hx₀1 : x₀ ≠ 1)
     (hbx : uc22p21cPi D.M ⟨b, c.hBM hb⟩ = x₀ * x₁) : False := by
-  haveI : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
   obtain ⟨hcomm, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   obtain ⟨X, hXM, hTX, hXH, hXd, hbX, hyX⟩ :=
     u.exists_le_or_le hH₁.1 hH₂.1 hfX hx₀ hx₁ hx₀q hx₁q hx₀1 (b := ⟨b, c.hBM hb⟩) hbN hbx

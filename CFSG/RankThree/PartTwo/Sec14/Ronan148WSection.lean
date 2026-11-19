@@ -77,8 +77,8 @@ theorem sec13HJPointSection_of_omega (hΩ : Sec13HJPointOmega) : Sec13HJPointSec
     have hdJα : alpha148 A Y d hdA ∈ img148 A Y J :=
       mem_img148_iff.mpr ⟨d, Subgroup.mem_sup_right hdA, hYdJ (hYBYd hdYB), rfl⟩
     have hd1α : alpha148 A Y d hdA ≠ 1 := alpha148_ne_one hdA hd1 (hStd.isE27.1.2 d hdA)
-    haveI : IsSimpleGroup NativeSporadic.M24 := (CFSG.Sporadic.Mathieu.fam_m24_simplicity).2.2
-    haveI : IsSimpleGroup ↥(img148 A Y J) := MulEquiv.isSimpleGroup e
+    have : IsSimpleGroup NativeSporadic.M24 := (CFSG.Sporadic.Mathieu.fam_m24_simplicity).2.2
+    have : IsSimpleGroup ↥(img148 A Y J) := MulEquiv.isSimpleGroup e
     have htop : (img148 A Y Q0).subgroupOf (img148 A Y J) = ⊤ := by
       refine eq_top_of_forall_pow_three_mem (z := ⟨alpha148 A Y d hdA, hdJα⟩) ?_ ?_ ?_
       · intro h1

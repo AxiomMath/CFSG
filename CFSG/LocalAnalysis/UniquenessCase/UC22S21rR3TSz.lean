@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uc22r3t_two_mul_lt_of_dvd {q r : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hr : r.Prime)
     (hrq : r ∣ 2 ^ q - 1) : 2 * q < r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22ine229_ne_two (hq.odd_of_ne_two hq2) hrq
   have h2ne : (2 : ZMod r) ≠ 0 := by
     intro h0
@@ -96,13 +96,13 @@ private theorem uc22r3t_sz_dvd_twenty {a : ℕ} (ha : 1 ≤ a)
     (hKcard : Nat.card K = 2 ^ q) (hq : q.Prime) (hq2 : q ≠ 2)
     {α : MulAut (suzukiGroup a K)} (hαo : orderOf α = q)
     (hα : α ∉ (MulAut.conj : suzukiGroup a K →* MulAut (suzukiGroup a K)).range)
-    {r : ℕ} (hr : r.Prime) {y : suzukiGroup a K} (hyo : orderOf y = r) (hfix : α y = y) :
+    {r : ℕ} (_hr : r.Prime) {y : suzukiGroup a K} (hyo : orderOf y = r) (hfix : α y = y) :
     r ∣ 20 := by
   obtain ⟨σ, h, b, k, hk, hkf, -, hb, hkc, hconj, ⟨φ⟩⟩ :=
     CFSG.RankThree.PartOne.KE.suzukiPrimeFieldCosetDescent a ha K
       (by rw [hKcard, hqeq]) q hq hq2 α hαo hα
-  letI : Field k := hk
-  letI : Finite k := hkf
+  let : Field k := hk
+  let : Finite k := hkf
   set y' : suzukiGroup a K := h * y * h⁻¹ with hy'def
   have hy'fix : szFieldAut a K σ y' = y' := uc22r3t_szFieldAut_conj_fixed hconj hfix
   have hy'F : y' ∈ (szFieldAut a K σ).toMonoidHom.eqLocus (MonoidHom.id _) := hy'fix
@@ -134,8 +134,8 @@ theorem uc22r3t_sz_fixed_false {X : Type} [Group X] [Finite X]
     (hr5 : r ≠ 5) {x : X} (hxo : orderOf x = r) (hfix : α x = x) : False := by
   obtain ⟨-, a, ha, K, hK, hKf, hqeq, hKcard, ⟨e⟩⟩ :=
     (CFSG.Blueprint.LieModel.suzukiModel hX).2
-  letI : Field K := hK
-  letI : Finite K := hKf
+  let : Field K := hK
+  let : Finite K := hKf
   have hq2 : q ≠ 2 := by omega
   have hαo : orderOf α = q := by
     have hd : orderOf α ∣ q := orderOf_dvd_iff_pow_eq_one.2 hαq
@@ -193,6 +193,7 @@ theorem uc22r3t_theta_eq_one_of_mem_ne {M L K : Subgroup G} (hL : L ∈ calC M)
     exact CFSG.pCore_le_solvableRadical 2 ↥L hmem
   rw [h1, map_mul, hzero, one_mul]
 
+omit [Finite G] in
 theorem uc22r3t_theta_eq_conj {L : Subgroup G} {l : G} (hl : l ∈ L)
     (hln : l ∈ normalizer (L : Set G)) :
     inducedQuotInfAut L l hln = MulAut.conj (piBarInf L ⟨l, hl⟩) := by

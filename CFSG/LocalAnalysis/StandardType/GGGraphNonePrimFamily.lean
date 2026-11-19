@@ -30,7 +30,7 @@ private lemma primFamilyAux_adjoin_comm {n : ℕ} {K : Type} [Field K] (B : GL (
     subst hs
     subst ht
     exact Commute.refl _
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
   intro a ha b hb
   exact setLike_mul_comm ha hb
 private lemma primFamilyAux_exists_orthFamily {n : ℕ} {K : Type} [Field K]

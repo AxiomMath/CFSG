@@ -157,7 +157,7 @@ theorem c25_20_of_ex_at (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (h11 : (S :
   ·
     have hF : ∀ y ∈ Nsub S R, ¬ IsFAut R' y := fun y hy =>
       h16 y (mem_Nsub.mp hy).1
-    have hN2 : IsPGroup 2 ↥(Nsub S R) := S.isPGroup'.to_le (show Nsub S R ≤ _ from inf_le_left)
+    have hN2 : IsPGroup 2 ↥(Nsub S R) := S.isPGroup.to_le (show Nsub S R ≤ _ from inf_le_left)
     have hm : t' * s * t'⁻¹ ∈ Nsub S R := hT.N_conj hsN
     have hmn : t' * s * t'⁻¹ ∉ R' ⊔ (Nsub S R ⊓ Subgroup.centralizer (R' : Set G)) := by
       have heq : Nsub S R ⊓ Subgroup.centralizer (R' : Set G) = Csub S R' := by

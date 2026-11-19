@@ -65,7 +65,7 @@ theorem twCore (K : Type) [Field K] [Finite K] (σe σ' : K ≃+* K) {e : ℕ}
       refine Odd.of_dvd_nat ?_ hdq
       rw [he]
       exact (Nat.Even.sub_odd Nat.one_le_two_pow (Nat.even_pow.2 ⟨even_two, by omega⟩) odd_one).pow
-    haveI : (Jc.subgroupOf Γ').Normal := fixedFieldImage_normal
+    have : (Jc.subgroupOf Γ').Normal := fixedFieldImage_normal
     have h3 : (Jc.subgroupOf Γ').relIndex ((F ⊓ Γ').subgroupOf Γ') = Jc.relIndex (F ⊓ Γ') :=
       Subgroup.relIndex_subgroupOf inf_le_right
     have h4 := Subgroup.relIndex_dvd_index_of_normal (Jc.subgroupOf Γ') ((F ⊓ Γ').subgroupOf Γ')
@@ -124,7 +124,7 @@ theorem nonempty_equiv_centerQuot' {G : Type*} [Group G] (h : Subgroup.center G 
 
 theorem subBody_twE6 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ n) ^ 2) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (I : Set (MulAut (LargeEvenCenterQuot
+    (_I : Set (MulAut (LargeEvenCenterQuot
       (LargeEvenTwistedH TwistTag.E6.tag.cartan K TwistTag.E6.perm n)))) :
     ∀ f ∈ LargeEvenChevFieldImage TwistTag.E6.tag.cartan K
         (LargeEvenTwistedH TwistTag.E6.tag.cartan K TwistTag.E6.perm n), orderOf f = p →
@@ -144,7 +144,7 @@ theorem subBody_twE6 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
   have hcenH : Nat.card (Subgroup.center ↥(LargeEvenTwistedH TwistTag.E6.tag.cartan K
       TwistTag.E6.perm n)) = 1 := by
     rw [card_center_twistedH, largeEvenIsRoot_eq_isRoot, twCenterS_eq K n σe hσe hperf hσσ]
-  haveI : Finite ↥(LargeEvenTwistedH TwistTag.E6.tag.cartan K TwistTag.E6.perm n) := by
+  have : Finite ↥(LargeEvenTwistedH TwistTag.E6.tag.cartan K TwistTag.E6.perm n) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [hcardH]
     obtain ⟨r, hr, h⟩ := (CFSG.SeitzReduction.F4Pilot.EvenExc.profile_ordTwistedE6' hn).two

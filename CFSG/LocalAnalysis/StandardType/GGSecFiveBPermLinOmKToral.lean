@@ -45,7 +45,7 @@ theorem ggSecFiveBPermLinOmK_exists_toral (hMp : GGInnerDiagMpInput) {G : Type} 
     have hmap : (Subgroup.center ↥K).map e.toMonoidHom =
         Subgroup.center (spinGroup (quadMinus (r + 2) (GaloisField 2 f)
           (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)) := by
-      simpa using Subgroup.map_center_eq e
+      simp
     rw [hmap, hZsp]
   have hinner : ∀ b ∈ Bs, ∃ g ∈ K, ∀ k ∈ K, b * k * b⁻¹ = g * k * g⁻¹ :=
     ggSpinMinusInnerAction_of_mp hMp (by omega) hf hmark κ₀ hκ₀inj hκ₀range

@@ -121,7 +121,7 @@ section PiData
 variable {C : Cfg G M X 6}
 
 theorem mem_T2_of_mem_centerP (D : C.PiData) (hR : Nat.card ↥(Rc X) ≤ 2)
-    (hsurj : Function.Surjective C.θ) (hQ16 : Nat.card ↥(CFSG.Open.pCoreOf 2 M) ≠ 16) {x : G}
+    (_hsurj : Function.Surjective C.θ) (_hQ16 : Nat.card ↥(CFSG.Open.pCoreOf 2 M) ≠ 16) {x : G}
     (hx : x ∈ CFSG.Open.pCoreOf 2 M) {i j : Fin 6} (hij : i ≠ j)
     (hπ : Multiplicative.toAdd (D.piQ ⟨x, hx⟩) = barInd {i, j})
     (h : CFSG.Open.pCoreOf 2 (CGOf x) ⊔ CFSG.Open.pCoreOf 2 M = TOf M x) {z : G}
@@ -132,7 +132,7 @@ theorem mem_T2_of_mem_centerP (D : C.PiData) (hR : Nat.card ↥(Rc X) ≤ 2)
     rw [← h]
     exact commutator_sup_le (H4b.Q_le_CGOf C hR hx) (pCoreOf_le_self _)
       (fun k hk p hp => pCoreOf_normalized _ hk hp) (C.Q_comm hR)
-  refine D.centralizer_commutator_le_T2 hR hsurj hQ16 hx hij hπ
+  refine D.centralizer_commutator_le_T2 hR hx hij hπ
     (Subgroup.mem_inf.2 ⟨hPM hzP, ?_⟩)
   exact Subgroup.mem_centralizer_iff.2 fun c hc => Subgroup.mem_centralizer_iff.1 hzc c (hcomm hc)
 
@@ -207,7 +207,7 @@ theorem exists_r (D : C.PiData) (hR2 : Nat.card ↥(Rc X) = 2) (hsurj : Function
     have := C.R_central hR p (hPM hp) r hr
     calc p * r = (p * r * p⁻¹) * p := by group
       _ = r * p := by rw [this]
-  have hrP : r ∈ CFSG.Open.pCoreOf 2 (CGOf x) := H4b.twoConstrained_P C hR hx hx1
+  have hrP : r ∈ CFSG.Open.pCoreOf 2 (CGOf x) := H4b.twoConstrained_P C hx hx1
     (Subgroup.mem_inf.2 ⟨hQK hrQ, Subgroup.mem_centralizer_iff.2 hrc⟩)
   have hlr : barLen (Multiplicative.toAdd (D.piQ ⟨r, hrQ⟩)) ≠ 2 := by
     rw [SixTwoAux.piQ_eq_one_of_mem_Rc D hrQ hr, toAdd_one, H2.barLen_zero]
@@ -251,7 +251,7 @@ theorem sixInv_exists :
     rw [C.S.R_eq_inf] at h'
     exact h'.1
   have hrx : r * x = x * r := hQab r hrQ x hx
-  have hxP : x ∈ CFSG.Open.pCoreOf 2 (CGOf x) := H4b.twoConstrained_P C hR hx hx1
+  have hxP : x ∈ CFSG.Open.pCoreOf 2 (CGOf x) := H4b.twoConstrained_P C hx hx1
     (Subgroup.mem_inf.2 ⟨mem_centralizer_zpowers_iff.2 (by group),
       Subgroup.mem_centralizer_iff.2 fun p hp => by
         have h1 := mem_centralizer_zpowers_iff.1 (pCoreOf_le_self _ hp)

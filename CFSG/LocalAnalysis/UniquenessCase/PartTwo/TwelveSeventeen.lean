@@ -17,12 +17,14 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveSeventeen
 
+omit [Finite G] in
 theorem preTil_sup (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (S₁ S₂ : Subgroup (Vtil V₀ V hV)) :
     preTil V₀ V hV (S₁ ⊔ S₂) = preTil V₀ V hV S₁ ⊔ preTil V₀ V hV S₂ := by
   unfold preTil
   rw [← Subgroup.comap_sup_eq (mkTil V₀ V hV) S₁ S₂ (mkTil_surjective V₀ V hV), Subgroup.map_sup]
 
+omit [Finite G] in
 theorem imgTil_bot (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
     imgTil V₀ V hV ⊥ = ⊥ := by
   rw [eq_bot_iff]
@@ -32,6 +34,7 @@ theorem imgTil_bot (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
   rw [h1, map_one]
   exact one_mem _
 
+omit [Finite G] in
 theorem mem_preTil_conj {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hMs : M ≤ stabTil V₀ V) {S : Subgroup (Vtil V₀ V hV)}
     (hS : StableUnder (Mbar M V₀ V hV) S) {m g : G} (hm : m ∈ M)
@@ -45,6 +48,7 @@ theorem mem_preTil_conj {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
   rw [hEq, ← actTil_mk]
   exact hS _ (actTil_mem_barSub V₀ V hV hm (hMs hm)) _ hx
 
+omit [Finite G] in
 theorem le_normalizer_preTil {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hMs : M ≤ stabTil V₀ V) {S : Subgroup (Vtil V₀ V hV)}
     (hS : StableUnder (Mbar M V₀ V hV) S) :
@@ -56,6 +60,7 @@ theorem le_normalizer_preTil {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
   have := mem_preTil_conj hV hMs hS (inv_mem hm) hg
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem inf_centralizer_preTil_le {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (h0 : V₀ = ⊥) (hMs : M ≤ stabTil V₀ V) {S : Subgroup (Vtil V₀ V hV)}
     (hS : ∀ y ∈ Mbar M V₀ V hV, (∀ u ∈ S, y u = u) → y = 1) :

@@ -51,7 +51,7 @@ theorem census_M_three_shape_of_th (hBr : SporadicBridges) {G : Type} [Group G] 
   have hnab : ∃ a b : ↥H, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
+    let : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
     have hpr := IsSimpleGroup.prime_card (α := ↥H)
     rw [hcard] at hpr
     norm_num at hpr
@@ -85,7 +85,7 @@ theorem census_M_three_shape_of_cover
       rcases (Nat.dvd_prime Nat.prime_three).1 hZ with h | h
       · exact ⟨0, by simpa using h⟩
       · exact ⟨1, by simpa using h⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPGroup.of_card hn
   have hcent : IsPGroup 3 ↥(C ⊓ Subgroup.centralizer (C : Set G)) := by
     intro g
@@ -121,7 +121,7 @@ theorem census_M_three_centShape {G : Type} [Group G] (hE : MonsterExistenceStat
     (hBr : SporadicBridges) (hA : CentThreeA G) (hB : CentThreeBNoComp G) (hC : CentThreeC G) :
     CentShapeRk' 3 (fun T _ => catalogIs T (fun i => i = .sporadic .Fi24Prime ∨ i = .sporadic .Th))
       (fun _ _ => True) G := by
-  haveI : Finite G := (twoA_data_of_existence hE).1
+  have : Finite G := (twoA_data_of_existence hE).1
   intro k hk1 hk3
   have hk : orderOf k = 3 := orderOf_eq_prime hk3 hk1
   by_cases hinv : InvertedByTwoA k
@@ -151,8 +151,8 @@ theorem census_M_three_of_noComp (h : M3ResBNoComp) :
   let e : MGriess ≃* NativeSporadic.Carrier .M := e₀
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := (twoA_data_of_existence hE).1
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
+  have : Finite MGriess := (twoA_data_of_existence hE).1
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
   have hSpM : CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.SporadicMultipliers :=
     sporadicMultipliers_of_census
       CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.sporadicMultipliers_holds

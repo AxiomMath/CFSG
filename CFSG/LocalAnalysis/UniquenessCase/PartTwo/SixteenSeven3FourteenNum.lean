@@ -15,7 +15,7 @@ theorem s16c1614_false_of_index {p : ℕ} (hp : p.Prime) {M K : Subgroup G}
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p M) (hKM : ¬ K ≤ M) {n : ℕ}
     (hidx : (K ⊓ M).relIndex K = 2 ^ n + 1) (hpn : p ∣ 2 ^ n - 1)
     (hpK : p ∣ Nat.card ↥(K ⊓ M)) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK := hsp.subgroupOf hKM hpK
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hpK
   have hxp : (x : G) ^ p = 1 := by
@@ -48,7 +48,7 @@ theorem s16c1614_not_dvd_of_cartan (D : Data G) {V U : Subgroup G} {p : ℕ} (hp
     (hn : rMV D.M V = (n : ℕ∞)) : ¬ p ∣ 2 ^ n - 1 := by
   intro hpn
   obtain ⟨n', K, X, hn', -, hKM, -, hidx, hXK, -, hXcard, -, -⟩ := h
-  have hnn : n' = n := ENat.coe_inj.1 (hn'.symm.trans hn)
+  have hnn : n' = n := ENat.natCast_inj.1 (hn'.symm.trans hn)
   subst hnn
   refine s16c1614_false_of_index hp hsp hKM hidx hpn ?_
   rw [← hXcard] at hpn

@@ -34,7 +34,7 @@ theorem exists_fixed_ne_one_of_isPGroup [Finite G] {P X : Subgroup G} (hP : IsPG
     (hPX : P ≤ Subgroup.normalizer (X : Set G)) (hX : IsPGroup 2 ↥X) (hne : X ≠ ⊥) :
     ∃ f ∈ X, f ≠ 1 ∧ ∀ t ∈ P, t * f * t⁻¹ = f := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let act : MulAction ↥P ↥X :=
     { smul := fun t x => ⟨(t : G) * x * (t : G)⁻¹,
         (Subgroup.mem_normalizer_iff.1 (hPX t.2) x).1 x.2⟩
@@ -47,7 +47,7 @@ theorem exists_fixed_ne_one_of_isPGroup [Finite G] {P X : Subgroup G} (hP : IsPG
         change ((a : G) * (b : G)) * (x : G) * ((a : G) * (b : G))⁻¹ =
           (a : G) * ((b : G) * (x : G) * (b : G)⁻¹) * (a : G)⁻¹
         simp [mul_assoc] }
-  letI := act
+  let := act
   have hdvd : 2 ∣ Nat.card ↥X := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).1 hX
     have hn0 : n ≠ 0 := by
@@ -205,7 +205,7 @@ theorem card_commutator_le (h36 : A36ForSQTK)
     have hu' := D₀.ker u hu
     rw [hZ₀bot, Subgroup.mem_bot] at hu'
     exact Subtype.ext hu'
-  haveI : Finite (Multiplicative (⋀[ZMod 2]^2 (Fin 4 → ZMod 2))) :=
+  have : Finite (Multiplicative (⋀[ZMod 2]^2 (Fin 4 → ZMod 2))) :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Quasithin.B513N.card_wedge4]; norm_num)
   have hle := Nat.card_le_card_of_injective D₀.β hβ
   rw [CFSG.Quasithin.B513N.card_wedge4, AutOn.commV_autOn_eq hLV,

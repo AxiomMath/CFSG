@@ -29,9 +29,9 @@ theorem kd291Nilp_uni (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} {Y : 
   have hp5 : 5 ≤ p := hY.five_le
   have hp2 : p ≠ 2 := by omega
   have hn3 : 3 ≤ p := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL := hcfg.comp
-  haveI hLn : L.Normal := I291.normal_of_unique hL hcfg.uniq
+  have hLn : L.Normal := I291.normal_of_unique hL hcfg.uniq
   have hq : CFSG.Open.IsQuasisimple ↥L := hL.2.2
   have hZp : IsPGroup p (center ↥L) := I291.isPGroup_center hY.core hL
   have hx1 : x ≠ 1 := by
@@ -49,8 +49,8 @@ theorem kd291Nilp_uni (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} {Y : 
     have := Nat.le_of_dvd (by omega) hpq
     omega
   obtain ⟨r, f, rfl, ⟨hU⟩⟩ := I292CaseA.exists_unitaryFieldData hK hq2
-  haveI : Fact r.Prime := ⟨hU.prime⟩
-  haveI : CharP K r := hU.charP
+  have : Fact r.Prime := ⟨hU.prime⟩
+  have : CharP K r := hU.charP
   have hn1 : 1 ≤ p := by omega
   have hq3 : ¬(p = 3 ∧ r ^ f = 2) := fun ⟨h3, _⟩ => by omega
   have hŷU : ŷ ∈ primeFormUnitary hU ((1 : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) := by
@@ -73,12 +73,12 @@ theorem kd291Nilp_uni (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} {Y : 
     have : conjTr (unitaryInvolution K r f) (ŷ : Matrix (Fin p) (Fin p) K) =
         ((ŷ : Matrix (Fin p) (Fin p) K).map (· ^ (r ^ f)))ᵀ := by
       ext i j
-      simp [conjTr, unitaryInvolution_apply, iterateFrobenius_def]
+      simp [conjTr, iterateFrobenius_def]
     rw [this]
     exact hŷu
   set ŷB : Uid (unitaryInvolution K r f) p := ⟨ŷ, hŷB⟩ with hŷBdef
   obtain ⟨φ, -, hφπ⟩ := exists_cover_unitary hp hp5 hGA hq hZp hp5 hK e
-  haveI hperfS : Group.IsPerfect (StatedSU p (r ^ f) K) :=
+  have hperfS : Group.IsPerfect (StatedSU p (r ^ f) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hK (by omega) (by
       intro h
       simp only [Prod.mk.injEq] at h
@@ -154,7 +154,7 @@ theorem kd291Nilp_uni (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} {Y : 
     have h2 : τu = 1 := inv_eq_one.1 h3
     exact hτ1 (by simpa [hτu] using congrArg (fun u : Kˣ => (u : K)) h2)
   have hcyζ : cy ζ = ζ := hcyscal ζ hζmem
-  haveI : Fact (Irreducible (X ^ p - C (ω : K) : K[X])) :=
+  have : Fact (Irreducible (X ^ p - C (ω : K) : K[X])) :=
     ⟨X_pow_sub_C_irreducible_of_prime hp hωnp⟩
   have hωq : (ω : K) ^ (r ^ f + 1) = 1 := by
     have h2 : orderOf ω ∣ r ^ f + 1 := by

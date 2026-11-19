@@ -71,7 +71,7 @@ theorem s168e3_alt6_equiv_aut [Finite W] {X H : Subgroup (MulAut W)} {J₀ J₁ 
     (hne : ∀ ψ ∈ Subgroup.centralizer (H : Set (MulAut W)), J₀.map ψ.toMonoidHom ≠ J₁) :
     Nonempty (↥X ≃* MulAut ↥H) := by
   classical
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
   have hirr : irrSet H = {J₀, J₁} := s168e3_alt6_irr_eq_pair F hne
   have hJ₀ne : J₀ ≠ ⊥ := by
     obtain ⟨-, hirrJ⟩ := F.irr₀

@@ -14,7 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G]
 
 theorem not_commutator_R_le_U [Finite G] {T X X₁ U P : Subgroup G} {p : ℕ} [hp : Fact p.Prime]
-    (hp2 : p ≠ 2) (hT : quasithinIsSylowTwo T) (hX : IsXi T X)
+    (hp2 : p ≠ 2) (_hT : quasithinIsSylowTwo T) (hX : IsXi T X)
     (hP : IsSylowIn p P X) (hpX : p ∣ Nat.card X)
     (hX₁O : pCoreOf 2 X ≤ X₁) (hX₁X : X₁ ≤ X) (hX₁ne : X₁ ≠ pCoreOf 2 X)
     (hXC : X ≤ Subgroup.centralizer (U : Set G))

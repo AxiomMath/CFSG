@@ -16,18 +16,22 @@ variable {n : Type} [Fintype n] [DecidableEq n]
 
 def cyc3 (a b c : n) : Equiv.Perm n := Equiv.swap a b * Equiv.swap b c
 
-theorem cyc3_apply_a {a b c : n} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) :
+omit [Fintype n] in
+theorem cyc3_apply_a {a b c : n} (hab : a ≠ b) (_hbc : b ≠ c) (hac : a ≠ c) :
     cyc3 a b c a = b := by
   simp [cyc3, Equiv.swap_apply_of_ne_of_ne hab hac]
 
-theorem cyc3_apply_b {a b c : n} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) :
+omit [Fintype n] in
+theorem cyc3_apply_b {a b c : n} (_hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) :
     cyc3 a b c b = c := by
   simp [cyc3, Equiv.swap_apply_of_ne_of_ne hac.symm hbc.symm]
 
-theorem cyc3_apply_c {a b c : n} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) :
+omit [Fintype n] in
+theorem cyc3_apply_c {a b c : n} (_hab : a ≠ b) (_hbc : b ≠ c) (_hac : a ≠ c) :
     cyc3 a b c c = a := by
-  simp [cyc3, hbc.symm, hab]
+  simp [cyc3]
 
+omit [Fintype n] in
 theorem cyc3_pow_three {a b c : n} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) :
     cyc3 a b c ^ 3 = 1 := by
   ext x
@@ -41,7 +45,7 @@ theorem cyc3_pow_three {a b c : n} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ 
   · subst hxc
     simp [pow_succ, cyc3_apply_a hab hbc hac, cyc3_apply_b hab hbc hac, cyc3_apply_c hab hbc hac]
   · simp [pow_succ, cyc3, Equiv.swap_apply_of_ne_of_ne hxa hxb,
-      Equiv.swap_apply_of_ne_of_ne hxb hxc, Equiv.swap_apply_of_ne_of_ne hxa hxc, hxa, hxb, hxc]
+      Equiv.swap_apply_of_ne_of_ne hxb hxc]
 
 theorem sign_cyc3 {a b c : n} (hab : a ≠ b) (hbc : b ≠ c) :
     Equiv.Perm.sign (cyc3 a b c) = 1 := by
@@ -60,6 +64,7 @@ def triD (c : n) : n → L := fun x => if x = c then -1 else 1
 noncomputable def triZ (a b c : n) : Matrix n n L :=
   (Equiv.swap a b).permMatrix L * diagonal (triD c)
 
+omit [Fintype n] in
 theorem permMatrix_map (σ : L →+* L) (π : Equiv.Perm n) :
     (π.permMatrix L).map σ = π.permMatrix L := by
   ext i j
@@ -75,6 +80,7 @@ theorem permMatrix_transpose_mul (π : Equiv.Perm n) :
 theorem triP_transpose_mul (a b c : n) : (triP a b c : Matrix n n L)ᵀ * triP a b c = 1 :=
   permMatrix_transpose_mul _
 
+omit [Fintype n] in
 theorem triP_map (σ : L →+* L) (a b c : n) : (triP a b c : Matrix n n L).map σ = triP a b c :=
   permMatrix_map σ _
 
@@ -89,10 +95,12 @@ theorem det_triP {a b c : n} (hab : a ≠ b) (hbc : b ≠ c) :
     (triP a b c : Matrix n n L).det = 1 := by
   simp [triP, det_permutation, sign_cyc3 hab hbc]
 
+omit [Fintype n] in
 theorem triD_mul_self (c : n) (x : n) : (triD c x : L) * triD c x = 1 := by
   unfold triD
   split_ifs <;> simp
 
+omit [Fintype n] in
 theorem diagonal_triD_map (σ : L →+* L) (c : n) :
     (diagonal (triD c : n → L)).map σ = diagonal (triD c) := by
   rw [diagonal_map (map_zero σ)]
@@ -129,9 +137,9 @@ theorem triZ_mul_triP_ne {a b c : n} (hab : a ≠ b) (hbc : b ≠ c) (hac : a �
   intro h
   have h1 := congrArg (fun M : Matrix n n L => (M *ᵥ Pi.single a 1) a) h
   simp only [← Matrix.mulVec_mulVec, triP, triZ, permMatrix_mulVec, Matrix.mulVec_diagonal,
-    Function.comp_apply, Pi.mul_apply, Equiv.swap_apply_left, Equiv.swap_apply_right,
-    cyc3_apply_a hab hbc hac, cyc3_apply_b hab hbc hac, Pi.single_apply, triD, if_neg hbc,
-    if_neg hac.symm, if_neg hac, if_true, mul_one, if_neg hab.symm] at h1
+    Function.comp_apply, Equiv.swap_apply_left, Equiv.swap_apply_right,
+    cyc3_apply_a hab hbc hac, cyc3_apply_b hab hbc hac, Pi.single_apply, triD, ite_eq_right hbc,
+    ite_eq_right hac.symm, ite_eq_right hac, ite_true, mul_one] at h1
   simp at h1
 
 end Mat
@@ -216,7 +224,7 @@ theorem perfect_dvd_three_of_central_hom {X G : Type*} [Group X] [Group G] (g : 
       apply hyz
       have hyk : y ∈ g.ker := h1
       exact (Subgroup.mem_center_iff.1 (hker hyk) z).symm
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf (g y) = 3 := orderOf_eq_prime hw3 hw1
     have hmem : g y ∈ g.range := ⟨y, rfl⟩
     have h2 : orderOf (⟨g y, hmem⟩ : g.range) = 3 := by

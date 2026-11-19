@@ -124,7 +124,7 @@ theorem mem_adjointGroup_of_pow_eq_one_of_dvd {τ : Tag} {K : Type} [Field K] [F
     (hp : p.Prime) (hpK : p ∣ Nat.card K) {w : ModGL τ K} (hw : w ∈ inndiagGroup τ K)
     (hwp : w ^ p = 1) : w ∈ adjointGroup τ K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨b, j, hj, rfl⟩ := hw
   have hm : (rootDiagUnit τ b * j) ^ (Nat.card K - 1) ∈ adjointGroup τ K := by
     have hd : rootDiagUnit τ b ^ (Nat.card K - 1) = 1 := by
@@ -172,7 +172,7 @@ theorem mem_twistedE6RootGroup_of_pow_eq_one_of_dvd {K : Type} [Field K] [Finite
     {w : ModGL TwistTag.E6.tag K} (hw : w ∈ twistedE6InndiagGL K σ) (hwp : w ^ p = 1) :
     w ∈ twistedE6RootGroup K σ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨c, hc, t, ht, rfl⟩ := mem_twistedE6InndiagGL_decomp_copy K σ hw
   have htN : t ∈ Subgroup.normalizer (twistedE6RootGroup K σ : Set (ModGL TwistTag.E6.tag K)) :=
     twistedE6InndiagGL_le_normalizer K σ
@@ -268,7 +268,7 @@ theorem lieCompsExport_twE6P {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
   classical
   have hp2 : p ≠ 2 := by omega
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK
@@ -346,7 +346,7 @@ theorem lieCompsExport_triD4P {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
   · have hout' : MulAut.congr e' β ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
         MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range := fun hmem =>
       hΘβ (by rw [← MonoidHom.mem_ker, hΘker]; exact hmem)
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     exact hD4 q.p q.exponent q.exponent_pos K hK σ hσ _ hβ' hout'
 
 

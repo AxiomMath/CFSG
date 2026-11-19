@@ -39,10 +39,11 @@ structure G2qCoordRight (L S : Subgroup G) (f : ℕ) extends G2qCoord L S f wher
   commutator_le : ⁅W, L⁆ ≤ centerOf (pCoreOf 2 L)
   natW : IsNatSecOf L (pCoreOf 2 L) W α
 
+omit [Finite G] in
 private theorem one_le_of_g2q (hD : G2qLocalData L1 L2 S f) : 1 ≤ f := by
   obtain ⟨F, hField, hFintype, hFcard, -⟩ := hD.nat_right
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have htwo : 2 ≤ Fintype.card F := Fintype.one_lt_card
   by_contra hf
   have hf0 : f = 0 := by omega
@@ -82,11 +83,11 @@ theorem exists_coordLeft (hH : Hyp111 L1 L2 S) (hD : G2qLocalData L1 L2 S f)
   classical
   have hsyl := g2q_isSylowTwoOf_left hH hD h1
   obtain ⟨e⟩ := h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf0 : f ≠ 0 := by have h := one_le_of_g2q hD; omega
-  haveI hFin : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have hFin : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have hFcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f hf0
-  haveI hChar : CharP (GaloisField 2 f) 2 :=
+  have hChar : CharP (GaloisField 2 f) 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   let π : ↥L1 →* oTwoQuot ↥L1 := QuotientGroup.mk' (CFSG.pCore 2 ↥L1)
   let α₀ : ↥L1 →* SL(2, GaloisField 2 f) :=
@@ -141,13 +142,13 @@ theorem exists_coordRight (hH : Hyp111 L1 L2 S) (hD : G2qLocalData L1 L2 S f)
   classical
   obtain ⟨F₀, hF₀, hFin, hcard0, α₀, hα₀, hker₀, hnat₀, W, hcW, hWQ, hWcard, hWcomm,
     hnatW₀⟩ := hD.nat_right
-  letI := hF₀
-  letI := hFin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hF₀
+  let := hFin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card F₀ = 2 ^ f := by
     rw [Nat.card_eq_fintype_card]
     exact hcard0
-  haveI : CharP F₀ 2 := charP_of_card_eq_prime_pow hcard0
+  have : CharP F₀ 2 := charP_of_card_eq_prime_pow hcard0
   have hmem : ∀ x : ↥L2, α₀ x = 1 ↔ (x : G) ∈ pCoreOf 2 L2 := by
     intro x
     rw [← MonoidHom.mem_ker, hker₀, CFSG.mem_openPCoreOf_iff x]
@@ -237,8 +238,8 @@ theorem G2qLocalData.card_borelOf_left (hH : Hyp111 L1 L2 S) (hD : G2qLocalData 
   classical
   have hS1 : S ≤ L1 := hD.le_left hH (one_le_of_g2q hD) h1
   obtain ⟨c1⟩ := hD.exists_coordLeft hH h1
-  letI := c1.field
-  letI := c1.fintype
+  let := c1.field
+  let := c1.fintype
   rw [card_eq_card_mul_card_of_alpha c1.α c1.surj c1.ker (borelOf_le L1 S)
     (hH.pCoreOf_le_left.trans (le_borelOf_left hH hD h1)) (borel c1.F)
     (mem_borelOf_iff_alpha_mem_borel hS1 c1.α c1.surj c1.memS), hD.card_left, card_borel,
@@ -250,13 +251,14 @@ theorem G2qLocalData.card_borelOf_right (hH : Hyp111 L1 L2 S) (hD : G2qLocalData
   classical
   have hS2 : S ≤ L2 := hD.le_right hH (one_le_of_g2q hD) h2
   obtain ⟨c2⟩ := hD.exists_coordRight hH h2
-  letI := c2.field
-  letI := c2.fintype
+  let := c2.field
+  let := c2.fintype
   rw [card_eq_card_mul_card_of_alpha c2.α c2.surj c2.ker (borelOf_le L2 S)
     (hH.pCoreOf_le_right.trans (le_borelOf_right hH hD h2)) (borel c2.F)
     (mem_borelOf_iff_alpha_mem_borel hS2 c2.α c2.surj c2.memS), hD.card_right, card_borel,
     c2.card, show 6 * f = 5 * f + f by ring, pow_add, mul_assoc]
 
+omit [Finite G] in
 private theorem centerOf_pCoreOf_left_comm (hD : G2qLocalData L1 L2 S f) {z : G}
     (hz : z ∈ centerOf (pCoreOf 2 L1)) {y : G} (hy : y ∈ L1) : y * z = z * y := by
   rw [hD.center_left] at hz
@@ -299,12 +301,12 @@ theorem G2qLocalData.borelOf_inf_borelOf (hH : Hyp111 L1 L2 S) (hD : G2qLocalDat
     (h1 : IsL2Quot f (oTwoQuot ↥L1)) (h2 : IsL2Quot f (oTwoQuot ↥L2)) :
     borelOf L1 S ⊓ borelOf L2 S = S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := one_le_of_g2q hD
   have hS1 : S ≤ L1 := hD.le_left hH (one_le_of_g2q hD) h1
   obtain ⟨c2⟩ := hD.exists_coordRight hH h2
-  letI := c2.field
-  letI := c2.fintype
+  let := c2.field
+  let := c2.fintype
   obtain ⟨β, -, hβker, hβeq⟩ := c2.nat
   have hZQ : centerOf (pCoreOf 2 L1) ≤ centerOf (pCoreOf 2 L2) :=
     hD.centerOf_pCoreOf_left_le_right hH h1 h2
@@ -378,10 +380,10 @@ theorem G2qLocalData.commutator_mem_of_mem_bigB (hH : Hyp111 L1 L2 S)
   classical
   obtain ⟨c1⟩ := hD.exists_coordLeft hH h1
   obtain ⟨c2⟩ := hD.exists_coordRight hH h2
-  letI := c1.field
-  letI := c1.fintype
-  letI := c2.field
-  letI := c2.fintype
+  let := c1.field
+  let := c1.fintype
+  let := c2.field
+  let := c2.fintype
   have hSL1 : S ≤ L1 := hD.le_left hH (one_le_of_g2q hD) h1
   have hSL2 : S ≤ L2 := hD.le_right hH (one_le_of_g2q hD) h2
   have hB₁ := mem_borelOf_iff_alpha_mem_borel hSL1 c1.α c1.surj c1.memS
@@ -411,7 +413,7 @@ theorem G2qLocalData.commutator_mem_of_mem_bigB (hH : Hyp111 L1 L2 S)
     have h := inv_mem (h12 y hy x hx)
     have e : (y * x * y⁻¹ * x⁻¹)⁻¹ = x * y * x⁻¹ * y⁻¹ := by group
     rwa [e] at h
-  haveI := normal_subgroupOf_bigB hH hD h1 h2
+  have := normal_subgroupOf_bigB hH hD h1 h2
   have hB1B : borelOf L1 S ≤ bigB L1 L2 S := le_sup_left.trans le_sup_left
   have hB2B : borelOf L2 S ≤ bigB L1 L2 S := le_sup_right.trans le_sup_left
   intro x hx y hy
@@ -458,7 +460,7 @@ theorem G2qLocalData.exists_hall_bigB (hH : Hyp111 L1 L2 S) (hD : G2qLocalData L
   obtain ⟨H, hHB, hsup, hcard⟩ := exists_sup_eq_of_coprime (N := S) (X := bigB L1 L2 S)
     le_sup_right hBN ((2 ^ f - 1) * (2 ^ f - 1))
     (by rw [hD.card_bigB hH h1 h2, hD.card_S]) (by rw [hD.card_S]; exact hcop)
-  have hinf : S ⊓ H = ⊥ := Subgroup.inf_eq_bot_of_coprime (by rw [hD.card_S, hcard]; exact hcop)
+  have hinf : S ⊓ H = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hD.card_S, hcard]; exact hcop)))
   refine ⟨H, hHB, hsup, hinf, hcard, fun a ha b hb => ?_⟩
   have h1' : a * b * a⁻¹ * b⁻¹ ∈ S ⊓ H := Subgroup.mem_inf.mpr
     ⟨hD.commutator_mem_of_mem_bigB hH h1 h2 a (hHB ha) b (hHB hb),
@@ -477,7 +479,7 @@ theorem G2qLocalData.torus_left_of_hall (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
       (H ⊓ L1) ⊔ (H ⊓ trivOTwoQuot L1) = H ∧ (H ⊓ trivOTwoQuot L1) ⊓ L1 = ⊥ ∧
       L1 ⊔ bigB L1 L2 S = L1 ⊔ (H ⊓ trivOTwoQuot L1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkpos : 0 < 2 ^ f - 1 := by
     have h1' : 1 < 2 ^ f := Nat.one_lt_two_pow (by omega)
     omega
@@ -489,9 +491,9 @@ theorem G2qLocalData.torus_left_of_hall (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     hS1 hHB hSH hB1B (hNB.trans inf_le_right) hSinfH (hD.card_borelOf_left hH h1)
     hD.card_S (by positivity)
   obtain ⟨c1⟩ := hD.exists_coordLeft hH h1
-  letI := c1.field
-  letI := c1.fintype
-  haveI : CharP c1.F 2 :=
+  let := c1.field
+  let := c1.fintype
+  have : CharP c1.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c1.card])
   have hF4 : 4 ≤ Nat.card c1.F := by
     rw [c1.card]
@@ -516,7 +518,7 @@ theorem G2qLocalData.torus_right_of_hall (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
       (H ⊓ L2) ⊔ (H ⊓ trivOTwoQuot L2) = H ∧ (H ⊓ trivOTwoQuot L2) ⊓ L2 = ⊥ ∧
       L2 ⊔ bigB L1 L2 S = L2 ⊔ (H ⊓ trivOTwoQuot L2) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkpos : 0 < 2 ^ f - 1 := by
     have h1' : 1 < 2 ^ f := Nat.one_lt_two_pow (by omega)
     omega
@@ -528,9 +530,9 @@ theorem G2qLocalData.torus_right_of_hall (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     hS2 hHB hSH hB2B (hNB.trans inf_le_right) hSinfH (hD.card_borelOf_right hH h2)
     hD.card_S (by positivity)
   obtain ⟨c2⟩ := hD.exists_coordRight hH h2
-  letI := c2.field
-  letI := c2.fintype
-  haveI : CharP c2.F 2 :=
+  let := c2.field
+  let := c2.fintype
+  have : CharP c2.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c2.card])
   have hF4 : 4 ≤ Nat.card c2.F := by
     rw [c2.card]

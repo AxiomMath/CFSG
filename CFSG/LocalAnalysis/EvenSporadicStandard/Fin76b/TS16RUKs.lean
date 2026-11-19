@@ -291,17 +291,17 @@ theorem cover_ks8_coset_seven :
     (by decide) (by decide) (by decide)
 
 theorem ks8_classes {y : Equiv.Perm (Fin 820)} (hy : y ∈ U43ExtStar) (h8 : orderOf y = 8) :
-    ∃ j, ∃ hj : j < 8, InCos ks8Coset[j]! y ∧ ∃ c ∈ U43ExtStar, y = c * ks8Perm j * c⁻¹ ∧
+    ∃ j, ∃ _hj : j < 8, InCos ks8Coset[j]! y ∧ ∃ c ∈ U43ExtStar, y = c * ks8Perm j * c⁻¹ ∧
       Nat.card ↥(centralizer ({⟨y, hy⟩} : Set ↥U43ExtStar)) = ks8Cent[j]! := by
   obtain ⟨k, hk, hV, hyk⟩ := mem_Ks_iff.1 hy
-  have hfin : ∀ (j : ℕ) (hj : j < 8), ks8Coset[j]! = k → ∀ c ∈ U43ExtStar,
-      y = c * ks8Perm j * c⁻¹ → ∃ j, ∃ hj : j < 8, InCos ks8Coset[j]! y ∧
+  have hfin : ∀ (j : ℕ) (_hj : j < 8), ks8Coset[j]! = k → ∀ c ∈ U43ExtStar,
+      y = c * ks8Perm j * c⁻¹ → ∃ j, ∃ _hj : j < 8, InCos ks8Coset[j]! y ∧
         ∃ c ∈ U43ExtStar, y = c * ks8Perm j * c⁻¹ ∧
           Nat.card ↥(centralizer ({⟨y, hy⟩} : Set ↥U43ExtStar)) = ks8Cent[j]! := by
-    intro j hj hjk c hc hyc
-    refine ⟨j, hj, by rw [hjk]; exact hyk, c, hc, hyc, ?_⟩
-    have h1 : (⟨y, hy⟩ : ↥U43ExtStar) = ⟨c, hc⟩ * ks8Elt j hj * ⟨c, hc⟩⁻¹ := Subtype.ext hyc
-    rw [h1, card_centralizer_conj, card_centralizer_ks8 hj]
+    intro j _hj hjk c hc hyc
+    refine ⟨j, _hj, by rw [hjk]; exact hyk, c, hc, hyc, ?_⟩
+    have h1 : (⟨y, hy⟩ : ↥U43ExtStar) = ⟨c, hc⟩ * ks8Elt j _hj * ⟨c, hc⟩⁻¹ := Subtype.ext hyc
+    rw [h1, card_centralizer_conj, card_centralizer_ks8 _hj]
   rcases hV with rfl | rfl | rfl | rfl
   · obtain ⟨a, c, hc, hyc⟩ := cover_ks8_coset_zero y hy h8 hyk
     exact hfin _ (by fin_cases a; decide) (by fin_cases a; decide) c hc hyc
@@ -329,24 +329,24 @@ theorem ks_cent8_two_le {y : Equiv.Perm (Fin 820)} (hy : y ∈ U43ExtStar) (h8 :
       exact Subtype.ext (hc r (Subgroup.mem_subgroupOf.1 hr))
     rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hR).toEquiv]
     exact Subgroup.card_dvd_of_le hle
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 hR2
   rw [ha] at hdvd ⊢
   refine ⟨?_, fun h2 => ?_⟩
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h7 : 7 ≤ a := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : 2 ^ a ≤ 2 ^ 6 := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
     exact ks8Cent_not_dvd_128 j hj (dvd_trans (Nat.pow_dvd_pow 2 h7) hdvd)
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hjc : ks8Coset[j]! = 2 := inCos_unique (ks8_coset_lt j hj).1 (by norm_num) hcos h2
     have h6 : 6 ≤ a := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : 2 ^ a ≤ 2 ^ 5 := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
     exact ks8Cent_not_dvd_64 j hj hjc (dvd_trans (Nat.pow_dvd_pow 2 h6) hdvd)

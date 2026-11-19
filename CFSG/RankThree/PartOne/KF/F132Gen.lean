@@ -144,7 +144,7 @@ theorem exists_inv_conj_sl2 {F : Type*} [Field F] [CharP F 2]
     conv_lhs => rw [hz]
     ext i j
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp
-    all_goals (try simp only [CharTwo.neg_eq]) <;> ring_nf <;> simp [h2]
+    all_goals (try simp only [CharTwo.neg_eq]); try ring_nf; try simp [h2]
   · push Not at hc0
     by_cases hb0 : b ≠ 0
     · obtain ⟨w, hw⟩ : ∃ w : Matrix.SpecialLinearGroup (Fin 2) F,
@@ -156,7 +156,7 @@ theorem exists_inv_conj_sl2 {F : Type*} [Field F] [CharP F 2]
       ext i j
       fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hc0] <;>
         field_simp
-      all_goals (try simp only [CharTwo.neg_eq]) <;> ring_nf <;> simp [h2]
+      all_goals (try simp only [CharTwo.neg_eq]); try ring_nf; try simp [h2]
     · push Not at hb0
       obtain ⟨w, hw⟩ : ∃ w : Matrix.SpecialLinearGroup (Fin 2) F,
           (w : Matrix (Fin 2) (Fin 2) F) = !![0, 1; 1, 0] :=

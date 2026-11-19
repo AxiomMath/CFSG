@@ -71,13 +71,13 @@ theorem exists_corootTuple_mem_of_kills {K : Type} [Field K] [Finite K] {σ : K 
         rootDiagUnit TwistTag.E6.tag (corootTuple γ ζ) =
           D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (D.c * x * D.c⁻¹) * D.g0 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : NeZero ((p : ℕ) : K) := ⟨fun h => hpK (by
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero ((p : ℕ) : K) := ⟨fun h => hpK (by
     rcases (Nat.dvd_prime hp).1 ((ringChar.spec K p).1 h) with h1 | h1
     · exact absurd h1 (CharP.ringChar_ne_one)
     · exact h1)⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (AlgebraicClosure K)ˣ, IsPrimitiveRoot ζ p :=
     ⟨_, IsPrimitiveRoot.isUnit_unit hp.ne_zero hζ0⟩
   obtain ⟨P, hPβ, hProot⟩ := exists_chain_of_isRoot hβ
@@ -128,7 +128,7 @@ theorem exists_corootTuple_mem_of_kills {K : Type} [Field K] [Finite K] {σ : K 
     rw [← hy b, ← hy b']
     exact congrArg (fun z : Fin TwistTag.E6.tag.rank → ZMod p => fun k => ζ ^ ((z k).val : ℤ))
       (congrArg Subtype.val h)
-  haveI : Finite T := Finite.of_injective lg hlg
+  have : Finite T := Finite.of_injective lg hlg
   obtain ⟨k0, hk0⟩ := exists_intCast_ne_zero_of_isRoot hβ p
   have hT : Nat.card T ≤ p ^ 5 :=
     (Nat.card_le_card_of_injective lg hlg).trans (card_hyperplane_le β hk0)

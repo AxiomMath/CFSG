@@ -20,15 +20,15 @@ theorem a10_K_false (hWC : KFactWeakClosure) (hI : KFactI1434) (hU : KFactU44Dat
     (Q : Sylow 5 K) (hQr : CFSG.Open.pRank 5 (Q : Subgroup K) = 3)
     (hQc : IsMulCommutative (Q : Subgroup K))
     {x t₁ t₂ : K} (hx : x ∈ (Q : Subgroup K)) (hx1 : x ≠ 1) (hx5 : x ^ 5 = 1)
-    (ht₁ : t₁ ∈ (Q : Subgroup K)) (ht₂ : t₂ ∈ (Q : Subgroup K)) (ht₁1 : t₁ ≠ 1) (ht₂1 : t₂ ≠ 1)
-    (ht₁5 : t₁ ^ 5 = 1) (ht₂5 : t₂ ^ 5 = 1)
+    (ht₁ : t₁ ∈ (Q : Subgroup K)) (ht₂ : t₂ ∈ (Q : Subgroup K)) (ht₁1 : t₁ ≠ 1) (_ht₂1 : t₂ ≠ 1)
+    (_ht₁5 : t₁ ^ 5 = 1) (_ht₂5 : t₂ ^ 5 = 1)
     {J₁ J₂ : Subgroup K} (hne : J₁ ≠ J₂)
     (hJ₁ : GLAPComponent 5 (Subgroup.centralizer ({x} : Set K)) J₁)
     (hJ₂ : GLAPComponent 5 (Subgroup.centralizer ({x} : Set K)) J₂)
     (hlay : GLAPLayer 5 (Subgroup.centralizer ({x} : Set K)) = J₁ ⊔ J₂)
     (hA₁ : Nonempty (↥J₁ ⧸ primeComplementCore (G := ↥J₁) 5 ≃* alternatingGroup (Fin 5)))
     (hA₂ : Nonempty (↥J₂ ⧸ primeComplementCore (G := ↥J₂) 5 ≃* alternatingGroup (Fin 5)))
-    (ht₁J : t₁ ∈ J₁) (ht₂J : t₂ ∈ J₂)
+    (ht₁J : t₁ ∈ J₁) (_ht₂J : t₂ ∈ J₂)
     (hd₁ : zpowers x ≠ zpowers t₁) (hd₂ : zpowers x ≠ zpowers t₂) (hd₃ : zpowers t₁ ≠ zpowers t₂)
     (hfus : ∀ g : K, (zpowers x).map (MulAut.conj g).toMonoidHom ≤ (Q : Subgroup K) →
       (zpowers x).map (MulAut.conj g).toMonoidHom = zpowers x ∨
@@ -38,7 +38,7 @@ theorem a10_K_false (hWC : KFactWeakClosure) (hI : KFactI1434) (hU : KFactU44Dat
       (∃ g : K, (zpowers x).map (MulAut.conj g).toMonoidHom = zpowers t₂)) : False := by
   classical
   have hord : orderOf x = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime hx5 hx1
   have hmap1 : (zpowers x).map (MulAut.conj (1 : K)).toMonoidHom = zpowers x := by
     rw [MonoidHom.map_zpowers]
@@ -50,7 +50,7 @@ theorem a10_K_false (hWC : KFactWeakClosure) (hI : KFactI1434) (hU : KFactU44Dat
     have hD : {A : Subgroup K | ∃ g : K, A = (zpowers x).map (MulAut.conj g).toMonoidHom ∧
         A ≤ (Q : Subgroup K)} = {zpowers x, zpowers t₁, zpowers t₂} := by
       ext B
-      simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
       constructor
       · rintro ⟨g, rfl, hle⟩
         exact hfus g hle
@@ -71,7 +71,7 @@ theorem a10_K_false (hWC : KFactWeakClosure) (hI : KFactI1434) (hU : KFactU44Dat
   ·
     have hB₂ : ¬ ∃ g : K, (zpowers x).map (MulAut.conj g).toMonoidHom = zpowers t₂ :=
       fun h => hA (hswap.mpr h)
-    haveI : IsSimpleGroup K := hK
+    have : IsSimpleGroup K := hK
     have hsimple : IsSimpleGroup ↥(⊤ : Subgroup K) := Subgroup.topEquiv.isSimpleGroup_congr.mpr hK
     have hnabT : ∃ a b : ↥(⊤ : Subgroup K), a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hnab
@@ -143,7 +143,7 @@ theorem a10y_sub_basic (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {A : Subgroup 
   have hEQ : (zpowers t₁ ⊔ zpowers t₂ ⊔ zpowers x).subgroupOf A ≤ (Q : Subgroup ↥A) :=
     fun u hu => a10yK_mem_of_map_eq hQP (hVP hu)
   have hEe : IsElemAbelian 5 ((zpowers t₁ ⊔ zpowers t₂ ⊔ zpowers x).subgroupOf A) := by
-    haveI := hVe.1
+    have := hVe.1
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun u hu => ?_⟩
     · have key := mul_comm' (⟨(a : Y), a.2⟩ : ↥(zpowers t₁ ⊔ zpowers t₂ ⊔ zpowers x))
         ⟨(b : Y), b.2⟩
@@ -158,7 +158,7 @@ theorem a10y_sub_basic (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {A : Subgroup 
   have hge : 3 ≤ CFSG.Open.pRank 5 (Q : Subgroup ↥A) :=
     CFSG.SectionRank.le_pRank h5 hEQ hEe hEcard
   have hQc : IsMulCommutative (Q : Subgroup ↥A) := by
-    haveI := h.P_comm
+    have := h.P_comm
     refine ⟨⟨fun a b => ?_⟩⟩
     have ha : ((a : ↥A) : Y) ∈ P := hQP ▸ Subgroup.mem_map_of_mem A.subtype a.2
     have hb : ((b : ↥A) : Y) ∈ P := hQP ▸ Subgroup.mem_map_of_mem A.subtype b.2
@@ -346,6 +346,7 @@ theorem a10y_fus_sub (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {A : Subgroup Y}
       exact Subgroup.mem_zpowers _
     exact h.t₁_not_mem ht
 
+omit [Finite Y] in
 theorem a10y_pQuot_equiv_subgroupOf {A J : Subgroup Y} (hJA : J ≤ A) :
     Nonempty (↥(J.subgroupOf A) ⧸ primeComplementCore (G := ↥(J.subgroupOf A)) 5 ≃*
       ↥J ⧸ primeComplementCore (G := ↥J) 5) :=

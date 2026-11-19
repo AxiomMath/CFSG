@@ -71,8 +71,8 @@ theorem congr_entrywise_mem (hF : Nat.card F = 8) {F₀ : Type} [Field F₀] [Fi
   rw [← entrywiseAdjointAut_pow, hσ3, entrywiseAdjointAut_one]
 
 theorem ringChar_eq_two_of_card (hF : Nat.card F = 2 ^ 3) : ringChar F = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 3) (by norm_num) hF
   exact ringChar.eq F 2
 
@@ -542,7 +542,7 @@ theorem d4GraphFieldFixed {X : Type} [Group X] [Finite X] {K : Subgroup X} {a : 
     (CFSG.LieType.Simplicity.fam_3d4_simplicity _ _ _ hmodel).2
   have hcardC : Nat.card (TauCeti.CFSGIndex.lie trialityTwoIndex).Group = ordTrialityD4 2 :=
     CFSG.Timmesfeld.card_chevalleyExceptionalModel_two hmodel
-  haveI : Finite (TauCeti.CFSGIndex.lie trialityTwoIndex).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie trialityTwoIndex).Group :=
     Nat.finite_of_card_ne_zero (by rw [hcardC]; decide)
   obtain ⟨u, v, huv⟩ : ∃ u v : (TauCeti.CFSGIndex.lie trialityTwoIndex).Group, u * v ≠ v * u :=
     exists_noncomm_of_four_dvd (by rw [hcardC]; decide)

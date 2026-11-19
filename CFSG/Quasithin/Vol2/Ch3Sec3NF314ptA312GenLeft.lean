@@ -13,7 +13,7 @@ open scoped Pointwise
 
 theorem p_eq_seven_of_dvd_168 {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) (h : p ∣ 168) : p = 7 := by
   have hle : p ≤ 168 := Nat.le_of_dvd (by norm_num) h
-  interval_cases p <;> first | rfl | (exfalso; revert h; norm_num; done) | (exfalso; revert hp; norm_num; done)
+  interval_cases p <;> first | rfl | (exfalso; revert h; norm_num; done) | (exfalso; revert hp; norm_num)
 
 theorem p_eq_seven_of_dvd {p m : ℕ} (hp : p.Prime) (hp3 : 3 < p) (h : p ∣ 168 * 2 ^ m) :
     p = 7 := by
@@ -64,18 +64,18 @@ theorem card_psu3_seven {J : Type} [Group J] (h : IsPSU 3 7 1 J) : Nat.card J = 
 
 theorem card_sl3_seven {J : Type} [Group J] (h : IsSL3 7 J) : Nat.card J = 5630688 := by
   obtain ⟨K, hF, hKf, hK, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hKf
+  let := hF
+  let := hKf
   rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_three K, hK]
   norm_num
 
 theorem card_su3_seven {J : Type} [Group J] (h : IsSU3 7 J) : Nat.card J = 5663616 := by
   obtain ⟨K, hF, hKf, hK, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hKf
+  let := hF
+  let := hKf
   have hp7 : (7 : ℕ).Prime := by norm_num
-  haveI : CharP K 7 := charP_of_card_sq K hp7 hK
-  haveI : Fact (7 : ℕ).Prime := ⟨hp7⟩
+  have : CharP K 7 := charP_of_card_sq K hp7 hK
+  have : Fact (7 : ℕ).Prime := ⟨hp7⟩
   have hK' : Nat.card K = (7 ^ 1) ^ 2 := by rw [pow_one]; exact hK
   have hc := CFSG.SectionRank.OddCover.card_statedSU_three (K := K) (p := 7) (f := 1) hK'
   simp only [pow_one] at hc
@@ -186,7 +186,7 @@ theorem gen_left_card {Q : Type} [Group Q] [Finite Q] {B J : Subgroup Q}
         exact (hnot5 (by rw [this]; norm_num)).elim
     ·
       obtain ⟨p, hp, hp3, hext, -⟩ := h10
-      haveI := Fact.mk hp
+      have := Fact.mk hp
       obtain ⟨V, hVn, hPV, -, hcard⟩ := isExt_card_eq hext
       have hVc := card_elemAb hPV
       rw [hVc] at hcard

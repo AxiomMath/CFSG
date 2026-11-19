@@ -145,7 +145,7 @@ theorem le_fittingSubgroup_of_forall_coprime' {N : Subgroup X} [hN : N.Normal]
       intro g hg
       rw [Subgroup.mem_subgroupOf]
       apply stepA r hr g g.2
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
       refine ⟨k, ?_⟩
       have := congrArg Subtype.val (congrArg Subtype.val hk)
       simpa using this

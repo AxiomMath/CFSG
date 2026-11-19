@@ -23,43 +23,43 @@ private lemma ta_sum_eq_val {m p : ℕ} (f : Fin m → ZMod p) (a : ℕ) :
     (∑ k : Fin m, (if (k : ℕ) = a then f k else 0)) =
       if h : a < m then f ⟨a, h⟩ else 0 := by
   by_cases h : a < m
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     rw [Finset.sum_eq_single (⟨a, h⟩ : Fin m)
-      (by intro b _ hb; exact if_neg (fun hba => hb (Fin.ext hba)))
+      (by intro b _ hb; exact ite_eq_right (fun hba => hb (Fin.ext hba)))
       (by intro hmem; exact absurd (Finset.mem_univ _) hmem)]
     simp
-  · rw [dif_neg h]
-    exact Finset.sum_eq_zero (fun b _ => if_neg (fun hba => h (by omega)))
+  · rw [dite_eq_right h]
+    exact Finset.sum_eq_zero (fun b _ => ite_eq_right (fun hba => h (by omega)))
 
 private lemma ta_sum_eq_pred {m p : ℕ} (f : Fin m → ZMod p) (a : ℕ) :
     (∑ k : Fin m, (if (k : ℕ) + 1 = a then f k else 0)) =
       if _h : 1 ≤ a then (if h2 : a - 1 < m then f ⟨a - 1, h2⟩ else 0) else 0 := by
   by_cases h : 1 ≤ a
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     by_cases h2 : a - 1 < m
-    · rw [dif_pos h2]
+    · rw [dite_eq_left h2]
       rw [Finset.sum_eq_single (⟨a - 1, h2⟩ : Fin m)
         (by
           intro b _ hb
-          exact if_neg (fun hba => hb (Fin.ext (by omega : (b : ℕ) = a - 1))))
+          exact ite_eq_right (fun hba => hb (Fin.ext (by omega : (b : ℕ) = a - 1))))
         (by intro hmem; exact absurd (Finset.mem_univ _) hmem)]
-      rw [Nat.sub_add_cancel h, if_pos rfl]
-    · rw [dif_neg h2]
-      exact Finset.sum_eq_zero (fun k _ => if_neg (fun hk => by omega))
-  · rw [dif_neg h]
-    exact Finset.sum_eq_zero (fun k _ => if_neg (fun hk => by omega))
+      rw [Nat.sub_add_cancel h, ite_eq_left rfl]
+    · rw [dite_eq_right h2]
+      exact Finset.sum_eq_zero (fun k _ => ite_eq_right (fun hk => by omega))
+  · rw [dite_eq_right h]
+    exact Finset.sum_eq_zero (fun k _ => ite_eq_right (fun hk => by omega))
 
 private lemma ta_sum_eq_succ {m p : ℕ} (f : Fin m → ZMod p) (a : ℕ) :
     (∑ k : Fin m, (if a + 1 = (k : ℕ) then f k else 0)) =
       if h : a + 1 < m then f ⟨a + 1, h⟩ else 0 := by
   by_cases h : a + 1 < m
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     rw [Finset.sum_eq_single (⟨a + 1, h⟩ : Fin m)
-      (by intro b _ hb; exact if_neg (fun hba => hb (Fin.ext hba.symm)))
+      (by intro b _ hb; exact ite_eq_right (fun hba => hb (Fin.ext hba.symm)))
       (by intro hmem; exact absurd (Finset.mem_univ _) hmem)]
     simp
-  · rw [dif_neg h]
-    exact Finset.sum_eq_zero (fun b _ => if_neg (fun hba => by omega))
+  · rw [dite_eq_right h]
+    exact Finset.sum_eq_zero (fun b _ => ite_eq_right (fun hba => by omega))
 
 private lemma ta_sum_eq_fin {m p : ℕ} (f : Fin m → ZMod p) (a : Fin m) :
     (∑ k : Fin m, (if a = k then f k else 0)) = f a := by
@@ -76,13 +76,13 @@ private lemma ta_row_decomp_mul (n p : ℕ) (i : Fin n) (f : Fin n → ZMod p) (
   · have hv : (i : ℕ) = (j : ℕ) := congrArg Fin.val h1
     have h2 : ¬ (i : ℕ) + 1 = (j : ℕ) := by omega
     have h3 : ¬ (j : ℕ) + 1 = (i : ℕ) := by omega
-    rw [if_pos h1, if_pos h1, if_neg h2, if_neg h3]; ring
+    rw [ite_eq_left h1, ite_eq_left h1, ite_eq_right h2, ite_eq_right h3]; ring
   · by_cases h2 : (i : ℕ) + 1 = (j : ℕ)
     · have h3 : ¬ (j : ℕ) + 1 = (i : ℕ) := by omega
-      rw [if_neg h1, if_pos (Or.inl h2), if_neg h1, if_pos h2, if_neg h3]; ring
+      rw [ite_eq_right h1, ite_eq_left (Or.inl h2), ite_eq_right h1, ite_eq_left h2, ite_eq_right h3]; ring
     · by_cases h3 : (j : ℕ) + 1 = (i : ℕ)
-      · rw [if_neg h1, if_pos (Or.inr h3), if_neg h1, if_neg h2, if_pos h3]; ring
-      · rw [if_neg h1, if_neg (not_or.mpr ⟨h2, h3⟩), if_neg h1, if_neg h2, if_neg h3]; ring
+      · rw [ite_eq_right h1, ite_eq_left (Or.inr h3), ite_eq_right h1, ite_eq_right h2, ite_eq_left h3]; ring
+      · rw [ite_eq_right h1, ite_eq_right (not_or.mpr ⟨h2, h3⟩), ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]; ring
 
 private lemma ta_row_sum (n p : ℕ) (i : Fin n) (f : Fin n → ZMod p) :
     (∑ j : Fin n, ggCartanAMod n p i j * f j) =
@@ -118,13 +118,13 @@ theorem ggCartanAMod_rad (n p : ℕ) (hp : p ∣ n + 1) (i : Fin n) :
   by_cases h0 : (i : ℕ) = 0
   · rw [ta_rad_eq]
     have hpred : ¬ 1 ≤ (i : ℕ) := by omega
-    rw [dif_neg hpred]
+    rw [dite_eq_right hpred]
     by_cases h1n : 1 < n
     · have hlt : (i : ℕ) + 1 < n := by omega
-      rw [dif_pos hlt, ta_rad_succ_val n p i hlt, h0]
+      rw [dite_eq_left hlt, ta_rad_succ_val n p i hlt, h0]
       norm_num
     · have hlt : ¬ (i : ℕ) + 1 < n := by omega
-      rw [dif_neg hlt, h0]
+      rw [dite_eq_right hlt, h0]
       norm_num
       have h2 : ((2 : ℕ) : ZMod p) = 0 := by
         rw [ZMod.natCast_eq_zero_iff]
@@ -135,7 +135,7 @@ theorem ggCartanAMod_rad (n p : ℕ) (hp : p ∣ n + 1) (i : Fin n) :
     · have hge : 1 ≤ (i : ℕ) := by omega
       have hlt : (i : ℕ) - 1 < n := by omega
       have hs : ¬ (i : ℕ) + 1 < n := by omega
-      rw [dif_neg hs, dif_pos hge, dif_pos hlt]
+      rw [dite_eq_right hs, dite_eq_left hge, dite_eq_left hlt]
       rw [ta_rad_pred_val n p i hge hlt, ta_rad_eq]
       have hz : ((i : ℕ) : ZMod p) + 2 = 0 := by
         have hpz : ((n + 1 : ℕ) : ZMod p) = 0 := by
@@ -151,7 +151,7 @@ theorem ggCartanAMod_rad (n p : ℕ) (hp : p ∣ n + 1) (i : Fin n) :
     · have hge : 1 ≤ (i : ℕ) := by omega
       have hlt : (i : ℕ) + 1 < n := by omega
       have hlt2 : (i : ℕ) - 1 < n := by omega
-      rw [dif_pos hlt, dif_pos hge, dif_pos hlt2]
+      rw [dite_eq_left hlt, dite_eq_left hge, dite_eq_left hlt2]
       rw [ta_rad_succ_val n p i hlt, ta_rad_pred_val n p i hge hlt2, ta_rad_eq]
       push_cast
       ring
@@ -162,9 +162,9 @@ private lemma ta_row_eq_interior (n p : ℕ) (x : Fin n → ZMod p)
     x ⟨r + 1, hr⟩ = 2 * x ⟨r, by omega⟩ - x ⟨r - 1, by omega⟩ := by
   have h := hx ⟨r, by omega⟩
   rw [ta_row_sum] at h
-  rw [dif_pos hr, dif_pos hr1] at h
+  rw [dite_eq_left hr, dite_eq_left hr1] at h
   have h2 : r - 1 < n := by omega
-  rw [dif_pos h2] at h
+  rw [dite_eq_left h2] at h
   have hab : 2 * x ⟨r, by omega⟩ - x ⟨r - 1, by omega⟩ = x ⟨r + 1, hr⟩ := by
     have h3 : (2 * x ⟨r, by omega⟩ - x ⟨r - 1, h2⟩) - x ⟨r + 1, hr⟩ = 0 := by
       rw [show (2 * x ⟨r, by omega⟩ + -x ⟨r + 1, hr⟩ + -x ⟨r - 1, h2⟩)
@@ -179,7 +179,7 @@ private def ta_xe (n p : ℕ) (x : Fin n → ZMod p) (t : ℕ) : ZMod p :=
   if h : t < n then x ⟨t, h⟩ else 0
 
 private lemma ta_xe_in {n p : ℕ} (x : Fin n → ZMod p) {t : ℕ} (h : t < n) :
-    ta_xe n p x t = x ⟨t, h⟩ := by rw [ta_xe, dif_pos h]
+    ta_xe n p x t = x ⟨t, h⟩ := by rw [ta_xe, dite_eq_left h]
 
 private lemma ta_xe_recur (n p : ℕ) (x : Fin n → ZMod p)
     (hx : ∀ i, ∑ j, ggCartanAMod n p i j * x j = 0)
@@ -195,7 +195,7 @@ private lemma ta_xe_recur_zero (n p : ℕ) (x : Fin n → ZMod p)
   rw [ta_xe_in x (by omega : 1 < n), ta_xe_in x (by omega : 0 < n)]
   have hrow := hx (⟨0, by omega⟩ : Fin n)
   rw [ta_row_sum] at hrow
-  rw [dif_pos h, dif_neg (by omega : ¬ 1 ≤ (0 : ℕ))] at hrow
+  rw [dite_eq_left h, dite_eq_right (by omega : ¬ 1 ≤ (0 : ℕ))] at hrow
   have h' : 2 * x ⟨0, by omega⟩ - x ⟨1, h⟩ = 0 := by
     rw [show (2 * x ⟨0, by omega⟩ + -x ⟨1, h⟩ + 0)
         = (2 * x ⟨0, by omega⟩ - x ⟨1, h⟩) by ring] at hrow
@@ -245,14 +245,14 @@ private lemma ta_decomp_col_mul (n p : ℕ) (c : Fin (n - 1) → ZMod p) (j : Fi
   · have hk : (⟨k, by omega⟩ : Fin n) = j := Fin.ext h1
     have h2 : ¬ (k : ℕ) + 1 = (j : ℕ) := by omega
     have h3 : ¬ (j : ℕ) + 1 = (k : ℕ) := by omega
-    rw [if_pos hk, if_pos h1, if_neg h2, if_neg h3]; ring
+    rw [ite_eq_left hk, ite_eq_left h1, ite_eq_right h2, ite_eq_right h3]; ring
   · have hk : ¬ (⟨k, by omega⟩ : Fin n) = j := fun h => h1 (congrArg Fin.val h)
     by_cases h2 : (k : ℕ) + 1 = (j : ℕ)
     · have h3 : ¬ (j : ℕ) + 1 = (k : ℕ) := by omega
-      rw [if_neg hk, if_pos (Or.inl h2), if_neg h1, if_pos h2, if_neg h3]; ring
+      rw [ite_eq_right hk, ite_eq_left (Or.inl h2), ite_eq_right h1, ite_eq_left h2, ite_eq_right h3]; ring
     · by_cases h3 : (j : ℕ) + 1 = (k : ℕ)
-      · rw [if_neg hk, if_pos (Or.inr h3), if_neg h1, if_neg h2, if_pos h3]; ring
-      · rw [if_neg hk, if_neg (not_or.mpr ⟨h2, h3⟩), if_neg h1, if_neg h2, if_neg h3]; ring
+      · rw [ite_eq_right hk, ite_eq_left (Or.inr h3), ite_eq_right h1, ite_eq_right h2, ite_eq_left h3]; ring
+      · rw [ite_eq_right hk, ite_eq_right (not_or.mpr ⟨h2, h3⟩), ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]; ring
 
 private lemma ta_col_sum (n p : ℕ) (c : Fin (n - 1) → ZMod p) (j : Fin n) :
     (∑ k : Fin (n - 1), c k * ggCartanAMod n p ⟨k, by omega⟩ j)
@@ -271,7 +271,7 @@ private def ta_d (n p : ℕ) (c : Fin (n - 1) → ZMod p) (t : ℕ) : ZMod p :=
   if h : t < n - 1 then c ⟨t, h⟩ else 0
 
 private lemma ta_d_out {n p : ℕ} (c : Fin (n - 1) → ZMod p) {t : ℕ} (h : ¬ t < n - 1) :
-    ta_d n p c t = 0 := by rw [ta_d, dif_neg h]
+    ta_d n p c t = 0 := by rw [ta_d, dite_eq_right h]
 
 private lemma ta_d_base (n p : ℕ) (c : Fin (n - 1) → ZMod p)
     (hc : ∀ j, ∑ k, c k * ggCartanAMod n p ⟨k, by omega⟩ j = 0) :
@@ -283,14 +283,14 @@ private lemma ta_d_base (n p : ℕ) (c : Fin (n - 1) → ZMod p)
     have h2 : 1 ≤ n - 1 := by omega
     have h3 : (n - 1) - 1 < n - 1 := by omega
     have h4 : ¬ (n - 1) + 1 < n - 1 := by omega
-    rw [dif_neg h1, dif_pos h2, dif_pos h3, dif_neg h4] at h
+    rw [dite_eq_right h1, dite_eq_left h2, dite_eq_left h3, dite_eq_right h4] at h
     have hz : -(c ⟨(n - 1) - 1, h3⟩) = 0 := by simpa using h.symm
     have hc' : c ⟨(n - 1) - 1, h3⟩ = 0 := neg_eq_zero.mp hz
-    rw [ta_d, dif_pos (show n - 2 < n - 1 by omega)]
+    rw [ta_d, dite_eq_left (show n - 2 < n - 1 by omega)]
     rw [show (⟨n - 2, by omega⟩ : Fin (n - 1)) = ⟨(n - 1) - 1, h3⟩ from
       Fin.ext (by show n - 2 = (n - 1) - 1; omega)]
     exact hc'
-  · rw [ta_d, dif_neg (by omega)]
+  · rw [ta_d, dite_eq_right (by omega)]
 
 private lemma ta_d_recur (n p : ℕ) (c : Fin (n - 1) → ZMod p)
     (hc : ∀ j, ∑ k, c k * ggCartanAMod n p ⟨k, by omega⟩ j = 0)
@@ -303,17 +303,17 @@ private lemma ta_d_recur (n p : ℕ) (c : Fin (n - 1) → ZMod p)
   have h3 : (r + 1) - 1 < n - 1 := by omega
   have h' : 2 * ta_d n p c (r + 1) + -ta_d n p c r + -ta_d n p c (r + 2) = 0 := by
     have e1 : c ⟨r + 1, h1⟩ * 2 = 2 * ta_d n p c (r + 1) := by
-      rw [ta_d, dif_pos h1]; ring
+      rw [ta_d, dite_eq_left h1]; ring
     have e2 : c ⟨(r + 1) - 1, h3⟩ = ta_d n p c r := by
-      rw [ta_d, dif_pos (show r < n - 1 by omega)]
+      rw [ta_d, dite_eq_left (show r < n - 1 by omega)]
       exact congrArg c (Fin.ext (by show r + 1 - 1 = r; omega))
     by_cases h4 : (r + 1) + 1 < n - 1
-    · rw [dif_pos h1, dif_pos h2, dif_pos h3, dif_pos h4] at h
+    · rw [dite_eq_left h1, dite_eq_left h2, dite_eq_left h3, dite_eq_left h4] at h
       have e3 : c ⟨(r + 1) + 1, h4⟩ = ta_d n p c (r + 2) := by
-        rw [ta_d, dif_pos (show r + 2 < n - 1 by omega)]
+        rw [ta_d, dite_eq_left (show r + 2 < n - 1 by omega)]
       rw [e1, e2, e3] at h
       exact h
-    · rw [dif_pos h1, dif_pos h2, dif_pos h3, dif_neg h4] at h
+    · rw [dite_eq_left h1, dite_eq_left h2, dite_eq_left h3, dite_eq_right h4] at h
       have e3 : ta_d n p c (r + 2) = 0 := ta_d_out c (by omega)
       rw [e1, e2] at h
       rw [e3]
@@ -339,7 +339,7 @@ theorem ggCartanAMod_rows_indep (n p : ℕ) (c : Fin (n - 1) → ZMod p)
     (hc : ∀ j, ∑ k, c k * ggCartanAMod n p ⟨k, by omega⟩ j = 0) : c = 0 := by
   funext k
   have hz := ta_rows_dzero n p c hc k.val (by omega)
-  rw [ta_d, dif_pos k.isLt] at hz
+  rw [ta_d, dite_eq_left k.isLt] at hz
   exact hz
 
 private lemma ta_edge (n p : ℕ) [Fact p.Prime] (a b : Fin n)
@@ -349,7 +349,7 @@ private lemma ta_edge (n p : ℕ) [Fact p.Prime] (a b : Fin n)
   have hab : a ≠ b := by
     rintro rfl
     rcases h with h | h <;> omega
-  rw [if_neg hab, if_pos h]
+  rw [ite_eq_right hab, ite_eq_left h]
   exact neg_ne_zero.mpr one_ne_zero
 
 theorem ggCartanAMod_conn (n p : ℕ) [Fact p.Prime] (i j : Fin n) :

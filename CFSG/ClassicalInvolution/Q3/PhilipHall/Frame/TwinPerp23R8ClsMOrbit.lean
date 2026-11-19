@@ -52,7 +52,7 @@ theorem comb {f g : Fin 5 → Fin 5} {a b p : Fin 5} (hab : a ≠ b) (hpa : p �
   set S : Finset (Fin 5) := {p, g p, g (g p)} with hS
   set T : Finset (Fin 5) := Finset.univ \ {a, b} with hTdef
   have hTc : T.card = 3 := by
-    rw [hTdef, Finset.card_univ_diff, Finset.card_pair hab]
+    rw [hTdef, Finset.card_univ_sdiff, Finset.card_pair hab]
     simp
   have hmemT : ∀ x, x ∈ T ↔ x ≠ a ∧ x ≠ b := by
     intro x

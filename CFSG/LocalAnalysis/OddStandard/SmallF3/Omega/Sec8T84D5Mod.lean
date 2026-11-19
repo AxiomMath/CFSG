@@ -28,9 +28,9 @@ theorem sec8t84d5_complement_of_model (hMS : Sec8T84ModelSylow) {G : Type} [Grou
     {S1 E1 : Subgroup G} (hE1 : E1 ≤ S1) (he : IsElemAb2 E1 4) (hn : (E1.subgroupOf S1).Normal)
     (hmod : Sec8T84D5Model S1) : ∃ K : Subgroup G, K ≤ S1 ∧ E1 ⊓ K = ⊥ ∧ E1 ⊔ K = S1 := by
   obtain ⟨V, hV1, hV2, hV3, Q, hQ, hdim, hsign, P', hP', ⟨ψ⟩⟩ := hmod
-  letI : AddCommGroup V := hV1
-  letI : Module (ZMod 3) V := hV2
-  letI : FiniteDimensional (ZMod 3) V := hV3
+  let : AddCommGroup V := hV1
+  let : Module (ZMod 3) V := hV2
+  let : FiniteDimensional (ZMod 3) V := hV3
   have hψinj : Function.Injective (ψ.toMonoidHom : ↥S1 →* ↥P') := ψ.injective
   set B : Subgroup ↥S1 := E1.subgroupOf S1 with hBdef
   have hBnorm : B.Normal := hn

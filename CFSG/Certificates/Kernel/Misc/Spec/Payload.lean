@@ -22,9 +22,9 @@ theorem entryK_eq (c : ℕ) : entryK c = if 48 ≤ c ∧ c ≤ 57 then c - 48 el
     simp [CFSG.KS.PK.andB_eq, Nat.ble_eq]
   rw [this]
   by_cases h : 48 ≤ c ∧ c ≤ 57
-  · rw [decide_eq_true h, if_pos h]
+  · rw [decide_eq_true h, ite_eq_left h]
     rfl
-  · rw [decide_eq_false h, if_neg h]
+  · rw [decide_eq_false h, ite_eq_right h]
 
 theorem afterNL_eq (cs : List ℕ) : afterNL cs = (cs.dropWhile fun c => c != 10).drop 1 := by
   induction cs with
@@ -36,7 +36,7 @@ theorem afterNL_eq (cs : List ℕ) : afterNL cs = (cs.dropWhile fun c => c != 10
       simp
     · have hb : Nat.beq c 10 = false := Bool.eq_false_iff.2 fun h' => h (Nat.eq_of_beq_eq_true h')
       rw [hb]
-      simp [List.dropWhile_cons, h, ih]
+      simp [h, ih]
 
 @[expose] def payloadEntries (cs : List ℕ) : List ℕ :=
   (((cs.dropWhile fun c => c != 10).drop 1).filter fun c =>
@@ -97,9 +97,9 @@ theorem digit_ofNat (c : ℕ) :
     rw [e0, e9]
     omega
   by_cases h : 48 ≤ c ∧ c ≤ 57
-  · rw [if_pos (hc.2 h), if_pos h, e0]
+  · rw [ite_eq_left (hc.2 h), ite_eq_left h, e0]
     omega
-  · rw [if_neg (fun h' => h (hc.1 h')), if_neg h]
+  · rw [ite_eq_right (fun h' => h (hc.1 h')), ite_eq_right h]
 
 theorem decodeEntries_ofList (cs : List ℕ) :
     decodeEntries (String.ofList (cs.map Char.ofNat)) = payloadEntries cs := by
@@ -151,13 +151,13 @@ theorem decR_ent {c : ℕ} (h : wsK c = false) (l : List ℕ) (i acc : ℕ) :
   unfold entStep
   by_cases hi : i < 729
   · have : Nat.blt i 729 = true := Nat.blt_eq.mpr hi
-    rw [this, if_pos hi]
+    rw [this, ite_eq_left hi]
     rfl
   · have : Nat.blt i 729 = false := by
       rw [Bool.eq_false_iff]
       intro h'
       exact hi (Nat.blt_eq.mp h')
-    rw [this, if_neg hi]
+    rw [this, ite_eq_right hi]
 
 noncomputable def entFold : List ℕ → ℕ → ℕ → ℕ
   | [], _, acc => acc
@@ -183,9 +183,9 @@ theorem testBit_entStep (i acc e q : ℕ) :
       (blowBits i e).testBit q)) := by
   unfold entStep
   by_cases h : i < 729
-  · rw [if_pos h, Nat.testBit_or]
+  · rw [ite_eq_left h, Nat.testBit_or]
     simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp [h]
 
 theorem testBit_entFold (q : ℕ) : ∀ (G : List ℕ) (i acc : ℕ),
@@ -300,11 +300,11 @@ theorem pkMat_decodeK (cs : List ℕ) :
   have hlt := blk_lt (G.getD k0 0 % 4) (R.val % 2) (C.val % 2)
   show (if (decodeK cs).testBit (54 * R.val + C.val) = true then (1 : ZMod 2) else 0) = _
   by_cases hb : (decodeK cs).testBit (54 * R.val + C.val) = true
-  · rw [if_pos hb, hbit.1 hb]
+  · rw [ite_eq_left hb, hbit.1 hb]
     simp
   · have hb1 : ¬ blk (G.getD k0 0 % 4) (R.val % 2) (C.val % 2) = 1 := fun e => hb (hbit.2 e)
     have hb0 : blk (G.getD k0 0 % 4) (R.val % 2) (C.val % 2) = 0 := by omega
-    rw [if_neg hb, hb0]
+    rw [ite_eq_right hb, hb0]
     simp
 
 end CFSG.KC.Misc.Spec

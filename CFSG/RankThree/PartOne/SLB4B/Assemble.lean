@@ -17,7 +17,7 @@ theorem rankFourCover_of_lowTwoRank (i : CFSGIndex) (hi : IsLieLowTwoRankIndex i
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (hi : False).elim
   · exact (hi : False).elim
-  · cases li <;> first | exact (hi : False).elim | skip
+  · cases li <;> try exact (hi : False).elim
     ·
       rename_i r q
       have hq : (r = 4 ∧ q.p ≠ 2) ∨ (r = 5 ∧ q.card % 4 = 3) := hi

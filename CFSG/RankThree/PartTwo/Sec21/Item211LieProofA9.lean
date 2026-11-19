@@ -178,7 +178,7 @@ theorem false_of_rank_four (hG : TheoremFourHyp G) (h : PairFacts A E U c L)
   obtain ⟨S, hQS, hSne⟩ := SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
     3 2 Nat.prime_three Nat.prime_two Q M hQ3 hQM hcop hM2
   set S' := (S : Subgroup M).map M.subtype with hS'
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map M.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map M.subtype
   have h4 : 4 ≤ CFSG.Assembly.pRank 3 (Subgroup.normalizer (S' : Set G)) :=
     le_csSup (CFSG.RankThreeEvenClassification.Helpers.pRank_bddAbove 3 Nat.prime_three _)
       ⟨Q, hQS, hQe, by rw [hQc, hP27]; norm_num⟩

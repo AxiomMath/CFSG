@@ -15,7 +15,7 @@ namespace CFSG.StandardType.A11
 private lemma a11ah_fPow_add {Bs : Type} [Group Bs] [IsMulCommutative Bs]
     (g : Fin 4 → Bs) (horder : ∀ i, orderOf (g i) = 7) (v w : Fin 4 → ZMod 7) :
     fPow g (v + w) = fPow g v * fPow g w := by
-  letI : CommMonoid Bs := { mul_comm := fun a b => mul_comm' a b }
+  let : CommMonoid Bs := { mul_comm := fun a b => mul_comm' a b }
   have hprod : ∀ x : Fin 4 → ZMod 7, fPow g x = ∏ i : Fin 4, g i ^ (x i).val := by
     intro x
     simp only [fPow, Fin.prod_univ_four]
@@ -71,7 +71,7 @@ private lemma a11ah_iota_fPow {Bs : Type} [Group Bs]
   simp only [ofMul_mul, ofMul_pow]
   simp only [map_add, map_nsmul]
   ext j
-  simp only [Finset.sum_apply, Pi.smul_apply, Pi.add_apply, Matrix.vecMul, dotProduct,
+  simp only [Pi.smul_apply, Pi.add_apply, Matrix.vecMul, dotProduct,
     Matrix.of_apply]
   rw [Fin.sum_univ_four]
   simp only [← Nat.cast_smul_eq_nsmul (ZMod 7), ZMod.natCast_zmod_val, smul_eq_mul]
@@ -114,7 +114,7 @@ theorem a11A8HomolInput_holds
   have hDJ : LargeEvenStdSub 7 B x L D J := hcfg.2.2
   have hBle : B ≤ Bs := hcfg.2.1.1
   have hEab : IsElemAbelian 7 Bs := hcfg.2.1.2.1
-  haveI : IsMulCommutative ↥Bs := hEab.1
+  have : IsMulCommutative ↥Bs := hEab.1
   have hmodL : StatedClassicalModel (L ⧸ Subgroup.center L) .PSL 4 2 3 := hA11.2.1
   have hglue : A11GlueHyp φ₃ f n := hFrameSpec.1
   have hbs : Subgroup.closure (Set.range f) = Bs := hFrameSpec.2.2.2.1
@@ -138,7 +138,7 @@ theorem a11A8HomolInput_holds
   let g : Fin 4 → ↥Bs := fun i => ⟨f i, hfi i⟩
   have hg_coe : ∀ v : Fin 4 → ZMod 7, (fPow (G := ↥Bs) g v : G) = fPow f v := by
     intro v
-    simp only [fPow, g, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_mk]
+    simp only [fPow, g, Subgroup.coe_mul, Subgroup.coe_pow]
   have horder_g : ∀ i, orderOf (g i) = 7 := fun i => by
     rw [Subgroup.orderOf_mk, hforder i]
   have hcardBs : Nat.card ↥Bs = 7 ^ 4 := by

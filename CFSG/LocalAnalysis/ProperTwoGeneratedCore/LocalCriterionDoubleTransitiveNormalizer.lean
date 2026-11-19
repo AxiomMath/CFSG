@@ -63,6 +63,6 @@ theorem local_involution_point_triple_sylow_normalizer_double_transitivity
   · exact normalizerRightCosetFixedEquiv_equivariant H U hUH ht
   · intro hsimple hnonab hU
     let : IsSimpleGroup G := hsimple
-    exact prime_subgroup_normalizer_ne_top hnonab p hp U (P.isPGroup'.map _) hU
+    exact prime_subgroup_normalizer_ne_top hnonab p hp U (P.isPGroup.map _) hU
 
 end CFSG.ProperTwoGeneratedCore

@@ -40,7 +40,7 @@ theorem pow_three_mem_zPi {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : PiF
 theorem kSLThreeCentralizerQ_holds : KSLThreeCentralizerQ := by
   intro X _ _ hXq p e _ he hX β hβ3 hβ
   obtain ⟨π, K, _, hK, hq, hq2, φ, hφ, hker, hlift⟩ := exists_coverLift hXq he hX
-  haveI := hK.finite
+  have := hK.finite
   have hπ : π = false → UnitaryFieldData p e K := fun h => by subst h; exact hK.unitary
   have hq' : π = false → ModThree false (p ^ e) := fun h => by subst h; exact hq
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau hK hq

@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_centralizer {a y : G} (hy : y ∈ Subgroup.centralizer ({a} : Set G)) :
     y ∈ Subgroup.normalizer ((Subgroup.centralizer ({a} : Set G) : Subgroup G) : Set G) := by
   have hay : a * y = y * a := by
@@ -70,7 +71,7 @@ theorem inf_le_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) {H X : Subgroup G} (hXH 
 theorem ne_bot_of_isComponentOf_top {Q : Type} [Group Q] {A : Subgroup Q}
     (h : CFSG.Open.IsComponentOf A ⊤) : A ≠ ⊥ := by
   rintro rfl
-  haveI := h.2.2.2
+  have := h.2.2.2
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (↥(⊥ : Subgroup Q) ⧸ Subgroup.center ↥(⊥ : Subgroup Q))
   apply hxy
   have hz : ∀ z : ↥(⊥ : Subgroup Q) ⧸ Subgroup.center ↥(⊥ : Subgroup Q), z = 1 := by

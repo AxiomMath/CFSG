@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.GroupTheory.Solvable
 import Mathlib.SetTheory.Cardinal.NatCard
 
@@ -58,7 +58,7 @@ public theorem CFSG.fitting_pCore_le_sylow
     pCore p G ≤ (S : Subgroup G) := by
   have hsup_p : IsPGroup p (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) := by
     exact IsPGroup.to_sup_of_normal_right (p := p) (H := (S : Subgroup G))
-      (K := pCore p G) S.isPGroup' (pCore_isPGroup (G := G) (p := p))
+      (K := pCore p G) S.isPGroup (pCore_isPGroup (G := G) (p := p))
   have hEq : (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) = (S : Subgroup G) :=
     le_antisymm (S.maximal_isPGroup.le_of_ge hsup_p le_sup_left) le_sup_left
   exact sup_eq_left.mp hEq

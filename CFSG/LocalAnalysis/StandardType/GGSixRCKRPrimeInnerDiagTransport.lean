@@ -92,7 +92,7 @@ theorem ggPsiInnerDiag_comp_symm_of_opposite_pair
     have hhz : e.symm (w⁻¹ * e h' * w * z * (w⁻¹ * e h' * w)⁻¹) =
         u⁻¹ * (h' * z' * h'⁻¹) * u := by
       rw [map_mul, map_mul, map_inv, map_mul, map_mul, map_inv, hzeq, hu]
-      simp only [MulEquiv.symm_apply_apply, map_inv]
+      simp only [MulEquiv.symm_apply_apply]
       group
     have hψ : ∀ y : U, (φ.comp e.symm.toMonoidHom) y = φ (e.symm y) := fun y => rfl
     rw [hψ z, hψ _, hhz, hzeq, hbg]

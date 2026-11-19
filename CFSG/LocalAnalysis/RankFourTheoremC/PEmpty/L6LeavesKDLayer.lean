@@ -18,7 +18,7 @@ theorem fitting_eq_bot_of_cores {X : Type} [Group X] [Finite X]
 theorem exists_component_of_cores {X : Type} [Group X] [Finite X] [Nontrivial X]
     (h2 : pCore 2 X = ⊥) (hodd : oddCore X = ⊥) : ∃ K : Subgroup X, IsComponent K := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hF := (LocalCores.generalized_fitting_minimal_normal (G := X)).2 inferInstance
   have hL : layer X = ⊥ := LocalCores.layer_eq_bot_of_forall hno
   apply hF
@@ -82,7 +82,7 @@ theorem center_component_eq_bot {X : Type} [Group X] [Finite X]
     apply Subtype.ext
     exact ((hAmem a).mp a.2).2 b (((hAmem b).mp b.2).1)
   have hAfit : A ≤ fittingSubgroup X := by
-    letI : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hAcomm }
+    let : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hAcomm }
     exact le_sSup (show A ∈ {N : Subgroup X | N.Normal ∧ Group.IsNilpotent N} from
       ⟨hAnorm, inferInstance⟩)
   rw [fitting_eq_bot_of_cores h2 hodd] at hAfit
@@ -107,10 +107,10 @@ theorem isSimpleGroup_of_component {X : Type} [Group X] [Finite X]
     (h2 : pCore 2 X = ⊥) (hodd : oddCore X = ⊥) {K : Subgroup X} (hK : IsComponent K) :
     IsSimpleGroup ↥K := by
   have hc := center_component_eq_bot h2 hodd hK
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
   let e : ↥K ⧸ Subgroup.center ↥K ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hc).trans (QuotientGroup.quotientBot (G := ↥K))
-  haveI : Nontrivial ↥K := e.symm.surjective.nontrivial
+  have : Nontrivial ↥K := e.symm.surjective.nontrivial
   exact IsSimpleGroup.isSimpleGroup_of_surjective e.toMonoidHom e.surjective
 
 theorem nonabelian_of_component {X : Type} [Group X] {K : Subgroup X} (hK : IsComponent K) :

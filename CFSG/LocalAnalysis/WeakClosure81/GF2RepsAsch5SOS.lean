@@ -21,7 +21,7 @@ theorem exists_noncomm_of_simple_of_pow_three_dvd {X : Type} [Group X] [IsSimple
     ∃ a b : X, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  letI : CommGroup X := { ‹Group X› with mul_comm := fun a b => hcon a b }
+  let : CommGroup X := { ‹Group X› with mul_comm := fun a b => hcon a b }
   have hℓ : (Nat.card X).Prime := IsSimpleGroup.prime_card
   have hp2 := hp.two_le
   have hp3 : p ∣ p ^ 3 := dvd_pow_self p (by norm_num)

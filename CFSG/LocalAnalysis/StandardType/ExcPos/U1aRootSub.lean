@@ -113,7 +113,7 @@ private theorem u1aE2_Phi_mem_adjoint {t : StatedLieTag}
     (ht : t = .E6 ∨ t = .E7 ∨ t = .E8) (f : ℕ) {x : ModGL (langTag t) GGL}
     (hx : x ∈ adjointGroup (langTag t) GGL) :
     ggPhi t f x ∈ adjointGroup (langTag t) GGL := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   rw [u1aE2_Phi_eq_entrywise ht f]
   rcases ht with rfl | rfl | rfl
   · exact entrywiseFrobGL_mem (τ := Tag.E6) (p := 2) (e := f) hx
@@ -202,11 +202,11 @@ theorem exists_rootSub {t : StatedLieTag} (ht : t = .E6 ∨ t = .E7 ∨ t = .E8)
       Nat.card ↥(excCurve (-α) w ⊓ F.Δ.model) = Nat.card (GaloisField 2 f) := by
   classical
   let K := GaloisField 2 f
-  letI : Algebra K GGL := (ggRatEmb f).toAlgebra
-  haveI : IsScalarTower (ZMod 2) K GGL := IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic K GGL :=
+  let : Algebra K GGL := (ggRatEmb f).toAlgebra
+  have : IsScalarTower (ZMod 2) K GGL := IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
+  have : Algebra.IsAlgebraic K GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) (A := GGL)
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hf : 1 ≤ f := F.one_le_f
   have hcardK : Nat.card K = 2 ^ f := GaloisField.card 2 f (Nat.pos_iff_ne_zero.mp hf)
   have hFr : ∀ c : GGL, ggFrobT f c = c ^ Nat.card K := fun c => by

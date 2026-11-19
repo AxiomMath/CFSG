@@ -121,7 +121,7 @@ theorem centralizer_layer_eq_bot (hO : CFSG.pPrimeCore 2 X = ⊥) (E : Subgroup 
   obtain ⟨n₁, ⟨hn₁N, hn₁P⟩, hn₁⟩ := exists_ne_one_mem_inf_sylow hN2 P
   obtain ⟨e₁, ⟨he₁E, he₁P⟩, he₁⟩ := exists_ne_one_mem_inf_sylow hE2 P
   set Pg : Subgroup X := (P : Subgroup X) with hPg
-  have : Group.IsNilpotent ↥Pg := IsPGroup.isNilpotent P.isPGroup'
+  have : Group.IsNilpotent ↥Pg := IsPGroup.isNilpotent P.isPGroup
   have hAE : E.subgroupOf Pg ≠ ⊥ := by
     intro h
     have : (⟨e₁, he₁P⟩ : ↥Pg) ∈ E.subgroupOf Pg := he₁E

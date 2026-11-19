@@ -79,12 +79,12 @@ theorem ncard_coboundary_le_four_of_blocks {M : Type} [CommGroup M] [Finite M] {
     { carrier := {x | σ x = x}
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by simp
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hRσ : ∀ r ∈ R, σ r = r := by
     have hle : R ≤ Fx := by

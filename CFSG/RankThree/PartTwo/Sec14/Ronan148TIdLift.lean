@@ -138,7 +138,7 @@ theorem exists_irred_lift {X : Type} [Group X] [Finite X] {P : Subgroup (MulAut 
     (by rw [hKhmap]; exact hTperf)
   set D : Subgroup (GL (Fin 3) F) := ⁅Kh, Kh⁆ with hD
   rw [hKhmap] at hDmap
-  haveI : Group.IsPerfect D := Subgroup.isPerfect_iff.mpr hDperf
+  have : Group.IsPerfect D := Subgroup.isPerfect_iff.mpr hDperf
   have hDT : ∀ d ∈ D, pmk d ∈ T := fun d hd => hDmap ▸ ⟨d, hd, rfl⟩
   have hTD : ∀ t ∈ T, ∃ d ∈ D, pmk d = t := by
     intro t ht

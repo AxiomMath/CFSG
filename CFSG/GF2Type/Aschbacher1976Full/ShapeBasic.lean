@@ -15,13 +15,16 @@ open CFSG CFSG.Blueprint Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem Fz_le_Hz (z : G) : Fz z ≤ Hz z := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem mem_Hz {z x : G} : x ∈ Hz z ↔ x * z = z * x := by
   rw [Subgroup.mem_centralizer_iff]
   simp only [Set.mem_singleton_iff, forall_eq]
   exact eq_comm
 
+omit [Finite G] in
 theorem Fz_conj_mem (z : G) {h x : G} (hh : h ∈ Hz z) (hx : x ∈ Fz z) : h * x * h⁻¹ ∈ Fz z := by
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
   have hN : (generalizedFitting ↥(Hz z)).Normal :=
@@ -37,16 +40,18 @@ theorem cent_le_Fz (z : G) {h : G} (hh : h ∈ Hz z) (hc : ∀ x ∈ Fz z, h * x
     exact Subtype.ext (hc y (Subgroup.mem_map_of_mem _ hy)).symm
   exact Subgroup.mem_map.mpr ⟨_, centralizer_generalizedFitting_le _ hmem, rfl⟩
 
+omit [Finite G] in
 theorem z_mem_Hz (z : G) : z ∈ Hz z := mem_Hz.mpr rfl
 
 theorem z_mem_Fz (z : G) : z ∈ Fz z :=
-  cent_le_Fz z (z_mem_Hz z) fun x hx => (mem_Hz.mp (Fz_le_Hz z hx)).symm
+  cent_le_Fz z (z_mem_Hz z) fun _x hx => (mem_Hz.mp (Fz_le_Hz z hx)).symm
 
+omit [Finite G] in
 theorem Fz_comm_z (z : G) {x : G} (hx : x ∈ Fz z) : x * z = z * x := mem_Hz.mp (Fz_le_Hz z hx)
 
 theorem genFit_eq_pCore (z : G) (hF2 : IsPGroup 2 ↥(Fz z)) :
     generalizedFitting ↥(Hz z) = pCore 2 ↥(Hz z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : (generalizedFitting ↥(Hz z)).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥(Hz z))).2
   have hgp : IsPGroup 2 ↥(generalizedFitting ↥(Hz z)) :=
@@ -78,9 +83,10 @@ theorem Hz_eq_Fz_of_isPGroup {z : G} (hF2 : IsPGroup 2 ↥(Fz z)) (hH : IsPGroup
     Hz z = Fz z :=
   le_antisymm
     (le_Fz_of_normalized_isPGroup hF2 le_rfl
-      (fun h hh n hn => mul_mem (mul_mem hh hn) (inv_mem hh)) hH)
+      (fun _h hh _n hn => mul_mem (mul_mem hh hn) (inv_mem hh)) hH)
     (Fz_le_Hz z)
 
+omit [Finite G] in
 theorem Hz_le_normalizer (z : G) : Hz z ≤ Subgroup.normalizer ((Fz z : Subgroup G) : Set G) := by
   intro h hh
   rw [Subgroup.mem_normalizer_iff]
@@ -95,7 +101,7 @@ theorem Hz_le_normalizer (z : G) : Hz z ≤ Subgroup.normalizer ((Fz z : Subgrou
 
 theorem eq_one_of_odd_orderOf {P : Type*} [Group P] (hP : IsPGroup 2 P) {g : P}
     (hodd : Odd (orderOf g)) : g = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp hP) g
   rw [hj] at hodd
   have hj0 : j = 0 := by
@@ -168,7 +174,7 @@ theorem fixes_of_cyclic {z : G} (hF2 : IsPGroup 2 ↥(Fz z)) {u : G} (hu : u ∈
 
 theorem isPGroup_two_of_forall_odd {H : Type*} [Group H] [Finite H]
     (h : ∀ u : H, Odd (orderOf u) → u = 1) : IsPGroup 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine IsPGroup.iff_orderOf.mpr fun g => ?_
   obtain ⟨k, m, hm, hk⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos g).ne'
   refine ⟨k, ?_⟩
@@ -186,6 +192,7 @@ theorem Hz_eq_Fz_of_odd {z : G} (hF2 : IsPGroup 2 ↥(Fz z))
   refine Subtype.ext (h u u.2 ?_)
   rwa [← Subgroup.orderOf_coe] at hu
 
+omit [Finite G] in
 theorem mem_conjugate_iff {S : Subgroup G} {g x : G} : x ∈ conjugate S g ↔ g * x * g⁻¹ ∈ S := by
   unfold conjugate
   rw [Subgroup.mem_map]
@@ -193,8 +200,9 @@ theorem mem_conjugate_iff {S : Subgroup G} {g x : G} : x ∈ conjugate S g ↔ g
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
+omit [Finite G] in
 theorem conjugate_eq_of_invariant {K S : Subgroup G} (hS : ∀ h ∈ K, ∀ x ∈ S, h * x * h⁻¹ ∈ S)
     {h : G} (hh : h ∈ K) : conjugate S h = S := by
   ext x
@@ -204,6 +212,7 @@ theorem conjugate_eq_of_invariant {K S : Subgroup G} (hS : ∀ h ∈ K, ∀ x �
   convert this using 1
   group
 
+omit [Finite G] in
 theorem char_conj_mem {z : G} {S : Subgroup ↥(Fz z)} [S.Characteristic] {h : G} (hh : h ∈ Hz z)
     {x : G} (hx : x ∈ S.map (Fz z).subtype) : h * x * h⁻¹ ∈ S.map (Fz z).subtype := by
   obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hx
@@ -213,7 +222,7 @@ theorem char_conj_mem {z : G} {S : Subgroup ↥(Fz z)} [S.Characteristic] {h : G
 theorem eq_one_of_stable_cyclic {z : G} (hF2 : IsPGroup 2 ↥(Fz z)) {u : G} (hu : u ∈ Hz z)
     (hodd : Odd (orderOf u)) {Z : Subgroup ↥(Fz z)} [Z.Characteristic] (hZ : IsCyclic Z)
     (hfix : ∀ d : ↥(Fz z), (∀ y ∈ Z, y * d = d * y) → u * (d : G) * u⁻¹ = d) : u = 1 := by
-  haveI : (Subgroup.centralizer (Z : Set ↥(Fz z))).Normal := Subgroup.normal_centralizer
+  have : (Subgroup.centralizer (Z : Set ↥(Fz z))).Normal := Subgroup.normal_centralizer
   have hfixZ := fixes_of_cyclic hF2 hu hodd hZ
   refine eq_one_of_stable hF2 hu hodd (N := Subgroup.centralizer (Z : Set ↥(Fz z)))
     (fun n hn => hfix n (Subgroup.mem_centralizer_iff.mp hn)) (fun x => ?_)

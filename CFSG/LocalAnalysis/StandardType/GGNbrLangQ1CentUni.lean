@@ -26,7 +26,7 @@ theorem q1CentUni_recipe {d m p : ℕ} {K : Type} [Field K] [Finite K]
     CFSG.StandardType.LargeEvenMarking J (fun _ _ _ IJ _ θJ =>
       (∀ a ∈ A, ∀ j ∈ J, a j ∈ J) ∧ GGAutsInduceOn A J θJ IJ) := by
   have hF := unitaryFieldData_of_card hm hK
-  haveI : CharP K 2 := hF.charP
+  have : CharP K 2 := hF.charP
   obtain ⟨τ, hτ, hτQ⟩ := exists_unitaryInvolution hm hK
   obtain ⟨s, hsN, hs, rfl⟩ := q1CentUni_exists_lift hK hm τ hτ hτQ (hAI u huA)
   have hsp : TableB.projConj (LargeEvenSUGroup (Fin d) K (2 ^ m)) ⟨s, hsN⟩ ^ p = 1 := by
@@ -44,7 +44,7 @@ theorem q1CentUni_recipe {d m p : ℕ} {K : Type} [Field K] [Finite K]
     intro a ha
     obtain ⟨t, htN, ht, rfl⟩ := q1CentUni_exists_lift hK hm τ hτ hτQ (hAI a ha)
     refine ⟨t, htN, ht, ?_, rfl⟩
-    haveI : IsMulCommutative ↥A := hAab.1
+    have : IsMulCommutative ↥A := hAab.1
     have hcomm := congrArg Subtype.val
       (mul_comm' (⟨_, huA⟩ : ↥A) (⟨_, ha⟩ : ↥A))
     exact q1CentUni_commute_of_projConj hK hm hd hdq τ hτ hτQ hp hcop hs ht hsN htN hsp

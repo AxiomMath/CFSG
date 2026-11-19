@@ -30,6 +30,7 @@ theorem mc_exists_noncomm {Q : Type*} [Group Q] (hq : CFSG.Open.IsQuasisimple Q)
 @[expose] def mcPi (K E : Subgroup Y) : Subgroup Y :=
   ⨆ (e : Y) (_ : e ∈ E), GLBConj e K
 
+omit [Finite Y] in
 theorem mc_le_pi {e : Y} (he : e ∈ E) : GLBConj e K ≤ mcPi K E :=
   le_iSup₂ (f := fun (e : Y) (_ : e ∈ E) => GLBConj e K) e he
 
@@ -64,7 +65,8 @@ theorem mc_pi_decomp (hK : IsComponentOf K ⊤) {e : Y} (he : e ∈ E) {p : Y} (
   have := (mcPi K E).mul_mem ((mcPi K E).inv_mem (mc_le_pi he hx)) hp
   rwa [inv_mul_cancel_left] at this
 
-theorem mc_pi_central {z : Y} (hz : z ∈ mcPi K E) (hc : ∀ e ∈ E, ∀ y ∈ GLBConj e K, y * z = z * y)
+omit [Finite Y] in
+theorem mc_pi_central {z : Y} (_hz : z ∈ mcPi K E) (hc : ∀ e ∈ E, ∀ y ∈ GLBConj e K, y * z = z * y)
     {p : Y} (hp : p ∈ mcPi K E) : p * z = z * p := by
   have hle : mcPi K E ≤ Subgroup.centralizer ({z} : Set Y) := by
     refine iSup₂_le fun e he x hx => ?_
@@ -75,6 +77,7 @@ theorem mc_pi_central {z : Y} (hz : z ∈ mcPi K E) (hc : ∀ e ∈ E, ∀ y ∈
 @[expose] def mcA (K E : Subgroup Y) (e : Y) : Subgroup ↥(mcPi K E) :=
   (Subgroup.centralizer (GLBConj e K : Set Y)).subgroupOf (mcPi K E)
 
+omit [Finite Y] in
 theorem mem_mcA {e : Y} {x : ↥(mcPi K E)} :
     x ∈ mcA K E e ↔ ∀ y ∈ GLBConj e K, y * (x : Y) = x * y := by
   unfold mcA
@@ -159,6 +162,7 @@ theorem mc_hmax (hK : IsComponentOf K ⊤) {e : Y} (he : e ∈ E) (N : Subgroup 
     rw [this]
     exact N.mul_mem hkN haN
 
+omit [Finite Y] in
 theorem mc_hnab (hK : IsComponentOf K ⊤) {e : Y} (he : e ∈ E) :
     ¬ ⁅(⊤ : Subgroup ↥(mcPi K E)), (⊤ : Subgroup ↥(mcPi K E))⁆ ≤ mcA K E e := by
   intro h

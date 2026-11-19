@@ -26,7 +26,7 @@ theorem kleinFour_sylow_of_centralizer [Finite G] (n : ℕ) (hn : 4 ≤ n) (S : 
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVC).toEquiv, IsKleinFour.card_four]
     norm_num)
   obtain ⟨P, hVP⟩ := hV2.exists_le_sylow
-  have hP2 : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map C.subtype
+  have hP2 : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup.map C.subtype
   obtain ⟨S₀, hPS₀⟩ := hP2.exists_le_sylow
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq G S S₀
   have hVP' : V ≤ (P : Subgroup C).map C.subtype := by

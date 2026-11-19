@@ -127,8 +127,8 @@ theorem commutatorElement_mem_of_central_index_le_four (hA : ∀ a ∈ A, ∀ m 
   obtain ⟨hib, -⟩ := index_centralizer_eq_two_of_central hA hcard (Ne.symm hab')
   set Ha := Subgroup.centralizer ({a} : Set M)
   set Hb := Subgroup.centralizer ({b} : Set M)
-  haveI := Subgroup.normal_of_index_eq_two hia
-  haveI := Subgroup.normal_of_index_eq_two hib
+  have := Subgroup.normal_of_index_eq_two hia
+  have := Subgroup.normal_of_index_eq_two hib
   have haHa : a ∈ Ha := Subgroup.mem_centralizer_singleton_iff.mpr rfl
   have hbHb : b ∈ Hb := Subgroup.mem_centralizer_singleton_iff.mpr rfl
   have haHb : a ∉ Hb := fun h => hab' (Subgroup.mem_centralizer_singleton_iff.mp h)
@@ -274,12 +274,12 @@ theorem apply_eq_self_of_odd_iterate {C : Type*} [CommGroup C] {A : Subgroup C} 
 
 variable {G : Type*} [Group G]
 
-theorem mem_centralizer_of_odd_pow_mem {A Q : Subgroup G} (hAQ : A ≤ Q)
+theorem mem_centralizer_of_odd_pow_mem {A Q : Subgroup G} (_hAQ : A ≤ Q)
     (hQc : IsMulCommutative Q) (hinv : ∀ r ∈ Q, r * r = 1 → r ∈ A)
     (hQ4 : ∀ q ∈ Q, q ^ 4 ∈ A) (hA4 : ∀ a ∈ A, a ^ 4 = 1) {g : G}
     (hgA : g ∈ Subgroup.centralizer (A : Set G)) (hgQ : g ∈ Subgroup.normalizer (Q : Set G))
     {m : ℕ} (hm : Odd m) (hgm : g ^ m ∈ Q) : g ∈ Subgroup.centralizer (Q : Set G) := by
-  letI : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hQc.is_comm.comm }
+  let : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hQc.is_comm.comm }
   have hconjQ : ∀ x ∈ Q, g⁻¹ * x * g ∈ Q := fun x hx => by
     have := (Subgroup.mem_normalizer_iff.mp (inv_mem hgQ) x).mp hx
     rwa [inv_inv] at this
@@ -359,14 +359,14 @@ theorem coe_conjInvHomOfMemNormalizer {Q : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (Q : Set G)) (x : Q) :
     ((conjInvHomOfMemNormalizer hg x : Q) : G) = g⁻¹ * x * g := rfl
 
-theorem exists_involution_conj_mem {A Q : Subgroup G} (hAQ : A ≤ Q) (hQc : IsMulCommutative Q)
+theorem exists_involution_conj_mem {A Q : Subgroup G} (_hAQ : A ≤ Q) (hQc : IsMulCommutative Q)
     {g h : G} (hgQ : g ∈ Subgroup.normalizer (Q : Set G))
     (hgA : g ∈ Subgroup.normalizer (A : Set G)) (hg2 : g * g = 1)
     (hhQ : h ∈ Subgroup.normalizer (Q : Set G)) (hgh : g * h = h * g) {z : G} (hzQ : z ∈ Q)
     (hz2 : z * z = 1) (hzA : z ∉ A) :
     ∃ z' ∈ Q, z' * z' = 1 ∧ z' ∉ A ∧ z'⁻¹ * (g⁻¹ * z' * g) ∈ A ∧
       (z⁻¹ * (h⁻¹ * z * h) ∈ A → z'⁻¹ * (h⁻¹ * z' * h) ∈ A) := by
-  letI : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hQc.is_comm.comm }
+  let : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hQc.is_comm.comm }
   set σ := conjInvHomOfMemNormalizer hgQ
   set τ := conjInvHomOfMemNormalizer hhQ
   have hginv : g⁻¹ = g := inv_eq_of_mul_eq_one_right hg2
@@ -425,8 +425,8 @@ theorem exists_oddComplement_of_normalizer_le_centralizer [Finite Y] (A Q : Subg
     ∃ O : Subgroup Y, O.Normal ∧ O ≤ Subgroup.centralizer (A : Set Y) ∧ ¬ 2 ∣ Nat.card O ∧
       Subgroup.centralizer (A : Set Y) ≤ Q ⊔ O := by
   set Z := Subgroup.centralizer (A : Set Y) with hZ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Z.Normal := Subgroup.normal_centralizer
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Z.Normal := Subgroup.normal_centralizer
   have hP2 : IsPGroup 2 (Q.subgroupOf Z) := hQ2.comap_of_injective Z.subtype Subtype.val_injective
   let Psyl : Sylow 2 Z := hP2.toSylow hQidx
   have hPs : (Psyl : Subgroup Z) = Q.subgroupOf Z := IsPGroup.toSylow_coe hP2 hQidx
@@ -483,7 +483,7 @@ theorem exists_oddComplement_of_normalizer_le_centralizer [Finite Y] (A Q : Subg
     exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp
       (fun h => hKodd (h.trans (φ.ker.orderOf_dvd_natCard hk))))
   have hφ : φ k' = 1 :=
-    eq_one_of_isPGroup_two_of_pow_odd Psyl.isPGroup' hodd
+    eq_one_of_isPGroup_two_of_pow_odd Psyl.isPGroup hodd
       (by rw [← map_pow, pow_orderOf_eq_one, map_one])
   exact Subgroup.mem_map.mpr ⟨k', hφ, rfl⟩
 

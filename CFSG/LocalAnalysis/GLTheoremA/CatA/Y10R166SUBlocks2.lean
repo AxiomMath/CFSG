@@ -51,14 +51,13 @@ theorem suRadCocycle_add (h : UnitaryFieldData 2 f K) (m m' : Fin 6 → K) :
       suRadCocycle h m + suRadCocycle h m' +
         ((suRadVec m ⬝ᵥ suRadVec (fun i => h.bar (m' i))) +
           (suRadVec (fun i => h.bar (m i)) ⬝ᵥ suRadVec m')) := by
-  simp only [suRadCocycle, suRadVec, Pi.add_apply, map_add, add_mul, mul_add,
-    Finset.sum_add_distrib, dotProduct, Fin.sum_univ_six]
+  simp only [suRadCocycle, suRadVec, Pi.add_apply, dotProduct, Fin.sum_univ_six]
   simp
   ring
 
 theorem suLineVec_dot_self (h : UnitaryFieldData 2 f K) :
     suLineVec (K := K) ⬝ᵥ suLineVec = 0 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   simp [dotProduct, suLineVec, Fin.sum_univ_six, CharTwo.add_self_eq_zero]
 
 theorem suLineVec_dot_suRadVec (m : Fin 6 → K) :
@@ -78,7 +77,7 @@ theorem unitaryRadMatrix_mul (h : UnitaryFieldData 2 f K) (m m' : Fin 6 → K) (
     unitaryRadMatrix h m y * unitaryRadMatrix h m' y' =
       unitaryRadMatrix h (m + m')
         (y + y' + (suRadVec m ⬝ᵥ suRadVec (fun i => h.bar (m' i)))) := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hVadd : vecMulVec suLineVec (suRadVec (m + m')) =
       vecMulVec suLineVec (suRadVec m) + vecMulVec suLineVec (suRadVec m') := by
     rw [suRadVec_add, vecMulVec_add]
@@ -94,8 +93,8 @@ theorem unitaryRadMatrix_mul (h : UnitaryFieldData 2 f K) (m m' : Fin 6 → K) (
     vecMulVec_mul_vecMulVec, vecMulVec_mul_vecMulVec, vecMulVec_mul_vecMulVec,
     vecMulVec_mul_vecMulVec, vecMulVec_mul_vecMulVec, vecMulVec_mul_vecMulVec,
     suLineVec_dot_self h, suLineVec_dot_suRadVec, suRadVec_dot_suLineVec, hVadd, hWadd]
-  simp only [smul_zero, zero_smul, mul_zero, zero_mul, mul_one, one_mul, vecMulVec_zero,
-    zero_vecMulVec, vecMulVec_smul, add_smul]
+  simp only [smul_zero, zero_smul, mul_one, one_mul, vecMulVec_zero,
+    vecMulVec_smul, add_smul]
   module
 
 
@@ -110,9 +109,9 @@ noncomputable def suRadSig : K ≃+* K :=
   CFSG.LieType.BorelTits.unitaryInvolution K 2 f
 
 theorem suRadSig_apply (c : K) : suRadSig h c = h.bar c := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   rw [suRadSig, CFSG.LieType.BorelTits.unitaryInvolution_apply, h.bar_apply]
 
 theorem suRadSig_invol (c : K) : suRadSig h (suRadSig h c) = c := by
@@ -124,7 +123,7 @@ theorem suLineVec_sig (i : Fin 6) : suRadSig h (suLineVec i) = suLineVec i := by
 
 theorem neg_suLineVec (h : UnitaryFieldData 2 f K) :
     (-suLineVec : Fin 6 → K) = suLineVec := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   funext i
   exact CharTwo.neg_eq (suLineVec i)
 
@@ -132,7 +131,7 @@ theorem unitaryRadMatrix_eq_eichlerMat (h : UnitaryFieldData 2 f K) (m : Fin 6 �
     unitaryRadMatrix h m y =
       eichlerMat (suRadSig h) suLineVec
         (h.bar y • suLineVec + suRadVec (fun i => h.bar (m i))) (h.bar y) := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hc2 : (h.bar y) • (suLineVec : Fin 6 → K) + (h.bar y) • (suLineVec : Fin 6 → K) = 0 := by
     rw [← add_smul, CharTwo.add_self_eq_zero, zero_smul]
   have hsum : (h.bar y • (suLineVec : Fin 6 → K) + suRadVec (fun i => h.bar (m i))) +
@@ -180,7 +179,7 @@ theorem herm_suRadEichlerVec (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) (y :
     herm (suRadSig h) (h.bar y • suLineVec + suRadVec (fun i => h.bar (m i)))
         (h.bar y • suLineVec + suRadVec (fun i => h.bar (m i))) =
       suRadCocycle h m := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   simp only [herm, Pi.add_apply, Pi.smul_apply, smul_eq_mul, map_add, map_mul,
     suRadSig_apply, h.bar_bar, suLineVec, suRadVec, suRadCocycle, Fin.sum_univ_six, Fin.isValue]
   norm_num
@@ -189,7 +188,7 @@ theorem herm_suRadEichlerVec (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) (y :
 
 theorem herm_suLineVec_self (h : UnitaryFieldData 2 f K) :
     herm (suRadSig h) suLineVec suLineVec = 0 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   simp only [herm, suLineVec, suRadSig_apply, Fin.sum_univ_six, Fin.isValue]
   norm_num
   exact CharTwo.two_eq_zero
@@ -197,7 +196,7 @@ theorem herm_suLineVec_self (h : UnitaryFieldData 2 f K) :
 theorem herm_suLineVec_suRadEichlerVec (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) (y : K) :
     herm (suRadSig h) suLineVec
       (h.bar y • suLineVec + suRadVec (fun i => h.bar (m i))) = 0 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   simp only [herm, suLineVec, suRadVec, suRadSig_apply, Pi.add_apply, Pi.smul_apply,
     smul_eq_mul, Fin.sum_univ_six, Fin.isValue]
   norm_num
@@ -205,9 +204,9 @@ theorem herm_suLineVec_suRadEichlerVec (h : UnitaryFieldData 2 f K) (m : Fin 6 �
 
 theorem unitaryRadMatrix_det (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) (y : K) :
     (unitaryRadMatrix h m y).det = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   rw [unitaryRadMatrix_eq_eichlerMat h m y]
   exact eichlerMat_det (suRadSig_invol h)
     (herm_suLineVec_self h) (herm_suLineVec_suRadEichlerVec h m y) (h.bar y)
@@ -215,9 +214,9 @@ theorem unitaryRadMatrix_det (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) (y :
 theorem unitaryRadMatrix_unitary (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) {y : K}
     (hy : y + h.bar y = suRadCocycle h m) :
     ((unitaryRadMatrix h m y).map h.bar)ᵀ * unitaryRadMatrix h m y = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   rw [unitaryRadMatrix_eq_eichlerMat h m y]
   have he := herm_suLineVec_self h
   have hey := herm_suLineVec_suRadEichlerVec h m y
@@ -264,14 +263,14 @@ theorem suRadVec_dot_self_eq_cocycle (h : UnitaryFieldData 2 f K) (m : Fin 6 →
 theorem suRadCocycle_bar_dot (h : UnitaryFieldData 2 f K) (m m' : Fin 6 → K) :
     h.bar (suRadVec m ⬝ᵥ suRadVec (fun i => h.bar (m' i))) =
       suRadVec (fun i => h.bar (m i)) ⬝ᵥ suRadVec m' := by
-  simp only [dotProduct, suRadVec, map_sum, map_mul, Fin.sum_univ_six, Fin.isValue]
+  simp only [dotProduct, suRadVec, Fin.sum_univ_six, Fin.isValue]
   norm_num
   simp only [h.bar_bar]
 
 theorem suRadCocycle_add_self (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) {y : K}
     (hy : y + h.bar y = suRadCocycle h m) :
     (y + suRadCocycle h m) + h.bar (y + suRadCocycle h m) = suRadCocycle h m := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   rw [map_add, suRadCocycle_bar]
   calc (y + suRadCocycle h m) + (h.bar y + suRadCocycle h m)
       = (y + h.bar y) + (suRadCocycle h m + suRadCocycle h m) := by abel
@@ -280,7 +279,7 @@ theorem suRadCocycle_add_self (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) {y 
 
 theorem suRadCocycle_self_add_bar (h : UnitaryFieldData 2 f K) (m : Fin 6 → K) :
     suRadCocycle h m + h.bar (suRadCocycle h m) = suRadCocycle h 0 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   rw [suRadCocycle_bar, suRadCocycle_zero]
   exact CharTwo.add_self_eq_zero _
 
@@ -289,7 +288,7 @@ theorem suRadCocycle_self_add_bar (h : UnitaryFieldData 2 f K) (m : Fin 6 → K)
   carrier := {A | ∃ (m : Fin 6 → K) (y : K) (hy : y + h.bar y = suRadCocycle h m),
     A = unitaryRadElem h m y hy}
   one_mem' := by
-    haveI : CharP K 2 := h.charP
+    have : CharP K 2 := h.charP
     refine ⟨0, 0, ?_, ?_⟩
     · rw [suRadCocycle_zero]; simp
     · apply Subtype.ext
@@ -298,7 +297,7 @@ theorem suRadCocycle_self_add_bar (h : UnitaryFieldData 2 f K) (m : Fin 6 → K)
       rw [suRadVec_zero, suRadVec_bar_zero h]
       simp
   mul_mem' := by
-    haveI : CharP K 2 := h.charP
+    have : CharP K 2 := h.charP
     rintro A B ⟨m, y, hy, rfl⟩ ⟨m', y', hy', rfl⟩
     refine ⟨m + m', y + y' + (suRadVec m ⬝ᵥ suRadVec (fun i => h.bar (m' i))),
       ?_, ?_⟩
@@ -320,7 +319,7 @@ theorem suRadCocycle_self_add_bar (h : UnitaryFieldData 2 f K) (m : Fin 6 → K)
       simp only [Subgroup.coe_mul, Units.val_mul, coe_unitaryRadElem]
       rw [unitaryRadMatrix_mul]
   inv_mem' := by
-    haveI : CharP K 2 := h.charP
+    have : CharP K 2 := h.charP
     rintro A ⟨m, y, hy, rfl⟩
     refine ⟨m, y + suRadCocycle h m, suRadCocycle_add_self h m hy, ?_⟩
     have hprod : unitaryRadElem h m y hy *
@@ -349,7 +348,7 @@ theorem suRadCocycle_self_add_bar (h : UnitaryFieldData 2 f K) (m : Fin 6 → K)
 
 theorem unitaryLineRadical_isPGroup (h : UnitaryFieldData 2 f K) :
     IsPGroup 2 (unitaryLineRadical h) := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   intro g
   obtain ⟨m, y, hy, hg⟩ := g.2
   refine ⟨2, Subtype.ext ?_⟩
@@ -358,8 +357,7 @@ theorem unitaryLineRadical_isPGroup (h : UnitaryFieldData 2 f K) :
       unitaryRadElem h 0 (suRadCocycle h m) (suRadCocycle_self_add_bar h m) := by
     apply Subtype.ext
     apply Units.ext
-    simp only [Subgroup.coe_mul, Units.val_mul, coe_unitaryRadElem, OneMemClass.coe_one,
-      Units.val_one]
+    simp only [Subgroup.coe_mul, Units.val_mul, coe_unitaryRadElem]
     rw [unitaryRadMatrix_mul]
     have hm : m + m = (0 : Fin 6 → K) := by
       funext i; exact CharTwo.add_self_eq_zero _

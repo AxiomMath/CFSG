@@ -9,7 +9,7 @@ namespace CFSG.LinearAlgebra.CoprimeActions.PrimeOrderComplementFixedSpaceFaithf
 
 theorem faithful {F V H : Type*} [Field F] [Group H] [Finite H] [AddCommGroup V] [Module F V]
     (σ : Representation F H V) (hinj : Function.Injective σ) (hirr : σ.IsIrreducible)
-    (P : Subgroup H) [P.Normal] (hP : P ≠ ⊥) (E R : Subgroup H) (hE : E ≤ P) (hR : R ≤ P)
+    (P : Subgroup H) [P.Normal] (hP : P ≠ ⊥) (E R : Subgroup H) (_hE : E ≤ P) (_hR : R ≤ P)
     (hER : E ⊔ R = P) {p : ℕ} (hp : p.Prime) (hRp : Nat.card R = p)
     (hfix : Representation.invariants (σ.comp E.subtype) ≠ ⊥) :
     ∀ r ∈ R, (∀ w ∈ Representation.invariants (σ.comp E.subtype), σ r w = w) → r = 1 := by
@@ -31,7 +31,7 @@ theorem faithful {F V H : Type*} [Field F] [Group H] [Finite H] [AddCommGroup V]
     simpa using this
   have hzR : Subgroup.zpowers r ≤ K := by
     rw [Subgroup.zpowers_le]; exact hrw
-  haveI : Fact (Nat.card R).Prime := ⟨hRp ▸ hp⟩
+  have : Fact (Nat.card R).Prime := ⟨hRp ▸ hp⟩
   have hRK : R ≤ K := by
     have hz : (Subgroup.zpowers r).subgroupOf R = ⊤ := by
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card ((Subgroup.zpowers r).subgroupOf R) with h | h

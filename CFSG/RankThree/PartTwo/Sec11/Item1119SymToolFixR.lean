@@ -8,12 +8,12 @@ namespace CFSG.RankThree.PartTwo.Sec11.Item1119Sym
 
 theorem aux_FixR_zpow_pow3 {G : Type*} [Group G] (g : G) (α : ℤ) :
     g ^ (3 * α) = (g ^ 3) ^ α := by
-  rw [← zpow_natCast, ← zpow_mul] <;> norm_num
+  rw [← zpow_natCast, ← zpow_mul]; norm_num
 
 theorem aux_FixR_order3 {G : Type*} [Group G] (e : G) (he3 : e ^ 3 = 1) (he1 : e ≠ 1)
     (m : ℤ) : e ^ m = 1 ↔ (3 : ℤ) ∣ m := by
   have hord : orderOf e = 3 := orderOf_eq_prime he3 he1
-  rw [← orderOf_dvd_iff_zpow_eq_one, hord] <;> norm_cast
+  rw [← orderOf_dvd_iff_zpow_eq_one, hord]; norm_cast
 
 theorem aux_FixR_mem_of_pow_mem {G : Type*} [Group G] (S : Subgroup G) (f : G)
     (hf3 : f ^ 3 = 1) (β : ℤ) (hβ : ¬ (3 : ℤ) ∣ β) (hm : f ^ β ∈ S) : f ∈ S := by
@@ -80,7 +80,7 @@ theorem fix_y_cube {G : Type*} [Group G] (A : Subgroup G) (y r d f n : G)
 theorem fix_r_step {G : Type*} [Group G] (A : Subgroup G) (y r d f n : G)
     (hAexp : ∀ u ∈ A, u ^ 3 = 1) (hAcomm : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u)
     (hAy : ∀ u ∈ A, u * y = y * u) (hAr : ∀ u ∈ A, u * r = r * u)
-    (hdA : d ∈ A) (hfA : f ∈ A) (hd1 : d ≠ 1)
+    (hdA : d ∈ A) (_hfA : f ∈ A) (_hd1 : d ≠ 1)
     (hyr : y * r * y⁻¹ * r⁻¹ ∈ Subgroup.zpowers d) (hyr1 : y * r * y⁻¹ * r⁻¹ ≠ 1)
     (δ : ℤ) (hδ : n * d * n⁻¹ = d ^ δ) (hδ3 : ¬ (3 : ℤ) ∣ δ)
     (α β γ ε : ℤ) (u₁ u₂ : G) (hu₁ : u₁ ∈ A) (hu₂ : u₂ ∈ A)

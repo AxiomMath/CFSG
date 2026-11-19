@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_centralizer_of_pCoreOf_eq_bot {p : ℕ} [Fact p.Prime] {H X V W : Subgroup G}
     (hXH : X ≤ H) (hXn : (X.subgroupOf H).Normal) (hXV : X ≤ Subgroup.normalizer (V : Set G))
     (hV : IsPGroup p V) (hWV : W ≤ V) (hWH : W ≤ H) (hO : CFSG.Open.pCoreOf p H = ⊥) :

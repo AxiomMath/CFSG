@@ -65,6 +65,7 @@ theorem eaQ_cover : ∀ p ∈ ea7I, ∃ k ∈ JEA.eaQ, lineTree.memB k = true �
   obtain ⟨k, hk, rfl⟩ := List.mem_map.1 (hperm.mem_iff.2 hp)
   exact ⟨k, hk, (hall k hk).1, rfl⟩
 
+omit hL hI in
 theorem ea7Restr_eq (p : Nat) : ea7Restr p = eaRestr (pairK J.lineKeysC.flatten[p]!) := by
   unfold ea7Restr eaRestr
   rw [tvCols_eqP, linePair_eq hK]
@@ -75,7 +76,7 @@ theorem ea7ChkF4_of_pinned : ea7ChkF4 = true := by
     intro a ha b hb hr
     obtain ⟨ka, hka, hma, rfl⟩ := eaQ_cover hK hL hI a ha
     obtain ⟨kb, hkb, hmb, rfl⟩ := eaQ_cover hK hL hI b hb
-    rw [ea7Restr_eq hK hL hI, ea7Restr_eq hK hL hI, (key_of_memB hma).2,
+    rw [ea7Restr_eq hK, ea7Restr_eq hK, (key_of_memB hma).2,
       (key_of_memB hmb).2] at hr
     have e := List.inj_on_of_nodup_map hnd hka hkb (by unfold eaF; rw [hr])
     rw [e]
@@ -118,11 +119,11 @@ theorem ea7F3_of_pinned (hwt : ∀ j (hj : j < J.wtC.flatten.length), wt j = J.w
     have := wt_facts.2.1
     omega
   refine ⟨v, hvlt, ?_, ?_, JEA.eaF3[j].getD 1 0, by simpa using hc, ?_⟩
-  · rw [hw, tvCols_eqP, linePair_zero hK hL hI]
+  · rw [hw, tvCols_eqP, linePair_zero hK]
     exact h0
-  · rw [hw, tvCols_eqP, linePair_31899 hK hL hI]
+  · rw [hw, tvCols_eqP, linePair_31899 hK]
     exact h31
-  · rw [hw, tvCols_eqP, linePair_posK hK hL hm]
+  · rw [hw, tvCols_eqP, linePair_posK hK hm]
     exact hT
 
 theorem ea7OddA_of_pinned : ea7I.length = 1578 ∧

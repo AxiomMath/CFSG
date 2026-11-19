@@ -77,7 +77,7 @@ private lemma planeHom_mul_comm (hS : PlaneSys V W) {F : Subgroup X} (hF : ActsE
   rwa [mul_inv_eq_one] at h1
 
 private lemma permMoved_le_of_mem_planeImage (hS : PlaneSys V W) {F : Subgroup X}
-    (hF : ActsElemAb V F) {n : ℕ}
+    (_hF : ActsElemAb V F) {n : ℕ}
     (hmv : ∀ y : normalizer (V : Set X), (y : X) ∈ F →
       (y : X) ∉ centralizer (V : Set X) → mval hS y ≤ n)
     {a : Equiv.Perm (Fin 4)} (ha : a ∈ planeImage hS F) (ha1 : a ≠ 1) :
@@ -153,7 +153,7 @@ private lemma planeImage_card_le_two (hS : PlaneSys V W) {F : Subgroup X} (hF : 
       _ = 1 := Finset.card_singleton 1
       _ ≤ 2 := by norm_num
 
-private lemma suppSet_weight_le_three (hS : PlaneSys V W) {F : Subgroup X} (hF : ActsElemAb V F)
+private lemma suppSet_weight_le_three (hS : PlaneSys V W) {F : Subgroup X} (_hF : ActsElemAb V F)
     (hmv : ∀ y : normalizer (V : Set X), (y : X) ∈ F →
       (y : X) ∉ centralizer (V : Set X) → mval hS y ≤ 3) :
     ∀ x ∈ suppSet hS F, vecWeight x ≤ 3 := by

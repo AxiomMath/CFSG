@@ -77,7 +77,7 @@ theorem card_cent_fz :
     Nat.card ↥(QP.originalSubgroup ⊓ Subgroup.centralizer ({fz} : Set Pm)) = 96 := by
   let C : Subgroup Pm := QP.originalSubgroup ⊓ Subgroup.centralizer ({fz} : Set Pm)
   change Nat.card ↥C = 96
-  haveI : Finite ↥(QP.originalSubgroup) :=
+  have : Finite ↥(QP.originalSubgroup) :=
     Finite.of_injective (fun x : ↥(QP.originalSubgroup) => (x : Pm)) Subtype.coe_injective
   have hle : Nat.card ↥C ≤ 96 := by
     have h := card_inf_centralizer_mul_le QP.originalSubgroup fz (zConjWords.map wordP)
@@ -116,7 +116,7 @@ theorem card_cent_fz :
       rw [Nat.Coprime.lcm_eq_mul (by decide : Nat.Coprime 32 3)] at h
       norm_num at h
       exact h
-    haveI : Nonempty ↥C := ⟨1, C.one_mem⟩
+    have : Nonempty ↥C := ⟨1, C.one_mem⟩
     exact Nat.le_of_dvd Nat.card_pos h96
   exact le_antisymm hle hge
 
@@ -124,7 +124,7 @@ theorem card_cent_ftau :
     Nat.card ↥(QP.originalSubgroup ⊓ Subgroup.centralizer ({ftau} : Set Pm)) = 24 := by
   let C : Subgroup Pm := QP.originalSubgroup ⊓ Subgroup.centralizer ({ftau} : Set Pm)
   change Nat.card ↥C = 24
-  haveI : Finite ↥(QP.originalSubgroup) :=
+  have : Finite ↥(QP.originalSubgroup) :=
     Finite.of_injective (fun x : ↥(QP.originalSubgroup) => (x : Pm)) Subtype.coe_injective
   have hle : Nat.card ↥C ≤ 24 := by
     have h := card_inf_centralizer_mul_le QP.originalSubgroup ftau (tauConjWords.map wordP)
@@ -171,7 +171,7 @@ theorem card_cent_ftau :
       rw [Nat.Coprime.lcm_eq_mul (by decide : Nat.Coprime 8 3)] at h
       norm_num at h
       exact h
-    haveI : Nonempty ↥C := ⟨1, C.one_mem⟩
+    have : Nonempty ↥C := ⟨1, C.one_mem⟩
     exact Nat.le_of_dvd Nat.card_pos h24
   exact le_antisymm hle hge
 

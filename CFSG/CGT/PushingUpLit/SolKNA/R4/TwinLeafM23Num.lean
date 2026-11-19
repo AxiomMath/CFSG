@@ -10,9 +10,9 @@ open Subgroup
 
 theorem m23_perfect_card_dvd_42_subsingleton {H : Type} [Group H] [Finite H] [Group.IsPerfect H]
     (h : Nat.card H ∣ 42) : Subsingleton H := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow 7 H))
-  haveI : Finite (Sylow 7 H) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 7 H) := Sylow.finite_of_finiteIndex P
   have hn : Nat.card (Sylow 7 H) ∣ 42 :=
     (Sylow.card_dvd_index P).trans ((Subgroup.index_dvd_card _).trans h)
   have hn1 : Nat.card (Sylow 7 H) = 1 := by
@@ -21,9 +21,9 @@ theorem m23_perfect_card_dvd_42_subsingleton {H : Type} [Group H] [Finite H] [Gr
     have hle : Nat.card (Sylow 7 H) ≤ 42 := Nat.le_of_dvd (by norm_num) hn
     generalize Nat.card (Sylow 7 H) = k at hn hmod hle ⊢
     interval_cases k <;> omega
-  haveI : Subsingleton (Sylow 7 H) := (Nat.card_eq_one_iff_unique.1 hn1).1
-  haveI : P.toSubgroup.Normal := Sylow.normal_of_subsingleton P
-  haveI : Group.IsNilpotent P.toSubgroup := IsPGroup.isNilpotent P.isPGroup'
+  have : Subsingleton (Sylow 7 H) := (Nat.card_eq_one_iff_unique.1 hn1).1
+  have : P.toSubgroup.Normal := Sylow.normal_of_subsingleton P
+  have : Group.IsNilpotent P.toSubgroup := IsPGroup.isNilpotent P.isPGroup
   have hidx : P.toSubgroup.index ∣ 42 := (Subgroup.index_dvd_card _).trans h
   have hidx7 : ¬ 7 ∣ P.toSubgroup.index := Sylow.not_dvd_index P
   have hcop : Nat.Coprime P.toSubgroup.index 7 :=
@@ -45,7 +45,7 @@ theorem m23_perfect_card_dvd_42_subsingleton {H : Type} [Group H] [Finite H] [Gr
     exact (Finset.card_le_card hsub).trans h6card
   have hsolv : Group.IsSolvable H := Group.isSolvable_of_subgroup_quotient P.toSubgroup
   by_contra hnot
-  haveI : Nontrivial H := not_subsingleton_iff_nontrivial.1 hnot
+  have : Nontrivial H := not_subsingleton_iff_nontrivial.1 hnot
   exact Group.IsPerfect.not_isSolvable H hsolv
 
 theorem m23_perfect_core {G : Type} [Group G] [Finite G] [Group.IsPerfect G]
@@ -66,11 +66,11 @@ theorem m23_perfect_core {G : Type} [Group G] [Finite G] [Group.IsPerfect G]
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective q
     obtain ⟨k, hk⟩ := hDO g (by rw [hDtop]; exact Subgroup.mem_top g)
     exact ⟨k, by rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]; exact hk⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent (G ⧸ O) := IsPGroup.isNilpotent h2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent (G ⧸ O) := IsPGroup.isNilpotent h2
   have hsub : Subsingleton (G ⧸ O) := by
     by_contra hnot
-    haveI : Nontrivial (G ⧸ O) := not_subsingleton_iff_nontrivial.1 hnot
+    have : Nontrivial (G ⧸ O) := not_subsingleton_iff_nontrivial.1 hnot
     exact Group.IsPerfect.not_isSolvable (G ⧸ O) inferInstance
   have hOtop : O = ⊤ := QuotientGroup.subgroup_eq_top_of_subsingleton O hsub
   rw [hOtop, Subgroup.card_top, hcard] at hOodd

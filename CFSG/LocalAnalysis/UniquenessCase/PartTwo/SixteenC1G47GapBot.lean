@@ -55,7 +55,7 @@ theorem s16c1_G47_gap_bot (D : Data G) (hkit : OmegaKit) (h41 : R16_41 D)
   have hZc : ∀ h ∈ centralizer ({x.val} : Set G), ∀ c ∈ Subgroup.zpowers x.val,
       h * c = c * h := fun h hh c hc =>
     mul_inv_eq_iff_eq_mul.1 (s16c1_G47_conj_zpowers_fix hh hc)
-  haveI hZnorm : ((Subgroup.zpowers x.val).subgroupOf (eOne V x.val)).Normal := by
+  have hZnorm : ((Subgroup.zpowers x.val).subgroupOf (eOne V x.val)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hZE]
     intro e he
     exact (conjSubgroup_eq_iff_mem_normalizer (A := Subgroup.zpowers x.val) (g := e)).1

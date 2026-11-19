@@ -147,7 +147,7 @@ private lemma modEq_add_of_mul_modEq {c x : ℤ} {s : ℕ} (hs : 2 ≤ s)
     ring
   have h3 : (3 : ℤ) ^ s ∣ 2 - (c + x) := by
     have := dvd_sub h1 hcx
-    convert this using 1 <;> ring
+    convert this using 1; ring
   exact ⟨Int.modEq_iff_dvd.mpr h3, hc1⟩
 
 private lemma prod_range_three_iterate {Z : Type*} [CommGroup Z] (F : Z →* Z) (z : Z) :
@@ -230,7 +230,7 @@ theorem pow_three_pow_eq_one_of_iterate_three_eq {Z : Type*} [CommGroup Z] (F : 
     (hz : (⇑F)^[3] z = z) (hz3 : ∃ n : ℕ, z ^ 3 ^ n = 1) : z ^ 3 ^ s = 1 := by
   have hq0 : q₀ ≠ 0 := by
     rintro rfl
-    exact hs (by simpa using dvd_zero (3 ^ (s + 1)))
+    exact hs (by simp)
   have h2 : ∀ y : Z, (⇑F)^[2] y = y ^ q₀ ^ 2 := by
     intro y
     simpa [Function.iterate_succ_apply'] using hF y
@@ -283,7 +283,7 @@ theorem map_eq_zpow_of_iterate_three_eq {Z : Type*} [CommGroup Z] (F : Z →* Z)
   have horder : (orderOf (F z) : ℤ) ∣ (3 : ℤ) ^ s := by
     exact_mod_cast orderOf_dvd_of_pow_eq_one hFz_pow
   have hmod : ((q₀ ^ 2 : ℕ) : ℤ) * c ≡ 1 [ZMOD (3 : ℤ) ^ s] := by
-    convert hc using 1 <;> push_cast <;> ring
+    convert hc using 1; push_cast; ring
   have hmod' : ((q₀ ^ 2 : ℕ) : ℤ) * c ≡ 1 [ZMOD (orderOf (F z) : ℤ)] :=
     Int.ModEq.of_dvd horder hmod
   have hcw : z ^ c = F z := by
@@ -309,7 +309,7 @@ private lemma three_iterate_norm_eq_cube {Z : Type*} [CommGroup Z] (F : Z →* Z
     exact_mod_cast orderOf_dvd_of_pow_eq_one hzpow
   have hmod : c + (q₀ : ℤ) ^ 2 + 1 ≡ (3 : ℤ) [ZMOD (3 : ℤ) ^ s] := by
     have h := hc2.add (Int.ModEq.refl (1 : ℤ))
-    convert h using 1 <;> ring
+    convert h using 1; ring
   have hmod' : c + (q₀ : ℤ) ^ 2 + 1 ≡ (3 : ℤ) [ZMOD (orderOf z : ℤ)] :=
     Int.ModEq.of_dvd hzord hmod
   calc z * F z * F (F z)
@@ -421,7 +421,7 @@ private lemma pow_one_add_three_pow_mul_modEq {s : ℕ} (hs : 2 ≤ s) (t : ℤ)
   have hmain : (1 + 3 ^ (s - 1) * t) ^ j ≡
       1 + (j : ℤ) * (3 ^ (s - 1) * t) [ZMOD (3 : ℤ) ^ s] :=
     Int.ModEq.of_dvd h3dvd (pow_one_add_modEq_sq (3 ^ (s - 1) * t) j)
-  convert hmain using 1 <;> ring
+  convert hmain using 1; ring
 
 
 private lemma exists_nat_modEq_three_pow_mul {s : ℕ} (hs : 1 ≤ s) {x : ℤ}
@@ -449,7 +449,7 @@ private lemma exists_nat_modEq_three_pow_mul {s : ℕ} (hs : 1 ≤ s) {x : ℤ}
       rw [h3s]
       exact mul_dvd_mul_left _ hd
     rw [Int.modEq_iff_dvd]
-    convert hscale using 1 <;> ring
+    convert hscale using 1; ring
   refine ⟨k, ?_, hkmod.symm⟩
   rcases hr with h | h
   · have hk1 : k = 1 := by omega

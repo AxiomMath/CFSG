@@ -112,14 +112,14 @@ theorem card_enum {nl m : ℕ} {G : ℕ → J} {R : Array (Array V2)}
   rw [← Nat.card_congr (Equiv.ofBijective f hbij)]
   simp
 
-@[expose] noncomputable def kGen (i : ℕ) : J :=
+noncomputable def kGen (i : ℕ) : J :=
   if i < 6 then QT2A.el5 (kWords.getD i []) else (QT2A.el5 (kWords.getD (i - 6) []))⁻¹
 
-@[expose] noncomputable def KSub : Subgroup J := Subgroup.closure (kGen '' {i | i < 12})
+noncomputable def KSub : Subgroup J := Subgroup.closure (kGen '' {i | i < 12})
 
-@[expose] noncomputable def q1Row : Row := toRow x0Q1.toVec
+noncomputable def q1Row : Row := toRow x0Q1.toVec
 
-@[expose] noncomputable def Estab (p : Row) : Subgroup J := Eg uJ 11 ⊓ MulAction.stabilizer J p
+noncomputable def Estab (p : Row) : Subgroup J := Eg uJ 11 ⊓ MulAction.stabilizer J p
 
 theorem Estab_smul (hM : MatFacts) {h : J} (hh : h ∈ Hj) (p : Row) :
     Estab (h • p) = conjSub h (Estab p) := by
@@ -206,7 +206,7 @@ theorem smul_rep_form' (hM : MatFacts) {ℓ : ℕ} {h h' : J} (hh' : h' ∈ Hj) 
   rw [mul_smul, mul_smul, smul_root_of_mem_Hj hM hh', rep_eq]
   rfl
 
-@[expose] noncomputable def CxH : Subgroup J :=
+noncomputable def CxH : Subgroup J :=
   Subgroup.centralizer ({fiveElt} : Set J) ⊓ Hj
 
 theorem fiveElt_smul_pts

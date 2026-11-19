@@ -51,7 +51,7 @@ theorem l34omega_mem_of_commute (hS : Setting G) (hU0 : FullCoreLocal G)
   have hle : zpowers x ⊔ zpowers y ≤ (P : Subgroup G) :=
     sup_le (zpowers_le.mpr hgen.1) (zpowers_le.mpr hyP)
   have hPM := (sylow_le_of_isCoreMaxLocal hS hp hM).1
-  have hN := normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM (P.isPGroup'.to_le hle)
+  have hN := normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM (P.isPGroup.to_le hle)
     (hle.trans hPM) (le_pRank_of_elemAbelian_card le_rfl hel hcard)
   have hwc : zpowers x ⊔ zpowers y ≤ centralizer ({w} : Set G) :=
     sup_le (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr hwx.symm))

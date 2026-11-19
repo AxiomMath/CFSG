@@ -30,7 +30,7 @@ theorem lyCxJ_factorization_five :
     padicValNat.eq_zero_of_not_dvd (by norm_num)]
 
 theorem rankThreeWitness_xJ_pow (e : ℕ) : RankThreeWitness 5 (lyFiveXJ ^ e) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set C := centralizer ({lyFiveXJ} : Set J)
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 C))
   have hP : Nat.card (P.map C.subtype) = 5 ^ (Nat.card J).factorization 5 := by
@@ -67,11 +67,11 @@ theorem rankThreeWitness_yJ_pow (e : ℕ) (he1 : 1 ≤ e) (he4 : e ≤ 4) :
     have hc0 : h.coord ⟨lyFiveVJ 0, hv0⟩ = Pi.single 0 1 := by
       have := h.coord_nf 0 (Pi.single 0 1)
       convert this using 2
-      simp [fiveNF, Pi.single_apply, show (1 : ZMod 5).val = 1 from rfl]
+      simp [fiveNF, show (1 : ZMod 5).val = 1 from rfl]
     have hc1 : h.coord ⟨lyFiveVJ 1, hv1⟩ = Pi.single 1 1 := by
       have := h.coord_nf 0 (Pi.single 1 1)
       convert this using 2
-      simp [fiveNF, Pi.single_apply, show (1 : ZMod 5).val = 1 from rfl]
+      simp [fiveNF, show (1 : ZMod 5).val = 1 from rfl]
     have hcoord : h.coord ⟨_, hy⟩ = e • (Pi.single 0 1 + Pi.single 1 1) := by
       have := congrArg Multiplicative.toAdd (map_pow h.coordHom (⟨lyFiveVJ 0, hv0⟩ *
         ⟨lyFiveVJ 1, hv1⟩) e)
@@ -91,7 +91,7 @@ theorem sporadicClassWitnessNative_Ly_five :
       Nonempty (S ≃* CFSG.Blueprint.NativeSporadic.Carrier .Ly) →
       ∀ x : S, orderOf x = 5 → RankThreeWitness 5 x := by
   intro S _ _ ⟨e⟩ x hx
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨f, -⟩ : ∃ f : S ≃* J, f = e.trans lyEquivJ := ⟨_, rfl⟩
   have hfx : orderOf (f x) = 5 := by rw [MulEquiv.orderOf_eq]; exact hx
   obtain ⟨g, r, hr, k, hk1, hk4, hg⟩ := CFSG.RankThree.PartOne.LyFive.lyFive_cover_J (f x) hfx

@@ -19,7 +19,7 @@ private theorem s16h_eq_of_ne_one_of_card_le_two {H : Type*} [Group H] [Finite H
   have hpos : 0 < Nat.card H := Nat.card_pos
   have hcase : Nat.card H = 1 ∨ Nat.card H = 2 := by omega
   rcases hcase with h1 | h2
-  · haveI : Subsingleton H := (Finite.card_le_one_iff_subsingleton (α := H)).mp (le_of_eq h1)
+  · have : Subsingleton H := (Finite.card_le_one_iff_subsingleton (α := H)).mp (le_of_eq h1)
     exact absurd (Subsingleton.elim a 1) ha
   · obtain ⟨y, _, huniq⟩ := (Nat.card_eq_two_iff' (1 : H)).mp h2
     exact (huniq a ha).trans (huniq b hb).symm
@@ -33,7 +33,7 @@ private theorem s16h_normal_two_subgroup_perm_fin3_eq_bot {G : Type*} [Group G] 
     (hodd : ∃ u : G, orderOf u = 3) {T : Subgroup G} [T.Normal]
     (hT2 : ∀ x ∈ T, ∃ n : ℕ, x ^ 2 ^ n = 1) : T = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard6 : Nat.card (Equiv.Perm (Fin 3)) = 6 := by
     rw [Nat.card_eq_fintype_card]
     decide +kernel
@@ -135,8 +135,8 @@ private theorem s16h_normal_two_subgroup_perm_fin3_eq_bot {G : Type*} [Group G] 
 private theorem s16h_zcondGroup_of_odd_card {Y : Type} [Group Y] [Finite Y]
     (hodd : Odd (Nat.card Y)) : s16h_ZCondGroup Y := by
   intro K T hK hT h2 hf
-  haveI : K.Normal := hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : K.Normal := hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmapbot : T.map (QuotientGroup.mk' K) = ⊥ := by
     have hpg : IsPGroup 2 (T.map (QuotientGroup.mk' K)) := by
       intro x
@@ -167,8 +167,8 @@ private theorem s16h_zcondGroup_of_odd_card {Y : Type} [Group Y] [Finite Y]
 private theorem s16h_zcondGroup_of_simple {Y : Type} [Group Y] [Finite Y] [IsSimpleGroup Y] :
     s16h_ZCondGroup Y := by
   intro K T hK hT h2 hf
-  haveI : K.Normal := hK
-  haveI : T.Normal := hT
+  have : K.Normal := hK
+  have : T.Normal := hT
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with hKbot | hKtop
   · subst hKbot
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal T with hTbot | hTtop
@@ -177,7 +177,7 @@ private theorem s16h_zcondGroup_of_simple {Y : Type} [Group Y] [Finite Y] [IsSim
       obtain ⟨f, r, hr, hr2, hfK, hfr⟩ := hf
       have hfne : f ≠ 1 := fun h1 => hfK (Subgroup.mem_bot.mpr h1)
       have hfr1 : f ^ r = 1 := Subgroup.mem_bot.mp hfr
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       have hord : orderOf f = r := orderOf_eq_prime hfr1 hfne
       have hpgT : IsPGroup 2 T := by
         intro x
@@ -263,7 +263,7 @@ private theorem s16h_zcondGroup_of_mulEquiv {Y G : Type} [Group Y] [Group G] (e 
 theorem s16h_zcondGroup_of_embed_perm_three {Y : Type} [Group Y] (ψ : Y →* Equiv.Perm (Fin 3))
     (hψ : Function.Injective ψ) : s16h_ZCondGroup Y := by
   classical
-  haveI : Finite Y := Finite.of_injective ψ hψ
+  have : Finite Y := Finite.of_injective ψ hψ
   have hcard6 : Nat.card (Equiv.Perm (Fin 3)) = 6 := by
     rw [Nat.card_eq_fintype_card]
     decide +kernel
@@ -274,14 +274,14 @@ theorem s16h_zcondGroup_of_embed_perm_three {Y : Type} [Group Y] (ψ : Y →* Eq
     rw [hcard_range, hcard6] at h
     exact h
   intro K T hK hT h2 hf
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   let π : Y →* Y ⧸ K := QuotientGroup.mk' K
   obtain ⟨f, r, hr, hr2, hfK, hfr⟩ := hf
   have hπf_ne : π f ≠ 1 := fun h1 => hfK ((QuotientGroup.eq_one_iff f).mp h1)
   have hπf_pow : (π f) ^ r = 1 := by
     rw [← map_pow]
     exact (QuotientGroup.eq_one_iff (f ^ r)).mpr hfr
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hord : orderOf (π f) = r := orderOf_eq_prime hπf_pow hπf_ne
   have hdvd_r : r ∣ Nat.card (Y ⧸ K) := by
     rw [← hord]
@@ -356,7 +356,7 @@ theorem s16h_zcondGroup_of_embed_gl3 {Y : Type} [Group Y] [Finite Y]
     (ψ : Y →* Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) (hψ : Function.Injective ψ)
     (h7 : 7 ∣ Nat.card Y) : s16h_ZCondGroup Y := by
   classical
-  haveI : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) := s16t3_gl3_isSimpleGroup
+  have : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) := s16t3_gl3_isSimpleGroup
   have hcard_range : Nat.card ↥ψ.range = Nat.card Y := by
     rw [MonoidHom.range_eq_map, Subgroup.card_map_of_injective hψ, Subgroup.card_top]
   have h7' : 7 ∣ Nat.card ↥ψ.range := by rw [hcard_range]; exact h7
@@ -399,7 +399,7 @@ private theorem s16h_le_stabSub_commSub_fixV {W : Type} [CommGroup W] {L : Subgr
   exact ⟨fun hu => by have := hxinvZ (x u) hu; simpa using this, hxZ u⟩
 
 theorem s16h_H5ZCond_of_autSub {W : Type} [CommGroup W] [Finite W] {A L : Subgroup (MulAut W)}
-    {t : MulAut W} (hc : s16h_H5Cfg A L t)
+    {t : MulAut W} (_hc : s16h_H5Cfg A L t)
     (h : s16h_ZCondGroup ↥(autSub (A ⊓ normalizer (L : Set (MulAut W)))
       (commSub ⊤ L ⊓ fixV L))) : s16h_H5ZCond A L := by
   classical
@@ -448,8 +448,8 @@ theorem s16h_H5ZCond_of_autSub {W : Type} [CommGroup W] [Finite W] {A L : Subgro
       ⟨fun h1 => congrArg Subtype.val h1, fun h1 => Subtype.ext h1⟩
     rw [hρn, hker_g n]
   set T' : Subgroup ↥(autSub N Z) := (T.subgroupOf N).map ρ with hT'def
-  haveI hT'norm : T'.Normal := by
-    haveI hTNnorm : (T.subgroupOf N).Normal :=
+  have hT'norm : T'.Normal := by
+    have hTNnorm : (T.subgroupOf N).Normal :=
       (Subgroup.normal_subgroupOf_iff hTN).mpr (fun h k hh hk => hTnorm k hk h hh)
     rw [hT'def]
     exact hTNnorm.map ρ hρsurj

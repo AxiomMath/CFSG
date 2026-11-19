@@ -109,7 +109,7 @@ theorem sp62Close_section [Fact (Nat.Prime 3)] (hK2 : KFactOmega8Frame) {P : Syl
     (hK2 _ (barM M L) d' hd' c.shape.1.2.2.1 e (barM M J) hle hel hcard).2 (ρ ⟨b, hbM⟩) hbbJ
       hbbord h4.symm
   have he : IsPGroup 3 (Subgroup.zpowers (⟨b, hbM⟩ : ↥M)) :=
-    (P.isPGroup'.comap_subtype (K := M)).to_le
+    (P.isPGroup.comap_subtype (K := M)).to_le
       (Subgroup.zpowers_le.mpr (Subgroup.mem_subgroupOf.mpr (hJP hbJ)))
   set W' : Subgroup ↥M :=
     Subgroup.centralizer ({(⟨b, hbM⟩ : ↥M)} : Set ↥M) ⊓ Wb.comap ρ with hW'

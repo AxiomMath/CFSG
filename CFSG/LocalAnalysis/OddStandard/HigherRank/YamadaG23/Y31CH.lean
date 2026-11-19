@@ -43,7 +43,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} (s : Setting3 G L)
 theorem s3_centIn_H (hS : HRSetting G L)
     (hSyl : IsSylowIn 2 (centralizer (L : Set G)) (zpowers s.t)) :
     centIn s.H L = zpowers s.t ⊔ s.oddH := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoddH : s.oddH = ⊥ := by
     show (CFSG.oddCore ↥(centralizer ({s.t} : Set G))).map
         (centralizer ({s.t} : Set G)).subtype = ⊥
@@ -74,7 +74,7 @@ theorem s3_centIn_H (hS : HRSetting G L)
     (Subgroup.subgroupOfEquivOfLe hAD).isCyclic.mpr
       (inferInstance : IsCyclic ↥(zpowers s.t))
   have hcycPD : IsCyclic ↥PD := by
-    haveI : IsCyclic ↥((zpowers s.t).subgroupOf D) := hcycPA
+    have : IsCyclic ↥((zpowers s.t).subgroupOf D) := hcycPA
     exact Subgroup.isCyclic_of_le (H := (PD : Subgroup ↥D))
       (H' := (zpowers s.t).subgroupOf D) (le_of_eq hPDcoe)
   let K : Subgroup ↥D := CFSG.pPrimeCore 2 ↥D
@@ -99,7 +99,7 @@ theorem s3_centIn_H (hS : HRSetting G L)
     hnormD.trans (normalizer_le_normalizer_map_of_characteristic (J := D) K)
   have hKH_normal : KH.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKGleH).mpr hnormKG
-  haveI : KH.Normal := hKH_normal
+  have : KH.Normal := hKH_normal
   have hKHodd : Odd (Nat.card KH) := by
     have h1 : Nat.card KH = Nat.card KG :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKGleH).toEquiv

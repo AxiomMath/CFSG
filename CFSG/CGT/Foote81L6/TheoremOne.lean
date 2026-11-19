@@ -82,7 +82,7 @@ theorem stronglyInvolutionClosed_of_closure_eq
       rw [hcon x hxT hxc]
       exact mem_zpowers _
     rw [h] at hle
-    haveI : Finite ↥(zpowers D.a) := Nat.finite_of_card_ne_zero (by
+    have : Finite ↥(zpowers D.a) := Nat.finite_of_card_ne_zero (by
       rw [card_zpowers_of_involution D.a_mul_a D.a_ne_one]; norm_num)
     have hcard := Subgroup.card_le_of_le hle
     rw [D.card_A, card_zpowers_of_involution D.a_mul_a D.a_ne_one] at hcard
@@ -259,7 +259,7 @@ theorem footeTheorem1_of (hL6 : FooteLemma6) (hC4 : FooteCaseFour) (hB : FooteB�
           (g * D.a)⁻¹ := by group
       rw [h3]
       exact (inferInstance : O.Normal).conj_mem _ (inv_mem h2) _
-    haveI : (D.descM O).Normal := D.toFooteCore.descM_normal haO
+    have : (D.descM O).Normal := D.toFooteCore.descM_normal haO
     let Dbar := D.descent hO haO (hB G T (k + 3) n D.toFooteCore)
     let Tbar : Sylow 2 (G ⧸ D.descM O) :=
       T.mapSurjective (QuotientGroup.mk'_surjective (D.descM O))

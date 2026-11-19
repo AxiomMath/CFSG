@@ -116,7 +116,7 @@ theorem isSolvable_stabilizer : Group.IsSolvable ↥(unitaryCoordinateStabilizer
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← hUT] at hnormal ⊢
   have hU2 : IsPGroup 2 ↥((hermitianUnipotentPSU J hJ).range) := by
-    have h := S.isPGroup'
+    have h := S.isPGroup
     rwa [hS] at h
   have := hU2.isNilpotent
   exact isSolvable_sup_of_normal hnormal inferInstance fun a ha b hb =>

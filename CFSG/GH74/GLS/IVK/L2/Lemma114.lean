@@ -248,7 +248,7 @@ theorem ivk_1_14 :
       let f : X →* PGL2 F := Φ.toMonoidHom.comp X.subtype
       have hf : Function.Injective f := Φ.injective.comp X.subtype_injective
       have hPcyc : IsCyclic (P : Subgroup X) := by
-        have hP' : IsPGroup r ((P : Subgroup X).map f) := P.isPGroup'.map f
+        have hP' : IsPGroup r ((P : Subgroup X).map f) := P.isPGroup.map f
         have hc := isCyclic_of_isPGroup_pgl2 hF hp hq hr hr2 hrp _ hP'
         exact ((Subgroup.equivMapOfInjective (P : Subgroup X) f hf).isCyclic).2 hc
       obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := (P : Subgroup X))

@@ -15,7 +15,7 @@ variable {K' : Type*} [Field K'] [CharP K' 2] [Finite K'] {N : Type*} [AddCommGr
   [CharP K 2] [Finite K] {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Qf : QuadraticForm K V} {ρ : ↥(elementaryGroup QN) →* (V ≃ₗ[K] V)}
 
-omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 theorem OmegaSetting.map_iSup_movedSpace_rhoE (g : ↥(elementaryGroup QN)) (a : N) :
     (⨆ (w : N) (_ : polar QN a w = 0), movedSpace (rhoE ρ a w)).map (ρ g : V →ₗ[K] V) =
       ⨆ (w : N) (_ : polar QN ((g : N ≃ₗ[K'] N) a) w = 0),

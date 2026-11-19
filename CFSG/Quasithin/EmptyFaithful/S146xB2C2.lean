@@ -86,7 +86,7 @@ theorem exists_sylow_eq_of_odd_index {X : Type*} [Group X] [Finite X] (S₀ : Su
   have h1 : S₀.relIndex (Y : Subgroup X) * (Y : Subgroup X).index = S₀.index := by
     rw [Subgroup.relIndex_mul_index hY]
   have h2 : ¬ 2 ∣ S₀.relIndex (Y : Subgroup X) := fun h => hodd (h.trans (h1 ▸ dvd_mul_right _ _))
-  have hYp : IsPGroup 2 (Y : Subgroup X) := Y.isPGroup'
+  have hYp : IsPGroup 2 (Y : Subgroup X) := Y.isPGroup
   obtain ⟨n, hn⟩ := hYp.index (S₀.subgroupOf Y)
   have : S₀.relIndex Y = 2 ^ n := hn
   have hn0 : n = 0 := by

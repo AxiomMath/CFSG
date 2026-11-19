@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8
 
 theorem ne_top_map_quotient_of_not_le
     {G : Type} [Group G] {M H Y : Subgroup G}
-    (hYH : Y ≤ H) (hYnorm : (Y.subgroupOf H).Normal) (hYM : Y ≤ M)
+    (_hYH : Y ≤ H) (hYnorm : (Y.subgroupOf H).Normal) (hYM : Y ≤ M)
     (hHnotM : ¬ H ≤ M) :
     ((M ⊓ H).subgroupOf H).map (QuotientGroup.mk' (Y.subgroupOf H)) ≠ ⊤ := by
   intro htop

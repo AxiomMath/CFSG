@@ -161,10 +161,10 @@ theorem D1CaseTwoData3.false_of_center_not_threeASix
   have hPN : ∀ (g : G) (hg : g ∈ (P : Subgroup G)),
       mk ⟨g, hPM hg⟩ ∈ Subgroup.normalizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M)) :=
     fun g hg => mem_normalizer_barM (hPM hg)
-      (le_normalizer_of_isPGroup_three3 hrank3 h3σ hM2 hLc P.isPGroup' hPM hg)
+      (le_normalizer_of_isPGroup_three3 hrank3 h3σ hM2 hLc P.isPGroup hPM hg)
   have hζw := zeta_mem_zpowers_mk_axis hPM hPN hζA hζC hζ3 hζ1 hZ3 hwP hwo hwcP hΩP
   have hŵo : orderOf (mk ⟨w, hwM⟩) = 3 := by
-    have hP3 : IsPGroup 3 ((P : Subgroup G).subgroupOf M) := P.isPGroup'.comap_subtype
+    have hP3 : IsPGroup 3 ((P : Subgroup G).subgroupOf M) := P.isPGroup.comap_subtype
     have hw3 : w ^ 3 = 1 := by
       have := pow_orderOf_eq_one w
       rwa [hwo] at this

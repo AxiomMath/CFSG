@@ -35,7 +35,7 @@ theorem commutator_L_eq (hq : CFSG.Open.IsQuasisimple ↥m.L) : ⁅m.L, m.L⁆ =
 
 theorem OL_le_centralizer (hq : CFSG.Open.IsQuasisimple ↥m.L) (hr : m.r ∣ Nat.card ↥m.L) :
     m.OL ≤ centralizer (m.L : Set G) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   rcases normal_dichotomy_uc6 hq (CFSG.pPrimeCore m.r ↥m.L) with hc | htop
   · intro x hx
     obtain ⟨p, hp, rfl⟩ := hx

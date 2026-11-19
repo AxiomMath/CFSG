@@ -41,7 +41,7 @@ structure RestrHyp (W A C V B T : Submodule K E) (hAW : A ≤ W) {ι : Type}
   mapsW : ∀ f ∈ X, ∀ w : ↥W, f w ∈ V
   comm : ∀ f ∈ X, ∀ i, ∀ w : ↥W, D i (f w) = f ⟨D i w, hAW (hDW i w w.2)⟩
 
-theorem eq_smul_of_restr {W A C V B T : Submodule K E} (hAW : A ≤ W) (hVA : V ≤ A)
+theorem eq_smul_of_restr {W A C V B T : Submodule K E} (hAW : A ≤ W) (_hVA : V ≤ A)
     (hWAC : W ≤ A ⊔ C) (hBT : B ⊓ T = ⊥) {ι : Type} {D : ι → E →ₗ[K] E}
     {hDW : ∀ i, ∀ w ∈ W, D i w ∈ A} (hfix : ∀ v ∈ V, (∀ i, D i v = 0) → v ∈ B)
     {X : AddSubgroup (↥W →ₗ[K] E)} (hX : RestrHyp W A C V B T hAW D hDW X)
@@ -100,7 +100,7 @@ theorem smul_mem_of_card [Finite K] [Module.Finite K E] {W A C V B T : Submodule
       exact h1.symm)
     rw [one_smul] at h
     exact h.symm
-  haveI : Finite ↥B := Module.finite_of_finite K
+  have : Finite ↥B := Module.finite_of_finite K
   have hdimA' : Module.finrank K ↥A' = Module.finrank K A - Module.finrank K V := by
     have h1 := Submodule.finrank_add_eq_of_isCompl hA'
     have h2 : Module.finrank K ↥(V.comap A.subtype) = Module.finrank K V :=
@@ -109,7 +109,7 @@ theorem smul_mem_of_card [Finite K] [Module.Finite K E] {W A C V B T : Submodule
   have hcardH : Nat.card (↥A' →ₗ[K] ↥B) =
       Nat.card K ^ (Module.finrank K A - Module.finrank K V) := by
     rw [Module.natCard_eq_pow_finrank (K := K), Module.finrank_linearMap, hB, mul_one, hdimA']
-  haveI : Finite (↥A' →ₗ[K] ↥B) := Module.finite_of_finite K
+  have : Finite (↥A' →ₗ[K] ↥B) := Module.finite_of_finite K
   have hbij : Function.Bijective res := by
     refine hinj.bijective_of_nat_card_le ?_
     rw [hcardH]

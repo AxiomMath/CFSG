@@ -26,8 +26,8 @@ theorem rkIdx_fixV_zpowers_eq_dispRank
       CFSG.QuasithinUnique.Setup.X7b.dispRank
         (CFSG.Quasithin.SmithD37.autLin hU t) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
   rw [rkIdx, CFSG.Quasithin.B45Sz.index_fixV_zpowers_eq CFSG.Quasithin.SmithD37.theta t,
     padicValNat.prime_pow]
   rfl

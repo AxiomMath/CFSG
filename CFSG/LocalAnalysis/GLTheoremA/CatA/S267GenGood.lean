@@ -31,15 +31,15 @@ private theorem characteristic_eq_two_of_ov2Idx {e : TauCeti.LieTypeIndex}
       m | m | m | _ <;>
     simp only [KD264Lie.ov2Idx, KD264Lie.fieldSize] at h
   all_goals first
+    | (simp; done)
     | simpa using key _ h
     | exact absurd (h ▸ dvd_pow_self 3 (by omega : 2 * m + 1 ≠ 0)) (by norm_num)
-    | simp
 
 theorem genGood_holds :
     GenGood := by
   intro p T _ _ d h hpT A hA hAcard
   obtain ⟨e⟩ := h.iso
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv T e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv T e.toEquiv
   by_cases hex : ∃ a ∈ A, a ≠ 1 ∧ GLAPLayer p (fixSubgroup a) ≠ ⊥
   · exact Or.inl hex
   refine Or.inr ?_

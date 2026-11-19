@@ -126,7 +126,7 @@ private theorem mk_mul_mk_mul_mk_inv_mem {m : ℕ} {F : Type} [Field F]
     rw [sub_dotProduct, smul_dotProduct, hfa]
     simp
   simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul,
-    Matrix.vecMulVec_mul_vecMulVec, hfa, hfa', hga, Matrix.vecMulVec_sub, Matrix.vecMulVec_smul,
+    Matrix.vecMulVec_mul_vecMulVec, hfa, hfa', Matrix.vecMulVec_sub, Matrix.vecMulVec_smul,
     Matrix.sub_mul, Matrix.smul_mul, Matrix.vecMulVec_zero, zero_smul, smul_zero, add_zero,
     sub_zero]
   abel

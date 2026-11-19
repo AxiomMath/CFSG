@@ -16,6 +16,7 @@ variable {X : Type} [Group X] [Finite X] {K : Type} [Field K] [CharP K 2] {σ : 
   {hσ : ∀ c, σ (σ (σ c)) = c} {D : RankTwoSystem X 6} {ψ : ∀ i : Fin 6, d43Par σ i → X}
   (hU : CFSG.QuasithinUnique.IsSylowTwoOf D.U ⊤) (hψ : D4Coords D hσ ψ) (hσ1 : ∃ c : K, σ c ≠ c)
 
+omit [Finite X] in
 theorem mem_normalizer_of_map_conj {H : Subgroup X} {x : X}
     (h : H.map (MulAut.conj x).toMonoidHom = H) : x ∈ Subgroup.normalizer (H : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -78,7 +79,7 @@ theorem fix_line (hBT : Holds X 2) (Φ : Subgroup (MulAut X)) (K₁ : Subgroup X
     (hOinf : (D.root 3).map α.toMonoidHom ⊓ (CFSG.solvableRadical ↥K₁).map K₁.subtype ≠ ⊥)
     (hO2U : pCoreOf 2 K₁ ≤ D.U) :
     ∀ φ ∈ Φ, (P D false).map φ.toMonoidHom = P D false := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard := card_root_one_ne_six hψ hσ1
   set A : Subgroup X := (D.root 3).map α.toMonoidHom with hAdef
   have hA2 : IsPGroup 2 A :=
@@ -143,7 +144,7 @@ theorem fix_line (hBT : Holds X 2) (Φ : Subgroup (MulAut X)) (K₁ : Subgroup X
     · exact hAnot h
     obtain ⟨p, hp, hpU⟩ := sylow_line hU hyl hyne
     have htrans := hdich u hu hAu htr
-    obtain ⟨p', hp', hpp'⟩ := exists_adj_ne D hU y p
+    obtain ⟨p', hp', hpp'⟩ := exists_adj_ne D y p
     obtain ⟨x, hx, hxp⟩ := htrans p hp p' hp'
     obtain ⟨hxK, hxy⟩ := Subgroup.mem_inf.1 hx
     apply hnot p p' hp hp' (Ne.symm hpp')
@@ -189,7 +190,7 @@ theorem fix_line (hBT : Holds X 2) (Φ : Subgroup (MulAut X)) (K₁ : Subgroup X
       obtain ⟨t, rfl⟩ := exists_psi2 hψ ha
       show α (ψ 2 t) * α (ψ 2 t) = 1
       rw [← map_mul, psi_two_mul_self hψ, map_one]
-    obtain ⟨w₀, hw₀, hw₀u⟩ := exists_adj_ne D hU y u
+    obtain ⟨w₀, hw₀, hw₀u⟩ := exists_adj_ne D y u
     have hEfree : ∀ e ∈ A, ∀ w ∈ Ω, w ≠ u → e • w = w → e = 1 := by
       intro e he w hw hwu hew
       have hle := le_rad D hU (R := Subgroup.zpowers e) hw hu hwu
@@ -236,6 +237,7 @@ theorem fix_line (hBT : Holds X 2) (Φ : Subgroup (MulAut X)) (K₁ : Subgroup X
     rw [hbot] at this
     exact this
 
+omit [CharP K 2] in
 theorem map_P_false_of_map_weakClosure {W : Subgroup X} (hWU : W ≤ D.U) (hX1 : D.root 1 ≤ W)
     (hBW : D.B ≤ Subgroup.normalizer (W : Set X)) (φ : MulAut X)
     (hφ : W.map φ.toMonoidHom = W) : (P D false).map φ.toMonoidHom = P D false := by

@@ -93,7 +93,7 @@ theorem psl_chain {F : Type*} [Field F] [Finite F] {V : Type*} [AddCommGroup V] 
     Module.finrank F V = 5 ∧ LinearMap.ker ((r : V →ₗ[F] V) - 1) ≠ ⊥ ∧
       LinearMap.ker ((x : V →ₗ[F] V) - 1) ⊓ LinearMap.ker ((r : V →ₗ[F] V) - 1) = ⊥ := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   set n : ℕ := Module.finrank F V with hnV
   set A : Submodule F V := LinearMap.ker ((x : V →ₗ[F] V) - 1) with hA
   set B : Submodule F V := LinearMap.ker ((r : V →ₗ[F] V) - 1) with hB

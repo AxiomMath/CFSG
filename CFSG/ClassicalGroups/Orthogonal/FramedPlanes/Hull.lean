@@ -240,9 +240,10 @@ private lemma polar_add_div_polar_smul_add_div_polar_smul_ne_zero [CharP F 2]
   rw [QuadraticMap.polar_add_left, QuadraticMap.polar_smul_left,
     QuadraticMap.polar_add_right, QuadraticMap.polar_add_right,
     QuadraticMap.polar_smul_right, QuadraticMap.polar_smul_right]
-  simp only [hp₁z₁, h₂, polar_self_eq_zero, smul_zero, add_zero, zero_add]
+  simp only [hp₁z₁, h₂, polar_self_eq_zero, smul_zero, add_zero]
   exact hp
 
+omit [Module.Finite F V] in
 private lemma modified_pair_le_orthogonal [CharP F 2] {z₁ z₂ p₁ p₂ : V}
     (hz : polar Q z₁ z₂ ≠ 0) (h₁ : polar Q z₁ p₁ = 0) (h₂ : polar Q z₁ p₂ = 0) :
     Submodule.span F
@@ -366,7 +367,7 @@ private lemma exists_mem_orthogonal_not_mem (hQ : Q.polarBilin.Nondegenerate)
     have hlt := hU
     rw [hullDim, hEq, hdimL] at hlt
     omega
-  exact SetLike.not_le_iff_exists.mp hnotle
+  exact IsConcreteLE.not_le_iff_exists.mp hnotle
 
 omit [Module.Finite F V] in
 private lemma not_mem_and_add_not_mem [CharP F 2] {U : Submodule F V} {x y : V}
@@ -425,7 +426,7 @@ private lemma polar_self_add_smul_add_smul [CharP F 2] (l z' l' : V)
     polar Q z' (polar Q l l' • z' + polar Q l z' • l') = polar Q l z' := by
   rw [QuadraticMap.polar_add_right, QuadraticMap.polar_smul_right,
     QuadraticMap.polar_smul_right, polar_self_eq_zero, h]
-  simp only [smul_eq_mul, mul_one, mul_zero, add_zero, zero_add]
+  simp only [smul_eq_mul, mul_one, mul_zero, zero_add]
 
 omit [Module.Finite F V] in
 private lemma polar_add_smul_add_smul_self_eq_zero [CharP F 2] (l z' l' : V) :
@@ -465,6 +466,7 @@ private lemma exists_Q_eq_one_orthogonal_pair [Finite F] [CharP F 2]
     (LinearMap.BilinForm.orthogonal_le (le_sup_left : U ≤ U ⊔ Submodule.span F {z})) hl'P
   exact ⟨z', hz'U, hQz', hz'z, l', hl'U, hz'l', hl'z⟩
 
+omit [Module.Finite F V] in
 private lemma exists_polar_eq_one_Q_eq_add [Finite F] [CharP F 2]
     {U : Submodule F V} {z l z' l' : V}
     (hl : l ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) U) (hzl : polar Q z l = 1)

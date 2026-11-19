@@ -28,6 +28,7 @@ namespace IsoBlocks
 
 variable {W : Subgroup (Perm Ω)} {a a' : ι → Ω}
 
+omit [Fintype Ω] [Fintype ι] [DecidableEq ι] in
 theorem fix_iff (h : IsoBlocks W a a') {w : Perm Ω} (hw : w ∈ W) (i : ι) :
     w (a i) = a i ↔ w (a' i) = a' i := by
   have hne := h.ne i
@@ -41,6 +42,7 @@ theorem fix_iff (h : IsoBlocks W a a') {w : Perm Ω} (hw : w ∈ W) (i : ι) :
     · exact h2
     · exact absurd (w.injective (h2.trans h1.symm)) hne
 
+omit [Fintype Ω] [Fintype ι] [DecidableEq ι] in
 theorem flip_iff (h : IsoBlocks W a a') {w : Perm Ω} (hw : w ∈ W) (i : ι) :
     w (a i) = a' i ↔ w (a' i) = a i := by
   have hne := h.ne i
@@ -54,6 +56,7 @@ theorem flip_iff (h : IsoBlocks W a a') {w : Perm Ω} (hw : w ∈ W) (i : ι) :
     · exact absurd (w.injective (h2.trans h1.symm)) hne
     · exact h2
 
+omit [Fintype Ω] [Fintype ι] in
 theorem blk_inj (h : IsoBlocks W a a') {x : Ω} {j₁ j₂ : ι} (h1 : x = a j₁ ∨ x = a' j₁)
     (h2 : x = a j₂ ∨ x = a' j₂) : j₁ = j₂ := by
   by_contra hj
@@ -64,6 +67,7 @@ theorem blk_inj (h : IsoBlocks W a a') {x : Ω} {j₁ j₂ : ι} (h1 : x = a j�
   · exact d3 (h1.symm.trans h2)
   · exact d4 (h1.symm.trans h2)
 
+omit [Fintype Ω] [Fintype ι] in
 theorem rigidSwap_apply (h : IsoBlocks W a a') {i j : ι} (hij : i ≠ j) (k : ι) :
     rigidSwap a a' i j (a k) = a (swap i j k) ∧ rigidSwap a a' i j (a' k) = a' (swap i j k) := by
   obtain ⟨d1, d2, d3, d4⟩ := h.disj i j hij
@@ -87,22 +91,26 @@ theorem rigidSwap_apply (h : IsoBlocks W a a') {i j : ι} (hij : i ≠ j) (k : �
       · rw [Perm.mul_apply, swap_apply_of_ne_of_ne e2 f2, swap_apply_of_ne_of_ne e1 f1]
       · rw [Perm.mul_apply, swap_apply_of_ne_of_ne e4 f4, swap_apply_of_ne_of_ne e3 f3]
 
-theorem rigidSwap_apply_of_ne (h : IsoBlocks W a a') {i j : ι} (hij : i ≠ j) {x : Ω}
+omit [Fintype Ω] [Fintype ι] [DecidableEq ι] in
+theorem rigidSwap_apply_of_ne (_h : IsoBlocks W a a') {i j : ι} (_hij : i ≠ j) {x : Ω}
     (hx1 : x ≠ a i) (hx2 : x ≠ a' i) (hx3 : x ≠ a j) (hx4 : x ≠ a' j) :
     rigidSwap a a' i j x = x := by
   unfold rigidSwap
   rw [Perm.mul_apply, swap_apply_of_ne_of_ne hx2 hx4, swap_apply_of_ne_of_ne hx1 hx3]
 
+omit [Fintype Ω] [Fintype ι] in
 theorem rigidSwap_conj_t (h : IsoBlocks W a a') {i j : ι} (hij : i ≠ j) :
     rigidSwap a a' i j * swap (a i) (a' i) * (rigidSwap a a' i j)⁻¹ = swap (a j) (a' j) := by
   rw [← swap_apply_apply, (h.rigidSwap_apply hij i).1, (h.rigidSwap_apply hij i).2,
     swap_apply_left]
 
+omit [Fintype Ω] [Fintype ι] in
 theorem rigidSwap_conj_t' (h : IsoBlocks W a a') {i j : ι} (hij : i ≠ j) :
     rigidSwap a a' i j * swap (a j) (a' j) * (rigidSwap a a' i j)⁻¹ = swap (a i) (a' i) := by
   rw [← swap_apply_apply, (h.rigidSwap_apply hij j).1, (h.rigidSwap_apply hij j).2,
     swap_apply_right]
 
+omit [Fintype Ω] [Fintype ι] in
 theorem rigidSwap_comm_of_fix (h : IsoBlocks W a a') {i j : ι} (hij : i ≠ j) {w₀ : Perm Ω}
     (h1 : w₀ (a i) = a i) (h2 : w₀ (a' i) = a' i) (h3 : w₀ (a j) = a j)
     (h4 : w₀ (a' j) = a' j) :
@@ -137,6 +145,7 @@ theorem rigidSwap_comm_of_fix (h : IsoBlocks W a a') {i j : ι} (hij : i ≠ j) 
     obtain ⟨hw1, hw2, hw3, hw4⟩ := hwx
     rw [h.rigidSwap_apply_of_ne hij hw1 hw2 hw3 hw4]
 
+omit [Fintype Ω] [Fintype ι] in
 theorem rigidSwap_mem_normalizer [Finite Ω] (h : IsoBlocks W a a') {i j : ι} (hij : i ≠ j) :
     rigidSwap a a' i j ∈ Subgroup.normalizer (W : Set (Perm Ω)) := by
   obtain ⟨d1, d2, d3, d4⟩ := h.disj i j hij
@@ -199,6 +208,7 @@ theorem rigidSwap_mem_normalizer [Finite Ω] (h : IsoBlocks W a a') {i j : ι} (
       exact W.mul_mem this htj
   exact CFSG.HardMathSupport.Cooperstein.Proving.mem_normalizer_of_conj_le L2
 
+omit [Fintype Ω] [Fintype ι] [DecidableEq ι] in
 theorem blk_map (h : IsoBlocks W a a') {s : Perm Ω}
     (hs : s ∈ Subgroup.normalizer (W : Set (Perm Ω))) (i : ι) :
     ∃ j, (s (a i) = a j ∧ s (a' i) = a' j) ∨ (s (a i) = a' j ∧ s (a' i) = a j) := by
@@ -219,6 +229,7 @@ theorem blk_map (h : IsoBlocks W a a') {s : Perm Ω}
 @[expose] def IsoRel (a a' : ι → Ω) (s : Perm Ω) (π : Perm ι) : Prop :=
   ∀ i, s (a i) = a (π i) ∨ s (a i) = a' (π i)
 
+omit [Fintype Ω] [Fintype ι] in
 theorem rel_a' (h : IsoBlocks W a a') {s : Perm Ω}
     (hs : s ∈ Subgroup.normalizer (W : Set (Perm Ω))) {π : Perm ι} (hrel : IsoRel a a' s π)
     (i : ι) : s (a' i) = a (π i) ∨ s (a' i) = a' (π i) := by
@@ -233,6 +244,7 @@ theorem rel_a' (h : IsoBlocks W a a') {s : Perm Ω}
   · right; exact h2
   · left; exact h2
 
+omit [Fintype Ω] [Fintype ι] in
 theorem rel_mul (h : IsoBlocks W a a') {s₁ s₂ : Perm Ω}
     (hs₁ : s₁ ∈ Subgroup.normalizer (W : Set (Perm Ω))) {π₁ π₂ : Perm ι}
     (r₁ : IsoRel a a' s₁ π₁) (r₂ : IsoRel a a' s₂ π₂) : IsoRel a a' (s₁ * s₂) (π₁ * π₂) := by
@@ -242,6 +254,7 @@ theorem rel_mul (h : IsoBlocks W a a') {s₁ s₂ : Perm Ω}
   · rw [h2]; exact r₁ (π₂ i)
   · rw [h2]; exact h.rel_a' hs₁ r₁ (π₂ i)
 
+omit [Fintype Ω] [Fintype ι] in
 theorem rel_inv (h : IsoBlocks W a a') {s : Perm Ω}
     (hs : s ∈ Subgroup.normalizer (W : Set (Perm Ω))) {π : Perm ι} (r : IsoRel a a' s π) :
     IsoRel a a' s⁻¹ π⁻¹ := by
@@ -271,6 +284,7 @@ theorem rel_inv (h : IsoBlocks W a a') {s : Perm Ω}
     rintro _ ⟨s, hs, r⟩
     exact ⟨s⁻¹, Sstar.inv_mem hs, h.rel_inv (hSN s hs) r⟩
 
+omit [Fintype Ω] [Fintype ι] in
 theorem isoSub_isPGroup (h : IsoBlocks W a a') {Sstar : Subgroup (Perm Ω)}
     (hSN : ∀ s ∈ Sstar, s ∈ Subgroup.normalizer (W : Set (Perm Ω))) (hS2 : IsPGroup 2 Sstar) :
     IsPGroup 2 (isoSub h Sstar hSN) := by
@@ -293,6 +307,7 @@ theorem isoSub_isPGroup (h : IsoBlocks W a a') {Sstar : Subgroup (Perm Ω)}
   have hi : i = (π ^ 2 ^ k) i := h.blk_inj (x := a i) (Or.inl rfl) (by simpa using this)
   simpa using hi.symm
 
+omit [Fintype Ω] in
 theorem isoSub_normal [Finite Ω] (h : IsoBlocks W a a') {Sstar : Subgroup (Perm Ω)}
     (hSN : ∀ s ∈ Sstar, s ∈ Subgroup.normalizer (W : Set (Perm Ω)))
     (hSnorm : ∀ i j : ι, i ≠ j → ∀ s ∈ Sstar,
@@ -334,12 +349,12 @@ theorem perm_normal_pgroup_trivial {α : Type*} [Fintype α] [DecidableEq α]
   rcases hα with h3 | h5
   · have hcard : (Finset.univ : Finset α).card = 3 := by simpa using h3
     have h1 : 1 < Nat.card R := Finite.one_lt_card
-    haveI : Fintype R := Fintype.ofFinite R
+    have : Fintype R := Fintype.ofFinite R
     have hdvd : 2 ∣ Fintype.card R := by
       rcases hR.card_eq_or_dvd with h | h
       · omega
       · rwa [Nat.card_eq_fintype_card] at h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨τ, hτ⟩ := exists_prime_orderOf_dvd_card 2 hdvd
     have hτ2 : orderOf (τ : Perm α) = 2 := by rw [Subgroup.orderOf_coe]; exact hτ
     have hsq : (τ : Perm α) * (τ : Perm α) = 1 := by
@@ -406,6 +421,7 @@ theorem perm_normal_pgroup_trivial {α : Type*} [Fintype α] [DecidableEq α]
       mem_alternatingGroup.2 (isThreeCycle_swap_mul_swap_same hxy hxz hyz).sign
     exact key x y z hxy hxz hyz (halt hsgn)
 
+omit [Fintype Ω] in
 theorem iso_blocks_fixed [Finite Ω] {W : Subgroup (Perm Ω)} {a a' : ι → Ω} (h : IsoBlocks W a a')
     (hι : Fintype.card ι = 3 ∨ 5 ≤ Fintype.card ι) {Sstar : Subgroup (Perm Ω)}
     (hSN : ∀ s ∈ Sstar, s ∈ Subgroup.normalizer (W : Set (Perm Ω)))
@@ -413,7 +429,7 @@ theorem iso_blocks_fixed [Finite Ω] {W : Subgroup (Perm Ω)} {a a' : ι → Ω}
       rigidSwap a a' i j * s * (rigidSwap a a' i j)⁻¹ ∈ Sstar)
     (hS2 : IsPGroup 2 Sstar) : ∀ s ∈ Sstar, ∀ i, s (a i) = a i ∨ s (a i) = a' i := by
   classical
-  haveI := h.isoSub_normal hSN hSnorm
+  have := h.isoSub_normal hSN hSnorm
   have htriv := perm_normal_pgroup_trivial hι (IsoBlocks.isoSub h Sstar hSN)
     (h.isoSub_isPGroup hSN hS2)
   intro s hs i

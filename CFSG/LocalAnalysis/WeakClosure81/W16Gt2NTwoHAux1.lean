@@ -23,12 +23,14 @@ private abbrev rhoB (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) (b : ↥B) : LGL 2 Mo.W :=
   Mo.ρ ⟨(b : G), c.mem.1 (c.B_le b.2)⟩
 
+omit [Finite G] in
 private theorem rhoB_one (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) : rhoB c Mo 1 = 1 := by
   unfold rhoB
   rw [show (⟨((1 : ↥B) : G), c.mem.1 (c.B_le (1 : ↥B).2)⟩ : ↥H) = 1 from
     Subtype.ext rfl, map_one]
 
+omit [Finite G] in
 private theorem rhoB_mul (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) (b b' : ↥B) :
     rhoB c Mo (b * b') = rhoB c Mo b * rhoB c Mo b' := by
@@ -37,6 +39,7 @@ private theorem rhoB_mul (c : Cfg1620 M V₀ V U S R H g B)
       (⟨(b : G), c.mem.1 (c.B_le b.2)⟩ : ↥H) *
         ⟨(b' : G), c.mem.1 (c.B_le b'.2)⟩ from Subtype.ext rfl, map_mul]
 
+omit [Finite G] in
 private theorem cj_rhoB_hatK (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) (b : ↥B) :
     cj (rhoB c Mo b) (hatK Mo V) = hatK Mo V := by
@@ -65,16 +68,18 @@ private noncomputable def psi (c : Cfg1620 M V₀ V U S R H g B)
   invFun x := ⟨(rhoB c Mo b)⁻¹ * (x : LGL 2 Mo.W) * (rhoB c Mo b), by
     have h := cj_rhoB_hatK c Mo b
     exact (mem_cj).mp (by rw [h]; exact x.2)⟩
-  left_inv x := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
-  right_inv x := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
+  left_inv x := Subtype.ext (by simp only; group)
+  right_inv x := Subtype.ext (by simp only; group)
   map_mul' x y := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
+omit [Finite G] in
 private theorem psi_apply (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) (b : ↥B) (x : ↥(hatK Mo V)) :
     (psi c Mo b x : LGL 2 Mo.W) =
       rhoB c Mo b * (x : LGL 2 Mo.W) * (rhoB c Mo b)⁻¹ :=
   rfl
 
+omit [Finite G] in
 private theorem psi_one_apply (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) (x : ↥(hatK Mo V)) :
     psi c Mo 1 x = x := by
@@ -82,6 +87,7 @@ private theorem psi_one_apply (c : Cfg1620 M V₀ V U S R H g B)
   rw [psi_apply, rhoB_one]
   group
 
+omit [Finite G] in
 private theorem psi_mul_apply (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) (b b' : ↥B) (x : ↥(hatK Mo V)) :
     psi c Mo (b * b') x = psi c Mo b (psi c Mo b' x) := by
@@ -100,6 +106,7 @@ private noncomputable def betaAut (c : Cfg1620 M V₀ V U S R H g B)
   QuotientGroup.congr (Subgroup.center (hatX Mo V)) (Subgroup.center (hatX Mo V))
     (chi c Mo b) (Subgroup.map_center_eq (chi c Mo b))
 
+omit [Finite G] in
 private theorem betaAut_apply (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) (b : ↥B) (x : ↥(hatK Mo V)) :
     betaAut c Mo b (hatBar Mo V x) = hatBar Mo V (psi c Mo b x) :=
@@ -118,6 +125,7 @@ private noncomputable def betaHom (c : Cfg1620 M V₀ V U S R H g B)
     obtain ⟨x, rfl⟩ := hatBar_surjective Mo V y
     simp only [MulAut.mul_apply, betaAut_apply, psi_mul_apply]
 
+omit [Finite G] in
 theorem w16gt2NTwoH_exists_barAct (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     ∃ β : ↥B →* MulAut (hatX Mo V ⧸ Subgroup.center (hatX Mo V)),
@@ -135,6 +143,7 @@ end NoCert
 
 section NoCert2
 
+omit [Finite G] in
 private theorem betaAut_eq_conj_apply (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H))
     (β : ↥B →* MulAut (hatX Mo V ⧸ Subgroup.center (hatX Mo V)))
@@ -146,7 +155,7 @@ private theorem betaAut_eq_conj_apply (c : Cfg1620 M V₀ V U S R H g B)
     {b : ↥B} {k : ↥(hatK Mo V)}
     (hkb : β b = MulAut.conj (hatBar Mo V k)) :
     ∀ x : ↥(hatK Mo V), psi c Mo b x = k * x * k⁻¹ := by
-  haveI := hPerfect
+  have := hPerfect
   intro x
   have hψy : ∀ y : ↥(hatK Mo V),
       hatBar Mo V (psi c Mo b y) = hatBar Mo V (k * y * k⁻¹) := by
@@ -207,6 +216,7 @@ private theorem betaAut_eq_conj_apply (c : Cfg1620 M V₀ V U S R H g B)
   calc psi c Mo b x = k * (k⁻¹ * psi c Mo b x * k) * k⁻¹ := by group
     _ = k * x * k⁻¹ := by rw [hxφ]
 
+omit [Finite G] in
 private theorem pullback_of_betaAut_conj (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H))
     (β : ↥B →* MulAut (hatX Mo V ⧸ Subgroup.center (hatX Mo V)))
@@ -215,7 +225,7 @@ private theorem pullback_of_betaAut_conj (c : Cfg1620 M V₀ V U S R H g B)
         β b (hatBar Mo V x) = hatBar Mo V x')
     (hPerfect : Group.IsPerfect ↥(hatK Mo V))
     (hker : (hatBar Mo V).ker = Subgroup.center ↥(hatK Mo V))
-    {b : ↥B} {k : G} (hkH : k ∈ H) (hk : k ∈ conjClosure V H)
+    {b : ↥B} {k : G} (hkH : k ∈ H) (_hk : k ∈ conjClosure V H)
     {kh : ↥(hatK Mo V)} (hρ : Mo.ρ ⟨k, hkH⟩ = (kh : LGL 2 Mo.W))
     (hkb : β b = MulAut.conj (hatBar Mo V kh)) :
     ∀ x ∈ conjClosure V H,
@@ -280,8 +290,8 @@ theorem w16gt2NTwoH_barAct_properties (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 :
   have hPerfect : Group.IsPerfect ↥(hatK Mo V) := c.isPerfect_hatK hn h1 h5 h15 hS Mo
   have hker : (hatBar Mo V).ker = Subgroup.center ↥(hatK Mo V) :=
     c.ker_hatBar hn h1 h5 h15 hS Mo
-  haveI : Group.IsPerfect ↥(hatK Mo V) := hPerfect
-  haveI : Group.IsPerfect (hatX Mo V) :=
+  have : Group.IsPerfect ↥(hatK Mo V) := hPerfect
+  have : Group.IsPerfect (hatX Mo V) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥(hatK Mo V)))
   have hZ : Subgroup.center (hatX Mo V ⧸ Subgroup.center (hatX Mo V)) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot (hatX Mo V)
@@ -289,10 +299,10 @@ theorem w16gt2NTwoH_barAct_properties (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 :
   · rw [injective_iff_map_eq_one]
     intro b hb1
     have hconj1 : MulAut.conj (1 : ↥(hatK Mo V)) = 1 := by
-      ext z; simp [MulAut.conj_apply]
+      ext z; simp
     have hkb : β b = MulAut.conj (hatBar Mo V (1 : ↥(hatK Mo V))) := by
       rw [hb1]
-      simp [MulAut.conj_apply]
+      simp
     have hρ1 : Mo.ρ (⟨(1 : G), H.one_mem⟩ : ↥H) = ((1 : ↥(hatK Mo V)) : LGL 2 Mo.W) := by
       rw [show (⟨(1 : G), H.one_mem⟩ : ↥H) = 1 from Subtype.ext rfl, map_one]
       rfl
@@ -306,7 +316,7 @@ theorem w16gt2NTwoH_barAct_properties (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 :
       obtain ⟨m, -, hBm⟩ := c.B_conj
       rw [hBm]
       exact E3.isElemAbelian_conjSubgroup (E3.isElemAbelian_conjSubgroup hV₀ea g) m
-    haveI : IsMulCommutative ↥B := hBea.1
+    have : IsMulCommutative ↥B := hBea.1
     refine ⟨inferInstance, ?_⟩
     intro x hx
     obtain ⟨b, rfl⟩ := MonoidHom.mem_range.1 hx

@@ -14,7 +14,7 @@ theorem decZ_eq (c : Nat) :
   unfold decZ
   by_cases h : c % 2 = 1
   · have hb : Nat.beq (c % 2) 1 = true := Nat.beq_eq_true_eq _ _ ▸ h
-    rw [if_pos h]
+    rw [ite_eq_left h]
     change Bool.rec (motive := fun _ => Int) _ _ (Nat.beq (c % 2) 1) = _
     rw [hb]
     rfl
@@ -22,7 +22,7 @@ theorem decZ_eq (c : Nat) :
       cases h' : Nat.beq (c % 2) 1
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h') h
-    rw [if_neg h]
+    rw [ite_eq_right h]
     change Bool.rec (motive := fun _ => Int) _ _ (Nat.beq (c % 2) 1) = _
     rw [hb]
     rfl

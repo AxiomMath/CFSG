@@ -231,7 +231,7 @@ theorem f4_seven_le_finrank_outer_frame [Module.Finite k V] {n : ℕ} (hn : 1 �
   have hz' : (z : ModGL .F4 K) = (F.map fun β => pinnedX .F4 K β (c β)).prod := by
     simp only [F, c, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
     rw [hz]
-    simp only [if_true, if_neg hne]
+    simp only [ite_true, ite_eq_right hne]
     rfl
   obtain ⟨w, hw⟩ := f4_pairs_outer s
   exact le_finrank_range_frame_sub_one_of_commute hρ ht hv hF hcomm c z hz' w hw

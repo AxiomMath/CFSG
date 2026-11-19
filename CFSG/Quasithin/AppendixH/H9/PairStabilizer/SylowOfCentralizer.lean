@@ -101,7 +101,7 @@ theorem isSylowIn_Sv_Mv :
 
 theorem twoResidual_range (hm : 3 ≤ m) :
     twoResidual (leviAct m).range = (leviAct m).range := by
-  haveI : Group.IsPerfect (GL (Fin m) (ZMod 2)) := isPerfect_GL_two hm
+  have : Group.IsPerfect (GL (Fin m) (ZMod 2)) := isPerfect_GL_two hm
   exact twoResidual_eq_self_of_isPerfect (Group.IsPerfect.range (leviAct m))
 
 end CFSG.ASVolI.ChH.PairStab

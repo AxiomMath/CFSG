@@ -117,7 +117,7 @@ private theorem pow_two_eq_one_or_four {n : ℕ} (h3 : 3 ∣ 2 ^ n - 1) (hle : 2
   · exact absurd h3 (by decide)
 
 private theorem eq_biUnion_of_subset_union {O : Fin 3 → Finset (Fin 10)}
-    (hdisj : ∀ i j, i ≠ j → Disjoint (O i) (O j)) {S : Finset (Fin 10)}
+    (_hdisj : ∀ i j, i ≠ j → Disjoint (O i) (O j)) {S : Finset (Fin 10)}
     (hsub : S ⊆ O 0 ∪ O 1 ∪ O 2) (hint : ∀ j, S ∩ O j = ∅ ∨ O j ⊆ S) :
     S = (Finset.univ.filter (fun j : Fin 3 => O j ⊆ S)).biUnion O := by
   classical
@@ -359,7 +359,7 @@ private theorem fixes_of_notMem_orbit (hT : IsPGroup 2 T)
   norm_num at h32
 
 private theorem support_subset_of_mem_stabilizer
-    (x : Fin 3 → Equiv.Perm (Fin 10)) (hx : ∀ i, (x i).IsThreeCycle)
+    (x : Fin 3 → Equiv.Perm (Fin 10)) (_hx : ∀ i, (x i).IsThreeCycle)
     {w : Fin 10} (hcover : ∀ p : Fin 10, p ≠ w →
       p ∈ (x 0).support ∪ (x 1).support ∪ (x 2).support)
     (hfix : ∀ p : Fin 10, w ∉ MulAction.orbit T p → ∀ τ ∈ T, τ p = p)
@@ -502,7 +502,7 @@ private theorem not_mul_conj_mem (hT : IsPGroup 2 T)
 private theorem stabilizer_eq_bot (hT : IsPGroup 2 T)
     (x : Fin 3 → Equiv.Perm (Fin 10)) (hx : ∀ i, (x i).IsThreeCycle)
     (hxT : ∀ i, x i ∈ Subgroup.normalizer (T : Set (Equiv.Perm (Fin 10))))
-    {w : Fin 10} (hw : ∀ j, w ∉ (x j).support)
+    {w : Fin 10} (_hw : ∀ j, w ∉ (x j).support)
     (hcover : ∀ p : Fin 10, p ≠ w →
       p ∈ (x 0).support ∪ (x 1).support ∪ (x 2).support)
     (hfix : ∀ p : Fin 10, w ∉ MulAction.orbit T p → ∀ τ ∈ T, τ p = p)
@@ -591,7 +591,7 @@ private theorem orbitFinset_w_form (hT : IsPGroup 2 T) (x : Fin 3 → Equiv.Perm
     rw [Finset.singleton_union, ← Finset.insert_erase hwmem, hi]
 
 private theorem eq_bot_of_orbitFinset_eq_singleton
-    (x : Fin 3 → Equiv.Perm (Fin 10)) {w : Fin 10}
+    (_x : Fin 3 → Equiv.Perm (Fin 10)) {w : Fin 10}
     (hfix : ∀ p : Fin 10, w ∉ MulAction.orbit T p → ∀ τ ∈ T, τ p = p)
     (h1 : orbitFinset T w = {w}) : T = ⊥ := by
   classical

@@ -30,8 +30,8 @@ theorem arr_set_get {r : Array (Array (Array Nat))} {k t : Nat} (hk : k < r.size
     (v : Array (Array Nat)) : (r.set! k v)[t]! = if t = k then v else r[t]! := by
   rw [Array.set!_eq_setIfInBounds, getElem!_pos _ t (by simpa using ht), getElem!_pos r t ht]
   by_cases h : t = k
-  · subst h; simp [Array.getElem_setIfInBounds, hk]
-  · rw [if_neg h, Array.getElem_setIfInBounds_ne ht (Ne.symm h)]
+  · subst h; simp
+  · rw [ite_eq_right h, Array.getElem_setIfInBounds_ne ht (Ne.symm h)]
 
 theorem list_set_getD {L : List Nat} {k t : Nat} (hk : k < L.length) (v : Nat) :
     (L.set k v).getD t 0 = if t = k then v else L.getD t 0 := by
@@ -47,7 +47,7 @@ theorem rep_set {r : Array (Array (Array Nat))} {L : List Nat} (h : Rep r L) {k 
   rw [arr_set_get (by omega) (by omega), list_set_getD (by omega)]
   by_cases e : i = k
   · simp [e, hv']
-  · simp only [e, if_false]
+  · simp only [e, ite_false]
     exact hr i hi
 
 theorem rep_step {r : Array (Array (Array Nat))} {L : List Nat} (h : Rep r L) (ins : FiveIns)
@@ -132,14 +132,14 @@ theorem vXX : vld D.XX = true := by rw [← pw_x]; exact (powE vAA 5).2
 theorem letter_eq (z : Int) : fiveLetterArr z = U (LT z) ∧ vld (LT z) = true := by
   unfold fiveLetterArr LT
   by_cases h1 : z = 1
-  · simp only [h1, if_true]; exact ⟨aa_eq, vAA⟩
+  · simp only [h1, ite_true]; exact ⟨aa_eq, vAA⟩
   by_cases h2 : z = 2
-  · simp only [h2, if_true, show ¬ (2 : Int) = 1 by decide, if_false]; exact ⟨bb_eq, vBB⟩
+  · simp only [h2, ite_true, show ¬ (2 : Int) = 1 by decide, ite_false]; exact ⟨bb_eq, vBB⟩
   by_cases h3 : z = -1
-  · simp only [h3, if_true, show ¬ (-1 : Int) = 1 by decide, show ¬ (-1 : Int) = 2 by decide,
-      if_false]
+  · simp only [h3, ite_true, show ¬ (-1 : Int) = 1 by decide, show ¬ (-1 : Int) = 2 by decide,
+      ite_false]
     exact ⟨ai_eq, vAI⟩
-  · simp only [h1, h2, h3, if_false]; exact ⟨bi_eq, vBI⟩
+  · simp only [h1, h2, h3, ite_false]; exact ⟨bi_eq, vBI⟩
 
 theorem foldl_eq : ∀ (w : List Int) {M : Array (Array Nat)} {X : Nat}, M = U X → vld X = true →
     w.foldl (fun acc z => mulM 5 111 acc (fiveLetterArr z)) M =

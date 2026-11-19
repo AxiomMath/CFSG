@@ -191,7 +191,7 @@ theorem StandingAS.exists_mulEquiv_l2Wreath_three_closure_starO (h1 : TheoremOne
       Subtype.ext hcomm'.eq, ?_⟩
     ext r
     have key := Set.ext_iff.mp hset (r : G)
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at key ⊢
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at key ⊢
     rw [hmemΔ r, show Commute r a ↔ Commute (r : G) (a : G) from
       ⟨fun h => h.map Y.subtype, fun h => Subtype.ext h.eq⟩, key]
     simp only [Subtype.ext_iff, Subgroup.coe_mul]

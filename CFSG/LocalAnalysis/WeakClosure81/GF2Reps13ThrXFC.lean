@@ -15,11 +15,12 @@ variable {A X Q : Subgroup (MulAut W)} {t : MulAut W} {p : ℕ}
 
 private theorem w16g_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hX.isPGroup
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow
 
+omit [Finite W] in
 private theorem w16g_stableUnder_zpowers {t : MulAut W} {U : Subgroup W} (htt : t * t = 1)
     (hUt : ∀ u ∈ U, t u ∈ U) : StableUnder (Subgroup.zpowers t) U := by
   have ht_stab : t ∈ stabSub U := by
@@ -262,7 +263,7 @@ theorem exists_of_singleton_supp (h : HAb A X Q t p) {y : MulAut W} (hy : y ∈ 
     rcases h.hp with h3 | h7
     · rw [h3]; norm_num
     · rw [h7]; norm_num
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd (Nat.card X) := w16g_odd_card_of_isElemAbelian hp hp2 h.hXe
   set L₀ : Subgroup (MulAut W) := Subgroup.zpowers y with hL₀
   have hL₀X : L₀ ≤ X := by rw [hL₀]; exact Subgroup.zpowers_le.mpr hy
@@ -391,7 +392,7 @@ theorem exists_of_singleton_supp (h : HAb A X Q t p) {y : MulAut W} (hy : y ∈ 
     have hd3 : dParam p = 2 := by
       rw [h3, dParam]
       exact (orderOf_eq_iff (by norm_num : 0 < 2)).2
-        ⟨by decide, by intro m hm _; interval_cases m <;> decide⟩
+        ⟨by decide, by intro m hm _; interval_cases m; decide⟩
     obtain ⟨s, hs0, hsrk⟩ := rk_s13IsoComps_eq h.hW hp hp2 h.hXe hUcomp
     have hle6 := rk_s13IsoComps_le_six h hUcomp
     have hcard : Nat.card ↥L = 3 := by

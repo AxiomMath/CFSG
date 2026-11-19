@@ -22,7 +22,7 @@ variable {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G} {T S L : Subgroup 
 theorem isCatalogGroup (c : KxCfg p P M x z T S L) : IsCatalogGroup ↥L := by
   have hS := c.conf.config.situation
   have hx := c.conf.config.point
-  haveI : IsSimpleGroup ↥L := c.isSimple
+  have : IsSimpleGroup ↥L := c.isSimple
   have hKL : CFSG.Open.IsKGroup ↥L := (s622_isKGroup_centralizer hS hx).of_le c.le_C
   exact hKL.isCatalogGroup_of_surjective ⊤ (exists_not_comm_of_section_bot c.simple)
     (Subgroup.topEquiv (G := ↥L)).toMonoidHom (Subgroup.topEquiv (G := ↥L)).surjective

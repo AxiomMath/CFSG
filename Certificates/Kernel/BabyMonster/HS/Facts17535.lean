@@ -72,8 +72,8 @@ theorem ev_red {A B : M} (hB : B ^ 5 = 1) :
       have h5 : B ^ 4 * B = 1 := by
         rw [← pow_succ]
         exact hB
-      rw [red, if_pos rfl, ev_red hB w 0, ← mul_assoc, h5, pow_zero]
-    · rw [red, if_neg hk, ev_red hB w (k + 1), pow_succ, mul_assoc]
+      rw [red, ite_eq_left rfl, ev_red hB w 0, ← mul_assoc, h5, pow_zero]
+    · rw [red, ite_eq_right hk, ev_red hB w (k + 1), pow_succ, mul_assoc]
   | false :: w, k => by
     have e : ∀ u, ev A B (false :: u) = A * ev A B u := fun u => by simp [ev]
     rw [red, ev_append, ev_replicate, e, e, ev_red hB w 0, pow_zero, one_mul]

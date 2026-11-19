@@ -93,7 +93,7 @@ theorem s168e3_seven_two_lt_mParam (h : s16e_d3_Ctx A L r Δ σ) : 2 < E3.mParam
   · set S : Set ℕ :=
       {n : ℕ | ∃ t ∈ A, orderOf t = 2 ∧ n = rkIdx (fixV (Subgroup.zpowers t))} with hS
     have hne : S.Nonempty := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) 2 (even_iff_two_dvd.1 hev)
       exact ⟨_, (x : MulAut W), x.2, by rw [Subgroup.orderOf_coe]; exact hx, rfl⟩
     obtain ⟨t, htA, ht2, hn⟩ := Nat.sInf_mem hne

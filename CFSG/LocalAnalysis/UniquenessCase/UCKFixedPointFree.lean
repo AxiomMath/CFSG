@@ -22,7 +22,7 @@ open scoped IsMulCommutative
 theorem orderOf_mk'_pCore_eq_of_prime {M : Type} [Group M] [Finite M] {b : M} {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2) (hbr : orderOf b = r) :
     orderOf (QuotientGroup.mk' (CFSG.pCore 2 M) b) = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hdvd : orderOf (QuotientGroup.mk' (CFSG.pCore 2 M) b) ∣ r := by
     rw [← hbr]
     exact orderOf_map_dvd (QuotientGroup.mk' (CFSG.pCore 2 M)) b

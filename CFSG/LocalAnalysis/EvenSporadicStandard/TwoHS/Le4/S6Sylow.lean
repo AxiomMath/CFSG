@@ -55,7 +55,7 @@ theorem exists_sylow_fusion {t z : G} (hc : ∃ g : G, z = g * t * g⁻¹)
   obtain ⟨P₀, hP'P₀⟩ := hP'.exists_le_sylow
   set S₀ : Subgroup G := (P₀ : Subgroup C₀).map C₀.subtype with hS₀
   have hS₀C : S₀ ≤ C₀ := Subgroup.map_subtype_le _
-  have hS₀2 : IsPGroup 2 S₀ := P₀.isPGroup'.map C₀.subtype
+  have hS₀2 : IsPGroup 2 S₀ := P₀.isPGroup.map C₀.subtype
   have hS₀card : Nat.card S₀ = Nat.card (P₀ : Subgroup C₀) :=
     Subgroup.card_map_of_injective C₀.subtype_injective
   have hS₀rel : ¬ 2 ∣ S₀.relIndex N := by

@@ -122,6 +122,7 @@ theorem IsModel.map_phi_img (Y : X.IsModel π β) :
     refine ⟨(π (⟨_, h1⟩, ⟨_, h2⟩) : MulAut (Hat V (A6.g1 T V) W)), (π _).2, ?_⟩
     rw [MulEquiv.coe_toMonoidHom, Y.phi_pi, H.Om4.rho_apply]
 
+omit [Finite F] in
 theorem IsModel.phi_mem_normalizer (Y : X.IsModel π β) {f : MulAut (Hat V (A6.g1 T V) W)}
     (hf : f ∈ X.img (A6.g1 T V)) :
     MulAut.congr β f ∈ Subgroup.normalizer ((H.Om4.rho (K := F)).range : Set _) := by

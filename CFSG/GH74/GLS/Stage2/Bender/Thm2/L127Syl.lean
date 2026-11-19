@@ -38,7 +38,7 @@ theorem sylow_of_maximal_invariant_in {S K R : Subgroup G} (hS2 : IsPGroup 2 ↥
   obtain ⟨P, hRP, hPinv⟩ :=
     CFSG.DisconnectedInvolutionGraph.Helpers.coprime_pgroup_invariant_sylow_containment 2 3 hS2 hcop
       (R.subgroupOf K) hR' hinv
-  have hP3 : IsPGroup 3 ↥((P : Subgroup ↥K).map K.subtype) := P.isPGroup'.map _
+  have hP3 : IsPGroup 3 ↥((P : Subgroup ↥K).map K.subtype) := P.isPGroup.map _
   have hPK : (P : Subgroup ↥K).map K.subtype ≤ K := Subgroup.map_subtype_le _
   have hSP : S ≤ normalizer (((P : Subgroup ↥K).map K.subtype : Subgroup G) : Set G) := by
     intro a ha

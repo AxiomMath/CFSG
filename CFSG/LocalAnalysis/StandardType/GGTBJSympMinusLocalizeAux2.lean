@@ -122,7 +122,7 @@ theorem sympMinusLoc_hcross {K : Type} [Field K] {m : ℕ} [CharP K 2] {p : ℕ}
         (Finset.mem_image.mpr ⟨WitSpNs.plane u, Finset.mem_univ _, rfl⟩) ⟨?_, ?_⟩
       · exact sympMinusLocCls_self f₀ _
       · rw [huv_eq]; exact sympMinusLocCls_self f₀ _
-    · rw [if_neg huv_eq]
+    · rw [ite_eq_right huv_eq]
   · exfalso
     have hcl : f₀ (WitSpNs.plane v) = f₀ (WitSpNs.plane u) ∨
         f₀ (WitSpNs.plane v) = (f₀ (WitSpNs.plane u))⁻¹ := by
@@ -155,7 +155,7 @@ theorem sympMinusLocMat_eq_zero_of_not_same {K : Type} [Field K] {m : ℕ} [Char
     exact huv (sympMinusLocCls f₀ (f₀ (WitSpNs.plane u)))
       (Finset.mem_image.mpr ⟨WitSpNs.plane u, Finset.mem_univ _, rfl⟩)
       ⟨sympMinusLocCls_self f₀ _, by rw [huv_eq]; exact sympMinusLocCls_self f₀ _⟩
-  · rwa [if_neg huv_eq] at h1
+  · rwa [ite_eq_right huv_eq] at h1
 
 @[expose] def sympMinusLocIsUnionCls {m : ℕ} {p : ℕ} (f₀ : Fin m → Multiplicative (ZMod p))
     (S : Finset (Fin m)) : Prop :=
@@ -197,7 +197,7 @@ theorem sympMinusLocIsUnionCls_of_mem_classes {m : ℕ} {p : ℕ} {f₀ : Fin m 
   rw [sympMinusLocCls_eq_of_mem (sympMinusLocCls_self f₀ y) hy]
 
 theorem sympMinusLocIsUnionCls_unionCls {m : ℕ} {p : ℕ} {f₀ : Fin m → Multiplicative (ZMod p)}
-    {Q : Finset (Finset (Fin m))} (hQ : ∀ S ∈ Q, S ∈ sympMinusLocClasses f₀) :
+    {Q : Finset (Finset (Fin m))} (_hQ : ∀ S ∈ Q, S ∈ sympMinusLocClasses f₀) :
     sympMinusLocIsUnionCls f₀ (sympMinusLocUnionCls f₀ Q) := by
   intro x hx
   rw [sympMinusLocUnionCls_mem] at hx
@@ -209,7 +209,7 @@ theorem sympMinusLocCoordSet_unionCls {m : ℕ} {p : ℕ} {f₀ : Fin m → Mult
     {Q : Finset (Finset (Fin m))} (hQ : ∀ S ∈ Q, S ∈ sympMinusLocClasses f₀) :
     sympMinusLocCoordSet (sympMinusLocUnionCls f₀ Q) = ⋃ S ∈ Q, sympMinusLocCoordSet S := by
   ext u
-  simp only [sympMinusLocCoordSet, Set.mem_setOf_eq, Set.mem_iUnion, sympMinusLocUnionCls_mem]
+  simp only [sympMinusLocCoordSet, Set.mem_ofPred_eq, Set.mem_iUnion, sympMinusLocUnionCls_mem]
   constructor
   · intro h
     exact ⟨sympMinusLocCls f₀ (f₀ (WitSpNs.plane u)), h, sympMinusLocCls_self f₀ _⟩
@@ -270,7 +270,7 @@ theorem sympMinusLoc_eq_proj_mul {K : Type} [Field K] {m : ℕ} [CharP K 2]
           exact hxA ⟨hxA', hTA (hx₀ ▸ hyT)⟩
         · have hTB : T ⊆ B := by rw [hTeq]; exact hB _ hxB'
           exact hyB ⟨hxB', hTB (hx₀ ▸ hyT)⟩
-      rw [sympMinusLocMat_eq_zero_of_not_same hp hp2 hζ f₀ hh hnotsame, Matrix.one_apply, if_neg]
+      rw [sympMinusLocMat_eq_zero_of_not_same hp hp2 hζ f₀ hh hnotsame, Matrix.one_apply, ite_eq_right]
       intro hxy
       exact hnotsame (sympMinusLocCls f₀ (f₀ (WitSpNs.plane x)))
         (Finset.mem_image.mpr ⟨WitSpNs.plane x, Finset.mem_univ _, rfl⟩)
@@ -373,21 +373,21 @@ theorem sympMinusLocBlk_eq_of_isSupp {K : Type} [Field K] {m : ℕ} {S : Finset 
   change mat m K j (WitSpNs.coord a y) (WitSpNs.coord b x) =
     (if y = x then (1 : Matrix (Fin 2) (Fin 2) K) else 0) a b
   have hmem : WitSpNs.coord b x ∉ sympMinusLocCoordSet S := by
-    simp only [sympMinusLocCoordSet, Set.mem_setOf_eq]
+    simp only [sympMinusLocCoordSet, Set.mem_ofPred_eq]
     rwa [WitSpNs.plane_coord]
   rw [hj _ _ (Or.inr hmem)]
   by_cases hyx : y = x
   · subst hyx
-    rw [if_pos rfl, Matrix.one_apply, Matrix.one_apply]
+    rw [ite_eq_left rfl, Matrix.one_apply, Matrix.one_apply]
     by_cases hab : a = b
     · subst hab; simp
     · have hne : WitSpNs.coord a y ≠ WitSpNs.coord b y := fun h =>
         hab (by have := congrArg WitSpNs.side h; simpa using this)
-      rw [if_neg hne, if_neg hab]
-  · rw [if_neg hyx, Matrix.one_apply]
+      rw [ite_eq_right hne, ite_eq_right hab]
+  · rw [ite_eq_right hyx, Matrix.one_apply]
     have hne : WitSpNs.coord a y ≠ WitSpNs.coord b x := fun h =>
       hyx (by have := congrArg WitSpNs.plane h; simpa using this)
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     rfl
 
 end CFSG.StandardType.SympMinus

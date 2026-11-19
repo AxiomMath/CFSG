@@ -51,7 +51,7 @@ theorem mem_fixedSpace_normOp (ρ : Representation (ZMod q) G V) (B : Subgroup G
   intro d hd
   rw [normOp_apply, map_sum]
   refine Fintype.sum_equiv (Equiv.mulLeft (⟨d, hd⟩ : B)) _ _ (fun b => ?_)
-  simp [rho_mul_apply]
+  simp
 
 theorem normOp_comm (ρ : Representation (ZMod q) G V) (B : Subgroup G) [Fintype B]
     {g : G} (hg : ∀ b ∈ B, g * b = b * g) (v : V) :
@@ -66,7 +66,7 @@ theorem normOp_commSpace (ρ : Representation (ZMod q) G V) (B : Subgroup G) [Fi
     intro x hx v
     rw [map_sub, sub_eq_zero, normOp_apply, normOp_apply]
     refine Fintype.sum_equiv (Equiv.mulRight (⟨x, hx⟩ : B)) _ _ (fun b => ?_)
-    simp [rho_mul_apply]
+    simp
   unfold commSpace at hw
   induction hw using Submodule.span_induction with
   | mem w hw => obtain ⟨x, hx, v, rfl⟩ := hw; exact key x hx v
@@ -93,11 +93,11 @@ theorem mem_fixedSpace_sup (ρ : Representation (ZMod q) G V) (D B : Subgroup G)
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         rw [rho_mul_apply, hb, ha]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         have : ρ a⁻¹ (ρ a v) = v := by rw [← rho_mul_apply]; simp
         rwa [ha] at this }
   rw [mem_fixedSpace_iff] at *
@@ -159,7 +159,7 @@ theorem natCard_ne_zero_of_le {p : ℕ} [Fact p.Prime] [Fact q.Prime] (hpq : p �
 theorem fixedSpace_eq_bot_of_hyp {p : ℕ} [Fact p.Prime] [Fact q.Prime] (hpq : p ≠ q)
     (ρ : Representation (ZMod q) G V) (A : Subgroup G) [Finite A]
     (hA : CFSG.Open.IsElemAbelian p A) (hV : commSpace ρ A = ⊤) : fixedSpace ρ A = ⊥ := by
-  haveI := Fintype.ofFinite A
+  have := Fintype.ofFinite A
   refine fixedSpace_eq_bot ρ A ?_ hV
   have := natCard_ne_zero_of_le hpq hA (le_refl A)
   rwa [Nat.card_eq_fintype_card] at this
@@ -175,8 +175,8 @@ theorem iSupIndep_fixedSpace {p : ℕ} [Fact p.Prime] [Fact q.Prime] (hpq : p �
   intro B
   rw [Submodule.disjoint_def]
   intro v hvB hvsup
-  haveI : Finite B.1 := Finite.of_injective (Subgroup.inclusion B.2.1) (Subgroup.inclusion_injective B.2.1)
-  haveI := Fintype.ofFinite B.1
+  have : Finite B.1 := Finite.of_injective (Subgroup.inclusion B.2.1) (Subgroup.inclusion_injective B.2.1)
+  have := Fintype.ofFinite B.1
   have hker : (⨆ j ≠ B, fixedSpace ρ j.1) ≤ LinearMap.ker (normOp ρ B.1) := by
     refine iSup₂_le (fun j hj => fun w hw => ?_)
     rw [LinearMap.mem_ker]
@@ -201,6 +201,7 @@ section LA
 
 variable {F : Type*} [Field F] [Finite F] {E : Type*} [AddCommGroup E] [Module F E] [Finite E]
 
+omit [Finite F] in
 theorem dual_ker_card (a : E) (ha : a ≠ 0) :
     Nat.card {f : (E →ₗ[F] F) // f a = 0} * Nat.card F = Nat.card (E →ₗ[F] F) := by
   let ev : (E →ₗ[F] F) →ₗ[F] F := LinearMap.applyₗ a
@@ -217,6 +218,7 @@ theorem dual_ker_card (a : E) (ha : a ≠ 0) :
   rw [e2]
   congr 1
 
+omit [Finite F] [Finite E] in
 theorem dual_zero_card [Fintype (E →ₗ[F] F)] [DecidableEq (E →ₗ[F] F)] (a : E) [DecidablePred (fun f : E →ₗ[F] F => f a = 0)] :
     (Finset.univ.filter (fun f : (E →ₗ[F] F) => f a = 0 ∧ f ≠ 0)).card + 1 =
       (Finset.univ.filter (fun f : (E →ₗ[F] F) => f a = 0)).card := by
@@ -232,6 +234,7 @@ theorem dual_zero_card [Fintype (E →ₗ[F] F)] [DecidableEq (E →ₗ[F] F)] (
   rw [h1, h2] at h
   simpa [add_comm] using h
 
+omit [Finite F] in
 theorem fibre_card [Fintype (E →ₗ[F] F)] [DecidableEq (E →ₗ[F] F)] (f0 : E →ₗ[F] F) (h0 : f0 ≠ 0)
     [DecidablePred (fun g : E →ₗ[F] F => g ≠ 0 ∧ LinearMap.ker g = LinearMap.ker f0)] [Fintype F] [DecidableEq F] :
     (Finset.univ.filter (fun g : (E →ₗ[F] F) => g ≠ 0 ∧ LinearMap.ker g = LinearMap.ker f0)).card + 1 = Fintype.card F := by
@@ -262,7 +265,7 @@ theorem fibre_card [Fintype (E →ₗ[F] F)] [DecidableEq (E →ₗ[F] F)] (f0 :
         ext y
         simp [hx, hgx]
       · simp [hx]
-      · simp [hx, hgx]
+      · simp [hgx]
     · rintro ⟨c, hc, rfl⟩
       refine ⟨?_, ?_⟩
       · intro h
@@ -379,9 +382,9 @@ theorem S_mem_fixed (ρ : Representation (ZMod q) G V) (A : Subgroup G) [Fintype
     change d * (a : G) ∈ D ↔ _
     exact ⟨fun h => by simpa using D.mul_mem (D.inv_mem hd) h, fun h => D.mul_mem hd h⟩
   by_cases ha : (a : G) ∈ D
-  · rw [if_pos ha, Equiv.coe_mulLeft, if_pos (h1.2 ha)]
+  · rw [ite_eq_left ha, Equiv.coe_mulLeft, ite_eq_left (h1.2 ha)]
     exact (rho_mul_apply ρ d a v).symm
-  · rw [if_neg ha, Equiv.coe_mulLeft, if_neg (mt h1.1 ha), map_zero]
+  · rw [ite_eq_right ha, Equiv.coe_mulLeft, ite_eq_right (mt h1.1 ha), map_zero]
 
 open Classical in
 theorem sum_S (ρ : Representation (ZMod q) G V) (A : Subgroup G) [Fintype A] (Δ : Finset (Subgroup G)) (v : V) :
@@ -405,12 +408,12 @@ theorem gen_aux {p : ℕ} [Fact p.Prime] [Fact q.Prime] (hpq : p ≠ q)
     (e : Multiplicative E ≃* A) (hV : commSpace ρ A = ⊤) :
     (⨆ D : hyperplanes p A, fixedSpace ρ D.1) = ⊤ := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Module.Finite F E := inferInstance
-  haveI : Finite (E →ₗ[F] F) := Module.finite_of_finite F
-  haveI : Fintype (E →ₗ[F] F) := Fintype.ofFinite _
+  have : Fintype A := Fintype.ofFinite A
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype E := Fintype.ofFinite E
+  have : Module.Finite F E := inferInstance
+  have : Finite (E →ₗ[F] F) := Module.finite_of_finite F
+  have : Fintype (E →ₗ[F] F) := Fintype.ofFinite _
   have hp := (Fact.out : p.Prime)
   rw [eq_top_iff]
   intro v _
@@ -421,8 +424,8 @@ theorem gen_aux {p : ℕ} [Fact p.Prime] [Fact q.Prime] (hpq : p ≠ q)
       refine Submodule.span_le.2 ?_
       rintro w ⟨x, hx, v', rfl⟩
       have : (⟨x, hx⟩ : A) = 1 := by
-        haveI : Subsingleton (Multiplicative E) := inferInstanceAs (Subsingleton E)
-        haveI : Subsingleton A := e.toEquiv.symm.subsingleton
+        have : Subsingleton (Multiplicative E) := inferInstanceAs (Subsingleton E)
+        have : Subsingleton A := e.toEquiv.symm.subsingleton
         exact Subsingleton.elim _ _
       have h1 : x = 1 := congrArg Subtype.val this
       subst h1
@@ -598,8 +601,8 @@ theorem iSup_fixedSpace_hyperplanes {p : ℕ} [Fact p.Prime] [Fact q.Prime] (hpq
     (ρ : Representation (ZMod q) G V) (A : Subgroup G) [Finite A]
     (hA : CFSG.Open.IsElemAbelian p A) (hV : commSpace ρ A = ⊤) :
     (⨆ D : hyperplanes p A, fixedSpace ρ D.1) = ⊤ := by
-  haveI := hA.1
-  letI : CommGroup A :=
+  have := hA.1
+  let : CommGroup A :=
     { (inferInstance : Group A) with mul_comm := fun a b => hA.1.is_comm.comm a b }
   have hexp : ∀ x : Additive A, p • x = 0 := by
     intro x
@@ -607,7 +610,7 @@ theorem iSup_fixedSpace_hyperplanes {p : ℕ} [Fact p.Prime] [Fact q.Prime] (hpq
     apply Additive.toMul.injective
     apply Subtype.ext
     simpa using this
-  letI : Module (ZMod p) (Additive A) := AddCommGroup.zmodModule hexp
+  let : Module (ZMod p) (Additive A) := AddCommGroup.zmodModule hexp
   let e : Multiplicative (Additive A) ≃* A :=
     { toFun := fun x => Additive.toMul (Multiplicative.toAdd x)
       invFun := fun a => Multiplicative.ofAdd (Additive.ofMul a)

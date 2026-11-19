@@ -148,6 +148,7 @@ private theorem bcdMirror_exists_cover {s : X} {Zs : Subgroup X}
     rwa [hself] at this
   exact eq_of_isPCompIn_of_le hAN hEc.isPCompIn hE'A' hE'le hE'q
 
+omit [Finite X] in
 private theorem bcdMirror_normalizes_E {Zs B : Subgroup X} {u : X}
     (huN : u ∈ normalizer (Zs : Set X)) (huB : u ∈ normalizer (B : Set X)) :
     u ∈ normalizer (oTwoPrimeOf (B ⊓ centralizer (Zs : Set X)) : Set X) := by

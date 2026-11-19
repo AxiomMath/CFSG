@@ -9,7 +9,7 @@ namespace CFSG.RepresentationTheory.SL2NatSum
 
 private lemma bit_add_bit_mod_two (a b : Bool) (i k : ℕ) :
     (Nat.bit a i + Nat.bit b k) % 2 = (a ^^ b).toNat := by
-  cases a <;> cases b <;> simp [Nat.bit] <;> omega
+  cases a <;> cases b <;> simp [Nat.bit]; omega
 
 private lemma bit_add_bit_div_two (a b : Bool) (i k : ℕ) :
     (Nat.bit a i + Nat.bit b k) / 2 = i + k + (a && b).toNat := by
@@ -60,17 +60,16 @@ theorem odd_choose_add_iff (i k : ℕ) : Odd ((i + k).choose i) ↔ i &&& k = 0 
           Nat.bit_div_two] at hL
         rw [Nat.land_bit, Nat.bit_eq_zero_iff]
         simp only [Nat.bit_false_apply, Bool.toNat_false, Bool.and_self, Bool.xor_self,
-          Nat.choose_zero_right, Nat.choose_self, Nat.add_zero, mul_one, one_mul,
-          Bool.false_eq_true, and_true] at hL ⊢
+          Nat.choose_self, Nat.add_zero, one_mul,
+          and_true] at hL ⊢
         exact (odd_iff_of_modEq_two hL).trans (ih k)
       · have hL := Choose.choose_modEq_choose_mod_mul_choose_div_nat
           (n := Nat.bit false i + Nat.bit true k) (k := Nat.bit false i) (p := 2)
         rw [bit_add_bit_mod_two, bit_add_bit_div_two, Nat.bit_mod_two,
           Nat.bit_div_two] at hL
         rw [Nat.land_bit, Nat.bit_eq_zero_iff]
-        simp only [Nat.bit_false_apply, Nat.bit_true_apply, Bool.toNat_false, Bool.toNat_true,
-          Bool.false_and, Bool.and_false, Bool.xor_false, Nat.choose_zero_right,
-          Nat.choose_succ_self, Nat.add_zero, mul_one, one_mul, Bool.false_eq_true, and_true]
+        simp only [Nat.bit_false_apply, Nat.bit_true_apply, Bool.toNat_false, Bool.false_and, Nat.choose_zero_right,
+          Nat.add_zero, one_mul, and_true]
           at hL ⊢
         exact (odd_iff_of_modEq_two hL).trans (ih k)
       · have hL := Choose.choose_modEq_choose_mod_mul_choose_div_nat
@@ -79,8 +78,7 @@ theorem odd_choose_add_iff (i k : ℕ) : Odd ((i + k).choose i) ↔ i &&& k = 0 
           Nat.bit_div_two] at hL
         rw [Nat.land_bit, Nat.bit_eq_zero_iff]
         simp only [Nat.bit_false_apply, Nat.bit_true_apply, Bool.toNat_false, Bool.toNat_true,
-          Bool.false_and, Bool.and_false, Bool.xor_false, Nat.choose_zero_right,
-          Nat.choose_self, Nat.add_zero, mul_one, one_mul, Bool.false_eq_true, and_true]
+          Bool.and_false, Bool.xor_false, Nat.choose_self, Nat.add_zero, one_mul, and_true]
           at hL ⊢
         exact (odd_iff_of_modEq_two hL).trans (ih k)
       · have hL := Choose.choose_modEq_choose_mod_mul_choose_div_nat
@@ -88,9 +86,8 @@ theorem odd_choose_add_iff (i k : ℕ) : Odd ((i + k).choose i) ↔ i &&& k = 0 
         rw [bit_add_bit_mod_two, bit_add_bit_div_two, Nat.bit_mod_two,
           Nat.bit_div_two] at hL
         rw [Nat.land_bit, Nat.bit_eq_zero_iff]
-        simp only [Nat.bit_false_apply, Nat.bit_true_apply, Bool.toNat_true, Bool.and_self,
-          Bool.xor_self, Nat.choose_zero_succ, Nat.add_zero, zero_mul, mul_one, one_mul,
-          Bool.true_eq_false, false_and, not_false_eq_true, iff_false] at hL ⊢
+        simp only [Nat.bit_true_apply, Bool.toNat_true, Bool.and_self,
+          Bool.xor_self, Bool.true_eq_false] at hL ⊢
         have hL' : (2 * i + 1 + (2 * k + 1)).choose (2 * i + 1) ≡ 0 [MOD 2] := by
           simpa using hL
         simpa [and_false] using not_odd_of_modEq_zero hL'

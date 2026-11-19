@@ -34,7 +34,7 @@ private lemma c2slomqmtv_triv_fst {l m h j : ℕ} (hl : 1 ≤ l) :
   rw [omqMinusTriv]
   simp
 
-private lemma c2slomqmtv_cast_ne_zero {m j : ℕ} (hm : 2 ≤ m) (hj : ¬ m ∣ j) :
+private lemma c2slomqmtv_cast_ne_zero {m j : ℕ} (_hm : 2 ≤ m) (hj : ¬ m ∣ j) :
     -(j : ZMod m) ≠ 0 := by
   intro h
   apply hj
@@ -53,9 +53,8 @@ private lemma c2slomqmtv_act_a_fst_zero {l m h j : ℕ} (hl : 2 ≤ l) {π : Equ
     intro h
     have := congrArg Fin.val h
     simp at this
-  simp only [omqMinusAct, omqMinusTriv, Prod.fst, omqSignedAct, Equiv.refl_symm,
-    Equiv.refl_apply, Pi.single_apply]
-  rw [hsymm, if_neg hne, mul_zero]
+  simp only [omqMinusAct, omqMinusTriv, omqSignedAct, Pi.single_apply]
+  rw [hsymm, ite_eq_right hne, mul_zero]
 
 private lemma c2slomqmtv_triv_inj {l m h j j' : ℕ} (hl : 1 ≤ l) (hc : m.Coprime h)
     (hj : j < m * h) (hj' : j' < m * h)
@@ -104,13 +103,13 @@ private lemma c2slomqmtv_act_c {l m h j : ℕ} (hl : 1 ≤ l) (hj : j ≤ m * h)
     ring
   apply Prod.ext
   · funext b
-    simp only [omqMinusAct, omqMinusTriv, Prod.fst, omqSignedAct, Pi.single_apply]
+    simp only [omqMinusAct, omqMinusTriv, omqSignedAct, Pi.single_apply]
     rw [c2slomqmtv_one_symm_apply b]
     by_cases hb : b = ⟨0, by omega⟩
-    · rw [if_pos hb, if_pos hb, hb, hs0, hcast_m]
+    · rw [ite_eq_left hb, ite_eq_left hb, hb, hs0, hcast_m]
       ring
-    · rw [if_neg hb, if_neg hb, mul_zero]
-  · simp only [omqMinusAct, omqMinusTriv, Prod.snd, hprod, hcast_h]
+    · rw [ite_eq_right hb, ite_eq_right hb, mul_zero]
+  · simp only [omqMinusAct, omqMinusTriv, hprod, hcast_h]
     ring
 
 private def c2slomqmtv_J (m : ℕ) (i : Fin 7) : ℕ :=

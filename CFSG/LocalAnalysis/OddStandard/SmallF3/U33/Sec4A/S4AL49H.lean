@@ -15,14 +15,14 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 private lemma exists_mem_ctxM_conj_t_eq_tz (h : Ctx t L S x₁ x₂ lam rho tau)
-    (h43 : twoCore t = zpowers t) (h44 : tau ^ 2 = 1) (h2 : 2 ∣ S.index)
+    (h43 : twoCore t = zpowers t) (_h44 : tau ^ 2 = 1) (h2 : 2 ∣ S.index)
     (hS1 : ∀ 𝒮 : Sylow 2 G, S < (𝒮 : Subgroup G) →
       ctxS1 S (𝒮 : Subgroup G) ≤ ctxM t tau x₁ x₂) :
     ∃ α ∈ ctxM t tau x₁ x₂, α * t * α⁻¹ = t * (x₁ * x₂) ^ 2 := by
   obtain ⟨𝒮, h𝒮⟩ := exists_sylow_gt h.toCtx0.isPGroup h2
   obtain ⟨hinv, _hidx, _hodd⟩ := sylow_facts_of_l42 h h2 𝒮 h𝒮
   obtain ⟨α, hαSyl, hαN, hα_notS⟩ :=
-    exists_mem_normalizer_not_mem (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup') h𝒮
+    exists_mem_normalizer_not_mem (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup) h𝒮
   have hαS1 : α ∈ ctxS1 S (𝒮 : Subgroup G) := Subgroup.mem_inf.mpr ⟨hαN, hαSyl⟩
   refine ⟨α, hS1 𝒮 h𝒮 hαS1, ?_⟩
   have htZ : t ∈ S ⊓ centralizer (S : Set G) :=

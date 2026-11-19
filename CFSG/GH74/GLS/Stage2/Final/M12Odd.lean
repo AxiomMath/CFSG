@@ -125,7 +125,7 @@ section OddCore
 variable {G : Type} [Group G] [Finite G] {z : G} {S : Subgroup G}
 
 theorem coprime_orderOf_of_mem_OddCore {a : G} (ha : a ∈ OddCore z) : Nat.Coprime 2 (orderOf a) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc, rfl⟩ := ha
   have h1 : orderOf (⟨c, hc⟩ : ↥(pPrimeCore 2 ↥(Cen z))) ∣ Nat.card ↥(pPrimeCore 2 ↥(Cen z)) :=
     _root_.orderOf_dvd_natCard _
@@ -145,7 +145,7 @@ theorem eq_one_of_two_pow_of_mem_OddCore {a : G} (ha : a ∈ OddCore z) {k : ℕ
 
 omit [Finite G] in
 theorem Cen_le_normalizer_OddCore (z : G) : Cen z ≤ normalizer ((OddCore z : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfwd : ∀ c ∈ Cen z, ∀ x ∈ OddCore z, c * x * c⁻¹ ∈ OddCore z := by
     intro c hc x hx
     obtain ⟨y, hy, rfl⟩ := hx
@@ -166,7 +166,7 @@ theorem stage2OddCoreM12_of_max (hctx : Stage2Ctx G z Kind.m12 S) (hmax : IsCoat
     (hdir : IsInternalDirectProduct (OddCore z) (O2coreOf (O2Of (Cen z))) (WC z)) :
     pPrimeCore 2 ↥(Cen z) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   have h := stage1M12_of_stage1Data hctx.data
   obtain ⟨hWn, hWpg, hCcard, hfpf⟩ := m12_barFacts h
@@ -331,7 +331,7 @@ theorem stage2OddCoreM12_of_max (hctx : Stage2Ctx G z Kind.m12 S) (hmax : IsCoat
   rcases (hmax.le_iff.1 (Cen_le_normalizer_OddCore z)) with hN | hN
   ·
     have hnorm : (OddCore z).Normal := Subgroup.normalizer_eq_top_iff.1 hN
-    haveI := hnorm
+    have := hnorm
     rcases (hctx.std.kps.1).eq_bot_or_eq_top_of_normal (OddCore z) with hbot | htop
     · apply hne
       have : (pPrimeCore 2 ↥(Cen z)).map (Cen z).subtype = ⊥ := hbot

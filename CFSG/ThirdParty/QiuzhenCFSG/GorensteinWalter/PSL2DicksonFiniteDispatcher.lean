@@ -32,9 +32,9 @@ public theorem psl2_no_kleinFour_of_dickson_finite_cases
     (hDihedralOdd : ∀ z : ℕ,
       Nonempty (M ≃* DihedralGroup z) → Odd z) :
     False ∨
-      (∃ m t : ℕ, True) ∨
-      (∃ m : ℕ, True) ∨
-      (∃ m : ℕ, True) := by
+      (∃ _m _t : ℕ, True) ∨
+      (∃ _m : ℕ, True) ∨
+      (∃ _m : ℕ, True) := by
   let A0 : Subgroup M := A.subgroupOf M
   let V0 : Subgroup M := V.subgroupOf M
   have hA0cyc : IsCyclic A0 := isCyclic_subgroupOf hAM hAcyc
@@ -62,12 +62,12 @@ public theorem psl2_no_kleinFour_of_dickson_finite_cases
   · rcases hA5 with ⟨_hp, ⟨e⟩⟩
     exact Or.inl (no_kleinFour_centralizes_odd_cyclic_of_mulEquiv_alternatingGroup_five
       e A0 V0 hA0cyc hA0ne hA0odd hV0K hV0leC)
-  · rcases hSemidirect with ⟨m, t, _hdiv, _hamb, N, C, _hN, _hE, _hcard,
+  · rcases hSemidirect with ⟨_m, _t, _hdiv, _hamb, N, C, _hN, _hE, _hcard,
       _hC, _hCcard, _hdisj, _hjoin⟩
-    exact Or.inr (Or.inl ⟨m, t, trivial⟩)
-  · rcases hPSL with ⟨m, _hm, _hdiv, ⟨_e⟩⟩
-    exact Or.inr (Or.inr (Or.inl ⟨m, trivial⟩))
-  · rcases hPGL with ⟨m, _hm, _hdiv, ⟨_e⟩⟩
-    exact Or.inr (Or.inr (Or.inr ⟨m, trivial⟩))
+    exact Or.inr (Or.inl ⟨_m, _t, trivial⟩)
+  · rcases hPSL with ⟨_m, _hm, _hdiv, ⟨_e⟩⟩
+    exact Or.inr (Or.inr (Or.inl ⟨_m, trivial⟩))
+  · rcases hPGL with ⟨_m, _hm, _hdiv, ⟨_e⟩⟩
+    exact Or.inr (Or.inr (Or.inr ⟨_m, trivial⟩))
 
 end CFSG.GorensteinWalter

@@ -15,6 +15,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Quasithin C
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {R Y T L L₁ L₂ N : Subgroup (LGL 2 V)}
 
+omit [Finite V] in
 private theorem w183K3Core_exists_mul_of_mem_sup {A B : Subgroup (LGL 2 V)}
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {x : LGL 2 V} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
@@ -35,6 +36,7 @@ private theorem w183K3Core_exists_mul_of_mem_sup {A B : Subgroup (LGL 2 V)}
     rw [mul_inv_rev]
     exact hcomm a⁻¹ (A.inv_mem ha) b⁻¹ (B.inv_mem hb)
 
+omit [Finite V] in
 private theorem w183K3Core_mem_quasiCentre_of_mem_center {L : Subgroup (LGL 2 V)} {t : ↥L}
     (ht : t ∈ Subgroup.center ↥L) : (t : LGL 2 V) ∈ quasiCentre L := by
   rw [mem_quasiCentre]
@@ -42,6 +44,7 @@ private theorem w183K3Core_mem_quasiCentre_of_mem_center {L : Subgroup (LGL 2 V)
   have h := (Subgroup.mem_center_iff.mp ht) (⟨l, hl⟩ : ↥L)
   exact (congrArg Subtype.val h).symm
 
+omit [Finite V] in
 private theorem w183K3Core_mem_center_of_mem_quasiCentre' {L : Subgroup (LGL 2 V)}
     {t : ↥L} {z : LGL 2 V} (ht : (t : LGL 2 V) = z) (hz : z ∈ quasiCentre L) :
     t ∈ Subgroup.center ↥L := by
@@ -51,6 +54,7 @@ private theorem w183K3Core_mem_center_of_mem_quasiCentre' {L : Subgroup (LGL 2 V
   rw [← ht] at hz
   exact ((mem_quasiCentre.mp hz).2 (y : LGL 2 V) y.2).symm
 
+omit [Finite V] in
 private theorem w183K3Core_orderOf_odd_of_mem_quasiCentre {L : Subgroup (LGL 2 V)}
     (hodd : Odd (Nat.card ↥(Subgroup.center ↥L))) {z : LGL 2 V} (hz : z ∈ quasiCentre L) :
     Odd (orderOf z) := by
@@ -92,6 +96,7 @@ structure Br3TwoComp (Y T L₁ L₂ : Subgroup (LGL 2 V)) : Prop where
   cent : ∀ y ∈ Y, (∀ l ∈ L₁, y * l = l * y) → (∀ l ∈ L₂, y * l = l * y) → y ∈ L₁ ⊔ L₂
   gen : ∀ y ∈ Y, ∃ l ∈ L₁ ⊔ L₂, ∃ t ∈ T, y = l * t
 
+omit [Finite V] in
 theorem Br3TwoComp.symm (h : Br3TwoComp Y T L₁ L₂) : Br3TwoComp Y T L₂ L₁ := by
   refine
     { le₁ := h.le₂
@@ -128,6 +133,7 @@ theorem Br3TwoComp.symm (h : Br3TwoComp Y T L₁ L₂) : Br3TwoComp Y T L₂ L�
     obtain ⟨l, hl, t, ht, rfl⟩ := h.gen y hy
     exact ⟨l, by rw [sup_comm]; exact hl, t, ht, rfl⟩
 
+omit [Finite V] in
 theorem Br3TwoComp.eq_one_of_isPGroup_cent (h : Br3TwoComp Y T L₁ L₂) {x : LGL 2 V} (hxY : x ∈ Y)
     {k : ℕ} (hxk : x ^ (2 ^ k) = 1) (h₁ : ∀ l ∈ L₁, x * l = l * x)
     (h₂ : ∀ l ∈ L₂, x * l = l * x) : x = 1 := by
@@ -187,11 +193,13 @@ theorem Br3TwoComp.eq_one_of_isPGroup_cent (h : Br3TwoComp Y T L₁ L₂) {x : L
     induction x using QuotientGroup.induction_on with
     | H l => simp [QuotientGroup.congr_mk]
 
+omit [Finite V] in
 theorem psiQuot_apply_mk (hn : ∀ y ∈ R, ∀ l ∈ L, y * l * y⁻¹ ∈ L) (r : ↥R) (l : ↥L) :
     psiQuot R L hn r (QuotientGroup.mk l) = QuotientGroup.mk (psiOf R L hn r l) :=
   QuotientGroup.congr_mk (Subgroup.center ↥L) (Subgroup.center ↥L) (psiOf R L hn r)
     (Subgroup.map_center_eq (psiOf R L hn r)) l
 
+omit [Finite V] in
 private theorem w183K3Core_psiQuot_apply_eq_conj (hn : ∀ y ∈ R, ∀ l ∈ L, y * l * y⁻¹ ∈ L)
     {l : LGL 2 V} (hlR : l ∈ R) (hl : l ∈ L) :
     psiQuot R L hn ⟨l, hlR⟩ = MulAut.conj (QuotientGroup.mk (⟨l, hl⟩ : ↥L)) := by
@@ -202,6 +210,7 @@ private theorem w183K3Core_psiQuot_apply_eq_conj (hn : ∀ y ∈ R, ∀ l ∈ L,
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul]
     rfl
 
+omit [Finite V] in
 theorem mem_ker_psiQuot_iff (hn : ∀ y ∈ R, ∀ l ∈ L, y * l * y⁻¹ ∈ L) (r : ↥R) :
     r ∈ (psiQuot R L hn).ker ↔
       ∀ l ∈ L, (r : LGL 2 V) * l * (r : LGL 2 V)⁻¹ * l⁻¹ ∈ quasiCentre L := by
@@ -218,7 +227,7 @@ theorem mem_ker_psiQuot_iff (hn : ∀ y ∈ R, ∀ l ∈ L, y * l * y⁻¹ ∈ L
     have ht : t ∈ Subgroup.center ↥L := (QuotientGroup.eq_one_iff t).mp h1
     have hz := w183K3Core_mem_quasiCentre_of_mem_center ht
     have hteq : (t : LGL 2 V) = (r : LGL 2 V) * l * (r : LGL 2 V)⁻¹ * l⁻¹ := by
-      simp only [t, Subgroup.coe_mul, Subgroup.coe_inv, psiOf_apply, Subtype.coe_mk]
+      simp only [t, Subgroup.coe_mul, Subgroup.coe_inv, psiOf_apply]
     rwa [hteq] at hz
   · intro h
     ext x
@@ -226,9 +235,10 @@ theorem mem_ker_psiQuot_iff (hn : ∀ y ∈ R, ∀ l ∈ L, y * l * y⁻¹ ∈ L
     | H l =>
       rw [psiQuot_apply_mk, MulAut.one_apply, QuotientGroup.eq]
       refine w183K3Core_mem_center_of_mem_quasiCentre' ?_ (h l⁻¹ (L.inv_mem l.2))
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, psiOf_apply, Subtype.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, psiOf_apply]
       group
 
+omit [Finite V] in
 theorem QuasiCore.mem_ker_psiQuot_iff_centralizes (c : QuasiCore R L N) (r : ↥R) :
     r ∈ (psiQuot R L c.normal).ker ↔ ∀ l ∈ L, (r : LGL 2 V) * l = l * (r : LGL 2 V) := by
   rw [mem_ker_psiQuot_iff]
@@ -239,6 +249,7 @@ theorem QuasiCore.mem_ker_psiQuot_iff_centralizes (c : QuasiCore R L N) (r : ↥
     rw [h l hl]
     simp
 
+omit [Finite V] in
 private theorem w183K3Core_imgOf_quasiCentre_eq_bot (c : QuasiCore R L N) :
     imgOf (psiQuot R L c.normal) (quasiCentre L) = ⊥ := by
   apply le_antisymm _ bot_le
@@ -251,8 +262,9 @@ private theorem w183K3Core_imgOf_quasiCentre_eq_bot (c : QuasiCore R L N) :
   intro l hl
   exact (mem_quasiCentre.mp hr).2 l hl
 
+omit [Finite V] in
 theorem QuasiCore.inf_ker_psiQuot_eq_bot (c : QuasiCore R L N) {D : Subgroup (LGL 2 V)}
-    (hD : D ≤ R) (hD2 : IsPGroup 2 D) :
+    (_hD : D ≤ R) (hD2 : IsPGroup 2 D) :
     D.subgroupOf R ⊓ (psiQuot R L c.normal).ker = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro d hd
@@ -268,6 +280,7 @@ theorem QuasiCore.inf_ker_psiQuot_eq_bot (c : QuasiCore R L N) {D : Subgroup (LG
     simpa using hmem
   exact Subtype.ext hd1
 
+omit [Finite V] in
 theorem QuasiCore.card_imgOf_psiQuot (c : QuasiCore R L N) {D : Subgroup (LGL 2 V)}
     (hD : D ≤ R) (hD2 : IsPGroup 2 D) :
     Nat.card ↥(imgOf (psiQuot R L c.normal) D) = Nat.card ↥D := by
@@ -296,6 +309,7 @@ theorem QuasiCore.card_imgOf_psiQuot (c : QuasiCore R L N) {D : Subgroup (LGL 2 
   rw [← Nat.card_congr (Equiv.ofBijective φ hφ)]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD).toEquiv
 
+omit [Finite V] in
 theorem QuasiCore.imgOf_psiQuot_L (c : QuasiCore R L N) :
     imgOf (psiQuot R L c.normal) L = innAutOf (↥L ⧸ Subgroup.center ↥L) := by
   apply le_antisymm

@@ -92,7 +92,7 @@ theorem qTwoNbrRec_exists_quot {K Bs : Subgroup G}
     ∃ (Q : Type) (_ : Group Q) (q : ↥(K ⊔ Bs) →* Q), Function.Surjective q ∧
       q.ker = (qTwoNbrRec_Delta K).subgroupOf (K ⊔ Bs) := by
   let N := (qTwoNbrRec_Delta K).subgroupOf (K ⊔ Bs)
-  haveI : N.Normal := qTwoNbrRec_Delta_normal_sup hN
+  have : N.Normal := qTwoNbrRec_Delta_normal_sup hN
   exact ⟨↥(K ⊔ Bs) ⧸ N, inferInstance, QuotientGroup.mk' N,
     QuotientGroup.mk'_surjective N, QuotientGroup.ker_mk' N⟩
 

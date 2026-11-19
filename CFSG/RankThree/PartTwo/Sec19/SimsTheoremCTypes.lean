@@ -43,12 +43,12 @@ theorem card_quot_of_isOmegaMinusType {L : Subgroup G} {m : ℕ} (h : IsOmegaMin
 
 theorem card_alternatingGroup_fin {n : ℕ} (hn : 2 ≤ n) :
     Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
 
 theorem card_alternatingGroup_fin_of_le_one {n : ℕ} (hn : n ≤ 1) :
     Nat.card (alternatingGroup (Fin n)) = 1 := by
-  haveI : Subsingleton (alternatingGroup (Fin n)) := alternatingGroup_fin_subsingleton n (by omega)
+  have : Subsingleton (alternatingGroup (Fin n)) := alternatingGroup_fin_subsingleton n (by omega)
   exact Nat.card_unique
 
 theorem card_quot_of_isA7FourType {L : Subgroup G} (h : IsA7FourType L) :

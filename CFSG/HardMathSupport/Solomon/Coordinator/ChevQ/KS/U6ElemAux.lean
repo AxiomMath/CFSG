@@ -23,7 +23,7 @@ theorem plane_four_of_frame : ∀ x4 y4 z4 x5 y5 z5 : ZMod 3, ∃ a b c t : ZMod
 theorem exists_plane_four (v₁ v₂ v₃ : Fin 6 → ZMod 3) :
     ∃ a b c t : ZMod 3, (a ≠ 0 ∨ b ≠ 0 ∨ c ≠ 0) ∧
       4 ≤ (Finset.univ.filter fun j : Fin 6 => a * v₁ j + b * v₂ j + c * v₃ j = t).card := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set M : Matrix (Fin 3) (Fin 3) (ZMod 3) :=
     !![v₁ 1 - v₁ 0, v₁ 2 - v₁ 0, v₁ 3 - v₁ 0;
        v₂ 1 - v₂ 0, v₂ 2 - v₂ 0, v₂ 3 - v₂ 0;
@@ -177,7 +177,7 @@ theorem card_le_eigenDim {n : ℕ} {K : Type*} [Field K] [DecidableEq K]
       ext i
       by_cases hi : i = j
       · subst hi; simp [Matrix.diagonal_apply_eq, hj]
-      · simp [Matrix.diagonal_apply_ne _ hi, Pi.single_apply, hi]
+      · simp [hi]
     rw [this, Matrix.mulVec_smul, sub_self]
   have hspan : Submodule.span K (Set.range u) ≤ LinearMap.ker (Matrix.toLin' X - c •
       (LinearMap.id : (Fin n → K) →ₗ[K] (Fin n → K))) := by
@@ -314,8 +314,7 @@ theorem three_dvd_eigenDim {K : Type*} [Field K] {n : ℕ} (g₁ g₂ g₃ : GL 
       hg12
     simp only [Units.val_mul, ← Matrix.mulVec_mulVec] at h1
     rw [hscal] at h1
-    simp only [Module.End.mul_apply, LinearMap.smul_apply, ha, hb, LinearMap.coe_restrict_apply,
-      Matrix.toLin'_apply, Submodule.coe_smul]
+    simp only [Module.End.mul_apply, LinearMap.smul_apply, ha, hb, Submodule.coe_smul]
     exact h1
   have hinj : ∀ (h : GL (Fin n) K) (hh : ∀ w ∈ W, (h : Matrix (Fin n) (Fin n) K) *ᵥ w ∈ W),
       LinearMap.det ((Matrix.toLin' (h : Matrix (Fin n) (Fin n) K)).restrict hh) ≠ 0 := by
@@ -342,7 +341,7 @@ theorem three_dvd_eigenDim {K : Type*} [Field K] {n : ℕ} (g₁ g₂ g₃ : GL 
   have hpowU : κ ^ Module.finrank K W = 1 := by
     apply Units.ext
     simpa using hpow
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hord : orderOf κ = 3 := orderOf_eq_prime hκ3 hκ1
   rw [← hord]
   exact orderOf_dvd_of_pow_eq_one hpowU
@@ -364,8 +363,8 @@ theorem exists_independent_triple_of_elemAbelian {G : Type*} [Group G] (E : Subg
     have : y ^ 3 = 1 := Subtype.ext (by simpa using hexp y y.2)
     rw [this]
     rfl
-  letI : Module (ZMod 3) (Additive E) := AddCommGroup.zmodModule hexpA
-  haveI : Module.Finite (ZMod 3) (Additive E) := Module.Finite.of_finite
+  let : Module (ZMod 3) (Additive E) := AddCommGroup.zmodModule hexpA
+  have : Module.Finite (ZMod 3) (Additive E) := Module.Finite.of_finite
   have hcard : Nat.card (Additive E) = 3 ^ Module.finrank (ZMod 3) (Additive E) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 3), Nat.card_zmod]
   have hrank : 3 ≤ Module.finrank (ZMod 3) (Additive E) := by
@@ -497,7 +496,7 @@ theorem scalar_mem_uU_of_pow_nine_eq_one (h : UnitaryFieldData 2 3 K0) {c : K0ˣ
     simpa using congrArg Units.val hc
   ext i j
   simp only [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.transpose_apply,
-    Matrix.map_apply, Matrix.mul_apply, Matrix.diagonal_apply, Units.val_one, Matrix.one_apply]
+    Matrix.map_apply, Matrix.mul_apply, Matrix.diagonal_apply, Matrix.one_apply]
   by_cases hij : i = j
   · subst hij
     simp [h1]
@@ -516,7 +515,7 @@ theorem exists_pow_mul_eigenDim_ge_four_of_commute (h : UnitaryFieldData 2 3 K0)
       4 ≤ eigenDim (((g 0 ^ a * g 1 ^ b * g 2 ^ c : StatedSU 6 (2 ^ 3) K0) : GL (Fin 6) K0) :
         Matrix (Fin 6) (Fin 6) K0) t := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hK : Nat.card K0 = 64 := by simpa using h.card
   have hscal : ∀ i, ∃ l : K0ˣ, l ^ 9 = 1 ∧
       ((g i : StatedSU 6 (2 ^ 3) K0) : GL (Fin 6) K0) ^ 3 =
@@ -566,7 +565,7 @@ theorem exists_pow_mul_eigenDim_ge_four_of_commute (h : UnitaryFieldData 2 3 K0)
   obtain ⟨ω, hω3, hω1, -⟩ := CFSG.HardMathSupport.Dickson.Bal207.FirstClaim.exists_cube_root_bar
     h (by norm_num : 3 ∣ 2 ^ 3 + 1)
   have hζ : IsPrimitiveRoot ω 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
     exact hord ▸ IsPrimitiveRoot.orderOf ω
   obtain ⟨P, -, hPd⟩ := CFSG.HardMathSupport.Dickson.Bal207.FirstClaim.exists_unitary_isDiag_conj
@@ -587,7 +586,7 @@ theorem exists_pow_mul_eigenDim_ge_four_of_commute (h : UnitaryFieldData 2 3 K0)
         ((g' 0 ^ a * g' 1 ^ b * g' 2 ^ c : GL (Fin 6) K0) : Matrix (Fin 6) (Fin 6) K0) := by
     simp only [Subgroup.coe_mul, Subgroup.coe_pow, Units.val_mul, Units.val_pow_eq_pow_val]
     rw [hmat 0, hmat 1, hmat 2]
-    simp only [smul_pow, smul_mul_smul_comm, smul_smul]
+    simp only [smul_pow, smul_mul_smul_comm]
   rw [hG, eigenDim_smul _ (Units.ne_zero _)]
   exact ht
 
@@ -598,10 +597,10 @@ theorem exists_toral_good (h : UnitaryFieldData 2 3 K0)
       g₁ * g₂ = g₂ * g₁) :
     ∃ g : StatedSU 6 (2 ^ 3) K0, projH _ g ∈ E ∧ projH _ g ≠ 1 ∧ ∃ t : K0,
       4 ≤ eigenDim ((g : GL (Fin 6) K0) : Matrix (Fin 6) (Fin 6) K0) t := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K0) := Finite.of_injective
+  have := h.finite
+  have : Finite (GL (Fin 6) K0) := Finite.of_injective
     (fun g : GL (Fin 6) K0 => (g : Matrix (Fin 6) (Fin 6) K0)) Units.val_injective
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   obtain ⟨e₁, he₁, e₂, he₂, e₃, he₃, hind⟩ := exists_independent_triple_of_elemAbelian E hE.2 h27
   obtain ⟨g₁, hg₁⟩ := projH_surjective (H := StatedSU 6 (2 ^ 3) K0) e₁
   obtain ⟨g₂, hg₂⟩ := projH_surjective (H := StatedSU 6 (2 ^ 3) K0) e₂
@@ -635,10 +634,10 @@ theorem exists_heis_triple (h : UnitaryFieldData 2 3 K0)
         (g₂ : GL (Fin 6) K0)⁻¹ = Matrix.GeneralLinearGroup.scalar (Fin 6) κ) ∧
       (g₁ : GL (Fin 6) K0) * g₃ = g₃ * g₁ ∧ (g₂ : GL (Fin 6) K0) * g₃ = g₃ * g₂ ∧
       ∀ c : K0, 3 ∣ eigenDim ((g₃ : GL (Fin 6) K0) : Matrix (Fin 6) (Fin 6) K0) c := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K0) := Finite.of_injective
+  have := h.finite
+  have : Finite (GL (Fin 6) K0) := Finite.of_injective
     (fun g : GL (Fin 6) K0 => (g : Matrix (Fin 6) (Fin 6) K0)) Units.val_injective
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   obtain ⟨g₁, g₂, h1, h2, hne⟩ : ∃ g₁ g₂ : StatedSU 6 (2 ^ 3) K0, projH _ g₁ ∈ E ∧
       projH _ g₂ ∈ E ∧ g₁ * g₂ ≠ g₂ * g₁ := by
     by_contra hcon

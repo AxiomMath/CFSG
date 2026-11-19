@@ -56,7 +56,7 @@ private theorem seventeen_two_one_sigma (D : Data G) (hSg : UC6S846.SigmaStd D)
     (hDnc : ¬ IsCyclic ↥Dsub) (hexp : ∀ x ∈ Dsub, x ^ p = 1)
     (hnormal : ((Dsub ⊔ pCoreOf 2 D.M).subgroupOf D.M).Normal) (hpσ : p ∈ D.sig) :
     F11.InP11 D Dsub := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, -, hperm⟩ := seventeen_two_K_facts D hDM hnormal
   have hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M :=
     hSg.sig1_sp p (by rwa [← h1219])
@@ -87,8 +87,8 @@ private theorem seventeen_two_sylow_p_normalized (D : Data G) {p q : ℕ}
     ∃ (Q P : Subgroup G), CFSG.ABGLocalTools.IsSylowOf q Q D.M ∧
       CFSG.Quasithin.IsSylowIn p P (Dsub ⊔ pCoreOf 2 D.M) ∧
       Q ≤ Subgroup.normalizer (P : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hKnormal, -, -, -⟩ := seventeen_two_K_facts D hDM hnormal
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hDp
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D.M)
@@ -102,7 +102,7 @@ private theorem seventeen_two_sylow_p_normalized (D : Data G) {p q : ℕ}
   obtain ⟨S⟩ : Nonempty (Sylow q D.M) := inferInstance
   let Q : Subgroup G := (S : Subgroup D.M).map D.M.subtype
   have hQ : CFSG.ABGLocalTools.IsSylowOf q Q D.M := ⟨S, rfl⟩
-  have hQp : IsPGroup q Q := S.isPGroup'.map D.M.subtype
+  have hQp : IsPGroup q Q := S.isPGroup.map D.M.subtype
   have hQK : Q ≤ Subgroup.normalizer ((Dsub ⊔ pCoreOf 2 D.M : Subgroup G) : Set G) :=
     CFSG.ABGLocalTools.IsSylowOf.le hQ |>.trans hKnormal
   obtain ⟨P, hPsyl, hQnormP⟩ :=
@@ -111,9 +111,9 @@ private theorem seventeen_two_sylow_p_normalized (D : Data G) {p q : ℕ}
 
 private theorem seventeen_two_D_sylow_p (D : Data G) {p : ℕ} {Dsub : Subgroup G}
     (hp : p.Prime) (hp2 : p ≠ 2) (hDM : Dsub ≤ D.M) (hDp : IsPGroup p Dsub)
-    (hnormal : ((Dsub ⊔ pCoreOf 2 D.M).subgroupOf D.M).Normal) :
+    (_hnormal : ((Dsub ⊔ pCoreOf 2 D.M).subgroupOf D.M).Normal) :
     CFSG.ABGLocalTools.IsSylowOf p Dsub (Dsub ⊔ pCoreOf 2 D.M) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hDp
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D.M)
   obtain ⟨-, hcardK⟩ := seventeen_two_disjoint_card D hp hp2 hDM hn hm
@@ -137,7 +137,7 @@ private theorem seventeen_two_rank_normalizer (D : Data G) {p q : ℕ}
     (hQnormP : Q ≤ Subgroup.normalizer (P : Set G)) :
     CFSG.Open.pRank q (D.M ⊓ Subgroup.normalizer (Dsub : Set G)) =
       CFSG.Open.pRank q D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Knormal, -, -, -⟩ := seventeen_two_K_facts D hDM hnormal
   have hDsylOf : CFSG.ABGLocalTools.IsSylowOf p Dsub (Dsub ⊔ pCoreOf 2 D.M) :=
     seventeen_two_D_sylow_p D hp hp2 hDM hDp hnormal
@@ -201,7 +201,7 @@ private theorem seventeen_two_sylow_normalizes (D : Data G) {p : ℕ} {Dsub P : 
     (hnormal : ((Dsub ⊔ pCoreOf 2 D.M).subgroupOf D.M).Normal)
     (hDP : Dsub ≤ P) (hPsyl : CFSG.ABGLocalTools.IsSylowOf p P D.M) :
     P ≤ Subgroup.normalizer (Dsub : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Knormal, -, -, -⟩ := seventeen_two_K_facts D hDM hnormal
   let Y : Subgroup G := P ⊓ (Dsub ⊔ pCoreOf 2 D.M)
   have hYleK : Y ≤ Dsub ⊔ pCoreOf 2 D.M := by
@@ -238,7 +238,7 @@ private theorem seventeen_two_sylow_normalizes (D : Data G) {p : ℕ} {Dsub P : 
     have h := hforward p'⁻¹ (P.inv_mem hp') (p' * x * p'⁻¹) hx
     simpa [mul_assoc] using h
 
-private theorem seventeen_two_rank_normalizer_all (D : Data G) (hSg : UC6S846.SigmaStd D)
+private theorem seventeen_two_rank_normalizer_all (D : Data G) (_hSg : UC6S846.SigmaStd D)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Dsub : Subgroup G} (hDM : Dsub ≤ D.M)
     (hDp : IsPGroup p Dsub) (hnormal : ((Dsub ⊔ pCoreOf 2 D.M).subgroupOf D.M).Normal)
     (hpσ : p ∉ D.sig) :
@@ -258,7 +258,7 @@ private theorem seventeen_two_one_not_sigma (D : Data G) (hSg : UC6S846.SigmaStd
     (hclass : ⁅⁅Dsub, Dsub⁆, Dsub⁆ = ⊥)
     (hnormal : ((Dsub ⊔ pCoreOf 2 D.M).subgroupOf D.M).Normal) (hpσ : p ∉ D.sig) :
     F11.InP11 D Dsub := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, -, hperm⟩ := seventeen_two_K_facts D hDM hnormal
   have hΓ : rankThreeGamma 1 p Dsub ≤ D.M :=
     s11_TenP_rankThreeGamma_le D hSg h1219 h77 hp hp2 hDM hDp hDnc hexp hclass
@@ -271,7 +271,7 @@ private theorem seventeen_two_one_not_sigma (D : Data G) (hSg : UC6S846.SigmaStd
     Or.inr ⟨Dsub, hDnc, ⟨P', hPsylM, hDP', hPN⟩, hΓ⟩⟩
 
 theorem seventeen_two_one (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = D.sig1)
-    (h77 : F07.R77Eq D) {V₀ V : Subgroup G} (hV : Hyp125 D V₀ V) : R17_2_1At D V₀ V := by
+    (h77 : F07.R77Eq D) {V₀ V : Subgroup G} (_hV : Hyp125 D V₀ V) : R17_2_1At D V₀ V := by
   intro p Dsub hp hp2 hDM hDp hDnc hexp hclass hnormal
   by_cases hpσ : p ∈ D.sig
   · exact seventeen_two_one_sigma D hSg h1219 hp hp2 hDM hDp hDnc hexp hnormal hpσ
@@ -281,7 +281,7 @@ theorem seventeen_two_two (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig
     (h77 : F07.R77Eq D) {V₀ V : Subgroup G} (hV : Hyp125 D V₀ V)
     (h17_1 : R17_1At D V₀ V hV) : R17_2_2At D V₀ V hV := by
   intro p Dsub hp hp2 hDM hDp hDnc hexp hclass hnormal
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP : F11.InP11 D Dsub :=
     seventeen_two_one D hSg h1219 h77 hV p Dsub hp hp2 hDM hDp hDnc hexp hclass hnormal
   obtain ⟨hPStarEmpty, hPconfig⟩ := h17_1
@@ -291,7 +291,7 @@ theorem seventeen_two_two (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig
     intro h0
     apply hDnc
     have hcard : Nat.card ↥Dsub = 1 := by rw [ha, h0]; simp
-    haveI : Subsingleton ↥Dsub := (Nat.card_eq_one_iff_unique.mp hcard).1
+    have : Subsingleton ↥Dsub := (Nat.card_eq_one_iff_unique.mp hcard).1
     exact isCyclic_of_subsingleton
   have ha1 : a ≠ 1 := by
     intro h1

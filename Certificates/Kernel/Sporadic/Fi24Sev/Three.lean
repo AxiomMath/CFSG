@@ -19,15 +19,18 @@ section Generic
 
 variable {G Ω : Type*} [Group G] [Finite G] [MulAction G Ω] [Fintype Ω] [DecidableEq Ω]
 
+omit [Finite G] in
 theorem fixS_inv (g : G) : (fixS g⁻¹ : Finset Ω) = fixS g := by
   ext i
   rw [mem_fixS, mem_fixS, inv_smul_eq_iff, eq_comm]
 
+omit [Finite G] in
 theorem card_fixS_sq {g : G} (h : g ^ 3 = 1) :
     (fixS (g ^ 2) : Finset Ω).card = (fixS g : Finset Ω).card := by
   have : g ^ 2 = g⁻¹ := eq_inv_of_mul_eq_one_left (by rw [← pow_succ, h])
   rw [this, fixS_inv]
 
+omit [Finite G] in
 theorem ne_one_of_card_fixS {g : G} {n : ℕ} (h : (fixS g : Finset Ω).card = n)
     (hn : n ≠ Fintype.card Ω) : g ≠ 1 := by
   rintro rfl
@@ -35,6 +38,7 @@ theorem ne_one_of_card_fixS {g : G} {n : ℕ} (h : (fixS g : Finset Ω).card = n
   rw [← h]
   simp [fixS]
 
+omit [Finite G] in
 theorem conj_eq_one {g x : G} (h : g⁻¹ * x * g = 1) : x = 1 := by
   calc x = g * (g⁻¹ * x * g) * g⁻¹ := by group
     _ = 1 := by rw [h]; group
@@ -140,12 +144,14 @@ theorem three_of_cyclic {c w : G} {a : ℕ}
   · rw [pow_one]; exact fw
   · rw [card_fixS_sq hw3]; exact fw
 
+omit [Finite G] in
 theorem no_root {r : G} (hr7 : r ^ 7 = 1) (hr1 : r ≠ 1) (hpow : ∀ g : G, g ^ 49 = 1 → g ^ 7 = 1)
     (g : G) : g ^ 7 ≠ r := by
   intro hg
   have h49 : g ^ 49 = 1 := by rw [show 49 = 7 * 7 by norm_num, pow_mul, hg, hr7]
   exact hr1 (hg ▸ hpow g h49)
 
+omit [Finite G] in
 theorem comm_pow_seven {x y c : G} (hx7 : x ^ 7 = 1) (hy7 : y ^ 7 = 1)
     (hc : c = x * y * x ^ 6 * y ^ 6) (hcy : c * y = y * c) : c ^ 7 = 1 := by
   have h6 : x ^ 6 = x⁻¹ := eq_inv_of_mul_eq_one_left (by rw [← pow_succ, hx7])

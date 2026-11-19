@@ -146,7 +146,7 @@ theorem isPGroup_of_closed (G₀ : Set Sˣ) (hord : ∀ g ∈ G₀, g ^ 5 = 1)
         LocalWitness.valHom_inv_of_pow S (by norm_num) (hord x hx)
       rw [this]
       exact Submonoid.pow_mem _ hm _
-    | one => exact ⟨by simpa using Submonoid.one_mem _, by simpa using Submonoid.one_mem _⟩
+    | one => exact ⟨by simp, by simp⟩
     | mul x y hx hy ihx ihy =>
       refine ⟨?_, ?_⟩
       · rw [map_mul]; exact Submonoid.mul_mem _ ihx.1 ihy.1
@@ -312,7 +312,7 @@ theorem plane_sound [Inhabited M] [Inhabited V] {nregs : ℕ} {seedA seedB : Str
     apply Sp.toVec_ne_of_distinctOK hnf (by rw [hsz]; exact c1) (by rw [hsz]; exact c1') hcne
     rw [hvs _ c1, hvs _ c1', c2, c3, c2', c3', hm]
   set H : Subgroup Sˣ := Subgroup.closure ({uu, vv} : Set Sˣ) with hH
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have huH : uu ∈ H := Subgroup.subset_closure (by simp)
   have hvH : vv ∈ H := Subgroup.subset_closure (by simp)
   have hmk : ∀ n ∈ Pl.norms, ∃ g : Sˣ, valHom S g = Sp.toMat R[n.reg]! ∧
@@ -354,7 +354,7 @@ theorem plane_sound [Inhabited M] [Inhabited V] {nregs : ℕ} {seedA seedB : Str
       rcases hx with rfl | rfl
       · exact hgu
       · exact hgv
-    | one => simpa using H.one_mem
+    | one => simp
     | mul x y hx hy ihx ihy =>
       have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [this]
@@ -587,7 +587,7 @@ theorem co1Gen_of_check [Inhabited M] [Inhabited V] (D : Co1Gen.Data)
     · exact Subgroup.subset_closure (by simp)
     · rw [hv2w]
       refine Subgroup.closure_mono (fun z hz => ?_) hw
-      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hz ⊢
+      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hz ⊢
       rcases hz with rfl | rfl <;> simp
   have hgen : Subgroup.closure (N1 ∪ N2) = ⊤ := by
     set ns : List M := (D.plane1.norms ++ D.plane2.norms).map fun n => R[n.reg]! with hns

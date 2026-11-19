@@ -77,7 +77,7 @@ theorem exists_sylow_le_centralizer {A K : Subgroup G} (hA : CFSG.Assembly.IsEle
       _ ≤ 3 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega)
   obtain ⟨S, hQS⟩ := hQ3.exists_le_sylow
   have hS27 : Nat.card (S : Subgroup K) ≤ 27 := by
-    have hinj := injOn_mk_of_isPGroup Nat.prime_three S.isPGroup'
+    have hinj := injOn_mk_of_isPGroup Nat.prime_three S.isPGroup
     have hcard : Nat.card ((S : Subgroup K).map
         (QuotientGroup.mk' (aschbacherSolvableCore 3 K))) = Nat.card (S : Subgroup K) := by
       change Nat.card (↑((S : Subgroup K).map (QuotientGroup.mk' (aschbacherSolvableCore 3 K))) :
@@ -86,7 +86,7 @@ theorem exists_sylow_le_centralizer {A K : Subgroup G} (hA : CFSG.Assembly.IsEle
     have hdvd : Nat.card (S : Subgroup K) ∣ 604800 := by
       rw [← hcard, ← KFacts.KS14.card_eq_of_j2 hKθ]
       exact Subgroup.card_subgroup_dvd_card _
-    obtain ⟨i, hi⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨i, hi⟩ := IsPGroup.iff_card.mp S.isPGroup
     rw [hi] at hdvd ⊢
     by_contra hlt
     push Not at hlt
@@ -223,7 +223,7 @@ theorem mem_zpowers_of_forall_mem_theta (h415 : Sec4.Item4_15) {K L₀ : Subgrou
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply] at hm'
     exact QuotientGroup.eq.mp hm'
   obtain ⟨S, hzS, -⟩ := hSyl
-  obtain ⟨j, hj⟩ := S.isPGroup' ⟨z, hzS⟩
+  obtain ⟨j, hj⟩ := S.isPGroup ⟨z, hzS⟩
   have hzj : z ^ 3 ^ j = 1 := by simpa using congrArg Subtype.val hj
   have hy'3 : y' ^ 3 ^ 1 = 1 := Subtype.ext (by simpa using hy3)
   have hyz : Commute y' z := Subtype.ext hyc

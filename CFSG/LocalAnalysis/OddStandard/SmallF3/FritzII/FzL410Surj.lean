@@ -21,7 +21,7 @@ include D hΦ
 
 theorem act_surjective : Function.Surjective Φ := by
   have hcard : Nat.card (Fz410Om E P Q) = 4 := D.card_Om
-  haveI : Finite (Fz410Om E P Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Fz410Om E P Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hρx : Φ ⟨rho, D.rho_mem_M⟩ D.Wom = D.Wom :=
     D.act_W Φ hΦ ⟨rho, D.rho_mem_M⟩ D.rho_mem_N2
   have hlx : Φ ⟨lam, D.lam_mem_M⟩ D.Wom = D.Wom :=
@@ -47,14 +47,14 @@ theorem act_surjective : Function.Surjective Φ := by
     by_cases hy : y = D.Wom
     · exact ⟨1, Subgroup.one_mem _, by simp [hy]⟩
     · obtain ⟨k, -, hky⟩ := fz410_perm_trans hcard D.Wom (a := Φ ⟨rho, D.rho_mem_M⟩) hρx
-        (D.act_rho_pow Φ hΦ) (D.act_rho_ne_one Φ hΦ) hσ y hy
+        (D.act_rho_pow Φ) (D.act_rho_ne_one Φ hΦ) hσ y hy
       exact ⟨Φ ⟨rho, D.rho_mem_M⟩ ^ k * Φ ⟨g, hg⟩,
         Subgroup.mul_mem _ (Subgroup.pow_mem _ (hρr) k)
           (hgr), hky⟩
   have htop := fz410_perm_top hcard Φ.range D.Wom htrans (a := Φ ⟨rho, D.rho_mem_M⟩)
     (b := Φ ⟨lam, D.lam_mem_M⟩) (hρr)
-    (hlr) hρx hlx (D.act_rho_pow Φ hΦ)
-    (D.act_rho_ne_one Φ hΦ) (D.act_lam_sq Φ hΦ) (D.act_lam_rho Φ hΦ)
+    (hlr) hρx hlx (D.act_rho_pow Φ)
+    (D.act_rho_ne_one Φ hΦ) (D.act_lam_sq Φ) (D.act_lam_rho Φ)
   exact MonoidHom.range_eq_top.mp htop
 
 end Fz410Set

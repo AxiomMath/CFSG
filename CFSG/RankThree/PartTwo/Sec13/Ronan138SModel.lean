@@ -42,7 +42,7 @@ theorem ActsPGL.mul {x x' : G} {y y' : GL (Fin 3) F} (h : ActsPGL ψ x y)
   rw [thetaQuotMulAut_mul hx hx', hact, hact', map_mul]
   group
 
-theorem actsPGL_one (hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f F) :
+theorem actsPGL_one (_hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f F) :
     ActsPGL ψ (1 : G) 1 := by
   refine ⟨one_mem _, one_mem _, fun z => ?_⟩
   have : (⟨1, one_mem _⟩ : Subgroup.normalizer (K : Set G)) = 1 := rfl

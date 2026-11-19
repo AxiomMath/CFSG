@@ -108,14 +108,14 @@ private theorem conjPlaneSet_eq_tangentBundle (hP : IsGeneralizedPolygon Γ 4) (
     have hcoe : (Lall : Set (Set V)) = {ℓ | IsHypLine Γ c ℓ ∧ x ∈ ℓ} := by
       ext ℓ
       simp only [Lall, Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_coe,
-        Set.mem_setOf_eq]
+        Set.mem_ofPred_eq]
     rw [← Set.ncard_coe_finset, hcoe]
     exact ncard_hypLines_through hP hT c hdeg hreg hx0
   have hLYcard : LY.card = s := by
     have hcoe : (LY : Set (Set V)) = {ℓ | IsHypLine Γ c ℓ ∧ x ∈ ℓ ∧ ℓ ⊆ Y} := by
       ext ℓ
       simp only [LY, Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_coe,
-        Set.mem_setOf_eq]
+        Set.mem_ofPred_eq]
     rw [← Set.ncard_coe_finset, hcoe]
     exact ncard_hypLines_through_subset hP hT c hdeg hreg hYstar hxY hYne
   have hLfcard : Lf.card = s ^ 2 - s := by
@@ -149,7 +149,7 @@ private theorem conjPlaneSet_eq_tangentBundle (hP : IsGeneralizedPolygon Γ 4) (
         then Classical.choose h else ∅) ∧
       IsConjPlane Γ c Y (if h : ∃ W, IsStarPlane Γ c W ∧ ℓ ⊆ W ∧ IsConjPlane Γ c Y W
         then Classical.choose h else ∅)
-    rw [dif_pos hex]
+    rw [dite_eq_left hex]
     exact Classical.choose_spec hex
   have hWf_unique : ∀ ℓ : Set V, IsHypLine Γ c ℓ → ¬ ℓ ⊆ Y → ¬ ptPerp Γ c ℓ ⊆ Y →
       ∀ W : Set V, IsStarPlane Γ c W → ℓ ⊆ W → IsConjPlane Γ c Y W → Wf ℓ = W := by
@@ -204,7 +204,7 @@ private theorem conjPlaneSet_eq_tangentBundle (hP : IsGeneralizedPolygon Γ 4) (
     have hcoe : (Finset.univ.filter (fun ℓ => IsHypLine Γ c ℓ ∧ x ∈ ℓ ∧ ℓ ⊆ W) :
         Set (Set V)) = {ℓ | IsHypLine Γ c ℓ ∧ x ∈ ℓ ∧ ℓ ⊆ W} := by
       ext ℓ
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_coe, Set.mem_setOf_eq]
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_coe, Set.mem_ofPred_eq]
     rw [← Set.ncard_coe_finset, hcoe]
     exact ncard_hypLines_through_subset hP hT c hdeg hreg hWplane hxW hWne
   have hBcard_line : ∀ W : Set V, W ∈ Cf → IsStarLine Γ c (W ∩ Y) →

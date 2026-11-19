@@ -54,6 +54,7 @@ variable {T V L V₁ Vp H : Subgroup G}
       (Subgroup.normalizer ((tildeOf V₁ (conjClosure Vp H) : Subgroup _) : Set _))
       (fun x => F95gens_toTilde_mem h.H_normalizes_V₁ (le_normalizer_conjClosure Vp H) x))
 
+omit [Finite G] in
 theorem F95gensPhi_apply_eq_one_iff (h : HypF91 T V L V₁ Vp H) (x : ↥H) :
     F95gensPhi h x = 1 ↔ ∀ u : ↥(tildeOf V₁ (conjClosure Vp H)),
       toTilde h.H_normalizes_V₁ x * (u : SecQuot (Subgroup.normalizer (V₁ : Set G)) V₁) =
@@ -62,6 +63,7 @@ theorem F95gensPhi_apply_eq_one_iff (h : HypF91 T V L V₁ Vp H) (x : ↥H) :
   rw [MonoidHom.comp_apply]
   exact F95gens_conjAct_eq_one _
 
+omit [Finite G] in
 theorem F95gensPhi_apply_eq (h : HypF91 T V L V₁ Vp H) (x : ↥H)
     (e : ↥(Subgroup.normalizer (tildeOf V₁ (conjClosure Vp H) :
       Set (SecQuot (Subgroup.normalizer (V₁ : Set G)) V₁))))
@@ -72,6 +74,7 @@ theorem F95gensPhi_apply_eq (h : HypF91 T V L V₁ Vp H) (x : ↥H)
   congr 1
   exact Subtype.ext he
 
+omit [Finite G] in
 theorem F95gensPhi_mem_autOn (h : HypF91 T V L V₁ Vp H) {I : Subgroup G} (hIH : I ≤ H) {x : ↥H}
     (hx : (x : G) ∈ I) :
     F95gensPhi h x ∈ autOn (tildeOf V₁ I) (tildeOf V₁ (conjClosure Vp H)) := by
@@ -104,6 +107,7 @@ theorem F95gensPhi_crux (h : HypF91 T V L V₁ Vp H) (a w : ↥H) (haa : (a : G)
       congrArg (F95gensPhi h) e
     rw [h1, map_mul, F95gensPhi_eq_one_of_Q h ⟨(w : G) * (a : G), hwa⟩ hwQ, one_mul]
 
+omit [Finite G] in
 theorem F95gens_tildeOf_le_normalizer (h : HypF91 T V L V₁ Vp H) {X : Subgroup G}
     (hXH : X ≤ H) :
     tildeOf V₁ X ≤ Subgroup.normalizer ((tildeOf V₁ (conjClosure Vp H) : Subgroup _) : Set _) := by
@@ -117,7 +121,7 @@ theorem F95_gens (h : HypF91 T V L V₁ Vp H) (hidx : Vp.relIndex V = 2)
     {g : G} (hg : g ∈ H)
     (hI : ¬ ∀ x ∈ V ⊔ conjSub g⁻¹ V, ∃ n : ℕ, x ^ 2 ^ n ∈ pCoreOf 2 H)
     {a₀ : G} (ha₀V : a₀ ∈ V) (ha₀₀ : a₀ * a₀ = 1)
-    (hZV : ∀ w ∈ V, w ∈ pCoreOf 2 H ∨ w * a₀ ∈ pCoreOf 2 H) (ha₀Q : a₀ ∉ pCoreOf 2 H) :
+    (hZV : ∀ w ∈ V, w ∈ pCoreOf 2 H ∨ w * a₀ ∈ pCoreOf 2 H) (_ha₀Q : a₀ ∉ pCoreOf 2 H) :
     ∃ σ τ : MulAut ↥(tildeOf V₁ (conjClosure Vp H)),
       σ ∈ autOn (tildeOf V₁ (V ⊔ conjSub g⁻¹ V)) (tildeOf V₁ (conjClosure Vp H)) ∧
       τ ∈ autOn (tildeOf V₁ (V ⊔ conjSub g⁻¹ V)) (tildeOf V₁ (conjClosure Vp H)) ∧

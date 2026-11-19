@@ -24,21 +24,21 @@ theorem card_Vt_inf_QB_plus (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
     (hom : OmegaPlusNat hc t m) :
     Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ QB B) = Nat.card Z ^ (2 * m) := by
   obtain ⟨K, fK, finK, hK, hnat⟩ := hom
-  letI := fK
-  letI := finK
+  let := fK
+  let := finK
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm, hnat⟩⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
   have hQ := nondegenerate_polarBilin_quadPlus m K
   have hX := addCommutantScalar_statedOmegaPlus (K := K) (m := m) hm
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs hnatSO hK (ElemMatrixIso.plus hm) hQ h3
     hX φ hφ ψ hψ
   obtain ⟨u, -, hu0, -, hW, -, -⟩ := hc.omega_points_core h34 hRoot hs hnatSO hK
@@ -63,14 +63,14 @@ theorem card_Vt_inf_QB_minus (h34 : Stroth34Statement) (hRoot : Stroth310RootSta
     (hom : OmegaMinusNat hc t m) :
     Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ QB B) = Nat.card Z ^ (2 * m) := by
   obtain ⟨K, fK, finK, hK, b, c, hirr, hnat⟩ := hom
-  letI := fK
-  letI := finK
+  let := fK
+  let := finK
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
       Fintype.card_fin, Fintype.card_fin]; omega
@@ -78,7 +78,7 @@ theorem card_Vt_inf_QB_minus (h34 : Stroth34Statement) (hRoot : Stroth310RootSta
   have hX := addCommutantScalar_statedOmegaMinus (m := m) (b := b) (c := c) hm hirr
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs hnatSO hK (ElemMatrixIso.minus hm hirr) hQ h3
     hX φ hφ ψ hψ
   obtain ⟨u, -, hu0, -, hW, -, -⟩ := hc.omega_points_core h34 hRoot hs hnatSO hK
@@ -98,7 +98,8 @@ theorem card_Vt_inf_QB_minus (h34 : Stroth34Statement) (hRoot : Stroth310RootSta
     rw [← pow_succ', show 2 * m - 1 + 1 = 2 * m by omega]
   rw [hW0card, hι, hK, hpow]
 
-theorem card_Vt_of_omegaPlus (hc : Ctx M Q Z B) {t : G} {m : ℕ} (hm : 3 ≤ m)
+omit [Finite G] in
+theorem card_Vt_of_omegaPlus (hc : Ctx M Q Z B) {t : G} {m : ℕ} (_hm : 3 ≤ m)
     (hom : OmegaPlusNat hc t m) :
     Nat.card (Vt M (LB M Q B) B Z t) = Nat.card Z ^ (2 * m + 1) := by
   obtain ⟨K, fK, finK, hK, hnat⟩ := hom
@@ -106,6 +107,7 @@ theorem card_Vt_of_omegaPlus (hc : Ctx M Q Z B) {t : G} {m : ℕ} (hm : 3 ≤ m)
     (R := Rt M (LB M Q B) t) (N := hc.CN t) sec39_Z_le_Vt hK hnat
   simpa [Fintype.card_sum, Fintype.card_fin, two_mul] using this
 
+omit [Finite G] in
 theorem card_Vt_of_omegaMinus (hc : Ctx M Q Z B) {t : G} {m : ℕ} (hm : 2 ≤ m)
     (hom : OmegaMinusNat hc t m) :
     Nat.card (Vt M (LB M Q B) B Z t) = Nat.card Z ^ (2 * m + 1) := by
@@ -155,8 +157,8 @@ theorem card_QB_inf_Wt (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement
   have hn_gt : 2 < n := hs.n_gt
   obtain ⟨m, hm, hVcard, hVQB⟩ := Ctx.card_Vt_inf_QB_of_omegaNat h34 hRoot hc hs hom
   obtain ⟨K, hKf, hKfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hKZ : Nat.card K = Nat.card Z := hD.card
   have hK2 : 1 < Nat.card K := by
     rw [hKZ]

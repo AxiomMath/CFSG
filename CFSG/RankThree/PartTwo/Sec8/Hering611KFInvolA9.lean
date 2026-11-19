@@ -185,8 +185,8 @@ theorem std_case {Kb : Type} [Group Kb] [Finite Kb] (e : Kb ≃* alternatingGrou
     refine hmemT ((inferInstance : (alternatingGroup (Fin 9)).Normal).conj_mem g hgA a9T) ?_
     rw [hinvT]
     refine ⟨?_, ?_, ?_⟩
-    · simp [Perm.mul_apply, hT0, hT1, hg1, hg0]
-    · simp [Perm.mul_apply, hT0, hT1, hg1, hg0]
+    · simp [Perm.mul_apply, hT0, hT1, hg1]
+    · simp [Perm.mul_apply, hT0, hT1, hg0]
     · simp [Perm.mul_apply, hT2, hg2]
   refine ⟨t, hιinj (by rw [map_pow, ht, map_one, pow_two]; exact hTT),
     hιinj (by rw [map_mul, map_mul, map_inv, map_inv, ht, hιγ]; exact hTS), ?_, ?_, ?_, ?_⟩

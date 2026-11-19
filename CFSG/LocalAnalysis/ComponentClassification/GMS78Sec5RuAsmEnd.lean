@@ -134,7 +134,7 @@ theorem false_of_isStronglyEmbedded_of_simple {M : Subgroup X}
         rintro _ ⟨m, rfl⟩
         have hmK : m ∈ K := h ▸ mem_top m
         exact hmK
-      have hp : IsPGroup 2 θ.range := S.isPGroup'.to_le hle
+      have hp : IsPGroup 2 θ.range := S.isPGroup.to_le hle
       exact hp.of_equiv (MonoidHom.ofInjective hinj).symm
 
 end SE

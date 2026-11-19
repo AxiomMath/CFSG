@@ -35,7 +35,7 @@ theorem stroth43_of_310 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   have hSL2 : ∀ (K : Type) [Field K] [Finite K], Nat.card K = Nat.card Z →
       CFSG.IsQuasisimple ↥(StatedSL 2 K) := by
     intro K _ _ hK
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
     exact (hCQ K (by rw [hK]; exact hq4)).1 2 le_rfl
   have hcs := hc.compSimple h34 h44 hw hn hno hgen
   have hΛ := hc.swapHyp hw hn hno
@@ -119,13 +119,13 @@ theorem stroth43_of_310 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   have hns : ¬ Group.IsSolvable ↥X := by
     intro hs
     have hC₀X : C₀ ≤ X := le_sSup hC₀
-    haveI := hs
+    have := hs
     exact not_isSolvable_of_isQuasisimple hC₀.1.1
-      (solvable_of_solvable_injective (f := Subgroup.inclusion hC₀X)
+      (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hC₀X)
         (Subgroup.inclusion_injective hC₀X))
   have hq2 : ∃ k : ℕ, Nat.card Z = 2 ^ k := ⟨jj, hZ2⟩
   have hU := not_sl2_of_normal_of_unique hq2 hSL2 hYu' hYne hXnormal hXY
-  haveI : CharP K 2 := hK2
+  have : CharP K 2 := hK2
   rcases normal_embedding_cases (hSL2 K hK) (R := bar M Q (Rt M (LB M Q B) (t' : G))) (X := X)
     π hπs hshape hXle (fun r hr x hx => hXnorm r x hx) hinj hns with
     ⟨hq, ⟨e⟩⟩ | he | he

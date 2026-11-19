@@ -25,7 +25,7 @@ private theorem eq_of_mul_inv_mem_center {A : Type*} [Group A]
     map_mul' := by
       intro a b
       ext
-      simp only [map_mul, mul_inv_rev, Subgroup.coe_mul, Subgroup.coe_mk]
+      simp only [map_mul, mul_inv_rev, Subgroup.coe_mul]
       have hc : a⁻¹ * (φ b * b⁻¹) = (φ b * b⁻¹) * a⁻¹ :=
         Subgroup.mem_center_iff.mp (h b) a⁻¹
       rw [show (φ a * φ b) * (b⁻¹ * a⁻¹) = φ a * ((φ b * b⁻¹) * a⁻¹) by group,
@@ -47,11 +47,11 @@ theorem sec68_exists_sq [Finite G] {P : Subgroup G} (hP : IsPGroup 2 P) (hcyc : 
     {t : G} (htP : t ∈ P) (ht2 : orderOf t = 2) (hne : P ≠ zpowers t) :
     ∃ x ∈ P, x * x = t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hP
   have hcardP2 : 2 < Nat.card P := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzp : Nat.card (Subgroup.zpowers t) = 2 := by
       rw [Nat.card_zpowers, ht2]
     exact hne (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le_of_mem htP)
@@ -59,10 +59,10 @@ theorem sec68_exists_sq [Finite G] {P : Subgroup G} (hP : IsPGroup 2 P) (hcyc : 
   have hk2 : 2 ≤ k := by
     have hlt : 2 < 2 ^ k := by rwa [← hk]
     by_contra h
-    push_neg at h
+    push Not at h
     have hk01 : k = 0 ∨ k = 1 := by omega
     rcases hk01 with rfl | rfl <;> norm_num at hlt
-  haveI : IsCyclic ↥P := hcyc
+  have : IsCyclic ↥P := hcyc
   obtain ⟨γ, hγ⟩ := IsCyclic.exists_generator (α := ↥P)
   have htop : Subgroup.zpowers γ = ⊤ := by
     rw [eq_top_iff]
@@ -101,7 +101,7 @@ theorem sec68_exists_sq [Finite G] {P : Subgroup G} (hP : IsPGroup 2 P) (hcyc : 
 
 theorem sec68_exists_sylow_ge [Finite G] {B H : Subgroup G} (hB : IsPGroup 2 B) (hBH : B ≤ H) :
     ∃ P : Subgroup G, IsSylow2Of P H ∧ B ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB' : IsPGroup 2 (B.subgroupOf H) :=
     hB.of_equiv (Subgroup.subgroupOfEquivOfLe hBH).symm
   obtain ⟨Q, hBQ⟩ := hB'.exists_le_sylow
@@ -115,9 +115,9 @@ theorem sec68_sq_mem_centralizer [Finite G] {L : Subgroup G} (hL : IsOm6M L) {s 
     {ε : ℤˣ} {r : ℕ} {α : ℤˣ} (h : InducesTypeSome L s n ε r α) :
     s * s ∈ centralizer (L : Set G) := by
   obtain ⟨V, hAdd, hMod, hFin, Q, _hQ, e, x, _hfin, _hsign, hvia, htype⟩ := h
-  letI := hAdd
-  letI := hMod
-  letI := hFin
+  let := hAdd
+  let := hMod
+  let := hFin
   obtain ⟨y, hyx, _hyne, t, htt, _httype, hty⟩ := htype
   have hyy : y * y = 1 := by rw [← hty, ← map_mul, htt, map_one]
   have hsq : ∀ w : ProjOrth Q, projSimAct Q x (projSimAct Q x w) = w := by
@@ -137,7 +137,7 @@ theorem sec68_sq_mem_centralizer [Finite G] {L : Subgroup G} (hL : IsOm6M L) {s 
     map_mul' := by
       intro a b
       ext
-      simp only [Subgroup.coe_mk, Subgroup.coe_mul]
+      simp only [Subgroup.coe_mul]
       group }
   have hcenter : ∀ l : ↥L, φ l * l⁻¹ ∈ Subgroup.center ↥L := by
     intro l

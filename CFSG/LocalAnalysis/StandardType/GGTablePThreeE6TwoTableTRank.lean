@@ -177,7 +177,7 @@ theorem classes_compRank_eq_rankOf (k : Fin 5) (l : List Vec) (hl : l ∈ classe
     have hmap : (classes (reps.getD 0 [])).map List.length = [6, 6, 6] := by
       have h := congrArg (fun (L : List (List ℕ)) => L.getD 0 []) classes_lengths
       rw [show (List.range 5 : List ℕ) = [0, 1, 2, 3, 4] from rfl] at h
-      simp only [List.map_cons, List.map_nil, List.getD_cons_zero, List.getD_cons_succ] at h
+      simp only [List.map_cons, List.map_nil, List.getD_cons_zero] at h
       exact h
     have hlen : l.length = 6 := by
       have hmem : l.length ∈ (classes (reps.getD 0 [])).map List.length :=

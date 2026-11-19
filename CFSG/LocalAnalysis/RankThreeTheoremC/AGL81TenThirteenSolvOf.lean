@@ -24,6 +24,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace SolvThree
 
+omit [Finite G] in
 theorem map_mk_le_iff_le_hyp111Pre {p : ℕ} {H I : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hIH : I ≤ H) :
     (I.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) p)) ≤ K ↔
@@ -65,13 +66,13 @@ theorem map_subtype_oUpperTwo_sup_pCore (I₀ : Subgroup G) :
 theorem ne_top_of_isTwoLocal (hS : Setting G) {H : Subgroup G} (hH : IsTwoLocal H) : H ≠ ⊤ := by
   obtain ⟨S, hS1, hS2, rfl⟩ := hH
   intro htop
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have hSn : S.Normal := Subgroup.normalizer_eq_top_iff.mp htop
   rcases hSn.eq_bot_or_eq_top with h | h
   · exact hS1 h
   · subst h
     have hG2 : IsPGroup 2 G := hS2.of_equiv Subgroup.topEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hZ := hG2.bot_lt_center
     rcases (Subgroup.center G).normal_of_characteristic.eq_bot_or_eq_top with hZ' | hZ'
     · exact hZ.ne' hZ'
@@ -83,13 +84,13 @@ theorem pCoreOf_two_d1X0_le_centralizer {p : ℕ} {P : Sylow p G} {M H Q : Subgr
     (hp : p.Prime) (hp2 : p ≠ 2) (hKn : K.Normal) :
     pCoreOf 2 (d1X0 p M H) ≤ centralizer (K : Set (H ⧸ primeComplementCore (G := H) p)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O := primeComplementCore (G := H) p with hO
   set π : ↥H →* ↥H ⧸ O := QuotientGroup.mk' O with hπ
   set Cn := centralizer (K : Set (H ⧸ O)) with hCn
-  haveI : K.Normal := hKn
-  haveI : Cn.Normal := by rw [hCn]; infer_instance
+  have : K.Normal := hKn
+  have : Cn.Normal := by rw [hCn]; infer_instance
   set V := pCoreOf 2 (d1X0 p M H) with hV
   set W : Subgroup ↥H := V.comap π with hW
   have hV2 : IsPGroup 2 V := pCoreOf_isPGroup 2 _
@@ -126,7 +127,7 @@ theorem pCoreOf_two_d1X0_le_centralizer {p : ℕ} {P : Sylow p G} {M H Q : Subgr
   obtain ⟨S, hSQ⟩ := CFSG.GroupTheory.exists_sylow_le_normalizer_of_isPGroup hp Nat.prime_two hQp
     hQW hWp
   set S₁ : Subgroup ↥H := (S : Subgroup ↥W).map W.subtype with hS₁
-  have hS₁G2 : IsPGroup 2 (S₁.map H.subtype) := (S.isPGroup'.map _).map _
+  have hS₁G2 : IsPGroup 2 (S₁.map H.subtype) := (S.isPGroup.map _).map _
   have hQS₁ : Q ≤ normalizer ((S₁.map H.subtype : Subgroup G) : Set G) := by
     intro q hq
     have hqH := hd.le_H hq
@@ -191,7 +192,7 @@ theorem pRank_three_top_le {P : Sylow 3 G} {M H Q : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)} (hS : Setting G)
     (hd : AGL81CfgData 3 P M H Q K) :
     pRank 3 (⊤ : Subgroup (H ⧸ primeComplementCore (G := H) 3)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : (3 : ℕ).Coprime (Nat.card (primeComplementCore (G := H) 3)) :=
     primeComplementCore_coprime 3
   have h1 := pRank_map_mk_eq_pRank_map_subtype Nat.prime_three (primeComplementCore (G := H) 3) hO
@@ -210,7 +211,7 @@ theorem agl81TenThirteenSolvThree_of (h9 : AGL81NineCompetitorQ G) (h31 : KFactT
     (hK : KFactThreeFourSolvThree) (hst : AGL81TenThreeSolvStructCfg G)
     (h12 : AGL81TenTwelveSolvSigma G) : AGL81TenThirteenSolvThree G := by
   intro hS h3σ P M H Q K hd L hL I₀ hI₀ hb hX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hin := kFactInputs_of_cfg h9 hS hd
   obtain ⟨R, E, hER, hE, hEc, hcore⟩ := hin.core
   have hLM : IsSubnormal L M := hL.subnormal
@@ -300,7 +301,7 @@ theorem agl81TenThirteenSolvThree_of (h9 : AGL81NineCompetitorQ G) (h31 : KFactT
     rwa [inf_of_le_left (le_inf hJK hJX0), inf_of_le_right inf_le_right] at h1
   have hO2I : ((pCoreOf 2 I₀).subgroupOf H).map π ≤ centralizer (K : Set (H ⧸ O)) := by
     refine le_trans ?_ (pCoreOf_two_d1X0_le_centralizer hd Nat.prime_three (by decide) hin.normal)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine CFSG.AGLEmbedding.SubnormalCommute.le_pCoreOf_of_isSubnormal ?_ ?_
     · refine isSubnormal_map_mk_d1X0 (IsSubnormal.step (pCoreOf_le 2 I₀) ?_
         (isSubnormal_inf_of_cZero hLM hI₀))

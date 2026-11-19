@@ -44,7 +44,7 @@ theorem nonempty_mulEquiv_commutator_ker {G Q : Type*} [Group G] [CommGroup Q] (
 
 theorem card_commutator_quotient_le (A : Subgroup X) [Finite ↥A] :
     Nat.card (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆) ≤ Nat.card ↥A := by
-  haveI : Finite ↥⁅A, A⁆ := Finite.of_injective (Subgroup.inclusion (commutator_le_self_orb A))
+  have : Finite ↥⁅A, A⁆ := Finite.of_injective (Subgroup.inclusion (commutator_le_self_orb A))
     (Subgroup.inclusion_injective _)
   exact (Nat.card_le_card_of_surjective _ (QuotientGroup.mk'_surjective _)).trans
     (Subgroup.card_le_of_le (commutator_le_self_orb A))
@@ -62,7 +62,7 @@ theorem false_of_comm (A : Subgroup X) (hcomm : ∀ a b : ↥A, a * b = b * a)
     intro a ha b hb
     rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_commute]
     exact congrArg Subtype.val (hcomm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : Subsingleton ↥⁅A, A⁆ := ⟨fun a b => Subtype.ext (by
+  have : Subsingleton ↥⁅A, A⁆ := ⟨fun a b => Subtype.ext (by
     have ha : (a : X) ∈ (⊥ : Subgroup X) := hbot ▸ a.2
     have hb : (b : X) ∈ (⊥ : Subgroup X) := hbot ▸ b.2
     rw [Subgroup.mem_bot] at ha hb
@@ -81,7 +81,7 @@ section Linear
 theorem hno_gl_block (hO : LieOrderFormulasInput) {X T : Type} [Group X] [Group T] (π : X →* T)
     (hπ : π.ker = ⊥) (A : Subgroup X) {E W : Type} [Field E] [Finite E] [AddCommGroup W]
     [Module E W] [FiniteDimensional E W] (φ : ↥A ≃* LinearMap.GeneralLinearGroup E W) {e : ℕ}
-    (hE : Nat.card E = 2 ^ e) (h4 : 4 ≤ Nat.card E) (hq : CFSG.IsQuasisimple ↥⁅A, A⁆)
+    (hE : Nat.card E = 2 ^ e) (h4 : 4 ≤ Nat.card E) (_hq : CFSG.IsQuasisimple ↥⁅A, A⁆)
     (hL : IsLThreeFour (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆)) :
     ∃ z : X, z ∈ ⁅A, A⁆ ∧ (∀ g ∈ ⁅A, A⁆, g * z = z * g) ∧ z ^ 3 = 1 ∧ π z ≠ 1 := by
   by_cases hm2 : 2 ≤ Module.finrank E W
@@ -125,13 +125,13 @@ theorem not_isLThreeFour_of_equiv_sesqSU (hO : LieOrderFormulasInput) {f' : ℕ}
     (hqq : (Module.finrank E W = 2 → 4 ≤ 2 ^ f') ∧ (Module.finrank E W = 3 → 3 ≤ 2 ^ f'))
     {G : Type} [Group G] (e : G ≃* ↥(sesqSpecialUnitaryGroup Hf)) :
     ¬ IsLThreeFour (G ⧸ Subgroup.center G) := by
-  haveI := hE.finite
+  have := hE.finite
   rcases Nat.lt_or_ge (Module.finrank E W) 3 with hm3 | hm3
   ·
     have hV : Module.finrank E W = 2 := by omega
     obtain ⟨e2⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf
       hHfl hV
-    haveI : Finite hE.fixedField := inferInstance
+    have : Finite hE.fixedField := inferInstance
     have h4 : 4 ≤ 2 ^ f' := hqq.1 hV
     have hadm : StatedLieAdmissible .PSL 2 2 f' :=
       ⟨Nat.prime_two, hE.one_le, le_rfl, fun hc => by have := (Prod.mk.inj hc).2; omega,
@@ -154,13 +154,13 @@ theorem false_of_sesqU_block (hO : LieOrderFormulasInput) {X : Type} [Group X] (
     {f' : ℕ} {E : Type} [Field E] (hE : UnitaryFieldData 2 f' E) {W : Type} [AddCommGroup W]
     [Module E W] [FiniteDimensional E W] {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (hHf : Hf.IsSymm)
     (hHfl : Hf.SeparatingLeft) (φ : ↥A ≃* ↥(sesqUnitaryGroup Hf))
-    (hq : CFSG.IsQuasisimple ↥⁅A, A⁆)
+    (_hq : CFSG.IsQuasisimple ↥⁅A, A⁆)
     (hL : IsLThreeFour (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆)) : False := by
-  haveI := hE.finite
-  haveI : Finite W := Module.finite_of_finite E
-  haveI : Finite (LinearMap.GeneralLinearGroup E W) := finite_gl_of_unitaryFieldData hE
-  haveI : Finite ↥(sesqUnitaryGroup Hf) := Subtype.finite
-  haveI : Finite ↥A := Finite.of_equiv _ φ.symm.toEquiv
+  have := hE.finite
+  have : Finite W := Module.finite_of_finite E
+  have : Finite (LinearMap.GeneralLinearGroup E W) := finite_gl_of_unitaryFieldData hE
+  have : Finite ↥(sesqUnitaryGroup Hf) := Subtype.finite
+  have : Finite ↥A := Finite.of_equiv _ φ.symm.toEquiv
   have hf1 := hE.one_le
   by_cases hm : 2 ≤ Module.finrank E W
   swap
@@ -246,9 +246,9 @@ theorem card_statedSp_ne_twenty160 {f s : ℕ} (hf : 1 ≤ f) (hs : 1 ≤ s) {K 
 theorem false_of_statedSp_block {X : Type} [Group X] (A : Subgroup X) {f s : ℕ} (hf : 1 ≤ f)
     (hs : 1 ≤ s) {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ f)
     (E : ↥A ≃* StatedSp s K) (hL : IsLThreeFour (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆)) : False := by
-  haveI : Finite ↥A := Finite.of_equiv _ E.symm.toEquiv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Finite ↥A := Finite.of_equiv _ E.symm.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   by_cases hperf : 4 ≤ Nat.card K ∨ (Nat.card K = 2 ∧ 3 ≤ s)
   · have hqs := CFSG.LieType.Universal.Symplectic.isQuasisimple s K hs
       (hperf.elim (fun h => Or.inl (Or.inr h)) (fun h => Or.inr (Or.inr h)))

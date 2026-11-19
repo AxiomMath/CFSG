@@ -27,13 +27,13 @@ private theorem ggHalfGraphE6_transvection_ne_one {N : ℕ} {i j : Fin N} (hij :
   have hc := congrArg (fun g : SpecialLinearGroup (Fin N) F2 =>
       (g : Matrix (Fin N) (Fin N) F2) i j) h
   rw [SpecialLinearGroup.transvection_coe] at hc
-  simp [Matrix.transvection] at hc
+  simp at hc
 
 private theorem ggHalfGraphE6_slE_zero_one_ne_one : slE (0 : Fin 6) 1 ≠ 1 := by
   intro h
   have h01 : (0 : Fin 6) ≠ 1 := by decide
   have : SpecialLinearGroup.transvection h01 (1 : F2) = 1 := by
-    simpa only [slE, dif_neg h01] using h
+    simpa only [slE, dite_eq_right h01] using h
   exact ggHalfGraphE6_transvection_ne_one h01 this
 
 private theorem ggHalfGraphE6_omegaBlock_eq_tv (k : Fin 5) :
@@ -63,7 +63,7 @@ private theorem ggHalfGraphE6_omegaBlock_eq_slE_mul (k : Fin 5) :
     omegaBlock 5 k = slE k.castSucc k.succ * slE k.succ k.castSucc := by
   have hkj : k.castSucc ≠ k.succ := (show k.castSucc < k.succ from Fin.castSucc_lt_succ).ne
   have hjk : k.succ ≠ k.castSucc := hkj.symm
-  rw [ggHalfGraphE6_omegaBlock_eq_tv k, slE, slE, dif_neg hkj, dif_neg hjk]
+  rw [ggHalfGraphE6_omegaBlock_eq_tv k, slE, slE, dite_eq_right hkj, dite_eq_right hjk]
 
 private theorem ggHalfGraphE6_lab_surj {b : GGHalfBlk} {a : Fin 8} (ha : b.Lab a) :
     ∃ c : Fin 6, b.lab c = a := by
@@ -300,7 +300,7 @@ theorem exists_e6_of_graph
       apply le_antisymm
       · rw [Subgroup.closure_le]
         rintro t ⟨c, d, hc, hd, hcd, rfl⟩
-        rw [slE, dif_neg hcd]
+        rw [slE, dite_eq_right hcd]
         exact transvection_mem_slOn hcd 1 hc hd
       · rw [slOn, Subgroup.closure_le]
         rintro t ⟨a, b, hab, e, ha, hb, rfl⟩
@@ -308,7 +308,7 @@ theorem exists_e6_of_graph
         · rw [SpecialLinearGroup.transvection_coeff_zero]
           exact one_mem _
         · refine Subgroup.subset_closure ⟨a, b, ha, hb, hab, ?_⟩
-          rw [slE, dif_neg hab]
+          rw [slE, dite_eq_right hab]
     have hJeq : J = Subgroup.closure (φ₁ '' S1) := by
       rw [← h.coords.rangeJ, MonoidHom.range_comp,
         show (slLower2Hom 3).range = slOn 6 {i : Fin 6 | 2 ≤ i.val} from range_slLower2Hom 3,
@@ -337,9 +337,9 @@ theorem exists_e6_of_graph
       refine Subgroup.subset_closure ⟨ggE6x (m.frame .L (GGHalfBlk.L.lab c) (GGHalfBlk.L.lab d)),
         ⟨GGHalfBlk.L.lab c, GGHalfBlk.L.lab d, ?_, ?_, ?_, ?_, ?_, rfl⟩, rfl⟩
       · show 2 ≤ (GGHalfBlk.L.lab c).val; simpa [GGHalfBlk.lab, GGHalfBlk.off] using hc
-      · show (GGHalfBlk.L.lab c).val < 6; simpa [GGHalfBlk.lab, GGHalfBlk.off] using c.isLt
+      · show (GGHalfBlk.L.lab c).val < 6; simp [GGHalfBlk.lab, GGHalfBlk.off]
       · show 2 ≤ (GGHalfBlk.L.lab d).val; simpa [GGHalfBlk.lab, GGHalfBlk.off] using hd
-      · show (GGHalfBlk.L.lab d).val < 6; simpa [GGHalfBlk.lab, GGHalfBlk.off] using d.isLt
+      · show (GGHalfBlk.L.lab d).val < 6; simp [GGHalfBlk.lab, GGHalfBlk.off]
       · intro heq
         exact hcd (Fin.ext (by simpa [GGHalfBlk.lab, GGHalfBlk.off] using congrArg Fin.val heq))
     have hclosure_eq : Subgroup.closure (φ '' S0) = Subgroup.closure (φ₁ '' S1) := by

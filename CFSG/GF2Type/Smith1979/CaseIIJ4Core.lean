@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pCoreOf_M_eq_QG (S : Setting G) : pCoreOf 2 S.M = S.QG := by
   rw [pCoreOf, ← S.Q_eq_pCore]
   rfl

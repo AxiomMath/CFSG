@@ -38,7 +38,7 @@ theorem qtwoOrth_adjA3 (hF : Nat.card Φ.F = 2)
   obtain ⟨m, hm⟩ : ∃ m, Φ.r = m + 1 := ⟨Φ.r - 1, by omega⟩
   have hm3 : 3 ≤ m := by omega
   obtain ⟨alg, E, χ, _hχQ, _hstd1, hstd2⟩ := qtwoOrth_std Φ hF hZ hBs m hm3 hm
-  letI := alg
+  let := alg
   rcases omSigned_conj_path (Fact.out : p.Prime) (by omega : 4 ≤ Φ.r) hxz hne' hxy hyz with
     ⟨w, hw, hw0, hw1, hw2⟩ | ⟨w, hw, hw0, hw1, hw2⟩
   ·

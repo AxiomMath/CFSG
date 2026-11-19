@@ -162,7 +162,7 @@ theorem eichler_mem_closure_isTypeA (hq : q.polarBilin.Nondegenerate) {x p s : V
 theorem reflect_mul_reflect_mem_omegaGroup (hq : q.polarBilin.Nondegenerate) {a b : V}
     (ha : q a = 1) (hb : q b = 1) : reflect q a * reflect q b ∈ omegaGroup q hq := by
   have hfr : ∀ v, q v = 1 → finrank (ZMod 2) (commSpace (reflect q v)) = 1 := fun v hv => by
-    haveI : Invertible (q v) := invertibleOfNonzero (by rw [hv]; exact one_ne_zero)
+    have : Invertible (q v) := invertibleOfNonzero (by rw [hv]; exact one_ne_zero)
     rw [reflect_eq_reflection]
     exact finrank_commSpace_reflection hq v
   have ha' := reflect_mem_orthogonalGroup q a

@@ -66,11 +66,11 @@ variable {K : Type} [Field K] [Finite K]
 theorem char3Good_fixSubgroup_entrywiseAdjointAut_D4 (hK3 : ringChar K = 3) (σ : K ≃+* K) :
     Char3Good ↥(fixSubgroup (entrywiseAdjointAut Tag.D4 σ)) := by
   classical
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL Tag.D4 (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(adjointGroup Tag.D4 (fixSubfield σ)) := Subtype.finite
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := Subtype.finite
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL Tag.D4 (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(adjointGroup Tag.D4 (fixSubfield σ)) := Subtype.finite
+  have : Finite ↥(adjointGroup Tag.D4 K) := Subtype.finite
   obtain ⟨hChev, hA6⟩ := isChevSimple_adjointGroup_D4 (K := fixSubfield σ)
   rw [ringChar_subfield hK3 (fixSubfield σ)] at hChev
   have hperf := ExcCopy.isPerfect_adjointGroup .D4 (fixSubfield σ) (fun h => absurd h (by decide))
@@ -78,7 +78,7 @@ theorem char3Good_fixSubgroup_entrywiseAdjointAut_D4 (hK3 : ringChar K = 3) (σ 
   obtain ⟨ι, hι, hJC, hnorm, hsol⟩ := ExcCopy.exists_fixed_structure Tag.D4 σ
   let J : Subgroup ↥(fixSubgroup (entrywiseAdjointAut Tag.D4 σ)) :=
     ι.range.subgroupOf (fixSubgroup (entrywiseAdjointAut Tag.D4 σ))
-  haveI : J.Normal := hnorm
+  have : J.Normal := hnorm
   let e : adjointGroup Tag.D4 (fixSubfield σ) ≃* ι.range := MonoidHom.ofInjective hι
   let eJ : ↥J ≃* adjointGroup Tag.D4 (fixSubfield σ) :=
     (Subgroup.subgroupOfEquivOfLe hJC).trans e.symm
@@ -102,8 +102,8 @@ theorem char3Good_of_equiv_cat_trialityD4 {C X : Type} [Group C] [Group X] [Fini
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid)
     (eC : (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group ≃* X) (eF : C ≃* X) :
     Char3Good C := by
-  haveI : Finite C := Finite.of_equiv X eF.symm.toEquiv
-  haveI : IsSimpleGroup C := (MulEquiv.isSimpleGroup_congr eF).2 inferInstance
+  have : Finite C := Finite.of_equiv X eF.symm.toEquiv
+  have : IsSimpleGroup C := (MulEquiv.isSimpleGroup_congr eF).2 inferInstance
   have hnc' : ∃ x y : C, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eF.symm x, eF.symm y, fun h => hxy (by simpa using congrArg eF h)⟩
@@ -148,12 +148,12 @@ theorem char3Good_fixSubgroup_twistedEntrywiseAut_D4 [CharP K 3] {e : ℕ} (he :
   · rw [h]
     obtain ⟨hs, hnc, ⟨eF⟩⟩ := exists_fixSubgroup_twistedOne_equiv he hK T 1 (Or.inl rfl)
       (fun c => by rw [hT, pow_one])
-    haveI := hs
+    have := hs
     exact char3Good_of_equiv_cat_trialityD4 hnc q rfl hv eC eF
   · rw [h]
     have hfix := fixedSubgroup_twistedEntrywiseAut_D4_two T
     obtain ⟨hs, hnc, ⟨eF⟩⟩ := exists_fixSubgroup_twistedOne_equiv he hK T⁻¹ 2 (Or.inr rfl) hinv
-    haveI := hs
+    have := hs
     let eT : ↥(graphFixedRootGroup TwistTag.D4 K T.toRingHom) ≃*
         ↥(graphFixedRootGroup TwistTag.D4 K T⁻¹.toRingHom) :=
       (Subgroup.equivMapOfInjective _ (trialityTranspositionAut K).toMonoidHom
@@ -170,8 +170,8 @@ theorem char3Good_of_lang_D4 [CharP K 3] {e : ℕ} (he : 1 ≤ e)
       Char3Good ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 j T)))
     (hα : (MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) ^ 3 = 1) :
     Char3Good ↥(fixSubgroup (MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε))) := by
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := Subtype.finite
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite ↥(adjointGroup Tag.D4 K) := Subtype.finite
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
@@ -208,18 +208,18 @@ theorem char3Good_d4_graph_type {f : ℕ} (hf : 1 ≤ f) {F : Type} [Field F] [F
     (hα : (MulAut.conj g * (exactNormalAut Tag.D4 F a σ 0 * d4Graph F ε)) ^ 3 = 1) :
     Char3Good ↥(fixSubgroup (MulAut.conj g * (exactNormalAut Tag.D4 F a σ 0 * d4Graph F ε))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hσ1 : σ = 1
   · subst hσ1
     obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨e⟩⟩ :=
       D4Dual.exists_dual_fixEquiv hf F hF _ hα g a hε rfl
-    haveI : CharP K₃ 3 :=
+    have : CharP K₃ 3 :=
       CFSG.HardMathSupport.Dickson.DefCharOuter.Export.exc_charP_three_of_card K₃ hK₃
     exact (char3Good_fixSubgroup_trialityD4 hf hK₃ Fr hFr φ hφ3 hφout).of_mulEquiv e
   · obtain ⟨ℓ', e, T, hℓ', hchar', he, hK, hT, hσT⟩ := exists_frobenius_data_D4 σ hσ1 hσ3
     obtain rfl : ℓ' = 3 := CharP.eq F hchar' ‹CharP F 3›
-    haveI : Finite ↥(adjointGroup Tag.D4 F) := by
-      haveI : Finite (ModGL Tag.D4 F) := finite_modGL
+    have : Finite ↥(adjointGroup Tag.D4 F) := by
+      have : Finite (ModGL Tag.D4 F) := finite_modGL
       infer_instance
     refine char3Good_of_lang_D4 he hK T hT g a σ hσT ε (fun j hj => ?_) hα
     refine char3Good_fixSubgroup_twistedEntrywiseAut_D4 he hK T hT j ?_
@@ -230,12 +230,12 @@ theorem char3Good_d4_outer {f : ℕ} (hf : 1 ≤ f) {F : Type} [Field F] [Finite
     (hout : ∀ h : adjointGroup Tag.D4 F, MulAut.conj h ≠ α) :
     Char3Good ↥(fixSubgroup α) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hchF : CharP F 3 :=
     charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hF])
   have hchar : ringChar F = 3 := ringChar.eq F 3
-  haveI : Finite (ModGL Tag.D4 F) := finite_modGL
-  haveI : Finite ↥(adjointGroup Tag.D4 F) := Subtype.finite
+  have : Finite (ModGL Tag.D4 F) := finite_modGL
+  have : Finite ↥(adjointGroup Tag.D4 F) := Subtype.finite
   obtain ⟨g, a, σ, ε, hε, hσ3, hαeq⟩ := exists_cube_normal_form_sigma α hα
   interval_cases ε
   · have hα' : α = MulAut.conj g * exactNormalAut Tag.D4 F a σ 0 := by
@@ -263,7 +263,7 @@ theorem d4Char3Outer_holds : D4Char3Outer := by
   classical
   have hG' := hG
   obtain ⟨⟨hℓ, hf, -⟩, F, _, _, hF, ⟨eG⟩⟩ := hG'
-  haveI : Fact (Nat.Prime 3) := ⟨hℓ⟩
+  have : Fact (Nat.Prime 3) := ⟨hℓ⟩
   obtain ⟨eC⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup F
   let e₂ : G ≃* ↥(adjointGroup Tag.D4 F) := eG.trans eC

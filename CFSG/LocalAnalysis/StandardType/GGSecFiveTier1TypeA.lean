@@ -31,10 +31,10 @@ theorem ggSecFiveIdentA_of_tier1 (hT : GGSecFiveTier1Input) {p : ℕ} {B Bs : Su
     GGIsWeylMatrixAD.le_three (Or.inl ⟨n, e', hn, hM⟩)
   obtain ⟨F, hF, hFfin, hchar, h4, hcomm, hpair, hgen⟩ :=
     hT G p B Bs x L D J 𝒦 hcfg hsplit ι M e hpres hsl
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := hchar
+  let : Field F := hF
+  let : Finite F := hFfin
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := hchar
   obtain ⟨m, -, hcard⟩ := FiniteField.card F 2
   let f : ℕ := (m : ℕ)
   have hf : f ≠ 0 := by
@@ -44,8 +44,8 @@ theorem ggSecFiveIdentA_of_tier1 (hT : GGSecFiveTier1Input) {p : ℕ} {B Bs : Su
   have hq : 4 ≤ 2 ^ f := by
     rw [Nat.card_eq_fintype_card, hcard'] at h4
     exact h4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have hcardGF : Fintype.card (GaloisField 2 f) = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 f hf

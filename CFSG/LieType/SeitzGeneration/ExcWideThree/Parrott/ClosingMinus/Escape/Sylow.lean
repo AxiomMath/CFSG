@@ -84,8 +84,8 @@ theorem exists_conj_comm_or_fusion [Finite G] {x s : G} (hx3 : x ^ 3 = 1) (hx1 :
       have h2 : p₀ ∈ C := hmem
       exact (Subgroup.mem_centralizer_singleton_iff.1 h2.2)
     have : Finite (P : Subgroup G) := inferInstance
-    have hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
-    obtain ⟨g', hg'N, hg'C⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent C' hlt)
+    have hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
+    obtain ⟨g', hg'N, hg'C⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent C' hlt)
     set g : G := (g' : G) with hgdef
     have hgP : g ∈ (P : Subgroup G) := g'.2
     have hxC' : (⟨x, hxP'⟩ : (P : Subgroup G)) ∈ C' := hxC
@@ -107,7 +107,7 @@ theorem exists_conj_comm_or_fusion [Finite G] {x s : G} (hx3 : x ^ 3 = 1) (hx1 :
     · apply hgnot
       calc g * x = g * x * g⁻¹ * g := by group
         _ = x * g := by rw [h]
-    · obtain ⟨m, hm⟩ := exists_pow_prime_pow_eq_one P.isPGroup' hgP
+    · obtain ⟨m, hm⟩ := exists_pow_prime_pow_eq_one P.isPGroup hgP
       exact hgnot (commute_of_conj_eq_inv hm h)
 
 end CFSG.LieType.SeitzGeneration.ExcWideThree.Parrott.ClosingMinus.Escape

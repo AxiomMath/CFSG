@@ -214,7 +214,7 @@ theorem burnsideF48s_autc_u42_inf :
 
 theorem burnsideF48s_autc_u42_normalizer_P1 :
     Subgroup.normalizer ((P1.map incl : Subgroup Ah) : Set Ah) = burnsideF48s_u42eP1 := by
-  haveI : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
+  have : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
   have hmap : P1.map incl = Yh ⊓ P1h := by
     rw [← comap_P1h, Subgroup.map_comap_eq, ← Yh_eq_range]
   rw [burnsideF48s_autc_u42_P1_eq]
@@ -228,7 +228,7 @@ theorem burnsideF48s_autc_u42_normalizer_P1 :
 
 theorem burnsideF48s_autc_u42_normalizer_P2 :
     Subgroup.normalizer ((P2.map incl : Subgroup Ah) : Set Ah) = burnsideF48s_u42eP2 := by
-  haveI : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
+  have : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
   have hmap : P2.map incl = Yh ⊓ P2h := by
     rw [← comap_P2h, Subgroup.map_comap_eq, ← Yh_eq_range]
   rw [burnsideF48s_autc_u42_P2_eq]
@@ -252,9 +252,9 @@ theorem burnsideF48s_autc_u42_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgrou
           M₂ = burnsideF48s_u42eP2.map θ.toMonoidHom) ∨
         (M₁ = burnsideF48s_u42eP2.map θ.toMonoidHom ∧
           M₂ = burnsideF48s_u42eP1.map θ.toMonoidHom)) := by
-  haveI : Finite E := hyp.finite
-  haveI : Gp.Normal := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Gp.Normal := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨ε₀⟩ := nonempty_mulEquiv_Y (burnsideF48_lieModel_U4 hyp.model)
   exact burnsideF48s_autc_chart_of burnsideF48s_u42_isLieParabolics
@@ -295,7 +295,7 @@ theorem burnsideF48s_autc_sp43_coe (i : Fin 4) :
     ((burnsideF48s_sp43eG i.castSucc : Ah) : P45) = ((burnsideF48s_sp43G i : Y) : P45) := by
   refine eq_of_repL (burnsideF48s_autc_sp43_repL i.castSucc) ?_
   have e := burnsideF48s_autc_sp43_rel_spec.1 i (List.mem_range.2 i.2)
-  rw [Fin.coe_castSucc, e]
+  rw [Fin.val_castSucc, e]
   exact repL_wordP _
 
 theorem burnsideF48s_autc_sp43_G_eq :
@@ -406,7 +406,7 @@ theorem burnsideF48s_autc_sp43_normalizer_P1
       burnsideF48s_sp43P2) :
     Subgroup.normalizer ((burnsideF48s_sp43P1.map incl : Subgroup Ah) : Set Ah) =
       burnsideF48s_sp43eP1 := by
-  haveI : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
+  have : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
   obtain ⟨ha, hb, hp, -⟩ := burnsideF48s_autc_sp43_G_eq
   obtain ⟨c0, c1, c2, -⟩ := burnsideF48s_autc_sp43_conj_eq
   have hmap : burnsideF48s_sp43P1.map incl =
@@ -443,7 +443,7 @@ theorem burnsideF48s_autc_sp43_normalizer_P2
       burnsideF48s_sp43P2) :
     Subgroup.normalizer ((burnsideF48s_sp43P2.map incl : Subgroup Ah) : Set Ah) =
       burnsideF48s_sp43eP2 := by
-  haveI : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
+  have : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
   obtain ⟨ha, hb, -, hq⟩ := burnsideF48s_autc_sp43_G_eq
   obtain ⟨c0, c1, -, c3⟩ := burnsideF48s_autc_sp43_conj_eq
   have hmap : burnsideF48s_sp43P2.map incl =
@@ -505,9 +505,9 @@ theorem burnsideF48s_autc_sp43_chart
           M₂ = burnsideF48s_sp43eP2.map θ.toMonoidHom) ∨
         (M₁ = burnsideF48s_sp43eP2.map θ.toMonoidHom ∧
           M₂ = burnsideF48s_sp43eP1.map θ.toMonoidHom)) := by
-  haveI : Finite E := hyp.finite
-  haveI : Gp.Normal := hyp.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hyp.finite
+  have : Gp.Normal := hyp.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨e⟩ := burnsideF48s_autc_sp43_equiv hyp.model
   exact burnsideF48s_autc_chart_of hYP (burnsideF48s_autc_sp43_normalizer_P1 hYP)

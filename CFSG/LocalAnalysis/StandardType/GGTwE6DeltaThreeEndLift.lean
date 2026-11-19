@@ -17,11 +17,13 @@ section Lift
 
 variable {L' R : Type} [Group L'] [Group R] [Finite L'] [Finite R] {ψ : L' →* R}
 
+omit [Finite R] [Finite L'] in
 theorem indAutHom_apply_mk (hψ : Function.Surjective ψ) (hZ : Subgroup.center R = ⊥)
     (hker : ψ.ker ≤ Subgroup.center L') (a : MulAut L') (l : L') :
     ggIE_indAutHom hψ hZ hker a (ψ l) = ψ (a l) :=
   ggIE_indAut_apply hψ hZ hker a l
 
+omit [Finite R] [Finite L'] in
 theorem layer_fix_iff_of_data (hψ : Function.Surjective ψ) (hZ : Subgroup.center R = ⊥)
     (hker : ψ.ker ≤ Subgroup.center L') {t : MulAut L'} {X D : Subgroup R}
     (hfix : ggFix (ggIE_indAutHom hψ hZ hker t) = X ⊔ D) (hX : IsCyclic X)
@@ -42,7 +44,7 @@ theorem endNode_of_data (hψ : Function.Surjective ψ) (hZ : Subgroup.center R =
     (hcent : ∀ y ∈ Y, (∀ x ∈ D, ggIE_indAutHom hψ hZ hker y x = x) →
       ∃ x ∈ X, ggIE_indAutHom hψ hZ hker y = MulAut.conj x) :
     GGIsEndNode Y t ∧ ¬ LargeEvenSmall (LargeEvenLayer (ggFix t)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρ := ggIE_indAutHom hψ hZ hker with hρdef
   have hc : ∀ a l, ρ a (ψ l) = ψ (a l) := indAutHom_apply_mk hψ hZ hker
   obtain ⟨hlay, hcomp⟩ := layer_sup_eq hX hXD ((TableBSymp.isQuasisimple_iff _).2 hDq)
@@ -67,7 +69,7 @@ theorem endNode_of_data (hψ : Function.Surjective ψ) (hZ : Subgroup.center R =
     have hρinj : Function.Injective ρ := ggIE_indAutHom_injective hψ hZ hker hperf
     have hfinj : Function.Injective f := fun a b h =>
       Subtype.ext (hρinj (congrArg Subtype.val h))
-    haveI : IsCyclic ↥(X.map (MulAut.conj : R →* MulAut R)) :=
+    have : IsCyclic ↥(X.map (MulAut.conj : R →* MulAut R)) :=
       haveI : IsCyclic X := hX
       isCyclic_of_surjective ((MulAut.conj : R →* MulAut R).subgroupMap X)
         (MonoidHom.subgroupMap_surjective _ _)

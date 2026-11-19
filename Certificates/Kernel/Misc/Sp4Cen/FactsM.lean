@@ -9,7 +9,7 @@ namespace CertificateChecks.KernelMisc.Sp4Cen
 
 open Matrix CFSG.KD.Sp4Cen CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.Misc.GL4 CFSG.KC.Misc.Clos
   CFSG.KC.Misc.Sp4Cen
-open Certificates.GL4 (GL4 sg)
+open Certificates.GL4Sub (GL4 sg)
 open Certificates.A5GL42 (Mat4 ofCode)
 
 @[expose] noncomputable def fW (g : GL4) : Mat4 := (g : Mat4)ᵀ * W0m * (g : Mat4)
@@ -142,9 +142,9 @@ theorem card_Z {Z : Subgroup GL4} (hZ : SB ≤ Z) :
   set t := (Finset.range 28).filter fun k => ∃ z ∈ Z, fW z = ofCode (FM k) with ht
   have hmaps : ((Finset.univ.filter fun g : GL4 => g ∈ Z : Finset GL4) : Set GL4).MapsTo idx t := by
     intro g
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
     intro hg
-    simp only [ht, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq]
+    simp only [ht, Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq]
     exact ⟨(hidx g).1, g, hg, (hidx g).2⟩
   have hfibs : ∀ b ∈ t,
       ((Finset.univ.filter fun g : GL4 => g ∈ Z).filter fun g => idx g = b).card = 720 := by

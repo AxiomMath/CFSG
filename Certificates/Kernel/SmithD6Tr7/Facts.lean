@@ -54,12 +54,12 @@ theorem tr7ChkDim_of_pinned {j : ℕ} (hj : j < 7) : tr7ChkDim j = true := by
   simp only [Bool.and_eq_true]
   refine ⟨⟨⟨hind, hlt⟩, hlen⟩, ?_⟩
   by_cases hc : (j == 2 || j == 6) = true
-  · rw [if_pos hc] at hw ⊢
+  · rw [ite_eq_left hc] at hw ⊢
     simp only [Bool.and_eq_true] at hw
     refine List.any_eq_true.2 ⟨0, List.mem_range.2 (by norm_num), ?_⟩
     rw [wt_zero hW, tr7RepCols_apply hL hw.1 (by norm_num)]
     exact hw.2
-  · rw [if_neg hc] at hw ⊢
+  · rw [ite_eq_right hc] at hw ⊢
 
 theorem tr7ChkDims_of_pinned : tr7ChkDims = true :=
   List.all_eq_true.2 fun _ hj => tr7ChkDim_of_pinned hL hW (List.mem_range.1 hj)

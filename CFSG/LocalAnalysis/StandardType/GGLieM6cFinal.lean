@@ -81,7 +81,7 @@ private theorem m6c_toral_of_ker
   simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] using htor
 
 private theorem m6c_notAbelian_of_ne_bot
-    (A : Subgroup (ModGL Tag.E6 GGL)) (hEa : A ≤ adjointGroup Tag.E6 GGL)
+    (A : Subgroup (ModGL Tag.E6 GGL)) (_hEa : A ≤ adjointGroup Tag.E6 GGL)
     (hAab : IsElemAbelian 3 A) (hAcard : Nat.card A = 3 ^ 4)
     (hab : GGLieAbelianPreimageE6 A)
     (g : ModGL Tag.E6 GGL) (hg : g ∈ adjointGroup Tag.E6 GGL)
@@ -110,7 +110,7 @@ theorem isToral_of_abelianPreimage
     (hab : GGLieAbelianPreimageE6 A) :
     IsToralSubgroup Tag.E6 GGL A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg, hEM, hS4⟩ :=
     CFSG.StandardType.E6NonToralThree.exists_conj_regular (L := GGL) (ℓ := 2)
       (by norm_num : (2 : ℕ) ≠ 3)

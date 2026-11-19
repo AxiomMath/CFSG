@@ -15,7 +15,7 @@ variable {X : Type*} [Group X] [Finite X] {p : ℕ}
 theorem dvd_card_of_sylow_le {X₀ : Subgroup X} (hp : p.Prime) (R : Sylow p X)
     (hR : (R : Subgroup X) ≤ X₀) (hR1 : (R : Subgroup X) ≠ ⊥) : p ∣ Nat.card X₀ := by
   have : Fact p.Prime := ⟨hp⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp R.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp R.isPGroup
   have hk1 : 1 ≤ k := by
     rcases Nat.eq_zero_or_pos k with rfl | hpos
     · exact absurd (Subgroup.eq_bot_of_card_eq (R : Subgroup X) (by simpa using hk)) hR1
@@ -40,7 +40,7 @@ theorem exists_maximal_pGroup_of_dvd (hp : p.Prime) {D : Subgroup X} (hD : p ∣
     rw [Subgroup.card_map_of_injective D.subtype_injective, hcardS]
     exact (Nat.one_lt_pow hpos.ne' hp.one_lt).ne'
   refine ⟨(S : Subgroup D).map D.subtype, Subgroup.map_subtype_le _,
-    S.isPGroup'.map D.subtype, fun hbot => hne ?_, ?_⟩
+    S.isPGroup.map D.subtype, fun hbot => hne ?_, ?_⟩
   · rw [hbot, Subgroup.card_bot]
   · intro T hTD hT hQT
     have hTS : T.subgroupOf D = (S : Subgroup D) := by
@@ -116,7 +116,7 @@ theorem false_of_dvd_inf_conj (hp : p.Prime) {X₀ : Subgroup X}
       group⟩
   have hmaxX := maximal_of_normalizer_le hp hmaxD (le_inf hN1 hN2)
   obtain ⟨S, hS⟩ := hQp.exists_le_sylow
-  have hSQ : (S : Subgroup X) = Q := hmaxX S S.isPGroup' hS
+  have hSQ : (S : Subgroup X) = Q := hmaxX S S.isPGroup hS
   obtain ⟨c, hc⟩ := exists_conjugate_le_sylow_of_le p S (by rw [hSQ]; exact hQX₀) hQ'X₀ hQ'p
   rw [hSQ] at hc
   have hu : (c : X) * g ∈ Subgroup.normalizer (Q : Set X) := by

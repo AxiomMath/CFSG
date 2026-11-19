@@ -117,7 +117,7 @@ private theorem kg3_bad (γ δ : Fin 6 → ℤ)
     exact ⟨M i j, (hM i j).symm⟩
   unfold k3dBad
   rw [hkn]
-  simp only [Prod.fst, Prod.snd]
+  simp only
   have h1 : decide (D ≠ 0) = true := decide_eq_true_eq.mpr hDne
   have h2 : (List.finRange 6).all (fun i => (List.finRange 6).all
       (fun j => decide (D ∣ N i j))) = true := by

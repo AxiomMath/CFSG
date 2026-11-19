@@ -261,8 +261,8 @@ theorem piStar_of_key {U : Subgroup P8} {c : P8} (hkey : Key U c)
   have hcV : c ∈ Nor V := (Subgroup.zpowers_le).1 hVN
   by_contra hne
   have hlt : U < V := lt_of_le_of_ne hUV (Ne.symm hne)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥V := hV2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥V := hV2.isNilpotent
   have hH : U.subgroupOf V < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
@@ -271,7 +271,7 @@ theorem piStar_of_key {U : Subgroup P8} {c : P8} (hkey : Key U c)
     intro v hv
     have : (⟨v, hv⟩ : V) ∈ U.subgroupOf V := h ▸ Subgroup.mem_top _
     exact this
-  obtain ⟨x, hxN, hxH⟩ := SetLike.exists_of_lt
+  obtain ⟨x, hxN, hxH⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent _ hH)
   set σ : P8 := (x : P8) with hσ
   have hσV : σ ∈ V := x.2

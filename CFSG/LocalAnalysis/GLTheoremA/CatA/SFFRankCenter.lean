@@ -22,7 +22,7 @@ theorem I2017LieRankCenter_holds :
   have fin : ∀ (X : Type) [Group X], Subsingleton (CFSG.Open.griessHopfMultiplier X) →
       (Q ⧸ Subgroup.center Q ≃* X) → z = 1 := by
     intro X _ hX eX
-    haveI : Subsingleton (hopfMultiplier X) :=
+    have : Subsingleton (hopfMultiplier X) :=
       (hopfMultiplierEquivGriess X).symm.toEquiv.subsingleton
     have h1 : Nat.card (hopfMultiplier X) = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
@@ -39,8 +39,8 @@ theorem I2017LieRankCenter_holds :
   | lie j =>
     obtain ⟨d, hv⟩ := j
     have hd : I2017LieRankShape d := hi
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime gfTwoPP.p) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime gfTwoPP.p) := ⟨Nat.prime_two⟩
     unfold I2017LieRankShape at hd
     rcases hd with ⟨N, hN8, -, hdN⟩ | ⟨k, hk5, hdk | hdk⟩
     ·
@@ -52,18 +52,18 @@ theorem I2017LieRankCenter_holds :
           ((CFSG.PGLModel.projSLEquivStatedProj (M + 1) (GaloisField 2 1)).trans
             (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj (M + 1)
               (GaloisField 2 1)).symm)
-      obtain ⟨-, ⟨hm⟩⟩ := CFSG.Open.Open.griess_schur_multipliers_psl 2 1 (M + 1) (by norm_num)
+      obtain ⟨-, ⟨hm⟩⟩ := CFSG.Open.Thm.griess_schur_multipliers_psl 2 1 (M + 1) (by norm_num)
         (by omega) (fun h => by omega)
       have hgcd : Nat.gcd (M + 1) (2 ^ 1 - 1) = 1 := by norm_num
       have hexc : CFSG.Open.griessPSLExceptional (M + 1) (2 ^ 1) = (1, 1) := by
         simp [CFSG.Open.griessPSLExceptional, show M + 1 ≠ 2 by omega, show M + 1 ≠ 3 by omega,
           show M + 1 ≠ 4 by omega]
-      haveI : Subsingleton (ZMod (Nat.gcd (M + 1) (2 ^ 1 - 1))) := ZMod.subsingleton_iff.mpr hgcd
-      haveI : Subsingleton (ZMod (CFSG.Open.griessPSLExceptional (M + 1) (2 ^ 1)).1) :=
+      have : Subsingleton (ZMod (Nat.gcd (M + 1) (2 ^ 1 - 1))) := ZMod.subsingleton_iff.mpr hgcd
+      have : Subsingleton (ZMod (CFSG.Open.griessPSLExceptional (M + 1) (2 ^ 1)).1) :=
         ZMod.subsingleton_iff.mpr (by rw [hexc])
-      haveI : Subsingleton (ZMod (CFSG.Open.griessPSLExceptional (M + 1) (2 ^ 1)).2) :=
+      have : Subsingleton (ZMod (CFSG.Open.griessPSLExceptional (M + 1) (2 ^ 1)).2) :=
         ZMod.subsingleton_iff.mpr (by rw [hexc])
-      haveI : Subsingleton (CFSG.Open.griessHopfMultiplier
+      have : Subsingleton (CFSG.Open.griessHopfMultiplier
           (Matrix.ProjectiveSpecialLinearGroup (Fin (M + 1)) (GaloisField 2 1))) :=
         hm.toEquiv.subsingleton
       exact fin _ (CFSG.LieType.Steinberg.CentralExt.griessHopfMultiplierCongr ψ).toEquiv.subsingleton e
@@ -88,23 +88,23 @@ theorem I2017LieRankCenter_holds :
       have he2 : (CFSG.Blueprint.Multiplier.exceptionalOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2 = 1 := by
         simp [CFSG.Blueprint.Multiplier.exceptionalOrders, show k ≠ 4 by omega]
-      haveI : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders
+      have : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).1) := ZMod.subsingleton_iff.mpr hg1
-      haveI : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders
+      have : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2) := ZMod.subsingleton_iff.mpr hg2
-      haveI : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders
+      have : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).1) := ZMod.subsingleton_iff.mpr he1
-      haveI : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders
+      have : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2) := ZMod.subsingleton_iff.mpr he2
-      haveI g1 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).1)) :=
+      have g1 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).1)) :=
         inferInstanceAs (Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).1))
-      haveI g2 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2)) :=
+      have g2 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2)) :=
         inferInstanceAs (Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2))
-      haveI e1 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).1)) :=
+      have e1 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).1)) :=
         inferInstanceAs (Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).1))
-      haveI e2 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2)) :=
+      have e2 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2)) :=
         inferInstanceAs (Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1).2))
-      haveI hT : Subsingleton (CFSG.Blueprint.Multiplier.generic CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1 ×
+      have hT : Subsingleton (CFSG.Blueprint.Multiplier.generic CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1 ×
           CFSG.Blueprint.Multiplier.exceptional CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaPlus k 2 1) := inferInstance
       exact fin _ (hm.toEquiv.subsingleton) e
     ·
@@ -135,23 +135,23 @@ theorem I2017LieRankCenter_holds :
       have he2 : (CFSG.Blueprint.Multiplier.exceptionalOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2 = 1 := by
         simp [CFSG.Blueprint.Multiplier.exceptionalOrders]
-      haveI : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders
+      have : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).1) := ZMod.subsingleton_iff.mpr hg1
-      haveI : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders
+      have : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2) := ZMod.subsingleton_iff.mpr hg2
-      haveI : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders
+      have : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).1) := ZMod.subsingleton_iff.mpr he1
-      haveI : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders
+      have : Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders
           CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2) := ZMod.subsingleton_iff.mpr he2
-      haveI g1 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).1)) :=
+      have g1 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).1)) :=
         inferInstanceAs (Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).1))
-      haveI g2 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2)) :=
+      have g2 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2)) :=
         inferInstanceAs (Subsingleton (ZMod (CFSG.Blueprint.Multiplier.genericOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2))
-      haveI e1 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).1)) :=
+      have e1 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).1)) :=
         inferInstanceAs (Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).1))
-      haveI e2 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2)) :=
+      have e2 : Subsingleton (Multiplicative (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2)) :=
         inferInstanceAs (Subsingleton (ZMod (CFSG.Blueprint.Multiplier.exceptionalOrders CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1).2))
-      haveI hT : Subsingleton (CFSG.Blueprint.Multiplier.generic CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1 ×
+      have hT : Subsingleton (CFSG.Blueprint.Multiplier.generic CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1 ×
           CFSG.Blueprint.Multiplier.exceptional CFSG.Assembly.LowTwoRank.StatedLieTag.POmegaMinus k 2 1) := inferInstance
       exact fin _ (hm.toEquiv.subsingleton) e
 

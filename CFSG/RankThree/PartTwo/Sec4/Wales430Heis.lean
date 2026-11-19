@@ -182,7 +182,7 @@ theorem false_of_isHeisCentral {A L : Subgroup G} (hA : CFSG.Assembly.IsElemAbel
         apply Subtype.ext
         have hz := hux u₂ u₂.2 y hyA
         have hcz := haX _ hz (u₁ : ↥X)
-        simp only [Subgroup.coe_mul, MulMemClass.coe_mul, mul_inv_rev]
+        simp only [MulMemClass.coe_mul, mul_inv_rev]
         calc (u₁ : G) * u₂ * y * ((u₂ : G)⁻¹ * (u₁ : G)⁻¹) * y⁻¹
             = (u₁ : G) * ((u₂ : G) * y * (u₂ : G)⁻¹ * y⁻¹) * (y * (u₁ : G)⁻¹ * y⁻¹) := by
               group

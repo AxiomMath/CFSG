@@ -163,7 +163,7 @@ theorem renumber_map_get {k : ℕ} {S : List (Fin k)} (hS : S.Nodup) :
 theorem hnS1L_nodup : hnS1L.Nodup := by decide
 theorem hnS2L_nodup : hnS2L.Nodup := by decide
 
-theorem hnL3_sub : ∀ w ∈ hnL3, w ∈ hnR := fun w hw =>
+theorem hnL3_sub : ∀ _w ∈ hnL3, _w ∈ hnR := fun _w hw =>
   List.mem_append_left _ (List.mem_append_left _ hw)
 
 theorem hnL2_sub : ∀ w ∈ hnL2, w ∈ restrictWords (subsetOf hnTL.length [0, 1, 2, 3, 4]) hnR :=
@@ -197,7 +197,7 @@ theorem hnRho_of (j : Fin hnTL.length) :
   if h : p < 1408 then ((hnRho g).unop ⟨p, h⟩).val else p
 
 theorem hnPt_lt {g : hnPR} {p : ℕ} (hp : p < 1408) : hnPt g p < 1408 := by
-  rw [hnPt, dif_pos hp]
+  rw [hnPt, dite_eq_left hp]
   exact Fin.isLt _
 
 theorem hnPt_one (p : ℕ) : hnPt 1 p = p := by
@@ -206,13 +206,13 @@ theorem hnPt_one (p : ℕ) : hnPt 1 p = p := by
 
 theorem hnPt_mul (a b : hnPR) (p : ℕ) : hnPt (a * b) p = hnPt b (hnPt a p) := by
   by_cases hp : p < 1408
-  · have ha : hnPt a p = ((hnRho a).unop ⟨p, hp⟩).val := by rw [hnPt, dif_pos hp]
-    rw [hnPt, dif_pos hp, hnPt, dif_pos (hnPt_lt hp), map_mul, MulOpposite.unop_mul,
+  · have ha : hnPt a p = ((hnRho a).unop ⟨p, hp⟩).val := by rw [hnPt, dite_eq_left hp]
+    rw [hnPt, dite_eq_left hp, hnPt, dite_eq_left (hnPt_lt hp), map_mul, MulOpposite.unop_mul,
       Equiv.Perm.mul_apply]
     congr 2
     exact Fin.ext ha.symm
-  · have ha : hnPt a p = p := by rw [hnPt, dif_neg hp]
-    rw [hnPt, dif_neg hp, ha, hnPt, dif_neg hp]
+  · have ha : hnPt a p = p := by rw [hnPt, dite_eq_right hp]
+    rw [hnPt, dite_eq_right hp, ha, hnPt, dite_eq_right hp]
 
 @[expose] noncomputable def hnX (c : ℕ) : hnPR :=
   if c % 2 = 0 then PresentedGroup.of ⟨c / 2 % hnTL.length, Nat.mod_lt _ (by decide)⟩
@@ -221,7 +221,7 @@ theorem hnPt_mul (a b : hnPR) (p : ℕ) : hnPt (a * b) p = hnPt b (hnPt a p) := 
 theorem hnPt_x {c : ℕ} (hc : c < 12) {p : ℕ} (hp : p < 1408) :
     fieldAt 11 (F c) p = hnPt (hnX c) p := by
   have hj : c / 2 % hnTL.length = c / 2 := by rw [hnTL_length]; omega
-  rw [hnPt, dif_pos hp, hnX]
+  rw [hnPt, dite_eq_left hp, hnX]
   split_ifs with h2
   · rw [hnRho_of]
     simp only [hj]

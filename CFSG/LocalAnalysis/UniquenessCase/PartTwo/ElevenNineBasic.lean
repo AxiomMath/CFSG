@@ -27,7 +27,7 @@ theorem hyp11_ctilde (D : Data G) {V₀ V : Subgroup G} (hH : F11.Hyp11 D V₀ V
 theorem gamma_le_of_stronglyEmbedded (D : Data G) {p : ℕ} (hp : p.Prime)
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M) {X : Subgroup G} (hXM : X ≤ D.M)
     (hX : IsPGroup p X) : rankThreeGamma 1 p X ≤ D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine sSup_le ?_
   rintro N ⟨Q, hQX, hQ1, rfl⟩
   have hQ : Q ≠ ⊥ := by
@@ -45,7 +45,7 @@ theorem gamma_le_of_stronglyEmbedded (D : Data G) {p : ℕ} (hp : p.Prime)
 theorem exists_sylow_normalizer {r : ℕ} (hr : r.Prime) {M Y P : Subgroup G} (hYM : Y ≤ M)
     (hYn : M ≤ normalizer (Y : Set G)) (hP : CFSG.ABGLocalTools.IsSylowOf r P Y) :
     ∃ R : Subgroup G, CFSG.ABGLocalTools.IsSylowOf r R M ∧ P ≤ R ∧ R ≤ normalizer (P : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hPM : P ≤ M := hP.le.trans hYM
   obtain ⟨R, hR, hPR⟩ : ∃ R : Subgroup G, CFSG.ABGLocalTools.IsSylowOf r R M ∧ P ≤ R := by
     have hP' : IsPGroup r (P.subgroupOf M) := hP.isPGroup.comap_subtype
@@ -59,6 +59,7 @@ theorem exists_sylow_normalizer {r : ℕ} (hr : r.Prime) {M Y P : Subgroup G} (h
   have h2' : R ≤ normalizer ((R ⊓ Y : Subgroup G) : Set G) := h2
   rwa [h1] at h2'
 
+omit [Finite G] in
 theorem permutes_of_le_sup_pCore {M T Y P : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M)
     (hYM : Y ≤ M) (hYn : M ≤ normalizer (Y : Set G)) (hPY : P ≤ Y)
     (hYP : Y ≤ P ⊔ pCoreOf 2 M) : Permutes P T := by
@@ -103,6 +104,7 @@ theorem permutes_of_le_sup_pCore {M T Y P : Subgroup G} (hT : CFSG.ABGLocalTools
       _ = (t * p * t⁻¹) * t := by rw [hyo]
       _ = t * p := by group
 
+omit [Finite G] in
 theorem le_centralizer_of_perfect_of_sub {L V₀ V : Subgroup G} (hperf : ⁅L, L⁆ = L)
     (hV₀ : ∀ a ∈ V₀, ∀ b ∈ V₀, a * b = b * a) (hLV₀ : L ≤ centralizer (V₀ : Set G))
     (hLV : ∀ l ∈ L, ∀ v ∈ V, l * v * l⁻¹ * v⁻¹ ∈ V₀) : L ≤ centralizer (V : Set G) := by
@@ -152,6 +154,7 @@ theorem normal_iSup_conj {Γ : Type*} [Group Γ] (H : Subgroup Γ) :
     exact hle ⟨x, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
   exact key hn
 
+omit [Finite G] in
 theorem le_normalizer_of_normal_barImage11 {M V₀ V X : Subgroup G}
     [((F11.CTilde M V₀ V).subgroupOf M).Normal] (hCX : F11.CTilde M V₀ V ≤ X) (hXM : X ≤ M)
     (hN : (F11.barImage11 M V₀ V X).Normal) : M ≤ normalizer (X : Set G) := by

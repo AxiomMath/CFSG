@@ -77,11 +77,9 @@ theorem ggWeylOfType_of_frame {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.
       change GGOverGamma hN (F (M.simple i)) (e (M.simple i) : MulAut ↥A)
       rw [hFsimple i, he i]
       exact hφover i
-    · change GGOverGamma hN (F 1) (e 1 : MulAut ↥A)
-      rw [map_one F, map_one e]
+    · rw [map_one F, map_one e]
       exact GGOverGamma.one
     · intro x y hx hy
-      change GGOverGamma hN (F (x * y)) (e (x * y) : MulAut ↥A)
       rw [map_mul F, map_mul e]
       exact hx.mul hy
   have hFrange : F.range = Subgroup.closure (Set.range φ) := by

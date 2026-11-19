@@ -55,7 +55,7 @@ theorem isKGroup_sup_of_i263a {G : Type} [Group G] [Finite G] (hsimp : IsSimpleG
     {Q : TauCeti.CFSGIndex → Prop}
     (hBel : CFSG.Open.IsElemAbelian 3 B') (hyB : y ∈ B') (hK : GLAPComponent 3 (Subgroup.centralizer ({y} : Set G)) K)
     (hcat : catalogIs (PSimple 3 K) Q) : CFSG.Open.IsKGroup ↥(K ⊔ B') := by
-  haveI := hsimp
+  have := hsimp
   by_cases hy1 : y = 1
   · subst hy1
     have htop : Subgroup.centralizer ({(1 : G)} : Set G) = ⊤ := by

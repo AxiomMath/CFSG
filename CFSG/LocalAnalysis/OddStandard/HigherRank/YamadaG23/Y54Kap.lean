@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma conj_mem_centralizer_of_mem_normalizer {X : Subgroup G} {k m : G}
     (hk : k ∈ normalizer (X : Set G)) (hm : m ∈ centralizer (X : Set G)) :
     k * m * k⁻¹ ∈ centralizer (X : Set G) := by
@@ -29,6 +30,7 @@ private lemma conj_mem_cen_of_mem_normIn {s : Setting3 G L} {k : G}
     ⟨(Subgroup.mem_normalizer_iff.mp hk.2 v).mp (Subgroup.mem_inf.mp hv).1,
       conj_mem_centralizer_of_mem_normalizer hk.2 (Subgroup.mem_inf.mp hv).2⟩
 
+omit [Finite G] in
 private lemma conj_mem_centIn_of_pointwise {A X : Subgroup G} {k : G}
     (hA : ∀ a ∈ A, k * a * k⁻¹ ∈ A) (hkX : k ∈ normalizer (X : Set G))
     {m : G} (hm : m ∈ centIn A X) : k * m * k⁻¹ ∈ centIn A X :=

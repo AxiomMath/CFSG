@@ -19,6 +19,7 @@ private theorem commute_of_mem_xOf (h : RootHyp M V) (hS : Sec45Shape M V H h₀
     {x y : G} (hx : x ∈ Tim79a.xOf V H) (hy : y ∈ Tim79a.xOf V H) : x * y = y * x :=
   congrArg Subtype.val ((hS.isElemAbelian h).1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 private theorem card_eq_of_mem_pts {C : Subgroup G}
     (hC : C ∈ Tim79a.omegaOf V H) : Nat.card C = Nat.card V := by
   obtain ⟨y, _, rfl⟩ := hC
@@ -227,8 +228,7 @@ theorem card_add_le (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
         have hT' : ∀ C' ∈ T', C' ∈ L := fun C' hC' =>
           hT C' (Finset.mem_insert_of_mem hC')
         have hUeq : U (insert C T') = U T' ∪ D C := by
-          simp [U, Finset.coe_insert, Finset.set_biUnion_insert, Set.union_assoc,
-            Set.union_comm, Set.union_left_comm]
+          simp [U, Set.union_comm, Set.union_left_comm]
         have hdisj' : Disjoint (U T') (D C) := by
           change Disjoint ((V : Set G) ∪ ⋃ C' ∈ (T' : Set (Subgroup G)), D C') (D C)
           rw [Set.disjoint_union_left, Set.disjoint_iUnion₂_left]

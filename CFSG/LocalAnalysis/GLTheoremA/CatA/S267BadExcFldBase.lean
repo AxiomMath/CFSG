@@ -31,7 +31,7 @@ theorem uSL_pow (s : L) (n : ℕ) : uSL s ^ n = uSL ((n : L) * s) := by
     refine Subtype.ext ?_
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [coe_uSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two] <;>
+      simp [coe_uSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two];
       ring
 
 theorem HSL_pow (c : Lˣ) (n : ℕ) : HSL c ^ n = HSL (c ^ n) := by
@@ -46,7 +46,7 @@ theorem HSL_pow (c : Lˣ) (n : ℕ) : HSL c ^ n = HSL (c ^ n) := by
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [coe_HSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two,
-        pow_succ] <;> ring
+        pow_succ]; ring
 
 theorem HSL_one : HSL (1 : Lˣ) = 1 := by
   refine Subtype.ext ?_

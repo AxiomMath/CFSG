@@ -13,7 +13,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 
 theorem claim153ObsBigR_of
     (h148 : Item148R) (h149 : Sec16.Item149S14) (h152 : Item152BigR) : Claim153ObsBigR :=
-  fun G _ _ A c L hR Y hY hYb => obsAt_of_big h149 hR (h152 G A c L hR) hY hYb
+  fun G _ _ A c L hR _Y hY hYb => obsAt_of_big h149 hR (h152 G A c L hR) hY hYb
     (twinTypesAt_of_big h148 h149 hR (h152 G A c L hR) hY hYb)
 
 section Wiring

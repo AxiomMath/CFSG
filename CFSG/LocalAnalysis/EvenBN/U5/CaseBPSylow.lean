@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
 
 namespace CaseBData
 
+omit [Finite G] in
 theorem sec52_sylow_le_normalizer_of_commute {A B : Subgroup G}
     (hc : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x) : B ≤ normalizer (A : Set G) := by
   refine Subgroup.le_normalizer_iff.2 ?_
@@ -91,15 +92,17 @@ theorem sec52_sylow_centerIn_sup {A B : Subgroup G}
         _ = x * a * b := by rw [hc a ha x hxB]
         _ = x * (a * b) := by rw [mul_assoc]
 
+omit [Finite G] in
 theorem sec52_sylow_Qc_le_Kc (c : d.CaseBData) : c.Qc ≤ c.Kc :=
   fun _ hx => (Subgroup.mem_inf.1 hx).2
 
+omit [Finite G] in
 theorem sec52_sylow_Qt_le_Kt (c : d.CaseBData) : c.Qt ≤ c.Kt :=
   Subgroup.map_mono (sec52_sylow_Qc_le_Kc c)
 
 
 theorem sec52_sylow_comm_K (hB : d.CaseBHyp) (c : d.CaseBData) :
-    ∀ x ∈ c.Kc, ∀ y ∈ c.Kt, x * y = y * x := fun x hx y hy =>
+    ∀ x ∈ c.Kc, ∀ _y ∈ c.Kt, x * _y = _y * x := fun x hx _y hy =>
   Subgroup.mem_centralizer_iff.1 (c.Kt_le_centralizer_Kc hB hy) x hx
 
 theorem sec52_sylow_comm (hB : d.CaseBHyp) (c : d.CaseBData) :

@@ -99,7 +99,7 @@ theorem asc82Lemma710d_of (h36 : Asc82Lemma36) (hP : Asc82Tab6P) (hF : Asc82AutF
     exact sec710_normal_two h36 hP hF hP7 h78 h710b h710c hc hN₀M hN₀ hC hk
   · exact sec710_quot_E16 h36 hP hF hP7 h77b h78 h710b h710c hc
   · intro x hx
-    rw [Set.mem_inter_iff, Set.mem_setOf_eq]
+    rw [Set.mem_inter_iff, Set.mem_ofPred_eq]
     obtain ⟨b, hb, rfl⟩ := hx
     refine ⟨?_, ?_⟩
     · obtain ⟨n, _, heq⟩ :=

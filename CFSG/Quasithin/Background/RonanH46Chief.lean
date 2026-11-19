@@ -120,6 +120,7 @@ theorem chief_V1z_V2z (hK : Nat.card K = (2 ^ 1) ^ 2) :
       have hYW : Y * X⁻¹ * X ∈ W := W.mul_mem (hVW hZV1) hXW
       rwa [inv_mul_cancel_right] at hYW
 
+omit [Finite K] [CharP K 2] in
 private theorem natHomR_two_apply (A : SL(2, K)) (C : GL (Fin 2) K)
     (hAC : (A : Matrix (Fin 2) (Fin 2) K) = (C : Matrix (Fin 2) (Fin 2) K))
     (v : Multiplicative (Fin 2 → K)) :

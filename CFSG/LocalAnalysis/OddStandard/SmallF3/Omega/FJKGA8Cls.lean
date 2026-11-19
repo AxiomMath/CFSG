@@ -56,7 +56,7 @@ theorem fj_K4_split {d : ℕ} (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
         intro u v
         simp only [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar]
         rw [← map_add, hc, hc, hc]
-        simp only [Units.val_neg, Units.val_one, neg_mul, neg_neg]
+        simp only [Units.val_neg, Units.val_one, neg_mul]
         ring
       have hgeo := negative_square_kernel_geometry Q hQp (ρ : V ≃ₗ[ZMod 3] V) 1 (-1) 1
         one_ne_zero one_ne_zero h2 hsq (by norm_num) hsim (by norm_num)

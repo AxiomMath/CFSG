@@ -81,7 +81,7 @@ theorem le_rootGroupGL_of_le_statedOmega [Finite K] [CharP K 2] {b c : K}
     (hP2 : IsPGroup 2 ↥P) :
     P ≤ rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set U : Subgroup (GL ιM K) := rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K) with hU
   have hline : ∀ g ∈ P, g ∈ lineStabilizer (quadMinus 2 K b c) (KTabC.e1M K) := by
     intro g hg

@@ -34,6 +34,7 @@ variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g
     refine Finset.prod_congr rfl fun g _ => Subtype.ext ?_
     simp [mul_assoc]
 
+omit [Finite G] in
 theorem nine3Norm_conj {I P : Subgroup G} [IsMulCommutative ↥I] [Fintype ↥P]
     (hP : P ≤ Subgroup.normalizer (I : Set G)) {h : G} (hh : h ∈ P) (v : ↥I)
     (hv : h * (v : G) * h⁻¹ ∈ I) :
@@ -44,6 +45,7 @@ theorem nine3Norm_conj {I P : Subgroup G} [IsMulCommutative ↥I] [Fintype ↥P]
   apply Subtype.ext
   simp [mul_assoc]
 
+omit [Finite G] in
 theorem nine3Norm_equivariant {I P : Subgroup G} [IsMulCommutative ↥I] [Fintype ↥P]
     (hP : P ≤ Subgroup.normalizer (I : Set G)) {u : G}
     (huP : u ∈ Subgroup.normalizer (P : Set G))
@@ -55,18 +57,17 @@ theorem nine3Norm_equivariant {I P : Subgroup G} [IsMulCommutative ↥I] [Fintyp
     (fun g : G => Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ huP) g)
   have he_apply : ∀ g : ↥P, ((e g : ↥P) : G) = u⁻¹ * (g : G) * u := by
     intro g
-    simp [e, MulAut.conj_apply]
+    simp [e]
   change (∏ g : ↥P, (⟨(g : G) * (u * (v : G) * u⁻¹) * (g : G)⁻¹, _⟩ : ↥I)) =
     nine3ConjHom I huI (∏ g : ↥P, (⟨(g : G) * (v : G) * (g : G)⁻¹, _⟩ : ↥I))
   rw [map_prod]
   refine Fintype.prod_equiv e _ _ (fun g => ?_)
   apply Subtype.ext
   dsimp only [nine3ConjHom, MonoidHom.coe_mk, OneHom.coe_mk, MulHom.coe_mk]
-  change (g : G) * (u * (v : G) * u⁻¹) * (g : G)⁻¹ =
-    u * (((e g : ↥P) : G) * (v : G) * (((e g : ↥P) : G))⁻¹) * u⁻¹
   rw [he_apply g]
   group
 
+omit [Finite G] in
 theorem nine3Norm_range_le_centralizer {I P : Subgroup G} [IsMulCommutative ↥I]
     [Fintype ↥P] (hP : P ≤ Subgroup.normalizer (I : Set G)) :
     (nine3Norm I P hP).range ≤
@@ -87,6 +88,7 @@ theorem nine3Norm_range_le_centralizer {I P : Subgroup G} [IsMulCommutative ↥I
         group
     _ = (nine3Norm I P hP v : G) * h := by rw [h3]
 
+omit [Finite G] in
 theorem nine3Norm_of_centralizer {I P : Subgroup G} [IsMulCommutative ↥I]
     [Fintype ↥P] (hP : P ≤ Subgroup.normalizer (I : Set G))
     (hPcard : Nat.card ↥P = p) (hpodd : Odd p) (v : ↥I)
@@ -109,6 +111,7 @@ theorem nine3Norm_of_centralizer {I P : Subgroup G} [IsMulCommutative ↥I]
     rw [hcard, hk, pow_succ, pow_mul, hv2', one_pow, one_mul]
   rw [hprod, hval]
 
+omit [Finite G] in
 theorem nine3Norm_range_le_of_image_le {I P : Subgroup G} [IsMulCommutative ↥I] [Fintype ↥P]
     (hP : P ≤ Subgroup.normalizer (I : Set G)) {ι : Type*} (S : ι → Subgroup G)
     (hS : ∀ i, S i ≤ I) (hIeq : I = ⨆ i, S i)

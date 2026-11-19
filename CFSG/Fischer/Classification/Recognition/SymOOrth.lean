@@ -80,7 +80,7 @@ variable (Q v y) in
 abbrev perp : Submodule (ZMod 2) V := (bil Q).orthogonal (span (ZMod 2) {v, y})
 
 theorem mem_perp {w : V} : w ∈ perp Q v y ↔ polar Q v w = 0 ∧ polar Q y w = 0 := by
-  simp [perp, LinearMap.BilinForm.orthogonal, bil_apply]
+  simp [perp, LinearMap.BilinForm.orthogonal]
 
 theorem polar_perp_left (w : perp Q v y) : polar Q w v = 0 := by
   rw [polar_comm]

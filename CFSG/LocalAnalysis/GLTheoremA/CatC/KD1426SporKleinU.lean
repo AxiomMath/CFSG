@@ -15,7 +15,7 @@ theorem card_sup_zpowers [Finite G] {x y : G} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) 
     (hy1 : y ≠ 1) (hyx : y ≠ x) (hyx2 : y ≠ x ^ 2) (hxy : x * y = y * x) :
     Nat.card ↥(Subgroup.zpowers x ⊔ Subgroup.zpowers y) = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hyNx : Subgroup.zpowers y ≤ Subgroup.normalizer (Subgroup.zpowers x : Set G) := by
     refine Subgroup.zpowers_le.2 ?_
     rw [Subgroup.mem_normalizer_iff]
@@ -91,7 +91,7 @@ theorem klein_of_U [Finite G] (D : Subgroup G) (hD : IsElemAbelian 3 D) (hDc : N
       (∀ d ∈ D, ∀ t ∈ T0, d * t * d⁻¹ ∈ T0) ∧
       (∀ t ∈ T0, ∃ d ∈ D, ∃ s ∈ T0, d * s * d⁻¹ * s⁻¹ = t) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Zg : Subgroup G := (Subgroup.center ↥U).map U.subtype with hZg
   have memZ : ∀ z, z ∈ Zg ↔ z ∈ U ∧ ∀ u ∈ U, z * u = u * z := by
     intro z
@@ -117,8 +117,8 @@ theorem klein_of_U [Finite G] (D : Subgroup G) (hD : IsElemAbelian 3 D) (hDc : N
     intro g z hz
     rw [sq, show g * z * g⁻¹ * (g * z * g⁻¹) = g * (z * z) * g⁻¹ by group, ← sq, hz]
     group
-  haveI : Nontrivial ↥U := (Subgroup.nontrivial_iff_ne_bot U).2 hU
-  haveI : Nontrivial ↥(Subgroup.center ↥U) := hU2.center_nontrivial
+  have : Nontrivial ↥U := (Subgroup.nontrivial_iff_ne_bot U).2 hU
+  have : Nontrivial ↥(Subgroup.center ↥U) := hU2.center_nontrivial
   obtain ⟨m, hm⟩ := (hU2.to_subgroup (Subgroup.center ↥U)).exists_card_eq
   have hm0 : m ≠ 0 := by
     rintro rfl
@@ -133,9 +133,9 @@ theorem klein_of_U [Finite G] (D : Subgroup G) (hD : IsElemAbelian 3 D) (hDc : N
   have hv2 : v ^ 2 = 1 := by rw [← hvo]; exact pow_orderOf_eq_one v
   have hv1 : v ≠ 1 := by
     intro h; rw [h, orderOf_one] at hvo; omega
-  letI cD : CommGroup ↥D :=
+  let cD : CommGroup ↥D :=
     { (inferInstance : Group ↥D) with mul_comm := fun x y => hD.1.is_comm.comm x y }
-  letI cZ : CommGroup ↥Zg :=
+  let cZ : CommGroup ↥Zg :=
     { (inferInstance : Group ↥Zg) with mul_comm := fun x y => Subtype.ext (hZc x x.2 y y.2) }
   have hD3 : ∀ d : ↥D, d ^ 3 = 1 := fun d => Subtype.ext (by simpa using hD.2 d d.2)
   let conjZ : ↥D → ↥Zg →* ↥Zg := fun d =>

@@ -16,6 +16,7 @@ section Overgroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem g2_borel_overgroups {A : Subgroup (ModGL Tag.G2 K)}
     (hB : borelGroup Tag.G2 K ≤ A) (hA : A ≤ adjointGroup Tag.G2 K) :
     A = borelGroup Tag.G2 K ∨
@@ -34,24 +35,24 @@ theorem g2_borel_overgroups {A : Subgroup (ModGL Tag.G2 K)}
       · refine Or.inr (Or.inr (Or.inl ?_))
         ext j
         rcases hcases j with rfl | rfl
-        · rw [Set.mem_setOf_eq]; exact iff_of_true h0 trivial
-        · rw [Set.mem_setOf_eq]; exact iff_of_true h1 trivial
+        · rw [Set.mem_ofPred_eq]; exact iff_of_true h0 trivial
+        · rw [Set.mem_ofPred_eq]; exact iff_of_true h1 trivial
       · refine Or.inl ?_
         ext j
         rcases hcases j with rfl | rfl
-        · rw [Set.mem_setOf_eq, Set.mem_singleton_iff]; exact iff_of_true h0 rfl
-        · rw [Set.mem_setOf_eq, Set.mem_singleton_iff]; exact iff_of_false h1 (by decide)
+        · rw [Set.mem_ofPred_eq, Set.mem_singleton_iff]; exact iff_of_true h0 rfl
+        · rw [Set.mem_ofPred_eq, Set.mem_singleton_iff]; exact iff_of_false h1 (by decide)
     · by_cases h1 : weylElt Tag.G2 K (⟨1, by decide⟩ : Fin Tag.G2.rank) 1 ∈ A
       · refine Or.inr (Or.inl ?_)
         ext j
         rcases hcases j with rfl | rfl
-        · rw [Set.mem_setOf_eq, Set.mem_singleton_iff]; exact iff_of_false h0 (by decide)
-        · rw [Set.mem_setOf_eq, Set.mem_singleton_iff]; exact iff_of_true h1 rfl
+        · rw [Set.mem_ofPred_eq, Set.mem_singleton_iff]; exact iff_of_false h0 (by decide)
+        · rw [Set.mem_ofPred_eq, Set.mem_singleton_iff]; exact iff_of_true h1 rfl
       · refine Or.inr (Or.inr (Or.inr ?_))
         ext j
         rcases hcases j with rfl | rfl
-        · rw [Set.mem_setOf_eq, Set.mem_empty_iff_false]; exact iff_of_false h0 (by simp)
-        · rw [Set.mem_setOf_eq, Set.mem_empty_iff_false]; exact iff_of_false h1 (by simp)
+        · rw [Set.mem_ofPred_eq, Set.mem_empty_iff_false]; exact iff_of_false h0 (by simp)
+        · rw [Set.mem_ofPred_eq, Set.mem_empty_iff_false]; exact iff_of_false h1 (by simp)
   rcases key with h | h | h | h
   · rw [hJ, h]; exact Or.inr (Or.inl rfl)
   · rw [hJ, h]; exact Or.inr (Or.inr (Or.inl rfl))
@@ -71,8 +72,8 @@ theorem kDiag_adjointGroup_G2_strong (hK : 4 ≤ Nat.card K) :
     ∀ P : Subgroup (G2Adj K), IsParabolicTwo (G2Adj K) P →
       (S : Subgroup (G2Adj K)) ≤ Subgroup.normalizer (P : Set (G2Adj K)) →
       ∀ x ∈ P, θ x ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
   intro θ S hSθ P hPpar hSP x hx
   have hUsyl : CFSG.QuasithinUnique.IsSylowTwoOf
       ((posUnipotent Tag.G2 K).subgroupOf (adjointGroup Tag.G2 K)) ⊤ :=
@@ -85,7 +86,7 @@ theorem kDiag_adjointGroup_G2_strong (hK : 4 ≤ Nat.card K) :
     CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.1 hUsyl
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup (G2Adj K)) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hSsyl.exists_mem_conj hUsyl'
   let e : G2Adj K ≃* G2Adj K := MulAut.conj k
   have hconj : (S : Subgroup (G2Adj K)).map e.toMonoidHom =
@@ -120,7 +121,7 @@ theorem kDiag_adjointGroup_G2_strong (hK : 4 ≤ Nat.card K) :
   have hBθ' : ((borelGroup Tag.G2 K).subgroupOf (adjointGroup Tag.G2 K)).map θ'.toMonoidHom =
       (borelGroup Tag.G2 K).subgroupOf (adjointGroup Tag.G2 K) := by
     rw [← hBnorm, Subgroup.map_equiv_normalizer_eq, hUθ']
-  have hSP' : (S : Subgroup (G2Adj K)) ≤ P := hPpar.le_of_le_normalizer S.isPGroup' hSP
+  have hSP' : (S : Subgroup (G2Adj K)) ≤ P := hPpar.le_of_le_normalizer S.isPGroup hSP
   have hNSP : Subgroup.normalizer ((S : Subgroup (G2Adj K)) : Set (G2Adj K)) ≤ P :=
     hPpar.normalizer_le S hSP'
   have hNSe : (Subgroup.normalizer ((S : Subgroup (G2Adj K)) : Set (G2Adj K))).map
@@ -195,9 +196,9 @@ theorem kDiag_of_isG2 {n : ℕ} {X : Type} [Group X] [Finite X] (hX : IsG2 X n) 
     CFSG.Blueprint.LieModel.chevalleyExceptionalModel hX' ht
   obtain ⟨-, K, hfield, hfinite, hchar, hcard, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_G2_model hm
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : CharP K 2 := hchar
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : CharP K 2 := hchar
   have h3 : 3 ≤ 2 ^ n := hm.1.2.2.2
   have hn2 : 2 ≤ n := by
     by_contra h

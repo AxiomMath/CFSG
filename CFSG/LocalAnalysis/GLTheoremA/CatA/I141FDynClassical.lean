@@ -54,8 +54,8 @@ theorem compType_of_quot_statedSL {X : Type} [Group X] [Finite X] {a k : ℕ} {E
       rw [CFSG.Open.StatedAPI.card_statedSL_two E, hE2] at hdvd
       norm_num at hdvd
       exact lt_of_le_of_lt (Nat.le_of_dvd (by norm_num) hdvd) (by norm_num)
-    haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
-    haveI : Group.IsSolvable (X ⧸ Subgroup.center X) :=
+    have : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
+    have : Group.IsSolvable (X ⧸ Subgroup.center X) :=
       CFSG.GroupTheory.groups_order_below_sixty_solvable hcard
     exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center
       (J := X) inferInstance).elim
@@ -104,11 +104,11 @@ theorem compType_of_quot_heldSU {X : Type} [Group X] [Finite X] {a k : ℕ} {E :
   · by_cases h31 : a = 3 ∧ k = 1
     ·
       obtain ⟨rfl, rfl⟩ := h31
-      haveI := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
+      have := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
         τ' hτ' (fun x => by simpa using hτ'k x) (by simpa using hE)
-      haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
+      have : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
       exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center
-        (J := X) (solvable_of_surjective (f := φ.symm.toMonoidHom)
+        (J := X) (Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom)
           φ.symm.surjective)).elim
     · have hak : (a, 2 ^ k) ≠ (3, 2) := by
         intro h
@@ -378,8 +378,8 @@ theorem compType_lin {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : Mul
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.ker_projMk_le_center hM.2.2.1 hMJ
   obtain ⟨eMZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_of_mulEquiv
     (Subgroup.equivMapOfInjective M _ hMinj)
-  letI := hEf
-  letI := hEalg
+  let := hEf
+  let := hEalg
   obtain ⟨k, hk⟩ := CFSG.LocalAnalysis.GLTheoremA.CanonTriL.exists_card_eq_two_pow
     (F := F) (E := E) h2
   exact compType_of_mulEquiv (J.equivMapOfInjective e.toMonoidHom e.injective)
@@ -418,11 +418,11 @@ theorem compType_uni {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : Mul
   rcases compType_uni_decomp hτ hτQ hcardF hA hord hu hue hJ with
     ⟨a, dd, E, hE, hEfin, τ', hτ', ha2, hτ'Q, hcardE, ⟨eM⟩⟩ |
     ⟨b, e', E, hE, hEfin, hb2, hcardE, ⟨eM⟩⟩
-  · letI := hE
+  · let := hE
     have hpw : Q ^ dd = 2 ^ (labL.n * dd) := by rw [← hQdef, ← pow_mul]
     rw [hpw] at hτ'Q hcardE
     exact compType_of_quot_heldSU hJ.2.2 τ' hτ' ha2 hτ'Q hcardE ⟨eM⟩
-  · letI := hE
+  · let := hE
     have hpw : Q ^ (2 * e') = 2 ^ (labL.n * (2 * e')) := by rw [← hQdef, ← pow_mul]
     rw [hpw] at hcardE
     exact compType_of_quot_statedSL hJ.2.2 hb2 hcardE ⟨eM⟩
@@ -446,7 +446,7 @@ theorem compType_symp_data {S : Type} [Group S] [Finite S] {labL : GLALabel} {β
       omega
     · exact h0
   have h2 : (2 : F) = 0 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨q, hq, k, hqp, hqcard⟩ := FiniteField.card' F
     have hc := hcard
     rw [Nat.card_eq_fintype_card, hqcard] at hc
@@ -470,8 +470,8 @@ theorem compType_symp {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : Mu
       Nat.card (↥J ⧸ Subgroup.center ↥J) = 360 := by
   classical
   obtain ⟨F, hF, hFf, r, hr, hn, hcard, h2, e, A, hαA⟩ := compType_symp_data hcen ht hin
-  letI := hF
-  letI := hFf
+  let := hF
+  let := hFf
   obtain ⟨x, hx⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnSympRed.exists_conjAut_eq_conj h2 A
   have hMEq : MulAut.congr e β = MulAut.conj (proj r F x) := by
     rw [← hx]
@@ -506,7 +506,7 @@ theorem compType_symp {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : Mu
       (fun h => h.elim) (fun h => h.elim) (fun h => h.elim)
       hp hp2 Nat.prime_two hn hcard (by omega) hp2 (fun h => h.elim) x hxp
   obtain ⟨X, inst, hXfin, ⟨hXLie, -⟩, hfac, f, hf, hker⟩ := hcomp _ hJ'
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect f hf hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.SpFactorOver at hfac
@@ -555,7 +555,7 @@ theorem compType_orth {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : Mu
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.suFactorFacts_holds
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.omegaFactorField_holds
       hp hp2 (Or.inr ht) hG hp2 a hap J hJ
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect g hg hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.OrthFactorOver at hfac
@@ -567,7 +567,7 @@ theorem compType_orth {S : Type} [Group S] [Finite S] {labL : GLALabel} {β : Mu
       CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.uniCase_of_factor eJ hSU
     exact compType_of_quot_heldSU hJ.2.2 τ hτ hb hτk hE hφ
   · obtain ⟨K', _, _, hK'card, hK'ring, s, hs2, hne, ⟨eX⟩⟩ := hSp
-    haveI : Finite K' := Finite.of_fintype K'
+    have : Finite K' := Finite.of_fintype K'
     have hchar : CharP K' 2 := ringChar.of_eq hK'ring
     have hne' : ¬(s = 2 ∧ Nat.card K' = 2) := fun h => hne (by rw [h.1, h.2])
     obtain ⟨eXZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_sp

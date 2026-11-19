@@ -368,14 +368,14 @@ theorem e6SplitWeyl_long_mem_e6SplitComponent (hS : E6SplitLangTwo S)
   have hmodel : rootSL2 .E6 L γ WSL ∈ S.D.model :=
     S.Γ_le_model (by
       rw [show rootSL2 .E6 L γ WSL = e6SplitWeyl L i by
-        rw [e6SplitWeyl, if_pos hlong]]
+        rw [e6SplitWeyl, ite_eq_left hlong]]
       exact e6SplitWeyl_mem_Γ hS i)
   have hgfix : S.D.step (rootSL2 .E6 L γ WSL) = rootSL2 .E6 L γ WSL :=
     (S.D.mem_model.1 hmodel).2
   have hg2 : rootSL2 .E6 L γ WSL ^ 2 = 1 := by
     rw [pow_two]
     exact rootSL2_WSL_mul_self γ
-  rw [e6SplitWeyl, if_pos hlong]
+  rw [e6SplitWeyl, ite_eq_left hlong]
   exact map_eqLocus_le_commutator_of_frame S hframe hsub hkercenter hodd F' hcomm hperf
     hg hgfix hg2
 

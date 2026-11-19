@@ -119,7 +119,7 @@ private theorem m27G_map {G H G' H' : Type*} [Group G] [Group H] [Group G'] [Gro
     funext i
     fin_cases i <;> rfl
   unfold m27G
-  simp only [List.all_map, List.any_map, List.map_map, Function.comp_def, hx, evalWG_map,
+  simp only [List.all_map, List.any_map, Function.comp_def, hx, evalWG_map,
     ← map_mul, ← map_inv, ← map_one φ, hG, he, hH]
 
 set_option maxHeartbeats 400000 in

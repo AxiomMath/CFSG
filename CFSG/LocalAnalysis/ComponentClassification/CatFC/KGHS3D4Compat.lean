@@ -112,7 +112,7 @@ theorem phi_rootVec (β : Fin 4 → ℤ) : phi K (rootVec Tag.D4 K β) = castM K
   · rw [rootVec_eq_basisVec_of_isRoot (R := K) h]
     exact phi_single K (Sum.inr ⟨β, h⟩)
   · have h0 : rootVec Tag.D4 K β = 0 := by
-      simp only [rootVec, dif_neg h]
+      simp only [rootVec, dite_eq_right h]
     rw [h0, map_zero, phiRootZ_not_root (fun hb => h (isRoot_D4_iff.2 hb)), map_zero]
 
 theorem phi_compat_xOp_hVec (i : Fin 4) (c : K) (j : Fin 4) :
@@ -120,7 +120,7 @@ theorem phi_compat_xOp_hVec (i : Fin 4) (c : K) (j : Fin 4) :
       rho K (1 + c • castM K (XZ i)) (phi K (hVec Tag.D4 K j)) := by
   have hx : xOp Tag.D4 K i c (hVec Tag.D4 K j) =
       hVec Tag.D4 K j + (((cartanD4 j i).natAbs : K) * c) • rootVec Tag.D4 K (e i) := by
-    rw [xOp_apply_hVec (τ := Tag.D4) (R := K) i j c, cartan_D4_apply j i] <;> rfl
+    rw [xOp_apply_hVec (τ := Tag.D4) (R := K) i j c, cartan_D4_apply j i]; rfl
   rw [hx, map_add, map_smul, phi_hVec, phi_rootVec,
     rho_castM K (XZ i) (HZ j) (((cartanD4 j i).natAbs : ℤ) • phiRootZ (e i)) 0 c
       (tableX.1 i j).1 (tableX.1 i j).2, castM_zsmul, Int.cast_natCast, map_zero]
@@ -177,7 +177,7 @@ theorem phi_compat_yOp_hVec (i : Fin 4) (c : K) (j : Fin 4) :
       rho K (1 + c • castM K (YZ i)) (phi K (hVec Tag.D4 K j)) := by
   have hy : yOp Tag.D4 K i c (hVec Tag.D4 K j) =
       hVec Tag.D4 K j + (((cartanD4 j i).natAbs : K) * c) • rootVec Tag.D4 K (-e i) := by
-    rw [yOp_apply_hVec (τ := Tag.D4) (R := K) i j c, cartan_D4_apply j i] <;> rfl
+    rw [yOp_apply_hVec (τ := Tag.D4) (R := K) i j c, cartan_D4_apply j i]; rfl
   rw [hy, map_add, map_smul, phi_hVec, phi_rootVec,
     rho_castM K (YZ i) (HZ j) (((cartanD4 j i).natAbs : ℤ) • phiRootZ (-e i)) 0 c
       (tableY.1 i j).1 (tableY.1 i j).2, castM_zsmul, Int.cast_natCast, map_zero]

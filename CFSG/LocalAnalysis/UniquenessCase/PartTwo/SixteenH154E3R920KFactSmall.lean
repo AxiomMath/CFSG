@@ -13,7 +13,7 @@ open CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 theorem kFactL28_not_three_group {Q : Type} [Group Q] [Finite Q] (hQ : IsPGroup 3 Q)
     {X W T : Subgroup Q} (c : KCfgL28 X W T) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hQ
   have h504Bar : 504 ∣ Nat.card (Bar2 X) := by
     rw [s16h_e3_omega_card_of_isL2 c.isL2]

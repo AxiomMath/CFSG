@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {K₀ K K' : Subgroup G} {z : G} {π : 
 
 namespace Setting
 
-@[expose] def TwinLab (S : Setting K₀ K K' z π g) (m : ℕ) : Prop :=
+@[expose] def TwinLab (_S : Setting K₀ K K' z π g) (m : ℕ) : Prop :=
   ∀ (J : AEIdent (fam K (conjSub g (piGen π))) m) {α : Finset (Fin m)} {h : α.card = 4} {b : Bool},
     (K.subgroupOf (pSpan (fam K (conjSub g (piGen π))))).map J.φ = AE.memBar α h b →
     (K'.subgroupOf (pSpan (fam K (conjSub g (piGen π))))).map J.φ = AE.memBar α h (!b)

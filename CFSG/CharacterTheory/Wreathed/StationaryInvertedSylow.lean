@@ -165,7 +165,7 @@ theorem stationary_factorizations_produce_actual_inverted_sylow_and_cyclic_actor
       Subgroup.card_map_of_injective (CFSG.oddCore H0).subtype_injective]
   have hdiv : ell ∣ Nat.card (CFSG.oddCore H0) := by
     have h1 : ell ∣ Nat.card (W : Subgroup (CFSG.oddCore H0)) := by
-      rcases W.isPGroup'.card_eq_or_dvd with h | h
+      rcases W.isPGroup.card_eq_or_dvd with h | h
       · exfalso
         apply hWne
         rw [← Subgroup.card_eq_one, hcardW, h]
@@ -174,7 +174,7 @@ theorem stationary_factorizations_produce_actual_inverted_sylow_and_cyclic_actor
   have hellodd : Odd ell := (CFSG.Wreathed.weakClosure_oddCore_card H0).of_dvd_nat hdiv
   have hWO : Wι ell W ≤ (CFSG.oddCore H0).map H0.subtype :=
     Subgroup.map_mono (Subgroup.map_subtype_le _)
-  have hWp : IsPGroup ell (Wι ell W) := (W.isPGroup'.map _).map _
+  have hWp : IsPGroup ell (Wι ell W) := (W.isPGroup.map _).map _
   obtain ⟨hcase, hnot⟩ := hscalar ell hell hellodd (Wι ell W) hWO hWp hTW
   have hinv : ∀ w ∈ Wι ell W, x * w * x⁻¹ = w⁻¹ := hcase.resolve_left hWN
   have hab : IsMulCommutative (Wι ell W) := (hnot hWN).2

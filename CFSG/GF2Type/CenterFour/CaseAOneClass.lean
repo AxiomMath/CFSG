@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
+omit [Finite G] in
 private theorem oneClass_mem_conj_iff {H : Subgroup G} {g y : G} :
     y ∈ CFSG.conjugate H g ↔ g * y * g⁻¹ ∈ H := by
   unfold CFSG.conjugate
@@ -19,8 +20,9 @@ private theorem oneClass_mem_conj_iff {H : Subgroup G} {g y : G} :
   · rintro ⟨x, hx, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hx
   · intro hy
-    exact ⟨g * y * g⁻¹, hy, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * y * g⁻¹, hy, by simp [mul_assoc]⟩
 
+omit [Finite G] in
 private theorem oneClass_mem_centerAt_conj (z g t : G) :
     t ∈ centerAt (g⁻¹ * z * g) ↔ g * t * g⁻¹ ∈ centerAt z := by
   rw [centerAt_conj z g]
@@ -36,10 +38,12 @@ private theorem oneClass_pow_four {a t : G} {n : ℕ} (hCa : Config a n) (ht : t
     exact pow_orderOf_eq_one k
   rw [← zpow_natCast, ← zpow_mul, mul_comm m, zpow_mul, zpow_natCast, h4, one_zpow]
 
+omit [Finite G] in
 private theorem oneClass_comm_centerAt {a u x : G} {n : ℕ} (hCa : Config a n)
     (hu : u ∈ centerAt a) (hx : x ∈ coreAt a) : u * x = x * u :=
   Subgroup.mem_centralizer_iff.mp (hCa.core_le_centralizer_center hx) u hu
 
+omit [Finite G] in
 private theorem oneClass_config_of_fused {z a : G} {n : ℕ} (hC : Config z n) (ha : Fused z a) :
     Config a n := by
   obtain ⟨g, rfl⟩ := ha
@@ -51,6 +55,7 @@ private theorem oneClass_mem_core_of_comm {z a x : G} {n : ℕ} (hC : Config z n
   exact CaseA.mem_core (hC.conj g) (CaseA.conj hC hA g)
     ((Fused.symm (fused_conj z g)).trans hx) (Subgroup.mem_centralizer_singleton_iff.mpr hcomm)
 
+omit [Finite G] in
 private theorem oneClass_centerAt_le {z a : G} {n : ℕ} (hC : Config z n) (ha : Fused z a)
     (haQ : a ∈ coreAt z) : centerAt a ≤ centralizer ({z} : Set G) := by
   obtain ⟨g, rfl⟩ := ha
@@ -115,6 +120,7 @@ private theorem oneClass_comm_of_mem_centerAt {z a b u v : G} {n : ℕ} (hC : Co
 private def oneClassT (z : G) : Set G :=
   {t | ∃ a : G, (Fused z a ∧ a ∈ coreAt z ∧ a ≠ z) ∧ t ∈ centerAt a}
 
+omit [Finite G] in
 private theorem oneClass_closure_comm {T : Set G} (hT : ∀ t ∈ T, ∀ t' ∈ T, t * t' = t' * t) :
     ∀ y ∈ Subgroup.closure T, ∀ y' ∈ Subgroup.closure T, y * y' = y' * y := by
   have h1 : Subgroup.closure T ≤ Subgroup.centralizer T :=
@@ -128,6 +134,7 @@ private theorem oneClass_closure_comm {T : Set G} (hT : ∀ t ∈ T, ∀ t' ∈ 
   intro y hy y' hy'
   exact Subgroup.mem_centralizer_iff.mp (h3 hy') y hy
 
+omit [Finite G] in
 private theorem oneClass_closure_pow_four {T : Set G}
     (hT : ∀ t ∈ T, ∀ t' ∈ T, t * t' = t' * t) (h4 : ∀ t ∈ T, t ^ 4 = 1) :
     ∀ y ∈ Subgroup.closure T, y ^ 4 = 1 := by
@@ -139,11 +146,13 @@ private theorem oneClass_closure_pow_four {T : Set G}
     rw [Commute.mul_pow (oneClass_closure_comm hT a ha b hb), iha, ihb, one_mul]
   | inv a ha iha => rw [inv_pow, iha, inv_one]
 
+omit [Finite G] in
 private theorem oneClass_mem_T {z a t : G} (ha : Fused z a) (haQ : a ∈ coreAt z) (haz : a ≠ z)
     (hta : t ∈ centerAt a) : t ∈ oneClassT z :=
   show ∃ a' : G, (Fused z a' ∧ a' ∈ coreAt z ∧ a' ≠ z) ∧ t ∈ centerAt a' from
     ⟨a, ⟨ha, haQ, haz⟩, hta⟩
 
+omit [Finite G] in
 private theorem oneClass_T_conj {z : G} {n : ℕ} (hC : Config z n) {h t : G}
     (hh : h ∈ centralizer ({z} : Set G)) (ht : t ∈ oneClassT z) :
     h * t * h⁻¹ ∈ oneClassT z := by
@@ -165,6 +174,7 @@ private theorem oneClass_T_conj {z : G} {n : ℕ} (hC : Config z n) {h t : G}
     rw [e, oneClass_mem_centerAt_conj, e2]
     exact (oneClass_mem_centerAt_conj z g t).mp hta
 
+omit [Finite G] in
 private theorem oneClass_closure_conj {z : G} {n : ℕ} (hC : Config z n) {h : G}
     (hh : h ∈ centralizer ({z} : Set G)) {y : G}
     (hy : y ∈ Subgroup.closure (oneClassT z)) :
@@ -190,16 +200,19 @@ private theorem oneClass_T_pow_four {z : G} {n : ℕ} (hC : Config z n) :
   obtain ⟨a, ⟨ha, -, -⟩, hta⟩ := ht
   exact oneClass_pow_four (oneClass_config_of_fused hC ha) hta
 
+omit [Finite G] in
 private theorem oneClass_T_centralizer {z : G} {n : ℕ} (hC : Config z n) :
     ∀ t ∈ oneClassT z, t ∈ centralizer ({z} : Set G) := by
   intro t ht
   obtain ⟨a, ⟨ha, haQ, -⟩, hta⟩ := ht
   exact oneClass_centerAt_le hC ha haQ hta
 
+omit [Finite G] in
 private theorem oneClass_closure_le_centralizer {z : G} {n : ℕ} (hC : Config z n) :
     Subgroup.closure (oneClassT z) ≤ centralizer ({z} : Set G) :=
   (Subgroup.closure_le _).mpr fun t ht => oneClass_T_centralizer hC t ht
 
+omit [Finite G] in
 private theorem oneClass_subgroupOf_normal {z : G} (Y : Subgroup G)
     (hY : ∀ h ∈ centralizer ({z} : Set G), ∀ y ∈ Y, h * y * h⁻¹ ∈ Y) :
     (Y.subgroupOf (centralizer ({z} : Set G))).Normal := by
@@ -208,6 +221,7 @@ private theorem oneClass_subgroupOf_normal {z : G} (Y : Subgroup G)
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact hY _ g.2 _ hm'
 
+omit [Finite G] in
 private theorem oneClass_subgroupOf_isPGroup {z : G} (Y : Subgroup G)
     (h4 : ∀ y ∈ Y, y ^ 4 = 1) :
     IsPGroup 2 ↥(Y.subgroupOf (centralizer ({z} : Set G))) := by

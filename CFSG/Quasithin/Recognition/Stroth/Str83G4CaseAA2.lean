@@ -21,7 +21,7 @@ theorem caseA_not_Z_le_Qy_start
   have hconn : (f112Amalgam L1 L2 S).graphHat.Connected := CosetGeom.connected rfl
   have hxb_type : CosetGeom.vtype (x b) = true :=
     (hx.vtype_eq_true_iff_even le_rfl).mpr hbe
-  obtain ⟨y, hyZ, hyQb⟩ := SetLike.not_le_iff_exists.mp hx.not_le
+  obtain ⟨y, hyZ, hyQb⟩ := IsConcreteLE.not_le_iff_exists.mp hx.not_le
   have hyQpred : y ∈ CosetGeom.Qy (x (b - 1)) :=
     hx.ball (x 0) (x (b - 1)) hx.type_two
       (le_of_eq (GPath.IsGeodesic.dist_eq hconn hx.geodesic (show b - 1 ≤ b by omega))) hyZ
@@ -51,7 +51,7 @@ private theorem a2a_commutator_Z_eq_of_not_le
     {B : Subgroup (f112Amalgam L1 L2 S).Ghat} (hB : B ≤ CosetGeom.Qy α)
     (hBnot : ¬ B ≤ CosetGeom.Qy β) :
     ⁅caseAZ β, B⁆ = caseAZ α := by
-  obtain ⟨y, hyB, hyQβ⟩ := SetLike.not_le_iff_exists.mp hBnot
+  obtain ⟨y, hyB, hyQβ⟩ := IsConcreteLE.not_le_iff_exists.mp hBnot
   have hαβ : β ∈ CosetGeom.nbrs α := CosetGeom.mem_nbrs_symm hα
   have hyAS : y ∈ caseAS β α := by
     have h := caseA_Qy_le_caseAS hfr hαβ (hB hyB)

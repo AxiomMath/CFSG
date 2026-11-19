@@ -68,7 +68,7 @@ theorem Setting.isSylowOf_of_maximal (h : Setting p A θ) {q : ℕ} (hq : q.Prim
   obtain ⟨Q, rfl⟩ := hP
   have hPX : (Q : Subgroup X).map X.subtype ≤ X := Subgroup.map_subtype_le _
   have hle : (Q : Subgroup X).map X.subtype ≤ S :=
-    hS.le_of_ge ⟨signalizer_compatible_of_le p 1 A θ hX hPX hAP, Q.isPGroup'.map X.subtype⟩ hSP
+    hS.le_of_ge ⟨signalizer_compatible_of_le p 1 A θ hX hPX hAP, Q.isPGroup.map X.subtype⟩ hSP
   exact ⟨Q, le_antisymm hle hSP⟩
 
 theorem Setting.isSylowOf_inf_commonFixed (h : Setting p A θ) {q : ℕ} (hq : q = 2 ∨ q = 3)

@@ -23,6 +23,7 @@ variable {Mg : Type} [Group Mg] [Finite Mg]
   right_inv x := Subtype.ext (by simp [mul_assoc])
   map_mul' x y := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite Mg] in
 theorem conj_comm_of_isCyclic_uc6 {Q : Subgroup Mg} (hQ : IsCyclic ↥Q) {n n' : Mg}
     (hn : n ∈ normalizer (Q : Set Mg)) (hn' : n' ∈ normalizer (Q : Set Mg)) :
     ∀ q ∈ Q, n * (n' * q * n'⁻¹) * n⁻¹ = n' * (n * q * n⁻¹) * n'⁻¹ := by
@@ -33,6 +34,7 @@ theorem conj_comm_of_isCyclic_uc6 {Q : Subgroup Mg} (hQ : IsCyclic ↥Q) {n n' :
   have := congrArg (fun σ : MulAut ↥Q => ((σ ⟨q, hq⟩ : ↥Q) : Mg)) hcomm
   exact this
 
+omit [Finite Mg] in
 theorem commutator_centralizes_of_isCyclic_uc6 {Q : Subgroup Mg} (hQ : IsCyclic ↥Q) {n n' : Mg}
     (hn : n ∈ normalizer (Q : Set Mg)) (hn' : n' ∈ normalizer (Q : Set Mg)) :
     ∀ q ∈ Q, (n * n' * n⁻¹ * n'⁻¹) * q = q * (n * n' * n⁻¹ * n'⁻¹) := by
@@ -50,6 +52,7 @@ theorem commutator_centralizes_of_isCyclic_uc6 {Q : Subgroup Mg} (hQ : IsCyclic 
       = ((n * n' * n⁻¹ * n'⁻¹) * q * (n * n' * n⁻¹ * n'⁻¹)⁻¹) * (n * n' * n⁻¹ * n'⁻¹) := by group
     _ = q * (n * n' * n⁻¹ * n'⁻¹) := by rw [h1]
 
+omit [Finite Mg] in
 theorem cyclic_case_uc6 (U : Subgroup Mg) [hU : U.Normal] (P Q Z : Subgroup Mg)
     (hFr : (⊤ : Subgroup Mg) = U ⊔ normalizer (P : Set Mg))
     (hQN : normalizer (P : Set Mg) ≤ normalizer (Q : Set Mg)) (hQc : IsCyclic ↥Q)
@@ -145,6 +148,7 @@ section Transport
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_subgroupOf_iff_uc6 {M A : Subgroup G} (hAM : A ≤ M) {g : ↥M} :
     g ∈ normalizer ((A.subgroupOf M : Subgroup ↥M) : Set ↥M) ↔ (g : G) ∈ normalizer (A : Set G) := by
   rw [mem_normalizer_iff, mem_normalizer_iff]
@@ -163,8 +167,8 @@ theorem mem_normalizer_subgroupOf_iff_uc6 {M A : Subgroup G} (hAM : A ≤ M) {g 
 theorem moduleData_uc6 (hS : Standing4 G) (S : Setup4 G) :
     CFSG.Open.IsKGroup ↥S.M ∧ IsPGroup 2 (CFSG.pCore 2 ↥S.M) ∧
       centralizer ((CFSG.pCore 2 ↥S.M : Subgroup ↥S.M) : Set ↥S.M) ≤ CFSG.pCore 2 ↥S.M := by
-  haveI := hS.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hS.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMtop : S.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab S.maxLocal.1
   refine ⟨hS.kProper.isKGroup S.M hMtop, CFSG.LieType.BorelTits.pCore_isPGroup 2, ?_⟩
@@ -215,9 +219,9 @@ theorem M_le_normalizer_U : m.M ≤ normalizer (m.U : Set G) := fun _ hg =>
 theorem six28b (hK : UCK.K47) (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h626 : m.C626)
     (h627 : m.C627) : m.C628b := by
   intro p hp hdvdU'
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hpr : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   have hp2 : p ≠ 2 := ((dataOfSetup4 m.hS m.hU m.S).sig_prime p hp).2
   have hpne : p ≠ m.r := fun h => m.hrσ (h ▸ hp)
   have hdvdU : p ∣ Nat.card m.U := by rw [m.card_U]; exact hdvdU'
@@ -276,11 +280,11 @@ theorem six28b (hK : UCK.K47) (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h626 : 
   have hcomm : ⁅m.Z, Q⁆ = Q :=
     commutator_eq_of_fixedPointFree_uc6 hZgen hQab.1 hQZ hQfix
   obtain ⟨hMg, hQ₀, hchar⟩ := moduleData_uc6 m.hS m.S
-  haveI hQ₀n : (CFSG.pCore 2 ↥m.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hQ₀n : (CFSG.pCore 2 ↥m.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hQ' := isElemAbelian_subgroupOf_uc6 hQM hQab
   by_cases hQc : IsCyclic ↥Q
   ·
-    haveI hU'n : (m.U.subgroupOf m.M).Normal :=
+    have hU'n : (m.U.subgroupOf m.M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer m.U_le_M).2 m.M_le_normalizer_U
     have htop : (⊤ : Subgroup ↥m.M).map m.M.subtype = m.M := by
       rw [← MonoidHom.range_eq_map]
@@ -307,7 +311,7 @@ theorem six28b (hK : UCK.K47) (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h626 : 
         (normalizer_le_normalizer_omegaCenter p P
           ((mem_normalizer_subgroupOf_iff_uc6 hPM).1 hy))
     have hQc' : IsCyclic ↥(Q.subgroupOf m.M) := by
-      haveI := hQc
+      have := hQc
       exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hQM).symm.toMonoidHom
         (MulEquiv.surjective _)
     have hZN' : m.Z.subgroupOf m.M ≤

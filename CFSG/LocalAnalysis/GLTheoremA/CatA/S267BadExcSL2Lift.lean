@@ -39,8 +39,8 @@ theorem le_twoLocalRank_of_SL2 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {L : Typ
     (hr : r ^ 2 / 4 < 2 * m) {F : Type} [Group F] (φ : SL(2, L) →* F)
     (hφ : Function.Injective φ) {X : Type} [Group X] [Finite X] (ψ : X →* F)
     (hψ : Function.Surjective ψ) : r ≤ GLATwoLocalRank q X := by
-  haveI : Fintype L := Fintype.ofFinite L
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fintype L := Fintype.ofFinite L
+  have : Fact q.Prime := ⟨hq⟩
   have hchar : CharP L q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hL])
   have h2 : (2 : L) ≠ 0 := Ring.two_ne_zero (by rw [ringChar.eq L q]; exact hq2)
   set J : Subgroup F := φ.range with hJ
@@ -78,7 +78,7 @@ theorem le_twoLocalRank_of_SL2_cat (d : TauCeti.ValidLieTypeIndex) {q f : ℕ} (
     (hφ : Function.Injective φ) {X : Type} [Group X] [Finite X]
     (ψ : X →* (TauCeti.CFSGIndex.lie d).Group) (hψ : Function.Surjective ψ) :
     r ≤ GLATwoLocalRank q X := by
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField d) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField d) :=
     CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.ExcRank.finite_fixedField d
   have hcard : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField d) = q ^ f := by
     rw [TauCeti.ValidLieTypeIndex.card_fixedField, hfo]

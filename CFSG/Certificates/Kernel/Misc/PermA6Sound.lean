@@ -51,8 +51,7 @@ theorem d2K_sound (κ v₀ v₁ v₂ : Perm (Fin 6)) {Y A B C : ℕ} (hY : pcode
   subst hY h₀ h₁ h₂
   have h' : d2K (P.code κ) (P.code v₀) (P.code v₁) (P.code v₂) = true := h
   have ht := (P.allP_iff (n := 6) _).1 h' s
-  simp only [p4, cjK, cand2K, P.impB_iff, P.notB_iff, P.orB_iff, P.anyL_iff, P.letB_eq,
-    P.even_code h6, P.code_one, P.code_pow h6, P.code_inv h6, P.code_mul h6, P.beq_iff,
+  simp only [p4, cjK, cand2K, P.impB_iff, P.notB_iff, P.orB_iff, P.anyL_iff, P.even_code h6, P.code_one, P.code_pow h6, P.code_inv h6, P.code_mul h6, P.beq_iff,
     P.code_eq_iff h6, List.mem_cons, List.not_mem_nil, or_false, exists_eq_or_imp,
     exists_eq_left] at ht
   have hB := ht h1 h2 h3 (by tauto)

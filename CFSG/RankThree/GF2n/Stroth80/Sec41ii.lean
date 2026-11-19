@@ -29,10 +29,12 @@ section
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem Ctx.bar_Rt_le_bar_Lgen (t : G) :
     bar M Q (Rt M (LB M Q B) t) ≤ bar M Q (Lgen M (LB M Q B)) :=
   Subgroup.map_mono fun _ hx => Rt_le_Lgen' M (LB M Q B) t hx
 
+omit [Finite G] in
 theorem Ctx.bar_CN_le_bar_Rt (hc : Ctx M Q Z B) (t : G) :
     bar M Q (hc.CN t) ≤ bar M Q (Rt M (LB M Q B) t) :=
   Subgroup.map_mono fun _ hx => (Ctx.mem_CN (hc := hc)).mp hx |>.1
@@ -73,10 +75,10 @@ theorem Ctx.normal_simple_embed (h34 : Stroth34Statement) (h310 : Stroth310State
   have hSL2 : ∀ (K : Type) [Field K] [Finite K], Nat.card K = Nat.card Z →
       CFSG.IsQuasisimple ↥(StatedSL 2 K) := by
     intro K _ _ hK
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
     exact (hCQ K (by rw [hK]; exact hq4)).1 2 le_rfl
   have hΛ := hc.swapHyp hw hn hno
-  haveI := isSimpleGroup_of_center_eq_bot hX (hcs X hX)
+  have := isSimpleGroup_of_center_eq_bot hX (hcs X hX)
   have hXN : X ⊓ bar M Q (hc.CN t) = ⊥ :=
     hc.component_inf_CN_eq_bot h34 hw hn hno hgen hcs ht hX hXR
   have hRne : Rt M (LB M Q B) t ≠ LB M Q B := by
@@ -96,13 +98,13 @@ theorem Ctx.normal_simple_embed (h34 : Stroth34Statement) (h310 : Stroth310State
     rw [hXN, Subgroup.mem_bot] at h2
     exact Subtype.ext h2
   have hns : ¬ Group.IsSolvable ↥X := fun hs => not_isSolvable_of_isQuasisimple hX.1 hs
-  haveI : CharP K 2 := hK2
+  have : CharP K 2 := hK2
   rcases normal_embedding_cases (hSL2 K hK) (R := bar M Q (Rt M (LB M Q B) t)) (X := X)
     π hπs hshape hXR hXn hinj hns with ⟨hq, ⟨e⟩⟩ | he | he
   · refine ⟨K, hF, hFin, hK2, Gc, hGc, π, hK, hπs, hπk, hcl, hq, ?_⟩
     let φ : ↥X →* Gc := π.comp (Subgroup.inclusion hXR)
     have hφinj : Function.Injective φ := (injective_iff_map_eq_one φ).mpr hinj
-    haveI : Finite Gc := Finite.of_equiv _ e.toEquiv
+    have : Finite Gc := Finite.of_equiv _ e.toEquiv
     have hbij : Function.Bijective φ :=
       hφinj.bijective_of_nat_card_le (Nat.card_congr e.toEquiv).symm.le
     intro g
@@ -159,7 +161,7 @@ theorem Ctx.inf_CN_inf_CN_eq_bot (h34 : Stroth34Statement) (h310 : Stroth310Stat
   have hSL2 : ∀ (K : Type) [Field K] [Finite K], Nat.card K = Nat.card Z →
       CFSG.IsQuasisimple ↥(StatedSL 2 K) := by
     intro K _ _ hK
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
     exact (hCQ K (by rw [hK]; exact hq4)).1 2 le_rfl
   have hΛ := hc.swapHyp hw hn hno
   have hNorm := hc.normal_bar_Lgen
@@ -177,7 +179,7 @@ theorem Ctx.inf_CN_inf_CN_eq_bot (h34 : Stroth34Statement) (h310 : Stroth310Stat
     Ctx.bar_Rt_le_bar_Lgen (c : G)
   have hn₁ : ∀ r ∈ bar M Q (Rt M (LB M Q B) (c : G)), ∀ x ∈ X₁, r * x * r⁻¹ ∈ X₁ :=
     fun r hr x hx => conj_mem_of_subgroupOf_normal h₁.1 h₁.2.1 (hRM hr) hx
-  haveI := isSimpleGroup_of_center_eq_bot hX₁c (hcs X₁ hX₁c)
+  have := isSimpleGroup_of_center_eq_bot hX₁c (hcs X₁ hX₁c)
   have hXN₁ : X₁ ⊓ bar M Q (hc.CN (c : G)) = ⊥ :=
     hc.component_inf_CN_eq_bot h34 hw hn hno hgen hcs hcLB hX₁c hR₁
   have hSup : (X₁ ⊔ X₂) ⊓ bar M Q (hc.CN (c : G)) = ⊥ := by
@@ -206,13 +208,13 @@ theorem Ctx.inf_CN_inf_CN_eq_bot (h34 : Stroth34Statement) (h310 : Stroth310Stat
     rw [hXN₁, Subgroup.mem_bot] at h2
     exact Subtype.ext h2
   have hns : ¬ Group.IsSolvable ↥X₁ := fun hs => not_isSolvable_of_isQuasisimple hX₁c.1 hs
-  haveI : CharP K 2 := hK2
+  have : CharP K 2 := hK2
   rcases normal_embedding_cases (hSL2 K hK) (R := bar M Q (Rt M (LB M Q B) (c : G))) (X := X₁)
     π hπs hshape hR₁ hn₁ hinj hns with ⟨hq, ⟨e⟩⟩ | he | he
   ·
     let φ : ↥X₁ →* Gc := π.comp (Subgroup.inclusion hR₁)
     have hφinj : Function.Injective φ := (injective_iff_map_eq_one φ).mpr hinj
-    haveI : Finite Gc := Finite.of_equiv _ e.toEquiv
+    have : Finite Gc := Finite.of_equiv _ e.toEquiv
     have hbij : Function.Bijective φ :=
       hφinj.bijective_of_nat_card_le (Nat.card_congr e.toEquiv).symm.le
     apply ne_bot_of_isComponent hX₂c

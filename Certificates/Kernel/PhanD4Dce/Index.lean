@@ -114,9 +114,9 @@ theorem gWord_eq (c : ℕ) :
   have h2 : Nat.land c 1 = c % 2 := Nat.and_one_is_mod c
   rw [h1, h2]
   rcases Nat.mod_two_eq_zero_or_one c with h | h
-  · rw [h, if_neg (by norm_num)]
+  · rw [h, ite_eq_right (by norm_num)]
     rfl
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     rfl
 
 theorem wInv_lt {w : ℕ} (hw : ∀ c ∈ wList w, c < 12) : ∀ c ∈ wList (wInv INVM w), c < 12 := by
@@ -163,12 +163,12 @@ theorem hinvX : ∀ c < 12, onX (ivL INVM c) = (onX c)⁻¹ := fun c hc => (hinv
 theorem xQ_ivL {c : ℕ} (hc : c < 12) : xQ (ivL INVM c) = (xQ c)⁻¹ := by
   rw [inv_eq c hc]
   by_cases h : c % 2 = 0
-  · rw [if_pos h]
-    simp only [xQ, if_pos hc, if_pos (by omega : c + 1 < 12), if_pos h,
-      if_neg (by omega : ¬ (c + 1) % 2 = 0), lGen_congr (by omega : (c + 1) / 2 = c / 2)]
-  · rw [if_neg h]
-    simp only [xQ, if_pos hc, if_pos (by omega : c - 1 < 12), if_neg h,
-      if_pos (by omega : (c - 1) % 2 = 0), inv_inv, lGen_congr (by omega : (c - 1) / 2 = c / 2)]
+  · rw [ite_eq_left h]
+    simp only [xQ, ite_eq_left hc, ite_eq_left (by omega : c + 1 < 12), ite_eq_left h,
+      ite_eq_right (by omega : ¬ (c + 1) % 2 = 0), lGen_congr (by omega : (c + 1) / 2 = c / 2)]
+  · rw [ite_eq_right h]
+    simp only [xQ, ite_eq_left hc, ite_eq_left (by omega : c - 1 < 12), ite_eq_right h,
+      ite_eq_left (by omega : (c - 1) % 2 = 0), inv_inv, lGen_congr (by omega : (c - 1) / 2 = c / 2)]
 
 theorem xD_ivL {c : ℕ} (hc : c < 12) : xD (ivL INVM c) = (xD c)⁻¹ := by
   rw [xD, xD, xQ_ivL hc, QuotientGroup.mk_inv]
@@ -176,8 +176,7 @@ theorem xD_ivL {c : ℕ} (hc : c < 12) : xD (ivL INVM c) = (xD c)⁻¹ := by
 theorem isStabOf_sound {n k g : ℕ} (h : isStabOf RD n k g = true) :
     g < n ∧ 3 ≤ dKind (RD g) ∧ dKind (RD g) < 5 ∧ dN1 (RD g) = k ∧ dN2 (RD g) = k := by
   unfold isStabOf isEq at h
-  simp only [CFSG.Certificates.TwDce2.Words.kandB_iff, CFSG.Certificates.TwDce.Words.andB_iff,
-    Nat.blt_eq, Nat.ble_eq, CFSG.Certificates.TwDce.Words.sB_eq] at h
+  simp only [CFSG.Certificates.TwDce2.Words.kandB_iff, Nat.blt_eq, Nat.ble_eq, CFSG.Certificates.TwDce.Words.sB_eq] at h
   obtain ⟨h1, ⟨h2, h3⟩, h4, h5⟩ := h
   exact ⟨h1, h2, h3, Nat.eq_of_beq_eq_true h4, Nat.eq_of_beq_eq_true h5⟩
 
@@ -239,7 +238,7 @@ theorem wVal_mem (w : ℕ) : wVal onX w ∈ phanR := by
     obtain ⟨d, -, rfl⟩ := List.mem_map.1 hy
     by_cases hd : d < 12
     · exact hxH d hd
-    · rw [onX, if_neg hd]
+    · rw [onX, ite_eq_right hd]
       exact phanR.one_mem
 
 theorem wVal_piB (w : ℕ) : wVal onX w = piB (wVal xD w) := evalWord_onX _
@@ -501,12 +500,12 @@ theorem index_phanR_le : phanR.FiniteIndex ∧ phanR.index ≤ 1516320 := by
       tgtElt_mem := by
         intro i k hk
         have h := htP i k hk
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.1
       tgt_spec := by
         intro i k hk
         have h := htP i k hk
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.2 }
   have : Finite phanR := by
     rw [← range_piB]

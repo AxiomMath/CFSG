@@ -19,7 +19,7 @@ theorem noTwist_of_hyperCent {r : ℕ} (hr : 1 ≤ r)
     (E₀ : Subgroup K) (hE₀ : IsElemAbelian 3 E₀) (hcard : 3 ^ r ≤ Nat.card E₀) (T : Subgroup K)
     (hT : IsPGroup 2 T) (hET : E₀ ≤ Subgroup.normalizer (T : Set K)) :
     ∀ e ∈ E₀, ∀ t ∈ T, e * t = t * e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro e he t ht
   have hE₀p : IsPGroup 3 E₀ := fun g => ⟨1, Subtype.ext (by simpa using hE₀.2 g g.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hE₀p
@@ -104,10 +104,10 @@ theorem exists_central_involution_split {T : Subgroup K} (hT : IsPGroup 2 T) (hT
     (∃ z ∈ T ⊓ Subgroup.centralizer (T : Set K), orderOf z = 2 ∧ e * z = z * e) ∨
     (∃ v ∈ T ⊓ Subgroup.centralizer (T : Set K), orderOf v = 2 ∧ e * v * e⁻¹ ≠ v ∧
       v * (e * v * e⁻¹) * (e ^ 2 * v * (e ^ 2)⁻¹) = 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z := T ⊓ Subgroup.centralizer (T : Set K) with hZ
-  haveI : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
-  haveI : Nontrivial (Subgroup.center T) := hT.center_nontrivial
+  have : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
+  have : Nontrivial (Subgroup.center T) := hT.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center T)
   set g : K := ((c : T) : K) with hgdef
   have hg1 : g ≠ 1 := fun h1 => hc1 (Subtype.ext (Subtype.ext h1))
@@ -115,7 +115,7 @@ theorem exists_central_involution_split {T : Subgroup K} (hT : IsPGroup 2 T) (hT
     have := (Subgroup.mem_center_iff.1 c.2) ⟨y, hy⟩
     have h' := congrArg (fun u : T => (u : K)) this
     simp only [Subgroup.coe_mul] at h'
-    first | exact h' | exact h'.symm⟩
+    first | exact h'⟩
   have hZ2 : IsPGroup 2 Z := hT.to_le inf_le_left
   have hZne : Z ≠ ⊥ := fun hb => hg1 ((Subgroup.mem_bot).1 (hb ▸ hgZ))
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 hZ2

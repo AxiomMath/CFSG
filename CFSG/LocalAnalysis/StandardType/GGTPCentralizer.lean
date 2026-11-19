@@ -110,7 +110,7 @@ theorem ggTPCentralizerJ_le_D {G : Type} [Group G] {Bs L D J : Subgroup G} {x y 
   have hb_eq : b = y ^ a.val * x ^ c.val := by
     have hcoe := congrArg (fun z : ↥Bs => (z : G)) hβ_eq
     have hR : ((γ ^ a.val * γx ^ c.val : ↥Bs) : G) = y ^ a.val * x ^ c.val := by
-      simp [Subgroup.coe_mul, Subgroup.coe_pow, γ, γx]
+      simp [γ, γx]
     have hL : ((β : ↥Bs) : G) = b := rfl
     rw [hL, hR] at hcoe
     exact hcoe

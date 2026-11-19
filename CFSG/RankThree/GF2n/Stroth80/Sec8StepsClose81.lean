@@ -13,6 +13,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_conj_mem_H0 (hc : Ctx M Q Z B) {y h : G} (hy : y ∈ M) (hh : h ∈ H0 M Z) :
     y * h * y⁻¹ ∈ H0 M Z := by
   refine ⟨M.mul_mem (M.mul_mem hy hh.1) (M.inv_mem hy), Subgroup.mem_centralizer_iff.mpr ?_⟩
@@ -57,12 +58,14 @@ theorem sec8_normV_of_comm (hc : Ctx M Q Z B) {t x : G} (hxM : x ∈ M) (hxt : �
       exact sec39_conjB_le_Vt hxm htxm hmem
   exact conjSubgroup_eq_self_iff.mp (Subgroup.eq_of_le_of_card_ge hle (by rw [card_conjSubgroup]))
 
+omit [Finite G] in
 theorem sec8_conj_V_eq_Ut (hc : Ctx M Q Z B) {t : G}
     (hV : Vt M (LB M Q B) B Z t = Ut Q Z t) {g : G} (hg : g ∈ M) :
     conjSubgroup g (Vt M (LB M Q B) B Z t) = Ut Q Z (g * t * g⁻¹) := by
   rw [Ut_conj_of_normalizes (hc.conj_Q_eq hg) (hc.conj_Z_eq hg) t, hV]
 
 
+omit [Finite G] in
 theorem sec8_comm_mul_Q_mem_iff (hc : Ctx M Q Z B) {x q t : G} (hxM : x ∈ M) (htM : t ∈ M)
     (hq : q ∈ Q) : ⁅x * q, t⁆ ∈ Q ↔ ⁅x, t⁆ ∈ Q := by
   have hQn : ∀ a ∈ M, ∀ y ∈ Q, a * y * a⁻¹ ∈ Q := fun a ha y hy =>
@@ -179,6 +182,7 @@ theorem step81Vanish_of (hCanon : Sec8CanonStatement) (hD' : Sec8DPrimeStatement
     exact (comm_mul_Q_mem_Z_iff hc hx₀M hq' (hV1Q hv)).mpr h3
 
 
+omit [Finite G] in
 theorem sec8_conjMod_decomp (hc : Ctx M Q Z B) {t x : G} (htM : t ∈ M) (hx : ConjMod M Q t x) :
     ∃ g ∈ M, (g * t * g⁻¹)⁻¹ * x ∈ Q := by
   obtain ⟨-, g, hg, hq⟩ := hx
@@ -189,6 +193,7 @@ theorem sec8_conjMod_decomp (hc : Ctx M Q Z B) {t x : G} (htM : t ∈ M) (hx : C
       (g * t * g⁻¹)⁻¹ * x := by group
   rwa [e] at h1
 
+omit [Finite G] in
 theorem sec8_conjMod_conj {t : G} (htM : t ∈ M) {g : G} (hg : g ∈ M) :
     ConjMod M Q t (g * t * g⁻¹) :=
   ⟨M.mul_mem (M.mul_mem hg htM) (M.inv_mem hg), g, hg, by

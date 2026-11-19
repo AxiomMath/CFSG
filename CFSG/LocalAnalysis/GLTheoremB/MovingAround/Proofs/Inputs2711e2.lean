@@ -137,7 +137,7 @@ theorem zmod5_fixed_of_unitriangular {a b d : ZMod 5} (ha : a ≠ 0) (hd : d ≠
     c 1 = 0 ∧ c 2 = 0 := by
   have h0 := congrFun h 0
   have h1 := congrFun h 1
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.vecHead, Matrix.vecTail] at h0 h1
+  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three] at h0 h1
   have hc2 : c 2 = 0 := by
     rcases h1 with h' | h'
     · exact absurd h' hd
@@ -200,7 +200,7 @@ theorem co1_gen_data :
         Nat.card ↥(E ⊓ Subgroup.centralizer ({q ^ j} : Set NativeSporadic.Co1)) ≤ 5) ∧
       Subgroup.closure S = ⊤ ∧
       ∀ s ∈ S, ∃ f ∈ E, f ≠ 1 ∧ Commute s f ∧ ∃ m, s ^ m = 1 ∧ ¬ 5 ∣ m := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h : co1GenCheck = true := Certificates.certificate271103
   unfold co1GenCheck at h
   simp only [Bool.and_eq_true] at h
@@ -281,7 +281,7 @@ theorem co1_gen_data :
     have hfin : Nat.card ↥(Subgroup.closure (Set.range DS.a)) ≠ 0 := by
       rw [show Subgroup.closure (Set.range DS.a) = E from rfl, hEc]
       norm_num
-    haveI : Finite ↥(Subgroup.closure (Set.range DS.a)) := Nat.finite_of_card_ne_zero hfin
+    have : Finite ↥(Subgroup.closure (Set.range DS.a)) := Nat.finite_of_card_ne_zero hfin
     show q ∈ Subgroup.normalizer (Subgroup.closure (Set.range DS.a) : Set NativeSporadic.Co1)
     refine CFSG.RankThree.Asc83Table.mem_normalizer_closure_of_conj_mem fun x hx => ?_
     obtain ⟨i, rfl⟩ := hx
@@ -393,9 +393,9 @@ theorem sporPairCase_Co1_five
   intro X _ _ hp _ L B _ hLq hB _ _ hrk4 _ _ _ hC1 hname hin _ _ _ _ _ _ _ _ _ _ _ _
   obtain ⟨σ⟩ := hname
   obtain ⟨β⟩ := hBr .Co1
-  haveI : Finite NativeSporadic.Co1 :=
+  have : Finite NativeSporadic.Co1 :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co1.card_Co1]; norm_num)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨E, q, S, hE, hEc, hq5, hqN, hPp, hnab, hfix, hS, hSf⟩ := co1_gen_data
   set P : Subgroup NativeSporadic.Co1 := Subgroup.zpowers q ⊔ E with hPdef
   have hEP : E ≤ P := le_sup_right
@@ -838,9 +838,9 @@ theorem hnMq_det (a : Fin 9) (ha : a ≠ 0) (c c' : Fin 4 → ZMod 3)
   have hd0 : d 0 = 0 := by rw [hd, Pi.sub_apply, h0, sub_self]
   have hd1 : (if a.val < 3 then d 1 else d 2) = 0 := by
     split_ifs with h
-    · rw [if_pos h] at h1
+    · rw [ite_eq_left h] at h1
       rw [hd, Pi.sub_apply, h1, sub_self]
-    · rw [if_neg h] at h1
+    · rw [ite_eq_right h] at h1
       rw [hd, Pi.sub_apply, h1, sub_self]
   rw [← zmod3_vec_four_eq d] at hdf
   obtain ⟨e1, e2, e3⟩ := hnM_fixed a ha (d 0) (d 1) (d 2) (d 3) hdf hd0 hd1
@@ -873,7 +873,7 @@ theorem hn_conj_of_facts [Fact (Nat.Prime 3)] {C : MCert}
       ∃ g : NativeSporadic.HN, A.map (MulAut.conj g).toMonoidHom ≤
         (NMod.spec (specP 5 133) hC hnMod hf hw).span := by
   have hN : Nat.card NativeSporadic.HN = 273030912000000 := CFSG.Sporadic.HN.card_HN
-  haveI : Finite NativeSporadic.HN := Nat.finite_of_card_ne_zero (by rw [hN]; norm_num)
+  have : Finite NativeSporadic.HN := Nat.finite_of_card_ne_zero (by rw [hN]; norm_num)
   set DS := NMod.spec (specP 5 133) hC hnMod hf hw with hDS
   set P : Subgroup NativeSporadic.HN :=
     Subgroup.closure {u | ∃ q ∈ hnTops ++ hnMod.basisPc 3, u = regUnit (specP 5 133) hC q.reg}
@@ -1001,7 +1001,7 @@ theorem sporPairCase_HN_three_of_data
     rw [h1] at h
     exact Nat.dvd_one.1 h
   have hZ : Subgroup.center ↥L = ⊥ := Subgroup.eq_bot_of_card_eq _ hZ1
-  haveI : Finite NativeSporadic.HN :=
+  have : Finite NativeSporadic.HN :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.HN.card_HN]; norm_num)
   obtain ⟨E, S, hE, hconj, hS, hSl⟩ := hdata
   have hTc : Nat.card E ≤ Nat.card (Inputs2711d.barHom hin).range := by
@@ -1022,7 +1022,7 @@ theorem hn_gen_data :
       Subgroup.closure S = ⊤ ∧
       ∀ s ∈ S, ∃ f₁ ∈ E, ∃ f₂ ∈ E, f₁ ≠ 1 ∧ f₂ ∉ Subgroup.zpowers f₁ ∧ Commute s f₁ ∧
         Commute s f₂ ∧ ∃ m, s ^ m = 1 ∧ ¬ 3 ∣ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h : hnGenCheck = true := Certificates.certificate271104
   unfold hnGenCheck at h
   simp only [Bool.and_eq_true] at h

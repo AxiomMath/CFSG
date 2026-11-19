@@ -18,6 +18,7 @@ variable (D : StrothTypeData B τ) (hk : ∀ i, 1 ≤ τ.k i) (hsq : ∀ x : C, 
 
 variable {D hk hsq}
 
+omit [Finite S] in
 theorem sqParityIdx4_mul (hcomm : ∀ x y : C, x * y = y * x) (x y : C) :
     sqParityIdx4 D hk hsq (x * y) = sqParityIdx4 D hk hsq x + sqParityIdx4 D hk hsq y := by
   have hxy : (⟨((x * y : C) : S) * ((x * y : C) : S), hsq (x * y)⟩ : B) =
@@ -31,6 +32,7 @@ theorem sqParityIdx4_mul (hcomm : ∀ x y : C, x * y = y * x) (x y : C) :
   simp only [sqParityIdx4]
   rw [hxy, D.ec_mul, map_add]
 
+omit [Finite S] in
 theorem sqParityIdx4_of_mem (x : C) (hx : (x : S) ∈ B) : sqParityIdx4 D hk hsq x = 0 := by
   simp only [sqParityIdx4]
   rw [parityTorus_eq_zero_iff]
@@ -38,6 +40,7 @@ theorem sqParityIdx4_of_mem (x : C) (hx : (x : S) ∈ B) : sqParityIdx4 D hk hsq
   have h : (⟨(x : S) * x, hsq x⟩ : B) = ⟨x, hx⟩ * ⟨x, hx⟩ := rfl
   rw [h, D.ec_mul, two_nsmul]
 
+omit [Finite S] in
 theorem mem_of_sqParityIdx4_eq_zero (hcomm : ∀ x y : C, x * y = y * x)
     (hC : C ≤ Subgroup.centralizer (B : Set S)) (hH : NoInvolutionsCentralizing S' B)
     (hcS : C ≤ S') (hBC : B ≤ C) (x : C) (h : sqParityIdx4 D hk hsq x = 0) :
@@ -69,6 +72,7 @@ theorem mem_of_sqParityIdx4_eq_zero (hcomm : ∀ x y : C, x * y = y * x)
   rw [hx]
   exact B.mul_mem hwB σ.2
 
+omit [Finite S] in
 theorem sqParityIdx4_conj {g : S} (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) {φ : Torus τ.k →+ Torus τ.k}
     (hφ : ∀ x : B, D.ec (conjBy hgB x) = φ (D.ec x))
@@ -84,6 +88,7 @@ theorem sqParityIdx4_conj {g : S} (hgC : g ∈ Subgroup.normalizer C)
   rw [h, hφ]
   exact hA _
 
+omit [Finite S] in
 theorem sqParityIdx4_of_sq_eq (hBC : B ≤ C) {x : C} {β : B} (hx : x * x = ⟨β, hBC β.2⟩) :
     sqParityIdx4 D hk hsq x = parityTorus τ.k hk (D.ec β) := by
   have h : (⟨(x : S) * x, hsq x⟩ : B) = β := by
@@ -94,6 +99,7 @@ theorem sqParityIdx4_of_sq_eq (hBC : B ≤ C) {x : C} {β : B} (hx : x * x = ⟨
 
 end Square
 
+omit [Finite S] in
 theorem exists_sq_eq_of_sqParityIdx4 (D : StrothTypeData B τ) (hk : ∀ i, 1 ≤ τ.k i)
     (hsq : ∀ x : C, (x : S) * x ∈ B) (hBC : B ≤ C) (hcomm : ∀ x y : C, x * y = y * x)
     {x : C} {β : B} (h : sqParityIdx4 D hk hsq x = parityTorus τ.k hk (D.ec β)) :
@@ -346,6 +352,7 @@ section IndexFour
 
 variable [hN : (B.subgroupOf C).Normal]
 
+omit [Finite S] in
 theorem L_le_normalizer_Idx4 (D : StrothTypeData B τ) : D.L ≤ Subgroup.normalizer B := by
   rw [StrothTypeData.L, Subgroup.closure_le]
   intro x hx

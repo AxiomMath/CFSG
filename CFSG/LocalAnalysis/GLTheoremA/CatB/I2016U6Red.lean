@@ -44,7 +44,7 @@ theorem exists_center_two_part {Q : Type} [Group Q] [Finite Q] (σ : MulAut Q)
     rintro τ x ⟨hx, k, hk⟩
     exact ⟨hcenter τ x hx, k, by rw [← map_pow, hk, map_one]⟩
   refine ⟨R, ?_, ?_, fun x hx => hx.1, ?_⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center Q)) 2 h2
     apply (Subgroup.nontrivial_iff_ne_bot R).1
     rw [Subgroup.nontrivial_iff_exists_ne_one]
@@ -78,8 +78,8 @@ theorem exists_lift_two_subgroup {Q S : Type} [Group Q] [Finite Q] [Group S] (π
     (hσ : ∀ x, π (σ x) ∈ Rb ↔ π x ∈ Rb) :
     ∃ R : Subgroup Q, R ≠ ⊥ ∧ IsPGroup 2 ↥R ∧ X ≤ Subgroup.normalizer (R : Set Q) ∧
       R.map σ.toMonoidHom = R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite S := Finite.of_surjective π hπs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite S := Finite.of_surjective π hπs
   let Rh : Subgroup Q := Rb.comap π
   let φ : ↥Rh →* ↥Rb := (π.comp Rh.subtype).codRestrict Rb (fun x => x.2)
   have hφapply : ∀ x : ↥Rh, ((φ x : ↥Rb) : S) = π (x : Q) := fun x => rfl
@@ -101,8 +101,8 @@ theorem exists_lift_two_subgroup {Q S : Type} [Group Q] [Finite Q] [Group S] (π
       have h := congrArg Subtype.val (MonoidHom.mem_ker.mp hx)
       simpa [hφapply] using h
     exact Subgroup.mem_center_iff.mp (hπk _ h1) (y : Q)
-  haveI : Group.IsNilpotent ↥Rb := hRb2.isNilpotent
-  haveI : Group.IsNilpotent ↥Rh := Subgroup.isNilpotent_of_ker_le_center φ hφker
+  have : Group.IsNilpotent ↥Rb := hRb2.isNilpotent
+  have : Group.IsNilpotent ↥Rh := Subgroup.isNilpotent_of_ker_le_center φ hφker
   obtain ⟨𝒬 : Sylow 2 ↥Rh⟩ := (inferInstance : Nonempty (Sylow 2 ↥Rh))
   let R : Subgroup Q := (𝒬 : Subgroup ↥Rh).map Rh.subtype
   have h𝒬n : (𝒬 : Subgroup ↥Rh).Normal := inferInstance
@@ -113,7 +113,7 @@ theorem exists_lift_two_subgroup {Q S : Type} [Group Q] [Finite Q] [Group S] (π
     exact Subgroup.mem_map.mpr ⟨_, this, rfl⟩
   have hRpow : ∀ g ∈ R, ∃ k : ℕ, g ^ 2 ^ k = 1 := by
     rintro _ ⟨q, hq, rfl⟩
-    obtain ⟨k, hk⟩ := 𝒬.isPGroup' ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := 𝒬.isPGroup ⟨q, hq⟩
     exact ⟨k, by simpa using congrArg (fun x : ↥(𝒬 : Subgroup ↥Rh) => ((x : ↥Rh) : Q)) hk⟩
   have hRleRh : ∀ g ∈ R, g ∈ Rh := by
     rintro _ ⟨q, _, rfl⟩
@@ -129,7 +129,7 @@ theorem exists_lift_two_subgroup {Q S : Type} [Group Q] [Finite Q] [Group S] (π
     have hQne : (𝒬 : Subgroup ↥Rh) ≠ ⊥ := Sylow.ne_bot_of_dvd_card 𝒬 h2U
     exact hQne ((Subgroup.map_eq_bot_iff_of_injective (f := Rh.subtype)
       (H := (𝒬 : Subgroup ↥Rh)) Subtype.coe_injective).mp hbot)
-  · exact 𝒬.isPGroup'.map Rh.subtype
+  · exact 𝒬.isPGroup.map Rh.subtype
   · have hfwd : ∀ x ∈ X, ∀ h ∈ R, x * h * x⁻¹ ∈ R := by
       intro x hx h hh
       have hhRh := hRleRh h hh
@@ -181,7 +181,7 @@ theorem false_of_subnormal_top {Q S : Type} [Group Q] [Group S] [IsSimpleGroup S
     have hrt : (π.comp I.subtype).range = ⊤ := by
       rw [MonoidHom.range_comp, Subgroup.range_subtype]
       exact htop
-    haveI : IsSimpleGroup ↥(π.comp I.subtype).range := by
+    have : IsSimpleGroup ↥(π.comp I.subtype).range := by
       rw [hrt]
       exact Subgroup.topEquiv.isSimpleGroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φI.ker with hk | hk
@@ -237,11 +237,11 @@ theorem i2016FactU6_of_key (hKey : U6Key) : I2016.I2016FactU6 := by
         group
       rw [← h1]
       exact hh
-  · haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  · have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
     have hcat9 : catalogIs (Q ⧸ Subgroup.center Q) S9.isU6two := hcat
     obtain ⟨eS⟩ := HSubT.nonempty_S6_of_isU6two hcat9
-    haveI : IsSimpleGroup LevelLieU6.S6 := LevelLieU6.isSimple_S6
-    haveI : Finite LevelLieU6.S6 := Nat.finite_of_card_ne_zero (by rw [card_S6]; norm_num)
+    have : IsSimpleGroup LevelLieU6.S6 := LevelLieU6.isSimple_S6
+    have : Finite LevelLieU6.S6 := Nat.finite_of_card_ne_zero (by rw [card_S6]; norm_num)
     let π : Q →* LevelLieU6.S6 := eS.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Q))
     have hπs : Function.Surjective π := eS.surjective.comp (QuotientGroup.mk'_surjective _)
     have hπk : ∀ x, π x = 1 → x ∈ Subgroup.center Q := by
@@ -306,7 +306,7 @@ theorem i2016FactU6_of_key (hKey : U6Key) : I2016.I2016FactU6 := by
           exact congrArg π hut⟩
     obtain ⟨A₀, S₆, hS₆g, f, hA₀A, hSc, hf⟩ := hA6
     obtain ⟨hSsimp, hS360⟩ := CatB.I1431YU5.isA6_isSimpleGroup hSc
-    haveI : IsSimpleGroup S₆ := hSsimp
+    have : IsSimpleGroup S₆ := hSsimp
     have hS₆nc : ¬ ∀ a b : S₆, a * b = b * a :=
       U4Sp8.not_comm_of_simple_of_card (by rw [hS360]; norm_num)
     obtain ⟨φh, hφh, -⟩ := descend_simple hS₆nc π hπk f hf
@@ -323,10 +323,10 @@ theorem i2016FactU6_of_key (hKey : U6Key) : I2016.I2016FactU6 := by
     have hIcat : catalogIs (PSimple 3 I) S9.isU4two := by
       obtain ⟨i, hi, ⟨e⟩⟩ := hIt.1
       exact ⟨i, I1431Y.isU4two_of_isPSp43 hi, ⟨e⟩⟩
-    haveI hT4s : IsSimpleGroup (PSimple 3 I) :=
+    have hT4s : IsSimpleGroup (PSimple 3 I) :=
       CFSG.LocalAnalysis.GLTheoremA.S10.isSimple_of_isU4two hIcat
     have hT4c : Nat.card (PSimple 3 I) = 25920 := card_of_catalogIs_u4two hIcat
-    haveI : Finite (PSimple 3 I) := Nat.finite_of_card_ne_zero (by rw [hT4c]; norm_num)
+    have : Finite (PSimple 3 I) := Nat.finite_of_card_ne_zero (by rw [hT4c]; norm_num)
     have hT4nc := not_comm_of_card_25920 hT4c
     let Ψ : ↥I →* PSimple 3 I :=
       (QuotientGroup.mk' (Subgroup.center (PQuot 3 I))).comp
@@ -366,7 +366,7 @@ theorem i2016FactU6_of_key (hKey : U6Key) : I2016.I2016FactU6 := by
       have hdvd : Nat.card φI.ker ∣ Nat.card Ψ.ker := by
         rw [hkerm]
         exact Subgroup.card_map_dvd _ _
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hcop : Nat.Coprime 3 (Nat.card ↥(GLAPPrimeCore 3 ↥I)) :=
         CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥I)
       rw [hΨker] at hdvd

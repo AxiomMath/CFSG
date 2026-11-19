@@ -401,7 +401,7 @@ theorem sTwo_fact : F.S ≤ F.H ∧ Nat.card F.S = 128 := by
   refine ⟨?_, ?_⟩
   · rw [S_eq, closure_le]
     intro g hg
-    simp only [sP, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
+    simp only [sP, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
     rcases hg with rfl | rfl | rfl
     · exact w4
     · exact w5

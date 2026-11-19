@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] def TwelveTenFinalA' (M H Q : Subgroup G) (p : ℕ) : Prop :=
+@[expose] def TwelveTenFinalA' (M _H Q : Subgroup G) (p : ℕ) : Prop :=
   ∃ E D : Subgroup G,
     E ≤ Q ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧
       rankThreeGamma 1 p E ≤ M ∧
@@ -83,7 +83,7 @@ theorem twelveTenFinalStep_of_p_eq_three {M H Q : Subgroup G} {p : ℕ} (hp3 : p
     norm_num
   have hBne : B ≠ ⊥ :=
     inf_ne_bot_of_card_eq_pow_four (p := 3) (by norm_num) hEcard hDcard hQcard hEQ hDQ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hBp : IsPGroup 3 B := (hE.mono hBleE).isPGroup
   have hBdvd : 3 ∣ Nat.card B := by
     rcases hBp.card_eq_or_dvd with h1 | h3

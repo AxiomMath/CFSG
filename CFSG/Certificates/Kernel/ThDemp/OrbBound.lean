@@ -70,7 +70,7 @@ theorem exists_conjSet (C : Ctx D O J) (hF : DempFacts D) (h1 : Elt1Facts D O) (
   have hK : Kf.card ≤ 5 := by
     have e : (↑Kf : Set ℕ) = {k | 0 < k ∧ k < 31 ∧ KillU D (Qm q ((𝕄 (y : J)) ^ k))} := by
       ext k
-      simp only [Kf, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq]
+      simp only [Kf, Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq]
       tauto
     rw [← Set.ncard_coe_finset, e]
     exact hcount
@@ -104,7 +104,7 @@ theorem exists_conjSet (C : Ctx D O J) (hF : DempFacts D) (h1 : Elt1Facts D O) (
       rw [← hnt, Subgroup.coe_pow, mat_pow]
     rw [← htn]
     intro w hw
-    have hwc := Cent.Ctx.mem_U_mul C hF (Ctx.mapM_U0 C hF h1) c.2 hw
+    have hwc := Cent.Ctx.mem_U_mul C (Ctx.mapM_U0 C hF h1) c.2 hw
     have e1 : Matrix.vecMul (Matrix.vecMul w (𝕄 (c : J))) (Qm q (𝕄 (x : J))) = 0 := hkill _ hwc
     have e2 : Matrix.vecMul w (Qm q (𝕄 (t : J))) =
         Matrix.vecMul (Matrix.vecMul (Matrix.vecMul w (𝕄 (c : J))) (Qm q (𝕄 (x : J))))

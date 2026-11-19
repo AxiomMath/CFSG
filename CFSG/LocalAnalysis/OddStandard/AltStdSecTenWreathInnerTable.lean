@@ -12,6 +12,7 @@ open Subgroup
 
 variable {X : Type} [Group X] [Finite X] {t : X} {A K : Subgroup X}
 
+omit [Finite X] in
 theorem card_inf_centralizer_cases_of_alt {J : Subgroup X} (eJ : J ≃* alternatingGroup (Fin 8))
     {s : X} (hs : s ∈ normalizer (J : Set X)) (hs2 : s * s = 1) :
     Nat.card ↥(J ⊓ centralizer ({s} : Set X)) ∈ ({20160, 720, 96, 48, 192} : Finset ℕ) ∧

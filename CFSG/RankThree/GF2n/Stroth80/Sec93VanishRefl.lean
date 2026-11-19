@@ -133,7 +133,7 @@ theorem exists_mem_conj_reflection_apply
   have hQc' : Q' (a + lam • u) = Q' c := by
     rw [QuadraticMap.map_add Q' a (lam • u), QuadraticMap.map_smul, hu, ha,
       QuadraticMap.polar_smul_right]
-    simp only [smul_zero, mul_zero, zero_add, add_zero, smul_eq_mul]
+    simp only [mul_zero, zero_add, add_zero, smul_eq_mul]
     exact hlam
   have hc0 : c ≠ 0 := by
     rintro rfl
@@ -147,7 +147,7 @@ theorem exists_mem_conj_reflection_apply
     rw [← polar_mulVec_mulVec_of_isometry Q' X hXiso A hA
       (((A⁻¹ : GL ι K) : Matrix ι ι K) *ᵥ u) c, hAw, hAc, QuadraticMap.polar_add_right,
       QuadraticMap.polar_smul_right, QuadraticMap.polar_self, hu]
-    simp only [smul_zero, nsmul_zero, add_zero]
+    simp only [smul_zero, add_zero]
   have hcoef : QuadraticMap.polar Q' u a / Q' c * lam = 1 := by
     rw [div_mul_eq_mul_div, div_eq_one_iff_eq hc, mul_comm, ← hpau]
     exact hlam

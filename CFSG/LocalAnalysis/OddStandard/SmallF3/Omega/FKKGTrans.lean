@@ -25,10 +25,10 @@ private theorem fk_l34g_fix_map_inv {Y : Type} [Group Y] (τ σ : MulAut Y) :
     · intro hp
       apply τ.injective
       simp only [MulAut.mul_apply, MulAut.inv_apply] at hp
-      simp only [MulAut.mul_apply, MulAut.inv_apply]
+      simp only [MulAut.inv_apply]
       rw [hp, MulEquiv.apply_symm_apply]
     · intro hp
-      simp only [MulAut.mul_apply, MulAut.inv_apply] at hp
+      simp only [MulAut.inv_apply] at hp
       simp only [MulAut.mul_apply, MulAut.inv_apply]
       rw [hp, MulEquiv.apply_symm_apply]
   rw [h1, Subgroup.map_comap_eq_self_of_surjective (τ⁻¹).surjective]

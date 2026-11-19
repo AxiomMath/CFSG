@@ -93,7 +93,7 @@ theorem p427_P427
       K ≤ T.B := by
     intro K hKL hKn hKodd
     let π : ↥T.L →* ↥T.L ⧸ Subgroup.center ↥T.L := QuotientGroup.mk' _
-    haveI hKπ : ((K.subgroupOf T.L).map π).Normal :=
+    have hKπ : ((K.subgroupOf T.L).map π).Normal :=
       hKn.map π (QuotientGroup.mk'_surjective _)
     rcases hsimp.eq_bot_or_eq_top_of_normal ((K.subgroupOf T.L).map π) with hbot | htop
     · intro k hk
@@ -187,8 +187,7 @@ theorem he42Input427_holds
         (hx3 : orderOf x = 3) (y₁ y₂ : G), He42.YSpec (He42.HeSetup.ofCtx e hF6 S h1 h2 ha ham hxN
         hxa hx3) y₁ y₂ → He42.Open422 (He42.HeSetup.ofCtx e hF6 S h1 h2 ha ham hxN hxa hx3) y₁
         y₂) : He42Input427 := by
-  intro hF6 G _ _ z e hs hK S h1 h2 a x ha ham hxN hxa hx3
-  intro c hc
+  intro hF6 G _ _ z e hs hK S h1 h2 a x ha ham hxN hxa hx3 c hc
   exact p427_open427 (He42.HeSetup.ofCtx e hF6 S h1 h2 ha ham hxN hxa hx3)
     (He42.HeSetup.ofCtx e hF6 S h1 h2 ha ham hxN hxa hx3).baseFacts
     (p427_P427 h422 hF6 G z e hs hK S h1 h2 a x ha ham hxN hxa hx3) c

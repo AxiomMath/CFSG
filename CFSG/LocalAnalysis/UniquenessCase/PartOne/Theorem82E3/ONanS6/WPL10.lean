@@ -36,12 +36,12 @@ theorem sylow_seven_cyclic_of_pRank_one {H : Type*} [Group H] [Finite H]
   have hr : CFSG.pRank 7 (⊤ : Subgroup H) ≤ 1 := by
     rwa [CFSG.SectionRank.pRank_coe_eq_openPRank]
   exact CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one (p := 7) (by norm_num) (by norm_num)
-    le_top S.isPGroup' hr
+    le_top S.isPGroup hr
 
 theorem sylow_seven_cyclic_of_surjective {H X : Type*} [Group H] [Group X] [Finite H] [Finite X]
     (π : H →* X) (hπ : Function.Surjective π)
     (hH : ∀ S : Sylow 7 H, IsCyclic ↥S) : ∀ T : Sylow 7 X, IsCyclic ↥T := by
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro T
   let S : Sylow 7 H := Classical.choice (Sylow.nonempty (p := 7) (G := H))
   let Sbar : Sylow 7 X := S.mapSurjective hπ
@@ -66,14 +66,14 @@ theorem exists_order_seven_of_center_quotient {Y : Type*} [Group Y] [Finite Y]
     (hZ7 : ¬ 7 ∣ Nat.card (Subgroup.center Y)) :
     ∃ y : Y, orderOf y = 7 ∧ y ∉ Subgroup.center Y := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hp7 : Nat.Prime 7 := by norm_num
   obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' (G := Y ⧸ Subgroup.center Y) 7 h7
   obtain ⟨x, hxq⟩ := QuotientGroup.mk_surjective q
   subst hxq
   have hx7 : x ^ 7 ∈ Subgroup.center Y := by
     rw [← QuotientGroup.eq_one_iff]
-    simpa [← hq] using pow_orderOf_eq_one (x : Y ⧸ Subgroup.center Y)
+    simp [← hq]
   let d := orderOf (x ^ 7)
   have hdvd : d ∣ Nat.card (Subgroup.center Y) := by
     have h := Subgroup.orderOf_dvd_natCard (Subgroup.center Y) hx7
@@ -106,7 +106,7 @@ theorem component_normal_of_seven {X : Type*} [Group X] [Finite X] {J : Subgroup
     (hZ7 : ¬ 7 ∣ Nat.card (Subgroup.center J))
     (hcyc : ∀ S : Sylow 7 X, IsCyclic ↥S) : J.Normal := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hp7 : Nat.Prime 7 := by norm_num
   rw [← Subgroup.normalizer_eq_top_iff]
   refine eq_top_iff.mpr ?_
@@ -185,7 +185,7 @@ theorem center_eq_bot_of_theta_eq_bot {X : Type*} [Group X] [Finite X] {J : Subg
     (hJ : CFSG.IsComponent J) (hθ : CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 X = ⊥)
     (h3J : ¬ 3 ∣ Nat.card J) : Subgroup.center J = ⊥ := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let ZJ : Subgroup X := (Subgroup.center J).map J.subtype
   have hZJle : ZJ ≤ J := Subgroup.map_subtype_le _
   have hZJsub : ZJ.IsSubnormal :=
@@ -203,7 +203,7 @@ theorem center_eq_bot_of_theta_eq_bot {X : Type*} [Group X] [Finite X] {J : Subg
     CFSG.SignalizerFunctorTheorem.Nonsolvable.le_solvableRadical_of_isSubnormal hZJsub hZJsolv
   have hRadn : (CFSG.solvableRadical X).Normal :=
     Subgroup.sSup_normal _ fun _ hN => hN.1
-  haveI : Group.IsSolvable (CFSG.solvableRadical X) :=
+  have : Group.IsSolvable (CFSG.solvableRadical X) :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
   let N : Subgroup X := CFSG.pPrimeCore 3 X ⊓ CFSG.solvableRadical X
   have hNn : N.Normal := inferInstance
@@ -256,14 +256,14 @@ theorem suzukiBridgeData_of_three_lt'
     (hZ3 : ∀ J ∈ thetaComponentsAt 3 e, 3 ∣ Nat.card J →
       Nat.card (autThetaQuot (zSub P c.L) J) = 1)
     (hSzF : Sz.SzFix)
-    (he : e ∈ P ⊓ c.L) (he3 : orderOf e = 3) (heZ : e ∉ zSub P c.L)
+    (he : e ∈ P ⊓ c.L) (_he3 : orderOf e = 3) (_heZ : e ∉ zSub P c.L)
     {J : Subgroup (componentsQuot e)} (hJ : CFSG.IsComponent J)
     (hntriv : ¬ TrivialZComponentAction (D := D) c P e J)
     {f : ℕ} (hSz : CFSG.Blueprint.SuzukiModel (J ⧸ Subgroup.center J) 2 f) (hf : 3 < f) :
     SuzukiComponentBridgeData (D := D) c P e J := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup G := Subgroup.centralizer ({e} : Set G)
   let Nθ : Subgroup H := CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 H
   let π : H →* componentsQuot e := QuotientGroup.mk' Nθ
@@ -349,7 +349,7 @@ theorem suzukiBridgeData_of_three_lt'
     rw [hzN3, map_one]
   have hαne : centerQuotientHom J α ≠ 1 := by
     intro hα
-    haveI : Group.IsPerfect ↥J := hJ.1.1
+    have : Group.IsPerfect ↥J := hJ.1.1
     have hα1' : α = 1 := centerQuotientHom_injective J (by rw [hα, map_one])
     have hα1 : Subgroup.normalizerMonoidHom J ⟨z, hzN⟩ = 1 := hα1' 
     let X' : Subgroup H := (zSub P c.L).subgroupOf H
@@ -386,7 +386,7 @@ theorem suzukiBridgeData_of_three_lt'
           apply η.injective
           apply Subtype.ext
           rw [thetaQuotMulAut_mk, hη]
-          simp only [MulAut.one_apply, one_mul]
+          simp only [MulAut.one_apply]
           rw [hη, Subgroup.normalizerMonoidHom_apply_apply_coe]
           rw [map_mul, map_mul, map_inv]
           have hmemJ : (π l : componentsQuot e) ∈ J := by
@@ -412,8 +412,8 @@ theorem suzukiBridgeData_of_three_lt'
   have h7pow : 7 ∣ 2 ^ f - 1 := seven_dvd_two_pow_sub_one_of_three_dvd h3f
   have h7J : 7 ∣ Nat.card (J ⧸ Subgroup.center J) := by
     obtain ⟨-, a, ha, K, hKF, hKfin, hf_eq, hKcard, ⟨eK⟩⟩ := hSz
-    letI : Field K := hKF
-    letI : Finite K := hKfin
+    let : Field K := hKF
+    let : Finite K := hKfin
     have hS_card : Nat.card (J ⧸ Subgroup.center J) =
         Nat.card (CFSG.Blueprint.suzukiGroup a K) :=
       Nat.card_congr eK.toEquiv
@@ -486,7 +486,7 @@ theorem suzukiBridgeData_of_three_lt'
             ((H ⊓ CFSG.Open.pCoreOf 2 D.M : Subgroup G) : Set G)).comap H.subtype =
           Subgroup.normalizer (W_H : Set H) :=
         Subgroup.comap_normalizer_eq_of_le_range
-          (by simpa using (inf_le_left : H ⊓ CFSG.Open.pCoreOf 2 D.M ≤ H))
+          (by simp)
       have hdNW : d ∈ Subgroup.normalizer (W_H : Set H) := by
         rw [← hnorm]
         exact hdNinf

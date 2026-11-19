@@ -20,6 +20,7 @@ open TableBExc.E6Three
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem innerAut_le_hatAut_range :
     (MulAut.conj : adjointGroup .E6 K →* MulAut (adjointGroup .E6 K)).range ≤
       (hatAut .E6 K).range := by
@@ -65,7 +66,7 @@ theorem exists_conj_eq_vHyp (h3 : 3 ∣ Nat.card K - 1) {ζ : Kˣ} (hζo : order
     ∃ γ ∈ (hatAut .E6 K).range, X.map (MulAut.conj γ).toMonoidHom = vHyp ζ hζ := by
   obtain ⟨γ, hγ, A, hA, hfix, hcount, hbot⟩ :=
     exists_conj_kernel_fix_of_le_hatAut h3 hζo hζ hX (hXI.trans innerAut_le_hatAut_range)
-  haveI : (CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup .E6 K)).Normal :=
+  have : (CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup .E6 K)).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   have hYI : ∀ φ ∈ X.map (MulAut.conj γ).toMonoidHom,
       φ ∈ (MulAut.conj : adjointGroup .E6 K →* MulAut (adjointGroup .E6 K)).range := by

@@ -121,7 +121,7 @@ theorem frattini_kOf_eq_xOf
   have hsq := sq_mem_xOf_of_mem_kOf (hW := hW) h hPH hVH hH hnM hK hnab hL ψ hl horth hWK'
   have hK2 : IsPGroup 2 (kOf V H) := isPGroup_kOf_of_factorization h hK
   have hcomm_le : ⁅kOf V H, kOf V H⁆ ≤ inSubgroup frattini (kOf V H) := by
-    haveI : Fact (IsPGroup 2 ↥(kOf V H)) := ⟨hK2⟩
+    have : Fact (IsPGroup 2 ↥(kOf V H)) := ⟨hK2⟩
     have h := Subgroup.map_mono (f := (kOf V H).subtype)
       (commutator_le_frattini_of_isPGroup (p := 2) (R := ↥(kOf V H)))
     rw [Subgroup.map_subtype_commutator] at h
@@ -151,6 +151,7 @@ variable {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
 variable [Module (ZMod 2) (Additive (CFSG.Quasithin.IntMod (Tim79a.xOf V H) hW))]
 variable [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal]
 
+omit [Finite G] in
 theorem kMod_subSec_sup_eq_top {h₀ : G}
     (hK : KFactorization M V H h₀) (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
     [Module (ZMod 2) (SecMod hs)] :
@@ -216,6 +217,7 @@ theorem kMod_subSec_conj_inf_Pc_le_fixedSub
     (hs := hs) (ψ := ψ) (hKsec := hs.comm) (z := ⟨y', hy'H⟩)
     (n := Subgroup.inclusion inf_le_right n)).mpr hc
 
+omit [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal] in
 private theorem imgK_conj_inv_mul_ne_of_sl2
     (h : RootHyp M V) (hPH : Pc M V ≤ H) {h₀ : G}
     (hH : H = Pc M V ⊔ conjSubgroup h₀ (Pc M V)) (hnM : ¬ H ≤ M)
@@ -265,6 +267,7 @@ private theorem imgK_conj_inv_mul_ne_of_sl2
     exact Subgroup.mem_inf.mpr ⟨hmemP, hnorm⟩
   exact hxK ((piK_eq_one_iff _).mp (Subgroup.mem_bot.mp hmem))
 
+omit [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal] in
 private theorem imgK_conj_inv_ne_of_sl2
     (h : RootHyp M V) (hPH : Pc M V ≤ H) {h₀ : G}
     (hH : H = Pc M V ⊔ conjSubgroup h₀ (Pc M V)) (hnM : ¬ H ≤ M)
@@ -302,6 +305,7 @@ private theorem imgK_conj_inv_ne_of_sl2
     exact Subgroup.mem_inf.mpr ⟨hmemP', hnorm⟩
   exact hy'K ((piK_eq_one_iff _).mp (Subgroup.mem_bot.mp hmem))
 
+omit [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal] in
 private theorem mem_xOf_of_mem_conj_inf_kOf_of_commutator_mem
     (h : RootHyp M V) (hPH : Pc M V ≤ H) (hVH : V ≤ inSubgroup (pCore 2) H) {h₀ : G}
     (hH : H = Pc M V ⊔ conjSubgroup h₀ (Pc M V)) (hnM : ¬ H ≤ M)
@@ -335,6 +339,7 @@ private theorem mem_xOf_of_mem_conj_inf_kOf_of_commutator_mem
       simpa [hPy] using hne)
   exact hmain (Subgroup.mem_inf.mpr ⟨hb.1, hbconj⟩)
 
+omit [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal] in
 private theorem mem_xOf_of_mem_inf_kOf_of_commutator_mem
     (h : RootHyp M V) (hPH : Pc M V ≤ H) (hVH : V ≤ inSubgroup (pCore 2) H) {h₀ : G}
     (hH : H = Pc M V ⊔ conjSubgroup h₀ (Pc M V)) (hnM : ¬ H ≤ M)
@@ -630,7 +635,7 @@ theorem isNatSumModule_repSec_kOf
       (Tim79a.H_le_normalizer_xOf V H))) :
     KModWNatSum V H ψ := by
   intro hs hmod
-  letI := hmod
+  let := hmod
   obtain ⟨-, -, a, b, ha, hb, hne⟩ := imgK_map_sl2 h hPH hVH hH hnM ψ
   refine Sec2.isNatSumModule_of_fixedSub_conj (repSec hs hs.comm SL(2, F) ψ)
     (kMod_fixedSub_top_eq_bot (hW := hW) h hPH hVH hH hnM hK ψ hl horth hs) hne ?_ ?_
@@ -650,6 +655,7 @@ private theorem xOf_le_inf_centralizer_kOf (h : RootHyp M V)
   intro k hk
   exact (Subgroup.mem_centralizer_iff.mp ((mem_kOf_iff.mp hk).2) w hw).symm
 
+omit [Finite G] in
 private theorem subSec_centralizer_invariant
     {F : Type} [Field F] [Fintype F] [CharP F 2] (ψ : HBar V H ≃* SL(2, F))
     (hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
@@ -710,12 +716,12 @@ private theorem exists_fixed_subSec_inf_Pc
     have hP2 : IsPGroup 2 (Pc M V) := (inSubgroup_pCore_two M).1.to_le inf_le_left
     exact ((hP2.comap_subtype (K := H)).map (piK V H)).map ψ.toMonoidHom
   let U : Submodule (ZMod 2) (SecMod hs) := subSec hs Z
-  haveI hUfd : FiniteDimensional (ZMod 2) U := by
+  have hUfd : FiniteDimensional (ZMod 2) U := by
     change Module.Finite (ZMod 2) U
     rw [Module.finite_def, ← Submodule.span_univ (R := ZMod 2) (M := U)]
     exact Submodule.fg_span (Set.finite_univ)
-  haveI hUnt : Nontrivial U := Submodule.nontrivial_iff_ne_bot.mpr hZne
-  letI : MulAction X U :=
+  have hUnt : Nontrivial U := Submodule.nontrivial_iff_ne_bot.mpr hZne
+  let : MulAction X U :=
     { smul := fun x v => (⟨repSec hs hs.comm SL(2, F) ψ x v.1, hZinv x v.1 v.2⟩ : U)
       one_smul := fun v => by
         apply Subtype.ext
@@ -866,7 +872,7 @@ theorem inf_kOf_centralizer_eq_xOf
       conj₀ := by
         intro g hg n hn
         exact (Subgroup.mem_normalizer_iff.mp (Tim79a.H_le_normalizer_xOf V H hg) n).mp hn }
-  haveI hWnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
+  have hWnormal : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
   exact inf_kOf_centralizer_eq_xOf_aux (hW := hW) h hPH hVH hH hnM hK hnab ψ hl horth
     hWK' hs (hWnormal := hs.normal) (hmod := SecMod.module hs hsq)
 

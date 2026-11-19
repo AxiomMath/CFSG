@@ -19,8 +19,8 @@ theorem dichLieCross_PSp : DichLieCrossAt .PSp := by
   obtain ⟨_, F, _, _, hF, ⟨e⟩⟩ := hmodel.statedClassicalModel (by simp [classicalTags])
   have hℓ : ℓ.Prime := hadm.1
   have hn : 1 ≤ n := by have := hadm.2.2.1; omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite F
   have hF3 : ¬ 3 ∣ Fintype.card F :=
     not_dvd_card_of_card_eq_pow Nat.prime_three hℓ (Ne.symm hℓ3) hF
   have hSp : ThreeLocal (CFSG.Open.StatedSp n F) :=
@@ -52,7 +52,7 @@ theorem threeLocal_projOmega {F : Type} [Field F] [Finite F] {ι : Type} [Fintyp
   have hsq : ∀ g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q),
       g ^ 2 ∈ commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := fun g =>
     mem_commutator_of_coe_mem (by simpa using hsq' (g : (ι → F) ≃ₗ[F] (ι → F)) g.2)
-  haveI : Nontrivial (ι → F) := by
+  have : Nontrivial (ι → F) := by
     obtain ⟨T, hT3, -⟩ := hT
     refine Module.nontrivial_of_finrank_pos (R := F) ?_
     have := Submodule.finrank_le T
@@ -122,10 +122,10 @@ theorem dichLieCross_POmegaOdd : DichLieCrossAt .POmegaOdd := by
   have hn : 3 ≤ n := hadm.2.2.1
   have hℓ : ℓ.Prime := hadm.1
   have hℓ2 : ℓ ≠ 2 := hadm.2.2.2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP F ℓ := charP_of_card_eq_prime_pow (p := ℓ) (f := f)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP F ℓ := charP_of_card_eq_prime_pow (p := ℓ) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hF)
   have h2 : ringChar F ≠ 2 := by rw [ringChar.eq F ℓ]; exact hℓ2
   have hpq : ¬ 3 ∣ Fintype.card F := not_dvd_card_of_card_eq_pow Nat.prime_three hℓ (Ne.symm hℓ3) hF
@@ -146,8 +146,8 @@ theorem dichLieCross_POmegaPlus : DichLieCrossAt .POmegaPlus := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := hmodel.statedClassicalModel (by decide)
   have hn : 4 ≤ n := hadm.2.2
   have hℓ : ℓ.Prime := hadm.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ 3 ∣ Fintype.card F := not_dvd_card_of_card_eq_pow Nat.prime_three hℓ (Ne.symm hℓ3) hF
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := F) (n := n)
     (by omega)
@@ -163,8 +163,8 @@ theorem dichLieCross_POmegaMinus : DichLieCrossAt .POmegaMinus := by
   obtain ⟨-, F, _, _, hF, b, c, hirr, ⟨e⟩⟩ := hmodel.statedClassicalModel (by decide)
   have hn : 4 ≤ n := hadm.2.2
   have hℓ : ℓ.Prime := hadm.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ 3 ∣ Fintype.card F := not_dvd_card_of_card_eq_pow Nat.prime_three hℓ (Ne.symm hℓ3) hF
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := F) (n := n) hn
     hirr

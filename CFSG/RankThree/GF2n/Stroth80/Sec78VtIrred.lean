@@ -23,13 +23,13 @@ theorem sec7VtIrred_holds : Sec7VtIrredStatement := by
       have : m = 2 := by omega
       subst this
       exact hs.notPlus4 ⟨K, fK, finK, hK, hrep⟩
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     exact hrep.eq_or_eq_of_invariant (natIrred_statedOmegaPlus hm3)
       (addCommutantScalar_statedOmegaPlus hm3) hZU hUV hRU
   · obtain ⟨K, fK, finK, hK, b, c, hirr, hrep⟩ := h
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     have hirrG : NatIrred (StatedOmega (StatedQuadMinus m K b c)) := by

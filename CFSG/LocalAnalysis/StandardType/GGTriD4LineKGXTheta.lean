@@ -92,8 +92,8 @@ private lemma exists_algebraMap_fixedUnit {K k : Type} [Field K] [Field k] [Alge
 private lemma theta_sigma_algebraMap {K k : Type} [Field K] [Field k] [Algebra k K]
     {n : ℕ} (hk : Nat.card k = 2 ^ n) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n) (x : k) :
     σ (algebraMap k K x) = algebraMap k K x := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fintype k := Fintype.ofFinite k
   rw [hσ, ← map_pow,
     show x ^ 2 ^ n = x by rw [← hk, Nat.card_eq_fintype_card, FiniteField.pow_card]]
 
@@ -124,7 +124,7 @@ theorem triD4Line_exists_theta
         (hy : fieldActor (t := TwistTag.D4) σ σ y ∈ Subgroup.centralizer {triD4LineZ0 K σ ω hz}),
         Θ ⟨fieldActor (t := TwistTag.D4) σ σ y, hy⟩ = triD4LineSigma k K τ (Θ y) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h | h
     · have h1 : Nat.card K = 1 := by rw [hK, h]; norm_num
@@ -132,8 +132,8 @@ theorem triD4Line_exists_theta
       have h2 := Fintype.one_lt_card (α := K)
       omega
     · exact h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   have hσ3 : σ ^ 3 = 1 := by
     refine RingEquiv.ext fun c => ?_
@@ -145,14 +145,14 @@ theorem triD4Line_exists_theta
           rw [pow_mul, pow_mul]
       _ = c ^ Nat.card K := by congr 1; rw [hK]; ring
       _ = c := hcard c
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fintype k := Fintype.ofFinite k
   have hdeg : Module.finrank k K = 3 := by
     have hcard := Module.card_eq_pow_finrank (K := k) (V := K)
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hk, hK] at hcard
     have h2n : 2 ≤ 2 ^ n := by simpa using Nat.pow_le_pow_right (by norm_num : 0 < 2) hn
     exact (Nat.pow_right_injective h2n hcard).symm
-  haveI : Module.Finite k K := Module.Finite.of_finite
+  have : Module.Finite k K := Module.Finite.of_finite
   have hτ3 : τ ^ 3 = 1 := by
     refine AlgEquiv.ext fun c => ?_
     change τ (τ (τ c)) = c

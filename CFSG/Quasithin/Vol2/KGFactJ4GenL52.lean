@@ -392,7 +392,7 @@ theorem exists_conj_z0
       rw [e, h4]
       group
     · rw [h4, ← hzw]
-  obtain ⟨g, hg⟩ := exists_conj_le_P0 hM hF (P : Subgroup J) P.isPGroup'
+  obtain ⟨g, hg⟩ := exists_conj_le_P0 hM hF (P : Subgroup J) P.isPGroup
   have hPeq : (P : Subgroup J).map (MulAut.conj g⁻¹).toMonoidHom = P0 := by
     apply Subgroup.eq_of_le_of_card_ge
     · rintro _ ⟨q, hq, rfl⟩

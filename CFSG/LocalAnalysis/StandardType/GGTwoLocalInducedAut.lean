@@ -62,7 +62,7 @@ private noncomputable def inducedHom {L' R : Type} [Group L'] [Group R] (ψ : L'
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hZ : Subgroup.center R = ⊥) (a : MulAut L') : R →* R :=
   MonoidHom.liftOfSurjective ψ hψ
-    ⟨ψ.comp a.toMonoidHom, fun z hz => ker_stable ψ hψ hker hZ a hz⟩
+    ⟨ψ.comp a.toMonoidHom, fun _z hz => ker_stable ψ hψ hker hZ a hz⟩
 
 private lemma inducedHom_apply {L' R : Type} [Group L'] [Group R] (ψ : L' →* R)
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')

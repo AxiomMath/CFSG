@@ -62,7 +62,7 @@ theorem kgl34_comm_mem {G : Type*} [Group G] (N : Subgroup G) [N.Normal] {α β 
 theorem comm_mem_linearAutGroup {n f : ℕ} {F : Type*} [Field F] [Finite F] (hn : 3 ≤ n)
     (hF : Nat.card F = 2 ^ f) (hf : 1 ≤ f) (α β : MulAut (projectiveSL n F)) :
     α * β * α⁻¹ * β⁻¹ ∈ linearAutGroup n F := by
-  haveI : (linearAutGroup n F).Normal := linearAutGroup_normal_of_three_le hn
+  have : (linearAutGroup n F).Normal := linearAutGroup_normal_of_three_le hn
   obtain ⟨σ₀, -, -, hgen, -⟩ :=
     finite_field_automorphism_fixed_field_cardinality Nat.prime_two hf hF
   have hff : ∀ σ τ : F ≃+* F, Commute (fieldAut n F σ) (fieldAut n F τ) := by

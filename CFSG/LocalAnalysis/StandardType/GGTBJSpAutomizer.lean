@@ -20,7 +20,7 @@ theorem ggTBJ_sp_full_torus_automizer {p : ℕ} (hp : p.Prime)
     (ggAutomizer ⊤ (spTorusSp (m := 3) hζ).range).map
       (MulAut.congr κ.symm).toMonoidHom = (ggSpSigned_rho p 3).range := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let T := (spTorusSp (m := 3) hζ).range
   let κ₀ := MonoidHom.ofInjective (spTorusSp_injective (m := 3) hζ hζo)
   have hκ₀ : ∀ f, (κ₀ f : LargeEvenSpGroup K 3) = spTorusSp hζ f := fun _ => rfl
@@ -59,12 +59,12 @@ theorem ggTBJ_sp_full_torus_automizer {p : ℕ} (hp : p.Prime)
     intro i
     by_cases hi : i.val + 1 < 3
     · change IsSignedPerm (ggSpSigned_spReflAut p 3 i)
-      rw [ggSpSigned_spReflAut, dif_pos hi]
+      rw [ggSpSigned_spReflAut, dite_eq_left hi]
       refine ⟨Equiv.swap i ⟨i.val + 1, hi⟩, fun _ => 1, fun _ => Or.inl rfl, ?_⟩
       intro f j
       simp [permAut_apply]
     · change IsSignedPerm (ggSpSigned_spReflAut p 3 i)
-      rw [ggSpSigned_spReflAut, dif_neg hi]
+      rw [ggSpSigned_spReflAut, dite_eq_right hi]
       exact isSignedPerm_sgnAut i
   apply le_antisymm
   · intro u hu
@@ -93,7 +93,7 @@ theorem ggTBJ_sp_coxeter_of_coordinates {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       ∀ i, (f ((CoxeterMatrix.B 3).simple i) : MulAut ↥A) =
         MulAut.congr κ (ggSpSigned_spReflAut p 3 i) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e₀, he₀⟩ := ggRC_coxeterB_equiv_spSigned (p := p) hp2 (by decide : 2 ≤ 3)
   let F : MulAut ↥A ≃* MulAut (Fin 3 → Multiplicative (ZMod p)) := MulAut.congr κ.symm
   let η : H ≃* H.map F.toMonoidHom := H.equivMapOfInjective F.toMonoidHom F.injective
@@ -147,7 +147,7 @@ theorem ggTBJ_sp_cover_rank_three_automizers {p : ℕ} (hp : p.Prime) (hp2 : p �
       (∀ n : L', MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L')) →
         GGTorusWeylElt p A n) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ, ν, Θ, J₀, hζo, hνinj, hνrange, hνtorus, hAmap, hJmap,
       hJ₀, hcount_core, hWeyl⟩ := ggTBJ_sp_inner_model hp hp2 hpq ψ₀ A hA y hy hJ hcount
   let f₀ : Fin 3 → Multiplicative (ZMod p) := Θ.symm ⟨y, hy⟩
@@ -165,7 +165,7 @@ theorem ggTBJ_sp_cover_rank_three_automizers {p : ℕ} (hp : p.Prime) (hp2 : p �
     exact hy1 hyone
   have hK4 : 4 ≤ Nat.card K := by
     have h2 : 2 ≤ Nat.card K := by
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     have h3 : 3 ≤ p := by
@@ -243,15 +243,15 @@ theorem ggTBJ_sp_cover_rank_three_frame {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     intro i
     rw [hf i]
     by_cases hi : i.val + 1 < 3
-    · rw [ggSpSigned_spReflAut, dif_pos hi]
+    · rw [ggSpSigned_spReflAut, dite_eq_left hi]
       have hne : i ≠ (⟨i.val + 1, hi⟩ : Fin 3) := by
         intro h
         have h' := congrArg Fin.val h
-        simp only [Fin.val_mk] at h'
+        simp only at h'
         omega
       exact ggSpSigned_ggIsReflection_congr hp hp2 κ
         (permAut_swap_sq i ⟨i.val + 1, hi⟩) (card_fix_permAut_swap hp hp2 hne)
-    · rw [ggSpSigned_spReflAut, dif_neg hi]
+    · rw [ggSpSigned_spReflAut, dite_eq_right hi]
       exact ggSpSigned_ggIsReflection_congr hp hp2 κ (sgnAut_sq i) (card_fix_sgnAut hp hp2 i)
   have hsetC : Set.range (fun j : {j : Fin 3 // j ≠ 0} => φ j) =
       ({sgnAut (2 : Fin 3), permAut (Equiv.swap (1 : Fin 3) 2)} :

@@ -153,7 +153,7 @@ private theorem tdExistsInt (p : ℕ) [Fact p.Prime] [Finite K] {H' : AddSubgrou
     ∃ b : ℤ, t = b := by
   have hp2 : 2 ≤ p := (Fact.out : p.Prime).two_le
   have hpos : 0 < Nat.card H' := by
-    haveI : Nonempty H' := ⟨⟨0, H'.zero_mem⟩⟩
+    have : Nonempty H' := ⟨⟨0, H'.zero_mem⟩⟩
     exact Nat.card_pos
   have hidx : H'.index = p := by
     have h1 : Nat.card H' * H'.index = Nat.card H' * p := by

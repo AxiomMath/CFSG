@@ -184,7 +184,7 @@ theorem propagation (hC : ∀ {X Y : Type} [Group X] [Group Y], X ≃* Y → C Y
       have hinj : Function.Injective (δ.comp (S : Subgroup M).subtype) := by
         rw [injective_iff_map_eq_one]
         intro x hx
-        obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.1 S.isPGroup' x
+        obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.1 S.isPGroup x
         have hxk : (x : M) ∈ δ.ker := hx
         have hdvd : orderOf (⟨(x : M), hxk⟩ : δ.ker) ∣ Nat.card δ.ker := orderOf_dvd_natCard _
         rw [Subgroup.orderOf_mk, Subgroup.orderOf_coe, hn] at hdvd
@@ -350,8 +350,8 @@ theorem rank_dominance_propagates_selected_component {C : CFSG.Assembly.GroupPro
       have h1 : a' = 1 := congrArg Subtype.val h
       rw [h1, orderOf_one] at ha'
       exact absurd ha' (by norm_num)⟩⟩
-    have hZnt : Nontrivial (center (P : Subgroup CJ)) := P.isPGroup'.center_nontrivial
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (P.isPGroup'.to_subgroup (center (P : Subgroup CJ)))
+    have hZnt : Nontrivial (center (P : Subgroup CJ)) := P.isPGroup.center_nontrivial
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (P.isPGroup.to_subgroup (center (P : Subgroup CJ)))
     have hk0 : k ≠ 0 := by
       rintro rfl
       rw [pow_zero] at hk

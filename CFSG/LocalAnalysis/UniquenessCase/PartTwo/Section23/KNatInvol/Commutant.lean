@@ -42,8 +42,7 @@ theorem addCommutantScalar_of_sylowFixedLine {Γ : Subgroup (GL ι K)} {e₀ : �
             ((x⁻¹ : GL ι K) : Matrix ι ι K) := by
         simp only [y, Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul]
       have hx'x : ((x⁻¹ : GL ι K) : Matrix ι ι K) * ((x : GL ι K) : Matrix ι ι K) = 1 := by
-        simp only [← Units.val_mul, ← Subgroup.coe_mul Γ x⁻¹ x, inv_mul_cancel, Subgroup.coe_one,
-          Units.val_one]
+        simp only [← Units.val_mul, inv_mul_cancel, Units.val_one]
       have hx'w : ((x⁻¹ : GL ι K) : Matrix ι ι K) *ᵥ w₀ = e₀ := by
         calc ((x⁻¹ : GL ι K) : Matrix ι ι K) *ᵥ w₀
             = ((x⁻¹ : GL ι K) : Matrix ι ι K) *ᵥ

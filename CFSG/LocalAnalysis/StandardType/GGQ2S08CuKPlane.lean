@@ -76,7 +76,7 @@ theorem scalarLine_inside {t : ℕ} {e v : V t} (he : e ≠ 0) (hv : v ∈ centE
     have h10 : (1 : F) = 0 := by
       have h1 : (Pi.single j (1 : F) : V t) j = (b • v) j := congrFun hb j
       rw [hwj, hb0] at h1
-      simpa using h1
+      simp at h1
     exact one_ne_zero h10
   have hsupp_univ : Code.extSupport e = Finset.univ := by
     ext j

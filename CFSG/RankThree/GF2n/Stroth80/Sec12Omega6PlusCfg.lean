@@ -38,12 +38,13 @@ variable {X : Type} [Group X]
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem card_of_sectionAct {n : ℕ} {K : Type} [Field K] [Finite K] {S V Z : Subgroup X}
     {φ : ↥S →* GL (Fin n) K} {act : GL (Fin n) K → Matrix (Fin n) (Fin n) K} (hZV : Z ≤ V)
     (h : SectionAct (ι := Fin n) K S V Z φ act) :
     Nat.card V = Nat.card Z * Nat.card K ^ n := by
   obtain ⟨-, hN, ψ, -⟩ := h
-  haveI := hN
+  have := hN
   have hq : Nat.card (↥V ⧸ Z.subgroupOf V) = Nat.card K ^ n := by
     rw [Nat.card_congr ψ.toEquiv, Nat.card_congr Multiplicative.toAdd, Nat.card_fun,
       Nat.card_eq_fintype_card (α := Fin n), Fintype.card_fin]
@@ -65,7 +66,7 @@ theorem caseVI_four {N B₂ : Subgroup X} (hS : ConfigSatz N) (hW : Width N (cen
   have hc₂ := card_of_sectionAct hZV₂ hact₂
   have hcomm : ∀ x ∈ N, ∀ y ∈ N, ⁅x, y⁆ ∈ cen N := fun x hx y hy =>
     hS.1.toHyp79.comm_mem_V hx hy
-  haveI hV₂n : (V₂.subgroupOf N).Normal := by
+  have hV₂n : (V₂.subgroupOf N).Normal := by
     refine ⟨fun v hv g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hv ⊢
     have e : ((g * v * g⁻¹ : ↥N) : X) = ⁅(g : X), (v : X)⁆ * (v : X) := by
@@ -120,8 +121,8 @@ theorem secondCfgCaseE6Four_of_large {N R : Subgroup X} (hS : ConfigSatz N)
     (hc3 : Nat.card (cen N) ^ 2 * (Nat.card (cen N) ^ 4 - 1) < c) {B₂ : Subgroup X}
     (hc : Ctx (Subgroup.normalizer ((cen N : Subgroup X) : Set X)) N (cen N) B₂) :
     SecondCfgCaseE6Four N B₂ := by
-  haveI := hc.normal_Q_in_M
-  haveI := hnR
+  have := hc.normal_Q_in_M
+  have := hnR
   obtain ⟨a, ha2, haq⟩ := hS.card_cen
   have hqa : ∃ a' : ℕ, 2 ≤ a' ∧ Nat.card (cen N) = 2 ^ a' := ⟨a, ha2, haq⟩
   have hnc : ¬ IsMulCommutative (↥R ⧸ N.subgroupOf R) := fun h => by
@@ -156,7 +157,7 @@ theorem secondCfgCaseE6Four_of_large {N R : Subgroup X} (hS : ConfigSatz N)
     have hRS := le_of_perfect_outer hQS hSM hSH hSn
       (solvable_centralizer_of_centTrivial hSM hSH hCT) hNR hRM hRH hperf hOut
     obtain ⟨hnS, hY⟩ := hS3
-    haveI := hnS
+    have := hnS
     obtain ⟨-, -, -, hYcard⟩ := isSLModel_two_facts hq3 hY
     obtain ⟨ι, hι, -⟩ := exists_injective_quotient hNR hRS
     have hle : Nat.card (↥R ⧸ N.subgroupOf R) ≤ Nat.card (↥(Lgen (Subgroup.normalizer
@@ -181,18 +182,18 @@ theorem secondCfgCaseE6Four_of_large {N R : Subgroup X} (hS : ConfigSatz N)
     · have hRS := le_of_perfect_prod3 hQS hSM hSH hSn hCT hNR hRM hRH hperf
         (quotSat_mono (fun X _ h => isSimpleProd3_of_sl_omegaPlus_two hqa h) hQp)
       obtain ⟨hnS, A, B, _, _, hA, hB, ⟨e⟩⟩ := hQp
-      haveI := hnS
+      have := hnS
       obtain ⟨B₁, B₂', _, _, hB₁, hB₂, ⟨e'⟩⟩ := isOmegaPlus_two_split hqa hB
       obtain ⟨-, -, -, hAc⟩ := isSLModel_two_facts hqa hA
       obtain ⟨-, -, -, hB₁c⟩ := isSLModel_two_facts hqa hB₁
       obtain ⟨-, -, -, hB₂c⟩ := isSLModel_two_facts hqa hB₂
       let e3 := e.trans (MulEquiv.prodCongr (MulEquiv.refl A) e')
-      haveI : Finite (A × (B₁ × B₂')) := Finite.of_equiv _ e3.toEquiv
-      haveI : Finite A := Finite.of_injective (fun x : A => (x, ((1 : B₁), (1 : B₂'))))
+      have : Finite (A × (B₁ × B₂')) := Finite.of_equiv _ e3.toEquiv
+      have : Finite A := Finite.of_injective (fun x : A => (x, ((1 : B₁), (1 : B₂'))))
         (fun x y h => (Prod.mk.inj h).1)
-      haveI : Finite B₁ := Finite.of_injective (fun b : B₁ => ((1 : A), (b, (1 : B₂'))))
+      have : Finite B₁ := Finite.of_injective (fun b : B₁ => ((1 : A), (b, (1 : B₂'))))
         (fun x y h => (Prod.mk.inj (Prod.mk.inj h).2).1)
-      haveI : Finite B₂' := Finite.of_injective (fun b : B₂' => ((1 : A), ((1 : B₁), b)))
+      have : Finite B₂' := Finite.of_injective (fun b : B₂' => ((1 : A), ((1 : B₁), b)))
         (fun x y h => (Prod.mk.inj (Prod.mk.inj h).2).2)
       obtain ⟨ι, hι, -⟩ := exists_injective_quotient hNR hRS
       rcases card_le_or_le_of_embeds3 (e3.toMonoidHom.comp ι) (e3.injective.comp hι) with
@@ -206,13 +207,13 @@ theorem secondCfgCaseE6Four_of_large {N R : Subgroup X} (hS : ConfigSatz N)
     · have hRS := le_of_perfect_prod2 hQS hSM hSH hSn hCT hNR hRM hRH hperf
         (quotSat_mono (fun X _ h => isSimpleProd2_of_sl_omegaMinus_two hqa h) hQm)
       obtain ⟨hnS, A, B, _, _, hA, hB, ⟨e⟩⟩ := hQm
-      haveI := hnS
+      have := hnS
       obtain ⟨-, -, -, hAc⟩ := isSLModel_two_facts hqa hA
       obtain ⟨-, -, -, hBc⟩ := isOmegaMinus_two_facts hqa hB
-      haveI : Finite (A × B) := Finite.of_equiv _ e.toEquiv
-      haveI : Finite A := Finite.of_injective (fun x : A => (x, (1 : B)))
+      have : Finite (A × B) := Finite.of_equiv _ e.toEquiv
+      have : Finite A := Finite.of_injective (fun x : A => (x, (1 : B)))
         (fun x y h => (Prod.mk.inj h).1)
-      haveI : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
+      have : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
         (fun x y h => (Prod.mk.inj h).2)
       rcases quot_embeds_prod hNR hRS e with h | ⟨h, -⟩
       · rw [hRcard, hAc] at h

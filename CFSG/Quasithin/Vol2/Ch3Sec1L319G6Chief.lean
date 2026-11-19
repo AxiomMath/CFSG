@@ -102,7 +102,7 @@ theorem exists_chiefSeries_index_ge [Finite G] {V : Subgroup G}
           revert x
           refine Int.induction_on m ?_ ?_ ?_
           · intro x hx
-            simpa using L.one_mem
+            simp
           · intro i ih' x hx
             have hu := ih' x hx
             have e : y ^ ((i : ℤ) + 1) * x * (y ^ ((i : ℤ) + 1))⁻¹ * x⁻¹ =
@@ -162,7 +162,7 @@ theorem exists_chiefSeries_index_ge [Finite G] {V : Subgroup G}
         ·
           let S : Subgroup G :=
             { carrier := {z | z ∈ V ∧ y * z * y⁻¹ * z⁻¹ ∈ L}
-              one_mem' := ⟨V.one_mem, by simpa using L.one_mem⟩
+              one_mem' := ⟨V.one_mem, by simp⟩
               mul_mem' := by
                 rintro a b ⟨haV, ha⟩ ⟨hbV, hb⟩
                 refine ⟨V.mul_mem haV hbV, ?_⟩
@@ -218,7 +218,7 @@ theorem exists_chiefSeries_index_ge [Finite G] {V : Subgroup G}
             by_cases hKlt : L ⊔ Subgroup.zpowers n < N
             · exact hnL (hLmax _ hKlt hKinv le_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers n)))
             · have hKeq : L ⊔ Subgroup.zpowers n = N := eq_of_le_of_not_lt hKN hKlt
-              have hnS : n ∈ S := ⟨hnV, by rw [hny]; simpa using L.one_mem⟩
+              have hnS : n ∈ S := ⟨hnV, by rw [hny]; simp⟩
               have hKS : L ⊔ Subgroup.zpowers n ≤ S := sup_le hLS (Subgroup.zpowers_le.mpr hnS)
               have hxK : x ∈ L ⊔ Subgroup.zpowers n := by rw [hKeq]; exact hxN
               exact hxc (hKS hxK).2
@@ -242,7 +242,7 @@ theorem exists_chiefSeries_index_ge [Finite G] {V : Subgroup G}
                 _ = x⁻¹ * (y * x * y⁻¹) := by group
             rw [hc2]
             exact h
-          haveI : Fintype (↥N ⧸ L.subgroupOf N) := Fintype.ofFinite _
+          have : Fintype (↥N ⧸ L.subgroupOf N) := Fintype.ofFinite _
           have h3 : 3 ≤ L.relIndex N := by
             let q₀ : ↥N := 1
             let q₁ : ↥N := ⟨x, hxN⟩
@@ -273,7 +273,7 @@ theorem exists_chiefSeries_index_ge [Finite G] {V : Subgroup G}
               have := hsq (g : G) (hNV g.2)
               apply Subtype.ext
               simpa using this⟩
-            haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+            have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
             obtain ⟨a', ha'⟩ := (IsPGroup.iff_card).mp hN2
             have hdvd : L.relIndex N ∣ 2 ^ a' := ⟨Nat.card L, by rw [← ha']; exact e3.symm⟩
             obtain ⟨c, -, hc⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd

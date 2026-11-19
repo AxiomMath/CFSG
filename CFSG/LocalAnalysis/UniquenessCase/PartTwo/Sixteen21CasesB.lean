@@ -23,10 +23,10 @@ namespace Sixteen21
 theorem card_lBar_of_case1 {D : Data G} {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hc : Case167_1 D V₀ V hV L) : Nat.card (lBar V₀ V hV L) = 25920 := by
   have hdiv : (6 : ℕ) / 2 = 3 := by norm_num
-  simp only [Case167_1, IsOmegaMinus, hdiv] at hc
+  simp only [Case167_1, IsOmegaMinus] at hc
   obtain ⟨-, K, hKfield, hKfinite, b, c, hKcard, hirr, ⟨e⟩⟩ := hc.1
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hF : Nat.card K = 2 := by rw [hKcard, pow_one]
   let eJ := e.trans (Q2.statedProjOmegaEquiv (StatedQuadMinus 3 K b c) hF
     (StatedQuadMinus 3 (ZMod 2) 1 1) (fun v σ => Q2.quadMinus_comp 3 σ hirr v))
@@ -36,10 +36,10 @@ theorem card_lBar_of_case1 {D : Data G} {V₀ V L : Subgroup G} (hV : IsElemAbel
 theorem card_vTil_of_case1 {D : Data G} {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hc : Case167_1 D V₀ V hV L) : Nat.card (Vtil V₀ V hV) = 2 ^ 6 := by
   have hdiv : (6 : ℕ) / 2 = 3 := by norm_num
-  simp only [Case167_1, NatOmegaMinus, hdiv] at hc
+  simp only [Case167_1, NatOmegaMinus] at hc
   obtain ⟨-, K, hKfield, hKfinite, b, c, hKcard, hirr, hR⟩ := hc.2.1
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   rw [card_eq_of_realizes_nat hR, hKcard]
   simp only [Fintype.card_fin, Fintype.card_sum]
   norm_num
@@ -64,10 +64,10 @@ theorem one_le_pRank_of_case1 {D : Data G} {V₀ V L : Subgroup G} (hV : IsElemA
 theorem card_vTil_of_case5 {D : Data G} {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hc : Case167_5 D V₀ V hV L) : Nat.card (Vtil V₀ V hV) = 2 ^ 8 := by
   have hdiv : (4 : ℕ) / 2 = 2 := by norm_num
-  simp only [Case167_5, NatOmegaPlus, hdiv] at hc
+  simp only [Case167_5, NatOmegaPlus] at hc
   obtain ⟨-, K, hKfield, hKfinite, hKcard, hR⟩ := hc.2.1
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   rw [card_eq_of_realizes_nat hR, hKcard]
   simp only [Fintype.card_fin, Fintype.card_sum]
   norm_num

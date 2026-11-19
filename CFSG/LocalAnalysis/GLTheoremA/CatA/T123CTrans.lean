@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {A B : Type} [Group A] [Group B] [Finite A] [Finite B]
 
+omit [Finite A] in
 theorem map_glaPPrimeCore_equiv {A' : Type} [Group A'] (p : ℕ) (e : A ≃* A') :
     (GLAPPrimeCore p A).map (e : A →* A') = GLAPPrimeCore p A' := by
   unfold GLAPPrimeCore CFSG.pPrimeCore
@@ -39,6 +40,7 @@ theorem map_glaPPrimeCore_equiv {A' : Type} [Group A'] (p : ℕ) (e : A ≃* A')
     calc K' = (K'.comap (e : A →* A')).map (e : A →* A') := hcomap.symm
       _ ≤ _ := Subgroup.map_mono hle
 
+omit [Finite B] [Finite A] in
 theorem glaPPrimeCoreOf_map {f : A →* B} (hf : Function.Injective f) (p : ℕ) (M : Subgroup A) :
     GLAPPrimeCoreOf p (M.map f) = (GLAPPrimeCoreOf p M).map f := by
   unfold GLAPPrimeCoreOf
@@ -46,6 +48,7 @@ theorem glaPPrimeCoreOf_map {f : A →* B} (hf : Function.Injective f) (p : ℕ)
   rw [← h1, Subgroup.map_map, Subgroup.map_map]
   rfl
 
+omit [Finite A] [Finite B] in
 theorem isElemAbelian_map_iff {f : A →* B} (hf : Function.Injective f) (p : ℕ) (E : Subgroup A) :
     CFSG.Open.IsElemAbelian p (E.map f) ↔ CFSG.Open.IsElemAbelian p E := by
   constructor
@@ -62,6 +65,7 @@ theorem isElemAbelian_map_iff {f : A →* B} (hf : Function.Injective f) (p : �
   · intro h
     exact h.map f
 
+omit [Finite B] [Finite A] in
 theorem centMod_map_iff {f : A →* B} (hf : Function.Injective f) (p : ℕ) (M : Subgroup A) (a : A) :
     CentMod p (M.map f) (f a) ↔ CentMod p M a := by
   unfold CentMod
@@ -110,11 +114,13 @@ noncomputable def pSimpleEquiv (p : ℕ) {f : A →* B} (hf : Function.Injective
   exact QuotientGroup.congr (Subgroup.center (PQuot p X)) (Subgroup.center (PQuot p (X.map f))) φ
     (Subgroup.map_center_eq φ)
 
+omit [Finite B] [Finite A] in
 theorem catalogIs_pSimple_map_iff {f : A →* B} (hf : Function.Injective f) (p : ℕ) (X : Subgroup A)
     (Q : TauCeti.CFSGIndex → Prop) :
     catalogIs (PSimple p (X.map f)) Q ↔ catalogIs (PSimple p X) Q :=
   (catalogIs_congr (pSimpleEquiv p hf X)).symm
 
+omit [Finite A] [Finite B] in
 theorem isQuasisimple_map_iff {f : A →* B} (hf : Function.Injective f) (X : Subgroup A) :
     CFSG.Open.IsQuasisimple ↥(X.map f) ↔ CFSG.Open.IsQuasisimple ↥X := by
   constructor
@@ -123,6 +129,7 @@ theorem isQuasisimple_map_iff {f : A →* B} (hf : Function.Injective f) (X : Su
   · intro h
     exact CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.equivMapOfInjective X f hf).symm h
 
+omit [Finite A] [Finite B] in
 theorem isSubnormal_map_iff {f : A →* B} (hf : Function.Injective f) {L X : Subgroup A} :
     CFSG.Open.IsSubnormal (L.map f) (X.map f) ↔ CFSG.Open.IsSubnormal L X := by
   constructor
@@ -132,6 +139,7 @@ theorem isSubnormal_map_iff {f : A →* B} (hf : Function.Injective f) {L X : Su
   · intro h
     exact CFSG.Open.IsSubnormal.map f h
 
+omit [Finite A] [Finite B] in
 theorem subgroupOf_map_eq {f : A →* B} (hf : Function.Injective f) {X K : Subgroup A} (hK : K ≤ X) :
     (K.map f).subgroupOf (X.map f) =
       (K.subgroupOf X).map (Subgroup.equivMapOfInjective X f hf : ↥X →* ↥(X.map f)) := by
@@ -201,16 +209,19 @@ theorem glaPComponent_map_iff {f : A →* B} (hf : Function.Injective f) (p : �
       have hinj : Function.Injective (Subgroup.map (Φ : (↥X ⧸ GLAPPrimeCore p ↥X) →*
           (↥(X.map f) ⧸ GLAPPrimeCore p ↥(X.map f)))) := Subgroup.map_injective Φ.injective
       exact hmin J hJlt hJs (hinj heq)
+omit [Finite B] [Finite A] in
 theorem type167_map_iff {f : A →* B} (hf : Function.Injective f) (p : ℕ) (X J : Subgroup A) :
     Type167 p (X.map f) (J.map f) ↔ Type167 p X J := by
   unfold Type167
   simp only [catalogIs_pSimple_map_iff hf]
 
+omit [Finite B] [Finite A] in
 theorem type167J_map_iff {f : A →* B} (hf : Function.Injective f) (p : ℕ) (J : Subgroup A) :
     Type167J p (J.map f) ↔ Type167J p J := by
   unfold Type167J
   simp only [catalogIs_pSimple_map_iff hf]
 
+omit [Finite B] [Finite A] in
 theorem isChevSimple_pSimple_map_iff {f : A →* B} (hf : Function.Injective f) (r p : ℕ) (X : Subgroup A) :
     IsChevSimple r (PSimple p (X.map f)) ↔ IsChevSimple r (PSimple p X) := by
   unfold IsChevSimple

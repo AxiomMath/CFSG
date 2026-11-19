@@ -17,11 +17,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime]
 
+omit [Finite G] in
 theorem kLowInfty_normal {P : Subgroup G} (hPn : P.Normal) : (kLowInfty P).Normal := by
   have := CFSG.GH74.GLS.Stage2.Signalizer.L53.normalizer_le_kLowInfty P
   rw [normalizer_eq_top_iff.mpr hPn] at this
   exact normalizer_eq_top_iff.mp (top_le_iff.mp this)
 
+omit [Finite G] in
 theorem comap_ne_top {H : Type*} [Group H] {f : G →* H} (hf : Function.Surjective f)
     {L : Subgroup H} (hL : L ≠ ⊤) : L.comap f ≠ ⊤ := by
   intro h
@@ -100,7 +102,7 @@ theorem le_of_normal_pSubgroup (hp5 : 5 ≤ p) (S : Sylow p G) (P : Subgroup G) 
           rw [e]
           have := hQn.conj_mem _ (Q.inv_mem (ha x hx)) a⁻¹
           simpa using this }
-    haveI hCn : C.Normal := by
+    have hCn : C.Normal := by
       refine ⟨fun c hc m x hx => ?_⟩
       have e : ⁅m * c * m⁻¹, x⁆ = m * ⁅c, m⁻¹ * x * m⁆ * m⁻¹ := by
         simp only [commutatorElement_def]; group
@@ -161,12 +163,12 @@ theorem le_of_normal_pSubgroup (hp5 : 5 ≤ p) (S : Sylow p G) (P : Subgroup G) 
       have : π s ∈ (S : Subgroup G).map π := ⟨s, hs, rfl⟩
       rw [h, mem_bot] at this
       exact (QuotientGroup.eq_one_iff _).mp this
-    have hK1 : kLowInfty (S' : Subgroup (G ⧸ P)) ≠ ⊥ := kLowInfty_ne_bot S'.isPGroup' hS'1
+    have hK1 : kLowInfty (S' : Subgroup (G ⧸ P)) ≠ ⊥ := kLowInfty_ne_bot S'.isPGroup hS'1
     have hN'top : nK (S' : Subgroup (G ⧸ P)) ≠ ⊤ := by
       intro h
       have hKn : (kLowInfty (S' : Subgroup (G ⧸ P))).Normal := normalizer_eq_top_iff.mp h
       have hKp : IsPGroup p (kLowInfty (S' : Subgroup (G ⧸ P))) :=
-        S'.isPGroup'.to_le (kLowInfty_le' _)
+        S'.isPGroup.to_le (kLowInfty_le' _)
       have hcn : ((kLowInfty (S' : Subgroup (G ⧸ P))).comap π).Normal := hKn.comap π
       have hcp : IsPGroup p ((kLowInfty (S' : Subgroup (G ⧸ P))).comap π) :=
         hKp.comap_of_ker_isPGroup π (by rw [QuotientGroup.ker_mk']; exact hPp)
@@ -282,7 +284,7 @@ theorem le_of_normal_pSubgroup (hp5 : 5 ≤ p) (S : Sylow p G) (P : Subgroup G) 
     have hL'top : L' ≠ ⊤ := by
       intro h
       have hEn : (closure E₀).Normal := normalizer_eq_top_iff.mp h
-      have hEp : IsPGroup p (closure E₀) := S'.isPGroup'.to_le ((closure_le _).mpr hE₀S)
+      have hEp : IsPGroup p (closure E₀) := S'.isPGroup.to_le ((closure_le _).mpr hE₀S)
       have hcn : ((closure E₀).comap π).Normal := hEn.comap π
       have hcp : IsPGroup p ((closure E₀).comap π) :=
         hEp.comap_of_ker_isPGroup π (by rw [QuotientGroup.ker_mk']; exact hPp.to_le (hXQ.trans hQP))

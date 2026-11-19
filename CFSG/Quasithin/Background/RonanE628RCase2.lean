@@ -22,6 +22,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjClosure_eq_iSup (T L : Subgroup G) :
     conjClosure L T = ⨆ i : ↥(conjSubgroupsBy T L), (i : Subgroup G) := by
   apply le_antisymm
@@ -34,6 +35,7 @@ theorem conjClosure_eq_iSup (T L : Subgroup G) :
     rintro _ ⟨z, hz, rfl⟩
     exact mem_conjClosure ht hz
 
+omit [Finite G] in
 theorem isBlock2_of_mem_conjSubgroupsBy {H T L : Subgroup G} (hTH : T ≤ H) (hL : IsBlock2 H L)
     {X : Subgroup G} (hX : X ∈ conjSubgroupsBy T L) : IsBlock2 H X := by
   obtain ⟨t, ht, rfl⟩ := hX
@@ -42,6 +44,7 @@ theorem isBlock2_of_mem_conjSubgroupsBy {H T L : Subgroup G} (hTH : T ≤ H) (hL
     Subgroup.mem_normalizer_iff_map_conj_eq.1 (Subgroup.le_normalizer (hTH ht))
   rwa [e] at h
 
+omit [Finite G] in
 theorem isQuasisimple_quot_of_isAltType_five {B : Subgroup G} (h : IsAltType B 5) :
     CFSG.IsQuasisimple (↥B ⧸ CFSG.pCore 2 ↥B) := by
   obtain ⟨α, hα, hαk, -⟩ := h
@@ -58,7 +61,7 @@ theorem V_le_pCoreOf (hKer : Ker317A5) {T M V : Subgroup G} (h : HypE61 T M V)
     {L : Subgroup G} (hL : IsBlock2 H L) (hL5 : IsAltType L 5)
     (hgen : H = T ⊔ conjClosure L T) : V ≤ pCoreOf 2 H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF := isHStar_charTwo h hH
   have hsyl := isHStar_sylow h hH
   have hTH : T ≤ H := hH.1.1

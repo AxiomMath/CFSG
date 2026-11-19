@@ -35,7 +35,7 @@ theorem blkDet_val (c : F4) (x : ↥(CenD D)) :
 @[expose] noncomputable def K1 : Subgroup M6 := (allDet hD).ker.map (CenD D).subtype
 
 theorem mem_K1 {g : M6} :
-    g ∈ K1 hD ↔ ∃ h : g ∈ CenD D, ∀ c : F4, (blkM d c (mM6 g)).det = 1 := by
+    g ∈ K1 hD ↔ ∃ _h : g ∈ CenD D, ∀ c : F4, (blkM d c (mM6 g)).det = 1 := by
   unfold K1
   rw [Subgroup.mem_map]
   constructor
@@ -47,16 +47,16 @@ theorem mem_K1 {g : M6} :
     show (blkM d c (mM6 x.1)).det = 1
     rw [← blkDet_val hD c x]
     exact h3
-  · rintro ⟨h, hdet⟩
-    refine ⟨⟨g, h⟩, ?_, rfl⟩
-    show allDet hD ⟨g, h⟩ = 1
+  · rintro ⟨_h, hdet⟩
+    refine ⟨⟨g, _h⟩, ?_, rfl⟩
+    show allDet hD ⟨g, _h⟩ = 1
     funext c
     apply Units.ext
-    rw [show ((allDet hD ⟨g, h⟩ c : F4ˣ) : F4) = ((blkDet hD c ⟨g, h⟩ : F4ˣ) : F4) from rfl,
+    rw [show ((allDet hD ⟨g, _h⟩ c : F4ˣ) : F4) = ((blkDet hD c ⟨g, _h⟩ : F4ˣ) : F4) from rfl,
       blkDet_val]
     exact hdet c
 
-theorem K1_le_CenD : K1 hD ≤ CenD D := fun g hg => ((mem_K1 hD).1 hg).1
+theorem K1_le_CenD : K1 hD ≤ CenD D := fun _g hg => ((mem_K1 hD).1 hg).1
 
 theorem pPrimeCore_CenD_of_K1 (h : CFSG.pPrimeCore 3 ↥(K1 hD) = ⊥) :
     CFSG.pPrimeCore 3 ↥(CenD D) = ⊥ := by
@@ -98,7 +98,7 @@ theorem blkM_embSU_ne {c' : F4} (hc' : c' ≠ c)
     (A : ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4)) :
     blkM d c' (mM6 (embSU d c A)) = 1 := by
   ext i j
-  rw [blkM, mM6_embSU, extMat_apply, dif_neg (fun h => hc' (i.2.symm.trans h.1))]
+  rw [blkM, mM6_embSU, extMat_apply, dite_eq_right (fun h => hc' (i.2.symm.trans h.1))]
   simp [Matrix.one_apply, Subtype.ext_iff]
 
 theorem det_blkM_embSU (A : ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4)) :
@@ -151,7 +151,7 @@ variable {D : GL (Fin 6) F4} {d : Fin 6 → F4}
   K1 hD ⊓ (blkHom hD c).ker.map (CenD D).subtype
 
 theorem mem_Rc {g : M6} :
-    g ∈ Rc hD c ↔ g ∈ K1 hD ∧ ∃ h : g ∈ CenD D, blkM d c (mM6 g) = 1 := by
+    g ∈ Rc hD c ↔ g ∈ K1 hD ∧ ∃ _h : g ∈ CenD D, blkM d c (mM6 g) = 1 := by
   unfold Rc
   rw [Subgroup.mem_inf, Subgroup.mem_map]
   constructor
@@ -161,9 +161,9 @@ theorem mem_Rc {g : M6} :
     have h3 := congrArg Units.val h2
     rw [blkHom_val] at h3
     simpa using h3
-  · rintro ⟨h1, h, hb⟩
-    refine ⟨h1, ⟨g, h⟩, ?_, rfl⟩
-    show blkHom hD c ⟨g, h⟩ = 1
+  · rintro ⟨h1, _h, hb⟩
+    refine ⟨h1, ⟨g, _h⟩, ?_, rfl⟩
+    show blkHom hD c ⟨g, _h⟩ = 1
     exact Units.ext (by rw [blkHom_val]; simpa using hb)
 
 theorem Rc_le_K1 : Rc hD c ≤ K1 hD := inf_le_left
@@ -203,10 +203,10 @@ theorem K1_eq_mul {g : M6} (hg : g ∈ K1 hD) :
 
 theorem eq_one_of_det_eq_one_of_card_le_one {ι : Type} [Fintype ι] [DecidableEq ι]
     (hι : Fintype.card ι ≤ 1) {M : Matrix ι ι F4} (h : M.det = 1) : M = 1 := by
-  haveI : Subsingleton ι := Fintype.card_le_one_iff_subsingleton.1 hι
+  have : Subsingleton ι := Fintype.card_le_one_iff_subsingleton.1 hι
   rcases isEmpty_or_nonempty ι with hE | ⟨⟨i₀⟩⟩
   · exact Subsingleton.elim _ _
-  · haveI : Unique ι := ⟨⟨i₀⟩, fun i => Subsingleton.elim _ _⟩
+  · have : Unique ι := ⟨⟨i₀⟩, fun i => Subsingleton.elim _ _⟩
     rw [Matrix.det_unique] at h
     ext i j
     rw [Subsingleton.elim i default, Subsingleton.elim j default, h, Matrix.one_apply_eq]
@@ -220,7 +220,7 @@ theorem Rc_eq_bot (hsmall : ∀ c' : F4, c' ≠ c → Fintype.card (Blk d c') �
   have : (⟨g, hgC⟩ : ↥(CenD D)) = 1 := by
     apply blkPi_injective hD
     funext c'
-    simp only [MonoidHom.pi_apply, map_one, Pi.one_apply]
+    simp only [MonoidHom.pi_apply, map_one]
     apply Units.ext
     rw [blkHom_val]
     by_cases h : c' = c
@@ -299,7 +299,7 @@ theorem hid_embSU (A : ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4)) :
     ∀ i j : Fin 6, ¬ (d i = c ∧ d j = c) →
       mM6 (embSU d c A) i j = (1 : Matrix (Fin 6) (Fin 6) F4) i j := by
   intro i j h
-  rw [mM6_embSU, extMat_apply, dif_neg h]
+  rw [mM6_embSU, extMat_apply, dite_eq_right h]
 
 include hD in
 theorem mem_range_embSU_of_id {g : M6} (hgC : g ∈ CenD D) (hdet : (blkM d c (mM6 g)).det = 1)

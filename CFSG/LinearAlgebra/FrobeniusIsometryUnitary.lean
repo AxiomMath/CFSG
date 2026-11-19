@@ -187,7 +187,7 @@ theorem exists_hermitian_isometry_conj_eq_pow_card {K : Type} [Field K] [Finite 
       · rfl
     exact fun a ha b hb _ => key a ha b hb
   let Ê := Subgroup.closure S
-  haveI : IsMulCommutative Ê := Subgroup.isMulCommutative_closure hS
+  have : IsMulCommutative Ê := Subgroup.isMulCommutative_closure hS
   let : CommGroup Ê := IsMulCommutative.instCommGroup
   have hcommÊ : ∀ a ∈ Ê, ∀ b ∈ Ê, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm (⟨a, ha⟩ : Ê) ⟨b, hb⟩)
@@ -369,7 +369,7 @@ theorem exists_hermitian_isometry_conj_eq_inv_pow {K : Type} [Field K] [Finite K
       · rfl
     exact fun a ha b hb _ => key a ha b hb
   let Ê := Subgroup.closure S
-  haveI : IsMulCommutative Ê := Subgroup.isMulCommutative_closure hS
+  have : IsMulCommutative Ê := Subgroup.isMulCommutative_closure hS
   let : CommGroup Ê := IsMulCommutative.instCommGroup
   have hcommÊ : ∀ a ∈ Ê, ∀ b ∈ Ê, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm (⟨a, ha⟩ : Ê) ⟨b, hb⟩)

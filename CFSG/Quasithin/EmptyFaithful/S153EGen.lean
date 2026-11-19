@@ -51,7 +51,7 @@ theorem exists_sylow_ge [Finite G] {p : ℕ} [Fact p.Prime] {Q K : Subgroup G}
   refine ⟨(S : Subgroup ↥K).map K.subtype, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hQK hx⟩, hS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-  · exact (S.isPGroup').map K.subtype
+  · exact (S.isPGroup).map K.subtype
   · have : ((S : Subgroup ↥K).map K.subtype).subgroupOf K = (S : Subgroup ↥K) :=
       Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
     rw [Subgroup.relIndex, this]

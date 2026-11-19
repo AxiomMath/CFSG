@@ -40,7 +40,7 @@ theorem card_T (x₀ xa xb : Fin 8 → ZMod 2) (h0 : vcode x₀ = 4369)
   rw [card_filter_inv, ← cnt_T, ← card_filter_eq_cntK]
   refine congrArg Finset.card (Finset.filter_congr fun τ _ => ?_)
   simp only [S16C11AltTriple, List.mem_cons, List.not_mem_nil, or_false, forall_eq_or_imp,
-    forall_eq, exists_eq_or_imp, exists_eq, exists_eq_left, eqv_iff h0 h0', eqv_iff ha ha', eqv_iff hb hb',
+    forall_eq, exists_eq_or_imp, exists_eq_left, eqv_iff h0 h0', eqv_iff ha ha', eqv_iff hb hb',
     vcode_pact, h0, ha, hb, qT, inT, Bool.and_eq_true, Bool.or_eq_true]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S16C11AltEightK

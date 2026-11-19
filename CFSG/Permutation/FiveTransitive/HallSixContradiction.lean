@@ -52,7 +52,7 @@ theorem false_of_sixPointConfiguration_card_ge_twentySeven
     (MulAction.orbit C x).ncard = t at hcommon
   obtain ⟨ell, hellPrime, hellDvd⟩ :=
     Nat.exists_prime_and_dvd (show t ≠ 1 by omega)
-  letI : Fact ell.Prime := ⟨hellPrime⟩
+  let : Fact ell.Prime := ⟨hellPrime⟩
   have htDvdC : t ∣ Nat.card C := by
     have hindex := Subgroup.index_dvd_card (MulAction.stabilizer C y)
     rw [MulAction.index_stabilizer] at hindex

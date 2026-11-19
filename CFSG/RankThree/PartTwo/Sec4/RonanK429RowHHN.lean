@@ -39,15 +39,15 @@ section Certs
 
 
 theorem good429_hn_s1 : Good429 (Subgroup.centralizer ({sJ 0} : Set JH)) := by
-  haveI : Finite JH := Finite.of_equiv _ hnEquivJ.toEquiv
+  have : Finite JH := Finite.of_equiv _ hnEquivJ.toEquiv
   obtain ⟨-, -, -, hC, -, -, -, hcard, -⟩ := ctuc_hn_three_centralizers_exact
   have hDC : L1J ≤ Subgroup.centralizer ({sJ 0} : Set JH) := by
     rw [show Subgroup.centralizer ({sJ 0} : Set JH) = CJ (sJ 0) from rfl, hC]
     exact le_sup_right
   have hDcard : Nat.card L1J = 181440 := by
     rw [Subgroup.card_map_of_injective iotaA_injective, card_alt3]
-  haveI : Group.IsPerfect alt3 := ⟨commutator_alt3⟩
-  haveI : Group.IsPerfect L1J := Group.IsPerfect.map _
+  have : Group.IsPerfect alt3 := ⟨commutator_alt3⟩
+  have : Group.IsPerfect L1J := Group.IsPerfect.map _
   refine good429_of_residual (B := 57) hDC ?_ hDcard (by norm_num) (by norm_num) (by decide)
     (not_isType429_quot_of_noEqOK (B := 57) hDcard (by norm_num) (by norm_num) (by decide))
   rw [hDcard]
@@ -55,7 +55,7 @@ theorem good429_hn_s1 : Good429 (Subgroup.centralizer ({sJ 0} : Set JH)) := by
 
 theorem good429_hn (x : JH) (hx : orderOf x = 3) :
     Good429 (Subgroup.centralizer ({x} : Set JH)) := by
-  haveI : Finite JH := Finite.of_equiv _ hnEquivJ.toEquiv
+  have : Finite JH := Finite.of_equiv _ hnEquivJ.toEquiv
   obtain ⟨hcls, -, -, -, -, h3B, -⟩ := ctuc_hn_intrinsic_three_class_and_alternating_localization
   rcases (hcls x).mp hx with h | h
   · exact good429_hn_s1.of_isConj h

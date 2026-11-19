@@ -158,7 +158,7 @@ theorem su2_mulAut_aligned (hFn : Nat.card F = (2 ^ n) ^ 2)
         α (suLong (unitaryInvolution F 2 n) (Sum.inr (0 : Fin (2 / 2))) c) =
           suLong (unitaryInvolution F 2 n) (Sum.inr (0 : Fin (2 / 2))) (ε⁻¹ * τ c) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let σ := unitaryInvolution F 2 n
   have hσ : ∀ c, σ (σ c) = c := unitaryInvolution_involutive hFn
   have hζ0 : (1 : F) ≠ 0 := one_ne_zero
@@ -166,7 +166,7 @@ theorem su2_mulAut_aligned (hFn : Nat.card F = (2 ^ n) ^ 2)
     dsimp only [σ]
     rw [unitaryInvolution_apply, one_pow, CharTwo.neg_eq]
   let K₀ : Subfield F := fixedSubfield F 2 n
-  haveI : CharP K₀ 2 := inferInstance
+  have : CharP K₀ 2 := inferInstance
   let e : Matrix.SpecialLinearGroup (Fin 2) K₀ ≃* SU σ 2 :=
     hypEquiv (p := 2) (f := n) (ζ := (1 : F)) hζ0 hζ
   let α' : MulAut (Matrix.SpecialLinearGroup (Fin 2) K₀) :=
@@ -202,6 +202,7 @@ theorem su2_mulAut_aligned (hFn : Nat.card F = (2 ^ n) ^ 2)
     (fun s => hypEquiv_upperElt hζ0 hζ s) (fun s => hypEquiv_lowerElt hζ0 hζ s)
     hε hαu hαl
 
+omit [Finite F] [CharP F 2] in
 private theorem suCongr_suLong (τ : F ≃+* F) {σ : F ≃+* F}
     (hτ : ∀ c, τ (σ c) = σ (τ c)) {m : ℕ} (a : Fin (m / 2) ⊕ Fin (m / 2)) {c : F}
     (hc : c + σ c = 0) :
@@ -214,6 +215,7 @@ private theorem suCongr_suLong (τ : F ≃+* F) {σ : F ≃+* F}
   simp [Matrix.map_single]
 
 
+omit [Finite F] [CharP F 2] in
 private theorem su3Conj_suCongr_suLong {σ : F ≃+* F} {h : SU σ 3} {d : Fin 3 → F}
     {τ : F ≃+* F} (hτ : ∀ c, τ (σ c) = σ (τ c))
     (hmatd : mat σ 3 h = diagonal d) (hd : ∀ s, σ (d s) * d (Fin.rev s) = 1)
@@ -240,7 +242,7 @@ theorem exists_su3MulAut (hFn : Nat.card F = (2 ^ n) ^ 2) {ε : F} (hε : ε ≠
         β (suLong (unitaryInvolution F 2 n) (Sum.inr (0 : Fin (3 / 2))) c) =
           suLong (unitaryInvolution F 2 n) (Sum.inr (0 : Fin (3 / 2))) (ε⁻¹ * τ c) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let σ := unitaryInvolution F 2 n
   have hσ : ∀ c, σ (σ c) = c := unitaryInvolution_involutive hFn
   obtain ⟨t, ht⟩ := CFSG.ClassicalGroups.Unitary.exists_norm_eq_of_fixed hFn hεσ hε

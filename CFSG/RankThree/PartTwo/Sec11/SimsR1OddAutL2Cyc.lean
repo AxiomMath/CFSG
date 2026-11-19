@@ -122,7 +122,7 @@ theorem eq_of_involutions_of_commute {T : Matrix (Fin 2) (Fin 2) F} (h2 : (2 : F
   obtain ⟨c, hc⟩ := exists_eq_smul_of_trace_eq_zero h2 hA hcomm ht ht'
   have hc0 : c ≠ 0 := by
     rintro rfl
-    exact g'.ne_zero (by simpa using hc)
+    exact g'.ne_zero (by simp at hc)
   rw [ProjGenLinGroup.mk_eq_mk_iff]
   refine ⟨Units.mk0 c hc0, Units.ext ?_⟩
   rw [coe_mul_scalar, Units.val_mk0]
@@ -242,7 +242,7 @@ theorem isCyclic_of_isPGroup_two_of_le_centralizer [Finite F] (h2 : (2 : F) ≠ 
     apply Units.ext
     rw [Units.val_mul, Units.val_mul]
     exact commute_of_commute_of_nonscalar hT hga' hgb'
-  letI : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hcomm }
+  let : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hcomm }
   refine isCyclic_of_unique_involution' hQ ?_
   intro a b ha hb ha1 hb1
   obtain ⟨ga, hga, hga'⟩ := hlift a a.2

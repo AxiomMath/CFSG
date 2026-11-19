@@ -23,9 +23,9 @@ theorem Res1AutSolv.of_mulEquiv {Y Y' : Type} [Group Y] [Group Y'] (e : Y ≃* Y
     (by
       rintro _ ⟨α, hα, rfl⟩
       simp [Φ, hV α hα])
-  haveI := hs
+  have := hs
   let ψ := V.equivMapOfInjective Φ.toMonoidHom Φ.injective
-  exact solvable_of_solvable_injective (f := ψ.toMonoidHom) ψ.injective
+  exact Group.isSolvable_of_isSolvable_injective (f := ψ.toMonoidHom) ψ.injective
 
 theorem Res1AutFix.of_mulEquiv {Y Y' : Type} [Group Y] [Group Y'] (e : Y ≃* Y')
     (h : Res1AutFix Y') : Res1AutFix Y := by

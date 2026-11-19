@@ -20,24 +20,24 @@ variable {G : Type} [Group G]
 
 @[expose] def Input1115Gamma : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m 3 B M E A a K) (H : Subgroup G), InHFamily A K a H →
+    (_h : Cex117 G m 3 B M E A a K) (H : Subgroup G), InHFamily A K a H →
     ∀ B1 : Subgroup G, IsEkIn 3 4 M B1 → B1 ≤ H →
       Covers 3 H (GLBCore 3 2 B1 ⊓ H) (jLayer a H)
 
 @[expose] def Input1115Chain : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m 3 B M E A a K) (H : Subgroup G), InHFamily A K a H →
+    (_h : Cex117 G m 3 B M E A a K) (H : Subgroup G), InHFamily A K a H →
       Covers 3 H M (jLayer a H) → K ≤ M
 
 @[expose] def Input1115TNorm : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m 3 B M E A a K) (H : Subgroup G), InHFamily A K a H →
+    (_h : Cex117 G m 3 B M E A a K) (H : Subgroup G), InHFamily A K a H →
     ∀ T : Subgroup G, IsMaxInvTwoSub H A T → T ≤ GLAPPrimeCoreOf 3 M →
       T ≤ Subgroup.normalizer (jLayer a H : Set G)
 
 @[expose] def Input1115PushUp : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m 3 B M E A a K) (H : Subgroup G), InHFamily A K a H →
+    (_h : Cex117 G m 3 B M E A a K) (H : Subgroup G), InHFamily A K a H →
     ∀ T : Subgroup G, IsMaxInvTwoSub H A T → T ≤ Subgroup.normalizer (jLayer a H : Set G) →
       ∃ T0 : Subgroup G, T0 ≠ ⊥ ∧ IsCharIn T0 T ∧
         Covers 3 H (Subgroup.normalizer (T0 : Set G) ⊓ H) (jLayer a H)
@@ -63,7 +63,7 @@ theorem exists_sylow_in_inter [Finite G] {M H : Subgroup G}
     (hcov : barX 3 M ⊤ ≤ barX 3 M H) :
     ∃ R : Subgroup G, IsSylowIn 3 M R ∧ R ≤ H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOM : GLAPPrimeCoreOf 3 M ≤ M := Lemma1114.glaPPrimeCoreOf_le_self' M
   have hMh : M ⊓ H ≤ M := inf_le_left
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥(M ⊓ H)) := inferInstance
@@ -71,7 +71,7 @@ theorem exists_sylow_in_inter [Finite G] {M H : Subgroup G}
   have hRMh : R ≤ M ⊓ H := Subgroup.map_subtype_le _
   have hRM : R ≤ M := hRMh.trans inf_le_left
   have hRH : R ≤ H := hRMh.trans inf_le_right
-  have hRp : IsPGroup 3 ↥R := P.isPGroup'.map (M ⊓ H).subtype
+  have hRp : IsPGroup 3 ↥R := P.isPGroup.map (M ⊓ H).subtype
   have hRcard : ∃ a : ℕ, Nat.card R = 3 ^ a := by
     obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 hRp
     exact ⟨a, ha⟩
@@ -139,7 +139,7 @@ theorem _root_.CFSG.LocalAnalysis.GLTheoremB.MovingAround.lemma1115_iii_of_input
     (hG : Input1115Gamma) (hC : Input1115Chain) :
     Lemma1115_iiiStatement := by
   intro G _ _ m p B M E A a K h H hH hcov
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨rfl, hA3, -⟩ := h1111 h
   have hsec : Sec11 G m 3 B M E A := h.toCex117Base.toSec11
   have hEM : inD 3 M E := hsec.pair.1.1

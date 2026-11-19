@@ -25,7 +25,7 @@ theorem exists_mul_of_mem_sup [IsSimpleGroup G] (hd : Sec19Data p f K z S W) {s 
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (K : Set G) := hd.hSz.trans hNC.ge
   set Ψ := normalizerToPGammaL2Mod e hFcard hF h3 with hΨ
   set E := ((S : Subgroup G).subgroupOf (Subgroup.normalizer (K : Set G))).map Ψ with hE
-  have hE2 : IsPGroup 2 E := (S.isPGroup'.comap_subtype).map Ψ
+  have hE2 : IsPGroup 2 E := (S.isPGroup.comap_subtype).map Ψ
   have hXN : sec19X K z ≤ Subgroup.normalizer (K : Set G) :=
     (sec19X_le_centralizer K z).trans hNC.ge
   have hSX' := Hall196.isSylow2In_map_hom Ψ
@@ -166,7 +166,7 @@ theorem exists_mul_of_conj_mem [IsSimpleGroup G] (hd : Sec19Data p f K z S W) {g
     rintro ⟨-, z', hz'K, hz'J⟩
     exact hsz ((hJs.eq hz'J).trans (hI.eq hz'K).symm)
   have hs2 : IsPGroup 2 ↥(Subgroup.zpowers (g * z * g⁻¹)) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hgS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hgS)
   obtain ⟨V, hV, hsV⟩ := IsSylow2In.exists_ge hs2
     (Subgroup.zpowers_le.mpr ⟨hJs.mem, hd.hSz hgS⟩ :
       Subgroup.zpowers (g * z * g⁻¹) ≤ conjSub g K ⊓ Subgroup.centralizer ({z} : Set G))

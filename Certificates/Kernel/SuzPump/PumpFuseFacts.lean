@@ -254,11 +254,11 @@ theorem fuse_ok : fuseCheck () = true := by
     rw [rY, hX, beq_nat]
     by_cases h0 : Nat.beq (pg 11 (mask 11) (FR j) 13) 0 = true
     · rw [h0] at hc ⊢
-      rw [if_pos rfl, eqA_unpack' hw pc pX]
+      rw [ite_eq_left rfl, eqA_unpack' hw pc pX]
       simpa using hc
     · rw [Bool.not_eq_true] at h0
       rw [h0] at hc ⊢
-      rw [if_neg (by simp), eqA_unpack' hw pc pY]
+      rw [ite_eq_right (by simp), eqA_unpack' hw pc pY]
       simpa using hc
   have hel : ∀ i < 6, allLt (suzFiveCCert i).pts.size (fun k =>
       !(eqA 1782 (powArr 1782 (suzFiveCCert i).pts[k]! 3) (idA 1782)) ||

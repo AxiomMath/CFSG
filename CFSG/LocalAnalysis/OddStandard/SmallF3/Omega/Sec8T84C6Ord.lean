@@ -50,8 +50,8 @@ theorem dvd_2295_of_dvd_prod {n : ℕ} (hodd : Odd n) (hp : ∀ p : ℕ, p.Prime
 
 theorem HCtx.card_A_sup_u (S : HCtx E B u A H) : Nat.card ↥(A ⊔ zpowers u) = 720 := by
   classical
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
-  haveI : Finite (MulAut ↥E) := inferInstance
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
+  have : Finite (MulAut ↥E) := inferInstance
   have hAcard : Nat.card ↥A = 360 := by
     obtain ⟨ψ⟩ := S.A_iso
     rw [Nat.card_congr ψ.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
@@ -95,13 +95,13 @@ theorem HCtx.card_P_dvd (hA5 : Sec8T84FactA5) (S : HCtx E B u A H) (O : OddNorma
     Nat.card ↥P ∣ 2295 := by
   classical
   obtain ⟨⟨hEcomm, hEexp⟩, hEcard⟩ := S.hE
-  haveI : IsMulCommutative ↥E := hEcomm
-  letI : CommGroup ↥E :=
+  have : IsMulCommutative ↥E := hEcomm
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => Subtype.ext (setLike_mul_comm (s := E) a.2 b.2) }
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
-  haveI : Finite (MulAut ↥E) := inferInstance
-  haveI : Finite ↥P := OddNormal.finite O
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Finite (MulAut ↥E) := inferInstance
+  have : Finite ↥P := OddNormal.finite O
   let C : Subgroup (MulAut ↥E) := A ⊔ zpowers u
   have hCcard : Nat.card ↥C = 720 := HCtx.card_A_sup_u S
   have hCH : C ≤ H := sup_le S.A_H (Subgroup.zpowers_le.mpr S.u_H)
@@ -145,7 +145,7 @@ theorem HCtx.card_P_dvd (hA5 : Sec8T84FactA5) (S : HCtx E B u A H) (O : OddNorma
     exact hdvd
   refine dvd_2295_of_dvd_prod O.odd ?_ hd
   intro q hqprime hqdvd
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   obtain ⟨Q, hQP, hQn, hQne, hexp⟩ :=
     exists_torsion_subgroup H P O.norm (HCtx.comm_P S O) q hqdvd
   have hoddQ : Odd (Nat.card ↥Q) := by

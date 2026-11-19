@@ -35,9 +35,9 @@ theorem exists_plus_four_two_innerDiag_presentation_of_fixed_five
       phi.range = K ∧ phi.ker ≤ Subgroup.center (ggU .POmegaPlus 4 1).K ∧
       GGPsiInnerDiag (ggU .POmegaPlus 4 1).D phi d := by
   classical
-  haveI : Finite ↥K := Subtype.finite
-  haveI : Finite ↥J := Subtype.finite
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite ↥K := Subtype.finite
+  have : Finite ↥J := Subtype.finite
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
 
   let f : ↥J →* ↥K ⧸ Subgroup.center ↥K :=
     (QuotientGroup.mk' (Subgroup.center ↥K)).comp (Subgroup.inclusion hJK)
@@ -106,8 +106,8 @@ theorem exists_plus_four_two_innerDiag_presentation_of_fixed_five
       hLM.statedClassicalModel (by decide)
     have hclass' := hclass
     obtain ⟨-, Kf, hFieldKf, hFiniteKf, hKfcard, ⟨e0⟩⟩ := hclass'
-    letI : Field Kf := hFieldKf
-    letI : Finite Kf := hFiniteKf
+    let : Field Kf := hFieldKf
+    let : Finite Kf := hFiniteKf
     let P := StatedProj (StatedOmega (StatedQuadPlus 4 Kf))
     let e : (↥K ⧸ Subgroup.center ↥K) ≃* P := e0
     let α' : MulAut P := MulAut.congr e β

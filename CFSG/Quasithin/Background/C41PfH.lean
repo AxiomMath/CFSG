@@ -174,7 +174,7 @@ theorem exists_elemAbelian_lift {K : Subgroup G} {X : Type*} [Group X] [Finite X
   have hPinj : Function.Injective (α'.comp (P : Subgroup ↥D).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     intro x hx
-    obtain ⟨n, hn⟩ := P.isPGroup' x
+    obtain ⟨n, hn⟩ := P.isPGroup x
     have hxp : ((x : ↥D)) ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hxk : ((x : ↥D)) ∈ α'.ker := MonoidHom.mem_ker.mpr (MonoidHom.mem_ker.mp hx)
     obtain ⟨m, hm⟩ := hker' ⟨(x : ↥D), hxk⟩

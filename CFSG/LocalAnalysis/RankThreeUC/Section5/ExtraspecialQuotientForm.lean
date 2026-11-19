@@ -10,13 +10,14 @@ namespace Section5
 
 namespace ExtraspecialQuotientForm
 
-open Quotient
+open _root_.CFSG.LocalAnalysis.RankThreeUC.Section5.Quotient
 
 open scoped commutatorElement
 
 variable {G : Type} [Group G] {p : ℕ} [Fact p.Prime] {P : Subgroup G}
   [Fact (⁅⁅P, P⁆, P⁆ = ⊥)] [Fact (Monoid.exponent ↥P = p)]
 
+omit [Fact (⁅⁅P, P⁆, P⁆ = ⊥)] in
 private theorem comm_mul_left (h : ⁅⁅P, P⁆, P⁆ = ⊥) (x x' y : P) :
     ⁅x * x', y⁆ = ⁅x, y⁆ * ⁅x', y⁆ := by
   have hc := Subgroup.mem_center_iff.mp (commutator_mem_center h x' y) x
@@ -28,6 +29,7 @@ private theorem comm_mul_left (h : ⁅⁅P, P⁆, P⁆ = ⊥) (x x' y : P) :
     _ = ⁅x', y⁆ * ⁅x, y⁆ := by rw [hc]; simp [commutatorElement_def, mul_assoc]
     _ = _ := hc2.symm
 
+omit [Fact (⁅⁅P, P⁆, P⁆ = ⊥)] in
 private theorem comm_mul_right (h : ⁅⁅P, P⁆, P⁆ = ⊥) (x y y' : P) :
     ⁅x, y * y'⁆ = ⁅x, y⁆ * ⁅x, y'⁆ := by
   have e : ∀ a b : P, ⁅a, b⁆ = ⁅b, a⁆⁻¹ := fun a b => (commutatorElement_inv b a).symm

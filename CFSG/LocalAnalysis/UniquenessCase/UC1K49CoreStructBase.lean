@@ -11,9 +11,10 @@ variable {G : Type} [Group G] [Finite G]
 open scoped commutatorElement IsMulCommutative
 open CFSG.ABGLocalTools
 
+omit [Finite G] in
 theorem commutator_sup_le_of_normal49 {Q A B E : Subgroup G}
     (hAB : A ≤ Subgroup.normalizer (B : Set G))
-    (hAE : A ≤ Subgroup.normalizer (E : Set G)) (hBE : B ≤ Subgroup.normalizer (E : Set G))
+    (hAE : A ≤ Subgroup.normalizer (E : Set G)) (_hBE : B ≤ Subgroup.normalizer (E : Set G))
     (hA : ⁅Q, A⁆ ≤ E) (hB : ⁅Q, B⁆ ≤ E) : ⁅Q, A ⊔ B⁆ ≤ E := by
   rw [Subgroup.commutator_le]
   intro q hq g hg
@@ -26,6 +27,7 @@ theorem commutator_sup_le_of_normal49 {Q A B E : Subgroup G}
     show ⁅q, a⁆ * a * ⁅q, b⁆ * a⁻¹ = ⁅q, a⁆ * (a * ⁅q, b⁆ * a⁻¹) by group]
   exact E.mul_mem hqa hconj
 
+omit [Finite G] in
 theorem le_normalizer_commutator49 {S A B : Subgroup G}
     (hA : S ≤ Subgroup.normalizer (A : Set G)) (hB : S ≤ Subgroup.normalizer (B : Set G)) :
     S ≤ Subgroup.normalizer (⁅A, B⁆ : Subgroup G) := by
@@ -38,7 +40,7 @@ theorem normal_eq_top_of_isAlt_five {G : Type} [Group G]
     (hG : CFSG.LocalAnalysis.UniquenessCase.UC22.IsAlt G 5)
     {H : Subgroup G} [H.Normal] {a : G} (ha : a ∈ H) (ha1 : a ≠ 1) : H = ⊤ := by
   obtain ⟨e⟩ := hG
-  haveI hHmap : (H.map e.toMonoidHom).Normal :=
+  have hHmap : (H.map e.toMonoidHom).Normal :=
     (inferInstance : H.Normal).map e.toMonoidHom e.surjective
   have hneq : H.map e.toMonoidHom ≠ ⊥ := by
     intro hbot
@@ -65,7 +67,7 @@ theorem eq_top_of_isAlt_five_quotient {Γ : Type} [Group Γ] {K O L : Subgroup �
     (hLalt : IsAlt (Bar2 L) 5) (hex : ∃ a ∈ K, a ∉ O) : K = L := by
   let q : ↥L →* ↥L ⧸ CFSG.pCore 2 ↥L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   let K' : Subgroup ↥L := K.subgroupOf L
-  haveI hK'norm : K'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKL).mpr hKnorm
+  have hK'norm : K'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKL).mpr hKnorm
   have hK'map : (K'.map q).Normal := hK'norm.map q (QuotientGroup.mk'_surjective _)
   obtain ⟨a, haK, haO⟩ := hex
   have haL : a ∈ L := hKL haK
@@ -78,7 +80,7 @@ theorem eq_top_of_isAlt_five_quotient {Γ : Type} [Group Γ] {K O L : Subgroup �
       rw [← QuotientGroup.ker_mk' (CFSG.pCore 2 ↥L), MonoidHom.mem_ker]; exact h1
     rw [← hOeq] at hker
     exact Subgroup.mem_subgroupOf.mp hker
-  haveI : (K'.map q).Normal := hK'map
+  have : (K'.map q).Normal := hK'map
   have hHtop : K'.map q = ⊤ := normal_eq_top_of_isAlt_five hLalt hqa_mem hqa_ne
   have hK'top : K' = ⊤ := by
     rw [eq_top_iff]
@@ -106,7 +108,7 @@ theorem chief_struct49_rho_commute_of_Q {H X L Q I : Subgroup G} (h : Setup49 H 
         (chiefRep (p := 2) hch.2.1 hch.2.2.1 v).val =
       (chiefRep (p := 2) hch.2.1 hch.2.2.1 v).val *
         (chiefRep (p := 2) hch.2.1 hch.2.2.1 u).val := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ρ : H →* LinearMap.GeneralLinearGroup (ZMod 2) (Additive (N ⧸ M.subgroupOf N)) :=
     chiefRep (p := 2) hch.2.1 hch.2.2.1
   have hQH : Q ≤ H := Q_le_H49 h
@@ -135,7 +137,7 @@ private theorem base_chiefRep_mem_Q_apply {H X L Q I : Subgroup G} (h : Setup49 
     [hNorm : (M.subgroupOf N).Normal] [hElem : IsElementaryAbelian 2 (N ⧸ M.subgroupOf N)]
     {g : ↥H} (hgQ : (g : G) ∈ Q) (v : Additive (N ⧸ M.subgroupOf N)) :
     (chiefRep (p := 2) hch.2.1 hch.2.2.1 g).val v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : chiefRep (p := 2) hch.2.1 hch.2.2.1 g = 1 := by
     apply (chiefRep_eq_one_iff (p := 2) hch.2.1 hch.2.2.1 g).mpr
     intro n hn
@@ -177,6 +179,7 @@ private theorem base_normal_eq_top_of_pCore_lt {L : Type} [Group L]
   rw [this]
   exact K.mul_mem (hpcore hker) hk
 
+omit [Finite G] in
 private theorem base_mk_ne_one_of_not_mem {Lk Q : Subgroup G} {ak : G}
     (hak : ak ∈ Lk) (hOeq : (Lk ⊓ Q).subgroupOf Lk = CFSG.pCore 2 ↥Lk) (hakQ : ak ∉ Q) :
     (QuotientGroup.mk' (CFSG.pCore 2 ↥Lk) ⟨ak, hak⟩ : ↥Lk ⧸ CFSG.pCore 2 ↥Lk) ≠ 1 := by
@@ -200,7 +203,7 @@ theorem chief_struct49_Lk_trivial_of_invariant {H X L Q I : Subgroup G} (h : Set
     ∀ g : ↥H, (g : G) ∈ Lk → ∀ w ∈ W,
       (chiefRep (p := 2) hch.2.1 hch.2.2.1 g).val w = w := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ρ : H →* LinearMap.GeneralLinearGroup (ZMod 2) (Additive (N ⧸ M.subgroupOf N)) :=
     chiefRep (p := 2) hch.2.1 hch.2.2.1
   have hWinv : ∀ (g : ↥Lk), ∀ w : Additive (N ⧸ M.subgroupOf N), w ∈ W →
@@ -208,7 +211,7 @@ theorem chief_struct49_Lk_trivial_of_invariant {H X L Q I : Subgroup G} (h : Set
     fun g w hw => hWinv' (Subgroup.inclusion hLkH g) g.2 w hw
   let φ : ↥Lk →* Module.End (ZMod 2) W :=
     base_LkAction ρ (Subgroup.inclusion hLkH) W hWinv
-  haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+  have : φ.ker.Normal := MonoidHom.normal_ker φ
   have hpCore : CFSG.pCore 2 ↥Lk ≤ φ.ker := by
     rw [← hOeq]
     intro q' hq'
@@ -304,6 +307,7 @@ section Operators
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem pairwise_commute_triple {a b c : Module.End (ZMod 2) V} (hab : a * b = b * a)
     (hac : a * c = c * a) (hbc : b * c = c * b) :
     ({a, b, c} : Set (Module.End (ZMod 2) V)).Pairwise Commute :=
@@ -379,15 +383,16 @@ section OperatorLemmas
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {A0 A1 A2 X Xi S Si : Module.End (ZMod 2) V}
 
+omit [Finite V] in
 theorem Wt49.rels (hW : Wt49 A0 A1 A2 X Xi S Si) :
     (A0 * A1 ^ 2) ^ 3 = 1 ∧ (A0 * A1 * A2) ^ 3 = 1 ∧
       (A0 * A1 ^ 2) * (A0 * A1 * A2) = (A0 * A1 * A2) * (A0 * A1 ^ 2) ∧
       (A0 * A1 ^ 2) * (A0 * A1 * A2) = A0 ^ 2 * A2 ∧
       (A0 * A1 ^ 2) * (A0 * A1 * A2) ^ 2 = A1 * A2 ^ 2 := by
   let T : Subring (Module.End (ZMod 2) V) := Subring.closure ({A0, A1, A2} : Set _)
-  haveI : IsMulCommutative T :=
+  have : IsMulCommutative T :=
     Subring.isMulCommutative_closure (pairwise_commute_triple hW.comm01 hW.comm02 hW.comm12)
-  letI : CommRing T := by
+  let : CommRing T := by
     open scoped IsMulCommutative in infer_instance
   let a0 : T := ⟨A0, Subring.subset_closure (by simp)⟩
   let a1 : T := ⟨A1, Subring.subset_closure (by simp)⟩
@@ -406,6 +411,7 @@ theorem Wt49.rels (hW : Wt49 A0 A1 A2 X Xi S Si) :
   exact ⟨congrArg Subtype.val k1, congrArg Subtype.val k2, congrArg Subtype.val k3,
     congrArg Subtype.val k4, congrArg Subtype.val k5⟩
 
+omit [Finite V] in
 theorem Wt49.X_comm_z (hW : Wt49 A0 A1 A2 X Xi S Si) :
     X * (A0 * A1 * A2) = (A0 * A1 * A2) * X := by
   have m0 : A0 * X = X * A1 := by
@@ -435,6 +441,7 @@ theorem Wt49.X_comm_z (hW : Wt49 A0 A1 A2 X Xi S Si) :
         _ = A0 * A1 * (A2 * X) := by rw [m2]
         _ = (A0 * A1 * A2) * X := by simp only [mul_assoc]
 
+omit [Finite V] in
 theorem Wt49.Xi_b_X (hW : Wt49 A0 A1 A2 X Xi S Si) :
     Xi * (A0 * A1 ^ 2) * X = (A0 * A1 ^ 2) * (A0 * A1 * A2) ^ 2 := by
   have e : (Xi * A0 * X) * (Xi * A1 * X) * (Xi * A1 * X) =
@@ -482,12 +489,14 @@ theorem Wt49.exists_ne_zero_Wbz2 (hW : Wt49 A0 A1 A2 X Xi S Si) :
   obtain ⟨w, hw⟩ := exists_ne (0 : ↥(Wbz2 A0 A1 A2))
   exact ⟨w.1, w.2, fun h => hw (Subtype.ext h)⟩
 
+omit [Finite V] in
 theorem Wt49.prod_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) : A1 * A2 * A0 = A0 * A1 * A2 := by
   calc A1 * A2 * A0 = A1 * (A2 * A0) := by rw [mul_assoc]
     _ = A1 * (A0 * A2) := by rw [hW.comm02]
     _ = A1 * A0 * A2 := by rw [mul_assoc]
     _ = A0 * A1 * A2 := by rw [hW.comm01]
 
+omit [Finite V] in
 theorem Wt49.rotate (hW : Wt49 A0 A1 A2 X Xi S Si) :
     Wt49 A1 A2 A0 X Xi (Xi * S * X) (Xi * Si * X) := by
   have hA0 : X * A1 * Xi = A0 := by
@@ -531,13 +540,14 @@ theorem Wt49.rotate (hW : Wt49 A0 A1 A2 X Xi S Si) :
   · rw [hW.prod_rotate]; exact hW.ne_one
   · rw [hW.prod_rotate]; exact hW.card_le
 
+omit [Finite V] in
 theorem Wt49.rot_rels (hW : Wt49 A0 A1 A2 X Xi S Si) :
     A1 * A2 ^ 2 * (A1 * A2 * A0) = A0 * A1 ^ 2 ∧
       A1 * A2 ^ 2 * (A1 * A2 * A0) ^ 2 = A0 * A1 ^ 2 * (A0 * A1 * A2) := by
   let T : Subring (Module.End (ZMod 2) V) := Subring.closure ({A0, A1, A2} : Set _)
-  haveI : IsMulCommutative T :=
+  have : IsMulCommutative T :=
     Subring.isMulCommutative_closure (pairwise_commute_triple hW.comm01 hW.comm02 hW.comm12)
-  letI : CommRing T := by
+  let : CommRing T := by
     open scoped IsMulCommutative in infer_instance
   let a0 : T := ⟨A0, Subring.subset_closure (by simp)⟩
   let a1 : T := ⟨A1, Subring.subset_closure (by simp)⟩
@@ -549,22 +559,27 @@ theorem Wt49.rot_rels (hW : Wt49 A0 A1 A2 X Xi S Si) :
     linear_combination (a1 ^ 3 * a0 ^ 2 * a2) * c2
   exact ⟨congrArg Subtype.val k1, congrArg Subtype.val k2⟩
 
+omit [Finite V] in
 theorem Wt49.Uz_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) : Uz A1 A2 A0 = Uz A0 A1 A2 := by
   unfold Uz
   rw [hW.prod_rotate]
 
+omit [Finite V] in
 theorem Wt49.Wb_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) : Wb A1 A2 A0 = Wbz2 A0 A1 A2 := by
   unfold Wb Wbz2
   rw [hW.Uz_rotate, hW.rels.2.2.2.2]
 
+omit [Finite V] in
 theorem Wt49.Wbz_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) : Wbz A1 A2 A0 = Wb A0 A1 A2 := by
   unfold Wbz Wb
   rw [hW.Uz_rotate, hW.rot_rels.1]
 
+omit [Finite V] in
 theorem Wt49.Wbz2_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) : Wbz2 A1 A2 A0 = Wbz A0 A1 A2 := by
   unfold Wbz2 Wbz
   rw [hW.Uz_rotate, hW.rot_rels.2]
 
+omit [Finite V] in
 theorem Wt49.patI_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) (h : PatI A0 A1 A2) :
     PatI A1 A2 A0 := by
   obtain ⟨⟨h00, h01, h02⟩, ⟨h10, h11, h12⟩, ⟨h20, h21, h22⟩⟩ := h
@@ -572,6 +587,7 @@ theorem Wt49.patI_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) (h : PatI A0 A1 A2) :
   rw [hW.Wb_rotate, hW.Wbz_rotate, hW.Wbz2_rotate]
   exact ⟨⟨h21, h22, h20⟩, ⟨h01, h02, h00⟩, ⟨h11, h12, h10⟩⟩
 
+omit [Finite V] in
 theorem Wt49.patIIb_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) (h : PatIIb A0 A1 A2) :
     PatIIb A1 A2 A0 := by
   obtain ⟨⟨h00, h01, h02⟩, ⟨h10, h11, h12⟩, ⟨h20, h21, h22⟩⟩ := h
@@ -579,6 +595,7 @@ theorem Wt49.patIIb_rotate (hW : Wt49 A0 A1 A2 X Xi S Si) (h : PatIIb A0 A1 A2) 
   rw [hW.Wb_rotate, hW.Wbz_rotate, hW.Wbz2_rotate]
   exact ⟨⟨h21, h22, h20⟩, ⟨h01, h02, h00⟩, ⟨h11, h12, h10⟩⟩
 
+omit [Finite V] in
 theorem Disj49.rotate (h : Disj49 A0 A1 A2) : Disj49 A1 A2 A0 := by
   obtain ⟨h01, h02, h12⟩ := h
   exact ⟨h12, by rwa [inf_comm], by rwa [inf_comm]⟩
@@ -589,11 +606,12 @@ section Helpers
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem finrank_eq_of_mutual {S Si : Module.End (ZMod 2) V} (hSiS : Si * S = 1)
     (hSSi : S * Si = 1) {P Q : Submodule (ZMod 2) V} (hP : ∀ v ∈ P, S v ∈ Q)
     (hQ : ∀ v ∈ Q, Si v ∈ P) :
     Module.finrank (ZMod 2) ↥P = Module.finrank (ZMod 2) ↥Q := by
-  have e : ↥P ≃ₗ[ZMod 2] ↥Q := LinearEquiv.ofLinear (S.restrict hP) (Si.restrict hQ)
+  have e : ↥P ≃ₗ[ZMod 2] ↥Q := LinearEquiv.ofLinearMap (S.restrict hP) (Si.restrict hQ)
     (by
       apply LinearMap.ext
       intro w
@@ -608,6 +626,7 @@ theorem finrank_eq_of_mutual {S Si : Module.End (ZMod 2) V} (hSiS : Si * S = 1)
       rw [← Module.End.mul_apply, hSiS, Module.End.one_apply])
   exact e.finrank_eq
 
+omit [Finite V] in
 theorem e2_decomp_vec {P Q : Module.End (ZMod 2) V} (hP : P ^ 3 = 1) (hQ : Q ^ 3 = 1)
     (hPQ : P * Q = Q * P) (v : V) :
     v = e2 P v + e2 (P * Q) v + e2 (P * Q ^ 2) v + e2 Q v + e2 P (e2 Q v) := by
@@ -628,6 +647,7 @@ theorem le_ker_e2_of_fpf {Z : Module.End (ZMod 2) V} (hZ : Z ^ 3 = 1) {D : Submo
     exact D.add_mem (D.add_mem hv (hD v hv)) (hD _ (hD v hv))
   · exact g_apply_e2 Z hZ v
 
+omit [Finite V] in
 private theorem base_mul_cube_eq_one {A B : Module.End (ZMod 2) V} (hA : A ^ 3 = 1)
     (hB : B ^ 3 = 1) (hAB : A * B = B * A) :
     (A * B) ^ 3 = 1 ∧ (A * B ^ 2) ^ 3 = 1 := by
@@ -636,6 +656,7 @@ private theorem base_mul_cube_eq_one {A B : Module.End (ZMod 2) V} (hA : A ^ 3 =
   · rw [Commute.mul_pow (Commute.pow_right hAB 2) 3, hA, ← pow_mul,
       show 2 * 3 = 3 * 2 by norm_num, pow_mul, hB, one_pow, mul_one]
 
+omit [Finite V] in
 private theorem base_conj_AB2_eq_sq {A B S Si : Module.End (ZMod 2) V}
     (hAB : A * B = B * A) (hSSi : S * Si = 1) (hSA : Si * A * S = A ^ 2)
     (hSB : Si * B * S = B) :
@@ -652,6 +673,7 @@ private theorem base_conj_AB2_eq_sq {A B S Si : Module.End (ZMod 2) V}
     _ = A ^ 2 * B ^ 2 := by rw [hSA, hB2]
     _ = (A * B) ^ 2 := (Commute.mul_pow hAB 2).symm
 
+omit [Finite V] in
 private theorem base_AB2_mul_conj {A B S Si : Module.End (ZMod 2) V} (hSSi : S * Si = 1)
     (hconj : Si * (A * B ^ 2) * S = (A * B) ^ 2) :
     (A * B ^ 2) * S = S * (A * B) ^ 2 ∧ Si * (A * B ^ 2) = (A * B) ^ 2 * Si := by
@@ -663,6 +685,7 @@ private theorem base_AB2_mul_conj {A B S Si : Module.End (ZMod 2) V} (hSSi : S *
       _ = (Si * (A * B ^ 2) * S) * Si := by simp only [mul_assoc]
       _ = (A * B) ^ 2 * Si := by rw [hconj]
 
+omit [Finite V] in
 private theorem base_S_maps_fixed_AB {A B S : Module.End (ZMod 2) V} (hA : A ^ 3 = 1)
     (hB : B ^ 3 = 1) (hAB : A * B = B * A)
     (hg : (A * B ^ 2) * S = S * (A * B) ^ 2) {P : Submodule (ZMod 2) V}
@@ -678,6 +701,7 @@ private theorem base_S_maps_fixed_AB {A B S : Module.End (ZMod 2) V} (hA : A ^ 3
     _ = S (((A * B) ^ 2) v) := rfl
     _ = S v := by rw [hv2]
 
+omit [Finite V] in
 private theorem base_Si_maps_fixed_AB2 {A B Si : Module.End (ZMod 2) V} (hA : A ^ 3 = 1)
     (hB : B ^ 3 = 1) (hAB : A * B = B * A)
     (hg' : Si * (A * B ^ 2) = (A * B) ^ 2 * Si) {P : Submodule (ZMod 2) V}
@@ -696,6 +720,7 @@ private theorem base_Si_maps_fixed_AB2 {A B Si : Module.End (ZMod 2) V} (hA : A 
     _ = ((A * B) ^ 3) (Si w) := by rw [pow_succ' (A * B) 2]; rfl
     _ = Si w := by rw [hAB3]; rfl
 
+omit [Finite V] in
 theorem finrank_inf_conj_eq {A B S Si : Module.End (ZMod 2) V} (hA : A ^ 3 = 1) (hB : B ^ 3 = 1)
     (hAB : A * B = B * A) (hSiS : Si * S = 1) (hSSi : S * Si = 1)
     (hSA : Si * A * S = A ^ 2) (hSB : Si * B * S = B) {P : Submodule (ZMod 2) V}
@@ -735,27 +760,34 @@ variable (c : Ctx49 H X L Q I x A a n N M)
 
 include c
 
+omit [Finite G] in
 theorem xX : x ∈ X := c.hx ▸ Subgroup.mem_zpowers x
 
+omit [Finite G] in
 theorem ord : orderOf x = 3 := orderOf_eq_three_of_zpowers c.hx c.setup.card_X
 
+omit [Finite G] in
 theorem x3 : x ^ 3 = 1 := by
   rw [← c.ord]
   exact pow_orderOf_eq_one x
 
+omit [Finite G] in
 theorem pow_mem (i : ℕ) : x ^ i ∈ X := X.pow_mem c.xX i
 
 theorem I_eq : I = Lc L x 0 ⊔ Lc L x 1 ⊔ Lc L x 2 := by
   rw [I_eq_sup_conjugates49 c.setup c.xX c.hx]
   simp only [Lc, pow_zero, pow_one, conjugate_one]
 
+omit [Finite G] in
 theorem Lc_ne {i j : ℕ} (hi : i < 3) (hj : j < 3) (hij : i ≠ j) : Lc L x i ≠ Lc L x j := by
   obtain ⟨h01, h02, h12⟩ := conjugates_distinct c.setup c.xX c.hx c.ord
   interval_cases i <;> interval_cases j <;>
     first | exact absurd rfl hij | assumption | exact Ne.symm ‹_›
 
+omit [Finite G] in
 theorem Lc_I (i : ℕ) : Lc L x i ≤ I := conjugate_le_I c.setup (c.pow_mem i)
 
+omit [Finite G] in
 theorem Lc_H (i : ℕ) : Lc L x i ≤ H := (c.Lc_I i).trans (I_le_H c.setup)
 
 theorem Lc_norm {i j : ℕ} (hi : i < 3) (hj : j < 3) (hij : i ≠ j) :
@@ -766,6 +798,7 @@ theorem Lc_comm {i j : ℕ} (hi : i < 3) (hj : j < 3) (hij : i ≠ j) :
     ⁅Lc L x i, Lc L x j⁆ ≤ Q :=
   commutator_conjugate_le c.setup (c.pow_mem i) (c.pow_mem j) (c.Lc_ne hi hj hij)
 
+omit [Finite G] in
 theorem Lc_alt (i : ℕ) : IsAlt (Bar2 (Lc L x i)) 5 := isAlt_bar2_conjugate c.setup.L_alt (x ^ i)
 
 theorem Lc_pCore (i : ℕ) :
@@ -786,8 +819,10 @@ theorem Lc_pCore (i : ℕ) :
 @[expose] def ai (i : ℕ) : ↥H :=
   ⟨cj (x ^ i) a, c.Lc_H i (conjugate_cj L a (x ^ i) c.xa.a_mem)⟩
 
+omit [Finite G] in
 @[simp] theorem ai_coe (i : ℕ) : ((c.ai i : ↥H) : G) = cj (x ^ i) a := rfl
 
+omit [Finite G] in
 theorem ai_mem (i : ℕ) : ((c.ai i : ↥H) : G) ∈ Lc L x i :=
   conjugate_cj L a (x ^ i) c.xa.a_mem
 
@@ -872,49 +907,62 @@ theorem eq_zero_of_fixed {v : Additive (N ⧸ M.subgroupOf N)}
   rw [CV_I_eq_bot c.setup c.chief c.nontriv] at hmem
   exact (Submodule.mem_bot _).mp hmem
 
+omit [Finite G] in
 theorem wt_op_mul (g h : ↥H) :
     op49 c.chief (g * h) = op49 c.chief g * op49 c.chief h := by
   simp [op49]
 
+omit [Finite G] in
 theorem wt_op_one : op49 c.chief (1 : ↥H) = 1 := by
   simp [op49]
 
+omit [Finite G] in
 theorem wt_op_pow (g : ↥H) (k : ℕ) :
     op49 c.chief (g ^ k) = op49 c.chief g ^ k := by
   simp [op49]
 
+omit [Finite G] in
 theorem wt_op_conj {g u w : ↥H} (h : g⁻¹ * u * g = w) :
     op49 c.chief g⁻¹ * op49 c.chief u * op49 c.chief g = op49 c.chief w := by
   simpa [op49] using congrArg (op49 c.chief) h
 
+omit hNorm hElem in
+omit [Finite G] in
 theorem wt_ai_cube (i : ℕ) : c.ai i ^ 3 = 1 := by
   apply Subtype.ext
   rw [Subgroup.coe_pow, Subgroup.coe_one, c.ai_coe, ← cj_pow, ← c.xa.ord,
     pow_orderOf_eq_one]
   simp [cj]
 
+omit hNorm hElem [Finite G] in
 theorem wt_ai_rot (i : ℕ) : c.xH⁻¹ * c.ai i * c.xH = c.ai (i + 1) := by
   apply Subtype.ext
   show cj x (cj (x ^ i) a) = cj (x ^ (i + 1)) a
   rw [cj_mul, ← pow_succ]
 
-theorem wt_ai_three : c.ai 3 = c.ai 0 := by
+omit hNorm hElem in
+omit [Finite G] in
+theorem wt_ai_three [Finite G] : c.ai 3 = c.ai 0 := by
   apply Subtype.ext
   simp only [c.ai_coe]
   rw [c.x3, pow_zero]
 
+omit [Finite G] hNorm hElem in
 theorem wt_a_mem_A : a ∈ A := by
   rw [c.xa.gen]
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] hNorm hElem in
 theorem wt_a1_mem_A : cj x a ∈ A := by
   rw [c.xa.gen]
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] hNorm hElem in
 theorem wt_a2_mem_A : cj (x ^ 2) a ∈ A := by
   rw [c.xa.gen]
   exact Subgroup.subset_closure (by simp)
 
+omit hNorm hElem [Finite G] in
 theorem wt_nai_inv : c.nH⁻¹ * c.ai 0 * c.nH = c.ai 0 ^ 2 := by
   apply Subtype.ext
   show cj n (cj (x ^ 0) a) = (cj (x ^ 0) a) ^ 2
@@ -923,12 +971,14 @@ theorem wt_nai_inv : c.nH⁻¹ * c.ai 0 * c.nH = c.ai 0 ^ 2 := by
   calc a * a ^ 2 = a ^ 3 := by group
     _ = 1 := by rw [← c.xa.ord]; exact pow_orderOf_eq_one a
 
+omit hNorm hElem [Finite G] in
 theorem wt_nai_fix1 : c.nH⁻¹ * c.ai 1 * c.nH = c.ai 1 := by
   apply Subtype.ext
   show cj n (cj (x ^ 1) a) = cj (x ^ 1) a
   rw [pow_one]
   exact c.xa.fix_b
 
+omit hNorm hElem [Finite G] in
 theorem wt_nai_fix2 : c.nH⁻¹ * c.ai 2 * c.nH = c.ai 2 := by
   apply Subtype.ext
   show cj n (cj (x ^ 2) a) = cj (x ^ 2) a
@@ -936,15 +986,19 @@ theorem wt_nai_fix2 : c.nH⁻¹ * c.ai 2 * c.nH = c.ai 2 := by
 
 def wt_z : ↥H := c.ai 0 * c.ai 1 * c.ai 2
 
-theorem wt_z_coe : (wt_z c : G) = a * cj x a * cj (x ^ 2) a := by
+omit hNorm hElem in
+omit [Finite G] in
+theorem wt_z_coe [Finite G] : (wt_z c : G) = a * cj x a * cj (x ^ 2) a := by
   show ((c.ai 0 * c.ai 1 * c.ai 2 : ↥H) : G) = a * cj x a * cj (x ^ 2) a
   simp only [Subgroup.coe_mul, c.ai_coe, pow_zero, pow_one]
   simp [cj]
 
+omit hNorm hElem in
 theorem wt_z_comm : x * (wt_z c : G) = (wt_z c : G) * x := by
   rw [wt_z_coe]
   exact (chief_w49_relations c.setup c.hx c.xa).2.2.2.1
 
+omit hNorm hElem in
 theorem wt_z_mem_Z49 : (wt_z c : G) ∈ Z49 X A := by
   refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩
   · rw [wt_z_coe]

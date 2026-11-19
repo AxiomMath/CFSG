@@ -44,7 +44,7 @@ theorem core (hA : IVK_5_1_index) (hC : IVK_5_1f) (hD : IVK_5_1d) (hF : Step9_8_
     (hcov : IsDoubleCoverOfAlt Lh n) (hsimple : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b * a)
     (hSylG : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤) :
     S ≤ K ∧ K.subgroupOf (Cz z) ⊔ pPrimeCore 2 ↥(Cz z) = ⊤ := by
-  haveI : (K.subgroupOf (Cz z)).Normal := h.K_normal_C
+  have : (K.subgroupOf (Cz z)).Normal := h.K_normal_C
   have hyp := h.hypC hF hn8 hn11 hcov
   have hc := core_S_le (N := pPrimeCore 2 ↥(Cz z)) (K := K.subgroupOf (Cz z))
     (S := S.subgroupOf (Cz z)) hA hD hyp odd_card_pPrimeCore h.sylowC (fun u hu hu2 => by

@@ -73,6 +73,7 @@ section Facts
 
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} [IsMulCommutative ↥V]
 
+omit [Finite G] in
 theorem mem_normalizer_inf_centralizer {A V : Subgroup G} {l : G}
     (hA : l ∈ Subgroup.normalizer (A : Set G)) (hV : l ∈ Subgroup.normalizer (V : Set G)) :
     l ∈ Subgroup.normalizer ((A ⊓ Subgroup.centralizer (V : Set G) : Subgroup G) : Set G) := by
@@ -186,7 +187,7 @@ theorem exists_inverting_pair (h1222 : Stmt12_2_2) (F : Frame126 T L V) (hH : Hy
     have h := F126.card_star hS₁H
     rw [hS₁1, Subgroup.card_bot, mul_one, hS₁card] at h
     exact h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSelem : IsElemAbelian 3 (star H S₁) := by
     refine ⟨IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
       (by rw [hScard]; norm_num), ?_⟩

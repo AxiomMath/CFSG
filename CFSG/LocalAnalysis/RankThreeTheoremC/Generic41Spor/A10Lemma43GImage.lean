@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G
 theorem a10_T_sylow (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q] [Finite Q]
     (ψ : ↥J →* Q) (hψ : Function.Surjective ψ) :
     ∃ S : Sylow 5 Q, (S : Subgroup Q) = ((u3T P x J).subgroupOf J).map ψ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hSylJ : CFSG.ABGLocalTools.IsSylowOf 5 (u3T P x J) J :=
     hc.generic.2.2.1.inf_of_le_normalizer hc.le_cent hc.cent_le
   obtain ⟨Tsyl, hTsyl⟩ := hSylJ
@@ -30,17 +30,17 @@ theorem a10_T_sylow (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q
   rw [← hTsyl]
   exact (Subgroup.comap_map_eq_self_of_injective J.subtype_injective _).symm
 
-theorem a10_frattini (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q] [Finite Q]
+theorem a10_frattini (_hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q] [Finite Q]
     (ψ : ↥J →* Q) (hψ : Function.Surjective ψ) (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
     {B : Subgroup G} (hBT : B ≤ u3T P x J) {n : Q}
     (hn : n ∈ Subgroup.normalizer (((B.subgroupOf J).map ψ : Subgroup Q) : Set Q)) :
     ∃ (f : G) (hf : f ∈ J), f ∈ Subgroup.normalizer (B : Set G) ∧ ψ ⟨f, hf⟩ = n := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hTP : u3T P x J ≤ (P : Subgroup G) := (inf_le_left : u3T P x J ≤ u3S P x).trans inf_le_left
   have hTJ : u3T P x J ≤ J := inf_le_right
   have hBJ : B ≤ J := hBT.trans hTJ
   have hBp : IsPGroup 5 (B.subgroupOf J) :=
-    (P.isPGroup'.to_le (hBT.trans hTP)).comap_subtype
+    (P.isPGroup.to_le (hBT.trans hTP)).comap_subtype
   have hOJ : rankThreePrimeCore 5 J ≤ J := CFSG.AGLEmbedding.glbPrimeCore_le 5 J
   have hOcop : Nat.Coprime 5 (Nat.card (rankThreePrimeCore 5 J)) :=
     CFSG.AGLEmbedding.glbPrimeCore_coprime 5 J
@@ -57,7 +57,7 @@ theorem a10_frattini (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group 
 theorem a10_NJ_le_M (hS : Setting G) (hU0 : FullCoreLocal G) (hX : A10Facts)
     (hc : PointConfig IsA10Type G 5 P M x J) {B : Subgroup G} (hBT : B ≤ u3T P x J) (hB1 : B ≠ ⊥) :
     J ⊓ Subgroup.normalizer (B : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨-, hTel, hxJ⟩ := plane_T_structure hX.sylow hc
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hTP : u3T P x J ≤ (P : Subgroup G) := (inf_le_left : u3T P x J ≤ u3S P x).trans inf_le_left
@@ -68,7 +68,7 @@ theorem a10_NJ_le_M (hS : Setting G) (hU0 : FullCoreLocal G) (hX : A10Facts)
     Subgroup.mem_centralizer_singleton_iff.mp (hc.le_cent hy)
   have hSP : B ⊔ Subgroup.zpowers x ≤ (P : Subgroup G) :=
     sup_le (hBT.trans hTP) (Subgroup.zpowers_le.mpr hxP)
-  have hSp : IsPGroup 5 (B ⊔ Subgroup.zpowers x : Subgroup G) := P.isPGroup'.to_le hSP
+  have hSp : IsPGroup 5 (B ⊔ Subgroup.zpowers x : Subgroup G) := P.isPGroup.to_le hSP
   have h2 : 2 ≤ CFSG.Open.pRank 5 (B ⊔ Subgroup.zpowers x : Subgroup G) := by
     obtain ⟨⟨b, hbB⟩, hb1'⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hB1
     have hb1 : b ≠ 1 := fun h => hb1' (Subtype.ext h)
@@ -102,7 +102,7 @@ theorem a10_MJ_image (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G
     (hψ : Function.Surjective ψ) (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
     (hQ : IsA10Type 5 Q) (S : Sylow 5 Q) (hSyl : (S : Subgroup Q) = ((u3T P x J).subgroupOf J).map ψ) :
     ((M ⊓ J).subgroupOf J).map ψ = A10Gamma Q (S : Subgroup Q) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hOM : rankThreePrimeCore 5 J ≤ M :=
     (u3main_core_facts hS hD1 hc.sigma hc.core hc.generic hc.le_cent hc.cent_le).1
   have hΓ : A10Gamma Q (S : Subgroup Q) ≤ ((M ⊓ J).subgroupOf J).map ψ := by

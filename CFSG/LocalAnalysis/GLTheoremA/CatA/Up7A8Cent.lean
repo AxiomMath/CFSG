@@ -27,8 +27,7 @@ theorem up7a8_comm_mul_central {T : Type} [Group T] {a b z w : T}
     have : w⁻¹ * (z⁻¹ * (w * (z * X))) = w⁻¹ * ((z⁻¹ * w * z) * X) := by simp only [mul_assoc]
     rw [this, hconj, inv_mul_cancel_left]
   simp only [commutatorElement_def, mul_inv_rev, ← mul_assoc]
-  simp only [hz1, hw1, hz2, hw2, mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left, inv_mul_cancel,
-    mul_inv_cancel, mul_one, one_mul]
+  simp only [hz1, hw1, hz2, hw2, mul_assoc]
   exact key _
 
 theorem up7a8_eq_top_of_sup_center {T : Type} [Group T] (hT : commutator T = ⊤)
@@ -52,13 +51,13 @@ theorem up7a8_top_of_centMod {G : Type} [Group G] [Finite G] {X K J : Subgroup G
     (hK : GLAPComponent 3 X K) (hyN : y ∈ Subgroup.normalizer (K : Set G)) (hyp : y ^ 3 = 1)
     (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({y} : Set G)) J) (hCM : CentMod 3 K y) :
     imageMod 3 K J = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hap : IsPGroup 3 (Subgroup.zpowers y) := isPGroup_zpowers_of_pow_eq_one hyp
   have hα : chevAut 3 K ⟨y, hyN⟩ = 1 := (chevAut_eq_one_iff Nat.prime_three hK hyN).2 hCM
   have hJ' := glaPComponent_chevTransfer Nat.prime_three hyN hap hJ
   rw [hα, up7a8_fixSubgroup_one] at hJ'
-  haveI : IsSimpleGroup (PSimple 3 K) := (chev_pSimple_simple_nonabelian Nat.prime_three hK).1
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup (PSimple 3 K)) := Subgroup.topEquiv.isSimpleGroup
+  have : IsSimpleGroup (PSimple 3 K) := (chev_pSimple_simple_nonabelian Nat.prime_three hK).1
+  have : IsSimpleGroup ↥(⊤ : Subgroup (PSimple 3 K)) := Subgroup.topEquiv.isSimpleGroup
   have hJ'top : chevTransfer 3 K J = ⊤ := by
     have hne : chevTransfer 3 K J ≠ ⊥ := by
       intro h
@@ -86,7 +85,7 @@ theorem up7a8_pQuot_iso_of_top {G : Type} [Group G] [Finite G] {K J : Subgroup G
   (cover_facts Nat.prime_three hJK (sup_glaPPrimeCoreOf_eq_of_barX_eq_top hJK htop)).2
 
 theorem up7a8_natCard_alt (j : ℕ) (hj : 5 ≤ j) : Nat.card (alternatingGroup (Fin j)) = j.factorial / 2 := by
-  haveI : Nontrivial (Fin j) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin j) := Fin.nontrivial_iff_two_le.2 (by omega)
   rw [nat_card_alternatingGroup, Nat.card_fin]
 
 theorem up7a8_prime_dvd_2520 {r : ℕ} (hr : r.Prime) (h : r ∣ 2520) : r = 2 ∨ r = 3 ∨ r = 5 ∨ r = 7 := by

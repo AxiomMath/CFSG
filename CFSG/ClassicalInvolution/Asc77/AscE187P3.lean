@@ -22,7 +22,7 @@ theorem inf_S_eq_of_mem_RSet (hp : p ≠ 2) (hΩ : HypOmegaMod p f Ω) {S : Sylo
     {M R' : Subgroup G} (hM : M ∈ Ω) (hR' : R' ∈ RSet Ω) (hR'M : R' ≤ M)
     (hR'S : R' ≤ (S : Subgroup G)) : M ⊓ (S : Subgroup G) = R' := by
   have hsyl : IsSylow2In R' M := hΩ.isSylow2In_of_mem_RSet_of_le hp hM hR' hR'M
-  exact hsyl.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left (le_inf hR'M hR'S)
+  exact hsyl.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left (le_inf hR'M hR'S)
 
 theorem MinCex.inf_W_mem_USet (c : MinCex p f Ω K S R W H) (hA : EtaAbelian Ω) (hM : EtaMeet Ω)
     {M R' : Subgroup G} (hMΩ : M ∈ Ω) (hR' : R' ∈ RSet Ω) (hR'M : R' ≤ M)
@@ -48,6 +48,7 @@ theorem MinCex.exists_order_four_of_inf_W (c : MinCex p f Ω K S R W H) (hA : Et
     (c.stand.hyp.isPGroup_of_mem_USet c.stand.odd hU) hcyc h4
   exact ⟨u, hu, hu4⟩
 
+omit [Finite G] in
 theorem E187C.hbad_of_conj_of (hc : ConjInvariant Ω)
     (hdc : ∀ {M : Subgroup G}, M ∈ twinSet Ω K → M ∈ dstarComp Ω K)
     (hmc : ∀ {M : Subgroup G} {u x : G}, M ∈ dstarComp Ω K → u ∈ M → orderOf u = 4 →
@@ -75,6 +76,7 @@ theorem E187C.hbad_of_conj_of (hc : ConjInvariant Ω)
   exact hg this
 
 
+omit [Finite G] in
 theorem E187C.hC_of_conj_of
     (hdc : ∀ {M : Subgroup G}, M ∈ twinSet Ω K → M ∈ dstarComp Ω K)
     (hmc : ∀ {M : Subgroup G} {u x : G}, M ∈ dstarComp Ω K → u ∈ M → orderOf u = 4 →
@@ -112,6 +114,7 @@ theorem MinCex.hC_of_conj (c : MinCex p f Ω K S R W H) (hA : EtaAbelian Ω) (hM
   exact E187C.hC_of_conj_of (fun hM => mem_dstarComp_of_twin c.stand.odd c.stand.hyp c.stand.mem hM)
     (fun hMS hu hu4 hx => c.mem_of_conj_mem_dstar hA hM hMS hu hu4 hx) hz hzH hg
 
+omit [Finite G] in
 theorem E187C.goodFour_of_commute_of {Q : Prop} {Wp : G → Prop} {z g t : G} {K' R' : Subgroup G}
     (hc : ConjInvariant Ω)
     (hkp : ∀ {K₁ K₂ : Subgroup G} {z₀ : G}, K₁ ∈ Ω → K₂ ∈ Ω → IsUniqueInvolution K₁ z₀ →
@@ -177,9 +180,9 @@ theorem E187C.goodFour_of_commute_of {Q : Prop} {Wp : G → Prop} {z g t : G} {K
     rwa [hK'S] at this
   have htle : ∀ X : Subgroup G, X ≤ (S : Subgroup G) → conjSub t X ≤ (S : Subgroup G) :=
     fun X hX => (conjSub_mono (n := t) hX).trans htSt.le
-  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
-  have hR2 : IsPGroup 2 ↥(R ⊔ conjSub t R) := S.isPGroup'.to_le (sup_le hRS (htle R hRS))
-  have hR'2 : IsPGroup 2 ↥(R' ⊔ conjSub t R') := S.isPGroup'.to_le (sup_le hR'S (htle R' hR'S))
+  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
+  have hR2 : IsPGroup 2 ↥(R ⊔ conjSub t R) := S.isPGroup.to_le (sup_le hRS (htle R hRS))
+  have hR'2 : IsPGroup 2 ↥(R' ⊔ conjSub t R') := S.isPGroup.to_le (sup_le hR'S (htle R' hR'S))
   by_cases hnK : conjSub t K = K
   · by_cases hnK' : conjSub t K' = K'
     · obtain ⟨hcycK, u, huKW, hu4⟩ :=

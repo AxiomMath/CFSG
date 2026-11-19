@@ -54,7 +54,7 @@ theorem exists_sylow_central_in_plane [Finite G] {p : ℕ} [hp : Fact p.Prime]
     ∃ P : Sylow p G, F ≤ P ∧ ∃ z ∈ F, z ≠ 1 ∧ z ^ p = 1 ∧ ∀ x ∈ P, x * z = z * x := by
   classical
   obtain ⟨P, hFP⟩ := (isPGroup_of_pow_eq_one hF.2).exists_le_sylow
-  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup
   have hPnt : Nontrivial (P : Subgroup G) := by
     have hle : Nat.card F ≤ Nat.card (P : Subgroup G) := Subgroup.card_le_of_le hFP
     have h1 : 1 < Nat.card (P : Subgroup G) := by

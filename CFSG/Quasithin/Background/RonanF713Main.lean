@@ -37,7 +37,7 @@ theorem exists_E1_config_loc [Finite ↥G₂] (hyp : AmalgamHypV G₀ G₁ G₂ 
   have hadj : (graph G₀ G₁ G₂).Adj β γ := hβnb
   obtain ⟨g, hg0, hg1, hAg⟩ := exists_edge_conj_sylow_loc hyp.toAmalgamHyp hadj hvt hAstab hAp
   have hstabγ : stab γ = conjSub (g : G) G₂ := by rw [← hg1, stab_smul, stab_γ₁ hyp.le₂]
-  haveI : Finite ↥(stab γ) := by rw [hstabγ]; exact finite_conjSub _ _
+  have : Finite ↥(stab γ) := by rw [hstabγ]; exact finite_conjSub _ _
   have hVβ : Vv V β = conjSub (g : G) V := by rw [← hg0]; exact Vv_smul_γ₀ hyp.normalizes g
   set N₀ := G₂ ⊓ Subgroup.normalizer (V : Set G) with hN₀
   set M := stab γ ⊓ Subgroup.normalizer (Vv V β : Set G) with hM
@@ -75,7 +75,7 @@ theorem exists_E1_config_loc [Finite ↥G₂] (hyp : AmalgamHypV G₀ G₁ G₂ 
     have := isSylowTwoOf_conj hTγ y
     rwa [F7.conjSub_eq_of_mem hy] at this
   have hHγ : H ≤ stab γ := hH.1
-  haveI : Finite ↥H := Finite.of_injective (Subgroup.inclusion hHγ)
+  have : Finite ↥H := Finite.of_injective (Subgroup.inclusion hHγ)
     (Subgroup.inclusion_injective hHγ)
   have hAH : A ≤ H := by
     have h1 : A ⊔ pCoreOf 2 (stab γ) ≤ E1.tauOf (stab γ) S A := le_tauOf_loc hS hAS hAel
@@ -144,9 +144,9 @@ theorem f713_main [Finite ↥G₂] (hC : F7Two.ClaimCE1) (hyp : AmalgamHypV G₀
           ∃ h : G, h ∈ stab γ ∧ conjSub h⁻¹ A ≤ stab α ∧ ¬ IsPGroup 2 ↥(A ⊔ conjSub h⁻¹ A)) := by
   obtain ⟨⟨g, hstab⟩, hnot, S, H, W, hS, hAS, hH, hAH, hSW, hex, hvert⟩ :=
     exists_E1_config_loc hyp hγ ha₃ ha₂ hb hc hA₁ hA₂ hAel hAβ hcore
-  haveI hfinγ : Finite ↥(stab γ) := by rw [hstab]; exact finite_conjSub _ _
+  have hfinγ : Finite ↥(stab γ) := by rw [hstab]; exact finite_conjSub _ _
   have hHγ : H ≤ stab γ := hH.1
-  haveI : Finite ↥H := Finite.of_injective (Subgroup.inclusion hHγ)
+  have : Finite ↥H := Finite.of_injective (Subgroup.inclusion hHγ)
     (Subgroup.inclusion_injective hHγ)
   have hSH : IsSylowTwoOf (S ⊓ H) H := hH.2.2.1
   obtain ⟨R, hRA, hRH, hRidx⟩ := exists_index_two_of_isE_loc hAel hAH hH

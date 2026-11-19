@@ -101,11 +101,11 @@ theorem wfGrow_sound {L : List (List ℕ)} : ∀ (tab : List Ent) (K : List ℕ)
       cases Ds with
       | cons d Ds =>
         have hD : weq (d :: Ds) [] = false := rfl
-        rw [hD, cond_false, Bool.and_eq_true] at hw
+        rw [hD, Bool.cond_false, Bool.and_eq_true] at hw
         exact wfGrow_sound t K hK hw.2 htab
       | nil =>
         have hD : weq [] [] = true := rfl
-        rw [hD, cond_true] at hw
+        rw [hD, _root_.Bool.cond_true] at hw
         simp only [Option.elim_some, List.map_nil, map_mulW_nil] at hs
         have hc : wfMat (L.getD c idStrips) = true := wfMat_of_allStrips hA hs
         refine wfGrow_sound t (c :: K) (fun i hi => ?_) hw htab

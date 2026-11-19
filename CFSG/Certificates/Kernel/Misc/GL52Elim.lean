@@ -165,24 +165,24 @@ theorem aug_mono {k k' x : ℕ} (hk : k ≤ k') (h : Aug W L k x) : Aug W L k' x
 
 structure Inv (k : ℕ) (S K : List ℕ) : Prop where
   len : S.length = W
-  ech : W = 0 ∨ Ech 25 S (W - 1)
+  ech : W = 0 ∨ CFSG.KC.Misc.GLM.Ech 25 S (W - 1)
   augS : ∀ x ∈ S, Aug W L k x
   augK : ∀ x ∈ K, Aug W L k x ∧ x < 2 ^ 25
   desc : Desc K k
   cnt : cntNZ S + K.length = k
 
-theorem zerosK_spec : ∀ W : ℕ, (zerosK W).length = W ∧ (∀ t, Ech 25 (zerosK W) t) ∧
+theorem zerosK_spec : ∀ W : ℕ, (zerosK W).length = W ∧ (∀ t, CFSG.KC.Misc.GLM.Ech 25 (zerosK W) t) ∧
     (∀ x ∈ zerosK W, x = 0) ∧ cntNZ (zerosK W) = 0
   | 0 => ⟨rfl, fun _ => trivial, by simp [zerosK], rfl⟩
   | W + 1 => by
     obtain ⟨h1, h2, h3, h4⟩ := zerosK_spec W
-    change (0 :: zerosK W).length = _ ∧ (∀ t, Ech 25 (0 :: zerosK W) t) ∧
+    change (0 :: zerosK W).length = _ ∧ (∀ t, CFSG.KC.Misc.GLM.Ech 25 (0 :: zerosK W) t) ∧
       (∀ x ∈ 0 :: zerosK W, x = 0) ∧ cntNZ (0 :: zerosK W) = 0
     refine ⟨by rw [List.length_cons, h1], fun t => And.intro (Or.inl rfl) (h2 _), fun x hx => ?_, ?_⟩
     · rcases List.mem_cons.1 hx with rfl | hx
       · rfl
       · exact h3 x hx
-    · rw [cntNZ_cons, h4, if_pos rfl]
+    · rw [cntNZ_cons, h4, ite_eq_left rfl]
 
 theorem aug_zero (k : ℕ) : Aug W L k 0 := by
   refine ⟨?_, fun v _ => Nat.zero_testBit v, fun v _ _ => Nat.zero_testBit v⟩
@@ -195,7 +195,7 @@ theorem inv_zero : Inv W L 0 (elimK P W 0).1 (elimK P W 0).2 := by
   exact ⟨h1, Or.inr (h2 _), fun x hx => by rw [h3 x hx]; exact aug_zero W L 0,
     fun x hx => by simp at hx, trivial, by rw [h4]; rfl⟩
 
-theorem r0_testBit (k v : ℕ) (hk : k < 25) :
+theorem r0_testBit (k v : ℕ) (_hk : k < 25) :
     (r0 P k).testBit v = ((decide (25 ≤ v) && (imgK P k).testBit (v - 25)) || decide (v = k)) := by
   unfold r0
   change ((imgK P k <<< 25) ||| (1 <<< k)).testBit v = _
@@ -272,7 +272,7 @@ theorem inv_step (hlt : ∀ idx < 25, imgK P idx < 2 ^ W)
       have h2 : decide (v = k) = false := decide_eq_false (by omega)
       rw [h2]
       simp
-    · have hE : Ech 25 S (W - 1) := hech.resolve_left (by omega)
+    · have hE : CFSG.KC.Misc.GLM.Ech 25 S (W - 1) := hech.resolve_left (by omega)
       obtain ⟨g1, g2, g3, g4⟩ := redK_spec 1 k 25 S (W - 1) (r0 P k) (by omega) hE
       have hsp : sp 1 k S = ⊥ := by
         unfold sp
@@ -305,7 +305,7 @@ theorem inv_step (hlt : ∀ idx < 25, imgK P idx < 2 ^ W)
     change Inv W L (k + 1) (insK 25 S (W - 1) r) K
     have hW : W ≠ 0 := fun h0 => hsmall (by rw [e25]; exact hr0 h0)
     obtain ⟨hR, hLow⟩ := hrR hW
-    have hE : Ech 25 S (W - 1) := hech.resolve_left hW
+    have hE : CFSG.KC.Misc.GLM.Ech 25 S (W - 1) := hech.resolve_left hW
     obtain ⟨i1, i2, -, i4⟩ := insK_spec W 25 S (W - 1) r (by omega) hE hLow
     have hplace := insK_place 25 S (W - 1) r (by omega) hR hLow (by
       by_contra hno
@@ -394,12 +394,12 @@ theorem unitCntR_eq (K : List ℕ) : ∀ n,
     have e0 : Nat.add 0 n = n := Nat.zero_add n
     rw [unitCntR_eq K n, Finset.range_add_one, Finset.filter_insert, e0]
     by_cases h : rankK (xsel K n) = 5
-    · rw [if_pos h, Finset.card_insert_of_notMem (by simp), h]
+    · rw [ite_eq_left h, Finset.card_insert_of_notMem (by simp), h]
       rfl
     · have hb : Nat.beq (rankK (xsel K n)) 5 = false := by
         rw [Bool.eq_false_iff]
         exact fun e => h (Nat.eq_of_beq_eq_true e)
-      rw [if_neg h, hb]
+      rw [ite_eq_right h, hb]
       rfl
 
 theorem bvo25_inj {c c' : ℕ} (hc : c < 2 ^ 25) (hc' : c' < 2 ^ 25) (e : bvo 25 0 c = bvo 25 0 c') :

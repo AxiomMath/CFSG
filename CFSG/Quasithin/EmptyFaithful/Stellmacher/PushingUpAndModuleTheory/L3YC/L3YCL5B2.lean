@@ -26,7 +26,7 @@ theorem m2_mul (A A' : Matrix (Fin 3) (Fin 3) (ZMod 2)) (X X' : Matrix (Fin 2) (
     m2 A X * m2 A' X' = m2 (A * A') (X * A' + X') := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [m2, Matrix.mul_apply, Fin.sum_univ_five, Fin.sum_univ_three, Fin.sum_univ_two] <;> ring
+    simp [m2, Matrix.mul_apply, Fin.sum_univ_five, Fin.sum_univ_three] <;> ring
 
 theorem m2_one : m2 1 0 = 1 := by
   ext i j
@@ -86,7 +86,7 @@ theorem transvection_cross_eq2 (k : Fin 2) (l : Fin 3) :
       (1 : ZMod 2) : Matrix (Fin 5) (Fin 5) (ZMod 2))) = m2 1 (Matrix.single k l 1) := by
   ext a b
   fin_cases k <;> fin_cases l <;> fin_cases a <;> fin_cases b <;>
-    simp [m2, Matrix.single_apply]
+    simp [m2]
 
 theorem generate_V2 {B : Type} [Group B] (θ : B →* SpecialLinearGroup (Fin 5) (ZMod 2))
     (T : Subgroup B)
@@ -223,7 +223,7 @@ theorem m2_transvection_block (j l : Fin 5) (hj : 2 ≤ j.val) (hl : 2 ≤ l.val
   rcases hj' with rfl | rfl | rfl <;> rcases hl' with rfl | rfl | rfl <;>
     first
     | exact absurd rfl hjl
-    | (ext a b; fin_cases a <;> fin_cases b <;> simp [m2, Matrix.single_apply])
+    | (ext a b; fin_cases a <;> fin_cases b <;> simp [m2])
 
 theorem config_a2 (hθ : Function.Injective θ) (hαs : Function.Surjective α)
     (hαk : α.ker = CFSG.pCore 2 B)

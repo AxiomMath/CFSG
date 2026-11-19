@@ -145,7 +145,7 @@ theorem card_M24_le_card_closure_PA_PB :
     Nat.card (NativeSporadic.Carrier .M24) ≤ Nat.card (Subgroup.closure {PA, PB}) := by
   let c : Perm (Fin 24) →* Perm (Fin 24) := (MulAut.conj sigmaM24⁻¹).toMonoidHom
   have hc : ∀ x, c x = sigmaM24⁻¹ * x * sigmaM24 := fun x => by
-    simp [c, MulAut.conj_apply]
+    simp [c]
   have hle : NativeSporadic.M24.map c ≤ Subgroup.closure {PA, PB} := by
     rw [m24_eq, MonoidHom.map_closure, Subgroup.closure_le]
     rintro _ ⟨x, hx, rfl⟩
@@ -161,7 +161,7 @@ theorem card_M24_le_card_closure_PA_PB :
 
 theorem card_Zq_ge :
     2 ^ 11 * Nat.card (NativeSporadic.Carrier .M24) ≤ Nat.card Zq := by
-  haveI : Finite Q3 := Finite.of_injective rho rho_injective
+  have : Finite Q3 := Finite.of_injective rho rho_injective
   have hker : Nat.card E0 ≤ Nat.card planeHom.ker := by
     have hle : E0 ≤ (planeHom.ker).map Zq.subtype := by
       intro g hg

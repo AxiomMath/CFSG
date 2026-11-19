@@ -177,16 +177,16 @@ theorem Conf9.exists_two_central_T (h : Conf9 x Kb T) {v : G} (hv : v ∈ T ⊓ 
   obtain ⟨Q, hTQ⟩ := h.sylow.isPGroup.exists_le_sylow
   have hS₀syl : IsSylowOf 2 (Q : Subgroup G) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   have hTne : T ≠ (Q : Subgroup G) := fun hTS => h.not_sylow (hTS ▸ hS₀syl)
   have hx1 : x ≠ 1 := fun h1 => h.x_notin (h1 ▸ one_mem (Pre x Kb))
   have hnt : Nontrivial ↥(Q : Subgroup G) :=
     ⟨⟨⟨x, hTQ h.x_mem⟩, 1, fun h1 => hx1 (congrArg Subtype.val h1)⟩⟩
-  have hcn : Nontrivial ↥(Subgroup.center ↥(Q : Subgroup G)) := Q.isPGroup'.center_nontrivial
+  have hcn : Nontrivial ↥(Subgroup.center ↥(Q : Subgroup G)) := Q.isPGroup.center_nontrivial
   have hZ2 : 2 ∣ Nat.card ↥(Subgroup.center ↥(Q : Subgroup G)) := by
-    have hZp : IsPGroup 2 ↥(Subgroup.center ↥(Q : Subgroup G)) := Q.isPGroup'.to_subgroup _
+    have hZp : IsPGroup 2 ↥(Subgroup.center ↥(Q : Subgroup G)) := Q.isPGroup.to_subgroup _
     obtain ⟨m, hm⟩ := hZp.exists_card_eq
     rcases m with _ | m
     · exfalso
@@ -228,7 +228,7 @@ theorem Conf9.exists_two_central_T (h : Conf9 x Kb T) {v : G} (hv : v ∈ T ⊓ 
     have hUQ : U ≤ (Q : Subgroup G) := sup_le hTQ ((zpowers_le).2 hzQ)
     have hUC : U ≤ centralizer ({x} : Set G) :=
       sup_le h.sylow.le ((zpowers_le).2 hzC)
-    have hU2 : IsPGroup 2 ↥U := Q.isPGroup'.to_le hUQ
+    have hU2 : IsPGroup 2 ↥U := Q.isPGroup.to_le hUQ
     have := h.sylow.eq_of_le le_sup_left hUC hU2
     rw [← this]
     exact Subgroup.mem_sup_right (mem_zpowers z)
@@ -246,7 +246,7 @@ theorem Conf9.exists_two_central_T (h : Conf9 x Kb T) {v : G} (hv : v ∈ T ⊓ 
     have hdvd : Nat.card ↥(Q : Subgroup G) ∣ Nat.card ↥(centralizer ({x} : Set G)) := by
       rw [← hcard1]
       exact Subgroup.card_dvd_of_le hQC
-    obtain ⟨m, hm⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := Q.isPGroup.exists_card_eq
     have hcx : Nat.card ↥T = 2 ^ (Nat.card ↥(centralizer ({x} : Set G))).factorization 2 :=
       h.sylow.card_eq
     have hmle : m ≤ (Nat.card ↥(centralizer ({x} : Set G))).factorization 2 := by
@@ -306,7 +306,7 @@ theorem Conf9.x_mem_commutator_T (h : Conf9 x Kb T) (hs : IsSimpleGroup G)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQsyl : IsSylowOf 2 (Q : Subgroup G) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   exact b_III8_6_3 G hs hn x hx T h.sylow v hv.1 (fun p hp => h.comm p hp v hv.1) hvord

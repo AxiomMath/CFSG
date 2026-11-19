@@ -80,7 +80,7 @@ theorem exists_layer_pair_statedSp_five {A T : Subgroup (StatedSp 5 (ZMod 2))}
     ∃ e ∈ A, Module.finrank (ZMod 2) ↥(LinearMap.ker (spEnd e - 1)) = 8 ∧
       GLAPLayer 3 (Subgroup.centralizer ({d} : Set (StatedSp 5 (ZMod 2))) ⊓
         Subgroup.centralizer ({e} : Set (StatedSp 5 (ZMod 2)))) ≠ ⊥ := by
-  haveI := finite_linearEquiv_V5
+  have := finite_linearEquiv_V5
   have hAf : ∀ a ∈ A.map rep, ∀ u v : V5,
       spForm 5 (ZMod 2) (a u) (a v) = spForm 5 (ZMod 2) u v := by
     rintro _ ⟨g, -, rfl⟩ u v
@@ -93,7 +93,7 @@ theorem exists_layer_pair_statedSp_five {A T : Subgroup (StatedSp 5 (ZMod 2))}
     rintro _ ⟨a, ha, rfl⟩
     rw [Subgroup.mem_normalizer_iff]
     intro h'
-    simp only [SetLike.mem_coe, Subgroup.mem_map]
+    simp only [Subgroup.mem_map]
     constructor
     · rintro ⟨t, ht, rfl⟩
       exact ⟨a * t * a⁻¹, (Subgroup.mem_normalizer_iff.1 (hAT ha) t).1 ht, by simp⟩

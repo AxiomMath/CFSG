@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.RankThreeUC
 
 namespace Section5
 
-open Quotient
+open _root_.CFSG.LocalAnalysis.RankThreeUC.Section5.Quotient
 
 variable {G : Type} [Group G] [Finite G]
 
@@ -19,20 +19,20 @@ theorem isCyclic_of_le_actor_of_coprime_card {p : ℕ} {P T B : Subgroup G} {e :
     (h : ExtraspecialBinaryActionCounterexample G p P T B e ρ) (A : Subgroup G) (hAB : A ≤ B)
     (hcop : Nat.Coprime (Nat.card A) p) : IsCyclic A := by
   have hp : p.Prime := h.oddPrimeClassTwoAction.setting.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨h.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨h.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨h.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨h.oddPrimeClassTwoAction.setting.exponent⟩
   have hB := h.oddPrimeClassTwoAction.setting.normB
-  haveI : Nontrivial (Additive (Pbar P)) := by
-    haveI := nontrivial_Pbar_of_extraspecial h.extraspecial
+  have : Nontrivial (Additive (Pbar P)) := by
+    have := nontrivial_Pbar_of_extraspecial h.extraspecial
     infer_instance
-  haveI : Finite (Additive (Pbar P)) := by
-    haveI : Finite P := inferInstance
-    haveI : Finite (Pbar P) := inferInstance
+  have : Finite (Additive (Pbar P)) := by
+    have : Finite P := inferInstance
+    have : Finite (Pbar P) := inferInstance
     exact inferInstanceAs (Finite (Pbar P))
-  haveI : FiniteDimensional (ZMod p) (Additive (Pbar P)) := Module.Finite.of_finite
-  haveI : IsMulCommutative A := by
-    haveI := h.oddPrimeClassTwoAction.setting.abelian
+  have : FiniteDimensional (ZMod p) (Additive (Pbar P)) := Module.Finite.of_finite
+  have : IsMulCommutative A := by
+    have := h.oddPrimeClassTwoAction.setting.abelian
     refine ⟨⟨fun a b => ?_⟩⟩
     have := IsMulCommutative.is_comm.comm (⟨a.1, hAB a.2⟩ : B) ⟨b.1, hAB b.2⟩
     exact Subtype.ext (by simpa using congrArg Subtype.val this)

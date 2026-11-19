@@ -29,7 +29,7 @@ private theorem baseGrp_le_L (h : Ctx0 t L S x₁ x₂ lam rho) : baseGrp x₁ x
 
 private theorem baseGrp_comm (h : Ctx t L S x₁ x₂ lam rho tau) :
     ∀ a ∈ baseGrp x₁ x₂, ∀ b ∈ baseGrp x₁ x₂, a * b = b * a := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := (h.wreath.baseGrp_eq).1
+  have : IsMulCommutative (baseGrp x₁ x₂) := (h.wreath.baseGrp_eq).1
   intro a ha b hb
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : baseGrp x₁ x₂) (⟨b, hb⟩ : baseGrp x₁ x₂))
 
@@ -55,6 +55,7 @@ private theorem ctxW_inf_L (h : Ctx t L S x₁ x₂ lam rho tau) :
     exact ha
   · exact le_inf (by intro a ha; exact Subgroup.mem_sup_right ha) hAL
 
+omit [Finite G] in
 private theorem fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp, Subgroup.closure_le]
   rintro a (ha : a ∈ ({x₁ ^ 2, (x₁ * x₂) ^ 2} : Set G))
@@ -63,17 +64,21 @@ private theorem fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseG
   · exact Subgroup.pow_mem _ (Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
       (Subgroup.subset_closure (by simp))) 2
 
+omit [Finite G] in
 private theorem fourGrp_le_ctxE (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxE t x₁ x₂ := by
   rw [fourGrp, ctxE]
   exact Subgroup.closure_mono (fun a ha => by rcases ha with rfl | rfl <;> simp)
 
+omit [Finite G] in
 private theorem ctxE_le_ctxX (t tau x₁ x₂ : G) : ctxE t x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   rw [ctxE, ctxX]
   exact Subgroup.closure_mono (fun a ha => by rcases ha with rfl | rfl | rfl <;> simp)
 
+omit [Finite G] in
 private theorem fourGrp_le_ctxX (t tau x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxX t tau x₁ x₂ :=
   le_trans (fourGrp_le_ctxE t x₁ x₂) (ctxE_le_ctxX t tau x₁ x₂)
 
+omit [Finite G] in
 private theorem ctxE_eq_sup (t x₁ x₂ : G) :
     ctxE t x₁ x₂ = zpowers t ⊔ fourGrp x₁ x₂ := by
   apply le_antisymm
@@ -88,6 +93,7 @@ private theorem ctxE_eq_sup (t x₁ x₂ : G) :
       exact Subgroup.subset_closure (by simp)
     · exact fourGrp_le_ctxE t x₁ x₂
 
+omit [Finite G] in
 private theorem ctxX_eq_sup (t tau x₁ x₂ : G) :
     ctxX t tau x₁ x₂ = ctxE t x₁ x₂ ⊔ zpowers tau := by
   apply le_antisymm
@@ -167,6 +173,7 @@ private theorem tau_conj_baseGrp (h : Ctx t L S x₁ x₂ lam rho tau) {a : G}
           = (tau * x * tau⁻¹)⁻¹ := by group
         _ = (x⁻¹)⁻¹ := by rw [ihx]
 
+omit [Finite G] in
 private theorem mem_zpowers_tau_of_sq_one (h44 : tau ^ 2 = 1) {u : G} (hu : u ∈ zpowers tau) :
     u = 1 ∨ u = tau := by
   have ht2 : tau * tau = 1 := by simpa [pow_two] using h44
@@ -238,7 +245,7 @@ private theorem ctxX_inf_PL_eq_ctxE (h : Ctx t L S x₁ x₂ lam rho tau)
       exact absurd huPL h.tau_not_mem
   · exact le_inf hEX hEPL
 
-private theorem conj_mem_ctxX (h : Ctx t L S x₁ x₂ lam rho tau) {g : G}
+private theorem conj_mem_ctxX (_h : Ctx t L S x₁ x₂ lam rho tau) {g : G}
     (hgen : ∀ x ∈ ({t, tau, x₁ ^ 2, (x₁ * x₂) ^ 2} : Set G),
       g * x * g⁻¹ ∈ ctxX t tau x₁ x₂)
     {x : G} (hx : x ∈ ctxX t tau x₁ x₂) : g * x * g⁻¹ ∈ ctxX t tau x₁ x₂ := by

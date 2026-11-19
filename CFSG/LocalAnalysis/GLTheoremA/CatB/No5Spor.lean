@@ -36,7 +36,7 @@ theorem no5_spor {Y : Type} [Group Y] [Finite Y] (s : TauCeti.SporadicName)
   have h13 : 13 ∣ Nat.card J := by
     have h13co : (13 : ℕ) ∣ CFSG.Open.orderCo1 := by norm_num [CFSG.Open.orderCo1]
     exact h13co.trans h1
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥J) 13 h13
   have hw : orderOf (z : Y) = 13 := by rw [Subgroup.orderOf_coe]; exact hz
   have hzC : (z : Y) ∈ S8.cx y := hJ.1 z.2

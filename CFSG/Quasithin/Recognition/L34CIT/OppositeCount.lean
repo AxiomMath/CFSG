@@ -25,7 +25,7 @@ private theorem ncard_nonidentityInvolutions_of_elemAbelian {H : Subgroup A}
       refine ⟨?_, fun h => he1 (by simpa using h), heH⟩
       have := hea.2 e heH
       simpa [pow_two] using this
-  rw [hset, Set.ncard_diff_singleton_of_mem (H.one_mem)]
+  rw [hset, Set.ncard_sdiff_singleton_of_mem (H.one_mem)]
   rfl
 
 namespace Config
@@ -71,7 +71,7 @@ theorem ncard_nonidentityInvolutions_sylow (C : Config A) [Finite A] (P : Sylow 
   have hea : IsElemAbelian 2 (C.point P ⊓ C.line P) := by
     refine ⟨isMulCommutative_iff.mpr fun x y => Subtype.ext ?_, fun x hx => ?_⟩
     · show ((x : A) * y) = ((y : A) * x)
-      haveI : IsMulCommutative ↥(C.point P) := (C.point_ea P).1
+      have : IsMulCommutative ↥(C.point P) := (C.point_ea P).1
       exact congrArg Subtype.val
         (mul_comm' (⟨x.1, x.2.1⟩ : ↥(C.point P)) ⟨y.1, y.2.1⟩)
     · exact (C.point_ea P).2 x hx.1
@@ -122,13 +122,13 @@ private theorem card_fiber_centre (C : Config A) [Finite A] (P : Sylow 2 A) :
     simp
   rw [show Nat.card {x : ↥(C.point P ⊓ C.line P) // x ≠ 1} =
       ({x : ↥(C.point P ⊓ C.line P) | x ≠ 1}).ncard from rfl]
-  rw [hset, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
+  rw [hset, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
     C.card_inf_point_line_sylow P]
 
 theorem ncard_involutions (C : Config A) [Finite A] :
     {e : A | e * e = 1 ∧ e ≠ 1}.ncard = 3 * Nat.card (Sylow 2 A) := by
   classical
-  haveI : Fintype (Sylow 2 A) := Fintype.ofFinite _
+  have : Fintype (Sylow 2 A) := Fintype.ofFinite _
   have hsum : Nat.card (Σ P : Sylow 2 A,
       {e : A // e * e = 1 ∧ e ≠ 1 ∧ e ∈ C.point P ⊓ C.line P}) =
       3 * Nat.card (Sylow 2 A) := by
@@ -181,7 +181,7 @@ theorem ncard_involutions (C : Config A) [Finite A] :
   rw [← hbij, hsum]
 
 theorem exists_sylowThroughL_of_mem (C : Config A) [Finite A] {e : A} (he2 : e * e = 1)
-    (he1 : e ≠ 1) (he : e ∈ C.K₁) :
+    (_he1 : e ≠ 1) (he : e ∈ C.K₁) :
     ∃ P : Sylow 2 A, C.L ≤ (P : Subgroup A) ∧ e ∈ (P : Subgroup A) := by
   have hH : IsPGroup 2 ↥(Subgroup.zpowers e) :=
     (CFSG.Open.isElemAbelian_zpowers (p := 2) (by rwa [pow_two])).isPGroup

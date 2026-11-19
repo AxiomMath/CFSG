@@ -18,7 +18,7 @@ variable {z : Fin 3 → H6} {t s f0 f2 : H6} {q : Fin 5 → H6}
 
 theorem range_q : {g | g ∈ [q 0, q 1, q 2, q 3, q 4]} = Set.range q := by
   ext g
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq, Set.mem_range]
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq, Set.mem_range]
   constructor
   · rintro (rfl | rfl | rfl | rfl | rfl)
     exacts [⟨0, rfl⟩, ⟨1, rfl⟩, ⟨2, rfl⟩, ⟨3, rfl⟩, ⟨4, rfl⟩]

@@ -85,7 +85,7 @@ theorem normalizer_zpowers_le_of_norm {p : ℕ} (hp : p.Prime) {M D : Subgroup G
     have heD₁ : (⟨⟨e, heN⟩, heC⟩ : C₁) ∈ D₁ :=
       Subgroup.mem_subgroupOf.mpr (Subgroup.mem_subgroupOf.mpr he)
     exact ⟨_, ⟨_, hS heD₁, rfl⟩, rfl⟩
-  have hBp : IsPGroup p B := (S.isPGroup'.map _).map _
+  have hBp : IsPGroup p B := (S.isPGroup.map _).map _
   have hNB : Subgroup.normalizer (B : Set G) ≤ M := hNorm B hDB (hBC.trans hC) hBp
   have htop := Sylow.normalizer_sup_eq_top (p := p) (N := C₁) S
   intro n hn
@@ -105,7 +105,7 @@ theorem normalizer_zpowers_le_of_norm {p : ℕ} (hp : p.Prime) {M D : Subgroup G
   exact hle hn'
 
 theorem gamma_one_le_of_norm {p : ℕ} (hp : p.Prime) {M E D : Subgroup G}
-    (hE : IsElemAbelian p E) (hEcard : Nat.card E = p ^ 2) (hD : IsElemAbelian p D) (hED : E ≤ D)
+    (_hE : IsElemAbelian p E) (hEcard : Nat.card E = p ^ 2) (hD : IsElemAbelian p D) (hED : E ≤ D)
     (hNE : Subgroup.normalizer (E : Set G) ≤ M)
     (hC : ∀ x ∈ E, x ≠ 1 → Subgroup.centralizer ({x} : Set G) ≤ M)
     (hNorm : ∀ B : Subgroup G, D ≤ B → B ≤ M → IsPGroup p B →
@@ -140,7 +140,7 @@ theorem gamma_one_le_of_norm {p : ℕ} (hp : p.Prime) {M E D : Subgroup G}
     obtain ⟨k, hk, hkc⟩ := (Nat.dvd_prime_pow hp).mp hdvd
     have hk2 : k = 2 := by
       rcases k with _ | _ | k
-      · haveI : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp (by simpa using hkc)).1
+      · have : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp (by simpa using hkc)).1
         exact absurd isCyclic_of_subsingleton hQc
       · exact absurd (isCyclic_of_prime_card (p := p) (by simpa using hkc)) hQc
       · omega
@@ -180,7 +180,7 @@ theorem not_two_dvd_index_inf_of_coprime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   have hT₀D : (T₀ : Subgroup D).map D.subtype ≤ D := Subgroup.map_subtype_le _
   have hRT : S ≤ (T₀ : Subgroup D).map D.subtype := fun x hx =>
     ⟨⟨x, hRD hx⟩, hT₀ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-  have heq := hSmax _ hT₀D (T₀.isPGroup'.map D.subtype) hRT
+  have heq := hSmax _ hT₀D (T₀.isPGroup.map D.subtype) hRT
   have e : S.subgroupOf D = (T₀ : Subgroup D) := by
     rw [← heq]
     exact Subgroup.comap_map_eq_self_of_injective D.subtype_injective _
@@ -194,7 +194,7 @@ variable {p : ℕ} {P : Sylow p G} {M H R : Subgroup G}
 theorem D1OneSmall3Data.commute_of_czElt (hd : D1OneSmall3Data p P M H R Rbar K) {z : G}
     (hz : D1SmallCZElt p H R K z) {x : G} (hx : x ∈ d1LiftX p H R K) : x * z = z * x := by
   have hp := hd.cfg.red.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hzR, -, hzH, hzc⟩ := hz
   obtain ⟨x', ⟨hxR, hxK⟩, rfl⟩ := hx
   set π := QuotientGroup.mk' (primeComplementCore (G := H) p)
@@ -217,7 +217,7 @@ theorem D1OneSmall3Data.not_isCyclic_X (hd : D1OneSmall3Data p P M H R Rbar K) :
   intro hc
   apply hd.noncyclic
   rw [← map_d1LiftX_eq_inf hd]
-  haveI : IsCyclic ((d1LiftX p H R K).subgroupOf H) :=
+  have : IsCyclic ((d1LiftX p H R K).subgroupOf H) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe (d1LiftX_le_H p H R K)).symm.toMonoidHom
       (MulEquiv.surjective _)
   exact isCyclic_of_surjective _
@@ -229,7 +229,7 @@ theorem D1OneSmall3Data.isAGLQ_X_of_centralizer (hd : D1OneSmall3Data p P M H R 
       Subgroup.centralizer ({a} : Set G) ≤ M) :
     IsAGLQ p M (d1LiftX p H R K) := by
   have hp := hd.cfg.red.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 := hd.cfg.red.ne_two
   have he := hd.cfg.ext.toD1Escape
   have hRM : R ≤ M := he.le_M
@@ -292,7 +292,7 @@ theorem D1OneSmall3Data.prime_dvd_card_of_block (hUP : KFactUPrimeSmall)
     p ∣ Nat.card L := by
   by_contra hpL
   have hp := hd.cfg.red.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF : ¬ (p = 5 ∧ IsFi22 K) := fun h => hd.false_of_isFi22 hsec h.2
   have hph := hd.toPhaseThree hUP hL34 hF
   have h93 := nineThree_of_oneSmall3 hd
@@ -361,20 +361,20 @@ theorem D1OneSmall3Data.noPPrime (hd : D1OneSmall3Data p P M H R Rbar K) :
     ∀ V : Subgroup K, V.Normal → p.Coprime (Nat.card V) → V = ⊥ := by
   intro V hV hcop
   obtain ⟨hKs, -⟩ := hd.toCore.isSimpleGroup
-  haveI := hKs
+  have := hKs
   have hp := hd.cfg.red.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal V with h | h
   · exact h
   · exfalso
     set Q := ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K :
       Subgroup (H ⧸ primeComplementCore (G := H) p))
-    have hQp : IsPGroup p Q := Rbar.isPGroup'.to_le inf_le_left
+    have hQp : IsPGroup p Q := Rbar.isPGroup.to_le inf_le_left
     obtain ⟨n, hn⟩ : ∃ n : ℕ, Nat.card Q = p ^ n := hQp.exists_card_eq
     have hn0 : n ≠ 0 := by
       rintro rfl
       rw [pow_zero] at hn
-      haveI : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp hn).1
+      have : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp hn).1
       exact hd.noncyclic isCyclic_of_subsingleton
     have hdvd : Nat.card Q ∣ Nat.card K := Subgroup.card_dvd_of_le inf_le_right
     have hpV : p ∣ Nat.card V := by

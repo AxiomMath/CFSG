@@ -94,10 +94,10 @@ theorem kd264I5_SL [Finite K] {N : ℕ} (hN : 3 ≤ N) (h3q : 3 ∣ Nat.card K -
       (Matrix.SpecialLinearGroup (Fin N) K ⧸ Subgroup.center (Matrix.SpecialLinearGroup (Fin N) K))) :
     ∃ E : Subgroup (Matrix.SpecialLinearGroup (Fin N) K),
       E ≤ MonoidHom.eqLocus β.toMonoidHom (MonoidHom.id _) ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ (N - 1) := by
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   have hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin N) K) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hN
-  haveI := hperf
+  have := hperf
   let e₀ : Matrix.SpecialLinearGroup (Fin N) K ⧸ Subgroup.center (Matrix.SpecialLinearGroup (Fin N) K) ≃*
       projectiveSL N K := QuotientGroup.quotientMulEquivOfEq (scalars_eq_center N K).symm
   let β' : MulAut (projectiveSL N K) := descendAut N K β
@@ -161,16 +161,16 @@ theorem kd264I5_SL [Finite K] {N : ℕ} (hN : 3 ≤ N) (h3q : 3 ∣ Nat.card K -
     · intro h
       rw [h]
       group
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, hpc⟩ := CharP.exists K
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
+  have : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
   obtain ⟨e, hp, hKe⟩ := FiniteField.card K p
   have hKe' : Nat.card K = p ^ (e : ℕ) := by rw [Nat.card_eq_fintype_card, hKe]
   have he1 : 1 ≤ (e : ℕ) := e.pos
   have hdvd := orderOf_dvd_of_card hp he1 hKe' σ
   have hF0 := card_fixField hp he1 hKe' σ
   rw [hσord] at hdvd hF0
-  haveI : Finite (fixField σ) := CFSG.Semidihedral.FixedFieldData.finite_of_prime_power_card _ hp hF0
+  have : Finite (fixField σ) := CFSG.Semidihedral.FixedFieldData.finite_of_prime_power_card _ hp hF0
   have h3F : 3 ∣ Nat.card (fixField σ) - 1 := by
     obtain ⟨m, hm⟩ := hdvd
     have hKx : Nat.card K = (p ^ m) ^ 3 := by rw [hKe', hm, mul_comm, pow_mul]

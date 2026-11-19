@@ -25,7 +25,7 @@ theorem cov_exists_z {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
     ∃ z : G, z ≠ 1 ∧ z ^ 2 = 1 ∧ z ∈ fsuV T I ∧
       H ≤ Subgroup.centralizer ({z} : Set G) ∧ T ≤ Subgroup.centralizer ({z} : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hV, hN⟩ := stmtFSUModule_of_eight h3228 G T L I hyp.fsu
   have hTL : T ≤ Subgroup.normalizer (L : Set G) := le_normalizer_of_case82 h711n hyp hrow
   have hne := fsuV_inf_omegaOneCenter_ne_bot hyp.fsu hV hN
@@ -92,7 +92,7 @@ theorem cov_P9 {G : Type} [Group G] [Finite G] (L : Subgroup G)
     (hcenter3 : Nat.card (Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L)) = 3) :
     ¬ 9 ∣ Nat.card (res822P L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomap : Nat.card ((Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L)).comap
       (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) =
       Nat.card (QuotientGroup.mk' (CFSG.pCore 2 ↥L)).ker *
@@ -115,7 +115,7 @@ theorem cov_P9 {G : Type} [Group G] [Finite G] (L : Subgroup G)
 
 theorem cov_inf_pCoreOf_le {G : Type} [Group G] [Finite G] {Lz L : Subgroup G} (hLzL : Lz ≤ L) :
     Lz ⊓ pCoreOf 2 L ≤ pCoreOf 2 Lz := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf 2 inf_le_left ?_ ?_
   · refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢

@@ -15,17 +15,17 @@ theorem burnsideAut_a315_3D4two :
     ∀ (G : Type) [Group G] (L T B : Subgroup G), CFSG.Quasithin.A315Hyp L T B →
       CFSG.Quasithin.Is3D4 2 1 ↥L → CFSG.Quasithin.A315Case6 L T B := by
   intro G _ L T B h hL
-  haveI : Finite G := h.sqtk.finite
-  haveI := burnsideA315x_normal h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite G := h.sqtk.finite
+  have := burnsideA315x_normal h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBL : B ≤ L := fun b _ => burnsideAut_d42_mem h hL b
   have hc := burnsideA315x_config_of_le h hBL
-  haveI := h.simple
+  have := h.simple
   have hne₀ := burnsideAut_Config_sup_ne_top hc h.nonabelian
   obtain ⟨K, _, _, σ, φ, hK, hσ, hφ, -, -⟩ :=
     CFSG.QuasithinUnique.Setup.X6.even_rank_two_residual_triality hL hc.sylow
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hUC : graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom ≤
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     graphFixedPosUnipotent_le_graphFixedRootGroup _ _ _
@@ -80,13 +80,13 @@ theorem burnsideAut_a315_3D4two :
   have hsolv : Group.IsSolvable ↥(Bm ⊔ graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom) := by
     have hnil : Group.IsNilpotent ↥(B.subgroupOf L) := by
       rcases hc.cases with hab | ⟨r, hr, hBr⟩
-      · haveI := hab
+      · have := hab
         infer_instance
-      · haveI : Fact r.Prime := ⟨hr⟩
+      · have : Fact r.Prime := ⟨hr⟩
         exact hBr.isNilpotent
-    haveI := hc.sup_solvable hnil
+    have := hc.sup_solvable hnil
     rw [← hsup]
-    exact solvable_of_surjective (f := ((B.subgroupOf L ⊔ (T ⊓ L).subgroupOf L).equivMapOfInjective
+    exact Group.isSolvable_of_surjective (f := ((B.subgroupOf L ⊔ (T ⊓ L).subgroupOf L).equivMapOfInjective
       ψ hψ).toMonoidHom) (MulEquiv.surjective _)
   have hne : Bm ⊔ graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom ≠
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom := by

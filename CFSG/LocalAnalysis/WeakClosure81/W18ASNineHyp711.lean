@@ -14,6 +14,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem omegaSet_UAOf_zpowers (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mRank A ≤ i)
     {a : ↥G} (ha : Subgroup.zpowers (a : LGL 2 V) ∈ Γ) :
     omegaSet (UAOf G VA (Subgroup.zpowers (a : LGL 2 V))) (⊤ : Subgroup (VG G)) (vHat G) =
@@ -61,6 +62,7 @@ theorem hyp73_UAOf_zpowers (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, 
       pcore_le := pCoreOf_kSub_le_pCoreOf le_top hnorm hOm
       jnormal := pCoreOf_subgroupOf_normal le_top (kSub_subgroupOf_normal le_top hnorm hOm) }
 
+omit [Finite V] in
 theorem charTwo_top_VG : CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup (VG G)) := by
   intro x hx
   obtain ⟨-, hxc⟩ := hx
@@ -101,20 +103,21 @@ theorem charTwo_top_VG : CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup (VG G)) :=
   rw [map_one, mul_one]
   exact wHat_le_pCoreOf (⊤ : Submodule (ZMod 2) V) (mem_wHat.2 ⟨v, Submodule.mem_top, rfl⟩)
 
-theorem fusionOddCoreOf_kSub_UAOf_zpowers (h : Assumption131 G Γ VA i)
-    (hrank : ∀ A ∈ Γ, mRank A ≤ i) (hVAle : ∀ A ∈ Γ, VA A ≤ fixSub A) {a : ↥G}
-    (ha : Subgroup.zpowers (a : LGL 2 V) ∈ Γ) {U : Subgroup (VG G)}
-    (hU : U = UAOf G VA (Subgroup.zpowers (a : LGL 2 V))) :
+theorem fusionOddCoreOf_kSub_UAOf_zpowers (_h : Assumption131 G Γ VA i)
+    (_hrank : ∀ A ∈ Γ, mRank A ≤ i) (_hVAle : ∀ A ∈ Γ, VA A ≤ fixSub A) {a : ↥G}
+    (_ha : Subgroup.zpowers (a : LGL 2 V) ∈ Γ) {U : Subgroup (VG G)}
+    (_hU : U = UAOf G VA (Subgroup.zpowers (a : LGL 2 V))) :
     fusionOddCoreOf (kSub U (⊤ : Subgroup (VG G)) (vHat G)) = ⊥ := by
   have hnorm : ((vHat G).subgroupOf (⊤ : Subgroup (VG G))).Normal := normal_vHat.subgroupOf _
   have hOm : ∀ W ∈ omegaSet U (⊤ : Subgroup (VG G)) (vHat G), W ≤ (⊤ : Subgroup (VG G)) :=
     fun _ _ => le_top
-  haveI : (kSub U (⊤ : Subgroup (VG G)) (vHat G)).Normal := by
+  have : (kSub U (⊤ : Subgroup (VG G)) (vHat G)).Normal := by
     have h1 := (Subgroup.normal_subgroupOf_iff_le_normalizer le_top).mp
       (kSub_subgroupOf_normal (V := U) le_top hnorm hOm)
     exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h1)
   exact fusionOddCoreOf_eq_bot_of_charTwo charTwo_top_VG _
 
+omit [Finite V] in
 theorem normalClosure_le_comap_inr_kSub (h : Assumption131 G Γ VA i)
     (hrank : ∀ A ∈ Γ, mRank A ≤ i) {a : ↥G}
     (ha : Subgroup.zpowers (a : LGL 2 V) ∈ Γ) {U : Subgroup (VG G)}
@@ -134,8 +137,9 @@ theorem normalClosure_le_comap_inr_kSub (h : Assumption131 G Γ VA i)
     exact ⟨_, ⟨c, rfl⟩, rfl⟩
   · exact Subgroup.mem_sup_right (mem_aHat.mpr ⟨_, Subgroup.mem_zpowers _, rfl⟩)
 
+omit [Finite V] in
 theorem transitive_kSub_UAOf_zpowers (h : Assumption131 G Γ VA i)
-    (hrank : ∀ A ∈ Γ, mRank A ≤ i) (hVAle : ∀ A ∈ Γ, VA A ≤ fixSub A) {a : ↥G}
+    (hrank : ∀ A ∈ Γ, mRank A ≤ i) (_hVAle : ∀ A ∈ Γ, VA A ≤ fixSub A) {a : ↥G}
     (ha : Subgroup.zpowers (a : LGL 2 V) ∈ Γ) {U : Subgroup (VG G)}
     (hU : U = UAOf G VA (Subgroup.zpowers (a : LGL 2 V)))
     (hclass : ∀ y : ↥G,

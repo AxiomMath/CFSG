@@ -18,8 +18,8 @@ theorem shapeRkAt_of_l33 {G : Type} [Group G] [Finite G] {x : G}
     (hI : ∀ u : G, u * u = 1 → u ≠ 1 → u * x = x * u →
       Nat.card ↥(Subgroup.centralizer ({u} : Set G) ⊓ Subgroup.centralizer ({x} : Set G)) ≤ 936) :
     ShapeRkAt 13 GoodL33 TrivRk x := by
-  haveI hp : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI hsQ : IsSimpleGroup ↥Q := isSimple_of_equiv_sl e
+  have hp : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have hsQ : IsSimpleGroup ↥Q := isSimple_of_equiv_sl e
   have hnab : ∃ a b : ↥Q, a * b ≠ b * a := noncomm_of_equiv_sl e
   have hQcard : Nat.card ↥Q = 5616 := card_of_equiv_sl e
   have hxcard : Nat.card ↥(Subgroup.zpowers x) = 13 := by rw [Nat.card_zpowers, hx]

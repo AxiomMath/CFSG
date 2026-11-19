@@ -43,7 +43,7 @@ theorem s16jp_st_section [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (
         ((β ⟨((π γ : ↥L) : MulAut W) (u : W), hu⟩ : ↥Adj3) : AdjAmb) =
           adjAmbAct γ ((β u : ↥Adj3) : AdjAmb) := by
   classical
-  rw [irrSet, Set.mem_setOf_eq] at hirr
+  rw [irrSet, Set.mem_ofPred_eq] at hirr
   obtain ⟨-, hIrrOn⟩ := hirr
   rw [IsIrrOn] at hIrrOn
   obtain ⟨hZU, hStableU, hStableZ, hIrrCond⟩ := hIrrOn

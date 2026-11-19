@@ -104,7 +104,7 @@ theorem A6Hyp.normal_simple_data (h : A6Hyp σ D) :
     D.Normal ∧ IsSimpleGroup ↥D ∧ (∃ a b : ↥D, a * b ≠ b * a) ∧ 2 ∣ Nat.card ↥D ∧
       Nonempty (↥D ≃* alternatingGroup (Fin 6)) := by
   obtain ⟨hDn, ⟨e⟩, -⟩ := h
-  haveI := a6sq_simple
+  have := a6sq_simple
   have hs : IsSimpleGroup ↥D := e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := a6sq_nonab
   refine ⟨hDn, hs, ⟨e.symm a, e.symm b, fun h' => hab ?_⟩, ?_, ⟨e⟩⟩

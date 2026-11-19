@@ -78,7 +78,7 @@ private theorem inf_centralizer_fstar_eq_bot (H : Subgroup G)
       (Subgroup.mem_inf.mp hzC).2
     exact (Subgroup.mem_centralizer_iff.mp hzcent) (y : G) y.2
   have hZ : Subgroup.center ↥(Fstar H) = ⊥ := by
-    haveI : IsSimpleGroup ↥(Fstar H) := hs
+    have : IsSimpleGroup ↥(Fstar H) := hs
     have hnc : ¬ IsMulCommutative ↥(Fstar H) := by
       intro hc
       obtain ⟨a, b, hab⟩ := hnab
@@ -97,7 +97,7 @@ private theorem b5_eq_bot_or_fstar_le_of_normal {H N : Subgroup G}
     (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal) :
     N = ⊥ ∨ Fstar H ≤ N := by
   classical
-  haveI : IsSimpleGroup ↥(Fstar H) := hs
+  have : IsSimpleGroup ↥(Fstar H) := hs
   have hCn : ((N ⊓ Fstar H).subgroupOf (Fstar H)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff (inf_le_right : N ⊓ Fstar H ≤ Fstar H)]
     intro x g hx hg
@@ -105,7 +105,7 @@ private theorem b5_eq_bot_or_fstar_le_of_normal {H N : Subgroup G}
     exact Subgroup.mem_inf.mpr
       ⟨(Subgroup.normal_subgroupOf_iff hNH).1 hN x g hxN (fstar_le_group H hg),
         conj_mem_fstar (fstar_le_group H hg) hxF⟩
-  haveI := hCn
+  have := hCn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((N ⊓ Fstar H).subgroupOf (Fstar H)) with hCbot | hCtop
   · left
@@ -152,7 +152,7 @@ private theorem ne_bot_of_maxOver_eq_singleton_of_noncomm {H M A : Subgroup G}
   intro hAbot
   rw [hAbot] at hM
   obtain ⟨hMmax, -, hunique⟩ := isUniqueMaxOver_iff.mp hM
-  obtain ⟨x, hxH, hxM⟩ := SetLike.exists_of_lt hMmax.1
+  obtain ⟨x, hxH, hxM⟩ := _root_.IsConcreteLE.exists_of_lt hMmax.1
   have hzx : Subgroup.zpowers x = H := by
     by_contra hne
     have hlt : Subgroup.zpowers x < H :=
@@ -191,8 +191,8 @@ private theorem kerMOf_eq_bot_of_fstar_noncomm {H M A : Subgroup G}
   obtain ⟨X, hX⟩ := exists_isMinNormalOver hYlt hYn
   obtain ⟨-, hQnil⟩ := five_four_three h hM hX
   have hYsol : Group.IsSolvable ↥Y := by
-    haveI : Group.IsNilpotent ↥(pCore 2 ↥Y) := pCore_isNilpotent
-    haveI : Group.IsNilpotent (↥Y ⧸ pCore 2 ↥Y) := hQnil
+    have : Group.IsNilpotent ↥(pCore 2 ↥Y) := pCore_isNilpotent
+    have : Group.IsNilpotent (↥Y ⧸ pCore 2 ↥Y) := hQnil
     refine Group.isSolvable_of_ker_le_range (pCore 2 ↥Y).subtype
       (QuotientGroup.mk' (pCore 2 ↥Y))
       (le_of_eq ((QuotientGroup.ker_mk' (pCore 2 ↥Y)).trans
@@ -200,12 +200,12 @@ private theorem kerMOf_eq_bot_of_fstar_noncomm {H M A : Subgroup G}
   rcases b5_eq_bot_or_fstar_le_of_normal hs hnab hYH hYn with hYbot | hFY
   · exact hYbot
   · exfalso
-    haveI : Group.IsSolvable ↥Y := hYsol
+    have : Group.IsSolvable ↥Y := hYsol
     have hFsol : Group.IsSolvable ↥(Fstar H) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hFY)
         (Subgroup.inclusion_injective hFY)
-    haveI : IsSimpleGroup ↥(Fstar H) := hs
-    haveI : Group.IsSolvable ↥(Fstar H) := hFsol
+    have : IsSimpleGroup ↥(Fstar H) := hs
+    have : Group.IsSolvable ↥(Fstar H) := hFsol
     obtain ⟨a, b, hab⟩ := hnab
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr hFsol a b)
 
@@ -234,9 +234,9 @@ theorem asc80BSetup {H A M : Subgroup G} (hs : IsSimpleGroup ↥(Fstar H))
         (hH2.to_subgroup ((Fstar H).subgroupOf H)).of_equiv
           (Subgroup.subgroupOfEquivOfLe (fstar_le_group H))
       have hsol : Group.IsSolvable ↥(Fstar H) := by
-        haveI : Group.IsNilpotent ↥(Fstar H) := IsPGroup.isNilpotent hF2
+        have : Group.IsNilpotent ↥(Fstar H) := IsPGroup.isNilpotent hF2
         exact IsNilpotent.to_isSolvable
-      haveI : IsSimpleGroup ↥(Fstar H) := hs
+      have : IsSimpleGroup ↥(Fstar H) := hs
       obtain ⟨a, b, hab⟩ := hnab
       exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr hsol a b)
     have hTM : T ≤ M := le_of_lt_of_maxOver_eq_singleton hM hAT hTlt

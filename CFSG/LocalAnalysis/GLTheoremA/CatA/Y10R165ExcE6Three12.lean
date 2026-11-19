@@ -22,7 +22,7 @@ theorem exists_section_lift {H G K : Type} [Group H] [Finite H] [Group G]
       S ≤ Subgroup.centralizer ({x} : Set H) ∧ S.map π = L ∧ S ⊓ π.ker = ⊥ ∧
       (∀ s : ↥S, π s = eS s) ∧ Group.IsPerfect ↥S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LocalAnalysis.GLTheoremA.Y10F.ExcEngine.exists_section_lift_of_splits
     hπ hker hLperf hLx e (Q := fun n => ¬ 2 ∣ n) ?_ h2 ?_
   · exact fun {m n} hmn hn h => hn (h.trans hmn)

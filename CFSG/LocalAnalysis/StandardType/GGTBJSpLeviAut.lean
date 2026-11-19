@@ -12,6 +12,7 @@ open CFSG.Open (StatedSp)
 
 variable {p m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem ggTBJ_sp_automizer_fix_of_commute {ζ : Kˣ} (hζ : ζ ^ p = 1)
     {J : Subgroup (StatedSp m K)}
     (κ : (Fin m → Multiplicative (ZMod p)) ≃* (spTorusSp (m := m) hζ).range)
@@ -43,7 +44,7 @@ theorem ggTBJ_sp_zero_block_automizer_eq (hp : p.Prime)
     (ggAutomizer J (spTorusSp (m := m) hζ).range).map (MulAut.congr κ.symm).toMonoidHom =
       signedSupportedAut m p Z := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   apply le_antisymm
   · intro u hu
     refine mem_signedSupportedAut_of_fix hp
@@ -92,7 +93,7 @@ theorem ggTBJ_sp_class_block_automizer_eq (hp : p.Prime) (hp2 : p ≠ 2)
     (ggAutomizer J (spTorusSp (m := m) hζ).range).map (MulAut.congr κ.symm).toMonoidHom =
       twistedPermAut m p S s hs := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hlamInv : lam ≠ lam⁻¹ := by
     intro h
     have hsq : lam * lam = 1 :=
@@ -161,9 +162,9 @@ theorem ggTBJ_sp_class_block_automizer_eq (hp : p.Prime) (hp2 : p ≠ 2)
             c'⁻¹) := by
         refine ⟨c, fun i => ⟨fun hi => ?_, fun hi => ?_⟩⟩
         · have hmem : i ∈ S := (hS i).mpr (Or.inl hi)
-          simp only [hmem, if_true, hspos i (by rw [hi]; exact hlamInv), c]
+          simp only [hmem, ite_true, hspos i (by rw [hi]; exact hlamInv), c]
         · have hmem : i ∈ S := (hS i).mpr (Or.inr hi)
-          simp only [hmem, if_true, hsneg i hi, c, ← map_inv, ofAdd_neg]
+          simp only [hmem, ite_true, hsneg i hi, c, ← map_inv, ofAdd_neg]
       simpa only [ggTBJSpC_spTorusSp_eq_diagSp hζ] using hcentral _ hx n hn
   · apply twistedPermAut_le
     intro a ha b hb hab
@@ -175,10 +176,10 @@ theorem ggTBJ_sp_class_block_automizer_eq (hp : p.Prime) (hp2 : p ≠ 2)
         (fun i => ⟨id, id⟩) hab
       rw [h]
       by_cases hab' : t a = t b
-      · rw [ggTBJSpC_reflAut, ggTBJSpC_reflAut, if_pos ((hst a b hta htb).mpr hab'),
-          if_pos hab']
-      · rw [ggTBJSpC_reflAut, ggTBJSpC_reflAut, if_neg (fun h => hab' ((hst a b hta htb).mp h)),
-          if_neg hab']
+      · rw [ggTBJSpC_reflAut, ggTBJSpC_reflAut, ite_eq_left ((hst a b hta htb).mpr hab'),
+          ite_eq_left hab']
+      · rw [ggTBJSpC_reflAut, ggTBJSpC_reflAut, ite_eq_right (fun h => hab' ((hst a b hta htb).mp h)),
+          ite_eq_right hab']
     rw [hconj]
     refine (mem_map_congr_ggAutomizer_iff _ J κ (ggTBJSpC_reflAut p m t a b)).mpr
       ⟨ggTBJSpC_reflElt t a b, ggTBJSpC_reflElt_mem_of_paired hlam hperm hmixed hta htb hab, ?_⟩

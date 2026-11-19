@@ -23,16 +23,16 @@ theorem uCited_exists_rootParabolic_hypPSU {f : ℕ} (h : UnitaryFieldData 2 f K
     (hε : ε ≤ 1) {x : HypIndex r ε → K} (hx0 : x ≠ 0) (hx : hypForm h r ε x x = 0)
     {Sy : Subgroup (hypPSU h r ε)}
     (hSy : ∃ P : Sylow 2 (hypPSU h r ε), (P : Subgroup (hypPSU h r ε)) = Sy)
-    (hRSy : (uCitedRoot h r ε x).map (hypProj h r ε) ≤ Sy)
+    (_hRSy : (uCitedRoot h r ε x).map (hypProj h r ε) ≤ Sy)
     (hSyR : Sy ≤ Subgroup.normalizer (((uCitedRoot h r ε x).map (hypProj h r ε) :
       Subgroup (hypPSU h r ε)) : Set (hypPSU h r ε))) :
     ∃ X₂ Pα : Subgroup (hypPSU h r ε),
       RootParabolic ((uCitedRoot h r ε x).map (hypProj h r ε)) Sy X₂ Pα 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (hypSU h r ε) := finite_hypSU h
-  haveI : Finite (hypPSU h r ε) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (hypSU h r ε) := finite_hypSU h
+  have : Finite (hypPSU h r ε) :=
     Finite.of_surjective (hypProj h r ε) (hypProj_surjective h r ε)
-  haveI : Finite (Sylow 2 (hypPSU h r ε)) :=
+  have : Finite (Sylow 2 (hypPSU h r ε)) :=
     Finite.of_injective
       (fun P : Sylow 2 (hypPSU h r ε) => (P : Subgroup (hypPSU h r ε)))
       (fun P Q h => Sylow.ext h)

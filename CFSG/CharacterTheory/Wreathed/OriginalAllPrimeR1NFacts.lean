@@ -355,7 +355,7 @@ theorem wreathedSetting_r1NFacts
     wreathedSetting_D_eq n (by omega) S e p f
   have hD2 : IsPGroup 2 (wreathedSetting n S e p f).D := by
     rw [hDS]
-    exact S.isPGroup'
+    exact S.isPGroup
   have hcomm : ∀ τ υ : Sigma, τ * υ = υ * τ := by
     have := hdata.sigma_cyclic
     exact fun τ υ => (IsCyclic.isMulCommutative (α := Sigma)).is_comm.comm τ υ

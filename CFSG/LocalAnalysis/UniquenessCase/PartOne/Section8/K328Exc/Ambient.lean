@@ -97,7 +97,7 @@ theorem rankThreeGamma_eq_top_of_normal {G : Type} [Group G] [Finite G] (K : Sub
   set S' : Subgroup G := (S : Subgroup K).map K.subtype with hS'
   have hPS : P ≤ S' := fun x hx =>
     ⟨⟨x, hPK hx⟩, hS (show (⟨x, hPK hx⟩ : K) ∈ P.comap K.subtype from hx), rfl⟩
-  have hS'p : IsPGroup 3 S' := S.isPGroup'.map K.subtype
+  have hS'p : IsPGroup 3 S' := S.isPGroup.map K.subtype
   have hcardS : Nat.card S' = Nat.card S :=
     Subgroup.card_map_of_injective Subtype.val_injective
   have hSK : Nat.card S' ∣ Nat.card K := hcardS ▸ Subgroup.card_subgroup_dvd_card _
@@ -158,7 +158,7 @@ theorem exists_e9_le_sylow {G : Type} [Group G] [Finite G] {X P : Subgroup G}
     exact CFSG.RankThree.PartTwo.KFacts.K412.not_isMulCommutative_sylow hperf hz hz1' hz3 Q
       ⟨⟨(IsCyclic.commGroup (α := (Q : Subgroup X))).mul_comm⟩⟩
   obtain ⟨E, hEQ, hE, hcard⟩ := CFSG.Goldschmidt.G55.exists_isElemAbelian_card_sq
-    Nat.prime_three (by norm_num) Q.isPGroup' hnc
+    Nat.prime_three (by norm_num) Q.isPGroup hnc
   refine ⟨E.map X.subtype, Subgroup.map_mono hEQ,
     hE.map X.subtype, ?_⟩
   rw [Subgroup.card_map_of_injective Subtype.val_injective, hcard]

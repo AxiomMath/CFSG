@@ -388,7 +388,7 @@ private theorem testBit_mul_rep {v : ℕ} (hv : v < 2 ^ 256) :
     by_cases h1 : p / 256 < n
     · simp [h1, show ¬ p / 256 = n by omega, show p / 256 < n + 1 by omega]
     · by_cases h2 : p / 256 = n
-      · simp [h1, h2]
+      · simp [h2]
       · simp [h1, h2, show ¬ p / 256 < n + 1 by omega]
 
 private def xsB (f : ℕ → Bool) : ℕ → Bool
@@ -406,7 +406,7 @@ private theorem mulB_eq_mulBn (c rm A B : ℕ) : mulB c rm A B = mulBn c rm A B 
 private theorem mulBn_succ (c rm A B n : ℕ) :
     mulBn c rm A B (n + 1) = mulBn c rm A B n ^^^ stepP c rm A B n := rfl
 
-private theorem testBit_stepP {A B k : ℕ} (hk : k < 248) (p : ℕ) :
+private theorem testBit_stepP {A B k : ℕ} (_hk : k < 248) (p : ℕ) :
     (stepP (rep 1 256 248) (2 ^ 248 - 1) A B k).testBit p =
       (decide (p % 256 < 248 ∧ p / 256 < 248) &&
         (A.testBit (256 * (p / 256) + k) && B.testBit (256 * k + p % 256))) := by
@@ -478,7 +478,7 @@ private theorem pkMat_trB_rep (A : ℕ) :
   have e1 : (256 * i.val + j.val) / 256 < 256 := by omega
   have e2 : (256 * i.val + j.val) % 256 = j.val := by omega
   have e3 : (256 * i.val + j.val) / 256 = i.val := by omega
-  rw [if_pos e1, e2, e3]
+  rw [ite_eq_left e1, e2, e3]
 
 private theorem inLayout_trB_rep {A : ℕ} (hA : InLayout A) :
     InLayout (trB (tmask 0) (tmask 1) (tmask 2) (tmask 3) (tmask 4) (tmask 5) (tmask 6) (tmask 7)
@@ -486,13 +486,13 @@ private theorem inLayout_trB_rep {A : ℕ} (hA : InLayout A) :
   intro b hb
   rw [trB_bit] at hb
   by_cases h : b / 256 < 256
-  · rw [if_pos h] at hb
+  · rw [ite_eq_left h] at hb
     have := hA _ hb
     have hr : b % 256 < 256 := Nat.mod_lt _ (by omega)
     generalize b % 256 = r at *
     generalize b / 256 = q at *
     omega
-  · rw [if_neg h] at hb
+  · rw [ite_eq_right h] at hb
     have := hA _ hb
     omega
 
@@ -549,8 +549,8 @@ private theorem powBn_succ (c rm ONE M e nb n : ℕ) :
     rw [Nat.and_one_is_mod]
   rw [powBn_succ_raw, hb]
   by_cases h : (e >>> (nb - 1 - n)) % 2 = 1
-  · rw [if_pos h, decide_eq_true h]
-  · rw [if_neg h, decide_eq_false h]
+  · rw [ite_eq_left h, decide_eq_true h]
+  · rw [ite_eq_right h, decide_eq_false h]
 
 private theorem pkMat_powBn (ONE M e nb : ℕ) (h1 : pkMat ONE = 1) (he : e < 2 ^ nb) :
     ∀ n, n ≤ nb →
@@ -708,7 +708,7 @@ private theorem testBit_vecTerm (v M n j : ℕ) :
   rw [h1]
   cases hb : v.testBit n
   · simp
-  · simp only [if_true, Nat.one_mul, Bool.true_and]
+  · simp only [ite_true, Nat.one_mul, Bool.true_and]
     rw [Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one, Nat.mul_comm n 256,
       Nat.add_comm (256 * n)]
 
@@ -762,7 +762,7 @@ theorem wordAB_succ (c rm ONE A B Bi w n : ℕ) :
   · by_cases h1 : x = 1
     · subst h1
       rfl
-    · rw [if_neg h0, if_neg h1, beq_eq_decide, beq_eq_decide, decide_eq_false h0,
+    · rw [ite_eq_right h0, ite_eq_right h1, beq_eq_decide, beq_eq_decide, decide_eq_false h0,
         decide_eq_false h1]
 
 theorem consts_spec {c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg ONE : ℕ}

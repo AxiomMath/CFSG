@@ -19,13 +19,13 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   carrier := {x | (x : Matrix (Fin 2) (Fin 2) K) 1 0 = 0}
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two, hx, zero_mul,
       zero_add, hy, mul_zero]
   one_mem' := by simp
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two]
     simp [hx]
 
@@ -33,7 +33,7 @@ theorem comm_LB_XB (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {g b : G}
     (hg : g ∈ LB M Q B)
     (hb : b ∈ (QB B ⊓ Wt Q (Vt M (LB M Q B) B Z t)) ⊔ Vt M (LB M Q B) B Z t) :
     ⁅g, b⁆ ∈ Vt M (LB M Q B) B Z t :=
-  comm_LB_X95 hc inf_le_left (fun v hv y hy => Subgroup.mem_centralizer_iff.mp hy.2 v hv)
+  comm_LB_X95 hc inf_le_left (fun v hv _y hy => Subgroup.mem_centralizer_iff.mp hy.2 v hv)
     (sup_le (hc.B_le_Vt ht) sec39_Z_le_Vt) hg (hc.Rt_normalizes_Vt ht (le_Rt _ ht hg)) hb
 
 theorem comm_LB_mem_Wt' (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {l x : G}
@@ -63,6 +63,7 @@ section Setup
 variable {hc : Ctx M Q Z B} {t : G} {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
 
+omit [Finite G] [Finite K] in
 theorem pi_mem_img_sup {XA XB : Subgroup G} (hA : XA ≤ Q) (hB : XB ≤ Q) {z : G}
     (hz : z ∈ XA ⊔ XB) : M₀.π z ∈ M₀.img XA ⊔ M₀.img XB := by
   let T : Subgroup G :=
@@ -155,6 +156,9 @@ theorem act_sub_mem_Xfix [CharP K 2] (h34 : Stroth34Statement) {n : ℕ} (hs : S
   exact S.actM_siegel hl₁ hl₂ w.2
 
 include S in
+omit [Finite G] [Field K] [Finite K] S in
+include hc in
+variable (hc) in
 theorem comm_mem_Q {g z : G} (hg : g ∈ M) (hz : z ∈ Q) : ⁅g, z⁆ ∈ Q := by
   have h1 : g * z * g⁻¹ ∈ Q := (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hg) z).mp hz
   rw [commutatorElement_def]
@@ -256,7 +260,7 @@ theorem rho_opposite [CharP K 2] {r : G} (hr : Sec7A hc t r) :
 
 include S in
 theorem actM_img_XB {r : G} (hrR : r ∈ Rt M (LB M Q B) t) {XA XB : Subgroup G}
-    (hconj : conjSubgroup r XB = XA) (hXBQ : XB ≤ Q) {u : M₀.E} (hu : u ∈ M₀.img XB) :
+    (hconj : conjSubgroup r XB = XA) (_hXBQ : XB ≤ Q) {u : M₀.E} (hu : u ∈ M₀.img XB) :
     actM φ r u ∈ M₀.img XA := by
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   have hrH := hc.Rt_le_H0 t hrR
@@ -270,7 +274,7 @@ theorem actM_img_XB {r : G} (hrR : r ∈ Rt M (LB M Q B) t) {XA XB : Subgroup G}
 
 include S in
 theorem exists_actM_img_XA {r : G} (hrR : r ∈ Rt M (LB M Q B) t) {XA XB : Subgroup G}
-    (hconj : conjSubgroup r XB = XA) (hXBQ : XB ≤ Q) {u' : M₀.E} (hu' : u' ∈ M₀.img XA) :
+    (hconj : conjSubgroup r XB = XA) (_hXBQ : XB ≤ Q) {u' : M₀.E} (hu' : u' ∈ M₀.img XA) :
     ∃ u ∈ M₀.img XB, u' = actM φ r u := by
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   have hrH := hc.Rt_le_H0 t hrR
@@ -389,7 +393,7 @@ theorem eq_zero_of_fix_Gamma
     rw [← hzw] at h1
     have h2 : actM φ g (M₀.π z) - M₀.π z ∈ S.Vsub := h1
     rw [← S.pi_comm hgH hzQ] at h2
-    exact (M₀.mem_img_iff sec39_Z_le_Vt (S.comm_mem_Q (hc.Rt_le_M t hg) hzQ)).mp h2
+    exact (M₀.mem_img_iff sec39_Z_le_Vt ((CFSG.RankThree.GF2n.Stroth80.HS9.SetupW.comm_mem_Q hc) (hc.Rt_le_M t hg) hzQ)).mp h2
   rw [← hzw]
   exact M₀.pi_mem_img hzV (hc.Vt_le_Q t hzV)
 

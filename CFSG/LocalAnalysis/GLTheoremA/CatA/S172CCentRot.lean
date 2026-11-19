@@ -16,11 +16,13 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ} {Bb : Subgroup ↥(orthDerived Q)} {r : ℕ}
   {U : Fin r → Submodule F V}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem pow_apply_eq_self {f : V ≃ₗ[F] V} {x : V} (h : f x = x) (k : ℕ) : (f ^ k) x = x := by
   induction k with
   | zero => rfl
   | succ k ih => rw [pow_succ, LinearEquiv.mul_apply, h, ih]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem pow_apply_eq_of_apply_eq {f g : V ≃ₗ[F] V} {W : Submodule F V} (hgW : ∀ x ∈ W, g x ∈ W)
     (h : ∀ x ∈ W, f x = g x) (k : ℕ) : ∀ x ∈ W, (f ^ k) x = (g ^ k) x := by
   induction k with
@@ -30,6 +32,7 @@ theorem pow_apply_eq_of_apply_eq {f g : V ≃ₗ[F] V} {W : Submodule F V} (hgW 
     rw [pow_succ, pow_succ, LinearEquiv.mul_apply, LinearEquiv.mul_apply, h x hx]
     exact ih _ (hgW x hx)
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneDecomp.eq_one_of_forall_apply_eq (hU : IsPlaneDecomp Q Bb ⊤ U)
     {d : ↥(orthDerived Q)} (hd : d ∈ Bb) (h : ∀ j, ∀ x ∈ U j, (d : V ≃ₗ[F] V) x = x) : d = 1 := by
   have hall : ∀ x ∈ (⨆ j, U j), (d : V ≃ₗ[F] V) x = x := by
@@ -46,8 +49,9 @@ theorem IsPlaneDecomp.eq_one_of_forall_apply_eq (hU : IsPlaneDecomp Q Bb ⊤ U)
   rw [map_add, hall a ha, hU.apply_of_perp d hd z Submodule.mem_top hz]
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneDecomp.exists_exps (hU : IsPlaneDecomp Q Bb ⊤ U) (hBb : IsElemAbelian p Bb)
-    (hp : p.Prime) :
+    (_hp : p.Prime) :
     ∃ (g : Fin r → ↥(orthDerived Q)) (Φ : ↥Bb → Fin r → ZMod p), Function.Injective Φ ∧
       (∀ j, g j ∈ Bb) ∧ (∀ j, ∀ x ∈ U j, (g j : V ≃ₗ[F] V) x = x → x = 0) ∧
       ∀ (b : ↥Bb) (j : Fin r), ∀ x ∈ U j,
@@ -82,20 +86,22 @@ theorem IsPlaneDecomp.exists_exps (hU : IsPlaneDecomp Q Bb ⊤ U) (hBb : IsElemA
       _ = x := by rw [inv_mul_cancel]; rfl
   exact Subtype.ext (inv_mul_eq_one.1 h1)
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneDecomp.card_le_pow (hU : IsPlaneDecomp Q Bb ⊤ U) (hBb : IsElemAbelian p Bb)
     (hp : p.Prime) : Nat.card Bb ≤ p ^ r := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, Φ, hinj, -⟩ := hU.exists_exps hBb hp
   calc Nat.card Bb ≤ Nat.card (Fin r → ZMod p) := Nat.card_le_card_of_injective Φ hinj
     _ = p ^ r := by simp [Nat.card_eq_fintype_card]
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneDecomp.exists_dual (hU : IsPlaneDecomp Q Bb ⊤ U) (hBb : IsElemAbelian p Bb)
     (hp : p.Prime) (hcard : Nat.card Bb = p ^ r) :
     ∃ e : Fin r → ↥(orthDerived Q), (∀ j, e j ∈ Bb) ∧
       (∀ j, ∀ x ∈ U j, (e j : V ≃ₗ[F] V) x = x → x = 0) ∧
       (∀ i j, i ≠ j → ∀ x ∈ U i, (e j : V ≃ₗ[F] V) x = x) ∧
       ∀ b ∈ Bb, ∀ j, ∃ k : ℕ, ∀ x ∈ U j, (b : V ≃ₗ[F] V) x = ((e j : V ≃ₗ[F] V) ^ k) x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, Φ, hinj, hgB, hgfix, hΦ⟩ := hU.exists_exps hBb hp
   have hbij : Function.Bijective Φ := by
     refine hinj.bijective_of_nat_card_le ?_
@@ -120,6 +126,7 @@ theorem IsPlaneDecomp.exists_dual (hU : IsPlaneDecomp Q Bb ⊤ U) (hBb : IsElemA
     exact (pow_apply_eq_of_apply_eq (fun y hy => hU.maps_to _ (hgB j) j y hy) (fun y hy => hbj j y hy)
       _ x hx).symm
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneDecomp.apply_eq_of_mem_polarPerp (hU : IsPlaneDecomp Q Bb ⊤ U) {d : ↥(orthDerived Q)}
     (hd : d ∈ Bb) (j : Fin r) (hother : ∀ i, i ≠ j → ∀ x ∈ U i, (d : V ≃ₗ[F] V) x = x) {x : V}
     (hx : x ∈ polarPerp Q (U j)) : (d : V ≃ₗ[F] V) x = x := by
@@ -154,6 +161,7 @@ theorem IsPlaneDecomp.apply_eq_of_mem_polarPerp (hU : IsPlaneDecomp Q Bb ⊤ U) 
   rw [disjoint_iff.1 (isCompl_polarPerp (hU.nondeg j)).disjoint] at h2
   exact sub_eq_zero.1 ((Submodule.mem_bot F).1 h2)
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneDecomp.closure_eq_of_exists_pow (hU : IsPlaneDecomp Q Bb ⊤ U)
     (e : Fin r → ↥(orthDerived Q)) (hmem : ∀ j, e j ∈ Bb)
     (hother : ∀ i j, i ≠ j → ∀ x ∈ U i, (e j : V ≃ₗ[F] V) x = x)
@@ -200,6 +208,7 @@ theorem IsPlaneDecomp.closure_eq_of_exists_pow (hU : IsPlaneDecomp Q Bb ⊤ U)
       have := Subgroup.mul_mem _ hmemk hb'
       simpa using this
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneDecomp.exists_planeFrame (hU : IsPlaneDecomp Q Bb ⊤ U) (hBb : IsElemAbelian p Bb)
     (hp : p.Prime) (hcard : Nat.card Bb = p ^ r) :
     ∃ e : Fin r → ↥(orthDerived Q), IsPlaneFrame Q p U e Bb := by
@@ -214,7 +223,7 @@ theorem IsPlaneDecomp.exists_planeFrame (hU : IsPlaneDecomp Q Bb ⊤ U) (hBb : I
       isElemAbelian := hBb
       closure_eq := hU.closure_eq_of_exists_pow e hmem hother hpow }
   · intro j
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine orderOf_eq_prime (hBb.2 _ (hmem j)) ?_
     intro h1
     obtain ⟨x, hxU, hx0⟩ := exists_ne_zero_mem_of_finrank_eq_two (U j) (hU.finrank_eq j)

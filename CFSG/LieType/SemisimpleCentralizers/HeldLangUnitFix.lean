@@ -144,7 +144,7 @@ theorem exists_barFix_eq {p e : ℕ} (hp : p.Prime) (he : 1 ≤ e) (hK : Nat.car
     (hodd : Odd (orderOf σ)) :
     ∃ j : ℕ, 2 * j = e / orderOf σ ∧ Nat.card (fixField σ) = (p ^ j) ^ 2 ∧
       ∀ x, barFix σ bar hcomm hbar.invol x = x ^ p ^ j := by
-  haveI : Finite K := finite_of_prime_power_card K hp hK
+  have : Finite K := finite_of_prime_power_card K hp hK
   have hbb : bar * bar = 1 := RingEquiv.ext hbar.invol
   have hne : bar ≠ 1 := by
     obtain ⟨c, hc⟩ := hbar.exists_ne
@@ -174,9 +174,9 @@ theorem isUnitaryInvolution_barFix {p e : ℕ} (hp : p.Prime) (he : 1 ≤ e) (hK
     (hodd : Odd (orderOf σ)) : IsUnitaryInvolution (barFix σ bar hcomm hbar.invol) := by
   obtain ⟨j, hj2, hcard2, hform⟩ := exists_barFix_eq hp he hK hbar hcomm hodd
   have hF0 := card_fixField hp he hK σ
-  haveI : Finite (fixField σ) := finite_of_prime_power_card _ hp hF0
-  haveI : CharP (fixField σ) p := characteristic_of_prime_power_card _ hp hF0
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (fixField σ) := finite_of_prime_power_card _ hp hF0
+  have : CharP (fixField σ) p := characteristic_of_prime_power_card _ hp hF0
+  have : Fact p.Prime := ⟨hp⟩
   have heq : barFix σ bar hcomm hbar.invol = unitaryInvolution (fixField σ) p j := by
     refine RingEquiv.ext fun x => ?_
     rw [hform x, unitaryInvolution_apply]

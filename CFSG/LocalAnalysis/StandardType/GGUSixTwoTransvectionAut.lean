@@ -17,20 +17,20 @@ variable {K : Type} [Field K]
 
 private lemma test_center (hK : Nat.card K = 4) :
     Subgroup.center (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) = ⊥ := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   let U := LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimple : IsSimpleGroup U :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1 (by rw [hK]; norm_num) 6
       (by norm_num) (by norm_num)
   have hnc : ¬ IsMulCommutative U := by
     intro hU
-    haveI := hU
-    haveI hcomm : IsMulCommutative (blockFourU hK) := inferInstance
+    have := hU
+    have hcomm : IsMulCommutative (blockFourU hK) := inferInstance
     have hprime := (Group.is_simple_iff_prime_card).mp (isSimpleGroup_blockFourU hK)
     rw [card_blockFourU hK] at hprime
     norm_num at hprime
-  haveI : (Subgroup.center U).Normal := inferInstance
+  have : (Subgroup.center U).Normal := inferInstance
   rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center U) with h | h
   · exact h
   · exact absurd (Subgroup.center_eq_top_iff.mp h) hnc
@@ -57,14 +57,14 @@ lemma card_Oinn_le (hK : Nat.card K = 4)
     {H : Subgroup (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))))}
     (hH : (MulAut.conj : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →*
       MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))).range ≤ H)
-    (h2 : ((MulAut.conj : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →*
+    (_h2 : ((MulAut.conj : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →*
       MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))).range.subgroupOf H).index ≤ 2) :
     Nat.card ↥(pCoreOf 2 (H ⊓ Subgroup.centralizer {MulAut.conj (tZero hK)}) ⊓
       (MulAut.conj : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →*
         MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))).range) ≤ 2 ^ 9 := by
   let U := LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))
-  letI : Field K := inferInstance
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  let : Field K := inferInstance
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   let t : U := tZero hK
   let ct : MulAut U := MulAut.conj t
   let Inn : Subgroup (MulAut U) := (MulAut.conj : U →* MulAut U).range
@@ -151,7 +151,7 @@ lemma comap_Oinn_le_pCore (hK : Nat.card K = 4)
         MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))))) ≤
       pCoreOf 2 (Subgroup.centralizer {tZero hK}) := by
   let U := LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   let t : U := tZero hK
   let ct : MulAut U := MulAut.conj t
   let Inn : Subgroup (MulAut U) := (MulAut.conj : U →* MulAut U).range
@@ -223,7 +223,7 @@ lemma test_mem_inn_uConjAut_iff (hK : Nat.card K = 4)
       (MulAut.conj : StatedProj (StatedSU 6 (2 ^ 1) K) →*
         MulAut (StatedProj (StatedSU 6 (2 ^ 1) K))).range ↔
       Matrix.GeneralLinearGroup.det ((A : GL (Fin 6) K)) = 1 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   rw [inn_eq_map_SUu hK]
   constructor
   · rintro ⟨B, hB, hBA⟩
@@ -260,7 +260,7 @@ lemma B1_decomp (hK : Nat.card K = 4)
       MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))).range) :
     ∃ (A : ↥(uU (fieldDataFour hK) 6)) (φ : K ≃+* K), φ ≠ 1 ∧
       x = uConjAut (fieldDataFour hK) one_le_six A * uFieldAut (fieldDataFour hK) one_le_six φ := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   let U := StatedProj (StatedSU 6 (2 ^ 1) K)
   let H' : Subgroup (MulAut U) := H
   let Inn : Subgroup (MulAut U) := (MulAut.conj : U →* MulAut U).range
@@ -270,9 +270,9 @@ lemma B1_decomp (hK : Nat.card K = 4)
   have hxG' : x' ∈ H' ⊓ Subgroup.centralizer ({MulAut.conj (tZero hK)} : Set (MulAut U)) := hxG
   have hxInn' : x' ∉ Inn := hxInn
   have hxH : x' ∈ H' := hxG'.1
-  haveI : Finite U := inferInstance
-  haveI : Finite (MulAut U) := inferInstance
-  haveI : (Inn.subgroupOf H').FiniteIndex := Subgroup.finiteIndex_of_finite
+  have : Finite U := inferInstance
+  have : Finite (MulAut U) := inferInstance
+  have : (Inn.subgroupOf H').FiniteIndex := Subgroup.finiteIndex_of_finite
   have hidx2 : (Inn.subgroupOf H').index = 2 := by
     have hpos : (Inn.subgroupOf H').index ≠ 0 := Subgroup.FiniteIndex.index_ne_zero
     have hne1 : (Inn.subgroupOf H').index ≠ 1 := by
@@ -327,15 +327,14 @@ lemma B1_decomp (hK : Nat.card K = 4)
 
 lemma tZeroSU_eq_tv (hK : Nat.card K = 4) :
     tZeroSU hK = tvTransSU (fieldDataFour hK) (by decide : (0 : Fin 6) ≠ 1) := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   apply eq_of_coe_eq
   rw [tZeroSU, coe_permSU, coe_tvTransSU]
   ext i j
   simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_toPEquiv_apply, Matrix.add_apply,
-    Matrix.one_apply, tvNil, Matrix.vecMulVec, tvVec_apply, Pi.add_apply]
+    Matrix.one_apply, tvNil, Matrix.vecMulVec, tvVec_apply]
   by_cases h0 : i = 0 <;> by_cases h1 : i = 1 <;> by_cases hj0 : j = 0 <;> by_cases hj1 : j = 1 <;>
-    subst_vars <;> simp_all [Equiv.swap_apply_def, Pi.single_apply, eq_comm, two_eq_zero hK,
-      one_add_one_eq_zero hK]
+    subst_vars <;> simp_all [Equiv.swap_apply_def, Pi.single_apply, eq_comm, one_add_one_eq_zero hK]
 
 lemma glAut_tZeroSU (hK : Nat.card K = 4) (φ : K ≃+* K) :
     glAut φ ((tZeroSU hK : GL (Fin 6) K)) = (tZeroSU hK : GL (Fin 6) K) := by
@@ -358,7 +357,7 @@ lemma hmat_exists (hK : Nat.card K = 4) (A : ↥(uU (fieldDataFour hK) 6))
         ((Pt : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
         ((A⁻¹ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
       c • ((Pt : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   let M : ↥(StatedSU 6 (2 ^ 1) K) :=
     ⟨(A : GL (Fin 6) K) * (Pt : GL (Fin 6) K) * ((A : GL (Fin 6) K))⁻¹,
       uConjSU_mem (fieldDataFour hK) A Pt⟩
@@ -368,21 +367,21 @@ lemma hmat_exists (hK : Nat.card K = 4) (A : ↥(uU (fieldDataFour hK) 6))
             ext y; simp [MulAut.mul_apply, MulAut.conj_apply, mul_assoc]
         _ = MulAut.conj t := by rw [hxcent]; group
     have hZ : Subgroup.center (StatedProj (StatedSU 6 (2 ^ 1) K)) = ⊥ := by
-      haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+      have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
       exact (show Subgroup.center (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) = ⊥ from by
         let U := LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hsimple : IsSimpleGroup U :=
           CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1
             (by rw [hK]; norm_num) 6 (by norm_num) (by norm_num)
         have hnc : ¬ IsMulCommutative U := by
           intro hU
-          haveI := hU
-          haveI hcomm : IsMulCommutative (blockFourU hK) := inferInstance
+          have := hU
+          have hcomm : IsMulCommutative (blockFourU hK) := inferInstance
           have hprime := (Group.is_simple_iff_prime_card).mp (isSimpleGroup_blockFourU hK)
           rw [card_blockFourU hK] at hprime
           norm_num at hprime
-        haveI : (Subgroup.center U).Normal := inferInstance
+        have : (Subgroup.center U).Normal := inferInstance
         rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.center U) with h | h
         · exact h
         · exact absurd (Subgroup.center_eq_top_iff.mp h) hnc)
@@ -424,8 +423,8 @@ lemma hmat_exists (hK : Nat.card K = 4) (A : ↥(uU (fieldDataFour hK) 6))
           rw [Subgroup.coe_div, div_eq_mul_inv, mul_assoc, inv_mul_cancel, mul_one]
       _ = Matrix.GeneralLinearGroup.scalar (Fin 6) c * (Pt : GL (Fin 6) K) := by rw [hc]
   have hmat := congrArg (fun g : GL (Fin 6) K => ((g : Matrix (Fin 6) (Fin 6) K))) hMgl
-  simp only [Matrix.GeneralLinearGroup.coe_mul, Units.val_mul,
-    Matrix.GeneralLinearGroup.coe_scalar, Subgroup.coe_inv] at hmat ⊢
+  simp only [Units.val_mul,
+    Matrix.GeneralLinearGroup.coe_scalar] at hmat ⊢
   show ((M : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
       c • ((Pt : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)
   rw [hmat, Matrix.scalar_apply, ← Matrix.smul_eq_diagonal_mul]
@@ -440,8 +439,8 @@ lemma AN_comm (hK : Nat.card K = 4) (A : ↥(uU (fieldDataFour hK) 6))
     (hxcent : x * MulAut.conj t = MulAut.conj t * x) :
     ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) * tvNil (K := K) (n := 6) 0 1 =
       tvNil (K := K) (n := 6) 0 1 * ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI := charP_two_of_card_four hK
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have := charP_two_of_card_four hK
   let Pt : ↥(StatedSU 6 (2 ^ 1) K) := tZeroSU hK
   have ht : t = projH (StatedSU 6 (2 ^ 1) K) Pt := by rw [ht0]; rfl
   have hφPt : glAut φ ((Pt : GL (Fin 6) K)) = (Pt : GL (Fin 6) K) := by
@@ -459,12 +458,12 @@ lemma AN_comm (hK : Nat.card K = 4) (A : ↥(uU (fieldDataFour hK) 6))
       ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = 1 := by
     have := congrArg (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K))
       (inv_mul_cancel (A : GL (Fin 6) K))
-    simpa [Matrix.GeneralLinearGroup.coe_mul] using this
+    simp
   have hAA : ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
       ((A⁻¹ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = 1 := by
     have := congrArg (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K))
       (mul_inv_cancel (A : GL (Fin 6) K))
-    simpa [Matrix.GeneralLinearGroup.coe_mul] using this
+    simp
   have hmat' : ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) * (1 + N) *
         ((A⁻¹ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
       c • (1 + N) := by
@@ -566,7 +565,7 @@ lemma tvBlock_mul_of_commute_tvNil (hK : Nat.card K = 4)
     (hM' : M' * tvNil (K := K) (n := 6) 0 1 = tvNil (K := K) (n := 6) 0 1 * M') :
     tvBlock (0 : Fin 6) 1 (M * M') =
       tvBlock (0 : Fin 6) 1 M * tvBlock (0 : Fin 6) 1 M' := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   have h01 : (0 : Fin 6) ≠ 1 := by decide
   have hrow : ∀ k ∈ ({0, 1}ᶜ : Finset (Fin 6)), M k 0 = M k 1 := by
     obtain ⟨μ, h1, -⟩ := (commute_tvNil_iff (i := 0) (j := 1) h01 (M := M)).mp hM
@@ -576,11 +575,11 @@ lemma tvBlock_mul_of_commute_tvNil (hK : Nat.card K = 4)
     exact fun l hl => eq_of_vecMul_tvVec h2 hl
   exact tvBlock_mul h01 hrow hcol
 
-lemma scalar_of_proj_eq (hK : Nat.card K = 4) {M P : ↥(StatedSU 6 (2 ^ 1) K)}
+lemma scalar_of_proj_eq (_hK : Nat.card K = 4) {M P : ↥(StatedSU 6 (2 ^ 1) K)}
     (h : (M : StatedProj (StatedSU 6 (2 ^ 1) K)) = (P : StatedProj (StatedSU 6 (2 ^ 1) K))) :
     ∃ c : Kˣ, (M : GL (Fin 6) K) =
       Matrix.GeneralLinearGroup.scalar (Fin 6) c * (P : GL (Fin 6) K) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [_hK]; norm_num)
   have hmem : (M / P) ∈ (StatedScalars (Fin 6) K).subgroupOf (StatedSU 6 (2 ^ 1) K) :=
     QuotientGroup.eq_iff_div_mem.mp h
   rw [Subgroup.mem_subgroupOf, StatedScalars, MonoidHom.mem_range] at hmem
@@ -611,7 +610,7 @@ lemma trace_tvBlock_unitaryBlockEquiv (hK : Nat.card K = 4)
             (Fin ({0, 1}ᶜ : Finset (Fin 6)).card) K)) := by
     rw [coe_unitaryBlockEquiv, coe_unitaryBlockEmbed]
     ext a b
-    rw [tvBlock_apply, CFSG.SeitzReduction.LinearPilot.blockMatrix_apply, dif_pos ⟨a.2, b.2⟩]
+    rw [tvBlock_apply, CFSG.SeitzReduction.LinearPilot.blockMatrix_apply, dite_eq_left ⟨a.2, b.2⟩]
   rw [hblock]
   exact (by
     simp only [Matrix.trace, Matrix.diag, Matrix.reindex_apply, Matrix.submatrix_apply]
@@ -625,7 +624,7 @@ lemma det_tvBlock_unitaryBlockEquiv (hK : Nat.card K = 4)
       ((((unitaryBlockEquiv (fieldDataFour hK) ({0, 1}ᶜ : Finset (Fin 6)) X :
         ↥(unitaryBlock (fieldDataFour hK) ({0, 1}ᶜ : Finset (Fin 6)))) :
         ↥(unitarySU 2 1 K 6)) : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)).det = 1 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   have hblock : tvBlock (0 : Fin 6) 1
       ((((unitaryBlockEquiv (fieldDataFour hK) ({0, 1}ᶜ : Finset (Fin 6)) X :
         ↥(unitaryBlock (fieldDataFour hK) ({0, 1}ᶜ : Finset (Fin 6)))) :
@@ -637,7 +636,7 @@ lemma det_tvBlock_unitaryBlockEquiv (hK : Nat.card K = 4)
             (Fin ({0, 1}ᶜ : Finset (Fin 6)).card) K)) := by
     rw [coe_unitaryBlockEquiv, coe_unitaryBlockEmbed]
     ext a b
-    rw [tvBlock_apply, CFSG.SeitzReduction.LinearPilot.blockMatrix_apply, dif_pos ⟨a.2, b.2⟩]
+    rw [tvBlock_apply, CFSG.SeitzReduction.LinearPilot.blockMatrix_apply, dite_eq_left ⟨a.2, b.2⟩]
   rw [hblock, Matrix.det_reindex_self]
   have hX : ((X : GL (Fin ({0, 1}ᶜ : Finset (Fin 6)).card) K) :
       Matrix (Fin ({0, 1}ᶜ : Finset (Fin 6)).card)
@@ -657,7 +656,7 @@ lemma block_eq (hK : Nat.card K = 4)
     {A : ↥(uU (fieldDataFour hK) 6)} {φ : K ≃+* K}
     (hxA : x = uConjAut (fieldDataFour hK) one_le_six A *
       uFieldAut (fieldDataFour hK) one_le_six φ)
-    (hxcent : x * MulAut.conj (tZero hK) = MulAut.conj (tZero hK) * x)
+    (_hxcent : x * MulAut.conj (tZero hK) = MulAut.conj (tZero hK) * x)
     (hAcommN : ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
       tvNil (K := K) (n := 6) 0 1 = tvNil (K := K) (n := 6) 0 1 *
         ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K))
@@ -671,7 +670,7 @@ lemma block_eq (hK : Nat.card K = 4)
         tvBlock (0 : Fin 6) 1 (((A⁻¹ : GL (Fin 6) K)) : Matrix (Fin 6) (Fin 6) K) =
       tvBlock (0 : Fin 6) 1 ((k : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) := by
   dsimp only
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   let U := StatedProj (StatedSU 6 (2 ^ 1) K)
   let t0 : ↥(unitarySU 2 1 K 6) := tZeroSU hK
   let t : U := tZero hK
@@ -715,7 +714,7 @@ lemma block_eq (hK : Nat.card K = 4)
   have hkSU : (k : ↥(unitarySU 2 1 K 6)) * t0 = t0 * k := by
     apply Subtype.ext
     apply Units.ext
-    simp only [Subgroup.coe_mul, Matrix.GeneralLinearGroup.coe_mul, Units.val_mul]
+    simp only [Subgroup.coe_mul, Units.val_mul]
     have hkM : ((k : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
         ((t0 : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
         ((t0 : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
@@ -810,11 +809,11 @@ lemma block_eq (hK : Nat.card K = 4)
   have hAA : MA * Minv = 1 := by
     have := congrArg (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K))
       (mul_inv_cancel (A : GL (Fin 6) K))
-    simpa [MA, Minv, Matrix.GeneralLinearGroup.coe_mul] using this
+    simp [MA, Minv]
   have hAinvA : Minv * MA = 1 := by
     have := congrArg (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K))
       (inv_mul_cancel (A : GL (Fin 6) K))
-    simpa [MA, Minv, Matrix.GeneralLinearGroup.coe_mul] using this
+    simp [MA, Minv]
   have hAinvCommN : Minv * tvNil (K := K) (n := 6) 0 1 =
       tvNil (K := K) (n := 6) 0 1 * Minv := by
     have h := congrArg (fun X : Matrix (Fin 6) (Fin 6) K => Minv * X * Minv) hAcommN
@@ -870,8 +869,6 @@ lemma block_eq (hK : Nat.card K = 4)
   have hblockM : tvBlock (0 : Fin 6) 1 ((M : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
       (c : K) • tvBlock (0 : Fin 6) 1 ((k : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) := by
     rw [hcM]
-    change tvBlock (0 : Fin 6) 1 ((c : K) • (((r * k : ↥(unitarySU 2 1 K 6)) : GL (Fin 6) K) :
-      Matrix (Fin 6) (Fin 6) K)) = _
     rw [show tvBlock (0 : Fin 6) 1 ((c : K) • (((r * k : ↥(unitarySU 2 1 K 6)) :
         GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)) =
         (c : K) • tvBlock (0 : Fin 6) 1 (((r * k : ↥(unitarySU 2 1 K 6)) :
@@ -939,8 +936,8 @@ lemma B45 (hK : Nat.card K = 4)
     (hAcommN : ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
       tvNil (K := K) (n := 6) 0 1 = tvNil (K := K) (n := 6) 0 1 *
         ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)) : False := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI := charP_two_of_card_four hK
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have := charP_two_of_card_four hK
   obtain ⟨ω, hω⟩ := exists_root_omega (K := K) hK
   let d : Fin 4 → K := ![ω, ω, ω, 1]
   have hd : ∀ k, (fieldDataFour hK).norm (d k) = 1 := by
@@ -980,11 +977,11 @@ lemma B45 (hK : Nat.card K = 4)
   have hAA : MA * Minv = 1 := by
     have := congrArg (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K))
       (mul_inv_cancel (A : GL (Fin 6) K))
-    simpa [MA, Minv, Matrix.GeneralLinearGroup.coe_mul] using this
+    simp [MA, Minv]
   have hAinvA : Minv * MA = 1 := by
     have := congrArg (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K))
       (inv_mul_cancel (A : GL (Fin 6) K))
-    simpa [MA, Minv, Matrix.GeneralLinearGroup.coe_mul] using this
+    simp [MA, Minv]
   have hAcommN' : MA * tvNil (K := K) (n := 6) 0 1 =
       tvNil (K := K) (n := 6) 0 1 * MA := by simpa [MA] using hAcommN
   have hAinvCommN : Minv * tvNil (K := K) (n := 6) 0 1 =
@@ -1057,7 +1054,7 @@ theorem card_pCoreOf_inf_centralizer_le (hK : Nat.card K = 4)
     (h2 : ((MulAut.conj : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →*
       MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))).range.subgroupOf H).index ≤ 2) :
     Nat.card (pCoreOf 2 (H ⊓ Subgroup.centralizer {MulAut.conj (tZero hK)})) ≤ 2 ^ 9 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   let U := StatedProj (StatedSU 6 (2 ^ 1) K)
   let H' : Subgroup (MulAut U) := H
   let t : U := tZero hK
@@ -1075,7 +1072,7 @@ theorem card_pCoreOf_inf_centralizer_le (hK : Nat.card K = 4)
     exact h
   have hO_le_Inn : O ≤ Inn := by
     by_contra hnot
-    rw [SetLike.le_def] at hnot
+    rw [_root_.IsConcreteLE.le_iff] at hnot
     push Not at hnot
     obtain ⟨x, hxO, hxInn⟩ := hnot
     have hxG : x ∈ G := (CFSG.LieType.BorelTits.pCoreOf_le 2 G) hxO
@@ -1083,8 +1080,8 @@ theorem card_pCoreOf_inf_centralizer_le (hK : Nat.card K = 4)
       have := hxG.2
       simpa [ct, Subgroup.mem_centralizer_singleton_iff] using this
     have hHpos : ((Inn.subgroupOf H').index) ≠ 0 := by
-      haveI : Finite (MulAut U) := inferInstance
-      haveI : (Inn.subgroupOf H').FiniteIndex := Subgroup.finiteIndex_of_finite
+      have : Finite (MulAut U) := inferInstance
+      have : (Inn.subgroupOf H').FiniteIndex := Subgroup.finiteIndex_of_finite
       exact Subgroup.FiniteIndex.index_ne_zero
     have hHneq1 : ((Inn.subgroupOf H').index) ≠ 1 := by
       intro h1

@@ -20,11 +20,13 @@ noncomputable def permNorm (hK : Nat.card K = 4)
     (σ : Equiv.Perm (Fin 6)) : L :=
   Classical.choose (piOf_surjective θ (Psigma hK σ))
 
+omit [Finite G] [Finite K] in
 private theorem permNorm_pi (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (σ : Equiv.Perm (Fin 6)) : piOf θ (permNorm hK θ σ) = Psigma hK σ :=
   Classical.choose_spec (piOf_surjective θ (Psigma hK σ))
 
+omit [Finite G] in
 private theorem exists_mem_inf_pi_eq_torHom (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hmap : ((Bs ⊓ L).subgroupOf L).map (piOf θ) = USixTwo.torU K)
@@ -43,12 +45,14 @@ noncomputable def torPre (hK : Nat.card K = 4)
     (hω : ω ^ 2 + ω + 1 = 0) (v : ↥sumZeroSubgroup) : L :=
   Classical.choose (exists_mem_inf_pi_eq_torHom hK θ hmap hω v)
 
+omit [Finite G] in
 private theorem torPre_mem (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hmap : ((Bs ⊓ L).subgroupOf L).map (piOf θ) = USixTwo.torU K)
     (hω : ω ^ 2 + ω + 1 = 0) (v : ↥sumZeroSubgroup) : (torPre hK θ hmap hω v : G) ∈ Bs ⊓ L :=
   (Classical.choose_spec (exists_mem_inf_pi_eq_torHom hK θ hmap hω v)).1
 
+omit [Finite G] in
 private theorem torPre_pi (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hmap : ((Bs ⊓ L).subgroupOf L).map (piOf θ) = USixTwo.torU K)
@@ -63,12 +67,14 @@ noncomputable def bsOf (hK : Nat.card K = 4)
   ⟨((torPre hK θ hmap hω v : L) : G),
     (Subgroup.mem_inf.mp (torPre_mem hK θ hmap hω v)).1⟩
 
+omit [Finite G] in
 theorem bsOf_coe_mem_L (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hmap : ((Bs ⊓ L).subgroupOf L).map (piOf θ) = USixTwo.torU K)
     (hω : ω ^ 2 + ω + 1 = 0) (v : ↥sumZeroSubgroup) : ((bsOf hK θ hmap hω v : ↥Bs) : G) ∈ L :=
   (Subgroup.mem_inf.mp (torPre_mem hK θ hmap hω v)).2
 
+omit [Finite G] in
 private theorem bsOf_mem_subgroupOf (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hmap : ((Bs ⊓ L).subgroupOf L).map (piOf θ) = USixTwo.torU K)
@@ -78,6 +84,7 @@ private theorem bsOf_mem_subgroupOf (hK : Nat.card K = 4)
   rw [Subgroup.mem_subgroupOf]
   exact ⟨(bsOf hK θ hmap hω v).2, bsOf_coe_mem_L hK θ hmap hω v⟩
 
+omit [Finite G] in
 theorem bsOf_pi (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hmap : ((Bs ⊓ L).subgroupOf L).map (piOf θ) = USixTwo.torU K)
@@ -89,6 +96,7 @@ theorem bsOf_pi (hK : Nat.card K = 4)
     rfl
   rw [h, torPre_pi]
 
+omit [Finite G] in
 private theorem bsOf_eq_iff (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
@@ -118,6 +126,7 @@ private theorem bsOf_eq_iff (hK : Nat.card K = 4)
       · rw [bsOf_pi, bsOf_pi, h]
     exact congrArg (fun y : L => (y : G)) hL
 
+omit [Finite G] in
 theorem bsOf_surj (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
@@ -174,6 +183,7 @@ theorem bsOf_surj (hK : Nat.card K = 4)
         exact congrArg Subtype.val (map_mul (torHom hK hω) v w)
     simpa using congrArg (fun y : L => (y : G)) hL
 
+omit [Finite G] in
 private theorem permNorm_conj_bsOf (hK : Nat.card K = 4)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)

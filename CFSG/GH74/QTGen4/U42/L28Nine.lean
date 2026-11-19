@@ -22,7 +22,7 @@ def comp (t : K) : Matrix (Fin 2) (Fin 2) K := !![0, 1; 1, t]
 
 lemma comp_mul_self (t : K) : comp t * comp t = t • comp t + 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [comp, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [comp, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 lemma comp_pow (t : K) (n : ℕ) :
     comp t ^ (n + 1) = fibT t (n + 1) • comp t + fibT t n • (1 : Matrix (Fin 2) (Fin 2) K) := by
@@ -44,13 +44,13 @@ lemma fibT_two (t : K) : fibT t 2 = t := by
   simp only [fibT]; ring
 
 lemma fibT_three (t : K) : fibT t 3 = t ^ 2 + 1 := by
-  simp only [fibT, fibT_two]; ring
+  simp only [fibT]; ring
 
 lemma fibT_eight (t : K) : fibT t 8 = t ^ 7 + 6 * t ^ 5 + 10 * t ^ 3 + 4 * t := by
-  simp only [fibT, fibT_two, fibT_three]; ring
+  simp only [fibT]; ring
 
 lemma fibT_nine (t : K) : fibT t 9 = t ^ 8 + 7 * t ^ 6 + 15 * t ^ 4 + 10 * t ^ 2 + 1 := by
-  simp only [fibT, fibT_two, fibT_three, fibT_eight]; ring
+  simp only [fibT]; ring
 
 lemma fibT_nine_zero (t : K) (ht : t ^ 3 = t + 1) (h2 : (2 : K) = 0) : fibT t 9 = 0 := by
   rw [fibT_nine]
@@ -150,8 +150,8 @@ lemma gSL_pow3_not_central (t : K) (ht : t ^ 3 = t + 1) (h2 : (2 : K) = 0) :
     rw [Matrix.SpecialLinearGroup.coe_pow]
     exact comp_pow3_01 t
   rw [e1] at key
-  simp [Matrix.scalar_apply, Matrix.diagonal_apply] at key
-  exact sq_add_one_ne_zero t ht h2 (by first | exact key | exact key.symm)
+  simp [Matrix.scalar_apply] at key
+  exact sq_add_one_ne_zero t ht h2 (by first | exact key.symm)
 
 theorem exists_nine_psl (K : Type) [Field K] [Fintype K] (hK : Fintype.card K = 8) :
     ∃ y : Matrix.ProjectiveSpecialLinearGroup (Fin 2) K, orderOf y = 9 := by
@@ -195,9 +195,8 @@ lemma toGL_pow3_not_scalar (t : K) (ht : t ^ 3 = t + 1) (h2 : (2 : K) = 0) :
     rw [hc0]
     exact comp_pow3_01 t
   rw [e1] at key
-  simp [Matrix.GeneralLinearGroup.scalar, Units.coe_map, Matrix.scalar_apply,
-    Matrix.diagonal_apply] at key
-  exact sq_add_one_ne_zero t ht h2 (by first | exact key | exact key.symm)
+  simp [Matrix.GeneralLinearGroup.scalar, Units.coe_map, Matrix.scalar_apply] at key
+  exact sq_add_one_ne_zero t ht h2 (by first | exact key.symm)
 
 lemma stateElt_pow_three_not_scalar (t : K) (ht : t ^ 3 = t + 1) (h2 : (2 : K) = 0) :
     ¬ (((stateElt t h2 ^ 3 : ↥(StatedSL 2 K)) : Matrix.GeneralLinearGroup (Fin 2) K) ∈
@@ -222,7 +221,7 @@ theorem exists_orderOf_nine_of_lieModel_psl2_three {X : Type} [Group X]
   rcases h with ⟨-, hc⟩ | ⟨hn, -⟩ | ⟨hn, -⟩ | ⟨hn, -⟩
   · obtain ⟨-, K, hF, hFin, hcard, ⟨e⟩⟩ := hc
     have hK8 : Nat.card K = 8 := by simpa using hcard
-    letI := Fintype.ofFinite K
+    let := Fintype.ofFinite K
     have hK : Fintype.card K = 8 := by rw [← Nat.card_eq_fintype_card]; exact hK8
     obtain ⟨y, hy⟩ := exists_nine_statedProj K hK
     exact ⟨e.symm y, (e.symm.orderOf_eq y).trans hy⟩
@@ -235,7 +234,7 @@ theorem isL2Quot_three_exists_orderOf_nine {X : Type*} [Group X]
   obtain ⟨e⟩ := h
   have hcard : Nat.card (GaloisField 2 3) = 2 ^ 3 := GaloisField.card 2 3 (by norm_num)
   have hK8 : Nat.card (GaloisField 2 3) = 8 := by simpa using hcard
-  letI := Fintype.ofFinite (GaloisField 2 3)
+  let := Fintype.ofFinite (GaloisField 2 3)
   have hK : Fintype.card (GaloisField 2 3) = 8 := by rw [← Nat.card_eq_fintype_card]; exact hK8
   obtain ⟨y, hy⟩ := exists_nine_psl (GaloisField 2 3) hK
   exact ⟨e.symm y, (e.symm.orderOf_eq y).trans hy⟩

@@ -126,7 +126,7 @@ theorem imK_eq (f : Bool) (M : ℕ → ℕ) (x : ℕ) : vec6 (imK f M x) = imV f
   rw [fm_spec (barc_lt f (cv_lt _ _)) (cv_lt _ _)]
   have e : vN (barB f (vec6 x)) r = cF4 (barc f (cv x r)) := by
     unfold vN
-    rw [dif_pos hr']
+    rw [dite_eq_left hr']
     exact (cF4_barc f x ⟨r, hr'⟩).symm
   rw [e, vec6_cv (M r) t]
 
@@ -151,9 +151,9 @@ theorem imK_lt (f : Bool) (M : ℕ → ℕ) (x : ℕ) : imK f M x < 4096 := by
 theorem hGram_mul_apply (A : Matrix (Fin 6) (Fin 6) F4) (i l : Fin 6) :
     (A * hGram) i l = A i (partner l) := by
   rw [Matrix.mul_apply, Finset.sum_eq_single (partner l)]
-  · rw [hGram, of_apply, if_pos (partner_partner l).symm, mul_one]
+  · rw [hGram, of_apply, ite_eq_left (partner_partner l).symm, mul_one]
   · intro k _ hk
-    rw [hGram, of_apply, if_neg (fun h => hk (by rw [h, partner_partner])), mul_zero]
+    rw [hGram, of_apply, ite_eq_right (fun h => hk (by rw [h, partner_partner])), mul_zero]
   · simp
 
 theorem gram_eq (A : Matrix (Fin 6) (Fin 6) F4) (i j : Fin 6) :
@@ -178,13 +178,13 @@ theorem gram_of_gramOK {M : ℕ → ℕ} (h : gramOK M = true) :
   have h'' := Nat.eq_of_beq_eq_true (h' j j.2)
   rw [hUK_eq, h'', hGram, of_apply]
   by_cases hj : j = partner i
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     have : Nat.beq (j : ℕ) (Nat.mod (Nat.add i 3) 6) = true := by
       rw [Nat.beq_eq, hj]
       rfl
     rw [this]
     rfl
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     have : Nat.beq (j : ℕ) (Nat.mod (Nat.add i 3) 6) = false := by
       rw [Bool.eq_false_iff]
       intro e

@@ -306,12 +306,12 @@ theorem exists_mulEquiv_of_autOK {hs F : Array (Array ℕ)} {h : ℕ → StatedS
     · intro x hx
       obtain ⟨m, -, hme⟩ := hex x hx
       have hx' : ∃ m, code m = appF E F (code x) := ⟨m, hme⟩
-      simp only [dif_pos hx']
+      simp only [dite_eq_left hx']
       exact hx'.choose_spec
     · intro x hx
       obtain ⟨m, hm, hme⟩ := hex x hx
       have hx' : ∃ m, code m = appF E F (code x) := ⟨m, hme⟩
-      simp only [dif_pos hx']
+      simp only [dite_eq_left hx']
       rw [code_injective (hx'.choose_spec.trans hme.symm)]
       exact hL hm
   have hf1 : f 1 = 1 := by

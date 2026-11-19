@@ -61,13 +61,13 @@ private lemma pmb_cartanRowP_getD_cast {p N : ℕ} (hp : 0 < p) (i j : Fin (N - 
   simp only [Option.map_some, Option.getD_some]
   by_cases h1 : i = j
   · have hv : (i : ℕ) = (j : ℕ) := congrArg Fin.val h1
-    rw [if_pos h1, if_pos hv]
+    rw [ite_eq_left h1, ite_eq_left hv]
     norm_num
   · have hv : (i : ℕ) ≠ (j : ℕ) := fun h => h1 (Fin.ext h)
-    rw [if_neg h1, if_neg hv]
+    rw [ite_eq_right h1, ite_eq_right hv]
     by_cases h2 : (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ)
-    · rw [if_pos h2, if_pos h2, pmb_natCast_pred p hp]
-    · rw [if_neg h2, if_neg h2]
+    · rw [ite_eq_left h2, ite_eq_left h2, pmb_natCast_pred p hp]
+    · rw [ite_eq_right h2, ite_eq_right h2]
       simp
 
 private lemma pmb_vec_unitP (p D k : ℕ) (hk : k < D) :
@@ -88,12 +88,12 @@ private lemma pmb_vec_x (p n : ℕ) :
       fun j : Fin (n + 1) => if (j : ℕ) < n then (((j : ℕ) + 1 : ℕ) : ZMod p) else 0 := by
   funext j
   by_cases hj : (j : ℕ) < n
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     rw [pmb_getD_append_left (l₁ := (List.range n).map (fun k => k + 1)) (l₂ := [0])
       (i := (j : ℕ)) (by simp [hj])]
     rw [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range hj]
     rfl
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     have hj' : (j : ℕ) = n := by omega
     rw [pmb_getD_append_right (l₁ := (List.range n).map (fun k => k + 1)) (l₂ := [0])
       (i := (j : ℕ)) (by simp only [List.length_map, List.length_range]; omega)
@@ -124,7 +124,7 @@ theorem posb_model (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallCe
     rcases hc with ⟨_, h⟩ | ⟨_, h⟩ | ⟨_, h⟩ <;> omega
   have hn4 : 4 ≤ n := by rcases hn with rfl | rfl | rfl <;> omega
   have hli : LinearIndependent (ZMod p) (Fin.snoc h ha : Fin (n + 1) → V) := by
-    rw [linearIndependent_fin_snoc]
+    rw [linearIndependent_finSnoc]
     exact ⟨hF.indep, hsp⟩
   let b : Module.Basis (Fin (n + 1)) (ZMod p) V :=
     basisOfLinearIndependentOfCardEqFinrank hli (by rw [Fintype.card_fin, hV])
@@ -144,8 +144,8 @@ theorem posb_model (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallCe
     funext j
     rw [Module.Basis.equivFun_self]
     by_cases h : k = j
-    · rw [if_pos h, ← h, Pi.single_eq_same]
-    · rw [if_neg h, Pi.single_eq_of_ne (Ne.symm h)]
+    · rw [ite_eq_left h, ← h, Pi.single_eq_same]
+    · rw [ite_eq_right h, Pi.single_eq_of_ne (Ne.symm h)]
   have he_h : ∀ i : Fin n, e (h i) = (Pi.single (Fin.castSucc i) 1 : Fin (n + 1) → ZMod p) := by
     intro i
     rw [← hb_castSucc i]
@@ -236,11 +236,11 @@ theorem posb_model (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallCe
         by_cases h : k - s = o.1 <;> simp [h, ho2, hp0]
       have hUval : U k = (if k - s = o.1 then o.2.1 else 0) := by
         dsimp only [U]
-        rw [dif_pos hk]
+        rw [dite_eq_left hk]
         rw [hHk, ZMod.val_cast_of_lt hlt1]
       have hVval : Vv k = (if k - s = o.1 then o.2.2 else 0) := by
         dsimp only [Vv]
-        rw [dif_pos hk]
+        rw [dite_eq_left hk]
         rw [hAk, ZMod.val_cast_of_lt hlt2]
       have hif : (if k - s = o.1 then (o.2.1, o.2.2) else (0, 0)) = (U k, Vv k) := by
         by_cases h : k - s = o.1 <;> simp [h, hUval, hVval]
@@ -271,7 +271,7 @@ theorem posb_model (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallCe
     dsimp only [gens]
     rw [List.getD_eq_getElem?_getD]
     rw [List.getElem?_append_left (by simp)]
-    simp [List.getElem?_map, List.getElem?_range i.isLt]
+    simp
   have hgen_last :
       gens.getD n ⟨[], []⟩ =
         (⟨(List.range n).map (fun k => (uv k).2) ++ [2], unitP (n + 1) n⟩ : Refl) := by
@@ -312,7 +312,7 @@ theorem posb_model (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallCe
     ext j
     simp only [map_sum, Finset.sum_apply, map_smul, he_h, Pi.smul_apply, smul_eq_mul]
     by_cases hj : (j : ℕ) < n
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       let i : Fin n := ⟨j, hj⟩
       have hji : j = Fin.castSucc i := Fin.ext rfl
       rw [hji]
@@ -324,7 +324,7 @@ theorem posb_model (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallCe
         rw [Pi.single_eq_of_ne (Ne.symm hne)]
         simp
       · intro hmem; exact absurd (Finset.mem_univ _) hmem
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       have hj' : (j : ℕ) = n := by omega
       have hjl : j = Fin.last n := Fin.ext hj'
       rw [hjl]
@@ -377,7 +377,7 @@ theorem posb_model (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallCe
           simpa using congrArg Prod.fst (huv i.val i.isLt)
         rw [h]
         dsimp only [U]
-        rw [dif_pos i.isLt]
+        rw [dite_eq_left i.isLt]
         rfl
       rw [map_smul, smul_eq_mul, hb_last, hpvl, huv1, ZMod.natCast_zmod_val]
       ring
@@ -403,7 +403,7 @@ theorem posb_model (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallCe
           simpa using congrArg Prod.snd (huv j.val j.isLt)
         rw [h]
         dsimp only [Vv]
-        rw [dif_pos j.isLt]
+        rw [dite_eq_left j.isLt]
         rfl
       rw [map_smul, smul_eq_mul, hb_castSucc j, hpvj, huv2, ZMod.natCast_zmod_val]
       ring

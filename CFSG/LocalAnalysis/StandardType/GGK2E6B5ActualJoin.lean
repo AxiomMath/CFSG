@@ -34,7 +34,7 @@ theorem K_only_E6_dependent_L_B5_join_raw
     (hD2 : GGResLeviDatumExact2 3 Bs K J L ggSelAny ggTypAny) :
     GGWeylReflectionGroup 3 (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   classical
-  letI := Fact.mk (by norm_num : Nat.Prime 3)
+  let := Fact.mk (by norm_num : Nat.Prime 3)
   have hcfg : GGConfig 3 B Bs x L D J := hH.1
   have hxBs : x ∈ Bs := hcfg.tableB_facts.2.2.1
   have hx1 : x ≠ 1 := l05nDD1_x_ne_one hH
@@ -57,8 +57,8 @@ theorem K_only_E6_dependent_L_B5_join_raw
       exact (ggLin_fix_iff (p := 3) ι (φ i) ⟨x, hxBs⟩).mp hfix
     exact ggResI_alpha_eq_zero (p := 3) (by norm_num) (hlin i)
       (by rw [hpair i i, hCK.1 i]; norm_num) hfixlin
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hcardV : Nat.card V = 3 ^ 6 := by
     calc Nat.card V = Nat.card (Additive ↥Bs) := (Nat.card_congr ι.toEquiv).symm
       _ = Nat.card Bs := Nat.card_congr Additive.toMul
@@ -130,7 +130,7 @@ theorem K_only_E6_dependent_L_B5_join_raw
         simp
       · rintro ⟨i, rfl⟩
         exact ⟨e5 i, rfl⟩
-    haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+    have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
     have heq := c2spSubgroup_eq_of_closure_card (E := ↥Bs) (b := b) ι
       (A := ggAutomizer L Bs) (g := fun i : Fin 5 => φ (e5 i)) hclos' hC2SPg hcardA
     intro a

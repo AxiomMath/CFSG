@@ -55,7 +55,7 @@ theorem emb_surj (A : Subgroup K) (e : ↥A ≃* QuaternionGroup 2) :
   exact congrArg Subtype.val (e.symm_apply_apply ⟨a, ha⟩)
 
 theorem card_of_equiv (A : Subgroup K) (e : ↥A ≃* QuaternionGroup 2) : Nat.card A = 8 := by
-  rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card] <;> norm_num
+  rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
 
 theorem qpair_of_inj {f : QuaternionGroup 2 →* K} (hf : Function.Injective f) :
     QPair (f (QuaternionGroup.a 1)) (f (QuaternionGroup.xa 0)) := by
@@ -311,7 +311,7 @@ theorem quatLike_of_equiv (B : Subgroup K) (N : ℕ) [NeZero N]
 
 theorem isPGroup_two_of_equiv_quaternion (B : Subgroup K) (k : ℕ)
     (e : ↥B ≃* QuaternionGroup (2 ^ k)) : IsPGroup 2 B := by
-  haveI : NeZero (2 ^ k) := ⟨pow_ne_zero _ two_ne_zero⟩
+  have : NeZero (2 ^ k) := ⟨pow_ne_zero _ two_ne_zero⟩
   have hcard : Nat.card B = 2 ^ (k + 2) := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
     ring
@@ -327,8 +327,8 @@ variable {K : Type*} [Group K]
 
 theorem exists_involution_of_card_two {A B : Subgroup K}
     (h : Nat.card (A ⊓ B : Subgroup K) = 2) : ∃ w ∈ A ⊓ B, w ≠ 1 ∧ w ^ 2 = 1 := by
-  haveI : Finite ↥(A ⊓ B) := Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
-  haveI : Nontrivial ↥(A ⊓ B) := Finite.one_lt_card_iff_nontrivial.mp (by rw [h]; norm_num)
+  have : Finite ↥(A ⊓ B) := Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
+  have : Nontrivial ↥(A ⊓ B) := Finite.one_lt_card_iff_nontrivial.mp (by rw [h]; norm_num)
   obtain ⟨w, hw⟩ := exists_ne (1 : ↥(A ⊓ B))
   refine ⟨(w : K), w.2, ?_, ?_⟩
   · intro h1

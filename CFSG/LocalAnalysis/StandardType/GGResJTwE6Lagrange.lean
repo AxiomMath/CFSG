@@ -104,7 +104,7 @@ theorem padicValNat_two_labOrd_le_of_row {lab : LargeEvenLabel} (hΛ : LargeEven
         omega
       · show padicValNat 2 (EvenSmallLie.CatalogOrders.lieOrd
           (if k = 3 then .PSL else .POmegaPlus) (if k = 3 then 4 else k) (2 ^ n)) ≤ 30 * n
-        simp only [h3, if_false]
+        simp only [h3, ite_false]
         show padicValNat 2 (ordD k (2 ^ n)) ≤ 30 * n
         rw [TWR.padicValNat_ordD rfl hn (by omega)]
         have h30 : k * (k - 1) ≤ 30 := by interval_cases k <;> omega
@@ -125,7 +125,7 @@ theorem padicValNat_two_labOrd_le_of_row {lab : LargeEvenLabel} (hΛ : LargeEven
           (if k = 2 then .PSL else if k = 3 then .PSU else .POmegaMinus)
           (if k = 2 then 2 else if k = 3 then 4 else k)
           (2 ^ (if k = 2 then 2 * n else n))) ≤ 30 * n
-        simp only [h2, h3, if_false]
+        simp only [h2, h3, ite_false]
         show padicValNat 2 (ordTwistedD k (2 ^ n)) ≤ 30 * n
         rw [TWR.padicValNat_ordTwistedD rfl hn (by omega)]
         have h30 : k * (k - 1) ≤ 30 := by interval_cases k <;> omega

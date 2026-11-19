@@ -20,6 +20,7 @@ private lemma zmod2_eq_zero_or_one (c : ZMod 2) : c = 0 ∨ c = 1 := by
   have : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
   exact this c
 
+omit [Finite G] in
 private lemma range_mul_comm {x y : G} (hx : x ∈ ι.range) (hy : y ∈ ι.range) :
     x * y = y * x := by
   obtain ⟨a, rfl⟩ := MonoidHom.mem_range.mp hx
@@ -39,6 +40,7 @@ private lemma commute_vbar_inv (h : Setting25 G t z z₁ ι zv R0 F)
   rw [map_inv]
   exact hthis
 
+omit [Finite G] in
 theorem mem_Cgrp_or_mul_conj_t_mem_Cgrp (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) (hnz : n * z₁ * n⁻¹ = z) {a : G}
     (ha : a ∈ ι.range) : a ∈ Cgrp ι zv ∨ a * (n * t * n⁻¹) ∈ Cgrp ι zv := by

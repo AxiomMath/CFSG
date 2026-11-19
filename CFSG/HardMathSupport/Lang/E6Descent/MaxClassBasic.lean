@@ -84,12 +84,12 @@ theorem lcs_eq_bot_of_card {p : ℕ} [hp : Fact p.Prime] :
           calc p ^ j ∣ p ^ 1 := pow_dvd_pow p this
             _ = p := pow_one p
         rcases (Nat.dvd_prime hp.out).mp hprime with h1 | h1
-        · haveI : Subsingleton (Q ⧸ Z) := (Nat.card_eq_one_iff_unique.mp h1).1
+        · have : Subsingleton (Q ⧸ Z) := (Nat.card_eq_one_iff_unique.mp h1).1
           infer_instance
-        · haveI : Fact (Nat.card (Q ⧸ Z)).Prime := ⟨by rw [h1]; exact hp.out⟩
+        · have : Fact (Nat.card (Q ⧸ Z)).Prime := ⟨by rw [h1]; exact hp.out⟩
           exact isCyclic_of_prime_card h1
-      exact fun a b => commutative_of_cyclic_center_quotient (QuotientGroup.mk' Z)
-        (by simp [QuotientGroup.ker_mk', hZ]) a b
+      exact fun a b => (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' Z)
+        (by simp [QuotientGroup.ker_mk', hZ])).is_comm.comm a b
     have h1 := ih j (by omega) (Q ⧸ Z) hQZ hj hj2
     have h2 := lcs_le_of_quotient_eq_bot Z h1
     have h3 := lcs_succ_eq_bot_of_le_center h2

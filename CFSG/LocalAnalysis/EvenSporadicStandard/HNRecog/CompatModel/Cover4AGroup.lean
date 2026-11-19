@@ -47,9 +47,9 @@ theorem cover_group {H : Type} [Group H] {Q : Subgroup H} [hQn : Q.Normal]
     (hft : ρ * t = t * ρ → t ∈ centerOf Q) :
     ∃ i : ℕ, i < 5 ∧ ρ ^ i * d * (ρ ^ i)⁻¹ * t = t * (ρ ^ i * d * (ρ ^ i)⁻¹) := by
   classical
-  haveI : Finite Q := hQ.finite
+  have : Finite Q := hQ.finite
   have hE : IsExtraspecialPGroup 2 Q := hQ.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
   have hwQ : w ∈ Q := (Subgroup.mem_inf.1 hw).1
   let qw : Q := ⟨w, hwQ⟩

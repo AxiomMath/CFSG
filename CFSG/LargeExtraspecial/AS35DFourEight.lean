@@ -137,7 +137,7 @@ theorem fourEight (h22 : S14.AschbacherTwoTwoStmt) {N : Subgroup G} (hN : S.IsHS
     obtain ⟨T, hT⟩ := hQ2.exists_le_sylow
     refine ⟨T, fun t ht => ?_⟩
     have hle : ((T : Subgroup N).map N.subtype) ≤ S.M := by
-      refine S.le_M_of_isPGroup (T.isPGroup'.map _) fun q hq => ?_
+      refine S.le_M_of_isPGroup (T.isPGroup.map _) fun q hq => ?_
       exact ⟨⟨q, hQN hq⟩, hT (by rw [mem_subgroupOf]; exact hq), rfl⟩
     exact S.mem_M_iff.mp (hle ⟨t, ht, rfl⟩)
   have h := h22 G N ⊥ S.QG S.z bot_le hQN (fun u hu _ _ => by

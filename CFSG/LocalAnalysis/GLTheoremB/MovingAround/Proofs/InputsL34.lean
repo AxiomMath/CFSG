@@ -23,9 +23,9 @@ theorem card_mulAut_of_isLThreeFour {X : Type} [Group X] (hX : IsLThreeFour X) :
 
 theorem inputAutL34Order27_holds : Claims11x.InputAutL34Order27 := by
   intro X _ hX P hP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard := card_mulAut_of_isLThreeFour hX
-  haveI : Finite (MulAut X) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (MulAut X) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hdvd : Nat.card P ∣ 241920 := hcard ▸ Subgroup.card_subgroup_dvd_card P
   rw [hn] at hdvd ⊢
@@ -54,7 +54,7 @@ theorem sylow_inf_center_eq_bot {p : ℕ} [hp : Fact p.Prime] (S : Sylow p G)
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSN).toEquiv
   have hS'idx : ¬ p ∣ S'.index := fun h =>
     S.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hSN))
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hcop : (Nat.card S').Coprime S'.index := by
     rw [hS'card, hk]
     exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd hp.out).mpr hS'idx)
@@ -74,7 +74,7 @@ theorem sylow_inf_center_eq_bot {p : ℕ} [hp : Fact p.Prime] (S : Sylow p G)
   have hfus : ∀ x ∈ (S : Subgroup G), ∀ g : G, g⁻¹ * x * g ∈ (S : Subgroup G) →
       ∃ h ∈ H, g⁻¹ * x * g = h⁻¹ * x * h := by
     intro x hx g hg
-    haveI : IsMulCommutative (S : Subgroup G) := ⟨⟨hSab⟩⟩
+    have : IsMulCommutative (S : Subgroup G) := ⟨⟨hSab⟩⟩
     obtain ⟨n, hn, hgn⟩ := Sylow.conj_eq_normalizer_conj_of_mem S x g hx hg
     obtain ⟨s, hs, h, hh, rfl⟩ := hdecomp n hn
     refine ⟨h, hh, ?_⟩
@@ -124,7 +124,7 @@ theorem finite_of_isLThreeFour {X : Type} [Group X] (hX : IsLThreeFour X) : Fini
 
 theorem card_sylow_of_isLThreeFour {X : Type} [Group X] [Finite X] (hX : IsLThreeFour X)
     (S : Sylow 3 X) : Nat.card S = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Sylow.card_eq_multiplicity, card_of_isLThreeFour hX,
     CFSG.RankThree.Asc83Table.factorization_eq_of_eq Nat.prime_three
       (show 20160 = 3 ^ 2 * 2240 by norm_num) (by norm_num)]
@@ -132,7 +132,7 @@ theorem card_sylow_of_isLThreeFour {X : Type} [Group X] [Finite X] (hX : IsLThre
 
 theorem commute_of_card_nine {X : Type} [Group X] {E : Subgroup X} (hE : Nat.card E = 9) {x y : X}
     (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := ↥E)
     (by rw [hE]; norm_num)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
   exact congrArg Subtype.val h
@@ -152,8 +152,8 @@ theorem pow_three_of_card_nine {X : Type} [Group X] (hX : IsLThreeFour X) {E : S
 
 theorem pow_three_of_isPGroup {X : Type} [Group X] (hX : IsLThreeFour X) {x : X}
     (hx : IsPGroup 3 (Subgroup.zpowers x)) : x ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_of_isLThreeFour hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_of_isLThreeFour hX
   obtain ⟨S, hS⟩ := hx.exists_le_sylow
   exact pow_three_of_card_nine hX (card_sylow_of_isLThreeFour hX S) (hS (Subgroup.mem_zpowers x))
 
@@ -231,7 +231,7 @@ theorem quotientCenterAut'_conj {Y : Type*} [Group Y] (y : Y) :
 
 theorem inputSL34SylowCent_holds : Claims1245.InputSL34SylowCent := by
   intro Y _ _ hq hO hL hZ φ hφ P hfix
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : commutator Y = ⊤ := hq.1
   set π : Y →* Y ⧸ Subgroup.center Y := QuotientGroup.mk' (Subgroup.center Y) with hπ
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -274,7 +274,7 @@ theorem inputSL34SylowCent_holds : Claims1245.InputSL34SylowCent := by
       exact pow_three_of_card_nine hL hPbar9 hebar)
     have hPbarab : ∀ a b : ↥(Pbar : Subgroup (Y ⧸ Subgroup.center Y)), a * b = b * a := fun a b =>
       Subtype.ext (commute_of_card_nine hPbar9 a.2 b.2)
-    haveI : (Subgroup.zpowers yb).Normal :=
+    have : (Subgroup.zpowers yb).Normal :=
       ⟨fun n hn g => by rw [hPbarab g n, mul_inv_cancel_right]; exact hn⟩
     have hcardz : Nat.card (Subgroup.zpowers yb) = 3 := by
       rw [Nat.card_zpowers, orderOf_eq_prime hyb3 hyb1]
@@ -283,7 +283,7 @@ theorem inputSL34SylowCent_holds : Claims1245.InputSL34SylowCent := by
       rw [hcardz, hPbar9] at h1
       rw [← Subgroup.index_eq_card]
       exact ⟨1, by omega⟩
-    haveI : IsCyclic (↥(Pbar : Subgroup (Y ⧸ Subgroup.center Y)) ⧸ Subgroup.zpowers yb) :=
+    have : IsCyclic (↥(Pbar : Subgroup (Y ⧸ Subgroup.center Y)) ⧸ Subgroup.zpowers yb) :=
       isCyclic_of_card_dvd_prime (p := 3) hcardq
     let f₀ : ↥(P : Subgroup Y) →* ↥(Pbar : Subgroup (Y ⧸ Subgroup.center Y)) :=
       π.subgroupMap (P : Subgroup Y)
@@ -332,7 +332,7 @@ theorem twoFixed_of_card_nine {X : Type} [Group X] (hX : IsLThreeFour X) {E : Su
     (hE : Nat.card E = 9) {φ : MulAut X} (hfix : ∀ x ∈ E, φ x = x) :
     ∃ w₁ w₂ : X, orderOf w₁ = 3 ∧ orderOf w₂ = 3 ∧ φ w₁ = w₁ ∧ φ w₂ = w₂ ∧
       w₂ ∉ Subgroup.zpowers w₁ := by
-  haveI := finite_of_isLThreeFour hX
+  have := finite_of_isLThreeFour hX
   have hEne : E ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hE
@@ -355,8 +355,8 @@ theorem twoFixed_of_card_nine {X : Type} [Group X] (hX : IsLThreeFour X) {E : Su
 theorem twoFixed_of_inner {X : Type} [Group X] (hX : IsLThreeFour X) {t : X} (ht : t ^ 3 = 1) :
     ∃ w₁ w₂ : X, orderOf w₁ = 3 ∧ orderOf w₂ = 3 ∧ MulAut.conj t w₁ = w₁ ∧
       MulAut.conj t w₂ = w₂ ∧ w₂ ∉ Subgroup.zpowers w₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_of_isLThreeFour hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_of_isLThreeFour hX
   have ht3 : IsPGroup 3 (Subgroup.zpowers t) := by
     rcases (Nat.dvd_prime Nat.prime_three).1 (orderOf_dvd_of_pow_eq_one ht) with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
@@ -372,8 +372,8 @@ theorem twoFixed_of_conj {X : Type} [Group X] (hX : IsLThreeFour X) {φ : MulAut
     (hc : orderOf c = r) (hcφ : φ c = c) :
     ∃ w₁ w₂ : X, orderOf w₁ = 3 ∧ orderOf w₂ = 3 ∧ φ w₁ = w₁ ∧ φ w₂ = w₂ ∧
       w₂ ∉ Subgroup.zpowers w₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_of_isLThreeFour hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_of_isLThreeFour hX
   refine ⟨w, c * w * c⁻¹, hw, ?_, hwφ, ?_, ?_⟩
   · rw [← MulAut.conj_apply, MulEquiv.orderOf_eq, hw]
   · rw [map_mul, map_mul, map_inv, hwφ, hcφ]
@@ -423,7 +423,7 @@ theorem twoFixed_of_conj {X : Type} [Group X] (hX : IsLThreeFour X) {φ : MulAut
 
 theorem isLThreeFour_projectiveSL {k : Type} [Field k] (hk : Nat.card k = 4) :
     IsLThreeFour (projectiveSL 3 k) := by
-  haveI := LinearFieldFour.finite_of_card_eq_four hk
+  have := LinearFieldFour.finite_of_card_eq_four hk
   exact ⟨k, inferInstance, inferInstance, hk,
     ⟨(CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 k).symm.trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 k)⟩⟩
@@ -482,7 +482,7 @@ theorem fixed_of_prime {k : Type} [Field k] (hk : Nat.card k = 4) {A z l : GL (F
   have hsr : s ^ r = 1 := by
     apply Matrix.SpecialLinearGroup.toGL_injective
     rw [map_pow, hsl, map_one, ← hlr, pow_orderOf_eq_one]
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine orderOf_eq_prime (by rw [← map_pow, hsr, map_one]) (fun h1 => ?_)
   obtain ⟨-, hs3⟩ := scalar_of_proj_eq_one h1
   have hs1 : s = 1 := by
@@ -514,8 +514,8 @@ theorem fixed_of_nine {k : Type} [Field k] (hk : Nat.card k = 4) {A z : GL (Fin 
     (hz : z ∈ StatedScalars (Fin 3) k) {M : Subgroup (GL (Fin 3) k)}
     (hM : M ≤ centMod (slPi true 3 (2 ^ 2) k) (A * z)) (hM9 : Nat.card M = 9) :
     ∃ w : projectiveSL 3 k, orderOf w = 3 ∧ conjAut 3 k A w = w := by
-  haveI := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := LinearFieldFour.finite_of_card_eq_four hk
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX := isLThreeFour_projectiveSL hk
   have hsc : Nat.card (StatedScalars (Fin 3) k) ≤ 3 := by
     have h1 : Nat.card ((Matrix.GeneralLinearGroup.scalar (Fin 3) : kˣ →* GL (Fin 3) k).range) ≤
@@ -558,8 +558,8 @@ theorem twoFixed_proj {k : Type} [Field k] (hk : Nat.card k = 4) {φ : MulAut (p
     (hφ : φ ^ 3 = 1) :
     ∃ w₁ w₂ : projectiveSL 3 k, orderOf w₁ = 3 ∧ orderOf w₂ = 3 ∧ φ w₁ = w₁ ∧ φ w₂ = w₂ ∧
       w₂ ∉ Subgroup.zpowers w₁ := by
-  haveI := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := LinearFieldFour.finite_of_card_eq_four hk
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX := isLThreeFour_projectiveSL hk
   have hlin : φ ∈ linearAutGroup 3 k := by
     by_contra hD
@@ -612,14 +612,14 @@ theorem twoFixed_proj {k : Type} [Field k] (hk : Nat.card k = 4) {φ : MulAut (p
   ·
     set C := slPi true 3 (2 ^ 2) k ⊓ Subgroup.centralizer {A * z} with hC
     have hCc : C ≤ centMod (slPi true 3 (2 ^ 2) k) (A * z) := centralizer_le_centMod _ _
-    haveI : Fintype k := Fintype.ofFinite k
+    have : Fintype k := Fintype.ofFinite k
     have hk' : Fintype.card k = 4 := by rw [← Nat.card_eq_fintype_card, hk]
     have h180 : Nat.card C = 180 := by
       rw [Nat.card_congr e.toEquiv]
       change Nat.card (⊤ : Subgroup (GL (Fin 2) k)) = 180
       rw [Subgroup.card_top, Matrix.card_GL_field, hk', Fin.prod_univ_two]
       norm_num
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨c₀, hc₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 5 (by rw [h180]; norm_num)
     obtain ⟨c, hc, hcφ⟩ := fixed_of_prime hk hzs (hCc c₀.2) (r := 5) (by norm_num) (by norm_num)
       (by rw [Subgroup.orderOf_coe, hc₀])
@@ -633,7 +633,7 @@ theorem twoFixed_proj {k : Type} [Field k] (hk : Nat.card k = 4) {φ : MulAut (p
     set C := slPi true 3 (2 ^ 2) k ⊓ Subgroup.centralizer {A * z} with hC
     have hCc : C ≤ centMod (slPi true 3 (2 ^ 2) k) (A * z) := centralizer_le_centMod _ _
     have h21 : Nat.card C = 21 := by rw [hcard]; rfl
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨c₀, hc₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 7 (by rw [h21]; norm_num)
     obtain ⟨c, hc, hcφ⟩ := fixed_of_prime hk hzs (hCc c₀.2) (r := 7) (by norm_num) (by norm_num)
       (by rw [Subgroup.orderOf_coe, hc₀])
@@ -666,7 +666,7 @@ theorem inputL34Fix3_holds : Claims1245.InputL34Fix3 := by
   by_cases h₁Z : e.symm w₁ ∈ Z
   · refine ⟨e.symm w₂, by rw [hord, h₂], hfix w₂ hf₂, fun h₂Z => hne ?_⟩
     have hZ1 : Subgroup.zpowers (e.symm w₁) = Z := by
-      haveI : Finite (Subgroup.zpowers (e.symm w₁)) :=
+      have : Finite (Subgroup.zpowers (e.symm w₁)) :=
         Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hord, h₁]; norm_num)
       refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 h₁Z) ?_
       rw [Nat.card_zpowers, hord, h₁]
@@ -687,8 +687,8 @@ open CFSG.RankThree.PartTwo.KFacts.L34
 
 theorem card_le_nine_of_isPGroup {X : Type} [Group X] (hX : IsLThreeFour X) {H : Subgroup X}
     (hH : IsPGroup 3 H) : Nat.card H ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_of_isLThreeFour hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_of_isLThreeFour hX
   obtain ⟨S, hS⟩ := hH.exists_le_sylow
   exact (Subgroup.card_le_of_le hS).trans (card_sylow_of_isLThreeFour hX S).le
 
@@ -704,8 +704,8 @@ theorem card_normalizer_nine {X : Type} [Group X] (hX : IsLThreeFour X) {E : Sub
 theorem mem_of_mem_normalizer {X : Type} [Group X] (hX : IsLThreeFour X) {E : Subgroup X}
     (hE : Nat.card E = 9) {y : X} (hy : y ∈ Subgroup.normalizer (E : Set X))
     (hy3 : IsPGroup 3 (Subgroup.zpowers y)) : y ∈ E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_of_isLThreeFour hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_of_isLThreeFour hX
   have hE3 : IsPGroup 3 E := IsPGroup.of_card (n := 2) (by rw [hE]; norm_num)
   have hsup : IsPGroup 3 ↥(Subgroup.zpowers y ⊔ E) :=
     IsPGroup.to_sup_of_normal_right' hy3 hE3 (Subgroup.zpowers_le.2 hy)
@@ -726,9 +726,9 @@ theorem pow_three_eq_zero_of_isNilpotent' {K : Type} [Field K] {N : Matrix (Fin 
 
 theorem pow_four_of_pow_eight_proj {k : Type} [Field k] (hk : Nat.card k = 4)
     {x : projectiveSL 3 k} (hx : x ^ 8 = 1) : x ^ 4 = 1 := by
-  haveI := LinearFieldFour.finite_of_card_eq_four hk
-  haveI := LinearFieldFour.charP_two_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := LinearFieldFour.finite_of_card_eq_four hk
+  have := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, rfl⟩ := proj_surjective 3 k x
   have hg8 : proj 3 k (g ^ 8) = 1 := by rw [map_pow, hx]
   obtain ⟨c, hc3, hc⟩ := mem_scalars.1 (proj_eq_one_iff.1 hg8)
@@ -809,7 +809,7 @@ theorem card_ne_two_points {Ω : Type*} [Finite Ω] {ω₁ ω₂ : Ω} (h : ω�
 theorem card_dvd_card_sub_one {G Ω : Type*} [Group G] [Finite G] [MulAction G Ω] [Finite Ω]
     (ω₀ : Ω) (hfix : ∀ g : G, g • ω₀ = ω₀)
     (hfree : ∀ (g : G) (ω : Ω), ω ≠ ω₀ → g • ω = ω → g = 1) : Nat.card G ∣ Nat.card Ω - 1 := by
-  letI : MulAction G {ω : Ω // ω ≠ ω₀} :=
+  let : MulAction G {ω : Ω // ω ≠ ω₀} :=
     { smul := fun g ω => ⟨g • ω.1, fun h => ω.2 (by
           have h2 : ω.1 = g⁻¹ • ω₀ := eq_inv_smul_iff.2 h
           rw [h2, hfix])⟩
@@ -847,7 +847,7 @@ theorem false_of_ten {M Ω : Type*} [Group M] [Finite M] [MulAction M Ω] [Finit
     by_contra h
     push Not at h
     have hle : Nat.card Ω ≤ 1 := by
-      haveI : Subsingleton Ω := ⟨fun a b => (h a).trans (h b).symm⟩
+      have : Subsingleton Ω := ⟨fun a b => (h a).trans (h b).symm⟩
       exact Finite.card_le_one_iff_subsingleton.2 inferInstance
     omega
   have h2trans : ∀ α β : Ω, α ≠ β → ∃ g : M, g • ω₁ = α ∧ g • ω₂ = β := by
@@ -977,7 +977,7 @@ theorem false_of_ten {M Ω : Type*} [Group M] [Finite M] [MulAction M Ω] [Finit
     rcases hQfpf (u * v⁻¹) (Q.mul_mem hu (Q.inv_mem hv)) e₀ he₀ h1 with h | h
     · exact mul_inv_eq_one.1 h
     · exact absurd h he₀1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z', hz'⟩ := exists_prime_orderOf_dvd_card' (G := ↥Q) 2 (by rw [hQcard]; norm_num)
   have hzQ : (z' : M) ∈ Q := z'.2
   have hz2 : (z' : M) ^ 2 = 1 := by
@@ -1136,12 +1136,12 @@ open CFSG.RankThree.PartTwo.KFacts.L34
 
 theorem not_mulEquiv_alt {X : Type} [Group X] (hX : IsLThreeFour X) (Ω : Type) [Fintype Ω]
     [DecidableEq Ω] (h5 : 5 ≤ Fintype.card Ω) : IsEmpty (X ≃* alternatingGroup Ω) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_of_isLThreeFour hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_of_isLThreeFour hX
   refine ⟨fun e => ?_⟩
   have hcard : Nat.card (alternatingGroup Ω) = 20160 := by
     rw [← Nat.card_congr e.toEquiv, card_of_isLThreeFour hX]
-  haveI : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.1 (by omega)
   have h8 : Fintype.card Ω = 8 := by
     have h2 := two_mul_nat_card_alternatingGroup (α := Ω)
     rw [hcard, Nat.card_perm, Nat.card_eq_fintype_card] at h2
@@ -1190,16 +1190,16 @@ theorem not_mulEquiv_alt {X : Type} [Group X] (hX : IsLThreeFour X) (Ω : Type) 
 
 theorem index_gt_eleven {X : Type} [Group X] (hX : IsLThreeFour X) {M : Subgroup X} (hM : M ≠ ⊤) :
     11 < M.index := by
-  haveI := finite_of_isLThreeFour hX
-  haveI := (CFSG.HardMathSupport.Solomon.UniquenessMaximal.isSimpleGroup_of_isLThreeFour hX).1
+  have := finite_of_isLThreeFour hX
+  have := (CFSG.HardMathSupport.Solomon.UniquenessMaximal.isSimpleGroup_of_isLThreeFour hX).1
   exact CFSG.GH74.GLS.Stage2.Signalizer.Odd87.no_small_index_of_card_20160 (card_of_isLThreeFour hX)
     (fun Ω _ _ h5 => not_mulEquiv_alt hX Ω h5) M hM
 
 theorem normalizer_maximal {X : Type} [Group X] (hX : IsLThreeFour X) {E : Subgroup X}
     (hE : Nat.card E = 9) {M : Subgroup X} (hNM : Subgroup.normalizer (E : Set X) ≤ M) :
     M = Subgroup.normalizer (E : Set X) ∨ M = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_of_isLThreeFour hX
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_of_isLThreeFour hX
   set N := Subgroup.normalizer (E : Set X) with hN
   have hN72 : Nat.card N = 72 := card_normalizer_nine hX hE
   have hEN : E ≤ N := Subgroup.le_normalizer
@@ -1329,7 +1329,7 @@ theorem mem_sup_of_mem_normalizer_bar {K S : Subgroup G} (hL : IsLThreeFour (bar
       (((S.subgroupOf K).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥K)) : Subgroup (barOf 3 K)) :
         Set (barOf 3 K))) :
     (n₁ : G) ∈ GLAPPrimeCoreOf 3 K ⊔ (Subgroup.normalizer (S : Set G) ⊓ K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := GLAPPrimeCore 3 ↥K with hNdef
   set π := QuotientGroup.mk' N with hπ
   set P : Subgroup ↥K := S.subgroupOf K with hP
@@ -1365,7 +1365,7 @@ theorem mem_sup_of_mem_normalizer_bar {K S : Subgroup G} (hL : IsLThreeFour (bar
 
 theorem inputL34SylowNormalizer_holds : Claims11x.InputL34SylowNormalizer := by
   intro G _ _ K S hL hSK hS3 hS9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := GLAPPrimeCore 3 ↥K with hNdef
   set π := QuotientGroup.mk' N with hπ
   have hN : ¬ 3 ∣ Nat.card N := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
@@ -1402,7 +1402,7 @@ theorem inputL34SylowNormalizer_holds : Claims11x.InputL34SylowNormalizer := by
     set NS := Subgroup.normalizer (S : Set G) ⊓ K with hNS
     have hSNS : S ≤ NS := le_inf Subgroup.le_normalizer hSK
     set S' : Subgroup ↥NS := S.subgroupOf NS with hS'
-    haveI hS'n : S'.Normal := ⟨fun n hn g => by
+    have hS'n : S'.Normal := ⟨fun n hn g => by
       rw [hS', Subgroup.mem_subgroupOf] at hn ⊢
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       exact (Subgroup.mem_normalizer_iff.1 (Subgroup.mem_inf.1 g.2).1 _).1 hn⟩
@@ -1439,10 +1439,10 @@ theorem lift_alt' {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup G} {e :
     (hA₀N : ∀ y ∈ fixedSub (barAut p K ⟨e, heN⟩), y ∈ Subgroup.normalizer (A₀ : Set (barOf p K)))
     {m : ℕ} (h5 : 5 ≤ m) (hpm : p ≤ m) (g : ↥A₀ ≃* alternatingGroup (Fin m)) :
     A₀ ≤ barX p K (Lemma123.Ke' p K e) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hsimpAlt := AltFacts3.isSimple_alt h5
-  haveI hsimpA : IsSimpleGroup ↥A₀ := g.isSimpleGroup
-  haveI hntA : Nontrivial ↥A₀ := hsimpA.toNontrivial
+  have : Fact p.Prime := ⟨hp⟩
+  have hsimpAlt := AltFacts3.isSimple_alt h5
+  have hsimpA : IsSimpleGroup ↥A₀ := g.isSimpleGroup
+  have hntA : Nontrivial ↥A₀ := hsimpA.toNontrivial
   set C : Subgroup G := K ⊓ Subgroup.centralizer ({e} : Set G) with hC
   have hCK : C ≤ K := inf_le_left
   have hF : fixedSub (barAut p K ⟨e, heN⟩) = barX p K C := AltFacts3.fixedSub_barAut_eq_p hp hep heN
@@ -1560,7 +1560,7 @@ theorem lift_alt' {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup G} {e :
       (AltFacts3.isQuasisimple_alt h5)
   have hcomp : IsComponentOf K' (⊤ : Subgroup (↥C ⧸ NC)) := by
     refine ⟨le_top, ?_, hKq⟩
-    haveI : K'.Normal := hPnorm.map _ (QuotientGroup.mk'_surjective NC)
+    have : K'.Normal := hPnorm.map _ (QuotientGroup.mk'_surjective NC)
     exact IsSubnormal.step le_top (Subgroup.Normal.subgroupOf inferInstance _) (IsSubnormal.refl _)
   obtain ⟨J, hJ, hJK⟩ := exists_glaPComponent_barX_eq (p := p) C hcomp
   have hJKe : J ≤ Lemma123.Ke' p K e := le_sup_of_le_right (le_sSup hJ)
@@ -1656,7 +1656,7 @@ theorem altOn_le_of_fix {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup G
     · exact lift_alt' hp hp2 heN hep hF hN h5 hpm (AltFacts3.A0EquivFin f _ rfl)
     · refine lift_core' hp heN hep hF hN ?_
       rw [Nat.card_congr (AltFacts3.A0EquivFin f _ rfl).toEquiv]
-      haveI : Nontrivial (Fin (Fintype.card {i // τ i = i})) :=
+      have : Nontrivial (Fin (Fintype.card {i // τ i = i})) :=
         Fin.nontrivial_iff_two_le.mpr (by omega)
       have h2 := two_mul_nat_card_alternatingGroup (α := Fin (Fintype.card {i // τ i = i}))
       rw [Nat.card_perm, Nat.card_eq_fintype_card (α := Fin _), Fintype.card_fin] at h2
@@ -2069,7 +2069,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns
 
 theorem input23_3_1_holds : Claims11x.Input23_3_1 := by
   intro G _ _ p hp hp2 X K A B hK hAX hAN hAel n hpn hpdvd hAlt hcard hBA hBrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   obtain ⟨B₀, hB₀B, hB₀el, hB₀card⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (le_refl (CFSG.Open.pRank p B))
@@ -2085,15 +2085,15 @@ theorem input23_3_1_holds : Claims11x.Input23_3_1 := by
   have hq : CFSG.Open.IsQuasisimple (barOf p K) :=
     (isQuasisimple_barX_iff hp hK.2.1).1 hK.2.2.1.2.2
   obtain ⟨f⟩ := hAlt
-  haveI hnt : Nontrivial (barOf p K) := by
-    haveI := hq.2.toNontrivial
+  have hnt : Nontrivial (barOf p K) := by
+    have := hq.2.toNontrivial
     exact (QuotientGroup.mk_surjective (s := Subgroup.center (barOf p K))).nontrivial
   have h5 : 5 ≤ n := by
     by_contra h
     have h4 : n ≤ 4 := by omega
-    haveI : Group.IsSolvable (alternatingGroup (Fin n)) :=
+    have : Group.IsSolvable (alternatingGroup (Fin n)) :=
       alternatingGroup.isSolvable (by simpa using h4)
-    haveI : Group.IsSolvable (barOf p K) := solvable_of_solvable_injective (f := f.toMonoidHom) f.injective
+    have : Group.IsSolvable (barOf p K) := Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
     exact absurd hq.1 (Group.IsSolvable.commutator_lt_top_of_nontrivial (barOf p K)).ne
   have hB₀N : ∀ e ∈ B₀, e ∈ Subgroup.normalizer (K : Set G) := fun e he => hAN (hBA (hB₀B he))
   have hB₀p : ∀ e ∈ B₀, e ^ p = 1 := fun e he => hB₀el.2 e he
@@ -2126,7 +2126,7 @@ theorem input23_3_1_holds : Claims11x.Input23_3_1 := by
       by_contra hy1
       apply hker (y : G) y.2 (fun h => hy1 (Subtype.ext h))
       exact (MulEquiv.map_eq_one_iff (MulAut.congr f)).1 hy
-    haveI := Input236gt.finite_mulAut (alternatingGroup (Fin 6))
+    have := Input236gt.finite_mulAut (alternatingGroup (Fin 6))
     have hdvd : 5 ^ 2 ∣ Nat.card (MulAut (alternatingGroup (Fin 6))) := by
       rw [← hB₀card, Nat.card_congr (MonoidHom.ofInjective hτinj).toEquiv]
       exact Subgroup.card_subgroup_dvd_card _

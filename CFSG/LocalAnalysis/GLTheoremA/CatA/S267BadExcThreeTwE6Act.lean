@@ -28,7 +28,7 @@ theorem actData_of_distinguished {p : ℕ} (hp : p.Prime) {B : Subgroup Ω} (hB 
     (htJ : J ≤ Subgroup.centralizer ({t} : Set X)) (htd : d₁ t = t) :
     ModelGen.ActData p B (fun x => Γ x) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hexp : ∀ a ∈ B.map Γ, a ^ p = 1 := by
     rintro _ ⟨x, hx, rfl⟩
     rw [← map_pow, hB.2 x hx, map_one]

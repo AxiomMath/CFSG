@@ -25,12 +25,14 @@ variable {p : ℕ} {P : Type} [Group P] [Finite P]
 
 include hE
 
+omit [Finite P] [E.Normal] in
 private theorem commutator_le_center_of_isExtraspecial :
     _root_.commutator ↥E ≤ center ↥E := by
-  haveI : IsElementaryAbelian p (↥E ⧸ center ↥E) :=
+  have : IsElementaryAbelian p (↥E ⧸ center ↥E) :=
     IsExtraspecial.quotient_elementary_abelian p ↥E
   exact Subgroup.Normal.quotient_commutative_iff_commutator_le.1 inferInstance
 
+omit [E.Normal] in
 private theorem center_eq_commutator_of_isExtraspecial (hp : p.Prime) :
     center ↥E = _root_.commutator ↥E := by
   have hle := commutator_le_center_of_isExtraspecial (p := p) E
@@ -38,7 +40,7 @@ private theorem center_eq_commutator_of_isExtraspecial (hp : p.Prime) :
   have hne : _root_.commutator ↥E ≠ ⊥ := by
     intro h
     rw [commutator_eq_bot_iff_center_eq_top] at h
-    haveI := IsExtraspecial.quotient_nontrivial p ↥E
+    have := IsExtraspecial.quotient_nontrivial p ↥E
     rw [h] at this
     exact (not_nontrivial_iff_subsingleton.2 QuotientGroup.subsingleton_quotient_top) this
   have hdvd : Nat.card (_root_.commutator ↥E) ∣ p := hcZ ▸ card_dvd_of_le hle
@@ -54,10 +56,10 @@ private theorem exists_inner_of_triv_quotient (hp : p.Prime) (hexp : ∀ x : ↥
   have hZ := center_eq_commutator_of_isExtraspecial (p := p) E hp
   have hcZ : Nat.card (center ↥E) = p := IsExtraspecial.center_order_p p ↥E
   obtain ⟨ε⟩ : Nonempty (center ↥E ≃* Multiplicative (ZMod p)) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact CFSG.OddSolvableUnitary.nonempty_center_mulEquiv hcZ
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI _hmod : Module (ZMod p) (Additive (Abelianization ↥E)) :=
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have _hmod : Module (ZMod p) (Additive (Abelianization ↥E)) :=
     AddCommGroup.zmodModule (CFSG.OddSolvableUnitary.nsmul_abelianization_eq_zero hexp)
   obtain ⟨B, -, hBn, hB⟩ := CFSG.OddSolvableUnitary.exists_commForm hZ ε
   let α : MulAut ↥E := MulAut.conjNormal g
@@ -76,11 +78,11 @@ private theorem exists_inner_of_triv_quotient (hp : p.Prime) (hexp : ∀ x : ↥
   have hℓ : ∀ x : ↥E, ℓ (Additive.ofMul (Abelianization.of x)) =
       Multiplicative.toAdd (ε (f x)) := fun x => rfl
   have hex : ∃ w : Additive (Abelianization ↥E), ∀ v, B w v = ℓ v := by
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Finite (Additive (Abelianization ↥E)) :=
+    have : Fact p.Prime := ⟨hp⟩
+    have : Finite (Additive (Abelianization ↥E)) :=
       Finite.of_surjective (fun x : ↥E => Additive.ofMul (Abelianization.of x))
         fun v => QuotientGroup.mk_surjective (Additive.toMul v)
-    haveI : FiniteDimensional (ZMod p) (Additive (Abelianization ↥E)) := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod p) (Additive (Abelianization ↥E)) := Module.Finite.of_finite
     exact ⟨(B.toDual hBn).symm ℓ, fun v => by
       rw [← LinearMap.BilinForm.toDual_def hBn, LinearEquiv.apply_symm_apply]⟩
   obtain ⟨w, hw⟩ := hex
@@ -150,8 +152,8 @@ variable {p : ℕ}
 private theorem card_gl_two (hp : p.Prime) {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     [Finite V] (hV : Module.finrank (ZMod p) V = 2) :
     Nat.card (LinearMap.GeneralLinearGroup (ZMod p) V) = (p ^ 2 - 1) * (p ^ 2 - p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
   rw [← Nat.card_congr (Matrix.GeneralLinearGroup.toLin'
     (Module.finBasisOfFinrankEq (ZMod p) V hV)).toEquiv, Matrix.card_GL_field,
     Fin.prod_univ_two, ZMod.card]
@@ -177,10 +179,10 @@ private theorem card_le_of_isPGroup_gl_two (hp : p.Prime) {V : Type*} [AddCommGr
     [Module (ZMod p) V] [Finite V] (hV : Module.finrank (ZMod p) V = 2)
     (T : Subgroup (LinearMap.GeneralLinearGroup (ZMod p) V)) (hT : IsPGroup p T) :
     Nat.card T ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 := hp.two_le
   have hGL := card_gl_two hp hV
-  haveI : Finite (LinearMap.GeneralLinearGroup (ZMod p) V) := by
+  have : Finite (LinearMap.GeneralLinearGroup (ZMod p) V) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [hGL]
     have h1 : 1 < p ^ 2 := Nat.one_lt_pow (by norm_num) hp.one_lt
@@ -210,15 +212,15 @@ private theorem exists_subgroup_index_le (hp : p.Prime) (hP : IsPGroup p P) (E :
       ∀ g ∈ K, ∀ x : ↥E, x⁻¹ * MulAut.conjNormal g x ∈ center ↥E := by
   have hZ := center_eq_commutator_of_isExtraspecial (p := p) E hp
   have hcZ : Nat.card (center ↥E) = p := IsExtraspecial.center_order_p p ↥E
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI _hmod : Module (ZMod p) (Additive (Abelianization ↥E)) :=
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have _hmod : Module (ZMod p) (Additive (Abelianization ↥E)) :=
     AddCommGroup.zmodModule (CFSG.OddSolvableUnitary.nsmul_abelianization_eq_zero hexp)
-  haveI hfin : Finite (Additive (Abelianization ↥E)) :=
+  have hfin : Finite (Additive (Abelianization ↥E)) :=
     Finite.of_surjective (fun x : ↥E => Additive.ofMul (Abelianization.of x))
       fun v => QuotientGroup.mk_surjective (Additive.toMul v)
   have hV : Module.finrank (ZMod p) (Additive (Abelianization ↥E)) = 2 := by
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : FiniteDimensional (ZMod p) (Additive (Abelianization ↥E)) := Module.Finite.of_finite
+    have : Fact p.Prime := ⟨hp⟩
+    have : FiniteDimensional (ZMod p) (Additive (Abelianization ↥E)) := Module.Finite.of_finite
     have h1 : Nat.card (Abelianization ↥E) * p = p ^ 3 :=
       (CFSG.OddSolvableUnitary.card_eq_card_abelianization_mul hZ hcZ).symm.trans hEcard
     have h2 : Nat.card (Abelianization ↥E) = p ^ 2 :=
@@ -241,7 +243,7 @@ section Order
 private theorem card_zpowers_sup_center {p : ℕ} (hp : p.Prime) {D : Type*} [Group D] [Finite D]
     (hexp : ∀ x : D, x ^ p = 1) (hcZ : Nat.card (center D) = p) {w : D} (hw : w ∉ center D) :
     Nat.card ↥(zpowers w ⊔ center D) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hw1 : w ≠ 1 := fun h => hw (h ▸ one_mem _)
   have hord : orderOf w = p := orderOf_eq_prime (hexp w) hw1
   have hzp : Nat.card (zpowers w) = p := by rw [Nat.card_zpowers, hord]
@@ -268,7 +270,7 @@ end Order
 
 section Main
 
-theorem index_sup_centralizer_le_of_extraspecial {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
+theorem index_sup_centralizer_le_of_extraspecial {p : ℕ} [Fact p.Prime] (_hp : p ≠ 2)
     {P : Type} [Group P] [Finite P] (hP : IsPGroup p P) (E : Subgroup P) [E.Normal]
     [IsExtraspecial p E] (hEcard : Nat.card E = p ^ 3) (hEexp : Monoid.exponent E = p) :
     (E ⊔ Subgroup.centralizer (E : Set P)).index ≤ p := by
@@ -286,9 +288,9 @@ theorem index_sup_centralizer_le_of_extraspecial {p : ℕ} [Fact p.Prime] (hp : 
   exact (Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite)
     (Subgroup.index_dvd_of_le hKle)).trans hKidx
 
-theorem exists_le_frattini_of_not_mem_sup_centralizer {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
+theorem exists_le_frattini_of_not_mem_sup_centralizer {p : ℕ} [Fact p.Prime] (_hp : p ≠ 2)
     {P : Type} [Group P] [Finite P] (hP : IsPGroup p P) (E : Subgroup P) [E.Normal]
-    [IsExtraspecial p E] (hEcard : Nat.card E = p ^ 3) (hEexp : Monoid.exponent E = p)
+    [IsExtraspecial p E] (_hEcard : Nat.card E = p ^ 3) (hEexp : Monoid.exponent E = p)
     {x : P} (hx : x ∉ E ⊔ Subgroup.centralizer (E : Set P)) :
     ∃ A₁ : Subgroup P, A₁ ≤ E ∧ Nat.card A₁ = p ^ 2 ∧ A₁ ≤ frattini P := by
   have hpp : p.Prime := Fact.out
@@ -309,13 +311,13 @@ theorem exists_le_frattini_of_not_mem_sup_centralizer {p : ℕ} [Fact p.Prime] (
   refine ⟨(zpowers w ⊔ center ↥E).map E.subtype, map_subtype_le _, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective E.subtype_injective]
     exact card_zpowers_sup_center hpp hexp hcZ he
-  · haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  · have : Fact (IsPGroup p P) := ⟨hP⟩
     refine le_trans ?_ (CFSG.commutator_le_frattini_of_isPGroup (p := p) (R := P))
     rw [Subgroup.map_sup, MonoidHom.map_zpowers]
     refine sup_le ?_ ?_
     · rw [zpowers_le]
       have hwP : E.subtype w = ⁅(e : P)⁻¹, x⁆ := by
-        simp only [hw, MonoidHom.coe_mk, Subgroup.coe_subtype, Subgroup.coe_mul,
+        simp only [hw, Subgroup.coe_subtype, Subgroup.coe_mul,
           Subgroup.coe_inv, MulAut.conjNormal_apply, commutatorElement_def, inv_inv]
         group
       rw [hwP]

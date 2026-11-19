@@ -29,7 +29,7 @@ private theorem exists_bilin_orth_not_mem_span {k : Type*} [Field k] {M : Type*}
     intro hle
     have := Submodule.finrank_mono hle
     omega
-  obtain ⟨w, hw, hwS⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨w, hw, hwS⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   refine ⟨w, hw, fun s hs => hwS ?_⟩
   rw [Submodule.mem_span_singleton]
   exact ⟨s, hs.symm⟩

@@ -36,12 +36,14 @@ abbrev imgZ (M T : Subgroup X) : Subgroup (↥M ⧸ Open.fusionZStar ↥M) :=
 noncomputable abbrev actZ (M E : Subgroup X) : Subgroup (MulAut (↥M ⧸ Open.fusionZStar ↥M)) :=
   (E.subgroupOf (normalizer (M : Set X))).map (zStarAct M)
 
+omit [Finite X] in
 theorem zStarAct_mk (M : Subgroup X) (g : ↥(normalizer (M : Set X))) (m : ↥M) :
     zStarAct M g (QuotientGroup.mk' (Open.fusionZStar ↥M) m) =
       QuotientGroup.mk' (Open.fusionZStar ↥M)
         ⟨(g : X) * m * (g : X)⁻¹, (mem_normalizer_iff.mp g.2 m).mp m.2⟩ :=
   rfl
 
+omit [Finite X] in
 theorem zStarAct_of_mem (M : Subgroup X) (m : ↥M) :
     zStarAct M ⟨m, le_normalizer m.2⟩ =
       MulAut.conj (QuotientGroup.mk' (Open.fusionZStar ↥M) m) := by
@@ -139,7 +141,7 @@ private theorem exists_mem_centralizer_mk_eq {M E : Subgroup X} (hE : IsPGroup 2
   have hfibre : Nat.card fibre = Nat.card (pPrimeCore 2 ↥M) := by
     have heq : {v : ↥M | ρ v = ρ w} = ρ ⁻¹' {ρ w} := by
       ext v
-      simp only [Set.mem_setOf_eq, Set.mem_preimage, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage, Set.mem_singleton_iff]
     rw [← QuotientGroup.ker_mk' (pPrimeCore 2 ↥M)]
     exact (Nat.card_congr (Set.equivOfEq heq)).trans (Nat.card_congr (ρ.fiberEquivKer w))
   have hnd : ¬ 2 ∣ Nat.card fibre := by
@@ -152,7 +154,7 @@ private theorem exists_mem_centralizer_mk_eq {M E : Subgroup X} (hE : IsPGroup 2
   exact mul_inv_eq_iff_eq_mul.mp h1
 
 theorem isPComponent_imgZ {H M E T : Subgroup X} (hMH : M ≤ H)
-    (hM : IsPComponent 2 (M.subgroupOf H)) (hEH : E ≤ H) (hEN : E ≤ normalizer (M : Set X))
+    (_hM : IsPComponent 2 (M.subgroupOf H)) (_hEH : E ≤ H) (hEN : E ≤ normalizer (M : Set X))
     (hE : IsPGroup 2 E) (hTM : T ≤ M) (hTE : T ≤ centralizer (E : Set X))
     (hT : IsPComponent 2 (T.subgroupOf (H ⊓ centralizer (E : Set X)))) :
     imgZ M T ≤ EvenPump.autFixed (actZ M E) ∧
@@ -261,6 +263,7 @@ private theorem fusionZStar_le_comap {A B : Type*} [Group A] [Group B] [Finite A
   rw [← map_commutatorElement]
   exact hO (mem_map_of_mem f (GSThmB.OddQuot.mem_fusionZStar_iff.mp ha m))
 
+omit [Finite X] in
 private theorem exists_surjective_imgZ {M T : Subgroup X} (hTM : T ≤ M) :
     ∃ f : ↥T →* ↥(imgZ M T), Function.Surjective f ∧
       ∀ t : ↥T, (f t : ↥M ⧸ Open.fusionZStar ↥M) =

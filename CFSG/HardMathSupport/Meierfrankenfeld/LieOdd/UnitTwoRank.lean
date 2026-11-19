@@ -27,7 +27,7 @@ theorem Θ_eq_one_iff (a : lin1 h) :
   exact this.trans ⟨fun ⟨_, c, hc⟩ => ⟨c, hc⟩, fun ⟨c, hc⟩ => ⟨rfl, c, hc⟩⟩
 
 instance finite_hypPSU : Finite (hypPSU h 2 0) := by
-  haveI := h.finite
+  have := h.finite
   infer_instance
 
 instance finite_mulAut_hypPSU : Finite (MulAut (hypPSU h 2 0)) :=
@@ -92,7 +92,6 @@ theorem hlin_comm (hc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) {A A' : GL (Hyp
   have hGL : ((a : GL (HypIndex 2 0) K)) * (a' : GL (HypIndex 2 0) K) =
       GeneralLinearGroup.scalar _ c * ((a' : GL (HypIndex 2 0) K) * (a : GL (HypIndex 2 0) K)) := by
     rw [← hc']
-    change _ = ((a * a' * (a' * a)⁻¹ : lin1 h) : GL (HypIndex 2 0) K) * _
     simp only [Subgroup.coe_mul, Subgroup.coe_inv, inv_mul_cancel_right]
   refine ⟨(c : K), ?_⟩
   have := congrArg (fun g : GL (HypIndex 2 0) K => (g : Matrix (HypIndex 2 0) (HypIndex 2 0) K)) hGL
@@ -103,14 +102,14 @@ theorem hlin_comm (hc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) {A A' : GL (Hyp
 theorem card_Rr_le (hc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) (hs : ∀ x ∈ B, x * x = 1) :
     Nat.card (Rr h B) ≤ 16 := by
   classical
-  haveI := h.finite
-  haveI : Fintype (Rr h B) := Fintype.ofFinite _
-  haveI : Nonempty (HypIndex 2 0) := ⟨Sum.inl 0⟩
+  have := h.finite
+  have : Fintype (Rr h B) := Fintype.ofFinite _
+  have : Nonempty (HypIndex 2 0) := ⟨Sum.inl 0⟩
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_odd h (by norm_num : (3 : ℕ) ≠ 2)
   have h4 : (4 : K) ≠ 0 := by
     rw [show (4 : K) = 2 * 2 by norm_num]; exact mul_ne_zero h2 h2
   have hcard4 : Fintype.card (HypIndex 2 0) = 4 := by
-    simpa using card_hypIndex (r := 2) (ε := 0)
+    simp
   have hex : ∀ β : Rr h B, ∃ a : lin1 h, a ∈ Hs h B ∧ Θ h a = β := fun β => by
     obtain ⟨a, ha, he⟩ := β.2
     exact ⟨a, ha, he⟩
@@ -136,7 +135,7 @@ theorem card_Rr_le (hc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) (hs : ∀ x �
     obtain ⟨β', -, rfl⟩ := Finset.mem_image.1 ht'
     have hc0 : c ≠ 0 := by
       rintro rfl
-      exact Units.ne_zero (rep β : GL (HypIndex 2 0) K) (by simpa [mat] using hct)
+      exact Units.ne_zero (rep β : GL (HypIndex 2 0) K) (by simp [mat] at hct)
     have hy : Θ h (rep β * (rep β')⁻¹) = 1 := by
       refine (Θ_eq_one_iff h _).2 ⟨Units.mk0 c hc0, ?_⟩
       refine Units.ext ?_
@@ -215,7 +214,7 @@ theorem card_le_two_mul_Rr (hs : ∀ x ∈ B, x * x = 1) :
   · have : B ≤ Rr h B := hall
     have := Subgroup.card_le_of_le this
     omega
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨β₀, hβ₀, hβ₀R⟩ := hall
     have key : ∀ β : B, β.1 ∉ Rr h B → β₀ * β.1 ∈ Rr h B := fun β hβ =>
       mul_mem_Rr h B hs hβ₀ β.2 hβ₀R hβ

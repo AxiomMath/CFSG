@@ -83,10 +83,10 @@ private theorem burnsideF411a_sp4_marking_parabolic {f : ℕ} {H : Type} [Group 
           Units.val_one])]
     simp only [Units.val_one, Matrix.one_mulVec, Set.image_id']
     cases b
-    · simp only [Bool.false_eq_true, if_false, ChF.ClassicalRoots.flagOne]
+    · simp only [Bool.false_eq_true, ite_false, ChF.ClassicalRoots.flagOne]
       exact forall_congr' fun v => by
         rw [(burnsideF4h_cl_sp_coordinateSpace _).1, (burnsideF4h_cl_sp_coordinateSpace _).1]
-    · simp only [if_true, ChF.ClassicalRoots.flagTwo]
+    · simp only [ite_true, ChF.ClassicalRoots.flagTwo]
       exact forall_congr' fun v => by
         rw [(burnsideF4h_cl_sp_coordinateSpace _).2, (burnsideF4h_cl_sp_coordinateSpace _).2]
   ext h
@@ -98,8 +98,8 @@ private theorem burnsideF411a_sp4_marking_parabolic {f : ℕ} {H : Type} [Group 
 
 theorem burnsideF411a_swap_Sp4_two {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) : burnsideF411_Swap M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨chart, hB, hP1, hP2⟩ := hyp.lie_amalgam
   rcases chart.coordinates with
     ⟨c, hk, marking, h1, h2, h3, -, -⟩ | ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨hk, -⟩ |
@@ -110,7 +110,7 @@ theorem burnsideF411a_swap_Sp4_two {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
   subst hc
   set K := marking.field
   have hK : Nat.card K = 2 ^ f := by simpa using marking.field_card
-  haveI : CharP K 2 := burnsideF4h_cl_charP hK
+  have : CharP K 2 := burnsideF4h_cl_charP hK
   let e : StatedProj (StatedSp 2 K) ≃* ↥Gp := marking.identification
   have hcl := (burnsideF4h_cl_Sp4 2 f ↥Gp marking).1
   have hmap := burnsideF4h_isLieParabolics_map Gp.subtype Gp.subtype_injective hcl

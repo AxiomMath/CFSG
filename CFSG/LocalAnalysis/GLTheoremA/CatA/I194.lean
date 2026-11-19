@@ -12,7 +12,7 @@ open CFSG.HardMathSupport.Timmesfeld.Balance (elemAbelian_subgroupOf)
 
 theorem i194At_holds (G : Type) [Group G] [Finite G] (p : ℕ) : I194At G p := by
   intro hp X B A _hK hBX hB hAB hcf
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : ↥X →* ↥X ⧸ GLAPPrimeCore p ↥X := QuotientGroup.mk' (GLAPPrimeCore p ↥X) with hπ
   have hY : ∀ L : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X), IsComponent L →
       IsCompCoreFreeLocalType p (barX p X B) L := by

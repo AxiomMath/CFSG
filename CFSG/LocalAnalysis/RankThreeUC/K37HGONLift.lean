@@ -22,10 +22,12 @@ variable {X : Type} [Group X] [Finite X]
     X →* MulAut (↥K ⧸ Subgroup.center ↥K) :=
   (quotientCenterAut' ↥K).comp MulAut.conjNormal
 
+omit [Finite X] in
 theorem k37GAct_mk (K : Subgroup X) [K.Normal] (x : X) (k : ↥K) :
     k37GAct K x (QuotientGroup.mk k) = QuotientGroup.mk (MulAut.conjNormal x k) :=
   rfl
 
+omit [Finite X] in
 theorem k37GAct_coe (K : Subgroup X) [K.Normal] (k : ↥K) :
     k37GAct K (k : X) = MulAut.conj (QuotientGroup.mk k : ↥K ⧸ Subgroup.center ↥K) := by
   ext y
@@ -34,6 +36,7 @@ theorem k37GAct_coe (K : Subgroup X) [K.Normal] (k : ↥K) :
     rw [k37GAct_mk, MulAut.conjNormal_val, MulAut.conj_apply]
     rfl
 
+omit [Finite X] in
 theorem k37GAct_eq_one_iff (K : Subgroup X) [K.Normal] (hperf : commutator ↥K = ⊤) (x : X) :
     k37GAct K x = 1 ↔ x ∈ Subgroup.centralizer (K : Set X) := by
   constructor
@@ -71,7 +74,7 @@ theorem k37G_inf_centralizer_eq_bot {K E S : Subgroup X} (hs : K37Setting X K E 
 theorem k37G_exists_lift {K E S : Subgroup X} (hs : K37Setting X K E S)
     (hout : ¬ 3 ∣ Nat.card (Outer (↥K ⧸ Subgroup.center ↥K))) {e : X} (he : e ∈ E) :
     ∃ k : ↥K, (k : X)⁻¹ * e ∈ Subgroup.centralizer (K : Set X) := by
-  haveI := hs.normal
+  have := hs.normal
   have hperf : commutator ↥K = ⊤ := Group.isPerfect_def.mp hs.quasi.1
   have hα3 : (k37GAct K e) ^ 3 = 1 := by
     rw [← map_pow, hs.elem.2 e he, map_one]

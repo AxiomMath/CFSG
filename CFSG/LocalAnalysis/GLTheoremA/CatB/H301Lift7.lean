@@ -43,7 +43,7 @@ theorem isPGroup_centralizer_of_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     exact ⟨n, hn, rfl⟩
   have hcyc : IsCyclic ((R : Subgroup Q) ⊓ Subgroup.centralizer (K : Set Q) : Subgroup Q) :=
     RankThree.PartOne.K1214.isCyclic_subgroup_of_pow_eq_one_subset hp hp2
-      (R.isPGroup'.to_le inf_le_left)
+      (R.isPGroup.to_le inf_le_left)
       ⟨AGLEmbedding.mem_sylow_of_mem_center hz hzp R, Subgroup.center_le_centralizer _ hz⟩ hzp
       fun y hy hyp => hrk y hy.2 hyp
   exact RankFourTheoremC.isPGroup_centralizer_of_unique_component R hcore hK hKn huniq

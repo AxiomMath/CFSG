@@ -67,27 +67,27 @@ private theorem ltrd4a_datumA_tag {p nf d : ℕ} {tw : Bool} {m : List ℕ} {o :
   unfold ggMultDatumA at ho
   dsimp only at ho
   by_cases htriv : (tw = false ∧ d = 1) ∨ (tw = true ∧ d = 2)
-  · rw [if_pos htriv] at ho
+  · rw [ite_eq_left htriv] at ho
     dsimp only at ho
     rw [List.mem_map] at ho
     obtain ⟨j, -, rfl⟩ := ho
     exact ltrd4a_blockA_tag _ _ _
-  · rw [if_neg htriv] at ho
+  · rw [ite_eq_right htriv] at ho
     dsimp only at ho
     rw [List.mem_append] at ho
     rcases ho with ho | ho
     · by_cases hhead : 2 ≤ m.headD 0
-      · rw [if_pos hhead] at ho
+      · rw [ite_eq_left hhead] at ho
         by_cases htw : tw = false
-        · rw [if_pos htw] at ho
+        · rw [ite_eq_left htw] at ho
           rw [List.mem_singleton] at ho
           subst ho
           exact Or.inl rfl
-        · rw [if_neg htw] at ho
+        · rw [ite_eq_right htw] at ho
           rw [List.mem_singleton] at ho
           subst ho
           exact ltrd4a_blockA_tag _ _ _
-      · rw [if_neg hhead] at ho
+      · rw [ite_eq_right hhead] at ho
         simp at ho
     · rw [List.mem_map] at ho
       obtain ⟨j, -, rfl⟩ := ho
@@ -166,7 +166,7 @@ private theorem ltrd4a_datum
     {E : Subgroup (MulAut L)} {labL : LargeEvenLabel}
     (hΛL : LargeEvenInLambda2 labL)
     (hgen : GGKacGenericCl labL 3) (hperfL : commutator L = ⊤)
-    (hraw : LargeEvenRawDatum labL (fun R _ I F =>
+    (hraw : LargeEvenRawDatum labL (fun R _ I _F =>
       IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
         ∃ θ : L ⧸ Subgroup.center L ≃* R, GGInducedInn E θ I))
     (hyE : y ∈ E) (hy3 : y ^ 3 = 1)
@@ -174,7 +174,7 @@ private theorem ltrd4a_datum
     ∃ D : GGKacDatum, GGMultValidCl labL 3 D ∧ ∃ o ∈ D.orbits,
       LargeEvenInLambda2 o.lab ∧ GGHasLabel o.lab (J ⧸ Subgroup.center J) := by
   have hmain := hB 3 labL hΛL hgen _ hraw
-  obtain ⟨R, hRgrp, I, F, hQR⟩ := largeEvenRawDatum_exists hmain
+  obtain ⟨R, hRgrp, I, _F, hQR⟩ := largeEvenRawDatum_exists hmain
   obtain ⟨hsimple, hna, θ, hInd⟩ := hQR.1
   let ψ : L →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
   have hψ : Function.Surjective ψ := by
@@ -232,14 +232,14 @@ private theorem ltrd4a_vacuous :
   exact hnoD htagD
 
 theorem ggInnerOnD4_tagAGen :
-    GGInnerOnD4On fun lab =>
-      (lab.tag = .A ∧ ¬ (3 ∣ lab.rank + 1 ∧ 3 ∣ 2 ^ lab.n - 1)) ∨
-        (lab.tag = .twA ∧ ¬ (3 ∣ lab.rank + 1 ∧ 3 ∣ 2 ^ lab.n + 1)) :=
-  GGInnerOnD4On.mono (fun lab h => Or.inl h) ltrd4a_vacuous
+    GGInnerOnD4On fun _lab =>
+      (_lab.tag = .A ∧ ¬ (3 ∣ _lab.rank + 1 ∧ 3 ∣ 2 ^ _lab.n - 1)) ∨
+        (_lab.tag = .twA ∧ ¬ (3 ∣ _lab.rank + 1 ∧ 3 ∣ 2 ^ _lab.n + 1)) :=
+  GGInnerOnD4On.mono (fun _lab h => Or.inl h) ltrd4a_vacuous
 
 theorem ggInnerOnD4_tagDLow :
-    GGInnerOnD4On fun lab => (lab.tag = .D ∨ lab.tag = .twD) ∧ lab.rank ≤ 3 :=
-  GGInnerOnD4On.mono (fun lab h => Or.inr h) ltrd4a_vacuous
+    GGInnerOnD4On fun _lab => (_lab.tag = .D ∨ _lab.tag = .twD) ∧ _lab.rank ≤ 3 :=
+  GGInnerOnD4On.mono (fun _lab h => Or.inr h) ltrd4a_vacuous
 
 end CFSG.StandardType
 

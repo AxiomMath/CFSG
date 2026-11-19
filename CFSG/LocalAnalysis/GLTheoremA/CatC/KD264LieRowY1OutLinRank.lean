@@ -11,8 +11,8 @@ open CFSG.LocalAnalysis.ComponentInitial LinearFlag
 
 theorem kdY1Out_exists_isPrimitiveRoot_three (K : Type) [Field K] [Finite K]
     (h : 3 ∣ Nat.card K - 1) : ∃ ζ : K, IsPrimitiveRoot ζ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype Kˣ := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype Kˣ := Fintype.ofFinite _
   have hdvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact h
@@ -34,7 +34,7 @@ theorem kdY1Ent_mul (x y : Fin 4 → Kˣ) (k : ℕ) :
   unfold kdY1Ent
   split_ifs with h1 h2
   · rfl
-  · simp [Finset.prod_mul_distrib, mul_inv, mul_comm]
+  · simp [Finset.prod_mul_distrib, mul_comm]
   · simp
 
 theorem kdY1Ent_one (k : ℕ) : kdY1Ent K 1 k = 1 := by
@@ -52,7 +52,7 @@ theorem prod_kdY1Ent (x : Fin 4 → Kˣ) {m : ℕ} (hm : 5 ≤ m) :
     intro k _ hk
     simp only [Finset.mem_range, not_lt] at hk
     unfold kdY1Ent
-    rw [dif_neg (by omega), if_neg (by omega)]
+    rw [dite_eq_right (by omega), ite_eq_right (by omega)]
   rw [← Finset.prod_subset hsub hf, Finset.prod_range_succ, kdY1Ent_four]
   have h4 : ∏ k ∈ Finset.range 4, kdY1Ent K x k = ∏ i : Fin 4, x i := by
     simp [Finset.prod_range_succ, kdY1Ent, Fin.prod_univ_four]

@@ -92,7 +92,7 @@ theorem IsChevTwoLayered.quotient_of_sup_eq_top [Group W] [Finite W] {L Q : Subg
     intro a b hab
     have h : (a.1 : W) = (b.1 : W) := congrArg (fun z : ↥Q => (z : W)) hab
     exact Subtype.ext (Subtype.ext h)
-  haveI : Group.IsSolvable ↥Q := hQ
+  have : Group.IsSolvable ↥Q := hQ
   have hker_solv : Group.IsSolvable ↥φ.ker :=
     Group.isSolvable_of_isSolvable_injective (f := ψ) hψ
   exact IsChevTwoLayered.of_surjective φ hφ hker_solv hL

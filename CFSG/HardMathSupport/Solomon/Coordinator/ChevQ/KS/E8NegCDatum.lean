@@ -97,7 +97,7 @@ theorem e8nc_diagMap_rational {K : Type} [Field K] [Finite K]
     Units.map (entrywiseHom D.Fr)
   set P' : Subgroup (ModGL Tag.E8 (AlgebraicClosure K)) := P.map (MulAut.conj D.g0).toMonoidHom
     with hP'
-  haveI : Finite P' :=
+  have : Finite P' :=
     Finite.of_surjective _ ((MulAut.conj D.g0).toMonoidHom.subgroupMap_surjective P)
   have hP'C : P' ≤ adjointGroup Tag.E8 (AlgebraicClosure K) := by
     rintro _ ⟨v, hv, rfl⟩

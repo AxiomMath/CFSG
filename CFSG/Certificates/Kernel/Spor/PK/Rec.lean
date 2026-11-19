@@ -143,12 +143,12 @@ private theorem enc_upd {w : Nat} {f : Nat → Nat} {r v : Nat} :
     rw [enc_succ, enc_succ]
     rcases Nat.lt_succ_iff_lt_or_eq.1 h with hlt | heq
     · have ih := enc_upd (w := w) (f := f) (r := r) (v := v) (len := len) hlt
-      have hne : upd f r v len = f len := if_neg (Nat.ne_of_gt hlt)
+      have hne : upd f r v len = f len := ite_eq_right (Nat.ne_of_gt hlt)
       rw [hne]
       omega
     · have h1 : enc w (upd f r v) len = enc w f len :=
-        enc_congr fun i hi => if_neg (by omega)
-      have h2 : upd f r v len = v := if_pos heq.symm
+        enc_congr fun i hi => ite_eq_right (by omega)
+      have h2 : upd f r v len = v := ite_eq_left heq.symm
       rw [h1, h2, ← heq]
       omega
 
@@ -278,9 +278,9 @@ private theorem add_sub_assoc' {A D Y X R : Nat} (h1 : A = Y + D) (h2 : Y + X = 
     A - D + X = R := by
   omega
 
-theorem lAdd_eq {q t ti : Nat} (h : RecOK n w c P Pos T Ti) (hc : c < n) (hc16 : c + 1 < 2 ^ 16)
+theorem lAdd_eq {q t ti : Nat} (h : RecOK n w c P Pos T Ti) (hc : c < n) (_hc16 : c + 1 < 2 ^ 16)
     (hq : q < n) (hw : n < 2 ^ w) (hPc : P c = 0) (hTc : T c = 0) (hTic : Ti c = 0)
-    (hPos : Pos q = mask w) (ht : t < 2 ^ (n * w)) (hti : ti < 2 ^ (n * w)) :
+    (hPos : Pos q = mask w) (_ht : t < 2 ^ (n * w)) (_hti : ti < 2 ^ (n * w)) :
     lAdd n w (mask w) (n * w) (recOf n w c P Pos T Ti LV) q t ti =
       recOf n w (c + 1) (upd P c q) (upd Pos q c) (upd T c t) (upd Ti c ti) LV := by
   rw [lAdd_unfold, lcnt_recOf h]

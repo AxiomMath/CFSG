@@ -18,10 +18,12 @@ variable {G : Type} [Group G]
 variable [Finite G] {t : G} {L S : Subgroup G} {z : G} {K1 K2 : Subgroup G} {g : G}
   {f : ↥(S ⊔ zpowers g) →* MulAut ↥(K1 ⊔ K2)}
 
+omit [Finite G] in
 theorem sec10A2_mem_Psi {y : ↥(S ⊔ zpowers g)} (hy : (y : G) ∈ S) :
     f y ∈ Sec10A2Psi S g K1 K2 f :=
   ⟨⟨(y : G), hy⟩, rfl⟩
 
+omit [Finite G] in
 theorem sec10A2_Psi_le : Sec10A2Psi S g K1 K2 f ≤ f.range := by
   rintro _ ⟨s, rfl⟩
   exact ⟨_, rfl⟩

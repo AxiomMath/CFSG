@@ -126,6 +126,7 @@ variable {X : Subgroup G} {R : Subgroup X} [R.Normal]
 def HW (hQ : Config D u w v z a K₁ S') (hKX : thirdK D z ≤ X) : Subgroup G :=
   Subgroup.closure ((Subtype.val : X → G) '' W D u X R (u_mem_X_config hQ hKX))
 
+omit [Finite G] in
 theorem HW_le_X (hQ : Config D u w v z a K₁ S') (hKX : thirdK D z ≤ X) :
     HW (R := R) (hQ := hQ) hKX ≤ X := by
   rw [HW, Subgroup.closure_le]

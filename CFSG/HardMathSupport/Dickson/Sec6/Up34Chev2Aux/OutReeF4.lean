@@ -27,9 +27,9 @@ theorem Up34Chev2.noL34Layer_reeGammaFieldAut_F4 {a b : ℕ} (F : Type) [Field F
           (ReeTag.F4.reeGamma F a).subtype =
         (ReeTag.F4.reeGamma (fixSubfield σ) b).map (baseChangeGL (fixSubfield σ).subtype)) :
     NoL34Layer (ReeTag.F4.reeGammaFieldAut F a σ) := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP ↥(fixSubfield σ) ReeTag.F4.prime :=
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP ↥(fixSubfield σ) ReeTag.F4.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hk
   let C : Subgroup ↥(ReeTag.F4.reeGamma F a) :=
@@ -48,7 +48,7 @@ theorem Up34Chev2.noL34Layer_reeGammaFieldAut_F4 {a b : ℕ} (F : Type) [Field F
     have hk2 : Nat.card ↥(fixSubfield σ) = 2 := by simpa using hk
     obtain ⟨c⟩ := nonempty_commutator_reeGamma_tits hk2
     obtain ⟨cc⟩ := nonempty_commutator_mulEquiv eC
-    haveI : Nontrivial titsD := titsD_simple.toNontrivial
+    have : Nontrivial titsD := titsD_simple.toNontrivial
     refine noL34Layer_of_fixed_commutator_equiv _ (cc.trans c) titsD_simple
       (exists_noncomm_of_center_bot titsD_center) fun h => ?_
     have h1 := card_eq_of_isLThreeFour h
@@ -66,7 +66,7 @@ theorem Up34Chev2.noL34Layer_reeGammaFieldAut_F4 {a b : ℕ} (F : Type) [Field F
       ReeTag.large_Ree_fixed_group_center_trivial b (fixSubfield σ) hk
     have hX : LieModel ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) .twistedF4 0 2 (2 * b + 1) :=
       Or.inr (Or.inr (Or.inl ⟨rfl, by decide, hrel⟩))
-    haveI : Nontrivial ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := hsimp.toNontrivial
+    have : Nontrivial ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := hsimp.toNontrivial
     exact noL34Layer_of_fixed_equiv _ eC hsimp (exists_noncomm_of_center_bot hZ) fun h =>
       not_isLThreeFour_of_lieModel_two hX (by decide) h
 
@@ -74,7 +74,7 @@ theorem Up34Chev2.noL34Layer_reeGamma_F4 {a : ℕ} (ha : 1 ≤ a) (F : Type) [Fi
     [CharP F ReeTag.F4.prime] (hK : Nat.card F = 2 ^ (2 * a + 1))
     (β' : MulAut ↥(ReeTag.F4.reeGamma F a)) (hβ3 : β' ^ 3 = 1)
     (hβinn : β' ∉ inner ↥(ReeTag.F4.reeGamma F a)) : NoL34Layer β' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hNF, ⟨Ψ, hΨ⟩, -⟩ :=
     CFSG.ComponentClassification.UnbalancedCatalog.large_Ree_full_inner_field_automorphism_normal_form
       a ha F hK
@@ -134,7 +134,7 @@ theorem up34C2Out_reeF4 : Up34Chev2Out FamReeF4 := by
           rw [← Nat.card_eq_fintype_card, hFcard])
       obtain ⟨⟨e1⟩, -⟩ := hmain a F hfa hFcard he
       exact ⟨F, inferInstance, inferInstance, this, hFcard, ⟨e1⟩⟩
-    haveI : Finite ↥(ReeTag.F4.reeGamma F m) := Finite.of_equiv S e'.toEquiv
+    have : Finite ↥(ReeTag.F4.reeGamma F m) := Finite.of_equiv S e'.toEquiv
     have hβ3 : MulAut.congr e' α ^ 3 = 1 := by rw [← map_pow, ((up34Pumpup_iff α).1 hp).1, map_one]
     have hβinn : MulAut.congr e' α ∉ inner ↥(ReeTag.F4.reeGamma F m) := fun hin =>
       hα ((congr_mem_inner_iff_of_equiv e' α).mp hin)

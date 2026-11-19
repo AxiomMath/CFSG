@@ -58,6 +58,7 @@ def FF81ChainStabilizer (B B₁ : Subgroup G) (X : Subgroup (MulAut ↥B)) : Sub
             rw [mul_assoc, mul_inv_cancel, mul_one]
         _ = x * y⁻¹ := by rw [hx]
 
+omit [Finite G] in
 theorem FF81ChainStabilizer.normal (B B₁ : Subgroup G) (X : Subgroup (MulAut ↥B))
     (hX : ∀ x ∈ X, Subgroup.map (x : MulAut ↥B) (B₁.subgroupOf B) = B₁.subgroupOf B) :
     (FF81ChainStabilizer B B₁ X).Normal := by
@@ -70,7 +71,7 @@ theorem FF81ChainStabilizer.normal (B B₁ : Subgroup G) (X : Subgroup (MulAut �
   refine ⟨fun n hn g => ?_⟩
   have hg : (g : MulAut ↥B) ∈ X := g.2
   have hg'inv : ((g : MulAut ↥B)⁻¹) ∈ X := by
-    simpa using Subgroup.inv_mem X hg
+    simp
   constructor
   · intro y hy
     have h1 : ((g : MulAut ↥B)⁻¹) y ∈ B₁.subgroupOf B := hX_mem hg'inv hy

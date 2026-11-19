@@ -30,8 +30,8 @@ theorem exists_levels_of_radical [CharP K 2] (π : SpecialLinearGroup ι K →* 
             ∃ Z' ≤ Subgroup.center S, ∃ _ : Z'.Normal,
               Nonempty (S ⧸ Z' ≃* ProjectiveSpecialLinearGroup (Block ℓ (levels ℓ i)) K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite G := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G := Finite.of_surjective π hπ
   have hrange : π.range = ⊤ := MonoidHom.range_eq_top.mpr hπ
   have hrad2 : GGRadicalTwo π.range U := by
     unfold GGRadicalTwo
@@ -117,7 +117,7 @@ theorem exists_levels_of_radical [CharP K 2] (π : SpecialLinearGroup ι K →* 
     have hlohi : levels ℓ ⟨0, h0⟩ < levels ℓ ⟨levelsCard ℓ - 1, hlast⟩ :=
       (levels ℓ).strictMono (by
         rw [Fin.lt_def]
-        simp only [Fin.val_mk]
+        simp only
         omega)
     exact hcenter.trans (card_center_stdU (K := K) (ℓ := ℓ) hlo hhi hlo' hhi' hlohi)
   ·

@@ -36,7 +36,7 @@ private theorem inducedBarInfAutHom_pow_eq_one {L : Subgroup G} {g : G}
 
 private theorem mem_normalizer_zpowers {X : Type*} [Group X] {β γ : X}
     (h : γ * β * γ⁻¹ = β ∨ γ * β * γ⁻¹ = β⁻¹) : γ ∈ normalizer (zpowers β : Set X) := by
-  rw [mem_normalizer_iff_map_conj_eq, MonoidHom.map_zpowers, MonoidHom.coe_coe, MulAut.conj_apply]
+  rw [mem_normalizer_iff_map_conj_eq, MonoidHom.map_zpowers, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
   rcases h with h | h <;> rw [h]
   exact zpowers_inv
 

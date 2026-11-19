@@ -13,6 +13,7 @@ open CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 private theorem caseA_coe_f112StabEquiv0_theta (h : f112Acting L1 L2 S)
     (hh : h ∈ MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)) :
     (f112StabEquiv0 L1 L2 S ⟨h, hh⟩ : G) =
@@ -23,6 +24,7 @@ private theorem caseA_coe_f112StabEquiv0_theta (h : f112Acting L1 L2 S)
     (RankTwoAmalgam.Completion.coe_theta0 (f112Completion L1 L2 S)
       (f112Completion_isFaithful L1 L2 S) h)
 
+omit [Finite G] in
 private theorem caseA_coe_f112StabEquiv1_theta (h : f112Acting L1 L2 S)
     (hh : h ∈ MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma1 L1 L2 S)) :
     (f112StabEquiv1 L1 L2 S ⟨h, hh⟩ : G) =
@@ -33,8 +35,9 @@ private theorem caseA_coe_f112StabEquiv1_theta (h : f112Acting L1 L2 S)
     (RankTwoAmalgam.Completion.coe_theta0 (f112Completion L1 L2 S)
       (f112Completion_isFaithful L1 L2 S) h)
 
+omit [Finite G] in
 private theorem caseA_theta_mem_Z2_of_mem_Z_γ₁ {a : ℕ}
-    (hfr : Str83G4Frame L1 L2 S a) {x : (f112Amalgam L1 L2 S).Ghat}
+    (_hfr : Str83G4Frame L1 L2 S a) {x : (f112Amalgam L1 L2 S).Ghat}
     (hx : x ∈ caseAZ (f112Gamma1 L1 L2 S)) :
     (((f112Completion L1 L2 S).theta x :
       ↥((L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S))) : G) ∈ Z2 L1 L2 S := by

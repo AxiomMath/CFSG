@@ -22,13 +22,13 @@ private theorem thetaD_of_edge {m : ℕ} {G : Type} [Group G]
     (F₀ : PhanFamilyD K 2 1 m G) {i j : Fin m} (e : edgeD m i j) :
     thetaD F₀ i j = F₀.θ i j e := by
   unfold thetaD
-  rw [dif_pos e]
+  rw [dite_eq_left e]
 
 private theorem thetaD_of_rev {m : ℕ} {G : Type} [Group G]
     (F₀ : PhanFamilyD K 2 1 m G) {i j : Fin m} (h : ¬ edgeD m i j) (e : edgeD m j i) :
     thetaD F₀ i j = (F₀.θ j i e).comp (revSU3 K 2 1).toMonoidHom := by
   unfold thetaD
-  rw [dif_neg h, dif_pos e]
+  rw [dite_eq_right h, dite_eq_left e]
 
 private theorem thetaD_apply_of_edge {m : ℕ} {G : Type} [Group G]
     (F₀ : PhanFamilyD K 2 1 m G) {i j : Fin m} (e : edgeD m i j) (x : Su K 2 1 3) :

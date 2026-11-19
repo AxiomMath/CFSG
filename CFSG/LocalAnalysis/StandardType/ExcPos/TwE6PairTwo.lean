@@ -357,17 +357,17 @@ private noncomputable def pairTwo_cycle {X : Type} [Group X] {n f p : ℕ}
   refine { S := fun k => if k = 0 then S₀ else S₁, map_eq := ?_, comm := ?_ }
   · intro k
     rcases hcases k with rfl | rfl
-    · simp only [zero_add, if_neg h10]
+    · simp only [zero_add, ite_eq_right h10]
       rfl
-    · simp only [if_neg h10, h11]
+    · simp only [ite_eq_right h10, h11]
       exact pairTwo_span_sq B hB hb
   · intro j k hjk u hu v hv
     rcases hcases j with rfl | rfl <;> rcases hcases k with rfl | rfl
     · exact (hjk rfl).elim
-    · exact hc u (by simpa only [if_pos rfl, if_true] using hu)
-        v (by simpa only [if_neg h10] using hv)
-    · exact (hc v (by simpa only [if_pos rfl, if_true] using hv)
-        u (by simpa only [if_neg h10] using hu)).symm
+    · exact hc u (by simpa only [ite_eq_left rfl, ite_true] using hu)
+        v (by simpa only [ite_eq_right h10] using hv)
+    · exact (hc v (by simpa only [ite_eq_left rfl, ite_true] using hv)
+        u (by simpa only [ite_eq_right h10] using hu)).symm
     · exact (hjk rfl).elim
 
 open scoped commutatorElement in
@@ -515,7 +515,7 @@ private theorem pairTwo_cycle_structure {X : Type} [Group X] {n f p : ℕ}
       rfl) σ (t := t) (ht := ht)
   intro y hy
   have hy' : y ∈ rootSpan .E6 GGL B.rootsJ := by
-    simpa only [pairTwo_cycle, if_pos rfl, if_true] using hy
+    simpa only [pairTwo_cycle, ite_eq_left rfl, ite_true] using hy
   have heq := pairTwo_phi_sq_field f B.rootsJ (fun _ h => h.1.1) hy'
   exact Eq.mp (congrArg (fun F : ModGL .E6 GGL →* ModGL .E6 GGL =>
     iterHom F 2 y = frobGL σ y) (pairTwo_step_eq B hB hb).symm) heq
@@ -533,10 +533,10 @@ private theorem pairTwo_cycle_A {X : Type} [Group X] {n f p : ℕ}
   classical
   have h10 : (1 : ZMod 2) ≠ 0 := by decide
   have h₀ : (pairTwo_cycle B hB hb).S 0 = rootSpan .E6 (ExcOmega f) B.rootsJ := by
-    simp only [pairTwo_cycle, if_true]
+    simp only [pairTwo_cycle, ite_true]
   have h₁ : (pairTwo_cycle B hB hb).S 1 =
       rootSpan .E6 (ExcOmega f) (B.ρ '' B.rootsJ) := by
-    simp only [pairTwo_cycle, if_neg h10]
+    simp only [pairTwo_cycle, ite_eq_right h10]
     exact B.frob.map_rootSpan B.rootsJ (fun _ h => h.1.1)
   apply le_antisymm
   · refine iSup_le fun k => ?_
@@ -700,7 +700,7 @@ private theorem pairTwo_rational_curve_le_mapJ {X : Type} [Group X] {n f p : ℕ
       simpa only [← Nat.card_eq_fintype_card,
         GaloisField.card 2 (2 * f) hf2] using FiniteField.pow_card c
   have hzS : z ∈ (pairTwo_cycle B hB hb).S 0 := by
-    simp only [pairTwo_cycle, if_true]
+    simp only [pairTwo_cycle, ite_true]
     exact pinnedX_mem_rootSpan hα _
   have hnorm : (pairTwo_cycle B hB hb).norm ⟨z, hzS⟩ = y := by
     rw [pairTwo_norm]

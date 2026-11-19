@@ -24,7 +24,7 @@ private lemma s16c167_isIrr_of_binaryNatSummand {L : Subgroup (MulAut W)} {I : S
 private lemma s16c167_card_of_binaryNatSummand {L : Subgroup (MulAut W)} {I : Subgroup W}
     (h : BinaryNaturalSL L I ⊥ 3 1) : Nat.card ↥I = 8 := by
   obtain ⟨K, _, _, hKcard, _, hπ⟩ := h
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨e, -⟩ := CFSG.Quasithin.B5.exists_linModel hπ
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, Fintype.card_multiplicative,
     Fintype.card_fun, Fintype.card_fin, ← Nat.card_eq_fintype_card, hKcard]
@@ -77,6 +77,7 @@ theorem s16c167_rk_natSum3 {L : Subgroup (MulAut W)} {J : Subgroup W} (h : NatSu
     omega
   exact hfin
 
+omit [Finite W] in
 theorem s16c167_natSum3_conj {L : Subgroup (MulAut W)} {J : Subgroup W} (h : NatSum3 L J)
     (φ : MulAut W) :
     NatSum3 (L.map (MulAut.conj φ).toMonoidHom) (J.map φ.toMonoidHom) := by

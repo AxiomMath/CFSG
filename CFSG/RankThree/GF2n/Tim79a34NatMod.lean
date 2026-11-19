@@ -106,7 +106,7 @@ theorem nm_not_conj_le_wOf [Finite G] {M Q P V H : Subgroup G} (hc : MinCex M V 
     mem_conjSubgroup.mpr (by rw [show g⁻¹ * (g * v * g⁻¹) * g = v by group]; exact hv)
   exact (Subgroup.mem_normalizer_iff.mp (H_le_normalizer_wOf V H hg) v).mpr (hle hmem)
 
-theorem nm_card_omega [Finite G] {M Q P V H : Subgroup G} (hc : MinCex M V Q P H)
+theorem nm_card_omega [Finite G] {M Q P V H : Subgroup G} (_hc : MinCex M V Q P H)
     (hV4 : Nat.card ↥V = 4) (hVW : Nat.card ↥(V ⊓ wOf V H) = 2) {U : Subgroup G}
     (hU : U ∈ omegaOf V H) : Nat.card ↥U = 4 ∧ Nat.card ↥(U ⊓ wOf V H) = 2 := by
   obtain ⟨g, hg, rfl⟩ := hU
@@ -245,7 +245,7 @@ theorem nm_dy_iff [Finite G] {M Q P V H : Subgroup G} (hc : MinCex M V Q P H)
     exact h
   have hDy : ∀ g : Xbar V H, g ∈ Dy V H ↔ IsConj d g := by
     intro g
-    rw [hd₀, Set.mem_setOf_eq]
+    rw [hd₀, Set.mem_ofPred_eq]
     exact ⟨fun h => hd0.symm.trans h, fun h => hd0.trans h⟩
   constructor
   · intro hy
@@ -279,7 +279,7 @@ theorem nm_exists_point [Finite G] {M V Q P H : Subgroup G} (hc : MinCex M V Q P
     {U : Subgroup G} (hU : U ∈ omegaOf V H) :
     ∃ y : ↥(xOf V H), (y : G) ∈ U ∧ (y : G) ∉ wOf V H ∧ xToXbar hc.V_le_H y ∈ Dy V H := by
   obtain ⟨g, hg, rfl⟩ := hU
-  obtain ⟨y0, hy0, hy0W⟩ := SetLike.not_le_iff_exists.mp (nm_not_conj_le_wOf hc hg)
+  obtain ⟨y0, hy0, hy0W⟩ := IsConcreteLE.not_le_iff_exists.mp (nm_not_conj_le_wOf hc hg)
   have hyX : y0 ∈ xOf V H := le_xOf (conjSubgroup_mem_omegaOf hg) hy0
   refine ⟨⟨y0, hyX⟩, hy0, hy0W, ?_⟩
   have hy1 : y0 ≠ 1 := fun h => hy0W (by rw [h]; exact one_mem _)
@@ -324,7 +324,7 @@ theorem nm_uniq [Finite G] {M V Q P H : Subgroup G} (hMU : MemberUniqueStatement
     (hH : TwoEndHyp M V Q P H) (hZ : Subgroup.center (Xbar V H) = ⊥)
     (hV4 : Nat.card ↥V = 4) (hVW : Nat.card ↥(V ⊓ wOf V H) = 2) {U U' : Subgroup G}
     (hU : U ∈ omegaOf V H) (hU' : U' ∈ omegaOf V H) {y y' : G} (hy : y ∈ U)
-    (hyW : y ∉ wOf V H) (hy' : y' ∈ U') (hy'W : y' ∉ wOf V H)
+    (_hyW : y ∉ wOf V H) (hy' : y' ∈ U') (hy'W : y' ∉ wOf V H)
     (hyy : y⁻¹ * y' ∈ wOf V H) : U' = U := by
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
   have hU'c := nm_card_omega hc hV4 hVW hU'
@@ -399,8 +399,8 @@ theorem nm_imgZ_member [Finite G] {M V Q P H : Subgroup G} (hc : MinCex M V Q P 
       exact twl_mem_imgZ hVH hyU y.2
 
 theorem nm_comm_six {S : Subgroup G} (hS : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
-    {A B C pA pB pC : G} (hA : A ∈ S) (hB : B ∈ S) (hC : C ∈ S) (hpA : pA ∈ S) (hpB : pB ∈ S)
-    (hpC : pC ∈ S) : (A * pA) * (B * pB) * (C * pC) = A * B * C * (pA * pB * pC) := by
+    {A B C pA pB pC : G} (_hA : A ∈ S) (hB : B ∈ S) (hC : C ∈ S) (hpA : pA ∈ S) (hpB : pB ∈ S)
+    (_hpC : pC ∈ S) : (A * pA) * (B * pB) * (C * pC) = A * B * C * (pA * pB * pC) := by
   calc (A * pA) * (B * pB) * (C * pC) = A * (pA * B) * pB * C * pC := by group
     _ = A * (B * pA) * pB * C * pC := by rw [hS pA hpA B hB]
     _ = A * B * (pA * pB) * C * pC := by group
@@ -460,7 +460,7 @@ theorem naturalModule_holds (hU : MemberUniqueStatement) : NaturalModuleStatemen
   obtain ⟨aG, haG⟩ : ∃ aG : (Fin n ⊕ Fin n → GaloisField 2 1) → G,
       ∀ v, aG v = if v = 0 then 1 else af v := ⟨_, fun v => rfl⟩
   have haG0 : aG 0 = 1 := by rw [haG]; simp
-  have haGne' : ∀ v, v ≠ 0 → aG v = af v := fun v hv => by rw [haG, if_neg hv]
+  have haGne' : ∀ v, v ≠ 0 → aG v = af v := fun v hv => by rw [haG, ite_eq_right hv]
   have haGmem : ∀ v, v ≠ 0 → aG v ∈ conjSubgroup (xs v : G) V ⊓ wOf V H := fun v hv => by
     rw [haGne' v hv]
     exact hafmem v hv
@@ -535,8 +535,8 @@ theorem naturalModule_holds (hU : MemberUniqueStatement) : NaturalModuleStatemen
         simp [CaseM.spForm]
       simp [haG0, h0]
     by_cases hzu : CaseM.spForm z u = 0
-    · rw [if_pos hzu, mul_one, hR1a z u hz hu hzu, mul_assoc, mul_inv_cancel, mul_one]
-    · rw [if_neg hzu, hR1b z u hz hu hzu, hWc _ (haGW z) _ (haGW u)]
+    · rw [ite_eq_left hzu, mul_one, hR1a z u hz hu hzu, mul_assoc, mul_inv_cancel, mul_one]
+    · rw [ite_eq_right hzu, hR1b z u hz hu hzu, hWc _ (haGW z) _ (haGW u)]
   have hcover : ∀ U ∈ omegaOf V H, ∃ z : Fin n ⊕ Fin n → GaloisField 2 1,
       z ≠ 0 ∧ conjSubgroup (xs z : G) V = U := by
     intro U hU
@@ -706,7 +706,7 @@ theorem naturalModule_holds (hU : MemberUniqueStatement) : NaturalModuleStatemen
       (MulEquiv.ofBijective Φ hΦb).apply_symm_apply _
     by_cases hv : v = 0
     · subst hv
-      simp [haG0]
+      simp
     · exact (hequiv _ x hsΦ v hv).symm
   · intro a T ha hT hTΦ
     obtain ⟨t, ht⟩ := hT.2 1

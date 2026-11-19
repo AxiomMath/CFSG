@@ -36,6 +36,7 @@ theorem relIndex_zpowers_nsub (C : SixAW t u P V v u₀) :
   rw [inf_of_le_left hle, Nat.card_zpowers, C.u₀_order, card_nsub C] at h1
   omega
 
+omit [Finite G] in
 theorem t_mul_pow_u₀ (C : SixAW t u P V v u₀) (n : ℕ) : t * u₀ ^ n = u₀ ^ n * t :=
   ((show Commute t u₀ from C.t_u₀).pow_right n).eq
 

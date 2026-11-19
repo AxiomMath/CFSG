@@ -52,9 +52,9 @@ theorem eq_one_of_out_abelian {X : Type} [Group X] [Finite X]
     [Group K] [Finite K] (hout : commutator (MulAut K) ≤ (MulAut.conj : K →* MulAut K).range)
     (h3K : ¬ 3 ∣ Nat.card (K ⧸ Subgroup.center K)) (φ : X →* MulAut K) : φ = 1 := by
   obtain ⟨e⟩ := hXJ
-  haveI hJ2 : IsSimpleGroup J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have hJ2 : IsSimpleGroup J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
   have hS : IsSimpleGroup (X ⧸ CFSG.pCore 2 X) := MulEquiv.isSimpleGroup e
-  haveI : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
   have hIn : ((MulAut.conj : K →* MulAut K).range).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal K
   have hMn : ((MulAut.conj : K →* MulAut K).range.comap φ).Normal :=
@@ -71,7 +71,7 @@ theorem eq_one_of_out_abelian {X : Type} [Group X] [Finite X]
           rw [map_commutatorElement]
           exact hout (Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _))
         exact hle (Subgroup.mem_comap.mpr hab)
-      haveI : IsMulCommutative (X ⧸ CFSG.pCore 2 X) :=
+      have : IsMulCommutative (X ⧸ CFSG.pCore 2 X) :=
         Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm
       have hp := (Group.is_simple_iff_prime_card (α := X ⧸ CFSG.pCore 2 X)).mp hS
       rw [Nat.card_congr e.toEquiv, CFSG.RankThree.PartTwo.KFacts.KS14.card_nativeJ2] at hp
@@ -193,7 +193,7 @@ theorem pu_exists_of_quot {G : Type} [Group G] [Finite G] {P : Type} [CommGroup 
     (hker : mu.ker ≤ eps.ker) (hsurj : Function.Surjective eps) :
     ∃ E : Subgroup G, E ≤ mu.range ∧ CFSG.Assembly.IsElemAbelian 5 E ∧ 125 ≤ Nat.card E := by
   have hι : Function.Injective (QuotientGroup.kerLift mu) := QuotientGroup.kerLift_injective mu
-  haveI : Finite (P ⧸ mu.ker) := Finite.of_injective _ hι
+  have : Finite (P ⧸ mu.ker) := Finite.of_injective _ hι
   have hχ : Function.Surjective (QuotientGroup.lift mu.ker eps hker) := by
     intro b
     obtain ⟨v, rfl⟩ := hsurj b
@@ -319,7 +319,7 @@ theorem component_facts
       5 ∣ Nat.card (↥K ⧸ Subgroup.center ↥K) ∧ 2 ∣ Nat.card ↥K ∧
       commutator (MulAut ↥K) ≤ (MulAut.conj : ↥K →* MulAut ↥K).range := by
   have hperf : Group.IsPerfect ↥K := hKc.1.1
-  haveI hsimp : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKc.1.2.1
+  have hsimp : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKc.1.2.1
   have hnab : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a := hKc.1.2.2
   obtain ⟨f, hf⟩ := CFSG.RankThree.PartTwo.KFacts.KS14.suzukiModel_of_isKGroup_section hK h3 K
     (Subgroup.center ↥K) hnab
@@ -371,8 +371,8 @@ theorem false_of_four_components {N : Type} [Group N] [Finite N]
     (c₃ : CFSG.IsComponent K₃) (c₄ : CFSG.IsComponent K₄) (e₁ : 2 ∣ Nat.card ↥K₁)
     (f₂ : 5 ∣ Nat.card (↥K₂ ⧸ Subgroup.center ↥K₂)) (f₃ : 5 ∣ Nat.card (↥K₃ ⧸ Subgroup.center ↥K₃))
     (f₄ : 5 ∣ Nat.card (↥K₄ ⧸ Subgroup.center ↥K₄)) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have m₂₃ := pu_comm_of_ne c₂ c₃ h23
   have m₂₄ := pu_comm_of_ne c₂ c₄ h24
   have m₃₄ := pu_comm_of_ne c₃ c₄ h34
@@ -426,7 +426,7 @@ abbrev pu_mulAction {N X : Type} [Group N] [Group X] (φ : X →* MulAut N) :
     rfl
 
 theorem pu_finite_comp (N : Type) [Group N] [Finite N] : Finite (pu_Comp N) := by
-  haveI : Finite (Subgroup N) :=
+  have : Finite (Subgroup N) :=
     Finite.of_injective (SetLike.coe : Subgroup N → Set N) SetLike.coe_injective
   infer_instance
 
@@ -436,10 +436,10 @@ theorem pu_card_le_three {N : Type} [Group N] [Finite N]
       CFSG.IsComponent K₄ → False) :
     Nat.card (pu_Comp N) ≤ 3 := by
   classical
-  haveI := pu_finite_comp N
+  have := pu_finite_comp N
   by_contra hlt
   have hlt' : 3 < Nat.card (pu_Comp N) := not_le.mp hlt
-  haveI : Fintype (pu_Comp N) := Fintype.ofFinite _
+  have : Fintype (pu_Comp N) := Fintype.ofFinite _
   have h4 : Fintype.card (Fin 4) ≤ Fintype.card (pu_Comp N) := by
     rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]
     omega
@@ -459,11 +459,11 @@ theorem fixes_components {N : Type} [Group N] [Finite N]
     (hK : CFSG.IsComponent K) (x : X) : K.map (φ x).toMonoidHom = K := by
   classical
   obtain ⟨e⟩ := hXJ
-  haveI : IsSimpleGroup J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
-  haveI hsimple : IsSimpleGroup (X ⧸ CFSG.pCore 2 X) := MulEquiv.isSimpleGroup e
-  haveI := pu_finite_comp N
+  have : IsSimpleGroup J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have hsimple : IsSimpleGroup (X ⧸ CFSG.pCore 2 X) := MulEquiv.isSimpleGroup e
+  have := pu_finite_comp N
   have hcard := pu_card_le_three hcomp
-  letI := pu_mulAction φ
+  let := pu_mulAction φ
   obtain ⟨σ, hσ⟩ : ∃ σ : X →* Equiv.Perm (pu_Comp N), ∀ (y : X) (L : pu_Comp N),
       σ y L = pu_act φ y L :=
     ⟨MulAction.toPermHom X (pu_Comp N), fun _ _ => rfl⟩
@@ -549,11 +549,11 @@ theorem pe_abstract
   let F : Subgroup N :=
     { carrier := {e | φ x e = e}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, map_mul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, map_mul] at ha hb ⊢
         rw [ha, hb]
       one_mem' := by simp
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq, map_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, map_inv] at ha ⊢
         rw [ha] }
   have hle : CFSG.layer N ≤ F := by
     rw [CFSG.layer.eq_sSup]
@@ -575,7 +575,7 @@ theorem pe_layer
   have hrank : ∀ t : ↥N₀, orderOf t = 2 → ∀ E : Subgroup ↥N₀, E ≤ Subgroup.centralizer {t} →
       CFSG.Assembly.IsElemAbelian 5 E → Nat.card E ≤ 25 := by
     intro t ht E hEc hE
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hEle : E.map N₀.subtype ≤ Subgroup.centralizer ({(t : G)} : Set G) := by
       intro y hy
       obtain ⟨e, he, rfl⟩ := Subgroup.mem_map.1 hy

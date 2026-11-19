@@ -18,8 +18,8 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   {Q : QuadraticForm (ZMod 3) V}
 
 theorem fkFj53 (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1) : Fj53 hQ hs := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaGroup hQ) := Subtype.finite
   intro z K hz2 hP hKs hzπ hzs hzsπ
   have hsum := finrank_fixSp_add_finrank_commSp (Q := Q) s
   refine ⟨fun h5 h3 => ?_, fun h3 h5 => ?_⟩

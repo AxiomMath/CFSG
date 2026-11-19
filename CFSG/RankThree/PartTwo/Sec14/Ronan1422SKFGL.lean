@@ -320,7 +320,7 @@ theorem fixSub_sq {W : Type*} [Group W] {g : MulAut W} (hg : g ^ 3 = 1) :
 
 theorem card_fixSub_mem {W : Type*} [Group W] [Finite W] (hW : Nat.card W = 16) {g : MulAut W}
     (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) : Nat.card (fixSub g) = 1 ∨ Nat.card (fixSub g) = 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf g = 3 := orderOf_eq_prime hg3 hg1
   have hG : IsPGroup 3 (Subgroup.zpowers g) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord, pow_one])
@@ -374,8 +374,8 @@ theorem nine_dvd_sum_fixedBy {W G : Type*} [Group W] [Finite W] [Group G] [Finty
     [MulAction G W] (hG : Nat.card G = 9) :
     9 ∣ ∑ g : G, Nat.card (MulAction.fixedBy W g) := by
   classical
-  haveI : ∀ g : G, Fintype (MulAction.fixedBy W g) := fun g => Fintype.ofFinite _
-  haveI : Fintype (Quotient (MulAction.orbitRel G W)) := Fintype.ofFinite _
+  have : ∀ g : G, Fintype (MulAction.fixedBy W g) := fun g => Fintype.ofFinite _
+  have : Fintype (Quotient (MulAction.orbitRel G W)) := Fintype.ofFinite _
   have key := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group (X := W) (G := G)
   simp only [← Nat.card_eq_fintype_card, hG] at key
   exact ⟨Nat.card (Quotient (MulAction.orbitRel G W)), by rw [key, mul_comm]⟩
@@ -474,8 +474,8 @@ theorem nine_dvd_sum_pw {W : Type*} [Group W] [Finite W]
     (ι : alternatingGroup (Fin 6) →* MulAut W) :
     9 ∣ ∑ p : Fin 3 × Fin 3, fixCount ι (pw p.1 p.2) := by
   classical
-  letI : MulAction F06 W := MulAction.compHom W (ι.comp F06.subtype)
-  haveI : Fintype F06 := Fintype.ofFinite _
+  let : MulAction F06 W := MulAction.compHom W (ι.comp F06.subtype)
+  have : Fintype F06 := Fintype.ofFinite _
   have hF : Nat.card F06 = 9 := card_F06
   have hB := nine_dvd_sum_fixedBy (W := W) (G := F06) hF
   have hset : ∀ x : F06, MulAction.fixedBy W x =
@@ -530,7 +530,7 @@ theorem isThreeCycle_iff_fixCount {W : Type*} [Group W] [Finite W] (hW : Nat.car
     (w : alternatingGroup (Fin 6)) (h3 : w ^ 3 = 1) (h1 : w ≠ 1) :
     IsThreeCycle (w : Perm (Fin 6)) ↔ fixCount ι w = fixCount ι ca := by
   have hxy := fixCount_ca_ne_cb hW ι hι
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE : IsPGroup 3 (Subgroup.zpowers w) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_eq_prime h3 h1, pow_one])
   have hF : Nat.card F06 = 3 ^ (Nat.card (alternatingGroup (Fin 6))).factorization 3 := by
@@ -565,7 +565,7 @@ theorem isThreeCycle_iff_fixCount {W : Type*} [Group W] [Finite W] (hW : Nat.car
 theorem kf1422GL42_holds : KF1422GL42 := by
   unfold KF1422GL42
   intro G₀ _ V _ hcard Y hY g hg
-  haveI : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨ψ⟩ := hY
   let α : MulAut Y := Y.normalizerMonoidHom ⟨g, hg⟩
   have hα : ∀ k : Y, ((α k : Y) : MulAut ↥V) = g * (k : MulAut ↥V) * g⁻¹ :=

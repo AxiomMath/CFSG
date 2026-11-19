@@ -45,17 +45,18 @@ theorem exists_inner_of_spor {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Sub
     (hBel : IsElemAbelian p B) {b : X} (hb : b ∈ B) :
     ∃ k ∈ K, k⁻¹ * b ∈ Subgroup.centralizer (K : Set X) := by
   obtain ⟨e⟩ := hS
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hout := hOut _ hq.2 (exists_noncomm_of_isQuasisimple hq) name ⟨e⟩
   have hbN := hBN hb
   have h := mem_innerAut_of_pow_eq_one hp hp2 hout (actHom_pow_eq_one hbN (hBel.2 b hb))
   exact exists_inner_of_actHom_mem_innerAut hq.1 hbN h
 
-theorem coreFree_of_inner_loc {p : ℕ} (hp : p.Prime) {K : Subgroup X}
+omit [Finite X] in
+theorem coreFree_of_inner_loc {p : ℕ} (_hp : p.Prime) {K : Subgroup X}
     (hq : CFSG.Open.IsQuasisimple ↥K) (hO : GLAPPrimeCore p ↥K = ⊥)
     (hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K))
     {H : Subgroup (MulAut (barOf p K))} (hH : innerAut (barOf p K) ≤ H)
-    {d : MulAut (barOf p K)} (hd : d ∈ innerAut (barOf p K))
+    {d : MulAut (barOf p K)} (_hd : d ∈ innerAut (barOf p K))
     (hdN : d ∈ Subgroup.normalizer (H : Set (MulAut (barOf p K)))) (hdp : orderOf d = p) :
     GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer ({d} : Set (MulAut (barOf p K)))) = ⊥ := by
   set Φ := autBarToQuot p hO with hΦ
@@ -79,11 +80,11 @@ theorem coreFree_of_inner_loc {p : ℕ} (hp : p.Prime) {K : Subgroup X}
 theorem isCompLocallyBalanced_of_inner_loc {p : ℕ} (hp : p.Prime) {K A : Subgroup X}
     (hq : CFSG.Open.IsQuasisimple ↥K) (hO : GLAPPrimeCore p ↥K = ⊥)
     (hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K))
-    (hAN : A ≤ Subgroup.normalizer (K : Set X))
+    (_hAN : A ≤ Subgroup.normalizer (K : Set X))
     (hin : ∀ a ∈ A, ∃ k ∈ K, k⁻¹ * a ∈ Subgroup.centralizer (K : Set X)) :
     IsCompLocallyBalanced p 1 A K := by
   intro D hD H hH hDH
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card D = p := by simpa using hD.2.2
   have hnt : 1 < Nat.card D := by rw [hcard]; exact hp.one_lt
   obtain ⟨d, hdD, hd1⟩ : ∃ d ∈ D, d ≠ 1 := by
@@ -127,7 +128,7 @@ theorem constraint_of_pConstrainedShape {Y : Type} [Group Y] [Finite Y] {p : ℕ
 variable {X : Type} [Group X] [Finite X]
 
 theorem not_glaPComponent_of_constrained {p : ℕ} (hp : p.Prime) {K : Subgroup X}
-    (hq : CFSG.Open.IsQuasisimple ↥K) {a k : X} (hk : k ∈ K)
+    (_hq : CFSG.Open.IsQuasisimple ↥K) {a k : X} (hk : k ∈ K)
     (hc : k⁻¹ * a ∈ Subgroup.centralizer (K : Set X))
     (hcon : PConstrainedShape p (Subgroup.centralizer ({(⟨k, hk⟩ : ↥K)} : Set ↥K)))
     {J : Subgroup X} (hJ : GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J) : False := by

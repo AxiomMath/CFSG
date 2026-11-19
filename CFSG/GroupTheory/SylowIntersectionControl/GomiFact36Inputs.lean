@@ -362,7 +362,7 @@ theorem exists_mem_normalizer_of_chiefFactors_natStab (hC : GomiFact36ChiefFacto
   have hT : IsSylowIn 2 (S ⊓ L) L := isSylowIn_inf_of_isSubnormal hSY hLY hLc.2
   have hsT : s ∈ Subgroup.normalizer ((S ⊓ L : Subgroup (MulAut W)) : Set (MulAut W)) :=
     Subgroup.inf_normalizer_le_normalizer_inf ⟨Subgroup.le_normalizer hsS, hsN⟩
-  obtain ⟨w, hwS, hwL⟩ := SetLike.not_le_iff_exists.mp hfix
+  obtain ⟨w, hwS, hwL⟩ := IsConcreteLE.not_le_iff_exists.mp hfix
   have hV : XMod.IsInv ↥L (G6.submoduleClosure L (fixV S)) := fun a x hx =>
     apply_mem_submoduleClosure_fixV a.2 hx
   have hne : ¬ XMod.commOf ↥L (G6.submoduleClosure L (fixV S)) ≤ ⊥ := by

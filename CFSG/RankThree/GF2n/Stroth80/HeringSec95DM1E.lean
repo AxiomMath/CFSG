@@ -41,7 +41,7 @@ theorem mat_rowcase (g h : Matrix (Fin 2) (Fin 2) K) (hg10 : g 1 0 = 0) (hg00 : 
       (g 0 0 * h 0 0) • Matrix.single 0 0 1) = Matrix.single 0 1 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply, hg10] <;> field_simp
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply, hg10]; field_simp
 
 omit [Finite K] in
 theorem mat_colcase (g h : Matrix (Fin 2) (Fin 2) K) (hh10 : h 1 0 = 0) (hg10 : g 1 0 ≠ 0)
@@ -50,7 +50,7 @@ theorem mat_colcase (g h : Matrix (Fin 2) (Fin 2) K) (hh10 : h 1 0 = 0) (hg10 : 
       (g 0 0 * h 0 0) • Matrix.single 0 0 1) = Matrix.single 1 0 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply, hh10] <;> field_simp
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply, hh10]; field_simp
 
 omit [Finite K] in
 theorem mat_entry (g h : Matrix (Fin 2) (Fin 2) K) (i j : Fin 2) :
@@ -148,7 +148,7 @@ theorem core [CharP K 2] (hq4 : 4 ≤ Nat.card K) (h34 : Stroth34Statement) {n :
         rw [hrp, map_smul, hcp]
         ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [mat_entry, Matrix.single_apply, hg10, h0]
+          simp [mat_entry, hg10, h0]
       have hmem : actM φ r p - (g 0 0 * h 0 0) • p ∈ M₀.img (Vt M (LB M Q B) B Z t) :=
         (M₀.img (Vt M (LB M Q B) B Z t)).sub_mem (S.actM_mem_V hrR hpV) (hmem_cV _)
       exact sub_eq_zero.mp (S.desc.cV_inj _ hmem (by rw [map_sub, hcvE, sub_self]))
@@ -187,7 +187,7 @@ theorem core [CharP K 2] (hq4 : 4 ≤ Nat.card K) (h34 : Stroth34Statement) {n :
           - ((g 1 0 * h 0 0)⁻¹ : K) • (e_c - (g 0 0 * h 0 0) • e_b)))ᵀ := rfl
       rw [e2, e1, hEc, hEb, map_smul, map_sub, map_smul, hrp, hcp, mat_colcase g h hh10 hg10 hh00]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+      fin_cases i <;> fin_cases j <;> simp
     have hρs := hrs r hrR
     have hg10' : ((rhoM S.swap.desc r).1 : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
       rw [hρs]

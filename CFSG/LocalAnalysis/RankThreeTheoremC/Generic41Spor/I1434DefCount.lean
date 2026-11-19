@@ -64,6 +64,7 @@ section Unipotent
 
 variable {F V : Type*} [Field F] [CharP F 5] [AddCommGroup V] [Module F V] [FiniteDimensional F V]
 
+omit [FiniteDimensional F V] in
 theorem five_eq_zero_end : ((5 : ℕ) : Module.End F V) = 0 := by
   ext v
   have h5 : ((5 : ℕ) : F) = 0 := CharP.cast_eq_zero F 5
@@ -153,13 +154,13 @@ end Abelian
 theorem Data.le_of_fiveExpLe {K : Type} [Group K] [Finite K] {Q : Sylow 5 K} {x : K}
     {J₁ J₂ : Subgroup K} (hD : Data K Q x J₁ J₂) {k : ℕ} (hk : FiveExpLe K k) :
     (Nat.card K).factorization 5 ≤ 3 * k := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI := hD.abelian
-  letI : CommGroup (Q : Subgroup K) :=
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := hD.abelian
+  let : CommGroup (Q : Subgroup K) :=
     { (inferInstance : Group (Q : Subgroup K)) with mul_comm := fun a b => mul_comm' a b }
   have hexp : ∀ g : (Q : Subgroup K), g ^ (5 ^ k) = 1 := by
     intro g
-    obtain ⟨m, hm⟩ := Q.isPGroup' g
+    obtain ⟨m, hm⟩ := Q.isPGroup g
     apply Subtype.ext
     simp only [Subgroup.coe_pow, Subgroup.coe_one]
     exact hk (g : K) ⟨m, by simpa using congrArg Subtype.val hm⟩

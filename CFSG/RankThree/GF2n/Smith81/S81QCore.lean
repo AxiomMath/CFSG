@@ -18,6 +18,7 @@ section Twist
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K]
 
+omit [Finite K] in
 theorem eAut0Congr_mem_rootRad0_iff (σ : K ≃+* K) (u : ↥(EAut0 K)) :
     ((eAut0Congr σ u : ↥(EAut0 K)) : W K ≃ₗ[K] W K) ∈ rootRad0 K ↔
       (u : W K ≃ₗ[K] W K) ∈ rootRad0 K := by
@@ -49,6 +50,7 @@ theorem eAut0Congr_s (σ : K ≃+* K) : eAut0Congr σ (d6RootDatum K).s = (d6Roo
 
 variable {X : Type} [AddCommGroup X] [Module K X]
 
+omit [CharP K 2] [Finite K] in
 theorem fix0_comp_equiv (Θ : ↥(EAut0 K) ≃* ↥(EAut0 K))
     (hΘ : ∀ u : ↥(EAut0 K), ((Θ u : ↥(EAut0 K)) : W K ≃ₗ[K] W K) ∈ rootRad0 K ↔
       (u : W K ≃ₗ[K] W K) ∈ rootRad0 K) (A : ↥(EAut0 K) →* (X ≃ₗ[K] X)) :
@@ -82,7 +84,7 @@ theorem core_main_E4 (hq : 4 ≤ Nat.card K) (hChar : E4StabChar K)
         ψ (A g v) = ((eAut0Congr σ g : ↥(EAut0 K)) : W K ≃ₗ[K] W K) (ψ v)) ∧
         (fix0 A).map (ψ : X →ₗ[K] W K) = Submodule.span K {p0 K} := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hKn⟩ := FiniteField.card K 2
   have hKcard : Fintype.card K = 2 ^ (n : ℕ) := hKn
   have hq' : 4 ≤ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
@@ -91,7 +93,7 @@ theorem core_main_E4 (hq : 4 ≤ Nat.card K) (hChar : E4StabChar K)
     have : (n : ℕ) ≤ 1 := by omega
     have h1 : 2 ^ (n : ℕ) ≤ 2 ^ 1 := Nat.pow_le_pow_right (by norm_num) this
     omega
-  haveI : FiniteDimensional K X := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K X := Module.finite_of_finrank_pos (by omega)
   set R := d6RootDatum K with hR
   set D := R.toRankOne A with hD
   have hfix_ne : fix0 A ≠ ⊥ := by

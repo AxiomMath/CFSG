@@ -36,8 +36,8 @@ theorem erase_pk {v : List ℕ} (hv : canon6 v = true) :
         (pk a :: eraseN (pk v) (R.map pk)) (R.map pk) (Nat.beq (pk a) (pk v)) := rfl
     rw [List.erase_cons, e, ← beq_pk (hR a List.mem_cons_self) hv]
     cases h : (a == v)
-    · simp only [Bool.false_eq_true, if_false, List.map_cons, ih]
-    · simp only [if_true]
+    · simp only [Bool.false_eq_true, ite_false, List.map_cons, ih]
+    · simp only [ite_true]
 
 theorem cnt_pk {v : List ℕ} (hv : canon6 v = true) :
     ∀ {R : List (List ℕ)}, (∀ c ∈ R, canon6 c = true) →
@@ -51,8 +51,8 @@ theorem cnt_pk {v : List ℕ} (hv : canon6 v = true) :
         (!Nat.beq (pk a) (pk v) && commN (pk v) (pk a)) := rfl
     rw [List.filter_cons, e, beq_pk ha hv, commutes_pk hv ha]
     cases (!Nat.beq (pk a) (pk v) && commN (pk v) (pk a))
-    · simp only [Bool.false_eq_true, if_false, ih]
-    · simp only [if_true, List.length_cons, ih]
+    · simp only [Bool.false_eq_true, ite_false, ih]
+    · simp only [ite_true, List.length_cons, ih]
 
 theorem decide_lt (a b : ℕ) : decide (a < b) = Nat.blt a b := by
   apply Bool.eq_iff_iff.2

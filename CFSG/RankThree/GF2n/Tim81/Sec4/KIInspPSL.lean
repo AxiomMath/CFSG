@@ -35,6 +35,7 @@ private theorem weakTI_map_mulEquiv {G L : Type*} [Group G] [Group L] {T : Subgr
   have hN := h t₀ ht₀ ht1' y₀ hcomm' hodd'
   exact Subgroup.le_normalizer_map e.toMonoidHom (Subgroup.mem_map_of_mem _ hN)
 
+omit [CharP K 2] in
 private theorem weakTI_of_map_mk_eq {Z : Subgroup (SpecialLinearGroup (Fin n) K)} [Z.Normal]
     (hZ : Z ≤ Subgroup.center (SpecialLinearGroup (Fin n) K)) (hZodd : Odd (Nat.card Z))
     {T : Subgroup (SpecialLinearGroup (Fin n) K)} (hT : Assembly.IsElemAbelian 2 T)
@@ -60,6 +61,7 @@ private theorem weakTI_of_map_mk_eq {Z : Subgroup (SpecialLinearGroup (Fin n) K)
   rw [CFSG.GroupTheory.normalizer_eq_comap_of_isElemAbelian_map_mk_eq hZ hZodd hT hmap]
   exact hmem
 
+omit [Finite K] [CharP K 2] in
 private theorem eq_bot_or_eq_top_of_sl_invariant {W : Submodule K (Fin n → K)} (hn : 2 ≤ n)
     (hW : ∀ x : SpecialLinearGroup (Fin n) K, ∀ w ∈ W,
       (x : Matrix (Fin n) (Fin n) K) *ᵥ w ∈ W) : W = ⊥ ∨ W = ⊤ := by
@@ -82,6 +84,7 @@ private theorem eq_bot_or_eq_top_of_sl_invariant {W : Submodule K (Fin n → K)}
       (S := W.toAddSubgroup) hS (by simpa using hv) hv0
     exact Submodule.toAddSubgroup_injective (by simpa using htop)
 
+omit [CharP K 2] in
 private theorem exists_lift_wc_weakTI (hn : 1 ≤ n) (hKcard : Nat.card K = 2 ^ s)
     {T : Subgroup (projectiveSL n K)} (hT : Assembly.IsElemAbelian 2 T)
     (hwc : WeaklyClosedIn T (Subgroup.normalizer (T : Set (projectiveSL n K))))
@@ -94,7 +97,7 @@ private theorem exists_lift_wc_weakTI (hn : 1 ≤ n) (hKcard : Nat.card K = 2 ^ 
   let Z : Subgroup (SpecialLinearGroup (Fin n) K) := scalars n K
   let π : SpecialLinearGroup (Fin n) K →* projectiveSL n K := proj n K
   have hZnormal : Z.Normal := scalars_normal n K
-  letI : Z.Normal := hZnormal
+  let : Z.Normal := hZnormal
   have hZcenter : Z ≤ Subgroup.center (SpecialLinearGroup (Fin n) K) := scalars_le_center n K
   have hs1 : 1 ≤ s := by
     by_contra h
@@ -129,7 +132,7 @@ private theorem exists_stage_one_data (hn : 4 ≤ n) (hq : n = 4 → 4 ≤ Nat.c
       (T₁ ≤ tvCenterSL (Pi.single (⟨0, by omega⟩ : Fin n) 1) ∨
         T₁ ≤ tvAxisSL (Pi.single (⟨n - 1, by omega⟩ : Fin n) 1)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀, hT₀, hmap₀, hwc₀, hwti₀⟩ :=
     exists_lift_wc_weakTI (by omega) hKcard hT hwc hwti
   obtain ⟨S, hSN, hT₀S⟩ :=
@@ -205,7 +208,7 @@ private theorem exists_conj_stage_one
   let Z : Subgroup (SpecialLinearGroup (Fin n) K) := scalars n K
   let π : SpecialLinearGroup (Fin n) K →* projectiveSL n K := proj n K
   have hZnormal : Z.Normal := scalars_normal n K
-  letI : Z.Normal := hZnormal
+  let : Z.Normal := hZnormal
   obtain ⟨T₀, x, T₁, -, hmap₀, hT₁eq, hstage⟩ :=
     exists_stage_one_data hn hq hKcard hT hwc hwti
   obtain ⟨ĝ, hĝ⟩ := QuotientGroup.mk'_surjective Z g
@@ -294,13 +297,13 @@ theorem kiInsp_PSL {L : Type} [Group L] {n s : ℕ}
     (hwti : CFSG.RankThree.GF2n.Tim81.CentralTI.WeakTI T) (g : L) :
     T ⊔ CFSG.CGT.Timmesfeld75.conjSubgroup g T ≠ ⊤ := by
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hL
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hchar : CharP K 2 := by
     have := Fintype.ofFinite K
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := s) (by rw [← Nat.card_eq_fintype_card, hKcard])
-  letI := hchar
+  let := hchar
   have hs1 : 1 ≤ s := by
     by_contra h
     have hs0 : s = 0 := by omega

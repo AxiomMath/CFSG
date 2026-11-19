@@ -46,7 +46,7 @@ theorem triCompAction_holds : TriCompAction := by
   classical
   obtain ⟨hf1, hK, hσ⟩ := hdata
   let q : TauCeti.PrimePower := ⟨2, f, Nat.prime_two, hf1⟩
-  haveI : Finite (TriGrp K σ) := Subtype.finite
+  have : Finite (TriGrp K σ) := Subtype.finite
   have hKq : Nat.card K = (q.p ^ q.exponent) ^ 3 := hK
   have hσq : ∀ c, σ c = c ^ (q.p ^ q.exponent) := hσ
   have hpq : p ≠ q.p := hp2
@@ -81,7 +81,7 @@ theorem triCompAction_holds : TriCompAction := by
     rw [ringChar_algebraicClosure]
     exact ringChar_eq_of_card_eq_pow (n := q.exponent * 3) q.prime_p
       (by have := q.exponent_pos; omega) (by rw [hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 := hAC ▸ ringChar.charP (AlgebraicClosure K)
+  have : CharP (AlgebraicClosure K) 2 := hAC ▸ ringChar.charP (AlgebraicClosure K)
   let R := rationalComponent S.ρ S.Γ (rootCharHom a) i
   let eJ : ↥J ≃* ↥R := (J.equivMapOfInjective ι hinj).trans (MulEquiv.subgroupCongr hJR)
   have heJ : ∀ k : J, (eJ k : ModGL Tag.D4 (AlgebraicClosure K)) = ι k := fun k => rfl

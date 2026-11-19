@@ -88,7 +88,7 @@ theorem autm12_case (hSz : Nat.card ↥(Sz 0) = 20) (hAut : AutM12AmalgamFacts)
   have hj0sq : j0 ^ 2 = 1 := hJel.2 j0 hj0J
   have hord : orderOf j0 = 2 := orderOf_eq_prime hj0sq hj01
   have hWle : W ≤ (P : Subgroup G) := thompsonJ_le_self' _
-  have hW2 : IsPGroup 2 W := (P.isPGroup').to_le hWle
+  have hW2 : IsPGroup 2 W := (P.isPGroup).to_le hWle
   have hWne : W ≠ ⊥ := fun h => hj01 (by
     have : j0 ∈ (⊥ : Subgroup G) := h ▸ hj0J
     exact this)

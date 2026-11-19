@@ -100,7 +100,7 @@ theorem ncard_U1 (l : List Rec1) (h : ∀ r ∈ l, rec1OK P.C P.D r = true)
   | cons a l ih =>
     have hU : P.U1 (a :: l) = orbit P.S (P.xr a) ∪ P.U1 l := by
       ext y
-      simp only [U1, List.mem_cons, Set.mem_setOf_eq, Set.mem_union]
+      simp only [U1, List.mem_cons, Set.mem_ofPred_eq, Set.mem_union]
       constructor
       · rintro ⟨r, rfl | hr, hy⟩
         exacts [Or.inl hy, Or.inr ⟨r, hr, hy⟩]

@@ -88,7 +88,7 @@ theorem oddCore_centralizer_eq_bot_of_cover {A B : Type*} [Group A] [Finite A] [
     (hcard : Nat.card κ.ker ∣ 2) {a : A}
     (ha : oddCore ↥(Subgroup.centralizer ({a} : Set A)) = ⊥) :
     oddCore ↥(Subgroup.centralizer ({κ a} : Set B)) = ⊥ := by
-  haveI : Finite B := Finite.of_surjective κ hκ
+  have : Finite B := Finite.of_surjective κ hκ
   set CB : Subgroup B := Subgroup.centralizer ({κ a} : Set B) with hCB
   set CA : Subgroup A := Subgroup.centralizer ({a} : Set A) with hCA
   set N : Subgroup B := (oddCore CB).map CB.subtype with hN

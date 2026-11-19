@@ -51,7 +51,7 @@ theorem k150s_goodFor_of_map {C : Subgroup S} (f : S →* G') (hf : Function.Inj
   have hmap := hPs.map hsurj
   have heq : (P.subgroupOf C).map (eC : C →* C.map f) = (P.map f).subgroupOf (C.map f) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxP, hxy⟩
       refine ⟨x, hxP, ?_⟩

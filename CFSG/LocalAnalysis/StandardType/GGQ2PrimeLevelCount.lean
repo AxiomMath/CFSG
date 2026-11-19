@@ -136,9 +136,9 @@ private theorem gq2_single_of_five {v : Fin 6 → ZMod 3} {a : ZMod 3}
   refine ⟨i₀, a, v i₀ - a, sub_ne_zero.mpr ((hmem i₀).mpr rfl), ?_⟩
   intro i
   by_cases hi : i = i₀
-  · rw [if_pos hi, hi]
+  · rw [ite_eq_left hi, hi]
     ring
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     by_contra hne
     exact hi ((hmem i).mp hne)
 

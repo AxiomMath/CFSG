@@ -155,6 +155,7 @@ theorem eq_of_mem_center_of_mul_self_eq_one (hC : HypothesisC D)
       _ = 1 := by rw [← mul_inv_rev, h2, h2', inv_one, one_mul]
   exact inv_mul_eq_one.mp (eq_one_of_mem_center_inf_commutator hodd ⟨hcen, hmem⟩ hsq)
 
+omit [Finite G] in
 theorem Halpha_le_centralizer_of_mem_alpha (hC : HypothesisC D) {a : G}
     (ha : a ∈ hC.alpha) : Halpha D hC.alpha ≤ Subgroup.centralizer {a} := by
   rw [Halpha, Subgroup.closure_le]
@@ -262,7 +263,7 @@ theorem d_mem_Halpha_of_isRootTriple (hC : HypothesisC D)
     have hgb : g * (b : G) * g⁻¹ ∈ (S : Set G) ∩ D :=
       (Subgroup.mem_set_normalizer_iff.mp hg (b : G)).mp hbSD
     have hcomm : Commute (g * (b : G) * g⁻¹) hC.d :=
-      hC.setup.oddT.commute_of_isPGroup S.isPGroup' hgb.2 hC.hd hgb.1 hdS.1
+      hC.setup.oddT.commute_of_isPGroup S.isPGroup hgb.2 hC.hd hgb.1 hdS.1
     have hnα : g * (b : G) * g⁻¹ ∉ hC.alpha := by
       intro hmem
       have hmem' : g * (b : G) * g⁻¹ ∈ (fun y => g * y * g⁻¹) '' β := by
@@ -368,6 +369,7 @@ section Multiplier
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem commute_mk_of_mem_center {N : Subgroup K} [N.Normal] {x : K} {a b : K}
     (ha : ∃ c ∈ Subgroup.center K, (a : K ⧸ N) = (c : K ⧸ N) ∨ (a : K ⧸ N) = x * c)
     (hb : ∃ c ∈ Subgroup.center K, (b : K ⧸ N) = (c : K ⧸ N) ∨ (b : K ⧸ N) = x * c) :
@@ -383,6 +385,7 @@ theorem commute_mk_of_mem_center {N : Subgroup K} [N.Normal] {x : K} {a b : K}
   · exact (hcen c' hc' _).symm
   · exact ((Commute.refl _).mul_right (hcen c' hc' _).symm).mul_left (hcen c hc _)
 
+omit [Finite K] in
 theorem commutator_le_commutator_commutator {M : Subgroup K} [M.Normal]
     (hMZ : M ≤ Subgroup.center K) {x : K} (hx : x * x = 1)
     (hcos : ∀ h : K, h ∈ commutator K ∨ x * h ∈ commutator K)
@@ -402,7 +405,7 @@ theorem commutator_le_commutator_commutator {M : Subgroup K} [M.Normal]
     obtain ⟨k₂, hk₂, he⟩ := this
     exact ⟨k₂, hk₂, (QuotientGroup.eq).mp he⟩
   obtain ⟨N, hN⟩ : ∃ N : Subgroup K, N = ⁅commutator K, commutator K⁆ := ⟨_, rfl⟩
-  haveI : N.Normal := by rw [hN]; infer_instance
+  have : N.Normal := by rw [hN]; infer_instance
   rw [← hN] at hdec ⊢
   have hxinv : x⁻¹ = x := inv_eq_of_mul_eq_one_right hx
   have hform : ∀ a : K, ∃ c ∈ Subgroup.center K,

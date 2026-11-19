@@ -42,6 +42,7 @@ open scoped commutatorElement Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W] {Y L : Subgroup (MulAut W)} {t : MulAut W}
 
+omit [Finite W] in
 private theorem w135c2_hnab_of_ctx (hctx : Is135Context Y L) :
     ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a := by
   have hq : IsQuasisimple ↥L := hctx.2.2.2.2.1
@@ -52,6 +53,7 @@ private theorem w135c2_hnab_of_ctx (hctx : Is135Context Y L) :
   have hL : (x' * y' : ↥L) = y' * x' := Subtype.ext h
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hL]
 
+omit [Finite W] in
 private theorem w135c2_ne_bot_of_ctx (hctx : Is135Context Y L) : L ≠ ⊥ := by
   intro hbot
   obtain ⟨a, ha, b, hb, hab⟩ := w135c2_hnab_of_ctx hctx
@@ -59,6 +61,7 @@ private theorem w135c2_ne_bot_of_ctx (hctx : Is135Context Y L) : L ≠ ⊥ := by
   rw [Subgroup.mem_bot.mp ha, Subgroup.mem_bot.mp hb] at hab
   exact hab rfl
 
+omit [Finite W] in
 private theorem w135c2_conj_mem_of_ctx (hctx : Is135Context Y L) (htY : t ∈ Y) :
     ∀ g ∈ L, t * g * t⁻¹ ∈ L := by
   intro g hg

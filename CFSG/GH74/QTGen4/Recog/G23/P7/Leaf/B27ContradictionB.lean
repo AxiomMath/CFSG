@@ -643,7 +643,7 @@ theorem linInd_three [IsMulCommutative M₁] [Module (ZMod 3) (Additive M₁)] {
   intro g hg
   rw [Fin.sum_univ_three] at hg
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-    Matrix.tail_cons, Matrix.cons_val_fin_one, Matrix.head_fin_const] at hg
+    Matrix.tail_cons] at hg
   rw [smul_eq_pow_val, smul_eq_pow_val, smul_eq_pow_val] at hg
   have hA : (⟨σ, hσM⟩ : M₁) ^ (g 0).val * (⟨d₁, hd1M⟩ : M₁) ^ (g 1).val *
       (⟨d₂, hd2M⟩ : M₁) ^ (g 2).val = 1 := hg
@@ -701,7 +701,7 @@ theorem W₁_gen [Finite G] (hst : B27State e M₁ Pb W₁ Mf t') :
     simp at this
   obtain ⟨w, hw, hw1⟩ : ∃ w ∈ W₁, w ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (eq_bot_iff.mpr fun x hx => Subgroup.mem_bot.mpr (hcon x hx))
   have hord : orderOf w = 3 := by
     have hdvd : orderOf w ∣ 3 := by
@@ -717,7 +717,7 @@ theorem W₁_gen [Finite G] (hst : B27State e M₁ Pb W₁ Mf t') :
     rw [Nat.card_zpowers, hord, hst.card_W₁]
 
 theorem W₁_le_Mf (hst : B27State e M₁ Pb W₁ Mf t') : W₁ ≤ Mf :=
-  fun x hx => hst.M₁_le (Subgroup.mem_inf.mp (hst.W₁_le hx)).1
+  fun _x hx => hst.M₁_le (Subgroup.mem_inf.mp (hst.W₁_le hx)).1
 
 theorem W₁_normal_Mf [Finite G] (hst : B27State e M₁ Pb W₁ Mf t') :
     (W₁.subgroupOf Mf).Normal := by
@@ -733,9 +733,9 @@ theorem W₁_normal_Mf [Finite G] (hst : B27State e M₁ Pb W₁ Mf t') :
 
 theorem W₁_central_Mf [Finite G] (hst : B27State e M₁ Pb W₁ Mf t') (x : G) (hx : x ∈ Mf)
     (n : G) (hn : n ∈ W₁) : x * n * x⁻¹ = n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent ↥Mf := IsPGroup.isNilpotent hst.three
-  haveI := W₁_normal_Mf hst
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent ↥Mf := IsPGroup.isNilpotent hst.three
+  have := W₁_normal_Mf hst
   have hcard : Nat.card (W₁.subgroupOf Mf) = 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (W₁_le_Mf hst)).toEquiv, hst.card_W₁]
   have key := central_of_normal_card_three (W₁.subgroupOf Mf) hcard ⟨x, hx⟩ ⟨n, W₁_le_Mf hst hn⟩
@@ -768,7 +768,7 @@ section Faithful
 
 variable {H H₁ H₂ M₁ Pb W₁ Mf : Subgroup G} {e : Fin 6 → G} {t' : G}
 
-theorem psi_involution_eq (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e)
+theorem psi_involution_eq (_hone : G23One H H₁ H₂) (_hlet : HLetters H H₁ H₂ e)
     (ψ : H₂ ≃* Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)) (k : G) (hk : k ∈ H₂)
     (hk2 : k * k = 1) (hk1 : k ≠ 1) : (ψ ⟨k, hk⟩ : Mat2) = -1 := by
   have hsq : ψ ⟨k, hk⟩ * ψ ⟨k, hk⟩ = 1 := by
@@ -793,8 +793,8 @@ theorem invol_eq_zOf_H₂ (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H�
   have : ψ ⟨k, hk⟩ = ψ ⟨zOf e, hzH₂⟩ := Subtype.ext (h1.trans h2.symm)
   exact congrArg Subtype.val (ψ.injective this)
 
-theorem zOf_not_cent_M₁ [Finite G] (hst : B27State e M₁ Pb W₁ Mf t') (hone : G23One H H₁ H₂)
-    (hlet : HLetters H H₁ H₂ e) : zOf e ∉ Subgroup.centralizer (M₁ : Set G) := by
+theorem zOf_not_cent_M₁ [Finite G] (hst : B27State e M₁ Pb W₁ Mf t') (_hone : G23One H H₁ H₂)
+    (_hlet : HLetters H H₁ H₂ e) : zOf e ∉ Subgroup.centralizer (M₁ : Set G) := by
   intro hz
   obtain ⟨w, hwW, hw1, hw3, -⟩ := W₁_gen hst
   have hwM : w ∈ M₁ := (Subgroup.mem_inf.mp (hst.W₁_le hwW)).1
@@ -845,7 +845,7 @@ theorem fix_H₂_eq_bot [Finite G] (hone : G23One H H₁ H₂) (hlet : HLetters 
   have hdvdK : Nat.card K ∣ 24 := hcardH₂ ▸ Subgroup.card_dvd_of_le (inf_le_right : K ≤ H₂)
   have hodd : ¬ 2 ∣ Nat.card K := by
     intro h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' 2 h2
     have hk2 : (k : G) * (k : G) = 1 := by
       have h1 : k ^ 2 = 1 := by rw [← hk]; exact pow_orderOf_eq_one k
@@ -870,7 +870,7 @@ theorem fix_H₂_eq_bot [Finite G] (hone : G23One H H₁ H₂) (hlet : HLetters 
       | (exfalso; omega)
   rcases hn3 with h1 | h3
   · exact hne (Subgroup.eq_bot_of_card_eq K (by rw [hn, h1]))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx3⟩ := exists_prime_orderOf_dvd_card' 3 (by rw [hn, h3])
   have hyK : (x : G) ∈ K := x.2
   have hordy : orderOf (x : G) = 3 := by rw [Subgroup.orderOf_coe, hx3]
@@ -997,6 +997,7 @@ open scoped IsMulCommutative
 
 variable {M : Subgroup G} [IsMulCommutative M]
 
+omit [IsMulCommutative ↥M] in
 theorem mem_NM_conj {x : G} (hx : x ∈ Subgroup.normalizer (M : Set G)) :
     ∀ m ∈ M, x * m * x⁻¹ ∈ M :=
   fun m hm => (Subgroup.mem_normalizer_iff.mp hx m).mp hm
@@ -1083,7 +1084,7 @@ theorem card_Dg [Finite G] (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H
     (hv : VertexCore e H (e 0) H₂ M₁) [IsMulCommutative M₁]
     (hzM : ∀ m ∈ M₁, zOf e * m * (zOf e)⁻¹ ∈ M₁) (hcard : Nat.card M₁ = 27) :
     Nat.card (Dg (zOf e) M₁ hzM) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcube : e 0 ^ 3 = 1 := (hlet_cube hlet).1
   have he0 : e 0 ≠ 1 := e0_ne_one hone hlet
   have himg : Nat.card (phiZ (zOf e) M₁ hzM).range = 3 := by
@@ -1101,7 +1102,7 @@ theorem exists_d₂ [Finite G] (hone : G23One H H₁ H₂) (hlet : HLetters H H�
     (w : G) (hw3 : w ^ 3 = 1) :
     ∃ d ∈ Dg (zOf e) M₁ hzM, d ∉ Subgroup.zpowers w := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : Dg (zOf e) M₁ hzM ≤ Subgroup.zpowers w := fun x hx => hcon x hx
   have h1 := Subgroup.card_le_of_le hle
   have hdD := card_Dg hone hlet hv hzM hcard
@@ -1147,7 +1148,7 @@ variable {H H₁ H₂ M₁ Pb W₁ Mf : Subgroup G} {e : Fin 6 → G} {t' : G}
 
 theorem coord0_zero [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additive M₁)]
     (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (hv : VertexCore e H (e 0) H₂ M₁)
-    (hst : B27State e M₁ Pb W₁ Mf t') {w d : G} (hwM : w ∈ M₁) (hdM : d ∈ M₁)
+    (_hst : B27State e M₁ Pb W₁ Mf t') {w d : G} (hwM : w ∈ M₁) (hdM : d ∈ M₁)
     (b : Module.Basis (Fin 3) (ZMod 3) (Additive M₁))
     (hb0 : b 0 = Additive.ofMul (⟨e 0, e0_mem_M₁ hv⟩ : M₁))
     (hb1 : b 1 = Additive.ofMul (⟨w, hwM⟩ : M₁)) (hb2 : b 2 = Additive.ofMul (⟨d, hdM⟩ : M₁))
@@ -1272,8 +1273,8 @@ theorem rhoMat_col0 [IsMulCommutative M₁] [Module (ZMod 3) (Additive M₁)]
   rw [hconj, map_smul, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.single_apply]
   by_cases hi : i = 0
   · subst hi; simp
-  · simp only [hi, if_false, Finsupp.single_apply, if_neg (Ne.symm hi), mul_zero]
-    simp [Ne.symm hi]
+  · simp only [hi, ite_false, ite_eq_right (Ne.symm hi)]
+    simp
 
 end RhoEntries
 
@@ -1354,16 +1355,16 @@ variable {H H₁ H₂ M₁ Pb W₁ Mf : Subgroup G} {e : Fin 6 → G} {t' : G}
 
 theorem not_dvd13 [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additive M₁)]
     [G23Leaf LeafGL3Facts]
-    (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (hv : VertexCore e H (e 0) H₂ M₁)
+    (_hone : G23One H H₁ H₂) (_hlet : HLetters H H₁ H₂ e) (hv : VertexCore e H (e 0) H₂ M₁)
     (hst : B27State e M₁ Pb W₁ Mf t') (hC : Nat.card (Subgroup.centralizer ({e 0} : Set G)) = 648)
     (b : Module.Basis (Fin 3) (ZMod 3) (Additive M₁))
     (hb0 : b 0 = Additive.ofMul (⟨e 0, e0_mem_M₁ hv⟩ : M₁))
-    (w : G) (hwM : w ∈ M₁) (hwW : w ∈ W₁) (hw1 : w ≠ 1)
+    (w : G) (hwM : w ∈ M₁) (_hwW : w ∈ W₁) (hw1 : w ≠ 1)
     (hWeq : W₁ = Subgroup.zpowers w) (hw3 : w ^ 3 = 1)
     (hb1 : b 1 = Additive.ofMul (⟨w, hwM⟩ : M₁)) :
     ¬ 13 ∣ Nat.card (rhoGL b).range := by
   intro h13
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 13 h13
   have hyY : (y : GL (Fin 3) (ZMod 3)) ∈ (rhoGL b).range := y.2
   have hy13 : orderOf (y : GL (Fin 3) (ZMod 3)) = 13 := by
@@ -1391,7 +1392,7 @@ theorem not_dvd13 [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additive 
   have hcol : ∀ i, rhoMat b n i 0 = c * (if i = 1 then 1 else 0) := by
     intro i
     have := congrFun hmv i
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Module.Basis.repr_self,
+    simp [Matrix.mulVec, dotProduct, Module.Basis.repr_self,
       Finsupp.single_apply] at this
     rw [this]
     by_cases hi : i = 1
@@ -1511,7 +1512,7 @@ theorem card_Y0Subgroup_le : Nat.card Y0Subgroup ≤ 48 := by
     have e22 : blockMat (g₁ : GL (Fin 3) (ZMod 3)) 1 1 = blockMat (g₂ : GL (Fin 3) (ZMod 3)) 1 1 :=
       congrFun (congrFun hB 1) 1
     simp only [blockMat, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.cons_val_fin_one] at e11 e12 e21 e22
+      Matrix.cons_val_fin_one] at e11 e12 e21 e22
     have hg₁ : (g₁ : GL (Fin 3) (ZMod 3)) ∈ Y0Set := g₁.2
     have hg₂ : (g₂ : GL (Fin 3) (ZMod 3)) ∈ Y0Set := g₂.2
     obtain ⟨g₁01, g₁02, g₁10, g₁20, g₁00⟩ := hg₁
@@ -1519,7 +1520,7 @@ theorem card_Y0Subgroup_le : Nat.card Y0Subgroup ≤ 48 := by
     apply Subtype.ext
     apply Units.ext
     ext i j
-    fin_cases i <;> fin_cases j <;> simp_all [blockMat]
+    fin_cases i <;> fin_cases j <;> simp_all
   calc Nat.card Y0Subgroup ≤ Nat.card {B : Matrix (Fin 2) (Fin 2) (ZMod 3) //
         B 0 0 * B 1 1 - B 0 1 * B 1 0 ≠ 0} := Nat.card_le_card_of_injective f hf
     _ = 48 := by
@@ -1547,7 +1548,7 @@ theorem zmod3_cube_eq_one {y : ZMod 3} (h : y ^ 3 = 1) : y = 1 := by
   decide
 
 theorem det_rho_H₂ [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additive M₁)]
-    (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (hv : VertexCore e H (e 0) H₂ M₁)
+    (_hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (hv : VertexCore e H (e 0) H₂ M₁)
     (b : Module.Basis (Fin 3) (ZMod 3) (Additive M₁)) (h : G) (hh : h ∈ H₂) :
     (rhoMat b ⟨h, H₂_le_normalizer_M₁ hlet hv hh⟩).det = 1 := by
   let K : Subgroup G := (chiDet b).ker.map (Subgroup.normalizer (M₁ : Set G)).subtype
@@ -1653,7 +1654,7 @@ theorem rho_block [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additive 
   · rw [c 0]; simp
 
 theorem rho_H₂_mem_Y0 [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additive M₁)]
-    (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (hF : HFacts H H₁ H₂ e)
+    (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (_hF : HFacts H H₁ H₂ e)
     (hv : VertexCore e H (e 0) H₂ M₁) (hst : B27State e M₁ Pb W₁ Mf t')
     (b : Module.Basis (Fin 3) (ZMod 3) (Additive M₁))
     (w d : G) (hwM : w ∈ M₁) (hdM : d ∈ M₁)
@@ -1671,7 +1672,7 @@ theorem rho_H₂_mem_Y0 [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Add
   have hdet := det_rho_H₂ hone hlet hv b h hh
   rw [Matrix.det_fin_three, r01, r02, r10, r20, r00] at hdet
   unfold Y0Set
-  simp only [Set.mem_setOf_eq, rhoGL_val]
+  simp only [Set.mem_ofPred_eq, rhoGL_val]
   refine ⟨r01, r02, r10, r20, ?_⟩
   rw [r00]
   push_cast at hdet ⊢
@@ -1724,19 +1725,19 @@ theorem rho_z_block [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additiv
     linear_combination h
   have e11 : M 1 1 * M 1 1 + M 1 2 * M 2 1 = 1 := by
     have h := congrFun (congrFun hMM 1) 1
-    simp [Matrix.mul_apply, Fin.sum_univ_three, r01, r02, r10, r20, r00] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, r01, r10] at h
     linear_combination h
   have e12 : M 1 1 * M 1 2 + M 1 2 * M 2 2 = 0 := by
     have h := congrFun (congrFun hMM 1) 2
-    simp [Matrix.mul_apply, Fin.sum_univ_three, r01, r02, r10, r20, r00] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, r02, r10] at h
     linear_combination h
   have e21 : M 2 1 * M 1 1 + M 2 2 * M 2 1 = 0 := by
     have h := congrFun (congrFun hMM 2) 1
-    simp [Matrix.mul_apply, Fin.sum_univ_three, r01, r02, r10, r20, r00] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, r01, r20] at h
     linear_combination h
   have e22 : M 2 1 * M 1 2 + M 2 2 * M 2 2 = 1 := by
     have h := congrFun (congrFun hMM 2) 2
-    simp [Matrix.mul_apply, Fin.sum_univ_three, r01, r02, r10, r20, r00] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, r02, r20] at h
     linear_combination h
   rcases zmod3_sl2_involution _ _ _ _ hdetM e11 e12 e21 e22 with ⟨a1, b1, c1, d1⟩ | ⟨a1, b1, c1, d1⟩
   ·
@@ -1810,7 +1811,7 @@ theorem rho_t_mem_Y0 [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additi
   have hB11 := congrFun (congrFun hB2 1) 1
   simp [Matrix.mul_apply, Fin.sum_univ_three, t01, t10] at hB11
   unfold Y0Set
-  simp only [Set.mem_setOf_eq, rhoGL_val]
+  simp only [Set.mem_ofPred_eq, rhoGL_val]
   refine ⟨t01, t02, t10, t20, ?_⟩
   rw [t00]
   push_cast

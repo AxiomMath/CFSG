@@ -76,7 +76,7 @@ namespace PSL2
   ∀ L : Subgroup G, LitLayer L → (n = 2 ∧ f = 2) ∨ (n = 3 ∧ f = 1) ∨ (n = 4 ∧ f = 1)
 
 theorem LayerShape.of_mulEquiv {n f : ℕ} {G H : Type} [Group G] [Group H] (e : G ≃* H)
-    (h : LayerShape n f H) : LayerShape n f G := fun L hL => h _ (hL.map e)
+    (h : LayerShape n f H) : LayerShape n f G := fun _L hL => h _ (hL.map e)
 
 theorem layerShape_inner {n f : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K = 5 ^ f)
     (hadm : StatedLieAdmissible .PSL n 5 f) (A : GL (Fin n) K)
@@ -194,7 +194,7 @@ theorem not_dvd_3600_psl {S : Type} [Group S] {n f : ℕ} (hm : Blueprint.LieMod
 
 theorem fiveTwoLayer_char5_PSL : FiveTwoLayerCharFiveClause .PSL := by
   intro S _ _ hs hna ⟨n, f, hm⟩ σ P₁ P₂ h₁ h₂ hne hZ₁ hZ₂ e₁ e₂ huniq
-  haveI := hs
+  have := hs
   have hadm : StatedLieAdmissible .PSL n 5 f := hm.admissible
   have hσ1 : σ ≠ 1 := h₁.ne_one
   have hσσ : σ * σ = 1 := MulEquiv.ext fun y => h₁.1 y

@@ -16,10 +16,12 @@ section SL2U
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem mem_sl2Of_l3U {Bl : Subgroup (GL (Fin 2) F)} {A : GL (Fin 2) F} :
     A ∈ sl2Of Bl ↔ A ∈ Bl ∧ Matrix.GeneralLinearGroup.det A = 1 := by
   rw [sl2Of, Subgroup.mem_inf, MonoidHom.mem_ker]
 
+omit [Finite F] in
 private theorem det_eq_one_iff_l3U (A : GL (Fin 2) F) :
     Matrix.GeneralLinearGroup.det A = 1 ↔ (A : Matrix (Fin 2) (Fin 2) F).det = 1 := by
   rw [Units.ext_iff, Matrix.GeneralLinearGroup.val_det_apply, Units.val_one]
@@ -36,6 +38,7 @@ private theorem mem_statedSU_two_l3U {p : ℕ} [Fact p.Prime] [CharP F p]
     CFSG.LieType.Universal.Unitary.mem_SUid]
   simp only [CFSG.LieType.Universal.Unitary.conjTr, hfun]
 
+omit [Finite F] in
 private theorem mem_GU2_l3U {p : ℕ} (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p 1 F)
     (A : GL (Fin 2) F) :
     A ∈ GU2Stated (p ^ 1) F ↔
@@ -44,10 +47,10 @@ private theorem mem_GU2_l3U {p : ℕ} (h : CFSG.LocalAnalysis.ComponentInitial.U
 
 private theorem sl2Of_GU2_eq_l3U {p : ℕ} (hp : p.Prime) (hF : Nat.card F = (p ^ 1) ^ 2) :
     sl2Of (GU2Stated (p ^ 1) F) = StatedSU 2 (p ^ 1) F := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p 1 F :=
     ⟨hp, le_rfl, by rw [hF]; ring⟩
-  haveI : CharP F p := h.charP
+  have : CharP F p := h.charP
   ext A
   rw [mem_sl2Of_l3U, mem_GU2_l3U h, mem_statedSU_two_l3U hF, det_eq_one_iff_l3U]
   exact and_comm
@@ -68,11 +71,13 @@ private theorem isPerfect_sl2_fixedSubfield_l3U {p : ℕ} [Fact p.Prime] [CharP 
   rw [CFSG.LieType.Steinberg.card_fixedSubfield hF, pow_one]
   omega
 
+omit [Finite F] in
 private theorem jL3U_mul_l3U :
     (!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) F) * !![0, -1; 1, 0] = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite F] in
 private theorem jL3U_mul_l3U' :
     (!![0, -1; 1, 0] : Matrix (Fin 2) (Fin 2) F) * !![0, 1; -1, 0] = 1 := by
   ext i j
@@ -81,27 +86,32 @@ private theorem jL3U_mul_l3U' :
 private def jL3U : GL (Fin 2) F :=
   ⟨!![0, 1; -1, 0], !![0, -1; 1, 0], jL3U_mul_l3U, jL3U_mul_l3U'⟩
 
+omit [Finite F] in
 private theorem coe_jL3U :
     ((jL3U : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = !![0, 1; -1, 0] := rfl
 
+omit [Finite F] in
 private theorem dL3U_mul_l3U (a : F) (ha : a ≠ 0) :
     Matrix.diagonal ![a, a⁻¹] * Matrix.diagonal ![a⁻¹, a] = 1 := by
   rw [Matrix.diagonal_mul_diagonal]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, ha]
+  fin_cases i <;> fin_cases j <;> simp [ha]
 
+omit [Finite F] in
 private theorem dL3U_mul_l3U' (a : F) (ha : a ≠ 0) :
     Matrix.diagonal ![a⁻¹, a] * Matrix.diagonal ![a, a⁻¹] = 1 := by
   rw [Matrix.diagonal_mul_diagonal]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, ha]
+  fin_cases i <;> fin_cases j <;> simp [ha]
 
 private def dL3U (a : F) (ha : a ≠ 0) : GL (Fin 2) F :=
   ⟨Matrix.diagonal ![a, a⁻¹], Matrix.diagonal ![a⁻¹, a], dL3U_mul_l3U a ha, dL3U_mul_l3U' a ha⟩
 
+omit [Finite F] in
 private theorem coe_dL3U (a : F) (ha : a ≠ 0) :
     (dL3U a ha : Matrix (Fin 2) (Fin 2) F) = Matrix.diagonal ![a, a⁻¹] := rfl
 
+omit [Finite F] in
 private theorem jL3U_matrix_l3U {q : ℕ} (hq0 : q ≠ 0) (hodd : Odd q) :
     ((!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) F).map (· ^ q))ᵀ *
       (!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) F) = 1 := by
@@ -110,7 +120,8 @@ private theorem jL3U_matrix_l3U {q : ℕ} (hq0 : q ≠ 0) (hodd : Odd q) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, h0, h2]
 
-private theorem dL3U_matrix_l3U {q : ℕ} (hq0 : q ≠ 0) (a : F) (ha : a ≠ 0)
+omit [Finite F] in
+private theorem dL3U_matrix_l3U {q : ℕ} (hq0 : q ≠ 0) (a : F) (_ha : a ≠ 0)
     (hq : a ^ q * a = 1) :
     ((Matrix.diagonal ![a, a⁻¹] : Matrix (Fin 2) (Fin 2) F).map (· ^ q))ᵀ *
       Matrix.diagonal ![a, a⁻¹] = 1 := by
@@ -119,7 +130,7 @@ private theorem dL3U_matrix_l3U {q : ℕ} (hq0 : q ≠ 0) (a : F) (ha : a ≠ 0)
   have hq'' : a⁻¹ ^ q * a⁻¹ = 1 := by rw [inv_pow, hq']
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.diagonal_apply, h0, hq, hq', hq'', ha]
+    simp [Matrix.mul_apply, Matrix.diagonal_apply, h0, hq, hq']
 
 private theorem jL3U_mem_statedSU {p : ℕ} [Fact p.Prime] [CharP F p]
     (hF : Nat.card F = (p ^ 1) ^ 2) (hp : p.Prime) (hp5 : 5 ≤ p) :
@@ -138,16 +149,18 @@ private theorem dL3U_mem_statedSU {p : ℕ} [Fact p.Prime] [CharP F p]
   rw [Matrix.det_diagonal, Fin.prod_univ_two]
   simp [ha]
 
+omit [Finite F] in
 private theorem blk_scalar_neg_one_l3U :
     blk (Matrix.GeneralLinearGroup.scalar (Fin 2) (-1 : Fˣ)) = negDiag3 F := by
   have hd : (Matrix.scalar (Fin 2) (-1 : F)).det = 1 := by
-    simp [Matrix.det_fin_two, Matrix.scalar_apply, Matrix.diagonal_apply]
+    simp [Matrix.scalar_apply]
   apply Units.ext
   rw [coe_blk, coe_negDiag3, Matrix.GeneralLinearGroup.coe_scalar, Units.val_neg, Units.val_one,
     hd, inv_one]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blkMat, Matrix.scalar_apply, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [blkMat, Matrix.scalar_apply]
 
+omit [Finite F] in
 private theorem l3U_scalar_of_JD {B : GL (Fin 2) F} {a : F} (ha : a ≠ 0) (haa : a * a ≠ 1)
     (hJ : B * jL3U = jL3U * B) (hD : B * dL3U a ha = dL3U a ha * B) :
     ∃ c : Fˣ, B = Matrix.GeneralLinearGroup.scalar (Fin 2) c := by
@@ -186,7 +199,7 @@ private theorem l3U_scalar_of_JD {B : GL (Fin 2) F} {a : F} (ha : a ≠ 0) (haa 
   rw [← hM, Matrix.GeneralLinearGroup.coe_scalar, Units.val_mk0]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply, hm01, hm10, hJ00]
+    simp [Matrix.scalar_apply, hm01, hm10, hJ00]
 
 end SL2U
 
@@ -202,16 +215,16 @@ theorem l3ShapeU_sl2 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (h
         Matrix.ProjectiveSpecialLinearGroup (Fin 2) F₀)) ∧
     (∀ B ∈ GU2Stated (p ^ 1) F, (∀ B' ∈ sl2Of (GU2Stated (p ^ 1) F), B * B' = B' * B) →
       ∃ c : Fˣ, B = Matrix.GeneralLinearGroup.scalar (Fin 2) c) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p 1 F :=
     ⟨hp, le_rfl, by rw [hF]; ring⟩
-  haveI : CharP F p := h.charP
+  have : CharP F p := h.charP
   have hSU : sl2Of (GU2Stated (p ^ 1) F) = StatedSU 2 (p ^ 1) F := sl2Of_GU2_eq_l3U hp hF
   obtain ⟨e₀⟩ := nonempty_sl2_statedSU_l3U hF
   have e₁ : SL(2, CFSG.LieType.Steinberg.fixedSubfield F p 1) ≃*
       ↥(sl2Of (GU2Stated (p ^ 1) F)) :=
     e₀.trans (MulEquiv.subgroupCongr hSU.symm)
-  haveI := isPerfect_sl2_fixedSubfield_l3U hF hp5
+  have := isPerfect_sl2_fixedSubfield_l3U hF hp5
   have hperf : Group.IsPerfect ↥(sl2Of (GU2Stated (p ^ 1) F)) :=
     Group.IsPerfect.ofSurjective (f := e₁.toMonoidHom) e₁.surjective
   obtain ⟨l, hl1, hl2⟩ := CFSG.LieType.Steinberg.exists_norm_one_orderOf_eq hF
@@ -245,7 +258,7 @@ theorem l3ShapeU_sl2 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (h
         exact commutatorElement_eq_one_iff_mul_comm.mpr (mul_comm _ _)
     · have hle : sl2Of (GU2Stated (p ^ 1) F) ≤ GU2Stated (p ^ 1) F :=
         fun x hx => (mem_sl2Of_l3U.mp hx).1
-      haveI := hperf
+      have := hperf
       calc sl2Of (GU2Stated (p ^ 1) F)
           = ⁅sl2Of (GU2Stated (p ^ 1) F), sl2Of (GU2Stated (p ^ 1) F)⁆ :=
             Subgroup.commutator_eq_self.symm

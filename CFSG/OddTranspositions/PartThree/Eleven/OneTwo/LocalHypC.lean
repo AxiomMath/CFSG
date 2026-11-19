@@ -76,9 +76,9 @@ private theorem solvableRadical_eq_center_of_centerQuot_psl2 {L : Type} [Group L
     (hZ : Nonempty (L ⧸ Subgroup.center L ≃* CFSG.Theory.Comparator.PSL2Model 2)) :
     CFSG.solvableRadical L = Subgroup.center L := by
   obtain ⟨e⟩ := hZ
-  haveI hB : CFSG.BenderSuzuki.IsBenderGroup (L ⧸ Subgroup.center L) :=
+  have hB : CFSG.BenderSuzuki.IsBenderGroup (L ⧸ Subgroup.center L) :=
     CFSG.BenderSuzuki.IsBenderGroup.isPSL2 2 (by norm_num) e
-  haveI hsimple : IsSimpleGroup (L ⧸ Subgroup.center L) :=
+  have hsimple : IsSimpleGroup (L ⧸ Subgroup.center L) :=
     CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB
   have hns : ¬ Group.IsSolvable (L ⧸ Subgroup.center L) := by
     intro hs
@@ -93,10 +93,10 @@ private theorem solvableRadical_eq_center_of_centerQuot_psl2 {L : Type} [Group L
   let R : Subgroup L := CFSG.solvableRadical L
   let π : L →* L ⧸ Subgroup.center L := QuotientGroup.mk' (Subgroup.center L)
   have hRnorm : R.Normal := inferInstance
-  haveI hRsolv : Group.IsSolvable R := CFSG.ABGLocalTools.solvableRadical_isSolvable
+  have hRsolv : Group.IsSolvable R := CFSG.ABGLocalTools.solvableRadical_isSolvable
   have hmapnorm : (R.map π).Normal :=
     hRnorm.map π (QuotientGroup.mk'_surjective (Subgroup.center L))
-  haveI : (R.map π).Normal := hmapnorm
+  have : (R.map π).Normal := hmapnorm
   have hmapsolv : Group.IsSolvable (R.map π) :=
     Group.isSolvable_of_surjective (π.subgroupMap_surjective R)
   have hbot : R.map π = ⊥ := by
@@ -104,7 +104,7 @@ private theorem solvableRadical_eq_center_of_centerQuot_psl2 {L : Type} [Group L
     · exact h
     · exfalso
       have htop : Group.IsSolvable (⊤ : Subgroup (L ⧸ Subgroup.center L)) := h ▸ hmapsolv
-      haveI := htop
+      have := htop
       exact hns (Group.isSolvable_of_surjective
         (f := (Subgroup.topEquiv : (⊤ : Subgroup (L ⧸ Subgroup.center L)) ≃*
           (L ⧸ Subgroup.center L)).toMonoidHom)

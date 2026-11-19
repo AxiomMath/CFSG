@@ -183,7 +183,7 @@ theorem centerIrred_of_klein {G : Type} [Group G] {S : Subgroup G}
     · exact Z'.one_mem
     · exact hcZ'
     · exact hconjZ'
-  haveI : Finite ↥(S ⊓ centralizer (S : Set G)) :=
+  have : Finite ↥(S ⊓ centralizer (S : Set G)) :=
     Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   have hZfin : (S ⊓ centralizer (S : Set G) : Set G).Finite := Set.toFinite _
   have hge3 : 3 ≤ Nat.card ↥Z' := by

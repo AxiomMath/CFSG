@@ -88,7 +88,7 @@ theorem two_le_pRank_of_commuting {G : Type*} [Group G] [Finite G] {p : ℕ} (hp
     intro a ha b hb
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
     rcases ha with h | h <;> rcases hb with h' | h' <;> rw [h, h']
-    all_goals first | rfl | exact hxy | exact hxy.symm
+    all_goals first | exact hxy | exact hxy.symm
   have hpS : ∀ s ∈ ({x, y} : Set G), s ^ p = 1 := by
     intro s hs
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs
@@ -109,7 +109,7 @@ theorem two_le_pRank_of_heisenberg {G : Type*} [Group G] [Finite G] {p : ℕ} (h
     (hx : x ^ p = 1) (hy : y ^ p = 1) (hne : ⁅x, y⁆ ≠ 1) (hzx : Commute ⁅x, y⁆ x)
     (hzy : Commute ⁅x, y⁆ y) (hc : Nat.card (Subgroup.closure ({x, y} : Set G)) = p ^ 3) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hkey : x * y = ⁅x, y⁆ * y * x := by
     rw [commutatorElement_def]; group
   have hxH : x ∈ Subgroup.closure ({x, y} : Set G) := Subgroup.subset_closure (by simp)
@@ -171,7 +171,7 @@ theorem two_le_pRank_of_heisenberg {G : Type*} [Group G] [Finite G] {p : ℕ} (h
     intro a ha b hb
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
     rcases ha with h | h <;> rcases hb with h' | h' <;> rw [h, h']
-    all_goals first | rfl | exact hxz_comm | exact hxz_comm.symm
+    all_goals first | exact hxz_comm | exact hxz_comm.symm
   have hEH : Subgroup.closure ({x, z} : Set G) ≤ Subgroup.closure ({x, y} : Set G) := by
     rw [Subgroup.closure_le]
     intro w hw
@@ -220,7 +220,7 @@ theorem two_le_pRank_of_heisenberg {G : Type*} [Group G] [Finite G] {p : ℕ} (h
   exact two_le_pRank_of_commuting hp hx hzp hxz_comm hcardE
 
 theorem two_le_pRank_of_mulEquiv {A : Type} [Group A] [Finite A] (L : Subgroup A) {H : Type}
-    [Group H] [Finite H] (e : ↥L ≃* H) {p : ℕ} (hp : p.Prime)
+    [Group H] [Finite H] (e : ↥L ≃* H) {p : ℕ} (_hp : p.Prime)
     (h : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup H)) :
     2 ≤ CFSG.Open.pRank p L := by
   rw [← CFSG.SectionRank.pRank_coe_eq_openPRank p L, CFSG.pRank_congr_of_mulEquiv e p,
@@ -242,7 +242,7 @@ theorem rank2_J2_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J2.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.J2 (by decide)
   have hN : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup CFSG.Blueprint.NativeSporadic.J2) :=
     CFSG.RankThree.PartTwo.Sec17.G1724.two_le_pRank_five_J2
@@ -259,7 +259,7 @@ theorem rank2_HS_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.HS.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.HS :=
+  have : Finite CFSG.Blueprint.NativeSporadic.HS :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.HS (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ := CFSG.SectionRank.HS_sylow5_cubic_witness
   have hN : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup CFSG.Blueprint.NativeSporadic.HS) :=
@@ -279,7 +279,7 @@ theorem rank2_McL_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.McL :=
+  have : Finite CFSG.Blueprint.NativeSporadic.McL :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.McL (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ :=
     CFSG.RankThree.PartOne.MultRes.McL_sylow5_cubic_witness
@@ -300,7 +300,7 @@ theorem rank2_He_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.He :=
+  have : Finite CFSG.Blueprint.NativeSporadic.He :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.He (by decide)
   obtain ⟨x, y, h, hx, hy, hxy, hc, -⟩ := CFSG.SectionRank.He_sylow5_square_witness
   have hN : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup CFSG.Blueprint.NativeSporadic.He) :=
@@ -320,7 +320,7 @@ theorem rank2_He_7 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.He :=
+  have : Finite CFSG.Blueprint.NativeSporadic.He :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.He (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ := CFSG.SectionRank.He_sylow7_cubic_witness
   have hN : 2 ≤ CFSG.Open.pRank 7 (⊤ : Subgroup CFSG.Blueprint.NativeSporadic.He) :=
@@ -340,7 +340,7 @@ theorem rank2_Ru_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Ru.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Ru :=
+  have : Finite CFSG.Blueprint.NativeSporadic.Ru :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.Ru (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ := CFSG.SectionRank.Ru_sylow5_cubic_witness
   have hN : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup CFSG.Blueprint.NativeSporadic.Ru) :=
@@ -360,7 +360,7 @@ theorem rank2_Suz_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Suz.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Suz :=
+  have : Finite CFSG.Blueprint.NativeSporadic.Suz :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.Suz (by decide)
   obtain ⟨x, y, h, hx, hy, hxy, hc, -⟩ :=
     CFSG.RankThree.PartOne.MultRes.Suz_sylow5_square_witness
@@ -381,7 +381,7 @@ theorem rank2_ONan_7 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.ON :=
+  have : Finite CFSG.Blueprint.NativeSporadic.ON :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.ONan (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ :=
     CFSG.RankThree.PartOne.MultRes.ON_sylow7_cubic_witness
@@ -402,7 +402,7 @@ theorem rank2_Co2_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Co2.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Co2 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.Co2 :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.Co2 (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ :=
     CFSG.RankThree.PartOne.MultRes.Co2_sylow5_cubic_witness
@@ -423,7 +423,7 @@ theorem rank2_Co3_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Co3.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Co3 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.Co3 :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.Co3 (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ :=
     CFSG.RankThree.PartOne.MultRes.Co3_sylow5_cubic_witness
@@ -444,7 +444,7 @@ theorem rank2_J4_11 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J4.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J4 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.J4 :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.J4 (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ := CFSG.SectionRank.J4_sylow11_cubic_witness
   have hN : 2 ≤ CFSG.Open.pRank 11 (⊤ : Subgroup CFSG.Blueprint.NativeSporadic.J4) :=
@@ -464,7 +464,7 @@ theorem rank2_Ly_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Ly.nonempty_mulEquiv
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.Ly) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.Ly) :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.Ly (by decide)
   have hN : 3 ≤ CFSG.Open.pRank 5
       (⊤ : Subgroup (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.Ly)) :=
@@ -485,7 +485,7 @@ theorem rank2_HN_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.HN.nonempty_mulEquiv
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.HN) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.HN) :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.HN (by decide)
   have hN : 3 ≤ CFSG.Open.pRank 5
       (⊤ : Subgroup (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.HN)) :=
@@ -506,7 +506,7 @@ theorem rank2_Th_5 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Th.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Th :=
+  have : Finite CFSG.Blueprint.NativeSporadic.Th :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.Th (by decide)
   obtain ⟨x, y, h, hx, hy, hne, hzx, hzy, hc, -⟩ :=
     CFSG.RankThree.PartOne.MultRes.Th_sylow5_cubic_witness
@@ -527,7 +527,7 @@ theorem rank2_Th_7 :
   intro A _ _ L hL
   obtain ⟨eL⟩ := hL
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Th.nonempty_mulEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Th :=
+  have : Finite CFSG.Blueprint.NativeSporadic.Th :=
     CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.Th (by decide)
   obtain ⟨x, y, h, hx, hy, hxy, hc, -⟩ :=
     CFSG.RankThree.PartOne.MultRes.Th_sylow7_square_witness

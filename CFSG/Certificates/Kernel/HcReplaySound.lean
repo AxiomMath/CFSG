@@ -153,7 +153,7 @@ theorem gensJ_sound (x : ℕ) (k : ℕ → List ℕ → List ℕ → Bool) :
         exact ⟨j, by omega, by rw [List.getElem_take]⟩
       have ha : addOne cap mul x (E.take m, nf) g = (E.take m, nf) := by
         unfold addOne
-        rw [if_neg (fun hc => hc.2 hmem)]
+        rw [ite_eq_right (fun hc => hc.2 hmem)]
       rw [ha]
       exact gensJ_sound x k gs m ds nf hm h3
     · rw [hj] at h
@@ -173,7 +173,7 @@ theorem gensJ_sound (x : ℕ) (k : ℕ → List ℕ → List ℕ → Bool) :
         omega
       have ha : addOne cap mul x (E.take m, nf) g = (E.take (m + 1), nf ++ [mul x g]) := by
         unfold addOne
-        rw [if_pos ⟨by rw [hlen]; exact hc, hnot⟩, List.take_add_one, List.getElem?_eq_getElem hn,
+        rw [ite_eq_left ⟨by rw [hlen]; exact hc, hnot⟩, List.take_add_one, List.getElem?_eq_getElem hn,
           hy]
         rfl
       rw [ha]
@@ -206,7 +206,7 @@ theorem bfsJ_sound (gs : List ℕ) :
     rw [bfsAux, hm, List.take_length]
   | fuel + 1, m, ds, [], _, h => by
     have hm : m = E.length := Nat.eq_of_beq_eq_true h
-    simp only [bfsAux, List.isEmpty_nil, if_true]
+    simp only [bfsAux, List.isEmpty_nil, ite_true]
     rw [hm, List.take_length]
   | fuel + 1, m, ds, x :: fr, hm, h => by
     have e : bfsJ mul get cap E.length gs (fuel + 1) m ds (x :: fr) =
@@ -214,7 +214,7 @@ theorem bfsJ_sound (gs : List ℕ) :
     rw [e] at h
     obtain ⟨m1, ds1, nf1, hm1, he1, h1⟩ :=
       frJ_sound mul get cap E hg hE gs _ (x :: fr) m ds [] hm h
-    simp only [bfsAux, List.isEmpty_cons, Bool.false_eq_true, if_false]
+    simp only [bfsAux, List.isEmpty_cons, Bool.false_eq_true, ite_false]
     rw [bfsStep, he1]
     exact bfsJ_sound gs fuel m1 ds1 nf1 hm1 h1
 

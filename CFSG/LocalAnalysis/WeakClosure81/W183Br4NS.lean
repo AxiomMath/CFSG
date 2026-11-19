@@ -34,12 +34,12 @@ theorem commute (h : Br4TwoSimple S A₁ A₂) {a b : S} (ha : a ∈ A₁) (hb :
     ha hb
 
 theorem commutator_left (h : Br4TwoSimple S A₁ A₂) : ⁅A₁, A₁⁆ = A₁ := by
-  haveI := h.normal₁
-  haveI := h.simple₁
+  have := h.normal₁
+  have := h.simple₁
   have hle : ⁅A₁, A₁⁆ ≤ A₁ := commutator_le_left (H₁ := A₁) (H₂ := A₁)
   have hHnormal : ((⁅A₁, A₁⁆ : Subgroup S).subgroupOf A₁).Normal :=
     (commutator_normal (H₁ := A₁) (H₂ := A₁)).subgroupOf A₁
-  haveI := hHnormal
+  have := hHnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((⁅A₁, A₁⁆ : Subgroup S).subgroupOf A₁) with
     hbot | htop
   · exfalso
@@ -75,7 +75,7 @@ private theorem w183br4_inf_centralizer_eq_bot_of_isSimpleGroup {G : Type*} [Gro
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hx.2 (g : G) g.2)
-  haveI : ((H ⊓ Subgroup.centralizer (H : Set G)).subgroupOf H).Normal :=
+  have : ((H ⊓ Subgroup.centralizer (H : Set G)).subgroupOf H).Normal :=
     Subgroup.normal_of_le_center hZcenter
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((H ⊓ Subgroup.centralizer (H : Set G)).subgroupOf H) with hZbot | hZtop
@@ -89,8 +89,8 @@ private theorem w183br4_inf_centralizer_eq_bot_of_isSimpleGroup {G : Type*} [Gro
 
 private theorem w183br4_center_eq_bot (h : Br4TwoSimple S A₁ A₂) :
     Subgroup.center S = ⊥ := by
-  haveI : IsSimpleGroup ↥A₁ := h.simple₁
-  haveI : IsSimpleGroup ↥A₂ := h.simple₂
+  have : IsSimpleGroup ↥A₁ := h.simple₁
+  have : IsSimpleGroup ↥A₂ := h.simple₂
   have hbot₁ : A₁ ⊓ Subgroup.centralizer (A₁ : Set S) = ⊥ :=
     w183br4_inf_centralizer_eq_bot_of_isSimpleGroup h.nonab₁
   have hbot₂ : A₂ ⊓ Subgroup.centralizer (A₂ : Set S) = ⊥ :=
@@ -99,7 +99,7 @@ private theorem w183br4_center_eq_bot (h : Br4TwoSimple S A₁ A₂) :
   intro z hz
   rw [Subgroup.mem_bot]
   have hzsup : z ∈ A₁ ⊔ A₂ := by rw [h.sup]; trivial
-  haveI := h.normal₁
+  have := h.normal₁
   obtain ⟨y, hy, w, hw, hyw⟩ :=
     (Subgroup.mem_sup_of_normal_left (s := A₁) (t := A₂) (x := z)).mp hzsup
   have hy_eq : z * w⁻¹ = y := by rw [← hyw]; group
@@ -136,7 +136,7 @@ private theorem w183br4_center_eq_bot (h : Br4TwoSimple S A₁ A₂) :
 
 private theorem w183br4_inf_eq_bot_or_le_of_isSimpleGroup {G : Type*} [Group G]
     {K H : Subgroup G} [IsSimpleGroup ↥H] (hK : K.Normal) : K ⊓ H = ⊥ ∨ H ≤ K := by
-  haveI : (K.subgroupOf H).Normal := hK.subgroupOf H
+  have : (K.subgroupOf H).Normal := hK.subgroupOf H
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf H) with hbot | htop
   · left
     exact disjoint_iff.mp (Subgroup.subgroupOf_eq_bot.mp hbot)
@@ -145,9 +145,9 @@ private theorem w183br4_inf_eq_bot_or_le_of_isSimpleGroup {G : Type*} [Group G]
 
 theorem eq_bot_of_inf_eq_bot (h : Br4TwoSimple S A₁ A₂) {M : Subgroup S} (hM : M.Normal)
     (h₁ : M ⊓ A₁ = ⊥) (h₂ : M ⊓ A₂ = ⊥) : M = ⊥ := by
-  haveI := hM
-  haveI := h.normal₁
-  haveI := h.normal₂
+  have := hM
+  have := h.normal₁
+  have := h.normal₂
   have hc₁ : ⁅M, A₁⁆ = ⊥ := by
     have hle : ⁅M, A₁⁆ ≤ M ⊓ A₁ :=
       le_inf (commutator_le_left (H₁ := M) (H₂ := A₁))
@@ -172,8 +172,8 @@ theorem eq_bot_of_inf_eq_bot (h : Br4TwoSimple S A₁ A₂) {M : Subgroup S} (hM
 
 theorem le_or_le_of_ne_bot (h : Br4TwoSimple S A₁ A₂) {M : Subgroup S} (hM : M.Normal)
     (hne : M ≠ ⊥) : A₁ ≤ M ∨ A₂ ≤ M := by
-  haveI : IsSimpleGroup ↥A₁ := h.simple₁
-  haveI : IsSimpleGroup ↥A₂ := h.simple₂
+  have : IsSimpleGroup ↥A₁ := h.simple₁
+  have : IsSimpleGroup ↥A₂ := h.simple₂
   rcases w183br4_inf_eq_bot_or_le_of_isSimpleGroup (K := M) (H := A₁) hM with h₁ | h₁
   · rcases w183br4_inf_eq_bot_or_le_of_isSimpleGroup (K := M) (H := A₂) hM with h₂ | h₂
     · exact absurd (eq_bot_of_inf_eq_bot h hM h₁ h₂) hne
@@ -183,20 +183,20 @@ theorem le_or_le_of_ne_bot (h : Br4TwoSimple S A₁ A₂) {M : Subgroup S} (hM :
 theorem eq_bot_of_isPGroup [Finite S] (h : Br4TwoSimple S A₁ A₂) {M : Subgroup S}
     (hM : M.Normal) (h3 : IsPGroup 3 ↥M) : M = ⊥ := by
   by_contra hne
-  haveI : IsSimpleGroup ↥A₁ := h.simple₁
-  haveI : IsSimpleGroup ↥A₂ := h.simple₂
+  have : IsSimpleGroup ↥A₁ := h.simple₁
+  have : IsSimpleGroup ↥A₂ := h.simple₂
   rcases le_or_le_of_ne_bot h hM hne with hle | hle
   · obtain ⟨a, ha, b, hb, hab⟩ := h.nonab₁
     have hA₁p : IsPGroup 3 ↥A₁ := fun x => by
       obtain ⟨k, hk⟩ := h3 ⟨(x : S), hle x.2⟩
       exact ⟨k, Subtype.ext (congrArg (fun g : ↥M => (g : S)) hk)⟩
-    haveI : Group.IsNilpotent ↥A₁ := IsPGroup.isNilpotent (p := 3) hA₁p
+    have : Group.IsNilpotent ↥A₁ := IsPGroup.isNilpotent (p := 3) hA₁p
     exact hab (congrArg Subtype.val (mul_comm (⟨a, ha⟩ : ↥A₁) ⟨b, hb⟩))
   · obtain ⟨a, ha, b, hb, hab⟩ := h.nonab₂
     have hA₂p : IsPGroup 3 ↥A₂ := fun x => by
       obtain ⟨k, hk⟩ := h3 ⟨(x : S), hle x.2⟩
       exact ⟨k, Subtype.ext (congrArg (fun g : ↥M => (g : S)) hk)⟩
-    haveI : Group.IsNilpotent ↥A₂ := IsPGroup.isNilpotent (p := 3) hA₂p
+    have : Group.IsNilpotent ↥A₂ := IsPGroup.isNilpotent (p := 3) hA₂p
     exact hab (congrArg Subtype.val (mul_comm (⟨a, ha⟩ : ↥A₂) ⟨b, hb⟩))
 
 theorem eq_bot_of_not_dvd [Finite S] (h : Br4TwoSimple S A₁ A₂) (h₁ : 3 ∣ Nat.card ↥A₁)
@@ -213,8 +213,8 @@ theorem br4_elem_sup {X : Type} [Group X] {E₁ E₂ : Subgroup X}
     (hc : ∀ a ∈ E₁, ∀ b ∈ E₂, a * b = b * a) (hd : E₁ ⊓ E₂ = ⊥) (h₁ : IsElemAbelian 3 E₁)
     (h₂ : IsElemAbelian 3 E₂) (c₁ : Nat.card ↥E₁ = 9) (c₂ : Nat.card ↥E₂ = 9) :
     IsElemAbelian 3 (E₁ ⊔ E₂) ∧ Nat.card ↥(E₁ ⊔ E₂) = 81 := by
-  haveI : IsMulCommutative ↥E₁ := h₁.1
-  haveI : IsMulCommutative ↥E₂ := h₂.1
+  have : IsMulCommutative ↥E₁ := h₁.1
+  have : IsMulCommutative ↥E₂ := h₂.1
   let φ : (↥E₁ × ↥E₂) →* X :=
     { toFun := fun p => (p.1 : X) * (p.2 : X)
       map_one' := by simp
@@ -257,7 +257,7 @@ theorem br4_elem_sup {X : Type} [Group X] {E₁ E₂ : Subgroup X}
       exact mul_left_cancel hval
     exact Prod.ext (Subtype.ext hac) (Subtype.ext hbd)
   refine ⟨⟨?_, ?_⟩, ?_⟩
-  · haveI : IsMulCommutative (↥E₁ × ↥E₂) := inferInstance
+  · have : IsMulCommutative (↥E₁ × ↥E₂) := inferInstance
     exact hφrange ▸ (Subgroup.range_isMulCommutative (f := φ))
   · intro x hx
     rw [← hφrange] at hx

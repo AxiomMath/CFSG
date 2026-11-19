@@ -51,7 +51,7 @@ theorem catalog_of_faithful_nonempty_GH
     (T : Sylow 2 G)
     (hLf : ∃ L : Subgroup G, CFSG.Open.quasithinIsFaithfulLocal (T : Subgroup G) L) :
     Catalog G := by
-  have hT : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup', T.not_dvd_index⟩
+  have hT : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup, T.not_dvd_index⟩
   have hD := H13.LocDbl.local_double_embedding_exclusion
   rcases excluded_or_preferred_local hD inferInstance hnonab hqtke hT
       (faithful_maximal_local_nonempty hD inferInstance hnonab hqtke hT hLf) with h | ⟨L, hL, hH⟩
@@ -75,14 +75,14 @@ theorem catalog_of_faithful_empty_GH
     EmptyFaithfulMultiple.multipleCentralizerRecognition_of_inputs asB56_holds
       F6.GoldAmLarge.goldschmidtCharTwoLarge_holds
   have hTne := EmptyFaithfulMultiple.sylow_ne_bot hnonab T
-  have hsyl : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup', T.not_dvd_index⟩
+  have hsyl : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup, T.not_dvd_index⟩
   have hLf' : ∀ L : Subgroup G, ¬ CFSG.Open.quasithinIsFaithfulLocal (T : Subgroup G) L := fun L h =>
     hLf L (EmptyFaithfulMultiple.quasithinIsFaithfulLocal_assembly_iff_open.mpr h)
   set Z := quasithinOmegaOneCenter (T : Subgroup G) with hZ
   have hCN : Subgroup.centralizer (Z : Set G) ≤ Subgroup.normalizer (Z : Set G) :=
     Subgroup.centralizer_le_normalizer _
   obtain ⟨Mc, hMc, hNMc⟩ := exists_maxTwoLocal_ge
-    (EmptyFaithfulMultiple.isTwoLocal_normalizer_omegaOneCenter T.isPGroup' hTne)
+    (EmptyFaithfulMultiple.isTwoLocal_normalizer_omegaOneCenter T.isPGroup hTne)
   have hCMc := hCN.trans hNMc
   have hTC : (T : Subgroup G) ≤ Subgroup.centralizer (Z : Set G) := by
     intro x hx

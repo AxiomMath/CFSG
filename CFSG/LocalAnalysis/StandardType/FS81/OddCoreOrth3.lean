@@ -13,7 +13,7 @@ open scoped Matrix
 
 theorem mulVec_sgnOn_apply {k : ℕ} (T : Finset (Fin k)) (v : Fin k → ZMod 3) (x : Fin k) :
     (spMat 1 (sgnOn T) *ᵥ v) x = sgnOn T x * v x := by
-  simp only [spMat_mulVec, Equiv.Perm.one_symm, Equiv.Perm.one_apply]
+  simp only [spMat_mulVec, ← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply]
 
 theorem sgnOn_isolate {k : ℕ} {i j l : Fin k} (hij : i ≠ j) (hil : i ≠ l)
     (v : Fin k → ZMod 3) :
@@ -24,19 +24,19 @@ theorem sgnOn_isolate {k : ℕ} {i j l : Fin k} (hij : i ≠ j) (hil : i ≠ l)
     Finset.mem_singleton]
   by_cases hxi : x = i
   · rw [hxi]
-    simp only [true_or, if_true, Pi.single_eq_same, hij, hil, or_self, if_false]
+    simp only [true_or, ite_true, Pi.single_eq_same, hij, hil, or_self, ite_false]
     ring_nf
     rw [show (4 : ZMod 3) = 1 from rfl, mul_one]
   · rw [Pi.single_eq_of_ne hxi]
     by_cases hxj : x = j
     · rw [hxj]
-      simp only [hij.symm, false_or, if_true, true_or]
+      simp only [hij.symm, false_or, ite_true, true_or]
       ring
-    · simp only [hxi, hxj, false_or, if_false]
+    · simp only [hxi, hxj, false_or, ite_false]
       by_cases hxl : x = l
-      · simp only [hxl, if_true]
+      · simp only [hxl, ite_true]
         ring
-      · simp only [hxl, if_false]
+      · simp only [hxl, ite_false]
         ring
 
 theorem subset_of_evenFix0_invariant {n : ℕ} (hn : 3 ≤ n)
@@ -110,11 +110,11 @@ theorem transv_of_normal3_of_irred {n : ℕ}
   let F : Submodule (ZMod 3) (Fin (n + 1) → ZMod 3) :=
     { carrier := {v | ∀ m ∈ Mg, (m : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ v = v}
       add_mem' := fun {a b} ha hb m hm => by
-        simp only [Set.mem_setOf_eq] at ha hb
+        simp only [Set.mem_ofPred_eq] at ha hb
         rw [Matrix.mulVec_add, ha m hm, hb m hm]
       zero_mem' := fun m _ => Matrix.mulVec_zero _
       smul_mem' := fun c v hv m hm => by
-        simp only [Set.mem_setOf_eq] at hv
+        simp only [Set.mem_ofPred_eq] at hv
         rw [Matrix.mulVec_smul, hv m hm] }
   have hmemF : ∀ v, v ∈ F ↔ ∀ m ∈ Mg, (m : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ v = v :=
     fun v => Iff.rfl

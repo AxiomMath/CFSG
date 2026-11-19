@@ -39,14 +39,14 @@ theorem exists_involution_mem_stabilizer_of_card_orbit_lt {Γ X : Type*} [Group 
       simpa using h2cop.pow_left 3
     have hdvorbit : 8 ∣ Nat.card (MulAction.orbit Γ b) :=
       hcop.dvd_of_dvd_mul_left hdv
-    haveI : Finite (MulAction.orbit Γ b) :=
+    have : Finite (MulAction.orbit Γ b) :=
       Finite.of_surjective
         (fun g : Γ => (⟨g • b, MulAction.mem_orbit b g⟩ : MulAction.orbit Γ b))
         (by
           rintro ⟨x, hx⟩
           obtain ⟨g, rfl⟩ := MulAction.mem_orbit_iff.mp hx
           exact ⟨g, rfl⟩)
-    haveI : Nonempty (MulAction.orbit Γ b) :=
+    have : Nonempty (MulAction.orbit Γ b) :=
       ⟨⟨b, MulAction.mem_orbit_self b⟩⟩
     have hpos : 0 < Nat.card (MulAction.orbit Γ b) := Nat.card_pos
     have hge : 8 ≤ Nat.card (MulAction.orbit Γ b) := Nat.le_of_dvd hpos hdvorbit
@@ -104,7 +104,7 @@ theorem false_of_sl_of_noInvariantCompl (hA : MaxEA S A)
   have hPcard : Nat.card P = 24 := hA.card_stabilizer_eq hM hw hsurj hxU hx0
   let U : Submodule (ZMod 2) S.Qt := S.clSub A
   let W : Submodule (ZMod 2) S.Qt := S.clSub (S.QG ⊓ S.Qa g)
-  haveI : FiniteDimensional (ZMod 2) S.Qt := finiteDimensional_Qt
+  have : FiniteDimensional (ZMod 2) S.Qt := finiteDimensional_Qt
   have hE : finrank (ZMod 2) S.Qt = 6 := by
     rw [S.finrank_Qt_eq_two_mul_width, hw]
   have hU3 : finrank (ZMod 2) U = 3 := by
@@ -184,12 +184,12 @@ theorem false_of_sl_of_noInvariantCompl (hA : MaxEA S A)
         simpa only [polarBilin_apply_apply] using hv xT (Submodule.mem_span_singleton_self xT)
       rw [hvx, smul_zero]
     · rw [LinearEquiv.finrank_map_eq]
-  haveI hSubFin : Finite (Submodule (ZMod 2) S.Qt) :=
+  have hSubFin : Finite (Submodule (ZMod 2) S.Qt) :=
     Finite.of_injective (fun V : Submodule (ZMod 2) S.Qt => (V : Set S.Qt))
       SetLike.coe_injective
-  haveI : Finite (tsCompl S.q U) := inferInstance
-  letI : MulAction S.Mbar (tsCompl S.q U) := tsComplAction (S := S) (A := A) hM
-  letI : MulAction P (tsCompl S.q U) := MulAction.compHom (tsCompl S.q U) P.subtype
+  have : Finite (tsCompl S.q U) := inferInstance
+  let : MulAction S.Mbar (tsCompl S.q U) := tsComplAction (S := S) (A := A) hM
+  let : MulAction P (tsCompl S.q U) := MulAction.compHom (tsCompl S.q U) P.subtype
   have hCw_smul : ∀ (p : P) (B : tsCompl S.q U), B ∈ Cw → p • B ∈ Cw := by
     intro p B hB
     have hB' : B.1 ⊓ Pperp ≤ W := hB
@@ -228,7 +228,7 @@ theorem false_of_sl_of_noInvariantCompl (hA : MaxEA S A)
     have hle : Nat.card (MulAction.orbit P B₁t) ≤ 7 :=
       (le_trans horb_le (by omega))
     omega
-  haveI hPfin : Finite P :=
+  have hPfin : Finite P :=
     Finite.of_injective (fun p : P => (((p : P) : S.Mbar))) (fun a b h => Subtype.ext h)
   have h8P : 8 ∣ Nat.card P := by rw [hPcard]; norm_num
   obtain ⟨t, htmem, ht1, ht2⟩ :=

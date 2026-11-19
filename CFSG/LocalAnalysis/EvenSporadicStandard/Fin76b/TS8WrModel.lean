@@ -88,18 +88,18 @@ theorem wrPar_injective (M : Subgroup (Equiv.Perm (Fin 10))) :
   rintro ⟨a, b, e⟩ ⟨a', b', e'⟩ h
   simp only [wrPar] at h
   cases e <;> cases e'
-  · simp only [Bool.false_eq_true, if_false, if_true, mul_one] at h
+  · simp only [Bool.false_eq_true, ite_false, mul_one] at h
     obtain ⟨h1, h2⟩ := sumCongr_inj h
     exact Prod.ext (Subtype.ext h1) (Prod.ext (Subtype.ext h2) rfl)
   · exfalso
-    simp only [Bool.false_eq_true, if_false, if_true, mul_one] at h
+    simp only [Bool.false_eq_true, ite_false, ite_true, mul_one] at h
     have := congrArg (fun g : Pt => g (Sum.inl 0)) h
     simp [sw] at this
   · exfalso
-    simp only [Bool.false_eq_true, if_false, if_true, mul_one] at h
+    simp only [Bool.false_eq_true, ite_false, ite_true, mul_one] at h
     have := congrArg (fun g : Pt => g (Sum.inl 0)) h
     simp [sw] at this
-  · simp only [if_true] at h
+  · simp only [ite_true] at h
     have h' : Equiv.Perm.sumCongr (a : Equiv.Perm (Fin 10)) (b : Equiv.Perm (Fin 10)) =
         Equiv.Perm.sumCongr (a' : Equiv.Perm (Fin 10)) (b' : Equiv.Perm (Fin 10)) := by
       have := congrArg (· * sw) h

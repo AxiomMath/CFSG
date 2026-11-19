@@ -32,9 +32,9 @@ theorem tvMat_pow_ringChar {ℓ f : ℕ} {K : Type} [Field K] (h : UnitaryFieldD
   rcases Nat.eq_zero_or_pos n with h0 | hpos
   · subst h0
     exact Subsingleton.elim _ _
-  · haveI : Nonempty (Fin n) := ⟨⟨0, hpos⟩⟩
-    haveI : Fact ℓ.Prime := ⟨h.prime⟩
-    haveI : CharP K ℓ := h.charP
+  · have : Nonempty (Fin n) := ⟨⟨0, hpos⟩⟩
+    have : Fact ℓ.Prime := ⟨h.prime⟩
+    have : CharP K ℓ := h.charP
     have hchar : ringChar K = ℓ := ringChar.eq K ℓ
     have hdot : (fun i => h.barEquiv (a i)) ⬝ᵥ a = 0 := by
       simpa [herm, dotProduct] using ha
@@ -72,7 +72,7 @@ theorem tv_pow_ringChar {ℓ f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData
 theorem closure_pow_ringChar_SUid {ℓ f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData ℓ f K) {n : ℕ} (hn : 2 ≤ n) (hnq : (n, ℓ ^ f) ≠ (3, 2)) :
     Subgroup.closure {g : SUid h.barEquiv n | g ^ ringChar K = 1} = ⊤ := by
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
+  have : Fact ℓ.Prime := ⟨h.prime⟩
   have h3 : n = 3 → ∃ s : K, s ≠ 0 ∧ h.barEquiv s * s ≠ 1 := by
     intro hn3
     have hpq : ℓ ≤ ℓ ^ f := Nat.le_self_pow (by have := h.one_le; omega) ℓ
@@ -90,9 +90,9 @@ theorem subsingleton_gramSU_one_of_le_one {ℓ f : ℕ} {K : Type} [Field K]
     Subsingleton (gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) := by
   rcases Nat.eq_zero_or_pos n with h0 | hpos
   · subst h0
-    haveI : Subsingleton (Matrix (Fin 0) (Fin 0) K) :=
+    have : Subsingleton (Matrix (Fin 0) (Fin 0) K) :=
       ⟨fun _ _ => Matrix.ext fun i _ => Fin.elim0 i⟩
-    haveI : Subsingleton (GL (Fin 0) K) :=
+    have : Subsingleton (GL (Fin 0) K) :=
       ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
     constructor
     intro g g'
@@ -148,7 +148,7 @@ theorem closure_pow_ringChar_gramSU_of_ne {ℓ f : ℕ} {K : Type} [Field K]
       rw [hmap]
       exact Subgroup.mem_top _
     rwa [Subgroup.mem_map_equiv] at hg
-  · haveI : Subsingleton (gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+  · have : Subsingleton (gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
       subsingleton_gramSU_one_of_le_one h (by omega)
     rw [eq_top_iff]
     intro g _

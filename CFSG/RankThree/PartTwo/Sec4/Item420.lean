@@ -512,7 +512,7 @@ theorem exists_lift_pGroup {p : ℕ} [hp : Fact p.Prime] (π : G →* S) (hπ : 
     exact ⟨⟨x, by change π x ∈ Q; rw [hx]; exact y.2⟩, Subtype.ext hx⟩
   obtain ⟨T, hT⟩ := CFSG.SignalizerFunctor.Helpers.surjective_pgroup_sylow_lift p hp.out πP hπP hQ
   set R := (T : Subgroup P).map P.subtype
-  have hRp : IsPGroup p R := T.isPGroup'.map P.subtype
+  have hRp : IsPGroup p R := T.isPGroup.map P.subtype
   refine ⟨R, ?_, CFSG.RankThreeCoreUniqueness.Helpers.coprime_kernel_injective_on_pGroup p hp.out
     π hker R hRp⟩
   apply le_antisymm
@@ -832,7 +832,7 @@ theorem exists_unipotent_lift (hF : Nat.card F = 3 ^ 3)
   have hRmap : (R : Subgroup G).map π = (pslU (K := F)).range := by
     rw [← coe_pslUSylow (by norm_num : (3 : ℕ) ≠ 2) hF, ← hR, Sylow.coe_mapSurjective]
   have hinj := CFSG.RankThreeCoreUniqueness.Helpers.coprime_kernel_injective_on_pGroup 3
-    Nat.prime_three π hker R R.isPGroup'
+    Nat.prime_three π hker R R.isPGroup
   let ψ0 : (R : Subgroup G) →* (pslU (K := F)).range :=
     (π.comp (R : Subgroup G).subtype).codRestrict _ (fun r => by
       rw [← hRmap]

@@ -36,14 +36,13 @@ theorem l3_stepConcl_model {K : Type} [Field K] [Finite K]
       ext φ x
       simp only [MonoidHom.comp_apply, MonoidHom.id_apply, MulEquiv.coe_toMonoidHom,
         MulAut.congr_apply, MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply,
-        MulEquiv.trans_apply, MulEquiv.symm_symm, MulEquiv.symm_apply_apply,
-        MulEquiv.apply_symm_apply]
+        MulEquiv.trans_apply, MulEquiv.symm_symm, MulEquiv.symm_apply_apply]
     rw [Subgroup.map_map, hcomp, Subgroup.map_id]
   have hZfix : ∀ w ∈ W.map (MulAut.congr h.symm).toMonoidHom,
       ∀ z ∈ Z.map h.symm.toMonoidHom, w z = z := by
     rintro w ⟨u, hu, rfl⟩ z ⟨z', hz', rfl⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.congr_apply, MulEquiv.trans_apply,
-      MulEquiv.symm_symm, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply,
+      MulEquiv.symm_symm, MulEquiv.apply_symm_apply,
       hZ u hu z' hz']
   apply stepConcl_of_mulEquiv GoodL3 goodL3_of_mulEquiv h.symm W Z
   rw [hWmap]
@@ -57,7 +56,7 @@ theorem l3_stepConcl {J : Type} [Group J] [Finite J] (hJ : GoodL3 J)
     (W : Subgroup (MulAut J)) (hW7 : Nat.card W = 7) (Z : Sylow 3 J)
     (hZ : ∀ w ∈ W, ∀ z ∈ (Z : Subgroup J), w z = z) : StepConcl GoodL3 W (Z : Subgroup J) := by
   obtain ⟨-, h3, h9, h7, ⟨K, hKfield, hKfin, hq, ⟨e⟩⟩⟩ := hJ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card J = Nat.card (projectiveSL 3 K) := Nat.card_congr e.toEquiv
   have h9K : ¬ 9 ∣ Nat.card (projectiveSL 3 K) := by rwa [← hcard]
   have h7K : ¬ 7 ∣ Nat.card (projectiveSL 3 K) := by rwa [← hcard]
@@ -83,7 +82,7 @@ theorem l3_stepConcl {J : Type} [Group J] [Finite J] (hJ : GoodL3 J)
       ∀ z ∈ (Z : Subgroup J).map e.toMonoidHom, w z = z := by
     rintro w ⟨u, hu, rfl⟩ z ⟨z', hz', rfl⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.congr_apply, MulEquiv.trans_apply,
-      MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply, hZ u hu z' hz']
+      MulEquiv.symm_apply_apply, hZ u hu z' hz']
   exact l3_stepConcl_model hq h9K h7K (W.map (MulAut.congr e).toMonoidHom) hW'
     ((Z : Subgroup J).map e.toMonoidHom) hZ3' hZfix'
 

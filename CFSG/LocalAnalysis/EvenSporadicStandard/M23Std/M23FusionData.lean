@@ -176,7 +176,7 @@ theorem exists_sub_of_subOK (hS : sylowOK gensTab = true) {k : Fin 2}
       inv_mem' := by
         rintro x (rfl | hx)
         · exact Or.inl inv_one
-        · rw [Set.mem_setOf_eq, hinv' x hx]
+        · rw [Set.mem_ofPred_eq, hinv' x hx]
           exact Or.inr hx }
   have hE : ∀ x, x ∈ E ↔ x = 1 ∨ x ∈ invs16 k := fun x => Iff.rfl
   have hsq : ∀ x ∈ E, x * x = 1 := by

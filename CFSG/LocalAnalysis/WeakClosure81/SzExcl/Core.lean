@@ -173,6 +173,7 @@ theorem exists_conj_conj_eq (h : Hyp73 V H E J) (hc : SevenSevenCfg V H E V₁ V
   have hg : g * g = (g * g * v⁻¹) * v := by group
   exact conj_conj_eq_of_mul_self_eq hg hcomm
 
+omit [Finite G] in
 private theorem conj_eq_of_mem_centralizer_sup {g : G} (hgX : g ∈ V₁ ⊔ V₂ ⊔ V₃) {b : G}
     (hb : b ∈ A ⊓ Subgroup.centralizer ((V₁ ⊔ V₂ ⊔ V₃ : Subgroup G) : Set G)) :
     g⁻¹ * b * g = b := by
@@ -244,7 +245,7 @@ private theorem exists_ne_one_mem_commutator_conj_fixed (h : Hyp73 V H E J)
   have hA₁leA : ⁅A, V₁⁆ ≤ A := hA₁eq.le.trans inf_le_left
   have hgA₁ := mem_normalizer_commutator_one h hc hA hv hvI hgX hgv
   have hA₁ne : ⁅A, V₁⁆ ≠ ⊥ := commutator_ne_bot_of_sevenSevenMinimal h hc hA
-  obtain ⟨y₀, hy₀A₁, hy₀bot⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hA₁ne)
+  obtain ⟨y₀, hy₀A₁, hy₀bot⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hA₁ne)
   obtain ⟨a₀, ha₀A₁, ha₀bot, ha₀fix⟩ :=
     exists_mem_not_mem_inv_mul_conj_mem (A := ⁅A, V₁⁆) (C := ⊥) (g := g)
       (fun a ha b hb => hAab a (hA₁leA ha) b (hA₁leA hb))
@@ -408,7 +409,7 @@ private theorem inf_centralizer_lt (h : Hyp73 V H E J) (hc : SevenSevenCfg V H E
 private theorem false_of_mem_not_mem_inf_centralizer (h : Hyp73 V H E J)
     (hc : SevenSevenCfg V H E V₁ V₂ V₃) (hA : SevenSevenMinimal V H E V₁ V₂ V₃ A)
     {v g : G} (hv : v ∈ V₁) (hvI : v ∉ iSub V H E) (hgX : g ∈ V₁ ⊔ V₂ ⊔ V₃)
-    (hgv : g⁻¹ * v * g = v) (hgJ : g * g * v⁻¹ ∈ J) {x : G} (hxA : x ∈ A)
+    (_hgv : g⁻¹ * v * g = v) (hgJ : g * g * v⁻¹ ∈ J) {x : G} (hxA : x ∈ A)
     (hxC : x ∉ A ⊓ Subgroup.centralizer (V₁ : Set G))
     (hxgg : g⁻¹ * (g⁻¹ * x * g) * g = x) : False := by
   obtain ⟨b, hbB, heq⟩ := exists_conj_conj_eq h hc hA hv hgX hgJ hxA
@@ -480,7 +481,7 @@ theorem false_of_mul_self_mem (h : Hyp73 V H E J) (hc : SevenSevenCfg V H E V₁
   have hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb => hAea.comm ha hb
   have hsq : ∀ a ∈ A, a * a = 1 := fun a ha => by simpa [pow_two] using hAea.2 a ha
   have hClt := inf_centralizer_lt h hc hA
-  obtain ⟨y, hyA, hyC⟩ := SetLike.exists_of_lt hClt
+  obtain ⟨y, hyA, hyC⟩ := _root_.IsConcreteLE.exists_of_lt hClt
   obtain ⟨x, hxA, hxC, hxd⟩ :=
     exists_mem_not_mem_inv_mul_conj_mem (A := A) (C := A ⊓ Subgroup.centralizer (V₁ : Set G))
       (g := g) hAab hsq

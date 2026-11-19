@@ -23,8 +23,8 @@ theorem reeGamma_card_le_three (hK : Nat.card K = 2 ^ (2 * a + 1)) (ha : a = 1)
     (hEN : E ≤ Subgroup.normalizer (T : Set ↥(F4.reeGamma K a))) : Nat.card E ≤ 3 := by
   classical
   subst ha
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hfin : Finite (ModGL F4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hfin : Finite (ModGL F4.tag K) := finite_modGL
   obtain ⟨j, E', hE'P, hE', hcard⟩ := exists_isElemAbelian_le_localParabolic hK hE hT2 hT hEN
   rw [← hcard]
   have hE'p : IsPGroup 3 ↥E' := fun x => ⟨1, Subtype.ext (by simpa using hE'.2 x x.2)⟩
@@ -48,7 +48,7 @@ theorem reeGamma_card_le_three (hK : Nat.card K = 2 ^ (2 * a + 1)) (ha : a = 1)
     obtain ⟨φ, hφ⟩ := exists_injective_hom_of_le hRP hidx hE'P hE'p
     let ψ : ↥E' →* SL2 K := (rankOneEquivSL K 1 hK).symm.toMonoidHom.comp φ
     have hψ : Function.Injective ψ := (rankOneEquivSL K 1 hK).symm.injective.comp hφ
-    haveI : CharP K 2 := (inferInstance : CharP K F4.prime)
+    have : CharP K 2 := (inferInstance : CharP K F4.prime)
     have hcomm : IsMulCommutative ψ.range := by
       refine ⟨⟨fun u v => ?_⟩⟩
       obtain ⟨u, x, rfl⟩ := u
@@ -74,8 +74,8 @@ theorem reeGamma_card_le_five (hK : Nat.card K = 2 ^ (2 * a + 1)) (ha : a = 2)
     (hEN : E ≤ Subgroup.normalizer (T : Set ↥(F4.reeGamma K a))) : Nat.card E ≤ 5 := by
   classical
   subst ha
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hfin : Finite (ModGL F4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hfin : Finite (ModGL F4.tag K) := finite_modGL
   obtain ⟨j, E', hE'P, hE', hcard⟩ := exists_isElemAbelian_le_localParabolic hK hE hT2 hT hEN
   rw [← hcard]
   have hE'p : IsPGroup 5 ↥E' := fun x => ⟨1, Subtype.ext (by simpa using hE'.2 x x.2)⟩
@@ -108,7 +108,7 @@ theorem reeGamma_card_le_five (hK : Nat.card K = 2 ^ (2 * a + 1)) (ha : a = 2)
     let e : ↥(rankOneGroupTwo K 2) ≃* CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup 2 :=
       (rankOneEquivSuzuki K 2 (by norm_num) hK).trans
         (CFSG.ShultStronglyClosedTI.SuzukiModel.suzukiGroupEquivSuzukiMatrixGroup hK)
-    haveI : IsCyclic ↥Q :=
+    have : IsCyclic ↥Q :=
       CFSG.BenderSuzuki.lemma114_suzuki_oddSylow_isCyclic_of_equiv e 5 (by norm_num) Q
     let ι : ↥E' →* ↥Q := (Subgroup.inclusion hQ).comp φ.rangeRestrict
     have hrr : Function.Injective φ.rangeRestrict := fun x y h => hφ (congrArg Subtype.val h)

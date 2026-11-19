@@ -30,20 +30,26 @@ variable {G L H₁ : Subgroup (GLV V)} {z : GLV V} {v : V} {m : ℕ}
     Perm (Fin (m + 6 + 2)) →* GLV V :=
   H₁.subtype.comp ψ.symm.toMonoidHom
 
+omit [Finite V] in
 theorem pe_apply (σ : Perm (Fin (m + 6 + 2))) : pe ψ σ = ((ψ.symm σ : ↥H₁) : GLV V) := rfl
 
-theorem pe_injective : Function.Injective (pe ψ) := fun σ τ h =>
+omit [Finite V] in
+theorem pe_injective : Function.Injective (pe ψ) := fun _σ _τ h =>
   ψ.symm.injective (Subtype.ext h)
 
+omit [Finite V] in
 theorem pe_mem (σ : Perm (Fin (m + 6 + 2))) : pe ψ σ ∈ H₁ := (ψ.symm σ).2
 
+omit [Finite V] in
 theorem pe_psi (x : ↥H₁) : pe ψ (ψ x) = x := by
   rw [pe_apply, MulEquiv.symm_apply_apply]
 
+omit [Finite V] in
 theorem psi_pe (σ : Perm (Fin (m + 6 + 2))) : ψ ⟨pe ψ σ, pe_mem σ⟩ = σ := by
   have : (⟨pe ψ σ, pe_mem σ⟩ : ↥H₁) = ψ.symm σ := rfl
   rw [this, MulEquiv.apply_symm_apply]
 
+omit [Finite V] in
 theorem mem_H₁_iff {x : GLV V} : x ∈ H₁ ↔ ∃ σ, pe ψ σ = x :=
   ⟨fun hx => ⟨ψ ⟨x, hx⟩, pe_psi ⟨x, hx⟩⟩, by rintro ⟨σ, rfl⟩; exact pe_mem σ⟩
 
@@ -185,7 +191,7 @@ theorem Hyp.conj_L_eq (h : Hyp G L z v H₁ m ψ) :
     · rw [mem_altOn_iff] at hσ ⊢
       refine ⟨(alternatingGroup _).mul_mem ((alternatingGroup _).mul_mem tau_mem_alt hσ.1)
         ((alternatingGroup _).inv_mem tau_mem_alt), fun i hi => ?_⟩
-      simp only [Set.mem_setOf_eq, not_and_or, not_not] at hi
+      simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hi
       rw [tau_inv]
       rcases hi with rfl | rfl
       · rw [Perm.mul_apply, Perm.mul_apply, tau_apply_two, hσ.2 0 (by simp), tau_apply_zero]
@@ -196,7 +202,7 @@ theorem Hyp.conj_L_eq (h : Hyp G L z v H₁ m ψ) :
     · rw [mem_altOn_iff] at hσ ⊢
       refine ⟨(alternatingGroup _).mul_mem ((alternatingGroup _).mul_mem
         ((alternatingGroup _).inv_mem tau_mem_alt) hσ.1) tau_mem_alt, fun i hi => ?_⟩
-      simp only [Set.mem_setOf_eq, not_and_or, not_not] at hi
+      simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hi
       rw [tau_inv]
       rcases hi with rfl | rfl
       · rw [Perm.mul_apply, Perm.mul_apply, tau_apply_zero, hσ.2 2 (by simp), tau_apply_two]
@@ -204,13 +210,16 @@ theorem Hyp.conj_L_eq (h : Hyp G L z v H₁ m ψ) :
     · simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, gg, map_mul, map_inv]
       group
 
+omit [Finite V] in
 theorem add_self_eq_zero' (a : V) : a + a = 0 := by
   have h : (2 : ZMod 2) • a = 0 := by rw [show (2 : ZMod 2) = 0 from rfl, zero_smul]
   rwa [two_smul] at h
 
+omit [Finite V] in
 theorem neg_eq_self' (a : V) : -a = a := by
   rw [neg_eq_iff_add_eq_zero, add_self_eq_zero']
 
+omit [Finite V] in
 theorem sub_eq_add' (a b : V) : a - b = a + b := by rw [sub_eq_add_neg, neg_eq_self']
 
 theorem eq_one_or_eq_of_mem_zpowers {Γ : Type*} [Group Γ] {g k : Γ} (hg : orderOf g = 2)
@@ -229,6 +238,7 @@ theorem mul_self_of_orderOf_two {Γ : Type*} [Group Γ] {g : Γ} (hg : orderOf g
   rw [hg, sq] at this
   exact this
 
+omit [Finite V] in
 theorem fix_commSpace_of_involution {t : GLV V} (ht : orderOf t = 2) {w : V}
     (hw : w ∈ commSpace (Subgroup.zpowers t) ⊤) : t w = w := by
   have htt : ∀ u : V, t (t u) = u := fun u => by
@@ -245,6 +255,7 @@ theorem fix_commSpace_of_involution {t : GLV V} (ht : orderOf t = 2) {w : V}
       rw [map_sub, htt, sub_eq_add', sub_eq_add', add_comm]
   exact hle hw
 
+omit [Finite V] in
 theorem mem_commSpace_conj {t g : GLV V} {w : V} (hw : w ∈ commSpace (Subgroup.zpowers t) ⊤) :
     g w ∈ commSpace (Subgroup.zpowers (g * t * g⁻¹)) ⊤ := by
   have hle : commSpace (Subgroup.zpowers t) ⊤ ≤
@@ -258,6 +269,7 @@ theorem mem_commSpace_conj {t g : GLV V} {w : V} (hw : w ∈ commSpace (Subgroup
     exact sub_mem_commSpace (Subgroup.zpow_mem_zpowers _ _) Submodule.mem_top
   exact hle hw
 
+omit [Finite V] in
 theorem mem_commSpace_conj_inv {t g : GLV V} {w : V}
     (hw : w ∈ commSpace (Subgroup.zpowers (g * t * g⁻¹)) ⊤) :
     g⁻¹ w ∈ commSpace (Subgroup.zpowers t) ⊤ := by

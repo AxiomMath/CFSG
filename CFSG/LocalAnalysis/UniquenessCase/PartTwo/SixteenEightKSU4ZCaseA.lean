@@ -18,8 +18,8 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
 theorem s16k_imgTil_v1Sub_eq_fixV (h : S16gRowCtx D ⊥ V L hV) :
     imgTil ⊥ V hV (v1Sub D.M ⊥ V hV L) = fixV (lBar ⊥ V hV L) := by
   have hLne : barSub ⊥ V hV L ≠ ⊥ := fun hb => by
-    haveI := h.quasi.2.toNontrivial
-    haveI : Nontrivial ↥(lBar ⊥ V hV L) :=
+    have := h.quasi.2.toNontrivial
+    have : Nontrivial ↥(lBar ⊥ V hV L) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(lBar ⊥ V hV L))).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).1 ‹_› hb
   have hfix0 := s15_semiBot_imgTil_v1Sub_eq_fixV h.std.h1217 h.setting.hyp151 hLne
@@ -46,8 +46,8 @@ theorem s16k_natSUn_lStar_of_lBar (h : S16gRowCtx D ⊥ V L hV)
       (commSub ⊤ (lBar ⊥ V hV L) ⊓ fixV (lBar ⊥ V hV L)) 4 1) :
     NatSUn (lStar D.M ⊥ V hV L) ⊤ ⊥ 4 1 := by
   obtain ⟨K, hKfield, hKfin, hKcard, hR⟩ := hN
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   simp only [pow_one] at hR
   have hR' : (FFModel.nat (StatedSU 4 2 K)).Realizes (lBar ⊥ V hV L) ⊤
       (fixV (lBar ⊥ V hV L)) := by
@@ -99,8 +99,8 @@ theorem s16k_su4z_sig_eq_three (h : S16gRowCtx D V₀ V L hV)
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 4 1)
     (hσ : 3 ∈ D.sig) : D.sig = {3} := by
   obtain ⟨K, hKfield, hKfin, hKcard, hR⟩ := hN
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   simp only [pow_one] at hR
   have hK4 : Nat.card K = 4 := by rw [hKcard]; norm_num
   obtain ⟨ρ, hρ, hρN⟩ := h.exists_embedding hR

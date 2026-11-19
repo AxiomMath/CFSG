@@ -180,7 +180,7 @@ where
 
 theorem s16h_e3_z3f5_exists_fixed (hV : finrank F V = 3) (hf5 : f ^ 5 = 1) :
     ∃ w : V, w ≠ 0 ∧ f w = w := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hV]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hV]; norm_num)
   set c := f.charpoly
   have hdeg : c.natDegree = 3 := by rw [LinearMap.charpoly_natDegree, hV]
   have hroot : ∃ μ, c.IsRoot μ := by
@@ -469,7 +469,7 @@ theorem s16h_e3_z3f5_sq_mul_eq_one (hf5 : f ^ 5 = 1) {α μ : F} (hα : α ^ 3 =
   ext v
   simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.smul_apply,
     LinearMap.sub_apply, Module.End.one_apply, map_add, map_sub, map_smul,
-    s16h_e3_z3f5_e_e hf5, sub_self, smul_zero, add_zero, zero_add, sub_zero, smul_smul]
+    s16h_e3_z3f5_e_e hf5, sub_self, smul_zero, zero_add, smul_smul]
   rw [add_sub_cancel_right, smul_smul, ← pow_succ', ← pow_succ', hα, hμ, one_smul, one_smul,
     sub_add_cancel]
 

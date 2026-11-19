@@ -43,7 +43,7 @@ instance pK_normal (x : G) : (pK x).Normal := by
   exact Subgroup.centralizer_le_normalizer _
 
 instance pDK_normal (x : G) : (pDK x).Normal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [pDK]
   exact Subgroup.sup_normal (pD x) (pK x)
 
@@ -63,7 +63,7 @@ noncomputable abbrev pI (x : G) (L : Subgroup G) : Subgroup G :=
 noncomputable abbrev pIbar (x : G) (L : Subgroup G) : Subgroup (pX x) :=
   ((pI x L).subgroupOf (pH x)).map (QuotientGroup.mk' (pDK x))
 
-theorem propositionH_step3 (hK35w : UCK.K35w) (c : Ctx82E3 D) {x : G}
+theorem propositionH_step3 (hK35w : UCK.K35w) (_c : Ctx82E3 D) {x : G}
     (h2 : IsStronglyPEmbedded 3 (pNbar x D.M) ∧
       CFSG.pPrimeCore 3 (pX x) = ⊥ ∧
       2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (pX x)) ∧
@@ -74,7 +74,7 @@ theorem propositionH_step3 (hK35w : UCK.K35w) (c : Ctx82E3 D) {x : G}
   obtain ⟨hEmb, hCore, hRank, hK⟩ := h2
   exact hK35w (pX x) hK 3 (by norm_num) (by norm_num) (pNbar x D.M) hEmb hRank hCore
 
-theorem propositionH_step5 (hK35w : UCK.K35w) (c : Ctx82E3 D) {x : G}
+theorem propositionH_step5 (_hK35w : UCK.K35w) (c : Ctx82E3 D) {x : G}
     (h3 : CFSG.HallHigman.IsPSolvable 3 ↥(pNbar x D.M) ∨
       Nonempty (↥(Opp 3 (⊤ : Subgroup (pX x))) ≃* alternatingGroup (Fin 6)) ∨
       (3 = 5 ∧ IsSpor ↥(Opp 3 (⊤ : Subgroup (pX x))) .Fi22))
@@ -84,7 +84,7 @@ theorem propositionH_step5 (hK35w : UCK.K35w) (c : Ctx82E3 D) {x : G}
     (h44 : ∃ g : pX x, pIbar x c.L ≤ (pNbar x D.M).map (MulAut.conj g).toMonoidHom) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h3 with hNsolv | hA6 | h35
   · obtain ⟨g, hle⟩ := h44
     have hconj : CFSG.HallHigman.IsPSolvable 3

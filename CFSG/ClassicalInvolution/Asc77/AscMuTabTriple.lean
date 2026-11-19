@@ -57,7 +57,7 @@ theorem threeOrth_pOmegaOdd {n e : ℕ} (hadm : StatedLieAdmissible .POmegaOdd n
     (z := (⟨n - 1, by omega⟩ : Fin n)) (hl _ (by show n - 4 + 1 < n; omega))
     (hl _ (by show n - 2 + 1 < n; omega)) ?_ ?_ ?_ ?_ ?_ <;>
   · show cartanB n _ _ = _
-    simp [cartanB, Fin.ext_iff] <;> omega
+    simp [cartanB, Fin.ext_iff]; try omega
 
 theorem threeOrth_pOmegaMinus {n e : ℕ} (hadm : StatedLieAdmissible .POmegaMinus n p e)
     (hn : 5 ≤ n) : ThreeOrth (modelUniv .POmegaMinus n p e Fact.out).D := by
@@ -68,7 +68,7 @@ theorem threeOrth_pOmegaMinus {n e : ℕ} (hadm : StatedLieAdmissible .POmegaMin
     (y := (⟨n - 3, by omega⟩ : Fin (n - 1))) (z := (⟨n - 2, by omega⟩ : Fin (n - 1)))
     (hl _ (by show n - 5 + 2 < n; omega)) (hl _ (by show n - 3 + 2 < n; omega)) ?_ ?_ ?_ ?_ ?_ <;>
   · show cartanB (n - 1) _ _ = _
-    simp [cartanB, Fin.ext_iff] <;> omega
+    simp [cartanB, Fin.ext_iff]; try omega
 
 variable {K : Type} [Group K]
 

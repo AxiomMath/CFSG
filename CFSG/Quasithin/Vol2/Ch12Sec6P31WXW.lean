@@ -113,7 +113,7 @@ theorem exists_inverted_c {Ts Ms Ls Tls X : Subgroup Y} (h : SingleData' Y Ts Ms
       c ∈ borel X Ts ∧ c ∉ Ts ⊓ X ∧ c ^ 3 = 1 ∧ r * c * r⁻¹ * c ∈ Ts ⊓ X := by
   obtain ⟨hR, hTs, hP, hnormal, hTsMs, hBM, hKM, hLM, -, -, hTlsTs, r, hrTls, S, hSL, hSe, hS9,
     hSinv⟩ := h
-  haveI : X.Normal := hnormal
+  have : X.Normal := hnormal
   have hXn : ∀ x : Y, x ∈ Subgroup.normalizer (X : Set Y) := fun x => by
     rw [Subgroup.normalizer_eq_top_iff.2 hnormal]
     exact Subgroup.mem_top x
@@ -208,11 +208,11 @@ theorem le_borel_of_solvBorel {Ts Ms Ls Tls X : Subgroup Y} (h : SingleData' Y T
     have h2 := Subgroup.mem_normalizer_iff.1 hu2 x
     exact ⟨fun hx => ⟨h1.1 hx.1, h2.1 hx.2⟩, fun hx => ⟨h1.2 hx.1, h2.2 hx.2⟩⟩
   have hAs : Group.IsSolvable ↥(Ls ⊓ X) := by
-    haveI := h.Ls_solvable
+    have := h.Ls_solvable
     exact Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (inf_le_left : Ls ⊓ X ≤ Ls))
   have hUs : Group.IsSolvable ↥(Ts ⊓ X) := by
-    haveI := hSylX.2.1.isNilpotent
+    have := hSylX.2.1.isNilpotent
     infer_instance
   have hsol := isSolvable_sup_of_le_normalizer' hUN hAs hUs
   have hle := hSB _ (sup_le inf_le_right inf_le_right) le_sup_left hsol
@@ -223,7 +223,7 @@ theorem false_of_single_L3_odd (hL : L3BorelFacts) {n : ℕ} (hn : 3 ≤ n) (hod
     (hX : IsPSL 3 2 n (↥X ⧸ Subgroup.center ↥X)) : False := by
   have hSylX : IsSylowTwoOf (Ts ⊓ X) X :=
     A4.isSylowTwoOf_inf_normal h.sylow le_top (by
-      haveI := h.normal
+      have := h.normal
       exact Subgroup.le_normalizer_of_normal)
   obtain ⟨hZ, hcard, -, hSB, -⟩ := hL n hn Y X (Ts ⊓ X) hperf hX hSylX
   obtain ⟨r, c, -, -, hcB, hcU, hc3, -⟩ := exists_inverted_c h (le_borel_of_solvBorel h hSB)
@@ -256,10 +256,10 @@ theorem false_of_single_L3_three_dvd (hL : L3BorelFacts) {n : ℕ} (hn : 3 ≤ n
     (h27 : ¬ 27 ∣ Nat.card ↥Ms) : False := by
   have hSylX : IsSylowTwoOf (Ts ⊓ X) X :=
     A4.isSylowTwoOf_inf_normal h.sylow le_top (by
-      haveI := h.normal
+      have := h.normal
       exact Subgroup.le_normalizer_of_normal)
   obtain ⟨hZ, hcard, -, -, -⟩ := hL n hn Y X (Ts ⊓ X) hperf hX hSylX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv := P31NT.padicValNat_three_two_pow_sub_one hev (by omega)
   have hv3 : 1 ≤ padicValNat 3 n := one_le_padicValNat_of_dvd (by omega) h3n
   have hpos : 2 ^ n - 1 ≠ 0 := by
@@ -287,7 +287,7 @@ theorem permData_of_single_L3 (hL : L3BorelFacts) {n : ℕ} (hn : 3 ≤ n) (hev 
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpk : p ∣ 2 ^ (n / 2) + 1) : PermData Ts Ms Tls := by
   have hSylX : IsSylowTwoOf (Ts ⊓ X) X :=
     A4.isSylowTwoOf_inf_normal h.sylow le_top (by
-      haveI := h.normal
+      have := h.normal
       exact Subgroup.le_normalizer_of_normal)
   obtain ⟨hZ, hcard, habel, hSB, hmov⟩ := hL n hn Y X (Ts ⊓ X) hperf hX hSylX
   obtain ⟨r, c, hrTls, hrN, hcB, hcU, hc3, hinv⟩ :=
@@ -297,7 +297,7 @@ theorem permData_of_single_L3 (hL : L3BorelFacts) {n : ℕ} (hn : 3 ≤ n) (hev 
   have hc3U : c ^ 3 ∈ Ts ⊓ X := by rw [hc3]; exact (Ts ⊓ X).one_mem
   obtain ⟨b, hbB, hbp, hbr⟩ := hmov hev h3n r hrN ⟨c, hcB, hcU, hc3U, hinv⟩ p hp hp5 hpk
   have hXn : ∀ x : Y, x ∈ Subgroup.normalizer (X : Set Y) := fun x => by
-    haveI := h.normal
+    have := h.normal
     rw [Subgroup.normalizer_eq_top_iff.2 h.normal]
     exact Subgroup.mem_top x
   have hbr' : b * r * b⁻¹ * r⁻¹ ∉ Ts ⊓ X := fun hh => hbr (by

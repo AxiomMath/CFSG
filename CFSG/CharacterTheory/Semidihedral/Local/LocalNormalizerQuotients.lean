@@ -84,7 +84,7 @@ theorem four_and_quaternion_eight_local_normalizer_quotients (n : ℕ) (hn : 4 �
       (n = 4 → Nonempty (R ≃* SemidihedralGroup 4)) ∧
       (5 ≤ n → Nonempty (R ≃* QuaternionGroup 4))) := by
   intro N C R K Z AutG AutS
-  have hT2 : IsPGroup 2 T := S.isPGroup'.to_le hTS
+  have hT2 : IsPGroup 2 T := S.isPGroup.to_le hTS
   have hZ : (Subgroup.center T).map T.subtype = T ⊓ Subgroup.centralizer (T : Set G) :=
     center_map_subtype_eq T
   obtain ⟨r₀, zc, hr₀, hSC, hzc, hz2, hnorm⟩ : ∃ r₀ zc : ℕ,

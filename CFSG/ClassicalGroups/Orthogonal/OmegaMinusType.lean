@@ -19,6 +19,7 @@ structure IsMinus (Q : QuadraticForm K V) (m : ℕ) : Prop where
   finrank_eq : finrank K V = 2 * m
   noTS : ∀ U : Submodule K V, finrank K U = m → ∃ u ∈ U, Q u ≠ 0
 
+omit [Finite K] [CharP K 2] in
 theorem HypPair.linearIndependent_pair (P : HypPair Q) : LinearIndependent K ![P.e, P.f] := by
   rw [LinearIndependent.pair_iff]
   intro s t hst
@@ -28,10 +29,12 @@ theorem HypPair.linearIndependent_pair (P : HypPair Q) : LinearIndependent K ![P
     P.polar_ff, polar_zero_right] at h1 h2
   exact ⟨by linear_combination h2, by linear_combination h1⟩
 
+omit [Finite K] [CharP K 2] in
 theorem HypPair.finrank_span (P : HypPair Q) : finrank K (Submodule.span K {P.e, P.f}) = 2 := by
   rw [← Matrix.range_cons_cons_empty P.e P.f ![], finrank_span_eq_card P.linearIndependent_pair,
     Fintype.card_fin]
 
+omit [Finite K] [CharP K 2] in
 theorem IsMinus.perp [FiniteDimensional K V] {m : ℕ} (h : IsMinus Q (m + 1)) (P : HypPair Q) :
     IsMinus (Q.restrict P.perp) m := by
   have hdim : finrank K P.perp = 2 * m := by

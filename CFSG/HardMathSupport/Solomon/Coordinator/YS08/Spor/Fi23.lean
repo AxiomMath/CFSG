@@ -30,7 +30,7 @@ section Main
 
 theorem noL3Comp_J (x : CFSG.Sporadic.Fi23.J) (hx : orderOf x = 3) :
     NoL3Comp (Subgroup.centralizer ({x} : Set CFSG.Sporadic.Fi23.J)) := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
   obtain ⟨hpair, h1, h2, h3⟩ := Certificates.certificate214034
   have hcard : Nat.card ↥(⊤ : Subgroup J) = 4089470473293004800 := by
     rw [Subgroup.card_top, card_J]
@@ -64,7 +64,7 @@ end Fi23Leaf
 
 theorem sporL3DownInner_Fi23
     (hbr : SporadicBridges) : SporL3DownInner .Fi23 := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
   have hM : Nonempty (J ≃* (TauCeti.CFSGIndex.sporadic .Fi23).Group) :=
     ⟨fi23EquivJ.symm.trans (hbr .Fi23).some⟩
   have h1 := @sporL3DownInner_of_comp .Fi23 J inferInstance inferInstance hM

@@ -16,6 +16,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 variable {K L : Type} [Field K] [Finite K] [CharP K 2] [Group L] [Finite L]
 
+omit [CharP K 2] [Finite L] in
 theorem ker_characteristic {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     (θ : K ≃+* K) (hθq : ∀ c, θ c = c ^ (2 ^ f))
     (φ : fixedGroup K θ.toRingHom →* L)
@@ -34,6 +35,7 @@ theorem ker_characteristic {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
       exact Nat.le_of_dvd (by decide : 0 < 3) hZ
   rcases hk with h | h <;> rw [h] <;> infer_instance
 
+omit [Finite L] in
 theorem exists_diagonal_descent {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     (θ : K ≃+* K) (hθq : ∀ c, θ c = c ^ (2 ^ f))
     (hθ : ∀ c, θ.toRingHom (θ.toRingHom c) = c) (l : K) (hl : θ.toRingHom l = l + 1)

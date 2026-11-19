@@ -43,7 +43,7 @@ theorem ker_le_center_of_finrank_le_nine {𝕜 : Type*} [Field 𝕜] [IsAlgClose
       Module.finrank 𝕜 (LinearMap.ker (ρ t - 1)) ≤ 3) :
     π.ker ≤ Subgroup.center Γ := by
   classical
-  haveI : π.ker.Normal := MonoidHom.normal_ker π
+  have : π.ker.Normal := MonoidHom.normal_ker π
   by_contra hker
   obtain ⟨r, hr, P, hPn, hPD, hPr, hPZ⟩ :=
     Sec4.exists_noncentral_normal_pSubgroup (G := Γ) π.ker hkerS hker

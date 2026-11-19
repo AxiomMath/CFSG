@@ -16,6 +16,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj] {c : Γ.Coloring
 variable {K : Type*} [Field K] {W : Type*} [AddCommGroup W] [Module K W]
 variable {ι : V → Submodule K W} {A : Submodule K W}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem mem_ptPerp_of_le_sup_lines (hP : IsGeneralizedPolygon Γ 4) (hι : IsProjGQ c ι A)
     {y z L₁ L₂ : V} (hy : c y = 0) (hL : L₁ ≠ L₂) (hy₁ : Γ.Adj y L₁)
     (hy₂ : Γ.Adj y L₂) (hz : c z = 0) (hzle : ι z ≤ ι L₁ ⊔ ι L₂) :
@@ -28,15 +29,15 @@ theorem mem_ptPerp_of_le_sup_lines (hP : IsGeneralizedPolygon Γ 4) (hι : IsPro
   have hL₁2 : finrank K (ι L₁) = 2 := hι.finrank_line L₁ hL₁
   have hL₂2 : finrank K (ι L₂) = 2 := hι.finrank_line L₂ hL₂
   have hy1 : finrank K (ι y) = 1 := hι.finrank_point y hy
-  haveI : FiniteDimensional K (ι L₁) :=
+  have : FiniteDimensional K (ι L₁) :=
     Module.finite_of_finrank_pos (by rw [hL₁2]; norm_num)
-  haveI : FiniteDimensional K (ι L₂) :=
+  have : FiniteDimensional K (ι L₂) :=
     Module.finite_of_finrank_pos (by rw [hL₂2]; norm_num)
   let π : Submodule K W := ι L₁ ⊔ ι L₂
-  haveI : FiniteDimensional K π := by
+  have : FiniteDimensional K π := by
     dsimp [π]
     exact Submodule.finiteDimensional_sup (ι L₁) (ι L₂)
-  haveI : FiniteDimensional K ↥(ι L₁ ⊓ ι L₂) :=
+  have : FiniteDimensional K ↥(ι L₁ ⊓ ι L₂) :=
     Submodule.finiteDimensional_of_le (inf_le_left : ι L₁ ⊓ ι L₂ ≤ ι L₁)
   have hinf_ge : 1 ≤ finrank K ↥(ι L₁ ⊓ ι L₂) := by
     have hle : ι y ≤ ι L₁ ⊓ ι L₂ := le_inf hyL₁ hyL₂

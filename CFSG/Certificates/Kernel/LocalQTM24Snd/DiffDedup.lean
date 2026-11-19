@@ -19,9 +19,9 @@ private theorem aux_subb_dedGo_cons_some (x y : ℕ) (l : List ℕ) :
   show Bool.rec (motive := fun _ => List ℕ) (x :: dedGo l (some x)) (dedGo l (some x))
     (Nat.beq x y) = _
   by_cases h : x = y
-  · rw [if_pos h, Nat.beq_eq.mpr h] <;> rfl
+  · rw [ite_eq_left h, Nat.beq_eq.mpr h]
   · have hb : Nat.beq x y = false := Bool.eq_false_iff.mpr (fun e => h (Nat.eq_of_beq_eq_true e))
-    rw [if_neg h, hb] <;> rfl
+    rw [ite_eq_right h, hb]
 
 private theorem aux_subb_dedGo_strict : ∀ (l : List ℕ) (o : Option ℕ),
     l.Pairwise (· ≤ ·) → (∀ y, o = some y → ∀ z ∈ l, y ≤ z) →
@@ -42,12 +42,12 @@ private theorem aux_subb_dedGo_strict : ∀ (l : List ℕ) (o : Option ℕ),
       have hyx : y ≤ x := ho y rfl x (by simp)
       rw [aux_subb_dedGo_cons_some]
       by_cases hxy : x = y
-      · rw [if_pos hxy]
+      · rw [ite_eq_left hxy]
         refine ⟨h.1, fun y' hy' z hz => ?_⟩
         obtain rfl := Option.some.inj hy'
         have := h.2 x rfl z hz
         omega
-      · rw [if_neg hxy]
+      · rw [ite_eq_right hxy]
         have hlt : y < x := lt_of_le_of_ne hyx (fun e => hxy e.symm)
         refine ⟨List.pairwise_cons.mpr ⟨fun z hz => h.2 x rfl z hz, h.1⟩, fun y' hy' z hz => ?_⟩
         obtain rfl := Option.some.inj hy'
@@ -65,9 +65,9 @@ private theorem aux_subb_dropLt_cons (x a : ℕ) (ys : List ℕ) :
     dropLt x (a :: ys) = if a < x then dropLt x ys else a :: ys := by
   show Bool.rec (motive := fun _ => List ℕ) (a :: ys) (dropLt x ys) (Nat.blt a x) = _
   by_cases h : a < x
-  · rw [if_pos h, Nat.blt_eq.mpr h] <;> rfl
+  · rw [ite_eq_left h, Nat.blt_eq.mpr h]
   · have hb : Nat.blt a x = false := Bool.eq_false_iff.mpr (fun e => h (Nat.blt_eq.mp e))
-    rw [if_neg h, hb] <;> rfl
+    rw [ite_eq_right h, hb]
 
 private theorem aux_subb_dropLt_pairwise (x : ℕ) : ∀ ys : List ℕ, ys.Pairwise (· < ·) →
     (dropLt x ys).Pairwise (· < ·)
@@ -89,7 +89,7 @@ private theorem aux_subb_mem_dropLt (x : ℕ) : ∀ ys : List ℕ, ys.Pairwise (
     intro z
     rw [aux_subb_dropLt_cons]
     by_cases hax : a < x
-    · rw [if_pos hax, ih z, List.mem_cons]
+    · rw [ite_eq_left hax, ih z, List.mem_cons]
       constructor
       · rintro ⟨h1, h2⟩
         exact ⟨Or.inr h1, h2⟩
@@ -97,7 +97,7 @@ private theorem aux_subb_mem_dropLt (x : ℕ) : ∀ ys : List ℕ, ys.Pairwise (
         · exfalso
           omega
         · exact ⟨h1, h2⟩
-    · rw [if_neg hax, List.mem_cons]
+    · rw [ite_eq_right hax, List.mem_cons]
       constructor
       · rintro (h1 | h1)
         · exact ⟨Or.inl h1, by omega⟩
@@ -117,7 +117,7 @@ private theorem aux_subb_head_iff (x : ℕ) : ∀ ys : List ℕ, ys.Pairwise (·
     have ih := aux_subb_head_iff x rest hrest
     rw [aux_subb_dropLt_cons]
     by_cases hax : a < x
-    · rw [if_pos hax, List.mem_cons]
+    · rw [ite_eq_left hax, List.mem_cons]
       constructor
       · intro h
         exact Or.inr (ih.1 h)
@@ -125,7 +125,7 @@ private theorem aux_subb_head_iff (x : ℕ) : ∀ ys : List ℕ, ys.Pairwise (·
         · exfalso
           omega
         · exact ih.2 h1
-    · rw [if_neg hax]
+    · rw [ite_eq_right hax]
       show Nat.beq a x = true ↔ x ∈ a :: rest
       rw [Nat.beq_eq, List.mem_cons]
       constructor
@@ -143,11 +143,11 @@ private theorem aux_subb_diffS_cons (x : ℕ) (xs ys : List ℕ) (hy : ys.Pairwi
       (diffS xs (dropLt x ys))
       (List.rec (motive := fun _ => Bool) false (fun y _ _ => Nat.beq y x) (dropLt x ys)) = _
   by_cases hxy : x ∈ ys
-  · rw [if_pos hxy, hb.2 hxy] <;> rfl
+  · rw [ite_eq_left hxy, hb.2 hxy]
   · have hf : List.rec (motive := fun _ => Bool) false (fun y _ _ => Nat.beq y x)
         (dropLt x ys) = false :=
       Bool.eq_false_iff.mpr (fun h => hxy (hb.1 h))
-    rw [if_neg hxy, hf] <;> rfl
+    rw [ite_eq_right hxy, hf]
 
 private theorem aux_subb_diff_main : ∀ (xs ys : List ℕ), xs.Pairwise (· < ·) →
     ys.Pairwise (· < ·) → diffS xs ys = xs.filter (fun x => decide (x ∉ ys))

@@ -76,6 +76,7 @@ theorem bip_one : BlocksInnerProduct (fun _ : G => (1 : ℂ)) (fun _ => 1) = 1 :
     Nat.card_eq_fintype_card]
   exact inv_mul_cancel₀ hG
 
+omit [Fintype G] in
 theorem one_mem_irr : (fun _ : G => (1 : ℂ)) ∈ BlocksIrr G :=
   CFSG.BrauerThirdMainTheorem.Helpers.trivial_mem_irr G
 
@@ -119,15 +120,17 @@ noncomputable abbrev indψ {H : Subgroup G} (χ : Fin 20 → H → ℂ) (k : Fin
 @[expose] def thetaOf {H : Subgroup G} (χ : Fin 20 → H → ℂ) (i : Fin 4) : H → ℂ :=
   χ ⟨16 + i.val, by have := i.isLt; omega⟩
 
+omit [Fintype G] in
 theorem thetaOf_inj {H : Subgroup G} {χ : Fin 20 → H → ℂ} (hinj : Function.Injective χ) :
     Function.Injective (thetaOf χ) := by
   intro i j hij
   have h := hinj hij
   apply Fin.ext
   have := congrArg Fin.val h
-  simp only [Fin.val_mk] at this
+  simp only at this
   omega
 
+omit [Fintype G] in
 theorem list_mem {H : Subgroup G} (χ : Fin 20 → H → ℂ) (hirr : ∀ i, χ i ∈ BlocksIrr H) :
     ∀ L : List (Fin 20 × ℤ),
       (fun y : H => (L.map fun p => (p.2 : ℂ) * χ p.1 y).sum) ∈ BlocksVChar H
@@ -146,6 +149,7 @@ theorem list_mem {H : Subgroup G} (χ : Fin 20 → H → ℂ) (hirr : ∀ i, χ 
       rw [h1]
       exact add_mem (zsmul_mem (AddSubgroup.subset_closure (hirr p.1)) _) (list_mem χ hirr L)
 
+omit [Fintype G] in
 theorem psi_mem {H : Subgroup G} (χ : Fin 20 → H → ℂ) (hirr : ∀ i, χ i ∈ BlocksIrr H)
     (k : Fin 15) : psiFun H χ k ∈ BlocksVChar H :=
   list_mem χ hirr (psiTerms k)
@@ -154,22 +158,26 @@ theorem psi_class {H : Subgroup G} (χ : Fin 20 → H → ℂ) (hirr : ∀ i, χ
     (k : Fin 15) : BlocksIsClassFunction (psiFun H χ k) :=
   blocksVChar_isClassFunction (psi_mem χ hirr k)
 
+omit [Fintype G] in
 theorem psi0 {H : Subgroup G} (χ : Fin 20 → H → ℂ) :
     psiFun H χ 0 = χ 0 - χ 8 + χ 19 := by
   funext y
   simp [psiFun, psiTerms]
   ring
 
+omit [Fintype G] in
 theorem psi5 {H : Subgroup G} (χ : Fin 20 → H → ℂ) : psiFun H χ 5 = χ 16 - χ 19 := by
   funext y
   simp [psiFun, psiTerms]
   ring
 
+omit [Fintype G] in
 theorem psi6 {H : Subgroup G} (χ : Fin 20 → H → ℂ) : psiFun H χ 6 = χ 17 - χ 19 := by
   funext y
   simp [psiFun, psiTerms]
   ring
 
+omit [Fintype G] in
 theorem psi7 {H : Subgroup G} (χ : Fin 20 → H → ℂ) : psiFun H χ 7 = χ 18 - χ 19 := by
   funext y
   simp [psiFun, psiTerms]
@@ -186,9 +194,10 @@ theorem cover_lemma {A B Y V : G → ℂ} {a b : ℤ} (hV : V = (a : ℂ) • A 
   rw [hV, bip_two_irr hA hB hY] at h
   by_contra hc
   obtain ⟨hc1, hc2⟩ := not_or.mp hc
-  rw [if_neg hc1, if_neg hc2] at h
+  rw [ite_eq_right hc1, ite_eq_right hc2] at h
   simp at h
 
+omit [Group G] [Fintype G] in
 theorem three_in_two {A B Y0 Y1 Y2 : G → ℂ} (h01 : Y0 ≠ Y1) (h02 : Y0 ≠ Y2) (h12 : Y1 ≠ Y2)
     (h0 : Y0 = A ∨ Y0 = B) (h1 : Y1 = A ∨ Y1 = B) (h2 : Y2 = A ∨ Y2 = B) : False := by
   rcases h0 with h0 | h0 <;> rcases h1 with h1 | h1 <;> rcases h2 with h2 | h2 <;>
@@ -197,6 +206,7 @@ theorem three_in_two {A B Y0 Y1 Y2 : G → ℂ} (h01 : Y0 ≠ Y1) (h02 : Y0 ≠ 
     | exact h02 (h0.trans h2.symm)
     | exact h12 (h1.trans h2.symm)
 
+omit [Fintype G] in
 theorem geom_contra {f Y0 Y1 Y2 : G → ℂ} (h0 : Y0 ∈ BlocksIrr G) (h1 : Y1 ∈ BlocksIrr G)
     (h2 : Y2 ∈ BlocksIrr G) (s : ℤ) (hs : s ≠ 0) (hf1 : f 1 = 0)
     (hfeq : f = fun x => (s : ℂ) * Y0 x + (s : ℂ) * Y1 x + (s : ℂ) * Y2 x) : False := by
@@ -230,26 +240,26 @@ theorem decompose {A B Y V : G → ℂ} (hA : A ∈ BlocksIrr G) (hB : B ∈ Blo
   rw [hV, bip_two_irr hA hB hY] at hVY
   by_cases hAY : A = Y
   · have hBY : B ≠ Y := fun h => hAB (hAY.trans h.symm)
-    rw [if_pos hAY, if_neg hBY] at hVY
+    rw [ite_eq_left hAY, ite_eq_right hBY] at hVY
     have ha' : a = ε := by
       have : (a : ℂ) = ε := by simpa using hVY
       exact_mod_cast this
     refine ⟨B, hB, b, hb, hBY, ?_⟩
     rw [hV, ha', hAY]
   · by_cases hBY : B = Y
-    · rw [if_neg hAY, if_pos hBY] at hVY
+    · rw [ite_eq_right hAY, ite_eq_left hBY] at hVY
       have hb' : b = ε := by
         have : (b : ℂ) = ε := by simpa using hVY
         exact_mod_cast this
       refine ⟨A, hA, a, ha, hAY, ?_⟩
       rw [hV, hb', hBY, add_comm]
-    · rw [if_neg hAY, if_neg hBY] at hVY
+    · rw [ite_eq_right hAY, ite_eq_right hBY] at hVY
       simp at hVY
       exact absurd hVY.symm hε0
 
 theorem coeff_claim {f : G → ℂ} {Y : Fin 4 → G → ℂ} (hY : ∀ i, Y i ∈ BlocksIrr G)
     (hinj : Function.Injective Y) (hf : f ∈ BlocksVChar G) (hf1 : f 1 = 0)
-    {N g g6 g7 ε c : ℤ} (hε : ε = 1 ∨ ε = -1) (hN : BlocksInnerProduct f f = (N : ℂ))
+    {N g g6 g7 ε c : ℤ} (_hε : ε = 1 ∨ ε = -1) (hN : BlocksInnerProduct f f = (N : ℂ))
     (hN3 : N ≤ 3) (hg6 : g6 = g) (hg7 : g7 = g)
     (h3 : BlocksInnerProduct f (Y 3) = (c : ℂ))
     (h0 : BlocksInnerProduct f (Y 0) = (c : ℂ) + (ε : ℂ) * (g : ℂ))
@@ -272,7 +282,7 @@ theorem coeff_claim {f : G → ℂ} {Y : Fin 4 → G → ℂ} (hY : ∀ i, Y i �
       exact h3
   obtain ⟨hle, heq⟩ := bessel_four hY hinj hf hN ![c + ε * g, c + ε * g, c + ε * g, c] hbes
   simp only [Fin.sum_univ_four, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Matrix.cons_val_two, Matrix.cons_val_three, Matrix.tail_cons, Matrix.cons_val_fin_one]
+    Matrix.cons_val_two, Matrix.cons_val_three, Matrix.tail_cons]
     at hle heq
   have hss : 0 < (c + ε * g) * (c + ε * g) := mul_self_pos.mpr hs0
   have hcc : c * c ≤ 0 := by nlinarith
@@ -284,7 +294,7 @@ theorem coeff_claim {f : G → ℂ} {Y : Fin 4 → G → ℂ} (hY : ∀ i, Y i �
     have := heq hSN
     rw [this]
     funext x
-    simp [Fin.sum_univ_four, hc0]
+    simp [hc0]
   exact geom_contra (hY 0) (hY 1) (hY 2) (c + ε * g) hs0 hf1 hfe
 
 theorem val2_of_orth {H : Subgroup G} {z : G} {χ : Fin 20 → H → ℂ} (hχ : HCharProps H z χ)
@@ -306,7 +316,7 @@ theorem val2_of_orth {H : Subgroup G} {z : G} {χ : Fin 20 → H → ℂ} (hχ :
     by_cases hg : (g : G) ∈ specialD z H
     · have hgh : ((h * g * h⁻¹ : H) : G) ∈ specialD z H := by
         rw [hcoe]; exact hinv _ hg _ h.2
-      simp only [hw, hgh, hg, if_true]
+      simp only [hw, hgh, hg, ite_true]
       exact hfc g h
     · have hgh : ((h * g * h⁻¹ : H) : G) ∉ specialD z H := by
         intro hmem
@@ -316,9 +326,9 @@ theorem val2_of_orth {H : Subgroup G} {z : G} {χ : Fin 20 → H → ℂ} (hχ :
           simp only [Subgroup.coe_mul, Subgroup.coe_inv]
           group
         rwa [hg'] at h2
-      simp only [hw, hgh, hg, if_false]
+      simp only [hw, hgh, hg, ite_false]
   have hwv : ∀ y : H, (y : G) ∉ specialD z H → w y = 0 := fun y hy => by
-    simp only [hw, if_neg hy]
+    simp only [hw, ite_eq_right hy]
   obtain ⟨c', hc'⟩ := hχ.span w hwc hwv
   have hbw : ∀ k, BlocksInnerProduct w (psiFun H χ k) = 0 := by
     intro k
@@ -485,11 +495,11 @@ theorem suzukiCoherent_core {H : Subgroup G} {z : G} {χ : Fin 20 → H → ℂ}
       by_contra hne
       have hY3one : Y 3 = (fun _ : G => (1 : ℂ)) := by
         by_contra hc
-        exact hne (by rw [hbYone 3, if_neg hc])
+        exact hne (by rw [hbYone 3, ite_eq_right hc])
       have hY0one : Y 0 = (fun _ : G => (1 : ℂ)) := by
         by_contra hc
         apply hne
-        rw [← r0, hbYone 0, if_neg hc]
+        rw [← r0, hbYone 0, ite_eq_right hc]
       exact (hYinj.ne (by decide : (0 : Fin 4) ≠ 3)) (hY0one.trans hY3one.symm)
     intro i
     fin_cases i
@@ -601,13 +611,13 @@ theorem suzukiCoherent_core {H : Subgroup G} {z : G} {χ : Fin 20 → H → ℂ}
     rw [hbY3] at h
     exact_mod_cast h.symm
   have b03 : BlocksInnerProduct (Y 0) (Y 3) = 0 := by
-    rw [bip_irr (hYirr 0) (hYirr 3), if_neg (hYinj.ne (by decide : (0 : Fin 4) ≠ 3))]
+    rw [bip_irr (hYirr 0) (hYirr 3), ite_eq_right (hYinj.ne (by decide : (0 : Fin 4) ≠ 3))]
   have b13 : BlocksInnerProduct (Y 1) (Y 3) = 0 := by
-    rw [bip_irr (hYirr 1) (hYirr 3), if_neg (hYinj.ne (by decide : (1 : Fin 4) ≠ 3))]
+    rw [bip_irr (hYirr 1) (hYirr 3), ite_eq_right (hYinj.ne (by decide : (1 : Fin 4) ≠ 3))]
   have b23 : BlocksInnerProduct (Y 2) (Y 3) = 0 := by
-    rw [bip_irr (hYirr 2) (hYirr 3), if_neg (hYinj.ne (by decide : (2 : Fin 4) ≠ 3))]
+    rw [bip_irr (hYirr 2) (hYirr 3), ite_eq_right (hYinj.ne (by decide : (2 : Fin 4) ≠ 3))]
   have b33 : BlocksInnerProduct (Y 3) (Y 3) = 1 := by
-    rw [bip_irr (hYirr 3) (hYirr 3), if_pos rfl]
+    rw [bip_irr (hYirr 3) (hYirr 3), ite_eq_left rfl]
   have hc5 : c 5 = -ε := by
     have h := hc 5
     rw [hY5, bip_smul_left, bip_sub_left, b03, b33] at h
@@ -703,18 +713,17 @@ theorem suzukiCoherent_core {H : Subgroup G} {z : G} {χ : Fin 20 → H → ℂ}
       push_cast
       linear_combination (ε₂ : ℂ) * hidC + (ε₂ : ℂ) * (psiGram 5 k : ℂ) * hsq
   have hXk0 : BlocksInnerProduct (indψ χ 0) X₂ = (ε₂ : ℂ) := by
-    rw [hXind 0, hcε0, if_pos (Or.inl rfl)]
+    rw [hXind 0, hcε0, ite_eq_left (Or.inl rfl)]
     have hsq := pm_sq hεpm
     have g00 : (psiGram 0 0 : ℂ) = 3 := by
       rw [show psiGram 0 0 = 3 by decide]
       norm_num
     rw [g00]
-    push_cast
     linear_combination (-(ε₂ : ℂ)) * hsq
   have hψ0χ8 : BlocksInnerProduct (psiFun H χ 0) (χ 8) = -1 := by
     rw [psi0, bip_add_left, bip_sub_left, bip_irr (hirr 0) (hirr 8), bip_irr (hirr 8) (hirr 8),
-      bip_irr (hirr 19) (hirr 8), if_neg (hinj.ne (by decide : (0 : Fin 20) ≠ 8)), if_pos rfl,
-      if_neg (hinj.ne (by decide : (19 : Fin 20) ≠ 8))]
+      bip_irr (hirr 19) (hirr 8), ite_eq_right (hinj.ne (by decide : (0 : Fin 20) ≠ 8)), ite_eq_left rfl,
+      ite_eq_right (hinj.ne (by decide : (19 : Fin 20) ≠ 8))]
     ring
   have hfH : ∀ k, BlocksInnerProduct (fun y : H => X₂ y + (ε₂ : ℂ) * χ 8 y) (psiFun H χ k) = 0 := by
     intro k

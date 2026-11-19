@@ -24,6 +24,7 @@ private lemma tableVII_coverperf_commutator_mul_right_of_central {G : Type*} [Gr
     commutatorElement_eq_one_iff_mul_comm.mpr (hz t).symm, one_mul]
   rw [hz ⁅t, s⁆, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite Y] in
 theorem tableVII_cover_no_compl (hC : TableVIICover Y w π) (K : Subgroup Y)
     (hK : K ≤ commutator Y) (hKw : K ⊓ Subgroup.zpowers w = ⊥)
     (hsup : Subgroup.zpowers w ⊔ K = commutator Y) : False := by
@@ -33,7 +34,7 @@ theorem tableVII_cover_no_compl (hC : TableVIICover Y w π) (K : Subgroup Y)
     intro z hz x
     have hz' : z ∈ Subgroup.center Y := Subgroup.zpowers_le.mpr hwcenter hz
     exact (Subgroup.mem_center_iff.mp hz' x).symm
-  haveI hznorm : (Subgroup.zpowers w).Normal :=
+  have hznorm : (Subgroup.zpowers w).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hwcenter)
   have hφker : (π.domRestrict K).ker = ⊥ := by
     rw [MonoidHom.ker_domRestrict, Subgroup.eq_bot_iff_forall]
@@ -100,12 +101,12 @@ theorem tableVII_cover_no_compl (hC : TableVIICover Y w π) (K : Subgroup Y)
       _ = Nat.card (K.map π) := by rw [MonoidHom.domRestrict_range]
       _ = Nat.card (alternatingGroup (Fin 5)) := by rw [hKmap]
       _ = 60 := tableVII_perm_card_alternating
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   have hqcard : Nat.card (Y ⧸ K) = 4 := by
     have h := (Subgroup.card_eq_card_quotient_mul_card_subgroup K).symm
     rw [tableVII_cover_card hC, hKcard] at h
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hqcomm : IsMulCommutative (Y ⧸ K) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hqcard]; norm_num)
   have hcomm_le : commutator Y ≤ K :=

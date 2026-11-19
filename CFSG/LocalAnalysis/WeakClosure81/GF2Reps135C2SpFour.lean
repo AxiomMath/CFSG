@@ -190,7 +190,7 @@ private theorem w135c2_spFour_repOf_irreducible {K : Type} [Field K] [CharP K 2]
     have h := hU (φ ⟨l, hl⟩) u hu
     rwa [hπ, MulEquiv.symm_apply_apply] at h
   have hntW : Nontrivial V := by
-    obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     replace hv : v ≠ 1 := fun h => hv (h ▸ Subgroup.one_mem _)
     refine ⟨⟨Multiplicative.toAdd (θ v), 0, fun h => hv ?_⟩⟩
     have h1 : θ v = 1 := Multiplicative.toAdd.injective (by simpa using h)

@@ -76,20 +76,20 @@ theorem eigDim_eq_sum_eigDimOn {ι K : Type} [Fintype ι] [DecidableEq ι] [Fiel
     change (∑ ε ∈ P, Matrix.toLin' (ε.map φ)) = (1 : Module.End k (ι → k))
     exact h.symm
   have hS : iSupIndep S := by
-    rw [iSupIndep_iff_finset_sum_eq_imp_eq]
+    rw [iSupIndep_iff_finsetSum_eq_imp_eq]
     intro s v w hv hw j hj
     by_cases hjP : j ∈ P
     · have hvj : Pπ j (v j) = v j := by
         have hmem : v j ∈ LinearMap.range (Pπ j) := by
           have h := (hv j hj).1
-          rw [show S j = E ⊓ LinearMap.range (Pπ j) from if_pos hjP] at h
+          rw [show S j = E ⊓ LinearMap.range (Pπ j) from ite_eq_left hjP] at h
           exact h.2
         obtain ⟨u, hu⟩ := LinearMap.mem_range.mp hmem
         rw [← hu, ← Module.End.mul_apply, hidem j hjP]
       have hwj : Pπ j (w j) = w j := by
         have hmem : w j ∈ LinearMap.range (Pπ j) := by
           have h := (hv j hj).2
-          rw [show S j = E ⊓ LinearMap.range (Pπ j) from if_pos hjP] at h
+          rw [show S j = E ⊓ LinearMap.range (Pπ j) from ite_eq_left hjP] at h
           exact h.2
         obtain ⟨u, hu⟩ := LinearMap.mem_range.mp hmem
         rw [← hu, ← Module.End.mul_apply, hidem j hjP]
@@ -100,14 +100,14 @@ theorem eigDim_eq_sum_eigDimOn {ι K : Type} [Fintype ι] [DecidableEq ι] [Fiel
           by_cases hiP : i ∈ P
           · have hmem : v i ∈ LinearMap.range (Pπ i) := by
               have h := (hv i hi).1
-              rw [show S i = E ⊓ LinearMap.range (Pπ i) from if_pos hiP] at h
+              rw [show S i = E ⊓ LinearMap.range (Pπ i) from ite_eq_left hiP] at h
               exact h.2
             obtain ⟨u, hu⟩ := LinearMap.mem_range.mp hmem
             rw [← hu, ← Module.End.mul_apply, horthπ j hjP i hiP (Ne.symm hij)]
             simp
           · have h0 : v i = 0 := by
               have h := (hv i hi).1
-              rw [show S i = ⊥ from if_neg hiP] at h
+              rw [show S i = ⊥ from ite_eq_right hiP] at h
               simpa using h
             rw [h0, map_zero]
         · intro hjnot
@@ -119,14 +119,14 @@ theorem eigDim_eq_sum_eigDimOn {ι K : Type} [Fintype ι] [DecidableEq ι] [Fiel
           by_cases hiP : i ∈ P
           · have hmem : w i ∈ LinearMap.range (Pπ i) := by
               have h := (hv i hi).2
-              rw [show S i = E ⊓ LinearMap.range (Pπ i) from if_pos hiP] at h
+              rw [show S i = E ⊓ LinearMap.range (Pπ i) from ite_eq_left hiP] at h
               exact h.2
             obtain ⟨u, hu⟩ := LinearMap.mem_range.mp hmem
             rw [← hu, ← Module.End.mul_apply, horthπ j hjP i hiP (Ne.symm hij)]
             simp
           · have h0 : w i = 0 := by
               have h := (hv i hi).2
-              rw [show S i = ⊥ from if_neg hiP] at h
+              rw [show S i = ⊥ from ite_eq_right hiP] at h
               simpa using h
             rw [h0, map_zero]
         · intro hjnot
@@ -136,20 +136,20 @@ theorem eigDim_eq_sum_eigDimOn {ι K : Type} [Fintype ι] [DecidableEq ι] [Fiel
       exact h2
     · have hv0 : v j = 0 := by
         have h := (hv j hj).1
-        rw [show S j = ⊥ from if_neg hjP] at h
+        rw [show S j = ⊥ from ite_eq_right hjP] at h
         simpa using h
       have hw0 : w j = 0 := by
         have h := (hv j hj).2
-        rw [show S j = ⊥ from if_neg hjP] at h
+        rw [show S j = ⊥ from ite_eq_right hjP] at h
         simpa using h
       rw [hv0, hw0]
   have hS_eq : (⨆ ε ∈ P, E ⊓ LinearMap.range (Pπ ε)) = ⨆ ε ∈ P, S ε := by
     apply le_antisymm
     · apply iSup_le; intro ε; apply iSup_le; intro hε
-      rw [show E ⊓ LinearMap.range (Pπ ε) = S ε from (if_pos hε).symm]
+      rw [show E ⊓ LinearMap.range (Pπ ε) = S ε from (ite_eq_left hε).symm]
       exact le_iSup_of_le ε (le_iSup_of_le hε le_rfl)
     · apply iSup_le; intro ε; apply iSup_le; intro hε
-      rw [show S ε = E ⊓ LinearMap.range (Pπ ε) from if_pos hε]
+      rw [show S ε = E ⊓ LinearMap.range (Pπ ε) from ite_eq_left hε]
       exact le_iSup_of_le ε (le_iSup_of_le hε le_rfl)
   have hsup : E = ⨆ ε ∈ P, E ⊓ LinearMap.range (Pπ ε) := by
     apply le_antisymm
@@ -174,7 +174,7 @@ theorem eigDim_eq_sum_eigDimOn {ι K : Type} [Fintype ι] [DecidableEq ι] [Fiel
   have hsum_eq : (∑ ε ∈ P, Module.finrank k (S ε)) = ∑ ε ∈ P, eigDimOn b ε l := by
     apply Finset.sum_congr rfl
     intro ε hε
-    rw [show S ε = E ⊓ LinearMap.range (Pπ ε) from if_pos hε]
+    rw [show S ε = E ⊓ LinearMap.range (Pπ ε) from ite_eq_left hε]
     rfl
   have hfin := ggJSf2a_finrank_biSup_eq_sum (S := S) hS P
   calc eigDim b l = Module.finrank k E := rfl
@@ -430,9 +430,9 @@ private theorem ggJSf2a_exists_inv {ι K : Type} [Fintype ι] [DecidableEq ι] [
     exact hodd
   obtain ⟨K', fieldK', algK', finiteK', π, hπsurj, hπker, _hπdeg⟩ :=
     exists_blockField (S := ({b} : Set (GL ι K))) hcomm hodd' he
-  letI : Field K' := fieldK'
-  letI : Algebra K K' := algK'
-  letI : Finite K' := finiteK'
+  let : Field K' := fieldK'
+  let : Algebra K K' := algK'
+  let : Finite K' := finiteK'
   let eA : A := ⟨e, he.1⟩
   let xA : A := ⟨x, hx⟩
   have heidem : e * e = e := he.2.1.eq
@@ -657,10 +657,10 @@ private lemma ggJSf2b_exists_blockMinpoly {ι K : Type} [Fintype ι] [DecidableE
         subst hs
         exact hodd)
       he
-  letI : Field E := hEfield
-  letI : Algebra K E := hEalg
-  letI : Finite E := hEfin
-  have hbA : (b : Matrix ι ι K) ∈ A := Algebra.subset_adjoin (by simp [A])
+  let : Field E := hEfield
+  let : Algebra K E := hEalg
+  let : Finite E := hEfin
+  have hbA : (b : Matrix ι ι K) ∈ A := Algebra.subset_adjoin (by simp)
   let bA : A := ⟨(b : Matrix ι ι K), hbA⟩
   let β : E := π bA
   let g : Polynomial K := minpoly K β
@@ -843,8 +843,7 @@ private lemma ggJSf2b_isSemisimple_C {ι K : Type} [Fintype ι] [DecidableEq ι]
       Matrix.map_one φ (map_zero _) (map_one _)]
   have htoLin_pow : ∀ n, (Matrix.toLin' ((b : Matrix ι ι K).map φ)) ^ n =
       Matrix.toLin' (((b : Matrix ι ι K).map φ) ^ n) := fun n => by
-    simpa using map_pow (Matrix.toLinAlgEquiv' (R := AlgebraicClosure K) (m := ι))
-      (((b : Matrix ι ι K).map φ)) n
+    simp
   have hBsemi : Module.End.IsSemisimple (Matrix.toLin' ((b : Matrix ι ι K).map φ)) :=
     Module.End.isSemisimple_of_pow_eq_one
       (by
@@ -895,7 +894,7 @@ private lemma ggJSf2b_eigenspace_mul_apply {k V : Type*} [Field k] [AddCommGroup
 private lemma ggJSf2b_off_R {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     [Finite K] [CharP K 2] {b : GL ι K} (hodd : Odd (orderOf b)) {e : Matrix ι ι K}
     (hbe : (b : Matrix ι ι K) * e = e * (b : Matrix ι ι K)) (hEidem : e * e = e)
-    {g : Polynomial K} (hg_dvd : g ∣ Polynomial.X ^ orderOf b - 1)
+    {g : Polynomial K} (_hg_dvd : g ∣ Polynomial.X ^ orderOf b - 1)
     (h_ann : Polynomial.aeval (b : Matrix ι ι K) g * e = 0)
     {R : Finset (AlgebraicClosure K)}
     (hmemR : ∀ l, l ∈ R ↔ Polynomial.aeval l
@@ -1098,7 +1097,7 @@ private lemma ggJSf2b_eigDimOn_eq_of_roots {ι K : Type} [Fintype ι] [Decidable
     (Polynomial.mem_rootSet).mpr ⟨hg_ne, haeval_l⟩
   have hroot_l' : l' ∈ g.rootSet k :=
     (Polynomial.mem_rootSet).mpr ⟨hg_ne, haeval_l'⟩
-  haveI : MulAction.IsPretransitive (k ≃ₐ[K] k) (g.rootSet k) :=
+  have : MulAction.IsPretransitive (k ≃ₐ[K] k) (g.rootSet k) :=
     TauCeti.isPretransitive_rootSet_of_irreducible (F := K) (M := k) hg
   obtain ⟨σ, hσ⟩ := MulAction.IsPretransitive.exists_smul_eq
     (M := k ≃ₐ[K] k) (α := g.rootSet k) ⟨l, hroot_l⟩ ⟨l', hroot_l'⟩

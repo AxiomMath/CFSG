@@ -19,6 +19,7 @@ section ZDual
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [Finite V] {H : Type} [Group H]
 
+omit [Finite F] [CharP F 2] [Finite V] in
 theorem split3_kernel_M {Φ : ReflForm F V} {TS : Submodule F V → Prop}
     {W M W' : Submodule F V} (hS : Split3 Φ TS W M W') :
     ∀ u ∈ M, (∀ m' ∈ M, Φ.β m' u = 0) → u = 0 := by
@@ -35,6 +36,7 @@ theorem vec_add_self (K : Type) [Field K] [CharP K 2] {W : Type} [AddCommGroup W
     (u : W) : u + u = 0 := by
   rw [← two_smul K u, CharTwo.two_eq_zero, zero_smul]
 
+omit [Finite F] in
 theorem zdual_abs {Φ : ReflForm F V} {TS : Submodule F V → Prop} {Sing : V → Prop} (E2 : Prop)
     {W M W' : Submodule F V} (hS : Split3 Φ TS W M W') (hW : Φ.IsTotallyIsotropic W)
     (hW' : Φ.IsTotallyIsotropic W') (hsing : ∀ v ∈ W, Sing v) (p : ℕ) [Fact p.Prime]
@@ -48,7 +50,7 @@ theorem zdual_abs {Φ : ReflForm F V} {TS : Submodule F V → Prop} {Sing : V �
       (∀ v ∈ M ⊔ W', c' v = 0) ∧ (∀ u v, Φ.β (c' u) v = Φ.β u (c' v)) ∧
       (∃ w ∈ W, c' w ≠ 0) ∧ (E2 ∨ ∀ u, Φ.β u (c' u) = 0) := by
   classical
-  haveI : FiniteDimensional F V := Module.Finite.of_finite
+  have : FiniteDimensional F V := Module.Finite.of_finite
   obtain ⟨K', hK'mem⟩ : ∃ K' : Submodule F V, ∀ v, v ∈ K' ↔ v ∈ W' ∧ c v = 0 :=
     ⟨W' ⊓ LinearMap.ker c, fun v => by simp [Submodule.mem_inf, LinearMap.mem_ker]⟩
   have hK'inv : ∀ r ∈ Rh, ∀ v ∈ K', r v ∈ K' := by
@@ -221,10 +223,11 @@ variable {Φ : ReflForm F V} {Sing : V → Prop} {TS : Submodule F V → Prop}
   {ρ : H →* Module.End F V} {p : ℕ} [Fact p.Prime]
   {Rh : Subgroup (Equiv.Perm V)} {X : ℕ → Submodule F V} {m : ℕ} {M W' : Submodule F V}
 
+omit [Finite F] in
 theorem caseZ_dual_core (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W')
     (hZtype : EA2 Φ Sing ρ ∨
       ∀ (h : H) (w : V), Sing (ρ h w - w) → Φ.β w (ρ h w - w) = 0)
-    (x : H) (hx : x ∈ flagKernel ρ (isoCompletion Φ X m)) (hxc : CommR ρ Rh x)
+    (x : H) (_hx : x ∈ flagKernel ρ (isoCompletion Φ X m)) (hxc : CommR ρ Rh x)
     (hZ : (∀ w ∈ X m, ρ x w = w) ∧ (∀ y ∈ M, ρ x y = y) ∧ ∃ w ∈ W', ρ x w ≠ w) :
     ∃ c : V →ₗ[F] V, (∀ r ∈ Rh, ∀ v, r (c v) = c (r v)) ∧ (∀ v, c v ∈ W') ∧
       (∀ v ∈ M ⊔ W', c v = 0) ∧ (∀ u v, Φ.β (c u) v = Φ.β u (c v)) ∧ (∃ w ∈ X m, c w ≠ 0) ∧
@@ -233,7 +236,7 @@ theorem caseZ_dual_core (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W
   have hW := ctx_hW C
   have hW' := ctx_hW' C
   have hS := C.hsplit
-  haveI : FiniteDimensional F V := Module.Finite.of_finite
+  have : FiniteDimensional F V := Module.Finite.of_finite
   obtain ⟨c, hcapp⟩ : ∃ c : V →ₗ[F] V, ∀ v, c v = ρ x v - v :=
     ⟨ρ x - 1, fun v => by simp⟩
   have hc0 : ∀ v ∈ X m ⊔ M, c v = 0 := by

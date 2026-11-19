@@ -48,7 +48,7 @@ theorem HasNoncyclicThree.of_quotient {L : Type} [Group L] [Finite L] (N : Subgr
     rw [htop] at this
     exact hc (isCyclic_of_surjective (Subgroup.topEquiv : (⊤ : Subgroup Q) ≃* Q)
       (Subgroup.topEquiv : (⊤ : Subgroup Q) ≃* Q).surjective)
-  exact HasNoncyclicThree.of_injective Q'.subtype Q'.subtype_injective ⟨S, S.isPGroup', hSc⟩
+  exact HasNoncyclicThree.of_injective Q'.subtype Q'.subtype_injective ⟨S, S.isPGroup, hSc⟩
 
 theorem base_invariant {Y : Type} [Group Y] {n : ℕ} (hn : 2 ≤ n)
     (h : Blueprint.LieModel Y .PSL 2 3 n) :

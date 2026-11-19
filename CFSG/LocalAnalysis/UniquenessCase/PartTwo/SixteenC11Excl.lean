@@ -140,7 +140,7 @@ private theorem s16c11_excl_false_of_elemAbelian_card_nine {X : Type} [Group X] 
     (h3 : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X)) : False := by
   obtain ⟨A, -, hAel, hAcard⟩ :=
     CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (⊤ : Subgroup X)
-  haveI : CFSG.IsElementaryAbelian 3 A := hAel.isElementaryAbelian
+  have : CFSG.IsElementaryAbelian 3 A := hAel.isElementaryAbelian
   have hApg : IsPGroup 3 A := CFSG.IsElementaryAbelian.isPGroup 3 A
   have hAcard27 : 27 ≤ Nat.card A := by
     rw [hAcard]
@@ -216,11 +216,11 @@ theorem s16c11_excl_case8 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h127
     rw [Nat.card_congr
       (Subgroup.subgroupOfEquivOfLe (fstarBar_le_mbar D.M V₀ V hV)).toEquiv]
     exact (s16c11_excl_elemAbelian_card_of_rank h8.1).2
-  haveI hEn : E.Normal := by
+  have hEn : E.Normal := by
     change ((fstarBar D.M V₀ V hV).subgroupOf (Mbar D.M V₀ V hV)).Normal
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer
       (fstarBar_le_mbar D.M V₀ V hV)).2 (mbar_le_normalizer_fstarBar D.M V₀ V hV)
-  haveI hEl : CFSG.IsElementaryAbelian 3 E := by
+  have hEl : CFSG.IsElementaryAbelian 3 E := by
     change CFSG.IsElementaryAbelian 3
       ((fstarBar D.M V₀ V hV).subgroupOf (Mbar D.M V₀ V hV))
     exact ((s16c11_excl_elemAbelian_card_of_rank h8.1).1.subgroupOf

@@ -24,7 +24,7 @@ theorem isF5Centralizer_nonempty_mulEquiv_of_facts (hHN : HNCentralizerFacts)
   exact ⟨Ψ⟩
 
 theorem hsCtx_of_isHSCover {H : Type} [Group H] {E : Subgroup H} (h : IsHSCover H E) : HSCtx := by
-  haveI := h.finite
+  have := h.finite
   exact HSCtx.of_doubleCover h.perfect h.card_center h.quotient
 
 end Facts

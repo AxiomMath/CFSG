@@ -18,7 +18,7 @@ theorem StrothFrame.IsD.false_of_t200_case_x {F : StrothFrame G} {D : Subgroup G
     (hrel : Rel34x dD f (2 ^ m) (2 ^ (m - 1)) p)
     (hS : (F.S : Subgroup G) = D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔ Subgroup.zpowers f) :
     False := by
-  haveI := F.simple
+  have := F.simple
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set U := D ⊔ P ⊔ Subgroup.zpowers (f * f) with hU
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz

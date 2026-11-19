@@ -23,9 +23,11 @@ structure FpfSetting (P Q : Subgroup G) (ρ : G) : Prop where
 
 variable [Finite G] {P Q : Subgroup G} {ρ : G}
 
+omit [Finite G] in
 private lemma rho_inv_eq (h : FpfSetting P Q ρ) : ρ⁻¹ = ρ ^ 2 :=
   inv_eq_of_mul_eq_one_right (by rw [← pow_succ', h.rho3])
 
+omit [Finite G] in
 lemma rho2_normalizes_P (h : FpfSetting P Q ρ) (x : G) (hx : x ∈ P) :
     ρ ^ 2 * x * (ρ ^ 2)⁻¹ ∈ P := by
   have hid : ρ ^ 2 * x * (ρ ^ 2)⁻¹ = ρ * (ρ * x * ρ⁻¹) * ρ⁻¹ := by
@@ -34,6 +36,7 @@ lemma rho2_normalizes_P (h : FpfSetting P Q ρ) (x : G) (hx : x ∈ P) :
   rw [hid]
   exact h.rhoP _ (h.rhoP x hx)
 
+omit [Finite G] in
 lemma rho2_normalizes_Q (h : FpfSetting P Q ρ) (x : G) (hx : x ∈ Q) :
     ρ ^ 2 * x * (ρ ^ 2)⁻¹ ∈ Q := by
   have hid : ρ ^ 2 * x * (ρ ^ 2)⁻¹ = ρ * (ρ * x * ρ⁻¹) * ρ⁻¹ := by
@@ -42,11 +45,13 @@ lemma rho2_normalizes_Q (h : FpfSetting P Q ρ) (x : G) (hx : x ∈ Q) :
   rw [hid]
   exact h.rhoQ _ (h.rhoQ x hx)
 
+omit [Finite G] in
 private lemma rho_inv_normalizes_Q (h : FpfSetting P Q ρ) {x : G} (hx : x ∈ Q) :
     ρ⁻¹ * x * (ρ⁻¹)⁻¹ ∈ Q := by
   rw [rho_inv_eq h]
   exact rho2_normalizes_Q h x hx
 
+omit [Finite G] in
 private lemma rho2_inv_normalizes_Q (h : FpfSetting P Q ρ) {x : G} (hx : x ∈ Q) :
     (ρ ^ 2)⁻¹ * x * ((ρ ^ 2)⁻¹)⁻¹ ∈ Q := by
   have hid : (ρ ^ 2)⁻¹ * x * ((ρ ^ 2)⁻¹)⁻¹
@@ -56,6 +61,7 @@ private lemma rho2_inv_normalizes_Q (h : FpfSetting P Q ρ) {x : G} (hx : x ∈ 
   rw [hid]
   exact rho_inv_normalizes_Q h (rho_inv_normalizes_Q h hx)
 
+omit [Finite G] in
 private lemma rho2_fix (h : FpfSetting P Q ρ) (x : G) (hx : x ∈ P)
     (hfix : ρ ^ 2 * x * (ρ ^ 2)⁻¹ = x) : x = 1 := by
   apply h.fix x hx
@@ -72,6 +78,7 @@ private lemma rho2_fix (h : FpfSetting P Q ρ) (x : G) (hx : x ∈ P)
   rw [hleft] at h2
   exact h2.symm
 
+omit [Finite G] in
 private lemma rho2_cube (h : FpfSetting P Q ρ) : (ρ ^ 2) ^ 3 = 1 := by
   have : (ρ ^ 2) ^ 3 = (ρ ^ 3) ^ 2 := by group
   rw [this, h.rho3]
@@ -95,12 +102,12 @@ private lemma exists_fixed_point_of_cube {α : Type*} [Fintype α]
   exact Equiv.Perm.exists_fixed_point_of_prime (p := 3) (n := 1) hcard hfp3
 
 private theorem mem_of_stable_gen (h : FpfSetting P Q ρ) {σ : G}
-    (hσ3 : σ ^ 3 = 1) (hσP : ∀ x ∈ P, σ * x * σ⁻¹ ∈ P)
+    (hσ3 : σ ^ 3 = 1) (_hσP : ∀ x ∈ P, σ * x * σ⁻¹ ∈ P)
     (hσQ : ∀ x ∈ Q, σ * x * σ⁻¹ ∈ Q)
     (hfixσ : ∀ x ∈ P, σ * x * σ⁻¹ = x → x = 1)
     {x : G} (hx : x ∈ P) (hst : x⁻¹ * (σ * x * σ⁻¹) ∈ Q) : x ∈ Q := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   let c : G := x⁻¹ * (σ * x * σ⁻¹)
   have hcQ : c ∈ Q := hst
   let f : ↥Q → ↥Q := fun q =>
@@ -152,6 +159,7 @@ theorem FpfSetting.mem_of_stable (h : FpfSetting P Q ρ) {x : G} (hx : x ∈ P)
     (hst : x⁻¹ * (ρ * x * ρ⁻¹) ∈ Q) : x ∈ Q :=
   mem_of_stable_gen h h.rho3 h.rhoP h.rhoQ h.fix hx hst
 
+omit [Finite G] in
 lemma normal_subgroupOf (h : FpfSetting P Q ρ) : (Q.subgroupOf P).Normal :=
   ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -160,12 +168,14 @@ lemma normal_subgroupOf (h : FpfSetting P Q ρ) : (Q.subgroupOf P).Normal :=
     group
     exact hn⟩
 
-private lemma quot_eq_iff (h : FpfSetting P Q ρ) {u v : ↥P} :
+omit [Finite G] in
+private lemma quot_eq_iff (_h : FpfSetting P Q ρ) {u v : ↥P} :
     ((u : ↥P) : ↥P ⧸ Q.subgroupOf P) = (v : ↥P) ↔ (u : G)⁻¹ * (v : G) ∈ Q := by
   rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
   rfl
 
-lemma rho_ne_Q (h : FpfSetting P Q ρ) {a : G} (ha : a ∈ P) (haQ : a ∉ Q) :
+omit [Finite G] in
+lemma rho_ne_Q (h : FpfSetting P Q ρ) {a : G} (_ha : a ∈ P) (haQ : a ∉ Q) :
     ρ * a * ρ⁻¹ ∉ Q := by
   intro hq
   apply haQ
@@ -173,7 +183,8 @@ lemma rho_ne_Q (h : FpfSetting P Q ρ) {a : G} (ha : a ∈ P) (haQ : a ∉ Q) :
   rw [hid]
   exact rho_inv_normalizes_Q h hq
 
-lemma rho2_ne_Q (h : FpfSetting P Q ρ) {a : G} (ha : a ∈ P) (haQ : a ∉ Q) :
+omit [Finite G] in
+lemma rho2_ne_Q (h : FpfSetting P Q ρ) {a : G} (_ha : a ∈ P) (haQ : a ∉ Q) :
     ρ ^ 2 * a * (ρ ^ 2)⁻¹ ∉ Q := by
   intro hq
   apply haQ
@@ -204,9 +215,9 @@ theorem FpfSetting.cover (h : FpfSetting P Q ρ) {a : G} (ha : a ∈ P) (haQ : a
     x ∈ Q ∨ a⁻¹ * x ∈ Q ∨ (ρ * a * ρ⁻¹)⁻¹ * x ∈ Q
       ∨ (ρ ^ 2 * a * (ρ ^ 2)⁻¹)⁻¹ * x ∈ Q := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   let H : Subgroup ↥P := Q.subgroupOf P
-  haveI : H.Normal := normal_subgroupOf h
+  have : H.Normal := normal_subgroupOf h
   let β := ↥P ⧸ H
   have hcardβ : Nat.card β = 4 := by
     change Nat.card (↥P ⧸ Q.subgroupOf P) = 4
@@ -269,8 +280,9 @@ theorem FpfSetting.cover (h : FpfSetting P Q ρ) {a : G} (ha : a ∈ P) (haQ : a
   · right; right; right
     simpa using (quot_eq_iff h).mp hi
 
+omit [Finite G] in
 private lemma pow_four_mem (h : FpfSetting P Q ρ) {x : G} (hx : x ∈ P) : x ^ 4 ∈ Q := by
-  haveI : (Q.subgroupOf P).Normal := normal_subgroupOf h
+  have : (Q.subgroupOf P).Normal := normal_subgroupOf h
   have hmem := Subgroup.pow_index_mem (Q.subgroupOf P) (⟨x, hx⟩ : ↥P)
   rw [show (Q.subgroupOf P).index = 4 by
     rw [show (Q.subgroupOf P).index = Q.relIndex P from rfl, h.idx]] at hmem

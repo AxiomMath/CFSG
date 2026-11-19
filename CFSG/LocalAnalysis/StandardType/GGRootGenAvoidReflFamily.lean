@@ -48,7 +48,6 @@ private lemma fixed_iff_mulAut_congr_addEquiv {A B : Type} [AddGroup A] [Group B
       simpa using congrArg e.symm h
     simpa using congrArg toAdd h1
   · intro h
-    change e (ofAdd (σ (toAdd (e.symm x)))) = x
     rw [show ofAdd (σ (toAdd (e.symm x))) = e.symm x by rw [h, ofAdd_toAdd]]
     exact e.apply_symm_apply x
 
@@ -57,7 +56,7 @@ private lemma fixedSet_mulAut_congr_addEquiv {A B : Type} [AddGroup A] [Group B]
     {x : B | MulAut.congr e (AddEquiv.toMultiplicative σ) x = x} =
       e '' {t : Multiplicative A | σ (toAdd t) = toAdd t} := by
   ext x
-  rw [Set.mem_setOf_eq, fixed_iff_mulAut_congr_addEquiv, Set.mem_image]
+  rw [Set.mem_ofPred_eq, fixed_iff_mulAut_congr_addEquiv, Set.mem_image]
   constructor
   · intro h
     exact ⟨e.symm x, h, e.apply_symm_apply x⟩

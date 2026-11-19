@@ -71,7 +71,7 @@ theorem data_of_core {N : Subgroup Y} {t p q p' : Y} (ht2 : t * t = 1) (hp : p *
     (h2 : q * p' = p' * q) (ha : p * p' ∈ N) (hb : q * p' ∈ N) :
     ∃ a b : Y, a ∈ N ∧ b ∈ N ∧ a * t = t * a ∧ b * t = t * b ∧ orderOf a = 2 ∧
       orderOf b = 2 ∧ a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hct : ∀ {x : Y}, x * x = t → Commute x t := fun {x} hx => by
     rw [← hx]; exact (Commute.refl x).mul_right (Commute.refl x)
   have hsq : ∀ {x : Y}, x * x = t → x * p' = p' * x → (x * p') * (x * p') = 1 := by
@@ -233,7 +233,7 @@ theorem mul_mem_of_isCyclic_map [Finite Y] {Q N : Subgroup Y} [N.Normal]
   have hx1 : x' ≠ 1 := fun h => hxN ((QuotientGroup.eq_one_iff x).mp (congrArg Subtype.val h))
   have hy1 : y' ≠ 1 := fun h => hyN ((QuotientGroup.eq_one_iff y).mp (congrArg Subtype.val h))
   have h2 : Nat.card H = 2 := by
-    haveI : Nontrivial H := ⟨⟨x', 1, hx1⟩⟩
+    have : Nontrivial H := ⟨⟨x', 1, hx1⟩⟩
     have := Finite.one_lt_card (α := H)
     omega
   have heq : x' = y' := ((Nat.card_eq_two_iff' (1 : H)).mp h2).unique hx1 hy1
@@ -260,7 +260,7 @@ theorem goldschmidtSimpleType_fstar {Y : Type} [Group Y] [Finite Y]
     goldschmidtSimpleType ↥(genFittingFStar Y) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := genFittingFStar Y
-  haveI : L.Normal := genFittingFStar_normal Y
+  have : L.Normal := genFittingFStar_normal Y
   obtain ⟨TL, hTL⟩ := Glauberman.sylow_inf_normal T (N := L)
   have hAabL : IsMulCommutative ((A ⊓ L).subgroupOf L) := ⟨⟨fun x y => by
     have := congrArg Subtype.val (hAab.is_comm.comm ⟨x.1.1, (Subgroup.mem_inf.1 x.2).1⟩
@@ -291,10 +291,10 @@ theorem p23_178_of_out (hO : GoldOutCyc) {Y : Type} [Group Y] [Finite Y] {R : Su
     (T : Sylow 2 Y) {A : Subgroup Y} (hAT : A ≤ (T : Subgroup Y)) (hAab : IsMulCommutative A)
     (hcl : ∀ a ∈ A, ∀ x : Y, x⁻¹ * a * x ∈ (T : Subgroup Y) → x⁻¹ * a * x ∈ A)
     (hue : u * e ∈ A) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hc.std.perp.core.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hc.std.perp.core.simple
   set L := genFittingFStar Y with hL
-  haveI hLn : L.Normal := genFittingFStar_normal Y
+  have hLn : L.Normal := genFittingFStar_normal Y
   have htL : t ∈ L := p23_t_mem_fstar hc
   have hueL : u * e ∈ L := by
     rw [← hc.data.hgt]

@@ -30,7 +30,7 @@ theorem exists_isPGroup_map_eq_p {p : ℕ} [Fact p.Prime] {W W₁ : Type*} [Grou
     rcases n with _ | n
     · exact Subgroup.index_eq_one.1 (by simpa using hn)
     · exact absurd (hn ▸ dvd_pow_self p (Nat.succ_ne_zero n)) hnd
-  refine ⟨(P : Subgroup C).map C.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup C).map C.subtype, Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩
   have e : ((P : Subgroup C).map C.subtype).map ρ = ((P : Subgroup C).map ρ').map U₁.subtype := by
     rw [Subgroup.map_map, Subgroup.map_map]
     rfl

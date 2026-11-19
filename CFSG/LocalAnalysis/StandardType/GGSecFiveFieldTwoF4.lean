@@ -188,7 +188,7 @@ theorem order_three_cases_of_card_two {K : Type} [Field K]
           (TableBF4Two.rho K 1 (uSL 1 * vSL 1) * TableBF4Two.rho K 1 (uSL 1 * vSL 1)) *
           (TableBF4Two.rho K 2 (uSL 1 * vSL 1) * TableBF4Two.rho K 2 (uSL 1 * vSL 1))) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   let e : K ≃+* ZMod 2 :=
     (ZMod.ringEquiv K (by rw [← Nat.card_eq_fintype_card, hK])).symm
   let Φ := CFSG.HardMathSupport.Lang.AnisoE6.adjointGroupCongr (τ := .F4) e
@@ -310,10 +310,10 @@ theorem not_isComponentOf_centralizer_zFrame {K : Type} [Field K] [Finite K] [Ch
     rw [h4] at this
     exact this
   have hMsolv : Group.IsSolvable ↥M :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   obtain ⟨hperf, hsimp⟩ := hM.2.2
-  haveI : Group.IsPerfect ↥M := ⟨hperf⟩
-  haveI : Nontrivial ↥M := by
+  have : Group.IsPerfect ↥M := ⟨hperf⟩
+  have : Nontrivial ↥M := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
     exact hsimp.toNontrivial.exists_pair_ne.elim fun a ha => ha.elim fun b hb =>
@@ -326,7 +326,7 @@ theorem map_rootGroup_three_of_exceptionalAut {K : Type} [Field K] [Finite K]
     (hφ' : ∀ x, φ' x = CFSG.LieType.Ree.ReeTag.F4.finiteExceptionalAut K x) :
     ((f4Datum K).rootGroup (Pi.single (3 : Fin (Tag.rank .F4)) 1)).map φ'.toMonoidHom =
       (f4Datum K).rootGroup (Pi.single (0 : Fin (Tag.rank .F4)) 1) := by
-  haveI : CharP K 2 := ‹CharP K CFSG.LieType.Ree.ReeTag.F4.prime›
+  have : CharP K 2 := ‹CharP K CFSG.LieType.Ree.ReeTag.F4.prime›
   have hβ : IsRoot .F4 (Pi.single (3 : Fin (Tag.rank .F4)) 1) := isRoot_single .F4 3
   have hβ' : IsRoot .F4 (Pi.single (0 : Fin (Tag.rank .F4)) 1) := isRoot_single .F4 0
   have hshort : (Pi.single 3 1 : Fin CFSG.LieType.Ree.ReeTag.F4.tag.rank → ℤ) ∈
@@ -336,7 +336,7 @@ theorem map_rootGroup_three_of_exceptionalAut {K : Type} [Field K] [Finite K]
       (Pi.single 3 1 : Fin CFSG.LieType.Ree.ReeTag.F4.tag.rank → ℤ) = Pi.single 0 1 := by
     decide
   have hsq : ∀ c : K, c ^ 2 = c := fun c => by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have h := FiniteField.pow_card c
     rwa [← Nat.card_eq_fintype_card, hK] at h
   have hφ : ∀ c : K, φ' (f4Par K (Pi.single (3 : Fin (Tag.rank .F4)) 1) c) =
@@ -443,7 +443,7 @@ theorem selected_of_isComponentOf {G : Type} [Group G]
     refine selected_of_rootLift hψ hrho hphi' hU' (MulAut.conj c⁻¹) ?_ hβ₀ c⁻¹ (rho.comp phi')
       (hrho.comp hphi') hU (fun A => by rw [MulAut.conj_apply]; rfl)
     rw [hrange, hback, hML]
-  · haveI : CharP (GaloisField 2 1) CFSG.LieType.Ree.ReeTag.F4.prime :=
+  · have : CharP (GaloisField 2 1) CFSG.LieType.Ree.ReeTag.F4.prime :=
       inferInstanceAs (CharP (GaloisField 2 1) 2)
     obtain ⟨φ', hφ'⟩ : ∃ φ' : MulAut ↥(adjointGroup .F4 (GaloisField 2 1)),
         ∀ x, φ' x = CFSG.LieType.Ree.ReeTag.F4.finiteExceptionalAut (GaloisField 2 1) x :=
@@ -565,7 +565,7 @@ theorem ggSecFiveQTwoFieldTwoSelectedAt_F4 :
     have h1 := hg u
     rw [one_mul, inv_one, mul_one] at h1
     exact (mul_inv_eq_iff_eq_mul.1 h1).symm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact selected_of_isComponentOf hψ (orderOf_eq_prime hg3 hg1) hM hML
 
 end Main

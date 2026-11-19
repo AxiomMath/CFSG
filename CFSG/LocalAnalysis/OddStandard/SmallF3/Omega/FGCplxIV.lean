@@ -29,7 +29,7 @@ theorem fg_cent_typeIV (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V 
     {A : Subgroup (ProjSim Q)}
     (hAJ : ∀ a ∈ A, ∀ j ∈ J, projSimAct Q a (j : ProjOrth Q) = (j : ProjOrth Q)) :
     Nat.card A ≤ 2 := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
   obtain ⟨hlie, hΩ, -⟩ := ff6m_K4_core hQ hdim hρ hρρ
   have hsn := ff_simple_of_lieModel_psl2 hlie
   have hperf : Group.IsPerfect ↥⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆ :=

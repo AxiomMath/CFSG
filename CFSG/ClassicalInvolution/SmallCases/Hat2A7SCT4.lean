@@ -178,11 +178,11 @@ theorem core26_of_thin [IsSimpleGroup G] (hs : Asc77.Std8 Ω K J S R T W z t)
         S.mul_mem (S.mul_mem (S.mul_mem hzS hxS) (S.inv_mem hzS)) (S.inv_mem hxS)
       have h1 : z * x * z⁻¹ * x⁻¹ = 1 :=
         eq_one_of_isPGroup_of_mem_odd (oddCoreOf_odd_natCard M) (hzcomm x hx.1)
-          (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hcS))
+          (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hcS))
       have h2 : z * x = x * z := commutatorElement_eq_one_iff_mul_comm.mp h1
       exact T8.mem_cenZ_iff.mpr h2.symm
     have hMx : T8.XMem Ω z M := xMem_of_mem_omegaNbr hΩ hw hK hs.hz hMK
-    have hA2 : IsPGroup 2 ↥(M ⊓ (S : Subgroup G)) := S.isPGroup'.to_inf_right
+    have hA2 : IsPGroup 2 ↥(M ⊓ (S : Subgroup G)) := S.isPGroup.to_inf_right
     have hAres : M ⊓ (S : Subgroup G) ≤ T8.layerRes z M :=
       le_layerRes_of_isPGroup hΩ hcls hs.hz.sq hMx hA2 inf_le_left fun x hx => hMc x hx
     have hqc : q ∈ T8.cenZ z := T8.layerJoin_le_cenZ z (oddCoreOf_le_self _ hq)
@@ -212,7 +212,7 @@ theorem core26_of_thin [IsSimpleGroup G] (hs : Asc77.Std8 Ω K J S R T W z t)
     have hTY : IsSylow2In T (T8.layerRes z J ⊔ oddCoreOf (T8.layerJoin Ω z)) :=
       T8R.isSylow2In_of_eq_sup_oddCoreOf le_sup_left hYeq hTres
     have hSY : (S : Subgroup G) ⊓ (T8.layerRes z J ⊔ oddCoreOf (T8.layerJoin Ω z)) = T :=
-      hTY.eq_of_le S.isPGroup'.to_inf_left inf_le_right (le_inf hTS hTY.1)
+      hTY.eq_of_le S.isPGroup.to_inf_left inf_le_right (le_inf hTS hTY.1)
     have hMY : T8.layerRes z M ≤ T8.layerRes z J ⊔ oddCoreOf (T8.layerJoin Ω z) := by
       rw [hresq]
       intro y hy

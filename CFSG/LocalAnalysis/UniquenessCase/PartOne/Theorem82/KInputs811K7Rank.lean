@@ -30,11 +30,11 @@ private theorem qPlusPi_dvd_sq_sub_one (r f : ℕ) : qPlusPi r f ∣ (r ^ f) ^ 2
 
 private theorem qPlusPi_eq_add_one {r f : ℕ} (h : r ^ f % 3 = 1) : qPlusPi r f = r ^ f + 1 := by
   unfold qPlusPi
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem qPlusPi_eq_sub_one {r f : ℕ} (h : r ^ f % 3 = 2) : qPlusPi r f = r ^ f - 1 := by
   unfold qPlusPi
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
 
 end Arithmetic
 
@@ -114,7 +114,7 @@ section Quotient
 private theorem pRank_le_two_of_l4 {X : Type} [Group X] [Finite X] {r f p : ℕ}
     (h : IsLieFam811 X .l4 r f) (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ qPlusPi r f) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   have hp4 : ¬ p ∣ 4 := fun hd => by
     have := Nat.le_of_dvd (by norm_num) hd
@@ -130,7 +130,7 @@ private theorem pRank_le_two_of_l4 {X : Type} [Group X] [Finite X] {r f p : ℕ}
 private theorem pRank_le_three_of_psp6 {X : Type} [Group X] [Finite X] {r f p : ℕ}
     (h : IsLieFam811 X .psp6 r f) (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ qPlusPi r f) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 3 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨-, -, hm⟩ := h
   exact (pRank_eq_of_psp (hp.odd_of_ne_two (by omega)) (hpq.trans (qPlusPi_dvd_sq_sub_one r f))
     (by norm_num) (hm.statedClassicalModel_of_ne_zero (by norm_num))).le
@@ -138,7 +138,7 @@ private theorem pRank_le_three_of_psp6 {X : Type} [Group X] [Finite X] {r f p : 
 private theorem pRank_le_three_of_omega7 {X : Type} [Group X] [Finite X] {r f p : ℕ}
     (h : IsLieFam811 X .omega7 r f) (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ qPlusPi r f) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 3 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨hr, hr2, -, hm⟩ := h
   exact pRank_le_of_pOmegaOdd (hp.odd_of_ne_two (by omega)) ((hr.odd_of_ne_two hr2).pow)
     (hpq.trans (qPlusPi_dvd_sq_sub_one r f)) (hm.statedClassicalModel_of_ne_zero (by norm_num))
@@ -146,7 +146,7 @@ private theorem pRank_le_three_of_omega7 {X : Type} [Group X] [Finite X] {r f p 
 private theorem pRank_le_two_of_not_dvd {X : Type} [Group X] [Finite X] {fam : LieFam811}
     {r f p : ℕ} (h : IsLieFam811 X fam r f) (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : ¬ p ∣ r ^ f)
     (hpq2 : ¬ p ∣ r ^ (2 * f) - 1) : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   rw [pow_mul'] at hpq2
   rcases fam with _ | _ | _ | _ | _ | _
@@ -187,7 +187,7 @@ end K7Rank
 theorem pRank_le_two_of_isLie811_l4
     {Y : Type} [Group Y] [Finite Y] {r f : ℕ} (hY : IsLie811 Y .l4 r f) {p : ℕ} (hp : p.Prime)
     (hp5 : 5 ≤ p) (hpq : p ∣ qPlusPi r f) : CFSG.pRank p (⊤ : Subgroup Y) ≤ 2 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hZ : center Y = ⊥ :=
     center_eq_bot_of_isLie811_of_ne hY (by decide) fun h => absurd h (by decide)
   obtain ⟨-, -, hX⟩ := hY
@@ -198,7 +198,7 @@ theorem pRank_le_three_of_isLie811_psp6_omega7
     {Y : Type} [Group Y] [Finite Y] {fam : LieFam811} {r f : ℕ} (hY : IsLie811 Y fam r f)
     (hfam : fam = .psp6 ∨ fam = .omega7) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hpq : p ∣ qPlusPi r f) : CFSG.pRank p (⊤ : Subgroup Y) ≤ 3 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hne : fam ≠ .l7 := by rcases hfam with rfl | rfl <;> decide
   have hsp : fam = .psp6 → r ^ f ≠ 2 := by
     rintro - hq
@@ -215,7 +215,7 @@ theorem pRank_le_two_of_isLie811_of_not_dvd
     {Y : Type} [Group Y] [Finite Y] {fam : LieFam811} {r f : ℕ} (hY : IsLie811 Y fam r f)
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : ¬ p ∣ r ^ f * (r ^ (2 * f) - 1)) :
     CFSG.pRank p (⊤ : Subgroup Y) ≤ 2 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h1 : ¬ p ∣ r ^ f := fun h => hpq (h.mul_right _)
   have h2 : ¬ p ∣ r ^ (2 * f) - 1 := fun h => hpq (h.mul_left _)
   have hZ : ¬ p ∣ Nat.card (center Y) := by

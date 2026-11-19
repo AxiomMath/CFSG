@@ -319,6 +319,7 @@ private theorem isPGroup_of_wreath_five_le (hC : HypothesisC D) {f n : ℕ} (hf 
   rw [hbot]
   exact IsPGroup.of_bot
 
+omit [Finite G] in
 private theorem isPGroup_of_wreath_one (hC : HypothesisC D) {f : ℕ}
     (Φ : G ≃* L2Wreath f 1) :
     IsPGroup 2 (CFSG.solvableRadical (Halpha D hC.alpha)) := by

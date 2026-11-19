@@ -56,7 +56,7 @@ theorem exclTE6_of_rat
     natCast_ne_zero_algebraicClosure_of_ne Nat.prime_two Nat.prime_three hK2 (by decide)
   have hTame :=
     langSetup_hTame_of_prime S Nat.prime_three hpL (fun h' => absurd h' (by decide)) hT hap h1
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨i, hqi, hJR⟩ :=
     components_of_langSetup S Nat.prime_three ι hinj hrange (twistedE6InndiagConj K σ g)
       hconj hT hap h1 hTame hI

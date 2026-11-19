@@ -47,6 +47,6 @@ theorem certificate7660 :
   simp (maxDischargeDepth := 64) only [List.all_cons, List.all_nil, Bool.and_true,
     wordArr_D l1, wordArr_D l2, wordArr_D l3, wordArr_D l4, wordArr_D l5, wordArr_D l6,
     invCand_G, compA_G, eqA_G, isInvA_G, idA_G, Gd.mul, Gd.inv, Gd.one, Gd_WD,
-    C7660.g1, C7660.h1, C7660.g2, C7660.h2, C7660.g3, C7660.h3, Bool.true_and, and_self]
+    C7660.g1, C7660.h1, C7660.g2, C7660.h2, C7660.g3, C7660.h3, and_self]
 
 end Certificates

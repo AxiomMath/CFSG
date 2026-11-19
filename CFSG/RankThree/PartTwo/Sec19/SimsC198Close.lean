@@ -157,7 +157,7 @@ theorem AutDatum.fixIn_eq_of_isQuasisimple {c : S} {L : Subgroup S} {𝒟 : Subg
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hL
       (inferInstance : (aschbacherSolvableCore 3 L).Normal) with htop | hcen
     · exfalso
-      haveI := CFSG.LocalCores.isQuasisimple_nontrivial h.quasisimple
+      have := CFSG.LocalCores.isQuasisimple_nontrivial h.quasisimple
       obtain ⟨u, v, huv⟩ := exists_pair_ne (L ⧸ aschbacherSolvableCore 3 L)
       obtain ⟨u, rfl⟩ := QuotientGroup.mk_surjective u
       obtain ⟨v, rfl⟩ := QuotientGroup.mk_surjective v
@@ -177,7 +177,7 @@ theorem AutDatum.fixIn_eq_of_isQuasisimple {c : S} {L : Subgroup S} {𝒟 : Subg
     refine ⟨l, hl, ?_⟩
     have hmem : l⁻¹ * (⟨x, hx⟩ : L) ∈ aschbacherSolvableCore 3 L := QuotientGroup.eq.mp hlt
     exact (CoprimeAux.coe_mem_thetaIn_iff (l⁻¹ * ⟨x, hx⟩)).mpr hmem
-  haveI := h.perfect
+  have := h.perfect
   calc L = ⁅L, L⁆ := (Subgroup.commutator_eq_self (H := L)).symm
     _ ≤ fixIn 𝒟 L := by
       rw [Subgroup.commutator_le]
@@ -241,37 +241,37 @@ theorem noLocalDatum_of_L52 (e : S ≃* projSL 5 (GaloisField 2 1)) : NoLocalDat
 
 theorem noAutDatum_of_L44 [IsSimpleGroup S] (e : S ≃* projSL 4 (GaloisField 2 2)) :
     NoAutDatum S := by
-  haveI : Finite (projSL 4 (GaloisField 2 2)) := Finite.of_equiv S e.toEquiv
-  haveI := e.symm.isSimpleGroup
+  have : Finite (projSL 4 (GaloisField 2 2)) := Finite.of_equiv S e.toEquiv
+  have := e.symm.isSimpleGroup
   exact NoAutDatum.of_mulEquiv e
     (noAutDatum_of_out_sylow l44_not_three_dvd_outer l44_not_dvd_243 l44_sylow_center)
 
 theorem noAutDatum_of_L62 [IsSimpleGroup S] (e : S ≃* projSL 6 (GaloisField 2 1)) :
     NoAutDatum S := by
-  haveI : Finite (projSL 6 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
-  haveI := e.symm.isSimpleGroup
+  have : Finite (projSL 6 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
+  have := e.symm.isSimpleGroup
   exact NoAutDatum.of_mulEquiv e
     (noAutDatum_of_out_sylow l62_not_three_dvd_outer l62_not_dvd_243 l62_sylow_center)
 
 theorem noAutDatum_of_L72 [IsSimpleGroup S] (e : S ≃* projSL 7 (GaloisField 2 1)) :
     NoAutDatum S := by
-  haveI : Finite (projSL 7 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
-  haveI := e.symm.isSimpleGroup
+  have : Finite (projSL 7 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
+  have := e.symm.isSimpleGroup
   exact NoAutDatum.of_mulEquiv e
     (noAutDatum_of_out_sylow l72_not_three_dvd_outer l72_not_dvd_243 l72_sylow_center)
 
 theorem noAutDatum_of_Sp62 [IsSimpleGroup S]
     (e : S ≃* projSp 3 (GaloisField 2 1)) : NoAutDatum S := by
-  haveI : Finite (projSp 3 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
-  haveI := e.symm.isSimpleGroup
+  have : Finite (projSp 3 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
+  have := e.symm.isSimpleGroup
   exact NoAutDatum.of_mulEquiv e
     (noAutDatum_of_out_sylow sp62_not_three_dvd_outer sp62_not_dvd_243 sp62_sylow_center)
 
 theorem noAutDatum_of_O8m
     [IsSimpleGroup S] {b c : GaloisField 2 1} (hbc : ∀ s : GaloisField 2 1, s ^ 2 + b * s + c ≠ 0)
     (e : S ≃* projOmegaMinus 3 (GaloisField 2 1) b c) : NoAutDatum S := by
-  haveI : Finite (projOmegaMinus 3 (GaloisField 2 1) b c) := Finite.of_equiv S e.toEquiv
-  haveI := e.symm.isSimpleGroup
+  have : Finite (projOmegaMinus 3 (GaloisField 2 1) b c) := Finite.of_equiv S e.toEquiv
+  have := e.symm.isSimpleGroup
   exact NoAutDatum.of_mulEquiv e
     (noAutDatum_of_out_sylow (om8m_not_three_dvd_outer hbc) (om8m_not_dvd_243 hbc)
       (om8m_sylow_center hbc))
@@ -300,8 +300,8 @@ variable {S : Type} [Group S] [Finite S]
 
 theorem noAutDatum_of_G2 [IsSimpleGroup S] {K : Type} [Field K] [Finite K] (hK2 : ringChar K = 2)
     (hK4 : 4 ≤ Nat.card K) (e : S ≃* adjointGroup .G2 K) : NoAutDatum S := by
-  haveI : Finite (adjointGroup .G2 K) := Finite.of_equiv S e.toEquiv
-  haveI := e.symm.isSimpleGroup
+  have : Finite (adjointGroup .G2 K) := Finite.of_equiv S e.toEquiv
+  have := e.symm.isSimpleGroup
   refine NoAutDatum.of_mulEquiv e ?_
   intro c L 𝒟 h
   by_cases hinn : 𝒟 ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup .G2 K)
@@ -348,8 +348,8 @@ private theorem unitary_order_strictMono {x y : ℕ} (hx : 2 ≤ x) (hxy : x < y
 theorem noAutDatum_of_reeGamma [IsSimpleGroup S] {a : ℕ} {K : Type} [Field K] [Finite K]
     [CharP K ReeTag.F4.prime] (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     (e : S ≃* ReeTag.F4.reeGamma K a) : NoAutDatum S := by
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Finite.of_equiv S e.toEquiv
-  haveI := e.symm.isSimpleGroup
+  have : Finite (ReeTag.F4.reeGamma K a) := Finite.of_equiv S e.toEquiv
+  have := e.symm.isSimpleGroup
   refine NoAutDatum.of_mulEquiv e ?_
   intro c L 𝒟 h
   by_cases hinn : 𝒟 ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner

@@ -13,53 +13,66 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t g g0 : G} {P U S F M U0 P0 : Subgroup G}
 
+omit [Finite G] in
 private lemma g0_mem_U0 (h1 : NtOne t g U S U0 P0 g0) : g0 ∈ U0 := by
   rw [h1.U0_eq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers g0)
 
+omit [Finite G] in
 private lemma g0t_mem_conjSub_U0 (h1 : NtOne t g U S U0 P0 g0) :
     t * g0 * t⁻¹ ∈ conjSub t U0 :=
   (mem_conjSub_iff' t U0 _).mpr ⟨g0, g0_mem_U0 h1, rfl⟩
 
+omit [Finite G] in
 private lemma U_le_U0 (h1 : NtOne t g U S U0 P0 g0) : U ≤ U0 := by
   rw [h1.U0_eq]
   exact le_sup_left
 
+omit [Finite G] in
 private lemma U_le_P0 (h1 : NtOne t g U S U0 P0 g0) : U ≤ P0 :=
   (U_le_U0 h1).trans (by rw [← h1.direct.1]; exact le_sup_left)
 
+omit [Finite G] in
 private lemma conjSub_t_U_le_conjSub_U0 (h1 : NtOne t g U S U0 P0 g0) :
     conjSub t U ≤ conjSub t U0 :=
   Subgroup.map_mono (U_le_U0 h1)
 
+omit [Finite G] in
 private lemma conjSub_t_U_le_P0 (h1 : NtOne t g U S U0 P0 g0) : conjSub t U ≤ P0 :=
   (conjSub_t_U_le_conjSub_U0 h1).trans (by rw [← h1.direct.1]; exact le_sup_right)
 
+omit [Finite G] in
 private lemma zpowers_g0_le_P0 (h1 : NtOne t g U S U0 P0 g0) : zpowers g0 ≤ P0 :=
   (Subgroup.zpowers_le.mpr (g0_mem_U0 h1)).trans (by rw [← h1.direct.1]; exact le_sup_left)
 
+omit [Finite G] in
 private lemma zpowers_g0t_le_P0 (h1 : NtOne t g U S U0 P0 g0) :
     zpowers (t * g0 * t⁻¹) ≤ P0 :=
   (Subgroup.zpowers_le.mpr (g0t_mem_conjSub_U0 h1)).trans
     (by rw [← h1.direct.1]; exact le_sup_right)
 
+omit [Finite G] in
 private lemma g0_comm_g0t (h1 : NtOne t g U S U0 P0 g0) :
     g0 * (t * g0 * t⁻¹) = (t * g0 * t⁻¹) * g0 :=
   h1.direct.2.2 g0 (g0_mem_U0 h1) _ (g0t_mem_conjSub_U0 h1)
 
+omit [Finite G] in
 private lemma g0_sq' (h1 : NtOne t g U S U0 P0 g0) : g0 * g0 = 1 := by
   simpa [pow_two] using h1.g0_sq
 
+omit [Finite G] in
 private lemma g0t_sq' (h1 : NtOne t g U S U0 P0 g0) :
     (t * g0 * t⁻¹) * (t * g0 * t⁻¹) = 1 := by
   calc (t * g0 * t⁻¹) * (t * g0 * t⁻¹) = t * (g0 * g0) * t⁻¹ := by group
     _ = 1 := by rw [g0_sq' h1]; group
 
+omit [Finite G] in
 private lemma g0_mul_g (h1 : NtOne t g U S U0 P0 g0) : g0 * g = t * g0 * t⁻¹ := by
   rw [← h1.gg0]
   calc g0 * (g0 * (t * g0 * t⁻¹)) = (g0 * g0) * (t * g0 * t⁻¹) := by group
     _ = t * g0 * t⁻¹ := by rw [g0_sq' h1]; group
 
+omit [Finite G] in
 private lemma g_mul_g0 (h1 : NtOne t g U S U0 P0 g0) : g * g0 = t * g0 * t⁻¹ := by
   rw [← h1.gg0]
   calc (g0 * (t * g0 * t⁻¹)) * g0 = g0 * ((t * g0 * t⁻¹) * g0) := by group
@@ -67,15 +80,18 @@ private lemma g_mul_g0 (h1 : NtOne t g U S U0 P0 g0) : g * g0 = t * g0 * t⁻¹ 
     _ = (g0 * g0) * (t * g0 * t⁻¹) := by group
     _ = t * g0 * t⁻¹ := by rw [g0_sq' h1]; group
 
+omit [Finite G] in
 private lemma g_comm_g0 (h1 : NtOne t g U S U0 P0 g0) : g * g0 = g0 * g := by
   rw [g_mul_g0 h1, g0_mul_g h1]
 
+omit [Finite G] in
 private lemma g_mul_g0t (h1 : NtOne t g U S U0 P0 g0) : g * (t * g0 * t⁻¹) = g0 := by
   rw [← h1.gg0]
   calc (g0 * (t * g0 * t⁻¹)) * (t * g0 * t⁻¹)
       = g0 * ((t * g0 * t⁻¹) * (t * g0 * t⁻¹)) := by group
     _ = g0 := by rw [g0t_sq' h1]; group
 
+omit [Finite G] in
 private lemma g0t_mul_g (h1 : NtOne t g U S U0 P0 g0) : (t * g0 * t⁻¹) * g = g0 := by
   rw [← h1.gg0]
   calc (t * g0 * t⁻¹) * (g0 * (t * g0 * t⁻¹))
@@ -84,16 +100,19 @@ private lemma g0t_mul_g (h1 : NtOne t g U S U0 P0 g0) : (t * g0 * t⁻¹) * g = 
     _ = g0 * ((t * g0 * t⁻¹) * (t * g0 * t⁻¹)) := by group
     _ = g0 := by rw [g0t_sq' h1]; group
 
+omit [Finite G] in
 private lemma g_comm_g0t (h1 : NtOne t g U S U0 P0 g0) :
     g * (t * g0 * t⁻¹) = (t * g0 * t⁻¹) * g := by
   rw [g_mul_g0t h1, g0t_mul_g h1]
 
+omit [Finite G] in
 private lemma P0_eq_gens (h1 : NtOne t g U S U0 P0 g0) :
     P0 = (U ⊔ zpowers g0) ⊔ (conjSub t U ⊔ zpowers (t * g0 * t⁻¹)) := by
   rw [← h1.direct.1, h1.U0_eq]
   simp only [conjSub, Subgroup.map_sup, MonoidHom.map_zpowers, MulEquiv.coe_toMonoidHom,
     MulAut.conj_apply]
 
+omit [Finite G] in
 private lemma commutator_mem_of_generators (h1 : NtOne t g U S U0 P0 g0) {D' : Subgroup G}
     {b : G} (hN : P0 ⊔ zpowers t ≤ normalizer (D' : Set G))
     (hU : ∀ x ∈ U, ⁅b, x⁆ ∈ D') (hg0 : ⁅b, g0⁆ ∈ D')
@@ -134,6 +153,7 @@ private lemma commutator_mem_of_generators (h1 : NtOne t g U S U0 P0 g0) {D' : S
   intro x hx
   exact (hjoin (P0_eq_gens h1 ▸ hx)).2
 
+omit [Finite G] in
 theorem y7n_c1_g_comm_M (h : NtTwo t g P U S F M) (h1 : NtOne t g U S U0 P0 g0)
     (hMn : P0 ⊔ zpowers t ≤ normalizer (M : Set G)) : ∀ x ∈ P0 ⊔ zpowers t, ⁅g, x⁆ ∈ M := by
   refine commutator_mem_of_generators h1 hMn ?_ ?_ ?_ ?_ ?_

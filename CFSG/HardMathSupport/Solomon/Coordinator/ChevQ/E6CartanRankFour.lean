@@ -24,7 +24,7 @@ theorem exists_elemAbelian_three_pow {k : ℕ} (ψ : Fin k → SL(2, F) →* S)
     (hc : ∀ i j, i ≠ j → ∀ A B, Commute (ψ i A) (ψ j B)) :
     ∃ E : Subgroup S, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ k ∧
       ∀ N : Subgroup S, (∀ i, ψ i c3 ∈ N) → E ≤ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3 : ∀ i, ψ i c3 ^ 3 = 1 := fun i => by rw [← map_pow, c3_pow_three, map_one]
   have hy1 : ∀ i, ψ i c3 ≠ 1 := fun i h => c3_ne_one (hψ i (h.trans (map_one (ψ i)).symm))
   let ϕ : ∀ _ : Fin k, Multiplicative (ZMod 3) →* S := fun i => orderThreeHom (ψ i c3) (hy3 i)
@@ -78,7 +78,7 @@ theorem exists_elemAbelian_three_pow {k : ℕ} (ψ : Fin k → SL(2, F) →* S)
     have hs3 : s ^ 3 = 1 := funext fun i => pow_three_eq_one_of_multiplicative_zmod (s i)
     rw [← map_pow, hs3, map_one]
   · rw [← Nat.card_congr (MonoidHom.ofInjective hΦ).toEquiv, Nat.card_pi]
-    simp [TwE6FourRankAux.card_multiplicative_zmod_three]
+    simp
   · intro N hN
     rw [hΦdef, MonoidHom.noncommPiCoprod_range]
     refine iSup_le fun i => ?_
@@ -92,7 +92,7 @@ theorem inner_of_elemAbelian (hZ : ∀ a : S, (∀ x : S, a * x = x * a) → a =
     ∃ A : Subgroup (MulAut S), IsElemAbelian 3 A ∧ Nat.card A = 3 ^ k ∧
       A ≤ (MulAut.conj : S →* MulAut S).range ∧
       ∃ U : Subgroup S, U ≠ ⊥ ∧ IsPGroup 2 ↥U ∧ ∀ φ ∈ A, ∀ u ∈ U, φ u ∈ U := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   let κ : E →* MulAut S := (MulAut.conj : S →* MulAut S).comp E.subtype
   have hκinj : Function.Injective κ := by
     rw [injective_iff_map_eq_one]
@@ -195,7 +195,7 @@ theorem pinnedX_mem_normalizer (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ 
     | mem x hx =>
       obtain ⟨γ, hγ, hγJ, c, rfl⟩ := hx
       exact conj_mem_levelGroup hτ hj₀ hβ hδ hδJ hγ hγJ s c
-    | one => simp [Subgroup.one_mem]
+    | one => simp
     | mul x y _ _ hx hy =>
       have e : pinnedX τ K δ s * (x * y) * (pinnedX τ K δ s)⁻¹ =
           (pinnedX τ K δ s * x * (pinnedX τ K δ s)⁻¹) *

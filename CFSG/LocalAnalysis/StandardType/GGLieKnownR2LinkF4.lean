@@ -64,20 +64,20 @@ private theorem sum_pick {K : Type} [Field K] {d : ℕ} {L1 : List (Fin Tag.F4.r
     · rw [hj0]
       have e : ν = s + (ν - s) := by abel
       by_cases hP : P (ν - s)
-      · rw [if_pos ⟨e, hP⟩, if_pos ⟨hm, hP⟩]
-      · rw [if_neg (fun h => hP h.2), if_neg (fun h => hP h.2)]
+      · rw [ite_eq_left ⟨e, hP⟩, ite_eq_left ⟨hm, hP⟩]
+      · rw [ite_eq_right (fun h => hP h.2), ite_eq_right (fun h => hP h.2)]
     · intro j _ hj
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨he, -⟩
       apply hj
       have e1 : L1.getD j 0 = L1.getD j0 0 := by rw [hj0, he]; abel
       rw [getD_eq_getElem' (hlen ▸ j.2), getD_eq_getElem' hn] at e1
       exact Fin.ext ((hnd.getElem_inj_iff).1 e1)
     · simp
-  · rw [if_neg (fun h => hm h.1)]
+  · rw [ite_eq_right (fun h => hm h.1)]
     apply Finset.sum_eq_zero
     intro j _
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨he, -⟩
     apply hm
     have : L1.getD j 0 = ν - s := by rw [he]; abel
@@ -103,7 +103,7 @@ theorem cvec_conj_genF4
   have hνΦ : ν ∈ rootFinset Tag.F4 := mem_rootFinset.2 hνD.1
   simp only [cvec, Matrix.mulVec, dotProduct, Matrix.map_apply, toMat, Matrix.of_apply,
     D.bits k hk, map_add, apply_ite (φ2 (K := K)), map_one, map_zero, add_mul, ite_mul, one_mul,
-    zero_mul, Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    zero_mul, Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   rw [hact', actFun]
   simp only [one_mul, one_pow]
   rw [← hν]
@@ -121,16 +121,16 @@ theorem cvec_conj_genF4
       have hA := (h1 γ (mem_rootFinset.2 hγ.1) hγ.2 (ν - γ) hμR).1
         (by rw [add_sub_cancel]; exact hνΦ)
       by_cases hr : ν - γ - γ ∈ rootFinset Tag.F4
-      · rw [if_pos hr] at hA
-        rw [intCast_of_abs_eq_two hA, if_neg (fun h => h.2 hr)]
+      · rw [ite_eq_left hr] at hA
+        rw [intCast_of_abs_eq_two hA, ite_eq_right (fun h => h.2 hr)]
         simp
-      · rw [if_neg hr] at hA
-        rw [intCast_of_abs_eq_one hA, if_pos ⟨hm, hr⟩]
+      · rw [ite_eq_right hr] at hA
+        rw [intCast_of_abs_eq_one hA, ite_eq_left ⟨hm, hr⟩]
         simp
     · have h0 : heisCoord Tag.F4 K q (ν - γ) = 0 := by
         apply hs.support q hq
         exact fun h => hm ((D.deg1 _).2 h)
-      rw [h0, if_neg (fun h => hm h.1)]
+      rw [h0, ite_eq_right (fun h => hm h.1)]
       simp
   ·
     by_cases hm : ν - 2 • γ ∈ L1
@@ -138,12 +138,12 @@ theorem cvec_conj_genF4
       have hμR := deg1_sub_deg1Roots hμ
       have hB := (h2 γ (mem_rootFinset.2 hγ.1) hγ.2 (ν - 2 • γ) hμR).1
         (by rw [add_sub_cancel]; exact hνΦ)
-      rw [intCast_of_abs_eq_one hB, if_pos hm]
+      rw [intCast_of_abs_eq_one hB, ite_eq_left hm]
       simp
     · have h0 : heisCoord Tag.F4 K q (ν - 2 • γ) = 0 := by
         apply hs.support q hq
         exact fun h => hm ((D.deg1 _).2 h)
-      rw [h0, if_neg hm]
+      rw [h0, ite_eq_right hm]
       simp
 
 theorem LinkDataF4.core

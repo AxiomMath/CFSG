@@ -20,6 +20,7 @@ section Layer
 
 variable {L : Type} [Field L] [IsAlgClosed L] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP L ℓ]
 
+omit [IsAlgClosed L] in
 private theorem twE6_swap_hact {i j : Fin TwistTag.E6.tag.rank}
     {n : ModGL TwistTag.E6.tag L} (hn : n ∈ monomialSubgroup TwistTag.E6.tag L)
     {u : WeylGroup TwistTag.E6.tag}
@@ -34,7 +35,7 @@ private theorem twE6_swap_hact {i j : Fin TwistTag.E6.tag.rank}
   rw [permLattice_single (Equiv.swap i j)] at this
   exact this
 
-theorem twisted_swap_layer_commutant (hE6 : E6FixDNAll) (hf : 1 ≤ f)
+theorem twisted_swap_layer_commutant (_hE6 : E6FixDNAll) (hf : 1 ≤ f)
     {i j : Fin TwistTag.E6.tag.rank} (hij : i ≠ j) (hi : i.val = 1 ∨ i.val = 2 ∨ i.val = 4)
     (hj : j.val = 1 ∨ j.val = 2 ∨ j.val = 4)
     {n : ModGL TwistTag.E6.tag L} (hn : n ∈ monomialSubgroup TwistTag.E6.tag L)
@@ -260,25 +261,25 @@ private theorem twE6_d4Action {S : LangSetup .E6 L p} {v : WeylGroup .E6} {w' : 
       v⁻¹ • S.ρ (v • α) ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6))
     (hσpar : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
       permLattice e6Graph α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6)) :
-    ∃ (u : WeylGroup Tag.E6) (hu : u ∈ parabolicWeylGroup Tag.E6 (d4Nodes Tag.E6))
-      (w₀ : WeylGroup Tag.E6) (hw₀ : w' = u * w₀)
-      (π' : Equiv.Perm (Fin Tag.E6.rank)) (hπ' : IsD4LeafPerm π')
-      (hw₀π : ∀ j ∈ d4Set Tag.E6, w₀ • (Pi.single j 1 : Fin Tag.E6.rank → ℤ) = Pi.single (π' j) 1)
-      (πJ : Equiv.Perm (Fin Tag.E6.rank)) (hπJ : πJ = π' * Equiv.swap (e6Idx 2) (e6Idx 4))
-      (hπJleaf : IsD4LeafPerm πJ)
-      (hlin : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
+    ∃ (u : WeylGroup Tag.E6) (_hu : u ∈ parabolicWeylGroup Tag.E6 (d4Nodes Tag.E6))
+      (w₀ : WeylGroup Tag.E6) (_hw₀ : w' = u * w₀)
+      (π' : Equiv.Perm (Fin Tag.E6.rank)) (_hπ' : IsD4LeafPerm π')
+      (_hw₀π : ∀ j ∈ d4Set Tag.E6, w₀ • (Pi.single j 1 : Fin Tag.E6.rank → ℤ) = Pi.single (π' j) 1)
+      (πJ : Equiv.Perm (Fin Tag.E6.rank)) (_hπJ : πJ = π' * Equiv.swap (e6Idx 2) (e6Idx 4))
+      (_hπJleaf : IsD4LeafPerm πJ)
+      (_hlin : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
         w₀ • permLattice e6Graph α = permLattice πJ α)
-      (hθ' : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
+      (_hθ' : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
         v⁻¹ • S.ρ (v • α) = u • permLattice πJ α)
-      (huJ : MapsJ Tag.E6 (d4Set Tag.E6) u),
+      (_huJ : MapsJ Tag.E6 (d4Set Tag.E6) u),
       ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
         permLattice πJ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6) := by
-  obtain ⟨u, hu, w₀, hw₀, π', hπ', hw₀π⟩ := exists_d4_action d4Base_E6 hmaps
-  have hlin : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
+  obtain ⟨u, _hu, w₀, _hw₀, π', _hπ', _hw₀π⟩ := exists_d4_action d4Base_E6 hmaps
+  have _hlin : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
       w₀ • permLattice e6Graph α = permLattice (π' * Equiv.swap (e6Idx 2) (e6Idx 4)) α := by
     intro α hα
     have h1 := smul_eq_of_simple (w := w₀) (u := 1) (π := π') (J := d4Set Tag.E6)
-      (fun j hj => by rw [one_smul]; exact hw₀π j hj) (hσpar α hα).2
+      (fun j hj => by rw [one_smul]; exact _hw₀π j hj) (hσpar α hα).2
     rw [one_smul] at h1
     rw [h1, permLattice_mul]
     congr 1
@@ -287,21 +288,21 @@ private theorem twE6_d4Action {S : LangSetup .E6 L p} {v : WeylGroup .E6} {w' : 
     by_cases hk : 1 ≤ k.val ∧ k.val ≤ 4
     · rw [((e6Graph_on_d4 k).1 hk).2.1]
     · rw [hα.2 _ ((e6Graph_on_d4 k).2 hk).1, hα.2 _ ((e6Graph_on_d4 k).2 hk).2]
-  have hθ' : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
+  have _hθ' : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
       v⁻¹ • S.ρ (v • α) = u • permLattice (π' * Equiv.swap (e6Idx 2) (e6Idx 4)) α := by
     intro α hα
-    rw [hθ α hα, hw₀, mul_smul, hlin α hα]
-  have huJ := mapsJ_of_mem_parabolicWeylGroup hu
+    rw [hθ α hα, _hw₀, mul_smul, _hlin α hα]
+  have _huJ := mapsJ_of_mem_parabolicWeylGroup _hu
   have hπJpar : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
       permLattice (π' * Equiv.swap (e6Idx 2) (e6Idx 4)) α ∈
         parabolicRoots Tag.E6 (d4Nodes Tag.E6) := by
     intro α hα
     have h1 := hθmem α hα
-    rw [hθ' α hα] at h1
-    have h2 := (mapsJ_of_mem_parabolicWeylGroup (inv_mem hu)) _ h1
+    rw [_hθ' α hα] at h1
+    have h2 := (mapsJ_of_mem_parabolicWeylGroup (inv_mem _hu)) _ h1
     rwa [inv_smul_smul] at h2
-  exact ⟨u, hu, w₀, hw₀, π', hπ', hw₀π, π' * Equiv.swap (e6Idx 2) (e6Idx 4), rfl,
-    isD4LeafPerm_mul_swap hπ', hlin, hθ', huJ, hπJpar⟩
+  exact ⟨u, _hu, w₀, _hw₀, π', _hπ', _hw₀π, π' * Equiv.swap (e6Idx 2) (e6Idx 4), rfl,
+    isD4LeafPerm_mul_swap _hπ', _hlin, _hθ', _huJ, hπJpar⟩
 
 private theorem twE6_pi_ne_one {S : LangSetup .E6 L p} {a : Fin Tag.E6.rank → Lˣ}
     {i : KernelComponent (rootCharHom a)} {v : WeylGroup .E6} {u : WeylGroup Tag.E6}
@@ -354,7 +355,7 @@ private theorem twE6_pi_sq_ne_one {S : LangSetup .E6 L p} {a : Fin Tag.E6.rank �
     {πJ : Equiv.Perm (Fin Tag.E6.rank)}
     (hΨ : componentRoots (rootCharHom a) i =
       (fun α => v • α) '' parabolicRoots .E6 (d4Nodes .E6))
-    (hnin : ¬ twistInner (componentRoots (rootCharHom a) i) (S.ρ : (Fin Tag.E6.rank → ℤ) → _))
+    (_hnin : ¬ twistInner (componentRoots (rootCharHom a) i) (S.ρ : (Fin Tag.E6.rank → ℤ) → _))
     (hu₂ : u * (w₀ * e6WeylTwist u * w₀⁻¹) ∈ parabolicWeylGroup Tag.E6 (d4Nodes Tag.E6))
     (hlin : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6),
       w₀ • permLattice e6Graph α = permLattice πJ α)
@@ -536,6 +537,7 @@ private theorem twE6_layerData {S : LangSetup .E6 L p} {a : Fin Tag.E6.rank → 
   rw [hQdef]
   exact hlayer
 
+omit [IsAlgClosed L] in
 private theorem twE6_mem_of_mem_map {nv : ModGL Tag.E6 L} {S T : Subgroup (ModGL Tag.E6 L)}
     (h : S.map (MulAut.conj nv).toMonoidHom = T) {z : ModGL Tag.E6 L} (hz : z ∈ T) :
     nv⁻¹ * z * nv ∈ S := by

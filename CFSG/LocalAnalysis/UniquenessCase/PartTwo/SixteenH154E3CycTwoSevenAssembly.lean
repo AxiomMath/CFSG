@@ -34,7 +34,7 @@ theorem s16h_e3_CycTwoSevenAssembly_exists
       IsPGroup 7 ↥P ∧
       IsElemAbelianOfRank 7 3 ↥P ∧
       Subgroup.centralizer (P : Set (MulAut (Vtil V₀ V hV))) ⊓ Mbar D.M V₀ V hV ≤ P := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hsig : D.sig = {7} :=
     s16h_e3_CycTwoP7M6A_sig_eq D S hr3 hσ hV h hc hp hLp hχ hs2 hres hp7 hm hbad
   have h7mem : 7 ∈ D.sig := by rw [hsig]; exact Set.mem_singleton 7

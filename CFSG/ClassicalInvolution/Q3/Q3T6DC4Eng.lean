@@ -68,10 +68,10 @@ theorem _root_.CFSG.ClassicalInvolution.Asc77.T3CII.Std20F.concl20_4_of_98
       simpa using this
     have hwS : w ∈ (S : Subgroup G) := d.hWS hw
     have hwR : ∀ r ∈ R, w * r = r * w := fun r hr =>
-      commutes_of_mem_centModOddCore S.isPGroup' hw_cent hwS
+      commutes_of_mem_centModOddCore S.isPGroup hw_cent hwS
         (Subgroup.mem_sup_left (d.hR.1 hr)) (d.hRS hr)
     have hwR' : ∀ r ∈ R', w * r = r * w := fun r hr =>
-      commutes_of_mem_centModOddCore S.isPGroup' hw_cent hwS
+      commutes_of_mem_centModOddCore S.isPGroup hw_cent hwS
         (Subgroup.mem_sup_right (d.hR'.1 hr)) (d.hR'S hr)
     obtain ⟨r, hr, r', hr', hinv, hrt⟩ := htor
     have hsq : w * w = 1 := by
@@ -101,7 +101,7 @@ theorem _root_.CFSG.ClassicalInvolution.Asc77.T3CII.Std20F.concl20_4_of_98
     have hKJ : K ≠ J := fun h => d.viol.ne h.symm
     have hxsq : (a₁ * a₁) * (a₁ * a₁) = 1 := by
       refine mul_self_eq_one_of_card_zpowers_le_two ?_
-      exact Sec6Gen.card_le_two_of_le_inf d.late_hΩ hKΩ hJΩ hKJ (S.isPGroup'.to_le
+      exact Sec6Gen.card_le_two_of_le_inf d.late_hΩ hKΩ hJΩ hKJ (S.isPGroup.to_le
         (Subgroup.zpowers_le.mpr hxS)) (Subgroup.zpowers_le.mpr hxK) (Subgroup.zpowers_le.mpr hxJ)
     have hxone : a₁ * a₁ = 1 := by
       rcases hzK.unique _ hxK hxsq with h1 | h1

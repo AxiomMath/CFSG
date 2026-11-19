@@ -34,10 +34,11 @@ theorem card_mul_le_of_inf_eq_bot {A B C : Subgroup G} (hA : A ≤ C) (hB : B �
     simpa [mul_assoc] using hh.symm
   exact Prod.ext (Subtype.ext haeq) (Subtype.ext hbeq)
 
+omit [Finite G] in
 theorem isPGroup_two_of_normal {K N : Subgroup G} {n : ℕ} (hK : Nat.card K = 3 * 2 ^ n)
     (hNK : N ≤ K) (hN : ∀ k ∈ K, ∀ x ∈ N, k * x * k⁻¹ ∈ N) {ρ : G} (hρK : ρ ∈ K)
-    (hρ3 : ρ ^ 3 = 1) (hρ1 : ρ ≠ 1) (hρN : ρ ∉ N) : IsPGroup 2 N := by
-  haveI hN'norm : (N.subgroupOf K).Normal :=
+    (hρ3 : ρ ^ 3 = 1) (_hρ1 : ρ ≠ 1) (hρN : ρ ∉ N) : IsPGroup 2 N := by
+  have hN'norm : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff hNK).mpr (fun h k hh hk => hN k hk h hh)
   let ρ' : K := ⟨ρ, hρK⟩
   have hρ'3 : ρ' ^ 3 = 1 := Subtype.ext (by simpa using hρ3)
@@ -65,10 +66,11 @@ theorem isPGroup_two_of_normal {K N : Subgroup G} {n : ℕ} (hK : Nat.card K = 3
   exact IsPGroup.of_card_dvd_pow (p := 2) (n := n)
     ⟨m, by rw [mul_comm]; exact hmul'.symm⟩
 
+omit [Finite G] in
 theorem le_of_normal_isPGroup {K N 𝒮 : Subgroup G} (hNK : N ≤ K)
-    (hN : ∀ k ∈ K, ∀ x ∈ N, k * x * k⁻¹ ∈ N) (hN2 : IsPGroup 2 N) (h𝒮K : 𝒮 ≤ K)
+    (hN : ∀ k ∈ K, ∀ x ∈ N, k * x * k⁻¹ ∈ N) (hN2 : IsPGroup 2 N) (_h𝒮K : 𝒮 ≤ K)
     (h𝒮 : IsPGroup 2 𝒮) (hidx : ¬ 2 ∣ 𝒮.relIndex K) : N ≤ 𝒮 := by
-  haveI hN'norm : (N.subgroupOf K).Normal :=
+  have hN'norm : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff hNK).mpr (fun h k hh hk => hN k hk h hh)
   have hN2' : IsPGroup 2 (N.subgroupOf K) := hN2.comap_subtype
   have h𝒮2' : IsPGroup 2 (𝒮.subgroupOf K) := h𝒮.comap_subtype

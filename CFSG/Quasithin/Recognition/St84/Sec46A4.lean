@@ -339,7 +339,7 @@ theorem caseA_5e (X : Setup Γ G) (A : X.CaseA) :
     rwa [show (-2 : ℤ) = 0 + 2 * (-1) by norm_num, X.n_add (-1) 0] at h
   have hDGi : D ≤ X.Gi 1 := by
     rw [hDdef]; exact inf_le_left.trans (X.Q_le_Gi 1)
-  haveI : Finite ↥D := finite_of_le_stabilizer X.hyp (H := D) hDGi
+  have : Finite ↥D := finite_of_le_stabilizer X.hyp (H := D) hDGi
   have hDP : D = P := (Subgroup.eq_of_le_of_card_ge hPleD (by rw [hPcard, hDcard])).symm
   have htrans := X.pCoreOf_arcStab_r A.hyp (-2) hPne
   exact ⟨hDP, htrans.2.2.2.1, htrans.2.2.2.2⟩
@@ -639,7 +639,6 @@ theorem caseA_5f (X : Setup Γ G) (A : X.CaseA) :
       mem_normalizer_iff_conjSub.mp (X.K_le_normalizer_Q_inf_centralizer_Ki 1 hk)
     rw [mem_normalizer_iff_conjSub]
     rw [hUdef]
-    change conjSub k (D ⊓ Subgroup.centralizer (X.Q 1 : Set G)) = _
     rw [conjSub_inf, hDconj, ← conjSub_centralizer, hQ1]
   by_cases hUbot : U = ⊥
   · exact hUbot
@@ -732,7 +731,7 @@ private theorem isSpecialPGroup_of_centerOf_eq {P Z : Subgroup G} [Finite ↥P]
   have hmapc := CFSG.Quasithin.F6.map_center_eq_centerOf P
   have hcommimg : (commutator ↥P).map P.subtype = Z := by
     rw [Subgroup.map_subtype_commutator, hcomm]
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hP⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hP⟩
   have hfr : frattini ↥P =
       Subgroup.closure (((commutator ↥P : Subgroup ↥P) : Set ↥P) ∪
         Set.range (fun x : ↥P => x ^ 2)) :=
@@ -990,7 +989,7 @@ theorem caseA_5g (X : Setup Γ G) (A : X.CaseA) :
     have hcle : centerOf (X.Q 0) ≤ X.Z 0 :=
       centerOf_Q0_le_Z0_of_le_Q2 X A (centerOf_Q0_le_Q2 X A)
     exact le_antisymm hcle (X.Z_le_center 0)
-  haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
+  have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
   refine ⟨hcenter, ?_, hsecQ0⟩
   exact isSpecialPGroup_of_centerOf_eq (P := X.Q 0) (pCoreOf_isPGroup' (X.Gi 0))
     hZ0elem hcenter hsecQ0.2.2 (le_antisymm hsecQ0.2.1 hZ0Q0)
@@ -1164,7 +1163,7 @@ theorem caseA_5k (X : Setup Γ G) (A : X.CaseA)
       rw [hAcomm.2 e he]
       exact (X.Z 1).one_mem
   have hsec : IsElemSec (X.Z 1) (X.Q 1) := by
-    haveI : Finite ↥(X.L 1) := finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
+    have : Finite ↥(X.L 1) := finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
     refine isElemSec_of_natQuot_center (L := X.L 1) (E := X.Q 1) (Z := X.Q 0 ⊓ X.Q 2)
       (N := X.Z 1) ?_ (pCoreOf_isPGroup' (X.Gi 1)) h5c.1 hsecA hsecZ
       h5d.2.2.2.2.1
@@ -1182,7 +1181,7 @@ theorem caseA_5k (X : Setup Γ G) (A : X.CaseA)
     exact (Nat.one_lt_two_pow (by have := A.hyp.two_le_n 1; omega)).ne' hcardZ1.symm
   have hcenter : centerOf (X.Q 1) = X.Z 1 :=
     X.caseA_centerOf_Q_one_eq A (X.caseA_centerOf_Q_one_le A hsecA.1 hcommQQ hZ1ne)
-  haveI : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
+  have : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
   exact ⟨hcenter, isSpecialPGroup_of_centerOf_eq (P := X.Q 1) (pCoreOf_isPGroup' (X.Gi 1))
     hZ1elem hcenter hsec.2.2 hcommQQ, hsec⟩
 
@@ -1260,8 +1259,6 @@ theorem caseA_comm_D_Ki_zero
       intro k hk
       rw [mem_normalizer_iff_conjSub]
       rw [hUdef]
-      change conjSub k (D ⊓ Subgroup.centralizer (X.Ki 0 : Set G)) =
-        D ⊓ Subgroup.centralizer (X.Ki 0 : Set G)
       rw [conjSub_inf, hconjD k hk, ← conjSub_centralizer, hconjKi0 k hk]
     have hUle : U ≤ pCoreOf 2 (X.arcStab (-2) ((-2) + ((6 : ℕ) : ℤ))) := by
       rw [← hDP]

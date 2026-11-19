@@ -29,7 +29,7 @@ theorem noL34Layer_conj_graphFixedD4_of_ne_one {ℓ f : ℕ} (hℓ : ℓ.Prime) 
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     {x : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)}
     (hx3 : (MulAut.conj x) ^ 3 = 1) (hx1 : x ≠ 1) : NoL34Layer (MulAut.conj x) := by
-  haveI := ssTw_finite_graphFixedRootGroup_D4 σ.toRingHom
+  have := ssTw_finite_graphFixedRootGroup_D4 σ.toRingHom
   have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   intro A hA hT
@@ -60,7 +60,7 @@ theorem noL34Layer_conj_graphFixedD4
   have hℓ3 : ℓ ≠ 3 := by omega
   by_cases hx1 : x = 1
   · subst hx1
-    haveI := ssTw_finite_graphFixedRootGroup_D4 σ.toRingHom
+    have := ssTw_finite_graphFixedRootGroup_D4 σ.toRingHom
     rw [map_one]
     obtain ⟨hs, hnab⟩ := CFSG.RankThree.PartOne.KD4L.isSimple_graphFixedRootGroup_triality hℓ hf hK
       1 (Or.inl rfl) σ.toRingHom (fun c => by rw [pow_one]; exact hσ c)

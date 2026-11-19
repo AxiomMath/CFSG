@@ -9,12 +9,12 @@ namespace CFSG.StandardType.TableBExc.E6Three
 open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 theorem not_isTransvection_top
-    (c : ZMod 3) (hc : c ≠ 0) (u : WeylGroup .E6)
+    (c : ZMod 3) (_hc : c ≠ 0) (u : WeylGroup .E6)
     (hfix : Nat.card {x : Fin Tag.E6.rank → ZMod 3 // c • adAct .E6 3 u x = x} * 3 =
       Nat.card (Fin Tag.E6.rank → ZMod 3))
     (hN : ∀ x : Fin Tag.E6.rank → ZMod 3,
       c • adAct .E6 3 u (c • adAct .E6 3 u x - x) = c • adAct .E6 3 u x - x) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc_eq : c = 1 := by
     obtain ⟨x₀, hx₀⟩ := exists_not_mem_hypE6
     have hx₀' : NoOffRest.kDotP 3 x₀ ≠ 0 := fun h => hx₀ (NoOffRest.mem_hypE6.mpr h)
@@ -78,7 +78,7 @@ theorem not_isTransvection_top
           NoOffRest.kDotP 3 (x : Fin Tag.E6.rank → ZMod 3) +
             NoOffRest.kDotP 3 (y : Fin Tag.E6.rank → ZMod 3)
         rw [NoOffRest.kDotP_add] }
-  haveI : Fact (Nat.Prime (Nat.card (ZMod 3))) :=
+  have : Fact (Nat.Prime (Nat.card (ZMod 3))) :=
     ⟨by rw [Nat.card_zmod]; exact Nat.prime_three⟩
   rcases AddSubgroup.eq_bot_or_eq_top_of_prime_card κ.range with hbot | htop
   ·

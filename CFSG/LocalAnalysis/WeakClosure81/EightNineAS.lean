@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.F12 (HasCompFactor)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem lGen_le_inf {V H T : Subgroup G} (P : ∀ (X : Type) [Group X], Prop)
     (hP : ∀ X : Subgroup G, T ≤ X → X < H → ¬ HasCompFactor X P →
       X ≤ normalizer (V : Set G)) :

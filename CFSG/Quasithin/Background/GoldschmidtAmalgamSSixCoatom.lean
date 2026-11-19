@@ -122,7 +122,7 @@ theorem isCoatom_of_index_fifteen (K : Subgroup (Perm (Fin 6))) (hK : K.index = 
     have hpos : 0 < H.index := Nat.pos_of_ne_zero (fun h0 => by
       rw [h0] at hd
       omega)
-    interval_cases hi : H.index <;> first | omega | skip
+    interval_cases hi : H.index <;> try omega
     · exact Subgroup.index_eq_one.1 hi
     · exact (sym_six_index_ne H (Or.inl hi)).elim
     · exact (sym_six_index_ne H (Or.inr hi)).elim

@@ -133,8 +133,6 @@ theorem mem_torusGroup_of_commute_frameDiag
   have hfam : z ∈ familyCentralizer τ L a := by
     rw [mem_familyCentralizer]
     refine ⟨hz, fun i => ?_⟩
-    change rootDiagUnit τ (a i) * z *
-      (rootDiagUnit τ (a i))⁻¹ = z
     have hfd : frameDiag (τ := τ) ζ hζ (Pi.single i 1) =
         rootDiagUnit τ (a i) := rfl
     rw [← hfd, ← hcomm]
@@ -220,7 +218,7 @@ private theorem exists_rootDiagUnit_pow_three_of_langFrame_two
       z * ExcFrames.frameDiag ζ hζ s = ExcFrames.frameDiag ζ hζ s * z) :
     ∃ a : Fin τ.rank → (AlgebraicClosure K)ˣ,
       z = rootDiagUnit τ a ∧ ∀ i, a i ^ 3 = 1 := by
-  haveI : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
   have hzT : z ∈ torusGroup τ (AlgebraicClosure K) :=
     mem_torusGroup_of_commute_frameDiag (p := 3) (by decide)
       (isUnit_det_symmetrizedCartan_three hτ) hζo hζ hzAdj hzcomm

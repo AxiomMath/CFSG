@@ -18,7 +18,7 @@ noncomputable def owR53_alphaY (w : Fin 3 → ZMod 5) (c : ZMod 5) (y : Fin 3 �
 theorem owR53_alphaY_apply (w : Fin 3 → ZMod 5) (c : ZMod 5) (y : Fin 3 → ZMod 5)
     (v : Fin 3 → ZMod 5) :
     owR53_alphaY w c y v = (2 * c⁻¹) * ∑ k, w k * (v k * y k) := by
-  simp only [owR53_alphaY, LinearMap.smul_apply, LinearMap.sum_apply, LinearMap.add_apply,
+  simp only [owR53_alphaY, LinearMap.smul_apply, LinearMap.add_apply,
     LinearMap.proj_apply, smul_eq_mul, Fin.sum_univ_three]
   ring
 
@@ -71,8 +71,8 @@ theorem owR53_formY_norm (w : Fin 3 → ZMod 5) (c : ZMod 5) (hc : c ≠ 0)
         linear_combination (4 * c⁻¹ * (w 0 * (z 0 * y 0) + w 1 * (z 1 * y 1) + w 2 * (z 2 * y 2))
           * (w 0 * (z 0 * y 0) + w 1 * (z 1 * y 1) + w 2 * (z 2 * y 2))) * (owR53D_c_inv c hc)
 
-theorem owR53_bilin (w : Fin 3 → ZMod 5) (c : ZMod 5) (hc : c ≠ 0)
-    (b : Fin 3 → ZMod 5) (hb : (∑ k, w k * (b k * b k)) = c) (v x : Fin 3 → ZMod 5) :
+theorem owR53_bilin (w : Fin 3 → ZMod 5) (c : ZMod 5) (_hc : c ≠ 0)
+    (b : Fin 3 → ZMod 5) (_hb : (∑ k, w k * (b k * b k)) = c) (v x : Fin 3 → ZMod 5) :
     ∑ k, w k * (owR53_formY w c b v k * x k) = ∑ k, w k * (v k * owR53_formY w c b x k) := by
   simp only [owR53_formY, owR53_alphaY_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
     Fin.sum_univ_three]

@@ -65,7 +65,7 @@ theorem dOfPrime_eq_orderOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
       have h3 : ((2 ^ d : ℕ) : ZMod p) = ((1 : ℕ) : ZMod p) := by push_cast; exact h1
       rw [ZMod.natCast_eq_natCast_iff] at h3
       exact (Nat.modEq_iff_dvd' (Nat.one_le_two_pow)).mp h3.symm
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hK : Module.finrank (ZMod 2) (GaloisField 2 d) = d := GaloisField.finrank 2 hdpos.ne'
     have hKu : p ∣ Nat.card (GaloisField 2 d)ˣ := by
       rw [Nat.card_units, GaloisField.card 2 d hdpos.ne']
@@ -113,7 +113,7 @@ theorem dOfPrime_eq_orderOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     have hdvd : p ∣ Nat.card (GL (Fin n) (ZMod 2)) := hord ▸ orderOf_dvd_natCard (f g)
     rw [Matrix.card_GL_field] at hdvd
     simp only [ZMod.card] at hdvd
-    obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff (Nat.prime_iff.1 Fact.out) _).1 hdvd
+    obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff (Nat.prime_iff.1 Fact.out) _).1 hdvd
     have hi_lt := i.2
     have hle : 2 ^ (i : ℕ) ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hi_lt.le
     have h2 : (2 : ZMod p) ^ n = 2 ^ (i : ℕ) := by
@@ -132,7 +132,7 @@ theorem dOfPrime_eq_orderOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
       exact mul_left_cancel₀ (pow_ne_zero _ h2ne) this
     have hpos : 0 < n - i := by omega
     exact (orderOf_le_of_pow_eq_one hpos h3).trans (by omega)
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   unfold dOfPrime minDegree
   apply le_antisymm
   · exact Nat.sInf_le (cyclic_prime_rep_upper_interim p hp2)

@@ -22,7 +22,7 @@ private theorem exists_other_point (hP : IsGeneralizedPolygon Γ 4) (hT : IsThic
     {x : V} (hx : c x = 0) : ∃ y, c y = 0 ∧ y ≠ x := by
   classical
   have h3 : 0 < (Γ.neighborFinset x).card := by
-    rw [card_neighborFinset_eq_degree, hdeg x, if_pos hx]
+    rw [card_neighborFinset_eq_degree, hdeg x, ite_eq_left hx]
     have := hT x
     omega
   obtain ⟨L, hL⟩ := Finset.card_pos.mp h3
@@ -41,7 +41,7 @@ private theorem exists_mem_span_of_line_through_trace (hP : IsGeneralizedPolygon
     (hT : IsThick Γ) (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     (hreg : ∀ x, c x = 0 → IsRegularVertex Γ x) {x y m M : V}
-    (hxy : Γ.dist x y = 4) (hm : m ∈ traceSet Γ x y) (hm0 : c m = 0) (hM : c M = 1)
+    (hxy : Γ.dist x y = 4) (hm : m ∈ traceSet Γ x y) (hm0 : c m = 0) (_hM : c M = 1)
     (hmM : Γ.Adj M m) : ∃ w ∈ spanSet Γ x y, Γ.Adj M w := by
   classical
   have hxm : Γ.dist x m = 2 := hm.1
@@ -57,7 +57,7 @@ private theorem exists_mem_span_of_line_through_trace (hP : IsGeneralizedPolygon
     rw [← h]
     exact hm0
   have hTcard : (spanSet Γ x y).ncard = t + 1 := by
-    rw [hreg x hx0 y hxy, hdeg x, if_pos hx0]
+    rw [hreg x hx0 y hxy, hdeg x, ite_eq_left hx0]
   let f : ↥(spanSet Γ x y) → V := fun w =>
     commonNeighbor hP (dist_eq_two_of_mem_span_of_mem_trace hP hT hxy w.2 hm)
   have hfmem : ∀ w : ↥(spanSet Γ x y), f w ∈ Γ.neighborSet m := fun w =>
@@ -87,7 +87,7 @@ private theorem exists_mem_span_of_line_through_trace (hP : IsGeneralizedPolygon
     rintro z ⟨w, rfl⟩
     exact hfmem w
   have hNcard : (Γ.neighborSet m).ncard = t + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg m, if_pos hm0]
+    rw [SimpleGraph.ncard_neighborSet, hdeg m, ite_eq_left hm0]
   have hrange : Set.range f = Γ.neighborSet m := by
     refine Set.eq_of_subset_of_ncard_le hsub ?_
     rw [hNcard, himg, hTcard]
@@ -98,19 +98,19 @@ private theorem exists_mem_span_of_line_through_trace (hP : IsGeneralizedPolygon
   exact (commonNeighbor_adj_left hP
     (dist_eq_two_of_mem_span_of_mem_trace hP hT hxy w.2 hm)).symm
 
-private theorem isStarCollinear_self_left (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+private theorem isStarCollinear_self_left (_hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {a b : V} (ha : c a = 0) (hb : c b = 0) (hab : a ≠ b) :
     IsStarCollinear Γ c a a b :=
   ⟨starLine Γ c a b, isStarLine_starLine ha hb hab, mem_starLine_left ha,
     mem_starLine_left ha, mem_starLine_right hb⟩
 
-private theorem isStarCollinear_mid (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+private theorem isStarCollinear_mid (_hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {a b : V} (ha : c a = 0) (hb : c b = 0) (hab : a ≠ b) :
     IsStarCollinear Γ c a b a :=
   ⟨starLine Γ c a b, isStarLine_starLine ha hb hab, mem_starLine_left ha,
     mem_starLine_right hb, mem_starLine_left ha⟩
 
-private theorem isStarCollinear_self_right (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+private theorem isStarCollinear_self_right (_hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {a b : V} (ha : c a = 0) (hb : c b = 0) (hab : a ≠ b) :
     IsStarCollinear Γ c a b b :=
   ⟨starLine Γ c a b, isStarLine_starLine ha hb hab, mem_starLine_left ha,
@@ -313,7 +313,7 @@ private theorem ncard_le_s_add_one_of_misses_line (hP : IsGeneralizedPolygon Γ 
     rintro z ⟨x, rfl⟩
     exact hfmem x
   have hNcard : (Γ.neighborSet M).ncard = s + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg M, if_neg (by rw [hM]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hdeg M, ite_eq_right (by rw [hM]; decide)]
   calc
     X.ncard = (Set.range f).ncard := himg.symm
     _ ≤ (Γ.neighborSet M).ncard := Set.ncard_le_ncard hsub
@@ -462,7 +462,7 @@ private theorem not_isOvoid_subset_isAbsPlane (hP : IsGeneralizedPolygon Γ 4) (
     rintro z ⟨y, rfl⟩
     exact commonNeighbor_adj_right hP (hy_dist y.1 y.2)
   have hNcard : (Γ.neighborSet u).ncard = t + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg u, if_pos hu]
+    rw [SimpleGraph.ncard_neighborSet, hdeg u, ite_eq_left hu]
   have hle : Y.ncard ≤ t + 1 := by
     calc
       Y.ncard = (Set.range f).ncard := himg.symm
@@ -620,7 +620,7 @@ private theorem exists_line_missing_hypLine (hP : IsGeneralizedPolygon Γ 4) (hT
     color_eq_zero_of_mem_starLine hw
   have hdegw : ∀ w ∈ starLine Γ c x y, (Γ.neighborFinset w).card = t + 1 := by
     intro w hw
-    rw [card_neighborFinset_eq_degree, hdeg w, if_pos (h0 w hw)]
+    rw [card_neighborFinset_eq_degree, hdeg w, ite_eq_left (h0 w hw)]
   let U : Finset V := (starLine Γ c x y).toFinset.biUnion (fun w => Γ.neighborFinset w)
   have hUcard : U.card ≤ (starLine Γ c x y).toFinset.card * (t + 1) := by
     refine Finset.card_biUnion_le_card_mul _ _ _ ?_
@@ -696,7 +696,7 @@ private theorem exists_mem_hypLine_of_mem_ptPerp_of_adj (hP : IsGeneralizedPolyg
     (hT : IsThick Γ) (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     (hreg : ∀ x, c x = 0 → IsRegularVertex Γ x) {ℓ : Set V} (hℓ : IsHypLine Γ c ℓ)
-    {u M : V} (hu : c u = 0) (hsub : ℓ ⊆ ptPerp Γ c {u}) (hM : c M = 1)
+    {u M : V} (hu : c u = 0) (hsub : ℓ ⊆ ptPerp Γ c {u}) (_hM : c M = 1)
     (huM : Γ.Adj M u) : ∃ w ∈ ℓ, Γ.Adj M w := by
   classical
   obtain ⟨x, y, hx, hdist, hℓeq⟩ := hℓ
@@ -755,7 +755,7 @@ private theorem exists_mem_hypLine_of_mem_ptPerp_of_adj (hP : IsGeneralizedPolyg
     rintro z ⟨w, rfl⟩
     exact hfmem w
   have hNcard : (Γ.neighborSet u).ncard = t + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg u, if_pos hu]
+    rw [SimpleGraph.ncard_neighborSet, hdeg u, ite_eq_left hu]
   have hrange : Set.range f = Γ.neighborSet u := by
     refine Set.eq_of_subset_of_ncard_le hsubN ?_
     rw [hNcard, himg, hcardS]
@@ -774,7 +774,7 @@ private theorem not_exists_starPlane_superset_disjoint_line (hP : IsGeneralizedP
   classical
   have hs : 2 ≤ s := two_le_s hP hT c hdeg
   have hMcard : (Γ.neighborSet M).ncard = s + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg M, if_neg (by rw [hM]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hdeg M, ite_eq_right (by rw [hM]; decide)]
   rcases isStarPlane_cases hP hT c hdeg hreg hX with hXabs | hXnon
   · obtain ⟨u, hu, rfl⟩ := hXabs
     have huM : u ∈ Γ.neighborSet M := by
@@ -895,7 +895,7 @@ private theorem ncard_starPlanes_superset_hypLine (hP : IsGeneralizedPolygon Γ 
       exact ⟨mN, huniq⟩
   have hrange : Set.range plane = P := Set.Subset.antisymm hrange_sub hsurj
   have hMcard : (Γ.neighborSet M).ncard = s + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg M, if_neg (by rw [hM]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hdeg M, ite_eq_right (by rw [hM]; decide)]
   calc
     P.ncard = (Set.range plane).ncard := by rw [hrange]
     _ = (Γ.neighborSet M).ncard := by
@@ -946,7 +946,7 @@ theorem ptPerp_starLine_eq_traceSet (hP : IsGeneralizedPolygon Γ 4) (hT : IsThi
 private theorem ncard_absPlanes_superset_hypLine (hP : IsGeneralizedPolygon Γ 4)
     (hT : IsThick Γ) (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
-    (hreg : ∀ x, c x = 0 → IsRegularVertex Γ x) {ℓ : Set V} (hℓ : IsHypLine Γ c ℓ) :
+    (_hreg : ∀ x, c x = 0 → IsRegularVertex Γ x) {ℓ : Set V} (hℓ : IsHypLine Γ c ℓ) :
     {X | IsAbsPlane Γ c X ∧ ℓ ⊆ X}.ncard = t + 1 := by
   classical
   obtain ⟨x, y, hx, hdist, hℓeq⟩ := hℓ
@@ -1016,7 +1016,7 @@ private theorem ncard_absPlanes_superset_hypLine (hP : IsGeneralizedPolygon Γ 4
         (hP.eq_iff_even_dist c x y).2 (by rw [hdist]; exact ⟨2, by norm_num⟩)
       rw [← h]
       exact hx
-    rw [ncard_trace hP hdist, hdeg x, if_pos hx]
+    rw [ncard_trace hP hdist, hdeg x, ite_eq_left hx]
   calc
     A.ncard = (Set.range g).ncard := by rw [hrange]
     _ = (ptPerp Γ c (starLine Γ c x y)).ncard := by

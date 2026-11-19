@@ -20,18 +20,20 @@ private theorem finite_of_faithfulSMul (V : Type) [Fintype V] (D : Type) [Group 
     [MulAction D V] [FaithfulSMul D V] : Finite D :=
   Finite.of_injective (MulAction.toPermHom D V) MulAction.toPerm_injective
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem rootD_eq_aptRoot_of_pos (t : ZMod (2 * n) → V) {i : ℤ} (hi : 0 < i) :
     rootD (D := D) (Γ := Γ) (n := n) t i = aptRoot D Γ n t i := by
-  rw [rootD, if_pos hi]
+  rw [rootD, ite_eq_left hi]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem rootD_eq_aptRoot_of_nonpos (t : ZMod (2 * n) → V) {i : ℤ} (hi : i ≤ 0) :
     rootD (D := D) (Γ := Γ) (n := n) t i = aptRoot D Γ n t ((n : ℤ) - i) := by
-  rw [rootD, if_neg (by omega)]
+  rw [rootD, ite_eq_right (by omega)]
 
 theorem exists_card_rootL_pos {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
     (hdeg : ∀ v : V, ∃ e : ℕ, Γ.degree v = 2 ^ e + 1) {i : ℤ} (hi1 : 1 ≤ i)
-    (hin : i ≤ (n : ℤ)) :
+    (_hin : i ≤ (n : ℤ)) :
     ∃ e : ℕ, Nat.card (rootL (D := D) (Γ := Γ) (n := n) t i) = 2 ^ e := by
   obtain ⟨e, he⟩ := hdeg (apt t (i + (n : ℤ)))
   refine ⟨e, ?_⟩
@@ -86,10 +88,11 @@ theorem isNilpotent_rootU {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
     (hdeg : ∀ v : V, ∃ e : ℕ, Γ.degree v = 2 ^ e + 1) :
     Group.IsNilpotent (rootU (D := D) (Γ := Γ) (n := n) t) := by
-  haveI : Finite D := finite_of_faithfulSMul V D
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Finite D := finite_of_faithfulSMul V D
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   exact (isPGroup_rootU (t := t) ht hn hP hT hM hdeg).isNilpotent
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem rootL_le_littleBorel {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     {k : ℤ} (hk1 : 1 ≤ k) (hkn : k ≤ (n : ℤ)) :
     rootL (D := D) (Γ := Γ) (n := n) t k ≤ moufangB D Γ n t := by
@@ -224,6 +227,7 @@ theorem isSplit_moufangB {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n 
   simpa [moufangCartan] using
     (moufangB_eq_cartan_mul_rootU (t := t) ht hn hP hT hM)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem coloring_eq_of_connected {c c' : Γ.Coloring (Fin 2)} (hconn : Γ.Connected)
     {v : V} (hv : c v = c' v) : c = c' := by
   refine DFunLike.ext c c' ?_
@@ -255,6 +259,7 @@ private theorem coloring_eq_of_connected {c c' : Γ.Coloring (Fin 2)} (hconn : �
       omega
     exact Fin.ext (by omega)
 
+omit [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem preserves_coloring_of_fixes (hconn : Γ.Connected) {c : Γ.Coloring (Fin 2)} {g : D}
     (hG : ∀ a b : V, Γ.Adj (g • a) (g • b) ↔ Γ.Adj a b) {v : V} (hv : g • v = v) :
     ∀ x : V, c (g • x) = c x := by
@@ -279,8 +284,9 @@ theorem preserves_coloring_of_fixes (hconn : Γ.Connected) {c : Γ.Coloring (Fin
     have h := hg (g⁻¹ • x)
     simpa using h.symm
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem pathRootGroup_le_partsSubgroup (hconn : Γ.Connected) {c : Γ.Coloring (Fin 2)}
-    {p : GPath Γ n} (hp : p.NoBack) (hn : 2 ≤ n) :
+    {p : GPath Γ n} (_hp : p.NoBack) (hn : 2 ≤ n) :
     pathRootGroup D Γ p ≤ partsSubgroup (D := D) c := by
   intro g hg
   change ∀ x : V, c (g • x) = c x
@@ -290,6 +296,7 @@ theorem pathRootGroup_le_partsSubgroup (hconn : Γ.Connected) {c : Γ.Coloring (
   · exact MulAction.mem_stabilizer_iff.mp
       (pathRootGroup_le_stabilizer_last (D := D) (Γ := Γ) (n := n) hn (p := p) hg)
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem littleGroup_le_partsSubgroup (hconn : Γ.Connected) {c : Γ.Coloring (Fin 2)}
     (hn : 2 ≤ n) :
     littleGroup D Γ n ≤ partsSubgroup (D := D) c := by
@@ -329,16 +336,12 @@ noncomputable def reflTwoN (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ 
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n) :
     (reflOneN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM : D) =
       reflOne ht hn hP hT hM := by
-  change (((reflOneN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM :
-    ↥(moufangN D Γ n t)) : ↥(littleGroup D Γ n)) : D) = reflOne ht hn hP hT hM
   rw [reflOneN_coe]
 
 @[simp] theorem reflTwoN_coeD (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n) :
     (reflTwoN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM : D) =
       reflTwo ht hn hP hT hM := by
-  change (((reflTwoN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM :
-    ↥(moufangN D Γ n t)) : ↥(littleGroup D Γ n)) : D) = reflTwo ht hn hP hT hM
   rw [reflTwoN_coe]
 
 @[expose] noncomputable def titsW1 (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ n t)
@@ -378,6 +381,7 @@ theorem reflTwoN_smul (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ n t) 
 @[expose] def aptEdge (t : ZMod (2 * n) → V) (k : ZMod (2 * n)) : Set V :=
   {t k, t (k + 1)}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptEdge_injective {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) :
     Function.Injective (aptEdge t) := by
   intro a b h
@@ -426,11 +430,13 @@ noncomputable def aptEdgeEquiv {t : ZMod (2 * n) → V} (ht : IsPolygonApartment
       obtain ⟨k, hk⟩ := Set.mem_range.mp e.2
       exact ⟨k, Subtype.ext hk⟩⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem card_aptEdge {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) :
     Nat.card (AptEdge t) = 2 * n := by
   rw [← Nat.card_zmod (2 * n)]
   exact (Nat.card_congr (aptEdgeEquiv (Γ := Γ) ht hn)).symm
 
+omit [FaithfulSMul D V] in
 theorem exists_aptEdge_smul {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (m : ↥(moufangN D Γ n t))
     (k : ZMod (2 * n)) :
@@ -480,6 +486,7 @@ noncomputable def aptEdgeSmul {t : ZMod (2 * n) → V} (ht : IsPolygonApartment 
     show (((m * m') : ↥(moufangN D Γ n t)) : D) • e.1 = (m : D) • ((m' : D) • e.1)
     simp only [Subgroup.coe_mul, mul_smul]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 private theorem exists_aptRoot_index_Icc {t : ZMod (2 * n) → V} (hn : 1 ≤ n) (k : ℤ) :
     ∃ k' : ℤ, k' ∈ Set.Icc (1 : ℤ) (2 * (n : ℤ)) ∧
       aptRoot D Γ n t k = aptRoot D Γ n t k' := by
@@ -495,6 +502,7 @@ private theorem exists_aptRoot_index_Icc {t : ZMod (2 * n) → V} (hn : 1 ≤ n)
   have hk : k = (r + 1) + 2 * (n : ℤ) * q := by linarith
   rw [hk, aptRoot_add_two_mul]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRootGroup_eq_iSup_Icc {t : ZMod (2 * n) → V} (hn : 1 ≤ n) :
     aptRootGroup D Γ n t =
       ⨆ k ∈ Set.Icc (1 : ℤ) (2 * (n : ℤ)), aptRoot D Γ n t k := by
@@ -507,6 +515,7 @@ theorem aptRootGroup_eq_iSup_Icc {t : ZMod (2 * n) → V} (hn : 1 ≤ n) :
   · rw [aptRootGroup]
     exact iSup_le fun k => iSup_le fun _ => le_iSup (fun j => aptRoot D Γ n t j) k
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem iSup_rootD_eq_aptRootGroup {t : ZMod (2 * n) → V} (hn : 3 ≤ n) :
     (⨆ i ∈ {i : ℤ | IsRoot n i}, rootD (D := D) (Γ := Γ) (n := n) t i) =
       aptRootGroup D Γ n t := by
@@ -552,6 +561,7 @@ theorem iSup_rootD_eq_aptRootGroup {t : ZMod (2 * n) → V} (hn : 3 ≤ n) :
       rw [rootD_eq_aptRoot_of_nonpos (t := t) (by omega)]
       rw [show (n : ℤ) - i = k by omega]
 
+omit [FaithfulSMul D V] in
 theorem rootL_closure_eq_top {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n) :
     Subgroup.closure (⋃ i ∈ {i : ℤ | IsRoot n i},
@@ -594,6 +604,7 @@ theorem rootL_closure_eq_top {t : ZMod (2 * n) → V} (ht : IsPolygonApartment �
   rw [iSup_rootD_eq_aptRootGroup (D := D) (Γ := Γ) (n := n) (t := t) hn]
   exact aptRootGroup_eq_littleGroup (t := t) ht hn hP hT hM
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem aptRoot_map_conj_of_reflect {t : ZMod (2 * n) → V} {m : D} {i : ℤ}
     (hm : ∀ k : ℤ, m • apt t k = apt t (2 * i - k)) (j : ℤ) :
     (aptRoot D Γ n t j).map (MulAut.conj m).toMonoidHom =
@@ -623,6 +634,7 @@ theorem aptRoot_map_conj_of_reflect {t : ZMod (2 * n) → V} {m : D} {i : ℤ}
       (2 * i - (j + i')) + 2 * (n : ℤ) * 1 by ring, apt_add_two_mul]
     exact hz'
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem conjBy_aptRoot_of_map_conj_action {t : ZMod (2 * n) → V} {m : D} {i : ℤ}
     (hm : ∀ j : ℤ, (aptRoot D Γ n t j).map (MulAut.conj m).toMonoidHom =
       aptRoot D Γ n t (2 * i + (n : ℤ) - j)) (j : ℤ) :
@@ -632,13 +644,12 @@ theorem conjBy_aptRoot_of_map_conj_action {t : ZMod (2 * n) → V} {m : D} {i : 
   have h := hm (2 * i + (n : ℤ) - j)
   rw [show 2 * i + (n : ℤ) - (2 * i + (n : ℤ) - j) = j by ring] at h
   rw [← h, Subgroup.map_map]
-  congr 1
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
 theorem exists_refl_conj_rootL_neg {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ)
-    (hM : MoufangCondition D Γ n) {j : ℤ} (hj1 : 1 ≤ j) (hjn : j ≤ (n : ℤ)) :
+    (hM : MoufangCondition D Γ n) {j : ℤ} (hj1 : 1 ≤ j) (_hjn : j ≤ (n : ℤ)) :
     ∃ m : ↥(littleGroup D Γ n), m ∈ moufangN D Γ n t ∧
       CFSG.GH74.BNPair.conjBy m (rootL (D := D) (Γ := Γ) (n := n) t j) =
         rootL (D := D) (Γ := Γ) (n := n) t (-j) := by
@@ -850,7 +861,7 @@ theorem orderOf_titsW1 {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
     [(cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal] :
     orderOf (titsW1 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ (titsW1_ne_one (t := t) ht hn hP hT hM)
   simpa [pow_two] using titsW1_sq (t := t) ht hn hP hT hM
 
@@ -858,7 +869,7 @@ theorem orderOf_titsW2 {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
     [(cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal] :
     orderOf (titsW2 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ (titsW2_ne_one (t := t) ht hn hP hT hM)
   simpa [pow_two] using titsW2_sq (t := t) ht hn hP hT hM
 
@@ -911,9 +922,10 @@ theorem titsW1_ne_titsW2 {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n 
     apt_ne_two (by omega : 2 ≤ n) ht (n : ℤ)
   exact hne hfixn.symm
 
+omit [Fintype V] in
 private theorem apt_val_zmod {t : ZMod (2 * n) → V} (hn : 3 ≤ n) (k : ZMod (2 * n)) :
     apt t (k.val : ℤ) = t k := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   show t (((k.val : ℤ) : ZMod (2 * n))) = t k
   congr 1
   push_cast
@@ -923,7 +935,7 @@ theorem reflOne_mul_reflTwo_smul_zmod {t : ZMod (2 * n) → V} (ht : IsPolygonAp
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ)
     (hM : MoufangCondition D Γ n) (k : ZMod (2 * n)) :
     (reflOne ht hn hP hT hM * reflTwo ht hn hP hT hM) • t k = t (k + 2) := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   have hcast : (((k.val : ℤ) + 2 : ℤ) : ZMod (2 * n)) = k + 2 := by
     push_cast
     rw [ZMod.natCast_zmod_val]
@@ -956,7 +968,7 @@ theorem reflOneN_smul_zmod {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
     (hM : MoufangCondition D Γ n) (k : ZMod (2 * n)) :
     ((reflOneN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM : ↥(moufangN D Γ n t)) : D) •
         t k = t (2 * ((n : ZMod (2 * n)) + 1) - k) := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   have hcast : ((2 * ((n : ℤ) + 1) - (k.val : ℤ) : ℤ) : ZMod (2 * n)) =
       2 * ((n : ZMod (2 * n)) + 1) - k := by
     push_cast
@@ -1031,11 +1043,12 @@ section EdgeOrbit
 variable {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
   (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ)
 
+omit [FaithfulSMul D V] in
 theorem stabilizer_aptEdge_base_eq_cartan :
     letI : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
     MulAction.stabilizer ↥(moufangN D Γ n t) (aptEdgeOf t (n : ZMod (2 * n))) =
       cartan (moufangB D Γ n t) (moufangN D Γ n t) := by
-  letI : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
+  let : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
   classical
   obtain ⟨c⟩ := hP.isBipartite
   have hparts : littleGroup D Γ n ≤ partsSubgroup (D := D) c :=
@@ -1107,7 +1120,7 @@ private theorem two_mul_zmod_inj {j j' : ℕ} (hj : j < n) (hj' : j' < n)
 theorem card_orbit_aptEdge_base (hM : MoufangCondition D Γ n) :
     letI : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
     (MulAction.orbit ↥(moufangN D Γ n t) (aptEdgeOf t (n : ZMod (2 * n)))).ncard = 2 * n := by
-  letI : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
+  let : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
   classical
   let rN : ↥(moufangN D Γ n t) :=
     reflOneN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM *
@@ -1227,7 +1240,7 @@ end EdgeOrbit
 theorem card_weyl_tits {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (hM : MoufangCondition D Γ n) :
     Nat.card (WeylGroup (moufangB D Γ n t) (moufangN D Γ n t)) = 2 * n := by
-  letI : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
+  let : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
   have hidx : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).index = 2 * n := by
     rw [← stabilizer_aptEdge_base_eq_cartan (t := t) ht hn hP hT]
     rw [MulAction.index_stabilizer]
@@ -1252,12 +1265,13 @@ noncomputable def edgeOfW {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n
   have hm : m' = m * (m⁻¹ * m') := by group
   rw [hm, mul_smul, hstab]
 
+omit [FaithfulSMul D V] in
 theorem edgeOfW_mk {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) (m : ↥(moufangN D Γ n t)) :
     letI : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
     edgeOfW ht hn hP hT (QuotientGroup.mk m) =
       m • aptEdgeOf t (n : ZMod (2 * n)) := by
-  letI : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
+  let : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
   rw [edgeOfW]
   exact Quotient.liftOn_mk _ _ m
 
@@ -1358,9 +1372,9 @@ theorem closure_titsW_eq_top {t : ZMod (2 * n) → V} (ht : IsPolygonApartment �
   let G : Subgroup W := Subgroup.closure
     ({titsW1 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM,
       titsW2 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM} : Set W)
-  have hsG : s ∈ G := Subgroup.subset_closure (by simp [s, G])
+  have hsG : s ∈ G := Subgroup.subset_closure (by simp [s])
   have hw2G : titsW2 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM ∈ G :=
-    Subgroup.subset_closure (by simp [G])
+    Subgroup.subset_closure (by simp)
   have hrG : r ∈ G := by
     dsimp [r]
     exact Subgroup.mul_mem _ hsG hw2G
@@ -1425,13 +1439,13 @@ theorem closure_titsW_eq_top {t : ZMod (2 * n) → V} (ht : IsPolygonApartment �
       have h2 := add_left_cancel hidx
       have hjeq := two_mul_zmod_inj (j := j.val) (j' := j'.val) j.isLt j'.isLt h2
       exact Prod.ext rfl (Fin.ext hjeq)
-  haveI : Finite D := finite_of_faithfulSMul V D
-  haveI : Finite ↥(littleGroup D Γ n) := Subtype.finite
-  haveI : Finite ↥(moufangN D Γ n t) := Subtype.finite
-  haveI : Finite W := by
+  have : Finite D := finite_of_faithfulSMul V D
+  have : Finite ↥(littleGroup D Γ n) := Subtype.finite
+  have : Finite ↥(moufangN D Γ n t) := Subtype.finite
+  have : Finite W := by
     dsimp [W]
     infer_instance
-  haveI : Finite ↥G := Subtype.finite
+  have : Finite ↥G := Subtype.finite
   have hcardψ : Nat.card (Bool × Fin n) ≤ Nat.card ↥G :=
     Nat.card_le_card_of_injective ψ hψ_inj
   have hcard2 : Nat.card (Bool × Fin n) = 2 * n := by

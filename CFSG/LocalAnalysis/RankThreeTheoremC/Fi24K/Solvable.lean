@@ -39,19 +39,19 @@ theorem normalizer_le_normalizer_zpowers {G : Type} [Group G] [Finite G] {c : G}
 theorem isSolvable_normalizer_zpowers {G : Type} [Group G] [Finite G] {c : G}
     {F : Subgroup G} (hL : SevenLine 7 c F)
     (hC : Nat.card (centralizer ({c} : Set G)) = 7 ^ 3 * 6) :
-    IsSolvable (normalizer ((zpowers c : Subgroup G) : Set G)) := by
+    Group.IsSolvable (normalizer ((zpowers c : Subgroup G) : Set G)) := by
   have hfact : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let C : Subgroup G := Subgroup.centralizer ({c} : Set G)
   let N : Subgroup G := Subgroup.normalizer ((Subgroup.zpowers c : Subgroup G) : Set G)
   have hFC : F ≤ C := hL.le_cent
-  haveI hCn : (F.subgroupOf C).Normal := by
+  have hCn : (F.subgroupOf C).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hFC]
     exact Subgroup.le_normalizer_iff.mpr hL.norm
   have hFcard : Nat.card ↥(F.subgroupOf C) = 7 ^ 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hFC).toEquiv, hL.card_eq]
-  haveI hFp : IsPGroup 7 ↥(F.subgroupOf C) := IsPGroup.of_card (n := 3) hFcard
-  haveI : Group.IsNilpotent ↥(F.subgroupOf C) := hFp.isNilpotent
-  haveI : Group.IsSolvable ↥(F.subgroupOf C) := IsNilpotent.to_isSolvable
+  have hFp : IsPGroup 7 ↥(F.subgroupOf C) := IsPGroup.of_card (n := 3) hFcard
+  have : Group.IsNilpotent ↥(F.subgroupOf C) := hFp.isNilpotent
+  have : Group.IsSolvable ↥(F.subgroupOf C) := IsNilpotent.to_isSolvable
   have hquot : Nat.card (↥C ⧸ F.subgroupOf C) = 6 := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (F.subgroupOf C)
     rw [hC, hFcard] at h1
@@ -60,7 +60,7 @@ theorem isSolvable_normalizer_zpowers {G : Type} [Group G] [Finite G] {c : G}
         _ = 6 * 7 ^ 3 := by ring
     exact Nat.eq_of_mul_eq_mul_right (by positivity) h2
   let _ : Fintype (↥C ⧸ F.subgroupOf C) := Fintype.ofFinite _
-  haveI : Group.IsSolvable (↥C ⧸ F.subgroupOf C) :=
+  have : Group.IsSolvable (↥C ⧸ F.subgroupOf C) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num)
       (by rw [Fintype.card_eq_nat_card, hquot]; norm_num)
@@ -83,9 +83,9 @@ theorem isSolvable_normalizer_zpowers {G : Type} [Group G] [Finite G] {c : G}
       rw [Subgroup.normalizerMonoidHom_apply_apply_coe] at h2
       exact mul_inv_eq_iff_eq_mul.mp h2
     exact MonoidHom.mem_range.mpr ⟨⟨(x : G), hxc⟩, Subtype.ext rfl⟩
-  haveI : Group.IsSolvable ↥C := hCsolv
-  haveI : IsCyclic ↥(Subgroup.zpowers c) := Subgroup.isCyclic_zpowers c
-  haveI : Group.IsSolvable (MulAut ↥(Subgroup.zpowers c)) :=
+  have : Group.IsSolvable ↥C := hCsolv
+  have : IsCyclic ↥(Subgroup.zpowers c) := Subgroup.isCyclic_zpowers c
+  have : Group.IsSolvable (MulAut ↥(Subgroup.zpowers c)) :=
     CFSG.ProperTwoGeneratedCore.cyclic_automorphism_solvable _
   exact Group.isSolvable_of_ker_le_range f ρ hker
 

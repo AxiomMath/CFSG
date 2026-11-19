@@ -503,7 +503,7 @@ public theorem theorem1b_typeD_data
     rintro rfl
     rcases hthetaNontrivial with ⟨x, hx⟩
     exact hx rfl
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hthetaOrder : orderOf theta = 5 :=
     orderOf_eq_prime hthetaPowFive hthetaNeOne
   have hpowNe {i j : ℕ} (hi : i < 5) (hj : j < 5) (hij : i ≠ j) :
@@ -521,8 +521,8 @@ public theorem theorem1b_typeD_data
   have hthetaNeOne' : theta ≠ 1 := by
     simpa using
       (hpowNe (i := 1) (j := 0) (by omega) (by omega) (by omega))
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Fintype F := Fintype.ofFinite F
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   obtain ⟨autBasis, hAutBasis⟩ :=
     lemma2a_fieldAutomorphisms_basis_linearMaps F
   have hcenterMapSurjective : Function.Surjective centerMap := by
@@ -643,8 +643,8 @@ public theorem theorem1b_abcdAlternatives
       IsSuzukiTwoTypeD (⊤ : Subgroup P) := by
   rcases hP.2.2.2 with
     ⟨X, hXGroup, hXAction, hXcyclic, hXfaithful, hXregular⟩
-  letI : Group X := hXGroup
-  letI : MulDistribMulAction X P := hXAction
+  let : Group X := hXGroup
+  let : MulDistribMulAction X P := hXAction
   have hXtrans : ∀ x : P, x ∈ involutions P →
       ∀ y : P, y ∈ involutions P → ∃ k : X, y = k • x := by
     intro x hx y hy
@@ -703,7 +703,7 @@ public theorem theorem1_center_quotient_orders_and_exponent
     (Nat.card P = q ^ 2 ∨ Nat.card P = q ^ 3) ∧
     ∀ x : P, x ^ 4 = 1
   classical
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
   have hcoordinateData :
       (Nat.card P = q ^ 2 ∨ Nat.card P = q ^ 3) ∧
         (∀ z : Subgroup.center P, z ^ 2 = 1) ∧
@@ -820,10 +820,10 @@ public theorem omegaLength_two_of_card_center_sq
     (hKregular : ActionRegularOn K P (involutions P))
     (hcard : Nat.card P = Nat.card (Subgroup.center P) ^ 2) :
     OmegaLength K P 2 := by
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hP.2.2.1 with ⟨x, y, _hx, _hy, hxy⟩
-  letI : Nontrivial P := ⟨⟨x, y, hxy⟩⟩
+  let : Nontrivial P := ⟨⟨x, y, hxy⟩⟩
   have hcenter_ne : Subgroup.center P ≠ ⊥ :=
     ne_of_gt (isPGroup_of_isSuzukiTwoGroup hP).bot_lt_center
   have hq_gt : 1 < Nat.card (Subgroup.center P) :=
@@ -862,10 +862,10 @@ public theorem omegaLength_three_of_card_center_cube
     (hKregular : ActionRegularOn K P (involutions P))
     (hcard : Nat.card P = Nat.card (Subgroup.center P) ^ 3) :
     OmegaLength K P 3 := by
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hP.2.2.1 with ⟨x, y, _hx, _hy, hxy⟩
-  letI : Nontrivial P := ⟨⟨x, y, hxy⟩⟩
+  let : Nontrivial P := ⟨⟨x, y, hxy⟩⟩
   have hcenter_ne : Subgroup.center P ≠ ⊥ :=
     ne_of_gt (isPGroup_of_isSuzukiTwoGroup hP).bot_lt_center
   have hq_gt : 1 < Nat.card (Subgroup.center P) :=

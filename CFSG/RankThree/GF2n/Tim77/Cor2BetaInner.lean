@@ -51,13 +51,13 @@ theorem cor2Beta_normalizesComponent_of (hB4 : Cor2BetaComponentDataStatement) :
   intro G _ _ S t hs E Y _ a haH hac K hK
   classical
   set H : Subgroup G := normalClosure ({t} : Set G) with hH
-  haveI hHn : H.Normal := inferInstance
+  have hHn : H.Normal := inferInstance
   set N : Subgroup G := CFSG.Goldschmidt.oddCoreOf H with hNdef
-  haveI hNn : N.Normal := oddCoreOf_normal hHn
+  have hNn : N.Normal := oddCoreOf_normal hHn
   set π : G →* G ⧸ N := QuotientGroup.mk' N with hπ
   have hKbar : IsComponentOf (K.map π) (H.map π) := cor2Beta_c1_isComponentOf_map rfl hK
   obtain ⟨-, V, hVK, hVW, hV4, hVnc⟩ := @hB4 G _ _ S t hs N hNn rfl (K.map π) hKbar
-  haveI := hV4
+  have := hV4
   obtain ⟨v, -, hv1, -, -⟩ := cor2Beta_kleinFour_two (X := ↥V)
   have hv1' : (v : G ⧸ N) ≠ 1 := fun h => hv1 (Subtype.ext h)
   obtain ⟨w, hwW, hwv⟩ := hVW v.2
@@ -79,6 +79,7 @@ theorem cor2Beta_normalizesComponent_of (hB4 : Cor2BetaComponentDataStatement) :
   rw [← hyy₀, ← hk', ← map_mul, ← map_mul, hc]
 
 
+omit [Finite G] in
 theorem cor2Beta_c3_mem_center {K : Subgroup G} {z : ↥K} :
     z ∈ Subgroup.center ↥K ↔ ∀ k ∈ K, (z : G) * k = k * z := by
   rw [Subgroup.mem_center_iff]
@@ -107,6 +108,7 @@ theorem cor2Beta_c3_central_commute {H E Y K : Subgroup G} (hd : Cor2BetaDecomp 
   have := Subgroup.mem_centralizer_singleton_iff.mp (sup_le hzE hzY (hd.sup_eq ▸ hh))
   exact this.symm
 
+omit [Finite G] in
 theorem cor2Beta_c3_conj_wcl {t a x ζ : G}
     (hac : ∀ w ∈ CFSG.LargeExtraspecial.S11.wcl t, a * w = w * a)
     (hstar : ∀ g : G, a * (g * t * g⁻¹) = (g * t * g⁻¹) * a →
@@ -212,15 +214,15 @@ theorem cor2Beta_innerOnComponent_of (hB4 : Cor2BetaComponentDataStatement)
   intro G _ _ S t hs E Y hd a ha2 haH hac hstar K hK
   classical
   set H : Subgroup G := normalClosure ({t} : Set G) with hH
-  haveI hHn : H.Normal := inferInstance
+  have hHn : H.Normal := inferInstance
   set N : Subgroup G := CFSG.Goldschmidt.oddCoreOf H with hNdef
-  haveI hNn : N.Normal := oddCoreOf_normal hHn
+  have hNn : N.Normal := oddCoreOf_normal hHn
   set π : G →* G ⧸ N := QuotientGroup.mk' N with hπ
   have haK : a ∈ normalizer (K : Set G) := hC1 G hs hd haH hac hK
   have hKN : ∀ k ∈ K, ∀ n ∈ N, k * n = n * k := cor2Beta_c3_component_centralizes rfl hK
   have hKbar : IsComponentOf (K.map π) (H.map π) := cor2Beta_c1_isComponentOf_map rfl hK
   obtain ⟨hBen, V, hVK, hVW, hV4, hVnc⟩ := @hB4 G _ _ S t hs N hNn rfl (K.map π) hKbar
-  haveI : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
+  have : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
   have hker : (π.subgroupMap K).ker ≤ Subgroup.center ↥K := by
     rw [Subgroup.ker_subgroupMap, hπ, QuotientGroup.ker_mk']
     intro x hx
@@ -230,7 +232,7 @@ theorem cor2Beta_innerOnComponent_of (hB4 : Cor2BetaComponentDataStatement)
   obtain ⟨e⟩ := cor2Beta_quotient_center_equiv (π.subgroupMap K) (π.subgroupMap_surjective K) hker
   have hB : CFSG.BenderSuzuki.IsBenderGroup (↥K ⧸ Subgroup.center ↥K) :=
     CFSG.Timmesfeld.Bridge.Asc72.isBenderGroup_of_mulEquiv e hBen
-  haveI := hV4
+  have := hV4
   obtain ⟨v, -, hv1, -, -⟩ := cor2Beta_kleinFour_two (X := ↥V)
   have hv1' : (v : G ⧸ N) ≠ 1 := fun h => hv1 (Subtype.ext h)
   have hvv : (v : G ⧸ N) * v = 1 := by

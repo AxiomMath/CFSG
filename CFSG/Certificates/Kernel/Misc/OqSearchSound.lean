@@ -29,7 +29,7 @@ private theorem xor_lt_iff (a b : ℕ) : a ^^^ b < a ↔ (b ≠ 0 ∧ a.testBit 
     cases ha : a.testBit b.log2
     · have : a < a ^^^ b := Nat.lt_of_testBit b.log2 ha (by rw [Nat.testBit_xor, ha, hb1]; rfl)
         (fun j hj => by rw [Nat.testBit_xor, hb2 j hj]; simp)
-      simp [hb, ha, not_lt.2 this.le]
+      simp [hb, not_lt.2 this.le]
     · have : a ^^^ b < a := Nat.lt_of_testBit b.log2 (by rw [Nat.testBit_xor, ha, hb1]; rfl) ha
         (fun j hj => by rw [Nat.testBit_xor, hb2 j hj]; simp)
       simp [hb, this]
@@ -46,8 +46,7 @@ private theorem stp_xor (s r p q : ℕ) : stp s (p ^^^ q) r = stp s p r ^^^ stp 
   by_cases hb : r >>> s = 0
   · simp [stp_eq, hb]
   · cases hp : (p >>> s).testBit (r >>> s).log2 <;> cases hq : (q >>> s).testBit (r >>> s).log2 <;>
-      simp [stp_eq, hb, hp, hq, Nat.shiftRight_xor_distrib, Nat.testBit_xor, Nat.xor_assoc,
-        Nat.xor_comm, hlc, hc]
+      simp [stp_eq, hb, hp, hq, Nat.shiftRight_xor_distrib, Nat.testBit_xor, Nat.xor_comm, hlc, hc]
 
 private theorem stp_zero (s r : ℕ) : stp s 0 r = 0 := by
   simp [stp_eq]
@@ -109,12 +108,12 @@ private theorem red_mem (s : ℕ) (rows : List ℕ) (h : Ech s rows) :
     simp only [red, List.foldl_cons]
     rcases List.mem_cons.1 hr with rfl | hr
     · have : stp s r r = 0 := by
-        rw [stp_eq, if_pos ⟨hb, by simpa using Nat.testBit_log2 hb⟩]
+        rw [stp_eq, ite_eq_left ⟨hb, by simpa using Nat.testBit_log2 hb⟩]
         exact Nat.xor_self _
       rw [this]
       exact red_zero s l
     · have : stp s r b = r := by
-        rw [stp_eq, if_neg]
+        rw [stp_eq, ite_eq_right]
         rintro ⟨-, h2⟩
         rw [Nat.testBit_lt_two_pow (hlt r hr)] at h2
         exact Bool.false_ne_true h2
@@ -289,11 +288,11 @@ private theorem oinsK_eq (p : ℕ) (rows : List ℕ) : oinsK p rows = oins 9 p r
         intro hle
         have h2 : Nat.ble (Nat.shiftRight b 9) (Nat.shiftRight p 9) = true := Nat.ble_eq ▸ hle
         rw [h] at h2; exact absurd h2 (by decide)
-      rw [if_neg this]
+      rw [ite_eq_right this]
       exact congrArg _ ih
     · have : b >>> 9 ≤ p >>> 9 := by
         have := h; rw [Nat.ble_eq] at this; exact this
-      rw [if_pos this]
+      rw [ite_eq_left this]
 
 private theorem insV_eq (a : ℕ) (ib : List ℕ) : insV a ib = oins 0 a ib := by
   induction ib with
@@ -308,11 +307,11 @@ private theorem insV_eq (a : ℕ) (ib : List ℕ) : insV a ib = oins 0 a ib := b
         intro hle
         have h2 : Nat.ble b a = true := Nat.ble_eq ▸ hle
         rw [h] at h2; exact absurd h2 (by decide)
-      rw [if_neg this]
+      rw [ite_eq_right this]
       exact congrArg _ ih
     · have : b >>> 0 ≤ a >>> 0 := by
         have := h; rw [Nat.ble_eq] at this; exact this
-      rw [if_pos this]
+      rw [ite_eq_left this]
 
 private def addP (rows : List ℕ) (P : ℕ) : Option (List ℕ) :=
   if P >>> 9 = 0 then (if P &&& 511 = 0 then some rows else none) else some (oins 9 P rows)
@@ -333,20 +332,20 @@ private theorem lmAddK_eq (rows : List ℕ) (x y : ℕ) :
   rw [oinsK_eq]
   by_cases h1 : P >>> 9 = 0
   · have h1' : Nat.beq (Nat.shiftRight P 9) 0 = true := Nat.beq_eq ▸ h1
-    rw [h1', if_pos h1]
+    rw [h1', ite_eq_left h1]
     by_cases h2 : P &&& 511 = 0
     · have h2' : Nat.beq (Nat.land P 511) 0 = true := Nat.beq_eq ▸ h2
-      rw [h2', if_pos h2]
+      rw [h2', ite_eq_left h2]
     · have h2' : Nat.beq (Nat.land P 511) 0 = false := by
         cases h : Nat.beq (Nat.land P 511) 0
         · rfl
         · exact absurd (Nat.beq_eq ▸ h) h2
-      rw [h2', if_neg h2]
+      rw [h2', ite_eq_right h2]
   · have h1' : Nat.beq (Nat.shiftRight P 9) 0 = false := by
       cases h : Nat.beq (Nat.shiftRight P 9) 0
       · rfl
       · exact absurd (Nat.beq_eq ▸ h) h1
-    rw [h1', if_neg h1]
+    rw [h1', ite_eq_right h1]
 
 private theorem addP_spec {rows rows' : List ℕ} {P z : ℕ} (hE : Ech 9 rows)
     (hP : red 9 rows z = P) (h : addP rows P = some rows') :
@@ -356,9 +355,9 @@ private theorem addP_spec {rows rows' : List ℕ} {P z : ℕ} (hE : Ech 9 rows)
   have hz : z = P ^^^ w := by rw [hPw, Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
   unfold addP at h
   by_cases h1 : P >>> 9 = 0
-  · rw [if_pos h1] at h
+  · rw [ite_eq_left h1] at h
     by_cases h2 : P &&& 511 = 0
-    · rw [if_pos h2] at h
+    · rw [ite_eq_left h2] at h
       cases h
       have hP0 : P = 0 := by
         refine Nat.eq_of_testBit_eq fun i => ?_
@@ -375,9 +374,9 @@ private theorem addP_spec {rows rows' : List ℕ} {P z : ℕ} (hE : Ech 9 rows)
       refine ⟨hE, fun x hx => hx, ?_⟩
       rw [hz, hP0, Nat.zero_xor]
       exact hw
-    · rw [if_neg h2] at h
+    · rw [ite_eq_right h2] at h
       exact absurd h (by simp)
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     cases h
     have hmem : ∀ x ∈ rows, x ∈ oins 9 P rows := fun x hx =>
       (List.mem_orderedInsert _).2 (Or.inr hx)
@@ -515,7 +514,7 @@ private theorem two_pow_add_eq_xor {k w : ℕ} (hw : w < 2 ^ k) : 2 ^ k + w = 2 
   rw [this]
   by_cases hj : j < k
   · simp [hj, show k ≠ j by omega]
-  · simp only [hj, if_false, testBit_eq_false_of_lt hw (not_lt.1 hj)]
+  · simp only [hj, ite_false, testBit_eq_false_of_lt hw (not_lt.1 hj)]
     by_cases hjk : j = k
     · subst hjk; simp
     · have : (1 : ℕ).testBit (j - k) = false := by
@@ -596,16 +595,16 @@ private theorem lmRed_pk : ∀ (rows : List (ℕ × ℕ)), (∀ r ∈ rows, r.2 
     rw [hlm]
     have hx : (p.2 ^^^ r.2) < 512 := Nat.xor_lt_two_pow (n := 9) hp hr'
     by_cases hc : p.1 ^^^ r.1 < p.1
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       have : stp 9 (pk p) (pk r) = pk (p.1 ^^^ r.1, p.2 ^^^ r.2) := by
         unfold stp
-        rw [pk_xor' hp hr', pk_shift hx, pk_shift hp, if_pos hc]
+        rw [pk_xor' hp hr', pk_shift hx, pk_shift hp, ite_eq_left hc]
       rw [this]
       exact ih hrs _ hx
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       have : stp 9 (pk p) (pk r) = pk p := by
         unfold stp
-        rw [pk_xor' hp hr', pk_shift hx, pk_shift hp, if_neg hc]
+        rw [pk_xor' hp hr', pk_shift hx, pk_shift hp, ite_eq_right hc]
       rw [this]
       exact ih hrs _ hp
 
@@ -641,12 +640,12 @@ private theorem lmAdd_pk {rows : List (ℕ × ℕ)} (hr : ∀ r ∈ rows, r.2 < 
   unfold addP
   rw [pk_shift hp2, pk_land hp2]
   by_cases h1 : p.1 = 0
-  · rw [if_pos h1, if_pos h1]
+  · rw [ite_eq_left h1, ite_eq_left h1]
     by_cases h2 : p.2 = 0
-    · simp only [h2, if_true, Option.map_some]
+    · simp only [h2, ite_true, Option.map_some]
       exact ⟨trivial, fun rs hrs => by cases hrs; exact hr⟩
     · simp [h2]
-  · rw [if_neg h1, if_neg h1]
+  · rw [ite_eq_right h1, ite_eq_right h1]
     refine ⟨?_, ?_⟩
     · simp only [Option.map_some, oins_pk rows hr p hp2]
     · intro rs hrs r hrm
@@ -739,7 +738,7 @@ private theorem foldD (u : Bool) (imgs : List ℕ) (a k : ℕ) (hlen : imgs.leng
       show (List.range 1).foldl _ _ = _
       simp only [List.range_one, List.foldl_cons, List.foldl_nil]
       unfold stepK
-      rw [Option.bind_some, if_neg hne, h0, Nat.add_zero]
+      rw [Option.bind_some, ite_eq_right hne, h0, Nat.add_zero]
     refine ⟨hfold.trans hg0.symm, fun rows' h => ?_⟩
     rw [hg0, lmAddK_eq] at h
     obtain ⟨h1, h2, h3⟩ := addP_spec hE rfl h
@@ -820,7 +819,7 @@ private theorem foldD (u : Bool) (imgs : List ℕ) (a k : ℕ) (hlen : imgs.leng
       have hstep1 : stepK u (imgs ++ [a]) k (some rm) (2 ^ m + 0) =
           lmAddK rm (betaOf u (2 ^ k) (2 ^ m)) (betaOf u a (imgs.getD m 0)) := by
         unfold stepK
-        rw [Option.bind_some, if_neg (hnz _ (by omega)), lmAddK_eq, lmAddK_eq]
+        rw [Option.bind_some, ite_eq_right (hnz _ (by omega)), lmAddK_eq, lmAddK_eq]
         have hz0 : qOf u (2 ^ k + (2 ^ m + 0)) * 512 +
             qOf u (evalV (imgs ++ [a]) (2 ^ k + (2 ^ m + 0))) = genpk ^^^
             (bil u (imgs ++ [a]) 0 (2 ^ m) ^^^ rawv u (imgs ++ [a]) (2 ^ k + 0) ^^^
@@ -847,7 +846,7 @@ private theorem foldD (u : Bool) (imgs : List ℕ) (a k : ℕ) (hlen : imgs.leng
           have hi' : i < 2 ^ m - 1 := List.mem_range.1 hi
           have hw : i.succ < 2 ^ m := by omega
           unfold stepK
-          rw [Option.bind_some, if_neg (hnz _ (by omega)), lmAddK_eq]
+          rw [Option.bind_some, ite_eq_right (hnz _ (by omega)), lmAddK_eq]
           have hz := hmem rr hrr hg i.succ hw
           unfold rawv at hz
           rw [red_of_sp 9 rr hEr hz]
@@ -907,7 +906,7 @@ private theorem foldT (u : Bool) (l : List ℕ) (k : ℕ) (L : List ℕ) :
         · simp [stepN, stepK, hz]
         · have hlm := lmAdd_pk (hacc rs rfl) (x := qOf u (2 ^ k + x))
             (y := qOf u (evalV l (2 ^ k + x))) (qOf_lt u _)
-          simp only [stepN, stepK, Option.bind_some, if_neg hz]
+          simp only [stepN, stepK, Option.bind_some, ite_eq_right hz]
           exact hlm
     obtain ⟨h1, h2⟩ := hstep
     obtain ⟨h3, h4⟩ := ih (stepN u l k acc x) h2
@@ -1129,7 +1128,7 @@ private theorem candsK_eq (u : Bool) {k : ℕ} (hk : k < 6) (rowsN : List (ℕ �
   rw [hs]
   by_cases h1 : p.1 = 0
   · have hb : Nat.beq p.1 0 = true := Nat.beq_eq ▸ h1
-    rw [hb, if_pos h1]
+    rw [hb, ite_eq_left h1]
     show candsK.filterK 64 _ = _
     unfold candsK.filterK
     rw [filterK_aux _ 64 [], List.append_nil, fibOf_getD u hp2, hl]
@@ -1141,7 +1140,7 @@ private theorem candsK_eq (u : Bool) {k : ℕ} (hk : k < 6) (rowsN : List (ℕ �
       cases h : Nat.beq p.1 0
       · rfl
       · exact absurd (Nat.beq_eq ▸ h) h1
-    rw [hb, if_neg h1]
+    rw [hb, ite_eq_right h1]
     show candsK.rangeK 64 = _
     unfold candsK.rangeK candsK.filterK
     rw [filterK_aux (fun _ => true) 64 [], List.append_nil]
@@ -1217,10 +1216,10 @@ private theorem step2K_eq (u k P : ℕ) (rows ib : List ℕ) :
       cases hb : Nat.beq (redV ib a) 0
       · have hne : ¬ redV ib a = 0 := fun h => by
           rw [h] at hb; exact absurd hb (by decide)
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
         cases pairsK u P k a rows <;> rfl
       · have h0 : redV ib a = 0 := Nat.beq_eq ▸ hb
-        rw [if_pos h0]
+        rw [ite_eq_left h0]
         rfl
   exact key _
 
@@ -1275,7 +1274,7 @@ private theorem rel_one (u : Bool) {k P : ℕ} {rows ib imgs : List ℕ} {rowsN 
   by_cases hz : red 0 ib a = 0
   · left
     have hKz : Kopt (if u then 1 else 0) k P (rowsN.map pk) ib a = none := by
-      unfold Kopt; rw [if_pos (by rw [redV_eq]; exact hz)]
+      unfold Kopt; rw [ite_eq_left (by rw [redV_eq]; exact hz)]
     refine ⟨hKz, ?_⟩
     obtain ⟨w, hw, hwa⟩ := (red_zero_iff hE0 hIb a).1 hz
     rw [hlen] at hw
@@ -1294,7 +1293,7 @@ private theorem rel_one (u : Bool) {k P : ℕ} {rows ib imgs : List ℕ} {rowsN 
     have hKnz : Kopt (if u then 1 else 0) k P (rowsN.map pk) ib a =
         (pairsK (if u then 1 else 0) P k a (rowsN.map pk)).map fun rs =>
           (Nat.add P (Nat.shiftLeft a (Nat.mul 6 k)), rs, insV (redV ib a) ib) := by
-      unfold Kopt; rw [if_neg (by rw [redV_eq]; exact hz)]
+      unfold Kopt; rw [ite_eq_right (by rw [redV_eq]; exact hz)]
     cases hN : addNew u (imgs ++ [a]) k rowsN with
     | none =>
       left
@@ -1511,7 +1510,7 @@ private theorem rel_init (u : Bool) {t : ℕ} (ht : t < 64) :
       rw [this]
     rw [hK, qK_eq u 1 (by omega), qK_eq u t ht, lmAddK_eq]
     have hred : red 9 [] (qOf u 1 * 512 + qOf u t) = qOf u 1 * 512 + qOf u t := rfl
-    rw [hred, if_neg ht0]
+    rw [hred, ite_eq_right ht0]
     have hy512 : qOf u t < 512 := qOf_lt u t
     by_cases hx : qOf u 1 = 0
     · by_cases hy : qOf u t = 0
@@ -1562,7 +1561,7 @@ private theorem rel_init (u : Bool) {t : ℕ} (ht : t < 64) :
             show (0 * 512 + qOf u t) % 2 ^ 9 ≠ 0
             have : (2 : ℕ) ^ 9 = 512 := rfl
             rw [this]; omega
-          rw [if_pos h1, if_neg h2]
+          rw [ite_eq_left h1, ite_eq_right h2]
         have e2 : lmAdd [] (qOf u 1) (qOf u t) = none := by
           rw [hx]
           show (if ((0, qOf u t) : ℕ × ℕ).1 = 0 then
@@ -1575,11 +1574,11 @@ private theorem rel_init (u : Bool) {t : ℕ} (ht : t < 64) :
         have h1 : ((qOf u 1 * 512 + qOf u t) >>> 9) ≠ 0 := by
           have := pk_shift (p := (qOf u 1, qOf u t)) hy512
           exact fun h => hx (this.symm.trans h)
-        rw [if_neg h1]
+        rw [ite_eq_right h1]
         simp [oins]
       have e2 : lmAdd [] (qOf u 1) (qOf u t) = some [(qOf u 1, qOf u t)] := by
         show (if ((qOf u 1, qOf u t) : ℕ × ℕ).1 = 0 then _ else _) = _
-        simp only [hx, if_false]
+        simp only [hx, ite_false]
         simp [lmRed]
       rw [e1, e2]
       exact List.Forall₂.cons (rel_init_one u ht0 ht rfl rfl hx) List.Forall₂.nil

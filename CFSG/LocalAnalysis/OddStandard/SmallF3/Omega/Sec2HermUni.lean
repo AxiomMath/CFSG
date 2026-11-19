@@ -22,7 +22,7 @@ theorem matLin_apply {n : ℕ} (A : Matrix (Fin n) (Fin n) F9) (x : Fin n → F9
 
 @[expose] noncomputable def glEquiv (n : ℕ) (A : GL (Fin n) F9) :
     (Fin n → F9) ≃ₗ[ZMod 3] (Fin n → F9) :=
-  LinearEquiv.ofLinear (matLin n (A : Matrix (Fin n) (Fin n) F9))
+  LinearEquiv.ofLinearMap (matLin n (A : Matrix (Fin n) (Fin n) F9))
     (matLin n ((A⁻¹ : GL (Fin n) F9) : Matrix (Fin n) (Fin n) F9))
     (LinearMap.ext fun x => by
       simp only [LinearMap.comp_apply, matLin_apply, Matrix.mulVec_mulVec, ← Units.val_mul,

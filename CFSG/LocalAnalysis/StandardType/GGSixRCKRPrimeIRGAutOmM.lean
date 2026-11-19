@@ -13,7 +13,7 @@ open CFSG.Open (StatedLieTag StatedLieAdmissible)
 theorem irgRootPairAut_POmegaMinus
     {n g : ℕ} (hadm : StatedLieAdmissible .POmegaMinus n 2 g) :
     IRGRootPairAut .POmegaMinus n g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hg1, hn4⟩ := hadm
   have hcard : Nat.card (GaloisField 2 g) = 2 ^ g := GaloisField.card 2 g (by omega)
   have hirr := minusCoeffs_irr 2 g

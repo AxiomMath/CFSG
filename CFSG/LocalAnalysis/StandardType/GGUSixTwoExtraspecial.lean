@@ -129,27 +129,27 @@ theorem A6_unitary {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
   have h3 : ω ^ 3 = 1 := by grind
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [A6, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply] <;> grind
+    simp [A6, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
 
 theorem P6_unitary :
     ((P6 : Matrix (Fin 6) (Fin 6) K).map (· ^ 2))ᵀ * P6 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [P6, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply]
+    simp [P6, Matrix.mul_apply, Fin.sum_univ_six]
 
 theorem F6_unitary {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
     ((F6 ω).map (· ^ 2))ᵀ * F6 ω = 1 := by
   have h3 : ω ^ 3 = 1 := by grind
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [F6, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply] <;> grind
+    simp [F6, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
 
 theorem D6_unitary {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
     ((D6 ω).map (· ^ 2))ᵀ * D6 ω = 1 := by
   have h3 : ω ^ 3 = 1 := by grind
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [D6, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply] <;> grind
+    simp [D6, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
 
 def A6i (ω : K) : Matrix (Fin 6) (Fin 6) K := Matrix.diagonal ![1, ω ^ 2, ω, 1, 1, 1]
 
@@ -157,13 +157,13 @@ theorem A6_mul_A6i {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : A6 ω * A6i ω = 1 := 
   have h3 : ω ^ 3 = 1 := by grind
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [A6, A6i, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply] <;> grind
+    simp [A6, A6i, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
 
 theorem A6i_mul_A6 {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : A6i ω * A6 ω = 1 := by
   have h3 : ω ^ 3 = 1 := by grind
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [A6, A6i, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply] <;> grind
+    simp [A6, A6i, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
 
 noncomputable def glA {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : GL (Fin 6) K :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero (A6 ω) (by rw [A6_det hω]; exact one_ne_zero)
@@ -180,12 +180,12 @@ noncomputable def glD {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : GL (Fin 6) K :=
 theorem P6_mul_P6i : P6 * P6i = (1 : Matrix (Fin 6) (Fin 6) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [P6, P6i, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply]
+    simp [P6, P6i, Matrix.mul_apply, Fin.sum_univ_six]
 
 theorem P6i_mul_P6 : P6i * P6 = (1 : Matrix (Fin 6) (Fin 6) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [P6, P6i, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply]
+    simp [P6, P6i, Matrix.mul_apply, Fin.sum_univ_six]
 
 noncomputable def glPi : GL (Fin 6) K :=
   ⟨P6i, P6, P6i_mul_P6, P6_mul_P6i⟩
@@ -204,7 +204,7 @@ theorem glP_cube : glP ^ 3 = (1 : GL (Fin 6) K) := by
   apply Units.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [glP, P6, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, pow_succ]
+    simp [glP, P6, Matrix.mul_apply, Fin.sum_univ_six, pow_succ]
 
 theorem glP_inv : (glP : GL (Fin 6) K)⁻¹ = glPi := by
   symm
@@ -218,7 +218,7 @@ theorem glA_cube {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : (glA hω) ^ 3 = (1 : GL 
   have h3 : ω ^ 3 = 1 := by grind
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [glA, A6, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, pow_succ] <;> grind
+    simp [glA, A6, Matrix.mul_apply, Fin.sum_univ_six, pow_succ] <;> grind
 
 theorem AP_cube {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : (glA hω * glP) ^ 3 = (1 : GL (Fin 6) K) := by
   apply Units.ext
@@ -226,7 +226,7 @@ theorem AP_cube {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : (glA hω * glP) ^ 3 = (1 
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [glA, glP, A6, P6, Matrix.mul_apply, Fin.sum_univ_six,
-      Matrix.one_apply, pow_succ] <;> grind
+      pow_succ] <;> grind
 
 theorem APinv_cube {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : (glA hω * glPi) ^ 3 = (1 : GL (Fin 6) K) := by
   apply Units.ext
@@ -234,7 +234,7 @@ theorem APinv_cube {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : (glA hω * glPi) ^ 3 =
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [glA, glPi, A6, P6i, Matrix.mul_apply, Fin.sum_univ_six,
-      Matrix.one_apply, pow_succ] <;> grind
+      pow_succ] <;> grind
 
 noncomputable def B {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : GL (Fin 6) K :=
   ⁅glA hω, glP⁆
@@ -257,7 +257,7 @@ theorem B_eq_diag {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
   have h3 : ω ^ 3 = 1 := by grind
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [A6, A6i, P6, P6i, Matrix.mul_apply, Fin.sum_univ_six, Matrix.diagonal] <;> grind
+    simp [A6, A6i, P6, P6i, Matrix.mul_apply, Fin.sum_univ_six, Matrix.diagonal]; grind
 
 theorem F_mul_P {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
     glF hω h2 * glP = glA hω * glF hω h2 := by
@@ -278,14 +278,14 @@ theorem D_mul_A {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
   apply Units.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [glD, glA, D6, A6, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
+    simp [glD, glA, D6, A6, Matrix.mul_apply, Fin.sum_univ_six]
 
 theorem D_mul_P {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     glD hω * glP = glA hω * glP * glD hω := by
   apply Units.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [glD, glA, glP, D6, A6, P6, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
+    simp [glD, glA, glP, D6, A6, P6, Matrix.mul_apply, Fin.sum_univ_six]; grind
 
 theorem F_conj_P {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
     glF hω h2 * glP * (glF hω h2)⁻¹ = glA hω := by
@@ -315,7 +315,7 @@ theorem F_mul_B {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
   rw [B_eq_diag hω h2]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [glF, F6, Matrix.diagonal, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
+    simp [glF, F6, Matrix.diagonal, Matrix.mul_apply] <;> grind
 
 theorem D_mul_B {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
     glD hω * B hω = B hω * glD hω := by
@@ -325,7 +325,7 @@ theorem D_mul_B {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
   rw [B_eq_diag hω h2]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [glD, D6, Matrix.diagonal, Matrix.mul_apply, Fin.sum_univ_six] <;> grind
+    simp [glD, D6, Matrix.diagonal, Matrix.mul_apply]
 
 theorem F_conj_B {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
     glF hω h2 * B hω * (glF hω h2)⁻¹ = B hω := by
@@ -338,11 +338,11 @@ theorem D_conj_B {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
   group
 
 theorem two_eq_zero_of_card_four [Finite K] (hK : Nat.card K = 4) : (2 : K) = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hcard
+  have : CharP K 2 := charP_of_card_eq_prime_pow hcard
   simpa using (CharP.cast_eq_zero K 2)
 
 noncomputable def suA {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
@@ -567,7 +567,7 @@ theorem proj_suB_ne_one {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) 
         exact hdet
       · ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [threeAMatrixAux, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply] <;> grind⟩
+          simp [threeAMatrixAux, Matrix.mul_apply, Fin.sum_univ_six] <;> grind⟩
 
 @[expose] noncomputable def threeAAux {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
@@ -582,7 +582,7 @@ theorem threeASUAux_eq_mul {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 
   have h3 : ω ^ 3 = 1 := by grind
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [threeAMatrixAux, A6, Matrix.mul_apply, Fin.sum_univ_six, Matrix.diagonal] <;> grind
+    simp [threeAMatrixAux, A6, Matrix.mul_apply, Matrix.diagonal] <;> grind
 
 theorem threeAAux_eq_mul {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h2 : (2 : K) = 0) :
     threeAAux hω = a hω h2 * ⁅a hω h2, c⁆ := by
@@ -619,7 +619,7 @@ theorem exists_extraspecial_conj_threeAAux [Finite K] (hK : Nat.card K = 4) {ω 
         ∃ u : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)),
           u * threeAAux hω * u⁻¹ = g ∨ u * (threeAAux hω)⁻¹ * u⁻¹ = g := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let h2 : (2 : K) = 0 := two_eq_zero_of_card_four hK
   let S : Abs.HeisSetup (Γ := LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
     heisSetup hω h2
@@ -628,8 +628,7 @@ theorem exists_extraspecial_conj_threeAAux [Finite K] (hK : Nat.card K = 4) {ω 
   refine ⟨P, S.b, S.card_closure, ?_, ?_, ?_, ?_⟩
   · intro g hg
     exact S.hcr.pow_three_eq_one hg
-  · change S.b ∈ P
-    exact Subgroup.commutator_le_self P
+  · exact Subgroup.commutator_le_self P
       (Subgroup.commutator_mem_commutator
         (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp)))
   · intro g hg

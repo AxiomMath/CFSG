@@ -40,7 +40,7 @@ private theorem twist_inv (w a : K)
     refine ⟨E.mul_mem haE hbE, ?_⟩
     rw [twist_mul w a b (mem_centralizer_iff.1 ha.2 b⁻¹ (E.inv_mem hbE)).symm]
     exact (centerIn E).mul_mem ha hb
-  one_mem' := ⟨E.one_mem, by simpa using (centerIn E).one_mem⟩
+  one_mem' := ⟨E.one_mem, by simp⟩
   inv_mem' := by
     rintro a ⟨haE, ha⟩
     refine ⟨E.inv_mem haE, ?_⟩
@@ -225,8 +225,8 @@ theorem four_mul_card_centerIn_le_card_twistFix [Finite K] {w : K} (hw : w * w =
     _ = Nat.card ↥(QuotientGroup.mk ⁻¹' Fix) := hpre.symm
     _ = Nat.card (twistFix w E) := hcardQ.symm
 
-theorem card_mul_card_twistFix_le [Finite K] {w : K} (hw : w * w = 1) {E₁ E₂ : Subgroup K}
-    (hn₁ : ∀ g ∈ E₁, w * g * w⁻¹ ∈ E₁) (hn₂ : ∀ g ∈ E₂, w * g * w⁻¹ ∈ E₂)
+theorem card_mul_card_twistFix_le [Finite K] {w : K} (_hw : w * w = 1) {E₁ E₂ : Subgroup K}
+    (_hn₁ : ∀ g ∈ E₁, w * g * w⁻¹ ∈ E₁) (_hn₂ : ∀ g ∈ E₂, w * g * w⁻¹ ∈ E₂)
     (hc : ∀ a ∈ E₁, ∀ b ∈ E₂, a * b = b * a) :
     Nat.card (twistFix w E₁) * Nat.card (twistFix w E₂) ≤
       Nat.card (centerIn E₁) * Nat.card (centerIn E₂) * Nat.card (centralizer ({w} : Set K)) := by

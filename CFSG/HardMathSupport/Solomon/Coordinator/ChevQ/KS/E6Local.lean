@@ -123,7 +123,7 @@ theorem e6_localBalance_at_threeCentral_of_core (h1 : E6ThreeCentralCore) {X : T
     [Finite X] {K : Subgroup X} {x y : X} (hK : CFSG.Open.IsComponentOf K ⊤)
     (hLie : IsLieQuot ↥K IsTwE6EightIndex) (hxN : x ∈ Subgroup.normalizer (K : Set X))
     (hyN : y ∈ Subgroup.normalizer (K : Set X)) (hxy : Commute x y) (hx3 : x ^ 3 = 1)
-    (hy3 : y ^ 3 = 1) {z : ↥K ⧸ Subgroup.center ↥K}
+    (_hy3 : y ^ 3 = 1) {z : ↥K ⧸ Subgroup.center ↥K}
     (hyz : actHom K ⟨y, hyN⟩ = MulAut.conj z) (hz : IsThreeCentral (↥K ⧸ Subgroup.center ↥K) z)
     (hxI : InnerAt K x → x ∈ Subgroup.zpowers y)
     (hout : ∀ a ∈ Subgroup.zpowers x ⊔ Subgroup.zpowers y,

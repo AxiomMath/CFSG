@@ -15,12 +15,15 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V K S X : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem nineE_le_pCoreOf (V K : Subgroup G) : nineE V K ≤ pCoreOf 2 K :=
   (A4.omegaOneCenterOf_le (E3.wClos V 1 (pCoreOf 2 K))).trans (E3.wClos_le 1 (pCoreOf 2 K))
 
+omit [Finite G] in
 theorem isElemAbelian_nineE (V K : Subgroup G) : IsElemAbelian 2 (nineE V K) :=
   B2F.isElemAbelian_omegaOneCenterOf (E3.wClos V 1 (pCoreOf 2 K))
 
+omit [Finite G] in
 theorem nineE_subgroupOf_normal (V K : Subgroup G) : ((nineE V K).subgroupOf K).Normal := by
   have hEK : nineE V K ≤ K := (nineE_le_pCoreOf V K).trans (pCoreOf_le 2 K)
   refine (Subgroup.normal_subgroupOf_iff_le_normalizer hEK).mpr ?_
@@ -40,6 +43,7 @@ theorem nineE_subgroupOf_normal (V K : Subgroup G) : ((nineE V K).subgroupOf K).
   unfold nineE
   exact hmap.trans (congrArg omegaOneCenterOf hW)
 
+omit [Finite G] in
 theorem conjSubgroup_mem_omegaIn {V K U : Subgroup G}
     (hU : U ∈ omegaIn V K (nineE V K)) {k : G} (hk : k ∈ K) :
     conjSubgroup U k ∈ omegaIn V K (nineE V K) := by

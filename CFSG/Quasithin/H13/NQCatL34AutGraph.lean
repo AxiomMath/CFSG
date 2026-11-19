@@ -351,7 +351,6 @@ theorem graph_key_identity {ω p p' z x a d : k} (hω : ω ^ 2 + ω + 1 = 0)
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three] <;>
     first
-    | ring1
     | linear_combination z * hω + hp + (ω * p * x - z) * h2
     | linear_combination ω * hp' + (x + p * d * (ω - 1)) * hω + (p * d - x) * h2
     | linear_combination a * (ω - 1) * hω
@@ -363,7 +362,6 @@ theorem graph_cube {ω p p' : k} (hω : ω ^ 2 + ω + 1 = 0) :
   fin_cases i <;> fin_cases j <;>
     simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_three] <;>
     first
-    | ring1
     | linear_combination (ω - 1) * hω
     | linear_combination p * hω
     | linear_combination p * p' * hω

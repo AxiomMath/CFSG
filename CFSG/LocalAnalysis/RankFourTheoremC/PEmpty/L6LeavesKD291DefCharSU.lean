@@ -16,6 +16,7 @@ section Independent
 
 variable {K : Type} [Field K] [Finite K] {p : ℕ} [hp : Fact p.Prime] [CharP K p]
 
+omit [Finite K] in
 theorem exists_independent_scalar (hK : p ^ 2 ≤ Nat.card K) :
     ∃ y : K, ∀ i j : ℕ, (i : K) * 1 + (j : K) * y = 0 → p ∣ i ∧ p ∣ j := by
   classical
@@ -102,6 +103,7 @@ theorem Lev_one_eq_hypUnitriangular (r ε : ℕ) :
   rw [mem_hypUnitriangular]
   exact mem_Lev_one_iff_blockTriangular fullPos_injective (hypSU h r ε) g
 
+omit [Finite K] in
 theorem hypSiegel_mem_Lev {C : Matrix (Fin r) (Fin r) K} {k : ℕ} (hk : 1 ≤ k)
     (hCk : ∀ i j : Fin r, C i j ≠ 0 → (i : ℕ) + k ≤ 2 * r + ε - 1 - j) {g : hypSU h r ε}
     (hg : ((g : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K) - 1 =
@@ -125,13 +127,13 @@ theorem hypSiegel_mem_Lev {C : Matrix (Fin r) (Fin r) K} {k : ℕ} (hk : 1 ≤ k
 theorem rankThreeCent_psu {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ n) {G : Type} [Group G]
     [Finite G] (hm : StatedClassicalModel G .PSU n p f) : RankThreeCent p G := by
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := hm
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hD : UnitaryFieldData p f K := ⟨hp.out, hadm.2.1, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : CharP K p := hD.charP
+  have : CharP K p := hD.charP
   obtain ⟨r, ε, hε, rfl⟩ : ∃ r ε, ε ≤ 1 ∧ n = 2 * r + ε := ⟨n / 2, n % 2, by omega, by omega⟩
   have hr : 2 ≤ r := by omega
-  haveI : Nonempty (HypIndex r ε) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (HypIndex r ε) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨R, hR⟩ := exists_isHypTransport hD (r := r) (ε := ε)
   obtain ⟨-, ⟨P, hP⟩, hUZ, -⟩ := unitary_order_and_Sylow hD (r := r) (ε := ε) (by omega) hε
   let eP := hypPSUEquivStatedProj hD hR (by omega : 1 ≤ 2 * r + ε)
@@ -169,7 +171,7 @@ theorem rankThreeCent_psu {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ n) {G : 
       simp [h01, h01.symm, hD.bar_bar]
     · by_cases hab' : a = i1 ∧ b = i0
       · obtain ⟨rfl, rfl⟩ := hab'
-        simp [h01, h01.symm, hD.bar_bar]
+        simp [h01, h01.symm]
       · have h3 : ¬ (b = i0 ∧ a = i1) := fun h' => hab' ⟨h'.2, h'.1⟩
         have h4 : ¬ (b = i1 ∧ a = i0) := fun h' => hab ⟨h'.2, h'.1⟩
         simp [hab, hab', h3, h4]

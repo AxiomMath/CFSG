@@ -20,7 +20,7 @@ private theorem exists_normal_odd_complement {D : Type*} [Group D] [Finite D] {u
     have hge : 1 ≤ (Nat.card D).factorization 2 :=
       (Nat.Prime.dvd_iff_one_le_factorization Nat.prime_two Nat.card_pos.ne').1 h2
     obtain ⟨S⟩ : Nonempty (Sylow 2 D) := inferInstance
-    have hS := hP S S.isPGroup'
+    have hS := hP S S.isPGroup
     rw [Sylow.card_eq_multiplicity] at hS
     have hlt : 2 ^ (Nat.card D).factorization 2 ≤ 2 ^ 1 := by simpa using hS
     exact le_antisymm ((Nat.pow_le_pow_iff_right (by norm_num)).1 hlt) hge

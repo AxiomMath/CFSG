@@ -47,7 +47,7 @@ theorem ob5_I_le_N_U (c : S828Ctx T L I H h k) :
     exact hx
 
 theorem ob5_P_le_N0 (c : S828Ctx T L I H h k) :
-    pCoreOf 2 (ch82I (fsuV T I) h) ≤ ob5N0 T I h := fun p hp =>
+    pCoreOf 2 (ch82I (fsuV T I) h) ≤ ob5N0 T I h := fun _p hp =>
   Subgroup.mem_inf.mpr
     ⟨CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _ ((CFSG.LieType.BorelTits.pCoreOf_le 2 _) hp),
       ob5_I_le_N_U c ((CFSG.LieType.BorelTits.pCoreOf_le 2 _) hp)⟩

@@ -37,7 +37,7 @@ theorem lem12216CoreEight_of_zv_F4 (h1222 : Stmt12_2_2_F4) (h323 : Stmt3_2_3)
       _ = y * x := by rw [hinv2 (hV2 y hy), hinv2 (hV2 x hx)]
   have hT2 : IsPGroup 2 ↥T :=
     (CFSG.Quasithin.exists_sylow_of_quasithinIsSylowTwo hyp.sylow).elim
-      fun S hS => hS ▸ S.isPGroup'
+      fun S hS => hS ▸ S.isPGroup
 
   have hzVL : z ∈ V ⊓ Subgroup.centralizer (L : Set G) := by
     rw [hVL]

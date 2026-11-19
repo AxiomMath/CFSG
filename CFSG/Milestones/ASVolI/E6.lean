@@ -159,7 +159,7 @@ theorem as_E_6_4 : E_6_4 := by
   intro G _ _ T M V h
   have hNV : Subgroup.normalizer (V : Set G) ≠ ⊤ := by
     intro htop
-    haveI : V.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : V.Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases h.simple.eq_bot_or_eq_top_of_normal V with hb | ht
     · exact h.ne_bot hb
     · obtain ⟨a, b, hab⟩ := h.nonabelian
@@ -175,7 +175,7 @@ theorem as_E_6_4 : E_6_4 := by
   have hMtop : M ≠ ⊤ := by
     intro htop
     obtain ⟨P, hP1, hP2, hPM⟩ := h.inM.1.1
-    haveI : P.Normal := Subgroup.normalizer_eq_top_iff.1 (hPM.symm.trans htop)
+    have : P.Normal := Subgroup.normalizer_eq_top_iff.1 (hPM.symm.trans htop)
     rcases h.simple.eq_bot_or_eq_top_of_normal P with hb | ht
     · exact hP1 hb
     · have hG2 : IsPGroup 2 (⊤ : Subgroup G) := ht ▸ hP2
@@ -286,7 +286,7 @@ theorem as_E_6_6 : E_6_6 := by
     fun U hU hUZ => ?_⟩
   · rw [inf_comm]
     exact E6.e6_6_one h hU.1
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hzV : z ∈ V := hz.1
     have hzC : z ∈ Subgroup.centralizer (T : Set G) := hz.2
     have hUV : U ≤ V := hU.1
@@ -632,13 +632,13 @@ private def shultE67A5V : Subgroup (alternatingGroup (Fin 5)) where
   carrier := {x | x = 1 ∨ x = shultE67A5a ∨ x = shultE67A5b ∨ x = shultE67A5a * shultE67A5b}
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;>
       decide +kernel
   one_mem' := Or.inl rfl
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rcases hx with rfl | rfl | rfl | rfl <;> decide +kernel
 
 private theorem shultE67A5V_mem (x : alternatingGroup (Fin 5)) :
@@ -856,14 +856,14 @@ private theorem shultE67_borel_sylow {G : Type} [Group G] {L B : Subgroup G}
     ∃ S : Subgroup G, IsSylowTwoOf S L ∧
       B ⊔ pCoreOf 2 L = L ⊓ Subgroup.normalizer (S : Set G) := by
   unfold IsBorelOfBlock at hBor
-  rw [if_neg hne] at hBor
+  rw [ite_eq_right hne] at hBor
   exact hBor
 
 private theorem shultE67_card_eq {G : Type} [Group G] {V U W : Subgroup G}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hUV : U ≤ V) (hWV : W ≤ V)
     (hinf : U ⊓ W = ⊥) (hsup : U ⊔ W = V) :
     Nat.card W = U.relIndex V := by
-  haveI hnorm : (U.subgroupOf V).Normal := ⟨fun n hn g => by
+  have hnorm : (U.subgroupOf V).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hc : (g : G) * (n : G) = (n : G) * (g : G) := hcomm g.1 g.2 n.1 n.2
     have e : (g : G) * (n : G) * (g : G)⁻¹ = (n : G) := by
@@ -963,7 +963,7 @@ private theorem shultE67_block
       rw [shultE67_altcard h3, shultE67_card_alt3]
     have hBor3 : L ⊓ (K ⊓ M) ≤ pCoreOf 2 L := by
       unfold IsBorelOfBlock at hBor
-      rwa [if_pos hc3] at hBor
+      rwa [ite_eq_left hc3] at hBor
     have hLMeq : L ⊓ M = pCoreOf 2 L :=
       le_antisymm (fun x hx => hBor3 ⟨hx.1, hLK hx.1, hx.2⟩) hpcLM
     have hrel : M.relIndex L = 3 := by
@@ -1013,7 +1013,7 @@ private theorem shultE67_block
       intro hc3
       have hBor3 : L ⊓ (K ⊓ M) ≤ pCoreOf 2 L := by
         unfold IsBorelOfBlock at hBor
-        rwa [if_pos hc3] at hBor
+        rwa [ite_eq_left hc3] at hBor
       have hxp : x ∈ (CFSG.pCore 2 ↥L).map L.subtype := hBor3 hx
       obtain ⟨y0, hy0, hy0x⟩ := Subgroup.mem_map.1 hxp
       obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)) ⟨y0, hy0⟩
@@ -1388,7 +1388,7 @@ private theorem shultE610_pRank_le_two {G : Type} [Group G] [Finite G]
 private theorem shultE610_central_elt {Y : Type} [Group Y] [Finite Y] {Q N : Subgroup Y}
     (hQ : IsPGroup 3 Q) (hNQ : Q ≤ Subgroup.normalizer (N : Set Y)) (hN : N ⊓ Q ≠ ⊥) :
     ∃ y : Y, y ∈ N ∧ y ∈ Q ∧ (∀ q ∈ Q, q * y = y * q) ∧ y ≠ 1 ∧ y ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQN : Q ≤ Subgroup.normalizer ((N ⊓ Q : Subgroup Y) : Set Y) := by
     intro g hg
     rw [Subgroup.mem_normalizer_iff]
@@ -1410,8 +1410,8 @@ private theorem shultE610_central_elt {Y : Type} [Group Y] [Finite Y] {Q N : Sub
     have hd := Subgroup.subgroupOf_eq_bot.1 h0
     rw [disjoint_iff, inf_eq_left.2 (inf_le_right : N ⊓ Q ≤ Q)] at hd
     exact hd
-  haveI hnorm : ((N ⊓ Q).subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQN
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have hnorm : ((N ⊓ Q).subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQN
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   obtain ⟨⟨z, hz⟩, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hne)
   have hzQ : ∀ q : ↥Q, q * z = z * q := fun q => Subgroup.mem_center_iff.1 hz.2 q
@@ -1453,7 +1453,7 @@ private theorem shultE610_rank_of_central {G : Type} [Group G] [Finite G] {W E :
     {y : G} (hyC : y ∈ Subgroup.centralizer (W : Set G)) (hyE : ∀ e ∈ E, e * y = y * e)
     (hy1 : y ≠ 1) (hy3 : y ^ 3 = 1) :
     3 ≤ CFSG.Open.pRank 3 (Subgroup.normalizer (W : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm' : ∀ h ∈ E, ∀ k ∈ Subgroup.zpowers y, h * k = k * h := by
     intro h hh k hk
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hk
@@ -1516,7 +1516,7 @@ private theorem shultE610_three_le_pRank {G : Type} [Group G] [Finite G] {W E : 
     (hEN : E ≤ Subgroup.normalizer (W : Set G)) (hEC : E ⊓ Subgroup.centralizer (W : Set G) = ⊥)
     (hC3 : 3 ∣ Nat.card (Subgroup.centralizer (W : Set G))) :
     3 ≤ CFSG.Open.pRank 3 (Subgroup.normalizer (W : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer (W : Set G) with hCdef
   have hEC_n : ∀ e ∈ E, ∀ c ∈ C, e * c * e⁻¹ ∈ C := by
     intro e he c hc
@@ -1545,7 +1545,7 @@ private theorem shultE610_three_le_pRank {G : Type} [Group G] [Finite G] {W E : 
       have h2 : e⁻¹ * (e * x * e⁻¹) * e⁻¹⁻¹ = x := by group
       rw [h2] at h1
       exact h1
-  haveI hCn : (C.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hX_norm
+  have hCn : (C.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hX_norm
   have hdecomp : ∀ x ∈ X, ∃ e ∈ E, ∃ c ∈ C, x = e * c := fun x hx =>
     shultE610_mem_sup_normal hEC_n hx
   have hEs : Nat.card (E.subgroupOf X) = 9 := by
@@ -1635,7 +1635,7 @@ private theorem shultE610_three_le_pRank {G : Type} [Group G] [Finite G] {W E : 
       rw [h2] at h1
       exact h1
   obtain ⟨yX, hyN, hyQ, hycen, hy1X, hy3X⟩ :=
-    shultE610_central_elt Q.isPGroup' hNQ (by rw [inf_comm]; exact hP0)
+    shultE610_central_elt Q.isPGroup hNQ (by rw [inf_comm]; exact hP0)
   have hyC : (yX : G) ∈ C := Subgroup.mem_subgroupOf.1 hyN
   have hyE : ∀ e ∈ E, e * (yX : G) = (yX : G) * e := by
     intro e he
@@ -1679,19 +1679,19 @@ theorem as_E_6_10
   have hns : ∀ i, IsAltType (Ls i) (ns i) ∧ (ns i = 3 ∨ ns i = 5) := by
     intro i
     by_cases h3i : IsAltType (Ls i) 3
-    · have hn3 : ns i = 3 := if_pos h3i
+    · have hn3 : ns i = 3 := ite_eq_left h3i
       exact ⟨by rw [hn3]; exact h3i, Or.inl hn3⟩
     · have h5i : IsAltType (Ls i) 5 := (halt i).resolve_left h3i
-      have hn5 : ns i = 5 := if_neg h3i
+      have hn5 : ns i = 5 := ite_eq_right h3i
       exact ⟨by rw [hn5]; exact h5i, Or.inr hn5⟩
   have hrel : ∀ i, M.relIndex (Ls i) = ns i := by
     intro i
     by_cases h3i : IsAltType (Ls i) 3
-    · have hn3 : ns i = 3 := if_pos h3i
+    · have hn3 : ns i = 3 := ite_eq_left h3i
       rw [hn3]
       exact ((h2 i).1 h3i).2.1
     · have h5i : IsAltType (Ls i) 5 := (halt i).resolve_left h3i
-      have hn5 : ns i = 5 := if_neg h3i
+      have hn5 : ns i = 5 := ite_eq_right h3i
       rw [hn5]
       exact ((h2 i).2 h5i).2.1
   have hblock : ∀ i, IsBlock2 (Subgroup.centralizer (U : Set G)) (Ls i) ∧
@@ -2030,7 +2030,7 @@ theorem as_E_6_26 : E_6_26 := by
   · have hJ' := hJ
     rw [CFSG.Quasithin.VolI.E54.thompsonJi_eq_thompsonJk hpS] at hJ'
     exact E6.e6_26 hT.2.1 hV1 hV hVT hNM hM hj hn hS hQS hST hr hJ'
-  · push_neg at hpS
+  · push Not at hpS
     by_cases hNVt : Subgroup.normalizer (V : Set G) = ⊤
     · have hMt : M = ⊤ := eq_top_iff.2 (hNVt ▸ hNM)
       rw [hMt]
@@ -2071,7 +2071,7 @@ theorem as_E_6_27
   intro G _ _ T M V U h j hU1 hUV hj1 hr h2 h3 h4
   have hNV : Subgroup.normalizer (V : Set G) ≠ ⊤ := by
     intro htop
-    haveI : V.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : V.Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases h.simple.eq_bot_or_eq_top_of_normal V with hb | ht
     · exact h.ne_bot hb
     · obtain ⟨a, b, hab⟩ := h.nonabelian
@@ -2123,7 +2123,7 @@ end
       min α β ≤ rParam V
 
 @[expose] def E_6_28 : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (T M V : Subgroup G) (h : E6.HypE61 T M V),
+  ∀ (G : Type) [Group G] [Finite G] (T M V : Subgroup G) (_h : E6.HypE61 T M V),
     1 < rParam V → thompsonJ T ≤ T ⊓ Subgroup.centralizer (V : Set G) →
     (∀ X : Subgroup G, X ≤ M ⊓ Subgroup.centralizer (V : Set G) → X ≠ ⊥ → Odd (Nat.card X) →
       Subgroup.normalizer (X : Set G) ≤ M) →

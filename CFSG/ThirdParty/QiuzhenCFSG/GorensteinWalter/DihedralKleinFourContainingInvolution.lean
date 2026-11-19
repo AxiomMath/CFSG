@@ -42,7 +42,7 @@ public theorem exists_kleinFour_of_dihedral_mulEquiv_containing_involution
       have hm1 : m = 1 := by omega
       have hPcard4 : Nat.card (↥P) = 4 := by
         rw [Nat.card_congr e.toEquiv]
-        simpa [hm1, DihedralGroup.nat_card]
+        simp [hm1]
       have hV0card : Nat.card (↥V0) = 4 := hV0.card_four
       have hV0P_eq : V0 = P :=
         Subgroup.eq_of_le_of_card_ge hV0P (by rw [hPcard4, hV0card])

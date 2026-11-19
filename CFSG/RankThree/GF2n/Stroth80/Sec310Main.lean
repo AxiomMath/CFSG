@@ -12,12 +12,13 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem card_eq_of_sectionAct {R V Z : Subgroup G} {K : Type} [Field K] [Finite K]
     {ι : Type} [Fintype ι] [DecidableEq ι] {φ : ↥R →* GL ι K} (hZV : Z ≤ V)
     (hsec : SectionAct K R V Z φ (fun g => (g : Matrix ι ι K))) :
     Nat.card V = Nat.card Z * Nat.card K ^ Fintype.card ι := by
   obtain ⟨-, hnorm, ψ, -⟩ := hsec
-  haveI := hnorm
+  have := hnorm
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (Z.subgroupOf V)
   have h2 : Nat.card (↥V ⧸ Z.subgroupOf V) = Nat.card K ^ Fintype.card ι := by
     rw [Nat.card_congr ψ.toEquiv,

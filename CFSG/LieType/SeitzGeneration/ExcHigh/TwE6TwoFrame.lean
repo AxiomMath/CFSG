@@ -16,7 +16,7 @@ theorem orbitRankOneHom_E6_singleton_injective_all (σ : K →+* K)
     (a : Fin TwistTag.E6.foldedTag.rank) (ha : (TwistTag.E6.orbit a).card = 1) :
     Function.Injective (orbitRankOneHom TwistTag.E6 K σ a) := by
   by_cases hK : ringChar K = 2
-  · haveI : CharP K 2 := ringChar.of_eq hK
+  · have : CharP K 2 := ringChar.of_eq hK
     obtain ⟨R, hRu, -, hRH, hRW, -, -, -, hRker, -⟩ :=
       exceptional_fixed_rank_one_central_image TwistTag.E6 K σ a
     have hR : R = orbitRankOneHom TwistTag.E6 K σ a :=
@@ -189,7 +189,7 @@ theorem coe_frameHom (σ : K →+* K) (i : Fin 4)
       frameRaw σ i A := rfl
 
 theorem frameHom_injective (σ : K →+* K) (i : Fin 4) : Function.Injective (frameHom σ i) :=
-  fun A B hAB =>
+  fun _A _B hAB =>
     (rankOneFix_injective σ orbLeaf orbLeaf_card)
       ((MulAut.conj (frameConj σ i)).injective (congrArg Subtype.val hAB))
 
@@ -252,15 +252,15 @@ abbrev sU : Kˣ →* Kˣ := Units.map (σ : K →* K)
   one_mem' := by simp
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb, mul_inv]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 @[expose] def e6TorParamHom (j : Fin Tag.E6.rank) : Kˣ →* (Fin Tag.E6.rank → Kˣ) :=
-  Pi.monoidHom fun k => zpowGroupHom (Tag.E6.cartan j k)
+  _root_.MonoidHom.pi fun k => zpowGroupHom (Tag.E6.cartan j k)
 
 @[expose] def torusTupleHom : Kˣ × Kˣ →* (Fin Tag.E6.rank → Kˣ) :=
   (e6TorParamHom ⟨0, by decide⟩).comp (MonoidHom.fst Kˣ Kˣ) *
@@ -459,7 +459,7 @@ theorem torusG_ker_pow_three {p : ↥(normOne σ) × ↥(normOne σ)} (hp : toru
   have e2 := congrFun h2 ⟨2, by decide⟩
   rw [torusTuple_eq σ u v] at e0 e2
   simp only [Pi.mul_apply, e6TorParam, Pi.one_apply, c00, c50, c20, c40, c02, c52, c22, c42,
-    zpow_zero, mul_one, zpow_neg, zpow_one, zpow_ofNat, pow_zero, pow_one] at e0 e2
+    mul_one, zpow_neg, zpow_ofNat, pow_zero, pow_one] at e0 e2
   have hv2 : v = u ^ 2 := (mul_inv_eq_one.1 e0).symm
   have hu3 : u ^ 3 = 1 := by
     have h : u ^ 3 = u⁻¹ * v ^ 2 := by rw [hv2]; group

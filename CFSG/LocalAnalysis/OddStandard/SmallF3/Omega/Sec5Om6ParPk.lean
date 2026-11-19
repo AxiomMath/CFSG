@@ -68,7 +68,7 @@ variable {t : OGroup Q} (D : Om6Par Q t)
 @[expose] noncomputable def Om6Par.iota : Mat2 →ₗ[ZMod 3] V :=
   (commSp t).subtype ∘ₗ (D.e.toLinearEquiv : Mat2 →ₗ[ZMod 3] commSp t)
 
-theorem Om6Par.theta_injective : Function.Injective D.theta := fun a b h =>
+theorem Om6Par.theta_injective : Function.Injective D.theta := fun _a _b h =>
   (QuadraticMap.IsometryEquiv.orthogonalGroupCongr D.e).injective (blockInr_injective D.htt h)
 
 theorem Om6Par.theta_apply_W (a : OGroup detForm) (X : Mat2) :
@@ -179,13 +179,13 @@ theorem Om6Par.sec5Pair : Sec5Pair D.L D.R t := by
 theorem Om6Par.twoRes_eq :
     D.L ⊔ D.R = twoRes (omegaGroup D.nd ⊓ Subgroup.centralizer ({t} : Set (OGroup Q))) :=
   le_antisymm (D.sec5Pair.le_twoRes D.le_omega_cent)
-    ((Subgroup.closure_le _).2 fun x hx => D.odd_mem hx.1.2 hx.2)
+    ((Subgroup.closure_le _).2 fun _x hx => D.odd_mem hx.1.2 hx.2)
 
 theorem Om6Par.pocket_cases {P : Subgroup (OGroup Q)}
     (hP : Sl23PocketIn (omegaGroup D.nd) t P)
     (hle : P ≤ twoRes (omegaGroup D.nd ⊓ Subgroup.centralizer ({t} : Set (OGroup Q)))) :
     P = D.L ∨ P = D.R := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have hcomm : ⁅D.L, D.R⁆ = ⊥ := by
     rw [eq_bot_iff, Subgroup.commutator_le]
     intro a ha b hb

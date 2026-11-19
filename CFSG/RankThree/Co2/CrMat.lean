@@ -29,7 +29,7 @@ theorem endMat_one : endMat 1 = 1 := by
   unfold endMat
   rw [LinearMap.toMatrix_one, Matrix.transpose_one]
 
-theorem endMat_injective : Function.Injective endMat := fun f g h =>
+theorem endMat_injective : Function.Injective endMat := fun _f _g h =>
   (LinearMap.toMatrix qbWBasis qbWBasis).injective (Matrix.transpose_injective h)
 
 theorem endMat_rowsEnd (R : Array ℕ) : endMat (rowsEnd R) = rowsMat R := by

@@ -9,6 +9,7 @@ namespace CFSG.RankThree.GF2n.Stroth80.Classify
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem connected_of_elationFull (hnd : F.Nondegenerate) (halt : F.IsAlt)
     {H : Subgroup (V ≃ₗ[K] V)} (hH : H ≤ sympSubgroup F) (S : Set V) (h0 : ∀ y ∈ S, y ≠ 0)
     (hinv : ∀ g ∈ H, ∀ y ∈ S, g y ∈ S) (hspan : Submodule.span K S = ⊤) {e : V} (he : e ∈ S)

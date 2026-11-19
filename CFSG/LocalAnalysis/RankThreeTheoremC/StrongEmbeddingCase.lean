@@ -97,10 +97,10 @@ theorem le_of_two_le_pRank_of_gamma_one_le (hS : Setting G) (hD2 : TheoremD2 G)
   refine hD2 M hM.1 (fun p' hp' P' hM' => hU0 p' hp' P' M hM') (fun h3 P₃ hM₃ => ?_) p hp P hM
     H R hH (hRHM.trans inf_le_left) hRM hRp hRnc (gamma_one_le_of_isPGroup hS hp hM hΓ hRp hRM)
   obtain rfl := eq_three_of_three_mem_sigmaA hS.rank h3 hp
-  have hΓ₃ := gamma_one_le_of_isPGroup hS hp hM hΓ P₃.isPGroup'
+  have hΓ₃ := gamma_one_le_of_isPGroup hS hp hM hΓ P₃.isPGroup
     (sylow_le_of_isCoreMaxLocal hS h3 hM₃).1
   exact ⟨fun Q hQP hQne _ => (gamma_normalizer_le 1 3 (P₃ : Subgroup G) Q hQP
-    (one_le_pRank_of_isPGroup_of_ne_bot Nat.prime_three (P₃.isPGroup'.to_le hQP) hQne)).trans
+    (one_le_pRank_of_isPGroup_of_ne_bot Nat.prime_three (P₃.isPGroup.to_le hQP) hQne)).trans
       hΓ₃, fun _ => hΓ₃⟩
 
 theorem almostStrongEmbedding_and_theoremE_of_strongEmbedding (hS : Setting G)

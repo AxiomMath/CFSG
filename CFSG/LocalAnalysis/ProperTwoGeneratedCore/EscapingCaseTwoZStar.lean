@@ -60,7 +60,7 @@ theorem exists_sylow_of_sup_eq_top (hx : orderOf x = 2) (htop : J ⊔ Subgroup.z
   have hxP : x ∈ (P : Subgroup X) := hQxP (Subgroup.mem_sup_right (Subgroup.mem_zpowers x))
   have hPJ : (P : Subgroup X) ⊓ J ≤ Q :=
     (Subgroup.eq_of_le_of_card_ge (le_inf (le_sup_left.trans hQxP) hQJ)
-      (hQmax _ inf_le_right (P.isPGroup'.to_le inf_le_left))).ge
+      (hQmax _ inf_le_right (P.isPGroup.to_le inf_le_left))).ge
   refine ⟨P, hxP, hPJ, fun p hp => ?_⟩
   obtain ⟨y, hy, j, hj, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp
     (show p ∈ Subgroup.zpowers x ⊔ J by rw [sup_comm, htop]; exact Subgroup.mem_top p)

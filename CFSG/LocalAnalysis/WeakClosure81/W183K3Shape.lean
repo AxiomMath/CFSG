@@ -29,7 +29,7 @@ open CFSG.RankThree.PartTwo.Sec4.Census (tableOrder)
 
 private lemma w183K3Shape_isQuasisimple_of_open {J : Type} [Group J]
     (hq : CFSG.Open.IsQuasisimple J) : CFSG.IsQuasisimple J := by
-  haveI : Group.IsPerfect J := ⟨hq.1⟩
+  have : Group.IsPerfect J := ⟨hq.1⟩
   exact CFSG.RankThree.PartTwo.Sec4.Census.isQuasisimple_of_isPerfect hq.2
 
 private lemma w183K3Shape_models_of_blueprint {X : Type} [Group X] {t : StatedLieTag}
@@ -41,7 +41,7 @@ private lemma w183K3Shape_models_of_blueprint {X : Type} [Group X] {t : StatedLi
 private lemma w183K3Shape_false_of_dvd_two {J : Type} [Group J] [Finite J]
     (hodd : Odd (Nat.card ↥(Subgroup.center J))) (hZ : Nontrivial ↥(Subgroup.center J))
     (hdiv : Nat.card ↥(Subgroup.center J) ∣ 2) : False := by
-  haveI : Nontrivial ↥(Subgroup.center J) := hZ
+  have : Nontrivial ↥(Subgroup.center J) := hZ
   have h1 : Nat.card ↥(Subgroup.center J) = 1 := by
     rcases (Nat.dvd_prime Nat.prime_two).mp hdiv with h1 | h2
     · exact h1
@@ -62,7 +62,7 @@ private lemma w183K3Shape_false_of_models {J X : Type} [Group J] [Finite J] [Gro
 private lemma w183K3Shape_exc_psl2 {s f : ℕ} (hs2 : s ≠ 2) (h92 : ¬ (s = 3 ∧ f = 2)) :
     exceptionalOrders .PSL 2 s f = (1, 1) := by
   unfold exceptionalOrders
-  split <;> first | rfl | omega | (simp_all)
+  split <;> first | rfl | omega
 
 private lemma w183K3Shape_exc_psl3 {s f : ℕ} (hs2 : s ≠ 2) :
     exceptionalOrders .PSL 3 s f = (1, 1) := by
@@ -84,7 +84,7 @@ theorem kstar_residual_shape (hGA : CFSG.ComponentClassification.TBLit.GriessMul
     IsAlt X 6 ∨ IsL3 X 2 ∨ (∃ p : ℕ, p.Prime ∧ p % 12 = 7 ∧ LieModel X .PSL 3 p 1) ∨
     (∃ p : ℕ, p.Prime ∧ p % 12 = 5 ∧ LieModel X .PSU 3 p 1) := by
   have hZ' : Nat.card ↥(Subgroup.center J) ≠ 1 := by
-    haveI : Nontrivial ↥(Subgroup.center J) := hZ
+    have : Nontrivial ↥(Subgroup.center J) := hZ
     exact (Finite.one_lt_card (α := ↥(Subgroup.center J))).ne'
   rcases hX with hL2 | hU3 | hAlt | hL31 | hL32 | hSp4 |
     ⟨p, e', hp, hne, hgt, hF⟩ | ⟨p, hp, hne, hInner⟩ | ⟨p, hp, hne, hSp⟩

@@ -23,7 +23,7 @@ theorem sylow_eq_of_map_eq {N : Subgroup X} [N.Normal] (hNc : N ≤ Subgroup.cen
     (h : (Q : Subgroup X).map (QuotientGroup.mk' N) = (P : Subgroup X).map (QuotientGroup.mk' N)) :
     Q = P :=
   Sylow.ext (CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerp23.AAE7.eq_of_map_eq_central
-    hNc hNodd Q.isPGroup' P.isPGroup' h)
+    hNc hNodd Q.isPGroup P.isPGroup h)
 
 theorem mk_invol {N : Subgroup X} [N.Normal] (hNodd : Odd (Nat.card N)) {s : X} (hs1 : s ≠ 1)
     (hs2 : s ^ 2 = 1) : QuotientGroup.mk' N s ≠ 1 ∧ (QuotientGroup.mk' N s) ^ 2 = 1 := by
@@ -68,7 +68,7 @@ theorem cover_sylow_data {N : Subgroup X} [N.Normal]
       rw [hc]
       group
     have hc1 := CFSG.ComponentClassification.AschbacherTheorem3.mk_eq_one_of_odd hNodd
-      P.isPGroup' hcP hπc
+      P.isPGroup hcP hπc
     calc y * s = (y * s * y⁻¹ * s⁻¹) * (s * y) := by group
       _ = s * y := by rw [hc1, one_mul]
   have hPC : (P : Subgroup X) ≤ Subgroup.centralizer ({s} : Set X) := fun y hy =>
@@ -95,9 +95,9 @@ theorem cover_sylow_data {N : Subgroup X} [N.Normal]
     have hPn : (P : Subgroup X) ≤ Subgroup.normalizer (qOf s : Set X) :=
       hPC.trans (centralizer_le_normalizer_qOf s)
     have hsup : IsPGroup 2 ↥(qOf s ⊔ (P : Subgroup X)) :=
-      CFSG.LocalAnalysis.RankFourTheoremC.isPGroup_sup_of_le_normalizer hQ2 P.isPGroup' hPn
+      CFSG.LocalAnalysis.RankFourTheoremC.isPGroup_sup_of_le_normalizer hQ2 P.isPGroup hPn
     exact le_sup_left.trans (P.maximal_isPGroup.2 hsup le_sup_right)
-  · exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPC hCnorm P.isPGroup'
+  · exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPC hCnorm P.isPGroup
 
 theorem cover_root {N : Subgroup X} [N.Normal]
     (hNc : N ≤ Subgroup.center X) (hNodd : Odd (Nat.card N)) {m e : ℕ}
@@ -128,7 +128,7 @@ theorem cover_root {N : Subgroup X} [N.Normal]
     hEb (E.map π) (CFSG.RankThreeEvenClassification.Helpers.isElemAbelian_map 2 π E hE) hEcardb
       ⟨s, hsE, rfl⟩
   have hinjP : ∀ x ∈ (P : Subgroup X), π x = 1 → x = 1 := fun x hx h1 =>
-    CFSG.ComponentClassification.AschbacherTheorem3.mk_eq_one_of_odd hNodd P.isPGroup' hx h1
+    CFSG.ComponentClassification.AschbacherTheorem3.mk_eq_one_of_odd hNodd P.isPGroup hx h1
   rw [hq]
   refine ⟨fun u hu x hx => ?_, fun u hu hu2 => ?_⟩
   · have hxb : π x ∈ rootCenter (Pb : Subgroup (X ⧸ N)) := hEmap ▸ ⟨x, hx, rfl⟩

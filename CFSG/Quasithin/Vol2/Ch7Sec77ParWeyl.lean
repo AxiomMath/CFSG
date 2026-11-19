@@ -110,8 +110,7 @@ theorem swap01_conj (a : Fˣ) : swap01 h2 * torus01 a * (swap01 h2)⁻¹ = (toru
       Matrix.diagonal ![((a⁻¹ : Fˣ) : F), (((a⁻¹)⁻¹ : Fˣ) : F), 1]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, Matrix.vecHead, Matrix.vecTail,
-      Matrix.vecMul_diagonal]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.vecMul_diagonal]
 
 theorem swap12_conj (a : Fˣ) : swap12 h2 * torus12 a * (swap12 h2)⁻¹ = (torus12 a)⁻¹ := by
   rw [inv_eq_of_mul_eq_one_right (swap12_mul_self h2), ← map_inv]
@@ -121,8 +120,7 @@ theorem swap12_conj (a : Fˣ) : swap12 h2 * torus12 a * (swap12 h2)⁻¹ = (toru
       Matrix.diagonal ![1, ((a⁻¹ : Fˣ) : F), (((a⁻¹)⁻¹ : Fˣ) : F)]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, Matrix.vecHead, Matrix.vecTail,
-      Matrix.vecMul_diagonal]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.vecMul_diagonal]
 
 theorem swap01_not_mem : swap01 h2 ∉ stabilizer (flagSpace 3 F 1) := by
   intro h

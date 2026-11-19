@@ -109,6 +109,7 @@ theorem not_le_innDiag (hF : L2Field F) (e : K ≃* L2 F) {r : ℕ} (hr : r.Prim
   rw [map_pow, map_one]
   exact elemPow_eq_one_of_isElementaryAbelian (p := r) (A := V) _ hc
 
+omit [Finite K] in
 theorem exists_conj_fieldAut (e : K ≃* L2 F) {r : ℕ} (hr : r.Prime) {b : MulAut K}
     (hb : b ^ r = 1) (hbD : b ∉ innDiagSub e) :
     ∃ (σ : F ≃+* F) (d : MulAut K), orderOf σ = r ∧ d ∈ innDiagSub e ∧
@@ -235,10 +236,12 @@ theorem two_ne_zero_of_L2Field (hF : L2Field F) : (2 : F) ≠ 0 := by
     exact (Nat.even_pow.mpr ⟨even_two, n.ne_zero⟩)
   exact (Nat.not_even_iff_odd.mpr hF.1) hqe
 
+omit [Finite K] in
 theorem mulAut_conj_conj' (φ : MulAut K) (a : K) :
     φ * MulAut.conj a * φ⁻¹ = MulAut.conj (φ a) := by
   ext y; simp [MulAut.conj_apply]
 
+omit [Finite K] in
 theorem inn_inter_eq_bot_pure (hF : L2Field F) (e : K ≃* L2 F) {r : ℕ} {V Z : Subgroup (MulAut K)}
     (h2 : N2Cfg K r V Z) (h3 : N3Full K V Z) {σ : F ≃+* F} (hσ : orderOf σ = r)
     (hfV : fieldAutHom e σ ∈ V) (hf1 : fieldAutHom e σ ≠ 1) :
@@ -484,6 +487,7 @@ section CrossAssembly
 
 variable {F : Type} [Field F] [Finite F] {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem congr_eq_conj' (d v : MulAut K) : MulAut.congr (d : K ≃* K) v = d * v * d⁻¹ := by
   ext x; simp [MulAut.congr_apply, MulAut.mul_apply, MulAut.inv_apply]
 

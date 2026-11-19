@@ -120,8 +120,8 @@ theorem coe_torusHomA (y : Torus (Type100.k 1)) :
   simp [torusHomA, Config.coe_evA]
 
 theorem torusHomA_bijective : Function.Bijective (torusHomA K) := by
-  haveI : Finite K.A := Nat.finite_of_card_ne_zero (by rw [K.hAcard]; norm_num)
-  haveI : Finite (Additive K.A) := Finite.of_equiv _ Additive.ofMul
+  have : Finite K.A := Nat.finite_of_card_ne_zero (by rw [K.hAcard]; norm_num)
+  have : Finite (Additive K.A) := Finite.of_equiv _ Additive.ofMul
   refine Function.Injective.bijective_of_nat_card_le ?_ ?_
   · intro y y' h
     apply torusToCo_injective

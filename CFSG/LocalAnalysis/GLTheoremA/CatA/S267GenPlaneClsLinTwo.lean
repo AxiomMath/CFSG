@@ -18,10 +18,11 @@ open scoped Matrix
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem conjAut_eq_one_of_isGoodFactor_two {A : GL (Fin 2) K} {h : K[X]}
     (hh : h ∈ primaryFactors (glA A : Module.End K (Fin 2 → K))) (hgood : IsGoodFactor A h) :
     LinearFlag.conjAut 2 K A = 1 := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hm : 2 ≤ finrank (AdjoinRoot h) (primaryComponent (glA A : Module.End K (Fin 2 → K)) h) := by
     rcases hgood with h3 | ⟨h2, -⟩
     · exact le_trans (by norm_num) h3
@@ -76,14 +77,14 @@ theorem planeNoComp_projectiveSL_two {p : ℕ} (hp : p.Prime) (hpK : (p : K) ≠
     PlaneNoComp p (LinearFlag.projectiveSL 2 K) := by
   classical
   intro P hP hcard J hJ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set e : PSL2 K ≃* LinearFlag.projectiveSL 2 K := psl2Equiv K with he
   set P₀ : Subgroup (MulAut (PSL2 K)) := P.map (MulAut.congr e.symm).toMonoidHom with hP₀
   have hP₀e : IsElemAbelian p P₀ := hP.map _
   have hcard₀ : Nat.card P₀ = p ^ 2 := by
     rw [← hcard, hP₀]
     exact Subgroup.card_map_of_injective (MulAut.congr e.symm).injective
-  haveI : IsElementaryAbelian p ↥P₀ :=
+  have : IsElementaryAbelian p ↥P₀ :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p P₀).2 hP₀e
   set φ : MulAut (PSL2 K) →* (K ≃+* K) :=
     SemidirectProduct.rightHom.comp (semilinearEquivAut K).symm.toMonoidHom with hφ
@@ -95,7 +96,7 @@ theorem planeNoComp_projectiveSL_two {p : ℕ} (hp : p.Prime) (hpK : (p : K) ≠
       intro b hb
       by_contra hb1
       exact hcon b b.2 (fun h1 => hb1 (Subtype.ext h1)) hb
-    haveI := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isCyclic_ringAut K
+    have := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isCyclic_ringAut K
     exact IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hcard₀
       (isCyclic_of_injective _ hinj)
   set y := (semilinearEquivAut K).symm β₀ with hy

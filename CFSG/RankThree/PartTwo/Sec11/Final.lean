@@ -205,7 +205,7 @@ theorem isSylowOf_top_of_subset_mul [Finite G] {P R H : Subgroup G} (hP3 : IsPGr
   set S := (Q : Subgroup N).map N.subtype with hS
   have hPS : P ≤ S := fun x hx => ⟨⟨x, hPN hx⟩, hQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hSN : S ≤ N := Subgroup.map_subtype_le _
-  have hS3 : IsPGroup 3 S := Q.isPGroup'.map N.subtype
+  have hS3 : IsPGroup 3 S := Q.isPGroup.map N.subtype
   have hSP : S ≤ P := by
     intro y hy
     obtain ⟨p, hp, n, hn, rfl⟩ := hN (hSN hy)

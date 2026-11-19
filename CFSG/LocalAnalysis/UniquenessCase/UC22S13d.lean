@@ -131,7 +131,7 @@ theorem uc22s13d_out_mem_of_mem_sup {Y H : Type*} [Group Y] [Group H] (φ : H �
     (hm : Nat.Coprime m (Nat.card H)) {α : MulAut Y}
     (hmem : α ∈ (MulAut.conj : Y →* MulAut Y).range ⊔ φ.range) (hα : α ^ m = 1) :
     α ∈ (MulAut.conj : Y →* MulAut Y).range := by
-  haveI : (MulAut.conj : Y →* MulAut Y).range.Normal := inner_normal Y
+  have : (MulAut.conj : Y →* MulAut Y).range.Normal := inner_normal Y
   rw [← SetLike.mem_coe, Subgroup.normal_mul] at hmem
   obtain ⟨y, hy, z, ⟨h, rfl⟩, rfl⟩ := Set.mem_mul.1 hmem
   have h1 : φ h ^ m ∈ (MulAut.conj : Y →* MulAut Y).range := by
@@ -211,7 +211,7 @@ theorem uc22s13d_cent {T : Type} [Group T] {n : ℕ}
       · exact Nat.Even.sub_odd Nat.one_le_two_pow heven odd_one
       · exact heven.add_odd odd_one
     refine ⟨fun a b ha hb => e.injective ?_, fun a ha k hak => e.injective ?_⟩
-    · haveI := hcyc
+    · have := hcyc
       have h1 := IsMulCommutative.is_comm.comm (⟨e a, hmem a ha⟩ : centralizer ({e x} : Set _))
         ⟨e b, hmem b hb⟩
       rw [map_mul, map_mul]
@@ -249,14 +249,14 @@ theorem uc22s13d_cent {T : Type} [Group T] {n : ℕ}
 
 theorem uc22s13d_exists_odd_prime {F : Type*} [Group F] [Finite F] [Nontrivial F]
     [Group.IsPerfect F] : ∃ z : F, ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ orderOf z = q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q, hq, hqd, hq2⟩ : ∃ q : ℕ, q.Prime ∧ q ∣ Nat.card F ∧ q ≠ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcard : Nat.card F = 2 ^ (Nat.card F).primeFactorsList.length :=
       Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun hd hdd => h _ hd hdd
     exact Group.IsPerfect.not_isNilpotent F (IsPGroup.of_card hcard).isNilpotent
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' q hqd
   exact ⟨z, q, hq, hq2, hz⟩
 

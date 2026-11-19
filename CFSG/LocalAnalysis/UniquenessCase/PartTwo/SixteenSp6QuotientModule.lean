@@ -33,7 +33,7 @@ theorem pRank_le_one_of_normalizes_sp6_quotient_rank_eight
   have hmain := pRank_le_of_normalizes_irreducible_quotient_rank_eight hW
     (c8_isQuasisimple_of_isSpn hH) hcomm hirr hdim (s16k_hord_sp6 hH) hAN hp hp3
   have hHrank := s16k_pRank_aut_sp6 (X := ↥H) hH hp hp2
-  rw [if_neg hp3] at hHrank
+  rw [ite_eq_right hp3] at hHrank
   omega
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

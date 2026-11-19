@@ -146,9 +146,9 @@ theorem pinnedX_mem_commutator_simplyLaced (hτ : τ = .D4 ∨ τ = .E6 ∨ τ =
 
 theorem isPerfect_componentRootSpan_simplyLaced
     (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (i : KernelComponent χ)
-    (hbig : ∃ α ∈ componentRoots χ i, ∃ δ ∈ componentRoots χ i, δ ≠ α ∧ δ ≠ -α) :
+    (hbig : ∃ _α ∈ componentRoots χ i, ∃ δ ∈ componentRoots χ i, δ ≠ _α ∧ δ ≠ -_α) :
     Group.IsPerfect (componentRootSpan K χ i) :=
-  isPerfect_componentRootSpan_of_forall i fun α hα t =>
+  isPerfect_componentRootSpan_of_forall i fun _α hα t =>
     pinnedX_mem_commutator_simplyLaced hτ i hbig hα t
 
 end SimplyLaced

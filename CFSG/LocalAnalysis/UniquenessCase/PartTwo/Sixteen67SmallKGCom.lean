@@ -73,7 +73,7 @@ theorem s1667_kg_mem_normalizer_zpowers_of_mem_centralizer {Q : Type} [Group Q] 
 
 theorem s1667_kg_four_dvd_card {Q : Type} [Group Q] [Finite Q] {A : Subgroup Q}
     (hA : IsElemAbelian 2 A) (h4 : 4 ≤ Nat.card A) : 4 ∣ Nat.card A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 A := fun x => ⟨1, Subtype.ext (by simpa using hA.2 x x.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hp
   rw [hn] at h4 ⊢
@@ -89,8 +89,8 @@ theorem s1667_kg_four_dvd_card {Q : Type} [Group Q] [Finite Q] {A : Subgroup Q}
 
 theorem s1667_kg_card_le_two_of_le_cyclic {Q : Type} [Group Q] [Finite Q] {Z B : Subgroup Q}
     (hZ : IsCyclic ↥Z) (hB : B ≤ Z) (hE : IsElemAbelian 2 B) : Nat.card B ≤ 2 := by
-  haveI : IsCyclic (B.subgroupOf Z) := Subgroup.isCyclic _
-  haveI : IsCyclic ↥B :=
+  have : IsCyclic (B.subgroupOf Z) := Subgroup.isCyclic _
+  have : IsCyclic ↥B :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hB).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hB).surjective
   obtain ⟨b, hb⟩ := IsCyclic.exists_generator (α := ↥B)

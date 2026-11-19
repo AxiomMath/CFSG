@@ -54,7 +54,7 @@ theorem stronglyClosed_map_surjective {Y : Type*} [Group Y]
     simpa only [x, map_mul, map_inv, Sylow.coe_mapSurjective] using hy
   have hap : IsPGroup p (Subgroup.zpowers a) := by
     have haz : Subgroup.zpowers a ≤ (S : Subgroup G) := Subgroup.zpowers_le.mpr (hAS haA)
-    exact S.isPGroup'.of_injective (Subgroup.inclusion haz) (Subgroup.inclusion_injective haz)
+    exact S.isPGroup.of_injective (Subgroup.inclusion haz) (Subgroup.inclusion_injective haz)
   have hxp : IsPGroup p (Subgroup.zpowers x) := by
     have hmap : (Subgroup.zpowers a).map (MulAut.conj g⁻¹).toMonoidHom =
         Subgroup.zpowers x := by

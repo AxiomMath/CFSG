@@ -87,7 +87,7 @@ theorem normalizer_zpowers_inf_normalizer_T (C : Config A) [Finite A] {k : A}
     have hTz : (C.T : Subgroup A) ⊓ Subgroup.zpowers k = ⊥ := by
       rw [eq_bot_iff_forall]
       intro x hx
-      obtain ⟨m, hm⟩ := C.T.isPGroup'.exists_pow_pow_eq_one ⟨x, hx.1⟩
+      obtain ⟨m, hm⟩ := C.T.isPGroup.exists_pow_pow_eq_one ⟨x, hx.1⟩
       have hm' : x ^ 2 ^ m = 1 := by simpa using hm
       have hcomm : x * k = k * x := by
         obtain ⟨z, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx.2
@@ -113,7 +113,7 @@ theorem normalizer_zpowers_inf_normalizer_T (C : Config A) [Finite A] {k : A}
       calc t * k = (t * k * t⁻¹ * k⁻¹) * (k * t) := by group
         _ = 1 * (k * t) := by rw [h1]
         _ = k * t := by rw [one_mul]
-    obtain ⟨m, hm⟩ := C.T.isPGroup'.exists_pow_pow_eq_one ⟨t, htT⟩
+    obtain ⟨m, hm⟩ := C.T.isPGroup.exists_pow_pow_eq_one ⟨t, htT⟩
     exact C.eq_one_of_commute_of_orderOf_eq_three hk (by simpa using hm) hcomm
   have hodd : Odd (Nat.card ↥N) := by
     rw [← Nat.not_even_iff_odd]

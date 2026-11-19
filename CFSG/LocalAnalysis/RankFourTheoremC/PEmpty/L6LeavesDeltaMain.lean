@@ -20,7 +20,7 @@ theorem s622DeltaNPC_of_kd291a3 (h : KD291a3) : S622DeltaNPC := by
   intro A _ _ p P X x z hpl hN L hL hLu _hlu
   classical
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPX : (P : Subgroup A) ≤ X := hpl.sylow_le
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup A) := hpl.plane.isIsolatedPlane.1
   have hxX : x ∈ X := hPX (hBP (mem_sup_left (mem_zpowers x)))
@@ -30,7 +30,7 @@ theorem s622DeltaNPC_of_kd291a3 (h : KD291a3) : S622DeltaNPC := by
     h ↥X p (P.subtype hPX) ⟨x, hxX⟩ ⟨z, hzX⟩ (plane63_of_plane65 hpl hxX hzX) L hL hLu
   unfold CFSG.HasNormalPComplement at hK
   obtain ⟨N, hNn, hNcop, hNq⟩ := hK
-  haveI := hNn
+  have := hNn
   have hsyl : CFSG.ABGLocalTools.IsSylowOf p
       ((L6Delta.Pxc (P : Subgroup A) x).subgroupOf X)
       (centralizer ({(⟨x, hxX⟩ : X)} : Set X)) := by

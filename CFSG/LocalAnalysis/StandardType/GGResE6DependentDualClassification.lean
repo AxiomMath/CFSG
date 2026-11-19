@@ -41,9 +41,9 @@ lemma if_eq_single (i : Fin 7) :
     (fun j : Fin 7 => if i = j then (1 : F3) else 0) = Pi.single i 1 := by
   funext j
   by_cases h : i = j
-  · simp [Pi.single_apply, h]
+  · simp [h]
   · have h' : j ≠ i := fun hji => h hji.symm
-    simp [Pi.single_apply, h, h']
+    simp [h, h']
 
 lemma rho_apply_ofUT (rho : Module.Dual F3 W7) (u : U) (t : F3) :
     rho (ofUT u t) = dotU (sixCoeff rho) u + lastCoeff rho * t := by
@@ -96,7 +96,7 @@ lemma rho_invariant_of_sixCoeff_kvec_any_last
   rw [hk]
 
 lemma rho_invariant_of_sixCoeff_kvec (rho : Module.Dual F3 W7) {lam : F3}
-    (haxis : rho axis = 1) (hb : sixCoeff rho = lam • kvec) :
+    (_haxis : rho axis = 1) (hb : sixCoeff rho = lam • kvec) :
     ∀ i : Fin 6, ∀ x : W7, rho (s i x) = rho x :=
   rho_invariant_of_sixCoeff_kvec_any_last rho hb
 
@@ -216,7 +216,7 @@ lemma alpha72_apply_ofUT (c d : F3) (u : U) (t : F3) :
     funext i
     fin_cases i <;>
       simp [sixCoeff, CFSG.StandardType.E6DependentDualSeven.At72.alpha,
-        E6DependentDualSeven.coord, k0vec, e5vec] <;> ring
+        E6DependentDualSeven.coord, k0vec, e5vec]; ring
   have hlast : lastCoeff (CFSG.StandardType.E6DependentDualSeven.At72.alpha c d) = 1 := by
     simp [lastCoeff, CFSG.StandardType.E6DependentDualSeven.At72.alpha,
       E6DependentDualSeven.coord, axis, tU]
@@ -520,7 +520,7 @@ lemma alpha0_apply_ofUT (c d : K) (u : U) (t : K) :
     funext i
     fin_cases i <;>
       simp [sixCoeff, At72AxisZero.alpha0, E6DependentDualSeven.coord, k0vec,
-        e5vec] <;> ring
+        e5vec]; ring
   have hlast : lastCoeff (At72AxisZero.alpha0 c d) = 0 := by
     simp [lastCoeff, At72AxisZero.alpha0, E6DependentDualSeven.coord, axis, tU]
   rw [rho_apply_ofUT, hsix, hlast]
@@ -750,7 +750,7 @@ theorem ggWeylJoin_of_e6DualSeven
     (hTF : CFSG.StandardType.QTwoLin.TransvectionFree H)
     (hsimple : ∀ i : Fin 6, s i ∈ H)
     (hHmem : ∀ a, ggLin (p := 3) ι7 (φ (Sum.inr a)) ∈ H)
-    (hHmap : H = (ggAutomizer L Bs ⊔ ggAutomizer K Bs).map
+    (_hHmap : H = (ggAutomizer L Bs ⊔ ggAutomizer K Bs).map
       (ggLin (p := 3) ι7)) :
     GGWeylReflectionGroup 3 (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   classical

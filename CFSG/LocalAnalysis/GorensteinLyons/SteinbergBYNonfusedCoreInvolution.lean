@@ -393,7 +393,7 @@ theorem nonfused_core_involution_global_centralizer_control [Finite G] {z : G}
     intro T hPT
     set T' := (T : Subgroup (centralizer ({t} : Set G))).map
       (centralizer ({t} : Set G)).subtype with hT'
-    have hT'2 : IsPGroup 2 T' := T.isPGroup'.map _
+    have hT'2 : IsPGroup 2 T' := T.isPGroup.map _
     by_contra hcon
     set N := T' ⊓ M with hN
     have hlt : N.subgroupOf T' < ⊤ := by

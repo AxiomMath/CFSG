@@ -96,12 +96,12 @@ open CFSG.Assembly.LowTwoRank CFSG.ClassicalInvolution.ModelFacts.OrthAut
 
 theorem not_dvd_card_center_spinPlus_charTwo {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     (hn3 : 3 ≤ n) : ¬ 2 ∣ Nat.card (Subgroup.center (spinGroup (Spin.quadPlus n K))) := by
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
-  haveI : Finite (spinGroup (Spin.quadPlus n K)) :=
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Finite (spinGroup (Spin.quadPlus n K)) :=
     finite_spinGroup_of_ker _ Spin.coe_ker_spinMatrix_quadPlus
   obtain ⟨-, hcomap, hZ⟩ := Spin.spinToStatedProj_quadPlus (n := n) (K := K) hn3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine not_dvd_card_center_of_forall (p := 2) fun x hx hx2 => ?_
   have hx' : x ∈ (CFSG.Open.StatedScalars _ K).comap (Spin.spinMatrix (Spin.quadPlus n K)) := by
     rw [← hcomap, hZ]

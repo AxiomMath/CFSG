@@ -18,9 +18,9 @@ theorem le_centralizer_of_normalizes_line {p q : ℕ} [Fact p.Prime] [Fact q.Pri
     (hXU : X ≤ Subgroup.normalizer (U : Set G))
     (hqp : q ≠ p) (hq : ¬ q ∣ p - 1) : X ≤ Subgroup.centralizer (P : Set G) := by
   classical
-  haveI : IsMulCommutative ↥P :=
+  have : IsMulCommutative ↥P :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p) hP
-  haveI : (U.subgroupOf P).Normal := Subgroup.normal_of_isMulCommutative (U.subgroupOf P)
+  have : (U.subgroupOf P).Normal := Subgroup.normal_of_isMulCommutative (U.subgroupOf P)
   have hUsubcard : Nat.card (U.subgroupOf P) = p := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUP).toEquiv, hU]
   have hQcard : Nat.card (↥P ⧸ (U.subgroupOf P)) = p := by
@@ -29,8 +29,8 @@ theorem le_centralizer_of_normalizes_line {p q : ℕ} [Fact p.Prime] [Fact q.Pri
     have h2 : Nat.card (↥P ⧸ (U.subgroupOf P)) * p = p * p := by
       rw [← hmul, pow_two]
     exact Nat.eq_of_mul_eq_mul_right (Fact.out : p.Prime).pos h2
-  haveI : IsCyclic ↥U := isCyclic_of_prime_card hU
-  haveI : IsCyclic (↥P ⧸ (U.subgroupOf P)) := isCyclic_of_prime_card hQcard
+  have : IsCyclic ↥U := isCyclic_of_prime_card hU
+  have : IsCyclic (↥P ⧸ (U.subgroupOf P)) := isCyclic_of_prime_card hQcard
   let actU : X →* MulAut ↥U :=
     (Subgroup.normalizerMonoidHom U).comp (Subgroup.inclusion hXU)
   let actP : X →* MulAut ↥P :=
@@ -70,8 +70,7 @@ theorem le_centralizer_of_normalizes_line {p q : ℕ} [Fact p.Prime] [Fact q.Pri
       have heU : (e : G) ∈ U := Subgroup.mem_subgroupOf.mp he
       have h := (Subgroup.mem_normalizer_iff.mp (hXU x.2) (e : G)).mp heU
       have hcoe : (((actP x) e : ↥P) : G) = (x : G) * (e : G) * (x : G)⁻¹ := by
-        simpa [actP, MonoidHom.comp_apply, Subgroup.coe_inclusion] using
-          Subgroup.normalizerMonoidHom_apply_apply_coe P (Subgroup.inclusion hXP x) e
+        simp [actP, MonoidHom.comp_apply, Subgroup.coe_inclusion]
       change (((actP x) e : ↥P) : G) ∈ U
       rw [hcoe]
       exact h
@@ -135,8 +134,7 @@ theorem le_centralizer_of_normalizes_line {p q : ℕ} [Fact p.Prime] [Fact q.Pri
     have h1 := congrArg (fun f : MulAut ↥P => ((f ⟨d, hdP⟩ : ↥P) : G)) hφone
     simpa using h1
   have hcoe : ((φ ⟨d, hdP⟩ : ↥P) : G) = (x : G) * d * (x : G)⁻¹ := by
-    simpa [φ, actP, MonoidHom.comp_apply, Subgroup.coe_inclusion] using
-      Subgroup.normalizerMonoidHom_apply_apply_coe P (Subgroup.inclusion hXP ⟨x, hxX⟩) ⟨d, hdP⟩
+    simp [φ, actP, MonoidHom.comp_apply, Subgroup.coe_inclusion]
   rw [hcoe] at hφd
   calc d * x = (x * d * x⁻¹) * x := by rw [hφd]
     _ = x * d := by group

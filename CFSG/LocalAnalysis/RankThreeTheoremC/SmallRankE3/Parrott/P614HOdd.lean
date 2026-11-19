@@ -37,6 +37,7 @@ theorem exists_conj_le_of_maximal {p : ℕ} [Fact p.Prime] {Y S T₀ : Subgroup 
   have h3 : ((g⁻¹ * ⟨t, hT₀Y ht⟩ * g : Y) : G) ∈ S := h2
   simpa using h3
 
+omit [Finite G] in
 theorem mem_normalizer_inf_kPar {g : G}
     (hg : g ∈ normalizer (K : Set G) ⊓ normalizer (pCoreOf 2 H : Set G) ⊓
       normalizer (S : Set G)) : g ∈ normalizer ((K ⊓ kPar H S K : Subgroup G) : Set G) := by
@@ -49,6 +50,7 @@ theorem mem_normalizer_inf_kPar {g : G}
     inf_normalizer_le_normalizer_inf ⟨h1, le_normalizer h2⟩
   exact inf_normalizer_le_normalizer_inf ⟨hK, h3⟩
 
+omit [Finite G] in
 theorem mem_normalizer_pElementSubgroup {g : G}
     (hg : g ∈ normalizer (K : Set G) ⊓ normalizer (pCoreOf 2 H : Set G) ⊓
       normalizer (S : Set G)) :
@@ -87,7 +89,7 @@ theorem not_dvd_card_pElementSubgroup (hyp : Hyp P M x z H S) (h618 : Stage618 M
     (h3 : ¬ 3 ∣ Nat.card
       (pElementSubgroup 2 (normalizer (bar K (kRad H S K) : Set (Kbar K))))) :
     ¬ 3 ∣ Nat.card (pElementSubgroup 2 (K ⊓ kPar H S K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X := pElementSubgroup 2 (K ⊓ kPar H S K) with hXdef
   set P₂ := pElementSubgroup 2 (normalizer (bar K (kRad H S K) : Set (Kbar K))) with hP₂def
   have hXK : X ≤ K := (pElementSubgroup_le _).trans inf_le_left
@@ -126,7 +128,7 @@ theorem not_dvd_card_pElementSubgroup (hyp : Hyp P M x z H S) (h618 : Stage618 M
 theorem three_dvd_card_pElementSubgroup (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z)
     (hL : LieCase M H S K x z) :
     3 ∣ Nat.card (pElementSubgroup 2 (normalizer (bar K (kRad H S K) : Set (Kbar K)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra h3
   have hX := not_dvd_card_pElementSubgroup hyp h618 h3
   set X := pElementSubgroup 2 (K ⊓ kPar H S K) with hXdef

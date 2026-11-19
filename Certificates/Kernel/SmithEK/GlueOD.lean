@@ -22,7 +22,7 @@ theorem countP_range_mem (q : Nat → Bool) {n : Nat} : ∀ {l : List Nat}, l.No
     have hx : x < n := hl x List.mem_cons_self
     by_cases hq : q x = true
     · rw [CFSG.SmithE.K.countP_range_split _ (fun a => decide (a ∈ l) && q a) x (fun a => ?_)
-        (by simp [hnd.1]), if_pos hx, ih, List.countP_cons_of_pos hq]
+        (by simp [hnd.1]), ite_eq_left hx, ih, List.countP_cons_of_pos hq]
       by_cases hax : a = x
       · subst hax
         simp [hq, hnd.1]
@@ -34,7 +34,7 @@ theorem countP_range_mem (q : Nat → Bool) {n : Nat} : ∀ {l : List Nat}, l.No
         simp [hq, hnd.1]
       · simp [hax]
 
-theorem uaMem_iff_mem {j : Nat} (hj : j < 891) (a : Nat) :
+theorem uaMem_iff_mem {j : Nat} (_hj : j < 891) (a : Nat) :
     uaMem uaPts[j]! a = true ↔ a ∈ (List.range 21).map fun k => (uaPts[j]!)[k]! := by
   unfold uaMem
   rw [anyIn_eq_true, List.mem_map]

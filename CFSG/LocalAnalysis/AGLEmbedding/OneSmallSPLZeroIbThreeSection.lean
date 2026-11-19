@@ -156,8 +156,6 @@ theorem D1PhaseThree.sq_mem_normalizer_of_coprime (h3 : D1PhaseThree 3 P M H R)
     | exact h1 hn
     | exact h2 hn
     | exact h3' hn
-    | exact h2 (hinvN 2 (by simpa using hn))
-    | exact h3' (hinvN 3 (by simpa using hn))
     | exact h1 (by simpa [pow_succ, mul_assoc] using hn)
     | exact h2 (by simpa [pow_succ, mul_assoc] using hn)
     | exact h2 (hinvN 2 (by rwa [show (t ^ 3)⁻¹ * t = (t ^ 2)⁻¹ by group] at hn))

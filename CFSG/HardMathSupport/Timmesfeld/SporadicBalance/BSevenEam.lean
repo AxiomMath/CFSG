@@ -65,8 +65,8 @@ private theorem exists_mem_centralizer_lift {G Q : Type*} [Group G] [Finite G] [
     (φ : G ⧸ M ≃* Q) {t : G} (ht : orderOf t = p) {g : Q}
     (hg : g ∈ Subgroup.centralizer ({φ (t : G ⧸ M)} : Set Q)) :
     ∃ c ∈ Subgroup.centralizer ({t} : Set G), φ (c : G ⧸ M) = g := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p (Subgroup.zpowers t)) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p (Subgroup.zpowers t)) :=
     ⟨IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])⟩
   have hcent := CFSG.centralizer_map_quotient_eq_map_centralizer p (Subgroup.zpowers t) M
     inferInstance hcop
@@ -83,7 +83,7 @@ private theorem exists_mem_centralizer_lift {G Q : Type*} [Group G] [Finite G] [
 
 variable {Y R : Type*} [Group Y] [Finite Y] [Group R] {p : ℕ} {Z Y' : Subgroup Y} [Z.Normal]
 
-theorem eam_inf_le_center (hp : p.Prime) (hp2 : p ≠ 2) (hZc : Z ≤ Subgroup.center Y)
+theorem eam_inf_le_center (hp : p.Prime) (hp2 : p ≠ 2) (_hZc : Z ≤ Subgroup.center Y)
     (hZ2 : Nat.card Z = 2) (hY' : Y'.index = 2) (hZY' : Z ≤ Y')
     (φ : Y' ⧸ Z.subgroupOf Y' ≃* R)
     (hR : ∀ s : R, orderOf s = p →

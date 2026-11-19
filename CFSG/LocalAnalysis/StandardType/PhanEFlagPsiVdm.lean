@@ -10,6 +10,7 @@ open Module CFSG.Monster.B.Geometry CFSG.ClassicalInvolution.Phan.PhanE
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2] {n : ℕ} {d : List ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFV_eq_zero_of_vdm {ι : Type*} [Fintype ι] (x : ι → K)
     (hx : Function.Injective x) (c : ι → K)
     (h : ∀ j < Fintype.card ι, ∑ i, c i * x i ^ j = 0) : c = 0 := by
@@ -42,23 +43,26 @@ private theorem q2cFV_block_add (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.lengt
   unfold blockSize
   omega
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFV_bvec_apply_of_mem {b : ℕ} {pol : List Bool} {ω : Fin 4 → K} {t : Fin 4}
     {k : Fin n} (h1 : d.getD b 0 ≤ k.val) (h2 : k.val < d.getD (b + 1) 0) :
     q2cFPo_bvec (K := K) (n := n) d pol ω b t k =
       (if pol.getD b false then (if k.val - d.getD b 0 = t.val then 1 else 0)
         else ω t ^ (k.val - d.getD b 0)) := by
   simp only [q2cFPo_bvec]
-  rw [if_pos ⟨h1, h2⟩]
+  rw [ite_eq_left ⟨h1, h2⟩]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFV_bvec_apply_block (hd : IsCut n d) {b j : ℕ} (hb : b + 1 < d.length)
     (hj : j < blockSize d b) {pol : List Bool} {ω : Fin 4 → K} {t : Fin 4} :
     q2cFPo_bvec (K := K) (n := n) d pol ω b t
         ⟨d.getD b 0 + j, q2cFV_blockCoord_lt hd hb hj⟩ =
       (if pol.getD b false then (if j = t.val then 1 else 0) else ω t ^ j) := by
   rw [q2cFV_bvec_apply_of_mem (k := ⟨d.getD b 0 + j, q2cFV_blockCoord_lt hd hb hj⟩)
-    (by simp) (by simp only [Fin.val_mk]; unfold blockSize at hj; omega)]
+    (by simp) (by simp only; unfold blockSize at hj; omega)]
   simp only [Nat.add_sub_cancel_left]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFV_sum_bvec_apply (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length)
     {pol : List Bool} {ω : Fin 4 → K} (hpol : pol.getD b false = false) {r j : ℕ}
     (hj : j < blockSize d b) (α : {t : Fin 4 // t.val < r} → K) :
@@ -69,18 +73,19 @@ private theorem q2cFV_sum_bvec_apply (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.
   refine Finset.sum_congr rfl fun t _ => ?_
   rw [Pi.smul_apply, smul_eq_mul,
     q2cFV_bvec_apply_block (b := b) (j := j) (t := t.1) hd hb hj]
-  rw [if_neg (by rw [hpol]; exact Bool.false_ne_true)]
+  rw [ite_eq_right (by rw [hpol]; exact Bool.false_ne_true)]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFV_bvec_pol_apply_eq_zero {b : ℕ} {pol : List Bool} {ω : Fin 4 → K}
     (hpol : pol.getD b false = true) {t : Fin 4} {r : ℕ} (ht : t.val < r) {k : Fin n}
     (hk : d.getD b 0 + r ≤ k.val) :
     q2cFPo_bvec (K := K) (n := n) d pol ω b t k = 0 := by
   by_cases hblk : d.getD b 0 ≤ k.val ∧ k.val < d.getD (b + 1) 0
-  · rw [q2cFV_bvec_apply_of_mem (k := k) hblk.1 hblk.2, if_pos hpol]
+  · rw [q2cFV_bvec_apply_of_mem (k := k) hblk.1 hblk.2, ite_eq_left hpol]
     have hne : k.val - d.getD b 0 ≠ t.val := by omega
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   · simp only [q2cFPo_bvec]
-    rw [if_neg hblk]
+    rw [ite_eq_right hblk]
 
 private theorem q2cFV_hermLin_apply (lo hi : ℕ) (u v : Fin n → K) :
     hermLin K f n lo hi u v =
@@ -96,19 +101,19 @@ private theorem q2cFV_hermLin_bvec_pol {b : ℕ} {pol : List Bool} {ω : Fin 4 �
     hermLin K f n (d.getD b 0) (d.getD (b + 1) 0)
       (q2cFPo_bvec (K := K) (n := n) d pol ω b t) v = v k := by
   rw [q2cFV_hermLin_apply, Finset.sum_eq_single_of_mem k (Finset.mem_univ k)]
-  · rw [if_pos ⟨h1, h2⟩, q2cFV_bvec_apply_of_mem (k := k) h1 h2, if_pos hpol, if_pos hk]
+  · rw [ite_eq_left ⟨h1, h2⟩, q2cFV_bvec_apply_of_mem (k := k) h1 h2, ite_eq_left hpol, ite_eq_left hk]
     simp
   · intro i _ hik
     by_cases hic : d.getD b 0 ≤ i.val ∧ i.val < d.getD (b + 1) 0
-    · rw [if_pos hic]
+    · rw [ite_eq_left hic]
       have hne : i.val - d.getD b 0 ≠ t.val := by
         intro h
         apply hik
         apply Fin.ext
         omega
-      rw [q2cFV_bvec_apply_of_mem (k := i) hic.1 hic.2, if_pos hpol, if_neg hne]
+      rw [q2cFV_bvec_apply_of_mem (k := i) hic.1 hic.2, ite_eq_left hpol, ite_eq_right hne]
       simp
-    · rw [if_neg hic]
+    · rw [ite_eq_right hic]
 
 private theorem q2cFV_le_perpB_of_Vsub {lo hi : ℕ} (U : Submodule K (Fin n → K)) :
     Vsub n lo ≤ perpB K f n lo hi U := by
@@ -121,11 +126,13 @@ private theorem q2cFV_le_perpB_of_Vsub {lo hi : ℕ} (U : Submodule K (Fin n →
     · simp [h, hv i h.1]
     · simp [h]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFV_bvec_mem_A {b r : ℕ} (pol : List Bool) {ω : Fin 4 → K}
     (t : {t : Fin 4 // t.val < r}) :
     q2cFPo_bvec (K := K) (n := n) d pol ω b t.1 ∈ q2cFPo_A d pol ω b r :=
   Submodule.subset_span ⟨t, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFPo_finrank_A (hd : IsCut n d) (pol : List Bool) {ω : Fin 4 → K}
     (hω : Function.Injective ω) {b r : ℕ} (hb : b + 1 < d.length) (hs : blockSize d b ≤ 4)
     (hr : r ≤ blockSize d b) : finrank K (q2cFPo_A (n := n) d pol ω b r) = r := by
@@ -154,7 +161,7 @@ theorem q2cFPo_finrank_A (hd : IsCut n d) (pol : List Bool) {ω : Fin 4 → K}
           (if t₀.1.val = i.1.val then 1 else 0) := by
         intro i
         rw [q2cFV_bvec_apply_block (b := b) (j := t₀.1.val) (t := i.1) hd hb
-          (lt_of_lt_of_le t₀.2 hr), if_pos hpol]
+          (lt_of_lt_of_le t₀.2 hr), ite_eq_left hpol]
       simp only [hterm] at hev
       have hsingle : (∑ i : {t : Fin 4 // t.val < r},
           g i * (if t₀.1.val = i.1.val then 1 else 0)) = g t₀ := by
@@ -162,9 +169,9 @@ theorem q2cFPo_finrank_A (hd : IsCut n d) (pol : List Bool) {ω : Fin 4 → K}
           (fun i _ hi => by
             have hne : t₀.1.val ≠ i.1.val :=
               fun h => hi (Subtype.ext (Fin.ext h)).symm
-            rw [if_neg hne, mul_zero])
+            rw [ite_eq_right hne, mul_zero])
           (fun h => absurd (Finset.mem_univ t₀) h)]
-        rw [if_pos rfl, mul_one]
+        rw [ite_eq_left rfl, mul_one]
       rw [hsingle] at hev
       exact hev
     · have hpol' : pol.getD b false = false := by
@@ -184,7 +191,7 @@ theorem q2cFPo_finrank_A (hd : IsCut n d) (pol : List Bool) {ω : Fin 4 → K}
             ω i.1 ^ j := by
           intro i
           rw [q2cFV_bvec_apply_block (b := b) (j := j) (t := i.1) hd hb
-            (lt_of_lt_of_le hjr hr), if_neg (by rw [hpol']; exact Bool.false_ne_true)]
+            (lt_of_lt_of_le hjr hr), ite_eq_right (by rw [hpol']; exact Bool.false_ne_true)]
         simp only [hterm] at hev
         exact hev
       have hzero := q2cFV_eq_zero_of_vdm (fun i : {t : Fin 4 // t.val < r} => ω i.1)
@@ -244,7 +251,7 @@ private theorem q2cFV_vdm_sumType {ω : Fin 4 → K} (hω : Function.Injective �
   simp only [cfun, Sum.elim_inl, Pi.zero_apply] at h
   exact (sg K f).map_eq_zero_iff.mp h
 
-theorem q2cFPo_inf_sgS_A (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) {pol : List Bool}
+theorem q2cFPo_inf_sgS_A (_hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) {pol : List Bool}
     {ω : Fin 4 → K} (hω : Function.Injective ω)
     (hσω : ∀ i j : Fin 4, i.val + j.val ≤ 2 → sg K f (ω i) ≠ ω j) {b r : ℕ}
     (hb : b + 1 < d.length) (hs : blockSize d b ≤ 4) (hr : r ≤ blockSize d b)

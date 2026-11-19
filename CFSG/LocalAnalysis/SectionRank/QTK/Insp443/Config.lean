@@ -28,7 +28,7 @@ theorem VB_comm (h : Hyp G T M L B Tp VB K) : IsMulCommutative ↥VB :=
     (mem_quasithinOmegaOneCenter_iff.mp (h.setting.hyp.VB_le b.2)).2.1 a
     (mem_quasithinOmegaOneCenter_iff.mp (h.setting.hyp.VB_le a.2)).1)⟩⟩
 
-theorem VB_sq (h : Hyp G T M L B Tp VB K) : ∀ v ∈ VB, v ^ 2 = 1 := fun v hv =>
+theorem VB_sq (h : Hyp G T M L B Tp VB K) : ∀ _v ∈ VB, _v ^ 2 = 1 := fun _v hv =>
   (mem_quasithinOmegaOneCenter_iff.mp (h.setting.hyp.VB_le hv)).2.2
 
 theorem LB_le_normalizer_VB (h : Hyp G T M L B Tp VB K) :
@@ -59,7 +59,7 @@ theorem pCoreOf_le_centralizer (h : Hyp G T M L B Tp VB K) :
       Subgroup.centralizer (VB : Set G) :=
   Subgroup.le_centralizer_iff.mp (E443.VB_le_centralizer_pCoreOf_LB h.setting)
 
-theorem LB_perfect (h : Hyp G T M L B Tp VB K) :
+theorem LB_perfect (_h : Hyp G T M L B Tp VB K) :
     ⁅perfectCore (conjClosure L T ⊓ Subgroup.centralizer (B : Set G)),
       perfectCore (conjClosure L T ⊓ Subgroup.centralizer (B : Set G))⁆ =
       perfectCore (conjClosure L T ⊓ Subgroup.centralizer (B : Set G)) :=

@@ -55,9 +55,9 @@ theorem q2_orthogonalPlus_d3
     (Q1DSmall.rawDatum_D3_iff_A3 n Q0).1 hrawQ0
   dsimp only [CFSG.StandardType.LargeEvenRawDatum, LargeEvenRecipeLinear] at hrawA3
   obtain ⟨F, hFld, hFfin, hFcard, hcont⟩ := hrawA3
-  letI : Field F := hFld
-  letI : Finite F := hFfin
-  haveI : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hFcard
+  let : Field F := hFld
+  let : Finite F := hFfin
+  have : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hFcard
   obtain ⟨-, -, θL, hfit, hsplit, hNL, hact⟩ := hcont
   obtain ⟨-, -, -, hn2, hKcard⟩ :=
     q2RowFits_orthogonalPlus_parameters hlabΛ hfit
@@ -107,8 +107,8 @@ theorem q2_orthogonalPlus_d3
   rw [Matrix.GeneralLinearGroup.center_eq_range_scalar] at hg3center
   obtain ⟨c, hc⟩ := hg3center
   have hc_pow : c ^ (Nat.card F - 1) = 1 := by
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+    have : Fintype F := Fintype.ofFinite F
+    have : Fintype Fˣ := Fintype.ofFinite Fˣ
     have hcard : Fintype.card Fˣ = Nat.card F - 1 := by
       rw [← Nat.card_eq_fintype_card, Nat.card_units]
     have := pow_card_eq_one (x := c)
@@ -138,8 +138,8 @@ theorem q2_orthogonalPlus_d3
     q1TorLin_component_lift (N := 4) (by norm_num) A_u J0 hJ0lin
   obtain ⟨m, D, hDFld, hDFin, ψ0, π, hπ⟩ :=
     q2Lin_block (N := 4) (by norm_num) (K := F) A_u hodd C hC hCSL J0 hJ0eq
-  letI : Field D := hDFld
-  letI : Finite D := hDFin
+  let : Field D := hDFld
+  let : Finite D := hDFin
   let P : Type := ↥J ⧸ Subgroup.center ↥J
   let eJ : ↥J ≃* ↥Jsub := (Subgroup.subgroupOfEquivOfLe hJL).symm
   let eP0 : P ≃* (↥Jsub ⧸ Subgroup.center ↥Jsub) :=
@@ -177,7 +177,7 @@ theorem q2_orthogonalPlus_d3
       ggInducedAut θL (ggBsAut hNL b) = TableB.linConjAut (Fin 4) F (Ab b) :=
     Classical.choose_spec (hAb b)
   let GLpre : Subgroup (GL (Fin 4) F) := Abar.comap (TableB.linConjAut (Fin 4) F)
-  haveI hM1 : IsMulCommutative GLpre :=
+  have hM1 : IsMulCommutative GLpre :=
     ggBstarAbelianPreimageJLin_comm_of_not_dvd (p := 3) (d := 4)
       (by norm_num) (by
         rintro ⟨h34, -⟩

@@ -14,7 +14,7 @@ open CFSG.Open (StatedProj)
 
 theorem k329_preimage_solvable {H : Type} [Group H] [Finite H] (Z : Subgroup H) [Z.Normal]
     (hZ : Z ≤ Subgroup.center H) (N : Subgroup (H ⧸ Z)) (hN : IsPGroup 3 N) :
-    IsSolvable ↥(N.comap (QuotientGroup.mk' Z)) := by
+    Group.IsSolvable ↥(N.comap (QuotientGroup.mk' Z)) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnil : Group.IsNilpotent ↥N := hN.isNilpotent
   have hNs : Group.IsSolvable ↥N := inferInstance
@@ -87,7 +87,7 @@ theorem k329_frame {H : Type} [Group H] (Z : Subgroup H) [Z.Normal] (hZ : Z ≤ 
 
 theorem k329_layA {H : Type} [Group H] [Finite H] {C L : Subgroup H} (hcp : K329CentralProduct L)
     (hLC : L ≤ C) (hLn : (L.subgroupOf C).Normal) (N : Subgroup H) (hNC : N ≤ C)
-    (hNn : (N.subgroupOf C).Normal) (hN : IsSolvable ↥N) : ⁅N, L⁆ = ⊥ := by
+    (hNn : (N.subgroupOf C).Normal) (hN : Group.IsSolvable ↥N) : ⁅N, L⁆ = ⊥ := by
   obtain ⟨ι, hι, Lf, hq, hc, rfl⟩ := hcp
   have hLfC : ∀ i, Lf i ≤ C := fun i => (le_iSup Lf i).trans hLC
   have hsup : (⨆ i, Lf i).subgroupOf C = ⨆ i, (Lf i).subgroupOf C := by
@@ -169,7 +169,7 @@ theorem k329_S1_twist {H : Type} [Group H] [Finite H] (Z : Subgroup H) [Z.Normal
       hn' hg'
     show (QuotientGroup.mk (g * n * g⁻¹) : H ⧸ Z) ∈ N
     simpa using h
-  have hNtsolv : IsSolvable ↥Nt := k329_preimage_solvable Z hZ N hN3
+  have hNtsolv : Group.IsSolvable ↥Nt := k329_preimage_solvable Z hZ N hN3
   have hcomm : ⁅Nt, K329Lres x⁆ = ⊥ :=
     k329_layA hcp (hLCx.trans hCxCt) hLn Nt hNtC hNtn hNtsolv
   by_contra hcon
@@ -190,7 +190,7 @@ theorem k329_S1_twist {H : Type} [Group H] [Finite H] (Z : Subgroup H) [Z.Normal
   have hR'Nt : R' ≤ Nt := by
     rintro _ ⟨r, -, rfl⟩
     exact r.2
-  have hR'p : IsPGroup 3 R' := R.isPGroup'.map Nt.subtype
+  have hR'p : IsPGroup 3 R' := R.isPGroup.map Nt.subtype
   have hR'comm : ⁅R', K329Lres x⁆ = ⊥ :=
     eq_bot_iff.2 ((Subgroup.commutator_mono hR'Nt le_rfl).trans hcomm.le)
   have hab' := hs R' (hR'Nt.trans hNtCx) hR'p hR'comm

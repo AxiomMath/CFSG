@@ -136,7 +136,7 @@ section Certified
 theorem fh_autOddFree_of_smallF3Omega {Y : Type} [Group Y] [Finite Y]
     (h : SmallF3OmegaQuotient Y) : Q3NM.AutOddFree Y := by
   obtain ⟨hsimple, hZ⟩ := l34g_simple_of_simpleFStar (Or.inl h)
-  haveI : IsSimpleGroup Y := hsimple
+  have : IsSimpleGroup Y := hsimple
   let e : Y ⧸ Subgroup.center Y ≃* Y :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   have hCent : CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.CentOmega3 Y := by
@@ -161,7 +161,7 @@ theorem fh_autOddFree_psu3 {Y : Type} [Group Y] [Finite Y] (h : LieModel Y .PSU 
     Q3NM.AutOddFree Y := by
   have hsimple : IsSimpleGroup Y :=
     (l34g_simple_of_simpleFStar (Or.inr (Or.inr (Or.inr (Or.inr h))))).1
-  haveI : IsSimpleGroup Y := hsimple
+  have : IsSimpleGroup Y := hsimple
   refine TL4.autOddFree_of_outer (t := .PSU) (n := 3) (by decide) (by decide) trivial
     (by decide) h ?_
   intro σ hσ hin
@@ -187,22 +187,22 @@ theorem fh_odd3Inner_of_tl4 {Y : Type} [Group Y] [Finite Y]
       LieModel Y .POmegaOdd 3 3 1 ∨ LieModel Y .POmegaMinus 4 3 1 ∨ LieModel Y .PSL 3 3 1 ∨
       LieModel Y .PSU 3 3 1) : FHOdd3Inner Y := by
   rcases h with h | h | h | h | h | h | h
-  · haveI := (l34g_simple_of_simpleFStar (Or.inl (Or.inl h))).1
+  · have := (l34g_simple_of_simpleFStar (Or.inl (Or.inl h))).1
     exact fh_odd3Inner_model (t := .PSp) (n := 2) (by decide) (by decide) trivial (by decide) h
-  · haveI := (l34g_simple_of_simpleFStar (Or.inl (Or.inr (Or.inl h)))).1
+  · have := (l34g_simple_of_simpleFStar (Or.inl (Or.inr (Or.inl h)))).1
     exact fh_odd3Inner_model (t := .PSL) (n := 4) (by decide) (by decide) trivial (by decide) h
-  · haveI := (l34g_simple_of_simpleFStar (Or.inl (Or.inr (Or.inr (Or.inl h))))).1
+  · have := (l34g_simple_of_simpleFStar (Or.inl (Or.inr (Or.inr (Or.inl h))))).1
     exact fh_odd3Inner_model (t := .PSU) (n := 4) (by decide) (by decide) trivial (by decide) h
-  · haveI := (l34g_simple_of_simpleFStar (Or.inl (Or.inr (Or.inr (Or.inr (Or.inl h)))))).1
+  · have := (l34g_simple_of_simpleFStar (Or.inl (Or.inr (Or.inr (Or.inr (Or.inl h)))))).1
     exact fh_odd3Inner_model (t := .POmegaOdd) (n := 3) (by decide) (by decide) trivial
       (by decide) h
-  · haveI := (l34g_simple_of_simpleFStar
+  · have := (l34g_simple_of_simpleFStar
       (Or.inl (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr h))))))).1
     exact fh_odd3Inner_model (t := .POmegaMinus) (n := 4) (by decide) (by decide) trivial
       (by decide) h
-  · haveI := (l34g_simple_of_simpleFStar (Or.inr (Or.inr (Or.inr (Or.inl h))))).1
+  · have := (l34g_simple_of_simpleFStar (Or.inr (Or.inr (Or.inr (Or.inl h))))).1
     exact fh_odd3Inner_model (t := .PSL) (n := 3) (by decide) (by decide) trivial (by decide) h
-  · haveI := (l34g_simple_of_simpleFStar (Or.inr (Or.inr (Or.inr (Or.inr h))))).1
+  · have := (l34g_simple_of_simpleFStar (Or.inr (Or.inr (Or.inr (Or.inr h))))).1
     exact fh_odd3Inner_model (t := .PSU) (n := 3) (by decide) (by decide) trivial (by decide) h
 
 end Certified

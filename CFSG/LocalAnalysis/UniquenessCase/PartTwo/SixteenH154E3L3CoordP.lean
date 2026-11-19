@@ -27,11 +27,9 @@ private noncomputable def s16h_e3_l3P_matMulEquiv {m : ℕ} (A : GL (Fin m) (ZMo
   toFun := s16h_e3_l3P_matAct A
   invFun := s16h_e3_l3P_matAct A⁻¹
   left_inv w := by
-    change s16h_e3_l3P_matAct A⁻¹ (s16h_e3_l3P_matAct A w) = w
     rw [s16h_e3_l3P_matAct_mul, inv_mul_cancel, s16h_e3_l3P_matAct,
       Matrix.GeneralLinearGroup.coe_one, Matrix.one_mulVec, ofAdd_toAdd]
   right_inv w := by
-    change s16h_e3_l3P_matAct A (s16h_e3_l3P_matAct A⁻¹ w) = w
     rw [s16h_e3_l3P_matAct_mul, mul_inv_cancel, s16h_e3_l3P_matAct,
       Matrix.GeneralLinearGroup.coe_one, Matrix.one_mulVec, ofAdd_toAdd]
   map_mul' u v := by

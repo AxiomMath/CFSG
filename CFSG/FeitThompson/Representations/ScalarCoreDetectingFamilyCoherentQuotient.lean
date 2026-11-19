@@ -15,7 +15,7 @@ variable {p q : ℕ} [Fact p.Prime] {V U : Type*} [AddCommGroup V] [Module (ZMod
   (S : ScalarCoordinateSystem p q V U)
 
 theorem le_ker_act_of_le_totalCentralizer {N : Subgroup U} (hN : N ≤ S.totalCentralizer) :
-    N ≤ S.act.ker := fun u hu =>
+    N ≤ S.act.ker := fun _u hu =>
   MonoidHom.mem_ker.2 (LinearEquiv.ext fun v => (S.mem_totalCentralizer.1 (hN hu)) v)
 
 noncomputable def quotient (N : Subgroup U) [N.Normal] (hN : N ≤ S.totalCentralizer) :

@@ -205,7 +205,7 @@ theorem false_of_isGoldCaseI {D : Type} [Group D] [Finite D] {G₁ G₂ : Subgro
     refine twoResidual_le_of_isTwoQuotient le_top
       (by rw [Subgroup.normalizer_eq_top_iff.mpr hN]) fun y _ => ?_
     obtain ⟨⟨n, t⟩, hy⟩ := hNT.2 y
-    obtain ⟨k, hk⟩ := (T.isPGroup') t
+    obtain ⟨k, hk⟩ := (T.isPGroup) t
     refine ⟨k, ?_⟩
     have hmod : (QuotientGroup.mk (y ^ 2 ^ k) : D ⧸ N) = 1 := by
       rw [← hy, QuotientGroup.mk_pow, QuotientGroup.mk_mul,

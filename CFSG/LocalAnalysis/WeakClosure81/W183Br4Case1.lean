@@ -19,7 +19,7 @@ theorem br4_false_case_one {Y S : Type} [Group Y] [Finite Y]
     (g₂ : Br4Good ↥A₂) (θ : Y →* S) (hθ : Function.Surjective θ) (hQ : IsPGroup 3 θ.ker)
     (hperf : Group.IsPerfect Y) (hr : CFSG.pRank 3 Y ≤ 3)
     (hC : Subgroup.centralizer (θ.ker : Set Y) ≤ θ.ker) : False := by
-  haveI : Finite S := Finite.of_surjective θ hθ
+  have : Finite S := Finite.of_surjective θ hθ
   have hker_le : θ.ker ≤ pCore 3 Y :=
     le_sSup ⟨MonoidHom.normal_ker θ, hQ⟩
   have hpCore_le : pCore 3 Y ≤ θ.ker := by
@@ -30,7 +30,7 @@ theorem br4_false_case_one {Y S : Type} [Group Y] [Finite Y]
   have hne_top : pCore 3 Y ≠ ⊤ := by
     intro htop
     have hkertop : θ.ker = ⊤ := by rw [← hpCore_eq]; exact htop
-    haveI : Subsingleton S := by
+    have : Subsingleton S := by
       refine ⟨fun x y => ?_⟩
       obtain ⟨a, rfl⟩ := hθ x
       obtain ⟨b, rfl⟩ := hθ y
@@ -76,7 +76,7 @@ theorem br4_false_case_one {Y S : Type} [Group Y] [Finite Y]
     rw [hcardS, hcard'] at hdvd
     norm_num at hdvd
   · obtain ⟨e⟩ := hcase
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hcard' : Nat.card (Y ⧸ pCore 3 Y) = 120 := by
       rw [Nat.card_congr e.toEquiv,
         CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two, Nat.card_zmod]

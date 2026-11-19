@@ -37,7 +37,7 @@ theorem exists_commuting_of_order_four
       have := congrArg (fun x : ↥(P : Subgroup Q) => (x : Q)) huv
       simpa using this
     exact Subtype.ext (Subtype.ext (hno _ _ hu hv hcomm))
-  rcases rank_one_two_cyclic_or_quaternion P.isPGroup' hrank with hc | ⟨e, he1, ⟨ε⟩⟩
+  rcases rank_one_two_cyclic_or_quaternion P.isPGroup hrank with hc | ⟨e, he1, ⟨ε⟩⟩
   · exact absurd hc hncyc
   · obtain ⟨e', rfl⟩ : ∃ e' : ℕ, e = e' + 1 := ⟨e - 1, by omega⟩
     have : NeZero (2 ^ (e' + 1)) := ⟨by positivity⟩

@@ -62,7 +62,7 @@ theorem zj_isNilpotent {G : Type*} [Group G] [Finite G] {Q A : Subgroup G} [Q.No
       rw [← QuotientGroup.mk_pow]
       exact (QuotientGroup.eq_one_iff _).mpr hk
     simpa using key
-  haveI : Group.IsNilpotent f.range := hP.isNilpotent
+  have : Group.IsNilpotent f.range := hP.isNilpotent
   exact Subgroup.isNilpotent_of_ker_le_center f.rangeRestrict hker
 
 theorem zj_isPGroup {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
@@ -75,18 +75,18 @@ theorem zj_isPGroup {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
   CFSG.isPGroup_of_nilpotent_normal A inferInstance
     (zj_isNilpotent (zj_centralizes hQ hMQ hMne hcomm) h2) hcore
 
-theorem zj_normal_le_pPrimeP {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem zj_normal_le_pPrimeP {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {K N : Subgroup X} [K.Normal] [N.Normal] (hK : CFSG.IsPComponent p K) (T : Sylow 2 X)
     (hKT : K ⊔ (T : Subgroup X) = ⊤) (hNK : ¬ K ≤ N) :
     N ≤ CFSG.GH74.GLS.pPrimePCore p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K₀, hK₀, -, hmap, hmin⟩ := hK
   set O := CFSG.pPrimeCore p X with hO
-  haveI hKn : (K.map (QuotientGroup.mk' O)).Normal :=
+  have hKn : (K.map (QuotientGroup.mk' O)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective O)
-  haveI hNn : (N.map (QuotientGroup.mk' O)).Normal :=
+  have hNn : (N.map (QuotientGroup.mk' O)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective O)
-  haveI hMn : ((N ⊓ K).map (QuotientGroup.mk' O)).Normal :=
+  have hMn : ((N ⊓ K).map (QuotientGroup.mk' O)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective O)
   have hQq : CFSG.IsQuasisimple ↥(K.map (QuotientGroup.mk' O)) := by
     rw [hmap]
@@ -123,7 +123,7 @@ theorem zj_normal_le_pPrimeP {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.P
       rw [hKT]
       exact Subgroup.mem_top x
     obtain ⟨k, hk, t, ht, rfl⟩ := Subgroup.mem_sup_of_normal_left.mp hx
-    obtain ⟨j, hj⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨j, hj⟩ := T.isPGroup ⟨t, ht⟩
     have htj : t ^ (2 ^ j) = 1 := by
       have := congrArg Subtype.val hj
       simpa using this

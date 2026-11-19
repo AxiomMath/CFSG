@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma q13c_commute_of_mul_right {a c f : G} (h : Commute (a * c) f)
     (hc : Commute c f) : Commute a f := by
   have h1 : a * f * c = f * a * c := by
@@ -22,6 +23,7 @@ private lemma q13c_commute_of_mul_right {a c f : G} (h : Commute (a * c) f)
       _ = f * a * c := by group
   exact mul_right_cancel h1
 
+omit [Finite G] in
 private lemma q13c_commute_of_mul_left {a b f : G} (h : Commute (b * a) f)
     (hb : Commute b f) : Commute a f := by
   have h1 : b * (a * f) = b * (f * a) := by

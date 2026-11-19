@@ -46,7 +46,7 @@ theorem isBenderGroup_closure_conjOrbit_quotient_center (h1 : Asc72.TheoremOne)
   have hzcenter : (⟨z, hzK₁⟩ : K₁) ∈ Subgroup.center K₁ := by
     rw [Subgroup.mem_center_iff]
     intro g
-    exact Subtype.ext (hpowdata.2 (g : G) (by simpa [K₁, Δ₁, z] using g.2)).eq
+    exact Subtype.ext (hpowdata.2 (g : G) (by simp [K₁, Δ₁, z])).eq
   have horb : conjOrbit K₁ x = Δ₁ := by
     simpa [K₁, Δ₁, z] using conjOrbit_closure_conjOrbit_eq hC.setup ht hn hord
   have hcls : ∃ t : K₁, inClosure Δ₁ = {g | IsConj t g} :=
@@ -108,7 +108,7 @@ theorem isBenderGroup_closure_conjOrbit_quotient_center (h1 : Asc72.TheoremOne)
       QuotientGroup.quotientMulEquivOfEq h36.symm
     have hmapN : (N.map e.toMonoidHom).Normal := hN.map e.toMonoidHom e.surjective
     have hmapS : Group.IsSolvable (N.map e.toMonoidHom) :=
-      solvable_of_surjective (f := (N.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
+      Group.isSolvable_of_surjective (f := (N.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
         (N.equivMapOfInjective e.toMonoidHom e.injective).surjective
     have hle := CFSG.Timmesfeld.Bridge.OddTransp.le_solvableRadical hmapN hmapS
     rw [CFSG.SignalizerFunctorTheorem.Nonsolvable.solvableRadical_quotient, le_bot_iff] at hle
@@ -187,7 +187,7 @@ theorem isBenderGroup_closure_conjOrbit_quotient_center (h1 : Asc72.TheoremOne)
   ·
     exfalso
     obtain ⟨M, hMnorm, -, -, -, -, hidx, hW, -⟩ := hAS
-    haveI : M.Normal := hMnorm
+    have : M.Normal := hMnorm
     have hneM : ∀ e ∈ E, QuotientGroup.mk' M e ≠ 1 := by
       intro e he he1
       have heM : e ∈ M := (QuotientGroup.eq_one_iff e).mp he1

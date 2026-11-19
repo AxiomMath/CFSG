@@ -35,6 +35,7 @@ theorem pRank_map_mk'_eq {N X J : Subgroup G} [(J.subgroupOf N).Normal] {q : ℕ
   rw [CFSG.pRank_map_eq_of_not_dvd_card_ker _ (QuotientGroup.mk'_surjective _) hq hker]
   exact CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.pRank_subgroupOf hq.one_lt hXN
 
+omit [Finite G] in
 private theorem ncl_le_normalizer {N B' : Subgroup G} :
     N ≤ Subgroup.normalizer ((ncl N B') : Set G) := by
   refine Subgroup.le_normalizer_iff.mpr fun n hn x hx => ?_
@@ -53,22 +54,26 @@ private theorem ncl_le_normalizer {N B' : Subgroup G} :
     rw [heq]
     exact Subgroup.inv_mem _ hy
 
+omit [Finite G] in
 private theorem le_ncl {N B' : Subgroup G} : B' ≤ ncl N B' := fun _ hb =>
   Subgroup.subset_closure ⟨1, N.one_mem, _, hb, by simp⟩
 
+omit [Finite G] in
 private theorem ncl_le {N B' : Subgroup G} (hB'N : B' ≤ N) : ncl N B' ≤ N := by
   rw [ncl]
   refine (Subgroup.closure_le N).mpr fun y hy => ?_
   obtain ⟨g, hg, b, hb, rfl⟩ := hy
   exact N.mul_mem (N.mul_mem hg (hB'N hb)) (N.inv_mem hg)
 
+omit [Finite G] in
 private theorem ncl_comap_normal {N B' : Subgroup G} (hB'N : B' ≤ N) :
     (Subgroup.comap N.subtype (ncl N B')).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (ncl_le hB'N)).mpr ncl_le_normalizer
 
+omit [Finite G] in
 private theorem ncl_subgroupOf_eq_normalClosure {N B' : Subgroup G} (hB'N : B' ≤ N) :
     (ncl N B').subgroupOf N = normalClosure ((B'.subgroupOf N : Subgroup ↥N) : Set ↥N) := by
-  haveI := ncl_comap_normal hB'N
+  have := ncl_comap_normal hB'N
   refine Subgroup.map_subtype_inj.mp ?_
   rw [Subgroup.map_subgroupOf_eq_of_le (ncl_le hB'N)]
   refine le_antisymm ?_ ?_
@@ -83,6 +88,7 @@ private theorem ncl_subgroupOf_eq_normalClosure {N B' : Subgroup G} (hB'N : B' �
     exact Subgroup.normalClosure_le_normal fun x hx =>
       le_ncl (Subgroup.mem_subgroupOf.mp hx)
 
+omit [Finite G] in
 theorem map_ncl_eq_normalClosure {N B' K J : Subgroup G} [(J.subgroupOf N).Normal]
     (hB'N : B' ≤ N) (hB'K : B' ≤ K) (hKN : K ≤ ncl N B') :
     ((ncl N B').subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N)) =
@@ -111,15 +117,16 @@ theorem map_ncl_eq_normalClosure {N B' K J : Subgroup G} [(J.subgroupOf N).Norma
       Subgroup.mem_map.mpr ⟨x, hx', rfl⟩
     rwa [hs] at hm
   refine le_antisymm ?_ ?_
-  · haveI : (normalClosure ((QuotientGroup.mk' (J.subgroupOf N)) ''
+  · have : (normalClosure ((QuotientGroup.mk' (J.subgroupOf N)) ''
         ((K.subgroupOf N : Subgroup ↥N) : Set ↥N))).Normal := Subgroup.normalClosure_normal
     refine Subgroup.normalClosure_le_normal (h1.trans ?_)
     exact Subgroup.le_normalClosure
       (H := (K.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N)))
-  · haveI : (normalClosure ((QuotientGroup.mk' (J.subgroupOf N)) ''
+  · have : (normalClosure ((QuotientGroup.mk' (J.subgroupOf N)) ''
         ((B'.subgroupOf N : Subgroup ↥N) : Set ↥N))).Normal := Subgroup.normalClosure_normal
     exact Subgroup.normalClosure_le_normal h2
 
+omit [Finite G] in
 theorem commutator_map_mk'_eq {N K J : Subgroup G} [(J.subgroupOf N).Normal] (hKN : K ≤ N)
     (hK : ⁅K, K⁆ = K) :
     ⁅(K.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N)),
@@ -134,6 +141,7 @@ theorem commutator_map_mk'_eq {N K J : Subgroup G} [(J.subgroupOf N).Normal] (hK
         (Subgroup.map_commutator _ _ _).symm
     _ = (K.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N)) := by rw [hKK]
 
+omit [Finite G] in
 private theorem card_subgroupOf_inf_dvd {K J : Subgroup G} :
     Nat.card ((J ⊓ K).subgroupOf K) ∣ Nat.card J := by
   have h1 : Nat.card ((J ⊓ K).subgroupOf K) = Nat.card ↥(J ⊓ K) :=
@@ -143,10 +151,12 @@ private theorem card_subgroupOf_inf_dvd {K J : Subgroup G} :
   rw [h1, h2]
   exact Subgroup.card_subgroup_dvd_card _
 
+omit [Finite G] in
 private theorem not_three_dvd_card_subgroupOf_inf {K J : Subgroup G} (hJ : ¬ 3 ∣ Nat.card J) :
     ¬ 3 ∣ Nat.card ((J ⊓ K).subgroupOf K) :=
   fun h => hJ (h.trans (card_subgroupOf_inf_dvd (K := K) (J := J)))
 
+omit [Finite G] in
 private theorem subgroupOf_inf_normal {N K J : Subgroup G} [(J.subgroupOf N).Normal]
     (hKN : K ≤ N) : ((J ⊓ K).subgroupOf K).Normal := by
   rw [Subgroup.normal_subgroupOf_iff inf_le_right]
@@ -157,6 +167,7 @@ private theorem subgroupOf_inf_normal {N K J : Subgroup G} [(J.subgroupOf N).Nor
   exact Subgroup.mem_inf.mpr ⟨Subgroup.mem_subgroupOf.mp hconj,
     K.mul_mem (K.mul_mem hk hh.2) (K.inv_mem hk)⟩
 
+omit [Finite G] in
 private theorem three_dvd_card_bar2 {K : Subgroup G} {m : ℕ} (hm : 2 ≤ m)
     (hK : IsL2 (Bar2 K) m) : 3 ∣ Nat.card (Bar2 K) := by
   have hcard := CFSG.SeitzReduction.RankOne.card_of_lieModel_PSL_two_two (X := Bar2 K) hK
@@ -174,6 +185,7 @@ private theorem three_dvd_card_bar2 {K : Subgroup G} {m : ℕ} (hm : 2 ≤ m)
   have hpos : 0 < 4 ^ m := pow_pos (by norm_num) m
   exact (Nat.modEq_iff_dvd' (by omega)).mp hmod.symm
 
+omit [Finite G] in
 private theorem subgroupOf_inf_le_pCore {N K J : Subgroup G} [(J.subgroupOf N).Normal] {m : ℕ}
     (hKN : K ≤ N) (hJ : ¬ 3 ∣ Nat.card J) (hm : 2 ≤ m) (hK : IsL2 (Bar2 K) m) :
     (J ⊓ K).subgroupOf K ≤ pCore 2 ↥K := by
@@ -184,7 +196,7 @@ private theorem subgroupOf_inf_le_pCore {N K J : Subgroup G} [(J.subgroupOf N).N
   have h3 : ¬ 3 ∣ Nat.card ↥(A.map πK) := fun h =>
     not_three_dvd_card_subgroupOf_inf (K := K) (J := J) hJ
       (h.trans (Subgroup.card_map_dvd A πK))
-  haveI : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hK
+  have : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hK
   have hbot : A.map πK = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (A.map πK) with h | h
     · exact h
@@ -194,8 +206,9 @@ private theorem subgroupOf_inf_le_pCore {N K J : Subgroup G} [(J.subgroupOf N).N
   rw [← hker]
   exact (Subgroup.map_eq_bot_iff A).mp hbot
 
+omit [Finite G] in
 theorem isL2_bar2_map_mk' {N K J : Subgroup G} [(J.subgroupOf N).Normal] {m : ℕ} (hKN : K ≤ N)
-    (hJN : J ≤ N) (hJ : ¬ 3 ∣ Nat.card J) (hm : 2 ≤ m) (hK : IsL2 (Bar2 K) m) :
+    (_hJN : J ≤ N) (hJ : ¬ 3 ∣ Nat.card J) (hm : 2 ≤ m) (hK : IsL2 (Bar2 K) m) :
     IsL2 (Bar2 ((K.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N)))) m := by
   let f : ↥K →* ↥((K.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N))) :=
     ((QuotientGroup.mk' (J.subgroupOf N)).comp (Subgroup.inclusion hKN)).codRestrict _
@@ -230,11 +243,12 @@ theorem isL2_bar2_map_mk' {N K J : Subgroup G} [(J.subgroupOf N).Normal] {m : �
   obtain ⟨e⟩ := CFSG.nonempty_quotient_pCore_equiv_of_surjective_of_isPGroup_ker f hfsurj hker
   exact CFSG.Blueprint.LieModel.of_mulEquiv e hK
 
+omit [Finite G] in
 theorem card_map_mk'_eq {N D₀ J : Subgroup G} [(J.subgroupOf N).Normal] (hD₀N : D₀ ≤ N)
     (hJN : J ≤ N) (hcop : Nat.Coprime (Nat.card D₀) (Nat.card J)) :
     Nat.card ((D₀.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N))) = Nat.card D₀ := by
   have hdisj : D₀.subgroupOf N ⊓ J.subgroupOf N = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD₀N).toEquiv,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hJN).toEquiv]
     exact hcop
@@ -262,6 +276,7 @@ theorem card_map_mk'_eq {N D₀ J : Subgroup G} [(J.subgroupOf N).Normal] (hD₀
   rw [hmap, Subgroup.card_top, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD₀N).toEquiv] at h
   exact h
 
+omit [Finite G] in
 theorem mk'_mem_normalizer_map {N K J : Subgroup G} [(J.subgroupOf N).Normal] (hKN : K ≤ N)
     (hJN : J ≤ N) {x : ↥N} (hx : (x : G) ∈ normalizer ((K ⊔ J : Subgroup G) : Set G)) :
     QuotientGroup.mk' (J.subgroupOf N) x ∈
@@ -302,6 +317,7 @@ theorem mk'_mem_normalizer_map {N K J : Subgroup G} [(J.subgroupOf N).Normal] (h
   rw [map_inv] at h
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem map_mk'_le_normalizer_map {N T K J : Subgroup G} [(J.subgroupOf N).Normal]
     (hKN : K ≤ N) (hJN : J ≤ N) (hT : T ≤ normalizer ((K ⊔ J : Subgroup G) : Set G)) :
     (T.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N)) ≤
@@ -311,6 +327,7 @@ theorem map_mk'_le_normalizer_map {N T K J : Subgroup G} [(J.subgroupOf N).Norma
   obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.mp hy
   exact mk'_mem_normalizer_map hKN hJN (hT (Subgroup.mem_subgroupOf.mp ht))
 
+omit [Finite G] in
 theorem commutator_mem_of_mk'_mem_centralizer {N D₀ J : Subgroup G} [(J.subgroupOf N).Normal]
     (hD₀N : D₀ ≤ N) {x : ↥N}
     (hx : QuotientGroup.mk' (J.subgroupOf N) x ∈
@@ -338,6 +355,7 @@ theorem commutator_mem_of_mk'_mem_centralizer {N D₀ J : Subgroup G} [(J.subgro
     group
   exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h1)
 
+omit [Finite G] in
 theorem le_sup_of_map_mk'_eq {N X K J : Subgroup G} [(J.subgroupOf N).Normal] (hXN : X ≤ N)
     (h : (X.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N)) =
       (K.subgroupOf N).map (QuotientGroup.mk' (J.subgroupOf N))) :

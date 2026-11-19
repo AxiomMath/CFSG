@@ -41,12 +41,12 @@ theorem exists_gl_std_of_finrank {n m : ℕ} (A : Submodule (ZMod 2) (Fin n → 
   have hE_lo : ∀ (x : Fin n → ZMod 2) (c : Fin n) (h : c.val < m),
       E x c = M x ⟨c.val, h⟩ := by
     intro x c h
-    rw [hE x c, dif_pos h]
+    rw [hE x c, dite_eq_left h]
   have hE_hi : ∀ (x : Fin n → ZMod 2) (c : Fin n) (h : m ≤ c.val),
       E x c = L x ⟨c.val - m, by have := c.isLt; omega⟩ := by
     intro x c h
     have hnc : ¬ c.val < m := by omega
-    rw [hE x c, dif_neg hnc]
+    rw [hE x c, dite_eq_right hnc]
   have key : ∀ x, x ∈ A ↔ ∀ c : Fin n, m ≤ c.val → E x c = 0 := by
     intro x
     constructor

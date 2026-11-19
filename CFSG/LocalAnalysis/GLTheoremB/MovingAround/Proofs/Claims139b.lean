@@ -226,7 +226,7 @@ theorem conjMaxEA_sSup {p : ℕ} (hp : p.Prime) {𝒞 : Set (Subgroup Q)}
     (h𝒞 : ∀ X ∈ 𝒞, IsComponentOf X ⊤) (hZ : ∀ X ∈ 𝒞, Subgroup.center ↥X = ⊥)
     (hconj : ∀ X ∈ 𝒞, Claims137.ConjMaxEA p ↥X) : Claims137.ConjMaxEA p ↥(sSup 𝒞) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set 𝓛 := (Set.toFinite 𝒞).toFinset with h𝓛
   have hmem : ∀ X, X ∈ 𝓛 ↔ X ∈ 𝒞 := fun X => Set.Finite.mem_toFinset _
   have hc𝓛 : ∀ X ∈ 𝓛, IsComponentOf X ⊤ := fun X hX => h𝒞 X ((hmem X).1 hX)
@@ -283,7 +283,7 @@ theorem sSup_inf_centralizer_eq_bot {𝒞 : Set (Subgroup Q)} (h𝒞 : ∀ X ∈
   refine Subgroup.mem_bot.2 (Claims139.eq_one_of_centralizes_all h𝒞 hZ hz1 fun X hX => ?_)
   exact Subgroup.centralizer_le (SetLike.coe_subset_coe.2 (le_sSup hX)) hz2
 
-theorem card_le_inf_sSup {p : ℕ} (hp : p.Prime) {𝒞 : Set (Subgroup Q)}
+theorem card_le_inf_sSup {p : ℕ} (_hp : p.Prime) {𝒞 : Set (Subgroup Q)}
     (h𝒞 : ∀ X ∈ 𝒞, IsComponentOf X ⊤) (hZ : ∀ X ∈ 𝒞, Subgroup.center ↥X = ⊥)
     (hinner : ∀ X ∈ 𝒞, Inputs71.PPowInner p ↥X) {B : Subgroup Q} (hB : IsElemAbelian p B)
     (hBX : ∀ X ∈ 𝒞, B ≤ Subgroup.normalizer (X : Set Q))
@@ -317,7 +317,7 @@ theorem exists_mul_centralizer {𝒞 𝒞₀ : Set (Subgroup Q)} (h0 : 𝒞₀ �
     (h𝒞 : ∀ X ∈ 𝒞, IsComponentOf X ⊤) {y : Q} (hy : y ∈ sSup 𝒞) :
     ∃ y₀ ∈ sSup 𝒞₀, y₀⁻¹ * y ∈ Subgroup.centralizer ((sSup 𝒞₀ : Subgroup Q) : Set Q) := by
   have hsplit : sSup 𝒞 = sSup 𝒞₀ ⊔ sSup (𝒞 \ 𝒞₀) := by
-    rw [← sSup_union, Set.union_diff_cancel h0]
+    rw [← sSup_union, Set.union_sdiff_cancel h0]
   have hle : sSup (𝒞 \ 𝒞₀) ≤ Subgroup.centralizer ((sSup 𝒞₀ : Subgroup Q) : Set Q) := by
     refine sSup_le fun X hX => Subgroup.le_centralizer_iff.2 (sSup_le fun X₀ hX₀ => ?_)
     refine Claims139.le_centralizer_of_ne_comp (h𝒞 X hX.1) (h𝒞 X₀ (h0 hX₀)) ?_
@@ -338,13 +338,13 @@ theorem isMulCommutative_of_card_le_three {H : Type*} [Group H] [Finite H] (h : 
     IsMulCommutative H := by
   have hpos : 0 < Nat.card H := Nat.card_pos
   interval_cases hc : Nat.card H
-  · haveI : Subsingleton H := (Finite.card_le_one_iff_subsingleton).1 hc.le
+  · have : Subsingleton H := (Finite.card_le_one_iff_subsingleton).1 hc.le
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := isCyclic_of_prime_card hc
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := isCyclic_of_prime_card hc
     infer_instance
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI := isCyclic_of_prime_card hc
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have := isCyclic_of_prime_card hc
     infer_instance
 
 theorem isMulCommutative_of_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y)
@@ -363,7 +363,7 @@ theorem pPowInner_alt6 {p : ℕ} (hp : Odd p) : Inputs71.PPowInner p ↥(alterna
     exact hα
   have hmem : (b : P10) ∈ A6Models.psl29 := by
     let N : Subgroup ↥A6Models.autA6 := A6Models.psl29.subgroupOf A6Models.autA6
-    haveI hN : N.Normal := ⟨fun n hn g => by
+    have hN : N.Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using psl29_normal (g : P10) g.2 (n : P10) hn⟩
     have hcardN : Nat.card N = 360 := by
@@ -404,7 +404,7 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher CFSG.LocalAnalysis.Com
   CFSG.Assembly.LowTwoRank in
 theorem allInner_projSp {r : ℕ} (hr : 3 ≤ r) (α : MulAut (StatedProj (StatedSp r (ZMod 2)))) :
     ∃ y, α = MulAut.conj y := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   obtain ⟨A, σ, hα⟩ := (automorphism_generation (r := r) (K := ZMod 2) hr).2 α
   have hσ : σ = 1 := Subsingleton.elim _ _
   have : Subsingleton (ZMod 2)ˣ := ⟨by decide⟩
@@ -437,7 +437,7 @@ theorem isMulCommutative_commutator_statedSp_one :
     decide
   have hne : commutator ↥S ≠ ⊤ := by
     intro htop
-    haveI : Nontrivial ↥S := by
+    have : Nontrivial ↥S := by
       rw [← Finite.one_lt_card_iff_nontrivial, h6]
       norm_num
     have hsolv : Group.IsSolvable ↥S :=
@@ -453,7 +453,7 @@ theorem isMulCommutative_commutator_statedSp_one :
   refine isMulCommutative_of_card_le_three ?_
   have hpos : 0 < Nat.card ↥(commutator ↥S) := Nat.card_pos
   interval_cases h : Nat.card ↥(commutator ↥S)
-  all_goals first | omega | (norm_num at hdvd)
+  all_goals first | omega
 
 theorem nonempty_commutator_statedSp_two_mulEquiv :
     Nonempty (↥(commutator ↥(StatedSp 2 (ZMod 2))) ≃* ↥(alternatingGroup (Fin 6))) := by
@@ -521,6 +521,7 @@ section GLevel
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barX_iSup' {p : ℕ} {C : Subgroup G} {ι : Sort*} (X : ι → Subgroup G)
     (hX : ∀ i, X i ≤ C) : barX p C (⨆ i, X i) = ⨆ i, barX p C (X i) := by
   have h1 : (⨆ i, X i).subgroupOf C = ⨆ i, (X i).subgroupOf C := by
@@ -614,8 +615,8 @@ theorem kTildeStar_data (h138 : Lemma138Statement) (h137 : Lemma137_ii_iiiStatem
   have hc := h138 h hL.1 hL.2
   obtain ⟨-, hs, hnc, -⟩ := h137 h hL.1 hL.2
   refine ⟨isComponentOf_gLBConj hc q, ?_⟩
-  haveI := hs
-  haveI : IsSimpleGroup ↥(GLBConj q (barX p (Nof T) (derivedInf (Nof T ⊓ L)))) :=
+  have := hs
+  have : IsSimpleGroup ↥(GLBConj q (barX p (Nof T) (derivedInf (Nof T ⊓ L)))) :=
     (conjEquiv q (barX p (Nof T) (derivedInf (Nof T ⊓ L)))).symm.isSimpleGroup
   exact center_eq_bot_of_simple fun hab =>
     hnc (isMulCommutative_of_mulEquiv (conjEquiv q _) hab)
@@ -629,7 +630,7 @@ theorem kt_conj_inner (h133 : Lemma133Statement) (h137 : Lemma137_ii_iiiStatemen
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hBel : IsElemAbelian p B := h.bOne.1.1
   have h133' := (h133 h).2 L hL
@@ -657,7 +658,7 @@ theorem kt_conj_inner (h133 : Lemma133Statement) (h137 : Lemma137_ii_iiiStatemen
     · exact Or.inl ((h137'.2.2.2.2 k hX).1 hc)
     · exact Or.inr ((h137'.2.2.2.2 k hX).2 hc)
   have hLnt : Nontrivial (↥L ⧸ CFSG.pCore 2 ↥L) := by
-    haveI := hPiL.1.2
+    have := hPiL.1.2
     exact Function.Surjective.nontrivial
       (f := QuotientGroup.mk (s := Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L)))
       QuotientGroup.mk_surjective
@@ -696,7 +697,7 @@ theorem kt_conj_inner (h133 : Lemma133Statement) (h137 : Lemma137_ii_iiiStatemen
       · exact Or.inr (Or.inr (Or.inr ⟨ε, n, hn, h1, hfp⟩))
       · exact Or.inr (Or.inr (Or.inl ⟨ε, n, hn, hfp, e1⟩))
     · exact absurd ⟨hY.symm.trans e⟩ (hNo7 h hL h3)
-  haveI := hsimp
+  have := hsimp
   exact conj_inner_of_types hp hp2 hnc
     (Lemma137.kt_types hp hp2 OmegaFacts.inputOmegaTwoPerfect_holds hKeq hnc hdvdJt hJtTypes)
 
@@ -721,7 +722,7 @@ theorem exists_centralizer_of_bar {p : ℕ} (hp : p.Prime) {N H P : Subgroup G} 
     (hx : QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨x, hHN hxH⟩ ∈
       Subgroup.centralizer ((barX p N P : Subgroup (↥N ⧸ GLAPPrimeCore p ↥N)) : Set _)) :
     ∃ c ∈ H ⊓ Subgroup.centralizer (P : Set G), c⁻¹ * x ∈ GLAPPrimeCoreOf p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsn : IsSubnormal H N :=
     IsSubnormal.step hHN ((Subgroup.normal_subgroupOf_iff_le_normalizer hHN).2 hNH)
       (IsSubnormal.refl N)
@@ -807,7 +808,7 @@ theorem inputConjKstar139_of_siblings (h138 : Lemma138Statement) (h137 : Lemma13
   intro G _ _ m p B M E A D T h hBN
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hKsN, hNKs⟩ := ClassicalEA2.kstar_le_and_normal p M D T
   have hQ : Claims137.ConjMaxEA p ↥(sSup (kTildeStar p M D T)) :=
     conjMaxEA_sSup hp (fun X hX => (kTildeStar_data h138 h137 h hX).1)
@@ -828,7 +829,7 @@ theorem le_normalizer_of_mem (h113 : Input11_3) (h138 : Lemma138Statement)
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hXc, hXZ⟩ := kTildeStar_data h138 h137 h hX
   have hT2 : IsPGroup 2 ↥T := (isPGroup_gammaStar p D).to_le h.hT2
   have hTne : T ≠ ⊥ := by
@@ -871,7 +872,7 @@ theorem inputMaxBKstar139_of_siblings (h138 : Lemma138Statement) (h137 : Lemma13
   intro G _ _ m p B M E A D T h hBN
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hBel : IsElemAbelian p B := h.bOne.1.1
   have hBp : IsPGroup p ↥B := Lemma137.isPGroup_of_isElemAbelian hBel

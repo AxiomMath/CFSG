@@ -17,6 +17,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem e15i_card_closure_le {τ τ' : G} (hτ : τ * τ = 1) (hτ' : τ' * τ' = 1)
     (hρ : (τ * τ') ^ 4 = 1) : Nat.card (Subgroup.closure ({τ, τ'} : Set G)) ≤ 8 := by
   set ρ : G := τ * τ' with hρdef
@@ -98,6 +99,7 @@ private theorem e15i_card_closure_le {τ τ' : G} (hτ : τ * τ = 1) (hτ' : τ
     _ ≤ (Set.range f).ncard := Set.ncard_le_ncard hsub (Set.finite_range f)
     _ ≤ 8 := hcard
 
+omit [Finite G] in
 private theorem e15i_isComplement' {N K : Subgroup G} [N.Normal] (h1 : N ⊓ K = ⊥)
     (h2 : N ⊔ K = ⊤) : N.IsComplement' K := by
   refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ (disjoint_iff.mpr h1) ?_
@@ -140,7 +142,7 @@ theorem exists_complement_of_dihedral {D : Subgroup G} [D.Normal] (hDp : IsPGrou
     have h2 : (D ⊔ T).relIndex (P : Subgroup G) * Nat.card ↥((D ⊔ T) ⊓ (P : Subgroup G)) =
         Nat.card (P : Subgroup G) := Subgroup.relIndex_mul_card (D ⊔ T) (P : Subgroup G)
     rw [inf_eq_left.mpr hDTP] at h2
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp P.isPGroup
     have hdvd2 : (D ⊔ T).relIndex (P : Subgroup G) ∣ 2 ^ k := by
       rw [← hk, ← h2]
       exact dvd_mul_right _ _
@@ -152,7 +154,7 @@ theorem exists_complement_of_dihedral {D : Subgroup G} [D.Normal] (hDp : IsPGrou
     have hR1 : (D ⊔ T).relIndex (P : Subgroup G) = 1 := by
       rw [hi, hi0, pow_zero]
     exact le_antisymm hDTP (Subgroup.relIndex_eq_one.mp hR1)
-  haveI : IsMulCommutative D := ⟨⟨fun a b => Subtype.ext (hDab a.1 a.2 b.1 b.2)⟩⟩
+  have : IsMulCommutative D := ⟨⟨fun a b => Subtype.ext (hDab a.1 a.2 b.1 b.2)⟩⟩
   have hTP : T ≤ (P : Subgroup G) := hPeq ▸ le_sup_right
   obtain ⟨K', hK1, hK2⟩ :=
     (CFSG.Quasithin.gaschutz hDp P).mpr ⟨T, hTP, hbot, hPeq⟩
@@ -272,6 +274,7 @@ theorem dihedral_relations_of_relations {G : Type*} [Group G] {u r v d z : G}
     exact hY
 
 
+omit [Finite G] in
 private theorem e15i_central {K : Subgroup G} {z x : G} (hz : IsUniqueInvolution K z)
     (hx : x ∈ K) : x * z = z * x := by
   have hc := hz.conj x
@@ -280,9 +283,11 @@ private theorem e15i_central {K : Subgroup G} {z x : G} (hz : IsUniqueInvolution
   calc x * z = (x * z * x⁻¹) * x := by group
     _ = z * x := by rw [h1]
 
+omit [Finite G] in
 private theorem e15i_sq4 (x : G) : x * x * (x * x) = x ^ 4 := by
   simp only [pow_succ, pow_zero, one_mul, mul_assoc]
 
+omit [Finite G] in
 private theorem e15i_q8_ne {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     i * j ≠ j * i := by
   intro h
@@ -291,6 +296,7 @@ private theorem e15i_q8_ne {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     exact h.trans hQ.comm
   exact hQ.inv.ne_one (mul_right_cancel h1).symm
 
+omit [Finite G] in
 private theorem e15i_comm_or {K : Subgroup G} {z x y : G} (hz : IsUniqueInvolution K z)
     (h8 : Nat.card K = 8) (hnab : ∃ a ∈ K, ∃ b ∈ K, a * b ≠ b * a) (hx : x ∈ K) (hy : y ∈ K) :
     y * x = x * y ∨ y * x = z * (x * y) := by
@@ -318,11 +324,12 @@ private theorem e15i_comm_or {K : Subgroup G} {z x y : G} (hz : IsUniqueInvoluti
     rw [← mul_assoc, hz.sq, one_mul]
   rcases hsx with hs | hs <;> rcases hsy with ht | ht <;> rcases hw with hk | hk <;>
     rw [hs, ht, hk] at h1 <;> simp only [one_mul, mul_one, mul_assoc] at h1 <;>
-    try simp only [hxz', hyz', hzz', mul_assoc] at h1
+    try simp only [hxz', hzz'] at h1
   all_goals first
     | exact Or.inl h1
     | exact Or.inr h1
 
+omit [Finite G] in
 private theorem e15i_not_central {K : Subgroup G} {z i j u : G} (hQ : Q8Data K z i j)
     (hu : u ∈ K) (huu : u * u = z) : ∃ x ∈ K, u * x ≠ x * u := by
   have hz := hQ.inv
@@ -460,6 +467,7 @@ private theorem e15i_pair_rel (h : EndHyp Ω) (s : TwinSit Ω K K' z) {J : Subgr
         exact eq_inv_of_mul_eq_one_left (by rw [← pow_succ]; exact h4u)
       rw [he, ← hmod, h1, h3]
 
+omit [Finite G] in
 private theorem e15i_c_mul {D : Subgroup G} (hD : D.Normal)
     (hcomm : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a) (v : G) {d d' : G} (hd : d ∈ D)
     (hd' : d' ∈ D) :
@@ -472,10 +480,11 @@ private theorem e15i_c_mul {D : Subgroup G} (hD : D.Normal)
     _ = d' * (v * d'⁻¹ * v⁻¹) * d * (v * d⁻¹ * v⁻¹) := by rw [hc]
     _ = (d' * v * d'⁻¹ * v⁻¹) * (d * v * d⁻¹ * v⁻¹) := by group
 
+omit [Finite G] in
 private theorem e15i_exists_not_comm {R : Subgroup G} (hq : IsQuatSub R) {v : G} (hv : v ∈ R)
     (hvv : v * v ≠ 1) : ∃ y ∈ R, y * v ≠ v * y := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hvv (hq.sq_eq_one_of_central hv (fun y hy => (hcon y hy).symm))
 
 theorem exists_swap_vector (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
@@ -550,7 +559,7 @@ theorem exists_swap_vector (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' 
     (hvv.unique (b * v * b⁻¹ * v⁻¹) (hcJ b hbN)
       (h.zGroup_mul_self h9 _ (hcD b hbD))).resolve_left hcb1
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : zGroup Ω ⊓ Subgroup.normalizer (J : Set G) ≤
       zGroup Ω ⊓ Subgroup.normalizer (K : Set G) := by
     intro e he
@@ -576,7 +585,7 @@ theorem exists_swap_vector (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' 
   exact h.eGroup_ne_of_local h9 s h13 hE hJ hJt (by rw [← hEJ, ← hDK]; exact hEq)
 
 theorem dihedral_relations_six (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
-    (h13 : zGroup Ω ≠ eGroup Ω K) {J : Subgroup G} (hJ : J ∈ omegaStarNbr Ω K)
+    (_h13 : zGroup Ω ≠ eGroup Ω K) {J : Subgroup G} (hJ : J ∈ omegaStarNbr Ω K)
     (hJn : J ∉ omegaNbr Ω K) {u v r d : G} (hu : u ∈ K ⊓ Subgroup.normalizer (J : Set G))
     (hu4 : orderOf u = 4) (hv : v ∈ J ⊓ Subgroup.normalizer (K : Set G)) (hv4 : orderOf v = 4)
     (hr : r ∈ K) (hrU : r ∉ Subgroup.normalizer (J : Set G)) (hd : d ∈ zGroup Ω)
@@ -692,8 +701,8 @@ theorem dihedral_relations_six (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K
     exact s.commutes h x hxK y hyK'
   exact dihedral_relations_of_relations hz2 hu2 hr2 hru hd2 hdz hKK hvu hvr hv4' hdv'
 
-theorem sup_dihedral_eq_sup_pair (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
-    (h13 : zGroup Ω ≠ eGroup Ω K) {J : Subgroup G} (hJ : J ∈ omegaStarNbr Ω K)
+theorem sup_dihedral_eq_sup_pair (h : EndHyp Ω) (_h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
+    (_h13 : zGroup Ω ≠ eGroup Ω K) {J : Subgroup G} (hJ : J ∈ omegaStarNbr Ω K)
     (hJn : J ∉ omegaNbr Ω K) {u v r d : G} (hu : u ∈ K ⊓ Subgroup.normalizer (J : Set G))
     (hu4 : orderOf u = 4) (hv : v ∈ J ⊓ Subgroup.normalizer (K : Set G)) (hv4 : orderOf v = 4)
     (hr : r ∈ K) (hrU : r ∉ Subgroup.normalizer (J : Set G)) (hd : d ∈ zGroup Ω) :
@@ -794,7 +803,7 @@ private theorem e15i_card_closure_pair {z j : G} (hz2 : z * z = 1) (hz1 : z ≠ 
     | mul x y _ _ hx hy =>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy ⊢
       rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;>
-        simp [mul_assoc, hz2, hj2, hzz, hjj, hjz, hzj']
+        simp [mul_assoc, hz2, hj2, hzz, hjz, hzj']
     | inv x _ hx =>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx ⊢
       rcases hx with rfl | rfl | rfl | rfl <;> simp [mul_inv_rev, hz_inv, hj_inv, hzj']
@@ -833,7 +842,7 @@ private theorem e15i_card_closure_pair {z j : G} (hz2 : z * z = 1) (hz1 : z ≠ 
 
 theorem exists_complement_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     (h13 : zGroup Ω ≠ eGroup Ω K) (hE : eGroup Ω K ≤ K ⊔ K')
-    (hD16 : Nat.card (zGroup Ω) = 16) (hQ : pCore 2 G = zGroup Ω) :
+    (_hD16 : Nat.card (zGroup Ω) = 16) (hQ : pCore 2 G = zGroup Ω) :
     ∃ H : Subgroup G, (zGroup Ω).IsComplement' H := by
   have hDN : (zGroup Ω).Normal := zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant
   have hK8 : Nat.card K = 8 := h.card_eq_eight s.mem
@@ -844,7 +853,7 @@ theorem exists_complement_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω
   obtain ⟨u, hu, hu4, -⟩ := perpP_gen hps.1 hps.2.1
   obtain ⟨r, hr, hrU⟩ : ∃ r ∈ K, r ∉ Subgroup.normalizer (J : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hKle : K ≤ Subgroup.normalizer (J : Set G) := fun x hx => hcon x hx
     have h4 := hps.2.1
     rw [inf_eq_left.mpr hKle, hK8] at h4
@@ -895,7 +904,7 @@ theorem exists_complement_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω
       (K := zGroup Ω ⊔ Subgroup.closure {v * d, u * (d * r * d⁻¹)}) le_sup_left
     rw [hindex, h360] at hm
     omega
-  haveI := hDN
+  have := hDN
   exact exists_complement_of_dihedral h.zGroup_isPGroup (h.zGroup_comm h9) hB.1 hB.2.1 hB.2.2
     hindex hodd
 
@@ -1005,13 +1014,13 @@ theorem map_eq_memBar_six (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z
   have hzD : z ∈ zGroup Ω := Subgroup.subset_closure ⟨K, s.mem, s.isInv⟩
   obtain ⟨a, b, hab, hzβ⟩ := hsp.exists_duad hzD hK.ne_one
   have hdEv : ∑ k, Sp4.duadVec a b k = 0 := by
-    simp [Sp4.duadVec, Finset.sum_add_distrib, Pi.single_apply, hab] <;> decide
+    simp [Sp4.duadVec, Finset.sum_add_distrib, Pi.single_apply]; decide
   have hdEv' : ∑ k, (Multiplicative.ofAdd (Sp4.duadVec a b)).toAdd k = 0 := hdEv
-  have hdA : Sp4.duadVec a b a = 1 := by simp [Sp4.duadVec, Pi.single_apply, hab]
-  have hdB : Sp4.duadVec a b b = 1 := by simp [Sp4.duadVec, Pi.single_apply, hab.symm]
+  have hdA : Sp4.duadVec a b a = 1 := by simp [Sp4.duadVec, hab]
+  have hdB : Sp4.duadVec a b b = 1 := by simp [Sp4.duadVec, hab.symm]
   have hdK : ∀ k, k ≠ a → k ≠ b → Sp4.duadVec a b k = 0 := by
     intro k h1 h2
-    simp [Sp4.duadVec, Pi.single_apply, h1, h2]
+    simp [Sp4.duadVec, h1, h2]
   have hβcomm : ∀ f g : Multiplicative (Fin 6 → ZMod 2), β f * β g = β g * β f := by
     intro f g
     rw [← map_mul, ← map_mul, mul_comm]
@@ -1047,7 +1056,7 @@ theorem map_eq_memBar_six (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z
     have h8 := h.natCard_zGroup_eq_eight_mul h9 s h13
     rw [h16] at h8
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hDK : zGroup Ω ⊓ Subgroup.centralizer (K : Set G) = Subgroup.zpowers z := by
     have hle : Subgroup.zpowers z ≤ zGroup Ω ⊓ Subgroup.centralizer (K : Set G) := by
       rw [Subgroup.zpowers_le]
@@ -1204,12 +1213,12 @@ theorem map_eq_memBar_six (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z
           rw [hrange] at hx
           exact hx
         obtain ⟨h1, h2⟩ := (hαmem x).mp hxα
-        rw [if_pos hx, hdK x h1 h2, zero_add]
+        rw [ite_eq_left hx, hdK x h1 h2, zero_add]
       · have hxab : x = a ∨ x = b := by
           by_contra hc'
-          push_neg at hc'
+          push Not at hc'
           exact hx (by rw [hrange]; exact (hαmem x).mpr hc')
-        rw [if_neg hx]
+        rw [ite_eq_right hx]
         rcases hxab with h | h
         · rw [h, hdA, e15i_one_add_one]
         · rw [h, hdB, e15i_one_add_one]
@@ -1304,7 +1313,7 @@ theorem map_eq_memBar_six (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z
       intro x hx
       have hxab : x = a ∨ x = b := by
         by_contra hc'
-        push_neg at hc'
+        push Not at hc'
         exact hx (by rw [hrange]; exact (hαmem x).mpr hc')
       rcases hxab with h | h
       · rw [h, hw']

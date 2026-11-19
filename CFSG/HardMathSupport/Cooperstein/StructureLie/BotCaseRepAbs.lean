@@ -220,7 +220,7 @@ theorem exists_rep_ext (h : Setting M₀ L V s) (hV2 : ∀ v ∈ V, v * v = 1)
     obtain ⟨u, rfl⟩ := hsurj w
     exact hcon u
   obtain ⟨u1, hu1⟩ := hexists
-  let v1 : ↥U := ⟨⁅(u1 : G), s⁆, h.comm_s_mem (h.normU h.mem) u1.2⟩
+  let v1 : ↥U := ⟨⁅(u1 : G), s⁆, CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.comm_s_mem (h.normU h.mem) u1.2⟩
   set w0 : W := cls u1 + (ρ s' : W →ₗ[ZMod 2] W) (cls u1) with hw0
   have hw0v : cls v1 = w0 := hkey u1 v1 rfl
   have hw0ne : w0 ≠ 0 := by
@@ -232,7 +232,7 @@ theorem exists_rep_ext (h : Setting M₀ L V s) (hV2 : ∀ v ∈ V, v * v = 1)
       w + (ρ s' : W →ₗ[ZMod 2] W) w = w0 := by
     intro w
     obtain ⟨u, rfl⟩ := hsurj w
-    have hmu : ⁅(u : G), s⁆ ∈ U := h.comm_s_mem (h.normU h.mem) u.2
+    have hmu : ⁅(u : G), s⁆ ∈ U := CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.comm_s_mem (h.normU h.mem) u.2
     let v : ↥U := ⟨⁅(u : G), s⁆, hmu⟩
     rw [← hkey u v rfl]
     by_cases hv1 : (⁅(u : G), s⁆ : G) = 1
@@ -246,7 +246,7 @@ theorem exists_rep_ext (h : Setting M₀ L V s) (hV2 : ∀ v ∈ V, v * v = 1)
         rw [← hw0v]
         have : v1 = 1 := Subtype.ext e
         rw [this, hcls1]
-      have heq := h.Z_eq_of_ne_one (h.mem_Z (h.U_le_V u.2)) (h.mem_Z (h.U_le_V u1.2)) hv1 hv1'
+      have heq := h.Z_eq_of_ne_one (CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.mem_Z (h.U_le_V u.2)) (CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.mem_Z (h.U_le_V u1.2)) hv1 hv1'
       have : v = v1 := Subtype.ext heq
       rw [this, hw0v]
   have hcomspace : commutatorSpace (ρ s') = Submodule.span (ZMod 2) {w0} := by

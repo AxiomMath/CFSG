@@ -72,7 +72,7 @@ theorem normal_sylow_acting_groups_have_stable_subgroup_actions {G : Type*} [Gro
   have hQnormal : Q.Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective ρ.ker)
   have hQp : IsPGroup p Q :=
-    (A.isPGroup'.comap_subtype (K := H)).map (QuotientGroup.mk' ρ.ker) |>.of_equiv (by rfl)
+    (A.isPGroup.comap_subtype (K := H)).map (QuotientGroup.mk' ρ.ker) |>.of_equiv (by rfl)
   have hQindex : ¬ p ∣ Q.index := by
     intro hdvd
     have h1 : Q.index ∣ ((A : Subgroup G).subgroupOf H).index :=

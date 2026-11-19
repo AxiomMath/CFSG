@@ -38,11 +38,11 @@ theorem exists_equiv_fieldAutT (S : SubfieldSetup k Q₀ Q σ 3)
   have hd : 0 < d := three_le_of_totallySingular k S.hT₀
   have hconc := subfield_conclusion orthogonal_high_Witt_subfield_pointwise_centralizer S hE
   obtain ⟨⟨-, hsimp, hnab⟩, hordy, hfixN, hJN, hJnorm, hquot, -, -, hfixJ, -⟩ := hconc
-  haveI := hJnorm
+  have := hJnorm
   have hfix' : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => hfixN t
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent (hquot : IsPGroup 2 _)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent (hquot : IsPGroup 2 _)
   rw [hfix'] at hI
   have hIJ := eq_of_component hJN inferInstance hsimp hI
   rw [hIJ]

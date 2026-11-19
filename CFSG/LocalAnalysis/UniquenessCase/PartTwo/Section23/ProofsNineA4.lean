@@ -18,6 +18,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barImage_zpowers_eq {M : Subgroup G} {x : G} (hx : x ∈ M) :
     barImage M (Subgroup.zpowers x) =
       Subgroup.zpowers (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hx⟩) := by
@@ -103,14 +104,14 @@ private theorem exists_conj_inv_of_odd_order_dvd {F : Type*} [Field F] [Finite F
         group
 
 private theorem exists_wBar_inverts_dhat (a : S23_9_AdjData D Ch c hV d b hb r)
-    (hr : r.Prime) (hr2 : r ≠ 2) (hbr : orderOf b = r) :
+    (hr : r.Prime) (hr2 : r ≠ 2) (_hbr : orderOf b = r) :
     ∃ wbar : Bar2 a.X, wbar * a.dhat * wbar⁻¹ = a.dhat⁻¹ := by
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eK⟩⟩ := a.hXsl
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (by rwa [← Nat.card_eq_fintype_card])
   let e : Bar2 a.X ≃* Matrix.SpecialLinearGroup (Fin 2) K :=
     eK.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm
@@ -152,8 +153,8 @@ private theorem exists_w_inverts_dhat (a : S23_9_AdjData D Ch c hV d b hb r)
 
 private theorem center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup X := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two hm h
-  haveI : Group.IsPerfect X := CFSG.GroupTheory.isPerfect_of_isSLn_two hm h
+  have : IsSimpleGroup X := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two hm h
+  have : Group.IsPerfect X := CFSG.GroupTheory.isPerfect_of_isSLn_two hm h
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center X) with hbot | htop
   · exact hbot
   · exfalso
@@ -161,7 +162,7 @@ private theorem center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {m : 
       intro a b
       have ha : a ∈ Subgroup.center X := htop ▸ Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm
-    haveI : IsMulCommutative X := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcomm⟩⟩
     exact (Group.IsPerfect.not_isMulCommutative X) inferInstance
 
 private theorem b_ne_dRoot_sq (a : S23_9_AdjData D Ch c hV d b hb r) (hr3 : r = 3) :
@@ -338,7 +339,7 @@ private theorem exists_conj_mem_zpowers_bd (a : S23_9_AdjData D Ch c hV d b hb r
       y * x * y⁻¹ ∈ Subgroup.zpowers (bd a) := by
   let H : Subgroup G := CFSG.Open.pCoreOf 2 a.X ⊔ Subgroup.zpowers (bd a)
   let P : Subgroup G := Subgroup.zpowers (bd a)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPleH : P ≤ H := le_sup_right
   have hqHord : orderOf (⟨bd a, hPleH (Subgroup.mem_zpowers (bd a))⟩ : ↥H) = 3 := by
     rw [Subgroup.orderOf_mk]
@@ -355,6 +356,7 @@ private theorem exists_conj_mem_zpowers_bd (a : S23_9_AdjData D Ch c hV d b hb r
   rw [Subgroup.mem_zpowers_iff]
   exact ⟨n, by simpa using hval⟩
 
+omit [Finite G] in
 private theorem exists_mem_pCore_conj_of_mem_mul {O P : Subgroup G}
     (hPnormO : P ≤ Subgroup.normalizer (O : Set G)) {x y : G}
     (hy : y ∈ (O : Set G) * (P : Set G)) (hyP : y * x * y⁻¹ ∈ P) :
@@ -444,11 +446,11 @@ theorem fixV_zpowers_bd_eq_bot (a : S23_9_AdjData D Ch c hV d b hb r)
     (hfixb : d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥) :
     d.fixV (barImage D.M (Subgroup.zpowers (bd a))) = ⊥ := by
   obtain ⟨g, hgX, hconj⟩ := a.exists_conj_zpowers_bd hbr hr3
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   have hXM : a.X ≤ D.M :=
     a.hXK.trans ((CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p21c_Hinf_le _).trans inf_le_left)
   have hgM : g ∈ D.M := hXM hgX
@@ -531,11 +533,11 @@ theorem le_ker_of_fixV_ctilde_eq_bot (a : S23_9_AdjData D Ch c hV d b hb r)
     (hfixb : d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥)
     (hc : d.fixV (barImage D.M (Subgroup.zpowers (ctilde a))) = ⊥) :
     barImage D.M (Subgroup.zpowers a.dRoot) ≤ d.rep.ker := by
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   have hbM : b ∈ D.M := c.hBM hb
   have hdM : a.dRoot ∈ D.M := a.X_le_M a.hdX
   let x : Bar2 D.M := QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) ⟨b, hbM⟩
@@ -574,7 +576,7 @@ private theorem map_subgroupOf_eq_top_of_mem (a : S23_9_AdjData D Ch c hV d b hb
     {N : Subgroup G}
     (hNnormX : a.X ≤ Subgroup.normalizer (N : Set G)) (hdN : a.dRoot ∈ N) (hr3 : r = 3) :
     (N.subgroupOf a.X).map a.qX = ⊤ := by
-  haveI : (N.subgroupOf a.X).Normal :=
+  have : (N.subgroupOf a.X).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNnormX
   have hxmem : (⟨a.dRoot, a.hdX⟩ : ↥a.X) ∈ N.subgroupOf a.X :=
     Subgroup.mem_subgroupOf.mpr hdN
@@ -591,7 +593,7 @@ private theorem map_subgroupOf_eq_top_of_mem (a : S23_9_AdjData D Ch c hV d b hb
     intro h
     rw [h] at hdhat_mem
     exact hdhat_ne (Subgroup.mem_bot.mp hdhat_mem)
-  haveI : IsSimpleGroup (Bar2 a.X) :=
+  have : IsSimpleGroup (Bar2 a.X) :=
     CFSG.GroupTheory.isSimpleGroup_of_isSLn_two a.hm2 a.hXsl
   rcases (inferInstance : IsSimpleGroup (Bar2 a.X)).eq_bot_or_eq_top_of_normal
     ((N.subgroupOf a.X).map a.qX) with h | h
@@ -613,11 +615,11 @@ private theorem le_of_sup_pCore_eq_top (a : S23_9_AdjData D Ch c hV d b hb r)
     {N : Subgroup G}
     (hNnormX : a.X ≤ Subgroup.normalizer (N : Set G))
     (hsup : N.subgroupOf a.X ⊔ CFSG.pCore 2 ↥a.X = ⊤) : a.X ≤ N := by
-  haveI : (N.subgroupOf a.X).Normal :=
+  have : (N.subgroupOf a.X).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNnormX
   have hP : IsPGroup 2 (CFSG.pCore 2 ↥a.X) := CFSG.pCore_isPGroup (p := 2) (G := ↥a.X)
   have htopPerf : (⁅(⊤ : Subgroup ↥a.X), (⊤ : Subgroup ↥a.X)⁆ : Subgroup ↥a.X) = ⊤ := by
-    haveI : Group.IsPerfect ↥a.X := Subgroup.isPerfect_iff.mpr a.hXperf
+    have : Group.IsPerfect ↥a.X := Subgroup.isPerfect_iff.mpr a.hXperf
     rw [← _root_.commutator_def]
     exact Group.IsPerfect.commutator_eq_top
   have htopN : (⊤ : Subgroup ↥a.X) ≤ N.subgroupOf a.X :=
@@ -634,7 +636,7 @@ theorem fixV_ctilde_ne_bot (a : S23_9_AdjData D Ch c hV d b hb r)
   intro hbot
   let N : Subgroup G := barPreimage D.M d.rep.ker
   have hNnormM : D.M ≤ Subgroup.normalizer (N : Set G) := by
-    haveI : d.rep.ker.Normal := MonoidHom.normal_ker d.rep
+    have : d.rep.ker.Normal := MonoidHom.normal_ker d.rep
     exact uc22p22u_barPreimage_normalizes (D := d.rep.ker)
   have hNnormX : a.X ≤ Subgroup.normalizer (N : Set G) := a.X_le_M.trans hNnormM
   have hdN : a.dRoot ∈ N := a.dRoot_mem_barPreimage hbr hr3 hq3 hfixb hbot

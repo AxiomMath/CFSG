@@ -79,8 +79,8 @@ theorem relIndex_rationalComponent_centralizer_dvd_three
     (hrat : ∀ i : KernelComponent (rootCharHom ta),
       componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) = 3 ∧
         rationalRoots S.ρ (rootCharHom ta) i = kernelRoots (rootCharHom ta))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e)
-    (h3q : 3 ∣ S.D.q + 1) (hq2 : S.D.q ≠ 2) (hout : rootDiagUnit Tag.E6 ta ∉ S.Γ)
+    {r e : ℕ} (_hr : r.Prime) (_hchar : CharP L r) (_he : 0 < e) (_hq : S.D.q = r ^ e)
+    (h3q : 3 ∣ S.D.q + 1) (_hq2 : S.D.q ≠ 2) (hout : rootDiagUnit Tag.E6 ta ∉ S.Γ)
     (i : KernelComponent (rootCharHom ta)) :
     (rationalComponent S.ρ S.Γ (rootCharHom ta) i).relIndex
       (S.Γ ⊓ Subgroup.centralizer {rootDiagUnit Tag.E6 ta}) ∣ 3 :=

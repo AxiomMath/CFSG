@@ -46,7 +46,7 @@ theorem conclusion_of_perfect {τ : Tag} {K : Type} [Field K] {M : Type*} [CommG
 theorem two_ne_zero_of_card_three {K : Type} [Field K] [Finite K] (h : Nat.card K = 3) :
     (2 : K) ≠ 0 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   intro h2
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   have hcard' : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card]; exact h
@@ -61,7 +61,7 @@ theorem two_ne_zero_of_card_three {K : Type} [Field K] [Finite K] (h : Nat.card 
 theorem eq_zero_or_one_of_card_two {K : Type} [Field K] [Finite K] (h : Nat.card K = 2) :
     ∀ x : K, x = 0 ∨ x = 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   intro x
   by_contra hx
   push Not at hx
@@ -80,7 +80,7 @@ theorem smallFieldInner_of_b2 (hB2 : B2Two) : SmallFieldInner := by
   have hbig : ∃ α ∈ componentRoots χ i, ∃ δ ∈ componentRoots χ i, δ ≠ α ∧ δ ≠ -α := by
     push Not at hrank
     exact hrank
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcard2 : 2 ≤ Nat.card K := by
     rw [Nat.card_eq_fintype_card]; exact Fintype.one_lt_card
   have hτ : ∀ τ : Tag, τ = .G2 ∨ τ = .F4 ∨ τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by
@@ -110,7 +110,7 @@ theorem langComponentsQuasisimple_inner_of_b2 (hW : RootAutIsWeyl) (hB2 : B2Two)
     LangComponentsQuasisimple .inner :=
   langComponentsQuasisimple_inner_of_small hW (smallFieldInner_of_b2 hB2)
 
-theorem b2Two : B2Two := fun K _ hK2 M _ χ i s l hss hll hsl hΨ =>
+theorem b2Two : B2Two := fun _K _ hK2 _M _ _χ i _s _l hss hll hsl hΨ =>
   b2_two_derived_quasisimple hK2 i hss hll hsl hΨ
 
 theorem langComponentsQuasisimple_inner_of_rootAutIsWeyl (hW : RootAutIsWeyl) :

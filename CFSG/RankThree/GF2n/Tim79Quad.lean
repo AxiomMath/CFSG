@@ -15,6 +15,7 @@ variable {K : Type*} [Field K] [Fintype K] [CharP K 2] {E : Type*} [AddCommGroup
 private noncomputable def idem (τ : E →ₗ[K] E) (μ : K) : E →ₗ[K] E :=
   ∑ i ∈ range (Nat.card K - 1), μ ^ (Nat.card K - 1 - i) • τ ^ i
 
+omit [CharP K 2] in
 private theorem idem_apply (τ : E →ₗ[K] E) (μ : K) (x : E) :
     idem τ μ x = ∑ i ∈ range (Nat.card K - 1), μ ^ (Nat.card K - 1 - i) • (τ ^ i) x := by
   simp [idem, LinearMap.sum_apply]
@@ -24,10 +25,12 @@ private theorem card_sub_one_cast : ((Nat.card K - 1 : ℕ) : K) = 1 := by
   rw [Nat.cast_sub h1, Nat.card_eq_fintype_card, FiniteField.cast_card_eq_zero, zero_sub,
     Nat.cast_one, CharTwo.neg_eq]
 
+omit [CharP K 2] in
 private theorem pow_card_sub_one (μ : K) (hμ : μ ≠ 0) : μ ^ (Nat.card K - 1) = 1 := by
   rw [Nat.card_eq_fintype_card]
   exact FiniteField.pow_card_sub_one_eq_one μ hμ
 
+omit [Fintype K] [CharP K 2] in
 private theorem pow_apply_eigen (τ : E →ₗ[K] E) {x : E} {ν : K} (hx : τ x = ν • x) (i : ℕ) :
     (τ ^ i) x = ν ^ i • x := by
   induction i with
@@ -35,6 +38,7 @@ private theorem pow_apply_eigen (τ : E →ₗ[K] E) {x : E} {ν : K} (hx : τ x
   | succ i ih =>
     rw [pow_succ, Module.End.mul_apply, hx, map_smul, ih, smul_smul, ← pow_succ']
 
+omit [CharP K 2] in
 private theorem idem_apply_ne (τ : E →ₗ[K] E) {x : E} {ν : K} (hν : ν ≠ 0) (hx : τ x = ν • x)
     {μ : K} (hμ : μ ≠ 0) (hne : μ ≠ ν) : idem τ μ x = 0 := by
   set m := Nat.card K - 1 with hmdef
@@ -59,6 +63,7 @@ private theorem idem_apply_ne (τ : E →ₗ[K] E) {x : E} {ν : K} (hν : ν �
       _ = 0 := by rw [hsum, mul_zero]
   rw [this, zero_smul]
 
+omit [CharP K 2] in
 private theorem apply_idem (τ : E →ₗ[K] E) (hτ : ∀ x, (τ ^ (Nat.card K - 1)) x = x) {μ : K}
     (hμ : μ ≠ 0) (x : E) : τ (idem τ μ x) = μ • idem τ μ x := by
   set m := Nat.card K - 1 with hmdef
@@ -115,6 +120,7 @@ private theorem sum_idem [DecidableEq K] (τ : E →ₗ[K] E) (x : E) :
   · intro h
     exact absurd (Finset.mem_range.mpr (by omega)) h
 
+omit [CharP K 2] in
 private theorem idem_mem (τ : E →ₗ[K] E) (μ : K) {P : Submodule K E}
     (hP : ∀ x ∈ P, τ x ∈ P) {x : E} (hx : x ∈ P) : idem τ μ x ∈ P := by
   have hpow : ∀ i : ℕ, (τ ^ i) x ∈ P := by
@@ -127,6 +133,7 @@ private theorem idem_mem (τ : E →ₗ[K] E) (μ : K) {P : Submodule K E}
   rw [idem_apply]
   exact Submodule.sum_mem _ fun i _ => P.smul_mem _ (hpow i)
 
+omit [CharP K 2] in
 private theorem idem_idem_ne (τ : E →ₗ[K] E) (hτ : ∀ x, (τ ^ (Nat.card K - 1)) x = x) {μ ν : K}
     (hμ : μ ≠ 0) (hν : ν ≠ 0) (hne : μ ≠ ν) (x : E) : idem τ μ (idem τ ν x) = 0 :=
   idem_apply_ne τ hν (apply_idem τ hτ hν x) hμ hne
@@ -143,6 +150,7 @@ private theorem bilin_symm (hBalt : ∀ x, B x x = 0) (x y : E) : B x y = B y x 
   simp only [map_add, LinearMap.add_apply, hBalt, zero_add, add_zero] at h
   exact (CharTwo.add_eq_zero.mp h).symm
 
+omit [CharP K 2] in
 private theorem eig_orth (τ : E →ₗ[K] E) (c : K) (hτB : ∀ x y, B (τ x) (τ y) = c * B x y)
     {x y : E} {μ ν : K} (hx : τ x = μ • x) (hy : τ y = ν • y) (h : μ * ν ≠ c) : B x y = 0 := by
   have h1 := hτB x y
@@ -153,6 +161,7 @@ private theorem eig_orth (τ : E →ₗ[K] E) (c : K) (hτB : ∀ x y, B (τ x) 
   · exact absurd (sub_eq_zero.mp h3) h
   · exact h3
 
+omit [CharP K 2] in
 private theorem eig_sing (τ : E →ₗ[K] E) (c : K) (hQ : ∀ (a : K) x, Qf (a • x) = a ^ 2 * Qf x)
     (hτQ : ∀ x, Qf (τ x) = c * Qf x) {x : E} {μ : K} (hx : τ x = μ • x) (h : μ ^ 2 ≠ c) :
     Qf x = 0 := by
@@ -167,6 +176,7 @@ private theorem eq_of_sq_eq {μ ν : K} (h : μ ^ 2 = ν ^ 2) : μ = ν := by
   have h1 : (μ + ν) ^ 2 = 0 := by rw [CharTwo.add_sq, h, CharTwo.add_self_eq_zero]
   exact CharTwo.add_eq_zero.mp (pow_eq_zero_iff (two_ne_zero)|>.mp h1)
 
+omit [CharP K 2] in
 private theorem qf_sum_eq_zero (hQB : ∀ x y, Qf (x + y) = Qf x + Qf y + B x y)
     (hQ0 : Qf 0 = 0) {ι : Type*} (s : Finset ι) (y : ι → E) (h1 : ∀ i ∈ s, Qf (y i) = 0)
     (h2 : ∀ i ∈ s, ∀ j ∈ s, B (y i) (y j) = 0) : Qf (∑ i ∈ s, y i) = 0 := by
@@ -186,7 +196,7 @@ end QuadFacts
 
 private theorem sq_cpow_half {K : Type*} [Field K] [Finite K] [CharP K 2] (c : K) :
     (c ^ (Nat.card K / 2)) ^ 2 = c := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h2 : Fintype.card K % 2 = 0 :=
     FiniteField.even_card_iff_char_two.mp (ringChar.eq K 2)
   rw [← pow_mul, Nat.card_eq_fintype_card, Nat.div_mul_cancel (Nat.dvd_of_mod_eq_zero h2)]
@@ -194,7 +204,7 @@ private theorem sq_cpow_half {K : Type*} [Field K] [Finite K] [CharP K 2] (c : K
 
 theorem exists_isCompl_totallySingular_of_stable
     {K : Type*} [Field K] [Finite K] [CharP K 2] {E : Type*} [AddCommGroup E] [Module K E]
-    (B : LinearMap.BilinForm K E) (Qf : E → K) (hBalt : ∀ x, B x x = 0)
+    (B : LinearMap.BilinForm K E) (Qf : E → K) (_hBalt : ∀ x, B x x = 0)
     (hQ : ∀ (a : K) x, Qf (a • x) = a ^ 2 * Qf x)
     (hQB : ∀ x y, Qf (x + y) = Qf x + Qf y + B x y)
     (τ : E →ₗ[K] E) (c : K) (hc : c ≠ 0) (hτB : ∀ x y, B (τ x) (τ y) = c * B x y)
@@ -206,7 +216,7 @@ theorem exists_isCompl_totallySingular_of_stable
     ∃ S₁ S₂ : Submodule K E, S₁ ≤ P ∧ S₂ ≤ P ∧ Disjoint S₁ S₂ ∧ S₁ ⊔ S₂ = P ∧
       (∀ x ∈ S₁, Qf x = 0) ∧ (∀ x ∈ S₂, Qf x = 0) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set μ₀ : K := c ^ (Nat.card K / 2) with hμ₀def
   have hμ₀sq : μ₀ ^ 2 = c := sq_cpow_half c
   have hμ₀ne : μ₀ ≠ 0 := fun h => hc (by rw [← hμ₀sq, h]; simp)
@@ -338,7 +348,7 @@ theorem exists_isCompl_totallySingular_of_eigenvector {K : Type*} [Field K] [Fin
       τ y = c ^ (Nat.card K / 2) • y → B x y = 0) :
     ∃ S₁ S₂ : Submodule K E, IsCompl S₁ S₂ ∧ (∀ x ∈ S₁, Qf x = 0) ∧ (∀ x ∈ S₂, Qf x = 0) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hsymm := bilin_symm B hBalt
   have hm : 1 ≤ Nat.card K - 1 := by
     have : 1 < Nat.card K := Finite.one_lt_card

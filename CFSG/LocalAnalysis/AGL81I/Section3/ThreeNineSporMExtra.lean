@@ -243,7 +243,7 @@ theorem card_center_sylow_M {L : Type} [Group L] [Finite L]
   have h7dvdS : 7 ∣ Nat.card ↥(S : Subgroup L) := by
     rw [hScard]
     exact dvd_pow_self 7 (by norm_num)
-  have : Group.IsNilpotent ↥(S : Subgroup L) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup L) := S.isPGroup.isNilpotent
   have h7center : 7 ∣ Nat.card ↥(Subgroup.center ↥(S : Subgroup L)) :=
     Group.IsNilpotent.prime_dvd_card_center h7dvdS
   have : Fintype ↥(Subgroup.center ↥(S : Subgroup L)) := Fintype.ofFinite _

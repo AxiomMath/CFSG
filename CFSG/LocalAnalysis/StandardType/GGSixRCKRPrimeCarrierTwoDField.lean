@@ -16,7 +16,7 @@ open CFSG.LieType.Chevalley
   CFSG.RankThree.PartOne.CTP.SU4Even
 
 theorem rckTwoD_kleinData_fixedField
-    {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {e : ℕ} (he : 0 < e)
+    {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {e : ℕ} (_he : 0 < e)
     {F : Type} [Field F] (κ : F ≃+* ↥(frobeniusFixedField L 2 e))
     (bb cc : F) (hirr : ∀ s : F, s ^ 2 + bb * s + cc ≠ 0) :
     letI : Algebra F ↥(frobeniusFixedField L 2 (e * 2)) :=
@@ -25,8 +25,8 @@ theorem rckTwoD_kleinData_fixedField
     Nonempty (KleinDataEven F ↥(frobeniusFixedField L 2 (e * 2))
       (frobInvol e) bb cc) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra F ↥(frobeniusFixedField L 2 (e * 2)) :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra F ↥(frobeniusFixedField L 2 (e * 2)) :=
     ((algebraMap ↥(frobeniusFixedField L 2 e) ↥(frobeniusFixedField L 2 (e * 2))).comp
       κ.toRingHom).toAlgebra
   let ι : F →+* L := (frobeniusFixedField L 2 e).subtype.comp κ.toRingHom

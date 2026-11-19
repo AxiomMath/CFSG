@@ -29,7 +29,7 @@ theorem torusHom_sub_scalar (t : Fin 2 → Kˣ) (c : K) :
   rw [coe_torusHom, Matrix.smul_one_eq_diagonal, ← Matrix.diagonal_sub]
   congr 1
   funext i
-  simp [Pi.sub_apply]
+  simp
 
 omit [Finite K] [CharP K 2] in
 theorem det_torusHom_sub_scalar (t : Fin 2 → Kˣ) (c : K) :
@@ -174,7 +174,7 @@ theorem ringEquiv_eq_one_of_generator (hK : 8 ≤ Nat.card K) (σ : K ≃+* K) (
     (hg : ∀ x : Kˣ, x ∈ Subgroup.zpowers g)
     (hσ : σ (g : K) = (g : K) ∨ σ (g : K) = ((g : K)⁻¹)) : σ = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hgenu : Units.map σ.toRingHom.toMonoidHom g = g ∨
       Units.map σ.toRingHom.toMonoidHom g = g⁻¹ := by
     rcases hσ with h | h
@@ -286,7 +286,7 @@ theorem tauAut_pow_eq_zero_of_fix_torus (hK : 8 ≤ Nat.card K)
     have hε1 : ε = 1 := by omega
     have hs : ∃ s : Kˣ, s ≠ 1 := by
       have h1 : 1 < Nat.card Kˣ := by rw [Nat.card_units]; omega
-      haveI : Nontrivial Kˣ := Finite.one_lt_card_iff_nontrivial.mp h1
+      have : Nontrivial Kˣ := Finite.one_lt_card_iff_nontrivial.mp h1
       exact exists_ne 1
     obtain ⟨s, hs⟩ := hs
     have hkey : y * sp4T K ![(Units.map σ.toRingHom.toMonoidHom s) ^ 2, 1] * y⁻¹ =

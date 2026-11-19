@@ -45,7 +45,7 @@ theorem sec51_exists_subgroup (N D : Subgroup G) (hDN : D ≤ N) :
     rw [e]
     exact D.mul_mem ((Subgroup.mem_normalizer_iff.mp (hnorm a ha) _).mp (hb x hx)) (ha x hx)
   · intro x _
-    simpa [commutatorElement_def] using D.one_mem
+    simp [commutatorElement_def]
   · intro a ha x hx
     have e : ⁅a⁻¹, x⁆ = a⁻¹ * ⁅a, x⁆⁻¹ * a := by simp only [commutatorElement_def]; group
     rw [e]

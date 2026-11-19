@@ -111,7 +111,7 @@ theorem toM_idB (n : ℕ) : toM n (idB n) = 1 := by
   ext i j
   simp only [toM, of_apply, Matrix.one_apply, bz]
   have : (idB n).getD i 0 = 2 ^ (i : ℕ) := by
-    simp [idB, List.getD_eq_getElem _ _ (show (i : ℕ) < (idB n).length by simp [idB])]
+    simp [idB]
   rw [this, Nat.testBit_two_pow]
   by_cases h : i = j
   · subst h; simp
@@ -140,10 +140,10 @@ theorem sqmulAux_spec {n : ℕ} {X : List ℕ} (hX : Bd n X) :
   | b :: bs, acc, k, h1, h2 => by
     simp only [sqmulAux, bsVal]
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       refine sqmulAux_spec hX bs _ (2 * k + 0) (Bd_mulB h1 h1) ?_
       rw [mulB_toM h1.1, h2, ← pow_add]; ring_nf
-    · simp only [if_true]
+    · simp only [ite_true]
       refine sqmulAux_spec hX bs _ (2 * k + 1) (Bd_mulB (Bd_mulB h1 h1) hX) ?_
       rw [mulB_toM hX.1, mulB_toM h1.1, h2, ← pow_add, ← pow_succ]; ring_nf
 

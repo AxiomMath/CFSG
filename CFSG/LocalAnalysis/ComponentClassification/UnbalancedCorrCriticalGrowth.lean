@@ -158,7 +158,7 @@ theorem critical_growth_le
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({a} : Set G) ⊓ normalizer (J : Set G))) :=
-      hP₀ ▸ P₀.isPGroup'
+      hP₀ ▸ P₀.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hSX)
   have hBP : B ≤ P := hBTn.trans hTnP
   have hTn1 : Tn ≠ ⊥ := fun h => hB1 (le_bot_iff.mp (h ▸ hBTn))

@@ -95,8 +95,8 @@ theorem closure_le_of_pow_eq_one {L : Type} [Group L] [Finite L] {p : ℕ} {Y J 
 theorem mem_inner_of_card_outer_le_two {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hT : Nat.card (Outer T) ≤ 2) {α : MulAut T} (hα : α ^ p = 1) :
     α ∈ inner T := by
-  haveI : Nonempty (Outer T) := ⟨1⟩
-  haveI : Finite (Outer T) := inferInstance
+  have : Nonempty (Outer T) := ⟨1⟩
+  have : Finite (Outer T) := inferInstance
   let β : Outer T := QuotientGroup.mk' (inner T) α
   have hβp : β ^ p = 1 := by
     change (QuotientGroup.mk' (inner T) α) ^ p = 1
@@ -163,7 +163,7 @@ section CarrierInner
 theorem mem_inner_of_mulEquiv_carrier {T : Type} [Group T] [Finite T]
     {s : TauCeti.SporadicName} (e : T ≃* Carrier s) (hs : s ≠ .M) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {α : MulAut T} (hα : α ^ p = 1) : α ∈ inner T := by
-  haveI : Finite (Carrier s) := Finite.of_equiv T e.toEquiv
+  have : Finite (Carrier s) := Finite.of_equiv T e.toEquiv
   have hα' : (MulAut.congr e α) ^ p = 1 := by rw [← map_pow, hα, map_one]
   have hmem := mem_inner_of_card_outer_le_two hp hp2
     (CFSG.AGLEmbeddingD2.card_outer_carrier_le_two_of_ne_M s hs) hα'

@@ -27,7 +27,7 @@ theorem isL2Odd_of_thin_of_isChev (hO : LieOrderFormulasInput) (hThin : PartTwo.
     (hp2 : p ≠ 2) (hch : IsChev (BarInf L) p) :
     IsL2Odd (Bar2 L) p := by
   obtain ⟨hsimple, hlist⟩ := PartTwo.s13_list_bar hThin D hL hthin
-  haveI : IsSimpleGroup (Bar2 L) := hsimple
+  have : IsSimpleGroup (Bar2 L) := hsimple
   obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 (uc22p21k_center_eq_bot hL.2.2)
   obtain ⟨t, n, f, hadm, hm⟩ := hch
   have hm' : LieModel (Bar2 L) t n p f := hm.of_mulEquiv e

@@ -29,8 +29,8 @@ theorem str86_caseII_false
   swap
   · exact str86_caseIIa_notLe_false hF hSB hU3 hB2 ⟨m, hL2⟩ hII hIIa hZ
   obtain ⟨k, hk, F, hFld, hFin, hFc, hU3'⟩ := hU3
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hq : IsSzU3Quot (oTwoQuot ↥L1) (2 ^ k) := str86_isSzU3Quot_of_statedSU hk hFc hU3'
   have hN : IsNormalIn (L2 ⊔ S) (str86U L1 L2 S) (str86U L1 L2 S) :=
     F112W.isNormalIn_of_le_normalizer le_rfl (le_normalizer_conjClosure (Z1 L1 L2 S) (L2 ⊔ S))

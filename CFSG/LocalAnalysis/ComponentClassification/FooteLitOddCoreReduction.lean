@@ -198,7 +198,7 @@ theorem footeConclusion_of_map {t : G} {L A J : Subgroup G} (hL : IsTwoComponent
     refine ⟨Q, ?_⟩
     have hQcard : Nat.card Q ≤ 2 := by
       have hQp : IsPGroup 2 ((Q : Subgroup X).map X.subtype) := by
-        obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+        obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
         exact IsPGroup.of_card (n := k)
           (by rw [Subgroup.card_map_of_injective X.subtype_injective, hk])
       rcases hbound _ hQp (map_subtype_le _) with h1 | h1

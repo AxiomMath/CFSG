@@ -209,7 +209,7 @@ theorem sum_three {M : Type*} [AddCommMonoid M] {a b c : Fin 3} (hab : a ≠ b) 
     | exact absurd rfl hab
     | exact absurd rfl hac
     | exact absurd rfl hbc
-    | (simp [Fin.sum_univ_three] <;> abel)
+    | (simp [Fin.sum_univ_three]; try abel)
 
 theorem cover_three : ∀ {a b c : Fin 3}, a ≠ b → a ≠ c → b ≠ c → ∀ i : Fin 3,
     i = a ∨ i = b ∨ i = c := by

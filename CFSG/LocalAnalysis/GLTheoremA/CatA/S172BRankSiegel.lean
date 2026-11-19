@@ -31,7 +31,7 @@ theorem mul_self_eq_one_of_mem_rootGroup {e : V} {g : V ≃ₗ[ZMod 2] V} (hg : 
 
 theorem isPGroup_two_subgroupOf_rootGroup (e : V) :
     IsPGroup 2 ((rootGroup Q e).subgroupOf (orthDerived Q)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_orderOf]
   intro g
   have hg : g * g = 1 := by

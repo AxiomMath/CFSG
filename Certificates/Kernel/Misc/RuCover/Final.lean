@@ -229,10 +229,10 @@ theorem walkW_rho : ∀ w : List ℤ, Native.lettersOK 2 w = true → ∀ x : Fi
     funext g
     exact hgen g
   have h0 : ruRho' hRho (pGen 0) = signedProd (fun g => (σ g)⁻¹) ruP0 := by
-    rw [← hs, pGen, if_pos rfl]
+    rw [← hs, pGen, ite_eq_left rfl]
     rfl
   have h1 : ruRho' hRho (pGen 1) = signedProd (fun g => (σ g)⁻¹) ruP1 := by
-    rw [← hs, pGen, if_neg one_ne_zero]
+    rw [← hs, pGen, ite_eq_right one_ne_zero]
   exact walkW_sound hσ (ruRho' hRho) (gs := pGen) h0 h1 q0 q0i q1 q1i
 
 theorem eq_of_walks {x y : List ℤ} (hx : Native.lettersOK 2 x = true)
@@ -416,13 +416,13 @@ theorem gP_pE : ∀ i < 3, gP (pE i) = ruEElt i := by
   interval_cases i
   · have e : eCode.getD 0 0 = 1 := rfl
     rw [e, tb1.1, tb1.2.1, tb1.2.2] at h
-    simpa only [if_true, if_false, Bool.false_eq_true, mul_one, one_mul] using h
+    simpa only [ite_true, ite_false, Bool.false_eq_true, mul_one, one_mul] using h
   · have e : eCode.getD 1 0 = 2 := rfl
     rw [e, tb2.1, tb2.2.1, tb2.2.2] at h
-    simpa only [if_true, if_false, Bool.false_eq_true, mul_one, one_mul] using h
+    simpa only [ite_true, ite_false, Bool.false_eq_true, mul_one, one_mul] using h
   · have e : eCode.getD 2 0 = 4 := rfl
     rw [e, tb4.1, tb4.2.1, tb4.2.2] at h
-    simpa only [if_true, if_false, Bool.false_eq_true, mul_one, one_mul] using h
+    simpa only [ite_true, ite_false, Bool.false_eq_true, mul_one, one_mul] using h
 
 theorem ruEElt_eta : ∀ k < 7, ruEElt k = eta ruEElt 3 (eCode.getD k 0) := by
   intro k hk
@@ -486,7 +486,7 @@ theorem coverChk_true : coverChk () = true := by
     rep_prodA rE
   have rz : Rep 16240 (zA ()) (ρ (ruP0E ^ 2)) := by
     have h0 := rep_pGen' 0 (by norm_num)
-    have e : ruP0E ^ 2 = pGen 0 * pGen 0 := by rw [pow_two, pGen, if_pos rfl]
+    have e : ruP0E ^ 2 = pGen 0 * pGen 0 := by rw [pow_two, pGen, ite_eq_left rfl]
     rw [e, map_mul]
     exact rep_compA h0 h0
   have p16 : coverChk16240 () = true := by

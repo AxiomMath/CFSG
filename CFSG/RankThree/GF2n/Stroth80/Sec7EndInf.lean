@@ -14,6 +14,7 @@ section Inf
 
 variable {X : Type} [Group X] [Finite X] {A R N H : Subgroup X} {t : X}
 
+omit [Finite X] in
 private lemma endgB_sup_split {Y N : Subgroup X} (hYN : ∀ y ∈ Y, ∀ n ∈ N, y * n = n * y) :
     ∀ x ∈ Y ⊔ N, ∃ y ∈ Y, ∃ n ∈ N, y * n = x := by
   let T : Subgroup X :=
@@ -35,10 +36,11 @@ private lemma endgB_sup_split {Y N : Subgroup X} (hYN : ∀ y ∈ Y, ∀ n ∈ N
       (fun n hn => ⟨1, Y.one_mem, n, hn, one_mul n⟩)
   exact hle hx
 
+omit [Finite X] in
 private lemma endgB_pCore_bot {Y : Subgroup X} (hY : Y.Normal) (ho : CFSG.pCore 2 X = ⊥) :
     CFSG.pCore 2 ↥Y = ⊥ := by
   have hQ : ((CFSG.pCore 2 ↥Y).map Y.subtype).Normal := by
-    haveI := hY
+    have := hY
     exact ConjAct.normal_of_characteristic_of_normal
   have hQp : IsPGroup 2 ↥((CFSG.pCore 2 ↥Y).map Y.subtype) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥Y)).of_equiv
@@ -57,7 +59,7 @@ private lemma endgB_conj_mem_N (h : EndgameHyp X A R N H t) {r n : X} (hr : r �
   have h1 := h.N_normal.conj_mem ⟨n, h.N_le hn⟩ (Subgroup.mem_subgroupOf.2 hn) ⟨r, hr⟩
   exact Subgroup.mem_subgroupOf.1 h1
 
-theorem endg_false_of_split (h : EndgameHyp X A R N H t) {Y : Subgroup X} (hYR : Y ≤ R)
+theorem endg_false_of_split (h : EndgameHyp X A R N H t) {Y : Subgroup X} (_hYR : Y ≤ R)
     (hYN : ∀ y ∈ Y, ∀ n ∈ N, y * n = n * y) (hR : R ≤ Y ⊔ N) : False := by
   obtain ⟨L, hLab, hNgen⟩ := h.N_gen
   have hdec : ∀ r ∈ R, ∃ y ∈ Y, ∃ n ∈ N, y * n = r := fun r hr =>
@@ -68,11 +70,11 @@ theorem endg_false_of_split (h : EndgameHyp X A R N H t) {Y : Subgroup X} (hYR :
       intro htop
       apply hne
       exact le_antisymm inf_le_right (Subgroup.subgroupOf_eq_top.1 htop)
-    haveI : Finite (Subgroup N) :=
+    have : Finite (Subgroup N) :=
       Finite.of_injective (fun K : Subgroup N => (K : Set N)) SetLike.coe_injective
     rcases eq_top_or_exists_le_coatom ((L ⊓ N).subgroupOf N) with htop | ⟨M₀, hM₀, hKM₀⟩
     · exact hnt htop
-    haveI : Group.IsNilpotent N := h.N_pgroup.isNilpotent
+    have : Group.IsNilpotent N := h.N_pgroup.isNilpotent
     have hM₀n : M₀.Normal :=
       Subgroup.NormalizerCondition.normal_of_coatom M₀ Group.normalizerCondition_of_isNilpotent hM₀
     have hconj : ∀ n ∈ N, ∀ m ∈ M₀.map N.subtype, n * m * n⁻¹ ∈ M₀.map N.subtype := by
@@ -186,7 +188,7 @@ theorem endg_inf_R_eq_bot (h : EndgameHyp X A R N H t) {Y : Subgroup X} (hY : Y.
     have h3 : (a : X) ∈ Y ⊓ N := Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 a.2).1, haN⟩
     rw [hYN, Subgroup.mem_bot] at h3
     exact ha1 h3
-  haveI : ((Y.subgroupOf R).map q).Normal := hYRn.map q hqsurj
+  have : ((Y.subgroupOf R).map q).Normal := hYRn.map q hqsurj
   have htop : (Y.subgroupOf R).map q = ⊤ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Y.subgroupOf R).map q)).resolve_left himage_ne
   have hR' : R ≤ (Y ⊓ R) ⊔ N := by
@@ -212,7 +214,7 @@ theorem endg_R_inf_centralizer_eq_bot (h : EndgameHyp X A R N H t) {Y : Subgroup
   have ha1 : (a : X) ≠ 1 := fun h1 => ha (Subtype.ext h1)
   have haY : (a : X) ∈ Y := (Subgroup.mem_inf.1 a.2).1
   have haA : (a : X) ∈ A := (Subgroup.mem_inf.1 a.2).2
-  haveI := hY
+  have := hY
   have hC : (Subgroup.centralizer (Y : Set X)).Normal := Subgroup.normal_centralizer
   have hZn : (Subgroup.centralizer (Y : Set X) ⊓ H).Normal := by
     refine ⟨fun z hz g => ?_⟩
@@ -247,7 +249,7 @@ private theorem endgF_perfect_of_simple (S : Type) [Group S] [IsSimpleGroup S]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ⁅(⊤ : Subgroup S), (⊤ : Subgroup S)⁆ with hb | ht
   · exfalso
-    haveI : IsMulCommutative S := ⟨⟨fun a b => by
+    have : IsMulCommutative S := ⟨⟨fun a b => by
       have hab : ⁅a, b⁆ ∈ ⁅(⊤ : Subgroup S), (⊤ : Subgroup S)⁆ :=
         Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)
       rw [hb, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hab
@@ -320,10 +322,10 @@ theorem endg_perfCore_spec (h : EndgameHyp X A R N H t) :
       rw [hker, Subgroup.mem_subgroupOf, Subgroup.mem_inf] at h2
       exact h2.2
     · exfalso
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hPgrp : IsPGroup 2 ↥((K ⊓ N).subgroupOf K) :=
         hN2.of_equiv (Subgroup.subgroupOfEquivOfLe (inf_le_left : K ⊓ N ≤ K)).symm
-      haveI : Group.IsNilpotent ↥((K ⊓ N).subgroupOf K) := hPgrp.isNilpotent
+      have : Group.IsNilpotent ↥((K ⊓ N).subgroupOf K) := hPgrp.isNilpotent
       let f : ↥((K ⊓ N).subgroupOf K) →* ↥K ⧸ (J.subgroupOf K) :=
         (QuotientGroup.mk' (J.subgroupOf K)).comp ((K ⊓ N).subgroupOf K).subtype
       have hf : Function.Surjective f := by
@@ -341,7 +343,7 @@ theorem endg_perfCore_spec (h : EndgameHyp X A R N H t) :
         have hjj : (x * j⁻¹)⁻¹ * x = j := by group
         rw [hjj]
         exact hj
-      haveI : Group.IsSolvable (↥K ⧸ (J.subgroupOf K)) := Group.isSolvable_of_surjective hf
+      have : Group.IsSolvable (↥K ⧸ (J.subgroupOf K)) := Group.isSolvable_of_surjective hf
       have hall := endg_perfect_hom_trivial hKperf (QuotientGroup.mk' (J.subgroupOf K))
       have hKJ : K ≤ J := by
         intro x hx

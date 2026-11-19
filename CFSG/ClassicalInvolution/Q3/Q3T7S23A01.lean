@@ -526,7 +526,7 @@ theorem exists_sylow_D
   have hR'D := Q3CL.Thompson.mem_DSet_of_le_sylow hΩ hd.hW hWS
     (mem_RSet_of_isSylow2In hs.hK'.1 hR') hR'S
   have hzK' : IsUniqueInvolution K' z := isUniqueInvolution_of_mem_twinSet hs.hz hs.hK'
-  have h2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have h2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   exact ⟨R, R', hR, hR', hΩ.commutes_of_twin_of_isPGroup hst.mem hs.hK'.1 hs.hne.symm hs.hz hzK'
     hR.1 hR'.1 h2, hRD.2, hR'D.2⟩
 
@@ -761,7 +761,7 @@ theorem layer_frame
   have hR'D : R' ∈ DSet Ω W :=
     Q3CL.Thompson.mem_DSet_of_le_sylow hΩ hd.hW hWS (mem_RSet_of_isSylow2In hK' hR') hR'S
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hs.hne.symm hz hz' hR.1 hR'.1
-    (S.isPGroup'.to_le (sup_le hRS hR'S))
+    (S.isPGroup.to_le (sup_le hRS hR'S))
   obtain ⟨b, hbRW, hb4⟩ := Q3T8.Asc77.Thompson.exists_orderOf_four (hΩ : Q3T8.Asc77.HypOmegaMod Ω)
       hd.hW hRD
   obtain ⟨b', hb'RW, hb'4⟩ := Q3T8.Asc77.Thompson.exists_orderOf_four (hΩ : Q3T8.Asc77.HypOmegaMod

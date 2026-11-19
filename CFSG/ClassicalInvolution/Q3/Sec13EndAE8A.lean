@@ -32,17 +32,20 @@ namespace SectData
 
 variable {u : G}
 
+omit [Finite G] in
 theorem ae8a_not_commutes (H : End18.Hyp Ω) {R T : Subgroup G} (hR : R ∈ Ω) (hT : T ∈ Ω)
     (hTV : T ∉ twinSet Ω R) : ¬ Commutes R T := fun hc => by
   obtain ⟨zR, hzR⟩ := (H.endHyp.thmD.hyp.omega1 R hR).1
   obtain ⟨zT, hzT⟩ := (H.endHyp.thmD.hyp.omega1 T hT).1
   exact hTV ⟨hT, zR, hzR, (H.perp9 R hR T hT hc zR zT hzR hzT) ▸ hzT⟩
 
+omit [Finite G] in
 theorem ae8a_twin_conj (H : End18.Hyp Ω) (g : G) {A B : Subgroup G}
     (hB : B ∈ twinSet Ω A) : conjSub g B ∈ twinSet Ω (conjSub g A) := by
   obtain ⟨hBΩ, z, hA, hBz⟩ := hB
   exact ⟨H.endHyp.thmD.hyp.conjInvariant g B hBΩ, g * z * g⁻¹, hA.conj g, hBz.conj g⟩
 
+omit [Finite G] in
 theorem ae8a_conjSub_mem (H : End18.Hyp Ω) {u x : G} (hx : Commute x u)
     {M : Subgroup G} (hM : M ∈ Generic.centMembers Ω u) :
     conjSub x M ∈ Generic.centMembers Ω u := by
@@ -65,6 +68,7 @@ theorem ae8a_conjSub_mem (H : End18.Hyp Ω) {u x : G} (hx : Commute x u)
     _ = (u * x) * n * x⁻¹ := by rw [hxu]
     _ = u * (x * n * x⁻¹) := by group
 
+omit [Finite G] in
 theorem ae8a_conjSub_mem_iff (H : End18.Hyp Ω) {u x : G} (hx : Commute x u)
     {M : Subgroup G} :
     conjSub x M ∈ Generic.centMembers Ω u ↔ M ∈ Generic.centMembers Ω u := by
@@ -72,11 +76,13 @@ theorem ae8a_conjSub_mem_iff (H : End18.Hyp Ω) {u x : G} (hx : Commute x u)
   have h' := ae8a_conjSub_mem H (Commute.inv_left_iff.mpr hx) h
   rwa [conjSub_inv_conjSub] at h'
 
+omit [Finite G] in
 theorem ae8a_conj_symm {P : Set (Subgroup G)} {A B : Subgroup G}
     (h : ∃ x ∈ pSpan P, conjSub x A = B) : ∃ x ∈ pSpan P, conjSub x B = A := by
   obtain ⟨x, hx, rfl⟩ := h
   exact ⟨x⁻¹, Subgroup.inv_mem _ hx, conjSub_inv_conjSub x A⟩
 
+omit [Finite G] in
 theorem ae8a_conj_trans {P : Set (Subgroup G)} {A B C : Subgroup G}
     (h₁ : ∃ x ∈ pSpan P, conjSub x A = B) (h₂ : ∃ x ∈ pSpan P, conjSub x B = C) :
     ∃ x ∈ pSpan P, conjSub x A = C := by

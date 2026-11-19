@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16c167_four_map_eq_iff_mem_stabSub {Y : Subgroup W} {g : MulAut W} :
     Y.map g.toMonoidHom = Y ↔ g ∈ stabSub Y := by
   constructor
@@ -35,6 +36,7 @@ private theorem s16c167_four_map_eq_iff_mem_stabSub {Y : Subgroup W} {g : MulAut
       · exact (mem_stabSub.mp hg (g⁻¹ u)).mp (by simpa using hu)
       · simp
 
+omit [Finite W] in
 private theorem s16c167_four_map_eq_map_iff {Y : Subgroup W} {g g' : MulAut W} :
     Y.map g.toMonoidHom = Y.map g'.toMonoidHom ↔ (g⁻¹ * g') ∈ stabSub Y := by
   constructor
@@ -76,7 +78,7 @@ private theorem s16c167_four_exists_fixed {E : Subgroup (MulAut W)} {𝒴 : Set 
         change ((g : MulAut W) * (h : MulAut W)) (y : W) =
           (g : MulAut W) ((h : MulAut W) (y : W))
         rw [MulAut.mul_apply] }
-  letI : MulAction ↥X ↥Y := act
+  let : MulAction ↥X ↥Y := act
   have hcard : Nat.card ↥Y = 4 := by
     rw [card_eq_two_pow F.sq Y, F.rk_eq Y hY]
     norm_num
@@ -96,10 +98,12 @@ private theorem s16c167_four_exists_fixed {E : Subgroup (MulAut W)} {𝒴 : Set 
     have hfix : (⟨g, hg⟩ : ↥X) • b = b := (MulAction.mem_fixedPoints.mp hb) ⟨g, hg⟩
     exact congrArg Subtype.val hfix
 
+omit [Finite W] in
 private theorem s16c167_four_smul_smul_eq {g f : MulAut W} {v : W} (hcomm : g * f = f * g)
     (hgv : g v = v) : g (f v) = f v := by
   rw [← MulAut.mul_apply, hcomm, MulAut.mul_apply, hgv]
 
+omit [Finite W] in
 private theorem s16c167_four_disjoint_sup {S : Set (Subgroup W)} (hind : sSupIndep S)
     {A B C D : Subgroup W} (hA : A ∈ S) (hB : B ∈ S) (hC : C ∈ S) (hD : D ∈ S)
     (hAB : B ≠ A) (hAC : C ≠ A) (hAD : D ≠ A) (hBC : C ≠ B) (hBD : D ≠ B) :
@@ -142,7 +146,7 @@ theorem s16c167_four_bad_stab {E : Subgroup (MulAut W)} {𝒴 : Set (Subgroup W)
     have h0 : E3.mQuot E H = 0 := by rw [hHE', E3.mQuot_self]
     rw [h0] at hH
     exact zero_ne_one hH
-  obtain ⟨e, heE, heH⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hHE hHneE)
+  obtain ⟨e, heE, heH⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hHE hHneE)
   have heK : e ∉ E ⊓ stabSub Y := fun h => heH (hYH h)
   obtain ⟨w₀, hw₀Y, hw₀ne, hw₀fix⟩ := s16c167_four_exists_fixed F hY
   by_cases hHK : H = E ⊓ stabSub Y
@@ -296,7 +300,7 @@ theorem s16c167_four_bad_cent {E : Subgroup (MulAut W)} {𝒴 : Set (Subgroup W)
   have hKleE : E ⊓ stabSub Y ≤ E := inf_le_left
   have hNleK : E ⊓ centSub Y ≤ E ⊓ stabSub Y := inf_le_inf_left E (centSub_le_stabSub Y)
   have hNKne : E ⊓ centSub Y ≠ E ⊓ stabSub Y := hne
-  obtain ⟨e₁, he₁K, he₁N⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hNleK hNKne)
+  obtain ⟨e₁, he₁K, he₁N⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hNleK hNKne)
   have he₁E : e₁ ∈ E := (Subgroup.mem_inf.mp he₁K).1
   have he₁ncent : e₁ ∉ centSub Y := fun hc =>
     he₁N (Subgroup.mem_inf.mpr ⟨he₁E, hc⟩)

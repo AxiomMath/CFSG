@@ -16,6 +16,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private theorem conjClosure_commutator_mem_of_normalizer {A B C H : Subgroup G}
     (hBH : B ≤ H) (hAnorm : H ≤ Subgroup.normalizer (A : Set G))
     (hCnorm : H ≤ Subgroup.normalizer (C : Set G))
@@ -40,7 +41,7 @@ private theorem conjClosure_commutator_mem_of_normalizer {A B C H : Subgroup G}
     rw [h2]
     exact h1
   · intro a ha
-    simpa using C.one_mem
+    simp
   · intro x y hx hy ihx ihy a ha
     have hxH : x ∈ H := hKH hx
     have h1 : a * x * a⁻¹ * x⁻¹ ∈ C := ihx a ha
@@ -98,7 +99,7 @@ theorem Cex16.comm_mem_iSub16_of_mem_pCoreOf (h1 : W16One G) (h5 : W16Five G) (h
     (h : Cex16 M V₀ V U S) (hF : Fam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H) {q k : G}
     (hq : q ∈ pCoreOf 2 (conjClosure V H)) (hk : k ∈ conjClosure V H) :
     q * k * q⁻¹ * k⁻¹ ∈ iSub16 V H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKH : conjClosure V H ≤ H :=
     CFSG.Quasithin.conjClosure_le fun x hx y hy =>
       H.mul_mem (H.mul_mem hx (hF.1 (h.V_le_S hy))) (H.inv_mem hx)

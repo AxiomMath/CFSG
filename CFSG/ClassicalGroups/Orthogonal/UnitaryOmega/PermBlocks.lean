@@ -58,6 +58,7 @@ open CFSG.GH74.Generic.S1.SymBlocksUni
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem map_conj_permSUHom_blockSU (h : UnitaryFieldData 2 f K) {d : ℕ} (τ : Equiv.Perm (Fin d))
     (S : Finset (Fin d)) :
     (TableBUE.blockSU (K := K) (n := f) S).map (MulAut.conj (permSUHom h τ)).toMonoidHom =

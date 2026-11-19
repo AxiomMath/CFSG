@@ -28,7 +28,7 @@ theorem card_map_inf_eq_nine
     (∀ x ∈ ((A ⊓ L).subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀)), x ^ 3 = 1) ∧
       Nat.card ↥(((A ⊓ L).subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))) = 9 := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hAL9, -⟩ := Sec14.j2_point_facts h.toSec13Data hJ
   let Q : Subgroup ↥Y₀ := CFSG.pCore 2 ↥Y₀
   let π : ↥Y₀ →* ↥Y₀ ⧸ Q := QuotientGroup.mk' Q
@@ -43,7 +43,7 @@ theorem card_map_inf_eq_nine
     exact Nat.Coprime.pow_right n (by norm_num : Nat.Coprime 9 2)
   have hker : H ⊓ π.ker = ⊥ := by
     rw [show π.ker = Q from QuotientGroup.ker_mk' Q]
-    exact Subgroup.inf_eq_bot_of_coprime hcop
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   constructor
   · intro x hx
     obtain ⟨y, hyH, rfl⟩ := hx
@@ -60,7 +60,7 @@ theorem commutatorElement_mem_pCoreOf_y0 (h : Sec17Std G A c L Y₀)
       CFSG.Blueprint.NativeSporadic.J2))
     (h1523 : Item1523R) : ∀ y ∈ Y₀, ⁅y, c⁆ ∈ CFSG.Open.pCoreOf 2 Y₀ := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hY : Y₀ = L ⊔ CFSG.Open.pCoreOf 2 Y₀ := by
     have h1 := (h1523 G A c L h.toSec15R hJ Y₀ h.mem_y0Star).1
     rwa [inf_of_le_right h.le_y0] at h1
@@ -94,22 +94,24 @@ theorem commutatorElement_mem_pCoreOf_y0 (h : Sec17Std G A c L Y₀)
   rw [commutatorElement_mul_left_eq_conj_mul, hlc, mul_one]
   exact hconj
 
+omit [Finite G] in
 theorem isPerfect_map_star (hJY : J ≤ Y₀) (hJperf : Group.IsPerfect ↥J) :
     Group.IsPerfect ↥((J.subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))) := by
-  haveI : Group.IsPerfect ↥(J.subgroupOf Y₀) := by
-    haveI := hJperf
+  have : Group.IsPerfect ↥(J.subgroupOf Y₀) := by
+    have := hJperf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hJY).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJY).symm.surjective
   exact Group.IsPerfect.map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))
 
+omit [Finite G] in
 theorem nonempty_map_star_quot_a5 (hJY : J ≤ Y₀)
     (hJA5 : Nonempty (↥J ⧸ CFSG.pCore 2 ↥J ≃* alternatingGroup (Fin 5))) :
     Nonempty (↥((J.subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))) ⧸
       CFSG.pCore 2 ↥((J.subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))) ≃*
         alternatingGroup (Fin 5)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup ↥Y₀ := CFSG.pCore 2 ↥Y₀ with hQ
   set JY : Subgroup ↥Y₀ := J.subgroupOf Y₀ with hJYdef
   set π : ↥Y₀ →* ↥Y₀ ⧸ Q := QuotientGroup.mk' Q with hπ
@@ -152,6 +154,7 @@ theorem nonempty_map_star_quot_a5 (hJY : J ≤ Y₀)
   obtain ⟨eA⟩ := hJA5
   exact ⟨e.symm.trans eA⟩
 
+omit [Finite G] in
 theorem map_inf_le_normalizer_star (hJY : J ≤ Y₀)
     (hAJ : A ≤ Subgroup.normalizer (J : Set G)) :
     ((A ⊓ L).subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀)) ≤
@@ -204,7 +207,7 @@ theorem ks166J2A5_at_star
           Subgroup (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀)) : Set (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀)) ≃*
       (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) × alternatingGroup (Fin 5)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup ↥Y₀ := CFSG.pCore 2 ↥Y₀ with hQ
   set JY : Subgroup ↥Y₀ := J.subgroupOf Y₀ with hJYdef
   set π : ↥Y₀ →* ↥Y₀ ⧸ Q := QuotientGroup.mk' Q with hπ
@@ -232,7 +235,7 @@ private theorem pCoreOf_le_pCoreOf_of_pCore_star_eq_bot (hJY : J ≤ Y₀)
       (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀))) = ⊥) :
     CFSG.Open.pCoreOf 2 J ≤ CFSG.Open.pCoreOf 2 Y₀ := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup ↥Y₀ := CFSG.pCore 2 ↥Y₀ with hQ
   set JY : Subgroup ↥Y₀ := J.subgroupOf Y₀ with hJYdef
   set π : ↥Y₀ →* ↥Y₀ ⧸ Q := QuotientGroup.mk' Q with hπ

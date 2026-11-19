@@ -86,7 +86,7 @@ theorem qtwoDB7_le_pLayer {H J : Subgroup G} (hJ : J ≤ CFSG.Assembly.LargeEven
 theorem qtwoDB7_map_pLayer_le {X : Type} [Group X] [Finite X] :
     (CFSG.pLayer X 3).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) ≤
       CFSG.pLayer (X ⧸ CFSG.pPrimeCore 3 X) 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.ComponentClassification.LBalance.Quot.map_pLayer_eq_layer_quotient]
   refine (CFSG.LocalAnalysis.ComponentInitial.solvable_prime_core_ordinary_components
     (H := X ⧸ CFSG.pPrimeCore 3 X) 3 Nat.prime_three ?_).2.1
@@ -100,7 +100,7 @@ theorem qtwoDB7_exists_pcomp {H J : Subgroup G}
     (hJQ : (J.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) ≤ Q) :
     ∃ N : Subgroup G, CFSG.Assembly.LargeEvenPComponent 3 H N ∧ J ≤ N ∧
       (N.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) = Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)
   let N' := canonicalPrimeLift (X := ↥H) 3 Q
   have hN'p : CFSG.IsPComponent 3 N' :=
@@ -120,7 +120,7 @@ theorem qtwoDB7_exists_pcomp {H J : Subgroup G}
         change π x ∈ Q
         exact hJQ (Subgroup.mem_map_of_mem π hx)
       have hresJ : primeResidual 3 J' = ⊤ := by
-        haveI : (primeResidual 3 J').Characteristic := primeResidual_characteristic 3 J'
+        have : (primeResidual 3 J').Characteristic := primeResidual_characteristic 3 J'
         rcases CFSG.LocalAnalysis.ComponentInitial.quasisimple_normal_subgroups hJq
           (N := primeResidual 3 J') inferInstance with htop | hcenter
         · exact htop
@@ -155,7 +155,7 @@ theorem qtwoDB7_pcomp_unique {H N N' : Subgroup G}
     (hN' : CFSG.Assembly.LargeEvenPComponent 3 H N')
     (h : (N.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) =
       (N'.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H))) : N = N' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hNH, hNp⟩ := (ggLargeEvenPComponent_iff 3 H N).1 hN
   obtain ⟨hN'H, hN'p⟩ := (ggLargeEvenPComponent_iff 3 H N').1 hN'
   have hcomp : CFSG.IsComponent ((N.subgroupOf H).map
@@ -189,7 +189,7 @@ theorem qtwoDB7_lift_to_G {H : Subgroup G} {E U : Subgroup (↥H ⧸ CFSG.pPrime
     ∃ E' U' : Subgroup G, U' ≠ ⊥ ∧ IsPGroup 2 U' ∧
       E' ≤ Subgroup.normalizer (U' : Set G) ∧ CFSG.Open.IsElemAbelian 3 E' ∧
       Nat.card E' = Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 ↥H) :=
     Nat.prime_three.coprime_iff_not_dvd.mp CFSG.pPrimeCore_coprime_card
   obtain ⟨T, E₀, hT, hT2, hE₀, hE₀card, hE₀N⟩ :=
@@ -208,7 +208,7 @@ theorem qtwoDB7_perfect_image {H P : Subgroup G} (hPH : P ≤ H) (hP : ⁅P, P�
       (P.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H))⁆ =
         (P.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) ∧
     (P.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)
   have hperf : ⁅P.subgroupOf H, P.subgroupOf H⁆ = P.subgroupOf H := by
     refine (Subgroup.map_subtype_inj (H := H)).mp ?_

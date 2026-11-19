@@ -259,10 +259,10 @@ theorem eq_one_of_commute_of_mem_lineSL [CharP F 2] (hσ : ∀ c, σ (σ c) = c)
     have h0 : uForm σ (0 : Fin m → F) d = 0 := by simp [uForm]
     rw [h0] at had
     exact zero_ne_one had
-  haveI : Nonempty (Fin m) := by
+  have : Nonempty (Fin m) := by
     obtain ⟨i, _⟩ := Function.ne_iff.1 ha0
     exact ⟨i⟩
-  haveI : CharP (Matrix (Fin m) (Fin m) F) 2 :=
+  have : CharP (Matrix (Fin m) (Fin m) F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (Matrix (Fin m) (Fin m) F)).injective 2
   have hN : (M - 1) ^ 2 ^ k = 0 := by
     rw [sub_pow_char_pow_of_commute (p := 2) (n := k) (Commute.one_right M), one_pow,
@@ -340,7 +340,7 @@ private theorem exists_scalar_of_semilinear_on_perpPair [Finite F] [CharP F 2] {
       ∀ u ∈ perpPair (unitaryInvolution F 2 f) a d,
         (A : Matrix (Fin n) (Fin n) F) *ᵥ u = lam • u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ : ∀ c, unitaryInvolution F 2 f (unitaryInvolution F 2 f c) = c :=
     unitaryInvolution_involutive hF
   have htr : ∀ c, unitaryInvolution F 2 f c = c →

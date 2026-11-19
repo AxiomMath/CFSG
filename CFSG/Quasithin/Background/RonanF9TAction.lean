@@ -27,7 +27,7 @@ theorem tildeHom_surjective (X N : Subgroup G) (hXN : X ≤ Subgroup.normalizer 
   exact ⟨⟨a, ha⟩, rfl⟩
 
 theorem tilde_le_normalizer (X U N : Subgroup G) (hXU : X ≤ Subgroup.normalizer (U : Set G))
-    (hXN : X ≤ Subgroup.normalizer (N : Set G)) :
+    (_hXN : X ≤ Subgroup.normalizer (N : Set G)) :
     tildeOf N X ≤ Subgroup.normalizer ((tildeOf N U : Subgroup _) : Set _) := by
   intro p hp
   obtain ⟨a, ha, rfl⟩ := mem_secImg.1 hp

@@ -19,8 +19,8 @@ theorem s16c167_endUnits_ln {W : Type} [CommGroup W] [Finite W] {H : Subgroup (M
     {I : Subgroup W} {m : ℕ} (hm : 3 ≤ m) (h : BinaryNaturalSL H I ⊥ m 1) :
     Z391.EndUnitsTrivial H I := by
   obtain ⟨K, hK, hKf, hK2, π, hπ⟩ := h
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   have hK2' : Nat.card K = 2 := by simpa using hK2
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β

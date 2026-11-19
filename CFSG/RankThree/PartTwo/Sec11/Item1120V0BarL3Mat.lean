@@ -134,7 +134,7 @@ theorem mem_rootsOfUnity_qSubPi (hKf : PiField π p f Kf) {l : Kfˣ}
     apply Units.ext
     rw [Units.val_pow_eq_pow_val, Units.val_one]
     exact hl rfl
-  · haveI := hKf.finite
+  · have := hKf.finite
     have hK : Nat.card Kf = p ^ f := hKf.card
     exact mem_rootsOfUnity_of_card hK l
 
@@ -187,7 +187,7 @@ theorem exists_mem_projImage_diagE_cube (hKf : PiField π p f Kf) {h₀ : GL (Fi
 theorem exists_cube_root (hKf : PiField π p f Kf) (hq : ModThree π (p ^ f)) {l : Kfˣ}
     (hl : l ∈ rootsOfUnity (qSubPi π (p ^ f)) Kf) (hl3 : l ^ (qSubPi π (p ^ f) / 3) = 1) :
     ∃ u ∈ rootsOfUnity (qSubPi π (p ^ f)) Kf, u ^ 3 = l := by
-  haveI := hKf.finite
+  have := hKf.finite
   obtain ⟨μ, hμ⟩ := exists_orderOf_eq_qSubPi hKf hq
   have hQ0 : qSubPi π (p ^ f) ≠ 0 := qSubPi_ne_zero hKf hq
   have hμQ : μ ^ qSubPi π (p ^ f) = 1 := by
@@ -216,7 +216,7 @@ theorem exists_cube_root (hKf : PiField π p f Kf) (hq : ModThree π (p ^ f)) {l
 theorem exists_orderOf_eq_three_pow (hKf : PiField π p f Kf) (hq : ModThree π (p ^ f)) :
     ∃ u ∈ rootsOfUnity (qSubPi π (p ^ f)) Kf,
       orderOf u = 3 ^ (qSubPi π (p ^ f)).factorization 3 := by
-  haveI := hKf.finite
+  have := hKf.finite
   obtain ⟨μ, hμ⟩ := exists_orderOf_eq_qSubPi hKf hq
   have hQ0 : qSubPi π (p ^ f) ≠ 0 := qSubPi_ne_zero hKf hq
   have hμQ : μ ^ qSubPi π (p ^ f) = 1 := by

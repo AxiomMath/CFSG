@@ -253,7 +253,7 @@ theorem eq_blk_torus_of_scalar3 (ω η : kˣ) (hη : (η : k) = (ω : k) ^ 2) (h
     simp [Matrix.mul_apply, Fin.sum_univ_three, coe_torusHom, Matrix.scalar_apply,
       Units.val_inv_eq_inv_val, hη]
   all_goals field_simp
-  all_goals first | ring1 | linear_combination h3
+  all_goals linear_combination h3
 
 theorem commute_rFixed_slOrbitHom {a c d : Fin (Tag.rank .E6)} (ha : rhoPerm a = a)
     (hcd : (c = nd 2 ∧ d = nd 4) ∨ (c = nd 0 ∧ d = nd 5)) (hac : a ≠ c) (had : a ≠ d)

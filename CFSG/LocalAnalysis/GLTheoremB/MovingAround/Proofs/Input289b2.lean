@@ -123,17 +123,21 @@ variable (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1)
 
 include hfa hfb hja hjb hai hbi hc ha3
 
+omit hfb hja hjb hai hbi hc ha3 in
 theorem conj_aP_eq_01 : MulAut.conj (fP hk hu) (aP u) = aP u ^ 0 * bP ^ 1 := by
   rw [hfa, pow_zero, one_mul, pow_one]
 
+omit hja hjb hai hc ha3 in
 theorem conj_aP_eq_02 :
     MulAut.conj (fP hk hu * fP hk hu * fP hk hu) (aP u) = aP u ^ 0 * bP ^ 2 := by
   simp only [map_mul, MulAut.mul_apply, hfa, hfb, map_inv]
   rw [pow_zero, one_mul, hbi]
 
+omit hfa hfb hja hjb hai hbi hc ha3 in
 theorem conj_aP_eq_10 : MulAut.conj (1 : projectiveSL 3 k) (aP u) = aP u ^ 1 * bP ^ 0 := by
   rw [map_one, MulAut.one_apply, pow_one, pow_zero, mul_one]
 
+omit hfb hja hbi in
 theorem conj_aP_eq_11 : MulAut.conj (jP hk hu * fP hk hu) (aP u) = aP u ^ 1 * bP ^ 1 := by
   rw [map_mul, MulAut.mul_apply, hfa, hjb, pow_one, pow_one]
   have h1 : (aP u)⁻¹ * bP = bP * (aP u)⁻¹ := (hc.inv_left).eq
@@ -146,20 +150,24 @@ theorem conj_aP_eq_11 : MulAut.conj (jP hk hu * fP hk hu) (aP u) = aP u ^ 1 * bP
           _ = aP u := by rw [ha3, one_mul]
     _ = aP u * bP := hc.eq.symm
 
+omit hjb hai ha3 in
 theorem conj_aP_eq_12 :
     MulAut.conj (fP hk hu * fP hk hu * jP hk hu) (aP u) = aP u ^ 1 * bP ^ 2 := by
   simp only [map_mul, MulAut.mul_apply, hja, hfa, hfb, map_inv, inv_inv]
   rw [hbi, pow_one, (hc.pow_right 2).eq]
 
+omit hja hjb hbi hc ha3 in
 theorem conj_aP_eq_20 : MulAut.conj (fP hk hu * fP hk hu) (aP u) = aP u ^ 2 * bP ^ 0 := by
   simp only [map_mul, MulAut.mul_apply, hfa, hfb]
   rw [pow_zero, mul_one, hai]
 
+omit hfa hfb hjb hbi ha3 in
 theorem conj_aP_eq_21 : MulAut.conj (jP hk hu) (aP u) = aP u ^ 2 * bP ^ 1 := by
   rw [hja, hai, pow_one, (hc.pow_left 2).eq]
 
+omit hjb hc ha3 in
 theorem conj_aP_eq_22 : MulAut.conj (fP hk hu * jP hk hu) (aP u) = aP u ^ 2 * bP ^ 2 := by
-  simp only [map_mul, MulAut.mul_apply, hja, hfa, hfb, map_inv, inv_inv]
+  simp only [map_mul, MulAut.mul_apply, hja, hfa, hfb, map_inv]
   rw [hai, hbi]
 
 end Cases
@@ -184,14 +192,14 @@ theorem exists_conj_aP_eq (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1) {x : pr
   rcases (show i = 0 ∨ i = 1 ∨ i = 2 by omega) with rfl | rfl | rfl <;>
     rcases (show j = 0 ∨ j = 1 ∨ j = 2 by omega) with rfl | rfl | rfl
   · exact absurd (by rw [pow_zero, pow_zero, one_mul]) hx1
-  · exact ⟨_, conj_aP_eq_01 hk hu hfa hfb hja hjb hai hbi hc ha3⟩
-  · exact ⟨_, conj_aP_eq_02 hk hu hfa hfb hja hjb hai hbi hc ha3⟩
-  · exact ⟨_, conj_aP_eq_10 hk hu hfa hfb hja hjb hai hbi hc ha3⟩
-  · exact ⟨_, conj_aP_eq_11 hk hu hfa hfb hja hjb hai hbi hc ha3⟩
-  · exact ⟨_, conj_aP_eq_12 hk hu hfa hfb hja hjb hai hbi hc ha3⟩
-  · exact ⟨_, conj_aP_eq_20 hk hu hfa hfb hja hjb hai hbi hc ha3⟩
-  · exact ⟨_, conj_aP_eq_21 hk hu hfa hfb hja hjb hai hbi hc ha3⟩
-  · exact ⟨_, conj_aP_eq_22 hk hu hfa hfb hja hjb hai hbi hc ha3⟩
+  · exact ⟨_, conj_aP_eq_01 hk hu hfa⟩
+  · exact ⟨_, conj_aP_eq_02 hk hu hfa hfb hbi⟩
+  · exact ⟨_, conj_aP_eq_10⟩
+  · exact ⟨_, conj_aP_eq_11 hk hu hfa hjb hai hc ha3⟩
+  · exact ⟨_, conj_aP_eq_12 hk hu hfa hfb hja hbi hc⟩
+  · exact ⟨_, conj_aP_eq_20 hk hu hfa hfb hai⟩
+  · exact ⟨_, conj_aP_eq_21 hk hu hja hai hc⟩
+  · exact ⟨_, conj_aP_eq_22 hk hu hfa hfb hja hai hbi⟩
 
 theorem exists_conj_of_card_nine (hk : Nat.card k = 4) {E : Subgroup (projectiveSL 3 k)}
     (hE : Nat.card E = 9) {x y : projectiveSL 3 k} (hx : x ∈ E) (hy : y ∈ E) (hx1 : x ≠ 1)
@@ -215,6 +223,7 @@ section Lift
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem inf_eq_bot_of_coprime' {O X : Subgroup Γ} (hO : Nat.Coprime 3 (Nat.card O))
     (hX : IsPGroup 3 ↥X) : X ⊓ O = ⊥ := by
   rw [eq_bot_iff]
@@ -233,6 +242,7 @@ theorem inf_eq_bot_of_coprime' {O X : Subgroup Γ} (hO : Nat.Coprime 3 (Nat.card
   rw [h4] at h3
   exact Subgroup.mem_bot.2 (orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3))
 
+omit [Finite Γ] in
 theorem card_sup_of_inf_bot' {O X : Subgroup Γ} [O.Normal] (hXO : X ⊓ O = ⊥) :
     Nat.card ↥(X ⊔ O) = Nat.card X * Nat.card O := by
   have h1 := Subgroup.card_mul_index (O.subgroupOf (X ⊔ O))
@@ -260,7 +270,7 @@ theorem exists_conj_of_mk_eq (Q : Subgroup Γ) [Q.Normal] (hQ : ¬ 3 ∣ Nat.car
     (hy : orderOf y = 3) (hw : orderOf w = 3) (hyw : y⁻¹ * w ∈ Q) :
     ∃ h : Γ, h * w * h⁻¹ = y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card Q) := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hQ
   set W : Subgroup Γ := Q ⊔ Subgroup.zpowers y with hW
   have hyW : y ∈ W := Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
@@ -360,6 +370,7 @@ section ConjJ
 
 variable {K : Type*} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem orderOf_eq_three_of_mem {D : Subgroup K} (hDel : IsElemAbelian 3 D) {d : K} (hd : d ∈ D)
     (hd1 : d ≠ 1) : orderOf d = 3 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -369,7 +380,7 @@ theorem conj_of_isLThreeFour {D J : Subgroup K} (hDel : IsElemAbelian 3 D) (hD9 
     (hDJ : D ≤ J) (hJ : IsLThreeFour (barOf 3 J)) :
     ∀ d₁ ∈ D, ∀ d₂ ∈ D, d₁ ≠ 1 → d₂ ≠ 1 → ∃ g : K, g * d₁ * g⁻¹ = d₂ := by
   intro d₁ hd₁ d₂ hd₂ h1 h2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup ↥J := GLAPPrimeCore 3 ↥J with hN
   have hNcop : Nat.Coprime 3 (Nat.card N) := CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥J)
   have hN3 : ¬ 3 ∣ Nat.card N := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hNcop
@@ -529,6 +540,7 @@ section Cover
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem conjNormal_mem_normalizer {K : Subgroup Y} [K.Normal] {T : Subgroup Y} {g : Y}
     (hg : g ∈ Subgroup.normalizer (T : Set Y)) :
     (MulAut.conjNormal (H := K) g) ∈ Subgroup.normalizer
@@ -546,6 +558,7 @@ theorem conjNormal_mem_normalizer {K : Subgroup Y} [K.Normal] {T : Subgroup Y} {
     rw [this, ← hth]
     simp [mul_assoc]
 
+omit [Finite Y] in
 theorem isLThreeFour_barOf_subgroupOf {K J : Subgroup Y} (hJK : J ≤ K)
     (h : IsLThreeFour (barOf 3 J)) : IsLThreeFour (barOf 3 (J.subgroupOf K)) := by
   set e : ↥J ≃* ↥(J.subgroupOf K) := (Subgroup.subgroupOfEquivOfLe hJK).symm
@@ -764,7 +777,6 @@ theorem out3D44 {K : Type} [Group K] [Finite K] (hcat : IsCatalogLieIso K Is3D44
     obtain ⟨c, hc⟩ := hmem
     refine ⟨eC.symm c, ?_⟩
     apply (MulAut.congr eC).injective
-    change MulAut.congr eC α = MulAut.congr eC (MulAut.conj (eC.symm c))
     rw [congr_conj, MulEquiv.apply_symm_apply, ← hc]
 
 theorem autFacts3D44_of_facts (h : Facts3D44) : AutFacts Is3D44Index := by
@@ -943,19 +955,17 @@ variable {F : Type} [Field F]
 
 theorem uSL_add' (a b : F) : U₂ (a + b) = U₂ a * U₂ b := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [coe_uSL, SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two, add_comm]
+    simp [coe_uSL, add_comm]
 
 theorem WSL_eq_uSL_vSL : (WSL : SL2 F) = U₂ 1 * vSL (-1) * U₂ 1 := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [coe_uSL, coe_vSL, coe_WSL, SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_uSL, coe_vSL, coe_WSL]
 
 theorem HSL_eq_uSL_vSL (t : Fˣ) :
     HSL t = U₂ (t : F) * vSL (-((t⁻¹ : Fˣ) : F)) * U₂ (t : F) * WSL⁻¹ := by
   have ht : (t : F) * ((t⁻¹ : Fˣ) : F) = 1 := by rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [coe_uSL, coe_vSL, coe_WSL, coe_HSL, SpecialLinearGroup.coe_mul,
-      SpecialLinearGroup.coe_inv, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two] <;>
-    linear_combination ht
+    simp [coe_uSL, coe_vSL, coe_WSL, coe_HSL]
 
 theorem closure_uSL_vSL :
     Subgroup.closure (Set.range (U₂ : F → SL2 F) ∪ Set.range (vSL : F → SL2 F)) = ⊤ := by
@@ -973,7 +983,7 @@ theorem closure_uSL_vSL :
 
 theorem HSL_mul' (s t : Fˣ) : HSL (s * t) = HSL s * HSL t := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [coe_HSL, SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two, mul_comm]
+    simp [coe_HSL, mul_comm]
 
 @[expose] def hslHom : Fˣ →* SL2 F := MonoidHom.mk' HSL HSL_mul'
 
@@ -981,16 +991,14 @@ theorem hslHom_apply (t : Fˣ) : hslHom t = HSL t := rfl
 
 theorem WSL_conj_HSL (t : Fˣ) : WSL * HSL t * WSL⁻¹ = HSL t⁻¹ := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [coe_WSL, coe_HSL, SpecialLinearGroup.coe_mul, SpecialLinearGroup.coe_inv,
-      Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two]
+    simp [coe_WSL, coe_HSL]
 
 theorem conj_uSL_of_lower {h : SL2 F} (h10 : (h : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) (s : F) :
     h * U₂ s * h⁻¹ = U₂ ((h : Matrix (Fin 2) (Fin 2) F) 0 0 ^ 2 * s) := by
   have hdet := det_SL2 h
   rw [h10, mul_zero, sub_zero] at hdet
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [coe_uSL, SpecialLinearGroup.coe_mul, SpecialLinearGroup.coe_inv, Matrix.mul_apply,
-      Fin.sum_univ_two, Matrix.adjugate_fin_two, h10] <;>
+    simp [coe_uSL, h10] <;>
     first | ring1 | linear_combination hdet
 
 theorem conj_col_zero {A B : SL2 F} {μ : F}
@@ -1024,12 +1032,11 @@ theorem sl2X_col {ω : F} (hω : ω ^ 2 + ω + 1 = 0) [CharP F 2] (t : Fˣ) {e :
       ω ^ 2 * ((sl2X ω t : SL2 F) : Matrix (Fin 2) (Fin 2) F) i 0 := by
   have hm : (t : F) * (t : F)⁻¹ = 1 := mul_inv_cancel₀ t.ne_zero
   fin_cases i <;>
-    simp [sl2X, sl2G, coe_uSL, coe_vSL, coe_HSL, SpecialLinearGroup.coe_mul,
-      SpecialLinearGroup.coe_inv, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two]
-  · linear_combination (norm := (ring_nf <;> reduce_mod_char!))
+    simp [sl2X, sl2G, coe_uSL, coe_vSL, coe_HSL]
+  · linear_combination (norm := (ring_nf; reduce_mod_char!))
       ((t * (ω + 1) - (t : F)⁻¹ * ω) + (e ^ 2 + e + 1) * (t + (t : F)⁻¹) +
         (t + (t : F)⁻¹)) * hω + (ω + e) * (t : F)⁻¹ * he + (ω + e) * e * t * hm
-  · linear_combination (norm := (ring_nf <;> reduce_mod_char!))
+  · linear_combination (norm := (ring_nf; reduce_mod_char!))
       (1 + e + ω ^ 2) * (t + (t : F)⁻¹) * hω + (t : F)⁻¹ * he + e * t * hm
 
 variable [CharP F 2] {δ' : F →+* F} {ω : F}
@@ -1039,11 +1046,10 @@ theorem map_sl2X (hω : ω ^ 2 + ω + 1 = 0) (hδω : δ' ω = ω ^ 2) {t : Fˣ}
   have hg : SpecialLinearGroup.map δ' (sl2G ω) = sl2G ω * WSL := by
     rw [sl2G, map_mul, map_vSL, map_uSL, map_one, hδω]
     refine SL2_ext ?_ ?_ ?_ ?_ <;>
-      simp [coe_uSL, coe_vSL, coe_WSL, SpecialLinearGroup.coe_mul, Matrix.mul_apply,
-        Fin.sum_univ_two]
-    · linear_combination (norm := (ring_nf <;> reduce_mod_char!))
+      simp [coe_uSL, coe_vSL, coe_WSL]
+    · linear_combination (norm := (ring_nf; reduce_mod_char!))
     · linear_combination hω
-    · linear_combination (norm := (ring_nf <;> reduce_mod_char!)) hω
+    · linear_combination (norm := (ring_nf; reduce_mod_char!)) hω
   have hH : SpecialLinearGroup.map δ' (HSL t) = HSL t := by
     rw [map_HSL]
     congr 1
@@ -1054,9 +1060,11 @@ theorem map_sl2X (hω : ω ^ 2 + ω + 1 = 0) (hδω : δ' ω = ω ^ 2) {t : Fˣ}
         sl2G ω * (WSL * HSL t * WSL⁻¹) * (sl2G ω)⁻¹ := by group
     _ = (sl2G ω * HSL t * (sl2G ω)⁻¹)⁻¹ := by rw [WSL_conj_HSL, hinv]; group
 
+omit [CharP F 2] in
 theorem sl2X_pow_seven {t : Fˣ} (ht : t ^ 7 = 1) : sl2X ω t ^ 7 = 1 := by
   rw [sl2X, conj_pow, ← hslHom_apply, ← map_pow, ht, map_one, mul_one, mul_inv_cancel]
 
+omit [CharP F 2] in
 theorem sl2X_ne_one {t : Fˣ} (ht : t ≠ 1) : sl2X ω t ≠ 1 := by
   intro h
   have h1 : HSL t = 1 := by
@@ -1075,7 +1083,7 @@ theorem sl2_eq_top (hδ2 : ∀ c, δ' (δ' c) = c) (hω : ω ^ 2 + ω + 1 = 0) (
   have hl2 : (t : F) ^ 2 + 1 ≠ 0 := by
     intro h
     have h' : ((t : F) - 1) ^ 2 = 0 := by
-      linear_combination (norm := (ring_nf <;> reduce_mod_char!)) h
+      linear_combination (norm := (ring_nf; reduce_mod_char!)) h
     exact hl1 (sub_eq_zero.1 (pow_eq_zero_iff (by norm_num) |>.1 h'))
   have he : (((t : F) ^ 2 + 1)⁻¹) * ((t : F) ^ 2 + 1) = 1 := inv_mul_cancel₀ hl2
   have hδe : δ' (((t : F) ^ 2 + 1)⁻¹) = ((t : F) ^ 2 + 1)⁻¹ := by
@@ -1105,9 +1113,9 @@ theorem sl2_eq_top (hδ2 : ∀ c, δ' (δ' c) = c) (hω : ω ^ 2 + ω + 1 = 0) (
     have hb : δ' (s + δ' s) = s + δ' s := by rw [map_add, hδ2, add_comm]
     have ha : δ' (s + ω * (s + δ' s)) = s + ω * (s + δ' s) := by
       rw [map_add, map_mul, hb, hδω]
-      linear_combination (norm := (ring_nf <;> reduce_mod_char!)) (δ' s + s) * hω
+      linear_combination (norm := (ring_nf; reduce_mod_char!)) (δ' s + s) * hω
     have hs : s = (s + ω * (s + δ' s)) + ω * (s + δ' s) := by
-      linear_combination (norm := (ring_nf <;> reduce_mod_char!))
+      linear_combination (norm := (ring_nf; reduce_mod_char!))
     rw [hs, uSL_add']
     exact mul_mem (hU _ ha) (hUω _ hb)
   have hW : (WSL : SL2 F) ∈ S := by

@@ -81,7 +81,7 @@ theorem exists_pGroup_map_sup_eq_top {G H : Type*} [Group G] [Finite G] [Group H
   have hTop : IsPGroup p ↥(⊤ : Subgroup (H ⧸ W)) := hQuot.of_equiv Subgroup.topEquiv.symm
   have hmax := (P₁.mapSurjective hf).maximal_isPGroup.eq_of_ge hTop le_top
   rw [Sylow.coe_mapSurjective] at hmax
-  refine ⟨P₁.map B.subtype, Subgroup.map_subtype_le _, P₁.isPGroup'.map _, ?_⟩
+  refine ⟨P₁.map B.subtype, Subgroup.map_subtype_le _, P₁.isPGroup.map _, ?_⟩
   rw [eq_top_iff]
   intro h _
   have : (QuotientGroup.mk h : H ⧸ W) ∈ P₁.map f := by rw [← hmax]; trivial
@@ -135,7 +135,7 @@ theorem exists_two_p_lift_of_sup_eq_top {G H : Type*} [Group G] [Finite G] [Grou
   obtain ⟨P₀⟩ : Nonempty (Sylow 2 ↥(W.comap φ)) := inferInstance
   have hP₀ := map_sylow_comap_eq φ hφ W hW P₀
   set W₀ : Subgroup G := P₀.map (W.comap φ).subtype with hW₀
-  have hW₀2 : IsPGroup 2 ↥W₀ := P₀.isPGroup'.map _
+  have hW₀2 : IsPGroup 2 ↥W₀ := P₀.isPGroup.map _
   have hF : normalizer (W₀ : Set G) ⊔ W.comap φ = ⊤ := Sylow.normalizer_sup_eq_top P₀
   have hBW : (normalizer (W₀ : Set G)).map φ ⊔ W = ⊤ := by
     have h1 : (normalizer (W₀ : Set G) ⊔ W.comap φ).map φ = ⊤ := by
@@ -167,7 +167,7 @@ theorem exists_two_lift (hN : Odd (Nat.card N)) (W : Subgroup (M ⧸ N)) (hW : I
     ∃ W' : Subgroup M, IsPGroup 2 ↥W' ∧ W'.map (QuotientGroup.mk' N) = W ∧ W' ⊓ N = ⊥ := by
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥(W.comap (QuotientGroup.mk' N))) := inferInstance
   have hP := map_sylow_comap_eq (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N) W hW P
-  exact ⟨P.map _, P.isPGroup'.map _, hP, isPGroup_two_inf_eq_bot_of_odd _ N (P.isPGroup'.map _) hN⟩
+  exact ⟨P.map _, P.isPGroup.map _, hP, isPGroup_two_inf_eq_bot_of_odd _ N (P.isPGroup.map _) hN⟩
 
 theorem exists_involution_lift_quot (hN : Odd (Nat.card N)) (s : M ⧸ N) (hs : s * s = 1) :
     ∃ s' : M, s' * s' = 1 ∧ QuotientGroup.mk' N s' = s := by

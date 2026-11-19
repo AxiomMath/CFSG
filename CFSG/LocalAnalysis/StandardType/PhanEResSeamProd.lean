@@ -27,6 +27,7 @@ variable {M : ChevModel2 D n H Fld}
   (hsq : ∀ i, n i * n i = 1)
 
 include hext hw₀ hsq in
+omit hw₀ hsq in
 theorem exists_seam_exch [CharP Fld 2] {m₁ : ℕ} (L₁ : SLPath M m₁) (L₂ : SLPath M 1)
     {J₁ : Set (Fin D.rank)} {z : Fin D.rank} (hJ₁ : Set.range L₁.e = J₁) (hz₂ : L₂.e 0 = z)
     (hz : z ∉ J₁)
@@ -78,7 +79,7 @@ theorem exists_seam_exch [CharP Fld 2] {m₁ : ℕ} (L₁ : SLPath M m₁) (L₂
               (stdFlag Fld 2))) := by
   classical
   have hmem0 : (0 : Fin 1) ∈ cutTypes 1 [0,2] := by
-    simp only [cutTypes, Set.mem_setOf_eq]
+    simp only [cutTypes, Set.mem_ofPred_eq]
     intro i hi
     have hi' : i < 2 := by simpa using hi
     interval_cases i <;> simp
@@ -88,7 +89,7 @@ theorem exists_seam_exch [CharP Fld 2] {m₁ : ℕ} (L₁ : SLPath M m₁) (L₂
     refine ⟨rfl, rfl, ?_⟩
     intro i hi
     have hi' : i < 1 := by simpa using hi
-    interval_cases i <;> simp
+    interval_cases i; simp
   have hlevi : leviM D I =
       (blockSL Fld m₁ d₁).map L₁.ε ⊔ (blockSL Fld 1 [0,2]).map L₂.ε :=
     hmbSP_leviM_eq L₁ L₂ hJ₁ hz₂ hIJ hI₁ hI₂'

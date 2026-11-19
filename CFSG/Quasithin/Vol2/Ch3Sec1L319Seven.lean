@@ -50,6 +50,7 @@ section Chief
 
 variable {G : Type} [Group G] [Finite G] {H T M₂ U A L N : Subgroup G}
 
+omit [Finite G] in
 theorem chiefImg_mono' (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G)) {K K' : Subgroup G} (h : K ≤ K') :
     chiefImg hHL hHN K ≤ chiefImg hHL hHN K' := by
@@ -61,7 +62,7 @@ theorem exists_psi_orderOf_five {Y : Type*} [Group Y] (h : Setting H T M₂ U A)
     (hstep : IsChiefStep H U L N) (φ : ↥H →* Y) (hφs : Function.Surjective φ)
     (hφk : φ.ker = (cSecIn H L N).subgroupOf H) {y : Y} (hy : orderOf y = 5) :
     ∃ g : ↥H, orderOf (chiefPsi (Setting.hHL hstep) (Setting.hHN hstep) g) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hHL := Setting.hHL hstep
   have hHN := Setting.hHN hstep
   have hNL := h.hNL hstep
@@ -145,12 +146,12 @@ end Chief
 section Order
 
 theorem orderOf_finRotate_five : orderOf (finRotate 5) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem orderOf_wrI₁_finRotate_five :
     orderOf (wrI₁ (finRotate 5) : Equiv.Perm (Fin 5) ≀ᵣ Multiplicative (ZMod 2)) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · have h5 : (finRotate 5) ^ 5 = (1 : Equiv.Perm (Fin 5)) := by decide
     have := congrArg (Ch3w.wrI₁hom (D := Equiv.Perm (Fin 5))) h5

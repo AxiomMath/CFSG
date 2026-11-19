@@ -33,7 +33,7 @@ theorem unitaryCoverAt_of_section {n d : ℕ} {K : Type} [Field K] [Finite K]
       Function.Surjective π → π.ker ≤ Subgroup.center E →
         ∃ s : ↥(unitarySU 2 n K d) →* E, ∀ g, π (s g) = g) :
     UnitaryCoverAt n d K := by
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin d) K) :=
+  have : Finite (Matrix.GeneralLinearGroup (Fin d) K) :=
     Finite.of_injective (fun u : Matrix.GeneralLinearGroup (Fin d) K =>
       (u : Matrix (Fin d) (Fin d) K)) fun _ _ h => Units.ext h
   unfold UnitaryCoverAt
@@ -91,7 +91,7 @@ theorem unitaryUniversalCover_of_twoEven (h : UnitaryCoverTwoEven) : UnitaryUniv
     · omega
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
     CFSG.StandardType.TableBU.unitaryFieldData_of_card hK hn
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   rcases Nat.even_or_odd d with he | ho
   · rcases Nat.lt_or_ge n 2 with hn2 | hn2
     ·
@@ -106,7 +106,7 @@ theorem unitaryUniversalCover_of_twoEven (h : UnitaryCoverTwoEven) : UnitaryUniv
           _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
       have hd4 : 4 ≤ d := by omega
       have hperf : commutator (unitarySU 2 n K d) = ⊤ := by
-        haveI := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hK hd4
+        have := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hK hd4
         exact Group.IsPerfect.commutator_eq_top
       refine unitaryCoverAt_of_section hperf ?_
       intro E _ _ π hπ hcen
@@ -121,7 +121,7 @@ theorem unitaryUniversalCover_of_twoEven (h : UnitaryCoverTwoEven) : UnitaryUniv
       omega
     have hodd : ¬ Even d := Nat.not_even_iff_odd.2 ho
     have hperf : commutator (unitarySU 2 n K d) = ⊤ := by
-      haveI := CFSG.LieType.Steinberg.CentralExt.SUOdd.isPerfect_statedSU_odd hK hd3 hq
+      have := CFSG.LieType.Steinberg.CentralExt.SUOdd.isPerfect_statedSU_odd hK hd3 hq
       exact Group.IsPerfect.commutator_eq_top
     refine unitaryCoverAt_of_section hperf ?_
     intro E _ _ π hπ hcen

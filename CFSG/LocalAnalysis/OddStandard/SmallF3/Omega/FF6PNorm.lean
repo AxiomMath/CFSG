@@ -27,6 +27,7 @@ private lemma ff6p_exists_sep (j m : Option (Fin 5)) (hjm : j ≠ m) :
   revert j m
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6p_eigen_frame (fr : PFrame Q (Option (Fin 5)) ffC) {v : V} (hv : v ≠ 0)
     (h : ∀ K : Finset (Option (Fin 5)), none ∉ K → Even K.card →
       ((fr.signChange K : OGroup Q) : V ≃ₗ[ZMod 3] V) v = v ∨
@@ -44,26 +45,26 @@ theorem ff6p_eigen_frame (fr : PFrame Q (Option (Fin 5)) ffC) {v : V} (hv : v �
     rcases hsep with ⟨hjK, hmK⟩ | ⟨hmK, hjK⟩
     · rcases hK with hvv | hvv
       · have hc := congrArg (fun w : V => fr.b.repr w j) hvv
-        rw [fr.repr_signChange K v j, if_pos hjK] at hc
+        rw [fr.repr_signChange K v j, ite_eq_left hjK] at hc
         have h2 : (2 : ZMod 3) * fr.b.repr v j = 0 := by
           rw [two_mul]
           exact eq_neg_iff_add_eq_zero.mp hc.symm
         exact hj ((mul_eq_zero.mp h2).resolve_left (by decide))
       · have hc := congrArg (fun w : V => fr.b.repr w m) hvv
-        rw [fr.repr_signChange K v m, if_neg hmK, map_neg, Finsupp.neg_apply] at hc
+        rw [fr.repr_signChange K v m, ite_eq_right hmK, map_neg, Finsupp.neg_apply] at hc
         have h2 : (2 : ZMod 3) * fr.b.repr v m = 0 := by
           rw [two_mul]
           exact eq_neg_iff_add_eq_zero.mp hc
         exact hm0 ((mul_eq_zero.mp h2).resolve_left (by decide))
     · rcases hK with hvv | hvv
       · have hc := congrArg (fun w : V => fr.b.repr w m) hvv
-        rw [fr.repr_signChange K v m, if_pos hmK] at hc
+        rw [fr.repr_signChange K v m, ite_eq_left hmK] at hc
         have h2 : (2 : ZMod 3) * fr.b.repr v m = 0 := by
           rw [two_mul]
           exact eq_neg_iff_add_eq_zero.mp hc.symm
         exact hm0 ((mul_eq_zero.mp h2).resolve_left (by decide))
       · have hc := congrArg (fun w : V => fr.b.repr w j) hvv
-        rw [fr.repr_signChange K v j, if_neg hjK, map_neg, Finsupp.neg_apply] at hc
+        rw [fr.repr_signChange K v j, ite_eq_right hjK, map_neg, Finsupp.neg_apply] at hc
         have h2 : (2 : ZMod 3) * fr.b.repr v j = 0 := by
           rw [two_mul]
           exact eq_neg_iff_add_eq_zero.mp hc
@@ -77,6 +78,7 @@ theorem ff6p_eigen_frame (fr : PFrame Q (Option (Fin 5)) ffC) {v : V} (hv : v �
   · rw [Finsupp.single_eq_of_ne hij, mul_zero]
     exact hother i hij
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6p_mono_of_normalizes (fr : PFrame Q (Option (Fin 5)) ffC) (γ : simGroup Q)
     (h : ∀ b ∈ ffB0p fr,
       simAct Q γ⁻¹ b ∈ ffB0p fr ∨ piOrth Q * simAct Q γ⁻¹ b ∈ ffB0p fr) :
@@ -110,8 +112,8 @@ theorem ff6p_mono_of_normalizes (fr : PFrame Q (Option (Fin 5)) ffC) (γ : simGr
           LinearEquiv.apply_symm_apply] using hh
       rw [hbJ, fr.signChange_basis J i]
       by_cases hi : i ∈ J
-      · right; rw [if_pos hi, map_neg]
-      · left; rw [if_neg hi]
+      · right; rw [ite_eq_left hi, map_neg]
+      · left; rw [ite_eq_right hi]
     · obtain ⟨J, _hJn, _hJe, hJeq⟩ := (mem_ffB0p_iff fr).mp hcase
       have hcoe : (piOrth Q : V ≃ₗ[ZMod 3] V) *
           (((γ⁻¹ : simGroup Q) : V ≃ₗ[ZMod 3] V) *
@@ -136,8 +138,8 @@ theorem ff6p_mono_of_normalizes (fr : PFrame Q (Option (Fin 5)) ffC) (γ : simGr
         rw [← hXu, happ, map_neg]
       rw [hbJ, fr.signChange_basis J i]
       by_cases hi : i ∈ J
-      · left; rw [if_pos hi, map_neg, neg_neg]
-      · right; rw [if_neg hi]
+      · left; rw [ite_eq_left hi, map_neg, neg_neg]
+      · right; rw [ite_eq_right hi]
   have hb : ∀ i : Option (Fin 5), X (fr.b i) ≠ 0 := by
     intro i h0
     exact fr.b.ne_zero i (X.injective (by simpa using h0))
@@ -207,9 +209,9 @@ theorem ff6p_mono_of_normalizes (fr : PFrame Q (Option (Fin 5)) ffC) (γ : simGr
   have ha_eq : ∀ i : Option (Fin 5), a i = (if i ∈ K then (-1 : ZMod 3) else 1) := by
     intro i
     by_cases hi : i ∈ K
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact (Finset.mem_filter.mp hi).2
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       rcases (by decide : ∀ e : ZMod 3, e ≠ 0 → e = 1 ∨ e = -1) (a i) (ha i) with h1 | h1
       · exact h1
       · exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ i, h1⟩) hi

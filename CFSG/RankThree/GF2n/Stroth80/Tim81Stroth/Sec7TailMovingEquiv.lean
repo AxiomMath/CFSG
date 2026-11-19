@@ -21,9 +21,10 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem generalizedFitting_MbarPrime_eq_CN_of_fitting
-    (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t) {Z0 : Subgroup G}
-    (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
+    (hc : Ctx M Q Z B) {n : ℕ} {t : G} (_hs : Sec7Hyp hc n t) {Z0 : Subgroup G}
+    (_hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hF : generalizedFitting ↥(bar M Q (NormH0 M Z Z0)) =
       (bar M Q (hc.CN t)).subgroupOf (bar M Q (NormH0 M Z Z0))) :
     generalizedFitting (MbarPrime M Q Z Z0) =

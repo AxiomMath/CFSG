@@ -29,7 +29,7 @@ private theorem q13e_M1_aux (h : Q13Om t L S x₁ x₂ lam rho tau om)
     rw [h.c11.tauM]; exact hp2mem
   have hw2c : w ^ 2 ∈ conjIn (ctxM t tau x₁ x₂) tau := by
     rw [h.c11.tauM]; exact hw2mem
-  simp only [conjIn, Set.mem_setOf_eq] at hp2c hw2c
+  simp only [conjIn, Set.mem_ofPred_eq] at hp2c hw2c
   obtain ⟨g₂, hg₂M, hg₂⟩ := hp2c
   obtain ⟨g₁, hg₁M, hg₁⟩ := hw2c
   let g := g₂ * g₁⁻¹

@@ -43,7 +43,7 @@ theorem a2lDiag_conj_symp {i : F} (hi : i * i = -1) :
     a2lDiag i * (i • (Matrix.fromBlocks 0 1 (-1) 0 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F)) *
       a2lDiag (-i) = hypGram2 3 F := by
   have e : i * -i = 1 := by rw [mul_neg, hi, neg_neg]
-  simp [a2lDiag, hypGram2, Matrix.fromBlocks_multiply, Matrix.fromBlocks_smul, smul_smul, e, hi]
+  simp [a2lDiag, hypGram2, Matrix.fromBlocks_multiply, Matrix.fromBlocks_smul, smul_smul, hi]
 
 theorem a2lSp_isometry {p f : ℕ} (h : UnitaryFieldData p f F) {i : F} (hi : i * i = -1)
     (hbar : h.bar i = -i) {g : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F} (hgr : g.map h.bar = g)
@@ -133,7 +133,7 @@ theorem a2lSpFrame_neg_one (hm0 : m = 0) :
   have h2 : (-1 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 3)).map φ = -1 := by
     rw [← RingHom.mapMatrix_apply, map_neg, map_one]
   rw [h1, h0, a2lSpFrame, h2]
-  simp [Matrix.mul_neg, a2lDiag_mul_neg hi]
+  simp [a2lDiag_mul_neg hi]
 
 variable (h : UnitaryFieldData 3 1 F) (hbar : h.bar i = -i) (hφ : ∀ a, h.bar (φ a) = φ a)
   {n : ℕ} {P : Matrix (Fin n) ((Fin 3 ⊕ Fin 3) ⊕ Fin m) F}
@@ -230,10 +230,10 @@ theorem a2l_exists_sl2_27_statedSU {F : Type} [Field F] (hF : Nat.card F = 9) :
         ((ψ (a2lNegOne E) : StatedSU 6 3 F) : GL (Fin 6) F) =
           Matrix.GeneralLinearGroup.scalar (Fin 6) (-1 : Fˣ) := by
   have hd : UnitaryFieldData 3 1 F := a2l_unitaryFieldData_three (by rw [hF]; norm_num)
-  haveI := hd.finite
-  haveI := hd.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite F
+  have := hd.finite
+  have := hd.charP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite F
   have hFc : Fintype.card F = 9 := by rw [← Nat.card_eq_fintype_card]; exact hF
   have h2 : (2 : F) ≠ 0 := Ring.two_ne_zero (a2l_ringChar_ne_two (by rw [hFc]; decide))
   obtain ⟨P, hPraw⟩ := exists_evenFrame hd h2 (n := 6) (r := 3) (by norm_num)
@@ -249,7 +249,7 @@ theorem a2l_exists_sl2_27_statedSU {F : Type} [Field F] (hF : Nat.card F = 9) :
     rw [hd.bar_apply, pow_one, ← map_pow, ZMod.pow_card]
   obtain ⟨E, _, _, W, hEc, hWinj, hWneg⟩ := a2l_exists_weil_sl2_27 (ZMod 3) (Nat.card_zmod 3)
   have hE4 : 4 ≤ Nat.card E := by rw [hEc]; norm_num
-  haveI : Group.IsPerfect SL(2, E) := (CFSG.GH74.GLS.IVK.GHInv.isQuasisimple_sl2 hE4).1
+  have : Group.IsPerfect SL(2, E) := (CFSG.GH74.GLS.IVK.GHInv.isQuasisimple_sl2 hE4).1
   have hdet : ∀ x : SL(2, E), ((W x : GL (Fin 3 ⊕ Fin 3) (ZMod 3)) :
       Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 3)).det = 1 := fun x => by
     let δ : SL(2, E) →* (ZMod 3)ˣ :=

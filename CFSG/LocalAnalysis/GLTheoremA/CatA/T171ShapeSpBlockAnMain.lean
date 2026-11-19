@@ -27,10 +27,10 @@ theorem sympComponentBlockAnalysis_of
   have hfix := @spFixedBlockAnalysis_holds
   intro m n p K _ _ hK hm hp hp2 x y hxp hyp hxy hx1 J hJ hN
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hpJ : p ∣ Nat.card J
   ·
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hJ' : GLAPComponent p (fixSubgroup (MulAut.conj (proj m K x))) J :=
       (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).2
         ⟨hJ.1, CFSG.StandardType.isPComponent_subgroupOf_of_isComponentOf_of_dvd hJ hpJ⟩
@@ -43,15 +43,15 @@ theorem sympComponentBlockAnalysis_of
         have h2c := Finite.one_lt_card (α := K)
         omega
       · exact h0
-    haveI hchar : CharP K 2 := by
-      letI : Fintype K := Fintype.ofFinite K
+    have hchar : CharP K 2 := by
+      let : Fintype K := Fintype.ofFinite K
       exact charP_of_card_eq_prime_pow (p := 2) (f := n)
         (by rw [Fintype.card_eq_nat_card, hK])
     have hpK : (p : K) ≠ 0 := by
       intro h0
       rw [CharP.cast_eq_zero_iff K 2] at h0
       exact hp2 (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp |>.1 h0).symm
-    haveI : NeZero m := ⟨by omega⟩
+    have : NeZero m := ⟨by omega⟩
     have hm1 : 1 ≤ m := by omega
     have ha1 : proj m K x ≠ 1 := fun h1 =>
       hx1 ((CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
@@ -91,7 +91,7 @@ theorem sympComponentBlockAnalysis_of
       · exact Or.inl hL
       · exact Or.inr (Or.inr hI)
   ·
-    haveI := subsingleton_pSimple_of_not_dvd hp hpJ
+    have := subsingleton_pSimple_of_not_dvd hp hpJ
     exact Or.inr (Or.inr (mem_inner_of_subsingleton _))
 
 @[expose] def SpPairedBlockModel : Prop :=

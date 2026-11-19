@@ -19,8 +19,8 @@ theorem burnsideF48_yamPair_two {κ : ChF.GLKind} {f : ℕ} (hf : 2 ≤ f) {E : 
     {Gp M₁ M₂ : Subgroup E} (hyp : ChF.HypF_4_4 κ 2 f Gp M₁ M₂) :
     burnsideF48_YamPair Gp M₁ M₂ := by
   have hyp4 := hyp.toHypF_4_4g
-  haveI := hyp4.finite
-  haveI := hyp4.normal
+  have := hyp4.finite
+  have := hyp4.normal
   rw [burnsideF48_YamPair, Subgroup.inf_subgroupOf_left M₁ Gp, Subgroup.inf_subgroupOf_left M₂ Gp]
   cases κ
   · exact burnsideF4d_Y1_yam hyp4
@@ -29,9 +29,9 @@ theorem burnsideF48_yamPair_two {κ : ChF.GLKind} {f : ℕ} (hf : 2 ≤ f) {E : 
     rw [← h1, ← h2] at hT
     exact ⟨T, hT⟩
   · obtain ⟨K, fK, finK, hcard, marking, h1, h2⟩ := burnsideF4g_chart_G2 hyp4
-    letI := fK
-    haveI := finK
-    haveI : CharP K 2 := burnsideF4f_charP_of_card (by omega) hcard
+    let := fK
+    have := finK
+    have : CharP K 2 := burnsideF4f_charP_of_card (by omega) hcard
     have hK3 : 3 ≤ Nat.card K := by
       rw [hcard]
       have : 2 ^ 2 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
@@ -40,16 +40,16 @@ theorem burnsideF48_yamPair_two {κ : ChF.GLKind} {f : ℕ} (hf : 2 ≤ f) {E : 
     rw [← h1, ← h2] at hT
     exact ⟨T, hT⟩
   · obtain ⟨K, fK, finK, sigma, hscope, marking, h1, h2⟩ := burnsideF4g_chart_D4tw hyp4
-    letI := fK
-    haveI := finK
+    let := fK
+    have := finK
     obtain ⟨T, hT⟩ := burnsideF4g_yamD4 sigma hscope marking
     rw [← h1, ← h2] at hT
     exact ⟨T, hT⟩
   · obtain ⟨-, hodd, h | h⟩ := hyp.model
     · omega
     · obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, h1, h2⟩ := burnsideF4g_chart_F4tw hyp4
-      letI := fK
-      haveI := finK
+      let := fK
+      have := finK
       obtain ⟨T, hT⟩ := burnsideF4g_yamF4 (by omega) hscope marking
       rw [← h1, ← h2] at hT
       exact ⟨T, hT⟩

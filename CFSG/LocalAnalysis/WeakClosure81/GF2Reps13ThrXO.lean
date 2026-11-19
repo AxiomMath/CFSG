@@ -74,6 +74,7 @@ private theorem w16g_abelian_conj_eq_inv_of_commutator_eq_self {G : Type*} [Grou
   intro x hx
   exact (hPleJ hx).2
 
+omit [Finite W] in
 private theorem w16g_conj_mem_conjClosure (A Q : Subgroup (MulAut W)) {g : MulAut W}
     (hg : g ∈ A) {x : MulAut W} (hx : x ∈ conjClosure A Q) :
     g * x * g⁻¹ ∈ conjClosure A Q := by
@@ -82,7 +83,7 @@ private theorem w16g_conj_mem_conjClosure (A Q : Subgroup (MulAut W)) {g : MulAu
   | mem y hy =>
       obtain ⟨a, ha, q, hq, rfl⟩ := hy
       exact Subgroup.subset_closure ⟨g * a, A.mul_mem hg ha, q, hq, by group⟩
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul y z _ _ ihy ihz =>
       have h : g * (y * z) * g⁻¹ = (g * y * g⁻¹) * (g * z * g⁻¹) := by group
       rw [h]; exact Subgroup.mul_mem _ ihy ihz
@@ -90,15 +91,18 @@ private theorem w16g_conj_mem_conjClosure (A Q : Subgroup (MulAut W)) {g : MulAu
       have h : g * y⁻¹ * g⁻¹ = (g * y * g⁻¹)⁻¹ := by group
       rw [h]; exact Subgroup.inv_mem _ ihy
 
+omit [Finite W] in
 private theorem w16g_mem_conjClosure (A Q : Subgroup (MulAut W)) {g : MulAut W} (hg : g ∈ A)
     {y : MulAut W} (hy : y ∈ Q) : g * y * g⁻¹ ∈ conjClosure A Q := by
   unfold conjClosure
   exact Subgroup.subset_closure ⟨g, hg, y, hy, rfl⟩
 
+omit [Finite W] in
 private theorem w16g_le_conjClosure (A Q : Subgroup (MulAut W)) : Q ≤ conjClosure A Q := by
   intro q hq
   exact w16g_mem_conjClosure A Q A.one_mem (by simpa using hq)
 
+omit [Finite W] in
 private theorem w16g_conjClosure_le {A Q O : Subgroup (MulAut W)} (hQO : Q ≤ O)
     (hOA : ∀ a ∈ A, ∀ o ∈ O, a * o * a⁻¹ ∈ O) : conjClosure A Q ≤ O := by
   unfold conjClosure
@@ -106,11 +110,13 @@ private theorem w16g_conjClosure_le {A Q O : Subgroup (MulAut W)} (hQO : Q ≤ O
   rintro x ⟨a, ha, q, hq, rfl⟩
   exact hOA a ha q (hQO hq)
 
+omit [Finite W] in
 private theorem w16g_omegaOne_le (p : ℕ) (P : Subgroup (MulAut W)) : omegaOne p P ≤ P := by
   rw [omegaOne, Subgroup.closure_le]
   rintro x ⟨hx, -⟩
   exact hx
 
+omit [Finite W] in
 private theorem w16g_isElemAbelian_omegaOne_of_commute {p : ℕ} {P : Subgroup (MulAut W)}
     (hcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) : IsElemAbelian p (omegaOne p P) := by
   rw [omegaOne]
@@ -120,6 +126,7 @@ private theorem w16g_isElemAbelian_omegaOne_of_commute {p : ℕ} {P : Subgroup (
   · intro a ha
     exact ha.2
 
+omit [Finite W] in
 private theorem w16g_isElemAbelian_conjClosure {p : ℕ} {A Q : Subgroup (MulAut W)}
     (hcomm : ∀ g ∈ A, ∀ y ∈ Q, ∀ g' ∈ A, ∀ y' ∈ Q,
       (g * y * g⁻¹) * (g' * y' * g'⁻¹) = (g' * y' * g'⁻¹) * (g * y * g⁻¹))
@@ -183,7 +190,7 @@ theorem s13_abelian_branch (h : HAb A X Q t p) :
         · exact ⟨hcard, hrk⟩
         · exact absurd h37 (by norm_num)
       have hcycL : IsCyclic ↥L := by
-        haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
         exact isCyclic_of_prime_card (p := 3) hcase3.1
       have hconc : Conc4_133 A t L :=
         ⟨3, by norm_num, hLX.trans h.hXO, htL, hind,
@@ -272,8 +279,8 @@ theorem s13_HAb_seven (h : Cfg133 A t 7) :
     exact orderOf_dvd_iff_pow_eq_one.mp hdvd
   have hXe : IsElemAbelian 7 (conjClosure A P) :=
     w16g_isElemAbelian_conjClosure hcommGen hexp
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : IsCyclic ↥P := isCyclic_of_prime_card (p := 7) hcardP
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : IsCyclic ↥P := isCyclic_of_prime_card (p := 7) hcardP
   have hPcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥P) ⟨y, hy⟩)
   have hQinv : ∀ q ∈ P, t * q * t⁻¹ = q⁻¹ :=

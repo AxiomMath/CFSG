@@ -104,7 +104,7 @@ theorem semidihedral_central_involution_mem_even_normal (hn : 4 ≤ n) (S : Sylo
     exact ⟨z n, CFSG.Semidihedral.z_mem_center n hn, rfl⟩
   have hzo : orderOf (f (z n)) = 2 := (f.orderOf_eq _).trans (orderOf_z n (by omega))
   exact CFSG.Wreathed.OriginalNonstationaryWreathAction.central_involution_mem_normal_two_subgroup
-    S.isPGroup' (f (z n)) hzc hzo T hT
+    S.isPGroup (f (z n)) hzc hzo T hT
 
 omit [Finite G] in
 theorem semidihedral_involutionClosure_ne_bot (hn : 4 ≤ n) (S : Sylow 2 G)

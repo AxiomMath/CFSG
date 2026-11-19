@@ -21,9 +21,9 @@ theorem exists_orderOf_eq_five_of_suzukiModel {T : Type} [Group T] {n : ℕ}
     (hT : CFSG.Blueprint.SuzukiModel T 2 n) : ∃ t : T, orderOf t = 5 := by
   have h5 := Sec16.KSL3PiNoSzProof.five_dvd_card_of_suzukiModel hT
   obtain ⟨-, a, ha, K, _, _, rfl, hK, ⟨e⟩⟩ := hT
-  haveI : Finite (CFSG.Blueprint.suzukiGroup a K) := (CFSG.LieType.Ree.suzuki_simple (K := K) ha hK).1
-  haveI : Finite T := Finite.of_equiv _ e.symm.toEquiv
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite (CFSG.Blueprint.suzukiGroup a K) := (CFSG.LieType.Ree.suzuki_simple (K := K) ha hK).1
+  have : Finite T := Finite.of_equiv _ e.symm.toEquiv
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact exists_prime_orderOf_dvd_card' 5 h5
 
 end Cert113

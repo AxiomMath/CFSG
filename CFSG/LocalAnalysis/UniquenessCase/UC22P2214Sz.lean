@@ -27,7 +27,7 @@ theorem isSz_bar2 (D : Data G) (Ch : Choice2011 G) (h17 : S21_17 D Ch) (hJ : J1N
     (h1930 : H1930 D) (c : Ctx22b D Ch) {K : Subgroup G} (hKC : K ∈ calC D.M) {n : ℕ}
     (hSz : IsSz ↥(mbarImage D.M c.V K) n) (hc2 : (conjSetOf D.M K).ncard = 2) :
     IsSz (Bar2 K) n := by
-  haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
+  have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
   have hnab := CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_twistedB2 hSz
   have hZb : Subgroup.center ↥(mbarImage D.M c.V K) = ⊥ := uc22p22a_center_eq_bot hnab
   obtain ⟨⟨e⟩, -⟩ := uc22p22a_data D c hKC (uc22p22a_isQuasisimple_of_simple hnab)
@@ -35,10 +35,10 @@ theorem isSz_bar2 (D : Data G) (Ch : Choice2011 G) (h17 : S21_17 D Ch) (hJ : J1N
     rcases h17 h1930 c.toCtx21 K hKC with heq | ⟨-, m, -, hL | hS⟩ | ⟨-, hj, -⟩
     · have := uc22p2214_ncard_eq_one_of_eq heq
       omega
-    · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL)
+    · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL)
         (by decide) hL
       exact uc22p21k_center_eq_bot hKC.2.2
-    · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hS
+    · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hS
       exact uc22p21k_center_eq_bot hKC.2.2
     · exact (hJ _ hj).1
   exact CFSG.Blueprint.LieModel.of_quotient_center hZ

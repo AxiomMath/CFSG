@@ -17,6 +17,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff0 (hK : SixKConclusion φ t i) : FF0Concl φ t i := by
   intro g hg
   have ht : t ∈ Tplus φ t i := by
@@ -38,6 +39,7 @@ theorem sixFF_ff0 (hK : SixKConclusion φ t i) : FF0Concl φ t i := by
       _ = g * s⁻¹ * t := by group
   exact mem_centralizer_singleton_iff.mpr h2.symm
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff1_aux_mem_normalizer {A : Subgroup G} {y : G}
     (h : ∀ x ∈ A, y * x * y⁻¹ ∈ A) (h' : ∀ x ∈ A, y⁻¹ * x * y⁻¹⁻¹ ∈ A) :
     y ∈ normalizer (A : Set G) := by
@@ -49,12 +51,14 @@ theorem sixFF_ff1_aux_mem_normalizer {A : Subgroup G} {y : G}
   rw [e] at h2
   exact h2
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff1_aux_conj_mem {Tp : Subgroup G} {y x : G} (hy : y ∈ normalizer (Tp : Set G))
     (hyC : y ∈ centralizer ({t} : Set G)) (hx : x ∈ Tp ⊓ centralizer ({t} : Set G)) :
     y * x * y⁻¹ ∈ Tp ⊓ centralizer ({t} : Set G) :=
   Subgroup.mem_inf.mpr ⟨(mem_normalizer_iff.mp hy x).mp (Subgroup.mem_inf.mp hx).1,
     mul_mem (mul_mem hyC (Subgroup.mem_inf.mp hx).2) (inv_mem hyC)⟩
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff1_aux_inf (hS : SCSetting L K n φ t i) (hK : SixKConclusion φ t i) :
     (P φ ⊔ zpowers t) ⊓ L = P φ := by
   have hPL : P φ ≤ L := pull_le φ (antiUnipotent K)
@@ -71,6 +75,7 @@ theorem sixFF_ff1_aux_inf (hS : SCSetting L K n φ t i) (hK : SixKConclusion φ 
     exact FieldInvolution.sup_zpowers_inf_le ht2 hPL htL hcomm
   · exact le_inf le_sup_left hPL
 
+omit [Finite K] [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff1_aux_normalizer_Q (hK : SixKConclusion φ t i) {y : G}
     (hy : y ∈ normalizer (Tplus φ t i : Set G)) (hyC : y ∈ centralizer ({t} : Set G)) :
     y ∈ normalizer ((P φ ⊔ zpowers t : Subgroup G) : Set G) := by
@@ -79,6 +84,7 @@ theorem sixFF_ff1_aux_normalizer_Q (hK : SixKConclusion φ t i) {y : G}
     (fun x hx => sixFF_ff1_aux_conj_mem hy hyC hx)
     (fun x hx => sixFF_ff1_aux_conj_mem (inv_mem hy) (inv_mem hyC) hx)
 
+omit [Finite K] [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff1_aux_P_forward (hS : SCSetting L K n φ t i) (hK : SixKConclusion φ t i) {y : G}
     (hy : y ∈ normalizer (Tplus φ t i : Set G)) (hyC : y ∈ centralizer ({t} : Set G)) :
     ∀ x ∈ P φ, y * x * y⁻¹ ∈ P φ := by
@@ -91,16 +97,19 @@ theorem sixFF_ff1_aux_P_forward (hS : SCSetting L K n φ t i) (hK : SixKConclusi
   rw [sixFF_ff1_aux_inf hS hK] at h1
   exact h1
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff1_aux_U_forward (hH : SixHConclusion φ t i) {y : G}
     (hy : y ∈ normalizer (Tplus φ t i : Set G)) : ∀ x ∈ U φ i, y * x * y⁻¹ ∈ U φ i := by
   intro x hx
   rw [← hH.center_Tplus] at hx ⊢
   exact GomiFusion.Setup.conj_mem_center hy hx
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff1_aux_inf_U : U φ Axis.one ⊓ U φ Axis.two = ⊥ := by
   show pull φ (rootU K Axis.one) ⊓ pull φ (rootU K Axis.two) = ⊥
   rw [← pull_inf, FullCenter.rootU_inf, pull_bot]
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff1_aux_U_ne_bot (k : Axis) : U φ k ≠ ⊥ := by
   intro h
   have h1 : Nat.card (U φ k) = Nat.card K := by
@@ -109,6 +118,7 @@ theorem sixFF_ff1_aux_U_ne_bot (k : Axis) : U φ k ≠ ⊥ := by
   have h2 : 1 < Nat.card K := Finite.one_lt_card
   omega
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff1_aux_forward (hS : SCSetting L K n φ t i) (hK : SixKConclusion φ t i) {y : G}
     (hy : y ∈ normalizer (Tplus φ t i : Set G)) (hyC : y ∈ centralizer ({t} : Set G))
     (k : Axis) (hU : ∀ x ∈ U φ k, y * x * y⁻¹ ∈ U φ k) :
@@ -142,6 +152,7 @@ theorem sixFF_ff1_aux_forward (hS : SCSetting L K n φ t i) (hK : SixKConclusion
           _ = 1 := by rw [h3]; group
       exact sixFF_ff1_aux_U_ne_bot Axis.two hbot
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff1 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hK : SixKConclusion φ t i) : FF1Concl φ t i := by
   intro y hy hyC
@@ -158,6 +169,7 @@ theorem sixFF_ff1 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
         (sixFF_ff1_aux_U_forward hH (inv_mem hy)))
   exact ⟨hP, hUi, hUj⟩
 
+omit [Finite G] [IsSimpleGroup G] [CharP K 2] [Finite K] in
 theorem sixFF_ff2_aux_iff {S : Subgroup (antiSp K)} (y : normalizer (L : Set G))
     (hy : (y : G) ∈ normalizer ((pull φ S : Subgroup G) : Set G)) (x : antiSp K) :
     FieldInvolution.transAct φ y x ∈ S ↔ x ∈ S := by
@@ -168,12 +180,14 @@ theorem sixFF_ff2_aux_iff {S : Subgroup (antiSp K)} (y : normalizer (L : Set G))
         exact (mem_normalizer_iff.mp hy _).symm
     _ ↔ x ∈ S := symm_mem_pull
 
+omit [CharP K 2] [Finite K] in
 theorem sixFF_ff2_aux_dSp_mem (r s : Kˣ) :
     CFSG.QuasithinUnique.Fin257.Sp4.dSp r s ∈ diagTorus K :=
   ⟨((r⁻¹ : Kˣ) : K), ((s⁻¹ : Kˣ) : K), Units.ne_zero _, Units.ne_zero _, by
     rw [CFSG.QuasithinUnique.Fin257.Sp4.glMat_dSp]
     simp [CFSG.QuasithinUnique.Fin257.Sp4.dSpMat, diagMat]⟩
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff2 (hS : SCSetting L K n φ t i) : FF2Concl n φ t i := by
   intro y _hyC hyP hyUi hyUj
   have hn : 2 ≤ n := hS.fc.setup.two_le

@@ -26,7 +26,7 @@ theorem tabDec_of_lt {n none : Nat} {f : Nat → Nat} (h : ∀ x < n, f x < none
   unfold tabDec
   congr 1
   funext x
-  rw [if_neg (Nat.ne_of_lt (h x x.2))]
+  rw [ite_eq_right (Nat.ne_of_lt (h x x.2))]
 
 theorem rootW_spec {R X : Nat → Nat} {lb rq : Nat} (hr : rootW R X lb rq = true) :
     closedK R lb (bs lb) = true ∧ fd (X 0) 0 4095 = 0 ∧
@@ -106,7 +106,7 @@ theorem rootTreeOK_gen (hO : OrbOK) (h : LHChecks D) {S : Array Nat} {X : Nat �
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, Array.size_ofFn]
     have hpk := hpts k hk
     rw [ap_ofFn (g := fun x => if ent rq x = 4095 then none32 else UInt32.ofNat (ent rq x)) hpk]
-    rw [hP1 k hk, if_neg (by omega), toNat_ofNat32 (by omega),
+    rw [hP1 k hk, ite_eq_right (by omega), toNat_ofNat32 (by omega),
       ap_ofFn (g := fun k => UInt32.ofNat (fd (X k) 0 4095)) hk, toNat_ofNat32 (by omega)]
     exact ⟨hk, rfl⟩
 
@@ -138,7 +138,7 @@ theorem swapK_spec {R C QA QB : Nat → Nat} {u lb0 lb1 u0 u1 : Nat}
   refine ⟨h1, h2, h3, h4, fun k hk hk0 => ?_, fun x hx => ?_, h7, h8, fun j hj => ?_,
     fun j hj => ?_⟩
   · have := allN_iff.1 h5 k hk
-    rw [bIf_eq, beq_false hk0, if_neg (by simp), strictB_eq] at this
+    rw [bIf_eq, beq_false hk0, ite_eq_right (by simp), strictB_eq] at this
     exact Nat.eq_of_beq_eq_true this
   · have := allN_iff.1 h6 x hx
     rw [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at this

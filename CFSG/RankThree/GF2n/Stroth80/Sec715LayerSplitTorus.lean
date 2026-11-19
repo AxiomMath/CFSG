@@ -218,6 +218,7 @@ theorem torusLin_apply (c : Kˣ) (v : Fin 4 ⊕ Fin 4 → K) :
 variable (hu : quadPlus 4 K u = 0) (hf : quadPlus 4 K f = 0) (huf : polar (quadPlus 4 K) u f = 1)
 include hu hf huf
 
+omit hu in
 theorem polar_torusLin_f (c : Kˣ) (v : Fin 4 ⊕ Fin 4 → K) :
     polar (quadPlus 4 K) (torusLin f u c v) f = (c : K) * polar (quadPlus 4 K) v f := by
   rw [torusLin_apply, polar_add_left, polar_add_left, polar_smul_left, polar_smul_left,
@@ -225,31 +226,33 @@ theorem polar_torusLin_f (c : Kˣ) (v : Fin 4 ⊕ Fin 4 → K) :
   simp only [smul_eq_mul, nsmul_eq_mul, Nat.cast_ofNat, mul_zero, add_zero, mul_one]
   ring
 
+omit hf in
 theorem polar_torusLin_u (c : Kˣ) (v : Fin 4 ⊕ Fin 4 → K) :
     polar (quadPlus 4 K) (torusLin f u c v) u = ((c⁻¹ : Kˣ) : K) * polar (quadPlus 4 K) v u := by
   rw [torusLin_apply, polar_add_left, polar_add_left, polar_smul_left, polar_smul_left,
     polar_smul_left, polar_smul_left, polar_self, hu, polar_comm _ f u, huf]
-  simp only [smul_eq_mul, nsmul_eq_mul, Nat.cast_ofNat, mul_zero, add_zero, mul_one, zero_add]
+  simp only [smul_eq_mul, nsmul_eq_mul, Nat.cast_ofNat, mul_zero, add_zero, mul_one]
   ring
 
 theorem torusLin_mul (c d : Kˣ) : torusLin f u (c * d) = (torusLin f u c).comp (torusLin f u d) := by
   refine LinearMap.ext fun v => ?_
-  rw [LinearMap.comp_apply, torusLin_apply c, polar_torusLin_f hu hf huf, polar_torusLin_u hu hf huf,
+  rw [LinearMap.comp_apply, torusLin_apply c, polar_torusLin_f hf huf, polar_torusLin_u hu huf,
     torusLin_apply, torusLin_apply]
   simp only [Units.val_mul, mul_inv_rev, smul_smul]
   module
 
+omit hu hf huf in
 theorem torusLin_one : torusLin f u 1 = LinearMap.id := by
   refine LinearMap.ext fun v => ?_
   simp [torusLin_apply]
 
 @[expose] noncomputable def torusHom : Kˣ →* ((Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)) where
-  toFun c := LinearEquiv.ofLinear (torusLin f u c) (torusLin f u c⁻¹)
-    (by rw [← torusLin_mul hu hf huf, mul_inv_cancel, torusLin_one hu hf huf])
-    (by rw [← torusLin_mul hu hf huf, inv_mul_cancel, torusLin_one hu hf huf])
+  toFun c := LinearEquiv.ofLinearMap (torusLin f u c) (torusLin f u c⁻¹)
+    (by rw [← torusLin_mul hu hf huf, mul_inv_cancel, torusLin_one])
+    (by rw [← torusLin_mul hu hf huf, inv_mul_cancel, torusLin_one])
   map_one' := LinearEquiv.ext fun v => by
     show torusLin f u 1 v = v
-    rw [torusLin_one hu hf huf, LinearMap.id_apply]
+    rw [torusLin_one, LinearMap.id_apply]
   map_mul' c d := LinearEquiv.ext fun v => by
     show torusLin f u (c * d) v = torusLin f u c (torusLin f u d v)
     rw [torusLin_mul hu hf huf, LinearMap.comp_apply]
@@ -277,7 +280,7 @@ theorem exists_torus8 [Finite K] (h2 : (2 : K) = 0) (huw : IsTSLine8 u w) (c : K
     ∃ A : GL8, A ∈ StatedOmega (StatedQuadPlus 4 K) ∧ (A : M8) *ᵥ u = (c : K) • u ∧
       (A : M8) *ᵥ w = w := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨x₁, -, h11, h21, -, -⟩ := exists_dual_pair huw
   set f := x₁ - quadPlus 4 K x₁ • u with hfdef
   have hu := quadPlus_u huw

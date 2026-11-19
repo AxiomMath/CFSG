@@ -42,7 +42,7 @@ private theorem strong_descent {R : Type} [Group R] {L' : Type} [Group L'] [Fini
     GGE6ThreeStrongData ψ.ker A := by
   classical
   let Z2 : Subgroup L' := twoSub ψ.ker hker
-  haveI : Z2.Normal := twoSub_normal hker
+  have : Z2.Normal := twoSub_normal hker
   obtain ⟨Tb, wb, hb⟩ := hbar
   obtain ⟨hCommTb, hZoddTb, hFixTb, hCobTb, hTmaxTb, hGenTb⟩ := hb
   have hPcomm : ∀ s t : L', (s : L' ⧸ Z2) ∈ Tb → (t : L' ⧸ Z2) ∈ Tb →
@@ -184,7 +184,7 @@ private theorem strong_descent {R : Type} [Group R] {L' : Type} [Group L'] [Fini
       exact ⟨w i, ⟨i, rfl⟩, (hw i).1⟩
   have hGb_le : Gb ≤ G.map (QuotientGroup.mk' Z2) := by
     refine (Subgroup.closure_le (G.map (QuotientGroup.mk' Z2))).mpr (fun x hx => ?_)
-    simp only [Set.mem_iUnion, Set.mem_image, Set.mem_setOf_eq, exists_prop] at hx
+    simp only [Set.mem_iUnion, Set.mem_image, Set.mem_ofPred_eq, exists_prop] at hx
     rcases hx with ⟨nb, hnb, sb, hsb, hxeq⟩
     rcases hsb with ⟨hsbJb, hsbTb, hsb3⟩
     rw [← hxeq]
@@ -234,8 +234,7 @@ private theorem strong_descent {R : Type} [Group R] {L' : Type} [Group L'] [Fini
       refine Set.mem_iUnion.mpr ⟨n, ?_⟩
       refine Set.mem_iUnion.mpr ⟨hn, ?_⟩
       exact Set.mem_image_of_mem (fun s => n * s * n⁻¹) ⟨hsJ, hsS, hs3⟩
-    · change (QuotientGroup.mk' Z2) (n * s * n⁻¹) = nb * sb * nb⁻¹
-      rw [map_mul, map_mul, map_inv, hnq, show (QuotientGroup.mk' Z2) s = sb from hsmk]
+    · rw [map_mul, map_mul, map_inv, hnq, show (QuotientGroup.mk' Z2) s = sb from hsmk]
   have hcbarGmap : (c : L' ⧸ Z2) ∈ G.map (QuotientGroup.mk' Z2) := hGb_le hcbarG
   obtain ⟨g, hgG, hgmk⟩ := hcbarGmap
   have hz : g⁻¹ * c ∈ Z2 := QuotientGroup.eq.mp hgmk
@@ -268,7 +267,7 @@ theorem strongSCr_of_good {R : Type} [Group R] (hAL : GGAbelianLift) (D : FrameD
     (hRG : GGE6ThreeRGen D) (hcov : CoverOdd R) (I : Set (MulAut R)) (hI : (D.H : Set (MulAut R)) = I)
     (hM4 : GGE6ThreeCoverCommSCr R I) : GGE6ThreeStrongSCr R I := by
   intro L' _ _ ψ hψ hker hperf A hA hAI h5 hsc
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  have : Finite R := Finite.of_surjective ψ hψ
   have hZ : ψ.ker = Subgroup.center L' := BstarDesc.ker_eq_center hψ hker hD.center
   let ρ : MulAut L' →* MulAut R := BstarDesc.descAut hψ hZ
   have hρ : ∀ a l, ρ a (ψ l) = ψ (a l) := fun a l => BstarDesc.descAut_apply hψ hZ a l
@@ -299,7 +298,7 @@ theorem strongSCr_of_good {R : Type} [Group R] (hAL : GGAbelianLift) (D : FrameD
     obtain ⟨l, rfl⟩ := hψ' r
     rw [hρ']
     simp only [ψ', MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.mul_apply,
-      MulAut.inv_apply_self, hρ, map_mul]
+      MulAut.inv_apply_self, hρ]
   have hAle : A ≤ U63TB.presZ (U63TB.twoSub ψ'.ker hker') := fun a ha =>
     U63TB.mem_presZ_of_ker hker' fun z hz =>
       U63TB.preserves_ker (I := Set.univ) ⟨ρ' a, Set.mem_univ _, fun l => hρ' a l⟩ hz

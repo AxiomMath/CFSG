@@ -115,7 +115,7 @@ theorem s16t3_exists_sylow_le_perm_seven (N' : Subgroup (Equiv.Perm (Fin 7)))
     ∃ J : Subgroup (Equiv.Perm (Fin 7)), J ≤ N' ∧ P ≤ J ∧
       Nat.card ↥J = 9 * Nat.card ↥P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases s16t3_eq_alt_or_top N' hA with hAlt | hTop
   ·
     subst hAlt

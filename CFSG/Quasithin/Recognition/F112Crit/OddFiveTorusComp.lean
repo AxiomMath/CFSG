@@ -48,8 +48,8 @@ theorem torusComp_reflTransGen {u v : CosetGeom G₀ G₁ G₂} (hu : u ∈ toru
     | refl => exact Relation.ReflTransGen.refl
     | tail hab hbc ih =>
       exact ih.tail ⟨hab, hab.tail hbc, hbc.2.2⟩
-  haveI : Std.Symm R' := ⟨fun a b h => ⟨h.2.1, h.1, h.2.2.symm⟩⟩
-  haveI : Std.Symm (Relation.ReflTransGen R') := Relation.ReflTransGen.symmetric
+  have : Std.Symm R' := ⟨fun a b h => ⟨h.2.1, h.1, h.2.2.symm⟩⟩
+  have : Std.Symm (Relation.ReflTransGen R') := Relation.ReflTransGen.stdSymm
   exact (Std.Symm.symm δ u (key hu)).trans (key hv)
 
 theorem le_stab_smul_of_mem_normalizer {n : ↥G₀}

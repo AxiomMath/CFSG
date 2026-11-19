@@ -282,12 +282,12 @@ theorem conj_fixedNorm [CharP Ω 2] (hodd : Odd (Fintype.card D)) :
       (∑ a : D, W.w a α) = if W.wt α = 1 then 1 else 0 := by
     intro α
     by_cases hα : W.wt α = 1
-    · rw [if_pos hα]
+    · rw [ite_eq_left hα]
       have hw : ∀ a : D, W.w a α = 1 := fun a => congr_fun hα a
       rw [Finset.sum_congr rfl (fun a _ => hw a), Finset.sum_const, Finset.card_univ,
         ← Nat.cast_smul_eq_nsmul Ω,
         natCast_eq_one_of_odd_of_two_eq_zero hodd (CharP.cast_eq_zero Ω 2), one_smul]
-    · rw [if_neg hα]
+    · rw [ite_eq_right hα]
       obtain ⟨b, hb⟩ : ∃ b : D, W.w b α ≠ 1 := by
         by_contra h
         push Not at h

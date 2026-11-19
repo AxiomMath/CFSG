@@ -39,6 +39,7 @@ theorem exists_mem_inf_conj_not_BZ95 (hc : Ctx M Q Z B) {t z : G} (h5 : Five95 h
   have := (Nat.pow_le_pow_iff_right hq1).mp hcard
   omega
 
+omit [Finite G] in
 theorem pi_eq_of_mul_inv_mem95 {K : Type} [Field K] [Finite K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {u a : G} (hu : u ∈ Q) (ha : a ∈ Q) (h : u * a⁻¹ ∈ Z) :
     M₀.π u = M₀.π a := by

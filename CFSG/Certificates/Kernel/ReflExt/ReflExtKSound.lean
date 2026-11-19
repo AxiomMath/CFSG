@@ -558,11 +558,11 @@ theorem matchH_spec (F : Fd) (D f : Nat) : ∀ (hs : List Nat) (st : List (Nat �
     rw [hm] at h ⊢
     clear hm
     cases hb : Nat.beq (dotK F f (pkC D x)) 2
-    · simp only [hb, cond_false] at h ⊢
+    · simp only [hb, Bool.cond_false] at h ⊢
       have hp : prodH F D f (x :: hs) = prodH F D f hs := by simp [prodH, hb]
       rw [hp]
       exact matchH_spec F D f hs st h
-    · simp only [hb, cond_true] at h ⊢
+    · simp only [hb, _root_.Bool.cond_true] at h ⊢
       have hp : prodH F D f (x :: hs) = (pkC D x, f) :: prodH F D f hs := by simp [prodH, hb]
       rw [hp]
       obtain ⟨l, fl⟩ := st
@@ -775,19 +775,19 @@ open Classical in
 theorem kd_bad {P : Pt} {bnd t : Nat} (ht : t = 0) (h : ∃ w, verifyO P w bnd = true) :
     ∃ w, kd P bnd t = .bad w ∧ verifyO P w bnd = true := by
   unfold kd
-  rw [if_pos ht, dif_pos h]
+  rw [ite_eq_left ht, dite_eq_left h]
   exact ⟨_, rfl, Classical.choose_spec h⟩
 
 theorem kd_good {P : Pt} {bnd t : Nat} (ht : t ≠ 0) (h : ∃ c, verifyWPos P c = true) :
     ∃ c, kd P bnd t = .good c ∧ verifyWPos P c = true := by
   unfold kd
-  rw [if_neg ht, dif_pos h]
+  rw [ite_eq_right ht, dite_eq_left h]
   exact ⟨_, rfl, Classical.choose_spec h⟩
 
 theorem ow_spec {P : Pt} {bnd : Nat} (h : ∃ w, verifyO P w bnd = true) :
     verifyO P (ow P bnd) bnd = true := by
   unfold ow
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Classical.choose_spec h
 
 theorem mem_ob1 {D : Nat} {cd : List (Nat × Nat)} {tg : List (List Nat)} {i : Nat}
@@ -840,7 +840,7 @@ theorem of_mem_ob2 {D : Nat} {cd : List (Nat × Nat)} {tg : List (Nat × Nat × 
   rw [ht] at he
   cases hb : Nat.beq t0 2
   · simp [hb] at he
-  · simp only [hb, cond_true, List.mem_singleton] at he
+  · simp only [hb, _root_.Bool.cond_true, List.mem_singleton] at he
     rw [Nat.eq_of_beq_eq_true hb]
     exact ⟨k, w, rfl, he⟩
 
@@ -901,12 +901,12 @@ theorem tag1_cons {F : Fd} {D n X : Nat} {G : List (Nat × Nat)} {R1 : List RXK.
     j < R1.length ∧ ltAll n u = true ∧ eqPM F D (cw F G u c) (nthK rep0 R1 j).1 = true := by
   unfold tag1 at h
   cases hb : Nat.beq (dotK F c.2 X) 0
-  · simp only [hb, cond_false] at h
+  · simp only [hb, Bool.cond_false] at h
     change (Nat.blt j R1.length && ltAll n u && eqPM F D (cw F G u c) (nthK rep0 R1 j).1) = true
       at h
     simp only [Bool.and_eq_true, Nat.blt_eq] at h
     exact ⟨h.1.1, h.1.2, h.2⟩
-  · simp only [hb, cond_true] at h
+  · simp only [hb, _root_.Bool.cond_true] at h
     simp at h
 
 theorem tag1_moving {F : Fd} {D n X : Nat} {G : List (Nat × Nat)} {R1 : List RXK.Rep}
@@ -917,7 +917,7 @@ theorem tag1_moving {F : Fd} {D n X : Nat} {G : List (Nat × Nat)} {R1 : List RX
     rw [Bool.eq_false_iff]
     intro h'
     exact hm (Nat.eq_of_beq_eq_true h')
-  simp only [hb, cond_false] at h
+  simp only [hb, Bool.cond_false] at h
   cases t with
   | nil => exact absurd h Bool.false_ne_true
   | cons j u => exact ⟨j, u, rfl⟩
@@ -1157,7 +1157,7 @@ theorem frameK_verify (P : Pt) (d : FD) (h : frameK P d = true) (hc : canK P d =
       rw [Bool.eq_false_iff]
       intro h'
       exact ht (Nat.eq_of_beq_eq_true h')
-    simp only [hb0, cond_false, Bool.and_eq_true, Nat.ble_eq] at hs2r
+    simp only [hb0, Bool.cond_false, Bool.and_eq_true, Nat.ble_eq] at hs2r
     obtain ⟨⟨⟨-, hclo2⟩, hQ⟩, hall3⟩ := hs2r
     have hG1 : (withExtra P [decR P.D a]).gens.map (packR (withExtra P [decR P.D a])) =
         P.gens.map (packR P) ++ [a] := by
@@ -1238,7 +1238,7 @@ theorem frameK_verify (P : Pt) (d : FD) (h : frameK P d = true) (hc : canK P d =
       have ht2 := hall i hi hi1 hi2
       rw [htg] at ht2
       rcases Snd.tag2_cases ht2 with h | h | ⟨-, hk, hw, heq⟩ | h
-      all_goals first | exact absurd h.1 (by norm_num) | skip
+      all_goals try exact absurd h.1 (by norm_num)
       obtain ⟨hpe, hde⟩ := hcdE cd[i] (List.getElem_mem hi)
       have hqk : Qs[k] ∈ Qs := List.getElem_mem hk
       have hq1 := (Snd.allK_spec _ _).mp hQ _ hqk

@@ -22,7 +22,7 @@ theorem exists_sylow_of_isSylowTwoOf {Q A : Subgroup H} (h : IsSylowTwoOf Q A) :
 theorem isSylowTwoOf_of_sylow {A : Subgroup H} (P : Sylow 2 ↥A) :
     IsSylowTwoOf ((P : Subgroup ↥A).map A.subtype) A := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map A.subtype, ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map A.subtype, ?_⟩
   have h : ((P : Subgroup ↥A).map A.subtype).subgroupOf A = P :=
     Subgroup.comap_map_eq_self_of_injective A.subtype_injective _
   rw [h]

@@ -201,7 +201,6 @@ theorem realization_of_model
     · change act (eI.symm (eI φ)) = act φ
       rw [MulEquiv.symm_apply_apply]
     · intro x
-      change ((eI φ).1 : MulAut G0) (Θ x) = Θ (φ.1 x)
       change (MulAut.congr Θ φ.1) (Θ x) = Θ (φ.1 x)
       rw [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.trans_apply,
         MulEquiv.symm_apply_apply]

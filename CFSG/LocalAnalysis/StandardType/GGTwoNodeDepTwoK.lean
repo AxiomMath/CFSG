@@ -237,7 +237,7 @@ private theorem l05nTK1_moves {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Fin
     intro w
     show ggLin (p := p) ι (1 : MulAut ↥Bs) w - w ∈ U
     rw [map_one]
-    simpa using (Submodule.zero_mem U : (0 : V) ∈ U)
+    simp
   have hmulQ : ∀ a b : MulAut ↥Bs, Q a → Q b → Q (a * b) := by
     intro a b ha hb w
     have h1 : ggLin (p := p) ι b w - w ∈ U := hb w
@@ -371,8 +371,8 @@ private theorem l05nTT_card (hOrb : GGResCentBoundInput) {G : Type} [Group G] [F
         ggLin (p := p) ι (φ (e i))) ∪ {ggLin (p := p) ι t})) ≤
       p ^ N * (6 * (p - 1) * Nat.factorial N) := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let h' : Fin (N - 1) → V := fun i => h (e i)
   let r : Fin (N - 1) → (V ≃ₗ[ZMod p] V) := fun i => ggLin (p := p) ι (φ (e i))
   let ra : V ≃ₗ[ZMod p] V := ggLin (p := p) ι t
@@ -441,7 +441,7 @@ private theorem l05nTT_card (hOrb : GGResCentBoundInput) {G : Type} [Group G] [F
       have hh := congrArg (fun z : U => (z : V)) h
       have h1 := congrArg (fun v : V => v + x') hh
       simpa using h1
-  haveI : Finite U := Finite.of_injective (fun u : U => (u : V)) Subtype.val_injective
+  have : Finite U := Finite.of_injective (fun u : U => (u : V)) Subtype.val_injective
   have hUcard : Nat.card U = p ^ Module.finrank (ZMod p) ↥U :=
     (FiniteField.pow_finrank_eq_natCard p U).symm
   have hOrb_card : Nat.card orb ≤ p ^ (N - 1) := by
@@ -501,14 +501,14 @@ private theorem l05nTT_card (hOrb : GGResCentBoundInput) {G : Type} [Group G] [F
   have hAl : Nat.card ↥(ggAutomizer L Bs) ≤ Nat.factorial N :=
     l05nTK1_card_Al hp2 (by omega : 5 ≤ N) hx ι hφ hAL e F
   have hRcard : Nat.card ↥R = Nat.card orb * Nat.card ↥(MulAction.stabilizer (↥R) x') := by
-    haveI : Finite (V ≃ₗ[ZMod p] V) :=
+    have : Finite (V ≃ₗ[ZMod p] V) :=
       Finite.of_injective (fun g : V ≃ₗ[ZMod p] V => (g : V → V))
         (fun _ _ h => LinearEquiv.ext (congrFun h))
-    haveI : Finite ↥R := Finite.of_injective (fun g : ↥R => (g : V ≃ₗ[ZMod p] V))
+    have : Finite ↥R := Finite.of_injective (fun g : ↥R => (g : V ≃ₗ[ZMod p] V))
       Subtype.val_injective
-    haveI : Fintype ↥R := Fintype.ofFinite ↥R
-    haveI : Fintype orb := Fintype.ofFinite orb
-    haveI : Fintype ↥(MulAction.stabilizer (↥R) x') := Fintype.ofFinite _
+    have : Fintype ↥R := Fintype.ofFinite ↥R
+    have : Fintype orb := Fintype.ofFinite orb
+    have : Fintype ↥(MulAction.stabilizer (↥R) x') := Fintype.ofFinite _
     have hOS := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥R) x'
     simp only [← Nat.card_eq_fintype_card] at hOS
     exact hOS.symm
@@ -569,11 +569,11 @@ private theorem l05nTK2_nonempty_of_weyl {ι : Type} {M : CoxeterMatrix ι}
 private theorem l05nTK2_nt_closure
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp p B Bs x L D J y K) (hx : x ∈ Bs)
+    (hH : GGResHyp p B Bs x L D J y K) (_hx : x ∈ Bs)
     {N : ℕ} {Λ : Type} [Fintype Λ] [DecidableEq Λ] (e : Fin (N - 1) ≃ Λ)
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] {ι : Additive ↥Bs ≃+ V}
     {φ : Λ → MulAut ↥Bs} {h : Λ → V} {α : Λ → Module.Dual (ZMod p) V}
-    (hφ : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
+    (_hφ : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
     (hAL : ggAutomizer L Bs = Subgroup.closure (Set.range φ))
     {t : MulAut ↥Bs} (htm : t ∈ ggAutomizer K Bs) :
     ∀ g ∈ Subgroup.closure (Set.range (fun i : Fin (N - 1) =>
@@ -1048,9 +1048,9 @@ theorem ggTwoNodeAtL_false (hKG : GGReflClassLargeInput') (hOrb : GGResCentBound
     (hK : GGResSideDatum p Bs K J ∨ GGResTwoNodeSideDatum p Bs K J ∨
       GGResLeviSideDatumLE3 p Bs K J) : False := by
   have hN5 : 5 ≤ N := by omega
-  haveI : Fintype ↥Bs := Fintype.ofFinite ↥Bs
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hdep : ¬ LinearIndependent (ZMod p) h :=
     ggXDatumA_dep hFix hp2 hH hx hxL hN5 hpN e hML hCL hφ hpair hAL
   let F : GGDepAFrame p N (fun i => h (e i)) (fun i => α (e i))

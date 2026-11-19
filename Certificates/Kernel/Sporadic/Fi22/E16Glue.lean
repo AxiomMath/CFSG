@@ -65,7 +65,7 @@ theorem prod_eq {k m : Nat} (hk : k < 6) (hm : m < 16) :
     Fi22X.comp_eq (Fi22X.cn_c c0 c1) (Fi22X.cn_c c2 c3)]
   exact ⟨rfl, Fi22X.cn_c (Fi22X.cn_c c0 c1) (Fi22X.cn_c c2 c3)⟩
 
-theorem pg_c {p q x : Nat} (hp : Fi22X.cn p = true) (hx : x < 3510) :
+theorem pg_c {p q x : Nat} (_hp : Fi22X.cn p = true) (hx : x < 3510) :
     pg 12 (mask 12) (Fi22X.c p q) x = pg 12 (mask 12) p (pg 12 (mask 12) q x) :=
   CFSG.KS.PF.pg_pcomp (by norm_num) hx
 

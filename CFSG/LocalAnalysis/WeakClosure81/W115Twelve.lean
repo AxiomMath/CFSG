@@ -108,7 +108,7 @@ theorem w115_rk_le_four_mul_mParam
   have hfix : fixV L = ⊥ := w115_fixV_eq_bot_of_isIrrOn hirr hL1
   unfold E3.mParam
   by_cases hEven : Even (Nat.card Y)
-  · rw [if_pos hEven]
+  · rw [ite_eq_left hEven]
     obtain ⟨t₀, hto⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 2 (even_iff_two_dvd.1 hEven)
     have hne : ({n : ℕ | ∃ t ∈ Y, orderOf t = 2 ∧ n = rkIdx (fixV (zpowers t))} :
         Set ℕ).Nonempty := ⟨_, (t₀ : MulAut W), t₀.2, by rwa [Subgroup.orderOf_coe], rfl⟩
@@ -117,7 +117,7 @@ theorem w115_rk_le_four_mul_mParam
     obtain ⟨b, hb⟩ := w115_fourConj_of_isSpor hLY hnorm hF hM htY hto2
     exact w115_rk_le_four_mul hW hfix
       (fun i => ((b i : ↥L) : MulAut W) * t * ((b i : ↥L) : MulAut W)⁻¹) (fun i => ⟨_, rfl⟩) hb
-  · rw [if_neg hEven]
+  · rw [ite_eq_right hEven]
     omega
 
 theorem w115_exists_invol_aut

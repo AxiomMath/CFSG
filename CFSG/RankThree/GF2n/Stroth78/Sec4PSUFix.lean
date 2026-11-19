@@ -17,15 +17,15 @@ theorem mem_ker_of_mem_commutator_commutator {G T : Type*} [Group G] [Finite T]
     (hT : Nat.card T = 3) {C : Subgroup G} (f : ↥C →* Equiv.Perm T) {x : G}
     (hx : x ∈ ⁅⁅C, C⁆, ⁅C, C⁆⁆) : ∃ hxC : x ∈ C, f ⟨x, hxC⟩ = 1 := by
   classical
-  haveI : Fintype T := Fintype.ofFinite T
-  haveI : Nontrivial T := by
+  have : Fintype T := Fintype.ofFinite T
+  have : Nontrivial T := by
     rw [← Finite.one_lt_card_iff_nontrivial, hT]
     norm_num
   have hcardA : Nat.card (alternatingGroup T) = 3 := by
     rw [nat_card_alternatingGroup, hT]
     rfl
-  haveI : Fact (Nat.Prime (Nat.card (alternatingGroup T))) := ⟨by rw [hcardA]; norm_num⟩
-  haveI : IsCyclic (alternatingGroup T) := isCyclic_of_prime_card rfl
+  have : Fact (Nat.Prime (Nat.card (alternatingGroup T))) := ⟨by rw [hcardA]; norm_num⟩
+  have : IsCyclic (alternatingGroup T) := isCyclic_of_prime_card rfl
   have hAcomm : ∀ σ ∈ alternatingGroup T, ∀ τ ∈ alternatingGroup T, σ * τ = τ * σ := by
     intro σ hσ τ hτ
     have := (IsCyclic.commGroup (α := alternatingGroup T)).mul_comm ⟨σ, hσ⟩ ⟨τ, hτ⟩
@@ -92,7 +92,7 @@ theorem commutator_commutator_centralizer_le_commSpaceFixer (S : Setting z E F) 
     have h4 : Nat.card ↥(commSpace (rhoLin S β)) = 4 := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hdim, Nat.card_zmod]
       norm_num
-    haveI : Fintype ↥(commSpace (rhoLin S β)) := Fintype.ofFinite _
+    have : Fintype ↥(commSpace (rhoLin S β)) := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, ← Nat.card_eq_fintype_card, h4]
     simp
   intro x hx

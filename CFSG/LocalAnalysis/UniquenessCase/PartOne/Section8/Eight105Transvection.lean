@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pow_twelve_mem_centralizer {V : Subgroup G} (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v)
     (hV2 : ∀ v ∈ V, v * v = 1) {s t : G} (hs : s ∈ normalizer (V : Set G))
-    (ht : t ∈ normalizer (V : Set G)) (hs2 : s * s = 1) (ht2 : t * t = 1)
+    (ht : t ∈ normalizer (V : Set G)) (_hs2 : s * s = 1) (_ht2 : t * t = 1)
     (hsV : Nat.card V ≤ 2 * Nat.card (V ⊓ centralizer ({s} : Set G) : Subgroup G))
     (htV : Nat.card V ≤ 2 * Nat.card (V ⊓ centralizer ({t} : Set G) : Subgroup G)) :
     (s * t) ^ 12 ∈ centralizer (V : Set G) := by
@@ -34,6 +34,7 @@ theorem pow_twelve_mem_centralizer {V : Subgroup G} (hVab : ∀ v ∈ V, ∀ w �
     exact Nat.le_of_mul_le_mul_right (by rw [h]; exact htV) Nat.card_pos
   exact CFSG.RankThree.PartTwo.Sec15.SimsBaumann.pow_twelve_mem_centralizer hVel hs ht hsV' htV'
 
+omit [Finite G] in
 private lemma is_elem_abelian {V A : Subgroup G}
     (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hV2 : ∀ v ∈ V, v * v = 1)
     (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hA2 : ∀ a ∈ A, a * a = 1) :

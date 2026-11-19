@@ -137,10 +137,10 @@ theorem s16t_l4_layer_barImage (hS : S16tL4Setting D V₀ V L hV) {X : Subgroup 
       ((Subgroup.equivMapOfInjective B e.toMonoidHom e.injective).trans
         (MulEquiv.subgroupCongr hmap)).trans
         (Subgroup.subgroupOfEquivOfLe (s16t_l4_lbar_le_mbar hS))
-    haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := s16t_l4_lbar_simple hS
+    have : IsSimpleGroup ↥(lBar V₀ V hV L) := s16t_l4_lbar_simple hS
     have hnotcomm : ¬ IsMulCommutative ↥(lBar V₀ V hV L) := by
       intro hc
-      haveI : IsMulCommutative ↥(lBar V₀ V hV L) := hc
+      have : IsMulCommutative ↥(lBar V₀ V hV L) := hc
       have hp : (Nat.card ↥(lBar V₀ V hV L)).Prime :=
         (Group.is_simple_iff_prime_card).mp inferInstance
       rw [s16t_l4_card_lbar hS] at hp
@@ -168,7 +168,7 @@ theorem s16t_l4_apply_r119 (h127 : R127 D) (h119 : F11.R119 D) (hS : S16tL4Setti
       hS.counterex.setting.hyp151.hyp125.pairFacts.le_normalizer₀
   obtain ⟨X, hCX, hXM, hXN, hbarX⟩ := s16t_l4_exists_X hS
   let inst₀ : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
-  haveI := inst₀
+  have := inst₀
   have hlayerim : rankThreeLayer (F11.barImage11 D.M V₀ V X) = F11.barImage11 D.M V₀ V X :=
     s16t_l4_layer_barImage hS hXM hbarX
   obtain ⟨Y, hY, -⟩ :=
@@ -206,7 +206,7 @@ theorem s16t_l4_exists_Y (h127 : R127 D) (h119 : F11.R119 D) (hS : S16tL4Setting
   have hMn : D.M ≤ normalizer (V : Set G) := hMs.trans (stabTil_le_normalizer V₀ V)
   have hYM : Y ≤ D.M := hYX.trans hXM
   obtain ⟨φY, -, hkerY⟩ := s16t_l4_exists_hom_barSub (hV := hV) hMs hYM
-  haveI hnormY : ((Y ⊓ F11.CTilde D.M V₀ V).subgroupOf Y).Normal := hkerY ▸ φY.normal_ker
+  have hnormY : ((Y ⊓ F11.CTilde D.M V₀ V).subgroupOf Y).Normal := hkerY ▸ φY.normal_ker
   have hker : Y ⊓ F11.CTilde D.M V₀ V = pCoreOf 2 Y :=
     close16_ker_eq_pcore hYperf hO2E hYC (s16t_l4_isAlt_quot hS hYM hbarY)
   have hY2 : IsPGroup 2 ↥(Y ⊓ F11.CTilde D.M V₀ V) := by
@@ -229,7 +229,7 @@ theorem s16t_l4_exists_Y (h127 : R127 D) (h119 : F11.R119 D) (hS : S16tL4Setting
     rw [inv_mul_cancel_right, sup_comm] at hmem
     exact hmem
   obtain ⟨φX, hφX, hkerX⟩ := s16t_l4_exists_hom_barSub (hV := hV) hMs hXM
-  haveI hsimple : IsSimpleGroup ↥(barSub V₀ V hV X) := by
+  have hsimple : IsSimpleGroup ↥(barSub V₀ V hV X) := by
     rw [hbarX]; exact s16t_l4_lbar_simple hS
   have hnc : ¬ IsMulCommutative ↥(barSub V₀ V hV X) := by
     rw [hbarX]; exact s16t_l4_lbar_not_commutative hS

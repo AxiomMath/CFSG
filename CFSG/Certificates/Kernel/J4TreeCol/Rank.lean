@@ -28,7 +28,7 @@ private theorem img_succ (g : Nat → Nat) (t : Nat) :
     rv g '' {i | i < t + 1} = insert (rv g t) (rv g '' {i | i < t}) := by
   have e : {i | i < t + 1} = insert t {i | i < t} := by
     ext i
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff]
     omega
   rw [e, Set.image_insert_eq]
 
@@ -101,7 +101,7 @@ private theorem lowBit_spec {v : Nat} (hv : v ≠ 0) :
   rw [Nat.testBit_two_pow_mul_add _ hp1, Nat.testBit_two_pow_mul_add _ (by omega : 2 ^ p - 1 < 2 ^ (p + 1)), Nat.testBit_two_pow,
     Nat.testBit_two_pow_sub_one]
   by_cases hj : j < p + 1
-  · simp only [hj, ↓reduceIte, Nat.testBit_two_pow]
+  · simp only [hj, ↓reduceIte]
     by_cases hjp : j = p
     · subst hjp
       simp
@@ -149,7 +149,7 @@ private theorem gRank_fold {G : Mats} (hc : G.c = rep 1 128 112) (hrm : G.rm = 2
     rfl
   | succ t ih =>
     intro ht X g rk hX hg hz
-    simp only [Nat.rec_add_one]
+    simp only
     by_cases hX0 : X = 0
     · have hb : Nat.beq X 0 = true := by rw [hX0]; rfl
       rw [hb]
@@ -199,11 +199,11 @@ private theorem gRank_fold {G : Mats} (hc : G.c = rep 1 128 112) (hrm : G.rm = 2
       · positivity
     have hgLz : ∀ i, t ≤ i → gL i = 0 := fun i hi => by
       simp only [hgL]
-      exact if_neg (by omega)
+      exact ite_eq_right (by omega)
     have hrvL : ∀ i < t, rv gL i = rv g i := fun i hi => by
       funext j
       unfold rv
-      simp only [hgL, if_pos hi]
+      simp only [hgL, ite_eq_left hi]
     generalize Nat.mod X (Nat.shiftLeft 1 (Nat.mul t 128)) = L at hL
     rw [hv]
     by_cases hv0 : g t = 0
@@ -283,7 +283,7 @@ private theorem gRank_fold {G : Mats} (hc : G.c = rep 1 128 112) (hrm : G.rm = 2
         · simp only [↓reduceIte, Nat.one_mul]
           rw [Nat.and_comm, Nat.and_two_pow_sub_one_of_lt_two_pow (hg t)]
       · simp only [hi, ↓reduceIte, Nat.zero_testBit, Bool.false_eq_true, Nat.zero_mul,
-          Nat.zero_and, Nat.zero_xor]
+          Nat.zero_xor]
         split <;> simp
     have hg'b : ∀ i, g' i < 2 ^ 112 := fun i => by
       simp only [hg']
@@ -295,7 +295,7 @@ private theorem gRank_fold {G : Mats} (hc : G.c = rep 1 128 112) (hrm : G.rm = 2
       · positivity
     have hg'z : ∀ i, t ≤ i → g' i = 0 := fun i hi => by
       simp only [hg']
-      exact if_neg (by omega)
+      exact ite_eq_right (by omega)
     rw [ih (by omega) _ g' (Nat.succ rk) hL' hg'b hg'z]
     have hwp : rv g t ⟨p, hp112⟩ = 1 := by
       unfold rv
@@ -303,12 +303,12 @@ private theorem gRank_fold {G : Mats} (hc : G.c = rep 1 128 112) (hrm : G.rm = 2
     have hrv' : ∀ i < t, rv g' i = rv g i + rv g i ⟨p, hp112⟩ • rv g t := fun i hi => by
       funext j
       have e : g' i = g i ^^^ (if (g i).testBit p then g t else 0) := by
-        simp only [hg', if_pos hi]
+        simp only [hg', ite_eq_left hi]
       rw [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
       unfold rv
       rw [e, Nat.testBit_xor]
       cases hb1 : (g i).testBit p <;> cases hb2 : (g i).testBit j <;>
-        cases hb3 : (g t).testBit j <;> simp [hb1, hb2, hb3]
+        cases hb3 : (g t).testBit j <;> simp [hb3]
       all_goals decide
     have hU'p : ∀ u ∈ rv g' '' {i | i < t}, u ⟨p, hp112⟩ = 0 := by
       rintro _ ⟨i, hi, rfl⟩
@@ -351,15 +351,15 @@ theorem gRank_spec {G : Mats} (hc : G.c = rep 1 128 112) (hrm : G.rm = 2 ^ 112 -
     · positivity
   have hz : ∀ i, 112 ≤ i → g i = 0 := fun i hi => by
     simp only [hgdef]
-    exact if_neg (by omega)
+    exact ite_eq_right (by omega)
   have h := gRank_fold hc hrm 112 le_rfl (encR Y) g 0 hX hg hz
   have hset : rv g '' {i | i < 112} = Set.range (rowsMatrix Y) := by
     have hrow : ∀ (i : Nat) (hi : i < 112), rowsMatrix Y ⟨i, hi⟩ = rv g i := fun i hi => by
       funext j
       rw [rowsMatrix_apply, V2.toVec_apply, testBit_V2 _ (by omega : j.val < 128)]
-      simp only [rv, hgdef, if_pos hi]
+      simp only [rv, hgdef, ite_eq_left hi]
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_range]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨i, hi, rfl⟩
       exact ⟨⟨i, hi⟩, hrow i hi⟩
@@ -383,7 +383,7 @@ theorem fixDim_add_rank (A : Matrix (Fin 112) (Fin 112) (ZMod 2)) :
     have e2 : A.vecMulLinear = A.transpose.mulVecLin := by
       apply LinearMap.ext
       intro x
-      simp [Matrix.mulVec_transpose]
+      simp
     rw [e, e2, ← Matrix.rank_transpose A]
     rfl
   unfold QT2.fixDim

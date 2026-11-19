@@ -402,7 +402,7 @@ theorem card_A_comm : (conjClass mclP (tp 275 (threeTbl 0)) ∩
     unfold cmK at hcm
     have hcomm : CFSG.KS.McLAS.commK (R3A.T k) (TT.F 3) = true :=
       (commK_iff (r3_canon hk) (TTc (k := 3) (by norm_num)) hrep (tt_rep' (by norm_num))).2
-        (Set.mem_setOf_eq ▸ hyc).symm
+        (Set.mem_ofPred_eq ▸ hyc).symm
     rw [hcomm] at hcm
     obtain ⟨j, hj, hjk⟩ := inRowK_spec hcm
     simp only [Finset.coe_image, Finset.coe_range, Set.mem_image, Set.mem_Iio]

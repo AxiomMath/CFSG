@@ -107,10 +107,10 @@ theorem exists_eq_apply_of_natL2 [Finite G] [Finite V] {L : Subgroup G} [IsSimpl
     ∀ s ∈ S, ∃ l ∈ L, ∀ u ∈ commOn ρ L ⊤, ρ s u = ρ l u := by
   classical
   obtain ⟨F, _, _, hF, -, -, -, φ, ψ, hψ0, hψK, hψS, hE⟩ := hnat
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
-  haveI := hSe
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
+  have := hSe
   choose σ hσ using hψS
   have hψ : ∀ x ∈ commOn ρ L ⊤, ψ x = 0 ↔ x ∈ fixSub ρ L := fun x hx =>
     ⟨fun h => (hψK x hx h).2, fun h => hψ0 x ⟨hx, h⟩⟩

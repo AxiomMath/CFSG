@@ -80,7 +80,7 @@ theorem exists_sylow_map_eq_of_odd_relIndex {J M : Subgroup G} (hJM : J ≤ M)
   let TG := (T : Subgroup J).map J.subtype
   have hTGJ : TG ≤ J := Subgroup.map_subtype_le _
   have hTGM : TG ≤ M := hTGJ.trans hJM
-  have htwo : IsPGroup 2 (TG.subgroupOf M) := (T.isPGroup'.map J.subtype).comap_subtype
+  have htwo : IsPGroup 2 (TG.subgroupOf M) := (T.isPGroup.map J.subtype).comap_subtype
   have hTindex : TG.relIndex J = (T : Subgroup J).index := by
     change (TG.comap J.subtype).index = _
     rw [Subgroup.comap_map_eq_self_of_injective J.subtype_injective]

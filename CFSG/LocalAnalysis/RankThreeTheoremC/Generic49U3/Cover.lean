@@ -79,7 +79,7 @@ private theorem u3q_abelian [Fact p.Prime] (hS : Setting G) (hc : U3Config G p P
   obtain ⟨hT, hTexp, hTnc, -⟩ := u3_T_structure hc
   obtain ⟨Z, hZc, hxZ, hZS, hZT, hTZ, hTZsup⟩ := u3_S_decomp hc
   have hPS : (P : Subgroup G) = u3S P x := (inf_of_le_left hfus.1).symm
-  have hZp : IsPGroup p Z := P.isPGroup'.to_le (hZS.trans inf_le_left)
+  have hZp : IsPGroup p Z := P.isPGroup.to_le (hZS.trans inf_le_left)
   obtain ⟨-, hx1, hxp, -, -⟩ := hc.generic.2.1
   have hR'' : IsMulCommutative (A.map f) :=
     rank_two_abelian (p := p) (by have := hc.five; omega) hT hTexp hTnc hZc hZp
@@ -293,13 +293,13 @@ private theorem u3q_hyp [Fact p.Prime] (hS : Setting G) (hU0 : FullCoreLocal G)
         (by rw [Subgroup.map_subgroupOf_eq_of_le hRH]; exact hN₂)
       others := u3q_others hS hU0 hc hL42 hU0e hU0c hRP hxH hOM hxo' }
 
-theorem u3_cover (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem u3_cover (hS : Setting G) (_hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     (hInn : KFactInnerAction) (hWC : KFactWeakClosure) (hc : U3Config G p P M x J)
     (hfus : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G))
     (hL42 : ∀ a ∈ u3U0 P x J, a ∉ Subgroup.zpowers x → Subgroup.centralizer ({a} : Set G) ≤ M) :
     Gen49Cover G p M x (u3U0 P x J) := by
   intro H hHtop hRH hrk hHM hOM'
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨hU0e, hU0c, hU0S, hxR, -, -, -⟩ := u3U0_facts hc
   have hRP : u3U0 P x J ≤ (P : Subgroup G) := hU0S.trans inf_le_left
   have hOM := gen49q_core_le_subgroupOf_inf hOM'

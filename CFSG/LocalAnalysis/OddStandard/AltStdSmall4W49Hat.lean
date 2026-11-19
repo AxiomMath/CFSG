@@ -210,13 +210,16 @@ theorem HatData.mem_T2 {x : X} : x ∈ T2 ι ↔ ∃ b, x = ι 0 b := by
   · intro hx
     exact subset_closure hx
 
+omit h in
 theorem HatData.iota_mem_Tc (a b : Fin 3 → ZMod 2) : ι a b ∈ Tc ι :=
   subset_closure ⟨a, b, rfl⟩
 
+omit h in
 theorem HatData.iota_mem_T1 (a : Fin 3 → ZMod 2) : ι a 0 ∈ T1 ι := subset_closure ⟨a, rfl⟩
 
+omit h in
 theorem HatData.T1_le_Tc : T1 ι ≤ Tc ι :=
-  closure_le _ |>.2 fun _ ⟨a, ha⟩ => ha ▸ h.iota_mem_Tc a 0
+  closure_le _ |>.2 fun _ ⟨a, ha⟩ => ha ▸ CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_Tc a 0
 
 theorem HatData.T1_inf_T2 : T1 ι ⊓ T2 ι = ⊥ := by
   rw [eq_bot_iff]
@@ -227,7 +230,7 @@ theorem HatData.T1_inf_T2 : T1 ι ⊓ T2 ι = ⊥ := by
   rw [mem_bot, h.zero]
 
 theorem HatData.card_Tc : Nat.card (Tc ι) = 64 := by
-  let f : (Fin 3 → ZMod 2) × (Fin 3 → ZMod 2) → Tc ι := fun p => ⟨ι p.1 p.2, h.iota_mem_Tc _ _⟩
+  let f : (Fin 3 → ZMod 2) × (Fin 3 → ZMod 2) → Tc ι := fun p => ⟨ι p.1 p.2, CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_Tc _ _⟩
   have hf : Function.Bijective f := by
     constructor
     · rintro ⟨a, b⟩ ⟨a', b'⟩ hab
@@ -240,7 +243,7 @@ theorem HatData.card_Tc : Nat.card (Tc ι) = 64 := by
   simp
 
 theorem HatData.card_T1 : Nat.card (T1 ι) = 8 := by
-  let f : (Fin 3 → ZMod 2) → T1 ι := fun a => ⟨ι a 0, h.iota_mem_T1 a⟩
+  let f : (Fin 3 → ZMod 2) → T1 ι := fun a => ⟨ι a 0, CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_T1 a⟩
   have hf : Function.Bijective f := by
     constructor
     · intro a a' hab
@@ -338,7 +341,7 @@ theorem HatData.Tc_le_P1 : Tc ι ≤ P1 ι := by
   refine ⟨1, fun a b => ?_⟩
   rw [mv_one, h.comm a' b' a b, mul_inv_cancel_right]
 
-theorem HatData.T1_le_P1 : T1 ι ≤ P1 ι := (h.T1_le_Tc).trans h.Tc_le_P1
+theorem HatData.T1_le_P1 : T1 ι ≤ P1 ι := (CFSG.OddStandard.AltStdSmall4.W49.HatData.T1_le_Tc).trans h.Tc_le_P1
 
 theorem HatData.P1_unique {x : X} {A A' : GL (Fin 3) (ZMod 2)}
     (hA : ∀ a b, x * ι a b * x⁻¹ = ι (mv A a) b) (hA' : ∀ a b, x * ι a b * x⁻¹ = ι (mv A' a) b) :
@@ -466,7 +469,7 @@ theorem HatData.exists_act [Finite X] (A B : GL (Fin 3) (ZMod 2)) :
     let f : h.rho0.ker → Tc ι := fun k => ⟨((k : X0 ι) : X), by
       obtain ⟨a, b, hab⟩ := h.ker _ fun a b => by
         rw [h.rho0_spec, MonoidHom.mem_ker.1 k.2, Prod.fst_one, Prod.snd_one, mv_one, mv_one]
-      exact hab ▸ h.iota_mem_Tc a b⟩
+      exact hab ▸ CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_Tc a b⟩
     have hf : Function.Injective f := fun k k' hkk => by
       apply Subtype.ext
       apply Subtype.ext
@@ -505,6 +508,7 @@ theorem HatData.exists_P2 [Finite X] (B : GL (Fin 3) (ZMod 2)) :
     rw [hx, mv_one]⟩
   exact ⟨x, hx2, fun a b => by rw [hx, mv_one]⟩
 
+omit h in
 theorem HatData.exists_comm_of_realize {Y : Subgroup X}
     (hY : ∀ A : GL (Fin 3) (ZMod 2), ∃ y ∈ Y, Acts1 ι y A) (A : GL (Fin 3) (ZMod 2)) :
     ∃ k ∈ ⁅Y, Y⁆, Acts1 ι k A := by
@@ -531,7 +535,7 @@ theorem HatData.T1_le_comm_of_realize {Y : Subgroup X} (hT : T1 ι ≤ Y)
   have key : ∀ (A : GL (Fin 3) (ZMod 2)) (u : Fin 3 → ZMod 2), ι (mv A u + u) 0 ∈ ⁅Y, Y⁆ := by
     intro A u
     obtain ⟨y, hy, hyA⟩ := hY A
-    have h1 := commutator_mem_commutator hy (hT (h.iota_mem_T1 u))
+    have h1 := commutator_mem_commutator hy (hT (CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_T1 u))
     rw [commutatorElement_def, hyA, h.inv, ← h.add, add_zero] at h1
     exact h1
   refine h.T1_le_of_basis ?_ ?_ ?_
@@ -543,7 +547,7 @@ theorem HatData.T1_le_comm_of_realize {Y : Subgroup X} (hT : T1 ι ≤ Y)
     rwa [mv_t21_ev1] at this
 
 theorem HatData.exists_K1 [Finite X] (A : GL (Fin 3) (ZMod 2)) : ∃ k ∈ K1 ι, Acts1 ι k A :=
-  h.exists_comm_of_realize (fun A => h.exists_P1 A) A
+  HatData.exists_comm_of_realize (fun A => h.exists_P1 A) A
 
 theorem HatData.T1_le_K1 [Finite X] : T1 ι ≤ K1 ι :=
   h.T1_le_comm_of_realize h.T1_le_P1 fun A => h.exists_P1 A
@@ -555,7 +559,7 @@ theorem HatData.T1_le_K1 [Finite X] : T1 ι ≤ K1 ι :=
 omit h in
 theorem HatData.sco_iota (h : HatData ι zh) (a b : Fin 3 → ZMod 2) : sco ι (ι a b) = b := by
   have hx : ∃ a' b', ι a b = ι a' b' := ⟨a, b, rfl⟩
-  rw [sco, dif_pos hx]
+  rw [sco, dite_eq_left hx]
   exact ((h.eq_iff).1 hx.choose_spec.choose_spec).2.symm
 
 theorem HatData.comm_mem_Tc {c x : X} (hc : c ∈ P2 ι) (hx : x ∈ P1 ι) :
@@ -577,7 +581,7 @@ theorem HatData.comm_mem_Tc {c x : X} (hc : c ∈ P2 ι) (hx : x ∈ P1 ι) :
     rw [show c * x * c⁻¹ * x⁻¹ * ι a b * (c * x * c⁻¹ * x⁻¹)⁻¹ =
       c * (x * (c⁻¹ * (x⁻¹ * ι a b * x) * c) * x⁻¹) * c⁻¹ by group, hAi, hBi, hA, hB',
       mv_mv_inv, mv_mv_inv]
-  exact hab ▸ h.iota_mem_Tc a b
+  exact hab ▸ CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_Tc a b
 
 noncomputable def HatData.gco {c : X} (hc : c ∈ P2 ι) :
     P1 ι →* Multiplicative (Fin 3 → ZMod 2) where
@@ -609,7 +613,7 @@ theorem HatData.comm_mem_T1 {c x : X} (hc : c ∈ P2 ι) (hx : x ∈ K1 ι) :
   obtain ⟨a, b, hab⟩ := (h.mem_Tc).1 (h.comm_mem_Tc hc y.2)
   rw [hab, h.sco_iota] at hy'
   rw [Subgroup.coe_subtype, hab, hy']
-  exact h.iota_mem_T1 a
+  exact CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_T1 a
 
 theorem HatData.comm_mem_T2 {c x : X} (hc : c ∈ P1 ι) (hx : x ∈ K2 ι) :
     c * x * c⁻¹ * x⁻¹ ∈ T2 ι :=
@@ -638,16 +642,16 @@ theorem HatData.mem_T1_of_mem_K1 [Finite X] {a b : Fin 3 → ZMod 2} (hk : ι a 
     have := congrArg (· + b) h2
     simpa [add_assoc, add_self_v] using this
   rw [eq_zero_of_mv_fix b (hfix t01) (hfix t12) (hfix t10)]
-  exact h.iota_mem_T1 a
+  exact CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_T1 a
 
 theorem HatData.K1_inf_Tc [Finite X] : K1 ι ⊓ Tc ι = T1 ι := by
-  refine le_antisymm (fun x hx => ?_) (le_inf h.T1_le_K1 h.T1_le_Tc)
+  refine le_antisymm (fun x hx => ?_) (le_inf h.T1_le_K1 CFSG.OddStandard.AltStdSmall4.W49.HatData.T1_le_Tc)
   obtain ⟨a, b, rfl⟩ := (h.mem_Tc).1 (mem_inf.1 hx).2
   exact h.mem_T1_of_mem_K1 (mem_inf.1 hx).1
 
 theorem HatData.mem_Tc_of_acts_one {x : X} (hx : Acts1 ι x 1) : x ∈ Tc ι := by
   obtain ⟨a, b, rfl⟩ := h.ker x fun a b => by rw [hx, mv_one]
-  exact h.iota_mem_Tc a b
+  exact CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_Tc a b
 
 theorem HatData.K1_inf_K2 [Finite X] : K1 ι ⊓ K2 ι = ⊥ := by
   rw [eq_bot_iff]
@@ -664,7 +668,7 @@ theorem HatData.K1_inf_K2 [Finite X] : K1 ι ⊓ K2 ι = ⊥ := by
   have h1 : x ∈ T1 ι := h.K1_inf_Tc ▸ mem_inf.2 ⟨hx1, hT⟩
   have hTs : x ∈ Tc (swapι ι) := by
     obtain ⟨a, b, rfl⟩ := (h.mem_Tc).1 hT
-    exact h.swapped.iota_mem_Tc b a
+    exact CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_Tc b a
   have h2 : x ∈ T2 ι := by
     show x ∈ T1 (swapι ι)
     rw [← h.swapped.K1_inf_Tc]
@@ -727,7 +731,7 @@ theorem HatData.center_K1 [Finite X] : center (K1 ι) = ⊥ := by
   rintro ⟨x, hx⟩ hxc
   rw [mem_center_iff] at hxc
   have hc : ∀ y ∈ K1 ι, y * x = x * y := fun y hy => congrArg Subtype.val (hxc ⟨y, hy⟩)
-  have hxT : x ∈ T1 ι := h.mem_T1_of_comm hx fun a => (hc _ (h.T1_le_K1 (h.iota_mem_T1 a))).symm
+  have hxT : x ∈ T1 ι := h.mem_T1_of_comm hx fun a => (hc _ (h.T1_le_K1 (CFSG.OddStandard.AltStdSmall4.W49.HatData.iota_mem_T1 a))).symm
   obtain ⟨a₀, rfl⟩ := (h.mem_T1).1 hxT
   have hfix : ∀ B : GL (Fin 3) (ZMod 2), mv B a₀ = a₀ := by
     intro B
@@ -745,7 +749,7 @@ theorem HatData.commutator_K1 [Finite X] : ⁅K1 ι, K1 ι⁆ = K1 ι := by
   have hreal : ∀ A : GL (Fin 3) (ZMod 2), ∃ y ∈ K1 ι, Acts1 ι y A := fun A => h.exists_K1 A
   have hT : T1 ι ≤ ⁅K1 ι, K1 ι⁆ := h.T1_le_comm_of_realize h.T1_le_K1 hreal
   obtain ⟨A, hA⟩ := K1_le_P1 hx
-  obtain ⟨k, hk, hkA⟩ := h.exists_comm_of_realize hreal A
+  obtain ⟨k, hk, hkA⟩ := HatData.exists_comm_of_realize hreal A
   have h1 : x * k⁻¹ ∈ T1 ι := by
     refine h.K1_inf_Tc ▸ mem_inf.2 ⟨mul_mem hx (inv_mem (commutator_le_self _ hk)),
       h.mem_Tc_of_acts_one ?_⟩

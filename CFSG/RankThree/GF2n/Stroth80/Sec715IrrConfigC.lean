@@ -47,7 +47,7 @@ theorem eq_one_of_isCompl_irrSub [Finite K] [CharP K 2] [FiniteDimensional K X]
   have hφ : ∀ h x, φ (act h x) = act h (φ x) := fun h x => by
     simp only [hφdef, LinearMap.sub_apply, Module.End.one_apply, hT, map_sub]
   have hφk : φ ^ 2 ^ k = 0 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [hφdef, Sp6NoEmb.sub_one_pow_two_pow, hk, sub_self]
   have key : ∀ N : Submodule K X, IsIrrSub act N → (∀ x ∈ N, φ x ∈ N) → ∀ x ∈ N, φ x = 0 := by
     intro N hNirr hNφ
@@ -317,8 +317,8 @@ theorem mem_CN_of_centralizes_configC (h34 : Stroth34Statement)
   have hzM : z ∈ M := hzK.1.1
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : Module.Finite K M₀.E := M₀.fin
   let zm : ↥M := ⟨z, hzM⟩
   set zb : Mbar M Q := QuotientGroup.mk zm with hzb
   have hzH : zb ∈ bar M Q (H0 M Z) := mk_mem_bar zm hzK.1
@@ -469,7 +469,7 @@ theorem two_mul_finrank_range_delta_le (h310chi : Stroth310ChiStatement)
     2 * Module.finrank K (LinearMap.range (delta hS t g (mem_bar_H0_of_CN hg))) ≤
       Module.finrank K (LinearMap.range (dlin hS g (mem_bar_H0_of_CN hg))) := by
   classical
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hgH := mem_bar_H0_of_CN hg
   obtain ⟨-, hDW, hDE⟩ := dmap_CN_facts h310chi h52a hS hs hr hg
   obtain ⟨hnd, -⟩ := bilin_nondegenerate_isRefl (M₀ := M₀)
@@ -526,6 +526,7 @@ theorem two_mul_finrank_range_delta_le (h310chi : Stroth310ChiStatement)
   omega
 
 
+omit [Finite G] [Finite K] in
 theorem dmap_conj (g u : Mbar M Q) (e : M₀.E) :
     dmap ρ (g * u * g⁻¹) e = (ρ g).toAdd (dmap ρ u ((ρ g⁻¹).toAdd e)) := by
   have hinv : (ρ g).toAdd ((ρ g⁻¹).toAdd e) = e := by
@@ -542,7 +543,7 @@ theorem finrank_range_dlin_conj_le (h310chi : Stroth310ChiStatement)
     Module.finrank K (LinearMap.range (dlin hS (g * u * g⁻¹) hgu)) ≤
       Module.finrank K (hc.VtSub hS.model t) := by
   classical
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   obtain ⟨hψV, -, -⟩ := psi_facts_tbar h310chi hS hs
   have hmapV : ∀ y ∈ LinearMap.range (dlin hS (g * u * g⁻¹) hgu),
       (ρ g⁻¹).toAdd y ∈ hc.VtSub hS.model t := by
@@ -557,7 +558,7 @@ theorem finrank_range_dlin_conj_le (h310chi : Stroth310ChiStatement)
   have hι : Function.Injective ι := by
     intro y y' h
     exact Subtype.ext ((ρ g⁻¹).toAdd.injective (congrArg Subtype.val h))
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hcard := Nat.card_le_card_of_injective ι hι
   have e1 : Nat.card ↥(LinearMap.range (dlin hS (g * u * g⁻¹) hgu)) =
       Nat.card K ^ Module.finrank K ↥(LinearMap.range (dlin hS (g * u * g⁻¹) hgu)) :=
@@ -582,7 +583,7 @@ theorem dmap_dmap_eq_zero_of_piece (h310chi : Stroth310ChiStatement)
     (hxb : (⟨delta hS t x (mem_bar_H0_of_CN hx), delta_mem_deltaSub hS hx⟩ : ↥(deltaSub hS t)) ∈ Nb)
     (e : M₀.E) : dmap ρ x (dmap ρ v e) = 0 := by
   classical
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hvH := mem_bar_H0_of_CN hv
   obtain ⟨-, hvW, hvE⟩ := dmap_CN_facts h310chi h52a hS hs hr hv
   obtain ⟨hnd, hrefl⟩ := bilin_nondegenerate_isRefl (M₀ := M₀)

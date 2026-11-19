@@ -125,7 +125,7 @@ theorem full_centralizers_of_u1_u2 [Finite G]
   · exact centralizer_conj_le hCt hg
   · exact centralizer_conj_le hCu' hg
 
-theorem model_involutions_and_full_centralizers [Finite G] (ψ : G₀ ≃* PSp45) {t u : G}
+theorem model_involutions_and_full_centralizers [Finite G] (ψ : G₀ ≃* CFSG.ClassicalGroups.Symplectic.PSp45) {t u : G}
     (ht : t ∈ G₀) (hu : u ∈ G₀) (hψt : ψ ⟨t, ht⟩ = psp45GenP 5 ^ 2) (hψu : ψ ⟨u, hu⟩ = psp45GenP 6)
     (hCt : centralizer ({t} : Set G) ≤ G₀) (hCu : Nat.card (centralizer ({u} : Set G)) ≤ 480) :
     centralizer ({u} : Set G) ≤ G₀ ∧

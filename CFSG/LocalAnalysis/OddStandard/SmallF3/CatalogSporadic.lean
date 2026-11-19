@@ -17,9 +17,9 @@ theorem not_sporadicRep_of_standard {G : Type} [Group G] [Finite G] {L : Subgrou
     (hS : StandardSetting G L) (hQ : SmallF3LieQuotient (L ⧸ center L)) :
     ¬ SporadicRep G := by
   rintro ⟨s, ⟨e⟩⟩
-  haveI hsimple : IsSimpleGroup G := hS.simple
+  have hsimple : IsSimpleGroup G := hS.simple
   have hCeven : Even (Nat.card (centralizer (L : Set G))) := hS.standard.2.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(centralizer (L : Set G))) 2
       (even_iff_two_dvd.mp hCeven)

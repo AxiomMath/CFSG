@@ -185,7 +185,7 @@ theorem twl_e6StarS_map {k k' : Type} [Field k] [Field k'] (ψ : k →+* k')
     e6StarS j (fun l => Units.map ψ.toMonoidHom (v l)) =
       fun l => Units.map ψ.toMonoidHom (e6StarS j v l) := by
   funext l
-  simp only [e6StarS, Pi.mul_apply, map_mul, map_prod, map_zpow]
+  simp only [e6StarS, Pi.mul_apply, map_mul]
   congr 1
   by_cases hl : l = j
   · subst hl
@@ -241,16 +241,16 @@ theorem tw_class_trivial_of_mem {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
   classical
   set L := AlgebraicClosure K with hL
   set ι : K →+* L := algebraMap K L with hι
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hKp : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hKp : CharP K p :=
     charP_of_card_eq_prime_pow (f := f * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP L p := charP_of_injective_algebraMap ι.injective p
+  have : CharP L p := charP_of_injective_algebraMap ι.injective p
   obtain ⟨Eg, hEg⟩ := exists_finset_descent hg0C
   obtain ⟨K₃, hK₃, hSK₃, hιK₃⟩ := exists_finite_subfield_of_finset (K := K)
     (Eg ∪ Finset.univ.image fun l => ((u l : Lˣ) : L))
-  haveI : Finite K₃ := hK₃
+  have : Finite K₃ := hK₃
   have hgK : (Eg : Set L) ⊆ K₃ := fun x hx =>
     hSK₃ (Finset.mem_coe.2 (Finset.mem_union_left _ hx))
   have huK : ∀ l, ((u l : Lˣ) : L) ∈ K₃ := fun l =>
@@ -264,7 +264,7 @@ theorem tw_class_trivial_of_mem {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
       fun h0 => (u l).ne_zero (congrArg Subtype.val h0), fun l => Units.ext rfl⟩
   obtain ⟨ι₃, hιι⟩ : ∃ ι₃ : K →+* K₃, K₃.subtype.comp ι₃ = ι :=
     ⟨ι.codRestrict K₃ hιK, RingHom.ext fun x => rfl⟩
-  haveI : CharP K₃ p := Subfield.charP K₃ p
+  have : CharP K₃ p := Subfield.charP K₃ p
   obtain ⟨φ, hφdef⟩ : ∃ φ : K₃ →+* K₃, φ = iterateFrobenius K₃ p f := ⟨_, rfl⟩
   have hφq : ∀ c : K₃, φ c = c ^ (p ^ f) := fun c => by
     rw [hφdef, iterateFrobenius_def]

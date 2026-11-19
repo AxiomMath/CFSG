@@ -226,7 +226,7 @@ theorem exists_three_qTorus_stdLayer_charTwo {L : Type} [Field L] [CharP L 2] [I
     ∃ T : Subgroup (ModGL Tag.E8 L), T ≤ stdLayer Tag.E8 2 1 n₁ ∧
       IsElemAbelian 3 T ∧ Nat.card T = 3 ^ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let roots : Fin 3 → (Fin Tag.E8.rank → ℤ) :=
     ![e8T3CThreeRoot1, e8T3CThreeRoot2, e8T3CThreeRoot3]
   have hsupp0 : ∀ (β : Fin Tag.E6.rank → ℤ) (j : Fin Tag.E8.rank),
@@ -285,7 +285,7 @@ theorem exists_three_qTorus_stdLayer_charTwo {L : Type} [Field L] [CharP L 2] [I
     ext i j
     rw [Matrix.SpecialLinearGroup.map_apply_coe]
     fin_cases i <;> fin_cases j <;>
-      simp [c3, iterateFrobenius_def, CharTwo.neg_eq, Matrix.map_apply]
+      simp [c3, CharTwo.neg_eq, Matrix.map_apply]
   have hΦfix : ∀ i, Units.map (entrywiseHom (iterateFrobenius L 2 1))
       (rootSL2 Tag.E8 L (roots i) c3) = rootSL2 Tag.E8 L (roots i) c3 := by
     intro i

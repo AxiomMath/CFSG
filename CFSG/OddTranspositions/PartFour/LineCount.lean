@@ -13,6 +13,7 @@ open CFSG.Timmesfeld.Connectivity
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem blockImage_cimg (hC : HypothesisC D) (γ : Set G) {x : G}
     (hx : x ∈ Malpha D hC.alpha) : blockImage hC (cimg x γ) = blockImage hC γ := by
   let H := Halpha D hC.alpha
@@ -371,7 +372,7 @@ theorem ncard_blockImage_quotient_eq_one (h89 : PartThree.Lemma8_9)
   have hαℓ : hC.alpha ∈ blockLine D hC.alpha β := left_mem_blockLine hC.isBlock_alpha.subset
   have hΔcard : Δ.ncard = 2 ^ e := by
     change (blockLine D hC.alpha β \ {hC.alpha}).ncard = 2 ^ e
-    rw [Set.ncard_diff_singleton_of_mem (s := blockLine D hC.alpha β) hαℓ, he]
+    rw [Set.ncard_sdiff_singleton_of_mem (s := blockLine D hC.alpha β) hαℓ, he]
     exact Nat.add_sub_cancel _ 1
   have hVodd : Odd (Vmem (imageClass hC)
       (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) b)).ncard :=
@@ -433,7 +434,7 @@ theorem blockLine_eq_insert_orbit (h89 : PartThree.Lemma8_9) (h113 : PartThree.T
     blockLine_diff_eq_orbit_of_singleton h113 hC hrad hn3 hHns hβ hPsingle
   rw [hΔEq.symm]
   change blockLine D hC.alpha β = insert hC.alpha (blockLine D hC.alpha β \ {hC.alpha})
-  rw [Set.insert_diff_singleton, Set.insert_eq_of_mem hαℓ]
+  rw [Set.insert_sdiff_singleton, Set.insert_eq_of_mem hαℓ]
 
 theorem ncard_orbit_eq_two_pow (h89 : PartThree.Lemma8_9) (h113 : PartThree.Theorem11_3)
     (hC : HypothesisC D) (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥)

@@ -13,7 +13,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem mem_Zc_iff {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) {x : G} :
+omit [Finite G] in
+theorem mem_Zc_iff {z : G} (_hZ : IsZ4Star z 1) (_hz : orderOf z = 2) {x : G} :
     x ∈ Zc z ↔ x ∈ Fz z ∧ ∀ f ∈ Fz z, x * f = f * x := by
   constructor
   · intro hx
@@ -220,6 +221,7 @@ theorem closure_pair_ne_Fz {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) {a b
   have hcoe : Nat.card ↥(Fz z) = (Fz z : Set G).ncard := Nat.card_coe_set_eq _
   omega
 
+omit [Finite G] in
 theorem mem_conjugate_iff' {A : Subgroup G} {g x : G} :
     x ∈ conjugate A g ↔ g * x * g⁻¹ ∈ A := by
   constructor

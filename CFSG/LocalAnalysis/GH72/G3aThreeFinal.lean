@@ -20,7 +20,7 @@ variable {G : Type*} [Group G] [Finite G]
 private theorem pResidual_two_eq_top_of_noIndexTwo (𝔖 : Sec3Setting G) :
     CFSG.Quasithin.pResidual 2 G = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine eq_top_iff.mpr ?_
   intro x _
   rw [CFSG.Quasithin.pResidual]
@@ -45,7 +45,7 @@ private theorem pResidual_two_eq_top_of_noIndexTwo (𝔖 : Sec3Setting G) :
   have hn0 : n = 0 := by
     by_contra hn0
     have hpos : 1 ≤ n := Nat.pos_of_ne_zero hn0
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     obtain ⟨M, hM⟩ := CFSG.QuasiDihedralFusion.exists_index_two_of_two_pow_index
       (G := G) (K := N) hNindex hpos
     exact 𝔖.noIndexTwo M (Subgroup.normal_of_index_eq_two hM) hM
@@ -132,6 +132,7 @@ private lemma exists_pairData (𝔖 : Sec3Setting G) : Nonempty (PairData 𝔖) 
     hze := by simp [zS] }
   exact ⟨P⟩
 
+omit [Finite G] in
 private lemma zpowers_two_eq {a x : G} (ha : orderOf a = 2) (hx : x ∈ Subgroup.zpowers a) :
     x = 1 ∨ x = a := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -143,7 +144,7 @@ private lemma zpowers_two_eq {a x : G} (ha : orderOf a = 2) (hx : x ∈ Subgroup
 private lemma center_eq_sup (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) (P : PairData 𝔖) :
     (𝔖.S : Subgroup G) ⊓ Subgroup.centralizer (𝔖.S : Set G) =
       𝔖.S₁ ⊔ Subgroup.zpowers P.z₂ := by
-  haveI : IsKleinFour ↥𝔖.S₁ := h₁
+  have : IsKleinFour ↥𝔖.S₁ := h₁
   have hz_ne : P.z₂ ≠ 1 := by
     intro h
     have h1 : (⟨P.z₂, P.hz⟩ : ↥𝔖.S₂) = 1 := Subtype.ext h
@@ -167,7 +168,7 @@ private lemma center_eq_sup (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁
     rw [← hzP'] at hZ'
     exact hZ'
   have hS₁ : 𝔖.S₁ ⊓ Subgroup.centralizer (𝔖.S₁ : Set G) = 𝔖.S₁ := by
-    letI : IsMulCommutative ↥𝔖.S₁ := IsKleinFour.isMulCommutative
+    let : IsMulCommutative ↥𝔖.S₁ := IsKleinFour.isMulCommutative
     rw [inf_of_le_left]
     intro x hx
     rw [Subgroup.mem_centralizer_iff]
@@ -402,8 +403,8 @@ private lemma exists_conj_into_R (𝔖 : Sec3Setting G) (P : PairData 𝔖) {t :
 
 private lemma Z_le_centralizer_S (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) (P : PairData 𝔖) :
     𝔖.S₁ ⊔ Subgroup.zpowers P.z₂ ≤ Subgroup.centralizer (𝔖.S : Set G) := by
-  haveI : IsKleinFour ↥𝔖.S₁ := h₁
-  letI : IsMulCommutative ↥𝔖.S₁ := IsKleinFour.isMulCommutative
+  have : IsKleinFour ↥𝔖.S₁ := h₁
+  let : IsMulCommutative ↥𝔖.S₁ := IsKleinFour.isMulCommutative
   refine sup_le ?_ ?_
   · intro x hx s hs
     obtain ⟨a, ha, b, hb, rfl⟩ := 𝔖.decomp.mem_iff.mp hs
@@ -507,7 +508,7 @@ private lemma exists_good_conj (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S
     exact (Subgroup.mem_centralizer_iff.mp (Z_le_centralizer_S 𝔖 h₁ P hvZ) s hs).symm
   have hSyl : IsSylowOf 2 (𝔖.S : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, 𝔖.S.isPGroup', by simpa using 𝔖.S.not_dvd_index⟩
+    exact ⟨le_top, 𝔖.S.isPGroup, by simpa using 𝔖.S.not_dvd_index⟩
   have hvSyl : IsSylowOf 2 ((𝔖.S : Subgroup G) ⊓ Subgroup.centralizer ({v} : Set G))
       (Subgroup.centralizer ({v} : Set G)) := by
     rw [inf_of_le_left hvcent]
@@ -516,7 +517,7 @@ private lemma exists_good_conj (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S
     rw [hv_def]
     group
   obtain ⟨g, hgc, hgmap⟩ := exists_conj_extremal'
-    (S := (𝔖.S : Subgroup G)) (u := t) (v := v) (h := x⁻¹) 𝔖.S.isPGroup' hvSyl huv
+    (S := (𝔖.S : Subgroup G)) (u := t) (v := v) (h := x⁻¹) 𝔖.S.isPGroup hvSyl huv
   have hA'le : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ (𝔖.S : Subgroup G) := by
     rintro _ ⟨z, hz, rfl⟩
     have hz' : z ∈ (𝔖.S : Subgroup G) ⊓ Subgroup.centralizer ({t} : Set G) :=
@@ -549,6 +550,7 @@ private lemma exists_good_conj (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S
     group
   · simpa [A] using hAfix'
 
+omit [Finite G] in
 private lemma map_centralizer_conj (S : Subgroup G) (h : G) :
     (Subgroup.centralizer (S : Set G)).map (MulAut.conj h).toMonoidHom =
       Subgroup.centralizer ((S.map (MulAut.conj h).toMonoidHom : Subgroup G) : Set G) := by
@@ -569,7 +571,7 @@ private lemma map_centralizer_conj (S : Subgroup G) (h : G) :
     have hconj := congrArg ((MulAut.conj h).symm) hcomm
     simpa [MulAut.conj_apply, mul_assoc] using hconj
 
-private lemma center_map_conj (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) (P : PairData 𝔖)
+private lemma center_map_conj (𝔖 : Sec3Setting G) (_h₁ : IsKleinFour 𝔖.S₁) (_P : PairData 𝔖)
     (h : G) :
     ((𝔖.S : Subgroup G) ⊓ Subgroup.centralizer (𝔖.S : Set G)).map
         (MulAut.conj h).toMonoidHom =
@@ -790,7 +792,7 @@ private lemma z₂_not_mem_Zstar (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖
   have hSstarSylow : IsSylowOf 2 Sstar ⊤ := by
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
-    · exact 𝔖.S.isPGroup'.map _
+    · exact 𝔖.S.isPGroup.map _
     · rw [Subgroup.relIndex_top_right]
       have hindex : Sstar.index = (𝔖.S : Subgroup G).index := by
         change ((𝔖.S : Subgroup G).map (MulAut.conj g⁻¹).toMonoidHom).index =
@@ -959,10 +961,10 @@ theorem lemma_3_3 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) :
       ∀ x ∈ S₂', ∀ y ∈ S₂', orderOf x = 2 → orderOf y = 2 → IsConj x y := by
   classical
   obtain ⟨P⟩ := exists_pairData 𝔖
-  haveI hKF : IsKleinFour ↥𝔖.S₁ := h₁
+  have hKF : IsKleinFour ↥𝔖.S₁ := h₁
   have hcomm₁ : ∀ a ∈ 𝔖.S₁, ∀ b ∈ 𝔖.S₁, a * b = b * a := by
     intro a ha b hb
-    letI : IsMulCommutative ↥𝔖.S₁ := IsKleinFour.isMulCommutative
+    let : IsMulCommutative ↥𝔖.S₁ := IsKleinFour.isMulCommutative
     exact congrArg Subtype.val (IsMulCommutative.is_comm.comm
       (⟨a, ha⟩ : ↥𝔖.S₁) ⟨b, hb⟩)
   have hsq : ∀ a ∈ 𝔖.S₁, a * a = 1 := by
@@ -995,7 +997,7 @@ theorem lemma_3_3 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁) :
     exact ⟨z, hone_mem z, hz⟩
   have hY_comm : 𝔖.S₁ ≤ Subgroup.centralizer (𝔖.S₂ : Set G) :=
     Subgroup.le_centralizer_iff.mp 𝔖.decomp.commute
-  have hcore := corrected_factor_core (S := (𝔖.S : Subgroup G)) (X := 𝔖.S₂)
+  have hcore := corrected_factor_core (_S := (𝔖.S : Subgroup G)) (X := 𝔖.S₂)
     (Y := 𝔖.S₁) (W := U) 𝔖.decomp.dih₂ P.ha P.hc P.hd P.hc2 P.hd2 P.hgen P.hz P.hz2
     (z₂_ne_one P) (center_S₂ 𝔖 P) (z₂_eq_cd_pow 𝔖 P) hY_comm (Subgroup.one_mem 𝔖.S₁)
     hε₁ hε₂ (fun e he => hcomm₁ e he ε₁ hε₁) (fun e he => hcomm₁ e he ε₂ hε₂)

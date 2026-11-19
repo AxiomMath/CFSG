@@ -194,7 +194,7 @@ theorem vertex_card_of {G : Type} [Group G] [Finite G] {H H₁ H₂ M L : Subgro
     (hHC : ∀ y : G, y ∈ H ↔ y * zOf e = zOf e * y)
     (hτ3 : orderOf τ = 3) (hinfH : M ⊓ H = Subgroup.zpowers τ)
     (hcompl : IsCentComplement (Subgroup.centralizer ({τ} : Set G)) L M)
-    (hthree : IsPGroup 3 M) (hLH : L ≤ H) (hzL : zOf e ∈ L) (hz1 : zOf e ≠ 1)
+    (_hthree : IsPGroup 3 M) (hLH : L ≤ H) (hzL : zOf e ∈ L) (hz1 : zOf e ≠ 1)
     (hzz : zOf e * zOf e = 1) (φ : L ≃* SL23) (hσL : σ ∈ L) (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (htH : t ∈ H) (htt : t * t = 1) (htτ : t * τ * t⁻¹ = τ⁻¹) (ht1 : t ≠ 1)
     (htz1 : t * zOf e ≠ 1) (htM : ∀ m ∈ M, t * m * t⁻¹ ∈ M)
@@ -240,7 +240,7 @@ theorem vertex_card_of {G : Type} [Group G] [Finite G] {H H₁ H₂ M L : Subgro
       (Subgroup.mem_centralizer_singleton_iff.mpr hzτ)
   have hcomm_P : ∀ m ∈ M, ∀ p ∈ Subgroup.zpowers τ, m * p = p * m := fun m hm p hp =>
     mem_zpowers_commute (hcentM m hm) hp
-  haveI : ((Subgroup.zpowers τ).subgroupOf M).Normal :=
+  have : ((Subgroup.zpowers τ).subgroupOf M).Normal :=
     normal_subgroupOf_of_central M (Subgroup.zpowers τ) hcomm_P
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
   have ht_norm : NormH M (Subgroup.zpowers τ) t := by
@@ -255,10 +255,10 @@ theorem vertex_card_of {G : Type} [Group G] [Finite G] {H H₁ H₂ M L : Subgro
       _ = (t * t) * (zOf e * zOf e) := by group
       _ = 1 := by rw [htt, hzz, mul_one]
   have hord_t : orderOf t = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [sq]; exact htt) ht1
   have hord_tz : orderOf (t * zOf e) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [sq]; exact htz2) htz1
   have hexpt : Nat.card ↥(M ⊓ Subgroup.centralizer ({t} : Set G)) = 9 →
       ∀ x : ↥M, t * (x : G) * t⁻¹ = (x : G) → x ^ 3 = 1 := by
@@ -307,7 +307,7 @@ theorem cor37_core {G : Type} [Group G] [Finite G] {T H H₁ H₂ M : Subgroup G
   obtain ⟨r30', r32', r4, r40, r42⟩ := letter_relations e h.lets.rels
   obtain ⟨φ₁⟩ := h.ctx.one.iso_one
   obtain ⟨φ₂⟩ := h.ctx.one.iso_two
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hσ30 : orderOf (e 0) = 3 := orderOf_eq_prime (by rw [pow_three']; exact r30) he0ne
   have hσ32 : orderOf (e 2) = 3 := orderOf_eq_prime (by rw [pow_three']; exact r32) he2ne
   have hσ30' : (e 0) ^ 3 = 1 := by rw [pow_three']; exact r30
@@ -417,18 +417,18 @@ theorem cor37_core {G : Type} [Group G] [Finite G] {T H H₁ H₂ M : Subgroup G
     rcases hc₂ with h1 | h3 | h9
     · left
       constructor
-      · rw [h1] <;> norm_num
-      · rw [cardPb9₂, h1] <;> norm_num
+      · rw [h1]; norm_num
+      · rw [cardPb9₂, h1]
     · right
       left
       constructor
-      · rw [h3] <;> norm_num
-      · rw [cardPb9₂, h3] <;> norm_num
+      · rw [h3]; norm_num
+      · rw [cardPb9₂, h3]
     · right
       right
       constructor
-      · rw [h9] <;> norm_num
-      · rw [cardPb9₂, h9] <;> norm_num
+      · rw [h9]; norm_num
+      · rw [cardPb9₂, h9]
 
 theorem leafCor37 : LeafCor37 := by
   intro G _ _ T H H₁ H₂ M e M₁ M₂ Pb h hF hO hv₁ hv₂ hpb

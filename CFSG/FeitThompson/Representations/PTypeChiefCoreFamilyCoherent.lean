@@ -200,12 +200,14 @@ theorem baselineMap_apply_one (f : charSpanZero (coreDetectFam M U H0)) :
   exact PrimeDadeSubcoherence.dadeMapFun_apply_one_eq_zero hc.isDadeData
     (hc.mem_dadeDomain_of_mem_charSpanZero f.2)
 
+omit [Fintype ↥M] in
 theorem prime_natCard_W₁ : (Nat.card W₁).Prime := by
   have hsolv := hc.isSolvable_M
   rcases hc.isType with h | h | h <;>
     exact (h.clauses_of_isWitnessedPConfiguration hsolv
       hc.isWitnessedPConfiguration).1.prime_natCard_W₁
 
+omit [Fintype ↥M] in
 theorem ne_bot_U : U ≠ ⊥ := by
   have hsolv := hc.isSolvable_M
   rcases hc.isType with h | h | h
@@ -215,11 +217,13 @@ theorem ne_bot_U : U ≠ ⊥ := by
     exact (h.clauses_of_isWitnessedPConfiguration hsolv hc.isWitnessedPConfiguration).2.1
       (hU ▸ inferInstance)
 
+omit [Fintype ↥M] in
 theorem isPTypeConfig :
     IsPTypeConfig (hallCore ↥M) (⁅M, M⁆.subgroupOf M) (U.subgroupOf M) (W₁.subgroupOf M)
       (fittingRaw ↥M) (W₂.subgroupOf M) :=
   hc.isWitnessedPConfiguration.isPTypeConfig hc.isSolvable_M hc.prime_natCard_W₁ hc.ne_bot_U
 
+omit [Fintype ↥M] in
 theorem odd_natCard_M : Odd (Nat.card ↥M) := by
   have hd : Nat.card ↥M ∣ Nat.card G := Subgroup.card_subgroup_dvd_card M
   rcases Nat.even_or_odd (Nat.card ↥M) with he | ho
@@ -227,14 +231,17 @@ theorem odd_natCard_M : Odd (Nat.card ↥M) := by
       (by simpa [Nat.two_dvd_ne_zero] using Nat.odd_iff.1 hc.odd_card)
   · exact ho
 
+omit [Fintype ↥M] in
 theorem A_subset_subgroupOf :
     A ⊆ ((⁅M, M⁆.subgroupOf M : Subgroup ↥M) : Set ↥M) \ {1} := fun x hx => by
   have h := hc.A_subset hx
   rwa [commutator_eq_subgroupOf_commutator] at h
 
+omit [Fintype ↥M] in
 theorem A_invariant : ∀ g : ↥M, ∀ x ∈ A, g⁻¹ * x * g ∈ A := fun g x hx => by
   rw [← hc.A_conj g]; exact ⟨x, hx, rfl⟩
 
+omit [Fintype ↥M] in
 theorem centralizer_subset_A_subgroupOf : ∀ h ∈ hallCore ↥M, h ≠ 1 →
     ((⁅M, M⁆.subgroupOf M ⊓ Subgroup.centralizer ({h} : Set ↥M) : Subgroup ↥M) : Set ↥M) \ {1}
       ⊆ A := fun h hh hh1 => by
@@ -253,6 +260,7 @@ theorem coe_baselineMapOn {S : Finset (↥M → ℂ)}
     (f : charSpanZero (S : Set (↥M → ℂ))) :
     (hc.baselineMapOn hS f : G → ℂ) = dadeMapFun M A0 T (f : ↥M → ℂ) := (rfl)
 
+omit [Fintype ↥M] in
 theorem mem_dadeDomain_of_mem_virtualCharsOn {f : ↥M → ℂ}
     (hf : f ∈ ScalarCoreCoherence.virtualCharsOn A) : f ∈ dadeDomain M A0 := by
   rw [ScalarCoreCoherence.mem_virtualCharsOn] at hf
@@ -267,6 +275,7 @@ noncomputable def dadeSupportedMap :
         (virtualChars_le_span_Irr (ScalarCoreCoherence.mem_virtualCharsOn.1 f.2).1))⟩)
     fun f g => Subtype.ext (by simpa using dadeMapFun_add M A0 T (f : ↥M → ℂ) (g : ↥M → ℂ))
 
+omit [Fintype ↥M] in
 theorem coe_dadeSupportedMap (f : ScalarCoreCoherence.virtualCharsOn A) :
     (hc.dadeSupportedMap f : G → ℂ) = dadeMapFun M A0 T (f : ↥M → ℂ) := (rfl)
 

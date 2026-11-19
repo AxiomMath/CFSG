@@ -26,6 +26,7 @@ noncomputable def Gamma :
     Subgroup (↥(StatedSp 3 Ω) × ↥(adjointGroup .F4 Ω)) :=
   ⨆ k, (zMap Ω k).range
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem zMap_range_le_of_dvd
     {k m : Idx} (h : k.1 ∣ m.1) :
     (zMap Ω k).range ≤ (zMap Ω m).range := by
@@ -53,6 +54,7 @@ theorem zMap_range_le_of_dvd
       _ = ((jMap Ω m).comp (j (τ := .F4) f)) (iOf (TauCeti.frobeniusFixedSubfield Ω 2 k.1) g) := rfl
       _ = jMap Ω k (iOf (TauCeti.frobeniusFixedSubfield Ω 2 k.1) g) := by rw [hj]
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem directed_zMap_range :
     Directed (· ≤ ·) (fun k : Idx => (zMap Ω k).range) := by
   intro k m
@@ -60,6 +62,7 @@ theorem directed_zMap_range :
   · exact zMap_range_le_of_dvd Ω (dvd_mul_right k.1 m.1)
   · exact zMap_range_le_of_dvd Ω (dvd_mul_left m.1 k.1)
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem mem_Gamma
     {x} : x ∈ Gamma Ω ↔ ∃ k, x ∈ (zMap Ω k).range :=
   Subgroup.mem_iSup_of_directed (directed_zMap_range Ω)
@@ -76,6 +79,7 @@ noncomputable def pi2 :
   map_one' := rfl
   map_mul' := fun _ _ => rfl
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem pi1_injective :
     Function.Injective (pi1 Ω) := by
   intro z1 z2 h
@@ -100,6 +104,7 @@ theorem pi1_injective :
       show ((z2 : Gamma Ω) : ↥(StatedSp 3 Ω) × ↥(adjointGroup .F4 Ω)) = zMap Ω n g2
         from hg2.symm, hg]
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem pi2_injective :
     Function.Injective (pi2 Ω) := by
   intro z1 z2 h
@@ -128,6 +133,7 @@ theorem pi2_injective :
       show ((z2 : Gamma Ω) : ↥(StatedSp 3 Ω) × ↥(adjointGroup .F4 Ω)) = zMap Ω n g2
         from hg2.symm, h3]
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem pi1_zMap
     (k : Idx) (g : ↥(StatedSp 3 (TauCeti.frobeniusFixedSubfield Ω 2 k.1)))
     (hz : zMap Ω k g ∈ Gamma Ω) :
@@ -135,6 +141,7 @@ theorem pi1_zMap
   simp only [pi1, zMap, MonoidHom.prod_apply]
   rfl
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem sMap_mem_range_pi1
     (k : Idx)
     (g : ↥(StatedSp 3 (TauCeti.frobeniusFixedSubfield Ω 2 k.1))) :
@@ -144,7 +151,7 @@ theorem sMap_mem_range_pi1
   exact ⟨⟨zMap Ω k g, hz⟩, pi1_zMap Ω k g hz⟩
 
 theorem c3RootSubgroup_le_range_pi1
-    {γ : Fin 3 → ℤ} (hγ : γ ∈ roots (isFiniteType_cartanC 3) ∅) :
+    {γ : Fin 3 → ℤ} (_hγ : γ ∈ roots (isFiniteType_cartanC 3) ∅) :
     C3Range.c3RootSubgroup (K := Ω) γ ≤ MonoidHom.range (pi1 Ω) := by
   rw [CFSG.StandardType.F4ExplicitPos.C3Range.c3RootSubgroup, Subgroup.closure_le]
   rintro _ ⟨c, rfl⟩

@@ -19,7 +19,7 @@ open scoped Matrix
 
 private lemma exists_pow_two_of_card {K : Type} [Field K] [Finite K] [CharP K 2]
     {r : ℕ} (hK : Nat.card K = r ^ 2) : ∃ f, r = 2 ^ f := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, _h2, hcard⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card] at hK
   have hrn : r ^ 2 = 2 ^ (n : ℕ) := by rw [← hK, hcard]
@@ -68,18 +68,18 @@ private lemma gramForm_single_add_single {K : Type} [Field K] {d f : ℕ}
 private lemma suLine_apply_zero {K : Type} [Field K] {d : ℕ} [NeZero d] (hd : 2 ≤ d) :
     suLine d K (0 : Fin d) = 1 := by
   unfold suLine
-  simp [fin_zero_ne_one hd, (fin_zero_ne_one hd).symm]
+  simp [fin_zero_ne_one hd]
 
 private lemma suLine_apply_one {K : Type} [Field K] {d : ℕ} [NeZero d] (hd : 2 ≤ d) :
     suLine d K (1 : Fin d) = 1 := by
   unfold suLine
-  simp [fin_zero_ne_one hd, (fin_zero_ne_one hd).symm]
+  simp [(fin_zero_ne_one hd).symm]
 
 private lemma suLine_apply_ne {K : Type} [Field K] {d : ℕ} [NeZero d] {i : Fin d}
     (h0 : i ≠ (0 : Fin d)) (h1 : i ≠ (1 : Fin d)) :
     suLine d K i = 0 := by
   unfold suLine
-  simp [h0, h0.symm, h1, h1.symm]
+  simp [h0, h1]
 
 private lemma gramForm_suLine_apply {K : Type} [Field K] {f d : ℕ} [NeZero d]
     (h : UnitaryFieldData 2 f K) (v : Fin d → K) :
@@ -92,9 +92,9 @@ private lemma gramFormOne_isSymm {K : Type} [Field K] {f d : ℕ} (h : UnitaryFi
   refine gramForm_isSymm h ?_
   refine Matrix.ext fun i j => ?_
   by_cases hij : i = j
-  · subst hij; simp [Matrix.map_apply, Matrix.one_apply, Matrix.transpose_apply]
+  · subst hij; simp [Matrix.transpose_apply]
   · have hji : j ≠ i := fun hh => hij hh.symm
-    simp [Matrix.map_apply, Matrix.one_apply, Matrix.transpose_apply, hij, hji]
+    simp [Matrix.transpose_apply, hij, hji]
 
 private lemma gramForm_suLine_self {K : Type} [Field K] [CharP K 2] {f d : ℕ} [NeZero d]
     (h : UnitaryFieldData 2 f K) (hd : 2 ≤ d) :
@@ -103,11 +103,11 @@ private lemma gramForm_suLine_self {K : Type} [Field K] [CharP K 2] {f d : ℕ} 
   exact CharTwo.add_self_eq_zero 1
 
 private lemma gramForm_suLine_single_zero {K : Type} [Field K] {f d : ℕ} [NeZero d]
-    (h : UnitaryFieldData 2 f K) (hd : 2 ≤ d) {j : Fin d}
+    (h : UnitaryFieldData 2 f K) (_hd : 2 ≤ d) {j : Fin d}
     (hj0 : j ≠ (0 : Fin d)) (hj1 : j ≠ (1 : Fin d)) :
     gramForm h 1 (suLine d K) (Pi.single j 1 : Fin d → K) = 0 := by
   rw [gramForm_suLine_apply h (Pi.single j 1 : Fin d → K)]
-  simp [hj0, hj0.symm, hj1, hj1.symm]
+  simp [hj0.symm, hj1.symm]
 
 private lemma gramForm_suLine_span_iso {K : Type} [Field K] [CharP K 2] {f d : ℕ} [NeZero d]
     (h : UnitaryFieldData 2 f K) (hd : 2 ≤ d) {x y : Fin d → K}
@@ -115,7 +115,7 @@ private lemma gramForm_suLine_span_iso {K : Type} [Field K] [CharP K 2] {f d : �
     gramForm h 1 x y = 0 := by
   obtain ⟨s, rfl⟩ := Submodule.mem_span_singleton.mp hx
   obtain ⟨t, rfl⟩ := Submodule.mem_span_singleton.mp hy
-  simp only [map_smulₛₗ, LinearMap.smul_apply, map_smul, gramForm_suLine_self h hd,
+  simp only [map_smulₛₗ, LinearMap.smul_apply, gramForm_suLine_self h hd,
     smul_zero]
 
 private lemma suLine_fixed_mem_span {K : Type} [Field K] [CharP K 2] {d : ℕ} [NeZero d]
@@ -151,7 +151,7 @@ private lemma radical_transvection_fixed {K : Type} [Field K] [CharP K 2] {f d :
   have hwy : gramForm h 1 (suLine d K) (0 : Fin d → K) = 0 :=
     Submodule.mem_orthogonalBilin.mp h0W (suLine d K) haW
   have hc : (1 : K) + h.bar 1 = -gramForm h 1 (0 : Fin d → K) (0 : Fin d → K) := by
-    simp only [map_one, CharTwo.add_self_eq_zero, map_zero, LinearMap.zero_apply, neg_zero]
+    simp only [map_one, CharTwo.add_self_eq_zero, map_zero, neg_zero]
   let g : gramSU h (1 : Matrix (Fin d) (Fin d) K) :=
     ⟨unipotentGL (eichlerMatrix h 1 (suLine d K) (0 : Fin d → K) 1)
         (eichlerMatrix_sub_one_pow_three hH (hWiso _ haW _ haW) hwy 1),
@@ -165,8 +165,7 @@ private lemma radical_transvection_fixed {K : Type} [Field K] [CharP K 2] {f d :
   have hact : eichlerMatrix h 1 (suLine d K) (0 : Fin d → K) 1 *ᵥ v = v := by
     simpa [T, g, unipotentGL] using hT
   rw [eichlerMatrix_mulVec] at hact
-  simp only [map_zero, LinearMap.zero_apply, smul_zero, zero_smul, one_mul, zero_sub,
-    sub_zero, add_zero] at hact
+  simp only [map_zero, LinearMap.zero_apply, smul_zero, zero_smul, one_mul, sub_zero, add_zero] at hact
   have hx : gramForm h 1 (suLine d K) v • suLine d K = 0 := by
     have h' : v + gramForm h 1 (suLine d K) v • suLine d K = v + 0 := by
       rw [add_zero]; exact hact
@@ -225,7 +224,7 @@ private lemma eichler_radical_action {K : Type} [Field K] [CharP K 2] {f d : ℕ
     simpa [S, g, unipotentGL] using hS
   rw [eichlerMatrix_mulVec] at hact
   rw [hbeta] at hact
-  simp only [zero_smul, mul_zero, zero_add, add_zero, sub_zero] at hact
+  simp only [zero_smul, mul_zero, add_zero] at hact
   have h' : v + (-(gramForm h 1 (Pi.single j 1 : Fin d → K) v • suLine d K)) = v + 0 := by
     rw [add_zero, ← sub_eq_add_neg]; exact hact
   have hneg := add_left_cancel h'
@@ -295,7 +294,7 @@ theorem exists_fixedLine_statedSU {K : Type} [Field K] [Finite K] [CharP K 2] {r
         (∀ u ∈ U, ((u : GL (Fin d) K) : Matrix _ _ K) *ᵥ v = v) →
           v ∈ Submodule.span K {e} := by
   obtain ⟨f, hf⟩ := exists_pow_two_of_card hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hfpos : 1 ≤ f := by
     by_contra hle
     have hf0 : f = 0 := by omega
@@ -319,7 +318,7 @@ theorem exists_fixedLine_statedSU {K : Type} [Field K] [Finite K] [CharP K 2] {r
       have hi : i = (0 : Fin 1) := Subsingleton.elim i 0
       rw [hi]
       simp [Pi.smul_apply]
-  · haveI : NeZero d := ⟨by omega⟩
+  · have : NeZero d := ⟨by omega⟩
     have hSU : StatedSU d r K = gramSU h (1 : Matrix (Fin d) (Fin d) K) := by
       rw [hf]
       exact unitarySU_eq_gramSU h d
@@ -334,7 +333,7 @@ theorem exists_fixedLine_statedSU_suLine {K : Type} [Field K] [Finite K] [CharP 
           v ∈ Submodule.span K
             {(Pi.single (0 : Fin d) 1 + Pi.single (1 : Fin d) 1 : Fin d → K)} := by
   obtain ⟨f, hf⟩ := exists_pow_two_of_card hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hfpos : 1 ≤ f := by
     by_contra hle
     have hf0 : f = 0 := by omega

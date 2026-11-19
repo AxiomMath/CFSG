@@ -21,7 +21,7 @@ theorem fg_eq_smul_of_commute_omega (hR : R.Nondegenerate)
       ((g : W ≃ₗ[ZMod 3] W) : W →ₗ[ZMod 3] W) ∘ₗ M) :
     ∃ c : ZMod 3, M = c • LinearMap.id := by
   have hB : R.polarBilin.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mpr hR
-  haveI : Finite (ZMod 3) := inferInstance
+  have : Finite (ZMod 3) := inferInstance
   have hcard : 2 < Nat.card (ZMod 3) := by
     rw [Nat.card_zmod]
     norm_num
@@ -53,7 +53,7 @@ theorem fg_eq_zero_of_fixed_omega (hR : R.Nondegenerate)
       map_smul, hgw])
   obtain ⟨x, hx⟩ : ∃ x, R.polarBilin x w ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hw0 (hB.2 w h)
   have hcx : c • x = R.polarBilin x w • w := by
     have h := LinearMap.congr_fun hc x

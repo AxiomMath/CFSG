@@ -65,7 +65,7 @@ private theorem xorBits_pow (n j : ℕ) (f : ℕ → ℕ) :
     by_cases h : j = n
     · subst h; simp
     · have h' : n ≠ j := fun e => h e.symm
-      simp [h, h']
+      simp [h]
       split_ifs <;> first | rfl | omega
 
 private theorem xorBits_lt' {n k : ℕ} {f : ℕ → ℕ} (hf : ∀ j < n, f j < 2 ^ k) (v : ℕ) :
@@ -222,14 +222,13 @@ private theorem lookT_tab3 {c₀ c₁ c₂ : ℕ} (h₀ : c₀ < 64) (h₁ : c�
       simp only [xorBits_succ, xorBits_zero, Nat.testBit, List.getD_cons_zero,
         List.getD_cons_succ, Nat.reduceShiftRight, Nat.reduceAnd, ite_true, ite_false,
         Nat.zero_xor, Nat.xor_zero, bne_iff_ne, ne_eq, not_true, not_false_eq_true,
-        Nat.one_ne_zero, if_true, if_false] at hR <;>
+        Nat.one_ne_zero] at hR <;>
       subst hR <;>
       interval_cases i <;>
       simp only [Nat.testBit_lor, Nat.testBit_shiftLeft, Nat.testBit_xor,
         lo c₀ h₀, lo c₁ h₁, lo c₂ h₂, Nat.mul_zero, Nat.zero_add, Nat.reduceMul, Nat.reduceAdd,
         Nat.reduceLeDiff, Nat.reduceSub, decide_true, decide_false, Bool.true_and, Bool.false_and,
-        Bool.or_false, Bool.false_or, Bool.xor_false, Bool.false_xor, Nat.zero_testBit,
-        Nat.not_le, Nat.reduceLT, Nat.reduceSubDiff,
+        Bool.or_false, Bool.false_or, Nat.zero_testBit,
         Bool.xor_self, Bool.and_false, Bool.or_self, Bool.xor_assoc, ge_iff_le,
         Nat.reduceLeDiff]
   · rw [hup i (by omega)]; simp [hi]

@@ -53,10 +53,10 @@ theorem heis_eq_top [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) {ω : F}
       blockImage hsq h ≤ 𝒢.map SpecialLinearGroup.toGL) :
     𝒢 = ⊤ := by
   classical
-  haveI hfact : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have hfact : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   set s : Module.End F (Fin n → F) := Matrix.toLin' (S : Matrix (Fin n) (Fin n) F) with hsdef
   set t : Module.End F (Fin n → F) := Matrix.toLin' (T : Matrix (Fin n) (Fin n) F) with htdef
   set ti : Module.End F (Fin n → F) :=
@@ -137,7 +137,7 @@ theorem heis_eq_top [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) {ω : F}
         eq_of_monic_of_associated hamem.2.1 (monic_X_pow_sub_C _ hp.ne_zero)
           (associated_of_dvd_dvd hdvd (hamem.1.dvd_symm hirr hdvd))
       subst haeq
-      haveI : Fact (Irreducible (X ^ p - C (c : F) : F[X])) := ⟨hirr⟩
+      have : Fact (Irreducible (X ^ p - C (c : F) : F[X])) := ⟨hirr⟩
       have hfr := finrank_primaryComponent t (X ^ p - C (c : F) : F[X])
       have hall : primaryComponent t (X ^ p - C (c : F) : F[X]) = ⊤ := by
         refine eq_top_iff.2 fun v _ => ?_

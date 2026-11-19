@@ -46,11 +46,13 @@ variable {G : Type} [Group G]
 
 variable [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 theorem q13e_mem_R {b : G} :
     b ∈ q13R t tau x₁ x₂ rho om ↔
       b ∈ q13B t tau x₁ x₂ rho om ∧ b * (t * om) * b⁻¹ * (t * om)⁻¹ ∈ fourGrp x₁ x₂ :=
   Iff.rfl
 
+omit [Finite G] in
 theorem q13e_R_le_B : q13R t tau x₁ x₂ rho om ≤ q13B t tau x₁ x₂ rho om := by
   intro b hb
   exact hb.1

@@ -64,7 +64,7 @@ theorem conjIso_of_actHom {G K : Subgroup X} (hKG : K ≤ G)
 theorem isElemAbelian_map_conj (p : ℕ) (c : X) {E : Subgroup X} (h : IsElemAbelian p E) :
     IsElemAbelian p (E.map (MulAut.conj c).toMonoidHom) := by
   refine ⟨?_, ?_⟩
-  · haveI : IsMulCommutative E := h.1
+  · have : IsMulCommutative E := h.1
     infer_instance
   · rintro x ⟨y, hy, rfl⟩
     rw [← map_pow, h.2 y hy, map_one]

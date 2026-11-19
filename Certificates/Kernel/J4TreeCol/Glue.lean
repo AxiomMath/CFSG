@@ -122,7 +122,7 @@ theorem g5i_getB (m : ℕ) : (g5Invs ())[m + 3]? = baseInvs[m]? := by
 
 theorem gen5_out {k : ℕ} (hk : 5 ≤ k) : gen5 k = 1 := by
   unfold gen5
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem prc_g5 (k : ℕ) : PRc (gen5 k) (getN colMats.one colMats.g5 k) := by
   rcases Nat.lt_or_ge k 5 with hk | hk

@@ -18,7 +18,7 @@ theorem center_eq_bot_of_simple_of_two_le_pRank {G : Type} [Group G] [Finite G] 
         rw [h]
         exact Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.1 ha b).symm
-    letI : CommGroup G := { ‹Group G› with mul_comm := hcomm }
+    let : CommGroup G := { ‹Group G› with mul_comm := hcomm }
     have hprime : (Nat.card G).Prime := IsSimpleGroup.prime_card
     obtain ⟨E, -, -, hEcard⟩ := CFSG.SectionRank.exists_pRank hℓ.one_lt (⊤ : Subgroup G)
     have hE2 : ℓ ^ 2 ∣ Nat.card E := by

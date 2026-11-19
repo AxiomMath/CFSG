@@ -54,7 +54,7 @@ theorem s9c_SL_inv_mul (A : SL(3, ZMod 2)) :
   rw [← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel, Matrix.SpecialLinearGroup.coe_one]
 
 theorem s9c_ker_of_conj {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
-    (X u v : Module.End (ZMod 2) W) (huv : u * v = 1) (hvu : v * u = 1)
+    (X u v : Module.End (ZMod 2) W) (_huv : u * v = 1) (hvu : v * u = 1)
     (h : LinearMap.ker (u * X * v) = ⊥) : LinearMap.ker X = ⊥ := by
   rw [LinearMap.ker_eq_bot'] at h ⊢
   intro m hm

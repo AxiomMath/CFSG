@@ -36,7 +36,7 @@ private lemma lr2oom_scalars_subgroupOf_statedOmega_eq_bot
   rw [← hc] at hpres
   have hscalar : Matrix.mulVec
       (((Matrix.GeneralLinearGroup.scalar ι c : GL ι K) : Matrix ι ι K)) v = c • v := by
-    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.mulVec_diagonal, Units.smul_def]
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Units.smul_def]
   rw [hscalar] at hpres
   have hpresK : Q ((c : K) • v) = Q v := by simpa only [Units.smul_def] using hpres
   have hc2 : (c : K) ^ 2 = 1 := by
@@ -103,7 +103,7 @@ private lemma lr2oom_quadMinus_exists_ne_zero
   change CFSG.Open.StatedQuadMinus n K b c (Pi.single (.inr (.inr 0)) 1) ≠ 0
   rw [show CFSG.Open.StatedQuadMinus n K b c (Pi.single (.inr (.inr 0)) 1) = 1 from ?_]
   exact one_ne_zero
-  simp [CFSG.Open.StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.single_apply]
+  simp [CFSG.Open.StatedQuadMinus]
 
 private lemma lr2oom_linear_isometry_mem_statedOmega
     {K : Type} [Field K] [Finite K]
@@ -131,16 +131,16 @@ private lemma lr2oom_linear_isometry_mem_statedOmega
     TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mpr (fun v => by
       rw [hrL_apply]; exact hiso v)
   set O := TauCeti.QuadraticMap.orthogonalGroup Q with hO
-  haveI : Finite ((Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) ≃ₗ[K]
+  have : Finite ((Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) ≃ₗ[K]
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K)) :=
     Finite.of_injective (fun e : _ ≃ₗ[K] _ => (e : _ → _))
       (fun a b h => LinearEquiv.ext fun x => congrFun h x)
-  haveI : Finite O := by rw [hO]; exact Subtype.finite
+  have : Finite O := by rw [hO]; exact Subtype.finite
   have hcard : Nat.card (Abelianization O) ≤ 2 := hbound.2.2 rfl
   have hcard_dvd : Nat.card (Abelianization O) ∣ 2 := by
     have hpos : 0 < Nat.card (Abelianization O) := Nat.card_pos
     have h1 : Nat.card (Abelianization O) = 1 ∨ Nat.card (Abelianization O) = 2 := by omega
-    rcases h1 with h | h <;> rw [h] <;> norm_num
+    rcases h1 with h | h <;> rw [h]; norm_num
   have hgm : (⟨rL, hrL_mem⟩ : O) ^ (7 ^ hm.choose) = 1 := by
     apply Subtype.ext
     change rL ^ (7 ^ hm.choose) = 1
@@ -198,11 +198,11 @@ theorem ord7Param_POmegaMinus {n f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .POmegaM
     hmodel.statedClassicalModel (by decide)
   have hcl := hclass
   obtain ⟨hadm, K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := hcl
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hn : 4 ≤ n := hadm.2.2
   have hf : 1 ≤ f := hadm.2.1
   have hp2 : Nat.Prime 2 := hadm.1
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     rw [← ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hp2 hf hK]
     infer_instance
   have h7F : ¬ 7 ∣ Nat.card (K ≃+* K) := by
@@ -240,7 +240,7 @@ theorem ord7Param_POmegaMinus {n f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .POmegaM
     (fun r => CFSG.LieType.ChevTwo.OppCl.semiIsoQ_inv _)
     h7F h7k ?_ ?_
   · intro S hS α hα
-    exact CFSG.LieType.ChevTwo.OppCl.induced_POmegaMinus K 7 (by norm_num) n hn b c hirr S hS α hα
+    exact CFSG.LieType.ChevTwo.OppCl.induced_POmegaMinus K 7 n hn b c hirr S hS α hα
   · intro r hr hP hlinr h7r
     have hadd : ∀ u v, r (u + v) = r u + r v := hr.1
     have hiso : ∀ v, CFSG.LieType.Universal.Spin.quadMinus n K b c (r v) =

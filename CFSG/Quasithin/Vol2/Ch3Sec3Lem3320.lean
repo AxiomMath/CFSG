@@ -65,6 +65,7 @@ theorem relIndex_eq_three_of_iso {H T : Subgroup G} (hT : IsSylowTwoOf T H)
     exact hcop.dvd_of_dvd_mul_right ⟨2 ^ a, heq.symm⟩
   exact Nat.dvd_antisymm hr3 h3
 
+omit [Finite G] in
 theorem maxOver_eq_of_relIndex_prime {H T : Subgroup G} (hTH : T ≤ H) {p : ℕ} (hp : p.Prime)
     (hidx : T.relIndex H = p) : maxOver H T = {T} := by
   have key : ∀ K : Subgroup G, T ≤ K → K ≤ H → K = T ∨ K = H := by
@@ -132,7 +133,7 @@ theorem stmt3_3_20_of (h10 : Stmt3_3_10) (hS : Step3_3_20) : Stmt3_3_20 := by
     intro d _
     rw [Subgroup.mem_normalizer_iff]
     intro z
-    simp only [SetLike.mem_coe, Subgroup.mem_bot]
+    simp only [Subgroup.mem_bot]
     constructor
     · rintro rfl
       group

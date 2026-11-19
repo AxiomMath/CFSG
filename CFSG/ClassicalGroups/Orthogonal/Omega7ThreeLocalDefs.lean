@@ -57,14 +57,14 @@ theorem rotMat_zero : rotMat K 0 = 1 := by
 theorem rotMat_add (v v' : Fin 3 → ZMod 3) : rotMat K (v + v') = rotMat K v * rotMat K v' := by
   ext a b
   rcases a with i | i | u <;> rcases b with j | j | w <;>
-    simp [rotMat, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_three, planeRot_add,
+    simp [rotMat, Matrix.mul_apply, Fintype.sum_sum_type, planeRot_add,
       Fin.sum_univ_two] <;>
     (by_cases h : i = j <;> simp [h])
 
 @[expose] def rotHom (K : Type) [Field K] : F3Cube →* Matrix Idx Idx K where
   toFun v := rotMat K (Multiplicative.toAdd v)
   map_one' := rotMat_zero
-  map_mul' v v' := rotMat_add _ _
+  map_mul' _v _v' := rotMat_add _ _
 
 @[expose] def rotGL (K : Type) [Field K] : F3Cube →* GL Idx K :=
   (rotHom K).toHomUnits
@@ -155,7 +155,7 @@ theorem planeRot_injective {k k' : ZMod 3} (h : planeRot K k = planeRot K k') : 
   have hz : (0 : K) ≠ -1 := by simp
   have hz' : (-1 : K) ≠ 0 := by simp
   rcases zmod3_cases k with rfl | rfl | rfl <;> rcases zmod3_cases k' with rfl | rfl | rfl <;>
-    simp [planeRot_zero, planeRot_one, planeRot_two] at h00 h10 ⊢ <;> tauto
+    simp [planeRot_zero, planeRot_one, planeRot_two] at h00 h10 ⊢
 
 theorem c₀GL_injective (F : Frame K) : Function.Injective (c₀GL F) := by
   intro v v' h
@@ -176,7 +176,7 @@ theorem c₀GL_injective (F : Frame K) : Function.Injective (c₀GL F) := by
     · simpa [rotMat] using congr_fun (congr_fun h2 (.inr (.inl i))) (.inr (.inl i))
   exact planeRot_injective h3
 
-theorem c₀_injective [Finite K] (F : Frame K) : Function.Injective (c₀ F) := fun v v' h =>
+theorem c₀_injective [Finite K] (F : Frame K) : Function.Injective (c₀ F) := fun _v _v' h =>
   c₀GL_injective F (congrArg Subtype.val h)
 
 theorem plane_fixed_iff (h3 : (3 : K) ≠ 0) {k : ZMod 3} (hk : k ≠ 0) (x y : K) :
@@ -269,14 +269,14 @@ theorem fix_iff [Finite K] (F : Frame K) (v : F3Cube) :
       rw [c₀_fixed_iff, Matrix.mulVec_mulVec, hPP, Matrix.one_mulVec]
       intro j hj
       have hji : j ≠ i := fun e => hj (e ▸ hi)
-      simp [Pi.single_apply, hji]
+      simp [hji]
     have := hw (Multiplicative.ofAdd (Pi.single i 1))
     rw [c₀_fixed_iff, Matrix.mulVec_mulVec, hPP, Matrix.one_mulVec] at this
     have := (this i (by simp)).1
     simp at this
   · intro h
     ext w
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · intro hw v'
       rw [c₀_fixed_iff] at hw ⊢

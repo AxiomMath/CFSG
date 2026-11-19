@@ -110,7 +110,7 @@ theorem sylow_torusPow_hypSU_two_zero (h : UnitaryFieldData 2 n K) {p : ℕ} (hp
       p ^ (Nat.card (hypSU h 2 0)).factorization p := by
     rw [Syl3.card_torusPow h 2 0 (pow_factorization_card_units_dvd h hp hp2 hpn),
       factorization_card_hypSU_two_zero_of_dvd h hp hp2 hpn, ← pow_mul, mul_comm]
-  exact ⟨(Sylow.ofCard _ hcard).isPGroup', (Sylow.ofCard _ hcard).not_dvd_index⟩
+  exact ⟨(Sylow.ofCard _ hcard).isPGroup, (Sylow.ofCard _ hcard).not_dvd_index⟩
 
 theorem mul_comm_of_mem_torusPow {q f : ℕ} {h : UnitaryFieldData q f K} {r ε m k : ℕ}
     {g g' : hypSU h r ε} (hg : g ∈ Syl3.torusPow h r ε m) (hg' : g' ∈ Syl3.torusPow h r ε k) :

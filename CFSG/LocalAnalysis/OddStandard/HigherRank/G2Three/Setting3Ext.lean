@@ -12,8 +12,8 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 private theorem isSylowIn_map_subtype {G : Type} [Group G] [Finite G] {V : Subgroup G}
     (P : Sylow 2 ↥V) : IsSylowIn 2 V ((P : Subgroup ↥V).map V.subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map V.subtype, ?_⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map V.subtype, ?_⟩
   have h := Subgroup.relIndex_map_map_of_injective (f := V.subtype)
     (P : Subgroup ↥V) (⊤ : Subgroup ↥V) V.subtype_injective
   rw [Subgroup.map_top V.subtype, Subgroup.range_subtype, Subgroup.relIndex_top_right] at h

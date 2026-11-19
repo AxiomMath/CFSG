@@ -255,7 +255,7 @@ theorem ncard_orbit_R_le (h2c : ∀ y ∈ c.ptsL, y ≠ c.x0 → ∀ g ∈ c.G2,
       exact smul_left_cancel u (h.trans hub.symm)
   have hb_mem : b ∈ objOf c.G1 c.G2 n := hbn
   have h4 : (objOf c.G1 c.G2 n \ {b}).ncard = 4 := by
-    rw [Set.ncard_diff_singleton_of_mem hb_mem, c.ncard_objOf_line n]
+    rw [Set.ncard_sdiff_singleton_of_mem hb_mem, c.ncard_objOf_line n]
   have h5 := Set.ncard_le_ncard hsub2 (Set.toFinite _)
   have h6 := Set.ncard_le_ncard hsub (Set.toFinite _)
   omega

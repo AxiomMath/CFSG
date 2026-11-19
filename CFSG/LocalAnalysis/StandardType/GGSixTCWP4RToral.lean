@@ -29,7 +29,7 @@ theorem uPlaneToralAt_E6_three
     rw [hc, hK]
     have h1 := CFSG.StandardType.TableCRes.tc_two_pow_mod_three f
     have h2 : 1 ≤ 2 ^ f := Nat.one_le_two_pow
-    rw [if_neg (by omega)] at h1
+    rw [ite_eq_right (by omega)] at h1
     have : ¬ 3 ∣ 2 ^ f - 1 := by omega
     exact (Nat.Coprime.gcd_eq_one ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 this))
   have hker : (e6Isogeny K).ker = ⊥ := by

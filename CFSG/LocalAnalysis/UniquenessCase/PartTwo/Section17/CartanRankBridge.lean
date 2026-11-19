@@ -109,7 +109,7 @@ theorem not_dvd_genericOrders_of_dvd_two_pow_sub_one {t : StatedLieTag} {m n r :
       omega
     | POmegaPlus =>
       simp only [CFSG.Blueprint.Multiplier.genericOrders] at h1
-      rw [if_pos hqeven] at h1
+      rw [ite_eq_left hqeven] at h1
       exact hr.not_dvd_one (by simpa using h1)
     | POmegaMinus =>
       simp only [CFSG.Blueprint.Multiplier.genericOrders] at h1

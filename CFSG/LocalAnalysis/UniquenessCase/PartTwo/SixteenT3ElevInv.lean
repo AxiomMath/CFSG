@@ -13,6 +13,7 @@ section Generic
 
 variable {T : Type} [CommGroup T] [Finite T]
 
+omit [Finite T] in
 theorem s16t_elev_fix_block (hT : ∀ v : T, v ^ 2 = 1) {Y : Subgroup T} (hY : Nat.card Y = 8)
     {L : Subgroup (MulAut T)} (hL : L ≤ stabSub Y) (hL7 : Nat.card (autSub L Y) = 7)
     {t : MulAut T} (ht : t ∈ stabSub Y) (ht2 : t ^ 2 = 1)
@@ -36,6 +37,7 @@ theorem s16t_elev_fix_block (hT : ∀ v : T, v ^ 2 = 1) {Y : Subgroup T} (hY : N
   have h3 := congrArg (fun φ : MulAut ↥Y => ((φ ⟨y, hy⟩ : ↥Y) : T)) hmem
   simpa [resHom_apply] using h3
 
+omit [Finite T] in
 theorem s16t_elev_card_autSub {Y : Subgroup T} {A : Subgroup (MulAut T)} (hA : A ≤ stabSub Y)
     (hfaith : ∀ a ∈ A, (∀ y ∈ Y, a y = y) → a = 1) : Nat.card (autSub A Y) = Nat.card A := by
   have h := card_autSub_mul hA
@@ -46,6 +48,7 @@ theorem s16t_elev_card_autSub {Y : Subgroup T} {A : Subgroup (MulAut T)} (hA : A
   rw [hbot, Subgroup.card_bot, mul_one] at h
   exact h
 
+omit [Finite T] in
 theorem s16t_elev_le_stabSub_commSub (A : Subgroup (MulAut T)) : A ≤ stabSub (commSub ⊤ A) := by
   intro a ha
   have hn : A.map (MulAut.conj a).toMonoidHom = A :=
@@ -127,10 +130,10 @@ theorem s16t_elev_three_le_rkIdx_fixV (hT : ∀ v : T, v ^ 2 = 1) {M A : Subgrou
 theorem s16t_elev_three_le_mParam (hT : ∀ v : T, v ^ 2 = 1) {M A : Subgroup (MulAut T)}
     {g : MulAut T} (h : S16n9bTwo M A g) (hrk : rk ↥(commSub ⊤ A) = 3) (hA7 : Nat.card A = 7) :
     3 ≤ E3.mParam M := by
-  haveI : Finite (MulAut T) := MulEquiv.finite_left
+  have : Finite (MulAut T) := MulEquiv.finite_left
   unfold E3.mParam
   split_ifs with hev
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥M) 2 (even_iff_two_dvd.mp hev)
     refine le_csInf ⟨_, (t : MulAut T), t.2, (Subgroup.orderOf_coe t).trans ht, rfl⟩ ?_
     rintro _ ⟨s, hsM, hs2, rfl⟩
@@ -149,7 +152,7 @@ theorem s16t_elev_three_le_mParam (hT : ∀ v : T, v ^ 2 = 1) {M A : Subgroup (M
 theorem s16t_elev_card_le_two (hT : ∀ v : T, v ^ 2 = 1) {M A : Subgroup (MulAut T)}
     {g : MulAut T} (h : S16n9bTwo M A g) (hrk : rk ↥(commSub ⊤ A) = 3) (hA7 : Nat.card A = 7)
     {B : Subgroup (MulAut T)} (hBM : B ≤ M) (hB2 : IsElemAbelian2 B) : Nat.card B ≤ 2 := by
-  haveI : Finite (MulAut T) := MulEquiv.finite_left
+  have : Finite (MulAut T) := MulEquiv.finite_left
   have hkey : ∀ x y : ↥B, x ≠ 1 → y ≠ 1 → x = y := by
     intro x y hx hy
     have hx1 : (x : MulAut T) ≠ 1 := fun h1 => hx (Subtype.ext h1)
@@ -164,7 +167,7 @@ theorem s16t_elev_card_le_two (hT : ∀ v : T, v ^ 2 = 1) {M A : Subgroup (MulAu
     exact Subtype.ext (inv_mul_eq_one.1 h1).symm
   by_contra hlt
   push Not at hlt
-  haveI := Fintype.ofFinite ↥B
+  have := Fintype.ofFinite ↥B
   rw [Nat.card_eq_fintype_card] at hlt
   obtain ⟨a, b, c, hab, hac, hbc⟩ := Fintype.two_lt_card_iff.1 hlt
   by_cases ha : a = 1

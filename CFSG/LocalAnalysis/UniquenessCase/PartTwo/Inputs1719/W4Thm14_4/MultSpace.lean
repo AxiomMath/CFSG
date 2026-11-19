@@ -26,10 +26,10 @@ private lemma pMat_add {ω : K} (hωsum : ω + ω ^ 2 = 1)
   ext i j
   simp only [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply]
   by_cases h : i = j
-  · simp only [if_pos h, smul_eq_mul, mul_one]
+  · simp only [ite_eq_left h, smul_eq_mul, mul_one]
     have h2 : D i j + D i j = 0 := CharTwo.add_self_eq_zero _
     linear_combination h2 + hωsum
-  · simp only [if_neg h, smul_zero, add_zero]
+  · simp only [ite_eq_right h, smul_zero, add_zero]
     exact CharTwo.add_self_eq_zero _
 
 private lemma pMat_add_apply {ω : K} (hωsum : ω + ω ^ 2 = 1)

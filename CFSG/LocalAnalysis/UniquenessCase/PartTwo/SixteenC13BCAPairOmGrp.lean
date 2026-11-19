@@ -19,13 +19,13 @@ private theorem s16c13bcA_transvFun_comm {ι K : Type} [Fintype ι] [DecidableEq
       x + (x ⬝ᵥ (M *ᵥ a)) • a + (x ⬝ᵥ (M *ᵥ b)) • b := by
     conv_lhs => rw [transvFun]
     rw [transvFun_dot M b x a, hba]
-    simp only [transvFun, mul_zero, add_zero, smul_add]
+    simp only [transvFun, mul_zero, add_zero]
     abel
   have e2 : transvFun M b (transvFun M a x) =
       x + (x ⬝ᵥ (M *ᵥ a)) • a + (x ⬝ᵥ (M *ᵥ b)) • b := by
     conv_lhs => rw [transvFun]
     rw [transvFun_dot M a x b, hab]
-    simp only [transvFun, mul_zero, add_zero, smul_add]
+    simp only [transvFun, mul_zero, add_zero]
   rw [e1, e2]
 
 private theorem s16c13bcA_transv_comm {ι K : Type} [Fintype ι] [DecidableEq ι]

@@ -379,7 +379,7 @@ theorem lemma_6_1_24_three (h432 : Stmt4_3_2) (h6111 : Stmt6_1_11) (h6119 : Stmt
         (by rw [hsub]; exact hSn)
     have hSle : (S : Subgroup ↥Nb).map Nb.subtype ≤ pCoreOf 2 Nb :=
       CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (Subgroup.map_subtype_le _) hNbS
-        (S.isPGroup'.map _)
+        (S.isPGroup.map _)
     have hNbO : pCoreOf 2 Nb ≤ pCoreOf 2 Ib :=
       CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
         ((CFSG.LieType.BorelTits.pCoreOf_le 2 Nb).trans hNIb)

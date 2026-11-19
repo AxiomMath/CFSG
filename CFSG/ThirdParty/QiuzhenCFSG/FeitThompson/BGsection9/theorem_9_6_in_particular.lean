@@ -24,7 +24,7 @@ private theorem CFSG.section9_generatorRank_at_least_two_of_elementaryAbelian_ca
     {p : ℕ} [Fact p.Prime] {A : Type*} [Group A] [Finite A]
     [IsElementaryAbelian p A] (hA : Nat.card A = p ^ 2) :
     2 ≤ generatorRank A := by
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : CommGroup A := IsMulCommutative.instCommGroup
   have hcard_dvd : Nat.card A ∣ p ^ Group.rank A := by
     simpa using card_dvd_exponent_pow_rank' (G := A) (n := p) (fun a =>
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -70,7 +70,7 @@ private theorem CFSG.section9_generatorRank_at_least_three_of_elementaryAbelian_
     {p : ℕ} [Fact p.Prime] {A : Type*} [Group A] [Finite A]
     [IsElementaryAbelian p A] (hgt : p ^ 2 < Nat.card A) :
     3 ≤ generatorRank A := by
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : CommGroup A := IsMulCommutative.instCommGroup
   have hcard_dvd : Nat.card A ∣ p ^ Group.rank A := by
     simpa using card_dvd_exponent_pow_rank' (G := A) (n := p) (fun a =>
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -90,9 +90,9 @@ public theorem CFSG.theorem_9_6_in_particular
     {A : Subgroup G} (hA : section9RankTwoNonmaximalElementaryAbelian A) :
     A ∈ section9UniqueSubgroups G := by
   rcases hA with ⟨p, hp, hArankTwo, hAnonmax⟩
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hArankTwo with ⟨hAcard, hAelem⟩
-  letI : IsElementaryAbelian p A := hAelem
+  let : IsElementaryAbelian p A := hAelem
   have hAproper : A ≠ ⊤ := by
     intro hAtop
     apply hAnonmax
@@ -114,7 +114,7 @@ public theorem CFSG.theorem_9_6_in_particular
   have hAltB : A < B := lt_of_le_of_ne hAB hABne
   have hBcard_gt : p ^ 2 < Nat.card B := by
     simpa [hAcard] using natCard_lt_of_subgroup_lt hAltB
-  letI : IsElementaryAbelian p B := hBelem
+  let : IsElementaryAbelian p B := hBelem
   have hBgen : 3 ≤ generatorRank B :=
     section9_generatorRank_at_least_three_of_elementaryAbelian_card_gt_p_sq (p := p) hBcard_gt
   have hB_le_centralizer : B ≤ Subgroup.centralizer (A : Set G) := by

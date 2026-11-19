@@ -32,20 +32,20 @@ private noncomputable def e6ae_b : Module.Basis (Fin e6Data.d) (ZMod 2) (Fin e6D
 
 private theorem e6ae_digVec_apply (c : ℕ) (i : Fin e6Data.d) :
     digVec (ZMod 2) e6Data.d c i =
-      if h : 2 ≤ c ∧ c / 2 - 1 < e6Data.d then
+      if _h : 2 ≤ c ∧ c / 2 - 1 < e6Data.d then
         (if i.val = c / 2 - 1 then 1 else 0) else 0 := by
   unfold digVec
-  by_cases h : 2 ≤ c ∧ c / 2 - 1 < e6Data.d
-  · rw [dif_pos h, dif_pos h]
+  by_cases _h : 2 ≤ c ∧ c / 2 - 1 < e6Data.d
+  · rw [dite_eq_left _h, dite_eq_left _h]
     rw [CharTwo.neg_eq, one_pow, one_smul, Finsupp.single_apply]
-    by_cases hi : (⟨c / 2 - 1, h.2⟩ : Fin e6Data.d) = i
-    · rw [if_pos hi, if_pos (congrArg Fin.val hi).symm]
-    · rw [if_neg hi, if_neg (fun hv => hi (Fin.ext hv).symm)]
-  · rw [dif_neg h, dif_neg h, Finsupp.zero_apply]
+    by_cases hi : (⟨c / 2 - 1, _h.2⟩ : Fin e6Data.d) = i
+    · rw [ite_eq_left hi, ite_eq_left (congrArg Fin.val hi).symm]
+    · rw [ite_eq_right hi, ite_eq_right (fun hv => hi (Fin.ext hv).symm)]
+  · rw [dite_eq_right _h, dite_eq_right _h, Finsupp.zero_apply]
 
 private noncomputable def e6ae_matE (k : ℕ) : Matrix (Fin e6Data.d) (Fin e6Data.d) (ZMod 2) :=
   fun i j =>
-    if h : 2 ≤ dig (e6Data.op k) j.val ∧ dig (e6Data.op k) j.val / 2 - 1 < e6Data.d then
+    if _h : 2 ≤ dig (e6Data.op k) j.val ∧ dig (e6Data.op k) j.val / 2 - 1 < e6Data.d then
       (if i.val = dig (e6Data.op k) j.val / 2 - 1 then 1 else 0)
     else 0
 
@@ -320,8 +320,7 @@ private theorem e6ae_yE_eq :
 
 private theorem e6ae_zE_eq :
     (zE : ModGL .E6 F2) = e6ae_wECm e6ae_lz := by
-  simp only [e6ae_lz, e6ae_wECm, e6ae_Xm, zE, xr, Subtype.coe_mk, Subgroup.coe_mul, mul_one,
-    mul_assoc]
+  simp only [e6ae_lz, e6ae_wECm, e6ae_Xm, zE, xr, Subtype.coe_mk, Subgroup.coe_mul, mul_one]
   rw [e6ae_highRoot_70, e6ae_neg_root_70_71]
 
 private theorem e6ae_wOmegaE_eq :
@@ -451,15 +450,13 @@ private theorem e6ae_rOne_eq
     (k l : Fin 3) (hkl : k ≠ l) :
     rOne k l = e6ae_wECm (e6ae_roIdx k l) := by
   fin_cases k <;> fin_cases l <;>
-    simp_all [e6ae_roIdx, rOne, e6ae_wECm, e6ae_Xm, xr, Subtype.coe_mk, Subgroup.coe_mul,
-      mul_one, mul_assoc]
+    simp_all [e6ae_roIdx, rOne, e6ae_wECm, e6ae_Xm, xr, Subtype.coe_mk, mul_one]
 
 private theorem e6ae_rOmega_eq
     (k l : Fin 3) (hkl : k ≠ l) :
     rOmega k l = e6ae_wECm (e6ae_romIdx k l) := by
   fin_cases k <;> fin_cases l <;>
-    simp_all [e6ae_romIdx, rOmega, e6ae_wECm, e6ae_Xm, xr, Subtype.coe_mk, Subgroup.coe_mul,
-      mul_one, mul_assoc]
+    simp_all [e6ae_romIdx, rOmega, e6ae_wECm, e6ae_Xm, xr, Subtype.coe_mk, mul_one, mul_assoc]
 
 end CFSG.StandardType.GGSixE6Two
 
@@ -698,7 +695,7 @@ private theorem e6ae_phiE_conj_w :
     phiE * wOmegaE * phiE⁻¹ = wOmegaE⁻¹ := by
   apply Subtype.ext
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, e6ae_phiE_eq, e6ae_wOmegaE_eq, e6ae_wECm_inv]
+  simp only [e6ae_phiE_eq, e6ae_wOmegaE_eq, e6ae_wECm_inv]
   rw [← e6ae_wECm_append, ← e6ae_wECm_append]
   exact e6ae_wECm_eq_of_packed (e6ae_lphi ++ e6ae_lw ++ e6ae_lphi.reverse) e6ae_lw.reverse
     (e6ae_bound_append (e6ae_bound_append e6ae_lphi_bound e6ae_lw_bound) e6ae_lphi_rev_bound)

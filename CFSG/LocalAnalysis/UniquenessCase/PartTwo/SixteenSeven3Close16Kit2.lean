@@ -95,7 +95,7 @@ theorem close16_natural_stab {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} 
       have h := Subgroup.card_ker_mul_card_of_surjective hπs
       rw [hH, ← Nat.card_congr (specialLinearGroupEquivStatedSL 4 (ZMod 2)).toEquiv,
         card_SL_four_two] at h
-      haveI : Nonempty ↥π.ker := ⟨⟨1, π.ker.one_mem⟩⟩
+      have : Nonempty ↥π.ker := ⟨⟨1, π.ker.one_mem⟩⟩
       have hpos : 0 < Nat.card π.ker := Nat.card_pos
       omega
     exact (MonoidHom.ker_eq_bot_iff π).1 (Subgroup.card_eq_one.1 hcard)

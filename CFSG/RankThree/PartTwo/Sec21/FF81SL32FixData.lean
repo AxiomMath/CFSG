@@ -125,11 +125,11 @@ theorem s0_sq : s0 * s0 = 1 := by decide +kernel
 theorem s0_conj : s0 * y0 * s0 = y0 * y0 := by decide +kernel
 
 theorem orderOf_y0 : orderOf y0 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by rw [pow_three']; exact y0_cube) y0_ne_one
 
 theorem card_GL3 : Nat.card GL3 = 168 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   show Nat.card (GL (Fin 3) (ZMod 2)) = 168
   rw [Matrix.card_GL_field, Fin.prod_univ_three, ZMod.card]
   norm_num
@@ -140,7 +140,7 @@ theorem card_le_pow_four_GL {V : Type*} [Group V] [Finite V] (hcomm : ∀ a b : 
   card_le_pow_four hcomm hV ρ y0_cube g0 g1 g2 g3 h0 h1 h2 h3 enc enc_injective parity_data
 
 theorem exists_conj_y0 {z : GL3} (hz : orderOf z = 3) : ∃ c : GL3, c * y0 * c⁻¹ = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h9 : ¬ 3 ^ 2 ∣ Nat.card GL3 := by rw [card_GL3]; norm_num
   obtain ⟨c, hc⟩ := TauCeti.exists_mul_mul_inv_mem_zpowers_of_not_sq_dvd h9 hz orderOf_y0
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.1 hc

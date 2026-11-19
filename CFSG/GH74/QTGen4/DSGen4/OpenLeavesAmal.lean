@@ -20,7 +20,7 @@ open scoped commutatorElement
   Nonempty {Mdl : L34Model // L34ModelFacts Mdl}
 
 @[expose] def LeafL34Local : Prop :=
-  ∀ (Mdl : L34Model) (hMdl : L34ModelFacts Mdl) {G : Type} [Group G] [Finite4 G] {L1 L2 S : Subgroup G},
+  ∀ (Mdl : L34Model) (_hMdl : L34ModelFacts Mdl) {G : Type} [Group G] [Finite4 G] {L1 L2 S : Subgroup G},
     (DSAHyp L1 L2 S) →
     (⁅dsZi L1 S, L1⁆ ≠ ⊥) →
     (⁅dsZi L2 S, L2⁆ ≠ ⊥) →
@@ -33,7 +33,7 @@ open scoped commutatorElement
       (∀ x : ↥(L2 ⊔ bigB L1 L2 S), (x : G) ∈ dsQ L2 L1 S ↔ (ψ₂ x : Mdl.Y) ∈ pCoreOf 2 Mdl.M2)
 
 @[expose] def LeafL34DC : Prop :=
-  ∀ (Mdl : L34Model) (hMdl : L34ModelFacts Mdl),
+  ∀ (Mdl : L34Model) (_hMdl : L34ModelFacts Mdl),
     ∀ (σ : MulAut ↥(Mdl.M1 ⊓ Mdl.M2)), (∀ b : ↥(Mdl.M1 ⊓ Mdl.M2), (b : Mdl.Y) ∈ pCoreOf 2 Mdl.M1 ↔
         ((σ b : ↥(Mdl.M1 ⊓ Mdl.M2)) : Mdl.Y) ∈ pCoreOf 2 Mdl.M1) →
       ∃ (a₁ : MulAut ↥Mdl.M1) (a₂ : MulAut ↥Mdl.M2),
@@ -44,7 +44,7 @@ open scoped commutatorElement
             ((a₂ m₂ : ↥Mdl.M2) : Mdl.Y) = ((σ b : ↥(Mdl.M1 ⊓ Mdl.M2)) : Mdl.Y)
 
 @[expose] def LeafL34Glue : Prop :=
-  ∀ (Mdl : L34Model) (hMdl : L34ModelFacts Mdl) {G : Type} [Group G] [Finite G] {P1 P2 S Q1 Q2 : Subgroup G} (ψ₁ : ↥P1 ≃* ↥Mdl.M1) (ψ₂ : ↥P2 ≃* ↥Mdl.M2),
+  ∀ (Mdl : L34Model) (_hMdl : L34ModelFacts Mdl) {G : Type} [Group G] [Finite G] {P1 P2 S Q1 Q2 : Subgroup G} (ψ₁ : ↥P1 ≃* ↥Mdl.M1) (ψ₂ : ↥P2 ≃* ↥Mdl.M2),
     (S ≤ P1) →
     (S ≤ P2) →
     (Q1 ≤ S) →

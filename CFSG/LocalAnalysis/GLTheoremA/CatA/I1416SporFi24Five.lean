@@ -78,13 +78,13 @@ theorem card_of_goodA9 {T : Type} [Group T] (h : GoodA9 T) : Nat.card T = 181440
 
 theorem not_isChevSimple_of_goodA9 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge)
     (q : ℕ) {T : Type} [Group T] (h : GoodA9 T) : ¬ IsChevSimple q T := by
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [card_of_goodA9 h]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [card_of_goodA9 h]; norm_num)
   exact not_isChevSimple_of_card_181440 hb q (card_of_goodA9 h)
 
 theorem alt9_data {G : Type} [Group G] {L : Subgroup G}
     (e : ↥(alternatingGroup (Fin 9)) ≃* ↥L) :
     IsSimpleGroup ↥L ∧ (∃ a b : ↥L, a * b ≠ b * a) ∧ Nat.card ↥L = 181440 := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
   refine ⟨e.symm.isSimpleGroup, ?_, ?_⟩
   · obtain ⟨a, c, hac⟩ := alt9_noncomm
     exact ⟨e a, e c, fun h => hac (e.injective (by rw [map_mul, map_mul]; exact h))⟩
@@ -121,7 +121,7 @@ theorem shapeRkAt_of_le {w : CFSG.Sporadic.Fi24.J} (hw1 : w ≠ 1) (hw5 : w ^ 5 
     (hLC : L ≤ Subgroup.centralizer ({w} : Set CFSG.Sporadic.Fi24.J)) (e : ↥(alternatingGroup (Fin 9)) ≃* ↥L)
     (hbound : Nat.card ↥(Subgroup.centralizer ({w} : Set CFSG.Sporadic.Fi24.J)) ≤ 5 * 181440) :
     CFSG.HardMathSupport.Dickson.I271.ShapeRkAt 5 GoodA9 KDSpor.Fi24Seven.NoRk w := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨hs, hnab, hcardL⟩ := alt9_data e
   have hLC' : L ≤ Subgroup.centralizer ({((⟨w, Subgroup.mem_top w⟩ : ↥(⊤ : Subgroup J)) : J)} :
       Set J) ⊓ ⊤ := le_inf hLC le_top
@@ -149,7 +149,7 @@ theorem fi24FiveMoore_parts : ∃ e ∈ CFSG.Sporadic.Fi24.J, ∃ f ∈ CFSG.Spo
 
 theorem centShapeRk_five :
     CFSG.HardMathSupport.Dickson.I271.CentShapeRk 5 GoodA9 KDSpor.Fi24Seven.NoRk CFSG.Sporadic.Fi24.J := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨e, he, f, hf, h5e, he1, h5f, hcomm, hpow, hcM⟩ := fi24FiveMoore_parts
   intro s hs1 hs5
   have hs : orderOf s = 5 := orderOf_eq_prime hs5 hs1

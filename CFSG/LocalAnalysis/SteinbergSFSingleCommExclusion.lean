@@ -21,8 +21,7 @@ theorem singleCommutatorExclusion_of_parts
     (hPartH : SixHStatement) (hPartEmb : EmbStatement) (hPartK : SixKStatement)
     (hPartFF : FieldFusionStatement) (hPartN5 : CanonicityStatement) :
     SingleCommutatorExclusion := by
-  intro G _ _ _ hKP hcore L hL n hn K _ _ _ hK T hT t htT ht P φ hφP i
-  intro TG PG Q ZP U A V B M N D E E₀ J₀ F Fi hfull hne hbot
+  intro G _ _ _ hKP hcore L hL n hn K _ _ _ hK T hT t htT ht P φ hφP i TG PG Q ZP U A V B M N D E E₀ J₀ F Fi hfull hne hbot
   have ht2 : orderOf (t : G) = 2 := (Subgroup.orderOf_coe t).trans ht
   have hct : standardComponentOddCore (centralizer ({(t : G)} : Set G)) = ⊥ := hcore _ ht2
   obtain ⟨hO, hLn, hperf⟩ := standard_simple_setting hL hn hK φ T hT htT ht hct
@@ -41,7 +40,7 @@ theorem singleCommutatorExclusion_of_parts
   obtain ⟨hTG₀, hF⟩ := FullCenter.FCHyp.of_setup hS (hO := hO) hLn hfull'
   have hnab : ∃ a b : G, a * b ≠ b * a := by
     by_contra hab
-    push_neg at hab
+    push Not at hab
     exact hLn ⟨fun l hl g => by
       rw [hab g l, mul_inv_cancel_right]
       exact hl⟩
@@ -78,7 +77,7 @@ theorem singleCommutatorExclusion_of_parts
     calc g * s⁻¹ * (t : G) = g * (s⁻¹ * (t : G) * s) * s⁻¹ := by group
       _ = g * (g⁻¹ * (t : G) * g) * s⁻¹ := by rw [hgs]
       _ = (t : G) * (g * s⁻¹) := by group
-  haveI : Group.IsPerfect G := hperf
+  have : Group.IsPerfect G := hperf
   exact false_of_slice ht2 hF.setup.cent_le (exists_sylow_pull φ) hHc.isPGroup_Tplus hQT hST hNc
     hFc.slice htS fun W hW hTW hWN =>
       BothTrivialField.isMulCommutative_quot hF.setup hfr hFc.normalizer_le hST hPS hQT hW hTW hWN

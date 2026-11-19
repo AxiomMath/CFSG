@@ -34,7 +34,7 @@ theorem kgLangTorusDatumCont_of_comm {p : ℕ} {R : Type} [Group R] {I F : Set (
     (hR : ∀ a b : R, a * b = b * a) : KGLangTorusDatumCont p R I F := by
   intro _ θ hcomm A hA hAI hA0 α₀ hα₀ hα₀J
   exfalso
-  haveI : IsMulCommutative R := isMulCommutative_iff.mpr hR
+  have : IsMulCommutative R := isMulCommutative_iff.mpr hR
   let ψ : HopfCover R →* R :=
     θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center (HopfCover R)))
   have hker : ψ.ker ≤ Subgroup.center (HopfCover R) := by
@@ -49,13 +49,13 @@ theorem kgLangTorusDatumCont_of_comm {p : ℕ} {R : Type} [Group R] {I F : Set (
     (Abelianization.commutator_subset_ker ψ).trans hker
   have hcenter : (⊤ : Subgroup (HopfCover R)) ≤ Subgroup.center (HopfCover R) := by
     rw [← hcomm]; exact hcomm_le
-  haveI : IsMulCommutative (HopfCover R) :=
+  have : IsMulCommutative (HopfCover R) :=
     isMulCommutative_iff.mpr fun a b =>
       (Subgroup.mem_center_iff.mp (hcenter trivial) b).symm
   have hbot : commutator (HopfCover R) = ⊥ :=
     le_bot_iff.mp (Abelianization.commutator_subset_ker (MonoidHom.id (HopfCover R)))
   have htopbot : (⊤ : Subgroup (HopfCover R)) = ⊥ := by rw [← hcomm]; exact hbot
-  haveI : Subsingleton (HopfCover R) := by
+  have : Subsingleton (HopfCover R) := by
     refine ⟨fun a b => ?_⟩
     have ha : a = 1 := Subgroup.mem_bot.mp (by rw [← htopbot]; trivial)
     have hb : b = 1 := Subgroup.mem_bot.mp (by rw [← htopbot]; trivial)

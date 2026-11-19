@@ -234,7 +234,7 @@ theorem inspFFG2_holds :
       (CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow S₀)
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) p (hYcard ▸ hpn)
   let R : Subgroup ↥(CFSG.Open.quasithinG2 F) := (S₀ : Subgroup ↥K).map K.subtype
-  have hR2 : IsPGroup 2 ↥R := S₀.isPGroup'.map K.subtype
+  have hR2 : IsPGroup 2 ↥R := S₀.isPGroup.map K.subtype
   have hR1 : R ≠ ⊥ := by
     rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective]
     refine S₀.ne_bot_of_dvd_card ?_

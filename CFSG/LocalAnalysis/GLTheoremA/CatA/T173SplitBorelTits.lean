@@ -117,6 +117,7 @@ private noncomputable def exists_invariant_totallySingular_of_normalizes_aux2
         rw [statedOmega_eq_comap hΦ]
         exact Subgroup.map_comap_eq_self_of_surjective (toLinEquiv ι F).surjective _))).symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_invariant_totallySingular_of_normalizes_aux3
     {ι : Type} [Fintype ι] [DecidableEq ι] {Q' : QuadraticForm F (ι → F)}
     (Φ : QuadForm F (ι → F)) (hΦ : ⇑Q' = Φ.Q) (e : Q.IsometryEquiv Q')
@@ -134,6 +135,7 @@ private theorem exists_invariant_totallySingular_of_normalizes_aux3
         CFSG.RankThree.PartOne.linConj e.toLinearEquiv (g : V ≃ₗ[F] V) from rfl]
   exact CFSG.RankThree.PartOne.linConj_apply e.toLinearEquiv (g : V ≃ₗ[F] V) v
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_invariant_totallySingular_of_normalizes_aux5
     {ι : Type} [Fintype ι] [DecidableEq ι] {Q' : QuadraticForm F (ι → F)}
     (Φ : QuadForm F (ι → F)) (hΦ : ⇑Q' = Φ.Q) (e : Q.IsometryEquiv Q')
@@ -165,6 +167,7 @@ private theorem exists_invariant_totallySingular_of_normalizes_aux5
     have h1 := hW'i g hg (e w) (Submodule.mem_comap.mp hw)
     simpa using h1
 
+omit [FiniteDimensional F V] in
 private theorem exists_invariant_totallySingular_of_normalizes_aux4
     {ι : Type} [Fintype ι] [DecidableEq ι] {Q' : QuadraticForm F (ι → F)}
     (Φ : QuadForm F (ι → F)) (hΦ : ⇑Q' = Φ.Q) (e : Q.IsometryEquiv Q')

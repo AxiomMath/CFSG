@@ -27,8 +27,8 @@ theorem center_genFittingFStar_eq_bot {Y : Type} [Group Y] [IsSimpleGroup ↥(ge
 theorem leaf_m23 {n : ℕ} :
     NoTwinS n (fun F _ => CFSG.Blueprint.NativeSporadic.IsSporadic F .M23) := by
   intro Y _ _ R S t h _ hF
-  haveI := h.core.simple
-  haveI hNn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have hNn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   obtain ⟨ψ₀⟩ := hF
@@ -62,11 +62,11 @@ theorem leaf_m23 {n : ℕ} :
     refine le_inf ?_ (oTwoPrimeTwo_le H)
     rw [hNtop]
     exact le_top
-  haveI : ((oTwoPrimeTwo H).subgroupOf C).Normal :=
+  have : ((oTwoPrimeTwo H).subgroupOf C).Normal :=
     ⟨fun x hx c => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       simpa using conj_mem_oTwoPrimeTwo (Subgroup.mem_inf.1 c.2).2 hx⟩
-  haveI := hperf
+  have := hperf
   let e := Subgroup.subgroupOfEquivOfLe hDC
   exact perfect_card_2688_false hcard ((oTwoPrimeTwo H).subgroupOf C) (hD2.of_equiv e.symm)
     (by rw [Nat.card_congr e.toEquiv]; exact thirtytwo_dvd_card hD2 h32)

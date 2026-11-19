@@ -86,15 +86,15 @@ theorem fr_let4 {A B Z Y : Nat} {a b z y : Equiv.Perm (Fin 77)} (hA : FR A ⇑a)
   by_cases h0 : c = 0
   · subst h0
     exact hA
-  rw [if_neg h0, beq_false h0]
+  rw [ite_eq_right h0, beq_false h0]
   by_cases h1 : c = 1
   · subst h1
     exact hB
-  rw [if_neg h1, beq_false h1]
+  rw [ite_eq_right h1, beq_false h1]
   by_cases h2 : c = 2
   · subst h2
     exact hZ
-  rw [if_neg h2, beq_false h2]
+  rw [ite_eq_right h2, beq_false h2]
   exact hY
 
 theorem let4P_mem {a b z y : Equiv.Perm (Fin 77)} {H : Subgroup (Equiv.Perm (Fin 77))}
@@ -127,7 +127,6 @@ theorem mulK_spec {T P S : Nat → Nat} {i D : Nat} (h : mulK T P S i D = true) 
   have h1 := allBlk_spec h l hl
   beta_reduce at h1
   rw [e, strictB_eqP] at h1
-  beta_reduce at h1
   have h2 := allBlk_spec h1 k hk
   beta_reduce at h2
   rw [ek] at h2

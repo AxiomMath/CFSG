@@ -9,7 +9,7 @@ public section
 namespace CFSG.Sporadic.Th.Recog
 
 open CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3 CFSG.Sporadic.Th.Max3.InvRep
-open CFSG.Certificates Certificates CFSG.Sporadic.Th.Recog.MFactsData
+open CFSG.Certificates _root_.CFSG.Certificates CFSG.Sporadic.Th.Recog.MFactsData
 open Equiv Equiv.Perm
 open scoped commutatorElement
 
@@ -587,7 +587,7 @@ theorem exists_swap_z_q0 :
         simpa [kM] using this
       have hxz : (x : J) * z = z * (x : J) := by
         have hxM' : (x : J) ∈ Subgroup.centralizer ({a} : Set J) := by
-          simpa [hCM] using hxM
+          simp [hCM]
         simpa [z_eq_a] using Subgroup.mem_centralizer_singleton_iff.mp hxM'
       let v : J := y⁻¹ * (x : J) * y
       have hvM : v ∈ M := by

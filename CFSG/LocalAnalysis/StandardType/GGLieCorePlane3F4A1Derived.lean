@@ -21,7 +21,7 @@ open CFSG.Open (StatedLieTag)
 theorem ggLieF4A1_derived
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {D : LangDatum Tag.F4 L}
     {ρ : Equiv.Perm (Fin Tag.F4.rank → ℤ)} {a₁ a₂ : Fin Tag.F4.rank → Lˣ}
-    (h : GGLieF4PlaneHyp D ρ a₁ a₂)
+    (_h : GGLieF4PlaneHyp D ρ a₁ a₂)
     {f : ℕ} (hf : 1 ≤ f) (hqf : D.q = 2 ^ f) (i : KernelComponent (jointChar a₁ a₂))
     (hρΨ : (ρ : (Fin Tag.F4.rank → ℤ) → (Fin Tag.F4.rank → ℤ)) ''
       componentRoots (jointChar a₁ a₂) i = componentRoots (jointChar a₁ a₂) i)
@@ -80,9 +80,9 @@ theorem ggLieF4A1_derived
       refine (Subgroup.eq_bot_iff_forall _).mpr fun g hg => ?_
       obtain ⟨a, ha, hmatrix⟩ := Matrix.SpecialLinearGroup.mem_center_iff.mp hg
       have ha1 : a = 1 := by
-        rcases sq_eq_one_iff.mp ha with h | h
-        · exact h
-        · rw [h, CharTwo.neg_eq]
+        rcases sq_eq_one_iff.mp ha with _h | _h
+        · exact _h
+        · rw [_h, CharTwo.neg_eq]
       apply Subtype.ext
       rw [← hmatrix, ha1, map_one]
       rfl
@@ -100,13 +100,13 @@ theorem ggLieF4A1_derived
       exact e.injective (by simpa using hxmap)
     have hAdm : CFSG.Open.StatedLieAdmissible .PSL 2 2 f := by
       refine ⟨Nat.prime_two, hf, by norm_num, ?_, ?_⟩
-      · intro h
-        have h2 : 2 ^ f = 2 := by simpa using h
+      · intro _h
+        have h2 : 2 ^ f = 2 := by simpa using _h
         have hle : 2 ^ 2 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
         norm_num at hle
         omega
-      · intro h
-        have h3 : 2 ^ f = 3 := by simpa using h
+      · intro _h
+        have h3 : 2 ^ f = 3 := by simpa using _h
         have heven : Even (2 ^ f) := Nat.even_pow.mpr ⟨even_two, by omega⟩
         rw [h3] at heven
         norm_num at heven

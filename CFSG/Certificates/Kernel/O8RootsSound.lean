@@ -29,12 +29,12 @@ theorem parF_succ (PT LT f i : Nat) : parF PT LT (f + 1) i =
     (Bool.rec (motive := fun _ => Nat) 0 1 (Nat.beq (labK LT i) 4))) 0 (Nat.beq i 0) = _
   rw [nIf_eq, nIf_eq, strictN_eq]
   by_cases h : i = 0
-  · rw [if_pos (Nat.beq_eq.mpr h), if_pos h]
-  · rw [if_neg (fun e => h (Nat.beq_eq.mp e)), if_neg h]
+  · rw [ite_eq_left (Nat.beq_eq.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun e => h (Nat.beq_eq.mp e)), ite_eq_right h]
     by_cases h4 : labK LT i = 4
-    · rw [if_pos (Nat.beq_eq.mpr h4), if_pos h4]
+    · rw [ite_eq_left (Nat.beq_eq.mpr h4), ite_eq_left h4]
       rfl
-    · rw [if_neg (fun e => h4 (Nat.beq_eq.mp e)), if_neg h4]
+    · rw [ite_eq_right (fun e => h4 (Nat.beq_eq.mp e)), ite_eq_right h4]
       rfl
 
 theorem parF_le (PT LT : Nat) : ∀ f i, parF PT LT f i ≤ 1
@@ -58,7 +58,7 @@ private theorem gen9_sq (hs : SAFacts) : gen 9 * gen 9 = 1 := by
   exact eq_of_acts hs (mul_mem m9 m9) (one_mem _) idCode_lt a acts_one
 
 private theorem saElt_zero : saElt 0 = 1 := by
-  rw [saElt, dif_neg fun h => absurd h.1 (Nat.lt_irrefl 0)]
+  rw [saElt, dite_eq_right fun h => absurd h.1 (Nat.lt_irrefl 0)]
 
 theorem parF_spec (hs : SAFacts) : ∀ f, ∀ i < 8192, i < f →
     (parF saParT saLabT f i = 0 → saElt i ∈ omegaT) ∧
@@ -69,18 +69,18 @@ theorem parF_spec (hs : SAFacts) : ∀ f, ∀ i < 8192, i < f →
     have g9A : gen 9 ∈ autT := gen_mem_autT (by norm_num)
     rw [parF_succ]
     rcases Nat.eq_zero_or_pos i with rfl | hpos
-    · rw [if_pos rfl, saElt_zero]
+    · rw [ite_eq_left rfl, saElt_zero]
       exact ⟨fun _ => one_mem _, fun h => absurd h (by decide)⟩
-    · rw [if_neg (Nat.pos_iff_ne_zero.1 hpos), ix13_eq, labK_eq]
+    · rw [ite_eq_right (Nat.pos_iff_ne_zero.1 hpos), ix13_eq, labK_eq]
       obtain ⟨hp, hl, -⟩ := hs.tree i hi hpos
       have e : saElt i = gen (sylowIdx.getD (saLab i) 0) * saElt (saPar i) := by
-        rw [saElt, dif_pos ⟨hpos, hp⟩]
+        rw [saElt, dite_eq_left ⟨hpos, hp⟩]
       change (parF saParT saLabT f (saPar i) ^^^ _ = 0 → _) ∧ (parF saParT saLabT f (saPar i) ^^^ _ = 1 → _)
       obtain ⟨ih0, ih1⟩ := parF_spec hs f (saPar i) (hp.trans hi) (by omega)
       have hpb := parF_le saParT saLabT f (saPar i)
       rw [e]
       by_cases h4 : saLab i = 4
-      · rw [if_pos h4]
+      · rw [ite_eq_left h4]
         have hg : gen (sylowIdx.getD (saLab i) 0) = gen 9 := by rw [h4]; rfl
         rw [hg]
         rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hpb with hb | hb <;> rw [hb] at ih0 ih1 ⊢
@@ -88,7 +88,7 @@ theorem parF_spec (hs : SAFacts) : ∀ f, ∀ i < 8192, i < f →
           rw [← mul_assoc, g9, one_mul]
           exact ih0 rfl
         · exact ⟨fun _ => ih1 rfl, fun h => absurd h (by decide)⟩
-      · rw [if_neg h4]
+      · rw [ite_eq_right h4]
         have hl8 : sylowIdx.getD (saLab i) 0 < 8 := by
           have : saLab i < 4 := by omega
           interval_cases (saLab i) <;> decide

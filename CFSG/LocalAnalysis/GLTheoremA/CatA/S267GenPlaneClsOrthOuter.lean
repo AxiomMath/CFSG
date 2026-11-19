@@ -28,7 +28,7 @@ private theorem compNormal_of_fix_eq {S : Type} [Group S] [Finite S] {β : MulAu
     (hJq : CFSG.IsQuasisimple ↥J) (hsol : Group.IsSolvable (↥M ⧸ J.subgroupOf M)) :
     CompNormal β := by
   subst hfix
-  haveI := hJn
+  have := hJn
   exact compNormal_of_normal_quasisimple hJM hJq hsol
 
 section Field
@@ -45,8 +45,8 @@ private theorem compNormal_fieldAutT (S : SubfieldSetup k Q₀ Q σ p) (hd0 : 0 
         hnonab)
   have hJn := subfieldDerivedImage_normal k S.hext
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   exact compNormal_of_fix_eq (Subgroup.ext fun t => fieldAutT_apply_iff S t)
     (subfieldDerivedImage_le k S.hext) hJn hJq inferInstance
 
@@ -81,6 +81,7 @@ private theorem outer_order_prime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {G : 
   have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime hβ' hne1
 
+omit [Finite K] in
 private theorem mem_E_of_pow_eq_one_orth {p : ℕ} (hp : p.Prime) {Q : QuadraticForm K (Fin d → K)}
     (hg : OrthogonalGates Q f) (h : 3 < p ∨ projectivePointFamilyAut Q = ⊤)
     {β : MulAut (matrixProjectiveDerived Q)} (hβp : β ^ p = 1) : β ∈ matrixProjectiveImage Q := by
@@ -107,6 +108,7 @@ private structure OmegaFieldConj (G : Type) [Group G] (β : MulAut G) (ℓ p : �
     (S : SubfieldSetup k Q₀ Q σ p) (e : G ≃* matrixProjectiveDerived Q),
     7 ≤ d ∧ ringChar K = ℓ ∧ MulAut.congr e β = fieldAutT Q σ S.hQσ
 
+omit [Finite K] in
 private theorem congr_trans_eq_fieldAutT {G : Type} [Group G]
     {Q Q' : QuadraticForm K (Fin d → K)} (S : SubfieldSetup k Q₀ Q' σ p)
     (φ : G ≃* matrixProjectiveDerived Q)

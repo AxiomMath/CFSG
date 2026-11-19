@@ -17,6 +17,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 namespace SwapUnique
 
+omit [Finite G] in
 theorem center_eq_bot_of_isSimpleGroup {L : Subgroup G} (hL : IsSimpleGroup L)
     (hLab : ¬ ∀ x ∈ L, ∀ y ∈ L, x * y = y * x) : center L = ⊥ := by
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center L) with h | h
@@ -26,6 +27,7 @@ theorem center_eq_bot_of_isSimpleGroup {L : Subgroup G} (hL : IsSimpleGroup L)
     have hxc : (⟨x, hx⟩ : L) ∈ center L := h ▸ mem_top _
     exact congrArg Subtype.val ((mem_center_iff.1 hxc) ⟨y, hy⟩).symm
 
+omit [Finite G] in
 theorem card_sup_zpowers_of_le_centralizer {t : G} (htt : t * t = 1) {M : Subgroup G}
     (hM : M ≤ centralizer ({t} : Set G)) (htM : t ∉ M) :
     Nat.card (M ⊔ zpowers t : Subgroup G) = 2 * Nat.card M := by
@@ -92,6 +94,7 @@ theorem range_diagonalHom_eq_of_card {t : G} (htt : t * t = 1) {L A : Subgroup G
   calc Nat.card L * Nat.card (center A) = Nat.card δ.range * Nat.card δ.ker := by rw [← hcard, h2]
     _ ≤ Nat.card δ.range * Nat.card (center A) := Nat.mul_le_mul_left _ h5
 
+omit [Finite G] in
 theorem card_eq_mul_card_center_of_diagonal {t : G} {L G₀ : Subgroup G} (hZL : center L = ⊥)
     (hcomm : ⁅G₀, G₀.map (MulAut.conj t⁻¹).toMonoidHom⁆ = ⊥)
     (hrange : (diagonalHom G₀ t hcomm).range = L) :
@@ -135,7 +138,7 @@ theorem isSylowOf_map_diagonalHom {t : G} {L A : Subgroup G}
     intro u hu
     have hu1 : (u : A) ∈ δ.ker := hu
     have hZu : (u : A) ∈ center A := ker_diagonalHom_le_center hcomm hu1
-    obtain ⟨k, hk⟩ := U₀.isPGroup' u
+    obtain ⟨k, hk⟩ := U₀.isPGroup u
     have h1 : orderOf (u : A) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one (by
       simpa using congrArg Subtype.val hk)
     have h2 : orderOf (u : A) ∣ Nat.card (center A) := Subgroup.orderOf_dvd_natCard _ hZu

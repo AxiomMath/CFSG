@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 theorem card_le_four_of_elemAbelian_wreathGrp (h : WreathRel x₁ x₂ lam) {E : Subgroup G}
     (hE : E ≤ wreathGrp x₁ x₂ lam) (hEe : CFSG.Open.IsElemAbelian 2 E) : Nat.card E ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hEe.isPGroup
   have hk2 : k ≤ CFSG.Open.pRank 2 (wreathGrp x₁ x₂ lam) :=
     CFSG.SectionRank.le_pRank (by norm_num) hE hEe hk
@@ -42,7 +42,7 @@ theorem relIndex_L_invCent_eq_four (h : Ctx t L S x₁ x₂ lam rho tau)
     rw [inf_eq_left.mpr le_sup_right] at hlag
     rw [hcardK, hPcard] at hlag
     have hpos : 0 < Nat.card L := by
-      haveI : Nonempty ↥L := ⟨⟨1, L.one_mem⟩⟩
+      have : Nonempty ↥L := ⟨⟨1, L.one_mem⟩⟩
       exact Nat.card_pos
     exact Nat.mul_right_cancel hpos hlag
   rw [hrel] at hmul

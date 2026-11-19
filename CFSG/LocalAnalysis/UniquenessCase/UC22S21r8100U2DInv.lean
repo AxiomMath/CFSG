@@ -70,6 +70,7 @@ theorem exists_conj_eq_zpow (hb : U2DBasis M L K r R E b) (hr : r.Prime) (hr2 : 
 
 end U2DBasis
 
+omit [Finite G] in
 theorem uc22r8u2d_exists_inv_bar {M L : Subgroup G}
     (hL : L ∈ calC M) {n : ℕ} (hLS : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) {x : Bar2 M} (hx : x ∈ barImage M L) (hxo : orderOf x = r) :
@@ -192,7 +193,7 @@ theorem uc22r8u2d_exists_pElement {D : Data G} (hSg : UC6S846.SigmaStd D) {L K :
     have h₀ := pRank_le_one_of_isL2_or_isSz hbarL hpP hp2
     have h₁ := pRank_le_one_of_isL2_or_isSz hbarK hpP hp2
     omega
-  obtain ⟨e, heB, heX⟩ := SetLike.not_le_iff_exists.1 hBX
+  obtain ⟨e, heB, heX⟩ := IsConcreteLE.not_le_iff_exists.1 hBX
   obtain ⟨y, hyS, hyo⟩ := uc22r8u2d_exists_orderOf_normalizer hXM hMX hr
     (hR.inf_of_le_normalizer hXM hMX) hpP (hBM heB) heX (hBel.2 e heB)
   have hES : E ≤ R ⊓ (L ⊔ K) := le_inf hER hEX

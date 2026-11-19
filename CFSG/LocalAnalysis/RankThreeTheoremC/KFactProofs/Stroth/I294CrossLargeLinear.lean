@@ -15,8 +15,8 @@ theorem I294Large.rank_psl {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) {F : Type} [F
     (hS : ∃ S : Sylow r (StatedProj (StatedSL n F)),
       ¬ IsMulCommutative (S : Subgroup (StatedProj (StatedSL n F)))) :
     4 ≤ CFSG.Open.pRank r (⊤ : Subgroup (StatedProj (StatedSL n F))) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype F := Fintype.ofFinite F
   have hrF' : ¬ r ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hr1 : Odd r := hr.odd_of_ne_two (by omega)
   have hGL : ∀ P : Sylow r (GL (Fin n) F), Nonempty (P ≃* sigmaModel r
@@ -48,7 +48,7 @@ theorem I294Large.rank_psl {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) {F : Type} [F
       exact odFour_le_pRank_psl hr hn6 hA
   · have hamb : I294Large.CommOrRank r (GL (Fin n) F) :=
       I294Large.CommOrRank.of_sylow_sigmaModel hr (PSLCross.one_le_padicValNat_card hr hrF') hGL
-    haveI : (StatedSL n F).Normal := by
+    have : (StatedSL n F).Normal := by
       rw [CFSG.Open.StatedAPI.statedSL_eq_ker_det]; infer_instance
     have hSL : I294Large.CommOrRank r ↥(StatedSL n F) :=
       I294Large.CommOrRank.of_normal_coprime_index hr _

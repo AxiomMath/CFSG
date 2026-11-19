@@ -23,15 +23,16 @@ variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : 
 
 private theorem w1369_commutator_eq_self_of_isQuasisimple {B : Type*} [Group B]
     {K : Subgroup B} (hq : CFSG.Open.IsQuasisimple K) : ⁅K, K⁆ = K := by
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   exact Subgroup.commutator_eq_self
 
 private abbrev w1369_phiHom (b : MulAut W) : W →* W :=
   MonoidHom.mk' (fun w => b w * w⁻¹) (by
     intro x y
-    simp only [map_mul, map_inv, mul_inv_rev, inv_inv]
+    simp only [map_mul, mul_inv_rev]
     ac_rfl)
 
+omit [Finite W] in
 private theorem w1369_zpowers_stabilizes {U : Subgroup W} {g : MulAut W}
     (hg2 : g * g = 1) (hg : ∀ u ∈ U, g u ∈ U) :
     ∀ x ∈ Subgroup.zpowers g, ∀ u ∈ U, x u ∈ U := by
@@ -50,6 +51,7 @@ private theorem w1369_zpowers_stabilizes {U : Subgroup W} {g : MulAut W}
   intro x hx u hu
   exact (mem_stabSub.mp (hle hx) u).2 hu
 
+omit [Finite W] in
 private theorem w1369_commSub_le_of_compl {C C' : Subgroup W} {K : Subgroup (MulAut W)}
     (hC : C ≤ fixV K) (hC'K : StableUnder K C') (hsup : C ⊔ C' = ⊤) :
     commSub ⊤ K ≤ C' := by

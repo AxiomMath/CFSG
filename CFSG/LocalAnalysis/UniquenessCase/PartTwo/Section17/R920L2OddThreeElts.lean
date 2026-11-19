@@ -99,11 +99,11 @@ theorem kFactL2ThreeElts_holds :
       ∀ z : Z, IsPGroup 3 (Subgroup.zpowers z) → z ∈ X := by
   classical
   intro Z _ _ X m hXn _ hL2 hrank z hz
-  haveI : X.Normal := hXn
+  have : X.Normal := hXn
   have hE9Z : ¬ HasE9 Z := fun h => absurd h.two_le_pRank (by omega)
   let O : Subgroup ↥X := CFSG.pCore 2 ↥X
   let Ō : Subgroup Z := O.map X.subtype
-  haveI hŌn : Ō.Normal := normal_map_pCore_subtype
+  have hŌn : Ō.Normal := normal_map_pCore_subtype
   have hŌ : Ō = (CFSG.pCore 2 ↥X).map X.subtype := rfl
   have hX'L2 : IsL2 ↥(X.map (QuotientGroup.mk' Ō)) m := isL2_map_quotient_pCore Ō hŌ hL2
   have hX'n : (X.map (QuotientGroup.mk' Ō)).Normal := normal_map_mk'_pCore Ō hXn
@@ -168,7 +168,7 @@ theorem normal_opp_eq_of_mem_calY2_of_calC' (D : Data G)
     {L Y : Subgroup G} {n : ℕ} (hL : L ∈ calC D.M) (hL2 : IsL2 (Bar2 L) n)
     (hY : Y ∈ F09.calY2_9 D) (hLY : L ≤ Y) :
     (L.subgroupOf Y).Normal ∧ Opp 3 Y = L ∧ pCoreOf 2 Y ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨N, hNmem, hNM⟩ : ∃ N ∈ calMOf Y, N ≠ D.M := by
     by_contra h
     apply hY.2.1

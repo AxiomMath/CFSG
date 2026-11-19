@@ -52,12 +52,12 @@ theorem exists_toral_conj (K : Type) [Field K] [Finite K] (hK : ¬ 7 ∣ Nat.car
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hℓ7 : ringChar K ≠ 7 := fun h => hK (by rw [hq, h]; exact dvd_pow_self 7 f.ne_zero)
   have hLchar : ringChar (AlgebraicClosure K) ≠ 7 := by
@@ -71,7 +71,7 @@ theorem exists_toral_conj (K : Type) [Field K] [Finite K] (hK : ¬ 7 ∣ Nat.car
   set y' := baseChangeGL (algebraMap K (AlgebraicClosure K)) y with hy'def
   have hBC : Subgroup.zpowers y' ≤ adjointGroup Tag.E7 (AlgebraicClosure K) :=
     (Subgroup.zpowers_le).2 hy'
-  haveI hBfin' : Finite (Subgroup.zpowers y') :=
+  have hBfin' : Finite (Subgroup.zpowers y') :=
     finite_zpowers.2 (isOfFinOrder_iff_pow_eq_one.2 ⟨7, by norm_num, hy'7⟩)
   have hBfin : ((Subgroup.zpowers y' : Subgroup (ModGL Tag.E7 (AlgebraicClosure K))) :
       Set (ModGL Tag.E7 (AlgebraicClosure K))).Finite := Set.toFinite _
@@ -116,8 +116,8 @@ theorem exists_fixed_datum {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact �
             rootDiagUnit Tag.E7 b) ∧
       baseChangeGL (algebraMap K (AlgebraicClosure K)) y = g * rootDiagUnit Tag.E7 a * g⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   have hq0 : 0 < ℓ ^ f := pow_pos (Fact.out : ℓ.Prime).pos f
   have hK7 : ¬ 7 ∣ ℓ ^ f := by omega
   have hK7' : ¬ 7 ∣ Nat.card K := by rw [hq]; exact hK7
@@ -194,7 +194,7 @@ theorem exists_fixed_datum {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact �
     rw [kernelReflectionGroup_eq_closure_rootReflection] at h1
     have hset : rootCharKernel a = familyKernel (fun _ : Unit => a) := by
       ext α
-      simp only [rootCharKernel, familyKernel, Set.mem_setOf_eq, forall_const]
+      simp only [rootCharKernel, familyKernel, Set.mem_ofPred_eq, forall_const]
     rwa [hset] at h1
   have hy_mem := canonicalRep_mem_familyGroup_of_closure (L := L) (fun _ : Unit => a) hS
   have hw0img : (fun α => w0 • α) '' familyKernel (fun _ : Unit => a) =
@@ -229,15 +229,15 @@ theorem e7_seven_centralizer_rank (K : Type) [Field K] [Finite K]
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hq' : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : Finite (adjointGroup Tag.E7 K) := generated_group_finite Tag.E7 K
+  have : Finite (adjointGroup Tag.E7 K) := generated_group_finite Tag.E7 K
   set L := AlgebraicClosure K with hL
-  haveI : CharP L (ringChar K) :=
+  have : CharP L (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K L).injective _
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hℓ7 : ringChar K ≠ 7 := by
     intro h
     have h7 : 7 ∣ Nat.card K := by rw [hq', h]; exact dvd_pow_self 7 f.ne_zero
@@ -263,7 +263,7 @@ theorem e7_seven_centralizer_rank (K : Type) [Field K] [Finite K]
   have hmu : Nat.card {a : Lˣ // a ^ 7 = 1} = 7 := by
     have : NeZero ((7 : ℕ) : L) :=
       ⟨by exact_mod_cast natCast_ne_zero_of_ringChar_ne (by norm_num) hLchar⟩
-    obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 7
+    obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 7
     exact (Nat.card_congr (Equiv.subtypeEquivRight fun a => (mem_rootsOfUnity 7 a).symm)).trans
       hω.card_rootsOfUnity
   have hA7card : Nat.card A7 = 7 ^ Tag.E7.rank := by

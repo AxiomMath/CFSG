@@ -159,8 +159,8 @@ theorem a2l_rootSpan_le_normalizer {K : Type} [Field K] (hK2 : ringChar K ≠ 2)
 theorem a2l_datum_adjoint_of_root {K : Type} [Field K] [Finite K] (hK2 : ringChar K ≠ 2)
     (h9 : 9 ≤ Nat.card K) {θ : Fin τ.rank → ℤ} (hθ : IsRoot τ θ)
     (hmax : ∀ γ, IsRoot τ γ → iform γ γ ≤ iform θ θ) : a2lDatum ↥(adjointGroup τ K) := by
-  haveI : Finite (ModGL τ K) := finite_modGL
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL τ K) := finite_modGL
+  have : Fintype K := Fintype.ofFinite K
   let m : Fin τ.rank → ℤ := fun i => 2 * iform θ (Pi.single i 1) / iform θ θ
   let a : Fin τ.rank → Kˣ := fun i => (-1 : Kˣ) ^ m i
   have ha : ∀ i, a i = 1 ∨ a i = -1 := fun i => by

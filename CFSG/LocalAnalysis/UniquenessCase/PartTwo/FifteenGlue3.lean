@@ -54,6 +54,7 @@ theorem s15_Glue3_inf_V_eq_bot_conj (D : Data G) {V₀ V L : Subgroup G} (h : Hy
   exact inf_le_inf_right _ (E3.conjSubgroup_mono_left g
     (E3.conjSubgroup_mono_left m (le_sup_left : wSub V₀ V hV L ≤ _)))
 
+omit [Finite G] in
 theorem s15_Glue3_rk_conjSubgroup (X : Subgroup G) (g : G) :
     rk ↥(conjSubgroup X g) = rk ↥X := by
   rw [← s15_FiveTen_mQuot_bot_eq_rk, ← s15_FiveTen_mQuot_bot_eq_rk, ← E3.mQuot_conjSubgroup X ⊥ g,
@@ -144,6 +145,7 @@ theorem s15_Glue3_indep (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151 D V₀ 
     Set (Subgroup G) :=
   (fun X => conjSubgroup X g) '' wConj M V₀ V hV L
 
+omit [Finite G] in
 theorem mem_wConjG {M V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G} {g : G}
     {Y : Subgroup G} : Y ∈ wConjG M V₀ V hV L g ↔ ∃ X ∈ wConj M V₀ V hV L, Y = conjSubgroup X g :=
   ⟨fun ⟨X, hX, hY⟩ => ⟨X, hX, hY.symm⟩, fun ⟨X, hX, hY⟩ => ⟨X, hX, hY.symm⟩⟩
@@ -243,6 +245,7 @@ theorem s15_Glue3_normalizes_of_fixes (D : Data G) {V₀ V L : Subgroup G} (h : 
   have := hdis.le_bot ⟨hx, hxX'⟩
   exact hx1 (Subgroup.mem_bot.1 this)
 
+omit [Finite G] in
 private lemma s15_Glue3_eq_conj_of_mem {A : Subgroup G} {g x : G}
     (h : x ∈ conjSubgroup A g) : ∃ a ∈ A, x = g⁻¹ * a * g := by
   rw [conjSubgroup, Subgroup.mem_map] at h
@@ -336,10 +339,10 @@ theorem s15_Glue3_even_of_no_fixed (D : Data G) {V₀ V L : Subgroup G} (h : Hyp
     (hP : ∀ X ∈ wConj D.M V₀ V hV L, ¬ P ≤ normalizer (X : Set G)) :
     Even (s15 D.M V₀ V hV L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set 𝒲 := wConj D.M V₀ V hV L with h𝒲
-  haveI : Finite ↥𝒲 := Set.toFinite _
-  letI : MulAction ↥P ↥𝒲 :=
+  have : Finite ↥𝒲 := Set.toFinite _
+  let : MulAction ↥P ↥𝒲 :=
     { smul := fun p X => ⟨conjSubgroup (X : Subgroup G) ((p : G)⁻¹), by
         obtain ⟨m, hm, hXm⟩ := X.2
         exact ⟨m * ((p : G)⁻¹), D.M.mul_mem hm (D.M.inv_mem (hPM p.2)), by

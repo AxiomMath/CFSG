@@ -77,44 +77,41 @@ private theorem unitaryLine_e_isotropic (hd : 4 ≤ d) :
     herm (unitaryInvolution K 2 f) (unitaryLine_e (K := K) hd) (unitaryLine_e hd) = 0 := by
   rw [unitaryLine_coord_e]
   simp [unitaryLine_e, (unitaryLine_i_ne hd).1, Ne.symm (unitaryLine_i_ne hd).1,
-    Pi.single_apply, CharTwo.add_self_eq_zero]
+    CharTwo.add_self_eq_zero]
 
 private theorem unitaryLine_e'_isotropic (hd : 4 ≤ d) :
     herm (unitaryInvolution K 2 f) (unitaryLine_e' (K := K) hd) (unitaryLine_e' hd) = 0 := by
   rw [unitaryLine_coord_e']
   simp [unitaryLine_e', (unitaryLine_i_ne hd).2.2.2.2.2,
-    Ne.symm (unitaryLine_i_ne hd).2.2.2.2.2, Pi.single_apply, CharTwo.add_self_eq_zero]
+    Ne.symm (unitaryLine_i_ne hd).2.2.2.2.2, CharTwo.add_self_eq_zero]
 
 private theorem unitaryLine_e_orthogonal_e' (hd : 4 ≤ d) :
     herm (unitaryInvolution K 2 f) (unitaryLine_e (K := K) hd) (unitaryLine_e' hd) = 0 := by
   rw [unitaryLine_coord_e]
   simp [unitaryLine_e', (unitaryLine_i_ne hd).2.1, (unitaryLine_i_ne hd).2.2.1,
-    (unitaryLine_i_ne hd).2.2.2.1, (unitaryLine_i_ne hd).2.2.2.2.1,
-    Ne.symm (unitaryLine_i_ne hd).2.1, Ne.symm (unitaryLine_i_ne hd).2.2.1,
-    Ne.symm (unitaryLine_i_ne hd).2.2.2.1, Ne.symm (unitaryLine_i_ne hd).2.2.2.2.1,
-    Pi.single_apply]
+    (unitaryLine_i_ne hd).2.2.2.1, (unitaryLine_i_ne hd).2.2.2.2.1]
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_e_ne_zero (hd : 4 ≤ d) :
     unitaryLine_e (K := K) hd ≠ 0 := by
   intro h
   have h' := congrFun h (unitaryLine_i0 hd)
-  simp [unitaryLine_e, (unitaryLine_i_ne hd).1, Ne.symm (unitaryLine_i_ne hd).1,
-    Pi.single_apply] at h'
+  simp [unitaryLine_e, (unitaryLine_i_ne hd).1] at h'
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_e'_ne_zero (hd : 4 ≤ d) :
     unitaryLine_e' (K := K) hd ≠ 0 := by
   intro h
   have h' := congrFun h (unitaryLine_i2 hd)
-  simp [unitaryLine_e', (unitaryLine_i_ne hd).2.2.2.2.2,
-    Ne.symm (unitaryLine_i_ne hd).2.2.2.2.2, Pi.single_apply] at h'
+  simp [unitaryLine_e', (unitaryLine_i_ne hd).2.2.2.2.2] at h'
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_e'_not_smul_e (hd : 4 ≤ d) :
     ∀ μ : K, unitaryLine_e' (K := K) hd ≠ μ • unitaryLine_e hd := by
   intro μ h
   have h' := congrFun h (unitaryLine_i2 hd)
   simp [unitaryLine_e', unitaryLine_e, (unitaryLine_i_ne hd).2.1,
-    (unitaryLine_i_ne hd).2.2.2.1, (unitaryLine_i_ne hd).2.2.2.2.2,
-    Ne.symm (unitaryLine_i_ne hd).2.2.2.2.2, Pi.single_apply] at h'
+    (unitaryLine_i_ne hd).2.2.2.1, (unitaryLine_i_ne hd).2.2.2.2.2] at h'
 
 private theorem unitaryLine_v_mem (hK : Nat.card K = (2 ^ f) ^ 2) (hd : 4 ≤ d) :
     unitaryLine_v hK hd ∈ unitaryLine_class hK :=
@@ -162,6 +159,7 @@ private theorem unitaryLine_herm_off_e' (hd : 4 ≤ d) {p : Fin d → K}
     herm (unitaryInvolution K 2 f) p (unitaryLine_e' (K := K) hd) = 0 := by
   simp [unitaryLine_e', herm_add_right, herm_single_right, hp.2.2.1, hp.2.2.2]
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_off_add (hd : 4 ≤ d) {p q : Fin d → K}
     (hp : unitaryLine_off hd p) (hq : unitaryLine_off hd q) :
     unitaryLine_off hd (p + q) := by
@@ -169,6 +167,7 @@ private theorem unitaryLine_off_add (hd : 4 ≤ d) {p q : Fin d → K}
   obtain ⟨q0, q1, q2, q3⟩ := hq
   refine ⟨?_, ?_, ?_, ?_⟩ <;> simp [p0, p1, p2, p3, q0, q1, q2, q3]
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_off_smul (hd : 4 ≤ d) {p : Fin d → K}
     (hp : unitaryLine_off hd p) (t : K) : unitaryLine_off hd (t • p) := by
   obtain ⟨p0, p1, p2, p3⟩ := hp
@@ -180,11 +179,12 @@ private def unitaryLine_g0 (hd : 4 ≤ d) (g : Fin d → K) : Fin d → K :=
     g (unitaryLine_i2 hd) • Pi.single (unitaryLine_i2 hd) 1 -
     g (unitaryLine_i3 hd) • Pi.single (unitaryLine_i3 hd) 1
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_g0_off (hd : 4 ≤ d) (g : Fin d → K) :
     unitaryLine_off hd (unitaryLine_g0 hd g) := by
   obtain ⟨h01, h02, h03, h12, h13, h23⟩ := unitaryLine_i_ne hd
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
-    simp [unitaryLine_off, unitaryLine_g0, Pi.single_apply, h01, h02, h03, h12, h13, h23,
+    simp [unitaryLine_g0, h01, h02, h03, h12, h13, h23,
       Ne.symm h01, Ne.symm h02, Ne.symm h03, Ne.symm h12, Ne.symm h13, Ne.symm h23]
 
 private theorem unitaryLine_herm_z_g0 (hd : 4 ≤ d) {z : Fin d → K}
@@ -197,20 +197,17 @@ private theorem unitaryLine_herm_z_g0 (hd : 4 ≤ d) {z : Fin d → K}
 private def unitaryLine_z (hd : 4 ≤ d) (c : Fin d → K) : Fin d → K :=
   c - c (unitaryLine_i0 hd) • unitaryLine_e hd - c (unitaryLine_i2 hd) • unitaryLine_e' hd
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_z_off (hd : 4 ≤ d) {c : Fin d → K}
     (hc01 : c (unitaryLine_i0 hd) = c (unitaryLine_i1 hd))
     (hc23 : c (unitaryLine_i2 hd) = c (unitaryLine_i3 hd)) :
     unitaryLine_off hd (unitaryLine_z (K := K) hd c) := by
   obtain ⟨h01, h02, h03, h12, h13, h23⟩ := unitaryLine_i_ne hd
   refine ⟨?_, ?_, ?_, ?_⟩
-  · simp [unitaryLine_z, unitaryLine_e, unitaryLine_e', Pi.single_apply, h01, h02, h03,
-      Ne.symm h01, Ne.symm h02, Ne.symm h03]
-  · simp [unitaryLine_z, unitaryLine_e, unitaryLine_e', Pi.single_apply, hc01.symm, h01, h02,
-      h03, h12, h13, Ne.symm h01, Ne.symm h02, Ne.symm h03, Ne.symm h12, Ne.symm h13]
-  · simp [unitaryLine_z, unitaryLine_e, unitaryLine_e', Pi.single_apply, h02, h03, h12, h13,
-      h23, Ne.symm h02, Ne.symm h03, Ne.symm h12, Ne.symm h13, Ne.symm h23]
-  · simp [unitaryLine_z, unitaryLine_e, unitaryLine_e', Pi.single_apply, hc23.symm, h03, h13,
-      h23, Ne.symm h03, Ne.symm h13, Ne.symm h23]
+  · simp [unitaryLine_z, unitaryLine_e, unitaryLine_e', h01, h02, h03]
+  · simp [unitaryLine_z, unitaryLine_e, unitaryLine_e', hc01.symm, h12, h13, Ne.symm h01]
+  · simp [unitaryLine_z, unitaryLine_e, unitaryLine_e', h23, Ne.symm h02, Ne.symm h12]
+  · simp [unitaryLine_z, unitaryLine_e, unitaryLine_e', hc23.symm, Ne.symm h03, Ne.symm h13, Ne.symm h23]
 
 private theorem unitaryLine_z_isotropic (hK : Nat.card K = (2 ^ f) ^ 2) (hd : 4 ≤ d)
     {c : Fin d → K} (hc : herm (unitaryInvolution K 2 f) c c = 0)
@@ -431,9 +428,8 @@ private theorem unitaryLine_P_mem_range (hK : Nat.card K = (2 ^ f) ^ 2) (hd : 4 
       unitaryLine_e' (K := K) hd ≠ 0 := by
     intro h0
     have hcoord := congrFun h0 (unitaryLine_i2 hd)
-    simp [unitaryLine_e, unitaryLine_e', Pi.single_apply,
-      (unitaryLine_i_ne hd).2.1, (unitaryLine_i_ne hd).2.2.2.1,
-      (unitaryLine_i_ne hd).2.2.2.2.2, Ne.symm (unitaryLine_i_ne hd).2.2.2.2.2] at hcoord
+    simp [unitaryLine_e, unitaryLine_e', (unitaryLine_i_ne hd).2.1, (unitaryLine_i_ne hd).2.2.2.1,
+      (unitaryLine_i_ne hd).2.2.2.2.2] at hcoord
   have hμeiso : herm (unitaryInvolution K 2 f)
       ((β⁻¹ * α) • unitaryLine_e (K := K) hd + unitaryLine_e' (K := K) hd)
       ((β⁻¹ * α) • unitaryLine_e (K := K) hd + unitaryLine_e' (K := K) hd) = 0 := by
@@ -525,15 +521,16 @@ private theorem unitaryLine_diag_norm {ζ : Kˣ}
     unitaryInvolution K 2 f (unitaryLine_diag (K := K) ζ hd i) *
       unitaryLine_diag (K := K) ζ hd i = 1 := by
   by_cases h0 : i = unitaryLine_i0 hd ∨ i = unitaryLine_i1 hd
-  · rw [unitaryLine_diag, if_pos h0, map_inv₀]
+  · rw [unitaryLine_diag, ite_eq_left h0, map_inv₀]
     rw [← mul_inv, hζ, inv_one]
-  · rw [unitaryLine_diag, if_neg h0]
+  · rw [unitaryLine_diag, ite_eq_right h0]
     by_cases h2 : i = unitaryLine_i2 hd ∨ i = unitaryLine_i3 hd
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       exact hζ
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       simp
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_det_D (ζ : Kˣ) (hd : 4 ≤ d) :
     (unitaryLine_D (K := K) ζ hd).det = 1 := by
   rw [unitaryLine_D, Matrix.det_diagonal]
@@ -604,6 +601,7 @@ private theorem unitaryLine_Dsu_pow_smul {ζ : Kˣ}
   rw [smul_def]
   congr 1
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_D_pow_mulVec_single (ζ : Kˣ) (hd : 4 ≤ d) (k : ℕ)
     (i : Fin d) :
     (unitaryLine_D (K := K) ζ hd ^ k) *ᵥ Pi.single i 1 =
@@ -614,8 +612,9 @@ private theorem unitaryLine_D_pow_mulVec_single (ζ : Kˣ) (hd : 4 ≤ d) (k : �
   by_cases h : j = i
   · subst h
     simp
-  · simp [Pi.single_apply, h, Pi.smul_apply]
+  · simp [h, Pi.smul_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_D_pow_mulVec_e (ζ : Kˣ) (hd : 4 ≤ d) (k : ℕ) :
     (unitaryLine_D (K := K) ζ hd ^ k) *ᵥ unitaryLine_e (K := K) hd =
       (((ζ : K)⁻¹) ^ k) • unitaryLine_e (K := K) hd := by
@@ -627,6 +626,7 @@ private theorem unitaryLine_D_pow_mulVec_e (ζ : Kˣ) (hd : 4 ≤ d) (k : ℕ) :
     simp [unitaryLine_diag, Ne.symm (unitaryLine_i_ne hd).1]
   rw [h0, h1, ← smul_add]
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_D_pow_mulVec_e' (ζ : Kˣ) (hd : 4 ≤ d) (k : ℕ) :
     (unitaryLine_D (K := K) ζ hd ^ k) *ᵥ unitaryLine_e' (K := K) hd =
       ((ζ : K) ^ k) • unitaryLine_e' (K := K) hd := by
@@ -641,6 +641,7 @@ private theorem unitaryLine_D_pow_mulVec_e' (ζ : Kˣ) (hd : 4 ≤ d) (k : ℕ) 
       Ne.symm (unitaryLine_i_ne hd).2.2.2.2.2]
   rw [h2, h3, ← smul_add]
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_D_pow_mulVec_add (ζ : Kˣ) (hd : 4 ≤ d) (k : ℕ) (α β : K) :
     (unitaryLine_D (K := K) ζ hd ^ k) *ᵥ
         (α • unitaryLine_e (K := K) hd + β • unitaryLine_e' (K := K) hd) =
@@ -655,6 +656,7 @@ private noncomputable abbrev unitaryLine_g (hK : Nat.card K = (2 ^ f) ^ 2) {ζ :
     StatedProj (StatedSU d (2 ^ f) K) :=
   kFactsSuProj hK d (unitaryLine_Dsu hζ hd)
 
+omit [CharP K 2] in
 private theorem unitaryLine_odd_two_pow_add_one (hK : Nat.card K = (2 ^ f) ^ 2) :
     Odd (2 ^ f + 1) := by
   have h2 : 1 < Nat.card K := Finite.one_lt_card
@@ -664,6 +666,7 @@ private theorem unitaryLine_odd_two_pow_add_one (hK : Nat.card K = (2 ^ f) ^ 2) 
     omega
   exact (Nat.even_pow.mpr ⟨even_two, hf⟩).add_one
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_diag_pow_eq_one {ζ : Kˣ}
     (hζord : orderOf ζ = 2 ^ f + 1) (hd : 4 ≤ d) (i : Fin d) :
     unitaryLine_diag (K := K) ζ hd i ^ (2 ^ f + 1) = 1 := by
@@ -672,12 +675,13 @@ private theorem unitaryLine_diag_pow_eq_one {ζ : Kˣ}
       rw [← hζord, pow_orderOf_eq_one]
     simpa using congrArg (fun u : Kˣ => (u : K)) h
   by_cases h0 : i = unitaryLine_i0 hd ∨ i = unitaryLine_i1 hd
-  · rw [unitaryLine_diag, if_pos h0, inv_pow, hζpow, inv_one]
-  · rw [unitaryLine_diag, if_neg h0]
+  · rw [unitaryLine_diag, ite_eq_left h0, inv_pow, hζpow, inv_one]
+  · rw [unitaryLine_diag, ite_eq_right h0]
     by_cases h2 : i = unitaryLine_i2 hd ∨ i = unitaryLine_i3 hd
-    · rw [if_pos h2, hζpow]
-    · rw [if_neg h2, one_pow]
+    · rw [ite_eq_left h2, hζpow]
+    · rw [ite_eq_right h2, one_pow]
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_D_pow_eq_one {ζ : Kˣ} (hζord : orderOf ζ = 2 ^ f + 1)
     (hd : 4 ≤ d) :
     unitaryLine_D (K := K) ζ hd ^ (2 ^ f + 1) = 1 := by
@@ -694,6 +698,7 @@ private theorem unitaryLine_Dsu_pow_eq_one {ζ : Kˣ}
   rw [unitaryLine_Dsu_pow_smul, unitaryLine_D_pow_eq_one hζord hd, Matrix.one_mulVec]
   simp
 
+omit [Finite K] [CharP K 2] in
 private theorem unitaryLine_D_pow_mul_scalar_apply (ζ : Kˣ) (hd : 4 ≤ d) (n : ℕ)
     (u : Kˣ) (i : Fin d) :
     ((unitaryLine_D (K := K) ζ hd ^ n) * ((u : K) • (1 : Matrix (Fin d) (Fin d) K))) i i =
@@ -945,7 +950,7 @@ private theorem unitaryLine_semiregular_mu (hK : Nat.card K = (2 ^ f) ^ 2) {ζ :
   obtain ⟨μ, hμ⟩ := (perpMem_setOf_kFactsSuProjTv_eq_iff hK hc0 hc hc'0 hc'iso).mp hperp.symm
   exact ⟨μ, by simpa [c, c'] using hμ⟩
 
-private theorem unitaryLine_semiregular_zeta_eq (hK : Nat.card K = (2 ^ f) ^ 2) {ζ : Kˣ}
+private theorem unitaryLine_semiregular_zeta_eq (_hK : Nat.card K = (2 ^ f) ^ 2) {ζ : Kˣ}
     (hζ : unitaryInvolution K 2 f (ζ : K) * (ζ : K) = 1) (hd : 4 ≤ d)
     {α β μ : K} (i : ℕ)
     (hμ : (unitaryLine_Dsu hζ hd ^ i) •
@@ -1146,9 +1151,9 @@ theorem exists_lineMem_torus_of_isUnitaryTransvection {X : Type} [Group X]
             perpMem {x | IsConj s x} x → g ^ i = 1 := by
   obtain ⟨K, hKfield, hKfin, hKchar, hKcard, φ, e₀, he₀, he₀i, hφs⟩ :=
     exists_mulEquiv_of_isUnitaryTransvection hZ hs
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hK : Nat.card K = (2 ^ f) ^ 2 := hKcard
   obtain ⟨ζ, hζnorm, hζord⟩ :=
     CFSG.LieType.Steinberg.exists_norm_one_orderOf_eq (p := 2) (f := f) hK

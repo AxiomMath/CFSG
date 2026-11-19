@@ -78,7 +78,7 @@ theorem conj (h : IsSumZeroCoords A c) (g : Y) :
 theorem map_quotient [Finite Y] (h : IsSumZeroCoords A c) (N : Subgroup Y) [N.Normal]
     (hN : ¬ 3 ∣ Nat.card N) :
     IsSumZeroCoords (A.map (QuotientGroup.mk' N)) ((QuotientGroup.mk' N).comp c) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA : IsPGroup 3 A := h.isElemAbelian.isPGroup
   obtain ⟨hrange, hker, h3, h4⟩ := h
   have hcmem : ∀ v, c v ∈ A := fun v => hrange.le ⟨v, rfl⟩
@@ -105,7 +105,7 @@ theorem of_quotient [Finite Y] (Z : Subgroup Y) [Z.Normal] (hZ : ¬ 3 ∣ Nat.ca
     (h : IsSumZeroCoords (A.map (QuotientGroup.mk' Z)) cb) :
     ∃ c : Multiplicative (Fin 4 → ZMod 3) →* Y,
       IsSumZeroCoords A c ∧ (QuotientGroup.mk' Z).comp c = cb := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hrange, hker, h3, h4⟩ := h
   obtain ⟨c, hcA, hcb⟩ := Coords.exists_hom_lift Z hZ hA cb hrange.le
   have hcv : ∀ v, QuotientGroup.mk' Z (c v) = cb v := fun v => DFunLike.congr_fun hcb v
@@ -166,7 +166,7 @@ theorem exists_of_uniqueElemSylow {P : Type} [Group P] [Finite P] (hP : UniqueEl
     {A₀ : Subgroup P} {c₀ : Multiplicative (Fin 4 → ZMod 3) →* P} (h₀ : IsSumZeroCoords A₀ c₀)
     {A : Subgroup P} (hA : IsElemAbelian 3 A) (h27 : Nat.card A = 27) :
     ∃ c : Multiplicative (Fin 4 → ZMod 3) →* P, IsSumZeroCoords A c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := UniqueElemSylow.exists_conj_eq hP h₀.isElemAbelian
     (by rw [h₀.card_eq]; norm_num) hA (by rw [h27]; norm_num)
   exact exists_isSumZeroCoords_of_conj ⟨g, hg⟩ ⟨c₀, h₀⟩
@@ -191,7 +191,7 @@ theorem exists_of_forall_quotient {Y : Type} [Group Y] [Finite Y] (Z : Subgroup 
       ∃ c : Multiplicative (Fin 4 → ZMod 3) →* Y ⧸ Z, IsSumZeroCoords B c)
     {A : Subgroup Y} (hA : IsElemAbelian 3 A) (h27 : Nat.card A = 27) :
     ∃ c : Multiplicative (Fin 4 → ZMod 3) →* Y, IsSumZeroCoords A c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨cb, hcb⟩ := h (A.map (QuotientGroup.mk' Z)) (hA.map _)
     (by rw [Coords.card_map_mk' Z hZ hA.isPGroup, h27])
   obtain ⟨c, hc, -⟩ := of_quotient Z hZ hA.isPGroup hcb

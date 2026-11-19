@@ -20,7 +20,7 @@ section NoSylow
 theorem rk2_noSylow_E6_seven {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 2) :
     NoSylowNormalizesTwo 7 (adjointGroup Tag.E6 K) := by
   classical
-  haveI : Fintype (WeylGroup .E6) := Fintype.ofFinite _
+  have : Fintype (WeylGroup .E6) := Fintype.ofFinite _
   have hp : Nat.Prime 7 := by norm_num
   have hpK : ¬ 7 ∣ Nat.card K := by rw [hK]; norm_num
   have he : orderOf ((Nat.card K : ℕ) : ZMod 7) = 3 := by
@@ -71,9 +71,9 @@ theorem rk2_E6two_equiv {G : Type} [Group G] [Finite G] {K : Subgroup G}
     have hcardG : Nat.card (Multiplier.generic .E6 0 2 1 × Multiplier.exceptional .E6 0 2 1) = 1 := by
       rw [CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional']
       decide
-    haveI : Subsingleton (Multiplier.generic .E6 0 2 1 × Multiplier.exceptional .E6 0 2 1) :=
+    have : Subsingleton (Multiplier.generic .E6 0 2 1 × Multiplier.exceptional .E6 0 2 1) :=
       (Nat.card_eq_one_iff_unique.1 hcardG).1
-    haveI : Subsingleton (CFSG.Open.griessHopfMultiplier (↥K ⧸ Subgroup.center ↥K)) :=
+    have : Subsingleton (CFSG.Open.griessHopfMultiplier (↥K ⧸ Subgroup.center ↥K)) :=
       eG.injective.subsingleton
     exact CFSG.GH74.GLS.Stage2.Signalizer.Odd87.center_eq_bot_of_hopf_subsingleton hQ'
       (MulEquiv.refl _) inferInstance
@@ -91,8 +91,8 @@ theorem rk2_E6two_equiv {G : Type} [Group G] [Finite G] {K : Subgroup G}
 theorem rk2_twoLocal7_E6two {G : Type} [Group G] [Finite G] {K : Subgroup G}
     (h : LabelOf K ⟨.E6, 0, 1⟩) : GLATwoLocalRank 7 ↥K ≤ 2 := by
   obtain ⟨F, hF, hFin, hcard, hordK, ⟨e⟩⟩ := rk2_E6two_equiv h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (K := F) (p := 2) (f := 1) (by simpa using hcard)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (K := F) (p := 2) (f := 1) (by simpa using hcard)
   have hN := rk2_noSylow_E6_seven hcard
   have hY : Nat.card ↥(adjointGroup Tag.E6 F) = ordE6 (2 ^ 1) := by
     rw [← hordK]

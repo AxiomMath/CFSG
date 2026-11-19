@@ -91,7 +91,7 @@ theorem J2LocalData.nonempty_mulEquiv_left [Finite G] {L1 L2 S : Subgroup G}
     (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) (h2 : VA5 L2) (hD : J2LocalData L1 L2 S) :
     Nonempty (↥(L1 ⊔ bigB L2 L1 S) ≃* Q1M ⋊[AJ.subtype] ↥AJ) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSL : S ≤ L2 := J2LocalData.S_le_right hF h1 h2 hD
   have hS1L : S ≤ L1 := J2LocalData.S_le_left hF h1 h2 hD
   have hcardS : Nat.card S = 2 ^ 7 := J2LocalData.card_S hF h1 h2 hD

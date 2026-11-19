@@ -37,7 +37,7 @@ theorem sylow_card_le
   classical
   let _ : Fact (Nat.Prime 2) := ⟨by decide⟩
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixed : 6 ≤ Nat.card (fixedPoints Q X) := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     have hh := fixed_card_cases P hcard h5 s hs S

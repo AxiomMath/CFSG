@@ -87,7 +87,7 @@ private theorem le_of_perfect_of_pgroup_sup {H : Type*} [Group H] [Finite H] {p 
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨x, hx⟩, rfl⟩
   have hpq : IsPGroup p (H ⧸ K) := hN.of_surjective _ hsurj
-  haveI := IsPGroup.isNilpotent hpq
+  have := IsPGroup.isNilpotent hpq
   have hperf : ⁅P.map (QuotientGroup.mk' K), P.map (QuotientGroup.mk' K)⁆
       = P.map (QuotientGroup.mk' K) := by
     rw [← Subgroup.map_commutator, hP]
@@ -102,7 +102,7 @@ theorem le_of_perfect_of_le_sup [Finite G] {p : ℕ} [Fact p.Prime] {Q A N : Sub
   have hNB : N ≤ A ⊔ N := le_sup_right
   have hBN : A ⊔ N ≤ Subgroup.normalizer (A : Set G) :=
     sup_le Subgroup.le_normalizer hNA
-  haveI : (A.subgroupOf (A ⊔ N)).Normal :=
+  have : (A.subgroupOf (A ⊔ N)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAB).mpr hBN
   have hNK : N.subgroupOf (A ⊔ N) ⊔ A.subgroupOf (A ⊔ N) = ⊤ := by
     have h := Subgroup.subgroupOf_sup hAB hNB

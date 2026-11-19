@@ -49,8 +49,8 @@ theorem uc22p20x_excl_psl (hT : LieOddRankChev) (hres : uc22p20vExclRes)
     rw [uc22p20w_pRank_psl hT hq hS (by omega) (by omega) Nat.prime_three (by norm_num)]
     by_cases hev : Even n
     · exact uc22p20v_four_le_rkLin_true_one Nat.prime_three
-        (by rw [uc22p20v_eP_three, if_pos hev]) hm (fun _ => by norm_num)
-    · exact uc22p20v_four_le_rkLin_true_two (by rw [uc22p20v_eP_three, if_neg hev])
+        (by rw [uc22p20v_eP_three, ite_eq_left hev]) hm (fun _ => by norm_num)
+    · exact uc22p20v_four_le_rkLin_true_two (by rw [uc22p20v_eP_three, ite_eq_right hev])
         (hcase.resolve_left hev)
   · obtain ⟨hnodd, hm8⟩ := not_or.1 hcase
     have hodd' : Odd n := Nat.not_even_iff_odd.1 hnodd
@@ -71,10 +71,10 @@ theorem uc22p20x_excl_psu (hT : LieOddRankChev) (hres : uc22p20vExclRes)
   · refine uc22p20x_excl_three ?_
     rw [uc22p20w_pRank_psu hT hq hS Nat.prime_three (by norm_num)]
     by_cases hev : Even n
-    · exact uc22p20v_four_le_rkLin_false_two (by rw [uc22p20v_eM_three, if_pos hev])
+    · exact uc22p20v_four_le_rkLin_false_two (by rw [uc22p20v_eM_three, ite_eq_left hev])
         (hcase.resolve_left (not_not.2 hev))
     · exact uc22p20v_four_le_rkLin_false_one Nat.prime_three
-        (by rw [uc22p20v_eM_three, if_neg hev]) hm (fun _ => by norm_num)
+        (by rw [uc22p20v_eM_three, ite_eq_right hev]) hm (fun _ => by norm_num)
   · obtain ⟨hev', hm8⟩ := not_or.1 hcase
     have hev : Even n := not_not.1 hev'
     obtain ⟨p, hp, hpd, hp3, hp5⟩ := uc22p20o_prime_add_one_ne_three_five (n := n)
@@ -202,6 +202,7 @@ theorem uc22p20x_two_three (hZ : ¬ 3 ∣ Nat.card (center K))
       (p = 3 ∨ uc22p20oBorelWit K p 1) :=
   ⟨3, Nat.prime_three, by norm_num, hZ, uc22p20r_rankWit_of_le_pRank Nat.prime_three h, Or.inl rfl⟩
 
+omit [Finite K] in
 theorem uc22p20x_not_dvd_of_bot {p : ℕ} (hp : p.Prime) (hZ : center K = ⊥) :
     ¬ p ∣ Nat.card (center K) := by
   rw [hZ, Subgroup.card_bot]
@@ -284,7 +285,7 @@ theorem uc22p20x_two_u54 (hT : LieOddRankChev) (hN : uc22p20rNativeGriess)
   · have := (Nat.prime_dvd_prime_iff_eq Nat.prime_three Nat.prime_five).1 (hd.trans hZ)
     omega
   · rw [uc22p20w_pRank_psu hT hq hS Nat.prime_three (by norm_num),
-      uc22p20v_rkLin_false_two (by rw [uc22p20v_eM_three, if_pos (by decide)])]
+      uc22p20v_rkLin_false_two (by rw [uc22p20v_eM_three, ite_eq_left (by decide)])]
 
 theorem uc22p20x_two_psp (hT : LieOddRankChev) (hN : uc22p20rNativeGriess)
     (hq : CFSG.Open.IsQuasisimple K) (hodd : Odd (Nat.card (center K))) {m n : ℕ} (hn : 2 < n)

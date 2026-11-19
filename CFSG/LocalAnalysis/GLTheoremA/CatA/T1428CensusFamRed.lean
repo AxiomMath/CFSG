@@ -96,7 +96,7 @@ theorem censusBodyOn_reeG2 (m : ℕ) (hv : (TauCeti.LieTypeIndex.reeG2 m).Valid)
     (hchar : (TauCeti.LieTypeIndex.reeG2 m).characteristic = 2) :
     CensusBody ⟨TauCeti.LieTypeIndex.reeG2 m, hv⟩ := by
   exfalso
-  have h3 : (3 : ℕ) = 2 := by simpa using hchar
+  have h3 : (3 : ℕ) = 2 := by simp at hchar
   omega
 
 theorem t1428U6Census_of_bodies

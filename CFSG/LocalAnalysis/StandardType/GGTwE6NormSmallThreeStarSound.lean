@@ -92,7 +92,7 @@ theorem mem_phi (ε : Fin TwistTag.E6.tag.rank → ℤ) :
 
 theorem mem_star (δ : Fin TwistTag.E6.tag.rank → ℤ) :
     List.ofFn δ ∈ star (encY y) (List.ofFn g) ↔ δ ∈ starSet y g := by
-  rw [star, List.mem_filter, mem_phi, bne_iff_ne, ← iform_eq_dt, starSet, Set.mem_setOf_eq,
+  rw [star, List.mem_filter, mem_phi, bne_iff_ne, ← iform_eq_dt, starSet, Set.mem_ofPred_eq,
     and_assoc]
 
 theorem exists_of_mem_star {r : List ℤ} (hr : r ∈ star (encY y) (List.ofFn g)) :

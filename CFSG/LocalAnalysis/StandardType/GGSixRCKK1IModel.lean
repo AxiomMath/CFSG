@@ -133,12 +133,12 @@ private theorem rckK1Im_pos_or_tri {lab : LargeEvenLabel}
   case F4 => exact Or.inl (by simp [GGPosTag])
   case twE6 => exact Or.inl (by simp [GGPosTag])
   case triD4 => exact Or.inr trivial
-  case G2 => exact absurd (by simp [RCKSmallTag]) hns
-  case twB2 => exact absurd (by simp [RCKSmallTag]) hns
-  case twF4 => exact absurd (by simp [RCKSmallTag]) hns
-  case B2der => simp [ggSixRCKLabelRow] at hrow
-  case G2der => simp [ggSixRCKLabelRow] at hrow
-  case twF4der => exact absurd (by simp [RCKSmallTag]) hns
+  case G2 => exact absurd (by simp) hns
+  case twB2 => exact absurd (by simp) hns
+  case twF4 => exact absurd (by simp) hns
+  case B2der => simp at hrow
+  case G2der => simp at hrow
+  case twF4der => exact absurd (by simp) hns
 
 private theorem rckK1Im_two_le_markDeg {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (hrow : ggSixRCKLabelRow lab = .I) (hns : ¬ RCKSmallTag lab.tag) : 2 ≤ markDeg lab := by
@@ -148,16 +148,16 @@ private theorem rckK1Im_two_le_markDeg {lab : LargeEvenLabel} (hlab : LargeEvenI
   case twD =>
     simp only [markDeg, ggSixRCKLabelRow] at hrow ⊢
     by_cases h2 : l = 2
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       have hn' : 1 ≤ n := hn
       show 2 ≤ 2 * n
       omega
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       by_cases hn2 : 2 ≤ n
       · exact hn2
       · exfalso
-        simp only [if_neg hn2, if_neg h2] at hrow
-        split_ifs at hrow <;> exact absurd hrow (by decide)
+        simp only [ite_eq_right hn2, ite_eq_right h2] at hrow
+        split_ifs at hrow
   case G2 => exact absurd (by simp [RCKSmallTag]) hns
   case twB2 => exact absurd (by simp [RCKSmallTag]) hns
   case twF4 => exact absurd (by simp [RCKSmallTag]) hns
@@ -166,13 +166,13 @@ private theorem rckK1Im_two_le_markDeg {lab : LargeEvenLabel} (hlab : LargeEvenI
   case twF4der => exact absurd (by simp [RCKSmallTag]) hns
   all_goals
     simp only [markDeg, ggSixRCKLabelRow] at hrow ⊢
-    split_ifs at hrow <;> (first | assumption | exact absurd hrow (by decide))
+    split_ifs at hrow; (first | assumption)
 
 private theorem rckK1Im_markRank_zero_of_tri {lab : LargeEvenLabel}
     (htri : markTag lab = .trialityD4) : markRank lab = 0 := by
   obtain ⟨t, l, n⟩ := lab
   cases t <;> simp only [markTag, markRank] at htri ⊢
-  all_goals (try (split_ifs at htri)) <;> simp_all
+  all_goals (try (split_ifs at htri)); try simp_all
 
 theorem rckK1I_model
     (hcov : GGLieOddCover) {Jb : Type} [Group Jb] [Finite Jb] (hodd : Odd (Nat.card (Subgroup.center Jb)))

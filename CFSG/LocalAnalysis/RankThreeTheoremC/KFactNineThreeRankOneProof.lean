@@ -33,7 +33,7 @@ theorem exists_cyclic_sylow_of_involves {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   rw [Sylow.coe_mapSurjective]
   have hS : IsCyclic (((P : Subgroup U).map U.subtype).map K.subtype) :=
     CFSG.Quasithin.isCyclic_of_pRank_le_one hp2 (Subgroup.map_subtype_le _)
-      ((P.isPGroup'.map U.subtype).map K.subtype) hr
+      ((P.isPGroup.map U.subtype).map K.subtype) hr
   rw [Subgroup.map_map] at hS
   have hP : IsCyclic (P : Subgroup U) :=
     (MulEquiv.isCyclic ((P : Subgroup U).equivMapOfInjective _
@@ -55,8 +55,8 @@ theorem kFactNineThreeRankOne_of (hKL : KFactNineThreeListRankOne) : KFactNineTh
     rcases hd with ⟨h, -⟩ | ⟨h, -⟩
     · exact Or.inl h
     · exact Or.inr h
-  haveI : Fact p.Prime := ⟨by rcases hp with rfl | rfl <;> norm_num⟩
-  haveI := KFRankOne.finite_of_involves hI
+  have : Fact p.Prime := ⟨by rcases hp with rfl | rfl <;> norm_num⟩
+  have := KFRankOne.finite_of_involves hI
   obtain ⟨T, hT⟩ := KFRankOne.exists_cyclic_sylow_of_involves (by omega) hr hI
   have hA' : NineThreeListGroup p ↥(⊤ : Subgroup A) :=
     KFRankOne.nineThreeListGroup_of_mulEquiv Subgroup.topEquiv hA

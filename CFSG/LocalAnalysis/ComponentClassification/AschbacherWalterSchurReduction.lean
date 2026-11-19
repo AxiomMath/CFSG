@@ -181,7 +181,7 @@ theorem card_le_two_of_card_lt_eight (hKp : commutator K = ⊤) (hZc : Z₀ ≤ 
         ((f.isMulCommutative_of_isCyclic_of_ker_le_center hf).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
     rw [eq_bot_of_sylow_commute hKp S hSab hZc hZ2, Subgroup.card_bot]
     norm_num
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup
   have hcard4 : Nat.card (P : Subgroup (K ⧸ Z₀)) = 4 := by
     rcases n with _ | _ | _ | n
     · exfalso
@@ -366,7 +366,7 @@ theorem eq_bot_of_eight_le (hSC : Walter.SimpleCaseHyp) {K : Type} [Group K] [Fi
   have hSZ : (S : Subgroup K) ⊓ Subgroup.center K ≤ Z₀ := by
     have h := le_commutator_sylow hKp S
       (inf_le_right : (S : Subgroup K) ⊓ Subgroup.center K ≤ Subgroup.center K)
-      (S.isPGroup'.to_le inf_le_left)
+      (S.isPGroup.to_le inf_le_left)
     refine h.trans ?_
     rw [Subgroup.commutator_le]
     exact hcomm
@@ -426,7 +426,7 @@ theorem eq_bot_of_eight_le (hSC : Walter.SimpleCaseHyp) {K : Type} [Group K] [Fi
   have habQ : Walter.HasAbelianSylowTwo Q := Walter.hasAbelianSylowTwo_of_sylow Pb hPbab
   have h2Q : 2 ∣ Nat.card Q := by
     refine dvd_trans ?_ (Subgroup.card_subgroup_dvd_card (Pb : Subgroup Q))
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp Pb.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp Pb.isPGroup
     rw [hk]
     rcases k with _ | k
     · rw [hcardPb] at hk

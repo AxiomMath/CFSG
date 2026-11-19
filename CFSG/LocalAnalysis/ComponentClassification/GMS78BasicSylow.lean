@@ -94,7 +94,7 @@ theorem isSolvable_centralizer_of_bender {X : Type} [Group X]
   have hle := RankTwoBender.centralizer_le_normalizer_of_mem hX U htU ht1
   obtain ⟨q, k, -, hB⟩ := (AschbacherToolkit.BenderExt.benderData_of_isBenderGroup hX).borel
   obtain ⟨-, ⟨D, hcyc, -, -, hsup⟩, -⟩ := hB U
-  have := isSolvable_normalizer_of_sup_cyclic U.isPGroup' hcyc hsup
+  have := isSolvable_normalizer_of_sup_cyclic U.isPGroup hcyc hsup
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 end CFSG.ComponentClassification.GMS78

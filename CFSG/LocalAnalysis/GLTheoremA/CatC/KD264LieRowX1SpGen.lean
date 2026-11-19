@@ -10,6 +10,7 @@ open CFSG.Open
 
 variable {K : Type*} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem isElemAbelian_map_hom' {G' : Type*} [Group G'] (p : ℕ) (φ : K →* G') {E : Subgroup K}
     (hE : IsElemAbelian p E) : IsElemAbelian p (E.map φ) := by
   obtain ⟨hcomm, hexp⟩ := hE
@@ -41,7 +42,7 @@ theorem le_pRank_of_card {H E : Subgroup K} (hEH : E ≤ H) (hE : IsElemAbelian 
 
 theorem card_eq_three_pow' {E : Subgroup K} (hE : IsElemAbelian 3 E) :
     ∃ k : ℕ, Nat.card E = 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 E := by
     intro g
     refine ⟨1, ?_⟩
@@ -106,7 +107,7 @@ theorem two_le_pRank_of_pair {H : Subgroup K} {a b : K} (ha : a ∈ H) (hb : b �
   have hk2 : 2 ≤ k := by
     rw [hk] at hcardT
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases k <;> norm_num at hcardT
   exact le_trans hk2 (le_pRank_of_card hTle hTel hk)
 

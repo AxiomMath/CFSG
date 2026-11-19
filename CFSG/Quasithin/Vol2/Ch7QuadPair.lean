@@ -14,7 +14,8 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace QuadPair
 
-theorem conj_mul_inv_mem_of_relIndex_two {V B : Subgroup G} (hBV : B ≤ V)
+omit [Finite G] in
+theorem conj_mul_inv_mem_of_relIndex_two {V B : Subgroup G} (_hBV : B ≤ V)
     (hidx : B.relIndex V = 2) {y : G} (hyV : y ∈ Subgroup.normalizer (V : Set G))
     (hyB : y ∈ Subgroup.centralizer (B : Set G)) {v : G} (hv : v ∈ V) :
     y * v * y⁻¹ * v⁻¹ ∈ B := by
@@ -47,6 +48,7 @@ theorem conj_mul_inv_mem_of_relIndex_two {V B : Subgroup G} (hBV : B ≤ V)
         exact absurd (by simpa [Subgroup.mem_subgroupOf] using h : v ∈ B) hvB
     exact Subgroup.mem_subgroupOf.mp hm
 
+omit [Finite G] in
 theorem mem_centralizer_sup_of {B B' : Subgroup G} {y : G}
     (hB : y ∈ Subgroup.centralizer (B : Set G)) (hB' : y ∈ Subgroup.centralizer (B' : Set G)) :
     y ∈ Subgroup.centralizer ((B ⊔ B' : Subgroup G) : Set G) := by
@@ -84,10 +86,12 @@ theorem mem_centralizer_sup_of {B B' : Subgroup G} {y : G}
     rw [e]
     exact B.inv_mem h1
 
+omit [Finite G] in
 theorem mem_stabSeries {N B : Subgroup G} {x : G} :
     x ∈ stabSeries N B ↔ x ∈ Subgroup.normalizer (N : Set G) ∧
       x ∈ Subgroup.centralizer (B : Set G) ∧ ∀ n ∈ N, x * n * x⁻¹ * n⁻¹ ∈ B := Iff.rfl
 
+omit [Finite G] in
 theorem comm_mem_of_closure {N B : Subgroup G} {S : Set G} (hNS : N = Subgroup.closure S)
     (hBN : ∀ n ∈ N, n ∈ Subgroup.centralizer (B : Set G)) {x : G}
     (hS : ∀ s ∈ S, x * s * x⁻¹ * s⁻¹ ∈ B) : ∀ n ∈ N, x * n * x⁻¹ * n⁻¹ ∈ B := by
@@ -111,10 +115,12 @@ theorem comm_mem_of_closure {N B : Subgroup G} {S : Set G} (hNS : N = Subgroup.c
     rw [e, h1]
     exact B.inv_mem ihn
 
+omit [Finite G] in
 theorem mem_normalizer_bot (x : G) : x ∈ Subgroup.normalizer ((⊥ : Subgroup G) : Set G) := by
   rw [Subgroup.normalizer_eq_top]
   exact Subgroup.mem_top x
 
+omit [Finite G] in
 theorem comm_eq_one_of_odd {B D : Subgroup G} (hBD : B ≤ D) (hD : IsPGroup 2 D) {y : G}
     (hy : Odd (orderOf y)) (h5 : ∀ d ∈ D, y * d * y⁻¹ * d⁻¹ ∈ B)
     (h6 : ∀ b ∈ B, y * b * y⁻¹ * b⁻¹ = 1) : ∀ d ∈ D, y * d * y⁻¹ * d⁻¹ = 1 := by

@@ -42,7 +42,7 @@ private theorem false_of_three_dvd_card_of_ne {D : Data G} {Ch : Choice2011 G}
     {b : G} (hb : b ∈ c.B0) (hbZ : b ∉ Subgroup.centralizer (D.Z : Set G))
     {A : Subgroup G} (hAK : A ≤ K) (hAcard : Nat.card A = 3)
     (hAM : A ≤ D.M) (hAC : A ≤ Subgroup.centralizer ({b} : Set G)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrankK : CFSG.Open.pRank 3 K = 1 := by
     refine le_antisymm (hthinK 3 Nat.prime_three (by norm_num)) ?_
     exact CFSG.SectionRank.le_pRank (by norm_num : 1 < 3) hAK

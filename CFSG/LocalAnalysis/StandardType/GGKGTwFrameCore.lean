@@ -35,18 +35,18 @@ theorem kgTwFrame_core {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
       (t : (Fin 6 → ZMod 3) → ModGL TwistTag.E6.tag K),
       KGTwFrame n σ (MulEquiv.refl _) Fr ζ hζ ψ₀ A v g κ t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_surjective ψ₀ hψ₀
+  have : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
+  have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_surjective ψ₀ hψ₀
   obtain ⟨g₀, hg₀, hgn⟩ := exists_inv_mul_twistE6_eq (ℓ := 2) (f := n) hn hFr
     (canonicalRep_mem_adjointGroup (coxeterSystem Tag.E6) (AlgebraicClosure K) twE6W0)
   have hL : IsLang Fr g₀ := ⟨hg₀, hgn⟩
   obtain ⟨D, hD⟩ := exists_tFrame hn hK σ hσ Fr hFr h3 hL hζ hζo
   have hgood : D.Good :=
-    { center := tFrame_center hn hK σ hσ
+    { center := tFrame_center σ
       faithful := tFrame_faithful hn hK σ hσ Fr hFr h3 hL hζ hζo hD
       shape := tFrame_shape hn hK σ hσ Fr hFr h3 hL hζ hζo hD
       torus := tFrame_torus hn hK σ hσ Fr hFr h3 hL hζ hζo hD
@@ -112,7 +112,7 @@ theorem kgTwFrame_core {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
     refine ⟨h5, hinj, kgFrame_range_eq_hyp hinj hrange h5, ?_, ?_⟩
     · exact hinnaut
     · intro i
-      haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [h5]; norm_num)
+      have : Finite A := Nat.finite_of_card_ne_zero (by rw [h5]; norm_num)
       refine ⟨w i, kgFrame_conj_mem_normalizer (w i)
         (fun a => (hrefl i a).imp fun b hb => hb.1), ?_⟩
       intro a b hb

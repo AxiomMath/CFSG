@@ -120,6 +120,7 @@ section Certificates
         omegaA A = {Subgroup.zpowers b} →
         b ∈ Late.sectionCentralizer A J (pPrimeCoreOf 3 Y)
 
+omit [Finite G] in
 theorem mem_sectionCentralizer_of_zpowers_eq {A Y J : Subgroup G} [(ker148 A Y).Normal]
     (hJM : J ≤ Y ⊔ A) {a b : G} (haA : a ∈ A) (hbA : b ∈ A)
     (hab : Subgroup.zpowers a = Subgroup.zpowers b)

@@ -205,9 +205,9 @@ theorem T171ToralLangComp.centerQuot_ne_360 {n : ℕ} {K : Type} [Field K] [Fini
 
 theorem nonempty_e6ToralLangComp (n : ℕ) (K : Type) [Field K] [Finite K]
     [CharP (AlgebraicClosure K) 2]
-    (hn : 1 ≤ n) (hKcard : Nat.card K = 2 ^ n) (h3 : 3 ∣ 2 ^ n - 1)
+    (hn : 1 ≤ n) (hKcard : Nat.card K = 2 ^ n) (_h3 : 3 ∣ 2 ^ n - 1)
     (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (hwd3 : wd ^ 3 = 1) (hwd1 : wd ≠ 1)
-    (hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
+    (_hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
     (g0 : ModGL Tag.E6 (AlgebraicClosure K))
     (hg0 : g0 ∈ adjointGroup Tag.E6 (AlgebraicClosure K))
     (hF : entrywiseFrobGL Tag.E6 (AlgebraicClosure K) 2 n g0 =
@@ -223,7 +223,7 @@ theorem nonempty_e6ToralLangComp (n : ℕ) (K : Type) [Field K] [Finite K]
     (hnorm : ∀ x ∈ Kc, e6RecipeConj wb x ∈ Kc) :
     ∃ (S : LangSetup Tag.E6 (AlgebraicClosure K) 5)
       (a : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ)
-      (D : T171ToralLangComp n K S a (TableBExc.RecipeGroup Tag.E6 K)
+      (_D : T171ToralLangComp n K S a (TableBExc.RecipeGroup Tag.E6 K)
         (e6RecipeConj wb).toMonoidHom Kc hnorm),
       S.D.q = 2 ^ n ∧ rootDiagUnit Tag.E6 a ∈ S.D.torus ∧ (∀ j, a j ^ 3 = 1) ∧
       rootDiagUnit Tag.E6 a ^ 3 = 1 ∧ rootDiagUnit Tag.E6 a ≠ 1 ∧
@@ -248,7 +248,7 @@ theorem nonempty_e6ToralLangComp (n : ℕ) (K : Type) [Field K] [Finite K]
   have hfin : Finite D.model := hd.finite_model
   have hΓ : D.Γ = ι₀.range.map (MulAut.conj D.g0⁻¹).toMonoidHom := hd.Γ_eq
   obtain ⟨ρ, hρ⟩ := frobeniusOnRoots_proved Tag.E6 L D
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     constructor
     · rw [hDq]

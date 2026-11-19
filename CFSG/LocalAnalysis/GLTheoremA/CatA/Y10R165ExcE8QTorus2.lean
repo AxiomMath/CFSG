@@ -122,7 +122,7 @@ lemma orderOf_torusElt_of_pow {ω : Lˣ} {q : ℕ} (hωq : ω ^ q = 1)
     (hωdvd : ∀ k : ℕ, ω ^ k = 1 → q ∣ k) (hq : q.Prime) (hq2 : q ≠ 2)
     {i : Fin Tag.E8.rank} :
     orderOf (torusElt Tag.E8 L i ω) = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hpow : torusElt Tag.E8 L i ω ^ q = 1 := by
     rw [← torusElt_pow, hωq, torusElt_one]
   have hne : torusElt Tag.E8 L i ω ≠ 1 := by
@@ -141,7 +141,7 @@ lemma orderOf_torusElt_of_pow {ω : Lˣ} {q : ℕ} (hωq : ω ^ q = 1)
 private lemma dvd_of_two_mul_pow_eq_one {ω : Lˣ} {q : ℕ} (hq : q.Prime)
     (hωdvd : ∀ k : ℕ, ω ^ k = 1 → q ∣ k) (htwo : (2 : ZMod q) ≠ 0) {m : ℕ}
     (hm : (ω : L) ^ (2 * m) = 1) : q ∣ m := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hm1 : ω ^ (2 * m) = 1 := by
     ext
     rwa [Units.val_pow_eq_pow_val, Units.val_one]
@@ -198,9 +198,9 @@ theorem exists_three_qTorus_stdLayer_one {K : Type} [Field K] [Algebra K L] {q :
     ∃ T : Subgroup (ModGL Tag.E8 L), T ≤ stdLayer Tag.E8 ℓ f n₁ ∧
       IsElemAbelian q T ∧ Nat.card T = q ^ 3 := by
   classical
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (1 < q) := ⟨hq.one_lt⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (1 < q) := ⟨hq.one_lt⟩
   set ζu : Kˣ := Units.mk0 ζ (hζ.ne_zero hq.ne_zero) with hζudef
   have hζu : IsPrimitiveRoot ζu q := (IsPrimitiveRoot.coe_units_iff).mp hζ
   set ω : Lˣ := Units.map (algebraMap K L).toMonoidHom ζu with hωdef

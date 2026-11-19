@@ -28,7 +28,7 @@ theorem uni_exceptional {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
   have hS : S.Normal := hcfg.normal
   have hq : CFSG.Open.IsQuasisimple ↥S := hcfg.qs
   set Z : Subgroup Ω := (CFSG.pCore 2 ↥S).map S.subtype with hZdef
-  haveI hZn : Z.Normal := uexc_twoCore_normal hS
+  have hZn : Z.Normal := uexc_twoCore_normal hS
   have hZ2 : IsPGroup 2 Z := uexc_twoCore_isPGroup S
   have hZS : Z ≤ S := uexc_twoCore_le S
   have hZc : Z ≤ Subgroup.centralizer (S : Set Ω) := uexc_twoCore_le_centralizer hq

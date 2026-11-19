@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem commutes_commutator_of_comm_mem {L₀ Z : Subgroup G} {x : G}
     (hL : ∀ s ∈ L₀, ∀ z ∈ Z, s * z = z * s) (hZab : ∀ a ∈ Z, ∀ b ∈ Z, a * b = b * a)
     (hZ : ∀ s ∈ L₀, ⁅s, x⁆ ∈ Z) {s t : G} (hs : s ∈ L₀) (ht : t ∈ L₀) :
@@ -48,8 +49,8 @@ theorem Ctx.L0_le_LB (hc : Ctx M Q Z B) {t : G}
   rw [← hc.QB_inf_M_eq] at ht
   exact Subgroup.mem_sup_right ht
 
-theorem Ctx.Z_comm (hc : Ctx M Q Z B) : ∀ a ∈ Z, ∀ b ∈ Z, a * b = b * a :=
-  fun a ha b hb => hc.hyp.toHyp79.V_central ha (hc.Z_le_Q hb)
+theorem Ctx.Z_comm (hc : Ctx M Q Z B) : ∀ _a ∈ Z, ∀ _b ∈ Z, _a * _b = _b * _a :=
+  fun _a ha _b hb => hc.hyp.toHyp79.V_central ha (hc.Z_le_Q hb)
 
 theorem Ctx.cq_centralizes_B (hc : Ctx M Q Z B) {w : ℕ} (hw : Width Q Z w) (hw2 : 2 ≤ w) {x : G}
     (hxC : x ∈ CQt Q Z (LB M Q B)) : ∀ b ∈ B, b * x = x * b := by
@@ -181,7 +182,7 @@ theorem Ctx.isA2_QB (hc : Ctx M Q Z B) {w : ℕ} (hw : Width Q Z w) (hw2 : 2 ≤
     have hπr : M'.π (x * s * x⁻¹ * s⁻¹) =
         ((T : M'.E →ₗ[GaloisField 2 n] M'.E) - 1) (M'.π s) := by
       rw [M'.π_mul _ hxsQ _ (Subgroup.inv_mem _ hsQ), hTπ s hsQ, Tim79.QuadModel.pi_inv M' hsQ]
-      simp [LinearMap.sub_apply, sub_eq_add_neg]
+      simp [sub_eq_add_neg]
     have hBr : M'.B (M'.π (x * s * x⁻¹ * s⁻¹)) e₁ = 0 := by
       rw [hπr]
       have := Tim79.QuadModel.B_iso (M₀ := M') (T := (T : M'.E →ₗ[GaloisField 2 n] M'.E)) hTQ

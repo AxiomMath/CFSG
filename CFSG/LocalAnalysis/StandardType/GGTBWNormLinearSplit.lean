@@ -110,7 +110,7 @@ theorem ggTorusWNormSC_coprime {K : Type} [Field K] [Finite K] [CharP K 2] {d p 
     intro f hf
     let g : MulAut L' → MulAut L' := fun a => if ha : a ∈ A then f ⟨a, ha⟩ else a
     have hg (a : MulAut L') (ha : a ∈ A) : g a = (f ⟨a, ha⟩ : MulAut L') := by
-      simp only [g, dif_pos ha]
+      simp only [g, dite_eq_left ha]
     obtain ⟨c, hc⟩ := hSchur g
       (fun a ha => by rw [hg a ha]; exact (f ⟨a, ha⟩).2)
       (fun a ha b hb => by

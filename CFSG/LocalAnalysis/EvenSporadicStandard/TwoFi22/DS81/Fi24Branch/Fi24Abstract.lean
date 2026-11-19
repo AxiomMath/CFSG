@@ -15,7 +15,7 @@ theorem false_of_two_eq {C : Type} [Group C] [Finite C] {c : CInv C} {t : C}
     (hSch : CatalogOuterSolvable) (hB : DS81Lemma210Strong) (hcat : CatSections C) : False := by
   obtain ⟨L1, hcomp, hlayer, hRle⟩ := exists_component hC hR hJ hK hF
   have h : UniqueComp c R L1 := ⟨hcomp, hlayer, hRle⟩
-  haveI := L1_simple hC h
+  have := L1_simple hC h
   refine hB c.Qt L1 (L1_nonabelian hC h) (catalog_L1 hC hcat h) (exists_cover hR h)
     (two_pow_19_dvd hC hcat hSch h hY0) (not_two_pow_21_dvd hC L1) (c.qmap t)
     (qmap_t_mem hJ h) (orderOf_qmap_t hJ) _ rfl (card_O2In hR hJ h) (sq_O2In hR hJ h)

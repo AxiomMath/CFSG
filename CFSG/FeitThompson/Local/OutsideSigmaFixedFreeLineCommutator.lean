@@ -41,6 +41,7 @@ universe u
 
 variable {G : Type u} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPiSubgroup_compl_sigmaPrimes {M K : Subgroup G}
     (hK : ∀ s : ℕ, s.Prime → s ∣ Nat.card ↥K → s ∉ sigmaPrimes M) :
     IsPiSubgroup (sigmaPrimes M)ᶜ K :=

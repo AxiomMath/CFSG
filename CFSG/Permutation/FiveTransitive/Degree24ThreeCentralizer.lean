@@ -104,7 +104,7 @@ theorem five_not_dvd_centralizer_of_subgroup_card_nine
       (Subgroup.centralizer (S : Set P)) := by
   classical
   intro hfive
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let C : Subgroup P :=
     Subgroup.centralizer (S : Set P)
   obtain ⟨u, huorder⟩ :=
@@ -198,7 +198,7 @@ theorem five_not_dvd_centralizer_of_subgroup_card_nine
       ((MonoidHom.ker_eq_bot_iff cycleMap).mp hK)
   have hKnontrivial : Nontrivial K :=
     K.nontrivial_iff_ne_bot.mpr hKne
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hSisP : IsPGroup 3 S := by
     apply IsPGroup.of_card (n := 2)
     rw [hScard]

@@ -34,6 +34,7 @@ variable {b c : K}
 @[expose] noncomputable def blockInrGL : GL (Fin 2) K →* GL (LargeEvenMinusIdx m) K :=
   Units.map blockInrMat
 
+omit [Finite K] [CharP K 2] in
 theorem coe_blockInrGL (g : GL (Fin 2) K) :
     ((blockInrGL g : GL (LargeEvenMinusIdx m) K) :
       Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K) =
@@ -43,10 +44,12 @@ theorem coe_blockInrGL (g : GL (Fin 2) K) :
 @[expose] def anisoN (b c : K) (w : Fin 2 → K) : K :=
   w 0 ^ 2 + b * w 0 * w 1 + c * w 1 ^ 2
 
+omit [Finite K] [CharP K 2] in
 theorem anisoN_eq_minusTailForm (b c : K) (w : Fin 2 → K) :
     anisoN b c w = minusTailForm K b c w := by
   rw [anisoN, minusTailForm_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem coe_torusGL_eq_diagonal (x : Fin m → Kˣ) :
     ((torusGL K m x : GL (LargeEvenMinusIdx m) K) :
       Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K) =
@@ -62,24 +65,28 @@ theorem coe_torusGL_eq_diagonal (x : Fin m → Kˣ) :
   funext r
   rcases r with (i | i) | j <;> simp [pairedUnits]
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem torusGL_apply_inl_inl (x : Fin m → Kˣ) (i : Fin m) :
     ((torusGL K m x : GL (LargeEvenMinusIdx m) K) :
       Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K)
       (Sum.inl (Sum.inl i)) (Sum.inl (Sum.inl i)) = (x i : K) := by
   simp [coe_torusGL_eq_diagonal]
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem torusGL_apply_inl_inr (x : Fin m → Kˣ) (i : Fin m) :
     ((torusGL K m x : GL (LargeEvenMinusIdx m) K) :
       Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K)
       (Sum.inl (Sum.inr i)) (Sum.inl (Sum.inr i)) = ((x i)⁻¹ : K) := by
   simp [coe_torusGL_eq_diagonal]
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem torusGL_apply_inr (x : Fin m → Kˣ) (i : Fin 2) :
     ((torusGL K m x : GL (LargeEvenMinusIdx m) K) :
       Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K)
       (Sum.inr i) (Sum.inr i) = 1 := by
   simp [coe_torusGL_eq_diagonal]
 
+omit [Finite K] [CharP K 2] [Fact (Nat.Prime p)] in
 theorem torusGL_mem_primeTorusGL {x : Fin m → Kˣ} (hx : x ^ p = 1) :
     torusGL K m x ∈ primeTorusGL K m p :=
   (mem_primeTorusGL K m).mpr ⟨x, hx, rfl⟩
@@ -111,7 +118,7 @@ theorem eq_one_of_isometry_pow_card_sub_one_eq_one {h : GL (Fin 2) K}
     rw [← hcardQ]
     exact hdvd₁.trans hcard
   have hdvd₃ : orderOf h ∣ Nat.card K - 1 := orderOf_dvd_of_pow_eq_one hpow
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hqpos : 1 ≤ Nat.card K := Nat.card_pos
   have h2dvd : 2 ∣ Nat.card K := by
     rw [Nat.card_eq_fintype_card]
@@ -133,15 +140,18 @@ theorem eq_one_of_isometry_pow_card_sub_one_eq_one {h : GL (Fin 2) K}
 
 @[expose] def pairOf : Fin m ⊕ Fin m → Fin m := Sum.elim (fun i => i) (fun i => i)
 
+omit [Finite K] [CharP K 2] [Fact (Nat.Prime p)] in
 theorem zeta_pow_eq_one {ζ : Kˣ} (hζ : orderOf ζ = p) : ζ ^ p = 1 := by
   rw [← hζ]
   exact pow_orderOf_eq_one ζ
 
+omit [Finite K] [CharP K 2] in
 theorem zeta_ne_one {ζ : Kˣ} (hζ : orderOf ζ = p) : ζ ≠ 1 := by
   intro h
   rw [h, orderOf_one] at hζ
   exact (Fact.out : p.Prime).one_lt.ne hζ
 
+omit [Finite K] [CharP K 2] in
 theorem zeta_ne_inv {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p) : ζ ≠ ζ⁻¹ := by
   intro h
   have h2 : ζ ^ 2 = 1 := by
@@ -155,6 +165,7 @@ theorem zeta_ne_inv {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p) : ζ ≠ �
   have hge : 2 ≤ p := (Fact.out : p.Prime).two_le
   omega
 
+omit [Fact (Nat.Prime p)] [Finite K] [CharP K 2] in
 theorem primeTorus_mulVec_single {x : GL (LargeEvenMinusIdx m) K}
     (hx : x ∈ primeTorusGL K m p) (r : LargeEvenMinusIdx m) :
     (x : Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K) *ᵥ Pi.single r 1 =
@@ -163,6 +174,7 @@ theorem primeTorus_mulVec_single {x : GL (LargeEvenMinusIdx m) K}
   rw [coe_torusGL_eq_diagonal, Matrix.diagonal_mulVec_single, ← Pi.single_smul']
   simp
 
+omit [Finite K] [CharP K 2] [Fact p.Prime] in
 theorem mulSingle_zeta_mem_primeTorus {ζ : Kˣ} (hζ : orderOf ζ = p) (i : Fin m) :
     torusGL K m (Pi.mulSingle i ζ) ∈ primeTorusGL K m p := by
   apply torusGL_mem_primeTorusGL
@@ -171,8 +183,9 @@ theorem mulSingle_zeta_mem_primeTorus {ζ : Kˣ} (hζ : orderOf ζ = p) (i : Fin
   by_cases hj : j = i
   · subst hj
     simpa using zeta_pow_eq_one hζ
-  · simp [Pi.mulSingle, Function.update_apply, hj]
+  · simp [Pi.mulSingle, hj]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_torus_char_ne {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
     {d₁ d₂ : Fin m ⊕ Fin m} (h : d₁ ≠ d₂) :
     ∃ x ∈ primeTorusGL K m p,
@@ -189,37 +202,36 @@ theorem exists_torus_char_ne {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
       intro h12
       exact h (by rw [h12])
     rw [show i = i₁ from rfl]
-    simp only [torusGL_apply_inl_inl, Pi.mulSingle, Function.update_apply, if_pos rfl,
-      if_neg hii.symm]
+    simp only [torusGL_apply_inl_inl, Pi.mulSingle, Function.update_apply, ite_eq_right hii.symm]
     simpa using hζ1
   · by_cases hii : i₂ = i₁
     · rw [hii, show i = i₁ from rfl]
       simp only [torusGL_apply_inl_inl, torusGL_apply_inl_inr, Pi.mulSingle,
-        Function.update_apply, if_pos rfl]
+        Function.update_apply]
       intro hh
       exact hζni (Units.ext (by simpa using hh))
     · rw [show i = i₁ from rfl]
       simp only [torusGL_apply_inl_inl, torusGL_apply_inl_inr, Pi.mulSingle,
-        Function.update_apply, if_pos rfl, if_neg hii]
+        Function.update_apply, ite_eq_right hii]
       simpa using hζ1
   · by_cases hii : i₂ = i₁
     · rw [hii, show i = i₁ from rfl]
       simp only [torusGL_apply_inl_inr, torusGL_apply_inl_inl, Pi.mulSingle,
-        Function.update_apply, if_pos rfl]
+        Function.update_apply]
       intro hh
       exact hζni (Units.ext (by simpa using hh.symm))
     · rw [show i = i₁ from rfl]
       simp only [torusGL_apply_inl_inr, torusGL_apply_inl_inl, Pi.mulSingle,
-        Function.update_apply, if_pos rfl, if_neg hii]
+        Function.update_apply, ite_eq_right hii]
       simpa using hζi
   · have hii : i₁ ≠ i₂ := by
       intro h12
       exact h (by rw [h12])
     rw [show i = i₁ from rfl]
-    simp only [torusGL_apply_inl_inr, Pi.mulSingle, Function.update_apply, if_pos rfl,
-      if_neg hii.symm]
+    simp only [torusGL_apply_inl_inr, Pi.mulSingle, Function.update_apply, ite_eq_right hii.symm]
     simpa using hζi
 
+omit [Finite K] [CharP K 2] in
 theorem exists_torus_char_ne_one {ζ : Kˣ} (hζ : orderOf ζ = p)
     (c : Fin m ⊕ Fin m) :
     ∃ x ∈ primeTorusGL K m p,
@@ -231,12 +243,13 @@ theorem exists_torus_char_ne_one {ζ : Kˣ} (hζ : orderOf ζ = p)
   refine ⟨torusGL K m (Pi.mulSingle i ζ), mulSingle_zeta_mem_primeTorus hζ i, ?_⟩
   rcases c with i₁ | i₁
   · rw [torusGL_apply_inl_inl, show i = i₁ from rfl]
-    simp only [Pi.mulSingle, Function.update_apply, if_pos rfl]
+    simp only [Pi.mulSingle, Function.update_apply]
     simpa using hζ1
   · rw [torusGL_apply_inl_inr, show i = i₁ from rfl]
-    simp only [Pi.mulSingle, Function.update_apply, if_pos rfl]
+    simp only [Pi.mulSingle, Function.update_apply]
     simpa [Units.val_inv_eq_inv_val] using hζi
 
+omit [Finite K] [CharP K 2] in
 theorem support_inl_of_commute_primeTorus {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
     {g : GL (LargeEvenMinusIdx m) K}
     (hc : ∀ e ∈ primeTorusGL K m p, g * e = e * g)
@@ -293,6 +306,7 @@ theorem support_inl_of_commute_primeTorus {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orde
     rw [h1] at h
     exact absurd h.symm hx1
 
+omit [Finite K] [CharP K 2] in
 theorem support_inr_of_commute_primeTorus {ζ : Kˣ} (hζ : orderOf ζ = p)
     {g : GL (LargeEvenMinusIdx m) K}
     (hc : ∀ e ∈ primeTorusGL K m p, g * e = e * g)
@@ -350,6 +364,7 @@ theorem support_inr_of_commute_primeTorus {ζ : Kˣ} (hζ : orderOf ζ = p)
     exact hx1 (by simpa [χ] using hchar x hxT)
   · fin_cases j' <;> simp
 
+omit [Finite K] [CharP K 2] in
 theorem largeEvenQMinus_vec_pair (b c : K) (i : Fin m) (a d : K) :
     LargeEvenQMinus m b c
       (a • Pi.single (Sum.inl (Sum.inl i)) 1 +
@@ -380,6 +395,7 @@ theorem largeEvenQMinus_vec_pair (b c : K) (i : Fin m) (a d : K) :
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [Finite K] [CharP K 2] in
 theorem coe_torusGL_fromBlocks (x : Fin m → Kˣ) :
     ((torusGL K m x : GL (LargeEvenMinusIdx m) K) :
       Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K) =
@@ -389,11 +405,13 @@ theorem coe_torusGL_fromBlocks (x : Fin m → Kˣ) :
 
 @[expose] def basisVec (r : LargeEvenMinusIdx m) : LargeEvenMinusIdx m → K := Pi.single r 1
 
+omit [Finite K] [CharP K 2] in
 theorem largeEvenQMinus_basisVec_pair (b c : K) (i : Fin m) (a d : K) :
     LargeEvenQMinus m b c
       (a • basisVec (Sum.inl (Sum.inl i)) + d • basisVec (Sum.inl (Sum.inr i))) = a * d := by
   simpa [basisVec] using largeEvenQMinus_vec_pair b c i a d
 
+omit [Finite K] [CharP K 2] in
 theorem isometry_of_mem_largeEvenOrthGroup {Q : (LargeEvenMinusIdx m → K) → K}
     {g : GL (LargeEvenMinusIdx m) K}
     (hg : g ∈ LargeEvenOrthGroup Q) (v : LargeEvenMinusIdx m → K) :
@@ -410,7 +428,8 @@ theorem isometry_of_mem_largeEvenOrthGroup {Q : (LargeEvenMinusIdx m → K) → 
         Matrix.one_mulVec] at h1
       exact h1.symm
 
-theorem largeEvenQMinus_basisVec_pair_ne_zero {b c : K} {a d : K} (ha : a ≠ 0) (hd : d ≠ 0)
+omit [Finite K] [CharP K 2] in
+theorem largeEvenQMinus_basisVec_pair_ne_zero {b c : K} {a d : K} (_ha : a ≠ 0) (_hd : d ≠ 0)
     {p q : Fin m ⊕ Fin m}
     (h : LargeEvenQMinus m b c
       (a • basisVec (Sum.inl p) + d • basisVec (Sum.inl q)) ≠ 0) :
@@ -426,16 +445,17 @@ theorem largeEvenQMinus_basisVec_pair_ne_zero {b c : K} {a d : K} (ha : a ≠ 0)
       exact hpair.1 j rfl (by rw [hjk])
     apply h
     rw [largeEvenQMinus_eq]
-    simp [largeEvenQPlus_def, basisVec, Pi.single_apply, hjk, Ne.symm hjk]
+    simp [largeEvenQPlus_def, basisVec, Pi.single_apply, Ne.symm hjk]
   · have hjk : j ≠ k := by
       intro hjk
       exact hpair.2 j rfl (by rw [hjk])
     apply h
     rw [largeEvenQMinus_eq]
-    simp [largeEvenQPlus_def, basisVec, Pi.single_apply, hjk, Ne.symm hjk]
+    simp [largeEvenQPlus_def, basisVec, Pi.single_apply, hjk]
   · apply h
     simp [largeEvenQMinus_eq, largeEvenQPlus_def, basisVec, Pi.single_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem column_inl_eq_of_commute_primeTorus {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
     {g : GL (LargeEvenMinusIdx m) K}
     (hc : ∀ e ∈ primeTorusGL K m p, g * e = e * g) (c : Fin m ⊕ Fin m) :
@@ -446,13 +466,14 @@ theorem column_inl_eq_of_commute_primeTorus {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : or
   funext r
   by_cases hr : r = Sum.inl c
   · subst hr
-    simp [basisVec]
+    simp
   · have hz : (g : Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K)
         r (Sum.inl c) = 0 := by
       by_contra hne
       exact hr (support_inl_of_commute_primeTorus (p := p) (m := m) hp2 hζ hc c r hne)
-    simp [hz, hr, basisVec]
+    simp [hz, hr]
 
+omit [Finite K] [CharP K 2] in
 theorem column_inl_ne_zero_of_commute_primeTorus {ζ : Kˣ} (hp2 : p ≠ 2)
     (hζ : orderOf ζ = p) {g : GL (LargeEvenMinusIdx m) K}
     (hc : ∀ e ∈ primeTorusGL K m p, g * e = e * g) (c : Fin m ⊕ Fin m) :
@@ -476,6 +497,7 @@ theorem column_inl_ne_zero_of_commute_primeTorus {ζ : Kˣ} (hp2 : p ≠ 2)
     exact one_ne_zero hc
   exact hsingle h1.symm
 
+omit [Finite K] [CharP K 2] in
 theorem exists_block_diag_of_commute_primeTorus {b c : K} {ζ : Kˣ} (hp2 : p ≠ 2)
     (hζ : orderOf ζ = p) {g : GL (LargeEvenMinusIdx m) K}
     (hg : g ∈ LargeEvenOrthGroup (LargeEvenQMinus m b c))
@@ -567,6 +589,7 @@ theorem exists_block_diag_of_commute_primeTorus {b c : K} {ζ : Kˣ} (hp2 : p �
   exact ⟨⟨((Matrix.fromBlocksZero₁₂InvertibleEquiv (Matrix.diagonal (Sum.elim a d)) 0 hmat)
     hAinv').2⟩, hiso_all⟩
 
+omit [Finite K] [CharP K 2] in
 theorem centralizer_primeTorusGL {b c : K} {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
     {g : GL (LargeEvenMinusIdx m) K}
     (hg : g ∈ LargeEvenOrthGroup (LargeEvenQMinus m b c))
@@ -619,11 +642,13 @@ theorem centralizer_primeTorusGL {b c : K} {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : ord
   intro w
   simpa [hcoe] using hiso_h w
 
+omit [Finite K] [CharP K 2] in
 theorem blockInl_commute_blockInr (A : GL (Fin m ⊕ Fin m) K) (h : GL (Fin 2) K) :
     blockInl A * blockInrGL h = blockInrGL h * blockInl A := by
   apply Units.ext
   simp [Units.val_mul, coe_blockInl, coe_blockInrGL, Matrix.fromBlocks_multiply]
 
+omit [Finite K] [CharP K 2] in
 theorem blockInr_pow_eq_one_of_mul_pow_eq_one {A : GL (Fin m ⊕ Fin m) K} {h : GL (Fin 2) K}
     {N : ℕ} (hcomm : Commute (blockInl A) (blockInrGL h))
     (hpow : (blockInl A * blockInrGL h) ^ N = 1) : h ^ N = 1 := by
@@ -661,6 +686,7 @@ theorem eq_torusGL_of_pow_card_sub_one_eq_one {b c : K} {ζ : Kˣ} (hp2 : p ≠ 
   refine ⟨x, ?_⟩
   rw [hh, map_one, mul_one]
 
+omit [Finite K] [CharP K 2] in
 theorem commute_torusGL_of_mem_centralizer {b c : K} {ζ : Kˣ} (hp2 : p ≠ 2)
     (hζ : orderOf ζ = p) {g : GL (LargeEvenMinusIdx m) K}
     (hg : g ∈ LargeEvenOrthGroup (LargeEvenQMinus m b c))
@@ -679,12 +705,13 @@ theorem commute_torusGL_of_mem_centralizer {b c : K} {ζ : Kˣ} (hp2 : p ≠ 2)
     _ = (torusGL K m x * torusGL K m u) * blockInrGL h := by rw [htu]
     _ = torusGL K m x * (torusGL K m u * blockInrGL h) := by group
 
+omit [CharP K 2] [Fact (Nat.Prime p)] in
 theorem conj_inv_mem_of_normalizes {g : GL (LargeEvenMinusIdx m) K}
     (hn : ∀ e ∈ primeTorusGL K m p, g * e * g⁻¹ ∈ primeTorusGL K m p) :
     ∀ e ∈ primeTorusGL K m p, g⁻¹ * e * g ∈ primeTorusGL K m p := by
   classical
   let T := primeTorusGL K m p
-  haveI : Finite T := Subtype.finite
+  have : Finite T := Subtype.finite
   let φ : T → T := fun x => ⟨g * (x : GL (LargeEvenMinusIdx m) K) * g⁻¹, hn x x.2⟩
   have hφinj : Function.Injective φ := by
     intro x y hxy
@@ -700,8 +727,9 @@ theorem conj_inv_mem_of_normalizes {g : GL (LargeEvenMinusIdx m) K}
     calc (x : GL (LargeEvenMinusIdx m) K)
         = g⁻¹ * (g * (x : GL (LargeEvenMinusIdx m) K) * g⁻¹) * g := by group
       _ = g⁻¹ * e * g := by rw [hx'']
-  simpa [← hx'] using x.2
+  simp [← hx']
 
+omit [Finite K] [CharP K 2] in
 theorem column_ne_zero (g : GL (LargeEvenMinusIdx m) K) (c : LargeEvenMinusIdx m) :
     (g : Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K) *ᵥ basisVec c ≠ 0 := by
   intro h
@@ -719,6 +747,7 @@ theorem column_ne_zero (g : GL (LargeEvenMinusIdx m) K) (c : LargeEvenMinusIdx m
     exact one_ne_zero hcc
   exact hsingle h1.symm
 
+omit [CharP K 2] in
 theorem support_inl_of_normalizes {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
     {g : GL (LargeEvenMinusIdx m) K}
     (hn : ∀ e ∈ primeTorusGL K m p, g * e * g⁻¹ ∈ primeTorusGL K m p)
@@ -811,6 +840,7 @@ theorem support_inl_of_normalizes {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ =
     have h3 := hchar_r x hxT
     exact absurd (by rw [← h3, h2]) hx1
 
+omit [CharP K 2] in
 theorem column_inl_normalizer {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
     {g : GL (LargeEvenMinusIdx m) K}
     (hn : ∀ e ∈ primeTorusGL K m p, g * e * g⁻¹ ∈ primeTorusGL K m p)
@@ -834,7 +864,7 @@ theorem column_inl_normalizer {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
             r (Sum.inl c) = 0 := by
           by_contra hne
           exact hr (hsupp r hne)
-        simp [hz, hr]
+        simp [hz]
     exact column_ne_zero (K := K) (m := m) g (Sum.inl c) hzero
   refine ⟨d, a, ha, ?_⟩
   funext r
@@ -848,14 +878,15 @@ theorem column_inl_normalizer {ζ : Kˣ} (hp2 : p ≠ 2) (hζ : orderOf ζ = p)
       exact hr (hsupp r hne)
     simp [hz, hr, basisVec]
 
+omit [Fact (Nat.Prime p)] [Finite K] [CharP K 2] in
 theorem pairOf_sigma_eq_of_isometry {b c : K} {g : GL (LargeEvenMinusIdx m) K}
     (hg : g ∈ LargeEvenOrthGroup (LargeEvenQMinus m b c))
-    (hn : ∀ e ∈ primeTorusGL K m p, g * e * g⁻¹ ∈ primeTorusGL K m p)
+    (_hn : ∀ e ∈ primeTorusGL K m p, g * e * g⁻¹ ∈ primeTorusGL K m p)
     {σ : Fin m ⊕ Fin m → Fin m ⊕ Fin m}
     (hσ : ∀ c, ∃ a : K, a ≠ 0 ∧
       (g : Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K) *ᵥ basisVec (Sum.inl c) =
         a • basisVec (Sum.inl (σ c)))
-    (hσinj : Function.Injective σ) (i : Fin m) :
+    (_hσinj : Function.Injective σ) (i : Fin m) :
     pairOf (σ (Sum.inl i)) = pairOf (σ (Sum.inr i)) := by
   obtain ⟨a, ha, hv_a⟩ := hσ (Sum.inl i)
   obtain ⟨d, hd, hv_d⟩ := hσ (Sum.inr i)
@@ -883,6 +914,7 @@ theorem pairOf_sigma_eq_of_isometry {b c : K} {g : GL (LargeEvenMinusIdx m) K}
   · rw [hp, hq]
     rfl
 
+omit [Finite K] [CharP K 2] in
 theorem sigma_injective_of_column {g : GL (LargeEvenMinusIdx m) K}
     {σ : Fin m ⊕ Fin m → Fin m ⊕ Fin m}
     (hσ : ∀ c, ∃ a : K, a ≠ 0 ∧
@@ -928,6 +960,7 @@ theorem pi_surjective_of_pair {σ : Fin m ⊕ Fin m → Fin m ⊕ Fin m}
       _ = pairOf (Sum.inl j) := by rw [hc]
       _ = j := rfl
 
+omit [CharP K 2] in
 theorem conj_torusGL_of_mem_normalizer {b c : K} {ζ : Kˣ} (hp2 : p ≠ 2)
     (hζ : orderOf ζ = p) {g : GL (LargeEvenMinusIdx m) K}
     (hg : g ∈ LargeEvenOrthGroup (LargeEvenQMinus m b c))
@@ -1018,9 +1051,9 @@ theorem conj_torusGL_of_mem_normalizer {b c : K} {ζ : Kˣ} (hp2 : p ≠ 2)
             (Sum.inl (σ c)) (Sum.inl (σ c))) • basisVec (Sum.inl (σ c)) := by
         simpa [basisVec] using primeTorus_mulVec_single hdT (Sum.inl (σ c))
       rw [hd_diag] at h1
-      simp only [smul_smul, mul_comm, mul_left_comm, mul_assoc] at h1
+      simp only [smul_smul, mul_comm] at h1
       have h2 := congrFun h1 (Sum.inl (σ c))
-      simp [basisVec, Pi.smul_apply, smul_eq_mul, mul_comm, mul_left_comm, mul_assoc] at h2
+      simp [basisVec, Pi.smul_apply, smul_eq_mul, mul_comm, mul_left_comm] at h2
       exact mul_left_cancel₀ ha (by simpa [mul_comm] using h2)
     have hy_eq : y = fun j => x (π.symm j) ^ ε (π.symm j) := by
       funext j

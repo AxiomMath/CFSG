@@ -62,7 +62,7 @@ theorem star_of_absorbsAt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M H Q R : Su
     (hR : IsMaxInvariantTwoIn Q R (d1PlusCore p H K)) (hR1 : R ≠ ⊥) :
     CFSG.Quasithin.CGS R ≤ H ∧ CFSG.LocalAnalysis.RankThreeUC.S15.IsMaxInvariantTwo Q R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcov := cover_normalizer hp hp2 hQH hQ.2.1 hR
   obtain ⟨hRX, hR2, hQR, hRmax⟩ := hR
   have hN : ∀ C : Subgroup G, C ≤ R → C ≠ ⊥ → (C.subgroupOf R).Characteristic →
@@ -95,8 +95,8 @@ theorem star_of_absorbsAt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M H Q R : Su
   have hlt : R.subgroupOf S ≠ ⊤ := by
     intro htop
     exact hSR (le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hRS)
-  haveI : Group.IsNilpotent S := hS2.isNilpotent
-  obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt
+  have : Group.IsNilpotent S := hS2.isNilpotent
+  obtain ⟨x, hxN, hxR⟩ := _root_.IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (R.subgroupOf S) (lt_top_iff_ne_top.mpr hlt))
   have hmapR : (R.subgroupOf S).map S.subtype = R := by
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hRS]

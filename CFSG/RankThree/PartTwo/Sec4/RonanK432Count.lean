@@ -37,7 +37,7 @@ theorem mem_zpowers_of_pow_three {G : Type} [Group G] {g y : G} (hg : g ^ 3 = 1)
 theorem natCard_modEq_three_of_perm {α : Type} [Finite α] (P : Equiv.Perm α) (hP : P ^ 3 = 1) :
     Nat.card α ≡ Nat.card {x : α // P x = x} [MOD 3] := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   have h := Equiv.Perm.card_compl_support_modEq (p := 3) (n := 1) (σ := P)
     (by simpa using hP)
   have hcard : Nat.card {x : α // P x = x} = P.supportᶜ.card := by
@@ -51,7 +51,7 @@ theorem natCard_modEq_three_of_perm {α : Type} [Finite α] (P : Equiv.Perm α) 
 theorem ncard_modEq_three_of_perm {α : Type} (X : Set α) (hX : X.Finite) (e : Equiv.Perm α)
     (he : e ^ 3 = 1) (hXe : ∀ x ∈ X, e x ∈ X) :
     X.ncard ≡ Nat.card {x : X // e x = x} [MOD 3] := by
-  haveI : Finite X := hX.to_subtype
+  have : Finite X := hX.to_subtype
   have h3 : ∀ x, e (e (e x)) = x := by
     intro x
     have := congrArg (fun g : Equiv.Perm α => g x) he
@@ -127,7 +127,7 @@ theorem three_not_dvd_index_centralizer_of_weaklyClosed {S : Type} [Group S] [Fi
       _ ≤ ({z ^ 2} : Set S).ncard + 1 := Set.ncard_insert_le _ _
       _ = 2 := by rw [Set.ncard_singleton]
   have hpos : 0 < Nat.card {x : conjugatesOf z // conjAsPerm S z x = x} := by
-    haveI : Nonempty {x : conjugatesOf z // conjAsPerm S z x = x} :=
+    have : Nonempty {x : conjugatesOf z // conjAsPerm S z x = x} :=
       ⟨⟨⟨z, mem_conjugatesOf_self⟩, by simp [conjAsPerm_apply]⟩⟩
     exact Nat.card_pos
   unfold Nat.ModEq at hmod
@@ -177,7 +177,7 @@ theorem three_not_dvd_index_of_autWeaklyClosed {S : Type} [Group S] [Finite S] {
     (h : AutWeaklyClosed σ) :
     ¬ 3 ∣ (Subgroup.comap (MulAut.conj : S →* MulAut S)
       (Subgroup.centralizer ({σ} : Set (MulAut S)))).index := by
-  letI : MulAction S (MulAut S) := innerMulAct S
+  let : MulAction S (MulAut S) := innerMulAct S
   have hstab : Subgroup.comap (MulAut.conj : S →* MulAut S)
       (Subgroup.centralizer ({σ} : Set (MulAut S))) = MulAction.stabilizer S σ := by
     ext x

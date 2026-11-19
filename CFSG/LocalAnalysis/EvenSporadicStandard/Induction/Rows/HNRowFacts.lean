@@ -26,7 +26,7 @@ section HNRowFacts
 
 abbrev HNKnown : GroupClass := fun X _ => IsSporadic X .HS ∨ IsSporadic X .HN
 
-theorem hnReachRow (hmult : OddMultTrivial .HN) (inp : HNHyp31Inputs) :
+theorem hnReachRow (_hmult : OddMultTrivial .HN) (inp : HNHyp31Inputs) :
     ReachRow IsKHN [.HN] [] [] HNKnown where
   iso := fun X Y _ _ e h => h.imp (fun ⟨f⟩ => ⟨e.symm.trans f⟩) (fun ⟨f⟩ => ⟨e.symm.trans f⟩)
   fi23 := fun s hs => by

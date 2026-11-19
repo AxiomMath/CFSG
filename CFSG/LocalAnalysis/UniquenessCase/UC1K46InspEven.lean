@@ -88,6 +88,7 @@ theorem center_eq_bot : Subgroup.center SL(2, K) = ⊥ := by
   rw [hr1, hs] at hrx
   exact Subtype.ext hrx.symm
 
+omit [CharP K 2] in
 theorem diag2_mul (a b : K) (ha : a ≠ 0) (hb : b ≠ 0) :
     diag2 a ha * diag2 b hb = diag2 (a * b) (mul_ne_zero ha hb) := by
   apply Subtype.ext
@@ -95,6 +96,7 @@ theorem diag2_mul (a b : K) (ha : a ≠ 0) (hb : b ≠ 0) :
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two, diag2_coe, _root_.mul_inv_rev, mul_comm]
 
+omit [CharP K 2] in
 theorem diag2_pow (a : K) (ha : a ≠ 0) (k : ℕ) :
     (diag2 a ha) ^ k = diag2 (a ^ k) (pow_ne_zero k ha) := by
   induction k with
@@ -107,8 +109,9 @@ theorem diag2_pow (a : K) (ha : a ≠ 0) (k : ℕ) :
       apply Subtype.ext
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_two, diag2_coe, pow_succ, mul_comm, mul_assoc]
+        simp [diag2_coe, pow_succ, mul_comm]
 
+omit [CharP K 2] in
 theorem diag2_ne_one {a : K} (ha : a ≠ 0) (ha1 : a ≠ 1) :
     diag2 a ha ≠ (1 : SL(2, K)) := by
   intro h
@@ -117,6 +120,7 @@ theorem diag2_ne_one {a : K} (ha : a ≠ 0) (ha1 : a ≠ 1) :
   simp [diag2_coe] at h00
   exact ha1 h00
 
+omit [CharP K 2] in
 theorem lambda_ne_zero (b : SL(2, K))
     (hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) :
     (b : Matrix (Fin 2) (Fin 2) K) 0 0 ≠ 0 := by
@@ -129,6 +133,7 @@ theorem lambda_ne_zero (b : SL(2, K))
   rw [h, zero_mul] at hdet
   exact zero_ne_one hdet
 
+omit [CharP K 2] in
 theorem upper_decomp (b : SL(2, K))
     (hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) :
     b = diag2 ((b : Matrix (Fin 2) (Fin 2) K) 0 0) (lambda_ne_zero K b hb10) *
@@ -155,6 +160,7 @@ theorem upper_decomp (b : SL(2, K))
   · simp [Matrix.mul_apply, Fin.sum_univ_two, diag2_coe, SpecialLinearGroup.transvection_coe,
       hB11]
 
+omit [CharP K 2] in
 theorem upper_commutator (b : SL(2, K))
     (hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) (c : K) :
     ⁅b, SpecialLinearGroup.transvection (zero_ne_one : (0 : Fin 2) ≠ 1) c⁆ =
@@ -173,6 +179,7 @@ theorem upper_commutator (b : SL(2, K))
     commutator_diag2_transvection ((b : Matrix (Fin 2) (Fin 2) K) 0 0) hlam c
       ((((b : Matrix (Fin 2) (Fin 2) K) 0 0) ^ 2 - 1) * c) (by ring)]
 
+omit [CharP K 2] in
 theorem upper_conj (b : SL(2, K))
     (hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) (c : K) :
     b * SpecialLinearGroup.transvection (zero_ne_one : (0 : Fin 2) ≠ 1) c * b⁻¹ =
@@ -183,6 +190,7 @@ theorem upper_conj (b : SL(2, K))
   congr 1
   ring
 
+omit [CharP K 2] in
 theorem inv_upper (b : SL(2, K))
     (hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) :
     ((b⁻¹ : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
@@ -202,12 +210,12 @@ theorem inv_upper (b : SL(2, K))
     rw [mul_inv_cancel]
     rfl
   have h10 := congrFun (congrFun hmul 1) 0
-  simp only [Matrix.mul_apply, Fin.sum_univ_two, hb10, mul_zero, zero_mul, add_zero,
-    zero_add, Matrix.one_apply, one_ne_zero, reduceIte] at h10
+  simp only [Matrix.mul_apply, Fin.sum_univ_two, hb10, zero_mul, zero_add, Matrix.one_apply, one_ne_zero, reduceIte] at h10
   rcases mul_eq_zero.mp h10 with h | h
   · exact absurd h h11
   · simpa only [SpecialLinearGroup.coe_inv] using h
 
+omit [CharP K 2] in
 theorem upper_conj_mem (b : SL(2, K))
     (hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) {x : SL(2, K)} (hx : x ∈ U0 K) :
     b * x * b⁻¹ ∈ U0 K := by
@@ -224,6 +232,7 @@ theorem upper_conj_mem (b : SL(2, K))
     rw [show b * x⁻¹ * b⁻¹ = (b * x * b⁻¹)⁻¹ by group]
     exact Subgroup.inv_mem _ ihx
 
+omit [CharP K 2] in
 theorem upper_mem_normalizer (b : SL(2, K))
     (hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) :
     b ∈ Subgroup.normalizer (U0 K : Set SL(2, K)) := by
@@ -241,7 +250,7 @@ theorem upper_mem_normalizer (b : SL(2, K))
 theorem lambda_sq_ne_one {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (b : SL(2, K))
     (hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) (hbne : b ≠ 1) (hbr : b ^ r = 1) :
     (((b : Matrix (Fin 2) (Fin 2) K) 0 0) ^ 2) ≠ 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   intro hsq
   have hlam := lambda_ne_zero K b hb10
   have hdecomp := upper_decomp K b hb10
@@ -271,9 +280,9 @@ namespace InspEven
 open InspEven
 
 theorem exists_card_sl (K : Type*) [Field K] [Finite K] [CharP K 2]
-    (r : ℕ) (hr : r.Prime) (hr2 : r ≠ 2) (hrdvd : r ∣ Nat.card K - 1) :
+    (r : ℕ) (hr : r.Prime) (_hr2 : r ≠ 2) (hrdvd : r ∣ Nat.card K - 1) :
     ∃ A : Subgroup SL(2, K), Nat.card A = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hdvd : r ∣ Nat.card Kˣ := by rw [Nat.card_units]; exact hrdvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r hdvd
   have hxr : (x : K) ^ r = 1 := by
@@ -297,10 +306,10 @@ theorem exists_card_sl (K : Type*) [Field K] [Finite K] [CharP K 2]
 theorem insp_pair_sl (K : Type*) [Field K] [Finite K] [CharP K 2]
     (r : ℕ) (hr : r.Prime) (hr2 : r ≠ 2) (hrdvd : r ∣ Nat.card K - 1) :
     ∀ A : Subgroup SL(2, K), Nat.card A = r → ∃ U : Subgroup SL(2, K), InspPair 2 A U := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype K := Fintype.ofFinite K
   intro A hA
-  haveI hAr : IsPGroup r A := IsPGroup.of_card (by rw [hA, pow_one])
+  have hAr : IsPGroup r A := IsPGroup.of_card (by rw [hA, pow_one])
   have hPcard : Nat.card (ℙ K (Fin 2 → K)) = Nat.card K + 1 := by
     rw [Projectivization.card_of_finrank_two (k := K) (V := Fin 2 → K)
       (by rw [Module.finrank_fin_fun])]
@@ -315,7 +324,7 @@ theorem insp_pair_sl (K : Type*) [Field K] [Finite K] [CharP K 2]
     exact hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 h2)
   obtain ⟨p, hp⟩ := IsPGroup.nonempty_fixed_point_of_prime_not_dvd_card
     (hG := hAr) (α := ℙ K (Fin 2 → K)) hrndvd
-  haveI : MulAction.IsPretransitive (SL(2, K)) (ℙ K (Fin 2 → K)) :=
+  have : MulAction.IsPretransitive (SL(2, K)) (ℙ K (Fin 2 → K)) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := SL(2, K)) p (stdPoint K)
   let e : SL(2, K) ≃* SL(2, K) := MulAut.conj g
@@ -408,9 +417,9 @@ end InspEven
 theorem insp2L2_holds : Insp2L2 := by
   intro G _ _ n hL r hr hr2 hrdvd
   rcases hL with ⟨-, ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI hKc : CharP K 2 :=
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have hKc : CharP K 2 :=
       charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
     have hcenter := InspEven.center_eq_bot K
     have hinj : Function.Injective

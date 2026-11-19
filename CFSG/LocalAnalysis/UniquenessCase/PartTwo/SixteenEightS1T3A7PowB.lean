@@ -90,7 +90,7 @@ private lemma s16t3_commutator_mem_of_generators {D : Type*} [Group D] (Z : Subg
     (hgen : Subgroup.closure {a, b} ⊔ Z = ⊤) :
     ∀ x y : D, y⁻¹ * x⁻¹ * y * x ∈ Z := by
   classical
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZc
+  have : Z.Normal := Subgroup.normal_of_le_center hZc
   have hmapZ : Subgroup.map (QuotientGroup.mk' Z) Z = ⊥ := by
     rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk']
   have hcl : Subgroup.closure ({(a : D ⧸ Z), (b : D ⧸ Z)} : Set (D ⧸ Z)) = ⊤ := by
@@ -107,7 +107,7 @@ private lemma s16t3_commutator_mem_of_generators {D : Type*} [Group D] (Z : Subg
       have h1 : ((a * b * a⁻¹ * b⁻¹ : D) : D ⧸ Z) = 1 :=
         (QuotientGroup.eq_one_iff (N := Z) (a * b * a⁻¹ * b⁻¹)).mpr hab
       simpa [commutatorElement_def] using h1)
-  haveI hcommH : IsMulCommutative
+  have hcommH : IsMulCommutative
       (Subgroup.closure ({(a : D ⧸ Z), (b : D ⧸ Z)} : Set (D ⧸ Z))) :=
     Subgroup.isMulCommutative_closure hpair
   have hcommQ : ∀ p q : D ⧸ Z, p * q = q * p := by
@@ -129,7 +129,7 @@ theorem s16t3_pow_three_of_two_gen {D : Type*} [Group D] [Finite D] (Z : Subgrou
     (hgen : Subgroup.closure {a, b} ⊔ Z = ⊤) {u : D} {n : ℕ} (hu : u ^ 3 ^ n = 1) :
     u ^ 3 = 1 := by
   classical
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZc
+  have : Z.Normal := Subgroup.normal_of_le_center hZc
   have hab' : ∀ x y : D, y⁻¹ * x⁻¹ * y * x ∈ Z :=
     s16t3_commutator_mem_of_generators Z hZc hab hgen
   have hW : ∀ w ∈ Subgroup.closure ({a, b} : Set D), w ^ 3 = 1 := by

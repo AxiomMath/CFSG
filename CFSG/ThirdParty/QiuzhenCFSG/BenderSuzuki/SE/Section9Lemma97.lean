@@ -227,8 +227,8 @@ public theorem lemma97_ne_centralizer_sup
   have hEodd : Odd (Nat.card E) :=
     hDodd.of_dvd_nat (Subgroup.card_dvd_of_le inf_le_right)
   have hEsolv : Group.IsSolvable E := odd_order_theorem E hEodd
-  letI : Group.IsSolvable E := hEsolv
-  haveI : Nontrivial E :=
+  let : Group.IsSolvable E := hEsolv
+  have : Nontrivial E :=
     (Subgroup.nontrivial_iff_ne_bot E).2 (by simpa [E] using hEne)
   have hcommLt : derivedSubgroup E < ⊤ :=
     Group.IsSolvable.commutator_lt_top_of_nontrivial (G := E)
@@ -237,7 +237,7 @@ public theorem lemma97_ne_centralizer_sup
       Subgroup.one_lt_index_of_ne_top hcommLt.ne
     simpa [Subgroup.index_eq_card] using hindex
   obtain ⟨p, hp, hpAb⟩ := Nat.exists_prime_and_dvd hAbOneLt.ne'
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hB : Lemma94AlternativeB D E t p := by
     simpa [D, E] using
       (corollary_9_5_ambient_abelianization hM ht htM d83 h84 hQ
@@ -335,7 +335,7 @@ private theorem involution_mem_factor_of_odd
           y = z⁻¹ * (z * y) := by simp
           _ = z⁻¹ * (q * z) := by rw [hzy]
           _ = z⁻¹ * (z * q) := by rw [hqcomm]
-          _ = q := by simp [mul_assoc]
+          _ = q := by simp
       rw [hyq]
       exact hqY
   have hzNM : z ∈ NM := ⟨hzM, hzNorm⟩
@@ -395,12 +395,12 @@ public theorem lemma97_centralizer_eq_bot_of_ne_sup
   change CI = ⊥
   rw [← hECI]
   by_contra hEne
-  letI : Nontrivial E :=
+  let : Nontrivial E :=
     (Subgroup.nontrivial_iff_ne_bot E).2 hEne
   have hEcard : 1 < Nat.card E :=
     Finite.one_lt_card_iff_nontrivial.mpr inferInstance
   obtain ⟨p, hp, hpE⟩ := Nat.exists_prime_and_dvd hEcard.ne'
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let P : Sylow p E := default
   let Y : Subgroup X := (P : Subgroup E).map E.subtype
   have hYE : Y ≤ E := by
@@ -417,7 +417,7 @@ public theorem lemma97_centralizer_eq_bot_of_ne_sup
     apply Subgroup.map_injective E.subtype_injective
     simpa [Y] using hYbot
   have hYnormal : (Y.subgroupOf Y).Normal := by
-    simpa using (inferInstance : (⊤ : Subgroup Y).Normal)
+    simp
   have hPeterfalviNormalizer :
       HasNontrivialPeterfalviNormalizer D t Y := by
     obtain ⟨k, hkI, hkne⟩ := hIne
@@ -456,7 +456,7 @@ public theorem lemma97_centralizer_eq_bot_of_ne_sup
       ⟨⟨d83.u, huS⟩, by
         intro huOne
         exact d83.u_involution.ne_one (congrArg Subtype.val huOne)⟩
-  letI : Nontrivial S :=
+  let : Nontrivial S :=
     (Subgroup.nontrivial_iff_ne_bot S).2 hSne
   have hCenterNontrivial : Nontrivial (Subgroup.center S) :=
     hS.isPGroup_two.center_nontrivial

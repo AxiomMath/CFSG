@@ -49,14 +49,14 @@ theorem leviEmb_mem_stabilizer (A : SpecialLinearGroup (Fin 2) K) :
   have : mulVecLin ((leviEmb A : SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)
       (Pi.single 0 1) = Pi.single 0 1 := by
     ext i
-    fin_cases i <;> simp [coe_leviEmb, leviMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
-      Pi.single_apply]
+    fin_cases i <;> simp [coe_leviEmb, leviMat, Matrix.mulVec, dotProduct, Pi.single_apply]
   rw [this]
 
 section Perfect
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem leviHom_injective :
     Function.Injective ((proj 3 K).comp (leviEmb (K := K))) := by
   rw [injective_iff_map_eq_one]
@@ -87,7 +87,7 @@ theorem exists_levi_perfect (hK : ∃ s : Finset K, s.card = 4) :
     ∃ V : Subgroup (projectiveSL 3 K), V ≤ projStabilizer (flagSpace 3 K 1) ∧ ⁅V, V⁆ = V ∧
       Nat.card K ^ 2 - 1 ∣ Nat.card V := by
   set f : SpecialLinearGroup (Fin 2) K →* projectiveSL 3 K := (proj 3 K).comp leviEmb with hf
-  haveI := CFSG.LinearGroups.special_linear_dimension_two_perfect hK
+  have := CFSG.LinearGroups.special_linear_dimension_two_perfect hK
   refine ⟨f.range, ?_, ?_, ?_⟩
   · rintro _ ⟨A, rfl⟩
     exact ⟨leviEmb A, leviEmb_mem_stabilizer A, rfl⟩
@@ -105,12 +105,14 @@ variable [CharP K 2] [Finite K]
 
 @[expose] def wMat : Matrix (Fin 3) (Fin 3) K := !![0, 0, 1; 0, 1, 0; 1, 0, 0]
 
+omit [CharP K 2] [Finite K] in
 theorem wMat_mul_self : (wMat : Matrix (Fin 3) (Fin 3) K) * wMat = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [wMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 @[expose] def wGL : GL (Fin 3) K := ⟨wMat, wMat, wMat_mul_self, wMat_mul_self⟩
 
+omit [CharP K 2] [Finite K] in
 theorem map_dotOrth_flagSpace_two :
     (dotOrth (flagSpace 3 K 2)).map
       (mulVecLin (((wGL : GL (Fin 3) K)) : Matrix (Fin 3) (Fin 3) K)) = flagSpace 3 K 1 := by
@@ -140,6 +142,7 @@ theorem map_dotOrth_flagSpace_two :
       have h2 := hv 2 (by simp)
       fin_cases i <;> simp [wGL, wMat, Matrix.mulVec, dotProduct, Fin.sum_univ_three, h1, h2]
 
+omit [CharP K 2] [Finite K] in
 theorem exists_aut_plane_to_point :
     ∃ κ : MulAut (projectiveSL 3 K), (projStabilizer (flagSpace 3 K 2)).map κ.toMonoidHom =
       projStabilizer (flagSpace 3 K 1) := by

@@ -15,6 +15,7 @@ section Stmts
 
 variable {S : Type} [CommGroup S] [Finite S] {G Lt : Subgroup (MulAut S)} {hLG : Lt ≤ G} {m : ℕ}
 
+omit [Finite S] in
 theorem offpm_isExp2 (D : AltNatData G Lt hLG m) {B : Subgroup (MulAut S)}
     (hB : IsElemAbelian2 B) : ∀ e ∈ (B.subgroupOf G).map D.θ, e * e = 1 := by
   intro e he
@@ -26,11 +27,13 @@ theorem offpm_isExp2 (D : AltNatData G Lt hLG m) {B : Subgroup (MulAut S)}
     exact hB.2 _ hgB
   rw [← map_mul, hg2, map_one]
 
+omit [Finite S] in
 theorem offpm_card_image (D : AltNatData G Lt hLG m) {B : Subgroup (MulAut S)} (hBG : B ≤ G) :
     Nat.card ((B.subgroupOf G).map D.θ) = Nat.card B := by
   rw [Subgroup.card_map_of_injective D.inj]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBG).toEquiv
 
+omit [Finite S] in
 theorem offpm_mem_fixV_iff (D : AltNatData G Lt hLG m) {B : Subgroup (MulAut S)} (hBG : B ≤ G)
     (s : S) : s ∈ fixV B ↔
       (D.π.toEquiv.trans Multiplicative.toAdd) s ∈
@@ -52,6 +55,7 @@ theorem offpm_mem_fixV_iff (D : AltNatData G Lt hLG m) {B : Subgroup (MulAut S)}
     rw [← D.equiv ⟨x, hBG hx⟩ s] at hb
     exact D.π.injective (Multiplicative.toAdd.injective hb)
 
+omit [Finite S] in
 theorem offpm_card_fixV (D : AltNatData G Lt hLG m) {B : Subgroup (MulAut S)} (hBG : B ≤ G) :
     Nat.card (fixV B) =
       Nat.card (CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.altFix m
@@ -59,6 +63,7 @@ theorem offpm_card_fixV (D : AltNatData G Lt hLG m) {B : Subgroup (MulAut S)} (h
   Nat.card_congr (Equiv.subtypeEquiv (D.π.toEquiv.trans Multiplicative.toAdd)
     (offpm_mem_fixV_iff D hBG))
 
+omit [Finite S] in
 theorem offpm_card_S (D : AltNatData G Lt hLG m) : Nat.card S = Nat.card (altHeart m) :=
   Nat.card_congr (D.π.toEquiv.trans Multiplicative.toAdd)
 
@@ -112,8 +117,9 @@ theorem offpm_swap_mem (hm : 9 ≤ m) (hodd : Odd m) {E : Subgroup (Equiv.Perm (
   rw [← hEo] at hswap
   exact ⟨Equiv.swap i (σ i), hswap, ⟨i, σ i, hi.symm, rfl⟩⟩
 
+omit [Finite S] in
 theorem card_mul_fixV_le (D : AltNatData G Lt hLG m) (hm : 9 ≤ m) (hodd : Odd m)
-    {B : Subgroup (MulAut S)} (hBG : B ≤ G) (hB : IsElemAbelian2 B) (hB1 : B ≠ ⊥) :
+    {B : Subgroup (MulAut S)} (hBG : B ≤ G) (hB : IsElemAbelian2 B) (_hB1 : B ≠ ⊥) :
     Nat.card B * Nat.card (fixV B) ≤ Nat.card S := by
   have hE := offpm_isExp2 D hB
   have hnot : ¬ CFSG.HardMathSupport.Cooperstein.Coordinator.EightFive.IsMatchingGroup
@@ -127,6 +133,7 @@ theorem card_mul_fixV_le (D : AltNatData G Lt hLG m) (hm : 9 ≤ m) (hodd : Odd 
   rw [← offpm_card_image D hBG, offpm_card_fixV D hBG, offpm_card_S D]
   exact hk
 
+omit [Finite S] in
 theorem exists_swap_of_offender (D : AltNatData G Lt hLG m) (hm : 9 ≤ m) (hodd : Odd m)
     {B : Subgroup (MulAut S)} (hBG : B ≤ G) (hB : IsElemAbelian2 B) (hB1 : B ≠ ⊥)
     (hoff : Nat.card S ≤ Nat.card B * Nat.card (fixV B)) :

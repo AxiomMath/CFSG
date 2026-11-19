@@ -50,7 +50,7 @@ theorem isShapeCentralizerEleven_of_mem_Gx (hI : TwoHSInterface) (hU : U35Facts)
       · exact hp2 ((Nat.dvd_prime Nat.prime_two).mp h2 |>.resolve_left hp.ne_one)
       · exact hp11 ((Nat.dvd_prime (by norm_num : Nat.Prime 11)).mp h11
           |>.resolve_left hp.ne_one)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨σ, hσN, hσorder, hσinv⟩ :=
       exists_inverted_element (K := Gx ω) hNK hNn hNodd haK ha hpN hC
     let x : G := σ * a * σ⁻¹
@@ -96,7 +96,7 @@ theorem isShapeCentralizerEleven_of_mem_Gx (hI : TwoHSInterface) (hU : U35Facts)
     rw [hcard] at hdvdG
     exact (by norm_num : ¬ 11 ^ 2 ∣ 2 ^ 14 * 3 ^ 6 * 5 ^ 6 * 7 * 11 * 19) hdvdG
   let N' : Subgroup ↥(Gx ω) := N.subgroupOf (Gx ω)
-  haveI hN'normal : N'.Normal := hNn
+  have hN'normal : N'.Normal := hNn
   let T' : Subgroup ↥(Gx ω) := (Subgroup.zpowers a).subgroupOf (Gx ω)
   have hsup' : N' ⊔ T' = ⊤ := by
     have h := Subgroup.subgroupOf_sup (A := N) (A' := Subgroup.zpowers a) (B := Gx ω)

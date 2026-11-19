@@ -35,7 +35,7 @@ theorem szg_exists_outer {a c y : G}
   have hfacts := hP.facts
   have hex : ∃ u ∈ U, u ∉ sz32Z a c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : U ≤ sz32Z a c := hcon
     have h2 := hU.abs.inf_Z
     rw [inf_eq_left.mpr hle] at h2
@@ -58,7 +58,7 @@ theorem szg_normalizer_J_le_M (hS : Setting G) (hU0 : FullCoreLocal G) {a c y : 
     (hc : PointConfig IsSz32Type G 5 P M x J) (hP : Sz32Struct P x J a c y) :
     ∀ n : ↥J, (n : G) ∈ normalizer ((u3T P x J : Subgroup G) : Set G) → (n : G) ∈ M := by
   intro n hn
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hfacts := hP.facts
   have hTP : u3T P x J ≤ (P : Subgroup G) := inf_le_left.trans inf_le_left
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
@@ -66,7 +66,7 @@ theorem szg_normalizer_J_le_M (hS : Setting G) (hU0 : FullCoreLocal G) {a c y : 
   have hJC : J ≤ Subgroup.centralizer ({x} : Set G) := hc.le_cent
   set E : Subgroup G := u3T P x J ⊔ Subgroup.zpowers x with hE
   have hEP : E ≤ (P : Subgroup G) := sup_le hTP (Subgroup.zpowers_le.mpr hxP)
-  have hEp : IsPGroup 5 E := P.isPGroup'.to_le hEP
+  have hEp : IsPGroup 5 E := P.isPGroup.to_le hEP
   have hZE : sz32Z a c ≤ E := by
     refine sup_le (Subgroup.zpowers_le.mpr ?_) ?_
     · have h5 : a ^ 5 ∈ u3T P x J := by
@@ -92,11 +92,11 @@ theorem szg_normalizer_J_le_M (hS : Setting G) (hU0 : FullCoreLocal G) {a c y : 
     rw [hE, Subgroup.map_sup, hn', hzx]
   exact normalizer_le_of_le_of_two_le_pRank hS hU0 hc.sigma hc.core hEp (hEP.trans hPM) hE2 hnE
 
-theorem sz32_lemma45_G (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hSz : Sz32Facts)
+theorem sz32_lemma45_G (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (_hSz : Sz32Facts)
     (hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
     (hP : Sz32Struct P x J a c y) {U : Subgroup G} (hU : Sz32Plane P x a c y U) :
     ∃ S₁ : Subgroup G, rankTwoMaximalInvariantTwoSubgroup U S₁ ∧ ¬ S₁ ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hUS : U ≤ u3S P x := le_inf hU.le_P (hU.le_P.trans hP.le_cent)
   refine szg_lemma45_lift hS hD1 hSz'.lemma45 hSz'.maximal
     (fun A B _ _ e h => ⟨h.1, isoLie_of_mulEquiv e h.2⟩) hc (szg_normalizer_J_le_M hS hU0 hc hP) ?_

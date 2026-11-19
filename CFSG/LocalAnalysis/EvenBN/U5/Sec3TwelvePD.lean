@@ -43,7 +43,7 @@ def A (V C P : Subgroup G) (hCV : C ≤ V) (hV : ∀ a ∈ V, ∀ b ∈ V, a * b
       rw [hV a haV _ (hCV (hb r hr)), mul_inv_cancel_right]
     rw [e, hc]
     exact mul_mem (ha r hr) (hb r hr)
-  one_mem' := ⟨one_mem V, fun r _ => by simpa using one_mem C⟩
+  one_mem' := ⟨one_mem V, fun r _ => by simp⟩
   inv_mem' := by
     rintro a ⟨haV, ha⟩
     refine ⟨inv_mem haV, fun r hr => ?_⟩
@@ -68,7 +68,7 @@ def Stab (X C : Subgroup G) (hXC : X ≤ centralizer (C : Set G)) (v : G) : Subg
       rw [← mem_centralizer_iff.1 (hXC haX) _ hb, mul_inv_cancel_right]
     rw [e, hc]
     exact mul_mem hb ha
-  one_mem' := ⟨one_mem X, by simpa using one_mem C⟩
+  one_mem' := ⟨one_mem X, by simp⟩
   inv_mem' := by
     rintro a ⟨haX, ha⟩
     refine ⟨inv_mem haX, ?_⟩
@@ -105,6 +105,7 @@ section Counting
 
 variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k] [CharP k 2] {m : ℕ}
 
+omit [Finite G] [CharP k 2] in
 theorem perfect_of_equiv {X : Subgroup G} (φ : X ≃* SL(2, k)) (hk : Nat.card k = 2 ^ m)
     (hm : 2 ≤ m) : ⁅X, X⁆ = X := by
   have h4 : 4 ≤ Nat.card k := by
@@ -333,9 +334,9 @@ theorem key_false {V X Y RX RY : Subgroup G} (t' : G) (φX : X ≃* SL(2, k)) (�
     rw [hk]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : IsSimpleGroup (SL(2, k)) := Common.sl2_isSimpleGroup_of_charTwo h4
-  haveI : IsSimpleGroup Y := φY.isSimpleGroup
-  haveI hHn := Prelim.normal_centralizer_subgroupOf hYNU
+  have : IsSimpleGroup (SL(2, k)) := Common.sl2_isSimpleGroup_of_charTwo h4
+  have : IsSimpleGroup Y := φY.isSimpleGroup
+  have hHn := Prelim.normal_centralizer_subgroupOf hYNU
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((centralizer (U : Set G)).subgroupOf Y) with hbot | htop
   ·
@@ -416,6 +417,7 @@ theorem pairDecomp {V X Y RX RY : Subgroup G} (t' : G) (φX : X ≃* SL(2, k)) (
     Subgroup.eq_of_le_of_card_ge (sup_le hNXV hNYV) (by rw [hprod]; exact hVcard)
   exact ⟨hsup, hinf, hcardX, hcardY⟩
 
+omit [CharP k 2] in
 theorem comm_of_decomp {V X Y : Subgroup G} (φX : X ≃* SL(2, k)) (hk : Nat.card k = 2 ^ m)
     (hm : 2 ≤ m) (hm3 : m ≠ 3) (hVsq : ∀ v ∈ V, v * v = 1)
     (hXV : X ≤ normalizer (V : Set G)) (hXY : ∀ x ∈ X, ∀ y ∈ Y, x * y = y * x)

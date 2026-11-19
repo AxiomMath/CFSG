@@ -22,7 +22,7 @@ private theorem card_closure_finset_le (hV : ∀ v : V, v ^ 2 = 1) (s : Finset V
   | insert a s ha ih =>
     have hcoe : ((insert a s : Finset V) : Set V) = ({a} : Set V) ∪ (s : Set V) := by
       ext x
-      simp [Finset.mem_insert]
+      simp
     rw [hcoe, Finset.card_insert_of_notMem ha, Subgroup.closure_union]
     have hcard_a : Nat.card (Subgroup.closure ({a} : Set V)) ≤ 2 := by
       rw [← Subgroup.zpowers_eq_closure, Nat.card_zpowers]
@@ -104,7 +104,7 @@ theorem card_closure_range_le (hV : ∀ v : V, v ^ 2 = 1) {k : ℕ} (c : Fin k �
   calc Nat.card (Subgroup.closure (Set.range c)) ≤ 2 ^ (Finset.univ.image c).card := h1
     _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hcard
 
-theorem five_le_rkIdx_of_inverts (hV : ∀ v : V, v ^ 2 = 1) (hcard : Nat.card V = 2 ^ 10)
+theorem five_le_rkIdx_of_inverts (_hV : ∀ v : V, v ^ 2 = 1) (hcard : Nat.card V = 2 ^ 10)
     (t l : MulAut V) (ht : t * t = 1) (htl : t * l * t⁻¹ = l⁻¹)
     (hl : ∀ v : V, (l * l) v = v → v = 1) :
     5 ≤ rkIdx (fixV (Subgroup.zpowers t)) := by
@@ -147,6 +147,7 @@ theorem five_le_rkIdx_of_inverts (hV : ∀ v : V, v ^ 2 = 1) (hcard : Nat.card V
   have hsum := rk_add_rkIdx C
   omega
 
+omit [Finite V] in
 theorem isElemAbelian2_of_isQuadratic (hV : ∀ v : V, v ^ 2 = 1) {A : Subgroup (MulAut V)}
     (hA : IsQuadratic A) : IsElemAbelian2 A := by
   refine ⟨?_, ?_⟩
@@ -180,7 +181,7 @@ theorem isElemAbelian2_of_isQuadratic (hV : ∀ v : V, v ^ 2 = 1) {A : Subgroup 
       _ = (a v * v⁻¹) * (a v * v⁻¹) * v := by group
       _ = v := by rw [← pow_two, hV, one_mul]
 
-theorem rkIdx_zpowers_le_rk_fixV_of_isQuadratic (hV : ∀ v : V, v ^ 2 = 1)
+theorem rkIdx_zpowers_le_rk_fixV_of_isQuadratic (_hV : ∀ v : V, v ^ 2 = 1)
     {A : Subgroup (MulAut V)} (hA : IsQuadratic A) {a : MulAut V} (ha : a ∈ A) :
     rkIdx (fixV (Subgroup.zpowers a)) ≤ rk ↥(fixV A) := by
   have hmono : commV (Subgroup.zpowers a) ≤ commV A :=

@@ -52,7 +52,7 @@ structure SpBlockLayerData (B : LinearMap.BilinForm F V) (p : ℕ)
       Subgroup.centralizer ({zH} : Set ↥(linIsometryGroup B)))).Normal
   hpP : p ∣ Nat.card ↥(pointwiseStab (linIsometryGroup B) U)
 
-noncomputable def spBlockWitnessData {B : LinearMap.BilinForm F V} {p n : ℕ}
+theorem spBlockWitnessData {B : LinearMap.BilinForm F V} {p n : ℕ}
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hBalt : B.IsAlt) (hBnd : B.Nondegenerate)
     {A : Subgroup (V ≃ₗ[F] V)} [Fintype A] (hAe : IsElemAbelian p A)
     (hAinv : InvariantBilin A B) (hAH : A ≤ linIsometryGroup B)
@@ -66,12 +66,12 @@ noncomputable def spBlockWitnessData {B : LinearMap.BilinForm F V} {p n : ℕ}
     (hEG' : Module.finrank F ↥(blockSpace A E.1) ≤ Module.finrank F ↥(blockSpace A G.1))
     (h9 : 9 ≤ Module.finrank F V) (h10 : 10 ≤ Module.finrank F V)
     (hn1 : 1 ≤ n) (hcardF : Nat.card F = 2 ^ n)
-    (hm0 : 3 ≤ CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n) :
+    (_hm0 : 3 ≤ CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n) :
     SpBlockWitnessData B p Ã (blockSpace A D.1) (blockSpace A D.1 ⊔ blockSpace A E.1)
       ⟨blockEnd A hp hpF hAe t ht D, htH D⟩
       ⟨blockEnd A hp hpF hAe t ht E, htH E⟩ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let U : Submodule F V := blockSpace A D.1 ⊔ blockSpace A E.1
   let J : Subgroup ↥(linIsometryGroup B) :=
     pointwiseStab (linIsometryGroup B) (blockSpace A D.1)
@@ -158,7 +158,7 @@ noncomputable def spBlockWitnessData {B : LinearMap.BilinForm F V} {p n : ℕ}
       hJn := hJn
       hpJ := hpJ }
 
-noncomputable def spBlockLayerData {B : LinearMap.BilinForm F V} {p n : ℕ}
+theorem spBlockLayerData {B : LinearMap.BilinForm F V} {p n : ℕ}
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hBalt : B.IsAlt) (hBnd : B.Nondegenerate)
     {A : Subgroup (V ≃ₗ[F] V)} [Fintype A] (hAe : IsElemAbelian p A)
     (hAinv : InvariantBilin A B) (hAH : A ≤ linIsometryGroup B)
@@ -177,7 +177,7 @@ noncomputable def spBlockLayerData {B : LinearMap.BilinForm F V} {p n : ℕ}
       ⟨blockEnd A hp hpF hAe t ht D, htH D⟩
       ⟨blockEnd A hp hpF hAe t ht E, htH E⟩ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let w := spBlockWitnessData hp hpF hBalt hBnd hAe hAinv hAH hmax hAÃ ht htH
     hDE hDG hEG hD hE hDE' hEG' h9 h10 hn1 hcardF hm0
   let U : Submodule F V := blockSpace A D.1 ⊔ blockSpace A E.1
@@ -243,10 +243,11 @@ noncomputable def spBlockLayerData {B : LinearMap.BilinForm F V} {p n : ℕ}
       hPn := hPn
       hpP := hpP }
 
+omit [Finite F] [Finite (V ≃ₗ[F] V)] in
 theorem exists_layer_pointwiseStab_of_two_le_or_six_le {B : LinearMap.BilinForm F V}
     (hBalt : B.IsAlt) (hBnd : B.Nondegenerate) {U : Submodule F V}
     (hU : (B.restrict U).Nondegenerate) (h4 : 4 ≤ Module.finrank F ↥(B.orthogonal U))
-    {p n : ℕ} (hp : p.Prime) (hn1 : 1 ≤ n) (hcardF : Nat.card F = 2 ^ n)
+    {p n : ℕ} (_hp : p.Prime) (hn1 : 1 ≤ n) (hcardF : Nat.card F = 2 ^ n)
     (hgen : 2 ≤ n ∨ 6 ≤ Module.finrank F ↥(B.orthogonal U))
     {J : Subgroup ↥(linIsometryGroup B)}
     (hPU : pointwiseStab (linIsometryGroup B) U ≤ J)

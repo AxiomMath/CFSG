@@ -21,7 +21,7 @@ theorem TwelveSixKCtx.eq_of_le_block
     {L A B U : Subgroup G} (hL : L ∈ weakBlockSet M H) (hU : IsPGroup 3 U)
     (hA : Nat.card A = 3) (hB : Nat.card B = 3) (hAL : A ≤ L) (hBL : B ≤ L)
     (hAU : A ≤ U) (hBU : B ≤ U) : A = B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLM : L ≤ M := hL.le
   have hrankL : CFSG.Open.pRank 3 L = 1 := by
     rw [← CFSG.AGLEmbedding.pRank_barM_eq Nat.prime_three (by norm_num) M L hLM]
@@ -37,8 +37,8 @@ private theorem map_conj_eq_self_of_mem_pair {U L B : Subgroup G}
       ({L, B} : Set (Subgroup G))) :
     ∀ u : ↥U, L.map (MulAut.conj (u : G)).toMonoidHom = L := by
   classical
-  letI : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
-  letI : MulAction ↥U (Subgroup G) :=
+  let : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulAction ↥U (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp U.subtype)
   have hsmul : ∀ (u : ↥U) (P : Subgroup G),
       u • P = P.map (MulAut.conj (u : G)).toMonoidHom := by
@@ -58,7 +58,7 @@ private theorem map_conj_eq_self_of_mem_pair {U L B : Subgroup G}
     calc ({L, B} : Set (Subgroup G)).ncard ≤ ({B} : Set (Subgroup G)).ncard + 1 :=
           Set.ncard_insert_le L {B}
       _ = 2 := by simp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := IsPGroup.card_orbit hU L
   rw [Nat.card_coe_set_eq] at hn
   have hn0 : n = 0 := by
@@ -79,6 +79,7 @@ private theorem map_conj_eq_self_of_mem_pair {U L B : Subgroup G}
     exact ⟨u, rfl⟩
   simpa [hsmul u L] using hmem
 
+omit [Finite G] in
 private theorem map_conj_mem_pair_of_mem_three_of_fixed {U L A B : Subgroup G}
     (hperm : ∀ u : ↥U, A.map (MulAut.conj (u : G)).toMonoidHom = L ∨
       A.map (MulAut.conj (u : G)).toMonoidHom = A ∨
@@ -256,6 +257,7 @@ theorem TwelveSixKCtx.map_conj_ne_of_not_mem
     Subgroup.eq_of_le_of_card_ge le_sup_left (by rw [D.cfg.card]; exact hcardU')
   have huU' : u ∈ U' := Subgroup.mem_sup_right (Subgroup.mem_zpowers u)
   exact huV (hU'eq ▸ huU')
+omit [Finite G] in
 private theorem map_conj_le_of_inv_of_comm {V W_inv W_c1 W_c2 : Subgroup G} {t : G}
     (hVinv : W_inv ≤ V) (hVc1 : W_c1 ≤ V) (hVc2 : W_c2 ≤ V)
     (hjoin : V = W_inv ⊔ W_c1 ⊔ W_c2)
@@ -282,6 +284,7 @@ private theorem map_conj_le_of_inv_of_comm {V W_inv W_c1 W_c2 : Subgroup G} {t :
   rw [Subgroup.map_sup, Subgroup.map_sup]
   exact sup_le (sup_le h1 h2) h3
 
+omit [Finite G] in
 private theorem IsE27InvConfig.conj_mem {V W1 W2 W3 : Subgroup G} {t1 t2 t3 : G}
     (h : IsE27InvConfig V W1 W2 W3 t1 t2 t3) {t : G}
     (ht : t ∈ ({t1, t2, t3} : Set G)) {x : G} (hx : x ∈ V) : t * x * t⁻¹ ∈ V := by
@@ -308,7 +311,7 @@ private theorem IsE27InvConfig.conj_mem {V W1 W2 W3 : Subgroup G} {t1 t2 t3 : G}
   exact hmap (Subgroup.mem_map_of_mem _ hx)
 private theorem map_conj_eq_of_map_conj_eq
     (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
-    (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
+    (_D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
     {V : Subgroup G} (hV3 : IsPGroup 3 V) {v : G} (hvV : v ∈ V)
     {W W' L L' : Subgroup G} (hWV : W ≤ V) (hW'V : W' ≤ V)
     (hWL : W ≤ L) (hW'L' : W' ≤ L')
@@ -324,6 +327,7 @@ private theorem map_conj_eq_of_map_conj_eq
           Subgroup.map_mono hWL
       _ = L' := hLv
   · exact (Subgroup.map_mono hWV).trans (le_of_eq hVinv)
+omit [Finite G] in
 private theorem eq_bot_of_inv_and_comm {W W' : Subgroup G} {t : G}
     (hW : Nat.card W = 3) (hinv : ∀ w ∈ W, t * w * t⁻¹ = w⁻¹)
     (hcomm : ∀ w ∈ W', t * w = w * t) (hle : W ≤ W') : W = ⊥ := by
@@ -392,8 +396,8 @@ private theorem orbit_eq_three_of_move {v : G} {W W₁ W₂ W₃ : Subgroup G}
       W.map (MulAut.conj (u : G)).toMonoidHom ∈ ({W₁, W₂, W₃} : Set (Subgroup G))) :
     MulAction.orbit ↥(Subgroup.zpowers v) W = ({W₁, W₂, W₃} : Set (Subgroup G)) := by
   classical
-  letI : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
-  letI : MulAction ↥(Subgroup.zpowers v) (Subgroup G) :=
+  let : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulAction ↥(Subgroup.zpowers v) (Subgroup G) :=
     MulAction.compHom (Subgroup G)
       ((MulAut.conj : G →* MulAut G).comp (Subgroup.zpowers v).subtype)
   have hsmul : ∀ (u : ↥(Subgroup.zpowers v)) (P : Subgroup G),
@@ -430,8 +434,8 @@ private theorem le_three_of_orbit {v : G} {W W₁ W₂ W₃ D₀ : Subgroup G}
       W.map (MulAut.conj (u : G)).toMonoidHom ∈ ({W₁, W₂, W₃} : Set (Subgroup G))) :
     W₁ ≤ D₀ ∧ W₂ ≤ D₀ ∧ W₃ ≤ D₀ := by
   classical
-  letI : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
-  letI : MulAction ↥(Subgroup.zpowers v) (Subgroup G) :=
+  let : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulAction ↥(Subgroup.zpowers v) (Subgroup G) :=
     MulAction.compHom (Subgroup G)
       ((MulAut.conj : G →* MulAut G).comp (Subgroup.zpowers v).subtype)
   have hsmul : ∀ (u : ↥(Subgroup.zpowers v)) (P : Subgroup G),
@@ -583,6 +587,7 @@ private theorem starImg_le_cStarL_of_hY
     rw [hsupI]
     exact sup_le (sup_le hY.1 hY.2.1) hY.2.2)
 
+omit [Finite G] in
 private theorem starImg_le_centralizer_pCore
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
     (hRstar_le_V0 : CFSG.pCore 3 (StarGroup 3 H) ≤ starImg 3 H D.V) :
@@ -611,6 +616,7 @@ private theorem starImg_V_le_pCore_of_le
   have hV0cent := starImg_le_centralizer_pCore D hRstar_le_V0
   exact (le_inf hV0Y hV0cent).trans (cStarL_inf_centralizer_le_pCore Nat.prime_three H)
 
+omit [Finite G] in
 private theorem W_le_V (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {V : Subgroup G}
     (hV0V : D.V ≤ V) : D.W₁ ≤ V ∧ D.W₂ ≤ V ∧ D.W₃ ≤ V := by
   refine ⟨?_, ?_, ?_⟩
@@ -621,6 +627,7 @@ private theorem W_le_V (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {V :
   · have h : D.W₃ ≤ D.V := by rw [D.cfg.join]; exact le_sup_right
     exact h.trans hV0V
 
+omit [Finite G] in
 private theorem W_le_DV (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
     D.W₁ ≤ D.V ∧ D.W₂ ≤ D.V ∧ D.W₃ ≤ D.V := by
   refine ⟨?_, ?_, ?_⟩
@@ -628,12 +635,14 @@ private theorem W_le_DV (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
   · rw [D.cfg.join]; exact le_sup_right.trans le_sup_left
   · rw [D.cfg.join]; exact le_sup_right
 
+omit [Finite G] in
 private theorem W_le_L (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
     D.W₁ ≤ L₁ ∧ D.W₂ ≤ L₂ ∧ D.W₃ ≤ L₃ :=
   ⟨D.le₁.trans (D.le_inf₁.trans inf_le_right),
    D.le₂.trans (D.le_inf₂.trans inf_le_right),
    D.le₃.trans (D.le_inf₃.trans inf_le_right)⟩
 
+omit [Finite G] in
 private theorem W_pairwise_ne (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
     D.W₁ ≠ D.W₂ ∧ D.W₁ ≠ D.W₃ ∧ D.W₂ ≠ D.W₃ := by
   have h12 : D.W₁ ≠ D.W₂ := by
@@ -773,7 +782,7 @@ private theorem D0_v_invariant
     (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {V R : Subgroup G}
     (hVJeq : V ⊓ jSub M H = D.V) {v : G} (hvV : v ∈ V) (hvR : v ∈ R)
-    (hvHM : v ∈ H ⊓ M) (hHN : H ≤ Subgroup.normalizer (R : Set G)) :
+    (hvHM : v ∈ H ⊓ M) (_hHN : H ≤ Subgroup.normalizer (R : Set G)) :
     v ∈ Subgroup.normalizer (R ⊓ D.V : Set G) := by
   have hvVnorm : v ∈ Subgroup.normalizer (V : Set G) := Subgroup.le_normalizer hvV
   have hvJnorm : v ∈ Subgroup.normalizer (jSub M H : Set G) :=
@@ -859,6 +868,7 @@ private theorem commutator_mem_D0
       simpa [mul_assoc] using hmul
   exact ⟨hcR, hcDV⟩
 
+omit [Finite G] in
 private theorem commutator_ne_one
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {v : G}
     (hW1v : D.W₁.map (MulAut.conj v).toMonoidHom = D.W₂ ∨
@@ -893,7 +903,7 @@ private theorem commutator_ne_one
 
 private theorem W_le_D0
     (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
-    (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {V R D0 : Subgroup G}
+    (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {V _R D0 : Subgroup G}
     (hV3 : IsPGroup 3 V) (hVM : V ≤ M) (hV0V : D.V ≤ V)
     (hD0le : D0 ≤ D.V) (hD0ne : D0 ≠ ⊥)
     (hD0t : ∀ t ∈ ({D.t₁, D.t₂, D.t₃} : Set G), ∀ x ∈ D0, t * x * t⁻¹ ∈ D0)
@@ -931,6 +941,7 @@ private theorem W_le_D0
         (Subgroup.zpowers_le.mpr hvV u.2) hW3V hW3L D.cfg.card₃ (by simp)
     exact le_three_of_orbit hzV3 hne.1 hne.2.1 hne.2.2 h3 hzvD0 hW3v_ne horb
 
+omit [Finite G] in
 private theorem starImg_le_pCore_of_le
     {D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃} {R : Subgroup G}
     (hstarR : starImg 3 H R = CFSG.pCore 3 (StarGroup 3 H))
@@ -978,7 +989,7 @@ private theorem starImg_V_le_pCore_of_not_le
     D0_t_invariant hc D hHN
   have hvD0norm : v ∈ Subgroup.normalizer (D0 : Set G) :=
     D0_v_invariant hc D hVJeq hvV hvR hvHM hHN
-  have hWleD0 := W_le_D0 (R := R) hc D hV3 hVM hV0V inf_le_right hD0ne hD0t hvV hvD0norm
+  have hWleD0 := W_le_D0 (_R := R) hc D hV3 hVM hV0V inf_le_right hD0ne hD0t hvV hvD0norm
     hW1v_ne hW2v_ne hW3v_ne hne
   have hDVleD0 : D.V ≤ D0 := by
     rw [D.cfg.join]
@@ -993,7 +1004,7 @@ theorem TwelveSixKCtx.starImg_V_le_pCore
       starImg p H D.I₃ ≤ cStarL p H) :
     starImg p H D.V ≤ CFSG.pCore p (StarGroup p H) := by
   subst p
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := hc.ctx.exists_E_sq
   have hd : NineSettingGen G M 3 E H E 2 :=
     (hc.ctx.hypCGen hEQ hE hEc hΓ).toNineSettingGen

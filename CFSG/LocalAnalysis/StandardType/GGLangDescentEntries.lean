@@ -74,7 +74,7 @@ theorem LangSetup.model_g0_mem_range_algebraicClosure
   obtain ⟨Fr, hFr, P, hP, hΦ⟩ := S.D.steinberg
   obtain ⟨w, hw⟩ := S.D.n_weyl
   have hq1 : 1 < S.D.q := S.hqpow.1.one_lt
-  haveI : Finite (ModGL τ (ZMod 2)) := finite_modGL
+  have : Finite (ModGL τ (ZMod 2)) := finite_modGL
   let d : ℕ := Nat.card (ModGL τ (ZMod 2))
   have hdpos : 0 < d := Nat.card_pos_iff.mpr ⟨⟨1⟩, inferInstance⟩
   have hdne : d ≠ 0 := hdpos.ne'

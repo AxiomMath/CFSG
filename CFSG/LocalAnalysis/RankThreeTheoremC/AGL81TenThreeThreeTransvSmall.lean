@@ -21,9 +21,9 @@ theorem odd_card_centralizer_alt_five {σ : Perm (Fin 5)} (hodd : Odd (orderOf �
   generalize Nat.card ↥(centralizer {σ}) = C at hk hc
   rw [Nat.odd_iff]
   rcases cycleType_of_odd (by simp) hodd h1 with h | h | h | h | h <;> rw [h] at hk hc hs
-  · simp [Nat.factorial] at hc hk
+  · simp at hc hk
     omega
-  · simp [Nat.factorial] at hc
+  · simp at hc
     rcases hk with ⟨-, hk⟩ | ⟨-, hk⟩ <;> omega
   · simp at hs
   · simp at hs
@@ -72,7 +72,7 @@ theorem centralizes_altFive {Y P : Subgroup A} (hPY : P ≤ Y)
   have h2 : 2 ∣ orderOf h := by
     have h3 := orderOf_map_dvd (eP'.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥P))) h
     have h4 : orderOf (swap (0 : Fin 3) 1) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [sq, swap_mul_self]) (by decide)
     simp only [MonoidHom.coe_comp, Function.comp_apply, MulEquiv.coe_toMonoidHom] at h3
     rwa [hhτ, h4] at h3

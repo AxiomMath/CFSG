@@ -24,7 +24,7 @@ theorem altIbBarCell_twistedD_of_small (hSQ : OmegaMinusSmallQS) (hSS : OmegaMin
   altIbBarCell_twistedD_of_flagCell (twistedDFlagCell hSQ hSS)
 
 theorem omegaMinusSmallSplit : OmegaMinusSmallSplit :=
-  fun F _ _ _ _ _ hirr p hp57 hpq =>
+  fun _F _ _ _ _ _ hirr p hp57 hpq =>
     ⟨orth_two_split hirr p hp57 hpq, omegaMinus_four_noAp hirr hp57 hpq⟩
 
 theorem altIbBarCell_twistedD : AltIbBarCell (IsLieOf IdxTwistedD) :=

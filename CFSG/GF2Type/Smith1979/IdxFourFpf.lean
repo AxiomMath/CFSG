@@ -26,7 +26,7 @@ theorem twenty_le_finrank_of_faithful {V : Type} [AddCommGroup V] [Module (ZMod 
     apply thetaBar_injective
     apply hφ
     exact LinearEquiv.ext fun v => LinearMap.congr_fun hxy v
-  haveI : Nontrivial A4 := ⟨⟨Multiplicative.ofAdd (1, 0, 0, 0), 1, by decide⟩⟩
+  have : Nontrivial A4 := ⟨⟨Multiplicative.ofAdd (1, 0, 0, 0), 1, by decide⟩⟩
   have hβ : ∀ (w : List Gen) (a : A4) (v : V),
       ρ (sw w a) (φ (levWord w) v) = φ (levWord w) (ρ a v) := by
     intro w a v
@@ -51,12 +51,15 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
 @[expose] def projP (θ : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V :=
   (θ ^ 2 : V ≃ₗ[ZMod 2] V).toLinearMap + θ.toLinearMap + LinearMap.id
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem projP_apply (θ : V ≃ₗ[ZMod 2] V) (v : V) : projP θ v = θ (θ v) + θ v + v := by
-  simp [projP, pow_two, LinearEquiv.mul_apply]
+  simp [projP, pow_two]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem add_self_zmod2 (v : V) : v + v = 0 := by
   rw [← two_smul (ZMod 2) v, show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem theta_projP {θ : V ≃ₗ[ZMod 2] V} (h3 : θ ^ 3 = 1) (v : V) :
     θ (projP θ v) = projP θ v := by
   have h3v : θ (θ (θ v)) = v := by
@@ -65,13 +68,16 @@ theorem theta_projP {θ : V ≃ₗ[ZMod 2] V} (h3 : θ ^ 3 = 1) (v : V) :
   rw [projP_apply, map_add, map_add, h3v]
   abel
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem projP_of_fix {θ : V ≃ₗ[ZMod 2] V} {v : V} (hv : θ v = v) : projP θ v = v := by
   rw [projP_apply, hv, hv, add_self_zmod2, zero_add]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem projP_projP {θ : V ≃ₗ[ZMod 2] V} (h3 : θ ^ 3 = 1) (v : V) :
     projP θ (projP θ v) = projP θ v :=
   projP_of_fix (theta_projP h3 v)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem projP_comm {θ e : V ≃ₗ[ZMod 2] V} (h : e * θ = θ * e) (v : V) :
     e (projP θ v) = projP θ (e v) := by
   have h1 : ∀ w, e (θ w) = θ (e w) := fun w => by
@@ -141,7 +147,7 @@ theorem fixedPointFree_of_center {E : Type*} [Group E] (ι : E →* (V ≃ₗ[ZM
   have hle : π.ker ≤ ρC.ker := by
     rw [hker]
     exact Subgroup.zpowers_le.mpr hθN
-  haveI : IsSimpleGroup X₀ := by
+  have : IsSimpleGroup X₀ := by
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F9 3 1
       (by rw [Nat.card_eq_fintype_card, F9.card_eq]; norm_num) 4 (by norm_num) (by decide)
@@ -149,7 +155,7 @@ theorem fixedPointFree_of_center {E : Type*} [Group E] (ι : E →* (V ≃ₗ[ZM
   have hsum : finrank (ZMod 2) C + finrank (ZMod 2) D = finrank (ZMod 2) V :=
     LinearMap.finrank_range_add_finrank_ker P
   have hCle : finrank (ZMod 2) C ≤ finrank (ZMod 2) V := Submodule.finrank_le C
-  haveI : (ρC.ker.map π).Normal := Subgroup.Normal.map inferInstance π hπ
+  have : (ρC.ker.map π).Normal := Subgroup.Normal.map inferInstance π hπ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ρC.ker.map π) with hbot | htop
   ·
     let φ : X₀ →* (C ≃ₗ[ZMod 2] C) :=

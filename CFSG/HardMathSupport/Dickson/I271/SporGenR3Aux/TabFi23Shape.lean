@@ -25,8 +25,8 @@ theorem shapeRkAt_t3 (hC : PConstrainedShape 3 (Subgroup.centralizer ({t3 2} : S
 
 theorem centShapeRk_J23 (hC : PConstrainedShape 3 (Subgroup.centralizer ({t3 2} : Set J))) :
     CentShapeRk 3 (LeafType 3) (fun _ _ => True) J := by
-  haveI := finite_J23
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J23
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → LeafType 3 T → LeafType 3 T' :=
     fun _ _ _ _ e h => LeafType.of_equiv e h
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
@@ -45,8 +45,8 @@ theorem centShapeRk_J23 (hC : PConstrainedShape 3 (Subgroup.centralizer ({t3 2} 
 
 theorem leafShape_Fi23_of (hC : PConstrainedShape 3 (Subgroup.centralizer ({t3 2} : Set J))) :
     LeafShape .Fi23 3 := by
-  haveI := finite_J23
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Fi23 :=
+  have := finite_J23
+  have : Finite CFSG.Blueprint.NativeSporadic.Fi23 :=
     Finite.of_equiv J (fi23EquivJ.symm.toEquiv)
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → LeafType 3 T → LeafType 3 T' :=
     fun _ _ _ _ e h => LeafType.of_equiv e h

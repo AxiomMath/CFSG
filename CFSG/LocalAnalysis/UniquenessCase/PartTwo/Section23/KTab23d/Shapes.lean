@@ -18,7 +18,7 @@ private theorem charP_two_D4 {K : Type} [Field K] [Finite K] {f : ℕ}
 theorem isL2_of_mulEquiv_sl2 {X : Type} [Group X] {K : Type} [Field K] [Finite K] {f : ℕ}
     (hf : 2 ≤ f) (hK : Nat.card K = 2 ^ f) (e : X ≃* Matrix.SpecialLinearGroup (Fin 2) K) :
     IsL2 X f := by
-  haveI : CharP K 2 := charP_two_D4 hK (by omega)
+  have : CharP K 2 := charP_two_D4 hK (by omega)
   have hbot : (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot
   let q : StatedProj (StatedSL 2 K) ≃* ↥(StatedSL 2 K) :=
@@ -42,7 +42,7 @@ theorem isL2_of_mulEquiv_sl2 {X : Type} [Group X] {K : Type} [Field K] [Finite K
 theorem isSp4_of_mulEquiv_statedSp {X : Type} [Group X] {K : Type} [Field K] [Finite K] {f : ℕ}
     (hf : 2 ≤ f) (hK : Nat.card K = 2 ^ f) (e : X ≃* ↥(CFSG.Open.StatedSp 2 K)) :
     IsSp4 X f := by
-  haveI : CharP K 2 := charP_two_D4 hK (by omega)
+  have : CharP K 2 := charP_two_D4 hK (by omega)
   have hbot : (StatedScalars (Fin 2 ⊕ Fin 2) K).subgroupOf (StatedSp 2 K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot
   let q : StatedProj (StatedSp 2 K) ≃* ↥(StatedSp 2 K) :=

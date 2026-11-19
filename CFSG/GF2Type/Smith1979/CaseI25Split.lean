@@ -113,19 +113,21 @@ variable (hCE : CentralExtInput.{0}) (H : Hyp4 S g) (hNo : NoA2 S g) (C : Cons31
   (h6 : finrank (ZMod 2) (Vt S g t) = 6)
 include hCE H hNo C ht ht1 hVQ hΩ hN h6
 
+omit hCE hNo in
 theorem Rbar_eq_commutator_sup : Rbar S g t = ⁅Rbar S g t, Rbar S g t⁆ ⊔ zpowers t := by
   obtain ⟨hs, hn⟩ := (S45Q.hyp45Q H C).omega ht ht1 hVQ hΩ h6.ge
   have hperf := commutator_RmodN hs hn
   have hnab : ¬ IsMulCommutative (RmodN S g t) := fun hc => by
     have h1 : ⁅RmodN S g t, RmodN S g t⁆ = ⊥ := Subgroup.commutator_self_eq_bot_iff.mpr hc
     rw [hperf] at h1
-    haveI : Nontrivial (RmodN S g t) := hs.toNontrivial
+    have : Nontrivial (RmodN S g t) := hs.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).mp this h1
   refine le_antisymm ?_ (sup_le (Subgroup.commutator_le_self _) (zpowers_le.mpr
     (Lbar_le_Rbar ht ht)))
   have := CFSG.LargeExtraspecial.S14.Rbar_le_commutator_sup_Nbar H.conj_mem hs hnab
   rwa [hN] at this
 
+omit hCE hNo in
 theorem exists_mul_of_mem_Rbar {x : S.O} (hx : x ∈ Rbar S g t) :
     ∃ a ∈ ⁅Rbar S g t, Rbar S g t⁆, ∃ s ∈ zpowers t, x = a * s := by
   have hle : zpowers t ≤ normalizer ((⁅Rbar S g t, Rbar S g t⁆ : Subgroup S.O) : Set S.O) := by
@@ -135,18 +137,19 @@ theorem exists_mul_of_mem_Rbar {x : S.O} (hx : x ∈ Rbar S g t) :
     rw [(commute_zpowers_Rbar H hs hkR).eq, mul_inv_cancel_right]
     exact hk
   have h := coe_mul_of_right_le_normalizer_left _ _ hle
-  rw [← Rbar_eq_commutator_sup hCE H hNo C ht ht1 hVQ hΩ hN h6] at h
+  rw [← Rbar_eq_commutator_sup H C ht ht1 hVQ hΩ hN h6] at h
   have hx' : x ∈ (↑(Rbar S g t) : Set S.O) := hx
   rw [h] at hx'
   obtain ⟨a, ha, s, hs, rfl⟩ := hx'
   exact ⟨a, ha, s, hs, rfl⟩
 
+omit hCE hNo in
 theorem commutator_commutator_Rbar :
     ⁅⁅Rbar S g t, Rbar S g t⁆, ⁅Rbar S g t, Rbar S g t⁆⁆ = ⁅Rbar S g t, Rbar S g t⁆ := by
   refine le_antisymm (Subgroup.commutator_le_self _) (Subgroup.commutator_le.mpr ?_)
   intro x hx y hy
-  obtain ⟨a, ha, s, hs, rfl⟩ := exists_mul_of_mem_Rbar hCE H hNo C ht ht1 hVQ hΩ hN h6 hx
-  obtain ⟨b, hb, s', hs', rfl⟩ := exists_mul_of_mem_Rbar hCE H hNo C ht ht1 hVQ hΩ hN h6 hy
+  obtain ⟨a, ha, s, hs, rfl⟩ := exists_mul_of_mem_Rbar H C ht ht1 hVQ hΩ hN h6 hx
+  obtain ⟨b, hb, s', hs', rfl⟩ := exists_mul_of_mem_Rbar H C ht ht1 hVQ hΩ hN h6 hy
   have haR : a ∈ Rbar S g t := Subgroup.commutator_le_self _ ha
   have hbR : b ∈ Rbar S g t := Subgroup.commutator_le_self _ hb
   have hss' : Commute s s' := by
@@ -197,7 +200,7 @@ theorem mul_mem_commutator_Rbar_of_mem_Delta (hΔ : (Delta S g t).ncard = 6) {x 
     (hx : x ∈ Delta S g t) : x * t ∈ ⁅Rbar S g t, Rbar S g t⁆ := by
   have hxL : x ∈ S.Lbar g := delta_subset_Lbar ht hx
   obtain ⟨a, ha, s, hs, hxe⟩ :=
-    exists_mul_of_mem_Rbar hCE H hNo C ht ht1 hVQ hΩ hN h6 (Lbar_le_Rbar ht hxL)
+    exists_mul_of_mem_Rbar H C ht ht1 hVQ hΩ hN h6 (Lbar_le_Rbar ht hxL)
   have htt : t * t = 1 := mul_self_of_mem_Lbar S H.conj_mem ht
   rcases (Setting.mem_zpowers_iff_of_mul_self htt).mp hs with rfl | rfl
   · rw [mul_one] at hxe
@@ -267,7 +270,7 @@ theorem nonempty_mulEquiv_commutator_Rbar (hΔ : (Delta S g t).ncard = 6) :
       exact ⟨⟨x, hle x.2⟩, rfl⟩
     · rintro _ ⟨r, rfl⟩
       obtain ⟨a, ha, s, hs, hrs⟩ :=
-        exists_mul_of_mem_Rbar hCE H hNo C ht ht1 hVQ hΩ hN h6 r.2
+        exists_mul_of_mem_Rbar H C ht ht1 hVQ hΩ hN h6 r.2
       have hsR : s ∈ Rbar S g t := zpowers_le.mpr (Lbar_le_Rbar ht ht) hs
       have hr : r = ⟨a, hle ha⟩ * ⟨s, hsR⟩ := Subtype.ext hrs
       refine ⟨⟨a, ha⟩, ?_⟩
@@ -299,9 +302,9 @@ theorem Rbar_split (hΔ : (Delta S g t).ncard = 6) :
       Nat.card ↥(⁅Rbar S g t, Rbar S g t⁆) = 25920 := by
   have htt : t * t = 1 := mul_self_of_mem_Lbar S H.conj_mem ht
   have hnt := not_mem_commutator_Rbar hCE H hNo C ht ht1 hVQ hΩ hN h6 hΔ
-  refine ⟨Rbar_eq_commutator_sup hCE H hNo C ht ht1 hVQ hΩ hN h6, ?_, hnt,
+  refine ⟨Rbar_eq_commutator_sup H C ht ht1 hVQ hΩ hN h6, ?_, hnt,
     fun r hr => (commute_of_mem_Rbar H.conj_mem hr).symm,
-    commutator_commutator_Rbar hCE H hNo C ht ht1 hVQ hΩ hN h6,
+    commutator_commutator_Rbar H C ht ht1 hVQ hΩ hN h6,
     commutator_Rbar_inf_Lbar hCE H hNo C ht ht1 hVQ hΩ hN h6 hΔ,
     fun x hx => Delta_not_mem_commutator_Rbar hCE H hNo C ht ht1 hVQ hΩ hN h6 hΔ hx,
     simple_card_commutator_Rbar hCE H hNo C ht ht1 hVQ hΩ hN h6 hΔ⟩

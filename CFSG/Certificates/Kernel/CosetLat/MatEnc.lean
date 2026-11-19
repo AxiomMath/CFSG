@@ -25,7 +25,7 @@ theorem entL_idx {p d : ℕ} (A : Matrix (Fin d) (Fin d) (ZMod p)) (i j : Fin d)
   have hlt := idx_lt i.isLt j.isLt
   obtain ⟨e1, e2⟩ := dm_eq (d := d) (i := i.val) j.isLt
   unfold entL
-  rw [dif_pos hlt]
+  rw [dite_eq_left hlt]
   have key : ∀ a b : Fin d, a = i → b = j → (A a b).val = (A i j).val := by
     rintro _ _ rfl rfl
     rfl

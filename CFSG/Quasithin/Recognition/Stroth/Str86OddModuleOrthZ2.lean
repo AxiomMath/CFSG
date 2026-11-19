@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem p10s_cocycle_mem_w {L1 L2 S W : Subgroup G}
     (hcomm : ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ = W) :
     letI : CommGroup ↥(Z2 L1 L2 S) :=
@@ -26,11 +27,11 @@ private theorem p10s_cocycle_mem_w {L1 L2 S W : Subgroup G}
         (str86_z2_normal_u3H L1 L2 S)
     ∀ (h : ↥(u3H L1 L2 S)) (v : ↥(Z2 L1 L2 S)),
       (((h • v) * v⁻¹ : ↥(Z2 L1 L2 S)) : G) ∈ W := by
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
+  let : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
     ⟨str86_z2_normal_u3H L1 L2 S⟩
-  letI : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
+  let : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
       (str86_z2_normal_u3H L1 L2 S)
   intro h v
@@ -41,6 +42,7 @@ private theorem p10s_cocycle_mem_w {L1 L2 S W : Subgroup G}
   rw [hcoe]
   exact str86_commutator_mem_w hcomm h.2 v.2
 
+omit [Finite G] in
 private theorem p10s_smul_cocycle {L1 L2 S : Subgroup G}
     (a b : ↥(u3H L1 L2 S)) (v : ↥(Z2 L1 L2 S)) :
     letI : CommGroup ↥(Z2 L1 L2 S) :=
@@ -51,11 +53,11 @@ private theorem p10s_smul_cocycle {L1 L2 S : Subgroup G}
       Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
         (str86_z2_normal_u3H L1 L2 S)
     (a * b) • v * v⁻¹ = (a • v * v⁻¹) * (a • (b • v * v⁻¹)) := by
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
+  let : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
     ⟨str86_z2_normal_u3H L1 L2 S⟩
-  letI : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
+  let : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
       (str86_z2_normal_u3H L1 L2 S)
   rw [mul_smul, MulDistribMulAction.smul_mul, smul_inv']
@@ -88,13 +90,13 @@ private theorem p10s_cocycle {L1 L2 S W : Subgroup G} {m : ℕ}
       c v (a * b) = c v a +
         l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e
           (e (QuotientGroup.mk a)) (c v b) := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
+  let : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
     ⟨str86_z2_normal_u3H L1 L2 S⟩
-  letI : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
+  let : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
       (str86_z2_normal_u3H L1 L2 S)
   let θ := chiefModBotMulEquiv W
@@ -147,13 +149,13 @@ private theorem p10s_kernel {L1 L2 S W : Subgroup G} {m : ℕ}
         ⟨(((h • v) * v⁻¹ : ↥(Z2 L1 L2 S)) : G), hmem h v⟩)
     ∀ (v : ↥(Z2 L1 L2 S)) (a : ↥(u3H L1 L2 S)),
       e (QuotientGroup.mk a) = 1 → c v a = 0 := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
+  let : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
     ⟨str86_z2_normal_u3H L1 L2 S⟩
-  letI : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
+  let : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
       (str86_z2_normal_u3H L1 L2 S)
   let θ := chiefModBotMulEquiv W
@@ -210,13 +212,13 @@ private theorem p10s_exists_w {L1 L2 S W : Subgroup G} {m l : ℕ}
         ∀ a : ↥(u3H L1 L2 S), c v a =
           l2ChiefSectionRep hstepW (q2_le_u3H L1 L2 S) hE e
             (e (QuotientGroup.mk a)) w - w := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
+  let : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
     ⟨str86_z2_normal_u3H L1 L2 S⟩
-  letI : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
+  let : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
       (str86_z2_normal_u3H L1 L2 S)
   intro c hc hker v
@@ -256,13 +258,13 @@ private theorem p10s_eq_of_coboundary {L1 L2 S W : Subgroup G} {m : ℕ}
         Additive.ofMul (chiefModBotMulEquiv W w0)) →
       let wZ : ↥(Z2 L1 L2 S) := ⟨w0, hWZ2 w0.2⟩
       ∀ h : ↥(u3H L1 L2 S), (h • v) * v⁻¹ = (h • wZ) * wZ⁻¹ := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
+  let : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
     ⟨str86_z2_normal_u3H L1 L2 S⟩
-  letI : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
+  let : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
       (str86_z2_normal_u3H L1 L2 S)
   let θ := chiefModBotMulEquiv W
@@ -276,7 +278,7 @@ private theorem p10s_eq_of_coboundary {L1 L2 S W : Subgroup G} {m : ℕ}
       (e (QuotientGroup.mk h)) (Additive.ofMul (θ w0)) = Additive.ofMul (θ wconj) := by
     rw [l2ChiefSectionRep_apply_mk (hstep := hstepW) (hUH := q2_le_u3H L1 L2 S)
       (hE := hE) (e := e)]
-    rw [chiefModBotMulEquiv_conj (hUH := q2_le_u3H L1 L2 S)]
+    rw [chiefModBotMulEquiv_conj (_hUH := q2_le_u3H L1 L2 S)]
   rw [h1] at hh
   have h2 : Additive.ofMul (θ wconj) - Additive.ofMul (θ w0) =
       Additive.ofMul (θ ⟨(((h • wZ) * wZ⁻¹ : ↥(Z2 L1 L2 S)) : G), hmem h wZ⟩) := by
@@ -304,6 +306,7 @@ private theorem p10s_eq_of_coboundary {L1 L2 S W : Subgroup G} {m : ℕ}
     congrArg (fun x : ↥W => (x : G)) hab
   exact Subtype.ext hval
 
+omit [Finite G] in
 private theorem p10s_fixed_of_eq {L1 L2 S : Subgroup G}
     (v wZ : ↥(Z2 L1 L2 S)) :
     letI : CommGroup ↥(Z2 L1 L2 S) :=
@@ -315,11 +318,11 @@ private theorem p10s_fixed_of_eq {L1 L2 S : Subgroup G}
         (str86_z2_normal_u3H L1 L2 S)
     (∀ h : ↥(u3H L1 L2 S), (h • v) * v⁻¹ = (h • wZ) * wZ⁻¹) →
     ∀ h : ↥(u3H L1 L2 S), h • (v * wZ⁻¹) = v * wZ⁻¹ := by
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
+  let : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
     ⟨str86_z2_normal_u3H L1 L2 S⟩
-  letI : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
+  let : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
       (str86_z2_normal_u3H L1 L2 S)
   intro hmain h
@@ -354,11 +357,11 @@ private theorem p10s_mem_of_fixed
     (wZ : G) ∈ W →
     (∀ h : ↥(u3H L1 L2 S), h • (v * wZ⁻¹) = v * wZ⁻¹) →
     (v : G) ∈ W := by
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
+  let : (u3H L1 L2 S).Normalizes (Z2 L1 L2 S) :=
     ⟨str86_z2_normal_u3H L1 L2 S⟩
-  letI : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
+  let : MulDistribMulAction ↥(u3H L1 L2 S) ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (u3H L1 L2 S) (Z2 L1 L2 S)
       (str86_z2_normal_u3H L1 L2 S)
   intro hwZ hfixall
@@ -416,15 +419,15 @@ theorem str86_orth_z2_eq_commutator
     Z2 L1 L2 S = W := by
   classical
   let H := u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let θ := chiefModBotMulEquiv W
   have hHnormZ : H ≤ Subgroup.normalizer (Z2 L1 L2 S : Set G) :=
     str86_z2_normal_u3H L1 L2 S
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : H.Normalizes (Z2 L1 L2 S) := ⟨hHnormZ⟩
-  letI : MulDistribMulAction ↥H ↥(Z2 L1 L2 S) :=
+  let : H.Normalizes (Z2 L1 L2 S) := ⟨hHnormZ⟩
+  let : MulDistribMulAction ↥H ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer H (Z2 L1 L2 S) hHnormZ
   have hmem := p10s_cocycle_mem_w hcomm
   let c : ↥(Z2 L1 L2 S) → ↥H → Additive (Ch3z.chiefMod ⊥ W) := fun v h =>
@@ -450,7 +453,7 @@ theorem str86_orth_z2_eq_commutator
       p10s_eq_of_coboundary hstepW hE e hWZ2 hmem c vv w0 (fun _ => rfl) hw'
     have hfix := p10s_fixed_of_eq vv wZ hmain
     exact p10s_mem_of_fixed hF hSB hk hFc hU3 hB2 hL2 hZI vv wZ
-      (by simpa [wZ] using w0.2) hfix
+      (by simp [wZ]) hfix
   exact le_antisymm hsub hWZ2
 
 end CFSG.Quasithin.Stroth

@@ -113,13 +113,12 @@ theorem sec7_singPts_line_ncard_le_two {K : Type} [Field K] [Finite K] [CharP K 
     exact hu₃l
   rw [Submodule.mem_span_range_iff_exists_fun] at hmem
   obtain ⟨c', hc'⟩ := hmem
-  simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons] at hc'
+  simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one] at hc'
   have hexp : quadMinus 2 K b c (c' 0 • u₁ + c' 1 • u₂) =
       c' 0 * c' 1 * polar (quadMinus 2 K b c) u₁ u₂ := by
     rw [sec7_map_add, QuadraticMap.map_smul, QuadraticMap.map_smul,
       QuadraticMap.polar_smul_left, QuadraticMap.polar_smul_right, hs₁ u₁ hu₁, hs₂ u₂ hu₂]
-    simp only [smul_zero, add_zero, zero_add, smul_eq_mul]
+    simp only [smul_eq_mul]
     ring
   have hz : c' 0 * c' 1 = 0 := by
     have hQ3 := hs₃ u₃ hu₃
@@ -252,7 +251,7 @@ theorem sec7_singPts_plane_ncard_le {K : Type} [Field K] [Finite K] [CharP K 2] 
         exact hnotN u hupl hu0 (hs u hu) h'
       have hūmem : N.mkQ (⟨u, hupl⟩ : pl) ∈ (P.comap pl.subtype).map N.mkQ :=
         Submodule.mem_map.mpr ⟨_, hmu, rfl⟩
-      rw [Set.mem_setOf_eq]
+      rw [Set.mem_ofPred_eq]
       apply sec7_finrank_one_of_gen hū hūmem
       intro w hw
       obtain ⟨x, hx, rfl⟩ := Submodule.mem_map.mp hw
@@ -375,8 +374,7 @@ theorem sec7ov_W_ncard {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
     · rintro ⟨h1, h2⟩ n hn
       rw [Submodule.mem_span_range_iff_exists_fun] at hn
       obtain ⟨c', rfl⟩ := hn
-      simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-        Matrix.head_cons]
+      simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [hB, QuadraticMap.polar_add_left, QuadraticMap.polar_smul_left,
         QuadraticMap.polar_smul_left, h1, h2]
       simp
@@ -414,7 +412,7 @@ theorem sec7ov_A_ncard {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
     · intro u hu
       have hu' : polar (quadMinus 2 K b c) u₀ u = 1 ∧ quadMinus 2 K b c u = 0 := hu
       obtain ⟨hu1, -⟩ := hu'
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       generalize hκ : polar (quadMinus 2 K b c) w (u - w) = κ
       constructor
       · rw [QuadraticMap.polar_sub_right, QuadraticMap.polar_sub_right,
@@ -453,7 +451,7 @@ theorem sec7ov_A_ncard {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
       have h1' : polar (quadMinus 2 K b c) t u₀ = 0 := by
         rw [QuadraticMap.polar_comm]
         exact h1
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       constructor
       · rw [QuadraticMap.polar_add_right, QuadraticMap.polar_add_right,
           QuadraticMap.polar_smul_right, QuadraticMap.polar_self, hQu₀, hw, h1]
@@ -473,8 +471,7 @@ theorem sec7ov_A_ncard {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
           w + t' + quadMinus 2 K b c (w + t') • u₀ := hEq
       have hp := congrArg (polar (quadMinus 2 K b c) w) hEq'
       simp only [QuadraticMap.polar_add_right, QuadraticMap.polar_smul_right,
-        QuadraticMap.polar_self, h2zero, hwpol, h2, h2', smul_eq_mul, mul_one, smul_zero,
-        add_zero, zero_add] at hp
+        QuadraticMap.polar_self, h2zero, hwpol, h2, h2', smul_eq_mul, mul_one, add_zero, zero_add] at hp
       rw [hp] at hEq'
       exact add_left_cancel (add_right_cancel hEq')
 
@@ -487,7 +484,7 @@ theorem sec7ov_mem_sing_of_normalized {K : Type} [Field K] [Finite K] [CharP K 2
     intro h
     rw [h, QuadraticMap.polar_zero_right] at hu1
     exact zero_ne_one hu1
-  simp only [sec7SingPts, Set.mem_setOf_eq]
+  simp only [sec7SingPts, Set.mem_ofPred_eq]
   refine ⟨finrank_span_singleton hu0, ?_⟩
   intro v hv
   obtain ⟨c', rfl⟩ := Submodule.mem_span_singleton.mp hv
@@ -497,7 +494,7 @@ theorem sec7ov_span_mem_sing {K : Type} [Field K] [Finite K] [CharP K 2] {b c : 
     {u₀ : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K} (hu₀0 : u₀ ≠ 0)
     (hQu₀ : quadMinus 2 K b c u₀ = 0) :
     Submodule.span K {u₀} ∈ sec7SingPts (quadMinus 2 K b c) := by
-  simp only [sec7SingPts, Set.mem_setOf_eq]
+  simp only [sec7SingPts, Set.mem_ofPred_eq]
   refine ⟨finrank_span_singleton hu₀0, ?_⟩
   intro v hv
   obtain ⟨c', rfl⟩ := Submodule.mem_span_singleton.mp hv

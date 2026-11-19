@@ -34,9 +34,9 @@ theorem layer_linear_model_odd (P : D4ParOdd ℓ f X σ) (hq1 : ℓ ^ f % 3 = 1)
   have hq4 : 4 ≤ ℓ ^ f := by
     have := P.five_le
     omega
-  haveI : Fact ℓ.Prime := ⟨P.prime⟩
-  haveI : CharP X ℓ := P.charP
-  haveI : CharP (AlgebraicClosure X) ℓ :=
+  have : Fact ℓ.Prime := ⟨P.prime⟩
+  have : CharP X ℓ := P.charP
+  have : CharP (AlgebraicClosure X) ℓ :=
     charP_of_injective_algebraMap (algebraMap X (AlgebraicClosure X)).injective ℓ
   have hσ3 : σ ^ 3 = 1 := P.sigma_pow_three
   have h3L : (3 : AlgebraicClosure X) ≠ 0 := by
@@ -67,9 +67,9 @@ theorem layer_unitary_model_odd (P : D4ParOdd ℓ f X σ) (hq2 : ℓ ^ f % 3 = 2
   have hq2' : 2 < ℓ ^ f := by
     have := P.five_le
     omega
-  haveI : Fact ℓ.Prime := ⟨P.prime⟩
-  haveI : CharP X ℓ := P.charP
-  haveI : CharP (AlgebraicClosure X) ℓ :=
+  have : Fact ℓ.Prime := ⟨P.prime⟩
+  have : CharP X ℓ := P.charP
+  have : CharP (AlgebraicClosure X) ℓ :=
     charP_of_injective_algebraMap (algebraMap X (AlgebraicClosure X)).injective ℓ
   have hσ3 : σ ^ 3 = 1 := P.sigma_pow_three
   have h3L : (3 : AlgebraicClosure X) ≠ 0 := by

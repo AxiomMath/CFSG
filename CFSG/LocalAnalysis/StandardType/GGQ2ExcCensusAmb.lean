@@ -44,7 +44,7 @@ private theorem set_ne_node_a (hT : Chk.tabsOK m T = true) {W : Chk.AmbW}
         (⟨W.w.a, linOK_a_lt hw⟩ : Fin (Chk.rkN W.w.tc W.w.n))} : Set _)
       = {i : Fin (Chk.rkN W.w.tc W.w.n) | (fun j : ℕ => j != W.w.a) ↑i = true} := by
   ext i
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   exact (bne_iff_ne_node_a (hw := hw) hT i).symm
 
 private theorem val_succAbove_offN {n : ℕ} (a : ℕ) (ha : a < n + 1) (i : Fin n) :
@@ -739,7 +739,7 @@ private theorem d5_parabj_of_d5OK (hT : Chk.tabsOK m T = true) {j : ℕ}
       {i : Fin (Chk.rkN W.w.tc W.w.n) |
         (fun j : ℕ => (j != W.w.a) && (j != W.w.b)) ↑i = true} := by
     ext i
-    simp only [Set.mem_setOf_eq, Bool.and_eq_true]
+    simp only [Set.mem_ofPred_eq, Bool.and_eq_true]
     exact and_congr (bne_iff_ne_node_a (hw := hlin) hT i).symm
       (bne_iff_ne_node_b (hw := hlin) hT i).symm
   have h1 := linOf_parab_eq hT hlin hgenj hnotj
@@ -828,7 +828,7 @@ theorem inLSelDetRaw_of_selE6OK (hT : Chk.tabsOK m T = true) {k : ℕ} {L : List
     have h4 : Chk.cartanN w.tc w.n (Fin.cast hrk.symm i : ℕ) (Fin.cast hrk.symm i' : ℕ) =
         CartanMatrix.E 6 i i' := by
       rw [show Chk.cartanN w.tc w.n (Fin.cast hrk.symm i : ℕ) (Fin.cast hrk.symm i' : ℕ)
-          = Chk.cartanN 4 w.n (i : ℕ) (i' : ℕ) from by simp only [htc, Fin.coe_cast]]
+          = Chk.cartanN 4 w.n (i : ℕ) (i' : ℕ) from by simp only [htc, _root_.Fin.val_cast]]
       exact cartanOf_E w.n i i'
     exact h4
   · change normalizerGroup m (ofMask m k) = Subgroup.closure (reflection m '' Set.range e)
@@ -862,7 +862,7 @@ theorem inLSelD6Raw_of_selD6OK (hT : Chk.tabsOK m T = true) {j k : ℕ} {L L' : 
     have h4 : Chk.cartanN w.tc w.n (Fin.cast hrk.symm i : ℕ) (Fin.cast hrk.symm i' : ℕ) =
         CartanMatrix.D 6 i i' := by
       rw [show Chk.cartanN w.tc w.n (Fin.cast hrk.symm i : ℕ) (Fin.cast hrk.symm i' : ℕ)
-          = Chk.cartanN 3 6 (i : ℕ) (i' : ℕ) from by simp only [htc, hn, Fin.coe_cast]]
+          = Chk.cartanN 3 6 (i : ℕ) (i' : ℕ) from by simp only [htc, hn, _root_.Fin.val_cast]]
       exact cartanOf_D 6 i i'
     rwa [h4] at hpair
   have hrangek : (↑(ofMask m (Chk.nodeMask w fun _ => true)) : Set (Root m)) = Set.range e := by
@@ -880,13 +880,13 @@ theorem inLSelD6Raw_of_selD6OK (hT : Chk.tabsOK m T = true) {j k : ℕ} {L L' : 
     constructor
     · rintro ⟨i, hi, rfl⟩
       refine ⟨Fin.cast hrk i, ?_, ?_⟩
-      · simp only [Set.mem_setOf_eq]
-        rw [ne_eq, Fin.ext_iff, Fin.coe_cast]
+      · simp only [Set.mem_ofPred_eq]
+        rw [ne_eq, Fin.ext_iff, _root_.Fin.val_cast]
         exact bne_iff_ne.mp hi
       · simp [e]
     · rintro ⟨i, hi, rfl⟩
       refine ⟨Fin.cast hrk.symm i, ?_, ?_⟩
-      · rw [bne_iff_ne, Fin.coe_cast]
+      · rw [bne_iff_ne, _root_.Fin.val_cast]
         intro hc
         exact hi (Fin.ext hc)
       · rfl

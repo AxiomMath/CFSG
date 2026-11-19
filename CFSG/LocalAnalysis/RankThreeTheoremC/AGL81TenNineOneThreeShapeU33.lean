@@ -43,7 +43,7 @@ theorem shapeSimple_of_u33 {K : Type} [Group K] [Finite K] (hK : IsUThreeThree K
     (S : Sylow 3 K) {P : Subgroup (MulAut K)} (hP : IsPGroup 3 P)
     (hSP : (S : Subgroup K).map (MulAut.conj : K →* MulAut K) ≤ P) : ShapeSimple P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, hZ⟩ := CFSG.AGLEmbeddingD2.McLaughlin.u33_simple_card_center hK
   obtain ⟨hS27, hSnc, -, -⟩ := InnerQ.KFC1.u33_local hK S
   have hinj : Function.Injective (MulAut.conj : K →* MulAut K) := by

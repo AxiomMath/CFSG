@@ -50,7 +50,7 @@ section Sum
 variable {W : Type} [CommGroup W]
 
 theorem s16k_sumOfNat_one {N : Subgroup (MulAut W) → Subgroup W → Subgroup W → Prop}
-    {H : Subgroup (MulAut W)} {U Z : Subgroup W} (hZ : Z ≤ U) (h : SumOfNat N H U Z 1) :
+    {H : Subgroup (MulAut W)} {U Z : Subgroup W} (_hZ : Z ≤ U) (h : SumOfNat N H U Z 1) :
     N H U Z := by
   obtain ⟨I, hZI, -, hsup, hN⟩ := h
   have h0 : (⨆ i : Fin 1, I i) = I 0 := by

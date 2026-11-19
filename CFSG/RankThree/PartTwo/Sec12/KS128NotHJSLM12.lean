@@ -194,7 +194,7 @@ theorem false_of_m12
     Sylow.coe_mapSurjective _ _
   obtain ⟨hHeis, -, E, F', A', t, -, -, hΔ, ⟨eE⟩, -, -, -⟩ :=
     Sec4.Sporadic.rank3II_4_14_local _ ⟨ψ⟩ Sb
-  have hinjS := CFSG.RankThree.injOn_mk_of_isPGroup Nat.prime_three S.isPGroup'
+  have hinjS := CFSG.RankThree.injOn_mk_of_isPGroup Nat.prime_three S.isPGroup
   have hSb3 : ∀ x ∈ (Sb : Subgroup (K ⧸ aschbacherSolvableCore 3 K)), x ^ 3 = 1 := fun x hx =>
     congrArg Subtype.val (Sec13.pow_three_eq_one_of_mulEquiv (MulEquiv.refl _) hHeis.2.2 ⟨x, hx⟩)
   have hSb27 : Nat.card (Sb : Subgroup (K ⧸ aschbacherSolvableCore 3 K)) = 27 := hHeis.2.1

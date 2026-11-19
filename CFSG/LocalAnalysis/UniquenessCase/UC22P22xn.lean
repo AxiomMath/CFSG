@@ -129,6 +129,7 @@ theorem proj_relIndex_odd (D : Data G) (e : ↥D.U ≃* Multiplicative Umod)
   exact hP (hdvd.trans (Subgroup.relIndex_dvd_of_le_left (Nb i)
     (d.proj_mono i (mbarImage_mono D.M D.U hA'J))))
 
+omit [Finite Umod] in
 theorem fix_of_centralizes_E (D : Data G) (e : ↥D.U ≃* Multiplicative Umod)
     (ρ : Representation (ZMod 2) (MBar D.M D.U) Umod) (hc : ConjModule D.M D.U e ρ) {x : G}
     (hxM : x ∈ D.M) (hxE : ∀ z ∈ proofE D, x * z * x⁻¹ = z) {v : Umod}

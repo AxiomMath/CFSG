@@ -20,7 +20,7 @@ theorem mem_LargeEvenSU_iff [CharP K 2] {g : ℕ} (A : GL (Fin d) K) :
     A ∈ LargeEvenSUGroup (Fin d) K (2 ^ g) ↔
       (A : Matrix (Fin d) (Fin d) K).det = 1 ∧
         ((A : Matrix (Fin d) (Fin d) K).map (· ^ 2 ^ g))ᵀ * (A : Matrix (Fin d) (Fin d) K) = 1 := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   let φ : K →+* K := iterateFrobenius K 2 g
   have hφ : ∀ x, φ x = x ^ 2 ^ g := fun x => rfl
   have h : LargeEvenSUGroup (Fin d) K (2 ^ g) = Subgroup.closure {A : GL (Fin d) K |
@@ -44,7 +44,7 @@ theorem mem_LargeEvenSU_iff [CharP K 2] {g : ℕ} (A : GL (Fin d) K) :
 theorem pow_two_pow_mul_of_odd {k : Type} [Field k] [Finite k] {j' r : ℕ}
     (hk : Nat.card k = (2 ^ j') ^ 2) (hr : Odd r) (a : k) :
     a ^ 2 ^ (j' * r) = a ^ 2 ^ j' := by
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have h1 : a ^ ((2 ^ j') ^ 2) = a := by
     have := FiniteField.pow_card a
     rwa [← Nat.card_eq_fintype_card, hk] at this
@@ -130,7 +130,7 @@ theorem stOrderBody_unitary [CharP K 2] (hd : 3 ≤ d) {j : ℕ} (hj : 1 ≤ j)
       · exact h0
     have hk : Nat.card (fixF σ) = (2 ^ j') ^ 2 := by
       rw [card_fixF.trans he, hee', pow_mul']
-    haveI : CharP (fixF σ) 2 :=
+    have : CharP (fixF σ) 2 :=
       CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * j')
         (by rw [hk, ← pow_mul, mul_comm])
     rw [card_fixed_eq_of_iff σ _ (LargeEvenSUGroup (Fin d) (fixF σ) (2 ^ j'))

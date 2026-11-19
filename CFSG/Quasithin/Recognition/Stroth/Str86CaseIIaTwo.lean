@@ -57,11 +57,13 @@ theorem str86_two_dvd_add_one {k m : ℕ} (hk : 2 ≤ k) (hdvd : 2 ^ m - 1 ∣ 2
     omega
   omega
 
+omit [Finite G] in
 theorem commutator_mul_eq (s k x : G) :
     ⁅s * k, x⁆ = s * ⁅k, x⁆ * s⁻¹ * ⁅s, x⁆ := by
   simp only [commutatorElement_def]
   group
 
+omit [Finite G] in
 theorem isChiefSeriesFrom_zero_of_le_centralizer {H U N : Subgroup G}
     (hHN : H ≤ Subgroup.centralizer (N : Set G)) {n : ℕ}
     (h : IsChiefSeriesFrom H U N n) : n = 0 := by

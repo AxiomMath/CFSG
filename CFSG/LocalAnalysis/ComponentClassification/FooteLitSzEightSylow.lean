@@ -31,7 +31,7 @@ theorem exists_omega_of_isCoverOverTwo_sz {Y : Type*} [Group Y] [Finite Y]
   have hkerp : IsPGroup 2 π.ker := IsPGroup.of_card (n := 1) (by rw [hK2, pow_one])
   have hkerT : π.ker ≤ (T : Subgroup Y) := by
     have hp : IsPGroup 2 ↥((T : Subgroup Y) ⊔ π.ker) :=
-      T.isPGroup'.to_sup_of_normal_right hkerp
+      T.isPGroup.to_sup_of_normal_right hkerp
     exact le_sup_right.trans (T.maximal_isPGroup.2 hp le_sup_left)
   set A := (sylowCenter (Q : Subgroup (Open.Sz 1))).comap π with hA
   have hAT : A ≤ (T : Subgroup Y) := by

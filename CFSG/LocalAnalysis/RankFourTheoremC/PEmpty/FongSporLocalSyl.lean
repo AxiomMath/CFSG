@@ -16,8 +16,8 @@ open scoped Pointwise
 
 theorem frattini_quot_mul_self_eq_one {A : Type} [Group A] [Finite A] {Y : Subgroup A}
     (hY : IsPGroup 2 Y) : ∀ w : ↥Y ⧸ frattini ↥Y, w * w = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥Y) := ⟨hY⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥Y) := ⟨hY⟩
   have hEA : CFSG.IsElementaryAbelian 2 (↥Y ⧸ frattini ↥Y) :=
     CFSG.isElementaryAbelian_quotient_frattini
   intro w
@@ -29,7 +29,7 @@ theorem two_pow_orderOf_le_card_frattini_quot {A : Type} [Group A] [Finite A] {p
     (hp : p.Prime) (hp2 : p ≠ 2) {z : A} (hz : orderOf z = p) {Y : Subgroup A}
     (hY : IsPGroup 2 Y) (hzY : z ∈ normalizer (Y : Set A)) (hnc : ∃ y ∈ Y, z * y ≠ y * z) :
     2 ^ orderOf (2 : ZMod p) ≤ Nat.card (↥Y ⧸ frattini ↥Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsq := frattini_quot_mul_self_eq_one hY
   obtain ⟨φ, hφdef⟩ : ∃ φ, CFSG.Quasithin.H13.Ch4.L4316.conjFrattini Y ⟨z, hzY⟩ = φ :=
     ⟨_, rfl⟩
@@ -61,7 +61,7 @@ theorem two_pow_orderOf_le_card_frattini_quot {A : Type} [Group A] [Finite A] {p
         rw [mul_inv_rev, inv_eq_of_mul_eq_one_right (hsq a), inv_eq_of_mul_eq_one_right (hsq b)]
   let _ : CommGroup (↥Y ⧸ frattini ↥Y) :=
     { (inferInstance : Group (↥Y ⧸ frattini ↥Y)) with mul_comm := hcomm }
-  haveI : Finite (↥Y ⧸ frattini ↥Y) := inferInstance
+  have : Finite (↥Y ⧸ frattini ↥Y) := inferInstance
   have h1 := CFSG.QuasithinUnique.Setup.X1.two_pow_orderOf_le_index_fixV hsq hp2 hφord
   exact h1.trans (CFSG.QuasithinUnique.Setup.X1.index_fixV_le_card _)
 
@@ -70,7 +70,7 @@ theorem false_of_elemAbelian_sylow {A : Type} [Group A] [Finite A] (L K₀ : Sub
     (hy : ∃ y ∈ pCoreOf 2 K₀, z * y ≠ y * z) {d m : ℕ} (hd : orderOf (2 : ZMod p) = d)
     (hn : Nat.card L = 2 ^ d * m) (hm : Odd m) {g : A} (hgL : g ∈ L) (hg : orderOf g = 4) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y := pCoreOf 2 K₀ with hYdef
   have hYP : IsPGroup 2 Y := pCoreOf_isPGroup 2 K₀
   have hYL : Y ≤ L := (pCoreOf_le 2 K₀).trans hK₀L
@@ -130,12 +130,12 @@ theorem false_of_elemAbelian_sylow {A : Type} [Group A] [Finite A] (L K₀ : Sub
     omega
   obtain ⟨YS, hYS⟩ : ∃ YS : Sylow 2 ↥L, (YS : Subgroup ↥L) = Y.subgroupOf L :=
     ⟨IsPGroup.toSylow hLy hnd, rfl⟩
-  haveI : Finite (Sylow 2 ↥L) := Sylow.finite_of_finiteIndex YS
+  have : Finite (Sylow 2 ↥L) := Sylow.finite_of_finiteIndex YS
   obtain ⟨x, hxg⟩ : ∃ x : ↥L, (x : A) = g := ⟨⟨g, hgL⟩, rfl⟩
   have hxord : orderOf x = 4 := by
     rw [← Subgroup.orderOf_coe, hxg, hg]
   have hxz : IsPGroup 2 (Subgroup.zpowers x) :=
-    IsPGroup.of_card (n := 2) (by rw [Nat.card_zpowers, hxord] <;> norm_num)
+    IsPGroup.of_card (n := 2) (by rw [Nat.card_zpowers, hxord]; norm_num)
   obtain ⟨P, hP⟩ := IsPGroup.exists_le_sylow hxz
   have hxP : x ∈ (P : Subgroup ↥L) := hP (Subgroup.mem_zpowers x)
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq ↥L YS P

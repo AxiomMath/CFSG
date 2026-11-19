@@ -38,7 +38,7 @@ theorem Ctx82E3.card_lbar_of_l62 (c : Ctx82E3 D) (hlie : IsLie811 c.Lbar .l6 2 1
   · norm_num at hmod
 
 theorem Ctx82E3.nonempty_case811Sylow_of_l62 (c : Ctx82E3 D)
-    (h811 : CFSG.Yardstones.Mf4cdcdf2e013.QuasisimpleModOTwo c.L) (hK6a : K6a) (hK6b : K6b)
+    (_h811 : CFSG.Yardstones.Mf4cdcdf2e013.QuasisimpleModOTwo c.L) (hK6a : K6a) (hK6b : K6b)
     (hlie : IsLie811 c.Lbar .l6 2 1) (hZ : Subgroup.center c.Lbar = ⊥) :
     Nonempty (Case811Sylow c) := by
   have hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center c.Lbar) := by

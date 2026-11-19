@@ -18,7 +18,7 @@ theorem ambLQ_of_classical {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {H : Type} [
     ∀ h ∈ Subgroup.normalizer (Q : Set H),
       (∀ r ∈ pCoreOf p (Subgroup.normalizer (Q : Set H)), h * r = r * h) →
       h ∈ pCoreOf p (Subgroup.normalizer (Q : Set H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hH : CFSG.LieType.BorelTits.Holds ↥S p :=
     CFSG.LieType.BorelTits.holds_of_statedClassicalModel hcl
   exact lieQ_of_radRigid S hH.holdsTits

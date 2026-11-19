@@ -222,10 +222,10 @@ theorem caseASylow_exists_max [Finite X] (C N : Subgroup X) (hN2 : IsPGroup 2 N)
     ∃ S : Subgroup X, N ≤ S ∧ S ≤ C ∧ IsPGroup 2 S ∧
       ∀ U : Subgroup X, U ≤ C → IsPGroup 2 U → S ≤ U → U = S := by
   classical
-  haveI : Finite (Subgroup X) :=
+  have : Finite (Subgroup X) :=
     Finite.of_injective (fun U : Subgroup X => (U : Set X)) SetLike.coe_injective
   let P : Subgroup X → Prop := fun U => U ≤ C ∧ IsPGroup 2 U ∧ N ≤ U
-  haveI : Nonempty {U : Subgroup X // P U} := ⟨⟨N, hNC, hN2, le_rfl⟩⟩
+  have : Nonempty {U : Subgroup X // P U} := ⟨⟨N, hNC, hN2, le_rfl⟩⟩
   obtain ⟨S₀, hS₀⟩ := Finite.exists_max (fun U : {U : Subgroup X // P U} => Nat.card U.1)
   refine ⟨S₀.1, S₀.2.2.2, S₀.2.1, S₀.2.2.1, fun U hUC hU2 hSU => ?_⟩
   have hUP : P U := ⟨hUC, hU2, S₀.2.2.2.trans hSU⟩
@@ -242,7 +242,7 @@ theorem caseASylow_eq_of_normalizer [Finite X] {C S T : Subgroup X} (hT : IsPGro
       exact hkey y hy.1 (fun s hs => (Subgroup.mem_normalizer_iff.mp hy.2 s).mp hs)
     · exact hT.to_le inf_le_left
   by_contra hne
-  haveI : Group.IsNilpotent T := hT.isNilpotent
+  have : Group.IsNilpotent T := hT.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := T)
   have hSlt : S.subgroupOf T < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne ?_
@@ -288,7 +288,7 @@ theorem caseASylow_not_dvd_relIndex [Finite X] {D S : Subgroup X} (hSD : S ≤ D
   have h1 : IsPGroup 2 (S.subgroupOf D) := hS.comap_subtype
   obtain ⟨P, hPS⟩ := IsPGroup.exists_le_sylow h1
   have hU : P.toSubgroup.map D.subtype = S := by
-    refine hmax _ (Subgroup.map_subtype_le _) (P.isPGroup'.map D.subtype) ?_
+    refine hmax _ (Subgroup.map_subtype_le _) (P.isPGroup.map D.subtype) ?_
     intro s hs
     exact Subgroup.mem_map.mpr ⟨⟨s, hSD hs⟩, hPS (Subgroup.mem_subgroupOf.mpr hs), rfl⟩
   have hP : P.toSubgroup = S.subgroupOf D := by
@@ -392,7 +392,7 @@ theorem caseASylow_of (hA1 : CaseA1Statement) (hLine : NtLineStatement) :
   have hQS : Q ≤ S := (smith23E1_Q_le_Nt hc hH.mem).trans hNS
   have hSM : S ≤ M := fun x hx => ((hmemC x).mp (hSC hx)).1.1
   have hSN : S ≤ Subgroup.normalizer (Q : Set G) := fun x hx => hQM (hSM hx)
-  haveI hnorm : (Q.subgroupOf S).Normal :=
+  have hnorm : (Q.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQS).mpr hSN
   exact ⟨S, hQS, hSD, fun s hs => ((hmemC s).mp (hSC hs)).1.2,
     ⟨hnorm, hS2.to_quotient (Q.subgroupOf S)⟩, hodd⟩

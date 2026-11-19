@@ -50,7 +50,7 @@ private theorem s16c167_not_comm_of_case2 (D : Data G) {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hC : Counterex16 D ⊥ V L hV) (h2 : Case168_2 D ⊥ V hV L) :
     ¬ IsMulCommutative ↥(lBar ⊥ V hV L) := by
   rintro hcomm
-  haveI := hcomm
+  have := hcomm
   obtain ⟨e⟩ := h2.1
   have hcenter : ∀ σ : Equiv.Perm (Fin 3), (∀ τ, σ * τ = τ * σ) → σ = 1 := by decide
   have hLM : L ≤ D.M := hC.setting.hyp151.le
@@ -106,11 +106,11 @@ theorem s16c167_twenty_two_small (D : Data G) {V L : Subgroup G} {hV : IsElemAbe
     exfalso
     obtain ⟨hpo, -, -⟩ := h
     obtain ⟨-, hcard, -⟩ := hpo
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI : Group.IsNilpotent ↥(lBar ⊥ V hV L) :=
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Group.IsNilpotent ↥(lBar ⊥ V hV L) :=
       (IsPGroup.of_card (p := 3) (n := 3) hcard).isNilpotent
-    haveI : Group.IsSolvable ↥(lBar ⊥ V hV L) := inferInstance
-    haveI : IsSimpleGroup ↥(lBar ⊥ V hV L) := s16c167_cfg2_simple D h2
+    have : Group.IsSolvable ↥(lBar ⊥ V hV L) := inferInstance
+    have : IsSimpleGroup ↥(lBar ⊥ V hV L) := s16c167_cfg2_simple D h2
     exact hnc (IsMulCommutative.of_comm
       (IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance))
   ·
@@ -129,7 +129,7 @@ theorem s16c167_twenty_two_small (D : Data G) {V L : Subgroup G} {hV : IsElemAbe
         f * g = g * f := fun f hf g hg => congrArg Subtype.val
       ((s16c167_isElemAbelian_comm hFel).is_comm.comm ⟨f, hf⟩ ⟨g, hg⟩)
     have hLbot : lBar ⊥ V hV L ≠ ⊥ := by
-      haveI := (s16c167_cfg2_simple D h2).toNontrivial
+      have := (s16c167_cfg2_simple D h2).toNontrivial
       exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
     obtain ⟨I, hirr, -, hsup⟩ := s16c167_case2_irr D h2
     have hall : commSub ⊤ (lBar ⊥ V hV L) = ⊤ := by
@@ -147,7 +147,7 @@ theorem s16c167_twenty_two_small (D : Data G) {V L : Subgroup G} {hV : IsElemAbe
       rw [Subgroup.le_normalizer_iff]
       intro x hx f hf
       exact hFnorm x (hLM hx) f hf
-    haveI : ((fstarBar D.M ⊥ V hV).subgroupOf (lBar ⊥ V hV L)).Normal :=
+    have : ((fstarBar D.M ⊥ V hV).subgroupOf (lBar ⊥ V hV L)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hLnormF
     have hcommLb : IsMulCommutative ↥(lBar ⊥ V hV L) := by
       have hLleF : lBar ⊥ V hV L ≤ fstarBar D.M ⊥ V hV := by
@@ -190,7 +190,7 @@ theorem s16c167_twenty_two_small (D : Data G) {V L : Subgroup G} {hV : IsElemAbe
   ·
     exfalso
     obtain ⟨p, -, h10⟩ := h
-    haveI : IsCyclic ↥(lBar ⊥ V hV L) := h10.1.1
+    have : IsCyclic ↥(lBar ⊥ V hV L) := h10.1.1
     exact hnc inferInstance
   ·
     exfalso

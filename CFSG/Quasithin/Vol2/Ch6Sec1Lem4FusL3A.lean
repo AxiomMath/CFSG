@@ -223,14 +223,14 @@ theorem exists_eq_zpowers_of_L3FusFacts {G : Type} [Group G] [Finite G] {N T X :
       ⟨p, 1, hp, hp.odd_of_ne_two (by omega), le_rfl, by rw [hcard, pow_one]⟩
     have hcard3 : 3 < Nat.card F := by rw [hcard]; omega
     have htopPGL : pGammaL2PGLRange F = ⊤ := pGammaL2PGLRange_eq_top614 hp hcard
-    haveI : Finite (F ≃+* F) :=
+    have : Finite (F ≃+* F) :=
       Finite.of_injective (fun e : F ≃+* F => (e : F → F)) (by
         intro e f hef
         ext x
         exact congrFun hef x)
-    haveI : Finite (PGL2 F) :=
+    have : Finite (PGL2 F) :=
       Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
-    haveI : Finite (PGammaL2 F) :=
+    have : Finite (PGammaL2 F) :=
       Finite.of_injective (fun x : PGammaL2 F => (x.left, x.right)) (by
         intro x y hxy
         exact SemidirectProduct.ext (congrArg Prod.fst hxy) (congrArg Prod.snd hxy))

@@ -12,7 +12,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 theorem segev27_holds : Segev27 := by
   intro H _ a b hH hZ φ K hK01 hKa hKb hK23 i j hij
   obtain ⟨ψ⟩ := hH
-  haveI : Finite H := Finite.of_equiv _ ψ.symm.toEquiv
+  have : Finite H := Finite.of_equiv _ ψ.symm.toEquiv
   obtain ⟨θ, hθ, hA, hker⟩ := seg27_exists_theta ψ φ
   have hc : Nat.card (Subgroup.center H) = 4 := seg27_card_center ψ
   have hsq : ∀ z ∈ Subgroup.center H, z * z = 1 := fun z hz => seg27_mul_self_of_mem_center ψ hz

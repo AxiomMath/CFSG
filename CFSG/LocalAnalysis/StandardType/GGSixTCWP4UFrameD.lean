@@ -33,7 +33,7 @@ theorem exists_uframe_untwD
       (∃ w : WeylGroup τ, ∀ γ, IsRoot τ γ → S.ρ γ = w • γ) ∧ fr.DLang D ≤ S.D.torus := by
   classical
   obtain ⟨K, instF, instFin, hKcard, ⟨eK⟩⟩ := hmod
-  haveI : CharP K 2 := charP_two_of_finite_field_card_two_pow hKcard
+  have : CharP K 2 := charP_two_of_finite_field_card_two_pow hKcard
   have hZadj : Subgroup.center ↥(adjointGroup τ K) = ⊥ := center_adjointGroup_eq_bot
   let θ : (↥G₀ ⧸ Subgroup.center ↥G₀) ≃* ↥(adjointGroup τ K) :=
     eK.trans ((QuotientGroup.quotientMulEquivOfEq hZadj).trans QuotientGroup.quotientBot)

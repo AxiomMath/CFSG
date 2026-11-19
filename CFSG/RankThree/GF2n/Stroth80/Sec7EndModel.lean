@@ -24,8 +24,9 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     Nat.card K' = Nat.card Z ∧ AddCommutantScalar Xcl ∧
     NaturalRep K' Xcl (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z (hc.CN t)
 
+omit [Finite G] in
 theorem endg_comm_centre [(Q.subgroupOf M).Normal] {R Z0 : Subgroup G}
-    (hZ0 : IsCentrePre Z0 R Q) (hRM : R ≤ M) {z : ↥M} (hz : (z : G) ∈ Z0)
+    (hZ0 : IsCentrePre Z0 R Q) (_hRM : R ≤ M) {z : ↥M} (hz : (z : G) ∈ Z0)
     {x : Mbar M Q} (hx : x ∈ bar M Q R) :
     (QuotientGroup.mk z : Mbar M Q) * x = x * QuotientGroup.mk z := by
   obtain ⟨r, hr, rfl⟩ := Subgroup.mem_map.mp hx

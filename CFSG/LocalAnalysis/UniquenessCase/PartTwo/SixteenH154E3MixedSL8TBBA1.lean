@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem s16h_center_eq_bot_of_center_quotient_psl2_eight {X : Type} [Group X] [Finite X]
     (hX : CFSG.Open.IsQuasisimple X) (e : X ⧸ Subgroup.center X ≃* PSL2GF 2 3) :
     Subgroup.center X = ⊥ := by
-  haveI : Group.IsPerfect X := ⟨hX.1⟩
+  have : Group.IsPerfect X := ⟨hX.1⟩
   let q : X →* PSL2GF 2 3 := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
   have hqker : q.ker = Subgroup.center X := by
     ext x

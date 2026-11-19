@@ -45,6 +45,7 @@ theorem prep_mod {P : Nat} {x : Equiv.Perm (Fin 360)} (h : Orb.PRep 360 9 P x) :
   rw [pg_mod i.2]
   exact h i
 
+set_option exponentiation.threshold 3240 in
 theorem prep_pmN {P Q : Nat} {x y : Equiv.Perm (Fin 360)} (hP : Orb.PRep 360 9 P x)
     (hQ : Orb.PRep 360 9 Q y) : Orb.PRep 360 9 (pmN 360 9 P Q) (x * y) := by
   unfold pmN
@@ -52,6 +53,7 @@ theorem prep_pmN {P Q : Nat} {x y : Equiv.Perm (Fin 360)} (hP : Orb.PRep 360 9 P
 
 theorem prep_pidn' : Orb.PRep 360 9 (pidn 360 9) 1 := Orb.prep_pidn (by norm_num) (by norm_num)
 
+set_option exponentiation.threshold 3240 in
 theorem eqN_iff {P Q : Nat} {x y : Equiv.Perm (Fin 360)} (hP : Orb.PRep 360 9 P x)
     (hQ : Orb.PRep 360 9 Q y) : eqN 360 9 P Q = true ↔ x = y := by
   unfold eqN
@@ -190,13 +192,13 @@ theorem testBit_foldImg (P s y : Nat) : ∀ l : List Nat,
     simp only [List.foldr_cons]
     simp only [List.mem_cons, or_and_right, exists_or, exists_eq_left]
     by_cases hb : bit s z = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       change ((_ ||| 1 <<< _)).testBit y = true ↔ _
       rw [Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow, Bool.or_eq_true,
         testBit_foldImg P s y l, decide_eq_true_iff]
       simp only [hb, true_and]
       exact or_comm
-    · rw [if_neg hb, testBit_foldImg P s y l]
+    · rw [ite_eq_right hb, testBit_foldImg P s y l]
       simp [hb]
 
 theorem testBit_imgM {P : Nat} {x : Equiv.Perm (Fin 360)} (hP : Orb.PRep 360 9 P x) (s y : Nat) :
@@ -282,7 +284,7 @@ theorem fixL_sound (hG : GRep G g) {L q : Nat} (h : fixL G L q = true) (hq : q <
   intro c hc hb
   unfold fixL at h
   have e := Orb.allN_iff.1 h c hc
-  rw [Orb.bIf_eq, if_pos hb] at e
+  rw [Orb.bIf_eq, ite_eq_left hb] at e
   exact Fin.ext ((hG c ⟨q, hq⟩).symm.trans (Nat.eq_of_beq_eq_true e))
 
 theorem treeOK_sound (hG : GRep G g) {L : Nat} (hL : L < 256) (p : Fin 360) :
@@ -467,7 +469,7 @@ theorem invB_sound (hG : GRep G g) {L B : List Nat} (h : invB G L B = true) :
   rw [Nat.eq_of_beq_eq_true hc'] at key
   rw [setStab, MulAction.mem_stabilizer_iff]
   ext y
-  simp only [Set.mem_smul_set, finOfL, Set.mem_setOf_eq, Equiv.Perm.smul_def]
+  simp only [Set.mem_smul_set, finOfL, Set.mem_ofPred_eq, Equiv.Perm.smul_def]
   constructor
   · rintro ⟨z, hz, rfl⟩
     have e := (key _).2 ⟨z, by rw [testBit_maskL, decide_eq_true_iff]; exact hz, rfl⟩
@@ -555,7 +557,7 @@ theorem qzOK_sound (hG : GRep G g) {QW : List (List (List Nat))} {QG : List (Lis
   have hne : ¬ Nat.beq x y = true := by
     rw [Nat.beq_eq]
     exact hxy
-  rw [Orb.bIf_eq, if_neg hne] at e2
+  rw [Orb.bIf_eq, ite_eq_right hne] at e2
   beta_reduce at e2
   rw [Orb.bAnd_eq, Bool.and_eq_true] at e2
   obtain ⟨e3, e4⟩ := e2
@@ -659,18 +661,18 @@ theorem sepOK_sound (hG : GRep G g) {L p : Nat} {hw : List Nat} {b : Nat} {O : L
   refine ⟨hp, hb, ?_, (bit_maskL _ _).1 h2, ?_, h5, Fin.ext hb'.symm⟩
   · intro c hc hLc q hq
     have e := Orb.allN_iff.1 h1 c hc
-    rw [Orb.bIf_eq, if_pos hLc] at e
+    rw [Orb.bIf_eq, ite_eq_left hLc] at e
     obtain ⟨_, e⟩ := allIx_mem e q hq
     rw [bit_maskL, hG c q] at e
     exact e
   · intro q hq hqp
     obtain ⟨_, e⟩ := allIx_mem h4 q hq
     rw [Orb.bAnd_eq, Bool.and_eq_true, Orb.bIf_eq,
-      if_neg (fun e => hqp (Nat.eq_of_beq_eq_true e)), notB_eq, Bool.not_eq_true'] at e
+      ite_eq_right (fun e => hqp (Nat.eq_of_beq_eq_true e)), notB_eq, Bool.not_eq_true'] at e
     obtain ⟨c, hc, hfc⟩ : ∃ c < 8, ¬ notB (bAnd(bit L c, bAnd(Nat.beq (pg 9 (mask 9) (gl G c) p) p,
         notB (Nat.beq (pg 9 (mask 9) (gl G c) q) q)))) = true := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       rw [Orb.allN_iff.2 hne] at e
       exact Bool.noConfusion e.2
     rw [notB_eq, Bool.not_eq_true, Bool.not_eq_false', Orb.bAnd_eq, Bool.and_eq_true, Orb.bAnd_eq,

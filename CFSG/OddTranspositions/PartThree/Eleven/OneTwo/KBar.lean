@@ -124,7 +124,7 @@ theorem injOn_kbar (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     exact hF.mul_frameE_not_mem h (y : G) hy (hxG' ▸ hx.1)
 
 private theorem commute_d_of_mul_sq (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r)
-    {b₀ : G} (hb₀ : b₀ ∈ centSet D (frameE hC r)) (hb₀_ne_u : b₀ ≠ hC.d)
+    {b₀ : G} (hb₀ : b₀ ∈ centSet D (frameE hC r)) (_hb₀_ne_u : b₀ ≠ hC.d)
     (hbb : hC.d * b₀ * hC.d * b₀ = 1 ∨
       hC.d * b₀ * hC.d * b₀ = frameE hC r) :
     Commute hC.d b₀ := by
@@ -165,7 +165,7 @@ private theorem false_of_d_mul (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T
     (hb₀ : b₀ ∈ centSet D (frameE hC r))
     (hc₀ : c₀ ∈ centSet D (frameE hC r))
     (hb₀_ne_u : b₀ ≠ hC.d)
-    (hb₀_ne_ue : b₀ ≠ hC.d * frameE hC r)
+    (_hb₀_ne_ue : b₀ ≠ hC.d * frameE hC r)
     (hbb : hC.d * b₀ * hC.d * b₀ = 1 ∨
       hC.d * b₀ * hC.d * b₀ = frameE hC r)
     (hmul : hC.d * b₀ = c₀ ∨ hC.d * b₀ = c₀ * frameE hC r) :
@@ -207,7 +207,7 @@ private theorem false_of_d_mul (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T
       have hgu : Commute (g : G) hC.d :=
         Subgroup.mem_centralizer_singleton_iff.mp hg
       exact Subtype.ext hgu.eq
-    haveI : (Subgroup.zpowers uH).Normal := Subgroup.normal_of_le_center huH_center
+    have : (Subgroup.zpowers uH).Normal := Subgroup.normal_of_le_center huH_center
     have hsolv : Group.IsSolvable (Subgroup.zpowers uH) := inferInstance
     have hle : Subgroup.zpowers uH ≤ CFSG.solvableRadical (Halpha D hC.alpha) :=
       CFSG.Timmesfeld.Bridge.OddTransp.le_solvableRadical inferInstance hsolv
@@ -494,11 +494,11 @@ private theorem exists_sylow_localSet (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame
   let L : Subgroup G := Subgroup.closure Δ
   have hL_le_S : L ≤ (S : Subgroup G) :=
     (Subgroup.closure_le (S : Subgroup G)).mpr (fun x hx => hx.1)
-  have hL_p : IsPGroup 2 L := (S : Sylow 2 G).isPGroup'.to_le hL_le_S
+  have hL_p : IsPGroup 2 L := (S : Sylow 2 G).isPGroup.to_le hL_le_S
   let P₀ : Subgroup K := L.comap K.subtype
   have hP₀_p : IsPGroup 2 P₀ := hL_p.comap_subtype (K := K)
   obtain ⟨P, hP₀_le_P⟩ := hP₀_p.exists_le_sylow
-  have hP_p : IsPGroup 2 ((P : Subgroup K).map K.subtype) := (P.isPGroup').map K.subtype
+  have hP_p : IsPGroup 2 ((P : Subgroup K).map K.subtype) := (P.isPGroup).map K.subtype
   obtain ⟨S', hS'_le⟩ := hP_p.exists_le_sylow
   let E : Set K := (P : Set K) ∩ localSet D e
   have hΔ_image : Δ ⊆ (Subgroup.subtype K) '' E := by
@@ -539,7 +539,7 @@ theorem not_dvd_card_kbar (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
       rw [show (4 : ℕ) = 2 ^ 2 by norm_num, padicValNat.prime_pow]
     rw [hright, h2] at hle
     exact hle
-  haveI hnorm : CFSG.GroupTheory.NormalizesSet (⊤ : Subgroup K) (localSet D e) :=
+  have hnorm : CFSG.GroupTheory.NormalizesSet (⊤ : Subgroup K) (localSet D e) :=
     ⟨fun a _ x hx => hSetupK.normal a x hx⟩
   have hpre : MulAction.IsPretransitive K ↥(localSet D e) := by
     refine ⟨fun x y => ?_⟩

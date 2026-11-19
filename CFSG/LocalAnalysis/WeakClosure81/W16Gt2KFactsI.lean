@@ -44,7 +44,7 @@ theorem kFacts_su_smul_of_mem (hF : Nat.card F = (2 ^ n) ^ 2) {m : ℕ} (hm : 4 
     (A : Subgroup (StatedProj (StatedSU m (2 ^ n) F)))
     (hAt : ∀ x ∈ A, x ≠ 1 → IsUnitaryTransvectionIn m n x)
     {e e' : Fin m → F} (he0 : e ≠ 0) (he : herm (unitaryInvolution F 2 n) e e = 0)
-    (he0' : e' ≠ 0) (he' : herm (unitaryInvolution F 2 n) e' e' = 0)
+    (_he0' : e' ≠ 0) (he' : herm (unitaryInvolution F 2 n) e' e' = 0)
     (hx : kFactsSuProjTv hF m e 1 ∈ A) (hy : kFactsSuProjTv hF m e' 1 ∈ A) :
     ∃ μ : F, e' = μ • e := by
   set σ := unitaryInvolution F 2 n with hσdef

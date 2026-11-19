@@ -27,12 +27,12 @@ theorem kFactThreeFiveCentral_of_lists
   rcases hList ↥K hQ hcat hZ hZp hZc (hK2'.trans (by norm_num)) with
     h6 | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨d, hv⟩, hd, ⟨e⟩⟩
   · exact Or.inr h6
-  · haveI : Group.IsPerfect ↥K := ⟨hQ.1⟩
+  · have : Group.IsPerfect ↥K := ⟨hQ.1⟩
     exact (hΓ ((CFSG.LocalAnalysis.GLTheoremB.le_centGenI_of_seven hEN hE hodd e).trans
       (centGenI_le_rankThreeGamma hE hE9 K))).elim
   · exact (hΓ (le_rankThreeGamma_of_forall_seitzHyperGamma hE hE9 hEN fun A hA hA9 =>
       seitzHyperGamma_eq_top_of_m22 hQ hZp e hA hA9)).elim
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨T⟩ := Sylow.nonempty (p := 3) (G := ↥K)
     have h3 := (CFSG.AGLEmbedding.SporadicMultD1.weakCore_rank_onan hQ hZ hZp hZc e T).2
     exfalso

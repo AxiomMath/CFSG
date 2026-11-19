@@ -53,7 +53,7 @@ theorem f0_entry_mul_of_fixesLine {y : StatedSp 2 K} {c : K} (h : FixesLine y c)
       simp [ha]
     · simp
   · intro k _ hk
-    rw [col_of_fixesLine h k, if_neg hk, mul_zero]
+    rw [col_of_fixesLine h k, ite_eq_right hk, mul_zero]
   · simp
 
 theorem scalar_ne_zero_of_fixesLine {y : StatedSp 2 K} {c : K} (h : FixesLine y c) : c ≠ 0 := by
@@ -147,14 +147,14 @@ theorem hasPointEntries_mul {y z : StatedSp 2 K} {c d : K} (hy : HasPointEntries
     · rw [hy0 i, hz0 (Sum.inl 0)]
       by_cases hi : i = Sum.inl 0 <;> simp [hi]
     · intro k _ hk
-      rw [hz0 k, if_neg hk, mul_zero]
+      rw [hz0 k, ite_eq_right hk, mul_zero]
     · simp
   · rw [hmul, Matrix.mul_apply]
     rw [Finset.sum_eq_single (Sum.inr 0)]
     · rw [hy1 (Sum.inr 0), hz1 j]
       by_cases hj : j = Sum.inr 0 <;> simp [hj, mul_inv_rev, mul_comm]
     · intro k _ hk
-      rw [hy1 k, if_neg hk, zero_mul]
+      rw [hy1 k, ite_eq_right hk, zero_mul]
     · simp
 
 theorem hasPointEntries_inv {y : StatedSp 2 K} {c : K} (h : HasPointEntries y c) :
@@ -165,14 +165,14 @@ theorem hasPointEntries_inv {y : StatedSp 2 K} {c : K} (h : HasPointEntries y c)
     rw [h.2.1 i.swap]
     by_cases hi : i = Sum.inl 0
     · simp [hi]
-    · rw [if_neg hi, if_neg (fun hh : i.swap = Sum.inr 0 => hi (by
+    · rw [ite_eq_right hi, ite_eq_right (fun hh : i.swap = Sum.inr 0 => hi (by
         have := congrArg Sum.swap hh
         simpa using this))]
   · rw [TorusQS.spMat_inv_apply, Sum.swap_inr]
     rw [h.1 j.swap]
     by_cases hj : j = Sum.inr 0
     · simp [hj]
-    · rw [if_neg hj, if_neg (fun hh : j.swap = Sum.inl 0 => hj (by
+    · rw [ite_eq_right hj, ite_eq_right (fun hh : j.swap = Sum.inl 0 => hj (by
         have := congrArg Sum.swap hh
         simpa using this))]
 
@@ -237,7 +237,7 @@ theorem blockMat_apply (y : pointStab (K := K)) (i j : Fin 2) :
 theorem row_plane_zero (z : pointStab (K := K)) (j : Fin 2) :
     (spMat (z : StatedSp 2 K)) (Sum.inr 0) (planeIdx j) = 0 := by
   have h := pointStab_hasPointEntries z
-  rw [h.2.1 (planeIdx j), if_neg (planeIdx_mem j).2]
+  rw [h.2.1 (planeIdx j), ite_eq_right (planeIdx_mem j).2]
 
 theorem blockMat_mul (y z : pointStab (K := K)) :
     blockMat (y * z) = blockMat y * blockMat z := by
@@ -250,7 +250,7 @@ theorem blockMat_mul (y z : pointStab (K := K)) :
     exact TorusQS.spMat_mul _ _
   rw [hmul, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, Fin.sum_univ_two]
   rw [col_of_fixesLine (fixesLine_of_col (pointStab_hasPointEntries y).1) (planeIdx i),
-    if_neg (planeIdx_mem i).1, zero_mul,
+    ite_eq_right (planeIdx_mem i).1, zero_mul,
     row_plane_zero z j, mul_zero]
   simp only [zero_add]
   rw [Fin.sum_univ_two, blockMat_apply, blockMat_apply, blockMat_apply, blockMat_apply]
@@ -296,7 +296,7 @@ theorem blockMat_one : blockMat (1 : pointStab (K := K)) = 1 := by
   rw [Matrix.one_apply]
   by_cases h : i = j
   · subst h; simp [planeIdx]
-  · rw [if_neg h, if_neg (fun hh => h (planeIdx_injective hh))]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h (planeIdx_injective hh))]
 
 @[expose] noncomputable def blockElt :
     pointStab (K := K) →* Matrix.SpecialLinearGroup (Fin 2) K where
@@ -340,11 +340,11 @@ theorem isPointUnip_of_chi_eq_one_of_blockElt_eq_one {y : pointStab (K := K)}
     · subst hj0
       rw [h.1 i]
       by_cases hi0 : i = Sum.inl 0
-      · rw [if_pos hi0, if_pos hi0, hc]
-      · rw [if_neg hi0, if_neg hi0]
+      · rw [ite_eq_left hi0, ite_eq_left hi0, hc]
+      · rw [ite_eq_right hi0, ite_eq_right hi0]
     by_cases hi0 : i = Sum.inr 0
     · subst hi0
-      rw [h.2.1 j, if_neg hj, if_neg (Ne.symm hj)]
+      rw [h.2.1 j, ite_eq_right hj, ite_eq_right (Ne.symm hj)]
     rcases i with i | i
     · fin_cases i
       · exact absurd rfl hi
@@ -718,7 +718,7 @@ theorem lam_sl2W_fixes_e0 :
     pairMat_apply_of_ne' (by decide) (by decide), Matrix.one_apply]
   by_cases hj : j = Sum.inl 0
   · subst hj; simp
-  · rw [if_neg hj, Pi.single_apply, if_neg hj]
+  · rw [ite_eq_right hj, Pi.single_apply, ite_eq_right hj]
 
 omit [Finite K] in
 theorem lam_sl2W_inv_fixes_e0 :

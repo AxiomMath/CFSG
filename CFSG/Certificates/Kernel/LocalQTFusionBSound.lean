@@ -19,8 +19,8 @@ open CFSG.QuasithinUnique.K1.SporadicPerm CFSG.QuasithinUnique.Lin2 CFSG.Quasith
 open CFSG.QuasithinUnique.Lin2.FusionCert
 open CFSG.KC.LQT.P (letB impB allL anyL orB_iff andB_iff notB_iff impB_iff beq_iff blt_iff letB_eq)
 
-private theorem head {n w : Nat} (hw : n ≤ 2 ^ w) (B ta tb : List Nat) (prog qp : List (Nat × Nat))
-    (TF : Nat → Nat) (K m RS : Nat) (RT : Nat → Nat)
+private theorem head {n w : Nat} (hw : n ≤ 2 ^ w) (_B ta tb : List Nat) (prog _qp : List (Nat × Nat))
+    (TF : Nat → Nat) (K m _RS : Nat) (_RT : Nat → Nat)
     (hta : tabL n ta = true) (htb : tabL n tb = true) (hso : slpOKK prog 2 = true)
     (hTF0 : Nat.beq (TF 0) (codeK w ta) = true) (hTF1 : Nat.beq (TF 1) (codeK w tb) = true)
     (hKm : Nat.ble (Nat.add (lenA prog) 2) (Nat.mul K m) = true)

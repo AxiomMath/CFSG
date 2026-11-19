@@ -26,7 +26,7 @@ theorem exists_commute_of_E9 {S : Type} [Group S] [Finite S] {x0 y0 : S} (hx0 : 
     (hy0 : y0 ^ 3 = 1) (hc0 : x0 * y0 = y0 * x0) (hn0 : y0 ∉ zpowers x0) {z : S}
     (hz : orderOf z = 3) : ∃ y : S, y ^ 3 = 1 ∧ z * y = y * z ∧ y ∉ zpowers z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy01 : y0 ≠ 1 := fun h => hn0 (h ▸ one_mem _)
   have hy0o : orderOf y0 = 3 := orderOf_eq_prime hy0 hy01
   have hx03 : x0 ^ 3 = 1 := by rw [← hx0]; exact pow_orderOf_eq_one x0
@@ -81,12 +81,12 @@ theorem exists_commute_of_E9 {S : Type} [Group S] [Finite S] {x0 y0 : S} (hx0 : 
     · exact ⟨g * x0 * g⁻¹, hx0'3, (hzc _ hx0P).symm, h⟩
     · exact ⟨g * y0 * g⁻¹, hy0'3, (hzc _ hy0P).symm, h⟩
   ·
-    haveI : Nontrivial (P : Subgroup S) := ⟨⟨⟨z, hzmem⟩, 1, fun h => by
+    have : Nontrivial (P : Subgroup S) := ⟨⟨⟨z, hzmem⟩, 1, fun h => by
       have : z = 1 := congrArg Subtype.val h
       rw [this, orderOf_one] at hz; omega⟩⟩
-    haveI : Finite (P : Subgroup S) := inferInstance
-    haveI := (P.isPGroup').center_nontrivial
-    have hZp : IsPGroup 3 (Subgroup.center (P : Subgroup S)) := (P.isPGroup').to_subgroup _
+    have : Finite (P : Subgroup S) := inferInstance
+    have := (P.isPGroup).center_nontrivial
+    have hZp : IsPGroup 3 (Subgroup.center (P : Subgroup S)) := (P.isPGroup).to_subgroup _
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hZp
     have hn0 : n ≠ 0 := by
       rintro rfl
@@ -210,7 +210,7 @@ theorem listRow_of_cover_weyl {X : Type} [Group X] [Finite X] {Y : Type*} [Group
         ∀ x ∈ E, g ^ 2 * x * (g ^ 2)⁻¹ = x⁻¹)
     {x0 y0 : X} (hx0 : orderOf x0 = 3) (hy0 : y0 ^ 3 = 1) (hc0 : x0 * y0 = y0 * x0)
     (hn0 : y0 ∉ zpowers x0) : ListRow X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine listRow_of_forall_not_weaklyClosed fun z hz => ?_
   obtain ⟨y, hy3, hzy, hyn⟩ := exists_commute_of_E9 hx0 hy0 hc0 hn0 hz
   have hz3 : z ^ 3 = 1 := by have := pow_orderOf_eq_one z; rwa [hz] at this
@@ -225,7 +225,7 @@ theorem listRow_of_cover_weyl {X : Type} [Group X] [Finite X] {Y : Type*} [Group
   obtain ⟨hDab, hDcard⟩ := CFSG.RankThree.PartTwo.Sec5.isElemAbelian_sup_zpowers hze hyn hy3 hcomm
   have hD9 : Nat.card (zpowers z ⊔ zpowers y : Subgroup X) = 9 := by
     rw [hDcard, Nat.card_zpowers, hz]
-  haveI : IsMulCommutative (zpowers z ⊔ zpowers y : Subgroup X) := hDab.1
+  have : IsMulCommutative (zpowers z ⊔ zpowers y : Subgroup X) := hDab.1
   have hDcomm : ∀ x ∈ (zpowers z ⊔ zpowers y : Subgroup X), ∀ w ∈ (zpowers z ⊔ zpowers y : Subgroup X),
       x * w = w * x := fun x hx w hw =>
     setLike_mul_comm hx hw

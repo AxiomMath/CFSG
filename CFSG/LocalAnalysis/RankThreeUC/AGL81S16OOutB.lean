@@ -20,7 +20,8 @@ theorem b_ne_zero (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) : b ≠ 0 := by
   rw [hb, hs]
   linear_combination s * s * h2
 
-theorem involution_scalars (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {α β γ δ : F}
+omit [Finite F] in
+theorem involution_scalars (_hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {α β γ δ : F}
     (e00 : α * α + β * γ = 1) (e11 : γ * β + δ * δ = 1)
     (h10 : α ^ 2 + b * α * γ + c * γ ^ 2 = 1) (h01 : β ^ 2 + b * β * δ + c * δ ^ 2 = c)
     (hne : ¬ (α = 1 ∧ β = 0 ∧ γ = 0)) : δ = α ∧ β = b * α + c * γ := by
@@ -52,6 +53,7 @@ theorem involution_scalars (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {α β γ
     · exact (mul_eq_zero.mp hbg).resolve_left hg'
   linear_combination h3 - (b * δ + c * γ) * h2c
 
+omit [Finite F] in
 theorem involution_shape (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {ρ : Matrix (Fin 2) (Fin 2) F}
     (hρ : ∀ p q : F, Nf b c (ρ 0 0 * p + ρ 0 1 * q) (ρ 1 0 * p + ρ 1 1 * q) = Nf b c p q)

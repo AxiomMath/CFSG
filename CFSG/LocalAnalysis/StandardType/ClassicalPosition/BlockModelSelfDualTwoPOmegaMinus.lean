@@ -195,7 +195,7 @@ private lemma bmstm_reindex_vecMulVec_mulVec {F : Type} [Field F] {N N' : Type} 
     (a b : N → F) :
     (Matrix.reindexAlgEquiv F F σ) (Matrix.vecMulVec a (Matrix.mulVec G b)) =
       Matrix.vecMulVec (a ∘ σ.symm) (Matrix.mulVec (Matrix.reindex σ σ G) (b ∘ σ.symm)) := by
-  rw [Matrix.reindexAlgEquiv_apply, bmstm_reindex_vecMulVec, bmstm_reindex_mulVec']
+  rw [Matrix.coe_reindexAlgEquiv, bmstm_reindex_vecMulVec, bmstm_reindex_mulVec']
 
 private lemma bmstm_reindex_symm_vecMulVec_mulVec {F : Type} [Field F] {N N' : Type} [Fintype N]
     [DecidableEq N] [Fintype N'] [DecidableEq N'] (σ : N ≃ N') (G : Matrix N N F)
@@ -203,7 +203,7 @@ private lemma bmstm_reindex_symm_vecMulVec_mulVec {F : Type} [Field F] {N N' : T
     (Matrix.reindexAlgEquiv F F σ.symm)
         (Matrix.vecMulVec (a ∘ σ.symm) (Matrix.mulVec (Matrix.reindex σ σ G) (b ∘ σ.symm))) =
       Matrix.vecMulVec a (Matrix.mulVec G b) := by
-  rw [Matrix.reindexAlgEquiv_apply, bmstm_reindex_vecMulVec]
+  rw [Matrix.coe_reindexAlgEquiv, bmstm_reindex_vecMulVec]
   simp only [Equiv.symm_symm]
   rw [show (a ∘ σ.symm) ∘ σ = a from by ext x; simp,
     show ((Matrix.reindex σ σ G).mulVec (b ∘ σ.symm)) ∘ σ = Matrix.mulVec G b from by
@@ -230,7 +230,7 @@ private lemma bmstm_altSiegelGroup_map {F : Type} [Field F] {N N' : Type} [Finty
     refine ⟨c, ?_⟩
     have hcoe : (((bmstm_reindexGL σ).symm g : GL N F) : Matrix N N F) =
         (Matrix.reindexAlgEquiv F F σ).symm (g : Matrix N' N' F) := rfl
-    rw [hcoe, Matrix.reindexAlgEquiv_symm, hc, map_add, map_one, map_smul, map_add,
+    rw [hcoe, Matrix.symm_reindexAlgEquiv, hc, map_add, map_one, map_smul, map_add,
       bmstm_reindex_symm_vecMulVec_mulVec σ G a₁ a₂,
       bmstm_reindex_symm_vecMulVec_mulVec σ G a₂ a₁]
 
@@ -288,12 +288,12 @@ private lemma bmstm_diag_mul {F : Type} [Field F] {ι : Type} [Fintype ι] [Deci
   ext u v
   simp only [Matrix.mul_apply, Matrix.diagonal_apply, Matrix.of_apply]
   rw [Finset.sum_eq_single v]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     rw [Finset.sum_eq_single u]
-    · rw [if_pos rfl]
-    · intro b _ hb; simp [if_neg (Ne.symm hb)]
+    · rw [ite_eq_left rfl]
+    · intro b _ hb; simp [ite_eq_right (Ne.symm hb)]
     · intro h; exact absurd (Finset.mem_univ u) h
-  · intro b _ hb; simp [if_neg hb]
+  · intro b _ hb; simp [ite_eq_right hb]
   · intro h; exact absurd (Finset.mem_univ v) h
 
 private lemma bmstm_e1_inj (n : ℕ) (hn : 1 ≤ n) {a b : Fin (n - 1) ⊕ Fin 1} :
@@ -374,7 +374,7 @@ private lemma bmstm_gram_scaleMatrix (n f : ℕ) (hn : 1 ≤ n) :
     simp only [Matrix.transpose_apply, bmstm_D, Matrix.diagonal_apply]
     by_cases h : a = b
     · subst h; simp
-    · rw [if_neg (Ne.symm h), if_neg h]
+    · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
   rw [hD]
   simp only [bmstm_D]
   rw [bmstm_diag_mul]
@@ -395,31 +395,31 @@ private lemma bmstm_gram_entries_inl (n f : ℕ) (hn : 1 ≤ n) (i : Fin (n - 1)
         (Pi.single (Sum.inl i) 1) (Pi.single v 1) := by
   have hdi : (if (Sum.inl i : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
       Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-    rw [if_neg (by simp)]
+    rw [ite_eq_right (by simp)]
   rw [hdi, one_mul]
   rcases v with j | (j | z)
   · have hdv : (if (Sum.inl j : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
         Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
     rw [hdv, mul_one, bmstm_sigma_inl, bmstm_sigma_inl, bmstm_J_inl_inl]
     rw [Spin.polar_quadMinus]; simp [Pi.single_apply]
   · have hdv : (if (Sum.inr (Sum.inl j) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
         Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
     rw [hdv, mul_one, bmstm_sigma_inl, bmstm_sigma_inr_inl, bmstm_J_inl_inr]
-    rw [Spin.polar_quadMinus]; simp [Pi.single_apply, bmstm_e1_inj, Sum.inl.injEq, eq_comm]
+    rw [Spin.polar_quadMinus]; simp [Pi.single_apply, Sum.inl.injEq, eq_comm]
   · rcases bmstm_fin2_eq z with rfl | rfl
     · have hdv : (if (Sum.inr (Sum.inr (0 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
           Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-        rw [if_neg (by simp)]
+        rw [ite_eq_right (by simp)]
       rw [hdv, mul_one, bmstm_sigma_inl, bmstm_sigma_inr_inr_zero, bmstm_J_inl_inl]
       rw [Spin.polar_quadMinus]; simp [Pi.single_apply]
     · have hdv : (if (Sum.inr (Sum.inr (1 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
           Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) =
           (minusCoeffs 2 f).1 := by
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
       rw [hdv, bmstm_sigma_inl, bmstm_sigma_inr_inr_one, bmstm_J_inl_inr]
-      rw [Spin.polar_quadMinus]; simp [Pi.single_apply, bmstm_e1_inj, Sum.inl.injEq]
+      rw [Spin.polar_quadMinus]; simp [Pi.single_apply, Sum.inl.injEq]
 
 private lemma bmstm_neg_one_eq_one (f : ℕ) : (-1 : GaloisField 2 f) = 1 := by
   rw [neg_eq_iff_add_eq_zero]
@@ -438,32 +438,32 @@ private lemma bmstm_gram_entries_inr_inl (n f : ℕ) (hn : 1 ≤ n) (i : Fin (n 
         (Pi.single (Sum.inr (Sum.inl i)) 1) (Pi.single v 1) := by
   have hdi : (if (Sum.inr (Sum.inl i) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
       Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-    rw [if_neg (by simp)]
+    rw [ite_eq_right (by simp)]
   rw [hdi, one_mul]
   rcases v with j | (j | z)
   · have hdv : (if (Sum.inl j : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
         Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
     rw [hdv, mul_one, bmstm_sigma_inr_inl, bmstm_sigma_inl, bmstm_J_inr_inl]
     rw [Spin.polar_quadMinus]
-    simp [Pi.single_apply, bmstm_e1_inj, Sum.inl.injEq, Sum.inr.injEq, eq_comm,
+    simp [Pi.single_apply, Sum.inl.injEq, Sum.inr.injEq, eq_comm,
       bmstm_neg_one_eq_one]
   · have hdv : (if (Sum.inr (Sum.inl j) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
         Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
     rw [hdv, mul_one, bmstm_sigma_inr_inl, bmstm_sigma_inr_inl, bmstm_J_inr_inr]
     rw [Spin.polar_quadMinus]; simp [Pi.single_apply]
   · rcases bmstm_fin2_eq z with rfl | rfl
     · have hdv : (if (Sum.inr (Sum.inr (0 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
           Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-        rw [if_neg (by simp)]
+        rw [ite_eq_right (by simp)]
       rw [hdv, mul_one, bmstm_sigma_inr_inl, bmstm_sigma_inr_inr_zero, bmstm_J_inr_inl]
       rw [Spin.polar_quadMinus]
-      simp [Pi.single_apply, bmstm_e1_inj, Sum.inl.injEq, Sum.inr.injEq]
+      simp [Pi.single_apply, Sum.inl.injEq, Sum.inr.injEq]
     · have hdv : (if (Sum.inr (Sum.inr (1 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
           Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) =
           (minusCoeffs 2 f).1 := by
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
       rw [hdv, bmstm_sigma_inr_inl, bmstm_sigma_inr_inr_one, bmstm_J_inr_inr]
       rw [Spin.polar_quadMinus]; simp [Pi.single_apply]
 
@@ -481,56 +481,55 @@ private lemma bmstm_gram_entries_inr_inr (n f : ℕ) (hn : 1 ≤ n) (z : Fin 2)
   rcases bmstm_fin2_eq z with rfl | rfl
   · have hdz : (if (Sum.inr (Sum.inr (0 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) = Sum.inr
       (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
     rw [hdz, one_mul]
     rcases v with j | (j | w)
     · have hdv : (if (Sum.inl j : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) = Sum.inr (Sum.inr (1 : Fin
-        2)) then (minusCoeffs 2 f).1 else 1) = 1 := by rw [if_neg (by simp)]
+        2)) then (minusCoeffs 2 f).1 else 1) = 1 := by rw [ite_eq_right (by simp)]
       rw [hdv, mul_one, bmstm_sigma_inr_inr_zero, bmstm_sigma_inl, bmstm_J_inl_inl]
       rw [Spin.polar_quadMinus]; simp [Pi.single_apply, CharTwo.two_eq_zero, CharTwo.two_eq_zero]
     · have hdv : (if (Sum.inr (Sum.inl j) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) = Sum.inr (Sum.inr
-        (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by rw [if_neg (by simp)]
+        (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by rw [ite_eq_right (by simp)]
       rw [hdv, mul_one, bmstm_sigma_inr_inr_zero, bmstm_sigma_inr_inl, bmstm_J_inl_inr]
       rw [Spin.polar_quadMinus]
-      simp [Pi.single_apply, CharTwo.two_eq_zero, bmstm_e1_inj, Sum.inl.injEq, Sum.inr.injEq]
+      simp [Pi.single_apply, CharTwo.two_eq_zero, Sum.inl.injEq, Sum.inr.injEq]
     · rcases bmstm_fin2_eq w with rfl | rfl
       · have hdv : (if (Sum.inr (Sum.inr (0 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
           Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-            rw [if_neg (by simp)]
+            rw [ite_eq_right (by simp)]
         rw [hdv, mul_one, bmstm_sigma_inr_inr_zero, bmstm_J_inl_inl]
-        rw [Spin.polar_quadMinus]; simp [Pi.single_apply, CharTwo.two_eq_zero, CharTwo.two_eq_zero]
+        rw [Spin.polar_quadMinus]; simp [CharTwo.two_eq_zero, CharTwo.two_eq_zero]
       · have hdv : (if (Sum.inr (Sum.inr (1 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
           Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = (minusCoeffs 2 f).1 := by
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
         rw [hdv, bmstm_sigma_inr_inr_zero, bmstm_sigma_inr_inr_one, bmstm_J_inl_inr]
-        rw [Spin.polar_quadMinus]; simp [Pi.single_apply, CharTwo.two_eq_zero, bmstm_e1_inj]
+        rw [Spin.polar_quadMinus]; simp [CharTwo.two_eq_zero]
   · have hdz : (if (Sum.inr (Sum.inr (1 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) = Sum.inr
       (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = (minusCoeffs 2 f).1 := by
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
     rw [hdz]
     rcases v with j | (j | w)
     · have hdv : (if (Sum.inl j : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) = Sum.inr (Sum.inr (1 : Fin
-        2)) then (minusCoeffs 2 f).1 else 1) = 1 := by rw [if_neg (by simp)]
+        2)) then (minusCoeffs 2 f).1 else 1) = 1 := by rw [ite_eq_right (by simp)]
       rw [hdv, mul_one, bmstm_sigma_inr_inr_one, bmstm_sigma_inl, bmstm_J_inr_inl]
       rw [Spin.polar_quadMinus]
-      simp [Pi.single_apply, CharTwo.two_eq_zero, bmstm_e1_inj, Sum.inl.injEq, Sum.inr.injEq,
-          bmstm_neg_one_eq_one]
+      simp [Pi.single_apply, CharTwo.two_eq_zero, Sum.inl.injEq, Sum.inr.injEq]
     · have hdv : (if (Sum.inr (Sum.inl j) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) = Sum.inr (Sum.inr
-        (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by rw [if_neg (by simp)]
+        (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by rw [ite_eq_right (by simp)]
       rw [hdv, mul_one, bmstm_sigma_inr_inr_one, bmstm_sigma_inr_inl, bmstm_J_inr_inr]
       rw [Spin.polar_quadMinus]; simp [Pi.single_apply, CharTwo.two_eq_zero, CharTwo.two_eq_zero]
     · rcases bmstm_fin2_eq w with rfl | rfl
       · have hdv : (if (Sum.inr (Sum.inr (0 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
           Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = 1 := by
-            rw [if_neg (by simp)]
+            rw [ite_eq_right (by simp)]
         rw [hdv, mul_one, bmstm_sigma_inr_inr_one, bmstm_sigma_inr_inr_zero, bmstm_J_inr_inl]
         rw [Spin.polar_quadMinus]
-        simp [Pi.single_apply, CharTwo.two_eq_zero, bmstm_e1_inj, bmstm_neg_one_eq_one]
+        simp [CharTwo.two_eq_zero, bmstm_neg_one_eq_one]
       · have hdv : (if (Sum.inr (Sum.inr (1 : Fin 2)) : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) =
           Sum.inr (Sum.inr (1 : Fin 2)) then (minusCoeffs 2 f).1 else 1) = (minusCoeffs 2 f).1 := by
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
         rw [hdv, bmstm_sigma_inr_inr_one, bmstm_J_inr_inr]
-        rw [Spin.polar_quadMinus]; simp [Pi.single_apply, CharTwo.two_eq_zero, CharTwo.two_eq_zero]
+        rw [Spin.polar_quadMinus]; simp [CharTwo.two_eq_zero, CharTwo.two_eq_zero]
 
 private lemma bmstm_gram_std (n f : ℕ) (hn : 4 ≤ n) :
     LinearMap.toMatrix₂' (GaloisField 2 f)
@@ -597,7 +596,7 @@ private noncomputable def bmstm_G (n f : ℕ) :
     (QuadraticMap.polarBilin
       (Spin.quadMinus n (GaloisField 2 f) (minusCoeffs 2 f).1 (minusCoeffs 2 f).2))
 
-private noncomputable def bmstm_H (n f : ℕ) (hn : 4 ≤ n) :
+private noncomputable def bmstm_H (n f : ℕ) (_hn : 4 ≤ n) :
     Subgroup (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) (GaloisField 2 f)) :=
   bmstm_isometryGroup (bmstm_G n f)
 
@@ -675,7 +674,7 @@ theorem range_spinAction_quadMinus_eq_omegaGroup (n f : ℕ) (hn : 4 ≤ n) :
   rw [Spin.range_spinAction_quadMinus hn (minusCoeffs_irr 2 f)]
   refine le_antisymm (CFSG.ClassicalGroups.Orthogonal.elementaryGroup_le_omegaGroup _) ?_
   refine CFSG.RankThree.GF2n.Smith81.omegaGroup_le_elementaryGroup_of_four_le _ ?_
-  simp [Module.finrank_pi, Fintype.card_sum]
+  simp [Fintype.card_sum]
   omega
 
 private lemma bmstm_hcent (n f : ℕ) (hn : 4 ≤ n) :
@@ -698,7 +697,7 @@ private noncomputable def bmstm_Dunit (n f : ℕ) :
     rw [bmstm_D, Matrix.det_diagonal]
     rw [Finset.prod_eq_single (Sum.inr (Sum.inr (1 : Fin 2)))]
     · simp [bmstm_minusCoeffs_fst_ne_zero]
-    · intro b _ hb; rw [if_neg hb]
+    · intro b _ hb; rw [ite_eq_right hb]
     · intro h; exact absurd (Finset.mem_univ _) h)
 
 private lemma bmstm_H_perm (n f : ℕ) (hn : 4 ≤ n) :
@@ -1020,7 +1019,7 @@ private lemma bmstm_conjAlg_glBlockCentralizer {F : Type} [Field F] {N : Type} [
       (glBlockCentralizer H.subtype S e).map
         (MulEquiv.subgroupMap (MulAut.conj D⁻¹) H).toMonoidHom :=
   bmstm_glBlockCentralizer_map (bmstm_conjAlg D⁻¹) (MulAut.conj D⁻¹)
-    (fun A => by simp [bmstm_conjAlg, MulAut.conj_apply]) H S e
+    (fun A => by simp [bmstm_conjAlg]) H S e
 
 private lemma bmstm_conj_vecMulVec {F : Type} [Field F] {N : Type} [Fintype N] [DecidableEq N]
     (D : GL N F) (a u : N → F) :
@@ -1038,7 +1037,7 @@ private lemma bmstm_conjAlg_vecMulVec_mulVec {F : Type} [Field F] {N : Type} [Fi
   have hD : (bmstm_conjAlg D⁻¹) (Matrix.vecMulVec a (Matrix.mulVec G b)) =
       ((D : Matrix N N F))⁻¹ * Matrix.vecMulVec a (Matrix.mulVec G b) *
         (D : Matrix N N F) := by
-    simp [bmstm_conjAlg, Matrix.GeneralLinearGroup.coe_inv]
+    simp [bmstm_conjAlg]
   rw [hD, bmstm_conj_vecMulVec]
   congr 1
   rw [← Matrix.mulVec_transpose]
@@ -1086,7 +1085,7 @@ private lemma bmstm_conjAlg_symm_vecMulVec_mulVec {F : Type} [Field F] {N : Type
       (D : Matrix N N F) * Matrix.vecMulVec a
         (Matrix.mulVec (Matrix.transpose (D : Matrix N N F) * G * (D : Matrix N N F)) b) *
         ((D : Matrix N N F))⁻¹ := by
-    simp [bmstm_conjAlg, Matrix.GeneralLinearGroup.coe_inv]
+    simp [bmstm_conjAlg]
   rw [hD, bmstm_conj_vecMulVec' D a
     (Matrix.mulVec (Matrix.transpose (D : Matrix N N F) * G * (D : Matrix N N F)) b)]
   congr 1
@@ -1109,7 +1108,7 @@ private lemma bmstm_conjAlg_altSiegelGen_forward {F : Type} [Field F] {N : Type}
   refine ⟨c, ?_⟩
   have hcoe : (((MulAut.conj D⁻¹) g : GL N F) : Matrix N N F) =
       (bmstm_conjAlg D⁻¹) (g : Matrix N N F) := by
-    simp [bmstm_conjAlg, MulAut.conj_apply, Matrix.GeneralLinearGroup.coe_inv]
+    simp [bmstm_conjAlg]
   rw [hcoe, hc]
   simp only [map_add, map_one, map_smul]
   rw [bmstm_conjAlg_vecMulVec_mulVec D G a₁ a₂,
@@ -1121,7 +1120,7 @@ private lemma bmstm_conjAlg_symm_coe {F : Type} [Field F] {N : Type} [Fintype N]
       (bmstm_conjAlg D) (g : Matrix N N F) := by
   rw [show (MulAut.conj D⁻¹).symm = MulAut.conj D from by
     ext x; simp [MulAut.conj_apply]]
-  simp [bmstm_conjAlg, MulAut.conj_apply, Matrix.GeneralLinearGroup.coe_inv]
+  simp [bmstm_conjAlg, MulAut.conj_apply]
 
 private lemma bmstm_conjAlg_one_add_smul {F : Type} [Field F] {N : Type} [Fintype N]
     [DecidableEq N] (D : GL N F) (X : Matrix N N F) (c : F) :
@@ -1209,19 +1208,19 @@ private lemma bmstm_conjAlg_map_adjoin {F : Type} [Field F] {N : Type} [Fintype 
   · rw [Algebra.adjoin_le_iff]
     rintro x ⟨u, ⟨s, hs, rfl⟩, rfl⟩
     exact Subalgebra.mem_map.mpr ⟨(s : Matrix N N F), Algebra.subset_adjoin ⟨s, hs, rfl⟩,
-      by simp [bmstm_conjAlg, MulAut.conj_apply, Matrix.GeneralLinearGroup.coe_inv]⟩
+      by simp [bmstm_conjAlg]⟩
   · rw [Subalgebra.map_le, Algebra.adjoin_le_iff]
     rintro x ⟨s, hs, rfl⟩
     exact Algebra.subset_adjoin ⟨MulAut.conj D⁻¹ s, ⟨s, hs, rfl⟩,
-      by simp [bmstm_conjAlg, MulAut.conj_apply, Matrix.GeneralLinearGroup.coe_inv]⟩
+      by simp [bmstm_conjAlg]⟩
 
 private lemma bmstm_conjAlg_dotProduct' {F : Type} [Field F] {N : Type} [Fintype N]
     [DecidableEq N] (D : GL N F) (G : Matrix N N F) (a b : N → F) :
     Matrix.mulVec (D : Matrix N N F) a ⬝ᵥ Matrix.mulVec G (Matrix.mulVec (D : Matrix N N F) b) =
       a ⬝ᵥ Matrix.mulVec (Matrix.transpose (D : Matrix N N F) * G * (D : Matrix N N F)) b := by
   convert (bmstm_conjAlg_dotProduct D⁻¹ (Matrix.transpose (D : Matrix N N F) * G * (D : Matrix N N
-      F)) a b).trans rfl using 1 <;>
-    simp [Matrix.GeneralLinearGroup.coe_inv, inv_inv, Matrix.transpose_nonsing_inv,
+      F)) a b).trans rfl using 1;
+    simp [Matrix.transpose_nonsing_inv,
       Matrix.mul_assoc]
 
 private lemma bmstm_conjAlg_altSiegelGroup' {F : Type} [Field F] {N : Type} [Fintype N]
@@ -1256,7 +1255,7 @@ private lemma bmstm_conj_symm_eq_conj_inv {F : Type} [Field F] {N : Type} [Finty
     [DecidableEq N] (D : GL N F) :
     (MulAut.conj D).symm = MulAut.conj D⁻¹ := by
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 private lemma bmstm_conj_apply_conj_inv {F : Type} [Field F] {N : Type} [Fintype N]
     [DecidableEq N] (D : GL N F) (x : GL N F) :
@@ -1299,7 +1298,6 @@ private lemma bmstm_mulVecLin_sum_smul {F : Type} [Field F] {N : Type} [Fintype 
   congr 1
   ext i
   rw [map_smul, Matrix.mulVecLin_apply]
-  congr 1
   fin_cases i <;> rfl
 
 private lemma bmstm_conjAlg_linearIndependent {F : Type} [Field F] {N : Type} [Fintype N]
@@ -1331,7 +1329,7 @@ private lemma bmstmx_rank_reindex {F : Type} [Field F] {N N' : Type} [Fintype N]
     [Fintype N'] [DecidableEq N'] (σ : N ≃ N') (e : Matrix N N F) :
     Module.finrank F (LinearMap.range (Matrix.mulVecLin ((Matrix.reindexAlgEquiv F F σ) e))) =
       Module.finrank F (LinearMap.range (Matrix.mulVecLin e)) := by
-  rw [Matrix.reindexAlgEquiv_apply]
+  rw [Matrix.coe_reindexAlgEquiv]
   exact Matrix.rank_reindex σ σ e
 
 private lemma bmstmx_rank_conjAlg {F : Type} [Field F] {N : Type} [Fintype N] [DecidableEq N]
@@ -1664,7 +1662,7 @@ private theorem bmstmx_model_scale_back
       bmstm_conjAlg D⁻¹ e
     rw [show bmstm_conjAlg D⁻¹ e = (D : Matrix N N (GaloisField 2 f))⁻¹ * e * (D : Matrix N N
         (GaloisField 2 f)) from by
-      simp [bmstm_conjAlg, Matrix.GeneralLinearGroup.coe_inv],
+      simp [bmstm_conjAlg],
       bmstm_conjAlg_formAdj D G₁ e, hadj]
   have hdeg₁' : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) e' := by
     rw [hAdjoin, bmstm_conjAlg_blockDegree]
@@ -1792,7 +1790,7 @@ private theorem bmstmx_closure_scale_back
       bmstm_conjAlg D⁻¹ e
     rw [show bmstm_conjAlg D⁻¹ e = (D : Matrix N N (GaloisField 2 f))⁻¹ * e * (D : Matrix N N
         (GaloisField 2 f)) from by
-      simp [bmstm_conjAlg, Matrix.GeneralLinearGroup.coe_inv],
+      simp [bmstm_conjAlg],
       bmstm_conjAlg_formAdj D G₁ e, hadj]
   have hdeg₁' : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S')) e' := by
     rw [hAdjoin, bmstm_conjAlg_blockDegree]

@@ -45,7 +45,7 @@ theorem coreProduct_eq_preimage_quotient_center {group : Type*} [Group group] [F
     rw [QuotientGroup.ker_mk']
     exact primeComplementCore_coprime prime group
   have center_eq := thompsonCenter_image_of_coprime_kernel prime projection kernel_coprime
-    (sylow : Subgroup group) sylow.isPGroup'
+    (sylow : Subgroup group) sylow.isPGroup
   change coreProduct prime sylow = _
   rw [← center_eq, Subgroup.comap_map_eq, QuotientGroup.ker_mk', sup_comm]
   rfl

@@ -73,7 +73,7 @@ theorem rootChar_torV5 {ζ : Lˣ} (h5 : ζ ^ 5 = 1) (x : Fin 8 → ZMod 5)
 
 theorem torV5_add {ζ : Lˣ} (h5 : ζ ^ 5 = 1) (x y : Fin 8 → ZMod 5) :
     torV5 ζ (x + y) = torV5 ζ x * torV5 ζ y :=
-  funext fun i => pow_val_add5 h5 _ _
+  funext fun _i => pow_val_add5 h5 _ _
 
 theorem torV5_zero (ζ : Lˣ) : torV5 ζ (0 : Fin 8 → ZMod 5) = 1 := by
   funext i

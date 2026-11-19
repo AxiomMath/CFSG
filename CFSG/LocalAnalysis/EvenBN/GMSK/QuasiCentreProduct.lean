@@ -30,7 +30,7 @@ theorem quasisimple_le_of_product {G : Type*} [Group G] {W Y J : Subgroup G} {a 
     (hJn : ∀ c ∈ centralizer ({a} : Set G), ∀ j ∈ J, c * j * c⁻¹ ∈ J)
     (hJW : ¬ J ≤ centralizer (W : Set G)) : J ≤ W := by
   classical
-  haveI hperf : Group.IsPerfect ↥J := hJq.1
+  have hperf : Group.IsPerfect ↥J := hJq.1
   have hdec : ∀ j : ↥J, ∃ w ∈ W, ∃ y ∈ Y, (j : G) = w * y := fun j => hJWY j j.2
   choose wf hwf yf hyf hjwy using hdec
   have hya : ∀ j : ↥J, a * yf j * a⁻¹ = yf j := by

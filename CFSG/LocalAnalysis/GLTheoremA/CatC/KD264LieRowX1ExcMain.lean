@@ -78,7 +78,7 @@ theorem card_torus3 {ζ : Lˣ} (hζ : ζ ^ 3 = 1) (hζ' : orderOf ζ = 3) :
     Nat.card (torus3 τ L) = 3 ^ τ.rank := by
   rw [← range_psiG hζ hζ', Nat.card_congr (MonoidHom.ofInjective (psiG_injective hζ hζ')).toEquiv.symm,
     Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin τ.rank → ZMod 3) ≃ _)]
-  simp [Nat.card_fun, ZMod.card]
+  simp [ZMod.card]
 
 theorem isElemAbelian_torus3 : IsElemAbelian 3 (torus3 τ L) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, ?_⟩
@@ -144,7 +144,7 @@ theorem exists_rank_two_subgroup {ζ : Lˣ} (hζ : ζ ^ 3 = 1) (hζ' : orderOf �
     exact psiG_mem_torus3 hζ _
   · rw [Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm,
       Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin 2 → ZMod 3) ≃ _)]
-    simp [Nat.card_fun, ZMod.card]
+    simp [ZMod.card]
   · intro x
     rw [← hdu, ← hdv]
     simp only [Subgroup.mem_centralizer_iff, Set.mem_singleton_iff, forall_eq, SetLike.mem_coe]
@@ -195,8 +195,8 @@ theorem natCast_three_ne_zero_of_q_two {τ : Tag} {L : Type} [Field L] [IsAlgClo
 
 theorem exists_cube_root_unity (L : Type) [Field L] [IsAlgClosed L] (h3 : ((3 : ℕ) : L) ≠ 0) :
     ∃ ζ : Lˣ, ζ ^ 3 = 1 ∧ orderOf ζ = 3 := by
-  haveI : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨h3⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hu : IsUnit ζ := hζ.isUnit (by norm_num)
   have hζu' : IsPrimitiveRoot hu.unit 3 := IsPrimitiveRoot.coe_units_iff.1 (by simpa using hζ)
   exact ⟨hu.unit, hζu'.pow_eq_one, hζu'.eq_orderOf.symm⟩

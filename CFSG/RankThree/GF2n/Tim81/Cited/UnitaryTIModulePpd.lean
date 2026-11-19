@@ -23,6 +23,7 @@ theorem pow_le_natCard_of_ppd (σ : Representation (ZMod 2) G W) {g : G} {r k : 
   exact (Nat.pow_le_pow_right (by norm_num)
     (Nat.le_of_dvd hb ((hr.dvd_sub_one_iff hk b).mp hdvd))).trans hbW
 
+omit [Finite W] in
 theorem eq_one_of_fix_of_sub_mem (σ : Representation (ZMod 2) G W) {g : G}
     (hg : Odd (orderOf g)) {U : Submodule (ZMod 2) W} (h1 : ∀ u ∈ U, σ g u = u)
     (h2 : ∀ w, σ g w - w ∈ U) : σ g = 1 := by
@@ -50,8 +51,8 @@ private theorem natCard_quotient_lt_of_ne_bot {U : Submodule (ZMod 2) W} (hU : U
     Nat.card (W ⧸ U) < Nat.card W := by
   obtain ⟨x, hx, hx0⟩ : ∃ x : W, x ∈ U ∧ x ≠ 0 := by
     simpa [Submodule.eq_bot_iff] using hU
-  haveI : Nontrivial U := ⟨⟨x, hx⟩, ⟨0, U.zero_mem⟩, fun h => hx0 (congrArg Subtype.val h)⟩
-  haveI : Finite (W ⧸ U) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective U)
+  have : Nontrivial U := ⟨⟨x, hx⟩, ⟨0, U.zero_mem⟩, fun h => hx0 (congrArg Subtype.val h)⟩
+  have : Finite (W ⧸ U) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective U)
   have h1 : 1 < Nat.card U := Finite.one_lt_card
   rw [Submodule.card_eq_card_quotient_mul_card U]
   exact (Nat.lt_mul_iff_one_lt_left Nat.card_pos).2 h1
@@ -71,6 +72,7 @@ private abbrev subrep {U : Submodule (ZMod 2) W} (hU : ∀ x, ∀ u ∈ U, σ x 
     Subrepresentation σ :=
   { toSubmodule := U, apply_mem_toSubmodule := fun x u hu => hU x u hu }
 
+omit [Finite W] in
 private theorem fix_of_subrep {U : Submodule (ZMod 2) W} (hU : ∀ x, ∀ u ∈ U, σ x u ∈ U)
     (h : (subrep σ hU).toRepresentation g = 1) (hG : IsQuasisimple G)
     (hgZ : g ∉ Subgroup.center G) : ∀ x, ∀ u ∈ U, σ x u = u := by
@@ -78,6 +80,7 @@ private theorem fix_of_subrep {U : Submodule (ZMod 2) W} (hU : ∀ x, ∀ u ∈ 
   have hx := LinearMap.congr_fun (eq_one_of_apply_eq_one hG hgZ _ h x) ⟨u, hu⟩
   exact Subrepresentation.toRepresentation_apply_coe.mp hx
 
+omit [Finite W] in
 private theorem sub_mem_of_quotient {U : Submodule (ZMod 2) W} (hU : ∀ x, ∀ u ∈ U, σ x u ∈ U)
     (h : (subrep σ hU).quotient g = 1) (hG : IsQuasisimple G)
     (hgZ : g ∉ Subgroup.center G) : ∀ x w, σ x w - w ∈ U := by
@@ -94,7 +97,7 @@ include hG hr hk hg hgZ in
 theorem fix_or_sub_mem_of_ppd (hW : Nat.card W < 2 ^ (2 * k)) {U : Submodule (ZMod 2) W}
     (hU : ∀ x, ∀ u ∈ U, σ x u ∈ U) :
     (∀ x, ∀ u ∈ U, σ x u = u) ∨ ∀ x w, σ x w - w ∈ U := by
-  haveI : Finite (W ⧸ U) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective U)
+  have : Finite (W ⧸ U) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective U)
   by_cases h1 : (subrep σ hU).toRepresentation g = 1
   · exact Or.inl (fix_of_subrep σ hU h1 hG hgZ)
   by_cases h2 : (subrep σ hU).quotient g = 1
@@ -108,6 +111,7 @@ theorem fix_or_sub_mem_of_ppd (hW : Nat.card W < 2 ^ (2 * k)) {U : Submodule (ZM
   omega
 
 include hG hr hk hg hgZ in
+omit [Finite W] hr hk hg in
 theorem apply_ne_one_of_ppd (hσ : ∃ x w, σ x w ≠ w) : σ g ≠ 1 := by
   intro h1
   obtain ⟨x, w, hw⟩ := hσ
@@ -116,11 +120,11 @@ theorem apply_ne_one_of_ppd (hσ : ∃ x w, σ x w ≠ w) : σ g ≠ 1 := by
 include hG hr hk hg hgZ in
 theorem eq_bot_or_eq_top_of_ppd (hσ : ∃ x w, σ x w ≠ w) (hW : Nat.card W ≤ 2 ^ k)
     {U : Submodule (ZMod 2) W} (hU : ∀ x, ∀ u ∈ U, σ x u ∈ U) : U = ⊥ ∨ U = ⊤ := by
-  haveI : Finite (W ⧸ U) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective U)
+  have : Finite (W ⧸ U) := Finite.of_surjective _ (Submodule.Quotient.mk_surjective U)
   by_cases h1 : (subrep σ hU).toRepresentation g = 1
   · by_cases h2 : (subrep σ hU).quotient g = 1
     · exfalso
-      refine apply_ne_one_of_ppd σ hG hr hk hg hgZ hσ (eq_one_of_fix_of_sub_mem σ
+      refine apply_ne_one_of_ppd σ hG hgZ hσ (eq_one_of_fix_of_sub_mem σ
         (hg ▸ (hr.prime.odd_of_ne_two (hr.ne_two hk))) (U := U) ?_ ?_)
       · exact fix_of_subrep σ hU h1 hG hgZ g
       · exact sub_mem_of_quotient σ hU h2 hG hgZ g
@@ -140,7 +144,7 @@ theorem pow_le_natCard_of_sub_mem (hσ : ∃ x w, σ x w ≠ w) {U : Submodule (
     (hU : ∀ x, ∀ u ∈ U, σ x u ∈ U) (hsub : ∀ x w, σ x w - w ∈ U) : 2 ^ k ≤ Nat.card U := by
   by_cases h1 : (subrep σ hU).toRepresentation g = 1
   · exfalso
-    exact apply_ne_one_of_ppd σ hG hr hk hg hgZ hσ (eq_one_of_fix_of_sub_mem σ
+    exact apply_ne_one_of_ppd σ hG hgZ hσ (eq_one_of_fix_of_sub_mem σ
       (hg ▸ (hr.prime.odd_of_ne_two (hr.ne_two hk))) (U := U) (fix_of_subrep σ hU h1 hG hgZ g)
       (hsub g))
   · exact pow_le_natCard_of_ppd _ hr hk hg h1
@@ -159,12 +163,12 @@ private theorem pair_ne_of_two_le (hf : 2 ≤ f) (n : ℕ) : (n, 2 ^ f) ≠ (3, 
 
 theorem isQuasisimple_SU_of_two_le (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 2 ≤ f) (hn : 3 ≤ n) :
     IsQuasisimple (SU (unitaryInvolution F 2 f) n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact isQuasisimple_SU hF hn (pair_ne_of_two_le hf n)
 
 private theorem natCard_center_SU (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 2 ≤ f) (hn : 3 ≤ n) :
     Nat.card (Subgroup.center (SU (unitaryInvolution F 2 f) n)) = Nat.gcd n (2 ^ f + 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcenterStated : Nat.card (Subgroup.center (StatedSU n (2 ^ f) F)) =
       Nat.gcd n (2 ^ f + 1) := by
     rw [(isQuasisimple_statedSU_of_card (p := 2) (f := f) hF hn (pair_ne_of_two_le hf n)).2]
@@ -176,7 +180,7 @@ private theorem natCard_center_SU (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 2 ≤ f)
 private theorem ppd_dvd_natCard_SU (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 2 ≤ f) {i r : ℕ}
     (hi : Odd i) (hi3 : 3 ≤ i) (hin : i ≤ n) (hr : IsPrimitivePrimeDivisor r (2 * f * i)) :
     r ∣ Nat.card (SU (unitaryInvolution F 2 f) n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk0 : 0 < 2 * f * i := by positivity
   have hr1 : r ∣ 2 ^ (f * i) + 1 := by
     refine (hr.dvd_add_one_iff hk0 (f * i)).2 ⟨⟨1, by ring⟩, ?_⟩
@@ -203,7 +207,7 @@ theorem exists_ppd_SU (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 2 ≤ f) {i : ℕ} (
       orderOf g = r ∧ g ∉ Subgroup.center (SU (unitaryInvolution F 2 f) n) := by
   have h12 : 12 ≤ 2 * f * i := by nlinarith
   obtain ⟨r, hr⟩ := exists_isPrimitivePrimeDivisor (k := 2 * f * i) (by omega) (by omega)
-  haveI : Fact r.Prime := ⟨hr.prime⟩
+  have : Fact r.Prime := ⟨hr.prime⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' r (ppd_dvd_natCard_SU hF hf hi hi3 hin hr)
   refine ⟨r, g, hr, hg, fun hgZ => ?_⟩
   have hdvd : r ∣ Nat.card (Subgroup.center (SU (unitaryInvolution F 2 f) n)) := by

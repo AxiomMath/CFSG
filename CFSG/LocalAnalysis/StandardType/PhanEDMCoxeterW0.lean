@@ -51,7 +51,7 @@ theorem finite_of_w0 [Finite B] (w₀ : W)
     show ω.length ≤ n
     rw [← hω]
     exact hle (cs.wordProd ω)
-  haveI : Finite {ω : List B // ω.length ≤ n} := (List.finite_length_le B n).to_subtype
+  have : Finite {ω : List B // ω.length ≤ n} := (List.finite_length_le B n).to_subtype
   exact Finite.of_surjective f hf
 
 theorem exists_rank [Finite W] :
@@ -65,7 +65,7 @@ theorem exists_rank [Finite W] :
   have hrk : ∀ u, u ≠ 1 → rk u = cs.length u * N + (e u : ℕ) + 1 := by
     intro u hu
     show (if u = 1 then 0 else cs.length u * N + (e u : ℕ) + 1) = _
-    rw [if_neg hu]
+    rw [ite_eq_right hu]
   refine ⟨rk, ?_, ?_, ?_⟩
   · intro u v huv
     by_cases hu : u = 1

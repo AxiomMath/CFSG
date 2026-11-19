@@ -39,7 +39,7 @@ theorem ff6p_exists_y0 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V 
     (fr : PFrame Q (Option (Fin 5)) ffC) :
     ∃ y0 : ProjSim Q, ¬ SimInGStar y0 ∧
       (ffP1p hQ fr).map (ffSimOmegaAct hQ h2 y0).toMonoidHom = ffP1p hQ fr := by
-  haveI : Finite (↥(omegaProj hQ)) := Nat.finite_of_card_ne_zero
+  have : Finite (↥(omegaProj hQ)) := Nat.finite_of_card_ne_zero
     (by rw [ff_natCard_omegaProj_six_plus hQ hdim hsgn]; norm_num)
   obtain ⟨ξ, hξ⟩ := ff_exists_outer hQ hdim
   let α : MulAut ↥(omegaProj hQ) := ffSimOmegaAct hQ h2 ξ

@@ -136,6 +136,7 @@ theorem fzb_Z_facts (h : Ctx t L S x₁ x₂ lam rho tau)
   · exact (fzbs_X_le h).2.1.trans hS.E_le_P
   · exact fzl_card_Z h
 
+omit [Finite G] in
 theorem fzb_s_comm_Z (hS : FzbStruct t S x₁ x₂ lam rho tau T₂ P q s) {p : G} (hp : p ∈ P) :
     s * p * s⁻¹ * p⁻¹ ∈ fourGrp x₁ x₂ := by
   simpa only [commutatorElement_def] using hS.s_comm_P p hp

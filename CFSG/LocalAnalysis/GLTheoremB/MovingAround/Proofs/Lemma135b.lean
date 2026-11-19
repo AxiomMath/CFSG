@@ -105,7 +105,7 @@ theorem exists_inner_hom {X : Type} [Group X] [Finite X] {K H : Subgroup X}
     (hHK : H ≤ Subgroup.normalizer (K : Set X)) :
     ∃ π : ↥H →* ↥K, ∀ (h : ↥H) (k : ↥K),
       (h : X) * (k : X) * (h : X)⁻¹ = ((π h : ↥K) : X) * (k : X) * ((π h : ↥K) : X)⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let ρ : ↥(Subgroup.normalizer (K : Set X)) →* MulAut ↥K :=
     MonoidHom.mk' (fun n => conjNorm K (n : X) n.2) (fun a b => by
       ext k
@@ -153,14 +153,14 @@ theorem exists_inner_hom {X : Type} [Group X] [Finite X] {K H : Subgroup X}
 
 theorem card_three_le_nine {Y : Type} [Group Y] [Finite Y] (e : Y ≃* alternatingGroup (Fin 7))
     {Q : Subgroup Y} (hQ : IsPGroup 3 ↥Q) : Nat.card Q ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hQ
   have hdvd : Nat.card Q ∣ Nat.card Y := Subgroup.card_subgroup_dvd_card Q
   have hY : Nat.card Y = 2520 := by rw [Nat.card_congr e.toEquiv, card_alt7]
   rw [hk, hY] at hdvd
   have hk2 : k ≤ 2 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h3k : 3 ^ 3 ∣ 3 ^ k := pow_dvd_pow 3 hc
     have h27 : 3 ^ 3 ∣ 2520 := h3k.trans hdvd
     norm_num at h27
@@ -268,7 +268,7 @@ theorem sylowA7_pow_three {x : alternatingGroup (Fin 7)} (hx : x ∈ sylowA7) : 
 
 theorem exists_elemAb_nine_alt7 {Q : Subgroup (alternatingGroup (Fin 7))} (hQ : IsPGroup 3 ↥Q) :
     ∃ E : Subgroup (alternatingGroup (Fin 7)), Q ≤ E ∧ IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTp : IsPGroup 3 ↥sylowA7 := IsPGroup.iff_card.2 ⟨2, by rw [card_sylowA7]; norm_num⟩
   have hmax : ∀ {R : Subgroup (alternatingGroup (Fin 7))}, IsPGroup 3 ↥R →
       sylowA7 ≤ R → R = sylowA7 := by
@@ -283,7 +283,7 @@ theorem exists_elemAb_nine_alt7 {Q : Subgroup (alternatingGroup (Fin 7))} (hQ : 
       g⁻¹ * x * g ∈ sylowA7 := by
     intro x
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.smul_def, MulAut.conj_apply]
+    simp [MulAut.smul_def]
     exact Iff.rfl
   refine ⟨(S : Subgroup (alternatingGroup (Fin 7))), fun x hx => hQS hx,
     ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩, ?_⟩
@@ -439,7 +439,7 @@ theorem card_inf_eq_nine {X : Type} [Group X] [Finite X] {K B : Subgroup X} {m :
     (hrank : ∀ E : Subgroup X, IsElemAbelian 3 E → Nat.card ↥E ≤ 3 ^ m)
     (hBK : B ≤ Subgroup.normalizer (K : Set X)) :
     Nat.card ↥(B ⊓ K) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBp : IsPGroup 3 ↥B := IsPGroup.iff_card.2 ⟨m, hBc⟩
   obtain ⟨π, hπ⟩ := exists_inner_hom e hBp hBK
   have hQp : IsPGroup 3 ↥π.range := hBp.of_surjective π.rangeRestrict π.rangeRestrict_surjective
@@ -453,7 +453,7 @@ theorem card_inf_eq_nine {X : Type} [Group X] [Finite X] {K B : Subgroup X} {m :
     rintro _ ⟨b, hb, rfl⟩ k hk
     have h1 := hπ b ⟨k, hk⟩
     rw [MonoidHom.mem_ker.1 hb] at h1
-    simp only [map_one, Subgroup.coe_one, one_mul, mul_one, inv_one] at h1
+    simp only [Subgroup.coe_one, one_mul, mul_one, inv_one] at h1
     calc (b : X) * k = ((b : X) * k * (b : X)⁻¹) * (b : X) := by group
       _ = k * (b : X) := by rw [h1]
   have hKB_card : Nat.card ↥KB = Nat.card π.ker := by
@@ -617,7 +617,7 @@ theorem stab_centralizes {X : Type} [Group X] [Finite X] {K B H : Subgroup X}
     (hH : IsPGroup 3 ↥H) (hHK : H ≤ Subgroup.normalizer (K : Set X)) (hBH : B ≤ H)
     (h9 : Nat.card ↥(B ⊓ K) = 9) {n : X} (hn : n ∈ H) {x : X} (hx : x ∈ B ⊓ K) :
     n * x * n⁻¹ = x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨π, hπ⟩ := exists_inner_hom e hH hHK
   have hPp : IsPGroup 3 ↥π.range := hH.of_surjective π.rangeRestrict π.rangeRestrict_surjective
   have hPle : Nat.card ↥π.range ≤ 9 := card_three_le_nine e hPp
@@ -691,7 +691,7 @@ theorem card_sup_finset {X : Type} [Group X] [Finite X] (f : Subgroup X → Subg
       Subgroup.mem_centralizer_iff.1 (hH'C hb) a (hf K (Finset.mem_insert_self K S) ha)
     rw [Finset.sup_insert, card_sup_of_commute hprod hdisj, ih hcomm' hcen' hf', Finset.prod_insert hK]
 
-@[expose] def commGroupOfComm {X : Type} [Group X] (H : Subgroup X)
+@[instance_reducible, expose] def commGroupOfComm {X : Type} [Group X] (H : Subgroup X)
     (h : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a) : CommGroup ↥H :=
   { (inferInstance : Group ↥H) with
     mul_comm := fun a b => Subtype.ext (h a a.2 b b.2) }
@@ -730,10 +730,10 @@ theorem trace_hom {X : Type} [Group X] [Finite X] {L B D R K₁ : Subgroup X}
       (∀ x, ∀ d ∈ D, d * (φ x : X) = (φ x : X) * d) ∧
       (∀ x, ∀ l ∈ L, l * (φ x : X) = (φ x : X) * l) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRcomm : ∀ a ∈ R, ∀ b ∈ R, a * b = b * a := fun a ha b hb =>
     comm_of_isElemAbelian hB a (hRB ha) b (hRB hb)
-  letI : CommGroup ↥R := commGroupOfComm R hRcomm
+  let : CommGroup ↥R := commGroupOfComm R hRcomm
   have hex : ∀ K ∈ 𝒪, ∃ d : ↥D, K₁.map (MulAut.conj (d : X)).toMonoidHom = K := by
     intro K hK
     obtain ⟨d, hd, hdK⟩ := hD𝒪 K hK
@@ -910,7 +910,7 @@ theorem trace_pRank {X : Type} [Group X] [Finite X] {L B D R K₁ : Subgroup X}
     (hBR : ∀ K ∈ 𝒪, B ⊓ K ≤ R) :
     2 ≤ CFSG.Open.pRank 3 (B ⊓ Subgroup.centralizer ((D ⊔ L : Subgroup X) : Set X)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ, hφinj, hDc, hLc⟩ := trace_hom 𝒪 hL hcomm hB hW e₁ hK₁B h9 hK₁𝒪 h𝒪comp h𝒪L hD𝒪
     h𝒪D hRB hRD hBR
   have hRcomm : ∀ a ∈ R, ∀ b ∈ R, a * b = b * a := fun a ha b hb =>
@@ -1033,8 +1033,8 @@ theorem core_pRank {X : Type} [Group X] [Finite X] {L B D : Subgroup X} {m : ℕ
       Nonempty (↥K ≃* alternatingGroup (Fin 7)) → K ≠ L → B ≤ Subgroup.normalizer (K : Set X)) :
     2 ≤ CFSG.Open.pRank 3 (B ⊓ Subgroup.centralizer ((D ⊔ L : Subgroup X) : Set X)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype ↥D := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype ↥D := Fintype.ofFinite _
   let 𝒦 : Set (Subgroup X) :=
     {K | CFSG.Open.IsComponentOf K ⊤ ∧ Nonempty (↥K ≃* alternatingGroup (Fin 7)) ∧ K ≠ L}
   have hfin : 𝒦.Finite := Set.toFinite _
@@ -1192,7 +1192,7 @@ theorem not_su3_of_alt7 {X : Type} [Group X] (e : X ≃* alternatingGroup (Fin 7
   have hc := CFSG.Open.StatedCenterThree.card_center_statedSU_three hK h3
   have : ∃ z ∈ Subgroup.center ↥(StatedSU 3 q K), z ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : Subgroup.center ↥(StatedSU 3 q K) = ⊥ :=
       (Subgroup.eq_bot_iff_forall _).2 (fun z hz => hcon z hz)
     rw [hbot] at hc
@@ -1213,7 +1213,7 @@ theorem not_weak_exc_alt7 {X : Type} [Group X] [Finite X]
   rintro (h | h | h | h | h | h | h)
   · refine CFSG.HardMathSupport.Solomon.UniquenessMaximal.not_isLTwoOddPow_of_card h 6 2520 (by norm_num) ?_ hcard
     intro n hn hodd h1
-    interval_cases n <;> first | omega | norm_num
+    interval_cases n <;> first | omega
   · have := h.2.1
     rw [hc1] at this
     norm_num at this
@@ -1231,7 +1231,7 @@ theorem not_weak_exc_alt7 {X : Type} [Group X] [Finite X]
       omega
     have hq13 : Nat.card K ≤ 13 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have h14 : 14 ^ 3 ≤ Nat.card K ^ 3 := Nat.pow_le_pow_left hc 3
       have hpos : 1 ≤ (Nat.card K ^ 2 - 1) * (Nat.card K ^ 3 - 1) := by
         apply Nat.one_le_iff_ne_zero.2
@@ -1267,7 +1267,7 @@ theorem cex134_gamma (hP95 : Prop95) (h111 : Prop111Statement)
     {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T L : Subgroup G}
     (h : Cex134 G m p B M E A D T L) : Prop95Gamma p M D L := by
   have hS : GLStanding G m p := h.standing
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hp2 : p ≠ 2 := hS.ne_two
   have hD : IsEkIn p 2 A D := h.hD
   have hDA : D ≤ A := hD.1
@@ -1304,7 +1304,7 @@ theorem lemma135_ii_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
   obtain ⟨hp3, eL, -⟩ := Lemma135b.cex134_gamma hP95 h111 h121 hcomp h
   subst hp3
   have hS : GLStanding G m 3 := h.standing
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB : IsBOneMax 3 B := h.bOne
   have hM2 : CFSG.Open.IsTwoLocal M := h.pre.1.1
   have hAM : A ≤ M := h.pair.1.2.1.1.1.1

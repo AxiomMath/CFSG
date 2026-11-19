@@ -32,12 +32,12 @@ theorem exists_cover [Finite G] {J D : Subgroup G} (hD : D ≤ Subgroup.normaliz
     (hDe : IsElemAbelian 3 D) (hcomm : ∀ d ∈ D, ∀ j ∈ J, ⁅j, d⁆ ∈ GLAPPrimeCoreOf 3 J)
     {j : G} (hj : j ∈ J) :
     ∃ c ∈ J ⊓ Subgroup.centralizer (D : Set G), c⁻¹ * j ∈ GLAPPrimeCoreOf 3 J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Nn : Subgroup ↥(Subgroup.normalizer (J : Set G)) :=
     (GLAPPrimeCoreOf 3 J).subgroupOf (Subgroup.normalizer (J : Set G))
   have hOn : ∀ g ∈ Subgroup.normalizer (J : Set G), ∀ x ∈ GLAPPrimeCoreOf 3 J,
       g * x * g⁻¹ ∈ GLAPPrimeCoreOf 3 J := fun g hg x hx => O_conj_mem J hg hx
-  haveI : Nn.Normal := ⟨fun n hn g => by
+  have : Nn.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hOn g g.2 _ hn⟩
   have hOle : GLAPPrimeCoreOf 3 J ≤ Subgroup.normalizer (J : Set G) :=
@@ -96,9 +96,9 @@ theorem exists_cover [Finite G] {J D : Subgroup G} (hD : D ≤ Subgroup.normaliz
 theorem ker_le_center [Finite G] {J K : Subgroup G} (hKJ : K ≤ J) (hKq : CFSG.Open.IsQuasisimple ↥K)
     (h3K : 3 ∣ Nat.card ↥K) {n : ↥K} (hn : chevQuotHom 3 J (Subgroup.inclusion hKJ n) = 1) :
     n ∈ Subgroup.center ↥K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let M : Subgroup ↥K := (GLAPPrimeCoreOf 3 J).subgroupOf K
-  haveI hMn : M.Normal := ⟨fun m hm g => by
+  have hMn : M.Normal := ⟨fun m hm g => by
     rw [Subgroup.mem_subgroupOf] at hm ⊢
     have hgJ : (g : G) ∈ J := hKJ g.2
     simpa using O_conj_mem J (Subgroup.le_normalizer hgJ) hm⟩
@@ -157,9 +157,9 @@ theorem exists_nontrivial [Finite G] (hb : CatDistinct.OrderBridge) {X J D K : S
     (hK : K = GLALayer (J ⊓ Subgroup.centralizer (D : Set G)))
     (hKL2 : catalogIs (↥K ⧸ Subgroup.center ↥K) S10.isL2eight) :
     ∃ d : G, ∃ hd : d ∈ D, chevAut 3 J ⟨d, hD hd⟩ ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   set H : Subgroup G := J ⊓ Subgroup.centralizer (D : Set G) with hHdef
   have hKH : K ≤ H := by rw [hK]; exact GLALayer_le _
   have hKJ : K ≤ J := hKH.trans inf_le_left
@@ -210,8 +210,7 @@ theorem exists_nontrivial [Finite G] (hb : CatDistinct.OrderBridge) {X J D K : S
       obtain ⟨q, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center (PQuot 3 J)) s
       have hq : q ∈ fK.range := by rw [hT]; exact Subgroup.mem_top _
       obtain ⟨k, hk⟩ := MonoidHom.mem_range.1 hq
-      exact ⟨k, by simp only [φ, MonoidHom.comp_apply, chevQuotHom, MonoidHom.coe_comp,
-        Function.comp_apply, QuotientGroup.mk'_apply]; rw [← hk, hfK]⟩
+      exact ⟨k, by simp only [φ, MonoidHom.comp_apply, chevQuotHom, QuotientGroup.mk'_apply]; rw [← hk, hfK]⟩
     have hker : φ.ker = Subgroup.center ↥K := by
       apply le_antisymm
       · intro n hn
@@ -259,7 +258,7 @@ theorem u6d0_of_facts (hF : KU6CentL2eightFact) (hb : CatDistinct.OrderBridge) (
     [Finite G] : U6D0RankAt G := by
   intro J D₀ K hJX hJ6 hD0N hD0 hD0card hInn hK hKL2 A hAN hAC hA
   obtain ⟨X, hX⟩ := hJX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d₀, hd₀, hα1⟩ := exists_nontrivial hb hX hJ6 hD0N hD0 hK hKL2
   have hKH : K ≤ J ⊓ Subgroup.centralizer (D₀ : Set G) := by rw [hK]; exact GLALayer_le _
   have hKJ : K ≤ J := hKH.trans inf_le_left

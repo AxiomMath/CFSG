@@ -128,7 +128,7 @@ theorem ReducedNongeneration.le_normalizer_of_ker_le (h : ReducedNongeneration p
     rwa [hcard] at this
   rcases CFSG.RankThree.SubgroupLists.dickson_gl_two Y hpY with ⟨P, hPn, hPcard⟩ | hSL
   · have hSp : IsPGroup p (((R : Subgroup X).map ρ).subgroupOf Y) :=
-      (R.isPGroup'.map ρ).comap_subtype
+      (R.isPGroup.map ρ).comap_subtype
     obtain ⟨P', hP'⟩ := hSp.exists_le_sylow
     have := Sylow.unique_of_normal P hPn
     rw [Subsingleton.elim P' P] at hP'

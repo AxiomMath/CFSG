@@ -27,7 +27,7 @@ theorem sec9_Rt_ne_LB (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t 
     IsPGroup.of_surjective hpR φ.rangeRestrict (MonoidHom.rangeRestrict_surjective φ)
   rw [hφr] at hpr
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
   have h4 : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
   exact sec9_not_isPGroup_omegaPlusFour h4 hpr
 

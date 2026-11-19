@@ -104,7 +104,6 @@ theorem w1369_secIsoOn_subgroupOf {K : Subgroup Q} (hΛK : Λ ≤ stabSub K) {A 
       exact mul_inv_eq_one.mp h2
     have h3 : β' (e a') = b := by
       rw [hβ'apply]
-      change (β (e.symm (e a')) : Q) = b
       rw [e.symm_apply_apply]
       exact congrArg (fun z : K => (z : Q)) h1
     rw [h3, mul_inv_cancel]
@@ -123,7 +122,6 @@ theorem w1369_secIsoOn_subgroupOf {K : Subgroup Q} (hΛK : Λ ≤ stabSub K) {A 
       mul_inv_eq_one.mp hkey
     apply mul_inv_eq_one.mpr
     rw [hβ'apply, hβ'apply]
-    change (β (e.symm a') : Q) = l (β (e.symm a) : Q)
     rw [h1]
     rfl
 
@@ -232,12 +230,12 @@ theorem w1369_cent_dichotomy_aux :
       have htopbot : (⊤ : Subgroup Q) = ⊥ := by
         rw [← hspan]
         exact iSup_of_empty I
-      haveI : Subsingleton Q := by
+      have : Subsingleton Q := by
         refine ⟨fun a b => ?_⟩
         have ha : a = 1 := Subgroup.mem_bot.mp (htopbot ▸ Subgroup.mem_top a)
         have hb : b = 1 := Subgroup.mem_bot.mp (htopbot ▸ Subgroup.mem_top b)
         rw [ha, hb]
-      haveI : Subsingleton (MulAut Q) :=
+      have : Subsingleton (MulAut Q) :=
         ⟨fun f g => by ext q; exact Subsingleton.elim _ _⟩
       rw [Subgroup.eq_bot_iff_forall]
       intro x hx
@@ -506,8 +504,8 @@ theorem w1369_cent_dichotomy_aux :
         have hφinj : Function.Injective φ :=
           (w1369_s16h_matrixHom_injective hQ P hstab hsimple hdiag).comp
             (Subgroup.inclusion_injective hXc)
-        haveI hXperf : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hXp
-        haveI hHperf : Group.IsPerfect ↥(φ.range) := Group.IsPerfect.range φ
+        have hXperf : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hXp
+        have hHperf : Group.IsPerfect ↥(φ.range) := Group.IsPerfect.range φ
         have hcardGL : Nat.card (GL (Fin (m + 1)) (ZMod 2)) ∣ 168 := by
           have hm : m ≤ 2 := by omega
           rw [Matrix.card_GL_field]

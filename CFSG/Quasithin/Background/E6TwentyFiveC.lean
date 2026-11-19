@@ -115,7 +115,7 @@ theorem exists_pSubgroup_le_normalized {p : ℕ} [hp : Fact p.Prime] {R B : Subg
   refine ⟨((S : Subgroup K) ⊓ B.subgroupOf K).map K.subtype, ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨x, hx, rfl⟩
     exact hx.2
-  · exact (S.isPGroup'.to_le inf_le_left).map _
+  · exact (S.isPGroup.to_le inf_le_left).map _
   · intro h0
     apply hP'1
     have h1 :

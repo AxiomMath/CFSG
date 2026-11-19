@@ -24,9 +24,9 @@ theorem cl24_index_of_proj {S : Type} [Group S] [Finite S] {ι : Type} [Fintype 
   have hπ : Function.Surjective π :=
     ψ.symm.surjective.comp (QuotientGroup.mk'_surjective _)
   let X := S ⧸ H
-  letI : MulAction (elementaryGroup Q) X := MulAction.compHom X π
-  haveI : Finite X := Quotient.finite _
-  haveI : MulAction.IsPretransitive (elementaryGroup Q) X :=
+  let : MulAction (elementaryGroup Q) X := MulAction.compHom X π
+  have : Finite X := Quotient.finite _
+  have : MulAction.IsPretransitive (elementaryGroup Q) X :=
     MulAction.isPretransitive_compHom (G := X) hπ
   have h2 : 2 ≤ Nat.card X := by
     have hlt : 1 < H.index := Subgroup.one_lt_index_of_ne_top hH

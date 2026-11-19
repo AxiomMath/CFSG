@@ -15,6 +15,7 @@ section Module
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem noFix_mod {Mp : Subgroup (MulAut W)} {V : Subgroup W} (hinv : XMod.IsInv ↥Mp V)
     (hirr : XMod.IsIrrSec ↥Mp (XMod.fixed ↥Mp V) V) (hperf : XMod.commOf ↥Mp V = V) {c : W}
     (hc : c ∈ V) (hcm : ∀ m ∈ Mp, m c * c⁻¹ ∈ fixV Mp) : c ∈ fixV Mp := by
@@ -66,6 +67,7 @@ theorem noFix_mod {Mp : Subgroup (MulAut W)} {V : Subgroup W} (hinv : XMod.IsInv
       ⟨hv, fun a => (mem_fixV.mp (hcomm hv)) a a.2⟩
     exact hirr.1.ne hfV
 
+omit [Finite W] in
 theorem noFix_of_gen {Mp L L' : Subgroup (MulAut W)} {V : Subgroup W} (hinv : XMod.IsInv ↥Mp V)
     (hirr : XMod.IsIrrSec ↥Mp (XMod.fixed ↥Mp V) V) (hperf : XMod.commOf ↥Mp V = V)
     (hgen : ∀ m ∈ Mp, ∃ a ∈ L, ∃ b ∈ L', m = a * b) (hL' : ∀ b ∈ L', ∀ c ∈ V, b c = c) {c : W}
@@ -76,6 +78,7 @@ theorem noFix_of_gen {Mp L L' : Subgroup (MulAut W)} {V : Subgroup W} (hinv : XM
   rw [this]
   exact hcL a ha
 
+omit [Finite W] in
 theorem fixed_mod_le_comm_sup {Mp L L' : Subgroup (MulAut W)} {V : Subgroup W} {g : MulAut W}
     (hL'g : L' = conjAutSub g L) (hL'Mp : L' ≤ Mp)
     (hgen : ∀ m ∈ Mp, ∃ a ∈ L, ∃ b ∈ L', m = a * b) (hinv : XMod.IsInv ↥Mp V)

@@ -31,7 +31,7 @@ theorem inf_le_theta_of_types {X N : Subgroup G}
   have hnormal : ((X ⊓ N).subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr
       ((le_inf Subgroup.le_normalizer hXN).trans Subgroup.inf_normalizer_le_normalizer_inf)
-  haveI := hnormal
+  have := hnormal
   have hcard : Nat.card ((X ⊓ N).subgroupOf X) ∣ Nat.card N :=
     (Proof17Res8.card_subgroupOf_dvd (X ⊓ N) X).trans (Subgroup.card_dvd_of_le inf_le_right)
   have h3 : ¬ 3 ∣ Nat.card ((X ⊓ N).subgroupOf X) := fun h =>
@@ -41,9 +41,10 @@ theorem inf_le_theta_of_types {X N : Subgroup G}
   intro y hy
   exact Subgroup.mem_map.mpr ⟨⟨y, hy.1⟩, hle (Subgroup.mem_subgroupOf.mpr hy), rfl⟩
 
+omit [Finite G] in
 theorem sSup_le_centralizer_of_subset {d : G} {𝒳 : Set (Subgroup G)}
     (h𝒳 : 𝒳 ⊆ thetaComponentsAt 3 d) : sSup 𝒳 ≤ Subgroup.centralizer ({d} : Set G) :=
-  sSup_le fun Y hY => le_centralizer_of_mem_thetaComponentsAt (h𝒳 hY)
+  sSup_le fun _Y hY => le_centralizer_of_mem_thetaComponentsAt (h𝒳 hY)
 
 theorem pPrimeCoreOf_le_normalizer_sSup_of_types {d : G}
     {𝒳 : Set (Subgroup G)} (h𝒳 : 𝒳 ⊆ thetaComponentsAt 3 d)
@@ -84,7 +85,7 @@ theorem pPrimeCoreOf_le_normalizer_sSup_of_types {d : G}
         (inf_le_theta_of_types (X := X) (N := pPrimeCoreOf 3 C) htypes hXN
           (coprime_card_pPrimeCoreOf 3 C))
     have hYsolv : Group.IsSolvable Y := by
-      haveI : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) X) :=
+      have : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) X) :=
         Proof171Steps.isSolvable_theta X
       exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hYθ)
     have hYbot : Y = ⊥ :=
@@ -155,6 +156,7 @@ private lemma false_of_delta_eq_pPrimeCoreOf_sup
     (by rw [sup_comm]; exact isPiSubgroup_piCompl_sup hW3 hO3 hWN)
   exact absurd h3Δ ((isPiSubgroup_piCompl_iff Nat.prime_three _).mp hOW3)
 
+omit [Finite G] in
 private lemma false_of_zpowers_eq_at_d {b' d d' : G}
     (hb'c : Subgroup.zpowers b' = Subgroup.zpowers c) (hc3 : orderOf c = 3)
     (hcL : c ∉ L) (hdL : d ∈ L) (hd1 : d ≠ 1) (hd'L : d' ∈ L)

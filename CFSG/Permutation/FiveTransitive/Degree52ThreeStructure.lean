@@ -22,7 +22,7 @@ theorem orbit_card_three_and_bound
     (∀ x : X, x ∉ fixedPoints (sylowImage X P s S) X →
       Nat.card (orbit (sylowImage X P s S) x) = 3) ∧ Nat.card S ≤ 243 := by
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm

@@ -58,12 +58,12 @@ private lemma s11p5_ff_smul_smul (c : ZMod 5) (v : Fin 4 → ZMod 5) :
 
 private lemma s11p5_fiveForm_single (v : Fin 4 → ZMod 5) (b : Fin 4) :
     fiveForm 3 true (Pi.single b 1) v = Jv v b := by
-  fin_cases b <;> simp [Jv, s11p5_ff3] <;> ring
+  fin_cases b <;> simp [Jv, s11p5_ff3]
 
 private lemma s11p5_sum_w (v x : Fin 4 → ZMod 5) :
     (∑ b : Fin 4, Jv v b * x b) = fiveForm 3 true x v := by
   rw [s11p5_ff3, Fin.sum_univ_four]
-  simp [Jv, s11p5_ff3]
+  simp [Jv]
   ring
 
 private lemma s11p5_sum_refl (v x : Fin 4 → ZMod 5) (a : Fin 4) :
@@ -73,7 +73,7 @@ private lemma s11p5_sum_refl (v x : Fin 4 → ZMod 5) (a : Fin 4) :
     rw [Finset.sum_eq_single a]
     · simp
     · intro b _ hb
-      rw [if_neg (fun h => hb h.symm), zero_mul]
+      rw [ite_eq_right (fun h => hb h.symm), zero_mul]
     · intro ha; exact absurd (Finset.mem_univ a) ha
   have h2 : (∑ b : Fin 4, (2 * (fiveForm 3 true v v)⁻¹ * v a * Jv v b) * x b) =
       2 * (fiveForm 3 true v v)⁻¹ * v a * fiveForm 3 true x v := by
@@ -97,7 +97,7 @@ private lemma s11p5_reflMat_mulVec (v x : Fin 4 → ZMod 5) :
 private lemma s11p5_coeff_refl (c : ZMod 5) (hc : c ≠ 0) (v : Fin 4 → ZMod 5) (a b : Fin 4) :
     2 * (c ^ 2 * fiveForm 3 true v v)⁻¹ * (c * v a) * (c * Jv v b) =
       2 * (fiveForm 3 true v v)⁻¹ * v a * Jv v b := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   by_cases hq : fiveForm 3 true v v = 0
   · rw [hq]; simp
   · field_simp

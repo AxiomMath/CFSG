@@ -135,7 +135,7 @@ theorem isPiSubgroup_sylowPiPart (π : Set ℕ) (X : Type*) [Group X] [Finite X]
   refine (isPiSubgroup_piCore π X).of_le (sylowPiPart_le fun p hp hπ P => ?_)
   have : Fact p.Prime := ⟨hp⟩
   exact le_piCore (sylow_normal_of_isNilpotent P)
-    (((isPiSubgroup_singleton_iff hp _).2 P.isPGroup').mono (Set.singleton_subset_iff.2 hπ))
+    (((isPiSubgroup_singleton_iff hp _).2 P.isPGroup).mono (Set.singleton_subset_iff.2 hπ))
 
 theorem natCard_sylowPiPart (π : Set ℕ) (X : Type*) [Group X] [Finite X] [Group.IsNilpotent X] :
     Nat.card (sylowPiPart π X)
@@ -152,10 +152,10 @@ theorem natCard_sylowPiPart (π : Set ℕ) (X : Type*) [Group X] [Finite X] [Gro
       simp [eq_comm]
     rw [Finset.sum_congr rfl h1, Finset.sum_ite_eq]
     by_cases hq : q ∈ piPrimeFactors π X
-    · simp only [hq, if_true]
+    · simp only [hq, ite_true]
       exact factorization_natCard_sylowPiPart (prime_of_mem_piPrimeFactors hq)
         (mem_piPrimeFactors.1 hq).1
-    · simp only [hq, if_false]
+    · simp only [hq, ite_false]
       rw [Nat.factorization_eq_zero_iff]
       by_cases hqp : q.Prime
       · refine Or.inr (Or.inl fun hd => hq ?_)
@@ -218,7 +218,7 @@ theorem pairwise_commute_sylow_family :
   have hfj : Fact (j : ℕ).Prime := ⟨hj⟩
   exact Subgroup.commute_of_normal_of_disjoint _ _ (sylow_normal_of_isNilpotent (P i))
     (sylow_normal_of_isNilpotent (P j))
-    ((P i).isPGroup'.disjoint_of_coprime (P j).isPGroup'
+    ((P i).isPGroup.disjoint_of_coprime (P j).isPGroup
       ((Nat.coprime_primes hi hj).2 (Subtype.coe_ne_coe.2 hij)))
 
 noncomputable def sylowPiHom : (∀ p : ↥(piPrimeFactors π X), (P p : Subgroup X)) →* X :=

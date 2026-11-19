@@ -104,7 +104,7 @@ private def s1614e3_smulNonzero {T : Type} [CommGroup T] {S : Subgroup T}
   smul p x := ⟨(p : MulAut T) x.1, hP p p.2 x.1 x.2.1, by
     have h1 : ((p : MulAut T)⁻¹) ((p : MulAut T) x.1) = x.1 := by
       have h2 := congrArg (fun e : MulAut T => e x.1) (inv_mul_cancel (p : MulAut T))
-      simpa [MulAut.mul_apply] using h2
+      simp
     intro h
     rw [h] at h1
     simp only [map_one] at h1
@@ -143,7 +143,7 @@ theorem s1614e3_row9_fixed_rank {T : Type} [CommGroup T] [Finite T] (hT : ∀ x 
     (hSℓ : ∀ s ∈ S, ℓ s ∈ S) (hSz : ∀ s ∈ S, z s ∈ S) :
     ∃ i j : ℕ, ℓ ^ i * z ^ j ≠ 1 ∧ 2 ≤ rk ↥(S ⊓ fixV (Subgroup.zpowers (ℓ ^ i * z ^ j))) := by
   classical
-  haveI : Finite (MulAut T) := MulEquiv.finite_left
+  have : Finite (MulAut T) := MulEquiv.finite_left
   by_contra hcon
   have hcon' : ∀ i j : ℕ, ℓ ^ i * z ^ j ≠ 1 →
       rk ↥(S ⊓ fixV (Subgroup.zpowers (ℓ ^ i * z ^ j))) ≤ 1 := by
@@ -182,7 +182,7 @@ theorem s1614e3_row9_fixed_rank {T : Type} [CommGroup T] [Finite T] (hT : ∀ x 
     rw [MulAut.mul_apply]
     exact s1614e3_pow_apply_mem hSℓ i _ (s1614e3_pow_apply_mem hSz j s hs)
   let X : Type := {s : T // s ∈ S ∧ s ≠ 1}
-  letI : MulAction ↥P X := s1614e3_smulNonzero P hPstab
+  let : MulAction ↥P X := s1614e3_smulNonzero P hPstab
   have hfree : ∀ (p : ↥P) (x : X), p • x = x → p = 1 := by
     intro p x hpx
     by_contra hpne
@@ -224,9 +224,9 @@ theorem s1614e3_row9_fixed_rank {T : Type} [CommGroup T] [Finite T] (hT : ∀ x 
         right_inv := fun x => rfl }
     have h1 : Nat.card X = Nat.card {s : S // (s : T) ≠ 1} := Nat.card_congr e
     rw [h1]
-    haveI : Fintype S := Fintype.ofFinite S
-    haveI : Fintype {s : S // (s : T) = 1} := Fintype.ofFinite _
-    haveI : Fintype {s : S // (s : T) ≠ 1} := Fintype.ofFinite _
+    have : Fintype S := Fintype.ofFinite S
+    have : Fintype {s : S // (s : T) = 1} := Fintype.ofFinite _
+    have : Fintype {s : S // (s : T) ≠ 1} := Fintype.ofFinite _
     have hcompl := Fintype.card_subtype_compl (α := S) (p := fun s : S => (s : T) = 1)
     have hsingle : Fintype.card {s : S // (s : T) = 1} = 1 := by
       rw [Fintype.card_eq_one_iff]
@@ -349,8 +349,8 @@ theorem s1614e3_row9_side {T : Type} [CommGroup T] [Finite T] (hT : ∀ x : T, x
     simpa using hexpB (g : MulAut T) g.2
   have hBnc : ¬ IsCyclic ↥B := by
     intro hcyc
-    haveI := hcyc
-    haveI : Fintype ↥B := Fintype.ofFinite _
+    have := hcyc
+    have : Fintype ↥B := Fintype.ofFinite _
     have hle := IsCyclic.card_pow_eq_one_le (α := ↥B) (n := 7) (by norm_num)
     have hcard : (Finset.univ.filter (fun x : ↥B => x ^ 7 = 1)).card = 49 := by
       have htrue : (Finset.univ.filter (fun x : ↥B => x ^ 7 = 1)) = Finset.univ :=
@@ -420,7 +420,7 @@ private theorem s1614e3_map_conj_one {T : Type} [CommGroup T]
     (A : Subgroup (MulAut T)) :
     A.map (MulAut.conj (1 : MulAut T)).toMonoidHom = A := by
   ext z
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 theorem s1614e3_row9_split {T : Type} [CommGroup T] [Finite T] (hT : ∀ x : T, x ^ 2 = 1)
     {M A : Subgroup (MulAut T)} {g : MulAut T} (h : s16n9b_case9Two M A g)
@@ -685,7 +685,7 @@ theorem s1614e3_row9_witness {T : Type} [CommGroup T] [Finite T] (hT : ∀ x : T
   classical
   obtain ⟨z, hzZ, hzord⟩ : ∃ z ∈ Z, orderOf z = 7 := by
     have h1 : 1 < Nat.card ↥Z := by rw [hZcard]; norm_num
-    haveI : Nontrivial ↥Z := Finite.one_lt_card_iff_nontrivial.mp h1
+    have : Nontrivial ↥Z := Finite.one_lt_card_iff_nontrivial.mp h1
     obtain ⟨zz, hzz1⟩ := exists_ne (1 : ↥Z)
     have hdvd : orderOf zz ∣ Nat.card ↥Z := orderOf_dvd_natCard zz
     rw [hZcard] at hdvd

@@ -32,7 +32,7 @@ theorem coverActsTriviallyOnSmall_of_heis {L : Type*} [Group L] [Finite L] [IsSi
     (hsr : ⁅r, x⁆ * r = r * ⁅r, x⁆) (hsx : ⁅r, x⁆ * x = x * ⁅r, x⁆) (hs1 : ⁅r, x⁆ ≠ 1)
     (hs3 : ⁅r, x⁆ ^ 3 = 1) (hcN : c ∈ Subgroup.normalizer (U : Set L))
     (hcs : c * ⁅r, x⁆⁻¹ * c⁻¹ = ⁅r, x⁆) : CoverActsTriviallyOnSmall 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let r' : U := ⟨r, hr⟩
   let x' : U := ⟨x, hx⟩
   let s : U := ⁅r', x'⁆
@@ -104,7 +104,7 @@ theorem coverActsTriviallyOnSmall_of_isoU33 {q : TauCeti.PrimePower}
     {L : Type} [Group L] [Finite L] [IsSimpleGroup L]
     (e : L ≃* (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group) :
     CoverActsTriviallyOnSmall 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨U⟩ := Sylow.nonempty (p := 3) (G := L)
   have hU : Nat.card U = 3 ^ 3 := CFSG.RankThree.PartTwo.Sec4.RonanK432.card_sylow_eq_27
     (g' := 224) ((Nat.card_congr e.toEquiv).trans
@@ -133,7 +133,7 @@ theorem coverActsTriviallyOnSmall_of_isoU33 {q : TauCeti.PrimePower}
   obtain ⟨c, hcN, hcs⟩ := hc (-1)
   have h := hcs a
   rw [Units.val_neg, Units.val_one, neg_one_mul, ofAdd_neg, ofAdd_toAdd, map_inv, ha] at h
-  refine coverActsTriviallyOnSmall_of_heis U.isPGroup' hr hx (hcomm r hr).symm (hcomm x hx).symm
+  refine coverActsTriviallyOnSmall_of_heis U.isPGroup hr hx (hcomm r hr).symm (hcomm x hx).symm
     (fun h1 => hrx (commutatorElement_eq_one_iff_mul_comm.1 h1)) ?_ hcN ?_
   · rw [← ha, ← map_pow, (congrArg (a ^ ·) h3.symm).trans pow_card_eq_one', map_one]
   · calc c * ⁅r, x⁆⁻¹ * c⁻¹ = (c * ⁅r, x⁆ * c⁻¹)⁻¹ := by group

@@ -88,7 +88,7 @@ private theorem sba6s_two_group_trivial {K : Type*} [Group K] [Finite K]
     (e : K ≃* alternatingGroup (Fin 6)) {P R : Subgroup K} (hP9 : Nat.card P = 9)
     (hP3 : ∀ x ∈ P, x ^ 3 = 1) (hR : IsPGroup 2 R)
     (hPR : ∀ x ∈ P, ∀ r ∈ R, x * r * x⁻¹ ∈ R) : R = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ψ, -⟩ := DoubleA3.exists_psl_equiv
   let φ : K ≃* A6Models.psl29 := e.trans ψ.symm
   by_contra hR1
@@ -150,7 +150,7 @@ private theorem sba6s_two_group_trivial {K : Type*} [Group K] [Finite K]
 private theorem sba6s_aut_one {K : Type*} [Group K] [Finite K]
     (e : K ≃* alternatingGroup (Fin 6)) {P : Subgroup K} (hP9 : Nat.card P = 9)
     (γ : MulAut K) (hγ : ∀ x ∈ P, γ x = x) {m : ℕ} (hm : γ ^ 2 ^ m = 1) : γ = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ψ, -⟩ := DoubleA3.exists_psl_equiv
   let φ : K ≃* A6Models.psl29 := e.trans ψ.symm
   obtain ⟨b, hbA, hb⟩ := DoubleA3.exists_aut_model φ γ
@@ -244,6 +244,7 @@ private theorem sba6s_eq_one_of_pow {Y : Type*} [Group Y] {x : Y} {j c : ℕ}
   rw [hcop.gcd_eq_one, Nat.dvd_one] at h
   exact orderOf_eq_one_iff.mp h
 
+omit [Finite X] in
 private theorem sba6s_hO2 (N : Subgroup (X ⧸ CFSG.pCore 2 X))
     (hN : N.Normal) (h2 : IsPGroup 2 N) : N = ⊥ := by
   have hker : IsPGroup 2 (QuotientGroup.mk' (CFSG.pCore 2 X)).ker := by
@@ -262,7 +263,7 @@ private theorem sba6s_two_element_trivial {G : Type} [Group G] [Finite G]
     (hO2 : ∀ N : Subgroup G, N.Normal → IsPGroup 2 N → N = ⊥) {Y : Subgroup G} (hYn : Y.Normal)
     (hY2 : ∀ g : G, ∃ k : ℕ, g ^ 2 ^ k ∈ Y) {t : G} (ht : ∃ k : ℕ, t ^ 2 ^ k = 1)
     (htY : ∀ y ∈ Y, y * t = t * y) : t = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := Subgroup.centralizer (Y : Set G) with hN
   have hNn : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -279,8 +280,8 @@ private theorem sba6s_two_element_trivial {G : Type} [Group G] [Finite G]
     | H g =>
       obtain ⟨k, hk⟩ := hY2 g
       exact ⟨k, by rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]; exact hk⟩
-  haveI : Group.IsNilpotent (G ⧸ Y) := hGY.isNilpotent
-  haveI hNnil : Group.IsNilpotent ↥N := by
+  have : Group.IsNilpotent (G ⧸ Y) := hGY.isNilpotent
+  have hNnil : Group.IsNilpotent ↥N := by
     refine Subgroup.isNilpotent_of_ker_le_center ((QuotientGroup.mk' Y).comp N.subtype) ?_
     intro n hn
     rw [Subgroup.mem_center_iff]
@@ -288,8 +289,8 @@ private theorem sba6s_two_element_trivial {G : Type} [Group G] [Finite G]
     have hnY : (n : G) ∈ Y := (QuotientGroup.eq_one_iff (n : G)).mp (MonoidHom.mem_ker.mp hn)
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp m.2 _ hnY).symm
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥N) := inferInstance
-  haveI hPn : (P : Subgroup ↥N).Normal := inferInstance
-  haveI := Sylow.unique_of_normal P hPn
+  have hPn : (P : Subgroup ↥N).Normal := inferInstance
+  have := Sylow.unique_of_normal P hPn
   have key : ∀ n : ↥N, (∃ k : ℕ, n ^ 2 ^ k = 1) → n ∈ P := by
     rintro n ⟨k, hk⟩
     have hQ2 : IsPGroup 2 (Subgroup.zpowers n) := by
@@ -298,7 +299,7 @@ private theorem sba6s_two_element_trivial {G : Type} [Group G] [Finite G]
     obtain ⟨Q, hQ⟩ := hQ2.exists_le_sylow
     have hQP : Q = P := Subsingleton.elim Q P
     exact hQP ▸ hQ (Subgroup.mem_zpowers n)
-  have hH2 : IsPGroup 2 (P.map N.subtype) := P.isPGroup'.map N.subtype
+  have hH2 : IsPGroup 2 (P.map N.subtype) := P.isPGroup.map N.subtype
   have htN : t ∈ N := Subgroup.mem_centralizer_iff.mpr htY
   have hWH : Subgroup.normalClosure {t} ≤ P.map N.subtype := by
     refine (Subgroup.closure_le _).mpr fun x hx => ?_
@@ -326,7 +327,7 @@ private theorem sba6s_decomp {G : Type} [Group G] [Finite G]
       (∀ z ∈ Zg, ∀ y ∈ oResidual 2 G, z * y = y * z) ∧ Nat.card Zg = 3 ∧ Zg ⊓ D = ⊥ ∧
       oResidual 2 G ≤ Zg ⊔ D ∧ Nonempty (↥D ≃* alternatingGroup (Fin 6)) := by
   obtain ⟨hcard, ⟨e⟩⟩ := hT
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYn : (oResidual 2 G).Normal := sba6s_normal_oResidual G
   set Y : Subgroup G := oResidual 2 G with hY
   have hS6 : IsSimpleGroup (alternatingGroup (Fin 6)) :=
@@ -348,8 +349,8 @@ private theorem sba6s_decomp {G : Type} [Group G] [Finite G]
         exact Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)
       exact hab (commutatorElement_eq_one_iff_mul_comm.mp h1)
     · exact h
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) := Group.isPerfect_def.mpr hperf6
-  haveI : Group.IsPerfect (↥Y ⧸ Subgroup.center ↥Y) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) := Group.isPerfect_def.mpr hperf6
+  have : Group.IsPerfect (↥Y ⧸ Subgroup.center ↥Y) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hQperf : commutator (↥Y ⧸ Subgroup.center ↥Y) = ⊤ := Group.isPerfect_def.mp inferInstance
   have hDZ : commutator ↥Y ⊔ Subgroup.center ↥Y = ⊤ := by
@@ -361,7 +362,7 @@ private theorem sba6s_decomp {G : Type} [Group G] [Finite G]
       Subgroup.comap_top]
   have hDZbot : commutator ↥Y ⊓ Subgroup.center ↥Y = ⊥ := by
     by_contra hne
-    haveI : Fact (Nat.card (Subgroup.center ↥Y)).Prime := ⟨by rw [hcard]; exact Nat.prime_three⟩
+    have : Fact (Nat.card (Subgroup.center ↥Y)).Prime := ⟨by rw [hcard]; exact Nat.prime_three⟩
     have hsub : ((commutator ↥Y ⊓ Subgroup.center ↥Y).subgroupOf (Subgroup.center ↥Y)) = ⊤ := by
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card
         ((commutator ↥Y ⊓ Subgroup.center ↥Y).subgroupOf (Subgroup.center ↥Y)) with h | h
@@ -431,7 +432,7 @@ private theorem sba6s_decomp {G : Type} [Group G] [Finite G]
   ·
     have hD : (commutator ↥Y).map Y.subtype = ⁅Y, Y⁆ := Subgroup.map_subtype_commutator Y
     rw [hD]
-    haveI := hYn
+    have := hYn
     infer_instance
   ·
     rintro _ ⟨z, hz, rfl⟩ y hy
@@ -456,12 +457,12 @@ private theorem sba6s_main {G : Type} [Group G] [Finite G]
     {B T : Subgroup G} (hB : CFSG.Assembly.IsElemAbelian 3 B)
     (hBmax : ∀ B' : Subgroup G, CFSG.Assembly.IsElemAbelian 3 B' → B ≤ B' → B' = B)
     (hT2 : IsPGroup 2 T) (hTB : B ≤ Subgroup.normalizer (T : Set G)) : T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Zg, D, hZY, hDY, hZn, hDn, hZc, hZ3, hZD, hYZD, ⟨eD⟩⟩ := sba6s_decomp hT hnq
   have hYn : (oResidual 2 G).Normal := sba6s_normal_oResidual G
-  haveI := hZn
-  haveI := hDn
+  have := hZn
+  have := hDn
   set Y : Subgroup G := oResidual 2 G with hY
   have hBY : B ≤ Y := by
     intro b hb
@@ -609,7 +610,7 @@ private theorem sba6s_max_map {A : Subgroup X} (hA : CFSG.Assembly.IsElemAbelian
     {B' : Subgroup (X ⧸ CFSG.pCore 2 X)} (hB' : CFSG.Assembly.IsElemAbelian 3 B')
     (hAB' : A.map (QuotientGroup.mk' (CFSG.pCore 2 X)) ≤ B') :
     B' ≤ A.map (QuotientGroup.mk' (CFSG.pCore 2 X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Q : Subgroup X := CFSG.pCore 2 X with hQ
   set π : X →* X ⧸ Q := QuotientGroup.mk' Q with hπ
   have hQ2 : IsPGroup 2 Q := CFSG.pCore_isPGroup

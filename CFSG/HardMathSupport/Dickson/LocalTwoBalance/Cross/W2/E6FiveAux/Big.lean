@@ -27,21 +27,18 @@ theorem fiveC_pow_five {F : Type*} [Field F] {t : F} (ht : t ^ 2 + t = 1) :
   have h2 : ((fiveC t ^ 2 : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) = !![-1, -t; t, -t] := by
     rw [pow_two, Matrix.SpecialLinearGroup.coe_mul, h1]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-      first | linear_combination ht | linear_combination (-1) * ht | linear_combination 2 * ht |
-        linear_combination (-2) * ht | ring
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two];
+      first | linear_combination ht
   have h3 : ((fiveC t ^ 3 : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) = !![-t, t; -t, -1] := by
     rw [pow_succ, Matrix.SpecialLinearGroup.coe_mul, h2, h1]
     ext i j
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-      first | linear_combination ht | linear_combination (-1) * ht | linear_combination 2 * ht |
-        linear_combination (-2) * ht | ring
+      first | linear_combination ht | linear_combination (-1) * ht
   have h4 : ((fiveC t ^ 4 : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) = !![t, 1; -1, 0] := by
     rw [pow_succ, Matrix.SpecialLinearGroup.coe_mul, h3, h1]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-      first | linear_combination ht | linear_combination (-1) * ht | linear_combination 2 * ht |
-        linear_combination (-2) * ht | ring
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two];
+      first | linear_combination ht
   apply Subtype.ext
   rw [pow_succ, Matrix.SpecialLinearGroup.coe_mul, h4, h1]
   ext i j
@@ -51,8 +48,8 @@ theorem exists_fiveC {L : Type} [Field L] [IsAlgClosed L] (h5 : ((5 : ℕ) : L) 
     (σm : L ≃+* L) {Q : ℕ} (hσm : ∀ c, σm c = c ^ Q) (hQ : Q % 5 = 1 ∨ Q % 5 = 4) :
     ∃ C : SL(2, fixSubfield σm), C ^ 5 = 1 ∧
       ((C : SL(2, fixSubfield σm)) : Matrix (Fin 2) (Fin 2) (fixSubfield σm)) 1 0 ≠ 0 := by
-  haveI : NeZero ((5 : ℕ) : L) := ⟨h5⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  have : NeZero ((5 : ℕ) : L) := ⟨h5⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   have hζ5 : ζ ^ 5 = 1 := hζ.pow_eq_one
   have hζ0 : ζ ≠ 0 := hζ.ne_zero (by norm_num)
   have hgeom : ζ ^ 4 + ζ ^ 3 + ζ ^ 2 + ζ + 1 = 0 := by
@@ -216,7 +213,7 @@ theorem outer_dvd_of_orbit {a : Fin τ.rank → Lˣ}
         Matrix (Fin 2) (Fin 2) (fixSubfield σm)) 1 0) = 0 := by
       simpa using h00
     exact (map_eq_zero (algebraMap (fixSubfield σm) L)).1 h10
-  haveI : Fact n.Prime := ⟨hn⟩
+  have : Fact n.Prime := ⟨hn⟩
   have hn' : orderOf x = n := orderOf_eq_prime hxn hx1
   have := Subgroup.orderOf_dvd_natCard (rationalComponent S.ρ S.Γ (rootCharHom a) i) hxR
   rwa [hn'] at this
@@ -275,7 +272,7 @@ theorem bigComponents_five (S : LangSetup τ L 5) (hq : S.D.q % 5 = 1 ∨ S.D.q 
 
 theorem bigAnyPBig_five (S : LangSetup τ L 5) (hq : S.D.q % 5 = 1 ∨ S.D.q % 5 = 4) :
     BigAnyPBig S :=
-  fun _ hD₁E _ a haD _ _ _ _ _ _ i _ => bigComponents_five S hq (S.E_le (hD₁E haD)).1 i
+  fun _ hD₁E _ _a haD _ _ _ _ _ _ i _ => bigComponents_five S hq (S.E_le (hD₁E haD)).1 i
 
 end Five
 

@@ -34,7 +34,7 @@ theorem shapeRkAt_of_om' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrder
     norm_num
   exact shapeRkAt_of_data_solvable Nat.prime_three hGood hRk x L hLC hLn hs hnab hpL hcore
     (m := 3) hk (by norm_num)
-    (CFSG.LocalAnalysis.GLTheoremA.I1416QRows.qtypeOK_of_card hb (N := 4585351680) (by rw [tabFi23_card_of_equiv_om e] <;> norm_num) (by norm_num) (by norm_num)
+    (CFSG.LocalAnalysis.GLTheoremA.I1416QRows.qtypeOK_of_card hb (N := 4585351680) (by rw [tabFi23_card_of_equiv_om e]) (by norm_num) (by norm_num)
       (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide))
     trivial
 
@@ -44,7 +44,7 @@ section ThreeA'
 
 theorem shapeRkAt_t3_zero' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     ShapeRkAt 3 CFSG.LocalAnalysis.GLTheoremA.I1416QRows.QTypeThree (fun _ _ => True) (t3 0) := by
-  haveI := finite_J23
+  have := finite_J23
   have hcl := t3_classData.1
   have hz : orderOf (t3 0) = 3 := hcl.1
   have hcardC := card_cent_t3_zero
@@ -124,7 +124,7 @@ open CFSG.Open CFSG.Sporadic.Fi23 CFSG.HardMathSupport.Timmesfeld.SporadicBalanc
   CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheoremA.KDSpor
 
 theorem shapeRkAt_t3' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) (i : Fin 4) : ShapeRkAt 3 QTypeThree (fun _ _ => True) (t3 i) := by
-  haveI := finite_J23
+  have := finite_J23
   have h0 : ShapeRkAt 3 QTypeThree (fun _ _ => True) (t3 0) := shapeRkAt_t3_zero' hb
   fin_cases i
   · exact h0
@@ -133,8 +133,8 @@ theorem shapeRkAt_t3' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBri
   · exact Or.inl pConstrained_t3_three
 
 theorem centShapeRk_J23_level (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) : CentShapeRk 3 QTypeThree (fun _ _ => True) J := by
-  haveI := finite_J23
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_J23
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   intro k hk1 hk3
   have hord : orderOf k = 3 := orderOf_eq_prime hk3 hk1

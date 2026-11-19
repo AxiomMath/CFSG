@@ -10,6 +10,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.LayerM
 
 variable {V : Type} [Group V] [Finite V]
 
+omit [Finite V] in
 theorem fixV'_mem_iff {X : Subgroup (MulAut V)} {v : V} : v ∈ fixV' X ↔ ∀ x ∈ X, x v = v :=
   Iff.rfl
 

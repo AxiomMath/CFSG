@@ -66,7 +66,7 @@ theorem core_isQ8D8 {P : Type*} [Group P] [Finite P] (Z : Subgroup P)
     (hP : Nat.card P = 32) (hT : Nat.card {g : P | g ^ 2 = 1} = 12) :
     CFSG.Quasithin.IsQ8D8 P := by
   classical
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   obtain ⟨z, hzZ, hz1, hZel⟩ : ∃ z : P, z ∈ Z ∧ z ≠ 1 ∧ ∀ c ∈ Z, c = 1 ∨ c = z := by
     obtain ⟨w, hw, huniq⟩ := (Nat.card_eq_two_iff' (1 : Z)).mp hZ
     refine ⟨w, w.2, fun h => hw (Subtype.ext h), fun c hc => ?_⟩
@@ -348,7 +348,7 @@ theorem core_isQ8D8 {P : Type*} [Group P] [Finite P] (Z : Subgroup P)
     Subgroup.eq_of_le_of_card_ge hQle (by rw [hQcard, hA8])
   have eA : QuaternionGroup 2 ≃* ↥Asub := eQ.trans (MulEquiv.subgroupCongr hQA)
   have hu4 : orderOf (x * y) = 4 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h1 : ¬ (x * y) ^ 2 ^ 1 = 1 := by
       rw [show (2 : ℕ) ^ 1 = 2 from rfl, hxy2]; exact hz1
     have h2 : (x * y) ^ 2 ^ (1 + 1) = 1 := by

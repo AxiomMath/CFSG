@@ -95,7 +95,7 @@ theorem P9_U6a_inner_le_range (h : UnitaryFieldData 2 1 F) {φ : ↥(unitarySU 2
       ι a = QuotientGroup.mk t) :
     UTorus.inner F m ≤ ι.range := by
   classical
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have hF : Nat.card F = 4 := by rw [h.card]; norm_num
   have h3 : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]
   have hcube : ∀ c : Fˣ, c ^ 3 = 1 := by
@@ -123,7 +123,7 @@ theorem P9_U6a_dim_eq (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m) {A : Type} [Gr
     (hinner : UTorus.inner F m ≤ ι.range) {r : ℕ} (hr : Nat.card A = 3 ^ r) :
     m = r + 1 ∨ (3 ∣ m ∧ m = r + 2) := by
   classical
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have hF : Nat.card F = 4 := by rw [h.card]; norm_num
   have hcard : Nat.card ι.range = 3 ^ r := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hιinj).toEquiv, hr]

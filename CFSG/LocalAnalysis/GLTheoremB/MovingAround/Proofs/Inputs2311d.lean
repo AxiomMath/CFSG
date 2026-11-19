@@ -299,7 +299,7 @@ theorem exists_mixed_transCenter_uni [Finite K] (h3 : (3 : K) ≠ 0)
     ∃ u ∈ spLineSpace L, ∃ w ∈ spLineSpace N, u ≠ 0 ∧ w ≠ 0 ∧
       TransCenter (spUniSpan E) (u + w) := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hNL : N ≠ L := fun h => hLN h.symm
   obtain ⟨a, haL, ha1⟩ := exists_ne_one_of_one_lt_card (M := L) (by rw [hL]; norm_num)
   obtain ⟨b, hbN, hb1⟩ := exists_ne_one_of_one_lt_card (M := N) (by rw [hN]; norm_num)
@@ -901,7 +901,7 @@ theorem index_dvd_card_of_forall_eq_mulU {P : Type*} [Group P] {Q M : Subgroup P
     refine ⟨q, hq, ?_⟩
     rw [MulAction.Quotient.smul_mk, smul_eq_mul, mul_one, QuotientGroup.eq]
     simpa using M.inv_mem hm
-  haveI : MulAction.IsPretransitive Q (P ⧸ M) := ⟨fun x y => by
+  have : MulAction.IsPretransitive Q (P ⧸ M) := ⟨fun x y => by
     obtain ⟨q₁, hq₁, rfl⟩ := hq x
     obtain ⟨q₂, hq₂, rfl⟩ := hq y
     refine ⟨⟨q₂ * q₁⁻¹, Q.mul_mem hq₂ (Q.inv_mem hq₁)⟩, ?_⟩
@@ -1037,7 +1037,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 variable {τ : Tag} {k : Type} [Field k]
 
 theorem exists_opposite_radicalU [Finite k] {r : ℕ} [Fact r.Prime] [CharP k r]
-    {J : Set (Fin τ.rank)} (hJ : J ≠ Set.univ) :
+    {J : Set (Fin τ.rank)} (_hJ : J ≠ Set.univ) :
     ∃ Q' : Subgroup (ModGL τ k), Q' ≤ adjointGroup τ k ∧ IsPGroup r Q' ∧
       parabolicLevi τ k J ≤ Subgroup.normalizer (Q' : Set (ModGL τ k)) ∧
       (rootDiagUnitHom τ k).range ≤ Subgroup.normalizer (Q' : Set (ModGL τ k)) ∧
@@ -1159,9 +1159,9 @@ theorem e6InndiagUniGeneration (K : Type) [Field K] [Finite K] (r : ℕ) [Fact r
     (R : Subgroup (ModGL Tag.E6 K)) (hRC : R ≤ adjointGroup Tag.E6 K) (hRr : IsPGroup r R)
     (hR : R ≠ ⊥) (hAR : A ≤ Subgroup.normalizer (R : Set (ModGL Tag.E6 K))) :
     adjointGroup Tag.E6 K ≤ Subgroup.closure (uniCentSet (adjointGroup Tag.E6 K) A r) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hAEA
-  haveI : IsSimpleGroup (adjointGroup Tag.E6 K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hAEA
+  have : IsSimpleGroup (adjointGroup Tag.E6 K) :=
     CFSG.SeitzReduction.E6Pilot.isSimpleGroup_adjointGroup_E6
   exact ordinary_inndiag_uni Tag.E6 K r 3 hr3 A hAC hcard R hRC hRr hR hAR
 
@@ -1174,8 +1174,8 @@ theorem e6InndiagParabolic_uni (K : Type) [Field K] [Finite K] (hK3 : ringChar K
   have hK4 := four_le_card_of_not_innerAut K hK3 E hE hnin
   have hinj := e6InndiagConj_injective K hK4
   obtain ⟨R, hRC, hR1, hRp, hRn⟩ := matrix_of_e6NormalizesR E hE hnorm
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hAle : e6PlanePre K E ≤ e6InndiagGL K := by
     rintro _ hx
     obtain ⟨g, rfl, -⟩ := (mem_e6PlanePre_iff K E _).1 hx

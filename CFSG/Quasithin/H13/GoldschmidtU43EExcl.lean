@@ -46,7 +46,7 @@ theorem exists_conj_Tg (h9 : Nat.card S.Mg = 9) (PK : Sylow 3 ↥S.K1) :
   have hT'card : Nat.card T' = 9 := by
     rw [hT', Subgroup.card_map_of_injective S.K1.subtype_injective]
     exact S.card_PK PK
-  have hT'3 : IsPGroup 3 T' := PK.isPGroup'.map _
+  have hT'3 : IsPGroup 3 T' := PK.isPGroup.map _
   obtain ⟨P₁, hP₁⟩ := hT'3.exists_le_sylow
   have hP₀card : Nat.card (P₀ : Subgroup G) = 9 := by
     rw [hP₀]

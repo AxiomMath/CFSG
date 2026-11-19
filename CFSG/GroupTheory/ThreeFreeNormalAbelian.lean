@@ -12,7 +12,7 @@ variable {B : Type*} [Group B] [Finite B]
 
 theorem not_three_dvd_card_of_irreducible_abelian_normal
     {X Y : Subgroup (MulAut B)}
-    (hYX : Y ≤ X)
+    (_hYX : Y ≤ X)
     (hYnorm : ∀ σ : MulAut B, σ ∈ X → ∀ y : MulAut B, y ∈ Y → σ * y * σ⁻¹ ∈ Y)
     (hYab : ∀ a : MulAut B, a ∈ Y → ∀ b : MulAut B, b ∈ Y → a * b = b * a)
     (hirr : ∀ U : Subgroup B, (∀ σ : MulAut B, σ ∈ X → Subgroup.map σ U = U) →
@@ -21,19 +21,19 @@ theorem not_three_dvd_card_of_irreducible_abelian_normal
     (hfaith : ∀ y : MulAut B, (∀ x : B, y x = x) → y = 1) :
     ¬ 3 ∣ Nat.card Y := by
   intro h3
-  haveI : Finite (MulAut B) :=
+  have : Finite (MulAut B) :=
     Finite.of_injective (fun f : MulAut B => (f : B → B))
       (fun f g h => MulEquiv.ext (congrFun h))
-  haveI : Finite Y := inferInstance
-  letI : IsMulCommutative Y :=
+  have : Finite Y := inferInstance
+  let : IsMulCommutative Y :=
     IsMulCommutative.of_comm
       (fun a b => Subtype.ext (hYab (a : MulAut B) a.2 (b : MulAut B) b.2))
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Sylow 3 Y := default
   have hPne : (P : Subgroup Y) ≠ ⊥ := Sylow.ne_bot_of_dvd_card P h3
   let Q : Subgroup (MulAut B) := (P : Subgroup Y).map Y.subtype
   have hQ3 : IsPGroup 3 Q :=
-    (P.isPGroup').of_equiv
+    (P.isPGroup).of_equiv
       (Subgroup.equivMapOfInjective (P : Subgroup Y) Y.subtype Y.subtype_injective)
   have hQne : Q ≠ ⊥ := by
     intro hbot
@@ -49,7 +49,7 @@ theorem not_three_dvd_card_of_irreducible_abelian_normal
     obtain ⟨p, hp, rfl⟩ := hq
     let p' : Y := ⟨σ * (p : MulAut B) * σ⁻¹, hYnorm σ hσ (p : MulAut B) p.2⟩
     refine ⟨p', ?_, rfl⟩
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     have hkY : (p : Y) ^ 3 ^ k = 1 := by
       simpa using congrArg (Subgroup.subtype (P : Subgroup Y)) hk
     have hkA : (p : MulAut B) ^ 3 ^ k = 1 := by
@@ -108,7 +108,7 @@ theorem not_three_dvd_card_of_irreducible_abelian_normal
       have hmem : σ (σ⁻¹ y) ∈ Subgroup.map σ C :=
         Subgroup.mem_map_of_mem (σ : B →* B) hy'
       rwa [MulAut.apply_inv_self] at hmem
-  letI : MulDistribMulAction Q B := MulDistribMulAction.compHom B (Subgroup.subtype Q)
+  let : MulDistribMulAction Q B := MulDistribMulAction.compHom B (Subgroup.subtype Q)
   obtain ⟨x, hxne, hxfix⟩ :=
     exists_nontrivial_fixed_point_of_isPGroup_three (Y := Q) (B := B) hQ3 hB3 hBnt
   have hsmul : ∀ (q' : Q) (y : B), q' • y = (q' : MulAut B) y := fun _ _ => rfl

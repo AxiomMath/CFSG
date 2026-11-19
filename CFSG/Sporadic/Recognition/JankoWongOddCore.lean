@@ -157,7 +157,7 @@ theorem not_dvd_card_of_klein [Finite C] {X : Subgroup C} [X.Normal] (hXodd : Od
   obtain ⟨Y, hY⟩ := CFSG.DisconnectedInvolutionGraph.Helpers.coprime_pgroup_exists_invariant_sylow
     (G := ↥X) (A := ↥V) 2 p hV2 hcop
   set Yc : Subgroup C := (Y : Subgroup X).map X.subtype with hYc
-  have hYp : IsPGroup p Yc := Y.isPGroup'.map X.subtype
+  have hYp : IsPGroup p Yc := Y.isPGroup.map X.subtype
   have hinv : ∀ v ∈ V, ∀ y ∈ Yc, v * y * v⁻¹ ∈ Yc := by
     intro v hv y hy
     obtain ⟨e, he, rfl⟩ := hy

@@ -28,12 +28,11 @@ lemma nsEmb_apply {ι : Type*} [DecidableEq ι] (e : Fin 2 × Fin 2 → ι) (x :
 lemma nsEmb_transpose_mul_emb {ι : Type*} [Fintype ι] [DecidableEq ι] {e : Fin 2 × Fin 2 → ι}
     (hinj : Function.Injective e) : (nsEmb (K := K) e)ᵀ * nsEmb (K := K) e = 1 := by
   ext a b
-  simp only [Matrix.mul_apply, Matrix.one_apply, Matrix.transpose_apply, nsEmb_apply,
-    hinj.eq_iff]
+  simp only [Matrix.mul_apply, Matrix.one_apply, Matrix.transpose_apply, nsEmb_apply]
   by_cases hab : a = b
   · subst hab; simp
   · have hne : e a ≠ e b := fun h => hab (hinj h)
-    simp [hab, hne, Ne.symm hne]
+    simp [hab, Ne.symm hne]
 
 lemma nsEmb_linear {ι : Type*} [Fintype ι] [DecidableEq ι] (e : Fin 2 × Fin 2 → ι)
     (X Y : Matrix (Fin 2 × Fin 2) (Fin 2 × Fin 2) K) :
@@ -116,8 +115,8 @@ lemma nsBlk_apply_of_mem {ι : Type*} [Fintype ι] [DecidableEq ι] {e : Fin 2 �
       (1 : Matrix (Fin 2 × Fin 2) (Fin 2 × Fin 2) K) a b := by
     rw [Matrix.one_apply, Matrix.one_apply]
     by_cases hab : a = b
-    · rw [if_pos hab, if_pos (congrArg e hab)]
-    · rw [if_neg hab, if_neg (fun h => hab (hinj h))]
+    · rw [ite_eq_left hab, ite_eq_left (congrArg e hab)]
+    · rw [ite_eq_right hab, ite_eq_right (fun h => hab (hinj h))]
   rw [nsBlk, Matrix.add_apply, nsEmb_mul_emb_apply_of_mem hinj (N - 1), Matrix.sub_apply, h1]
   abel
 
@@ -133,6 +132,7 @@ lemma nsBlk_apply_of_not_mem_left {ι : Type*} [Fintype ι] [DecidableEq ι] {e 
     Matrix (Fin 2) (Fin 2) K :=
   fun a b => v (e (a, b))
 
+omit [Field K] in
 lemma nsReadMat_apply {ι : Type*} (e : Fin 2 × Fin 2 → ι) (v : ι → K) (a b : Fin 2) :
     nsReadMat e v a b = v (e (a, b)) := rfl
 
@@ -235,17 +235,17 @@ lemma pairEmb_injective {m : ℕ} (i j : Fin m) (hij : i ≠ j) :
     simp_all [pairEmb, Sum.inl_injective.eq_iff, Sum.inr_injective.eq_iff, Sum.inl_ne_inr,
       Sum.inr_ne_inl]
 
-lemma inl_notMem_range_pairEmb {m : ℕ} {i j k : Fin m} (hij : i ≠ j) (hki : k ≠ i) (hkj : k ≠ j) :
+lemma inl_notMem_range_pairEmb {m : ℕ} {i j k : Fin m} (_hij : i ≠ j) (hki : k ≠ i) (hkj : k ≠ j) :
     Sum.inl k ∉ Set.range (pairEmb i j) := by
   rintro ⟨⟨a, b⟩, hp⟩
   fin_cases a <;> fin_cases b <;>
-    simp_all [pairEmb, Sum.inl_injective.eq_iff, Sum.inl_ne_inr, Sum.inr_ne_inl]
+    simp_all [pairEmb, Sum.inl_injective.eq_iff, Sum.inr_ne_inl]
 
-lemma inr_notMem_range_pairEmb {m : ℕ} {i j k : Fin m} (hij : i ≠ j) (hkj : k ≠ j) (hki : k ≠ i) :
+lemma inr_notMem_range_pairEmb {m : ℕ} {i j k : Fin m} (_hij : i ≠ j) (hkj : k ≠ j) (hki : k ≠ i) :
     Sum.inr k ∉ Set.range (pairEmb i j) := by
   rintro ⟨⟨a, b⟩, hp⟩
   fin_cases a <;> fin_cases b <;>
-    simp_all [pairEmb, Sum.inr_injective.eq_iff, Sum.inl_ne_inr, Sum.inr_ne_inl]
+    simp_all [pairEmb, Sum.inr_injective.eq_iff, Sum.inl_ne_inr]
 
 lemma pairEmb_range_disjoint {m : ℕ} {i₀ i₁ i₂ i₃ : Fin m}
     (h02 : i₀ ≠ i₂) (h03 : i₀ ≠ i₃) (h12 : i₁ ≠ i₂) (h13 : i₁ ≠ i₃) :
@@ -275,18 +275,22 @@ lemma det_fin_two_eq_add [CharP K 2] (M : Matrix (Fin 2) (Fin 2) K) :
   rw [Matrix.det_fin_two, sub_eq_add_neg, CharTwo.neg_eq]
   ring
 
+omit [Field K] in
 lemma nsReadMat_pairEmb_zero_zero {m : ℕ} (i j : Fin m) (v : Fin m ⊕ Fin m → K) :
     nsReadMat (K := K) (pairEmb i j) v 0 0 = v (Sum.inl i) := by
   rw [nsReadMat_apply, pairEmb_zero_zero]
 
+omit [Field K] in
 lemma nsReadMat_pairEmb_zero_one {m : ℕ} (i j : Fin m) (v : Fin m ⊕ Fin m → K) :
     nsReadMat (K := K) (pairEmb i j) v 0 1 = v (Sum.inl j) := by
   rw [nsReadMat_apply, pairEmb_zero_one]
 
+omit [Field K] in
 lemma nsReadMat_pairEmb_one_zero {m : ℕ} (i j : Fin m) (v : Fin m ⊕ Fin m → K) :
     nsReadMat (K := K) (pairEmb i j) v 1 0 = v (Sum.inr j) := by
   rw [nsReadMat_apply, pairEmb_one_zero]
 
+omit [Field K] in
 lemma nsReadMat_pairEmb_one_one {m : ℕ} (i j : Fin m) (v : Fin m ⊕ Fin m → K) :
     nsReadMat (K := K) (pairEmb i j) v 1 1 = v (Sum.inr i) := by
   rw [nsReadMat_apply, pairEmb_one_one]
@@ -351,8 +355,8 @@ lemma nsEmb_transpose_mul_emb_eq_zero {ι : Type*} [Fintype ι] [DecidableEq ι]
     by_cases hx : x = e a
     · have hxb : x ∉ Set.range e' := (Set.disjoint_left.mp hdisj) ⟨a, hx.symm⟩
       have hne : x ≠ e' b := fun h => hxb ⟨b, h.symm⟩
-      simp only [Matrix.transpose_apply, nsEmb_apply, if_pos hx, if_neg hne, mul_zero]
-    · simp only [Matrix.transpose_apply, nsEmb_apply, if_neg hx, zero_mul]]
+      simp only [Matrix.transpose_apply, nsEmb_apply, ite_eq_left hx, ite_eq_right hne, mul_zero]
+    · simp only [Matrix.transpose_apply, nsEmb_apply, ite_eq_right hx, zero_mul]]
   simp
 
 lemma nsBlk_mul_nsBlk_of_disjoint {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -513,14 +517,14 @@ lemma le_omega_of_le_orth {m : ℕ} {H : Subgroup (GL (Fin m ⊕ Fin m) K)}
 lemma nsLhom_range_le_omega [CharP K 2] {m : ℕ} {i j : Fin m} (hij : i ≠ j)
     [Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K)] :
     (nsLhom i j hij).range ≤ LargeEvenOmega (LargeEvenQPlus K m) := by
-  haveI : Group.IsPerfect (nsLhom (K := K) i j hij).range :=
+  have : Group.IsPerfect (nsLhom (K := K) i j hij).range :=
     Group.IsPerfect.range (nsLhom (K := K) i j hij)
   exact le_omega_of_le_orth (by rintro _ ⟨A, rfl⟩; exact nsLhom_mem_orth hij A)
 
 lemma nsRhom_range_le_omega [CharP K 2] {m : ℕ} {i j : Fin m} (hij : i ≠ j)
     [Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K)] :
     (nsRhom i j hij).range ≤ LargeEvenOmega (LargeEvenQPlus K m) := by
-  haveI : Group.IsPerfect (nsRhom (K := K) i j hij).range :=
+  have : Group.IsPerfect (nsRhom (K := K) i j hij).range :=
     Group.IsPerfect.range (nsRhom (K := K) i j hij)
   exact le_omega_of_le_orth (by rintro _ ⟨B, rfl⟩; exact nsRhom_mem_orth hij B)
 
@@ -557,8 +561,8 @@ lemma nsKron_eq_one [CharP K 2] {A B : Matrix (Fin 2) (Fin 2) K} (hA : A.det = 1
     ext i j
     fin_cases i <;> fin_cases j
     · simpa [Matrix.one_apply] using hA00one
-    · simpa [Matrix.one_apply, hA01]
-    · simpa [Matrix.one_apply, hA10]
+    · simp [hA01]
+    · simp [hA10]
     · simpa [Matrix.one_apply, ← hA00] using hA00one
   refine ⟨hA1, ?_⟩
   have hB : nsKron (K := K) (1 : Matrix (Fin 2) (Fin 2) K) B = 1 := by
@@ -600,7 +604,7 @@ lemma nsRootEl_add (a b : K) : nsRootEl (K := K) (a + b) = nsRootEl a * nsRootEl
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [nsRootEl, Matrix.mul_fin_two, add_comm]
+  fin_cases i <;> fin_cases j <;> simp [nsRootEl, add_comm]
 
 @[expose] noncomputable def nsRootHom :
     Multiplicative K →* Matrix.SpecialLinearGroup (Fin 2) K where
@@ -663,7 +667,7 @@ theorem exists_nsDetModel [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) (hm : 4
   have hinj23 : Function.Injective (pairEmb i2 i3) := pairEmb_injective i2 i3 h23
   have hdisj : Disjoint (Set.range (pairEmb i0 i1)) (Set.range (pairEmb i2 i3)) :=
     pairEmb_range_disjoint h02 h03 h12 h13
-  haveI hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) :=
     CFSG.ClassicalInvolution.sl2_isPerfect hK
   let L : Matrix.SpecialLinearGroup (Fin 2) K →* GL (Fin m ⊕ Fin m) K := nsLhom i0 i1 h01
   let R : Matrix.SpecialLinearGroup (Fin 2) K →* GL (Fin m ⊕ Fin m) K := nsRhom i0 i1 h01
@@ -731,8 +735,8 @@ theorem exists_nsDetModel [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) (hm : 4
         nsBlk (K := K) (pairEmb i2 i3)
           (nsKron (↑(nsRootEl (1 : K)) : Matrix (Fin 2) (Fin 2) K) 1) from rfl,
       nsBlk_apply_of_mem hinj23] at hentry
-    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply, hxy,
-      nsKron_apply, nsRootEl, Matrix.one_apply] at hentry
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hxy,
+      nsKron_apply, nsRootEl] at hentry
   have hkron : ∀ a, Phi a = 1 →
       nsKron (K := K) (↑(a 0) : Matrix (Fin 2) (Fin 2) K)
         (↑(a 1) : Matrix (Fin 2) (Fin 2) K) = 1 := by
@@ -752,7 +756,7 @@ theorem exists_nsDetModel [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) (hm : 4
             from by
           rw [Units.val_mul, Units.val_mul, coe_nsLhom, coe_nsRhom, coe_nsRhom,
             nsBlk_mul hinj01, ← nsKron_mul_mul]
-          simp [Matrix.mul_one, Matrix.one_mul]] at hentry
+          simp] at hentry
         rw [nsBlk_mul_nsBlk_apply_of_not_mem_left h23 hdisj] at hentry
         simpa only [Units.val_one, Matrix.one_apply, hinj23.eq_iff] using hentry
       exact Subtype.ext (nsKron_eq_one_right h23')
@@ -767,7 +771,7 @@ theorem exists_nsDetModel [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) (hm : 4
           (nsKron (↑(a 0) : Matrix (Fin 2) (Fin 2) K) (↑(a 1) : Matrix (Fin 2) (Fin 2) K))
         from by
       rw [Units.val_mul, coe_nsLhom, coe_nsRhom, nsBlk_mul hinj01, ← nsKron_mul_mul]
-      simp [Matrix.mul_one, Matrix.one_mul]] at hentry
+      simp] at hentry
     rw [nsBlk_apply_of_mem hinj01] at hentry
     simpa only [Units.val_one, Matrix.one_apply, hinj01.eq_iff] using hentry
   have hPhi_inj : Function.Injective Phi := by
@@ -791,7 +795,7 @@ theorem exists_nsDetModel [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) (hm : 4
             from by
           rw [Units.val_mul, Units.val_mul, coe_nsLhom, coe_nsRhom, coe_nsRhom,
             nsBlk_mul hinj01, ← nsKron_mul_mul]
-          simp [Matrix.mul_one, Matrix.one_mul]] at hentry
+          simp] at hentry
         rw [nsBlk_mul_nsBlk_apply_of_not_mem_left h23 hdisj] at hentry
         simpa only [Units.val_one, Matrix.one_apply, hinj23.eq_iff] using hentry
       exact Subtype.ext (nsKron_eq_one_right h23')

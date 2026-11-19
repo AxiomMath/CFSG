@@ -55,7 +55,7 @@ theorem exists_elemAbelian_lift_le (N : Subgroup M) [N.Normal] (hN : ¬ 3 ∣ Na
   have hScard : Nat.card S = 3 ^ k := by
     rw [hS, Subgroup.card_map_of_injective P.subtype_injective, hQcard]
   have hSP : S ≤ P := Subgroup.map_subtype_le _
-  have hS3 : IsPGroup 3 S := Q.isPGroup'.map P.subtype
+  have hS3 : IsPGroup 3 S := Q.isPGroup.map P.subtype
   have hAS : A ≤ S := fun a ha => ⟨⟨a, hAP ha⟩, hAQ (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
   have hSE : S.map (QuotientGroup.mk' N) ≤ E := Subgroup.map_le_iff_le_comap.mpr hSP
   have hmap : S.map (QuotientGroup.mk' N) = E :=
@@ -107,6 +107,6 @@ theorem exists_two_subgroup_of_map_le_normalizer (N : Subgroup M) [N.Normal]
   obtain ⟨T₀, hET₀, hT₀⟩ :=
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       3 2 Nat.prime_three Nat.prime_two E D hE hED hcop h2
-  exact ⟨(T₀ : Subgroup D).map D.subtype, hT₀, T₀.isPGroup'.map D.subtype, hET₀⟩
+  exact ⟨(T₀ : Subgroup D).map D.subtype, hT₀, T₀.isPGroup.map D.subtype, hET₀⟩
 
 end CFSG.RankThree.PartTwo.Sec15.Sylow155T51

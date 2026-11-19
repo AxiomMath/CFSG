@@ -114,7 +114,7 @@ theorem exists_normalizer_conj_of_mem_J {x y : Cr} (hx : x ∈ subW jWords)
       rw [← hc, Sylow.coe_subgroup_smul]
       exact Subgroup.smul_mem_pointwise_smul _ (MulAut.conj c) _ hjQ
     exact ⟨_, this, rfl⟩
-  have hPp : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map C.subtype
+  have hPp : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup.map C.subtype
   obtain ⟨R, hR⟩ := hPp.exists_le_sylow
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq Cr R sylT
   have hRT : ∀ w ∈ (R : Subgroup Cr), k * w * k⁻¹ ∈ subW sylWords := by

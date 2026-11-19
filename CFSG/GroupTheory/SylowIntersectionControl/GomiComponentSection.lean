@@ -173,9 +173,9 @@ theorem isSylowTwoOf_sylow_inf_normalizer [N.Normal] (hGN : IsPGroup 2 (G ⧸ N)
     IsSylowTwoOf ((U : Subgroup G) ⊓ normalizer (A : Set G)) (normalizer (A : Set G)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := (U : Subgroup G) ⊓ normalizer (A : Set G)
-  refine ⟨inf_le_right, U.isPGroup'.to_le inf_le_left, ?_⟩
+  refine ⟨inf_le_right, U.isPGroup.to_le inf_le_left, ?_⟩
   have hUN : IsSylowTwoOf (N ⊓ U) N := by
-    refine isSylowTwoOf_inf_of_normal ⟨le_top, U.isPGroup', ?_⟩ le_top ?_
+    refine isSylowTwoOf_inf_of_normal ⟨le_top, U.isPGroup, ?_⟩ le_top ?_
     · change ¬ 2 ∣ (U : Subgroup G).relIndex ⊤
       rw [relIndex_top_right]
       exact U.not_dvd_index
@@ -417,7 +417,7 @@ theorem exists_odd_index_inf_eq [N.Normal] (hN : IsDirectProduct S N)
   obtain ⟨R, hTR⟩ := hT.2.1.exists_le_sylow
   have hRQ : (R : Subgroup G) ⊓ normalizer (A : Set G) ≤ normalizer (Q : Set G) :=
     (PermSylowTwo.le_of_isSylowTwoOf_of_isPGroup hT (le_inf hTR hT.1) inf_le_right
-      (R.isPGroup'.to_le inf_le_left)).trans hTQ
+      (R.isPGroup.to_le inf_le_left)).trans hTQ
   have hRS : ∀ B ∈ S, ∃ u ∈ (R : Subgroup G), A.map (MulAut.conj u).toMonoidHom = B :=
     fun B hB => exists_mem_sylow_map_conj_eq hGN R (hN.le_normalizer hA) (hS B hB)
   obtain ⟨x, hx, hHx⟩ :=

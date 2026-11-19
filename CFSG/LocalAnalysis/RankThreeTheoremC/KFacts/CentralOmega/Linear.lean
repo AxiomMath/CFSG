@@ -50,8 +50,8 @@ theorem cyc3GL_conj_diagGL {ω : Fˣ} (hω : ω ^ 3 = 1) :
   rw [Matrix.scalar_apply, diagonal_mul_diagonal]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [cyc3, Matrix.mul_apply, Matrix.mul_diagonal, Matrix.vecMul_diagonal,
-      Matrix.diagonal_apply, Fin.sum_univ_three, hinv, hcube, hcube']
+    simp [cyc3, Matrix.mul_apply, Matrix.vecMul_diagonal,
+      Fin.sum_univ_three, hinv, hcube]
 
 theorem diagGL_mul_cyc3GL_ne {ω : Fˣ} (hord : orderOf ω = 3) :
     diagGL ω * cyc3GL ≠ cyc3GL * diagGL ω := by
@@ -111,7 +111,7 @@ theorem not_forall_commute_of_isSLThreePi {L : Type} [Group L] [Finite L]
     (hL : CFSG.RankThree.PartTwo.Sec4.IsSLThreePi L) (S : Sylow 3 L) :
     ¬ ∀ a ∈ (S : Subgroup L), ∀ b ∈ (S : Subgroup L), a ^ 3 = 1 → b ^ 3 = 1 →
       a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, K, _, _, h⟩ := hL
   rcases h with ⟨hK, hq3, ⟨ψ⟩⟩ | ⟨hK, hq3, ⟨ψ⟩⟩
   ·

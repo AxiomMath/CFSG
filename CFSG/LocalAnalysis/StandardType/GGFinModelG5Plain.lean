@@ -206,7 +206,7 @@ private theorem g5_pinnedX_pair_mem_range_twisted_neg
 
 private theorem g5_mul_rearrange {G : Type*} [Group G] {x2 y2 x4 y4 : G}
     (h1 : x2 * x4 = x4 * x2) (h2 : x2 * y4 = y4 * x2)
-    (h3 : y2 * x4 = x4 * y2) (h4 : y2 * y4 = y4 * y2) :
+    (h3 : y2 * x4 = x4 * y2) (_h4 : y2 * y4 = y4 * y2) :
     (x2 * y2 * x2) * (x4 * y4 * x4) = (x2 * x4) * (y2 * y4) * (x2 * x4) := by
   calc (x2 * y2 * x2) * (x4 * y4 * x4)
       = x2 * y2 * (x2 * x4) * y4 * x4 := by group

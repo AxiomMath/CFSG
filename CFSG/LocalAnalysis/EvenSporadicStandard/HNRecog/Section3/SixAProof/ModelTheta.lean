@@ -79,7 +79,7 @@ theorem sixA_coord {s : Sym 7} (hs : s ∈ Subgroup.centralizer ({sixASigma} : S
 
 theorem sixA_sym5_inv {ρ : Sym 5} (h2 : ρ ^ 2 = 1) (h1 : ρ ≠ 1) :
     ρ.cycleType = {2} ∨ ρ.cycleType = {2, 2} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrep := Equiv.Perm.cycleType_of_pow_prime_eq_one (p := 2) h2
   have hle := Equiv.Perm.sum_cycleType_le ρ
   obtain ⟨c, hc⟩ : ∃ c, ρ.cycleType.card = c := ⟨_, rfl⟩

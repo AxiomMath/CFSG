@@ -39,7 +39,7 @@ theorem fixedSub_fieldAut_equiv_perm_six {F : Type} [Field F] [Finite F] [CharP 
       rw [mem_fixedSub]
       simp only [Φ, MonoidHom.comp_apply]
       rw [fieldAut_proj, fieldSp_subfieldSpHom]
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hk2' : Fintype.card k = 2 := by rw [← Nat.card_eq_fintype_card]; exact hk2
   let c : ZMod 2 ≃+* k := ZMod.ringEquiv k hk2'
   exact ⟨(MulEquiv.subgroupCongr hrange).trans

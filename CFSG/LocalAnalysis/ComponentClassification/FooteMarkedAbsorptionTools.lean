@@ -91,6 +91,7 @@ theorem exists_involution_commute_of_even {a : G} (ha : orderOf a = 2) {Q : Subg
       (X := Q) (u := a) ha2 haQ hQ
   exact ⟨b, hbQ, hb2, hba.symm⟩
 
+omit [Finite G] in
 theorem isComponent_map_conj {K : Subgroup G} (hK : IsComponent K) (g : G) :
     IsComponent (K.map (MulAut.conj g).toMonoidHom) :=
   CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj g) hK
@@ -119,6 +120,7 @@ theorem even_card_of_isComponent {K : Subgroup G} (hK : IsComponent K) :
   rw [hb2'] at hdvd
   exact even_iff_two_dvd.mpr hdvd
 
+omit [Finite G] in
 theorem map_conj_map_conj_of_orderOf_eq_two {a : G} (ha : orderOf a = 2) (K : Subgroup G) :
     (K.map (MulAut.conj a).toMonoidHom).map (MulAut.conj a).toMonoidHom = K := by
   rw [Subgroup.map_conj_map_conj]
@@ -154,6 +156,7 @@ theorem ncard_le_two_of_subset_pair {𝒦 : Set (Subgroup G)} {X Y : Subgroup G}
       simpa using Set.ncard_le_ncard hsubX
     omega
 
+omit [Finite G] in
 theorem isComponent_map_of_isTwoComponentIn {K H : Subgroup G}
     (hK : FooteLit.IsTwoComponentIn K H) :
     IsComponent ((K.subgroupOf H).map (QuotientGroup.mk' (pPrimeCore 2 ↥H))) := by
@@ -161,7 +164,7 @@ theorem isComponent_map_of_isTwoComponentIn {K H : Subgroup G}
   rw [hmap]
   exact hL
 
-theorem map_conjugate_subgroupOf_eq {K H : Subgroup G} (hKH : K ≤ H) {a : ↥H}
+theorem map_conjugate_subgroupOf_eq {K H : Subgroup G} (_hKH : K ≤ H) {a : ↥H}
     (ha : orderOf a = 2) :
     ((CFSG.conjugate K (a : G)).subgroupOf H).map (QuotientGroup.mk' (pPrimeCore 2 ↥H)) =
       ((K.subgroupOf H).map (QuotientGroup.mk' (pPrimeCore 2 ↥H))).map
@@ -229,7 +232,8 @@ theorem mem_normalizer_baseKernel {T : Type} [Group T] {𝓢 : Set (Subgroup G)}
     FooteLit.mem_normalizer_inf' hbase hcore
   simpa [baseKernel] using hker
 
-theorem mk_mem_normalizer_map {H Q : Subgroup G} (hQH : Q ≤ H) {g : ↥H}
+omit [Finite G] in
+theorem mk_mem_normalizer_map {H Q : Subgroup G} (_hQH : Q ≤ H) {g : ↥H}
     (hg : (g : G) ∈ normalizer (Q : Set G)) :
     QuotientGroup.mk' (pPrimeCore 2 ↥H) g ∈
       normalizer (((Q.subgroupOf H).map (QuotientGroup.mk' (pPrimeCore 2 ↥H)) :
@@ -341,7 +345,7 @@ theorem map_eq_map_fixedShadowAt {T : Type} [Group T] {𝓢 : Set (Subgroup G)}
   have hXV : X ≤ V := by rw [hVeq]; exact le_sup_left
   have hRV : R ≤ V := by rw [hVeq]; exact le_sup_right
   have hVperf : Group.IsPerfect ↥V := by
-    haveI : Group.IsPerfect ↥M := hM.1
+    have : Group.IsPerfect ↥M := hM.1
     have hperf : Group.IsPerfect ↥(M.subgroupOf H) :=
       Group.IsPerfect.ofSurjective
         (f := (Subgroup.subgroupOfEquivOfLe hMH).symm.toMonoidHom)

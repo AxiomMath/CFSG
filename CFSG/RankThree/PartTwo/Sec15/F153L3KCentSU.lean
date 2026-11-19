@@ -42,8 +42,8 @@ public theorem conjT_one_add_vecMulVec {K : Type} [Field K] (bar : K →+* K) (u
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp [star', vecMulVec, Matrix.one_apply] <;> ring
-  · simp [star', vecMulVec, Matrix.one_apply, hij, Ne.symm hij] <;> ring
+    simp [star', vecMulVec]; ring
+  · simp [star', vecMulVec, hij, Ne.symm hij]; ring
 
 public theorem tv_unitary {K : Type} [Field K] [CharP K 2] (bar : K →+* K)
     (hbar : ∀ x, bar (bar x) = x) {u : Fin 3 → K} {c : K}
@@ -225,7 +225,7 @@ lemma herm_comb_v (bar : K →+* K) {v w z : Fin 3 → K}
 lemma herm_comb_w (bar : K →+* K) {v w z : Fin 3 → K}
     (hvw : herm bar v w = 1) (hww : herm bar w w = 0) (hzw : herm bar z w = 0) (a b c : K) :
     herm bar (a • v + b • w + c • z) w = a := by
-  simp only [herm_add_left, herm_smul_left, hvw, hww, hzw, mul_zero, mul_one, zero_add, add_zero]
+  simp only [herm_add_left, herm_smul_left, hvw, hww, hzw, mul_zero, mul_one, add_zero]
 
 lemma herm_comb_vv (bar : K →+* K) {v w z : Fin 3 → K}
     (hvv : herm bar v v = 0) (hvw : herm bar v w = 1) (hvz : herm bar v z = 0)
@@ -271,19 +271,17 @@ lemma exists_common_kernel (bar : K →+* K) (v w : Fin 3 → K) :
   have hdet : M.det = 0 := by
     apply Matrix.det_eq_zero_of_row_eq_zero (2 : Fin 3)
     intro j
-    fin_cases j <;> first | rfl | simp [M]
+    fin_cases j <;> first | rfl
   obtain ⟨z, hz0, hz⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr hdet
   refine ⟨z, hz0, ?_, ?_⟩
   · have h0 : star' bar v ⬝ᵥ z = 0 := by
       first
         | exact congrFun hz 0
-        | simpa [M, Matrix.mulVec, dotProduct] using congrFun hz 0
     rw [herm, dotProduct_comm]
     exact h0
   · have h1 : star' bar w ⬝ᵥ z = 0 := by
       first
         | exact congrFun hz 1
-        | simpa [M, Matrix.mulVec, dotProduct] using congrFun hz 1
     rw [herm, dotProduct_comm]
     exact h1
 
@@ -362,7 +360,7 @@ lemma card_range_mul_ker_trc (bar : K →+* K) :
 lemma exists_trc_eq [Finite K] [CharP K 2] (bar : K →+* K) (hbar : ∀ x, bar (bar x) = x)
     (hfix : Nat.card {x : K // bar x = x} ^ 2 = Nat.card K) (c : K) (hc : bar c = c) :
     ∃ a : K, a + bar a = c := by
-  haveI : Nonempty {x : K // bar x = x} := ⟨⟨0, map_zero bar⟩⟩
+  have : Nonempty {x : K // bar x = x} := ⟨⟨0, map_zero bar⟩⟩
   have hq : 0 < Nat.card {x : K // bar x = x} := Nat.card_pos
   have hrange : Nat.card (trc bar).range = Nat.card {x : K // bar x = x} := by
     have h1 := card_range_mul_ker_trc bar
@@ -434,7 +432,7 @@ public theorem card_isotropic_affine {K : Type} [Field K] [Finite K] [CharP K 2]
     {v : Fin 3 → K} (hv : v ≠ 0) (hvv : herm bar v v = 0) :
     Nat.card {u : Fin 3 → K // herm bar u u = 0 ∧ herm bar u v = 1} =
       Nat.card {x : K // bar x = x} ^ 3 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have htr : ∀ c : K, bar c = c → ∃ a : K, a + bar a = c :=
     fun c hc => exists_trc_eq bar hbar hfix c hc
   obtain ⟨w, hwv, hww⟩ := exists_isotropic_partner bar hbar htr hv hvv
@@ -605,7 +603,7 @@ theorem ker_piSU_le_center (f : ℕ) (hf : 1 ≤ f) :
   exact hc
 
 theorem odd_card_ker_piSU (f : ℕ) (hf : 1 ≤ f) : Odd (Nat.card (piSU f hf).ker) := by
-  haveI : Finite (GaloisField 2 (2 * f)) :=
+  have : Finite (GaloisField 2 (2 * f)) :=
     (CFSG.RankThree.PartTwo.Sec4.unitaryFieldData_galoisField 2 f hf).finite
   by_contra hodd
   have h2 : 2 ∣ Nat.card (piSU f hf).ker := by
@@ -643,8 +641,8 @@ theorem card_partners_su (hf : 1 ≤ f) (τ : ↥(SUsl f)) (hτ : τ * τ = 1) (
   classical
   have hU : UnitaryFieldData 2 f (KK f) :=
     CFSG.RankThree.PartTwo.Sec4.unitaryFieldData_galoisField 2 f hf
-  haveI : CharP (KK f) 2 := hU.charP
-  haveI : Finite (KK f) := hU.finite
+  have : CharP (KK f) 2 := hU.charP
+  have : Finite (KK f) := hU.finite
   set bar : KK f →+* KK f := hU.bar with hbar_def
   have hbb : ∀ x, bar (bar x) = x := hU.bar_bar
   have hτ' : (τ : SL(3, KK f)) * (τ : SL(3, KK f)) = 1 := by
@@ -736,7 +734,7 @@ theorem card_s3Partners_projSU (f : ℕ) (hf : 1 ≤ f) (t : ↥(CFSG.PGLModel.p
     (ht : orderOf t = 2) :
     Nat.card {x : ↥(CFSG.PGLModel.projSU 3 2 f) // orderOf x = 2 ∧ orderOf (t * x) = 3} =
       2 ^ (3 * f) := by
-  haveI : CharP (KK f) 2 := (CFSG.RankThree.PartTwo.Sec4.unitaryFieldData_galoisField 2 f hf).charP
+  have : CharP (KK f) 2 := (CFSG.RankThree.PartTwo.Sec4.unitaryFieldData_galoisField 2 f hf).charP
   obtain ⟨τ, hτ, rfl⟩ := exists_involution_lift_of_cover (piSU f hf) (piSU_surjective f hf)
     (ker_piSU_le_center f hf) (odd_card_ker_piSU f hf) ht
   have hτ1' : piSU f hf τ ≠ 1 := by

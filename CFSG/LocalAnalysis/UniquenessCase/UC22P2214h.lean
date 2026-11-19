@@ -19,6 +19,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p2214_card_sup_of_permutes {B T : Subgroup G} (hperm : Permutes B T) (hBT : B ⊓ T = ⊥) :
     Nat.card ↥(B ⊔ T) = Nat.card B * Nat.card T := by
   rw [← Nat.card_prod]
@@ -179,12 +180,12 @@ theorem uc22p2214_not_mem_piSet (D : Data G) (Ch : Choice2011 G) (h8 : S22_8 D C
 theorem uc22p2214_sz8_fix {X : Type} [Group X] [Finite X] (hX : IsSz X 3)
     {α : MulAut X} (hα : α ^ 3 = 1) {y : X} (hy : orderOf y = 7) (hfix : α y = y) : α = 1 := by
   by_contra hα1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hαo : orderOf α = 3 := orderOf_eq_prime hα hα1
   obtain ⟨-, -, a, ha, K, _, _, h3, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.suzukiModel hX
   have ha1 : a = 1 := by omega
   subst ha1
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   set f : MulAut (CFSG.Blueprint.suzukiGroup 1 K) := MulAut.congr e α with hf
   have hfo : orderOf f = 2 * 1 + 1 := by
     rw [hf, MulEquiv.orderOf_eq, hαo]
@@ -206,7 +207,7 @@ theorem uc22p2214_sz8_fix {X : Type} [Group X] [Finite X] (hX : IsSz X 3)
 
 theorem uc22p2214_conj_injective {Q : Type} [Group Q] {L : Subgroup Q} (hq : CFSG.Open.IsQuasisimple ↥L) :
     Function.Injective (MulAut.conj : (↥L ⧸ center ↥L) →* MulAut (↥L ⧸ center ↥L)) := by
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := hq.2
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := hq.2
   have hXq : CFSG.Open.IsQuasisimple (↥L ⧸ center ↥L) :=
     uc22br4_isQuasisimple_of_surjective hq (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
   have hZX : center (↥L ⧸ center ↥L) = ⊥ := uc22p21k_center_eq_bot hXq
@@ -236,6 +237,7 @@ theorem uc22p2214_autQuot_ne_one {Q : Type} [Group Q] [Finite Q] {L : Subgroup Q
     have h3 := (QuotientGroup.eq_iff_div_mem (N := center ↥L)).1 h2
     exact ⟨_, h3, by simp [div_eq_mul_inv]⟩
 
+omit [Finite G] in
 theorem uc22p2214_quotCenter_conj (M V K : Subgroup G) {g : G} (hg : g ∈ M) :
     Nonempty ((↥(mbarImage M V K) ⧸ center ↥(mbarImage M V K)) ≃*
       (↥(mbarImage M V (K.map (MulAut.conj g).toMonoidHom)) ⧸
@@ -265,7 +267,7 @@ theorem uc22p2214_case_data (D : Data G) (Ch : Choice2011 G) (h17 : S21_17 D Ch)
   have hq := (uc22br4_isComponentOf_mbarImage D.M c.V K c.hVM hO2 hKC hKV).2.2
   refine ⟨hKV, hq, ?_⟩
   rcases hcl with ⟨hsp, hodd⟩ | ⟨hsu, hmod⟩ | ⟨hLS, hc2⟩
-  · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hsp
+  · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hsp
     obtain ⟨e⟩ := uc22p2214_quotCenter_of_simple hq
     have hN : (K.subgroupOf D.M).Normal :=
       uc22p21j_normal_of_s21_17 D Ch h17 hn h1930 c.toCtx22.toCtx21 K hKC
@@ -285,10 +287,10 @@ theorem uc22p2214_case_data (D : Data G) (Ch : Choice2011 G) (h17 : S21_17 D Ch)
     exact uc22p2214_not_thin_single D.M c.V hKM (Or.inr ⟨hsu, hodd⟩)
   · refine ⟨?_, uc22p2214_fix D c hKM (Or.inr hc2), uc22p2214_not_thin_pair hKC hc2⟩
     rcases hLS with hL | hS
-    · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
+    · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
       obtain ⟨e⟩ := uc22p2214_quotCenter_of_simple hq
       exact Or.inl (CFSG.Blueprint.LieModel.of_mulEquiv e hL)
-    · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hS
+    · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hS
       obtain ⟨e⟩ := uc22p2214_quotCenter_of_simple hq
       exact Or.inr (Or.inl (CFSG.Blueprint.LieModel.of_mulEquiv e hS))
 

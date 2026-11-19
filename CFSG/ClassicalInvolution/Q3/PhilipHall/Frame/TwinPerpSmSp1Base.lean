@@ -16,9 +16,9 @@ set_option linter.unusedSectionVars false
 
 theorem perfect_card_dvd_84_subsingleton {H : Type} [Group H] [Finite H] [Group.IsPerfect H]
     (h : Nat.card H ∣ 84) : Subsingleton H := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow 7 H))
-  haveI : Finite (Sylow 7 H) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 7 H) := Sylow.finite_of_finiteIndex P
   have hn : Nat.card (Sylow 7 H) ∣ 84 :=
     (Sylow.card_dvd_index P).trans ((Subgroup.index_dvd_card _).trans h)
   have hn1 : Nat.card (Sylow 7 H) = 1 := by
@@ -27,9 +27,9 @@ theorem perfect_card_dvd_84_subsingleton {H : Type} [Group H] [Finite H] [Group.
     have hle : Nat.card (Sylow 7 H) ≤ 84 := Nat.le_of_dvd (by norm_num) hn
     generalize Nat.card (Sylow 7 H) = k at hn hmod hle ⊢
     interval_cases k <;> omega
-  haveI : Subsingleton (Sylow 7 H) := (Nat.card_eq_one_iff_unique.1 hn1).1
-  haveI : P.toSubgroup.Normal := Sylow.normal_of_subsingleton P
-  haveI : Group.IsNilpotent P.toSubgroup := IsPGroup.isNilpotent P.isPGroup'
+  have : Subsingleton (Sylow 7 H) := (Nat.card_eq_one_iff_unique.1 hn1).1
+  have : P.toSubgroup.Normal := Sylow.normal_of_subsingleton P
+  have : Group.IsNilpotent P.toSubgroup := IsPGroup.isNilpotent P.isPGroup
   have hidx : P.toSubgroup.index ∣ 84 := (Subgroup.index_dvd_card _).trans h
   have hidx7 : ¬ 7 ∣ P.toSubgroup.index := Sylow.not_dvd_index P
   have hcop : Nat.Coprime P.toSubgroup.index 7 :=
@@ -52,7 +52,7 @@ theorem perfect_card_dvd_84_subsingleton {H : Type} [Group H] [Finite H] [Group.
     exact (Finset.card_le_card hsub).trans h12card
   have hsolv : Group.IsSolvable H := Group.isSolvable_of_subgroup_quotient P.toSubgroup
   by_contra hnot
-  haveI : Nontrivial H := not_subsingleton_iff_nontrivial.1 hnot
+  have : Nontrivial H := not_subsingleton_iff_nontrivial.1 hnot
   exact Group.IsPerfect.not_isSolvable H hsolv
 
 theorem perfect_card_2688_false {G : Type} [Group G] [Finite G] [Group.IsPerfect G]
@@ -67,14 +67,14 @@ theorem perfect_card_2688_false {G : Type} [Group G] [Finite G] [Group.IsPerfect
     have hsub : Subsingleton (G ⧸ D) :=
       perfect_card_dvd_84_subsingleton (by rw [← Subgroup.index_eq_card]; exact hidx)
     exact QuotientGroup.subgroup_eq_top_of_subsingleton D hsub
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hG2 : IsPGroup 2 G := by
     have h1 : IsPGroup 2 ↥(⊤ : Subgroup G) := hDtop ▸ hD2
     exact h1.of_equiv Subgroup.topEquiv
-  haveI : Group.IsNilpotent G := IsPGroup.isNilpotent hG2
+  have : Group.IsNilpotent G := IsPGroup.isNilpotent hG2
   have hsub : Subsingleton G := by
     by_contra hnot
-    haveI : Nontrivial G := not_subsingleton_iff_nontrivial.1 hnot
+    have : Nontrivial G := not_subsingleton_iff_nontrivial.1 hnot
     exact Group.IsPerfect.not_isSolvable G inferInstance
   have h1 : Nat.card G = 1 := Nat.card_eq_one_iff_unique.mpr ⟨hsub, ⟨1⟩⟩
   omega
@@ -133,7 +133,7 @@ theorem thirtytwo_le_card {Y : Type} [Group Y] [Finite Y] {D K K' : Subgroup Y} 
 
 theorem thirtytwo_dvd_card {M : Type} [Group M] [Finite M] (hM : IsPGroup 2 M)
     (h : 32 ≤ Nat.card M) : 32 ∣ Nat.card M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 hM
   rw [hm] at h ⊢
   have h5 : 5 ≤ m := by

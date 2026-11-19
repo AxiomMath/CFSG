@@ -28,7 +28,7 @@ theorem perm6_normal_two_elem (N : Subgroup (Equiv.Perm (Fin 6))) [N.Normal]
 
 theorem perm6_normal_two_group {N : Subgroup (Equiv.Perm (Fin 6))} (hN : N.Normal)
     (hp : IsPGroup 2 N) : N = ⊥ := by
-  haveI := hN
+  have := hN
   refine perm6_normal_two_elem N (fun x hx => ?_)
   obtain ⟨k, hk⟩ := hp ⟨x, hx⟩
   exact ⟨k, congrArg Subtype.val hk⟩
@@ -44,7 +44,7 @@ theorem normal_two_of_S6 {G : Type} [Group G] {H N : Subgroup G}
     have h3 := (Subgroup.mem_normalizer_iff.1 h1 (x : G)).1 h2
     simpa using h3⟩
   set M : Subgroup (Equiv.Perm (Fin 6)) := N'.map e.toMonoidHom with hM
-  haveI : M.Normal := Subgroup.Normal.map hnorm _ e.surjective
+  have : M.Normal := Subgroup.Normal.map hnorm _ e.surjective
   have hMbot : M = ⊥ := by
     refine perm6_normal_two_elem M (fun y hy => ?_)
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hy

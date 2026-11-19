@@ -95,7 +95,7 @@ theorem not_five_conj (h : Setting b K z) {f n : G} (hfK : f ∈ K) (hf1 : f ≠
   have hfp : IsPGroup 5 (Subgroup.zpowers f) :=
     IsPGroup.of_card (G := Subgroup.zpowers f) (n := 1)
       (by rw [Nat.card_zpowers, hford, pow_one])
-  have hS'p : IsPGroup 5 S' := S.isPGroup'.map D.subtype
+  have hS'p : IsPGroup 5 S' := S.isPGroup.map D.subtype
   have hS'norm : S' ≤ Subgroup.normalizer (Subgroup.zpowers f : Set G) := by
     rw [Subgroup.le_normalizer_iff]
     intro s hs k hk
@@ -245,6 +245,7 @@ private theorem eq_of_psi0 : ∀ v : V, psi0 ⬝ᵥ v = 0 →
     (v 0).val • e 0 + (v 1).val • e 1 + (v 2).val • (e 2 + e 3) = v := by
   decide +kernel
 
+omit [Finite G] in
 private theorem cvG_pow {B : Subgroup G} [CFSG.IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {g : G} (hg : g ∈ B) (k : ℕ) :
     cvG β (g ^ k) = k • cvG β g := by
@@ -252,6 +253,7 @@ private theorem cvG_pow {B : Subgroup G} [CFSG.IsElementaryAbelian 3 B]
   | zero => rw [pow_zero, zero_smul, cvG_one]
   | succ k ih => rw [pow_succ, cvG_mul β (B.pow_mem hg k) hg, ih, succ_nsmul]
 
+omit [Finite G] in
 theorem comm_of_psi0 [CFSG.IsElementaryAbelian 3 (Bt b z)]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive (Bt b z)))
     (hβ : ∀ i, ((Additive.toMul (β i) : Bt b z) : G) = ![b, zs z 0, zs z 1, zs z 2] i)

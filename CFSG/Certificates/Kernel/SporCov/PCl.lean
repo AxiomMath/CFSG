@@ -199,13 +199,13 @@ theorem cover_of_p3l [Finite G] {p : ℕ} (hp : p.Prime) (hval : (Nat.card G).fa
     intro i hi
     have e : Nat.blt i p = true := by simp [hi]
     unfold lnW
-    rw [e, cond_true, hM.append, hM.repW_eq]
+    rw [e, _root_.Bool.cond_true, hM.append, hM.repW_eq]
   have hp' : ev (lnW g₁ g₂ p p) = ev g₂ := by
     have e : Nat.blt p p = false :=
       Bool.eq_false_iff.2 fun h => absurd (Nat.le_of_ble_eq_true h) (Nat.not_succ_le_self p)
     unfold lnW
-    rw [e, cond_false]
-  refine (hM.p3Rel h3).sporKRest_cover hp hval (hM.ne_one hc oz hne) (Or.inr ⟨?_, ?_⟩)
+    rw [e, Bool.cond_false]
+  refine (hM.p3Rel h3).sporKRest_cover hp hval (CFSG.KD.SporCov.Model.ne_one hc oz hne) (Or.inr ⟨?_, ?_⟩)
   · intro y hy
     rw [← hp'] at hy
     exact hline p le_rfl y hy

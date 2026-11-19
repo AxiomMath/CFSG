@@ -65,9 +65,10 @@ theorem burnsideF429_sp_exists_mulVec_eq {v : Fin 2 ⊕ Fin 2 → k} (hv : v ≠
       simp [Matrix.J, fromBlocks, one_apply, CharTwo.neg_eq]
   · ext i
     simp only [mulVec, dotProduct, burnsideF429_spE1, Pi.single_apply, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, Matrix.of_apply]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, Matrix.of_apply]
     rw [hb0]
 
+omit [CharP k 2] in
 theorem burnsideF429_rank_conj {ι : Type} [Fintype ι] [DecidableEq ι] (g : GL ι k)
     (M : Matrix ι ι k) :
     Matrix.rank ((g : Matrix ι ι k) * M * ((g⁻¹ : GL ι k) : Matrix ι ι k)) = Matrix.rank M := by
@@ -76,6 +77,7 @@ theorem burnsideF429_rank_conj {ι : Type} [Fintype ι] [DecidableEq ι] (g : GL
     (Matrix.isUnit_iff_isUnit_det _).mp (g⁻¹).isUnit
   rw [Matrix.rank_mul_eq_left_of_isUnit_det _ _ hgi, Matrix.rank_mul_eq_right_of_isUnit_det _ _ hg]
 
+omit [CharP k 2] in
 theorem burnsideF429_conj_sub_one {ι : Type} [Fintype ι] [DecidableEq ι] (g A : GL ι k) :
     (((g * A * g⁻¹ : GL ι k) : Matrix ι ι k) - 1) =
       (g : Matrix ι ι k) * ((A : Matrix ι ι k) - 1) * ((g⁻¹ : GL ι k) : Matrix ι ι k) := by
@@ -83,6 +85,7 @@ theorem burnsideF429_conj_sub_one {ι : Type} [Fintype ι] [DecidableEq ι] (g A
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   rw [Units.val_mul, Units.val_mul, Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one, hgg]
 
+omit [CharP k 2] in
 theorem burnsideF429_rank_longRoot {c : k} (hc : c ≠ 0) :
     Matrix.rank ((1 + matrixUnit (Sum.inl 0) (Sum.inr 0) c :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) k) - 1) = 1 := by
@@ -98,7 +101,7 @@ theorem burnsideF429_rank_longRoot {c : k} (hc : c ≠ 0) :
   intro h0
   rw [Matrix.rank, Submodule.finrank_eq_zero, LinearMap.range_eq_bot] at h0
   have := congrFun (congrArg (fun f => f (Pi.single (Sum.inr 0) 1)) h0) (Sum.inl 0)
-  simp [Matrix.mulVecLin_apply, mulVec_single_one, vecMulVec_apply] at this
+  simp [vecMulVec_apply] at this
   exact hc this
 
 theorem burnsideF429_sp4_transvection_conj {A : GL (Fin 2 ⊕ Fin 2) k} (hA : A ∈ StatedSp 2 k)
@@ -165,21 +168,21 @@ theorem burnsideF429_sp4_transvection_conj {A : GL (Fin 2 ⊕ Fin 2) k} (hA : A 
     intro a b
     by_cases ha : a = Sum.inl 0
     · subst ha
-      rw [if_pos rfl, ← hw, Matrix.sub_apply]
+      rw [ite_eq_left rfl, ← hw, Matrix.sub_apply]
       ring
-    · rw [if_neg ha, add_zero, ← sub_eq_zero, ← Matrix.sub_apply, hrow a b ha]
+    · rw [ite_eq_right ha, add_zero, ← sub_eq_zero, ← Matrix.sub_apply, hrow a b ha]
   have hwa : ∀ a, a ≠ Sum.inr 0 → w a = 0 := by
     intro a ha
     have h1 := congrFun (congrFun hsymp a) (Sum.inr 0)
     simp only [mul_apply, transpose_apply, Fintype.sum_sum_type, Fin.sum_univ_two, hMe] at h1
     rcases a with i | i <;> fin_cases i
     · simp [one_apply, fromBlocks] at h1 ⊢
-      first | exact h1 | linear_combination h1 | linear_combination -h1
+      first | exact h1
     · simp [one_apply, fromBlocks] at h1 ⊢
-      first | exact h1 | linear_combination h1 | linear_combination -h1
+      first | exact h1
     · exact absurd rfl ha
     · simp [one_apply, fromBlocks] at h1 ⊢
-      first | exact h1 | linear_combination h1 | linear_combination -h1
+      first | exact h1
   refine ⟨w (Sum.inr 0), ?_, ?_⟩
   · intro hc0
     have hzero : Mm - 1 = 0 := by
@@ -200,11 +203,11 @@ theorem burnsideF429_sp4_transvection_conj {A : GL (Fin 2 ⊕ Fin 2) k} (hA : A 
     congr 1
     by_cases ha : a = Sum.inl 0
     · subst ha
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       by_cases hb : b = Sum.inr 0
       · subst hb; simp [matrixUnit]
       · rw [hwa b hb]; simp [matrixUnit, hb]
-    · rw [if_neg ha]; simp [matrixUnit, ha]
+    · rw [ite_eq_right ha]; simp [matrixUnit, ha]
 
 end Transvection
 
@@ -212,11 +215,13 @@ section Marking
 
 variable {k : Type} [Field k] [CharP k 2]
 
+omit [CharP k 2] in
 theorem burnsideF429_matrixUnit_zero {ι : Type} [DecidableEq ι] (a b : ι) :
     (matrixUnit a b (0 : k) : Matrix ι ι k) = 0 := by
   ext i j
   simp [matrixUnit]
 
+omit [CharP k 2] in
 theorem burnsideF429_longRoot_mul (c c' : k) :
     ((1 + matrixUnit (Sum.inl 0) (Sum.inr 0) c : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) k) *
       (1 + matrixUnit (Sum.inl 0) (Sum.inr 0) c')) =
@@ -237,6 +242,7 @@ theorem burnsideF429_longRoot_mul (c c' : k) :
   rw [Matrix.add_mul, Matrix.one_mul, Matrix.mul_add, Matrix.mul_one, hEE, add_zero, add_assoc,
     add_comm (matrixUnit (Sum.inl 0) (Sum.inr 0) c'), hadd]
 
+omit [CharP k 2] in
 theorem burnsideF429_mem_nativeRoot_longOne {q : ℕ}
     (x : ClassicalRoots.nativeGroup .Sp4 q k) :
     x ∈ ClassicalRoots.nativeRoot .Sp4 q (1 : GL (ClassicalRoots.Coord .Sp4) k) .longOne false ↔

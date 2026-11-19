@@ -25,7 +25,7 @@ private theorem a6Four_sq_ne_one : a6Four ^ 2 ≠ 1 := by
 theorem leviA6Free_holds :
     LeviA6Free := by
   intro X _ _ t n f hfam hmodel S P hP hNS hTits Y hYP φ hφ
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := isSimpleGroup_alt6
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := isSimpleGroup_alt6
   exact false_of_char2LeviFamily_of_surjective (H := alternatingGroup (Fin 6))
     exists_noncomm_alt6 ⟨a6Four, ⟨2, a6Four_pow_four⟩, a6Four_sq_ne_one⟩
     (by rw [card_alt6]; norm_num) (by rw [card_alt6]; norm_num)

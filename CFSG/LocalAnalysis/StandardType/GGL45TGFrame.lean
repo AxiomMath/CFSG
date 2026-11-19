@@ -112,7 +112,7 @@ theorem frame_separating (S : GSetting p q₀ d k D K ψ E) {P : GL (Fin d) k}
   have hconj : P * (P⁻¹ * diagGL d t * P) * P⁻¹ = diagGL d t := by group
   rw [hconj, coe_diagGL, diagonal_apply_eq, diagonal_apply_eq, ht,
     NbrLangTypeA.torusVec_apply, NbrLangTypeA.torusVec_apply]
-  simp only [if_true, hij, Ne.symm hij, if_false, mul_one, one_mul]
+  simp only [ite_true, hij, Ne.symm hij, ite_false, mul_one, one_mul]
   intro h
   have h2 : ω ^ 2 = 1 := by
     have h3 : ω = ω⁻¹ := Units.ext h

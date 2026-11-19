@@ -63,7 +63,7 @@ theorem not_tightEdgeless_top {K₀ : Subgroup X} (hΩ : HypOmegaGen Φ)
 
 theorem twinE4_of_exitSec_tight (hF : Q8TwinFamT X Φ)
     (hedge : ∃ M ∈ Φ, ∃ N : Subgroup X, N ∈ omegaNbr Φ M) {K : Subgroup X} (hK : K ∈ Φ) {z : X}
-    (hz : IsUniqueInvolution K z) (hno : ¬ TightInO2 z) {W : Subgroup X} (hKW : K ≤ W)
+    (hz : IsUniqueInvolution K z) (_hno : ¬ TightInO2 z) {W : Subgroup X} (hKW : K ≤ W)
     (hWs : IsSubnormal W ⊤) (hex : Thm4Twin.F2.ExitSec W K hKW z hz) : TwinE4 X := by
   have hWtop : W = ⊤ := ExitE4.eq_top_of_subnormal hF.sec.gen hF.trans hK hWs rfl hKW
   have hΦ : Φ = CoreAssembly.conjClass K := by

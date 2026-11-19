@@ -164,7 +164,7 @@ private theorem neg_one_mem_iso {Q : Subgroup GL25} (hQ : Q ≤ SL25)
   have hue : (⟨-1, hm⟩ : ↥Q) = u := Subtype.ext hu3.symm
   rw [hue, hψu]
 
-private theorem sq_iso {Q : Subgroup GL25} (hQ : Q ≤ SL25) (ψ : ↥Q ≃* QuaternionGroup 2)
+private theorem sq_iso {Q : Subgroup GL25} (_hQ : Q ≤ SL25) (ψ : ↥Q ≃* QuaternionGroup 2)
     {hm : (-1 : GL25) ∈ Q} (hψm : ψ ⟨-1, hm⟩ = QuaternionGroup.a 2) :
     ∀ q ∈ Q, q * q = 1 ∨ q * q = -1 := by
   intro q hq
@@ -177,7 +177,7 @@ private theorem sq_iso {Q : Subgroup GL25} (hQ : Q ≤ SL25) (ψ : ↥Q ≃* Qua
       ψ.injective (by rw [map_mul, hψm]; exact h)
     simpa using congrArg Subtype.val h'
 
-private theorem comm_iso {Q : Subgroup GL25} (hQ : Q ≤ SL25) (ψ : ↥Q ≃* QuaternionGroup 2)
+private theorem comm_iso {Q : Subgroup GL25} (_hQ : Q ≤ SL25) (ψ : ↥Q ≃* QuaternionGroup 2)
     {hm : (-1 : GL25) ∈ Q} (hψm : ψ ⟨-1, hm⟩ = QuaternionGroup.a 2)
     {q q' : GL25} (hq : q ∈ Q) (hq' : q' ∈ Q) (hqq : q * q = -1) (hq'q' : q' * q' = -1)
     (hc : q * q' = q' * q) : q' = q ∨ q' = -q := by
@@ -199,7 +199,7 @@ private theorem comm_iso {Q : Subgroup GL25} (hQ : Q ≤ SL25) (ψ : ↥Q ≃* Q
     have := congrArg Subtype.val (ψ.injective h')
     simpa [neg_mul] using this
 
-private theorem prod_iso {Q : Subgroup GL25} (hQ : Q ≤ SL25) (ψ : ↥Q ≃* QuaternionGroup 2)
+private theorem prod_iso {Q : Subgroup GL25} (_hQ : Q ≤ SL25) (ψ : ↥Q ≃* QuaternionGroup 2)
     {hm : (-1 : GL25) ∈ Q} (hψm : ψ ⟨-1, hm⟩ = QuaternionGroup.a 2)
     {q q' : GL25} (hq : q ∈ Q) (hq' : q' ∈ Q) (hqq : q * q = -1) (hq'q' : q' * q' = -1)
     (hne : q' ≠ q) (hne' : q' ≠ -q) : (q * q') * (q * q') = -1 := by
@@ -225,7 +225,7 @@ private theorem prod_iso {Q : Subgroup GL25} (hQ : Q ≤ SL25) (ψ : ↥Q ≃* Q
   have := congrArg Subtype.val h4
   simpa using this
 
-private theorem comm_neg_one_iso {Q : Subgroup GL25} (hQ : Q ≤ SL25)
+private theorem comm_neg_one_iso {Q : Subgroup GL25} (_hQ : Q ≤ SL25)
     (ψ : ↥Q ≃* QuaternionGroup 2) {hm : (-1 : GL25) ∈ Q}
     (hψm : ψ ⟨-1, hm⟩ = QuaternionGroup.a 2) :
     ∃ x ∈ Q, ∃ y ∈ Q, x * y * x⁻¹ * y⁻¹ = -1 := by
@@ -621,7 +621,7 @@ private theorem shape81_two (S : Subgroup Γ) (c : Γ) (hS : IsPGroup 2 S) (hc3 
       apply Subtype.ext
       have h1 := congrArg Subtype.val hab
       exact hinj a.1 a.2 b.1 b.2 h1
-    haveI := hcyc
+    have := hcyc
     exact isCyclic_of_injective f hf
   ·
     right

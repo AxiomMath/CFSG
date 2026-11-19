@@ -44,7 +44,7 @@ private lemma nine3_addRight_pow (d : ZMod p) : ∀ (n : ℕ) (i : ZMod p),
 private lemma nine3_exists_translation_priv (hc : Nine3Choice V T A K S X p g x)
     (hρ : Nine3FibreAct K S p x ρ) (t : ZMod p) :
     ∃ k : ↥K, ∀ i : ZMod p, ρ k i = i + t := by
-  haveI : NeZero p := ⟨hc.core.hyp.base.toTwoPTwo.prime.ne_zero⟩
+  have : NeZero p := ⟨hc.core.hyp.base.toTwoPTwo.prime.ne_zero⟩
   have hxK : x ∈ K := hc.core.hyp.base.toTwoPTwo.sylowP.le hc.x_mem
   let x₀ : ↥K := ⟨x, hxK⟩
   have hshift : ∀ i : ZMod p, ρ x₀ i = i + 1 := hρ.shift x₀ rfl
@@ -59,6 +59,7 @@ private lemma nine3_exists_translation_priv (hc : Nine3Choice V T A K S X p g x)
   refine ⟨x₀ ^ t.val, fun i => ?_⟩
   rw [map_pow, hpow t.val i, ZMod.natCast_zmod_val]
 
+omit [Finite G] in
 private theorem nine3_fib_conj_aux {U : Subgroup G} {c t : ZMod p}
     (h : Nine3Fib K p ρ U c) {k : ↥K}
     (hk : ∀ i : ZMod p, ρ k i = i + t) : Nine3Fib K p ρ (conjSubgroup U (k : G)) (c - t) := by
@@ -88,7 +89,7 @@ theorem nine3_exists_fib (hc : Nine3Choice V T A K S X p g x)
     (hρ : Nine3FibreAct K S p x ρ) {U : Subgroup G} (hU : U ∈ omegaIn V K (nineE V K)) :
     ∃ c : ZMod p, Nine3Fib K p ρ U c := by
   obtain ⟨y, hUy, -, hnle⟩ := mem_omegaSet.mp hU.1
-  obtain ⟨u, huU, huR⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨u, huU, huR⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   have huK : u ∈ K := hU.2 huU
   have hu2 : u * u = 1 := by
     have hel : IsElemAbelian 2 U := by
@@ -117,7 +118,7 @@ theorem nine3_exists_fib (hc : Nine3Choice V T A K S X p g x)
     rw [← map_mul]
     congr 1
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_subtype]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     group
   have hw : ρ (k⁻¹ * u') = 1 := hρ.le_ker (k⁻¹ * u') (by simpa [k] using hinv)
   rw [hdecomp, hw, mul_one]
@@ -136,7 +137,7 @@ theorem nine3_fib_zero_iff (hc : Nine3Choice V T A K S X p g x)
         simp [zmodRefl, Equiv.subLeft_apply]
       exact (hρ.stab ⟨a, haK⟩).mp h0
   · intro hUS u huU huR
-    haveI : Fact p.Prime := ⟨hc.core.hyp.base.toTwoPTwo.prime⟩
+    have : Fact p.Prime := ⟨hc.core.hyp.base.toTwoPTwo.prime⟩
     have huzero : ρ u 0 = 0 := (hρ.stab u).mpr (hUS huU)
     obtain ⟨c, hcfib⟩ := nine3_exists_fib hc hρ hU
     have hcu := hcfib u huU huR
@@ -197,7 +198,7 @@ theorem nine3_fib_pow (hc : Nine3Choice V T A K S X p g x) (hρ : Nine3FibreAct 
     {c c' : ZMod p} (h : Nine3Fib K p ρ U c) (h' : Nine3Fib K p ρ U' c') (hne : c ≠ c') :
     ∀ u ∈ U, u ∉ pCoreOf 2 K → ∀ u' ∈ U', u' ∉ pCoreOf 2 K → (u * u') ^ p = 1 := by
   intro u huU huR u' hu'U' hu'R
-  haveI : Fact p.Prime := ⟨hc.core.hyp.base.toTwoPTwo.prime⟩
+  have : Fact p.Prime := ⟨hc.core.hyp.base.toTwoPTwo.prime⟩
   have hp : p.Prime := hc.core.hyp.base.toTwoPTwo.prime
   let ku : ↥K := ⟨u, hU.2 huU⟩
   let ku' : ↥K := ⟨u', hU'.2 hu'U'⟩
@@ -209,7 +210,7 @@ theorem nine3_fib_pow (hc : Nine3Choice V T A K S X p g x) (hρ : Nine3FibreAct 
     rw [map_pow, hprod]
     ext i
     rw [nine3_addRight_pow]
-    simp [ZMod.natCast_self]
+    simp
   have hd_ne : 2 * (c - c') ≠ 0 := by
     intro h0
     have h2 : (2 : ZMod p) ≠ 0 := nine3_two_ne_zero hp hc.core.hyp.base.toTwoPTwo.odd
@@ -220,7 +221,7 @@ theorem nine3_fib_pow (hc : Nine3Choice V T A K S X p g x) (hρ : Nine3FibreAct 
       orderOf_dvd_iff_pow_eq_one.mpr (by
         ext i
         rw [nine3_addRight_pow]
-        simp [ZMod.natCast_self])
+        simp)
     have hne1 : orderOf (Equiv.addRight (2 * (c - c'))) ≠ 1 := by
       intro h1
       have h_eq : Equiv.addRight (2 * (c - c')) = 1 := orderOf_eq_one_iff.mp h1
@@ -235,7 +236,7 @@ theorem nine3_fib_pow (hc : Nine3Choice V T A K S X p g x) (hρ : Nine3FibreAct 
     have hmap : orderOf (ρ (ku * ku')) ∣ orderOf (ku * ku') := orderOf_map_dvd ρ _
     have hK : p ∣ orderOf (ku * ku') := horder ▸ hmap
     have hcoe : ((ku * ku' : ↥K) : G) = u * u' := by
-      simp [ku, ku', Subgroup.coe_mul]
+      simp [ku, ku']
     rw [← Subgroup.orderOf_coe (ku * ku')] at hK
     rwa [hcoe] at hK
   have hnot : ¬ IsPGroup 2 (Subgroup.closure ({u, u'} : Set G)) := by
@@ -276,7 +277,7 @@ theorem nine3_fib_inf_centralizer (hc : Nine3Choice V T A K S X p g x)
     (hρ : Nine3FibreAct K S p x ρ) {U U' : Subgroup G} (hU : U ∈ omegaIn V K (nineE V K))
     (hU' : U' ∈ omegaIn V K (nineE V K)) {c c' : ZMod p} (h : Nine3Fib K p ρ U c)
     (h' : Nine3Fib K p ρ U' c') (hne : c ≠ c') : U' ⊓ centralizer (U : Set G) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hc.core.hyp.base.toTwoPTwo.prime⟩
+  have : Fact p.Prime := ⟨hc.core.hyp.base.toTwoPTwo.prime⟩
   have hp : p.Prime := hc.core.hyp.base.toTwoPTwo.prime
   rw [Subgroup.eq_bot_iff_forall]
   intro b hb
@@ -298,8 +299,8 @@ theorem nine3_fib_inf_centralizer (hc : Nine3Choice V T A K S X p g x)
     exact ((Subgroup.mem_centralizer_iff.mp hbcent) z hzU).symm
   obtain ⟨-, -, -, hnleU⟩ := mem_omegaSet.mp hU.1
   obtain ⟨-, -, -, hnleU'⟩ := mem_omegaSet.mp hU'.1
-  obtain ⟨u, huU, huR⟩ := SetLike.not_le_iff_exists.mp hnleU
-  obtain ⟨u', hu'U', hu'R⟩ := SetLike.not_le_iff_exists.mp hnleU'
+  obtain ⟨u, huU, huR⟩ := IsConcreteLE.not_le_iff_exists.mp hnleU
+  obtain ⟨u', hu'U', hu'R⟩ := IsConcreteLE.not_le_iff_exists.mp hnleU'
   obtain ⟨a, hUa, -, -⟩ := mem_omegaSet.mp hU.1
   have huConj : u ∈ conjSubgroup V a := by rw [← hUa]; exact huU
   have hu'Conj : u' ∈ conjSubgroup V y' := by rw [← hU'y']; exact hu'U'

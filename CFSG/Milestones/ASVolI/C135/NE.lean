@@ -62,6 +62,7 @@ theorem isElemAbelian_U : IsElemAbelian 2 (centerOf (c134Q X L)) := by
   · rw [sq]
     exact burnsideC135_U_sq H.dsg hu
 
+omit [CharP F 2] in
 theorem U_ne_bot : centerOf (c134Q X L) ≠ ⊥ := by
   intro h
   obtain ⟨u, hu⟩ := H.dsg.natU_onto (Multiplicative.ofAdd (Pi.single 0 1))
@@ -173,17 +174,21 @@ theorem exists_maxElemAbelian_not_le :
       obtain ⟨hh, h3⟩ := burnsideC135_mem_Wc.mp h0
       exact h3
 
+omit [CharP F 2] in
 theorem q1_κ (w : ↥(burnsideC135_Wc β 1)) :
     H.q1.κ w = Multiplicative.toAdd (burnsideC135_βc β 1 w) := rfl
 
+omit [CharP F 2] in
 theorem q2_κ (q : ↥(c134Q X L)) : H.q2.κ q = Multiplicative.toAdd (β q) 1 := rfl
 
+omit [CharP F 2] in
 theorem nat₀ (g : ↥L) (x : ↥(centerOf (c134Q X L))) :
     H.q0.κ (cnj ((H.le.trans H.normU) g.2) x) =
       ((slNat α g : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *ᵥ
         H.q0.κ x :=
   H.dsg.natU_act g x (cnj ((H.le.trans H.normU) g.2) x) rfl
 
+omit [CharP F 2] in
 theorem nat₁ (g : ↥L) (x : ↥(burnsideC135_Wc β 1)) :
     H.q1.κ (cnj ((H.le.trans H.normW) g.2) x) =
       ((dualHom (slNat α g) : Matrix.SpecialLinearGroup (Fin 3) F) :
@@ -193,6 +198,7 @@ theorem nat₁ (g : ↥L) (x : ↥(burnsideC135_Wc β 1)) :
       Multiplicative.toAdd (burnsideC135_βc β 1 x)
   rw [H.dsg.dual₁_act g x (cnj ((H.le.trans H.normW) g.2) x) rfl, coe_dualHom]
 
+omit [CharP F 2] in
 theorem nat₂ (g : ↥L) (x : ↥(c134Q X L)) :
     H.q2.κ (cnj ((H.le.trans H.normQ) g.2) x) =
       ((dualHom (slNat α g) : Matrix.SpecialLinearGroup (Fin 3) F) :
@@ -202,6 +208,7 @@ theorem nat₂ (g : ↥L) (x : ↥(c134Q X L)) :
       Multiplicative.toAdd (β x) 1
   rw [H.βeq g x (cnj ((H.le.trans H.normQ) g.2) x) rfl 1, moduleAct_true_eq]
 
+omit [CharP F 2] in
 theorem mem_T_of_rep {A : Subgroup G} (hAX : A ≤ X) (a : ↥A)
     (h : H.q0.rep (hAX.trans H.normU) (le_normalizer_bot A) a = 1) : (a : G) ∈ pCoreOf 2 X := by
   refine H.centralizer_U_le ⟨hAX a.2, Subgroup.mem_centralizer_iff.mpr fun u hu => ?_⟩
@@ -237,6 +244,7 @@ theorem offender {A : Subgroup G} (hAX : A ≤ X) (hA : IsElemAbelian 2 A)
     (H.le.trans H.normU) (H.le.trans H.normW) (H.le.trans H.normQ) H.nat₀ H.nat₁ H.nat₂
     (hAX.trans H.normU) (hAX.trans H.normW) (hAX.trans H.normQ) (hAX.trans H.normL) hA hne
 
+omit [CharP F 2] in
 theorem card_le_range_mul {A : Subgroup G} (hAX : A ≤ X) :
     Nat.card A ≤ Nat.card (H.q0.rep (hAX.trans H.normU) (le_normalizer_bot A)).range *
       Nat.card ↥(A ⊓ pCoreOf 2 X) := by
@@ -248,6 +256,7 @@ theorem card_le_range_mul {A : Subgroup G} (hAX : A ≤ X) :
   have h := Subtype.ext_iff.mp hxy
   exact Subtype.ext (Subtype.ext h)
 
+omit [CharP F 2] in
 theorem card_inf_U_le {A : Subgroup G} (hAX : A ≤ X) (hA : IsElemAbelian 2 A) :
     Nat.card ↥(A ⊓ centerOf (c134Q X L)) ≤
       Nat.card (fixAll (H.q0.rep (hAX.trans H.normU) (le_normalizer_bot A))) := by
@@ -260,6 +269,7 @@ theorem card_inf_U_le {A : Subgroup G} (hAX : A ≤ X) (hA : IsElemAbelian 2 A) 
   have h' := burnsideC135_βU_injective H.dsg (Multiplicative.toAdd.injective h)
   exact Subtype.ext (congrArg (fun z : ↥(centerOf (c134Q X L)) => (z : G)) h')
 
+omit [CharP F 2] in
 theorem card_inf_W_le {A : Subgroup G} (hAX : A ≤ X) (hA : IsElemAbelian 2 A) :
     Nat.card ↥(A ⊓ burnsideC135_Wc β 1) ≤
       Nat.card (fixAll (H.q0.rep (hAX.trans H.normU) (le_normalizer_bot A))) *

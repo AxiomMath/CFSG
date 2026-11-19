@@ -140,7 +140,7 @@ theorem uc22s2114u4_not_stronglyEmbedded {D : Data G} (hk : D.k = 2) :
     ¬ IsStronglyPEmbedded 3 D.M := fun h => by
   have h1 : D.k = 1 := by
     show CFSG.LocalAnalysis.RankThreeUC.kParam D.M = 1
-    rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_pos h]
+    rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_left h]
   omega
 
 theorem uc22s2114u4_isU4_bar2 (hGA : GriessAllModelsStatement) {M L : Subgroup G}

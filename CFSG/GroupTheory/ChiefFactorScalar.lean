@@ -103,7 +103,7 @@ private lemma conj_mem_normal_of_commutator_le {P M N : Subgroup G} (hMP : M ≤
   rw [hxy]
   exact N.mul_mem h hy
 
-private lemma le_normalizer_of_between {P M N : Subgroup G} (hMP : M ≤ P)
+private lemma le_normalizer_of_between {P M N : Subgroup G} (_hMP : M ≤ P)
     (hPM : ⁅M, P⁆ ≤ N) {K : Subgroup G} (hNK : N ≤ K) (hKM : K ≤ M) :
     P ≤ Subgroup.normalizer (K : Set G) := by
   have hforward : ∀ y ∈ P, ∀ z ∈ K, y * z * y⁻¹ ∈ K := by
@@ -156,11 +156,11 @@ private lemma powChiefSubgroup_normalizer {Y N M : Subgroup G} {r : ℕ}
 
 private lemma exists_mem_powChiefSubgroup_not_mem {P M N : Subgroup G} {r : ℕ}
     [Fact r.Prime] [(N.subgroupOf M).Normal] [IsMulCommutative (M ⧸ N.subgroupOf M)]
-    [Finite M] (hP : IsPGroup r P) (hMP : M ≤ P) (hPM : ⁅M, P⁆ ≤ N)
+    [Finite M] (hP : IsPGroup r P) (hMP : M ≤ P) (_hPM : ⁅M, P⁆ ≤ N)
     (hNM : N < M) :
     ∃ m : G, m ∈ powChiefSubgroup N M r ∧ m ∉ N := by
   have hNMle : N ≤ M := hNM.le
-  haveI : Nontrivial (M ⧸ N.subgroupOf M) := by
+  have : Nontrivial (M ⧸ N.subgroupOf M) := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop
     refine (ne_of_lt hNM) (le_antisymm hNMle ?_)
@@ -231,8 +231,8 @@ theorem isChiefFactorUnder_of_commutator_le {G : Type*} [Group G] [Finite G] {r 
     rw [Subgroup.mem_subgroupOf]
     change ⁅(x : G), (y : G)⁆ ∈ N
     exact h
-  haveI hNnorm : (N.subgroupOf M).Normal := Subgroup.Normal.of_commutator_le (↥M) hcommM
-  haveI hQcomm : IsMulCommutative (M ⧸ N.subgroupOf M) := by
+  have hNnorm : (N.subgroupOf M).Normal := Subgroup.Normal.of_commutator_le (↥M) hcommM
+  have hQcomm : IsMulCommutative (M ⧸ N.subgroupOf M) := by
     refine Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr ?_
     change ⁅(⊤ : Subgroup ↥M), ⊤⁆ ≤ N.subgroupOf M
     rw [Subgroup.commutator_le]
@@ -311,8 +311,8 @@ theorem trivial_or_fixedPointFree_of_isChiefFactorUnder {G : Type*} [Group G]
     (∀ m ∈ M, c * m * c⁻¹ * m⁻¹ ∈ N) ∨ (∀ m ∈ M, c * m * c⁻¹ * m⁻¹ ∈ N → m ∈ N) := by
   classical
   have hNM : N ≤ M := hchief.1.le
-  haveI hNnorm : (N.subgroupOf M).Normal := hchief.normal
-  haveI hQcomm : IsMulCommutative (M ⧸ N.subgroupOf M) := by
+  have hNnorm : (N.subgroupOf M).Normal := hchief.normal
+  have hQcomm : IsMulCommutative (M ⧸ N.subgroupOf M) := by
     refine Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr ?_
     change ⁅(⊤ : Subgroup ↥M), ⊤⁆ ≤ N.subgroupOf M
     rw [Subgroup.commutator_le]
@@ -363,7 +363,7 @@ private lemma end_pow_three_sub_one {K V : Type*} [Field K] [AddCommGroup V] [Mo
           (1 + Polynomial.C ω + Polynomial.C (ω ^ 2)) *
             (Polynomial.X - Polynomial.X ^ 2) +
           (Polynomial.C ω * Polynomial.C (ω ^ 2) - 1) * (Polynomial.X - 1) := by
-      simp only [Polynomial.C_1, mul_one]
+      simp only [Polynomial.C_1]
       ring
     rw [hsum', hprod'] at h
     simpa using h
@@ -378,7 +378,7 @@ private lemma end_pow_three_sub_one {K V : Type*} [Field K] [AddCommGroup V] [Mo
 
 private lemma exists_cube_root_of_mod_three {r : ℕ} [Fact r.Prime] (hr : r % 3 = 1) :
     ∃ ζ : ZMod r, ζ ^ 3 = 1 ∧ ζ ≠ 1 ∧ 1 + ζ + ζ ^ 2 = 0 := by
-  haveI : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
+  have : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
   have h3dvd : 3 ∣ r - 1 := by omega
   obtain ⟨ζ, hζ⟩ := TauCeti.ZMod.exists_isPrimitiveRoot_of_dvd_sub_one
     (Fact.out : r.Prime) h3dvd
@@ -393,7 +393,7 @@ private lemma exists_cube_root_of_mod_three {r : ℕ} [Fact r.Prime] (hr : r % 3
   · linear_combination h
 
 private lemma ker_scalar_eq_bot {r : ℕ} [Fact r.Prime] {N M : Subgroup G} {c : G} {w : ℕ}
-    [(N.subgroupOf M).Normal] [IsMulCommutative (M ⧸ N.subgroupOf M)]
+    [(N.subgroupOf M).Normal]
     [IsElementaryAbelian r (M ⧸ N.subgroupOf M)]
     (hcM : c ∈ Subgroup.normalizer (M : Set G))
     (hKN : chiefScalarSubgroup N M c w hcM = N)
@@ -486,7 +486,7 @@ private lemma false_of_all_scalarK_eq {G : Type*} [Group G] {r : ℕ} [Fact r.Pr
     (hw1N : chiefScalarSubgroup N M c ζ.val hcM = N)
     (hw2N : chiefScalarSubgroup N M c (ζ ^ 2).val hcM = N) : False := by
   classical
-  haveI hEA : IsElementaryAbelian r (M ⧸ N.subgroupOf M) := hchief.isElementaryAbelian
+  have hEA : IsElementaryAbelian r (M ⧸ N.subgroupOf M) := hchief.isElementaryAbelian
   let Q := M ⧸ N.subgroupOf M
   let V := Additive Q
   have hMnorm : Subgroup.zpowers c ≤ Subgroup.normalizer (M : Set G) :=
@@ -530,8 +530,8 @@ theorem exists_pow_of_isChiefFactorUnder {G : Type*} [Group G] {r : ℕ}
     ∃ w : ℕ, ∀ m ∈ M, c * m * c⁻¹ * (m ^ w)⁻¹ ∈ N := by
   classical
   have hNM : N ≤ M := hchief.1.le
-  haveI hNnorm : (N.subgroupOf M).Normal := hchief.normal
-  haveI hQcomm : IsMulCommutative (M ⧸ N.subgroupOf M) := by
+  have hNnorm : (N.subgroupOf M).Normal := hchief.normal
+  have hQcomm : IsMulCommutative (M ⧸ N.subgroupOf M) := by
     refine Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr ?_
     change ⁅(⊤ : Subgroup ↥M), ⊤⁆ ≤ N.subgroupOf M
     rw [Subgroup.commutator_le]

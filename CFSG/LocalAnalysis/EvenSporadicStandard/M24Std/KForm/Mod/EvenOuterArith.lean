@@ -26,7 +26,7 @@ theorem lieModel_two_not_a6data (hO : LieOrderFormulasInput) {X : Type} [Group X
       first | exact absurd rfl hadm.2.2.2 | (revert hN; decide)
   · rcases ht with rfl | rfl <;> simp only [lieSylowExponent] at hb <;>
       interval_cases n <;> interval_cases f <;> norm_num at hb <;>
-      first | exact absurd rfl hadm.2.2.2 | (revert hN; decide)
+      first | exact absurd rfl hadm.2.2.2
   · rcases ht with rfl | rfl <;> simp only [lieSylowExponent] at hb <;> norm_num at hb
   · obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
     cases t <;> simp only [ne_eq, not_true_eq_false] at h1 h2 h3 h4 h5 h6 <;>

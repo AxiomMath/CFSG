@@ -29,7 +29,7 @@ theorem card_inf_centralizer_le_nine {K B : Subgroup Y}
   have hCel : IsElemAbelian 3 C := hB.mono hCB
   by_contra hle
   have h10 : 9 < Nat.card ↥C := Nat.lt_of_not_le hle
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := hCel.isPGroup.exists_card_eq
   have h9n : 3 ^ 2 < 3 ^ n := by
     rw [← hn]

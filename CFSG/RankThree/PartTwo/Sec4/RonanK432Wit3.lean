@@ -26,7 +26,7 @@ theorem Wit3.conj {G : Type*} [Group G] {N : Subgroup G} {a : G} (h : Wit3 N a) 
     refine Subgroup.mem_zpowers_iff.mpr ⟨k, ?_⟩
     have hpow : (g * a * g⁻¹) ^ k = g * a ^ k * g⁻¹ := by
       have := conj_zpow (a := g) (b := a) (i := k)
-      simpa using this
+      simp
     rw [hpow] at hk
     have := congrArg (fun t => g⁻¹ * t * g) hk
     simpa [mul_assoc] using this
@@ -37,7 +37,7 @@ theorem wit3_all_of_sylow {G : Type} [Group G] [Finite G] (N : Subgroup G)
     (h : ∀ σ ∈ P, σ ≠ 1 → σ ^ 3 = 1 → Wit3 N σ) :
     ∀ a : G, a ≠ 1 → a ^ 3 = 1 → Wit3 N a := by
   intro a ha1 ha3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGne : Nat.card G ≠ 0 := Nat.card_pos.ne'
   have hfacS : (Nat.card G).factorization 3 = n := by
     have h3 : 3 ^ n ∣ Nat.card G := hP ▸ Subgroup.card_subgroup_dvd_card P

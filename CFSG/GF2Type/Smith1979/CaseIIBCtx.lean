@@ -49,7 +49,7 @@ theorem mem_Asp {q : QuadraticForm (ZMod 2) V} {a x : V} : x ∈ Asp q a ↔ pol
     simpa using h a (Submodule.mem_span_singleton_self a)
   · intro h n hn
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hn
-    simp [polar_smul_left, h]
+    simp [h]
 
 theorem finrank_map_add_finrank_inf_ker [FiniteDimensional (ZMod 2) V] (f : V →ₗ[ZMod 2] V)
     (P : Submodule (ZMod 2) V) :
@@ -138,6 +138,7 @@ theorem perp_A {u : V} (hu : ∀ x ∈ Asp q a, polar q x u = 0) :
   rw [polarBilin_apply_apply]
   exact hu x hx
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem not_range_le_E {s : V ≃ₗ[ZMod 2] V} (hs : s ∈ L) (hs1 : s ≠ 1) :
     ¬ LinearMap.range ((s : V →ₗ[ZMod 2] V) - 1) ≤ E := by
   intro hle
@@ -148,6 +149,7 @@ theorem not_range_le_E {s : V ≃ₗ[ZMod 2] V} (hs : s ∈ L) (hs1 : s ≠ 1) :
     exact C.polar_E he (hle ⟨x, rfl⟩)
   exact sub_eq_zero.mp h0
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_sub_eq_a {s : V ≃ₗ[ZMod 2] V} (hs : s ∈ L) (hs1 : s ≠ 1) :
     ∃ e ∈ E, s e - e = a := by
   by_contra hcon

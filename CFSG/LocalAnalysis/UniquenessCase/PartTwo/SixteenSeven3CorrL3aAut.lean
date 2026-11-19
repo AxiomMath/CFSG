@@ -12,7 +12,7 @@ open CFSG.Quasithin
 open CFSG.RankThree.PartOne.N1322 (ext27_pm ext27_center_cube)
 
 private theorem s16c167_mulAut_eq_one_of_pos {H : Type} [Group H] [Finite H]
-    (hcard : Nat.card H = 27) (hext : CFSG.IsExtraspecialPGroup 3 H) {θ : MulAut H}
+    (_hcard : Nat.card H = 27) (hext : CFSG.IsExtraspecialPGroup 3 H) {θ : MulAut H}
     (hθ2 : θ * θ = 1) (hθz : ∀ z ∈ Subgroup.center H, θ z = z)
     (hθpos : ∀ a, θ a * a⁻¹ ∈ Subgroup.center H) : θ = 1 := by
   have hθ2' : ∀ x, θ (θ x) = x := fun x => by
@@ -40,7 +40,7 @@ theorem s16c167_aut_eq_of_fix_center {H : Type} [Group H] [Finite H] (hH : IsPOn
     {φ ψ : MulAut H} (hφ2 : φ * φ = 1) (hψ2 : ψ * ψ = 1) (hφψ : φ * ψ = ψ * φ)
     (hφz : ∀ z ∈ Subgroup.center H, φ z = z) (hψz : ∀ z ∈ Subgroup.center H, ψ z = z)
     (hφ1 : φ ≠ 1) (hψ1 : ψ ≠ 1) : φ = ψ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hext : CFSG.IsExtraspecialPGroup 3 H :=
     (CFSG.isExtraspecialPGroup_iff_isExtraspecial (p := 3) (P := H)).mpr hH.1
   have hcard : Nat.card H = 27 := by rw [hH.2.1]; norm_num

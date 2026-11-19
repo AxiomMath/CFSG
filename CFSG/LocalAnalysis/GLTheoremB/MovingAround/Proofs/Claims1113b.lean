@@ -115,7 +115,7 @@ theorem inducesInner_of_plane_core (h1111 : Lemma1111Statement) (h1112 : Lemma11
     (hDC : D ≤ Subgroup.centralizer ({(⟨a, haM⟩ : ↥M)} : Set ↥M))
     (hDel : IsElemAbelian 3 D) (hD9 : Nat.card D = 9) :
     ∀ x ∈ D, InducesInner 3 K (x : G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) with hπ
   set Lq := GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) with hLq
   set a' : ↥M := ⟨a, haM⟩ with ha'
@@ -300,7 +300,7 @@ theorem nonsolvChevClaim_core (hQ : Lemma1113b.NonsolvQuasisimpleClaim)
     (hSolv : Claims11x.Lemma1113SolvClaim) (hC4 : Claims11x.Lemma1113C4Claim) : Lemma1113b.NonsolvChevClaim := by
   intro G _ _ m p B M E A a K h hp e he heEA he1 hL
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) with hπ
   set Lq := GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) with hLq
   have hAM : A ≤ M := h.pair.1.2.1.1.1.1
@@ -359,10 +359,10 @@ theorem nonsolvChevClaim_core (hQ : Lemma1113b.NonsolvQuasisimpleClaim)
     refine ⟨x, hx, y, hy, fun hxy => hq12 ?_⟩
     rw [← map_mul, ← map_mul, hxy]
   obtain ⟨x₀, hx₀, y₀, hy₀, hxy₀⟩ := hnab
-  haveI : Nontrivial ↥Q := ⟨⟨⟨x₀, hx₀⟩, 1, fun h1 => hxy₀ (by
+  have : Nontrivial ↥Q := ⟨⟨⟨x₀, hx₀⟩, 1, fun h1 => hxy₀ (by
     have : x₀ = 1 := congrArg Subtype.val h1
     rw [this, one_mul, mul_one])⟩⟩
-  haveI := hQ3.center_nontrivial
+  have := hQ3.center_nontrivial
   obtain ⟨zc, hzc1⟩ := exists_ne (1 : ↥(Subgroup.center ↥Q))
   set z : ↥M := ((zc : ↥Q) : ↥M) with hz
   have hzQ : z ∈ Q := (zc : ↥Q).2

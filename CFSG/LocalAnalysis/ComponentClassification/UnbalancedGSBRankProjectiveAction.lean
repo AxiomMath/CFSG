@@ -237,7 +237,7 @@ theorem projective_action_of_sup {a : H} (ha : orderOf a = 2) (haZ : a ∈ cente
   obtain ⟨TK, hTK⟩ := exists_sylow_inf_of_le_normalizer hSN hSsyl hKN hNK
   have hS2 : IsPGroup 2 S := by
     obtain ⟨T₀, hT₀⟩ := hSsyl
-    have h := T₀.isPGroup'.map (normalizer (J : Set H)).subtype
+    have h := T₀.isPGroup.map (normalizer (J : Set H)).subtype
     rwa [hT₀, subgroupOf_map_subtype, inf_of_le_left hSN] at h
   have hQN : UnbalancedLayer.coreActionKernel J ≤ normalizer (J : Set H) := fun g hg =>
     (UnbalancedLayer.mem_coreActionKernel.mp hg).1

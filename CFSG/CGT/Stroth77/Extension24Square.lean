@@ -79,10 +79,10 @@ theorem mem_cosets_Idx4 (hcard : Nat.card (C ⧸ B.subgroupOf C) = 4)
   let π : C →* Q := QuotientGroup.mk' (B.subgroupOf C)
   have hmem : ∀ x : C, x ∈ B.subgroupOf C ↔ π x = 1 := fun x =>
     (QuotientGroup.eq_one_iff x).symm
-  haveI : Fintype Q := Fintype.ofFinite Q
-  haveI : Nontrivial Q := Fintype.one_lt_card_iff_nontrivial.mp (by
+  have : Fintype Q := Fintype.ofFinite Q
+  have : Nontrivial Q := Fintype.one_lt_card_iff_nontrivial.mp (by
     rw [Fintype.card_eq_nat_card, hcard]; norm_num)
-  haveI : IsKleinFour Q := by
+  have : IsKleinFour Q := by
     refine ⟨hcard, ?_⟩
     rw [Monoid.exponent_eq_prime_iff Nat.prime_two]
     intro q hq
@@ -114,7 +114,7 @@ theorem exists_gens_Idx4 (hcard : Nat.card (C ⧸ B.subgroupOf C) = 4)
   let π : C →* Q := QuotientGroup.mk' (B.subgroupOf C)
   have hmem : ∀ x : C, x ∈ B.subgroupOf C ↔ π x = 1 := fun x =>
     (QuotientGroup.eq_one_iff x).symm
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   have hone_lt : 1 < Fintype.card Q := by
     rw [Fintype.card_eq_nat_card, hcard]; norm_num
   obtain ⟨q₁, hq₁⟩ := Fintype.exists_ne_of_one_lt_card hone_lt (1 : Q)
@@ -136,6 +136,7 @@ theorem exists_gens_Idx4 (hcard : Nat.card (C ⧸ B.subgroupOf C) = 4)
 
 end Cosets
 
+omit [Finite S] in
 theorem eq_zpow_c_a_b_Idx4 {τ : StrothTypeIndex} (D : StrothTypeData B τ) {β : B} {i j l : ℤ}
     (h : D.ec β = i • gen τ.k 0 + j • gen τ.k 1 + l • gen τ.k 2) :
     β = D.c ^ i * D.a ^ j * D.b ^ l := by
@@ -152,6 +153,7 @@ variable (D : StrothTypeData B (StrothTypeIndex.t300 n)) (hn : 1 ≤ n)
 
 variable {D hn hsq}
 
+omit [Finite S] in
 theorem sqParity300_mul (hcomm : ∀ x y : C, x * y = y * x) (x y : C) :
     sqParity300 D hn hsq (x * y) = sqParity300 D hn hsq x + sqParity300 D hn hsq y := by
   have hxy : (⟨((x * y : C) : S) * ((x * y : C) : S), hsq (x * y)⟩ : B) =
@@ -165,6 +167,7 @@ theorem sqParity300_mul (hcomm : ∀ x y : C, x * y = y * x) (x y : C) :
   simp only [sqParity300]
   rw [hxy, D.ec_mul, map_add]
 
+omit [Finite S] in
 theorem sqParity300_of_mem (x : C) (hx : (x : S) ∈ B) : sqParity300 D hn hsq x = 0 := by
   simp only [sqParity300]
   rw [parityTorus_eq_zero_iff]
@@ -172,6 +175,7 @@ theorem sqParity300_of_mem (x : C) (hx : (x : S) ∈ B) : sqParity300 D hn hsq x
   have h : (⟨(x : S) * x, hsq x⟩ : B) = ⟨x, hx⟩ * ⟨x, hx⟩ := rfl
   rw [h, D.ec_mul, two_nsmul]
 
+omit [Finite S] in
 theorem mem_of_sqParity300_eq_zero (hcomm : ∀ x y : C, x * y = y * x)
     (hC : C ≤ Subgroup.centralizer (B : Set S)) (hH : NoInvolutionsCentralizing S' B)
     (hcS : C ≤ S') (hBC : B ≤ C) (x : C) (h : sqParity300 D hn hsq x = 0) :
@@ -203,6 +207,7 @@ theorem mem_of_sqParity300_eq_zero (hcomm : ∀ x y : C, x * y = y * x)
   rw [hx]
   exact B.mul_mem hwB σ.2
 
+omit [Finite S] in
 theorem sqParity300_conj_ρ (hL : D.L ≤ Subgroup.normalizer C) (x : C) :
     sqParity300 D hn hsq (conjBy (hL D.ρ_mem_L) x) = rhoBar300 (sqParity300 D hn hsq x) := by
   have h : (⟨((conjBy (hL D.ρ_mem_L) x : C) : S) * (conjBy (hL D.ρ_mem_L) x : C),
@@ -217,6 +222,7 @@ theorem sqParity300_conj_ρ (hL : D.L ≤ Subgroup.normalizer C) (x : C) :
   rw [hconj]
   exact parityTorus_rho300 (t300_k_pos hn) _
 
+omit [Finite S] in
 theorem sqParity300_of_sq_eq_a (hBC : B ≤ C) {x : C} (hx : x * x = ⟨D.a, hBC D.a.2⟩) :
     sqParity300 D hn hsq x = Pi.single 1 1 := by
   have h : (⟨(x : S) * x, hsq x⟩ : B) = D.a := by
@@ -226,6 +232,7 @@ theorem sqParity300_of_sq_eq_a (hBC : B ≤ C) {x : C} (hx : x * x = ⟨D.a, hBC
   rw [h, D.ec_a]
   exact parityTorus_gen _ _ 1
 
+omit [Finite S] in
 theorem sqParity300_of_sq_eq_b (hBC : B ≤ C) {x : C} (hx : x * x = ⟨D.b, hBC D.b.2⟩) :
     sqParity300 D hn hsq x = Pi.single 2 1 := by
   have h : (⟨(x : S) * x, hsq x⟩ : B) = D.b := by

@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isElemAbelian_zpowers_of_sq_eq_one {u : G} (hu2 : u ^ 2 = 1) :
     IsElemAbelian 2 (zpowers u) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -23,6 +24,7 @@ private theorem isElemAbelian_zpowers_of_sq_eq_one {u : G} (hu2 : u ^ 2 = 1) :
   · obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hu2, one_zpow]
 
+omit [Finite G] in
 private theorem centralizer_singleton_le_normalizer_zpowers (u : G) :
     centralizer ({u} : Set G) ≤ normalizer ((zpowers u : Subgroup G) : Set G) := by
   have h : centralizer ({u} : Set G) = centralizer ((zpowers u : Subgroup G) : Set G) := by

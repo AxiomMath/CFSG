@@ -21,8 +21,8 @@ lemma ggNSLiePI2_swap_comm_of_ne {α : Type*} [DecidableEq α] {a b c d : α}
   apply Equiv.Perm.disjoint_swap_swap
   rw [List.nodup_cons, List.nodup_cons, List.nodup_cons]
   refine ⟨?_, ?_, ?_, ?_⟩
-  · simp [List.mem_cons, not_or, hab, hac, had]
-  · simp [List.mem_cons, not_or, hbc, hbd]
+  · simp [List.mem_cons, hab, hac, had]
+  · simp [List.mem_cons, hbc, hbd]
   · simp [List.mem_cons, hcd]
   · simp [List.nodup_cons]
 
@@ -64,7 +64,7 @@ lemma ggNSLiePI2_simpleSwap_braid (N : ℕ) (i : Fin (N - 1)) (hi : (i : ℕ) + 
     exact (by omega : (i : ℕ) ≠ (i : ℕ) + 2) (congrArg Fin.val h)
 
 lemma ggNSLiePI2_simpleSwap_ne (N : ℕ) (i j : Fin (N - 1))
-    (hij : (i : ℕ) ≠ (j : ℕ)) (hij1 : (i : ℕ) + 1 ≠ (j : ℕ))
+    (hij : (i : ℕ) ≠ (j : ℕ)) (_hij1 : (i : ℕ) + 1 ≠ (j : ℕ))
     (hi1j : (i : ℕ) ≠ (j : ℕ) + 1) :
     ggNSLiePI2_simpleSwap N i ≠ ggNSLiePI2_simpleSwap N j := by
   intro heq
@@ -91,8 +91,8 @@ lemma ggNSLiePI2_simpleSwap_ne_adj (N : ℕ) (i : Fin (N - 1)) (hi : (i : ℕ) +
     change Equiv.swap (⟨i.1 + 1, by omega⟩ : Fin N) (⟨i.1 + 2, by omega⟩ : Fin N)
       ⟨i.1, by omega⟩ = ⟨i.1, by omega⟩
     exact Equiv.swap_apply_of_ne_of_ne
-      (by intro h; have h' := congrArg Fin.val h; simp only [Fin.val_mk] at h'; omega)
-      (by intro h; have h' := congrArg Fin.val h; simp only [Fin.val_mk] at h'; omega)
+      (by intro h; have h' := congrArg Fin.val h; simp only at h'; omega)
+      (by intro h; have h' := congrArg Fin.val h; simp only at h'; omega)
   have h2 : (ggNSLiePI2_simpleSwap N i) ⟨i.1, by omega⟩ = ⟨i.1 + 1, by omega⟩ := by
     change Equiv.swap (⟨i.1, by omega⟩ : Fin N) (⟨i.1 + 1, by omega⟩ : Fin N)
       ⟨i.1, by omega⟩ = ⟨i.1 + 1, by omega⟩

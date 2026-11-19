@@ -29,7 +29,7 @@ open CFSG.LocalAnalysis.EvenBN.Common.RankOneLayerRadical
 theorem sl2_center_trivial {k : Type} [Field k] [Fintype k] [CharP k 2]
     (hk4 : 4 ≤ Fintype.card k) (a : SL(2, k)) (ha : ∀ x : SL(2, k), x * a = a * x) :
     a = 1 := by
-  haveI : IsSimpleGroup SL(2, k) :=
+  have : IsSimpleGroup SL(2, k) :=
     CFSG.LocalAnalysis.EvenBN.GMSK.sl2_isSimpleGroup CharTwo.two_eq_zero hk4
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center SL(2, k)) with h | h
   · have : a ∈ center SL(2, k) := mem_center_iff.2 ha
@@ -44,7 +44,7 @@ theorem prod_normal_swap {k : Type} [Field k] [Fintype k] [CharP k 2]
     (hk4 : 4 ≤ Fintype.card k) {T : Subgroup (SL(2, k) × SL(2, k))}
     (hn : ∀ x ∈ T, ∀ g : SL(2, k) × SL(2, k), g * x * g⁻¹ ∈ T)
     (hs : ∀ x ∈ T, x.swap ∈ T) : T = ⊥ ∨ T = ⊤ := by
-  haveI : IsSimpleGroup SL(2, k) :=
+  have : IsSimpleGroup SL(2, k) :=
     CFSG.LocalAnalysis.EvenBN.GMSK.sl2_isSimpleGroup CharTwo.two_eq_zero hk4
   set H : Subgroup SL(2, k) := T.comap (MonoidHom.inl SL(2, k) SL(2, k)) with hH
   have hHn : H.Normal := ⟨fun a ha g => by
@@ -104,7 +104,7 @@ theorem eq_bot_or_eq_normalClosure {M : Type} [Group M] {A : Subgroup M} {k : Ty
     (hCn : ∀ c ∈ C, ∀ y ∈ normalClosure (A : Set M), y * c * y⁻¹ ∈ C)
     (hCτ : ∀ c ∈ C, τ⁻¹ * c * τ ∈ C) : C = ⊥ ∨ C = normalClosure (A : Set M) := by
   classical
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hk' : Fintype.card k = 2 ^ n := by rw [← Nat.card_eq_fintype_card]; exact hk
   have hk4 : 4 ≤ Fintype.card k :=
     hk' ▸ (Nat.pow_le_pow_right (by norm_num) hn : 2 ^ 2 ≤ 2 ^ n)
@@ -146,7 +146,7 @@ theorem eq_bot_or_eq_normalClosure {M : Type} [Group M] {A : Subgroup M} {k : Ty
       rw [hk₂']
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ (2 * n) := Nat.pow_le_pow_right (by norm_num) (by omega)
-    haveI : IsSimpleGroup SL(2, k₂) :=
+    have : IsSimpleGroup SL(2, k₂) :=
       CFSG.LocalAnalysis.EvenBN.GMSK.sl2_isSimpleGroup h2 h4
     have hnorm : (C'.map ψ.toMonoidHom).Normal := ⟨by
       rintro _ ⟨c, hc, rfl⟩ g
@@ -190,7 +190,7 @@ theorem sup_eq_of_exactClosure {M : Type} [Group M] [Finite M] {A : Subgroup M} 
       rw [Subgroup.card_map_of_injective ψ.injective, Common.card_sylow_two_eq_prod ψ P,
         hcard]
     have htop := prod_eq_top_of_diag hn hk hdiag
-      ((P.isPGroup').map ψ.toMonoidHom) hVcard
+      ((P.isPGroup).map ψ.toMonoidHom) hVcard
       (Subgroup.map_mono (fun x hx => hPT x hx))
     refine eq_top_iff.2 fun x _ => ?_
     have hx : ψ x ∈ T.map ψ.toMonoidHom := htop ▸ mem_top _
@@ -448,7 +448,7 @@ theorem normalizer_P_le_normalizer_Y₂ (hW : CFSG.Walter.WalterOrderForm) (h : 
       Subgroup.upperCentralSeries (yamadaP d t) 2 := by
     rw [← hZ2]
     exact Subgroup.comap_map_eq_self_of_injective (yamadaP d t).subtype_injective _
-  haveI : ((yamadaY₂ d t).subgroupOf (yamadaP d t)).Characteristic := by
+  have : ((yamadaY₂ d t).subgroupOf (yamadaP d t)).Characteristic := by
     rw [hsub]
     infer_instance
   exact normalizer_le_normalizer_of_characteristic_subgroupOf (Y₂_le_P hW h d hK hQ) inferInstance
@@ -623,7 +623,7 @@ theorem yamadaP_inf_centralizer_yamadaY₂ (hW : CFSG.Walter.WalterOrderForm) (h
 
 theorem yamadaP_inf_map_conj_wb (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d)
-    (hsyl : IsSylowOf 2 (yamadaP d t) (yamadaN₂ d t)) {α : ↥(yamadaBarK₂ d t) ≃* SL(2, K)}
+    (_hsyl : IsSylowOf 2 (yamadaP d t) (yamadaN₂ d t)) {α : ↥(yamadaBarK₂ d t) ≃* SL(2, K)}
     (hex : ExactClosure (yamadaBarK₂ d t) α (yamadaT₂ d t) (yamadaBarP₂ d t) f) :
     yamadaP d t ⊓ (yamadaP d t).map (MulAut.conj d.wb).toMonoidHom = yamadaM₆ d t ∧
       yamadaN₂ d t = yamadaP d t ⊔ (yamadaP d t).map (MulAut.conj d.wb).toMonoidHom :=

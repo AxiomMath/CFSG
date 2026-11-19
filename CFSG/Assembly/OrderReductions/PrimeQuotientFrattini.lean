@@ -48,7 +48,7 @@ theorem exists_sylow_intersection_normal {group : Type*} [Group group] [Finite g
     ∃ internal : Sylow prime normal,
       (internal : Subgroup normal).map normal.subtype = (sylow : Subgroup group) ⊓ normal := by
   have intersection_prime : IsPGroup prime ((sylow : Subgroup group).subgroupOf normal) :=
-    sylow.isPGroup'.comap_of_injective normal.subtype Subtype.val_injective
+    sylow.isPGroup.comap_of_injective normal.subtype Subtype.val_injective
   obtain ⟨internal, contains⟩ := intersection_prime.exists_le_sylow
   obtain ⟨ambient, ambient_eq⟩ := internal.exists_comap_subtype_eq
   obtain ⟨conjugator, conjugates⟩ := MulAction.exists_smul_eq group ambient sylow

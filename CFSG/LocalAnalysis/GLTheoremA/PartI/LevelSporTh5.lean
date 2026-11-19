@@ -173,7 +173,7 @@ theorem card_dvd_of_injective {A B : Type*} [Group A] [Group B] [Finite B] (f : 
 
 theorem card_eq_sixty_of_dvd_3000 {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
     (hnab : ∃ a b : T, a * b ≠ b * a) (hd : Nat.card T ∣ 3000) : Nat.card T = 60 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hns : ¬ Group.IsSolvable T := fun h => by
     obtain ⟨a, b, hab⟩ := hnab
     exact hab ((IsSimpleGroup.comm_iff_isSolvable.2 h) a b)
@@ -218,10 +218,10 @@ theorem card_eq_sixty_of_dvd_3000 {T : Type} [Group T] [Finite T] [IsSimpleGroup
       norm_num at this
     · apply hns
       have hp : IsPGroup 5 T := by
-        have := P.isPGroup'
+        have := P.isPGroup
         rw [ht] at this
         exact this.of_equiv Subgroup.topEquiv
-      haveI := hp.isNilpotent
+      have := hp.isNilpotent
       infer_instance
   ·
     let φ : T →* Equiv.Perm (Sylow 5 T) := MulAction.toPermHom T (Sylow 5 T)
@@ -253,7 +253,7 @@ theorem card_eq_sixty_of_dvd_3000 {T : Type} [Group T] [Finite T] [IsSimpleGroup
     · exact h
     exfalso
     classical
-    haveI : Fintype (Sylow 5 T) := Fintype.ofFinite _
+    have : Fintype (Sylow 5 T) := Fintype.ofFinite _
     have hcS : Fintype.card (Sylow 5 T) = 6 := by rw [Fintype.card_eq_nat_card, ← hn, h6]
     have hsgn : ∀ g : T, Equiv.Perm.sign (φ g) = 1 := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Equiv.Perm.sign.comp φ).ker with hb | ht
@@ -271,14 +271,14 @@ theorem card_eq_sixty_of_dvd_3000 {T : Type} [Group T] [Finite T] [IsSimpleGroup
     set H := φ'.range with hH
     have hHc : Nat.card H = 120 := by
       rw [← h]; exact (Nat.card_congr (MonoidHom.ofInjective hinj').toEquiv).symm
-    haveI : Nontrivial (Sylow 5 T) := by
+    have : Nontrivial (Sylow 5 T) := by
       rw [← Fintype.one_lt_card_iff_nontrivial, hcS]; norm_num
     have hAc : Nat.card (alternatingGroup (Sylow 5 T)) = 360 := by
       have h1 := (alternatingGroup (Sylow 5 T)).card_mul_index
       rw [alternatingGroup.index_eq_two, Nat.card_perm, ← hn, h6] at h1
       rw [show (6 : ℕ).factorial = 720 from rfl] at h1
       omega
-    haveI hAs : IsSimpleGroup (alternatingGroup (Sylow 5 T)) :=
+    have hAs : IsSimpleGroup (alternatingGroup (Sylow 5 T)) :=
       alternatingGroup.isSimpleGroup (by rw [← hn, h6]; norm_num)
     have hHi : H.index = 3 := by
       have := H.card_mul_index
@@ -291,11 +291,11 @@ theorem card_eq_sixty_of_dvd_3000 {T : Type} [Group T] [Finite T] [IsSimpleGroup
       rw [MonoidHom.mem_ker] at hg
       have h1 := congrArg (fun σ => σ (QuotientGroup.mk 1 : alternatingGroup (Sylow 5 T) ⧸ H)) hg
       simp only [ψ, MulAction.toPermHom_apply, MulAction.toPerm_apply, Equiv.Perm.coe_one, id_eq,
-        MulAction.Quotient.smul_mk, mul_one] at h1
+        MulAction.Quotient.smul_mk] at h1
       have h2 := (QuotientGroup.eq (s := H)).1 h1
       simpa using h2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ψ.ker with hb | ht
-    · haveI : Finite (alternatingGroup (Sylow 5 T) ⧸ H) := inferInstance
+    · have : Finite (alternatingGroup (Sylow 5 T) ⧸ H) := inferInstance
       have := card_dvd_of_injective ψ ((MonoidHom.ker_eq_bot_iff ψ).1 hb)
       rw [Nat.card_perm, ← Subgroup.index_eq_card, hHi, hAc] at this
       norm_num [Nat.factorial] at this
@@ -311,7 +311,7 @@ theorem pSimple_simple_nonab {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.P
     {X I : Subgroup G} (hI : GLAPComponent p X I) :
     IsSimpleGroup (PSimple p I) ∧ ∃ a b : PSimple p I, a * b ≠ b * a := by
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hI
-  haveI hs : IsSimpleGroup (PSimple p I) := hq.2
+  have hs : IsSimpleGroup (PSimple p I) := hq.2
   refine ⟨hs, ?_⟩
   by_contra hc
   push Not at hc
@@ -340,8 +340,8 @@ theorem levelOK_five_of_card_dvd_3000 {Q : Type} [Group Q] [Finite Q] {k : Q}
     (hk : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 3000) : LevelOK 5 k := by
   intro I hI
   obtain ⟨hs, hnab⟩ := pSimple_simple_nonab Nat.prime_five hI
-  haveI := hs
-  haveI : Finite (PSimple 5 I) := inferInstance
+  have := hs
+  have : Finite (PSimple 5 I) := inferInstance
   have hd : Nat.card (PSimple 5 I) ∣ 3000 :=
     ((KDL227Rows.card_pSimple_dvd 5 I).trans (Subgroup.card_dvd_of_le hI.1)).trans hk
   exact kLevel_five_le_of_card_sixty (card_eq_sixty_of_dvd_3000 hnab hd)
@@ -367,9 +367,9 @@ theorem kdSporRow_Th_five
   have hs : IsSimpleGroup ↥CFSG.Sporadic.Th.J :=
     CFSG.Sporadic.Th.Kernel.isSimpleGroup_J CFSG.Sporadic.Th.th_kernel_facts
   have hnc : ∃ a c : ↥CFSG.Sporadic.Th.J, a * c ≠ c * a := by
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.symm.toEquiv
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th
         CFSG.Sporadic.Th.th_kernel_facts
     have hcC : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Th) = 90745943887872000 :=

@@ -16,14 +16,14 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s16c4_calO2_one_eq_empty_of_mBarGT (D : Data G) {V : Subgroup G} (h : Hyp125 D ⊥ V)
     (hm : MBarGT D.M ⊥ V 1) : calO2 1 D.M ⊥ V = ∅ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV : IsElemAbelian 2 V := h.isElemAbelian
   have hV2 : IsPGroup 2 V := hV.isPGroup
   refine Set.eq_empty_of_forall_notMem ?_
   rintro X ⟨g, rfl, -, ⟨I, hI, hb⟩, -, -⟩
   obtain ⟨hIX, g', hIg', hmI⟩ := hI
   have hIV : I ≤ V := hIX.trans inf_le_left
-  obtain ⟨b, hbmem, hbV⟩ := SetLike.not_le_iff_exists.1 hb
+  obtain ⟨b, hbmem, hbV⟩ := IsConcreteLE.not_le_iff_exists.1 hb
   obtain ⟨⟨hbVg, hbM⟩, hbI⟩ := hbmem
   have hb2 : b * b = 1 := by
     have := (E3.isElemAbelian_conjSubgroup hV g).2 b hbVg

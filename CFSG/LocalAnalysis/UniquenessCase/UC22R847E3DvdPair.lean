@@ -22,7 +22,7 @@ private theorem exists_lift_invPairOf {X Y : Type} [Group X] [Finite X] [Group Y
     (hsc : s * c * s⁻¹ = c⁻¹) (hs2 : s ^ 2 = 1) :
     ∃ x g : X, orderOf x = q ∧ g * x * g⁻¹ = x⁻¹ ∧ ∀ b : X, f b * c = c * f b →
       f b * s = s * f b → b * x = x * b ∧ b * g = g * b := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set m := Nat.card f.ker with hm
   have hkm : ∀ z ∈ f.ker, z ^ m = 1 := fun z hz =>
     congrArg Subtype.val (pow_card_eq_one' (x := (⟨z, hz⟩ : f.ker)))
@@ -66,7 +66,7 @@ theorem R847E3.exists_invPairOf_index_le (hgr : GriessAllModelsStatement) {X : T
     (hinn : φ.range ≤ (MulAut.conj : X →* MulAut X).range) :
     ∃ x g : X, orderOf x = q ∧ g * x * g⁻¹ = x⁻¹ ∧
       ∃ Q : Subgroup P, Q.index ≤ p ∧ ∀ u ∈ Q, φ u x = x ∧ φ u g = g := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hn2, K, _, h, ⟨θ⟩⟩ := U3Loss.exists_equiv_primeFormP hX.2
   let f := θ.toMonoidHom.comp (QuotientGroup.mk' (center X))
   have hf : Function.Surjective f := θ.surjective.comp (QuotientGroup.mk'_surjective _)

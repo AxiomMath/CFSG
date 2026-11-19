@@ -36,12 +36,14 @@ private noncomputable abbrev compConjAction (K : Subgroup G) (e : G)
     (heK : e ∈ Subgroup.normalizer (K : Set G)) : ↥(Subgroup.zpowers e) →* MulAut ↥K :=
   (Subgroup.normalizerMonoidHom (H := K)).comp (Subgroup.inclusion (Subgroup.zpowers_le.mpr heK))
 
+omit [Finite G] in
 private lemma compConjAction_gen_apply (K : Subgroup G) (e : G)
     (heK : e ∈ Subgroup.normalizer (K : Set G)) (x : ↥K) :
     ((compConjAction K e heK (zpowersGen e) x : ↥K) : G) = e * (x : G) * e⁻¹ := by
   rw [compConjAction, MonoidHom.comp_apply, Subgroup.normalizerMonoidHom_apply_apply_coe,
     Subgroup.coe_inclusion]
 
+omit [Finite G] in
 private lemma compConjAction_mem_center (K : Subgroup G) (e : G)
     (heK : e ∈ Subgroup.normalizer (K : Set G)) (a : ↥(Subgroup.zpowers e))
     {n : ↥K} (hn : n ∈ Subgroup.center ↥K) :
@@ -75,8 +77,8 @@ private theorem exists_suzukiModel_centerQuotient
   have hKG : CFSG.Open.IsKGroup ↥K := CFSG.Open.IsKGroup.of_le hKH hK.1
   have hcat : CFSG.Open.IsCatalogGroup (↥K ⧸ Subgroup.center ↥K) :=
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.inCatalog_quotient_center_of_kgroup hq hKG
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
-  haveI : Finite (↥K ⧸ Subgroup.center ↥K) :=
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : Finite (↥K ⧸ Subgroup.center ↥K) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective (Subgroup.center ↥K))
   have h3 : ¬ 3 ∣ Nat.card (↥K ⧸ Subgroup.center ↥K) := fun h =>
     hK3 (h.trans (Subgroup.card_quotient_dvd_card (Subgroup.center ↥K)))
@@ -120,6 +122,7 @@ private theorem orderOf_compConjActionCenter_eq_three {H K : Subgroup G} {e : G}
       _ = 1 := by rw [h3, map_one]
   exact orderOf_eq_prime hpow hβne
 
+omit [Finite G] in
 private lemma mem_subgroupOf_centralizer_iff (K : Subgroup G) (e : G)
     (heK : e ∈ Subgroup.normalizer (K : Set G)) (c : ↥K) :
     c ∈ (centralizerIn K e).subgroupOf K ↔ compConjAction K e heK (zpowersGen e) c = c := by
@@ -142,20 +145,23 @@ private lemma mem_subgroupOf_centralizer_iff (K : Subgroup G) (e : G)
       rw [hh]
       exact hce⟩
 
+omit [Finite G] in
 private lemma zpowers_zpowersGen (e : G) : Subgroup.zpowers (zpowersGen e) = ⊤ := by
   apply eq_top_iff.mpr
   intro a _
   obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp (a.2 : (a : G) ∈ Subgroup.zpowers e)
   exact Subgroup.mem_zpowers_iff.mpr ⟨n, Subtype.ext hn⟩
 
+omit [Finite G] in
 private lemma fixed_set_eq_centralizer (K : Subgroup G) (e : G)
     (heK : e ∈ Subgroup.normalizer (K : Set G)) :
     {c : ↥K | ∀ a : ↥(Subgroup.zpowers e), compConjAction K e heK a c = c} =
       ((centralizerIn K e).subgroupOf K : Set ↥K) := by
   ext c
-  rw [Set.mem_setOf_eq, fixed_iff_zpowers_generator _ (zpowersGen e) (zpowers_zpowersGen e)]
+  rw [Set.mem_ofPred_eq, fixed_iff_zpowers_generator _ (zpowersGen e) (zpowers_zpowersGen e)]
   exact (mem_subgroupOf_centralizer_iff K e heK c).symm
 
+omit [Finite G] in
 private lemma fixed_set_center_eq_generator (K : Subgroup G) (e : G)
     (heK : e ∈ Subgroup.normalizer (K : Set G)) :
     {q : ↥K ⧸ Subgroup.center ↥K | ∀ a : ↥(Subgroup.zpowers e),
@@ -163,11 +169,11 @@ private lemma fixed_set_center_eq_generator (K : Subgroup G) (e : G)
       {q : ↥K ⧸ Subgroup.center ↥K |
         compConjActionCenter K e heK (zpowersGen e) q = q} := by
   ext q
-  rw [Set.mem_setOf_eq, Set.mem_setOf_eq,
+  rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq,
     fixed_iff_zpowers_generator _ (zpowersGen e) (zpowers_zpowersGen e)]
 
 private theorem map_subgroupOf_centralizer_eq_eqLocus {H K : Subgroup G} {e : G}
-    (hK : CFSG.GorensteinWalter.IsComponentOf K H) (he : e ^ 3 = 1)
+    (_hK : CFSG.GorensteinWalter.IsComponentOf K H) (he : e ^ 3 = 1)
     (heK : e ∈ Subgroup.normalizer (K : Set G)) (hK3 : ¬ 3 ∣ Nat.card K) :
     ((centralizerIn K e).subgroupOf K).map (centerQuotientMap K) =
       MonoidHom.eqLocus (compConjActionCenter K e heK (zpowersGen e)).toMonoidHom
@@ -211,7 +217,7 @@ private theorem five_dvd_card_centralizer
     (hSz : CFSG.Blueprint.SuzukiModel (↥K ⧸ Subgroup.center ↥K) 2 f) :
     5 ∣ Nat.card (((centralizerIn K e).subgroupOf K).map (centerQuotientMap K)) := by
   classical
-  haveI : Finite (↥K ⧸ Subgroup.center ↥K) :=
+  have : Finite (↥K ⧸ Subgroup.center ↥K) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective (Subgroup.center ↥K))
   have h3Kb : ¬ 3 ∣ Nat.card (↥K ⧸ Subgroup.center ↥K) := fun h =>
     hK3 (h.trans (Subgroup.card_quotient_dvd_card (Subgroup.center ↥K)))
@@ -223,15 +229,15 @@ private theorem map_subgroupOf_sup_centralizer_eq_top_of_not_centralizing
     {H K M T : Subgroup G} {e : G} {f : ℕ}
     (hK : CFSG.GorensteinWalter.IsComponentOf K H) (hK3 : ¬ 3 ∣ Nat.card K) (he : e ^ 3 = 1)
     (heK : e ∈ Subgroup.normalizer (K : Set G))
-    (hT : CFSG.ABGLocalTools.IsSylowOf 2 T K) (hTM : T ≤ M)
-    (hCM : centralizerIn K e ≤ M)
+    (hT : CFSG.ABGLocalTools.IsSylowOf 2 T K) (_hTM : T ≤ M)
+    (_hCM : centralizerIn K e ≤ M)
     (hcent : ¬ ∀ k : ↥K, compConjAction K e heK (zpowersGen e) k = k)
     (hSz : CFSG.Blueprint.SuzukiModel (↥K ⧸ Subgroup.center ↥K) 2 f) :
     (((centralizerIn K e ⊔ T).subgroupOf K).map (centerQuotientMap K)) = ⊤ := by
   classical
-  haveI : Finite (↥K ⧸ Subgroup.center ↥K) :=
+  have : Finite (↥K ⧸ Subgroup.center ↥K) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective (Subgroup.center ↥K))
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) :=
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) :=
     (⟨hK.2.2.2.1, hK.2.2.2.2⟩ : CFSG.Open.IsQuasisimple ↥K).2
   by_contra hJtop
   have h5 := five_dvd_card_centralizer hK hK3 he heK hcent hSz
@@ -254,11 +260,12 @@ private theorem map_subgroupOf_sup_centralizer_eq_top_of_not_centralizing
   exact absurd (hJ5.trans (Subgroup.card_dvd_of_le hle))
     (CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.not_five_dvd_normalizer hSz S)
 
+omit [Finite G] in
 private theorem le_sup_of_map_subgroupOf_eq_top {K J : Subgroup G}
     (hperf : Group.IsPerfect ↥K) (hJK : J ≤ K)
     (hJtop : ((J.subgroupOf K).map (centerQuotientMap K)) = ⊤) : K ≤ J := by
   classical
-  haveI : Group.IsPerfect ↥K := hperf
+  have : Group.IsPerfect ↥K := hperf
   let Z : Subgroup ↥K := Subgroup.center ↥K
   have hJZ : (J.subgroupOf K) ⊔ Z = ⊤ := by
     have h := Subgroup.comap_map_eq (f := centerQuotientMap K) (J.subgroupOf K)
@@ -286,6 +293,7 @@ private theorem le_sup_of_map_subgroupOf_eq_top {K J : Subgroup G}
   rw [← Subgroup.map_subgroupOf_eq_of_le hJK, hJ'eq, Subgroup.map_top,
     Subgroup.range_subtype]
 
+omit [Finite G] in
 private lemma centralizerIn_eq_of_centralizing {K : Subgroup G} {e : G}
     (heK : e ∈ Subgroup.normalizer (K : Set G))
     (hcent : ∀ k : ↥K, compConjAction K e heK (zpowersGen e) k = k) :
@@ -323,6 +331,7 @@ theorem le_of_suzuki_component
         (sup_le inf_le_left hT.le) hJtop
     exact hKJ.trans (sup_le hCM hTM)
 
+omit [Finite G] in
 private lemma map_conj_sq_map_conj {K : Subgroup G} {e : G} (he : e ^ 3 = 1) :
     (K.map (MulAut.conj (e ^ 2)).toMonoidHom).map (MulAut.conj e).toMonoidHom = K := by
   rw [Subgroup.map_map]
@@ -337,6 +346,7 @@ private lemma map_conj_sq_map_conj {K : Subgroup G} {e : G} (he : e ^ 3 = 1) :
   rw [hcomp]
   exact Subgroup.map_id K
 
+omit [Finite G] in
 private lemma map_conj_sq_ne {K : Subgroup G} {e : G} (he : e ^ 3 = 1)
     (hKe : K.map (MulAut.conj e).toMonoidHom ≠ K) :
     K.map (MulAut.conj (e ^ 2)).toMonoidHom ≠ K := by
@@ -441,6 +451,7 @@ private theorem subgroupOf_inf_normal {H K K1 K2 M : Subgroup G} {e : G}
   rw [← hd]
   exact mul_mem (mul_mem hdM hnM) (inv_mem hdM)
 
+omit [Finite G] in
 private theorem le_of_normal_not_le_center {K M T : Subgroup G}
     (hqs : CFSG.GorensteinWalter.IsQuasisimple ↥K)
     (hN : ((K ⊓ M).subgroupOf K).Normal)

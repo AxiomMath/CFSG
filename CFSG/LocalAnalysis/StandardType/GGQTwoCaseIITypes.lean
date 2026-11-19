@@ -45,7 +45,7 @@ private theorem ggQ2xCT_sum_eq_of_lt {m : ℕ} (f : Fin m → ZMod 3) {a : ℕ} 
   rw [Finset.sum_eq_single (⟨a, ha⟩ : Fin m)]
   · simp
   · intro b _ hb
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact hb (Fin.ext h.symm)
   · intro h
@@ -55,20 +55,20 @@ private theorem ggQ2xCT_sum_succ {m : ℕ} (f : Fin m → ZMod 3) (p : Fin m) :
     (∑ q : Fin m, (if (p : ℕ) + 1 = (q : ℕ) then f q else 0))
       = if h : (p : ℕ) + 1 < m then f (ggQ2xCT_succ p h) else 0 := by
   by_cases h : (p : ℕ) + 1 < m
-  · rw [dif_pos h, ggQ2xCT_sum_eq_of_lt f h]
+  · rw [dite_eq_left h, ggQ2xCT_sum_eq_of_lt f h]
     rfl
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     apply Finset.sum_eq_zero
     intro q _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hh
     exact h (hh.symm ▸ q.isLt)
 
 private theorem ggQ2xCT_sum_pred {m : ℕ} (f : Fin m → ZMod 3) (p : Fin m) :
     (∑ q : Fin m, (if (q : ℕ) + 1 = (p : ℕ) then f q else 0))
-      = if h : 0 < (p : ℕ) then f (ggQ2xCT_pred p) else 0 := by
-  by_cases h : 0 < (p : ℕ)
-  · rw [dif_pos h]
+      = if _h : 0 < (p : ℕ) then f (ggQ2xCT_pred p) else 0 := by
+  by_cases _h : 0 < (p : ℕ)
+  · rw [dite_eq_left _h]
     have ha : (p : ℕ) - 1 < m := Nat.lt_of_le_of_lt (Nat.sub_le _ _) p.isLt
     have hcongr : (∑ q : Fin m, (if (q : ℕ) + 1 = (p : ℕ) then f q else 0))
         = ∑ q : Fin m, (if (p : ℕ) - 1 = (q : ℕ) then f q else 0) := by
@@ -77,10 +77,10 @@ private theorem ggQ2xCT_sum_pred {m : ℕ} (f : Fin m → ZMod 3) (p : Fin m) :
       rw [if_congr (by omega : ((q : ℕ) + 1 = (p : ℕ)) ↔ ((p : ℕ) - 1 = (q : ℕ))) rfl rfl]
     rw [hcongr, ggQ2xCT_sum_eq_of_lt f ha]
     rfl
-  · rw [dif_neg h]
+  · rw [dite_eq_right _h]
     apply Finset.sum_eq_zero
     intro q _
-    rw [if_neg]
+    rw [ite_eq_right]
     omega
 
 private theorem ggQ2xCT_coefA {m : ℕ} (p q : Fin m) :
@@ -94,32 +94,32 @@ private theorem ggQ2xCT_coefA {m : ℕ} (p q : Fin m) :
   · by_cases hU : (p : ℕ) + 1 = (q : ℕ)
     · have hdisj : (p : ℕ) + 1 = (q : ℕ) ∨ (q : ℕ) + 1 = (p : ℕ) := Or.inl hU
       have hcard : CartanMatrix.A m p q = -1 := by
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hpq, if_pos hdisj]
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hpq, ite_eq_left hdisj]
       have hcoef : ggQ2xCT_Acoef p q = 2 := by
-        simp only [ggQ2xCT_Acoef, if_neg hpq, if_pos hdisj]
+        simp only [ggQ2xCT_Acoef, ite_eq_right hpq, ite_eq_left hdisj]
       rw [hcard, hcoef]
       decide
     · by_cases hV : (q : ℕ) + 1 = (p : ℕ)
       · have hdisj : (p : ℕ) + 1 = (q : ℕ) ∨ (q : ℕ) + 1 = (p : ℕ) := Or.inr hV
         have hcard : CartanMatrix.A m p q = -1 := by
-          simp only [CartanMatrix.A, Matrix.of_apply, if_neg hpq, if_pos hdisj]
+          simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hpq, ite_eq_left hdisj]
         have hcoef : ggQ2xCT_Acoef p q = 2 := by
-          simp only [ggQ2xCT_Acoef, if_neg hpq, if_pos hdisj]
+          simp only [ggQ2xCT_Acoef, ite_eq_right hpq, ite_eq_left hdisj]
         rw [hcard, hcoef]
         decide
       · have hdisj : ¬ ((p : ℕ) + 1 = (q : ℕ) ∨ (q : ℕ) + 1 = (p : ℕ)) :=
           fun hh => hh.elim hU hV
         have hcard : CartanMatrix.A m p q = 0 := by
-          simp only [CartanMatrix.A, Matrix.of_apply, if_neg hpq, if_neg hdisj]
+          simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hpq, ite_eq_right hdisj]
         have hcoef : ggQ2xCT_Acoef p q = 0 := by
-          simp only [ggQ2xCT_Acoef, if_neg hpq, if_neg hdisj]
+          simp only [ggQ2xCT_Acoef, ite_eq_right hpq, ite_eq_right hdisj]
         rw [hcard, hcoef]
         norm_num
 
 private theorem ggQ2xCT_sumA_plus {m : ℕ} (p : Fin m) (d : Fin m → ZMod 3) :
     (∑ q : Fin m, ggQ2xCT_Acoef p q * d q)
-        + (if h : (p : ℕ) + 1 < m then d (ggQ2xCT_succ p h) else 0)
-        + (if h : 0 < (p : ℕ) then d (ggQ2xCT_pred p) else 0)
+        + (if _h : (p : ℕ) + 1 < m then d (ggQ2xCT_succ p _h) else 0)
+        + (if _h : 0 < (p : ℕ) then d (ggQ2xCT_pred p) else 0)
       = 2 * d p := by
   have hpt : ∀ q : Fin m, ggQ2xCT_Acoef p q * d q
       + (if (p : ℕ) + 1 = (q : ℕ) then d q else 0)
@@ -129,7 +129,7 @@ private theorem ggQ2xCT_sumA_plus {m : ℕ} (p : Fin m) (d : Fin m → ZMod 3) :
     by_cases hpq : p = q
     · subst hpq
       have h1 : ¬ ((p : ℕ) + 1 = (p : ℕ)) := by omega
-      simp [ggQ2xCT_Acoef, h1]
+      simp [ggQ2xCT_Acoef]
     · by_cases hU : (p : ℕ) + 1 = (q : ℕ)
       · by_cases hV : (q : ℕ) + 1 = (p : ℕ)
         · exact (by omega : False).elim
@@ -155,7 +155,7 @@ private theorem ggQ2xCT_sumA_plus {m : ℕ} (p : Fin m) (d : Fin m → ZMod 3) :
     Finset.sum_congr rfl (fun q _ => hpt q)
   rw [h2] at h1
   rw [← Finset.mul_sum, Finset.sum_ite_eq] at h1
-  simp only [Finset.mem_univ, if_true] at h1
+  simp only [Finset.mem_univ, ite_true] at h1
   rw [ggQ2xCT_sum_succ, ggQ2xCT_sum_pred] at h1
   exact h1.symm
 
@@ -172,18 +172,18 @@ private theorem ggQ2xCT_cartan_A (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
       simp
     have hlabel : (CoxeterMatrix.A m) i j = 2 ∨ (CoxeterMatrix.A m) i j = 3 := by
       simp only [CoxeterMatrix.A, Matrix.of_apply]
-      rw [if_neg hij]
+      rw [ite_eq_right hij]
       by_cases h : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)
-      · exact Or.inr (if_pos h)
-      · exact Or.inl (if_neg h)
+      · exact Or.inr (ite_eq_left h)
+      · exact Or.inl (ite_eq_right h)
     rcases hlabel with h2 | h3
     · have hA0 : CartanMatrix.A m i j = 0 := by
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hij]
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij]
         split_ifs with hh
         · exfalso
           have hcontra : (CoxeterMatrix.A m) i j = 3 := by
-            simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hij]
-            exact if_pos (Or.symm hh)
+            simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hij]
+            exact ite_eq_left (Or.symm hh)
           omega
         · rfl
       rcases D.isCartan.2 (e i) (e j) hne with ⟨hm, h1, -⟩ | ⟨hm, -, -⟩ |
@@ -195,12 +195,12 @@ private theorem ggQ2xCT_cartan_A (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
     · have hadj : (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) := by
         by_contra hh
         have hcontra : (CoxeterMatrix.A m) i j = 2 := by
-          simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hij]
-          exact if_neg (fun hD => hh (Or.symm hD))
+          simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hij]
+          exact ite_eq_right (fun hD => hh (Or.symm hD))
         omega
       have hAneg : CartanMatrix.A m i j = -1 := by
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hij]
-        exact if_pos hadj
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij]
+        exact ite_eq_left hadj
       rcases D.isCartan.2 (e i) (e j) hne with ⟨hm, -, -⟩ | ⟨hm, h1, -⟩ |
         ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
       · rw [hcox] at hm; omega
@@ -211,11 +211,11 @@ private theorem ggQ2xCT_cartan_A (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
 private theorem ggQ2xCT_rowA (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
     (he : D.coxeter = (CoxeterMatrix.A m).reindex e) (c : D.ι → ZMod 3)
     (hc : ∀ i, ∑ j, (D.cartan i j : ZMod 3) * c j = 0) (p : Fin m) :
-    (if h : (p : ℕ) + 1 < m then c (e (ggQ2xCT_succ p h)) else 0)
-      + (if h : 0 < (p : ℕ) then c (e (ggQ2xCT_pred p)) else 0)
+    (if _h : (p : ℕ) + 1 < m then c (e (ggQ2xCT_succ p _h)) else 0)
+      + (if _h : 0 < (p : ℕ) then c (e (ggQ2xCT_pred p)) else 0)
       = 2 * c (e p) := by
-  have h := hc (e p)
-  rw [← Equiv.sum_comp e (fun j => (D.cartan (e p) j : ZMod 3) * c j)] at h
+  have _h := hc (e p)
+  rw [← Equiv.sum_comp e (fun j => (D.cartan (e p) j : ZMod 3) * c j)] at _h
   have h2 : (∑ q : Fin m, (D.cartan (e p) (e q) : ZMod 3) * c (e q))
       = ∑ q : Fin m, ggQ2xCT_Acoef p q * c (e q) := by
     apply Finset.sum_congr rfl
@@ -223,7 +223,7 @@ private theorem ggQ2xCT_rowA (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
     rw [ggQ2xCT_cartan_A D e he p q, ggQ2xCT_coefA p q]
   have hsum : (∑ q : Fin m, ggQ2xCT_Acoef p q * c (e q)) = 0 := by
     rw [← h2]
-    exact h
+    exact _h
   have hs := ggQ2xCT_sumA_plus p (fun q => c (e q))
   rw [hsum] at hs
   simpa using hs
@@ -234,7 +234,7 @@ private theorem ggQ2xCT_rowA_mid (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
     (hp : 1 ≤ (p : ℕ)) (hp' : (p : ℕ) + 1 < m) :
     c (e ⟨(p : ℕ) + 1, hp'⟩) + c (e ⟨(p : ℕ) - 1, by omega⟩) = 2 * c (e p) := by
   have hr := ggQ2xCT_rowA D e he c hc p
-  rw [dif_pos hp', dif_pos (by omega : 0 < (p : ℕ))] at hr
+  rw [dite_eq_left hp', dite_eq_left (by omega : 0 < (p : ℕ))] at hr
   have hpred : ggQ2xCT_pred p = (⟨(p : ℕ) - 1, by omega⟩ : Fin m) := Fin.ext rfl
   have hsucc : ggQ2xCT_succ p hp' = (⟨(p : ℕ) + 1, hp'⟩ : Fin m) := Fin.ext rfl
   rw [hpred, hsucc] at hr
@@ -246,7 +246,7 @@ private theorem ggQ2xCT_rowA_zero (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
     2 * c (e ⟨0, hm0⟩) = c (e ⟨1, by omega⟩) := by
   have hr := ggQ2xCT_rowA D e he c hc (⟨0, hm0⟩ : Fin m)
   have h1 : (0 : ℕ) + 1 < m := by omega
-  rw [dif_pos h1, dif_neg (Nat.lt_irrefl 0), add_zero] at hr
+  rw [dite_eq_left h1, dite_eq_right (Nat.lt_irrefl 0), add_zero] at hr
   have hsucc : ggQ2xCT_succ (⟨0, hm0⟩ : Fin m) h1 = (⟨1, by omega⟩ : Fin m) := Fin.ext rfl
   rw [hsucc] at hr
   exact hr.symm
@@ -310,12 +310,12 @@ private theorem ggQ2xCT_cartan_D (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
       intro i j hij h
       by_cases h0 : CartanMatrix.D n i j = 0
       · exact h0
-      · rw [ggCoxeterMatrixD_apply, if_neg hij] at h
+      · rw [ggCoxeterMatrixD_apply, ite_eq_right hij] at h
         simp [h0] at h)
     (by
       intro i j hij h
       have hne : CartanMatrix.D n i j ≠ 0 := by
-        intro h0; rw [ggCoxeterMatrixD_apply, if_neg hij, h0] at h; simp at h
+        intro h0; rw [ggCoxeterMatrixD_apply, ite_eq_right hij, h0] at h; simp at h
       rcases (CartanMatrix.isSimplyLaced_D n) hij with h0 | hm1
       · exact absurd h0 hne
       · exact hm1)
@@ -331,11 +331,11 @@ private theorem ggQ2xCT_rowD (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     (hD : D.coxeter = (ggCoxeterMatrixD n).reindex e) (c : D.ι → ZMod 3)
     (hc : ∀ i, ∑ j, (D.cartan i j : ZMod 3) * c j = 0) (p : Fin n)
     (hp : (p:ℕ) + 4 ≤ n) :
-    (if h : (p:ℕ) + 1 < n then c (e (ggQ2xCT_succ p h)) else 0)
-      + (if h : 0 < (p:ℕ) then c (e (ggQ2xCT_pred p)) else 0)
+    (if _h : (p:ℕ) + 1 < n then c (e (ggQ2xCT_succ p _h)) else 0)
+      + (if _h : 0 < (p:ℕ) then c (e (ggQ2xCT_pred p)) else 0)
       = 2 * c (e p) := by
-  have h := hc (e p)
-  rw [← Equiv.sum_comp e (fun j => (D.cartan (e p) j : ZMod 3) * c j)] at h
+  have _h := hc (e p)
+  rw [← Equiv.sum_comp e (fun j => (D.cartan (e p) j : ZMod 3) * c j)] at _h
   have h2 : (∑ q : Fin n, (D.cartan (e p) (e q) : ZMod 3) * c (e q))
       = ∑ q : Fin n, ggQ2xCT_Acoef p q * c (e q) := by
     apply Finset.sum_congr rfl
@@ -343,7 +343,7 @@ private theorem ggQ2xCT_rowD (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     rw [ggQ2xCT_cartan_D D e hD p q, ggQ2xCT_D_eq_A n p q hp, ggQ2xCT_coefA p q]
   have hsum : (∑ q : Fin n, ggQ2xCT_Acoef p q * c (e q)) = 0 := by
     rw [← h2]
-    exact h
+    exact _h
   have hs := ggQ2xCT_sumA_plus p (fun q => c (e q))
   rw [hsum] at hs
   simpa using hs
@@ -359,18 +359,18 @@ private theorem ggQ2xCT_Dcoef_n2 (n : ℕ) (hn : 4 ≤ n) (q : Fin n) :
   · rw [h1]
     simp [CartanMatrix.D]
   · by_cases h2 : q = (⟨n-3, by omega⟩ : Fin n)
-    · rw [if_neg h1, if_pos h2, h2]
+    · rw [ite_eq_right h1, ite_eq_left h2, h2]
       rw [show CartanMatrix.D n (⟨n-2, by omega⟩ : Fin n) (⟨n-3, by omega⟩ : Fin n) = -1 from by
         simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
         split_ifs <;> omega]
       decide
-    · rw [if_neg h1, if_neg h2]
+    · rw [ite_eq_right h1, ite_eq_right h2]
       rw [show CartanMatrix.D n (⟨n-2, by omega⟩ : Fin n) q = 0 from by
         have ha : (((⟨n-2, by omega⟩ : Fin n)) : ℕ) = n - 2 := rfl
         have hb : (((⟨n-3, by omega⟩ : Fin n)) : ℕ) = n - 3 := rfl
         have h1' : (q : ℕ) ≠ n - 2 := fun hh => h1 (Fin.ext (by rw [hh, ha]))
         have h2' : (q : ℕ) ≠ n - 3 := fun hh => h2 (Fin.ext (by rw [hh, hb]))
-        simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, ha, hb]
+        simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
         split_ifs <;> omega]
       norm_num
 
@@ -382,18 +382,18 @@ private theorem ggQ2xCT_Dcoef_n1 (n : ℕ) (hn : 4 ≤ n) (q : Fin n) :
   · rw [h1]
     simp [CartanMatrix.D]
   · by_cases h2 : q = (⟨n-3, by omega⟩ : Fin n)
-    · rw [if_neg h1, if_pos h2, h2]
+    · rw [ite_eq_right h1, ite_eq_left h2, h2]
       rw [show CartanMatrix.D n (⟨n-1, by omega⟩ : Fin n) (⟨n-3, by omega⟩ : Fin n) = -1 from by
         simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
         split_ifs <;> omega]
       decide
-    · rw [if_neg h1, if_neg h2]
+    · rw [ite_eq_right h1, ite_eq_right h2]
       rw [show CartanMatrix.D n (⟨n-1, by omega⟩ : Fin n) q = 0 from by
         have ha : (((⟨n-1, by omega⟩ : Fin n)) : ℕ) = n - 1 := rfl
         have hb : (((⟨n-3, by omega⟩ : Fin n)) : ℕ) = n - 3 := rfl
         have h1' : (q : ℕ) ≠ n - 1 := fun hh => h1 (Fin.ext (by rw [hh, ha]))
         have h2' : (q : ℕ) ≠ n - 3 := fun hh => h2 (Fin.ext (by rw [hh, hb]))
-        simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, ha, hb]
+        simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
         split_ifs <;> omega]
       norm_num
 
@@ -407,24 +407,24 @@ private theorem ggQ2xCT_Dcoef_n3 (n : ℕ) (hn : 4 ≤ n) (q : Fin n) :
   · rw [h1]
     simp [CartanMatrix.D]
   · by_cases h2 : q = (⟨n-4, by omega⟩ : Fin n)
-    · rw [if_neg h1, if_pos h2, h2]
+    · rw [ite_eq_right h1, ite_eq_left h2, h2]
       rw [show CartanMatrix.D n (⟨n-3, by omega⟩ : Fin n) (⟨n-4, by omega⟩ : Fin n) = -1 from by
         simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
         split_ifs <;> omega]
       decide
     · by_cases h3 : q = (⟨n-2, by omega⟩ : Fin n)
-      · rw [if_neg h1, if_neg h2, if_pos h3, h3]
+      · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left h3, h3]
         rw [show CartanMatrix.D n (⟨n-3, by omega⟩ : Fin n) (⟨n-2, by omega⟩ : Fin n) = -1 from by
           simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
           split_ifs <;> omega]
         decide
       · by_cases h4 : q = (⟨n-1, by omega⟩ : Fin n)
-        · rw [if_neg h1, if_neg h2, if_neg h3, if_pos h4, h4]
+        · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, ite_eq_left h4, h4]
           rw [show CartanMatrix.D n (⟨n-3, by omega⟩ : Fin n) (⟨n-1, by omega⟩ : Fin n) = -1 from by
             simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
             split_ifs <;> omega]
           decide
-        · rw [if_neg h1, if_neg h2, if_neg h3, if_neg h4]
+        · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, ite_eq_right h4]
           rw [show CartanMatrix.D n (⟨n-3, by omega⟩ : Fin n) q = 0 from by
             have ha : (((⟨n-3, by omega⟩ : Fin n)) : ℕ) = n - 3 := rfl
             have hb : (((⟨n-4, by omega⟩ : Fin n)) : ℕ) = n - 4 := rfl
@@ -434,11 +434,11 @@ private theorem ggQ2xCT_Dcoef_n3 (n : ℕ) (hn : 4 ≤ n) (q : Fin n) :
             have h2' : (q : ℕ) ≠ n - 4 := fun hh => h2 (Fin.ext (by rw [hh, hb]))
             have h3' : (q : ℕ) ≠ n - 2 := fun hh => h3 (Fin.ext (by rw [hh, hc]))
             have h4' : (q : ℕ) ≠ n - 1 := fun hh => h4 (Fin.ext (by rw [hh, hd]))
-            simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, ha, hb, hc, hd]
+            simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
             split_ifs <;> omega]
           norm_num
 
-private theorem ggQ2xCT_sum_leaf {n : ℕ} (hn : 4 ≤ n) (a b : Fin n) (hab : a ≠ b)
+private theorem ggQ2xCT_sum_leaf {n : ℕ} (_hn : 4 ≤ n) (a b : Fin n) (hab : a ≠ b)
     (hcoef : ∀ q, ((CartanMatrix.D n a q : ℤ) : ZMod 3) =
       if q = a then 2 else if q = b then 2 else 0)
     (f : Fin n → ZMod 3) :
@@ -471,7 +471,7 @@ private theorem ggQ2xCT_rowD_n2 (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     rw [ggQ2xCT_cartan_D D e hD]
   rw [h2] at h
   rw [ggQ2xCT_sum_leaf hn (⟨n-2, by omega⟩ : Fin n) (⟨n-3, by omega⟩ : Fin n) (by
-      intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
+      intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
     (ggQ2xCT_Dcoef_n2 n hn) (fun q => c (e q))] at h
   exact ggQ2xCT_two_leaf _ _ h
 
@@ -487,7 +487,7 @@ private theorem ggQ2xCT_two_zero : ∀ x : ZMod 3, 2 * x = 0 → x = 0 := by
 private theorem ggQ2xCT_tzero : ∀ A t : ZMod 3,
     2 * (A * t) = (A - 1) * t + 2 * (A * t) + 2 * (A * t) → t = 0 := by decide +kernel
 
-private theorem ggQ2xCT_sum_fork {n : ℕ} (hn : 4 ≤ n) (a b c d : Fin n)
+private theorem ggQ2xCT_sum_fork {n : ℕ} (_hn : 4 ≤ n) (a b c d : Fin n)
     (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d)
     (hcoef : ∀ q, ((CartanMatrix.D n a q : ℤ) : ZMod 3)
       = if q = a then 2 else if q = b then 2 else if q = c then 2 else if q = d then 2 else 0)
@@ -530,7 +530,7 @@ private theorem ggQ2xCT_rowD_n1 (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     rw [ggQ2xCT_cartan_D D e hD]
   rw [h2] at h
   rw [ggQ2xCT_sum_leaf hn (⟨n-1, by omega⟩ : Fin n) (⟨n-3, by omega⟩ : Fin n) (by
-      intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
+      intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
     (ggQ2xCT_Dcoef_n1 n hn) (fun q => c (e q))] at h
   exact ggQ2xCT_two_leaf _ _ h
 
@@ -549,12 +549,12 @@ private theorem ggQ2xCT_rowD_n3 (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
   rw [h2] at h
   rw [ggQ2xCT_sum_fork hn (⟨n-3, by omega⟩ : Fin n) (⟨n-4, by omega⟩ : Fin n)
       (⟨n-2, by omega⟩ : Fin n) (⟨n-1, by omega⟩ : Fin n)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
       (ggQ2xCT_Dcoef_n3 n hn) (fun q => c (e q))] at h
   exact ggQ2xCT_four_fork _ _ _ _ h
 
@@ -564,20 +564,20 @@ private theorem ggQ2xCT_kernel_D (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
   let d : ℕ → ZMod 3 := fun k => if h : k < n then c (e ⟨k, h⟩) else 0
   have hd : ∀ k (h : k < n), d k = c (e ⟨k, h⟩) := fun k h => by
     show (if h' : k < n then c (e ⟨k, h'⟩) else 0) = c (e ⟨k, h⟩)
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hn0 : 0 < n := by omega
   have h0 : 2 * d 0 = d 1 := by
     have hr := ggQ2xCT_rowD D e hD c hc (⟨0, hn0⟩ : Fin n) (by omega)
-    rw [dif_pos (by omega : (0:ℕ) + 1 < n), dif_neg (Nat.lt_irrefl 0), add_zero] at hr
+    rw [dite_eq_left (by omega : (0:ℕ) + 1 < n), dite_eq_right (Nat.lt_irrefl 0), add_zero] at hr
     rw [hd 0 hn0, hd 1 (by omega : 1 < n)]
     exact hr.symm
   have hstep : ∀ k, 1 ≤ k → k + 1 < n - 2 → d (k + 1) + d (k - 1) = 2 * d k := by
     intro k hk1 hk2
     have hk : k < n := by omega
     have hp : ((⟨k, hk⟩ : Fin n) : ℕ) + 4 ≤ n := by
-      simp only [Fin.val_mk]; omega
+      simp only; omega
     have hr := ggQ2xCT_rowD D e hD c hc (⟨k, hk⟩ : Fin n) hp
-    rw [dif_pos (by omega : k + 1 < n), dif_pos (by omega : 0 < k)] at hr
+    rw [dite_eq_left (by omega : k + 1 < n), dite_eq_left (by omega : 0 < k)] at hr
     rw [hd (k + 1) (by omega), hd k hk, hd (k - 1) (by omega)]
     convert hr using 2 <;> exact Fin.ext rfl
   have hrec := ggQ2xCT_rec (n - 2) d h0 hstep
@@ -722,8 +722,7 @@ private theorem ggQ2xCT_cartan_F4 (D : GGQ2Lin 3) (e : Fin 4 ≃ D.ι)
     have h31 : D.cartan (e 3) (e 1) = 0 := hlab2 3 1 (by decide) (by decide)
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp_all [ggQ2xCT_F4b, h00, h01, h02, h03, h10, h11, h12a, h12b, h13, h20, h22, h23,
-        h30, h31, h32, h33]
+      simp_all [ggQ2xCT_F4b]
   · left
     have h00 : D.cartan (e 0) (e 0) = 2 := D.isCartan.1 _
     have h11 : D.cartan (e 1) (e 1) = 2 := D.isCartan.1 _
@@ -741,8 +740,7 @@ private theorem ggQ2xCT_cartan_F4 (D : GGQ2Lin 3) (e : Fin 4 ≃ D.ι)
     have h31 : D.cartan (e 3) (e 1) = 0 := hlab2 3 1 (by decide) (by decide)
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp_all [ggQ2xCT_F4a, h00, h01, h02, h03, h10, h11, h12a, h12b, h13, h20, h22, h23,
-        h30, h31, h32, h33]
+      simp_all [ggQ2xCT_F4a]
 
 private theorem ggQ2xCT_kernel_F4 (D : GGQ2Lin 3) (e : Fin 4 ≃ D.ι)
     (hF : D.coxeter = CoxeterMatrix.F₄.reindex e) (c : D.ι → ZMod 3)
@@ -812,7 +810,6 @@ private theorem ggQ2xCT_kernel_E8_dec (d : Fin 8 → ZMod 3)
   obtain ⟨hd4, hd5⟩ := ggQ2xCT_dec_E8b (d 0) (d 4) (d 5) h3 h4
   rw [hd4] at h5
   rw [hd5] at h5 h6
-  norm_num at h5 h6
   obtain ⟨hd0, hd6, hd7⟩ := ggQ2xCT_dec_E8c (d 0) (d 6) (d 7) h5 h6 h7
   funext p
   fin_cases p <;> simp_all
@@ -863,7 +860,7 @@ private theorem ggQ2xCT_B_label_last (n : ℕ) (hn : 3 ≤ n) (q : Fin n)
   have hb : (((⟨n-2, by omega⟩ : Fin n)) : ℕ) = n - 2 := rfl
   have h1' : (q : ℕ) ≠ n - 1 := fun hh => h1 (Fin.ext (by rw [hh, ha]))
   have h2' : (q : ℕ) ≠ n - 2 := fun hh => h2 (Fin.ext (by rw [hh, hb]))
-  simp only [CoxeterMatrix.B, Matrix.of_apply, Fin.ext_iff, ha, hb]
+  simp only [CoxeterMatrix.B, Matrix.of_apply, Fin.ext_iff]
   split_ifs <;> omega
 
 private theorem ggQ2xCT_B_label_n2 (n : ℕ) (hn : 4 ≤ n) (q : Fin n)
@@ -876,7 +873,7 @@ private theorem ggQ2xCT_B_label_n2 (n : ℕ) (hn : 4 ≤ n) (q : Fin n)
   have h1' : (q : ℕ) ≠ n - 2 := fun hh => h1 (Fin.ext (by rw [hh, ha]))
   have h2' : (q : ℕ) ≠ n - 3 := fun hh => h2 (Fin.ext (by rw [hh, hb]))
   have h3' : (q : ℕ) ≠ n - 1 := fun hh => h3 (Fin.ext (by rw [hh, hc]))
-  simp only [CoxeterMatrix.B, Matrix.of_apply, Fin.ext_iff, ha, hb, hc]
+  simp only [CoxeterMatrix.B, Matrix.of_apply, Fin.ext_iff]
   split_ifs <;> omega
 
 private theorem ggQ2xCT_B_label_n3 (n : ℕ) (hn : 4 ≤ n) :
@@ -892,7 +889,7 @@ private theorem ggQ2xCT_Bcoex_eq_Acoex (n : ℕ) (p q : Fin n) (hp : (p:ℕ) + 3
 
 private theorem ggQ2xCT_B_label_bond (n : ℕ) (hn : 4 ≤ n) :
     CoxeterMatrix.B n (⟨n-2, by omega⟩ : Fin n) (⟨n-1, by omega⟩ : Fin n) = 4 := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hne : n - 2 ≠ n - 1 := by omega
   have hne' : n - 1 ≠ n - 2 := by omega
   simp only [CoxeterMatrix.B, Matrix.of_apply, Fin.ext_iff, hne, hne']
@@ -912,18 +909,18 @@ private theorem ggQ2xCT_cartan_B_chainA (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃
       rw [h1, ggQ2xCT_Bcoex_eq_Acoex n p q hp]
     have hlabel : (CoxeterMatrix.A n) p q = 2 ∨ (CoxeterMatrix.A n) p q = 3 := by
       simp only [CoxeterMatrix.A, Matrix.of_apply]
-      rw [if_neg hpq]
+      rw [ite_eq_right hpq]
       by_cases h : (q : ℕ) + 1 = (p : ℕ) ∨ (p : ℕ) + 1 = (q : ℕ)
-      · exact Or.inr (if_pos h)
-      · exact Or.inl (if_neg h)
+      · exact Or.inr (ite_eq_left h)
+      · exact Or.inl (ite_eq_right h)
     rcases hlabel with h2 | h3
     · have hA0 : CartanMatrix.A n p q = 0 := by
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hpq]
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hpq]
         split_ifs with hh
         · exfalso
           have hcontra : (CoxeterMatrix.A n) p q = 3 := by
-            simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hpq]
-            exact if_pos (Or.symm hh)
+            simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hpq]
+            exact ite_eq_left (Or.symm hh)
           omega
         · rfl
       rcases D.isCartan.2 (e p) (e q) hne with ⟨hm, h1, -⟩ | ⟨hm, -, -⟩ |
@@ -935,12 +932,12 @@ private theorem ggQ2xCT_cartan_B_chainA (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃
     · have hadj : (p : ℕ) + 1 = (q : ℕ) ∨ (q : ℕ) + 1 = (p : ℕ) := by
         by_contra hh
         have hcontra : (CoxeterMatrix.A n) p q = 2 := by
-          simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hpq]
-          exact if_neg (fun hD => hh (Or.symm hD))
+          simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hpq]
+          exact ite_eq_right (fun hD => hh (Or.symm hD))
         omega
       have hAneg : CartanMatrix.A n p q = -1 := by
-        simp only [CartanMatrix.A, Matrix.of_apply, if_neg hpq]
-        exact if_pos hadj
+        simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hpq]
+        exact ite_eq_left hadj
       rcases D.isCartan.2 (e p) (e q) hne with ⟨hm, -, -⟩ | ⟨hm, h1, -⟩ |
         ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
       · rw [hcox] at hm; omega
@@ -952,11 +949,11 @@ private theorem ggQ2xCT_rowB (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     (hB : D.coxeter = (CoxeterMatrix.B n).reindex e) (c : D.ι → ZMod 3)
     (hc : ∀ i, ∑ j, (D.cartan i j : ZMod 3) * c j = 0) (p : Fin n)
     (hp : (p:ℕ) + 3 ≤ n) :
-    (if h : (p:ℕ) + 1 < n then c (e (ggQ2xCT_succ p h)) else 0)
-      + (if h : 0 < (p:ℕ) then c (e (ggQ2xCT_pred p)) else 0)
+    (if _h : (p:ℕ) + 1 < n then c (e (ggQ2xCT_succ p _h)) else 0)
+      + (if _h : 0 < (p:ℕ) then c (e (ggQ2xCT_pred p)) else 0)
       = 2 * c (e p) := by
-  have h := hc (e p)
-  rw [← Equiv.sum_comp e (fun j => (D.cartan (e p) j : ZMod 3) * c j)] at h
+  have _h := hc (e p)
+  rw [← Equiv.sum_comp e (fun j => (D.cartan (e p) j : ZMod 3) * c j)] at _h
   have h2 : (∑ q : Fin n, (D.cartan (e p) (e q) : ZMod 3) * c (e q))
       = ∑ q : Fin n, ggQ2xCT_Acoef p q * c (e q) := by
     apply Finset.sum_congr rfl
@@ -964,7 +961,7 @@ private theorem ggQ2xCT_rowB (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     rw [ggQ2xCT_cartan_B_chainA D e hB p q hp, ggQ2xCT_coefA p q]
   have hsum : (∑ q : Fin n, ggQ2xCT_Acoef p q * c (e q)) = 0 := by
     rw [← h2]
-    exact h
+    exact _h
   have hs := ggQ2xCT_sumA_plus p (fun q => c (e q))
   rw [hsum] at hs
   simpa using hs
@@ -996,8 +993,8 @@ private theorem ggQ2xCT_rowB_n1 (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
       rw [D.isCartan.1]
       norm_num
     · by_cases h2 : q = (⟨n-2, by omega⟩ : Fin n)
-      · rw [if_neg h1, if_pos h2, h2]
-      · rw [if_neg h1, if_neg h2]
+      · rw [ite_eq_right h1, ite_eq_left h2, h2]
+      · rw [ite_eq_right h1, ite_eq_right h2]
         have hcox : D.coxeter (e ⟨n-1, by omega⟩) (e q) = 2 := by
           rw [hB, CoxeterMatrix.reindex_apply]
           simpa using ggQ2xCT_B_label_last n (by omega) q h1 h2
@@ -1006,7 +1003,7 @@ private theorem ggQ2xCT_rowB_n1 (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
         norm_num
   rw [ggQ2xCT_sum_leaf_gen (fun q => ((D.cartan (e ⟨n-1, by omega⟩) (e q) : ℤ) : ZMod 3))
       (⟨n-1, by omega⟩ : Fin n) (⟨n-2, by omega⟩ : Fin n) (by
-        intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
+        intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
       _ hcoef (fun q => c (e q))] at h
   exact h
 
@@ -1030,21 +1027,21 @@ private theorem ggQ2xCT_rowB_n2 (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
       rw [D.isCartan.1]
       norm_num
     · by_cases h2 : q = (⟨n-3, by omega⟩ : Fin n)
-      · rw [if_neg h1, if_pos h2, h2]
+      · rw [ite_eq_right h1, ite_eq_left h2, h2]
         have hcox : D.coxeter (e ⟨n-2, by omega⟩) (e ⟨n-3, by omega⟩) = 3 := by
           rw [hB, CoxeterMatrix.reindex_apply]
           simpa using ggQ2xCT_B_label_n3 n hn
         have hne23 : e ⟨n-2, by omega⟩ ≠ e ⟨n-3, by omega⟩ := by
           intro hh
           have hv := congrArg Fin.val (e.injective hh)
-          simp only [Fin.val_mk] at hv
+          simp only at hv
           omega
         rw [show D.cartan (e ⟨n-2, by omega⟩) (e ⟨n-3, by omega⟩) = -1 from
           ggQ2xCT_label3 D hne23 hcox]
         decide
       · by_cases h3 : q = (⟨n-1, by omega⟩ : Fin n)
-        · rw [if_neg h1, if_neg h2, if_pos h3, h3]
-        · rw [if_neg h1, if_neg h2, if_neg h3]
+        · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left h3, h3]
+        · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
           have hcox : D.coxeter (e ⟨n-2, by omega⟩) (e q) = 2 := by
             rw [hB, CoxeterMatrix.reindex_apply]
             simpa using ggQ2xCT_B_label_n2 n hn q h1 h2 h3
@@ -1053,9 +1050,9 @@ private theorem ggQ2xCT_rowB_n2 (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
           norm_num
   rw [ggQ2xCT_sum_leaf_gen3 (fun q => ((D.cartan (e ⟨n-2, by omega⟩) (e q) : ℤ) : ZMod 3))
       (⟨n-2, by omega⟩ : Fin n) (⟨n-3, by omega⟩ : Fin n) (⟨n-1, by omega⟩ : Fin n)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
-      (by intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
+      (by intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega)
       _ hcoef (fun q => c (e q))] at h
   exact h
 
@@ -1065,20 +1062,20 @@ private theorem ggQ2xCT_kernel_B (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
   let d : ℕ → ZMod 3 := fun k => if h : k < n then c (e ⟨k, h⟩) else 0
   have hd : ∀ k (h : k < n), d k = c (e ⟨k, h⟩) := fun k h => by
     show (if h' : k < n then c (e ⟨k, h'⟩) else 0) = c (e ⟨k, h⟩)
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hn0 : 0 < n := by omega
-  have hp0 : ((⟨0, hn0⟩ : Fin n) : ℕ) + 3 ≤ n := by simp only [Fin.val_mk]; omega
+  have hp0 : ((⟨0, hn0⟩ : Fin n) : ℕ) + 3 ≤ n := by simp only; omega
   have h0 : 2 * d 0 = d 1 := by
     have hr := ggQ2xCT_rowB D e hB c hc (⟨0, hn0⟩ : Fin n) hp0
-    rw [dif_pos (by omega : (0:ℕ) + 1 < n), dif_neg (Nat.lt_irrefl 0), add_zero] at hr
+    rw [dite_eq_left (by omega : (0:ℕ) + 1 < n), dite_eq_right (Nat.lt_irrefl 0), add_zero] at hr
     rw [hd 0 hn0, hd 1 (by omega : 1 < n)]
     exact hr.symm
   have hstep : ∀ k, 1 ≤ k → k + 1 < n - 1 → d (k + 1) + d (k - 1) = 2 * d k := by
     intro k hk1 hk2
     have hk : k < n := by omega
-    have hp : ((⟨k, hk⟩ : Fin n) : ℕ) + 3 ≤ n := by simp only [Fin.val_mk]; omega
+    have hp : ((⟨k, hk⟩ : Fin n) : ℕ) + 3 ≤ n := by simp only; omega
     have hr := ggQ2xCT_rowB D e hB c hc (⟨k, hk⟩ : Fin n) hp
-    rw [dif_pos (by omega : k + 1 < n), dif_pos (by omega : 0 < k)] at hr
+    rw [dite_eq_left (by omega : k + 1 < n), dite_eq_left (by omega : 0 < k)] at hr
     rw [hd (k + 1) (by omega), hd k hk, hd (k - 1) (by omega)]
     convert hr using 2 <;> exact Fin.ext rfl
   have hrec := ggQ2xCT_rec (n - 1) d h0 hstep
@@ -1096,7 +1093,7 @@ private theorem ggQ2xCT_kernel_B (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ D.ι)
     rw [hB, CoxeterMatrix.reindex_apply]
     simpa using ggQ2xCT_B_label_bond n hn
   have hne : e ⟨n-2, by omega⟩ ≠ e ⟨n-1, by omega⟩ :=
-    e.injective.ne (by intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega)
+    e.injective.ne (by intro hh; have := congrArg Fin.val hh; simp only at this; omega)
   rcases ggQ2xCT_label4 D hne hlab with ⟨hcd, hdc⟩ | ⟨hcd, hdc⟩
   · have hβ : (((D.cartan (e ⟨n-1, by omega⟩) (e ⟨n-2, by omega⟩) : ℤ) : ZMod 3)) = 1 := by
       rw [hdc]; decide
@@ -1167,8 +1164,8 @@ theorem ggQ2_caseII_relation (D : GGQ2Lin 3) (hII : D.CaseII) :
         intro k _
         by_cases hk : k = D.a
         · subst hk
-          rw [if_neg (by simp), hca0, zero_smul]
-        · rw [if_pos hk]
+          rw [ite_eq_right (by simp), hca0, zero_smul]
+        · rw [ite_eq_left hk]
       rw [this, hc]
     have hzero : ∀ i, c i = 0 := by
       intro i
@@ -1200,7 +1197,7 @@ theorem ggQ2_caseII_kernel_A (D : GGQ2Lin 3) {m : ℕ} (e : Fin m ≃ D.ι)
   · let d : ℕ → ZMod 3 := fun j => if h : j < m then c (e ⟨j, h⟩) else 0
     have hd : ∀ j (h : j < m), d j = c (e ⟨j, h⟩) := fun j h => by
       show (if h' : j < m then c (e ⟨j, h'⟩) else 0) = c (e ⟨j, h⟩)
-      rw [dif_pos h]
+      rw [dite_eq_left h]
     have h0 : 2 * d 0 = d 1 := by
       rw [hd 0 hm0, hd 1 (by omega : 1 < m)]
       exact ggQ2xCT_rowA_zero D e hA c hc hm0 hm2
@@ -1266,7 +1263,7 @@ theorem ggQ2_caseII_types (D : GGQ2Lin 3) (hII : D.CaseII) (h4 : 4 ≤ Fintype.c
         exact hca (by rw [← hk]; exact hzero k)
       have hlast : 2 * c (e ⟨m-1, by omega⟩) = c (e ⟨m-2, by omega⟩) := by
         have hr := ggQ2xCT_rowA D e hA c hc (⟨m-1, by omega⟩ : Fin m)
-        rw [dif_neg (by omega : ¬ (m-1) + 1 < m), dif_pos (by omega : 0 < m-1),
+        rw [dite_eq_right (by omega : ¬ (m-1) + 1 < m), dite_eq_left (by omega : 0 < m-1),
           zero_add] at hr
         have hpred : ggQ2xCT_pred (⟨m-1, by omega⟩ : Fin m) = (⟨m-2, by omega⟩ : Fin m) := by
           apply Fin.ext; simp only [ggQ2xCT_pred]; omega
@@ -1320,36 +1317,36 @@ theorem ggQ2_caseII_types (D : GGQ2Lin 3) (hII : D.CaseII) (h4 : 4 ≤ Fintype.c
         have hc1 : D.cartan (e k) (e ⟨(k:ℕ)+1, hklt⟩) ≠ 0 := by
           rw [ggQ2xCT_cartan_A D e hA k ⟨(k:ℕ)+1, hklt⟩]
           simp only [CartanMatrix.A, Matrix.of_apply]
-          rw [if_neg (by
+          rw [ite_eq_right (by
             intro hh
             have hv := congrArg Fin.val hh
-            simp only [Fin.val_mk] at hv
+            simp only at hv
             omega)]
           simp
         have hc2 : D.cartan (e k) (e ⟨(k:ℕ)-1, hklt'⟩) ≠ 0 := by
           rw [ggQ2xCT_cartan_A D e hA k ⟨(k:ℕ)-1, hklt'⟩]
           simp only [CartanMatrix.A, Matrix.of_apply]
-          rw [if_neg (by
+          rw [ite_eq_right (by
             intro hh
             have hv := congrArg Fin.val hh
-            simp only [Fin.val_mk] at hv
+            simp only at hv
             omega)]
           omega
         have hq1 : (⟨(k:ℕ)+1, hklt⟩ : Fin m) ≠ k := by
-          intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega
+          intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega
         have hq2 : (⟨(k:ℕ)-1, hklt'⟩ : Fin m) ≠ k := by
-          intro hh; have hv := congrArg Fin.val hh; simp only [Fin.val_mk] at hv; omega
+          intro hh; have hv := congrArg Fin.val hh; simp only at hv; omega
         have h1 := hneigh ⟨(k:ℕ)+1, hklt⟩ hq1 hc1
         have h2 := hneigh ⟨(k:ℕ)-1, hklt'⟩ hq2 hc2
         have heq : (⟨(k:ℕ)+1, hklt⟩ : Fin m) = ⟨(k:ℕ)-1, hklt'⟩ := e.injective (h1.trans h2.symm)
         have hv := congrArg Fin.val heq
-        simp only [Fin.val_mk] at hv
+        simp only at hv
         omega
       rcases hkend with hk0 | hkm
       · left
-        rw [← hk]; congr 1; apply Fin.ext; simp only [Fin.val_mk]; omega
+        rw [← hk]; congr 1; apply Fin.ext; simp only; omega
       · right
-        rw [← hk]; congr 1; apply Fin.ext; simp only [Fin.val_mk]; omega
+        rw [← hk]; congr 1; apply Fin.ext; simp only; omega
     · exfalso
       have hm4' : 4 ≤ m := by have := hcard e; omega
       exact hca (congrFun (ggQ2xCT_kernel_B D e hB hm4' c hc) D.a)

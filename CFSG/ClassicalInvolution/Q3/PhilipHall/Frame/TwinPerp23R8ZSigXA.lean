@@ -34,7 +34,7 @@ theorem p23E8ZSigX0_of_normal_two (hP : TL4.TightBelowRPlus 3 n) (hT : Thm4RTwin
   obtain ⟨I⟩ := H.nonempty_aeIdent hP hT
   obtain ⟨x₀, hx₀X, hx₀t, ⟨k, hk⟩, hx₀e⟩ := AWM.exists_x0 hc x H.K_le_X I
   refine ⟨x₀, hx₀X, hx₀t, ?_, fun h => hx₀e 1 (oddCoreOf _).one_mem (by simpa using h)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hk)
   exact IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
 

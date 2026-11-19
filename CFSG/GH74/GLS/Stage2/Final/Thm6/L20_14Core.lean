@@ -163,7 +163,7 @@ theorem mem_Op_of_orderOf_prime {G : Type} [Group G] [Finite G] {F : Subgroup G}
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord']; simp)
   obtain ⟨P, hP⟩ := hz.exists_le_sylow
   have hnormal := Group.IsNilpotent.sylow_normal hF r P
-  have hle : (P : Subgroup ↥F) ≤ pCore r ↥F := le_sSup ⟨hnormal, P.isPGroup'⟩
+  have hle : (P : Subgroup ↥F) ≤ pCore r ↥F := le_sSup ⟨hnormal, P.isPGroup⟩
   exact ⟨e', hle (hP (Subgroup.mem_zpowers e')), rfl⟩
 
 theorem Op_le_pPrimeCoreOf {G : Type} [Group G] [Finite G] (F : Subgroup G) (p : ℕ) (hp : p.Prime)

@@ -53,7 +53,8 @@ theorem Ctx.recog_cent_le (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
   rw [hF] at h2
   exact Subgroup.mem_subgroupOf.mp h2
 
-theorem Ctx.recog_bar_Z0_comm (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
+omit [Finite G] in
+theorem Ctx.recog_bar_Z0_comm (_hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
     ∀ x ∈ bar M Q Z0, ∀ y ∈ bar M Q (Rt M (LB M Q B) t), x * y = y * x := by
   intro x hx y hy
@@ -91,7 +92,7 @@ theorem Ctx.recog_centralizer_normal_bot (h34 : Stroth34Statement) (h311a : Stro
     (hF : generalizedFitting ↥(bar M Q (NormH0 M Z Z0)) =
       (bar M Q (hc.CN t)).subgroupOf (bar M Q (NormH0 M Z Z0)))
     (hC : CentTwoInV hc t Z0)
-    {X : Subgroup (Mbar M Q)} (hXle : X ≤ bar M Q (H0 M Z))
+    {X : Subgroup (Mbar M Q)} (_hXle : X ≤ bar M Q (H0 M Z))
     (hXn : ∀ h ∈ bar M Q (H0 M Z), h ∈ Subgroup.normalizer (X : Set (Mbar M Q)))
     (hVX : bar M Q Z0 ≤ X) :
     Subgroup.centralizer (X : Set (Mbar M Q)) ⊓ bar M Q (H0 M Z) = ⊥ := by
@@ -146,6 +147,8 @@ theorem omegaPlusSix_equiv_statedProj {K : Type} [Field K] [Finite K] [CharP K 2
     (specialLinearGroupEquivStatedSL 4 K).symm.trans eP
   exact ⟨eGS.trans eS⟩
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 theorem Ctx.recog_quot_equiv (hc : Ctx M Q Z B) {t : G} (hp3 : OmegaPlusNat hc t 3) :
     ∃ (K₀ : Type) (_ : Field K₀) (_ : Finite K₀), Nat.card K₀ = Nat.card Z ∧
       ∃ _ : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal,
@@ -153,7 +156,7 @@ theorem Ctx.recog_quot_equiv (hc : Ctx M Q Z B) {t : G} (hp3 : OmegaPlusNat hc t
           StatedProj (StatedSL 4 K₀)) := by
   obtain ⟨K₀, hf, hfin, hcard, φ, hrange, hker, -⟩ := hp3
   obtain ⟨g, k, hg, -⟩ := hc.hyp.cp
-  haveI : CharP K₀ 2 := charP_two_of_card_eq_two_pow (hcard.trans hg)
+  have : CharP K₀ 2 := charP_two_of_card_eq_two_pow (hcard.trans hg)
   have h4 : 4 ≤ Nat.card K₀ := by rw [hcard]; exact hc.hyp.q4
   obtain ⟨eΩ⟩ := omegaPlusSix_equiv_statedProj (K := K₀) h4
   have hnorm : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal := by
@@ -163,6 +166,7 @@ theorem Ctx.recog_quot_equiv (hc : Ctx M Q Z B) {t : G} (hp3 : OmegaPlusNat hc t
   exact ((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivRange φ)).trans ((MulEquiv.subgroupCongr hrange).trans eΩ)
 
+omit [Finite G] in
 theorem mem_Q_of_mk_mul_comm {a b : M}
     (h : QuotientGroup.mk' (Q.subgroupOf M) a * QuotientGroup.mk' (Q.subgroupOf M) b =
       QuotientGroup.mk' (Q.subgroupOf M) b * QuotientGroup.mk' (Q.subgroupOf M) a) :
@@ -444,7 +448,7 @@ theorem sec717Recog_of_inputs (h34 : Stroth34Statement) (h311a : Stroth311aState
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hLH').toEquiv]
     exact Nat.eq_of_mul_eq_mul_right Nat.card_pos h2
   obtain ⟨K₀, hKf, hKfin, hK₀, hnormN, hquot⟩ := Ctx.recog_quot_equiv hc hp3
-  haveI := hnormN
+  have := hnormN
   obtain ⟨hnormY, hquotY⟩ := nonempty_quot_equiv_bar (M := M) (Q := Q) (H := H0 M Z) hQN hNR
     hRH hHM hquot
   obtain ⟨y, hyR, hyQ, hy3, hyC⟩ := hY G M Q Z B hc n t hs Z0 hZ0
@@ -463,7 +467,7 @@ theorem sec717Recog_of_inputs (h34 : Stroth34Statement) (h311a : Stroth311aState
         intro h
         have h' := congrArg Subtype.val h
         exact hyQ (Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h'))
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact orderOf_eq_prime h3 hne
     · intro x hx hxc
       obtain ⟨x0, hx0⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf M) (x : Mbar M Q)

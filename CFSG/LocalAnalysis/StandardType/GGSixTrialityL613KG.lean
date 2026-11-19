@@ -74,7 +74,7 @@ theorem relIndex_eq_relIndex_of_mul [Finite G] (H : Subgroup G) {N M : Subgroup 
 theorem exists_sylow_le_of_not_dvd [Finite G] {p : ℕ} [Fact p.Prime] {H : Subgroup G}
     (hH : ¬ p ∣ H.index) : ∃ S : Sylow p G, (S : Subgroup G) ≤ H := by
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p H))
-  have hT : IsPGroup p ((T : Subgroup H).map H.subtype) := T.isPGroup'.map _
+  have hT : IsPGroup p ((T : Subgroup H).map H.subtype) := T.isPGroup.map _
   have hidx : ¬ p ∣ ((T : Subgroup H).map H.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h
@@ -91,7 +91,7 @@ theorem exists_conj_commute_of_pCentral [Finite G] {p : ℕ} [Fact p.Prime] {M :
   classical
   set Cz : Subgroup M := (Subgroup.centralizer {z}).subgroupOf M with hCz
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow p Cz))
-  have hT' : IsPGroup p ((T : Subgroup Cz).map Cz.subtype) := T.isPGroup'.map _
+  have hT' : IsPGroup p ((T : Subgroup Cz).map Cz.subtype) := T.isPGroup.map _
   have hidx : ¬ p ∣ ((T : Subgroup Cz).map Cz.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h

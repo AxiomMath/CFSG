@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.GLTheoremA.I2017
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_imageMod_top (K : Subgroup G) (q : PQuot 3 K) : q ∈ imageMod 3 K K := by
   obtain ⟨k, rfl⟩ := QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥K) q
   exact Subgroup.mem_map.2 ⟨k, Subgroup.mem_subgroupOf.2 k.2, rfl⟩
@@ -26,7 +27,7 @@ theorem exists_elemAb_lift {K D : Subgroup G} (hDK : D ≤ Subgroup.normalizer (
     ∃ P : Subgroup G, P ≤ K ⊓ Subgroup.centralizer (D : Set G) ∧ IsElemAbelian 3 P ∧
       Nat.card ↥P = 3 ^ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card ↥(GLAPPrimeCore 3 ↥K)) := CFSG.pPrimeCore_coprime_card
   set N : Subgroup ↥K := GLAPPrimeCore 3 ↥K with hNdef
   set φ : ↥K →* PQuot 3 K := QuotientGroup.mk' N with hφdef
@@ -116,9 +117,10 @@ theorem exists_elemAb_lift {K D : Subgroup G} (hDK : D ≤ Subgroup.normalizer (
       rfl
   · rw [Subgroup.card_map_of_injective K.subtype_injective, hPcard]
 
+omit [Finite G] in
 theorem zpowers_inter_eq_one {K : Subgroup G} {d : G} (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) (hdK : d ∉ K) {z : G}
     (hz : z ∈ Subgroup.zpowers d) (hzK : z ∈ K) : z = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
   have hord : orderOf d = 3 := orderOf_eq_prime hd3 hd1
   have hmod : d ^ j = d ^ (j % 3) := by
@@ -149,7 +151,7 @@ theorem not_mem_of_centMod {K D : Subgroup G} (hDK : D ≤ Subgroup.normalizer (
     (hd : d ∈ D) (hd1 : d ≠ 1) (hd3 : d ^ 3 = 1) (hdC : CentMod 3 K d)
     (hZ : ∀ z ∈ Subgroup.center (PQuot 3 K), z ^ 3 = 1 → z = 1) : d ∉ K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hdK
   have hcop : Nat.Coprime 3 (Nat.card ↥(GLAPPrimeCore 3 ↥K)) := CFSG.pPrimeCore_coprime_card
   have hdN : d ∈ Subgroup.normalizer (K : Set G) := hDK hd
@@ -189,13 +191,14 @@ theorem not_mem_of_centMod {K D : Subgroup G} (hDK : D ≤ Subgroup.normalizer (
   have h3 := Nat.Coprime.eq_one_of_dvd hcop hdvd
   norm_num at h3
 
+omit [Finite G] in
 theorem exists_rank_five {K D P : Subgroup G} {d : G} (hDab : IsElemAbelian 3 D) (hd : d ∈ D)
     (hd1 : d ≠ 1) (hdK : d ∉ K) (hPK : P ≤ K ⊓ Subgroup.centralizer (D : Set G))
     (hPab : IsElemAbelian 3 P) (hP81 : Nat.card ↥P = 3 ^ 4) :
     ∃ P' : Subgroup G, P' ≤ (K ⊔ D) ⊓ Subgroup.centralizer (D : Set G) ∧ IsElemAbelian 3 P' ∧
       Nat.card ↥P' = 3 ^ 5 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd3 : d ^ 3 = 1 := hDab.2 d hd
   set Z : Subgroup G := Subgroup.zpowers d with hZdef
   have hZD : Z ≤ D := Subgroup.zpowers_le.2 hd

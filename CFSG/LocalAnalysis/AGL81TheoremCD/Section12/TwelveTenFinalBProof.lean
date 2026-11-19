@@ -22,6 +22,7 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 variable {G : Type} [Group G] [Finite G]
 variable {M Q H : Subgroup G} {p d : ℕ} {L₁ L₂ L₃ : Subgroup G} {n₁ n₂ n₃ : ℕ}
 
+omit [Finite G] in
 private theorem centralizerInJ_le (M H B : Subgroup G) : centralizerInJ M H B ≤ M :=
   inf_le_right.trans (jSub_le M H)
 
@@ -249,8 +250,8 @@ private theorem range_centralizerInJ_mk
     exact exists_mem_centralizerInJ_of_mem_barM_centralizer hd hB hbM hb hx
 
 private theorem ker_centralizerInJ_eq_pCore
-    (hd : TwelveFiveData M H d L₁ L₂ L₃ n₁ n₂ n₃)
-    {B : Subgroup G} {b : G} (hB : B = Subgroup.zpowers b) (hbM : b ∈ M) (hb : b ^ 3 = 1)
+    (_hd : TwelveFiveData M H d L₁ L₂ L₃ n₁ n₂ n₃)
+    {B : Subgroup G} {b : G} (_hB : B = Subgroup.zpowers b) (hbM : b ∈ M) (_hb : b ^ 3 = 1)
     (hrange : (centralizerInJHom M H B).range = Subgroup.centralizer
         ({QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hbM⟩} : Set (modTwoCore M)) ⊓
         barM M (jSub M H))
@@ -301,7 +302,7 @@ theorem isL3TwoPow_one_centralizerInJ_of_threeCycle
     (hb₃ : L₃.map (MulAut.conj b).toMonoidHom = L₁) :
     IsL3TwoPow 1 (↥(centralizerInJ M H B) ⧸ pCore 2 ↥(centralizerInJ M H B)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcenter₁ : Subgroup.center ↥(barM M L₁) = ⊥ :=
     center_barM_eq_bot_of_isTwoPrimeComponent hd.mem₁.toIsTwoPrimeComponent
       ⟨n₁, hd.odd₁, hd.type₁⟩

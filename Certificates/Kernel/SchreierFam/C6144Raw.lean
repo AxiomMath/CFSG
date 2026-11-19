@@ -38,11 +38,11 @@ theorem mulR_eq (a b : Nat) : mulR a b = enc 6 (fun i => fd 6 a (fd 6 b i)) 42 :
 theorem cd_bound (σ : Equiv.Perm (Fin 42)) :
     ∀ j < 42, (if h : j < 42 then (σ ⟨j, h⟩ : Nat) else 0) < 2 ^ 6 := by
   intro j hj
-  rw [dif_pos hj]
+  rw [dite_eq_left hj]
   exact lt_trans (σ _).2 (by norm_num)
 
 theorem fd_cd (σ : Equiv.Perm (Fin 42)) {i : Nat} (hi : i < 42) : fd 6 (cd σ) i = σ ⟨i, hi⟩ := by
-  rw [cd, fd_enc (cd_bound σ) hi, dif_pos hi]
+  rw [cd, fd_enc (cd_bound σ) hi, dite_eq_left hi]
 
 theorem cd_inj {σ τ : Equiv.Perm (Fin 42)} (h : cd σ = cd τ) : σ = τ := by
   apply Equiv.ext
@@ -64,7 +64,7 @@ theorem cd_mul (σ τ : Equiv.Perm (Fin 42)) : cd (σ * τ) = mulR (cd σ) (cd �
   rw [mulR_eq, cd]
   apply enc_congr
   intro i hi
-  rw [dif_pos hi, fd_cd τ hi, fd_cd σ (τ _).2]
+  rw [dite_eq_left hi, fd_cd τ hi, fd_cd σ (τ _).2]
   rfl
 
 set_option maxRecDepth 400000 in

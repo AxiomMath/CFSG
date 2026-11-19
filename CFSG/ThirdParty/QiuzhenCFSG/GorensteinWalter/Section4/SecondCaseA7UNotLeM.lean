@@ -59,8 +59,8 @@ public theorem secondCase_a7_U_not_le_M
     hSleH.trans (le_normalizer_of_isNormalIn hUnormH)
   have hUp : IsPGroup 3 c.U :=
     secondCase_a7_U_isPGroup_three hmin c w d hA7 hmodel
-  have hTp : IsPGroup 2 T := SM.isPGroup'.map w.M.subtype
-  have hSp : IsPGroup 2 (c.S : Subgroup G) := c.S.isPGroup'
+  have hTp : IsPGroup 2 T := SM.isPGroup.map w.M.subtype
+  have hSp : IsPGroup 2 (c.S : Subgroup G) := c.S.isPGroup
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hUTdisj : Disjoint c.U T :=

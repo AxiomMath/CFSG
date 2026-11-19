@@ -32,15 +32,15 @@ private theorem reeF4_extract
       have hv : (TauCeti.LieTypeIndex.reeF4 m).Valid := hd
       obtain ⟨X, hfield, hfinite, hchar, hm1, hXcard, hsimple, ⟨eX⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_reeGamma_equiv_cat hv
-      letI := hfield
-      letI := hfinite
-      haveI : CharP X CFSG.LieType.Ree.ReeTag.F4.prime := hchar
-      haveI : IsSimpleGroup
+      let := hfield
+      let := hfinite
+      have : CharP X CFSG.LieType.Ree.ReeTag.F4.prime := hchar
+      have : IsSimpleGroup
           (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.reeF4 m, hv⟩).Group := hsimple
       have hsimpleS : IsSimpleGroup S := e.isSimpleGroup
-      haveI : IsSimpleGroup S := hsimpleS
+      have : IsSimpleGroup S := hsimpleS
       have hnab : ¬ IsMulCommutative S := by
-        haveI : IsSimpleGroup ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma X m) :=
+        have : IsSimpleGroup ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma X m) :=
           eX.symm.isSimpleGroup
         let eG : S ≃* ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma X m) := e.trans eX
         have hperf : commutator ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma X m) = ⊤ :=
@@ -48,11 +48,11 @@ private theorem reeF4_extract
         have hmap : (commutator S).map eG.toMonoidHom = ⊤ := by
           rw [map_commutator_eq]
           have hran : eG.toMonoidHom.range = ⊤ := by
-            simpa using eG.range_eq_top
+            simp
           rw [hran]
           exact hperf
         intro hcomm
-        haveI := hcomm
+        have := hcomm
         have hbot : commutator S = ⊥ := commutator_eq_bot (G := S)
         rw [hbot, Subgroup.map_bot] at hmap
         exact bot_ne_top hmap
@@ -95,10 +95,10 @@ theorem reeF4Norm_of
   have hR := CFSG.LieType.SeitzGeneration.reeTitsModel_cat_reeF4 hv
   obtain ⟨K, hfield, hfinite, hchar, hKcard, ⟨eK⟩⟩ :=
     CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma hm1 hR
-  letI := hfield
-  letI := hfinite
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hchar
-  haveI : Finite ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K m) := Subtype.finite
+  let := hfield
+  let := hfinite
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hchar
+  have : Finite ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K m) := Subtype.finite
   let e : S ≃* ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K m) := eS.trans eK
   intro x y hx1 hxp hyp hc J hJ
   have hPL : PerfectInLayer (MulAut.conj x) := hL S p hp hp2 hcat2 x hx1 hxp
@@ -108,7 +108,7 @@ theorem reeF4Norm_of
     have hcongr : MulAut.congr e (MulAut.conj x) = MulAut.conj (e x) :=
       CFSG.mulAut_congr_conj e x
     rw [hcongr]
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hx' : orderOf (e x) = p :=
       (orderOf_injective e.toMonoidHom e.injective x).trans (orderOf_eq_prime hxp hx1)
     have hp3 : 3 ≤ p := by have := hp.two_le; omega

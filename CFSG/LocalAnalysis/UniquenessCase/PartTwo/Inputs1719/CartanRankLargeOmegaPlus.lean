@@ -74,7 +74,6 @@ private theorem omegaPlusIota_cross_commute (F : Type) [Field F] (n : ℕ)
       (by simpa using hdisj) A B
     change Commute (etaPlus i0 i1 h01 A) (etaPlus i2 i3 h23 B)
     rw [etaPlus_eq, etaPlus_eq]
-    change Commute (eta (coordIdx_inl_inr_ne h01) A) (eta (coordIdx_inl_inr_ne h23) B)
     exact h
 
 private theorem omegaPlusIota_commute (F : Type) [Field F] (n : ℕ)
@@ -219,11 +218,11 @@ private theorem omegaPlus_witness {F : Type} [Field F] [Finite F] [CharP F 2]
     3 < CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   classical
   let T := ↥(orthElementaryGroup (quadPlus n F))
-  haveI : Finite ((Fin n ⊕ Fin n → F) ≃ₗ[F] (Fin n ⊕ Fin n → F)) :=
+  have : Finite ((Fin n ⊕ Fin n → F) ≃ₗ[F] (Fin n ⊕ Fin n → F)) :=
     Finite.of_injective (fun g : (Fin n ⊕ Fin n → F) ≃ₗ[F] (Fin n ⊕ Fin n → F) =>
       (g : (Fin n ⊕ Fin n → F) → (Fin n ⊕ Fin n → F))) fun _ _ h =>
       LinearEquiv.ext fun x => congrFun h x
-  haveI : Finite T := by dsimp [T]; infer_instance
+  have : Finite T := by dsimp [T]; infer_instance
   let φ : K →* T := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
   have hφ : Function.Surjective φ := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker_eq : φ.ker = Subgroup.center K := by
@@ -269,13 +268,13 @@ theorem k_CartanRankLarge_pomegaPlus :
     interval_cases f <;> norm_num at h2f
   obtain ⟨F, hFld, hFin, hChar, hFcard, hn4, ⟨e⟩⟩ :=
     exists_mulEquiv_elementaryGroup_of_lieModel hL
-  letI := hFld
-  letI := hFin
-  letI := hChar
+  let := hFld
+  let := hFin
+  let := hChar
   obtain ⟨r, hr, hr2, -, hrdvd⟩ :=
     CFSG.RankThree.PartOne.KFU.exists_odd_prime_dvd_two_pow_sub_one_ne_five hf2
   have hrdvd' : r ∣ Nat.card F - 1 := by rw [hFcard]; exact hrdvd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) r (by rwa [Nat.card_units])
   exact ⟨r, hr, hr2, hrdvd, omegaPlus_witness n hn4 e hr hr2 hζo S hS⟩
 

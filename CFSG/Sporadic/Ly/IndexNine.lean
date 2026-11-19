@@ -30,7 +30,7 @@ noncomputable def lyCzToCs (x : ↥lyCz) : ↥lyCcover :=
 noncomputable def lyCzToCsHom : ↥lyCz →* ↥lyCcover where
   toFun := lyCzToCs
   map_one' := Subtype.ext rfl
-  map_mul' x y := Subtype.ext rfl
+  map_mul' _x _y := Subtype.ext rfl
 
 private theorem lyCzToCs_surjective : Function.Surjective lyCzToCsHom := by
   intro y

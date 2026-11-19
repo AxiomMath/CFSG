@@ -23,12 +23,14 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
     show G⁻¹ * (x * y) * G = G⁻¹ * x * G * (G⁻¹ * y * G)
     group
 
+omit [Finite F] [CharP F 2] in
 theorem cvHom_injective (G : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) :
     Function.Injective (cvHom G) := by
   intro x y h
   have h' : G⁻¹ * x * G = G⁻¹ * y * G := h
   exact mul_left_cancel (mul_right_cancel h')
 
+omit [Finite F] [CharP F 2] in
 theorem conj_std_preserves {G h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} {w u : OW F}
     (hGw : gv G (eV F idx0) = w) (hGu : gv G (eV F idx1) = u)
     (hw : ∃ s t : F, gv h w = s • w + t • u) (hu : ∃ s t : F, gv h u = s • w + t • u)
@@ -46,24 +48,28 @@ theorem conj_std_preserves {G h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} 
     refine ⟨s, t, ?_⟩
     rw [gv_mul, gv_mul, hst, gv_add, gv_smul, gv_smul, gv_inv_gv, gv_inv_gv]
 
+omit [Finite F] [CharP F 2] in
 theorem gv_iso_of_mem {G : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hG : toLinEquiv (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F G ∈ orthogonalGroup (quadMinus 3 F b c))
     (v : OW F) : quadMinus 3 F b c (gv G v) = quadMinus 3 F b c v := by
   have h := map_of_mem hG v
   rwa [toLinEquiv_apply] at h
 
+omit [Finite F] [CharP F 2] in
 theorem gv_iso_inv {G : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hG : ∀ v : OW F, quadMinus 3 F b c (gv G v) = quadMinus 3 F b c v) (v : OW F) :
     quadMinus 3 F b c (gv G⁻¹ v) = quadMinus 3 F b c v := by
   conv_rhs => rw [← gv_gv_inv G v]
   rw [hG]
 
+omit [Finite F] [CharP F 2] in
 theorem iso_conj {G h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hG : ∀ v : OW F, quadMinus 3 F b c (gv G v) = quadMinus 3 F b c v)
     (hh : ∀ v : OW F, quadMinus 3 F b c (gv h v) = quadMinus 3 F b c v) (v : OW F) :
     quadMinus 3 F b c (gv (G⁻¹ * h * G) v) = quadMinus 3 F b c v := by
   rw [gv_mul, gv_mul, gv_iso_inv hG, hh, hG]
 
+omit [Finite F] [CharP F 2] in
 theorem conj_mem_omega_inv (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {G h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hGO : toLinEquiv (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F G ∈ orthogonalGroup (quadMinus 3 F b c))
@@ -76,6 +82,7 @@ theorem conj_mem_omega_inv (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   have := conj_mem_statedOmega hirr hGi hh
   rwa [inv_inv] at this
 
+omit [Finite F] [CharP F 2] in
 theorem rad_conj_conj {G₀ m g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} {w u : OW F}
     (hG₀iso : ∀ v : OW F, quadMinus 3 F b c (gv G₀ v) = quadMinus 3 F b c v)
     (hGw : gv G₀ (eV F idx0) = w) (hGu : gv G₀ (eV F idx1) = u)
@@ -97,6 +104,7 @@ theorem rad_conj_conj {G₀ m g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} 
   rw [e2]
   exact key
 
+omit [Finite F] [CharP F 2] in
 theorem rad_comm_conj {G₀ m g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} {w u : OW F}
     (hG₀iso : ∀ v : OW F, quadMinus 3 F b c (gv G₀ v) = quadMinus 3 F b c v)
     (hGw : gv G₀ (eV F idx0) = w) (hGu : gv G₀ (eV F idx1) = u)
@@ -111,6 +119,7 @@ theorem rad_comm_conj {G₀ m g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} 
   rw [e]
   exact radHyp_mul h1 h2
 
+omit [Finite F] [CharP F 2] in
 theorem quad_span_zero {w u : OW F} (hw : quadMinus 3 F b c w = 0) (hu : quadMinus 3 F b c u = 0)
     (hwu : polar (quadMinus 3 F b c) w u = 0) (s t : F) :
     quadMinus 3 F b c (s • w + t • u) = 0 := by
@@ -118,13 +127,14 @@ theorem quad_span_zero {w u : OW F} (hw : quadMinus 3 F b c w = 0) (hu : quadMin
   rw [polar_smul_left_eq, polar_smul_right_eq, hwu, map_smul_eq_sq, map_smul_eq_sq, hw, hu] at h1
   simpa using h1
 
+omit [Finite F] [CharP F 2] in
 theorem finrank_span_pair {w u : OW F} (hli : LinearIndependent F ![w, u]) :
     Module.finrank F (Submodule.span F ({w, u} : Set (OW F))) = 2 := by
   have h := finrank_span_eq_card hli
   have hr : Set.range ![w, u] = ({w, u} : Set (OW F)) := by
     ext x
     simp only [Set.mem_range, Fin.exists_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Set.mem_insert_iff, Set.mem_singleton_iff]
+      Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro (h | h)
       · exact Or.inl h.symm
@@ -135,23 +145,28 @@ theorem finrank_span_pair {w u : OW F} (hli : LinearIndependent F ![w, u]) :
   rw [hr] at h
   simpa using h
 
+omit [Finite F] [CharP F 2] in
 theorem coeffs_of_mem_span {w u y : OW F}
     (hy : y ∈ Submodule.span F ({w, u} : Set (OW F))) : ∃ s t : F, y = s • w + t • u := by
   obtain ⟨s, t, h⟩ := Submodule.mem_span_pair.mp hy
   exact ⟨s, t, h.symm⟩
 
+omit [Finite F] [CharP F 2] in
 theorem w_mem_span (w u : OW F) : w ∈ Submodule.span F ({w, u} : Set (OW F)) :=
   Submodule.subset_span (Set.mem_insert w _)
 
+omit [Finite F] [CharP F 2] in
 theorem u_mem_span (w u : OW F) : u ∈ Submodule.span F ({w, u} : Set (OW F)) :=
   Submodule.subset_span (Set.mem_insert_of_mem w (Set.mem_singleton u))
 
+omit [Finite F] [CharP F 2] in
 theorem coeffs_of_stab {w u : OW F} {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hh : ∀ y ∈ Submodule.span F ({w, u} : Set (OW F)),
       gv h y ∈ Submodule.span F ({w, u} : Set (OW F))) :
     (∃ s t : F, gv h w = s • w + t • u) ∧ (∃ s t : F, gv h u = s • w + t • u) :=
   ⟨coeffs_of_mem_span (hh w (w_mem_span w u)), coeffs_of_mem_span (hh u (u_mem_span w u))⟩
 
+omit [Finite F] [CharP F 2] in
 theorem coeffs_of_frame {w u : OW F} {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} {τ : F}
     (hw : gv h w = w) (hu : gv h u = u + τ • w) :
     (∃ s t : F, gv h w = s • w + t • u) ∧ (∃ s t : F, gv h u = s • w + t • u) :=
@@ -187,13 +202,14 @@ section QFix
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L V)
 
+omit [Finite G] in
 theorem O6NatData.q_fixes (hn : 1 ≤ n) {A : Subgroup G} (hAV : A ≤ normalizer (V : Set G))
     (hQ : ∀ B : Subgroup G, B ≤ A → B.relIndex A < 2 ^ (2 * n) →
       V ⊓ centralizer (B : Set G) ≤ centralizer (A : Set G))
     {w u : OW d.F} (hA : ∀ a : ↥A, ∃ t : d.F, d.rho A hAV a u = u + t • w) (a : ↥A) :
     d.rho A hAV a u = u := by
   classical
-  letI : MulAction ↥A (OW d.F) := MulAction.compHom (OW d.F) (d.rho A hAV)
+  let : MulAction ↥A (OW d.F) := MulAction.compHom (OW d.F) (d.rho A hAV)
   have hsmul : ∀ (a : ↥A) (x : OW d.F), a • x = d.rho A hAV a x := fun a x => rfl
   set S : Subgroup ↥A := MulAction.stabilizer ↥A u with hS
   set B : Subgroup G := S.map A.subtype with hB

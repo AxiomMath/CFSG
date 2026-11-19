@@ -166,7 +166,7 @@ theorem lemma11b_holds (hN : NaturalModuleStatement) (h11a : Lemma11aStatement)
     · exact le_inf hPPV hPPW
     · rw [hVWeq, Subgroup.zpowers_le]
       exact hPaG
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
   have hP2 : IsPGroup 2 P := hc.isPGroup_P
   have hfr_le : inSubgroup frattini P ≤ V ⊓ wOf V H := by
     have hle : frattini ↥P ≤ (V ⊓ wOf V H).subgroupOf P := by
@@ -180,7 +180,7 @@ theorem lemma11b_holds (hN : NaturalModuleStatement) (h11a : Lemma11aStatement)
           rw [Subgroup.mem_subgroupOf, ← hcomm_eq]
           exact Subgroup.commutator_mem_commutator g₁.2 g₂.2
         exact hcomm_le hx
-      · simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.coe_pow]
+      · simp only
         exact ⟨hc.frattini_P_le (Tim78.sq_mem_inSubgroup_frattini hP2 y.2),
           by rw [pow_two]; exact hsqW _ y.2⟩
     exact Subgroup.map_le_iff_le_comap.mpr hle

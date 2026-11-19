@@ -36,7 +36,7 @@ theorem ObstructionSetting.inf_centralizer_le_self (hS : ObstructionSetting G)
   set T : Subgroup G := (P : Subgroup G) ⊓ normalizer (D : Set G)
   have hDS : D ≤ S := le_inf hDP hDC
   have hST : S ≤ T := inf_le_inf_left _ hCN
-  have hSp : IsPGroup p S := P.isPGroup'.to_inf_left
+  have hSp : IsPGroup p S := P.isPGroup.to_inf_left
   have hSD : ∀ y ∈ S, y ^ p = 1 → y ∈ D := fun y hy hyp => hCp y hy.2 hyp
   have hsyl : CFSG.ABGLocalTools.IsSylowOf p S (centralizer (D : Set G)) := by
     have hN := hS.isSylowOf_normalizer_inf hD1 hp hext hPD hDab hCM hzD hz1 hzc hN₀M

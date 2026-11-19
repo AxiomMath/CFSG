@@ -158,22 +158,22 @@ theorem y9D42 : Y9D42 := by
   have hL1ns : ¬ Group.IsSolvable ↥L1 := not_isSolvable_of_isL2Quot (f := 3) (by norm_num) h1
   have hM1ns : ¬ Group.IsSolvable ↥(L1 ⊔ bigB L1 L2 S) := by
     intro hs
-    haveI : Group.IsSolvable ↥(L1 ⊔ bigB L1 L2 S) := hs
+    have : Group.IsSolvable ↥(L1 ⊔ bigB L1 L2 S) := hs
     exact hL1ns (Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (le_sup_left : L1 ≤ L1 ⊔ bigB L1 L2 S)))
   obtain ⟨Y, _, hY, T, M₁, M₂, hp, ⟨iso0⟩⟩ := hA
   have hM1ns' : ¬ Group.IsSolvable ↥M₁ := by
     intro hs
-    haveI : Group.IsSolvable ↥M₁ := hs
+    have : Group.IsSolvable ↥M₁ := hs
     let e : ↥M₁ ≃* ↥(L1 ⊔ bigB L1 L2 S) := iso0.φ1.symm
     exact hM1ns (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
   obtain ⟨hf, K, hField, hFinK, σ, hK, hσq, ⟨eY⟩⟩ :=
     CFSG.Quasithin.H13.F431.D4q.Hex.d4q_model_data hY
-  letI : Field K := hField
-  letI : Finite K := hFinK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std (f := 1) hf hK
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  let : Field K := hField
+  let : Finite K := hFinK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std (f := 1) hf hK
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hσ3 : σ.toRingHom ^ 3 = 1 := by
     refine RingHom.ext fun c => ?_
     simpa using CFSG.Quasithin.H13.F431.D4q.NFq.sigma_cube σ hK hσq c
@@ -181,7 +181,7 @@ theorem y9D42 : Y9D42 := by
     have h := card_orbitField_D4_orientation Nat.prime_two (f := 1) le_rfl hK
       (r := 1) (Or.inl rfl) (σ := σ.toRingHom) (fun c => by rw [pow_one]; exact hσq c) fa1
     rwa [orbit_card_fa1, pow_one] at h
-  letI hP1solv : Group.IsSolvable ↥(Pst1 σ) :=
+  let hP1solv : Group.IsSolvable ↥(Pst1 σ) :=
     (isSolvable_iff_perfectCore_eq_bot _).mpr
       (CFSG.Quasithin.H13.KGInsp4316.Exc.fixed_perfectCore_eq_bot σ fa1
         (CFSG.QuasithinUnique.Vol2Native.L239.Lie.D4.isPGroup_posUnipotent σ hσ3) h2)
@@ -202,7 +202,7 @@ theorem y9D42 : Y9D42 := by
           _ = ((Pst1 σ).map (MulAut.conj c).toMonoidHom).map
                 (MulAut.conj c⁻¹).toMonoidHom := by rw [h.1]
           _ = Pst1 σ := map_conj_conj_inv (Pst1 σ) c
-      haveI : Group.IsSolvable ↥(M₁.map E.toMonoidHom) := by rwa [h1']
+      have : Group.IsSolvable ↥(M₁.map E.toMonoidHom) := by rwa [h1']
       exact hM1ns' (Group.isSolvable_of_isSolvable_injective
         (f := (M₁.equivMapOfInjective E.toMonoidHom E.injective).toMonoidHom)
         (M₁.equivMapOfInjective E.toMonoidHom E.injective).injective)

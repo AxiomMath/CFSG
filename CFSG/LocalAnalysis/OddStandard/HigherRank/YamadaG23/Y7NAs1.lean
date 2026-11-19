@@ -38,6 +38,7 @@ structure NtAbs (t g : G) (Lam P S U P1 : Subgroup G) : Prop where
   g_not_S : g ∉ S
   g_norm_S : ∀ x ∈ S, g * x * g⁻¹ ∈ S
 
+omit [Finite G] in
 private lemma conjSub_mul (a b : G) (Y : Subgroup G) :
     conjSub (a * b) Y = conjSub a (conjSub b Y) := by
   unfold conjSub
@@ -48,6 +49,7 @@ private lemma conjSub_mul (a b : G) (Y : Subgroup G) :
   rw [MulAut.conj_apply, MulAut.conj_apply, MulAut.conj_apply]
   group
 
+omit [Finite G] in
 private lemma conjSub_inv_conjSub (c : G) (Y : Subgroup G) :
     conjSub c⁻¹ (conjSub c Y) = Y := by
   rw [conjSub, conjSub, Subgroup.map_map]
@@ -63,18 +65,21 @@ namespace NtAbs
 
 variable {t g : G} {Lam P S U P1 : Subgroup G}
 
+omit [Finite G] in
 private lemma Lam_ne_conjSub (h : NtAbs t g Lam P S U P1) : Lam ≠ conjSub t Lam := by
   intro heq
   have hbot : Lam ⊓ conjSub t Lam = ⊥ := h.direct
   rw [← heq, inf_idem] at hbot
   exact h.ne_bot hbot
 
+omit [Finite G] in
 private lemma conjSub_fix_right (h : NtAbs t g Lam P S U P1) {x : G} (hx : x ∈ P1)
     (hxL : conjSub x Lam = Lam) : conjSub x (conjSub t Lam) = conjSub t Lam := by
   rcases h.perm x hx with ⟨-, h2⟩ | ⟨h1, -⟩
   · exact h2
   · exact absurd (hxL.symm.trans h1) (Lam_ne_conjSub h)
 
+omit [Finite G] in
 theorem P_le_normalizer (h : NtAbs t g Lam P S U P1) : P ≤ normalizer (Lam : Set G) := by
   rw [← h.wr.direct.1]
   refine sup_le (h.U_le.trans (Subgroup.le_normalizer (H := Lam))) ?_
@@ -85,6 +90,7 @@ theorem P_le_normalizer (h : NtAbs t g Lam P S U P1) : P ≤ normalizer (Lam : S
   intro y hy
   exact h.comm y hy x hx
 
+omit [Finite G] in
 theorem normal (h : NtAbs t g Lam P S U P1) :
     P1 ≤ normalizer ((normIn P1 Lam : Subgroup G) : Set G) := by
   refine (Subgroup.le_normalizer_iff (H := P1) (K := normIn P1 Lam)).mpr ?_
@@ -113,6 +119,7 @@ theorem normal (h : NtAbs t g Lam P S U P1) :
       exact hc.symm
     rw [conjSub_mul, conjSub_mul, hxinv, hyL', hswap]
 
+omit [Finite G] in
 theorem split (h : NtAbs t g Lam P S U P1) : P1 = normIn P1 Lam ⊔ zpowers t := by
   refine le_antisymm ?_ (sup_le inf_le_left (Subgroup.zpowers_le.mpr h.t_mem))
   intro x hx

@@ -204,8 +204,7 @@ private noncomputable def ggQ2xCC2_dual (G : Matrix (Fin 4) (Fin 4) (ZMod 3))
   map_add' x y := by
     simp only [map_add, Matrix.mulVec_add, dotProduct_add, mul_add]
   map_smul' a x := by
-    simp only [map_smul, Matrix.mulVec_smul, dotProduct_smul, smul_eq_mul, mul_smul,
-      RingHom.id_apply]
+    simp only [map_smul, Matrix.mulVec_smul, dotProduct_smul, smul_eq_mul, RingHom.id_apply]
     ring_nf
 
 private theorem ggQ2xCC2_dual_self (G : Matrix (Fin 4) (Fin 4) (ZMod 3))
@@ -241,7 +240,7 @@ private theorem ggQ2xCC2_reflection_mem (G : Matrix (Fin 4) (Fin 4) (ZMod 3))
   simpa [ht] using htA
 
 private theorem ggQ2xCC2_scalar (G : Matrix (Fin 4) (Fin 4) (ZMod 3))
-    (hG : G = !![2, 2, 0, 0; 2, 2, 1, 0; 0, 1, 1, 1; 0, 0, 1, 1] ∨ G = 1)
+    (_hG : G = !![2, 2, 0, 0; 2, 2, 1, 0; 0, 1, 1, 1; 0, 0, 1, 1] ∨ G = 1)
     (A : Subgroup ((Fin 4 → ZMod 3) ≃ₗ[ZMod 3] (Fin 4 → ZMod 3)))
     (hS1 : ∀ (c : Fin 4 → ZMod 3) (φ : Module.Dual (ZMod 3) (Fin 4 → ZMod 3)) (h : φ c = 2),
       Module.reflection h ∈ A →

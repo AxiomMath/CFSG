@@ -68,7 +68,7 @@ private lemma U_le_H_local (c : BenderGlauberman.Hyp11 G) : c.U ≤ c.H := by
   intro x hx
   have huU : x ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [BenderGlauberman.Hyp11.U, oddCoreOf] using hx
-  exact SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+  exact _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
 
 /-- `U ∩ S = 1`: the odd core of `H` meets the Sylow 2-subgroup trivially. -/
 private lemma U_inter_S_eq_bot_local (c : BenderGlauberman.Hyp11 G) {x : G}

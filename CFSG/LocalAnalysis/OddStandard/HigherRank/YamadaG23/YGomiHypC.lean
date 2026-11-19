@@ -18,6 +18,7 @@ variable {A V C₀ C₁ : Subgroup G} {t u : G} (h : Gomi6Data A V C₀ C₁ t u
 
 include h
 
+omit [Finite G] in
 theorem hyp_sylow :
     IsSylowIn 2 (centralizer (V : Set G) ⊓ centralizerSection (A ⊔ V) V) (A ⊔ V) := by
   have hP_cent : A ⊔ V ≤ centralizer (V : Set G) := h.AV_le_cent
@@ -36,7 +37,7 @@ theorem hyp_sylow :
   have hC1K : C₁ ≤ centralizerSection (A ⊔ V) V := h.four2a.1
   have hcent : (centralizer (V : Set G) ⊓ centralizerSection (A ⊔ V) V).relIndex
       (centralizerSection (A ⊔ V) V) = 2 :=
-    h.relIndex_cent h.K_le_normalizer_V h.t_mem_K
+    h.relIndex_cent CFSG.OddStandard.HigherRank.YamadaG23.Gomi6Data.K_le_normalizer_V h.t_mem_K
   have h1 : (A ⊔ V).relIndex (centralizer (V : Set G) ⊓ centralizerSection (A ⊔ V) V) * 2 =
       (A ⊔ V).relIndex (centralizerSection (A ⊔ V) V) := by
     rw [← Subgroup.relIndex_mul_relIndex (A ⊔ V)
@@ -55,6 +56,7 @@ theorem hyp_sylow :
   rw [hxy]
   exact h.four2a.2.2
 
+omit [Finite G] in
 theorem hyp_seven :
     ∀ n ∈ normIn (centralizer (V : Set G)) (A ⊔ V),
       ∃ m ∈ normIn (centralizer (V : Set G)) (A ⊔ V),

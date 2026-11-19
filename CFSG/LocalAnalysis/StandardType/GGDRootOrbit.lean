@@ -16,7 +16,7 @@ private def dro_lift {n : ℕ} (γ : Fin n → ℤ) : ℕ → ℤ :=
 private theorem dro_lift_fin {n : ℕ} (γ : Fin n → ℤ) :
     (fun i : Fin n => dro_lift γ i) = γ := by
   funext i
-  simp only [dro_lift, dif_pos i.isLt]
+  simp only [dro_lift, dite_eq_left i.isLt]
 
 private theorem dro_ggDeps_toStdD {n : ℕ} (hn : 3 ≤ n) (u : ℕ → ℤ) {k : ℕ} (hk : k < n) :
     ggDeps n u k = toStdD n (fun i : Fin n => u i) ⟨k, hk⟩ := by

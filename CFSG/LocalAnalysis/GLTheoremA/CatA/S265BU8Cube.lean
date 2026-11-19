@@ -28,7 +28,7 @@ private theorem card_fixSubfield (h : UnitaryFieldData 2 3 K) {σ : K ≃+* K}
 private theorem map_eq_of_pow_three (h : UnitaryFieldData 2 3 K) {σ : K ≃+* K}
     (hσ : orderOf σ = 3) {x : K} (hx : x ^ 3 = 1) : σ x = x := by
   have := h.finite
-  have h3 : 3 ∣ Nat.card (fixSubfield σ) - 1 := by rw [card_fixSubfield h hσ] <;> norm_num
+  have h3 : 3 ∣ Nat.card (fixSubfield σ) - 1 := by rw [card_fixSubfield h hσ]
   obtain ⟨ω, hω⟩ := CFSG.HardMathSupport.Curtis.Coordinator.exists_primitiveRoot_of_dvd h3
   have hωK : IsPrimitiveRoot (ω : K) 3 := hω.map_of_injective (fixSubfield σ).subtype.injective
   obtain ⟨m, -, rfl⟩ := hωK.eq_pow_of_pow_eq_one hx

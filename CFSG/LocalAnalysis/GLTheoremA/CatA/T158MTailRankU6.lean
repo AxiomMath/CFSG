@@ -26,6 +26,7 @@ section Cover
 
 variable [Fintype K] {p r n : ℕ} {Y : Type*} [Group Y] [Finite Y]
 
+omit [Fintype K] in
 theorem uniTorus_of_cover (hK : UnitaryFieldData ℓ f K) (hℓ2 : ℓ = 2) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ ℓ ^ f + 1) (hnr : r + 2 = n)
     {φ : Y →* unitaryPSU hK n} (hφ : Function.Surjective φ)
@@ -249,15 +250,15 @@ end Cover
 theorem t158RankU6_holds : T158RankU6 := by
   intro Y _ _ n hn hn1 _ hcat
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlm : CFSG.Blueprint.LieModel (Y ⧸ Subgroup.center Y) .PSU 6 2 n :=
     CFSG.LocalAnalysis.GLTheoremA.I91T.lieModel_of_catalogIs_isU6n hcat
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨eStated⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel hlm
       (by decide : StatedLieTag.PSU ∈ CFSG.Blueprint.classicalTags)
-  letI := hKfield
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hKfield
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hKcard' : Nat.card K = (2 ^ n) ^ 2 := hKcard
   have hK : UnitaryFieldData 2 n K :=
     ⟨Nat.prime_two, by omega, by rw [hKcard', ← pow_mul, mul_comm]⟩

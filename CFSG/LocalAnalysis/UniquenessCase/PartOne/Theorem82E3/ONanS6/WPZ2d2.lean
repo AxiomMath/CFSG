@@ -32,7 +32,7 @@ theorem z2d2_card_Q_wPZ2d2 (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     Nat.card ↥(P ⊓ c.L) = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPL : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ c.L) c.L :=
     hP.inf_of_le_normalizer c.hyp81.1 c.le_normalizer_L
   rw [hPL.card_eq, pl7_factorization_card_L_wPL7 c hON]
@@ -59,7 +59,7 @@ theorem z2d2_commutator_Q_wPZ2d2
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     ⁅P ⊓ c.L, P ⊓ c.L⁆ ≤ zSub P c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   let QL : Subgroup ↥c.L := (P ⊓ c.L).subgroupOf c.L
@@ -419,7 +419,7 @@ theorem j2_excluded''
   have hinnerJ0 : βy0 ∈ (MulAut.conj : J0 J →* MulAut (J0 J)).range :=
     inner_of_pow_seven_of_mulEquiv e hK9out βy0 hβy07
   obtain ⟨u, hu⟩ := hinnerJ0
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
     CFSG.Sporadic.J2.fam_j2_simplicity.2.2
   have hZJ2 : Subgroup.center CFSG.Blueprint.NativeSporadic.J2 = ⊥ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.FongLevi.center_eq_bot_of_simple_of_not_prime

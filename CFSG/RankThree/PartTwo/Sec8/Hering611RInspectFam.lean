@@ -15,7 +15,7 @@ variable {X : Type} [Group X] [Finite X] {P : Subgroup X}
 
 theorem false_of_projSU_even {m : ℕ} (hm : Even m) (hm1 : 1 ≤ m) (φ : X ≃* projSU 3 2 m)
     (hP : IsA6Sub P) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 (2 * m)) = (2 ^ m) ^ 2 := by
     rw [GaloisField.card 2 (2 * m) (by omega), ← pow_mul, mul_comm]
   have hq : 2 ^ m % 3 = 1 := by
@@ -48,7 +48,7 @@ theorem false_of_projSU {m : ℕ} (hm : 1 ≤ m) (φ : X ≃* projSU 3 2 m) (hP 
   · exact false_of_projSU_even h hm φ hP
   · exact false_of_projSU_odd h φ hP
 
-theorem false_of_statedSL {m : ℕ} (hm : 1 ≤ m) {K : Type} [Field K] [Finite K]
+theorem false_of_statedSL {m : ℕ} (_hm : 1 ≤ m) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ (2 * m)) (φ : X ≃* StatedSL 3 K) (hP : IsA6Sub P) : False :=
   false_of_statedSL_two hK φ hP
 

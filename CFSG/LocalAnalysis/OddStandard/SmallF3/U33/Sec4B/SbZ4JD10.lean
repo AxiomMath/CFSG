@@ -36,7 +36,7 @@ theorem zjNorm_mem_V {m : H} (hm : m ∈ Mc) :
   set m' : H := ρ * m * ρ⁻¹ with hm'def
   set m'' : H := ρ⁻¹ * m * ρ with hm''def
   set n : H := m * m' * m'' with hndef
-  have hmMh : m ∈ Mh := h.Mc_le_Mh hMh hMc hm
+  have hmMh : m ∈ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm
   have hnQ : n ∈ Q := by
     rw [hndef, hm'def, hm''def]
     simpa [zjNorm] using ((hMc m).mp hm).2
@@ -61,7 +61,7 @@ theorem Mc_comm_rho_eq_one {m : H} (hm : m ∈ Mc) :
   set m' : H := ρ * m * ρ⁻¹ with hm'def
   set m'' : H := ρ⁻¹ * m * ρ with hm''def
   set n : H := m * m' * m'' with hndef
-  have hmMh : m ∈ Mh := h.Mc_le_Mh hMh hMc hm
+  have hmMh : m ∈ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm
   have hm'Mc : m' ∈ Mc := by rw [hm'def]; exact h.Mc_conj_rho hMh hMc hm
   have hm''Mc : m'' ∈ Mc := by
     have h1 : m'' = ρ * m' * ρ⁻¹ := by
@@ -69,7 +69,7 @@ theorem Mc_comm_rho_eq_one {m : H} (hm : m ∈ Mc) :
       exact (rho_conj_sq (g := m) h.rho_pow_three).symm
     rw [h1]
     exact h.Mc_conj_rho hMh hMc hm'Mc
-  have hm'Mh : m' ∈ Mh := h.Mc_le_Mh hMh hMc hm'Mc
+  have hm'Mh : m' ∈ Mh := CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Mc_le_Mh hMc hm'Mc
   have hVY : V ≤ Y := by rw [h.Y_eq]; exact le_sup_left
   have hVQ : V ≤ Q := fun x hx => h.Y_le_Q (hVY hx)
   have hnV : n ∈ V := by
@@ -134,7 +134,7 @@ theorem card_ge_sixteen_of_rho_inv {U : Subgroup H} (hUQ : U ≤ Q) (hVU : V ≤
   have h3 : 3 ≤ V.relIndex U := by
     by_contra hlt
     have hlt' : V.relIndex U < 3 := by omega
-    haveI : V.IsFiniteRelIndex U :=
+    have : V.IsFiniteRelIndex U :=
       Subgroup.isFiniteRelIndex_iff_finiteIndex.mpr inferInstance
     have hne : V.relIndex U ≠ 0 := Subgroup.relIndex_ne_zero (H := V) (K := U)
     have hcases : V.relIndex U = 1 ∨ V.relIndex U = 2 := by omega

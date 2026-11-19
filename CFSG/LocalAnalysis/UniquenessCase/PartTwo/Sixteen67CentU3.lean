@@ -22,9 +22,9 @@ theorem isCyclic_and_card_centralizer_of_lieModel_psu {J : Type} [Group J] [Fini
   rcases hU with ⟨-, ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
   · have hp : p.Prime := hadm.1
     have hf : 1 ≤ f := hadm.2.1
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K p :=
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K p :=
       charP_of_card_eq_prime_pow (f := 2 * f)
         (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm])
     let e₁ : J ≃* StatedSU 3 (p ^ f) K :=

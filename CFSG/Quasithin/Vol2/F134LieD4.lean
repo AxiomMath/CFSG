@@ -116,7 +116,7 @@ theorem even_and_le_normalizer_of_mul {X : Type} [Group X] [Finite X] {n : ℕ}
   have hφU : (U : Subgroup X).map φ = graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom := by
     rw [hφ, ← Subgroup.map_map, he, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hUC]
   have hH : Nat.card (P ⊔ (U : Subgroup X) : Subgroup X) = 9 * Nat.card (U : Subgroup X) :=
-    CFSG.Quasithin.P134.card_sup_eq_of_mul hP U.isPGroup' hmul
+    CFSG.Quasithin.P134.card_sup_eq_of_mul hP U.isPGroup hmul
   have hcardU : Nat.card (U : Subgroup X) = (2 ^ n) ^ 12 := by
     rw [← Subgroup.card_map_of_injective hφi, hφU,
       CFSG.Timmesfeld.ExceptionalOrders.card_graphFixedPosUnipotent σ.surjective
@@ -265,7 +265,7 @@ theorem facts134E9_d4Even
         P.subgroupOf L := mul_mem (inv_mem hαx) (pow_mem hx' _)
     have hdisj : (U : Subgroup L) ⊓ P.subgroupOf L = ⊥ := by
       refine disjoint_iff.mp (Subgroup.disjoint_of_coprime_natCard ?_)
-      obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 U.isPGroup'
+      obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 U.isPGroup
       rw [hm, hP']
       exact Nat.Coprime.pow_left m (by norm_num)
     have h3 : (MulAut.conjNormal t (⟨x, hcfg.le hx⟩ : L))⁻¹ * ⟨x, hcfg.le hx⟩ ^ (2 ^ k) = 1 := by

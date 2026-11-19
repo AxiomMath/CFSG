@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.AltStdSec.SwapPattern
 open Subgroup
 
 theorem factorization_two_card_le_of_le_centralizer {X : Type*} [Group X] [Finite X]
-    {E : Subgroup X} [E.Normal] {u : X} {T : Subgroup X} (hT : IsPGroup 2 T)
+    {E : Subgroup X} [E.Normal] {u : X} {T : Subgroup X} (_hT : IsPGroup 2 T)
     (hTidx : ¬ 2 ∣ T.index) (hTu : T ≤ centralizer ({u} : Set X)) :
     (Nat.card E).factorization 2 ≤
       (Nat.card ↥(E ⊓ centralizer ({u} : Set X))).factorization 2 := by
@@ -78,7 +78,7 @@ theorem not_two_dvd_index_map_of_surjective {C X : Type*} [Group C] [Group X] [F
   exact hP (h.trans (P.index_map_dvd hψ))
 
 theorem not_two_dvd_index_of_normalizer_le_centralizer {G : Type*} [Group G] [Finite G]
-    {T : Subgroup G} {x : G} (hT : IsPGroup 2 T) (hTx : T ≤ centralizer ({x} : Set G))
+    {T : Subgroup G} {x : G} (hT : IsPGroup 2 T) (_hTx : T ≤ centralizer ({x} : Set G))
     (hodd : ¬ 2 ∣ (T.subgroupOf (centralizer ({x} : Set G))).index)
     (hnorm : ∀ g ∈ normalizer (T : Set G), g * x * g⁻¹ = x) : ¬ 2 ∣ T.index := by
   let C : Subgroup G := centralizer ({x} : Set G)
@@ -88,7 +88,7 @@ theorem not_two_dvd_index_of_normalizer_le_centralizer {G : Type*} [Group G] [Fi
   · rw [hTPeq] at hd
     exact P.not_dvd_index hd
   · have hTPlt : T < (P : Subgroup G) := lt_of_le_of_ne hTP hTPeq
-    haveI : Group.IsNilpotent (↥(P : Subgroup G)) := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (↥(P : Subgroup G)) := P.isPGroup.isNilpotent
     have hNC : NormalizerCondition (↥(P : Subgroup G)) :=
       Group.normalizerCondition_of_isNilpotent
     have hproper : T.subgroupOf (P : Subgroup G) < ⊤ := by
@@ -96,7 +96,7 @@ theorem not_two_dvd_index_of_normalizer_le_centralizer {G : Type*} [Group G] [Fi
       intro h
       exact hTPeq (le_antisymm hTP (Subgroup.subgroupOf_eq_top.mp h))
     obtain ⟨y, hyN, hyT⟩ :=
-      SetLike.exists_of_lt (hNC (T.subgroupOf (P : Subgroup G)) hproper)
+      _root_.IsConcreteLE.exists_of_lt (hNC (T.subgroupOf (P : Subgroup G)) hproper)
     have hyN' : (y : G) ∈ normalizer (T : Set G) := by
       have hEq := Subgroup.subgroupOf_normalizer_eq hTP
       rw [← hEq] at hyN
@@ -115,7 +115,7 @@ theorem not_two_dvd_index_of_normalizer_le_centralizer {G : Type*} [Group G] [Fi
       rw [Subgroup.mem_centralizer_singleton_iff]
       calc m * x = (m * x * m⁻¹) * m := by group
         _ = x * m := by rw [hnorm m hm.2]
-    have hM2 : IsPGroup 2 M := P.isPGroup'.to_le inf_le_left
+    have hM2 : IsPGroup 2 M := P.isPGroup.to_le inf_le_left
     have hrel : (T.subgroupOf C).index = (T.subgroupOf M).index * (M.subgroupOf C).index := by
       have hle : T.subgroupOf C ≤ M.subgroupOf C := Subgroup.subgroupOf_mono C hTM
       have h1 := Subgroup.relIndex_mul_index (H := T.subgroupOf C) (K := M.subgroupOf C) hle
@@ -184,13 +184,13 @@ theorem exists_sylow_two_centralizer {G : Type*} [Group G] [Finite G] {x w : G} 
     intro c
     apply Subtype.ext
     exact mem_centralizer_singleton_iff.mp c.2
-  haveI : (zpowers xC).Normal := Subgroup.normal_of_le_center (zpowers_le.2 hxCcenter)
+  have : (zpowers xC).Normal := Subgroup.normal_of_le_center (zpowers_le.2 hxCcenter)
   obtain ⟨P, hPw⟩ := hwP.exists_le_sylow
   have hZle : zpowers xC ≤ (P : Subgroup ↥C) := hxP.le_sylow_of_normal P
   have hxCP : xC ∈ (P : Subgroup ↥C) := hZle (Subgroup.mem_zpowers xC)
   have hwCP : wC ∈ (P : Subgroup ↥C) := hPw (Subgroup.mem_zpowers wC)
   refine ⟨(P : Subgroup ↥C).map C.subtype, Subgroup.map_subtype_le (P : Subgroup ↥C),
-    P.isPGroup'.map C.subtype, ?_, ?_, ?_⟩
+    P.isPGroup.map C.subtype, ?_, ?_, ?_⟩
   · have hsub : ((P : Subgroup ↥C).map C.subtype).subgroupOf C = (P : Subgroup ↥C) := by
       ext c
       rw [Subgroup.mem_subgroupOf, Subgroup.mem_map]

@@ -58,8 +58,8 @@ theorem ggTwoNodeIndepAtL_e6
           Nat.card_congr ((CoxeterMatrix.E₆).reindexGroupEquiv e).toEquiv
       _ = 51840 := e6C_card_coxeterE6
   subst hp3
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hA : ggAutomizer L Bs ⊔ ggAutomizer K Bs ≤ ggAutomizer ⊤ Bs :=
     sup_le (ggAutomizer_mono Bs le_top) (ggAutomizer_mono Bs le_top)
   have hcardV : Nat.card ↥Bs = 3 ^ Module.finrank (ZMod 3) V :=
@@ -154,7 +154,7 @@ theorem ggResTwoNodeIndepE6L
     hJΛ hXΛ hJl hXl hRowN htag
   obtain ⟨Λ, i1, i2, M, C, V, i3, i4, ι, φ, h, α, e, hMeq, hW, hC, hφ, hrefl, hpair, ⟨f, hf⟩, hAL,
     hind⟩ := hdat
-  letI := i1; letI := i2; letI := i3; letI := i4
+  let := i1; let := i2; let := i3; let := i4
   have hBs : Nat.card ↥Bs ≤ 3 ^ 7 := by
     rcases hcard with h6 | h7
     · rw [h6]

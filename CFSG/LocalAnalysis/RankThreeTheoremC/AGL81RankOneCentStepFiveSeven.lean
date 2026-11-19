@@ -20,6 +20,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_of_pow_two_pow_eq_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x : G} {k e : ℕ}
     (h2 : x ^ (2 ^ k) = 1) (hpe : x ^ (p ^ e) = 1) : x = 1 := by
   have hcop : Nat.Coprime (2 ^ k) (p ^ e) :=
@@ -28,6 +29,7 @@ theorem eq_one_of_pow_two_pow_eq_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x
     (by rw [hpe]; exact Subgroup.one_mem _)
   exact Subgroup.mem_bot.mp h
 
+omit [Finite G] in
 theorem commute_of_commutator_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B B₁ L : Subgroup G}
     (hB : IsPGroup p B) (hB₁B : B₁ ≤ B) (hB₁L : B₁ ≤ L) {c : G} (hcB : c ∈ B)
     (hcL : ⁅Subgroup.zpowers c, L⁆ ≤ pCoreOf 2 L) : ∀ u ∈ B₁, c * u = u * c := by
@@ -45,6 +47,7 @@ theorem commute_of_commutator_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B B�
   calc c * u = (c * u * c⁻¹ * u⁻¹) * (u * c) := by group
     _ = u * c := by rw [h1, one_mul]
 
+omit [Finite G] in
 theorem pow_eq_one_of_conj_eq {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {H : Subgroup G}
     {b b₁ t n : G} {i m : ℕ} (hb₁ : b₁ ∈ H) (htH : t * b₁ * t⁻¹ ∈ H) (hbH : b ∉ H)
     (hbo : orderOf b = p) (hbt : Commute b t) (hbb₁ : Commute b b₁) (hm : Nat.Coprime m p)
@@ -99,7 +102,7 @@ theorem mem_hyp111Pre_of_conj_eq (hI5 : KFactStepThreeCentSylow) (hp2 : p ≠ 2)
   have hp : p.Prime := Fact.out
   have hB : IsPGroup p B := by
     obtain ⟨Q, rfl⟩ := hBC
-    exact Q.isPGroup'.map _
+    exact Q.isPGroup.map _
   have hcC : c ∈ C := hBC.le hcB
   have hbX : b ∈ d1PlusCore p C K := mem_d1PlusCore_of_central hbC hb K
   have hbK : b ∉ hyp111Pre p C K := not_mem_hyp111Pre hZ hbX hbo
@@ -156,6 +159,7 @@ variable {p : ℕ} [Fact p.Prime] {H : Subgroup G}
 
 local notation "ψ" => RankOneSylow.act (primeComplementCore (G := H) p) KH
 
+omit [Fact (Nat.Prime p)] in
 theorem caseTwo_conj_range {K : Type} [Group K] (hZ : Subgroup.center K = ⊥)
     (h : IsCaseTwoGroup p K) :
     (p = 3 ∧ ∃ (d : TauCeti.ValidLieTypeIndex) (q : TauCeti.PrimePower), q.p = 2 ∧

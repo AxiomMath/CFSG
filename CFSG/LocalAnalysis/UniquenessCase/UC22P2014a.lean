@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p2014a_not_dvd_card_of_le {p : ℕ} {M H N : Subgroup G}
     (hsp : IsStronglyPEmbedded p M) (hHM : ¬ H ≤ M) (hNM : N ≤ M)
     (hHN : H ≤ normalizer (N : Set G)) : ¬ p ∣ Nat.card N := by
@@ -28,6 +29,7 @@ theorem uc22p2014a_solvRad_le (D : Data G) (hB : ListBNonabelian) (h1930 : H1930
   rw [CFSG.Quasithin.solvRad_eq_map_solvableRadical]
   exact uc22p20a_oinf_le D hB h1930 hH
 
+omit [Finite G] in
 theorem uc22p2014a_le_normalizer_solvRad (H : Subgroup G) :
     H ≤ normalizer (CFSG.Quasithin.solvRad H : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (CFSG.Quasithin.solvRad_le H)).1
@@ -49,6 +51,7 @@ theorem uc22p2014a_pRank_le_one (D : Data G) (h66 : UC6.R6_6 D) {p : ℕ} (hp : 
     omega
   exact hH.2.1 (((h66 p hp hp2).1 (Or.inl hsp) N hN h2) ▸ hHN)
 
+omit [Finite G] in
 theorem uc22p2014a_mem_of_conj_mem {p : ℕ} [Fact p.Prime] {M Q : Subgroup G}
     (hsp : IsStronglyPEmbedded p M) (hQ : IsPGroup p Q) (hQM : Q ≤ M) {x g : G} (hxQ : x ∈ Q)
     (hx1 : x ≠ 1) (hgx : g * x * g⁻¹ ∈ M) : g ∈ M := by
@@ -63,7 +66,7 @@ theorem uc22p2014a_mem_of_conj_mem {p : ℕ} [Fact p.Prime] {M Q : Subgroup G}
     · exact absurd (Subgroup.card_eq_one.mp h) hU
     · exact h
   refine hpU.trans (Subgroup.card_dvd_of_le (zpowers_le.mpr (Subgroup.mem_inf.mpr ⟨hQM hxQ, ?_⟩)))
-  exact ⟨g * x * g⁻¹, hgx, by simp [MulAut.conj_apply, mul_assoc]⟩
+  exact ⟨g * x * g⁻¹, hgx, by simp [mul_assoc]⟩
 
 theorem uc22p2014a_exists_mul_mem_centralizer {p : ℕ} (hp : p.Prime) {R : Subgroup G}
     (hR : ¬ p ∣ Nat.card R) {x z : G} (hx : orderOf x = p)
@@ -71,7 +74,7 @@ theorem uc22p2014a_exists_mul_mem_centralizer {p : ℕ} (hp : p.Prime) {R : Subg
     ∃ r ∈ R, z * r ∈ centralizer ({x} : Set G) := by
   set C : Subgroup G := normalizer (R : Set G) with hCdef
   set E : Subgroup C := R.subgroupOf C with hEdef
-  haveI : E.Normal := Subgroup.normal_in_normalizer
+  have : E.Normal := Subgroup.normal_in_normalizer
   have hE : ¬ p ∣ Nat.card E := by
     rwa [hEdef, Nat.card_congr (Subgroup.subgroupOfEquivOfLe Subgroup.le_normalizer).toEquiv]
   set x' : C := ⟨x, hxR⟩ with hx'def

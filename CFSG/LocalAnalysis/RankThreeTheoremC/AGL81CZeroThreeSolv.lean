@@ -21,8 +21,8 @@ theorem IsSymThreeOrSUThreeTwo.three_dvd_card {Q : Type} [Group Q]
   · rw [Nat.card_congr f.some.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     decide
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K hK
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K hK
     have h2 := CFSG.SectionRank.OddCover.card_statedSU_three (K := K) (p := 2) (f := 1)
       (by rw [hK]; norm_num)
     rw [Nat.card_congr f.toEquiv, pow_one] at *
@@ -34,7 +34,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem three_dvd_card_oUpperTwo_of_symThree {I : Subgroup G}
     (hb : IsSymThreeOrSUThreeTwo (↥I ⧸ CFSG.pCore 2 ↥I)) :
     3 ∣ Nat.card (CFSG.ComponentClassification.AS76b.oUpperTwo I) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' 3 (IsSymThreeOrSUThreeTwo.three_dvd_card hb)
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥I) q
   obtain ⟨a, ha⟩ := exists_two_pow_mem_oUpperTwo y.2

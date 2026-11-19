@@ -199,14 +199,14 @@ theorem line_pair_eq_or_eq_swap_of_center_normalizes
     have hd := Submodule.finrank_add_eq_of_isCompl hc1
     have hdim : Module.finrank F4 V6 = 6 := by simp
     omega
-  letI : Fintype F4 := Fintype.ofFinite F4
+  let : Fintype F4 := Fintype.ofFinite F4
   have hFcard : Nat.card F4 = 4 := by
     rw [Nat.card_eq_fintype_card, TauCeti.card_galoisField_two_two]
   obtain ⟨ω, hω⟩ := TauCeti.exists_sq_add_self_add_one_eq_zero_of_card_eq_four hFcard
   have hω0 : ω ≠ 0 := by rintro rfl; simp at hω
   have hω1 : ω ≠ 1 := by
     rintro rfl
-    simpa only [one_pow, CharTwo.add_self_eq_zero, zero_add, one_ne_zero] using hω
+    simp only [one_pow, CharTwo.add_self_eq_zero, zero_add, one_ne_zero] at hω
   have hω3 : ω ^ 3 = 1 := by
     simpa [TauCeti.card_galoisField_two_two] using FiniteField.pow_card_sub_one_eq_one ω hω0
   obtain ⟨z, hz, hzE, hzP, hzc⟩ :=
@@ -442,7 +442,7 @@ private theorem map_blockSpecialLinear_to_stabSub
       intro i hi
       rw [hentry, CFSG.SeitzReduction.LinearPilot.mem_blockSpecialLinear.mp hg i j (Or.inl hi)]
       have hij : i ≠ j := fun h => hi (h.symm ▸ hj)
-      simp only [Matrix.one_apply, if_neg hij]
+      simp only [Matrix.one_apply, ite_eq_right hij]
     exact fun v hv => hle hv
   have hfix : ∀ g ∈ CFSG.SeitzReduction.LinearPilot.blockSpecialLinear (K := F4) I,
       ∀ v ∈ P, (Φ g : Matrix (Fin 6) (Fin 6) F4) *ᵥ v = v := by
@@ -487,7 +487,7 @@ private theorem map_blockSpecialLinear_to_stabSub
         (hmem _ _).mp (hh.2.1 _ hjE) i hi
       have hne : i ≠ j := fun h => hi (h.symm ▸ hj)
       rw [hentry', hz]
-      simp only [Matrix.one_apply, if_neg hne]
+      simp only [Matrix.one_apply, ite_eq_right hne]
     · have hjP : β j ∈ P := Submodule.subset_span ⟨j, by
         simpa only [Finset.mem_coe, Finset.mem_compl] using hj, rfl⟩
       rw [hentry', hh.1 _ hjP]

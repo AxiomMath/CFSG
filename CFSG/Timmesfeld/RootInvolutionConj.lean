@@ -16,7 +16,7 @@ theorem orderOf_mul_comm_aux (x y : Γ) : orderOf (y * x) = orderOf (x * y) := b
 
 theorem exists_conj_or_conj_mul_of_odd_partner [Finite Γ] {D : Set Γ}
     (hD : IsRootInvolutionSet D) (hN : ∀ g x : Γ, x ∈ D → g * x * g⁻¹ ∈ D)
-    {a b : Γ} (ha : a ∈ D) (hb : b ∈ D) (hab : a ≠ b) (hc : a * b = b * a) (habD : a * b ∈ D)
+    {a b : Γ} (ha : a ∈ D) (hb : b ∈ D) (_hab : a ≠ b) (hc : a * b = b * a) (habD : a * b ∈ D)
     (hodd : ∃ c ∈ D, Odd (orderOf (a * c)) ∧ a * c ≠ 1) :
     (∃ g : Γ, g * a * g⁻¹ = b) ∨ ∃ g : Γ, g * a * g⁻¹ = a * b := by
   obtain ⟨c, hcD, hoddc, hac1⟩ := hodd

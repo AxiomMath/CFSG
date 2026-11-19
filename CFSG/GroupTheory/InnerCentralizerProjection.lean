@@ -84,7 +84,7 @@ theorem isPGroup_sup_centralizer_inf [Finite Γ] {p : ℕ} [Fact p.Prime] {J R :
     intro j hj c hc
     have hcomm : j * c = c * j := (Subgroup.mem_centralizer_iff.mp hc) j hj
     rwa [hcomm, mul_assoc, mul_inv_cancel, mul_one]
-  haveI hKnormal : (C.subgroupOf S).Normal :=
+  have hKnormal : (C.subgroupOf S).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hRC
   have hRsub : IsPGroup p (R.subgroupOf S) :=
     hR.of_equiv (Subgroup.subgroupOfEquivOfLe (show R ≤ S from le_sup_left)).symm
@@ -141,7 +141,7 @@ theorem isPGroup_sup_centralizer_inf [Finite Γ] {p : ℕ} [Fact p.Prime] {J R :
     simpa [mul_assoc] using h5.symm
   exact hQuot.of_injective g hginj
 
-theorem sup_centralizer_inf_ne_bot {J R : Subgroup Γ} (hRJ : R ≤ Subgroup.normalizer (J : Set Γ))
+theorem sup_centralizer_inf_ne_bot {J R : Subgroup Γ} (_hRJ : R ≤ Subgroup.normalizer (J : Set Γ))
     (hRle : R ≤ J ⊔ Subgroup.centralizer (J : Set Γ))
     (hRC : R ⊓ Subgroup.centralizer (J : Set Γ) = ⊥) (hR : R ≠ ⊥) :
     (R ⊔ Subgroup.centralizer (J : Set Γ)) ⊓ J ≠ ⊥ := by

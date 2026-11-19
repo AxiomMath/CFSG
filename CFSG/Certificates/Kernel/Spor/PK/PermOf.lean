@@ -20,13 +20,13 @@ variable {n : Nat} {f g : Nat → Nat}
 
 theorem permOf_apply (hf : IsPermN n f) (i : Fin n) : (permOf n f i : Nat) = f i := by
   unfold permOf
-  rw [dif_pos hf]
+  rw [dite_eq_left hf]
   rfl
 
 theorem permOf_inv_apply (hf : IsPermN n f) (i : Fin n) :
     ((permOf n f)⁻¹ i : Nat) = finv n f i := by
   unfold permOf
-  rw [dif_pos hf]
+  rw [dite_eq_left hf]
   rfl
 
 theorem permOf_mul (hf : IsPermN n f) (hg : IsPermN n g) :
@@ -53,7 +53,7 @@ theorem permOf_congr (h : ∀ x < n, f x = g x) : permOf n f = permOf n g := by
     exact h i i.isLt
   · have hg : ¬ IsPermN n g := fun hg => hf (isPermN_congr (fun x hx => (h x hx).symm) hg)
     unfold permOf
-    rw [dif_neg hf, dif_neg hg]
+    rw [dite_eq_right hf, dite_eq_right hg]
 
 theorem permOf_eq_iff (hf : IsPermN n f) (hg : IsPermN n g) :
     permOf n f = permOf n g ↔ ∀ x < n, f x = g x := by
@@ -82,9 +82,9 @@ theorem permOf_pow (hf : IsPermN n f) (k : Nat) : permOf n f ^ k = permOf n (itr
 theorem isPermN_val (σ : Equiv.Perm (Fin n)) :
     IsPermN n fun x => if h : x < n then (σ ⟨x, h⟩ : Nat) else x := by
   refine ⟨fun x hx => ?_, fun x hx y hy hxy => ?_⟩
-  · simp only [dif_pos hx]
+  · simp only [dite_eq_left hx]
     exact (σ ⟨x, hx⟩).isLt
-  · simp only [dif_pos hx, dif_pos hy] at hxy
+  · simp only [dite_eq_left hx, dite_eq_left hy] at hxy
     exact congrArg Fin.val (σ.injective (Fin.ext hxy))
 
 theorem permOf_val (σ : Equiv.Perm (Fin n)) :
@@ -125,8 +125,8 @@ private theorem cycW_minimalPeriod (f : Nat → Nat) (i : Nat) :
     have hs : f (f^[k] i) = f^[k + 1] i := (Function.iterate_succ_apply' f k i).symm
     rw [hs]
     by_cases hP : k + 1 = Function.minimalPeriod f i
-    · rw [if_pos (by rw [hP]; exact Function.isPeriodicPt_minimalPeriod f i), hP]
-    · rw [if_neg]
+    · rw [ite_eq_left (by rw [hP]; exact Function.isPeriodicPt_minimalPeriod f i), hP]
+    · rw [ite_eq_right]
       · exact ih (k + 1) (by omega) (by omega)
       · intro h
         exact Function.not_isPeriodicPt_of_pos_of_lt_minimalPeriod (n := k + 1) (by omega)

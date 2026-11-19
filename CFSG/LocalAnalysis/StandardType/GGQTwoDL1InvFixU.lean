@@ -77,7 +77,7 @@ theorem qtwoDL1_unitAut_centralizer {G : Type} [Group G] [Finite G] {p : ℕ} {B
     {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {ψ : Su K 2 1 n →* G}
     (hK : Nat.card K = 4) (h : GGNSLocalHyp p B Bs K 1 n ψ) (hrange : ψ.range = X)
     (hd : GGActsDiagonally (p := 2) (f := 1) ψ Bs)
-    (hfull : Nat.card ↥Bs = 3 ^ (n - 1) * Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)))
+    (_hfull : Nat.card ↥Bs = 3 ^ (n - 1) * Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)))
     (φ : ↥Bs →* MulAut ↥X)
     (hφ : ∀ (b : ↥Bs) (x : ↥X), ((φ b x : ↥X) : G) = (b : G) * (x : G) * (b : G)⁻¹)
     (α : MulAut ↥X) (hα : ∀ b : ↥Bs, α * φ b = φ b * α) (hα2 : α ^ 2 = 1) :

@@ -65,7 +65,7 @@ theorem commSpace_conjEquiv (e : W ≃ₗ[ZMod 2] W') (f : W ≃ₗ[ZMod 2] W) :
     commSpace (conjEquiv e f) = (commSpace f).map (e : W →ₗ[ZMod 2] W') := by
   ext w
   simp only [commSpace, LinearMap.mem_range, Submodule.mem_map, LinearMap.sub_apply,
-    LinearMap.id_apply, LinearEquiv.coe_coe, Module.End.one_apply]
+    LinearEquiv.coe_coe, Module.End.one_apply]
   constructor
   · rintro ⟨y, rfl⟩
     refine ⟨f (e.symm y) - e.symm y, ⟨e.symm y, rfl⟩, ?_⟩

@@ -1726,7 +1726,7 @@ private lemma bijective_of_additive_of_spForm {σ : F ≃+* F}
     exact σ.injective (h'.symm.trans (map_zero σ).symm)
   exact sub_eq_zero.mp (spForm_nondegenerate.1 (x - z) hperp)
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma gamma_lift_eq_mU_of_psi (c : SpChart hC B.hα k F)
     {Q₀ : QuadraticForm F (Fin k ⊕ Fin k → F)}
     (hQ₀ : ∀ a b, polar Q₀ a b = spForm k F a b)

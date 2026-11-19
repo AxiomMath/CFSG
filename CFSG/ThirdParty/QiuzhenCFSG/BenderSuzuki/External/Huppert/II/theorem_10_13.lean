@@ -19,7 +19,7 @@ The statement follows Volume I, physical pages 256--257 (PDF pages 267--268).
 namespace CFSG.BenderSuzuki
 namespace External
 
-open MatrixGroups
+open _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization
 open scoped commutatorElement
 
@@ -343,10 +343,10 @@ public theorem huppert_II_10_13
       (commutator U).map U.subtype ≤ R := by
     let RU : Subgroup U := R.subgroupOf U
     let HU : Subgroup U := H.subgroupOf U
-    letI : RU.Normal :=
+    let : RU.Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hRnormal
-    letI : IsCyclic H := hHcyclic
-    letI : IsMulCommutative H := IsCyclic.isMulCommutative
+    let : IsCyclic H := hHcyclic
+    let : IsMulCommutative H := IsCyclic.isMulCommutative
     have hHUcomm : IsMulCommutative HU := by
       refine ⟨⟨?_⟩⟩
       intro x y
@@ -361,7 +361,7 @@ public theorem huppert_II_10_13
       rw [← Subgroup.subgroupOf_sup (A := R) (A' := H) (B := U) hRle hHle]
       rw [hRsupH, Subgroup.subgroupOf_self]
     have hcommU : commutator U ≤ RU := by
-      haveI : IsMulCommutative HU := hHUcomm
+      have : IsMulCommutative HU := hHUcomm
       exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     rintro x ⟨y, hy, rfl⟩
     exact hcommU hy
@@ -731,23 +731,23 @@ public theorem huppert_II_10_13
     rw [hcancel]
     exact (commutator G).mul_mem hk ((commutator G).inv_mem hone)
   have hperfect : commutator G = ⊤ := by
-    letI : MulAction G Omega := MulAction.compHom Omega rho
+    let : MulAction G Omega := MulAction.compHom Omega rho
     have htwo : MulAction.IsMultiplyPretransitive G Omega 2 := by
       rw [MulAction.is_two_pretransitive_iff]
       intro a b c d hab hcd
       exact htwo_transitive a b c d hab hcd
-    letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
-    letI : MulAction.IsPretransitive G Omega :=
+    let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
+    let : MulAction.IsPretransitive G Omega :=
       MulAction.isPretransitive_of_is_two_pretransitive
-    letI : MulAction.IsPreprimitive G Omega :=
+    let : MulAction.IsPreprimitive G Omega :=
       MulAction.isPreprimitive_of_is_two_pretransitive htwo
     have hOmega_one_lt : 1 < Nat.card Omega := by
       rw [hOmega_card]
       have hq_pos : 0 < q := by omega
       simpa using Nat.add_lt_add_right (pow_pos hq_pos 3) 1
-    letI : Nontrivial Omega :=
+    let : Nontrivial Omega :=
       Finite.one_lt_card_iff_nontrivial.mp hOmega_one_lt
-    letI : FaithfulSMul G Omega := faithfulSMul_iff.mpr (by
+    let : FaithfulSMul G Omega := faithfulSMul_iff.mpr (by
       intro g hg
       apply hrho
       apply Equiv.ext
@@ -780,7 +780,7 @@ public theorem huppert_II_10_13
     rcases hUcoatom.le_iff.mp hU_le_commutator with htop | heq
     · exact htop
     · rcases hRcoordinates with ⟨coordR, _hcoordRMatrix⟩
-      letI : Finite R :=
+      let : Finite R :=
         Finite.of_injective coordR.symm coordR.symm.injective
       have hR_ne_bot : R ≠ ⊥ := by
         rw [← Subgroup.one_lt_card_iff_ne_bot, hRcard]
@@ -793,8 +793,8 @@ public theorem huppert_II_10_13
           exact hRle
         · exact bot_le
       have hcomm_normal : (commutator G).Normal := inferInstance
-      letI : U.Normal := heq ▸ hcomm_normal
-      letI : MulAction.IsQuasiPreprimitive G Omega :=
+      let : U.Normal := heq ▸ hcomm_normal
+      let : MulAction.IsQuasiPreprimitive G Omega :=
         MulAction.IsPreprimitive.isQuasiPreprimitive
       have hfixed_ne_univ :
           MulAction.fixedPoints U Omega ≠ Set.univ := by
@@ -811,7 +811,7 @@ public theorem huppert_II_10_13
                 trivial
               exact MulAction.mem_fixedPoints.mp hx ⟨g, hg⟩)
         exact Subgroup.mem_bot.mpr hg_one
-      letI : MulAction.IsPretransitive U Omega :=
+      let : MulAction.IsPretransitive U Omega :=
         MulAction.IsQuasiPreprimitive.isPretransitive_of_normal
           hfixed_ne_univ
       obtain ⟨x, hx⟩ := exists_ne pinf
@@ -827,7 +827,7 @@ public theorem huppert_II_10_13
         _ = x := hu).symm
   have hsimple_standard : IsSimpleGroup G := by
     classical
-    have hU_solvable : IsSolvable U := by
+    have hU_solvable : Group.IsSolvable U := by
       have hmap_derived_two :
           (derivedSeries U 2).map U.subtype =
             (commutator R).map R.subtype := by
@@ -846,23 +846,23 @@ public theorem huppert_II_10_13
       exact ⟨⟨3,
         ((derivedSeries U 3).map_eq_bot_iff_of_injective
           U.subtype_injective).mp hmap_derived_three⟩⟩
-    letI : MulAction G Omega := MulAction.compHom Omega rho
+    let : MulAction G Omega := MulAction.compHom Omega rho
     have htwo : MulAction.IsMultiplyPretransitive G Omega 2 := by
       rw [MulAction.is_two_pretransitive_iff]
       intro a b c d hab hcd
       exact htwo_transitive a b c d hab hcd
-    letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
-    letI : MulAction.IsPreprimitive G Omega :=
+    let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
+    let : MulAction.IsPreprimitive G Omega :=
       MulAction.isPreprimitive_of_is_two_pretransitive htwo
-    letI : MulAction.IsQuasiPreprimitive G Omega :=
+    let : MulAction.IsQuasiPreprimitive G Omega :=
       MulAction.IsPreprimitive.isQuasiPreprimitive
     have hOmega_one_lt : 1 < Nat.card Omega := by
       rw [hOmega_card]
       have hq_pos : 0 < q := by omega
       simpa using Nat.add_lt_add_right (pow_pos hq_pos 3) 1
-    letI : Nontrivial Omega :=
+    let : Nontrivial Omega :=
       Finite.one_lt_card_iff_nontrivial.mp hOmega_one_lt
-    letI : FaithfulSMul G Omega := faithfulSMul_iff.mpr (by
+    let : FaithfulSMul G Omega := faithfulSMul_iff.mpr (by
       intro g hg
       apply hrho
       apply Equiv.ext
@@ -874,7 +874,7 @@ public theorem huppert_II_10_13
         (rho g) x = x := hx
         _ = (rho 1) x := by rw [map_one]; rfl)
     obtain ⟨g, hg, _hfixed⟩ := hthree_fixed hq
-    letI : Nontrivial G :=
+    let : Nontrivial G :=
       nontrivial_iff_exists_ne 1 |>.2 ⟨g, hg⟩
     have hU_eq_stabilizer : U = MulAction.stabilizer G pinf := rfl
     refine { eq_bot_or_eq_top_of_normal := ?_ }
@@ -882,7 +882,7 @@ public theorem huppert_II_10_13
     by_cases hN_bot : N = ⊥
     · exact Or.inl hN_bot
     · refine Or.inr ?_
-      letI : N.Normal := hN_normal
+      let : N.Normal := hN_normal
       have hfixed_ne_univ : MulAction.fixedPoints N Omega ≠ Set.univ := by
         intro hfixed
         apply hN_bot
@@ -903,7 +903,7 @@ public theorem huppert_II_10_13
         exact Subgroup.mem_bot.mpr hn_one
       have hN_transitive : MulAction.IsPretransitive N Omega :=
         MulAction.IsQuasiPreprimitive.isPretransitive_of_normal hfixed_ne_univ
-      letI : MulAction.IsPretransitive N Omega := hN_transitive
+      let : MulAction.IsPretransitive N Omega := hN_transitive
       let quotientFromU : U →* G ⧸ N :=
         (QuotientGroup.mk' N).comp U.subtype
       have hquotientFromU_surjective : Function.Surjective quotientFromU := by
@@ -930,14 +930,14 @@ public theorem huppert_II_10_13
         rw [div_eq_mul_inv, mul_assoc, mul_inv_cancel, mul_one]
         exact N.inv_mem n.property
       have hquotient_solvable : Group.IsSolvable (G ⧸ N) := by
-        letI : Group.IsSolvable U := hU_solvable
+        let : Group.IsSolvable U := hU_solvable
         exact Group.isSolvable_of_surjective
           (f := quotientFromU) hquotientFromU_surjective
       by_contra hN_top
-      letI : Nontrivial (G ⧸ N) :=
+      let : Nontrivial (G ⧸ N) :=
         QuotientGroup.nontrivial_iff.mpr hN_top
-      letI : Group.IsPerfect G := ⟨hperfect⟩
-      letI : Group.IsPerfect (G ⧸ N) := inferInstance
+      let : Group.IsPerfect G := ⟨hperfect⟩
+      let : Group.IsPerfect (G ⧸ N) := inferInstance
       exact Group.IsPerfect.not_isSolvable (G ⧸ N) hquotient_solvable
   exact hequiv.some.isSimpleGroup_congr.mpr hsimple_standard
 

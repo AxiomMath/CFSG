@@ -215,7 +215,7 @@ theorem inf_centralizer_eq_of_twoElements_le {K R : Subgroup G} (hR : IsSylowOf 
       exact Subtype.ext (mem_centralizer_iff.mp c.2.2 _ hp)
     set τ := MonoidHom.transferSylow P hPc with hτ
     have hτy : τ ⟨y, hyC⟩ = 1 := by
-      have hPp : IsPGroup 2 (P : Subgroup C) := P.isPGroup'
+      have hPp : IsPGroup 2 (P : Subgroup C) := P.isPGroup
       refine eq_one_of_mem_isPGroup_of_odd_orderOf hPp hyodd ?_
       refine (orderOf_map_dvd τ _).trans ?_
       rw [Subgroup.orderOf_mk]

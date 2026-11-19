@@ -80,7 +80,7 @@ theorem exists_cent_of_center_three {K : Type} [Group K] [Finite K]
     ∃ x : K, x ^ 3 = 1 ∧ x * k = k * x ∧ x ∉ zpowers k ⊔ center K := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hZ3 : ∀ z ∈ center K, z ^ 3 = 1 := by
     intro z hz
     have h1 : (⟨z, hz⟩ : center K) ^ Nat.card (center K) = 1 := pow_card_eq_one'
@@ -99,7 +99,7 @@ theorem exists_cent_of_center_three {K : Type} [Group K] [Finite K]
     exact hrk
   obtain ⟨E, hEP, hPn, hE, hEc⟩ :=
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.gl83NormalElementaryRankFour_holds K
-      (P : Subgroup K) P.isPGroup' hP4
+      (P : Subgroup K) P.isPGroup hP4
   have hkP' : k ∈ (P : Subgroup K) := hkP (mem_zpowers k)
   have hkn : k ∈ normalizer (E : Set K) := hPn hkP'
   have hk3c : ∀ e ∈ E, k ^ 3 * e = e * k ^ 3 := fun e _ => ((mem_center_iff.1 hk3) e).symm
@@ -126,10 +126,10 @@ theorem exists_cent_of_center_three {K : Type} [Group K] [Finite K]
       have hCcomm : ∀ e ∈ C, e * k = k * e := fun e he => mem_centralizer_singleton_iff.1 he.2
       have hYcard : Nat.card ↥(C ⊔ zpowers k) = Nat.card C * 3 :=
         CFSG.RankThree.PartOne.Planes.card_sup_zpowers hp3 C hk1 hkC hCcomm
-      haveI hCe : CFSG.IsElementaryAbelian 3 C :=
+      have hCe : CFSG.IsElementaryAbelian 3 C :=
         CFSG.IsElementaryAbelian.of_le
           ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 E).2 hE) inf_le_left
-      haveI hke : CFSG.IsElementaryAbelian 3 (zpowers k) :=
+      have hke : CFSG.IsElementaryAbelian 3 (zpowers k) :=
         CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one hk1
       have hle : zpowers k ≤ centralizer (C : Set K) := by
         rw [zpowers_le]
@@ -157,7 +157,7 @@ theorem exists_cent_of_center_three {K : Type} [Group K] [Finite K]
     have hCk : C ≤ zpowers k := fun c hc => by
       have := hCM c hc
       rwa [sup_eq_left.2 hZk] at this
-    haveI : IsCyclic ↥C := Subgroup.isCyclic_of_le hCk
+    have : IsCyclic ↥C := Subgroup.isCyclic_of_le hCk
     have hexp : Monoid.exponent ↥C = Nat.card C := IsCyclic.exponent_eq_card
     have hdvd : Monoid.exponent ↥C ∣ 3 :=
       Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (by simpa using hE.2 x x.2.1)
@@ -367,7 +367,7 @@ theorem u43_center (hGA : GriessAllModelsStatement) {K : Type} [Group K] [Finite
     (Nat.card (Subgroup.center K) = 3 ∧ 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K)) ∨
       (Nat.card (Subgroup.center K) = 9 ∧ (∀ z ∈ Subgroup.center K, z ^ 3 = 1) ∧
         Nonempty (K ⧸ Subgroup.center K ≃* CFSG.LieType.Multipliers.U43.X₀)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd := center_dvd_table hGA (isQuasisimple_of_open' hq) (MulEquiv.refl _)
     (lieModel_of_classical hc)
   have h36 : (genericOrders .PSU 4 3 1).1 * (genericOrders .PSU 4 3 1).2 *
@@ -414,7 +414,7 @@ theorem o73_center (hGA : GriessAllModelsStatement) {K : Type} [Group K] [Finite
     (hc : StatedClassicalModel (K ⧸ Subgroup.center K) .POmegaOdd 3 3 1)
     (hZp : IsPGroup 3 (Subgroup.center K)) (hZ : Subgroup.center K ≠ ⊥) :
     Nat.card (Subgroup.center K) = 3 ∧ 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd := center_dvd_table hGA (isQuasisimple_of_open' hq) (MulEquiv.refl _)
     (lieModel_of_classical hc)
   have h6 : (genericOrders .POmegaOdd 3 3 1).1 * (genericOrders .POmegaOdd 3 3 1).2 *
@@ -457,7 +457,7 @@ theorem g23_center (hGA : GriessAllModelsStatement) {K : Type} [Group K] [Finite
       Nonempty ((K ⧸ Subgroup.center K) ≃* (CFSGIndex.lie d).Group))
     (hZp : IsPGroup 3 (Subgroup.center K)) (hZ : Subgroup.center K ≠ ⊥) :
     Nat.card (Subgroup.center K) = 3 ∧ 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd := center_dvd_table hGA (isQuasisimple_of_open' hq) (MulEquiv.refl _) hm
   have h3' : (genericOrders .G2 0 3 1).1 * (genericOrders .G2 0 3 1).2 *
       ((exceptionalOrders .G2 0 3 1).1 * (exceptionalOrders .G2 0 3 1).2) = 3 := by
@@ -512,7 +512,7 @@ open CFSG.Assembly.LowTwoRank CFSG.Models TauCeti
 theorem kdCenterCase_of_nineFold (hGA : GriessAllModelsStatement) (hNine : KDU43NineFold) :
     KDCenterCase := by
   intro p hp hp2 K _ _ hq hL hZp hZ k hkZ hkp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨idx, ⟨e⟩, hchar⟩ := hL
   have hpZ : p ∣ Nat.card (Subgroup.center K) := by
     obtain ⟨n, hn⟩ := hZp.exists_card_eq

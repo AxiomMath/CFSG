@@ -41,7 +41,7 @@ theorem exists_conj_phi_le_Psub (A : Subgroup (MulAut S4)) (hel : IsElemAbelian 
   have hkA : autConj k A ≤ Psub := hk
   have houtk : ¬ autConj k A ≤ innAutOf S4 :=
     fun h => hout (w183finSp44_le_inn_of_autConj_le A k h)
-  obtain ⟨σ, hσA, hσnotinn⟩ := SetLike.not_le_iff_exists.mp houtk
+  obtain ⟨σ, hσA, hσnotinn⟩ := IsConcreteLE.not_le_iff_exists.mp houtk
   have hσP : σ ∈ Psub := hkA hσA
   obtain ⟨x, hxPel, hxaut⟩ := (mem_Psub_iff σ).mp hσP
   have hxval : validB x = true := Pel_valid x hxPel
@@ -102,7 +102,7 @@ theorem exists_codes_of_le_Psub (A : Subgroup (MulAut S4)) (hel : IsElemAbelian 
     have hpval : validB phiE = true := Pel_valid phiE hφP
     apply autOf_inj (validB_gmulE hxval hpval) (validB_gmulE hpval hxval)
     rw [autOf_gmulE hxval hpval, autOf_gmulE hpval hxval]
-    haveI : IsMulCommutative ↥A := hel.1
+    have : IsMulCommutative ↥A := hel.1
     exact congrArg Subtype.val (mul_comm' (⟨autOf x, hKA x hx⟩ : A) ⟨phiAut, hφ⟩)
   · intro x hx
     have hxval : validB x = true := Pel_valid x (hKP x hx)
@@ -114,7 +114,7 @@ theorem exists_codes_of_le_Psub (A : Subgroup (MulAut S4)) (hel : IsElemAbelian 
     have hyval : validB y = true := Pel_valid y (hKP y hy)
     apply autOf_inj (validB_gmulE hxval hyval) (validB_gmulE hyval hxval)
     rw [autOf_gmulE hxval hyval, autOf_gmulE hyval hxval]
-    haveI : IsMulCommutative ↥A := hel.1
+    have : IsMulCommutative ↥A := hel.1
     exact congrArg Subtype.val (mul_comm' (⟨autOf x, hKA x hx⟩ : A) ⟨autOf y, hKA y hy⟩)
   · intro x hx y hy
     rw [hmem]

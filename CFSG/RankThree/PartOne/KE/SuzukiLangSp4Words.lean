@@ -54,7 +54,6 @@ theorem transvMatR_mul_self [CharP R 2] (v : Fin 4 → R) (t : R) :
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_four, transvMatR]
   all_goals first
-    | ring1
     | linear_combination (t * v 0 * v 0 * (1 + t * (v 0 * v 3 + v 1 * v 2))) * h2
     | linear_combination (t * v 0 * v 1 * (1 + t * (v 0 * v 3 + v 1 * v 2))) * h2
     | linear_combination (t * v 0 * v 2 * (1 + t * (v 0 * v 3 + v 1 * v 2))) * h2

@@ -132,7 +132,7 @@ private lemma mem_sup_centralizer_decomposition {S B : Subgroup Ω} (hSn : S.Nor
     ∀ b : ↥B, ∃ (s : ↥S) (c : Ω), c ∈ Subgroup.centralizer (S : Set Ω) ∧
       (b : Ω) = (s : Ω) * c := by
   intro b
-  haveI := hSn
+  have := hSn
   obtain ⟨s, hs, c, hc, hsc⟩ := Subgroup.mem_sup_of_normal_left.1 (hBin b b.2)
   exact ⟨⟨s, hs⟩, c, hc, hsc.symm⟩
 
@@ -205,7 +205,7 @@ theorem mem_sup_centralizer_of_autThreePowInner {S B : Subgroup Ω} {G₀ : Type
 theorem nonempty_centerQuot_equiv {p : ℕ} [Finite Ω] {S : Subgroup Ω} {G₀ : Type} [Group G₀]
     [Nontrivial G₀] (hSq : CFSG.Open.IsQuasisimple ↥S) (e : PSimple p S ≃* G₀) :
     Nonempty (↥S ⧸ Subgroup.center ↥S ≃* G₀) := by
-  haveI : Group.IsPerfect ↥S := ⟨hSq.1⟩
+  have : Group.IsPerfect ↥S := ⟨hSq.1⟩
   have hOne : GLAPPrimeCore p ↥S ≠ ⊤ := by
     intro htop
     have hsub : Subsingleton (PSimple p S) := by
@@ -214,7 +214,7 @@ theorem nonempty_centerQuot_equiv {p : ℕ} [Finite Ω] {S : Subgroup Ω} {G₀ 
         exact QuotientGroup.subsingleton_quotient_top
       exact (QuotientGroup.mk'_surjective
         (Subgroup.center (↥S ⧸ GLAPPrimeCore p ↥S))).subsingleton
-    haveI : Subsingleton G₀ := e.symm.injective.subsingleton
+    have : Subsingleton G₀ := e.symm.injective.subsingleton
     exact not_subsingleton G₀ ‹_›
   have hOZ : GLAPPrimeCore p ↥S ≤ Subgroup.center ↥S :=
     CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hSq inferInstance hOne

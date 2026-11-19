@@ -17,14 +17,17 @@ open CFSG.ComponentClassification.AS81 CFSG.ComponentClassification.AS81.Sec2Ome
 variable {G : Type} [Group G] [Finite G] {S : Subgroup G} {e : ↥S ≃* Multiplicative F6}
   {ψ : ↥(Nor S) →* OmG} {t : ↥S}
 
+omit [Finite G] in
 theorem S_comm (e : ↥S ≃* Multiplicative F6) (x y : ↥S) : x * y = y * x := by
   apply e.injective
   rw [map_mul, map_mul, mul_comm]
 
+omit [Finite G] in
 theorem S_comm' (e : ↥S ≃* Multiplicative F6) {x y : G} (hx : x ∈ S) (hy : y ∈ S) :
     x * y = y * x :=
   congrArg Subtype.val (S_comm e ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 theorem orderOf_t (e : ↥S ≃* Multiplicative F6) (ht1 : (t : G) ≠ 1) : orderOf (t : G) = 2 := by
   have h : (t : G) ^ 2 = 1 := by
     have := congrArg Subtype.val (sq_S e t)
@@ -32,6 +35,7 @@ theorem orderOf_t (e : ↥S ≃* Multiplicative F6) (ht1 : (t : G) ≠ 1) : orde
     exact this
   exact orderOf_eq_prime h ht1
 
+omit [Finite G] in
 theorem t_mem_T (e : ↥S ≃* Multiplicative F6) (ht1 : (t : G) ≠ 1) :
     (t : G) ∈ Op 2 (Cen (t : G)) := by
   have hord := orderOf_t e ht1
@@ -50,12 +54,14 @@ theorem t_mem_T (e : ↥S ≃* Multiplicative F6) (ht1 : (t : G) ≠ 1) :
       exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers _) k
   exact hle (Subgroup.mem_zpowers _)
 
+omit [Finite G] in
 theorem R_conj_mem {y r : G} (hyS : y ∈ Nor S) (hyt : y ∈ Cen (t : G))
     (hr : r ∈ S ⊓ Op 2 (Cen (t : G))) : y * r * y⁻¹ ∈ S ⊓ Op 2 (Cen (t : G)) := by
   obtain ⟨hrS, hrT⟩ := Subgroup.mem_inf.1 hr
   exact Subgroup.mem_inf.2 ⟨(Subgroup.mem_normalizer_iff.1 hyS r).1 hrS,
     S3.Op_conj_mem 2 (Subgroup.le_normalizer hyt) hrT⟩
 
+omit [Finite G] in
 theorem wsub_R_inv (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0) (g : OmG)
     (hg : g • tau0 = tau0) (v : F6) (hv : v ∈ wsub e (S ⊓ Op 2 (Cen (t : G)))) :
     g • v ∈ wsub e (S ⊓ Op 2 (Cen (t : G))) := by
@@ -70,6 +76,7 @@ theorem wsub_R_inv (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0) 
   refine ⟨⟨(y : G) * (w : G) * (y : G)⁻¹, (Subgroup.mem_inf.1 hR).1⟩, hR, ?_⟩
   rw [← hyg, H.smul_eq]
 
+omit [Finite G] in
 theorem R_cases (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0) (ht1 : (t : G) ≠ 1) :
     wsub e (S ⊓ Op 2 (Cen (t : G))) = Submodule.span (ZMod 2) {tau0} ∨
       (∀ x, x ∈ wsub e (S ⊓ Op 2 (Cen (t : G))) ↔ polarMinus x tau0 = 0) ∨
@@ -77,6 +84,7 @@ theorem R_cases (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0) (ht
   stab_inv_subspace ⟨t, Subgroup.mem_inf.2 ⟨t.2, t_mem_T e ht1⟩, het⟩
     (fun g hg w hw => wsub_R_inv H het g hg w hw)
 
+omit [Finite G] in
 theorem claim1_core (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
     (ht1 : (t : G) ≠ 1) {b : G} (hbt : b ∈ Cen (t : G))
     (hnotCen : ¬ ∀ x ∈ S ⊓ Op 2 (Cen (t : G)), x ∈ Cen b) (hnotS : ¬ S ≤ Op 2 (Cen (t : G))) :
@@ -123,7 +131,8 @@ theorem claim1_core (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
     rw [← h2]
     exact (Subgroup.mem_inf.1 hw).2
 
-theorem claim2_core (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
+omit [Finite G] in
+theorem claim2_core (H : OmSet S e ψ) (_het : Multiplicative.toAdd (e t) = tau0)
     (hPar : HypOmParabolic)
     (hperp : ∀ x : ↥S, (x : G) ∈ Op 2 (Cen (t : G)) ↔
       polarMinus (Multiplicative.toAdd (e x)) tau0 = 0) :

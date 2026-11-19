@@ -17,6 +17,7 @@ open Matrix SpBlocks UnitaryWeight
 variable {Γ : Type*} [Group Γ] [Finite Γ] {ι : Type} [Fintype ι] [DecidableEq ι] {Ω : Type}
   [Field Ω] [IsAlgClosed Ω] [CharP Ω 2]
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 lemma pow_mul_eq_mul_diagonal_pow {X P : Matrix ι ι Ω} {w : ι → Ω}
     (h : X * P = P * diagonal w) (n : ℕ) :
     X ^ n * P = P * diagonal (w ^ n) := by
@@ -27,6 +28,7 @@ lemma pow_mul_eq_mul_diagonal_pow {X P : Matrix ι ι Ω} {w : ι → Ω}
         Matrix.diagonal_mul_diagonal, pow_succ]
       rfl
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 lemma mul_pow_mul_eq_mul_diagonal {A B P : Matrix ι ι Ω} {a b : ι → Ω}
     (hAP : A * P = P * diagonal a) (hBP : B * P = P * diagonal b) (i j : ℕ) :
     (A ^ i * B ^ j) * P = P * diagonal (a ^ i * b ^ j) := by
@@ -35,6 +37,7 @@ lemma mul_pow_mul_eq_mul_diagonal {A B P : Matrix ι ι Ω} {a b : ι → Ω}
     Matrix.diagonal_mul_diagonal]
   rfl
 
+omit [Finite Γ] in
 theorem eq_one_of_commute_even (h5 : HasOrderFiveData Γ) (h7 : HasOrderSevenData Γ) (σ : Ω ≃+* Ω)
     (hσ3 : ∀ η : Ω, η ^ 3 = 1 → σ η = η) (hι : Fintype.card ι ≤ 9) {G : Matrix ι ι Ω}
     (hG : IsUnit G) (ρ : Γ →* Matrix ι ι Ω) (hρ : ∀ g, (ρ g)ᵀ * G * (ρ g).map σ = G)
@@ -168,7 +171,7 @@ theorem eq_one_of_commute_even (h5 : HasOrderFiveData Γ) (h7 : HasOrderSevenDat
     simp only [not_exists, not_not] at h
     have hne : Nonempty ι := by
       by_contra hempty
-      haveI : IsEmpty ι := ⟨fun x => hempty ⟨x⟩⟩
+      have : IsEmpty ι := ⟨fun x => hempty ⟨x⟩⟩
       have hA1 : A = 1 := by
         ext x
         exact (hempty ⟨x⟩).elim

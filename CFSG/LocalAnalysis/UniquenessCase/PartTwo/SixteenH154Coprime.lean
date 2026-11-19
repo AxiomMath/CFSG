@@ -28,19 +28,19 @@ private theorem s16h_odd_card_of_isElemAbelianOfRank_three {X : Type} [Group X] 
   have hcard : Nat.card X = 3 ^ r := by
     obtain ⟨e⟩ := h
     rw [Nat.card_congr e.toEquiv]
-    simp [Nat.card_eq_fintype_card, Fintype.card_multiplicative, Fintype.card_fun, ZMod.card]
+    simp [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   rw [hcard]
   exact Odd.pow (by decide : Odd 3)
 
 private theorem s16h_odd_card_of_isElemAbelianOfRank_of_eq_three_or_seven {X : Type} [Group X]
     {p r : ℕ} (hp : p = 3 ∨ p = 7) (h : IsElemAbelianOfRank p r X) : Odd (Nat.card X) := by
   have hpnz : p ≠ 0 := by rcases hp with h | h <;> rw [h] <;> norm_num
-  haveI : NeZero p := ⟨hpnz⟩
+  have : NeZero p := ⟨hpnz⟩
   have hpodd : Odd p := by rcases hp with h | h <;> rw [h] <;> decide
   have hcard : Nat.card X = p ^ r := by
     obtain ⟨e⟩ := h
     rw [Nat.card_congr e.toEquiv]
-    simp [Nat.card_eq_fintype_card, Fintype.card_multiplicative, Fintype.card_fun, ZMod.card]
+    simp [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   rw [hcard]
   exact hpodd.pow
 

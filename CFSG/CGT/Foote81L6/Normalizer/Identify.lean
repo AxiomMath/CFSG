@@ -26,16 +26,19 @@ namespace TvHyp
 variable {V X : Type} [CommGroup V] [Finite V] [Group X] [Finite X] {ρ : X →* MulAut V}
   {D : Sylow 2 X} {d₀ d₁ : X}
 
+omit [Finite X] in
 theorem card_dvd (h : TvHyp ρ D d₀ d₁) : Nat.card X ∣ 20158709760 := by
   have h1 : Nat.card X = Nat.card ρ.range :=
     Nat.card_congr (MonoidHom.ofInjective h.injective).toEquiv
   rw [h1, ← prod_gl_six, ← MulAutTwo.card_mulAut h.sq_eq_one h.card_eq]
   exact Subgroup.card_subgroup_dvd_card _
 
+omit [Finite V] [Finite X] in
 theorem card_sylow (h : TvHyp ρ D d₀ d₁) : Nat.card (D : Subgroup X) = 8 := by
   obtain ⟨ψ⟩ := h.dihedral
   rw [Nat.card_congr ψ.toEquiv, DihedralGroup.nat_card]
 
+omit [Finite V] in
 theorem not_dvd_card (h : TvHyp ρ D d₀ d₁) : ¬ 16 ∣ Nat.card X := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h16
@@ -108,7 +111,7 @@ theorem exists_quotient_mulEquiv (h : TvHyp ρ D d₀ d₁) (hnc : ¬ HasNormalP
   have hncard : {x | x ∈ P ∧ IsConj a x}.ncard = 2 := by
     have hset : {x | x ∈ P ∧ IsConj a x} = {a, b} := by
       ext x
-      simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
       constructor
       · rintro ⟨hxP, hconj⟩
         obtain ⟨c, hc⟩ := isConj_iff.mp hconj
@@ -204,6 +207,7 @@ theorem exists_quotient_mulEquiv (h : TvHyp ρ D d₀ d₁) (hnc : ¬ HasNormalP
   exact ⟨n, hn, ⟨(Subgroup.topEquiv.symm.trans (MulEquiv.subgroupCongr hLtop.symm)).trans
     (θ.symm.trans eS)⟩⟩
 
+omit [Finite V] in
 theorem exists_normalized {n : ℕ} [NeZero n] (hn : n = 4 ∨ n = 5) (h : TvHyp ρ D d₀ d₁)
     (φ : X ⧸ pPrimeCore 2 X ≃* Perm (Fin n)) :
     ∃ φ' : X ⧸ pPrimeCore 2 X ≃* Perm (Fin n), φ' (QuotientGroup.mk d₀) = swap 0 1 ∧

@@ -70,16 +70,16 @@ private theorem elemAbelian_zpowers_five {G : Type*} [Group G] {s : G} (hs : ord
 variable {Y : Type} [Group Y] [Finite Y] {K : Subgroup Y} [K.Normal]
 
 theorem core_le_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ : Subgroup Y}
-    (hcent : centralizer (K : Set Y) ≤ Y₀) (R : Sylow 5 Y) {E : Subgroup Y}
+    (_hcent : centralizer (K : Set Y) ≤ Y₀) (R : Sylow 5 Y) {E : Subgroup Y}
     (hER : E ≤ R) (hE : IsElemAbelian 5 E) (hEc : Nat.card E = 5 ^ 2)
     (hcore : (if 3 ≤ CFSG.pRank 5 ↥(R : Subgroup Y) then GLBWeakCore 5 (R : Subgroup Y)
       else GLBCore 5 1 E) ≤ Y₀) :
     ∃ T : Sylow 5 ↥K, normalizer ((T : Subgroup K) : Set K) ≤ Y₀.subgroupOf K ∧
       ∀ s ∈ (T : Subgroup K), s ≠ 1 → ∀ k : ↥K, Commute k s → (k : Y) ∈ Y₀ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5 : 1 < 5 := by norm_num
-  have hTp : IsPGroup 5 ((R : Subgroup Y).subgroupOf K) := R.isPGroup'.comap_subtype
+  have hTp : IsPGroup 5 ((R : Subgroup Y).subgroupOf K) := R.isPGroup.comap_subtype
   have hTi : ¬ 5 ∣ ((R : Subgroup Y).subgroupOf K).index := by
     intro hdvd
     have h : 5 ∣ (R : Subgroup Y).relIndex K := hdvd
@@ -99,7 +99,7 @@ theorem core_le_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ : Sub
     rw [hTY, Subgroup.card_map_of_injective K.subtype_injective, hTcard]
     norm_num
   have hTYab : IsElemAbelian 5 TY := by
-    refine ⟨⟨⟨IsPGroup.commutative_of_card_eq_prime_sq hTYcard⟩⟩, fun x hx => ?_⟩
+    refine ⟨⟨⟨(IsPGroup.isMulCommutative_of_card_eq_prime_sq hTYcard).is_comm.comm⟩⟩, fun x hx => ?_⟩
     have hx25 : x ^ 25 = 1 := by
       have h1 := orderOf_dvd_natCard (⟨x, hx⟩ : TY)
       rw [hTYcard] at h1
@@ -140,7 +140,7 @@ theorem core_le_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ : Sub
       rw [hP, Subgroup.map_comap_eq, inf_eq_right]
       rintro _ ⟨r, hr, rfl⟩
       refine ⟨⟨rho eK r, rho_mem_alt_of_odd eK ?_⟩, rfl⟩
-      obtain ⟨n, hn⟩ := (R.isPGroup' ⟨r, hr⟩)
+      obtain ⟨n, hn⟩ := (R.isPGroup ⟨r, hr⟩)
       have : orderOf r ∣ 5 ^ n := orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hn)
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow (by norm_num : Nat.Prime 5)).mp this
       rw [hj]
@@ -149,7 +149,7 @@ theorem core_le_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ : Sub
       intro σ
       obtain ⟨r, hr, hrσ⟩ := (show (σ : Perm (Fin 10)) ∈ (R : Subgroup Y).map (rho eK) from
         hPmap ▸ ⟨σ, σ.2, rfl⟩)
-      obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+      obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
       refine ⟨n, Subtype.ext (Subtype.ext ?_)⟩
       simp only [SubgroupClass.coe_pow, OneMemClass.coe_one]
       rw [← hrσ, ← map_pow]
@@ -177,7 +177,7 @@ theorem core_le_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ : Sub
       exact hne (hRT_of h)
     obtain ⟨z₀, hz₀R, hz₀C, hz₀1⟩ := h1
     set D := (R : Subgroup Y) ⊓ centralizer (K : Set Y) with hD
-    have hDp : IsPGroup 5 D := R.isPGroup'.to_le inf_le_left
+    have hDp : IsPGroup 5 D := R.isPGroup.to_le inf_le_left
     have h5D : 5 ∣ Nat.card D := by
       obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hDp
       have hk0 : k ≠ 0 := by
@@ -212,7 +212,7 @@ theorem core_le_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ : Sub
       ∃ z ∈ (R : Subgroup Y), z ∈ centralizer (K : Set Y) ∧ orderOf z = 5) ∨
       (GLBCore 5 1 E ≤ Y₀ ∧ E = TY) := by
     by_cases h3 : 3 ≤ CFSG.pRank 5 ↥(R : Subgroup Y)
-    · rw [if_pos h3] at hcore
+    · rw [ite_eq_left h3] at hcore
       have hne : (R : Subgroup Y) ≠ TY := by
         intro h
         rw [CFSG.SectionRank.pRank_coe_eq_openPRank, h] at h3
@@ -221,7 +221,7 @@ theorem core_le_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ : Sub
           exact Subgroup.card_le_of_le hF)
         omega
       exact Or.inl ⟨h3, hcore, hz_of hne⟩
-    · rw [if_neg h3] at hcore
+    · rw [ite_eq_right h3] at hcore
       have hRT : (R : Subgroup Y) = TY := by
         by_contra hne
         obtain ⟨z, hzR, hzC, hz5⟩ := hz_of hne

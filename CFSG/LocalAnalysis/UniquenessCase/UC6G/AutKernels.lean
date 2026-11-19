@@ -29,7 +29,7 @@ theorem commutator_le_iff_actLbar_eq_one {y : G} (hy : y ∈ normalizer (m.L : S
 
 theorem kc633_of_abs (h : AbsKC m.Lbar m.r m.Ebar) : m.KC633 := by
   intro y hy hord hfix
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨k, hk⟩ := hord
   have hord' : ∃ j : ℕ, orderOf (m.actLbar ⟨y, hy⟩) = m.r ^ j := by
     have hdvd : orderOf (m.actLbar ⟨y, hy⟩) ∣ m.r ^ k := by
@@ -52,7 +52,7 @@ theorem kc633_of_abs (h : AbsKC m.Lbar m.r m.Ebar) : m.KC633 := by
 theorem kn633_of_abs (h : AbsKN m.Lbar m.r m.Ebar (m.r = 3 ∧ LieModel m.Lbar .PSL 3 2 2)) :
     m.KN633 := by
   intro X hXN hEX hrX
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   set Xs : Subgroup (MulAut m.Lbar) :=
     (X.subgroupOf (normalizer (m.L : Set G))).map m.actLbar with hXs
   have hmemXs : ∀ x : G, ∀ hx : x ∈ X, m.actLbar ⟨x, hXN hx⟩ ∈ Xs := fun x hx =>

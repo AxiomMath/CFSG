@@ -86,9 +86,9 @@ theorem su4_exists_mulEquiv_pointStab {W : Type} [CommGroup W] [Finite W]
     ∃ φ : ↥(hypSU h 2 0) ≃* ↥H,
       (hypUnitriangular h 2 0).map φ.toMonoidHom = (S : Subgroup ↥H) ∧
         KTabD.pointStab H S = (parP h).map φ.toMonoidHom := by
-  haveI := h.finite
-  haveI : CharP K 2 := h.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R, hR, he⟩ := KTabD.exists_isHypTransport_four h
   have hline := KGenProof.sylowFixedLine_statedSU_four (K := K) (r := 2 ^ a)
     (by rw [h.card, ← pow_mul, mul_comm])
@@ -112,7 +112,7 @@ theorem su4_exists_mulEquiv_pointStab {W : Type} [CommGroup W] [Finite W]
 theorem kAdjAt_of_realizes_su4 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W))
     {a : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 a K) (ha : 2 ≤ a)
     (hreal : (FFModel.nat (StatedSU 4 (2 ^ a) K)).Realizes H ⊤ ⊥) : KAdjAt W H (2 * a) := by
-  haveI := h.finite
+  have := h.finite
   have hcard : Nat.card K = (2 ^ a) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hSU : IsSUn ↥H 4 a := by
     obtain ⟨π, -, -⟩ := KTabC.exists_natEquiv hreal

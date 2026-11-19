@@ -83,7 +83,7 @@ inductive GGHalfX0BST where
 
 @[expose] def ggHalfX0SubBasesAux (gens : List (List ℕ)) :
     List (List ℕ) → ℕ → List ℕ → List (List ℕ)
-  | acc, i, [] => acc.reverse
+  | acc, _i, [] => acc.reverse
   | acc, i, t :: ts =>
     let par := t / 24
     let gen := t % 24

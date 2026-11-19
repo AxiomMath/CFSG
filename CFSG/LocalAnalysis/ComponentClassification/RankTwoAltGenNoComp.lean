@@ -306,7 +306,7 @@ theorem qbarNoComponent_of (hGA : Asc76X.GoldschmidtTheoremA) {z : G} {S Q : Sub
       exact h1
     have hSbtop : IsSylowOf 2 (Sb : Subgroup (↥C ⧸ N)) ⊤ := by
       rw [isSylowOf_iff]
-      refine ⟨le_top, Sb.isPGroup', ?_⟩
+      refine ⟨le_top, Sb.isPGroup, ?_⟩
       rw [relIndex_top_right]
       exact Sb.not_dvd_index
     obtain ⟨QM, hQM⟩ := hSbtop.inf_of_le_normalizer (le_top : M ≤ ⊤)
@@ -362,7 +362,7 @@ theorem qbarNoComponent_of (hGA : Asc76X.GoldschmidtTheoremA) {z : G} {S Q : Sub
         rw [← QuotientGroup.ker_mk' (goldschmidtOddCore ↥M), MonoidHom.mem_ker, map_mul, map_inv,
           ← hπdef, hmm', inv_mul_cancel]
       have h1 : m'⁻¹ * m = 1 := eq_one_of_mem_odd_of_isPGroup
-        (CFSG.ComponentClassification.OddCore.odd_card ↥M) QM.isPGroup' hk
+        (CFSG.ComponentClassification.OddCore.odd_card ↥M) QM.isPGroup hk
         (mul_mem (inv_mem hm') hm)
       exact (inv_mul_eq_one.mp h1).symm
     set P : Subgroup G := ((SC : Subgroup ↥C) ⊓ M.comap π₀).map C.subtype with hPdef

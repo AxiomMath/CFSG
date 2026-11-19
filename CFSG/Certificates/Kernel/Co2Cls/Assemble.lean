@@ -94,7 +94,7 @@ theorem two_pow_dvd_orb {T : Submonoid M} (hTS : T ≤ S) (hT : ∀ x ∈ T, x ^
     have hu : IsUnit (O b) := hOb ▸ Units.isUnit _
     refine ⟨b, hb, Units.ext ?_⟩
     rw [Units.val_mul, Units.val_mul, hv]
-    simp only [O', dif_pos hu, IsUnit.unit_spec]
+    simp only [O', dite_eq_left hu, IsUnit.unit_spec]
     exact e
 
 theorem dvd_of_orderOf_mem {u : Mˣ} {y w : M} (hy : ∃ g ∈ S, g * (u : M) = y * g) (hw : w ∈ S)
@@ -143,6 +143,7 @@ theorem class_of {a : M} (ha : a ∈ S) {N c : ℕ}
   · rw [card_unitsIn hS]
     exact hH
 
+omit [Finite M] in
 theorem class_of_central {a : M} (hc : ∀ g ∈ S, g * a = a * g) :
     Nat.card {y : M // ∃ g ∈ S, g * a = y * g} = 1 ∧
       Nat.card {g : M // g ∈ S ∧ g * a = a * g} = Nat.card S := by

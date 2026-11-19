@@ -25,7 +25,7 @@ private theorem bridge_commutator_quot_eq_top {Q : Type*} [Group Q] (N : Subgrou
 
 private theorem bridge_center_quot_eq_bot {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) :
     Subgroup.center (Q ⧸ Subgroup.center Q) = ⊥ := by
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (Q ⧸ Subgroup.center Q)) with h | h
   · exact h
   · exfalso
@@ -72,12 +72,14 @@ private noncomputable def bridgeF (L : Subgroup G) :
     ↥L →* (PQuot p L ⧸ Subgroup.center (PQuot p L)) :=
   (QuotientGroup.mk' (Subgroup.center (PQuot p L))).comp (QuotientGroup.mk' (GLAPPrimeCore p ↥L))
 
+omit [Finite G] in
 private theorem bridgeF_surjective (L : Subgroup G) : Function.Surjective (bridgeF (p := p) L) := by
   intro y
   obtain ⟨z, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center (PQuot p L)) y
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (GLAPPrimeCore p ↥L) z
   exact ⟨x, rfl⟩
 
+omit [Finite G] in
 private theorem bridge_ker {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hO : GLAPPrimeCore p ↥L ≠ ⊤) : (bridgeF (p := p) L).ker = Subgroup.center ↥L := by
   have hOZ : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L :=
@@ -119,10 +121,12 @@ private noncomputable def bridgeE {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple
   (QuotientGroup.quotientMulEquivOfEq (bridge_ker hq hO).symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective (bridgeF (p := p) L) (bridgeF_surjective L))
 
+omit [Finite G] in
 private theorem bridgeE_mk {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hO : GLAPPrimeCore p ↥L ≠ ⊤) (l : ↥L) :
     bridgeE hq hO (QuotientGroup.mk l) = QuotientGroup.mk (QuotientGroup.mk l) := rfl
 
+omit [Finite G] in
 private theorem bridgeE_symm_mk {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hO : GLAPPrimeCore p ↥L ≠ ⊤) (l : ↥L) :
     (bridgeE hq hO).symm (QuotientGroup.mk (QuotientGroup.mk l)) = QuotientGroup.mk l := by
@@ -174,6 +178,7 @@ theorem innDiagOn_iff {X L B : Subgroup G} (hL : GLAPComponent p X L) (hq : CFSG
     InnerDiagMarking B L ↔ InnDiagOn p B L :=
   ⟨innDiagOn_of_inner hL hq, inner_of_innDiagOn hL hq⟩
 
+omit [Finite G] in
 theorem innDiagOn_mono {A A' L : Subgroup G} (hA : InnDiagOn p A L) (h : A' ≤ A) : InnDiagOn p A' L :=
   ⟨h.trans hA.1, CFSG.StandardType.Canonical.largeEvenMarking_mono
     (fun _ _ _ _ _ _ hP a ha => hP a (h ha)) hA.2⟩

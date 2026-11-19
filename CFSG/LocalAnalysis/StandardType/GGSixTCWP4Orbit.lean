@@ -131,14 +131,14 @@ theorem componentRoots_subset_of_kernel_subset {M M' : Type*} [CommGroup M] [Com
 private theorem notAbel_of_comp {G : Type*} [Group G] {J K : Subgroup G} (hJ : IsComponentOf J K)
     (h : ∀ y ∈ J, ∀ z ∈ J, y * z = z * y) : False := by
   obtain ⟨-, -, -, hsimp⟩ := hJ
-  haveI := hsimp
+  have := hsimp
   have hc : Subgroup.center ↥J = ⊤ := by
     rw [eq_top_iff]
     intro x _
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (h y y.2 x x.2)
-  haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
+  have : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
     rw [hc]
     exact QuotientGroup.subsingleton_quotient_top
   exact not_subsingleton (↥J ⧸ Subgroup.center ↥J) inferInstance
@@ -154,6 +154,7 @@ private theorem eq_bot_of_perfect_of_solvable {G : Type*} [Group G] [Group.IsSol
   rw [← this n]
   exact hn
 
+omit [IsAlgClosed L] in
 theorem kernelRoots_famChar_subset_single {ι : Type} (a : ι → Fin τ.rank → Lˣ) (u₀ : ι) :
     kernelRoots (famCharHom a) ⊆ kernelRoots (rootCharHom (a u₀)) := by
   intro γ hγ
@@ -202,9 +203,9 @@ theorem exists_rationalComponent_ge
       hsmall (ha u₀) (hap u₀) h1 ⟦⟨x, hx'⟩⟧ with hq | hsol
     · exact hq
     · exfalso
-      haveI := hsol
-      haveI : Group.IsSolvable ↥Jg :=
-        solvable_of_solvable_injective (Subgroup.inclusion_injective hJle)
+      have := hsol
+      have : Group.IsSolvable ↥Jg :=
+        Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJle)
       have hbot := eq_bot_of_perfect_of_solvable (G := ↥Jg) hJ.2.2.1
       have h1' : ∀ y : ↥Jg, y = 1 := fun y => by
         have hy : y ∈ (⊤ : Subgroup ↥Jg) := Subgroup.mem_top y

@@ -25,7 +25,7 @@ theorem exceptionalTowers : ExceptionalTowers where
         CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group s p hp hp2)
   lie := by
     rintro ⟨d, hv⟩ hd p hp hp2
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hp3 : 3 ≤ p := by have := hp.two_le; omega
     cases d with
     | A m q => exact hd.elim

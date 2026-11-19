@@ -47,7 +47,7 @@ theorem exists_pow_mem_pResidual {X : Type*} [Group X] [Finite X] (p : ℕ) (x :
 theorem isPGroup_quotient_pResidual {X : Type*} [Group X] [Finite X] (p : ℕ) :
     letI := normal_pResidual p X
     IsPGroup p (X ⧸ pResidual p X) := by
-  letI := normal_pResidual p X
+  let := normal_pResidual p X
   intro z
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective z
   obtain ⟨k, hk⟩ := exists_pow_mem_pResidual p x
@@ -55,7 +55,7 @@ theorem isPGroup_quotient_pResidual {X : Type*} [Group X] [Finite X] (p : ℕ) :
 
 theorem sylow_sup_pResidual_eq_top {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
     (P : Sylow p X) : (P : Subgroup X) ⊔ pResidual p X = ⊤ := by
-  letI := normal_pResidual p X
+  let := normal_pResidual p X
   obtain ⟨n, hn⟩ := (isPGroup_quotient_pResidual (X := X) p).exists_card_eq
   have h1 : ((P : Subgroup X) ⊔ pResidual p X).index ∣ p ^ n := by
     rw [← hn, ← index_eq_card]
@@ -109,7 +109,7 @@ theorem exists_lt_top_of_not_condM {S : Type*} [Group S] {X : Type*} [Group X] [
   obtain ⟨P, hP⟩ := hsyl
   simp only [CondM, not_forall, not_or] at h
   obtain ⟨N, hN, hSN, hON⟩ := h
-  have hR2 : IsPGroup 2 ι.range := hP ▸ P.isPGroup'
+  have hR2 : IsPGroup 2 ι.range := hP ▸ P.isPGroup
   refine ⟨normalizer ((ι.range ⊓ N : Subgroup X) : Set X), ι.range ⊔ N, ?_, le_sup_left, ?_, ?_,
     ?_⟩
   · intro s hs

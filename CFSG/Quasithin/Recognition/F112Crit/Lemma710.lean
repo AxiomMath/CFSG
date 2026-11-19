@@ -23,6 +23,7 @@ theorem Vv_le_Wv {μ δ : CosetGeom G₀ G₁ G₂} (hδ : δ ∈ nbrs μ) : Vv 
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem stab_le_normalizer_Wv (hc : CritAmalgam G₀ G₁ G₂ T Z) (μ : CosetGeom G₀ G₁ G₂) :
     stab μ ≤ Subgroup.normalizer (Wv Z μ : Set G) := by
   have key : ∀ k : ↥G₀, k • μ = μ → conjSub (k : G) (Wv Z μ) ≤ Wv Z μ := by
@@ -70,7 +71,7 @@ theorem Wv_le_stab (hc : CritAmalgam G₀ G₁ G₂ T Z) {μ ν : CosetGeom G₀
   exact iSup₂_le fun δ hδ => hVδ δ hδ
 
 theorem not_le_centralizer_Wv (hc : CritAmalgam G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ G₁ G₂}
-    (hμ : vtype μ = false) {L : Subgroup G} (hL : L ≤ stab μ)
+    (hμ : vtype μ = false) {L : Subgroup G} (_hL : L ≤ stab μ)
     (htrans : ∀ δ ∈ nbrs μ, ∀ δ' ∈ nbrs μ, ∃ g : ↥G₀, (g : G) ∈ L ∧ g • δ = δ') :
     ¬ L ≤ Subgroup.centralizer (Wv Z μ : Set G) := by
   intro hLc
@@ -113,7 +114,8 @@ theorem not_le_centralizer_Wv (hc : CritAmalgam G₀ G₁ G₂ T Z) {μ : CosetG
     exact (Vv_le_Vv_of_mem_nbrs hδ₀t hγ').trans hV0
   exact hc.ne_bot ((conjSub_eq_bot_iff (g : G)).mp (le_bot_iff.mp h1))
 
-theorem card_nbrs_eq (hc : CritAmalgam G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ G₁ G₂}
+omit [Finite G] in
+theorem card_nbrs_eq (_hc : CritAmalgam G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ G₁ G₂}
     (hμ : vtype μ = false) : Nat.card (nbrs μ) = Nat.card (nbrs (γ₀ G₀ G₁ G₂)) := by
   obtain ⟨g, rfl⟩ := CosetGeom.exists_smul_eq_γ₀ hμ
   have hset : nbrs (g • γ₀ G₀ G₁ G₂) = (fun x => g • x) '' nbrs (γ₀ G₀ G₁ G₂) := by
@@ -131,6 +133,7 @@ theorem card_nbrs_eq (hc : CritAmalgam G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ 
   rw [hset]
   exact Nat.card_image_of_injective (MulAction.injective g) _
 
+omit [Finite G] in
 theorem odd_card_nbrs (hc : CritAmalgam G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ G₁ G₂}
     (hμ : vtype μ = false) : Odd (Nat.card (nbrs μ)) := by
   rw [card_nbrs_eq hc hμ]

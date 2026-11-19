@@ -28,16 +28,16 @@ open scoped Pointwise Matrix
 
 theorem k_SU3NaturalH1_odd (W : Type) [CommGroup W] [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) (K : Subgroup (MulAut W)) (n : ℕ)
-    (hK : IsSU3 ↥K n) (hn : 2 ≤ n) (hodd : Odd n)
+    (hK : IsSU3 ↥K n) (_hn : 2 ≤ n) (hodd : Odd n)
     (Z W' : Subgroup W) (hZK : StableUnder K Z) (hZ : Z ≤ fixV K)
-    (hsup : W' ⊔ Z = ⊤) (hinf : W' ⊓ Z = ⊥)
+    (_hsup : W' ⊔ Z = ⊤) (_hinf : W' ⊓ Z = ⊥)
     (hNat : NatSUn (autQuot K Z) ⊤ ⊥ 3 n) :
     ∃ W'' : Subgroup W, StableUnder K W'' ∧ W'' ⊓ Z = ⊥ ∧ W'' ⊔ Z = ⊤ ∧
       W'' = CFSG.Quasithin.commSub (⊤ : Subgroup W) K ∧
       CNatModSU3Sub W W'' K n := by
   classical
   obtain ⟨Kf, hKfield, hKfin, hKcard, hReal⟩ := hNat
-  letI : Field Kf := hKfield
+  let : Field Kf := hKfield
   have : Finite Kf := hKfin
   obtain ⟨π, hπ⟩ := hReal
   have hπinj : Function.Injective π :=

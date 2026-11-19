@@ -62,7 +62,7 @@ theorem card_twisted (P : D4Par n X σ) :
 
 theorem ab_maximal (hgold : CFSG.Goldschmidt.TopStatement) (P : D4Par n X σ) (hn : 2 ≤ n) :
     ∀ N : Subgroup (C0 σ), Asub σ ⊔ Bsub σ ≤ N → N = Asub σ ⊔ Bsub σ ∨ N = ⊤ := by
-  haveI := P.charP
+  have := P.charP
   refine maximal_of_equiv (eC P) ?_
   rw [Subgroup.map_sup, map_eC_Asub P, map_eC_Bsub P]
   intro N' hN'

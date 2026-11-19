@@ -49,7 +49,7 @@ theorem central_preimage_two_group_characteristic_sylow_lift [Finite M] {E : Typ
   have hO2 : inSubgroup (pCore 2) f.ker ≤ P :=
     h2P _ ((CFSG.pCore_isPGroup (p := 2) (G := f.ker)).map f.ker.subtype)
   have hPZ : (P : Subgroup M) ⊓ f.ker = inSubgroup (pCore 2) f.ker := by
-    refine le_antisymm (le_inSubgroup_pCore_of_normal (P.isPGroup'.to_le inf_le_left) inf_le_right
+    refine le_antisymm (le_inSubgroup_pCore_of_normal (P.isPGroup.to_le inf_le_left) inf_le_right
       fun z hz => centralizer_le_normalizer _ ?_) (le_inf hO2 (map_subtype_le _))
     rw [mem_centralizer_iff]
     intro m _
@@ -59,7 +59,7 @@ theorem central_preimage_two_group_characteristic_sylow_lift [Finite M] {E : Typ
     exact CFSG.pPrimeCore_coprime_card (p := 2) (G := f.ker)
   have hinf : inSubgroup (pPrimeCore 2) f.ker ⊓ (P : Subgroup M) = ⊥ := by
     refine disjoint_iff.mp (disjoint_of_coprime_natCard ?_)
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     rw [hk]
     exact (Nat.Coprime.pow_left k hZo2).symm
   have hZle : f.ker ≤ inSubgroup (pCore 2) f.ker ⊔ inSubgroup (pPrimeCore 2) f.ker := by

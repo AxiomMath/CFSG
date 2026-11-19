@@ -76,7 +76,7 @@ theorem card_le_two_of_fix {Q : (ι → ZMod 2) → ZMod 2} (hQ : GoodQ Q)
         exact (CFSG.ComponentClassification.OuterAutomorphisms.inner_normal ↥(StatedOmega Q)).conj_mem b hb τ
       · intro ha
         refine ⟨τ⁻¹ * a * τ, (CFSG.ComponentClassification.OuterAutomorphisms.inner_normal ↥(StatedOmega Q)).conj_mem a ha τ⁻¹, ?_⟩
-        simp only [ψ, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [ψ, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         group
     rw [← hnorm, hT'', ← Subgroup.map_inf _ _ ψ hψinj, hT'i, Subgroup.map_bot]
   have hcard := hQ.card_le_two_of_le_range hle hT''i

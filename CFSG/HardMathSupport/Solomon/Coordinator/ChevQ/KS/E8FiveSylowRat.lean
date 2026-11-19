@@ -86,10 +86,10 @@ theorem exists_conj_into_sylowRat (hm : IsLift F m) (hK : Nat.card K = ℓ ^ f) 
     (h5 : 5 ∣ Nat.card K * Nat.card K + 1) {Q : Subgroup (adjointGroup .E8 K)}
     (hQ : IsPGroup 5 Q) :
     ∃ c : adjointGroup .E8 K, ∀ x ∈ Q, c * x * c⁻¹ ∈ sylowRat F m := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite (ModGL .E8 K) := finite_modGL
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite (ModGL .E8 K) := finite_modGL
   have hT0 := card_twistedTorus F hK hf
-  haveI : Finite (sylowGrp F m) := Nat.finite_of_card_ne_zero (by
+  have : Finite (sylowGrp F m) := Nat.finite_of_card_ne_zero (by
     rw [card_sylowGrp hm, hT0]
     positivity)
   refine exists_conj_le_of_factorization_eq 5 (sylowRat F m) ?_ hQ

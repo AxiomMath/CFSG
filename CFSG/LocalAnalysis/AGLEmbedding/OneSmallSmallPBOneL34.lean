@@ -48,7 +48,7 @@ theorem D1OneSmallData.false_of_b1_l34_of_comp (hGen : KFactL34OuterGen) (hAE : 
   have hcard2 : Nat.card ((Pbar : Subgroup (D1CzQuot 3 z)) ⊓ KC : Subgroup _) = Nat.card T₁ := by
     rw [hcardKC, ← hT₁, Subgroup.card_map_of_injective K.subtype_injective]
   have hT₁9 : 9 ≤ Nat.card T₁ := by
-    obtain ⟨n, hn⟩ := T₁.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := T₁.isPGroup.exists_card_eq
     by_contra h9
     push Not at h9
     have hn1 : n ≤ 1 := by
@@ -112,7 +112,7 @@ theorem D1OneSmallData.false_of_b1_l34_of_comp (hGen : KFactL34OuterGen) (hAE : 
   set Y : Subgroup G := ((Subgroup.centralizer (KC : Set (D1CzQuot 3 z))).comap
     (QuotientGroup.mk' (primeComplementCore (G := Subgroup.centralizer ({z} : Set G)) 3))).map
       (Subgroup.centralizer ({z} : Set G)).subtype ⊓ TG with hY
-  have hTp : IsPGroup 3 TG := T.isPGroup'.map (Subgroup.centralizer ({z} : Set G)).subtype
+  have hTp : IsPGroup 3 TG := T.isPGroup.map (Subgroup.centralizer ({z} : Set G)).subtype
   have hYp : IsPGroup 3 Y := hTp.to_le inf_le_right
   have hmemP : ∀ s ∈ (T : Subgroup (Subgroup.centralizer ({z} : Set G))),
       QuotientGroup.mk' (primeComplementCore (G := Subgroup.centralizer ({z} : Set G)) 3) s ∈
@@ -120,7 +120,7 @@ theorem D1OneSmallData.false_of_b1_l34_of_comp (hGen : KFactL34OuterGen) (hAE : 
     fun s hs => hPbar ▸ ⟨s, hs, rfl⟩
   have hcube : ∀ s ∈ TG, s ^ 3 ∈ Y := by
     rintro _ ⟨sC, hsT, rfl⟩
-    obtain ⟨n, hn⟩ := Pbar.isPGroup' ⟨_, hmemP sC hsT⟩
+    obtain ⟨n, hn⟩ := Pbar.isPGroup ⟨_, hmemP sC hsT⟩
     have hCK := pow_three_mem_centralizer_of_isLinThreeFour hAE hLC
       (s := QuotientGroup.mk' (primeComplementCore (G := Subgroup.centralizer ({z} : Set G)) 3) sC)
       (by rw [Subgroup.normalizer_eq_top_iff.mpr hKCn]; exact Subgroup.mem_top _) (n := n)
@@ -148,12 +148,12 @@ theorem D1OneSmallData.false_of_b1_l34_of_comp (hGen : KFactL34OuterGen) (hAE : 
       hzp (orderOf_mk_of_coprime hp _ hO hyCp)
     obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.mp h1
     have h2 : (⟨z, hzC⟩ : Subgroup.centralizer ({z} : Set G)) ^ j = yC :=
-      eq_of_mk_eq_of_isPGroup hp _ hO T.isPGroup'
+      eq_of_mk_eq_of_isPGroup hp _ hO T.isPGroup
         ((T : Subgroup (Subgroup.centralizer ({z} : Set G))).zpow_mem hzT j) hyCT
         (by rw [map_zpow]; exact hj)
     exact Subgroup.mem_zpowers_iff.mpr ⟨j, by rw [← h2]; simp⟩
   have hrT : ((t₀ : Subgroup.centralizer ({z} : Set G)) : G) ∈ TG := ⟨t₀, ht₀T, rfl⟩
-  have hQp : IsPGroup 3 ((P : Subgroup G).map (MulAut.conj m).toMonoidHom) := P.isPGroup'.map _
+  have hQp : IsPGroup 3 ((P : Subgroup G).map (MulAut.conj m).toMonoidHom) := P.isPGroup.map _
   have hQC : (P : Subgroup G).map (MulAut.conj m).toMonoidHom ⊓
       Subgroup.centralizer ({z} : Set G) ≤ TG := by
     rintro y ⟨hyQ, hyC⟩
@@ -225,7 +225,7 @@ theorem D1OneSmallData.false_of_b1_l34 (hOut : KFactSmallOutPPrime) (hExp : KFac
     exact ⟨d, hdq, ⟨e.trans eK⟩⟩
   have hexp : ∀ t ∈ (Pbar : Subgroup (D1CzQuot 3 z)) ⊓ KC, t ^ 3 = 1 := by
     intro t ht
-    obtain ⟨n, hn⟩ := Pbar.isPGroup' ⟨t, ht.1⟩
+    obtain ⟨n, hn⟩ := Pbar.isPGroup ⟨t, ht.1⟩
     have htn : t ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hk1 : (⟨t, ht.2⟩ : KC) ^ 3 ^ n = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact htn)
     have h1 := hExp K hs hnab hc 3 hp hp2 T₁ hT₁nc hΓ hd.small (e ⟨t, ht.2⟩)

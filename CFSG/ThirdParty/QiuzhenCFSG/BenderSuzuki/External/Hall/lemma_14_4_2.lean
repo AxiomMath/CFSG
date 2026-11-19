@@ -30,7 +30,7 @@ private theorem hallDiagonalContribution_eq_of_isConj
     have h := congrArg (fun x : G => x * (t : G)⁻¹) ht.eq
     simpa [mul_assoc] using h.symm
   subst v
-  letI : Fintype (G ⧸ H) := Fintype.ofFinite (G ⧸ H)
+  let : Fintype (G ⧸ H) := Fintype.ofFinite (G ⧸ H)
   unfold hallDiagonalContribution
   let e : {q : G ⧸ H // Function.minimalPeriod (u • ·) q = 1} ≃
       {q : G ⧸ H // Function.minimalPeriod (((t : G) * u * (t : G)⁻¹) • ·) q = 1} := {
@@ -120,7 +120,7 @@ private theorem hallDiagonalContribution_inv
     hallDiagonalContribution (H := H) φ u⁻¹ =
       (hallDiagonalContribution (H := H) φ u)⁻¹ := by
   classical
-  letI : Fintype (G ⧸ H) := Fintype.ofFinite (G ⧸ H)
+  let : Fintype (G ⧸ H) := Fintype.ofFinite (G ⧸ H)
   unfold hallDiagonalContribution
   let e : {q : G ⧸ H // Function.minimalPeriod (u⁻¹ • ·) q = 1} ≃
       {q : G ⧸ H // Function.minimalPeriod (u • ·) q = 1} :=

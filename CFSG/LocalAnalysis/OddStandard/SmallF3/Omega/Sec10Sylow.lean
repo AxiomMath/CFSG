@@ -49,6 +49,6 @@ theorem mem_conjugate_iff' {H : Subgroup G} {g x : G} :
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 end CFSG.OddStandard.SmallF3.Omega

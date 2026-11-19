@@ -95,12 +95,14 @@ section KeyStep
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem commutator_le_J_of_le_H {B : Subgroup G} (hBH : B ≤ H z) : ⁅B, J z⁆ ≤ J z := by
   rw [Subgroup.commutator_le]
   intro b hb j hj
   rw [commutatorElement_def]
   exact (J z).mul_mem (conj_mem_J_of_mem_H (hBH hb) hj) ((J z).inv_mem hj)
 
+omit [Finite G] in
 theorem commute_of_mem_commutator_J_of_conj_mem_centerIn {B : Subgroup G} (hBH : B ≤ H z)
     (hBZ : ∀ b ∈ B, ∀ c ∈ centerIn (J z), b * c = c * b)
     (hEB : ⁅⁅B, J z⁆, B⁆ = ⁅B, J z⁆) {x : G} (hxB : x ∈ Subgroup.centralizer (B : Set G))

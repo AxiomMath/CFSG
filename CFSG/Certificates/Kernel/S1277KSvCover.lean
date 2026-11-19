@@ -76,7 +76,7 @@ theorem covL_big : ∀ (rs : List ℕ) (p : ℕ), 68719476736 ≤ p →
   | r :: rs, p, h => by
     rw [covL_cons]
     apply covL_big rs
-    rw [covR_eq, cond_eq_if]
+    rw [covR_eq, Bool.cond_eq_ite]
     split_ifs with hc
     · simp only [Bool.and_eq_true, Nat.blt_eq] at hc
       omega
@@ -97,10 +97,10 @@ theorem covL_spec : ∀ (rs : List ℕ) (p : ℕ), covL sp36 hp vt sl a1 a2 rs p
         (Nat.beq (rd2 vt (r / 576)) 1 ||
           memL (cvQ sp36 hp r) (tyL (rd2 vt (r / 576)) sl a1 a2))) = true := by
       by_contra hc
-      rw [covR_eq, cond_eq_if, if_neg hc] at hlt
+      rw [covR_eq, Bool.cond_eq_ite, ite_eq_right hc] at hlt
       exact lt_irrefl _ hlt
     have hv : covR sp36 hp vt sl a1 a2 r p = cvQ sp36 hp r := by
-      rw [covR_eq, cond_eq_if, if_pos hc]
+      rw [covR_eq, Bool.cond_eq_ite, ite_eq_left hc]
     rw [hv] at h ⊢
     simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.blt_eq, Nat.beq_eq, memL_iff] at hc
     obtain ⟨⟨hr, hpv⟩, hty⟩ := hc

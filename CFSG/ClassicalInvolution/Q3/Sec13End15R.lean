@@ -24,6 +24,7 @@ structure AERecog (Ω : Set (Subgroup G)) (n : ℕ) where
       φ (β f) = AE.mkQ n (AE.Wr.ofVec f.toAdd)) ∧
     (∀ x : H, φ x = AE.mkQ n (AE.Wr.ofPerm (σ x))) ∧ K.map φ = AE.memBar α hα b
 
+omit [Finite G] in
 theorem AERecog.nonempty_aeIdent {Ω : Set (Subgroup G)} {n : ℕ} (R : AERecog Ω n) (hn : 5 ≤ n)
     (hinv : ∀ g : G, ∀ L ∈ Ω, conjSub g L ∈ Ω)
     (htrans : ∀ L ∈ Ω, ∀ L' ∈ Ω, ∃ g : G, conjSub g L = L') (hgen : pSpan Ω = ⊤) :
@@ -56,6 +57,7 @@ private theorem e15r_pow_add_val {X : Type*} [Group X] {x : X} (hx : x * x = 1) 
   · simp [v0, v1]
   · rw [h11, v0, v1, pow_zero, pow_one, hx]
 
+omit [Finite G] in
 theorem exists_aeSplitHyp_of_points {n : ℕ} (hn : Odd n) {D H : Subgroup G}
     (hcompl : D.IsComplement' H) (hab : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a)
     (hsq : ∀ a ∈ D, a * a = 1) (pt : Fin n → G) (hpt : Function.Injective pt)
@@ -66,7 +68,7 @@ theorem exists_aeSplitHyp_of_points {n : ℕ} (hn : Odd n) {D H : Subgroup G}
     ∃ (σ : H →* Equiv.Perm (Fin n)) (β : Multiplicative (Fin n → ZMod 2) →* G),
       AESplitHyp D H σ β ∧ (∀ i, β (Multiplicative.ofAdd (Pi.single i 1)) = pt i) ∧
         ∀ (h : H) (i : Fin n), (h : G) * pt i * (h : G)⁻¹ = pt (σ h i) := by
-  letI : CommGroup D := e15r_commGroup hab
+  let : CommGroup D := e15r_commGroup hab
   obtain ⟨p, hp⟩ : ∃ p : Fin n → D, ∀ i, (p i : G) = pt i :=
     ⟨fun i => ⟨pt i, hptD i⟩, fun i => rfl⟩
   have hpp : ∀ i, p i * p i = 1 := fun i =>
@@ -88,7 +90,7 @@ theorem exists_aeSplitHyp_of_points {n : ℕ} (hn : Odd n) {D H : Subgroup G}
     rw [hB, toAdd_ofAdd, Finset.prod_eq_single i]
     · simp [v1]
     · intro j _ hji
-      simp [Pi.single_apply, hji, v0]
+      simp [hji, v0]
     · intro h
       exact absurd (Finset.mem_univ i) h
   have hβpt : ∀ i, β (Multiplicative.ofAdd (Pi.single i 1)) = pt i := by

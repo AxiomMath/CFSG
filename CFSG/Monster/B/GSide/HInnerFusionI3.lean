@@ -439,7 +439,7 @@ theorem not_two_dvd_index_q7 :
   have h7T : q7' ∈ (T : Subgroup K) := hp7.le_sylow_of_normal T (Subgroup.mem_zpowers _)
   have hT'card : Nat.card ((T : Subgroup K).map K.subtype) = Nat.card T :=
     Subgroup.card_map_of_injective K.subtype_injective
-  obtain ⟨P, hP⟩ := (T.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨P, hP⟩ := (T.isPGroup.map K.subtype).exists_le_sylow
   obtain ⟨-, -, hall, -⟩ := native_sylow_two_center
   obtain ⟨-, z, -, -, hzx, hZ⟩ := hall P
   have hzmem := CFSG.Monster.mem_map_center_iff.1 (hZ ▸ Subgroup.mem_zpowers z)

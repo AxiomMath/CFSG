@@ -35,7 +35,7 @@ theorem sec8_exists_sylow_Dbar : ∃ T : Sylow 2 (h.J ⧸ pPrimeCore 2 h.J),
   have hker : ¬ 2 ∣ Nat.card (QuotientGroup.mk' (pPrimeCore 2 ↥h.J)).ker := by
     rw [QuotientGroup.ker_mk']
     exact (Nat.prime_two.coprime_iff_not_dvd).mp (pPrimeCore_coprime_card (p := 2) (G := ↥h.J))
-  rw [Sylow.coe_mapSurjective, Eight.card_map_of_isPGroup hker R.isPGroup', hR,
+  rw [Sylow.coe_mapSurjective, Eight.card_map_of_isPGroup hker R.isPGroup, hR,
     Six.card_subgroupOf_eq, inf_eq_left.mpr inf_le_right]
 
 variable {h}

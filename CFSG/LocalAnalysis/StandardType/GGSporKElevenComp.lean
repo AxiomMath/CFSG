@@ -89,7 +89,7 @@ private theorem gke_cen
     {j : ℕ} (hj1 : gw gen11W0 ^ j ≠ 1) :
     Subgroup.centralizer ({gw gen11W0 ^ j} : Set Gmat) =
       Subgroup.centralizer ({gw gen11W0} : Set Gmat) := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   exact centralizer_pow_eq_of_prime orderOf_x11 hj1
 
 private theorem gke_main
@@ -111,12 +111,12 @@ theorem ggSporK_bmElevenComp_M_of_simple [Finite (TauCeti.CFSGIndex.sporadic .M)
     (hS : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .M).Group) :
     BMElevenComp (TauCeti.CFSGIndex.sporadic .M).Group := by
   obtain ⟨e⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
-  haveI := hS
+  have := hS
   let e' : (TauCeti.CFSGIndex.sporadic .M).Group ≃* CFSG.Blueprint.NativeSporadic.Carrier .M :=
     e.symm.trans (MulEquiv.refl _)
   obtain ⟨f⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := (TauCeti.CFSGIndex.sporadic .M).Group) e'
-  haveI : Finite CFSG.Monster.Generated.Gmat :=
+  have : Finite CFSG.Monster.Generated.Gmat :=
     CFSG.Monster.Generated.generated_rational_group_finite_simple.2.2
   exact bmElevenComp_of_mulEquiv f.symm ggSporK_bmElevenComp_gmat
 

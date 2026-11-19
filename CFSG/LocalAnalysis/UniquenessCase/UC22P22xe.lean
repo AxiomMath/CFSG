@@ -21,37 +21,45 @@ variable {G : Type} [Group G] [Finite G] {M V : Subgroup G} {Vmod : Type} [AddCo
 @[expose] def iota (e : ↥V ≃* Multiplicative Vmod) (x : Vmod) : G :=
   ((e.symm (Multiplicative.ofAdd x) : ↥V) : G)
 
+omit [Finite G] [Module (ZMod 2) Vmod] in
 theorem iota_mem (e : ↥V ≃* Multiplicative Vmod) (x : Vmod) : iota e x ∈ V := (e.symm _).2
 
+omit [Finite G] [Module (ZMod 2) Vmod] in
 theorem iota_add (e : ↥V ≃* Multiplicative Vmod) (x y : Vmod) :
     iota e (x + y) = iota e x * iota e y := by
   unfold iota
   rw [ofAdd_add, map_mul]
   rfl
 
+omit [Finite G] [Module (ZMod 2) Vmod] in
 theorem iota_zero (e : ↥V ≃* Multiplicative Vmod) : iota e 0 = 1 := by
   unfold iota
   rw [ofAdd_zero, map_one]
   rfl
 
+omit [Finite G] [Module (ZMod 2) Vmod] in
 theorem iota_neg (e : ↥V ≃* Multiplicative Vmod) (x : Vmod) : iota e (-x) = (iota e x)⁻¹ := by
   unfold iota
   rw [ofAdd_neg, map_inv]
   rfl
 
+omit [Finite G] [Module (ZMod 2) Vmod] in
 theorem iota_sub (e : ↥V ≃* Multiplicative Vmod) (x y : Vmod) :
     iota e (x - y) = iota e x * (iota e y)⁻¹ := by
   rw [sub_eq_add_neg, iota_add, iota_neg]
 
+omit [Finite G] [Module (ZMod 2) Vmod] in
 theorem iota_injective (e : ↥V ≃* Multiplicative Vmod) : Function.Injective (iota e) := by
   intro x y h
   have h1 : e.symm (Multiplicative.ofAdd x) = e.symm (Multiplicative.ofAdd y) := Subtype.ext h
   exact Multiplicative.ofAdd.injective (e.symm.injective h1)
 
+omit [Finite G] [Module (ZMod 2) Vmod] in
 theorem exists_iota (e : ↥V ≃* Multiplicative Vmod) {g : G} (hg : g ∈ V) :
     ∃ x : Vmod, iota e x = g :=
   ⟨Multiplicative.toAdd (e ⟨g, hg⟩), by simp [iota]⟩
 
+omit [Finite G] in
 theorem iota_rho (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ) (m : ↥M) (x : Vmod) :
     iota e (ρ (QuotientGroup.mk m) x) = (m : G) * iota e x * (m : G)⁻¹ :=
@@ -60,9 +68,11 @@ theorem iota_rho (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicati
 @[expose] def bsub (e : ↥V ≃* Multiplicative Vmod) (W : Subgroup G) : Submodule (ZMod 2) Vmod :=
   AddSubgroup.toZModSubmodule 2 (uc22br4_addSub e W)
 
+omit [Finite G] in
 theorem mem_bsub {e : ↥V ≃* Multiplicative Vmod} {W : Subgroup G} {x : Vmod} :
     x ∈ bsub e W ↔ iota e x ∈ W := Iff.rfl
 
+omit [Finite G] in
 theorem bsub_le_iff (e : ↥V ≃* Multiplicative Vmod) {W W' : Subgroup G} (hW : W ≤ V) :
     bsub e W ≤ bsub e W' ↔ W ≤ W' := by
   constructor
@@ -72,12 +82,15 @@ theorem bsub_le_iff (e : ↥V ≃* Multiplicative Vmod) {W W' : Subgroup G} (hW 
   · intro h x hx
     exact h hx
 
+omit [Finite G] in
 theorem bsub_inf (e : ↥V ≃* Multiplicative Vmod) (W W' : Subgroup G) :
     bsub e (W ⊓ W') = bsub e W ⊓ bsub e W' := rfl
 
+omit [Finite G] in
 theorem bsub_V (e : ↥V ≃* Multiplicative Vmod) : bsub e V = ⊤ :=
   eq_top_iff.2 fun x _ => iota_mem e x
 
+omit [Finite G] in
 theorem bsub_eq_bot_iff (e : ↥V ≃* Multiplicative Vmod) {W : Subgroup G} (hW : W ≤ V) :
     bsub e W = ⊥ ↔ W = ⊥ := by
   constructor
@@ -96,11 +109,12 @@ theorem bsub_eq_bot_iff (e : ↥V ≃* Multiplicative Vmod) {W : Subgroup G} (hW
     rw [← iota_zero e] at this
     exact (Submodule.mem_bot _).2 (iota_injective e this)
 
+omit [Finite G] in
 theorem card_bsub (e : ↥V ≃* Multiplicative Vmod) {W : Subgroup G} (hW : W ≤ V) :
     Nat.card (bsub e W) = Nat.card W := by
   refine Nat.card_congr
     { toFun := fun x => ⟨iota e x.1, mem_bsub.1 x.2⟩
-      invFun := fun w => ⟨Multiplicative.toAdd (e ⟨w.1, hW w.2⟩), mem_bsub.2 (by simpa [iota] using w.2)⟩
+      invFun := fun w => ⟨Multiplicative.toAdd (e ⟨w.1, hW w.2⟩), mem_bsub.2 (by simp [iota])⟩
       left_inv := fun x => by
         apply Subtype.ext
         simp [iota]
@@ -108,6 +122,7 @@ theorem card_bsub (e : ↥V ≃* Multiplicative Vmod) {W : Subgroup G} (hW : W �
         apply Subtype.ext
         simp [iota] }
 
+omit [Finite G] in
 theorem fixSub_mbarImage (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ) {X : Subgroup G}
     (hX : X ≤ M) : fixSub ρ (mbarImage M V X) = bsub e (centralizer (X : Set G)) := by
@@ -132,6 +147,7 @@ theorem fixSub_mbarImage (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Mult
 @[expose] def bsup (e : ↥V ≃* Multiplicative Vmod) (S : Submodule (ZMod 2) Vmod) : Subgroup G :=
   (((AddSubgroup.toSubgroup S.toAddSubgroup).comap e.toMonoidHom).map V.subtype)
 
+omit [Finite G] in
 theorem iota_mem_bsup {e : ↥V ≃* Multiplicative Vmod} {S : Submodule (ZMod 2) Vmod} {x : Vmod} :
     iota e x ∈ bsup e S ↔ x ∈ S := by
   constructor
@@ -142,11 +158,13 @@ theorem iota_mem_bsup {e : ↥V ≃* Multiplicative Vmod} {S : Submodule (ZMod 2
   · intro hx
     exact ⟨e.symm (Multiplicative.ofAdd x), by simpa using hx, rfl⟩
 
+omit [Finite G] in
 theorem bsup_le_V (e : ↥V ≃* Multiplicative Vmod) (S : Submodule (ZMod 2) Vmod) :
     bsup e S ≤ V := by
   rintro _ ⟨v, _, rfl⟩
   exact v.2
 
+omit [Finite G] in
 theorem bsub_commutator (hV : M ≤ normalizer (V : Set G)) (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ) {W X : Subgroup G}
     (hW : W ≤ V) (hX : X ≤ M) :

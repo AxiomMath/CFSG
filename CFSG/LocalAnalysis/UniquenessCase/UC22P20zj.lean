@@ -75,7 +75,7 @@ theorem uc22pwt_coreG
     El.invariant, El.alpha_clause, El.involution, F, hF, fun J hJdef => ⟨(hJ J hJdef).1, fun hp2 => ?_⟩⟩
   · rw [P.piSet_E]
     ext p
-    simp only [etaSet, Set.mem_setOf_eq]
+    simp only [etaSet, Set.mem_ofPred_eq]
     exact ⟨fun hp => ⟨hp.1, (hpr p hp.1).1 hp.2⟩, fun hp => ⟨hp.1, (hpr p hp.1).2 hp.2⟩⟩
   · have hm1 : m' = 1 := by
       obtain ⟨k, hk⟩ := hp2

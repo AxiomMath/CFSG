@@ -94,7 +94,7 @@ theorem exists_local_frame_J3 {X : Type} [Group X] [Finite X] (e : X ≃* Native
   obtain ⟨B₁, hB₁B, hB₁9, -, h3A⟩ := j3_e27_class_split e hBe hB27
   obtain ⟨a, haB, haB₁⟩ : ∃ a ∈ B, a ∉ B₁ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have : Nat.card B ≤ Nat.card B₁ := Subgroup.card_le_of_le (fun x hx => hno x hx)
     omega
   have ha1 : a ≠ 1 := fun h => haB₁ (h ▸ Subgroup.one_mem _)

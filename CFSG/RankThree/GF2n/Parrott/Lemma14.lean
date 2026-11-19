@@ -20,7 +20,7 @@ variable (D : QuotientData (z := z) hN)
 
 noncomputable abbrev utH : ↥(H z) := uH D * tH D
 
-abbrev HModJ (z : G) [hN : ((J z).subgroupOf (H z)).Normal] : Type :=
+abbrev HModJ (z : G) [_hN : ((J z).subgroupOf (H z)).Normal] : Type :=
   ↥(H z) ⧸ (J z).subgroupOf (H z)
 
 noncomputable def utq : HModJ (z := z) :=

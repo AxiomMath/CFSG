@@ -52,7 +52,7 @@ theorem allNS_normalizer {S : Type} [Group S] (X B : Subgroup Γ) [hX : X.Normal
     (hsolv : Group.IsSolvable (Γ ⧸ X)) : AllNS S ↥(Subgroup.normalizer (B : Set Γ)) := by
   set Y : Subgroup Γ := Subgroup.normalizer (B : Set Γ) with hY
   have hBY : B ≤ Y := Subgroup.le_normalizer
-  haveI hBn : (B.subgroupOf Y).Normal :=
+  have hBn : (B.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hBY).2 le_rfl
   refine AllNS.of_split (B.subgroupOf Y)
     (AllNS.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hBY).symm hNS) ?_
@@ -92,7 +92,7 @@ theorem le_normalizer_oThreePrimeResidual (X : Subgroup G) :
         rw [← MulAut.conj_apply, ← MulAut.conj_apply, ← map_pow]
       rw [this, hyk]
       simp
-    | one => simpa using (oThreePrimeResidual X).one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
       have := (oThreePrimeResidual X).mul_mem ha hb
       simpa [mul_assoc] using this
@@ -118,7 +118,7 @@ theorem isSolvable_L1T (h1222 : Stmt12_2_2) {F : Frame126 T L V} (hH : Hyp126 G 
     Group.IsSolvable ↥(Li L F.V1 ⊔ T) := by
   have hL1 : Group.IsSolvable ↥(Li L F.V1) := P31A.isSolvable_L1 h1222 F hH
   have hTsol : Group.IsSolvable ↥T := by
-    haveI := hH.hyp.sylow.1.isNilpotent
+    have := hH.hyp.sylow.1.isNilpotent
     infer_instance
   exact isSolvable_sup_of_normalizes _ _ (S126L19b.T_le_normalizer_L1 h1222 hH) hL1 hTsol
 
@@ -166,7 +166,7 @@ theorem noM22_w31_of (h1222 : Stmt12_2_2) (h1228 : Stmt12_2_8) (hE114 : E114Used
   have hSQTK : SQTKGroup ↥H :=
     sqtkGroup_of_pCoreOf_ne_bot hH.hyp.qtke hH.hyp.simple hH.hyp.nonabelian (pCoreOf_ne_bot h91)
   set X : Subgroup (HStar H) := star H (conjClosure K T) with hX
-  haveI hXn : X.Normal := normal_star h918.K₀_normal
+  have hXn : X.Normal := normal_star h918.K₀_normal
   have hP2 : IsPGroup 2 ↥(star H T) := P31A.isPGroup_star_T F hH hIs
   have hPmax := P31A.star_T_max F hH hIs
   have hS₀ : CFSG.QuasithinUnique.IsSylowTwoOf ((star H T ⊓ X).subgroupOf X) ⊤ :=
@@ -231,7 +231,7 @@ theorem noM22_w31_of (h1222 : Stmt12_2_2) (h1228 : Stmt12_2_8) (hE114 : E114Used
     rw [E1.nParam_subgroupOf H₀]
     simpa using h
   have hnP1 : E1.nParam H₀ = 1 :=
-    le_antisymm hn1 (ENat.one_le_iff_ne_zero.2 (nParam_ne_zero_of_pCoreOf_ne_bot hO₂))
+    le_antisymm hn1 (Order.one_le_iff_ne_zero.2 (nParam_ne_zero_of_pCoreOf_ne_bot hO₂))
   have hH₀M : H₀ ≤ Subgroup.normalizer (L : Set G) :=
     h1229 G T L V F hH hZ H₀ hInH (Or.inl hnP1)
   set J : Subgroup G := oThreePrimeResidual H₀ with hJ
@@ -276,14 +276,14 @@ theorem noM22_w31_of (h1222 : Stmt12_2_2) (h1228 : Stmt12_2_8) (hE114 : E114Used
     have ha : a ∈ (J.subgroupOf L).map (S126L19a.psi F hH) := htop ▸ Subgroup.mem_top a
     obtain ⟨x, hx, rfl⟩ := ha
     exact ⟨⟨(x : G), Subgroup.mem_subgroupOf.1 hx⟩, rfl⟩
-  haveI : (J.subgroupOf H₀).Normal :=
+  have : (J.subgroupOf H₀).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJH₀).2 (le_normalizer_oThreePrimeResidual H₀)
   have hAllJ : AllNS (alternatingGroup (Fin 6)) ↥J :=
     AllNS.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hJH₀)
       (AllNS.of_normal (J.subgroupOf H₀) hAllH₀)
   have hAllA8 : AllNS (alternatingGroup (Fin 6)) ↥(alternatingGroup (Fin 8)) :=
     AllNS.of_surjective ρ hρ hAllJ
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
   have hnab8 : ∃ a b : ↥(alternatingGroup (Fin 8)), a * b ≠ b * a := by
     refine ⟨⟨Equiv.swap 0 1 * Equiv.swap 0 2, by rw [Equiv.Perm.mem_alternatingGroup]; decide⟩,
       ⟨Equiv.swap 0 1 * Equiv.swap 0 3, by rw [Equiv.Perm.mem_alternatingGroup]; decide⟩, ?_⟩

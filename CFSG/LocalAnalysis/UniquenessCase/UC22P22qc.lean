@@ -192,7 +192,7 @@ theorem uc22p22q_coset_transitive {G : Type*} [Group G] [Finite G] {M C V₀ V :
       exact Subgroup.mem_centralizer_singleton_iff.2 (mul_inv_eq_iff_eq_mul.1 e).symm
     have hVcent : V ≤ Subgroup.centralizer {x} :=
       hgen.symm.le.trans ((Subgroup.closure_le _).2 hgensub)
-    haveI : Nontrivial V₀ := Finite.one_lt_card_iff_nontrivial.1 (by rw [hV₀card]; norm_num)
+    have : Nontrivial V₀ := Finite.one_lt_card_iff_nontrivial.1 (by rw [hV₀card]; norm_num)
     obtain ⟨⟨d, hd⟩, hd1⟩ := exists_ne (1 : V₀)
     have hdc := Subgroup.mem_centralizer_singleton_iff.1 (hVcent (hV₀V hd))
     refine hfpf d hd (fun h => hd1 (Subtype.ext h)) ?_

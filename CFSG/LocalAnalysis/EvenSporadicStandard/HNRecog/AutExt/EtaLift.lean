@@ -32,11 +32,11 @@ theorem AschbacherHyp.exists_field_aut (hC : AschbacherHyp C Q) :
       (¬ ∃ p : A5, ∀ y : A5, c y = p * y * p⁻¹) ∧
       ∀ l : ↥(commutator C), θ (f l) = (c (θ l).1, χ (θ l).2) := by
   classical
-  haveI : Finite Q := hC.plus.finite
+  have : Finite Q := hC.plus.finite
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q); infer_instance
   obtain ⟨e, θ, σ, hθs, hθk, hθb, hσθ, hσi, hirr⟩ := hC.exists_hom_baseEmb
   have hq : ∀ g u, extraspecialQuadForm hE (σ g u) = extraspecialQuadForm hE u := by
@@ -60,7 +60,7 @@ theorem AschbacherHyp.exists_field_aut (hC : AschbacherHyp C Q) :
   obtain ⟨z, hzQ, hz1, hzc, hzcentre⟩ := hC.exists_centre
   have hne : ∀ l : ↥(commutator C), InnerInv (θ l) → l ^ 2 ≠ 1 := fun l hl =>
     hC.sq_ne_one_of_innerInv e θ hθs hθb l hl
-  haveI : (Q.subgroupOf (commutator C)).Normal := inferInstance
+  have : (Q.subgroupOf (commutator C)).Normal := inferInstance
   have hcore : CoreHyp (Q.subgroupOf (commutator C)) (Q.subgroupOf (commutator C)) θ θ ψ
       (liftSub hK hK φ₀) ⟨z, hK hzQ⟩ :=
     { surj := hθs

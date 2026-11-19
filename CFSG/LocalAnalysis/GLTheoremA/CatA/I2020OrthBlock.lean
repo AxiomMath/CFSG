@@ -106,13 +106,13 @@ private theorem finish (h2 : (2 : K) ≠ 0) (hpodd : Odd p)
     (hST : ∀ s ∈ S, ∀ t ∈ T, s * t = t * s) :
     ∀ s ∈ S, s * x = x * s := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Fintype V := Fintype.ofFinite V
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
       (fun f g h => LinearEquiv.ext (congrFun h))
-  haveI : Finite (specialBlock Q x h) := Subtype.finite
+  have : Finite (specialBlock Q x h) := Subtype.finite
   let T' : Subgroup (specialBlock Q x h) := T.subgroupOf (specialBlock Q x h)
   have hT'2 : IsPGroup 2 T' := hT2.of_equiv (Subgroup.subgroupOfEquivOfLe hT).symm
   let E' : Subgroup (specialBlock Q x h) := E.subgroupOf (specialBlock Q x h)
@@ -234,6 +234,7 @@ def BlockDiagonalData (Q : QuadraticForm K V) (x : V ≃ₗ[K] V) (h : K[X]) : P
       (∀ (S' : Subgroup (V ≃ₗ[K] V)), (∀ s' ∈ S', ∀ e ∈ E, s' * e = e * s') →
         ∀ s' ∈ S', ∀ i, ∀ v ∈ P i, s' v ∈ P i)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem blockDet_conj_eq
     {h : K[X]} {g k : V ≃ₗ[K] V}
     (hg : g ∈ supportedBlock Q x h) (hk : k ∈ supportedBlock Q x h)
@@ -260,6 +261,7 @@ private theorem blockDet_conj_eq
     _ = blockDet Q x h ⟨g, hg⟩ * 1 := by rw [h1]
     _ = blockDet Q x h ⟨g, hg⟩ := mul_one _
 
+omit [Finite K] in
 private theorem blockDiagonalData_of_repeated
     (hx : OddOrderIsometry Q p x) (hp : p.Prime) (hp2 : p ≠ 2) (h2 : (2 : K) ≠ 0)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
@@ -279,18 +281,18 @@ private theorem blockDiagonalData_of_repeated
     (hWmem : ∀ w : Fin m → W, ψ.symm (0, w) ∈ orbitSpace x.toLinearMap h) :
     BlockDiagonalData (K := K) (V := V) Q x h := by
   classical
-  haveI : Nontrivial W := hWnt
+  have : Nontrivial W := hWnt
   have hmpos : 0 < m := by omega
   let i₀ : Fin m := ⟨0, hmpos⟩
-  haveI hRfin : FiniteDimensional K R := by
-    haveI : FiniteDimensional K (R × (Fin m → W)) := ψ.finiteDimensional
+  have hRfin : FiniteDimensional K R := by
+    have : FiniteDimensional K (R × (Fin m → W)) := ψ.finiteDimensional
     exact FiniteDimensional.of_surjective (LinearMap.fst K R (Fin m → W))
       fun r => ⟨(r, 0), rfl⟩
-  haveI hWfin : FiniteDimensional K (Fin m → W) := by
-    haveI : FiniteDimensional K (R × (Fin m → W)) := ψ.finiteDimensional
+  have hWfin : FiniteDimensional K (Fin m → W) := by
+    have : FiniteDimensional K (R × (Fin m → W)) := ψ.finiteDimensional
     exact FiniteDimensional.of_surjective (LinearMap.snd K R (Fin m → W))
       fun w => ⟨(0, w), rfl⟩
-  haveI : FiniteDimensional K W :=
+  have : FiniteDimensional K W :=
     FiniteDimensional.of_surjective (LinearMap.proj i₀) fun w => ⟨fun _ => w, rfl⟩
   let Rpart : Submodule K V :=
     LinearMap.range (ψ.symm.toLinearMap.comp (LinearMap.inl K R (Fin m → W)))
@@ -504,7 +506,7 @@ private theorem blockDiagonalData_of_repeated
       simp [Pi.mulSingle, hij, Ne.symm hij]
     by_cases hkj : k = j
     · subst hkj
-      simp [Pi.mulSingle, hij]
+      simp [Pi.mulSingle]
     · have hswap_ne_i : Equiv.swap i j k ≠ i := by
         intro h
         have hk : k = j := by
@@ -517,7 +519,7 @@ private theorem blockDiagonalData_of_repeated
           have := (Equiv.swap_apply_eq_iff).mp h
           simpa using this
         exact hki hk
-      simp [Pi.mulSingle, hki, hkj, hswap_ne_i, hswap_ne_j]
+      simp [Pi.mulSingle, hkj, hswap_ne_i]
   let negSign (i : Fin m) : Fin m → ℤˣ := Pi.mulSingle i (-1)
   let nAut (i : Fin m) : V ≃ₗ[K] V := Φ (negSign i)
   let signPair (i j : Fin m) : Fin m → ℤˣ := negSign i * negSign j
@@ -604,7 +606,7 @@ private theorem blockDiagonalData_of_repeated
     have hsingle : (fun x : Fin m => QW ((Pi.single i w : Fin m → W) x)) =
         fun x => if x = i then QW w else 0 := by
       funext x
-      by_cases hx : x = i <;> simp [Pi.single_apply, hx]
+      by_cases hx : x = i <;> simp [hx]
     rw [hsingle, Finset.sum_ite_eq']
     simp
   have hQ_R (r : R) : Q (eR r) = QR r := by
@@ -625,7 +627,7 @@ private theorem blockDiagonalData_of_repeated
           fun x => (if x = i then QW w else 0) + (if x = j then QW w' else 0) := by
         funext x
         by_cases hxi : x = i <;> by_cases hxj : x = j <;>
-          simp [Pi.single_apply, hxi, hxj, hij, Ne.symm hij]
+          simp [hxi, hxj, hij, Ne.symm hij]
       simp only [Pi.add_apply]
       rw [hfun, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.sum_ite_eq']
       simp
@@ -646,7 +648,7 @@ private theorem blockDiagonalData_of_repeated
       have hsingle : (fun x : Fin m => QW ((Pi.single i w : Fin m → W) x)) =
           fun x => if x = i then QW w else 0 := by
         funext x
-        by_cases hx : x = i <;> simp [Pi.single_apply, hx]
+        by_cases hx : x = i <;> simp [hx]
       rw [hsingle, Finset.sum_ite_eq']
       simp [add_comm]
     have hmap := QuadraticMap.map_add Q (slotMap i w) (eR r)
@@ -691,7 +693,7 @@ private theorem blockDiagonalData_of_repeated
   have hsignPair_i (i j : Fin m) (hij : i ≠ j) : signPair i j i = -1 := by
     simp [signPair, negSign, Pi.mulSingle, hij]
   have hsignPair_j (i j : Fin m) (hij : i ≠ j) : signPair i j j = -1 := by
-    simp [signPair, negSign, Pi.mulSingle, hij, Ne.symm hij]
+    simp [signPair, negSign, Pi.mulSingle, Ne.symm hij]
   have hsignPair_other (i j k : Fin m) (hki : k ≠ i) (hkj : k ≠ j) :
       signPair i j k = 1 := by
     simp [signPair, negSign, Pi.mulSingle, hki, hkj]
@@ -715,7 +717,7 @@ private theorem blockDiagonalData_of_repeated
       by_cases hk : k = i
       · rw [hk, hsUnit_apply, hsignPair_i i j hij]
         simp
-      · simp [Pi.single_apply, hk]
+      · simp [hk]
   have hmem_R_iff (v : V) : v ∈ Rpart ↔ ∀ i j : Fin m, i ≠ j → dAut i j v = v := by
     constructor
     · intro hv i j hij
@@ -788,7 +790,7 @@ private theorem blockDiagonalData_of_repeated
         funext l
         by_cases hli : l = i
         · subst hli; simp
-        · simp [Pi.single_apply, hli, hwzero l hli]
+        · simp [hli, hwzero l hli]
       rw [show v = ψ.symm (0, Pi.single i (w i)) by
         rw [← ψ.symm_apply_apply v]
         congr 1
@@ -820,7 +822,7 @@ private theorem blockDiagonalData_of_repeated
         rw [hcomm, hv j hji, map_neg]
   have hdim_eq : Module.finrank K V = Module.finrank K R + m * Module.finrank K W := by
     rw [LinearEquiv.finrank_eq ψ, Module.finrank_prod, Module.finrank_pi_fintype]
-    simp [Finset.card_fin, mul_comm]
+    simp
   have hWpos : 0 < Module.finrank K W := finrank_pos_iff.mpr inferInstance
   have hWle2 : Module.finrank K W ≤ 2 := by
     have hmul : m * Module.finrank K W ≤ 8 := by
@@ -862,7 +864,7 @@ private theorem blockDiagonalData_of_repeated
     omega
   have hpolar_comp_Rpart (x y : Rpart) :
       polar (Q.comp Rpart.subtype) x y = polar Q (x : V) (y : V) := by
-    simp [QuadraticMap.polar, map_add, map_sub]
+    simp [QuadraticMap.polar, map_add]
   have heR_inj : Function.Injective eR := by
     intro r₁ r₂ h
     have := congrArg ψ h
@@ -909,7 +911,7 @@ private theorem blockDiagonalData_of_repeated
     have hv : v = ψ.symm (0, Pi.single i (w i)) +
         (eR r + ∑ j ∈ Finset.univ.erase i, ψ.symm (0, Pi.single j (w j))) := by
       rw [hdecomp v, hsum_split]
-      simp only [eR, heR_apply, LinearMap.comp_apply, LinearMap.inl_apply]
+      simp only [eR, heR_apply]
       abel
     rw [hv]
     refine Submodule.add_mem_sup ?_ ?_
@@ -1056,20 +1058,20 @@ theorem blockDiagonalData_of_three_le
   · obtain ⟨R, W, instR, instMR, instW, instMW, QR, QW, ψ, hQsum, hQWnd, hWnt,
       ⟨h0, hh0, h0ord, hxact⟩, hRmem, hWmem⟩ :=
       hx.repeatedSummands_selfDual hp hp2 hh hne1 hself
-    letI : AddCommGroup R := instR
-    letI : Module K R := instMR
-    letI : AddCommGroup W := instW
-    letI : Module K W := instMW
+    let : AddCommGroup R := instR
+    let : Module K R := instMR
+    let : AddCommGroup W := instW
+    let : Module K W := instMW
     exact blockDiagonalData_of_repeated hx hp hp2 h2 hQ hdim hh hm
       (m := primaryMultiplicity x.toLinearMap h) QR QW ψ hQsum hQWnd hWnt
       h0 hh0 h0ord hxact hRmem hWmem
   · obtain ⟨R, W, instR, instMR, instW, instMW, QR, QW, ψ, hQsum, hQWnd, hWnt,
       ⟨h0, hh0, h0ord, hxact⟩, hRmem, hWmem⟩ :=
       hx.repeatedSummands_paired hp hh hne1 hself
-    letI : AddCommGroup R := instR
-    letI : Module K R := instMR
-    letI : AddCommGroup W := instW
-    letI : Module K W := instMW
+    let : AddCommGroup R := instR
+    let : Module K R := instMR
+    let : AddCommGroup W := instW
+    let : Module K W := instMW
     exact blockDiagonalData_of_repeated hx hp hp2 h2 hQ hdim hh hm
       (m := primaryMultiplicity x.toLinearMap h) QR QW ψ hQsum hQWnd hWnt
       h0 hh0 h0ord hxact hRmem hWmem
@@ -1089,7 +1091,7 @@ theorem commute_of_specialBlock_of_three_le
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hdata := blockDiagonalData_of_three_le hx hp hp2 h2 hQ hdim hh hne1 hm
   obtain ⟨E, hE2, hEspec, ι, hFintype, P, hspan, hxP, hplane, hpres⟩ := hdata
-  letI : Fintype ι := hFintype
+  let : Fintype ι := hFintype
   exact finish h2 hpodd hx.mem hx.pow_eq_one hE2 hEspec hT hT2 hTodd P hspan hxP hplane hpres
     hS2 hSQ hxS hST
 

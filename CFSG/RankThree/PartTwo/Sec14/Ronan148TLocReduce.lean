@@ -29,6 +29,7 @@ theorem actX_eq_congr_sigmaOf (hAL : A ≤ normalizer (L : Set Γ))
   rw [actX, MonoidHom.comp_apply, thetaQuotientAction_eq_sigmaOf]
   rfl
 
+omit [Finite Γ] in
 theorem fixSubgroup_map_eq_autFix (ψ : L ⧸ aschbacherSolvableCore 3 L ≃* X)
     (σ : MulAut (L ⧸ aschbacherSolvableCore 3 L)) :
     (Res5Types.fixSubgroup σ).map ψ.toMonoidHom = Sec4.autFix (MulAut.congr ψ σ) := by
@@ -137,7 +138,7 @@ theorem exists_of_inspectAutLoc {X : Type} [Group X] [Finite X] {P : Subgroup X 
       ε k ∈ (kappa h.le ψ).range := by
     rintro _ ⟨a, rfl⟩ _ ⟨k, rfl⟩
     exact ⟨_, (Ronan148K.kappa_actX h.le ψ hAL hAK a k).symm⟩
-  haveI : Group.IsPerfect K := h.isPerfect
+  have : Group.IsPerfect K := h.isPerfect
   have hKbp : Group.IsPerfect (kappa h.le ψ).range := Group.IsPerfect.range _
   have hkerR : (kappa h.le ψ).rangeRestrict.ker = (kappa h.le ψ).ker :=
     MonoidHom.ker_rangeRestrict _
@@ -196,24 +197,24 @@ theorem kf148SigL3Loc_of_inspectLoc (hI : InspectSig148L3Loc) : KF148SigL3Loc :=
     intro hs
     have hnt : Nontrivial (kappa h.le φ.symm).range :=
       (kappa h.le φ.symm).range.nontrivial_iff_ne_bot.mpr (Ronan148K.range_kappa_ne_bot h φ.symm)
-    haveI : Group.IsPerfect K := h.isPerfect
-    haveI : Group.IsPerfect (kappa h.le φ.symm).range := Group.IsPerfect.range _
+    have : Group.IsPerfect K := h.isPerfect
+    have : Group.IsPerfect (kappa h.le φ.symm).range := Group.IsPerfect.range _
     exact Group.IsPerfect.not_isSolvable (kappa h.le φ.symm).range inferInstance
-  haveI hsimp : IsSimpleGroup X' := Ronan148K.isSimpleGroup_of_isLThreePi_not_solvable hL' hns
+  have hsimp : IsSimpleGroup X' := Ronan148K.isSimpleGroup_of_isLThreePi_not_solvable hL' hns
   have hθ : ∀ K' : Subgroup X', Ronan148K.L3SigType X' K' → aschbacherSolvableCore 3 K' = ⊥ := by
     intro K' hK'
     unfold Ronan148K.L3SigType at hK'
     rcases hK' with rfl | ⟨⟨-, -⟩, ⟨e7⟩⟩ | ⟨p, f, e', hp, hf, -, -, hLE⟩
     · exact Ronan148K.aschbacherSolvableCore_eq_bot_of_mulEquiv Subgroup.topEquiv hns
-    · haveI := Ronan148K.isSimpleGroup_alt_seven
+    · have := Ronan148K.isSimpleGroup_alt_seven
       exact Ronan148K.aschbacherSolvableCore_eq_bot_of_mulEquiv e7
         Ronan148K.not_isSolvable_alt_seven
     · unfold IsLThreeEpsAt at hLE
       rcases hLE with ⟨⟨eL⟩⟩ | ⟨h2, ⟨eU⟩⟩
-      · haveI := Ronan148K.isSimpleGroup_projSL_three_field p f
+      · have := Ronan148K.isSimpleGroup_projSL_three_field p f
         exact Ronan148K.aschbacherSolvableCore_eq_bot_of_mulEquiv eL
           (Ronan148K.not_isSolvable_projSL_three p f hf)
-      · haveI := CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two
+      · have := CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two
           p f hf (by omega)
         exact Ronan148K.aschbacherSolvableCore_eq_bot_of_mulEquiv eU
           (Ronan148K.not_isSolvable_projSU_three p f hf h2)

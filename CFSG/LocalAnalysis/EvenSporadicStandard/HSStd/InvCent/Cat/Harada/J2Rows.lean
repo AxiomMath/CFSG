@@ -91,7 +91,7 @@ theorem exists_equiv_of_ne_top
 theorem noZ2S5J2_holds :
     NoZ2S5J2 := by
   intro G _ _ S hSn ⟨ψ₀⟩ hcent t ht _ ⟨ζ⟩
-  haveI := hSn
+  have := hSn
   let ψ : ↥S ≃* ↥P := ψ₀.trans nativeEquivP
   have h240 := card_centralizer_of_equiv ζ
   by_cases hS : S = ⊤
@@ -120,7 +120,7 @@ theorem noZ2S5J2_holds :
 theorem noTwoCfgJ2_holds :
     NoTwoCfgJ2 := by
   intro G _ _ S hSn ⟨ψ₀⟩ hcent t v J h _
-  haveI := hSn
+  have := hSn
   let ψ : ↥S ≃* ↥P := ψ₀.trans nativeEquivP
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   have h480 := h.card_centralizer htop

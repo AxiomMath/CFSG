@@ -122,7 +122,7 @@ theorem exists_rho_commute_diag_SL {d p : ℕ} {K : Type} [Field K] [Finite K] (
   have hdetD : (Matrix.diagonal eD).det ≠ 0 := by
     rw [Matrix.det_diagonal]
     rw [Finset.prod_eq_single i0]
-    · simpa [heD] using Units.ne_zero δ
+    · simp [heD]
     · intro b _ hb; simp [heD, hb]
     · intro h; exact absurd (Finset.mem_univ i0) h
   set D : GL (Fin d) K :=
@@ -173,7 +173,7 @@ theorem exists_rho_commute_diag_SL {d p : ℕ} {K : Type} [Field K] [Finite K] (
       ((MulAut.conj (φ s₀))⁻¹ * a) (φ x) = φ (wSL D σ x) := by
     intro x
     have hconj : (MulAut.conj (φ s₀))⁻¹ = MulAut.conj ((φ s₀)⁻¹) := by
-      ext z; simp [MulAut.conj_apply]
+      ext z; simp
     have hy : SpecialLinearGroup.toGL (s₀ * wSL D σ x * s₀⁻¹) =
         g * Matrix.GeneralLinearGroup.map σ.toRingHom (SpecialLinearGroup.toGL x) * g⁻¹ := by
       rw [map_mul, map_mul, map_inv, htoGLs0, toGL_wSL D σ x]

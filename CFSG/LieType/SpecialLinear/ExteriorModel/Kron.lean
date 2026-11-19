@@ -44,8 +44,8 @@ theorem kronMinor_one :
   simp only [minor_one]
   rw [Fintype.prod_boole]
   by_cases h : ∀ i, s i = t i
-  · simp only [if_pos h, if_pos (funext h)]
-  · simp only [if_neg h, if_neg fun hst => h (congrFun hst)]
+  · simp only [ite_eq_left h, ite_eq_left (funext h)]
+  · simp only [ite_eq_right h, ite_eq_right fun hst => h (congrFun hst)]
 
 omit [DecidableEq ι] in
 theorem kronMinor_transpose (g : ι → Matrix (Fin n) (Fin n) R) :
@@ -70,8 +70,8 @@ theorem kronMinor_diagonal (e : ι → Fin n → R) :
   rw [kronMinor_apply, Matrix.diagonal_apply]
   simp only [minor_diagonal, Fintype.prod_ite_zero]
   by_cases h : ∀ i, s i = t i
-  · simp only [if_pos h, if_pos (funext h)]
-  · simp only [if_neg h, if_neg fun hst => h (congrFun hst)]
+  · simp only [ite_eq_left h, ite_eq_left (funext h)]
+  · simp only [ite_eq_right h, ite_eq_right fun hst => h (congrFun hst)]
 
 theorem kronMinor_mul_eq_one {g h : ι → Matrix (Fin n) (Fin n) R} (hgh : ∀ i, g i * h i = 1) :
     kronMinor (d := d) g * kronMinor h = 1 := by
@@ -268,7 +268,7 @@ theorem minor_permMatrix (h2 : (2 : R) = 0) (σ : Equiv.Perm (Fin n)) {k : ℕ}
     simp only [Option.mem_some]
   rw [minor, ← hes, ← het, hA]
   by_cases hst : ((s : Finset (Fin n))).map σ.toEmbedding = (t : Finset (Fin n))
-  · rw [if_pos hst]
+  · rw [ite_eq_left hst]
     have hmem : ∀ i, σ (es i) ∈ (t : Finset (Fin n)) := by
       intro i
       have h1 : σ (es i) ∈ ((s : Finset (Fin n))).map σ.toEmbedding :=
@@ -300,12 +300,12 @@ theorem minor_permMatrix (h2 : (2 : R) = 0) (σ : Equiv.Perm (Fin n)) {k : ℕ}
       change (if σ (es i) = et j then (1 : R) else 0) = (if j = f i then (1 : R) else 0)
       by_cases h : σ (es i) = et j
       · have hji : j = f i := hiff.mp h
-        simp only [if_pos h, if_pos hji]
+        simp only [ite_eq_left h, ite_eq_left hji]
       · have hji : ¬ (j = f i) := fun hji => h (hiff.mpr hji)
-        simp only [if_neg h, if_neg hji]
+        simp only [ite_eq_right h, ite_eq_right hji]
     rw [hmat, det_of_row_eq_ite_single_of_injective f hf_inj]
     exact hsign _
-  · rw [if_neg hst]
+  · rw [ite_eq_right hst]
     have hex : ∃ i, σ (es i) ∉ (t : Finset (Fin n)) := by
       by_contra hall
       have hall' : ∀ i, σ (es i) ∈ (t : Finset (Fin n)) := by

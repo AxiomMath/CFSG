@@ -15,14 +15,14 @@ theorem c8k_b_sup_o {Γ : Type} [Group Γ] [Finite Γ] {B S C₀ : Subgroup Γ} 
     (nat : C8KNat Γ d ρ O Z) (hker : ρ.ker = O) : B ⊔ O = ⊤ := by
   classical
   have hQO : CFSG.pCore 2 Γ ≤ O := nat.q_le.trans nat.z_le
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hO_sol : Group.IsSolvable ↥O := by
     let Q' : Subgroup ↥O := (CFSG.pCore 2 Γ).subgroupOf O
-    haveI hQ'n : Q'.Normal := CFSG.pCore_normal.subgroupOf O
+    have hQ'n : Q'.Normal := CFSG.pCore_normal.subgroupOf O
     have hQ'2 : IsPGroup 2 Q' :=
       (CFSG.pCore_isPGroup (G := Γ) (p := 2)).comap_subtype (K := O)
-    haveI : Group.IsNilpotent ↥Q' := hQ'2.isNilpotent
+    have : Group.IsNilpotent ↥Q' := hQ'2.isNilpotent
     have hQ'7 : IsPGroup 7 (↥O ⧸ Q') := by
       intro x
       obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective Q' x
@@ -31,13 +31,13 @@ theorem c8k_b_sup_o {Γ : Type} [Group Γ] [Finite Γ] {B S C₀ : Subgroup Γ} 
       rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
       show ((y ^ 7 ^ n : ↥O) : Γ) ∈ CFSG.pCore 2 Γ
       simpa using hn
-    haveI : Group.IsNilpotent (↥O ⧸ Q') := hQ'7.isNilpotent
+    have : Group.IsNilpotent (↥O ⧸ Q') := hQ'7.isNilpotent
     exact Group.isSolvable_of_subgroup_quotient Q'
   have hmap_nsolv : ¬ Group.IsSolvable ↥(B.map ρ) := by
     intro hBsol
-    haveI : Group.IsSolvable ↥(B.map ρ) := hBsol
+    have : Group.IsSolvable ↥(B.map ρ) := hBsol
     have hB_sol : Group.IsSolvable ↥B := by
-      haveI : Group.IsSolvable ↥(O.subgroupOf B) := by
+      have : Group.IsSolvable ↥(O.subgroupOf B) := by
         let incl : ↥(O.subgroupOf B) →* ↥O :=
           { toFun := fun x => ⟨x.1.1, x.2⟩
             map_one' := rfl
@@ -47,15 +47,15 @@ theorem c8k_b_sup_o {Γ : Type} [Group Γ] [Finite Γ] {B S C₀ : Subgroup Γ} 
       exact Group.isSolvable_of_ker_le_range (O.subgroupOf B).subtype (ρ.subgroupMap B)
         (by rw [ker_subgroupMap, hker, Subgroup.range_subtype])
     obtain ⟨P, _, φ, hφs, _, hE64, _⟩ := conf.p0
-    haveI : Group.IsSolvable P := Group.isSolvable_of_surjective (f := φ) hφs
+    have : Group.IsSolvable P := Group.isSolvable_of_surjective (f := φ) hφs
     obtain ⟨N, hNn, _, hL3⟩ := hE64
-    haveI : N.Normal := hNn
+    have : N.Normal := hNn
     obtain ⟨hsimple, hcard168⟩ :=
       CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two (Y := P ⧸ N) hL3
-    haveI : IsSimpleGroup (P ⧸ N) := hsimple
+    have : IsSimpleGroup (P ⧸ N) := hsimple
     have hcomm : ∀ a b : P ⧸ N, a * b = b * a :=
       (IsSimpleGroup.comm_iff_isSolvable (G := P ⧸ N)).mpr inferInstance
-    haveI : IsMulCommutative (P ⧸ N) := IsMulCommutative.of_comm hcomm
+    have : IsMulCommutative (P ⧸ N) := IsMulCommutative.of_comm hcomm
     have hprime : Nat.Prime (Nat.card (P ⧸ N)) :=
       (Group.is_simple_iff_prime_card (α := P ⧸ N)).mp inferInstance
     exact absurd (hcard168 ▸ hprime) (by norm_num)
@@ -77,8 +77,8 @@ theorem c8k_o_inf_b_le_z {Γ : Type} [Group Γ] [Finite Γ] {B : Subgroup Γ} {d
     {ρ : Γ →* ↥(StatedSL 2 (ZMod 7))} {O Z : Subgroup Γ} (nat : C8KNat Γ d ρ O Z)
     (hqB : CFSG.pCore 2 Γ ≤ B) (hBO : B ⊔ O = ⊤) (hOB : ¬ O ≤ B) : O ⊓ B ≤ Z := by
   classical
-  haveI hOn : O.Normal := nat.normal
-  haveI hZn : Z.Normal := nat.z_normal
+  have hOn : O.Normal := nat.normal
+  have hZn : Z.Normal := nat.z_normal
   set W : Subgroup Γ := (O ⊓ B) ⊔ Z with hW
   have hZW : Z ≤ W := by rw [hW]; exact le_sup_right
   have hWO : W ≤ O := by rw [hW]; exact sup_le inf_le_left nat.z_le
@@ -126,12 +126,12 @@ theorem c8k_o_inf_b_le_z {Γ : Type} [Group Γ] [Finite Γ] {B : Subgroup Γ} {d
     exact hngen.symm.trans_le hle
 
 theorem c8k_exists_W {Γ : Type} [Group Γ] [Finite Γ] {S : Subgroup Γ} (hS : IsSylowIn 2 S ⊤)
-    (hc : centralizer (CFSG.pCore 2 Γ : Set Γ) ≤ CFSG.pCore 2 Γ) {w : Γ} (hwS : w ∈ S)
+    (hc : centralizer (CFSG.pCore 2 Γ : Set Γ) ≤ CFSG.pCore 2 Γ) {w : Γ} (_hwS : w ∈ S)
     (hw2 : w ^ 2 = 1) (hwc : ∀ s ∈ S, w * s = s * w) :
     ∃ W : Subgroup Γ, W.Normal ∧ IsElemAbelian 2 W ∧ W ≤ CFSG.pCore 2 Γ ∧
       (∀ x ∈ W, ∀ q ∈ CFSG.pCore 2 Γ, x * q = q * x) ∧ w ∈ W := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQle : CFSG.pCore 2 Γ ≤ S :=
     hS.le_of_normal le_top (CFSG.pCore_normal.subgroupOf ⊤) CFSG.pCore_isPGroup
   have hwcent : w ∈ centralizer (CFSG.pCore 2 Γ : Set Γ) := by

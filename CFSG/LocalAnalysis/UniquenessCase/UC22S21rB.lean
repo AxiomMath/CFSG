@@ -19,7 +19,7 @@ variable {Q : Type} [Group Q] [Finite Q]
 
 theorem uc22s21rb_sup_eq_top {R S : Subgroup Q} [R.Normal] (hQR : IsPGroup 2 (Q ⧸ R))
     (hS : IsSylowIn 2 S ⊤) : R ⊔ S = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQR
   have hR : R.index = 2 ^ k := hk
   have h1 : (R ⊔ S).index ∣ R.index := Subgroup.index_dvd_of_le le_sup_left
@@ -35,6 +35,7 @@ theorem uc22s21rb_sup_eq_top {R S : Subgroup Q} [R.Normal] (hQR : IsPGroup 2 (Q 
   rw [hj0, pow_zero] at hj
   exact Subgroup.index_eq_one.mp hj
 
+omit [Finite Q] in
 theorem uc22s21rb_isPGroup_quotient {R S₀ : Subgroup Q} [R.Normal] (hS₀ : IsPGroup 2 S₀)
     (hRS : R ⊔ S₀ = ⊤) : IsPGroup 2 (Q ⧸ R) := by
   refine hS₀.of_surjective ((QuotientGroup.mk' R).comp S₀.subtype) ?_
@@ -50,7 +51,7 @@ theorem uc22s21rb_inF_one {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {R Φ : Subgr
     (hfaith : ∀ A : Subgroup Q, A ≠ ⊥ → IsPGroup 2 A → ¬ ⁅R, A⁆ ≤ Φ) :
     F12.InF 1 (⊤ : Subgroup Q) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S hS Ω hΩ hne hbot
   have hS' : IsSylowIn 2 S ⊤ := CFSG.ABGLocalTools.isSylowOf_iff.mp hS
   have hRS : R ⊔ S = ⊤ := uc22s21rb_sup_eq_top hQR hS'
@@ -127,12 +128,12 @@ theorem uc22s21rb_faith {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {R : Subgroup Q
     (hR : IsPGroup q R) (hQR : IsPGroup 2 (Q ⧸ R)) (hO2 : CFSG.pCore 2 Q = ⊥)
     {A : Subgroup Q} (hA : IsPGroup 2 A) (hAΦ : ⁅R, A⁆ ≤ (frattini ↥R).map R.subtype) :
     A = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hAN : A ≤ normalizer (R : Set Q) := fun a _ => by
     rw [Subgroup.normalizer_eq_top_iff.mpr inferInstance]
     exact Subgroup.mem_top a
-  letI : MulDistribMulAction ↥A ↥R := Subgroup.conjMulDistribMulActionOfLeNormalizer A R hAN
+  let : MulDistribMulAction ↥A ↥R := Subgroup.conjMulDistribMulActionOfLeNormalizer A R hAN
   have hcop : ¬ 2 ∣ Nat.card ↥(frattini ↥R) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (hR.to_subgroup (frattini ↥R))
     rw [hn]
@@ -164,7 +165,7 @@ theorem uc22s21rb_faith {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {R : Subgroup Q
     calc x * a = (a * x * a⁻¹) * a := by rw [h1]
       _ = a * x := by group
   set C : Subgroup Q := Subgroup.centralizer (R : Set Q) with hC
-  haveI : Group.IsNilpotent (Q ⧸ R) := hQR.isNilpotent
+  have : Group.IsNilpotent (Q ⧸ R) := hQR.isNilpotent
   have hCnil : Group.IsNilpotent ↥C := by
     refine Subgroup.isNilpotent_of_ker_le_center ((QuotientGroup.mk' R).comp C.subtype) ?_
     intro c hc

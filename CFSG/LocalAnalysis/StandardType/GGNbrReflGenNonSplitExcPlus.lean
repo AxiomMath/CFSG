@@ -41,11 +41,11 @@ theorem ggExcPlus_torusAct_simple_eq (τ : Tag) {p : ℕ} [NeZero p] (i : Fin τ
   simp only [TableBExc.torusAct, simple_smul, reflect, TableBExc.redMod, TableBExc.liftMod,
     Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   push_cast
-  simp only [ZMod.natCast_zmod_val, ZMod.cast_id', id_eq]
+  simp only [ZMod.natCast_zmod_val]
   congr 2
   by_cases h : k = i
   · subst h; simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private theorem torusAct_simple_eq_self_iff (τ : Tag) {p : ℕ} [NeZero p] (i : Fin τ.rank)
     (x : Fin τ.rank → ZMod p) :
@@ -83,7 +83,7 @@ theorem card_fix_torusAct_simple (τ : Tag) {p : ℕ} [hp : Fact p.Prime] (hp2 :
       push_cast
       rw [show (2 : ZMod p) * (t * 2⁻¹) = t * (2 * 2⁻¹) by ring, mul_inv_cancel₀ h2, mul_one]
     · intro j _ hj
-      simp [Pi.single_apply, hj]
+      simp [hj]
     · simp
   have hfix : Nat.card {x : Fin τ.rank → ZMod p //
       TableBExc.torusAct τ p (simple τ i) x = x} = Nat.card f.ker :=

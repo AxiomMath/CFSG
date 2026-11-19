@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_centralizer {V : Subgroup G} {x : G}
     (hx : x ∈ normalizer (V : Set G)) : x ∈ normalizer (centralizer (V : Set G) : Set G) := by
   rw [← conjSubgroup_eq_iff_mem_normalizer] at hx ⊢
@@ -41,13 +42,14 @@ private theorem exists_mem_normalizer_of_lt {S P : Subgroup G} (hP : IsPGroup 2 
     exact absurd hSP (not_lt_of_ge (Subgroup.subgroupOf_eq_top.mp htop))
   have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent (G := ↥P)
-  obtain ⟨x, hxN, hxS⟩ := SetLike.exists_of_lt (hnc _ hIP)
+  obtain ⟨x, hxN, hxS⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hIP)
   refine ⟨x, x.2, fun hx => hxS (Subgroup.mem_subgroupOf.mpr hx), ?_⟩
   have hxsub : x ∈ (normalizer (S : Set G)).subgroupOf P := by
     rw [Subgroup.subgroupOf_normalizer_eq hSP.le]
     exact hxN
   exact Subgroup.mem_subgroupOf.mp hxsub
 
+omit [Finite G] in
 private theorem isSylowIn_restrict {p : ℕ} {P A B : Subgroup G} (hP : IsSylowIn p P B)
     (hPA : P ≤ A) (hAB : A ≤ B) : IsSylowIn p P A := by
   refine ⟨hPA, hP.isPGroup, fun hdvd => hP.not_dvd_relIndex ?_⟩
@@ -64,7 +66,7 @@ theorem wClos_le_centralizer (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V 
 
 theorem uniqueMax_normalizer_wClos (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V U S) :
     UniqueMax M (M ⊓ normalizer (E3.wClos V 0 S : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH := h.hyp
   set Q : Subgroup G := S ⊓ (M ⊓ centralizer (V : Set G)) with hQ
   have hNH : M ⊓ centralizer (V : Set G) ≤ M ⊓ centralizer (U : Set G) :=
@@ -88,10 +90,12 @@ theorem uniqueMax_normalizer_wClos (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V
     exact E3.normalizer_le_normalizer_wClos Q
   exact InCalU.mono hH.isMax (hH.qclause Q hSyl) (inf_le_inf_left M hNQ) inf_le_left
 
+omit [Finite G] in
 theorem V_le_wClos (h : Cex16 M V₀ V U S) : V ≤ E3.wClos V 0 S :=
   E3.le_wClos ⟨h.V_le_S, 1, by rw [conjSubgroup_one], by
     rw [conjSubgroup_one]; exact E3.mQuot_self V⟩
 
+omit [Finite G] in
 theorem wClos_ne_bot (h : Cex16 M V₀ V U S) : E3.wClos V 0 S ≠ ⊥ := by
   intro hb
   have hle : V₀ ≤ E3.wClos V 0 S := h.hyp.h6.le.trans h.V_le_wClos
@@ -105,7 +109,7 @@ theorem normalizer_wClos_le (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V U
 
 theorem isSylowIn_centralizer (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V U S) :
     IsSylowIn 2 S (centralizer (U : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP, hSP⟩ := exists_isSylowIn_ge 2 h.S_le_centralizer h.sylow.isPGroup
   have hPS : P ≤ S := by
     by_contra hne
@@ -128,7 +132,7 @@ theorem isSylowIn_of_fam (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V U S)
 
 theorem pCoreOf_le_S (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V U S) {H : Subgroup G}
     (hF : Fam16 M U S H) : pCoreOf 2 H ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine (h.isSylowIn_of_fam h1 hS hF).le_of_normal (CFSG.LieType.BorelTits.pCoreOf_le 2 _) ?_
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _)
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer (CFSG.LieType.BorelTits.pCoreOf_le 2 _)]

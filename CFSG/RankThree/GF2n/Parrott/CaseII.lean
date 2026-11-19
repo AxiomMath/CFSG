@@ -94,11 +94,14 @@ theorem z_centralizes_H_A : z ∈ Subgroup.centralizer (H z : Set G) := by
   intro g hg
   exact Subgroup.mem_centralizer_singleton_iff.mp (by simpa [H] using hg)
 
+omit [Finite G] in
 theorem z_centralizes_J_A : z ∈ Subgroup.centralizer (J z : Set G) :=
   Subgroup.centralizer_le (J_le_H (z := z)) (z_centralizes_H_A (z := z))
 
+omit [Finite G] in
 theorem J_normal_A : ((J z).subgroupOf (H z)).Normal := J_subgroupOf_normal z
 
+omit [Finite G] in
 theorem J_le_normalizer_A : H z ≤ Subgroup.normalizer (J z : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (J_le_H (z := z))).mp
     (J_normal_A (z := z))
@@ -129,6 +132,7 @@ theorem centralizer_J_eq_centerIn_A (h : Tim79a.ParrottHypA z) :
     (QuotientV.centerIn_subgroupOf_eq_center (z := z)).symm)).toMonoidHom.comp
     ((centerQuotientAutHom (J z)).comp (conjJ' z))
 
+omit [Finite G] in
 theorem conjVA_mk (g : H z) (x : J z) :
     conjVA z g (QuotientV.pi z x) = QuotientV.pi z (conjJ' z g x) := by
   let M : Subgroup (J z) := (centerIn (J z)).subgroupOf (J z)
@@ -145,6 +149,7 @@ theorem conjVA_mk (g : H z) (x : J z) :
   rw [hsymm, quotientAut_mk]
   exact QuotientGroup.quotientMulEquivOfEq_mk hMN (conjJ' z g x)
 
+omit [Finite G] in
 theorem conjVA_eq_congr (x : H z) :
     conjVA z x = MulAut.congr
       (QuotientGroup.quotientMulEquivOfEq
@@ -204,8 +209,8 @@ theorem pow_two_eq_one_V_A (h : Tim79a.ParrottHypA z) (v : QuotientV.V z) : v ^ 
     letI : CommGroup (QuotientV.V z) := commGroupV_A h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV_A h
     conjVLinearMap_A h x v = Additive.ofMul ((conjVA z x) (Additive.toMul v)) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV_A h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV_A h
+  let : CommGroup (QuotientV.V z) := commGroupV_A h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV_A h
   rw [conjVLinearMap_A, addAutLinearEquivMonoidHom_toLinearMap, mulAutToLinearMap_apply]
   rfl
 
@@ -221,10 +226,11 @@ theorem pow_two_eq_one_V_A (h : Tim79a.ParrottHypA z) (v : QuotientV.V z) : v ^ 
 @[simp] theorem mem_fixSubmodule_A_iff (h : Tim79a.ParrottHypA z) (x : H z)
     (v : Additive (QuotientV.V z)) :
     v ∈ fixSubmodule_A h x ↔ Additive.toMul v ∈ autFixedSubgroup (conjVA z x) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV_A h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV_A h
+  let : CommGroup (QuotientV.V z) := commGroupV_A h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV_A h
   rw [fixSubmodule_A, AddSubgroup.mem_toZModSubmodule, Additive.mem_toAddSubgroup]
 
+omit [Finite G] in
 theorem autFixedSubgroup_quotientAut_map_eq_autFixedSubgroup_conjVA (x : H z) :
     (autFixedSubgroup (quotientAut (conjJ' z x))).map
         (QuotientGroup.quotientMulEquivOfEq
@@ -233,6 +239,7 @@ theorem autFixedSubgroup_quotientAut_map_eq_autFixedSubgroup_conjVA (x : H z) :
   rw [conjVA_eq_congr]
   rw [autFixedSubgroup_congr]
 
+omit [Finite G] in
 theorem card_autFixedSubgroup_quotientAut_eq_card_autFixedSubgroup_conjVA (x : H z) :
     Nat.card (autFixedSubgroup (quotientAut (conjJ' z x))) =
       Nat.card (autFixedSubgroup (conjVA z x)) := by

@@ -8,12 +8,12 @@ namespace CFSG.KC.DcK
 
 open CFSG.Quasithin.H13.LocDbl.DcNative CFSG.KC.E64F
 
-variable {K : DcK} {xt xti : Nat → Nat → Nat}
+variable {K : DcKData} {xt xti : Nat → Nat → Nat}
 
 theorem gd_eq {f : Nat → Nat} {w : List Nat} (h : ∀ p < K.n, f p = wordF K.ab w p) :
     K.gd f w = wordF K.ab w := by
   funext q
-  unfold DcK.gd
+  unfold DcKData.gd
   split
   · exact h q ‹_›
   · rfl
@@ -21,7 +21,7 @@ theorem gd_eq {f : Nat → Nat} {w : List Nat} (h : ∀ p < K.n, f p = wordF K.a
 theorem tabs_spec (ht : K.tabsOK xt xti 0 K.reps.size = true) {j : Nat} (hj : j < K.reps.size) :
     (∀ p < K.n, xt j p = wordF K.ab (K.reps.getD j []) p) ∧
       ∀ p < K.n, xti j p = wordF K.ab (invW (K.reps.getD j [])) p := by
-  unfold DcK.tabsOK at ht
+  unfold DcKData.tabsOK at ht
   have h := List.all_eq_true.1 ht j (List.mem_range'_1.2 ⟨Nat.zero_le _, by omega⟩)
   refine ⟨fun p hp => ?_, fun p hp => ?_⟩ <;>
   · have hp' := List.all_eq_true.1 h p (List.mem_range.2 hp)
@@ -31,27 +31,27 @@ theorem tabs_spec (ht : K.tabsOK xt xti 0 K.reps.size = true) {j : Nat} (hj : j 
 theorem conjKeyT_eq (ht : K.tabsOK xt xti 0 K.reps.size = true) {i j : Nat}
     (hi : i < K.reps.size) (hj : j < K.reps.size) (k : Nat) :
     K.conjKeyT xt xti i j k = K.conjKey2 i j k := by
-  unfold DcK.conjKeyT DcK.conjKey2
+  unfold DcKData.conjKeyT DcKData.conjKey2
   rw [gd_eq (tabs_spec ht hj).1, gd_eq (tabs_spec ht hi).2]
 
 theorem distOKN_of_T (ht : K.tabsOK xt xti 0 K.reps.size = true) {I : List Nat}
     {P : Nat → Nat → Nat → Nat} (h : K.distOKNT xt xti I P = true) : K.distOKN I P = true := by
-  simp only [DcK.distOKNT, DcK.distOKN, Bool.and_eq_true, List.all_eq_true, List.mem_range,
+  simp only [DcKData.distOKNT, DcKData.distOKN, Bool.and_eq_true, List.all_eq_true, List.mem_range,
     Bool.or_eq_true] at h ⊢
   obtain ⟨h1, h3⟩ := h
   refine ⟨h1, fun i hi j hj => ?_⟩
   have e : K.noHitKT xt xti i j (P i j) = K.noHitK i j (P i j) := by
-    simp only [DcK.noHitKT, DcK.noHitK, conjKeyT_eq ht hi hj]
+    simp only [DcKData.noHitKT, DcKData.noHitK, conjKeyT_eq ht hi hj]
   rw [← e]
   exact h3 i hi j hj
 
 theorem hitOK_of_T (ht : K.tabsOK xt xti 0 K.reps.size = true) {H : List Nat}
     (h : K.hitOKT xt xti H = true) : K.hitOK H = true := by
-  simp only [DcK.hitOKT, DcK.hitOK, Bool.and_eq_true, List.all_eq_true, List.mem_range] at h ⊢
+  simp only [DcKData.hitOKT, DcKData.hitOK, Bool.and_eq_true, List.all_eq_true, List.mem_range] at h ⊢
   obtain ⟨h1, h2⟩ := h
   refine ⟨h1, fun j hj => ?_⟩
   have e : K.hitT xt xti j = K.hit j := by
-    simp only [DcK.hitT, DcK.hit, conjKeyT_eq ht hj hj]
+    simp only [DcKData.hitT, DcKData.hit, conjKeyT_eq ht hj hj]
     rfl
   rw [← e]
   exact h2 j hj

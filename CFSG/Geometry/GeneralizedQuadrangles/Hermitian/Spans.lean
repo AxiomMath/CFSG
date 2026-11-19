@@ -186,7 +186,7 @@ theorem ncard_spanSet_of_hermitianOrder (hP : IsGeneralizedPolygon Γ 4) (hT : I
     · exfalso
       have hreg : IsRegularVertex Γ x := by
         intro y hy
-        rw [hp x y hx hy, hpt, hdeg x, if_pos hx]
+        rw [hp x y hx hy, hpt, hdeg x, ite_eq_left hx]
       have hts := t_le_s_of_isRegularVertex hP hT c (s := q ^ 2) (t := q ^ 3) hdeg hx hreg
       have hlt : q ^ 2 < q ^ 3 := Nat.pow_lt_pow_right (by omega : 1 < q) (by norm_num)
       omega

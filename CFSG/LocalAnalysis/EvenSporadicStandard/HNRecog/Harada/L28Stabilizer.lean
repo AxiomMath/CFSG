@@ -72,8 +72,7 @@ theorem L28_exists_stabilizer (h : L28Hyp A w ψ) {V : Type} [AddCommGroup V]
           simpa using this
         rw [← hval]
         group
-      · intro hnw
-        intro x hx
+      · intro hnw x hx
         obtain rfl := Set.mem_singleton_iff.mp hx
         apply Subtype.ext
         simp only [Subgroup.coe_mul]

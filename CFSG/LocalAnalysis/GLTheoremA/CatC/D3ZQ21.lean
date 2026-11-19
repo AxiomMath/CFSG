@@ -29,7 +29,7 @@ theorem J2_card_A (hK2 : ringChar K ≠ 2) {φ : ModGL Tag.D4 K →* ModGL Tag.D
     {A : Subgroup (ModGL Tag.D4 K)} (hA : A ≤ parabolicRadical Tag.D4 K Jtwo)
     (hA₁ : ∀ a ∈ A, Γ₁ * a * Γ₁⁻¹ = a) (hA₂ : ∀ a ∈ A, Γ₂ * a * Γ₂⁻¹ = a) :
     Nat.card A ≤ Nat.card K ^ 2 := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hd1 : (1 : ℤ) ≤ 1 := le_refl 1
   have hd2 : (1 : ℤ) ≤ 2 := by norm_num
   have hd3 : (1 : ℤ) ≤ 3 := by norm_num

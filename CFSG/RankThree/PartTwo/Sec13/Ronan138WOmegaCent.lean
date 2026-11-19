@@ -59,10 +59,10 @@ theorem omegaCent_holds :
   have hq2 : 2 < p ^ f :=
     Item138Proof.two_lt_of_mulEquiv (Sec6.isQuasisimple_of_mem_thetaComponentsAt hK) hF hq e
   have := hF.finite
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) F) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) F) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) F →* _)
       (QuotientGroup.mk'_surjective _)
-  haveI : Finite (MulAut (projImage (Sec4.slPi π 3 (p ^ f) F))) :=
+  have : Finite (MulAut (projImage (Sec4.slPi π 3 (p ^ f) F))) :=
     Finite.of_injective (fun α : MulAut (projImage (Sec4.slPi π 3 (p ^ f) F)) =>
       (α : projImage (Sec4.slPi π 3 (p ^ f) F) → projImage (Sec4.slPi π 3 (p ^ f) F)))
       fun _ _ h => MulEquiv.ext (congrFun h)

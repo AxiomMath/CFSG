@@ -54,7 +54,7 @@ theorem sec83Lower_of_53 (h53 : Stroth53Statement) (hInv : Sec8InvStatement) :
       fun x hx => hc.hyp.toHyp79.sq_mem_V hx, hPQ, fun ρ hρ x hx =>
         (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 (hc.Rt_le_M t hρ)) x).mp hx⟩
   obtain ⟨Mod, iM, iA, κ, hκ⟩ := exists_sectionModule hsecQ
-  haveI : Finite Mod := hκ.finite
+  have : Finite Mod := hκ.finite
   obtain ⟨ε, -, hεker, hεrange, hεeq⟩ := exists_chi_endo hκ he hVQ hZW hZV hPQ
   have hVz : ∀ x ∈ Vt M (LB M Q B) B Z t, z * x * z⁻¹ ∈ Vt M (LB M Q B) B Z t := fun x hx =>
     (Subgroup.mem_normalizer_iff.mp (hc.Rt_normalizes_Vt hs.mem hzR) x).mp hx

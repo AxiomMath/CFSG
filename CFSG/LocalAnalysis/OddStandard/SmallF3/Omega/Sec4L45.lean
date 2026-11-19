@@ -142,7 +142,7 @@ theorem sec4_inner6_decomp [Finite G] (h42 : Asc82Lemma42) (hin6 : Asc82FactInne
     sec4_eq_of_commute (H := centralizer (L : Set G)) hcyc hcC htC hcc hctx.involution hct
   exact ⟨u, c, huL, hu2, hu6, hcase, hsuc⟩
 
-theorem sec4_conj_not_mem [Finite G] (h36 : Asc82Lemma36) (h39 : Asc82Lemma39)
+theorem sec4_conj_not_mem [Finite G] (_h36 : Asc82Lemma36) (h39 : Asc82Lemma39)
     (hk6 : Asc82FactK6) {t : G} {L : Subgroup G} (hctx : Sec4Setting G t L) {s : G}
     (hs : ∃ h : G, s = h⁻¹ * t * h) (hsL : s ∈ L) (hs2 : orderOf s = 2)
     (hs6 : InducesTypeSome L s 7 1 6 (-1)) : False := by

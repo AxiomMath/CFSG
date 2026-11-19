@@ -115,7 +115,7 @@ theorem sep_third (hB : B5 w) :
     · simp
     · simp
     · exact absurd ⟨0, rfl⟩ hj
-  rcases hj' with rfl | rfl | rfl | rfl <;> fin_cases a <;> first | assumption | exact Ne.symm ‹_›
+  rcases hj' with rfl | rfl | rfl | rfl <;> fin_cases a <;> (exact Ne.symm ‹_›)
 
 end Sep
 

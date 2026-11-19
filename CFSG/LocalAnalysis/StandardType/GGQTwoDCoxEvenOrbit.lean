@@ -94,7 +94,7 @@ theorem two_pow_le_card_orbit_of_full {d : ℕ} (hd : 1 ≤ d) {v : DVec d} (hv 
       intro j
       have h := congrFun hAB j
       simp only [dFlip_apply] at h
-      by_cases h1 : j ∈ ev A <;> by_cases h2 : j ∈ ev B <;> simp only [h1, h2, if_true, if_false,
+      by_cases h1 : j ∈ ev A <;> by_cases h2 : j ∈ ev B <;> simp only [h1, h2, ite_true, ite_false,
         neg_mul, one_mul] at h ⊢
       · exact (neg_ne_self_zmod3 _ (hv j) h).elim
       · exact (neg_ne_self_zmod3 _ (hv j) h.symm).elim

@@ -19,12 +19,12 @@ open CFSG.ComponentClassification.CatalogueSchreierAlternating.DegreeSix
   (inner_conjugation_injective)
 
 theorem seitzSimpleStmt_alternatingGroup_six : SeitzSimpleStmt (alternatingGroup (Fin 6)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine seitzSimpleStmt_of_vacuous (alternatingGroup.isSimpleGroup (by simp)) ?_ ?_
   · rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card]
     norm_num
   · intro q hq hq2 E hE hbig U hU2 hUinv
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hEdvd : Nat.card E ∣ 1440 := by
       have := Subgroup.card_subgroup_dvd_card E
       rwa [CFSG.HardMathSupport.Solomon.Proving.AutSixBalance.card_mulAut_alt6] at this
@@ -128,12 +128,12 @@ section TitsCerts
 open CFSG.Sporadic.Schreier.Tits
 
 theorem seitzSimpleStmt_titsD : SeitzSimpleStmt titsD := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine seitzSimpleStmt_of_vacuous titsD_simple ?_ ?_
   · rw [card_titsD]
     norm_num
   · intro q hq hq2 E hE hbig U hU2 hUinv
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hEdvd : Nat.card E ∣ 35942400 := by
       have := Subgroup.card_subgroup_dvd_card E
       rwa [CFSG.RankThree.PartOne.KE.card_mulAut_titsD] at this

@@ -39,7 +39,7 @@ theorem sl_spec {n cnt r lo len : Nat} {L : Nat → Nat → Nat} {LV : Nat → N
   have e : Nat.add lo (k - lo) = k := by
     change lo + (k - lo) = k
     omega
-  rw [e, CFSG.KS.Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr h3)] at h'
+  rw [e, CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr h3)] at h'
   exact h'
 
 @[expose] noncomputable def PTSJ (i : Nat) : Nat → Nat := TT i 0

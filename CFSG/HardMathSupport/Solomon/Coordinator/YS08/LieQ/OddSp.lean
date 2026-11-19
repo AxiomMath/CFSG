@@ -14,6 +14,7 @@ section Sp
 
 variable (r : ℕ) {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem ea1_Sp : EA1ε (spForm r F) (fun _ => True) (natRep (StatedSp r F)) 1 := by
   have hσ : (spForm r F).σ = RingEquiv.refl F := rfl
   intro x y _ hxy
@@ -27,6 +28,7 @@ theorem ea1_Sp : EA1ε (spForm r F) (fun _ => True) (natRep (StatedSp r F)) 1 :=
     ((spForm r F).β_siegel hσ (spForm_self r F) hxy)
   exact ⟨0, g, fun v => by rw [hg v, zero_smul, add_zero, one_mul]; rfl⟩
 
+omit [Finite F] in
 theorem ea2_Sp : EA2ε (spForm r F) (fun _ => True) (natRep (StatedSp r F)) := by
   have hσ : (spForm r F).σ = RingEquiv.refl F := rfl
   intro x _

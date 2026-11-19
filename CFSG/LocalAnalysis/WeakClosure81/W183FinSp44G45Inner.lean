@@ -74,7 +74,7 @@ private theorem w183finSp44gi_autOf_uMat {a b c d : Nat} (ha : a < 4) (hb : b < 
   have hauto : autOf (uMat a b c d, 0) =
       MulAut.conj (toS4 (uMat a b c d, 0).1 (validB_symp hvalid)) *
         minorAut GF4 ^ (uMat a b c d, 0).2 := by
-    rw [autOf, dif_pos hvalid]
+    rw [autOf, dite_eq_left hvalid]
   have hto : toS4 (uMat a b c d, 0).1 (validB_symp hvalid) =
       uElt (GF4.ofNat' a) (GF4.ofNat' b) (GF4.ofNat' c) (GF4.ofNat' d) := by
     apply antiSp_ext
@@ -193,7 +193,7 @@ private noncomputable def w183finSp44gi_toS4' (z : Nat) : S4 :=
   if h : symp z = true then toS4 z h else 1
 
 private theorem w183finSp44gi_toS4'_eq {z : Nat} (h : symp z = true) :
-    w183finSp44gi_toS4' z = toS4 z h := dif_pos h
+    w183finSp44gi_toS4' z = toS4 z h := dite_eq_left h
 
 private theorem w183finSp44gi_conj_conj {G : Type*} [Group G] (g : MulAut G) (a : G) :
     MulAut.conj g (MulAut.conj a) = MulAut.conj (g a) := by
@@ -239,12 +239,12 @@ private theorem w183finSp44gi_conj_W_mem_U_of_mem_Z {b : S4}
 
 private theorem w183finSp44gi_exists_Z0 {b : S4} (hb : b ∈ antiUnipotentCenter GF4)
     (hbw : MulAut.conj w183finSp44gi_W b ∈ antiUnipotentCenter GF4) :
-    ∃ (z : Nat) (hz : z ∈ Z0list), inZ0 (weylConj z) = true ∧
+    ∃ (z : Nat) (_hz : z ∈ Z0list), inZ0 (weylConj z) = true ∧
       w183finSp44gi_toS4' z = b := by
   obtain ⟨y, z, hb_eq⟩ := hb
   obtain ⟨n, hn, hy⟩ := w183finSp44gi_ofNat'_surj y
-  obtain ⟨k, hk, hz⟩ := w183finSp44gi_ofNat'_surj z
-  rw [← hy, ← hz] at hb_eq
+  obtain ⟨k, hk, _hz⟩ := w183finSp44gi_ofNat'_surj z
+  rw [← hy, ← _hz] at hb_eq
   have hzmem : uMat 0 n k 0 ∈ Z0list := w183finSp44gi_uMat_mem_Z0 hn hk
   have hsymp := w183finSp44gi_symp_of_Z0 hzmem
   have hto : toS4 (uMat 0 n k 0) hsymp = uElt 0 (GF4.ofNat' n) (GF4.ofNat' k) 0 := by
@@ -277,7 +277,7 @@ private theorem w183finSp44gi_card_le_four {B : Subgroup S4}
     have h1 : z b1 = z b2 := congrArg Subtype.val h
     apply Subtype.ext
     rw [← hb b1, ← hb b2, h1]
-  haveI : Fintype ↥((Z0list.filter Pp).toFinset) := Finset.fintypeCoeSort _
+  have : Fintype ↥((Z0list.filter Pp).toFinset) := Finset.fintypeCoeSort _
   calc Nat.card B ≤ Nat.card ↥((Z0list.filter Pp).toFinset) :=
         Nat.card_le_card_of_injective f hf
     _ = ((Z0list.filter Pp).toFinset).card := by
@@ -287,8 +287,8 @@ private theorem w183finSp44gi_card_le_four {B : Subgroup S4}
 
 private theorem w183finSp44gi_exists_conj_le_Psub (A : Subgroup (MulAut S4))
     (hA : IsPGroup 2 A) : ∃ k : MulAut S4, A.map (MulAut.conj k).toMonoidHom ≤ Psub := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut S4) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut S4) :=
     Finite.of_injective (fun f : MulAut S4 => (f : S4 → S4))
       (fun f g h => MulEquiv.ext (congrFun h))
   let P' : Subgroup ↥(⊤ : Subgroup (MulAut S4)) := Psub.subgroupOf ⊤
@@ -301,8 +301,8 @@ private theorem w183finSp44gi_exists_conj_le_Psub (A : Subgroup (MulAut S4))
   let P'' : Sylow 2 ↥(⊤ : Subgroup (MulAut S4)) := hP'grp.toSylow hP'idx
   have hP''coe : (P'' : Subgroup ↥(⊤ : Subgroup (MulAut S4))) = Psub.subgroupOf ⊤ :=
     IsPGroup.toSylow_coe _ _
-  haveI : P''.FiniteIndex := inferInstance
-  haveI : Finite (Sylow 2 ↥(⊤ : Subgroup (MulAut S4))) := Sylow.finite_of_finiteIndex P''
+  have : P''.FiniteIndex := inferInstance
+  have : Finite (Sylow 2 ↥(⊤ : Subgroup (MulAut S4))) := Sylow.finite_of_finiteIndex P''
   obtain ⟨P₁, hP₁⟩ := (hA.comap_subtype (K := (⊤ : Subgroup (MulAut S4)))).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥(⊤ : Subgroup (MulAut S4))) P₁ P''
   refine ⟨(g : MulAut S4), ?_⟩

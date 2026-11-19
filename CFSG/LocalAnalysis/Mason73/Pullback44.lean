@@ -15,14 +15,17 @@ variable {G : Type} [Group G] [Finite G]
 abbrev preimageOddCore (Y : Subgroup G) (M : Subgroup (Y ⧸ oddCore Y)) : Subgroup G :=
   (M.comap (QuotientGroup.mk' (oddCore Y))).map Y.subtype
 
+omit [Finite G] in
 theorem preimageOddCore_le (Y : Subgroup G) (M : Subgroup (Y ⧸ oddCore Y)) :
     preimageOddCore Y M ≤ Y :=
   map_subtype_le _
 
+omit [Finite G] in
 theorem mem_preimageOddCore {Y : Subgroup G} {M : Subgroup (Y ⧸ oddCore Y)} {y : Y}
     (hy : QuotientGroup.mk' (oddCore Y) y ∈ M) : (y : G) ∈ preimageOddCore Y M :=
   ⟨y, hy, rfl⟩
 
+omit [Finite G] in
 theorem preimageOddCore_subgroupOf_normal (Y : Subgroup G) (M : Subgroup (Y ⧸ oddCore Y))
     [M.Normal] : ((preimageOddCore Y M).subgroupOf Y).Normal := by
   have h : (preimageOddCore Y M).subgroupOf Y = M.comap (QuotientGroup.mk' (oddCore Y)) :=

@@ -70,7 +70,7 @@ theorem glaPLayer_top_subgroupOf {p : ℕ} (hp : p.Prime) {J B : Subgroup G}
   have hJH : J ≤ H := le_sup_left
   have hBH : B ≤ H := le_sup_right
   have hHN : H ≤ Subgroup.normalizer (J : Set G) := sup_le Subgroup.le_normalizer hBJ
-  haveI : (J.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJH).2 hHN
+  have : (J.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJH).2 hHN
   have hKB : J.subgroupOf H ⊔ B.subgroupOf H = ⊤ := by
     apply Subgroup.map_injective H.subtype_injective
     rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hJH,
@@ -112,18 +112,20 @@ theorem glaPLayer_map_ne_bot {A A' : Type*} [Group A] [Group A'] [Finite A] {p :
 
 theorem card_le_of_pow_eq_one_of_isCyclic {Z : Type*} [Group Z] [Finite Z] [IsCyclic Z] {p : ℕ}
     (hp : 0 < p) (S : Subgroup Z) (hS : ∀ x ∈ S, x ^ p = 1) : Nat.card S ≤ p := by
-  haveI : IsCyclic S := Subgroup.isCyclic S
+  have : IsCyclic S := Subgroup.isCyclic S
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥S)
   have h1 : Nat.card S = orderOf g := (orderOf_eq_card_of_forall_mem_zpowers hg).symm
   have h2 : orderOf g ∣ p := orderOf_dvd_of_pow_eq_one (Subtype.ext (hS g g.2))
   exact h1 ▸ Nat.le_of_dvd hp h2
 
+omit [Finite G] in
 theorem subgroupOf_sup_sup_eq_top (J B : Subgroup G) :
     J.subgroupOf (J ⊔ B) ⊔ B.subgroupOf (J ⊔ B) = ⊤ := by
   apply Subgroup.map_injective (J ⊔ B).subtype_injective
   rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le le_sup_left,
     Subgroup.map_subgroupOf_eq_of_le le_sup_right, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem mem_oPPrimeP_of_central {p : ℕ} {K : Subgroup G} {k : G} (hk : k ∈ K)
     (hc : ∀ y ∈ K, k * y = y * k) (hp : k ^ p = 1) : k ∈ oPPrimeP p K := by
   set z : PQuot p K := QuotientGroup.mk' (GLAPPrimeCore p ↥K) ⟨k, hk⟩ with hz
@@ -156,23 +158,23 @@ theorem mem_oPPrimeP_of_central {p : ℕ} {K : Subgroup G} {k : G} (hk : k ∈ K
 
 theorem pCore_le_center_of_isQuasisimple {p : ℕ} (hp : p.Prime) {Q : Type*} [Group Q] [Finite Q]
     (hq : CFSG.Open.IsQuasisimple Q) : CFSG.pCore p Q ≤ Subgroup.center Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine le_center_of_normal_of_isQuasisimple hq inferInstance ?_
   intro htop
   have hPG : IsPGroup p Q := by
     have h1 := CFSG.pCore_isPGroup (p := p) (G := Q)
     rw [htop] at h1
     exact h1.of_equiv Subgroup.topEquiv
-  haveI : Nontrivial Q := isQuasisimple_nontrivial hq
-  haveI : Group.IsPerfect Q := ⟨hq.1⟩
-  haveI : Group.IsNilpotent Q := hPG.isNilpotent
+  have : Nontrivial Q := isQuasisimple_nontrivial hq
+  have : Group.IsPerfect Q := ⟨hq.1⟩
+  have : Group.IsNilpotent Q := hPG.isNilpotent
   exact Group.IsPerfect.not_isSolvable Q inferInstance
 
 theorem pRank_oPPrimeP_le_one {p : ℕ} (hp : p.Prime) {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (PQuot p K)) (hcyc : IsCyclic (Subgroup.center (PQuot p K))) :
     CFSG.Open.pRank p (oPPrimeP p K) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hcyc
+  have : Fact p.Prime := ⟨hp⟩
+  have := hcyc
   set Q := PQuot p K with hQ
   have hpc : CFSG.pCore p Q ≤ Subgroup.center Q := pCore_le_center_of_isQuasisimple hp hq
   refine CFSG.SectionRank.pRank_le hp.one_lt fun E hEle hEel => ?_
@@ -219,7 +221,7 @@ theorem pRank_oPPrimeP_le_one {p : ℕ} (hp : p.Prime) {K : Subgroup G}
 
 theorem isCatalogGroup_center_quotient' {Y : Type*} [Group Y] (hY : CFSG.Open.IsKGroup Y)
     (hq : CFSG.Open.IsQuasisimple Y) : IsCatalogGroup (Y ⧸ Subgroup.center Y) := by
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   refine hY.isCatalogGroup_of_surjective ⊤
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hq)
     ((QuotientGroup.mk' (Subgroup.center Y)).comp (⊤ : Subgroup Y).subtype) ?_
@@ -237,14 +239,14 @@ theorem exists_mem_ker_mul_commute_of_isPGroup {p : ℕ} (hp : p.Prime) (ψ : A 
     (hN : ¬ p ∣ Nat.card ψ.ker) {E : Subgroup A} (hE : IsPGroup p E) {k : A}
     (hk : ∀ e ∈ E, ψ k * ψ e = ψ e * ψ k) : ∃ n ∈ ψ.ker, ∀ e ∈ E, k * n * e = e * (k * n) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem : ∀ g ∈ E, ∀ o ∈ ψ.ker, k⁻¹ * (g * (k * o) * g⁻¹) ∈ ψ.ker := by
     intro g hg o ho
     rw [MonoidHom.mem_ker] at ho ⊢
     have h1 : ψ g * ψ k * (ψ g)⁻¹ = ψ k := by
       rw [← hk g hg, mul_inv_cancel_right]
     rw [map_mul, map_mul, map_mul, map_mul, map_inv, map_inv, ho, mul_one, h1, inv_mul_cancel]
-  letI act : MulAction E ψ.ker :=
+  let act : MulAction E ψ.ker :=
     { smul := fun g o => ⟨k⁻¹ * ((g : A) * (k * (o : A)) * (g : A)⁻¹), hmem g g.2 o o.2⟩
       one_smul := fun o => Subtype.ext (show k⁻¹ * (((1 : E) : A) * (k * (o : A)) *
           ((1 : E) : A)⁻¹) = (o : A) by simp)
@@ -355,7 +357,7 @@ theorem mem_normalizer_inf' {A : Type*} [Group A] {S T : Subgroup A} {g : A}
     g ∈ Subgroup.normalizer ((S ⊓ T : Subgroup A) : Set A) := by
   rw [Subgroup.mem_normalizer_iff] at hS hT ⊢
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (hS h) (hT h)
 
 end Helpers
@@ -395,11 +397,11 @@ theorem exists_elemAbelian_center_pQuot' {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (K : Subgroup X) (hnc : ¬ IsCyclic (Subgroup.center (PQuot p K))) :
     ∃ U : Subgroup (PQuot p K), U ≤ Subgroup.center (PQuot p K) ∧ IsElemAbelian p U ∧
       Nat.card U = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p (Subgroup.center (PQuot p K))) := ⟨isPGroup_center_pQuot' hp K⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p (Subgroup.center (PQuot p K))) := ⟨isPGroup_center_pQuot' hp K⟩
   obtain ⟨E, -, hcard, hE⟩ := CFSG.lemma_4_5_a hp2 hnc
-  haveI := hE
-  haveI : CFSG.IsElementaryAbelian p (E.map (Subgroup.center (PQuot p K)).subtype) :=
+  have := hE
+  have : CFSG.IsElementaryAbelian p (E.map (Subgroup.center (PQuot p K)).subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   refine ⟨E.map (Subgroup.center (PQuot p K)).subtype, Subgroup.map_subtype_le E,
     ⟨inferInstance, fun x hx => CFSG.elemPow_eq_one_of_isElementaryAbelian x hx⟩, ?_⟩
@@ -409,7 +411,7 @@ theorem isCyclic_center_pQuot_of_pRank_le_one {p : ℕ} (hp : p.Prime) (hp2 : p 
     {K : Subgroup X} (h : CFSG.Open.pRank p (oPPrimeP p K) ≤ 1) :
     IsCyclic (Subgroup.center (PQuot p K)) := by
   by_contra hnc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, hUc, hUel, hUcard⟩ := exists_elemAbelian_center_pQuot' hp hp2 K hnc
   have hNc : ¬ p ∣ Nat.card (GLAPPrimeCore p ↥K) :=
     (Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card
@@ -456,6 +458,7 @@ section Lift
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem mem_normalizer_of_normal {N : Subgroup X} [N.Normal] (g : X) :
     g ∈ Subgroup.normalizer (N : Set X) :=
   (Subgroup.normalizer_eq_top_iff.2 ‹N.Normal›).symm ▸ Subgroup.mem_top g
@@ -499,7 +502,7 @@ theorem lift_isGB {p : ℕ} (hp : p.Prime) {K B N : Subgroup X} [N.Normal] (hNK 
     hNp (hd.trans (Subgroup.card_dvd_of_le inf_le_right))
 
 theorem lift_bmax {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B N : Subgroup X} [N.Normal]
-    [hKn : K.Normal] (hNK : N ≤ K) (hNp : ¬ p ∣ Nat.card N) (hBel : IsElemAbelian p B)
+    [hKn : K.Normal] (_hNK : N ≤ K) (hNp : ¬ p ∣ Nat.card N) (hBel : IsElemAbelian p B)
     (hrk : GLATwoLocalRank p (X ⧸ N) = GLATwoLocalRank p X)
     (hZ : ∀ w ∈ oPPrimeP p K, ∀ y ∈ K.map (QuotientGroup.mk' N),
       y * QuotientGroup.mk' N w = QuotientGroup.mk' N w * y)
@@ -511,11 +514,11 @@ theorem lift_bmax {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B N : Subgroup X} 
     ∃ A : Subgroup X, GLAIsBmax p A ∧ ¬ (A ⊓ K ≤ oPPrimeP p K) ∧
       ∀ a ∈ A, ∃ u ∈ A ⊓ B, ∃ v ∈ A ⊓ K, a = u * v := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π := QuotientGroup.mk' N with hπ
   have hker : π.ker = N := QuotientGroup.ker_mk' N
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective N
-  haveI hKbn : (K.map π).Normal := Subgroup.Normal.map hKn π hsurj
+  have hKbn : (K.map π).Normal := Subgroup.Normal.map hKn π hsurj
   obtain ⟨hAel, hAcard, Ub, hUb, hUb2, hAUb⟩ := hAb
   have hmemN : ∀ n ∈ N, π n = 1 := fun n hn => (QuotientGroup.eq_one_iff n).2 hn
   set D : Subgroup X := B ⊓ Ab.comap π with hD
@@ -537,7 +540,7 @@ theorem lift_bmax {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B N : Subgroup X} 
     intro d hd
     have h1 : d ∈ Subgroup.normalizer ((Ab.comap π : Subgroup X) : Set X) :=
       Subgroup.le_normalizer hd.2
-    haveI : ((K.map π).comap π).Normal := Subgroup.Normal.comap hKbn π
+    have : ((K.map π).comap π).Normal := Subgroup.Normal.comap hKbn π
     have h2 : d ∈ Subgroup.normalizer (((K.map π).comap π : Subgroup X) : Set X) :=
       mem_normalizer_of_normal d
     have hE'eq : E' = Ab.comap π ⊓ (K.map π).comap π := Subgroup.comap_inf _ _ _
@@ -673,6 +676,7 @@ theorem exists_glaIsBmax' {p : ℕ} (hp : 1 < p) (h : 0 < GLATwoLocalRank p X) :
   refine ⟨E, hE, ?_, P, hP, hP2, hEH⟩
   rw [hEc, hHk, ← hS]
 
+omit [Finite X] in
 theorem ker_conjNormal (K : Subgroup X) [K.Normal] :
     (MulAut.conjNormal (H := K)).ker = Subgroup.centralizer (K : Set X) := by
   ext x
@@ -689,6 +693,7 @@ theorem ker_conjNormal (K : Subgroup X) [K.Normal] :
     rw [mul_inv_eq_iff_eq_mul]
     exact (h y hy).symm
 
+omit [Finite X] in
 theorem conjNormal_eq_conj_iff (K : Subgroup X) [K.Normal] (x : X) (k : ↥K) :
     MulAut.conjNormal (H := K) x = MulAut.conj k ↔ ∀ y ∈ K, x * y * x⁻¹ = (k : X) * y * (k : X)⁻¹ := by
   constructor
@@ -699,6 +704,7 @@ theorem conjNormal_eq_conj_iff (K : Subgroup X) [K.Normal] (x : X) (k : ↥K) :
     ext ⟨y, hy⟩
     simpa [MulAut.conjNormal_apply, MulAut.conj_apply] using h y hy
 
+omit [Finite X] in
 theorem le_normalizer_of_commute {S T : Subgroup X} (hc : ∀ s ∈ S, ∀ t ∈ T, s * t = t * s) :
     S ≤ Subgroup.normalizer (T : Set X) := fun s hs => by
   rw [Subgroup.mem_normalizer_iff]
@@ -720,6 +726,7 @@ theorem le_normalizer_of_commute {S T : Subgroup X} (hc : ∀ s ∈ S, ∀ t ∈
     rw [← h2]
     exact hh
 
+omit [Finite X] in
 theorem isElemAbelian_sup_of_commute {p : ℕ} {S T : Subgroup X} (hS : IsElemAbelian p S)
     (hT : IsElemAbelian p T) (hc : ∀ s ∈ S, ∀ t ∈ T, s * t = t * s) :
     IsElemAbelian p (S ⊔ T) := by
@@ -753,7 +760,7 @@ theorem isElemAbelian_sup_of_commute {p : ℕ} {S T : Subgroup X} (hS : IsElemAb
 theorem card_le_of_le_center {K S : Subgroup X} (hcyc : IsCyclic (Subgroup.center ↥K)) {p : ℕ}
     (hp : 0 < p) (hSK : S ≤ K) (hSc : S ≤ Subgroup.centralizer (K : Set X))
     (hS : ∀ s ∈ S, s ^ p = 1) : Nat.card S ≤ p := by
-  haveI := hcyc
+  have := hcyc
   set S' : Subgroup ↥K := S.subgroupOf K with hS'
   have hS'c : S' ≤ Subgroup.center ↥K := by
     intro s hs
@@ -797,14 +804,14 @@ theorem center_isPGroup (c : CoreCtx p K B) : IsPGroup p (Subgroup.center ↥K) 
   isPGroup_center_of_pPrimeCore_eq_bot' c.prime c.core
 
 theorem p_dvd_card (c : CoreCtx p K B) : p ∣ Nat.card ↥K := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   by_contra h
   have hcop : Nat.Coprime p (Nat.card ↥(⊤ : Subgroup ↥K)) := by
     rw [Subgroup.card_top]
     exact (Nat.Prime.coprime_iff_not_dvd c.prime).2 h
   have hle : (⊤ : Subgroup ↥K) ≤ GLAPPrimeCore p ↥K := le_sSup ⟨inferInstance, hcop⟩
   rw [c.core] at hle
-  haveI : Nontrivial ↥K := isQuasisimple_nontrivial c.hat.1
+  have : Nontrivial ↥K := isQuasisimple_nontrivial c.hat.1
   obtain ⟨a, b, hab⟩ := exists_pair_ne ↥K
   exact hab (by
     have ha := Subgroup.mem_bot.1 (hle (Subgroup.mem_top a))
@@ -822,7 +829,7 @@ theorem glaPLayer_ne_bot (c : CoreCtx p K B) : GLAPLayer p K ≠ ⊥ := by
     unfold barX
     rw [Subgroup.bot_subgroupOf, Subgroup.map_bot]
   rw [h1] at h
-  haveI : Nontrivial (↥K ⧸ GLAPPrimeCore p ↥K) := isQuasisimple_nontrivial hq
+  have : Nontrivial (↥K ⧸ GLAPPrimeCore p ↥K) := isQuasisimple_nontrivial hq
   exact bot_ne_top h
 
 end CoreCtx
@@ -845,7 +852,7 @@ theorem core_isGB_of_card_ge {p : ℕ} {K B : Subgroup X} [K.Normal] (c : CoreCt
 
 theorem core_rank_le {p : ℕ} {K B : Subgroup X} [K.Normal] (c : CoreCtx p K B) :
     p ^ GLATwoLocalRank p ↥K ≤ p * Nat.card ↥(B.map (MulAut.conjNormal (H := K))) := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   set D : Subgroup (MulAut ↥K) := B.map (MulAut.conjNormal (H := K)) with hD
   set B₀ := CoreCtx.B0 K B with hB₀
   have hcard : Nat.card B = Nat.card B₀ * Nat.card D := by
@@ -891,6 +898,7 @@ theorem core_rank_le {p : ℕ} {K B : Subgroup X} [K.Normal] (c : CoreCtx p K B)
       _ = (p * Nat.card D) * Nat.card B₀ := by rw [hcard]; ring
   exact Nat.le_of_mul_le_mul_right key hB₀pos
 
+omit [Finite X] in
 theorem inf_centralizer_sup_zpowers_eq {K S : Subgroup X}
     (hS : S ≤ Subgroup.centralizer (K : Set X)) (b : X) :
     K ⊓ Subgroup.centralizer ((S ⊔ Subgroup.zpowers b : Subgroup X) : Set X) =
@@ -908,6 +916,7 @@ theorem inf_centralizer_sup_zpowers_eq {K S : Subgroup X}
       · exact Subgroup.mem_centralizer_singleton_iff.2 (Subgroup.mem_centralizer_singleton_iff.1 hb).symm
     exact Subgroup.mem_centralizer_singleton_iff.1 (hle hh)
 
+omit [Finite X] in
 theorem inf_centralizer_singleton_eq_map (K : Subgroup X) [K.Normal] (b : X) :
     K ⊓ Subgroup.centralizer ({b} : Set X) =
       (fixSub (MulAut.conjNormal (H := K) b)).map K.subtype := by
@@ -945,7 +954,7 @@ theorem exists_quot_elemAbelian {K : Type*} [Group K] [Finite K] [Group.IsPerfec
 theorem card_sup_zpowers {p : ℕ} (hp : p.Prime) {B S : Subgroup X} (hB : IsElemAbelian p B)
     (hSB : S ≤ B) {b : X} (hb : b ∈ B) (hbS : b ∉ S) :
     Nat.card ↥(S ⊔ Subgroup.zpowers b) = Nat.card S * p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hb1 : b ≠ 1 := fun h => hbS (h ▸ S.one_mem)
   have hord : orderOf b = p := orderOf_eq_prime (hB.2 b hb) hb1
   have hz : Nat.card (Subgroup.zpowers b) = p := by rw [Nat.card_zpowers, hord]
@@ -968,6 +977,7 @@ theorem card_sup_zpowers {p : ℕ} (hp : p.Prime) {B S : Subgroup X} (hB : IsEle
   rw [hinf, mul_one, hz] at hprod
   exact hprod
 
+omit [Finite X] in
 theorem card_le_mul_card_of_quot {B C : Subgroup X} (hCB : C ≤ B) {Y : Type*} [Finite Y]
     (f : ↥B → Y) (hf : ∀ a b : ↥B, f a = f b ↔ a⁻¹ * b ∈ C.subgroupOf B) :
     Nat.card B ≤ Nat.card Y * Nat.card C := by
@@ -1008,10 +1018,11 @@ def omegaCenter (K : Subgroup X) (p : ℕ) : Subgroup X where
 
 theorem card_omegaCenter_le {K : Subgroup X} (hcyc : IsCyclic (Subgroup.center ↥K)) {p : ℕ}
     (hp : 0 < p) : Nat.card (omegaCenter K p) ≤ p :=
-  card_le_of_le_center hcyc hp (fun x hx => hx.1)
-    (fun x hx => Subgroup.mem_centralizer_iff.2 fun y hy => (hx.2.1 y hy).symm)
-    (fun x hx => hx.2.2)
+  card_le_of_le_center hcyc hp (fun _x hx => hx.1)
+    (fun _x hx => Subgroup.mem_centralizer_iff.2 fun y hy => (hx.2.1 y hy).symm)
+    (fun _x hx => hx.2.2)
 
+omit [Finite X] in
 theorem isElemAbelian_zpowers {p : ℕ} {u : X} (hup : u ^ p = 1) :
     IsElemAbelian p (Subgroup.zpowers u) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -1023,6 +1034,7 @@ theorem isElemAbelian_zpowers {p : ℕ} {u : X} (hup : u ^ p = 1) :
   · obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hup, one_zpow]
 
+omit [Finite X] in
 theorem step2_mem_omega {p : ℕ} {K B : Subgroup X} [K.Normal] (hB : IsElemAbelian p B) {b u : X}
     (hbB : b ∈ B) (huK : u ∈ K) (hup : u ^ p = 1)
     (hbu : ∀ y ∈ K, b * y * b⁻¹ = u * y * u⁻¹) {c : X} (hc : c ∈ B) :
@@ -1114,7 +1126,7 @@ theorem card_le_of_pow_central {M : Type*} [Group M] [Finite M] {p : ℕ} (hp : 
     (hb : ∀ k ∈ Dh, ∀ k' ∈ Dh, ⁅k, k'⁆ ∈ Subgroup.center M)
     (hc : ∀ k ∈ Dh, k ^ p = 1 → k ∈ Subgroup.center M) :
     Nat.card Dh ≤ p * Nat.card (Subgroup.center M) := by
-  haveI := hcyc
+  have := hcyc
   have hcentral : ∀ z ∈ Subgroup.center M, ∀ g : M, z * g = g * z := fun z hz g =>
     (Subgroup.mem_center_iff.1 hz g).symm
   have hz_pow : ∀ k ∈ Dh, ∀ k' ∈ Dh, ⁅k', k⁆ ^ p = 1 := by
@@ -1228,7 +1240,7 @@ theorem core_card_inner_le {X : Type} [Group X] [Finite X] {p : ℕ} {K B : Subg
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (hno b hb k k.2 h2 h1 g g.2).symm
-  haveI := c.cyc
+  have := c.cyc
   have h1 := card_le_of_pow_central c.prime c.odd c.cyc hcD ha hb hc
   have h2 := card_eq_card_inf_ker_mul_card_map cj Dh
   have h3 : Dh ⊓ cj.ker = Subgroup.center ↥K := by
@@ -1392,12 +1404,12 @@ end Lemma91
 
 theorem i2611Printed_of_core (hcore : I2611Core) : I2611Printed := by
   intro X _ _ p hp hp2 K B hK hhat hodd hBel _hKB hT hcard h4 he1 he2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hKn : K.Normal := hK ▸ glaPLayer_top_normal p
+  have : Fact p.Prime := ⟨hp⟩
+  have hKn : K.Normal := hK ▸ glaPLayer_top_normal p
   set N : Subgroup X := GLAPPrimeCoreOf p K with hNdef
   have hNK : N ≤ K := Subgroup.map_subtype_le _
   have hNp : ¬ p ∣ Nat.card N := not_dvd_card_glaPPrimeCoreOf hp K
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p K
     rw [Subgroup.normalizer_eq_top_iff.2 hKn, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h
@@ -1414,7 +1426,7 @@ theorem i2611Printed_of_core (hcore : I2611Core) : I2611Printed := by
     (QuotientGroup.quotientMulEquivOfEq hfker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective f hfsurj)
   have hhat' : IsKHat ↥(K.map π) := IsKHat.of_mulEquiv e₀ hhat
-  haveI hKbn : (K.map π).Normal := hKn.map π hsurj
+  have hKbn : (K.map π).Normal := hKn.map π hsurj
   have hcore' : GLAPPrimeCore p ↥(K.map π) = ⊥ := by
     have h1 := glaPPrimeCore_map_of_surjective hp f hfsurj (by rw [hfker]; exact hNcop)
     rw [← h1, ← hfker]
@@ -1431,7 +1443,7 @@ theorem i2611Printed_of_core (hcore : I2611Core) : I2611Printed := by
   have hBcard : Nat.card (B.map π) = Nat.card B := card_map_eq_of_disjoint_ker π hBdisj
   have hBel' : IsElemAbelian p (B.map π) := CFSG.SectionRank.isElemAbelian_map hBel π
   obtain ⟨T, hTK, hT1, hT2, hBT⟩ := hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTdisj : Disjoint T π.ker := by
     rw [hker]
     obtain ⟨kT, hkT⟩ := hT2.exists_card_eq
@@ -1483,7 +1495,7 @@ theorem i2611Printed_of_core (hcore : I2611Core) : I2611Printed := by
 theorem i2611_step1 (hKD26a : KD26a) (hKD26bc : KD26bc) (hKD26d : KD26d) {X : Type} [Group X]
     [Finite X] {p : ℕ} {K B : Subgroup X} [K.Normal] (c : CoreCtx p K B)
     (hI : B.map (MulAut.conjNormal (H := K)) ⊓ inner ↥K = ⊥) : IsGB p B K := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   set D : Subgroup (MulAut ↥K) := B.map (MulAut.conjNormal (H := K)) with hD
   set B₀ := CoreCtx.B0 K B with hB₀
   have hDel : IsElemAbelian p D := CFSG.SectionRank.isElemAbelian_map c.elem _
@@ -1522,7 +1534,7 @@ theorem i2611_step1 (hKD26a : KD26a) (hKD26bc : KD26bc) (hKD26d : KD26d) {X : Ty
   by_cases hU : p = 3 ∧ IsLnEps (↥K ⧸ Subgroup.center ↥K) 3 8 false
   · exfalso
     obtain ⟨hp3, hS⟩ := hU
-    haveI : Group.IsPerfect ↥K := ⟨c.hat.1.1⟩
+    have : Group.IsPerfect ↥K := ⟨c.hat.1.1⟩
     obtain ⟨D', hD'el, hD'card, hD'I⟩ := exists_quot_elemAbelian hDel hI
     subst hp3
     obtain ⟨x, hx, hx1⟩ := hKD26d (↥K ⧸ Subgroup.center ↥K) hS D' hD'el
@@ -1549,7 +1561,7 @@ theorem i2611_step2 {X : Type} [Group X] [Finite X] {p : ℕ} {K B : Subgroup X}
     (hbu : ∀ y ∈ K, b * y * b⁻¹ = u * y * u⁻¹) :
     ∃ A : Subgroup X, GLAIsBmax p A ∧ (∃ w ∈ A ⊓ K, ∃ y ∈ K, w * y ≠ y * w) ∧
       ∀ a ∈ A, ∃ v ∈ A ⊓ B, ∃ w ∈ A ⊓ K, a = v * w := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   obtain ⟨T, hTK, hT1, hT2, hBT⟩ := c.two
   set C : Subgroup X := B ⊓ Subgroup.centralizer ({u} : Set X) with hC
   have hCel : IsElemAbelian p C := isElemAbelian_mono c.elem inf_le_left
@@ -1636,7 +1648,7 @@ theorem i2611_step3 (hKD26a : KD26a) (hKD26e : KD26e) (hKD26f : KD26f) (hKD26g :
     (hI : B.map (MulAut.conjNormal (H := K)) ⊓ inner ↥K ≠ ⊥)
     (hno : ∀ b ∈ B, ∀ u ∈ K, u ^ p = 1 → (∀ y ∈ K, b * y * b⁻¹ = u * y * u⁻¹) →
       ∀ y ∈ K, u * y = y * u) : IsGB p B K := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hp := c.prime
   have hp2 := c.odd
   have hp3 : 3 ≤ p := by
@@ -1719,7 +1731,7 @@ theorem i2611_step3 (hKD26a : KD26a) (hKD26e : KD26e) (hKD26f : KD26f) (hKD26g :
     rw [hdd, hii, hi1] at this
     have := Nat.pow_right_injective hp.two_le this
     omega
-  obtain ⟨α₂, hα₂D, hα₂I⟩ := SetLike.not_le_iff_exists.1 hDnotI
+  obtain ⟨α₂, hα₂D, hα₂I⟩ := IsConcreteLE.not_le_iff_exists.1 hDnotI
   have hα₂in : α₂ ∉ inner ↥K := fun h => hα₂I ⟨hα₂D, h⟩
   have hα₂p : α₂ ^ p = 1 := by
     obtain ⟨b₂, hb₂, rfl⟩ := hα₂D
@@ -1810,7 +1822,7 @@ theorem i2611_step3 (hKD26a : KD26a) (hKD26e : KD26e) (hKD26f : KD26f) (hKD26g :
 theorem i2611Core_of_kd (hKD26a : KD26a) (hKD26bc : KD26bc) (hKD26d : KD26d) (hKD26e : KD26e)
     (hKD26f : KD26f) (hKD26g : KD26g) (hKD26h : KD26h) : I2611Core := by
   intro X _ _ p hp hp2 K B hKn hcore hhat hcyc hBel hcard h4 hT hB0
-  haveI := hKn
+  have := hKn
   have c : CoreCtx p K B := ⟨hp, hp2, hcore, hhat, hcyc, hBel, hcard, h4, hT, hB0⟩
   by_cases h1 : p ^ 3 ≤ Nat.card (CoreCtx.B0 K B)
   · exact Or.inl (core_isGB_of_card_ge c h1)

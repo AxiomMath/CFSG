@@ -35,13 +35,15 @@ private theorem s168e3_seven_card_elem {X : Type*} [Group X] {p n : ℕ}
   have h1 : Nat.card X = Nat.card (Multiplicative (Fin n → ZMod p)) := Nat.card_congr e.toEquiv
   rw [h1, show Nat.card (Multiplicative (Fin n → ZMod p)) = Nat.card (Fin n → ZMod p) from rfl,
     Nat.card_fun]
-  simp [Nat.card_eq_fintype_card, ZMod.card, Fintype.card_fin]
+  simp [Nat.card_eq_fintype_card, Fintype.card_fin]
 
+omit [Finite W] in
 private theorem s168e3_seven_comm_mem (h : s16e_d3_Ctx A L 2 Δ σ) {a b : MulAut W}
     (ha : a ∈ L) (hb : b ∈ L) : a * b = b * a := by
   have h1 := s168e3_seven_comm_of_elem h.elem ⟨a, ha⟩ ⟨b, hb⟩
   simpa using h1
 
+omit [Finite W] in
 private theorem s168e3_seven_pow_mem (h : s16e_d3_Ctx A L 2 Δ σ) {a : MulAut W}
     (ha : a ∈ L) : a ^ 7 = 1 := by
   have h1 := s168e3_seven_pow_of_elem h.elem ⟨a, ha⟩

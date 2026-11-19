@@ -19,11 +19,11 @@ theorem r95_false_of_embed_P1 {F : Type} [Field F] [Finite F]
     (ι : ↥E →* ↥(P1 : Subgroup (SL3 F))) (hι : Function.Injective ι) (hE : HasL32Quot E) :
     False := by
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
-  haveI : Finite Qm := Finite.of_surjective π hπ
+  let : Group Qm := hQm
+  have : Finite Qm := Finite.of_surjective π hπ
   obtain ⟨hsimple, hcard⟩ :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hm
-  haveI : IsSimpleGroup Qm := hsimple
+  have : IsSimpleGroup Qm := hsimple
   let φ : ↥E →* GL (Fin 2) F := rho1.comp ι
   have hpow : ∀ g ∈ φ.ker, g ^ (Nat.card F ^ 2) = 1 := by
     intro g hg
@@ -40,7 +40,7 @@ theorem r95_false_of_embed_P1 {F : Type} [Field F] [Finite F]
   have hker : φ.ker ≤ π.ker := by
     intro g hg
     rw [MonoidHom.mem_ker]
-    haveI hKn : ((φ.ker).map π).Normal :=
+    have hKn : ((φ.ker).map π).Normal :=
       Subgroup.Normal.map (inferInstance : φ.ker.Normal) π hπ
     have hK := IsSimpleGroup.eq_bot_or_eq_top_of_normal ((φ.ker).map π)
     rcases hK with hK | hK
@@ -48,7 +48,7 @@ theorem r95_false_of_embed_P1 {F : Type} [Field F] [Finite F]
       rw [hK] at hπg
       exact Subgroup.mem_bot.mp hπg
     · exfalso
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hdvd3 : 3 ∣ Nat.card Qm := by rw [hcard]; norm_num
       obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := Qm) 3 hdvd3
       have hyK : y ∈ (φ.ker).map π := by rw [hK]; exact Subgroup.mem_top y
@@ -67,7 +67,7 @@ theorem r95_false_of_embed_P1 {F : Type} [Field F] [Finite F]
     intro y
     obtain ⟨x, rfl⟩ := hπ y
     exact ⟨φ.rangeRestrict x, by simp [ψ]⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, f, hp, -, hcard'⟩ := (isPrimePow_nat_iff _).1 (FiniteField.isPrimePow_card F)
   have hFc : Nat.card F = p ^ f := by
     rw [Nat.card_eq_fintype_card]

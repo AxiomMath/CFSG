@@ -174,7 +174,7 @@ theorem card_ggAutomizer_alt6_sylow_three {K : Type} [Group K] [Finite K]
     (hK : IsAltTwoP 3 K) (E : Sylow 3 K) :
     Nat.card (ggAutomizer (⊤ : Subgroup K) (E : Subgroup K)) = 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Esub : Subgroup K := E
   have hEcard : Nat.card Esub = 3 ^ 2 :=
     sylowSq_of_isAltTwoP Nat.prime_three (by norm_num) hK E
@@ -369,7 +369,7 @@ theorem rank4_transport_component
     have hcyc : IsCyclic ↥D :=
       hS.2.2.2.2 D hDcent (by
         exact (hpre.2.1.isElementaryAbelian).isPGroup)
-    haveI : CFSG.IsElementaryAbelian 3 ↥D := hpre.2.1.isElementaryAbelian
+    have : CFSG.IsElementaryAbelian 3 ↥D := hpre.2.1.isElementaryAbelian
     exact (CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq
       (p := 3) hDcard) hcyc
   have hCeq : C = L ⊓ Subgroup.centralizer ({(s : G)} : Set G) := by
@@ -688,9 +688,9 @@ theorem ggResC4_automizerL_card_eq_384
   · obtain ⟨K, hField, hFinite, hKcard, hQ⟩ := hraw
     obtain ⟨hsimple, hna, θ, hP⟩ := hQ
     obtain ⟨-, hBsN, hBs3⟩ := hP
-    letI := hField
-    letI := hFinite
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hKcard
+    let := hField
+    let := hFinite
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hKcard
     have hSC : GGTorusAutCardSC 3
         (LargeEvenProj (LargeEvenSpGroup K 4))
         (LargeEvenMatConjImage (LargeEvenProjMk _) (LargeEvenGSpSet K 4)) 4 384 :=
@@ -700,9 +700,9 @@ theorem ggResC4_automizerL_card_eq_384
   · obtain ⟨K, hField, hFinite, hKcard, hQ⟩ := hraw
     obtain ⟨hsimple, hna, θ, hP⟩ := hQ
     obtain ⟨-, hBsN, hBs3⟩ := hP
-    letI := hField
-    letI := hFinite
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hKcard
+    let := hField
+    let := hFinite
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hKcard
     have hSC : GGTorusAutCardSC 3
         (LargeEvenProj (LargeEvenSpGroup K 4))
         (LargeEvenMatConjImage (LargeEvenProjMk _) (LargeEvenGSpSet K 4)) 4 384 :=
@@ -853,7 +853,7 @@ theorem card_ggAutomizer_alt6_threeSubgroup_le_four
     (hE3 : IsPGroup 3 E) :
     Nat.card ↥(ggAutomizer (⊤ : Subgroup K) E) ≤ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨eA6⟩ := hK
   have hKcard : Nat.card K = 360 := by
     have h : Nat.card K = Nat.card (alternatingGroup (Fin 6)) := by
@@ -888,7 +888,7 @@ theorem card_ggAutomizer_alt6_threeSubgroup_le_four
     have hUnit : Nat.card Unit = 1 := by simp
     omega
   · have hE3card : Nat.card E = 3 := by simpa using hk
-    haveI : IsCyclic ↥E := isCyclic_of_prime_card hE3card
+    have : IsCyclic ↥E := isCyclic_of_prime_card hE3card
     have hAut : Nat.card (MulAut ↥E) = 2 := by
       rw [IsCyclic.card_mulAut, hE3card]
       exact Nat.totient_prime Nat.prime_three
@@ -930,7 +930,7 @@ theorem GGResHyp.card_automizer_J_eq_four_of_A6
     (hH : GGResHyp 3 B Bs x L D J y K)
     (hA6 : Nonempty (↥J ≃* alternatingGroup (Fin 6))) :
     Nat.card ↥(ggAutomizer J Bs) = 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   classical
   obtain ⟨eJ6⟩ := hA6
   have hZ6 : Subgroup.center (alternatingGroup (Fin 6)) = ⊥ := by
@@ -1470,8 +1470,8 @@ theorem ggResSmallSpFour_J_card_eq_twA3
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hRaw2
   obtain ⟨Kf, hF, hfin, hKf, hQP, hInnI⟩ := hRaw2
   obtain ⟨hQ₀, hAutP, hRankP⟩ := hQP
-  letI := hF
-  letI := hfin
+  let := hF
+  let := hfin
   obtain ⟨θ⟩ := hQ₀
   have hRankP' : GGTorusSCRank 3 3
       (LargeEvenProj (LargeEvenSUGroup (Fin 4) Kf 2))
@@ -1644,8 +1644,8 @@ theorem ggResSmallSpFour_exactThree_K_false
   let := i4
   let := i5
   let := i6
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hVcard : Nat.card V = 3 ^ 5 := by
     calc Nat.card V = Nat.card (Additive ↥Bs) := (Nat.card_congr ι.toEquiv).symm
       _ = 3 ^ 5 := hBsCard

@@ -50,8 +50,8 @@ theorem exists_fixed_mem_coset_p {G : Type} [Group G] [Finite G] {p : ℕ} (hp :
     rw [hiter p q, hd]
     simp
   have hf : f ^ p ^ 1 = 1 := by simpa using hfp
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : Fintype Q := Fintype.ofFinite Q
+  have : Fact p.Prime := ⟨hp⟩
+  let : Fintype Q := Fintype.ofFinite Q
   have hmod := Equiv.Perm.card_fixedPoints_modEq (p := p) (n := 1) hf
   have hne : Fintype.card (Function.fixedPoints f) ≠ 0 := by
     intro h0
@@ -146,7 +146,7 @@ theorem center_alt {m : ℕ} (hm : 4 ≤ m) : Subgroup.center (alternatingGroup 
 
 theorem isQuasisimple_alt {m : ℕ} (hm : 5 ≤ m) :
     CFSG.Open.IsQuasisimple ↥(alternatingGroup (Fin m)) := by
-  haveI := isSimple_alt hm
+  have := isSimple_alt hm
   have hnc : ∃ a b : ↥(alternatingGroup (Fin m)), a * b ≠ b * a := by
     by_contra hc
     push Not at hc
@@ -191,7 +191,7 @@ theorem isPiGroup_alt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {k : ℕ} (hk : 1
     IsPiGroup p (alternatingGroup (Fin (k * p + 2))) := by
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have h5 : 5 ≤ k * p + 2 := by nlinarith
-  haveI := isSimple_alt h5
+  have := isSimple_alt h5
   refine ⟨isQuasisimple_alt h5, core_eq_bot_of_simple hp
     (p_dvd_card_alt hp hp2 (by nlinarith)), Or.inl ⟨k, ⟨?_⟩⟩⟩
   exact (QuotientGroup.quotientMulEquivOfEq (center_alt (by omega))).trans QuotientGroup.quotientBot
@@ -223,12 +223,12 @@ theorem lift_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup G}
     (hA₀N : ∀ y ∈ fixedSub (barAut p K ⟨e, heN⟩), y ∈ Subgroup.normalizer (A₀ : Set (barOf p K)))
     {k : ℕ} (hk : 1 ≤ k) (g : ↥A₀ ≃* alternatingGroup (Fin (k * p + 2))) :
     A₀ ≤ barX p K (Prop1116.Ke p K e) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have h5 : 5 ≤ k * p + 2 := by nlinarith
-  haveI hsimpAlt := isSimple_alt h5
-  haveI hsimpA : IsSimpleGroup ↥A₀ := g.isSimpleGroup
-  haveI hntA : Nontrivial ↥A₀ := hsimpA.toNontrivial
+  have hsimpAlt := isSimple_alt h5
+  have hsimpA : IsSimpleGroup ↥A₀ := g.isSimpleGroup
+  have hntA : Nontrivial ↥A₀ := hsimpA.toNontrivial
   set C : Subgroup G := K ⊓ Subgroup.centralizer ({e} : Set G) with hC
   have hCK : C ≤ K := inf_le_left
   have hF : fixedSub (barAut p K ⟨e, heN⟩) = barX p K C := fixedSub_barAut_eq_p hp hep heN
@@ -346,7 +346,7 @@ theorem lift_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup G}
       (isQuasisimple_alt h5)
   have hcomp : IsComponentOf K' (⊤ : Subgroup (↥C ⧸ NC)) := by
     refine ⟨le_top, ?_, hKq⟩
-    haveI : K'.Normal := hPnorm.map _ (QuotientGroup.mk'_surjective NC)
+    have : K'.Normal := hPnorm.map _ (QuotientGroup.mk'_surjective NC)
     exact IsSubnormal.step le_top (Subgroup.Normal.subgroupOf inferInstance _) (IsSubnormal.refl _)
   obtain ⟨J, hJ, hJK⟩ := exists_glaPComponent_barX_eq (p := p) C hcomp
   let φ : barOf p J ≃* alternatingGroup (Fin (k * p + 2)) :=
@@ -381,16 +381,19 @@ variable {α : Type*} [Fintype α] [DecidableEq α]
 
 def tc (a b c : α) : Perm α := swap a b * swap b c
 
+omit [Fintype α] in
 theorem tc_conj (g : Perm α) (a b c : α) : g * tc a b c * g⁻¹ = tc (g a) (g b) (g c) := by
   unfold tc
   rw [swap_apply_apply g a b, swap_apply_apply g b c]
   group
 
+omit [Fintype α] in
 theorem tc_rot {a b c : α} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c) : tc b c a = tc a b c := by
   ext w
   simp only [tc, Perm.coe_mul, Function.comp_apply, swap_apply_def]
   split_ifs <;> grind
 
+omit [Fintype α] in
 theorem tc_inv (a b c : α) : (tc a b c)⁻¹ = tc c b a := by
   unfold tc
   rw [mul_inv_rev, swap_inv, swap_inv, swap_comm c b, swap_comm b a]
@@ -398,6 +401,7 @@ theorem tc_inv (a b c : α) : (tc a b c)⁻¹ = tc c b a := by
 def Gs (Γ : Subgroup (Perm α)) (s : Set α) : Prop :=
   ∀ a b c, a ∈ s → b ∈ s → c ∈ s → a ≠ b → b ≠ c → a ≠ c → tc a b c ∈ Γ
 
+omit [Fintype α] in
 theorem Gs_of_tc {Γ : Subgroup (Perm α)} {a b c : α} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c)
     (h : tc a b c ∈ Γ) : Gs Γ {a, b, c} := by
   have h1 : tc b c a ∈ Γ := by rwa [tc_rot hab hbc hac]
@@ -411,6 +415,7 @@ theorem Gs_of_tc {Γ : Subgroup (Perm α)} {a b c : α} (hab : a ≠ b) (hbc : b
   rcases hu with rfl | rfl | rfl <;> rcases hv with rfl | rfl | rfl <;>
     rcases hw with rfl | rfl | rfl <;> first | assumption | (exfalso; grind)
 
+omit [Fintype α] in
 theorem Gs_conj {Γ : Subgroup (Perm α)} {s : Set α} (h : Gs Γ s) {g : Perm α} (hg : g ∈ Γ) :
     Gs Γ (g '' s) := by
   rintro _ _ _ ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩ ⟨c, hc, rfl⟩ hab hbc hac
@@ -434,12 +439,12 @@ theorem alternatingGroup_le_of_swap_mul_swap {Γ : Subgroup (Perm α)} {x y : α
     have hgi : swap x y * swap x i ∈ Γ := h i hix hiy
     have hc := Gs_conj (hA j hjx hjy) hgi
     have e1 : (swap x y * swap x i) y = x := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hix, hix.symm, hiy, hiy.symm]
+      simp [swap_apply_of_ne_of_ne, hxy.symm, hiy.symm]
     have e2 : (swap x y * swap x i) x = i := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hix, hix.symm, hiy, hiy.symm]
+      simp [swap_apply_of_ne_of_ne, hix, hiy]
     have e3 : (swap x y * swap x i) j = j := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hix, hix.symm, hiy, hiy.symm, hij, hij.symm,
-        hjx, hjy, hjx.symm, hjy.symm]
+      simp [swap_apply_of_ne_of_ne, hij.symm,
+        hjx, hjy]
     simpa only [Set.image_insert_eq, Set.image_singleton, e1, e2, e3] using hc
   have hB' : ∀ i j, i ≠ j → i ≠ x → i ≠ y → j ≠ x → j ≠ y → Gs Γ {y, i, j} := by
     intro i j hij hix hiy hjx hjy
@@ -448,12 +453,12 @@ theorem alternatingGroup_le_of_swap_mul_swap {Γ : Subgroup (Perm α)} {x y : α
       exact this
     have hc := Gs_conj (hA' j hjx hjy) hgi
     have e1 : (swap x y * swap y i) x = y := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hix, hix.symm, hiy, hiy.symm]
+      simp [swap_apply_of_ne_of_ne, hxy, hix.symm]
     have e2 : (swap x y * swap y i) y = i := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hix, hix.symm, hiy, hiy.symm]
+      simp [swap_apply_of_ne_of_ne, hix, hiy]
     have e3 : (swap x y * swap y i) j = j := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hix, hix.symm, hiy, hiy.symm, hij, hij.symm,
-        hjx, hjy, hjx.symm, hjy.symm]
+      simp [swap_apply_of_ne_of_ne, hij.symm,
+        hjx, hjy]
     simpa only [Set.image_insert_eq, Set.image_singleton, e1, e2, e3] using hc
   have hC : ∀ a b c, a ≠ b → b ≠ c → a ≠ c → a ≠ x → a ≠ y → b ≠ x → b ≠ y → c ≠ x → c ≠ y →
       Gs Γ {b, a, c} := by
@@ -461,13 +466,11 @@ theorem alternatingGroup_le_of_swap_mul_swap {Γ : Subgroup (Perm α)} {x y : α
     have hgb : swap x y * swap x b ∈ Γ := h b hbx hby
     have hc := Gs_conj (hB a c hac hax hay hcx hcy) hgb
     have e1 : (swap x y * swap x b) x = b := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hbx, hbx.symm, hby, hby.symm]
+      simp [swap_apply_of_ne_of_ne, hbx, hby]
     have e2 : (swap x y * swap x b) a = a := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hax, hax.symm, hay, hay.symm, hab, hab.symm,
-        hbx, hbx.symm, hby, hby.symm]
+      simp [swap_apply_of_ne_of_ne, hax, hay, hab]
     have e3 : (swap x y * swap x b) c = c := by
-      simp [swap_apply_of_ne_of_ne, hxy, hxy.symm, hcx, hcx.symm, hcy, hcy.symm, hbc, hbc.symm,
-        hbx, hbx.symm, hby, hby.symm]
+      simp [swap_apply_of_ne_of_ne, hcx, hcy, hbc.symm]
     simpa only [Set.image_insert_eq, Set.image_singleton, e1, e2, e3] using hc
   have key : ∀ a b c : α, a ≠ b → b ≠ c → a ≠ c → tc a b c ∈ Γ := by
     intro a b c hab hbc hac
@@ -523,7 +526,7 @@ open Equiv Equiv.Perm
 theorem card_fixedPoints_modEq {p : ℕ} [Fact p.Prime] {Q : Type*} [Group Q] (hQ : IsPGroup p Q)
     {n : ℕ} (σ : Q →* Perm (Fin n)) :
     Nat.card {i : Fin n // ∀ q, σ q i = i} ≡ n [MOD p] := by
-  letI : MulAction Q (Fin n) := MulAction.compHom (Fin n) σ
+  let : MulAction Q (Fin n) := MulAction.compHom (Fin n) σ
   have h := hQ.card_modEq_card_fixedPoints (Fin n)
   rw [Nat.card_eq_fintype_card, Fintype.card_fin] at h
   have e : Nat.card (MulAction.fixedPoints Q (Fin n)) = Nat.card {i : Fin n // ∀ q, σ q i = i} :=
@@ -563,7 +566,7 @@ theorem exists_fixing_point {p : ℕ} [Fact p.Prime] {Q : Type*} [Group Q] [Fini
   push Not at hcon
   have hn2' : 2 ≤ n := by have := Nat.mod_le n p; omega
   have hF2 := two_le_card_globalFix hQ σ hn2 hp3
-  haveI hQnt : Nontrivial Q := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have hQnt : Nontrivial Q := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   obtain ⟨q₀, hq₀⟩ := exists_ne (1 : Q)
   have hiF : ¬ ∀ q, σ q i = i := fun h => hcon q₀ hq₀ (h q₀)
   let φ : Q → Fin n := fun q => σ q i
@@ -790,7 +793,7 @@ theorem inputAltGenFixed_holds :
   · exact Or.inr hlt
   refine Or.inl ?_
   have hnle : n ≤ p ^ CFSG.Open.pRank p B := not_lt.1 hlt
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   set H : Subgroup G := ⨆ (e : G) (_ : e ∈ B) (_ : e ≠ 1), Prop1116.Ke p K e with hH
   have hHK : H ≤ K := iSup_le fun e => iSup_le fun _ => iSup_le fun _ => Ke_le p K e
@@ -802,15 +805,15 @@ theorem inputAltGenFixed_holds :
   have hq : CFSG.Open.IsQuasisimple (barOf p K) :=
     (isQuasisimple_barX_iff hp hK.2.1).1 hK.2.2.1.2.2
   obtain ⟨f⟩ := hAlt
-  haveI hnt : Nontrivial (barOf p K) := by
-    haveI := hq.2.toNontrivial
+  have hnt : Nontrivial (barOf p K) := by
+    have := hq.2.toNontrivial
     exact (QuotientGroup.mk_surjective (s := Subgroup.center (barOf p K))).nontrivial
   have h5 : 5 ≤ n := by
     by_contra h
     have h4 : n ≤ 4 := by omega
-    haveI : Group.IsSolvable (alternatingGroup (Fin n)) :=
+    have : Group.IsSolvable (alternatingGroup (Fin n)) :=
       alternatingGroup.isSolvable (by simpa using h4)
-    haveI : Group.IsSolvable (barOf p K) := solvable_of_solvable_injective (f := f.toMonoidHom) f.injective
+    have : Group.IsSolvable (barOf p K) := Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
     exact absurd hq.1 (Group.IsSolvable.commutator_lt_top_of_nontrivial (barOf p K)).ne
   have h6 : n ≠ 6 := by
     rintro rfl
@@ -839,7 +842,7 @@ theorem inputAltGenFixed_holds :
     rw [hE] at h1
     exact hnle.trans h1
   have hFcard := two_le_card_globalFix hB3 σ hn2 hp3
-  haveI hnt2 : Nontrivial {j : Fin n // ∀ b : ↥B, σ b j = j} :=
+  have hnt2 : Nontrivial {j : Fin n // ∀ b : ↥B, σ b j = j} :=
     Finite.one_lt_card_iff_nontrivial.1 (by omega)
   obtain ⟨x, y, hxy⟩ := exists_pair_ne {j : Fin n // ∀ b : ↥B, σ b j = j}
   have hxy' : x.1 ≠ y.1 := fun h => hxy (Subtype.ext h)
@@ -905,7 +908,7 @@ theorem prop1117_of_inputs_fixed (h112 : Prop112Statement) (h115 : Prop115Statem
     have hb := h.standing.beta
     unfold GLABeta at hb
     exact ⟨hb.1, hb.2.1⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3le : 3 ≤ p := by have := hp.two_le; omega
   have h111 : Prop111Statement := prop111_of_prop112 h112
   by_cases hA1 : ∃ A1 : Subgroup G, inD p M A1 ∧ a ∈ A1

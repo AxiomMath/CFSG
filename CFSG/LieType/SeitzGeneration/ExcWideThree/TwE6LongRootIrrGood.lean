@@ -37,18 +37,18 @@ private theorem orbVec_fixed (σ : K ≃+* K) {γ : Dr} (h : rhoD γ = γ) (c : 
   by_cases hx : x = γ
   · subst hx
     simp [orbVec]
-  · simp [orbVec, hx, h, Pi.single_eq_of_ne hx]
+  · simp [orbVec, hx, h]
 
 private theorem orbVec_moved (σ : K ≃+* K) {γ : Dr} (h : rhoD γ ≠ γ) (c : K) :
     orbVec σ γ c = c • Pi.single γ (1 : K) + σ c • Pi.single (rhoD γ) (1 : K) := by
   funext x
   by_cases hx : x = γ
   · subst hx
-    simp [orbVec, Pi.single_apply, h.symm]
+    simp [orbVec, h.symm]
   · by_cases hx' : x = rhoD γ
     · subst hx'
-      simp [orbVec, Pi.single_apply, hx]
-    · simp [orbVec, Pi.single_apply, hx, hx']
+      simp [orbVec, hx]
+    · simp [orbVec, hx, hx']
 
 theorem orbVec_mem_rphi {σ : K ≃+* K} (hσσ : ∀ c, σ (σ c) = c) {γ : Dr} {c : K}
     (hc : rhoD γ = γ → σ c = c) : orbVec σ γ c ∈ RPhi K σ := by
@@ -74,11 +74,11 @@ theorem good_rho {σ : K ≃+* K} (hσσ : ∀ c, σ (σ c) = c) {N : AddSubgrou
     simp only [orbVec, rho_rho, hσσ]
     by_cases h1 : x = rhoD γ
     · by_cases h2 : x = γ
-      · rw [if_pos h1, if_pos h2, hc' (h1.symm.trans h2)]
-      · rw [if_pos h1, if_neg h2, if_pos h1]
+      · rw [ite_eq_left h1, ite_eq_left h2, hc' (h1.symm.trans h2)]
+      · rw [ite_eq_left h1, ite_eq_right h2, ite_eq_left h1]
     · by_cases h2 : x = γ
-      · rw [if_neg h1, if_pos h2, if_pos h2]
-      · rw [if_neg h1, if_neg h2, if_neg h2, if_neg h1]
+      · rw [ite_eq_right h1, ite_eq_left h2, ite_eq_left h2]
+      · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h2, ite_eq_right h1]
   rw [key]
   refine h (σ c) fun h' => ?_
   have := hc' h'
@@ -258,8 +258,8 @@ theorem rphi_le_of_good {σ : K ≃+* K} (hσσ : ∀ c, σ (σ c) = c) {N : Add
         intro x hx
         rw [sub_orbVec_apply hv]
         by_cases h : x = γ ∨ x = rhoD γ
-        · rw [if_pos h]
-        · rw [if_neg h]
+        · rw [ite_eq_left h]
+        · rw [ite_eq_right h]
           apply hvs
           intro hxs
           exact hx (Finset.mem_erase.2 ⟨fun h' => h (Or.inr h'),

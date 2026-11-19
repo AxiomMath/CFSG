@@ -18,7 +18,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 open scoped Matrix commutatorElement
 
 private theorem s168e3_no_fix_nat {n q p : ℕ} {K : Type} [Field K] [Finite K]
-    (hq : Nat.card K = q) (hn : 2 ≤ n) (hp : p.Prime)
+    (hq : Nat.card K = q) (hn : 2 ≤ n) (_hp : p.Prime)
     (hnotdvd : ¬ p * (q ^ n - 1) ∣ Nat.card (Matrix.SpecialLinearGroup (Fin n) K))
     {a : Matrix.SpecialLinearGroup (Fin n) K} (ha : orderOf a = p) :
     ∀ v : Fin n → K, a • v = v → v = 0 := by
@@ -58,7 +58,7 @@ private theorem s168e3_normalizer_of_directProd {A : Type*} [Group A] {L K N : S
 private theorem s168e3_isSimpleGroup_of_isAlt5 {X : Type} [Group X] (h : UC22.IsAlt X 5) :
     IsSimpleGroup X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
   exact e.isSimpleGroup
 
@@ -70,7 +70,7 @@ private theorem s168e3_isSimpleGroup_of_isL3 {X : Type} [Group X] (h : IsL3 X 1)
 private theorem s168e3_simple_normal_factor {G : Type*} [Group G]
     {K Y₁ Y₂ : Subgroup G} (hKs : IsSimpleGroup ↥K) (hKnorm : K.Normal)
     (hY1norm : Y₁.Normal) (hY2norm : Y₂.Normal) (hsup : Y₁ ⊔ Y₂ = ⊤)
-    (hdisj : Y₁ ⊓ Y₂ = ⊥) (hcardnp : ¬ (Nat.card ↥K).Prime) :
+    (_hdisj : Y₁ ⊓ Y₂ = ⊥) (hcardnp : ¬ (Nat.card ↥K).Prime) :
     K ≤ Y₁ ∨ K ≤ Y₂ := by
   have hsimple := (Subgroup.isSimpleGroup_iff (H := K)).1 hKs
   have hnorm1 : ((K ⊓ Y₁).subgroupOf K).Normal := by
@@ -124,7 +124,7 @@ private theorem s168e3_simple_normal_factor {G : Type*} [Group G]
         rw [Subgroup.mem_center_iff]
         intro y
         exact (habel x y).symm
-      letI : CommGroup ↥K := Group.commGroupOfCenterEqTop hcenter
+      let : CommGroup ↥K := Group.commGroupOfCenterEqTop hcenter
       exact hcardnp ((CommGroup.is_simple_iff_prime_card).mp hKs)
     · exact Or.inr (by rw [← h2]; exact inf_le_right)
   · exact Or.inl (by rw [← h1]; exact inf_le_right)
@@ -205,7 +205,7 @@ private theorem s168e3_153_2_tensor_fix_of_model [Finite W]
   classical
   obtain ⟨π, hVia⟩ := hReal
   obtain ⟨hπsurj, -, -, hUinv, -, -, -, β, -, hβ1, hβint⟩ := hVia
-  haveI : Finite (FFModel.tensorNat d K).Gam :=
+  have : Finite (FFModel.tensorNat d K).Gam :=
     show Finite (↥(StatedSL d K) × ↥(StatedSL d K)) from inferInstance
   have hGamcard : Nat.card (FFModel.tensorNat d K).Gam = Nat.card ↥(StatedSL d K) ^ 2 := by
     show Nat.card (↥(StatedSL d K) × ↥(StatedSL d K)) = _
@@ -280,13 +280,13 @@ private theorem s168e3_153_2_tensor_fix_of_model [Finite W]
         (MonoidHom.inr (↥(StatedSL d K)) (↥(StatedSL d K))) b = (a, b) := by
       ext <;> simp [MonoidHom.inl_apply, MonoidHom.inr_apply]
     rw [← h]
-    haveI : inrR.Normal := hInrN
+    have : inrR.Normal := hInrN
     exact (Subgroup.mem_sup_of_normal_right (s := inlR) (t := inrR)).mpr ⟨_, h1, _, h2, rfl⟩
   have hsup : Y₁ ⊔ Y₂ = ⊤ := by
     change (inlR.map πp) ⊔ (inrR.map πp) = ⊤
     rw [← Subgroup.map_sup, hsupR, Subgroup.map_top, MonoidHom.range_eq_top.mpr hπpsurj]
   have hK0Ls : IsSimpleGroup ↥K₀L := by
-    haveI : IsSimpleGroup ↥K₀ := hK0s
+    have : IsSimpleGroup ↥K₀ := hK0s
     exact (Subgroup.subgroupOfEquivOfLe hK0L).isSimpleGroup
   have hK0Lcardnp : ¬ (Nat.card ↥K₀L).Prime := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hK0L).toEquiv]

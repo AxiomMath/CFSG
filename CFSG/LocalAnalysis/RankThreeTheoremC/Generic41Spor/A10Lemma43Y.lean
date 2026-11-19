@@ -19,7 +19,7 @@ theorem a10y_c_false (hInn : KFactInnerAction) (hWC : KFactWeakClosure) (hI : KF
   have h := c.data
   have hPA : P ≤ A₁ := a10y_P_le hInn c
   obtain ⟨-, hsimple, hnab, hcat⟩ := a10y_comp_simple h c.comp₁
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨S, hS⟩ := h.sylow
   have hSA : (S : Subgroup Y) ≤ A₁ := hS ▸ hPA
   let Q : Sylow 5 ↥A₁ := S.subtype hSA

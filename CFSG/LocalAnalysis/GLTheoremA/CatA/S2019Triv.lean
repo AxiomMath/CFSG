@@ -18,19 +18,21 @@ variable {Ω : Type} [Group Ω] [Finite Ω]
 theorem not_isPGroup_two_of_isQuasisimple {Q : Type} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) : ¬ IsPGroup 2 Q := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial Q := isQuasisimple_nontrivial hQ
-  haveI : Group.IsNilpotent Q := h2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial Q := isQuasisimple_nontrivial hQ
+  have : Group.IsNilpotent Q := h2.isNilpotent
   have h1 := Group.IsSolvable.commutator_lt_top_of_nontrivial (G := Q)
   rw [hQ.1] at h1
   exact lt_irrefl _ h1
 
+omit [Finite Ω] in
 theorem glaPPrimeCoreOf_eq_bot {p : ℕ} {S : Subgroup Ω} (hSp : GLAPPrimeCore p ↥S = ⊥) :
     GLAPPrimeCoreOf p S = ⊥ := by
   unfold GLAPPrimeCoreOf
   show (GLAPPrimeCore p ↥S).map S.subtype = ⊥
   rw [hSp, Subgroup.map_bot]
 
+omit [Finite Ω] in
 theorem isQuasisimple_pQuot_of_core_eq_bot {p : ℕ} {S : Subgroup Ω} (hSq : CFSG.Open.IsQuasisimple ↥S)
     (hSp : GLAPPrimeCore p ↥S = ⊥) : CFSG.Open.IsQuasisimple (↥S ⧸ GLAPPrimeCore p ↥S) :=
   hSq.of_mulEquiv ((QuotientGroup.quotientMulEquivOfEq hSp).trans QuotientGroup.quotientBot)
@@ -61,7 +63,7 @@ theorem eq_of_glaPComponent_of_le_centMod {p : ℕ} {S D J : Subgroup Ω}
 theorem commutator_eq_bot_of_normalizer_self {S T : Subgroup Ω} (hSq : CFSG.Open.IsQuasisimple ↥S)
     (hTS : T ≤ S) (hT2 : IsPGroup 2 T) (hST : S ≤ Subgroup.normalizer (T : Set Ω)) :
     ⁅T, S⁆ = ⊥ := by
-  haveI hTn : (T.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTS).2 hST
+  have hTn : (T.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTS).2 hST
   have hne : T.subgroupOf S ≠ ⊤ := by
     intro htop
     have hST' : S ≤ T := by

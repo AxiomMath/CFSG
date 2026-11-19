@@ -340,7 +340,7 @@ theorem mem_K_of_pow_three_pow (h5114 : Stmt5_1_14_first) (hF : L2TorusFact) (h5
   have h9C := s.not_nine_dvd_card h5114 hF h516 h521 hnot
   have hsyl : ∀ R : Sylow 3 ↥C, Nat.card (R : Subgroup ↥C) ∣ 3 := by
     intro R
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp R.isPGroup'
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp R.isPGroup
     have hdvd : 3 ^ j ∣ Nat.card ↥C := by
       rw [← hj]
       exact Subgroup.card_subgroup_dvd_card (R : Subgroup ↥C)

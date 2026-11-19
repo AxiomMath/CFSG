@@ -18,8 +18,8 @@ theorem s16t_oddNcCore_of_case168_11 (D : Data G) {V₀ V L : Subgroup G}
   have h7σ : 7 ∈ D.sig := by
     rw [hsig]
     exact Set.mem_singleton 7
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hLp : IsPGroup 7 ↥(lBar V₀ V hV L) :=
     IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hcyc.2)
   have hL1 : lBar V₀ V hV L ≠ ⊥ := by

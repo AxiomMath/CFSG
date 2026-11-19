@@ -50,7 +50,7 @@ theorem sec7_two_setOf_image_le {K K' M M' : Type*} [Field K] [Field K'] [AddCom
     {P | P ∈ Submodule.map f '' O ∧ P ≤ l} =
       Submodule.map f '' {Q | Q ∈ O ∧ Q ≤ l.comap f} := by
   ext P'
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨⟨Q, hQ, rfl⟩, hle⟩
     exact ⟨Q, ⟨hQ, Submodule.map_le_iff_le_comap.mp hle⟩, rfl⟩

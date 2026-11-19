@@ -13,11 +13,13 @@ open CFSG.RankThree.PartTwo.Sec21.FF79
 variable {H : Type} [Group H] [Finite H]
 variable {b t b₁ b₂ : H} {J : Subgroup H}
 
+omit [Finite H] in
 theorem FS79Hyp.card_J (h : FS79Hyp b t b₁ b₂ J) : Nat.card ↥J = 720 := by
   obtain ⟨e⟩ := h.J_perm
   rw [Nat.card_congr e.toEquiv, Nat.card_perm, Nat.card_fin]
   norm_num
 
+omit [Finite H] in
 theorem FS79Hyp.b_not_mem_J (h : FS79Hyp b t b₁ b₂ J) : b ∉ J := by
   intro hbJ
   have hbZ : (⟨b, hbJ⟩ : ↥J) ∈ Subgroup.center J := by
@@ -43,7 +45,7 @@ theorem FS79Hyp.b_not_mem_J (h : FS79Hyp b t b₁ b₂ J) : b ∉ J := by
 theorem FS79Hyp.isElemAb_B (h : FS79Hyp b t b₁ b₂ J) :
     IsElemAb 3 3 (Subgroup.closure ({b, b₁, b₂} : Set H)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set A : Subgroup H := Subgroup.closure ({b₁, b₂} : Set H) with hA
   set C : Subgroup H := Subgroup.zpowers b with hC
   have hb3 : b ^ 3 = 1 := by
@@ -55,8 +57,8 @@ theorem FS79Hyp.isElemAb_B (h : FS79Hyp b t b₁ b₂ J) :
   have hCab : IsElementaryAbelian 3 ↥C := by
     rw [hC]
     exact IsElementaryAbelian.zpowers_of_pow_eq_one hb3
-  haveI := hAab
-  haveI := hCab
+  have := hAab
+  have := hCab
   have hAleJ : A ≤ J := by
     rw [hA, Subgroup.closure_le]
     intro x hx
@@ -109,7 +111,7 @@ theorem FS79Hyp.isElemAb_B (h : FS79Hyp b t b₁ b₂ J) :
     rw [hA, hC, Subgroup.zpowers_eq_closure b, ← Subgroup.closure_union]
     congr 1
     ext x
-    simp [or_comm, or_left_comm, or_assoc]
+    simp
   have hCA : C ≤ Subgroup.centralizer (A : Set H) := by
     rw [← Subgroup.le_centralizer_iff (H := A) (K := C)]
     rw [hC, Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]

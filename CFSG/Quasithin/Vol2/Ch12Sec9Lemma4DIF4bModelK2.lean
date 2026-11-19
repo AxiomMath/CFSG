@@ -110,7 +110,7 @@ theorem Kw_conj_mem {h γ : VM ≃ₗ[ZMod 2] VM} (hh : h ∈ Hm) (hγ : γ ∈ 
     obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.1 (hγ.2.2 (h.symm x) hsy)
     show h (γ (h.symm x)) - x ∈ _
     have h1 : h (γ (h.symm x)) - x = h (γ (h.symm x) - h.symm x) := by
-      rw [map_sub h, LinearEquiv.apply_symm_apply] <;> rfl
+      rw [map_sub h, LinearEquiv.apply_symm_apply]
     rw [h1, ← hs, map_smul, hh.2]
     exact Submodule.smul_mem _ s (Submodule.mem_span_singleton_self e0)
 
@@ -184,7 +184,7 @@ theorem Kw_le_pCoreOf {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} (hΩG : Ω ≤ GM)
     have hgH : (g : VM ≃ₗ[ZMod 2] VM) ∈ Hm := (Subgroup.mem_inf.1 g.2).1
     exact Kw_conj_mem hgH hn
   have hcard : Nat.card (Kw.subgroupOf (Hm ⊓ Ω)) = 2 ^ 4 := by
-    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKP).toEquiv, Kw_card] <;> norm_num
+    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKP).toEquiv, Kw_card]; norm_num
   have hMp : IsPGroup 2 (Kw.subgroupOf (Hm ⊓ Ω)) := IsPGroup.of_card hcard
   have hle : Kw.subgroupOf (Hm ⊓ Ω) ≤ CFSG.pCore 2 ↥(Hm ⊓ Ω) := le_pCore_of_normal hMnorm hMp
   intro γ hγ

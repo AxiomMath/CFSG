@@ -24,7 +24,7 @@ theorem exists_sylow_witness_clauseB {G : Type} [Group G] [Finite G] {M T V₀ V
     exact hp
   obtain ⟨hpA, P, hwM⟩ := hσ
   obtain ⟨-, Q, N, hwN, hB⟩ := hs2
-  haveI : Fact p.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hpA⟩
+  have : Fact p.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hpA⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Q P
   have hN := CFSG.LocalAnalysis.RankThreeUC.ProofSupport.WitnessConjugacy.map_eq h.context.uc.standing hpA
     (P := P) (Q := Q) hwM hwN g hg

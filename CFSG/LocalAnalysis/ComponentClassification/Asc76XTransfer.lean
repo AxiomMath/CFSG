@@ -175,7 +175,7 @@ theorem exists_pGroup_lift {X J : Subgroup G} {P : Subgroup (BarGroup X)}
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 2 P₀))
   set S₀ : Subgroup X := (Q : Subgroup P₀).map P₀.subtype with hS₀
   have hS₀P₀ : S₀ ≤ P₀ := map_subtype_le _
-  have hS₀2 : IsPGroup 2 S₀ := Q.isPGroup'.map _
+  have hS₀2 : IsPGroup 2 S₀ := Q.isPGroup.map _
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hP
   have hcardP₀ := card_map_mul_card_inf_ker (barMk X) P₀
   rw [hmap, ha] at hcardP₀

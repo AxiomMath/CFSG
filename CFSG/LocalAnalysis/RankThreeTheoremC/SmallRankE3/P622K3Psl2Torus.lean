@@ -13,7 +13,7 @@ theorem psl2_exists_torus_containing_order_three {F : Type} [Field F] [Finite F]
     ∃ T : Subgroup (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup F),
       IsCyclic T ∧ z ∈ T ∧ (Nat.card F - 1) / 2 ≤ Nat.card T := by
   classical
-  haveI : Finite (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup F) :=
+  have : Finite (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup F) :=
     Finite.of_surjective (CFSG.PSL2Table.mk : Matrix.SpecialLinearGroup (Fin 2) F →* _)
       CFSG.PSL2Table.mk_surjective
   obtain ⟨P⟩ : Nonempty (Sylow p (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup F)) :=
@@ -40,7 +40,7 @@ theorem psl2_exists_torus_containing_order_three {F : Type} [Field F] [Finite F]
     obtain ⟨y, hy, hyz⟩ := Subgroup.mem_map.mp hzT
     have hyord : orderOf y = 3 := by
       rw [← hz, ← hyz, orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective]
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
     have hyk : y ^ p ^ k = 1 := by
       have := congrArg Subtype.val hk
       simpa using this

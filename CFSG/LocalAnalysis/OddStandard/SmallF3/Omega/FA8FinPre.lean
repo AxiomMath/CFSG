@@ -49,6 +49,7 @@ theorem fa8fin_type4 (hL : IsOm6Z2 L) {φ : ↥L →* omegaGroup hQ} (hφ : IsCo
   let D : Om6Par Q ((φ zL : omegaGroup hQ) : OGroup Q) := Om6Par.mk' hQ hdim hsgn hztt hzt4
   exact ⟨hztt, D.dimW, D.dimP, D.signP⟩
 
+omit [Finite G] in
 theorem fa8fin_image {φ : ↥L →* omegaGroup hQ} (hcov : OddCentralCover φ) {M : Subgroup G}
     (hML : M ≤ L) (hcard : Nat.card M = 32) {z : G} (hzM : z ∈ M)
     (hzc : ∀ g ∈ M, g * z = z * g) (hsq : ∀ g ∈ M, g * g = 1 ∨ g * g = z)

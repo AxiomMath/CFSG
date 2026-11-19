@@ -23,14 +23,17 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
     rintro a ⟨J, hJ, rfl⟩
     exact ⟨J, hJ, inv_eq_of_mul_eq_one_right (fr.signChange_mul_self J)⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_ffB0_iff (fr : NFrame Q (Fin 6) c) {g : OGroup Q} :
     g ∈ ffB0 fr ↔ ∃ J : Finset (Fin 6), Even J.card ∧ g = fr.signChange J :=
   Iff.rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem signChange_mem_ffB0 (fr : NFrame Q (Fin 6) c) {J : Finset (Fin 6)} (hJ : Even J.card) :
     fr.signChange J ∈ ffB0 fr :=
   ⟨J, hJ, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffB0_card (fr : NFrame Q (Fin 6) c) : Nat.card (ffB0 fr) = 32 := by
   let E := {J : Finset (Fin 6) // Even J.card}
   let F : E → ffB0 fr := fun J => ⟨fr.signChange J.1, J.1, J.2, rfl⟩
@@ -43,17 +46,20 @@ theorem ffB0_card (fr : NFrame Q (Fin 6) c) : Nat.card (ffB0 fr) = 32 := by
     decide
   rw [← Nat.card_congr (Equiv.ofBijective F hF), hE]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffB0_comm (fr : NFrame Q (Fin 6) c) {a b : OGroup Q} (ha : a ∈ ffB0 fr)
     (hb : b ∈ ffB0 fr) : a * b = b * a := by
   obtain ⟨J, -, rfl⟩ := ha
   obtain ⟨K, -, rfl⟩ := hb
   exact fr.signChange_comm J K
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffB0_mul_self (fr : NFrame Q (Fin 6) c) {a : OGroup Q} (ha : a ∈ ffB0 fr) :
     a * a = 1 := by
   obtain ⟨J, -, rfl⟩ := ha
   exact fr.signChange_mul_self J
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem piOrth_mem_ffB0 (fr : NFrame Q (Fin 6) c) : piOrth Q ∈ ffB0 fr := by
   refine ⟨Finset.univ, ?_, fr.piOrth_eq_signChange_univ⟩
   rw [Finset.card_univ, Fintype.card_fin]
@@ -82,24 +88,27 @@ theorem ffB0_le_ffP0 (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c) :
   refine (mem_ffP0_iff hQ fr).mpr ⟨1, Subgroup.one_mem _, J, hJ, ?_⟩
   rw [fr.permOrth_one, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffMono_basis (fr : NFrame Q (Fin 6) c) (σ : Equiv.Perm (Fin 6)) (K : Finset (Fin 6))
     (i : Fin 6) :
     (((fr.permOrth σ * fr.signChange K : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b i)) =
       (if i ∈ K then (-1 : ZMod 3) else 1) • fr.b (σ i) := by
   rw [Submonoid.coe_mul, LinearEquiv.mul_apply, fr.signChange_basis K i]
   by_cases hi : i ∈ K
-  · rw [if_pos hi, map_neg, fr.permOrth_basis]
+  · rw [ite_eq_left hi, map_neg, fr.permOrth_basis]
     simp [hi]
-  · rw [if_neg hi, fr.permOrth_basis]
+  · rw [ite_eq_right hi, fr.permOrth_basis]
     simp [hi]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffMono_index_eq (fr : NFrame Q (Fin 6) c) {i j : Fin 6} {a d : ZMod 3} (ha : a ≠ 0)
     (h : a • fr.b i = d • fr.b j) : i = j := by
   by_contra hij
   have hc := congrArg (fun x : V => fr.b.repr x i) h
-  simp [Module.Basis.repr_self, Finsupp.smul_apply, hij] at hc
+  simp [Module.Basis.repr_self, hij] at hc
   exact ha hc
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffMono_unique (fr : NFrame Q (Fin 6) c) {σ τ : Equiv.Perm (Fin 6)}
     {J K : Finset (Fin 6)}
     (h : fr.permOrth σ * fr.signChange J = fr.permOrth τ * fr.signChange K) :
@@ -114,12 +123,14 @@ theorem ffMono_unique (fr : NFrame Q (Fin 6) c) {σ τ : Equiv.Perm (Fin 6)}
   subst hστ
   exact ⟨rfl, fr.signChange_injective (mul_left_cancel h)⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem permOrth_inv (fr : NFrame Q (Fin 6) c) (σ : Equiv.Perm (Fin 6)) :
     (fr.permOrth σ)⁻¹ = fr.permOrth σ⁻¹ := by
   have h : fr.permOrth σ * fr.permOrth σ⁻¹ = 1 := by
     rw [← fr.permOrth_mul, mul_inv_cancel, fr.permOrth_one]
   exact inv_eq_of_mul_eq_one_right h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffMono_mul (fr : NFrame Q (Fin 6) c) (σ τ : Equiv.Perm (Fin 6)) (J K : Finset (Fin 6)) :
     (fr.permOrth σ * fr.signChange J) * (fr.permOrth τ * fr.signChange K) =
       fr.permOrth (σ * τ) * fr.signChange (symmDiff (J.map τ⁻¹.toEmbedding) K) := by
@@ -141,6 +152,7 @@ theorem ffMono_mul (fr : NFrame Q (Fin 6) c) (σ τ : Equiv.Perm (Fin 6)) (J K :
     _ = fr.permOrth (σ * τ) * fr.signChange (symmDiff (J.map τ⁻¹.toEmbedding) K) := by
           rw [fr.permOrth_mul, fr.signChange_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffMono_conj_signChange (fr : NFrame Q (Fin 6) c) (σ : Equiv.Perm (Fin 6))
     (J K : Finset (Fin 6)) :
     (fr.permOrth σ * fr.signChange J) * fr.signChange K *

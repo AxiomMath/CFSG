@@ -166,7 +166,7 @@ theorem isSylowOf_top_of_isSylowOf_normalizer' {G : Type} [Group G] [Finite G]
   by_contra hnot
   obtain ⟨S, hRS, z, hzS, hzN, hzR⟩ := exists_mem_normalizer_of_not_isSylowOf hR.isPGroup hnot
   have heq := hR.eq_of_le le_sup_left (sup_le hR.le (zpowers_le.mpr hzN))
-    (S.isPGroup'.to_le (sup_le hRS (zpowers_le.mpr hzS)))
+    (S.isPGroup.to_le (sup_le hRS (zpowers_le.mpr hzS)))
   exact hzR (heq ▸ mem_sup_right (mem_zpowers z))
 
 end CFSG.ComponentClassification.GMS78

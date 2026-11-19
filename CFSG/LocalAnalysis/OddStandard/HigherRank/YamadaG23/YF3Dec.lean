@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_mem_cen {B : Subgroup G} {n v : G} (hn : n ∈ normalizer (B : Set G))
     (hv : v ∈ cen B) : n * v * n⁻¹ ∈ cen B := by
   obtain ⟨hvB, hvc⟩ := Subgroup.mem_inf.mp hv
@@ -25,6 +26,7 @@ private theorem conj_mem_cen {B : Subgroup G} {n v : G} (hn : n ∈ normalizer (
     _ = n * (v * (n⁻¹ * b * n)) * n⁻¹ := by rw [hcomm]
     _ = (n * v * n⁻¹) * b := by group
 
+omit [Finite G] in
 private theorem mul_comm_of_conj {a b : G} (h : a * b * a⁻¹ = b) : b * a = a * b :=
   (mul_inv_eq_iff_eq_mul.mp h).symm
 

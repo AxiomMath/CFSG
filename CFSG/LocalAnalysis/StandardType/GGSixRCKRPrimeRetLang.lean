@@ -51,7 +51,7 @@ theorem rckRet_step_pinnedX
       simp [LangDatum.step, MulAut.conj_apply]
     rw [hs, hΦ, CFSG.RankThree.PartOne.KE.units_map_entrywiseHom_pinnedX, hFr,
       h₁, hn, h₂, e1, e2]
-    simp [mul_assoc]
+    simp
   have hρ : w • π γ = S.ρ γ := by
     have hmap := S.frob.map_rootSubgroup γ hγ
     have hmem : S.D.step (pinnedX τ GGL γ 1) ∈ (rootSubgroup τ GGL γ).map S.D.step :=
@@ -472,13 +472,13 @@ theorem rckRet_SK
       SK.Γ = ((adjointGroup Tag.E6 ↥(fixSubfield σ)).map
         (baseChangeGL (fixSubfield σ).subtype)).map (MulAut.conj zh).toMonoidHom := by
   classical
-  haveI : Finite ↥(fixSubfield σ) := hfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) ↥(fixSubfield σ) := ZMod.algebra _ 2
-  haveI : @IsScalarTower (ZMod 2) ↥(fixSubfield σ) GGL Algebra.toSMul Algebra.toSMul
+  have : Finite ↥(fixSubfield σ) := hfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) ↥(fixSubfield σ) := ZMod.algebra _ 2
+  have : @IsScalarTower (ZMod 2) ↥(fixSubfield σ) GGL Algebra.toSMul Algebra.toSMul
       Algebra.toSMul :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure ↥(fixSubfield σ) GGL :=
+  have : IsAlgClosure ↥(fixSubfield σ) GGL :=
     ⟨inferInstance, Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := ↥(fixSubfield σ))⟩
   obtain ⟨g, hg0, hQg⟩ := hQ2
   have hFr : ∀ c, σ.toRingHom c = c ^ Nat.card ↥(fixSubfield σ) := fun c => by

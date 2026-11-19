@@ -25,6 +25,7 @@ theorem isKGroup_le_cx (h : Cfg12 G m p B x L D K) {d : G} (hd1 : d ≠ 1) {M : 
     (hM : M ≤ Subgroup.centralizer ({d} : Set G)) : CFSG.Open.IsKGroup ↥M :=
   (kGroup_centralizer h.ctx.toS6 hd1).of_injective (Subgroup.inclusion hM) (Subgroup.inclusion_injective hM)
 
+omit [Finite G] in
 theorem comm_primeCore_le_core (M : Subgroup G) : (⁅M, GLAPPrimeCoreOf p M⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p M := by
   rw [Subgroup.commutator_le]
   intro m hm o ho
@@ -34,12 +35,12 @@ theorem comm_primeCore_le_core (M : Subgroup G) : (⁅M, GLAPPrimeCoreOf p M⁆ 
   have h2 := Subgroup.mul_mem _ h1 (Subgroup.inv_mem _ ho)
   simpa [commutatorElement_def] using h2
 
-theorem exists_invariant_sylow_comm (hp : p.Prime) (hp2 : p ≠ 2) {X M B' : Subgroup G} (hM : GLAPComponent p X M)
+theorem exists_invariant_sylow_comm (hp : p.Prime) (_hp2 : p ≠ 2) {X M B' : Subgroup G} (_hM : GLAPComponent p X M)
     (hB : IsElemAbelian p B') (hBM : B' ≤ Subgroup.normalizer (M : Set G)) :
     ∃ U : Subgroup G, U ≤ ⁅M, GLAPPrimeCoreOf p M⁆ ∧ IsPGroup 2 U ∧
       ¬ 2 ∣ U.relIndex (⁅M, GLAPPrimeCoreOf p M⁆ : Subgroup G) ∧ B' ≤ Subgroup.normalizer (U : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBO : B' ≤ Subgroup.normalizer (GLAPPrimeCoreOf p M : Set G) :=
     hBM.trans (normalizer_le_normalizer_glaPPrimeCoreOf p M)
   have hBX : B' ≤ Subgroup.normalizer ((⁅M, GLAPPrimeCoreOf p M⁆ : Subgroup G) : Set G) :=
@@ -58,7 +59,7 @@ theorem exists_invariant_sylow_comm (hp : p.Prime) (hp2 : p ≠ 2) {X M B' : Sub
   exact P.not_dvd_index
 
 theorem B_not_le_centMod (h : Cfg12 G m p B x L D K) (hin : CommonInputs G p) {M : Subgroup G} (hKM : K ≤ M)
-    (hBM : B ≤ Subgroup.normalizer (M : Set G)) : ¬ B ≤ centModSubgroup p M := by
+    (_hBM : B ≤ Subgroup.normalizer (M : Set G)) : ¬ B ≤ centModSubgroup p M := by
   intro hBc
   have hp := h.prime
   have hBD : B ≤ D := by
@@ -79,7 +80,7 @@ theorem B_not_le_centMod (h : Cfg12 G m p B x L D K) (hin : CommonInputs G p) {M
 theorem frattini_cover {M U : Subgroup G} (hU2 : IsPGroup 2 U) (hUX : U ≤ ⁅M, GLAPPrimeCoreOf p M⁆)
     (hUsyl : ¬ 2 ∣ U.relIndex (⁅M, GLAPPrimeCoreOf p M⁆ : Subgroup G)) :
     M = (M ⊓ Subgroup.normalizer (U : Set G)) ⊔ GLAPPrimeCoreOf p M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X : Subgroup G := ⁅M, GLAPPrimeCoreOf p M⁆ with hXdef
   have hXO : X ≤ GLAPPrimeCoreOf p M := comm_primeCore_le_core M
   have hXM : X ≤ M := hXO.trans (Subgroup.map_subtype_le _)
@@ -87,7 +88,7 @@ theorem frattini_cover {M U : Subgroup G} (hU2 : IsPGroup 2 U) (hUX : U ≤ ⁅M
   have hMX : M ≤ Subgroup.normalizer (X : Set G) :=
     le_normalizer_commutator Subgroup.le_normalizer
       (Subgroup.le_normalizer.trans (normalizer_le_normalizer_glaPPrimeCoreOf p M))
-  haveI hN0 : (X.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hXM).2 hMX
+  have hN0 : (X.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hXM).2 hMX
   have hU0N : U.subgroupOf M ≤ X.subgroupOf M := fun u hu => hUX hu
   have hP2 : IsPGroup 2 ↥((U.subgroupOf M).subgroupOf (X.subgroupOf M)) := hU2.comap_subtype.comap_subtype
   have hPidx : ¬ 2 ∣ ((U.subgroupOf M).subgroupOf (X.subgroupOf M)).index := by
@@ -134,7 +135,7 @@ theorem normal_eq_or_le_centMod (hp : p.Prime) {X M W : Subgroup G} (hM : GLAPCo
   right
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hM
   have hWn' : (W.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWM).2 hWn
-  haveI : ((W.subgroupOf M).map (QuotientGroup.mk' (GLAPPrimeCore p ↥M))).Normal :=
+  have : ((W.subgroupOf M).map (QuotientGroup.mk' (GLAPPrimeCore p ↥M))).Normal :=
     hWn'.map _ (QuotientGroup.mk'_surjective _)
   have hne : (W.subgroupOf M).map (QuotientGroup.mk' (GLAPPrimeCore p ↥M)) ≠ ⊤ := by
     intro htop
@@ -153,7 +154,8 @@ theorem normal_eq_or_le_centMod (hp : p.Prime) {X M W : Subgroup G} (hM : GLAPCo
   exact mem_centModSubgroup_of_mk_mem_center (hWM hw)
     (hcen ⟨⟨w, hWM hw⟩, Subgroup.mem_subgroupOf.2 hw, rfl⟩)
 
-theorem centMod_of_comm_centMod (hp : p.Prime) {X M B' : Subgroup G} (hM : GLAPComponent p X M)
+omit [Finite G] in
+theorem centMod_of_comm_centMod (_hp : p.Prime) {X M B' : Subgroup G} (hM : GLAPComponent p X M)
     (hBM : B' ≤ Subgroup.normalizer (M : Set G)) (hc : (⁅M, B'⁆ : Subgroup G) ≤ centModSubgroup p M) :
     B' ≤ centModSubgroup p M := by
   have hNO := normalizer_le_normalizer_glaPPrimeCoreOf p M
@@ -232,7 +234,7 @@ theorem exists_cover_le_closure (hp : p.Prime) {Y M B' U : Subgroup G} (hM : GLA
     (hBU : B' ≤ Subgroup.normalizer (U : Set G)) (hBM : B' ≤ Subgroup.normalizer (M : Set G))
     (hBnot : ¬ B' ≤ centModSubgroup p M) :
     ∃ N : Subgroup G, N ≤ M ⊓ Subgroup.normalizer (U : Set G) ∧ M = N ⊔ GLAPPrimeCoreOf p M ∧ N ≤ closureIn B' N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hNO := normalizer_le_normalizer_glaPPrimeCoreOf p M
   have hMO : M ≤ Subgroup.normalizer (GLAPPrimeCoreOf p M : Set G) := Subgroup.le_normalizer.trans hNO
   have hBNU : B' ≤ Subgroup.normalizer ((Subgroup.normalizer (U : Set G) : Subgroup G) : Set G) := fun b hb => by
@@ -262,6 +264,7 @@ theorem exists_cover_le_closure (hp : p.Prime) {Y M B' U : Subgroup G} (hM : GLA
   have heq := hNp _ inf_le_left hnorm hidx
   exact ⟨GLAPLayer p H, layer_le_self p H, hNcov, heq.symm.le.trans inf_le_right⟩
 
+omit [Finite G] in
 theorem closureIn_le_cs {B' N U : Subgroup G} (hN : N ≤ Subgroup.normalizer (U : Set G))
     (hB : B' ≤ Subgroup.centralizer (U : Set G)) : closureIn B' N ≤ Subgroup.centralizer (U : Set G) := by
   rw [closureIn_eq_iSup_gLBConj]
@@ -277,9 +280,9 @@ theorem closureIn_le_cs {B' N U : Subgroup G} (hN : N ≤ Subgroup.normalizer (U
       _ = n * (z * u) * n⁻¹ := by group
   simpa using h2
 
-theorem cover_of_centralizes (hp : p.Prime) (hp2 : p ≠ 2) {d : G} {M B' U : Subgroup G}
+theorem cover_of_centralizes (hp : p.Prime) (_hp2 : p ≠ 2) {d : G} {M B' U : Subgroup G}
     (hM : GLAPComponent p (Subgroup.centralizer ({d} : Set G)) M) (hBM : B' ≤ Subgroup.normalizer (M : Set G))
-    (hB : IsElemAbelian p B') (hBnot : ¬ B' ≤ centModSubgroup p M) (hU2 : IsPGroup 2 U)
+    (_hB : IsElemAbelian p B') (hBnot : ¬ B' ≤ centModSubgroup p M) (hU2 : IsPGroup 2 U)
     (hUX : U ≤ ⁅M, GLAPPrimeCoreOf p M⁆) (hUsyl : ¬ 2 ∣ U.relIndex (⁅M, GLAPPrimeCoreOf p M⁆ : Subgroup G))
     (hBU : B' ≤ Subgroup.centralizer (U : Set G)) :
     M = (M ⊓ Subgroup.centralizer (U : Set G)) ⊔ GLAPPrimeCoreOf p M := by
@@ -300,7 +303,7 @@ theorem sylow_trivial (h1810 : Input18_10) (hp : p.Prime) {d : G} {M U : Subgrou
     (hUX : U ≤ ⁅M, GLAPPrimeCoreOf p M⁆) (hUsyl : ¬ 2 ∣ U.relIndex (⁅M, GLAPPrimeCoreOf p M⁆ : Subgroup G))
     (hcov : M = (M ⊓ Subgroup.centralizer (U : Set G)) ⊔ GLAPPrimeCoreOf p M) : U = ⊥ := by
   by_contra hU
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hMM : GLAPComponent p M M := glaPComponent_of_le hp hM le_rfl hM.1
   have h2 : 2 ∣ Nat.card ↥(⁅M, GLAPPrimeCoreOf p M⁆ : Subgroup G) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hU2

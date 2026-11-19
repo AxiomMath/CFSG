@@ -12,19 +12,23 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffE8Eig_coe_mul_self {t : OGroup Q} (htt : t * t = 1) :
     (t : V ≃ₗ[ZMod 3] V) * (t : V ≃ₗ[ZMod 3] V) = 1 := by
   simpa using congrArg (fun e : OGroup Q => (e : V ≃ₗ[ZMod 3] V)) htt
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffE8Eig_apply_apply {t : OGroup Q} (htt : t * t = 1) (v : V) :
     (t : V ≃ₗ[ZMod 3] V) ((t : V ≃ₗ[ZMod 3] V) v) = v := by
   rw [← LinearEquiv.mul_apply, ffE8Eig_coe_mul_self htt, LinearEquiv.coe_one, id]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffE8Eig_mul_apply (f g : OGroup Q) (v : V) :
     ((f * g : OGroup Q) : V ≃ₗ[ZMod 3] V) v =
       (f : V ≃ₗ[ZMod 3] V) ((g : V ≃ₗ[ZMod 3] V) v) := by
   rw [Subgroup.coe_mul, LinearEquiv.mul_apply]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffE8Eig_mem_commSp_of_comm {t e : OGroup Q} (ht : t * t = 1)
     (hcomm : t * e = e * t) {v : V} (hv : v ∈ commSp t) :
     (e : V ≃ₗ[ZMod 3] V) v ∈ commSp t := by
@@ -37,6 +41,7 @@ private theorem ffE8Eig_mem_commSp_of_comm {t e : OGroup Q} (ht : t * t = 1)
     rw [← LinearEquiv.mul_apply, hcoe, LinearEquiv.mul_apply]
   rw [hte, (mem_commSp_iff ht).mp hv, map_neg]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffE8Eig_mem_fixSp_of_comm {s e : OGroup Q} (hcomm : s * e = e * s) {v : V}
     (hv : v ∈ fixSp s) : (e : V ≃ₗ[ZMod 3] V) v ∈ fixSp s := by
   rw [mem_fixSp_iff]
@@ -48,6 +53,7 @@ private theorem ffE8Eig_mem_fixSp_of_comm {s e : OGroup Q} (hcomm : s * e = e * 
     rw [← LinearEquiv.mul_apply, hcoe, LinearEquiv.mul_apply]
   rw [hse, (mem_fixSp_iff).mp hv]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffE8Eig_sup_eq {e : OGroup Q} (he : e * e = 1) {S : Submodule (ZMod 3) V}
     (hS : ∀ v ∈ S, (e : V ≃ₗ[ZMod 3] V) v ∈ S) :
     S ⊓ fixSp e ⊔ S ⊓ commSp e = S := by
@@ -287,20 +293,20 @@ theorem ffE8Eig_lines {t e₁ e₂ : OGroup Q} (ht : t * t = 1) (h₁ : e₁ * e
     rw [Fintype.card_fin, hspan, hW4]
   have hsign₁ : ∀ k, (e₁ : V ≃ₗ[ZMod 3] V) (f k) = ![1, -1, 1, -1] k • f k := by
     intro k; fin_cases k
-    · have h : (e₁ : V ≃ₗ[ZMod 3] V) f0 = f0 := (mem_fixSp_iff).mp hf0mem.1.2; simpa [f, h]
+    · have h : (e₁ : V ≃ₗ[ZMod 3] V) f0 = f0 := (mem_fixSp_iff).mp hf0mem.1.2; simp [f, h]
     · have h : (e₁ : V ≃ₗ[ZMod 3] V) f1 = -f1 := (mem_commSp_iff h₁).mp hf1mem.1.2
-      simpa [f, h]
-    · have h : (e₁ : V ≃ₗ[ZMod 3] V) f2 = f2 := (mem_fixSp_iff).mp hf2mem.1.2; simpa [f, h]
+      simp [f, h]
+    · have h : (e₁ : V ≃ₗ[ZMod 3] V) f2 = f2 := (mem_fixSp_iff).mp hf2mem.1.2; simp [f, h]
     · have h : (e₁ : V ≃ₗ[ZMod 3] V) f3 = -f3 := (mem_commSp_iff h₁).mp hf3mem.1.2
-      simpa [f, h]
+      simp [f, h]
   have hsign₂ : ∀ k, (e₂ : V ≃ₗ[ZMod 3] V) (f k) = ![1, 1, -1, -1] k • f k := by
     intro k; fin_cases k
-    · have h : (e₂ : V ≃ₗ[ZMod 3] V) f0 = f0 := (mem_fixSp_iff).mp hf0mem.2; simpa [f, h]
-    · have h : (e₂ : V ≃ₗ[ZMod 3] V) f1 = f1 := (mem_fixSp_iff).mp hf1mem.2; simpa [f, h]
+    · have h : (e₂ : V ≃ₗ[ZMod 3] V) f0 = f0 := (mem_fixSp_iff).mp hf0mem.2; simp [f, h]
+    · have h : (e₂ : V ≃ₗ[ZMod 3] V) f1 = f1 := (mem_fixSp_iff).mp hf1mem.2; simp [f, h]
     · have h : (e₂ : V ≃ₗ[ZMod 3] V) f2 = -f2 := (mem_commSp_iff h₂).mp hf2mem.2
-      simpa [f, h]
+      simp [f, h]
     · have h : (e₂ : V ≃ₗ[ZMod 3] V) f3 = -f3 := (mem_commSp_iff h₂).mp hf3mem.2
-      simpa [f, h]
+      simp [f, h]
   exact ⟨f, fun k => ⟨hfW k, hfne k⟩, hli, hspan, hsign₁, hsign₂⟩
 
 end CFSG.OddStandard.SmallF3.Omega

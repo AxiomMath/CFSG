@@ -146,10 +146,10 @@ theorem false_of_klein_uc64 [IsSimpleGroup G] (ρ : Representation (ZMod 2) G V)
         intro v
         simp
       mul_mem' := fun {g h} hg hh v => by
-        simp only [Set.mem_setOf_eq] at hg hh
+        simp only [Set.mem_ofPred_eq] at hg hh
         rw [map_mul, Module.End.mul_apply, hg, hh]
       inv_mem' := fun {g} hg v => by
-        simp only [Set.mem_setOf_eq] at hg
+        simp only [Set.mem_ofPred_eq] at hg
         have := hg (ρ g⁻¹ v)
         rw [hig] at this
         exact this.symm }
@@ -181,7 +181,7 @@ theorem false_of_klein_uc64 [IsSimpleGroup G] (ρ : Representation (ZMod 2) G V)
         intro v
         simp
       mul_mem' := fun {g h} hg hh v => by
-        simp only [Set.mem_setOf_eq] at hg hh ⊢
+        simp only [Set.mem_ofPred_eq] at hg hh ⊢
         obtain ⟨hg1, -⟩ := hg (ρ h v)
         obtain ⟨hh1, hh2⟩ := hh v
         refine ⟨?_, fun hv => ?_⟩
@@ -193,7 +193,7 @@ theorem false_of_klein_uc64 [IsSimpleGroup G] (ρ : Representation (ZMod 2) G V)
         · rw [map_mul, Module.End.mul_apply, hh2 hv]
           exact (hg v).2 hv
       inv_mem' := fun {g} hg v => by
-        simp only [Set.mem_setOf_eq] at hg ⊢
+        simp only [Set.mem_ofPred_eq] at hg ⊢
         obtain ⟨hg1, -⟩ := hg (ρ g⁻¹ v)
         refine ⟨?_, fun hv => ?_⟩
         · have e : ρ g⁻¹ v - v = -(ρ g (ρ g⁻¹ v) - ρ g⁻¹ v) := by
@@ -204,7 +204,7 @@ theorem false_of_klein_uc64 [IsSimpleGroup G] (ρ : Representation (ZMod 2) G V)
         · calc ρ g⁻¹ v = ρ g⁻¹ (ρ g v) := by rw [(hg v).2 hv]
             _ = v := hgi g v }
   have hNn : N.Normal := ⟨fun g hg k v => by
-    simp only [N, Subgroup.mem_mk, Set.mem_setOf_eq] at hg ⊢
+    simp only [N, Subgroup.mem_mk] at hg ⊢
     obtain ⟨hg1, -⟩ := hg (ρ k⁻¹ v)
     refine ⟨?_, fun hv => ?_⟩
     · have e : ρ (k * g * k⁻¹) v - v = ρ k (ρ g (ρ k⁻¹ v) - ρ k⁻¹ v) := by
@@ -225,7 +225,7 @@ theorem false_of_klein_uc64 [IsSimpleGroup G] (ρ : Representation (ZMod 2) G V)
     rw [map_sub, hrr, ← neg_sub]
     exact neg_eq_of_add_eq_zero_right (add_self_uc64 _)
   have hNtop : N = ⊤ := by
-    haveI := hNn
+    have := hNn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact absurd (h ▸ haN : a ∈ (⊥ : Subgroup G)) (by rw [Subgroup.mem_bot]; exact ha1)
     · exact h
@@ -258,7 +258,7 @@ theorem centralizer_sup_eq_top_uc64 {K : Type} [Group K] {p f : ℕ}
     (hu : orderOf u = 2) (hu' : orderOf u' = 2) (hne : u ≠ u') (hc : u * u' = u' * u) :
     centralizer ({u} : Set K) ⊔ centralizer ({u'} : Set K) = ⊤ := by
   obtain ⟨⟨hp, -, -⟩, F, _, _, hF, ⟨e⟩⟩ := hK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have e' : K ≃* StatedProj (StatedSL 2 F) := e
   let E : K ≃* CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup F :=
     e'.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm
@@ -302,7 +302,7 @@ theorem asc82Q64Fix_holds : Asc82Q64Fix := by
     rw [hfix] at hvD
     exact (Submodule.mem_bot (ZMod 2)).1 hvD
   have hcl : StatedClassicalModel G .PSL 2 p f := hmodel.statedClassicalModel (by decide)
-  haveI : IsSimpleGroup G := (CFSG.LieType.Simplicity.fam_PSL_simplicity G 2 p f hcl).2
+  have : IsSimpleGroup G := (CFSG.LieType.Simplicity.fam_PSL_simplicity G 2 p f hcl).2
   have hq : 11 ≤ p ^ f := by
     obtain ⟨k, hk⟩ := (hcl.1.1.odd_of_ne_two hp2).pow (n := f)
     omega
@@ -376,7 +376,7 @@ theorem asc82Lemma64Fix_holds : Asc82Lemma64Fix.{u} := by
   have hx3 : x * x * x = 1 := by
     rw [← pow_three', ← hx]
     exact pow_orderOf_eq_one x
-  haveI : IsSimpleGroup K := (CFSG.LieType.Simplicity.fam_PSL_simplicity K 2 p f hK).2
+  have : IsSimpleGroup K := (CFSG.LieType.Simplicity.fam_PSL_simplicity K 2 p f hK).2
   have hp : p.Prime := hK.1.1
   have hq : 11 ≤ p ^ f := by
     obtain ⟨k, hk⟩ := (hp.odd_of_ne_two hp2).pow (n := f)

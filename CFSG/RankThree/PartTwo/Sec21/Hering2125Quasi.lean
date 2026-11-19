@@ -169,7 +169,7 @@ theorem theta_central_of_items (h44 : Sec4.Item4_4)
       (⟨⁅(l : G), a⁆, Item21EarlyProof.commutatorElement_mem (hAY ha) l.2⟩ : Y) ∉
         centerPre (aschbacherSolvableCore 3 Y)) :
     ∀ t ∈ inSubgroup (aschbacherSolvableCore 3) Y, ∀ y ∈ Y, t * y = y * t := by
-  haveI : Group.IsPerfect Y := Sec6.isPerfect_of_mem_thetaComponentsAt hY
+  have : Group.IsPerfect Y := Sec6.isPerfect_of_mem_thetaComponentsAt hY
   have hq : IsQuasisimple (Y ⧸ aschbacherSolvableCore 3 Y) :=
     Sec6.isQuasisimple_of_mem_thetaComponentsAt hY
   have hYC : Y ≤ Subgroup.centralizer ({e} : Set G) :=

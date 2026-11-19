@@ -30,6 +30,7 @@ local notation "uA" => (⟨u, u_mem_A⟩ : A45)
 set_option quotPrecheck false in
 local notation "vA" => (⟨v, v_mem_A⟩ : A45)
 
+omit [Finite G] in
 theorem mem_commutator_sup_centerIn_of_qH_mem_Q
     (hH' : (⁅H z, H z⁆ ⊔ centerIn (J z)).relIndex (H z) = 2) {y : G} (hy : y ∈ H z)
     (hq : qH D ⟨y, hy⟩ ∈ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup) :
@@ -53,6 +54,7 @@ theorem mem_commutator_sup_centerIn_of_qH_mem_Q
     Subgroup.relIndex_eq_one.mp h3
   exact h4 ((mem_P_H_iff D ⟨y, hy⟩).mpr hq)
 
+omit [Finite G] in
 theorem isConj_v_or_uv_of_outer_involution (hJN : J z ≤ ⁅H z, H z⁆ ⊔ centerIn (J z))
     (hH' : (⁅H z, H z⁆ ⊔ centerIn (J z)).relIndex (H z) = 2)
     (hinv : ∀ x : A45, orderOf x = 2 →

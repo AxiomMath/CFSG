@@ -60,7 +60,7 @@ theorem caseILemma511_of_inputs
     CaseILemma511 := by
   intro V _ _ _ J X L z k e hJX hJn hJi hJq hZ hCJ _ hzX hz hL hk _ h3
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     Finite.of_injective (fun f : GLV V => (f : V → V)) fun _ _ h => LinearEquiv.ext (congrFun h)
   obtain ⟨hAs, hAn⟩ := alt_simple_nonab hk
   have hLs : IsSimpleGroup ↥L := e.isSimpleGroup

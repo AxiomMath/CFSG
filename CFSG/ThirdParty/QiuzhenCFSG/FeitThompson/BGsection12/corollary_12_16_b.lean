@@ -244,7 +244,7 @@ private theorem CFSG.section12_corollary_12_16_derived_exclusion_of_le_msigma
   rcases section12_exists_characteristic_pSubgroup_of_nontrivial
       (G := G) (Y := Y) hYne hYne_top with
     ⟨q, X, hXleY, hXne, hXq, hNormY_le_NormX⟩
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   have hXσ : X ≤ section10Msigma M := hXleY.trans hYleσ
   have hX_le_M : X ≤ M := hXσ.trans (section12_Msigma_le M)
   have hqY : q ∈ subgroupPrimeSet Y := by
@@ -268,7 +268,7 @@ private theorem CFSG.section12_corollary_12_16_derived_exclusion_of_le_msigma
   · have hNXne_top : Subgroup.normalizer (X : Set G) ≠ ⊤ := by
       intro hNtop
       have hXnormal : X.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-      letI : IsSimpleGroup G := IsMinCE.simple
+      let : IsSimpleGroup G := IsMinCE.simple
       rcases hXnormal.eq_bot_or_eq_top with hXbot | hXtop
       · exact hXne hXbot
       · have hYtop : Y = ⊤ := by
@@ -314,7 +314,7 @@ private theorem CFSG.section12_corollary_12_16_derived_exclusion_of_le_msigma
             (G := G) (M := M) (Mstar := Mstar) (X := X) (q := q) (S := S)
             hM hqσ hX_le_M hXne hXq hMstar hMstar_ne_M hX_leS hqσstar with
           ⟨hjoin, _hτ1, _hβα, _hβne⟩
-        haveI : ((section10Mbeta Mstar).subgroupOf Mstar).Normal := by
+        have : ((section10Mbeta Mstar).subgroupOf Mstar).Normal := by
           rw [section12Mbeta_subgroupOf_eq]
           infer_instance
         have hβHall :
@@ -349,7 +349,7 @@ private theorem CFSG.section12_corollary_12_16_derived_exclusion_of_le_msigma
             (G := G) (M := M) (Mstar := Mstar) (X := X) (q := q) (S := S)
             hM hqσ hX_le_M hXne hXq hMstar hMstar_ne_M hX_leS hqσstar with
           ⟨_hqτ2star, hbeta_subset, hcomp⟩
-        haveI : ((section10Msigma Mstar).subgroupOf Mstar).Normal := by
+        have : ((section10Msigma Mstar).subgroupOf Mstar).Normal := by
           rw [section12Msigma_subgroupOf_eq]
           infer_instance
         have hσHall :

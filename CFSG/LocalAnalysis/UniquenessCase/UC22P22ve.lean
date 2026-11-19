@@ -19,7 +19,7 @@ theorem uc22p22ve_map_sylow {X Y : Type*} [Group X] [Group Y] [Finite X] {q : �
     (hW : IsPGroup q ↥(W.map f)) : Q.map f = W.map f := by
   obtain ⟨S, rfl⟩ := hQ
   have hg : Function.Surjective (f.subgroupMap W) := f.subgroupMap_surjective W
-  haveI : Finite ↥(W.map f) := Finite.of_surjective _ hg
+  have : Finite ↥(W.map f) := Finite.of_surjective _ hg
   have hT := (S.mapSurjective hg)
   have hidx : ((S.mapSurjective hg : Sylow q ↥(W.map f)) : Subgroup ↥(W.map f)).index = 1 := by
     obtain ⟨n, hn⟩ := hW.index ((S.mapSurjective hg : Sylow q ↥(W.map f)) : Subgroup ↥(W.map f))
@@ -65,12 +65,14 @@ theorem uc22p22ve_exists_sylow_normalized_of_pGroup {X : Type*} [Group X] [Finit
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22p22ve_mem_normalizer_commutator {K : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((⁅K, K⁆ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hg ⊢
   rw [Subgroup.map_commutator, hg]
 
+omit [Finite G] in
 private theorem uc22p22ve_mem_normalizer_inf {H K : Subgroup G} {g : G}
     (hH : g ∈ Subgroup.normalizer (H : Set G)) (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((H ⊓ K : Subgroup G) : Set G) := by
@@ -82,7 +84,7 @@ private theorem uc22p22ve_coprime {M A W : Subgroup G} {q : ℕ} [Fact q.Prime]
     (hAodd : Odd (Nat.card A)) (hAq : ¬ q ∣ Nat.card A)
     (hW : W ≤ barPreimage M (CFSG.pCore q (Bar2 M))) : Nat.Coprime (Nat.card A) (Nat.card W) := by
   refine Nat.coprime_of_dvd fun r hr hrA hrW => ?_
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥W) r hrW
   obtain ⟨hxM, hxq⟩ := uc22p21c_mem_barPreimage.1 (hW x.2)
   obtain ⟨j, hj⟩ := (CFSG.pCore_isPGroup (p := q) (G := Bar2 M)) ⟨_, hxq⟩
@@ -124,8 +126,8 @@ theorem uc22p22ve_exists_lift (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D)
       Q ⊓ centralizer (c.V : Set G) = ⊥ ∧ mbarImage D.M c.V Q = Qb ∧
       (∀ x ∈ Q, x ^ q = 1) ∧ ⁅⁅Q, Q⁆, Q⁆ = ⊥ ∧ ¬ IsCyclic ↥Q ∧ A ≤ normalizer (Q : Set G) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI hNc := cTilde_bot_normal D.M c.V c.hVM
+  have : Fact q.Prime := ⟨hq⟩
+  have hNc := cTilde_bot_normal D.M c.V c.hVM
   obtain ⟨hQbn, hQbnc, hQbp, hQbexp, hQbcl, hQble⟩ := hQb
   have hhyp : F11.Hyp11 D ⊥ c.V := uc22p22c_hyp11 D (hV h1930 c).1
     (uc22p22o_not_isTI_of_hC D (uc22p22o_inCalV_of_le_U D c.hVU c.hVne c.hVM) c.hC)
@@ -134,7 +136,7 @@ theorem uc22p22ve_exists_lift (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D)
   have hQbP : Qb ≤ mbarImage D.M c.V (P ⊓ ⁅D.M, D.M⁆) := by
     set e := mbarEquiv D.M c.V with he
     set Qb' : Subgroup (F11.MBar11 D.M ⊥ c.V) := Qb.map e.toMonoidHom with hQb'
-    haveI hn : Qb'.Normal := hQbn.map _ e.surjective
+    have hn : Qb'.Normal := hQbn.map _ e.surjective
     have hp : IsPGroup q ↥Qb' := hQbp.map _
     have hle : Qb' ≤ ⁅(⊤ : Subgroup (F11.MBar11 D.M ⊥ c.V)), ⊤⁆ := by
       refine (Subgroup.map_mono hQble).trans ?_
@@ -197,7 +199,7 @@ theorem uc22p22ve_exists_lift (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D)
   obtain ⟨Q, hQsyl, hAQ⟩ : ∃ Q : Subgroup G, CFSG.ABGLocalTools.IsSylowOf q Q W₀ ∧
       A ≤ normalizer (Q : Set G) := by
     rcases hA with ⟨hAodd, hAcomm, hAq⟩ | hAp
-    · haveI : Group.IsSolvable ↥A := Group.isSolvable_of_comm fun a b => hAcomm.is_comm.comm a b
+    · have : Group.IsSolvable ↥A := Group.isSolvable_of_comm fun a b => hAcomm.is_comm.comm a b
       exact CFSG.GH74.Uniqueness.exists_sylow_normalized_of_coprime hAN
         (uc22p22ve_coprime hAodd hAq hW₀Oq) q
     · exact uc22p22ve_exists_sylow_normalized_of_pGroup hAp hAN

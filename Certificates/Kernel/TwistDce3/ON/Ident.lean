@@ -45,13 +45,13 @@ noncomputable def onPt (q : onQ) (p : ℕ) : ℕ :=
   if h : p < 57 then ((onRho q).unop ⟨p, h⟩).val else p
 
 theorem onPt_of_lt (q : onQ) {p : ℕ} (hp : p < 57) : onPt q p = ((onRho q).unop ⟨p, hp⟩).val :=
-  dif_pos hp
+  dite_eq_left hp
 
 theorem onPt_one (p : ℕ) : onPt 1 p = p := by
   by_cases h : p < 57
   · rw [onPt_of_lt _ h, map_one]
     rfl
-  · exact dif_neg h
+  · exact dite_eq_right h
 
 theorem onPt_mul (a b : onQ) (p : ℕ) : onPt (a * b) p = onPt b (onPt a p) := by
   by_cases h : p < 57
@@ -101,11 +101,11 @@ theorem hxD : ∀ c < 12, ∀ p < 57, fieldAt 11 (FB c) p = onPt (xD c) p := by
   intro c hc p hp
   by_cases h6 : c < 6
   · have e : FB c = FS (2 * (onQGen c).val + c % 2) := by rw [FS, hsw c h6]
-    rw [e, xD, if_pos h6]
+    rw [e, xD, ite_eq_left h6]
     rcases Nat.mod_two_eq_zero_or_one c with h | h
-    · rw [if_pos h, pt_of _ hp, h, Nat.add_zero]
-    · rw [if_neg (by omega), pt_of_inv _ hp, h]
-  · rw [xD, if_neg h6, onPt_one, fb_id hc (by omega) hp]
+    · rw [ite_eq_left h, pt_of _ hp, h, Nat.add_zero]
+    · rw [ite_eq_right (by omega), pt_of_inv _ hp, h]
+  · rw [xD, ite_eq_right h6, onPt_one, fb_id hc (by omega) hp]
 
 instance : Finite onQ := card_onCover1_le.1
 
@@ -180,13 +180,13 @@ theorem get_qgen : ∀ c < 6, (subsetOf 4 [0, 1, 2]).get (onQGen c) = onHGen c :
 
 theorem onPi_xD (c : ℕ) : onPi (xD c) = onX c := by
   by_cases h6 : c < 6
-  · rw [xD, onX, if_pos h6, if_pos h6]
+  · rw [xD, onX, ite_eq_left h6, ite_eq_left h6]
     split_ifs
     · rw [onPi, PresentedGroup.toGroup.of]
       exact congrArg (fun g : Fin 4 => (PresentedGroup.of g : onPC)) (get_qgen c h6)
     · rw [map_inv, onPi, PresentedGroup.toGroup.of]
       exact congrArg (fun g : Fin 4 => (PresentedGroup.of g : onPC)⁻¹) (get_qgen c h6)
-  · rw [xD, onX, if_neg h6, if_neg h6, map_one]
+  · rw [xD, onX, ite_eq_right h6, ite_eq_right h6, map_one]
 
 theorem evalWord_onX (w : List ℕ) : evalWord onX w = onPi (evalWord xD w) := by
   simp only [evalWord, map_list_prod, List.map_map]
@@ -232,7 +232,7 @@ theorem y_pow : onY ^ 2 = 1 := by
   have h := hone [2, 2] (by decide) y2_fix
   simp only [evalWord, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
     onX_two] at h
-  simp only [pow_succ, pow_zero, one_mul, mul_assoc]
+  simp only [pow_succ, pow_zero, one_mul]
   exact h
 
 theorem uy_pow : (onU * onY) ^ 7 = 1 := by

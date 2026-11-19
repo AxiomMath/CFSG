@@ -21,7 +21,7 @@ private theorem dAdj_of_cartanD_ne_zero {n : ℕ} {i j : Fin n} (hij : i ≠ j)
     apply hc
     unfold cartanD
     simp only [Matrix.of_apply]
-    rw [if_neg hij, if_neg h]
+    rw [ite_eq_right hij, ite_eq_right h]
   unfold DAdj
   omega
 
@@ -82,12 +82,12 @@ private theorem three_le_card_of_two_le_ncard {n : ℕ} {ι : Type} [Fintype ι]
     · by_contra hji
       have h := congrFun hsingle j
       simp only [Pi.single_apply] at h
-      rw [if_neg (Ne.symm hji)] at h
+      rw [ite_eq_right (Ne.symm hji)] at h
       norm_num at h
     · by_contra hji
       have h := congrFun hsingle j
       simp only [Pi.single_apply, Pi.neg_apply] at h
-      rw [if_neg (Ne.symm hji)] at h
+      rw [ite_eq_right (Ne.symm hji)] at h
       norm_num at h
   omega
 

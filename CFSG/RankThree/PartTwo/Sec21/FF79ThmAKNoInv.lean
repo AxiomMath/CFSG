@@ -13,7 +13,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 theorem exists_orderOf_five_of_l24 {Y : Type} [Group Y] [Finite Y] (K : Subgroup Y)
     (hK : StatedClassicalModel K .PSL 2 2 2) : ∃ z : Y, z ∈ K ∧ orderOf z = 5 := by
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hK
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, hp, n, hpp, hpn⟩ := FiniteField.card' (K := F)
   have hcard4 : Fintype.card F = 4 := by
     rw [← Nat.card_eq_fintype_card, hcard]; norm_num
@@ -23,7 +23,7 @@ theorem exists_orderOf_five_of_l24 {Y : Type} [Group Y] [Finite Y] (K : Subgroup
     have h2 : p ∣ 2 ^ 2 := by simpa using h1
     exact (Nat.prime_dvd_prime_iff_eq hpp Nat.prime_two).1 (hpp.dvd_of_dvd_pow h2)
   subst hp2
-  haveI : CharP F 2 := hp
+  have : CharP F 2 := hp
   have hN := statedScalars_subgroupOf_statedSL_two_eq_bot (K := F)
   have hKcard : Nat.card K = 60 := by
     have h1 : Nat.card K = Nat.card (StatedProj (StatedSL 2 F)) := Nat.card_congr e.toEquiv
@@ -35,7 +35,7 @@ theorem exists_orderOf_five_of_l24 {Y : Type} [Group Y] [Finite Y] (K : Subgroup
     have h3 : Nat.card F = 4 := by rw [Nat.card_eq_fintype_card]; exact hcard4
     rw [h1, ← h2, h3]
     norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' (G := K) 5 (by rw [hKcard]; norm_num)
   exact ⟨k, k.2, by rw [Subgroup.orderOf_coe]; exact hk⟩
 

@@ -20,7 +20,7 @@ private theorem spUCited_hyp_eval_add_smul (hr : 2 ≤ r) (c : K) :
       Sum.inl (⟨0, by omega⟩ : Fin r) := by
     intro h
     exact absurd (Sum.inl.inj h) (by simp)
-  simp [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, Pi.single_eq_of_ne' hne, smul_eq_mul]
+  simp [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul]
 
 theorem uCited_mem_rootGroupsIn (h : UnitaryFieldData p f K) (hr : 2 ≤ r) :
     uCitedRoot h r ε (Pi.single (Sum.inl (⟨1, by omega⟩ : Fin r)) (1 : K)) ∈
@@ -32,7 +32,7 @@ theorem uCited_mem_rootGroupsIn (h : UnitaryFieldData p f K) (hr : 2 ≤ r) :
     exact (uCited_conj_root_zero h hr hc hc0).symm
   · exact uCited_root_le_unipotent h ⟨1, by omega⟩
 
-theorem uCited_unipotent_apply_one (h : UnitaryFieldData p f K) (hr : 2 ≤ r) (hε : ε ≤ 1)
+theorem uCited_unipotent_apply_one (h : UnitaryFieldData p f K) (hr : 2 ≤ r) (_hε : ε ≤ 1)
     {u : ↥(hypSU h r ε)} (hu : u ∈ hypUnitriangular h r ε) :
     ∃ c : K, ((u : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K) *ᵥ
         (Pi.single (Sum.inl (⟨1, by omega⟩ : Fin r)) (1 : K) : HypIndex r ε → K) =
@@ -98,12 +98,12 @@ theorem uCited_index_le [Finite K] (h : UnitaryFieldData p f K) (hr : 2 ≤ r) (
       apply Subtype.ext
       have hcw : w.1 (Sum.inl (⟨0, by omega⟩ : Fin r)) = c := by
         rw [hc]
-        simpa [v0, v1, e0, e1] using spUCited_hyp_eval_add_smul (ε := ε) hr c
+        simp [v0, v1, e0, e1]
       dsimp only
       rw [hcw]
       exact hc.symm
     · intro c
-      simpa [v0, v1, e0, e1] using spUCited_hyp_eval_add_smul (ε := ε) hr c
+      simp [v0, v1, e0, e1]
   let f : U ⧸ H → T := Quotient.lift
     (fun u : U =>
       ⟨m (u : S) *ᵥ v1, by
@@ -114,7 +114,7 @@ theorem uCited_index_le [Finite K] (h : UnitaryFieldData p f K) (hr : 2 ≤ r) (
       have huvH : u⁻¹ * v ∈ H := QuotientGroup.leftRel_apply.mp huv
       have huvN : (((u⁻¹ * v : U)) : S) ∈ N := (Subgroup.mem_subgroupOf).mp huvH
       have hg : (((u⁻¹ * v : U)) : S) = (u : S)⁻¹ * (v : S) := by
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp [Subgroup.coe_mul]
       have hfix : m (((u⁻¹ * v : U)) : S) *ᵥ v1 = v1 := by
         obtain ⟨c, _hcne, hc⟩ :=
           (uCited_mem_normalizer_root_iff h (⟨1, by omega⟩ : Fin r)
@@ -132,7 +132,7 @@ theorem uCited_index_le [Finite K] (h : UnitaryFieldData p f K) (hr : 2 ≤ r) (
             simp [v1, e1, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul]
           have h3 : (v1 + c' • v0 : HypIndex r ε → K)
               (Sum.inl (⟨1, by omega⟩ : Fin r)) = 1 := by
-            simpa [v0, v1, e0, e1] using spUCited_hyp_eval_add_smul_one (ε := ε) hr c'
+            simp [v0, v1, e0, e1]
           rw [h2, h3] at h
           exact h
         have hc2 : c' = 0 := by
@@ -143,10 +143,10 @@ theorem uCited_index_le [Finite K] (h : UnitaryFieldData p f K) (hr : 2 ≤ r) (
             exact absurd (Sum.inl.inj hh) (by simp)
           have h2 : (c • v1 : HypIndex r ε → K)
               (Sum.inl (⟨0, by omega⟩ : Fin r)) = 0 := by
-            simp [v1, e1, Pi.smul_apply, Pi.single_eq_of_ne' hne, smul_eq_mul]
+            simp [v1, e1, Pi.smul_apply, smul_eq_mul]
           have h3 : (v1 + c' • v0 : HypIndex r ε → K)
               (Sum.inl (⟨0, by omega⟩ : Fin r)) = c' := by
-            simpa [v0, v1, e0, e1] using spUCited_hyp_eval_add_smul (ε := ε) hr c'
+            simp [v0, v1, e0, e1]
           rw [h2, h3] at h
           exact h.symm
         rw [hc2] at hc'v
@@ -175,7 +175,7 @@ theorem uCited_index_le [Finite K] (h : UnitaryFieldData p f K) (hr : 2 ≤ r) (
     rw [one_smul]
     have hfix : m (((u⁻¹ * v : U)) : S) *ᵥ v1 = v1 := by
       have hg : (((u⁻¹ * v : U)) : S) = (u : S)⁻¹ * (v : S) := by
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp [Subgroup.coe_mul]
       rw [hg]
       have hmul : m ((u : S)⁻¹ * (v : S) : S) = (m (u : S))⁻¹ * m (v : S) := by
         rw [hmulS ((u : S)⁻¹) (v : S), hinvS (u : S)]
@@ -191,8 +191,8 @@ theorem uCited_index_le [Finite K] (h : UnitaryFieldData p f K) (hr : 2 ≤ r) (
         _ = 1 *ᵥ v1 := by rw [hinv]
         _ = v1 := Matrix.one_mulVec v1
     simpa [v0, v1, e0, e1, m] using hfix
-  haveI : Finite T := by
-    letI : Fintype K := Fintype.ofFinite K
+  have : Finite T := by
+    let : Fintype K := Fintype.ofFinite K
     infer_instance
   change N.relIndex U ≤ Nat.card K
   rw [Subgroup.relIndex, Subgroup.index_eq_card]

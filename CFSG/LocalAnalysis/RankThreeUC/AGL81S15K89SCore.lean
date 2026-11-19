@@ -148,7 +148,7 @@ theorem core_S (hCat : CFSG.AGLEmbedding.CatalogOuterSolvable) (hF2 : KFactL32Od
         rw [this]
         trivial
       · by_cases hI1 : Nat.card I = 1
-        · haveI : Subsingleton I := (Nat.card_eq_one_iff_unique.1 hI1).1
+        · have : Subsingleton I := (Nat.card_eq_one_iff_unique.1 hI1).1
           rw [Subsingleton.elim u 1]
           exact J.one_mem
         · obtain ⟨p, hp, hp2, hpe⟩ := exists_prime_exponent_of_minimal hab h2 hI1 ρ hmin

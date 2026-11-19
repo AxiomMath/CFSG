@@ -50,7 +50,7 @@ public theorem psl2_invariant_oddP_subgroup_centralized
   let S0 : Sylow 2 (PSL2MatrixGroup F) := Classical.choice Sylow.nonempty
   obtain ⟨m, _hm, ⟨eS0⟩⟩ :=
     psl2_odd_hasDihedralSylowTwo_model F hoddF S0
-  let : Fact (IsPGroup 2 S0) := ⟨S0.isPGroup'⟩
+  let : Fact (IsPGroup 2 S0) := ⟨S0.isPGroup⟩
   let : Nontrivial S0 := eS0.toEquiv.nontrivial
   obtain ⟨z, _hzTop, hzCenter, hzNe, hzSq⟩ :=
     exists_nontrivial_mem_center_of_normal_p_subgroup

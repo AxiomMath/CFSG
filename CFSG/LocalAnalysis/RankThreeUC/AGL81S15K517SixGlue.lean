@@ -66,9 +66,10 @@ structure K6Ctx (T T₁ T₂ : Subgroup X) (Ls : Subgroup (X ⧸ gnC T)) : Prop 
 
 variable {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
 
+omit [Finite X] in
 theorem le_normalizer_of_pair_char {Ti : Subgroup X} (hle : Ti ≤ T)
     (hc : (Ti.subgroupOf T).Characteristic) : T ≤ Subgroup.normalizer (Ti : Set X) := by
-  haveI := hc
+  have := hc
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hle).1 inferInstance
 
 theorem K6Ctx.of_gn (hX : GNSetting X T) (hgood : GNGood T T₁ T₂)
@@ -141,7 +142,7 @@ variable {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgroup X} {Ls : Subgro
 
 theorem charP_two_of_card {F : Type} [Field F] [Finite F] {k : ℕ} (h : Nat.card F = 2 ^ k) :
     CharP F 2 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   exact charP_of_card_eq_prime_pow (f := k) (by rw [← Nat.card_eq_fintype_card]; exact h)
 
 theorem k6_A (hT : LieOddRankTable) (ctx : K6Ctx T T₁ T₂ Ls) {l : ℕ} {Q : TauCeti.PrimePower}
@@ -150,8 +151,8 @@ theorem k6_A (hT : LieOddRankTable) (ctx : K6Ctx T T₁ T₂ Ls) {l : ℕ} {Q : 
     (e : (↥Ls ⧸ Subgroup.center ↥Ls) ≃* (TauCeti.CFSGIndex.lie ⟨.A l Q, hv⟩).Group) : False := by
   by_cases hl5 : 5 ≤ l
   · have hQ : Q.p = 2 := hd.1
-    haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-    haveI : CharP (GaloisField Q.p Q.exponent) 2 := CharP.congr Q.p hQ
+    have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+    have : CharP (GaloisField Q.p Q.exponent) 2 := CharP.congr Q.p hQ
     exact false_of_sl ctx.sylow ctx.cov inf_le_right inf_le_right ctx.r₁ ctx.r₂ hl5
       ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL l Q hv).symm.trans e.symm)
   · have hl2 : 2 ≤ l := hd.2
@@ -173,7 +174,7 @@ theorem k6_D (ctx : K6Ctx T T₁ T₂ Ls) {l : ℕ} {Q : TauCeti.PrimePower}
   have hmodel := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeD_even l Q hv hQ e
   rw [hQ] at hmodel
   obtain ⟨-, F, hF, hFfin, hcard, ⟨e'⟩⟩ := hmodel
-  haveI := charP_two_of_card hcard
+  have := charP_two_of_card hcard
   exact false_of_spinPlus ctx.sylow ctx.cov inf_le_right inf_le_right ctx.r₁ ctx.r₂ hd.2 e'
 
 theorem k6_B (hT : LieOddRankTable) (hK : KSMOdd) (ctx : K6Ctx T T₁ T₂ Ls) {l : ℕ}
@@ -189,7 +190,7 @@ theorem k6_B (hT : LieOddRankTable) (hK : KSMOdd) (ctx : K6Ctx T T₁ T₂ Ls) {
       (by norm_num) e
     rw [hQ] at hmodel
     obtain ⟨-, F, hF, hFfin, hcard, ⟨e'⟩⟩ := hmodel
-    haveI := charP_two_of_card hcard
+    have := charP_two_of_card hcard
     have hZ := center_eq_bot_of_ksmOdd hK ctx (d := ⟨.B 3 Q, hv⟩) hQ
       (fun _ h => TauCeti.LieTypeIndex.noConfusion h)
       (fun _ h => TauCeti.LieTypeIndex.noConfusion h)
@@ -203,7 +204,7 @@ theorem k6_B (hT : LieOddRankTable) (hK : KSMOdd) (ctx : K6Ctx T T₁ T₂ Ls) {
       (by omega) e
     rw [hQ] at hmodel
     obtain ⟨-, F, hF, hFfin, hcard, ⟨e'⟩⟩ := hmodel
-    haveI := charP_two_of_card hcard
+    have := charP_two_of_card hcard
     exact false_of_sp ctx.sylow ctx.cov inf_le_right inf_le_right ctx.r₁ ctx.r₂ hl4 e'
 
 end Families
@@ -225,7 +226,7 @@ theorem k6_TD (hT : LieOddRankTable) (hK : KSMOdd) (ctx : K6Ctx T T₁ T₂ Ls) 
   have hmodel := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD_even l Q hv hQ e
   rw [hQ] at hmodel
   obtain ⟨-, F, hF, hFfin, hcard, b, c, hirr, ⟨e'⟩⟩ := hmodel
-  haveI := charP_two_of_card hcard
+  have := charP_two_of_card hcard
   rcases Nat.eq_or_lt_of_le hl4 with rfl | hl5
   · have hZ := center_eq_bot_of_ksmOdd hK ctx (d := ⟨.twistedD 4 Q, hv⟩) hQ
       (fun _ h => TauCeti.LieTypeIndex.noConfusion h)
@@ -259,7 +260,7 @@ theorem k6_TA (hKSMU4 : KSMU4) (ctx : K6Ctx T T₁ T₂ Ls) {l : ℕ} {Q : TauCe
     have hmodel := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA l Q hv e
     rw [hQ] at hmodel
     obtain ⟨-, F, hF, hFfin, hcard, ⟨e'⟩⟩ := hmodel
-    haveI : CharP F 2 := charP_two_of_card (k := Q.exponent * 2) (by rw [hcard, pow_mul])
+    have : CharP F 2 := charP_two_of_card (k := Q.exponent * 2) (by rw [hcard, pow_mul])
     have h3 : 3 ∣ 2 ^ Q.exponent + 1 := by
       simpa using Odd.nat_add_dvd_pow_add_pow 2 1 hnodd
     exact false_of_su ctx.quasi ctx.sylow ctx.cov inf_le_right inf_le_right ctx.r₁ ctx.r₂ hcard h3

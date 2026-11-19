@@ -38,7 +38,7 @@ theorem ggRootNoCentral_e6
     (u : (ggU .E6 n f).K) :
     GGRootNoCentralAt (⊤ : Subgroup (ggU .E6 n f).K)
       (ggRootSub (ggU .E6 n f).D (MonoidHom.id (ggU .E6 n f).K) β u) := by
-  haveI : Finite ↥(e6Data_valid.minGroup (GaloisField 2 f)) :=
+  have : Finite ↥(e6Data_valid.minGroup (GaloisField 2 f)) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid (GaloisField 2 f)
   have hβ' : IsRoot .E6 β := by
     have h : β ∈ (e6Datum (GaloisField 2 f)).roots := hβ

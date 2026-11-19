@@ -47,7 +47,7 @@ section Defs
           GLALayer (L ⊓ Subgroup.centralizer ({d} : Set G)) = J) ∧
       (rootDiagUnit Tag.E6 a ∉ S.Γ → ¬ InducesInnerMod 3 L d)
 
-@[expose] def T158E6ModelData {G : Type} [Group G] (L J A : Subgroup G) (d b : G) : Prop :=
+@[expose] def T158E6ModelData {G : Type} [Group G] (L _J _A : Subgroup G) (d b : G) : Prop :=
   ∃ (C : Type) (_ : Group C) (_ : Finite C) (θ : ↥L ⧸ Subgroup.center ↥L ≃* C) (β φ : MulAut C)
     (Lf : Type) (_ : Field Lf) (_ : IsAlgClosed Lf) (_ : CharP Lf 2) (S : LangSetup Tag.E6 Lf 5)
     (a : Fin Tag.E6.rank → Lfˣ) (ι : C →* ModGL Tag.E6 Lf) (y : ModGL Tag.E6 Lf),

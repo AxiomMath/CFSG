@@ -29,7 +29,7 @@ theorem exists_mem_centralizer_conj_of_fixed [Finite G] {Q : Subgroup G} (hQ : I
     (hvt : v * t = t * v) (hvs : v * s = s * v) (hq : q ∈ Q) (hs : s = q * t * q⁻¹) :
     ∃ r ∈ Q ⊓ Subgroup.centralizer ({v} : Set G), s = r * t * r⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set A : Subgroup G := Subgroup.zpowers v with hA
   set u : G := q⁻¹ * v * q with hu
   set B : Subgroup G := Subgroup.zpowers u with hB
@@ -68,7 +68,7 @@ theorem exists_mem_centralizer_conj_of_fixed [Finite G] {Q : Subgroup G} (hQ : I
       (Subgroup.mem_sup_right (Subgroup.mem_zpowers u))) (Subgroup.mem_sup_left (inv_mem hq))
   have hTS : T ≤ Subgroup.normalizer (S : Set G) := fun x hx =>
     Subgroup.inf_normalizer_le_normalizer_inf ⟨hQAT hx.1, Subgroup.le_normalizer hx.2⟩
-  haveI hNn : (S.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTS
+  have hNn : (S.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTS
   have hodd_u : orderOf u ∣ orderOf v := by
     apply orderOf_dvd_of_pow_eq_one
     have h := map_pow (MulAut.conj q⁻¹) v (orderOf v)
@@ -119,7 +119,7 @@ theorem exists_mem_centralizer_conj_of_fixed [Finite G] {Q : Subgroup G} (hQ : I
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp hNp
     rw [hk, hindex]
     exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hv)
-  haveI : Group.IsNilpotent N := hNp.isNilpotent
+  have : Group.IsNilpotent N := hNp.isNilpotent
   obtain ⟨n, hn, hnK⟩ := CFSG.SolvableHall.solvable_normal_hall_complement_conjugacy N
     inferInstance hcop hNH hNK hNH' hNK'
   have huK : (⟨u, hBT (Subgroup.mem_zpowers u)⟩ : T) ∈ K := Subgroup.mem_zpowers u

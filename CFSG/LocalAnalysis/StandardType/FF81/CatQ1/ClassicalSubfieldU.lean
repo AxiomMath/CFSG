@@ -244,8 +244,8 @@ theorem pRank_primeFormP_eq_of_cube {ℓ f e n : ℕ} {F F₀ : Type} [Field F] 
   rw [pRank_primeFormP_one h Nat.prime_three (by norm_num) hℓ.symm hn hdiv,
     pRank_primeFormP_one h₀ Nat.prime_three (by norm_num) hℓ.symm hn hdiv₀]
   by_cases h3 : 3 ∣ ℓ ^ f + 1
-  · rw [if_pos h3, if_pos (hiff.mp h3)]
-  · rw [if_neg h3, if_neg (fun hh => h3 (hiff.mpr hh)), hmod]
+  · rw [ite_eq_left h3, ite_eq_left (hiff.mp h3)]
+  · rw [ite_eq_right h3, ite_eq_right (fun hh => h3 (hiff.mpr hh)), hmod]
 
 private theorem cq1_div_orderOf_neg_le_two {n p m : ℕ} (hn : n ≤ 3) (h : ¬ p ∣ m + 1) :
     n / orderOf (-((m : ℕ) : ZMod p)) ≤ 2 := by
@@ -275,7 +275,7 @@ theorem pRank_primeFormP_three_le_two {ℓ f : ℕ} {F : Type} [Field F] [Finite
       intro hd
       exact h3 (hd.trans (Nat.gcd_dvd_right 3 (ℓ ^ f + 1)))
     rw [pRank_primeFormP_one h Nat.prime_three (by norm_num) hℓ.symm (by norm_num) hdiv,
-      if_neg h3]
+      ite_eq_right h3]
     exact cq1_div_orderOf_neg_le_two le_rfl h3
 
 theorem twentySeven_dvd_card_primeFormP_charThree {e n : ℕ} {F₀ : Type} [Field F₀] [Finite F₀]

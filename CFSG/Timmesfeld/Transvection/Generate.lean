@@ -109,7 +109,7 @@ private theorem exists_conjSub_eq_of_mem_perpSet_of_base (hΔ : IsTransvectionCl
       ∃ g ∈ M j, conjSub (P ⟨j, by omega⟩) g = W)
     (hbase : ∀ X ∈ perpSet Δ P Q (r - 1),
       ∃ g ∈ M (r - 1), conjSub (P ⟨r - 1, by omega⟩) g = X)
-    (hlast : P ⟨r - 1, by omega⟩ ≤ M (r - 1)) {j : ℕ} (hj : j < r)
+    (_hlast : P ⟨r - 1, by omega⟩ ≤ M (r - 1)) {j : ℕ} (hj : j < r)
     {X : Subgroup H} (hX : X ∈ perpSet Δ P Q j) : ∃ m ∈ M j, conjSub (P ⟨j, hj⟩) m = X := by
   suffices key : ∀ d j, j + d + 1 = r → ∀ (hj : j < r), ∀ X ∈ perpSet Δ P Q j,
       ∃ m ∈ M j, conjSub (P ⟨j, hj⟩) m = X from key (r - 1 - j) j (by omega) hj X hX

@@ -14,6 +14,7 @@ section Top
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K J : Subgroup G}
 
+omit [Finite G] in
 theorem s26_top_notMem_ofE (hJ : J ∈ omegaNbr Ω K)
     (hne : omegaNbrGen Ω K ≠ J ⊔ oddCoreOf (omegaNbrGen Ω K))
     (hmap : ∀ {L' J' : Subgroup ↥(omegaNbrGen Ω K)},

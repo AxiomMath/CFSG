@@ -33,7 +33,8 @@ structure Hyp76 (V H E J A X : Subgroup G) [(J.subgroupOf X).Normal] : Prop wher
 @[expose] def dSetIn (V H E J A : Subgroup G) : Set G :=
   {d | ∃ U ∈ omegaSet V H E, U ≤ A ⊔ J ∧ d ∈ U ∧ d ∉ J}
 
-theorem s762C_le_sup_zpowers_of_relIndex_eq_two {L K : Subgroup G} (hLK : L ≤ K)
+omit [Finite G] in
+theorem s762C_le_sup_zpowers_of_relIndex_eq_two {L K : Subgroup G} (_hLK : L ≤ K)
     (h : L.relIndex K = 2) {a : G} (haK : a ∈ K) (haL : a ∉ L) :
     K ≤ L ⊔ Subgroup.zpowers a := by
   intro x hxK
@@ -53,6 +54,7 @@ theorem s762C_le_sup_zpowers_of_relIndex_eq_two {L K : Subgroup G} (hLK : L ≤ 
         (Subgroup.mem_sup_right ((Subgroup.zpowers a).inv_mem (Subgroup.mem_zpowers a)))
     rwa [show (x * a) * a⁻¹ = x by group] at hmem
 
+omit [Finite G] in
 private theorem s762C_zpow_eq_one_or_self_of_mul_self_eq_one {x : G} (hx : x * x = 1)
     (n : ℤ) : x ^ n = 1 ∨ x ^ n = x := by
   obtain ⟨k, hk | hk⟩ := Int.even_or_odd' n
@@ -67,6 +69,7 @@ private theorem s762C_zpow_eq_one_or_self_of_mul_self_eq_one {x : G} (hx : x * x
       rw [show (2 : ℤ) = ((2 : ℕ) : ℤ) by norm_num, zpow_natCast, pow_two, hx]
     rw [h2, one_zpow, one_mul]
 
+omit [Finite G] in
 private theorem s762C_mem_of_mul_self_eq_one {X J : Subgroup G} [(J.subgroupOf X).Normal]
     (hodd : Odd (J.relIndex X)) {s : G} (hsX : s ∈ X) (hs2 : s * s = 1) : s ∈ J := by
   let S : ↥X := ⟨s, hsX⟩
@@ -90,11 +93,12 @@ private theorem s762C_mem_of_mul_self_eq_one {X J : Subgroup G} [(J.subgroupOf X
     (QuotientGroup.eq_one_iff S).mp (orderOf_eq_one_iff.mp hone)
   exact Subgroup.mem_subgroupOf.mp hS1
 
+omit [Finite G] in
 private theorem s762C_mem_of_mul_self_eq_one_of_quotient {X N : Subgroup G}
     (hXN : X ≤ N) (hNnorm : N ≤ Subgroup.normalizer (X : Set G)) {s w : G}
     (hsN : s ∈ N) (hwX : w ∈ X) (hs2 : s * s = 1) (hswN : s * w ∈ N)
     (hodd : Odd (orderOf (s * w))) : s ∈ X := by
-  haveI : (X.subgroupOf N).Normal :=
+  have : (X.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXN).mpr hNnorm
   let S : ↥N := ⟨s, hsN⟩
   let W : ↥N := ⟨w, hXN hwX⟩
@@ -139,10 +143,12 @@ theorem Hyp76.isPGroup_sup (h : Hyp76 V H E J A X) : IsPGroup 2 ↥(A ⊔ J) := 
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) H).to_le h.le_pCore
   exact h.isPGroup.to_sup_of_normal_right' hJ2 hAnormJ
 
+omit [Finite G] in
 theorem Hyp76.sup_le_normalizer (h : Hyp76 V H E J A X) :
     A ⊔ J ≤ Subgroup.normalizer (X : Set G) :=
   sup_le h.A_le_normalizer (h.le_X.trans Subgroup.le_normalizer)
 
+omit [Finite G] in
 theorem Hyp76.faithful_sup (h : Hyp76 V H E J A X) :
     ∀ a ∈ A ⊔ J, (∀ x ∈ X, ⁅a, x⁆ ∈ J) → a ∈ J := by
   have hAH : A ≤ H := by

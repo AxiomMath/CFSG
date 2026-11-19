@@ -65,7 +65,7 @@ theorem a1_cast_one {γ μ : Fin Tag.F4.rank → ℤ} (hγ : γ ∈ rootFinset T
     (hμ : μ ∈ Deg1 Tag.F4) (h1 : γ + μ ∈ rootFinset Tag.F4) (h2 : μ - γ ∉ rootFinset Tag.F4) :
     (AD.a1 γ μ : L) = 1 := by
   have := (AD.adm1 γ hγ hγ0 μ (mem_deg1Roots hμ)).1 h1
-  rw [if_neg h2] at this
+  rw [ite_eq_right h2] at this
   exact cast_one_of_abs this
 
 theorem a2_cast_zero {γ μ : Fin Tag.F4.rank → ℤ} (hγ : γ ∈ rootFinset Tag.F4) (hγ0 : γ 0 = 0)
@@ -90,7 +90,7 @@ theorem A_v_S (Fr : L →+* L) (t b₀ : L) :
   unfold fv
   rw [w_rS, ActionAux.actFun_add, ActionAux.actFun_single, ActionAux.actFun_single, e1, e2, e3, e4,
     e5]
-  simp only [mul_zero, zero_mul, Pi.single_zero, add_zero, mul_one, one_mul]
+  simp only [mul_zero, zero_mul, Pi.single_zero, add_zero, mul_one]
   abel
 
 theorem A_z_S (Fr : L →+* L) (t b₀ e : L) :
@@ -112,7 +112,7 @@ theorem A_z_S (Fr : L →+* L) (t b₀ e : L) :
   unfold fv
   rw [w_rS, ActionAux.actFun_add, ActionAux.actFun_add, ActionAux.actFun_single,
     ActionAux.actFun_single, ActionAux.actFun_single, e1, e2, e3, e4, e5, e6, e7]
-  simp only [mul_zero, zero_mul, Pi.single_zero, add_zero, mul_one, one_mul]
+  simp only [mul_zero, zero_mul, Pi.single_zero, add_zero, mul_one]
   abel
 
 end StepD3

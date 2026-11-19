@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16h_perfect_le_centralizer_of_comm_mem {K V₀ : Subgroup G} {w : G} (hperf : ⁅K, K⁆ = K)
     (hV₀ : ∀ a ∈ V₀, ∀ b ∈ V₀, a * b = b * a) (hKV₀ : K ≤ centralizer (V₀ : Set G))
     (hw2 : w ^ 2 = 1) (hKw : ∀ k ∈ K, k * w * k⁻¹ * w⁻¹ ∈ V₀) :
@@ -91,16 +92,18 @@ theorem s16h_pRank_map_aut {A : Type*} [Group A] [Finite A] (q : ℕ) (H : Subgr
   · intro hk
     exact step H e k hk
 
+omit [Finite G] in
 theorem s16h_barSub_conjSubgroup_le {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {K L : Subgroup G}
     (h : barSub V₀ V hV K ≤ barSub V₀ V hV L) {x : G} (hx : x ∈ stabTil V₀ V) :
     barSub V₀ V hV (conjSubgroup K x) ≤ barSub V₀ V hV (conjSubgroup L x) := by
   rw [s15_Infra_barSub_conjSubgroup V₀ V hV hx, s15_Infra_barSub_conjSubgroup V₀ V hV hx]
   exact Subgroup.map_mono h
 
+omit [Finite G] in
 theorem s16h_mem_preTil_fixV_of_le {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {B B' : Subgroup (MulAut (Vtil V₀ V hV))} (h : B ≤ B') {w : G}
     (hw : w ∈ preTil V₀ V hV (fixV B')) : w ∈ preTil V₀ V hV (fixV B) :=
-  Subgroup.map_mono (Subgroup.comap_mono fun y hy => mem_fixV.2 fun g hg =>
+  Subgroup.map_mono (Subgroup.comap_mono fun _y hy => mem_fixV.2 fun g hg =>
     mem_fixV.1 hy g (h hg)) hw
 
 theorem s16h_conjSubgroup_le_celt_of_barSub_le {D : Data G} {V₀ V L K : Subgroup G}

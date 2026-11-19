@@ -21,8 +21,8 @@ theorem exists_isE (c : MinCex193 D V₀ V p X) {A : Subgroup G} (hAT : A ≤ D.
     (hAab : IsElemAbelian 2 A) (hXA : ¬ ⁅X, A⁆ ≤ pCoreOf 2 (X ⊔ D.T)) :
     ∃ K : Subgroup G, E1.IsE 1 (X ⊔ D.T) D.T A K := by
   classical
-  haveI hp : Fact p.Prime := ⟨c.hyp.prime⟩
-  haveI h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hp : Fact p.Prime := ⟨c.hyp.prime⟩
+  have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := X ⊔ D.T
   have hH : H = X ⊔ D.T := rfl
   have hXH : X ≤ H := by rw [hH]; exact le_sup_left
@@ -30,7 +30,7 @@ theorem exists_isE (c : MinCex193 D V₀ V p X) {A : Subgroup G} (hAT : A ≤ D.
   have hAH : A ≤ H := hAT.trans hTH
   have hHcore : pCoreOf 2 H ≤ H := c.hyp.pCoreOf_le_T.trans hTH
   set Y : Subgroup ↥H := CFSG.pCore 2 ↥H with hY
-  haveI : Y.Normal := CFSG.pCore_normal
+  have : Y.Normal := CFSG.pCore_normal
   let π : ↥H →* ↥H ⧸ Y := QuotientGroup.mk' Y
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Y
   have hπker : π.ker = Y := QuotientGroup.ker_mk' Y
@@ -97,7 +97,7 @@ theorem exists_isE (c : MinCex193 D V₀ V p X) {A : Subgroup G} (hAT : A ≤ D.
     {K | E1.IsE 1 ⊤ (T'.map π) (A'.map π) K ∧
       E1.EOne ↥K ((A'.map π).subgroupOf K) ∧
       Nat.card (E1.barO2 ↥K ((A'.map π).subgroupOf K)) ≤ 2 ^ 1}
-  haveI : Xb.Normal := hXbNormal
+  have : Xb.Normal := hXbNormal
   have hle : ⁅Xb, Abar⁆ ≤ ⨆ K ∈ S, twoResidual K :=
     E1.comm_le_iSup_twoResidual (G := ↥H ⧸ Y) c.hyp.prime c.hyp.odd hTt hAbarT hAbarab hXbP
   have hSne : S.Nonempty := by
@@ -112,7 +112,7 @@ theorem exists_isE (c : MinCex193 D V₀ V p X) {A : Subgroup G} (hAT : A ≤ D.
     have hKtilde' : E1.IsE 1 ⊤ (T'.map π) (A'.map π) Ktilde ∧
         E1.EOne ↥Ktilde ((A'.map π).subgroupOf Ktilde) ∧
         Nat.card (E1.barO2 ↥Ktilde ((A'.map π).subgroupOf Ktilde)) ≤ 2 ^ 1 := by
-      simpa only [S, Set.mem_setOf_eq] using hKtilde
+      simpa only [S, Set.mem_ofPred_eq] using hKtilde
     exact hKtilde'.1
   obtain ⟨J, hJ, -⟩ :=
     E1.ten_seven (G := ↥H) (Y := Y) hT'syl hA'T' hAab' hKIsE

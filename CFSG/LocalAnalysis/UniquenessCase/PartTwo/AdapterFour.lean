@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma conj_mem_centralizer {M V : Subgroup G} (hMV : M ≤ normalizer (V : Set G))
     {m y : G} (hm : m ∈ M) (hy : y ∈ centralizer (V : Set G)) :
     m * y * m⁻¹ ∈ centralizer (V : Set G) := by
@@ -21,6 +22,7 @@ private lemma conj_mem_centralizer {M V : Subgroup G} (hMV : M ≤ normalizer (V
     _ = m * (y * (m⁻¹ * v * m)) * m⁻¹ := by rw [hy (m⁻¹ * v * m) hvn]
     _ = (m * y * m⁻¹) * v := by group
 
+omit [Finite G] in
 private lemma le_normalizer_inf_centralizer {M V : Subgroup G}
     (hMV : M ≤ normalizer (V : Set G)) :
     M ≤ normalizer ((M ⊓ centralizer (V : Set G) : Subgroup G) : Set G) := by
@@ -35,12 +37,12 @@ private lemma le_normalizer_inf_centralizer {M V : Subgroup G}
     · simpa using conj_mem_centralizer hMV (M.inv_mem hm) hx.2
     · rw [MulAut.conj_apply]; group
 
-private lemma forall_pow_mem_iff_exists_index_pow {C K : Subgroup G} (hCK : C ≤ K)
+private lemma forall_pow_mem_iff_exists_index_pow {C K : Subgroup G} (_hCK : C ≤ K)
     (hKn : (C.subgroupOf K).Normal) :
     (∀ y : K, ∃ k : ℕ, (y ^ 2 ^ k : K) ∈ C.subgroupOf K) ↔
       ∃ n : ℕ, (C.subgroupOf K).index = 2 ^ n := by
-  haveI : (C.subgroupOf K).Normal := hKn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (C.subgroupOf K).Normal := hKn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   constructor
   · intro h
     have hP : IsPGroup 2 (↥K ⧸ C.subgroupOf K) := by
@@ -64,6 +66,7 @@ private lemma forall_pow_mem_iff_exists_index_pow {C K : Subgroup G} (hCK : C �
     change (QuotientGroup.mk' (C.subgroupOf K)) (y ^ 2 ^ k) = 1
     rw [map_pow, hk]
 
+omit [Finite G] in
 private lemma iSup_conj_zpowers_eq_closure (M : Subgroup G) (v : G) :
     (⨆ m : M, (zpowers v).map (MulAut.conj (m : G)).toMonoidHom) =
       closure {x : G | ∃ m ∈ M, x = m * v * m⁻¹} := by
@@ -75,8 +78,9 @@ private lemma iSup_conj_zpowers_eq_closure (M : Subgroup G) (v : G) :
   · rw [Subgroup.closure_le]
     rintro x ⟨m, hm, rfl⟩
     exact Subgroup.mem_iSup_of_mem (⟨m, hm⟩ : M)
-      (by simpa [MulAut.conj_apply] using Subgroup.mem_map_of_mem _ (Subgroup.mem_zpowers v))
+      (by simp [MulAut.conj_apply])
 
+omit [Finite G] in
 private lemma centralizer_conj_iff (M : Subgroup G) {z : G} :
     (∀ g : G, g ∉ M → ¬ centralizer ({z} : Set G) ≤ CFSG.Open.uniqueFourConj g M) ↔
       (∀ g : G, g ∉ M → ¬ centralizer ({z} : Set G) ≤ M.map (MulAut.conj g).toMonoidHom) := by
@@ -88,6 +92,7 @@ private lemma centralizer_conj_iff (M : Subgroup G) {z : G} :
     have hg' : g⁻¹ ∉ M := fun hmem => hg (inv_mem_iff.mp hmem)
     simpa [CFSG.Open.uniqueFourConj] using h g⁻¹ hg'
 
+omit [Finite G] in
 theorem inCalV_iff (M V : Subgroup G) :
     CFSG.Yardstones.Mf4cdcdf2e013.InCalV M V ↔ UC22.InCalV M V := by
   constructor
@@ -139,6 +144,7 @@ theorem oTwoQuotTrivial_iff_twoReduced {M V : Subgroup G} (hMV : M ≤ normalize
       exact ⟨n, by rw [hsub hNM]; exact hn⟩
     exact le_antisymm (by rw [hC]; exact le_inf hNM hcent) hCN
 
+omit [Finite G] in
 theorem inCalV1_iff {M : Subgroup G} (hM : CFSG.Open.uniqueFourIsMaxTwoLocal M)
     (T V : Subgroup G) :
     CFSG.Yardstones.Mf4cdcdf2e013.InCalV1 M T V ↔ UC22.InCalV1 M T V := by
@@ -148,7 +154,7 @@ theorem inCalV1_iff {M : Subgroup G} (hM : CFSG.Open.uniqueFourIsMaxTwoLocal M)
   · intro h
     rw [UC22.UniqueMax, UC22.calMOf]
     ext N
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hN, hXN⟩
       exact h N hN hXN
@@ -217,6 +223,7 @@ theorem hyp123_iff {M : Subgroup G} (hM : CFSG.Open.uniqueFourIsMaxTwoLocal M)
   rw [CFSG.Yardstones.Mf4cdcdf2e013.Hyp123, UC22.Hyp123]
   exact or_congr (and_congr (inCalWStar_iff hM T V) Iff.rfl) (hyp122_iff hM T V₀ V)
 
+omit [Finite G] in
 theorem centralizesQuot_iff {V₀ V : Subgroup G} (hV : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) {t : G}
     (ht : ∀ v ∈ V, t * v * t⁻¹ ∈ V) :
     CFSG.Yardstones.Mf4cdcdf2e013.CentralizesQuot V₀ V t ↔ UC22.CentralizesMod V₀ V t := by
@@ -231,6 +238,7 @@ theorem centralizesQuot_iff {V₀ V : Subgroup G} (hV : ∀ a ∈ V, ∀ b ∈ V
     rw [hcomm]
     exact h v hv
 
+omit [Finite G] in
 theorem minCodimGt_of_mBarGT {M V₀ V : Subgroup G} (hV : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a)
     (hMV : M ≤ normalizer (V : Set G)) {n : ℕ} (h : UC22.MBarGT M V₀ V n) :
     CFSG.Yardstones.Mf4cdcdf2e013.MinCodimGt M V₀ V n := by

@@ -126,7 +126,7 @@ theorem e8_inner_of_embedding (K : Type) [Field K] [Finite K] (L : Type) [Field 
 variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] {p : ℕ}
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ]
 
-theorem innerPlaneBalance_adjointE8_of_rigid (hf : 1 ≤ f)
+theorem innerPlaneBalance_adjointE8_of_rigid (_hf : 1 ≤ f)
     (hK : Nat.card K = ℓ ^ f) (hp : p.Prime) (hordW : ¬ p ∣ Nat.card (WeylGroup Tag.E8))
     (n g0 : ModGL Tag.E8 L) (hg0C : g0 ∈ adjointGroup Tag.E8 L)
     (hg0 : Units.map (entrywiseHom (iterateFrobenius L ℓ f)) g0 = g0 * n)

@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] [Finite K] in
 theorem GlobalModelData.finrank_E (h : GlobalModelData M Q Z γ M₀) {w : ℕ} (hw : Width Q Z w)
     (hK : 1 < Nat.card K) : Module.finrank K M₀.E = 2 * w := by
   have h1 : Nat.card Q = Nat.card Z * Nat.card (M₀.img Q) := M₀.card_eq le_rfl h.reg.V_le
@@ -29,6 +30,7 @@ theorem GlobalModelData.finrank_E (h : GlobalModelData M Q Z γ M₀) {w : ℕ} 
   have := Nat.pow_right_injective hK h3
   omega
 
+omit [Finite K] in
 theorem Ctx.mem_center_iff_centralizer_B (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {y : G} (hy : y ∈ Q ⊓ Subgroup.centralizer (B : Set G)) :
     (∀ x ∈ Q ⊓ Subgroup.centralizer (B : Set G), y * x = x * y) ↔ y ∈ Z ⊔ B := by
@@ -50,6 +52,7 @@ theorem Ctx.mem_center_iff_centralizer_B (hc : Ctx M Q Z B) (h : GlobalModelData
       · exact Subgroup.mem_centralizer_singleton_iff.mpr (Subgroup.mem_centralizer_iff.mp hx.2 u hu)
     exact Subgroup.mem_centralizer_singleton_iff.mp (hle hyZB)
 
+omit [Finite K] in
 theorem Ctx.commutator_centralizer_B (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {w : ℕ}
     (hw : Width Q Z w) (hw2 : 2 ≤ w) :
     ⁅Q ⊓ Subgroup.centralizer (B : Set G), Q ⊓ Subgroup.centralizer (B : Set G)⁆ = Z := by

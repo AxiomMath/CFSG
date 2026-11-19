@@ -61,7 +61,7 @@ theorem permNodup_iff {n : ℕ} (l : List (Perm (Fin n))) : permNodup l = true �
       intro hx
       have hx' : permMem x l = true := (permMem_iff x l).mpr hx
       rw [hx'] at h1
-      simpa using h1
+      simp at h1
     · rintro ⟨h1, h2⟩
       refine ⟨?_, h2⟩
       rw [Bool.not_eq_true_eq_eq_false]

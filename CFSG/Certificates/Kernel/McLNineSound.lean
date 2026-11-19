@@ -149,11 +149,11 @@ theorem cntK_ofFn {n : Nat} (f : Nat → Tab) (r : Tab → Bool) :
   | succ n ih =>
     rw [Array.toList_ofFn, List.ofFn_succ_last, List.filter_append, List.length_append]
     rw [Array.toList_ofFn] at ih
-    simp only [Fin.coe_castSucc, Fin.val_last] at ih ⊢
+    simp only [Fin.val_castSucc, Fin.val_last] at ih ⊢
     rw [ih]
     change _ = Bool.rec (motive := fun _ => Nat) (cntK n fun i => r (f i))
       (Nat.succ (cntK n fun i => r (f i))) (r (f n))
-    cases h : r (f n) <;> simp [List.filter_cons, h]
+    cases h : r (f n) <;> simp [h]
 
 theorem cntK_congr {n : Nat} {f f' : Nat → Bool} (h : ∀ i < n, f i = f' i) :
     cntK n f = cntK n f' := by

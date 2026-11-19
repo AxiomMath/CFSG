@@ -80,15 +80,15 @@ theorem s168e3_om6_ext_split
     ∃ W' : Subgroup W, (∀ a ∈ A, ∀ w ∈ W', a w ∈ W') ∧ IsCompl W' Y := by
   classical
   obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := hnat
-  letI : Field K := hK
-  haveI : Finite K := hKf
+  let : Field K := hK
+  have : Finite K := hKf
   have htwo : ∀ v : Additive W, (2 : ℕ) • v = 0 := by
     intro v
     rw [two_nsmul,
       show v + v = Additive.ofMul (Additive.toMul v * Additive.toMul v) from rfl,
       ← pow_two, hW (Additive.toMul v)]
     rfl
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule htwo
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule htwo
   let Γ := CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 3 K b c)
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨βR, hβsurj, hβker, hβe⟩ := R.exists_β
@@ -129,8 +129,7 @@ theorem s168e3_om6_ext_split
       show (πe.symm.trans ψΩ) (πe γ) = ψΩ γ
       rw [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
     rw [h1]
-    simp only [ψΩ, MulEquiv.trans_apply, MulEquiv.subgroupCongr_apply,
-      Subgroup.coe_equivMapOfInjective_apply]
+    simp only [ψΩ, MulEquiv.trans_apply, MulEquiv.subgroupCongr_apply]
     rfl
   let β₀ : W →* Multiplicative (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → ZMod 2) :=
     (AddEquiv.toMultiplicative θ).toMonoidHom.comp βW

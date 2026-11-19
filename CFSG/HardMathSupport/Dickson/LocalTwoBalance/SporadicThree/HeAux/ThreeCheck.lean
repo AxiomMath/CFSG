@@ -24,6 +24,6 @@ theorem heS3_centralizers :
           CFSG.Sporadic.HeldB.heP) := by
   intro x hx hxo
   refine ⟨CFSG.HardMathSupport.Solomon.Coordinator.he3_core hx hxo, ?_⟩
-  rcases CFSG.HardMathSupport.Solomon.Coordinator.he3_card hx hxo with h | h <;> rw [h] <;> norm_num
+  rcases CFSG.HardMathSupport.Solomon.Coordinator.he3_card hx hxo with h | h <;> rw [h]; norm_num
 
 end CFSG.HardMathSupport.Dickson.LocalTwoBalance.HeAux

@@ -50,6 +50,7 @@ section Cfg
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commute_of_perfect {H J : Subgroup G} {N₀ : Subgroup H} [N₀.Normal] (hJH : J ≤ H)
     (hperf : ⁅J, J⁆ = J)
     (hJN : ∀ g (hg : g ∈ J), ∀ n ∈ N₀,
@@ -62,7 +63,7 @@ theorem commute_of_perfect {H J : Subgroup G} {N₀ : Subgroup H} [N₀.Normal] 
       (QuotientGroup.mk' (CFSG.pCore 2 ↥H) ⟨z, hz⟩) := by
   set π₂ := QuotientGroup.mk' (CFSG.pCore 2 ↥H) with hπ₂
   set Nh := N₀.map π₂ with hNhdef
-  haveI hNh : Nh.Normal := Subgroup.Normal.map inferInstance π₂ (QuotientGroup.mk'_surjective _)
+  have hNh : Nh.Normal := Subgroup.Normal.map inferInstance π₂ (QuotientGroup.mk'_surjective _)
   have hmem : ∀ g (hg : g ∈ J),
       π₂ ⟨g, hJH hg⟩ * π₂ ⟨z, hz⟩ * (π₂ ⟨g, hJH hg⟩)⁻¹ * (π₂ ⟨z, hz⟩)⁻¹ ∈ Nh := by
     intro g hg
@@ -87,6 +88,7 @@ theorem commute_of_perfect {H J : Subgroup G} {N₀ : Subgroup H} [N₀.Normal] 
   rw [this] at hg'
   exact Subgroup.mem_centralizer_singleton_iff.mp hg'
 
+omit [Finite G] in
 theorem le_normalizer_map_primeComplementCore {H : Subgroup G} (p : ℕ) :
     H ≤ Subgroup.normalizer
       (((primeComplementCore (G := H) p).map H.subtype : Subgroup G) : Set G) := by
@@ -178,6 +180,7 @@ theorem commute_of_twoPrime (h1031 : AGL81TenThreeOneAt G) (h98 : AGL81NineEight
       exact hcomm (Subgroup.commutator_mem_commutator hg ⟨n, hn, rfl⟩)
     exact commute_of_mem_pCoreOf n.2 (hI₀H hg) hgn
 
+omit [Finite G] in
 theorem commutator_mem_of_mem_kbar {p : ℕ} {H : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} {x b : G}
     (hx : x ∈ d1PlusCore p H K) (hxH : x ∈ H) (hbH : b ∈ H)
@@ -233,7 +236,7 @@ theorem agl81TenSixTwelveCfg_of (h1031 : AGL81TenThreeOneAt G) (h912 : AGL81Nine
     · exact hres hS P M H Q K hd L hL I₀ hI₀ ha hIX _ ⟨⟨b', hb'H⟩, ⟨hbQ, hbK⟩, rfl⟩ x hx
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hp : p.Prime := hesc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Y₀, hY₀, hY₀M⟩ := exists_pComponent_not_le_of_cfg hd
   have hJ : ¬ RankThreeUC.AGL81C.pLayerIn p H ≤ M := by
     intro hle
@@ -271,7 +274,7 @@ theorem agl81TenSixTwelveCfg_of (h1031 : AGL81TenThreeOneAt G) (h912 : AGL81Nine
   have hKC : RankThreeUC.AGL81C.kSub p M H ≤
       ((Subgroup.centralizer {π₂ ⟨x, hxH⟩}).comap π₂).map H.subtype := by
     unfold RankThreeUC.AGL81C.kSub
-    rw [if_neg hJ]
+    rw [ite_eq_right hJ]
     refine sSup_le fun Y ⟨hY, hYM⟩ y hy => ?_
     have hyH : y ∈ H := hY.1 hy
     have h := commutator_mem_of_nineTwelve h912 hS hd hp3 (hIX hx) hxH hY hYM hy

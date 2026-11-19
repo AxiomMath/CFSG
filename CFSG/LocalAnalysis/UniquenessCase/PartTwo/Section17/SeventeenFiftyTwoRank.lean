@@ -101,14 +101,14 @@ theorem Ctx17_42.false_of_u4_rank {D : Data G} {V₀ V L X : Subgroup G} {p n l 
   classical
   have hp : p.Prime := (D.sig_prime p ctx.p_mem).1
   have hp2 : p ≠ 2 := (D.sig_prime p ctx.p_mem).2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hLM : L ≤ D.M := ctx.mem_calC.1.le
   have hMN : D.M ≤ Subgroup.normalizer (L : Set G) := seventeen_fiftyone_normalizer_le h49 ctx
   have hOp : UC22.F10.OpRes p D.M = D.M := h638 p hp hp2 (Or.inl ctx.p_mem)
   have hRL : R ≤ L := hR.le.trans ctx.cartan.1
   have hshape : IsU4 (Bar2 L) n ∨ IsSp4 (Bar2 L) n ∨ IsG2 (Bar2 L) n := Or.inl hU4
-  haveI : ((pCoreOf 2 L).subgroupOf C).Normal :=
+  have : ((pCoreOf 2 L).subgroupOf C).Normal :=
     seventeen_fiftyone_cartan_pCore_normal h49 ctx
   have hSbar : IsSylowTwoOf (((D.T ⊓ L).subgroupOf L).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) ⊤ := seventeen_fiftyone_sylow_bar h49 ctx

@@ -17,7 +17,7 @@ theorem config_card_rank {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgr
   obtain ⟨hp, hBs, -, -, h4⟩ := hcfg.tableB_facts
   have hBc : Nat.card B = p ^ LargeEvenTwoLocalRank p G := hcfg.1.2.2.2.2.2.2.1.1.2.1
   have hBle : Nat.card B ≤ Nat.card Bs := Subgroup.card_le_of_le hcfg.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrank : LargeEvenTwoLocalRank p G ≤ 4 := by
     by_contra h
     push Not at h

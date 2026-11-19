@@ -283,7 +283,7 @@ theorem labelOf_spec (I : AEIdent P k) {L : Subgroup G} (hL : L ∈ P) :
       (L.subgroupOf (pSpan P)).map I.φ = AE.memBar p.1 hp p.2 := by
     obtain ⟨α, h, b, hlab⟩ := I.label L hL
     exact ⟨(α, b), h, hlab⟩
-  rw [labelOf, dif_pos hex]
+  rw [labelOf, dite_eq_left hex]
   exact Classical.choose_spec hex
 
 theorem eq_of_memBar_eq_pair (hk : 5 ≤ k) {p q : Finset (Fin k) × Bool} (hp : p.1.card = 4)
@@ -458,7 +458,7 @@ theorem v_ne_bot : V ≠ ⊥ := by
 
 theorem card_lt : Nat.card (p23XE R e b) < n := by
   have hC := H.cfg.std.perp.core
-  haveI := hC.simple
+  have := hC.simple
   have hne := ne_top_of_le_normalizer hC.nonab H.v_ne_bot H.v2 H.le_normalizer
   rw [← hC.card]
   exact lt_of_le_of_ne (Subgroup.card_le_card_group _) fun heq =>
@@ -778,7 +778,7 @@ theorem false_of_wSet {W' : Subgroup (SecQuot (p23XE R e b))}
     have hWS : W' ≤ (S : Subgroup _) := by
       rw [hWeq]
       exact iSup₂_le fun U hU => (hη.1 hU).2
-    exact S.isPGroup'.to_le hWS
+    exact S.isPGroup.to_le hWS
   have hle : Nat.card ↥(secImage (p23XE R e b) (tightCore R) ⊓ W') ≤ 2 := by
     refine natCard_subgroup_le_two_of_subset (a := 1)
       (b := QuotientGroup.mk' (classicalInvolutionOddCore ↥(p23XE R e b))

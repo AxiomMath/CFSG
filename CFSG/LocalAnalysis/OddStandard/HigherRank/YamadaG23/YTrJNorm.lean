@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem isPGroup_zpowers_mul_conj {X : Subgroup G} (hX : IsPGroup 2 ↥X) {y : G}
     (hy : y ∈ X) (x : G) : IsPGroup 2 ↥(zpowers (x * y * x⁻¹)) := by
   have hle : zpowers y ≤ X := zpowers_le.mpr hy
@@ -59,6 +60,7 @@ private theorem mul_conj_mem_of_actsAs [Group.IsPerfect ↥L] (hZ : Odd (Nat.car
   have hz2 : IsPGroup 2 ↥(zpowers (x * y * x⁻¹)) := isPGroup_zpowers_mul_conj hX hy x
   exact (mem_jSub_iff_mem (L := L) hZ hXL hX hzL hz2 hzα).mp hγα
 
+omit [Finite G] in
 theorem zL_le_normIn {X : Subgroup G} (hX : X ≤ L) : zL L ≤ normIn L X := by
   intro c hc
   rw [normIn, Subgroup.mem_inf]
@@ -68,6 +70,7 @@ theorem zL_le_normIn {X : Subgroup G} (hX : X ≤ L) : zL L ≤ normIn L X := by
     intro y hy
     exact (Subgroup.mem_centralizer_iff.mp (mem_zL_iff.mp hc).2) y (hX hy))
 
+omit [Finite G] in
 theorem zL_le_centIn {X : Subgroup G} (hX : X ≤ L) : zL L ≤ centIn L X := by
   intro c hc
   rw [centIn, Subgroup.mem_inf]
@@ -76,6 +79,7 @@ theorem zL_le_centIn {X : Subgroup G} (hX : X ≤ L) : zL L ≤ centIn L X := by
   intro y hy
   exact (Subgroup.mem_centralizer_iff.mp (mem_zL_iff.mp hc).2) y (hX hy)
 
+omit [Finite G] in
 theorem zL_le_centEl {y : G} (hy : y ∈ L) : zL L ≤ centEl L y := by
   intro c hc
   rw [centEl, Subgroup.mem_inf]

@@ -34,6 +34,7 @@ private theorem closure_comm {Γ : Type*} [Group Γ] {S : Set Γ}
   rw [Subgroup.mem_centralizer_iff] at this
   exact this x hx
 
+omit [Finite V] in
 theorem mem_centralizer_of_forall_commute {e : GLV V} (hq : Open.IsQuasisimple ↥L)
     (hperf : ⁅L, L⁆ = L) (hL1 : L ≠ ⊥) (he : e * e = 1)
     (heN : e ∈ Subgroup.normalizer (L : Set (GLV V)))
@@ -143,6 +144,7 @@ theorem oddTransp_conj {h : GLV V} (hh : h ∈ G) (l : GLV V) (hl : l ∈ L) :
   have h2 : (l * h) * z * (l * h)⁻¹ = l * (h * z * h⁻¹) * l⁻¹ := by group
   rwa [h2] at h1
 
+omit [Finite V] hc in
 theorem finrank_commSpace_conj_z (h : GLV V) :
     Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers (h * z * h⁻¹)) ⊤) =
       Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers z) ⊤) := by
@@ -231,7 +233,7 @@ theorem le_normalizer_of_transv {h : GLV V} (hh : h ∈ G) (hne : h * z * h⁻¹
       finrank_tvComm_conj hl₀ e
     have h5 : Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers e) ⊤) =
         Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers z) ⊤) :=
-      hc.finrank_commSpace_conj_z h
+      Hyp.finrank_commSpace_conj_z h
     have hs3' : Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers c) ⊤) =
         2 * Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers e) ⊤) := hs3
     omega

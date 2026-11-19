@@ -118,7 +118,7 @@ lemma w1369_ta_eq_I_of_SecIsoOn_I {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAu
 
 lemma w1369_ta_le_sup_pair {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut Q)}
     {k : ℕ} {I : Fin k → Subgroup Q} (P : w1369_ta_Proj I Λ)
-    {S : Subgroup Q} (hS : w1369_ta_IsSimple Λ S) {a b : Fin k} (hab : a ≠ b)
+    {S : Subgroup Q} (_hS : w1369_ta_IsSimple Λ S) {a b : Fin k} (hab : a ≠ b)
     (hsub : ∀ j, w1369_ta_projHom P S j ≠ 1 → j = a ∨ j = b) : S ≤ I a ⊔ I b := by
   intro s hs
   have hval : ∀ j, j ≠ a → j ≠ b → (P.e j s : Q) = 1 := by

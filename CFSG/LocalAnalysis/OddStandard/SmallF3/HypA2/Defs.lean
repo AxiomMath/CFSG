@@ -26,7 +26,7 @@ structure A2Config (G : Type) [Group G] (x y : G) (X K : Subgroup G) : Prop wher
   K_comp : IsPComponent 2 (K.subgroupOf (centralizer ({y} : Set G)))
   X_le_KK : X ≤ K ⊔ K.map (MulAut.conj x).toMonoidHom
 
-@[expose] def HypA2 (G : Type) [Group G] : Prop :=
+@[expose] def _root_.CFSG.OddStandard.SmallF3.HypA2 (G : Type) [Group G] : Prop :=
   ∀ (x y : G) (X K : Subgroup G), A2Config G x y X K → IsFStar ↥X → IsFStar ↥K
 
 @[expose] def IsResidualA2 (K : Type) [Group K] : Prop :=

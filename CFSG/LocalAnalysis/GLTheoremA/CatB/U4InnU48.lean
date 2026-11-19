@@ -43,14 +43,14 @@ theorem perfect_le_W0_c211 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) (L : Subgroup S
     rw [smul_single_eq, Pi.single_apply]
     by_cases hk : k = 2
     · subst hk
-      rw [e2, if_pos rfl]
-    · rw [entry_zero_of_mem_centralizer hd hxC (hk2 k hk), if_neg hk]
+      rw [e2, ite_eq_left rfl]
+    · rw [entry_zero_of_mem_centralizer hd hxC (hk2 k hk), ite_eq_right hk]
   · funext k
     rw [smul_single_eq, Pi.single_apply]
     by_cases hk : k = 3
     · subst hk
-      rw [e3, if_pos rfl]
-    · rw [entry_zero_of_mem_centralizer hd hxC (hk3 k hk), if_neg hk]
+      rw [e3, ite_eq_left rfl]
+    · rw [entry_zero_of_mem_centralizer hd hxC (hk3 k hk), ite_eq_right hk]
 
 theorem card_perfect_c022 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) (L : Subgroup SU4)
     (hLC : L ≤ Subgroup.centralizer ({c022 ζ hζ} : Set SU4)) (hL : Group.IsPerfect ↥L) :
@@ -135,7 +135,7 @@ theorem u4InnModel_SU4 : U4InnModel SU4 := by
       have := hLdvd.trans (card_perfect_c022 ζ hζ L hLC hLperf)
       norm_num at this
   · obtain ⟨hcat, hcard⟩ := catalogIs_fixSub hu3 hf
-    haveI := CFSG.LocalAnalysis.GLTheoremA.S10.isSimple_of_isU4two hcat
+    have := CFSG.LocalAnalysis.GLTheoremA.S10.isSimple_of_isU4two hcat
     have hH : u4Fix u = U48.fixSub u := by
       ext x
       exact Iff.rfl

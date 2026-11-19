@@ -26,9 +26,9 @@ theorem l3u3_inn_a1_false (hF : L3U3Facts) (D : InnerData S a i)
     (hL : L3U3 (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))) : False := by
   classical
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_rationalComponent S a i
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_rationalComponent S a i
   have hN := hF.order _ hL
   obtain ⟨e⟩ := nonempty_mulEquiv_sl2_of_rank_one (rootCharHom a) i hrank (fixSubfield D.σ)
   by_cases hQ : 4 ≤ Nat.card (fixSubfield D.σ)
@@ -63,8 +63,8 @@ theorem l3u3_inn_a1_false (hF : L3U3Facts) (D : InnerData S a i)
       norm_num
     have hC6 := card_componentRootSpan_rankOne_le_six (rootCharHom a) i hrank
       (fixSubfield D.σ) hK2
-    haveI : Finite ↥(componentRootSpan (fixSubfield D.σ) (rootCharHom a) i) := inferInstance
-    haveI : Finite ↥D.f.range :=
+    have : Finite ↥(componentRootSpan (fixSubfield D.σ) (rootCharHom a) i) := inferInstance
+    have : Finite ↥D.f.range :=
       Finite.of_surjective D.f.rangeRestrict D.f.rangeRestrict_surjective
     have h1 : Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ≤ Nat.card ↥D.f.range :=
       Subgroup.card_le_of_le D.hf1

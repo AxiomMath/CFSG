@@ -20,8 +20,8 @@ variable {F : Type} [Field F] {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c)
 private theorem toStd_three_eq_self (v : Fin (3 / 2) → ℤ) : toStd 3 v = v := by
   funext a
   have ha : a.val = 0 := by have := a.isLt; omega
-  rw [toStd, if_neg (show ¬ Even 3 by decide)]
-  simp [ha]
+  rw [toStd, ite_eq_right (show ¬ Even 3 by decide)]
+  simp
 
 theorem toStd_three_single :
     toStd 3 (Pi.single (0 : Fin (3 / 2)) 1) = wt (Sum.inl (0 : Fin (3 / 2))) := by

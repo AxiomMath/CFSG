@@ -22,13 +22,13 @@ variable {A : Set G} {H : G → Subgroup G} {f g : G → ℂ} {x : G}
 
 theorem dadeRep_mem (hx : x ∈ totalDadeSupport A H) : dadeRep A H x ∈ A := by
   classical
-  rw [dadeRep, dif_pos hx]
+  rw [dadeRep, dite_eq_left hx]
   exact (mem_totalDadeSupport_iff.1 hx).choose_spec.1
 
 theorem mem_dadeSupport_dadeRep (hx : x ∈ totalDadeSupport A H) :
     x ∈ dadeSupport H (dadeRep A H x) := by
   classical
-  rw [dadeRep, dif_pos hx]
+  rw [dadeRep, dite_eq_left hx]
   exact (mem_totalDadeSupport_iff.1 hx).choose_spec.2
 
 theorem exists_mem_H_conj_eq_of_mem_totalDadeSupport (hx : x ∈ totalDadeSupport A H) :
@@ -41,7 +41,7 @@ theorem exists_mem_H_conj_eq_of_mem_totalDadeSupport (hx : x ∈ totalDadeSuppor
 
 theorem dadeRep_eq_one_of_notMem (hx : x ∉ totalDadeSupport A H) : dadeRep A H x = 1 := by
   classical
-  rw [dadeRep, dif_neg hx]
+  rw [dadeRep, dite_eq_right hx]
 
 noncomputable def dadeSupportExtension (A : Set G) (H : G → Subgroup G) (f : G → ℂ) : G → ℂ :=
   (totalDadeSupport A H).indicator fun x => f (dadeRep A H x)

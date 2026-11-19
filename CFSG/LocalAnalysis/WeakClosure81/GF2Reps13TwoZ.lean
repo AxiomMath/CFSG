@@ -31,7 +31,7 @@ theorem w4Lem13_2_holds :
   · have hcard27 : Nat.card ↥P = 27 := by
       rw [hext.2.1]
       norm_num
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨n, hncard⟩ := IsPGroup.iff_card.mp hP
     have hp3 : p = 3 := by
       have hpow : p ^ n = 3 ^ 3 := by

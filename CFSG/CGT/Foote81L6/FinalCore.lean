@@ -145,13 +145,13 @@ theorem oddCent_map_conj (F : Subgroup G) (g : G) :
     constructor <;> intro hx <;> convert hx using 1 <;> group
   rw [hF] at h1
   intro x hx
-  have hx' : g⁻¹ * x * g⁻¹⁻¹ ∈ oddCent F := h1 ⟨x, hx, by simp [MulAut.conj_apply]⟩
+  have hx' : g⁻¹ * x * g⁻¹⁻¹ ∈ oddCent F := h1 ⟨x, hx, by simp⟩
   exact ⟨_, hx', by simp [MulAut.conj_apply, mul_assoc]⟩
 
 theorem mem_oddCent_iff [Finite G] {F : Subgroup G} (hnc : HasNormalPComplement 2 (NBar.Q F))
     (v : ↥F) :
     (v : G) ∈ oddCent F ↔ ∀ o ∈ pPrimeCore 2 (NBar.Q F), NBar.ρ F o v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   constructor
   · rintro ⟨-, hv⟩ o ho
     obtain ⟨k₀, rfl⟩ := NBar.π_surjective F o
@@ -323,7 +323,7 @@ theorem final_core (hcen : D.a ∈ center G)
       rw [h']
       show D.a * (v₁ : G) = D.a * a₁ * D.b
       rw [hv₁val, mul_assoc]
-  haveI : Finite ↥(A₁.map F.subtype) := inferInstance
+  have : Finite ↥(A₁.map F.subtype) := inferInstance
   have hcard : Nat.card ↥(A₁.map F.subtype) = Nat.card ↥D.Astar := by
     rw [Subgroup.card_map_of_injective F.subtype_injective, h.card_fix]
     have := D.star.card_A

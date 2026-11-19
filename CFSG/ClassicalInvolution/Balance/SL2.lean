@@ -45,7 +45,7 @@ theorem oddCore_eq_bot_of_isQuasisimple_of_equiv_sl2 (hJ : CFSG.Open.IsQuasisimp
     with hT
   have hTc : T ≤ Subgroup.center J := Subgroup.map_subtype_le _
   have : T.Normal := Subgroup.normal_of_le_center hTc
-  have hTp : IsPGroup 2 T := P.isPGroup'.map (Subgroup.center J).subtype
+  have hTp : IsPGroup 2 T := P.isPGroup.map (Subgroup.center J).subtype
   have hTker : T ≤ ρ.ker := hρker ▸ hTc
   let ψ : J ⧸ T →* PSL(2, GaloisField p n) := QuotientGroup.lift T ρ hTker
   have hψsurj : Function.Surjective ψ := fun y => by

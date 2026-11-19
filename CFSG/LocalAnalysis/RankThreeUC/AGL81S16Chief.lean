@@ -87,7 +87,7 @@ theorem pElement_centralizes_Z {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M T V L
     (hP : ∀ u ∈ ⁅V, L⁆, (∀ s ∈ Q, ⁅s, u⁆ ∈ centralizer (L : Set G)) →
       ⁅x, u⁆ ∈ centralizer (L : Set G)) :
     ∀ z ∈ CFSG.RankThree.PartOne.omegaOneCenterIn T, x * z = z * x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   have hodd : Odd (orderOf x) := by rw [hord]; exact hp.odd_of_ne_two hp2
   have hxV : x ∈ normalizer (V : Set G) := hMV (hLM hxL)
@@ -167,7 +167,7 @@ theorem inf_centralizer_eq_bot {p : ℕ} (hp : p.Prime) {M T V L : Subgroup G} {
     (hxM : x ∈ M) (hx1 : x ≠ 1) (hxp : x ^ p = 1)
     (hxZ : ∀ z ∈ CFSG.RankThree.PartOne.omegaOneCenterIn T, x * z = z * x) :
     CFSG.RankThree.PartOne.omegaOneCenterIn T ⊓ centralizer (L : Set G) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   by_contra hA
   have hAT : CFSG.RankThree.PartOne.omegaOneCenterIn T ⊓ centralizer (L : Set G) ≤ T :=
@@ -184,7 +184,7 @@ theorem inf_centralizer_eq_bot {p : ℕ} (hp : p.Prime) {M T V L : Subgroup G} {
     hL2.trans (CFSG.SectionRank.pRank_mono hp.one_lt
       (le_inf hLM (hLC.trans (centralizer_le_normalizer_subgroup _))))
   have hNA := hS.u2 _ hA hA2 hrk
-  obtain ⟨g, hgT, hgM⟩ := SetLike.not_le_iff_exists.mp hN
+  obtain ⟨g, hgT, hgM⟩ := IsConcreteLE.not_le_iff_exists.mp hN
   have hgZ := normalizer_le_normalizer_omegaOneCenterIn T hgT
   have hBZ : cj g (CFSG.RankThree.PartOne.omegaOneCenterIn T ⊓ centralizer (L : Set G)) ≤
       CFSG.RankThree.PartOne.omegaOneCenterIn T := by

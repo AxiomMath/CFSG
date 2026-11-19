@@ -18,6 +18,7 @@ namespace Cfg1667
 
 variable {M V W₁ W₂ : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem le_centralizer_of_eq_zpowers (h : Cfg1667 M V W₁ W₂) {z : G}
     (hz : V ⊓ conjSubgroup M g ⊓ (conjSubgroup V g ⊓ M) = Subgroup.zpowers z) :
     V ⊔ conjSubgroup V g ≤ centralizer ({z} : Set G) := by
@@ -35,6 +36,7 @@ theorem le_centralizer_of_eq_zpowers (h : Cfg1667 M V W₁ W₂) {z : G}
     exact Subtype.ext_iff.mp
       (((E3.isElemAbelian_conjSubgroup h.elemAbelian g).1).is_comm.comm ⟨x, hx⟩ ⟨z, hzVg⟩)
 
+omit [Finite G] in
 theorem not_centralizer_le (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) {z : G}
     (hz : V ⊓ conjSubgroup M g ⊓ (conjSubgroup V g ⊓ M) = Subgroup.zpowers z) :
     ¬ centralizer ({z} : Set G) ≤ M := by
@@ -45,6 +47,7 @@ theorem not_centralizer_le (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g)
 
 end Cfg1667
 
+omit [Finite G] in
 private theorem normalizer_conjSubgroup_le_of_le {W T : Subgroup G} {m : G}
     (h : Subgroup.normalizer (W : Set G) ≤ T) (hm : m ∈ T) :
     Subgroup.normalizer (conjSubgroup W m : Set G) ≤ T := by
@@ -71,7 +74,7 @@ theorem s1667_exists_sylow (D : Data G) (hSg : UC6S846.SigmaStd D) (h61 : UC6.R6
     ∃ S : Subgroup G, V ≤ S ∧ S ≤ D.M ∧
       CFSG.ABGLocalTools.IsSylowOf 2 S (centralizer ({z} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC : V ≤ centralizer ({z} : Set G) := by
     intro v hv
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -133,7 +136,7 @@ theorem s1667_pRank_centralizer (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 :
     (hS : Sect16 D V₀ V L hV) (hs : Sit1665 D V₀ V hV L) (h0 : V₀ = ⊥) {z : G} (hzV : z ∈ V)
     (hz : orderOf z = 2) (hnot : ¬ centralizer ({z} : Set G) ≤ D.M) :
     CFSG.Open.pRank 3 (centralizer ({z} : Set G)) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hse : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M :=
     sixteen_sixtyEight_k D hSg h1219 V₀ V L hV hS hs
   have h3sig : 3 ∈ D.sig := by
@@ -169,7 +172,7 @@ theorem s1667_isStronglyPEmbedded (D : Data G) (hSg : UC6S846.SigmaStd D)
     (hnot : ¬ centralizer ({z} : Set G) ≤ D.M) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded 3
       ((centralizer ({z} : Set G) ⊓ D.M).subgroupOf (centralizer ({z} : Set G))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hse : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M :=
     sixteen_sixtyEight_k D hSg h1219 V₀ V L hV hS hs
   obtain ⟨c, hcM, hcV, hcord⟩ := s1667_exists_orderOf_three D hSg h1217 hS hs h0

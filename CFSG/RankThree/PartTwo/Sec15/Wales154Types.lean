@@ -90,6 +90,7 @@ theorem abar_le_normalizer_barR {A Y R : Subgroup G}
   rintro _ ⟨m, hm, rfl⟩
   exact actQ_mem_normalizer_barR m.2 (hAR (Subgroup.mem_subgroupOf.mp hm))
 
+omit [Finite G] in
 theorem isPGroup_abar {A Y : Subgroup G} (hA : IsPGroup 3 A) : IsPGroup 3 (abar A Y) := by
   have h : IsPGroup 3 (A.subgroupOf (Subgroup.normalizer (Y : Set G))) := by
     intro g

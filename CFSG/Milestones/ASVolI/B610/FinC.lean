@@ -42,6 +42,7 @@ theorem burnsideB610_le_twoResidual_sup_of_card_three {H V L : Subgroup G}
   rw [hab]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_right ⟨hLH haL, hord⟩) (Subgroup.mem_sup_left hbR)
 
+omit [Finite G] in
 theorem burnsideB610_isSylowTwoOf_of_card_three {H T M V L : Subgroup G}
     (hV : IsElemAbelian 2 V) (hMP : MinParabolic H T M) (hred : IsTwoReducedIn H V)
     (h3 : Nat.card (autI hV L) = 3) :

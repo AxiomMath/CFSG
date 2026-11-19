@@ -17,8 +17,8 @@ theorem card_map_le_four_of_pRank_two_le_two {Q : Type} [Group Q] [Finite Q]
   classical
   have hcommA : ∀ a b : ↥A, a * b = b * a :=
     fun a b => Subtype.ext (hA a.1 a.2 b.1 b.2)
-  letI : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hcommA }
-  haveI : IsMulCommutative ↥A := IsMulCommutative.of_comm hcommA
+  let : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hcommA }
+  have : IsMulCommutative ↥A := IsMulCommutative.of_comm hcommA
   let ι : ↥A →* Q := T.subtype.comp A.subtype
   have hι : Function.Injective ι := by
     intro a b h

@@ -40,11 +40,13 @@ theorem pRank_subgroupOf (hp : 1 < p) {H : Subgroup G} (hH : H ≤ M) :
     Open.pRank p (H.subgroupOf M) = Open.pRank p H := by
   rw [← pRank_map_subtype hp, Subgroup.map_subgroupOf_eq_of_le hH]
 
+omit [Finite G] in
 theorem plane_map_subtype (x z : M) :
     (zpowers x ⊔ zpowers z).map M.subtype = zpowers (x : G) ⊔ zpowers (z : G) := by
   rw [Subgroup.map_sup, MonoidHom.map_zpowers, MonoidHom.map_zpowers]
   rfl
 
+omit [Finite G] in
 theorem plane_eq_subgroupOf (x z : M) :
     zpowers x ⊔ zpowers z = (zpowers (x : G) ⊔ zpowers (z : G)).subgroupOf M := by
   have hle : zpowers (x : G) ⊔ zpowers (z : G) ≤ M := by
@@ -53,6 +55,7 @@ theorem plane_eq_subgroupOf (x z : M) :
   apply Subgroup.map_injective M.subtype_injective
   rw [plane_map_subtype, Subgroup.map_subgroupOf_eq_of_le hle]
 
+omit [Finite G] in
 theorem smallRankPlane_subgroupOf {P : Subgroup G} {x z : G} (hPM : P ≤ M) (hx : x ∈ M)
     (hz : z ∈ M) (h : SmallRankPlane p P x z) :
     SmallRankPlane p (P.subgroupOf M) (⟨x, hx⟩ : M) (⟨z, hz⟩ : M) := by
@@ -123,6 +126,7 @@ theorem pRank_normalizer_subgroupOf (hp : 1 < p) {T : Subgroup G} (hT : T ≤ M)
       Open.pRank p (M ⊓ normalizer (T : Set G)) := by
   rw [← Subgroup.subgroupOf_normalizer_eq hT, pRank_subgroupOf_inf hp]
 
+omit [Finite G] in
 theorem isMaxTwoInvariantIn_top {B T : Subgroup G} (hB : B ≤ M)
     (hT : IsMaxTwoInvariantIn B M T) :
     IsMaxTwoInvariantIn (B.subgroupOf M) ⊤ (T.subgroupOf M) := by

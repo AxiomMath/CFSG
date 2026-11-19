@@ -41,7 +41,7 @@ theorem mk_mem_normalizer_bar {b : X} (hb : b ∈ Subgroup.normalizer (K : Set X
     have e : (QuotientGroup.mk b : X ⧸ W) * QuotientGroup.mk x * (QuotientGroup.mk b)⁻¹ =
         QuotientGroup.mk (b * x * b⁻¹) := by simp
     rw [e]
-    simp only [SetLike.mem_coe, Subgroup.mem_map, QuotientGroup.mk'_apply]
+    simp only [Subgroup.mem_map, QuotientGroup.mk'_apply]
     constructor
     · rintro ⟨k, hk, hkx⟩
       refine ⟨b * k * b⁻¹, ((Subgroup.mem_normalizer_iff.mp hb) k).mp hk, ?_⟩
@@ -204,8 +204,8 @@ theorem exists_transv_of_relIndex_two {X : Type*} [Group X] (V : Subgroup X)
 
 theorem eq_top_of_perfect_of_sup_pGroup {G : Type*} [Group G] [Finite G] (hG : commutator G = ⊤)
     (M R : Subgroup G) [M.Normal] (hMR : M ⊔ R = ⊤) (hR : IsPGroup 2 ↥R) : M = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hG
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hG
   let φ : R →* G ⧸ M := (QuotientGroup.mk' M).comp R.subtype
   have hφ : Function.Surjective φ := by
     intro x
@@ -219,9 +219,9 @@ theorem eq_top_of_perfect_of_sup_pGroup {G : Type*} [Group G] [Finite G] (hG : c
     rw [QuotientGroup.eq, inv_mul_cancel_left]
     exact hm
   have hQ : IsPGroup 2 (G ⧸ M) := hR.of_surjective φ hφ
-  haveI : Finite (G ⧸ M) :=
+  have : Finite (G ⧸ M) :=
     Finite.of_surjective (QuotientGroup.mk' M) (QuotientGroup.mk'_surjective M)
-  haveI : Group.IsNilpotent (G ⧸ M) := IsPGroup.isNilpotent hQ
+  have : Group.IsNilpotent (G ⧸ M) := IsPGroup.isNilpotent hQ
   obtain ⟨n, hn⟩ := (inferInstance : Group.IsSolvable (G ⧸ M)).solvable
   have hsub : ∀ a : G ⧸ M, a = 1 := by
     intro a
@@ -304,11 +304,11 @@ theorem autCenterQuot_mk {G : Type*} [Group G] (α : MulAut G) (x : G) :
 theorem four_le_of_equiv_alternatingGroup {G : Type*} [Group G] {m n : ℕ} (hm : 5 ≤ m)
     (e₀ : G ≃* alternatingGroup (Fin m)) (e : G ≃* alternatingGroup (Fin n)) : 4 ≤ n := by
   by_contra hn
-  push_neg at hn
+  push Not at hn
   have h1 : Nat.card (alternatingGroup (Fin m)) = Nat.card G := (Nat.card_congr e₀.toEquiv).symm
   have h2 : Nat.card (alternatingGroup (Fin n)) = Nat.card G := (Nat.card_congr e.toEquiv).symm
   have h3 : Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
     rw [Nat.card_eq_fintype_card, card_alternatingGroup]
     simp
   have h4 : Nat.card (alternatingGroup (Fin n)) ≤ n.factorial := by
@@ -396,6 +396,7 @@ end Pure
 section Normal
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem zPre_iff (k : ↥K) : (k : X) ∈ zPre W K ↔ toBar W K k ∈ Subgroup.center ↥(bar W K) := by
   rw [Subgroup.mem_center_iff]
   constructor
@@ -410,6 +411,7 @@ theorem zPre_iff (k : ↥K) : (k : X) ∈ zPre W K ↔ toBar W K k ∈ Subgroup.
     have := congrArg Subtype.val (hk (toBar W K ⟨k', hk'⟩))
     simpa [toBar_coe] using this.symm
 
+omit [Finite X] in
 theorem commutator_K (h : Setup28 W K S) : commutator ↥K = ⊤ := by
   have h1 : (commutator ↥K).map K.subtype = K := by
     rw [_root_.commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
@@ -422,11 +424,11 @@ theorem K_le_of_normal_noncentral (h : Setup28 W K S) (hq : CFSG.IsQuasisimple �
     {M : Subgroup X} (hMK : M ≤ K) (hMn : ∀ k ∈ K, ∀ m ∈ M, k * m * k⁻¹ ∈ M) {p : X}
     (hpM : p ∈ M) (hpz : p ∉ zPre W K) : K ≤ M := by
   set M' : Subgroup ↥K := M.subgroupOf K with hM'
-  haveI hM'n : M'.Normal :=
+  have hM'n : M'.Normal :=
     (Subgroup.normal_subgroupOf_iff hMK).mpr fun m k hm hk => hMn k hk m hm
   have hperf := commutator_K h
   set N' : Subgroup ↥(bar W K) := M'.map (toBar W K) with hN'
-  haveI : N'.Normal := Subgroup.Normal.map hM'n (toBar W K) toBar_surjective
+  have : N'.Normal := Subgroup.Normal.map hM'n (toBar W K) toBar_surjective
   have hpK : p ∈ K := hMK hpM
   have hN'nc : ¬ N' ≤ Subgroup.center ↥(bar W K) := by
     intro hle

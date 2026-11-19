@@ -55,7 +55,7 @@ theorem fixSubCard_not_dvd_of_model {P R : Subgroup M}
     (hinv : ∀ t ∈ R, orderOf t = 2 → ¬ 443520 ∣ Nat.card (centralizerIn P t))
     (β : MulAut P) (h2 : β ^ 2 = 1) (h1 : β ≠ 1) :
     ¬ 443520 ∣ Nat.card (fixSub β) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, rfl⟩ := e.surjective β
   have hy2 : y ^ 2 = 1 := e.injective (by rw [map_pow, h2, map_one])
   have hy1 : y ≠ 1 := fun h => h1 (by rw [h, map_one])
@@ -94,7 +94,7 @@ theorem hs_fixSub_card_not_dvd (L : Type) [Group L]
       CFSG.Sporadic.SmallOddCore.hsRows.map (fun r => (r.outer, r.classSize, r.centOrder)) :=
     List.mem_map_of_mem hr
   rw [hlist] at hmem
-  simp only [List.mem_cons, List.mem_singleton, List.mem_nil_iff, or_false, Prod.mk.injEq] at hmem
+  simp only [List.mem_cons, List.mem_nil_iff, or_false, Prod.mk.injEq] at hmem
   unfold CFSG.Sporadic.Schreier.centralizerIn
   rw [hc]
   rcases hmem with ⟨-, -, h⟩ | ⟨-, -, h⟩ | ⟨-, -, h⟩ | ⟨-, -, h⟩ <;> omega
@@ -115,7 +115,7 @@ theorem mcl_fixSub_card_not_dvd (L : Type) [Group L]
       CFSG.Sporadic.SmallOddCore.mclRows.map (fun r => (r.outer, r.classSize, r.centOrder)) :=
     List.mem_map_of_mem hr
   rw [hlist] at hmem
-  simp only [List.mem_cons, List.mem_singleton, List.mem_nil_iff, or_false, Prod.mk.injEq] at hmem
+  simp only [List.mem_cons, List.mem_nil_iff, or_false, Prod.mk.injEq] at hmem
   unfold CFSG.Sporadic.Schreier.centralizerIn
   rw [hc]
   rcases hmem with ⟨-, -, h⟩ | ⟨-, -, h⟩ <;> omega

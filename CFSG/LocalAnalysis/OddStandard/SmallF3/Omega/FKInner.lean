@@ -67,7 +67,7 @@ theorem fk_tri_square {ρ : MulAut Spin₈} (hρ : FKTri ρ) {c : Spin₈}
       rw [MonoidHom.mem_ker, map_mul, h, hθb₁]
       exact fk_neg_mul_neg
     have hbk : z2 𝔽₃ * z3 𝔽₃ ∈ (spinAction Q₄).ker := hθb
-    haveI : Invertible (2 : 𝔽₃) :=
+    have : Invertible (2 : 𝔽₃) :=
       invertibleOfNonzero ClassicalInvolution.ModelFacts.TG3.two_ne_zero_three
     have hQ₄ : (quadPlus 4 𝔽₃).Nondegenerate := nondegenerate_quadPlus 4 𝔽₃
     have hbN := ((mem_ker_spinAction_iff Q₄ hQ₄ _).mp hbk).resolve_left hb1

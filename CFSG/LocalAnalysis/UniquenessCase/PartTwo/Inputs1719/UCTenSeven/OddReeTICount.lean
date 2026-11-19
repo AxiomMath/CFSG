@@ -50,7 +50,7 @@ omit [Finite Y] in
 private lemma sylow_eq_of_le_normalizer {P Q : Sylow 2 Y}
     (hle : (P : Subgroup Y) ≤ normalizer ((Q : Subgroup Y) : Set Y)) : P = Q := by
   have h := IsPGroup.inf_normalizer_sylow (p := 2) (P := (P : Subgroup Y)) (Q := Q)
-    P.isPGroup'
+    P.isPGroup
   change (P : Subgroup Y) ⊓ normalizer ((Q : Subgroup Y) : Set Y) =
     (P : Subgroup Y) ⊓ (Q : Subgroup Y) at h
   rw [inf_eq_left.mpr hle] at h
@@ -261,7 +261,7 @@ private lemma false_of_involution_inverts_odd (h : TICountHyp S) {a x c : Y}
     exact Nat.not_even_iff_odd.mp (fun he => hnot (even_iff_two_dvd.mp he))
   obtain ⟨PC, hPCfix⟩ := exists_fixed_of_smul_involution aN haN2 hodd
   have hPCne : (PC : Subgroup C) ≠ ⊥ := Sylow.ne_bot_of_dvd_card PC hdvdC
-  obtain ⟨cC, hcPC, hcCorder⟩ := exists_involution_of_isPGroup_two PC.isPGroup' hPCne
+  obtain ⟨cC, hcPC, hcCorder⟩ := exists_involution_of_isPGroup_two PC.isPGroup hPCne
   let c₀ : Y := cC
   have hc₀PC : c₀ ∈ (PC : Subgroup C).map C.subtype := Subgroup.mem_map.mpr ⟨cC, hcPC, rfl⟩
   have hc₀C : c₀ ∈ C := cC.2
@@ -308,7 +308,7 @@ private lemma false_of_involution_inverts_odd (h : TICountHyp S) {a x c : Y}
     have hcard : Nat.card (Subgroup.zpowers a) = 2 := by rw [Nat.card_zpowers, ha]
     exact IsPGroup.of_card (n := 1) (by rw [hcard]; norm_num)
   have hPCY2 : IsPGroup 2 PCY := by
-    have hmap := IsPGroup.map (p := 2) (G := C) (H := (PC : Subgroup C)) PC.isPGroup'
+    have hmap := IsPGroup.map (p := 2) (G := C) (H := (PC : Subgroup C)) PC.isPGroup
       (C.subtype : C →* Y)
     simpa [PCY] using hmap
   have hB2 : IsPGroup 2 ↥(PCY ⊔ Subgroup.zpowers a) :=
@@ -338,7 +338,7 @@ private lemma false_of_involution_inverts_odd (h : TICountHyp S) {a x c : Y}
     exact hx1 (orderOf_eq_one_iff.mp h1)
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha2
   have hinv' : a * x * a = x⁻¹ := by simpa [hainv] using hinv
-  exact not_mem_of_inv_odd_normalizer P.isPGroup' hxN hxo hxodd1 hinv' haP
+  exact not_mem_of_inv_odd_normalizer P.isPGroup hxN hxo hxodd1 hinv' haP
 
 
 private lemma ncard_eq_natCard {α : Type*} [Finite α] (s : Set α) :
@@ -542,8 +542,8 @@ private lemma ncard_inv_outside_le (h : TICountHyp S) {j₀ : Y} (hj₀ : orderO
     congr 1
   have hmaps : ∀ y ∈ InvOut, (y : Y ⧸ J) ∈ CosOut := by
     intro y hy
-    simp only [InvOut, Set.mem_setOf_eq] at hy
-    simp only [CosOut, Kset, Set.mem_compl_iff, Set.mem_setOf_eq]
+    simp only [InvOut, Set.mem_ofPred_eq] at hy
+    simp only [CosOut, Kset, Set.mem_compl_iff, Set.mem_ofPred_eq]
     rintro ⟨n, hn⟩
     have hmem : (n : Y)⁻¹ * y ∈ J := QuotientGroup.eq.mp hn
     have hmemN : (n : Y)⁻¹ * y ∈ N := hJN hmem
@@ -554,7 +554,7 @@ private lemma ncard_inv_outside_le (h : TICountHyp S) {j₀ : Y} (hj₀ : orderO
     exact hy.2 hyN
   have hinj : Set.InjOn (fun y : Y => (y : Y ⧸ J)) InvOut := by
     intro a ha b hb hab
-    simp only [InvOut, Set.mem_setOf_eq] at ha hb
+    simp only [InvOut, Set.mem_ofPred_eq] at ha hb
     exact eq_of_involution_coset_eq h hj₀ hj₀S ha.1 hb.1 ha.2 hab
   calc InvOut.ncard ≤ CosOut.ncard :=
         Set.ncard_le_ncard_of_injOn (fun y : Y => (y : Y ⧸ J)) hmaps hinj
@@ -586,7 +586,7 @@ private lemma index_centralizer_le_ncard_inv_outside_add_seven (h : TICountHyp S
   have hClOut_sub : Cl \ (N : Set Y) ⊆ InvOut := by
     intro y hy
     exact ⟨hCl_inv hy.1, hy.2⟩
-  have hsplit := Set.ncard_inter_add_ncard_diff_eq_ncard Cl (N : Set Y)
+  have hsplit := Set.ncard_inter_add_ncard_sdiff_eq_ncard Cl (N : Set Y)
   have hClNle : (Cl ∩ (N : Set Y)).ncard ≤ 7 := by
     calc (Cl ∩ (N : Set Y)).ncard ≤ InvN.ncard := Set.ncard_le_ncard hClN_sub
       _ = 7 := hInvN
@@ -605,7 +605,7 @@ theorem card_inv_outside (h : TICountHyp S) :
     have h8 := h.card_eight
     rw [hbot] at h8
     simp at h8
-  obtain ⟨j₀, hj₀S, hj₀⟩ := exists_involution_of_isPGroup_two S.isPGroup' hSne
+  obtain ⟨j₀, hj₀S, hj₀⟩ := exists_involution_of_isPGroup_two S.isPGroup hSne
   let N : Subgroup Y := normalizer ((S : Subgroup Y) : Set Y)
   let J : Subgroup Y := Subgroup.centralizer ({j₀} : Set Y)
   let i : ℕ := Set.ncard {y : Y | orderOf y = 2 ∧ y ∉ normalizer ((S : Subgroup Y) : Set Y)}
@@ -676,8 +676,8 @@ private lemma exists_unique_involution_coset (h : TICountHyp S) {j₀ : Y}
     omega
   have hmaps : ∀ y ∈ InvOut, (y : Y ⧸ J) ∈ CosOut := by
     intro y hy
-    simp only [InvOut, Set.mem_setOf_eq] at hy
-    simp only [CosOut, Kset, Set.mem_compl_iff, Set.mem_setOf_eq]
+    simp only [InvOut, Set.mem_ofPred_eq] at hy
+    simp only [CosOut, Kset, Set.mem_compl_iff, Set.mem_ofPred_eq]
     rintro ⟨n, hn⟩
     have hmem : (n : Y)⁻¹ * y ∈ J := QuotientGroup.eq.mp hn
     have hmemN : (n : Y)⁻¹ * y ∈ N := hJN hmem
@@ -687,7 +687,7 @@ private lemma exists_unique_involution_coset (h : TICountHyp S) {j₀ : Y}
       exact N.mul_mem n.2 hmemN
     exact hy.2 hyN
   have hgCosOut : (g : Y ⧸ J) ∈ CosOut := by
-    simp only [CosOut, Kset, Set.mem_compl_iff, Set.mem_setOf_eq]
+    simp only [CosOut, Kset, Set.mem_compl_iff, Set.mem_ofPred_eq]
     rintro ⟨n, hn⟩
     have hmem : (n : Y)⁻¹ * g ∈ J := QuotientGroup.eq.mp hn
     have hmemN : (n : Y)⁻¹ * g ∈ N := hJN hmem
@@ -725,7 +725,7 @@ theorem seven_le_card_inv_coset (h : TICountHyp S) {u : Y} (hu : orderOf u = 2)
     have h8 := h.card_eight
     rw [hbot] at h8
     simp at h8
-  obtain ⟨j₀, hj₀S, hj₀⟩ := exists_involution_of_isPGroup_two S.isPGroup' hSne
+  obtain ⟨j₀, hj₀S, hj₀⟩ := exists_involution_of_isPGroup_two S.isPGroup hSne
   let N : Subgroup Y := normalizer ((S : Subgroup Y) : Set Y)
   let J : Subgroup Y := Subgroup.centralizer ({j₀} : Set Y)
   have hJN : J ≤ N := centralizer_le_normalizer h hj₀ hj₀S

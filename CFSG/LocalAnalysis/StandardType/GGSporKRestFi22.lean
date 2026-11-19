@@ -113,8 +113,8 @@ private theorem ggSporKRestFi22_normal_of_index {D M : Subgroup G} (hDM : D ≤ 
     (hD : IsSimpleGroup ↥D) {k : ℕ} (hidx : (D.subgroupOf M).index = k)
     (hcard : k.factorial < Nat.card M) : (D.subgroupOf M).Normal := by
   set D' := D.subgroupOf M with hD'
-  haveI := hD
-  haveI : IsSimpleGroup ↥D' := (Subgroup.subgroupOfEquivOfLe hDM).isSimpleGroup
+  have := hD
+  have : IsSimpleGroup ↥D' := (Subgroup.subgroupOfEquivOfLe hDM).isSimpleGroup
   have hdvd := Subgroup.index_normalCore_dvd_factorial_index D'
   rw [hidx] at hdvd
   set N := D'.normalCore
@@ -162,7 +162,7 @@ private theorem ggSporKRestFi22_le_sup_normalizer {p : ℕ} [Fact p.Prime] {D M 
     rw [Sylow.coe_subtype]
     intro x hx
     exact Subgroup.mem_subgroupOf.2 (hSD (Subgroup.mem_subgroupOf.1 hx))
-  haveI := hDn
+  have := hDn
   have hF := Sylow.normalizer_sup_eq_top' P hPD
   have hmem : (⟨m, hm⟩ : ↥M) ∈ Subgroup.normalizer ((P : Subgroup ↥M) : Set ↥M) ⊔
       D.subgroupOf M := hF ▸ Subgroup.mem_top _
@@ -193,7 +193,7 @@ private theorem ggSporKRestFi22_component_eq {D M C : Subgroup G} (hDM : D ≤ M
     (hD : IsSimpleGroup ↥D) (hDn : (D.subgroupOf M).Normal)
     (hsolv : Group.IsSolvable (↥M ⧸ D.subgroupOf M)) (hC : IsComponentOf C M) : C = D := by
   obtain ⟨hCM, hsub, hq⟩ := hC
-  haveI := hDn
+  have := hDn
   have hCD : C ≤ D := by
     set C' := C.subgroupOf M
     have hperf : Group.IsPerfect ↥C' :=
@@ -203,8 +203,8 @@ private theorem ggSporKRestFi22_component_eq {D M C : Subgroup G} (hDM : D ≤ M
         have hp : Group.IsPerfect ↥C := ⟨h⟩
         exact (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective).1⟩
     let f : ↥C' →* ↥M ⧸ D.subgroupOf M := (QuotientGroup.mk' (D.subgroupOf M)).comp C'.subtype
-    haveI : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
-    haveI : Group.IsSolvable ↥f.range := inferInstance
+    have : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
+    have : Group.IsSolvable ↥f.range := inferInstance
     have hsub1 : Subsingleton ↥f.range := by
       by_contra hns
       rw [not_subsingleton_iff_nontrivial] at hns
@@ -312,7 +312,7 @@ private noncomputable def ggSporKRestFi22_equiv : ↥(i242Y.subgroupOf fi22P) �
   (Subgroup.subgroupOfEquivOfLe i242Y_le_fi22P).trans (i242YEquiv.trans omegaRestrictEquiv.symm)
 
 private theorem ggSporKRestFi22_simple : IsSimpleGroup ↥(i242Y.subgroupOf fi22P) := by
-  haveI : IsSimpleGroup ↥omegaT := CFSG.Timmesfeld.isSimpleGroup_of_lieModel lieModel_omegaT
+  have : IsSimpleGroup ↥omegaT := CFSG.Timmesfeld.isSimpleGroup_of_lieModel lieModel_omegaT
   exact ggSporKRestFi22_equiv.isSimpleGroup
 
 private theorem ggSporKRestFi22_normal :
@@ -326,7 +326,7 @@ private theorem ggSporKRestFi22_solvable :
     Group.IsSolvable (↥(MulAction.stabilizer (↥fi22P) (ptSet 3510 fi22OmegaU0)) ⧸
       (i242Y.subgroupOf fi22P).subgroupOf
         (MulAction.stabilizer (↥fi22P) (ptSet 3510 fi22OmegaU0))) := by
-  haveI := ggSporKRestFi22_normal
+  have := ggSporKRestFi22_normal
   refine isSolvable_of_card_primeFactors_le_two ?_
   have h : Nat.card (↥(MulAction.stabilizer (↥fi22P) (ptSet 3510 fi22OmegaU0)) ⧸
       (i242Y.subgroupOf fi22P).subgroupOf
@@ -402,11 +402,11 @@ private theorem ggSporKRestFi22_atQ :
   have hQM : (Q : Subgroup ↥fi22P) ≤ MulAction.stabilizer (↥fi22P) (ptSet 3510 fi22OmegaU0) :=
     hQ ▸ ggSporKRestFi22_Q_le_M
   have hQD : (Q : Subgroup ↥fi22P) ≤ i242Y.subgroupOf fi22P := by
-    haveI := ggSporKRestFi22_normal
+    have := ggSporKRestFi22_normal
     have h := ggSporKRestFi22_le_of_not_dvd_index (p := 5)
       (P := (Q : Subgroup ↥fi22P).subgroupOf
         (MulAction.stabilizer (↥fi22P) (ptSet 3510 fi22OmegaU0)))
-      (Q.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hQM).symm)
+      (Q.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hQM).symm)
       (by rw [ggSporKRestFi22_index]; decide)
     intro q hq
     exact Subgroup.mem_subgroupOf.1 (h (Subgroup.mem_subgroupOf.2 (show q ∈ (Q : Subgroup _) from

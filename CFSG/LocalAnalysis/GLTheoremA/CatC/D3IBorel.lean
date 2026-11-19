@@ -56,7 +56,7 @@ theorem mem_borelGroup_of_stable (g : ↥(adjointGroup Tag.D4 K))
       have e : (MulAut.conj g)⁻¹ (⟨(g : ModGL Tag.D4 K) * x * (g : ModGL Tag.D4 K)⁻¹, hxG'⟩ :
           ↥(adjointGroup Tag.D4 K)) = ⟨x, hxG⟩ := by
         apply Subtype.ext
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       rw [e] at h1
       exact (hmemH _).1 h1
   rw [← CFSG.Quasithin.H13.NQCat.LieCartan.G2.normalizer_posUnipotent_inf_eq
@@ -124,11 +124,11 @@ theorem eq_one_of_borelScalar_eq_one [CharP K 3] (g : ↥(adjointGroup Tag.D4 K)
   rw [h1, one_mul] at hgeq
   have hgU : g ∈ (posUnipotent Tag.D4 K).subgroupOf (adjointGroup Tag.D4 K) := by
     rw [Subgroup.mem_subgroupOf, hgeq]; exact hu
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem Tag.D4).length
   obtain ⟨P₀, hP₀⟩ := (exceptional_ordinary_Sylow_opposition Tag.D4 K 3 w₀ hw₀).1
   have hp : IsPGroup 3 ((posUnipotent Tag.D4 K).subgroupOf (adjointGroup Tag.D4 K)) := by
-    rw [← hP₀]; exact P₀.isPGroup'
+    rw [← hP₀]; exact P₀.isPGroup
   obtain ⟨k, hk⟩ := hp ⟨g, hgU⟩
   have hord : orderOf (g : ↥(adjointGroup Tag.D4 K)) ∣ 2 := orderOf_dvd_of_pow_eq_one (by
     rw [pow_two]; exact hg2)

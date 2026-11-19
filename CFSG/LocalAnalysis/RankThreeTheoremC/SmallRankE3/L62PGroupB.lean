@@ -35,6 +35,7 @@ private theorem l62_card_mul_le_card_sup {K X : Subgroup H} (h : K ⊓ X = ⊥) 
     exact mul_left_cancel h1
   exact Prod.ext (Subtype.ext h3.symm) (Subtype.ext h4)
 
+omit [Finite H] in
 private theorem l62_isElemAbelian_mono {p : ℕ} {E F : Subgroup H} (hFE : F ≤ E)
     (hE : IsElemAbelian p E) : IsElemAbelian p F := by
   refine ⟨⟨⟨fun u v => ?_⟩⟩, fun g hg => hE.2 g (hFE hg)⟩
@@ -42,12 +43,14 @@ private theorem l62_isElemAbelian_mono {p : ℕ} {E F : Subgroup H} (hFE : F ≤
     congrArg Subtype.val (hE.1.is_comm.comm ⟨(u : H), hFE u.2⟩ ⟨(v : H), hFE v.2⟩)
   exact Subtype.ext h
 
+omit [Finite H] in
 private theorem l62_comm_zpowers {x : H} : ∀ a ∈ zpowers x, ∀ b ∈ zpowers x, a * b = b * a := by
   intro a ha b hb
   obtain ⟨m, rfl⟩ := mem_zpowers_iff.mp ha
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hb
   exact (Commute.zpow_zpow_self x m n).eq
 
+omit [Finite H] in
 private theorem l62_isElemAbelian_zpowers {p : ℕ} {x : H} (hx : x ^ p = 1) :
     IsElemAbelian p (zpowers x) := by
   refine ⟨⟨⟨fun u v => Subtype.ext (l62_comm_zpowers (u : H) u.2 (v : H) v.2)⟩⟩, ?_⟩
@@ -60,6 +63,7 @@ private theorem l62_zpowers_eq {p : ℕ} [Fact p.Prime] {y c : H} (hy : y ^ p = 
   eq_of_le_of_card_ge (zpowers_le.2 h) (by
     rw [Nat.card_zpowers, Nat.card_zpowers, orderOf_eq_prime hy hy1, orderOf_eq_prime hc hc1])
 
+omit [Finite H] in
 private theorem l62_isElemAbelian_sup {p : ℕ} {A B : Subgroup H} (hA : IsElemAbelian p A)
     (hB : IsElemAbelian p B) (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     IsElemAbelian p (A ⊔ B) := by
@@ -203,11 +207,13 @@ private theorem l62_card_le_sq_of_comm {p : ℕ} [Fact p.Prime] {S : Subgroup H}
         Nat.mul_le_mul (hker.trans (l62_card_cent_le hx3 hxS hrank hEP hE hxE)) hrange
       _ = p ^ 2 := by ring
 
+omit [Finite H] in
 private theorem l62_zpowers_central {S : Subgroup H} {z : H} (hzc : ∀ g ∈ S, g * z = z * g)
     {w g : H} (hw : w ∈ zpowers z) (hg : g ∈ S) : g * w = w * g := by
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hw
   exact (Commute.zpow_right (show Commute g z from hzc g hg) n).eq
 
+omit [Finite H] in
 private theorem l62_comm_mul_mem {S : Subgroup H} {x z : H} (hzc : ∀ g ∈ S, g * z = z * g)
     {e e' : H} (he : e ∈ S) (he1 : x * e * x⁻¹ * e⁻¹ ∈ zpowers z)
     (he2 : x * e' * x⁻¹ * e'⁻¹ ∈ zpowers z) :
@@ -224,14 +230,15 @@ private theorem l62_comm_mul_mem {S : Subgroup H} {x z : H} (hzc : ∀ g ∈ S, 
   exact (zpowers z).mul_mem he1 he2
 
 theorem l62_card_le_nine_of_comm {S : Subgroup H} {x z : H} (hxS : x ∈ S) (hx3 : x ^ 3 = 1)
-    (hzS : z ∈ S) (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) (hzc : ∀ g ∈ S, g * z = z * g)
+    (_hzS : z ∈ S) (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) (hzc : ∀ g ∈ S, g * z = z * g)
     (hrank : ∀ E : Subgroup H, E ≤ S → IsElemAbelian 3 E → (∀ e ∈ E, e * x = x * e) →
       Nat.card E ≤ 3 ^ 2)
     {E : Subgroup H} (hES : E ≤ S) (hE : IsElemAbelian 3 E)
     (hcomm : ∀ e ∈ E, x * e * x⁻¹ * e⁻¹ ∈ zpowers z) : Nat.card E ≤ 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact l62_card_le_sq_of_comm (p := 3) hx3 hxS hz3 hz1 hzc hrank hES hE hcomm
 
+omit [Finite H] in
 theorem l62_comm_mem_sup {S : Subgroup H} {x z : H} (hzc : ∀ g ∈ S, g * z = z * g)
     {V V' : Subgroup H} (hV : V ≤ S) (hV' : V' ≤ S)
     (h1 : ∀ e ∈ V, x * e * x⁻¹ * e⁻¹ ∈ zpowers z)
@@ -248,7 +255,7 @@ theorem l62_comm_mem_sup {S : Subgroup H} {x z : H} (hzc : ∀ g ∈ S, g * z = 
     cases i
     · exact h2 e he
     · exact h1 e he
-  · simpa using (zpowers z).one_mem
+  · simp
   · intro a b ha hb iha ihb
     exact l62_comm_mul_mem hzc (heS a (hE ▸ ha)) iha ihb
 

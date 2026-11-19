@@ -344,7 +344,7 @@ theorem exists_sylow [Finite G] : ∃ T : Sylow 2 (Gbar N z),
       rw [hQ'def, mem_subgroupOf] at hx ⊢
       have := h.Qnorm (t : G)⁻¹ (N.inv_mem t.2) htz' _ hx
       simpa [mul_assoc] using this
-  have hsup := IsPGroup.to_sup_of_normal_right' T.isPGroup' hQ'2 hTnorm
+  have hsup := IsPGroup.to_sup_of_normal_right' T.isPGroup hQ'2 hTnorm
   have hQT : Q' ≤ T := by
     rw [← T.maximal_isPGroup.eq_of_ge hsup le_sup_left]
     exact le_sup_right

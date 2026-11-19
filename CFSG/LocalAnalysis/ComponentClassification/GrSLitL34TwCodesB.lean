@@ -13,7 +13,7 @@ open CFSG Subgroup CFSG.ComponentClassification.PSL3Four
 
 @[expose] def codeSet (X : Subgroup WrE) : Set (Fin 4 × Fin 4 × Bool) := {c | ∃ x ∈ X, cc x = c}
 
-theorem N0w_le_Pw : N0w ≤ Pw := fun x hx =>
+theorem N0w_le_Pw : N0w ≤ Pw := fun _x hx =>
   ⟨T0_le_RA (mem_N0w_iff.1 hx).2.1, T0_le_RA (mem_N0w_iff.1 hx).2.2⟩
 
 theorem g₅_mem_RA : g₅ ∈ RA := Subgroup.subset_closure (Or.inr (by simp))
@@ -28,9 +28,9 @@ theorem s2_mem_Pw : (⟨g₅, g₆, true⟩ : WrE) ∈ Pw := ⟨g₅_mem_RA, g�
 theorem cosRA_eq_zero_iff (r : Equiv.Perm (Fin 42)) : cosRA r = 0 ↔ r ∈ L34Facts.T0 := by
   unfold cosRA
   by_cases h0 : r ∈ L34Facts.T0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     exact iff_of_true rfl h0
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     refine iff_of_false ?_ h0
     split_ifs <;> decide
 
@@ -100,13 +100,13 @@ theorem not_mem_T0_g56 : g₅ * g₆ ∉ L34Facts.T0 := fun h =>
 
 theorem cosRA_g5 : cosRA g₅ = 1 := by
   unfold cosRA
-  rw [if_neg not_mem_T0_five, if_pos (by rw [inv_mul_cancel]; exact L34Facts.T0.one_mem)]
+  rw [ite_eq_right not_mem_T0_five, ite_eq_left (by rw [inv_mul_cancel]; exact L34Facts.T0.one_mem)]
 
 theorem cosRA_g6 : cosRA g₆ = 2 := by
   unfold cosRA
   have h1 : g₅⁻¹ * g₆ = g₅ * g₆ := by rw [inv_eq_of_mul_eq_one_right PSL3Four.g₅_mul_g₅]
-  rw [if_neg not_mem_T0_six, if_neg (by rw [h1]; exact not_mem_T0_g56),
-    if_pos (by rw [inv_mul_cancel]; exact L34Facts.T0.one_mem)]
+  rw [ite_eq_right not_mem_T0_six, ite_eq_right (by rw [h1]; exact not_mem_T0_g56),
+    ite_eq_left (by rw [inv_mul_cancel]; exact L34Facts.T0.one_mem)]
 
 theorem cosRA_g56 : cosRA (g₅ * g₆) = 3 := by
   rw [Certificates.certificate33102 g₅ g₅_mem_RA g₆ g₆_mem_RA, cosRA_g5, cosRA_g6]

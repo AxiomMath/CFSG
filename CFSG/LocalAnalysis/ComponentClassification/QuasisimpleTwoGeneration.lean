@@ -39,7 +39,7 @@ theorem residual_eq_top_of_corefree {G : Type*} [Group G] [Finite G]
     let : Nontrivial G := Quasisimple.nontrivial hquasisimple
     let sylow : Sylow 2 G := Classical.choice inferInstance
     have hsylowCentral : (sylow : Subgroup G) ≤ Subgroup.center G :=
-      (TwoResidual.twoSubgroup_le _ sylow.isPGroup').trans hcentral
+      (TwoResidual.twoSubgroup_le _ sylow.isPGroup).trans hcentral
     let : IsMulCommutative (sylow : Subgroup G) := isMulCommutative_iff.mpr
       fun left right => Subtype.ext
         ((Subgroup.mem_center_iff.mp (hsylowCentral left.property)) right).symm

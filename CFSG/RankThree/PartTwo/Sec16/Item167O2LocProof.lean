@@ -63,7 +63,7 @@ theorem step167O2Loc_of_not
   have hJtop : J ≠ ⊤ := by
     intro hJt
     exact hNne (top_le_iff.mp (hJt ▸ hJN))
-  letI : (Sec14.ker148 A N).Normal := Sec14.ker148_normal hNmem.2
+  let : (Sec14.ker148 A N).Normal := Sec14.ker148_normal hNmem.2
   by_cases hO2 : CFSG.pCore 2 ↥J = ⊥
   · exfalso
     have h3L : 3 ∣ Nat.card L := Proof1613.three_dvd_card_L h.toSec14Std
@@ -118,7 +118,7 @@ theorem step167O2Loc_of_not
       let e : (↥J ⧸ aschbacherSolvableCore 3 ↥J) ≃* alternatingGroup (Fin 10) :=
         eJθ.trans h10.some
       have hJsimple : IsSimpleGroup (↥J ⧸ aschbacherSolvableCore 3 ↥J) := by
-        haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+        have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
           alternatingGroup.isSimpleGroup (by simp)
         exact e.isSimpleGroup
       have hJnotsmall : ¬ Proof167Four.Small44

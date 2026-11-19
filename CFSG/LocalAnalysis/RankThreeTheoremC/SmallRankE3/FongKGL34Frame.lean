@@ -31,7 +31,7 @@ theorem kgl34_col_mul {n : ℕ} {F : Type*} [Field F] [DecidableEq (Fin n)] (i0 
   by_cases hk : k = i0
   · rw [hk]
     by_cases hj : j = i0
-    · rw [hj, if_pos rfl, Finset.sum_eq_single i0]
+    · rw [hj, ite_eq_left rfl, Finset.sum_eq_single i0]
       · simpa [hY, hZ, mul_comm] using hz
       · intro b _ hb
         simp [hY, hZ, hb, Ne.symm hb]
@@ -47,15 +47,15 @@ theorem kgl34_col_mul {n : ℕ} {F : Type*} [Field F] [DecidableEq (Fin n)] (i0 
           · simp [hY, hZ, hm, hjm]
           · simp [hY, hZ, hm, hjm]
       simp only [hterm, Finset.sum_add_distrib]
-      rw [Finset.sum_ite_eq, Finset.sum_ite_eq', if_pos (Finset.mem_univ j),
-        if_pos (Finset.mem_univ i0), if_neg hj]
+      rw [Finset.sum_ite_eq, Finset.sum_ite_eq', ite_eq_left (Finset.mem_univ j),
+        ite_eq_left (Finset.mem_univ i0), ite_eq_right hj]
       linear_combination hz' j hj
   · have hcol : ∀ m, Y j m * Z m k = if m = k then Y j m else 0 := by
       intro m
-      rw [hZ, if_neg hk]
+      rw [hZ, ite_eq_right hk]
       by_cases hmk : m = k <;> simp [hmk]
     simp only [hcol]
-    rw [Finset.sum_ite_eq', if_pos (Finset.mem_univ k), hY, if_neg hk]
+    rw [Finset.sum_ite_eq', ite_eq_left (Finset.mem_univ k), hY, ite_eq_right hk]
 
 theorem exists_isotropic_column {n : ℕ} (hn : 2 ≤ n) {F : Type*} [Field F] [Finite F] [CharP F 2]
     (φ : F ≃+* F) (D : Matrix (Fin n) (Fin n) F) (hDφ : ∀ i j, φ (D i j) = D i j)
@@ -118,7 +118,7 @@ theorem exists_isotropic_column {n : ℕ} (hn : 2 ≤ n) {F : Type*} [Field F] [
       rw [hY]
       split_ifs <;> first | exact hefix j | simp
     · show (Yᵀ * D * Y) i0 i0 = 0
-      have hYcol : ∀ j, Y j i0 = e j := fun j => by rw [hY, if_pos rfl]
+      have hYcol : ∀ j, Y j i0 = e j := fun j => by rw [hY, ite_eq_left rfl]
       simp only [Matrix.mul_apply, Matrix.transpose_apply, hYcol]
       have hA : ∀ k, ∑ j, e j * D j k = e i0 * D i0 k + e i1 * D i1 k := fun k =>
         Fintype.sum_eq_add i0 i1 hi (fun j hj => by simp [heo j hj.1 hj.2])

@@ -270,9 +270,9 @@ theorem exists_langSetup_frobRoot_twE6_D0 {p e : ℕ} (hp : p.Prime) (hp2 : p �
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ two_ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := e * p * 2)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := e * p * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hf : 1 ≤ e * p := Nat.mul_pos he hp.pos
   set L := AlgebraicClosure K with hLdef

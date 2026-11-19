@@ -66,7 +66,7 @@ theorem two_le_pRank_statedSU_of_su2_block {n : ℕ} (hn : 4 ≤ n) {K : Type} [
     rw [← h2]
     by_cases hab' : a' = b'
     · subst hab'; simp [Matrix.scalar_apply]
-    · simp [Matrix.scalar_apply, Matrix.one_apply, hab']
+    · simp [Matrix.scalar_apply, hab']
   exact CFSG.QuasithinUnique.Vol2Native.EvenWit.two_le_pRank_statedProj
     (H := StatedSU n q K) (p := r) hAS hBS hAr hBr ⟨1, one_mem _, by
       rw [one_mul]; exact hcomm⟩ hxA hyB
@@ -75,8 +75,8 @@ theorem exists_su2_prime_order_char_two {K : Type} [Field K] {f : ℕ}
     (h : UnitaryFieldData 2 f K) {r : ℕ} (hr : r.Prime) (hrq : r ∣ (2 ^ f) ^ 2 - 1) :
     ∃ g : GL (Fin 2) K, IsSU2 (2 ^ f) (g : Matrix (Fin 2) (Fin 2) K) ∧ g ^ r = 1 ∧
       ∀ c : Kˣ, (g : Matrix (Fin 2) (Fin 2) K) ≠ Matrix.scalar (Fin 2) (c : K) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Finite K := h.finite
+  have : Fact r.Prime := ⟨hr⟩
+  have : Finite K := h.finite
   have hint := CFSG.GH74.GLS.Stage2.Final.ModelOrd.card_statedSU_int h (n := 2) (by norm_num)
   rw [CFSG.GH74.GLS.Stage2.Final.ModelOrd.prod_Icc_two_two,
     show 2 * (2 - 1) / 2 = 1 by norm_num, pow_one] at hint
@@ -110,7 +110,7 @@ theorem exists_su2_prime_order_char_two {K : Type} [Field K] {f : ℕ}
       rw [hdet] at this
       simpa [Matrix.scalar_apply, Matrix.det_diagonal] using this.symm
     have h20 : (2 : K) = 0 := by
-      haveI := h.charP
+      have := h.charP
       exact CharTwo.two_eq_zero
     have hc1 : (c : K) = 1 := by
       have h3 : ((c : K) - 1) ^ 2 = 0 := by linear_combination hc2 + (1 - (c : K)) * h20
@@ -123,11 +123,11 @@ theorem exists_su2_prime_order_char_two {K : Type} [Field K] {f : ℕ}
   exact ⟨(g : GL (Fin 2) K), hgS, by rw [← Subgroup.coe_pow, hgr]; rfl, hns⟩
 
 theorem two_le_pRank_psu_of_dvd {X : Type} [Group X] [Finite X] {n f : ℕ} (hn : 4 ≤ n)
-    (hC : StatedClassicalModel X .PSU n 2 f) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
+    (hC : StatedClassicalModel X .PSU n 2 f) {r : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2)
     (hrq : r ∣ (2 ^ f) ^ 2 - 1) : 2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, ⟨e⟩⟩ := hC
   have h : UnitaryFieldData 2 f K := ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hgS, hgr, hns⟩ := exists_su2_prime_order_char_two h hr hrq
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt e]
   exact two_le_pRank_statedSU_of_su2_block hn (pow_ne_zero f two_ne_zero) hgS hgr hns

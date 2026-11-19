@@ -118,8 +118,8 @@ theorem l2_commutator {K : Type} [Field K] (γ : Kˣ) (ε : ℕ) (hε : ε ≤ 1
     rw [commutatorElement_def, key]
     group
 
-theorem l2_alpha_facts {K : Type} [Field K] [Finite K] {r : ℕ} (hr : 4 ≤ r) {α : Kˣ}
-    (hα : orderOf α = 2 ^ (r - 1)) {γ : Kˣ} {ε : ℕ} (hε : ε ≤ 1) {σ : K ≃+* K} {q : ℕ}
+theorem l2_alpha_facts {K : Type} [Field K] [Finite K] {r : ℕ} (_hr : 4 ≤ r) {α : Kˣ}
+    (_hα : orderOf α = 2 ^ (r - 1)) {γ : Kˣ} {ε : ℕ} (hε : ε ≤ 1) {σ : K ≃+* K} {q : ℕ}
     (hq : ∀ x : K, σ x = x ^ q) (hσ2 : σ * σ = 1)
     (hBB : (TwinSocF4.tor γ * TwinSocF4.wref ^ ε * SemidirectProduct.inr σ : PGammaL2 K) *
         (TwinSocF4.tor γ * TwinSocF4.wref ^ ε * SemidirectProduct.inr σ) = TwinSocF4.tor (-1))

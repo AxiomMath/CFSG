@@ -43,7 +43,7 @@ theorem origArrs_eq {c : ChainRecord}
     c.origArrs = c.strongArrs.extract 0 c.generators.length := by
   apply Array.toList_inj.1
   simp only [ChainRecord.origArrs, ChainRecord.strongArrs, Array.toList_extract,
-    List.toList_toArray, List.extract_eq_drop_take, List.drop_zero, Nat.sub_zero, ← List.map_take,
+    List.toList_toArray, List.extract_eq_take_drop, List.drop_zero, Nat.sub_zero, ← List.map_take,
     hgen]
 
 theorem wordArrs_eq {c : ChainRecord}
@@ -56,9 +56,9 @@ theorem wordArrs_eq {c : ChainRecord}
     simp only [ChainRecord.wordArrs, List.getElem_toArray,
       CFSG.Sporadic.Schreier.Co3.Native.wordsArr, Array.getElem_ofFn]
     by_cases hj : j < c.generators.length
-    · rw [if_pos hj, List.getElem_append_left (by simpa using hj)]
+    · rw [ite_eq_left hj, List.getElem_append_left (by simpa using hj)]
       simp
-    · rw [if_neg hj, List.getElem_append_right (by simpa using hj)]
+    · rw [ite_eq_right hj, List.getElem_append_right (by simpa using hj)]
       have h1' : j < c.generators.length + c.derivations.length := by
         simpa [ChainRecord.wordArrs] using h1
       rw [List.getD_eq_getElem _ _ (by omega)]

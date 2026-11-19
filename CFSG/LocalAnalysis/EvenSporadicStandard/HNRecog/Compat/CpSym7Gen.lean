@@ -11,7 +11,7 @@ open Equiv
 open scoped Finset
 
 theorem cp_sym7_cent_gen {τ σ : Perm (Fin 7)} (hτ : τ.cycleType = {2})
-    (hσ : σ.cycleType = {2, 2}) (hcomm : τ * σ = σ * τ) (hτσ : (τ * σ).cycleType = {2, 2, 2}) :
+    (hσ : σ.cycleType = {2, 2}) (_hcomm : τ * σ = σ * τ) (hτσ : (τ * σ).cycleType = {2, 2, 2}) :
     Subgroup.closure ((Subgroup.centralizer {τ} : Set (Perm (Fin 7))) ∪
       (Subgroup.centralizer {σ} : Set (Perm (Fin 7)))) = ⊤ := by
   classical
@@ -109,7 +109,7 @@ theorem cp_sym7_cent_gen {τ σ : Perm (Fin 7)} (hτ : τ.cycleType = {2})
       Subgroup.closure ((Subgroup.centralizer {τ} : Set (Perm (Fin 7))) ∪
         (Subgroup.centralizer {σ} : Set (Perm (Fin 7)))) := by
     intro s hs
-    rw [Set.mem_setOf_eq, Equiv.Perm.IsSwap] at hs
+    rw [Set.mem_ofPred_eq, Equiv.Perm.IsSwap] at hs
     obtain ⟨u, v, huv, rfl⟩ := hs
     by_cases huA : u ∈ A
     · by_cases hvA : v ∈ A

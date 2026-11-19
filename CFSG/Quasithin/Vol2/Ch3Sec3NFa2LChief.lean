@@ -56,6 +56,7 @@ structure IsChiefPair (X N₀ N₁ : Subgroup G) : Prop where
 private instance finite_subgroup {H : Type} [Group H] [Finite H] : Finite (Subgroup H) :=
   Finite.of_injective (fun K : Subgroup H => (K : Set H)) SetLike.coe_injective
 
+omit [Finite G] in
 private lemma isPGroup_two_of_le {A B : Subgroup G} (hA : IsPGroup 2 ↥A) (hBA : B ≤ A) :
     IsPGroup 2 ↥B := by
   intro g
@@ -83,10 +84,10 @@ private lemma exists_sub_of_two_group {N₀ N₁ : Subgroup G} (hlt : N₀ < N�
     (hp : IsPGroup 2 ↥N₁) :
     ∃ M : Subgroup G, N₀ ≤ M ∧ M < N₁ ∧ (∀ a ∈ N₁, ∀ b ∈ N₁, a * b * a⁻¹ * b⁻¹ ∈ M) ∧
       ∀ a ∈ N₁, a * a ∈ M := by
-  haveI : Group.IsNilpotent N₁ := IsPGroup.isNilpotent hp
+  have : Group.IsNilpotent N₁ := IsPGroup.isNilpotent hp
   have hH₀ : N₀.subgroupOf N₁ ≠ ⊤ := by
     intro htop
-    obtain ⟨g, hg1, hg2⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨g, hg1, hg2⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hmem : (⟨g, hg1⟩ : ↥N₁) ∈ N₀.subgroupOf N₁ := by
       rw [htop]
       exact Subgroup.mem_top _
@@ -96,7 +97,7 @@ private lemma exists_sub_of_two_group {N₀ N₁ : Subgroup G} (hlt : N₀ < N�
     · exact absurd h hH₀
     · exact ⟨M, hM, hle⟩
   have hidx : M.index = 2 := (IsPGroup.isCoatom_iff_index_eq_prime hp).mp hMc
-  haveI : M.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : M.Normal := Subgroup.normal_of_index_eq_two hidx
   obtain ⟨hsq, hcm⟩ := index_two_props M hidx
   refine ⟨M.map N₁.subtype, ?_, ?_, ?_, ?_⟩
   · intro g hg
@@ -128,11 +129,13 @@ private lemma exists_sub_of_two_group {N₀ N₁ : Subgroup G} (hlt : N₀ < N�
 private def commSq (N₁ : Subgroup G) : Set G :=
   {g | ∃ a ∈ N₁, ∃ b ∈ N₁, g = a * b * a⁻¹ * b⁻¹ ∨ g = a * a}
 
+omit [Finite G] in
 private lemma commSq_subset (N₁ : Subgroup G) : commSq N₁ ⊆ (N₁ : Set G) := by
   rintro g ⟨a, ha, b, hb, rfl | rfl⟩
   · exact N₁.mul_mem (N₁.mul_mem (N₁.mul_mem ha hb) (N₁.inv_mem ha)) (N₁.inv_mem hb)
   · exact N₁.mul_mem ha ha
 
+omit [Finite G] in
 private lemma commSq_conj {N₁ : Subgroup G} {y : G} (hy : y ∈ Subgroup.normalizer (N₁ : Set G)) :
     ∀ g ∈ commSq N₁, y * g * y⁻¹ ∈ commSq N₁ := by
   rintro g ⟨a, ha, b, hb, rfl | rfl⟩
@@ -143,6 +146,7 @@ private lemma commSq_conj {N₁ : Subgroup G} {y : G} (hy : y ∈ Subgroup.norma
       y * a * y⁻¹, (Subgroup.mem_normalizer_iff.mp hy a).mp ha, Or.inr ?_⟩
     group
 
+omit [Finite G] in
 private lemma normalizer_sup_closure {X N₀ N₁ : Subgroup G} (h : IsChiefPair X N₀ N₁) :
     X ≤ Subgroup.normalizer ((N₀ ⊔ Subgroup.closure (commSq N₁) : Subgroup G) : Set G) := by
   have fwd : ∀ y ∈ X, ∀ g ∈ N₀ ⊔ Subgroup.closure (commSq N₁),
@@ -180,11 +184,12 @@ private lemma sup_commSq_eq {X N₀ N₁ : Subgroup G} (h : IsChiefPair X N₀ N
     have hN₁M : N₁ ≤ M := (le_of_eq heq.symm).trans hN₂M
     exact lt_irrefl _ (lt_of_le_of_lt hN₁M hMlt)
 
+omit [Finite G] in
 theorem odd_centralizes_of_stable {k : G} (hk : Odd (orderOf k)) {Z₀ N₀ N₁ : Subgroup G}
-    (hZN : Z₀ ≤ N₀) (hNN : N₀ ≤ N₁) (hN₀2 : IsPGroup 2 ↥N₀)
-    (hZn : N₁ ≤ Subgroup.normalizer (Z₀ : Set G)) (hN₀n : N₁ ≤ Subgroup.normalizer (N₀ : Set G))
-    (hkZ : k ∈ Subgroup.normalizer (Z₀ : Set G)) (hkN₀ : k ∈ Subgroup.normalizer (N₀ : Set G))
-    (hkN₁ : k ∈ Subgroup.normalizer (N₁ : Set G))
+    (hZN : Z₀ ≤ N₀) (_hNN : N₀ ≤ N₁) (hN₀2 : IsPGroup 2 ↥N₀)
+    (_hZn : N₁ ≤ Subgroup.normalizer (Z₀ : Set G)) (_hN₀n : N₁ ≤ Subgroup.normalizer (N₀ : Set G))
+    (_hkZ : k ∈ Subgroup.normalizer (Z₀ : Set G)) (_hkN₀ : k ∈ Subgroup.normalizer (N₀ : Set G))
+    (_hkN₁ : k ∈ Subgroup.normalizer (N₁ : Set G))
     (h0 : ∀ a ∈ N₀, k * a * k⁻¹ * a⁻¹ ∈ Z₀) (h1 : ∀ n ∈ N₁, k * n * k⁻¹ * n⁻¹ ∈ N₀) :
     ∀ n ∈ N₁, k * n * k⁻¹ * n⁻¹ ∈ Z₀ := by
   intro n hn

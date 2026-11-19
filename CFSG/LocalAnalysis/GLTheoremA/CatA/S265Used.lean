@@ -23,7 +23,7 @@ theorem i265UsedAt_of_fact (hF : FactU) (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
     I265UsedAt G p := by
   classical
   intro B x L b hS hchev hG hb hbx hR hTD hI hnI
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hBel, hBcard, -, -, -⟩ : IsElemAbelian p B ∧ Nat.card ↥B = p ^ GLATwoLocalRank p G ∧
       ∃ U : Subgroup G, U ≠ ⊥ ∧ IsPGroup 2 U ∧ B ≤ Subgroup.normalizer (U : Set G) := IsSStarMax.bmax hS
   have hess := IsSStarMax.essential hS

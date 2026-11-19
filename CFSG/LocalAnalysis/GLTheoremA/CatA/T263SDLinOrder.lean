@@ -15,7 +15,7 @@ theorem exists_orderOf_eq_of_dvd_units {E : Type*} [Field E] [Finite E] {m : ℕ
     (hp : p.Prime) (hpq : p ∣ Nat.card E - 1) :
     ∃ g : Matrix.SpecialLinearGroup (Fin m) E, orderOf g = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := Eˣ) p (by rw [Nat.card_units]; exact hpq)
   have ht1 : t ≠ 1 := by
     intro h
@@ -65,7 +65,7 @@ theorem exists_special_of_pow_scalar {E W : Type*} [Field E] [Finite E] [AddComm
     (hns : ¬ ∃ c : E, ∀ w : W, (γ : Module.End E W) w = c • w) :
     ∃ u : _root_.SpecialLinearGroup E W, orderOf u = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : (Nat.card Eˣ).Coprime p := by
     rw [Nat.card_units]
     exact ((Nat.Prime.coprime_iff_not_dvd hp).2 hpq).symm
@@ -93,7 +93,7 @@ theorem exists_special_of_pow_scalar {E W : Type*} [Field E] [Finite E] [AddComm
     intro h0
     rw [h0, zero_pow hp.ne_zero] at hd
     exact zero_ne_one hd
-  haveI := Fintype.ofFinite E
+  have := Fintype.ofFinite E
   have hdq : LinearMap.det (γ' : Module.End E W) ^ (Fintype.card E - 1) = 1 :=
     FiniteField.pow_card_sub_one_eq_one _ hd0
   have hgcd : Nat.gcd p (Fintype.card E - 1) = 1 := by
@@ -124,6 +124,7 @@ variable {K : Type} [Field K] [Finite K] {n : ℕ}
 
 local notation "𝒱" => (Fin n → K)
 
+omit [Finite K] in
 theorem nonempty_specialFactor_equiv_block {A : GL (Fin n) K}
     (hsq : Squarefree (minpoly K (glA A : Module.End K 𝒱))) {h : K[X]}
     (hh : h ∈ primaryFactors (glA A : Module.End K 𝒱)) :
@@ -141,13 +142,14 @@ theorem dvd_card_specialFactor_of_dvd_units {A : GL (Fin n) K}
     (hh : h ∈ primaryFactors (glA A : Module.End K 𝒱))
     (hm : 2 ≤ primaryMultiplicity (glA A : Module.End K 𝒱) h) {p : ℕ} (hp : p.Prime)
     (hpq : p ∣ Nat.card (AdjoinRoot h) - 1) : p ∣ Nat.card (specialFactor A h) := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   obtain ⟨e⟩ := nonempty_mulEquiv_specialFactor hsq hh
   obtain ⟨g, hg⟩ := exists_orderOf_eq_of_dvd_units hm hp hpq
   rw [← Nat.card_congr e.toEquiv, ← hg]
   exact orderOf_dvd_natCard g
 
+omit [Finite K] in
 theorem glA_scalar_apply (c : Kˣ) (v : 𝒱) :
     ((glA (Matrix.GeneralLinearGroup.scalar (Fin n) c) : LinearMap.GeneralLinearGroup K 𝒱) :
       Module.End K 𝒱) v = (c : K) • v := by
@@ -170,8 +172,8 @@ theorem dvd_card_specialFactor_of_noncentral {B : GL (Fin n) K}
       (((glA B : LinearMap.GeneralLinearGroup K 𝒱) : Module.End K 𝒱) (v : 𝒱)) = ((c • v : 𝒲[h]) : 𝒱)) :
     p ∣ Nat.card (specialFactor A h) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   set γ : blockGL (glA A : Module.End K 𝒱) h := glCentralizerEquivPi hsq ⟨glA B, hBc⟩ ⟨h, hh⟩ with hγ
   let scE : (AdjoinRoot h)ˣ →* blockGL (glA A : Module.End K 𝒱) h :=
     Units.map (algebraMap (AdjoinRoot h) (Module.End (AdjoinRoot h) 𝒲[h])).toMonoidHom

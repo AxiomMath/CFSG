@@ -114,8 +114,8 @@ theorem nonempty_statedSU_equiv_fixSubgroup {ℓ f : ℕ} (hℓ : ℓ.Prime) [Ch
       obtain ⟨Y, hY⟩ := (mem_range_statedSUToSL_iff (n := ν) hℓ F hF hFcard (by omega) X).mpr
         ((hfix X).1 X.2)
       exact ⟨Y, Subtype.ext hY⟩⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype F := Fintype.ofFinite F
   exact ⟨(CFSG.Open.StatedSUFieldChange.statedSUEquiv
     (FiniteField.ringEquivOfCardEq (by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hFcard])) ν (ℓ ^ f)).trans e⟩

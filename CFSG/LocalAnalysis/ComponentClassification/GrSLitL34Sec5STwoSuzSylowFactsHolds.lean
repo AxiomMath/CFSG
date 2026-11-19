@@ -18,7 +18,7 @@ theorem twoSuzSylowFacts_of_model
             Subgroup.centralizer (Q : Set TwoSuz.GL12))) :
     TwoSuzSylowFacts := by
   intro X _ _ hperf hZ hX R
-  haveI : Group.IsPerfect X := hperf
+  have : Group.IsPerfect X := hperf
   obtain ⟨e⟩ := CFSG.EvenSporadicStandard.Solomon78.suz_equiv_of_isSporadic hX
   let q : X →* CFSG.Sporadic.SuzOddCore.suzM :=
     e.toMonoidHom.comp (QuotientGroup.mk' (center X))

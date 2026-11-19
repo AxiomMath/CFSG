@@ -57,7 +57,7 @@ theorem centralizer_pPrimeCore_two_le (hO2 : CFSG.pCore 2 Y = ⊥)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 T) := inferInstance
   set P' : Subgroup Y := (P : Subgroup T).map T.subtype with hP'
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map _
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map _
   have hP'T : P' ≤ T := Subgroup.map_subtype_le _
   have hP'O : P' ≤ CFSG.pCore 2 Y := by
     refine le_pCore_of_le_centralizer_components hP'2 (fun L hL => (hE L hL).elim)
@@ -178,7 +178,7 @@ theorem exists_isElemAbelian_three_of_centerQuotient {V : Type*} [Group V] [Fini
     have e := (Subgroup.equivMapOfInjective (S : Subgroup ↥Lb) Lb.subtype Lb.subtype_injective)
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective)
   have h2 := two_le_pRank_of_isPGroup_not_isCyclic Nat.prime_three (by decide)
-    (S.isPGroup'.map Lb.subtype) hS₀nc
+    (S.isPGroup.map Lb.subtype) hS₀nc
   obtain ⟨E₀, hE₀S, hE₀, hE₀c⟩ := exists_isElemAbelian_card_sq_of_two_le_pRank Nat.prime_three h2
   exact ⟨E₀, hE₀S.trans (Subgroup.map_subtype_le _), hE₀, hE₀c⟩
 

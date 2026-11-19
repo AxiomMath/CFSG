@@ -23,7 +23,7 @@ theorem det_eq_zero_of_dual_apply_eq_zero {K V ι : Type*} [Field K] [AddCommGro
     intro hli
     have hli' : LinearIndependent K (Set.codRestrict α (K ∙ v).dualAnnihilator hmem) :=
       hli.codRestrict _ hmem
-    haveI : Module.Finite K (K ∙ v).dualAnnihilator :=
+    have : Module.Finite K (K ∙ v).dualAnnihilator :=
       FiniteDimensional.finiteDimensional_submodule _
     have hle : Fintype.card ι ≤ Module.finrank K (K ∙ v).dualAnnihilator :=
       hli'.fintype_card_le_finrank

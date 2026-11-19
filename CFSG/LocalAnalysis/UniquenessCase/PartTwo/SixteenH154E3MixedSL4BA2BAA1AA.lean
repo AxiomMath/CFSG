@@ -44,8 +44,8 @@ theorem s16h_sl4_engine_a_involution_normalizer_reduce
   have hfix := s16h_sl4_row_involution_codim D S hσ hJP h hs2 ht ht2 ht1 htr hW hcomp
     hthin hZ hbad hrow hZ4 hs hsq hs1 hsN
   obtain ⟨-, K, hKf, hKfin, hKcard, -⟩ := hrow
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨s', hs'N, hs'2, hs'1, hs'le⟩ := s16h_sl4_natNorm_transvection (K := K) hKcard
   refine ⟨K, hKf, hKfin, ?_, s', hs'N, hs'2, hs'1, ?_⟩
   · rw [hKcard]

@@ -48,7 +48,7 @@ theorem sylowNormalizer_transitive_on_fixedPoints
     exact hq i
   have hPk :
       MulAction.IsMultiplyPretransitive P X k := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact
       MulAction.isMultiplyPretransitive_of_le
         (G := P) (α := X) (m := k) (n := 5)
@@ -175,7 +175,7 @@ theorem sylowNormalizer_transitive_on_fixedPoints
       _ = Nat.card SP := hQSPcard
       _ = Nat.card S := hSPcard
   obtain ⟨n, hn⟩ :=
-    S.isPGroup'.exists_card_eq
+    S.isPGroup.exists_card_eq
   have hSUisP : IsPGroup p SU := by
     exact IsPGroup.of_card (hSUcard.trans hn)
   have hTUisP : IsPGroup p TU := by

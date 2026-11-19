@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 theorem q13d_exists_cover (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     ∃ 𝒮 : Subgroup G, IsPGroup 2 𝒮 ∧ ctxU t tau x₁ x₂ lam ≤ 𝒮 ∧
       NormalIn (ctxU t tau x₁ x₂ lam) 𝒮 ∧ Nat.card ↥𝒮 = 2 ^ 11 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU2 : IsPGroup 2 (ctxU t tau x₁ x₂ lam) := q13b_isPGroup_U h
   obtain ⟨P, hUP⟩ := hU2.exists_le_sylow
   have hcardG : Nat.card G ≠ 0 := Nat.card_pos.ne'
@@ -31,7 +31,7 @@ theorem q13d_exists_cover (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     intro heq
     rw [heq] at hcardlt
     exact absurd hcardlt (lt_irrefl _)
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   let s : Set (Subgroup G) := {K | ctxU t tau x₁ x₂ lam < K ∧ K ≤ P}
   have hsne : s.Nonempty := ⟨P, hltUP, le_rfl⟩
@@ -43,7 +43,7 @@ theorem q13d_exists_cover (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     intro K hUK hKlt
     have hKs : K ∈ s := ⟨hUK, hKlt.le.trans hSP⟩
     exact absurd (hmin hKs hKlt.le) (not_le_of_gt hKlt)
-  have hS2 : IsPGroup 2 𝒮 := P.isPGroup'.to_le hSP
+  have hS2 : IsPGroup 2 𝒮 := P.isPGroup.to_le hSP
   have hrel : (ctxU t tau x₁ x₂ lam).relIndex 𝒮 = 2 := relIndex_eq_two_of_covBy hS2 hcov
   have hcardS : Nat.card ↥𝒮 = 2 ^ 11 := by
     have hrelcard := Subgroup.relIndex_mul_card (H := ctxU t tau x₁ x₂ lam) (K := 𝒮)

@@ -45,7 +45,7 @@ theorem prime_dvd_card_Ep {z : G} {k : Kind} {S M : Subgroup G} {p : ℕ} (hC : 
 omit [Finite G] in
 theorem sylow_image_isPGroup {s : ℕ} (E : Subgroup G) (Q : Sylow s ↥E) :
     IsPGroup s ↥((Q : Subgroup ↥E).map E.subtype) :=
-  Q.isPGroup'.of_equiv ((Q : Subgroup ↥E).equivMapOfInjective E.subtype E.subtype_injective)
+  Q.isPGroup.of_equiv ((Q : Subgroup ↥E).equivMapOfInjective E.subtype E.subtype_injective)
 
 theorem prop6_8_of (h65 : Prop6_5) (h66 : Prop6_6) (h67 : Prop6_7) (hplane : OddNoncyclicPlane) : Prop6_8 := by
   intro G _ _ z k S M p hC

@@ -37,7 +37,7 @@ theorem alt_arm_prelim {G : Type} [Group G] [Finite G] {S : Subgroup G} (hSn : S
       Nat.card ↥(S ⊓ centralizer ({t} : Set G)) = 2 ^ (r - 1) * r ! * (m - 2 * r)! ∧
       60 ∣ Nat.card ↥(S ⊓ centralizer ({t} : Set G)) ∧
       Nat.card ↥(S ⊓ centralizer ({t} : Set G)) ∣ Nat.card ↥(centralizer ({t} : Set G)) := by
-  haveI := hSn
+  have := hSn
   have ht2 : t * t = 1 := mul_self_eq_one_of_orderOf_eq_two ht
   set σ : MulAut ↥S := MulAut.conjNormal t with hσdef
   have hσ2 : σ * σ = 1 := by
@@ -50,7 +50,7 @@ theorem alt_arm_prelim {G : Type} [Group G] [Finite G] {S : Subgroup G} (hSn : S
     rw [map_one]
     exact h1
   have hσo : orderOf σ = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [sq]; exact hσ2) hσ1
   obtain ⟨r, hr1, hr2, hcard⟩ :=
     CFSG.ComponentClassification.CatFC.card_fixedSubgroup_alt hm7 θ hσo
@@ -70,7 +70,7 @@ theorem dvd_cases_240 {d : ℕ} (h60 : 60 ∣ d) (h240 : d ∣ 240) : d = 60 ∨
   obtain ⟨j, rfl⟩ := h60
   have hj : 60 * j ≤ 240 := Nat.le_of_dvd (by norm_num) h240
   have hj4 : j ≤ 4 := by omega
-  interval_cases j <;> first | omega | (exfalso; revert h240; decide)
+  interval_cases j <;> first | omega
 
 theorem card_alt_seven : Nat.card (alternatingGroup (Fin 7)) = 2520 := by
   rw [nat_card_alternatingGroup, Nat.card_fin]
@@ -88,7 +88,7 @@ theorem alt_arm_one {G : Type} [Group G] [Finite G] {S : Subgroup G} (hSn : S.No
     (hm7 : 7 ≤ m) (θ : ↥S ≃* alternatingGroup (Fin m)) (hPS : centralizerDerived t ≤ S)
     (hP5 : Nonempty (↥(centralizerDerived t) ≃* alternatingGroup (Fin 5)))
     (hC : Nat.card ↥(centralizer ({t} : Set G)) = 240) : Nonempty (G ≃* Equiv.Perm (Fin 7)) := by
-  haveI := hSn
+  have := hSn
   obtain ⟨r, hr1, hr2, hd, h60, hdvd⟩ := alt_arm_prelim hSn hcent ht hm7 θ hPS hP5
   rw [hC] at hdvd
   obtain ⟨rfl, -, -⟩ := alt_numeric_one hm hm7 hr1 hr2 hd (dvd_cases_240 h60 hdvd)

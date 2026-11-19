@@ -228,23 +228,23 @@ theorem k146U4AdjointAM_holds : K146U4AdjointAM := by
   intro U _ _ hU N S hSN hnorm hU4 hirr hAdj
   classical
   obtain ⟨F, hFfield, hFfin, b, c, hFcard, hbc, ε, ψ, hψ⟩ := hAdj
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
+  let : Field F := hFfield
+  let : Finite F := hFfin
   have hFchar : CharP F 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow (F := F) (n := 2)
       Nat.prime_two hFcard
-  letI : CharP F 2 := hFchar
-  haveI : Finite (Matrix Om6Idx Om6Idx F) := inferInstance
-  haveI : Finite ↥(adjOmega6 F b) := Subtype.finite
-  haveI : Finite (Multiplicative ↥(adjOmega6 F b)) :=
+  let : CharP F 2 := hFchar
+  have : Finite (Matrix Om6Idx Om6Idx F) := inferInstance
+  have : Finite ↥(adjOmega6 F b) := Subtype.finite
+  have : Finite (Multiplicative ↥(adjOmega6 F b)) :=
     Finite.of_equiv ↥(adjOmega6 F b) Multiplicative.ofAdd
   have hntU : Nontrivial U := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
-    haveI : Subsingleton (Subgroup U) := Subgroup.subsingleton_iff.mpr h
+    have : Subsingleton (Subgroup U) := Subgroup.subsingleton_iff.mpr h
     exact hirr.1.ne (Subsingleton.elim _ _)
-  haveI : Nontrivial U := hntU
-  haveI : Nontrivial (Multiplicative ↥(adjOmega6 F b)) := Equiv.nontrivial ψ.toEquiv.symm
+  have : Nontrivial U := hntU
+  have : Nontrivial (Multiplicative ↥(adjOmega6 F b)) := Equiv.nontrivial ψ.toEquiv.symm
   set N' : Subgroup (MulAut (Multiplicative ↥(adjOmega6 F b))) :=
     N.map (H.congrHom ψ) with hN'def
   set S' : Subgroup (MulAut (Multiplicative ↥(adjOmega6 F b))) :=
@@ -407,8 +407,7 @@ theorem k146U4AdjointAM_holds : K146U4AdjointAM := by
     obtain ⟨h, -, hle⟩ := exists_conj_le_of_isElemAbelian2 hcyc hSG hGN hidx hCodd hAN hA
     have hgenG : (MulAut.conj h) t ∈ G := by
       refine hle ?_
-      simpa [conjAutSub] using
-        Subgroup.mem_map_of_mem (MulAut.conj h).toMonoidHom (Subgroup.mem_zpowers t)
+      simp [conjAutSub]
     rw [hGdef] at hgenG
     obtain ⟨g, hg⟩ := MonoidHom.mem_range.mp hgenG
     have ht1 : t ≠ 1 := by

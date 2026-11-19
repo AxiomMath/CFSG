@@ -13,13 +13,16 @@ open CFSG.GF2Type.Aschbacher1976Common (conjugatesIn card_conjugate_eq commute_o
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjugate_one {H : Subgroup G} : conjugate H 1 = H := by
   ext x
   simp [Width.mem_conjugate_iff]
 
+omit [Finite G] in
 theorem conjugate_mono {A B : Subgroup G} (h : A ≤ B) (g : G) : conjugate A g ≤ conjugate B g :=
   Subgroup.map_mono h
 
+omit [Finite G] in
 theorem conjugate_le_of_mem {A T : Subgroup G} (h : A ≤ T) {t : G} (ht : t ∈ T) :
     conjugate A t ≤ T := by
   intro x hx
@@ -28,32 +31,38 @@ theorem conjugate_le_of_mem {A T : Subgroup G} (h : A ≤ T) {t : G} (ht : t ∈
   have e : t⁻¹ * (t * x * t⁻¹) * t = x := by group
   rwa [e] at h2
 
+omit [Finite G] in
 theorem mem_normalizer_of_conjugate_eq {A : Subgroup G} {g : G} (h : conjugate A g = A) :
     g ∈ normalizer (A : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
   intro x
   rw [← Width.mem_conjugate_iff, h]
 
+omit [Finite G] in
 theorem conjugate_eq_of_mem_normalizer {A : Subgroup G} {g : G}
     (h : g ∈ normalizer (A : Set G)) : conjugate A g = A := by
   ext x
   rw [Width.mem_conjugate_iff]
   exact ((Subgroup.mem_normalizer_iff.mp h) x).symm
 
+omit [Finite G] in
 theorem exists_inv_conj {z u : G} (h : IsConj z u) : ∃ g : G, u = g⁻¹ * z * g := by
   obtain ⟨c, hc⟩ := isConj_iff.mp h
   exact ⟨c⁻¹, by rw [← hc]; simp⟩
 
+omit [Finite G] in
 theorem isConj_conj_iff {z x : G} (n : G) : IsConj z (n * x * n⁻¹) ↔ IsConj z x :=
   ⟨fun h => h.trans (isConj_iff.mpr ⟨n⁻¹, by group⟩),
     fun h => h.trans (isConj_iff.mpr ⟨n, rfl⟩)⟩
 
+omit [Finite G] in
 theorem mul_self_of_isConj {z v : G} (hz : orderOf z = 2) (h : IsConj z v) : v * v = 1 := by
   obtain ⟨g, rfl⟩ := isConj_iff.mp h
   have hzz : z * z = 1 := by rw [← sq]; exact Width.z_sq hz
   calc g * z * g⁻¹ * (g * z * g⁻¹) = g * (z * z) * g⁻¹ := by group
     _ = 1 := by rw [hzz]; group
 
+omit [Finite G] in
 theorem ne_one_of_isConj {z v : G} (hz : orderOf z = 2) (h : IsConj z v) : v ≠ 1 := by
   rintro rfl
   rw [isConj_one_right.mp h.symm, orderOf_one] at hz
@@ -63,9 +72,11 @@ abbrev WZ (Z T : Subgroup G) : Subgroup G := ⨆ B ∈ conjugatesIn Z T, B
 
 abbrev VS (T : Subgroup G) (z : G) : Set G := {v : G | IsConj z v ∧ ZF v ≤ T}
 
+omit [Finite G] in
 theorem le_WZ {Z T B : Subgroup G} (hB : B ∈ conjugatesIn Z T) : B ≤ WZ Z T :=
   le_iSup₂ (f := fun (B : Subgroup G) (_ : B ∈ conjugatesIn Z T) => B) B hB
 
+omit [Finite G] in
 theorem WZ_le {Z T : Subgroup G} : WZ Z T ≤ T :=
   iSup₂_le fun _ ⟨_, _, hBT⟩ => hBT
 
@@ -80,8 +91,10 @@ namespace Ctx
 variable {z : G} {w : ℕ} {Z A : Subgroup G} {T : Sylow 2 G} (c : Ctx z w Z A T)
 include c
 
+omit [Finite G] in
 theorem Z_le_F : Z ≤ Fz z := c.hD.sup_eq ▸ le_sup_left
 
+omit [Finite G] in
 theorem F_le_T : Fz z ≤ (T : Subgroup G) := by
   have hnorm : (T : Subgroup G) ≤ normalizer (Fz z : Set G) := by
     intro t ht
@@ -94,9 +107,10 @@ theorem F_le_T : Fz z ≤ (T : Subgroup G) := by
       have e : t⁻¹ * (t * f * t⁻¹) * t⁻¹⁻¹ = f := by group
       rwa [e] at h
   have hsup : IsPGroup 2 ↥((T : Subgroup G) ⊔ Fz z) :=
-    T.isPGroup'.to_sup_of_normal_right' c.hF2 hnorm
+    T.isPGroup.to_sup_of_normal_right' c.hF2 hnorm
   exact le_sup_right.trans (T.maximal_isPGroup.le_of_ge hsup le_sup_left)
 
+omit [Finite G] in
 theorem Z_le_T : Z ≤ (T : Subgroup G) := c.Z_le_F.trans c.F_le_T
 
 theorem ZF_self : ZF z = Z :=
@@ -121,15 +135,18 @@ theorem TI : ∀ g : G, conjugate Z g = Z ∨ Z ⊓ conjugate Z g = ⊥ := by
     rw [conjugate_one] at h
     exact h
 
+omit [Finite G] in
 theorem Z_mem_conjugatesIn : Z ∈ conjugatesIn Z (T : Subgroup G) :=
   ⟨1, conjugate_one.symm, c.Z_le_T⟩
 
+omit [Finite G] in
 theorem z_mem_WZ : z ∈ WZ Z (T : Subgroup G) := le_WZ c.Z_mem_conjugatesIn c.hD.mem_z
 
 theorem WZ_comm : ∀ x ∈ WZ Z (T : Subgroup G), ∀ y ∈ WZ Z (T : Subgroup G), x * y = y * x :=
   commute_of_mem_iSup_conjugate c.hD.cyc (c.hF2.to_le c.Z_le_F) c.hD.card_Z.symm.le c.TI
-    T.isPGroup'
+    T.isPGroup
 
+omit c [Finite G] in
 theorem conjugate_WZ_le {g : G} (hg : conjugate (WZ Z (T : Subgroup G)) g ≤ T) :
     conjugate (WZ Z (T : Subgroup G)) g ≤ WZ Z (T : Subgroup G) := by
   unfold conjugate
@@ -152,18 +169,20 @@ theorem conjugate_WZ_le {g : G} (hg : conjugate (WZ Z (T : Subgroup G)) g ≤ T)
   rw [show g' * g * (g⁻¹ * x * g⁻¹⁻¹) * (g' * g)⁻¹ = g' * x * g'⁻¹ by group]
   exact Width.mem_conjugate_iff.mp hx
 
+omit c in
 theorem conjugate_WZ_eq {g : G} (hg : conjugate (WZ Z (T : Subgroup G)) g ≤ T) :
     conjugate (WZ Z (T : Subgroup G)) g = WZ Z (T : Subgroup G) :=
-  Subgroup.eq_of_le_of_card_ge (c.conjugate_WZ_le hg) (card_conjugate_eq _ _).symm.le
+  Subgroup.eq_of_le_of_card_ge (Ctx.conjugate_WZ_le hg) (card_conjugate_eq _ _).symm.le
 
+omit c in
 theorem T_le_normalizer : (T : Subgroup G) ≤ normalizer (WZ Z (T : Subgroup G) : Set G) :=
-  fun _ ht => mem_normalizer_of_conjugate_eq (c.conjugate_WZ_eq (conjugate_le_of_mem WZ_le ht))
+  fun _ ht => mem_normalizer_of_conjugate_eq (CFSG.GF2Type.Aschbacher1976Full.HS.BL.Ctx.conjugate_WZ_eq (conjugate_le_of_mem WZ_le ht))
 
 theorem exists_normalizer_conj {v : G} (hv : v ∈ WZ Z (T : Subgroup G)) (hc : IsConj z v) :
     ∃ n ∈ normalizer (WZ Z (T : Subgroup G) : Set G), n * z * n⁻¹ = v := by
   obtain ⟨g, hg⟩ := isConj_iff.mp hc
   obtain ⟨n, hn, hnv⟩ := burnside_fusion T (WZ Z (T : Subgroup G)) WZ_le c.WZ_comm
-    (fun _ hg' => c.conjugate_WZ_eq hg') c.z_mem_WZ (g := g) (by rw [hg]; exact hv)
+    (fun _ hg' => CFSG.GF2Type.Aschbacher1976Full.HS.BL.Ctx.conjugate_WZ_eq hg') c.z_mem_WZ (g := g) (by rw [hg]; exact hv)
   exact ⟨n, hn, hnv.trans hg⟩
 
 theorem mem_VS_iff {v : G} :
@@ -195,6 +214,7 @@ theorem ZF_le_WZ {v : G} (hv : v ∈ VS (T : Subgroup G) z) : ZF v ≤ WZ Z (T :
 theorem mem_WZ_of_mem_VS {v : G} (hv : v ∈ VS (T : Subgroup G) z) : v ∈ WZ Z (T : Subgroup G) :=
   ((mem_VS_iff c).mp hv).2
 
+omit [Finite G] in
 theorem VS_subset_F (hti : HSTI z) {v : G} (hv : v ∈ VS (T : Subgroup G) z) : v ∈ Fz z := by
   by_cases hvz : v = z
   · rw [hvz]

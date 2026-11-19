@@ -110,7 +110,7 @@ theorem card_center_sylow_le (T : Sylow 2 X) (hzT : z ∈ T) (Q : Sylow 2 (X ⧸
     have htt : t * t ∈ zStar X := by
       rw [← map_mul] at hxx
       exact (QuotientGroup.eq_one_iff _).mp hxx
-    have htt' := mem_zpowers_of_mem_zStar hzz hO2 T.isPGroup' (T.mul_mem htT htT) htt
+    have htt' := mem_zpowers_of_mem_zStar hzz hO2 T.isPGroup (T.mul_mem htT htT) htt
     rcases involution_cases hzc hzz hS hzE hdisc ha hb hab hc habz hO2 htt' with h | h | h
     · exfalso
       apply hx1

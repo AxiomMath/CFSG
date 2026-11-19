@@ -46,8 +46,8 @@ theorem abelOrRankFour_twistedE6_of_seven_le {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid) {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p)
     (hpq : q.p ≠ p) {L : Type} [Group L] [Finite L]
     (e : L ≃* (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group) : AbelOrRankFour p L := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hm : 0 < TwistTag.E6.order := by decide
   have hK : Nat.card (GaloisField q.p (q.exponent * TwistTag.E6.order)) =
       q.card ^ TwistTag.E6.order := by
@@ -75,7 +75,7 @@ theorem i294CrossLargePrimeOn_twistedE6 : I294CrossLargePrimeOn I294CrossLargeIs
     · exact abelOrRankFour_twistedE6_of_seven_le hv hp h7 hpq e
     · obtain rfl : p = 5 := eq_five_of_lt_seven hp h5 (by omega)
       obtain ⟨K, _, σ, hK, hσ, ⟨φ⟩⟩ := exists_catEquiv_twistedE6 q hv
-      haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv L (e.trans φ).toEquiv
+      have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv L (e.trans φ).toEquiv
       exact AbelOrRankFour.of_mulEquiv hp (e.trans φ)
         (abelOrRankFour_twistedE6_five q.prime_p q.exponent_pos K hK σ hσ hpq.symm)
   | _ => exact (hφ : False).elim

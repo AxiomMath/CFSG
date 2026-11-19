@@ -30,6 +30,7 @@ variable {G : Type} [Group G] [Finite G]
     (v : D.V) : Subgroup G :=
   K₁ ⊓ preimgSub D (stabVec v)
 
+omit [Finite G] in
 theorem mem_k0Sub {V V₁ : Subgroup G} {K₁ : Subgroup G} {D : HatModelU (u128 V V₁)} {v : D.V}
     {k : G} : k ∈ k0Sub K₁ D v ↔
       k ∈ K₁ ∧ ∃ hk : k ∈ Subgroup.normalizer (u128 V V₁ : Set G), D.ρ ⟨k, hk⟩ v = v :=
@@ -171,7 +172,7 @@ theorem DIEnv.ccF_mem_IV1 (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2
     obtain ⟨hkK, -, -⟩ := mem_k0Sub.1 hk'
     exact Subgroup.mem_sup_left
       (E.K1_triv h1222 h12213 h1289 h12810 h12813 h12813f F2 F3 hpt hK₁C hK4 hG5 hkK hz)
-  haveI : ((E.I ⊔ V₁).subgroupOf (zU128 V V₁)).Normal := subgroupOf_normal_of_comm hcomm
+  have : ((E.I ⊔ V₁).subgroupOf (zU128 V V₁)).Normal := subgroupOf_normal_of_comm hcomm
   obtain ⟨φ, hφ⟩ := hom_quot (K0 := k0Sub K₁ D (D.π E.a)) hcomm hKZ (ccF E.a) (ccF_one E.a)
     (fun k' hk' => ccF_mem_zU E hk') (fun k' hk' l hl => ccF_mul E.a k' l) htriv
   have hsq : ∀ x : k0Sub K₁ D (D.π E.a), φ x ^ 2 = 1 := by
@@ -224,7 +225,7 @@ theorem DIEnv.ccF_odd_mem_I (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12
     intro k' hk' z hz
     obtain ⟨hkK, -, -⟩ := mem_k0Sub.1 hk'
     exact E.K1_triv h1222 h12213 h1289 h12810 h12813 h12813f F2 F3 hpt hK₁C hK4 hG5 hkK hz
-  haveI : (E.I.subgroupOf (zU128 V V₁)).Normal := subgroupOf_normal_of_comm hcomm
+  have : (E.I.subgroupOf (zU128 V V₁)).Normal := subgroupOf_normal_of_comm hcomm
   obtain ⟨φ, hφ⟩ := hom_quot (K0 := k0Sub K₁ D (D.π E.a)) hcomm hKZ (ccF E.a) (ccF_one E.a)
     (fun k' hk' => ccF_mem_zU E hk') (fun k' hk' l hl => ccF_mul E.a k' l) htriv
   have hsq : ∀ x : k0Sub K₁ D (D.π E.a), φ x ^ 2 = 1 := by

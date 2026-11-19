@@ -17,15 +17,18 @@ section Pre
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_pCore_iff_pCoreOf {L : Subgroup G} (x : ↥L) :
     x ∈ CFSG.pCore 2 ↥L ↔ (x : G) ∈ pCoreOf 2 L := by
   unfold pCoreOf
   exact (Subgroup.mem_map_iff_mem L.subtype_injective).symm
 
+omit [Finite G] in
 theorem le_normalizer_pCore {L : Subgroup G} :
     L ≤ Subgroup.normalizer (pCoreOf 2 L : Set G) :=
   (Subgroup.le_normalizer).trans (normalizer_le_normalizer_pCoreOf L)
 
+omit [Finite G] in
 theorem a5Pre_self {L : Subgroup G} (hq : IsL2Quot 2 (oTwoQuot ↥L)) (hc : CharTwo L)
     (he : IsElemAbelian 2 (pCoreOf 2 L)) (h16 : Nat.card (pCoreOf 2 L) = 16) :
     A5Pre L L (pCoreOf 2 L) ⊥ := by
@@ -58,7 +61,7 @@ theorem a5Pre_self {L : Subgroup G} (hq : IsL2Quot 2 (oTwoQuot ↥L)) (hc : Char
       rw [Subgroup.mem_bot]
       exact hcomm1 q hq' e he'
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hLQ : L ≤ pCoreOf 2 L := by
       intro l hl
       apply hc
@@ -80,6 +83,7 @@ theorem a5Pre_self {L : Subgroup G} (hq : IsL2Quot 2 (oTwoQuot ↥L)) (hc : Char
       exact Subgroup.index_top
     omega
 
+omit [Finite G] in
 theorem blockU_le_pCoreOf {L : Subgroup G} : blockU L ≤ pCoreOf 2 L := by
   unfold blockU blockQ
   rw [Subgroup.commutator_le]
@@ -90,6 +94,7 @@ theorem blockU_le_pCoreOf {L : Subgroup G} : blockU L ≤ pCoreOf 2 L := by
   have h2 := Subgroup.mul_mem _ hq h1
   simpa [mul_assoc] using h2
 
+omit [Finite G] in
 theorem comm_mem_blockU {L : Subgroup G} (ℓ : ↥L) {q : G} (hq : q ∈ pCoreOf 2 L) :
     (ℓ : G) * q * (ℓ : G)⁻¹ * q⁻¹ ∈ blockU L := by
   have h := Subgroup.commutator_mem_commutator ℓ.2 hq

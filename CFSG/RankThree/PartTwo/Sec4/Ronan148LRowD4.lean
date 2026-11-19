@@ -17,7 +17,7 @@ open CFSG.Assembly.RankThreeEven (projImage projSU)
 section D4
 
 
-theorem rowU3_D4 {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
+theorem rowU3_D4 {S : Type} [Group S] [Finite S] (_hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) {f : ℕ} (hm : ChevalleyExceptionalModel S .trialityD4 2 f)
     {σ : MulAut S} (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) {Y : Subgroup S} (hYC : Y ≤ Sec4.autFix σ)
     [Group.IsPerfect Y] (hsub : (Y.subgroupOf (Sec4.autFix σ)).IsSubnormal) {m : ℕ}
@@ -105,7 +105,7 @@ theorem rowU3_D4 {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
       obtain ⟨ε, F', _, _, hPi, hq, ⟨e⟩⟩ := hPGL
       have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨hiso, -⟩ := RonanK429Lie.pglCase hPi hq (hεσ.trans e) hYC hsub h3
-      haveI : IsSimpleGroup Y := (Sec19.Step1914TriProof.isSimpleGroup_of_isoLThreePi hf1 hiso).1
+      have : IsSimpleGroup Y := (Sec19.Step1914TriProof.isSimpleGroup_of_isoLThreePi hf1 hiso).1
       have hcY := card_eq_of_isSimpleGroup_surj π hπ (one_lt_card_projSU (by omega : 1 ≤ m))
       have hU := padicValNat_card_projSU (by omega : 1 ≤ m)
       rcases hiso with ⟨hq1, ⟨φY⟩⟩ | ⟨-, ⟨φY⟩⟩

@@ -28,7 +28,7 @@ theorem e6Conj_pow_eq_self_of_pow_three {M : Type*} [Monoid M] {v : M} (hv : v ^
 
 theorem three_dvd_natCard_sub_one {K : Type} [Field K] [Finite K] {ω : Kˣ} (h3 : ω ^ 3 = 1)
     (h1 : ω ≠ 1) : 3 ∣ Nat.card K - 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime h3 h1
   have h := orderOf_dvd_natCard ω
   rwa [hord, Nat.card_units] at h

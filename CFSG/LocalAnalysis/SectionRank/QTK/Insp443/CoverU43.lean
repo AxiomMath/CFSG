@@ -30,7 +30,7 @@ theorem KConf.center_eq_bot_of_U43
   have hφ : Function.Surjective φ := eX.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : φ.ker = Subgroup.center K := by
     ext g
-    simp [φ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [φ]
   by_contra hZ
   obtain ⟨r, hr, hrZ⟩ := Nat.exists_prime_and_dvd fun h => hZ (Subgroup.card_eq_one.mp h)
   have : Fact r.Prime := ⟨hr⟩

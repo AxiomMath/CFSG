@@ -235,6 +235,7 @@ theorem comm_mem_L2_iff (x g : P) :
     simpa only [QuotientGroup.mk'_apply] using this
   rw [h1, commutatorElement_eq_one_iff_mul_comm]
 
+omit [Finite P] d in
 theorem exists_not_mem_both (D T : Subgroup P) (hD : D ≠ ⊤) (hT : T ≠ ⊤) :
     ∃ a : P, a ∉ D ∧ a ∉ T := by
   by_contra hno
@@ -443,7 +444,7 @@ theorem comm_conj {a : P} (x : P) : (conjEnd a * conjEnd x : Module.End ℤ d.Mo
     _ = ⁅a, x⁆ * (x * (a * u.toP * a⁻¹) * x⁻¹) * ⁅a, x⁆⁻¹ := by rw [hax]; group
     _ = x * (a * u.toP * a⁻¹) * x⁻¹ := mul_inv_eq_iff_eq_mul.mpr hcv
 
-theorem nf_conj {a : P} (ha : ∃ w ∈ d.L (d.m - 3), a * w ≠ w * a) {x : P} (hx3 : x ^ 3 = 1) :
+theorem nf_conj {a : P} (_ha : ∃ w ∈ d.L (d.m - 3), a * w ≠ w * a) {x : P} (hx3 : x ^ 3 = 1) :
     (1 + conjEnd x + conjEnd x * conjEnd x : Module.End ℤ d.Mod)
       (NMod.ofP (hN := d.abel) ⁅x, a⁆ (d.comm_mem_L1 x a)) = 0 := by
   have hx3' : x * x * x = 1 := by rw [← hx3, pow_succ, pow_succ, pow_one]
@@ -643,7 +644,7 @@ theorem card_le_nine (E : Subgroup P) (hE : ∀ a ∈ E, ∀ b ∈ E, a * b = b 
     apply d.mem_L1_of_comm_L2
     intro g
     exact (hmemT g).mp (by rw [h]; trivial)
-  obtain ⟨a, haD, haT⟩ := d.exists_not_mem_both D T hDtop hTtop
+  obtain ⟨a, haD, haT⟩ := CFSG.HardMathSupport.Lang.E6Descent.MB.exists_not_mem_both D T hDtop hTtop
   have ha : ∃ w ∈ d.L (d.m - 3), a * w ≠ w * a := by
     rw [hD, Subgroup.mem_centralizer_iff] at haD
     push Not at haD

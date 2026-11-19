@@ -24,7 +24,7 @@ theorem not_dvd_card_ker_sl2_coprod {G U k : Type} [Field k] [Finite k] [Group G
   classical
   have : Fact p.Prime := ⟨hp⟩
   intro hd
-  haveI : Finite (φ.noncommCoprod Φ hcomm).ker := inferInstance
+  have : Finite (φ.noncommCoprod Φ hcomm).ker := inferInstance
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hd
   obtain ⟨⟨a, u⟩, hxk⟩ := x
   have hxk' : φ a * Φ u = 1 := hxk
@@ -70,10 +70,10 @@ section Main
 
 theorem twE6SU6Cover : TwE6SU6Cover := by
   intro K _ _ σ ℓ f hℓ hf hK hσ p hpF hp7 hpq
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK' : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hU : UnitaryFieldData ℓ f K := ⟨hℓ, hf, hK'⟩
-  haveI : CharP K ℓ := hU.charP
+  have : CharP K ℓ := hU.charP
   set σ' : K →+* K := σ.toRingHom with hσ'def
   have hσ' : ∀ c, σ' c = c ^ (ℓ ^ f) := hσ
   have hσσ : ∀ c, σ' (σ' c) = c := fun c => by

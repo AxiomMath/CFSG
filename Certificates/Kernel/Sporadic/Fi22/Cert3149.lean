@@ -81,7 +81,7 @@ theorem linesOK_text {CH : List (Nat × Nat)} {n : Nat} {S : Nat → V} (hlen : 
   have hsz : (String.ofList (CFSG.KC.YModel.charsOf CH)).toUTF8.size = 752 * n := by
     rw [utf8_size hasc, charsOf_eq, bytesOf_eq, List.length_map, flat_len CH hw, hlen]
   unfold linesOK
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq]
+  simp only [Bool.and_eq_true, beq_iff_eq]
   refine ⟨hsz, CFSG.Monster.B.Co2.allLt_iff.2 fun r hr => ?_⟩
   obtain ⟨hb, h10⟩ := line_bytes (hl r hr).2
   simp only [Bool.and_eq_true, beq_iff_eq]
@@ -114,7 +114,7 @@ theorem hexAt3 (b : ByteArray) (o : Nat) : CFSG.Monster.B.Max2.Native.hexAt b o 
     ((0 * 16 + CFSG.Monster.B.Max2.Native.hexAt b o 1) * 16 +
       CFSG.Monster.B.Max2.Native.hexAt b (o + 1) 1) * 16 +
       CFSG.Monster.B.Max2.Native.hexAt b (o + 2) 1 := by
-  simp [CFSG.Monster.B.Max2.Native.hexAt, Nat.add_assoc]
+  simp [CFSG.Monster.B.Max2.Native.hexAt]
 
 theorem so_bytes : fi22StabOrbitsBytes = (String.ofList SOC).toUTF8 := by
   unfold fi22StabOrbitsBytes

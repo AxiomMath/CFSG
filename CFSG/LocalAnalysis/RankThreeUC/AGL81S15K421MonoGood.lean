@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G] (D : Mono81 G)
 theorem Mono81.exists_conj_le_A0' {k : ℕ} (hk3 : ¬ 3 ∣ k) (hk : Nat.card G = 81 * k)
     {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 3 E) :
     ∃ g : G, E.map (MulAut.conj g).toMonoidHom ≤ D.A0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := fun x => ⟨1, by
     apply Subtype.ext
     simpa using hE.2 x x.2⟩

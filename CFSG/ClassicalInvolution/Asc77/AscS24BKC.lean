@@ -138,7 +138,7 @@ theorem kc [IsSimpleGroup G] {t : G} (htS : t ∈ (S : Subgroup G)) (htM : t ∈
     intro h
     have h1 : Thompson.piG W t = 1 := congrArg Subtype.val h
     have h2 : t ∈ W ⊔ OCW W := (Thompson.piG_eq_one_iff htN).mp h1
-    have ht2' : IsPGroup 2 (Subgroup.zpowers t) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr htS)
+    have ht2' : IsPGroup 2 (Subgroup.zpowers t) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr htS)
     exact htW (Thompson.mem_of_isPGroup_of_mem_sup_OCW hW2 ht2' h2)
   have hφ2 : C.D.φ τ * C.D.φ τ = 1 := by rw [← map_mul, hτ2, map_one]
   have hφ1 : C.D.φ τ ≠ 1 := fun h => hτ1 (C.D.φ.injective (h.trans (map_one _).symm))

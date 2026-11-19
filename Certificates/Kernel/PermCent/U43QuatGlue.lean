@@ -97,7 +97,7 @@ theorem prep_c0inv : PRep 820 10 (QP 14) (qE 6)⁻¹ := by
   MulAut.conj (qE 6)⁻¹
 
 theorem phi_apply (X : Equiv.Perm (Fin 820)) : phi X = (qE 6)⁻¹ * (X * qE 6) := by
-  simp [phi, MulAut.conj_apply, mul_assoc]
+  simp [phi, mul_assoc]
 
 theorem crep_fr {x : ℕ} {X : Equiv.Perm (Fin 820)} (hx : PRep 820 10 x X) :
     CRep 820 10 (fr x) (phi X) := by
@@ -313,7 +313,7 @@ theorem d2_conj : perm820 (glK cC2) ∈ psi.range ∧
   have einv : (perm820 (glK cC2))⁻¹ = perm820 (glK cC2inv) := by
     rw [← map_inv, inv_eq_of_mul_eq_one_right hI]
   have e2 : tRep 2 = perm820 (glK repM1b.1) := by
-    simp only [tRep, eK, Bool.toNat_false, pow_zero, mul_one]
+    simp only [tRep, eK]
     rfl
   rw [einv, e2, ← map_mul, ← map_mul, hc, qE_eq (by norm_num)]
   rfl

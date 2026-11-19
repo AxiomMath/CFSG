@@ -28,8 +28,8 @@ lemma w1369_card_filter_eq_sum_val (b : Fin 3 → ZMod 2) :
   apply Finset.sum_congr rfl
   intro j _
   by_cases h : b j = 1
-  · rw [if_pos h, h, ZMod.val_one 2]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, h, ZMod.val_one 2]
+  · rw [ite_eq_right h]
     have h01 : (b j).val = 0 ∨ (b j).val = 1 := by
       have := ZMod.val_lt (b j)
       omega
@@ -173,15 +173,15 @@ lemma w1369_comp_Phi {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut Q)}
     (f := fun j : Fin 3 => P.e i (if c j = 1 then ((β j u : ↥(I j)) : Q) else 1))
     i (Finset.mem_univ i)]
   · by_cases h : c i = 1
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       exact P.e_self i (β i u : Q) (β i u).2
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       exact map_one (P.e i)
   · intro j _ hji
     by_cases h : c j = 1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact P.e_other i j hji (β j u : Q) (β j u).2
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact map_one (P.e i)
 
 lemma w1369_zmod_two_eq_zero_of_ne_one {a : ZMod 2} (h : a ≠ 1) : a = 0 := by
@@ -199,9 +199,9 @@ lemma w1369_coord_Phi {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut Q)}
   funext i
   rw [w1369_coord, w1369_comp_Phi]
   by_cases h : c i = 1
-  · rw [if_pos h] at *
-    rw [if_neg (w1369_comp_beta_ne_one hI0 β i), h]
-  · rw [if_neg h, if_pos rfl, w1369_zmod_two_eq_zero_of_ne_one h]
+  · rw [ite_eq_left h] at *
+    rw [ite_eq_right (w1369_comp_beta_ne_one hI0 β i), h]
+  · rw [ite_eq_right h, ite_eq_left rfl, w1369_zmod_two_eq_zero_of_ne_one h]
 
 lemma w1369_prod_ite_eq {G : Type} [CommGroup G] {g : G} (hg : g ^ 2 = 1)
     (b : Fin 3 → ZMod 2) :
@@ -217,10 +217,10 @@ lemma w1369_prod_ite_eq {G : Type} [CommGroup G] {g : G} (hg : g ^ 2 = 1)
   by_cases hg1 : g = 1
   · rw [hg1]; simp
   · by_cases hsum : (∑ j : Fin 3, b j) = 0
-    · rw [if_pos hsum, w1369_pow_eq_one_iff_even hg hg1, w1369_card_filter_eq_sum_val b,
+    · rw [ite_eq_left hsum, w1369_pow_eq_one_iff_even hg hg1, w1369_card_filter_eq_sum_val b,
         ← ZMod.natCast_eq_zero_iff_even, ← w1369_sum_eq_natCast_sum_val b]
       exact hsum
-    · rw [if_neg hsum]
+    · rw [ite_eq_right hsum]
       obtain ⟨m, hm⟩ : Odd (Finset.univ.filter (fun j : Fin 3 => b j = 1)).card := by
         refine Nat.not_even_iff_odd.mp ?_
         intro heven
@@ -269,12 +269,12 @@ lemma w1369_block_comp_beta {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut Q)}
   classical
   by_cases hb : w1369_s16h_block P x i j = 1
   · have hmat : (w1369_s16h_matrix P x) i j = 0 := by simp [w1369_s16h_matrix, hb]
-    rw [if_neg (by rw [hmat]; exact zero_ne_one), hb]
+    rw [ite_eq_right (by rw [hmat]; exact zero_ne_one), hb]
     simp
   · have hbij := (w1369_s16h_block_one_or_bij P hstab hsimple
       (w1369_s16h_cent_comm hx) i j).resolve_left hb
     have hmat : (w1369_s16h_matrix P x) i j = 1 := by simp [w1369_s16h_matrix, hb]
-    rw [if_pos hmat]
+    rw [ite_eq_left hmat]
     exact w1369_s16h_bijective_unique P hstab hsimple hend _ _
       (hbij.comp (β j).bijective) (β i).bijective
       (w1369_block_comp_equivariant P β hstab hβ hx i j) (hβ i)
@@ -328,7 +328,7 @@ lemma w1369_Phi_coord {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut Q)}
       rw [MonoidHom.comp_apply, ← hφi_apply, huniq]
       rfl
     have hcoord : w1369_coord P φ i = 1 := by
-      rw [w1369_coord, if_neg (by rw [hcomp]; exact w1369_comp_beta_ne_one (hsimple 0).1 β i)]
+      rw [w1369_coord, ite_eq_right (by rw [hcomp]; exact w1369_comp_beta_ne_one (hsimple 0).1 β i)]
     rw [hcoord]
     have h3 : P.e i (φ u) = (β i u : Q) := by
       rw [← hφi_apply, huniq]
@@ -370,15 +370,15 @@ lemma w1369_comp_Phi_mul {Q : Type} [CommGroup Q] (hQ : ∀ x : Q, x ^ 2 = 1)
       (f := fun i' : Fin 3 => P.e i (if (w1369_s16h_matrix P x *ᵥ c) i' = 1 then
         ((β i' u : ↥(I i')) : Q) else 1)) i (Finset.mem_univ i)]
     · by_cases h : (w1369_s16h_matrix P x *ᵥ c) i = 1
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact P.e_self i (β i u : Q) (β i u).2
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact map_one (P.e i)
     · intro i' _ hi'
       by_cases h : (w1369_s16h_matrix P x *ᵥ c) i' = 1
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact P.e_other i i' hi' (β i' u : Q) (β i' u).2
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact map_one (P.e i)
   have hL : ∀ i : Fin 3, P.e i ((x.toMonoidHom.comp (w1369_Phi β c)) u) =
       (if (w1369_s16h_matrix P x *ᵥ c) i = 1 then ((β i u : ↥(I i)) : Q) else 1) := by
@@ -397,18 +397,18 @@ lemma w1369_comp_Phi_mul {Q : Type} [CommGroup Q] (hQ : ∀ x : Q, x ^ 2 = 1)
             (w1369_block_comp_beta P β hstab hsimple hend hβ hx i j)
           rw [MonoidHom.comp_apply, w1369_s16h_block_coe] at hb
           exact hb.trans (by by_cases hm : (w1369_s16h_matrix P x) i j = 1 <;> simp [hm])
-        rw [if_pos h, hb]
+        rw [ite_eq_left h, hb]
         rw [show (w1369_s16h_matrix P x) i j * c j = (w1369_s16h_matrix P x) i j by
           rw [h, mul_one]]
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         have hc : (w1369_s16h_matrix P x) i j * c j = 0 := by
           rw [w1369_zmod_two_eq_zero_of_ne_one h, mul_zero]
-        rw [hc, if_neg zero_ne_one]
+        rw [hc, ite_eq_right zero_ne_one]
         simp
     · rw [w1369_prod_ite_eq (hQ _), Matrix.mulVec_apply_eq_sum]
       by_cases hs : (∑ j : Fin 3, (w1369_s16h_matrix P x) i j * c j) = 0
-      · rw [if_pos hs, if_neg (by rw [hs]; exact zero_ne_one)]
-      · rw [if_neg hs, if_pos (w1369_zmod_two_eq_one_of_ne_zero hs)]
+      · rw [ite_eq_left hs, ite_eq_right (by rw [hs]; exact zero_ne_one)]
+      · rw [ite_eq_right hs, ite_eq_left (w1369_zmod_two_eq_one_of_ne_zero hs)]
   calc (x.toMonoidHom.comp (w1369_Phi β c)) u
       = ∏ i : Fin 3, P.e i ((x.toMonoidHom.comp (w1369_Phi β c)) u) :=
         (P.e_prod _).symm
@@ -603,7 +603,7 @@ lemma w1369_exists_simple_sub {Q : Type} [CommGroup Q] [Finite Q]
       rw [hScard]
       exact Nat.find_min' hp ⟨T, hTS.trans hSN, hTstab, h, rfl⟩
     have hge : Nat.card T ≤ Nat.card S := by
-      haveI : Finite ↥S := Finite.of_injective (fun x : ↥S => (x : Q)) Subtype.coe_injective
+      have : Finite ↥S := Finite.of_injective (fun x : ↥S => (x : Q)) Subtype.coe_injective
       exact Nat.card_le_card_of_injective _ (Subgroup.inclusion_injective hTS)
     exact Subgroup.eq_of_le_of_card_ge hTS hle
 

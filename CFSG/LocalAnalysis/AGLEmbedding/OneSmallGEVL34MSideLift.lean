@@ -210,7 +210,7 @@ theorem L34MSide.card_le_of_pGroup_le_centralizer_mk {x : X}
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 A))
   have hS := Sylow.pow_dvd_card_of_pow_dvd_card S (n := k) (by rw [← hk]; exact hdvd)
   set SX := (S : Subgroup A).map A.subtype with hSX
-  have hSXp : IsPGroup 3 SX := S.isPGroup'.map _
+  have hSXp : IsPGroup 3 SX := S.isPGroup.map _
   have hSXC : SX ≤ C := fun s hs => by
     obtain ⟨a, -, rfl⟩ := hs
     exact a.2.2

@@ -39,7 +39,7 @@ theorem isSolvable_of_quotIs {N : Subgroup G}
       exact Odd.of_dvd_nat (card_O_odd N) (card_dvd_of_le inf_le_left)
     have : Group.IsSolvable f.ker := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
     have := hL
-    exact solvable_of_ker_le_range f.ker.subtype f (range_subtype f.ker).ge
+    exact Group.isSolvable_of_ker_le_range f.ker.subtype f (range_subtype f.ker).ge
   by_contra hns
   obtain ⟨P, hP, hP1⟩ := exists_perfect_of_not_isSolvable hns
   set P' : Subgroup G := P.map N.subtype with hP'def

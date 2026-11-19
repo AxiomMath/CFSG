@@ -33,6 +33,7 @@ private def p9u5a_scalarKer {K : Subgroup G} (φ : ↥(unitarySU 2 1 F m) →* K
   ∀ g : ↥(unitarySU 2 1 F m), φ g = 1 →
     ∃ c : F, ((g : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) = diagonal (fun _ => c)
 
+omit [Finite G] in
 private lemma p9u5a_torus_eq_of_phi_eq (h : UnitaryFieldData 2 1 F) (hF : Nat.card F = 4)
     (hm : 3 ≤ m) {K : Subgroup G} {φ : ↥(unitarySU 2 1 F m) →* K}
     (hφker : p9u5a_scalarKer φ) {s t : Fin (m - 3) → Fˣ}
@@ -45,9 +46,10 @@ private lemma p9u5a_torus_eq_of_phi_eq (h : UnitaryFieldData 2 1 F) (hF : Nat.ca
   obtain ⟨c, hc⟩ := hφker _ hone
   exact mul_inv_eq_one.mp (torus_eq_one_of_scalar h hF hm (s * t⁻¹) hc)
 
+omit [Finite G] in
 private lemma p9u5a_orderOf_eq_three {z : G} (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) :
     orderOf z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime hz3 hz1
 
 private lemma p9u5a_zpow_mem_of_zpow_mem {z x : G} (hord : orderOf z = 3)
@@ -73,6 +75,7 @@ private lemma p9u5a_zpow_mem_of_zpow_mem {z x : G} (hord : orderOf z = 3)
       _ = z ^ 4 := by norm_num
       _ = z := by rw [show (4 : ℕ) = 3 + 1 by norm_num, pow_succ, hz3, one_mul]
 
+omit [Finite G] in
 private lemma p9u5a_zpow_not_mem_range (h : UnitaryFieldData 2 1 F) (hF : Nat.card F = 4)
     (hm : 3 ≤ m) {K : Subgroup G} {φ : ↥(unitarySU 2 1 F m) →* K}
     (hφker : p9u5a_scalarKer φ) {z : G} (hz : z ∈ Subgroup.centralizer (K : Set G))
@@ -116,6 +119,7 @@ private lemma p9u5a_range_inf_zpowers (h : UnitaryFieldData 2 1 F) (hF : Nat.car
     (Subgroup.zpowers_le.mpr hx1
       (p9u5a_zpow_mem_of_zpow_mem (p9u5a_orderOf_eq_three hz1 hz3) hx2 hxne))
 
+omit [Finite G] in
 private lemma p9u5a_comm_f_zpowers (h : UnitaryFieldData 2 1 F) (hF : Nat.card F = 4)
     (hm : 3 ≤ m) {K : Subgroup G} {φ : ↥(unitarySU 2 1 F m) →* K}
     {z : G} (hz : z ∈ Subgroup.centralizer (K : Set G))
@@ -185,12 +189,13 @@ private lemma p9u5a_Ehom_card (h : UnitaryFieldData 2 1 F) (hF : Nat.card F = 4)
     p9u5a_orderOf_eq_three hz1 hz3, hunits]
   rw [show m - 2 = (m - 3) + 1 by omega, pow_succ]
 
+omit [Finite G] in
 private lemma p9u5a_Ehom_elemAbelian (h : UnitaryFieldData 2 1 F) (hF : Nat.card F = 4)
     (hm : 3 ≤ m) {K : Subgroup G} {φ : ↥(unitarySU 2 1 F m) →* K}
     {z : G} (hz : z ∈ Subgroup.centralizer (K : Set G)) (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) :
     IsElemAbelian 3 (p9u5a_Ehom h hF hm φ z hz).range := by
   refine ⟨?_, ?_⟩
-  · haveI : IsMulCommutative (Fin (m - 3) → Fˣ) :=
+  · have : IsMulCommutative (Fin (m - 3) → Fˣ) :=
       ⟨⟨fun a b => funext fun i => mul_comm (a i) (b i)⟩⟩
     exact Subgroup.range_isMulCommutative (p9u5a_Ehom h hF hm φ z hz)
   · intro x hx
@@ -209,6 +214,7 @@ private lemma p9u5a_Ehom_elemAbelian (h : UnitaryFieldData 2 1 F) (hF : Nat.card
       exact orderOf_dvd_iff_pow_eq_one.mp hdvd
     rw [(p9u5a_comm_f_zpowers h hF hm hz s y).mul_pow, hf3, hy3, one_mul]
 
+omit [Finite G] in
 private lemma p9u5a_Ehom_le_normalizer (h : UnitaryFieldData 2 1 F) (hF : Nat.card F = 4)
     (hm : 3 ≤ m) {K : Subgroup G} {φ : ↥(unitarySU 2 1 F m) →* K}
     {z : G} (hz : z ∈ Subgroup.centralizer (K : Set G)) :
@@ -256,7 +262,7 @@ private theorem p9u5a_witness (h : UnitaryFieldData 2 1 F) (hF : Nat.card F = 4)
     have h1 : (φ (swap h hm)) ^ 2 = 1 := by
       rw [pow_two, ← map_mul, P9U5.swap_mul_self, map_one]
     simpa using congrArg (fun t : K => (t : G)) h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨(p9u5a_Ehom h hF hm φ z hz).range,
     Subgroup.zpowers ((φ (swap h hm) : K) : G), ?_, ?_,
     p9u5a_Ehom_elemAbelian h hF hm hz hz1 hz3,

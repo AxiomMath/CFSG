@@ -88,8 +88,8 @@ private theorem inf_centralizer_ne_bot_of_le_normalizer [Finite G] {V T : Subgro
     (hVT : V ≤ T) (hTV : T ≤ Subgroup.normalizer (V : Set G))
     (hT2 : IsPGroup 2 T) (hVne : V ≠ ⊥) :
     V ⊓ Subgroup.centralizer (T : Set G) ≠ ⊥ := by
-  haveI : Group.IsNilpotent ↥T := hT2.isNilpotent
-  haveI : (V.subgroupOf T).Normal :=
+  have : Group.IsNilpotent ↥T := hT2.isNilpotent
+  have : (V.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVT).mpr hTV
   have hVsubne : V.subgroupOf T ≠ ⊥ := by
     intro h

@@ -42,7 +42,7 @@ theorem D2Escape.exists_of_not_le (hD1 : D1For G) {p : ℕ} (hp : p ∈ GLBBetaF
   have hAR : A ≤ R := by
     rw [hR, ← Subgroup.map_subgroupOf_eq_of_le hAH₁]
     exact Subgroup.map_mono hT
-  have hRp : IsPGroup p R := T.isPGroup'.map H₁.subtype
+  have hRp : IsPGroup p R := T.isPGroup.map H₁.subtype
   have hRM : R ≤ M := by
     refine le_of_normalizer_inf_le hRp fun x hx => ?_
     refine normalizer_le_of_core hprime P hsylow hPM inf_le_right (hRp.to_le inf_le_left)

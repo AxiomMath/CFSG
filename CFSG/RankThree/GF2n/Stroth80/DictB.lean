@@ -13,19 +13,23 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem StrothHyp.isElemAbelian_Z (H : StrothHyp M Q Z) : CFSG.Open.IsElemAbelian 2 Z := by
   obtain ⟨n, k, -, hcp⟩ := H.cp
   exact ⟨H.maxAb.prop.2.2, sq_eq_one_of_cp hcp⟩
 
+omit [Finite G] in
 theorem Ctx.isElemAbelian_B (hc : Ctx M Q Z B) : CFSG.Open.IsElemAbelian 2 B := by
   obtain ⟨g, hg⟩ := hc.conj
   rw [hg]
   exact CFSG.Open.IsElemAbelian.map hc.hyp.isElemAbelian_Z (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 theorem Ctx.Z_le_Q (hc : Ctx M Q Z B) : Z ≤ Q := hc.hyp.Z_normal.1
 
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem Ctx.dictB (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     ∃ b : M₀.E, b ≠ 0 ∧ M₀.Qf b = 0 ∧ (∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b) ∧
       (∀ x ∈ Q, x ∈ Subgroup.centralizer (B : Set G) ↔ M₀.B (M₀.π x) b = 0) ∧

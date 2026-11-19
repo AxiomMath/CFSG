@@ -84,8 +84,8 @@ theorem rckTriD4Frame_E_untwisted {τ : Tag} [E6Sub τ]
       (Pi.single j 1 : Fin τ.rank → ℤ) = u • (Pi.single (π j) 1 : Fin τ.rank → ℤ) := by
     intro j hj
     rw [hn'w, hact (Pi.single j 1) (single_mem_parabolicRoots hj), permLattice_single]
-  haveI : CharP GGL 2 := hℓ2 ▸ hchar
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : CharP GGL 2 := hℓ2 ▸ hchar
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   obtain ⟨n₁, k, hk, hgen, heq⟩ :=
     rckTriD4_exists_conj_twistedFixed_eq (τ := τ) (L := GGL) (ℓ := 2) (f := h) hh
       (n := n') hn'M hπ hπ' hu hn'act
@@ -227,7 +227,7 @@ theorem rckTriD4Frame_E_untwisted {τ : Tag} [E6Sub τ]
           refine Subgroup.mem_map.2 ⟨k⁻¹ * u * k,
             mul_mem (mul_mem (inv_mem hkQ) huQ) hkQ, ?_⟩
           rw [← huy]
-          simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
+          simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
             mul_inv_rev, inv_inv]
           group
         refine ⟨hyY, ?_⟩
@@ -252,7 +252,7 @@ theorem rckTriD4Frame_E_untwisted {τ : Tag} [E6Sub τ]
             from congrArg Subtype.val (hΞcoe ⟨y, hyY⟩)] at h1
         refine Subgroup.mem_map.2 ⟨(φ ⟨y, hyY⟩ : ModGL τ GGL), hqmem, ?_⟩
         rw [hφcoe]
-        simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
           mul_inv_rev, inv_inv]
         group
     refine Exists.intro z ?_

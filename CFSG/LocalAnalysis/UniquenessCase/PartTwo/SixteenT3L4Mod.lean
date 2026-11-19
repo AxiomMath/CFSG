@@ -67,7 +67,7 @@ theorem s16t_l4_four_le_card_centralizer (hS : S16tL4Setting D V₀ V L hV) (hV�
     {A : Subgroup G} (hAM : A ≤ D.M) (hA : Nat.card A = 7)
     (hAV₀ : A ≤ centralizer (V₀ : Set G)) :
     4 ≤ Nat.card ↥(V ⊓ centralizer (A : Set G)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ := (isCyclic_iff_exists_zpowers_eq_top (α := ↥A)).mp
     (isCyclic_of_prime_card (α := ↥A) hA)
   have ha7 : orderOf (a : G) = 7 := by
@@ -90,7 +90,7 @@ theorem s16t_l4_four_le_card_centralizer (hS : S16tL4Setting D V₀ V L hV) (hV�
   have hset : {s : G | s ∈ (V : Set G) ∧ (a : G) * s = s * (a : G)} =
       (↑(V ⊓ centralizer (A : Set G)) : Set G) := by
     ext s
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, Subgroup.mem_inf,
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, Subgroup.mem_inf,
       Subgroup.mem_centralizer_iff]
     constructor
     · rintro ⟨hsV, hcomm⟩

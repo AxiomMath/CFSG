@@ -220,7 +220,7 @@ theorem kernel_le_Mg : kernel48 B T g ≤ conjSubgroup g M := by
     (SetLike.coe_subset_coe.mpr (le_sup_right : conjSubgroup g B ≤ B ⊔ conjSubgroup g B)) hk.2)
 
 theorem X_le_normalizer_kernel (h48 : Hyp48 M B T g) :
-    T ⊔ conjSubgroup g T ≤ Subgroup.normalizer (kernel48 B T g : Set G) := fun x hx =>
+    T ⊔ conjSubgroup g T ≤ Subgroup.normalizer (kernel48 B T g : Set G) := fun _x hx =>
   mem_normalizer_inf (Subgroup.le_normalizer hx)
     (mem_normalizer_centralizer (H.X_le_normalizer_W h48 hx))
 
@@ -284,11 +284,13 @@ theorem Tg_mem_kernel_iff (h48 : Hyp48 M B T g) {t : G} (htT : t ∈ conjSubgrou
       _ = (t * a) * b := by rw [h a ha]
       _ = t * (a * b) := by rw [mul_assoc]
 
+omit [Finite G] H in
 theorem kernelGen_le_kernel : kernelGen48 B T g ≤ kernel48 B T g :=
   sup_le inf_le_right inf_le_right
 
+omit [Finite G] H in
 theorem kernelGen_le_X : kernelGen48 B T g ≤ T ⊔ conjSubgroup g T :=
-  H.kernelGen_le_kernel.trans inf_le_left
+  CFSG.RankThree.GF2n.Tim78.Hyp4.kernelGen_le_kernel.trans inf_le_left
 
 theorem X_le_normalizer_kernelGen (h48 : Hyp48 M B T g) :
     T ⊔ conjSubgroup g T ≤ Subgroup.normalizer (kernelGen48 B T g : Set G) := by
@@ -303,9 +305,10 @@ theorem X_le_normalizer_kernelGen (h48 : Hyp48 M B T g) :
 
 theorem normal_kernelGen (h48 : Hyp48 M B T g) :
     ((kernelGen48 B T g).subgroupOf (T ⊔ conjSubgroup g T)).Normal :=
-  (Subgroup.normal_subgroupOf_iff_le_normalizer H.kernelGen_le_X).mpr
+  (Subgroup.normal_subgroupOf_iff_le_normalizer CFSG.RankThree.GF2n.Tim78.Hyp4.kernelGen_le_X).mpr
     (H.X_le_normalizer_kernelGen h48)
 
+omit [Finite G] in
 theorem side_le {D S : Subgroup G} (hs : IsSide48 B T g D S) :
     D ≤ B ⊔ conjSubgroup g B ∧ S ≤ T ⊔ conjSubgroup g T := by
   rcases hs with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
@@ -325,6 +328,7 @@ theorem side_centralizer' (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
       fun s hs w hw => H.Tg_comm_Bg hs hw⟩
 
 omit H in
+omit [Finite G] in
 theorem side_conj {D S : Subgroup G} (hs : IsSide48 B T g D S) (x : G) :
     ∃ z : G, conjSubgroup x D = conjSubgroup z B ∧ conjSubgroup x S = conjSubgroup z T := by
   rcases hs with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
@@ -366,6 +370,7 @@ theorem side_eq {D D' S S' : Subgroup G} (hs : IsSide48 B T g D S) (hs' : IsSide
   rw [hzS, hzS']
   exact H.conj_T_eq_of_conj_B_eq h
 
+omit [Finite G] in
 theorem side_pGroup {D S : Subgroup G} (hs : IsSide48 B T g D S) :
     IsPGroup 2 D ∧ IsPGroup 2 S ∧ D ≠ ⊥ := by
   rcases hs with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
@@ -443,6 +448,7 @@ theorem comm_side_kernel_mem (h48 : Hyp48 M B T g) {D S : Subgroup G} (hs : IsSi
     exact (kernel48 B T g).mul_mem ((Subgroup.mem_normalizer_iff.mp
       (H.X_le_normalizer_kernel h48 (hSX ht)) k).mp hk) ((kernel48 B T g).inv_mem hk)
 
+omit [Finite G] in
 theorem side_inf_kernel_le {D S : Subgroup G} (hs : IsSide48 B T g D S) :
     S ⊓ kernel48 B T g ≤ kernelGen48 B T g := by
   rcases hs with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
@@ -456,7 +462,7 @@ theorem W_le_X : B ⊔ conjSubgroup g B ≤ T ⊔ conjSubgroup g T :=
   sup_le_sup H.B_le_T (Subgroup.map_mono H.B_le_T)
 
 theorem W_le_kernel (h48 : Hyp48 M B T g) : B ⊔ conjSubgroup g B ≤ kernel48 B T g :=
-  le_inf H.W_le_X fun w hw => Subgroup.mem_centralizer_iff.mpr fun w' hw' =>
+  le_inf H.W_le_X fun _w hw => Subgroup.mem_centralizer_iff.mpr fun _w' hw' =>
     comm_of_isElemAbelian (H.W_elem h48) hw' hw
 
 theorem side_le_kernelGen (h48 : Hyp48 M B T g) {D S : Subgroup G}

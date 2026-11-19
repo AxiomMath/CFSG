@@ -65,7 +65,7 @@ private theorem exists_psu_aux {T : Type} [Group T] (r P X : ℕ) [Fact P.Prime]
     ∃ (a m : ℕ) (E : Type) (_ : Field E) (_ : Finite E), 3 ≤ a ∧ Nat.card E = (2 ^ m) ^ 2 ∧
       (a, 2 ^ m) ≠ (3, 2) ∧ Nonempty (T ≃* StatedProj (StatedSU a (2 ^ m) E)) := by
   subst hP
-  haveI : NeZero (2 * X) := ⟨by omega⟩
+  have : NeZero (2 * X) := ⟨by omega⟩
   refine ⟨r + 1, X, GaloisField 2 (2 * X), inferInstance, inferInstance, by omega, ?_, hnq, ⟨e⟩⟩
   rw [GaloisField.card 2 (2 * X) (by omega), ← pow_mul, mul_comm]
 
@@ -82,7 +82,7 @@ theorem exists_psu_of_l154Uni {T : Type} [Group T] (h : catalogIs T l154Uni) :
     cases t with
     | twistedA r q =>
       have hq : q.p = 2 := by simpa [l154Uni, onLie] using hi
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
       have hrange := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
         ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
       have hr : 2 ≤ r := hrange.1
@@ -109,24 +109,23 @@ theorem exists_psu_of_l154Uni {T : Type} [Group T] (h : catalogIs T l154Uni) :
 theorem famUni_of_canon {lab : GLALabel} {a m : ℕ} (h : canonLabel lab = ⟨.twA, a, m⟩) : FamUni lab := by
   obtain ⟨tag, rank, n⟩ := lab
   cases tag
-  all_goals first
+  all_goals try first
     | exact Or.inl rfl
     | (simp [canonLabel] at h; done)
-    | skip
   · by_cases h3 : rank = 3
     · simp [canonLabel, h3] at h
     · simp [canonLabel, h3] at h
   · by_cases h3 : rank = 3
     · exact Or.inr ⟨rfl, h3⟩
     · by_cases h2 : rank = 2
-      · simp [canonLabel, h3, h2] at h
+      · simp [canonLabel, h2] at h
       · simp [canonLabel, h3, h2] at h
 
 theorem l154_exists_moved_of_odd {K : Type} [Field K] (bar σ : K ≃+* K) (hbb : ∀ c, bar (bar c) = c)
     (hcomm : ∀ c, σ (bar c) = bar (σ c)) {p : ℕ} (hp : Odd p) (hσp : σ ^ p = 1) (hσ1 : σ ≠ 1) :
     ∃ c : K, bar c = c ∧ σ c ≠ c := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hroot : ∀ c, σ c = c ∨ σ c = bar c := by
     intro c
     have hs : bar (c + bar c) = c + bar c := by rw [map_add, hbb, add_comm]
@@ -146,12 +145,12 @@ theorem l154_exists_moved_of_odd {K : Type} [Field K] (bar σ : K ≃+* K) (hbb 
     by_contra hne
     obtain ⟨c0, hc0⟩ : ∃ c0, σ c0 ≠ c0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hσ1 (RingEquiv.ext h)
     have hc0b : σ c0 = bar c0 := (hroot c0).resolve_left hc0
     obtain ⟨c1, hc1⟩ : ∃ c1, σ c1 ≠ bar c1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (RingEquiv.ext h)
     have hc1' : σ c1 = c1 := (hroot c1).resolve_right hc1
     rcases hroot (c1 + c0) with h | h

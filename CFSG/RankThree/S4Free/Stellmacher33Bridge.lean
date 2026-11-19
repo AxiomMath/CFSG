@@ -68,7 +68,7 @@ theorem oTwoSub_le_of_relIndex [Finite H] {T L : Subgroup H} (hT : IsPGroup 2 T)
 
 theorem le_oTwoSub [Finite H] {L N : Subgroup H} (hNL : N ≤ L)
     (hN : L ≤ normalizer (N : Set H)) (hp : IsPGroup 2 N) : N ≤ oTwoSub L := by
-  haveI : (N.subgroupOf L).Normal := ⟨fun n hn g => by
+  have : (N.subgroupOf L).Normal := ⟨fun n hn g => by
     rw [mem_subgroupOf] at hn ⊢
     exact (mem_normalizer_iff.mp (hN g.2) n).mp hn⟩
   have h2 := Stell.le_oTwo (K := N.subgroupOf L) hp.comap_subtype

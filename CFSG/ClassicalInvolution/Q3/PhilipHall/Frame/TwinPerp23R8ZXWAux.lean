@@ -567,9 +567,9 @@ theorem exists_odd_not_mem {N H Q : Subgroup Y} (hQ : IsSylow2In Q N) (hQH : Q �
   obtain ⟨P⟩ : Nonempty (Sylow p ↥N) := inferInstance
   have hPH : ¬ (P : Subgroup ↥N) ≤ H' := fun h =>
     P.not_dvd_index (hpdvd.trans (Subgroup.index_dvd_of_le h))
-  obtain ⟨y, hyP, hyH⟩ := SetLike.not_le_iff_exists.mp hPH
+  obtain ⟨y, hyP, hyH⟩ := IsConcreteLE.not_le_iff_exists.mp hPH
   refine ⟨y, y.2, hyH, ?_⟩
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hyP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hyP⟩
   have hk' : y ^ p ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using this

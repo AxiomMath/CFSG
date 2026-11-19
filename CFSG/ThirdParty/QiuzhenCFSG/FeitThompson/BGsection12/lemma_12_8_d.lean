@@ -275,7 +275,7 @@ public theorem CFSG.lemma_12_8_d
     have hS_le_core : (S : Subgroup G) ≤ piCoreIn π₂ F :=
       section12_pSubgroup_le_piCoreIn_of_mem_of_nilpotent_pre
         (G := G) (H := F) (A := (S : Subgroup G)) (π := π₂) (p := p)
-        hS_le_F S.isPGroup' (by simpa [π₂] using hp)
+        hS_le_F S.isPGroup (by simpa [π₂] using hp)
         (by simpa [F] using section8FittingSubgroup_isNilpotent E)
     have hcore_eq :
         piCoreIn π₂ F = E₂ := by

@@ -56,6 +56,7 @@ theorem framePr_form {e f x x' : V} (halt : F.IsAlt) (hef : F e f = 1) (hxx' : F
     simp [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hef, hfe,
       hxe, hxf, hx'e, hx'f, hxe', hxf', hx'e', hx'f', hxx', hx'x, form_self halt]
 
+omit [CharP K 2] in
 theorem frame_perp_span {U : Submodule K V} {e f x x' : V}
     (hUc : ∀ u ∈ U, u = F u f • e + F u e • f + F u x' • x + F u x • x') {w : V}
     (hwe : F w e = 0) (hwf : F w f = 0) (hwx : F w x = 0) (hwx' : F w x' = 0) :
@@ -65,6 +66,7 @@ theorem frame_perp_span {U : Submodule K V} {e f x x' : V}
         congrArg (F w) (hUc u hu)
     _ = 0 := by simp [map_add, map_smul, hwe, hwf, hwx, hwx']
 
+omit [CharP K 2] in
 theorem stab_of_span {U : Submodule K V} {e f x x' : V} {g : V ≃ₗ[K] V}
     (hge : g e ∈ U) (hgf : g f ∈ U) (hgx : g x ∈ U) (hgx' : g x' ∈ U)
     (hspan : ∀ u ∈ U, ∃ a b c d : K, u = a • e + b • f + c • x + d • x') :
@@ -76,6 +78,7 @@ theorem stab_of_span {U : Submodule K V} {e f x x' : V} {g : V ≃ₗ[K] V}
     (Submodule.smul_mem U a hge) (Submodule.smul_mem U b hgf)) (Submodule.smul_mem U c hgx))
     (Submodule.smul_mem U d hgx')
 
+omit [CharP K 2] in
 theorem dual_coord {U : Submodule K V} {e f x x' : V} (hUe : e ∈ U) (hUf : f ∈ U) (hUx : x ∈ U)
     (hUx' : x' ∈ U) (hUc : ∀ u ∈ U, u = F u f • e + F u e • f + F u x' • x + F u x • x')
     (φ : Module.Dual K U) (v : U) :
@@ -117,15 +120,17 @@ variable {K V : Type} [Field K] [CharP K 2] [AddCommGroup V] [Module K V]
     rw [h']
     simp
 
+omit [CharP K 2] in
 theorem restrictSub_mono {U : Submodule K V} {B B' : Subgroup (V ≃ₗ[K] V)} (h : B ≤ B') :
     restrictSub U B ≤ restrictSub U B' := by
   rintro r ⟨g, hg, hr⟩
   exact ⟨g, h hg, hr⟩
 
-theorem exists_restrict {U : Submodule K V} {g : V ≃ₗ[K] V} (hgU : ∀ u ∈ U, g u ∈ U)
-    (hg2 : ∀ v, g (g v) = v) : ∃ r : U ≃ₗ[K] U, ∀ u : U, ((r u : U) : V) = g u :=
-  ⟨LinearEquiv.ofInvolutive ((g : V →ₗ[K] V).restrict hgU) (fun u => Subtype.ext (hg2 (u : V))),
-    fun u => rfl⟩
+omit [CharP K 2] in
+theorem exists_restrict {U : Submodule K V} {g : V ≃ₗ[K] V} (hgU : ∀ _u ∈ U, g _u ∈ U)
+    (hg2 : ∀ v, g (g v) = v) : ∃ r : U ≃ₗ[K] U, ∀ _u : U, ((r _u : U) : V) = g _u :=
+  ⟨LinearEquiv.ofInvolutive ((g : V →ₗ[K] V).restrict hgU) (fun _u => Subtype.ext (hg2 (_u : V))),
+    fun _u => rfl⟩
 
 @[expose] def perpFixSub (F : LinearMap.BilinForm K V) (U : Submodule K V) :
     Subgroup (V ≃ₗ[K] V) where
@@ -145,6 +150,7 @@ theorem fix_of_pointRad {U : Submodule K V} {p q : V} (halt : F.IsAlt) (hpq : F 
   rw [pointRad_apply_perp halt hpq hg w (hw p hUp), form_comm halt, hw _ hω, zero_smul,
     add_zero]
 
+omit [CharP K 2] in
 theorem restrict_mem_pointRad {U : Submodule K V} {p : V} (hp : p ∈ U) {g : V ≃ₗ[K] V}
     (hg : g ∈ pointRadSubgroup F p) {r : U ≃ₗ[K] U} (hr : ∀ u : U, ((r u : U) : V) = g u) :
     r ∈ pointRadSubgroup (F.compl₁₂ U.subtype U.subtype) ⟨p, hp⟩ := by
@@ -189,6 +195,7 @@ theorem frame_nondeg {U : Submodule K V} {e f x x' : V} (halt : F.IsAlt) (hUe : 
       _ = 0 := by simp [h1, h2, h3, h4]
   exact ⟨hsep, fun u hu => hsep u (fun u' => (hfU u u').trans (hu u'))⟩
 
+omit [CharP K 2] in
 theorem frame_alt (halt : F.IsAlt) (U : Submodule K V) : (F.compl₁₂ U.subtype U.subtype).IsAlt :=
   fun u => halt (u : V)
 
@@ -240,6 +247,7 @@ variable {K V : Type} [Field K] [CharP K 2] [AddCommGroup V] [Module K V]
 @[expose] def transvMap (B : LinearMap.BilinForm K V) (p : V) (c : K) : V →ₗ[K] V :=
   LinearMap.id + (c • B.flip p).smulRight p
 
+omit [CharP K 2] in
 theorem transvMap_apply (B : LinearMap.BilinForm K V) (p : V) (c : K) (u : V) :
     transvMap B p c u = u + (c * B u p) • p := by
   simp [transvMap]
@@ -271,10 +279,12 @@ open _root_.Classical in
 @[expose] noncomputable def qExt {U : Submodule K V} (Q : QuadraticForm K U) (v : V) : K :=
   if h : v ∈ U then Q ⟨v, h⟩ else 0
 
+omit [CharP K 2] in
 theorem qExt_mem {U : Submodule K V} (Q : QuadraticForm K U) {v : V} (h : v ∈ U) :
     qExt Q v = Q ⟨v, h⟩ :=
-  dif_pos h
+  dite_eq_left h
 
+omit [CharP K 2] in
 theorem qExt_smul {U : Submodule K V} (Q : QuadraticForm K U) {c : K} {u : V} (hu : u ∈ U) :
     qExt Q (c • u) = c ^ 2 * qExt Q u := by
   rw [qExt_mem Q (Submodule.smul_mem U c hu), qExt_mem Q hu]
@@ -282,6 +292,7 @@ theorem qExt_smul {U : Submodule K V} (Q : QuadraticForm K U) {c : K} {u : V} (h
   rw [h, QuadraticMap.map_smul, smul_eq_mul]
   ring
 
+omit [CharP K 2] in
 theorem qExt_add {U : Submodule K V} (Q : QuadraticForm K U) {F : LinearMap.BilinForm K V}
     (hpol : ∀ a b : U, Q.polarBilin a b = F (a : V) (b : V)) {u u' : V} (hu : u ∈ U)
     (hu' : u' ∈ U) : qExt Q (u + u') = qExt Q u + qExt Q u' + F u u' := by
@@ -359,7 +370,7 @@ end Elation
 
 theorem lemmaPSub_of_lemmaP (hP : LemmaPStatement) {K V : Type} [Field K] [Finite K] [CharP K 2]
     [AddCommGroup V] [Module K V] [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
-    (hq : 4 ≤ Nat.card K) (hnd : F.Nondegenerate) (halt : F.IsAlt) {e f x x' : V}
+    (hq : 4 ≤ Nat.card K) (_hnd : F.Nondegenerate) (halt : F.IsAlt) {e f x x' : V}
     (hef : F e f = 1) (hxx' : F x x' = 1) (hxe : F x e = 0) (hxf : F x f = 0)
     (hx'e : F x' e = 0) (hx'f : F x' f = 0)
     (A A' : Subgroup (V ≃ₗ[K] V)) (hA : A ≤ pointRadSubgroup F e)

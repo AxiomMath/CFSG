@@ -18,7 +18,7 @@ section Light
 theorem prime_ringChar_and_eq_pow_of_card_sq (K : Type) [Field K] [Finite K] (q : ℕ)
     (hKq : Nat.card K = q ^ 2) (hq2 : 2 ≤ q) :
     (ringChar K).Prime ∧ ∃ f : ℕ, 1 ≤ f ∧ q = ringChar K ^ f := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hp : (ringChar K).Prime := CharP.char_is_prime K (ringChar K)
   obtain ⟨n, -, hn⟩ := FiniteField.card K (ringChar K)
   have hcard : q ^ 2 = ringChar K ^ (n : ℕ) := by rw [← hKq, Nat.card_eq_fintype_card, hn]
@@ -205,17 +205,17 @@ theorem exists_radical_pair_twE6Inndiag (K : Type) [Field K] [Finite K] (σ : K 
       (twistedE6RootGroup K σ : Subgroup (ModGL (TwTag K σ hσ) K)) ≤ Q ⊔ Q' ∧
       A ≤ Subgroup.normalizer (Q : Set (ModGL (TwTag K σ hσ) K)) ∧
       A ≤ Subgroup.normalizer (Q' : Set (ModGL (TwTag K σ hσ) K)) := by
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := TwTag K σ hσ) (K := K)
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := TwTag K σ hσ) (K := K)
   have hcardTw : Nat.card K = (ringChar K ^ f) ^ TwistTag.E6.order := hKq
   have hperf := finite_fixed_root_group_perfect TwistTag.E6 hp hf K hcardTw σ.toRingHom hσq
   have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   obtain ⟨ψ⟩ := CFSG.LieType.SeitzGeneration.nonempty_derivedCentralQuotient_equiv _ _
     hperf.2.2.1 hZ
-  haveI hSimple : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
+  have hSimple : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
     (CFSG.LieType.Simplicity.fam_2e6_simplicity
       ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) (ringChar K) f
       ⟨⟨hp, hf, rfl⟩, K, inferInstance, inferInstance, hcardTw, σ.toRingHom, hσq,
@@ -354,15 +354,15 @@ theorem twE6InndiagHyperplaneGeneration_aux (K : Type) [Field K] [Finite K] (σ 
       ⨆ (B : Subgroup (ModGL (TwTag K σ hσ) K)) (_ : B ≤ A) (_ : B.relIndex A = 3),
         (twistedE6RootGroup K σ : Subgroup (ModGL (TwTag K σ hσ) K)) ⊓
           Subgroup.centralizer (B : Set (ModGL (TwTag K σ hσ) K)) := by
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := TwTag K σ hσ) (K := K)
-  haveI := hAEA
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := TwTag K σ hσ) (K := K)
+  have := hAEA
   obtain ⟨Q, Q', hQC, hQ'C, hQp, hQ'p, hCQ, hAQ, hAQ'⟩ :=
     exists_radical_pair_twE6Inndiag K σ hσ f hp hf hK3 hσq hKq A hAle
       (IsElementaryAbelian.isPGroup 3 A) R hRC hRp hR1 hRn
-  haveI : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA1
+  have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA1
   exact hCQ.trans (sup_le
     (le_iSup_hyper_of_coprime (not_dvd_card_of_isPGroup hK3 hQp) hAQ hQC)
     (le_iSup_hyper_of_coprime (not_dvd_card_of_isPGroup hK3 hQ'p) hAQ' hQ'C))
@@ -382,14 +382,14 @@ theorem twE6DiagParCubes_holds : E6ThreeDefs.TwE6DiagParCubes := by
     have hsq : σ ^ 2 = 1 := by
       refine RingEquiv.ext fun c => ?_
       have hσσ : σ (σ c) = c := by
-        haveI := Fintype.ofFinite K
+        have := Fintype.ofFinite K
         rw [hσq (σ c), hσq c, ← pow_mul, ← sq, ← hKq, Nat.card_eq_fintype_card]
         exact FiniteField.pow_card c
       simpa only [pow_two, RingAut.mul_apply, RingAut.one_apply] using hσσ
     exact hsq
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj := twistedE6InndiagConj_injective hp hf hKq σ hσq
   have hE1 : E ≠ ⊥ := by
     rintro rfl

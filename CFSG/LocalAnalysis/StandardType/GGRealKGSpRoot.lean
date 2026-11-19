@@ -215,8 +215,9 @@ end Weyl
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V]
 
+omit [CharP F 2] in
 private theorem finite_gsp (B : LinearMap.BilinForm F V) : Finite (Gsp B) := by
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   exact Finite.of_injective (fun g : Gsp B => g.app) fun g h hgh => by
     apply Subtype.ext
     apply Units.ext
@@ -235,9 +236,9 @@ theorem exists_signedTorusModel_gsp {B : LinearMap.BilinForm F V} (hB : B.IsAlt)
         (Subgroup.centralizer (τ '' {f | Sum.elim (omPlusRefl p) SpCoord.sgnAut i f = f}))) ∧
       ∀ i, p ∣ Nat.card (S i) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (Gsp B) := finite_gsp B
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (Gsp B) := finite_gsp B
   have hodd : Odd (Nat.card E) := by
     have hpg : IsPGroup p E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
     obtain ⟨n, hn⟩ := hpg.exists_card_eq
@@ -333,7 +334,7 @@ theorem ggKGRootDatum_gsp {B : LinearMap.BilinForm F V} (hB : B.IsAlt) (hBn : B.
         J ≤ CFSG.Assembly.LargeEvenLayer (Subgroup.centralizer ({a} : Set (Gsp B))))
     (r : ℕ) : GGKGRootDatum p r (Gsp B) := by
   intro E hE h3 _ hsc
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨τ, w, S, hτ, hτE, hws, hwS, hcomp, hdvd⟩ :=
     exists_signedTorusModel_gsp hB hBn hp hp2 hpq hF4 hdim hℓ hE hsc
   obtain ⟨k, τ', hτ', hτ'E, -, -, hnorm⟩ := hsign E hE h3 hsc
@@ -391,7 +392,7 @@ theorem ggTorusRootSL2_spNonsplit
     have hchev : IsChevSimple 2 (Gsp (spForm l K)) := isChevSimple_of_mulEquiv' α.symm hchevR
     have hS : IsSimpleGroup (Gsp (spForm l K)) :=
       CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.isSimpleGroup_of_isChevSimple_two hchev
-    haveI : Finite (Gsp (spForm l K)) := Finite.of_equiv _ α.toEquiv
+    have : Finite (Gsp (spForm l K)) := Finite.of_equiv _ α.toEquiv
     refine ggKGRootDatum_of_mulEquiv α (RealKGSpRoot.ggKGRootDatum_gsp spForm_isAlt
       spForm_nondegenerate hp hp2 hpK hF4 finrank_spSpace hl3
       (ggTorusSignedEltSC_of_mulEquiv α.symm hsignR) (fun a hap J hJ hJa => ?_) 0)

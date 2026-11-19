@@ -35,14 +35,14 @@ theorem reflect_g2_i0 (v : Fin Tag.G2.rank → ℤ) :
     reflect Tag.G2 i0 v i0 = v i1 - v i0 ∧ reflect Tag.G2 i0 v i1 = v i1 := by
   have h01 : i0 ≠ i1 := i0_ne_i1
   have h10 : i1 ≠ i0 := i0_ne_i1.symm
-  simp [reflect, sum_g2, cartan_g2_00, cartan_g2_01, Pi.single_apply, h01, h10]
+  simp [reflect, sum_g2, cartan_g2_00, cartan_g2_01, h10]
   ring
 
 theorem reflect_g2_i1 (v : Fin Tag.G2.rank → ℤ) :
     reflect Tag.G2 i1 v i0 = v i0 ∧ reflect Tag.G2 i1 v i1 = 3 * v i0 - v i1 := by
   have h01 : i0 ≠ i1 := i0_ne_i1
   have h10 : i1 ≠ i0 := i0_ne_i1.symm
-  simp [reflect, sum_g2, cartan_g2_10, cartan_g2_11, Pi.single_apply, h01, h10]
+  simp [reflect, sum_g2, cartan_g2_10, cartan_g2_11, h01]
   ring
 
 @[expose] def g2High : Fin Tag.G2.rank → ℤ := ![2, 3]
@@ -64,7 +64,7 @@ theorem g2_root_coords {γ : Fin Tag.G2.rank → ℤ} (h : IsRoot Tag.G2 γ) :
   | basis j =>
     have h01 : i0 ≠ i1 := i0_ne_i1
     have h10 : i1 ≠ i0 := i0_ne_i1.symm
-    rcases eq_i0_or_i1 j with rfl | rfl <;> simp [g2RootCoords, Pi.single_apply, h01, h10]
+    rcases eq_i0_or_i1 j with rfl | rfl <;> simp [g2RootCoords, h01, h10]
   | reflect i hv ih =>
     rcases eq_i0_or_i1 i with rfl | rfl
     · obtain ⟨e0, e1⟩ := reflect_g2_i0 _
@@ -84,9 +84,9 @@ theorem isRoot_g2High : IsRoot Tag.G2 g2High := by
   have h10 : i1 ≠ i0 := i0_ne_i1.symm
   rcases eq_i0_or_i1 j with rfl | rfl
   · rw [(reflect_g2_i0 _).1, (reflect_g2_i1 _).2, (reflect_g2_i1 _).1]
-    simp [g2High_i0, Pi.single_apply, h01, h10]
+    simp [g2High_i0, h10]
   · rw [(reflect_g2_i0 _).2, (reflect_g2_i1 _).2]
-    simp [g2High_i1, Pi.single_apply, h01, h10]
+    simp [g2High_i1, h10]
 
 theorem g2_height_le {γ : Fin Tag.G2.rank → ℤ} (h : IsRoot Tag.G2 γ) :
     height (τ := Tag.G2) γ ≤ 5 := by
@@ -201,7 +201,7 @@ theorem torus_dichotomy {γ : Fin Tag.G2.rank → ℤ} (hγ : IsRoot Tag.G2 γ)
     rw [root_torus_conjugation i1 hγ (v ^ b) t, root_torus_conjugation i0 hγ (v ^ a)]
     congr 1
     rw [← mul_assoc, ← Units.val_mul, ← zpow_mul, ← zpow_mul, ← zpow_add, hab, zpow_one]
-    simp [hvdef, hv, ht]
+    simp [hvdef, ht]
   have hmem := hO (u₀ * u₁) (mul_mem hu₀T hu₁T) _ hxO
   rw [← hconj]
   simpa [mul_assoc, mul_inv_rev] using hmem
@@ -264,7 +264,7 @@ theorem g2_hpos (c : ↥(adjointGroup Tag.G2 K)) :
 
 theorem g2_normalTwo [Finite K] [CharP K 2] (R : Subgroup ↥(adjointGroup Tag.G2 K))
     (hR : g2Root K ≤ R) : NormalTwoDichotomy (g2Root K) R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite (ModGL Tag.G2 K) := finite_modGL
   have hU : IsSylowIn 2 ((posUnipotent Tag.G2 K).subgroupOf (adjointGroup Tag.G2 K)) ⊤ :=
     isSylowTwoOf_subgroupOf_top (isSylowTwoOf_iff_isSylowOf.2

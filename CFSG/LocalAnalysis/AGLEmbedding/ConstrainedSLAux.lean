@@ -19,9 +19,9 @@ theorem sylow_normal_of_isPGroup_ker (φ : Y →* W) (hker : IsPGroup p φ.ker)
     (T : Subgroup Y).Normal := by
   have hN : ((S : Subgroup φ.range).comap φ.rangeRestrict).Normal := hS.comap _
   have hNp : IsPGroup p ((S : Subgroup φ.range).comap φ.rangeRestrict) :=
-    S.isPGroup'.comap_of_ker_isPGroup _ (by rwa [MonoidHom.ker_rangeRestrict])
+    S.isPGroup.comap_of_ker_isPGroup _ (by rwa [MonoidHom.ker_rangeRestrict])
   have hTN : (T : Subgroup Y) ≤ (S : Subgroup φ.range).comap φ.rangeRestrict := by
-    obtain ⟨S', hS'⟩ := (T.isPGroup'.map φ.rangeRestrict).exists_le_sylow
+    obtain ⟨S', hS'⟩ := (T.isPGroup.map φ.rangeRestrict).exists_le_sylow
     have := Sylow.unique_of_normal S hS
     rw [Subsingleton.elim S' S] at hS'
     exact Subgroup.map_le_iff_le_comap.mp hS'

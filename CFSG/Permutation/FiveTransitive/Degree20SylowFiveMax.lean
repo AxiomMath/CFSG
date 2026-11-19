@@ -10,11 +10,11 @@ namespace FiveTransitive.Degree20
 
 open MulAction SubMulAction Subgroup
 
-@[expose] abbrev FiveCycle := Multiplicative (ZMod 5)
+abbrev FiveCycle := Multiplicative (ZMod 5)
 
-@[expose] abbrev FourFiveBase := Fin 4 → FiveCycle
+abbrev FourFiveBase := Fin 4 → FiveCycle
 
-@[expose] abbrev TwentyFivePoints := Fin 4 × FiveCycle
+abbrev TwentyFivePoints := Fin 4 × FiveCycle
 
 instance : SMul FourFiveBase TwentyFivePoints where
   smul a x := ⟨x.1, a x.1 * x.2⟩
@@ -90,7 +90,7 @@ theorem alternatingGroup_le_of_sylow_five_card_eq_six_hundred_twenty_five
     (S : Sylow 5 P) (hScard : Nat.card S = 625) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let inclusion : S →* Equiv.Perm X :=
     P.subtype.comp (S : Subgroup P).subtype
   have hinclusion : Function.Injective inclusion := by

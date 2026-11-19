@@ -38,8 +38,8 @@ theorem invE1_ext {g h : Equiv.Perm (Fin 1782)} (hg : g ∈ invE 1) (hh : h ∈ 
   exact (inv_mul_eq_one.1 h1).symm
 
 theorem card_eq_c1Orbit {H : Subgroup (Equiv.Perm (Fin 1782))} (hH : H ≤ invE 1) :
-    Nat.card H = Nat.card {v : Fin 3 → Fin 1782 // ∃ h ∈ H, ∀ t, v t = h (c1Base t)} :=
-  card_eq_orbit_card H c1Base fun h hh hfix => invE1_eq_one (hH hh) hfix
+    Nat.card H = Nat.card {v : Fin 3 → Fin 1782 // ∃ _h ∈ H, ∀ t, v t = _h (c1Base t)} :=
+  card_eq_orbit_card H c1Base fun _h hh hfix => invE1_eq_one (hH hh) hfix
 
 theorem card_genSub_of_btK {w kw km k cnt base : Nat} {G K R POS : Nat → Nat}
     {gp : Nat → Equiv.Perm (Fin 1782)} (hw : 0 < w) (hle : genSub 1782 k gp ≤ invE 1)

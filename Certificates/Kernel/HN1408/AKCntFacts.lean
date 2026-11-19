@@ -31,7 +31,6 @@ theorem commF_iff {R Y : Nat} {r y : Equiv.Perm (Fin 1408)} (hR : RepC R r) (hY 
     split_ifs at h
     all_goals first
       | exact comm_of_commP hR hY h
-      | exact absurd h Bool.false_ne_true
   · intro h
     have hp : ∀ p, p < 1408 → commAt R Y p = true := by
       intro p hp
@@ -240,8 +239,8 @@ theorem cnt_eq (hP : Nat.card ↥P1408 = 177408000) {X : Nat} {x : Equiv.Perm (F
       cz r (i, k) * x = x * cz r (i, k) :=
     (commF_iff (hr i hi') hY).trans (conj_comm_iff _ _ _)
   by_cases hq : cz r (i, k) * x = x * cz r (i, k)
-  · rw [if_pos hq, if_pos (hiff.2 hq)]
-  · rw [if_neg hq, if_neg (mt hiff.1 hq)]
+  · rw [ite_eq_left hq, ite_eq_left (hiff.2 hq)]
+  · rw [ite_eq_right hq, ite_eq_right (mt hiff.1 hq)]
 
 theorem ncz_conj {g x : Equiv.Perm (Fin 1408)} (hg : g ∈ P1408) : ncz (g * x * g⁻¹) = ncz x := by
   unfold ncz

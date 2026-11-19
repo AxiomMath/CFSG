@@ -17,16 +17,16 @@ variable {G : Type} [Group G]
 theorem y7b_exists_perm3_hom {X M U : Subgroup G} (hMU : M ≤ U)
     (hUM : ∀ u ∈ U, ∀ m ∈ M, u * m * u⁻¹ ∈ M)
     (hXU : ∀ x ∈ X, ∀ u ∈ U, x * u * x⁻¹ ∈ U) (hXM : ∀ x ∈ X, ∀ m ∈ M, x * m * x⁻¹ ∈ M)
-    (h4 : M.relIndex U = 4) (hsq : ∀ u ∈ U, u ^ 2 ∈ M) :
+    (h4 : M.relIndex U = 4) (_hsq : ∀ u ∈ U, u ^ 2 ∈ M) :
     ∃ ρ : ↥X →* Equiv.Perm (Fin 3), ∀ x : ↥X, ρ x = 1 ↔ ∀ u ∈ U, ⁅(x : G), u⁆ ∈ M := by
   classical
   let N : Subgroup ↥U := M.subgroupOf U
   have hN : N.Normal :=
     (Subgroup.normal_subgroupOf_iff hMU).mpr fun m u hm hu => hUM u hu m hm
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hN4 : N.index = 4 := by simpa only [N, Subgroup.relIndex] using h4
-  haveI hNfi : N.FiniteIndex := ⟨by omega⟩
-  haveI : Fintype (↥U ⧸ N) := N.fintypeQuotientOfFiniteIndex
+  have hNfi : N.FiniteIndex := ⟨by omega⟩
+  have : Fintype (↥U ⧸ N) := N.fintypeQuotientOfFiniteIndex
   have hcardQ : Nat.card (↥U ⧸ N) = 4 := by
     rw [← Subgroup.index_eq_card]
     exact hN4
@@ -69,7 +69,7 @@ theorem y7b_exists_perm3_hom {X M U : Subgroup G} (hMU : M ≤ U)
         change (⟦(cx (x * y)) s⟧ : ↥U ⧸ N) = ⟦(cx x) ((cx y) s)⟧
         rw [map_mul, MulAut.mul_apply])
   let S := {q : ↥U ⧸ N // q ≠ 1}
-  haveI : Fintype S := inferInstance
+  have : Fintype S := inferInstance
   have hcardS : Fintype.card S = 3 := by
     have h := Fintype.card_subtype_compl (fun q : ↥U ⧸ N => q = 1)
     rw [Fintype.card_subtype_eq] at h
@@ -93,7 +93,7 @@ theorem y7b_exists_perm3_hom {X M U : Subgroup G} (hMU : M ≤ U)
     rw [QuotientGroup.eq_iff_div_mem, Subgroup.mem_subgroupOf]
     have h2 : (((cx x) u / u : ↥U) : G) = ⁅(x : G), (u : G)⁆ := by
       rw [commutatorElement_def]
-      simp [cx, Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [cx]
       rw [div_eq_mul_inv]
     rw [h2]
   have hqall : (∀ q : ↥U ⧸ N, φ x q = q) ↔ ∀ u : ↥U, ⁅(x : G), (u : G)⁆ ∈ M := by

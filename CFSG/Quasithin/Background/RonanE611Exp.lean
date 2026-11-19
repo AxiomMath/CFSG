@@ -39,7 +39,8 @@ section Lin3
 
 variable {G : Type} [Group G] [Finite G] {L S : Subgroup G}
 
-theorem pow_card_sub_one_mem_of_lin3 {n : ℕ} (hn : 2 ≤ n)
+omit [Finite G] in
+theorem pow_card_sub_one_mem_of_lin3 {n : ℕ} (_hn : 2 ≤ n)
     (hL : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .PSL 3 2 n)
     (hZ : IsPGroup 2 (Subgroup.center ↥L)) (hS : IsSylowTwoOf S L) {g : G}
     (hg : g ∈ L ⊓ Subgroup.normalizer (S : Set G)) : g ^ (2 ^ n - 1) ∈ S := by
@@ -72,6 +73,7 @@ theorem pow_card_sub_one_mem_of_lin3 {n : ℕ} (hn : 2 ≤ n)
   rw [← map_pow, ← Subgroup.mem_comap, Subgroup.comap_map_eq_self hker, Subgroup.mem_subgroupOf] at h2
   simpa using h2
 
+omit [Finite G] in
 theorem exists_pow_eq_one_of_lin3 {n : ℕ} (hn : 2 ≤ n)
     (hL : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .PSL 3 2 n)
     (hZ : IsPGroup 2 (Subgroup.center ↥L)) (hS : IsSylowTwoOf S L) {g : G}

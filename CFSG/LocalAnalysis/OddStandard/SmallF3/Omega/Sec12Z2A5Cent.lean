@@ -16,8 +16,8 @@ theorem z2a5_sl24 (h : Z2A5Hyp Y τ) :
     ∃ (k : Type) (_ : Field k) (_ : Fintype k), Fintype.card k = 2 ^ 2 ∧
       Nonempty (↥(oTwoRes (centralizer ({τ} : Set Y))) ≃* Matrix.SpecialLinearGroup (Fin 2) k) := by
   let k := GaloisField 2 2
-  letI : Field k := inferInstance
-  letI : Fintype k := Fintype.ofFinite k
+  let : Field k := inferInstance
+  let : Fintype k := Fintype.ofFinite k
   refine ⟨k, inferInstance, inferInstance, ?_, ?_⟩
   · rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 2 (by norm_num)

@@ -22,7 +22,7 @@ theorem false_of_badExcLie_trialityD4_three (hS : S.Normal) (hperf : ⁅S, S⁆ 
     (e : PSimple 3 S ≃* (TauCeti.CFSGIndex.lie ⟨.trialityD4 Q, hv⟩).Group) : False := by
   obtain ⟨K, _, _, σ, hK, hσ, ⟨Θ, hΘ⟩, ⟨ec⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 Q hv
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
     have : Finite (Module.End K (RootModule TwistTag.D4.tag K)) := Module.finite_of_finite K
     infer_instance
   have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
@@ -31,7 +31,7 @@ theorem false_of_badExcLie_trialityD4_three (hS : S.Normal) (hperf : ⁅S, S⁆ 
       IsElemAbelian 3 F → Nat.card F ≤ 3 ^ 2 := fun F hF =>
     (CFSG.HardMathSupport.Timmesfeld.CrossChar.card_le_nine_of_graphFixedRootGroup_odd Q.prime_p
       hQ2 hQ3 Q.exponent_pos hK hσ F ⟨hF.1, hF.2⟩).trans (by norm_num)
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   have hrk := pRank_mulAut_le_of_cyclic hZ Nat.prime_three hX Θ hΘ
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num) (MulAut.congr (e.trans ec).symm)]

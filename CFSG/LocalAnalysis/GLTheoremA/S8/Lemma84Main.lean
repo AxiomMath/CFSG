@@ -127,7 +127,7 @@ theorem stageK (hc : S3Ctx G 3) (h183 : CFSG.HardMathSupport.Solomon.UniquenessM
     (hT : T1430 J (D₀ ⊔ Subgroup.zpowers x)) :
     ∃ (a : G) (K : Subgroup G), a ∈ D ∧ a ≠ 1 ∧ GLAPComponent 3 (cx a) K ∧ SpA12Type K := by
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   set E : Subgroup G := D₀ ⊔ Subgroup.zpowers x with hEdef
   obtain ⟨hEB, hEe, hEc, hLE, hEdec⟩ := E_facts hB.1 hxB hL.1 hD₀ hD₀c hxL
   have hxE : x ∈ E := Subgroup.mem_sup_right (Subgroup.mem_zpowers x)

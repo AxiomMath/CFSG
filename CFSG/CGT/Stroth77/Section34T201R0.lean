@@ -54,6 +54,7 @@ theorem compat_conjU {X : IntMat} (hX : Compat (StrothTypeIndex.t201 m).k X) :
     Compat (StrothTypeIndex.t201 m).k (conjU X) :=
   ((compat_u200K m).mul hX).mul (compat_u200K m)
 
+omit [Finite G] in
 theorem matAct_conjρ {X : IntMat} (hX : Compat (StrothTypeIndex.t201 m).k X)
     (v : Torus (StrothTypeIndex.t201 m).k) :
     matAct _ (conjρ X) (compat_conjρ hX) v =
@@ -66,6 +67,7 @@ theorem matAct_conjρ {X : IntMat} (hX : Compat (StrothTypeIndex.t201 m).k X)
     dD.thetaT_ρ]
   rfl
 
+omit [Finite G] in
 theorem matAct_conjU {X : IntMat} (hX : Compat (StrothTypeIndex.t201 m).k X)
     (v : Torus (StrothTypeIndex.t201 m).k) :
     matAct _ (conjU X) (compat_conjU hX) v =
@@ -81,31 +83,37 @@ theorem matAct_one_apply (v : Torus (StrothTypeIndex.t201 m).k) :
     matAct (StrothTypeIndex.t201 m).k 1 Compat.one v = v := by
   rw [matAct_one]; rfl
 
+omit [Finite G] in
 theorem thetaT_ρ_inv_eq (v : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT (inv_mem dD.ρ_mem) v = matAct (StrothTypeIndex.t201 m).k
       (Type201.ρM m * Type201.ρM m) ((compat_ρK m).mul (compat_ρK m)) v := by
   rw [dD.thetaT_ρ_inv, matAct_mul_apply]; rfl
 
+omit [Finite G] in
 theorem thetaT_uv_eq (v : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT dD.uv_mem v =
       matAct (StrothTypeIndex.t201 m).k (Type201.uvM m) (compat_uvK m) v :=
   dD.thetaT_uv v
 
+omit [Finite G] in
 theorem thetaT_t_eq (v : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT dD.t_mem v =
       matAct (StrothTypeIndex.t201 m).k (Type201.tM m) (compat_tK m) v :=
   dD.thetaT_t v
 
+omit [Finite G] in
 theorem thetaT_u_eq (v : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT dD.u_mem v =
       matAct (StrothTypeIndex.t201 m).k (Type201.uM m) (compat_uK m) v :=
   dD.thetaT_u v
 
+omit [Finite G] in
 theorem thetaT_u_inv_eq (v : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT (inv_mem dD.u_mem) v =
       matAct (StrothTypeIndex.t201 m).k (Type201.uM m) (compat_uK m) v :=
   t201_thetaT_u_inv v
 
+omit [Finite G] in
 theorem thetaT_ρ_eq (v : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT dD.ρ_mem v =
       matAct (StrothTypeIndex.t201 m).k (Type201.ρM m) (compat_ρK m) v :=
@@ -120,6 +128,7 @@ theorem compat_omegaMat (m : ℕ) :
     exact ⟨2 ^ ((StrothTypeIndex.t201 m).k i - 1), by ring⟩
   · simp [omegaMat, Matrix.diagonal_apply_ne _ hij]
 
+omit [Finite G] in
 theorem conj_ofTorus_eq {g : G} (hgN : g ∈ Subgroup.normalizer (D : Set G))
     {φ : Torus (StrothTypeIndex.t201 m).k → Torus (StrothTypeIndex.t201 m).k}
     (hφ : ∀ v, dD.thetaT hgN v = φ v) (v : Torus (StrothTypeIndex.t201 m).k) :
@@ -129,6 +138,7 @@ theorem conj_ofTorus_eq {g : G} (hgN : g ∈ Subgroup.normalizer (D : Set G))
   rw [← hφ, dD.thetaT_apply]
   exact (dD.ofT_crdT hmem).symm
 
+omit [Finite G] in
 theorem thetaT_inv_of_rel34i {e : G} (he : Rel34i dD e (2 ^ (m + 1)))
     (heN : e ∈ Subgroup.normalizer (D : Set G)) (v : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT (inv_mem heN) v = (1 + 2 ^ (m + 1) : ℤ) • v := by
@@ -207,6 +217,7 @@ variable (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D) {e : G}
   (h₂ : dD.Twist dD.t_mem (hS.R_le_normalizer hfR) (1 + 2 ^ (m + 1)))
 include h hS heR he hR1 h₁ h₂
 
+omit h heR he hR1 h₁ h₂ in
 theorem matAct_matOf_thetaT (v : Torus (StrothTypeIndex.t201 m).k) :
     matAct _ (matOf (dD.thetaT (hS.R_le_normalizer hfR))) (compat_matOf _) v =
       dD.thetaT (hS.R_le_normalizer hfR) v := by
@@ -256,7 +267,7 @@ theorem isAut1_matOf (hm : 1 ≤ m) :
       ![2 ^ (m - 1) * a, 2 ^ (m + 1) * b, 2 ^ (m + 1) * c] by
     funext i; fin_cases i <;>
       simp [omegaMat, StrothTypeIndex.k, Type201.k, Matrix.mulVec, dotProduct,
-        Fin.sum_univ_three, Matrix.diagonal_apply]]
+        Matrix.diagonal_apply]]
   rw [t201_add_vec, t201_vec_eq_zero_iff]
   obtain ⟨j, rfl⟩ : ∃ j, m = j + 1 := ⟨m - 1, by omega⟩
   exact ⟨⟨a, by rw [Nat.add_sub_cancel]; ring⟩, ⟨b, by ring⟩, ⟨c, by ring⟩⟩
@@ -464,7 +475,7 @@ theorem eMat_matEq_one {p : ℕ} (hp : p < m) : MatEq (Type200.k p) (eMat m) 1 :
   refine MatEq.of_dvd (P := !![0, 0, 0; 0, 1, 0; 0, 0, 1]) (2 ^ (m + 1)) (fun i => ?_)
     fun i j => ?_
   · fin_cases i <;> simp only [Type200.k, Fin.zero_eta, Fin.isValue, Matrix.cons_val_zero,
-      Fin.mk_one, Matrix.cons_val_one, Matrix.head_cons, Fin.reduceFinMk, Matrix.cons_val] <;>
+      Fin.mk_one, Matrix.cons_val_one, Fin.reduceFinMk, Matrix.cons_val] <;>
       exact pow_dvd_pow 2 (by omega)
   · fin_cases i <;> fin_cases j <;> simp [eMat, ofCols_apply]
 
@@ -495,12 +506,12 @@ theorem false_of_R1_lt (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D
     intro p hp X hX
     rw [type200_k_eq hp]
     exact Stroth34T201Levels.Compat.shift
-      (fun i => by fin_cases i <;> simp [StrothTypeIndex.k, Type201.k] <;> omega) hX
+      (fun i => by fin_cases i <;> simp [Type201.k] <;> omega) hX
   have hc : ∀ p, 1 ≤ p → p ≤ m - 1 → Compat (Type200.k p) M := fun p _ hp => hcl p (by omega) hMc
   have h1 : IsAut1 (Type200.k 1) M := by
     rw [type200_k_eq (by omega : 1 ≤ m)]
     exact Stroth34T201Levels.IsAut1.shift
-      (fun i => by fin_cases i <;> simp [StrothTypeIndex.k, Type201.k] <;> omega) hAut
+      (fun i => by fin_cases i <;> simp [Type201.k] <;> omega) hAut
   have hMone : ∀ p, 1 ≤ p → p ≤ m - 1 → MatEq (Type200.k p) (M * eMat m) M := fun p hp1 hpm => by
     have := Stroth34T201Levels.MatEq.mul_left (hc p hp1 hpm) (eMat_matEq_one (m := m) (p := p)
       (by omega))
@@ -569,13 +580,13 @@ theorem eq_sup_zpowers_of_rel34i {G : Type} [Group G] [Finite G]
     (h : F.IsD D dD) (hm : 1 ≤ m)
     (hns : IsSylowIn 2 (Subgroup.normalizer (D : Set G))
       ((F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G)))
-    (hmax : ∀ (D' : Subgroup G) (τ' : StrothTypeIndex) (dD' : StrothWeakTypeData D' τ'),
+    (_hmax : ∀ (D' : Subgroup G) (τ' : StrothTypeIndex) (dD' : StrothWeakTypeData D' τ'),
       F.IsD D' dD' → IsSylowIn 2 (Subgroup.normalizer (D' : Set G))
         ((F.S : Subgroup G) ⊓ Subgroup.normalizer (D' : Set G)) → Nat.card D' ≤ Nat.card D)
-    (hSN : (F.S : Subgroup G) ≤ Subgroup.normalizer (D : Set G))
-    (hnc : ∃ x ∈ omegaIn 1 F.A, ∃ y ∈ omegaIn 1 F.A,
+    (_hSN : (F.S : Subgroup G) ≤ Subgroup.normalizer (D : Set G))
+    (_hnc : ∃ x ∈ omegaIn 1 F.A, ∃ y ∈ omegaIn 1 F.A,
       orderOf x = 2 ∧ orderOf y = 2 ∧ ¬ IsConj x y)
-    (h11 : 2 ^ 11 ∣ Nat.card G)
+    (_h11 : 2 ^ 11 ∣ Nat.card G)
     (hfus : ∀ g : G, g⁻¹ * dD.u * g ≠ (dD.c : G) ^ 2 ^ (m - 1) * dD.u)
     {e : G} (heR : e ∈ (F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) ⊓
       Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G))

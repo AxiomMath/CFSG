@@ -23,8 +23,8 @@ theorem twoPrimeRes_eq_pCore_of_normal_two {R : Type} [Group R] [Finite R]
     (M : Subgroup R) [M.Normal] (h2 : IsPGroup 2 M)
     (h3 : IsPGroup 3 (R ⧸ M)) :
     twoPrimeRes (⊤ : Subgroup R) = CFSG.pCore 2 R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine le_antisymm ?_ ?_
   ·
     refine (Subgroup.closure_le (K := CFSG.pCore 2 R)).mpr ?_
@@ -61,7 +61,7 @@ theorem ff_xTwoCore_of_prod_aux {H₁ H₂ : Type} [Group H₁] [Group H₂] [Fi
       IsPGroup 3 ↥(twoRes (⊤ : Subgroup (H₂ ⧸ N))))
     {B : Type} [Group B] (f : B →* H₁ × H₂) (hf : Function.Injective f) : XTwoCore B := by
   classical
-  haveI : Finite B := Finite.of_injective f hf
+  have : Finite B := Finite.of_injective f hf
   obtain ⟨N₁, hN₁, hp₁, hq₁⟩ := h₁
   obtain ⟨N₂, hN₂, hp₂, hq₂⟩ := h₂
   let g₁ : B →* H₁ ⧸ N₁ :=
@@ -71,8 +71,8 @@ theorem ff_xTwoCore_of_prod_aux {H₁ H₂ : Type} [Group H₁] [Group H₂] [Fi
   let gB : B →* (H₁ ⧸ N₁) × (H₂ ⧸ N₂) := g₁.prod g₂
   let N : Subgroup B := (N₁.prod N₂).comap f
   have hNn : N.Normal := by
-    haveI := hN₁
-    haveI := hN₂
+    have := hN₁
+    have := hN₂
     exact (inferInstance : (N₁.prod N₂).Normal).comap f
   let R : Subgroup B := twoRes (⊤ : Subgroup B)
   let Q₁ : Subgroup (H₁ ⧸ N₁) := twoRes (⊤ : Subgroup (H₁ ⧸ N₁))
@@ -140,13 +140,13 @@ theorem ff_xTwoCore_of_prod_aux {H₁ H₂ : Type} [Group H₁] [Group H₂] [Fi
     refine hNp.of_injective ?_ ?_
     · refine
         { toFun := fun x => ⟨((x : ↥R) : B), x.2⟩
-          map_one' := by ext <;> rfl
-          map_mul' := fun a b => by ext <;> rfl }
+          map_one' := by ext; rfl
+          map_mul' := fun a b => by ext; rfl }
     · intro a b habs
       apply Subtype.ext
       apply Subtype.ext
       exact congrArg (fun z : ↥N => (z : B)) habs
-  haveI := hMn
+  have := hMn
   have habs := twoPrimeRes_eq_pCore_of_normal_two (N.subgroupOf R) hMp hdom3
   change twoPrimeRes R = CFSG.inSubgroup (CFSG.pCore 2) R
   have hEq : twoPrimeRes R = (twoPrimeRes (⊤ : Subgroup ↥R)).map R.subtype := by

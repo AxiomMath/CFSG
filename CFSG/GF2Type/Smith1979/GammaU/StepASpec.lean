@@ -154,7 +154,7 @@ theorem spanOf_map_appN (r : Array ℕ) (s : List ℕ) :
   rw [Submodule.map_span]
   congr 1
   ext x
-  simp only [List.mem_map, Set.mem_setOf_eq, Set.mem_image]
+  simp only [List.mem_map, Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨_, ⟨v, hv, rfl⟩, rfl⟩
     exact ⟨vecOf v, ⟨v, hv, rfl⟩, (vecOf_appN r v).symm⟩

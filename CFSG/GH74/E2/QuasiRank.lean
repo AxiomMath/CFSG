@@ -27,7 +27,7 @@ theorem isCyclic_of_rank_le_one {A : Type*} [Group A] [Finite A] (h : Group.rank
 theorem exists_noncyclic_sylow_two_of_quasisimple {Q : Type*} [Group Q] [Finite Q]
     (hQ : IsQuasisimple Q) : ∃ T : Subgroup Q, IsPGroup 2 T ∧ 2 ≤ Group.rank T := by
   obtain ⟨S⟩ : Nonempty (Sylow 2 Q) := inferInstance
-  refine ⟨S, S.isPGroup', ?_⟩
+  refine ⟨S, S.isPGroup, ?_⟩
   by_contra hrk
   have hScyc : IsCyclic ↥(S : Subgroup Q) := isCyclic_of_rank_le_one (by omega)
   obtain ⟨-, hmul, -, ⟨-, hodd, -, -⟩, -⟩ := CFSG.cyclic_sylow_normal_odd_complement S hScyc

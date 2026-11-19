@@ -72,7 +72,7 @@ theorem ivk_1_2i_b : IVK_1_2i_b := by
   set S : Subgroup (MulAut K) := N.P ⊔ zpowers g with hS
   have hST : S ≤ (N.T : Subgroup (MulAut K)) :=
     sup_le hPT (Subgroup.zpowers_le.mpr hgT)
-  have hS2 : IsPGroup 2 ↥S := N.T.isPGroup'.to_le hST
+  have hS2 : IsPGroup 2 ↥S := N.T.isPGroup.to_le hST
   have hzpow : ∀ m : ℤ, z ^ m ∈ N.P := fun m => Subgroup.zpow_mem _ hzP m
   have hg2z : g ^ 2 = z := by rw [pow_two, hg2]
   have hgpow : ∀ k : ℤ, (Even k → g ^ k ∈ N.P) ∧ (Odd k → ∃ p ∈ N.P, g ^ k = p * g) := by

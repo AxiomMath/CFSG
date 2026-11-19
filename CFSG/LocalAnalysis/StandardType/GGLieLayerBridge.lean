@@ -274,10 +274,10 @@ theorem ggLayerLieTwo_of_catEquiv (hres : ExcRationalLieTypes) (hout : TrialityO
     (e : R ≃* (TauCeti.CFSGIndex.lie idx).Group) (φ : MulAut R) :
     LayerCycM.GGLayerLieTwo p φ := by
   obtain ⟨hfin, hsimp⟩ := CFSG.Assembly.lie_finite_simple idx
-  haveI : Finite (TauCeti.CFSGIndex.lie idx).Group := hfin
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie idx).Group := hsimp
-  haveI : Finite R := Finite.of_equiv _ e.symm.toEquiv
-  haveI : IsSimpleGroup R := e.isSimpleGroup
+  have : Finite (TauCeti.CFSGIndex.lie idx).Group := hfin
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie idx).Group := hsimp
+  have : Finite R := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup R := e.isSimpleGroup
   intro hφ1 hφp hcomp
   by_cases hna : ∃ a b : R, a * b ≠ b * a
   · exact ggLayerLieTwo_of_lieCompsExport
@@ -286,7 +286,7 @@ theorem ggLayerLieTwo_of_catEquiv (hres : ExcRationalLieTypes) (hout : TrialityO
   · exfalso
     have hcomm : ∀ a b : R, a * b = b * a := fun a b =>
       Classical.byContradiction fun hne => hna ⟨a, b, hne⟩
-    haveI : Group.IsSolvable ↥(ggFix φ) :=
+    have : Group.IsSolvable ↥(ggFix φ) :=
       Group.isSolvable_of_comm fun a b => Subtype.ext (hcomm a b)
     exact not_isComponentOf_of_isSolvable (C := fixSubgroup φ) this
       (CFSG.Assembly.isComponentOf_iff_open.mp hcomp)

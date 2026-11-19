@@ -17,9 +17,9 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.Coordi
 theorem five_dvd_card_statedProj {s k : ℕ} {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 2 ^ k) (hk : k = 1 ∨ k = 3) (hs : 2 ≤ s) :
     5 ∣ Nat.card (StatedProj (StatedSp s F)) := by
-  haveI := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (f := k) (by rw [Fintype.card_eq_nat_card, hF])
   rw [CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSp_of_charTwo]
   refine Dvd.dvd.mul_left ?_ _

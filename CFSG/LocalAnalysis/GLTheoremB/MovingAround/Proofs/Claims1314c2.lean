@@ -36,7 +36,7 @@ theorem hyperW_le (p : ℕ) (K Z : Subgroup X) : hyperW p K Z ≤ K := by
 theorem le_of_le_normalizer {K W : Subgroup X} (hK : CFSG.Open.IsQuasisimple ↥K) (hWK : W ≤ K)
     (hN : K ≤ Subgroup.normalizer (W : Set X)) (hW : ¬ W ≤ (Subgroup.center ↥K).map K.subtype) :
     K ≤ W := by
-  haveI : (W.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWK).2 hN
+  have : (W.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWK).2 hN
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hK (W.subgroupOf K) with
     h | h
   · exact absurd (fun w hw => ⟨⟨w, hWK hw⟩, h (Subgroup.mem_subgroupOf.2 hw), rfl⟩) hW
@@ -64,7 +64,7 @@ theorem chevGenGenBlock_of_input23_23N (hL1313 : Lemma1313Statement) (hL133 : Le
     (hN : Input23_23N) : Claims1314.ChevGenGenBlock := by
   intro G _ _ m p B M E A D T R L0 d h h139a U hU hUR b hb hb1 hA3 hii hC2 hexc
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := by
     have h3 : 3 < p := h139a.1
     by_contra hlt
@@ -140,14 +140,14 @@ theorem chevGenGenBlock_of_input23_23N (hL1313 : Lemma1313Statement) (hL133 : Le
     exact hcompb
   have hJns : ¬ Group.IsSolvable ↥(barX p (Cg d) L0b) := by
     intro hsolv
-    haveI := hsolv
+    have := hsolv
     exact CFSG.ClassicalInvolution.not_isSolvable_of_open_isQuasisimple
       (Lemma1313.isQuasisimple_barOf_of_pComp hcompb) inferInstance
   have hns : ¬ Group.IsSolvable ↥(barX p (Cg d) L ⊓ Subgroup.centralizer
       ({QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg d)) (⟨b, hbC⟩ : ↥(Cg d))} :
         Set (↥(Cg d) ⧸ GLAPPrimeCore p ↥(Cg d)))) := by
     intro hsolv
-    haveI := hsolv
+    have := hsolv
     exact hJns (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hcompb'.1))
   have hbbU : QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg d)) (⟨b, hbC⟩ : ↥(Cg d)) ∈ barX p (Cg d) U :=
     ⟨⟨b, hbC⟩, Subgroup.mem_subgroupOf.2 hbU, rfl⟩

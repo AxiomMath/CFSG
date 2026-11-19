@@ -15,7 +15,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 private lemma l48gL_eq_zero_or_one {K : Type*} [Field K] [Finite K]
     (hK : Nat.card K = 2) (a : K) : a = 0 ∨ a = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K ≤ 2 := by rw [← Nat.card_eq_fintype_card]; omega
   have hmem : a ∈ ({0, 1} : Finset K) := by
     rw [← Finset.univ_of_card_le_two (R := K) hcard]
@@ -28,7 +28,7 @@ private lemma l48gL_poly {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 2)
     (φ : P →ₗ[K] P) (hφ3 : ∀ w : P, φ (φ (φ w)) = w) (hfix : ∀ v : P, φ v = v → v = 0)
     (c : P →ₗ[K] P) (hc : c * φ = φ * c) :
     ∃ a b : K, c = a • 1 + b • φ := by
-  haveI : Nontrivial P := Module.nontrivial_of_finrank_pos (by rw [hP]; norm_num)
+  have : Nontrivial P := Module.nontrivial_of_finrank_pos (by rw [hP]; norm_num)
   obtain ⟨v, hv⟩ := exists_ne (0 : P)
   have h3v : φ (φ (φ v)) = v := hφ3 v
   have hsq : ∀ w : P, φ (φ w) + φ w + w = 0 := by
@@ -213,8 +213,7 @@ theorem ggB2der_sixfix_centralizer {K : Type} [Field K] [Finite K] [CharP K 2] (
       hmemW ((SmallRule.spRep s : Module.End K (Fin 4 ⊕ Fin 4 → K)) w) (hBW w hw)]
   have hNRg : ∀ c ∈ Subgroup.centralizer ({g} : Set (LargeEvenProj (LargeEvenSpGroup K 4))),
       ∀ s ∈ SW, c * s * c⁻¹ ∈ SW := by
-    intro c hc s hs
-    intro v hv
+    intro c hc s hs v hv
     have hcg : c * g = g * c := Subgroup.mem_centralizer_singleton_iff.mp hc
     have hcinv : c⁻¹ * g = g * c⁻¹ := l48gC_inv_comm hcg
     have hPcinv : ∀ x ∈ P,

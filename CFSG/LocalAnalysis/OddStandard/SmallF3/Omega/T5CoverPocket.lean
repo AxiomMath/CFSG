@@ -22,11 +22,11 @@ theorem t5_isI4PlusIn_iff (hL : IsOm6Z2 L) {φ : ↥L →* omegaGroup hQ} (h : I
     {w : G} (hw : w ∈ L) (hw2 : orderOf w = 2) :
     IsI4PlusIn L w ↔ IsI4PlusIn (⊤ : Subgroup ↥(omegaGroup hQ)) (φ ⟨w, hw⟩) := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ he => LinearEquiv.ext (congrFun he))
-  haveI : Finite (OGroup Q) :=
+  have : Finite (OGroup Q) :=
     Finite.of_injective (fun g : OGroup Q => (g : V ≃ₗ[ZMod 3] V)) Subtype.val_injective
   constructor
   · intro hwI

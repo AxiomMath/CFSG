@@ -84,7 +84,7 @@ theorem pt_eq (m : ℕ) : ∀ l : List ℕ, (∀ i ∈ l, i < 10) → ∀ x : Fi
     rw [phiL_cons, e, bitB_eq]
     cases m.testBit i
     · exact ih
-    · rw [if_pos rfl, Equiv.Perm.mul_apply, pe_apply (hB i (hl i List.mem_cons_self)), ← ih]
+    · rw [ite_eq_left rfl, Equiv.Perm.mul_apply, pe_apply (hB i (hl i List.mem_cons_self)), ← ih]
       rfl
 
 theorem ph_eq (m : ℕ) : ∀ l : List ℕ, (∀ i ∈ l, i < 10) →
@@ -100,7 +100,7 @@ theorem ph_eq (m : ℕ) : ∀ l : List ℕ, (∀ i ∈ l, i < 10) →
     · exact ih
     · have hi := hB i (hl i List.mem_cons_self)
       refine ⟨PP_c hi ih.1, ?_⟩
-      rw [if_pos rfl, pe_c hi ih.1, ih.2]
+      rw [ite_eq_left rfl, pe_c hi ih.1, ih.2]
 
 end Mono
 

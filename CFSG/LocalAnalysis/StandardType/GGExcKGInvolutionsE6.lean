@@ -56,8 +56,8 @@ theorem ggExcKGInvolutions_E6 (n f : ℕ) (G : Type) [Group G] [Finite G]
   intro s hs hs2
   obtain ⟨⟨hadm, hrk⟩, hker, ⟨hcomm, hlie⟩, hcent⟩ := hset
   have hf : 1 ≤ f := hadm.2.1
-  haveI : NeZero f := ⟨by omega⟩
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : NeZero f := ⟨by omega⟩
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   obtain ⟨χ, hχinj, _, hψ⟩ :=
     NoOffE6Three.exists_injective_factor_E6_comp ψ hker hcent
   have hφsurj : Function.Surjective (e6Isogeny (GaloisField 2 f)) :=

@@ -28,7 +28,7 @@ theorem s16sp_quad_transfer {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {
     (hker : ∀ w : W, q (Multiplicative.toAdd (θ w)) = 0 ↔ w ∈ Z)
     (Q : M → ZMod 2)
     (hQ : ∀ m m', Q (m + m') = Q m + Q m' + spForm 3 (ZMod 2) (q m) (q m'))
-    (hQinv : ∀ g m, Q (ρM g m) = Q m) {z : W} (hz : z ∈ Z) (hz1 : z ≠ 1)
+    (hQinv : ∀ g m, Q (ρM g m) = Q m) {z : W} (_hz : z ∈ Z) (_hz1 : z ≠ 1)
     (hQz : Q (Multiplicative.toAdd (θ z)) = 1) (hZ : ∀ z' ∈ Z, z' = 1 ∨ z' = z) :
     ∃ Q' : W → ZMod 2, IsQuadF2 Q' ∧ QuadInvariant Q' H ∧
       (∀ x : W, (∀ y : W, polarQ Q' x y = 0) ↔ x ∈ Z) ∧
@@ -108,7 +108,7 @@ theorem s16sp_cover_dichotomy {K : Type} [Field K] [Finite K] (hK : Nat.card K =
   have hreal2 := s16sp_realizes_zmod2 hK hreal
   obtain ⟨M, _, _, _, θ, ρM, q, π, hπ, hq, hqρ, hZc, hperf, hθ, hker⟩ :=
     s16sp_module_data hW2 hZ hcomm hreal2
-  haveI : Finite (bilinIsometryGroup (spForm 3 (ZMod 2))) :=
+  have : Finite (bilinIsometryGroup (spForm 3 (ZMod 2))) :=
     Finite.of_equiv _ (spEquiv (m := 3) (K := ZMod 2)).toEquiv
   have hfin : Module.finrank (ZMod 2) (LinearMap.ker q) ≤ 1 :=
     (finrank_ker_le_finrank_H1_dual ρM (binarySymplecticNatural (spForm 3 (ZMod 2))) q hq hqρ
@@ -120,7 +120,7 @@ theorem s16sp_cover_dichotomy {K : Type} [Field K] [Finite K] (hK : Nat.card K =
         left_inv := fun z => ?_
         right_inv := fun m => ?_ }
     · apply (hker _).mp
-      simpa using m.2
+      simp
     · apply Subtype.ext
       simp
     · apply Subtype.ext
@@ -142,9 +142,9 @@ theorem s16sp_cover_dichotomy {K : Type} [Field K] [Finite K] (hK : Nat.card K =
     have : 1 < Nat.card Z := by
       rw [Nat.one_lt_iff_ne_zero_and_ne_one]
       refine ⟨fun h0 => ?_, fun h1 => hz1 ?_⟩
-      · haveI : Nonempty ↥Z := ⟨⟨z, hzZ⟩⟩
+      · have : Nonempty ↥Z := ⟨⟨z, hzZ⟩⟩
         exact (Nat.card_pos.ne') h0
-      · haveI : Subsingleton ↥Z := (Nat.card_eq_one_iff_unique.mp h1).1
+      · have : Subsingleton ↥Z := (Nat.card_eq_one_iff_unique.mp h1).1
         exact Subtype.ext_iff.mp (Subsingleton.elim (⟨z, hzZ⟩ : Z) 1)
     omega
   have hZeq : ∀ z' ∈ Z, z' = 1 ∨ z' = z := by

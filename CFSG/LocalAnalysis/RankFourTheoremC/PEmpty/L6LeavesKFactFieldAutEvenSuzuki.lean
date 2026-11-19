@@ -45,7 +45,7 @@ theorem card_fixed_suzuki {J : Type} [Group J] [Finite J]
     (hαin : α ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner J) :
     Nat.card (fixedSubgroup α) = (2 ^ f₀) ^ 2 * (2 ^ f₀ - 1) * ((2 ^ f₀) ^ 2 + 1) := by
   obtain ⟨-, a, ha, K, hKf, hKfin, hf', hcard, ⟨e⟩⟩ := hSz
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hα1 : α ≠ 1 := fun h1 =>
     hαin (h1 ▸ (CFSG.ComponentClassification.OuterAutomorphisms.inner J).one_mem)
   have hαord : orderOf α = p := orderOf_eq_prime hαp hα1
@@ -89,10 +89,10 @@ theorem fixedLowerBoundAt_twistedB2 :
 theorem overgroupLocalAt_twistedB2 :
     OvergroupLocalAt .twistedB2 := by
   intro K _ _ hs hab n f f₀ p hadm hmodel ht hp hp5 hpK hdiv hf
-  haveI : IsSimpleGroup K := hs
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup K := hs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSz := suzukiModel_of_lieModel hmodel
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine ⟨5, Nat.prime_five, fun T Y hT hTY hY => ?_⟩
   have hTidx : ¬ 2 ∣ T.index := by
     have h2 := (CFSG.ABGLocalTools.isSylowOf_iff.mp hT).2.2

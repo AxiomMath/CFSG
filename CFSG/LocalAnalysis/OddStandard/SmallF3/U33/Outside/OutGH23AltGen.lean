@@ -44,7 +44,7 @@ theorem gh23_alt_equiv_of_rels {n : ℕ} (hn : 3 ≤ n) {H : Type*} [Group H] [F
     obtain ⟨k, rfl⟩ := hh
     exact ⟨carmichaelCycle k, hφ k⟩
   have hcardA : Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [nat_card_alternatingGroup, Nat.card_fin]
   have hbij : Function.Bijective φ :=
     hsurj.bijective_of_nat_card_le (by rw [hcardA, hcard])

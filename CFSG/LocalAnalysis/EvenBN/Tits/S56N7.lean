@@ -155,9 +155,9 @@ theorem Hyp.s56_card_E_inf_F (hd : d.Hyp) : Nat.card (d.E ⊓ d.F : Subgroup G) 
     have hbv : b.1 * d.pv 7 = d.pv 7 * b.1 := hd.s56_F_comm b.2 hd.s56_pv7_mem_F
     have hmem : ∀ x : ↥d.F, x ∈ W.subgroupOf d.F ↔ x.1 ∈ d.E := fun x => by
       rw [mem_subgroupOf]; exact ⟨fun h => h.1, fun h => ⟨h, x.2⟩⟩
-    show Xor' (b * ⟨d.pv 7, hd.s56_pv7_mem_F⟩ ∈ W.subgroupOf d.F) (b ∈ W.subgroupOf d.F)
+    show Xor (b * ⟨d.pv 7, hd.s56_pv7_mem_F⟩ ∈ W.subgroupOf d.F) (b ∈ W.subgroupOf d.F)
     rw [hmem, hmem]
-    show Xor' (b.1 * d.pv 7 ∈ d.E) (b.1 ∈ d.E)
+    show Xor (b.1 * d.pv 7 ∈ d.E) (b.1 ∈ d.E)
     rw [hbv]
     rcases Hyp.s56_F_cases d b.2 with h | h
     · refine Or.inr ⟨h, fun h' => hd.s56_pv7_not_mem_E ?_⟩

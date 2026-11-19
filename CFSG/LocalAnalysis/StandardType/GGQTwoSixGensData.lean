@@ -40,7 +40,7 @@ theorem qTwoSixData_support_matrix (i : Fin 18) :
     ∀ x y : Fin 6, (x ∉ qTwoSixData_support i ∨ y ∉ qTwoSixData_support i) →
       nativeGen i x y = if x = y then 1 else 0 := by
   fin_cases i <;> intro x y hxy <;> fin_cases x <;> fin_cases y <;>
-    (simp_all [qTwoSixData_support, nativeGen] <;> decide)
+    (simp_all [qTwoSixData_support, nativeGen]; try decide)
 
 theorem qTwoSixData_native_mem {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : Nat.card K = 4) (i : Fin 18) :

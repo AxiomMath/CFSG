@@ -29,7 +29,7 @@ theorem stabilizer_card_ne_small_seven_normalizer_cases
       Nat.card (fixingSubgroup P s) = 1161216) :
     False := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let S : Sylow 7 H := Sylow.nonempty.some
   have hScard : Nat.card S = 7 := by
@@ -54,7 +54,7 @@ theorem stabilizer_card_ne_small_seven_normalizer_cases
         sylow_card_eq_prime_of_card_eq_prime_mul
           H 7 165888 (by norm_num) (by norm_num)
             (by simpa only [H] using hH) S
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   obtain ⟨u, huRaw⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -178,8 +178,8 @@ theorem stabilizer_card_ne_small_seven_normalizer_cases
           _ = (n : P) • x.1 :=
             congrArg (fun y : X => (n : P) • y)
               (MulAction.mem_fixedPoints.mp x.2 z')⟩ }
-  letI : SMul N F := fixedSmul
-  letI : MulAction N F :=
+  let : SMul N F := fixedSmul
+  let : MulAction N F :=
     Subtype.coe_injective.mulAction
       Subtype.val (fun _ _ => rfl)
   let ρ : N →* Equiv.Perm F :=
@@ -562,7 +562,7 @@ theorem stabilizer_card_ne_small_seven_normalizer_cases
           Subgroup.card_range_dvd ρ)
   have hAltCard :
       Nat.card (alternatingGroup F) = 1814400 := by
-    letI : Nontrivial F :=
+    let : Nontrivial F :=
       Fintype.one_lt_card_iff_nontrivial.mp (by omega)
     rw [Nat.card_eq_fintype_card,
       card_alternatingGroup, hFcard]

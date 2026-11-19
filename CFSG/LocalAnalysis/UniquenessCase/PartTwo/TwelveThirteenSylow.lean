@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem card_setMul_mul_card_inf (A B : Subgroup K) :
     Nat.card ↥((A : Set K) * (B : Set K)) * Nat.card ↥(A ⊓ B) = Nat.card ↥A * Nat.card ↥B := by
   have h1 := Subgroup.card_mul_eq_card_subgroup_mul_card_quotient B (A : Set K)
@@ -78,8 +79,8 @@ theorem coe_sup_eq_mul {Γ T J C : Subgroup K} (hT : IsSylowOf 2 T Γ) (hJ : J �
     (h23 : ∀ p : ℕ, p.Prime → p ∣ Nat.card J → p = 2 ∨ p = 3) (hC : IsSylowOf 3 C J) :
     ((J ⊔ T : Subgroup K) : Set K) = (C : Set K) * (T : Set K) ∧
       (C : Set K) * (T : Set K) = (T : Set K) * (C : Set K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hset : ((J ⊔ T : Subgroup K) : Set K) = (J : Set K) * (T : Set K) :=
     coe_mul_of_right_le_normalizer_left J T hTJ
   have hTH : IsSylowOf 2 T (J ⊔ T) := hT.of_le le_sup_right (sup_le hJ hT.le)
@@ -151,6 +152,7 @@ theorem exists_inv_mul_mem_normalizer {p : ℕ} [Fact p.Prime] {J C : Subgroup K
   have e : k⁻¹ * (t * h * t⁻¹) * k = k⁻¹ * t * h * (k⁻¹ * t)⁻¹ := by group
   rw [← hmem, hk, e]
 
+omit [Finite K] in
 private theorem mem_of_zpow_mem {W : Subgroup K} {c : K} (h : c ^ 3 = 1) {m : ℤ}
     (hm : c ^ m ∈ W) (hm1 : c ^ m ≠ 1) : c ∈ W := by
   have h3 : c ^ (3 : ℕ) = 1 := h
@@ -170,6 +172,7 @@ private theorem mem_of_zpow_mem {W : Subgroup K} {c : K} (h : c ^ 3 = 1) {m : �
     rw [hc]
     exact W.zpow_mem hm 2
 
+omit [Finite K] in
 private theorem exists_zpow_mul_zpow {c₁ c₂ w : K} (hc : c₁ * c₂ = c₂ * c₁)
     (hw : w ∈ closure ({c₁, c₂} : Set K)) : ∃ m n : ℤ, c₁ ^ m * c₂ ^ n = w := by
   have hcomm : Commute c₁ c₂ := hc
@@ -189,6 +192,7 @@ private theorem exists_zpow_mul_zpow {c₁ c₂ w : K} (hc : c₁ * c₂ = c₂ 
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.1 hb
   exact ⟨m, n, rfl⟩
 
+omit [Finite K] in
 theorem irrOn_of_witnesses {N : Subgroup K} {c₁ c₂ t₁ t₂ : K} (h₁ : c₁ ^ 3 = 1)
     (h₂ : c₂ ^ 3 = 1) (hc : c₁ * c₂ = c₂ * c₁) (ht₁ : t₁ ∈ N) (ht₂ : t₂ ∈ N)
     (h21 : t₂ * c₁ * t₂⁻¹ = c₁⁻¹) (h22 : t₂ * c₂ * t₂⁻¹ = c₂)
@@ -269,10 +273,12 @@ theorem irrOn_of_witnesses {N : Subgroup K} {c₁ c₂ t₁ t₂ : K} (h₁ : c�
 
 variable {L : Type} [Group L] [Finite L]
 
+omit [Finite K] [Finite L] in
 theorem card_comap_of_injective {ρ : K →* L} (hρ : Function.Injective ρ) {P : Subgroup L}
     (hP : P ≤ ρ.range) : Nat.card (P.comap ρ) = Nat.card P := by
   rw [← Subgroup.card_map_of_injective hρ, Subgroup.map_comap_eq_self hP]
 
+omit [Finite K] [Finite L] in
 theorem isElemAbelian_comap_of_injective {ρ : K →* L} (hρ : Function.Injective ρ) {p : ℕ}
     {P : Subgroup L} (hP : IsElemAbelian p P) : IsElemAbelian p (P.comap ρ) := by
   refine ⟨⟨⟨fun a b => Subtype.ext (hρ ?_)⟩⟩, fun x hx => hρ ?_⟩
@@ -280,6 +286,7 @@ theorem isElemAbelian_comap_of_injective {ρ : K →* L} (hρ : Function.Injecti
     simpa [map_mul] using congrArg Subtype.val this
   · rw [map_pow, hP.2 _ hx, map_one]
 
+omit [Finite K] [Finite L] in
 theorem mul_comm_comap_of_injective {ρ : K →* L} (hρ : Function.Injective ρ) {P : Subgroup L}
     (hP : P ≤ ρ.range) {T : Subgroup K}
     (hPT : (P : Set L) * (T.map ρ : Set L) = (T.map ρ : Set L) * (P : Set L)) :
@@ -311,6 +318,7 @@ theorem mul_comm_comap_of_injective {ρ : K →* L} (hρ : Function.Injective ρ
     rw [hPT, map_mul]
     exact Set.mem_mul.2 ⟨ρ x, ⟨x, hx, rfl⟩, ρ y, hy, rfl⟩
 
+omit [Finite K] [Finite L] in
 theorem irr_comap_of_injective {ρ : K →* L} (hρ : Function.Injective ρ) {P : Subgroup L}
     (hP : P ≤ ρ.range) {T : Subgroup K}
     (hirr : ∀ W : Subgroup L, W ≤ P → normalizer (P : Set L) ⊓ T.map ρ ≤ normalizer (W : Set L) →

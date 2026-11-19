@@ -39,7 +39,7 @@ theorem le_of_isPGroup_of_not_dvd_index {G : Type*} [Group G] [Finite G] {H : Su
   exact Subgroup.relIndex_eq_one.1 hj
 
 theorem le_of_isPGroup_of_relIndex {G : Type*} [Group G] {H X P : Subgroup G} [Finite X]
-    (hHX : H ≤ X) (hn : (H.subgroupOf X).Normal) {p : ℕ} [Fact p.Prime]
+    (_hHX : H ≤ X) (hn : (H.subgroupOf X).Normal) {p : ℕ} [Fact p.Prime]
     (hidx : ¬ p ∣ H.relIndex X) (hPX : P ≤ X) (hP : IsPGroup p P) : P ≤ H := by
   have hP' : IsPGroup p (P.subgroupOf X) := by
     have := hP.comap_subtype (K := X)
@@ -68,15 +68,15 @@ theorem exists_exc_setup {τ : Tag} (d : ℕ) (hτ : (τ = .E7 ∧ d = 2) ∨ (�
   have hτ' : (τ = .E6 ∧ d = 3) ∨ (τ = .E7 ∧ d = 2) ∨ (τ = .E8 ∧ d = 1) :=
     hτ.elim (fun h => Or.inr (Or.inl h)) (fun h => Or.inr (Or.inr h))
   have hperf' : commutator ↥(adjointGroup τ K) = ⊤ := hperf.commutator_eq_top
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   let L := AlgebraicClosure K
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   let Fr : L →+* L := iterateFrobenius L (ringChar K) (f : ℕ)
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
     rw [hq]
@@ -106,7 +106,7 @@ theorem exists_exc_setup {τ : Tag} (d : ℕ) (hτ : (τ = .E7 ∧ d = 2) ∨ (�
     have hd' : LangDescent D 5 ((baseChangeGL (algebraMap K L)).comp
         (adjointGroup τ K).subtype) := hSD ▸ hd
     have hP : P ≤ D.model := by rw [← hSD]; exact hP
-    haveI : Finite D.fix := hd'.finite_fix
+    have : Finite D.fix := hd'.finite_fix
     set ι : adjointGroup τ K →* ModGL τ L :=
       (baseChangeGL (algebraMap K L)).comp (adjointGroup τ K).subtype with hι
     have hrange : ι.range = (adjointGroup τ K).map (baseChangeGL (algebraMap K L)) := by
@@ -125,7 +125,7 @@ theorem exists_exc_setup {τ : Tag} (d : ℕ) (hτ : (τ = .E7 ∧ d = 2) ∨ (�
       rw [← hder]
       rw [Subgroup.normal_subgroupOf_iff_le_normalizer (commutator_le_self_of_subgroup D.fix)]
       exact Subgroup.normalizer_commutator_ge_left (H₁ := D.fix) (H₂ := D.fix)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hPfix : P.map (MulAut.conj D.g0).toMonoidHom ≤ D.fix := by
       rw [← LangDatum.map_conj_model]
       exact Subgroup.map_mono hP

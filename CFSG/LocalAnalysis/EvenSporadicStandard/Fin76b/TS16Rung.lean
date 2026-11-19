@@ -64,7 +64,7 @@ theorem fin76bOuterS16_of_fusion (hF : Fin76bOuterS16Fusion) : Fin76bOuterS16 :=
   refine fin76bOuterS16_of_hyp ?_
   intro G _ _ L z t T E Q x B β h
   obtain ⟨Q', P, hzQ, hPQ, hPidx, hzP, havoid⟩ := hF G L z t T E Q x B β h
-  exact false_of_involution_avoids_index_two h.std.simple h.std.nonabelian Q'.isPGroup'
+  exact false_of_involution_avoids_index_two h.std.simple h.std.nonabelian Q'.isPGroup
     Q'.not_dvd_index hPQ hPidx hzQ hzP h.outerE.cfg.z_sq havoid
 
 @[expose] def Fin76bOuterS16Cent : Prop :=

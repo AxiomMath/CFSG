@@ -20,13 +20,13 @@ open CFSG.Open
 open scoped commutatorElement
 
 theorem kTab23d_omegaMinusFour {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W))
-    (n : ℕ) (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n)
+    (n : ℕ) (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n)
     (S : Sylow 2 ↥H) (h : IsOmegaMinus ↥H 4 n ∧ NatOmegaMinus H ⊤ ⊥ 4 n) :
     Hinf (pointStab H S) = ⊥ := by
   obtain ⟨hOm, -, K, hKf, hKfin, b, c, hKcard, hirr, hreal⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
+  let := hKf
+  let := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
   have hL2 : IsL2 ↥H (2 * n) := S18.isL2_of_isOmegaMinus_four (by omega) hOm
   have hline := KTabC.sylowFixedLine_minus K b c hirr
   obtain ⟨φ, hφ⟩ := exists_mulEquiv_pointStab_eq_map hreal hline S

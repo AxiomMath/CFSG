@@ -112,6 +112,7 @@ theorem tfull_of_not_pfull (hCen : BenderCenterInput) (hU : UnitaryTwoGeneration
     rw [e, e2]
     exact B.mul_mem (hmulB ha₁M (h t₂ ht₂)) (ha₁T t₂ ht₂)
 
+omit [Finite G] H in
 theorem hyp48_of_tfull {g : G} (hgM : conjSubgroup g B ≤ M)
     (h1 : ∀ a ∈ conjSubgroup g B, ∀ t ∈ T, ⁅a, t⁆ ∈ B)
     (h2 : ∀ a ∈ conjSubgroup g⁻¹ B, ∀ t ∈ T, ⁅a, t⁆ ∈ B) : Hyp48 M B T g :=
@@ -135,7 +136,7 @@ theorem step412_of_noPFull (hCen : BenderCenterInput) (hU : UnitaryTwoGeneration
     exact hgP this
   by_cases hpf : PFull B P g
   · exact hnp g hgM hgP hpf
-  · exact hgP (h48 g (H.hyp48_of_tfull hgM
+  · exact hgP (h48 g (CFSG.RankThree.GF2n.Tim78.Hyp4.hyp48_of_tfull hgM
       (H.tfull_of_not_pfull hCen hU hRT h48 hgM hgP hpf)
       (H.tfull_of_not_pfull hCen hU hRT h48 hgM' hgP' (hnp g⁻¹ hgM' hgP'))))
 

@@ -144,14 +144,14 @@ theorem ggF4_eq_stdF4_of_signedB4_le {G : Type} [Group G] [Finite G] {Bs : Subgr
         intro r hr r' hr' h
         have h1 := (hs r hr).1
         have h2 := (hs r' hr').1
-        simp only [F, dif_pos ((hmem r).1 h1), dif_pos ((hmem r').1 h2)] at h
+        simp only [F, dite_eq_left ((hmem r).1 h1), dite_eq_left ((hmem r').1 h2)] at h
         exact c.injective (congrArg Subtype.val (e.symm.injective h))
       calc s.card = (s.image F).card := (Finset.card_image_of_injOn hFinj).symm
         _ ≤ 24 := by
           refine R.card_le_of_isRefl fun w hw => ?_
           obtain ⟨r, hr, rfl⟩ := Finset.mem_image.1 hw
           have h1 := (hmem r).1 (hs r hr).1
-          simp only [F, dif_pos h1]
+          simp only [F, dite_eq_left h1]
           exact hWrefl (c r) h1 ((hrefl_iff r).1 (hs r hr).2)
     · intro x hx y hy hxr hyr
       have hx' : c x ∈ A := (hmem x).1 hx

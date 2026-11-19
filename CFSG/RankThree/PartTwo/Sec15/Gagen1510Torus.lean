@@ -73,6 +73,7 @@ private lemma exists_inverting_of_quotient {L S : Subgroup G} (hSL : S ≤ L)
     _ = T * c * T⁻¹ := by rw [ht₁c]
     _ = c := hTc
 
+omit [Finite G] in
 private lemma isPGroup_zpowers_of_pow_three {x : G} (hx : x ^ 3 = 1) :
     IsPGroup 3 (Subgroup.zpowers x) := by
   have hdvd : orderOf x ∣ 3 := orderOf_dvd_of_pow_eq_one hx
@@ -116,6 +117,7 @@ private lemma zpow_conj_mul_self_mem_of_mem {H : Type*} [Group H] {N : Subgroup 
     simpa [map_mul, map_inv, mul_assoc] using h'
   exact (QuotientGroup.eq_one_iff _).mp h
 
+omit [Finite G] in
 private lemma zpow_conj_mem_of_mem_normalizer {N : Subgroup G} {a b : G}
     (ha : a ∈ Subgroup.normalizer (N : Set G))
     (hb : b ∈ Subgroup.normalizer (N : Set G))
@@ -134,6 +136,7 @@ private lemma zpow_conj_mem_of_mem_normalizer {N : Subgroup G} {a b : G}
   have h' : ((aH * bH ^ n * aH⁻¹ * (bH ^ n)⁻¹ : H) : G) ∈ N := h
   simpa [aH, bH, Subgroup.coe_pow, Subgroup.coe_mul, Subgroup.coe_inv, mul_assoc] using h' 
 
+omit [Finite G] in
 private lemma zpow_conj_mul_self_mem_of_mem_normalizer {N : Subgroup G} {a b : G}
     (ha : a ∈ Subgroup.normalizer (N : Set G))
     (hb : b ∈ Subgroup.normalizer (N : Set G))
@@ -297,7 +300,7 @@ private lemma exists_inverting_of_htb {L : Subgroup G} {c b e : G}
       group
     calc (Tt' : G) * e * (Tt' : G)⁻¹
         = T * ((t' : G) * e * (t' : G)⁻¹) * T⁻¹ := by
-          simp [Tt', Subgroup.coe_mul]; group
+          simp [Tt']; group
       _ = T * e * T⁻¹ := by rw [hcommute]
       _ = e := hTe
   · have h := hTinv b (Subgroup.mem_zpowers b)
@@ -305,26 +308,31 @@ private lemma exists_inverting_of_htb {L : Subgroup G} {c b e : G}
   · rw [Subgroup.mem_centralizer_singleton_iff.mp (hLc Tt'.2)]
     group
 
+omit [Finite G] in
 private lemma zpow_neg_two_mul_eq_self {b : G} (hb3 : b ^ 3 = 1) {j : ℕ} (hj3 : j < 3) :
     b ^ (-(2 * (j : ℤ))) = b ^ j := by
   rw [zpow_eq_zpow_emod' (m := -(2 * (j : ℤ))) (n := 3) hb3]
-  interval_cases j <;> simp [pow_succ, hb3]
+  interval_cases j <;> simp [pow_succ]
 
+omit [Finite G] in
 private lemma inv_pow_two_mul_eq_pow {b : G} (hb3 : b ^ 3 = 1) {j : ℕ} (hj3 : j < 3) :
     (b ^ (2 * j))⁻¹ = b ^ j := by
   rw [← zpow_natCast (n := 2 * j), ← zpow_neg]
   simpa [Nat.cast_mul] using zpow_neg_two_mul_eq_self hb3 hj3
 
+omit [Finite G] in
 private lemma pow_four_mul_eq_pow {b : G} (hb3 : b ^ 3 = 1) (j : ℕ) :
     b ^ (4 * j) = b ^ j := by
   rw [show 4 * j = 3 * j + j by ring, pow_add, pow_mul, hb3, one_pow, one_mul]
 
+omit [Finite G] in
 private lemma inv_pow_eq_pow_two_mul {b : G} (hb3 : b ^ 3 = 1) {j : ℕ} (hj3 : j < 3) :
     (b ^ j)⁻¹ = b ^ (2 * j) := by
   rw [← zpow_natCast (n := j), ← zpow_neg]
   rw [zpow_eq_zpow_emod' (m := -(j : ℤ)) (n := 3) hb3]
   interval_cases j <;> simp [pow_succ, hb3]
 
+omit [Finite G] in
 private lemma zpowers_pow_two_eq_of_pow_three {x : G} (hx3 : x ^ 3 = 1) :
     Subgroup.zpowers (x ^ 2) = Subgroup.zpowers x := by
   apply le_antisymm
@@ -337,6 +345,7 @@ private lemma zpowers_pow_two_eq_of_pow_three {x : G} (hx3 : x ^ 3 = 1) :
       Subgroup.pow_mem _ (Subgroup.mem_zpowers (x ^ 2)) 2
     rwa [← hx] at hmem
 
+omit [Finite G] in
 private lemma action_case_one {c b T₁ T₂' : G} {j : ℕ}
     (hb3 : b ^ 3 = 1) (hj3 : j < 3)
     (hfix : T₂' * (c * b ^ j) * T₂'⁻¹ = c * b ^ j)
@@ -367,6 +376,7 @@ private lemma action_case_one {c b T₁ T₂' : G} {j : ℕ}
       rw [hinv₁_all _ (Subgroup.pow_mem _ (Subgroup.mem_zpowers b) (2 * j))]
     _ = c * b ^ j := by rw [inv_pow_two_mul_eq_pow hb3 hj3]
 
+omit [Finite G] in
 private lemma action_case_two {c b c' T₁ T₂' : G} {j : ℕ}
     (hc3 : c ^ 3 = 1) (hb3 : b ^ 3 = 1) (hcb : c * b = b * c) (hj3 : j < 3)
     (hc'j : c' = c ^ 2 * b ^ j) (hfix : T₂' * c' * T₂'⁻¹ = c')
@@ -523,6 +533,7 @@ private lemma conj_zpowers_eq_of_action {L : Subgroup G} {c b x T₁ T₂' : G}
         rw [MonoidHom.map_zpowers]
         rfl
 
+omit [Finite G] in
 private lemma mem_normalizer_sup_of_fixes {S : Subgroup G} {T c : G}
     (hc : T * c * T⁻¹ = c) (hS : ∀ q ∈ S, T * q * T⁻¹ = q⁻¹) :
     T ∈ Subgroup.normalizer ((Subgroup.zpowers c ⊔ S : Subgroup G) : Set G) := by
@@ -541,6 +552,7 @@ private lemma mem_normalizer_sup_of_fixes {S : Subgroup G} {T c : G}
   erw [hSmap]
   simp [MulAut.conj_apply, hc]
 
+omit [Finite G] in
 private lemma mem_normalizer_sup_zpowers_of_mem_normalizer {A : Subgroup G} {T e : G}
     (hA : T ∈ Subgroup.normalizer (A : Set G)) (he : T * e * T⁻¹ = e) :
     T ∈ Subgroup.normalizer ((A ⊔ Subgroup.zpowers e : Subgroup G) : Set G) := by
@@ -549,6 +561,7 @@ private lemma mem_normalizer_sup_zpowers_of_mem_normalizer {A : Subgroup G} {T e
   rw [hA]
   simp [MulAut.conj_apply, he]
 
+omit [Finite G] in
 private lemma mem_normalizer_map_conj_of_mem_normalizer {A : Subgroup G} {x T : G}
     (hT : T ∈ Subgroup.normalizer (A.map (MulAut.conj x⁻¹).toMonoidHom : Set G)) :
     x * T * x⁻¹ ∈ Subgroup.normalizer (A : Set G) := by

@@ -3,7 +3,7 @@ module
 public import CFSG.Quasithin.Background.CommVBasics
 public import CFSG.Quasithin.Background.D2Coprime
 public import CFSG.Quasithin.Background.D2Params
-public import Mathlib.Data.Rat.Star
+public import Mathlib.Algebra.Order.Star.Rat
 
 public section
 

@@ -21,9 +21,11 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {K : Type}
 
 @[expose] def e3uVal (w : E3UWspace σ e) : Cube F := ((show Wform σ from w : Wform σ) : Cube F)
 
+omit [Finite F] in
 theorem e3uWact_val (g : SUid σ 6) (w : E3UWspace σ e) :
     e3uVal (e3uWact σ e g w) = rho F (g : GL (Fin 6) F) (e3uVal w) := rfl
 
+omit [Finite F] in
 theorem e3uWact_eq_one_iff (hσ : IsUnitaryInvolution σ) (g : SUid σ 6) :
     e3uWact σ e g = 1 ↔ ∃ l : F, l ^ 3 = 1 ∧ ((g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = l • 1 := by
   refine Iff.trans ?_ (U6Cube.Wact_eq_one_iff hσ g)

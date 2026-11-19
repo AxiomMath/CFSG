@@ -68,7 +68,7 @@ theorem nonempty_sylow_equivR (h : TypeRFam r Φ) {K : Subgroup X} (hK : K ∈ �
 theorem tightDatum_of_memR (hr : 3 ≤ r) (h : TypeRFam r Φ) {K : Subgroup X} (hK : K ∈ Φ)
     {z : X} (hz : IsUniqueInvolution K z) (S : Sylow 2 ↥K) : TightDatum K S z where
   quat := ⟨r, hr, nonempty_sylow_equivR h hK S⟩
-  mem := T3.mem_of_isPGroup hz (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+  mem := T3.mem_of_isPGroup hz (Subgroup.map_subtype_le _) (S.isPGroup.map _)
     (le_trans (by norm_num) (Sec6Gen.eight_le_of_mem_RSet h.hyp
       (mem_RSet_of_isSylow2In hK (isSylow2In_map_subtype K S))))
   order := orderOf_eq_prime (by rw [pow_two]; exact hz.sq) hz.ne_one

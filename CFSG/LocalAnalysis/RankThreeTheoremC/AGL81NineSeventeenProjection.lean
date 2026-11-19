@@ -131,8 +131,8 @@ theorem eq_bot_of_normal_le_d1X0 (h31 : KFactThreeOne) (hKP : CFSG.Open.IsKPrope
     have hTLn : TL.Normal := ⟨fun x hx g => Subgroup.mem_subgroupOf.mpr
       (hT'n _ (hLK g.2) _ (Subgroup.mem_subgroupOf.mp hx))⟩
     have hTL : TL = ⊥ := by
-      haveI := hs
-      haveI := hTLn
+      have := hs
+      have := hTLn
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal TL with h | h
       · exact h
       · refine absurd (fun y hy => ?_) hLX
@@ -172,8 +172,8 @@ theorem nineSeventeen_involves (h31 : KFactThreeOne) (h75 : KFactSevenFive)
     CFSG.QuasiDihedralFusion.Involves (d1KBar p M N) (d1KBar p M H) ∧
       d1Kappa p M H ≤ d1Kappa p M N ∧
       (d1Kappa p M H = d1Kappa p M N → ∀ x ∈ N, ∃ m ∈ N ⊓ M, ∃ y ∈ H ⊓ N, x = m * y) := by
-  haveI := d1KBar_normal_of_escape he hB hBN hKN
-  haveI : Group.IsPerfect (d1KBar p M H) := Subgroup.isPerfect_iff.mpr (commutator_d1KBar p M H)
+  have := d1KBar_normal_of_escape he hB hBN hKN
+  have : Group.IsPerfect (d1KBar p M H) := Subgroup.isPerfect_iff.mpr (commutator_d1KBar p M H)
   set πH := QuotientGroup.mk' (primeComplementCore (G := H) p)
   set πN := QuotientGroup.mk' (primeComplementCore (G := N) p)
   set C := Subgroup.centralizer ((d1KBar p M N : Subgroup (N ⧸ primeComplementCore (G := N) p)) :

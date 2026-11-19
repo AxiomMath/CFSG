@@ -13,16 +13,19 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem notation_isPGroup_two_of_le {E H : Subgroup G} (hE : IsElemAbelian 2 E) (hH : H ≤ E) :
     IsPGroup 2 H := by
   rintro ⟨w, hw⟩
   refine ⟨1, Subtype.ext ?_⟩
   simpa using hE.2 w (hH hw)
 
+omit [Finite G] in
 theorem notation_centralizer_le_normalizer {A : Subgroup G} :
     centralizer (A : Set G) ≤ normalizer (A : Set G) :=
-  le_normalizer_of_comm fun x hx y hy => (Subgroup.mem_centralizer_iff.mp hx y hy).symm
+  le_normalizer_of_comm fun _x hx y hy => (Subgroup.mem_centralizer_iff.mp hx y hy).symm
 
+omit [Finite G] in
 theorem notation_exists_noncomm_conj {A : Subgroup G} (hA : IsElemAbelian 2 A) (hTI : IsTI A)
     (hnr : ¬ IsRootType 2 A) :
     ∃ h : G, normalizerIn A (conjSubgroup h A) ≠ ⊥ ∧
@@ -69,6 +72,7 @@ theorem notation_setup_of_noncomm {A : Subgroup G} (hA : IsElemAbelian 2 A) (hTI
     exact (congrArg Subtype.val
       (hel.1.is_comm.comm ⟨b, Subgroup.mem_sup_left hb⟩ ⟨a, Subgroup.mem_sup_right ha⟩)).symm
 
+omit [Finite G] in
 theorem notation_exists_sylow_le {A T : Subgroup G} (hT : IsPGroup 2 T)
     (hTN : T ≤ normalizer (A : Set G)) :
     ∃ Q : Sylow 2 ↥(normalizer (A : Set G)),
@@ -81,6 +85,7 @@ theorem notation_exists_sylow_le {A T : Subgroup G} (hT : IsPGroup 2 T)
     Subgroup.mem_subgroupOf.mpr hx
   exact Subgroup.mem_map.mpr ⟨⟨x, hTN hx⟩, hQ hy, rfl⟩
 
+omit [Finite G] in
 theorem notation_sylow_map_max {A : Subgroup G} (Q : Sylow 2 ↥(normalizer (A : Set G))) :
     IsPGroup 2 ((Q : Subgroup ↥(normalizer (A : Set G))).map (normalizer (A : Set G)).subtype) ∧
       (Q : Subgroup ↥(normalizer (A : Set G))).map (normalizer (A : Set G)).subtype ≤
@@ -103,8 +108,8 @@ theorem notation_exists_conj_le_sylow {A B₀ : Subgroup G} (hB : IsPGroup 2 B�
     (hBN : B₀ ≤ normalizer (A : Set G)) (Q₀ : Sylow 2 ↥(normalizer (A : Set G))) :
     ∃ n ∈ normalizer (A : Set G), ∀ b ∈ B₀, n * b * n⁻¹ ∈
       (Q₀ : Subgroup ↥(normalizer (A : Set G))).map (normalizer (A : Set G)).subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 ↥(normalizer (A : Set G))) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 ↥(normalizer (A : Set G))) := inferInstance
   have hB' : IsPGroup 2 (B₀.subgroupOf (normalizer (A : Set G))) := hB.comap_subtype
   obtain ⟨Q₁, hQ₁⟩ := hB'.exists_le_sylow
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq (↥(normalizer (A : Set G))) Q₁ Q₀
@@ -123,6 +128,7 @@ theorem notation_exists_conj_le_sylow {A B₀ : Subgroup G} (hB : IsPGroup 2 B�
   exact Subgroup.mem_map.mpr
     ⟨MulAut.conj n • (⟨b, hBN hb⟩ : ↥(normalizer (A : Set G))), hb2, rfl⟩
 
+omit [Finite G] in
 theorem notation_exists_sylow_choice {A Abar : Subgroup G} (hA : IsElemAbelian 2 A)
     (hAbar : IsElemAbelian 2 Abar) :
     ∃ Q : Sylow 2 ↥(normalizer (A : Set G)),

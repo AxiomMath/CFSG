@@ -152,12 +152,14 @@ theorem le_normalizer_conjSub (hP : NormalQuat S P) (hn : 3 ≤ S.width) {g : G}
     have h := hPT.conj_mem m⁻¹ ((S.conjBy g).M.inv_mem hmM) (m * p * m⁻¹) hp
     rwa [show m⁻¹ * (m * p * m⁻¹) * (m⁻¹)⁻¹ = p from by group] at h
 
+omit [Finite G] in
 theorem conjSub_mul_self_eq_one_iff (hP : NormalQuat S P) {g : G} {y : G} (hy : y ∈ conjSub P g) :
     y * y = 1 ↔ y = 1 ∨ y = g * S.z * g⁻¹ := by
   have hPT : NormalQuat (S.conjBy g) (conjSub P g) := hP.conj g
   have h := hPT.mul_self_eq_one_iff hy
   rwa [show (S.conjBy g).z = g * S.z * g⁻¹ from rfl] at h
 
+omit [Finite G] in
 theorem inf_conjSub_eq_bot (hP : NormalQuat S P) {g : G} (hene : g * S.z * g⁻¹ ≠ S.z) :
     P ⊓ conjSub P g = ⊥ := by
   have hPT : NormalQuat (S.conjBy g) (conjSub P g) := hP.conj g
@@ -231,7 +233,7 @@ theorem cl_conj_mem_perp (hP : NormalQuat S P) (hn : 3 ≤ S.width) {g : G}
     · exact hene h'
   · exact (S.q_cl_eq_zero_iff heQ).mpr (by rw [pow_two]; exact hesq)
 
-theorem inf_conjSub_QG_le (hP : NormalQuat S P) {g : G} (heQ : g * S.z * g⁻¹ ∈ S.QG)
+theorem inf_conjSub_QG_le (hP : NormalQuat S P) {g : G} (_heQ : g * S.z * g⁻¹ ∈ S.QG)
     (hene : g * S.z * g⁻¹ ≠ S.z) :
     ∀ y ∈ conjSub P g ⊓ S.QG, y = 1 ∨ y = g * S.z * g⁻¹ := by
   have he1 : g * S.z * g⁻¹ ≠ 1 := by
@@ -257,7 +259,7 @@ theorem inf_conjSub_QG_le (hP : NormalQuat S P) {g : G} (heQ : g * S.z * g⁻¹ 
   · rw [pow_two, hsq] at h
     exact hene h
 
-theorem inf_conjSub_Qa_le (hP : NormalQuat S P) {g : G} (heQ : g * S.z * g⁻¹ ∈ S.QG)
+theorem inf_conjSub_Qa_le (hP : NormalQuat S P) {g : G} (_heQ : g * S.z * g⁻¹ ∈ S.QG)
     (hene : g * S.z * g⁻¹ ≠ S.z) : ∀ x ∈ P ⊓ S.Qa g, x = 1 ∨ x = S.z := by
   intro x hx
   rw [Subgroup.mem_inf] at hx
@@ -429,14 +431,16 @@ section StepThree
 
 variable {G : Type*} [Group G] [Finite G] {S : Setting G} {P : Subgroup G}
 
-private theorem conj_ne_one {g : G} (heQ : g * S.z * g⁻¹ ∈ S.QG)
-    (hene : g * S.z * g⁻¹ ≠ S.z) : g * S.z * g⁻¹ ≠ 1 := by
+omit [Finite G] in
+private theorem conj_ne_one {g : G} (_heQ : g * S.z * g⁻¹ ∈ S.QG)
+    (_hene : g * S.z * g⁻¹ ≠ S.z) : g * S.z * g⁻¹ ≠ 1 := by
   intro h
   have hz : S.z = 1 := by
     calc S.z = g⁻¹ * (g * S.z * g⁻¹) * g := by group
       _ = 1 := by rw [h]; group
   exact S.z_ne_one hz
 
+omit [Finite G] in
 private theorem conj_mul_e_mul_inv (hP : NormalQuat S P) {g r : G} (hr : r ∈ conjSub P g) :
     r * (g * S.z * g⁻¹) * r⁻¹ = g * S.z * g⁻¹ := by
   have hp : g⁻¹ * r * g ∈ P := mem_conjSub.mp hr
@@ -532,7 +536,7 @@ theorem exists_eichler_mem_perp (hP : NormalQuat S P) (hn : 3 ≤ S.width) {g : 
   have hE : CFSG.ClassicalGroups.Orthogonal.eichler S.q (S.cl e) u (S.cl p) =
       S.cl p + polar S.q (S.cl p) u • S.cl e := by
     rw [eichler_apply_zmod2 hq0 hau, hpe]
-    simp only [zero_smul, mul_zero, zero_add, add_zero]
+    simp only [zero_smul, mul_zero, add_zero]
     rw [← he]
   have hEw : CFSG.ClassicalGroups.Orthogonal.eichler S.q (S.cl e) u (S.cl p) = S.cl p := by
     rw [← heich]

@@ -18,7 +18,7 @@ theorem sec34_ap_no27 (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
     ∀ T : Subgroup (CQ (U34 b a J A)), (∀ t ∈ T, cqβ (U34 b a J A) b hU.b_nor t = t) →
       ¬ IsElemAb 3 3 T := by
   intro T hT hE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb3 : orderOf b = 3 := h.hyp.ord
   have hb3' : b ^ 3 = 1 := by rw [← hb3]; exact pow_orderOf_eq_one b
   have hT3 : IsPGroup 3 T := haveI := hE.1; IsElementaryAbelian.isPGroup 3 T
@@ -30,8 +30,8 @@ theorem sec34_ap_no27 (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
     elemAb_of_cqImg hT'3 (fun x hx => (hT'le hx).2) (by rw [hmap]; exact hE.1)
   exact sec34_no27 hs h hU T' hT'le ⟨hel, by rw [hcard]; exact hE.2⟩
 
-theorem sec34_ap_catalog (hG : IsSimpleGroup G) (hna : ∃ x y : G, x * y ≠ y * x)
-    (hKp : KProper InCatalog G) (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
+theorem sec34_ap_catalog (_hG : IsSimpleGroup G) (_hna : ∃ x y : G, x * y ≠ y * x)
+    (hKp : KProper InCatalog G) (_hs : FF79Sec3 b J) (_h : FF79Sec34In b J B A P D)
     (hU : FF79Sec34UFacts b a J A) :
     ∀ L : Subgroup (CQ (U34 b a J A)), IsComponent L → IsSimpleGroup ↥L → InCatalog ↥L := by
   intro L hL hLs

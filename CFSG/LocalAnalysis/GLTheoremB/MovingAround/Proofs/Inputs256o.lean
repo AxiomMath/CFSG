@@ -35,7 +35,7 @@ theorem isChevSimple_two_of_isGF4Type {X : Type} [Group X] (h : IsGF4Type X) : I
 
 theorem card_psl_two_two_pow {n : ℕ} (hn : n ≠ 0) :
     Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) = 2 ^ n * ((2 ^ n) ^ 2 - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n hn
   rw [CFSG.OrderReductions.LinearOrders.card_projectiveSpecialLinear (GaloisField 2 n) 2 (by norm_num), hE]
   have hodd : Odd (2 ^ n - 1) := by
@@ -173,13 +173,13 @@ theorem false_of_chev2L34_of_typeOK {X : Type} [Group X] (hL : catalogIs X chev2
             have hB := CFSG.StandardType.ChevTwo.blueprintLieModel_of_modelsLieModel
               (by simp [CFSG.Blueprint.classicalTags]) hM
             have hcard : Nat.card X = 20160 := CFSG.Blueprint.LieModel.card_psl_three_four hB
-            haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-            haveI : IsSimpleGroup X :=
+            have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+            have : IsSimpleGroup X :=
               (MulEquiv.isSimpleGroup_congr e).2 (CFSG.Assembly.lie_finite_simple ⟨.A 2 q, hv⟩).2
             have hnab : ∃ a b : X, a * b ≠ b * a := by
               by_contra hcon
               push Not at hcon
-              letI : CommGroup X := { (inferInstance : Group X) with mul_comm := hcon }
+              let : CommGroup X := { (inferInstance : Group X) with mul_comm := hcon }
               have hpr := IsSimpleGroup.prime_card (α := X)
               rw [hcard] at hpr
               norm_num at hpr
@@ -327,7 +327,7 @@ theorem not_isGF4Type_of_gf4FreeAtThree
     (h : GF4FreeAtThree S) {α : MulAut S} (hα : α ^ 3 = 1) (hα1 : α ≠ 1) {I : Subgroup S}
     (hI : GLAPComponent 3 (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup α) I) :
     ¬ IsGF4Type (PSimple 3 I) := by
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center S = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
     · exact h
@@ -466,8 +466,8 @@ section MonsterThreeB
 theorem false_of_m3Beta1_of_lie {J : Subgroup CFSG.Monster.Generated.Gmat}
     (hJ : CFSG.HardMathSupport.Dickson.I271.M3Beta1 J) {d : TauCeti.ValidLieTypeIndex}
     (e : ↥J ⧸ Subgroup.center ↥J ≃* (TauCeti.CFSGIndex.lie d).Group) : False := by
-  haveI : Finite CFSG.Monster.Generated.Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite CFSG.Monster.Generated.Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have S := CFSG.HardMathSupport.Dickson.I271.m3Setup Certificates.certificate136201
     Certificates.certificate136207
   obtain ⟨hJc, -, hQN, hker, -⟩ := hJ
@@ -488,7 +488,7 @@ theorem false_of_m3Beta1_of_lie {J : Subgroup CFSG.Monster.Generated.Gmat}
 theorem false_of_m3Beta2a_of_lie {J : Subgroup CFSG.Monster.Generated.Gmat}
     (hJ : CFSG.HardMathSupport.Dickson.I271.M3Beta2a J) {d : TauCeti.ValidLieTypeIndex}
     (e : ↥J ⧸ Subgroup.center ↥J ≃* (TauCeti.CFSGIndex.lie d).Group) : False := by
-  haveI : Finite CFSG.Monster.Generated.Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Finite CFSG.Monster.Generated.Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   have S := CFSG.HardMathSupport.Dickson.I271.m3Setup Certificates.certificate136201
     Certificates.certificate136207
   obtain ⟨hJc, hQJ, -, -, -, hZ, -, -⟩ := hJ
@@ -513,7 +513,7 @@ theorem not_isGF4Type_of_comp_tbw
     (hM3 : CFSG.HardMathSupport.Timmesfeld.SporadicBalance.OPrimeCoreTrivialAt 3 CFSG.Monster.Generated.Gmat)
     {J : Subgroup CFSG.Monster.Generated.Gmat} (hJ : GLAPComponent 3 CFSG.HardMathSupport.Dickson.I271.M3X J) :
     ¬ IsGF4Type (PSimple 3 J) := by
-  haveI : Finite CFSG.Monster.Generated.Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Finite CFSG.Monster.Generated.Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   rintro ⟨d, -, -, ⟨e⟩⟩
   have hX : GLAPPrimeCoreOf 3 CFSG.HardMathSupport.Dickson.I271.M3X = ⊥ :=
     hM3 _ CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.orderOf_tbw
@@ -529,7 +529,7 @@ theorem not_isGF4Type_of_comp_tbw
   · exact false_of_m3Beta2a_of_lie h2 e'
 
 theorem centThreeBNoGF4_gmat : CentThreeBNoGF4 CFSG.Monster.Generated.Gmat := by
-  haveI : Finite CFSG.Monster.Generated.Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
+  have : Finite CFSG.Monster.Generated.Gmat := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF.finite_Gmat
   have hB3 : CFSG.HardMathSupport.Timmesfeld.SporadicBalance.OPrimeCoreTrivialAt 3 CFSG.Blueprint.NativeSporadic.B :=
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BThreeFi23.oPrimeCoreTrivialAt_B_three
   have hM3 : CFSG.HardMathSupport.Timmesfeld.SporadicBalance.OPrimeCoreTrivialAt 3 CFSG.Monster.Generated.Gmat :=
@@ -557,9 +557,9 @@ theorem gf4FreeAtThree_M : GF4FreeAtThree (CFSG.Blueprint.NativeSporadic.Carrier
   let e : CFSG.Monster.Existence.MGriess ≃* CFSG.Blueprint.NativeSporadic.Carrier .M := e₀
   have hE : CFSG.Monster.Existence.MonsterExistenceStatement CFSG.Monster.Existence.MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite CFSG.Monster.Existence.MGriess :=
+  have : Finite CFSG.Monster.Existence.MGriess :=
     (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.twoA_data_of_existence hE).1
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
     Finite.of_equiv CFSG.Monster.Existence.MGriess e.toEquiv
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
   have hSpM := CFSG.HardMathSupport.Timmesfeld.Coordinator.sporadicMultipliers_of_census

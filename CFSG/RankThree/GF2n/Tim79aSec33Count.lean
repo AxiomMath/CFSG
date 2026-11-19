@@ -59,7 +59,7 @@ theorem one_add_card_mul_le_card_count33 [Finite G] {ι : Type*} {W : Subgroup G
     (hcard : ∀ i ∈ T, Nat.card ↥(B i) = a) :
     1 + T.card * (a - 1) ≤ Nat.card ↥W := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have hcardK : ∀ K : Subgroup G, (Finset.univ.filter (· ∈ K)).card = Nat.card ↥K := by
     intro K
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -163,7 +163,7 @@ theorem exists_Dy_mem_conj_count33 (hc : MinCex M V Q P H) {y : G} (hy : y ∈ x
     ∃ d ∈ Dy V H, (d : Hbar V H) ∈ barOf V H (conjSubgroup y V) := by
   have hVH : V ≤ H := hc.V_le_H
   have hyH : y ∈ H := xOf_le_H hVH hy
-  obtain ⟨v, hvV, hvW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v, hvV, hvW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   have hwV : y * v * y⁻¹ ∈ conjSubgroup y V := by
     rw [mem_conjSubgroup]
     simpa [mul_assoc] using hvV
@@ -318,7 +318,7 @@ theorem sec33CountStatement_holds :
   obtain ⟨k, N, hk1, hkN, ⟨s, hsk, hsT⟩, ⟨T, hTN, hTinj⟩⟩ := hF.count
   have hVq : Nat.card ↥V = Nat.card ↥(barOf V H V) * Nat.card ↥(V ⊓ wOf V H) :=
     card_eq_card_barOf_mul_count33 hc.V_le_H
-  have hqZ : Nat.card ↥(VZ V H) = Nat.card ↥(barOf V H V) := hc.card_Vtilde hd
+  have hqZ : Nat.card ↥(VZ V H) = Nat.card ↥(barOf V H V) := CFSG.RankThree.GF2n.Tim79a.MinCex.card_Vtilde hd
   have ha2 : 1 < Nat.card ↥(V ⊓ wOf V H) :=
     (Subgroup.one_lt_card_iff_ne_bot _).mpr hc.V_inf_wOf_ne_bot
   have hup := hc.card_wOf_le_pow_count33 hd hsT

@@ -47,7 +47,7 @@ theorem famSel_unitary {n d : ℕ} {K : Type} [Field K] [Finite K] (h : UnitaryF
   have hq : 2 ≤ 2 ^ n :=
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) h.one_le
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   have H := primaryData_of_conj_pow h hd A hp hp2 hup
   have hY2' : ∀ w ∈ Y, ∃ k : ℕ, w ^ (2 ^ k) = 1 := fun w hw => by

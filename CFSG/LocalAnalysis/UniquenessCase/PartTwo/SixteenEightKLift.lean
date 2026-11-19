@@ -12,15 +12,16 @@ open Matrix CFSG.Open CFSG.RankThree.GF2n.Stroth80
 
 variable {K : Type} [Field K] [Finite K]
 
-theorem s16k_charP_two_of_card {a : ℕ} (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ a) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+theorem s16k_charP_two_of_card {a : ℕ} (_ha : 1 ≤ a) (hK : Nat.card K = 2 ^ a) : CharP K 2 := by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (f := a) (by rw [← Nat.card_eq_fintype_card, hK])
 
 theorem s16k_card_ringAut_of_card {a : ℕ} (hK : Nat.card K = 2 ^ a) :
     Nat.card (RingAut K) = a :=
   (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K hK).1
 
+omit [Finite K] in
 theorem s16k_card_units_of_card {a : ℕ} (hK : Nat.card K = 2 ^ a) :
     Nat.card Kˣ = 2 ^ a - 1 := by
   rw [Nat.card_units, hK]
@@ -42,7 +43,7 @@ private theorem s16k_fixNc_statedSL_of_elem {n : ℕ} (hn : 2 ≤ n) {p : ℕ} (
     (hpK : ¬ p ∣ Nat.card K) (hA : ¬ p ∣ Nat.card (RingAut K)) (hU : ¬ p ∣ Nat.card Kˣ)
     {E : Subgroup (MulAut (Multiplicative (Fin n → K)))} (hEN : E ≤ s16gNorm (StatedSL n K))
     (hE : IsElemAbelian p E) (hcard : p ^ 3 ≤ Nat.card E) : FixNc (StatedSL n K) p := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨F, hFN, hF, hFcard⟩ := s16g_exists_matrix_elem_of_lin hEN
     (s16g_le_lin_of_coprime (addCommutantScalar_statedSL hn) hp hA hEN hE.isPGroup) hE
   have hFS : F ≤ StatedSL n K := by
@@ -50,7 +51,7 @@ private theorem s16k_fixNc_statedSL_of_elem {n : ℕ} (hn : 2 ≤ n) {p : ℕ} (
     rw [StatedAPI.statedSL_eq_ker_det, MonoidHom.mem_ker]
     exact DFunLike.congr_fun (s16g_hom_eq_one_of_coprime hp hF.isPGroup hU
       ((Matrix.GeneralLinearGroup.det : GL (Fin n) K →* Kˣ).comp F.subtype)) ⟨x, hx⟩
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   exact s16g_fixNc_statedSL hn hp hpK hFS hF.2 hFc (hFcard ▸ hcard)
@@ -60,12 +61,12 @@ private theorem s16k_fixNc_statedSp_of_elem {m : ℕ} (hm : 1 ≤ m) {p : ℕ} (
     {E : Subgroup (MulAut (Multiplicative (Fin m ⊕ Fin m → K)))}
     (hEN : E ≤ s16gNorm (StatedSp m K)) (hE : IsElemAbelian p E) (hcard : p ^ 3 ≤ Nat.card E) :
     FixNc (StatedSp m K) p := by
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, hm⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, hm⟩⟩
   obtain ⟨μ, -, hμ⟩ := s16g_exists_mult_statedSp (K := K) hm
   obtain ⟨F, hFN, hF, hFcard, hμF⟩ := s16k_exists_iso_elem_generic
     (addCommutantScalar_statedSp (m := m) (K := K)) μ hp hA hU hEN hE
   have hFS : F ≤ StatedSp m K := fun x hx => (hμ ⟨x, hFN hx⟩).1 (hμF ⟨x, hFN hx⟩ hx)
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   exact s16g_fixNc_statedSp hp hpK hFS hF.2 hFc (hFcard ▸ hcard)
@@ -76,13 +77,13 @@ private theorem s16k_fixNc_statedOmegaPlus_of_elem [CharP K 2] {m : ℕ} (hm : 3
     {E : Subgroup (MulAut (Multiplicative (Fin m ⊕ Fin m → K)))}
     (hEN : E ≤ s16gNorm (StatedOmega (StatedQuadPlus m K))) (hE : IsElemAbelian p E)
     (hcard : p ^ 3 ≤ Nat.card E) : FixNc (StatedOmega (StatedQuadPlus m K)) p := by
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨μ, hμ⟩ := s16g_exists_mult_omegaPlus (K := K) hm
   obtain ⟨F, hFN, hF, hFcard, hμF⟩ := s16k_exists_iso_elem_generic
     (addCommutantScalar_statedOmegaPlus hm) μ hp hA hU hEN hE
   have hFΩ : F ≤ StatedOmega (StatedQuadPlus m K) := s16g_le_statedOmegaPlus_of_odd hm hp hp2 hF.2
     (fun x hx v => hμ ⟨x, hFN hx⟩ (hμF ⟨x, hFN hx⟩ hx) v)
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   exact s16g_fixNc_statedOmegaPlus hm hp hp2 hpq hFΩ hF.2 hFc (hFcard ▸ hcard)
@@ -94,14 +95,14 @@ private theorem s16k_fixNc_statedOmegaMinus_of_elem [CharP K 2] {m : ℕ} (hm : 
     {E : Subgroup (MulAut (Multiplicative (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K)))}
     (hEN : E ≤ s16gNorm (StatedOmega (StatedQuadMinus m K b c))) (hE : IsElemAbelian p E)
     (hcard : p ^ 3 ≤ Nat.card E) : FixNc (StatedOmega (StatedQuadMinus m K b c)) p := by
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   obtain ⟨μ, hμ⟩ := s16g_exists_mult_omegaMinus (m := m) (by omega) hirr
   obtain ⟨F, hFN, hF, hFcard, hμF⟩ := s16k_exists_iso_elem_generic
     (addCommutantScalar_statedOmegaMinus (by omega) hirr) μ hp hA hU hEN hE
   have hFΩ : F ≤ StatedOmega (StatedQuadMinus m K b c) :=
     s16g_le_statedOmegaMinus_of_odd (by omega) hirr hp hp2 hF.2
       (fun x hx v => hμ ⟨x, hFN hx⟩ (hμF ⟨x, hFN hx⟩ hx) v)
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   exact s16g_fixNc_statedOmegaMinus hm hirr hp hp2 hpq hFΩ hF.2 hFc (hFcard ▸ hcard)

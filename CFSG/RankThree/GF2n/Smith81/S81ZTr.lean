@@ -37,9 +37,9 @@ theorem twistEnd_rootOp (σ : K ≃+* K') (γ : Fin (Tag.rank .E7) → ℤ) :
   classical
   unfold MinData.rootOp
   by_cases h : ∃ k, k < (Tag.rootCertificate .E7).roots.length ∧ (Tag.rootCertificate .E7).root k = γ
-  · rw [dif_pos h, dif_pos h]
+  · rw [dite_eq_left h, dite_eq_left h]
     exact twistEnd_toEnd σ _ _
-  · rw [dif_neg h, dif_neg h]
+  · rw [dite_eq_right h, dite_eq_right h]
     exact twistEnd_zero σ
 
 @[expose] def twistUnits (σ : K ≃+* K') :

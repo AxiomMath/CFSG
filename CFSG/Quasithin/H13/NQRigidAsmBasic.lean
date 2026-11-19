@@ -34,6 +34,7 @@ section Simple
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_ne_top_of_simple [IsSimpleGroup G] (hnab : ∃ a b : G, a * b ≠ b * a)
     {v : G} (hv : v ≠ 1) : centralizer ({v} : Set G) ≠ ⊤ := by
   intro htop
@@ -66,6 +67,7 @@ theorem conj_mem_qtnqU (h : QTNQ T L M) {m u : G} (hm : m ∈ M) (hu : u ∈ qtn
   have := (mem_normalizer_iff.mp (le_normalizer_qtnqU h (M.inv_mem hm)) u).mp hu
   simpa using this
 
+omit [Finite G] in
 theorem centralizer_le_of_conj {m u : G} (hm : m ∈ M)
     (hle : centralizer ({m⁻¹ * u * m} : Set G) ≤ M) : centralizer ({u} : Set G) ≤ M := by
   intro g hg
@@ -117,6 +119,7 @@ theorem normalizer_le_of_characteristic_of_singleton {Y M R : Subgroup G}
   rw [hMG, Set.mem_singleton_iff] at hBM
   exact hBM ▸ hNB
 
+omit [Finite G] in
 theorem normalizer_le_subgroupOf_of_characteristic {H M R : Subgroup G} (hRH : R ≤ H)
     (hND : ∀ D : Subgroup R, D.Characteristic → D ≠ ⊥ →
       normalizer ((D.map R.subtype : Subgroup G) : Set G) ≤ M) :
@@ -146,6 +149,7 @@ theorem normalizer_le_subgroupOf_of_characteristic {H M R : Subgroup G} (hRH : R
     exact hy
   exact mem_subgroupOf.mp h2
 
+omit [Finite G] in
 theorem eq_pCore_normalizer_subgroupOf {H R : Subgroup G} (hRH : R ≤ H)
     (hR : R = (CFSG.pCore 2 (H ⊓ normalizer (R : Set G) : Subgroup G)).map
       (H ⊓ normalizer (R : Set G)).subtype) :
@@ -176,7 +180,7 @@ theorem isSolvable_of_isPGroup_quotient_pCore {X : Type*} [Group X] [Finite X] {
 
 theorem index_ne_two_of_noPQuotient {X : Type*} [Group X] (hX : NoPQuotient 2 X)
     (D : Subgroup X) (hD : D.Normal) : D.index ≠ 2 := by
-  haveI := hD
+  have := hD
   intro h2
   have hq : IsPGroup 2 (X ⧸ D) := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

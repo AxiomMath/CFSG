@@ -213,11 +213,11 @@ theorem three_le_pRank_diagTorus_orthogonal {m : ℕ} (hm : 4 ≤ m) {F : Type} 
     [Finite F] [CharP F 2] {q : ℕ} (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     3 ≤ CFSG.Open.pRank q (diagTorusOrth m F) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have hqne : q ≠ 2 := by
     rintro rfl
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     have heven : Even (Nat.card F) := by
       rw [Nat.card_eq_fintype_card]
       exact Nat.even_iff.mpr

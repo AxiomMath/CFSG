@@ -43,7 +43,7 @@ theorem seg27_exists_theta {H : Type} [Group H] (ψ : H ≃* Elem2 2 × alternat
     (φ : alternatingGroup (Fin 8) ≃* ↥(_root_.commutator H)) :
     ∃ θ : H →* Equiv.Perm (Fin 8), (∀ g, θ (φ g : H) = (g : Equiv.Perm (Fin 8))) ∧
       (∀ h, θ h ∈ alternatingGroup (Fin 8)) ∧ θ.ker = Subgroup.center H := by
-  haveI : IsMulCommutative (Elem2 2) := ⟨⟨fun a b => mul_comm a b⟩⟩
+  have : IsMulCommutative (Elem2 2) := ⟨⟨fun a b => mul_comm a b⟩⟩
   let p : H →* alternatingGroup (Fin 8) :=
     (MonoidHom.snd (Elem2 2) (alternatingGroup (Fin 8))).comp ψ.toMonoidHom
   let fst : H →* Elem2 2 :=

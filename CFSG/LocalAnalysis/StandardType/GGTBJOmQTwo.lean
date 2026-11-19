@@ -51,12 +51,12 @@ theorem tbjQ2_isSolvable_orthogonalGroup_split_four {K : Type} [Field K] [Finite
     (hsplit : ∃ S : Submodule K W, finrank K S = 2 ∧ ∀ x ∈ S, R x = 0) :
     Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup R) := by
   classical
-  haveI : Finite W := Module.finite_of_finite K
-  haveI : Finite (W ≃ₗ[K] W) :=
+  have : Finite W := Module.finite_of_finite K
+  have : Finite (W ≃ₗ[K] W) :=
     Finite.of_injective (fun g : W ≃ₗ[K] W => g.toEquiv)
       (fun g h hgh => LinearEquiv.ext fun x => by
         simpa using congrArg (fun e : W ≃ W => e x) hgh)
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup R) := inferInstance
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup R) := inferInstance
   have hcase : (Odd (Nat.card K) ∧ (finrank K W = 3 ∨ finrank K W = 4 ∨ finrank K W = 5)) ∨
       (Odd (Nat.card K) ∧ finrank K W = 6 ∧
         ¬ ∃ T : Submodule K W, finrank K T = 3 ∧ ∀ x ∈ T, R x = 0) ∨
@@ -93,7 +93,7 @@ private theorem tbjQ2Aux_sl2_sq_mem_commutator {K : Type} [Field K] [Finite K] [
     ∀ A : Matrix.SpecialLinearGroup (Fin 2) K,
       A ^ 2 ∈ commutator (Matrix.SpecialLinearGroup (Fin 2) K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK2
   obtain ⟨t, ht3, hcomm⟩ := CFSG.Quasithin.exists_commutator_eq_zpowers (F := K) hF
   have hcardSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = 6 := by

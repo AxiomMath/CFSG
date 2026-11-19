@@ -26,7 +26,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uc22s217rj_mem_zpowers_of_commute {X : Type} [Group X] [Finite X] (hX : IsJ1 X)
     {x y : X} (hy : orderOf y = 7) (hxy : Commute x y) : x ∈ zpowers y := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcX : Nat.card X = 175560 := (kJ1_holds X hX).1
   obtain ⟨e⟩ := hX
   let f : X ≃* CFSG.Open.walterJ1 := e.trans CFSG.Walter.walterJ1EquivNative.symm
@@ -37,7 +37,7 @@ theorem uc22s217rj_mem_zpowers_of_commute {X : Type} [Group X] [Finite X] (hX : 
   obtain ⟨P, hyP⟩ := (IsPGroup.of_card (n := 1) (by rw [hcy, pow_one]) :
     IsPGroup 7 (zpowers (f y))).exists_le_sylow
   have hPeq : zpowers (f y) = (P : Subgroup CFSG.Open.walterJ1) := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hdvd : 7 ^ k ∣ 175560 := by
       rw [← hk, ← hcW]
       exact Subgroup.card_subgroup_dvd_card _
@@ -65,7 +65,7 @@ theorem uc22s217rj_eq_seven {M L : Subgroup G} (hL : L ∈ calC M) (hJ1 : IsJ1 (
     (hb₇o : orderOf b₇ = 7) (hnb : ¬ CentralizesBar b L) (hnb₇ : ¬ CentralizesBar b₇ L) :
     r = 7 := by
   obtain ⟨-, hsimple, hinn⟩ := kJ1_holds (Bar2 L) hJ1
-  haveI := hsimple
+  have := hsimple
   have hZc : center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hL.2.2
   have hinj : Function.Injective (MulAut.conj : Bar2 L →* MulAut (Bar2 L)) := by
     rw [injective_iff_map_eq_one]
@@ -98,8 +98,8 @@ theorem uc22s217rj_eq_seven {M L : Subgroup G} (hL : L ∈ calC M) (hJ1 : IsJ1 (
   have hy1 : y ≠ 1 := fun h => hne m₇ hnb₇ (by rw [hy, h, map_one])
   have hxr : x ^ r = 1 := hpow m x r hx (by rw [← hbr]; exact pow_orderOf_eq_one b)
   have hy7 : y ^ 7 = 1 := hpow m₇ y 7 hy (by rw [← hb₇o]; exact pow_orderOf_eq_one b₇)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hxy : Commute x y := by
     show x * y = y * x
     apply hinj
@@ -124,7 +124,7 @@ theorem uc22s217rj_n_eq_three (D : Data G) (Ch : Choice2011 G) (h5 : S21_5 D Ch)
     rw [commutatorElement_def]
     exact (uc22p21d_centralizesBar_of_mem_zpowers hcb hg).2 l hl
   have hspor : ∃ s : TauCeti.SporadicName, IsSpor (BarInf L) s := by
-    haveI := (kJ1_holds _ hJ1).2.1
+    have := (kJ1_holds _ hJ1).2.1
     obtain ⟨f⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 (uc22p21k_center_eq_bot hL.2.2)
     obtain ⟨e⟩ := hJ1
     exact ⟨.J1, ⟨f.trans e⟩⟩

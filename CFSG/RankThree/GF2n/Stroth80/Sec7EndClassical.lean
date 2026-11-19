@@ -32,7 +32,7 @@ private theorem endgJ_two_dvd_card (K : Type) [Field K] [Finite K] [CharP K 2] :
   rw [Nat.card_eq_fintype_card, hn]
   exact dvd_pow_self 2 (PNat.ne_zero n)
 
-theorem endg_omegaPlus_facts {K : Type} [Field K] [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K)
+theorem endg_omegaPlus_facts {K : Type} [Field K] [Finite K] [CharP K 2] (_hK : 4 ≤ Nat.card K)
     {m : ℕ} (hm : 3 ≤ m) :
     IsSimpleGroup ↥(StatedOmega (StatedQuadPlus m K)) ∧
       16 ∣ Nat.card ↥(StatedOmega (StatedQuadPlus m K)) ∧

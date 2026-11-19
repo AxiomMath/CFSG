@@ -167,7 +167,7 @@ theorem eq_sup_normalizer_std (hF : Nat.card F = 4) (φ : SL(6, F) →* K)
   have hC : C = (slUnitary (σ : F →+* F) (revGL 6 F : Matrix (Fin 6) (Fin 6) F)).map f :=
     centralizer_eq_slUnitary hF (by norm_num) φ hφ hker hσ hact
   obtain ⟨PU, hPU⟩ := exists_sylow_unitriangular (K := F) 2 (n := 6) (by norm_num)
-  have hU2 : IsPGroup 2 (unitriangular 6 F) := hPU ▸ PU.isPGroup'
+  have hU2 : IsPGroup 2 (unitriangular 6 F) := hPU ▸ PU.isPGroup
   have hPeq : P₀ = (unitriangular 6 F).map f :=
     eq_map_unitriangular hF (by norm_num) φ hφ u₆_mem_unitriangular u₆_reg hP₀ (hSP huS)
   have hSeq : S₀ = (unitriangular 6 F).map f ⊓ C :=
@@ -222,7 +222,7 @@ theorem eq_sup_normalizer_of_graphField (hF : Nat.card F = 4) (φ : SL(6, F) →
   have hC : K ⊓ centralizer ({t} : Set G) = S.map f :=
     centralizer_eq_slUnitary hF (by norm_num) φ hφ hker hσ hact
   obtain ⟨PU, hPU⟩ := exists_sylow_unitriangular (K := F) 2 (n := 6) (by norm_num)
-  have hU2 : IsPGroup 2 (unitriangular 6 F) := hPU ▸ PU.isPGroup'
+  have hU2 : IsPGroup 2 (unitriangular 6 F) := hPU ▸ PU.isPGroup
   have hu₆ : u₆ F ∈ unitriangular 6 F ⊓ S := ⟨u₆_mem_unitriangular, u₆_mem_slUnitary _⟩
   have hSU : IsSylowOf 2 (unitriangular 6 F ⊓ S) S := by
     obtain ⟨T, hT, hST⟩ := exists_isSylowOf_ge (hU2.to_le inf_le_left) inf_le_right

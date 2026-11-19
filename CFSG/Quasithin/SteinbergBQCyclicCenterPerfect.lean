@@ -108,7 +108,7 @@ theorem cyclic_sylow_center_rank_two_core_centralizes_perfect_subgroups {H : Typ
       _ = b * x := by group
   have hzE : z ∈ E := by
     have hET' : (E.subgroupOf (T : Subgroup H)).Normal := Subgroup.Normal.subgroupOf hEn _
-    have hnil : Group.IsNilpotent (T : Subgroup H) := T.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent (T : Subgroup H) := T.isPGroup.isNilpotent
     have hne : E.subgroupOf (T : Subgroup H) ≠ ⊥ := by
       intro h
       apply hE1

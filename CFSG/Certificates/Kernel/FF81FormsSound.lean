@@ -21,7 +21,6 @@ theorem bitK_eq (a t : Nat) : bitK a t = a.testBit t := by
   generalize a >>> t = x
   rw [Nat.and_one_is_mod]
   try rw [Nat.one_and_eq_mod_two]
-  try rw [Nat.and_one_is_mod]
   have hx : x % 2 < 2 := Nat.mod_lt _ (by decide)
   generalize x % 2 = y at *
   interval_cases y <;> rfl
@@ -50,7 +49,7 @@ theorem testBit_packK (f : Nat → Bool) (m q : Nat) :
     rw [packK_succ]
     have hlt := packK_lt f m
     by_cases hf : f m = true
-    · rw [if_pos hf, Nat.add_comm]
+    · rw [ite_eq_left hf, Nat.add_comm]
       rcases Nat.lt_trichotomy q m with h | h | h
       · rw [Nat.testBit_two_pow_add_gt h, ih]
         simp [h, Nat.lt_succ_of_lt h]
@@ -62,7 +61,7 @@ theorem testBit_packK (f : Nat → Bool) (m q : Nat) :
             (Nat.pow_le_pow_right (by omega) (Nat.succ_le_of_lt h))
         rw [Nat.testBit_lt_two_pow h2]
         simp [show ¬ q < m + 1 by omega]
-    · rw [if_neg hf, Nat.add_zero, ih]
+    · rw [ite_eq_right hf, Nat.add_zero, ih]
       rcases Nat.lt_or_ge q m with h | h
       · simp [h, Nat.lt_succ_of_lt h]
       · rcases Nat.eq_or_lt_of_le h with h | h
@@ -194,12 +193,12 @@ theorem nOf_lt (bs : List Bool) : nOf bs < 2 ^ bs.length := by
 theorem bitK_nOf (b : Bool) (bs : List Bool) : bitK (nOf (b :: bs)) 0 = b := by
   rw [bitK_eq, Nat.testBit_zero]
   change decide (((if b then 1 else 0) + 2 * nOf bs) % 2 = 1) = b
-  cases b <;> simp <;> omega
+  cases b <;> simp
 
 theorem shift_nOf (b : Bool) (bs : List Bool) : nOf (b :: bs) >>> 1 = nOf bs := by
   rw [Nat.shiftRight_eq_div_pow]
   change ((if b then 1 else 0) + 2 * nOf bs) / 2 ^ 1 = nOf bs
-  cases b <;> simp <;> omega
+  cases b <;> simp; omega
 
 theorem nOf_lt15 (bs : List Bool) (h : bs.length = 15) : nOf bs < 32768 := by
   have := nOf_lt bs
@@ -223,8 +222,7 @@ theorem exists_index (P : Matrix (Fin 6) (Fin 6) (ZMod 2)) (hsym : ∀ i j, P j 
     decK_zero, add_zero]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp (config := { decide := true }) [decK, ite_decide_one, ite_eq_one, Matrix.smul_apply,
-      Matrix.add_apply, Matrix.zero_apply, hdiag, hsym 0 1, hsym 0 2,
+    simp (config := { decide := true }) [decK, ite_eq_one, Matrix.add_apply, hdiag, hsym 0 1, hsym 0 2,
       hsym 0 3, hsym 0 4, hsym 0 5, hsym 1 2, hsym 1 3, hsym 1 4, hsym 1 5, hsym 2 3, hsym 2 4,
       hsym 2 5, hsym 3 4, hsym 3 5, hsym 4 5]
 

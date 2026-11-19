@@ -180,14 +180,17 @@ variable [FiniteDimensional K V]
   basisOfLinearIndependentOfCardEqFinrank (b := ![e, f])
     (linearIndependent_pair_of_apply_eq_one hB hef) (by simp [hdim])
 
+omit [FiniteDimensional K V] in
 theorem hypBasis_zero (hB : B.IsAlt) {e f : V} (hef : B e f = 1) (hdim : finrank K V = 2) :
     hypBasis hB hef hdim 0 = e := by
   simp [hypBasis]
 
+omit [FiniteDimensional K V] in
 theorem hypBasis_one (hB : B.IsAlt) {e f : V} (hef : B e f = 1) (hdim : finrank K V = 2) :
     hypBasis hB hef hdim 1 = f := by
   simp [hypBasis]
 
+omit [FiniteDimensional K V] in
 theorem toLin_isometry (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (bs 1) = 1)
     (g : SL(2, K)) (x y : V) :
     B (Matrix.toLin bs bs (g : Matrix (Fin 2) (Fin 2) K) x)
@@ -215,6 +218,7 @@ theorem toLin_isometry (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (
     Matrix.SpecialLinearGroup.toGL).codRestrict (bilinIsometryGroup B)
     (fun g x y => toLin_isometry hB bs h01 g x y)
 
+omit [FiniteDimensional K V] in
 theorem slToGsp_app (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (bs 1) = 1)
     (g : SL(2, K)) (x : V) :
     (slToGsp hB bs h01 g).app x = Matrix.toLin bs bs (g : Matrix (Fin 2) (Fin 2) K) x := rfl
@@ -223,6 +227,7 @@ section BaseCard
 
 variable [CharP K 2]
 
+omit [FiniteDimensional K V] in
 theorem slToGsp_upper (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (bs 1) = 1)
     (s : K) : slToGsp hB bs h01 (sl2Upper K s) = Tsp hB (bs 0) s := by
   have h10 : B (bs 1) (bs 0) = -1 := by rw [← hB.neg_eq, h01]
@@ -230,11 +235,12 @@ theorem slToGsp_upper (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (b
       ((symplecticTransvection B hB (bs 0) s : LinearMap.GeneralLinearGroup K V) : V →ₗ[K] V) := by
     refine Basis.ext bs fun i => ?_
     rw [Matrix.toLin_self, symplecticTransvection_apply]
-    fin_cases i <;> simp [Fin.sum_univ_two, hB.self_eq_zero, h10, CharTwo.neg_eq] <;> try abel
+    fin_cases i <;> simp [Fin.sum_univ_two, hB.self_eq_zero, h10, CharTwo.neg_eq]; try abel
   refine Gsp.ext' fun x => ?_
   rw [slToGsp_app, hlin]
   rfl
 
+omit [CharP K 2] [FiniteDimensional K V] in
 theorem slToGsp_lower (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (bs 1) = 1)
     (t : K) : slToGsp hB bs h01 (sl2Lower K t) = Tsp hB (bs 1) t := by
   have hlin : Matrix.toLin bs bs (sl2Lower K t : Matrix (Fin 2) (Fin 2) K) =
@@ -246,6 +252,7 @@ theorem slToGsp_lower (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (b
   rw [slToGsp_app, hlin]
   rfl
 
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem exists_smul_of_orth_zero (hB : B.IsAlt) (bs : Basis (Fin 2) K V)
     (h01 : B (bs 0) (bs 1) = 1) {w : V} (hw : B (bs 0) w = 0) : ∃ t : K, w = t • bs 0 := by
   have h := bs.sum_repr w
@@ -258,6 +265,7 @@ theorem exists_smul_of_orth_zero (hB : B.IsAlt) (bs : Basis (Fin 2) K V)
   rw [h1, zero_smul, add_zero] at h
   exact h.symm
 
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem exists_smul_of_orth_one (hB : B.IsAlt) (bs : Basis (Fin 2) K V)
     (h01 : B (bs 0) (bs 1) = 1) {w : V} (hw : B (bs 1) w = 0) : ∃ t : K, w = t • bs 1 := by
   have h10 : B (bs 1) (bs 0) = -1 := by rw [← hB.neg_eq, h01]
@@ -271,6 +279,7 @@ theorem exists_smul_of_orth_one (hB : B.IsAlt) (bs : Basis (Fin 2) K V)
   rw [h1, zero_smul, zero_add] at h
   exact h.symm
 
+omit [FiniteDimensional K V] in
 theorem Ssp_smul_self (hB : B.IsAlt) (v : V) (t c : K) : Ssp hB v (t • v) c = Tsp hB v c := by
   refine Gsp.ext' fun x => ?_
   have hv : B v (t • v) = 0 := by rw [map_smul, hB.self_eq_zero, smul_zero]
@@ -282,6 +291,7 @@ theorem Ssp_smul_self (hB : B.IsAlt) (v : V) (t c : K) : Ssp hB v (t • v) c = 
       x + (c * B x v) • v + ((2 : K) * (t * B x v)) • v := by module
   rw [this, h2]; simp
 
+omit [FiniteDimensional K V] in
 theorem mem_Lsp_dim_two (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (bs 1) = 1)
     {g : Gsp B} (hg : g ∈ Lsp B hB (bs 0)) : ∃ c : K, g = Tsp hB (bs 0) c := by
   obtain ⟨w, c, hw, hgw⟩ := mem_Lsp.mp hg
@@ -290,6 +300,7 @@ theorem mem_Lsp_dim_two (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) 
   have : g = Ssp hB (bs 0) (t • bs 0) c := Subtype.ext hgw.symm
   rw [this, Ssp_smul_self]
 
+omit [FiniteDimensional K V] in
 theorem mem_Lsp_dim_two' (hB : B.IsAlt) (bs : Basis (Fin 2) K V) (h01 : B (bs 0) (bs 1) = 1)
     {g : Gsp B} (hg : g ∈ Lsp B hB (bs 1)) : ∃ c : K, g = Tsp hB (bs 1) c := by
   obtain ⟨w, c, hw, hgw⟩ := mem_Lsp.mp hg
@@ -308,6 +319,7 @@ open scoped MatrixGroups
 
 variable [FiniteDimensional K V] [Finite K] [CharP K 2]
 
+omit [FiniteDimensional K V] in
 theorem sp_card_eq_pow_two (hB : B.IsAlt) (hdim : finrank K V = 2) {u u' : V}
     (huu' : B u u' ≠ 0) {M : Type*} [AddCommGroup M] [Finite M] (h2 : ∀ m : M, m + m = 0)
     [DistribMulAction (Gsp B) M]
@@ -322,7 +334,7 @@ theorem sp_card_eq_pow_two (hB : B.IsAlt) (hdim : finrank K V = 2) {u u' : V}
   have hu0 : bs 0 = u := hypBasis_zero hB huf hdim
   have hf1 : bs 1 = f := hypBasis_one hB huf hdim
   have h01 : B (bs 0) (bs 1) = 1 := by rw [hu0, hf1]; exact huf
-  letI inst : DistribMulAction SL(2, K) M :=
+  let inst : DistribMulAction SL(2, K) M :=
     DistribMulAction.compHom M (slToGsp hB bs h01)
   have hU : fixedSub M (sl2UpperSub K : Set SL(2, K)) =
       fixedSub M (Lsp B hB u : Set (Gsp B)) := by
@@ -468,7 +480,7 @@ theorem sp_card_eq_pow_aux :
         w ∈ fixedSub M (Lsp B hB u : Set (Gsp B)) →
           π g' • w ∈ fixedSub M (Lsp B hB u : Set (Gsp B)) := fun g' w hw =>
       smul_mem_fixedSub_Lsp hB (extId_app_of_mem hcompl hB horth g' hu) hw
-    letI inst : DistribMulAction (Gsp (B.restrict W')) (fixedSub M (Lsp B hB u : Set (Gsp B))) :=
+    let inst : DistribMulAction (Gsp (B.restrict W')) (fixedSub M (Lsp B hB u : Set (Gsp B))) :=
       restrictAction π (fixedSub M (Lsp B hB u : Set (Gsp B))) hW
     have hdec' := isCompl_fixedSub_restrict π (fixedSub M (Lsp B hB u : Set (Gsp B))) hW
       (Lsp (B.restrict W') hB' u₁ : Set (Gsp (B.restrict W')))
@@ -491,6 +503,7 @@ variable [FiniteDimensional K V] [Finite K] [CharP K 2]
 
 @[expose] def Gsp.NonA2 (x : Gsp B) : Prop := ∃ y : V, B y (x.app y) ≠ 0
 
+omit [FiniteDimensional K V] [Finite K] in
 theorem exists_ssp_of_nonA2 (hB : B.IsAlt) {v : V} {x : Gsp B} (hx : x ∈ Lsp B hB v)
     (hn : x.NonA2) : ∃ w c, B v w = 0 ∧ c ≠ 0 ∧ x = Ssp hB v w c := by
   obtain ⟨w, c, hw, hxw⟩ := mem_Lsp.mp hx
@@ -503,6 +516,7 @@ theorem exists_ssp_of_nonA2 (hB : B.IsAlt) {v : V} {x : Gsp B} (hx : x ∈ Lsp B
   rw [hx']
   simpa [Ssp, Gsp.app] using this
 
+omit [FiniteDimensional K V] [Finite K] in
 theorem Ssp_mul_self (hB : B.IsAlt) {v w : V} (hw : B v w = 0) (c : K) :
     Ssp hB v w c * Ssp hB v w c = 1 := by
   apply Subtype.ext
@@ -511,6 +525,7 @@ theorem Ssp_mul_self (hB : B.IsAlt) {v w : V} (hw : B v w = 0) (c : K) :
   have : c + c + B w w = 0 := by rw [hB.self_eq_zero, add_zero]; exact CharTwo.add_self_eq_zero c
   rw [this, siegel_zero]
 
+omit [Finite K] in
 theorem stroth_2_1_ii_sp_fixed (hB : B.IsAlt) (hBn : B.Nondegenerate) {u u' : V}
     (huu' : B u u' ≠ 0) {M : Type*} [AddCommGroup M] [Finite M] (h2 : ∀ x : M, x + x = 0)
     [DistribMulAction (Gsp B) M]

@@ -22,7 +22,7 @@ theorem elem_of_sq (h : Sec8T84L1 G t L S z g B K L1) (h1 : ∀ l ∈ L1, l * l 
     have hb' : b⁻¹ = b := inv_eq_of_mul_eq_one_right (h1 b hb)
     have hab : a * b = (a * b)⁻¹ := (inv_eq_of_mul_eq_one_right (h1 _ (L1.mul_mem ha hb))).symm
     rw [hab, mul_inv_rev, ha', hb']
-  haveI : IsMulCommutative ↥L1 := ⟨⟨fun a b => Subtype.ext (hc a a.2 b b.2)⟩⟩
+  have : IsMulCommutative ↥L1 := ⟨⟨fun a b => Subtype.ext (hc a a.2 b b.2)⟩⟩
   exact ⟨⟨inferInstance, fun x hx => by rw [pow_two]; exact h1 x hx⟩, h.card⟩
 
 theorem decomp_N (h8B : Asc82Lemma8B) (hctx : Sec8Ctx G t L S z g B)
@@ -70,10 +70,10 @@ theorem sec8E_of_sq (F : Sec8T84Base) (hctx : Sec8Ctx G t L S z g B)
   ctx := hctx
   le_N := (setup hctx h).V_le
   elem := elem_of_sq h h1
-  t_norm := fun e he => L1_normal h t (t_mem_K h.K_data) e he
+  t_norm := fun _e he => L1_normal h t (t_mem_K h.K_data) _e he
   cent_t := inf_cent_t hctx h
-  comm_le := fun e he => (cl2_of h.K_data).tau_mem (t_mem_K h.K_data) (h.le he)
-  comm_onto := fun b hb => tau_exists hctx h hb
+  comm_le := fun _e he => (cl2_of h.K_data).tau_mem (t_mem_K h.K_data) (h.le he)
+  comm_onto := fun _b hb => tau_exists hctx h hb
   decomp := decomp_N F.h8B hctx h
   normal := normal_N hctx h
 

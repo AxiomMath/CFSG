@@ -62,7 +62,7 @@ theorem check6131 : l34Ord3Check = true := by
   | nil => exact absurd h2 (by simp [hcF])
   | cons a rest =>
     rw [hcF_cons] at h2
-    simp only [List.length_map, List.map_cons, Bool.and_eq_true, decide_eq_true_eq]
+    simp only [List.map_cons, Bool.and_eq_true, decide_eq_true_eq]
     have hl := beq_iff_eq.mp h1
     refine ⟨by simpa using hl, ?_⟩
     have hc : ((fun g => eqA 42 (compA 42 g (toA (ev a))) (compA 42 (toA (ev a)) g)) ∘

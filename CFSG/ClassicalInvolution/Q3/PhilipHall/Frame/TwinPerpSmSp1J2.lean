@@ -63,8 +63,8 @@ theorem leaf_j2 {n : ℕ} :
       (allLt_spec Certificates.certificate397505.2.1.2 hl)
   · intro Y _ _ R' S t hP hF
     obtain ⟨ψ⟩ := hF
-    haveI := hP.core.simple
-    haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+    have := hP.core.simple
+    have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
     refine ⟨⟨ψ.trans CFSG.ComponentClassification.J2Cover.nativeEquivP⟩, ?_⟩
     exact isPGroup_core_of_oddCore hP
       (CFSG.ComponentClassification.J2Cover.ctuc_j2_almost_simple_involution_centralizer_odd_core_trivial

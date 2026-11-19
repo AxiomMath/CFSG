@@ -13,6 +13,7 @@ section Config
 variable {X : Type} [Group X] [Finite X] (V E K : Subgroup X)
   [hN : ((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal]
 
+omit [Finite X] in
 theorem ggSum_img_isSubnormal {Q : Subgroup X} {𝒞 : Set (Subgroup X)} (hEV : E ≤ V)
     (hEK : E ≤ Subgroup.normalizer (K : Set X)) (hS : GGSummandStruct E K V Q 𝒞)
     {S : Subgroup X} (hS𝒞 : S ∈ 𝒞) :

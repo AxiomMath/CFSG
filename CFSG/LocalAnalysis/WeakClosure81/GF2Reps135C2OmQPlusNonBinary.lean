@@ -26,7 +26,7 @@ private theorem c2slomqnb_longCoroot_self {n : ℕ} (hn : 3 ≤ n) {m : Fin n} (
   have hne : m ≠ (⟨m.val + 1, h1⟩ : Fin n) := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   simp [longCoroot, hne]
 
@@ -88,7 +88,7 @@ theorem omq_omPlus_nonbinary_rank (h1 : OmqPlusWeightVector) (h2 : OmqRankFromWe
   have hm : m = Nat.card Fˣ := rfl
   have hodd : Odd m := by
     rw [hm, Nat.card_units]
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
     obtain ⟨k, hk⟩ := Nat.even_iff.mpr (FiniteField.even_card_of_char_two (ringChar.eq F 2))
     have hk1 : 1 ≤ k := by

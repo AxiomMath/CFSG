@@ -209,7 +209,7 @@ theorem maskN_testBit (r : ℕ) (p : ℕ → Bool) (j : ℕ) :
       simp only [Chk.maskN, Nat.fold_succ]
     rw [hstep]
     by_cases hp : p r = true
-    · rw [if_pos hp, Nat.testBit_lor, Bool.or_eq_true, ih, Nat.one_shiftLeft,
+    · rw [ite_eq_left hp, Nat.testBit_lor, Bool.or_eq_true, ih, Nat.one_shiftLeft,
         Nat.testBit_two_pow, decide_eq_true_eq]
       constructor
       · rintro (⟨hj, hpj⟩ | hje)
@@ -219,7 +219,7 @@ theorem maskN_testBit (r : ℕ) (p : ℕ → Bool) (j : ℕ) :
         rcases Nat.lt_succ_iff_lt_or_eq.mp hj with h | h
         · exact Or.inl ⟨h, hpj⟩
         · exact Or.inr h.symm
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       rw [ih]
       constructor
       · rintro ⟨hj, hpj⟩
@@ -282,9 +282,9 @@ theorem tabsOK_pair (hT : Chk.tabsOK m T = true) (i j : Root m) :
     j.val j.isLt)
   rw [h, Chk.pairN, pairing]
   by_cases hm : m.val = 3
-  · rw [if_pos hm, if_pos hm, nat_fold_add]
+  · rw [ite_eq_left hm, ite_eq_left hm, nat_fold_add]
     exact Finset.sum_congr rfl fun k _ => rfl
-  · rw [if_neg hm, if_neg hm, nat_fold_add]
+  · rw [ite_eq_right hm, ite_eq_right hm, nat_fold_add]
     exact Finset.sum_congr rfl fun k _ => rfl
 
 theorem tabsOK_adj (hT : Chk.tabsOK m T = true) (i : Root m) (j : ℕ) :
@@ -379,7 +379,7 @@ private theorem eps_mul_mul_self {ε x : ZMod 3} (h : ε * ε = 1) : ε * x * ε
 theorem root_reflection (m : Fin 6) (t u : Root m) (v : V m) :
     root m t (reflection m u v) = root m t v - (pairing m t u : ZMod 3) * root m u v := by
   rw [reflection_apply, map_sub, map_smul, pairing_eq, smul_eq_mul,
-    mul_comm ((root m u) v) ((pairing m t u : ZMod 3))] <;> rfl
+    mul_comm ((root m u) v) ((pairing m t u : ZMod 3))]
 
 theorem root_rt (hT : Chk.tabsOK m T = true) (u t t' : Root m) (ε : ℤ)
     (h : Chk.rtEq T (dim m) t'.val u.val t.val ε = true) (v : V m) :
@@ -428,7 +428,7 @@ private theorem reflection_rt_aux (hT : Chk.tabsOK m T = true) (u t t' : Root m)
           rw [reflection_apply (i := t) (v := reflection m u v), map_sub, map_smul,
             show reflection m u (reflection m u v) = v from
               Module.involutive_reflection (root_coroot m u) v,
-            reflection_apply (i := u) (v := coroot m t), root_reflection, pairing_eq m u t] <;> rfl
+            reflection_apply (i := u) (v := coroot m t), root_reflection, pairing_eq m u t]
 
 theorem reflection_rt (hT : Chk.tabsOK m T = true) (u t : Root m) :
     reflection m ⟨(T.rt[u.val]!)[t.val]!, tabsOK_rt_lt hT u t⟩ =

@@ -13,20 +13,24 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem kerQuotMk_surjective (M H : Subgroup G) : Function.Surjective (kerQuotMk M H) := by
   unfold kerQuotMk
   exact QuotientGroup.mk'_surjective _
 
+omit [Finite G] in
 theorem ker_kerQuotMk (M H : Subgroup G) :
     (kerQuotMk M H).ker = (kerMOf M H).subgroupOf H := by
   unfold kerQuotMk
   rw [QuotientGroup.ker_mk', subgroupOf_kerMOf]
 
+omit [Finite G] in
 theorem kerQuotImg_mono {M H X Y : Subgroup G} (h : X ≤ Y) :
     kerQuotImg M H X ≤ kerQuotImg M H Y := by
   unfold kerQuotImg
   exact Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 theorem kerQuotImg_eq_bot_iff {M H A : Subgroup G} (hAH : A ≤ H) :
     kerQuotImg M H A = ⊥ ↔ A ≤ kerMOf M H := by
   unfold kerQuotImg
@@ -38,10 +42,12 @@ theorem kerQuotImg_eq_bot_iff {M H A : Subgroup G} (hAH : A ≤ H) :
   · intro h y hy
     exact Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hy))
 
+omit [Finite G] in
 theorem isElemAbelian_kerQuotImg {M H A : Subgroup G} (hA : IsElemAbelian 2 A) :
     IsElemAbelian 2 (kerQuotImg M H A) :=
   (hA.subgroupOf H).map (kerQuotMk M H)
 
+omit [Finite G] in
 theorem relIndex_kerQuotImg (M H : Subgroup G) :
     (kerQuotImg M H M).relIndex ⊤ = M.relIndex H := by
   rw [Subgroup.relIndex_top_right]
@@ -52,6 +58,7 @@ theorem relIndex_kerQuotImg (M H : Subgroup G) :
     exact Subgroup.normalCore_le _
   exact Subgroup.index_map_eq (M.subgroupOf H) (kerQuotMk_surjective M H) hker
 
+omit [Finite G] in
 theorem b5_FiveNineQuot_comap_kerQuotImg_self (M H : Subgroup G) :
     (kerQuotImg M H M).comap (kerQuotMk M H) = M.subgroupOf H := by
   unfold kerQuotImg
@@ -60,14 +67,15 @@ theorem b5_FiveNineQuot_comap_kerQuotImg_self (M H : Subgroup G) :
   rw [QuotientGroup.ker_mk']
   exact Subgroup.normalCore_le _
 
+omit [Finite G] in
 theorem kerMOf_kerQuotImg (M H : Subgroup G) :
     kerMOf (kerQuotImg M H M) (⊤ : Subgroup (KerQuot M H)) = ⊥ := by
   set Z := kerMOf (kerQuotImg M H M) (⊤ : Subgroup (KerQuot M H)) with hZ
-  haveI hZn : Z.Normal := ⟨fun n hn g => conj_mem_kerMOf (Subgroup.mem_top g) hn⟩
+  have hZn : Z.Normal := ⟨fun n hn g => conj_mem_kerMOf (Subgroup.mem_top g) hn⟩
   have hZM : Z ≤ kerQuotImg M H M := kerMOf_le_left _ _
   have hD : Z.comap (kerQuotMk M H) ≤ M.subgroupOf H := by
     exact (Subgroup.comap_mono hZM).trans (b5_FiveNineQuot_comap_kerQuotImg_self M H).le
-  haveI : (Z.comap (kerQuotMk M H)).Normal := Subgroup.normal_comap _
+  have : (Z.comap (kerQuotMk M H)).Normal := Subgroup.normal_comap _
   have hDcore : Z.comap (kerQuotMk M H) ≤ (M.subgroupOf H).normalCore :=
     Subgroup.normal_le_normalCore.2 hD
   rw [eq_bot_iff]
@@ -79,6 +87,7 @@ theorem kerMOf_kerQuotImg (M H : Subgroup G) :
     exact (QuotientGroup.eq_one_iff _).2 (hDcore hy)
   exact Subgroup.mem_bot.2 hy1
 
+omit [Finite G] in
 theorem card_kerQuotImg {M H A : Subgroup G} (hAH : A ≤ H) :
     Nat.card ↥(kerQuotImg M H A) = (A ⊓ kerMOf M H).relIndex A := by
   let φ : ↥A →* KerQuot M H := (kerQuotMk M H).comp (Subgroup.inclusion hAH)
@@ -101,6 +110,7 @@ theorem card_kerQuotImg {M H A : Subgroup G} (hAH : A ≤ H) :
   rw [← Nat.card_congr e.toEquiv, ← Subgroup.index_eq_card, hker]
   rfl
 
+omit [Finite G] in
 theorem sec5Hyp_kerQuot {H M A : Subgroup G} (h : Sec5Hyp H M A) :
     Sec5Hyp (⊤ : Subgroup (KerQuot M H)) (kerQuotImg M H M) (kerQuotImg M H A) where
   isElemAbelian := isElemAbelian_kerQuotImg h.isElemAbelian

@@ -43,7 +43,7 @@ theorem neOK_spec {ps : List (List Nat × List Nat)} (h : neOK NW NT ps = true) 
   intro p hp
   have h1 := allL_spec h p hp
   by_contra hc
-  push_neg at hc
+  push Not at hc
   rw [agB_of hc] at h1
   exact absurd h1 (by decide)
 
@@ -135,7 +135,7 @@ theorem bitK_eq (m q : Nat) : bitK m q = Nat.land (Nat.shiftRight m q) 1 := by
   simp only [Nat.testBit_shiftRight, Nat.testBit_and, Nat.testBit_two_pow_sub_one, Nat.add_zero]
   have e1 : q % 4096 < 4096 := Nat.mod_lt _ (by omega)
   have e2 : q / 4096 * 4096 + q % 4096 = q := by omega
-  simp only [e1, e2, decide_true, Bool.true_and, Bool.and_true]
+  simp only [e1, e2, decide_true, Bool.and_true]
 
 theorem swpB_eq : swpB = swpK := by
   funext d m q

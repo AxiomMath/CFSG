@@ -36,8 +36,8 @@ namespace Data.Hyp
 
 variable {G : Type} [Group G] [Finite G] {d : Data G}
 
-theorem D₂_le_centralizer_Y : d.D₂ ≤ centralizer (d.Y : Set G) := fun u hu =>
-  mem_centralizer_iff.2 fun y hy => (D₂_comm_Y' hu hy).symm
+theorem D₂_le_centralizer_Y : d.D₂ ≤ centralizer (d.Y : Set G) := fun _u hu =>
+  mem_centralizer_iff.2 fun _y hy => (D₂_comm_Y' hu hy).symm
 
 theorem S_inf_centralizer_Y (h : d.Hyp) : d.S ⊓ centralizer (d.Y : Set G) = d.A₂ := by
   have hA₂ : d.A₂ ≤ d.S ⊓ centralizer (d.Y : Set G) :=
@@ -214,9 +214,9 @@ theorem t_conj_mem_P (h : d.Hyp) {k : G} (hk : k ∈ d.P) : d.t * k * d.t ∈ d.
   rwa [h.t_inv] at this
 
 theorem NHS_le_normalizer_P (h : d.Hyp) :
-    normalizer (d.S : Set G) ⊓ d.H ≤ normalizer (d.P : Set G) := fun n hn =>
-  mem_normalizer_sup (mem_normalizer_fintype fun k hk => h.conj_mem_D₁ (h.NHS_le_XW hn) hk)
-    (mem_normalizer_fintype fun k hk => h.conj_mem_D₂ (h.NHS_le_XC₀ hn) hk)
+    normalizer (d.S : Set G) ⊓ d.H ≤ normalizer (d.P : Set G) := fun _n hn =>
+  mem_normalizer_sup (mem_normalizer_fintype fun _k hk => h.conj_mem_D₁ (h.NHS_le_XW hn) hk)
+    (mem_normalizer_fintype fun _k hk => h.conj_mem_D₂ (h.NHS_le_XC₀ hn) hk)
 
 end Data.Hyp
 

@@ -56,7 +56,7 @@ theorem alt_exists_conj_commute {α : Type*} [Fintype α] [DecidableEq α]
     ∃ y : Perm α, IsConj σ y ∧ Commute y σ ∧ (∀ k : ℤ, y ≠ σ ^ k) ∧ sign y = 1 := by
   obtain ⟨x, hx⟩ : ∃ x, σ x ≠ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h1 (Equiv.ext hcon)
   obtain ⟨c, z, hσ, hdisj, hc3, hcyc, hcx⟩ := alt_exists_cycle_split h3 hx
   have hzx : z x = x := by
@@ -186,7 +186,7 @@ theorem alt_listRow_six {n : ℕ} (hn : 6 ≤ n) : ListRow (alternatingGroup (Fi
 
 theorem alt_prime_eq_three_of_dvd {G : Type*} [Group G] [Finite G] {E : Subgroup G}
     (hE : ∀ x ∈ E, x ^ 3 = 1) {p : ℕ} (hp : p.Prime) (hpd : p ∣ Nat.card E) : p = 3 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥E) p hpd
   have hx3 : x ^ 3 = 1 := Subtype.ext (by simpa using hE x.1 x.2)
   have hdiv : p ∣ 3 := by

@@ -65,7 +65,7 @@ private theorem tn_ordTwistedF4_le (n : ℕ) (hn : 1 ≤ n) :
         rw [CFSG.Open.ordTwistedF4]
     _ ≤ q ^ 12 * q ^ 7 * q ^ 4 * q ^ 4 * q := by
         gcongr
-        all_goals first | exact h61 | exact h31 | exact Nat.sub_le _ _
+        all_goals exact Nat.sub_le _ _
     _ = q ^ 28 := by ring
     _ = 2 ^ (28 * n) := by rw [hq, ← pow_mul, Nat.mul_comm]
 
@@ -158,10 +158,10 @@ theorem ggTorsion_not_marking_psl
       Nat.card (Matrix.SpecialLinearGroup (Fin d) D ⧸
         Subgroup.center (Matrix.SpecialLinearGroup (Fin d) D)) := Nat.card_congr e.toEquiv
   obtain ⟨a, ha, hDa⟩ : ∃ a : ℕ, 1 ≤ a ∧ Nat.card D = 2 ^ a := by
-    haveI : Fintype D := Fintype.ofFinite D
+    have : Fintype D := Fintype.ofFinite D
     obtain ⟨k, -, hk⟩ := FiniteField.card D 2
     have h2 : 2 ≤ Fintype.card D := by
-      haveI : Nontrivial D := inferInstance
+      have : Nontrivial D := inferInstance
       exact Fintype.one_lt_card
     refine ⟨k, ?_, ?_⟩
     · exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp (by rw [← hk]; simpa using h2)

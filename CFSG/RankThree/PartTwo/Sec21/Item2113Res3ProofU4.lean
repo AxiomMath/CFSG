@@ -60,7 +60,7 @@ theorem isSylow_of_normalizer_le {P H : Subgroup G} (hP : CFSG.ABGLocalTools.IsS
     exact map_subtype_le _
   have hP3 : IsPGroup 3 P := by
     rw [← hQ]
-    exact Q.isPGroup'.map H.subtype
+    exact Q.isPGroup.map H.subtype
   have hmaxH : ∀ R : Subgroup G, IsPGroup 3 R → P ≤ R → R ≤ H → R = P := by
     intro R hR hPR hRH
     have hR' : IsPGroup 3 (R.subgroupOf H) :=
@@ -123,7 +123,7 @@ theorem exists_mem_normalizer_conj_eq {A : Subgroup G} (hAc : ∀ a ∈ A, ∀ b
     ∃ w ∈ normalizer (A : Set G), w * c * w⁻¹ = c' := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := centralizer ({c'} : Set G) with hC
-  have hA3 : IsPGroup 3 A := P.isPGroup'.to_le hAP
+  have hA3 : IsPGroup 3 A := P.isPGroup.to_le hAP
   set Ax := A.map (MulAut.conj x).toMonoidHom with hAx
   have hAC : A ≤ C := fun a ha => mem_centralizer_singleton_iff.mpr (hAc a ha c' hc')
   have hAxC : Ax ≤ C := by
@@ -154,7 +154,7 @@ theorem exists_mem_normalizer_conj_eq {A : Subgroup G} (hAc : ∀ a ∈ A, ∀ b
       exact mem_map.mpr ⟨_, hbQ₂, rfl⟩
     rw [hy] at hmem
     exact mem_map.mpr ⟨_, hmem, rfl⟩
-  have hQ3 : IsPGroup 3 Q₁G := Q₁.isPGroup'.map C.subtype
+  have hQ3 : IsPGroup 3 Q₁G := Q₁.isPGroup.map C.subtype
   obtain ⟨R, hR⟩ := hQ3.exists_le_sylow
   obtain ⟨z, hz⟩ := MulAction.exists_smul_eq G P R
   have hRz : (R : Subgroup G) = (P : Subgroup G).map (MulAut.conj z).toMonoidHom := by

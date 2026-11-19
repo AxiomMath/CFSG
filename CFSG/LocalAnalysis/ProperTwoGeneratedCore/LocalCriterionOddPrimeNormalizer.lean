@@ -27,7 +27,7 @@ theorem local_point_odd_subgroup_normalizer_sylow_central_class
   let zN : N := ⟨z, hzM⟩
   let zS : (S : Subgroup N) := ⟨zN, hzS⟩
   have hc : zS ∈ Subgroup.center (S : Subgroup N) := by
-    apply central_of_no_distinct_commuting_conjugate S.isPGroup' zS
+    apply central_of_no_distinct_commuting_conjugate S.isPGroup zS
     intro g hcomm
     apply Subtype.ext
     apply Subtype.ext

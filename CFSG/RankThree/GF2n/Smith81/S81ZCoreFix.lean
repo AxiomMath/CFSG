@@ -85,6 +85,7 @@ variable {K : Type} [Field K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K 
   zero_mem' u _ := map_zero _
   smul_mem' c v hv u hu := by rw [map_smul, hv u hu]
 
+omit [CharP K 2] in
 theorem mem_fix7 {v : V} : v ∈ fix7 A ↔ ∀ u ∈ UA K a7, A u v = v := Iff.rfl
 
 @[expose] def V17 (β : V →ₗ[K] V →ₗ[K] K) : Submodule K V where
@@ -103,6 +104,7 @@ theorem mem_fix7 {v : V} : v ∈ fix7 A ↔ ∀ u ∈ UA K a7, A u v = v := Iff.
       rw [this]
       exact (fix7 A).smul_mem c (hw.2 u hu)
 
+omit [CharP K 2] in
 theorem mem_V17 {β : V →ₗ[K] V →ₗ[K] K} {w : V} :
     w ∈ V17 A β ↔ (∀ v ∈ fix7 A, β v w = 0) ∧ ∀ u ∈ UA K a7, A u w - w ∈ fix7 A := Iff.rfl
 
@@ -171,11 +173,13 @@ def lineStab (L : Submodule K V) : Subgroup (Gp K) where
     rw [inv_inv]
     exact hg.1 x hx
 
+omit [CharP K 2] in
 theorem mem_lineStab {L : Submodule K V} {g : Gp K} :
     g ∈ lineStab A L ↔ (∀ x ∈ L, A g x ∈ L) ∧ ∀ x ∈ L, A g⁻¹ x ∈ L := Iff.rfl
 
 variable [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem sv_E7 (hline : Module.finrank K (fix7 A) = 1)
     (hspan : ⨆ g : Gp K, (fix7 A).map (A g : V →ₗ[K] V) = ⊤) (hV : 1 < Module.finrank K V)
     {v₀ : V} (hv₀ : v₀ ∈ fix7 A) (hne : v₀ ≠ 0) : A (sN K) v₀ ∉ fix7 A := by

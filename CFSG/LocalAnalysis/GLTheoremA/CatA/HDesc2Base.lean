@@ -22,7 +22,7 @@ theorem lvData_of_level_ne_four {p : ℕ} (hK3 : K3NotChev2At) {Y : Type} [Group
   have h2 : ¬ K2Cover p ↥K := fun hk => hn (Or.inr (k2Cover_imp_catalogIs p hk))
   have h3 : ¬ K3Cover p ↥K := fun hk => hK3 p ↥K hk h.chev
   unfold fullCoverLevel
-  rw [if_neg h1, if_neg h2, if_neg h3]
+  rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
 
 @[expose] def SolvesAt (p : ℕ) (d : ValidLieTypeIndex) : Prop :=
   p.Prime → p ≠ 2 → ∀ (Y : Type) [Group Y] [Finite Y] (K B : Subgroup Y), KHyp p K B →

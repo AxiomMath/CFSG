@@ -46,11 +46,11 @@ theorem TwE6ToralCoords.exists_original_field_actor_square
               (Multiplicative.toAdd (κ b))) * mu l *
             (rootDiagUnit Tag.E6 (zetaVec (τ := Tag.E6) ζ0 hζ0
               (Multiplicative.toAdd (κ b))))⁻¹ := by
-  letI : NeZero n := ⟨by omega⟩
+  let : NeZero n := ⟨by omega⟩
   obtain ⟨ι⟩ := CFSG.RankThree.PartOne.CTP.exists_ringEquiv_of_card_eq
     (hK.trans (card_actualQuadraticSubfield hn).symm)
   let fK : K →+* GGL := (actualQuadraticSubfield n).subtype.comp ι.toRingHom
-  letI : Algebra K GGL := fK.toAlgebra
+  let : Algebra K GGL := fK.toAlgebra
   let e : AlgebraicClosure K →+* GGL :=
     (IsAlgClosed.lift (R := K) (S := AlgebraicClosure K) (M := GGL)).toRingHom
   have he : e.comp (algebraMap K (AlgebraicClosure K)) = fK := by

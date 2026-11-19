@@ -76,6 +76,7 @@ theorem eq_bot_of_normal_le_normalizer {p m lam e : ℕ} (hp : p.Prime) (hm : 1 
     rintro x ⟨g, hg, r, hr, rfl⟩
     exact hKB (hKn g hg r (hRK hr))
 
+omit [Finite Q] in
 theorem commutator_eq_top_of_localData {p m e : ℕ}
     {G R : Subgroup Q} (hloc : LocalData p m 2 e G R)
     (hgen : G ≤ Subgroup.closure {x | ∃ g ∈ G, ∃ r ∈ R, x = g * r * g⁻¹}) :
@@ -88,7 +89,7 @@ theorem commutator_eq_top_of_localData {p m e : ℕ}
     refine ⟨⁅(⟨t, htG⟩ : ↥G) ^ m, (⟨r, hRG hr⟩ : ↥G)⁆, ?_, ?_⟩
     · exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
     · rw [map_commutatorElement]
-      simp only [map_pow, Subgroup.subtype_apply, Subgroup.coe_mk]
+      simp only [map_pow, Subgroup.subtype_apply]
       rw [commutatorElement_def, htact r hr]
       group
   have hRcomm : ∀ r (hr : r ∈ R), (⟨r, hRG hr⟩ : ↥G) ∈ commutator ↥G := by
@@ -142,20 +143,20 @@ theorem isSimpleGroup_of_localData {p m e : ℕ} (hp : p.Prime) (hm : 1 < m)
     · have hEqTop : Y.map G.subtype = (⊤ : Subgroup ↥G).map G.subtype := by
         rw [hEq, Subgroup.map_top G.subtype, Subgroup.range_subtype]
       exact (Subgroup.map_subtype_inj (H := G)).mp hEqTop
-  haveI : Nontrivial ↥G := by
+  have : Nontrivial ↥G := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     calc (1 : ℕ) < p ^ 2 := by nlinarith [hp.two_le]
       _ = Nat.card R := hRcard.symm
       _ ≤ Nat.card G := Subgroup.card_le_of_le hRG
-  haveI : Nontrivial (↥G ⧸ B') := by
+  have : Nontrivial (↥G ⧸ B') := by
     rw [QuotientGroup.nontrivial_iff]
     exact hB'ne
-  haveI : MulAction.IsPreprimitive ↥G (↥G ⧸ B') := by
+  have : MulAction.IsPreprimitive ↥G (↥G ⧸ B') := by
     refine (MulAction.isCoatom_stabilizer_iff_preprimitive (G := ↥G) (X := ↥G ⧸ B')
       ((1 : ↥G) : ↥G ⧸ B')).mp ?_
     rw [MulAction.stabilizer_quotient B']
     exact hcoatom
-  haveI : FaithfulSMul ↥G (↥G ⧸ B') := by
+  have : FaithfulSMul ↥G (↥G ⧸ B') := by
     have hKmem : ∀ k : ↥G, k ∈ (MulAction.toPermHom ↥G (↥G ⧸ B')).ker ↔
         ∀ x : ↥G ⧸ B', k • x = x := by
       intro k
@@ -204,8 +205,8 @@ theorem isSimpleGroup_of_localData {p m e : ℕ} (hp : p.Prime) (hm : 1 < m)
   have hAcard : Nat.card A = p ^ 2 := by
     change Nat.card (R.subgroupOf G) = p ^ 2
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRG).toEquiv, hRcard]
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative A :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative A :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := A) (p := p) hAcard
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb => setLike_mul_comm ha hb
   have hAn : ∀ h ∈ MulAction.stabilizer ↥G ((1 : ↥G) : ↥G ⧸ B'), ∀ a ∈ A,

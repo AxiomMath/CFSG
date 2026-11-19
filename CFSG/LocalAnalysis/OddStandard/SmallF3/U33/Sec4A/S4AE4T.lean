@@ -182,7 +182,7 @@ theorem wreath_elem_four_cases (hw : WreathRel x₁ x₂ lam) {D : Subgroup G}
   have hsq : ∀ d ∈ D, d * d = 1 := fun d hd => by
     rw [← pow_two]
     exact hDe.2 d hd
-  haveI : IsMulCommutative D := hDe.1
+  have : IsMulCommutative D := hDe.1
   have hcomm : ∀ d ∈ D, ∀ e ∈ D, d * e = e * d := fun d hd e he =>
     congrArg Subtype.val (mul_comm' (⟨d, hd⟩ : D) ⟨e, he⟩)
   obtain ⟨a, haD, ha1⟩ : ∃ a ∈ D, a ≠ 1 := by

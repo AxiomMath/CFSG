@@ -39,7 +39,7 @@ theorem card_centralizer_dC_inf_le :
     Nat.card ↥(centralizer ({dC} : Set NativeSporadic.Co1) ⊓
       centralizer ({aNC} : Set NativeSporadic.Co1)) ≤ 9953280 := by
   have hcard := card_centralizer_aNC
-  haveI : Finite ↥(centralizer ({aNC} : Set NativeSporadic.Co1)) :=
+  have : Finite ↥(centralizer ({aNC} : Set NativeSporadic.Co1)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h4 := co1RowCheck_parts.2.2.2.1
   simp only [chkOrbit, Bool.and_eq_true, beq_iff_eq] at h4

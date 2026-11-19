@@ -82,15 +82,15 @@ theorem gff_torsion_reeGamma (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) 
         ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) :=
       (CFSG.LieType.BorelTits.commutatorSubgroupEquiv (ggAutFixedSubgroup ψ)).trans
         (CFSG.LieType.BorelTits.commutatorEquiv E'')
-    haveI : IsSimpleGroup ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) := gff_isSimpleGroup_tits hk2
-    haveI : IsSimpleGroup ↥⁅ggAutFixedSubgroup ψ, ggAutFixedSubgroup ψ⁆ := eJ.isSimpleGroup
+    have : IsSimpleGroup ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) := gff_isSimpleGroup_tits hk2
+    have : IsSimpleGroup ↥⁅ggAutFixedSubgroup ψ, ggAutFixedSubgroup ψ⁆ := eJ.isSimpleGroup
     have hQeq : Q = ⁅ggAutFixedSubgroup ψ, ggAutFixedSubgroup ψ⁆ :=
       CFSG.ComponentClassification.ExcSelector.eq_of_isComponentOf_of_commutator_eq rfl hQ
     subst hQeq
     exact largeEvenMarking_of_mulEquiv eJ (gff_marking_tits hk2)
   ·
-    haveI : IsSimpleGroup ↥(ReeTag.F4.reeGamma k b) := gff_isSimpleGroup_reeGamma hb hkcard
-    haveI : IsSimpleGroup ↥(ggAutFixedSubgroup ψ) := E'.isSimpleGroup
+    have : IsSimpleGroup ↥(ReeTag.F4.reeGamma k b) := gff_isSimpleGroup_reeGamma hb hkcard
+    have : IsSimpleGroup ↥(ggAutFixedSubgroup ψ) := E'.isSimpleGroup
     have hQeq : Q = ggAutFixedSubgroup ψ :=
       CFSG.ComponentClassification.ExcSelector.eq_of_isComponentOf_of_isSimpleGroup hQ
     subst hQeq

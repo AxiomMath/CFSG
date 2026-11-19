@@ -25,7 +25,7 @@ open CFSG.Open Subgroup
 
 theorem k42_of_fermat (h : UCK.K42Fermat) : UCK.K42 := by
   intro p hp G _ _ hK V _ _ _ ρ hρ q r hq hr hqp hrp hqr D hD hfix Q hQp hQne hDQ hcomm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq2 : q = 2 := q_eq_two_uc6 ρ hρ hq hr hqp hrp hqr D hD hfix Q hQp hQne hDQ hcomm
   subst hq2
   exact ⟨fun hab => abelian_false_uc6 ρ hρ hq hqp hr D hD hfix Q hQp hQne hab hDQ hcomm, rfl,

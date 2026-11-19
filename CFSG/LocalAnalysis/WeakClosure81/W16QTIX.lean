@@ -13,6 +13,7 @@ open Subgroup
 
 variable {X : Type} [Group X] [Finite X] {n : ℕ}
 
+omit [Finite X] in
 private theorem w16q_smul_centralizer (g : X) (R : Subgroup X) :
     (MulAut.conj g) • (Subgroup.centralizer (R : Set X)) =
       Subgroup.centralizer (((MulAut.conj g) • R : Subgroup X) : Set X) := by
@@ -46,6 +47,7 @@ private theorem w16q_smul_centralizer (g : X) (R : Subgroup X) :
     · rw [MulAut.smul_def, MulAut.conj_apply]
       group
 
+omit [Finite X] in
 private theorem w16q_sylowCenter_smul (g : X) (R : Sylow 2 X) :
     sylowCenter (g • R) = CFSG.Quasithin.conjSubgroup (sylowCenter R) g⁻¹ := by
   have h : CFSG.Quasithin.conjSubgroup (sylowCenter R) g⁻¹ =
@@ -158,8 +160,8 @@ theorem sz_not_comm (hK : KGroup1616Input) {m : ℕ} (hm : 1 < m) {Z : Type} [Gr
     intro a b
     by_contra hne
     exact h ⟨a, b, hne⟩
-  letI : CommGroup Z := { ‹Group Z› with mul_comm := hcomm }
-  haveI : IsSimpleGroup Z := hK.sz_simple m Z hm hZ
+  let : CommGroup Z := { ‹Group Z› with mul_comm := hcomm }
+  have : IsSimpleGroup Z := hK.sz_simple m Z hm hZ
   have hprime : (Nat.card Z).Prime := IsSimpleGroup.prime_card
   have hcard := hK.sz_card m Z hm hZ
   rw [hcard] at hprime

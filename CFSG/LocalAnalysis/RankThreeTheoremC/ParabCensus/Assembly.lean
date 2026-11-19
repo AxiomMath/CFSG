@@ -47,9 +47,9 @@ theorem exists_mem_of_normalizer_spTwo (hZ : OddCenterRest) {A : Type} [Group A]
   obtain ⟨hPY, T, hT, hTN⟩ := hP
   obtain ⟨r, K, hKfield, hKfin, hKchar, hr, hK, hψ⟩ :=
     exists_mulEquiv_statedSp_of_isQuasisimple hZ hY hO hB2
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   obtain ⟨ψ⟩ := hψ
   let α : MulAut ↥Y := Y.normalizerMonoidHom ⟨b, hbY⟩
   have hαcoe : ∀ y : ↥Y, (α y : A) = b * (y : A) * b⁻¹ := fun y =>

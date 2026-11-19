@@ -26,12 +26,12 @@ theorem pRank_su6Levi_eq_five {f : ℕ} (hf : 1 ≤ f) {k K : Type} [Field k] [F
     {σ : K →+* K} (hσ : ∀ c, σ c = c ^ 2 ^ f) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hpq : p ∣ 2 ^ f + 1) :
     CFSG.Open.pRank p (⊤ : Subgroup ↥(su6Levi σ)) = 5 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcl := (su6Levi_facts (k := k) (K := K) hf hk hK hσ).2.2.2.2.2.1
   rw [StatedClassicalModel] at hcl
   obtain ⟨-, K', hFieldK', hFinK', hcardK', ⟨e⟩⟩ := hcl
-  letI : Field K' := hFieldK'
-  letI : Finite K' := hFinK'
+  let : Field K' := hFieldK'
+  let : Finite K' := hFinK'
   have hfn : Nat.card K' = 2 ^ (2 * f) := by rw [hcardK', ← pow_mul, Nat.mul_comm]
   have hchar : CharP K' 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq hfn
   have hpK' : (p : K') ≠ 0 := by
@@ -68,8 +68,8 @@ theorem exists_elemAbelian_five_le_su6Levi {f : ℕ} (hf : 1 ≤ f) {k K : Type}
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ f + 1) :
     ∃ E : Subgroup (ModGL TwistTag.E6.tag K), E ≤ su6Levi σ ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 5 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact pow_ne_zero _ (by norm_num))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact pow_ne_zero _ (by norm_num))
   have hpr : CFSG.Open.pRank p (⊤ : Subgroup ↥(su6Levi σ)) = 5 :=
     pRank_su6Levi_eq_five hf hk hK hσ hp hp5 hpq
   obtain ⟨E, -, hEel, hEcard⟩ :=
@@ -81,7 +81,7 @@ theorem five_le_twoLocalPrimeRank_twistedE6RootGroup {F : Type} [Field F] [Finit
     (hn : 1 ≤ n) (σ : F ≃+* F) (hF : Nat.card F = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n))
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ n + 1) :
     5 ≤ CFSG.Open.twoLocalPrimeRank p ↥(twistedE6RootGroup F σ) := by
-  haveI : Finite (ModGL TwistTag.E6.tag F) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag F) := CFSG.LieType.Chevalley.finite_modGL
   let k := CFSG.LieType.Steinberg.CentralExt.TwistedE6Closed.fixedSubfield σ.toRingHom
   have hk : Nat.card k = 2 ^ n :=
     CFSG.LieType.Steinberg.CentralExt.TwistedE6Closed.card_fixedSubfield_of_card
@@ -138,7 +138,7 @@ theorem glaTwoLocalRank_twistedE6RootGroup_eq_five {F : Type} [Field F] [Finite 
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ n + 1) :
     GLATwoLocalRank p ↥(twistedE6RootGroup F σ) = 5 := by
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite (ModGL TwistTag.E6.tag F) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag F) := CFSG.LieType.Chevalley.finite_modGL
   have hhigh : CFSG.Open.twoLocalPrimeRank p ↥(twistedE6RootGroup F σ) ≤ 5 :=
     twoLocalPrimeRank_twistedE6RootGroup_le_five hn σ hF hσ
       rk2TwE6LeviRankInputMaximal_holds hp hp2 hpq

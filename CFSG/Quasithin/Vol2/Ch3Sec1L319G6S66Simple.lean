@@ -80,7 +80,7 @@ theorem mem_of_simple_normal_blocks {Γ : Type} [Group Γ] (𝓚 : Finset (Subgr
   swap
   ·
     exfalso
-    push_neg at hcen
+    push Not at hcen
     have hcenY : ∀ s ∈ S, ∀ g ∈ (⨆ K ∈ 𝓚, K), s * g = g * s := by
       intro s hs
       have hle : (⨆ K ∈ 𝓚, K) ≤ Subgroup.centralizer ({s} : Set Γ) := by
@@ -112,7 +112,7 @@ theorem mem_of_simple_normal_blocks {Γ : Type} [Group Γ] (𝓚 : Finset (Subgr
     have h2 : s * k * s⁻¹ = k := mul_inv_eq_one.mp h
     calc s * k = s * k * s⁻¹ * s := by rw [inv_mul_cancel_right]
       _ = k * s := by rw [h2]
-  haveI := hKs K hK
+  have := hKs K hK
   have hKS : K ≤ S := by
     have hN : ((S ⊓ K).subgroupOf K).Normal := by
       refine ⟨fun n hn g => ?_⟩

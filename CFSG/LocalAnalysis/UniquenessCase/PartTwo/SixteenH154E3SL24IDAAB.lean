@@ -26,6 +26,7 @@ private theorem s16h_sl24_mk_eq_iff {K : Type} [Field K]
   rw [Subgroup.mem_bot, Subgroup.coe_mul, Subgroup.coe_inv, inv_mul_eq_one]
   exact Subtype.ext_iff.symm
 
+omit [Finite W] in
 theorem s16h_sl24_i23SectionMap_of_coord {K : Type} [Field K] {L : Subgroup (MulAut W)}
     (hU : ∀ l ∈ L, ∀ u ∈ commSub ⊤ L, l u ∈ commSub ⊤ L)
     {π : ↥(StatedSL 2 K) →* ↥L}

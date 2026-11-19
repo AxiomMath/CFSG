@@ -66,7 +66,7 @@ theorem le_normalizer_of_card_eq_prime {X : Type} [Group X] [Finite X] {n : ℕ}
   have hφU : (U : Subgroup X).map φ = graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom := by
     rw [hφ, ← Subgroup.map_map, he, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hUC]
   obtain ⟨E, hEU, hE2, hE16⟩ := exists_isElemAbelian_le_sylow hX U
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 U.isPGroup'
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 U.isPGroup
   obtain ⟨Q, hQ, hHQ, hNQ⟩ := S5.exists_proper_overgroup (holds_of_chevalleyExceptionalModel hX)
     (LieF4.isSylowOf_of_sylow U le_top) hUH (hEU.trans hUH) hE2 hE16 hp (by omega) (m := m)
     (a := a) (by rw [hH, hm, mul_comm]) (by omega)

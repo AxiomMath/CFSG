@@ -12,12 +12,12 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 open CFSG.EvenSporadicStandard.HNRecog
 
 private theorem symCentShapes_sym2 : Nonempty (Sym 2 ≃* Z 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSym : Nat.card (Sym 2) = 2 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
     norm_num
   have hZ : Nat.card (Z 2) = 2 := by
-    simpa using Nat.card_zmod 2
+    simp
   exact ⟨mulEquivOfPrimeCardEq hSym hZ⟩
 
 private theorem symCentShapes_perm_zero (X : Type) [Group X] :

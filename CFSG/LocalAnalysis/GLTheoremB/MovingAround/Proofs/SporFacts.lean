@@ -53,7 +53,7 @@ theorem eq_bot_or_eq_of_isSubnormal {L D : Subgroup G} (h : CFSG.Open.IsSubnorma
   | @step H M K hHM hn _ ih =>
     rcases ih hD with rfl | rfl
     · exact Or.inl (le_bot_iff.1 hHM)
-    · haveI := hn
+    · have := hn
       rcases hD.eq_bot_or_eq_top_of_normal (H.subgroupOf M) with h | h
       · left
         rw [Subgroup.subgroupOf_eq_bot] at h
@@ -92,15 +92,15 @@ theorem isQuasisimple_of_isSimpleGroup {Q : Type*} [Group Q] (hs : IsSimpleGroup
 theorem isQuasisimple_of_mulEquiv {A B : Type*} [Group A] [Group B] (e : A ≃* B)
     (h : CFSG.Open.IsQuasisimple A) : CFSG.Open.IsQuasisimple B := by
   refine ⟨?_, ?_⟩
-  · haveI : Group.IsPerfect A := ⟨h.1⟩
+  · have : Group.IsPerfect A := ⟨h.1⟩
     exact (Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective).commutator_eq_top
-  · haveI := h.2
+  · have := h.2
     exact (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
       (Subgroup.map_center_eq e)).symm.isSimpleGroup
 
 theorem nontrivial_of_isQuasisimple {Q : Type*} [Group Q] (h : CFSG.Open.IsQuasisimple Q) :
     Nontrivial Q := by
-  haveI := h.2
+  have := h.2
   by_contra hQ
   rw [not_nontrivial_iff_subsingleton] at hQ
   have : Subsingleton (Q ⧸ Subgroup.center Q) := QuotientGroup.mk_surjective.subsingleton
@@ -118,6 +118,7 @@ section Layer
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem glaPPrimeCore_eq_bot {p : ℕ} (hp : p.Prime) {X D : Subgroup G} (hDX : D ≤ X)
     (hDn : (D.subgroupOf X).Normal) (hDs : IsSimpleGroup D) (hpD : p ∣ Nat.card D)
     (hC : IsPGroup p (X ⊓ Subgroup.centralizer (D : Set G) : Subgroup G)) :
@@ -156,7 +157,7 @@ theorem glaPPrimeCore_eq_bot {p : ℕ} (hp : p.Prime) {X D : Subgroup G} (hDX : 
       obtain ⟨hn1, hn2⟩ := hn
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       exact ⟨hNconj (hDX d.2) hn1, D.mul_mem (D.mul_mem d.2 hn2) (D.inv_mem d.2)⟩
-    haveI := hnorm
+    have := hnorm
     rcases hDs.eq_bot_or_eq_top_of_normal ((N' ⊓ D).subgroupOf D) with h | h
     · rw [Subgroup.subgroupOf_eq_bot] at h
       exact h.eq_bot_of_le inf_le_right
@@ -183,6 +184,7 @@ theorem glaPPrimeCore_eq_bot {p : ℕ} (hp : p.Prime) {X D : Subgroup G} (hDX : 
   · rw [hcardN'] at h
     exact absurd h ((Nat.Prime.coprime_iff_not_dvd hp).1 hNc)
 
+omit [Finite G] in
 theorem glaPComponent_eq_of_simple_normal {p : ℕ} {X D L : Subgroup G} (hDX : D ≤ X)
     (hDn : (D.subgroupOf X).Normal) (hDs : IsSimpleGroup D)
     (hsol : Group.IsSolvable (↥X ⧸ D.subgroupOf X)) (hL : GLAPComponent p X L) : L = D := by
@@ -215,6 +217,7 @@ theorem glaPComponent_eq_of_simple_normal {p : ℕ} {X D L : Subgroup G} (hDX : 
     exact (not_nontrivial_iff_subsingleton.2 inferInstance) hnt
   · exact h
 
+omit [Finite G] in
 theorem glaPLayer_eq {p : ℕ} (hp : p.Prime) {X D : Subgroup G} (hDX : D ≤ X)
     (hDn : (D.subgroupOf X).Normal) (hDs : IsSimpleGroup D) (hDnc : ∃ a b : D, a * b ≠ b * a)
     (hpD : p ∣ Nat.card D) (hC : IsPGroup p (X ⊓ Subgroup.centralizer (D : Set G) : Subgroup G))
@@ -361,7 +364,7 @@ theorem input14_21_holds : Input14_21 := by
     exact inf_eq_right.2 (fi22FiveD_le_P j)
   let eD : ↥D ≃* ↥(fi22FiveD j) :=
     (Subgroup.equivMapOfInjective D f hfinj).trans (MulEquiv.subgroupCongr hDmap)
-  haveI := fi22FiveD_isSimpleGroup j
+  have := fi22FiveD_isSimpleGroup j
   have hDs : IsSimpleGroup D := eD.isSimpleGroup
   have hDnc : ∃ a b : D, a * b ≠ b * a := by
     obtain ⟨a, ha, b, hb, hab⟩ := fi22FiveD_nonabelian j
@@ -437,13 +440,13 @@ theorem isElemAbelian_map {A B : Type*} [Group A] [Group B] {p : ℕ} {E : Subgr
 
 theorem center_eq_bot_of_quasisimple_quot {Y : Type*} [Group Y] (hY : CFSG.Open.IsQuasisimple Y) :
     Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := by
-  haveI := hY.2
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have := hY.2
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (Y ⧸ Subgroup.center Y))
     with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative (Y ⧸ Subgroup.center Y) :=
+    have : IsMulCommutative (Y ⧸ Subgroup.center Y) :=
       ⟨⟨fun a b => (Subgroup.mem_center_iff.1 (h ▸ Subgroup.mem_top a) b).symm⟩⟩
     exact Group.IsPerfect.not_isMulCommutative (Y ⧸ Subgroup.center Y) inferInstance
 
@@ -572,7 +575,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 theorem pRank_aut_M {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsQuasisimple Y)
     (e : (Y ⧸ Subgroup.center Y) ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :
     CFSG.Open.pRank 13 (⊤ : Subgroup (MulAut Y)) ≤ 2 := by
-  haveI := hY.2
+  have := hY.2
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Y443.nonempty_mulEquiv
   have b' : CFSG.Blueprint.NativeSporadic.Carrier .M ≃*
       (TauCeti.CFSGIndex.sporadic .M).Group := b
@@ -622,7 +625,7 @@ theorem inputSuzFive_holds : Claims1116.InputSuzFive := by
   let f : (Y ⧸ Subgroup.center Y) ≃* CFSG.Blueprint.NativeSporadic.Suz := e.trans b'.symm
   let f' : (Y ⧸ Subgroup.center Y) ≃* CFSG.Blueprint.NativeSporadic.Carrier .Suz :=
     e.trans b''.symm
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   have hdvd : Nat.card (Subgroup.center Y) ∣
       Nat.card (CFSG.Open.griessHopfMultiplier CFSG.Blueprint.NativeSporadic.Suz) :=
     CFSG.AGLEmbedding.card_center_dvd_card_griessHopfMultiplier (Q := Y)
@@ -684,7 +687,7 @@ theorem eq_or_le_center_of_isSubnormal {G : Type} [Group G] {Q X : Subgroup G}
   | refl => exact Or.inl rfl
   | @step H M K hHM hn _ ih =>
     rcases ih hX with rfl | hM
-    · haveI := hn
+    · have := hn
       rcases eq_top_or_le_center_of_normal hX (H.subgroupOf M) with h | h
       · exact Or.inl (le_antisymm hHM (Subgroup.subgroupOf_eq_top.1 h))
       · right
@@ -881,11 +884,11 @@ theorem factorization_504_three : (504 : ℕ).factorization 3 = 2 := by
 
 theorem psl27_noncomm :
     ∃ x y : Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7), x * y ≠ y * x := by
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [PF.card]; norm_num)
   by_contra h
   push Not at h
-  haveI : IsMulCommutative (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) := ⟨⟨h⟩⟩
+  have : IsMulCommutative (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) := ⟨⟨h⟩⟩
   have hc : Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) = 168 := L27.card_psl_F
   let _ : CommGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) :=
     { (inferInstance : Group (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7))) with
@@ -901,7 +904,7 @@ theorem heThreeB_component :
           GLAPComponent 3 (centralizerIn heP (bOf heThreeWordsB)) Q → Q = D) ∧
         GLAPComponent 3 (centralizerIn heP (bOf heThreeWordsB)) D ∧
         ∀ c ∈ centralizerIn heP (bOf heThreeWordsB), Nat.Coprime (orderOf c) 3 → c ∈ D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := grpOf heThreeWordsB 4 with hCdef
   have hCeq : C = centralizerIn heP (bOf heThreeWordsB) :=
     (heThree_theta bigDataB (by norm_num) heThreeXB heThreeXB_eq radB
@@ -935,7 +938,7 @@ theorem heThreeB_component :
     rw [hVz, Subgroup.zpowers_le]
     exact hbcent
   have hVp : IsPGroup 3 V := IsPGroup.of_card (n := 1) (by rw [hcardV, pow_one])
-  haveI : IsMulCommutative V :=
+  have : IsMulCommutative V :=
     ⟨⟨fun a b => Subtype.ext (Subgroup.mem_center_iff.1 (hVcent b.2) a)⟩⟩
   have hexp : ∀ x : ↥C, (∃ k : ℕ, x ^ 3 ^ k = 1) → x ^ 3 = 1 := by
     rintro x ⟨k, hk⟩
@@ -959,7 +962,7 @@ theorem heThreeB_component :
     rw [hP9, hcardV] at this
     omega
   have hx3 : x ^ 3 = 1 := hexp x (by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩)
   have hx1 : x ≠ 1 := fun h => hxV (h ▸ V.one_mem)
   have hordx : orderOf x = 3 := orderOf_eq_prime hx3 hx1
@@ -1028,7 +1031,7 @@ theorem heThreeB_component :
     exact Subgroup.mem_map_iff_mem C.subtype_injective
   let eDH : ↥D ≃* ↥H := (H.equivMapOfInjective C.subtype C.subtype_injective).symm
   have hDs : IsSimpleGroup ↥D := by
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [PF.card]; norm_num)
     exact (eDH.trans (eH.trans eX.symm)).isSimpleGroup
   have hcardD : Nat.card D = 168 := by
@@ -1088,7 +1091,7 @@ theorem heThreeB_barZ3 {Q : Subgroup (Equiv.Perm (Fin 8330))}
   obtain ⟨D, ⟨eD⟩, hD, -, -⟩ := heThreeB_component
   have hQD := hD Q hQ
   subst hQD
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (PF 7)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [PF.card]; norm_num)
   have hs : IsSimpleGroup ↥Q := eD.isSimpleGroup
   have hnc : ∃ x y : ↥Q, x * y ≠ y * x := by
@@ -1137,7 +1140,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 theorem inputHeCent_holds : Prop126b.InputHeCent := by
   intro Y _ _ K hq hHe b hbN hb3 hnc Q hQ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hHe
   obtain ⟨β⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
   have β' : CFSG.Blueprint.NativeSporadic.He ≃* (TauCeti.CFSGIndex.sporadic .He).Group := β
@@ -1158,7 +1161,7 @@ theorem inputHeCent_holds : Prop126b.InputHeCent := by
   have hbmem : ∀ k : Y, k ∈ K ↔ b * k * b⁻¹ ∈ K := Subgroup.mem_normalizer_iff.1 hbN
   let βb : MulAut ↥K :=
     { toFun := fun k => ⟨b * k * b⁻¹, (hbmem k).1 k.2⟩
-      invFun := fun k => ⟨b⁻¹ * k * b, (hbmem _).2 (by simpa [mul_assoc] using k.2)⟩
+      invFun := fun k => ⟨b⁻¹ * k * b, (hbmem _).2 (by simp [mul_assoc])⟩
       left_inv := fun k => Subtype.ext (by simp [mul_assoc])
       right_inv := fun k => Subtype.ext (by simp [mul_assoc])
       map_mul' := fun x y => Subtype.ext (by simp only [Subgroup.coe_mul]; group) }
@@ -1293,7 +1296,7 @@ open CFSG.AGLEmbeddingD2.Wilson.ThetaSpor CFSG.AGLEmbeddingD2.Wilson.ThetaSpor.H
 
 theorem input19_19Spor_he (K : Type) [Group K] [Finite K] (hq : CFSG.Open.IsQuasisimple K)
     (hHe : IsSporType .He (K ⧸ Subgroup.center K)) : ¬ IsLocallyOTwoBalancedWrtP 3 1 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hHe
   obtain ⟨β⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
   have β' : CFSG.Blueprint.NativeSporadic.He ≃* (TauCeti.CFSGIndex.sporadic .He).Group := β
@@ -1464,7 +1467,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 theorem inputHeGen_holds : Prop126b.InputHeGen := by
   intro Y _ _ K B hq hHe hBN hBe hrk hnt
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHe' := hHe
   obtain ⟨e⟩ := hHe
   obtain ⟨β⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
@@ -1631,7 +1634,7 @@ theorem inputHeGen_holds : Prop126b.InputHeGen := by
     have hrank := pRank_aut_He hq e
     have hcardR : Nat.card ρ.range = 3 ^ r := by
       rw [← Nat.card_congr (MonoidHom.ofInjective hρinj).toEquiv, hr]
-    haveI : Finite (MulAut ↥K) := inferInstance
+    have : Finite (MulAut ↥K) := inferInstance
     have hmem : r ∈ {k | ∃ E' : Subgroup (MulAut ↥K), E' ≤ ⊤ ∧ CFSG.Open.IsElemAbelian 3 E' ∧
         Nat.card E' = 3 ^ k} := ⟨ρ.range, le_top, hRe, hcardR⟩
     have hbdd : BddAbove {k | ∃ E' : Subgroup (MulAut ↥K), E' ≤ ⊤ ∧ CFSG.Open.IsElemAbelian 3 E' ∧

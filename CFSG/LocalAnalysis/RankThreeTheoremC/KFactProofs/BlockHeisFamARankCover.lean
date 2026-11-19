@@ -33,8 +33,8 @@ theorem heisAR_card_center_dvd (hGA : CFSG.Open.GriessAllModelsStatement) {L : T
     (hK : Nat.card K = 2 ^ f) (eX : L ⧸ Subgroup.center L ≃* StatedProj (StatedSL n K)) :
     Nat.card (Subgroup.center L) ∣ Nat.gcd n (2 ^ f - 1) := by
   have hq : CFSG.Open.IsQuasisimple L := ⟨hperf.commutator_eq_top, hs⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI := heisAR_charP_two hK
+  have : Fintype K := Fintype.ofFinite K
+  have := heisAR_charP_two hK
   have h := oddCenterLinear_of_griess hGA L ⊤ (heis_isComponentOf_top hq)
     (by rw [heisAR_card_center_top]; exact hodd) n K ⟨heisARTopEquiv eX⟩
   rwa [heisAR_card_center_top, ← Nat.card_eq_fintype_card, hK] at h
@@ -48,8 +48,8 @@ theorem heisAR_exists_cover
     ∃ ρ : Matrix.SpecialLinearGroup (Fin n) K →* L,
       ρ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin n) K) := by
   have hq : CFSG.Open.IsQuasisimple L := ⟨hperf.commutator_eq_top, hs⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI := heisAR_charP_two hK
+  have : Fintype K := Fintype.ofFinite K
+  have := heisAR_charP_two hK
   obtain ⟨ρ, -, hker, -⟩ := kFactCoverLinear_of_griess hGA L ⊤ (heis_isComponentOf_top hq)
     (by rw [heisAR_card_center_top]; exact hodd) n K hn (heisARTopEquiv eX)
   refine ⟨(Subgroup.topEquiv : (⊤ : Subgroup L) ≃* L).toMonoidHom.comp ρ, fun g hg => hker ?_⟩

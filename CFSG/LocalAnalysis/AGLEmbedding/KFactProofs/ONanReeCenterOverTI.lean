@@ -14,7 +14,7 @@ theorem exists_conj_mem_of_ti {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p
     {y₀ : G} (hy₀ : y₀ ∈ Y) (hp : ∃ k : ℕ, y₀ ^ p ^ k = 1) :
     ∃ y ∈ Y, y⁻¹ * y₀ * y ∈ (S : Subgroup G) := by
   classical
-  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup
   set P₀ : Subgroup Y := (Y ⊓ (S : Subgroup G)).subgroupOf Y with hP₀
   have hP₀p : IsPGroup p P₀ := by
     intro x
@@ -25,7 +25,7 @@ theorem exists_conj_mem_of_ti {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p
   have hZP₁ : ∀ z (hz : z ∈ Z), (⟨z, hZY hz⟩ : Y) ∈ (P₁ : Subgroup Y) := fun z hz =>
     hP₁ (Subgroup.mem_subgroupOf.2 (Subgroup.mem_inf.2 ⟨hZY hz, hZS hz⟩))
   have hP₁S : ∀ x ∈ (P₁ : Subgroup Y), (x : G) ∈ (S : Subgroup G) := by
-    have hp' : IsPGroup p ((P₁ : Subgroup Y).map Y.subtype) := P₁.isPGroup'.map Y.subtype
+    have hp' : IsPGroup p ((P₁ : Subgroup Y).map Y.subtype) := P₁.isPGroup.map Y.subtype
     obtain ⟨T, hT⟩ := hp'.exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S T
     have hgS : g ∈ Subgroup.normalizer ((S : Subgroup G) : Set G) := by

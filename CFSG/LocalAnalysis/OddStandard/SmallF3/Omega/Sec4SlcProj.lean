@@ -38,7 +38,7 @@ lemma sec4_natCard_sup_of_commute_of_inf_bot [Finite G] {A B : Subgroup G}
 
 lemma sec4_isPGroup_inf_eq_bot_of_odd_orderOf [Finite G] {H K : Subgroup G}
     (hodd : ∀ x ∈ H, Odd (orderOf x)) (hK : IsPGroup 2 K) : H ⊓ K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm (fun x hx => ?_) bot_le
   rw [Subgroup.mem_bot]
   obtain ⟨k, hk⟩ := (isPGroup_iff_orderOf_dvd_pow.mp hK) ⟨x, hx.2⟩

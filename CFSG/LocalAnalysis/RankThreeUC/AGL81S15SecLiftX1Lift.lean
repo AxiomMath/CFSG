@@ -13,9 +13,10 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.LocalAnalysis.RankT
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isC2_subgroupOf_of_normal {L M : Subgroup X} (hLn : L.Normal) (hLM : L ≤ M)
     (hL : IsC2 L) : IsC2 (L.subgroupOf M) := by
-  haveI := hLn
+  have := hLn
   have hLn' : (L.subgroupOf M).Normal := Subgroup.normal_subgroupOf
   have hodd : oddHull (L.subgroupOf M) = L.subgroupOf M := by
     apply Subgroup.map_injective M.subtype_injective
@@ -23,7 +24,7 @@ theorem isC2_subgroupOf_of_normal {L M : Subgroup X} (hLn : L.Normal) (hLM : L �
           simp only [oddHull, MonoidHom.map_closure]
           congr 1
           ext y
-          simp only [Set.mem_image, Set.mem_setOf_eq, Subgroup.mem_subgroupOf,
+          simp only [Set.mem_image, Set.mem_ofPred_eq, Subgroup.mem_subgroupOf,
             Subgroup.coe_subtype]
           constructor
           · rintro ⟨x, ⟨hx, hxo⟩, rfl⟩
@@ -36,12 +37,12 @@ theorem isC2_subgroupOf_of_normal {L M : Subgroup X} (hLn : L.Normal) (hLM : L �
     intro x hx
     constructor
     · intro h
-      haveI : ((CFSG.pCore 2 X).subgroupOf M).Normal := Subgroup.normal_subgroupOf
+      have : ((CFSG.pCore 2 X).subgroupOf M).Normal := Subgroup.normal_subgroupOf
       exact isC2_normalizer_aux0 (IsPGroup.comap_of_injective CFSG.pCore_isPGroup M.subtype
         M.subtype_injective) (Subgroup.mem_subgroupOf.mpr h)
     · intro h
       set N : Subgroup ↥L := ((CFSG.pCore 2 ↥M).map M.subtype).subgroupOf L with hN
-      haveI hNn : N.Normal := ⟨fun n hn l => by
+      have hNn : N.Normal := ⟨fun n hn l => by
         rw [hN, Subgroup.mem_subgroupOf] at hn ⊢
         obtain ⟨m, hm, hmn⟩ := hn
         have hmn' : (m : X) = n := hmn
@@ -76,6 +77,7 @@ theorem isC2_subgroupOf_of_normal {L M : Subgroup X} (hLn : L.Normal) (hLM : L �
       (hLn'.map _ (QuotientGroup.mk'_surjective _)).isSubnormal, ?_⟩
   exact CFSG.Open.IsQuasisimple.of_mulEquiv e.symm hL.component.2.2
 
+omit [Finite X] in
 theorem not_subgroupOf_le_gnC_subgroupOf {T L M : Subgroup X} (hTM : T ≤ M) (hLM : L ≤ M)
     (hLn : L.Normal) (hLC : ¬ L ≤ gnC T) : ¬ L.subgroupOf M ≤ gnC (T.subgroupOf M) := by
   intro h
@@ -85,6 +87,7 @@ theorem not_subgroupOf_le_gnC_subgroupOf {T L M : Subgroup X} (hTM : T ≤ M) (h
   rw [gnC_subgroupOf_eq hTM, Subgroup.mem_subgroupOf] at h1
   exact Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr (omegaOneCenterOf_le_uCore M T)) h1
 
+omit [Finite X] in
 theorem not_le_gnC_of_liftOf {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     (hcomp : CFSG.Open.IsComponentOf Ls ⊤) (hlift : LiftOf T L Ls) : ¬ L ≤ gnC T := by
   intro h
@@ -99,6 +102,7 @@ theorem isComponentOf_map_toStar_subgroupOf {T L M : Subgroup X} (hTM : T ≤ M)
   CFSG.LocalAnalysis.RankThreeTheoremC.FiveTwentySix.isComponentOf_map_toStar hgn
     (isC2_subgroupOf_of_normal hLn hLM hL) (not_subgroupOf_le_gnC_subgroupOf hTM hLM hLn hLC)
 
+omit [Finite X] in
 theorem not_map_toStar_subgroupOf_le_gnImg_centralizer {T T₁ L M : Subgroup X} (hTM : T ≤ M)
     (hLM : L ≤ M) (hT₁ : T₁ ≤ CFSG.Quasithin.omegaOneCenterOf T)
     (h : ¬ L.map (toStar T) ≤ gnImg T (Subgroup.centralizer (T₁ : Set X))) :
@@ -162,6 +166,7 @@ theorem liftCtxGen_subgroupOf {T T₁ T₂ L M : Subgroup X} {Ls : Subgroup (X �
     rw [Subgroup.map_subgroupOf_eq_of_le hLM]
     exact hl.rank_L r hr hr2
 
+omit [Finite X] in
 theorem nonempty_mulEquiv_map_toStar_subgroupOf {T L M : Subgroup X} (hTM : T ≤ M)
     (hLM : L ≤ M) (h : L ⊓ Subgroup.centralizer (uCore M T : Set X) ≤ gnC T) :
     Nonempty (↥(L.map (toStar T)) ≃* ↥((L.subgroupOf M).map (toStar (T.subgroupOf M)))) := by
@@ -184,6 +189,7 @@ theorem nonempty_mulEquiv_map_toStar_subgroupOf {T L M : Subgroup X} (hTM : T �
     (QuotientGroup.quotientMulEquivOfEq hker)).trans
     (QuotientGroup.quotientKerEquivOfSurjective ρ₁ hρ₁)⟩
 
+omit [Finite X] in
 theorem inf_comap_centralizer_le_centralizer_uCore {T L M : Subgroup X} (hTM : T ≤ M)
     (hLM : L ≤ M)
     (hc : Subgroup.center ↥((L.subgroupOf M).map (toStar (T.subgroupOf M))) = ⊥) :

@@ -68,7 +68,7 @@ theorem r891g211_gross_component (hGross : Gross82.R891GrossCoreOrderThree) {J0 
     rw [Sylow.coe_mapSurjective, hQ']
   have hPbSylow : IsSylowOf 3 Pb ⊤ := by
     rw [← hPbSylowcoe, CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, PbSylow.isPGroup', PbSylow.not_dvd_index⟩
+    exact ⟨le_top, PbSylow.isPGroup, PbSylow.not_dvd_index⟩
   have hfix : ∀ x ∈ Pb, γb x = x := by
     intro x hx
     obtain ⟨y, hyPj, hyx⟩ := Subgroup.mem_map.mp hx

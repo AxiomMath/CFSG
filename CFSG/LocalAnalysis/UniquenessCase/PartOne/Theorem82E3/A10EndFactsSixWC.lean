@@ -77,7 +77,7 @@ private theorem map_subgroupOf_eq_atilde (F : A10Frame c)
     (hTC : T ≤ Subgroup.centralizer (B : Set G)) :
     (T.subgroupOf D.M).map F.phiA = A10Perm.atilde := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup (Equiv.Perm (Fin 10)) := (T.subgroupOf D.M).map F.phiA
   have hQp : IsPGroup 3 Q := hT3.comap_subtype.map F.phiA
   have hAtQ : A10Perm.atilde ≤ Q := by
@@ -117,7 +117,7 @@ private theorem card_eq_27_of_map_eq_atilde (F : A10Frame c)
     (hmap : (T.subgroupOf D.M).map F.phiA = A10Perm.atilde) :
     Nat.card T = 27 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTsubp : IsPGroup 3 (T.subgroupOf D.M) := hT3.comap_subtype
   obtain ⟨m, hm⟩ := hTsubp.exists_card_eq
   have hdisj : (T.subgroupOf D.M) ⊓ F.phiA.ker = ⊥ := by
@@ -136,13 +136,13 @@ theorem isSylowOf_A_centralizer_of_deg_six (F : A10Frame c)
     (hB3 : Nat.card B = 3) (hB6 : F.deg B = 6) :
     CFSG.ABGLocalTools.IsSylowOf 3 F.A (Subgroup.centralizer (B : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H := Subgroup.centralizer (B : Set G)
   have hAH : F.A ≤ H := A_le_centralizer F hBA
   have hAp : IsPGroup 3 (F.A.subgroupOf H) := F.elemAbelian.isPGroup.comap_subtype
   obtain ⟨S, hAS⟩ := hAp.exists_le_sylow
   let T : Subgroup G := (S : Subgroup H).map H.subtype
-  have hT3 : IsPGroup 3 T := S.isPGroup'.map H.subtype
+  have hT3 : IsPGroup 3 T := S.isPGroup.map H.subtype
   have hTC : T ≤ H := Subgroup.map_subtype_le _
   have hAT : F.A ≤ T := by
     intro x hx
@@ -218,7 +218,7 @@ private theorem exists_burnside_normalizer (F : A10Frame c)
           Subgroup ↥(Subgroup.centralizer (B : Set G))) : Set _) ∧
       (n : G) * a * (n : G)⁻¹ = (g : G)⁻¹ * a * (g : G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H := Subgroup.centralizer (B : Set G)
   let X := ↥H
   have hAH : F.A ≤ H := A_le_centralizer F hBA
@@ -294,7 +294,7 @@ private theorem exists_fusion_data (F : A10Frame c)
       F.phiA ⟨a', F.A_le_M ha'A⟩ =
         F.phiA n * F.phiA ⟨a, F.A_le_M haA⟩ * (F.phiA n)⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H := Subgroup.centralizer (B : Set G)
   have hAH : F.A ≤ H := A_le_centralizer F hBA
   obtain ⟨n, hnNA, hnconjG⟩ :=
@@ -451,7 +451,7 @@ theorem isWeaklyClosedIn_of_support_eq (F : A10Frame c)
     have hw_eq : F.phiA ⟨a, F.A_le_M haA⟩ =
         (MulAut.conj (F.phiA n)⁻¹) (F.phiA ⟨a', F.A_le_M ha'A⟩) := by
       rw [hφeq]
-      simp [MulAut.conj_apply]
+      simp
       group
     have hconj_inv : (MulAut.conj (F.phiA n)⁻¹) (F.phiA ⟨b, F.A_le_M (hBA hb)⟩) =
         F.phiA ⟨b, F.A_le_M (hBA hb)⟩ := by

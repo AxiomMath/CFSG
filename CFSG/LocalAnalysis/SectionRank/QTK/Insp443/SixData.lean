@@ -30,14 +30,17 @@ variable {G : Type} [Group G] [Finite G] {W : Subgroup G} {D : Fin 6 → Subgrou
 @[expose] noncomputable def sig (g : ↥(Subgroup.normalizer (W : Set G))) (r : Fin 6) : Fin 6 :=
   Classical.choose (hd.perm g g.2 r)
 
+omit [Finite G] in
 theorem sig_spec (g : ↥(Subgroup.normalizer (W : Set G))) (r : Fin 6) :
     (D r).map (MulAut.conj (g : G)).toMonoidHom = D (hd.sig g r) :=
   Classical.choose_spec (hd.perm g g.2 r)
 
+omit [Finite G] in
 theorem sig_eq {g : ↥(Subgroup.normalizer (W : Set G))} {r s : Fin 6}
     (h : (D r).map (MulAut.conj (g : G)).toMonoidHom = D s) : hd.sig g r = s :=
   hd.inj (by rw [← hd.sig_spec, h])
 
+omit [Finite G] in
 theorem map_conj_mul (a b : G) (K : Subgroup G) :
     K.map (MulAut.conj (a * b)).toMonoidHom =
       (K.map (MulAut.conj b).toMonoidHom).map (MulAut.conj a).toMonoidHom := by
@@ -46,11 +49,13 @@ theorem map_conj_mul (a b : G) (K : Subgroup G) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 theorem sig_mul (g h : ↥(Subgroup.normalizer (W : Set G))) (r : Fin 6) :
     hd.sig (g * h) r = hd.sig g (hd.sig h r) := by
   apply hd.sig_eq
   rw [Subgroup.coe_mul, map_conj_mul, hd.sig_spec h r, hd.sig_spec g]
 
+omit [Finite G] in
 theorem sig_one (r : Fin 6) : hd.sig 1 r = r := by
   apply hd.sig_eq
   rw [Subgroup.coe_one]
@@ -67,9 +72,11 @@ theorem sig_one (r : Fin 6) : hd.sig 1 r = r := by
   map_one' := Equiv.ext fun r => hd.sig_one r
   map_mul' g h := Equiv.ext fun r => hd.sig_mul g h r
 
+omit [Finite G] in
 theorem psi_apply (g : ↥(Subgroup.normalizer (W : Set G))) (r : Fin 6) :
     hd.psi g r = hd.sig g r := rfl
 
+omit [Finite G] in
 theorem psi_eq_one_iff (g : ↥(Subgroup.normalizer (W : Set G))) :
     hd.psi g = 1 ↔ (g : G) ∈ W := by
   constructor
@@ -89,6 +96,7 @@ theorem psi_eq_one_iff (g : ↥(Subgroup.normalizer (W : Set G))) :
       have hc := hd.comm _ hg _ (hd.le r hx)
       simp [MulAut.conj_apply, hc, mul_assoc]
 
+omit [Finite G] in
 theorem psi_surjective : Function.Surjective hd.psi := by
   rw [← MonoidHom.range_eq_top]
   obtain ⟨g₁, hg₁, h₁⟩ := hd.swap
@@ -124,7 +132,7 @@ theorem eq_bot_of_normal_of_fix {H : Subgroup (Equiv.Perm (Fin 6))} (hH : H.Norm
   refine Equiv.ext fun i => ?_
   rw [Equiv.Perm.one_apply]
   have h1 := hr _ (hH.conj_mem σ hσ (Equiv.swap r i)⁻¹)
-  simp only [inv_inv, Equiv.Perm.mul_apply, Equiv.swap_inv] at h1
+  simp only [Equiv.Perm.mul_apply, Equiv.swap_inv] at h1
   have h2 := congrArg (Equiv.swap r i) h1
   simpa [Equiv.swap_apply_left] using h2
 

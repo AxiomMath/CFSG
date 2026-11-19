@@ -21,7 +21,7 @@ namespace TightSylowDataTR
 variable (hd : TightSylowDataTR r K z S W L t V)
 include hd
 
-theorem inf_le_inf_core : K ⊓ W ≤ (S : Subgroup G) ⊓ K := fun a ha => ⟨hd.hWS ha.2, ha.1⟩
+theorem inf_le_inf_core : K ⊓ W ≤ (S : Subgroup G) ⊓ K := fun _a ha => ⟨hd.hWS ha.2, ha.1⟩
 
 theorem isCyclic_inf : IsCyclic ↥(K ⊓ W) := by
   obtain ⟨-, -, -, -, -, -, hUc, -, -⟩ :=

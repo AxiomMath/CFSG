@@ -86,7 +86,7 @@ theorem center_eq_bot_of_typeTwo {Y : Subgroup G} {c : G} (hT : InducesTypeTwoL2
 theorem center_bar_eq_bot {Y : Type} [Group Y] [Finite Y]
     (h3 : ∀ z ∈ Subgroup.center (Y ⧸ aschbacherSolvableCore 3 Y), ¬ 3 ∣ orderOf z) :
     Subgroup.center (Y ⧸ aschbacherSolvableCore 3 Y) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hs, -, hnd, hmax, -⟩ :=
     solvable_prime_complement_core_characterization (H := Y) Nat.prime_three
   have hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center (Y ⧸ aschbacherSolvableCore 3 Y)) := by
@@ -104,6 +104,7 @@ theorem center_bar_eq_bot {Y : Type} [Group Y] [Finite Y]
   have hy : y ∈ Item21EarlyProof.centerPre (aschbacherSolvableCore 3 Y) := hz
   exact Subgroup.mem_bot.mpr ((QuotientGroup.eq_one_iff y).mpr (hPle hy))
 
+omit [Finite G] in
 theorem bar_four_group {Y U₁ : Subgroup G} (hU₁Y : U₁ ≤ Y)
     (hUθ : U₁ ⊓ inSubgroup (aschbacherSolvableCore 3) Y = ⊥)
     (hU₁ab : IsElemAbelian 2 U₁) (hU₁card : Nat.card U₁ = 4) :
@@ -192,7 +193,7 @@ theorem moved_of_charTwo_transport {Q X : Type} [Group Q] [Finite Q] [Group X]
     (hσ : ∀ z : Q, e (σ z) = g * e z * g⁻¹) (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1)
     (Ub : Subgroup Q) (hcard : Nat.card Ub = 4) (hfix : ∀ u ∈ Ub, σ u = u) :
     ∃ xb ∈ inSubgroup (CFSG.pCore 2) (Subgroup.centralizer (Ub : Set Q)), σ xb ≠ xb := by
-  haveI : Finite X := Finite.of_equiv Q e.toEquiv
+  have : Finite X := Finite.of_equiv Q e.toEquiv
   set U : Subgroup X := Ub.map e.toMonoidHom with hU
   have hUcard : Nat.card U = 4 := by
     rw [hU, Subgroup.card_map_of_injective e.injective]
@@ -258,7 +259,7 @@ theorem exists_pCore_not_theta_of_bar {Y U₁ : Subgroup G} {c : G}
         Sec4.thetaQuotMulAut Y (Y.normalizerMonoidHom ⟨c, hcN⟩) xb ≠ xb) :
     ∃ x ∈ inSubgroup (CFSG.pCore 2) (Y ⊓ Subgroup.centralizer (U₁ : Set G)),
       x * c * x⁻¹ * c⁻¹ ∉ inSubgroup (aschbacherSolvableCore 3) Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set θH : Subgroup Y := aschbacherSolvableCore 3 Y with hθH
   set π := QuotientGroup.mk' θH with hπ
   set U : Subgroup Y := U₁.subgroupOf Y with hU
@@ -567,6 +568,7 @@ theorem sl2five_no_klein (V : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (ZMod 
   rw [Nat.card_zpowers, hord, h4] at hdvd
   omega
 
+omit [Finite G] in
 theorem false_of_sl2five {Y U₁ I : Subgroup G} (hU₁Y : U₁ ≤ Y)
     (hUθ : U₁ ⊓ inSubgroup (aschbacherSolvableCore 3) Y = ⊥)
     (hU₁ab : IsElemAbelian 2 U₁) (hU₁card : Nat.card U₁ = 4) (hU₁I : U₁ ≤ I)

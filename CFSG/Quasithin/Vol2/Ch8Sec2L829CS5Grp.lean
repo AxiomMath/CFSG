@@ -91,10 +91,10 @@ theorem eq_top_of_simple_card_sixty_cs5 {X : Type} [Group X] [Finite X] [IsSimpl
     exact eq_top_iff.mpr hle
 
 theorem isSolvable_normalizer_of_borel_cs5 {Y : Type} [Group Y] [Finite Y] {X S : Subgroup Y}
-    [X.Normal] (hSX : S ≤ X) (hYX : IsPGroup 2 (Y ⧸ X))
+    [X.Normal] (_hSX : S ≤ X) (hYX : IsPGroup 2 (Y ⧸ X))
     (hB : Group.IsSolvable ↥(X ⊓ Subgroup.normalizer (S : Set Y))) :
     Group.IsSolvable ↥(Subgroup.normalizer (S : Set Y)) := by
-  clear hSX
+  clear _hSX
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : Group.IsSolvable (Y ⧸ X) := by
     have := hYX.isNilpotent
@@ -178,7 +178,7 @@ theorem exists_fixed_mem_coset_cs5 {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fa
   have hH : Subgroup.zpowers x ≤ Subgroup.normalizer Ω := Subgroup.zpowers_le.mpr hxN
   have hact : ∀ (h : Subgroup.zpowers x) (ω : ↥Ω), (h : Y) * (ω : Y) * (h : Y)⁻¹ ∈ Ω :=
     fun h ω => (Subgroup.mem_set_normalizer_iff.mp (hH h.2) (ω : Y)).mp ω.2
-  letI act : MulAction (Subgroup.zpowers x) ↥Ω :=
+  let act : MulAction (Subgroup.zpowers x) ↥Ω :=
     { smul := fun h ω => ⟨(h : Y) * (ω : Y) * (h : Y)⁻¹, hact h ω⟩
       one_smul := fun ω => Subtype.ext (by
         show ((1 : Subgroup.zpowers x) : Y) * (ω : Y) * ((1 : Subgroup.zpowers x) : Y)⁻¹ = (ω : Y)
@@ -192,7 +192,7 @@ theorem exists_fixed_mem_coset_cs5 {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fa
   have hHp : IsPGroup p (Subgroup.zpowers x) :=
     IsPGroup.of_card_dvd_pow (n := k)
       (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hk)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hP
   let eP : ↥P ≃ ↥Ω :=
     { toFun := fun q => ⟨(q : Y) * i, (hΩ _).mpr (by rw [mul_inv_cancel_right]; exact q.2)⟩

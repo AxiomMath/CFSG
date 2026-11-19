@@ -122,7 +122,7 @@ theorem bstar_eq_of_inner_rank {p r : ℕ} {B Bs : Subgroup G} {x : G} {L : Subg
     (hT : GGThmIHyp p B x L) (hBs : GGBstar p B Bs)
     (hnc : ∃ S : Subgroup G, S ≤ L ∧ IsPGroup p S ∧ ¬ IsCyclic S) (hL : commutator L = ⊤)
     {R : Type} [Group R] (θ : L ⧸ Subgroup.center L ≃* R) {I : Set (MulAut R)}
-    (hBN : B ≤ Subgroup.normalizer (L : Set G))
+    (_hBN : B ≤ Subgroup.normalizer (L : Set G))
     (h3 : ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ)
     (hlift : GGTorusLift p r R) (hrank : GGIRankLe p r R I) : B = Bs := by
   obtain ⟨-, -, -, -, -, hβ, hS, -⟩ := hT

@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem bar2_comap_map_subgroupOf {K S : Subgroup G}
     (hO : CFSG.Open.pCoreOf 2 K ≤ S) :
     Subgroup.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥K))
@@ -26,6 +27,7 @@ theorem bar2_comap_map_subgroupOf {K S : Subgroup G}
   change Subgroup.comap q (Subgroup.map q (S.subgroupOf K)) = S.subgroupOf K
   rw [Subgroup.comap_map_eq, QuotientGroup.ker_mk', sup_eq_left.mpr hO']
 
+omit [Finite G] in
 theorem rhoL_apply_mk {K : Subgroup G} {r : G}
     (hr : r ∈ Subgroup.normalizer (K : Set G)) (x : ↥K) :
     UC6S846.rhoL K ⟨r, hr⟩ (QuotientGroup.mk' (CFSG.pCore 2 ↥K) x) =
@@ -125,6 +127,7 @@ theorem mem_normalizer_of_bar2_mem {K S : Subgroup G} (hSK : S ≤ K)
   · exact le_of_eq (Subgroup.card_map_of_injective (K := S)
       (f := (MulAut.conj (x : G)).toMonoidHom) (MulAut.conj (x : G)).injective).symm
 
+omit [Finite G] in
 theorem commutator_mem_of_rhoL {K S : Subgroup G}
     (hcomap : Subgroup.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥K))
       (Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) (S.subgroupOf K)) = S.subgroupOf K)
@@ -164,12 +167,13 @@ private theorem mod_sylow_disjoint {K S : Subgroup G} (hS2 : IsPGroup 2 S)
   let q := QuotientGroup.mk' (CFSG.pCore 2 ↥K)
   let Sbar : Subgroup (Bar2 K) := (S.subgroupOf K).map q
   rw [disjoint_iff]
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   obtain ⟨n, hn⟩ := (hS2.comap_subtype (K := K)).map q |>.exists_card_eq
   have hn' : Nat.card Sbar = 2 ^ n := by simpa [Sbar] using hn
   rw [hn']
   exact Nat.Coprime.pow_right n hHodd.coprime_two_right
 
+omit [Finite G] in
 private theorem mod_sylow_normal_and_quotient {K S : Subgroup G}
     (hO : CFSG.Open.pCoreOf 2 K ≤ S) {H : Subgroup (Bar2 K)}
     (hHnorm : H ≤ Subgroup.normalizer
@@ -194,7 +198,7 @@ private theorem mod_sylow_normal_and_quotient {K S : Subgroup G}
   have hcomap : Subgroup.comap q Sbar = S.subgroupOf K := bar2_comap_map_subgroupOf hO
   have hPbar_le_N : Pbar ≤ Subgroup.normalizer (Sbar : Set (Bar2 K)) :=
     sup_le hHnorm Subgroup.le_normalizer
-  haveI hSbar_normal : (Sbar.subgroupOf Pbar).Normal :=
+  have hSbar_normal : (Sbar.subgroupOf Pbar).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hPbar_le_N
   have hHsub : Sbar.subgroupOf H = ⊥ :=
     Subgroup.subgroupOf_eq_bot.mpr hHdisj.symm
@@ -203,7 +207,7 @@ private theorem mod_sylow_normal_and_quotient {K S : Subgroup G}
     (QuotientGroup.mk' (Sbar.subgroupOf Pbar)).comp f
   have hg_surj : Function.Surjective g :=
     (QuotientGroup.mk'_surjective (Sbar.subgroupOf Pbar)).comp
-      (MonoidHom.subgroupComap_surjective_of_surjective q Pbar
+      (_root_.MonoidHom.subgroupComap_surjective q Pbar
         (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥K)))
   have hker : g.ker = N := by
     ext x
@@ -222,6 +226,7 @@ private theorem mod_sylow_normal_and_quotient {K S : Subgroup G}
       ((QuotientGroup.quotientMulEquivOfEq hHsub).trans QuotientGroup.quotientBot)
   exact ⟨hNnormal, ⟨ePS.trans eH⟩⟩
 
+omit [Finite G] in
 private theorem mod_sylow_card {K S : Subgroup G} (hSK : S ≤ K) {H : Subgroup (Bar2 K)}
     (P : Subgroup ↥K)
     (hP : P = (H ⊔ Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥K))
@@ -281,7 +286,7 @@ theorem exists_borelLift_of_mod_sylow {K S R : Subgroup G}
   have hHdisj : Disjoint H Sbar := mod_sylow_disjoint hS2 hHodd
   obtain ⟨hNnormal, ⟨ePN⟩⟩ :=
     mod_sylow_normal_and_quotient hO hHnorm hHdisj P rfl N rfl
-  haveI := hNnormal
+  have := hNnormal
   have hNcard : Nat.card N = Nat.card S := mod_sylow_card hSK P rfl N rfl
   have hNindex : N.index = Nat.card H := by
     rw [Subgroup.index_eq_card]
@@ -309,8 +314,8 @@ theorem exists_borelLift_of_mod_sylow {K S R : Subgroup G}
 theorem pCoreOf_le_inf_sylow {D : Data G} {K : Subgroup G}
     (hK : K ∈ calC D.M) (hKn : (K.subgroupOf D.M).Normal) :
     CFSG.Open.pCoreOf 2 K ≤ D.T ⊓ K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hpc : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal (p := 2) (G := ↥K)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hpc : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal (p := 2) (G := ↥K)
   have hKM : K ≤ D.M := uc22p22a_le_of_isSubnormal hK.1
   have hMN : D.M ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mp hKn
@@ -403,7 +408,7 @@ private theorem exists_borelLift_of_bar2OddData (D : Data G) {K : Subgroup G}
       Nonempty (A ≃* H) ∧
       ∀ r ∈ D.T, ∀ a ∈ A, r * a * r⁻¹ * a⁻¹ ∈ D.T ⊓ K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT_le_NK : D.T ≤ Subgroup.normalizer (K : Set G) :=
     T_le_normalizer_of_normal hK hKn
   have hT_le_NS : D.T ≤ Subgroup.normalizer ((D.T ⊓ K : Subgroup G) : Set G) :=
@@ -443,7 +448,7 @@ theorem exists_borelLift_of_isL2 (D : Data G) {K : Subgroup G} (hK : K ∈ calC 
       (m = 1 → 2 ≤ k → ∃ t : G, ∃ ht : t ∈ Subgroup.normalizer (K : Set G),
         t ∈ D.T ∧ ∀ x : Bar2 K, UC6S846.rhoL K ⟨t, ht⟩ ^ (k / 2) ≠ MulAut.conj x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := sylowImage_isSylow hK hKn
   let Θ : Subgroup (MulAut (Bar2 K)) :=
     (D.T.subgroupOf (Subgroup.normalizer (K : Set G))).map (UC6S846.rhoL K)
@@ -478,7 +483,7 @@ theorem exists_borelLift_of_isSz (hAut : KSzTwoAut) (D : Data G) {K : Subgroup G
     ∃ A : Subgroup G, A ≤ K ⊓ Subgroup.normalizer (D.T : Set G) ∧
       Nat.card A = 2 ^ k - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := sylowImage_isSylow hK hKn
   let Θ : Subgroup (MulAut (Bar2 K)) :=
     (D.T.subgroupOf (Subgroup.normalizer (K : Set G))).map (UC6S846.rhoL K)
@@ -500,7 +505,7 @@ theorem exists_borelLift_of_isJ1 (D : Data G) {K : Subgroup G} (hK : K ∈ calC 
     ∃ A : Subgroup G, A ≤ K ⊓ Subgroup.normalizer (D.T : Set G) ∧
       Odd (Nat.card A) ∧ ¬ IsMulCommutative A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := sylowImage_isSylow hK hKn
   let Θ : Subgroup (MulAut (Bar2 K)) :=
     (D.T.subgroupOf (Subgroup.normalizer (K : Set G))).map (UC6S846.rhoL K)

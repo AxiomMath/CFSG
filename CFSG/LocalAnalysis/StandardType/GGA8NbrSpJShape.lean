@@ -82,14 +82,14 @@ private theorem a8js_diagonal_conj_single' {F : Type} [Field F] {ι : Type*} [Fi
   · rw [hx]
     by_cases hy : b = y
     · rw [← hy]
-      rw [if_pos rfl, if_pos rfl, if_pos (show a = a ∧ b = b from ⟨rfl, rfl⟩)]
+      rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_left (show a = a ∧ b = b from ⟨rfl, rfl⟩)]
       ring
-    · rw [if_pos rfl, if_neg hy, if_neg (fun hh => hy hh.2)]
+    · rw [ite_eq_left rfl, ite_eq_right hy, ite_eq_right (fun hh => hy hh.2)]
       ring
   · by_cases hy : b = y
-    · rw [if_neg hx, if_pos hy, if_neg (fun hh : a = x ∧ b = y => hx hh.1.symm)]
+    · rw [ite_eq_right hx, ite_eq_left hy, ite_eq_right (fun hh : a = x ∧ b = y => hx hh.1.symm)]
       ring
-    · rw [if_neg hx, if_neg hy, if_neg (fun hh : a = x ∧ b = y => hx hh.1.symm)]
+    · rw [ite_eq_right hx, ite_eq_right hy, ite_eq_right (fun hh : a = x ∧ b = y => hx hh.1.symm)]
       ring
 
 private theorem a8js_diagonal_conj_single {F : Type} [Field F] {ι : Type*} [Fintype ι]
@@ -197,10 +197,10 @@ private theorem a8js_elt_long_mem_suppGroup {F : Type} [Field F] {n : ℕ} {s : 
   by_cases h : Sum.inl j = a ∧ Sum.inr j = b
   · obtain ⟨rfl, rfl⟩ := h
     exact absurd ⟨inl_mem_planeSet.mpr hj, inr_mem_planeSet.mpr hj⟩ hab
-  · rw [if_neg h, add_zero]
+  · rw [ite_eq_right h, add_zero]
 
 private theorem a8js_mem_range_classHom_of_no_ef {F : Type} [Field F] {n p : ℕ} [Fact p.Prime]
-    {β : Fin n → ZMod p} {c : ZMod p} (hc : c ≠ 0) {M : StatedSp n F}
+    {β : Fin n → ZMod p} {c : ZMod p} (_hc : c ≠ 0) {M : StatedSp n F}
     (hS : M ∈ suppGroup (planeSet (spClass β c)))
     (hdet : (eBlock (spClass β c) (mat n F M)).det = 1)
     (hef : ∀ k l, mat n F M (Sum.inl (enum (spClass β c) k))
@@ -274,24 +274,24 @@ private theorem a8js_elt_diff_mem_classBlock {F : Type} [Field F] {n p : ℕ} [F
       · obtain ⟨rfl, rfl⟩ := h
         exact absurd ⟨inl_mem_planeSet.mpr (mem_spClass.mpr hi),
           inl_mem_planeSet.mpr (mem_spClass.mpr hj)⟩ hrt
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
     have hY : (if Sum.inr j = r ∧ Sum.inr i = t then (1 : F) else 0) = 0 := by
       by_cases h : Sum.inr j = r ∧ Sum.inr i = t
       · obtain ⟨rfl, rfl⟩ := h
         exact absurd ⟨inr_mem_planeSet.mpr (mem_spClass.mpr hj),
           inr_mem_planeSet.mpr (mem_spClass.mpr hi)⟩ hrt
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
     rw [hX, hY, sub_zero, mul_zero, add_zero]
   have hef : ∀ k l, mat n F (elt (.difference i j hij) a)
       (Sum.inl (enum (spClass β c) k)) (Sum.inr (enum (spClass β c) l)) = 0 := by
     intro k l
     rw [a8js_mat_elt_difference]
-    simp [Matrix.single_apply, Matrix.one_apply]
+    simp
   have hfe : ∀ k l, mat n F (elt (.difference i j hij) a)
       (Sum.inr (enum (spClass β c) k)) (Sum.inl (enum (spClass β c) l)) = 0 := by
     intro k l
     rw [a8js_mat_elt_difference]
-    simp [Matrix.single_apply, Matrix.one_apply]
+    simp
   have hdet : (eBlock (spClass β c) (mat n F (elt (.difference i j hij) a))).det = 1 := by
     obtain ⟨k, hk⟩ := exists_enum_eq (mem_spClass.mpr hi)
     obtain ⟨l, hl⟩ := exists_enum_eq (mem_spClass.mpr hj)
@@ -315,7 +315,7 @@ theorem spCompShape_exists_twoSubgroup {G : Type} [Group G] [Finite G] {F : Type
       (frameHom ψ A₀ hζ).range ≤ Subgroup.normalizer (T : Set G) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hφinj : Function.Injective (frameConj ψ A₀) := frameConj_injective hψ A₀
   rcases hJ with ⟨hJeq, hZ1⟩ | ⟨c, hc, hJeq, hS2⟩
   ·
@@ -474,7 +474,7 @@ theorem spCompShape_exists_orderOf {G : Type} [Group G] [Finite G] {F : Type} [F
     ∃ w ∈ J, orderOf w = p := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζ : ζ ^ p = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
   have hinj : Function.Injective (frameHom ψ A₀ hζ) := frameHom_injective ψ A₀ hζ hψ hζo
   have hp2 : p ≠ 2 := by
@@ -542,7 +542,7 @@ theorem spCompShape_refine {G : Type} [Group G] [Finite G] {F : Type} [Field F] 
           spClass β c = Finset.univ) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hinj : Function.Injective (frameHom ψ A₀ hζ) := frameHom_injective ψ A₀ hζ hψ hζo
   have hp2 : p ≠ 2 := by
     rintro rfl

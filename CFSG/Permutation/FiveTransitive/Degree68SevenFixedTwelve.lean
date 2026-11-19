@@ -31,7 +31,7 @@ theorem excluded
   intro hF
   change Nat.card F = 12 at hF
   have hFfin : Fintype.card F = 12 := by rw [← Nat.card_eq_fintype_card]; exact hF
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm

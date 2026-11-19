@@ -32,8 +32,8 @@ namespace LocalSetting
 
 variable {H : LocalSetting G} {S : Subgroup G}
 
-theorem V_le_centralizer_V : H.V ≤ centralizer (H.V : Set G) := fun v hv =>
-  Subgroup.mem_centralizer_iff.2 fun w hw => H.V_comm hw hv
+theorem V_le_centralizer_V : H.V ≤ centralizer (H.V : Set G) := fun _v hv =>
+  Subgroup.mem_centralizer_iff.2 fun _w hw => H.V_comm hw hv
 
 theorem centralizer_V_le_centralizer_z : centralizer (H.V : Set G) ≤ centralizer ({H.z} : Set G) :=
   fun x hx => by
@@ -70,7 +70,7 @@ variable {H : LocalSetting G} {S Λ : Subgroup G} (h : Stage H S Λ)
 
 include h in
 theorem V_le_DC : H.V ≤ H.DC S :=
-  le_inf LocalSetting.V_le_centralizer_V fun v hv => le_normalizer (h.V_le hv)
+  le_inf LocalSetting.V_le_centralizer_V fun _v hv => le_normalizer (h.V_le hv)
 
 include h in
 theorem DC_inf_S : H.DC S ⊓ S = H.V := by

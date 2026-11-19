@@ -83,7 +83,7 @@ theorem lin_exists_odd_Y : ∃ y ∈ c.Y, y ≠ 1 ∧ Odd (orderOf y) := by
   have hkm : Nat.card c.k = 2 ^ (2 * f) := by
     rw [Nat.card_eq_fintype_card, c.card_k, ← pow_mul, mul_comm]
   have hsyl : IsSylowOf 2 (c.Y ⊓ c.S) c.Y :=
-    s313a_isSylowOf_Y_inf_S hl.toCaseHyp k c.S_syl c.P_le_S c.ψ
+    s313a_isSylowOf_Y_inf_S k c.S_syl c.P_le_S c.ψ
   obtain ⟨J, hJY, -, hJcard⟩ := s313a_exists_J hkm (by omega : 1 ≤ 2 * f) c.φY hsyl
   have hodd : Odd (Nat.card J) := by
     rw [hJcard, hkm]
@@ -99,7 +99,7 @@ theorem lin_exists_odd_Y : ∃ y ∈ c.Y, y ≠ 1 ∧ Odd (orderOf y) := by
     rw [hJcard, hkm]
     have h4 : 2 ^ 2 ≤ 2 ^ (2 * f) := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
-  haveI : Nontrivial J := Finite.one_lt_card_iff_nontrivial.1 hgt
+  have : Nontrivial J := Finite.one_lt_card_iff_nontrivial.1 hgt
   obtain ⟨⟨y, hy⟩, hy1⟩ := exists_ne (1 : J)
   have hy1' : y ≠ 1 := fun e => hy1 (Subtype.ext e)
   refine ⟨y, hJY hy, hy1', ?_⟩
@@ -153,7 +153,7 @@ theorem lin_Bc_elem (h41 : c.Sec41) : IsElemAbelian 2 c.Bc := by
       ∃ f₀ ∈ d.F, b = z * f₀ := by
     intro b hb
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).1 hB2
-    haveI : Group.IsNilpotent c.Bc := IsPGroup.isNilpotent hB2
+    have : Group.IsNilpotent c.Bc := IsPGroup.isNilpotent hB2
     have hsolv : Group.IsSolvable c.Bc := inferInstance
     have hcop : (Nat.card (zpowers y₀)).Coprime (Nat.card c.Bc) := by
       rw [Nat.card_zpowers, hn]
@@ -187,7 +187,7 @@ theorem lin_Bc_elem (h41 : c.Sec41) : IsElemAbelian 2 c.Bc := by
   have hFcomm : ∀ {v w : G}, v ∈ d.F → w ∈ d.F → v * w = w * v := fun {v w} hv hw =>
     Prelim.mul_comm_of_mem (lin_isElementaryAbelian_F hl k c) hv hw
   have hFsq : ∀ v ∈ d.F, v * v = 1 := fun v hv => by
-    haveI := lin_isElementaryAbelian_F hl k c
+    have := lin_isElementaryAbelian_F hl k c
     have := CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := d.F) v hv
     simpa [sq] using this
   have hCsq : ∀ z ∈ C, z * z = 1 := fun z hz =>

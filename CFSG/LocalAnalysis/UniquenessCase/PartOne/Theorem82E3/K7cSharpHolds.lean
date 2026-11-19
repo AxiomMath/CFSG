@@ -26,7 +26,7 @@ private theorem pRank_psp6_le_one {K : Type} [Field K] [Finite K] [CharP K 2] {f
     (hp : p.Prime) (hp5 : 5 ≤ p) (hK : Nat.card K = 2 ^ f) (hpq : ¬ p ∣ 2 ^ f)
     (hpq2 : ¬ p ∣ 2 ^ (2 * f) - 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSp 3 K))) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by rw [hK]; exact hpq
   have hpK2 : ¬ p ∣ Nat.card K ^ 2 - 1 := by rw [hK, two_pow_sq]; exact hpq2
   have he3 : 3 ≤ orderOf (Nat.card K : ZMod p) := by
@@ -46,7 +46,7 @@ private theorem pRank_pomega8m_le_one {K : Type} [Field K] [Finite K] [CharP K 2
     {b c : K} (hbc : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     CFSG.Open.pRank p
       (⊤ : Subgroup (StatedProj (StatedOmega (StatedQuadMinus 4 K b c)))) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq2' : ¬ p ∣ (2 ^ f) ^ 2 - 1 := by rw [two_pow_sq]; exact hpq2
   have hq1 : ¬ p ∣ 2 ^ f - 1 := fun h =>
     hq2' (h.trans (by simpa using Nat.sub_dvd_pow_sub_pow (2 ^ f) 1 2))
@@ -65,7 +65,7 @@ private theorem pRank_psl4_le_one {K : Type} [Field K] [Finite K] [CharP K 2] {f
     (hp : p.Prime) (hp5 : 5 ≤ p) (hK : Nat.card K = 2 ^ f) (hpq : ¬ p ∣ 2 ^ f)
     (hpq2 : ¬ p ∣ 2 ^ (2 * f) - 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSL 4 K))) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by rw [hK]; exact hpq
   have hpK2 : ¬ p ∣ Nat.card K ^ 2 - 1 := by rw [hK, two_pow_sq]; exact hpq2
   have hb := pRank_top_statedProj_le_card_div_three (p := p) (hp.odd_of_ne_two (by omega)) hpK
@@ -76,7 +76,7 @@ private theorem pRank_psu4_le_one {K : Type} [Field K] [Finite K] [CharP K 2] {f
     (hp : p.Prime) (hp5 : 5 ≤ p) (hK : Nat.card K = (2 ^ f) ^ 2) (hpq : ¬ p ∣ 2 ^ f)
     (hpq2 : ¬ p ∣ 2 ^ (2 * f) - 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSU 4 (2 ^ f) K))) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq2' : ¬ p ∣ (2 ^ f) ^ 2 - 1 := by rw [two_pow_sq]; exact hpq2
   have hb := pRank_top_statedProj_statedSU_le_div_three (p := p) (L := K) (q := 2 ^ f)
     (n := 4) (hp.odd_of_ne_two (by omega)) hK hpq hpq2' (by norm_num)
@@ -85,7 +85,7 @@ private theorem pRank_psu4_le_one {K : Type} [Field K] [Finite K] [CharP K 2] {f
 theorem k7cSharp_holds :
     K7cSharp := by
   intro Y _ _ fam f hfam hY p hp hp5 hndvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : fam ≠ .l7 := by rcases hfam with h | h | h <;> rw [h] <;> decide
   have hZ : center Y = ⊥ := center_eq_bot_of_isLie811 hY hne
   have hZdiv : ¬ p ∣ Nat.card (center Y) := by

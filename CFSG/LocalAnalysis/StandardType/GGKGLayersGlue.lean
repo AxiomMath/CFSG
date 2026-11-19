@@ -22,7 +22,7 @@ theorem kgLayers_E6_of_adj (h1 : KGAdjL1) (h2 : KGAdjL2) (h3i : KGAdjL3i) (h3ii 
     ∀ (K : Type) [Field K] [Finite K] (n : ℕ), 1 ≤ n → Nat.card K = 2 ^ n → 3 ∣ 2 ^ n - 1 →
       GGE6KGLayers (RecipeGroup Tag.E6 K) (RecipeID Tag.E6 K) := by
   intro K _ _ n hn hK h3
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K = 2 := by
     obtain ⟨m, hprime, hm⟩ := FiniteField.card K (ringChar K)
     have hcard : Fintype.card K = 2 ^ n := by
@@ -33,7 +33,7 @@ theorem kgLayers_E6_of_adj (h1 : KGAdjL1) (h2 : KGAdjL2) (h3i : KGAdjL3i) (h3ii 
       exact dvd_pow_self _ m.pos.ne'
     exact (Nat.prime_dvd_prime_iff_eq hprime Nat.prime_two).mp
       (Nat.Prime.dvd_of_dvd_pow hprime hdvd)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardu : Nat.card Kˣ = 2 ^ n - 1 := by rw [Nat.card_units, hK]
   have h3u : 3 ∣ Nat.card Kˣ := by rw [hcardu]; exact h3
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' 3 h3u

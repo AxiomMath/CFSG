@@ -60,7 +60,7 @@ private theorem ctr_conjTree_eq (G Gi : Array CFSG.Sporadic.Co1Schreier.Native.R
   · intro i s
     unfold ctrHead
     by_cases hi : i < s.1.size
-    · rw [dif_pos hi, dif_pos hi, ctr_range_forIn (ctrIStep (fun x l =>
+    · rw [dite_eq_left hi, dite_eq_left hi, ctr_range_forIn (ctrIStep (fun x l =>
         CFSG.Sporadic.Co1Schreier.Native.mul (CFSG.Sporadic.Co1Schreier.Native.mul G[l]! x) Gi[l]!)
         (fun t y => t.contains y) (fun t y => t.insert y) i s.1[i])]
       · rfl
@@ -68,7 +68,7 @@ private theorem ctr_conjTree_eq (G Gi : Array CFSG.Sporadic.Co1Schreier.Native.R
         unfold ctrIStep
         dsimp only
         split <;> rfl
-    · rw [dif_neg hi, dif_neg hi]
+    · rw [dite_eq_right hi, dite_eq_right hi]
       rfl
 
 section Kernel
@@ -98,13 +98,13 @@ private theorem ctr_bfsRowK_mono (h : Nat) :
     intro l c hne
     rw [ctr_bfsRowK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact ih _ _ hne
+      · rw [ite_eq_left ‹_›]; exact ih _ _ hne
       · exact absurd rfl hne
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
+      · rw [ite_eq_left ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
       · exact absurd rfl hne
 
 private theorem ctr_bfsRunK_zero (cap h c : Nat) : bfsRunK F P PAR LAB W ng cap 0 h c = 0 := rfl
@@ -130,13 +130,13 @@ private theorem ctr_bfsRunK_mono (cap : Nat) :
     intro h c hne
     rw [ctr_bfsRunK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
       · exact absurd rfl hne
-      · rw [if_neg ‹_›]
+      · rw [ite_eq_right ‹_›]
         exact Nat.le_trans (ctr_bfsRowK_mono h ng 0 c ‹_›) (Nat.le_of_lt_succ
           (Nat.lt_succ_of_le (ih _ _ hne)))
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
 
 end Kernel
 
@@ -206,17 +206,17 @@ private theorem ctr_row (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x l))
     unfold ctrIStep
     rw [hstp _ _ (by omega)]
     by_cases hw : W (h * ng + l) < c
-    · rw [if_pos hw] at hne hle hmono ⊢
+    · rw [ite_eq_left hw] at hne hle hmono ⊢
       by_cases hp : P (W (h * ng + l)) = F (P h) l
-      · rw [if_pos hp] at hne hle hmono ⊢
+      · rw [ite_eq_left hp] at hne hle hmono ⊢
         have hcN : c ≤ N := Nat.le_trans hmono hle
         rw [← hp, hmem _ _ _ hs.seen hcN (by omega), decide_eq_true hw]
         exact ih (l + 1) c s (by omega) hhc hs hne hle
-      · rw [if_neg hp] at hne
+      · rw [ite_eq_right hp] at hne
         exact absurd rfl hne
-    · rw [if_neg hw] at hne hle hmono ⊢
+    · rw [ite_eq_right hw] at hne hle hmono ⊢
       by_cases hn : W (h * ng + l) = c ∧ P c = F (P h) l ∧ PAR c = h ∧ LAB c = l
-      · rw [if_pos hn] at hne hle hmono ⊢
+      · rw [ite_eq_left hn] at hne hle hmono ⊢
         obtain ⟨hwc, hpc, hpar, hlab⟩ := hn
         have hcN : c < N := Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
           (Nat.le_trans (ctr_bfsRowK_mono h k (l + 1) (c + 1) hne) hle)
@@ -224,7 +224,7 @@ private theorem ctr_row (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x l))
         simp only [Bool.not_false, ↓reduceIte]
         exact ih (l + 1) (c + 1) _ (by omega) (by omega)
           (ctr_push_match hs hpar hlab (hins _ _ hs.seen hcN)) hne hle
-      · rw [if_neg hn] at hne
+      · rw [ite_eq_right hn] at hne
         exact absurd rfl hne
 
 private theorem ctr_run (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x l))
@@ -245,10 +245,10 @@ private theorem ctr_run (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x l))
     intro h c s hhc hs hr
     rw [ctr_bfsRunK_succ] at hr
     by_cases hc : h < c ∧ c < N + 1
-    · rw [if_pos hc] at hr
+    · rw [ite_eq_left hc] at hr
       by_cases h0 : bfsRowK F P PAR LAB W ng h ng 0 c = 0
-      · rw [if_pos h0] at hr; omega
-      · rw [if_neg h0] at hr
+      · rw [ite_eq_left h0] at hr; omega
+      · rw [ite_eq_right h0] at hr
         have hle : bfsRowK F P PAR LAB W ng h ng 0 c ≤ N :=
           hr ▸ ctr_bfsRunK_mono (N + 1) fuel (h + 1) _ (by omega)
         have hs' := ctr_row (stp := stp) (mem := mem) (ins := ins) (W := W) hstp hmem hins ng 0 c s
@@ -260,10 +260,10 @@ private theorem ctr_run (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x l))
         have hx : ctrHead stp mem ins ng s h =
             (List.range' 0 ng).foldl (ctrIStep stp mem ins h (enc (P h))) s := by
           unfold ctrHead
-          rw [dif_pos hlt, ← getElem!_pos s.1 h hlt, hs.pts h hc.1]
+          rw [dite_eq_left hlt, ← getElem!_pos s.1 h hlt, hs.pts h hc.1]
         rw [e, List.range'_succ, List.foldl_cons, hx]
         exact ih (h + 1) _ _ (by omega) hs' hr
-    · rw [if_neg hc] at hr
+    · rw [ite_eq_right hc] at hr
       have hhN : h = N := by
         rcases Nat.lt_or_ge h c with h1 | h1
         · exact absurd ⟨h1, by omega⟩ hc

@@ -20,7 +20,7 @@ theorem ggRCSKGPiece_of_marking {G : Type} [Group G] {C₀ E J : Subgroup G} (hJ
       ⁅J, pCoreOf 2 C₀⁆ ⊔ (pCoreOf 2 C₀ ⊓ Subgroup.centralizer (pCoreOf 2 C₀ : Set G)))
     (hEJ : E ≤ Subgroup.normalizer (J : Set G)) {X : Type} [Group X]
     (hXq : CFSG.Assembly.IsQuasisimple X) (𝒜 : Set (MulAut X))
-    (hXm : LargeEvenMarking X (fun lab R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ 𝒜, ∃ φ ∈ I,
+    (hXm : LargeEvenMarking X (fun lab _R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ 𝒜, ∃ φ ∈ I,
       ∀ x : X, φ (θ (QuotientGroup.mk x)) = θ (QuotientGroup.mk (α x))))
     (π : ↥J →* X) (hπ : Function.Surjective π) (hker : π.ker = (pCoreOf 2 C₀).subgroupOf J)
     (hact : ∀ ε ∈ E, ∃ α ∈ 𝒜, ∀ s s' : ↥J, (s' : G) = ε⁻¹ * s * ε → π s' = α (π s)) :
@@ -28,7 +28,7 @@ theorem ggRCSKGPiece_of_marking {G : Type} [Group G] {C₀ E J : Subgroup G} (hJ
   refine ⟨hJC, ggIsSubnormal_of_normal hJC
     ((Subgroup.normal_subgroupOf_iff_le_normalizer hJC).mpr hJN), hperf, hQ1, hQ2, hEJ, ?_⟩
   intro hN
-  haveI : ((pCoreOf 2 C₀).subgroupOf J).Normal := hN
+  have : ((pCoreOf 2 C₀).subgroupOf J).Normal := hN
   let QJ : Type := ↥J ⧸ (pCoreOf 2 C₀).subgroupOf J
   let e : QJ ≃* X :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
@@ -43,7 +43,7 @@ theorem ggRCSKGPiece_of_marking {G : Type} [Group G] {C₀ E J : Subgroup G} (hJ
     CFSG.Assembly.IsQuasisimple.of_mulEquiv e hXq
   refine ⟨hqs, ?_⟩
   refine largeEvenMarking_congr e ?_ hXm
-  intro lab R _ I F θX hθ
+  intro lab _R _ I F θX hθ
   refine ⟨hθ.1, ?_⟩
   intro ε hε
   obtain ⟨α, hα, hαact⟩ := hact ε hε
@@ -58,11 +58,11 @@ theorem ggRCSKGPiece_of_marking {G : Type} [Group G] {C₀ E J : Subgroup G} (hJ
   exact hφact (π s)
 
 theorem largeEvenMarking_innAct {X : Type} [Group X]
-    (h : LargeEvenMarking X (fun lab R _ I _ _ => GGChevStTag lab ∧ LargeEvenInnSet R ⊆ I)) :
-    LargeEvenMarking X (fun lab R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ LargeEvenInnSet X,
+    (h : LargeEvenMarking X (fun lab _R _ I _ _ => GGChevStTag lab ∧ LargeEvenInnSet _R ⊆ I)) :
+    LargeEvenMarking X (fun lab _R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ LargeEvenInnSet X,
       ∃ φ ∈ I, ∀ x : X, φ (θ (QuotientGroup.mk x)) = θ (QuotientGroup.mk (α x))) := by
   refine largeEvenMarking_mono ?_ h
-  intro lab R _ I F θ hθ
+  intro lab _R _ I F θ hθ
   refine ⟨hθ.1, ?_⟩
   intro α hα
   obtain ⟨y, rfl⟩ := hα
@@ -92,7 +92,7 @@ theorem le_commutator_sup_of_perfect {G : Type} [Group G] [Finite G] {p : ℕ} [
   have hQHnorm : (Q.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQH).mpr hHnormQ
   have hNnormH : (N.subgroupOf H).Normal := by
-    haveI : (Q.subgroupOf H).Normal := hQHnorm
+    have : (Q.subgroupOf H).Normal := hQHnorm
     have hcomm : (⁅(⊤ : Subgroup ↥H), Q.subgroupOf H⁆).Normal :=
       Subgroup.commutator_normal _ _
     have hmapS : Subgroup.map H.subtype ⁅(⊤ : Subgroup ↥H), Q.subgroupOf H⁆ = N := by
@@ -175,8 +175,8 @@ theorem le_commutator_sup_of_perfect {G : Type} [Group G] [Finite G] {p : ℕ} [
   have hMnormH : (M.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMleH).mpr hHnormM
   let K : Subgroup ↥H := M.subgroupOf H
-  haveI : K.Normal := hMnormH
-  haveI : Group.IsPerfect ↥H :=
+  have : K.Normal := hMnormH
+  have : Group.IsPerfect ↥H :=
     Subgroup.isPerfect_iff.mpr (by simpa [H] using hperf)
   have hVperf : Group.IsPerfect (↥H ⧸ K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' K) (QuotientGroup.mk'_surjective K)
@@ -205,9 +205,9 @@ theorem le_commutator_sup_of_perfect {G : Type} [Group G] [Finite G] {p : ℕ} [
   have hVp : IsPGroup p (↥H ⧸ K) := IsPGroup.of_surjective hQ f hfsurj
   have hKtop : K = ⊤ := by
     by_contra hne
-    haveI : Nontrivial (↥H ⧸ K) := QuotientGroup.nontrivial_iff.mpr hne
-    haveI : Group.IsPerfect (↥H ⧸ K) := hVperf
-    haveI : Group.IsNilpotent (↥H ⧸ K) := hVp.isNilpotent
+    have : Nontrivial (↥H ⧸ K) := QuotientGroup.nontrivial_iff.mpr hne
+    have : Group.IsPerfect (↥H ⧸ K) := hVperf
+    have : Group.IsNilpotent (↥H ⧸ K) := hVp.isNilpotent
     exact Group.IsPerfect.not_isNilpotent (↥H ⧸ K) inferInstance
   have hHM : H ≤ M := by
     have h1 : M.subgroupOf H = ⊤ := hKtop
@@ -278,7 +278,7 @@ theorem exists_sup_proj {G : Type} [Group G] {Q L : Subgroup G}
           have heq : ((x * y : ↥(Q ⊔ L)) : G) * ((πfun x * πfun y : ↥L) : G)⁻¹ =
               ((x : G) * (πfun x : G)⁻¹) *
                 ((πfun x : G) * ((y : G) * (πfun y : G)⁻¹) * (πfun x : G)⁻¹) := by
-            simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+            simp only [Subgroup.coe_mul]
             group
           rw [heq]
           exact hm

@@ -42,8 +42,8 @@ theorem u42_omega_false {K : Type} [Field K] [Finite K] {d f : ℕ} (hf : 1 ≤ 
       intro x
       have h := coordinateSemilinearMap_sq_apply g.val c (by rw [hg1, one_pow]) hc x
       rwa [coordinateSemilinearMap_eq_matrix g.val hg1] at h
-    haveI : Finite (matrixProjectiveDerived Q) := by
-      haveI := u42_finite_orthogonalGroup Q
+    have : Finite (matrixProjectiveDerived Q) := by
+      have := u42_finite_orthogonalGroup Q
       exact Finite.of_equiv _ (projectiveEquiv Q hex).symm.toEquiv
     obtain ⟨J₃, hJ₃⟩ := U42Hyp.of_intertwining (projectiveEquiv Q hex) _ _
       (projectiveEquiv_conjugation_linear Q hex g hg1) hJ₂

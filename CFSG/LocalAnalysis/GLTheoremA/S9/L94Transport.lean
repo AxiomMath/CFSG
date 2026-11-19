@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem l94t_mem_core_iff {p : ℕ} {X : Subgroup G} (u : ↥X) :
     u ∈ GLAPPrimeCore p ↥X ↔ (u : G) ∈ GLAPPrimeCoreOf p X := by
   constructor
@@ -22,11 +23,13 @@ private theorem l94t_mem_core_iff {p : ℕ} {X : Subgroup G} (u : ↥X) :
     rw [← hzeq]
     exact hz
 
+omit [Finite G] in
 theorem l94t_mk_eq_one_iff {p : ℕ} {X : Subgroup G} {a : G} (ha : a ∈ X) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) (⟨a, ha⟩ : ↥X) = 1 ↔ a ∈ GLAPPrimeCoreOf p X := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact l94t_mem_core_iff (p := p) (⟨a, ha⟩ : ↥X)
 
+omit [Finite G] in
 theorem l94t_mk_comm_iff {p : ℕ} {X : Subgroup G} {a b : G} (ha : a ∈ X) (hb : b ∈ X) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) (⟨a, ha⟩ : ↥X) *
         QuotientGroup.mk' (GLAPPrimeCore p ↥X) (⟨b, hb⟩ : ↥X) =
@@ -43,6 +46,7 @@ theorem l94t_mk_comm_iff {p : ℕ} {X : Subgroup G} {a b : G} (ha : a ∈ X) (hb
     exact l94t_mem_core_iff (p := p) _
   rw [← commutatorElement_eq_one_iff_mul_comm, ← hc, key]
 
+omit [Finite G] in
 theorem l94t_conj_mem_O {p : ℕ} {X : Subgroup G} {g o : G} (hg : g ∈ X)
     (ho : o ∈ GLAPPrimeCoreOf p X) : g * o * g⁻¹ ∈ GLAPPrimeCoreOf p X := by
   obtain ⟨z, hz, hzo⟩ := Subgroup.mem_map.1 ho
@@ -51,6 +55,7 @@ theorem l94t_conj_mem_O {p : ℕ} {X : Subgroup G} {g o : G} (hg : g ∈ X)
   rw [← hzo]
   simp
 
+omit [Finite G] in
 theorem l94t_card_barX {p : ℕ} {X S : Subgroup G} (hSX : S ≤ X)
     (hSO : S ⊓ GLAPPrimeCoreOf p X = ⊥) :
     Nat.card (barX p X S) = Nat.card S := by
@@ -87,8 +92,9 @@ theorem l94t_isElemAbelian_map {A B : Type} [Group A] [Group B] {p : ℕ} (f : A
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hz
     rw [← map_pow, hE.2 x hx, map_one]
 
+omit [Finite G] in
 theorem l94t_isElemAbelian_barX {p : ℕ} {X S : Subgroup G} (hS : IsElemAbelian p S)
-    (hSX : S ≤ X) : IsElemAbelian p (barX p X S) := by
+    (_hSX : S ≤ X) : IsElemAbelian p (barX p X S) := by
   have hE : IsElemAbelian p (S.subgroupOf X) := by
     refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun a ha => ?_⟩
     · exact isElemAbelian_commute hS (Subgroup.mem_subgroupOf.1 a.2) (Subgroup.mem_subgroupOf.1 b.2)
@@ -96,7 +102,8 @@ theorem l94t_isElemAbelian_barX {p : ℕ} {X S : Subgroup G} (hS : IsElemAbelian
       simpa using hS.2 _ (Subgroup.mem_subgroupOf.1 ha)
   exact l94t_isElemAbelian_map _ hE
 
-theorem l94t_mem_normalizer_barX {p : ℕ} {X S : Subgroup G} (hSX : S ≤ X) {a : G} (ha : a ∈ X)
+omit [Finite G] in
+theorem l94t_mem_normalizer_barX {p : ℕ} {X S : Subgroup G} (_hSX : S ≤ X) {a : G} (ha : a ∈ X)
     (haS : a ∈ Subgroup.normalizer (S : Set G)) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) (⟨a, ha⟩ : ↥X) ∈
       Subgroup.normalizer ((barX p X S : Subgroup _) : Set _) := by
@@ -110,12 +117,14 @@ theorem l94t_mem_normalizer_barX {p : ℕ} {X S : Subgroup G} (hSX : S ≤ X) {a
     (Subgroup.mem_map_of_mem _ h1)
   exact h2
 
+omit [Finite G] in
 theorem l94t_barX_le_normalizer {p : ℕ} {X S A : Subgroup G} (hSX : S ≤ X)
     (hA : A ≤ Subgroup.normalizer (S : Set G)) :
     barX p X A ≤ Subgroup.normalizer ((barX p X S : Subgroup _) : Set _) := by
   rintro _ ⟨w, hw, rfl⟩
   exact l94t_mem_normalizer_barX (p := p) hSX w.2 (hA (Subgroup.mem_subgroupOf.1 hw))
 
+omit [Finite G] in
 theorem l94t_central_mk {p : ℕ} {X : Subgroup G} {x : G} (hx : x ∈ X)
     (hxc : ∀ w ∈ X, w * x = x * w) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) (⟨x, hx⟩ : ↥X) ∈
@@ -127,6 +136,7 @@ theorem l94t_central_mk {p : ℕ} {X : Subgroup G} {x : G} (hx : x ∈ X)
   congr 1
   exact Subtype.ext (hxc w w.2)
 
+omit [Finite G] in
 theorem l94t_barX_ne_bot {X S : Subgroup G} (hSX : S ≤ X) (hS2 : IsPGroup 2 S) (hSne : S ≠ ⊥)
     (hodd : Odd (Nat.card (GLAPPrimeCoreOf 3 X))) : barX 3 X S ≠ ⊥ := by
   intro hbot
@@ -142,7 +152,8 @@ theorem l94t_barX_ne_bot {X S : Subgroup G} (hSX : S ≤ X) (hS2 : IsPGroup 2 S)
   · exact absurd (even_iff_two_dvd.2 (h2.trans (Subgroup.card_dvd_of_le hSO)))
       (Nat.not_even_iff_odd.2 hodd)
 
-theorem l94t_isPGroup_barX {p q : ℕ} {X S : Subgroup G} (hSX : S ≤ X) (hS : IsPGroup q S) :
+omit [Finite G] in
+theorem l94t_isPGroup_barX {p q : ℕ} {X S : Subgroup G} (_hSX : S ≤ X) (hS : IsPGroup q S) :
     IsPGroup q (barX p X S) := by
   intro g
   obtain ⟨w, hw, hwg⟩ := Subgroup.mem_map.1 g.2
@@ -180,17 +191,17 @@ theorem l94t_transport_hy {Y Q : Type*} [Group Y] [Group Q] {K : Subgroup Q}
 theorem l94t_isSimple_barX {p : ℕ} (hp : p.Prime) {X L : Subgroup G} (hLX : L ≤ X)
     (hLsn : IsSubnormal L X) (hZ : Subgroup.center (PQuot p L) = ⊥)
     (hq : CFSG.Open.IsQuasisimple (PQuot p L)) : IsSimpleGroup ↥(barX p X L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsP : IsSimpleGroup (PQuot p L) := by
     have e0 : (PQuot p L ⧸ Subgroup.center (PQuot p L)) ≃* PQuot p L :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-    haveI : IsSimpleGroup (PQuot p L ⧸ Subgroup.center (PQuot p L)) := hq.2
+    have : IsSimpleGroup (PQuot p L ⧸ Subgroup.center (PQuot p L)) := hq.2
     exact e0.symm.isSimpleGroup
   exact (quotEquivBarX hp hLX hLsn).symm.isSimpleGroup
 
 theorem l94t_x_not_mem_L {B L : Subgroup G} {x : G} (h : H92 3 B x L)
     (hZ : Subgroup.center (PQuot 3 L) = ⊥) : x ∉ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hxL
   have hBel : IsElemAbelian 3 B := h.bmax.1
   have hx3 : orderOf x = 3 := orderOf_eq_prime (hBel.2 x h.mem) h.ne_one
@@ -209,6 +220,7 @@ theorem l94t_x_not_mem_L {B L : Subgroup G} {x : G} (h : H92 3 B x L)
   exact not_dvd_card_glaPPrimeCoreOf (p := 3) Nat.prime_three L hdvd
 
 
+omit [Finite G] in
 theorem l94t_sup_eq_preimBarX {L X : Subgroup G} (hLX : L ≤ X) :
     L ⊔ GLAPPrimeCoreOf 3 X = preimBarX 3 X L := by
   apply le_antisymm
@@ -295,7 +307,7 @@ theorem l94t_barX_inter_centralizer {B L : Subgroup G} {x : G} (h : H92 3 B x L)
     barX 3 (cx x) B ⊓ Subgroup.centralizer ((barX 3 (cx x) L : Subgroup _) : Set _) =
       Subgroup.zpowers (QuotientGroup.mk' (GLAPPrimeCore 3 ↥(cx x)) (⟨x, Subgroup.mem_centralizer_singleton_iff.2 (Commute.refl x)⟩ : ↥(cx x))) := by
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hBel : IsElemAbelian 3 B := h.bmax.1
   have hBX : B ≤ cx x := isElemAbelian_le_centralizer hBel h.mem
   have hLX : L ≤ cx x := h.comp.1
@@ -350,8 +362,8 @@ theorem l94t_commutator_facts {B T₀ : Subgroup G} (hBel : IsElemAbelian 3 B)
     (hT₀2 : IsPGroup 2 T₀) (hBT₀ : B ≤ Subgroup.normalizer (T₀ : Set G)) :
     ⁅T₀, B⁆ ≤ T₀ ∧ IsPGroup 2 (⁅T₀, B⁆ : Subgroup G) ∧
       B ≤ Subgroup.normalizer ((⁅T₀, B⁆ : Subgroup G) : Set G) ∧ ⁅⁅T₀, B⁆, B⁆ = ⁅T₀, B⁆ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB3 : IsPGroup 3 B := isPGroup_of_isElemAbelian hBel
   have hTT₀ : ⁅T₀, B⁆ ≤ T₀ := by
     refine Subgroup.commutator_le.2 fun t ht b hb => ?_
@@ -385,7 +397,7 @@ theorem l94t_commutator_facts {B T₀ : Subgroup G} (hBel : IsElemAbelian 3 B)
       have e : b'⁻¹ * (b' * y * b'⁻¹) * b'⁻¹⁻¹ = y := by group
       rwa [e] at h1
   have hsolv : Group.IsSolvable ↥T₀ := by
-    haveI := hT₀2.isNilpotent
+    have := hT₀2.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card B) (Nat.card ↥T₀) :=
     IsPGroup.coprime_card_of_ne 3 2 (by norm_num) B T₀ hB3 hT₀2

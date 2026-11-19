@@ -116,7 +116,7 @@ theorem invNormalizer_of_lieModel_psl_three {X : Type} [Group X]
   let e' : X ≃* PSL(3, F4) :=
     (e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 K).symm).trans
       (CFSG.Adapters.RankTwoModelTransports.projectiveSpecialLinearGroupCongr (Fin 3) φ)
-  haveI : Finite X := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e'.symm.toEquiv
   exact invNormalizer_psl_three_four.of_mulEquiv e'.symm
 
 end CFSG.LocalAnalysis.UniquenessCase.UC6

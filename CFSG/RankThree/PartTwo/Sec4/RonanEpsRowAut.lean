@@ -79,7 +79,7 @@ theorem rowSEpsOf_four_Sp (p : ℕ) [Fact p.Prime] (hp : 3 < p) :
   refine fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSp 2 p 1 :=
     ⟨Fact.out, le_rfl, le_rfl, fun h => by simp at h; omega⟩
-  haveI : Finite (projSp 2 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSp 2 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSp 2 (GaloisField p 1)) .PSp 2 p 1 :=
     Or.inl ⟨by decide, CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSp hadm (MulEquiv.refl _)⟩
   have hcen : Subgroup.center (projSp 2 (GaloisField p 1)) = ⊥ :=
@@ -94,12 +94,12 @@ theorem rowSEpsOf_four_Sp (p : ℕ) [Fact p.Prime] (hp : 3 < p) :
   have := (h3.trans h2)
   omega
 
-theorem rowSEpsOf_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 : p % 3 = 2) :
+theorem rowSEpsOf_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (_hp : 3 < p) (hp3 : p % 3 = 2) :
     RowSEpsOf (projSL 4 (GaloisField p 1)) := by
   refine fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSL 4 p 1 :=
     ⟨Fact.out, le_rfl, by norm_num, fun h => by simp at h, fun h => by simp at h⟩
-  haveI : Finite (projSL 4 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSL 4 (GaloisField p 1)) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSL 4 (GaloisField p 1)) .PSL 4 p 1 :=
     Or.inl ⟨by decide, CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSL hadm (MulEquiv.refl _)⟩
   have hcen : Subgroup.center (projSL 4 (GaloisField p 1)) = ⊥ :=
@@ -115,12 +115,12 @@ theorem rowSEpsOf_four_SL_of_mod_two (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 
   have := (h3.trans h2)
   omega
 
-theorem rowSEpsOf_four_SU_of_mod_one (p : ℕ) [Fact p.Prime] (hp : 3 < p) (hp3 : p % 3 = 1) :
+theorem rowSEpsOf_four_SU_of_mod_one (p : ℕ) [Fact p.Prime] (_hp : 3 < p) (hp3 : p % 3 = 1) :
     RowSEpsOf (projSU 4 p 1) := by
   refine fun S _ _ hs hna ⟨φ⟩ => ?_
   have hadm : StatedLieAdmissible .PSU 4 p 1 :=
     ⟨Fact.out, le_rfl, by norm_num, fun h => by simp at h⟩
-  haveI : Finite (projSU 4 p 1) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (projSU 4 p 1) := Finite.of_equiv _ φ.toEquiv
   have hX : LieModel (projSU 4 p 1) .PSU 4 p 1 :=
     Or.inl ⟨by decide, CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSU hadm (MulEquiv.refl _)⟩
   have hcen : Subgroup.center (projSU 4 p 1) = ⊥ :=

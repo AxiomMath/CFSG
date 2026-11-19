@@ -106,7 +106,6 @@ private theorem Jstar_elem_abelian {σ c₁ c₃ : alternatingGroup (Fin 11)}
       rcases hx with hx | hx | hx <;> rcases hy with hy | hy | hy
       all_goals rw [hx, hy]
       all_goals first
-        | rfl
         | exact hcommσc₁.eq | exact hcommσc₁.eq.symm
         | exact hcommσc₃.eq | exact hcommσc₃.eq.symm
         | exact hcommc₁c₃.eq | exact hcommc₁c₃.eq.symm
@@ -123,6 +122,7 @@ private theorem conj_eq_self_of_isElemAbelian {J : Subgroup (alternatingGroup (F
     (hj : j ∈ J) (hz : z ∈ J) : j * z * j⁻¹ = z := by
   rw [hJ.comm hj hz]; group
 
+omit [Finite G] in
 private theorem zpowers_le_relPPrimeCore_centralizer (hp : p.Prime) (hp3 : p ≠ 3) {a : G}
     (ha3 : orderOf a = 3) :
     Subgroup.zpowers a ≤
@@ -192,7 +192,7 @@ private theorem le_relPPrimeCore_of_mem_support_three (h1 : NineFourTwoSigmaGen)
   have hp3 : p ≠ 3 := by have := c.five_le hp; omega
   have hp5 : 5 ≤ p := c.five_le hp
   have hpp : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hle : CFSG.Open.pRank p (⊤ : Subgroup ↥(kStar p M (Subgroup.centralizer ({d} : Set G))))
       ≤ 1 :=
     (s.pRank_kStar_le h1
@@ -441,7 +441,7 @@ private theorem sylow_data {a : G} (ha : a ∈ kSub 3 M H ⊓ M) (ha3 : orderOf 
       ∀ y ∈ Subgroup.closure ({σ, c₁, c₃} : Set (alternatingGroup (Fin 11))),
         ∃ x : ↥D0, x ∈ P ∧ c.φ x.1 = y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hza : orderOf (⟨⟨a, ha.1⟩, haD0⟩ : ↥D0) = 3 := by simpa using ha3
   have hzap : IsPGroup 3 ↥(Subgroup.zpowers (⟨⟨a, ha.1⟩, haD0⟩ : ↥D0)) := by
     have h3 : (⟨⟨a, ha.1⟩, haD0⟩ : ↥D0) ^ 3 = 1 := by
@@ -491,7 +491,7 @@ private theorem PK_data {σ c₁ c₃ : alternatingGroup (Fin 11)}
       IsPGroup 3 PK ∧ PK ⊓ (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) = ⊥ ∧
       (∀ x y : ↥(kSub 3 M H), x ∈ PK → y ∈ PK → c.φ x = c.φ y → x = y) ∧
       (∀ x ∈ PK, x ^ 3 = 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let PK : Subgroup ↥(kSub 3 M H) := (P : Subgroup ↥D0).map D0.subtype
   have hPK_le_D0 : PK ≤ D0 := by
     rintro x ⟨q, -, rfl⟩
@@ -501,7 +501,7 @@ private theorem PK_data {σ c₁ c₃ : alternatingGroup (Fin 11)}
     intro x hx
     have hxD : c.φ x ∈ D0.map c.φ := Subgroup.mem_map_of_mem c.φ (hPK_le_D0 hx)
     rwa [hD0map] at hxD
-  have hPKp : IsPGroup 3 PK := IsPGroup.map P.isPGroup' D0.subtype
+  have hPKp : IsPGroup 3 PK := IsPGroup.map P.isPGroup D0.subtype
   have hPKker : PK ⊓ (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) = ⊥ :=
     CFSG.GroupTheory.SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd
       c.not_three_dvd_card_pPrimeCore hPKp
@@ -664,10 +664,10 @@ private theorem JG_le_relPPrimeCore_of_support_three {a : G} (h1 : NineFourTwoSi
   exact le_relPPrimeCore_of_mem_support_three c h1 h2 hKF1 hKF2 hp hyord hyKM
     (by simpa using hy3) s hyO (hJG_le_MC.trans inf_le_right) hJG_p
 
-private theorem JG_support_six {a : G} (h1 : NineFourTwoSigmaGen)
-    (h2 : NineTwelveOneSigmaStrong) (hKF1 : KFactNineFourRankOneAut)
-    (hKF2 : KFactNineFourStronglyEmbedded) (hp : p ∈ sigmaSet G M) {Q' F' : Subgroup G}
-    (s : O1217.Setting1417 G M Q' (Subgroup.centralizer ({a} : Set G)) F' p)
+private theorem JG_support_six {a : G} (_h1 : NineFourTwoSigmaGen)
+    (_h2 : NineTwelveOneSigmaStrong) (_hKF1 : KFactNineFourRankOneAut)
+    (_hKF2 : KFactNineFourStronglyEmbedded) (_hp : p ∈ sigmaSet G M) {Q' F' : Subgroup G}
+    (_s : O1217.Setting1417 G M Q' (Subgroup.centralizer ({a} : Set G)) F' p)
     (ha : a ∈ kSub 3 M H ⊓ M) {σ c₃ : alternatingGroup (Fin 11)}
     (hσdef : σ = c.φ ⟨a, ha.1⟩)
     (hσc₃supp : ((σ * c₃ : alternatingGroup (Fin 11)) :
@@ -696,7 +696,7 @@ private theorem JG_support_six {a : G} (h1 : NineFourTwoSigmaGen)
   have hyord : orderOf y = 3 := by
     have hdvd : orderOf y ∣ 3 := orderOf_dvd_of_pow_eq_one (hJGcube y hyJ)
     rcases (Nat.dvd_prime Nat.prime_three).mp hdvd with h | h
-    · exact absurd h (fun h1 => hy1 (orderOf_eq_one_iff.mp h1))
+    · exact absurd h (fun _h1 => hy1 (orderOf_eq_one_iff.mp _h1))
     · exact h
   have hperm : orderOf ((c.φ ⟨y, hyKM.1⟩ : alternatingGroup (Fin 11)) :
       Equiv.Perm (Fin 11)) = 3 := by
@@ -826,9 +826,9 @@ private theorem JO_eq {a : G} (ha : a ∈ kSub 3 M H ⊓ M)
   · rw [Subgroup.zpowers_le]
     exact Subgroup.mem_inf.mpr ⟨haJG, hOa (Subgroup.mem_zpowers a)⟩
 
-private theorem W_data {a : G} (ha : a ∈ kSub 3 M H ⊓ M)
+private theorem W_data {a : G} (_ha : a ∈ kSub 3 M H ⊓ M)
     {c₁ c₃ : alternatingGroup (Fin 11)} {D0 : Subgroup ↥(kSub 3 M H)}
-    (x₁D x₃D : ↥D0) {JG : Subgroup G} (hJG_le_K : JG ≤ kSub 3 M H)
+    (x₁D x₃D : ↥D0) {JG : Subgroup G} (_hJG_le_K : JG ≤ kSub 3 M H)
     (haJG : a ∈ JG) (hx₁JG : ((x₁D : ↥(kSub 3 M H)) : G) ∈ JG)
     (hx₃JG : ((x₃D : ↥(kSub 3 M H)) : G) ∈ JG)
     (hc₁ord : orderOf c₁ = 3) (hc₃ord : orderOf c₃ = 3)
@@ -977,6 +977,7 @@ private theorem W_orders {σ c₁ c₃ : alternatingGroup (Fin 11)}
     (Subgroup.zpow_mem _ (Subgroup.mem_sup_right (Subgroup.mem_zpowers c₃)) k)
     (Subgroup.inv_mem _ (Subgroup.mem_sup_left (Subgroup.mem_zpowers c₁)))
 
+omit [Finite G] in
 private theorem W_card_ea {JG : Subgroup G} {ax₁ x₃G : G} {W : Subgroup G}
     (hWdef : W = Subgroup.closure ({ax₁, x₃G} : Set G))
     (hW_eq_sup : W = Subgroup.zpowers ax₁ ⊔ Subgroup.zpowers x₃G)
@@ -1061,7 +1062,7 @@ private theorem W_subgroup {a : G} (ha : a ∈ kSub 3 M H ⊓ M)
 
 private theorem W_not_a {a : G} (ha : a ∈ kSub 3 M H ⊓ M)
     {σ c₁ c₃ : alternatingGroup (Fin 11)} {ax₁ x₃G : G} {W : Subgroup G}
-    (hWdef : W = Subgroup.closure ({ax₁, x₃G} : Set G))
+    (_hWdef : W = Subgroup.closure ({ax₁, x₃G} : Set G))
     (hφW : (W.subgroupOf (kSub 3 M H)).map c.φ =
       Subgroup.zpowers (σ * c₁) ⊔ Subgroup.zpowers c₃)
     (hφaK : c.φ ⟨a, ha.1⟩ = σ)
@@ -1156,7 +1157,7 @@ private theorem D1_data {σ c₁ c₃ : alternatingGroup (Fin 11)}
 
 private theorem lift_data {a : G} {σ c₁ c₃ v₁ v₂ : alternatingGroup (Fin 11)}
     {D D0 : Subgroup ↥(kSub 3 M H)}
-    (hDdef : D = (M ⊓ Subgroup.centralizer ({a} : Set G)).subgroupOf (kSub 3 M H))
+    (_hDdef : D = (M ⊓ Subgroup.centralizer ({a} : Set G)).subgroupOf (kSub 3 M H))
     (hmapD : D.map c.φ = a11TwoSetStab 9 10 ⊓
       Subgroup.centralizer ({σ} : Set (alternatingGroup (Fin 11))))
     (hv₁mem : v₁ ∈ a11TwoSetStab 9 10 ⊓
@@ -1361,10 +1362,11 @@ private theorem star_map (hpp : p.Prime) {a : G} (W : Subgroup G)
   exact ⟨f, hf_apply, hf_inj, fun u v => Subtype.ext (hW_comm u.1 u.2 v.1 v.2),
     fun u => Subtype.ext (by simpa using hW_ea.2 u.1 u.2)⟩
 
+omit [Finite G] in
 private theorem star_commutators {a : G} (Cc : Subgroup G)
-    (hCc : Cc = Subgroup.centralizer ({a} : Set G))
+    (_hCc : Cc = Subgroup.centralizer ({a} : Set G))
     (πC : ↥Cc →* StarGroup p Cc)
-    (hπC : πC = QuotientGroup.mk'
+    (_hπC : πC = QuotientGroup.mk'
       (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥Cc) p))
     {n₁c n₂c x₁c x₃c ac : ↥Cc}
     (hx₁c_cube : x₁c ^ 3 = 1) (hx₃c_cube : x₃c ^ 3 = 1)
@@ -1398,6 +1400,7 @@ private theorem star_commutators {a : G} (Cc : Subgroup G)
             rw [show 2 + 2 = 3 + 1 from rfl, pow_add, pow_one]
           _ = πC x₁c := by rw [hb, one_mul]
 
+omit [Finite G] in
 private theorem star_generator_mem {a : G} (ha : a ∈ kSub 3 M H ⊓ M)
     {W : Subgroup G} (hW_le_C : W ≤ Subgroup.centralizer ({a} : Set G))
     {ax₁ x₃G : G} (hax₁W : ax₁ ∈ W) (hx₃GW : x₃G ∈ W)
@@ -1628,9 +1631,9 @@ theorem false_of_card_support_eq_six (h1 : NineFourTwoSigmaGen) (h2 : NineTwelve
     (hrank : 2 ≤ CFSG.Open.pRank p (M ⊓ Subgroup.centralizer ({a} : Set G))) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpp : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp5 : 5 ≤ p := c.five_le hp
   have hp3 : p ≠ 3 := by omega
   obtain ⟨Q', F', s⟩ := c.exists_setting1417 hp ha ha3 (le_of_eq hs) hrank

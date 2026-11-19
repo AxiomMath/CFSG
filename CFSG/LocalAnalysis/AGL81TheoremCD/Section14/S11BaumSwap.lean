@@ -19,6 +19,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem theta_eq_one_of_centralizes_of_equivar {n : ℕ} (h3 : 3 ≤ n) {V M : Subgroup X}
     [hVn : V.Normal] {ψ : ↥V →* ↥(CFSG.Quasithin.G6.coreMod n)}
     (hψ : Function.Surjective ψ) {θ : ↥M →* Equiv.Perm (Fin n)}
@@ -36,6 +37,7 @@ theorem theta_eq_one_of_centralizes_of_equivar {n : ℕ} (h3 : 3 ≤ n) {V M : S
     exact h2.symm
   exact CFSG.CGT.PushingUpLit.BHS.coreAct_injective h3 (by rw [hfix, map_one])
 
+omit [Finite X] in
 private theorem sectionMap_ker_surjective {Q W L : Subgroup X} [⁅W, L⁆.Normal]
     {θ₀ : ↥(⊤ : Subgroup X) →* Equiv.Perm (Fin 11)}
     {ψ₀ : ↥⁅W, L⁆ →* ↥(CFSG.Quasithin.G6.coreMod 11)}
@@ -53,7 +55,7 @@ private theorem sectionMap_ker_surjective {Q W L : Subgroup X} [⁅W, L⁆.Norma
       (θ₀.comp (Subgroup.topEquiv (G := X)).symm.toMonoidHom).ker = Q ∧
       Function.Surjective (θ₀.comp (Subgroup.topEquiv (G := X)).symm.toMonoidHom) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let e : X ≃* ↥(⊤ : Subgroup X) := (Subgroup.topEquiv (G := X)).symm
   have hθer : ∀ x : X, ((e x : ↥(⊤ : Subgroup X)) : X) = x :=
     fun x => Subgroup.topEquiv_symm_apply_coe x
@@ -90,6 +92,7 @@ private theorem sectionMap_ker_surjective {Q W L : Subgroup X} [⁅W, L⁆.Norma
     rw [hcard, Subgroup.card_top]
   exact ⟨hθ₀ker, hθker, hθs⟩
 
+omit [Finite X] in
 private theorem map_eq_alt_and_le_evenSub {L Q : Subgroup X} (hLn : L.Normal)
     (hLodd : L = Subgroup.closure {x : X | x ∈ L ∧ Odd (orderOf x)})
     {θ₀ : ↥(⊤ : Subgroup X) →* Equiv.Perm (Fin 11)}
@@ -109,7 +112,7 @@ private theorem map_eq_alt_and_le_evenSub {L Q : Subgroup X} (hLn : L.Normal)
   have hLalt : L.map θ = alternatingGroup (Fin 11) := by
     refine map_eq_alternatingGroup_of_closure_odd (n := 11) (by norm_num) hLn hLodd θ hθs ?_
     intro hle
-    haveI : Nontrivial ↥(alternatingGroup (Fin 11)) :=
+    have : Nontrivial ↥(alternatingGroup (Fin 11)) :=
       alternatingGroup.nontrivial_of_three_le_card (by simp)
     obtain ⟨σ, hσ⟩ := exists_ne (1 : ↥(alternatingGroup (Fin 11)))
     obtain ⟨l, hlL, hl, hval⟩ := hθ₀A σ σ.2
@@ -141,6 +144,7 @@ private theorem map_eq_alt_and_le_evenSub {L Q : Subgroup X} (hLn : L.Normal)
     exact Subgroup.mul_mem_sup hmemker hlL
   exact ⟨hLalt, hLE₀, hE₀LQ⟩
 
+omit [Finite X] in
 private theorem psi'_ker_eq {L Q W W' E₀ : Subgroup X}
     {ψ₀ : ↥⁅W, L⁆ →* ↥(CFSG.Quasithin.G6.coreMod 11)}
     (hW'V : W' ≤ ⁅W, L⁆) (hW'le : W' ≤ W)
@@ -171,6 +175,7 @@ private theorem psi'_ker_eq {L Q W W' E₀ : Subgroup X}
       exact ⟨hW'V w.2, h1⟩
     exact h2
 
+omit [Finite X] in
 private theorem centralizer_eq_pCoreOf {L Q E₀ W' : Subgroup X} [W'.Normal]
     {θ : X →* Equiv.Perm (Fin 11)} (hθker : θ.ker = Q) (hθs : Function.Surjective θ)
     (hLalt : L.map θ = alternatingGroup (Fin 11)) (hQleC : Q ≤ Subgroup.centralizer (W' : Set X))
@@ -179,7 +184,7 @@ private theorem centralizer_eq_pCoreOf {L Q E₀ W' : Subgroup X} [W'.Normal]
   classical
   refine le_antisymm ?_ hQleC
   by_contra hcon
-  haveI hCn : (Subgroup.centralizer (W' : Set X)).Normal := Subgroup.normal_centralizer
+  have hCn : (Subgroup.centralizer (W' : Set X)).Normal := Subgroup.normal_centralizer
   have hne : Subgroup.map θ (Subgroup.centralizer (W' : Set X)) ≠ ⊥ := by
     intro hbot
     apply hcon
@@ -190,7 +195,7 @@ private theorem centralizer_eq_pCoreOf {L Q E₀ W' : Subgroup X} [W'.Normal]
       rw [hbot] at hmem
       simpa using hmem
     exact hθker ▸ (MonoidHom.mem_ker.mpr hx')
-  haveI hmapN : (Subgroup.map θ (Subgroup.centralizer (W' : Set X))).Normal :=
+  have hmapN : (Subgroup.map θ (Subgroup.centralizer (W' : Set X))).Normal :=
     Subgroup.Normal.map (Subgroup.normal_centralizer) θ hθs
   have hAltle : alternatingGroup (Fin 11) ≤ Subgroup.map θ (Subgroup.centralizer (W' : Set X)) :=
     Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 11) (by simp)
@@ -213,6 +218,7 @@ private theorem centralizer_eq_pCoreOf {L Q E₀ W' : Subgroup X} [W'.Normal]
   rw [hcomm] at hW'perf
   exact hW'ne hW'perf.symm
 
+omit [Finite X] in
 private theorem exists_altNatData_of_perfectCore {L Q W W' E₀ : Subgroup X} [W'.Normal]
     [hVn : ⁅W, L⁆.Normal]
     {θ₀ : ↥(⊤ : Subgroup X) →* Equiv.Perm (Fin 11)}
@@ -361,6 +367,7 @@ private theorem perfectCore_ne_bot {W' : Subgroup X}
   rw [hbot, Subgroup.card_bot] at h1
   omega
 
+omit [Finite X] in
 private theorem isNatSym_of_perfectCore {L Q W W' E₀ : Subgroup X} [hVn : ⁅W, L⁆.Normal]
     {θ₀ : ↥(⊤ : Subgroup X) →* Equiv.Perm (Fin 11)}
     {ψ₀ : ↥⁅W, L⁆ →* ↥(CFSG.Quasithin.G6.coreMod 11)}
@@ -395,6 +402,7 @@ private theorem isNatSym_of_perfectCore {L Q W W' E₀ : Subgroup X} [hVn : ⁅W
     rw [hψ'coe ⟨_, hv⟩, hψ'coe v]
     exact hψ₀e m ⟨(v : X), hW'V v.2⟩ (hVn.conj_mem (v : X) (hW'V v.2) (m : X))
 
+omit [Finite X] in
 private theorem transport_sym_swap_data {Q W' T : Subgroup X}
     {φ'' : ↥(⊤ : Subgroup X) →* Equiv.Perm (Fin 11)} {T' : Set (Equiv.Perm (Fin 11))}
     (hφ''s : Function.Surjective φ'')
@@ -447,7 +455,7 @@ theorem exists_map_baum_eq_closure_swaps {L T : Subgroup X}
       ∃ T' : Set (Equiv.Perm (Fin 11)), (∀ t ∈ T', t.IsSwap) ∧
         (CFSG.Quasithin.baum T).map θ = Subgroup.closure T' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ₀, ψ₀, hψ₀s, hψ₀k, hθ₀A, hθ₀C, hψ₀e⟩ :=
     exists_coreMod_of_naturalSectionOn (X := X) (W := gnV T) (L := L) (M := ⊤) (n := 11)
       (by norm_num) hnat
@@ -458,8 +466,8 @@ theorem exists_map_baum_eq_closure_swaps {L T : Subgroup X}
     CFSG.AGLEmbeddingD2.GN.gnV_le_pCoreOf_of_le hC hQT
   have hQeqW : gnV T ≤ Subgroup.centralizer (pCoreOf 2 (⊤ : Subgroup X) : Set X) :=
     Subgroup.le_centralizer_iff.mp hQW
-  haveI hWn : (gnV T).Normal := CFSG.AGLEmbeddingD2.GN.normal_gnV T
-  haveI hVn : (⁅gnV T, L⁆).Normal := Subgroup.commutator_normal _ _
+  have hWn : (gnV T).Normal := CFSG.AGLEmbeddingD2.GN.normal_gnV T
+  have hVn : (⁅gnV T, L⁆).Normal := Subgroup.commutator_normal _ _
   have hVW : ⁅gnV T, L⁆ ≤ gnV T := Subgroup.commutator_le_left _ _
   have hWe : IsElemAbelian 2 (gnV T) :=
     CFSG.AGLEmbeddingD2.McLaughlin.OrdinaryProofs.isElemAbelian_gnV_of_le hC hQT
@@ -486,9 +494,9 @@ theorem exists_map_baum_eq_closure_swaps {L T : Subgroup X}
     rw [show Subgroup.inclusion hW'V ⟨(w : X), hwW⟩ = w from Subtype.ext rfl]
     exact hwu
   have hW'e : IsElemAbelian 2 W' := CFSG.CGT.PushingUpLit.BHS.isElemAbelian_of_le' hW'le hWe
-  letI : CommGroup ↥W' := commGroupOfElemAbelian hW'e
+  let : CommGroup ↥W' := commGroupOfElemAbelian hW'e
   have hW'2 : ∀ w : ↥W', w ^ 2 = 1 := fun w => Subtype.ext (by simpa [sq] using hW'e.2 w w.2)
-  haveI hW'n : W'.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hW'N)
+  have hW'n : W'.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hW'N)
   have hW'ne : W' ≠ ⊥ := perfectCore_ne_bot hψ's
   have hQleC : pCoreOf 2 (⊤ : Subgroup X) ≤ Subgroup.centralizer (W' : Set X) :=
     hQW.trans (Subgroup.centralizer_le (fun x hx => hW'le hx))

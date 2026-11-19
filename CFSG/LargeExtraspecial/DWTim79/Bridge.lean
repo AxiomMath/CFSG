@@ -32,8 +32,8 @@ theorem isExtraspecialPGroup_iff_isExtraspecial2 {G : Type} [Group G] [Finite G]
       rw [← Subgroup.card_map_of_injective (K := center ↥Q) Q.subtype_injective, ← hcomm]
       exact hcard
     refine ⟨hP, hcomm', ?_, hcard'⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (IsPGroup 2 ↥Q) := ⟨hP⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (IsPGroup 2 ↥Q) := ⟨hP⟩
     rw [frattini_eq_closure_commutator_union_powers (p := 2)]
     refine le_antisymm ?_ ?_
     · rw [Subgroup.closure_le]

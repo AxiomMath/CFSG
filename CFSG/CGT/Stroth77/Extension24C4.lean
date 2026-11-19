@@ -13,6 +13,7 @@ section QuotientAction
 
 variable [hN : (B.subgroupOf C).Normal]
 
+omit [Finite S] in
 theorem exists_mul_of_conjByAutQuotient_eq_one_Idx4
     (hcomm : ∀ x y : C, x * y = y * x) {g : S} (hgC : g ∈ Subgroup.normalizer C)
         (hgB : g ∈ Subgroup.normalizer B)
@@ -21,7 +22,7 @@ theorem exists_mul_of_conjByAutQuotient_eq_one_Idx4
   classical
   let aC : C := conjByHom g hgC x
   have haC : (aC : S) = g⁻¹ * (x : S) * g := by
-    simp [aC, conjByHom, conjBy]
+    simp [aC, conjBy]
   have hmk : QuotientGroup.mk' (B.subgroupOf C) aC = QuotientGroup.mk' (B.subgroupOf C) x := by
     have h := congrArg (fun σ : MulAut (C ⧸ B.subgroupOf C) =>
       σ (QuotientGroup.mk' (B.subgroupOf C) x)) hA
@@ -226,7 +227,6 @@ theorem not_isCyclic_quotient_t300_of_data {n : ℕ}
   exact hwinv_notB (hH (winv : S) (hcS winv.2) hwinvS2 (hC winv.2))
 
 theorem not_isCyclic_quotient_t300 {n : ℕ}
-    [hN : (B.subgroupOf C).Normal]
     (hB : HasStrothType B (StrothTypeIndex.t300 n))
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 4 * Nat.card B)

@@ -90,7 +90,7 @@ theorem slAut_coe (τ : F ≃+* F) (μ : Fˣ) (M : SL2 F) :
     ((slAut τ μ M : SL2 F) : Matrix (Fin 2) (Fin 2) F) =
       !![(μ : F), 0; 0, ((μ⁻¹ : Fˣ) : F)] * (M : Matrix (Fin 2) (Fin 2) F).map τ *
         !![((μ⁻¹ : Fˣ) : F), 0; 0, (μ : F)] := by
-  simp only [slAut, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+  simp only [slAut, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
     MulAut.conj_apply, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv,
     Matrix.SpecialLinearGroup.map_apply_coe, coe_HSL', Matrix.adjugate_fin_two]
   congr 2
@@ -110,7 +110,7 @@ theorem slAut_uSL (τ : F ≃+* F) (μ : Fˣ) (c : F) :
   rw [slAut_coe, coe_uSL', coe_uSL', map_lit, Matrix.mul_fin_two, Matrix.mul_fin_two]
   simp only [map_one, map_zero]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> first | ring | linear_combination h1 | linear_combination h2
+  fin_cases i <;> fin_cases j <;> simp; first | ring
 
 theorem slAut_vSL (τ : F ≃+* F) (μ : Fˣ) (c : F) :
     slAut τ μ (vSL c) = vSL (((μ⁻¹ : Fˣ) : F) ^ 2 * τ c) := by
@@ -120,7 +120,7 @@ theorem slAut_vSL (τ : F ≃+* F) (μ : Fˣ) (c : F) :
   rw [slAut_coe, coe_vSL', coe_vSL', map_lit, Matrix.mul_fin_two, Matrix.mul_fin_two]
   simp only [map_one, map_zero]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> first | ring | linear_combination h1 | linear_combination h2
+  fin_cases i <;> fin_cases j <;> simp; first | ring
 
 theorem slAut_HSL (τ : F ≃+* F) (μ : Fˣ) (w : Fˣ) :
     slAut τ μ (HSL w) = HSL (Units.map τ.toMonoidHom w) := by

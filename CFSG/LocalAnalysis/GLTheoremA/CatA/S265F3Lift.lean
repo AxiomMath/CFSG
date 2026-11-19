@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 private theorem ker_chevQuotHom_le_center' {p : ℕ} {S : Subgroup Ω}
     (hcore : GLAPPrimeCore p ↥S = ⊥) : (chevQuotHom p S).ker ≤ Subgroup.center ↥S := by
   intro x hx
@@ -109,7 +110,7 @@ theorem exists_e3_of_layer {p : ℕ} (hp : p.Prime) {B S : Subgroup Ω} {x b e :
     (hne : GLAPLayer p (S ⊓ cx b ⊓ cx e) ≠ ⊥) :
     ∃ E : Subgroup Ω, E ≤ B ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 3 ∧ Dgrp b x ≤ E ∧
       GLAPLayer p (S ⊓ cs E) ≠ ⊥ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hzx : Subgroup.zpowers x ≤ B := Subgroup.zpowers_le.2 hxB
   have hDB : Dgrp b x ≤ B := by
     rw [dgrp_eq]

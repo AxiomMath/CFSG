@@ -99,6 +99,7 @@ theorem closure_le_normalizer [Finite X] :
   rintro _ ⟨i, rfl⟩
   exact h.k_mem_normalizer i
 
+omit h in
 theorem xB_mem_F0 (j : Fin 4) : xB k j ∈ F0 k := subset_closure ⟨j, rfl⟩
 
 end J3Pkg

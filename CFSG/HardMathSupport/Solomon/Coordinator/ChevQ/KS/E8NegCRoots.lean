@@ -28,7 +28,7 @@ theorem addMonoidHom_apply_eq_sum_single {ι A : Type*} [Fintype ι] [DecidableE
   by_cases h : j = i
   · subst h
     simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 theorem wordW_inv_eq_reverse {τ : Tag} (l : List (Fin τ.rank)) :
     (wordW τ l)⁻¹ = wordW τ l.reverse := by

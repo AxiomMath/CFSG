@@ -68,7 +68,7 @@ theorem exists_sylow_eq_subgroupOf {p : ℕ} {M T : Subgroup G} (hTM : T ≤ M)
     Subgroup.card_map_of_injective M.subtype_injective
   have h2 : Nat.card (T.subgroupOf M) = Nat.card T :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTM).toEquiv
-  have h3 := hmax _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map M.subtype)
+  have h3 := hmax _ (Subgroup.map_subtype_le _) (Q.isPGroup.map M.subtype)
   omega
 
 theorem exists_conj_mem_of_card_le {p : ℕ} [Fact p.Prime] {M T P : Subgroup G} (hTM : T ≤ M)
@@ -298,7 +298,7 @@ theorem not_mem_localHull_of_rank_le_two (S : Sylow 2 G) (H : Subgroup G) (z : G
   have huT : u ∈ T := ⟨huS, huM⟩
   have hzT : z ∈ T := ⟨hz.1, hzM⟩
   have hTM : T ≤ M := inf_le_right
-  have hT2 : IsPGroup 2 T := S.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 T := S.isPGroup.to_le inf_le_left
   have hconj : ∀ P : Subgroup G, P ≤ M → IsPGroup 2 P → ∃ c ∈ M, ∀ x ∈ P, c⁻¹ * x * c ∈ T :=
     fun P hPM hP => exists_conj_mem_of_card_le hTM hT2 hsyl hPM hP
   have hinv : ∀ t ∈ T, orderOf t = 2 → t = u ∨ t = z ∨ t = u * z := by
@@ -443,7 +443,7 @@ theorem escapingCentralizerStep_of_sylow_placed (h : ∀ (G : Type) [Group G] [F
   have huQG : u ∈ QG := Subgroup.mem_map.mpr ⟨⟨u, huM⟩, hUQ (Subgroup.mem_zpowers _), rfl⟩
   have hQGM : QG ≤ M := Subgroup.map_subtype_le _
   have hQGcard : Nat.card QG = Nat.card Q := Subgroup.card_map_of_injective M.subtype_injective
-  obtain ⟨g, hg⟩ := exists_conj_mem_sylow S (Q.isPGroup'.map M.subtype)
+  obtain ⟨g, hg⟩ := exists_conj_mem_sylow S (Q.isPGroup.map M.subtype)
   have hu'S : g⁻¹ * u * g ∈ (S : Subgroup G) := hg u huQG
   have hu' : orderOf (g⁻¹ * u * g) = 2 := by
     rw [← hu]
@@ -513,7 +513,7 @@ theorem three_le_pRank_of_sylow_placed {S : Sylow 2 G} {H : Subgroup G}
   let : Group.IsPerfect G := hset.isPerfect
   set M := Subgroup.centralizer ({u} : Set G)
   have hTM : (S : Subgroup G) ⊓ M ≤ M := inf_le_right
-  obtain ⟨Q, hQ⟩ := exists_sylow_eq_subgroupOf hTM (S.isPGroup'.to_le inf_le_left) hsyl
+  obtain ⟨Q, hQ⟩ := exists_sylow_eq_subgroupOf hTM (S.isPGroup.to_le inf_le_left) hsyl
   have hQT : (Q : Subgroup M).map M.subtype = (S : Subgroup G) ⊓ M := by
     rw [hQ, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTM]
   have hG : 3 ≤ CFSG.Open.twoRank G := by

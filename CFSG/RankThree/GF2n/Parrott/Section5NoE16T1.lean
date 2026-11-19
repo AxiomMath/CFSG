@@ -30,6 +30,7 @@ theorem commutator_eq_one_or_eq_of_mem_J (h : Tim79a.ParrottHyp z) {x y : G} (hx
   rw [hJ'] at hmem
   exact (Subgroup.mem_zpowers_iff_of_orderOf_eq_two h.1).mp hmem
 
+omit [Finite G] in
 theorem mul_self_eq_one_or_eq_of_mem_J (h : Tim79a.ParrottHyp z) {x : G} (hx : x ∈ J z) :
     x * x = 1 ∨ x * x = z := by
   obtain ⟨T, F, hT, hF, -, -, hcomm, hTF⟩ := exists_decomposition h

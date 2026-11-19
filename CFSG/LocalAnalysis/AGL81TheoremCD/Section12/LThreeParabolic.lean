@@ -38,7 +38,7 @@ private theorem isSylowOf_map_mulEquiv {A B : Type*} [Group A] [Group B] [Finite
   refine ⟨le_top, hpg.map e.toMonoidHom, ?_⟩
   rw [Subgroup.relIndex_top_right] at hdvd ⊢
   have hindex : (P.map e.toMonoidHom).index = P.index := by
-    simpa using Subgroup.index_map_equiv P e
+    simp
   rwa [hindex]
 
 private theorem exists_sylow_eq_of_isSylowOf_top {A : Type*} [Group A] [Finite A] {p : ℕ}
@@ -163,10 +163,10 @@ private theorem isMaxParabolicP_top_of_borel_conj_le {p d : ℕ} [Fact p.Prime]
   have hBx : (LinearFlag.projUpperTriangular 3 (ZMod p)).map c.toMonoidHom ≤ Y := hBx0
   have hcc' : c.toMonoidHom.comp c'.toMonoidHom = MonoidHom.id _ := by
     ext y
-    simp [c, c', MulAut.conj_apply]
+    simp [c, c']
   have hc'c : c'.toMonoidHom.comp c.toMonoidHom = MonoidHom.id _ := by
     ext y
-    simp [c, c', MulAut.conj_apply]
+    simp [c, c']
   set Y₃ : Subgroup (LinearFlag.projectiveSL 3 (ZMod p)) := Y.map c'.toMonoidHom with hY₃
   have hY₃ne : Y₃ ≠ ⊤ := by
     intro h
@@ -322,7 +322,7 @@ private theorem isPGroup_radical {p d : ℕ} [Fact p.Prime] :
   refine ⟨1, Subtype.ext ?_⟩
   simpa using radical_pow_eq_one g.2
 
-private theorem radical_map_le_Op {p d : ℕ} [Fact p.Prime] (hdn : d < 3) :
+private theorem radical_map_le_Op {p d : ℕ} [Fact p.Prime] (_hdn : d < 3) :
     (CFSG.QuasithinUnique.B113Lie.Lin.radical 3 (ZMod p) d).map
         (LinearFlag.proj 3 (ZMod p)) ≤
       CFSG.GH74.GLS.Bg.Op p

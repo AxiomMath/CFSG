@@ -129,7 +129,7 @@ theorem hgensM {k : Nat} (hk : k < 4) : ∀ j < (mGens[k]!).size, ∃ a ∈ Ms k
   exact ⟨g, ⟨j, hj, hr⟩, hr⟩
 
 theorem encHs : Enumerates (Subgroup.closure Hs) (pts 42 6 27 L34FH.T).toList :=
-  enumerates_closure (fun a ha => ha) hgensH encH
+  enumerates_closure (fun _a ha => ha) hgensH encH
 
 theorem encMs {k : Nat} (hk : k < 4) :
     Enumerates (Subgroup.closure (Ms k)) (pts 42 6 9 (L34FM.T k)).toList := by

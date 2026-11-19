@@ -21,7 +21,7 @@ private theorem crnc_symplectic_split {lab : LargeEvenLabel}
     intro Q hQ <;>
     exact TableBSymp.recipeSymplectic_torusLift Nat.prime_three (by decide) h3 hl hQ
 
-theorem ggCRN_lift_BC_split {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
+theorem ggCRN_lift_BC_split {lab : LargeEvenLabel} (_hlab : LargeEvenInLambda2 lab)
     (htag : lab.tag = .B ∨ lab.tag = .C) (hd : 24 ≤ 2 * lab.rank) (h3 : 3 ∣ 2 ^ lab.n - 1) :
     LargeEvenLabelAll lab fun R _ _ _ => GGTorusLift 3 9 R :=
   (crnc_symplectic_split htag h3 (by omega)).mono fun _ _ _ _ h =>
@@ -43,7 +43,7 @@ private theorem crnc_symplectic_nonsplit {lab : LargeEvenLabel}
   rcases htag with h | h <;> dsimp only at h h3 hl ⊢ <;> subst h <;>
     intro Q hQ <;> exact crnc_recipeSymplectic_ns h3 hl hQ
 
-theorem ggCRN_lift_BC_nonsplit {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
+theorem ggCRN_lift_BC_nonsplit {lab : LargeEvenLabel} (_hlab : LargeEvenInLambda2 lab)
     (htag : lab.tag = .B ∨ lab.tag = .C) (hd : 24 ≤ 2 * lab.rank) (h3 : 3 ∣ 2 ^ lab.n + 1) :
     LargeEvenLabelAll lab fun R _ _ _ => GGTorusLift 3 9 R :=
   crnc_symplectic_nonsplit htag h3 (by omega)
@@ -61,7 +61,7 @@ theorem ggCRN_lift_twD_split {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 l
     fun _ _ _ _ h => ggTorusLift_mono Nat.prime_three h (by omega)
 
 theorem ggCRN_lift_twD_nonsplit
-    {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
+    {lab : LargeEvenLabel} (_hlab : LargeEvenInLambda2 lab)
     (htag : lab.tag = .twD) (hd : 24 ≤ 2 * lab.rank) (h3 : 3 ∣ 2 ^ lab.n + 1) :
     LargeEvenLabelAll lab fun R _ _ _ => GGTorusLift 3 9 R :=
   (OrthRest.labelAll ggOrthRestTorusLiftInput_holds Nat.prime_three

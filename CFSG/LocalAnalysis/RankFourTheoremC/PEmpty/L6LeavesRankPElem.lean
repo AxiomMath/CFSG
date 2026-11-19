@@ -83,7 +83,7 @@ theorem iterate_unipotent_add {A : Type*} [AddCommGroup A] {f : ℕ} [Fact f.Pri
       congr 1
       rw [hT]
       rfl
-  haveI : CharP (Module.End (ZMod f) A) f :=
+  have : CharP (Module.End (ZMod f) A) f :=
     charP_of_injective_algebraMap (algebraMap (ZMod f) (Module.End (ZMod f) A)).injective f
   have hulpow : ul ^ f = 1 := by
     apply LinearMap.ext
@@ -105,8 +105,8 @@ variable {V : Type*} [CommGroup V]
 theorem iterate_unipotent_eq_one {f : ℕ} [Fact f.Prime] (hexp : ∀ v : V, v ^ f = 1)
     (u T : V →* V) (hu : ∀ v, (⇑u)^[f] v = v) (hT : ∀ v, T v = u v * v⁻¹) :
     ∀ v, (⇑T)^[f] v = 1 := by
-  haveI : NeZero f := ⟨(Fact.out : f.Prime).ne_zero⟩
-  letI : Module (ZMod f) (Additive V) := AddCommGroup.zmodModule (n := f) fun x => by
+  have : NeZero f := ⟨(Fact.out : f.Prime).ne_zero⟩
+  let : Module (ZMod f) (Additive V) := AddCommGroup.zmodModule (n := f) fun x => by
     rw [← ofMul_toMul x, ← ofMul_pow, hexp, ofMul_one]
   have hiter : ∀ (g : V →* V) (k : ℕ) (v : V),
       (⇑(MonoidHom.toAdditive g))^[k] (Additive.ofMul v) = Additive.ofMul ((⇑g)^[k] v) := by
@@ -138,13 +138,14 @@ variable {G : Type*} [Group G] [Finite G]
 @[expose] def fixSub (α : MulAut G) : Subgroup G where
   carrier := {g | α g = g}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_inv, ha]
 
+omit [Finite G] in
 theorem mem_fixSub {α : MulAut G} {g : G} : g ∈ fixSub α ↔ α g = g := Iff.rfl
 
 @[expose] def d1Sub {V : Type*} [Group V] (π : G →* V) (hz : π.ker ≤ center G) (α : MulAut G) :
@@ -152,7 +153,7 @@ theorem mem_fixSub {α : MulAut G} {g : G} : g ∈ fixSub α ↔ α g = g := Iff
   carrier := {g | π (α g * g⁻¹) = 1}
   one_mem' := by simp
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have hb' : α b * b⁻¹ ∈ center G := hz hb
     have hc : a⁻¹ * (α b * b⁻¹) = (α b * b⁻¹) * a⁻¹ := mem_center_iff.mp hb' a⁻¹
     have h : α (a * b) * (a * b)⁻¹ = (α a * a⁻¹) * (α b * b⁻¹) := by
@@ -162,7 +163,7 @@ theorem mem_fixSub {α : MulAut G} {g : G} : g ∈ fixSub α ↔ α g = g := Iff
         _ = (α a * a⁻¹) * (α b * b⁻¹) := by simp only [mul_assoc]
     rw [h, map_mul, ha, hb, one_mul]
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have ha' : α a * a⁻¹ ∈ center G := hz ha
     have hzc : (α a * a⁻¹)⁻¹ ∈ center G := inv_mem ha'
     have h : α a⁻¹ * (a⁻¹)⁻¹ = (α a * a⁻¹)⁻¹ := by
@@ -174,9 +175,11 @@ theorem mem_fixSub {α : MulAut G} {g : G} : g ∈ fixSub α ↔ α g = g := Iff
         _ = (α a * a⁻¹)⁻¹ := by group
     rw [h, map_inv, ha, inv_one]
 
+omit [Finite G] in
 theorem mem_d1Sub {V : Type*} [Group V] {π : G →* V} {hz : π.ker ≤ center G} {α : MulAut G}
     {g : G} : g ∈ d1Sub π hz α ↔ π (α g * g⁻¹) = 1 := Iff.rfl
 
+omit [Finite G] in
 theorem fixSub_le_d1Sub {V : Type*} [Group V] (π : G →* V) (hz : π.ker ≤ center G)
     (α : MulAut G) : fixSub α ≤ d1Sub π hz α := fun g hg => by
   rw [mem_d1Sub, mem_fixSub.mp hg, mul_inv_cancel, map_one]
@@ -216,7 +219,7 @@ theorem card_d1Sub_le {V : Type*} [Group V] (π : G →* V) (hz : π.ker ≤ cen
 
 theorem card_comap_of_surjective {V : Type*} [Group V] (π : G →* V) (hπ : Function.Surjective π)
     (K : Subgroup V) : Nat.card (K.comap π) = Nat.card π.ker * Nat.card K := by
-  haveI : Finite V := Finite.of_surjective π hπ
+  have : Finite V := Finite.of_surjective π hπ
   have h1 : Nat.card (K.comap π) * (K.comap π).index = Nat.card G := Subgroup.card_mul_index _
   have h2 : (K.comap π).index = K.index := Subgroup.index_comap_of_surjective K hπ
   have h3 : Nat.card K * K.index = Nat.card V := Subgroup.card_mul_index _
@@ -234,7 +237,7 @@ theorem two_le_card_fixSub {f : ℕ} [Fact f.Prime] {V : Type*} [CommGroup V]
     (hexp : ∀ v : V, v ^ f = 1) (α : MulAut G) (u : V →* V) (hu : ∀ g, π (α g) = u (π g))
     (huf : ∀ v : V, (⇑u)^[f] v = v) (hdim : f ^ (f + 1) * Nat.card π.ker ≤ Nat.card G) :
     f ^ 2 ≤ Nat.card (fixSub α) := by
-  haveI : Finite V := Finite.of_surjective π hπ
+  have : Finite V := Finite.of_surjective π hπ
   have hfp : f.Prime := Fact.out
   let T : V →* V := MonoidHom.mk' (fun v => u v * v⁻¹) (fun a b => by
     rw [map_mul, mul_inv_rev]
@@ -285,6 +288,7 @@ section CentralClassTwo
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fixSub_conj (g : G) : fixSub (MulAut.conj g) = Subgroup.centralizer {g} := by
   ext h
   rw [mem_fixSub, Subgroup.mem_centralizer_singleton_iff]
@@ -313,14 +317,15 @@ section Helpers
 
 variable {X : Type*} [Group X] [Finite X] {f : ℕ}
 
-theorem isPGroup_of_exp (hf : f.Prime) {A : Subgroup X} (hA : ∀ a ∈ A, a ^ f = 1) :
+omit [Finite X] in
+theorem isPGroup_of_exp (_hf : f.Prime) {A : Subgroup X} (hA : ∀ a ∈ A, a ^ f = 1) :
     IsPGroup f A := fun g => ⟨1, by
   apply Subtype.ext
   simpa using hA g g.2⟩
 
 theorem exists_card_eq_pow (hf : f.Prime) {A : Subgroup X} (hA : ∀ a ∈ A, a ^ f = 1) :
     ∃ n : ℕ, Nat.card A = f ^ n := by
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   exact IsPGroup.iff_card.mp (isPGroup_of_exp hf hA)
 
 theorem mul_card_le_of_lt (hf : f.Prime) {A B : Subgroup X} (hA : ∀ a ∈ A, a ^ f = 1)
@@ -349,11 +354,13 @@ theorem exists_elemAbelian_card (hf : f.Prime) {A : Subgroup X}
     exact (Nat.pow_le_pow_iff_right hf.one_lt).mp hm
   exact CFSG.GH74.Uniqueness.SU.SU1.exists_subgroup_card hf hAel hmn hn
 
+omit [Finite X] in
 theorem isElemAbelian_zpowers {x : X} (hx : x ^ f = 1) :
     CFSG.Open.IsElemAbelian f (Subgroup.zpowers x) := by
   rw [Subgroup.zpowers_eq_closure]
   exact CFSG.Open.IsElemAbelian.closure_of_commute (by simp) (by simp [hx])
 
+omit [Finite X] in
 theorem commutator_le_center_of_forall {C : Subgroup X}
     (hcl : ∀ a ∈ C, ∀ b ∈ C, ∀ c ∈ C, ⁅a, b⁆ * c = c * ⁅a, b⁆) :
     commutator C ≤ center C := by
@@ -366,11 +373,11 @@ theorem commutator_le_center_of_forall {C : Subgroup X}
 theorem exists_abelian_two (hf : f.Prime) {C : Subgroup X} (he : ∀ a ∈ C, a ^ f = 1)
     (hC : f ^ 2 ≤ Nat.card C) :
     ∃ A : Subgroup X, A ≤ C ∧ (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) ∧ f ^ 2 ≤ Nat.card A := by
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   have hCp : IsPGroup f C := isPGroup_of_exp hf he
   have h1 : 1 < Nat.card C := lt_of_lt_of_le (Nat.one_lt_pow (by norm_num) hf.one_lt) hC
-  haveI : Nontrivial C := Finite.one_lt_card_iff_nontrivial.mp h1
-  haveI := hCp.center_nontrivial
+  have : Nontrivial C := Finite.one_lt_card_iff_nontrivial.mp h1
+  have := hCp.center_nontrivial
   obtain ⟨⟨u, hu⟩, hu1⟩ := exists_ne (1 : center C)
   have hu1' : u ≠ 1 := fun h => hu1 (Subtype.ext h)
   have huf : (u : X) ^ f = 1 := he u u.2
@@ -393,7 +400,7 @@ theorem exists_abelian_two (hf : f.Prime) {C : Subgroup X} (he : ∀ a ∈ C, a 
     · intro a ha b hb
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
       rcases ha with h | h <;> rcases hb with h' | h' <;> rw [h, h'] <;>
-        first | rfl | exact hcomm | exact hcomm.symm
+        first | exact hcomm | exact hcomm.symm
     · intro a ha
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha
       rcases ha with h | h
@@ -426,7 +433,7 @@ theorem exists_abelian_two (hf : f.Prime) {C : Subgroup X} (he : ∀ a ∈ C, a 
 theorem exists_abelian_three (hf : f.Prime) {C : Subgroup X} (he : ∀ a ∈ C, a ^ f = 1)
     (hcl : ∀ a ∈ C, ∀ b ∈ C, ∀ c ∈ C, ⁅a, b⁆ * c = c * ⁅a, b⁆) (hC : f ^ 4 ≤ Nat.card C) :
     ∃ A : Subgroup X, A ≤ C ∧ (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) ∧ f ^ 3 ≤ Nat.card A := by
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   classical
   have hCp : IsPGroup f C := isPGroup_of_exp hf he
   have hf1 := hf.one_lt
@@ -467,8 +474,8 @@ theorem exists_abelian_three (hf : f.Prime) {C : Subgroup X} (he : ∀ a ∈ C, 
         _ ≤ _ := hA₀card
     · push Not at hbig
       have h1C : 1 < Nat.card C := lt_of_lt_of_le (Nat.one_lt_pow (by norm_num) hf1) hC
-      haveI : Nontrivial C := Finite.one_lt_card_iff_nontrivial.mp h1C
-      haveI := hCp.center_nontrivial
+      have : Nontrivial C := Finite.one_lt_card_iff_nontrivial.mp h1C
+      have := hCp.center_nontrivial
       have hZgt1 : 1 < Nat.card Z := by
         rw [hZcard]
         exact Finite.one_lt_card_iff_nontrivial.mpr inferInstance
@@ -549,7 +556,7 @@ theorem step0 (hf : f.Prime) (hf3 : 3 ≤ f) {D : Subgroup X} (hexp : ∀ d ∈ 
     (hdim : f ^ (f + 1) * Nat.card (commutator D) ≤ Nat.card D) {y : X} (hy : orderOf y = f)
     (hyD : y ∈ Subgroup.normalizer (D : Set X)) :
     3 ≤ CFSG.Open.pRank f (Subgroup.centralizer ({y} : Set X)) := by
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   have hf1 := hf.one_lt
   have hyf : y ^ f = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
   have hcl' : commutator D ≤ center D := commutator_le_center_of_forall hcl

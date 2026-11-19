@@ -72,8 +72,8 @@ theorem Hyp2813.faithful (h : Hyp2813 X K R P) (hS : pCoreOf 2 P ≠ ⊥) :
     Subgroup.le_normalizer.trans (normalizer_le_normalizer_TT X)
   have hCn : ((centralizer (TT X : Set A)).subgroupOf X).Normal := off_normal_centralizer hXT
   have hmapn : (((centralizer (TT X : Set A)).subgroupOf X).map ψ).Normal := hCn.map ψ hψs
-  haveI : IsSimpleGroup GL32 := off_isSimpleGroup_GL32
-  haveI := hmapn
+  have : IsSimpleGroup GL32 := off_isSimpleGroup_GL32
+  have := hmapn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (((centralizer (TT X : Set A)).subgroupOf X).map ψ) with hbot | htop
   · intro x hx hxc

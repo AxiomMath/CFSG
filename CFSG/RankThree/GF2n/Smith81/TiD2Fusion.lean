@@ -35,19 +35,22 @@ namespace D2Ctx
 
 variable (R : D2Ctx M Q Z B M₀)
 
+omit [Finite K] [CharP K 2] in
 theorem hφSπ (m : ↥(Lgen M (LB M Q B))) (x : G) (hx : x ∈ Q) :
     M₀.π ((m : G) * x * (m : G)⁻¹) =
       (R.φ.comp (Subgroup.inclusion R.hc.Lgen_le_H0)) m (M₀.π x) :=
   R.hφπ ⟨m, R.hc.Lgen_le_H0 m.2⟩ x hx
 
 include R in
+omit [Finite K] in
 theorem card_le_two_mul {P : Subgroup G} (hP : P ≤ H0 M Z) :
     Nat.card P ≤ 2 * Nat.card ↥(P ⊓ Lgen M (LB M Q B)) :=
   R.D.card_le_two_mul R.δ R.hδ R.φ R.hc.Lgen_le_H0 (fun _ => rfl)
-    (fun m h => (R.hφker m).mp h) R.hc.Q_le_Lgen R.hφQ
-    (fun m hm s hs => R.hc.mem_Lgen_conj (hm.1) hs) hP
+    (fun _m h => (R.hφker _m).mp h) R.hc.Q_le_Lgen R.hφQ
+    (fun _m hm _s hs => R.hc.mem_Lgen_conj (hm.1) hs) hP
 
 include R in
+omit [Finite K] in
 theorem line_of_root {A : Subgroup G} (hA : Ctx M Q Z A) :
     ∃ c : Fin 2 → K, c ≠ 0 ∧
       ∀ v, v ∈ M₀.img A ↔ ∃ μ : K, v = μ • R.D.Θ.symm (D2.tw R.D.σ c) := by
@@ -87,6 +90,7 @@ theorem line_of_root {A : Subgroup G} (hA : Ctx M Q Z A) :
     rw [hν, hμ, smul_smul, mul_assoc, inv_mul_cancel₀ hμ0, mul_one]
 
 include R in
+omit [Finite K] in
 theorem omega : OmegaProp M Q Z := by
   refine omega_of_lines R.hc.hyp R.hD
     {v | ∃ c : Fin 2 → K, c ≠ 0 ∧ v = R.D.Θ.symm (D2.tw R.D.σ c)} ?_ ?_

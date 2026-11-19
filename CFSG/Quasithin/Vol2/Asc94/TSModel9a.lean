@@ -123,7 +123,7 @@ theorem mul_S2d (N M : Mt) (hN : SuppIn S2d N) (hM : SuppIn S2d M) :
   have m44 : M 4 4 = 0 := hM 4 4 (by decide)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_five, Matrix.single_apply, n00, n01, n10, n11, n12, n20,
+    simp [Matrix.mul_apply, Fin.sum_univ_five, n00, n01, n10, n11, n12, n20,
       n21, n22, n23, n30, n31, n32, n33, n34, n40, n41, n42, n43, n44, m00, m01, m10, m11, m12,
       m20, m21, m22, m23, m30, m31, m32, m33, m34, m40, m41, m42, m43, m44]
 
@@ -135,10 +135,10 @@ theorem single04_mul (c : ZMod 2) (w : Hc) :
     rw [Matrix.single_mul_apply_same, cm_row4]
     by_cases hb : b = 4
     · subst hb
-      simp [Matrix.single_apply]
-    · simp [Matrix.single_apply, Matrix.one_apply, hb, Ne.symm hb]
+      simp
+    · simp [Ne.symm hb]
   · rw [Matrix.single_mul_apply_of_ne _ _ _ _ _ ha]
-    simp [Matrix.single_apply, Ne.symm ha]
+    simp [Ne.symm ha]
 
 theorem commutator_T2 {x y : Hc} (hx : x ∈ T2) (hy : y ∈ T2) :
     ∃ c : ZMod 2, cm (x * y * x⁻¹ * y⁻¹) = 1 + Matrix.single 0 4 c := by

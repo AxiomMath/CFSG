@@ -13,6 +13,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G}
 
+omit [Finite G] in
 theorem FF81Hyp.fix_tau_mul_t1
     {B : Subgroup G} {b b₁ b₂ b₃ : G}
     (hB : B = (Subgroup.zpowers b ⊔ Subgroup.zpowers b₁) ⊔
@@ -37,7 +38,7 @@ theorem FF81Hyp.fix_tau_mul_t1
   let B₀ : Subgroup ↥B := Subgroup.zpowers bB ⊔ Subgroup.zpowers b₁B
   let B₁₂ : Subgroup ↥B := Subgroup.zpowers b₂B ⊔ Subgroup.zpowers b₃B
   let σ : MulAut ↥B := τX * tX
-  haveI : IsElementaryAbelian 3 ↥B := hE4.1
+  have : IsElementaryAbelian 3 ↥B := hE4.1
   have hpow3 : ∀ x : ↥B, x ^ 3 = 1 := fun x =>
     (Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
       (IsElementaryAbelian.exponent_dvd_p 3 ↥B)) x
@@ -113,6 +114,7 @@ theorem FF81Hyp.fix_tau_mul_t1
   intro x
   exact hiff x
 
+omit [Finite G] in
 theorem FF81Hyp.commutator_t1
     {B : Subgroup G} {b b₁ b₂ b₃ : G}
     (hB : B = (Subgroup.zpowers b ⊔ (Subgroup.zpowers b₂ ⊔ Subgroup.zpowers b₃)) ⊔
@@ -133,7 +135,7 @@ theorem FF81Hyp.commutator_t1
   let B₀ : Subgroup ↥B :=
     Subgroup.zpowers bB ⊔ (Subgroup.zpowers b₂B ⊔ Subgroup.zpowers b₃B)
   let B₁ : Subgroup ↥B := Subgroup.zpowers b₁B
-  haveI : IsElementaryAbelian 3 ↥B := hE4.1
+  have : IsElementaryAbelian 3 ↥B := hE4.1
   have hpow3 : ∀ x : ↥B, x ^ 3 = 1 := fun x =>
     (Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
       (IsElementaryAbelian.exponent_dvd_p 3 ↥B)) x

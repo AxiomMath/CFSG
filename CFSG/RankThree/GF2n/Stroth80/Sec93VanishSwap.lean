@@ -150,7 +150,7 @@ theorem Fx_conj {hc : Ctx M Q Z B} {t : G} {K : Type} [Field K] {ι : Type} [Fin
   have hz : x * (a : G) * x⁻¹ * ⁅x ^ 2, (k : G)⁆ * (x * (a : G) * x⁻¹)⁻¹ ∈ Z :=
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 ha'M) _).mp hcomm
   convert hz using 1
-  simp only [commutatorElement_def, pow_two, Subgroup.coe_mk]
+  simp only [commutatorElement_def, pow_two]
   group
 
 
@@ -183,12 +183,12 @@ theorem false_of_normalizes_R0 (h34 : Stroth34Statement)
     (hR₀R' : R₀ ≠ Rt M (LB M Q B) t) (hxR₀ : ∀ a ∈ R₀, x * a * x⁻¹ ∈ R₀) : False := by
   classical
   obtain ⟨K, fK, finK, chK, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   have ht : t ∈ LB M Q B := hs.mem
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   have hK4 : 4 ≤ Nat.card K := P.card ▸ hq4
   obtain ⟨c0, hc0, hc1⟩ := exists_ne_zero_ne_one_of_nat_card_ge_four hK4
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   have hX := addCommutantScalar_statedOmegaPlus_two ⟨c0, hc0, hc1⟩
   obtain ⟨Fx, hFx⟩ := exists_fx_sec9 hc ht P.card hX φ P.range ψ P.act hxM hxH hxV
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
@@ -319,14 +319,14 @@ theorem false_of_normalizes_R0 (h34 : Stroth34Statement)
     rw [P.ker] at this
     exact Subgroup.mem_subgroupOf.mp this
   have hA0 : A ≠ ⊥ := by
-    obtain ⟨r, hr, hrN⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hNR₀ (Ne.symm hR₀N))
+    obtain ⟨r, hr, hrN⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hNR₀ (Ne.symm hR₀N))
     intro h
     have hmem : φ ⟨r, hR₀R hr⟩ ∈ A :=
       Subgroup.mem_map.mpr ⟨⟨r, hR₀R hr⟩, Subgroup.mem_subgroupOf.mpr hr, rfl⟩
     rw [h, Subgroup.mem_bot] at hmem
     exact hrN (hkerN _ hmem)
   have hAΩ' : A ≠ StatedOmega (StatedQuadPlus 2 K) := by
-    obtain ⟨ρ, hρR, hρ₀⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hR₀R hR₀R')
+    obtain ⟨ρ, hρR, hρ₀⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hR₀R hR₀R')
     intro h
     have hmem : φ ⟨ρ, hρR⟩ ∈ A := by
       rw [h, ← P.range]

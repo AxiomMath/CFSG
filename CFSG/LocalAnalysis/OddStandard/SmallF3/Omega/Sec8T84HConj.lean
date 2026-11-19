@@ -35,7 +35,7 @@ theorem omega1_eq_of_conj {G : Type} [Group G] {P Pm : Subgroup G} (a : G)
                 exact hx.1),
               by rw [show (a * x * a⁻¹) ^ 2 = a * x ^ 2 * a⁻¹ by
                   simp only [pow_two]; group, hx.2, mul_one, mul_inv_cancel]⟩
-      | one => simpa using Subgroup.one_mem (Subgroup.closure {x : G | x ∈ P ∧ x ^ 2 = 1})
+      | one => simp
       | mul x y hx hy ihx ihy =>
           rw [show a * (x * y) * a⁻¹ = (a * x * a⁻¹) * (a * y * a⁻¹) by group]
           exact Subgroup.mul_mem _ ihx ihy
@@ -89,7 +89,7 @@ theorem complement_of_conj {G : Type} [Group G] {P Pm : Subgroup G} (a : G)
       simpa [MulAut.conj_apply, inv_inv] using hmem
     · intro hx
       refine ⟨a⁻¹ * x * a, (h x).mp hx, ?_⟩
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       group
   refine ⟨D'.map (MulAut.conj a).toMonoidHom, ?_, ?_, ?_⟩
   · intro x hx

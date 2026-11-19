@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
     ↥J →* Perm (Fin 7) :=
   (alternatingGroup (Fin 7)).subtype.comp (e.toMonoidHom.comp (QuotientGroup.mk' (pPrimeCore 2 ↥J)))
 
+omit [Finite G] in
 theorem rho7_eq_one_iff (J : Subgroup G) (e : kBar J ≃* alternatingGroup (Fin 7)) (g : ↥J) :
     rho7 J e g = 1 ↔ g ∈ pPrimeCore 2 ↥J := by
   constructor

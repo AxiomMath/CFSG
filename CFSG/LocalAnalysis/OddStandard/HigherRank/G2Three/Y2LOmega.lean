@@ -161,6 +161,7 @@ section Quot
 
 variable (N : Subgroup P) [(N.subgroupOf ⊤).Normal]
 
+omit [Finite P] in
 theorem y2l_quot_rels (hP : IsPres26 2 true P u v w r s)
     (hN : N = omega1 (closure ({u, v, w} : Set P))) :
     Y2LRels 1 true (y2l_qTop N u) (y2l_qTop N v) (y2l_qTop N w) (y2l_qTop N r)
@@ -184,8 +185,9 @@ theorem y2l_quot_rels (hP : IsPres26 2 true P u v w r s)
     by simpa only [map_mul, map_inv] using congrArg q hR.csu,
     by simpa only [map_mul, map_inv] using congrArg q hR.csv,
     by simpa only [map_mul, map_inv] using congrArg q hR.csw, ?_⟩
-  rw [← map_pow, hR.s4, if_pos rfl, if_pos rfl, map_mul]
+  rw [← map_pow, hR.s4, ite_eq_left rfl, ite_eq_left rfl, map_mul]
 
+omit [Finite P] in
 theorem y2l_quot_seven (hP : IsPres26 2 true P u v w r s)
     (hN : N = omega1 (closure ({u, v, w} : Set P))) :
     ∀ y ∈ y2l_ws7 1, FreeGroup.lift (![y2l_qTop N u, y2l_qTop N v, y2l_qTop N w,

@@ -73,8 +73,8 @@ theorem exists_corootTuple_of_ncard_thirty {L : Type} [Field L] [IsAlgClosed L]
     ∃ (γ : Fin TwistTag.E6.tag.rank → ℤ) (ζ : Lˣ), IsRoot TwistTag.E6.tag γ ∧ ζ ^ 3 = 1 ∧
       ζ ≠ 1 ∧ a = CFSG.StandardType.TwE6RootAs.corootTuple γ ζ := by
   classical
-  haveI : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨h3⟩
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hu : IsUnit ζ₀ := hζ₀.isUnit (by norm_num)
   have hζ : IsPrimitiveRoot ((hu.unit : Lˣ) : L) 3 := by simpa using hζ₀
   have hζu : IsPrimitiveRoot hu.unit 3 := IsPrimitiveRoot.coe_units_iff.1 hζ

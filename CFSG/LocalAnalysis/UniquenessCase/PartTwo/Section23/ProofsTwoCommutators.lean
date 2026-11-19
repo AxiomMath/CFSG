@@ -31,7 +31,7 @@ theorem uc22s2338_exists_b1 (D : Data G) {Ch : Choice2011 G} (c : Ctx23L D Ch)
   have hpi : p ∈ piSet c.B0 := by
     rw [c.hpi]
     exact ⟨hp, hpdvd⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨b1, hb1ord⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) p hpi.2
   have hb1ordG : orderOf (b1 : G) = p := by
     rw [Subgroup.orderOf_coe, hb1ord]
@@ -87,8 +87,7 @@ theorem uc22s2338_b1bar_centralizes_layer
       Subgroup.centralizer ({bbar} : Set (Bar2 D.M)) := by
     rw [CFSG.layer.eq_sSup]
     refine sSup_le ?_
-    intro C hC
-    intro x hx
+    intro C hC x hx
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact Subgroup.mem_centralizer_iff.mp (hcentC C hC) x hx
   rw [Subgroup.mem_centralizer_iff]
@@ -104,9 +103,9 @@ theorem uc22s2338_barImage_closure_le_centralizer_layer
   have hbbar_centE : uc22p21cPi D.M (⟨b1, c.hBM hb1B0⟩ : ↥D.M) ∈
       Subgroup.centralizer (CFSG.layer (Bar2 D.M) : Set (Bar2 D.M)) :=
     uc22s2338_b1bar_centralizes_layer D Ch h37 h1930 c hb1B0 hb1res
-  haveI hEchar : (CFSG.layer (Bar2 D.M)).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hEnorm : (CFSG.layer (Bar2 D.M)).Normal := Subgroup.normal_of_characteristic _
-  haveI hCnorm : (Subgroup.centralizer (CFSG.layer (Bar2 D.M) : Set (Bar2 D.M))).Normal :=
+  have hEchar : (CFSG.layer (Bar2 D.M)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hEnorm : (CFSG.layer (Bar2 D.M)).Normal := Subgroup.normal_of_characteristic _
+  have hCnorm : (Subgroup.centralizer (CFSG.layer (Bar2 D.M) : Set (Bar2 D.M))).Normal :=
     Subgroup.normal_centralizer
   have hpre : Subgroup.closure {x : G | ∃ s ∈ Y, x = ⁅s, b1⁆} ≤
       barPreimage D.M (Subgroup.centralizer (CFSG.layer (Bar2 D.M) : Set (Bar2 D.M))) :=
@@ -125,7 +124,7 @@ theorem le_pCoreOf_two_of_barImage_centralizes
     (hE : barImage M R ≤
       Subgroup.centralizer (CFSG.layer (Bar2 M) : Set (Bar2 M))) :
     R ≤ CFSG.Open.pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRbar2 : IsPGroup 2 (barImage M R) := by
     change IsPGroup 2 ((R.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)))
     exact (hR2.comap_subtype (K := M)).map _

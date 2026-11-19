@@ -20,7 +20,7 @@ theorem map_inf_centralizer {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p
     {M E : Subgroup A} (hE : IsPGroup p E) (hEM : E ≤ Subgroup.normalizer (M : Set A)) :
     (M ⊓ Subgroup.centralizer (E : Set A)).map π =
       M.map π ⊓ Subgroup.centralizer ((E.map π : Subgroup Ω) : Set Ω) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · rintro _ ⟨x, ⟨hxM, hxC⟩, rfl⟩
     refine ⟨⟨x, hxM, rfl⟩, ?_⟩
@@ -105,7 +105,7 @@ theorem glaPLayer_eq_of_map {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p
   unfold GLAPLayer
   have hset : {L : Subgroup A | GLAPComponent p Y L} = {J} := by
     ext L
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · intro hL
       have h1 := glaPComponent_map hp π (coprime_inf_ker hp π hN Y) hL
@@ -124,6 +124,7 @@ section Core
 
 variable {A Ω : Type} [Group A] [Finite A] [Group Ω]
 
+omit [Finite A] in
 theorem mem_glaPPrimeCoreOf_iff {p : ℕ} {H : Subgroup A} {g : A} :
     g ∈ GLAPPrimeCoreOf p H ↔ ∃ h ∈ GLAPPrimeCore p ↥H, (h : A) = g := by
   unfold GLAPPrimeCoreOf
@@ -137,6 +138,7 @@ theorem map_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p
   rw [Subgroup.map_map, ← h, Subgroup.map_map]
   rfl
 
+omit [Finite A] in
 theorem inf_ker_le_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p ∣ Nat.card π.ker)
     (Y : Subgroup A) : Y ⊓ π.ker ≤ GLAPPrimeCoreOf p Y := by
   have hker : (π.subgroupMap Y).ker ≤ GLAPPrimeCore p ↥Y :=
@@ -225,7 +227,7 @@ theorem glaPLayer_ne_bot_iff {G : Type} [Group G] [Finite G] (p : ℕ) (Y : Subg
     apply h
     unfold GLAPLayer
     have : {L : Subgroup G | GLAPComponent p Y L} = ∅ := by
-      ext L; simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]; exact hne L
+      ext L; simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]; exact hne L
     rw [this, sSup_empty]
   · rintro ⟨J, hJ⟩ h
     have hle : J ≤ GLAPLayer p Y := le_sSup hJ

@@ -37,7 +37,7 @@ omit [Finite G] in
 theorem isCyclic_sylow_of_card_dvd {J : Type*} [Group J] [Finite J] {n : ℕ}
     (hJ : Nat.card J ∣ n) (hn : ∀ r : ℕ, r.Prime → r ≠ 2 → ¬ r ^ 2 ∣ n) {r : ℕ}
     [hr : Fact r.Prime] (hr2 : r ≠ 2) (P : Sylow r J) : IsCyclic (P : Subgroup J) := by
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
   have hdvd : r ^ k ∣ n := hk ▸ (Subgroup.card_subgroup_dvd_card _).trans hJ
   rcases Nat.lt_or_ge k 2 with hk2 | hk2
   · interval_cases k

@@ -55,7 +55,6 @@ theorem card_slThreeFour {X : Type*} [Group X] [Finite X] (h : IsSLThreeFour X) 
     Nat.card X = 60480 := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h
   rw [Nat.card_congr e.toEquiv]
-  change Nat.card ↥(CFSG.Assembly.LowTwoRank.StatedSL 3 K) = 60480
   rw [CFSG.SectionRank.OddCover.card_statedSL_three, hK]
   norm_num
 
@@ -63,7 +62,6 @@ theorem card_lThreeFour {X : Type*} [Group X] [Finite X] (h : IsLThreeFour X) :
     Nat.card X = 20160 := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h
   rw [Nat.card_congr e.toEquiv]
-  change Nat.card (CFSG.Assembly.LowTwoRank.StatedProj (CFSG.Assembly.LowTwoRank.StatedSL 3 K)) = 20160
   rw [CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSL (by norm_num), hK]
   decide +kernel
 

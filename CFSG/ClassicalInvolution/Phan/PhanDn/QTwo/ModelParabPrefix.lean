@@ -46,7 +46,7 @@ theorem isKLinear_at_of_bcLin_mem_stdLag {n : ℕ}
   funext i
   exact (congrFun h2 (Sum.inl i)).symm
 
-theorem qTwoParab_fixes_prefix_lines (m : ℕ) (hm : 3 ≤ m) (r : ℕ) (hr : r < m)
+theorem qTwoParab_fixes_prefix_lines (m : ℕ) (_hm : 3 ≤ m) (r : ℕ) (hr : r < m)
     {C : Set (Fin (m + 1))} (hC : ∀ i ∈ C, r ≤ i.val)
     {x : ↥(CFSG.RankThree.Classical2.orthDerived (Qn E (m + 1)))}
     (hx : x ∈ qTwoParab E m C) {i : Fin (m + 1)} (hi : i.val < r) :
@@ -126,12 +126,12 @@ theorem qTwo_fixed_line_scalar {m : ℕ}
   have h := isKLinear_at_of_bcLin_mem_stdLag E g (Pi.single i 1) hbLag a
   have hs : a • (Pi.single i (1 : K) : Fin (m + 1) → K) = Pi.single i a := by
     ext j
-    by_cases hji : j = i <;> simp [Pi.single_apply, hji]
+    by_cases hji : j = i <;> simp [hji]
   rw [hs, hscalar] at h
   change g (Pi.single i a) = Pi.single i (u * a)
   rw [h]
   ext j
-  by_cases hji : j = i <;> simp [Pi.single_apply, hji, mul_comm]
+  by_cases hji : j = i <;> simp [hji, mul_comm]
 
 theorem qTwoParab_remove_prefix (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
     (r : ℕ) (hr : r < m) {C : Set (Fin (m + 1))} (hC : ∀ i ∈ C, r ≤ i.val)
@@ -164,7 +164,7 @@ theorem qTwoParab_remove_prefix (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
     by_cases hji : j = i
     · subst j
       simp [d, diagHom_apply, u, hi]
-    · simp [d, diagHom_apply, Pi.single_apply, hji]
+    · simp [d, diagHom_apply, hji]
   change (t : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)).symm
     ((x : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)) (Pi.single i a)) = Pi.single i a
   rw [← hti, LinearEquiv.symm_apply_apply]

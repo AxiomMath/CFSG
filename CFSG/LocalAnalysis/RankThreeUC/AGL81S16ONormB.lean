@@ -29,10 +29,12 @@ theorem comm_eichler (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   have h1 := hf A hA x
   rwa [hAx x, hAx (f x)] at h1
 
+omit [Finite F] [CharP F 2] in
 theorem polar_e_right (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) (i : Fin (3 - 1)) :
     polar (quadMinus 3 F b c) x (Pi.single (Sum.inl i) 1) = x (Sum.inr (Sum.inl i)) := by
   rw [polar_comm, polar_single_inl_quadMinus]
 
+omit [Finite F] [CharP F 2] in
 theorem polar_f_right (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) (i : Fin (3 - 1)) :
     polar (quadMinus 3 F b c) x (Pi.single (Sum.inr (Sum.inl i)) 1) = x (Sum.inl i) := by
   rw [polar_comm, polar_single_inr_quadMinus]
@@ -54,11 +56,11 @@ theorem comm_e0 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   have hQe₁ : Q e₁ = 0 := quadMinus_single_inl idx1
   have hQf₁ : Q f₁ = 0 := quadMinus_single_inr idx1
   have hpe : polar Q e₁ e₀ = 0 := by
-    rw [he₁, polar_single_inl_quadMinus]; simp [he₀, Pi.single_apply]
+    rw [he₁, polar_single_inl_quadMinus]; simp [he₀]
   have hne01 : idx0 ≠ idx1 := by decide
   have hL : eichler Q e₁ e₀ f₁ = f₁ + e₀ := by
     rw [eichler_apply hQe₁ hpe, polar_e_right, polar_e_right, hQe₀]
-    simp [hf₁, he₀, he₁, Pi.single_apply, hne01]
+    simp [hf₁, he₀, he₁]
   have hE1 : f e₀ = (f f₁ (Sum.inr (Sum.inl idx1))) • e₀ - (f f₁ (Sum.inr (Sum.inl idx0))) • e₁ := by
     have h := comm_eichler hirr f hf e₁ e₀ f₁
     rw [hL, map_add, eichler_apply hQe₁ hpe, polar_e_right, polar_e_right, hQe₀, zero_mul,
@@ -67,10 +69,10 @@ theorem comm_e0 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
         (f f₁ (Sum.inr (Sum.inl idx0))) • e₁) := by rw [h]; abel
     exact add_left_cancel h'
   have hpf : polar Q f₁ e₀ = 0 := by
-    rw [hf₁, polar_single_inr_quadMinus]; simp [he₀, Pi.single_apply]
+    rw [hf₁, polar_single_inr_quadMinus]; simp [he₀]
   have hL2 : eichler Q f₁ e₀ e₁ = e₁ + e₀ := by
     rw [eichler_apply hQf₁ hpf, polar_f_right, polar_e_right, hQe₀]
-    simp [he₀, he₁, Pi.single_apply, hne01]
+    simp [he₀, he₁]
   have hE2 : f e₀ = (f e₁ (Sum.inl idx1)) • e₀ - (f e₁ (Sum.inr (Sum.inl idx0))) • f₁ := by
     have h := comm_eichler hirr f hf f₁ e₀ e₁
     rw [hL2, map_add, eichler_apply hQf₁ hpf, polar_f_right, polar_e_right, hQe₀, zero_mul,
@@ -85,14 +87,16 @@ theorem comm_e0 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     simpa [he₀, he₁, hf₁, Pi.single_apply, hne01] using h2
   exact ⟨f f₁ (Sum.inr (Sum.inl idx1)), by rw [hE1, hb, zero_smul, sub_zero]⟩
 
+omit [Finite F] [CharP F 2] in
 theorem single_eq_smul_single {ι : Type*} [DecidableEq ι] (k : ι) (t : F) :
     (Pi.single k t : ι → F) = t • (Pi.single k 1 : ι → F) := by
   ext j
   by_cases h : j = k
   · subst h
     simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
+omit [Finite F] [CharP F 2] in
 theorem eichler_e1_e0_f1 :
     eichler (quadMinus 3 F b c) (Pi.single (Sum.inl idx1) 1) (Pi.single (Sum.inl idx0) 1)
         (Pi.single (Sum.inr (Sum.inl idx1)) 1 : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) =
@@ -100,10 +104,10 @@ theorem eichler_e1_e0_f1 :
   have hne01 : idx0 ≠ idx1 := by decide
   have hpe : polar (quadMinus 3 F b c) (Pi.single (Sum.inl idx1) 1)
       (Pi.single (Sum.inl idx0) 1 : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) = 0 := by
-    rw [polar_single_inl_quadMinus]; simp [Pi.single_apply]
+    rw [polar_single_inl_quadMinus]; simp
   rw [eichler_apply (quadMinus_single_inl idx1) hpe, polar_e_right, polar_e_right,
     quadMinus_single_inl]
-  simp [Pi.single_apply, hne01]
+  simp
 
 theorem exists_statedOmega_apply_e0 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {s : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F} (hs : quadMinus 3 F b c s = 0) (hs0 : s ≠ 0) :
@@ -130,6 +134,7 @@ theorem exists_statedOmega_apply_e0 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   · rw [← toLinEquiv_apply, MulEquiv.apply_symm_apply]
     exact hge
 
+omit [Finite F] in
 theorem mem_of_forall_singular_mem (S : AddSubgroup (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F))
     (hS : ∀ s, quadMinus 3 F b c s = 0 → s ∈ S) (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) :
     x ∈ S := by
@@ -156,9 +161,9 @@ theorem mem_of_forall_singular_mem (S : AddSubgroup (Fin (3 - 1) ⊕ Fin (3 - 1)
         rw [polar_smul_right_eq, he₀, hf₀, polar_single_inl_quadMinus]
         simp
       have hzf : polar Q z f₀ = 0 := by
-        rw [hf₀, polar_f_right]; simp [hz, Pi.single_apply]
+        rw [hf₀, polar_f_right]; simp [hz]
       have hze : polar Q z e₀ = 0 := by
-        rw [he₀, polar_e_right]; simp [hz, Pi.single_apply]
+        rw [he₀, polar_e_right]; simp [hz]
       have hQz' : Q (z + e₀ + t' • f₀) = 0 := by
         have hs1 : polar Q z (e₀ + t' • f₀) = 0 := by
           rw [polar_add_right, polar_smul_right_eq, hze, hzf, mul_zero, add_zero]
@@ -194,11 +199,11 @@ theorem omega_commutant (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   let S : AddSubgroup (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) :=
     { carrier := {x | f x = a • x}
       add_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [map_add, hx, hy, smul_add]
       zero_mem' := by simp
       neg_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rw [map_neg, hx, smul_neg] }
   exact mem_of_forall_singular_mem S hsing x
 

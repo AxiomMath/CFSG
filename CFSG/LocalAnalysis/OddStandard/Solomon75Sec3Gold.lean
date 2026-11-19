@@ -51,7 +51,7 @@ theorem mem_of_involution_of_fusionStronglyClosed (hGold : CoreStatement) [IsSim
     · exfalso
       have h2 : Nat.Coprime 2 (Nat.card (pPrimeCore 2 G)) := pPrimeCore_coprime_card
       rw [h, Subgroup.card_top] at h2
-      have hAp : IsPGroup 2 A := (S.isPGroup').to_le hAS
+      have hAp : IsPGroup 2 A := (S.isPGroup).to_le hAS
       obtain ⟨k, hk⟩ := hAp.exists_card_eq
       have hk0 : k ≠ 0 := by
         rintro rfl
@@ -171,7 +171,7 @@ theorem false_of_isAhatIntr_of_fusionStronglyClosed (hGold : CoreStatement)
   obtain ⟨u', hu'P, hu'⟩ := huP
   obtain ⟨v', hv'P, hv'⟩ := hvP
   have hker : ∀ x ∈ (P : Subgroup ↥L), π x = 1 → x = 1 := fun x hx h1 =>
-    eq_one_of_mem_pPrimeCore_of_isPGroup ((QuotientGroup.eq_one_iff x).1 h1) P.isPGroup' hx
+    eq_one_of_mem_pPrimeCore_of_isPGroup ((QuotientGroup.eq_one_iff x).1 h1) P.isPGroup hx
   have hu'2 : u' * u' = 1 :=
     hker _ (mul_mem hu'P hu'P) (by rw [map_mul, show π u' = u from hu', hu])
   have hv'2 : v' * v' = 1 :=
@@ -180,7 +180,7 @@ theorem false_of_isAhatIntr_of_fusionStronglyClosed (hGold : CoreStatement)
     have := congrArg π h
     rwa [map_mul, map_mul, show π u' = u from hu', show π v' = v from hv'] at this)
   set PG : Subgroup G := (P : Subgroup ↥L).map L.subtype with hPG
-  have hPGp : IsPGroup 2 ↥PG := P.isPGroup'.map L.subtype
+  have hPGp : IsPGroup 2 ↥PG := P.isPGroup.map L.subtype
   obtain ⟨S', hS'⟩ := hPGp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S' S
   have hconj : ∀ x ∈ (S' : Subgroup G), g * x * g⁻¹ ∈ (S : Subgroup G) := by

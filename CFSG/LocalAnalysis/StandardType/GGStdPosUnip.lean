@@ -91,7 +91,7 @@ theorem ggStdPos_posUnipotent_inf_le {K G : Type*} [Group K] [Group G]
       have h1 : ψ (L.map g).prod = s * ψ (L.map f).prod * s⁻¹ := by
         rw [map_list_prod, map_list_prod, List.map_map, List.map_map]
         have h2 := map_list_prod (MulAut.conj s).toMonoidHom (L.map (ψ ∘ f))
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply,
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply,
           List.map_map] at h2
         rw [h2]
         exact congrArg List.prod

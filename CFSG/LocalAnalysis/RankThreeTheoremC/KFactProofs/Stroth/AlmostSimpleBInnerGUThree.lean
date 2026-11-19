@@ -14,6 +14,7 @@ variable {ℓ f : ℕ} {E : Type} [Field E] {hE : UnitaryFieldData ℓ f E}
   {W : Type*} [AddCommGroup W] [Module E W] [FiniteDimensional E W]
   {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E}
 
+omit [FiniteDimensional E W] in
 private theorem hf_apply_apply_of_basis {ι : Type*} (b : Module.Basis ι E W) (D : W →ₗ[E] W)
     (hD : ∀ i j, Hf (D (b i)) (D (b j)) = Hf (b i) (b j)) (x y : W) :
     Hf (D x) (D y) = Hf x y := by
@@ -67,31 +68,31 @@ private theorem exists_mem_sesqUnitaryGroup_dilation {ι : Type*} [DecidableEq �
     have hω' : ω * hE.bar ω = 1 := by rw [mul_comm]; exact hω
     rw [hDb, hDb]
     by_cases hj : j = i₀ <;> by_cases hk : k = i₀
-    · simp [hj, hk, hb, hω, hω']
+    · simp [hj, hk, hb, hω']
     · have hk' : i₀ ≠ k := Ne.symm hk
       simp [hj, hk, hk', hb]
     · have hj' : i₀ ≠ j := Ne.symm hj
-      simp [hj, hk, hj', hb]
+      simp [hj, hk, hb]
     · simp [hj, hk]
   obtain ⟨g, hg⟩ := exists_mem_sesqUnitaryGroup_of_isometry hHfl D
     (hf_apply_apply_of_basis b D hiso)
   exact ⟨g, fun x => by rw [hg, hD1]⟩
 
-theorem eq_bot_of_normal_isPGroup_two_sesqUnitaryGroup_three_two (hℓ : ℓ = 2)
+theorem eq_bot_of_normal_isPGroup_two_sesqUnitaryGroup_three_two (_hℓ : ℓ = 2)
     (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft) (hq : ℓ ^ f = 2)
     (hm : Module.finrank E W = 3) (K : Subgroup ↥(sesqUnitaryGroup Hf)) [K.Normal]
     (hK : IsPGroup 2 ↥K) : K = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEfin : Finite E := hE.finite
   have hEcard : Nat.card E = 4 := by
     rw [hE.card, pow_mul', hq]
     norm_num
-  haveI : Finite W := Module.finite_of_finite E
-  haveI : Finite ↥(sesqUnitaryGroup Hf) := finite_sesqUnitaryGroup'
+  have : Finite W := Module.finite_of_finite E
+  have : Finite ↥(sesqUnitaryGroup Hf) := finite_sesqUnitaryGroup'
   obtain ⟨b, hb⟩ := hE.exists_orthonormal_basis hHf hHfl
   obtain ⟨ω, hω, hω1⟩ : ∃ ω : E, hE.bar ω * ω = 1 ∧ ω ≠ 1 := by
-    haveI := Fintype.ofFinite E
+    have := Fintype.ofFinite E
     have hc : ({0, 1} : Finset E).card < (Finset.univ : Finset E).card := by
       have h1 : ({0, 1} : Finset E).card ≤ 2 := Finset.card_le_two
       have h2 : (Finset.univ : Finset E).card = 4 := by

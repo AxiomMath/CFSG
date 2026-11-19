@@ -51,9 +51,9 @@ theorem GomiU42Data.lieModel_fixed_quotient (h : GomiU42Data X J D E a) :
     CFSG.Blueprint.LieModel (((J.subgroupOf D).subgroupOf
       (fixedSubgroup (MulAut.conjNormal a : MulAut D))) ⧸ center ((J.subgroupOf D).subgroupOf
       (fixedSubgroup (MulAut.conjNormal a : MulAut D)))) .PSU 4 2 1 := by
-  haveI := h.normal
-  haveI := h.isSimpleGroup_J
-  haveI : IsSimpleGroup ((J.subgroupOf D).subgroupOf
+  have := h.normal
+  have := h.isSimpleGroup_J
+  have : IsSimpleGroup ((J.subgroupOf D).subgroupOf
       (fixedSubgroup (MulAut.conjNormal a : MulAut D))) :=
     h.fixedEquiv.isSimpleGroup
   have hnab : ∃ x y : ((J.subgroupOf D).subgroupOf
@@ -69,10 +69,10 @@ theorem GomiU42Data.fixedCentralizerTwoFree (h : GomiU42Data X J D E a) (ha : a 
     haveI := h.normal
     FixedCentralizerTwoFree (MulAut.conjNormal a : MulAut D) ((J.subgroupOf D).subgroupOf
       (fixedSubgroup (MulAut.conjNormal a : MulAut D))) := by
-  haveI := h.normal
+  have := h.normal
   intro U _ hUC hUF
   have hfix := h.eqLocus_eq ha
-  haveI := h.isSimpleGroup_J
+  have := h.isSimpleGroup_J
   have hJ' : IsSimpleGroup (J.subgroupOf D) :=
     (Subgroup.subgroupOfEquivOfLe h.lt.le).isSimpleGroup
   have hnab : ∃ x y : J.subgroupOf D, x * y ≠ y * x := by
@@ -108,7 +108,7 @@ theorem GomiU42Data.fixedCentralizerTwoFree (h : GomiU42Data X J D E a) (ha : a 
 theorem gomiU42Selector_alternating :
     GomiU42Selector fun D _ => ∃ m : ℕ, 5 ≤ m ∧ Nonempty (D ≃* alternatingGroup (Fin m)) := by
   intro X _ _ J D E a h halt
-  haveI := h.normal
+  have := h.normal
   exact (catSUmAlternating D h.simple h.nonabelian halt (MulAut.conjNormal a)
     h.fixedRoot_conjNormal.1 4 1 _ (by norm_num) h.isComponent_fixed
     h.lieModel_fixed_quotient).elim
@@ -116,7 +116,7 @@ theorem gomiU42Selector_alternating :
 theorem gomiU42Selector_even :
     GomiU42Selector fun D _ => CFSG.Blueprint.EvenLieType D := by
   intro X _ _ J D E a h hEven
-  haveI := h.normal
+  have := h.normal
   obtain ⟨hα, -, -, hinner⟩ := h.fixedRoot_conjNormal
   by_cases ha : a ∈ D
   · exact (catSUmEvenInner D h.simple h.nonabelian hEven (MulAut.conjNormal a) hα (hinner.1 ha)

@@ -15,7 +15,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem exists_mul_eq_of_isPGroup_quotient (W : Sylow 2 G) {Δ : Subgroup G} [Δ.Normal]
     (hq : IsPGroup 2 (G ⧸ Δ)) (g : G) : ∃ δ ∈ Δ, ∃ w ∈ (W : Subgroup G), g = δ * w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsurj : Function.Surjective (QuotientGroup.mk' Δ) := QuotientGroup.mk'_surjective Δ
   set W' : Sylow 2 (G ⧸ Δ) := W.mapSurjective hsurj with hW'
   have hK : IsPGroup 2 ↥(⊤ : Subgroup (G ⧸ Δ)) := hq.of_equiv Subgroup.topEquiv.symm
@@ -72,7 +72,7 @@ theorem iSup_inf_eq_of_family {ι : Type} (F : ParFam G ι) {Δ : Subgroup G} [�
 theorem hasParGen_of_normal_two_quotient {ι : Type} (F : ParFam G ι) {Δ : Subgroup G} [Δ.Normal]
     (hq : IsPGroup 2 (G ⧸ Δ)) (hQΔ : ∀ i, F.Q i ⊓ Δ ≠ ⊥)
     (hSN : ∀ S : Sylow 2 ↥Δ, normalizer (S : Set ↥Δ) ≤ S) : HasParGen ↥Δ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWsyl : IsSylowOf 2 (F.W : Subgroup G) ⊤ := by
     rw [isSylowOf_iff]
     refine ⟨le_top, F.W.isPGroup, ?_⟩

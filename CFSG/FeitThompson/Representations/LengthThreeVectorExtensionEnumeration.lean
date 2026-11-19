@@ -160,7 +160,7 @@ theorem enumCandidates_mono_of_castLE {d d' : ℕ} (h : d ≤ d') {v : Fin d →
   · funext k'
     rw [Finset.card_map, enumCandidate_apply]
     by_cases hk : (k' : ℕ) < d
-    · rw [dif_pos hk, enumCandidate_apply]
+    · rw [dite_eq_left hk, enumCandidate_apply]
       have hmemS : k' ∈ S.map (Fin.castLEEmb h) ↔ (⟨k', hk⟩ : Fin d) ∈ S := by
         refine ⟨fun hk' => ?_, fun hk' => Finset.mem_map.mpr ⟨⟨k', hk⟩, hk', by ext; simp⟩⟩
         obtain ⟨k, hkS, hkeq⟩ := Finset.mem_map.mp hk'
@@ -168,13 +168,13 @@ theorem enumCandidates_mono_of_castLE {d d' : ℕ} (h : d ≤ d') {v : Fin d →
           ext; simpa using congrArg Fin.val hkeq
         exact this ▸ hkS
       by_cases hkS : (⟨k', hk⟩ : Fin d) ∈ S
-      · rw [if_pos (hmemS.mpr hkS), if_pos hkS, dif_pos hk]
+      · rw [ite_eq_left (hmemS.mpr hkS), ite_eq_left hkS, dite_eq_left hk]
         congr 2
         simp [mem_enumNewIdx]
-      · rw [if_neg (fun h' => hkS (hmemS.mp h')), if_neg hkS]
+      · rw [ite_eq_right (fun h' => hkS (hmemS.mp h')), ite_eq_right hkS]
         congr 2
         simp [mem_enumNewIdx]
-    · rw [dif_neg hk]
+    · rw [dite_eq_right hk]
       have hkS : k' ∉ S.map (Fin.castLEEmb h) := by
         intro hk'
         obtain ⟨k, _, rfl⟩ := Finset.mem_map.mp hk'
@@ -182,7 +182,7 @@ theorem enumCandidates_mono_of_castLE {d d' : ℕ} (h : d ≤ d') {v : Fin d →
       have hkN : k' ∉ enumNewIdx d' r (3 - #S) := by
         rw [mem_enumNewIdx]
         omega
-      rw [if_neg hkS, if_neg hkN, add_zero]
+      rw [ite_eq_right hkS, ite_eq_right hkN, add_zero]
 
 theorem card_add_card_le_of_forall_le (hr : r ≤ d) {A : Finset (Fin d)}
     (hA : ∀ k ∈ A, r ≤ (k : ℕ)) : r + #A ≤ d := by
@@ -221,7 +221,7 @@ theorem exists_perm_fixing_lt (A B : Finset (Fin d))
     simp [hp, hk]
   · intro k hk
     have hnp : ¬ p k := by simp only [hp, not_lt]; omega
-    rw [Equiv.Perm.subtypeCongr.apply, dif_neg hnp]
+    rw [Equiv.Perm.subtypeCongr.apply, dite_eq_right hnp]
     have h2 := (τ ⟨k, hnp⟩).2
     simp only [hp, not_lt] at h2
     omega
@@ -236,7 +236,7 @@ theorem exists_perm_fixing_lt (A B : Finset (Fin d))
       simp [hkA, hkB]
     · have hval : Equiv.Perm.subtypeCongr (Equiv.refl {k : Fin d // p k}) τ k
           = ((τ ⟨k, hk⟩ : {k : Fin d // ¬ p k}) : Fin d) := by
-        rw [Equiv.Perm.subtypeCongr.apply, dif_neg hk]
+        rw [Equiv.Perm.subtypeCongr.apply, dite_eq_right hk]
       rw [hval]
       constructor
       · intro hkA
@@ -299,20 +299,20 @@ theorem exists_signedPermVec_eq_enumCandidate (hr : r ≤ d) {u : Fin d → ℤ}
   by_cases hk : (k : ℕ) < r
   · rw [hσfix k hk, hεlt k hk, one_mul]
     have hkB : k ∉ enumNewIdx d r #A := by rw [mem_enumNewIdx]; omega
-    rw [if_neg hkB, add_zero]
+    rw [ite_eq_right hkB, add_zero]
     by_cases h0 : u k = 0
-    · rw [if_neg fun h => ((hmemS k).mp h).1 h0, h0]
-    · rw [if_pos ((hmemS k).mpr ⟨h0, hk⟩)]
+    · rw [ite_eq_right fun h => ((hmemS k).mp h).1 h0, h0]
+    · rw [ite_eq_left ((hmemS k).mpr ⟨h0, hk⟩)]
   · have hkS : k ∉ S := fun h => hk ((hmemS k).mp h).2
-    rw [if_neg hkS, zero_add]
+    rw [ite_eq_right hkS, zero_add]
     by_cases hkB : k ∈ enumNewIdx d r #A
-    · rw [if_pos hkB]
+    · rw [ite_eq_left hkB]
       have hσA : σ k ∈ A := (hσAB k).mp hkB
       have h0 : u (σ k) ≠ 0 := ((hmemA _).mp hσA).1
       rw [hεdef]
-      simp only [hk, if_false, h0, if_false]
+      simp only [hk, ite_false, h0, ite_false]
       rcases eq_one_or_neg_one_of_dotProduct_self_eq_three hu h0 with h | h <;> simp [h]
-    · rw [if_neg hkB]
+    · rw [ite_eq_right hkB]
       have hσA : σ k ∉ A := fun h => hkB ((hσAB k).mpr h)
       have hσge' : r ≤ ((σ k : Fin d) : ℕ) := hσge k (by omega)
       have h0 : u (σ k) = 0 := by

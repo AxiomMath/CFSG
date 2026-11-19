@@ -23,16 +23,16 @@ public theorem CFSG.theorem_5_3_d
   have hpR : IsPGroup p R := hnarrow.1
   obtain ⟨hZcard, hWmem⟩ := theorem_5_3_b (p := p) hpodd (R := R) hnarrow hR
   obtain ⟨hTchar, hTindex⟩ := theorem_5_3_c (p := p) hpodd (R := R) hnarrow hR
-  letI : T.Characteristic := hTchar
-  letI : T.Normal := by infer_instance
-  letI : IsCyclic S := isCyclic_of_prime_card hc
+  let : T.Characteristic := hTchar
+  let : T.Normal := by infer_instance
+  let : IsCyclic S := isCyclic_of_prime_card hc
   have hS_elem : IsElementaryAbelian p S := by
     exact isElementaryAbelian_of_prime_card_isCyclic (p := p) (G := S) hc
-  letI : IsElementaryAbelian p S := hS_elem
+  let : IsElementaryAbelian p S := hS_elem
   have hSZ_elem : IsElementaryAbelian p (Z ⊔ S : Subgroup R) := by
     have hZelem : IsElementaryAbelian p Z := by
       simpa [Z] using omega1Z_isElementaryAbelian (p := p) (R := R)
-    letI : IsElementaryAbelian p Z := hZelem
+    let : IsElementaryAbelian p Z := hZelem
     have hS_le_centZ : S ≤ Subgroup.centralizer (Z : Set R) := by
       exact (Subgroup.le_centralizer_iff).mp <|
         (omega1Z_le_center p R).trans (Subgroup.center_le_centralizer (S : Set R))
@@ -62,13 +62,13 @@ public theorem CFSG.theorem_5_3_d
       have hxsub : (⟨x, hxS⟩ : S) ∈ Z.subgroupOf S := hxZ
       have hxbot : (⟨x, hxS⟩ : S) ∈ (⊥ : Subgroup S) := by simpa [hbot] using hxsub
       exact hx_ne_one <| by simpa using congrArg Subtype.val (Subgroup.mem_bot.mp hxbot)
-    haveI : Fact (Nat.card S).Prime := ⟨by simpa [hc] using (Fact.out : Nat.Prime p)⟩
+    have : Fact (Nat.card S).Prime := ⟨by simpa [hc] using (Fact.out : Nat.Prime p)⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (Z.subgroupOf S) with hbot | htop
     · exact False.elim (hZsub_ne_bot hbot)
     · exact hS_not_le_Z ((Subgroup.subgroupOf_eq_top).1 htop)
   have hSZ_card : Nat.card (Z ⊔ S : Subgroup R) = p ^ 2 := by
     have hZ_normal : Z.Normal := omega1Z_normal p R
-    letI : Z.Normal := hZ_normal
+    let : Z.Normal := hZ_normal
     have hcomp :
         (Z.subgroupOf (Z ⊔ S)).IsComplement' (S.subgroupOf (Z ⊔ S)) := by
       exact isComplement'_of_disjoint_sup_eq_top_of_normal
@@ -82,7 +82,7 @@ public theorem CFSG.theorem_5_3_d
           simpa using
             (Subgroup.subgroupOf_sup (A := Z) (A' := S) (B := Z ⊔ S)
               le_sup_left le_sup_right).symm)
-    have hmul := hcomp.card_mul
+    have hmul := hcomp.card_mul_card
     rw [natCard_subgroupOf_eq Z (Z ⊔ S) le_sup_left,
       natCard_subgroupOf_eq S (Z ⊔ S) le_sup_right, hZcard, hc] at hmul
     simpa [pow_two] using hmul.symm
@@ -95,7 +95,7 @@ public theorem CFSG.theorem_5_3_d
   have hSZ_max : Z ⊔ S ∈ maximalElementaryAbelianSubgroups p R := by
     refine ⟨hSZ_elem, ?_⟩
     intro B hSZ_le_B hBelem
-    letI : IsElementaryAbelian p B := hBelem
+    let : IsElementaryAbelian p B := hBelem
     have hB_le_C : B ≤ C := by
       intro b hb
       rw [Subgroup.mem_centralizer_iff]
@@ -116,7 +116,7 @@ public theorem CFSG.theorem_5_3_d
       have hk_gt_two : 2 < k := by
         exact (Nat.pow_lt_pow_iff_right (Nat.Prime.one_lt (Fact.out : Nat.Prime p))).1 hcard_lt
       have hk_ge_three : 3 ≤ k := by omega
-      letI : Fact (IsPGroup p B) := ⟨hpR.to_subgroup B⟩
+      let : Fact (IsPGroup p B) := ⟨hpR.to_subgroup B⟩
       obtain ⟨D, hDnorm, hD_le_B, hDcard⟩ :=
         lemma_1_22 (G := B) p (⊤ : Subgroup B) inferInstance k (by simpa using hk) 3 hk_ge_three
       have hC_rank_ge : 3 ≤ groupRank C := by
@@ -138,14 +138,14 @@ public theorem CFSG.theorem_5_3_d
           have hDelem : IsElementaryAbelian p D := by
             have hBtop_elem : IsElementaryAbelian p (⊤ : Subgroup B) := by
               exact isElementaryAbelian_top (p := p) (G := B)
-            letI : IsElementaryAbelian p (⊤ : Subgroup B) := hBtop_elem
+            let : IsElementaryAbelian p (⊤ : Subgroup B) := hBtop_elem
             exact isElementaryAbelian_of_le (p := p) hD_le_B
-          letI : IsElementaryAbelian p D := hDelem
+          let : IsElementaryAbelian p D := hDelem
           have hDmapR_elem : IsElementaryAbelian p DmapR := by
             simpa [DmapR] using IsElementaryAbelian.map_subtype (p := p) (K := B) (H := D)
-          letI : IsElementaryAbelian p DmapR := hDmapR_elem
+          let : IsElementaryAbelian p DmapR := hDmapR_elem
           exact IsElementaryAbelian.subgroupOf (p := p) hDmapR_le_C
-        letI : IsElementaryAbelian p Dsub := hDsub_elem
+        let : IsElementaryAbelian p Dsub := hDsub_elem
         exact groupRank_at_least_three_of_elementaryAbelian_subgroup_card_p3'
           (p := p) (G := C) (B := Dsub) hDsub_card
       exact False.elim ((by decide : ¬ 3 ≤ (2 : ℕ)) (le_trans hC_rank_ge hS))
@@ -155,7 +155,7 @@ public theorem CFSG.theorem_5_3_d
     exact (omega1Z_le_center p R).trans (Subgroup.center_le_centralizer (Ω₁Z₂ p R : Set R))
   have hS_not_le_T : ¬ S ≤ T := fun hST => hSZ_not_le_T <| sup_le hZ_le_T hST
   have hTS_bot : T.subgroupOf S = ⊥ := by
-    haveI : Fact (Nat.card S).Prime := ⟨by simpa [hc] using (Fact.out : Nat.Prime p)⟩
+    have : Fact (Nat.card S).Prime := ⟨by simpa [hc] using (Fact.out : Nat.Prime p)⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (T.subgroupOf S) with hbot | htop
     · exact hbot
     · exact False.elim (hS_not_le_T ((Subgroup.subgroupOf_eq_top).1 htop))
@@ -176,8 +176,8 @@ public theorem CFSG.theorem_5_3_d
     Subgroup.isComplement'_of_card_mul_and_disjoint hST_card hdisjST
   have hR'_le_T : derivedSubgroup R ≤ T := by
     have hquot_comm : IsMulCommutative (R ⧸ T) := by
-      letI : IsCyclic (R ⧸ T) := isCyclic_of_prime_card (α := R ⧸ T) hquot_card
-      letI : CommGroup (R ⧸ T) := IsCyclic.commGroup
+      let : IsCyclic (R ⧸ T) := isCyclic_of_prime_card (α := R ⧸ T) hquot_card
+      let : CommGroup (R ⧸ T) := IsCyclic.commGroup
       infer_instance
     have hcomm_le : _root_.commutator R ≤ T :=
       (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := T)).1 hquot_comm
@@ -210,11 +210,11 @@ public theorem CFSG.theorem_5_3_d
   have hR1_cyclic : IsCyclic (subgroupCentralizerIn T S) := by
     by_contra hR1_ncyc
     let R₁ : Subgroup R := subgroupCentralizerIn T S
-    letI : Fact (IsPGroup p R₁) := ⟨hpR.to_subgroup R₁⟩
+    let : Fact (IsPGroup p R₁) := ⟨hpR.to_subgroup R₁⟩
     obtain ⟨U, _hUnorm, hUcard, hUelem⟩ := lemma_4_5_a (R := R₁) (p := p) hpodd hR1_ncyc
     let Umap : Subgroup R := U.map R₁.subtype
     have hUmap_elem : IsElementaryAbelian p Umap := by
-      letI : IsElementaryAbelian p U := hUelem
+      let : IsElementaryAbelian p U := hUelem
       simpa [Umap] using IsElementaryAbelian.map_subtype (p := p) (K := R₁) (H := U)
     have hUmap_card : Nat.card Umap = p ^ 2 := by
       calc
@@ -230,12 +230,12 @@ public theorem CFSG.theorem_5_3_d
     have hdisjSU : Disjoint S Umap := hdisjST.mono_right hUmap_le_T
     let D : Subgroup R := S ⊔ Umap
     have hDelem : IsElementaryAbelian p D := by
-      letI : IsElementaryAbelian p Umap := hUmap_elem
+      let : IsElementaryAbelian p Umap := hUmap_elem
       exact isElementaryAbelian_sup_of_le_centralizer' (p := p) (E := S) (C := Umap) hUmap_le_C
     have hD_le_C : D ≤ C := sup_le hS_le_C hUmap_le_C
     have hDcard : Nat.card D = p ^ 3 := by
-      letI : IsElementaryAbelian p D := hDelem
-      letI : CommGroup D := IsMulCommutative.instCommGroup
+      let : IsElementaryAbelian p D := hDelem
+      let : CommGroup D := IsMulCommutative.instCommGroup
       have hdisj_sub : Disjoint (S.subgroupOf D) (Umap.subgroupOf D) := by
         rw [Subgroup.disjoint_def]
         intro x hxS hxU
@@ -245,11 +245,11 @@ public theorem CFSG.theorem_5_3_d
         simpa [D] using
           (Subgroup.subgroupOf_sup (A := S) (A' := Umap) (B := D)
             le_sup_left le_sup_right).symm
-      letI : (S.subgroupOf D).Normal := by infer_instance
+      let : (S.subgroupOf D).Normal := by infer_instance
       have hcompDU : (S.subgroupOf D).IsComplement' (Umap.subgroupOf D) :=
         isComplement'_of_disjoint_sup_eq_top_of_normal (S.subgroupOf D) (Umap.subgroupOf D)
           hdisj_sub hsup_sub
-      have hmul := hcompDU.card_mul
+      have hmul := hcompDU.card_mul_card
       rw [natCard_subgroupOf_eq S D le_sup_left,
         natCard_subgroupOf_eq Umap D le_sup_right, hc, hUmap_card] at hmul
       simpa [pow_succ', Nat.mul_assoc] using hmul.symm
@@ -258,7 +258,7 @@ public theorem CFSG.theorem_5_3_d
       rw [natCard_subgroupOf_eq D C hD_le_C, hDcard]
     have hDsub_elem : IsElementaryAbelian p Dsub :=
       IsElementaryAbelian.subgroupOf (p := p) hD_le_C
-    letI : IsElementaryAbelian p Dsub := hDsub_elem
+    let : IsElementaryAbelian p Dsub := hDsub_elem
     have hC_rank_ge : 3 ≤ groupRank C :=
       groupRank_at_least_three_of_elementaryAbelian_subgroup_card_p3'
         (p := p) (G := C) (B := Dsub) hDsub_card

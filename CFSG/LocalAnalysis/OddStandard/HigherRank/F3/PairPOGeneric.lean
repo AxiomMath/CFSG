@@ -29,7 +29,7 @@ theorem hasPOmegaMember_of_cover_block {H Q : Type} [Group H] [Group Q] [Finite 
     LieType.CurtisTits.lieModel_of_mulEquiv
       (LieType.CurtisTits.centralQuotientEquivOfIsQuasisimple hX.quasisimple hρs hker) hm
   have hu2 : orderOf (α c) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two, ← map_mul, hc2, map_one]) hc1
   obtain ⟨hmap_le, hsn⟩ :=
     ComponentClassification.HarrisLit.T1.P54.F3.map_isSubnormal_of_central hα hαk hle

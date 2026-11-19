@@ -17,7 +17,7 @@ theorem exists_orderOf_four_of_cyclic_sylow {H : Type*} [Group H] [Finite H] (S 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := (S : Subgroup H))
   have hord : orderOf g = Nat.card S := orderOf_eq_card_of_forall_mem_zpowers hg
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hn2 : 2 ≤ n := by
     by_contra h
     have : 2 ^ n ≤ 2 ^ 1 := Nat.pow_le_pow_right (by norm_num) (by omega)

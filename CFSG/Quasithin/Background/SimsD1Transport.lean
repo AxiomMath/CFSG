@@ -268,7 +268,7 @@ theorem qInt_img [Finite F] [Finite H] (hι : Function.Injective ι) {K V : Subg
   obtain ⟨K, rfl⟩ := exists_map_subtype hK
   obtain ⟨V, rfl⟩ := exists_map_subtype (hVK.trans hK)
   have hEV : IsElemAbelian 2 V := (TransGrp.isElemAbelian_map_iff _ H.subtype_injective 2 V).1 hE
-  haveI : Finite ↥(V.map H.subtype) :=
+  have : Finite ↥(V.map H.subtype) :=
     (TransMod.finite_map_iff H.subtype H.subtype_injective).2 inferInstance
   exact (TransMod.qOf_autOn_of_map_eq ι hι (img_map_subtype ι K).symm (img_map_subtype ι V).symm
     hEV hE').trans (TransMod.qOf_autOn_map H.subtype H.subtype_injective hEV hE).symm

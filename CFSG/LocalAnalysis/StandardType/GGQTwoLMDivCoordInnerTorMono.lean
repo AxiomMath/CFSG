@@ -35,11 +35,11 @@ theorem qTwoLMDivCoordInner_tormono {F0 : Type} [Field F0] [Finite F0] [CharP F0
   have hMN : M * N = 1 := by
     have h := congrArg (fun g : GL (Fin m) F0 => (g : Matrix (Fin m) (Fin m) F0))
       (mul_inv_cancel u)
-    simpa [M, N] using h
+    simp [M, N]
   have hNM : N * M = 1 := by
     have h := congrArg (fun g : GL (Fin m) F0 => (g : Matrix (Fin m) (Fin m) F0))
       (inv_mul_cancel u)
-    simpa [M, N] using h
+    simp [M, N]
   have hrow : ∀ (g : ↥(sumZero m 3)) (k l l' : Fin m),
       M k l ≠ 0 → M k l' ≠ 0 → d g l = d g l' := by
     intro g k l l' hl hl'
@@ -94,7 +94,7 @@ theorem qTwoLMDivCoordInner_tormono {F0 : Type} [Field F0] [Finite F0] [CharP F0
     by_contra hne
     have hmk : M k' (r k) ≠ 0 := by rw [hkk]; exact hr k'
     have h0 : (M * N) k' k = 0 := by
-      simp [hMN, Matrix.one_apply, Ne.symm hne]
+      simp [hMN, Ne.symm hne]
     have hcalc : (M * N) k' k = M k' (r k) * N (r k) k := by
       rw [Matrix.mul_apply, Finset.sum_eq_single (r k)]
       · intro j _ hj

@@ -33,7 +33,7 @@ theorem s26_l2_x_mem {r : ℕ} (hr : 4 ≤ r) {X : Type} [Group X] [Finite X]
         B ^ 2 ^ (r - 1) = 1 → B ^ 2 ^ (r - 2) = 1 ∨
           B ^ 2 ^ (r - 2) = MulAut.conjNormal (QuotientGroup.mk z : X ⧸ Subgroup.center X)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hInfZ := inf_center_eq_bot_of_unique_involution hO hz hzn
   have huA : u ∈ A := Subgroup.map_subtype_le _ huS
   have hbA : b ∈ A := Subgroup.map_subtype_le _ hbS

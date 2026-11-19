@@ -24,7 +24,7 @@ theorem statedScalars_subgroupOf_statedSL4_eq_bot {K : Type} [Field K] [Finite K
   have hdet := StatedAPI.mem_statedSL_iff.1
     (hc ▸ (g : StatedSL 4 K).2 : Matrix.GeneralLinearGroup.scalar (Fin 4) c ∈ StatedSL 4 K)
   rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.det_diagonal, Fin.prod_const] at hdet
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h7 : (c : K) ^ (Fintype.card K - 1) = 1 :=
     FiniteField.pow_card_sub_one_eq_one _ c.ne_zero
   have hcard : Fintype.card K - 1 = 7 := by
@@ -54,7 +54,7 @@ theorem exists_injective_GL_of_catalog {S : Type} [Group S]
     obtain ⟨d, hv⟩ := j
     have hd : d = TauCeti.LieTypeIndex.A 3 gfEightPP := hi
     subst hd
-    haveI : Fact (Nat.Prime gfEightPP.p) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime gfEightPP.p) := ⟨Nat.prime_two⟩
     let e2 : S ≃* CFSG.PGLModel.projSL (3 + 1) GF8 :=
       e.trans (CFSG.RankThree.PartTwo.Census.typeAGroupEquivProjSL 3 gfEightPP hv)
     let e3 : S ≃* StatedProj (StatedSL (3 + 1) GF8) :=

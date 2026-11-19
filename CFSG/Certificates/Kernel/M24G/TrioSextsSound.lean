@@ -157,21 +157,19 @@ theorem meetCode_pair {a b : Nat} (ha : a < 6) (hb : b < 6) (hab : a ≠ b) :
   · subst hia
     rw [Nat.and_self]
     have := hnz i hi
-    simp only [bne_iff_ne, ne_eq, Nat.or_eq_zero_iff, beq_self_eq_true, Bool.true_or,
-      iff_true]
+    simp only [bne_iff_ne, ne_eq, Nat.or_eq_zero_iff, beq_self_eq_true, Bool.true_or]
     exact fun h => this h.1
   · by_cases hib : i = b
     · subst hib
       rw [Nat.and_self]
       have := hnz i hi
-      simp only [bne_iff_ne, ne_eq, Nat.or_eq_zero_iff, beq_self_eq_true, Bool.or_true,
-        iff_true]
+      simp only [bne_iff_ne, ne_eq, Nat.or_eq_zero_iff, beq_self_eq_true, Bool.or_true]
       exact fun h => this h.2
     · rw [hdis i hi a ha hia, hdis i hi b hb hib]
       simp [hia, hib]
 
 include hs in
-theorem disj_pair {a b c d : Nat} (ha : a < 6) (hb : b < 6) (hc : c < 6) (hd : d < 6)
+theorem disj_pair {a b c d : Nat} (ha : a < 6) (hb : b < 6) (_hc : c < 6) (_hd : d < 6)
     (h : (s.getD a 0 ||| s.getD b 0) &&& (s.getD c 0 ||| s.getD d 0) = 0) :
     a ≠ c ∧ a ≠ d ∧ b ≠ c ∧ b ≠ d := by
   obtain ⟨-, -, hnz, -⟩ := sextItem_tets hs
@@ -346,11 +344,11 @@ theorem card_trios_le (hTi : TL.all trioItem = true)
   calc _ ≤ match15.toFinset.card := by
         refine Finset.card_le_card_of_injOn (fun p => trioCode s (TL.getD p default)) ?_ ?_
         · intro p hp
-          simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hp
+          simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hp
           rw [Finset.mem_coe, List.mem_toFinset]
           exact trioCode_mem hs (hti p hp.1) hp.2
         · intro p hp p' hp' e
-          simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hp hp'
+          simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hp hp'
           have := trioCode_inj hs (hti p hp.1) (hti p' hp'.1) hp.2 hp'.2 e
           rw [getD_of_lt TL p default (by omega), getD_of_lt TL p' default (by omega)] at this
           exact hinj p p' (by omega) (by omega) this

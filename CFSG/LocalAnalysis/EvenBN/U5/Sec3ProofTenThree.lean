@@ -212,7 +212,7 @@ theorem sec3103_rSU_uSU_conj (c : K) {g : hypSU h 2 1} (hg : g ∈ Ssub h) :
   have hR2 := sec3103_rSU_conj hU1.1
   have hfact : rSU h * uSU h c * (rSU h)⁻¹ * g * (rSU h * uSU h c * (rSU h)⁻¹)⁻¹ =
       rSU h * (uSU h c * (rSU h * g * (rSU h)⁻¹) * (uSU h c)⁻¹) * (rSU h)⁻¹ := by
-    simp only [mul_inv_rev, inv_inv, hRi, mul_assoc]
+    simp only [mul_inv_rev, hRi, mul_assoc]
   rw [hfact]
   exact ⟨hR2.1, by rw [hR2.2, hU1.2, hR1.2]⟩
 
@@ -223,6 +223,7 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
+omit [Finite G] in
 theorem sec3103_crd_eq_of_mem {g w : hypSU h 2 1} (hg : g ∈ Ssub h) (hwg : w * g * w⁻¹ ∈ Ssub h)
     (hA : d.η (g⁻¹ * (w * g * w⁻¹)) ∈ d.A₁) : crd (w * g * w⁻¹) = crd g := by
   obtain ⟨v, hv, hve⟩ := Subgroup.mem_map.1 hA
@@ -231,7 +232,7 @@ theorem sec3103_crd_eq_of_mem {g w : hypSU h 2 1} (hg : g ∈ Ssub h) (hwg : w *
   have hw : w * g * w⁻¹ = g * v := by rw [hvg, mul_inv_cancel_left]
   rw [hw, crd_mul hg (Vsub_le_Ssub hv), (crd_eq_zero_iff (Vsub_le_Ssub hv)).2 hv, add_zero]
 
-theorem sec3103_eq_of_fixed_U₁_U₁r (hd : d.Hyp) {a : G} (ha : a ∈ d.A₃)
+theorem sec3103_eq_of_fixed_U₁_U₁r (_hd : d.Hyp) {a : G} (ha : a ∈ d.A₃)
     (h1 : ∀ u ∈ d.U₁, a⁻¹ * (u * a * u⁻¹) ∈ d.A₁)
     (h2 : ∀ u ∈ d.U₁.map (MulAut.conj d.r).toMonoidHom, a⁻¹ * (u * a * u⁻¹) ∈ d.A₁) :
     a ∈ d.A₁ := by
@@ -379,7 +380,7 @@ theorem Hyp.sec3103_V₁_inf_section (hGMS : GMSK.GMSUnitarySharpKRankOneStateme
     (hA₃D : d.A₃ ≤ d.D) : d.V₁ ⊓ centralizerSection d.D d.F = ⊥ := by
   by_contra hne
   set K₁ : Subgroup G := d.V₁ ⊓ centralizerSection d.D d.F with hK₁
-  haveI := hd.isElementaryAbelian_V₁ hGMS
+  have := hd.isElementaryAbelian_V₁ hGMS
   have hV₂ : IsPGroup 2 d.V₁ := CFSG.IsElementaryAbelian.isPGroup 2 d.V₁
   have hK2 : IsPGroup 2 K₁ := hV₂.to_le inf_le_left
   have htN : zpowers d.t ≤ normalizer (K₁ : Set G) := by
@@ -441,7 +442,7 @@ theorem Hyp.sec3103_V₁_inf_section (hGMS : GMSK.GMSUnitarySharpKRankOneStateme
 
 theorem Hyp.sec3103_Zt_le_D (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp)
     {S : Subgroup G} (hSDV : S = d.D ⊔ d.V₁) (hSD : S ≤ normalizer (d.D : Set G))
-    (hSF : S ≤ normalizer (d.F : Set G)) (hFD : d.F ≤ d.D) (hsq : ∀ x ∈ d.D, x * x ∈ d.F)
+    (hSF : S ≤ normalizer (d.F : Set G)) (_hFD : d.F ≤ d.D) (hsq : ∀ x ∈ d.D, x * x ∈ d.F)
     (hA₃D : d.A₃ ≤ d.D) : S ⊓ centralizerSection S d.F ≤ d.D := by
   intro g hg
   obtain ⟨hgS, hgN⟩ := Subgroup.mem_inf.1 hg
@@ -485,9 +486,9 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
 theorem sec310Three_of_hyp (hp : d.CaseHyp) (k : d.Know93) (h1 : d.Sec3_10_one)
-    (h2 : d.Sec3_10_two) : d.Sec310Three := by
+    (_h2 : d.Sec3_10_two) : d.Sec310Three := by
   intro S hS hPS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hGMS := hp.gms
   have hd := hp.hyp
   have O := sec3101Orders_of_hyp hp k S hS hPS
@@ -503,11 +504,11 @@ theorem sec310Three_of_hyp (hp : d.CaseHyp) (k : d.Know93) (h1 : d.Sec3_10_one)
   have hFS : d.F ≤ S := hFD.trans hDS
   have hSE : S ≤ normalizer (d.E : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hES).1 (by
-      haveI : (d.E.subgroupOf S).Characteristic := hEchar
+      have : (d.E.subgroupOf S).Characteristic := hEchar
       infer_instance)
   have hSD : S ≤ normalizer (d.D : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hDS).1 (by
-      haveI : (d.D.subgroupOf S).Characteristic := hDchar
+      have : (d.D.subgroupOf S).Characteristic := hDchar
       infer_instance)
   have hSF : S ≤ normalizer (d.F : Set G) := by
     have := normalizer_le_normalizer_centerIn d.D

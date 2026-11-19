@@ -153,8 +153,8 @@ theorem ggSU6DiagInvertedKnown_holds : GGSU6DiagInvertedKnown := by
     (fun R _ I F => Q R I F ∧ GGSU6DiagInvertedAt I)
   obtain ⟨K, hKfield, hKfinite, hKcard, hQK⟩ := hQ
   refine ⟨K, hKfield, hKfinite, hKcard, hQK, ?_⟩
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   intro t htI ht3 htNotInn U hUne hU2 hUdisj hNorm
   have hf : 1 ≤ f := by
     by_contra hf
@@ -162,7 +162,7 @@ theorem ggSU6DiagInvertedKnown_holds : GGSU6DiagInvertedKnown := by
     subst hf0
     norm_num at h3
   let h : UnitaryFieldData 2 f K := TableBU.unitaryFieldData_of_card hKcard hf
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hd1 : 1 ≤ 6 := by norm_num
   have hd : 3 ≤ 6 := by norm_num
   have hq : ¬((6 : ℕ) = 3 ∧ 2 ^ f = 2) := by omega
@@ -202,7 +202,7 @@ theorem ggSU6DiagInvertedKnown_holds : GGSU6DiagInvertedKnown := by
     simpa [LargeEvenInnSet] using hmem
   have hlt : (⊥ : Subgroup (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ f))))) < U :=
     lt_of_le_of_ne bot_le (Ne.symm hUne)
-  obtain ⟨u, huU, hu1⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨u, huU, hu1⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   replace hu1 : u ≠ 1 := by simpa using hu1
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hU2 ⟨u, huU⟩
   rw [Subgroup.orderOf_mk] at hk

@@ -54,6 +54,7 @@ theorem fj_simAct_eq_of_odd (hQ : Q.Nondegenerate) (h2 : 2 ≤ Module.finrank (Z
     rw [hS, hcomm.mul_pow, hπodd, hG1, mul_one] at hS1
     exact piOrth_ne_one hpos hS1
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fj_comm_of_simAct_fix {ρ : simGroup Q} {g : OGroup Q} (h : simAct Q ρ g = g) (v : V) :
     (ρ : V ≃ₗ[ZMod 3] V) ((g : V ≃ₗ[ZMod 3] V) v) =
       (g : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) := by
@@ -76,8 +77,8 @@ theorem fj_no_pocket_negsim (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
     {y : omegaProj hQ} {B : Subgroup (omegaProj hQ)} (hy : orderOf y = 2)
     (hB : Sl23PocketIn ⊤ y B)
     (hfix : ∀ b ∈ B, ffSimOmegaAct hQ h2 (QuotientGroup.mk ρ : ProjSim Q) b = b) : False := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaGroup hQ) := Subtype.finite
   obtain ⟨z, hzy, hz2, hzK⟩ := fj_lift_pocket_omega hQ hy hB
   have hKfix : ∀ k ∈ l34g_oddHull (omegaToProj hQ) B,
       simAct Q ρ (k : OGroup Q) = (k : OGroup Q) := by

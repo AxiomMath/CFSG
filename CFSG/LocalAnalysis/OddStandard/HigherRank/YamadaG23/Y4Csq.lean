@@ -45,7 +45,7 @@ theorem y4_exists_c_sq (c : Ctx4 s e) :
   have hq' : q = a * y₀ * a := by rw [hq, hainv]
   have hq_inv : q⁻¹ = a * y₀⁻¹ * a := by
     rw [hq']
-    simp only [mul_inv_rev, inv_inv, hainv]
+    simp only [mul_inv_rev, hainv]
     group
   have hphiq : f3phi s q = s.fr.z * f3phi s y₀ := by
     have hconj : f3phi s q = a * f3phi s y₀ * a⁻¹ := by

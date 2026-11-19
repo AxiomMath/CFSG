@@ -29,7 +29,7 @@ open CFSG.Open
 
 theorem isElemAbelian_image {A B : Type*} [Group A] [Group B] {p : ℕ} (σ : A →* B)
     {V : Subgroup A} (hV : IsElemAbelian p V) : IsElemAbelian p (V.map σ) := by
-  haveI := hV.1
+  have := hV.1
   refine ⟨inferInstance, fun y hy => ?_⟩
   obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hy
   rw [← map_pow, hV.2 x hx, map_one]
@@ -43,7 +43,7 @@ theorem isSolvable_image_of_injective {A B : Type*} [Group A] [Group B] (σ : A 
 theorem isSolvable_of_image_injective {A B : Type*} [Group A] [Group B] (σ : A →* B)
     (hσ : Function.Injective σ) (K : Subgroup A) (hK : Group.IsSolvable ↥(K.map σ)) :
     Group.IsSolvable ↥K := by
-  haveI := hK
+  have := hK
   exact Group.isSolvable_of_surjective
     (f := (Subgroup.equivMapOfInjective K σ hσ).symm.toMonoidHom)
     (Subgroup.equivMapOfInjective K σ hσ).symm.surjective
@@ -112,7 +112,7 @@ theorem FrameDatumIn.of_bijective {G H : Type*} [Group G] [Group H] (σ : H →*
     have hKsolv : Group.IsSolvable ↥(H'.comap σ ⊓ (X₁ ⊔ X₂)) :=
       isSolvable_of_image_injective σ hinj _ (by rw [hmap]; exact hsolvH')
     have hKs : Group.IsSolvable ↥(H'.comap σ) := hsolv (H'.comap σ) hKn hKsolv
-    haveI := hKs
+    have := hKs
     have hfin := isSolvable_image_of_injective σ hinj (H'.comap σ)
     rwa [hK] at hfin
 

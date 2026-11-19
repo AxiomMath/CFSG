@@ -21,7 +21,7 @@ theorem prime_sq_dvd_factorial {p n : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hn : 
         · exact Nat.le_succ_of_le (ih hd))
   have hpn : p ≤ n := key n (dvd_trans (dvd_pow_self p two_ne_zero) h)
   have hp12 : p ≤ 12 := hpn.trans hn
-  interval_cases p <;> first | (exfalso; revert hp; norm_num; done) | skip
+  interval_cases p <;> try (exfalso; revert hp; norm_num; done)
   all_goals interval_cases n <;> simp_all [Nat.factorial]
 
 theorem five_dvd_card_support {V : Type*} [Fintype V] [DecidableEq V] {x : Perm V}

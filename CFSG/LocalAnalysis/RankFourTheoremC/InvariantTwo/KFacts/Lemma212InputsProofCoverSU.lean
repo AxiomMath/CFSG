@@ -55,6 +55,7 @@ theorem scalar_mem_statedSU_iff (hK : Nat.card K = (r ^ f) ^ 2) (hn : 1 ≤ n) (
     exact key _
   rw [hdet, hconj]
 
+omit [Finite K] in
 theorem scalar_injective_of_pos (hn : 1 ≤ n) :
     Function.Injective (GeneralLinearGroup.scalar (Fin n) : Kˣ → GL (Fin n) K) := by
   intro c c' h

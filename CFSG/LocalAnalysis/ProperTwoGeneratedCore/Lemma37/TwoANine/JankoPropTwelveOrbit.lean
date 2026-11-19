@@ -23,10 +23,10 @@ theorem exists_mem_normalizer_N_not_mem (h : Hyp fr) :
   obtain ⟨R, hNR⟩ := h.isPGroup_N.exists_le_sylow
   have hNR' : fr.N = (R : Subgroup G) := by
     by_contra hne
-    have hlt := lt_inf_normalizer_of_lt R.isPGroup' (lt_of_le_of_ne hNR hne)
+    have hlt := lt_inf_normalizer_of_lt R.isPGroup (lt_of_le_of_ne hNR hne)
     have hle : (R : Subgroup G) ⊓ normalizer (fr.N : Set G) ≤ normalizer (fr.P₁ : Set G) :=
       fun x hx => hcon x (Subgroup.mem_inf.mp hx).2
-    have hcard := card_le_of_isSylowOf h.p11.isSylowOf_N (R.isPGroup'.to_le inf_le_left) hle
+    have hcard := card_le_of_isSylowOf h.p11.isSylowOf_N (R.isPGroup.to_le inf_le_left) hle
     exact absurd (Subgroup.card_lt_of_lt hlt) (not_lt.mpr hcard)
   obtain ⟨x, -, hx⟩ := fr.exists_orderOf_nine
   have hxp : IsPGroup 3 (zpowers x) :=

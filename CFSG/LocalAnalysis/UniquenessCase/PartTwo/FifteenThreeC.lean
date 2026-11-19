@@ -167,7 +167,7 @@ private theorem s15_Three_pGroup_not_cyclic_of_card_nine {A : Type} [Group A] [F
   constructor
   · exact IsPGroup.of_card hcard
   · intro hcyc
-    haveI := hcyc
+    have := hcyc
     have hexp : Monoid.exponent ↥E = 9 := by
       rw [IsCyclic.exponent_eq_card, hcard]
       norm_num
@@ -185,7 +185,7 @@ private theorem s15_Three_sup_noncyclic {A : Type} [Group A] [Finite A] {E₁ E�
   have hle₂ : E₂ ≤ E₁ ⊔ E₂ := le_sup_right
   have hnecyc : ¬ IsCyclic ↥(E₁ ⊔ E₂) := by
     intro hcyc
-    haveI := hcyc
+    have := hcyc
     have hc₁ : Nat.card ↥(E₁.subgroupOf (E₁ ⊔ E₂)) = 3 := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle₁).toEquiv, h₁]
     have hc₂ : Nat.card ↥(E₂.subgroupOf (E₁ ⊔ E₂)) = 3 := by
@@ -233,6 +233,7 @@ section Components
 
 variable {D : Data G} {V₀ V L K₀ : Subgroup G}
 
+omit [Finite G] in
 private theorem s15_Three_conjSubgroup_le {K M : Subgroup G} (hK : K ≤ M) {m : G} (hm : m ∈ M) :
     conjSubgroup K m ≤ M := by
   intro x hx
@@ -456,8 +457,8 @@ theorem s15_Three_stab_two (hT : RTable137) (hAbs : RAbsIrr153) (h1217 : R1217 D
     · exact hcomm x (hE₁le' hx) y (hE₂le' hy)
   have hneE : E₁ ≠ E₂ := by
     intro hEq
-    haveI : Fintype ↥E₁ := Fintype.ofFinite _
-    haveI : Nontrivial ↥E₁ := by
+    have : Fintype ↥E₁ := Fintype.ofFinite _
+    have : Nontrivial ↥E₁ := by
       rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hE₁card]
       norm_num
     obtain ⟨g, hg_ne⟩ := exists_ne (1 : ↥E₁)

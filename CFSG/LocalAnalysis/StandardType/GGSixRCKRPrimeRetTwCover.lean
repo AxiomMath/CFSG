@@ -29,7 +29,7 @@ theorem rckRet_tw_cover
     {ι : (Fin τ.rank → ℤ) → (Fin Tag.E6.rank → ℤ)} (hι : RetIotaSpec β ι)
     {θ : ↥(RetH τ β) →* ModGL Tag.E6 GGL} (hθ : RetCompSpec β ι θ)
     (hRH : rationalComponent S.ρ S.Γ (rootCharHom a) i ≤ RetH τ β)
-    (hs1 : componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 1)
+    (_hs1 : componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 1)
     (hquasi : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
     {h : ℕ} (hh : 0 < h) (hq : S.D.q = 2 ^ h)
     {p₁ : ℕ} (SK : LangSetup Tag.E6 GGL p₁) (hSKq : SK.D.q = 2 ^ h)
@@ -41,7 +41,7 @@ theorem rckRet_tw_cover
       ∀ x : twistedE6Group 2 h, rckRetKappa θ hRH (φ x) =
         SK.D.g0⁻¹ * (show ModGL Tag.E6 GGL from rckTw6_iota h (rckTw6_psi h hh x)) * SK.D.g0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPkg : GGLangPkg SK.D (rckTw6_iota h) := rckTw6_langPkg SK h hh hSKΦ
   have hΓSK : SK.D.Γ = (show Subgroup (ModGL Tag.E6 GGL) from (rckTw6_iota h).range).map
       (MulAut.conj SK.D.g0⁻¹).toMonoidHom := rckTw6_Gamma SK h hSKΦ hPkg
@@ -50,7 +50,7 @@ theorem rckRet_tw_cover
   have hHleadj : RetH τ β ≤ adjointGroup τ GGL := by
     rw [RetH]
     exact iSup₂_le fun γ _ => rootSubgroup_le_adjointGroup γ
-  haveI hMperf : Group.IsPerfect (twistedE6Group 2 h) :=
+  have hMperf : Group.IsPerfect (twistedE6Group 2 h) :=
     fixedGroup_isPerfect_of_four_le_card (frobQ 2 h) (frobQ_frobQ 2 h hh)
       (four_le_card_galoisField 2 h hh)
   have hψsurj : Function.Surjective (rckTw6_psi h hh) :=

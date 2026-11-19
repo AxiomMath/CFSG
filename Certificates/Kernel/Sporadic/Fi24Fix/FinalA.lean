@@ -122,7 +122,7 @@ theorem certificate1019_proof : ∃ Γ : Subgroup (GL (Fin 781) (ZMod 3)),
   have hkψ : ∀ j < 31671, P (kψ j) = F (R (walk TG PW (S j))) := by
     intro j hj
     have h := (hψ j hj).1
-    simp only [kψ, dif_pos h]
+    simp only [kψ, dite_eq_left h]
     exact hkOf _
   have hkinj : Set.InjOn kψ (Finset.range 31671 : Set ℕ) := by
     intro j hj j' hj' h

@@ -21,7 +21,7 @@ private theorem uc22r3e5c_coe_eq_mul_of_card {B P C : Subgroup G} (hPB : P ≤ B
     (hcop : Nat.Coprime (Nat.card P) (Nat.card C))
     (hcard : Nat.card B = Nat.card P * Nat.card C) :
     (B : Set G) = (P : Set G) * (C : Set G) := by
-  have hinf : C ⊓ P = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop.symm
+  have hinf : C ⊓ P = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop.symm))
   have hsup := CFSG.GroupTheory.CoprimeActionSupport.NormalSubgroupSylowJoin.card_sup_mul_card_inf
     (H := C) (K := P) (hCB.trans hBP)
   rw [sup_comm] at hsup
@@ -40,7 +40,7 @@ private theorem uc22r3e5c_exists_hall_invariant {B : Subgroup G} (hB : Group.IsS
     show Nat.Coprime (Nat.card ↥(Subgroup.zpowers b)) (Nat.card ↥B)
     rw [Nat.card_zpowers]
     exact hcop
-  letI : MulDistribMulAction ↥A ↥B :=
+  let : MulDistribMulAction ↥A ↥B :=
     CFSG.SignalizerFunctor.Helpers.conjugationAction A B (Subgroup.zpowers_le.mpr hbB)
   obtain ⟨C, hCHall, hCinv⟩ := CFSG.exists_isHallSubgroup_isInvariant
     (G := ↥B) (A := ↥A) hB hAcop {p : Nat.Primes | (p : ℕ) ≠ 2}
@@ -78,7 +78,7 @@ theorem uc22r3e5c_exists_cartan_hall
       (conjClosure D.M L ⊓ normalizer (D.T ⊓ conjClosure D.M L : Set G) : Set G) =
         (D.T ⊓ conjClosure D.M L : Set G) * (C : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hKne, hset, hKC⟩ := uc22s21ru4e_exists_second_member hc2 hL
   let P : Subgroup G := D.T ⊓ conjClosure D.M L
   let β : Subgroup G := conjClosure D.M L ⊓ normalizer (P : Set G)

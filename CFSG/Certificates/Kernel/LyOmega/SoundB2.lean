@@ -91,7 +91,7 @@ private theorem outer_tb (X : ℕ) (I : ℕ) (hI : I ≤ 111) (b : ℕ) :
     by_cases h : b % 1332 / 12 = I
     · have : ¬ b % 1332 / 12 < I := by omega
       have h' : (b % 1332 / 12 < I + 1) := by omega
-      simp [h, this, h']
+      simp [h]
     · by_cases h2 : b % 1332 / 12 < I
       · have : (b % 1332 / 12 < I + 1) := by omega
         simp [h, h2, this]

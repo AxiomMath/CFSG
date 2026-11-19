@@ -69,10 +69,10 @@ theorem ggDepAThree_surv_weyl
     rw [← hA]
     exact Nat.card_congr
       (Subgroup.equivMapOfInjective A (ggLin (p := 3) ι) (ggLin_injective (p := 3) ι)).toEquiv
-  haveI : Finite (Additive ↥Bs) := inferInstance
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Finite (V → V) := inferInstance
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (Additive ↥Bs) := inferInstance
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite (V → V) := inferInstance
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
   let G' : Subgroup (V ≃ₗ[ZMod 3] V) := Subgroup.closure gens
@@ -97,9 +97,9 @@ theorem ggDepAThree_surv_weyl
       have h1 : (f a : ↥G') = (f b : ↥G') := congrArg Subtype.val hab
       exact Subtype.ext (congrArg (fun z : ↥G' => (z : V ≃ₗ[ZMod 3] V)) h1)
     exact le_trans hHcard (Nat.card_le_card_of_injective f hf)
-  haveI : Fintype ↥G' := Fintype.ofFinite ↥G'
-  haveI : Fintype (MulAction.orbit ↥G' x) := Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.stabilizer ↥G' x) := Fintype.ofFinite _
+  have : Fintype ↥G' := Fintype.ofFinite ↥G'
+  have : Fintype (MulAction.orbit ↥G' x) := Fintype.ofFinite _
+  have : Fintype ↥(MulAction.stabilizer ↥G' x) := Fintype.ofFinite _
   have hos : Nat.card (MulAction.orbit ↥G' x) * Nat.card ↥(MulAction.stabilizer ↥G' x)
       = Nat.card ↥G' := by
     simpa only [Nat.card_eq_fintype_card] using

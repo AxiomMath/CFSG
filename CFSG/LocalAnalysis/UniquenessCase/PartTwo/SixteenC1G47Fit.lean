@@ -15,7 +15,7 @@ theorem s16c1_G47_fit {Hs : Type} [Group Hs] [Finite Hs] {N : Subgroup Hs} (hN :
     ∃ (q : ℕ) (P : Subgroup Hs), q.Prime ∧ P ≤ N ∧ P.Normal ∧ IsPGroup q P ∧
       ∃ n ∈ P, u * n * u⁻¹ ≠ n := by
   classical
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   by_contra hcon
   push Not at hcon
   have hsolv : Group.IsSolvable ↥N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd

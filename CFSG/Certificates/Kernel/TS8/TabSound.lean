@@ -25,7 +25,7 @@ theorem foldPush_get {β : Type} [Inhabited β] (f : ℕ → β) (m : ℕ) :
     ((List.range' 0 m).foldl (fun out k => out.push (f k)) #[]).size = m ∧
       ∀ i < m, ((List.range' 0 m).foldl (fun out k => out.push (f k)) #[])[i]! = f i := by
   have h := foldPush f m 0 #[]
-  simp only [List.toList_toArray, List.nil_append, Array.toList_empty] at h
+  simp only [List.nil_append] at h
   have hs : ((List.range' 0 m).foldl (fun out k => out.push (f k)) #[]).size = m := by
     rw [← Array.length_toList, h, List.length_map, List.length_range']
   refine ⟨hs, fun i hi => ?_⟩
@@ -95,10 +95,10 @@ theorem mulTabT_get (E : Array (Array ℕ)) (idx : Std.HashMap (Array ℕ) ℕ) 
   · rw [h2 a ha]
     obtain ⟨g1, g2⟩ := foldPush_get (fun b => idx.getD (compA n E[a]! E[b]!) 0) 256
     by_cases hb : b < 256
-    · rw [g2 b hb, if_pos ⟨ha, hb⟩]
-    · rw [getElem!_neg _ b (by omega), if_neg (by omega)]
+    · rw [g2 b hb, ite_eq_left ⟨ha, hb⟩]
+    · rw [getElem!_neg _ b (by omega), ite_eq_right (by omega)]
       rfl
-  · rw [getElem!_neg _ a (by omega), if_neg (by omega)]
+  · rw [getElem!_neg _ a (by omega), ite_eq_right (by omega)]
     rfl
 
 theorem invTabT_get (E : Array (Array ℕ)) (idx : Std.HashMap (Array ℕ) ℕ) (a : ℕ) :
@@ -106,15 +106,15 @@ theorem invTabT_get (E : Array (Array ℕ)) (idx : Std.HashMap (Array ℕ) ℕ) 
   rw [invTabT_eq]
   obtain ⟨h1, h2⟩ := foldPush_get (fun a => idx.getD (invCand n E[a]!) 0) 256
   by_cases ha : a < 256
-  · rw [h2 a ha, if_pos ha]
-  · rw [getElem!_neg _ a (by omega), if_neg ha]
+  · rw [h2 a ha, ite_eq_left ha]
+  · rw [getElem!_neg _ a (by omega), ite_eq_right ha]
     rfl
 
 theorem unpack_lt {p : ℕ} (hp : PP n w p) {x : ℕ} (hx : x < n) : (unpack n w p)[x]! < n := by
-  rw [unpack_getElem!, if_pos hx]
+  rw [unpack_getElem!, ite_eq_left hx]
   exact hp.2.1 x hx
 
-theorem compA_assoc {t u v : Array ℕ} (ht : t.size = n) (hv : ∀ x < n, v[x]! < n) :
+theorem compA_assoc {t u v : Array ℕ} (_ht : t.size = n) (hv : ∀ x < n, v[x]! < n) :
     compA n t (compA n u v) = compA n (compA n t u) v := by
   apply Array.ext
   · simp [compA]

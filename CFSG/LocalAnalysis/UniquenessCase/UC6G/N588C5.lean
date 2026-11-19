@@ -33,14 +33,14 @@ open N588
   (normalClosure ((m.Z.subgroupOf N : Subgroup ↥N) : Set ↥N)).map N.subtype
 
 theorem isSylowOf_R_top : IsSylowOf m.r m.R ⊤ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   refine ⟨m.toMc614.sylowTop.subtype le_top, ?_⟩
   rw [Sylow.coe_subtype, Subgroup.subgroupOf_map_subtype, inf_top_eq, Mc614.coe_sylowTop]
 
 theorem pRank_zClosure (hK : UCK.K332') (h69 : R6_9 Dat)
     (h623 : m.C623) (hr3 : m.r ≠ 3) {N : Subgroup G} (hNtop : N ≠ ⊤) (hZN : m.Z ≤ N) :
     CFSG.Open.pRank m.r (m.zClosure N) = 1 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have h5 : 5 ≤ m.r := m.five_le_r hr3
   have hNk : CFSG.Open.IsKGroup ↥N := Dat.standing.kProper.isKGroup N hNtop
   set Z' : Subgroup ↥N := m.Z.subgroupOf N with hZ'
@@ -146,7 +146,7 @@ theorem le_normalizer_zClosure (N : Subgroup G) :
 theorem isCyclic_of_le_zClosure (hK : UCK.K332') (h69 : R6_9 Dat)
     (h623 : m.C623) (hr3 : m.r ≠ 3) {N : Subgroup G} (hNtop : N ≠ ⊤) (hZN : m.Z ≤ N)
     {D : Subgroup G} (hD : D ≤ m.zClosure N) (hDp : IsPGroup m.r D) : IsCyclic D := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   by_contra hnc
   obtain ⟨B, hBel, hBcard⟩ := CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
     (m.hr.odd_of_ne_two m.d.odd) hDp hnc
@@ -166,7 +166,7 @@ theorem commutator_zClosure_L_eq_bot (hK : UCK.K332') (hSch : UCK.KSch)
       ∀ f : ↥m.L →* (GL (Fin d) (ZMod q)) ⧸ center (GL (Fin d) (ZMod q)), f = 1)
     (hr3 : m.r ≠ 3) {N : Subgroup G} (hN : N ∈ calNOf (m.A ⊔ m.L)) :
     ⁅m.zClosure N, m.L⁆ = ⊥ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hNle : m.A ⊔ m.L ≤ N := hN.2
   have hNtop : N ≠ ⊤ := hN.1.1
   have hZN : m.Z ≤ N := (m.Z_le_A.trans le_sup_left).trans hNle
@@ -196,7 +196,7 @@ theorem commutator_zClosure_L_eq_bot (hK : UCK.K332') (hSch : UCK.KSch)
     apply CFSG.subgroup_le_centralizer_iSup_of_le_centralizer
     rintro ⟨⟨q, hqmem⟩, -⟩
     have hq : q.Prime := Nat.prime_of_mem_primeFactors hqmem
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     show m.L ≤ centralizer (((CFSG.pCore q ↥(m.zClosure N)).map (m.zClosure N).subtype :
       Subgroup G) : Set G)
     have hPp : IsPGroup q ((CFSG.pCore q ↥(m.zClosure N)).map (m.zClosure N).subtype) :=
@@ -251,7 +251,7 @@ theorem le_normalizer_L_of_mem_calNOf (hK : UCK.K332') (hSch : UCK.KSch)
       ∀ f : ↥m.L →* (GL (Fin d) (ZMod q)) ⧸ center (GL (Fin d) (ZMod q)), f = 1)
     (hr3 : m.r ≠ 3) {N : Subgroup G} (hN : N ∈ calNOf (m.A ⊔ m.L)) :
     N ≤ normalizer (m.L : Set G) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hNle : m.A ⊔ m.L ≤ N := hN.2
   have hZN : m.Z ≤ N := (m.Z_le_A.trans le_sup_left).trans hNle
   have hIN : m.zClosure N ≤ N := m.zClosure_le N
@@ -295,7 +295,7 @@ theorem calNOf_eq_normalizer_L (hK : UCK.K332') (hSch : UCK.KSch)
   have hne : normalizer (m.L : Set G) ≠ ⊤ := by
     intro h
     have hLn : m.L.Normal := Subgroup.normalizer_eq_top_iff.1 h
-    haveI := Dat.standing.simple
+    have := Dat.standing.simple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal m.L with h1 | h1
     · have h2 := m.card_A_inf_L h620
       rw [h1, inf_bot_eq, Subgroup.card_bot] at h2

@@ -16,7 +16,7 @@ open CFSG.Assembly.RankThreeEven (localRank)
 private theorem exists_orderOf_five_of_isTripleCover {X : Type*} [Group X] [Finite X]
     (hX : Sec4.IsTripleCover X (alternatingGroup (Fin 6))) : ∃ f : X, orderOf f = 5 := by
   obtain ⟨hZ, ⟨e⟩⟩ := hX
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h360 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     decide
@@ -30,7 +30,7 @@ private theorem isElemAbelian_sup_zpowers_card {Y : Type*} [Group Y] {p k : ℕ}
     (hz : z ^ p = 1) (hzE : z ∉ E) (hc : ∀ e ∈ E, e * z = z * e) :
     CFSG.Open.IsElemAbelian p (E ⊔ Subgroup.zpowers z) ∧
       Nat.card (E ⊔ Subgroup.zpowers z : Subgroup Y) = p ^ (k + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz1 : z ≠ 1 := fun h => hzE (h ▸ E.one_mem)
   have hcard : Nat.card (Subgroup.zpowers z) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hz hz1]
@@ -40,7 +40,7 @@ private theorem isElemAbelian_sup_zpowers_card {Y : Type*} [Group Y] {p k : ℕ}
   have hdisj : Disjoint E (Subgroup.zpowers z) := by
     rw [Subgroup.disjoint_def]
     intro g hgE hgz
-    haveI : Fact (Nat.card (Subgroup.zpowers z)).Prime := ⟨by rw [hcard]; exact hp⟩
+    have : Fact (Nat.card (Subgroup.zpowers z)).Prime := ⟨by rw [hcard]; exact hp⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (E.subgroupOf (Subgroup.zpowers z)) with h | h
     · have hg : (⟨g, hgz⟩ : Subgroup.zpowers z) ∈ E.subgroupOf (Subgroup.zpowers z) := hgE
       rw [h] at hg
@@ -69,7 +69,7 @@ theorem rank5_of_localRank {Q : Type} [Group Q] [Finite Q] {J K : Subgroup Q}
   have hcent : ∀ x ∈ J, ∀ w ∈ K, w * x = x * w := fun x hx w hw =>
     Subgroup.mem_centralizer_iff.1 (hJK hx) w hw
   have hcommf : ∀ x ∈ J, x * (f : Q) = (f : Q) * x := fun x hx => (hcent x hx f f.2).symm
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hE : CFSG.Open.IsElemAbelian 5 E :=
     ⟨IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 5) (by rw [hEc]; norm_num), hE5⟩
   have hE₀ : CFSG.Open.IsElemAbelian 5 (E.map J.subtype) := hE.map J.subtype

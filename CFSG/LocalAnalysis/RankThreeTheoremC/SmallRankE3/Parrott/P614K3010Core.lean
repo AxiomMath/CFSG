@@ -48,7 +48,7 @@ theorem false_of_inverted {M : Type*} [AddCommGroup M] [Finite M] (h2 : ∀ x : 
       exact Prod.ext rfl (Subtype.ext (add_left_cancel h))
     have h1 := Nat.card_le_card_of_injective _ hinj
     rw [Nat.card_prod, hcard] at h1
-    haveI : Nonempty {x : M // Y x = x} := ⟨⟨0, map_zero Y⟩⟩
+    have : Nonempty {x : M // Y x = x} := ⟨⟨0, map_zero Y⟩⟩
     exact Nat.le_of_mul_le_mul_right h1 Nat.card_pos
   have hYi : Function.Injective Y := fun a b h => by rw [← hY3 a, ← hY3 b, h]
   have hYV : ∀ x ∈ V, Y x ∈ V := by

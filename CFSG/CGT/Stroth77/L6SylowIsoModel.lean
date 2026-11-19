@@ -35,7 +35,7 @@ theorem c_eq_tor : (PHat.c : PHat n) = tor (hf n) (hf n) (hf n) := rfl
 @[expose] def torHom : Multiplicative (ZMod (2 ^ n) × ZMod (2 ^ n) × ZMod (2 ^ n)) →* PHat n where
   toFun v := tor v.toAdd.1 v.toAdd.2.1 v.toAdd.2.2
   map_one' := rfl
-  map_mul' v w := (tor_mul _ _ _ _ _ _).symm
+  map_mul' _v _w := (tor_mul _ _ _ _ _ _).symm
 
 theorem tor_eq_torHom (v₁ v₂ v₃ : ZMod (2 ^ n)) :
     tor v₁ v₂ v₃ = torHom (Multiplicative.ofAdd (v₁, v₂, v₃)) := rfl
@@ -55,7 +55,7 @@ theorem tor_pow (v₁ v₂ v₃ : ZMod (2 ^ n)) (k : ℕ) :
 theorem sd_conj_one (s v : ZMod (2 ^ n)) :
     (⟨s, 1⟩ : SD n)⁻¹ * ⟨v, 0⟩ * ⟨s, 1⟩ = ⟨θ n * v, 0⟩ := by
   ext
-  · simp only [SD.mul_i, SD.inv_i, SD.inv_j, SD.mul_j, tw_one, tw_zero, add_zero]
+  · simp only [SD.mul_i, SD.inv_i, SD.inv_j, SD.mul_j, tw_one, add_zero]
     ring
   · simp only [SD.mul_j, SD.inv_j]
     rfl
@@ -105,7 +105,7 @@ theorem yt_conj_tor (v₁ v₂ v₃ : ZMod (2 ^ n)) :
 
 theorem yu_conj_tor (v₁ v₂ v₃ : ZMod (2 ^ n)) :
     (yu n)⁻¹ * tor v₁ v₂ v₃ * yu n = tor v₂ v₁ v₃ := by
-  ext <;> simp [yu, tor] <;> decide
+  ext <;> simp [yu, tor]; decide
 
 theorem yf_conj_tor (v₁ v₂ v₃ : ZMod (2 ^ n)) :
     (yf n)⁻¹ * tor v₁ v₂ v₃ * yf n = tor (θ n * v₁) (θ n * v₂) (θ n * v₃) := by
@@ -260,13 +260,13 @@ theorem rel_modC (hm : 1 ≤ m) : ∀ q ∈ eqns201 m (yc (m + 2)) (ya (m + 2)) 
   · left
     ext <;> simp [yt, hq, tw, hθ] <;> zring
   · left
-    ext <;> simp [yu] <;> zring
+    ext <;> simp [yu]; zring
   · left
-    ext <;> simp [yuv, yt] <;> zring
+    ext <;> simp [yuv, yt]
   · left
-    ext <;> simp [yuv, yu] <;> zring
+    ext <;> simp [yuv, yu]
   · left
-    ext <;> simp [yuv, yt, yu] <;> zring
+    ext <;> simp [yuv, yt, yu]; zring
   · right
     ext <;> simp [yf, PHat.c, SD.z, hq, hh, tw, hθ] <;> zring
   · left
@@ -276,7 +276,7 @@ theorem rel_modC (hm : 1 ≤ m) : ∀ q ∈ eqns201 m (yc (m + 2)) (ya (m + 2)) 
     rw [ya, tor_inv, tor_pow]
     ext <;> simp [yf, yt, tor, hq, tw, hθ, PHat.one_add_one_zmod_two] <;> zring
   · left
-    ext <;> simp [yf, yu] <;> zring
+    ext <;> simp [yf, yu]
 
 end Relations
 
@@ -338,7 +338,7 @@ variable {n : ℕ}
   map_mul' a b := by
     obtain ⟨a₁, a₂, a₃, ae⟩ := a
     rcases zmod_two_eq_zero_or_one ae with rfl | rfl <;>
-      ext <;> simp [sdPat] <;> exact zmod_two_pow_zero_eq _ _
+      ext <;> simp [sdPat]
 
 theorem pat_eq_one {y : PHat n} (h : pat y = 1) :
     y.x₁.j = 0 ∧ y.x₂.j = 0 ∧ y.x₃.j = 0 ∧ y.e = 0 := by
@@ -445,7 +445,7 @@ theorem mk_ab_pow {m : ℕ} : πS _ ((pa m * pb m) ^ 2 ^ (m + 1)) = zS (m + 2) :
   change tor 0 0 (hf (m + 2)) = _
   rw [hh]
   apply tor_eq_tor <;> push_cast <;>
-    first | ring1 | linear_combination hP | linear_combination -hP | linear_combination 2 * hP
+    first | ring1 | linear_combination hP
 
 end L6Model
 

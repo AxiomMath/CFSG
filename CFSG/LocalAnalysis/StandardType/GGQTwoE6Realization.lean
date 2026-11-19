@@ -147,9 +147,9 @@ theorem actual_beta_langCube_of_marking {G : Type} [Group G] [Finite G] {p : ℕ
   have hσ1 : ∀ c, σ c = c ^ 2 ^ 1 := by
     simpa using hσ
   let Ω := AlgebraicClosure K
-  haveI : CharP K 2 := charP_two_of_card (m := 2) (by rw [hK4]; norm_num)
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : ExpChar Ω 2 := ExpChar.prime Nat.prime_two
+  have : CharP K 2 := charP_two_of_card (m := 2) (by rw [hK4]; norm_num)
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : ExpChar Ω 2 := ExpChar.prime Nat.prime_two
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 1
   have hFr : ∀ c, Fr c = c ^ 2 ^ 1 := fun _ => rfl
   have h5 : 3 ^ 5 ≤ Nat.card S := by

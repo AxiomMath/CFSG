@@ -210,22 +210,18 @@ theorem facts24591 : j3CenterCheck = true := by
   refine (congrArg₂ (· && ·) (congrArg₂ (· && ·) ?_ ?_) ?_).trans h
   · refine any_mem fun i hi => ?_
     rw [Function.comp_apply]
-    beta_reduce
     rw [fE, tblEq_unpack (hT (List.mem_range.1 hi)) h9]
   · refine all_mem fun i hi => ?_
     have hi' := List.mem_range.1 hi
     rw [Function.comp_apply]
-    beta_reduce
     rw [fE, tblEq_unpack (hT hi') h9, hid, tblEq_unpack (hT hi') hidc]
     refine congrArg (fun b => !b || Nat.beq (J3HS.T i) (pidn 6156 13) || Nat.beq (J3HS.T i) (J3CentP 9))
       (all_mem fun j hj => ?_)
     rw [Function.comp_apply]
-    beta_reduce
     rw [commTT_unpack (hT hi') (gen (List.mem_range.1 hj)).1, pc, pc]
   · refine any_mem fun i hi => ?_
     have hi' := List.mem_range.1 hi
     rw [Function.comp_apply]
-    beta_reduce
     rw [fE, compT_unpack (hT hi') (hT hi'), tblEq_unpack (canonK_pcomp (hT hi') (hT hi')) h9, pc]
 
 end CertificateChecks.KernelSpor.J3HypSyl

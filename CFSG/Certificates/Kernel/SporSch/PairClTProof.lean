@@ -135,9 +135,6 @@ theorem stepNFT_spec (hne : stepNFT n w kS NR NL LT PT QT nb bs GLt X W K c h l 
     | exact absurd rfl hne
     | exact Or.inl ⟨h1, h2.1, h2.2, rfl⟩
     | exact Or.inr (Or.inl ⟨h1, h3.1, h3.1 ▸ h3.2.1, h3.1 ▸ h3.2.2.2.1, h3.1 ▸ h3.2.2.2.2, rfl⟩)
-    | exact Or.inr (Or.inl ⟨h1, h3.1, h3.2.1, h3.2.2.2.1, h3.2.2.2.2, rfl⟩)
-    | exact Or.inr (Or.inr ⟨Nat.le_of_not_lt h1, h2, rfl⟩)
-    | exact Or.inr (Or.inr ⟨Nat.le_of_not_lt h1, h3, rfl⟩)
     | exact Or.inr (Or.inr ⟨Nat.le_of_not_lt h1, h4, rfl⟩)
 
 theorem stepNFT_fail : stepNFT n w kS NR NL LT PT QT nb bs GLt X W K c h l failC = failC := by

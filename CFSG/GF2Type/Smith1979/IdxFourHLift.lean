@@ -59,7 +59,7 @@ theorem exists_comm_lift {c : S.M} (hc3 : c ^ 3 = 1) {τ : S.O} (hτ : τ ∈ S.
     (hcτ : S.ρ c * τ = τ * S.ρ c) : ∃ s : S.M, S.ρ s = τ ∧ c * s = s * c := by
   classical
   let X := {m : S.M // S.ρ m = τ}
-  letI : Fintype X := Fintype.ofFinite X
+  let : Fintype X := Fintype.ofFinite X
   have hconj : ∀ m : S.M, S.ρ m = τ → S.ρ (c * m * c⁻¹) = τ := by
     intro m hm
     rw [map_mul, map_mul, map_inv, hm, hcτ, mul_inv_cancel_right]
@@ -188,7 +188,7 @@ theorem conj_eq_of_fixed {c s : S.M} (hc3 : c ^ 3 = 1)
     have := congrArg (fun x => w⁻¹ * x) hwz'
     simpa using this
 
-theorem sq_eq_one_or_z_of_comm {c s : S.M} (hc3 : c ^ 3 = 1)
+theorem sq_eq_one_or_z_of_comm {c s : S.M} (_hc3 : c ^ 3 = 1)
     (hfpf : ∀ v : S.Qt, (S.ρ c : S.Qt ≃ₗ[ZMod 2] S.Qt) v = v → v = 0) (hcs : c * s = s * c)
     (hs2 : S.ρ s * S.ρ s = 1) : (s : G) * (s : G) = 1 ∨ (s : G) * (s : G) = S.z := by
   have hsq : ((s * s : S.M) : G) ∈ S.QG := (S.ρ_eq_one_iff _).mp (by rw [map_mul]; exact hs2)

@@ -21,7 +21,7 @@ namespace PhanCode
   | _ => False
 
 theorem rank_pos (c : PhanCode) : 0 < c.rank := by
-  induction c <;> simp [rank] <;> omega
+  induction c <;> simp [rank]; omega
 
 theorem encard_univ_ι (c : PhanCode) : (Set.univ : Set c.ι).encard = (c.rank : ℕ∞) := by
   induction c with
@@ -30,12 +30,13 @@ theorem encard_univ_ι (c : PhanCode) : (Set.univ : Set c.ι).encard = (c.rank :
     rw [Set.encard_univ, ENat.card_sum, ← Set.encard_univ, ← Set.encard_univ, ihc, ihc']
     push_cast
     rfl
-  | _ => simp [ι, rank, Set.encard_univ, ENat.card_sum]
+  | _ => simp [ι, rank, Set.encard_univ]
 
 end PhanCode
 
 variable (K : Type) [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem flagSys_one_adj (x y : FlagK K (1 + 1)) (i : Fin 1) : (flagSys K 1).adj i x y := by
   intro j hj
   have hi : i.val = 0 := Fin.val_eq_zero i
@@ -47,6 +48,7 @@ theorem flagSys_one_adj (x y : FlagK K (1 + 1)) (i : Fin 1) : (flagSys K 1).adj 
       Submodule.finrank_eq_zero.1 (y.dim 0 (by omega))]
   · rw [x.top j h, y.top j h]
 
+omit [Finite K] [CharP K 2] in
 theorem rank_one_connected (A : Set (FlagK K (1 + 1))) :
     ((flagSys K 1).restrict A).Connected :=
   fun x y => ⟨[((0 : Fin 1), y)], ⟨flagSys_one_adj K x.1 y.1 0, trivial⟩, rfl⟩
@@ -68,7 +70,7 @@ theorem phanModelsRank2_of_irr
     simp only [PhanCode.rank] at hc
     exact connected_prod_restrict (PhanCode.connected_of_rank_one K f c (by omega))
       (PhanCode.connected_of_rank_one K f c' (by omega))
-  | _ => first | exact h _ trivial | (simp [PhanCode.rank] at hc; done)
+  | _ => first | exact h _ trivial | (simp [PhanCode.rank] at hc)
 
 theorem phanModelsRank3_of_irr (h2 : PhanModelsRank2 K f)
     (h : ∀ c : PhanCode, c.IsIrr3 → ((c.sys K).restrict (c.set K f)).Connected ∧
@@ -88,7 +90,7 @@ theorem phanModelsRank3_of_irr (h2 : PhanModelsRank2 K f)
     refine simplyTwoConnected_prod_restrict (c.sys K) (c'.sys K) _ _ ?_ ?_
     · rw [PhanCode.encard_univ_ι]; exact_mod_cast (by omega : c.rank ≤ 2)
     · rw [PhanCode.encard_univ_ι]; exact_mod_cast (by omega : c'.rank ≤ 2)
-  | _ => first | exact h _ trivial | (simp [PhanCode.rank] at hc; done)
+  | _ => first | exact h _ trivial | (simp [PhanCode.rank] at hc)
 
 end CFSG.ClassicalInvolution.Phan.PhanE
 

@@ -60,7 +60,7 @@ private lemma pow_entry_ne_zero {lev : Fin 6 → ℕ} {m : Matrix (Fin 6) (Fin 6
     by_cases hij : i = j
     · subst hij
       omega
-    · rw [if_neg hij] at h
+    · rw [ite_eq_right hij] at h
       exact absurd rfl h
   | succ r ih =>
     intro i j h
@@ -136,7 +136,7 @@ theorem exists_UGrp [CharP K 2] (lev : Fin 6 → ℕ) (hlev : ∀ i, lev i ≤ 3
       by_cases h : i = a ∧ j = b
       · obtain ⟨rfl, rfl⟩ := h
         exact absurd hlt hab
-      · rw [Matrix.single_apply, if_neg h]
+      · rw [Matrix.single_apply, ite_eq_right h]
     · exact transvGL_val i j hij c
   · intro g hg
     exact pow_four_eq_one_of_mem hlev (show g ∈ UMon lev from hg)
@@ -145,9 +145,9 @@ theorem exists_fixed_vec [Finite K] [CharP K 2] (H : Subgroup (GL (Fin 6) K))
     (h4 : ∀ g ∈ H, g ^ 4 = 1) (S : AddSubgroup (Cube K)) (hS : S ≠ ⊥)
     (hinv : ∀ g ∈ H, ∀ s ∈ S, rho K g s ∈ S) :
     ∃ s ∈ S, s ≠ 0 ∧ ∀ g ∈ H, rho K g s = s := by
-  haveI : Finite (Cube K) := Module.finite_of_finite K
-  haveI : Finite S := inferInstance
-  letI act : MulAction H S :=
+  have : Finite (Cube K) := Module.finite_of_finite K
+  have : Finite S := inferInstance
+  let act : MulAction H S :=
     { smul := fun g s => ⟨rho K (g : GL (Fin 6) K) s.1, hinv (g : GL (Fin 6) K) g.2 s.1 s.2⟩
       one_smul := fun s => Subtype.ext (by
         show rho K (1 : GL (Fin 6) K) s.1 = s.1

@@ -485,6 +485,7 @@ public theorem frame_tabs {L : List (List ℤ)} {RK FT : ℕ → ℕ} {SO FR : �
   · rw [hFT a ha _ (hFTlt b hb2 i hi), hFT b hb2 i hi,
       hFT _ (Nat.xor_lt_two_pow (n := 8) ha hb2) i hi, tau_mul hT hc hinvT a b hb2 i hi]
 
+set_option exponentiation.threshold 1920 in
 public theorem low_self {X : ℕ} (h : Nat.shiftRight X (240 * 8) = 0) : low X = X := by
   have e : low X = X &&& (2 ^ 1920 - 1) := by
     rw [← PF.mask_eq]

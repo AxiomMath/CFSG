@@ -25,7 +25,7 @@ private lemma sum_Ico_pow_mul_pow [DecidableEq K] {x y : K} (hy : y ≠ 0) :
         x ^ j * y ^ (Fintype.card K - 1 - j)) = if x = y then -1 else 0 := by
   by_cases hxy : x = y
   · subst hxy
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hx : x ≠ 0 := hy
     calc
       (∑ j ∈ Finset.Ico 1 (Fintype.card K), x ^ j * x ^ (Fintype.card K - 1 - j))
@@ -44,7 +44,7 @@ private lemma sum_Ico_pow_mul_pow [DecidableEq K] {x y : K} (hy : y ≠ 0) :
             have hq : 1 ≤ Fintype.card K := Fintype.card_pos
             rw [Nat.cast_sub hq, FiniteField.cast_card_eq_zero, Nat.cast_one, zero_sub,
               mul_one]
-  · rw [if_neg hxy]
+  · rw [ite_eq_right hxy]
     have hmul := (Commute.all x y).geom_sum₂_Ico_mul (m := 1) (n := Fintype.card K)
       (by have := Fintype.card_pos (α := K); omega)
     have hpow : y ^ (Fintype.card K - 1) = 1 := FiniteField.pow_card_sub_one_eq_one y hy
@@ -58,7 +58,7 @@ private noncomputable def lagrangeCoeff (f : K → M) : ℕ → M :=
   fun j => if j = 0 then 0 else
     (-1 : K) • ∑ y : K, y ^ (Fintype.card K - 1 - j) • f y
 
-private lemma sum_Ico_lagrangeCoeff (f : K → M) {x : K} (hx : x ≠ 0) :
+private lemma sum_Ico_lagrangeCoeff (f : K → M) {x : K} (_hx : x ≠ 0) :
     ∑ j ∈ Finset.Ico 1 (Fintype.card K), x ^ j • lagrangeCoeff f j =
       (-1 : K) • ∑ y : K,
         (∑ j ∈ Finset.Ico 1 (Fintype.card K),
@@ -72,7 +72,7 @@ private lemma sum_Ico_lagrangeCoeff (f : K → M) {x : K} (hx : x ≠ 0) :
           refine Finset.sum_congr rfl fun j hj => ?_
           have hj0 : j ≠ 0 := by have := (Finset.mem_Ico.mp hj).1; omega
           dsimp only [lagrangeCoeff]
-          rw [if_neg hj0, smul_comm (x ^ j) (-1), Finset.smul_sum]
+          rw [ite_eq_right hj0, smul_comm (x ^ j) (-1), Finset.smul_sum]
           congr 1
           refine Finset.sum_congr rfl fun y _ => ?_
           rw [smul_smul]
@@ -118,12 +118,12 @@ theorem exists_coeff (f : K → M) (hf : f 0 = 0) :
       intro y
       by_cases hyx : y = x
       · subst y
-        rw [if_pos rfl, sum_Ico_pow_mul_pow (x := x) (y := x) hx, if_pos rfl]
-      · rw [if_neg hyx]
+        rw [ite_eq_left rfl, sum_Ico_pow_mul_pow (x := x) (y := x) hx, ite_eq_left rfl]
+      · rw [ite_eq_right hyx]
         by_cases hy0 : y = 0
         · subst hy0
           rw [hf, smul_zero]
-        · rw [sum_Ico_pow_mul_pow (x := x) (y := y) hy0, if_neg (Ne.symm hyx),
+        · rw [sum_Ico_pow_mul_pow (x := x) (y := y) hy0, ite_eq_right (Ne.symm hyx),
             zero_smul]
     have hsum : ∑ j ∈ Finset.range (Fintype.card K), x ^ j • lagrangeCoeff f j =
         (-1 : K) • ∑ y : K,

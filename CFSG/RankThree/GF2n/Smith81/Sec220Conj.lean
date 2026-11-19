@@ -328,8 +328,8 @@ theorem _root_.CFSG.RankThree.GF2n.Stroth80.QuotSat.map {S N : Subgroup G}
     (hP : ∀ (X Y : Type) [Group X] [Group Y], (X ≃* Y) → P X → P Y) (h : QuotSat S N P) :
     QuotSat (S.map e.toMonoidHom) (N.map e.toMonoidHom) P := by
   obtain ⟨hN, hPS⟩ := h
-  haveI := hN
-  haveI hN' := normal_map e hN
+  have := hN
+  have hN' := normal_map e hN
   exact ⟨hN', hP _ _ (quotEqv e S N) hPS⟩
 
 private theorem comm_mem_map_iff {Q S : Subgroup G} {h : G} :
@@ -349,8 +349,8 @@ theorem _root_.CFSG.RankThree.GF2n.Stroth80.SectionAct.map {ι : Type} [Fintype 
     (hφ : ∀ s : S, φ' ⟨e s, Subgroup.mem_map_of_mem e.toMonoidHom s.2⟩ = φ s) :
     SectionAct K (S.map e.toMonoidHom) (V.map e.toMonoidHom) (Z.map e.toMonoidHom) φ' act := by
   obtain ⟨hSV, hN, ψ, hψ⟩ := h
-  haveI := hN
-  haveI hN' := normal_map e hN
+  have := hN
+  have hN' := normal_map e hN
   refine ⟨?_, hN', (quotEqv e V Z).symm.trans ψ, ?_⟩
   · rw [normalizer_map]
     exact Subgroup.map_mono hSV
@@ -489,8 +489,8 @@ theorem _root_.CFSG.RankThree.GF2n.Stroth80.SubConfig.map {M Q Z N : Subgroup G}
   unfold SubConfig at h ⊢
   rw [H0_map]
   obtain ⟨hN, hS⟩ := h
-  haveI := hN
-  haveI hN' := normal_map e hN
+  have := hN
+  have hN' := normal_map e hN
   refine ⟨hN', ?_⟩
   have h1 := hS.map (quotEqv e (H0 M Z) Q)
   rw [← cen_map, ← normalizer_map, ← cen_map, ← bar_map] at h1
@@ -504,8 +504,8 @@ private theorem layer_quot_map {M Q S : Subgroup G}
         ((S.map e.toMonoidHom).subgroupOf (M.map e.toMonoidHom)).map
           (QuotientGroup.mk' ((Q.map e.toMonoidHom).subgroupOf (M.map e.toMonoidHom))) := by
   obtain ⟨hN, hL⟩ := h
-  haveI := hN
-  haveI hN' := normal_map e hN
+  have := hN
+  have hN' := normal_map e hN
   refine ⟨hN', ?_⟩
   have h1 := bar_map e M Q S
   unfold bar at h1

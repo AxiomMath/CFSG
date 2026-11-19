@@ -127,7 +127,7 @@ theorem R'_le_N_UV [Finite G] {u v : G} (hu : Subgroup.zpowers u = K ⊓ W)
     mem_normalizer_inf (c.V_le_N_K' hvJW) (Subgroup.le_normalizer (c.hWS hvJW.2))
   have hcomm : Commutes (Subgroup.zpowers u) (K' ⊓ (S : Subgroup G)) := by
     refine Sec6Gen.commutes_of_twin_of_isPGroup c.hΩ c.hK c.hK' c.hne.symm c.hz c.hzK'
-      (hu ▸ inf_le_left) inf_le_left (S.isPGroup'.to_le (sup_le ?_ inf_le_right))
+      (hu ▸ inf_le_left) inf_le_left (S.isPGroup.to_le (sup_le ?_ inf_le_right))
     rw [hu]
     exact inf_le_right.trans c.hWS
   refine le_normalizer_of_conjSub_le fun r hr => ?_

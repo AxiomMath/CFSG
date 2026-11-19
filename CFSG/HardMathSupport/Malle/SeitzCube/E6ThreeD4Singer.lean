@@ -172,7 +172,7 @@ theorem exists_singer_frobenius {Fr : Ω →+* Ω} (hFr : ∀ c, Fr c = c ^ Nat.
   · subst hij
     simp
     rfl
-  · rw [if_neg hij, mul_zero]
+  · rw [ite_eq_right hij, mul_zero]
     exact hzero i j hij
 
 end Main

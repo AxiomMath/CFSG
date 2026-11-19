@@ -27,7 +27,7 @@ theorem tailModelFlag_zero {r : ℕ} (h : 0 < r) :
   unfold tailModelFlag
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     have : j = ⟨0, h⟩ := Fin.ext (by simp at hj ⊢; omega)
@@ -43,7 +43,7 @@ theorem tailModelFlag_one {r : ℕ} (h : 1 < r) :
   rw [← Submodule.span_union]
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     have hj' : (j : ℕ) < 2 := by simpa using hj
@@ -65,7 +65,7 @@ theorem tailVec_one_notMem {r : ℕ} (h : 1 < r) :
   intro hmem
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 hmem
   have := congrFun ha (Sum.inl ⟨1, h⟩)
-  simp [tailVec, Pi.single_apply] at this
+  simp [tailVec] at this
 
 end TailFlag
 
@@ -77,7 +77,7 @@ theorem twoParabolics_POmegaOdd (hq2 : q ≠ 2) {n f : ℕ} {S : Type} [Group S]
     (hm : StatedClassicalModel S .POmegaOdd n q f) : TwoParabolics q S := by
   have hBI := orthogonal_geometry_tail_model_Borel_overgroup_interface S .POmegaOdd (Or.inl rfl) n q f hm
   obtain ⟨⟨-, -, hn3, -⟩, K, _, hfin, hcard, ⟨e⟩⟩ := hm
-  haveI : CharP K q := charP_of_natCard_eq hcard
+  have : CharP K q := charP_of_natCard_eq hcard
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_charP_odd hq2
   have hBIK : BorelInterface q (StatedQuadOdd n K) (tailModelFlag n K Unit) := hBI K hcard
   have hι : 6 ≤ Fintype.card (Fin n ⊕ Fin n ⊕ Unit) := by
@@ -94,7 +94,7 @@ theorem twoParabolics_POmegaMinus {n f : ℕ} {S : Type} [Group S] [Finite S]
     (hm : StatedClassicalModel S .POmegaMinus n q f) : TwoParabolics q S := by
   have hBI := orthogonal_geometry_tail_model_Borel_overgroup_interface S .POmegaMinus (Or.inr rfl) n q f hm
   obtain ⟨⟨-, -, hn4⟩, K, _, hfin, hcard, b, c, hirr, ⟨e⟩⟩ := hm
-  haveI : CharP K q := charP_of_natCard_eq hcard
+  have : CharP K q := charP_of_natCard_eq hcard
   have hBIK : BorelInterface q (StatedQuadMinus n K b c) (tailModelFlag (n - 1) K (Fin 2)) :=
     hBI K hcard b c hirr
   have hι : 6 ≤ Fintype.card (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) := by

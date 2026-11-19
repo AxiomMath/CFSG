@@ -134,7 +134,7 @@ theorem ordPSU_notExcThree {d a : ℕ} (hd : 3 ≤ d) (ha : 1 ≤ a) (hne : ¬ (
     refine Finset.prod_congr rfl fun i _ => Int.toNat_of_nonneg ?_
     have h1 : (1 : ℤ) ≤ ((2 ^ a : ℕ) : ℤ) ^ i := one_le_pow₀ (by exact_mod_cast (by omega))
     have h2 : ((-1 : ℤ)) ^ i ≤ 1 := by
-      rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h] <;> norm_num
+      rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h]; norm_num
     linarith
   have hgdvd : Nat.gcd d (2 ^ a + 1) ∣ (2 ^ a) ^ (d * (d - 1) / 2) *
       ∏ i ∈ Finset.Icc 2 d, (((2 ^ a : ℕ) : ℤ) ^ i - (-1) ^ i).toNat := by
@@ -204,7 +204,7 @@ theorem rationalComponent_typeA_model_dim {τ : Tag} {L : Type} [Field L] [IsAlg
     have hcard : (frameRoots σ).ncard = ν * (ν - 1) := by
       have hinj : Set.InjOn (fun q : Fin ν × Fin ν => σ q.1 q.2) {q | q.1 ≠ q.2} := by
         rintro ⟨x, y⟩ hxy ⟨u, v⟩ huv h
-        simp only [Set.mem_setOf_eq] at hxy huv
+        simp only [Set.mem_ofPred_eq] at hxy huv
         obtain ⟨rfl, rfl⟩ := hψ.eq_of_eq hκ hnorm hxy huv h
         rfl
       have himg : frameRoots σ = (fun q : Fin ν × Fin ν => σ q.1 q.2) '' {q | q.1 ≠ q.2} := by
@@ -218,7 +218,7 @@ theorem rationalComponent_typeA_model_dim {τ : Tag} {L : Type} [Field L] [IsAlg
       have hoff : ({q : Fin ν × Fin ν | q.1 ≠ q.2} : Set (Fin ν × Fin ν)) =
           ↑(Finset.univ.offDiag : Finset (Fin ν × Fin ν)) := by
         ext q
-        simp [Finset.mem_offDiag]
+        simp
       rw [hoff, Set.ncard_coe_finset, Finset.offDiag_card, Finset.card_univ, Fintype.card_fin,
         Nat.mul_sub_left_distrib, mul_one]
     have hνr : ν = compRank (componentRoots (rootCharHom a) i) + 1 := by
@@ -271,7 +271,7 @@ theorem typeA_ggCQ_ne_three_two {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
     (hr3 : compRank (componentRoots (rootCharHom a) i) ≠ 3)
     (hqs : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)) :
     GGNotExcThreeOrder (ggCQ (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   obtain ⟨f, hf1, hmodel⟩ := rationalComponent_typeA_model_dim S Nat.prime_three hT hap h1 i hA hqs
   rw [ringChar.eq L 2] at hmodel
   unfold ggCQ
@@ -296,7 +296,7 @@ theorem pow_card_dvd_centerQuotient_of_uniEmbed (hU : UniEmbed) {τ : Tag} {M : 
     (hperf : Group.IsPerfect ↥(componentRootSpan K χ i)) :
     Nat.card K ^ (posRoots (componentRoots χ i)).ncard ∣ Nat.card (R ⧸ Subgroup.center R) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, -, hVcard, hVZ⟩ := hU τ χ i K 2
   obtain ⟨e⟩ := CFSG.Goldschmidt.G37.nonempty_centerQuotientEquiv hperf f hf hker
   let g : ↥V →* ↥(componentRootSpan K χ i) ⧸ Subgroup.center ↥(componentRootSpan K χ i) :=
@@ -342,8 +342,8 @@ theorem inner_big_ggCQ_ne_of_data {τ : Tag} {L : Type} [Field L] [IsAlgClosed L
     (hbig : 26 ≤ (componentRoots (rootCharHom a) i).ncard) :
     GGNotExcThreeOrder (ggCQ (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf := isPerfect_componentRootSpan_of_big hτ D (by omega)
   obtain ⟨g, hg, hgk⟩ := exists_surjective_central_of_perfect D hperf
   refine card_centerQuotient_notExcThree_of_uniEmbed uniEmbed_holds (rootCharHom a) i
@@ -369,10 +369,10 @@ theorem inner_big_ggCQ_ne {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         (componentRoots (rootCharHom a) i)]))
     (h26 : 26 ≤ (componentRoots (rootCharHom a) i).ncard) :
     GGNotExcThreeOrder (ggCQ (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have hk : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [if_pos hinner]
+    rw [ite_eq_left hinner]
   obtain ⟨D⟩ := nonempty_innerData S hT i hk
   exact inner_big_ggCQ_ne_of_data hτ D h26
 
@@ -430,7 +430,7 @@ theorem outerD_ggCQ_ne {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (rootCharHom a) i)])) :
     GGNotExcThreeOrder (ggCQ (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   obtain ⟨m, e, -, hlie⟩ :=
     lieModel_rationalComponent_of_twoD_highG Nat.prime_three S hT hap h1 i h5 hn hout
       (fun _ _ => True)
@@ -455,7 +455,7 @@ theorem outerE_ggCQ_ne {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (rootCharHom a) i)])) :
     GGNotExcThreeOrder (ggCQ (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two S hq2
   have h3L : ((3 : ℕ) : L) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_three
       (ringChar_ne_of_pow_eq_one Nat.prime_three hap h1)

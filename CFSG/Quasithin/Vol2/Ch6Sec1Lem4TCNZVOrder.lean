@@ -85,7 +85,7 @@ theorem card_modO2_of_surj {K Q : Type} [Group K] [Group Q] [Finite K] (ψ : K �
     ∃ i : ℕ, Nat.card (Q ⧸ CFSG.pCore 2 Q) = Nat.card (K ⧸ CFSG.pCore 2 K) * 2 ^ i := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   set S : Subgroup Q := CFSG.pCore 2 Q with hS
   set C : Subgroup K := CFSG.pCore 2 K with hC
   set P : Subgroup K := S.comap ψ with hP

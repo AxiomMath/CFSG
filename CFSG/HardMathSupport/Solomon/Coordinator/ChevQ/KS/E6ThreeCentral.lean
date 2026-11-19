@@ -26,8 +26,8 @@ theorem mem_autFixedIn {Q : Type} [Group Q] (A : Subgroup (MulAut Q)) (Z : Subgr
 
 theorem exists_fixed_sylow {Q : Type} [Group Q] [Finite Q] (A : Subgroup (MulAut Q))
     (hA : IsPGroup 3 A) : ∃ S : Sylow 3 Q, ∀ g : A, g • S = S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Sylow 3 Q) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Sylow 3 Q) :=
     Finite.of_injective (fun S : Sylow 3 Q => ((S : Subgroup Q) : Set Q))
       (fun S T h => Sylow.ext (SetLike.coe_injective h))
   obtain ⟨S, hS⟩ := hA.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 3 Q)
@@ -51,8 +51,8 @@ theorem smul_mem_centre_of_fixed {Q : Type} [Group Q] (A : Subgroup (MulAut Q))
 theorem exists_fixed_order_three {Q : Type} [Group Q] [Finite Q] (A : Subgroup (MulAut Q))
     (hA : IsPGroup 3 A) (Z : Subgroup Q) (hinv : ∀ g : A, ∀ x ∈ Z, g • x ∈ Z)
     (hdvd : 3 ∣ Nat.card Z) : ∃ z ∈ Z, orderOf z = 3 ∧ ∀ g : A, g • z = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : MulAction A Z :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : MulAction A Z :=
     { smul := fun g x => ⟨g • x.1, hinv g x.1 x.2⟩
       one_smul := fun x => Subtype.ext (one_smul _ x.1)
       mul_smul := fun g h x => Subtype.ext (mul_smul g h x.1) }
@@ -79,11 +79,11 @@ theorem exists_fixed_order_three {Q : Type} [Group Q] [Finite Q] (A : Subgroup (
 theorem exists_fixed_threeCentral {Q : Type} [Group Q] [Finite Q] (A : Subgroup (MulAut Q))
     (hA : IsPGroup 3 A) (h3 : 3 ∣ Nat.card Q) :
     ∃ z : Q, IsThreeCentral Q z ∧ ∀ φ ∈ A, φ z = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := exists_fixed_sylow A hA
   have hS' : ∀ g : A, g • (S : Subgroup Q) = (S : Subgroup Q) := fun g =>
     congrArg (fun P : Sylow 3 Q => (P : Subgroup Q)) (hS g)
-  have hSpg : IsPGroup 3 (S : Subgroup Q) := S.isPGroup'
+  have hSpg : IsPGroup 3 (S : Subgroup Q) := S.isPGroup
   obtain ⟨Z, hZdef⟩ : ∃ Z : Subgroup Q,
       Z = (S : Subgroup Q) ⊓ Subgroup.centralizer ((S : Subgroup Q) : Set Q) := ⟨_, rfl⟩
   have hmemZ : ∀ x, x ∈ Z ↔ x ∈ (S : Subgroup Q) ∧
@@ -99,9 +99,9 @@ theorem exists_fixed_threeCentral {Q : Type} [Group Q] [Finite Q] (A : Subgroup 
     Nat.Prime.factorization_pos_of_dvd Nat.prime_three hQ h3
   have hSc : Nat.card (S : Subgroup Q) = 3 ^ (Nat.card Q).factorization 3 :=
     Sylow.card_eq_multiplicity S
-  haveI : Nontrivial ↥(S : Subgroup Q) :=
+  have : Nontrivial ↥(S : Subgroup Q) :=
     (IsPGroup.nontrivial_iff_card hSpg).mpr ⟨_, hk, hSc⟩
-  haveI : Nontrivial ↥(Subgroup.center (S : Subgroup Q)) := IsPGroup.center_nontrivial hSpg
+  have : Nontrivial ↥(Subgroup.center (S : Subgroup Q)) := IsPGroup.center_nontrivial hSpg
   obtain ⟨c, hc⟩ := exists_ne (1 : ↥(Subgroup.center (S : Subgroup Q)))
   have hc1 : (c : ↥(S : Subgroup Q)) ≠ 1 := fun h => hc (Subtype.ext h)
   have hx0ne : ((c : ↥(S : Subgroup Q)) : Q) ≠ 1 := fun h => hc1 (Subtype.ext h)
@@ -110,7 +110,7 @@ theorem exists_fixed_threeCentral {Q : Type} [Group Q] [Finite Q] (A : Subgroup 
       congrArg Subtype.val (Subgroup.mem_center_iff.mp c.2 ⟨h, hh⟩)
   have hx0Z : ((c : ↥(S : Subgroup Q)) : Q) ∈ Z :=
     (hmemZ _).mpr ⟨(c : ↥(S : Subgroup Q)).2, hx0C⟩
-  haveI : Nontrivial ↥Z := ⟨⟨⟨_, hx0Z⟩, 1, fun h => hx0ne (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial ↥Z := ⟨⟨⟨_, hx0Z⟩, 1, fun h => hx0ne (congrArg Subtype.val h)⟩⟩
   obtain ⟨n, hn, hZc⟩ := (IsPGroup.nontrivial_iff_card hZpg).mp inferInstance
   have hZdvd : 3 ∣ Nat.card Z := by
     rw [hZc]

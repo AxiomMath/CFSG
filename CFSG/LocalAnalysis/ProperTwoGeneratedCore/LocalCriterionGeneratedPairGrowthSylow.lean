@@ -16,7 +16,7 @@ theorem generatedPairGrowth_sylow_intersection_normal
   let q := QuotientGroup.mk' N
   let Q := P.mapSurjective (QuotientGroup.mk'_surjective N)
   let U := (P : Subgroup G).subgroupOf N
-  have hUp : IsPGroup p U := P.isPGroup'.comap_subtype
+  have hUp : IsPGroup p U := P.isPGroup.comap_subtype
   have hc : Nat.card (N.subgroupOf (P : Subgroup G)) = Nat.card U := by
     calc
       Nat.card (N.subgroupOf (P : Subgroup G)) =

@@ -24,7 +24,7 @@ private def conjSub {G : Type*} [Group G] (g : G) (H : Subgroup G) : Subgroup G 
 private theorem conjSub_one {G : Type*} [Group G] (H : Subgroup G) :
     conjSub (1 : G) H = H := by
   ext x
-  simp [conjSub, MulAut.conj_apply]
+  simp [conjSub]
 
 private theorem conjSub_mul {G : Type*} [Group G] (g h : G) (H : Subgroup G) :
     conjSub (g * h) H = conjSub g (conjSub h H) := by
@@ -63,7 +63,7 @@ private theorem isMulCommutative_map_conjSub {G H : Type*} [Group G] [Group H]
     rintro ⟨y, hy⟩
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨a, ha⟩, rfl⟩
-  haveI : IsMulCommutative A := hA
+  have : IsMulCommutative A := hA
   exact hg.isMulCommutative
 
 private theorem isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : ℕ}
@@ -164,8 +164,8 @@ private theorem exists_conj_normalized_aux {R : Type} [Group R] [Finite R]
     ∃ ι : R, a ∈ Subgroup.normalizer
       ((A.map (MulAut.conj (MulAut.conj ι : MulAut R)).toMonoidHom : Subgroup (MulAut R)) :
         Set (MulAut R)) := by
-  haveI hInnNormal : (InnerAut R).Normal := innerAut_normal R
-  haveI hHnormI : D.H.Normal := hHnorm
+  have hInnNormal : (InnerAut R).Normal := innerAut_normal R
+  have hHnormI : D.H.Normal := hHnorm
   have hHa : conjSub a D.H = D.H := by
     rw [conjSub]
     exact Subgroup.normal_iff_map_conj_eq.mp hHnormI a
@@ -272,7 +272,7 @@ private theorem exists_conj_normalized_aux {R : Type} [Group R] [Finite R]
   have hZfin : (MulAction.orbit (InnerAut R) A).Finite := by
     change (Set.range (fun k : InnerAut R => conjSub (k : MulAut R) A)).Finite
     exact Set.finite_range _
-  haveI : Fintype ↥(MulAction.orbit (InnerAut R) A) := hZfin.fintype
+  have : Fintype ↥(MulAction.orbit (InnerAut R) A) := hZfin.fintype
   have hZcard : Fintype.card ↥(MulAction.orbit (InnerAut R) A) =
       ((InnerAut R) ⊓ Subgroup.normalizer (A : Set (MulAut R))).relIndex (InnerAut R) := by
     have h1 : Fintype.card ↥(MulAction.orbit (InnerAut R) A) =
@@ -323,7 +323,7 @@ private theorem exists_conj_normalized_aux {R : Type} [Group R] [Finite R]
     apply Subtype.ext
     show (f^[3 ^ k] C).1 = C.1
     rw [hiter, hk, conjSub_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨C, hCfix⟩ := Equiv.Perm.exists_fixed_point_of_prime
     (α := ↥(MulAction.orbit (InnerAut R) A)) hcardZ hσ
   have hfC : conjSub a C.1 = C.1 := congrArg Subtype.val hCfix
@@ -353,7 +353,7 @@ theorem exists_conj_normalized_twE6
     ∃ ι : TwE6Delta.RecipeR K n, a ∈ Subgroup.normalizer
       ((A.map (MulAut.conj (MulAut.conj ι : MulAut (TwE6Delta.RecipeR K n))).toMonoidHom : Subgroup (MulAut (TwE6Delta.RecipeR K n))) :
         Set (MulAut (TwE6Delta.RecipeR K n))) := by
-  haveI : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
+  have : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
   obtain ⟨D, X, hGood, hDH, hHnum, hH3R, hXH, hXcard, hXcent, hXnotInn, -⟩ :=
     exists_langFrame_recipeR (K := K) n hn hK h3
   have hAH : A ≤ D.H := by

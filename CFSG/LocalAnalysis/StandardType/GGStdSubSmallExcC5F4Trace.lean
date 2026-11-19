@@ -28,7 +28,7 @@ theorem trace_eq_sum_posCoord (A : Module.End R (RootModule τ R)) :
   · obtain ⟨p, hp, rfl⟩ := posLabel_surjective b
     exact ⟨p, Finset.mem_range.2 hp, rfl⟩
   · have hp' := Finset.mem_range.1 hp
-    rw [posVec_eq_single hp', posCoord, dif_pos hp', Finsupp.lapply_apply]
+    rw [posVec_eq_single hp', posCoord, dite_eq_left hp', Finsupp.lapply_apply]
 
 theorem trace_toEnd {K : Type} [Field K] (A : ℕ) :
     LinearMap.trace K (RootModule ReeTag.F4.tag K) (toEnd K A) =

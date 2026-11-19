@@ -105,7 +105,7 @@ theorem ggLieA3AlgToral_of_datum
       (Nat.one_lt_pow (n := f) (by omega) (by norm_num : (1 : ℕ) < 2))
       (isSteinbergEndZ_of_isSteinbergEnd hΦ)
   have hfinD : Finite ↥D.model := by
-    haveI : Finite ↥(ratPoints (ggPhi t f)) := hfinΦ
+    have : Finite ↥(ratPoints (ggPhi t f)) := hfinΦ
     have hsurj : Function.Surjective (fun x : ↥(ratPoints (ggPhi t f)) =>
         (⟨c x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ :
           ↥((ratPoints (ggPhi t f)).map c))) := by

@@ -45,7 +45,7 @@ theorem cand_false (h : G) {T : Table} (hT : Rep 31 T (glPerm h)) {k : ℕ} (hk 
   intro t ht
   interval_cases k <;>
     simp only [kind7, List.getD_cons_zero, List.getD_cons_succ, candTests, List.mem_cons,
-      List.not_mem_nil, or_false, if_true, if_false, reduceIte, Nat.reduceEqDiff] at ht
+      List.not_mem_nil, or_false, ite_true, ite_false, Nat.reduceEqDiff] at ht
   · rcases ht with rfl | rfl
     · rw [spZ_eq (by norm_num), spW_eq (by norm_num)]
       exact hs.1

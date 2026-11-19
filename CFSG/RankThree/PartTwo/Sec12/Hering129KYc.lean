@@ -33,10 +33,10 @@ theorem ks129PGL3Shape_holds : KS129PGL3Shape := by
     have eYP : Y' ≃* ↥(projImage (Sec4.slPi π 3 (p ^ f) K)) :=
       eY.trans (eC.trans ((MulEquiv.subgroupCongr
         (Sec13.commutator_projImage_glPi hF h2)).trans (Subgroup.subgroupOfEquivOfLe hSP)))
-    haveI : IsSimpleGroup Y' := eYP.isSimpleGroup
+    have : IsSimpleGroup Y' := eYP.isSimpleGroup
     have hnc : ∃ a b : Y', a * b ≠ b * a := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hns (Group.isSolvable_of_comm hcon)
     refine ⟨?_, Hering129HLift.center_eq_bot_of_simple inferInstance hnc⟩
     obtain ⟨p', e', hfact, he', hiso⟩ := Sec13.isLThreePi_projImage_slPi hF hq
@@ -54,7 +54,7 @@ theorem ks129PGL3Shape_holds : KS129PGL3Shape := by
     subst hπ
     have hsolvM : Group.IsSolvable ↥(projImage (Sec4.glPi false 3 (p ^ f) K)) :=
       Sec13.isSolvable_projImage_glPi_two hF hpf2
-    haveI : Group.IsSolvable X' :=
+    have : Group.IsSolvable X' :=
       Group.isSolvable_of_isSolvable_injective (f := eX.toMonoidHom) eX.injective
     exact absurd (Group.isSolvable_of_isSolvable_injective (f := eY.toMonoidHom) eY.injective) hns
 

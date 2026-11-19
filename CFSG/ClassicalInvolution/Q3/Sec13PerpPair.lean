@@ -44,10 +44,11 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem perpP_isPGroup (h : EndHyp Ω) {L : Subgroup G} (hL : L ∈ Ω) : IsPGroup 2 L :=
   IsPGroup.of_card (p := 2) (n := 3) (by norm_num [h.card_eq_eight hL])
 
-theorem perpP_inf_normalizer (h : EndHyp Ω) {K J : Subgroup G} (hK : K ∈ Ω)
+theorem perpP_inf_normalizer (h : EndHyp Ω) {K J : Subgroup G} (_hK : K ∈ Ω)
     (hJ : J ∈ omegaStarNbr Ω K) (hJn : J ∉ omegaNbr Ω K) :
     IsCyclic ↥(J ⊓ Subgroup.normalizer (K : Set G)) ∧
       Nat.card ↥(J ⊓ Subgroup.normalizer (K : Set G)) = 4 := by
@@ -135,6 +136,7 @@ theorem perpP_inf_bot (h : EndHyp Ω) {K J : Subgroup G} (hK : K ∈ Ω) (hJ : J
   exact hJn ((TC.mem_omegaNbr_iff hΩ (fun L hL => perpP_isPGroup h hL)).mpr
     ⟨hJ, hKJ.symm, hJN⟩)
 
+omit [Finite G] in
 theorem perpP_comm_of_inf_bot {K J : Subgroup G} (hbot : K ⊓ J = ⊥) {u v : G}
     (hu : u ∈ K ⊓ Subgroup.normalizer (J : Set G))
     (hv : v ∈ J ⊓ Subgroup.normalizer (K : Set G)) : u * v = v * u := by
@@ -154,6 +156,7 @@ theorem perpP_comm_of_inf_bot {K J : Subgroup G} (hbot : K ⊓ J = ⊥) {u v : G
   calc u * v = (u * v * u⁻¹ * v⁻¹) * (v * u) := by group
     _ = v * u := by rw [hc, one_mul]
 
+omit [Finite G] in
 theorem perpP_coset {J V : Subgroup G} (hVJ : V ≤ J) (hJ8 : Nat.card ↥J = 8)
     (hV4 : Nat.card ↥V = 4) {x y : G} (hx : x ∈ J) (hxV : x ∉ V) (hy : y ∈ J) (hyV : y ∉ V) :
     x * y⁻¹ ∈ V := by
@@ -174,6 +177,7 @@ theorem perpP_coset {J V : Subgroup G} (hVJ : V ≤ J) (hJ8 : Nat.card ↥J = 8)
   rw [e]
   exact V.mul_mem hxa (V.inv_mem hya)
 
+omit [Finite G] in
 theorem perpP_exists_gen {U : Subgroup G} (hc : IsCyclic ↥U) :
     ∃ u ∈ U, U ≤ Subgroup.zpowers u := by
   obtain ⟨g₀, hg₀⟩ := IsCyclic.exists_generator (α := ↥U)
@@ -184,6 +188,7 @@ theorem perpP_exists_gen {U : Subgroup G} (hc : IsCyclic ↥U) :
   rw [Subgroup.coe_zpow] at h1
   exact h1
 
+omit [Finite G] in
 theorem perpP_le_normalizer_sup {J U V : Subgroup G} (hJ8 : Nat.card ↥J = 8)
     (hUN : U ≤ Subgroup.normalizer (J : Set G)) (hcU : IsCyclic ↥U)
     (hVJ : V ≤ J) (hV4 : Nat.card ↥V = 4)
@@ -324,6 +329,7 @@ theorem pair_structure (h : EndHyp Ω) {K J : Subgroup G} (hK : K ∈ Ω)
     exact perpP_le_normalizer_sup hK8 inf_le_right hcU inf_le_left hU4' hcomm'
   exact ⟨hcU', hU4', hcU, hU4, hcomm, sup_le hKle hJle⟩
 
+omit [Finite G] in
 theorem perpP_gen {U : Subgroup G} (hc : IsCyclic ↥U) (h4 : Nat.card ↥U = 4) :
     ∃ u ∈ U, orderOf u = 4 ∧ U ≤ Subgroup.zpowers u := by
   obtain ⟨u, huU, hle⟩ := perpP_exists_gen hc
@@ -337,6 +343,7 @@ theorem perpP_gen {U : Subgroup G} (hc : IsCyclic ↥U) (h4 : Nat.card ↥U = 4)
   exact h2
 
 open scoped Pointwise in
+omit [Finite G] in
 theorem perpP_mem_sup {U V : Subgroup G} (hcomm : ∀ a ∈ U, ∀ b ∈ V, a * b = b * a) {x : G}
     (hx : x ∈ U ⊔ V) : ∃ a ∈ U, ∃ b ∈ V, a * b = x := by
   have hN : U ≤ Subgroup.normalizer (V : Set G) := by
@@ -364,6 +371,7 @@ theorem perpP_mem_sup {U V : Subgroup G} (hcomm : ∀ a ∈ U, ∀ b ∈ V, a * 
   obtain ⟨a, ha, b, hb, hab⟩ := Set.mem_mul.mp hx'
   exact ⟨a, ha, b, hb, hab⟩
 
+omit [Finite G] in
 theorem perpP_conj_eq {J : Subgroup G} {j t : G} (hj : IsUniqueInvolution J j) (ht : t ∈ J) :
     t * j * t⁻¹ = j := by
   have hmem : t * j * t⁻¹ ∈ J := J.mul_mem (J.mul_mem ht hj.mem) (J.inv_mem ht)
@@ -381,6 +389,7 @@ theorem perpP_conj_eq {J : Subgroup G} {j t : G} (hj : IsUniqueInvolution J j) (
         group
   exact (hj.unique _ hmem hsq).resolve_left hne
 
+omit [Finite G] in
 theorem perpP_conj_ne_one {z t : G} (hz : z ≠ 1) : t * z * t⁻¹ ≠ 1 := by
   intro e
   apply hz

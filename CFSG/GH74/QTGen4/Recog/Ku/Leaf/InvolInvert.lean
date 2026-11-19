@@ -28,7 +28,7 @@ private abbrev stabAlt : Subgroup (Equiv.Perm (Fin 6)) := stabS ⊓ alternatingG
 
 private instance : DecidablePred (· ∈ stabAlt) := fun σ =>
   decidable_of_iff (σ ∈ stabS ∧ Equiv.Perm.sign σ = 1)
-    (by simp [stabAlt, Subgroup.mem_inf, Equiv.Perm.mem_alternatingGroup, and_comm])
+    (by simp [stabAlt, Subgroup.mem_inf, Equiv.Perm.mem_alternatingGroup])
 
 private theorem card_stabAlt : Nat.card stabAlt = 24 := by
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -51,8 +51,8 @@ namespace KuHyp
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
 theorem exists_invol_inverting_of_mod {X K : Subgroup G}
-    (hKX : X ≤ Subgroup.normalizer (K : Set G)) (hK2 : IsPGroup 2 K)
-    {y : G} (hyX : y ∈ X) (hy3 : orderOf y = 3)
+    (hKX : X ≤ Subgroup.normalizer (K : Set G)) (_hK2 : IsPGroup 2 K)
+    {y : G} (hyX : y ∈ X) (_hy3 : orderOf y = 3)
     (hfpf : ∀ k ∈ K, y * k = k * y → k = 1)
     {x₀ : G} (hx₀X : x₀ ∈ X) (hx₀y : y * (x₀ * y * x₀⁻¹) ∈ K) (hx₀sq : x₀ * x₀ ∈ K) :
     ∃ x ∈ X, x * x = 1 ∧ x * y * x⁻¹ = y⁻¹ := by
@@ -221,7 +221,7 @@ theorem exists_t_inverting
 theorem exists_j_inverting
     [KuLeaf LeafCardKuA] [KuLeaf LeafIsMulCommutativeKuA] [KuLeaf LeafEqKuAOfElemAbelian]
     [KuLeaf LeafTInfCentralizerKuWLeKuA] [KuLeaf LeafKuV2LeKuW]
-    (h : KuHyp G T M H P z)
+    (_h : KuHyp G T M H P z)
     (Ψ : KuA6Model (kuA P H) (kuW P H) (kuV2 T M) (kuN P H) z) {y : G}
     (hy : y ∈ oTwoUpper M ⊓ Ψ.L2) (hy3 : orderOf y = 3) :
     ∃ j ∈ Ψ.L2, j * j = 1 ∧ j * y * j⁻¹ = y⁻¹ := by

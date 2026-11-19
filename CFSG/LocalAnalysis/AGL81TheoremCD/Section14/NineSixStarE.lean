@@ -61,7 +61,7 @@ theorem not_le_centralizer_of_mem_starImg_E (h : NineSettingGen G M 3 Q H E 2)
     {C : Subgroup (StarGroup 3 H)} (hCM : ¬ C ≤ starImg 3 H M) {e : StarGroup 3 H}
     (he : e ∈ starImg 3 H E) (he1 : e ≠ 1) :
     ¬ C ≤ Subgroup.centralizer ({e} : Set (StarGroup 3 H)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hC
   have he3 : e ^ 3 = 1 := (isElemAbelian_starImg_E h).2 e he
   have hord : orderOf e = 3 := orderOf_eq_prime he3 he1

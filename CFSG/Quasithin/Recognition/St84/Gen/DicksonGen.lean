@@ -77,7 +77,7 @@ theorem psl2_eq_top_of_large_two_subgroup {n : ℕ} (hn : 3 ≤ n)
       ⟨m, hm0, hmdiv, hPSL⟩ | ⟨m, hm0, hm2div, hPGL⟩
   ·
     exfalso
-    haveI : IsElementaryAbelian 2 H := hEl
+    have : IsElementaryAbelian 2 H := hEl
     exact hAB ((IsElementaryAbelian.isPGroup 2 H).to_le (sup_le hA hB))
   ·
     exfalso
@@ -164,8 +164,8 @@ theorem psl2_eq_top_of_large_two_subgroup {n : ℕ} (hn : 3 ≤ n)
   ·
     exfalso
     have htodd : Odd t := Odd.of_dvd_nat (odd_div_gcd_two_pow_sub_one hn1) ht2
-    haveI : N.Normal := hNnorm
-    haveI : IsElementaryAbelian 2 N := hNel
+    have : N.Normal := hNnorm
+    have : IsElementaryAbelian 2 N := hNel
     have hN2 : IsPGroup 2 N := IsElementaryAbelian.isPGroup 2 N
     have hcompl : N.IsComplement' C := by
       refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj ?_
@@ -185,11 +185,11 @@ theorem psl2_eq_top_of_large_two_subgroup {n : ℕ} (hn : 3 ≤ n)
       constructor
       · obtain ⟨Q, hAQ⟩ := hA2'.exists_le_sylow
         have hNQ : N ≤ (Q : Subgroup H) := IsPGroup.le_sylow_of_normal hN2 Q
-        have hQN : (Q : Subgroup H) = N := Nsyl.maximal_isPGroup.eq_of_ge Q.isPGroup' hNQ
+        have hQN : (Q : Subgroup H) = N := Nsyl.maximal_isPGroup.eq_of_ge Q.isPGroup hNQ
         exact hQN ▸ hAQ
       · obtain ⟨Q, hBQ⟩ := hB2'.exists_le_sylow
         have hNQ : N ≤ (Q : Subgroup H) := IsPGroup.le_sylow_of_normal hN2 Q
-        have hQN : (Q : Subgroup H) = N := Nsyl.maximal_isPGroup.eq_of_ge Q.isPGroup' hNQ
+        have hQN : (Q : Subgroup H) = N := Nsyl.maximal_isPGroup.eq_of_ge Q.isPGroup hNQ
         exact hQN ▸ hBQ
     have hAimage : A ≤ N.map H.subtype := by
       have hmap : (A.subgroupOf H).map H.subtype ≤ N.map H.subtype :=
@@ -200,7 +200,7 @@ theorem psl2_eq_top_of_large_two_subgroup {n : ℕ} (hn : 3 ≤ n)
         Subgroup.map_mono le_of_le_sylow.2
       rwa [Subgroup.map_subgroupOf_eq_of_le hB] at hmap
     have hNimage2 : IsPGroup 2 (N.map H.subtype) := by
-      haveI : IsElementaryAbelian 2 (N.map H.subtype) := hNel.map_subtype
+      have : IsElementaryAbelian 2 (N.map H.subtype) := hNel.map_subtype
       exact IsElementaryAbelian.isPGroup 2 (N.map H.subtype)
     exact hAB (hNimage2.to_le (sup_le hAimage hBimage))
   ·
@@ -271,8 +271,8 @@ theorem psl2_eq_top_of_sylow_ne {n : ℕ} (hn : 3 ≤ n)
     {P P' : Sylow 2 (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n))}
     (hPP' : P ≠ P') (hAP : A ≤ P) (hBP : B ≤ P') (hA : A ≤ H) (hB : B ≤ H)
     (hAc : 2 ^ (n - 1) ≤ Nat.card A) (hB1 : B ≠ ⊥) : H = ⊤ := by
-  have hA2 : IsPGroup 2 A := P.isPGroup'.to_le hAP
-  have hB2 : IsPGroup 2 B := P'.isPGroup'.to_le hBP
+  have hA2 : IsPGroup 2 A := P.isPGroup.to_le hAP
+  have hB2 : IsPGroup 2 B := P'.isPGroup.to_le hBP
   refine psl2_eq_top_of_large_two_subgroup hn hA hB hA2 hB2 hAc ?_
   intro hAB2
   obtain ⟨Q, hQ⟩ := hAB2.exists_le_sylow

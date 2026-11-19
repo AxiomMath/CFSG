@@ -84,7 +84,7 @@ theorem hasLabel_map_centerQuot {J : Subgroup X} {T : GLALabel → Prop} (hJl : 
   have hφsurj : Function.Surjective φ := by
     rintro ⟨_, ⟨j, hj, rfl⟩⟩
     exact ⟨⟨j, hj⟩, rfl⟩
-  haveI hperf : Group.IsPerfect ↥J := ⟨hqJ.1⟩
+  have hperf : Group.IsPerfect ↥J := ⟨hqJ.1⟩
   have hker : φ.ker ≤ Subgroup.center ↥J := by
     intro j hj
     have hj1 : π (j : X) = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hj)
@@ -122,7 +122,7 @@ theorem innDiagKind_centerQuot {L : Subgroup Γ} {y : Γ} {lab : GLALabel}
     CFSG.StandardType.Canonical.largeEvenMarking_mono (fun _ _ _ _ _ _ h => h.1) hM
   have hq := hasLabel_isQuasisimple hLl
   have hcen := center_centerQuot_eq_bot hq
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   have hS : commutator (↥L ⧸ Subgroup.center ↥L) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center ↥L))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top

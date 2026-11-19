@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 theorem typeII_two_le_pRank_of_heisenberg {p : ℕ} (hp : p.Prime) {T : Subgroup G}
     (hTc : Nat.card T = p ^ 3) (hTe : ∀ t ∈ T, t ^ p = 1) (hTn : ¬ IsMulCommutative T) :
     2 ≤ CFSG.Open.pRank p T := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hET, hE, hEcard, -⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.exists_isElemAbelian_card_sq_of_nonabelian hTc hTe hTn
   exact CFSG.HardMathSupport.Timmesfeld.Proving.le_pRank_of_elemAbelian_card hp.two_le hET hE hEcard
@@ -30,7 +30,7 @@ theorem typeII_two_le_pRank_of_heisenberg {p : ℕ} (hp : p.Prime) {T : Subgroup
 theorem j4_lemma45_G {P : Sylow 11 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     (hX : ExtraFacts IsJ4Type 11 J4Shape) (hc : PointConfig IsJ4Type G 11 P M x J) :
     ∃ S₁ : Subgroup G, rankTwoMaximalInvariantTwoSubgroup (u3U0 P x J) S₁ ∧ ¬ S₁ ≤ M := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨hUe, hUcard, hUS, hxU, hcomm, hZTcard, -⟩ := typeII_U0_facts hX hc
   obtain ⟨hTcard, hTexp, hTnab, -⟩ := typeII_T_structure hX hc
   have hTS : u3T P x J ≤ u3S P x := inf_le_left
@@ -68,7 +68,7 @@ theorem mcl_lemma45_G {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} 
     {U : Subgroup G} (hU : IIPlane 5 P x J U)
     (hnc : ∃ a ∈ U ⊓ u3T P x J, ∃ t ∈ u3T P x J, t * a ≠ a * t) :
     ∃ S₁ : Subgroup G, rankTwoMaximalInvariantTwoSubgroup U S₁ ∧ ¬ S₁ ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hTcard, hTexp, hTnab, -⟩ := typeII_T_structure hX hc
   have hTS : u3T P x J ≤ u3S P x := inf_le_left
   have hTJ : u3T P x J ≤ J := inf_le_right

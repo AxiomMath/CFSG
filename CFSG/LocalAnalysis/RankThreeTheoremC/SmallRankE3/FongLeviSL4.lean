@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.ComponentInitial
 theorem fong_eq_two_of_prime_dvd_card {F : Type} [Field F] [Finite F] [CharP F 2] {p : ℕ}
     (hp : p.Prime) (hpF : p ∣ Nat.card F) : p = 2 := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   rw [← Nat.card_eq_fintype_card] at hn
   rw [hn] at hpF
@@ -37,7 +37,7 @@ theorem fong_not_dvd_card_specialLinear_of_le_two {F : Type} [Field F] [Finite F
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : ¬ p ∣ Nat.card F ^ 2 - 1) (m : ℕ) (hm : m ≤ 2) :
     ¬ p ∣ Nat.card (Matrix.SpecialLinearGroup (Fin m) F) := by
   rcases Nat.lt_or_ge m 2 with h | h
-  · haveI := CFSG.AGLEmbedding.LeviBlock.subsingleton_specialLinear_of_lt_two (K := F) h
+  · have := CFSG.AGLEmbedding.LeviBlock.subsingleton_specialLinear_of_lt_two (K := F) h
     rw [Nat.card_of_subsingleton (1 : Matrix.SpecialLinearGroup (Fin m) F)]
     exact hp.not_dvd_one
   · obtain rfl : m = 2 := by omega
@@ -51,13 +51,13 @@ theorem fong_not_dvd_card_specialLinear_of_le_two {F : Type} [Field F] [Finite F
 theorem fong_exists_finset_card_four {F : Type} [Finite F] (h4 : 4 ≤ Nat.card F) :
     ∃ s : Finset F, s.card = 4 := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset F)) (n := 4)
     (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h4)
   exact ⟨s, hs⟩
 
 theorem fong_three_le_and_ne_four {F : Type} [Field F] [Finite F] [CharP F 2] {p : ℕ}
-    (h4 : 4 ≤ Nat.card F) (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : ¬ p ∣ Nat.card F ^ 2 - 1)
+    (_h4 : 4 ≤ Nat.card F) (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : ¬ p ∣ Nat.card F ^ 2 - 1)
     {I : Set ℕ} (hI : ∀ i ∈ I, 1 ≤ i ∧ i < 4) (hIne : I.Nonempty) (j : Fin 4)
     {u : Matrix.GeneralLinearGroup (Fin (linBlockLen 4 I j)) F}
     (hu : u ∈ linBlockSL F 4 I j) (hord : orderOf u = p) :
@@ -100,7 +100,7 @@ theorem fong_commutator_specialLinear {F : Type} [Field F] [Finite F] (h4 : 4 �
   by_cases hm : 2 ≤ m
   · exact (CFSG.LinearGroups.special_linear_isPerfect hm
       (Or.inr (fong_exists_finset_card_four h4))).commutator_eq_top
-  · haveI := CFSG.AGLEmbedding.LeviBlock.subsingleton_specialLinear_of_lt_two (K := F)
+  · have := CFSG.AGLEmbedding.LeviBlock.subsingleton_specialLinear_of_lt_two (K := F)
       (by omega : m < 2)
     exact eq_top_iff.2 fun x _ => by
       rw [Subsingleton.elim x 1]
@@ -140,7 +140,7 @@ theorem sl4_leviSurj {F : Type} [Field F] [Finite F] [CharP F 2] (h4 : 4 ≤ Nat
     LeviSurj p (LinearFlag.flagStabilizer 4 F I) z
       (Matrix.SpecialLinearGroup (Fin 3) F ⧸ Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F)) := by
   classical
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 4) F) := Subtype.finite
+  have : Finite (Matrix.SpecialLinearGroup (Fin 4) F) := Subtype.finite
   have hp2 : p ≠ 2 := by omega
   have hnd : ¬ p ∣ Nat.card F - 1 := fong_not_dvd_card_sub_one hpq
   have hβ : IsPGroup 2 (linLeviHom F 4 I).ker := isPGroup_ker_linLeviHom (by norm_num)

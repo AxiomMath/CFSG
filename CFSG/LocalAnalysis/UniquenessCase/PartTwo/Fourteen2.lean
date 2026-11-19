@@ -23,6 +23,7 @@ theorem thm1421 {D : Data G} (h8107 : R8107 D) : Thm1421 D := by
     (Or.inl (thin8_of_isL3 h.shape₂)) (X ⊓ L₁) (X ⊓ L₂) inf_le_right
     (Hyp141.card_inf_left h) inf_le_right (Hyp141.card_inf_right h)
 
+omit [Finite G] in
 theorem card_eq_card_pCoreOf_mul_card_bar2 (H : Subgroup G) :
     Nat.card H = Nat.card (pCoreOf 2 H) * Nat.card (Bar2 H) := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥H)
@@ -69,7 +70,7 @@ theorem pCoreOf_eq_inf {K L : Subgroup G} (hKL : K ≤ L) (hL : L = K ⊔ pCoreO
 
 theorem exists_isSylowOf_le {K L : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hKL : K ≤ L)
     (hL : L = K ⊔ pCoreOf 2 L) : ∃ P ≤ K, CFSG.ABGLocalTools.IsSylowOf p P L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p K
   have hnotKL : ¬ p ∣ K.relIndex L := by
     intro hpdvd
@@ -130,12 +131,13 @@ theorem card_eq_three_or_seven_of_isL3 {L A : Subgroup G} (h : IsL3 (Bar2 L) 1) 
     · left; exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp h3
     · right; exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_seven).mp h7
 
+omit [Finite G] in
 theorem calNOf_eq_singleton_of_forall_le {M K : Subgroup G} (hM : M ≠ ⊤) (hKM : K ≤ M)
     (h : ∀ H : Subgroup G, H ≠ ⊤ → K ≤ H → H ≤ M) : calNOf K = {M} := by
   ext N
   constructor
   · intro hN
-    rw [calNOf, Set.mem_setOf_eq] at hN
+    rw [calNOf, Set.mem_ofPred_eq] at hN
     obtain ⟨hcoat, hKN⟩ := hN
     have hNM : N ≤ M := h N hcoat.ne_top hKN
     rcases hcoat.le_iff.mp hNM with htop | hMN
@@ -143,7 +145,7 @@ theorem calNOf_eq_singleton_of_forall_le {M K : Subgroup G} (hM : M ≠ ⊤) (hK
     · rw [Set.mem_singleton_iff]; exact hMN.symm
   · intro hN
     rw [Set.mem_singleton_iff] at hN
-    rw [hN, calNOf, Set.mem_setOf_eq]
+    rw [hN, calNOf, Set.mem_ofPred_eq]
     refine ⟨?_, hKM⟩
     rw [isCoatom_iff_ge_of_le]
     refine ⟨hM, ?_⟩
@@ -229,7 +231,7 @@ theorem normalizer_le_of_odd_prime_card (h : Hyp141 D L₁ L₂ X) (h1421 : Thm1
   rcases card_eq_three_or_seven_of_isL3 hshape hA hp hodd with h3 | h7
   · exact CFSG.LocalAnalysis.RankThreeUC.normalizer_le_of_mem_uniqueSet D.maxLocal
       (card_three_mem_uniqueSet h h1421 hL hA h3)
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hSE : CFSG.RankThree.PartOne.IsStronglyPEmbedded 7 D.M :=
       UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hLC) (by rw [h.sig]; simp)
     have hne : A ≠ ⊥ := by

@@ -119,6 +119,7 @@ section Abstract
 
 variable {L : Type*} [Field L] {κ ι : Type*} [Fintype κ] [Fintype ι]
 
+omit [Fintype κ] [Fintype ι] in
 private theorem fd_mem_inl (x : κ ⊕ ι →₀ L) :
     x ∈ Finsupp.supported L L (Set.range Sum.inl) ↔ ∀ i, x (Sum.inr i) = 0 := by
   rw [Finsupp.mem_supported']
@@ -129,6 +130,7 @@ private theorem fd_mem_inl (x : κ ⊕ ι →₀ L) :
     · exact absurd ⟨j, rfl⟩ hb
     · exact h i
 
+omit [Fintype κ] [Fintype ι] in
 private theorem fd_mem_inr (x : κ ⊕ ι →₀ L) :
     x ∈ Finsupp.supported L L (Set.range Sum.inr) ↔ ∀ j, x (Sum.inl j) = 0 := by
   rw [Finsupp.mem_supported']
@@ -219,15 +221,15 @@ private theorem fd_finrank_inr (S : Module.End L (κ ⊕ ι →₀ L)) (π : ι 
       rw [hsingle b a, map_smul, Finsupp.smul_apply, Finsupp.smul_apply, smul_eq_mul,
         smul_eq_mul]
       rcases b with j | i'
-      · rw [hSh, Finsupp.single_apply, if_neg Sum.inl_ne_inr]
+      · rw [hSh, Finsupp.single_apply, ite_eq_right Sum.inl_ne_inr]
         ring
       · rw [hSr, Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply, Finsupp.single_apply]
         by_cases hi : i' = i
         · subst hi
-          simp only [if_true]
+          simp only [ite_true]
           ring
-        · rw [if_neg (fun h => hi (hπinj (Sum.inr_injective h))),
-            if_neg (fun h => hi (Sum.inr_injective h))]
+        · rw [ite_eq_right (fun h => hi (hπinj (Sum.inr_injective h))),
+            ite_eq_right (fun h => hi (Sum.inr_injective h))]
           ring
   set hol : ι → L := fun i => c i * c (π i) * c (π (π i)) with hhol
   have hholπ : ∀ i, hol (π i) = hol i := fun i => by
@@ -295,7 +297,7 @@ private theorem fd_finrank_inr (S : Module.End L (κ ⊕ ι →₀ L)) (π : ι 
     intro i
     simp only [hSe, map_smul, hπ3, smul_smul, hhol, mul_assoc]
   have he_inl : ∀ i j, e i (Sum.inl j) = 0 := fun i j => by
-    simp [e, Finsupp.single_apply]
+    simp [e]
   have hval : ∀ r i, (e r + S (e r) + S (S (e r))) (Sum.inr i) =
       (if r = i then 1 else 0) + c r * (if π r = i then 1 else 0) +
         c r * c (π r) * (if π (π r) = i then 1 else 0) := by
@@ -306,7 +308,7 @@ private theorem fd_finrank_inr (S : Module.End L (κ ⊕ ι →₀ L)) (π : ι 
   have hvalinl : ∀ r j, (e r + S (e r) + S (S (e r))) (Sum.inl j) = 0 := by
     intro r j
     rw [hSe, map_smul, hSe, smul_smul]
-    simp [e, Finsupp.single_apply]
+    simp [e]
   let fam : ↥T ⊕ ↥R → Q := Sum.elim
     (fun t => ⟨e t.1, (hmemQ _).2
       ⟨by rw [hSe, (hTm t.1 t.2).1, (hTm t.1 t.2).2, one_smul], he_inl t.1⟩⟩)
@@ -323,17 +325,17 @@ private theorem fd_finrank_inr (S : Module.End L (κ ⊕ ι →₀ L)) (π : ι 
       by_cases h : t = t'
       · subst h
         simp
-      · rw [if_neg (fun h' => h (Subtype.ext h')), if_neg (Ne.symm h)]
+      · rw [ite_eq_right (fun h' => h (Subtype.ext h')), ite_eq_right (Ne.symm h)]
     · change e t.1 (Sum.inr r'.1) = _
       simp only [e, Finsupp.single_apply, Sum.inr.injEq, Pi.single_apply]
-      rw [if_neg (fun h => hmov r'.1 r'.2 (by rw [← h]; exact (hTm t.1 t.2).1)),
-        if_neg Sum.inr_ne_inl]
+      rw [ite_eq_right (fun h => hmov r'.1 r'.2 (by rw [← h]; exact (hTm t.1 t.2).1)),
+        ite_eq_right Sum.inr_ne_inl]
     · change (e r.1 + S (e r.1) + S (S (e r.1))) (Sum.inr t'.1) = _
-      rw [hval, Pi.single_apply, if_neg Sum.inl_ne_inr]
+      rw [hval, Pi.single_apply, ite_eq_right Sum.inl_ne_inr]
       have ht' := (hTm t'.1 t'.2).1
-      rw [if_neg (fun h => hmov r.1 r.2 (by rw [h]; exact ht')),
-        if_neg (fun h => hmov r.1 r.2 (by rw [hπinj (h.trans ht'.symm)]; exact ht')),
-        if_neg (fun h => hmov2 r.1 r.2 (by
+      rw [ite_eq_right (fun h => hmov r.1 r.2 (by rw [h]; exact ht')),
+        ite_eq_right (fun h => hmov r.1 r.2 (by rw [hπinj (h.trans ht'.symm)]; exact ht')),
+        ite_eq_right (fun h => hmov2 r.1 r.2 (by
           have h' := congrArg π h
           rw [hπ3, ht'] at h'
           rw [h]
@@ -343,11 +345,11 @@ private theorem fd_finrank_inr (S : Module.End L (κ ⊕ ι →₀ L)) (π : ι 
       rw [hval, Pi.single_apply]
       by_cases h : r = r'
       · subst h
-        rw [if_pos rfl, if_neg (hmov r.1 r.2), if_neg (hmov2 r.1 r.2), if_pos rfl]
+        rw [ite_eq_left rfl, ite_eq_right (hmov r.1 r.2), ite_eq_right (hmov2 r.1 r.2), ite_eq_left rfl]
         ring
       · obtain ⟨h1, h2⟩ := hR2 r.1 r.2 r'.1 r'.2
-        rw [if_neg (fun h' => h (Subtype.ext h')), if_neg (Ne.symm h1), if_neg (Ne.symm h2),
-          if_neg (fun h' => h (Sum.inr_injective h').symm)]
+        rw [ite_eq_right (fun h' => h (Subtype.ext h')), ite_eq_right (Ne.symm h1), ite_eq_right (Ne.symm h2),
+          ite_eq_right (fun h' => h (Sum.inr_injective h').symm)]
         ring
   have hle : Module.finrank L Q ≤ Fintype.card (↥T ⊕ ↥R) := by
     have h := LinearMap.finrank_le_finrank_of_injective hΨ
@@ -394,7 +396,7 @@ private theorem fd_hStep (i : Fin Tag.E6.rank) (c : Fin Tag.E6.rank → ℤ) :
     Pi.single_apply]
   by_cases hki : k = i
   · subst hki
-    simp only [if_true, mul_one]
+    simp only [ite_true, mul_one]
     have hs : ∑ j, ((Tag.E6.cartan j k).natAbs : ℤ) * c j =
         fdEps k * ∑ j, Tag.E6.cartan k j * (fdEps j * c j) := by
       rw [Finset.mul_sum]
@@ -403,7 +405,7 @@ private theorem fd_hStep (i : Fin Tag.E6.rank) (c : Fin Tag.E6.rank → ℤ) :
       ring
     rw [hs]
     linear_combination (-c k) * hε k
-  · simp only [hki, if_false, mul_zero, sub_zero]
+  · simp only [hki, ite_false, mul_zero, sub_zero]
     rw [← mul_assoc, hε k, one_mul]
 
 private theorem fd_foldr_hStep (μ : List (Fin Tag.E6.rank)) (c : Fin Tag.E6.rank → ℤ) :
@@ -433,7 +435,7 @@ private theorem fd_canonicalRep_hVec (w : WeylGroup Tag.E6) (j : Fin Tag.E6.rank
     by_cases hm : m = j
     · subst hm
       simp
-    · simp [Pi.single_apply, hm]
+    · simp [hm]
   rw [h1, smul_comm ((coxeterSystem Tag.E6).wordProd ω) (fdEps j), Pi.mul_apply,
     Pi.smul_apply, smul_eq_mul, ← mul_assoc, mul_comm (fdEps k) (fdEps j)]
 
@@ -455,7 +457,7 @@ private theorem fdPhi_inr (d : Fin Tag.E6.rank → L)
     (i : {v : Fin Tag.E6.rank → ℤ // IsRoot Tag.E6 v}) : fdPhi L d (Sum.inr i) = 0 := by
   classical
   change (∑ j, ((fdEps j : L) * d j) • hVec Tag.E6 L j) (Sum.inr i) = _
-  simp [hVec, Finsupp.single_apply]
+  simp [hVec]
 
 private theorem fdEps_cast_mul_self (k : Fin Tag.E6.rank) :
     ((fdEps k : ℤ) : L) * (fdEps k : L) = 1 := by
@@ -536,9 +538,9 @@ private theorem fd_single_inl_eq (j : Fin Tag.E6.rank) :
   · rw [fdPhi_inl, Finsupp.single_apply, Pi.single_apply]
     by_cases hk : k = j
     · subst hk
-      rw [if_pos rfl, if_pos rfl, fdEps_cast_mul_self]
-    · rw [if_neg (fun h => hk (Sum.inl_injective h).symm), if_neg hk, mul_zero]
-  · rw [fdPhi_inr, Finsupp.single_apply, if_neg Sum.inl_ne_inr]
+      rw [ite_eq_left rfl, ite_eq_left rfl, fdEps_cast_mul_self]
+    · rw [ite_eq_right (fun h => hk (Sum.inl_injective h).symm), ite_eq_right hk, mul_zero]
+  · rw [fdPhi_inr, Finsupp.single_apply, ite_eq_right Sum.inl_ne_inr]
 
 end Cartan
 

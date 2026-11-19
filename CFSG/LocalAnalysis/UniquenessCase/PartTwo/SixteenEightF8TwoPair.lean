@@ -17,7 +17,7 @@ theorem s16g_card_pair_subgroup {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {
       Commute ((Subgroup.zpowers x).subtype m) ((Subgroup.zpowers y).subtype n) := by
     rintro ⟨_, a, rfl⟩ ⟨_, b, rfl⟩
     exact hxy.zpow_zpow a b
-  haveI : Fact (Nat.card (Subgroup.zpowers y)).Prime :=
+  have : Fact (Nat.card (Subgroup.zpowers y)).Prime :=
     ⟨by rw [Nat.card_zpowers, hy]; exact hp⟩
   have hdisj : Disjoint (Subgroup.zpowers x) (Subgroup.zpowers y) := by
     rw [Subgroup.disjoint_def]
@@ -73,8 +73,8 @@ private def s16g_stab {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Fiel
 theorem s16g_fixed_of_pair {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     {x y : Matrix.GeneralLinearGroup ι K} {u : ι → K} (hxu : (x : Matrix ι ι K) *ᵥ u = u)
     (hyu : (y : Matrix ι ι K) *ᵥ u = u) :
-    ∀ b ∈ (Subgroup.zpowers x ⊔ Subgroup.zpowers y : Subgroup (Matrix.GeneralLinearGroup ι K)),
-      (b : Matrix ι ι K) *ᵥ u = u := fun b hb =>
+    ∀ _b ∈ (Subgroup.zpowers x ⊔ Subgroup.zpowers y : Subgroup (Matrix.GeneralLinearGroup ι K)),
+      (_b : Matrix ι ι K) *ᵥ u = u := fun _b hb =>
   (sup_le ((Subgroup.zpowers_le).2 (show x ∈ s16g_stab u from hxu))
     ((Subgroup.zpowers_le).2 (show y ∈ s16g_stab u from hyu)) : _ ≤ s16g_stab u) hb
 

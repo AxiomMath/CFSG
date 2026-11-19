@@ -20,7 +20,7 @@ theorem exists_elemAbelian_sup_zpowers [Finite Ω] {S : Subgroup Ω} {p : ℕ} (
     ∃ F Q : Subgroup Ω, IsElemAbelian p F ∧ Nat.card F = p * Nat.card E ∧ Q ≠ ⊥ ∧ IsPGroup 2 Q ∧
       F ≤ Subgroup.normalizer (Q : Set Ω) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZc : Subgroup.zpowers x ≤ Subgroup.centralizer (S : Set Ω) := Subgroup.zpowers_le.2 hx
   have hZab : IsElemAbelian p (Subgroup.zpowers x) := by
     rw [Subgroup.zpowers_eq_closure]
@@ -78,7 +78,7 @@ theorem isElemAbelian_range_β {p : ℕ} (hB : IsElemAbelian p B) : IsElemAbelia
 theorem card_ker_β {p : ℕ} (hp : p.Prime) (hB : IsElemAbelian p B) {x : Ω} (hxB : x ∈ B) (hx1 : x ≠ 1)
     (hx : ∀ b ∈ B, b ∈ Subgroup.centralizer (S : Set Ω) ↔ b ∈ Subgroup.zpowers x) :
     Nat.card M.β.ker = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := hB.2 x hxB
   have hle : Subgroup.zpowers x ≤ B := Subgroup.zpowers_le.2 hxB
   have hker : M.β.ker = (Subgroup.zpowers x).subgroupOf B := by
@@ -90,7 +90,7 @@ theorem card_ker_β {p : ℕ} (hp : p.Prime) (hB : IsElemAbelian p B) {x : Ω} (
 theorem card_range_β [Finite Ω] {p m : ℕ} {D K : Subgroup Ω} {x : Ω}
     (hcfg : Cfg172 p S B D K x) (hR : LiftableRank p G₀ m) : Nat.card M.β.range = p ^ m := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker := M.card_ker_β hp hcfg.elem hcfg.mem hcfg.ne_one hcfg.cent
   have hmul := Subgroup.card_ker_mul_card_range M.β
   rw [hker] at hmul

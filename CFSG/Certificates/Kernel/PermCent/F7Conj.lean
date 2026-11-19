@@ -39,12 +39,12 @@ theorem exists_conj_of_cycleType {f g : F7} (hf : (f : Amb 7).2 = 1) (hg : (g : 
   have he : e * x4 = x4 * e := by
     by_cases hs : sign c = 1
     · simp [e, hs]
-    · simp only [e, if_neg hs]
+    · simp only [e, ite_eq_right hs]
       decide
   have hse : sign c = sign e := by
     by_cases hs : sign c = 1
     · simp [e, hs]
-    · simp only [e, if_neg hs]
+    · simp only [e, ite_eq_right hs]
       rw [sign_swap (by decide)]
       rcases Int.units_eq_one_or (sign c) with h' | h'
       · exact absurd h' hs
@@ -133,7 +133,7 @@ theorem w5_pow : w5 ^ 5 = 1 := by decide
 theorem w5_ne_one : w5 ≠ 1 := by decide
 
 theorem sign_w5 : sign w5 = 1 := by
-  simp [w5, sign_mul, sign_swap]
+  simp [w5, sign_mul]
 
 theorem cycleType_swap01 : (swap (0 : Fin 7) 1).cycleType = Multiset.replicate 1 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -149,7 +149,7 @@ theorem exists_comm_five {r : Perm (Fin 7)} (h2 : r ^ 2 = 1) (hn : numMoved r �
   obtain ⟨c, hc⟩ : ∃ c : Perm (Fin 7), c * (if r = 1 then 1 else swap 0 1) * c⁻¹ = r := by
     by_cases h1 : r = 1
     · exact ⟨1, by simp [h1]⟩
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       obtain ⟨k, hk, hm⟩ := cycleType_of_pow_prime h2 h1
       have hk0 : k = 0 := by omega
       rw [hk0] at hk

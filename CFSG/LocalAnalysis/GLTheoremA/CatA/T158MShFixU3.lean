@@ -77,7 +77,7 @@ theorem fixU3_lieModel {R : Type} [Group R] {k : ℕ} (hcat : catalogIs R (S10.i
   cases d with
   | twistedA r q =>
     rcases r with _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     have hm := lieModel_twistedA' 2 q hv e
     have hm' := CFSG.Models.LieModel.toBlueprint (by decide) hm
     rw [hP.1, hP.2] at hm'
@@ -98,7 +98,7 @@ theorem fixU3_comp_iso {R : Type} [Group R] [Finite R] {m : ℕ} {K : Type} [Fie
   let ψ₀ : fixS a ≃* fixS (MulAut.congr θ a) :=
     (θ.subgroupMap (fixS a)).trans (MulEquiv.subgroupCongr hfix.symm)
   have hcontra : Group.IsSolvable (fixS a) → False := fun hs => by
-    haveI := hs
+    have := hs
     exact CFSG.HardMathSupport.Dickson.KD.false_of_glaPComponent_of_solvable hS inferInstance
   have hn1 : 1 ≤ n := by have := h.one_le; omega
   have hq : 2 < 2 ^ m := by
@@ -120,7 +120,7 @@ theorem fixU3_comp_iso {R : Type} [Group R] [Finite R] {m : ℕ} {K : Type} [Fie
     obtain rfl : n = 1 := by omega
     obtain rfl : m = 3 := by omega
     have hsolv := CFSG.StandardType.gffa2_unitary_solvable h hσ
-    haveI := hsolv
+    have := hsolv
     exact hcontra (Group.isSolvable_of_surjective (f := E₁.symm.toMonoidHom) E₁.symm.surjective)
   obtain ⟨K₀, hK₀f, hK₀fin, hK₀, ⟨T₀⟩⟩ :=
     CFSG.StandardType.gffa2_unitary_derived_equiv h hσ hmn hn2
@@ -148,7 +148,7 @@ theorem fixU3_comp_iso {R : Type} [Group R] [Finite R] {m : ℕ} {K : Type} [Fie
   have hq3 := isQuasisimple_pQuot_of_glaPComponent hp hS
   let τS : ↥S ≃* LargeEvenProj (LargeEvenSUGroup (Fin 3) K₀ (2 ^ n)) :=
     (MulEquiv.subgroupCongr hSeq).trans T
-  haveI hSimpS : IsSimpleGroup ↥S := (MulEquiv.isSimpleGroup_congr τS).2 hs
+  have hSimpS : IsSimpleGroup ↥S := (MulEquiv.isSimpleGroup_congr τS).2 hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 ↥S) with hO' | hO'
   · let eQ : PQuot 3 S ≃* ↥S :=
       (QuotientGroup.quotientMulEquivOfEq hO').trans QuotientGroup.quotientBot
@@ -197,7 +197,7 @@ theorem t158FixU3_holds : T158FixU3 := by
     rcases hLM with ⟨-, -, hmod⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
     · exact hmod
     all_goals exact absurd h0 (by norm_num)
-  letI := hKf
+  let := hKf
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with rfl | hpos
     · have h1 := Finite.one_lt_card (α := K)

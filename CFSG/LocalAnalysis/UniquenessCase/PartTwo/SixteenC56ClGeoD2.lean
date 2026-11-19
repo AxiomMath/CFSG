@@ -14,7 +14,7 @@ theorem Geo2.comm_mem_fix_of_mem_perp (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
     (hF : Nat.card (fixV E) = 4) {h : W} (hh : h ∈ S.perp (fixV E)) {e₁ : MulAut W}
     (he₁ : e₁ ∈ E) : e₁ h * h⁻¹ ∈ fixV E := by
   classical
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   by_contra hv
   have hvF₂ : e₁ h * h⁻¹ ∈ secondLayer E := hE.comm_mem_secondLayer hSK hF hh he₁
   have hinv : ∀ x : W, x⁻¹ = x := fun x => inv_eq_of_mul_eq_one_right (S.mul_self_eq_one x)

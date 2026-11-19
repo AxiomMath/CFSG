@@ -24,20 +24,20 @@ theorem ggK1CBl_preblocks_exists {p nf d r : ℕ} {K : Type} [Field K] [Finite K
     (hx : x ^ p = 1) : Nonempty (ggK1CBl_PreBlocks p nf d r K x m) := by
   by_cases hx1 : x = 1
   · exact ggK1CBl_preblocks_one hnf hp hp2 hdvd hK hm hx hx1
-  · haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hcardK : Fintype.card K = 2 ^ nf := by rw [Fintype.card_eq_nat_card, hK]
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := nf) hcardK
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := nf) hcardK
     have hr : 1 ≤ r := by
       rcases Nat.eq_zero_or_pos r with h0 | hpos
       · exfalso; apply hx1; subst h0
         exact Subtype.ext (Subsingleton.elim (x : GL (Fin 0 ⊕ Fin 0) K) 1)
       · exact hpos
-    haveI : NeZero r := ⟨by omega⟩
+    have : NeZero r := ⟨by omega⟩
     have hproj : Function.Injective (proj r K) :=
       (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
         (r := r) (K := K)).1
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have ha : orderOf (proj r K x) = p :=
       orderOf_eq_prime (by rw [← map_pow, hx, map_one]) fun h => hx1 (hproj h)
     have hblocks : SpPrimaryBlocks 2 nf p x (proj r K x) :=

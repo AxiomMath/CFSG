@@ -18,6 +18,7 @@ namespace TwoPTwo
 
 variable {K S X : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 private theorem mem_of_pow_mem_of_coprime {H : Subgroup G} {x : G} {a b : ℕ}
     (ha : x ^ a ∈ H) (hb : x ^ b ∈ H) (hab : a.Coprime b) : x ∈ H := by
   have h := Nat.gcd_eq_gcd_ab a b
@@ -44,7 +45,7 @@ private theorem isPSolvable_of_isSolvable {X : Type*} [Group X] {p : ℕ} (hp : 
 
 private theorem eq_bot_of_isPGroup_of_coprime_card {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
     {N : Subgroup G} (hN : IsPGroup p N) (hc : Nat.Coprime p (Nat.card N)) : N = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [eq_bot_iff]
   intro x hx
   obtain ⟨k, hk⟩ := hN.exists_orderOf_eq_pow ⟨x, hx⟩
@@ -61,7 +62,7 @@ private theorem eq_bot_of_isPGroup_of_coprime_card {G : Type*} [Group G] {p : �
 
 private theorem isSolvable_pCore_two (Q : Type*) [Group Q] [Finite Q] :
     Group.IsSolvable ↥(CFSG.pCore 2 Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Group.IsNilpotent ↥(CFSG.pCore 2 Q) :=
     (CFSG.LieType.BorelTits.pCore_isPGroup (G := Q) 2).isNilpotent
   infer_instance
@@ -83,7 +84,7 @@ private theorem isSolvable_comap_mk' {Q : Type*} [Group Q] [Finite Q] {N : Subgr
 
 private theorem oTwoP_quotient_isPGroup {Q : Type*} [Group Q] [Finite Q] (p : ℕ)
     (h : E1.oTwoPTwo Q p = ⊤) : IsPGroup 2 (Q ⧸ E1.oTwoP Q p) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro y
   obtain ⟨q, rfl⟩ := QuotientGroup.mk'_surjective (E1.oTwoP Q p) y
   have hmem : q ∈ E1.oTwoPTwo Q p := by rw [h]; exact Subgroup.mem_top _
@@ -105,14 +106,14 @@ private theorem pow_two_pow_mem_oTwoP {Q : Type*} [Group Q] [Finite Q] (p : ℕ)
   simpa [QuotientGroup.mk'_apply] using hn
 
 theorem pCoreOf_le_sylowTwo (h : TwoPTwo K S X p) : pCoreOf 2 K ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine IsSylowIn.le_of_normal h.sylowTwo (pCoreOf_le 2 K) ?_ (pCoreOf_isPGroup 2 K)
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer (pCoreOf_le 2 K)).mpr
     (le_normalizer_pCoreOf 2 K)
 
 theorem sylowP_inf_pCoreOf (h : TwoPTwo K S X p) : X ⊓ pCoreOf 2 K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   exact (IsPGroup.disjoint_of_ne p 2 h.odd X (pCoreOf 2 K)
     h.sylowP.isPGroup (pCoreOf_isPGroup 2 K)).eq_bot
 
@@ -122,8 +123,8 @@ theorem map_oTwoP_eq_sup (h : TwoPTwo K S X p) :
   let R0 : Subgroup Q := CFSG.pCore 2 Q
   let P0 : Subgroup Q := E1.oTwoP Q p
   let X0 : Subgroup Q := X.subgroupOf K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   have hR0P0 : R0 ≤ P0 := by
     intro x hx
     rw [show P0 = E1.oTwoP Q p from rfl, E1.oTwoP, Subgroup.mem_comap]
@@ -166,7 +167,7 @@ theorem map_oTwoP_eq_sup (h : TwoPTwo K S X p) :
       show (E1.oTwoP Q p).map mk = _
       rw [E1.oTwoP]
       exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective R0) _
-    haveI : (P0.map mk).Normal :=
+    have : (P0.map mk).Normal :=
       (E1.instNormalOTwoP (Q := Q) p).map mk (QuotientGroup.mk'_surjective R0)
     have hbarP : IsPGroup p (P0.map mk) := by
       rw [hbar]
@@ -199,9 +200,9 @@ theorem isSolvable (h : TwoPTwo K S X p) : Group.IsSolvable ↥K := by
   let Q := ↥K
   let R0 : Subgroup Q := CFSG.pCore 2 Q
   let P0 : Subgroup Q := E1.oTwoP Q p
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
-  haveI : Group.IsSolvable ↥R0 := isSolvable_pCore_two Q
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Group.IsSolvable ↥R0 := isSolvable_pCore_two Q
   have hbar : Group.IsSolvable ↥(CFSG.pCore p (Q ⧸ R0)) := by
     have : Group.IsNilpotent ↥(CFSG.pCore p (Q ⧸ R0)) :=
       (CFSG.LieType.BorelTits.pCore_isPGroup (G := Q ⧸ R0) p).isNilpotent
@@ -226,12 +227,13 @@ theorem mem_sup_of_odd_orderOf (h : TwoPTwo K S X p) {k : G} (hk : k ∈ K)
   rw [pow_orderOf_eq_one]
   exact (pCoreOf 2 K ⊔ X).one_mem
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_mem_sup (h : TwoPTwo K S X p) {k : G} (hk : k ∈ pCoreOf 2 K ⊔ X)
     {n : ℕ} (hn : k ^ 2 ^ n = 1) : k ∈ pCoreOf 2 K := by
   let Q := ↥K
   let R0 : Subgroup Q := CFSG.pCore 2 Q
   let X0 : Subgroup Q := X.subgroupOf K
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   have hkK : k ∈ K := (show pCoreOf 2 K ⊔ X ≤ K from
     sup_le (pCoreOf_le 2 K) h.sylowP.le) hk
   let q : Q := ⟨k, hkK⟩
@@ -296,7 +298,7 @@ private theorem twoResidual_le_sup_pCoreOf_X (h : TwoPTwo K S X p) :
 
 private theorem X_le_twoResidual_sup_pCoreOf (h : TwoPTwo K S X p) :
     X ≤ twoResidual K ⊔ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   intro x hxX
   obtain ⟨b, hb⟩ := h.sylowP.isPGroup.exists_orderOf_eq_pow ⟨x, hxX⟩
   have hbx : orderOf x = p ^ b := by
@@ -378,8 +380,8 @@ theorem mem_sup_of_commutator_mem (h : TwoPTwo K S X p) {k : G} (hk : k ∈ K)
   let Kb := Q ⧸ R0
   let mk := QuotientGroup.mk' R0
   let Pb : Subgroup Kb := P0.map mk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   have hR0P0 : R0 ≤ P0 := by
     intro x hx
     rw [show P0 = E1.oTwoP Q p from rfl, E1.oTwoP, Subgroup.mem_comap]
@@ -404,7 +406,7 @@ theorem mem_sup_of_commutator_mem (h : TwoPTwo K S X p) {k : G} (hk : k ∈ K)
       rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk']
     rw [hRbot, sup_bot_eq]
   have hKbarSolv : Group.IsSolvable Kb := by
-    haveI : Group.IsSolvable Q := isSolvable h
+    have : Group.IsSolvable Q := isSolvable h
     infer_instance
   have hpsolv : CFSG.HallHigman.IsPSolvable p Kb :=
     isPSolvable_of_isSolvable h.prime hKbarSolv
@@ -416,7 +418,7 @@ theorem mem_sup_of_commutator_mem (h : TwoPTwo K S X p) {k : G} (hk : k ∈ K)
       rw [QuotientGroup.ker_mk']
       exact CFSG.LieType.BorelTits.pCore_isPGroup (G := Q) 2
     have hM2 : IsPGroup 2 (Rbar.comap mk) := hRbar2.comap_of_ker_isPGroup mk hker2
-    haveI : (Rbar.comap mk).Normal :=
+    have : (Rbar.comap mk).Normal :=
       (CFSG.LieType.BorelTits.pCore_normal 2).comap mk
     have hMle : Rbar.comap mk ≤ R0 := le_pCore 2 inferInstance hM2
     have hmapbot : (Rbar.comap mk).map mk = ⊥ := by
@@ -500,8 +502,8 @@ theorem mem_pCoreOf_of_commutator_mem_frattiniR (h : TwoPTwo K S X p) {k : G} (h
   let Kb := Q ⧸ R0
   let mk := QuotientGroup.mk' R0
   let Pb : Subgroup Kb := P0.map mk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   have hR0P0 : R0 ≤ P0 := by
     intro x hx
     rw [show P0 = E1.oTwoP Q p from rfl, E1.oTwoP, Subgroup.mem_comap]
@@ -675,8 +677,8 @@ theorem twoResidual_le_of_le_sup (h : TwoPTwo K S X p) {N : Subgroup G} (hNK : N
   let Q := ↥K
   let N0 : Subgroup Q := N.subgroupOf K
   let R0 : Subgroup Q := CFSG.pCore 2 Q
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   have hKN : K ≤ Subgroup.normalizer (N : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mp hN
   have hXN : X ≤ N := by
@@ -745,7 +747,8 @@ theorem twoResidual_le_of_le_sup (h : TwoPTwo K S X p) {N : Subgroup G} (hNK : N
     CFSG.Quasithin.B6.isTwoQuotient_of_sup_eq h.sylowTwo.isPGroup hKN hsup
   exact twoResidual_le_of_isTwoQuotient hNK hKN h2
 
-theorem not_le_frattiniR_of_isPGroup (h : TwoPTwo K S X p) {A : Subgroup G} (hAK : A ≤ K)
+omit [Finite G] in
+theorem not_le_frattiniR_of_isPGroup (h : TwoPTwo K S X p) {A : Subgroup G} (_hAK : A ≤ K)
     (hA : IsPGroup 2 A) (hAR : ¬ A ≤ pCoreOf 2 K) : ¬ A ≤ nineFrattiniR K X := by
   intro hle
   apply hAR

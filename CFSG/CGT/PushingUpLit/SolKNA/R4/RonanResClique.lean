@@ -75,6 +75,7 @@ theorem dConnected_of_five (B : Fin 5 → Subgroup X) (hB : ∀ i, B i ∈ Φ)
     exact nnv_self _
   · exact h.nnv_eq_zero_of_omegaNbr (hB a) (hadj a b hab)
 
+omit h [Finite X] in
 theorem commutes_of_nnv_eq_zero {a b : ↥Φ} (hab : nnv a b = 0) (hne : a ≠ b) :
     Commutes a.1 b.1 := by
   by_contra hc
@@ -170,7 +171,7 @@ theorem frame_of_setE (hgen : omegaGen Φ = ⊤) (hd : ¬ DConnected Φ) (B : Fi
       rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl <;>
         first | exact hnn _ _ | exact hsn _ | exact hns _ | exact h.octa.nn_self _
     have hcs : Commutes s.1 (B 0) := by
-      have := h.commutes_of_nnv_eq_zero (a := ⟨B 0, hB 0⟩) (b := s) hn0 (hs0.symm)
+      have := SetE.commutes_of_nnv_eq_zero (a := ⟨B 0, hB 0⟩) (b := s) hn0 (hs0.symm)
       exact this.symm
     refine ⟨s.1, (h.omegaNbr_iff (hB 0)).mpr ⟨s.2, fun e => hs0 (Subtype.ext e), hcs⟩,
       fun e => hs1 (Subtype.ext e), fun e => hs2 (Subtype.ext e), ?_⟩

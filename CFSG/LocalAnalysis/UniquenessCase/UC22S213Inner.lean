@@ -34,8 +34,8 @@ theorem uc22s213_not_three_dvd_card_solvableRadical {L : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 L)) (hZ : ¬ 3 ∣ Nat.card (center (Bar2 L))) :
     ¬ 3 ∣ Nat.card (CFSG.solvableRadical ↥L) := by
   intro h3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(CFSG.solvableRadical ↥L)) 3 h3
   have hx' : orderOf (x : ↥L) = 3 := by rw [Subgroup.orderOf_coe, hx]
   have hmem : QuotientGroup.mk' (CFSG.pCore 2 ↥L) (x : ↥L) ∈ center (Bar2 L) := by
@@ -51,7 +51,7 @@ theorem uc22s213_not_three_dvd_card_solvableRadical {L : Subgroup G}
 theorem uc22s213_pRank_three_barInf {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple (Bar2 L))
     (hZ : ¬ 3 ∣ Nat.card (center (Bar2 L))) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (BarInf L)) = CFSG.Open.pRank 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup L]
   exact CFSG.SectionRank.pRank_quotient_eq (CFSG.solvableRadical ↥L)
     (uc22s213_not_three_dvd_card_solvableRadical hq hZ)
@@ -61,7 +61,7 @@ theorem uc22s213_isElemAbelian_of_isSylowOf {L Q : Subgroup G}
     (h27 : ¬ 27 ∣ Nat.card (BarInf L))
     (h2 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (BarInf L))) (hQ : IsSylowOf 3 Q L) :
     IsElemAbelian 3 Q ∧ Nat.card Q = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR := uc22s213_not_three_dvd_card_solvableRadical hq hZ
   have hrank : 2 ≤ CFSG.Open.pRank 3 Q := by
     rw [CFSG.LocalAnalysis.RankFourTheoremC.pRank_eq_of_isSylowOf Nat.prime_three hQ]
@@ -90,8 +90,8 @@ theorem uc22s213_le_centralizer_of_inner {L P : Subgroup G}
       σ ∈ (MulAut.conj : BarInf L →* MulAut (BarInf L)).range)
     (hP3 : IsPGroup 3 P) (hPN : P ≤ normalizer (L : Set G)) (hQ : IsSylowOf 3 (P ⊓ L) L)
     (hQab : IsMulCommutative ↥(P ⊓ L)) : P ⊓ L ≤ centralizer (P : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hInner : ∀ x ∈ P, ∃ l ∈ L, ∀ y ∈ L,
       (x * y * x⁻¹) * (l * y * l⁻¹)⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
     intro x hx
@@ -144,7 +144,7 @@ theorem uc22s213_strong_of_inner (hS : Standing4 G) (hU : uniqueFourUnique G) (S
     (h2 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (BarInf L)))
     (hp : CFSG.Open.pRank S.p L ≤ 1) : IsStronglyPEmbedded 3 S.M := by
   by_contra hnot
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLM : L ≤ S.M := CFSG.Quasithin.A3.subnormal_le hL.1
   have hL3 : 2 ≤ CFSG.Open.pRank 3 L := uc22s213_pRank_three_barInf hL.2.2 hZ ▸ h2
   have hMN : S.M ≤ normalizer (L : Set G) := by
@@ -160,7 +160,7 @@ theorem uc22s213_strong_of_inner (hS : Standing4 G) (hU : uniqueFourUnique G) (S
     hnot (isStronglyPEmbedded_three_of_mem_uniqueFourBeta hU S hσ h)
   have hpp : S.p.Prime := S.hp.1.1
   have hp2 : S.p ≠ 2 := S.hp.1.2.1
-  haveI : Fact S.p.Prime := ⟨hpp⟩
+  have : Fact S.p.Prime := ⟨hpp⟩
   have hsp := PartOne.Section8.isStronglyPEmbedded_of_mem_sigma_of_calC hS hU S hL S.hp
   have h76 : Conclusion76 S.M S.p := UC6.conclusion76_dataOfSetup4 hSE hS hU S h3β S.hp hsp
   obtain ⟨B, hBM, hBel, hBc⟩ :=

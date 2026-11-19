@@ -30,17 +30,17 @@ theorem isSimpleGroup_normalClosure_map {G : Type} [Group G] {W H : Subgroup G}
   classical
   let K : Subgroup W := Subgroup.normalClosure ((H.subgroupOf W : Subgroup W) : Set W)
   let L : Subgroup G := K.map W.subtype
-  haveI : IsSimpleGroup H := hHs
+  have : IsSimpleGroup H := hHs
   have hHL : H ≤ L := by
     intro h hh
     exact Subgroup.mem_map.mpr
       ⟨⟨h, hHW hh⟩, Subgroup.le_normalClosure (Subgroup.mem_subgroupOf.mpr hh), rfl⟩
   have hLW : L ≤ W := Subgroup.map_subtype_le K
-  haveI : K.Normal := Subgroup.normalClosure_normal
+  have : K.Normal := Subgroup.normalClosure_normal
   have hWnorm : W ≤ Subgroup.normalizer (L : Set G) :=
     fun w hw => CFSG.Semidihedral.Local.mem_normalizer_map_of_normal K hw
   have hHne : H ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot H).mp inferInstance
-  haveI : Nontrivial L := by
+  have : Nontrivial L := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
     exact hHne (le_bot_iff.mp (hHL.trans (le_of_eq hbot)))
@@ -74,7 +74,7 @@ theorem isSimpleGroup_normalClosure_map {G : Type} [Group G] {W H : Subgroup G}
     have hInt : ((M' ⊓ Hw).subgroupOf Hw).Normal := by
       refine (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr ?_
       exact (le_inf hHwN Subgroup.le_normalizer).trans Subgroup.inf_normalizer_le_normalizer_inf
-    haveI := hInt
+    have := hInt
     rcases hHwsimple.eq_bot_or_eq_top_of_normal ((M' ⊓ Hw).subgroupOf Hw) with hb | ht
     · exfalso
       have hdisj : M' ⊓ Hw = ⊥ := by
@@ -115,11 +115,11 @@ theorem eq_of_isKGroup_of_le (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
     (hHs : IsSimpleGroup H) (hHc : Nat.card H = 4030387200) (hQH : Q ≤ H)
     (hQc : Nat.card Q = 7 ^ 3)
     (hF1 : ∀ N : Subgroup G, ¬ 7 ∣ Nat.card N → H ≤ normalizer (N : Set G) → N = ⊥)
-    (hNs : IsSolvable (normalizer (Q : Set G)))
+    (hNs : Group.IsSolvable (normalizer (Q : Set G)))
     {Jt : Subgroup G} (hJW : Jt ≤ W) (hJ1 : Jt ≠ ⊥) (hJp : ⁅Jt, Jt⁆ = Jt)
     (hJs : CFSG.Open.IsSubnormal Jt W) : Jt = H := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let K : Subgroup W := Subgroup.normalClosure ((H.subgroupOf W : Subgroup W) : Set W)
   let L : Subgroup G := K.map W.subtype
   have hHL : H ≤ L := by
@@ -137,7 +137,7 @@ theorem eq_of_isKGroup_of_le (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
     rw [hG]
     norm_num
   have hLs : IsSimpleGroup L := isSimpleGroup_normalClosure_map hHW hHs hH7 hGm hng hF1
-  haveI : IsSimpleGroup L := hLs
+  have : IsSimpleGroup L := hLs
   have hLnab : ∃ a b : L, a * b ≠ b * a := by
     have hHnab : ∃ a b : H, a * b ≠ b * a :=
       CFSG.AGLEmbedding.ThreeFives.exists_noncomm_of_simple hHs (by rw [hHc]; norm_num)
@@ -159,11 +159,11 @@ theorem eq_of_isKGroup_of_le (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
     · exfalso
       have hLtop : L = ⊤ := Subgroup.eq_top_of_card_eq L (h.trans hG.symm)
       exact hWtop (top_unique (hLtop ▸ hLW))
-  haveI : K.Normal := Subgroup.normalClosure_normal
+  have : K.Normal := Subgroup.normalClosure_normal
   have hWnormH : W ≤ Subgroup.normalizer (H : Set G) := by
     rw [hHL']
     exact fun w hw => CFSG.Semidihedral.Local.mem_normalizer_map_of_normal K hw
-  haveI hHn : (H.subgroupOf W).Normal :=
+  have hHn : (H.subgroupOf W).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hHW).mpr hWnormH
   let N : Subgroup W := H.subgroupOf W
   let QW : Subgroup W := Q.subgroupOf W
@@ -189,7 +189,7 @@ theorem eq_of_isKGroup_of_le (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
   let P : Sylow 7 N := Sylow.ofCard (QW.subgroupOf N) hPsubc
   have hPmap : (P : Subgroup N).map N.subtype = QW :=
     Subgroup.map_subgroupOf_eq_of_le hQWN
-  haveI : N.Normal := hHn
+  have : N.Normal := hHn
   have hFr : Subgroup.normalizer (QW : Set W) ⊔ N = ⊤ := by
     have h := Sylow.normalizer_sup_eq_top P
     rwa [hPmap] at h
@@ -211,7 +211,7 @@ theorem eq_of_isKGroup_of_le (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
       intro x hx
       rw [Subgroup.subgroupOf_normalizer_eq hQW]
       exact hx
-    haveI : Group.IsSolvable (Subgroup.normalizer (Q : Set G)) := hNs
+    have : Group.IsSolvable (Subgroup.normalizer (Q : Set G)) := hNs
     let φ : Subgroup.normalizer (QW : Set W) →* Subgroup.normalizer (Q : Set G) :=
       (W.subtype.comp (Subgroup.normalizer (QW : Set W)).subtype).codRestrict _
         (fun x => Subgroup.mem_subgroupOf.mp (hle x.2))
@@ -232,7 +232,7 @@ theorem eq_of_isKGroup_of_le (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
     have hK₂π : ⁅K₂.map π, K₂.map π⁆ = K₂.map π := by
       rw [← Subgroup.map_commutator (f := π) (H₁ := K₂) (H₂ := K₂), hK₂p]
     have htopSolv : Group.IsSolvable (⊤ : Subgroup (W ⧸ N)) := by
-      haveI : Group.IsSolvable (W ⧸ N) := hqSolv
+      have : Group.IsSolvable (W ⧸ N) := hqSolv
       infer_instance
     have hK₂bot : K₂.map π = ⊥ :=
       eq_bot_of_perfect_of_le_isSolvable (J := K₂.map π) (S := ⊤) le_top htopSolv hK₂π

@@ -195,22 +195,23 @@ theorem s16c1_frattini_lift {M T V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     intro φ hφ
     obtain ⟨m, hm, hmM, hmN, hmφ⟩ := s16c1_normalizer_lift hM hT hQ (hEM hφ) (hEQ hφ)
     exact ⟨⟨m, hmM, hmN⟩, hmφ⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P, hP3, hPE⟩ := exists_pGroup_map_eq f E hE hEf
   refine ⟨P.map N₁.subtype, (Subgroup.map_subtype_le P).trans inf_le_left, hP3.map N₁.subtype,
     ?_, fun x hx => ?_⟩
   · intro hcyc
-    haveI : IsCyclic ↥(P.map N₁.subtype) := hcyc
-    haveI : IsCyclic ↥P :=
+    have : IsCyclic ↥(P.map N₁.subtype) := hcyc
+    have : IsCyclic ↥P :=
       isCyclic_of_surjective (Subgroup.equivMapOfInjective P N₁.subtype N₁.subtype_injective).symm
         (Subgroup.equivMapOfInjective P N₁.subtype N₁.subtype_injective).symm.surjective
-    haveI : IsCyclic ↥(P.map f) :=
+    have : IsCyclic ↥(P.map f) :=
       isCyclic_of_surjective (f.subgroupMap P) (f.subgroupMap_surjective P)
     rw [hPE] at this
     exact hEc this
   · obtain ⟨y, -, rfl⟩ := hx
     exact y.2.2
 
+omit [Finite G] in
 theorem s16c1_gammaSet_conj_mem {T V T₁ A : Subgroup G} {m : G} (hT₁ : T₁ ≤ T)
     (hm : m ∈ normalizer (T₁ : Set G)) (hAT₁ : A ≤ T₁) (hA : A ∈ E3.gammaSet V 0 T) :
     A.map (MulAut.conj m).toMonoidHom ∈ E3.gammaSet V 0 T := by

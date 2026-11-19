@@ -13,7 +13,7 @@ open CFSG.RankThree.PartTwo.Sec4.Item434SporGen (FixGen fixGen_of_ex27Check)
 theorem glbCore_one_eq_top_of_fixGen_map {K X : Type*} [Group K] [Finite K] [Group X] {p : ℕ}
     (hp : p.Prime) (φ : K ≃* X) {A : Subgroup K} (hA : IsElemAbelian p A)
     (h : FixGen (A.map φ.toMonoidHom)) : GLBCore p 1 A = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hS, hσ⟩ := h
   have hle : Subgroup.closure (φ.symm '' S) ≤ GLBCore p 1 A := by
     rw [Subgroup.closure_le]

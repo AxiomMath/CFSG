@@ -23,9 +23,9 @@ theorem prop31_rank_le_one (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : Theor
     (hcomm : ∀ r ∈ R, ∀ j ∈ J, r * j * r⁻¹ * j⁻¹ ∈ rankThreePrimeCore p J) :
     ¬ 2 ≤ CFSG.Open.pRank p R := by
   intro h2
-  haveI : Fact (Nat.Prime p) := ⟨sigmaA_prime p hp⟩
+  have : Fact (Nat.Prime p) := ⟨sigmaA_prime p hp⟩
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hp hM).1
-  have hRp : IsPGroup p R := P.isPGroup'.to_le hRP
+  have hRp : IsPGroup p R := P.isPGroup.to_le hRP
   have hNR : Subgroup.normalizer (R : Set G) ≤ M :=
     normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM hRp (hRP.trans hPM) h2
   have hOM : rankThreePrimeCore p J ≤ M := (u3main_core_facts hS hD1 hp hM hgen hJC hCJ).1
@@ -49,7 +49,7 @@ theorem point_prop31_ii (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
   have hDP : u3S P x ⊓ u3K0 p x J ≤ (P : Subgroup G) := inf_le_left.trans inf_le_left
   have hDC : u3S P x ⊓ u3K0 p x J ≤ Subgroup.centralizer ({x} : Set G) :=
     inf_le_left.trans inf_le_right
-  have hDp : IsPGroup p ↥(u3S P x ⊓ u3K0 p x J) := P.isPGroup'.to_le hDP
+  have hDp : IsPGroup p ↥(u3S P x ⊓ u3K0 p x J) := P.isPGroup.to_le hDP
   have hcyc : IsCyclic ↥(u3S P x ⊓ u3K0 p x J) := by
     by_contra hnc
     have h2 := two_le_pRank_of_not_isCyclic hp hp2 hDp hnc

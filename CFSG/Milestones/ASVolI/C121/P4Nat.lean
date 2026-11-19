@@ -12,6 +12,7 @@ open scoped MatrixGroups Matrix
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem burnsideC121_p4_isNatL2Section {H Y W : Subgroup Ω} (hW : IsElemAbelian 2 W)
     (hYH : Y ≤ H) (hHW : H ≤ Subgroup.normalizer (W : Set Ω))
     {F : Type} [Field F] [Fintype F] {n : ℕ} (hF : Fintype.card F = 2 ^ n)

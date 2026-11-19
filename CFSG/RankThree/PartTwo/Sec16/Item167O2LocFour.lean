@@ -50,12 +50,12 @@ private theorem small44_of_case2 {X : Type} [Group X] [Finite X] [Group.IsPerfec
   obtain ⟨e2⟩ := h2
   let N : Subgroup X := oTwoFitting X
   have hNn : N.Normal := oTwoFitting_normal X
-  haveI : N.Normal := hNn
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : N.Normal := hNn
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hJq : IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) :=
     isQuasisimple_SL2 (p := 5) (by norm_num)
   have hnt : Nontrivial (X ⧸ N) := by
-    haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) :=
+    have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hJq
     exact e2.surjective.nontrivial
   have hle : N ≤ θ := le_of_nontrivial_quotient hθsolv hnt
@@ -77,16 +77,16 @@ private theorem small44_of_case3 {X : Type} [Group X] [Finite X] [Group.IsPerfec
   obtain ⟨e3⟩ := h3
   let N : Subgroup X := oTwoP p X
   have hNn : N.Normal := oTwoP_normal p X
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hp5 : 5 ≤ p := by
     have hp3' : 3 ≤ p := by omega
     have hpodd : p % 2 = 1 := Nat.odd_iff.mp (hp.odd_of_ne_two (by omega))
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJq : IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) :=
     isQuasisimple_SL2 (p := p) (by omega)
   have hnt : Nontrivial (X ⧸ N) := by
-    haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) :=
+    have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hJq
     exact e3.surjective.nontrivial
   have hle : N ≤ θ := le_of_nontrivial_quotient hθsolv hnt
@@ -114,7 +114,7 @@ private theorem small44_of_case4 {X : Type} [Group X] [Finite X] [Group.IsPerfec
     Small44 (Nat.card (X ⧸ θ)) := by
   let N : Subgroup X := oTwoP 3 X
   have hNn : N.Normal := oTwoP_normal 3 X
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hnt : Nontrivial (X ⧸ N) := by
     rcases h4 with hleft | hext
     · obtain ⟨e4⟩ := hleft
@@ -126,8 +126,8 @@ private theorem small44_of_case4 {X : Type} [Group X] [Finite X] [Group.IsPerfec
     · obtain ⟨K, hK, hrest⟩ := hext
       obtain ⟨-, hA⟩ := hrest
       obtain ⟨eA⟩ := hA
-      haveI : K.Normal := hK
-      haveI : Nontrivial (alternatingGroup (Fin 5)) :=
+      have : K.Normal := hK
+      have : Nontrivial (alternatingGroup (Fin 5)) :=
         (alternatingGroup.isSimpleGroup (by simp)).toNontrivial
       exact (eA.surjective.comp (QuotientGroup.mk'_surjective K)).nontrivial
   have hle : N ≤ θ := le_of_nontrivial_quotient hθsolv hnt
@@ -155,8 +155,8 @@ private theorem small44_of_oddCore_ext {X : Type} [Group X] [Finite X] [Group.Is
     (h : IsExtOf (X ⧸ CFSG.oddCore X) A B) : Small44 (Nat.card (X ⧸ θ)) := by
   have hcardExt := KFacts.L34.card_of_isExtOf h
   obtain ⟨K, hK, -, ⟨eA⟩⟩ := h
-  haveI : K.Normal := hK
-  haveI : Nontrivial A := hA.toNontrivial
+  have : K.Normal := hK
+  have : Nontrivial A := hA.toNontrivial
   have hntO : Nontrivial (X ⧸ CFSG.oddCore X) :=
     (eA.surjective.comp (QuotientGroup.mk'_surjective K)).nontrivial
   have hOle : CFSG.oddCore X ≤ θ :=
@@ -175,13 +175,13 @@ theorem commutator_theta_le_oddCore_or_small44 (h44 : Sec4.Item4_4) {X : Type} [
     (hXs : IsSimpleGroup (X ⧸ aschbacherSolvableCore 3 X)) (hO2 : CFSG.pCore 2 X = ⊥) :
     ⁅aschbacherSolvableCore 3 X, (⊤ : Subgroup X)⁆ ≤ CFSG.oddCore X ∨
       Small44 (Nat.card (X ⧸ aschbacherSolvableCore 3 X)) := by
-  haveI : Group.IsPerfect X := hXp
+  have : Group.IsPerfect X := hXp
   set θ := aschbacherSolvableCore 3 X with hθdef
   set O := CFSG.oddCore X with hOdef
   have hXs' : IsSimpleGroup (X ⧸ θ) := by simpa [hθdef] using hXs
-  haveI : IsSimpleGroup (X ⧸ θ) := hXs'
+  have : IsSimpleGroup (X ⧸ θ) := hXs'
   have hθn : θ.Normal := by simpa [hθdef] using aschbacherSolvableCore_normal 3 X
-  haveI : θ.Normal := hθn
+  have : θ.Normal := hθn
   have hθsolv : Group.IsSolvable θ := by
     simpa [hθdef] using
       (solvable_prime_complement_core_characterization (H := X) Nat.prime_three).1
@@ -191,7 +191,7 @@ theorem commutator_theta_le_oddCore_or_small44 (h44 : Sec4.Item4_4) {X : Type} [
   have hθnotop : θ ≠ ⊤ := by
     intro htop
     have hsub : Subsingleton (X ⧸ θ) := htop ▸ QuotientGroup.subsingleton_quotient_top
-    haveI : Nontrivial (X ⧸ θ) := hXs'.toNontrivial
+    have : Nontrivial (X ⧸ θ) := hXs'.toNontrivial
     exact not_subsingleton (X ⧸ θ) hsub
   have h44' := h44 X hS4 hXp θ hθsolv hXs'
   rcases h44' with h1 | h2 | ⟨p, hp, hp3, h3⟩ | h4 | ⟨-, h5⟩
@@ -218,7 +218,7 @@ theorem commutator_theta_le_oddCore_or_small44 (h44 : Sec4.Item4_4) {X : Type} [
   ·
     have h5' := h5 hθ3
     have hOn : O.Normal := by simpa [hOdef] using CFSG.oddCore_normal (G := X)
-    haveI : O.Normal := hOn
+    have : O.Normal := hOn
     have hcardA5 : Nat.card (alternatingGroup (Fin 5)) = 60 :=
       KFacts.KS14.card_alternatingGroup_five_seven_ten.1
     have hcardA6 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
@@ -245,8 +245,8 @@ theorem commutator_theta_le_oddCore_or_small44 (h44 : Sec4.Item4_4) {X : Type} [
               · rintro ⟨a, ha, rfl⟩
                 exact ⟨⟨a, ha⟩, rfl⟩
             rw [hrange, htop]
-          haveI : Group.IsSolvable θ := hθsolv
-          haveI : Group.IsPerfect (X ⧸ O) := hq.1
+          have : Group.IsSolvable θ := hθsolv
+          have : Group.IsPerfect (X ⧸ O) := hq.1
           exact (Group.IsPerfect.not_isSolvable (X ⧸ O))
             (Group.isSolvable_of_surjective hsurj)
         · refine Or.inl ?_
@@ -279,12 +279,12 @@ theorem isQuasisimple_or_pRank_le_three_or_small44 (h44 : Sec4.Item4_4) {X : Typ
     (hXs : IsSimpleGroup (X ⧸ aschbacherSolvableCore 3 X)) (hO2 : CFSG.pCore 2 X = ⊥) :
     IsQuasisimple X ∨ CFSG.Open.pRank 2 (⊤ : Subgroup X) ≤ 3 ∨
       Small44 (Nat.card (X ⧸ aschbacherSolvableCore 3 X)) := by
-  haveI : Group.IsPerfect X := hXp
+  have : Group.IsPerfect X := hXp
   set θ := aschbacherSolvableCore 3 X with hθdef
   have hXs' : IsSimpleGroup (X ⧸ θ) := by simpa [hθdef] using hXs
-  haveI : IsSimpleGroup (X ⧸ θ) := hXs'
+  have : IsSimpleGroup (X ⧸ θ) := hXs'
   have hθn : θ.Normal := by simpa [hθdef] using aschbacherSolvableCore_normal 3 X
-  haveI : θ.Normal := hθn
+  have : θ.Normal := hθn
   have hθsolv : Group.IsSolvable θ := by
     simpa [hθdef] using
       (solvable_prime_complement_core_characterization (H := X) Nat.prime_three).1

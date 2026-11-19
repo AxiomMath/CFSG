@@ -120,16 +120,17 @@ theorem testBit_repN (q : ℕ) : repN.testBit q = decide (q % 384 = 0 ∧ q / 38
         omega
   exact key 128
 
+set_option exponentiation.threshold 384 in
 theorem repN_field (h : ℕ) : repN / 2 ^ (384 * h) % 2 ^ 384 = if h < 128 then 1 else 0 := by
   apply Nat.eq_of_testBit_eq
   intro r
   by_cases hr : r < 384
   · rw [testBit_field _ _ _ _ hr, testBit_repN]
     by_cases hh : h < 128
-    · rw [if_pos hh, testBit_one', Bool.eq_iff_iff]
+    · rw [ite_eq_left hh, testBit_one', Bool.eq_iff_iff]
       simp only [decide_eq_true_eq]
       omega
-    · rw [if_neg hh, Nat.zero_testBit]
+    · rw [ite_eq_right hh, Nat.zero_testBit]
       exact decide_eq_false (by omega)
   · rw [Nat.testBit_mod_two_pow]
     have : (if h < 128 then 1 else 0 : ℕ) < 2 ^ 384 := by split <;> norm_num
@@ -137,6 +138,7 @@ theorem repN_field (h : ℕ) : repN / 2 ^ (384 * h) % 2 ^ 384 = if h < 128 then 
       (by omega)))]
     simp [hr]
 
+set_option exponentiation.threshold 384 in
 theorem repN_mul_field (y h : ℕ) (hy : y < 2 ^ 384) :
     repN * y / 2 ^ (384 * h) % 2 ^ 384 = if h < 128 then y else 0 := by
   have hb : ∀ γ, repN / 2 ^ (384 * γ) % 2 ^ 384 * y < 2 ^ 384 := fun γ => by
@@ -157,8 +159,8 @@ theorem testBit_repN_mul (y q : ℕ) (hy : y < 2 ^ 384) :
   rw [e, ← testBit_field _ _ _ _ (Nat.mod_lt q (by norm_num)), repN_mul_field y _ hy]
   rw [← e]
   by_cases hq : q / 384 < 128
-  · rw [if_pos hq, decide_eq_true hq, Bool.true_and]
-  · rw [if_neg hq, decide_eq_false hq, Bool.false_and, Nat.zero_testBit]
+  · rw [ite_eq_left hq, decide_eq_true hq, Bool.true_and]
+  · rw [ite_eq_right hq, decide_eq_false hq, Bool.false_and, Nat.zero_testBit]
 
 theorem testBit_spread (v q : ℕ) :
     (spread v).testBit q = (decide (q % 32 = 0 ∧ q / 32 < 12) && v.testBit (q / 32)) := by
@@ -187,6 +189,7 @@ theorem testBit_spread (v q : ℕ) :
           rw [decide_eq_false h2, decide_eq_false h3]
   exact key 12
 
+set_option exponentiation.threshold 353 in
 theorem spread_lt (v : ℕ) : spread v < 2 ^ 353 := by
   refine Nat.lt_pow_two_of_testBit _ fun i hi => ?_
   rw [testBit_spread]
@@ -202,14 +205,14 @@ theorem spread_field (v r : ℕ) :
     have e1 : (32 * r + b) / 32 = r := by omega
     rw [e1]
     by_cases hc : r < 12 ∧ v.testBit r = true
-    · rw [if_pos hc, testBit_one']
+    · rw [ite_eq_left hc, testBit_one']
       by_cases hb0 : b = 0
       · subst hb0
         simp [hc.1, hc.2]
       · have hd : decide ((32 * r + b) % 32 = 0 ∧ r < 12) = false := decide_eq_false (by omega)
         rw [hd, Bool.false_and]
         simp [hb0]
-    · rw [if_neg hc, Nat.zero_testBit]
+    · rw [ite_eq_right hc, Nat.zero_testBit]
       by_cases hr : r < 12
       · have : v.testBit r = false := by simpa [hr] using hc
         simp [this]
@@ -222,6 +225,7 @@ theorem spread_field (v r : ℕ) :
     rw [Nat.testBit_eq_false_of_lt this]
     simp [hb]
 
+set_option exponentiation.threshold 384 in
 theorem testBit_spread_mul {v x : ℕ} (hx : ∀ h, x / 2 ^ (384 * h) % 2 ^ 384 < 2 ^ 30)
     {h r j : ℕ} (hr : r < 12) (hj : j < 30) :
     (x * spread v).testBit (384 * h + (32 * r + j)) = (v.testBit r && x.testBit (384 * h + j)) := by
@@ -262,6 +266,7 @@ theorem bitZ'_mulRowK_aux (R LN q : ℕ) : ∀ (sp : List ℕ) (c : ℕ),
     change bitZ ((s * ((R >>> (32 * c)) &&& LN)) ^^^ _) q = _
     rw [bitZ_xor, add_comm]
 
+set_option exponentiation.threshold 384 in
 theorem testBit_LN (q : ℕ) :
     (repN * 1073741823).testBit q = (decide (q / 384 < 128) && decide (q % 384 < 30)) := by
   have hl : (1073741823 : ℕ) < 2 ^ 384 :=
@@ -296,7 +301,7 @@ theorem bitZ'_mulRowK {sp : List ℕ} {V : List ℕ} (hsp : sp = V.map spread) (
   have e1 : (384 * h + j) / 384 = h := by omega
   have e2 : (384 * h + j) % 384 = j := by omega
   rw [e1, e2, show 32 * (0 + i) + (384 * h + j) = 384 * h + (32 * i + j) by omega]
-  simp only [decide_eq_true hh, decide_eq_true hj, Bool.true_and, Bool.and_true]
+  simp only [decide_eq_true hh, decide_eq_true hj, Bool.and_true]
   cases V[i].testBit r <;> cases R.testBit (384 * h + (32 * i + j)) <;> simp
 
 theorem norm_num' {HP : ℕ} (h : normK HP = true) :
@@ -369,7 +374,7 @@ theorem mt_spec {MTP LMP GP PP : ℕ} (hmt : mtK MTP LMP GP PP = true)
         · rfl
         · exact absurd (beq_true hb) hx0
       rw [e, hb]
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       have hpx := par_lt hx0
       change pg 7 127 LMP (128 * pg 2 3 GP x + pg 7 127 MTP (128 * pg 7 127 PP x + h)) = _
       rw [hg x hx, hp x hx, ih _ hpx (hpx.trans hx) h hh, mulIdx_cons' hx0 hx,

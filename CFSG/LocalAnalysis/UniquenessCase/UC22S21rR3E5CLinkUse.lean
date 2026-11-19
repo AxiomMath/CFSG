@@ -14,6 +14,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r3e5c_link_conj {X L K : Subgroup G} (hLX : L ≤ X) (hKX : K ≤ X)
     (e : Bar2 X ≃* Bar2 L × Bar2 K)
     (heL : ∀ (x : ↥X) (hx : (x : G) ∈ L),
@@ -46,8 +47,8 @@ theorem uc22r3e5c_link_conj {X L K : Subgroup G} (hLX : L ≤ X) (hKX : K ≤ X)
   rw [← hl, ← hk, ← hz, map_mul (UC6S846.rhoL X ⟨b, hbX⟩), UC6S846.rhoL_mk,
     UC6S846.rhoL_mk, map_mul e, heL _ hbl, heK _ hbk]
   simp only [Prod.mk_mul_mk, mul_one, one_mul, UC6S846.rhoL_mk]
-  exact Prod.ext (congrArg QuotientGroup.mk (Subtype.ext (by simp [UC6S846.rhoL_mk_coe])))
-    (congrArg QuotientGroup.mk (Subtype.ext (by simp [UC6S846.rhoL_mk_coe])))
+  exact Prod.ext (congrArg QuotientGroup.mk (Subtype.ext (by simp)))
+    (congrArg QuotientGroup.mk (Subtype.ext (by simp)))
 
 theorem uc22r3e5c_link_mem_of_snd_eq_one {X L K : Subgroup G} (hLX : L ≤ X)
     (hLXn : X ≤ normalizer (L : Set G)) (e : Bar2 X ≃* Bar2 L × Bar2 K)
@@ -172,11 +173,11 @@ theorem uc22r3e5c_link_map_rhoL_eq {X L K : Subgroup G} (hLX : L ≤ X) (hKX : K
 
 theorem uc22r3e5c_eq_one_of_mk_eq_one {X C : Subgroup G} (hCodd : Odd (Nat.card C))
     {x : ↥X} (hxC : (x : G) ∈ C) (h : (QuotientGroup.mk x : Bar2 X) = 1) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpc : x ∈ CFSG.pCore 2 ↥X := (QuotientGroup.eq_one_iff x).mp h
   have hpcG : (x : G) ∈ pCoreOf 2 X := (CFSG.mem_openPCoreOf_iff x).mpr hpc
   have hbot : C ⊓ pCoreOf 2 X = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨n, hn⟩ := (CFSG.ClassicalGroups.PCoreSection.isPGroup_pCoreOf 2 X).exists_card_eq
     rw [hn]
     exact (Nat.coprime_two_right.mpr hCodd).pow_right n

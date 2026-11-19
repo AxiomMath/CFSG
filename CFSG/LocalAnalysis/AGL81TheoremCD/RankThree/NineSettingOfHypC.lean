@@ -53,7 +53,7 @@ end Section14.HypCGen
 
 namespace RankThree
 
-theorem nineNineOneAt_of_nineTenInputs (hI : NineTenInputs) {M : Subgroup G}
+theorem nineNineOneAt_of_nineTenInputs (_hI : NineTenInputs) {M : Subgroup G}
     (hC : CStarSetting G M) : NineNineOneAt M :=
   fun q E H h => CFSG.LocalAnalysis.AGL81TheoremCD.Section14.nineNineOneInput_holds G M E H E q (h.toNineSetting hC).toGen h.not_mem_sigmaM
 

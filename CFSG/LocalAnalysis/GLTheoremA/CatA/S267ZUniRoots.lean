@@ -31,7 +31,7 @@ theorem exists_primitiveRoot_fixed [Finite K] (h : UnitaryFieldData ℓ f K) {p 
     (hK0 : Nat.card (semilinearFixedSubfield σ) = Q₀ ^ 2)
     (hbar : ∀ x : K, σ x = x → h.bar x = x ^ Q₀) (hpQ : p ∣ Q₀ + 1) :
     ∃ μ : K, σ μ = μ ∧ IsPrimitiveRoot μ p ∧ h.bar μ * μ = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K₀ := semilinearFixedSubfield σ
   have hdvd : p ∣ Nat.card K₀ˣ := by
     rw [Nat.card_units, hK0]

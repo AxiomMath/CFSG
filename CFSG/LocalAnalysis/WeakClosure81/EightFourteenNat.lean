@@ -33,10 +33,10 @@ theorem isPSL_two_two_two_klein {X : Type} [Group X] (hX : CFSG.Quasithin.IsPSL 
   classical
   have hXcard : Nat.card X = 60 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_four hX
-  haveI hXfin : Finite X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
+  have hXfin : Finite X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
   have hBender : CFSG.Open.fusionIsBenderGroup X :=
     CFSG.QuasithinUnique.A5.C25.fusionIsBenderGroup_of_isPSL hX
-  haveI hsimp : IsSimpleGroup X :=
+  have hsimp : IsSimpleGroup X :=
     CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hBender
   have hBne : B ≠ ⊤ := by
     intro h
@@ -51,7 +51,7 @@ theorem isPSL_two_two_two_klein {X : Type} [Group X] (hX : CFSG.Quasithin.IsPSL 
     have h := Subgroup.card_mul_index (H := F)
     rw [hFc, hXcard] at h
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFnotdvd : ¬ 2 ∣ F.index := by rw [hFindex]; norm_num
   let Q : Sylow 2 X := hFpg.toSylow hFnotdvd
   have hQcoe : (Q : Subgroup X) = F := IsPGroup.toSylow_coe hFpg hFnotdvd
@@ -138,13 +138,13 @@ theorem commSub_top_eq_top {X : Type} [Group X] (hX : CFSG.Quasithin.IsPSL 2 2 2
   classical
   have hXcard : Nat.card X = 60 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_four hX
-  haveI hXfin : Finite X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
+  have hXfin : Finite X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
   have hBcard : Nat.card B = 12 := by
     have h := Subgroup.card_mul_index (H := B)
     rw [hB, hXcard] at h
     omega
   have h3 : 3 ∣ Nat.card B := by rw [hBcard]; norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨x, hx3⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) 3 h3
   have hx3' : orderOf (x : X) = 3 := by
     rw [Subgroup.orderOf_coe, hx3]
@@ -158,7 +158,7 @@ theorem commSub_top_eq_top {X : Type} [Group X] (hX : CFSG.Quasithin.IsPSL 2 2 2
     { toFun := fun z => ⟨ρ (x : X) (z : W) - (z : W), by
         exact Z.sub_mem ((hstab (x : X)).mp hxmem (z : W) z.2) z.2⟩
       map_add' := fun a b => Subtype.ext (by
-        simp only [LinearEquiv.map_add, Submodule.coe_add, map_add, add_sub_add_comm])
+        simp only [Submodule.coe_add, map_add, add_sub_add_comm])
       map_smul' := fun c a => Subtype.ext (by
         simp only [LinearEquiv.map_smul, Submodule.coe_smul, smul_sub, RingHom.id_apply]) }
   have hinj : Function.Injective T := by

@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD309 Subgroup
 @[expose] def wrKappa : Wr →* Multiplicative (ZMod 5) where
   toFun w := Multiplicative.ofAdd w.c
   map_one' := rfl
-  map_mul' x y := rfl
+  map_mul' _x _y := rfl
 
 @[expose] def wrXi : Wr →* Multiplicative (ZMod 5) where
   toFun w := Multiplicative.ofAdd (∑ i, w.a i)
@@ -89,7 +89,7 @@ theorem card_wrKappa_ker : Nat.card wrKappa.ker = 5 ^ 5 := by
         exact (congrArg Multiplicative.toAdd this).symm
       right_inv := fun a => rfl }
   rw [Nat.card_congr e]
-  simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card]
+  simp [Nat.card_eq_fintype_card, ZMod.card]
 
 theorem card_wrXi_ker : Nat.card wrXi.ker = 5 ^ 5 := by
   have h := Subgroup.card_ker_mul_card_range wrXi

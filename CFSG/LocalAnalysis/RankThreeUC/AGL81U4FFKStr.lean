@@ -45,8 +45,8 @@ namespace CFSG.LocalAnalysis.RankThreeUC
 theorem natCard_adjoinRoot {m : Polynomial (ZMod 2)} (hm : Irreducible m) :
     haveI : Fact (Irreducible m) := ⟨hm⟩
     Finite (AdjoinRoot m) ∧ CharP (AdjoinRoot m) 2 ∧ Nat.card (AdjoinRoot m) = 2 ^ m.natDegree := by
-  haveI : Fact (Irreducible m) := ⟨hm⟩
-  haveI hfin : Module.Finite (ZMod 2) (AdjoinRoot m) :=
+  have : Fact (Irreducible m) := ⟨hm⟩
+  have hfin : Module.Finite (ZMod 2) (AdjoinRoot m) :=
     (AdjoinRoot.powerBasis hm.ne_zero).finite
   have hrank : Module.finrank (ZMod 2) (AdjoinRoot m) = m.natDegree := by
     rw [PowerBasis.finrank]

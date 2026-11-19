@@ -270,18 +270,21 @@ section Frame
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.piOrth_eq_signChange_univ (fr : PFrame Q ι c) :
     piOrth Q = fr.signChange Finset.univ := by
   apply Subtype.ext
   apply fr.b.ext'
   intro i
-  rw [coe_piOrth_apply, fr.signChange_basis Finset.univ i, if_pos (Finset.mem_univ i)]
+  rw [coe_piOrth_apply, fr.signChange_basis Finset.univ i, ite_eq_left (Finset.mem_univ i)]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6p_toProj_signChange_compl (fr : PFrame Q ι c) (K : Finset ι) :
     toProj Q (fr.signChange Kᶜ) = toProj Q (fr.signChange K) := by
   rw [show Kᶜ = symmDiff Finset.univ K by ext i; simp [Finset.mem_symmDiff],
     ← fr.signChange_mul, ← fr.piOrth_eq_signChange_univ, map_mul, toProj_piOrth, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6p_toProj_signChange_eq_iff (fr : PFrame Q ι c) (J K : Finset ι) :
     toProj Q (fr.signChange J) = toProj Q (fr.signChange K) ↔ J = K ∨ J = Kᶜ := by
   constructor

@@ -47,7 +47,7 @@ theorem uc22r899c2_not_three_dvd {n : ℕ} : ¬ 3 ∣ 2 ^ (2 * n) + 1 := by
 
 theorem uc22r899c2_dvd_two_pow {p k : ℕ} (hp : p.Prime) (h : p ∣ 2 ^ (2 ^ k * p) + 1) :
     p ∣ 2 ^ (2 ^ k) + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← ZMod.natCast_eq_zero_iff] at h ⊢
   push_cast at h ⊢
   rwa [pow_mul, ZMod.pow_card] at h

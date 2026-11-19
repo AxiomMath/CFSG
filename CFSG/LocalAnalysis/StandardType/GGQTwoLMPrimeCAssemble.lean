@@ -10,6 +10,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open CFSG.StandardType.UCoord
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qTwoLMPrimeC_assemble {Bs L : Subgroup G} {x : G} {m : ℕ} {R : Type} [Group R]
     (eL : ↥L ≃* R) (hxBs : x ∈ Bs) (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
     (hsplit : ∀ b ∈ Bs, ∃ t ∈ Bs ⊓ L, ∃ k : ℕ, b = t * x ^ k)

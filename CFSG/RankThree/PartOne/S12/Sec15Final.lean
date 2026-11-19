@@ -274,7 +274,7 @@ theorem exists_sylow_eq_of_isSylowOf {G : Type} [Group G] [Finite G] {N T X : Su
   obtain ⟨T', hTT'⟩ := hT2.exists_le_sylow
   refine ⟨T', le_antisymm ?_ hTT'⟩
   by_contra hle
-  have hnil : Group.IsNilpotent ↥(T' : Subgroup G) := T'.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(T' : Subgroup G) := T'.isPGroup.isNilpotent
   have hproper : T.subgroupOf (T' : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hle ?_
     intro x hx
@@ -291,7 +291,7 @@ theorem exists_sylow_eq_of_isSylowOf {G : Type} [Group G] [Finite G] {N T X : Su
     exact this
   have hP₁T' : T ⊔ Subgroup.zpowers (x : G) ≤ T' := sup_le hTT' (Subgroup.zpowers_le.mpr x.2)
   have hP₁2 : IsPGroup 2 (T ⊔ Subgroup.zpowers (x : G) : Subgroup G) :=
-    T'.isPGroup'.to_le hP₁T'
+    T'.isPGroup.to_le hP₁T'
   have hP₁N : T ⊔ Subgroup.zpowers (x : G) ≤ Subgroup.normalizer (T : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr hxN)
   have hSN := normalizer_le_of_forall_maximal (Z := pushingUpS T) (pushingUpS_ne_bot hT2 hT1)
@@ -332,7 +332,7 @@ theorem pushing_up_contradiction (hPU : PushingUpCorollary) (hlist : KFCGTList)
     (hMX : ∀ M ∈ CFSG.maximalTwoLocalsContaining (X : Set G), M ≤ N)
     (hMY : ∀ M ∈ CFSG.maximalTwoLocalsContaining (Y : Set G), M ≤ N) : False := by
   obtain ⟨T', rfl⟩ := exists_sylow_eq_of_isSylowOf hT hT1 hX hMX
-  have hP2 : IsPGroup 2 (T' : Subgroup G) := T'.isPGroup'
+  have hP2 : IsPGroup 2 (T' : Subgroup G) := T'.isPGroup
   have hT₁ : ∀ T₁ : Subgroup G, T₁ ≠ ⊥ → T₁ ≤ pushingUpS (T' : Subgroup G) →
       (T₁.subgroupOf (pushingUpS (T' : Subgroup G))).Characteristic →
         Subgroup.normalizer (T₁ : Set G) ≤ N := by
@@ -385,7 +385,7 @@ theorem pushingUpCorollary_of_omega (h : PushingUpCorollaryΩ) : PushingUpCoroll
     have hPbot : P = ⊥ := le_bot_iff.mp (hQ.trans hQbot.le)
     simp [hPbot]
   · exact h G hK hchar T N hN hT₁
-      (hT₂ _ (omegaOneCenterIn_ne_bot T.isPGroup' hT) le_rfl)
+      (hT₂ _ (omegaOneCenterIn_ne_bot T.isPGroup hT) le_rfl)
 
 theorem pushing_up_contradiction_omega (hPU : PushingUpCorollaryΩ) (hlist : KFCGTList)
     (hsect : ∀ (G : Type) [Group G] [Finite G], CFSG.Assembly.IsCharTwoType G →
@@ -401,7 +401,7 @@ theorem pushing_up_contradiction_omega (hPU : PushingUpCorollaryΩ) (hlist : KFC
     (hΩ : Subgroup.centralizer (omegaOneCenterIn T : Set G) ≤ N)
     (hMX : ∀ M ∈ CFSG.maximalTwoLocalsContaining (X : Set G), M ≤ N) : False := by
   obtain ⟨T', rfl⟩ := exists_sylow_eq_of_isSylowOf hT hT1 hX hMX
-  have hP2 : IsPGroup 2 (T' : Subgroup G) := T'.isPGroup'
+  have hP2 : IsPGroup 2 (T' : Subgroup G) := T'.isPGroup
   have hT₁ : ∀ T₁ : Subgroup G, T₁ ≠ ⊥ → T₁ ≤ pushingUpS (T' : Subgroup G) →
       (T₁.subgroupOf (pushingUpS (T' : Subgroup G))).Characteristic →
         Subgroup.normalizer (T₁ : Set G) ≤ N := by

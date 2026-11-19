@@ -46,7 +46,7 @@ theorem central_mem_commutator_of_perfect {Y : Type*} [Group Y] [Finite Y] [hY :
     (hzp : orderOf z = p) (hidx : ¬ p ∣ P.index) :
     (⟨z, hzP⟩ : ↥P) ∈ commutator ↥P := by
   classical
-  haveI : P.FiniteIndex := ⟨Subgroup.index_ne_zero_of_finite⟩
+  have : P.FiniteIndex := ⟨Subgroup.index_ne_zero_of_finite⟩
   set ϕ : ↥P →* Abelianization ↥P := Abelianization.of with hϕ
   have hker : ϕ.ker = commutator ↥P := Abelianization.ker_of ↥P
   have hkey : ∀ (k : ℕ) (g₀ : Y), g₀⁻¹ * z ^ k * g₀ ∈ P → g₀⁻¹ * z ^ k * g₀ = z ^ k := by

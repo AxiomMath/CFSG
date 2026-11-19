@@ -81,6 +81,7 @@ theorem mul_self_eq_one_of_mulVec_eq {s : SpecialLinearGroup (Fin 2) F₀} {v : 
     show c * b + d * d = 1
     linear_combination -hdet + d * htr - h2
 
+omit [CharP F₀ 2] in
 theorem eq_one_of_fixes_two {g : SpecialLinearGroup (Fin 2) F₀} {v u : Fin 2 → F₀}
     (hv : v ≠ 0) (hu : ∀ c : F₀, u ≠ c • v) (hgv : (g : Matrix (Fin 2) (Fin 2) F₀) *ᵥ v = v)
     (hgu : (g : Matrix (Fin 2) (Fin 2) F₀) *ᵥ u = u) : g = 1 := by
@@ -143,7 +144,7 @@ theorem exists_ne_zero_fixed_of_isPGroup_two {S : Subgroup (SpecialLinearGroup (
     (hS : IsPGroup 2 S) :
     ∃ v : Fin 2 → F₀, v ≠ 0 ∧ ∀ g ∈ S, (g : Matrix (Fin 2) (Fin 2) F₀) *ᵥ v = v := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction S (Fin 2 → F₀) :=
+  let : MulAction S (Fin 2 → F₀) :=
     { smul := fun g v => ((g : SpecialLinearGroup (Fin 2) F₀) : Matrix (Fin 2) (Fin 2) F₀) *ᵥ v
       one_smul := fun v => by
         change ((1 : SpecialLinearGroup (Fin 2) F₀) : Matrix (Fin 2) (Fin 2) F₀) *ᵥ v = v
@@ -213,7 +214,7 @@ theorem eq_bot_of_isPGroup_two_of_mem_normalizer {m : ℕ} (hm : Odd m) (hF : Na
   calc s = s ^ 3 * (s * s)⁻¹ := by group
     _ = 1 := by rw [hs3, hss, inv_one, one_mul]
 
-theorem commute_of_odd_card {f : ℕ} (hf : 1 ≤ f)
+theorem commute_of_odd_card {f : ℕ} (_hf : 1 ≤ f)
     (hF : Nat.card F₀ = 2 ^ f) (H : Subgroup (SpecialLinearGroup (Fin 2) F₀))
     (hH : Odd (Nat.card H)) : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

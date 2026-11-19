@@ -47,7 +47,7 @@ private theorem isPGroup_torUSix (hK : Nat.card K = 4) :
 private theorem not_isCyclic_torUSix (hK : Nat.card K = 4) :
     ¬ IsCyclic (USixTwo.torU K) := by
   intro hcyc
-  haveI := hcyc
+  have := hcyc
   obtain ⟨ω, hω⟩ := USixTwo.exists_root_omega hK
   have hdvd : Monoid.exponent ↥(USixTwo.torU K) ∣ 3 :=
     Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
@@ -60,7 +60,7 @@ private theorem exists_noncyclic_pSubgroup_of_quot (hK : Nat.card K = 4) {L : Su
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :
     ∃ S : Subgroup G, S ≤ L ∧ IsPGroup 3 S ∧ ¬ IsCyclic S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : ↥L →* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
     θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥L))
   have hπ : Function.Surjective π :=
@@ -90,16 +90,16 @@ private theorem exists_noncyclic_pSubgroup_of_quot (hK : Nat.card K = 4) {L : Su
     have hQmap : (Q : Subgroup ↥P).map φ = ⊤ := by
       rw [← Sylow.coe_mapSurjective (f := φ) hφ Q]
       exact hQtop
-    refine ⟨(Q : Subgroup ↥P).map P.subtype, Q.isPGroup'.map P.subtype, ?_⟩
+    refine ⟨(Q : Subgroup ↥P).map P.subtype, Q.isPGroup.map P.subtype, ?_⟩
     intro hScyc
-    haveI : IsCyclic ((Q : Subgroup ↥P).map P.subtype) := hScyc
+    have : IsCyclic ((Q : Subgroup ↥P).map P.subtype) := hScyc
     have hQcyc : IsCyclic ↥Q :=
       isCyclic_of_injective
         (Subgroup.equivMapOfInjective (Q : Subgroup ↥P) P.subtype
           (Subgroup.subtype_injective P)).toMonoidHom
         (Subgroup.equivMapOfInjective (Q : Subgroup ↥P) P.subtype
           (Subgroup.subtype_injective P)).injective
-    haveI : IsCyclic ↥Q := hQcyc
+    have : IsCyclic ↥Q := hQcyc
     let ψ : ↥Q →* ↥(USixTwo.torU K) := φ.comp (Q : Subgroup ↥P).subtype
     have hψ : Function.Surjective ψ := by
       intro e
@@ -110,7 +110,7 @@ private theorem exists_noncyclic_pSubgroup_of_quot (hK : Nat.card K = 4) {L : Su
   obtain ⟨Q, hQp, hQnc⟩ := hnc
   refine ⟨Q.map L.subtype, Subgroup.map_subtype_le Q, hQp.map L.subtype, ?_⟩
   intro hcyc
-  haveI : IsCyclic (Q.map L.subtype) := hcyc
+  have : IsCyclic (Q.map L.subtype) := hcyc
   exact hQnc (isCyclic_of_injective
     (Subgroup.equivMapOfInjective Q L.subtype (Subgroup.subtype_injective L)).toMonoidHom
     (Subgroup.equivMapOfInjective Q L.subtype (Subgroup.subtype_injective L)).injective)
@@ -195,10 +195,10 @@ private theorem e6QTwoSixNormalizesL (hK : Nat.card K = 4) {L : Subgroup G} {x :
     intro h k hh hk
     refine ⟨L.mul_mem (L.mul_mem hk hh.1) (L.inv_mem hk), ?_⟩
     exact (Subgroup.normal_subgroupOf_iff hMleC).mp hMnorm h k hh.2 (hLx hk)
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := by
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := by
     have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1 hK' 6
         (by norm_num) (by norm_num)
     exact θ.isSimpleGroup
@@ -208,7 +208,7 @@ private theorem e6QTwoSixNormalizesL (hK : Nat.card K = 4) {L : Subgroup G} {x :
   have hLL : ⁅L, L⁆ = L := by
     rw [← Subgroup.map_subtype_commutator L, hperf, htopmap]
   have hLeqM : L = M := by
-    haveI hSqnorm : (S.map q).Normal := hSnorm.map q (QuotientGroup.mk'_surjective _)
+    have hSqnorm : (S.map q).Normal := hSnorm.map q (QuotientGroup.mk'_surjective _)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (S.map q) with hbot | htop
     · exfalso
       have hinf_le_center : L ⊓ M ≤ (Subgroup.center ↥L).map L.subtype := by
@@ -315,6 +315,7 @@ private theorem e6QTwoSixNormalizesL (hK : Nat.card K = 4) {L : Subgroup G} {x :
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   exact hLeqM.symm
 
+omit [Finite G] in
 private theorem e6QTwoSixConjPowOdd {x g : G} (hgx : g * x * g⁻¹ = x⁻¹)
     {j : ℕ} (hj : Odd j) : g ^ j * x * (g ^ j)⁻¹ = x⁻¹ := by
   obtain ⟨m, rfl⟩ := hj

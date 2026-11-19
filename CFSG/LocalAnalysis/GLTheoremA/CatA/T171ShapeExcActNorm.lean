@@ -77,7 +77,7 @@ private theorem exists_norm_hom_of_hom_T
       iterHom S.D.step s g' * g'⁻¹ ∈ (outerOrbitFamily S hT i hs hmin).Z → ⁅g, g'⁆ ∈ θ.range)
     (hθZ : ∀ c, θ c ∈ (outerOrbitFamily S hT i hs hmin).Z → c ∈ Subgroup.center C)
     {y : ModGL τ L}
-    (hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
+    (_hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
     (hyF : S.D.step y = y)
     {α : MulAut C} (hθα : ∀ c, θ (α c) = y * θ c * y⁻¹) :
     ∃ f : C →* ModGL τ L,
@@ -197,7 +197,6 @@ theorem centerQuotientHom_subgroupStabRestrict_mem_innAutDerived_of_norm
   have hαγ : ∀ c, γ (π c) = π (α c) := by
     intro c
     apply Subtype.ext
-    change ((γ (π c) : R) : ModGL τ L) = ((π (α c) : R) : ModGL τ L)
     change ((CFSG.GroupActions.subgroupStabRestrict R ⟨MulAut.conj y, hyStab⟩)
       (π c) : ModGL τ L) = ((π (α c) : R) : ModGL τ L)
     rw [CFSG.GroupActions.subgroupStabRestrict_apply]

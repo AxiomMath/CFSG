@@ -79,9 +79,9 @@ theorem pow_count_dvd_prod_cyclotomic (c : ℕ) (l : List ℕ) :
     rw [List.map_cons, List.prod_cons, List.count_cons]
     by_cases hdc : d = c
     · subst hdc
-      simp only [beq_self_eq_true, if_true, pow_succ, mul_comm (cyclotomic d ℤ ^ _)]
+      simp only [beq_self_eq_true, ite_true, pow_succ, mul_comm (cyclotomic d ℤ ^ _)]
       exact mul_dvd_mul_left _ ih
-    · simp only [beq_iff_eq, hdc, if_false, add_zero]
+    · simp only [beq_iff_eq, hdc, ite_false, add_zero]
       exact ih.mul_left _
 
 end CyclotomicList
@@ -107,9 +107,9 @@ theorem rootMultiplicity_cyclotomic_modp {q : ZMod p} {c d : ℕ} (hp7 : 7 ≤ p
     have h1 : 0 < rootMultiplicity q (cyclotomic d (ZMod p)) :=
       (rootMultiplicity_pos (cyclotomic_ne_zero d _)).2 hr
     have h2 := rootMultiplicity_le_one_of_separable (separable_cyclotomic d (ZMod p)) q
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     omega
-  · rw [if_neg hdc]
+  · rw [ite_eq_right hdc]
     refine rootMultiplicity_eq_zero fun hr => hdc ?_
     have hmc : m = c := by
       have := (hroot.1 hr).eq_orderOf

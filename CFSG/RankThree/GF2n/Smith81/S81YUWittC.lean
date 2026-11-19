@@ -15,8 +15,9 @@ open CFSG.RankThree.GF2n.Smith81.U6Cube CFSG.RankThree.GF2n.Smith81.A5Cube
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
+omit [Finite F] in
 theorem u6_move_core (hσ : IsUnitaryInvolution σ) {a b : Fin 6 → F} (ha : a ≠ 0)
-    (haa : herm σ a a = 0) (hbb : herm σ b b = 0) (hab : herm σ a b = 0)
+    (_haa : herm σ a a = 0) (hbb : herm σ b b = 0) (hab : herm σ a b = 0)
     {v : Fin 3 → Fin 6 → F} (hv : ιMulti F 3 v ≠ 0) (hiso : ∀ i j, ∑ k, σ (v i k) * v j k = 0)
     (hav : a ∈ Submodule.span F (Set.range v)) :
     ∃ h : SUid σ 6, ((h : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).mulVec a = a ∧
@@ -55,7 +56,7 @@ theorem u6_move_core (hσ : IsUnitaryInvolution σ) {a b : Fin 6 → F} (ha : a 
   ·
     have hb : herm σ X b ≠ 0 ∨ herm σ Y b ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       obtain ⟨hXb, hYb⟩ := hcon
       have hbX : herm σ b X = 0 := by rw [herm_conj σ hσ.invol X b, hXb, map_zero]
       have hbY : herm σ b Y = 0 := by rw [herm_conj σ hσ.invol Y b, hYb, map_zero]

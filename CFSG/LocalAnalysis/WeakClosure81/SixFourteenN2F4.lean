@@ -11,9 +11,10 @@ open CFSG.Quasithin CFSG.Open
 
 variable {W : Type*} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem fixV_eq_bot_of_irreducible {G X : Subgroup (MulAut W)}
     (hirr : ∀ Z : Subgroup W, (∀ g ∈ G, ∀ z ∈ Z, g z ∈ Z) → Z = ⊥ ∨ Z = ⊤)
-    (hXG : X ≤ G) (hXnorm : ∀ g ∈ G, ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hXne : X ≠ ⊥) :
+    (_hXG : X ≤ G) (hXnorm : ∀ g ∈ G, ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hXne : X ≠ ⊥) :
     fixV X = ⊥ := by
   have hInv : ∀ g ∈ G, ∀ z ∈ fixV X, g z ∈ fixV X := by
     intro g hg z hz

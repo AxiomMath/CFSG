@@ -146,9 +146,9 @@ theorem e6_exists_Y [CharP k 2] {t : kˣ} (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1)
       3 ^ 4 ≤ Nat.card Y ∧ u * u = 1 ∧ u ∉ Subgroup.center (fixedGroup k θ) ∧
       (∀ y ∈ Y, y * u = u * y) ∧ z ∈ Subgroup.center (fixedGroup k θ) ∧ z ^ 3 = 1 ∧ z ≠ 1 ∧
       z ∉ Y := by
-  haveI : Finite (Module.End k (Fin e6Data.d →₀ k)) := Module.finite_of_finite k
-  haveI : Finite (e6Data_valid.minGroup k) := inferInstance
-  haveI : Finite (fixedGroup k θ) := inferInstance
+  have : Finite (Module.End k (Fin e6Data.d →₀ k)) := Module.finite_of_finite k
+  have : Finite (e6Data_valid.minGroup k) := inferInstance
+  have : Finite (fixedGroup k θ) := inferInstance
   have hF : ringChar (ZMod 2) = 2 := ZMod.ringChar_zmod_n 2
   let j : ZMod 2 →+* k := ZMod.castHom (dvd_refl 2) k
   have hj : ∀ x, θ (j x) = j x := fun x => by

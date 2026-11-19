@@ -35,7 +35,7 @@ private lemma r925_card_sl2 (p : ℕ) [Fact p.Prime] :
   rw [← CFSG.Open.StatedAPI.card_statedSL 2 (ZMod p), CFSG.Open.StatedAPI.card_statedSL_two,
     Nat.card_zmod]
 
-private lemma r925_three_dvd_card_sl2 {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p) :
+private lemma r925_three_dvd_card_sl2 {p : ℕ} [Fact p.Prime] (_hp : 5 ≤ p) :
     3 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) := by
   rw [r925_card_sl2]
   exact r925_three_dvd_mul_sq_sub_one p
@@ -82,12 +82,12 @@ private lemma r925_sl2Preimage_map {K : Type} [Group K] (hK : commutator K = ⊤
 private lemma r925_sl2Preimage_commutator {K : Type} [Group K] (hK : commutator K = ⊤)
     {p : ℕ} [Fact p.Prime] (ψ : K →* GL (Fin 2) (ZMod p)) :
     ⁅r925_sl2Preimage ψ, r925_sl2Preimage ψ⁆ = r925_sl2Preimage ψ := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hK
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hK
   have hmap := Subgroup.map_commutator (r925_sl2Preimage ψ) (r925_sl2Preimage ψ)
     (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin 2) (ZMod p) →* GL (Fin 2) (ZMod p))
   rw [r925_sl2Preimage_map hK ψ] at hmap
-  haveI : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
+  have : Group.IsPerfect ψ.range := Group.IsPerfect.range ψ
   rw [Subgroup.commutator_eq_self (H := ψ.range)] at hmap
   rw [← r925_sl2Preimage_map hK ψ] at hmap
   exact Subgroup.map_injective Matrix.SpecialLinearGroup.toGL_injective hmap
@@ -175,7 +175,7 @@ private lemma r925_card_normal_sl2_dvd_two {p : ℕ} [Fact p.Prime] (hp : 5 ≤ 
       rw [h]
       simpa using r925_three_dvd_card_sl2 (p := p) hp
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3top
-    exact h3 x x.2 (by simpa [hx] using dvd_refl 3)
+    exact h3 x x.2 (by simp [hx])
   · exact (Subgroup.card_dvd_of_le h).trans (by rw [r925_card_center_sl2 hp])
 
 private lemma r925_card_range_of_top_dvd_two {K : Type} [Group K] (hK : commutator K = ⊤)
@@ -184,7 +184,7 @@ private lemma r925_card_range_of_top_dvd_two {K : Type} [Group K] (hK : commutat
     (hN3 : ∀ n ∈ N, ¬ 3 ∣ orderOf n) : Nat.card N ∣ 2 := by
   let e := r925_equiv_range_of_top hK ψ htop
   let N' : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) := N.comap e.toMonoidHom
-  haveI hN'normal : N'.Normal := (inferInstance : N.Normal).comap e.toMonoidHom
+  have hN'normal : N'.Normal := (inferInstance : N.Normal).comap e.toMonoidHom
   have hN'3 : ∀ n ∈ N', ¬ 3 ∣ orderOf n := by
     intro n hn h3
     exact hN3 (e n) hn (by rw [MulEquiv.orderOf_eq e n]; exact h3)
@@ -202,14 +202,14 @@ private lemma r925_normal_3free_ne_top {B : Type} [Group B] [Finite B] (N : Subg
     rw [htop]
     simpa using hB3
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3N
-  exact hN3 x x.2 (by simpa [hx] using dvd_refl 3)
+  exact hN3 x x.2 (by simp [hx])
 
 private lemma r925_quotient_card_eq {K : Type} [Group K] [Finite K]
     {p : ℕ} [Fact p.Prime] (ψ : K →* GL (Fin 2) (ZMod p)) (W : Subgroup K) [W.Normal]
     (hsimple : IsSimpleGroup (K ⧸ W)) (hNne : W.map ψ.rangeRestrict ≠ ⊤) :
     Nat.card (↥ψ.range ⧸ W.map ψ.rangeRestrict) = Nat.card (K ⧸ W) := by
   let N : Subgroup ↥ψ.range := W.map ψ.rangeRestrict
-  haveI hNnormal : N.Normal :=
+  have hNnormal : N.Normal :=
     Subgroup.Normal.map (inferInstance : W.Normal) ψ.rangeRestrict
       ψ.rangeRestrict_surjective
   have hle : W ≤ N.comap ψ.rangeRestrict := fun w hw => Subgroup.mem_map_of_mem _ hw
@@ -278,7 +278,7 @@ private lemma r925_isSimpleGroup_of_isL3Five {X : Type} [Group X] (h : IsL3Five 
     IsSimpleGroup X := by
   rcases h with ⟨-, hsc⟩ | ⟨h0, -, -⟩ | ⟨h0, -, -⟩ | ⟨h0, -, -⟩
   · obtain ⟨-, K, _, _, _, ⟨e⟩⟩ := hsc
-    haveI : IsSimpleGroup (StatedProj (StatedSL 3 K)) :=
+    have : IsSimpleGroup (StatedProj (StatedSL 3 K)) :=
       CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (by norm_num) (by omega) (by omega)
     exact e.isSimpleGroup
   all_goals omega
@@ -292,7 +292,7 @@ private lemma r925_card_of_isL3Five {X : Type} [Group X] (h : IsL3Five X) :
 private lemma r925_isSimpleGroup_of_isAlt {X : Type} [Group X] (h : IsAlt X 5) :
     IsSimpleGroup X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   exact e.isSimpleGroup
 
 private lemma r925_card_of_isAlt {X : Type} [Group X] (h : IsAlt X 5) :
@@ -310,7 +310,7 @@ theorem r925_gl2_trivial_of_l35 {K : Type} [Group K] [Finite K]
     (hq : IsL3Five (K ⧸ W)) (p : ℕ) [Fact p.Prime] (hp : 5 ≤ p)
     (ψ : K →* GL (Fin 2) (ZMod p)) : ψ = 1 := by
   by_contra hψ
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hK
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hK
   have hBne : ψ.range ≠ ⊥ := fun h => hψ ((MonoidHom.range_eq_bot_iff).mp h)
   have hB'map : (r925_sl2Preimage ψ).map (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin 2) (ZMod p) →* GL (Fin 2) (ZMod p)) = ψ.range :=
@@ -321,7 +321,7 @@ theorem r925_gl2_trivial_of_l35 {K : Type} [Group K] [Finite K]
     intro h
     exact hBne (by rw [← hB'map, h, Subgroup.map_bot])
   let N : Subgroup ↥ψ.range := W.map ψ.rangeRestrict
-  haveI hNnormal : N.Normal :=
+  have hNnormal : N.Normal :=
     Subgroup.Normal.map (inferInstance : W.Normal) ψ.rangeRestrict
       ψ.rangeRestrict_surjective
   have hN3 : ∀ n ∈ N, ¬ 3 ∣ orderOf n := by
@@ -374,7 +374,7 @@ theorem r925_gl2_of_a5 {K : Type} [Group K] [Finite K]
   by_cases hψ : ψ = 1
   · exact Or.inl hψ
   right
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hK
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hK
   have hBne : ψ.range ≠ ⊥ := fun h => hψ ((MonoidHom.range_eq_bot_iff).mp h)
   have hB'map : (r925_sl2Preimage ψ).map (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin 2) (ZMod p) →* GL (Fin 2) (ZMod p)) = ψ.range :=
@@ -385,7 +385,7 @@ theorem r925_gl2_of_a5 {K : Type} [Group K] [Finite K]
     intro h
     exact hBne (by rw [← hB'map, h, Subgroup.map_bot])
   let N : Subgroup ↥ψ.range := W.map ψ.rangeRestrict
-  haveI hNnormal : N.Normal :=
+  have hNnormal : N.Normal :=
     Subgroup.Normal.map (inferInstance : W.Normal) ψ.rangeRestrict
       ψ.rangeRestrict_surjective
   have hN3 : ∀ n ∈ N, ¬ 3 ∣ orderOf n := by

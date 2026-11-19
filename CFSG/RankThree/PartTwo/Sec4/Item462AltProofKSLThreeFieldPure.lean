@@ -18,7 +18,7 @@ theorem core_field_pure {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : PiFie
     (hβ' : ∀ s : slPi π 3 (p ^ f) K,
       ((β' s : slPi π 3 (p ^ f) K) : GL (Fin 3) K) = frobGL σ (s : GL (Fin 3) K))
     (hD : NoncyclicDatum β') : False := by
-  haveI := hK.finite
+  have := hK.finite
   have hβ'3 : β' ^ 3 = 1 := by
     refine MulEquiv.ext fun s => ?_
     simp only [pow_three, MulAut.mul_apply, MulAut.one_apply]

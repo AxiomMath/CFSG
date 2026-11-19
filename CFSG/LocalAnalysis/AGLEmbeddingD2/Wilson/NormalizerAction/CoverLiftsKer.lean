@@ -52,7 +52,7 @@ theorem exists_lifts_closure {X S : Type*} [Group X] [Group S] [Finite X]
     have hidx' : ¬ 3 ∣ H'.index := by rw [H.index_comap_of_surjective hπ]; exact hidx
     obtain ⟨Q⟩ : Nonempty (Sylow 3 H') := inferInstance
     have hQp : IsPGroup 3 ((Q : Subgroup H').map H'.subtype) :=
-      Q.isPGroup'.map H'.subtype
+      Q.isPGroup.map H'.subtype
     have hQi : ¬ 3 ∣ ((Q : Subgroup H').map H'.subtype).index := by
       rw [Subgroup.index_map_subtype, Nat.Prime.dvd_mul Fact.out]
       exact not_or.mpr ⟨Q.not_dvd_index, hidx'⟩

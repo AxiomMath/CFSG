@@ -60,9 +60,9 @@ private theorem caseA_le_Vt (h34 : Stroth34Statement) (h311a : Stroth311aStateme
   rw [hTt, ← stroth_10_5 h34 h311a hspread G M Q Z B hc n t H ht] at hT
   exact hT
 
-private theorem caseB_le_Vt (h34 : Stroth34Statement) (hspread : StrothNoA2SpreadStatement)
-    {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n) {t w : G}
-    (ht : Good103 M Q Z B t) (hw : w ∈ Z) (htw : Good101 M Q Z B (t * w))
+private theorem caseB_le_Vt (_h34 : Stroth34Statement) (_hspread : StrothNoA2SpreadStatement)
+    {hc : Ctx M Q Z B} {n : ℕ} (_H : Sec10Hyp hc n) {t w : G}
+    (ht : Good103 M Q Z B t) (hw : w ∈ Z) (_htw : Good101 M Q Z B (t * w))
     {Y' : Subgroup G} (hs' : Sit M Q Z Y' (t * w)) (hA : ¬ CaseA Q Z (t * w)) :
     Q ⊓ QB Y' ≤ Vt M (LB M Q B) B Z t := by
   rw [CaseA] at hA

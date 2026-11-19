@@ -27,7 +27,7 @@ noncomputable section
 
 namespace CFSG.BenderSuzuki
 
-open MatrixGroups
+open _root_.CFSG.BenderSuzuki.MatrixGroups
 
 private theorem lemma115_zmodTwo_eq_zero_or_one (z : ZMod 2) :
     z = 0 ∨ z = 1 := by
@@ -66,7 +66,7 @@ private theorem lemma115_quadratic_zero_cover
   · obtain ⟨b, hb⟩ : ∃ b, L b = 1 := by
       have hexists : ∃ b, L b ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         apply hL
         ext b
         exact h b
@@ -117,7 +117,7 @@ public theorem lemma115_quadratic_trace_zero_count
       exact congrArg Subtype.val hxy
     have hcard := Nat.card_le_card_of_injective lift hlift
     omega
-  · push_neg at hQ
+  · push Not at hQ
     obtain ⟨a, ha⟩ := hQ
     have hQa : Q a = 1 :=
       (lemma115_zmodTwo_eq_zero_or_one (Q a)).resolve_left ha
@@ -474,7 +474,7 @@ private theorem lemma115_suzuki_parameter_card_lower_bound (m : ℕ) :
       theta a * (a ^ 2 + a + 1) + a ^ 2}
   let Param := Σ a : Z, D a
   change 2 ^ (2 * m) ≤ Nat.card Param
-  letI : Fintype Z := Fintype.ofFinite Z
+  let : Fintype Z := Fintype.ofFinite Z
   have hDcard (a : Z) : Nat.card (D a) = 2 := by
     exact lemma115_artinSchreier_fiber_card_two m
       (theta a * (a ^ 2 + a + 1) + a ^ 2)
@@ -606,10 +606,11 @@ private theorem lemma115_suzuki_commuting_matrix
     field_simp [hu, huReorder, hrne] <;>
     ring_nf <;>
     simp [hchar, hthree, hfour, hfive, hsix, hseven, height, hnine] <;>
-    try simp [hdSq, hrSq, hthetaU, u] <;>
-    field_simp [huReorder] <;>
-    ring_nf <;>
-    simp [hchar, hthree, hfour, hfive, hsix, hseven, height]
+    try
+      simp [hdSq, hrSq, hthetaU, u]
+      field_simp [huReorder]
+      ring_nf
+      simp [hchar, hthree, hfour, hfive, hsix, hseven, height]
   all_goals
     field_simp [huReorder]
     ring_nf
@@ -628,7 +629,7 @@ set_option maxHeartbeats 1200000 in
 /-- The standard Suzuki element `R(0,1)W` has order five. -/
 public theorem lemma115_suzuki_standard_order_five (m : ℕ) :
     orderOf (lemma115_suzukiStandardElement m) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   have hchar :
       (1 + 1 : PFAppendixIII.BinaryGaloisField (2 * m + 1)) = 0 :=
     CharTwo.add_self_eq_zero 1

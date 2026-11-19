@@ -33,7 +33,7 @@ private lemma sylowMap_le_pCore (h : Hyp1411 X L S) (P : Sylow 2 ↥(CFSG.pPrime
   obtain ⟨-, -, -, -, -, -, -, hmin⟩ := h
   have hnorm : normalizer (sylowMap P : Set X) = ⊤ :=
     hmin _ ((pCore_le_sylowMap P).trans le_normalizer) (Sylow.normalizer_sup_eq_top P)
-  exact le_sSup ⟨normalizer_eq_top_iff.1 hnorm, P.isPGroup'.map _⟩
+  exact le_sSup ⟨normalizer_eq_top_iff.1 hnorm, P.isPGroup.map _⟩
 
 theorem mem_pCore_of_mem_pPrimeCore_of_hyp1411 (h : Hyp1411 X L S) {s : X} (hs : s ∈ S)
     (hsK : s ∈ CFSG.pPrimeCore 3 X) : s ∈ CFSG.pCore 2 X := by

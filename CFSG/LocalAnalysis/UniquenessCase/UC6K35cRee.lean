@@ -22,8 +22,8 @@ theorem card_lt_sq_of_lieModel_twistedG2 {L : Type} [Group L] [Finite L] {n : �
   obtain ⟨-, -, -, ⟨a', ha', hfa'⟩, hiso⟩ := CFSG.LieType.Ree.small_Ree_model_Schreier L 3 n hrt
   obtain ⟨-, a, hfa, X, _, _, hXcard, ⟨e2⟩⟩ := hrt
   have ha : 1 ≤ a := by omega
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype X := Fintype.ofFinite X
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hchar : CharP X CFSG.LieType.Ree.ReeTag.G2.prime :=
     charP_of_card_eq_prime_pow (p := 3) (f := n) (by rw [← Nat.card_eq_fintype_card, hXcard])
   obtain ⟨E⟩ := hiso a X hfa hXcard ⟨e2⟩

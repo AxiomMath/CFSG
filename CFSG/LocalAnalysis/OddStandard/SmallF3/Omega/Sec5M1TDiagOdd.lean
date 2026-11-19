@@ -24,7 +24,7 @@ private theorem sec5m1t_aux_swap3 (i j k : Fin 6) (hij : i ≠ j) (hik : i ≠ k
     (Equiv.swap i j * Equiv.swap j k) ^ 3 = 1 := by
   decide +kernel +revert
 
-private theorem sec5m1t_aux_alt (i j k : Fin 6) (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) :
+private theorem sec5m1t_aux_alt (i j k : Fin 6) (hij : i ≠ j) (_hik : i ≠ k) (hjk : j ≠ k) :
     Equiv.swap i j * Equiv.swap j k ∈ alternatingGroup (Fin 6) :=
   Equiv.Perm.mul_mem_alternatingGroup_of_isSwap
     (Equiv.Perm.swap_isSwap_iff.mpr hij) (Equiv.Perm.swap_isSwap_iff.mpr hjk)

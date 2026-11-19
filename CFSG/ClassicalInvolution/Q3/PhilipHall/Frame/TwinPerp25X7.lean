@@ -52,7 +52,7 @@ theorem exists_badCompl_of_bad (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (hQ 
     intro hlt
     have hb2 : b * b = 1 := by
       have h2 : IsPGroup 2 (Subgroup.zpowers b) :=
-        S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hbA.1)
+        S.isPGroup.to_le (Subgroup.zpowers_le.mpr hbA.1)
       obtain ⟨n, hn⟩ := h2.exists_card_eq
       rw [Nat.card_zpowers] at hn hlt
       have hn1 : n ≤ 1 := by
@@ -112,7 +112,7 @@ theorem false_of_stronglyClosed_G (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (
   have hz2 : z * z = 1 := hyp.std.setting.hz.sq
   have hzS : ∀ s ∈ (S : Subgroup G), s * z = z * s := hyp.hzS
   have hΩ : HypOmegaGen Ω := hyp.std.1.stand.hyp
-  have hN2 : IsPGroup 2 N := S.isPGroup'.to_le (hNA.trans inf_le_left)
+  have hN2 : IsPGroup 2 N := S.isPGroup.to_le (hNA.trans inf_le_left)
   obtain ⟨b, hbN, hb1, hb2, hbc⟩ := CX.exists_central_involution (E := N) (B := N) hN2 le_rfl
     Subgroup.le_normalizer hN1
   have hbA : b ∈ cA S R R' := hNA hbN
@@ -162,17 +162,17 @@ theorem false_of_stronglyClosed_G (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (
       (fun e he => hx (actOf hyp hb2 ⟨e, hNb he⟩) (hmemL e he))
     refine ⟨⟨y, hy, hyC⟩, ?_⟩
     exact hyx
-  haveI : IsSimpleGroup ↥(genFittingFStar G) := CoreLike.fstar_simple
+  have : IsSimpleGroup ↥(genFittingFStar G) := CoreLike.fstar_simple
   have hsolv : Group.IsSolvable ↥(Subgroup.centralizer (N : Set G)) :=
     CFSG.ClassicalInvolution.Q3.isSolvable_centralizer_of_stronglyClosed_fstar CoreLike.fstar_nonab CoreLike.oddCore_eq_bot S
       (hNA.trans inf_le_left) hN1 hsc
   have hsolvM : Group.IsSolvable ↥(TwinDisc.coreLayer Ω b ⊓ Subgroup.centralizer (N : Set G)) :=
-    solvable_of_solvable_injective (f := Subgroup.inclusion
+    Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion
       (inf_le_right : TwinDisc.coreLayer Ω b ⊓ Subgroup.centralizer (N : Set G) ≤
         Subgroup.centralizer (N : Set G)))
       (Subgroup.inclusion_injective _)
-  have hsolvR : Group.IsSolvable ↥f.range := solvable_of_surjective f.rangeRestrict_surjective
-  exact hns (solvable_of_solvable_injective (f := Subgroup.inclusion hfix)
+  have hsolvR : Group.IsSolvable ↥f.range := Group.isSolvable_of_surjective f.rangeRestrict_surjective
+  exact hns (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hfix)
     (Subgroup.inclusion_injective _))
 
 theorem false_of_mixedClosed (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (hQ : QTFAt hyp) (hSqL : SqZLAt hyp)

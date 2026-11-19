@@ -14,8 +14,8 @@ open scoped Pointwise
 
 private theorem r925_isElemAbelian_card_three {G : Type} [Group G] [Finite G] {D : Subgroup G}
     (hD : Nat.card D = 3) : CFSG.Open.IsElemAbelian 3 D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic ↥D := isCyclic_of_prime_card hD
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic ↥D := isCyclic_of_prime_card hD
   refine ⟨inferInstance, fun x hx => ?_⟩
   have h1 : orderOf x ∣ 3 := by
     rw [← hD]
@@ -24,7 +24,7 @@ private theorem r925_isElemAbelian_card_three {G : Type} [Group G] [Finite G] {D
 
 private theorem r925_pPrimeCore_modO3p_eq_bot {Γ : Type} [Group Γ] [Finite Γ] :
     CFSG.pPrimeCore 3 (ModO3p Γ) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3
 
 private theorem r925_eq_of_card_prime_of_isCyclic {G : Type} [Group G] [Finite G]
@@ -50,11 +50,11 @@ private theorem r925_exists_smul_conj_of_card_prime_of_pRank_le_one
   obtain ⟨P₂, hH₂P₂⟩ := hP₂.exists_le_sylow
   have hp : p.Prime := Fact.out
   have hcyc₁ : IsCyclic ↥P₁ := by
-    refine CFSG.isCyclic_of_pRank_le_one hp hp2 P₁.isPGroup' ?_
+    refine CFSG.isCyclic_of_pRank_le_one hp hp2 P₁.isPGroup ?_
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (P₁ : Subgroup G)]
     exact (CFSG.SectionRank.pRank_mono hp.one_lt le_top).trans hrank
   have hcyc₂ : IsCyclic ↥P₂ := by
-    refine CFSG.isCyclic_of_pRank_le_one hp hp2 P₂.isPGroup' ?_
+    refine CFSG.isCyclic_of_pRank_le_one hp hp2 P₂.isPGroup ?_
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (P₂ : Subgroup G)]
     exact (CFSG.SectionRank.pRank_mono hp.one_lt le_top).trans hrank
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P₁ P₂
@@ -121,7 +121,7 @@ theorem R925Ctx.threeGen_k {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup 
 
 private theorem r925_kbar_pRank_aux {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
     (h : R925Ctx Γ Y K M) : CFSG.Open.pRank 3 (K.map (toModO3p Γ)) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJ : ∀ x ∈ CFSG.pPrimeCore 3 Γ, ¬ 3 ∣ orderOf x := r925_pPrimeCore_orderOf
   refine le_antisymm ?_ ?_
   · calc CFSG.Open.pRank 3 (K.map (toModO3p Γ))
@@ -141,8 +141,8 @@ private theorem r925_kbar_pRank_aux {Γ : Type} [Group Γ] [Finite Γ] {Y K M : 
 
 theorem r925_sup_eq_top {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
     (h : R925Ctx Γ Y K M) : K ⊔ M = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hKn : K.Normal := h.normal_k
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hKn : K.Normal := h.normal_k
   obtain ⟨D, hDY, hD3⟩ := h.y_cover.exists_subgroup_card_three
   have hDM : D ≤ M := hDY.trans h.y_le
   have hDK : D ≤ K := hDY.trans h.y_le_k
@@ -159,7 +159,7 @@ theorem r925_sup_eq_top {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (P : Subgroup ↥K)]
     exact (CFSG.SectionRank.pRank_mono (by norm_num) le_top).trans hKrank
   have hcycP : IsCyclic ↥P :=
-    CFSG.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) P.isPGroup' hPrank
+    CFSG.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) P.isPGroup hPrank
   have hDleP' : D ≤ P.map K.subtype := by
     have hle := Subgroup.map_mono (f := K.subtype) hDKP
     rwa [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hDK] at hle
@@ -180,10 +180,10 @@ theorem r925_sup_eq_top {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
 
 theorem r925_kbar_simple {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
     (h : R925Ctx Γ Y K M) : IsSimpleGroup ↥(K.map (toModO3p Γ)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Kb : Subgroup (ModO3p Γ) := K.map (toModO3p Γ)
   have hKbNormal : Kb.Normal := h.normal_k.map _ (QuotientGroup.mk'_surjective _)
-  haveI : Kb.Normal := hKbNormal
+  have : Kb.Normal := hKbNormal
   have hJ : ∀ x ∈ CFSG.pPrimeCore 3 Γ, ¬ 3 ∣ orderOf x := r925_pPrimeCore_orderOf
   let S : Set ↥Y := {y : ↥Y | orderOf y = 3}
   let T : Set Γ := Y.subtype '' S
@@ -234,7 +234,7 @@ theorem r925_kbar_simple {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ
     have hDbot : D.map (toModO3p Γ) = ⊥ := le_bot_iff.mp hle
     rw [hDbot, Subgroup.card_bot] at hDbar_card
     omega
-  haveI : Nontrivial ↥Kb := (Subgroup.nontrivial_iff_ne_bot Kb).mpr hKb_ne_bot
+  have : Nontrivial ↥Kb := (Subgroup.nontrivial_iff_ne_bot Kb).mpr hKb_ne_bot
   have hrankKb : CFSG.Open.pRank 3 (⊤ : Subgroup ↥Kb) ≤ 1 := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup Kb]
     exact le_of_eq (r925_kbar_pRank_aux h)
@@ -292,12 +292,12 @@ theorem r925_kbar_nonabelian {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgrou
     intro a b
     by_contra hab
     exact hc ⟨a, b, hab⟩
-  haveI : IsMulCommutative ↥(K.map (toModO3p Γ)) := IsMulCommutative.of_comm hcomm
-  haveI hperfK : Group.IsPerfect ↥K := ⟨h.perfect_k⟩
-  haveI : Group.IsPerfect ↥(K.map (toModO3p Γ)) :=
+  have : IsMulCommutative ↥(K.map (toModO3p Γ)) := IsMulCommutative.of_comm hcomm
+  have hperfK : Group.IsPerfect ↥K := ⟨h.perfect_k⟩
+  have : Group.IsPerfect ↥(K.map (toModO3p Γ)) :=
     Group.IsPerfect.ofSurjective (f := (toModO3p Γ).subgroupMap K)
       (MonoidHom.subgroupMap_surjective _ _)
-  haveI : Subsingleton ↥(K.map (toModO3p Γ)) :=
+  have : Subsingleton ↥(K.map (toModO3p Γ)) :=
     Group.IsPerfect.subsingleton_of_isMulCommutative
   obtain ⟨D, hDY, hD3⟩ := h.y_cover.exists_subgroup_card_three
   have hcard : Nat.card (D.map (toModO3p Γ)) = 3 :=
@@ -328,12 +328,12 @@ theorem r925_kbar_kgroup {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ
 theorem r925_kbar_centralizer {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
     (h : R925Ctx Γ Y K M) :
     ∀ x : ModO3p Γ, (∀ k ∈ K.map (toModO3p Γ), x * k = k * x) → x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hx
   let Kb : Subgroup (ModO3p Γ) := K.map (toModO3p Γ)
   have hKbNormal : Kb.Normal := h.normal_k.map _ (QuotientGroup.mk'_surjective _)
-  haveI : Kb.Normal := hKbNormal
-  haveI : IsSimpleGroup ↥Kb := r925_kbar_simple h
+  have : Kb.Normal := hKbNormal
+  have : IsSimpleGroup ↥Kb := r925_kbar_simple h
   let C : Subgroup (ModO3p Γ) := Subgroup.centralizer (Kb : Set (ModO3p Γ))
   have hCNormal : C.Normal := inferInstance
   have hxC : x ∈ C := by
@@ -346,7 +346,7 @@ theorem r925_kbar_centralizer {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgro
     · exact hc
     · exfalso
       obtain ⟨a, b, hab⟩ := r925_kbar_nonabelian h
-      haveI : IsMulCommutative ↥Kb := Subgroup.center_eq_top_iff.mp hc
+      have : IsMulCommutative ↥Kb := Subgroup.center_eq_top_iff.mp hc
       exact hab (mul_comm' a b)
   have hle_center : (C ⊓ Kb).subgroupOf Kb ≤ Subgroup.center ↥Kb := by
     intro y hy

@@ -26,7 +26,7 @@ theorem mem_Op_of_pow_eq_one {F : Subgroup G} (hF : Group.IsNilpotent ↥F) {r :
   have hz : IsPGroup r (Subgroup.zpowers e') := IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
   obtain ⟨P, hP⟩ := hz.exists_le_sylow
   have hnormal := Group.IsNilpotent.sylow_normal hF r P
-  have hle : (P : Subgroup ↥F) ≤ pCore r ↥F := le_sSup ⟨hnormal, P.isPGroup'⟩
+  have hle : (P : Subgroup ↥F) ≤ pCore r ↥F := le_sSup ⟨hnormal, P.isPGroup⟩
   exact ⟨e', hle (hP (Subgroup.mem_zpowers e')), rfl⟩
 
 theorem orderOf_eq_pow_of_mem_Op (r : ℕ) [Fact r.Prime] {B : Subgroup G} {d : G} (hd : d ∈ Op r B) :

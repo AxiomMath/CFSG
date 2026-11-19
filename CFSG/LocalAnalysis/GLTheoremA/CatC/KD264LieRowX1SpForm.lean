@@ -30,15 +30,14 @@ theorem zmod2_neg_eq (x : ZMod 2) : -x = x := by
 theorem stdMat_mulVec_inl (n : ℕ) (w : Fin n ⊕ Fin n → ZMod 2) (i : Fin n) :
     (stdMat n *ᵥ w) (Sum.inl i) = w (Sum.inr i) := by
   simp [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, stdMat, Matrix.fromBlocks_apply₁₂,
-    Matrix.one_apply, Finset.sum_ite_eq', Finset.sum_ite_eq]
+    Matrix.one_apply, Finset.sum_ite_eq]
 
 theorem stdMat_mulVec_inr (n : ℕ) (w : Fin n ⊕ Fin n → ZMod 2) (i : Fin n) :
     (stdMat n *ᵥ w) (Sum.inr i) = w (Sum.inl i) := by
   simp only [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, stdMat, Matrix.fromBlocks_apply₂₁,
-    Matrix.neg_apply, Matrix.one_apply, Matrix.zero_apply, zero_mul, Finset.sum_const_zero,
-    zero_add]
-  rw [Finset.sum_eq_single i (fun b _ hb => by simp [Ne.symm hb, zmod2_neg_eq]) (by simp)]
-  simp [neg_one_mul, zmod2_neg_eq]
+    Matrix.neg_apply, Matrix.one_apply]
+  rw [Finset.sum_eq_single i (fun b _ hb => by simp [Ne.symm hb]) (by simp)]
+  simp
 
 theorem stdForm_apply (n : ℕ) (v w : Fin n ⊕ Fin n → ZMod 2) :
     stdForm n v w = ∑ i : Fin n, (v (Sum.inl i) * w (Sum.inr i) + v (Sum.inr i) * w (Sum.inl i)) := by

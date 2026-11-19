@@ -22,7 +22,7 @@ theorem ofList_ne_empty (l : List Char) : decide (String.ofList l ≠ "") = !l.i
       intro h
       have := congrArg String.toList h
       simp at this
-    simp [this]
+    simp
 
 theorem parseWords_ofList (cs : List Char) (h : toksOKw cs = true) :
     Certificates.S7Twin.parseWords (String.ofList cs) = wordsL cs := by

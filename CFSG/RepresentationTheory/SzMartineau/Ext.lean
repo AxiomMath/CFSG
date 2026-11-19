@@ -221,7 +221,7 @@ theorem addCocycle_eq_coboundary_of {a : ℕ}
       Amat c g = coboundary (natHom a) (twHom a c) (Xmat c) g := by
     intro c hc g
     have hX : Xmat c = Classical.choose (hL2 c hc (Amat c) (hTw c hc)) := by
-      simp only [Xmat, dif_pos hc]
+      simp only [Xmat, dite_eq_left hc]
     rw [hX]
     exact Classical.choose_spec (hL2 c hc (Amat c) (hTw c hc)) g
   refine ⟨frobSum n Xmat, fun g => ?_⟩

@@ -28,8 +28,8 @@ theorem exists_elemAbelian_pRank_three_of_a5Layer_split
   · exact exists_elemAbelian_pRank_three_of_fixSubgroup_split hfix ρ hρ hc hk hq hq2 h
   · obtain ⟨hK2, hq3⟩ := hdiv.resolve_left h
     subst hq3
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
       rw [← Nat.card_eq_fintype_card, hK2]
       norm_num)
     exact exists_elemAbelian_pRank_three_of_fixSubgroup_split_f2 hfix hK2 ρ hρ hc hk

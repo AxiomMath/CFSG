@@ -36,11 +36,11 @@ variable {B : Type} [Group B] [Finite B]
 theorem not_isSimpleGroup_of_isCaseIThreeProd {K : Subgroup B} (h : IsCaseIThreeProd K) :
     ¬ IsSimpleGroup K := by
   intro hs
-  haveI := hs
+  have := hs
   obtain ⟨d, hd, ⟨e⟩⟩ := h
   set Gq := (TauCeti.CFSGIndex.lie d).Group
   have hG : IsCaseTwoGroup 3 Gq := ⟨d, Or.inl ⟨rfl, hd⟩, ⟨MulEquiv.refl _⟩⟩
-  haveI : Finite Gq := Finite.of_injective (fun g : Gq => e.symm (g, 1)) fun a b h => by
+  have : Finite Gq := Finite.of_injective (fun g : Gq => e.symm (g, 1)) fun a b h => by
     simpa using congrArg Prod.fst (e.symm.injective h)
   obtain ⟨x, hx⟩ := L28Sq.exists_ne_one hG
   set N := ((MonoidHom.snd Gq Gq).comp e.toMonoidHom).ker
@@ -54,11 +54,11 @@ theorem not_isSimpleGroup_of_isCaseIThreeProd {K : Subgroup B} (h : IsCaseIThree
 
 theorem two_le_pRank_of_isCaseIThreeProd {K : Subgroup B} (h : IsCaseIThreeProd K) :
     2 ≤ Open.pRank 3 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd, ⟨e⟩⟩ := h
   set Gq := (TauCeti.CFSGIndex.lie d).Group
   have hG : IsCaseTwoGroup 3 Gq := ⟨d, Or.inl ⟨rfl, hd⟩, ⟨MulEquiv.refl _⟩⟩
-  haveI : Finite Gq := Finite.of_injective (fun g : Gq => e.symm (g, 1)) fun a b h => by
+  have : Finite Gq := Finite.of_injective (fun g : Gq => e.symm (g, 1)) fun a b h => by
     simpa using congrArg Prod.fst (e.symm.injective h)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3
     (by rw [L28Sq.card_eq hG]; norm_num : 3 ∣ Nat.card Gq)
@@ -119,7 +119,7 @@ theorem not_three_dvd_card_plusCore (h94 : AGL81NineFourCfg G) (hS : Setting G)
     (hd : AGL81CfgData 3 P M H Q K) (h2 : 2 ≤ Open.pRank 3 K) (hn : ¬ NineFourListGroup 3 K) :
     ¬ 3 ∣ Nat.card (d1PlusCore 3 H K) := by
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : Open.pRank 3 (d1PlusCore 3 H K) ≤ 1 :=
     agl81NineThreeRankCfg_holds hS 3 P M H Q K hd
   have hge : 1 ≤ Open.pRank 3 (d1PlusCore 3 H K) := by

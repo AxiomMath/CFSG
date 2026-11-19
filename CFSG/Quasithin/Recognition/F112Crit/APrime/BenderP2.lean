@@ -47,10 +47,10 @@ theorem benderVertex_P₂ (hR : Hyp111R L1 L2 S) (hS3 : VS3 L1)
     ·
       have hns' : ¬ Group.IsSolvable ↥(CFSG.Open.Sz a) := by
         intro hsolv
-        haveI := hsolv
+        have := hsolv
         exact hns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom)
           e.injective)
-      haveI : IsSimpleGroup ↥(CFSG.Open.Sz a) :=
+      have : IsSimpleGroup ↥(CFSG.Open.Sz a) :=
         (BenderType.suzuki a ha
           (MulEquiv.subgroupCongr (szModel_eq_open_sz a)).symm).isSimple
       have hnc : ∃ x y : ↥(CFSG.Open.Sz a), x * y ≠ y * x := by
@@ -109,12 +109,12 @@ theorem benderVertex_P₂ (hR : Hyp111R L1 L2 S) (hS3 : VS3 L1)
           (Subgroup.map_center_eq e)).trans (QuotientGroup.quotientMulEquivOfEq hZ)
     ·
       obtain ⟨eB, hB⟩ := CFSG.Quasithin.benderType_statedProj hn hF
-      haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F)) :=
+      have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F)) :=
         hB.isSimple
       have hns' : ¬ Group.IsSolvable
           (CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F)) := by
         intro hsolv
-        haveI := hsolv
+        have := hsolv
         exact hns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom)
           e.injective)
       have hnc : ∃ x y : CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F),
@@ -145,7 +145,7 @@ theorem benderVertex_P₂ (hR : Hyp111R L1 L2 S) (hS3 : VS3 L1)
     have hSP : S ≤ P₂ L1 L2 S := by
       rw [hP]
       exact le_sup_right
-    haveI hN : (L2.subgroupOf (P₂ L1 L2 S)).Normal :=
+    have hN : (L2.subgroupOf (P₂ L1 L2 S)).Normal :=
       (CFSG.Quasithin.BlueprintB2.normal_subgroupOf_iff_le_normalizer hL2P).2 hnorm
     have hsup : L2.subgroupOf (P₂ L1 L2 S) ⊔ S.subgroupOf (P₂ L1 L2 S) = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hL2P hSP, ← hP, Subgroup.subgroupOf_self]

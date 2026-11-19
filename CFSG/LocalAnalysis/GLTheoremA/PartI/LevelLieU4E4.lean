@@ -80,7 +80,7 @@ theorem downLe_SU4 (hk : kLevel 3 SU4 ≤ 2)
     rw [hH] at hI
     have hsimp : IsSimpleGroup ↥(CFSG.LocalAnalysis.GLTheoremA.CatB.U48.fixSub α) :=
       CFSG.LocalAnalysis.GLTheoremA.S10.isSimple_of_isU4two hcat
-    haveI := hsimp
+    have := hsimp
     rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hI.2.1 hsimp with h | h
     · exact absurd h (glaPComponent_ne_bot' hI)
     · rw [h]

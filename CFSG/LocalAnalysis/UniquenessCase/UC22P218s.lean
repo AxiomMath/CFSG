@@ -27,14 +27,15 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem uc22p218s_exists_sylow_le_normalizer {p q : ℕ} (hp : p.Prime) (hq : q.Prime) {W A : Subgroup G}
+omit [Finite G] in
+theorem uc22p218s_exists_sylow_le_normalizer {p q : ℕ} (hp : p.Prime) (_hq : q.Prime) {W A : Subgroup G}
     (hA : IsPGroup p A) (hAW : A ≤ normalizer (W : Set G)) (hcard : ¬ p ∣ Nat.card (Sylow q W)) :
     ∃ S : Sylow q W, A ≤ normalizer (((S : Subgroup W).map W.subtype : Subgroup G) : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  letI : MulDistribMulAction ↥A ↥W := Subgroup.conjMulDistribMulActionOfLeNormalizer A W hAW
-  letI : MulAction ↥A (Sylow q W) := Sylow.pointwiseMulAction
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨_hq⟩
+  let : MulDistribMulAction ↥A ↥W := Subgroup.conjMulDistribMulActionOfLeNormalizer A W hAW
+  let : MulAction ↥A (Sylow q W) := Sylow.pointwiseMulAction
   obtain ⟨S, hS⟩ := hA.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q W) hcard
   refine ⟨S, fun a ha => ?_⟩
   have hfix : (⟨a, ha⟩ : ↥A) • (S : Subgroup ↥W) = S := by
@@ -55,6 +56,7 @@ theorem uc22p218s_exists_sylow_le_normalizer {p q : ℕ} (hp : p.Prime) (hq : q.
     have h1 : a * (s : G) * a⁻¹ = a * x * a⁻¹ := hs'x
     simpa using h1
 
+omit [Finite G] in
 theorem uc22p218s_conj_eq_self_of_pow {r : ℕ} [Fact r.Prime] {E : Subgroup G} (hE : ∀ e ∈ E, e ^ r = 1) {x : G}
     {k : ℕ} (hxE : ∀ e ∈ E, x * e * x⁻¹ = e ^ k) {a : ℕ} (hx : x ^ r ^ a = 1) : ∀ e ∈ E, x * e * x⁻¹ = e := by
   intro e he
@@ -81,10 +83,10 @@ theorem uc22p218s_exists_mem_centralizer {p r : ℕ} (hp : p.Prime) (hr : r.Prim
     (hpow : ∀ x ∈ Q, ∃ k : ℕ, ∀ e ∈ E, x * e * x⁻¹ = e ^ k) :
     ∃ x ∈ Q, x ≠ 1 ∧ x ∈ centralizer (E : Set G) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨e₀, he₀E, he₀1⟩ := (bot_or_exists_ne_one E).resolve_left hE1
   have he₀o : orderOf e₀ = r := orderOf_eq_prime (hE.2 e₀ he₀E) he₀1
-  haveI : Fact (Nat.card ↥(zpowers e₀)).Prime := ⟨by rw [Nat.card_zpowers, he₀o]; exact hr⟩
+  have : Fact (Nat.card ↥(zpowers e₀)).Prime := ⟨by rw [Nat.card_zpowers, he₀o]; exact hr⟩
   have hQN : Q ≤ normalizer ((zpowers e₀ : Subgroup G) : Set G) := by
     rw [le_normalizer_iff]
     intro x hx g hg
@@ -124,7 +126,7 @@ theorem uc22p218s_exists_mem_centralizer {p r : ℕ} (hp : p.Prime) (hr : r.Prim
         _ = x * e := by group
     by_contra hx1
     exact hcon ⟨x, x.2, fun h => hx1 (Subtype.ext h), hxC⟩
-  haveI := isCyclic_of_injective_ringHom ψ hψ
+  have := isCyclic_of_injective_ringHom ψ hψ
   have hexp : Monoid.exponent ↥Q ∣ p :=
     Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (by simpa using hQ.2 x x.2)
   rw [IsCyclic.exponent_eq_card, hQc] at hexp
@@ -136,7 +138,7 @@ theorem uc22p218s_exists_mem_centralizer {p r : ℕ} (hp : p.Prime) (hr : r.Prim
 theorem uc22p218s_pRank_top_le_add {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prime) (N C : Subgroup K)
     [N.Normal] (hNC : ∀ k : K, ∃ c ∈ C, c * k⁻¹ ∈ N) (hcop : ∀ c ∈ C, c ∈ N → c ^ p = 1 → c = 1) :
     CFSG.Open.pRank p (⊤ : Subgroup K) ≤ CFSG.Open.pRank p N + CFSG.Open.pRank p C := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : ↥C →* K ⧸ N := (QuotientGroup.mk' N).comp C.subtype
   have hπ : Function.Surjective π := by
     intro y
@@ -190,9 +192,9 @@ theorem uc22p218s_exists_pow_torus {L M : Subgroup G} {n p r : ℕ} (hLM : L ≤
     ∃ E Q : Subgroup G, E ≤ L ∧ IsElemAbelian r E ∧ Nat.card E = r ^ 2 ∧ Q ≤ M ∧ IsElemAbelian p Q ∧
       Nat.card Q = p ^ 2 ∧ ∀ x ∈ Q, ∃ k : ℕ, ∀ e ∈ E, x * e * x⁻¹ = e ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hML : M ≤ normalizer (L : Set G) := le_normalizer_of_normal_subgroupOf hLM
   have hpr : p ≠ r := by
     rintro rfl
@@ -269,8 +271,8 @@ theorem uc22p218s_exists_pow_torus {L M : Subgroup G} {n p r : ℕ} (hLM : L ≤
 theorem uc22p218s_le_centralizer {L M R E : Subgroup G} {n r : ℕ} (hX : IsSp4 (Bar2 L) n) (hr : r.Prime)
     (hr2 : r ≠ 2) (hrn : r ∣ 2 ^ n - 1) (hML : M ≤ normalizer (L : Set G)) (hR : IsSylowOf r R M) (hER : E ≤ R)
     (hEL : E ≤ L) (hEr : ∀ e ∈ E, e ^ r = 1) : E ≤ centralizer (R : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRp : IsPGroup r R := hR.isPGroup
   obtain ⟨S', hS'⟩ := uc22p218s_exists_sylow_le_normalizer hr Nat.prime_two hRp (hR.le.trans hML)
     (uc22p218d_not_dvd_card_sylow_of_bar2 hX hr hrn)
@@ -302,8 +304,8 @@ theorem uc22p218s_false_of_le_normalizer (D : Data G) (Ch : Choice2011 G) (h211 
     (c : Ctx21 D Ch) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {y : G} (hy : orderOf y = r)
     (hyU : zpowers y ∈ uniqueSet D.M) (hyT : zpowers y ≤ normalizer (D.T : Set G)) : False := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
   obtain ⟨a, ha⟩ := hT2.exists_card_eq
   have hyc : Nat.card (zpowers y) = r := by rw [Nat.card_zpowers, hy]
@@ -311,8 +313,8 @@ theorem uc22p218s_false_of_le_normalizer (D : Data G) (Ch : Choice2011 G) (h211 
   have hcard : Nat.card ↥(zpowers y ⊔ D.T) = 2 ^ a * r := by
     rw [sup_comm, CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer D.T (zpowers y) hyT
       (IsPGroup.disjoint_of_ne 2 r hr2.symm _ _ hT2 hyp), ha, hyc]
-  have hsol : IsSolvable ↥(zpowers y ⊔ D.T) := by
-    haveI := Fintype.ofFinite ↥(zpowers y ⊔ D.T)
+  have hsol : Group.IsSolvable ↥(zpowers y ⊔ D.T) := by
+    have := Fintype.ofFinite ↥(zpowers y ⊔ D.T)
     exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := a) (b := 1)
       Nat.prime_two hr (Ne.symm hr2) (by rw [← Nat.card_eq_fintype_card, hcard, pow_one])
   have hhall : IsHallOddIn (zpowers y) (zpowers y ⊔ D.T) := by
@@ -346,8 +348,8 @@ theorem uc22p218s_not_stronglyEmbedded (D : Data G) (Ch : Choice2011 G) (h211 : 
     (hX : IsSp4 (Bar2 L) n) (hn : Odd n) (hr : r.Prime) (hr2 : r ≠ 2) (hrn : r ∣ 2 ^ n - 1) :
     ¬ IsStronglyPEmbedded r D.M := by
   intro hsp
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hyL, hy, hyT⟩ := uc22p218c_exists_orderOf_eq_mem_normalizer_sp4 D.sylowM.isPGroup
     (D.sylowM.le.trans hML) (D.sylowM.inf_of_le_normalizer hLM hML) hX hn dvd_rfl hrn
   have hyp : IsPGroup r (zpowers y) := IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy, pow_one])
@@ -367,10 +369,10 @@ theorem s21_8E_of_conclusion76 (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846.S
   by_contra h4
   have hns := UC6S846.not_solvable_of_mem_calC hL
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hsp := UC6S846.sp_of_mem_sig hSg hns hp
   have hLM : L ≤ D.M := hL.1.le
-  haveI : (L.subgroupOf D.M).Normal := hN hH c L hL n hn hX
+  have : (L.subgroupOf D.M).Normal := hN hH c L hL n hn hX
   have hML : D.M ≤ normalizer (L : Set G) := le_normalizer_of_normal_subgroupOf hLM
   have hCL : ∀ r : ℕ, r.Prime → r ≠ 2 → r ∣ 2 ^ n - 1 → ¬ IsStronglyPEmbedded r D.M := fun r hr hr2 hrn =>
     uc22p218s_not_stronglyEmbedded D Ch h211 hH c hLM hML hX hn hr hr2 hrn
@@ -381,7 +383,7 @@ theorem s21_8E_of_conclusion76 (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846.S
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn3
   obtain ⟨r, hr, hrn⟩ := Nat.exists_prime_and_dvd (show 2 ^ n - 1 ≠ 1 by omega)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22p218c_ne_two_of_dvd (by omega) hrn
   by_cases hrσ : r ∈ D.sig
   · exact hCL r hr hr2 hrn (UC6S846.sp_of_mem_sig hSg hns hrσ)

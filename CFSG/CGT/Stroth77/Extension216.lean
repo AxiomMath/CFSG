@@ -67,20 +67,19 @@ theorem profile4_t130 {m : ℕ} (hm : 3 ≤ m) :
     refine ⟨odd_of_cast_two ?_, odd_of_cast_two ?_, even_of_cast_two ?_, even_of_cast_two ?_,
       odd_of_cast_two ?_⟩ <;>
     simp [Type130.uvM, Type130.uvA, Type130.tM, Type130.ρM, ofCols_mulVec, ofCols_apply, hi, hF,
-      hG, hN] <;> decide
+      hN] <;> decide
   · rw [et]
     refine ⟨odd_of_cast_two ?_, odd_of_cast_two ?_, even_of_cast_two ?_, even_of_cast_two ?_,
       odd_of_cast_two ?_⟩ <;>
-    simp [Type130.tM, Type130.uvA, Type130.ρM, ofCols_mulVec, ofCols_apply, hi, hF, hG,
-      hN] <;> decide
+    simp [Type130.tM, Type130.uvA, Type130.ρM, ofCols_mulVec, ofCols_apply, hi] <;> decide
   · rw [eu]
     refine ⟨odd_of_cast_two ?_, even_of_cast_two ?_, odd_of_cast_two ?_, odd_of_cast_two ?_,
       even_of_cast_two ?_⟩ <;>
-    simp [Type130.uM, uMat, ofCols_apply, hF, hK] <;> decide
+    simp [Type130.uM, uMat, ofCols_apply, hK]
   · rw [eρ]
     refine ⟨odd_of_cast_two ?_, even_of_cast_two ?_, odd_of_cast_two ?_, odd_of_cast_two ?_,
       odd_of_cast_two ?_⟩ <;>
-    simp [Type130.ρM, ofCols_apply] <;> decide
+    simp [Type130.ρM, ofCols_apply]
   · rw [euv]
     refine ⟨1 + 2 ^ (m - 1), -1, ?_, ?_, hKe.one_add, ⟨-1, by norm_num⟩⟩
     · simp [Type130.uvM, ofCols_apply, e2m]

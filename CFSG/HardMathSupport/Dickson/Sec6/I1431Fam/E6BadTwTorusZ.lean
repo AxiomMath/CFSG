@@ -31,13 +31,13 @@ theorem torusZ_single (ζ : Kˣ) (hζ : orderOf ζ = 3) (k : Fin Tag.E6.rank) :
     rw [zeta3Pi_apply]
     by_cases hj : j = k
     · subst hj
-      haveI : Fact (1 < 3) := ⟨by norm_num⟩
+      have : Fact (1 < 3) := ⟨by norm_num⟩
       have h1 : (Pi.single j (1 : ZMod 3) : Fin Tag.E6.rank → ZMod 3) j = 1 :=
         Pi.single_eq_same j 1
       show ζ ^ ((Pi.single j (1 : ZMod 3) : Fin Tag.E6.rank → ZMod 3) j).val =
         (Pi.mulSingle j ζ : Fin Tag.E6.rank → Kˣ) j
       rw [h1, ZMod.val_one, pow_one, Pi.mulSingle_eq_same]
-    · simp [Pi.single_apply, hj, Pi.mulSingle_eq_of_ne hj]
+    · simp [hj]
   rw [this, minTorus_mulSingle]
 
 theorem vT1_eq : vT1 = (Pi.single (nd 3) 1 : Fin Tag.E6.rank → ZMod 3) := by decide +kernel

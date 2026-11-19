@@ -185,7 +185,7 @@ theorem canonical_root_pair_position
       fin_cases j <;> rfl
     have hrhom : rho (-a0) = -a0 := by
       change -rho a0 = -a0
-      rw [hrho] <;> rfl
+      rw [hrho]
     have hPhiEq : S.D.Φ = Phi := hPhi
     have hEta : eta = (MulAut.conj g0⁻¹).toMonoidHom.comp iota0 :=
       hEta0
@@ -298,10 +298,10 @@ theorem canonical_root_pair_position
     · change ((ggU .twistedE6 0 1).D.rootGroup (Pi.single (1 : Fin 4) 1)).map
         (eta.comp (MulAut.conj k).toMonoidHom) = _
       rw [← hconj, ← Subgroup.map_map, hrootp',
-        Subgroup.map_inf _ _ _ (MulAut.conj c).injective, hcV, hMc] <;> rfl
+        Subgroup.map_inf _ _ _ (MulAut.conj c).injective, hcV, hMc]
     · change ((ggU .twistedE6 0 1).D.rootGroup (-Pi.single (1 : Fin 4) 1)).map
         (eta.comp (MulAut.conj k).toMonoidHom) = _
       rw [← hconj, ← Subgroup.map_map, hrootm',
-        Subgroup.map_inf _ _ _ (MulAut.conj c).injective, hcVm, hMc] <;> rfl
+        Subgroup.map_inf _ _ _ (MulAut.conj c).injective, hcVm, hMc]; rfl
 
 end CFSG.StandardType.TwistedE6SourceCover

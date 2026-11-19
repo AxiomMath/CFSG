@@ -31,7 +31,7 @@ open CFSG.KD.BfsK
     Nat.ble (fldW r 0) i && Nat.blt s k && Nat.beq (Nat.land rn M64) (st (Nat.land q M64) s),
     true)
 
-@[expose] noncomputable def sortAtW (R : Nat → Nat) (o n i r rn q qn : Nat) : Bool :=
+@[expose] noncomputable def sortAtW (R : Nat → Nat) (o n i r _rn q qn : Nat) : Bool :=
   bIf(Nat.blt i n, strictW (R (Nat.add o (fldW r 3))) fun s =>
     Nat.blt (fldW r 2) n && Nat.blt (fldW r 3) n && Nat.beq (fldW q 3) i &&
       Nat.beq (fldW s 2) i &&

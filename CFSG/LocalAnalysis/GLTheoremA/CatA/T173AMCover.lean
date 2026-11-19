@@ -74,8 +74,8 @@ private theorem cover_exact_aux {S U R : Type} [Group S] [Finite S] [Group U] [F
   let qS : S →* R := centralQuotientMap e
   have hqS : Function.Surjective qS := centralQuotientMap_surjective e
   have hqSker : qS.ker = Subgroup.center S := centralQuotientMap_ker e
-  haveI : Finite R := finite_of_surjective_monoidHom qS hqS
-  haveI : Group.IsPerfect R := Group.IsPerfect.ofSurjective (f := qS) hqS
+  have : Finite R := finite_of_surjective_monoidHom qS hqS
+  have : Group.IsPerfect R := Group.IsPerfect.ofSurjective (f := qS) hqS
   let W : Subgroup (U × S) := pullback π qS
   have hWmem : ∀ x : W, π (x : U × S).1 = qS (x : U × S).2 :=
     fun x => mem_pullback.mp x.2

@@ -27,6 +27,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S) {X : Subgroup G}
 
+omit [Finite G] in
 private theorem Gw_zero_two : t.Gw 0 2 = t.Gv 0 ⊓ t.Gv 1 ⊓ t.Gv 2 := by
   have h := t.Gw_sub_one_add_one (c := 1)
   norm_num at h
@@ -35,8 +36,8 @@ private theorem Gw_zero_two : t.Gw 0 2 = t.Gv 0 ⊓ t.Gv 1 ⊓ t.Gv 2 := by
 private theorem not_two_dvd_relIndex_oTwoPrime {X : Subgroup G} :
     ¬ 2 ∣ (oTwoPrime X).relIndex X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hN : ((oTwoPrime X).subgroupOf X).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hN : ((oTwoPrime X).subgroupOf X).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (le_normalizer_oTwoPrime X)
   let Q := X ⧸ (oTwoPrime X).subgroupOf X
   have hodd : ∀ q : Q, Odd (orderOf q) := by
@@ -70,7 +71,7 @@ private theorem not_two_dvd_relIndex_oTwoPrime {X : Subgroup G} :
         Nat.not_even_iff_odd.mp (by rwa [even_iff_two_dvd])
       exact Odd.of_dvd_nat hmodd (orderOf_dvd_of_pow_eq_one hmk)
   by_contra h2dvd
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   have h2' : 2 ∣ Fintype.card Q := by
     simpa [Q, Subgroup.relIndex, Subgroup.index, Nat.card_eq_fintype_card] using h2dvd
   obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card 2 h2'
@@ -271,6 +272,7 @@ private theorem ArcSz.pX_A_decomp {a f : ℕ}
   have hsP : s ∈ t.Qv 1 ⊓ t.MX X 0 := hPAS.symm ▸ ⟨hsA, hs⟩
   exact Subgroup.mul_mem_sup hsP hk
 
+omit [Finite G] in
 private theorem ArcSz.pX_supplement
     (hX : t.ArcSz X)
     (hAdecomp : t.MX X 0 ⊓ t.Gv 1 = (t.Qv 1 ⊓ t.MX X 0) ⊔ t.K) :
@@ -462,14 +464,15 @@ private theorem ArcSz.pCoreOf_LX_zero {a f : ℕ}
       rw [h1, h2]
     exact le_pCoreOf_of_le_normalizer 2 inf_le_right hnorm hQ2
 
+omit [Finite G] in
 private theorem ArcSz.isSimpleGroup_sz {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : IsSimpleGroup ↥(Sz a) := by
   have hq := CFSG.Quasithin.Stroth.isQuasisimple_sz a hfr.ha
   have hc := CFSG.Quasithin.Stroth.center_sz a hfr.ha
-  haveI : IsSimpleGroup (↥(Sz a) ⧸ Subgroup.center ↥(Sz a)) := hq.2.1
+  have : IsSimpleGroup (↥(Sz a) ⧸ Subgroup.center ↥(Sz a)) := hq.2.1
   have e0 : (↥(Sz a) ⧸ Subgroup.center ↥(Sz a)) ≃* (↥(Sz a) ⧸ ⊥) :=
     QuotientGroup.quotientMulEquivOfEq hc
-  haveI : IsSimpleGroup (↥(Sz a) ⧸ ⊥) := MulEquiv.isSimpleGroup e0.symm
+  have : IsSimpleGroup (↥(Sz a) ⧸ ⊥) := MulEquiv.isSimpleGroup e0.symm
   exact MulEquiv.isSimpleGroup (QuotientGroup.quotientBot (G := ↥(Sz a))).symm
 
 private theorem ArcSz.LX_zero_Y_data {a f : ℕ}
@@ -524,7 +527,7 @@ private theorem ArcSz.L1_sup_quot_equiv_sz {a f : ℕ}
   have hL1norm : L1 ≤ Subgroup.normalizer (t.Qv 0 : Set G) :=
     ((le_sup_left : L1 ≤ L1 ⊔ bigB L1 L2 S).trans (Gv_zero t).ge).trans
       (Gv_le_normalizer_Qv t 0)
-  haveI : ((t.Qv 0).subgroupOf L1).Normal :=
+  have : ((t.Qv 0).subgroupOf L1).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hL1norm
   have hpc : (L1 ⊓ t.Qv 0).subgroupOf L1 = CFSG.pCore 2 ↥L1 := by
     rw [← pCoreOf_L1_eq t hfr, CFSG.openPCoreOf_subgroupOf]
@@ -532,7 +535,7 @@ private theorem ArcSz.L1_sup_quot_equiv_sz {a f : ℕ}
     ext x
     simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
     exact ⟨fun h => h.2, fun h => ⟨x.2, h⟩⟩
-  haveI hNpc : ((L1 ⊓ t.Qv 0).subgroupOf L1).Normal := by
+  have hNpc : ((L1 ⊓ t.Qv 0).subgroupOf L1).Normal := by
     refine Subgroup.normal_subgroupOf_of_le_normalizer ?_
     intro a ha
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -555,20 +558,21 @@ private theorem ArcSz.LX_zero_quot_equiv {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {Y : Subgroup G}
     (hYsup : L1 ⊔ t.Qv 0 = Y ⊔ t.Qv 0)
     (hL1norm : L1 ≤ Subgroup.normalizer (t.Qv 0 : Set G))
-    (hLnorm : t.LX X 0 ≤ Subgroup.normalizer (t.Qv 0 : Set G))
+    (_hLnorm : t.LX X 0 ≤ Subgroup.normalizer (t.Qv 0 : Set G))
     (hYnorm : Y ≤ Subgroup.normalizer (t.Qv 0 : Set G))
     [hNY : ((t.Qv 0).subgroupOf Y).Normal] :
     Nonempty ((↥Y ⧸ (t.Qv 0).subgroupOf Y) ≃* Sz a) := by
-  haveI : ((t.Qv 0).subgroupOf (t.LX X 0 ⊔ t.Qv 0)).Normal :=
-    Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hLnorm Subgroup.le_normalizer)
-  haveI : ((t.Qv 0).subgroupOf (Y ⊔ t.Qv 0)).Normal :=
+  have : ((t.Qv 0).subgroupOf (t.LX X 0 ⊔ t.Qv 0)).Normal :=
+    Subgroup.normal_subgroupOf_of_le_normalizer (sup_le _hLnorm Subgroup.le_normalizer)
+  have : ((t.Qv 0).subgroupOf (Y ⊔ t.Qv 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hYnorm Subgroup.le_normalizer)
-  haveI : ((t.Qv 0).subgroupOf (L1 ⊔ t.Qv 0)).Normal :=
+  have : ((t.Qv 0).subgroupOf (L1 ⊔ t.Qv 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hL1norm Subgroup.le_normalizer)
   obtain ⟨eB⟩ := ArcSz.L1_sup_quot_equiv_sz t hfr
   exact ⟨(QuotientGroup.quotientInfEquivProdNormalizerQuotient Y (t.Qv 0) hYnorm).trans
     ((quotientEqMulEquiv hYsup (t.Qv 0)).symm.trans eB)⟩
 
+omit [Finite G] in
 private theorem ArcSz.LX_zero_bot_case {a : ℕ}
     {Y : Subgroup G}
     [hNY : ((t.Qv 0).subgroupOf Y).Normal]
@@ -608,6 +612,7 @@ private theorem ArcSz.LX_zero_bot_case {a : ℕ}
     exact dvd_mul_of_dvd_left (dvd_mul_of_dvd_left (dvd_pow_self 2 (by omega)) _) _
   exact hodd (hYrel ▸ heven)
 
+omit [Finite G] in
 private theorem ArcSz.LX_zero_top_case
     {Y : Subgroup G} [hNY : ((t.Qv 0).subgroupOf Y).Normal]
     (π : ↥Y →* (↥Y ⧸ (t.Qv 0).subgroupOf Y))
@@ -639,20 +644,20 @@ private theorem ArcSz.LX_zero_sup_Qv_zero {a f : ℕ}
     ArcSz.LX_zero_Y_data t hfr hX hcov (Y := Y) rfl
   have hLnorm : t.LX X 0 ≤ Subgroup.normalizer (t.Qv 0 : Set G) :=
     (ArcSz.LX_zero_le_sup t hfr).trans (sup_le hL1norm Subgroup.le_normalizer)
-  haveI hNY : ((t.Qv 0).subgroupOf Y).Normal :=
+  have hNY : ((t.Qv 0).subgroupOf Y).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hYnorm
   have hYMX : Y ≤ t.MX X 0 := by
     rw [show Y = t.MX X 0 ⊓ (L1 ⊔ t.Qv 0) from rfl]
     exact inf_le_left
-  haveI : ((t.LX X 0).subgroupOf Y).Normal :=
+  have : ((t.LX X 0).subgroupOf Y).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (hYMX.trans (le_normalizer_oTwoPrime (t.MX X 0)))
-  haveI : IsSimpleGroup ↥(Sz a) := ArcSz.isSimpleGroup_sz hfr
+  have : IsSimpleGroup ↥(Sz a) := ArcSz.isSimpleGroup_sz hfr
   obtain ⟨e⟩ := ArcSz.LX_zero_quot_equiv t hfr hYB hL1norm hLnorm hYnorm
   let π : ↥Y →* (↥Y ⧸ (t.Qv 0).subgroupOf Y) :=
     QuotientGroup.mk' ((t.Qv 0).subgroupOf Y)
   let N : Subgroup (↥Y ⧸ (t.Qv 0).subgroupOf Y) := ((t.LX X 0).subgroupOf Y).map π
-  haveI hNnormal : N.Normal := by
+  have hNnormal : N.Normal := by
     dsimp only [N]
     infer_instance
   have hNimg : N = ⊥ ∨ N = ⊤ := normal_eq_bot_or_top_of_mulEquiv e N
@@ -682,9 +687,9 @@ private theorem ArcSz.LX_oTwoQuot_equiv_sup {a f : ℕ}
       (Gv_le_normalizer_Qv t 0)
   have hLnorm : t.LX X 0 ≤ Subgroup.normalizer (t.Qv 0 : Set G) :=
     (ArcSz.LX_zero_le_sup t hfr).trans (sup_le hL1norm Subgroup.le_normalizer)
-  haveI : ((t.Qv 0).subgroupOf (t.LX X 0)).Normal :=
+  have : ((t.Qv 0).subgroupOf (t.LX X 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hLnorm
-  haveI : ((t.Qv 0).subgroupOf (t.LX X 0 ⊔ t.Qv 0)).Normal :=
+  have : ((t.Qv 0).subgroupOf (t.LX X 0 ⊔ t.Qv 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hLnorm Subgroup.le_normalizer)
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hE).trans
     (QuotientGroup.quotientInfEquivProdNormalizerQuotient (t.LX X 0) (t.Qv 0) hLnorm)⟩
@@ -698,9 +703,9 @@ private theorem ArcSz.LX_sup_quot_equiv_sz
   have hL1norm : L1 ≤ Subgroup.normalizer (t.Qv 0 : Set G) :=
     ((le_sup_left : L1 ≤ L1 ⊔ bigB L1 L2 S).trans (Gv_zero t).ge).trans
       (Gv_le_normalizer_Qv t 0)
-  haveI : ((t.Qv 0).subgroupOf L1).Normal :=
+  have : ((t.Qv 0).subgroupOf L1).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hL1norm
-  haveI : ((t.Qv 0).subgroupOf (L1 ⊔ t.Qv 0)).Normal :=
+  have : ((t.Qv 0).subgroupOf (L1 ⊔ t.Qv 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hL1norm Subgroup.le_normalizer)
   have hpc : (L1 ⊓ t.Qv 0).subgroupOf L1 = CFSG.pCore 2 ↥L1 := by
     rw [← pCoreOf_L1_eq t hfr, CFSG.openPCoreOf_subgroupOf]
@@ -708,7 +713,7 @@ private theorem ArcSz.LX_sup_quot_equiv_sz
     ext x
     simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
     exact ⟨fun h => h.2, fun h => ⟨x.2, h⟩⟩
-  haveI hNpc : ((L1 ⊓ t.Qv 0).subgroupOf L1).Normal := by
+  have hNpc : ((L1 ⊓ t.Qv 0).subgroupOf L1).Normal := by
     refine Subgroup.normal_subgroupOf_of_le_normalizer ?_
     intro a ha
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -739,12 +744,13 @@ private theorem ArcSz.isSzQuot_LX_zero
       (Gv_le_normalizer_Qv t 0)
   have hLnorm : t.LX X 0 ≤ Subgroup.normalizer (t.Qv 0 : Set G) :=
     (ArcSz.LX_zero_le_sup t hfr).trans (sup_le hL1norm Subgroup.le_normalizer)
-  haveI : ((t.Qv 0).subgroupOf (t.LX X 0 ⊔ t.Qv 0)).Normal :=
+  have : ((t.Qv 0).subgroupOf (t.LX X 0 ⊔ t.Qv 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hLnorm Subgroup.le_normalizer)
   obtain ⟨e1⟩ := ArcSz.LX_oTwoQuot_equiv_sup t hfr hX
   obtain ⟨e2⟩ := ArcSz.LX_sup_quot_equiv_sz t hfr hX hcov
   exact ⟨e1.trans e2⟩
 
+omit [Finite G] in
 private theorem ArcSz.charTwo_normal :
     ((t.LX X 0 ⊓ Subgroup.centralizer (pCoreOf 2 (t.LX X 0) : Set G)).subgroupOf
       (t.LX X 0)).Normal := by
@@ -865,7 +871,7 @@ private theorem ArcSz.charTwo_LX_zero
     CharTwo (t.LX X 0) := by
   classical
   obtain ⟨eSz⟩ := ArcSz.isSzQuot_LX_zero t hfr hX hcov
-  haveI : IsSimpleGroup ↥(Sz a) := ArcSz.isSimpleGroup_sz hfr
+  have : IsSimpleGroup ↥(Sz a) := ArcSz.isSimpleGroup_sz hfr
   let C : Subgroup G := t.LX X 0 ⊓
     Subgroup.centralizer (pCoreOf 2 (t.LX X 0) : Set G)
   have hCnorm : (C.subgroupOf (t.LX X 0)).Normal := by
@@ -873,7 +879,7 @@ private theorem ArcSz.charTwo_LX_zero
   let π : ↥(t.LX X 0) →* oTwoQuot ↥(t.LX X 0) :=
     QuotientGroup.mk' (CFSG.pCore 2 ↥(t.LX X 0))
   let N : Subgroup (oTwoQuot ↥(t.LX X 0)) := (C.subgroupOf (t.LX X 0)).map π
-  haveI hNnormal : N.Normal := by
+  have hNnormal : N.Normal := by
     dsimp only [N]
     infer_instance
   have hNimg : N = ⊥ ∨ N = ⊤ := normal_eq_bot_or_top_of_mulEquiv eSz N
@@ -907,7 +913,7 @@ private theorem ArcSz.noCharNormal_pX_LX_zero {a f : ℕ}
     (oTwoPrime_le (t.MX X 0)) (le_normalizer_oTwoPrime (t.MX X 0)) hP
   have hcharN : Subgroup.normalizer ((t.Qv 1 ⊓ t.MX X 0 : Subgroup G) : Set G) ≤
       Subgroup.normalizer (C : Set G) := by
-    haveI : (C.subgroupOf (t.Qv 1 ⊓ t.MX X 0)).Characteristic := hCchar
+    have : (C.subgroupOf (t.Qv 1 ⊓ t.MX X 0)).Characteristic := hCchar
     have hmap : (C.subgroupOf (t.Qv 1 ⊓ t.MX X 0)).map
         (t.Qv 1 ⊓ t.MX X 0).subtype = C := Subgroup.map_subgroupOf_eq_of_le hCP
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
@@ -916,6 +922,7 @@ private theorem ArcSz.noCharNormal_pX_LX_zero {a f : ℕ}
   rw [← hfratt]
   exact sup_le hLXnorm (inf_le_right.trans hcharN)
 
+omit [Finite G] in
 private theorem ArcSz.map_Gv_zero_conj_of_swap {s : G}
     (hs : t.x₂⁻¹ * s ∈ t.Gv 0) :
     (t.Gv 0).map (MulAut.conj s).toMonoidHom = t.Gv 2 := by
@@ -987,6 +994,7 @@ private theorem ArcSz.arcSz_of_le
   refine ⟨hR, hle, hK, htrans0, htrans2, ?_, ⟨s, hs1, hs⟩⟩
   exact ArcSz.pair_of_hpair t hfr hR hRw htrans0 hpair
 
+omit [Finite G] in
 private theorem ArcSzMax.MX_eq_of_le (hX : t.ArcSzMax X) {R : Subgroup G} (hR : t.ArcSz R)
     (hR2 : IsPGroup 2 R) (hM : t.MX X 0 ≤ normalizer (R : Set G)) :
     t.MX R 0 = t.MX X 0 := by
@@ -1004,7 +1012,7 @@ private theorem ArcSzMax.swap_mem_normalizer
   have hQv1leG2 : t.Qv 1 ≤ t.Gv 2 := (t.Qv_le_Gv hfr 1).2
   have hcharN : Subgroup.normalizer ((t.Qv 1 ⊓ t.MX X 0 : Subgroup G) : Set G) ≤
       Subgroup.normalizer (C : Set G) := by
-    haveI : (C.subgroupOf (t.Qv 1 ⊓ t.MX X 0)).Characteristic := hCchar
+    have : (C.subgroupOf (t.Qv 1 ⊓ t.MX X 0)).Characteristic := hCchar
     have hmap : (C.subgroupOf (t.Qv 1 ⊓ t.MX X 0)).map
         (t.Qv 1 ⊓ t.MX X 0).subtype = C := Subgroup.map_subgroupOf_eq_of_le hCP
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
@@ -1028,10 +1036,6 @@ private theorem ArcSzMax.swap_mem_normalizer
     rw [show t.MX X 0 = Subgroup.normalizer (X : Set G) ⊓ t.Gv 0 from rfl,
       Subgroup.map_inf_eq _ _ _ (MulAut.conj s).injective,
       Subgroup.map_inf_eq _ _ _ (MulAut.conj s).injective]
-    change (t.Qv 1).map (MulAut.conj s).toMonoidHom ⊓
-        ((Subgroup.normalizer (X : Set G)).map (MulAut.conj s).toMonoidHom ⊓
-          (t.Gv 0).map (MulAut.conj s).toMonoidHom) =
-      t.Qv 1 ⊓ (Subgroup.normalizer (X : Set G) ⊓ t.Gv 0)
     rw [hmapQ, hmapN, hmapG0]
     ext x
     simp only [Subgroup.mem_inf]
@@ -1125,7 +1129,7 @@ theorem ArcSz.structure_LX_zero
     ArcSz.isSylowTwoOf_pX_LX_zero t hfr hX,
     ArcSz.noCharNormal_pX_LX_zero t hfr hX⟩
 
-theorem not_arcSz_QT {a f : ℕ}
+theorem not_arcSz_QT {a _f : ℕ}
     (hQ : t.ArcSz t.QT)
     (hmax : ∀ Y : Subgroup G, t.ArcSzMax Y → NoCharNormal (t.Qv 1 ⊓ t.MX Y 0) (t.MX Y 0))
     (hcov : ∀ Y : Subgroup G, t.ArcSz Y → L1 ≤ t.MX Y 0 ⊔ t.Qv 0)

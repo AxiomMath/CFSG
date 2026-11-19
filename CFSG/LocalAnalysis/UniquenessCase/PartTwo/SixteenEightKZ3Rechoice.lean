@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16k_preBarSub_le_stabTil (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (X : Subgroup (MulAut (Vtil V₀ V hV))) :
     preBarSub M V₀ V hV X ≤ stabTil V₀ V := by

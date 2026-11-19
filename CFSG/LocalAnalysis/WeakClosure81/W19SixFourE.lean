@@ -219,7 +219,7 @@ theorem tieData (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) (h162 : W3
   isPGroup_cent := hc.isPGroup_inf_centralizer_E193 c h162
   A_le := hc.A_le_J193 c
   relIndex := hc.relIndex_centralizer_E193 c h162
-  inf_pCore := fun x hx =>
+  inf_pCore := fun _x hx =>
     hc.inf_pCoreOf_le_centralizer_E193 c (hc.inf_pCoreOf_J193_le c hx)
   isPGroup_norm := hc.isPGroup_J193_inf_normalizer c h162
   ti := fun _ hj hmeet => hc.ti_J193 c h162 hj hmeet

@@ -26,7 +26,7 @@ private theorem r920imred_false_of_isSylow_le_chief_factor {r : ℕ} [Fact r.Pri
     rw [Subgroup.le_normalizer_iff]
     intro u hu w hw
     exact hUW.2.2.2.1 u hu w hw
-  haveI hWn : (W.subgroupOf U).Normal :=
+  have hWn : (W.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUW.1.le).mpr hUnor
   have hPquot : IsPGroup r (↥U ⧸ W.subgroupOf U) := by
     intro g
@@ -54,7 +54,7 @@ private theorem r920imred_false_of_isSylow_le_chief_factor {r : ℕ} [Fact r.Pri
 theorem false_of_chief_factor_prime {M Y U W A : Subgroup G} {r : ℕ} (hr : r.Prime)
     (hM : rankThreeIsMaxTwoLocal M) (hAY : A ≤ Y) (hAr : Nat.card A = r)
     (hAu : A ∈ uniqueSet M) (hUW : IsChiefFactorUnder r Y U W) (hUM : U ⊓ M ≤ W) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hApg : IsPGroup r ↥A := IsPGroup.of_card (n := 1) (by rw [hAr, pow_one])
   obtain ⟨P, hPsyl, hAP⟩ :=
     CFSG.RankThree.PartOne.exists_isSylowOf_ge (K := U ⊔ A) le_sup_right hApg

@@ -170,7 +170,7 @@ lemma ofMulAction_trace
         (Representation.ofMulAction k G X g)
       =
     (Nat.card {x : X // g • x = x} : k) := by
-  letI : Fintype X := Fintype.ofFinite X
+  let : Fintype X := Fintype.ofFinite X
   let b : Module.Basis X k (MonoidAlgebra k X) :=
     (Finsupp.basisSingleOne (R := k) (ι := X)).map
       (MonoidAlgebra.coeffLinearEquiv k).symm
@@ -206,7 +206,7 @@ theorem average_char_eq_finrank_invariants
         (∑ g : G, ρ.character g)
       =
     (Module.finrank k ρ.invariants : k) := by
-  haveI : Invertible (Fintype.card G : k) :=
+  have : Invertible (Fintype.card G : k) :=
     invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero)
   have h := ρ.isProj_averageMap.trace
   rw [← h]

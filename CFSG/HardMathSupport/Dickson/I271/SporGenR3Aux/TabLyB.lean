@@ -23,7 +23,8 @@ section ThreeB
 variable {G : Type} [Group G] [Finite G] {t : G} {ρ : ↥(centralizer ({t} : Set G)) →* Perm (Fin 11)}
   {x₁ x₂ x₃ : ↥(centralizer ({t} : Set G))}
 
-theorem tabLy_QE_le (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
+omit [Finite G] in
+theorem tabLy_QE_le (_D : LyData G t ρ) (_S : LyStd ρ x₁ x₂ x₃) :
     QE (x₁ : G) (x₂ : G) ≤ centralizer ({(x₁ : G) * (x₂ : G)} : Set G) := by
   intro g hg
   rw [mem_QE] at hg
@@ -34,6 +35,7 @@ theorem tabLy_QE_le (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     _ = (x₁ : G) * ((x₂ : G) * g) := by rw [hg.2]
     _ = (x₁ : G) * (x₂ : G) * g := by group
 
+omit [Finite G] in
 theorem tabLy_centralizer_le_QE {R : Subgroup G} (h₁ : (x₁ : G) ∈ R) (h₂ : (x₂ : G) ∈ R) :
     centralizer (R : Set G) ≤ QE (x₁ : G) (x₂ : G) := by
   intro g hg
@@ -53,6 +55,7 @@ theorem tabLy_five_aux {K K' : Type*} [Group K] [Group K'] (e : K ≃* K') {y₁
   · rw [CFSG.Sporadic.Recognition.LyonsSims.card_centralizer_eq_of_isConj h, c₂]
     norm_num
 
+omit [Finite G] in
 theorem tabLy_orderOf_x₁x₂ (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     orderOf ((x₁ : G) * (x₂ : G)) = 3 := by
   have h12 : Commute (x₁ : G) (x₂ : G) := (D.comm₂₁ S).symm
@@ -70,7 +73,8 @@ theorem tabLy_orderOf_x₁x₂ (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃)
     decide
   exact orderOf_eq_prime h3 h1
 
-theorem tabLy_card_imageR (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) {R : Subgroup G}
+omit [Finite G] in
+theorem tabLy_card_imageR (_D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) {R : Subgroup G}
     (hR : ThreeCoreE (x₁ : G) (x₂ : G) R) :
     Nat.card ↥((R.subgroupOf (centralizer ({(x₁ : G)} : Set G))).map (projQ (x₁ : G))) = 243 := by
   have hRC : R ≤ centralizer ({(x₁ : G)} : Set G) := fun r hr =>
@@ -141,7 +145,7 @@ theorem tabLy_le_QE_of_isPGroup (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃
     (hord : Nat.card ↥(centralizer ({(x₁ : G) * (x₂ : G)} : Set G)) ≤ 174960) {J : Subgroup G}
     (hJ : J ≤ centralizer ({(x₁ : G) * (x₂ : G)} : Set G)) (hJ3 : IsPGroup 3 J) :
     J ≤ QE (x₁ : G) (x₂ : G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 := tabLy_relindex_le_two D S hord
   have hne : (QE (x₁ : G) (x₂ : G)).relIndex (centralizer ({(x₁ : G) * (x₂ : G)} : Set G)) ≠ 0 :=
     Subgroup.index_ne_zero_of_finite
@@ -236,7 +240,7 @@ theorem tabLy_solvable_cent (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) {R
         have hdvd := orderOf_dvd_of_mem_zpowers hk
         rw [Subgroup.orderOf_mk, Subgroup.orderOf_mk, LyData.orderOf_x₁ S, hu5] at hdvd
         norm_num at hdvd
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       exact orderOf_eq_prime hpow hne
     have hle : (R.subgroupOf (centralizer ({(x₁ : G)} : Set G))).map (projQ (x₁ : G)) ≤
         centralizer ({ū} : Set (CentQuot (x₁ : G))) := by

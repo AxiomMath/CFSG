@@ -25,7 +25,7 @@ theorem exists_cubeRoot_two_pow {K : Type} [Field K] [Finite K] {f : ℕ}
       norm_num
     rw [h4]
     exact h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 h3
   refine ⟨ω, hω, ?_⟩
   rw [← orderOf_dvd_iff_pow_eq_one, hω]
@@ -39,8 +39,8 @@ theorem extremalRank_of_statedProj {G : Type} [Group G] [Finite G] {L : Subgroup
       3 ^ 4 * Nat.card ↥(E ⊓ Subgroup.centralizer (L : Set G)) ≤ Nat.card E := by
   classical
   subst hQ
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have h2 : (-1 : K) = 1 := CharTwo.neg_eq 1
   obtain ⟨ω, hω, hQ⟩ := exists_cubeRoot_two_pow hK hf
@@ -52,7 +52,7 @@ theorem extremalRank_of_statedProj {G : Type} [Group G] [Finite G] {L : Subgroup
     have h01 := (hk 0).trans (hk 1).symm
     rw [dvec_apply, dvec_apply] at h01
     exact absurd h01 (by decide)
-  haveI : Nontrivial (PSimple 3 L) := θ.toEquiv.nontrivial
+  have : Nontrivial (PSimple 3 L) := θ.toEquiv.nontrivial
   obtain ⟨eL⟩ := HSubT.psimple_nonempty_equiv_quotCenter 3 L hL inferInstance
   let ψ : ↥L ⧸ Subgroup.center ↥L ≃* StatedProj (StatedSU 6 (2 ^ f) K) := eL.symm.trans θ
   let φ : ↥L →* StatedProj (StatedSU 6 (2 ^ f) K) :=
@@ -85,9 +85,9 @@ theorem extremalRank_twE6 {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (θ : PSimple 3 L ≃* (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group) :
     ∃ E : Subgroup G, E ≤ L ∧ IsElemAbelian 3 E ∧
       3 ^ 5 * Nat.card ↥(E ⊓ Subgroup.centralizer (L : Set G)) ≤ Nat.card E := by
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group :=
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group :=
     (CFSG.HardMathSupport.Timmesfeld.CrossChar.finite_isSimpleGroup_cat_twistedE6 hv).2
-  haveI : Nontrivial (PSimple 3 L) := θ.toEquiv.nontrivial
+  have : Nontrivial (PSimple 3 L) := θ.toEquiv.nontrivial
   obtain ⟨eL⟩ := HSubT.psimple_nonempty_equiv_quotCenter 3 L hL inferInstance
   have h3 : 3 ∣ q.p ^ q.exponent + 1 := by
     rw [hq2]

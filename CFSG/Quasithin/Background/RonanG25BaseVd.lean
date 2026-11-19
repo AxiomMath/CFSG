@@ -14,21 +14,25 @@ section Vd
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {Γ : Type} [Group Γ]
 
+omit [Finite F] [CharP F 2] in
 theorem actVd_apply (ρ : Γ →* SL(3, F)) (x : Γ) (f : Fin 3 → F) :
     actVd ρ x f = (dualHom F 3 (ρ x) : Matrix (Fin 3) (Fin 3) F) *ᵥ f := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem actVd_zero_coord {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) (x : Γ) (f : Fin 3 → F) :
     actVd ρ x f 0 = (dualHom F 3 (ρ x)).1 0 0 * f 0 := by
   obtain ⟨-, h01, h02, -⟩ := dual_entries (hρ.stab x)
   rw [actVd_apply]
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, h01, h02]
 
+omit [Finite F] [CharP F 2] in
 theorem entry00_of_smul {A : SL(3, F)} {c : F} (h : A • vE F 0 = c • vE F 0) :
     A.1 0 0 = c := by
   have h0 := congrFun h 0
   rw [smul_single_one] at h0
   simpa [vE] using h0
 
+omit [Finite F] [CharP F 2] in
 theorem dual_entry00_of_smul {g : SL(3, F)} (hg : g ∈ Pt (vE F 0)) {c : F}
     (h : g • vE F 0 = c • vE F 0) : (dualHom F 3 g).1 0 0 = c⁻¹ := by
   have hm := (dual_entries hg).2.2.2
@@ -40,8 +44,10 @@ theorem dual_entry00_of_smul {g : SL(3, F)} (hg : g ∈ Pt (vE F 0)) {c : F}
     funext i
     fin_cases i <;> simp
 
+omit [Finite F] [CharP F 2] in
 theorem annCoord_apply (f : Fin 3 → F) : annCoord f = ![f 1, f 2] := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem annCoord_eq_zero_iff {f : Fin 3 → F} (hf : f 0 = 0) : annCoord f = 0 ↔ f = 0 := by
   constructor
   · intro h
@@ -63,6 +69,7 @@ theorem annCoord_eq_zero_iff {f : Fin 3 → F} (hf : f 0 = 0) : annCoord f = 0 �
     Γ →* Matrix.GeneralLinearGroup (Fin 2) F :=
   glDual.comp (ablkHom.comp (vdPtHom ρ hρ))
 
+omit [Finite F] [CharP F 2] in
 theorem vdBeta_coe (ρ : Γ →* SL(3, F)) (hρ : L1Rep ρ) (x : Γ) :
     ((vdBeta ρ hρ x : Matrix.GeneralLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
       ablk (dualHom F 3 (ρ x)) := by
@@ -72,6 +79,7 @@ theorem vdBeta_coe (ρ : Γ →* SL(3, F)) (hρ : L1Rep ρ) (x : Γ) :
   rw [glDual_coe]
   exact h.symm
 
+omit [Finite F] [CharP F 2] in
 theorem annCoord_act {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) (x : Γ) {f : Fin 3 → F} (hf : f 0 = 0) :
     annCoord (actVd ρ x f) = (vdBeta ρ hρ x : Matrix (Fin 2) (Fin 2) F) *ᵥ annCoord f := by
   rw [vdBeta_coe]
@@ -80,6 +88,7 @@ theorem annCoord_act {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) (x : Γ) {f : Fin 
     simp [annCoord_apply, actVd_apply, ablk, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
       Fin.sum_univ_two, hf]
 
+omit [Finite F] [CharP F 2] in
 theorem ablk_dualHom_blk (N : SL(2, F)) :
     ablk (dualHom F 3 (CFSG.Quasithin.SL3Model.blk N)) =
       ((N⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F)ᵀ := by
@@ -88,11 +97,13 @@ theorem ablk_dualHom_blk (N : SL(2, F)) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [ablk, slT_coe, blk_coe]
 
+omit [Finite F] [CharP F 2] in
 theorem dualHom_two_inv_transpose (M : SL(2, F)) :
     (((dualHom F 2 M)⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F)ᵀ =
       (M : Matrix (Fin 2) (Fin 2) F) := by
   rw [dualHom_apply, ← slT_inv, inv_inv, slT_coe, Matrix.transpose_transpose]
 
+omit [Finite F] in
 theorem invT_mulVec (M : SL(2, F)) (v : Fin 2 → F) :
     ((M⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F)ᵀ *ᵥ v =
       ![(M : Matrix (Fin 2) (Fin 2) F) 1 1 * v 0 + (M : Matrix (Fin 2) (Fin 2) F) 1 0 * v 1,
@@ -126,6 +137,7 @@ theorem exists_vdBeta_transitive (ρ : Γ →* SL(3, F)) (hρ : L1Rep ρ) {v w :
   · simp
     linear_combination h0
 
+omit [Finite F] [CharP F 2] in
 theorem vd_card_annSub : Nat.card (annSub F) = Nat.card F ^ 2 := by
   have hb : Function.Bijective (fun f : annSub F => annCoord (f : Fin 3 → F)) := by
     refine ⟨fun f g h => ?_, fun w => ?_⟩
@@ -142,10 +154,12 @@ theorem vd_card_annSub : Nat.card (annSub F) = Nat.card F ^ 2 := by
   rw [Nat.card_congr (Equiv.ofBijective _ hb), Nat.card_fun]
   simp
 
+omit [Finite F] [CharP F 2] in
 theorem vd_card_top : Nat.card (⊤ : AddSubgroup (Fin 3 → F)) = Nat.card F ^ 3 := by
   rw [AddSubgroup.card_top, Nat.card_fun]
   simp
 
+omit [Finite F] [CharP F 2] in
 theorem vd_card_top_eq :
     Nat.card (⊤ : AddSubgroup (Fin 3 → F)) = Nat.card F * Nat.card (annSub F) := by
   rw [vd_card_top, vd_card_annSub]
@@ -163,10 +177,10 @@ theorem Vd_ann {ρ : Γ →* SL(3, F)} (hρ : L1Rep ρ) :
     refine lt_of_le_of_ne bot_le fun h => ?_
     have h1 : vE F 1 ∈ annSub F := by
       show (vE F 1) 0 = 0
-      simp [vE, Pi.single_apply]
+      simp [vE]
     rw [← h, AddSubgroup.mem_bot] at h1
     have h2 := congrFun h1 1
-    simp [vE, Pi.single_apply] at h2
+    simp [vE] at h2
   refine ⟨⟨hlt, hbot, hann, fun M hM1 hM2 hMi => ?_⟩, ?_⟩
   ·
     by_cases hMb : M = ⊥

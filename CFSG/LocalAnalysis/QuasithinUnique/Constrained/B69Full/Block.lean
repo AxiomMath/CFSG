@@ -15,6 +15,7 @@ namespace B69
 
 variable {V : Type} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem fixV_ffJ_invariant {X H : Subgroup (MulAut V)} (hHX : H ≤ X) :
     ∀ h : ↥H, ∀ c ∈ fixV (ffJ X), (h : MulAut V) c ∈ fixV (ffJ X) := by
   intro h c hc y hy
@@ -34,6 +35,7 @@ theorem fixV_ffJ_invariant {X H : Subgroup (MulAut V)} (hHX : H ≤ X) :
     (∃ k : ℕ, Nonempty (↥H ≃* Equiv.Perm (Fin (2 ^ k + 1))) ∧
       Nonempty (↥(M ⊓ H) ≃* Equiv.Perm (Fin (2 ^ k))) ∧ G6.IsSymCore H (commV H) (2 ^ k + 1))
 
+omit [Finite V] in
 theorem canonBlock_of_nat {X T M H : Subgroup (MulAut V)} (hHX : H ≤ X) {e : ℕ} (he : 1 ≤ e)
     (hnat : BinaryNaturalSL H (commV H) (commV H ⊓ fixV (ffJ X)) 2 e)
     (hM : M ⊓ H = H ⊓ Subgroup.normalizer ((T ⊓ H : Subgroup (MulAut V)) : Set (MulAut V))) :
@@ -41,6 +43,7 @@ theorem canonBlock_of_nat {X T M H : Subgroup (MulAut V)} (hHX : H ≤ X) {e : �
   Or.inl ⟨e, he, nonempty_mulEquiv_sl2_of_binaryNatural he hnat, hM,
     binaryNaturalSL_sup_of_inf (fixV_ffJ_invariant hHX) hnat⟩
 
+omit [Finite V] in
 theorem nonempty_mulEquiv_inf_perm_of_stabilizer {H M : Subgroup (MulAut V)} {k : ℕ}
     {π : Equiv.Perm (Fin (2 * k + 1)) →* ↥H} (hπ : Function.Injective π)
     (hM : (M ⊓ H).subgroupOf H =
@@ -50,6 +53,7 @@ theorem nonempty_mulEquiv_inf_perm_of_stabilizer {H M : Subgroup (MulAut V)} {k 
   exact ⟨((Subgroup.subgroupOfEquivOfLe (inf_le_right : M ⊓ H ≤ H)).symm.trans
     ((MulEquiv.subgroupCongr hM).trans (Subgroup.equivMapOfInjective _ π hπ).symm)).trans e⟩
 
+omit [Finite V] in
 theorem canonBlock_of_sym {X T M H : Subgroup (MulAut V)} {k j : ℕ} (hkj : 2 * k + 1 = 2 ^ j + 1)
     {π : Equiv.Perm (Fin (2 * k + 1)) →* ↥H}
     (hreal : (FFModel.symDn (2 * k + 1)).RealizesVia H (commV H) ⊥ π)

@@ -53,7 +53,7 @@ theorem exists_commutator_sq_ne_one_of_isQuatSub {J : Subgroup G} (hq : IsQuatSu
     (h16 : 16 ≤ Nat.card J) :
     ∃ x ∈ J, ∃ y ∈ J, (x * y * x⁻¹ * y⁻¹) * (x * y * x⁻¹ * y⁻¹) ≠ 1 := by
   obtain ⟨k, hk1, ⟨e⟩⟩ := hq
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   have hcard : Nat.card J = 2 ^ (k + 2) := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
     ring
@@ -83,7 +83,7 @@ variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 theorem card_inf_le_two_of_not_mem_normalizer (hΩ : HypOmegaGen Ω) {J L : Subgroup G}
     (hJ : J ∈ Ω) (hL : L ∈ Ω) (hJ2 : IsPGroup 2 J) (hL2 : IsPGroup 2 L) {v : G}
     (hv : IsUniqueInvolution L v) (hvJ : v ∉ Subgroup.normalizer (J : Set G)) {Q : Subgroup G}
-    (hQn : Q.Normal) (hQ2 : IsPGroup 2 Q) (hvQ : v ∈ Q) : Nat.card ↥(J ⊓ Q) ≤ 2 := by
+    (hQn : Q.Normal) (hQ2 : IsPGroup 2 Q) (_hvQ : v ∈ Q) : Nat.card ↥(J ⊓ Q) ≤ 2 := by
   by_contra hlt
   push Not at hlt
   classical
@@ -200,7 +200,7 @@ theorem _root_.CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.Thm4Twin.TwinT4Hyp.l
   obtain ⟨Q, hQn, hQ2, hvQ⟩ := hinv
   obtain ⟨e⟩ := h.quat J hJ J ⟨le_rfl, hJ2, fun V' hV'J _ hJV' => le_antisymm hV'J hJV'⟩
   have hcard : Nat.card J = 2 ^ r := by
-    haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+    have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card,
       show 4 * 2 ^ (r - 2) = 2 ^ r by
         rw [show (4 : ℕ) = 2 ^ 2 by norm_num, ← pow_add]
@@ -347,6 +347,7 @@ theorem isPGroup_iSup_uSet (hΩ : HypOmegaGen Ω)
   calc U = (U.subgroupOf Y).map Y.subtype := (Subgroup.map_subgroupOf_eq_of_le (hUY U hU)).symm
     _ ≤ (pCore 2 ↥Y).map Y.subtype := Subgroup.map_mono hle
 
+omit [Finite G] in
 theorem normal_iSup_uSet (hΩ : HypOmegaGen Ω) : (⨆ U ∈ USet Ω, U : Subgroup G).Normal := by
   refine ⟨fun y hy g => ?_⟩
   have hle : conjSub g (⨆ U ∈ USet Ω, U) ≤ ⨆ U ∈ USet Ω, U := by

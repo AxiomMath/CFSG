@@ -164,10 +164,10 @@ private theorem sylow_eleven_centralizer_card_dvd_fortyFour
     Nat.card
         (Subgroup.centralizer ((S : Subgroup P) : Set P)) ∣ 44 := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  letI : IsCyclic S :=
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -220,10 +220,10 @@ private theorem sylow_eleven_normalizer_constraints_of_centralizer_card_dvd
       N.index % 11 = 1 ∧
       c * r * N.index * 11 = Nat.card K := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  letI : IsCyclic S :=
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup K :=
     Subgroup.centralizer ((S : Subgroup K) : Set K)
@@ -293,9 +293,9 @@ private theorem sylow_eleven_normalizer_constraints_of_centralizer_card_dvd
   have hrDvd : r ∣ 10 := by
     change C.relIndex N ∣ 10
     rwa [hrEq]
-  letI : (S : Subgroup K).IsFiniteRelIndex C :=
+  let : (S : Subgroup K).IsFiniteRelIndex C :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hcPos : 0 < c :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero
@@ -354,10 +354,10 @@ theorem sylow_eleven_normalizer_constraints
       N.index % 11 = 1 ∧
       c * r * N.index * 11 = Nat.card P := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  letI : IsCyclic S :=
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup P :=
     Subgroup.centralizer ((S : Subgroup P) : Set P)
@@ -431,9 +431,9 @@ theorem sylow_eleven_normalizer_constraints
   have hrDvd : r ∣ 10 := by
     change C.relIndex N ∣ 10
     rwa [hrEq]
-  letI : (S : Subgroup P).IsFiniteRelIndex C :=
+  let : (S : Subgroup P).IsFiniteRelIndex C :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hcPos : 0 < c :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero
@@ -516,7 +516,7 @@ theorem five_point_stabilizer_mod_eleven_global_bound
   have hPcard : Nat.card P = 5100480 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hPfactorization :
       (5100480 * h).factorization 11 = 1 := by
     rw [show 5100480 = 11 * 463680 by norm_num,
@@ -677,7 +677,7 @@ theorem five_point_stabilizer_mod_eleven_ne_two_and_ne_seven
     ext i
     exact hq i
   have hP2 : MulAction.IsMultiplyPretransitive P X 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 2) (n := 5)
         (by omega) (by
@@ -717,7 +717,7 @@ theorem five_point_stabilizer_mod_eleven_ne_two_and_ne_seven
   have hJcard : Nat.card J = 9240 * h := by
     rw [hJindex, hPcard] at hJindexCard
     omega
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hJfactorization : (9240 * h).factorization 11 = 1 :=
     factorization_eleven_of_not_dvd 9240 h factorization_eleven_9240 (by decide) hh hnotEleven
   let T : Sylow 11 J := Sylow.nonempty.some
@@ -725,9 +725,9 @@ theorem five_point_stabilizer_mod_eleven_ne_two_and_ne_seven
     rw [T.card_eq_multiplicity, hJcard,
       hJfactorization]
     norm_num
-  letI : IsCyclic T :=
+  let : IsCyclic T :=
     isCyclic_of_prime_card hTcard
-  letI : IsMulCommutative T :=
+  let : IsMulCommutative T :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := T)
@@ -900,9 +900,9 @@ theorem five_point_stabilizer_mod_eleven_ne_two_and_ne_seven
   have hrCard : r * Nat.card CJ = Nat.card NJ :=
     relIndex_mul_card_of_le CJ NJ (Subgroup.centralizer_le_normalizer _)
   have hSleCG : (S : Subgroup P) ≤ CG := by
-    letI : IsCyclic S :=
+    let : IsCyclic S :=
       isCyclic_of_prime_card hScard
-    letI : IsMulCommutative S :=
+    let : IsMulCommutative S :=
       IsCyclic.isMulCommutative
     intro a ha b hb
     exact congrArg Subtype.val

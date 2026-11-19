@@ -36,6 +36,7 @@ section Comp
 
 variable [Finite G] {H T V L : Subgroup G} {F : Type} [Field F] [Fintype F]
 
+omit [Finite G] [Fintype F] in
 theorem burnsideB610_isComponentOf (hV : IsElemAbelian 2 V) (hHV : H ≤ Subgroup.normalizer (V : Set G))
     (hL : IsSubnormal L H) (D : NatData L V F) (h4 : ∃ s : Finset F, s.card = 4) :
     IsComponentOf (autI hV (L ⊔ (H ⊓ Subgroup.centralizer (V : Set G)))) (autI hV H) := by
@@ -49,6 +50,7 @@ theorem burnsideB610_isComponentOf (hV : IsElemAbelian 2 V) (hHV : H ≤ Subgrou
   refine ⟨autI_mono hV hLH, ?_, burnsideB610_isQuasisimple_autI D h4 hV hLV⟩
   exact (CFSG.Open.IsSubnormal.comap (Subgroup.normalizer (V : Set G)).subtype hL).map (convI hV)
 
+omit [Finite G] [Fintype F] in
 theorem burnsideB610_isComponentOf_cjSub (hV : IsElemAbelian 2 V)
     (hHV : H ≤ Subgroup.normalizer (V : Set G)) (hL : IsSubnormal L H) (D : NatData L V F)
     (h4 : ∃ s : Finset F, s.card = 4) {h : G} (hh : h ∈ H) :
@@ -57,6 +59,7 @@ theorem burnsideB610_isComponentOf_cjSub (hV : IsElemAbelian 2 V)
   exact B113.isComponentOf_conj (burnsideB610_isComponentOf hV hHV hL D h4)
     (convI_mem_autI hV hh (hHV hh))
 
+omit [Finite G] in
 theorem burnsideB610_cent_le_cjSub (hHV : H ≤ Subgroup.normalizer (V : Set G)) {h : G}
     (hh : h ∈ H) : H ⊓ Subgroup.centralizer (V : Set G) ≤
       cjSub h (L ⊔ (H ⊓ Subgroup.centralizer (V : Set G))) := by
@@ -67,10 +70,12 @@ theorem burnsideB610_cent_le_cjSub (hHV : H ≤ Subgroup.normalizer (V : Set G))
     ((Subgroup.normalizer (V : Set G)).inv_mem (hHV hh)) hcV
   simpa using this
 
+omit [Finite G] in
 theorem burnsideB610_cjSub_le (hL : IsSubnormal L H) {h : G} (hh : h ∈ H) :
     cjSub h (L ⊔ (H ⊓ Subgroup.centralizer (V : Set G))) ≤ H :=
   cjSub_le (Subgroup.le_normalizer hh) (sup_le hL.le inf_le_left)
 
+omit [Fintype F] in
 theorem burnsideB610_comm_of_ne (hV : IsElemAbelian 2 V)
     (hHV : H ≤ Subgroup.normalizer (V : Set G)) (hL : IsSubnormal L H) (D : NatData L V F)
     (h4 : ∃ s : Finset F, s.card = 4) {h₁ h₂ : G} (hh₁ : h₁ ∈ H) (hh₂ : h₂ ∈ H)
@@ -105,6 +110,7 @@ theorem burnsideB610_comm_of_ne (hV : IsElemAbelian 2 V)
     have := (convI_eq_one_iff hV _).1 h1
     simpa using this
 
+omit [Fintype F] in
 theorem burnsideB610_le_normalizer_cjSub (hV : IsElemAbelian 2 V)
     (hHV : H ≤ Subgroup.normalizer (V : Set G)) (hL : IsSubnormal L H) (D : NatData L V F)
     (h4 : ∃ s : Finset F, s.card = 4) {h₁ h₂ : G} (hh₁ : h₁ ∈ H) (hh₂ : h₂ ∈ H) :
@@ -130,6 +136,7 @@ theorem burnsideB610_le_normalizer_cjSub (hV : IsElemAbelian 2 V)
   exact B6.mem_normalizer_of_forall_mem (fun x hx => key y hy x hx)
     (fun x hx => by simpa using key y⁻¹ (Subgroup.inv_mem _ hy) x hx)
 
+omit [Fintype F] in
 theorem burnsideB610_triv_of_ne (hV : IsElemAbelian 2 V)
     (hHV : H ≤ Subgroup.normalizer (V : Set G)) (hL : IsSubnormal L H) (D : NatData L V F)
     (h4 : ∃ s : Finset F, s.card = 4) {h₁ h₂ : G} (hh₁ : h₁ ∈ H) (hh₂ : h₂ ∈ H)
@@ -156,6 +163,7 @@ theorem burnsideB610_triv_of_ne (hV : IsElemAbelian 2 V)
   intro u hu
   exact (h1 u hu).symm
 
+omit [Finite G] in
 theorem burnsideB610_two_dvd_card_autI (hV : IsElemAbelian 2 V)
     (hLV : L ≤ Subgroup.normalizer (V : Set G)) (D : NatData L V F) {n : ℕ} (hn : 1 ≤ n)
     (hF : Nat.card F = 2 ^ n) : 2 ∣ Nat.card (autI hV L) := by
@@ -166,6 +174,7 @@ theorem burnsideB610_two_dvd_card_autI (hV : IsElemAbelian 2 V)
   rw [h1, CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two, hF]
   exact Dvd.dvd.mul_right (dvd_pow_self 2 (by omega)) _
 
+omit [Fintype F] in
 theorem burnsideB610_thompsonJ_le_normalizer (hred : IsTwoReducedIn H V)
     (hT : IsSylowTwoOf T H) (hL : IsSubnormal L H) (D : NatData L V F)
     (h4 : ∃ s : Finset F, s.card = 4) {h : G} (hh : h ∈ H) :
@@ -205,7 +214,7 @@ end Comp
 theorem burnsideB610_compFamTarget_holds : burnsideB610_CompFamTarget := by
   intro G _ _ H T M V L F _ _ n hMP hred hJ hL hn hFc D
   classical
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFc
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFc
   have hV : IsElemAbelian 2 V := hred.2.2.1
   have hHV : H ≤ Subgroup.normalizer (V : Set G) := hred.2.1
   have hT := hMP.isSylow
@@ -226,7 +235,7 @@ theorem burnsideB610_compFamTarget_holds : burnsideB610_CompFamTarget := by
       ⟨Subgroup.le_normalizer (hLH hg), B6.le_normalizer_centralizer hHV (hLH hg)⟩
   set L₀ : Subgroup G := L ⊔ C with hL₀
   set D₀ : NatData L₀ V F := burnsideB610_natExt D hV hLV hCV hLC with hD₀
-  haveI : Fintype ↥H := Fintype.ofFinite _
+  have : Fintype ↥H := Fintype.ofFinite _
   set X : ↥H → Subgroup G := fun h => cjSub (h : G) L₀ with hX
   set Dx : ∀ h : ↥H, NatData (X h) V F := fun h => burnsideB610_natConj D₀ (hHV h.2) with hDx
   set rep : Subgroup G → ↥H := fun Y => if hY : ∃ h : ↥H, X h = Y then hY.choose else 1
@@ -234,7 +243,7 @@ theorem burnsideB610_compFamTarget_holds : burnsideB610_CompFamTarget := by
   have hrep : ∀ h : ↥H, X (rep (X h)) = X h := by
     intro h
     have hex : ∃ h' : ↥H, X h' = X h := ⟨h, rfl⟩
-    simp only [hrepdef, dif_pos hex]
+    simp only [hrepdef, dite_eq_left hex]
     exact hex.choose_spec
   set S : Finset ↥H := (Finset.univ.image X).image rep with hS
   have hmemS : ∀ s ∈ S, rep (X s) = s := by

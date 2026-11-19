@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s15_Twelve_mQuot_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (S : Subgroup (Vtil V₀ V hV)) :
     E3.mQuot V (preTil V₀ V hV S) = rkIdx S := by
@@ -29,6 +30,7 @@ private theorem s15_Twelve_mQuot_preTil {V₀ V : Subgroup G} (hV : IsElemAbelia
   unfold rkIdx
   rw [Subgroup.index_comap_of_surjective S (mkTil_surjective V₀ V hV)]
 
+omit [Finite G] in
 private theorem s15_Twelve_mQuot_imgTil {V₀ V F K : Subgroup G} (hV : IsElemAbelian 2 V)
     (hV₀K : V₀ ≤ K) (hKF : K ≤ F) (hFV : F ≤ V) :
     E3.mQuot (imgTil V₀ V hV F) (imgTil V₀ V hV K) = E3.mQuot F K := by
@@ -58,7 +60,7 @@ private theorem s15_Twelve_mQuot_imgTil {V₀ V F K : Subgroup G} (hV : IsElemAb
 private theorem s15_Twelve_mQuot_inf_add_rk {W : Type*} [Group W] [Finite W]
     {Y : Subgroup W} (hY : IsPGroup 2 Y) (C : Subgroup W) :
     E3.mQuot Y (Y ⊓ C) + rk ↥(Y ⊓ C) = rk ↥Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := E3.card_eq_two_pow_mul (V := Y) (U := Y ⊓ C) hY inf_le_left
   have h' := congrArg (padicValNat 2) h
   rw [padicValNat.mul (p := 2) (a := 2 ^ E3.mQuot Y (Y ⊓ C))
@@ -67,6 +69,7 @@ private theorem s15_Twelve_mQuot_inf_add_rk {W : Type*} [Group W] [Finite W]
   unfold rk
   exact h'.symm
 
+omit [Finite G] in
 private theorem s15_Twelve_imgTil_inf_preTil {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V)
     (S : Subgroup (Vtil V₀ V hV)) :
     imgTil V₀ V hV (U ⊓ preTil V₀ V hV S) = imgTil V₀ V hV U ⊓ S := by
@@ -153,7 +156,7 @@ theorem s15_Twelve_count (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
   have hYstab : Y ≤ stabTil (v1Sub D.M V₀ V hV L) V := le_stabTil hYV hYV₁
   obtain ⟨hind_set, hspan⟩ := fifteen_two_directSum D h1217 h hV hL
   let 𝓤 : Set (Subgroup (vStar D.M V₀ V hV L)) := wStarConj D.M V₀ V hV L
-  haveI : Fintype 𝓤 := (Set.toFinite 𝓤).fintype
+  have : Fintype 𝓤 := (Set.toFinite 𝓤).fintype
   have hind : iSupIndep (fun i : 𝓤 => (i : Subgroup (vStar D.M V₀ V hV L))) :=
     (sSupIndep_iff 𝓤).mp (show sSupIndep 𝓤 from hind_set)
   have hsup : (⨆ i : 𝓤, (i : Subgroup (vStar D.M V₀ V hV L))) = ⊤ := by

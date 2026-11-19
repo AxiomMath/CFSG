@@ -103,7 +103,7 @@ theorem burnsideF429a_U4_line {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) :
     pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂) ∧
       oPPrime 2 (Gp ⊓ M₂) = perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨marking, -, h2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
   obtain ⟨Φ, -, e2⟩ := burnsideF4gU4_exists_equiv marking
   obtain ⟨hS2, -, hS⟩ := burnsideF429a_sbar Gp M₁ M₂

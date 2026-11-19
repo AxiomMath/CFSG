@@ -11,9 +11,9 @@ open Subgroup CFSG.LocalAnalysis.GLTheoremB.MovingAround.ClassicalGL
 
 theorem no_normalizer_thirteen_core {D : G33} (hD : orderOf D = 13) {T : Subgroup G33}
     (hT : Nat.card T = 27) (hnorm : ∀ t ∈ T, D * t * D⁻¹ ∈ T) : False := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite G33 := Nat.finite_of_card_ne_zero (by rw [card_G33]; norm_num)
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite G33 := Nat.finite_of_card_ne_zero (by rw [card_G33]; norm_num)
   have hDN : D ∈ normalizer (T : Set G33) := mem_normalizer_of_orderOf_thirteen hD hnorm
   have hZN : zpowers D ≤ normalizer (T : Set G33) := Subgroup.zpowers_le.2 hDN
   let M : Subgroup G33 :=
@@ -71,7 +71,7 @@ theorem no_normalizer_thirteen_core {D : G33} (hD : orderOf D = 13) {T : Subgrou
     rw [Nat.card_prod, hT, Nat.card_zpowers, hD] at h
     omega
   have hTnorm : (T.subgroupOf M).Normal := (normal_subgroupOf_iff_le_normalizer hTM).2 hMN
-  haveI := hTnorm
+  have := hTnorm
   have hTM27 : Nat.card (T.subgroupOf M) = 27 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTM).toEquiv, hT]
   have hfix : ∀ v : V3, v ≠ 0 → ∀ t ∈ T, t • v = v := by

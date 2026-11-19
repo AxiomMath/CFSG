@@ -23,10 +23,10 @@ private theorem s1614e3_comm_of_isElemAbelianOfRank {p n : ℕ} {X : Type} [Grou
   intro a b
   exact e.injective (by rw [map_mul, map_mul, mul_comm])
 
-private theorem s1614e3_pow_of_isElemAbelianOfRank {p n : ℕ} (hp : p.Prime) {X : Type}
+private theorem s1614e3_pow_of_isElemAbelianOfRank {p n : ℕ} (_hp : p.Prime) {X : Type}
     [Group X] {E : Subgroup X} (hE : IsElemAbelianOfRank p n ↥E) :
     ∀ a : ↥E, a ^ p = 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨_hp.ne_zero⟩
   obtain ⟨e⟩ := hE
   intro a
   apply e.injective
@@ -39,7 +39,7 @@ private theorem s1614e3_pow_of_isElemAbelianOfRank {p n : ℕ} (hp : p.Prime) {X
 private theorem s1614e3_card_of_isElemAbelianOfRank {p n : ℕ} (hp : p.Prime) {X : Type}
     [Group X] {E : Subgroup X} (hE : IsElemAbelianOfRank p n ↥E) :
     Nat.card ↥E = p ^ n := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨e⟩ := hE
   rw [Nat.card_congr e.toEquiv]
   simp [Nat.card_eq_fintype_card, ZMod.card]
@@ -78,6 +78,7 @@ theorem s1614e3_mQuot_eq_rkIdx_imgTil {V : Subgroup G} (hV : IsElemAbelian 2 V) 
   unfold E3.mQuot rkIdx
   rw [Subgroup.relIndex_top_right]
 
+omit [Finite G] in
 private theorem s1614e3_mem_centralizer_of_actTil_eq_one {V : Subgroup G}
     (hV : IsElemAbelian 2 V) {g : ↥(stabTil ⊥ V)}
     (h : actTil ⊥ V hV g = 1) : (g : G) ∈ centralizer (V : Set G) := by
@@ -91,6 +92,7 @@ private theorem s1614e3_mem_centralizer_of_actTil_eq_one {V : Subgroup G}
       _ = v * (g : G) := by rw [h2]
   exact h3.symm
 
+omit [Finite G] in
 private theorem s1614e3_actTil_eq_one_of_mem_centralizer {V : Subgroup G}
     (hV : IsElemAbelian 2 V) {g : ↥(stabTil ⊥ V)}
     (h : (g : G) ∈ centralizer (V : Set G)) : actTil ⊥ V hV g = 1 := by

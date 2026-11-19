@@ -234,12 +234,12 @@ private theorem not_dvd_two_mul_gcd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     have h6 := Nat.le_of_dvd h5 h4
     omega
 
-theorem linThree_catalog_facts {p : ℕ} (hp : p.Prime) {q : TauCeti.PrimePower}
-    {d : TauCeti.ValidLieTypeIndex} (hqp : q.p = p) (hq1 : q.exponent = 1) (hd : d.1 = .A 2 q) :
+theorem linThree_catalog_facts {p : ℕ} (_hp : p.Prime) {q : TauCeti.PrimePower}
+    {d : TauCeti.ValidLieTypeIndex} (_hqp : q.p = p) (hq1 : q.exponent = 1) (hd : d.1 = .A 2 q) :
     IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group ∧
       (∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a) ∧
       Group.IsSolvable (Outer (TauCeti.CFSGIndex.lie d).Group) := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨eM⟩ := linThree_nonempty_mulEquiv hd
   obtain ⟨x, hv⟩ := d
   change x = _ at hd
@@ -264,7 +264,7 @@ theorem threeFourTwoLinThree_inf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {q : T
     (hKY₀ : ¬ K ≤ Y₀) :
     ∃ N : Subgroup Y, N ≤ K ⊓ Y₀ ∧ IsPGroup p N ∧ K ⊓ Y₀ ≤ normalizer (N : Set Y) ∧
       centralizer (N : Set Y) ⊓ (K ⊓ Y₀) ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hX, ⟨a, b, hab⟩, -⟩ := linThree_catalog_facts hp hqp hq1 hd
   obtain ⟨eK⟩ := hKX
   subst hqp
@@ -272,7 +272,7 @@ theorem threeFourTwoLinThree_inf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {q : T
   set F := GaloisField q.p q.exponent
   have hF : Nat.card F = q.p := by rw [GaloisField.card _ _ (by omega), hq1, pow_one]
   set e : K ≃* projectiveSL 3 F := eK.trans eM
-  haveI : IsSimpleGroup K := (MulEquiv.isSimpleGroup_congr eK).2 hX
+  have : IsSimpleGroup K := (MulEquiv.isSimpleGroup_congr eK).2 hX
   have hZ : K ⊓ centralizer (K : Set Y) = ⊥ := by
     rw [eq_bot_iff]
     intro y hy
@@ -297,7 +297,7 @@ theorem threeFourTwoLinThree_inf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {q : T
     exact fun h => not_dvd_two_mul_gcd q.prime_p hp2 (h.trans hb)
   obtain ⟨T, hT⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := F) q.p (n := 3) (by norm_num)
-  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow e S.isPGroup' S.not_dvd_index T
+  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow e S.isPGroup S.not_dvd_index T
   set ι : projectiveSL 3 F →* Y := K.subtype.comp Φ.toMonoidHom with hιdef
   have hι : Function.Injective ι := K.subtype_injective.comp Φ.injective
   have hTι : (projUnitriangular 3 F).map ι = (R : Subgroup Y) ⊓ K := by

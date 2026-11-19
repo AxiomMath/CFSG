@@ -22,7 +22,7 @@ theorem c118_of_hyp11 (hThin : ThinList13)
   unfold C117 at h117
   unfold C118
   generalize F11.CTilde D.M V₀ V = X at hn hO hXM h116V h117 ⊢
-  haveI hNn : (barImage D.M X).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M X).Normal := uc22p22u_barImage_normal hn
   refine uc22p22u_sub_le_cent_layer (barImage D.M X) _ h116V ?_
   intro C hC y hy
   obtain ⟨K, hK, hKbar⟩ :=
@@ -34,7 +34,7 @@ theorem c118_of_hyp11 (hThin : ThinList13)
     refine uc22p22u_barPreimage_le hO hbarle (uc22p21c_mem_barPreimage.2 ⟨hKM hk, ?_⟩)
     exact uc22p21c_mem_barImage.2 ⟨⟨k, hKM hk⟩, hk, rfl⟩
   obtain ⟨hMK, hthin⟩ := h117 K (uc22p22u_calC_of_le hK hKX hXM)
-  haveI hKn : (barImage D.M K).Normal := uc22p22u_barImage_normal hMK
+  have hKn : (barImage D.M K).Normal := uc22p22u_barImage_normal hMK
   obtain ⟨c, hcK, hc⟩ := uc22p22u_acts_inner (barImage D.M K) ⊤
     (le_of_eq (Subgroup.normalizer_eq_top_iff.2 hKn).symm)
     (uc22p22u_outAbelian_thin hThin hCyc D hK hthin) y hy

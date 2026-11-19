@@ -112,8 +112,8 @@ theorem card_eq_of_abelian_sylow {p : ℕ} (hp : p.Prime)
   obtain ⟨S₁, hS₁⟩ := h₁.isPGroup.exists_le_sylow
   obtain ⟨S₂, hS₂⟩ := h₂.isPGroup.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Γ S₁ S₂
-  have k₁ := key P₁ (S₁ : Subgroup Γ) h₁ m₁ hS₁ S₁.isPGroup'
-  have k₂ := key P₂ (S₂ : Subgroup Γ) h₂ m₂ hS₂ S₂.isPGroup'
+  have k₁ := key P₁ (S₁ : Subgroup Γ) h₁ m₁ hS₁ S₁.isPGroup
+  have k₂ := key P₂ (S₂ : Subgroup Γ) h₂ m₂ hS₂ S₂.isPGroup
   have hg' : ∀ x : Γ, x ∈ (S₂ : Subgroup Γ) ↔ g⁻¹ * x * g ∈ (S₁ : Subgroup Γ) := by
     intro x
     rw [← hg]

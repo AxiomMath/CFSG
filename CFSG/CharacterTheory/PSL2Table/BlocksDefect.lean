@@ -52,7 +52,7 @@ theorem pow_mem_localRing (hm : m.IsMaximal) {x : ℂ} (hx : x ∈ BlocksLocalRi
 theorem card_sylow_two_of_card {G : Type} [Group G] [Finite G] {a N : ℕ} (hN : Odd N)
     (hG : Nat.card G = 2 ^ a * N) (P : Sylow 2 G) : Nat.card P = 2 ^ a := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hlow : 2 ^ a ∣ Nat.card P :=
     P.pow_dvd_card_of_pow_dvd_card (by rw [hG]; exact Dvd.intro N rfl)
   have hup : Nat.card P ∣ Nat.card G := Subgroup.card_subgroup_dvd_card _

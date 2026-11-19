@@ -30,6 +30,7 @@ variable {X : Type} [Group X] [Finite X] {t : X} {L : Subgroup X} {A : SDData t 
   {C : A.CaseKD}
 
 include A in
+omit [Finite X] in
 theorem t_not_mem_L : t ∉ L := by
   intro h
   have : t ∈ A.K ⊓ L := ⟨A.t_mem_K, h⟩

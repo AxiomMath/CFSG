@@ -21,8 +21,8 @@ open Subgroup CFSG.Monster CFSG.Monster.Generated CFSG.Monster.Existence
 
 theorem not_five_dvd_card_centralizer_c :
     ¬ 5 ∣ Nat.card (Subgroup.centralizer ({gw genD13W1} : Set Gmat)) := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hcx : gw genD13W1 * xGmat = xGmat * gw genD13W1 :=
     Subgroup.mem_centralizer_singleton_iff.1 c_mem_cent
   have hxC : xGmat ∈ Subgroup.centralizer ({gw genD13W1} : Set Gmat) :=

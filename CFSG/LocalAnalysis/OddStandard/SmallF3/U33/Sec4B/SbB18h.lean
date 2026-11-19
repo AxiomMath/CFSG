@@ -48,7 +48,7 @@ private lemma card_mul_card_le_of_le_card_mul_card_inf {G : Type*} [Group G] [Fi
         = (H.index * Nat.card H) * (K.index * Nat.card K) * Nat.card ↥(H ⊓ K) := by ring
       _ = Nat.card C * (Nat.card C * Nat.card ↥(H ⊓ K)) := by rw [h1, h2]; ring
   rw [e1, e2] at hmul
-  haveI : Nonempty C := ⟨1, C.one_mem⟩
+  have : Nonempty C := ⟨1, C.one_mem⟩
   have hpos : 0 < Nat.card C := Nat.card_pos
   have hmain : Nat.card H * Nat.card K ≤ Nat.card C * Nat.card ↥(H ⊓ K) :=
     Nat.le_of_mul_le_mul_left hmul hpos

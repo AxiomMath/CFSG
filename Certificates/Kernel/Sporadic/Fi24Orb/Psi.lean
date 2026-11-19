@@ -77,7 +77,7 @@ theorem Γ_le' : Γ ≤ Subgroup.closure (xs '' Set.Iio 11) := by
   have hi : i.val < 11 := lt_of_lt_of_eq i.isLt gcount
   have e : σ (PresentedGroup.of i) = xs i.val := by
     have := σ_gen hi
-    rw [presGen, dif_pos i.isLt] at this
+    rw [presGen, dite_eq_left i.isLt] at this
     exact this
   rw [e]
   exact Subgroup.subset_closure ⟨i.val, hi, rfl⟩

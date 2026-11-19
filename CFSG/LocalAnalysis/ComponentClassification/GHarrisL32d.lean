@@ -71,7 +71,7 @@ theorem not_conj_x_t :
   have ht : IsSylowOf 2 D.Ct (centralizer ({D.t} : Set G)) :=
     D.isSylowOf_t_of_not_conj_z fun ⟨h, hh⟩ => hxz ⟨g * h, by
       rw [show (g * h)⁻¹ * D.x * (g * h) = h⁻¹ * (g⁻¹ * D.x * g) * h by group, hg, hh]⟩
-  obtain ⟨g₁, hg₁, hX⟩ := exists_conj_extremal D.S.isPGroup' ht
+  obtain ⟨g₁, hg₁, hX⟩ := exists_conj_extremal D.S.isPGroup ht
     (show g⁻¹⁻¹ * D.t * g⁻¹ = D.x by rw [← hg]; group)
   set w := g₁⁻¹ * D.z * g₁ with hw
   have hw4 : w = (g₁⁻¹ * D.ay * g₁) ^ 4 := by rw [conj_pow_inv, D.ay_pow_four]

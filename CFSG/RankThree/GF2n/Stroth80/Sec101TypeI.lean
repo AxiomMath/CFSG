@@ -29,7 +29,7 @@ theorem Ctx.exists_perfect_le_bar_Rt [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B
   obtain ⟨K, fK, finK, hK, π, hπ, hker⟩ := hc.exists_bar_hom_of_SLMNat ht hm
   have hq4 : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
   have hq : CFSG.IsQuasisimple ↥(StatedSL m K) := statedSL_quasisimple_of_card m K hm2 hq4
-  haveI hsimple : IsSimpleGroup (↥(StatedSL m K) ⧸ Subgroup.center ↥(StatedSL m K)) := hq.2.1
+  have hsimple : IsSimpleGroup (↥(StatedSL m K) ⧸ Subgroup.center ↥(StatedSL m K)) := hq.2.1
   have hnt : Nontrivial ↥(StatedSL m K) := by
     obtain ⟨a, b, hab⟩ := exists_pair_ne (↥(StatedSL m K) ⧸ Subgroup.center ↥(StatedSL m K))
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -57,9 +57,9 @@ theorem Ctx.le_layer_of_perfect [(Q.subgroupOf M).Normal]
     (hB : fusionIsBenderGroup ↥(layer (Mbar M Q))) {P : Subgroup (Mbar M Q)}
     (hPH : P ≤ bar M Q (H0 M Z)) (hP : ⁅P, P⁆ = P) : P ≤ layer (Mbar M Q) := by
   set L := layer (Mbar M Q)
-  haveI hLc : L.Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLn : L.Normal := inferInstance
-  haveI hsol : Group.IsSolvable (Outer ↥L) := outer_solvable_of_bender hB
+  have hLc : L.Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLn : L.Normal := inferInstance
+  have hsol : Group.IsSolvable (Outer ↥L) := outer_solvable_of_bender hB
   have hLleH : L ≤ bar M Q (H0 M Z) := hc.layer_le_bar_H0 h34 hw hn hno hgen
   have hnormal : ∀ k ∈ P, ∀ l ∈ L, k * l * k⁻¹ ∈ L := fun k _ l hl => hLn.conj_mem l hl k
   intro p hp
@@ -103,12 +103,12 @@ private theorem isPGroup_bar_CN_inf_layer [(Q.subgroupOf M).Normal]
 
 private theorem eq_of_mem_bar_LB_inf_CN_of_conj_eq [(Q.subgroupOf M).Normal]
     (h34 : Stroth34Statement) (h44 : Stroth44Statement)
-    (hc : Ctx M Q Z B) {n : ℕ} (H : Sec10Hyp hc n) {t : G} (ht : t ∈ LB M Q B)
+    (hc : Ctx M Q Z B) {n : ℕ} (H : Sec10Hyp hc n) {t : G} (_ht : t ∈ LB M Q B)
     (hU : bar M Q (hc.CN t) ⊓ layer (Mbar M Q) = ⊥) {x l : Mbar M Q}
     (hxA : x ∈ bar M Q (LB M Q B ⊓ hc.CN t)) (hlL : l ∈ layer (Mbar M Q))
     (hconj : ∀ y ∈ layer (Mbar M Q), x * y * x⁻¹ = l * y * l⁻¹) : x = 1 := by
   set L := layer (Mbar M Q) with hLdef
-  haveI hLc : L.Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLc : L.Characteristic := CFSG.LocalCores.layer_characteristic
   have hLleH : L ≤ bar M Q (H0 M Z) := hc.layer_le_bar_H0 h34 H.width H.n_gt H.noA2 H.gen
   have hAleNbar : bar M Q (LB M Q B ⊓ hc.CN t) ≤ bar M Q (hc.CN t) :=
     Subgroup.map_mono (Subgroup.subgroupOf_mono M inf_le_right)
@@ -149,8 +149,8 @@ private theorem false_of_bar_CN_inf_layer_eq_bot [(Q.subgroupOf M).Normal]
     have hmem : (x : Mbar M Q) ∈ bar M Q (LB M Q B) :=
       (Subgroup.map_mono (Subgroup.subgroupOf_mono M inf_le_left)) x.2
     exact Subtype.ext (by simpa [pow_two] using hswap.sq (x : Mbar M Q) hmem)
-  haveI hLc : (layer (Mbar M Q)).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLn : (layer (Mbar M Q)).Normal := inferInstance
+  have hLc : (layer (Mbar M Q)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLn : (layer (Mbar M Q)).Normal := inferInstance
   have hnormalA : ∀ k ∈ A, ∀ l ∈ layer (Mbar M Q), k * l * k⁻¹ ∈ layer (Mbar M Q) :=
     fun k _ l hl => hLn.conj_mem l hl k
   let f : ↥A →* Outer ↥(layer (Mbar M Q)) :=
@@ -176,11 +176,11 @@ private theorem false_of_bar_CN_inf_layer_eq_bot [(Q.subgroupOf M).Normal]
 
 private theorem le_normalizer_bar_CN_inf_layer [(Q.subgroupOf M).Normal]
     (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {P : Subgroup (Mbar M Q)}
-    (hPR : P ≤ bar M Q (Rt M (LB M Q B) t)) (hPL : P ≤ layer (Mbar M Q)) :
+    (hPR : P ≤ bar M Q (Rt M (LB M Q B) t)) (_hPL : P ≤ layer (Mbar M Q)) :
     P ≤ Subgroup.normalizer
       ((bar M Q (hc.CN t) ⊓ layer (Mbar M Q) : Subgroup (Mbar M Q)) : Set (Mbar M Q)) := by
-  haveI hLn : (layer (Mbar M Q)).Normal := by
-    haveI : (layer (Mbar M Q)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLn : (layer (Mbar M Q)).Normal := by
+    have : (layer (Mbar M Q)).Characteristic := CFSG.LocalCores.layer_characteristic
     infer_instance
   intro p hp
   rw [Subgroup.mem_normalizer_iff]
@@ -217,7 +217,7 @@ private theorem isSolvable_of_le_normalizer_bar_CN_inf_layer [(Q.subgroupOf M).N
     rw [Subgroup.subgroupOf_eq_bot] at hbot
     rw [disjoint_iff_inf_le, inf_eq_left.mpr hUL, le_bot_iff] at hbot
     exact hU hbot
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ↥(P.subgroupOf (layer (Mbar M Q))) :=
     CFSG.QuasithinUnique.A5.C25.solvable_of_bender hB hU2' hU1' hΛ
   exact Group.isSolvable_of_isSolvable_injective
@@ -231,11 +231,11 @@ private theorem false_of_bar_CN_inf_layer_ne_bot [(Q.subgroupOf M).Normal]
     {P : Subgroup (Mbar M Q)} (hPR : P ≤ bar M Q (Rt M (LB M Q B) t))
     (hPL : P ≤ layer (Mbar M Q)) (hPperf : ⁅P, P⁆ = P) (hPne : P ≠ ⊥)
     (hU : bar M Q (hc.CN t) ⊓ layer (Mbar M Q) ≠ ⊥) : False := by
-  haveI hPsolv : Group.IsSolvable ↥P :=
+  have hPsolv : Group.IsSolvable ↥P :=
     isSolvable_of_le_normalizer_bar_CN_inf_layer hB hc ht hPR hPL
       (isPGroup_bar_CN_inf_layer hNt hc H ht htQ) hU
-  haveI hPperfI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hPperf
-  haveI hPnt : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hPne
+  have hPperfI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hPperf
+  have hPnt : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hPne
   exact Group.IsPerfect.not_isSolvable ↥P hPsolv
 
 theorem Sec10Hyp.false_of_bender_layer [(Q.subgroupOf M).Normal]

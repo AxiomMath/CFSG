@@ -116,22 +116,22 @@ lemma ggWTEven_dinv_apply {p k : ℕ} (i j l m : Fin k) (hij : i ≠ j) :
 lemma ggWTEven_prod_pair {p k : ℕ} (i j : Fin k) (hij : i ≠ j) :
     (∏ l, (if l = i ∨ l = j then (-1 : ZMod p) else 1)) = 1 := by
   classical
-  rw [Finset.prod_eq_mul_prod_diff_singleton_of_mem (s := Finset.univ) (i := i)
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (s := Finset.univ) (i := i)
     (f := fun l => if l = i ∨ l = j then (-1 : ZMod p) else 1) (Finset.mem_univ i)]
   have hj : j ∈ Finset.univ \ {i} := by
     simp only [Finset.mem_sdiff, Finset.mem_univ, Finset.mem_singleton, true_and]
     exact fun h => hij h.symm
-  rw [Finset.prod_eq_mul_prod_diff_singleton_of_mem (s := Finset.univ \ {i}) (i := j)
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (s := Finset.univ \ {i}) (i := j)
     (f := fun x => if x = i ∨ x = j then (-1 : ZMod p) else 1) hj]
   have h1 : (if i = i ∨ i = j then (-1 : ZMod p) else 1) = -1 := by
-    rw [if_pos (Or.inl rfl)]
+    rw [ite_eq_left (Or.inl rfl)]
   have h2 : (if j = i ∨ j = j then (-1 : ZMod p) else 1) = -1 := by
-    rw [if_pos (Or.inr rfl)]
+    rw [ite_eq_left (Or.inr rfl)]
   have h3 : (∏ x ∈ (Finset.univ \ {i}) \ {j}, (if x = i ∨ x = j then (-1 : ZMod p) else 1)) = 1 := by
     refine Finset.prod_eq_one ?_
     intro x hx
     simp only [Finset.mem_sdiff, Finset.mem_singleton] at hx
-    rw [if_neg (fun h => h.elim hx.1.2 hx.2)]
+    rw [ite_eq_right (fun h => h.elim hx.1.2 hx.2)]
   rw [h1, h2, h3]
   ring
 
@@ -141,7 +141,7 @@ lemma ggWTEven_even_card_of_prod {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {k : �
   have h2p : 2 < p := by
     have := hp.two_le
     omega
-  haveI : Fact (2 < p) := ⟨h2p⟩
+  have : Fact (2 < p) := ⟨h2p⟩
   let S := Finset.univ.filter (fun i => c i = -1)
   have h1 : (∏ i, c i) = (-1 : ZMod p) ^ S.card := by
     have hc' : (∏ i, c i) = ∏ i, (if c i = -1 then (-1 : ZMod p) else 1) := by

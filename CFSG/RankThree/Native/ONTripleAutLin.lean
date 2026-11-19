@@ -23,7 +23,7 @@ attribute [local irreducible] dotProduct
 
 theorem single_vecMul (A : M4) (i : Fin 4) : Matrix.vecMul (Pi.single i 1) A = A i := by
   funext j
-  simp [Matrix.vecMul, dotProduct, Pi.single_apply]
+  simp [Matrix.vecMul]
 
 theorem coord_map (f : P0G →* P0G) (hz : relG.coord (f ⟨zG, ThreeQRel.x_mem⟩) = 0)
     (g : P0G) : relG.coord (f g) = Matrix.vecMul (relG.coord g) (matOf f) := by

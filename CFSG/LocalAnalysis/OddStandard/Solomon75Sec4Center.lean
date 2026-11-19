@@ -99,7 +99,7 @@ theorem center_sylow_eq [Finite K] (hn : 8 ≤ n) (hK : IsDoubleCoverOfAlt K n) 
   rw [Subgroup.mem_subgroupOf]
   constructor
   · intro hs
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 (S.isPGroup' : IsPGroup 2 (S : Subgroup K))) s
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 (S.isPGroup : IsPGroup 2 (S : Subgroup K))) s
     exact key k s hs (by rw [← hk]; exact pow_orderOf_eq_one s)
   · intro hs
     rw [mem_center_iff]

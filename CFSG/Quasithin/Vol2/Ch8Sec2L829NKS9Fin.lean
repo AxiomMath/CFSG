@@ -20,7 +20,7 @@ theorem nk_s9main_final (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
     (hcfg : TransvConfig (SW.img Lu) (SW.img (conjClosure V H)) (SW.img T) (SW.img V)
       (SW.sub (V ⊓ W₁)))
     (hKne : SW.img K ≠ ⊥)
-    (hLuΛ : Lu ≤ Λ) (hKΛ : K ≤ Λ) (hVΛ : V ≤ Λ) (hTΛ : T ≤ Λ)
+    (_hLuΛ : Lu ≤ Λ) (hKΛ : K ≤ Λ) (hVΛ : V ≤ Λ) (hTΛ : T ≤ Λ)
     (hKG : K ≤ conjClosure V H)
     (hTK : T ≤ Subgroup.normalizer (K : Set G)) (hVT : V ≤ T)
     {v : G} (hv : v ∈ V) (hvgen : K ≤ Subgroup.closure {x | ∃ k ∈ K, x = k * v * k⁻¹})
@@ -49,7 +49,7 @@ theorem nk_s9main_final (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
   have hψΛ : Function.Surjective ψΛ := hψ.comp eK.surjective
   have hkerρ : ρK.ker ≤ ψΛ.ker := by
     intro x hx
-    haveI : (ρK.ker.map eK.toMonoidHom).Normal :=
+    have : (ρK.ker.map eK.toMonoidHom).Normal :=
       Subgroup.Normal.map inferInstance _ eK.surjective
     have hne : ρK.ker.map eK.toMonoidHom ≠ ⊤ := by
       intro htop
@@ -100,7 +100,7 @@ theorem nk_s9main_final (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
         rw [htop]
         exact Subgroup.mem_top _
       exact hz
-    haveI : ((M'.comap ρK).map eK.toMonoidHom).Normal :=
+    have : ((M'.comap ρK).map eK.toMonoidHom).Normal :=
       Subgroup.Normal.map hN' _ eK.surjective
     have hneM : (M'.comap ρK).map eK.toMonoidHom ≠ ⊤ := by
       intro htop2

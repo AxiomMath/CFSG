@@ -16,10 +16,10 @@ variable {G : Type} [Group G] [Finite G] {L A T : Subgroup G} {z t : G} {W W₁ 
 
 private theorem WHyp.kGroup_xw (h : WHyp G L A T z t W W₁ W₂) :
     KCore.KGroupNonab CFSG.Blueprint.Catalog ↥(XW W) := by
-  haveI : IsSimpleGroup G := h.hyp.std.simple
+  have : IsSimpleGroup G := h.hyp.std.simple
   have hNne : normalizer (W : Set G) ≠ ⊤ := by
     rintro htop
-    haveI hWnorm : W.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+    have hWnorm : W.Normal := Subgroup.normalizer_eq_top_iff.mp htop
     have hWne : W ≠ ⊥ := by
       intro hbot
       have hcard : Nat.card W = 1 := by rw [hbot]; exact Subgroup.card_bot
@@ -27,7 +27,7 @@ private theorem WHyp.kGroup_xw (h : WHyp G L A T z t W W₁ W₂) :
       norm_num at hcard
     have hWtop : W = ⊤ := (Subgroup.Normal.eq_bot_or_eq_top W).resolve_left hWne
     obtain ⟨a, b, hab⟩ := h.hyp.std.nonabelian
-    haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+    have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
     refine hab (setLike_mul_comm (s := W) ?_ ?_)
     · rw [hWtop]; exact Subgroup.mem_top a
     · rw [hWtop]; exact Subgroup.mem_top b
@@ -37,7 +37,7 @@ private theorem WHyp.kGroup_xw (h : WHyp G L A T z t W W₁ W₂) :
 
 private theorem WHyp.toXW_eq_one_of_mem (h : WHyp G L A T z t W W₁ W₂) {w : G} (hw : w ∈ W) :
     toXW W ⟨w, Subgroup.le_normalizer hw⟩ = 1 := by
-  haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
   have hker : (⟨w, Subgroup.le_normalizer hw⟩ :
       ↥(normalizer (W : Set G))) ∈ W.normalizerMonoidHom.ker := by
     rw [Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
@@ -77,7 +77,7 @@ private theorem WHyp.exists_sylow_data (h : WHyp G L A T z t W W₁ W₂)
       (∀ s (hs : s ∈ S), XGood (XW W).subtype Q (W₁.subgroupOf W) (W₂.subgroupOf W)
         (toXW W ⟨s, hSN hs⟩)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G :=
     ((P : Subgroup ↥(XW W)).comap (toXW W)).map (normalizer (W : Set G)).subtype with hHdef
   have hHN : H ≤ normalizer (W : Set G) := by
@@ -114,7 +114,7 @@ private theorem WHyp.exists_sylow_data (h : WHyp G L A T z t W W₁ W₂)
   have hSN : S ≤ normalizer (W : Set G) := hSH.trans hHN
   have hS2 : IsPGroup 2 S := by
     rw [hSdef]
-    exact S'.isPGroup'.map H.subtype
+    exact S'.isPGroup.map H.subtype
   have hzS : z ∈ S := by
     rw [hSdef]
     exact Subgroup.mem_map.mpr
@@ -224,12 +224,12 @@ private theorem WHyp.exists_sylow_data (h : WHyp G L A T z t W W₁ W₂)
 
 theorem WHyp.false (h : WHyp G L A T z t W W₁ W₂) (hKD : KDM22) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, Q₁, t₁, hx⟩ := h.exists_xHyp
   obtain ⟨⟨X₀, hX₀, hX₀i, hzX₀⟩, P, hzP, hgood⟩ := hx.concl hKD h.kGroup_xw
   obtain ⟨N₀, hN₀norm, hN₀idx, hzN₀⟩ := h.exists_index_two_pullback hX₀ hX₀i hzX₀
   obtain ⟨S, hSN, hS2, hzS, hWS, hSmax, hgood'⟩ := h.exists_sylow_data hzP hgood
-  haveI : IsSimpleGroup G := h.hyp.std.simple
+  have : IsSimpleGroup G := h.hyp.std.simple
   have hz1 : z ≠ 1 := by
     intro hz1
     exact h.e3.z_not_mem (by rw [hz1]; exact W.one_mem)

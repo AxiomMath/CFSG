@@ -43,8 +43,8 @@ theorem localDeltaIn_zpowers {p : ℕ} (hp : p.Prime) {M : Type} [Group M] [Fini
 theorem card_inf_centralizer_modEq {q : ℕ} (hq : q.Prime) {M : Type} [Group M] [Finite M]
     {H U : Subgroup M} (hH : IsPGroup q H) (hHU : H ≤ Subgroup.normalizer (U : Set M)) :
     Nat.card ↥(U ⊓ Subgroup.centralizer (H : Set M)) ≡ Nat.card U [MOD q] := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  letI : MulAction H U := MulAction.compHom U (Subgroup.inclusion hHU)
+  have : Fact q.Prime := ⟨hq⟩
+  let : MulAction H U := MulAction.compHom U (Subgroup.inclusion hHU)
   have hact : ∀ (h : H) (u : U), ((h • u : U) : M) = (h : M) * (u : M) * (h : M)⁻¹ :=
     fun h u => rfl
   have hcong := hH.card_modEq_card_fixedPoints U
@@ -96,7 +96,7 @@ private theorem p415_three_le_index {P : Type} [Group P] [Finite P] (C : Subgrou
     (u v w : P) (h1 : u⁻¹ * v ∉ C) (h2 : u⁻¹ * w ∉ C) (h3 : v⁻¹ * w ∉ C) : 3 ≤ C.index := by
   classical
   show 3 ≤ Nat.card (P ⧸ C)
-  haveI : Fintype (P ⧸ C) := Fintype.ofFinite _
+  have : Fintype (P ⧸ C) := Fintype.ofFinite _
   have hcard : ({(u : P ⧸ C), (v : P ⧸ C), (w : P ⧸ C)} : Finset (P ⧸ C)).card = 3 :=
     Finset.card_eq_three.2 ⟨(u : P ⧸ C), (v : P ⧸ C), (w : P ⧸ C),
       fun h => h1 (QuotientGroup.eq.1 h), fun h => h2 (QuotientGroup.eq.1 h),
@@ -163,7 +163,7 @@ theorem card_commutator_le_two {P : Type} [Group P] [Finite P]
   have hGL : ∀ a b : P, ⁅a, b⁆ ≠ 1 → ∀ g : P, ⁅a, g⁆ = 1 ∨ ⁅a, g⁆ = ⁅a, b⁆ := by
     intro a b hab g
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hg1, hg2⟩ := hcon
     have hbC : b⁻¹ * g ∉ Subgroup.centralizer ({a} : Set P) := by
       rw [hmemC]
@@ -179,7 +179,7 @@ theorem card_commutator_le_two {P : Type} [Group P] [Finite P]
   obtain ⟨c, hc2, hcom⟩ : ∃ c : P, c ^ 2 = 1 ∧ ∀ a b : P, ⁅a, b⁆ ∈ Subgroup.zpowers c := by
     by_cases hab : ∀ a b : P, ⁅a, b⁆ = 1
     · exact ⟨1, one_pow 2, fun a b => by rw [hab a b]; exact Subgroup.one_mem _⟩
-    push_neg at hab
+    push Not at hab
     obtain ⟨x, y, hxy⟩ := hab
     have hyx : ⁅y, x⁆ ≠ 1 := by
       intro h
@@ -297,7 +297,7 @@ private theorem p415_three_le_card {G : Type} [Group G] [Finite G] (U : Subgroup
     (hx : x ∈ U) (hy : y ∈ U) (hz : z ∈ U) (hxy : x ≠ y) (hxz : x ≠ z) (hyz : y ≠ z) :
     3 ≤ Nat.card U := by
   classical
-  haveI : Fintype U := Fintype.ofFinite _
+  have : Fintype U := Fintype.ofFinite _
   have hcard : ({(⟨x, hx⟩ : U), ⟨y, hy⟩, ⟨z, hz⟩} : Finset U).card = 3 :=
     Finset.card_eq_three.2 ⟨⟨x, hx⟩, ⟨y, hy⟩, ⟨z, hz⟩,
       fun h => hxy (congrArg Subtype.val h), fun h => hxz (congrArg Subtype.val h),
@@ -335,11 +335,11 @@ private theorem p415_isCyclic_of_card_le_three {G : Type} [Group G] [Finite G]
     (h : Nat.card G ≤ 3) : IsCyclic G := by
   have hpos : 0 < Nat.card G := Nat.card_pos
   rcases (by omega : Nat.card G = 1 ∨ Nat.card G = 2 ∨ Nat.card G = 3) with h1 | h2 | h3
-  · haveI : Subsingleton G := Finite.card_le_one_iff_subsingleton.1 (by omega)
+  · have : Subsingleton G := Finite.card_le_one_iff_subsingleton.1 (by omega)
     infer_instance
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card h2
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact isCyclic_of_prime_card h3
 
 private theorem p415_commutator_bot_of_isCyclic {G : Type} [Group G] [Finite G] [IsCyclic G] :
@@ -352,9 +352,9 @@ private theorem p415_dvd_four {X : ℕ} (hX : 0 < X) (hd : X ∣ 4) : X = 1 ∨ 
 
 theorem small_two_group {M : Type} [Group M] [Finite M] {B S : Subgroup M} (hB : IsPGroup 3 B)
     (hS : IsPGroup 2 S) (hBS : B ≤ Subgroup.normalizer (S : Set M))
-    (hBSS : (⁅B, S⁆ : Subgroup M) = S) (hcard : Nat.card S ≤ 16) :
+    (_hBSS : (⁅B, S⁆ : Subgroup M) = S) (hcard : Nat.card S ≤ 16) :
     (⁅B, (⁅S, S⁆ : Subgroup M)⁆ : Subgroup M) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTS : (⁅S, S⁆ : Subgroup M) ≤ S := commutator_self_le S
   have hBT : B ≤ Subgroup.normalizer ((⁅S, S⁆ : Subgroup M) : Set M) :=
     le_normalizer_commutator hBS hBS
@@ -370,7 +370,7 @@ theorem small_two_group {M : Type} [Group M] [Finite M] {B S : Subgroup M} (hB :
     obtain ⟨k, hk⟩ := hT2.exists_card_eq
     have hk2 : k < 2 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h4 : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) h
       norm_num at h4
       omega
@@ -384,13 +384,13 @@ theorem small_two_group {M : Type} [Group M] [Finite M] {B S : Subgroup M} (hB :
     rw [← hmap, Subgroup.card_map_of_injective (Subgroup.subtype_injective S)]
   have hidx4 : 4 ≤ (⁅(⊤ : Subgroup S), (⊤ : Subgroup S)⁆ : Subgroup S).index := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hcyc : IsCyclic S := by
       apply CFSG.OddOrderBasics.p_group_cyclic_abelianization hS
       apply p415_isCyclic_of_card_le_three
       unfold Subgroup.index at hlt
       exact Nat.lt_succ_iff.1 hlt
-    haveI := hcyc
+    have := hcyc
     have h1 : Nat.card (⁅(⊤ : Subgroup S), (⊤ : Subgroup S)⁆ : Subgroup S) = 1 := by
       rw [p415_commutator_bot_of_isCyclic]
       simp
@@ -505,8 +505,8 @@ theorem step10_aut {K : Type} [Group K] [Finite K] (hKq : CFSG.Open.IsQuasisimpl
     (h1913 : I1913At) (h2027 : I2027At) {Bt St Sst V : Subgroup (MulAut K)} {xt : MulAut K}
     (hBt : IsElemAbelian 3 Bt) (hSt : IsPGroup 2 St)
     (hBS : Bt ≤ Subgroup.normalizer (St : Set (MulAut K)))
-    (hBSS : (⁅Bt, St⁆ : Subgroup (MulAut K)) = St) (hSst : Sst ≤ St)
-    (hBSst : Bt ≤ Subgroup.normalizer (Sst : Set (MulAut K)))
+    (hBSS : (⁅Bt, St⁆ : Subgroup (MulAut K)) = St) (_hSst : Sst ≤ St)
+    (_hBSst : Bt ≤ Subgroup.normalizer (Sst : Set (MulAut K)))
     (hidx : Nat.card St ≤ 4 * Nat.card Sst) (hSSle : (⁅St, St⁆ : Subgroup (MulAut K)) ≤ Sst)
     (hne : (⁅Bt, (⁅St, St⁆ : Subgroup (MulAut K))⁆ : Subgroup (MulAut K)) ≠ ⊥)
     (hVinn : innerAut K ≤ V) (hBV : Bt ≤ V) (hBnV : Bt ≤ Subgroup.normalizer (V : Set (MulAut K)))
@@ -538,10 +538,10 @@ theorem step10_aut {K : Type} [Group K] [Finite K] (hKq : CFSG.Open.IsQuasisimpl
       rw [Subgroup.commutator_comm]
       exact (commutator_le_of_normalizes hBS').trans hSS'
     have h2 : 2 ∣ Nat.card (⁅Bt, (⁅St, St⁆ : Subgroup (MulAut K))⁆ : Subgroup (MulAut K)) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hP : IsPGroup 2 (⁅Bt, (⁅St, St⁆ : Subgroup (MulAut K))⁆ : Subgroup (MulAut K)) :=
         hSt.to_le h2sub
-      haveI : Nontrivial (⁅Bt, (⁅St, St⁆ : Subgroup (MulAut K))⁆ : Subgroup (MulAut K)) :=
+      have : Nontrivial (⁅Bt, (⁅St, St⁆ : Subgroup (MulAut K))⁆ : Subgroup (MulAut K)) :=
         (Subgroup.nontrivial_iff_ne_bot _).2 hne
       obtain ⟨n, hn, hcard⟩ := hP.nontrivial_iff_card.1 inferInstance
       rw [hcard]
@@ -561,7 +561,7 @@ theorem step10_aut {K : Type} [Group K] [Finite K] (hKq : CFSG.Open.IsQuasisimpl
     rcases hsmall with hsm | hL3
     ·
       have hxord : orderOf xt = 3 := by
-        haveI : Fact (Nat.Prime 3) := ⟨hpp⟩
+        have : Fact (Nat.Prime 3) := ⟨hpp⟩
         exact orderOf_eq_prime hx3 hx1
       have h4 := h1913 K hKq hsm V hVinn xt (hBV hxB) hxord
       have h4' : Nat.card Sst ≤ 4 :=

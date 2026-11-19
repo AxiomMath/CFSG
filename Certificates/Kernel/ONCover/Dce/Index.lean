@@ -159,12 +159,12 @@ theorem shape_fix {w : List ℕ} (hw : w ∈ onQCodes) {p : ℕ} (hp : p < 11172
 
 theorem genO_apply {j : ℕ} (hj : j < 3) (p : Fin 11172) :
     ((genO j).unop p).val = fieldAt 14 (FO (onSw (2 * j))) p.val := by
-  rw [genO, dif_pos hj]
+  rw [genO, dite_eq_left hj]
   rfl
 
 theorem genO_inv_apply {j : ℕ} (hj : j < 3) (p : Fin 11172) :
     ((genO j)⁻¹.unop p).val = fieldAt 14 (FO (onSw (2 * j + 1))) p.val := by
-  rw [genO, dif_pos hj, MulOpposite.unop_inv, MulOpposite.unop_op, Equiv.Perm.inv_def,
+  rw [genO, dite_eq_left hj, MulOpposite.unop_inv, MulOpposite.unop_op, Equiv.Perm.inv_def,
     (sw_ok j hj).2]
   rfl
 
@@ -182,10 +182,10 @@ theorem liftO_mk_apply : ∀ (u : List (Fin (subsetOf 4 [0, 1, 2]).length × Boo
     have hl : l.1.val < 3 := Nat.lt_of_lt_of_eq l.1.isLt onS_length
     rw [FreeGroup.lift_mk]
     rcases l with ⟨j, _ | _⟩
-    · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, cond_false]
+    · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, Bool.cond_false]
       rw [genO_inv_apply hl]
       rfl
-    · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, cond_true]
+    · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, _root_.Bool.cond_true]
       rw [genO_apply hl]
       rfl
 
@@ -211,7 +211,7 @@ theorem relO {r : List (Fin (subsetOf 4 [0, 1, 2]).length × Bool)} (hr : r ∈ 
 
 theorem onPtO_of_lt (q : onQ) {p : ℕ} (hp : p < 11172) :
     onPtO q p = ((onRhoO q).unop ⟨p, hp⟩).val :=
-  dif_pos hp
+  dite_eq_left hp
 
 theorem onPtO_lt (q : onQ) {p : ℕ} (hp : p < 11172) : onPtO q p < 11172 := by
   rw [onPtO_of_lt _ hp]
@@ -221,7 +221,7 @@ theorem onPtO_one (p : ℕ) : onPtO 1 p = p := by
   by_cases h : p < 11172
   · rw [onPtO_of_lt _ h, map_one]
     rfl
-  · exact dif_neg h
+  · exact dite_eq_right h
 
 theorem onPtO_mul (a b : onQ) (p : ℕ) : onPtO (a * b) p = onPtO b (onPtO a p) := by
   by_cases h : p < 11172
@@ -243,15 +243,15 @@ theorem hxO : ∀ c < 12, ∀ p < 11172, fieldAt 14 (FO c) p = onPtO (xD c) p :=
   intro c hc p hp
   by_cases h6 : c < 6
   · have e := hsw c h6
-    rw [xD, if_pos h6]
+    rw [xD, ite_eq_left h6]
     rcases Nat.mod_two_eq_zero_or_one c with h | h
-    · rw [if_pos h, ptO_of _ hp]
+    · rw [ite_eq_left h, ptO_of _ hp]
       rw [h, Nat.add_zero] at e
       rw [e]
-    · rw [if_neg (by omega), ptO_of_inv _ hp]
+    · rw [ite_eq_right (by omega), ptO_of_inv _ hp]
       rw [h] at e
       rw [e]
-  · rw [xD, if_neg h6, onPtO_one, fo_id hc (by omega) hp]
+  · rw [xD, ite_eq_right h6, onPtO_one, fo_id hc (by omega) hp]
 
 theorem ptO_eval : ∀ (w : List ℕ), (∀ c ∈ w, c < 12) → ∀ p < 11172,
     onPtO (evalWord xD w) p = foldO w p
@@ -278,9 +278,9 @@ theorem gWord_eq (c : ℕ) :
   have h2 : Nat.land c 1 = c % 2 := Nat.and_one_is_mod c
   rw [h1, h2]
   rcases Nat.mod_two_eq_zero_or_one c with h | h
-  · rw [h, if_neg (by norm_num)]
+  · rw [h, ite_eq_right (by norm_num)]
     rfl
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     rfl
 
 theorem wInv_lt {w : ℕ} (hw : ∀ c ∈ wList w, c < 12) : ∀ c ∈ wList (wInv INVM w), c < 12 := by
@@ -330,23 +330,22 @@ theorem onQGen_congr {d e : ℕ} (h : d / 2 = e / 2) : onQGen d = onQGen e := by
 theorem xD_ivL {c : ℕ} (hc : c < 12) : xD (ivL INVM c) = (xD c)⁻¹ := by
   rw [inv_eq c hc]
   by_cases h6 : c < 6
-  · rw [if_pos h6]
+  · rw [ite_eq_left h6]
     by_cases h : c % 2 = 0
-    · rw [if_pos h]
-      simp only [xD, if_pos h6, if_pos (by omega : c + 1 < 6), if_pos h,
-        if_neg (by omega : ¬ (c + 1) % 2 = 0), onQGen_congr (by omega : (c + 1) / 2 = c / 2)]
-    · rw [if_neg h]
-      simp only [xD, if_pos h6, if_pos (by omega : c - 1 < 6), if_neg h,
-        if_pos (by omega : (c - 1) % 2 = 0), inv_inv,
+    · rw [ite_eq_left h]
+      simp only [xD, ite_eq_left h6, ite_eq_left (by omega : c + 1 < 6), ite_eq_left h,
+        ite_eq_right (by omega : ¬ (c + 1) % 2 = 0), onQGen_congr (by omega : (c + 1) / 2 = c / 2)]
+    · rw [ite_eq_right h]
+      simp only [xD, ite_eq_left h6, ite_eq_left (by omega : c - 1 < 6), ite_eq_right h,
+        ite_eq_left (by omega : (c - 1) % 2 = 0), inv_inv,
         onQGen_congr (by omega : (c - 1) / 2 = c / 2)]
-  · rw [if_neg h6]
+  · rw [ite_eq_right h6]
     simp [xD, h6]
 
 theorem isStabOf_sound {n k g : ℕ} (h : isStabOf RD n k g = true) :
     g < n ∧ 3 ≤ dKind (RD g) ∧ dKind (RD g) < 5 ∧ dN1 (RD g) = k ∧ dN2 (RD g) = k := by
   unfold isStabOf isEq at h
-  simp only [CFSG.Certificates.TwDce2.Words.kandB_iff, CFSG.Certificates.TwDce.Words.andB_iff,
-    Nat.blt_eq, Nat.ble_eq, CFSG.Certificates.TwDce.Words.sB_eq] at h
+  simp only [CFSG.Certificates.TwDce2.Words.kandB_iff, Nat.blt_eq, Nat.ble_eq, CFSG.Certificates.TwDce.Words.sB_eq] at h
   obtain ⟨h1, ⟨h2, h3⟩, h4, h5⟩ := h
   exact ⟨h1, h2, h3, Nat.eq_of_beq_eq_true h4, Nat.eq_of_beq_eq_true h5⟩
 
@@ -383,11 +382,11 @@ theorem onX_mem (c : ℕ) : onX c ∈ onHP := by
       · exact of0_mem
       · exact of1_mem
       · exact of2_mem
-    rw [onX, if_pos h6]
+    rw [onX, ite_eq_left h6]
     split_ifs
     · exact hm
     · exact onHP.inv_mem hm
-  · rw [onX, if_neg h6]
+  · rw [onX, ite_eq_right h6]
     exact onHP.one_mem
 
 theorem factsP : ∃ X : ℕ → onPC, X 0 = 1 ∧ ∀ r < 18934, dKind (RD r) < 5 ∧ dN1 (RD r) < 775 ∧
@@ -460,7 +459,7 @@ theorem onX_memC {d : ℕ} (h : d < 4 ∨ 6 ≤ d) : onX d ∈ onC := by
     · exact onC.inv_mem onU_memC
     · exact onY_memC
     · exact onC.inv_mem onY_memC
-  · rw [onX, if_neg (by omega)]
+  · rw [onX, ite_eq_right (by omega)]
     exact onC.one_mem
 
 theorem hgen : Subgroup.closure ((onHP : Set onPC) ∪ {onT}) = ⊤ := by
@@ -719,12 +718,12 @@ theorem index_onHP_le : onHP.FiniteIndex ∧ onHP.index ≤ 736560 := by
       tgtElt_mem := by
         intro i k hk
         have h := htP i k hk
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.1
       tgt_spec := by
         intro i k hk
         have h := htP i k hk
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.2 }
   have : Finite onHP := by
     rw [← range_onPi]

@@ -55,7 +55,7 @@ theorem sl2_le_normalizer_of_lt_top [IsSimpleGroup SL(2, F)] (hF : Fintype.card 
     sl2_defining_characteristic_Sylow_normalizer_maximal_Borel (F := F) (p := 2)
   obtain ⟨P, hTP⟩ := (IsPGroup.of_card (G := ↥T) hT).exists_le_sylow
   have hPcard : Nat.card (P : Subgroup SL(2, F)) ∣ 2 ^ n :=
-    card_dvd_of_isPGroup_of_sl2 hF (MulEquiv.refl _) P.isPGroup'
+    card_dvd_of_isPGroup_of_sl2 hF (MulEquiv.refl _) P.isPGroup
   have hTPeq : T = P :=
     eq_of_le_of_card_ge hTP (by rw [hT]; exact Nat.le_of_dvd (by positivity) hPcard)
   rw [hTPeq] at hTM hT ⊢

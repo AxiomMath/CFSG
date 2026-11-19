@@ -31,7 +31,7 @@ theorem exists_sylow_of_elemAbelian {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M 
   set B : Subgroup G := (W : Subgroup ↥(C ⊓ M)).map (C ⊓ M).subtype with hBdef
   have hTB : T ≤ B := fun t ht => ⟨⟨t, hTC ht⟩, hW ht, rfl⟩
   have hBCM : B ≤ C ⊓ M := Subgroup.map_subtype_le _
-  have hBp : IsPGroup p B := W.isPGroup'.map _
+  have hBp : IsPGroup p B := W.isPGroup.map _
   have hB3 : Open.pRank p B = 3 := le_antisymm
     ((CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp (hBCM.trans inf_le_right)).trans
       (pRank_le_three_of_escape hS hd))
@@ -44,6 +44,7 @@ theorem exists_sylow_of_elemAbelian {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M 
     exact S.not_dvd_index
   exact ⟨B, hTB, hBCM, hBp, ⟨S, hSW⟩, hB3, hBC ▸ hB3⟩
 
+omit [Finite G] in
 theorem mem_d1PlusCore_of_central {p : ℕ} {Y : Subgroup G} {x : G} (hxY : x ∈ Y)
     (hx : ∀ y ∈ Y, x * y = y * x) (K : Subgroup (Y ⧸ primeComplementCore (G := Y) p)) :
     x ∈ d1PlusCore p Y K := by

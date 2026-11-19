@@ -53,7 +53,7 @@ theorem component_center_eq_bot_of_sylow_narrow
     {J : Subgroup (C ⧸ aschbacherSolvableCore 3 C)} (hJ : CFSG.IsComponent J) :
     Subgroup.center J = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hθ : aschbacherSolvableCore 3 (C ⧸ aschbacherSolvableCore 3 C) = ⊥ :=
     CFSG.RankThree.PartTwo.Sec11.aschbacherSolvableCore_quotient_eq_bot C
   have hZ3 : IsPGroup 3 (Subgroup.center J) := isPGroup_center_component_of_theta hθ hJ

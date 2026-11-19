@@ -12,6 +12,7 @@ open CFSG.ClassicalInvolution.Q3.TA3 CFSG.ClassicalInvolution.Q3.TA3.Check
 
 variable {G : Type} [Group G] [Finite G] {M : Type} [Group M] [DecidableEq M] {ψ : G →* M}
 
+omit [DecidableEq M] in
 theorem false_of_mixed (hψi : Function.Injective ψ) {P A : Subgroup M}
     (hLs : ∀ m, m ∈ A ↔ ∃ y, ψ y = m) {t : G} (hF : ExitFacts P A (ψ t)) {N : Subgroup G}
     [N.Normal] (hLN : ∀ y, ψ y ∈ P ↔ y ∈ N) {Δ : Set (Subgroup G)}

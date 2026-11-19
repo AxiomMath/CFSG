@@ -66,7 +66,7 @@ theorem rank_three_hall_overgroup_le
     helementaryRank.trans (pRank_mono prime hprime.one_lt
       (le_inf hsubgroupLe (hinclusion.trans inf_le_right)))
   have hliftedLe := aschCore_two_pGroup_le_of_rank_three_intersection prime hprime sylowGroup
-    overgroup hsylow hcore liftedSylow (internalSylow.isPGroup'.map _) hliftedRank
+    overgroup hsylow hcore liftedSylow (internalSylow.isPGroup.map _) hliftedRank
   have hsup := normal_subgroup_sup_sylow_eq_top_of_pGroup_quotient prime hprime
     (hallGroup.subgroupOf localGroup) hnormal hquotient internalSylow
   have himage := congrArg (fun subgroup : Subgroup localGroup => subgroup.map localGroup.subtype) hsup
@@ -134,7 +134,7 @@ theorem rank_three_overgroup_le_of_coprime_other_sylow_counts
         rwa [Subgroup.map_subgroupOf_eq_of_le helementaryLocal] at himage
       refine ⟨internalSylow, ?_⟩
       apply aschCore_two_pGroup_le_of_rank_three_intersection prime hprime sylowGroup
-        overgroup hsylow hcore liftedSylow (internalSylow.isPGroup'.map localGroup.subtype)
+        overgroup hsylow hcore liftedSylow (internalSylow.isPGroup.map localGroup.subtype)
       exact helementaryRank.trans (pRank_mono prime hprime.one_lt
         (le_inf helementaryLe (hinclusion.trans inf_le_right)))
     · let : MulAction elementary (Sylow otherPrime localGroup) := Sylow.pointwiseMulAction
@@ -153,7 +153,7 @@ theorem rank_three_overgroup_le_of_coprime_other_sylow_counts
       have hliftedInvariant : elementary ≤ Subgroup.normalizer (liftedSylow : Set G) :=
         (ambient_subgroup_action_image_invariant_iff elementary localGroup hnormalizing
           (internalSylow : Subgroup localGroup)).mp hfixedSubgroup
-      have hliftedPGroup : IsPGroup otherPrime liftedSylow := internalSylow.isPGroup'.map _
+      have hliftedPGroup : IsPGroup otherPrime liftedSylow := internalSylow.isPGroup.map _
       have hliftedCoprime : prime.Coprime (Nat.card liftedSylow) := by
         obtain ⟨exponent, hcardinality⟩ := IsPGroup.iff_card.mp hliftedPGroup
         rw [hcardinality]

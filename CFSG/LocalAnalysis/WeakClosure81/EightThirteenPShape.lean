@@ -37,6 +37,7 @@ variable {G : Type} [Group G] [Finite G]
   ShapeU3Mod C L ∨
     (ShapeRankTwoMod C L ∧ ∀ a ∈ A, ∀ t ∈ T ⊓ conjClosure L H, a * t * a⁻¹ * t⁻¹ ∈ C)
 
+omit [Finite G] in
 theorem EShape813Gen.cases {C H T A L K : Subgroup G} (h : EShape813Gen C H T A L K) :
     Case813AB C L K ∨ Case813UC C H T A L := by
   rcases h with (h | h) | ⟨hr, h | h⟩
@@ -59,11 +60,11 @@ structure Concl813Gen (C M H T A L K : Subgroup G) : Prop where
 @[expose] def Concl813'' (V H T A L K : Subgroup G) : Prop :=
   Concl813Gen (cGrp H T) (normalizer (V : Set G)) H T A L K
 
+omit [Finite G] in
 theorem Concl813.eShapeP {V H T A L K : Subgroup G} (h : Concl813 V H T A L K) :
     EShape813Gen (cGrp H T) H T A L K := by
   first
     | exact h.e_shape
-    | exact EShape813Gen.of_old h.e_shape
 
 end CFSG.LocalAnalysis.WeakClosure81
 

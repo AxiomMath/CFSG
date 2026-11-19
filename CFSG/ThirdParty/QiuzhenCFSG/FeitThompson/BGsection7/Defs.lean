@@ -149,10 +149,10 @@ public lemma CFSG.directedOn_normal_piSubgroups (π : Set Nat.Primes) :
   rcases hH with ⟨hHnorm, hHπ⟩
   rcases hK with ⟨hKnorm, hKπ⟩
   refine ⟨H ⊔ K, ⟨?_, ?_⟩, le_sup_left, le_sup_right⟩
-  · haveI : H.Normal := hHnorm
-    haveI : K.Normal := hKnorm
+  · have : H.Normal := hHnorm
+    have : K.Normal := hKnorm
     exact Subgroup.sup_normal H K
-  · haveI : K.Normal := hKnorm
+  · have : K.Normal := hKnorm
     exact hHπ.sup_of_normal_right hKπ
 
 omit [Finite G] in
@@ -219,10 +219,10 @@ public lemma CFSG.piCore_isPiSubgroup (π : Set Nat.Primes) :
       rcases hLmem with ⟨hLnorm, hLπ⟩
       rcases hKmem with ⟨hKnorm, hKπ⟩
       refine ⟨?_, ?_⟩
-      · haveI : L.Normal := hLnorm
-        haveI : K.Normal := hKnorm
+      · have : L.Normal := hLnorm
+        have : K.Normal := hKnorm
         exact Subgroup.sup_normal L K
-      · haveI : K.Normal := hKnorm
+      · have : K.Normal := hKnorm
         exact hLπ.sup_of_normal_right hKπ
     have hcard_sup_le : Nat.card ↥(L ⊔ K) ≤ Nat.card ↥K := hKmax.le hsup_mem
     have hcard_K_le : Nat.card ↥K ≤ Nat.card ↥(L ⊔ K) :=
@@ -517,7 +517,7 @@ public lemma CFSG.isInvariant_subgroupOf_of_le_normalizer
     (_hKH : K ≤ H) :
     haveI : Subgroup.Normalizes A H := ⟨hAH⟩
     IsInvariant (↥A) (↥H) (K.subgroupOf H) := by
-  haveI : Subgroup.Normalizes A H := ⟨hAH⟩
+  have : Subgroup.Normalizes A H := ⟨hAH⟩
   refine ⟨?_⟩
   intro a x
   change ((x : H) : G) ∈ K ↔ ((a : G) * ((x : H) : G) * (a : G)⁻¹) ∈ K
@@ -532,7 +532,7 @@ public lemma CFSG.IsHallSubgroup.isPiSubgroup {π : Set Nat.Primes} {H : Subgrou
 public lemma CFSG.isPGroup_of_isPiSubgroup_singleton {H : Subgroup G} {q : Nat.Primes}
     (hH : IsPiSubgroup (G := G) ({q} : Set Nat.Primes) H) :
     IsPGroup q.val H := by
-  letI : Fact q.val.Prime := ⟨q.2⟩
+  let : Fact q.val.Prime := ⟨q.2⟩
   rw [IsPGroup.iff_card]
   have hcard_ne_zero : Nat.card H ≠ 0 := Nat.card_pos.ne'
   refine ⟨(Nat.card H).primeFactorsList.length, ?_⟩
@@ -546,8 +546,8 @@ public lemma CFSG.isPGroup_of_isPiSubgroup_singleton {H : Subgroup G} {q : Nat.P
 public lemma CFSG.normalizerCondition_of_isPiSubgroup_singleton {H : Subgroup G} {q : Nat.Primes}
     (hH : IsPiSubgroup (G := G) ({q} : Set Nat.Primes) H) :
     NormalizerCondition ↥H := by
-  letI : Fact (Nat.Prime q.val) := ⟨q.2⟩
-  haveI : Group.IsNilpotent ↥H := by
+  let : Fact (Nat.Prime q.val) := ⟨q.2⟩
+  have : Group.IsNilpotent ↥H := by
     exact IsPGroup.isNilpotent (p := q.val) (G := ↥H)
       (h := isPGroup_of_isPiSubgroup_singleton hH)
   exact Group.normalizerCondition_of_isNilpotent (G := ↥H)
@@ -555,7 +555,7 @@ public lemma CFSG.normalizerCondition_of_isPiSubgroup_singleton {H : Subgroup G}
 public lemma CFSG.isPiSubgroup_singleton_of_isPGroup {H : Subgroup G} {q : Nat.Primes}
     (hH : IsPGroup q.val H) :
     IsPiSubgroup (G := G) ({q} : Set Nat.Primes) H := by
-  letI : Fact q.val.Prime := ⟨q.2⟩
+  let : Fact q.val.Prime := ⟨q.2⟩
   intro p hp
   obtain ⟨n, hncard⟩ := hH.exists_card_eq
   have hpdvdq : p.val ∣ q.val := p.2.dvd_of_dvd_pow (by simpa [hncard] using hp)
@@ -730,7 +730,7 @@ public lemma CFSG.inf_le_piCoreIn_of_hypothesis
   simpa [hgen_eq] using hHQgen
 
 public lemma CFSG.solvable_of_proper_subgroup [IsMinCE G] {H : Subgroup G} (hHproper : H ≠ ⊤) :
-    IsSolvable H :=
+    Group.IsSolvable H :=
   IsMinCE.proper_subgroups_solvable H (lt_top_iff_ne_top.mpr hHproper)
 
 end

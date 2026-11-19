@@ -15,6 +15,7 @@ variable {K : Type} [Field K] [Finite K]
 private theorem s16g_fin_ne_sp {m i j : ℕ} (hi : i < m) (hj : j < m) (h : i ≠ j) :
     (⟨i, hi⟩ : Fin m) ≠ ⟨j, hj⟩ := fun e => h (Fin.mk.inj_iff.1 e)
 
+omit [Finite K] in
 private theorem s16g_single_ne_zero_sp {ι : Type} [DecidableEq ι] (i : ι) :
     (Pi.single i 1 : ι → K) ≠ 0 := fun h => by
   have h1 := congrFun h i

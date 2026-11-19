@@ -96,7 +96,7 @@ private theorem i167CU_lift_aux2 {K : Type} [Field K] {k d p : ℕ} {τ : K ≃+
 
 private theorem i167CU_lift_aux3 {K : Type} [Field K] [Finite K] {k d p : ℕ} {τ : K ≃+* K}
     (hp : p.Prime) (hτ : ∀ x, τ (τ x) = x) (hτQ : ∀ x, τ x = x ^ 2 ^ k)
-    (hK : Nat.card K = (2 ^ k) ^ 2) (hd : 3 ≤ d) (hdQ : (d, 2 ^ k) ≠ (3, 2))
+    (hK : Nat.card K = (2 ^ k) ^ 2) (_hd : 3 ≤ d) (_hdQ : (d, 2 ^ k) ≠ (3, 2))
     (A : GL (Fin d) K) (hA : A ∈ heldGU d K τ hτ)
     (u : MulAut (LargeEvenProj (StatedSU d (2 ^ k) K)))
     (hu : ∀ h h' : ↥(StatedSU d (2 ^ k) K), (h' : GL (Fin d) K) = A * (h : GL (Fin d) K) * A⁻¹ →
@@ -108,7 +108,7 @@ private theorem i167CU_lift_aux3 {K : Type} [Field K] [Finite K] {k d p : ℕ} {
       M₀.map (LargeEvenProjMk (StatedSU d (2 ^ k) K)) = J ∧
       CFSG.Open.IsComponentOf (M₀.map (StatedSU d (2 ^ k) K).subtype)
         (Subgroup.centralizer ({A} : Set (GL (Fin d) K)) ⊓ heldSU d K τ hτ) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hH : heldSU d K τ hτ = StatedSU d (2 ^ k) K := hct_heldSU_eq_statedSU (a := d) hτQ
   have hnorm : ∀ g : GL (Fin d) K, g ∈ heldGU d K τ hτ →
       ∀ x ∈ StatedSU d (2 ^ k) K, g * x * g⁻¹ ∈ StatedSU d (2 ^ k) K := by
@@ -180,7 +180,7 @@ private theorem i167CU_lift_aux5 {K : Type} [Field K] {k d p : ℕ} {τ : K ≃+
       intro htop
       have htriv : ∀ x : ↥(M₀.map (StatedSU d (2 ^ k) K).subtype), f x = 1 := fun x =>
         MonoidHom.mem_ker.mp (by rw [htop]; exact Subgroup.mem_top x)
-      haveI hnt : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hQ
+      have hnt : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hQ
       obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
       obtain ⟨x, hx⟩ := hf a
       obtain ⟨y, hy⟩ := hf b
@@ -201,12 +201,12 @@ theorem i167CU_lift {K : Type} [Field K] [Finite K] {k d p : ℕ} {τ : K ≃+* 
       CFSG.Open.IsComponentOf M
         (Subgroup.centralizer ({A} : Set (GL (Fin d) K)) ⊓ heldSU d K τ hτ) ∧
       Nonempty (PSimple p J ≃* M ⧸ Subgroup.center M) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h2 : (2 : K) = 0 := by
     have hcard : Fintype.card K = 2 ^ (2 * k) := by
       rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, Nat.mul_comm]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * k) hcard
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * k) hcard
     exact CharP.cast_eq_zero K 2
   have hconjB := i167CU_lift_aux2 hτ hτQ A hA u hu hpow
   obtain ⟨c0, hc0⟩ := uniScalar_holds K (2 ^ k) d τ hτ hτQ hK hd hdQ (A ^ p) hconjB

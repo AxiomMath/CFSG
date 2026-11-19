@@ -28,7 +28,7 @@ theorem card_le_card_inf_mul_of_cyclic {A : Type*} [Group A] {p : ℕ} (hp : p.P
     {J S E : Subgroup A} (hN : (J.subgroupOf S).Normal)
     (hcyc : ∃ g ∈ S, ∀ s ∈ S, ∃ k : ℤ, g ^ k * s ∈ J) (hES : E ≤ S)
     (hE : ∀ e ∈ E, e ^ p = 1) : Nat.card E ≤ Nat.card ↥(E ⊓ J) * p := by
-  haveI := isCyclic_quotient hN hcyc
+  have := isCyclic_quotient hN hcyc
   let π : ↥E →* S ⧸ J.subgroupOf S :=
     (QuotientGroup.mk' (J.subgroupOf S)).comp (Subgroup.inclusion hES)
   have hker : π.ker = J.subgroupOf E := by
@@ -37,7 +37,7 @@ theorem card_le_card_inf_mul_of_cyclic {A : Type*} [Group A] {p : ℕ} (hp : p.P
     simp only [π, MonoidHom.coe_comp, Function.comp_apply, QuotientGroup.mk'_apply,
       QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf, Subgroup.coe_inclusion]
   have hrange : Nat.card π.range ≤ p := by
-    haveI hcycR : IsCyclic ↥π.range := by
+    have hcycR : IsCyclic ↥π.range := by
       classical
       obtain ⟨q, hq⟩ := exists_zpow_surjective (S ⧸ J.subgroupOf S)
       by_cases hH : ∃ x : S ⧸ J.subgroupOf S, x ∈ π.range ∧ x ≠ 1
@@ -111,7 +111,7 @@ theorem card_le_card_inf_mul_of_cyclic {A : Type*} [Group A] {p : ℕ} (hp : p.P
 
 theorem le_of_forall_eq_mul {A : Type*} [Group A] {p d : ℕ} (hpd : Nat.Coprime p d)
     {J S E : Subgroup A} (hJS : J ≤ S) (hN : (J.subgroupOf S).Normal)
-    (hcomm : ∀ a ∈ S, ∀ b ∈ S, a * b * a⁻¹ * b⁻¹ ∈ J) (hES : E ≤ S)
+    (_hcomm : ∀ a ∈ S, ∀ b ∈ S, a * b * a⁻¹ * b⁻¹ ∈ J) (hES : E ≤ S)
     (hE : ∀ e ∈ E, e ^ p = 1)
     (hdec : ∀ e ∈ E, ∃ u ∈ J, ∃ f : A, f ^ d = 1 ∧ e = u * f) : E ≤ J := by
   intro e he
@@ -119,7 +119,7 @@ theorem le_of_forall_eq_mul {A : Type*} [Group A] {p d : ℕ} (hpd : Nat.Coprime
   have hfS : f ∈ S := by
     have := S.mul_mem (S.inv_mem (hJS hu)) (hES he)
     simpa using this
-  haveI := hN
+  have := hN
   let q : S →* S ⧸ J.subgroupOf S := QuotientGroup.mk' (J.subgroupOf S)
   have hqu : q ⟨u, hJS hu⟩ = 1 := by
     simp only [q, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -147,8 +147,8 @@ theorem le_of_forall_eq_mul {A : Type*} [Group A] {p d : ℕ} (hpd : Nat.Coprime
 theorem commutator_mem_of_cyclic {A : Type*} [Group A] {J S : Subgroup A}
     (hN : (J.subgroupOf S).Normal) (hcyc : ∃ g ∈ S, ∀ s ∈ S, ∃ k : ℤ, g ^ k * s ∈ J) :
     ∀ a ∈ S, ∀ b ∈ S, a * b * a⁻¹ * b⁻¹ ∈ J := by
-  haveI := isCyclic_quotient hN hcyc
-  letI : CommGroup (S ⧸ J.subgroupOf S) := IsCyclic.commGroup
+  have := isCyclic_quotient hN hcyc
+  let : CommGroup (S ⧸ J.subgroupOf S) := IsCyclic.commGroup
   intro a ha b hb
   have h : (QuotientGroup.mk (⟨a, ha⟩ * ⟨b, hb⟩ * (⟨a, ha⟩ : S)⁻¹ * (⟨b, hb⟩ : S)⁻¹ : S) :
       S ⧸ J.subgroupOf S) = 1 := by

@@ -124,7 +124,7 @@ theorem hard_W2B : HardFacts (ρ (wp W2B)) := by
     (by
       rw [hlist]
       simp only [List.pairwise_cons, List.mem_cons, List.not_mem_nil, or_false, forall_eq_or_imp,
-        forall_eq, List.Pairwise.nil, and_true, imp_false, not_false_eq_true, implies_true]
+        forall_eq, List.Pairwise.nil, and_true]
       refine ⟨⟨cm 0 (by decide) 2 (by decide), cm 0 (by decide) 4 (by decide),
         cm 0 (by decide) 6 (by decide)⟩, ⟨cm 2 (by decide) 4 (by decide),
         cm 2 (by decide) 6 (by decide)⟩, cm 4 (by decide) 6 (by decide), fun _ h => h.elim⟩)
@@ -184,7 +184,7 @@ theorem hard_W2D : HardFacts (ρ (wp W2D)) := by
     (by
       rw [hlist]
       simp only [List.pairwise_cons, List.mem_cons, List.not_mem_nil, or_false, forall_eq_or_imp,
-        forall_eq, List.Pairwise.nil, and_true, imp_false, not_false_eq_true, implies_true]
+        forall_eq, List.Pairwise.nil, and_true]
       exact ⟨⟨cm 0 (by decide) 2 (by decide), cm 0 (by decide) 4 (by decide)⟩,
         cm 2 (by decide) 4 (by decide), fun _ h => h.elim⟩)
     (by rw [own1_eq]; decide)

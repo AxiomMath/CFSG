@@ -49,7 +49,7 @@ theorem eight_dvd_card_of_free {M Ω : Type*} [Group M] [Fintype Ω] [DecidableE
     (S : Finset Ω) (hS : ∀ q ∈ Q, ∀ ω ∈ S, ρ q ω ∈ S) (hfree : ∀ ω ∈ S, ρ z ω ≠ ω) :
     8 ∣ S.card := by
   classical
-  letI act : MulAction Q S :=
+  let act : MulAction Q S :=
     { smul := fun g s => ⟨ρ (g : M) (s : Ω), hS (g : M) g.2 s s.2⟩
       one_smul := fun s => Subtype.ext (by
         show ρ ((1 : Q) : M) (s : Ω) = (s : Ω)
@@ -69,10 +69,10 @@ theorem eight_dvd_card_of_free {M Ω : Type*} [Group M] [Fintype Ω] [DecidableE
     · apply hfree (s : Ω) s.2
       rw [← h, pow_two, map_mul, Equiv.Perm.mul_apply, hfix, hfix]
   have hQfin : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
-  letI : Fintype Q := Fintype.ofFinite Q
+  let : Fintype Q := Fintype.ofFinite Q
   have hQcard : Fintype.card Q = 8 := by rw [← Nat.card_eq_fintype_card, hQ]
-  letI : ∀ s : S, Fintype (MulAction.stabilizer Q s) := fun s => Fintype.ofFinite _
-  letI : Fintype (Quotient (MulAction.orbitRel Q S)) := Fintype.ofFinite _
+  let : ∀ s : S, Fintype (MulAction.stabilizer Q s) := fun s => Fintype.ofFinite _
+  let : Fintype (Quotient (MulAction.orbitRel Q S)) := Fintype.ofFinite _
   have hstab : ∀ s : S, Fintype.card (MulAction.stabilizer Q s) = 1 := by
     intro s
     rw [← Nat.card_eq_fintype_card, Subgroup.card_eq_one]

@@ -82,28 +82,31 @@ theorem add_self_vec (x : Ix → K) : x + x = 0 := funext fun i => CharTwo.add_s
 theorem JJ_transpose : (JJ K)ᵀ = JJ K := by
   unfold JJ
   rw [Matrix.fromBlocks_transpose]
-  simp only [Matrix.transpose_zero, Matrix.transpose_one, Matrix.transpose_neg, CharTwo.neg_eq]
+  simp only [Matrix.transpose_zero, Matrix.transpose_one, CharTwo.neg_eq]
 
 theorem JJ_mul_JJ : JJ K * JJ K = 1 := by
   unfold JJ
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.zero_mul, Matrix.one_mul, Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero,
-    Matrix.neg_mul, Matrix.mul_neg, neg_neg, neg_zero, CharTwo.neg_eq]
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero,
+    CharTwo.neg_eq]
   exact Matrix.fromBlocks_one
 
 theorem bf_comm (x y : Ix → K) : bf x y = bf y x := by
   unfold bf
   rw [Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose, JJ_transpose, dotProduct_comm]
 
+omit [CharP K 2] in
 theorem bf_self_zero (x : Ix → K) : bf x x = 0 := by
   unfold bf JJ
   simp [dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two, Matrix.mulVec, Matrix.fromBlocks]
   ring
 
+omit [CharP K 2] in
 theorem bf_smul_right (x y : Ix → K) (c : K) : bf x (c • y) = c * bf x y := by
   unfold bf
   rw [Matrix.mulVec_smul, dotProduct_smul, smul_eq_mul]
 
+omit [CharP K 2] in
 theorem bf_add_right (x y z : Ix → K) : bf x (y + z) = bf x y + bf x z := by
   unfold bf
   rw [Matrix.mulVec_add, dotProduct_add]
@@ -144,6 +147,7 @@ section Symp
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem mulVec_dot_eq (M : Matrix Ix Ix K) (x z : Ix → K) :
     (M *ᵥ x) ⬝ᵥ z = x ⬝ᵥ (Mᵀ *ᵥ z) := by
   rw [dotProduct_comm, Matrix.dotProduct_mulVec, dotProduct_comm, ← Matrix.mulVec_transpose]
@@ -151,19 +155,23 @@ theorem mulVec_dot_eq (M : Matrix Ix Ix K) (x z : Ix → K) :
 theorem vec_add_self_add (x y : Ix → K) : x + y + x = y := by
   rw [show x + y + x = y + (x + x) by abel, add_self_vec, add_zero]
 
+omit [CharP K 2] in
 theorem sp_T {A : Matrix Ix Ix K} (hsp : Aᵀ * JJ K * A = JJ K) (h3 : A * A * A = 1) :
     Aᵀ * JJ K = JJ K * (A * A) := by
   calc Aᵀ * JJ K = Aᵀ * JJ K * (A * A * A) := by rw [h3, mul_one]
     _ = (Aᵀ * JJ K * A) * (A * A) := by simp only [mul_assoc]
     _ = JJ K * (A * A) := by rw [hsp]
 
+omit [CharP K 2] in
 theorem A4_eq {A : Matrix Ix Ix K} (h3 : A * A * A = 1) : (A * A) * (A * A) = A := by
   calc (A * A) * (A * A) = (A * A * A) * A := by simp only [mul_assoc]
     _ = A := by rw [h3, one_mul]
 
+omit [CharP K 2] in
 theorem A3_right {A : Matrix Ix Ix K} (h3 : A * A * A = 1) : A * (A * A) = 1 := by
   rw [← mul_assoc, h3]
 
+omit [CharP K 2] in
 theorem Pm_adj {A : Matrix Ix Ix K} (hsp : Aᵀ * JJ K * A = JJ K) (h3 : A * A * A = 1) :
     (Pm A)ᵀ * JJ K = JJ K * Pm A := by
   have hT := sp_T hsp h3
@@ -188,10 +196,12 @@ theorem Pm_idem {A : Matrix Ix Ix K} (h3 : A * A * A = 1) : Pm A * Pm A = Pm A :
     _ = A * A + A + 1 := by rw [add_self_mat, add_self_mat, add_self_mat, add_zero, add_zero,
         add_zero]
 
+omit [CharP K 2] in
 theorem Pm_comm (A : Matrix Ix Ix K) : A * Pm A = Pm A * A := by
   unfold Pm
   simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul, mul_assoc]
 
+omit [CharP K 2] in
 theorem A_mul_Pm {A : Matrix Ix Ix K} (h3 : A * A * A = 1) : A * Pm A = Pm A := by
   unfold Pm
   rw [Matrix.mul_add, Matrix.mul_add, Matrix.mul_one, A3_right h3]
@@ -199,6 +209,7 @@ theorem A_mul_Pm {A : Matrix Ix Ix K} (h3 : A * A * A = 1) : A * Pm A = Pm A := 
 
 @[expose] def Wsp (A : Matrix Ix Ix K) : Submodule K (Ix → K) := LinearMap.ker (Matrix.mulVecLin (Pm A))
 
+omit [CharP K 2] in
 theorem mem_Wsp {A : Matrix Ix Ix K} {x : Ix → K} : x ∈ Wsp A ↔ Pm A *ᵥ x = 0 := by
   simp [Wsp, LinearMap.mem_ker]
 
@@ -206,14 +217,17 @@ theorem Pm_mulVec_Pm {A : Matrix Ix Ix K} (h3 : A * A * A = 1) (x : Ix → K) :
     Pm A *ᵥ (Pm A *ᵥ x) = Pm A *ᵥ x := by
   rw [Matrix.mulVec_mulVec, Pm_idem h3]
 
+omit [CharP K 2] in
 theorem A_mulVec_Pm {A : Matrix Ix Ix K} (h3 : A * A * A = 1) (x : Ix → K) :
     A *ᵥ (Pm A *ᵥ x) = Pm A *ᵥ x := by
   rw [Matrix.mulVec_mulVec, A_mul_Pm h3]
 
-theorem Pm_mulVec_A {A : Matrix Ix Ix K} (h3 : A * A * A = 1) (x : Ix → K) :
+omit [CharP K 2] in
+theorem Pm_mulVec_A {A : Matrix Ix Ix K} (_h3 : A * A * A = 1) (x : Ix → K) :
     Pm A *ᵥ (A *ᵥ x) = A *ᵥ (Pm A *ᵥ x) := by
   rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, ← Pm_comm A]
 
+omit [CharP K 2] in
 theorem Wsp_A {A : Matrix Ix Ix K} (h3 : A * A * A = 1) {x : Ix → K} (hx : x ∈ Wsp A) :
     A *ᵥ x ∈ Wsp A := by
   rw [mem_Wsp] at hx ⊢
@@ -234,17 +248,20 @@ theorem Wsp_split {A : Matrix Ix Ix K} (h3 : A * A * A = 1) (x : Ix → K) :
     x + Pm A *ᵥ x ∈ Wsp A := by
   rw [mem_Wsp, Matrix.mulVec_add, Pm_mulVec_Pm h3, add_self_vec]
 
+omit [CharP K 2] in
 theorem bf_Pm_left {A : Matrix Ix Ix K} (hsp : Aᵀ * JJ K * A = JJ K) (h3 : A * A * A = 1)
     (x y : Ix → K) : bf (Pm A *ᵥ x) y = bf x (Pm A *ᵥ y) := by
   unfold bf
   rw [mulVec_dot_eq, Matrix.mulVec_mulVec, Pm_adj hsp h3, ← Matrix.mulVec_mulVec]
 
+omit [CharP K 2] in
 theorem bf_fix_W {A : Matrix Ix Ix K} (hsp : Aᵀ * JJ K * A = JJ K) (h3 : A * A * A = 1)
     {x y : Ix → K} (hx : Pm A *ᵥ x = x) (hy : Pm A *ᵥ y = 0) : bf x y = 0 := by
   calc bf x y = bf (Pm A *ᵥ x) y := by rw [hx]
     _ = bf x (Pm A *ᵥ y) := bf_Pm_left hsp h3 x y
     _ = 0 := by rw [hy]; unfold bf; simp
 
+omit [CharP K 2] in
 theorem bf_fix_W' {A : Matrix Ix Ix K} (hsp : Aᵀ * JJ K * A = JJ K) (h3 : A * A * A = 1)
     {x y : Ix → K} (hx : Pm A *ᵥ x = x) (hy : y ∈ Wsp A) : bf x y = 0 :=
   bf_fix_W hsp h3 hx (mem_Wsp.1 hy)

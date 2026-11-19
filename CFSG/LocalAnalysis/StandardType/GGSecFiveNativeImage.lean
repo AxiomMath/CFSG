@@ -394,7 +394,7 @@ private theorem mul_inv_mem_zpowers_of_congr_eq_negOff {n : ℕ} (hp : p.Prime)
     have hν_apply : eta (ν w) k = (eta w k)⁻¹ := by
       have h1 : MulAut.congr eta ν (eta w) = eta (ν w) := by
         simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
-      rw [← h1, hν_eq, negOff_apply, if_neg hk]
+      rw [← h1, hν_eq, negOff_apply, ite_eq_right hk]
     rw [hν_apply]
     simp
   have hmem : eta (ν w * w) ∈ Subgroup.zpowers (eta ⟨x, hx⟩) :=
@@ -445,7 +445,7 @@ private theorem eq_negOff_mul_of_neg_one [Fact p.Prime]
     by_cases hk : k = i0
     · subst hk
       simp [negOff_apply]
-    · rw [negOff_apply, if_neg hk, hxi0 k hk]
+    · rw [negOff_apply, ite_eq_right hk, hxi0 k hk]
       simp
   have hν_fix_x : ν ⟨x, hx⟩ = ⟨x, hx⟩ := by
     apply eta.injective

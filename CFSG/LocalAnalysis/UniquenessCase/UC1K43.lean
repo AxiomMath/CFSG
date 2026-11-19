@@ -48,7 +48,7 @@ variable {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G]
 
 instance finiteLinearEquiv [Finite W] : Finite (W ≃ₗ[ZMod p] W) :=
   Finite.of_injective (fun e : W ≃ₗ[ZMod p] W => (e : W → W))
-    (fun a b h => LinearEquiv.ext fun w => congrFun h w)
+    (fun _a _b h => LinearEquiv.ext fun w => congrFun h w)
 
 @[expose] noncomputable def act (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     ↥(T ⊔ D) →* (W ≃ₗ[ZMod p] W) where
@@ -85,12 +85,15 @@ instance finiteLinearEquiv [Finite W] : Finite (W ≃ₗ[ZMod p] W) :=
   map_one' := by ext; rfl
   map_mul' := by intro x y; ext; rfl
 
+omit [Finite G] [Finite V] in
 @[simp] theorem act_apply (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (g : ↥(T ⊔ D))
     (w : W) : ((act hWin g w : W) : V) = ρ (g : G) (w : V) := rfl
 
+omit [Finite G] [Finite V] in
 @[simp] theorem rhoHat_apply (act : ↥(T ⊔ D) →* (W ≃ₗ[ZMod p] W)) (x : ↥(act.range))
     (w : W) : rhoHat act x w = (x : W ≃ₗ[ZMod p] W) w := rfl
 
+omit [Finite G] [Finite V] in
 theorem rhoHat_injective (act : ↥(T ⊔ D) →* (W ≃ₗ[ZMod p] W)) :
     Function.Injective (rhoHat act) := by
   intro x y h
@@ -100,6 +103,7 @@ theorem rhoHat_injective (act : ↥(T ⊔ D) →* (W ≃ₗ[ZMod p] W)) :
   have hw := congrArg (fun f : W →ₗ[ZMod p] W => f w) h
   simpa using hw
 
+omit [Finite G] [Finite V] in
 theorem nontrivial_subrepresentation_rhoHat (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (htw : ∃ t ∈ T, ∃ w ∈ W, ρ t w ≠ w) :
     Nontrivial (Subrepresentation (rhoHat (act hWin))) := by
@@ -114,13 +118,14 @@ theorem nontrivial_subrepresentation_rhoHat (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈
   have hw0' : w = 0 := by simpa using congrArg (fun x : W => (x : V)) hw0
   exact hne (by rw [hw0']; simp)
 
+omit [Finite G] [Finite V] in
 theorem isIrreducible_rhoHat (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (hWirr : ∀ W' : Submodule (ZMod p) V, W' ≤ W →
       (∀ g ∈ T ⊔ D, ∀ w ∈ W', ρ g w ∈ W') → W' = ⊥ ∨ W' = W)
     (htw : ∃ t ∈ T, ∃ w ∈ W, ρ t w ≠ w) :
     (rhoHat (act hWin)).IsIrreducible := by
   classical
-  haveI : Nontrivial (Subrepresentation (rhoHat (act hWin))) :=
+  have : Nontrivial (Subrepresentation (rhoHat (act hWin))) :=
     nontrivial_subrepresentation_rhoHat hWin htw
   refine ⟨fun S => ?_⟩
   have hinv : ∀ g ∈ T ⊔ D, ∀ w ∈ S.toSubmodule.map W.subtype,
@@ -172,6 +177,7 @@ noncomputable abbrev A (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     Subgroup ↥(Ghat hWin) :=
   ⁅Zmap hWin, Dhat hWin⁆
 
+omit [Finite G] [Finite V] in
 theorem rangeRestrict_eq_one_iff (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (u : ↥(T ⊔ D)) :
     (act hWin).rangeRestrict u = 1 ↔ ∀ w ∈ W, ρ (u : G) w = w := by
@@ -189,6 +195,7 @@ theorem rangeRestrict_eq_one_iff (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w 
     apply Subtype.ext
     simpa using h w w.2
 
+omit [Finite G] [Finite V] in
 theorem that_eq_map (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     That hWin = (T.subgroupOf (T ⊔ D)).map (act hWin).rangeRestrict := by
   ext x
@@ -204,6 +211,7 @@ theorem that_eq_map (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     exact congrArg (act hWin).rangeRestrict
       (show Subgroup.inclusion le_sup_left ⟨u.1, hu⟩ = u from Subtype.ext rfl)
 
+omit [Finite G] [Finite V] in
 theorem dhat_eq_map (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     Dhat hWin = (D.subgroupOf (T ⊔ D)).map (act hWin).rangeRestrict := by
   ext x
@@ -219,6 +227,7 @@ theorem dhat_eq_map (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     exact congrArg (act hWin).rangeRestrict
       (show Subgroup.inclusion le_sup_right ⟨u.1, hu⟩ = u from Subtype.ext rfl)
 
+omit [Finite G] [Finite V] in
 theorem sup_eq_top (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     That hWin ⊔ Dhat hWin = ⊤ := by
   have hsup : T.subgroupOf (T ⊔ D) ⊔ D.subgroupOf (T ⊔ D) = ⊤ := by
@@ -227,11 +236,13 @@ theorem sup_eq_top (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     MonoidHom.range_eq_top_of_surjective (act hWin).rangeRestrict
       (MonoidHom.rangeRestrict_surjective (act hWin))]
 
+omit [Finite G] [Finite V] in
 theorem that_isPGroup (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (hT2 : IsPGroup 2 T) :
     IsPGroup 2 (That hWin) := by
   change IsPGroup 2 (fT hWin).range
   exact hT2.of_surjective (fT hWin).rangeRestrict (fT hWin).rangeRestrict_surjective
 
+omit [Finite V] in
 theorem dhat_ker (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (hD3 : Nat.card D = 3)
     (hDfix : fixV ρ D = ⊥) (hWne : W ≠ ⊥) :
     ∀ d : ↥D, fD hWin d = 1 → d = 1 := by
@@ -276,6 +287,7 @@ theorem dhat_ker (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (hD3 : Na
     simpa using this
   exact hWne hWbot
 
+omit [Finite V] in
 theorem dhat_card (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (hD3 : Nat.card D = 3)
     (hDfix : fixV ρ D = ⊥) (hWne : W ≠ ⊥) : Nat.card (Dhat hWin) = 3 := by
   have hfD : Function.Injective (fD hWin) := by
@@ -289,6 +301,7 @@ theorem dhat_card (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (hD3 : N
     ⟨MonoidHom.rangeRestrict_injective_iff.mpr hfD,
       MonoidHom.rangeRestrict_surjective (fD hWin)⟩)).symm
 
+omit [Finite G] [Finite V] in
 theorem fixV_dhat (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (hDfix : fixV ρ D = ⊥) :
     fixV (rhoHat (act hWin)) (Dhat hWin) = ⊥ := by
   rw [Submodule.eq_bot_iff]
@@ -307,6 +320,7 @@ theorem fixV_dhat (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (hDfix :
   rw [hDfix] at hmem
   simpa using hmem
 
+omit [Finite G] [Finite V] in
 theorem that_ne_bot (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (htw : ∃ t ∈ T, ∃ w ∈ W, ρ t w ≠ w) : That hWin ≠ ⊥ := by
   obtain ⟨t, ht, w, hw, hne⟩ := htw
@@ -318,6 +332,7 @@ theorem that_ne_bot (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     simpa [fT] using h1
   exact hne ((rangeRestrict_eq_one_iff hWin (Subgroup.inclusion le_sup_left ⟨t, ht⟩)).mp h2 w hw)
 
+omit [Finite G] [Finite V] in
 theorem dhat_le_normalizer (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (hDT : D ≤ normalizer (T : Set G)) :
     Dhat hWin ≤ Subgroup.normalizer (That hWin : Set ↥(Ghat hWin)) := by
@@ -331,6 +346,7 @@ theorem dhat_le_normalizer (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     exact Subgroup.le_normalizer_iff.mp hDT d d.2 t t.2
   · simp only [fD, fT, MonoidHom.comp_apply, map_mul, map_inv]
 
+omit [Finite G] [Finite V] in
 theorem commutator_dhat_that (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (hDcomm : ⁅D, T⁆ = T) : ⁅Dhat hWin, That hWin⁆ = That hWin := by
   have hcomm_sub : ⁅D.subgroupOf (T ⊔ D), T.subgroupOf (T ⊔ D)⁆ = T.subgroupOf (T ⊔ D) := by
@@ -339,6 +355,7 @@ theorem commutator_dhat_that (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ 
       Subgroup.map_subgroupOf_eq_of_le le_sup_left, hDcomm]
   rw [dhat_eq_map hWin, that_eq_map hWin, ← Subgroup.map_commutator, hcomm_sub]
 
+omit [Finite G] [Finite V] in
 theorem dhat_le_normalizer_center (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (hDT : D ≤ normalizer (T : Set G)) :
     Dhat hWin ≤ Subgroup.normalizer (Zmap hWin : Set ↥(Ghat hWin)) := by
@@ -374,17 +391,20 @@ theorem dhat_le_normalizer_center (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w
     _ = (fD hWin d * (That hWin).subtype w * (fD hWin d)⁻¹) * (That hWin).subtype v := by
           rw [hv]
 
+omit [Finite G] [Finite V] in
 theorem zmap_le_that (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     Zmap hWin ≤ That hWin := by
   intro z hz
   obtain ⟨w, -, rfl⟩ := Subgroup.mem_map.mp hz
   exact w.2
 
+omit [Finite G] [Finite V] in
 theorem a_le_zmap (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (hDT : D ≤ normalizer (T : Set G)) : A hWin ≤ Zmap hWin := by
   change ⁅Zmap hWin, Dhat hWin⁆ ≤ Zmap hWin
   exact (Subgroup.le_normalizer_iff_commutator_le_left).mp (dhat_le_normalizer_center hWin hDT)
 
+omit [Finite G] [Finite V] in
 theorem a_commutative (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (hDT : D ≤ normalizer (T : Set G)) : IsMulCommutative ↥(A hWin) :=
   IsMulCommutative.of_comm fun x y =>
@@ -393,18 +413,21 @@ theorem a_commutative (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
         (⟨x.1, a_le_zmap hWin hDT x.2⟩ : ↥(Zmap hWin))
         (⟨y.1, a_le_zmap hWin hDT y.2⟩ : ↥(Zmap hWin))))
 
+omit [Finite G] [Finite V] in
 theorem a_isPGroup (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (hDT : D ≤ normalizer (T : Set G)) (hT2 : IsPGroup 2 T) : IsPGroup 2 (A hWin) := by
   have hle : A hWin ≤ That hWin := (a_le_zmap hWin hDT).trans (zmap_le_that hWin)
   exact (that_isPGroup hWin hT2).of_injective (Subgroup.inclusion hle)
     (Subgroup.inclusion_injective hle)
 
+omit [Finite G] [Finite V] in
 theorem dhat_le_normalizer_A (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) :
     Dhat hWin ≤ Subgroup.normalizer (A hWin : Set ↥(Ghat hWin)) := by
   change Dhat hWin ≤ Subgroup.normalizer
     ((⁅Zmap hWin, Dhat hWin⁆ : Subgroup ↥(Ghat hWin)) : Set ↥(Ghat hWin))
   exact Subgroup.normalizer_commutator_ge_right (Zmap hWin) (Dhat hWin)
 
+omit [Finite G] in
 theorem dhat_A (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (hDT : D ≤ normalizer (T : Set G)) (hT2 : IsPGroup 2 T)
     (hDhatcard : Nat.card (Dhat hWin) = 3) : ⁅Dhat hWin, A hWin⁆ = A hWin := by
@@ -421,12 +444,13 @@ theorem dhat_A (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
   rw [Subgroup.commutator_comm (Dhat hWin) (A hWin)]
   exact hidem
 
+omit [Finite G] in
 theorem p_ne_three (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (htw : ∃ t ∈ T, ∃ w ∈ W, ρ t w ≠ w)
     (hDhatfix : fixV (rhoHat (act hWin)) (Dhat hWin) = ⊥)
     (hDhat3 : IsPGroup 3 (Dhat hWin)) : p ≠ 3 := by
   intro hp3eq
-  haveI : Nontrivial W := by
+  have : Nontrivial W := by
     obtain ⟨t, ht, w, hw, hne⟩ := htw
     refine ⟨⟨w, hw⟩, 0, fun h => hne ?_⟩
     have hw0 : w = 0 := by simpa using congrArg (fun x : W => (x : V)) h
@@ -451,12 +475,12 @@ theorem a_eq_bot (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) (hK42 : K
     (dhat_le_normalizer_A hWin) (dhat_A hWin hDT hT2 hDhatcard)
   exact hres.1 (a_commutative hWin hDT)
 
+omit [Finite G] [Finite V] in
 theorem zmap_le_center (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
-    (hDT : D ≤ normalizer (T : Set G)) (hA_bot : A hWin = ⊥) :
+    (_hDT : D ≤ normalizer (T : Set G)) (hA_bot : A hWin = ⊥) :
     Zmap hWin ≤ Subgroup.center ↥(Ghat hWin) := by
   have hZmap_cent_D : Zmap hWin ≤ Subgroup.centralizer (Dhat hWin : Set ↥(Ghat hWin)) := by
     apply Subgroup.commutator_eq_bot_iff_le_centralizer.mp
-    change ⁅Zmap hWin, Dhat hWin⁆ = ⊥
     exact hA_bot
   have hZmap_cent_T : Zmap hWin ≤ Subgroup.centralizer (That hWin : Set ↥(Ghat hWin)) := by
     have h := Subgroup.map_centralizer_le_centralizer_image (Set.univ : Set ↥(That hWin))
@@ -480,9 +504,9 @@ theorem center_that_cyclic (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
   have hA_bot : A hWin = ⊥ := a_eq_bot hWin hK42 hKGGhat hp2 hD3 hDfix hT2 hDT hWne htw
   have hZmap_center : Zmap hWin ≤ Subgroup.center ↥(Ghat hWin) :=
     zmap_le_center hWin hDT hA_bot
-  haveI : (rhoHat (act hWin)).IsIrreducible := isIrreducible_rhoHat hWin hWirr htw
-  haveI : FiniteDimensional (ZMod p) W := Module.Finite.of_finite
-  haveI : IsCyclic ↥(Subgroup.center ↥(Ghat hWin)) :=
+  have : (rhoHat (act hWin)).IsIrreducible := isIrreducible_rhoHat hWin hWirr htw
+  have : FiniteDimensional (ZMod p) W := Module.Finite.of_finite
+  have : IsCyclic ↥(Subgroup.center ↥(Ghat hWin)) :=
     CFSG.center_cyclic_of_representation_faithful_irreducible (rhoHat (act hWin))
       (rhoHat_injective (act hWin))
   refine isCyclic_of_injective (G := ↥(Subgroup.center ↥(That hWin)))
@@ -503,6 +527,7 @@ noncomputable abbrev eTop (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W) 
     right_inv := fun y => rfl
     map_mul' := fun x y => rfl }
 
+omit [Finite G] [Finite V] in
 theorem exists_phi (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (eQ : ↥(That hWin) ≃* QuaternionGroup 2) :
     ∃ φ : ↥T →* QuaternionGroup 2, Function.Surjective φ ∧
@@ -527,6 +552,7 @@ theorem exists_phi (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
         rw [h3, map_one]
     simpa using (h2.trans (rangeRestrict_eq_one_iff hWin (Subgroup.inclusion le_sup_left t)))
 
+omit [Finite G] [Finite V] in
 theorem exists_psi (hWin : ∀ g ∈ T ⊔ D, ∀ w ∈ W, ρ g w ∈ W)
     (eSL : ↥(That hWin ⊔ Dhat hWin) ≃* SL(2, ZMod 3)) :
     ∃ ψ : ↥(T ⊔ D) →* SL(2, ZMod 3), Function.Surjective ψ ∧
@@ -566,10 +592,10 @@ theorem k43gen_of_k43 (hK42 : K42) (hK43 : K43) : K43Gen := by
     rw [h] at hw
     have hw0 : w = 0 := by simpa using hw
     exact hne (by rw [hw0]; simp)
-  haveI : Finite (W ≃ₗ[ZMod p] W) :=
+  have : Finite (W ≃ₗ[ZMod p] W) :=
     Finite.of_injective (fun e : W ≃ₗ[ZMod p] W => (e : W → W))
       (fun a b h => LinearEquiv.ext fun w => congrFun h w)
-  haveI : Finite ↥(Ghat hWin) := Subtype.finite
+  have : Finite ↥(Ghat hWin) := Subtype.finite
   have hKGGhat : CFSG.Open.IsKGroup ↥(Ghat hWin) :=
     (hKG.subgroup (T ⊔ D)).of_surjective (act hWin).rangeRestrict
       (act hWin).rangeRestrict_surjective

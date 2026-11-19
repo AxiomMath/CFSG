@@ -153,9 +153,9 @@ theorem NGKData.two_components_false (h : NGKData X P z D) (hF : PlaneFacts (P :
     rw [not_or] at hne
     exact h.three_components_false hB hnc h₁ h₂ hK h₁₂ (Ne.symm hne.1) (Ne.symm hne.2)
   obtain ⟨B₁, hB₁K, hB₁D, hB₁9, hB₁e⟩ := ngk3_plane_le h hF hB h₁ (hnc K₁ h₁)
-    fun g hg => ngk3_mem_normalizer_of_two P.isPGroup' h₁ h₂ h₁₂ hall hg
+    fun g hg => ngk3_mem_normalizer_of_two P.isPGroup h₁ h₂ h₁₂ hall hg
   obtain ⟨B₂, hB₂K, hB₂D, hB₂9, hB₂e⟩ := ngk3_plane_le h hF hB h₂ (hnc K₂ h₂)
-    fun g hg => ngk3_mem_normalizer_of_two P.isPGroup' h₂ h₁ h₁₂.symm
+    fun g hg => ngk3_mem_normalizer_of_two P.isPGroup h₂ h₁ h₁₂.symm
       (fun K hK => (hall K hK).symm) hg
   have hEq : B₁ = B₂ := hF.eq_of_comm B₁ B₂ hB₁D hB₂D hB₁9 hB₂9 fun b hb b' hb' =>
     commute_of_isComponentOf_ne h₁ h₂ h₁₂ b (hB₁K hb) b' (hB₂K hb')

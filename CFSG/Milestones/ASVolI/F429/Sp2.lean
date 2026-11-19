@@ -244,7 +244,7 @@ theorem burnsideF429_s_Φ_t :
   ext a b
   rw [burnsideF429_s_Φ_apply, hm]
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [burnsideF429_s_T, Matrix.one_apply, Matrix.single_apply]
+    simp [burnsideF429_s_T]
 
 variable [Finite F]
 

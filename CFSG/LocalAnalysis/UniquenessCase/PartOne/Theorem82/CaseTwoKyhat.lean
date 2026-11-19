@@ -193,7 +193,7 @@ theorem pCoreOf_Kyhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
     CFSG.Open.pCoreOf 2 t.Kyhat = t.O2Kyhat := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN2 : IsPGroup 2 t.d.N := by
     rw [show t.d.N = CFSG.Open.pCoreOf 2 t.d.M from rfl, t.hdM]
     exact CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 c.S.M

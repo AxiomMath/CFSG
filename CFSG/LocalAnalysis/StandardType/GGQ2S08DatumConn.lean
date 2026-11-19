@@ -10,11 +10,11 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly
 
 private theorem ggQ2s08d4_R_symm {ι : Type} (M : CoxeterMatrix ι) :
-    Symmetric (fun a b : ι => a ≠ b ∧ M a b ≠ 2) := by
+    (∀ ⦃a₀ b₀⦄, (fun a b : ι => a ≠ b ∧ M a b ≠ 2) a₀ b₀ → (fun a b : ι => a ≠ b ∧ M a b ≠ 2) b₀ a₀) := by
   intro a b hab
   exact ⟨hab.1.symm, by rw [CoxeterMatrix.symmetric M b a]; exact hab.2⟩
 
-private theorem ggQ2s08d4_conn_of_spine {α : Type} (R : α → α → Prop) (hsym : Symmetric R)
+private theorem ggQ2s08d4_conn_of_spine {α : Type} (R : α → α → Prop) (hsym : (∀ ⦃a₀ b₀⦄, R a₀ b₀ → R b₀ a₀))
     (z : α) (h : ∀ k, Relation.ReflTransGen R z k) :
     ∀ i j, Relation.ReflTransGen R i j := by
   have hrev : ∀ {a b : α}, Relation.ReflTransGen R a b → Relation.ReflTransGen R b a := by
@@ -71,10 +71,10 @@ private theorem ggQ2s08d4_A_step (n m : ℕ) (hmn : m < n) (hm : m + 1 < n) :
   refine ⟨?_, ?_⟩
   · intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   · simp only [CoxeterMatrix.A, Matrix.of_apply]
-    rw [if_neg (by intro h; have hv := congrArg Fin.val h; simp only [Fin.val_mk] at hv; omega)]
+    rw [ite_eq_right (by intro h; have hv := congrArg Fin.val h; simp only at hv; omega)]
     split_ifs <;> simp_all
 
 private theorem ggQ2s08d4_B_step (n m : ℕ) (hmn : m < n) (hm : m + 1 < n) :
@@ -83,10 +83,10 @@ private theorem ggQ2s08d4_B_step (n m : ℕ) (hmn : m < n) (hm : m + 1 < n) :
   refine ⟨?_, ?_⟩
   · intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   · simp only [CoxeterMatrix.B, Matrix.of_apply]
-    rw [if_neg (by intro h; have hv := congrArg Fin.val h; simp only [Fin.val_mk] at hv; omega)]
+    rw [ite_eq_right (by intro h; have hv := congrArg Fin.val h; simp only at hv; omega)]
     split_ifs <;> simp_all
 
 private theorem ggQ2s08d4_conn_A (n : ℕ) (hn : 1 ≤ n) :
@@ -130,15 +130,15 @@ private theorem ggQ2s08d4_D_chain (n m : ℕ) (hn : 3 ≤ n) (hmn : m < n) (hm :
   have hne : (⟨m, hmn⟩ : Fin n) ≠ ⟨m + 1, hm⟩ := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   refine ⟨hne, ?_⟩
   rw [ggCoxeterMatrixD_apply]
-  rw [if_neg hne]
+  rw [ite_eq_right hne]
   have hcart : CartanMatrix.D n ⟨m, hmn⟩ ⟨m + 1, hm⟩ = -1 := by
-    simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk, Fin.ext_iff, true_and]
+    simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, true_and]
     split_ifs <;> omega
-  rw [if_neg (by rw [hcart]; norm_num)]
+  rw [ite_eq_right (by rw [hcart]; norm_num)]
   norm_num
 
 private theorem ggQ2s08d4_D_fork2 (n : ℕ) (hn : 3 ≤ n) :
@@ -147,15 +147,15 @@ private theorem ggQ2s08d4_D_fork2 (n : ℕ) (hn : 3 ≤ n) :
   have hne : (⟨n - 3, by omega⟩ : Fin n) ≠ ⟨n - 2, by omega⟩ := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   refine ⟨hne, ?_⟩
   rw [ggCoxeterMatrixD_apply]
-  rw [if_neg hne]
+  rw [ite_eq_right hne]
   have hcart : CartanMatrix.D n ⟨n - 3, by omega⟩ ⟨n - 2, by omega⟩ = -1 := by
-    simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk, Fin.ext_iff, true_and]
+    simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
     split_ifs <;> omega
-  rw [if_neg (by rw [hcart]; norm_num)]
+  rw [ite_eq_right (by rw [hcart]; norm_num)]
   norm_num
 
 private theorem ggQ2s08d4_D_fork1 (n : ℕ) (hn : 3 ≤ n) :
@@ -164,15 +164,15 @@ private theorem ggQ2s08d4_D_fork1 (n : ℕ) (hn : 3 ≤ n) :
   have hne : (⟨n - 3, by omega⟩ : Fin n) ≠ ⟨n - 1, by omega⟩ := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   refine ⟨hne, ?_⟩
   rw [ggCoxeterMatrixD_apply]
-  rw [if_neg hne]
+  rw [ite_eq_right hne]
   have hcart : CartanMatrix.D n ⟨n - 3, by omega⟩ ⟨n - 1, by omega⟩ = -1 := by
-    simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk, Fin.ext_iff, true_and]
+    simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
     split_ifs <;> omega
-  rw [if_neg (by rw [hcart]; norm_num)]
+  rw [ite_eq_right (by rw [hcart]; norm_num)]
   norm_num
 
 private theorem ggQ2s08d4_conn_D (n : ℕ) (hn : 3 ≤ n) :

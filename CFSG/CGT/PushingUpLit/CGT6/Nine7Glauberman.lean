@@ -146,9 +146,9 @@ theorem isSolvable_centralizer_sylow {X : Type} [Group X] [Finite X] (S : Sylow 
     have hnorm : (P : Subgroup C).map C.subtype ≤ Subgroup.normalizer (S : Set X) := by
       rintro _ ⟨y, -, rfl⟩
       exact Subgroup.centralizer_le_normalizer (S : Set X) y.2
-    have hpg : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map C.subtype
+    have hpg : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup.map C.subtype
     have := S.maximal_isPGroup.eq_of_ge
-      (hpg.to_sup_of_normal_right' S.isPGroup' hnorm) le_sup_right
+      (hpg.to_sup_of_normal_right' S.isPGroup hnorm) le_sup_right
     exact le_sup_left.trans this.le
   have hcentral : ∀ y ∈ (P : Subgroup C), y ∈ Subgroup.center C := by
     intro y hy

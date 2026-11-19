@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s21_9TorusN_of (D : Data G) (Ch : Choice2011 G) (hC : uc22pwCartanSU3) :
     S21_9TorusN D Ch := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro _ _ L hL hLN n hX s hs hsn r hr hrs
   have hn : n ≠ 0 := by
     have := (CFSG.Blueprint.LieModel.admissible hX.2).2.1

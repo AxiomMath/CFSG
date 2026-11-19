@@ -35,6 +35,7 @@ private theorem w1369_zmod2_add_eq_zero {x y : ZMod 2} (h : x + y = 0) : x = y :
   have hchar : ∀ x y : ZMod 2, x + y = 0 → x = y := by decide
   exact hchar x y h
 
+omit [Module K4 V] in
 private theorem w1369_form_symm (B : V →+ V →+ ZMod 2) (halt : ∀ u, B u u = 0) (u v : V) :
     B u v = B v u := by
   have hcalc : B (u + v) (u + v) = B u v + B v u := by
@@ -130,9 +131,9 @@ theorem trace_descent_f4 {V : Type} [AddCommGroup V] [Module (GaloisField 2 2) V
       (∀ u, (∀ v, b u v = 0) → u = 0) ∧ (∀ c, θ (θ c) = c) ∧ (∀ u v, b v u = θ (b u v)) ∧
       (θ = RingHom.id _ → ∀ u, b u u = 0) := by
   classical
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite (GaloisField 2 2)
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite (GaloisField 2 2)
   by_cases htriv : Subsingleton V
-  · haveI := htriv
+  · have := htriv
     refine ⟨RingHom.id (GaloisField 2 2), 0, ?_, ?_, ?_, ?_, ?_⟩
     · intro u v
       rw [Subsingleton.elim u 0]
@@ -142,7 +143,7 @@ theorem trace_descent_f4 {V : Type} [AddCommGroup V] [Module (GaloisField 2 2) V
     · intro c; rfl
     · intro u v; rfl
     · intro _ u; rfl
-  · haveI : Nontrivial V := not_subsingleton_iff_nontrivial.mp htriv
+  · have : Nontrivial V := not_subsingleton_iff_nontrivial.mp htriv
     obtain ⟨v₀, hv₀⟩ := exists_ne (0 : V)
     have hsymm : ∀ u v, B u v = B v u := w1369_form_symm B halt
     have hunique : ∀ {μ a b : K4}, (∀ u v, B (μ • u) v = B u (a • v)) →

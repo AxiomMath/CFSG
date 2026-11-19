@@ -25,15 +25,15 @@ theorem iSup_phiTwoComp_eq_top_E7
       g0 * canonicalRep (coxeterSystem .E7) (AlgebraicClosure K) w) :
     (⨆ γ : {γ : Fin Tag.E7.rank → ℤ // IsRoot .E7 γ}, phiTwoComp g0 γ.1) = ⊤ := by
   classical
-  haveI hCharL : CharP (AlgebraicClosure K) 2 :=
+  have hCharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI hFinG : Finite (adjointGroup .E7 K) := inferInstance
+  have hFinG : Finite (adjointGroup .E7 K) := inferInstance
   set w0 : WeylGroup .E7 :=
     (coxeterSystem .E7).wordProd ((RootOps.longestWord .E7).map (Tag.idx .E7)) with hw0
   have w0_smul_single : ∀ i : Fin Tag.E7.rank,
       w0 • (Pi.single i 1 : Fin Tag.E7.rank → ℤ) = -Pi.single i 1 := by
     intro i
-    fin_cases i <;> (rw [hw0, wordProd_smul] <;> decide +kernel)
+    fin_cases i <;> (rw [hw0, wordProd_smul]; decide +kernel)
   have w0_neg : ∀ v : Fin Tag.E7.rank → ℤ, w0 • v = -v := by
     intro v
     have h : CFSG.LieType.RootSystem.weylAction (isFiniteType_cartan .E7) w0 =
@@ -58,8 +58,6 @@ theorem iSup_phiTwoComp_eq_top_E7
   have hcent : ∀ u : WeylGroup .E7, u * w = w * u := by
     intro u
     refine ext_single fun i => ?_
-    change (u * w) • (Pi.single i 1 : Fin Tag.E7.rank → ℤ) =
-      (w * u) • (Pi.single i 1 : Fin Tag.E7.rank → ℤ)
     rw [mul_smul, mul_smul, hneg (Pi.single i 1) (isRoot_single .E7 i), smul_neg,
       hneg (u • Pi.single i 1) (IsRoot.smul (isRoot_single .E7 i) u)]
   obtain ⟨h, z, hz, hg0z⟩ := exists_mul_eq_kernelGroup (τ := .E7) e7ChiC hFr (hrat_E7 hFr)
@@ -70,7 +68,7 @@ theorem iSup_phiTwoComp_eq_top_E7
       Mz.map (MulAut.conj h).toMonoidHom := by
     rw [hg0z, hMz]
     exact iSup_phiTwoComp_baseChange_mul h z
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨fv, -, hfv⟩ := FiniteField.card K 2
   have hfK : Nat.card K = 2 ^ (fv : ℕ) := by rw [Nat.card_eq_fintype_card, hfv]
   set p := Nat.minFac (Nat.card K + 1) with hpdef
@@ -89,8 +87,8 @@ theorem iSup_phiTwoComp_eq_top_E7
     have h3 : 2 ∣ (Nat.card K + 1) - Nat.card K := Nat.dvd_sub h2dvd h2q
     rw [Nat.add_sub_cancel_left] at h3
     exact absurd h3 (by norm_num)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζo, -⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_orderOf_eq_of_dvd_add_one K
       (L := AlgebraicClosure K) (N := p) hpq

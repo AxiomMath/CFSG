@@ -21,6 +21,7 @@ private def altCoord (a b : ℤ) : ℕ → ℤ × ℤ
 
 omit [DecidableEq I] in
 include hA in
+omit [Fintype I] in
 private theorem altCoord_nonneg {i j : I} (hij : i ≠ j) {n : ℕ}
     (hn : n < TauCeti.coxeterOrder (A j i * A i j)) :
     0 ≤ (altCoord (A i j) (A j i) n).1 ∧ 0 ≤ (altCoord (A i j) (A j i) n).2 := by

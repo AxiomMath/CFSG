@@ -19,7 +19,7 @@ theorem ggTriD4LineBound_model {n : ℕ} (hn : 1 ≤ n) (K : Type) [Field K] [Fi
     GGTriD4LineBound 3 (GGTriD4R n K) I F := by
   intro L' _ _ ψ hψ hker hperf A hA hAI
   have hZR : Subgroup.center (GGTriD4R n K) = ⊥ := by
-    haveI := hs
+    have := hs
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center (GGTriD4R n K)) with h1 | h1
     · exact h1
     · exfalso

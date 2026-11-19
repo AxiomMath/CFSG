@@ -579,7 +579,7 @@ private theorem pcp_chainRootD_flip {t n : ℕ} {e : V t} (d : Fin (n + 4) ≃ F
       intro h
       have hv := congrArg Fin.val (d.injective h)
       simp [Fin.val_castSucc, Fin.val_last] at hv
-    rw [Function.update_apply, Function.update_apply, if_neg hne, if_pos rfl]
+    rw [Function.update_apply, Function.update_apply, ite_eq_right hne, ite_eq_left rfl]
     ring
   · have hlt : (j : ℕ) < n + 2 := by
       have := j.isLt
@@ -602,7 +602,7 @@ private theorem pcp_chainRootD_flip {t n : ℕ} {e : V t} (d : Fin (n + 4) ≃ F
       have hv := congrArg Fin.val (d.injective h)
       simp [Fin.val_succ, Fin.val_last] at hv
       omega
-    rw [Function.update_apply, Function.update_apply, if_neg hjd, if_neg hjs]
+    rw [Function.update_apply, Function.update_apply, ite_eq_right hjd, ite_eq_right hjs]
 
 theorem leafModelFlip_holds : LeafModelFlip := by
   intro t ht e he i₀
@@ -615,9 +615,9 @@ theorem leafModelFlip_holds : LeafModelFlip := by
     intro i
     rw [show e' i = Function.update e i₀ (-e i₀) i from rfl, Function.update_apply]
     by_cases hi : i = i₀
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact neg_ne_zero.mpr (he i₀)
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       exact he i
   have heD : ∀ κ : Fin (n + 4), e (d κ) ≠ 0 := fun κ => he (d κ)
   have hne_ab : (Fin.last (n + 3) : Fin (n + 4)) ≠ (Fin.last (n + 2)).castSucc := by

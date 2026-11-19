@@ -85,7 +85,7 @@ theorem case1294FiveID_of_five (h1222 : Stmt12_2_2) (h1264 : Stmt12_6_34)
       have h2 := hVDsq x hx
       rw [pow_two] at h2
       exact h2) hK₁VD hbotVD
-  haveI : IsMulCommutative ↥VD := hVDab.1
+  have : IsMulCommutative ↥VD := hVDab.1
   obtain ⟨V₀, hV₀, -⟩ := exists_isIrrPlusIn_sectionIso hVDsq hK₁VD hTVD hTK hH.sylow.1 hI
   have hV₀VD : V₀ ≤ VD := hV₀.1
   have hirrR : IsIrrPlusIn K₁ (reducedAggregate (K₁ ⊔ T)) T V₀ :=

@@ -81,6 +81,7 @@ theorem subgroupOfEquivOfLe_conjNormal {X L : Subgroup G} (hXL : X ≤ L)
   apply Subtype.ext
   rfl
 
+omit [Finite G] in
 theorem frattiniQuotConj_irreducible_of {X L : Subgroup G} (hXL : X ≤ L)
     [(X.subgroupOf L).Normal] (hirr : IsFrattiniIrreducible X L) :
     ∀ U : Subgroup ((X.subgroupOf L ⧸ CFSG.pCore 2 (X.subgroupOf L)) ⧸

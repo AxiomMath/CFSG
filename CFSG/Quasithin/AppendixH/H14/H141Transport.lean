@@ -111,7 +111,7 @@ theorem clause26_of_map_conj (c : S24) {MS KS KO : Subgroup S24}
     simpa only [MulEquiv.coe_toMonoidHom] using (MulAut.conj c).injective
   unfold Clause26 at h
   obtain ⟨K, hKfield, hKcard, Ω, φ', π', hHyp, hConj, hLin, hE2k, hLine, hCount⟩ := h
-  letI : Field K := hKfield
+  let : Field K := hKfield
   let eK := Subgroup.equivMapOfInjective KS (MulAut.conj c).toMonoidHom hf
   let eM := Subgroup.equivMapOfInjective MS (MulAut.conj c).toMonoidHom hf
   let φ : ↥KS ≃* Multiplicative (Fin 3 → K) := eK.trans φ'

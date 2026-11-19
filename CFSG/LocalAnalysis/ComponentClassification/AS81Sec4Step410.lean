@@ -110,7 +110,7 @@ theorem odd_relIndex_sup_oddCoreIn {Q Y : Subgroup G} (hQ2 : IsPGroup 2 Q) (hQY 
   have hQM : Q ≤ M := le_inf le_sup_left hQY
   have hQ' : IsPGroup 2 (Q.subgroupOf M) := hQ2.comap_subtype
   obtain ⟨S, hS⟩ := hQ'.exists_le_sylow
-  have hT2 : IsPGroup 2 ((S : Subgroup M).map M.subtype) := S.isPGroup'.map M.subtype
+  have hT2 : IsPGroup 2 ((S : Subgroup M).map M.subtype) := S.isPGroup.map M.subtype
   have hQT : Q ≤ (S : Subgroup M).map M.subtype := fun q hq =>
     ⟨⟨q, hQM hq⟩, hS (show (⟨q, hQM hq⟩ : M) ∈ Q.subgroupOf M from hq), rfl⟩
   have hTQ := eq_of_le_sup_oddCoreIn hT2 hQT ((map_subtype_le _).trans inf_le_left)

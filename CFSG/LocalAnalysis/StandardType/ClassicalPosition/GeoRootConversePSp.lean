@@ -153,7 +153,7 @@ private theorem grcPSp_conj_vecMulVec {n : ℕ} {F : Type} [Field F]
       (Symplectic.SpExtras.mat n F u⁻¹) = _
   rw [hh]
   simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.mul_smul, Matrix.smul_mul,
-    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, grcPSp_mat_mul_inv, zero_add]
+    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, grcPSp_mat_mul_inv]
 
 private theorem grcPSp_conj_matTransvGroup_le {n : ℕ} {F : Type} [Field F] [CharP F 2]
     (u : ↥(CFSG.Open.StatedSp n F)) (v : Fin n ⊕ Fin n → F) :
@@ -272,7 +272,7 @@ private theorem grcPSp_conj_add_vecMulVec {n : ℕ} {F : Type} [Field F]
       (Symplectic.SpExtras.mat n F u⁻¹) = _
   rw [hh]
   simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.mul_smul, Matrix.smul_mul,
-    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, grcPSp_mat_mul_inv, zero_add]
+    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, grcPSp_mat_mul_inv]
 
 private theorem grcPSp_conj_altSiegelGroup_gen {n : ℕ} {F : Type} [Field F] [CharP F 2]
     (u : ↥(CFSG.Open.StatedSp n F)) (x y : Fin n ⊕ Fin n → F) :
@@ -287,7 +287,7 @@ private theorem grcPSp_conj_altSiegelGroup_gen {n : ℕ} {F : Type} [Field F] [C
   rw [altSiegelGroup, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h, ⟨c, hc⟩, rfl⟩
     refine ⟨c, ?_⟩
@@ -433,7 +433,7 @@ private theorem grcPSp_map_mulVec_preserves {n f : ℕ}
         ![Matrix.mulVec (Symplectic.SpExtras.mat n (GaloisField 2 f) u) a₁,
           Matrix.mulVec (Symplectic.SpExtras.mat n (GaloisField 2 f) u) a₂] := by
       ext i
-      fin_cases i <;> simp [Function.comp_apply, Matrix.mulVecLin_apply]
+      fin_cases i <;> simp [Function.comp_apply]
     rw [hfun] at h
     exact h
   · have hsp : Matrix.transpose (Symplectic.SpExtras.mat n (GaloisField 2 f) u) *

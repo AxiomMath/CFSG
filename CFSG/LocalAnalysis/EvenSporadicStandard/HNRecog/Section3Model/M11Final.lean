@@ -93,7 +93,7 @@ theorem exists_order_five_of_mulEquiv {M : Type} [Group M]
     (fun h => hs1 (φ.injective (by rw [h, map_one])))
   set t₁ : ↥CFSG.Open.M11 := ⟨m11t1, m11t1_mem⟩ with ht₁
   have hz5 : orderOf (m11zG * t₁) = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have e5 : (m11zG * t₁) ^ 5 = 1 := by
       apply Subtype.ext
       rw [Subgroup.coe_pow, Subgroup.coe_mul, Subgroup.coe_one]
@@ -154,13 +154,13 @@ open CFSG.Blueprint CFSG.Blueprint.NativeSporadic CFSG.EvenSporadicStandard.HNRe
 theorem m11Facts_holds : M11Facts where
   perfect := fun M _ h => by
     obtain ⟨e⟩ := h
-    haveI : IsSimpleGroup M :=
+    have : IsSimpleGroup M :=
       e.isSimpleGroup_congr.mpr CFSG.ClassicalInvolution.Q3.isSimpleGroup_m11_kernel
     exact commutator_eq_top_of_simple
       (exists_noncomm_of_mulEquiv (e.trans nativeEquivOpen) m11_noncomm)
   center_trivial := fun M _ h t ht => by
     obtain ⟨e⟩ := h
-    haveI : IsSimpleGroup M :=
+    have : IsSimpleGroup M :=
       e.isSimpleGroup_congr.mpr CFSG.ClassicalInvolution.Q3.isSimpleGroup_m11_kernel
     exact eq_one_of_central_of_simple
       (exists_noncomm_of_mulEquiv (e.trans nativeEquivOpen) m11_noncomm) ht

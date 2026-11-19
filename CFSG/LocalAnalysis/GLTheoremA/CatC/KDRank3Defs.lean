@@ -68,8 +68,8 @@ theorem card_inf_inner_eq {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type} [G
     (hrank : GLATwoLocalRank p S ≤ 3) {E : Subgroup (MulAut S)} (hE : IsElemAbelian p E)
     (hcard : Nat.card E = p ^ 3) (hnot : ¬ E ≤ inner S) :
     Nat.card ↥(E ⊓ inner S) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut S) := MulEquiv.finite_left
   set E₀ : Subgroup (MulAut S) := E ⊓ inner S with hE₀
   have hdvd : Nat.card E₀ ∣ p ^ 3 := hcard ▸ Subgroup.card_dvd_of_le inf_le_left
   obtain ⟨k, hk, hkE⟩ := (Nat.dvd_prime_pow hp).1 hdvd

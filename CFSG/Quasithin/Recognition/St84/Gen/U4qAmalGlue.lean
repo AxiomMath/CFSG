@@ -21,6 +21,7 @@ open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial CFSG.Q
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem isL2Quot_of_surjective {L : Subgroup G} {n : ℕ} (hn : 2 ≤ n) {F : Type}
     [Field F] [Fintype F] (hF : Fintype.card F = 2 ^ n)
     (α : ↥L →* Matrix.SpecialLinearGroup (Fin 2) F) (hα : Function.Surjective α)

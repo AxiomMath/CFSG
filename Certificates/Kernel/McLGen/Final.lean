@@ -46,7 +46,6 @@ theorem gen_facts {x : Nat} (hx : x < 275) :
       r32 AT x = pg 9 (mask 9) (CertificateChecks.KernelCensus.McLS.F 0) x ∧
       r32 BT x = pg 9 (mask 9) (CertificateChecks.KernelCensus.McLS.F 1) x := by
   have h := allN_spec gen_ok x hx
-  unfold genOK at h
   simp only [bAnd_iff] at h
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8⟩ := h
   exact ⟨blt_true h1, beq_true h2, blt_true h3, blt_true h4, beq_true h5, blt_true h6,
@@ -102,18 +101,18 @@ theorem gens_get (z : Int) {x : Nat} (hx : x < 275) :
   unfold mclLetters
   by_cases h1 : z = 1
   · subst h1
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact ⟨(tbl_get (by norm_num) hx).trans hf.2.2.2.2.2.2.1.symm, hf.1⟩
   by_cases h2 : z = -1
   · subst h2
-    rw [if_neg (show (-1 : Int) ≠ 1 by decide), if_pos rfl]
+    rw [ite_eq_right (show (-1 : Int) ≠ 1 by decide), ite_eq_left rfl]
     exact ⟨invA.2 x hx, hf.2.2.1⟩
   by_cases h3 : z = 2
   · subst h3
-    rw [if_neg (show (2 : Int) ≠ 1 by decide), if_neg (show (2 : Int) ≠ -1 by decide),
-      if_pos rfl]
+    rw [ite_eq_right (show (2 : Int) ≠ 1 by decide), ite_eq_right (show (2 : Int) ≠ -1 by decide),
+      ite_eq_left rfl]
     exact ⟨(tbl_get (by norm_num) hx).trans hf.2.2.2.2.2.2.2.symm, hf.2.2.2.1⟩
-  rw [if_neg h1, if_neg h2, if_neg h3, GJ_other h1 h2 h3]
+  rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, GJ_other h1 h2 h3]
   exact ⟨invB.2 x hx, hf.2.2.2.2.2.1⟩
 
 theorem slp_ok : slpOK mclGenWords = true := by

@@ -46,7 +46,7 @@ theorem mem_sec8ImgUtPre {G : Type} [Group G] {Q Z : Subgroup G} {K : Type} [Fie
 theorem sec8_img_Ut_iff {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     (hc : Ctx M Q Z B)
     {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
-    (hD : GlobalModelData M Q Z γ M₀) {x : G} (hxM : x ∈ M) (hx2 : x ^ 2 ∈ Q)
+    (_hD : GlobalModelData M Q Z γ M₀) {x : G} (hxM : x ∈ M) (hx2 : x ^ 2 ∈ Q)
     {T : M₀.E ≃ₗ[K] M₀.E} (hT : ∀ y ∈ Q, M₀.π (x * y * x⁻¹) = T (M₀.π y)) (e : M₀.E) :
     e ∈ M₀.img (Ut Q Z x) ↔ ∃ f : M₀.E, e = T f - f := by
   have hQn : ∀ a ∈ M, ∀ y ∈ Q, a * y * a⁻¹ ∈ Q := fun a ha y hy =>
@@ -213,7 +213,7 @@ theorem sec8_V1_le_Q {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   exact inf_le_left.trans (sup_le inf_le_left (hc.Vt_le_Q t))
 
 theorem sec8_Z_le_V1 {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
-    (hc : Ctx M Q Z B) (t r : G) : Z ≤ Sec8V1 M Q Z B t r := by
+    (_hc : Ctx M Q Z B) (t r : G) : Z ≤ Sec8V1 M Q Z B t r := by
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   have hVV₁ : Vt M (LB M Q B) B Z t ≤ Sec8V1 M Q Z B t r := by
     show Vt M (LB M Q B) B Z t ≤ ((Q ⊓ QB B) ⊔ Vt M (LB M Q B) B Z t) ⊓
@@ -315,7 +315,7 @@ theorem sec8_img_V1_kclosed {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup 
   have hcW₁ : Nat.card ↥(Sec8W1 M Q Z B t r) =
       Nat.card ↥Z * Nat.card ↥(M₀.img (Sec8W1 M Q Z B t r)) :=
     M₀.card_eq (sec8_W1_le_Q M Q Z B t r) (sec8_Z_le_W1 hc t r)
-  haveI hEfin : Finite M₀.E := Module.finite_of_finite K
+  have hEfin : Finite M₀.E := Module.finite_of_finite K
   have himgQ : M₀.img Q = ⊤ := by
     rw [eq_top_iff]
     intro e _
@@ -379,8 +379,8 @@ theorem sec8_exists_codim_one (h310chi : Stroth310ChiStatement) (h53a : Stroth53
   have ht : t ∈ LB M Q B := h5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   obtain ⟨hV, hWQ1⟩ := h310chi G M Q Z B hc n t h5 (Or.inl hs.spNat)
-  haveI hEfin : Module.Finite K M₀.E := M₀.fin
-  haveI hEfinite : Finite M₀.E := Module.finite_of_finite K
+  have hEfin : Module.Finite K M₀.E := M₀.fin
+  have hEfinite : Finite M₀.E := Module.finite_of_finite K
   have hq : Nat.card K = Nat.card Z := hD.card
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega
   have htcz : ∀ z ∈ Z, t * z * t⁻¹ = z := fun z hz => by

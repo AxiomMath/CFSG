@@ -121,8 +121,8 @@ theorem omega_addHom_eq_zero
     by_cases hi : i = 0
     · subst hi
       rfl
-    · rw [if_neg hi]
-      simp only [OmegaSix.gen6, if_neg hi, one_ne_zero, if_false]
+    · rw [ite_eq_right hi]
+      simp only [OmegaSix.gen6, ite_eq_right hi, one_ne_zero, ite_false]
   obtain ⟨hp, hq⟩ := relators_sum (τ (OmegaSix.gen6 0)) (τ (OmegaSix.gen6 1)) fun w hw => by
     have h := congrArg τ (OmegaSix.relators_spec w hw).2
     rw [hprod, List.map_map, h1] at h

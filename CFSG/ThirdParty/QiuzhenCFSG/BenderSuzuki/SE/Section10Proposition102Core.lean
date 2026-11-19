@@ -66,7 +66,7 @@ public theorem proposition102_D_eq_E_sup_C
   let E : Subgroup X := W ⊓ D
   let P : Subgroup X := d.choice.P
   let C : Subgroup X := lemma104C d
-  letI : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
+  let : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
   have hED : E ≤ D := inf_le_right
   have hEnormal : (E.subgroupOf D).Normal := by
     simpa [E] using hW.inf_normal_in_right hDle
@@ -110,8 +110,8 @@ public theorem proposition102_H_core
   let C : Subgroup X := lemma104C d
   let H : Subgroup X := lemma106H d
   have hp : p.Prime := by simpa [p] using d.choice.p_prime
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsMulCommutative P :=
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsMulCommutative P :=
     (isCyclic_of_prime_card (by simpa [P] using d.P_card)).isMulCommutative
   have hA_V : A ≤ peterfalviV D t := by
     dsimp [A]
@@ -190,7 +190,7 @@ public theorem proposition102_H_core
   have hDnormN : D ≤ Subgroup.normalizer (N : Set X) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hN_D).mp hNnormal
   have hPnormN : P ≤ Subgroup.normalizer (N : Set X) := hP_D.trans hDnormN
-  have hKsolv : IsSolvable K :=
+  have hKsolv : Group.IsSolvable K :=
     odd_order_theorem K (hDodd.of_dvd_nat (Subgroup.card_dvd_of_le hK_D))
   have hcopPN : Nat.Coprime (Nat.card P) (Nat.card N) := by
     have hNeq : N = (pPrimeCore p D).map D.subtype := by
@@ -274,11 +274,11 @@ public theorem proposition102_part_a
   let P : Subgroup X := d.choice.P
   let C : Subgroup X := lemma104C d
   let H : Subgroup X := lemma106H d
-  letI : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
-  letI : IsMulCommutative P :=
+  let : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
+  let : IsMulCommutative P :=
     (isCyclic_of_prime_card (by simpa [P] using d.P_card)).isMulCommutative
   have hED : E ≤ D := inf_le_right
-  have hEsolv : IsSolvable E :=
+  have hEsolv : Group.IsSolvable E :=
     odd_order_theorem E
       (hDodd.of_dvd_nat (Subgroup.card_dvd_of_le hED))
   have hPE : P ≤ E := by

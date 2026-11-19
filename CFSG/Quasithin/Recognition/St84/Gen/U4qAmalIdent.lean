@@ -13,6 +13,7 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.F1 CFSG.QuasithinUnique CFSG.Quasit
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem sup_zpowers_eq_of_relIndex_eq_two_u4Id {S₀ : Subgroup G} {τ : G}
     (hS₀S : S₀ ≤ S) (hidx : S₀.relIndex S = 2) (hτS : τ ∈ S) (hτS₀ : τ ∉ S₀) :
     S₀ ⊔ Subgroup.zpowers τ = S := by

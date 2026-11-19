@@ -89,7 +89,7 @@ theorem cox_ok : glMkCoxOK = true := by
     exact hP
   · intro e he
     obtain ⟨⟨hw, hz⟩, hp⟩ := hC e he
-    simp only [List.all_eq_true, decide_eq_true_eq] at hw
+    simp only [decide_eq_true_eq] at hw
     rw [glR_eq hw, glZ_eq, commRows_unpack, conjPath_eq]
     exact ⟨hz, hp⟩
   · intro a ha b hb c hc d hd e he

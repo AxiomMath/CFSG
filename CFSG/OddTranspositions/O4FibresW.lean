@@ -20,9 +20,9 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
   (QuotientGroup.mk' R) '' {x : X | (x : G) ∈ D}
 
 theorem exists_normalized_iso (hC : HypothesisC D) {u w v z : G}
-    (htri : IsTriangle D u w v) (hu : u ∈ hC.alpha)
-    (hz : ∃ n : ℕ, Odd n ∧ 1 < n ∧ orderOf (u * v * w) = 2 * n ∧ z = (u * v * w) ^ n)
-    {X : Subgroup G} (hKX : thirdK D z ≤ X) (huX : u ∈ X) {R : Subgroup X} [R.Normal]
+    (_htri : IsTriangle D u w v) (hu : u ∈ hC.alpha)
+    (_hz : ∃ n : ℕ, Odd n ∧ 1 < n ∧ orderOf (u * v * w) = 2 * n ∧ z = (u * v * w) ^ n)
+    {X : Subgroup G} (_hKX : thirdK D z ≤ X) (huX : u ∈ X) {R : Subgroup X} [R.Normal]
     (hPX : O4PairData (X ⧸ R) (Omega D X R)) :
     ∃ e : (X ⧸ R) ≃* PSigmaL225, e '' Omega D X R = class65 ∧
       e (QuotientGroup.mk' R ⟨u, huX⟩) = SemidirectProduct.inr frob25 := by
@@ -43,24 +43,24 @@ theorem exists_normalized_iso (hC : HypothesisC D) {u w v z : G}
   have hclass : (MulAut.conj c⁻¹) '' class65 = class65 := by
     ext x
     constructor
-    · rintro ⟨z, hz, rfl⟩
-      rw [mem_class65_iff] at hz ⊢
-      exact hz.trans (isConj_iff.mpr ⟨c⁻¹, rfl⟩)
+    · rintro ⟨z, _hz, rfl⟩
+      rw [mem_class65_iff] at _hz ⊢
+      exact _hz.trans (isConj_iff.mpr ⟨c⁻¹, rfl⟩)
     · intro hx
       refine ⟨(MulAut.conj c⁻¹).symm x, ?_, ?_⟩
       · rw [mem_class65_iff] at hx ⊢
         have hxy : IsConj x (c * x * c⁻¹) := isConj_iff.mpr ⟨c, rfl⟩
-        exact hx.trans (by simpa [MulAut.conj_symm_apply] using hxy)
+        exact hx.trans (by simp)
       · exact MulEquiv.apply_symm_apply (MulAut.conj c⁻¹) x
   have himage : e' '' Omega D X R = class65 := by
     calc e' '' Omega D X R
         = (MulAut.conj c⁻¹) '' (e '' Omega D X R) := by
           ext x
           constructor
-          · rintro ⟨z, hz, rfl⟩
-            exact ⟨e z, ⟨z, hz, rfl⟩, rfl⟩
-          · rintro ⟨w, ⟨z, hz, rfl⟩, rfl⟩
-            exact ⟨z, hz, rfl⟩
+          · rintro ⟨z, _hz, rfl⟩
+            exact ⟨e z, ⟨z, _hz, rfl⟩, rfl⟩
+          · rintro ⟨w, ⟨z, _hz, rfl⟩, rfl⟩
+            exact ⟨z, _hz, rfl⟩
       _ = (MulAut.conj c⁻¹) '' class65 := by rw [he]
       _ = class65 := hclass
   refine ⟨e', himage, ?_⟩
@@ -68,6 +68,7 @@ theorem exists_normalized_iso (hC : HypothesisC D) {u w v z : G}
   rw [MulAut.conj_apply]
   simpa using hc'
 
+omit [Finite G] in
 theorem image_W_eq_ten {u : G} (hD : IsOddTransp D) (huD : u ∈ D)
     {X : Subgroup G} {R : Subgroup X} [R.Normal] (huX : u ∈ X)
     (e : (X ⧸ R) ≃* PSigmaL225) (he : e '' Omega D X R = class65)

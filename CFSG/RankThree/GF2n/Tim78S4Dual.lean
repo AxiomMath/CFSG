@@ -19,10 +19,10 @@ private theorem exists_eq_of_pairing_ker {P : Type*} [Group P] [Finite P] (N : S
     (hψ₁ : ∀ x x' p, ψ (x * x') p = ψ x p * ψ x' p)
     (hψN : ∀ x, ∀ n ∈ N, ψ x n = 1) (hχN : ∀ n ∈ N, χ n = 1)
     (hker : ∀ x, (∀ p, ψ x p = 1) → x ∈ N) : ∃ x, ∀ p, ψ x p = χ p := by
-  haveI : N.Normal := ⟨fun n hn g => by
+  have : N.Normal := ⟨fun n hn g => by
     have h := N.mul_mem (hN g n) hn
     simpa [commutatorElement_def, mul_assoc] using h⟩
-  haveI : IsMulCommutative (P ⧸ N) :=
+  have : IsMulCommutative (P ⧸ N) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr (by
       rw [commutator_eq_closure]
       exact (Subgroup.closure_le N).mpr (by rintro _ ⟨a, b, rfl⟩; exact hN a b))
@@ -46,11 +46,11 @@ private theorem exists_eq_of_pairing_ker {P : Type*} [Group P] [Finite P] (N : S
       exact mul_left_cancel (a := ψ (r a) p) (by rw [mul_one]; exact h3.symm)
     rw [← hr a, ← hr a']
     exact QuotientGroup.eq.mpr h2
-  haveI : NeZero ((Monoid.exponent (P ⧸ N) : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent (P ⧸ N) : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   have hcard : Nat.card ((P ⧸ N) →* ℂˣ) = Nat.card (P ⧸ N) :=
     CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (P ⧸ N) ℂ
-  haveI : Finite ((P ⧸ N) →* ℂˣ) :=
+  have : Finite ((P ⧸ N) →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.card_pos.ne')
   have hbij : Function.Bijective Ψ :=
     (Nat.bijective_iff_injective_and_card Ψ).mpr ⟨hinj, hcard.symm⟩
@@ -103,11 +103,11 @@ private theorem sgn_mul {B Hh : Subgroup G} (hHB : Hh ≤ B) (hH2 : Nat.card Hh 
   unfold sgn
   by_cases h1 : u ∈ Hh
   · by_cases h2 : v ∈ Hh
-    · rw [if_pos h1, if_pos h2, if_pos (key.mpr (iff_of_true h1 h2)), mul_one]
-    · rw [if_pos h1, if_neg h2, if_neg fun h => h2 ((key.mp h).mp h1), one_mul]
+    · rw [ite_eq_left h1, ite_eq_left h2, ite_eq_left (key.mpr (iff_of_true h1 h2)), mul_one]
+    · rw [ite_eq_left h1, ite_eq_right h2, ite_eq_right fun h => h2 ((key.mp h).mp h1), one_mul]
   · by_cases h2 : v ∈ Hh
-    · rw [if_neg h1, if_pos h2, if_neg fun h => h1 ((key.mp h).mpr h2), mul_one]
-    · rw [if_neg h1, if_neg h2, if_pos (key.mpr (iff_of_false h1 h2))]
+    · rw [ite_eq_right h1, ite_eq_left h2, ite_eq_right fun h => h1 ((key.mp h).mpr h2), mul_one]
+    · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left (key.mpr (iff_of_false h1 h2))]
       simp
 
 theorem exists_inner_of_hyperplane {Q P B Hh : Subgroup G} (hPQ : P ≤ Q)

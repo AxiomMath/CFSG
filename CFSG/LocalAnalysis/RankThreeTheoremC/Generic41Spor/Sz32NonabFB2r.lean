@@ -38,7 +38,7 @@ private theorem r3_comm_of_ne [Finite Y] {K L : Subgroup Y} (hK : CFSG.IsCompone
 private theorem r3_eq_one_of_mem_of_ne [Finite Y] {K L : Subgroup Y} (hK : CFSG.IsComponent K)
     (hL : CFSG.IsComponent L) (hne : K ≠ L) (hZ : Subgroup.center ↥K = ⊥) {x : Y}
     (hxK : x ∈ K) (hxL : x ∈ L) : x = 1 :=
-  r3_eq_one_of_central hZ hxK (fun g hg => r3_comm_of_ne hK hL hne hg hxL)
+  r3_eq_one_of_central hZ hxK (fun _g hg => r3_comm_of_ne hK hL hne hg hxL)
 
 private theorem r3_mul_eq_one [Finite Y] {K₁ K₂ K₃ : Subgroup Y}
     (c₁ : CFSG.IsComponent K₁) (c₂ : CFSG.IsComponent K₂) (c₃ : CFSG.IsComponent K₃)
@@ -64,7 +64,7 @@ private theorem r3_mul_eq_one [Finite Y] {K₁ K₂ K₃ : Subgroup Y}
 
 private theorem r3_exists_order_five [Finite Y] {K : Subgroup Y} (h5 : 5 ∣ Nat.card ↥K) :
     ∃ s : Y, s ∈ K ∧ orderOf s = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 5 h5
   exact ⟨x.1, x.2, (Subgroup.orderOf_coe x).trans hx⟩
 
@@ -147,13 +147,13 @@ variable {Y : Type} [Group Y] [Finite Y] {F Γ B R₀ : Subgroup Y} {x : Y}
 private theorem r3_sylow_comm {F E : Subgroup Y}
     (hF : CFSG.ABGLocalTools.IsSylowOf 5 F ⊤) (hFc : Nat.card F = 125) (hEc : Nat.card E = 125)
     (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hFcard : Nat.card F = 5 ^ (Nat.card Y).factorization 5 := by
     have := hF.card_eq
     rwa [Subgroup.card_top] at this
   have hEcard : Nat.card E = 5 ^ (Nat.card Y).factorization 5 :=
     hEc.trans (hFc.symm.trans hFcard)
-  haveI : Finite (Sylow 5 Y) :=
+  have : Finite (Sylow 5 Y) :=
     Finite.of_injective (fun P : Sylow 5 Y => (P : Set Y))
       (fun P Q hPQ => SetLike.coe_injective hPQ)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y (Sylow.ofCard F hFcard) (Sylow.ofCard E hEcard)

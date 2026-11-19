@@ -43,7 +43,7 @@ theorem matHom_neg (b : Module.Basis ι F E) :
     matHom b (LinearEquiv.neg F) = -1 := by
   ext i j
   rw [matHom_apply_entry, Matrix.neg_apply, Matrix.one_apply]
-  simp [Matrix.one_apply, Finsupp.single_apply, eq_comm]
+  simp [Finsupp.single_apply, eq_comm]
 
 end MatHom
 
@@ -85,8 +85,8 @@ theorem matHom_col_zero (b : Module.Basis (Fin 2) F E) (g : E ≃ₗ[F] E) (c : 
 theorem det_eq_one_of_isPerfect (Λ : Subgroup (E ≃ₗ[F] E)) [Group.IsPerfect Λ] (g : Λ) :
     LinearEquiv.det (g : E ≃ₗ[F] E) = 1 := by
   let f : Λ →* Fˣ := (LinearEquiv.det : (E ≃ₗ[F] E) →* Fˣ).comp Λ.subtype
-  haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
-  haveI : IsMulCommutative f.range := inferInstance
+  have : Group.IsPerfect f.range := Group.IsPerfect.range f
+  have : IsMulCommutative f.range := inferInstance
   have hmem : f g ∈ f.range := MonoidHom.mem_range.mpr ⟨g, rfl⟩
   have h1 : (⟨f g, hmem⟩ : f.range) = 1 := Subsingleton.elim _ _
   exact congrArg Subtype.val h1

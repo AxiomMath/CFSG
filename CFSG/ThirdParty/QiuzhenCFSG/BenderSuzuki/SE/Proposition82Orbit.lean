@@ -48,7 +48,7 @@ forgetting the orbit-membership proof. -/
       (f : X) •
         (((inOrbitEquivQuotientPointStabilizer F alpha).symm q :
           {omega : Omega // InOrbit F alpha omega}) : Omega) := by
-  letI : MulAction F Omega := MulAction.compHom Omega F.subtype
+  let : MulAction F Omega := MulAction.compHom Omega F.subtype
   change MulAction.ofQuotientStabilizer F alpha (f • q) =
     (f : X) • MulAction.ofQuotientStabilizer F alpha q
   exact MulAction.ofQuotientStabilizer_smul F alpha f q

@@ -39,7 +39,7 @@ theorem fixedGroup_perfect_of_fixedTorus_le_orbitGroup
   have hGC : Group.IsPerfect ↥D.orbitGroupC := by
     let e : ↥D.orbitGroupC ≃* ↥D.orbitGroup :=
       Subgroup.subgroupOfEquivOfLe D.orbitGroup_le_adjointGroup
-    haveI : Group.IsPerfect ↥D.orbitGroup := hperf
+    have : Group.IsPerfect ↥D.orbitGroup := hperf
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   rw [fixedGroup_eq_orbitGroupC_of_fixedTorus_le D h]
   exact hGC
@@ -79,7 +79,7 @@ theorem twoDExcFixedPointsPerfect_of_fixedGroup_map
     Subgroup.equivMapOfInjective D.fixedGroup (adjointGroup τ L).subtype
       (adjointGroup τ L).subtype_injective
   have hperfMapD : Group.IsPerfect ↥(D.fixedGroup.map (adjointGroup τ L).subtype) := by
-    haveI := hperfFG
+    have := hperfFG
     exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   have hperfHmap : Group.IsPerfect ↥((fixedPointSubgroup (iterHom S.D.step s)
       (rootSpan τ L (componentRoots (rootCharHom a) i))).map

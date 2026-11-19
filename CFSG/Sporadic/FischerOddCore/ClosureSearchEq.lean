@@ -47,7 +47,7 @@ theorem cntC_zero_of (gs : ℕ) (fn fp fl : ℕ → ℕ) :
   | zero => exact id
   | succ t ih =>
     intro e
-    rw [← Nat.add_assoc, cntC_succ, ih e, if_neg (Nat.not_lt_zero _)]
+    rw [← Nat.add_assoc, cntC_succ, ih e, ite_eq_right (Nat.not_lt_zero _)]
 
 theorem cK_mono (gs : ℕ) (fn fp fl : ℕ → ℕ) (h c : ℕ) :
     ∀ k, cK gs fn fp fl h c k ≠ 0 → c ≤ cK gs fn fp fl h c k
@@ -111,7 +111,7 @@ theorem rinv_new {E : Array (Array ℕ)} {par gen : Array ℕ} {c : ℕ} {E' : A
     · rw [hne i h1]
       exact hi1 i h1
     · have e : i = c := by omega
-      rw [e, beq_self_eq_true, if_pos rfl, hs]
+      rw [e, beq_self_eq_true, ite_eq_left rfl, hs]
   · rw [Std.HashMap.getElem?_insert] at hy
     split_ifs at hy with hz
     · rw [hs] at hy

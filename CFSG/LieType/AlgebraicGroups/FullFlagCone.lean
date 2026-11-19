@@ -222,11 +222,9 @@ theorem lastIncidence_flagMap [LinearOrder I] (b : Module.Basis I k V) (e : V �
       TensorProduct.map (flagMap e.toLinearMap r)
         (TensorProduct.map (ExteriorAlgebra.map e.toLinearMap).toLinearMap
           (ExteriorAlgebra.map e.toLinearMap).toLinearMap) (lastIncidence b r z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul w q =>
-    induction w using TensorProduct.induction_on with
-    | zero => simp [flagMap]
+    induction w using TensorProduct.inductionOn with
     | tmul w p =>
       have h := CFSG.LinearAlgebra.ExteriorIncidence.incidence_map b e
         ((p : ExteriorAlgebra k V) ⊗ₜ[k] (q : ExteriorAlgebra k V))

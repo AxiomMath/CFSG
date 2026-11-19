@@ -66,7 +66,7 @@ theorem two_lt_card_pCoreOf_inf_centralizer {M E Y : Subgroup G} (hEM : E ≤ M)
       ((CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (Y : Set G) : Subgroup G) : Set G)) :
     2 < Nat.card ↥(CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (Y : Set G)) := by
   by_contra hle
-  push_neg at hle
+  push Not at hle
   apply hnot
   intro e he
   have heQ : e ∈ Subgroup.normalizer (CFSG.Open.pCoreOf 2 M : Set G) :=
@@ -85,10 +85,10 @@ theorem conclusion76_of_steps (k : Sec7Core4 G) (h74 : Step74w k) (h75 : Step75 
     (h72L : Step72L k) (h76C : Step76C k) :
     Conclusion76 k.M k.p := by
   classical
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   have hstrong : IsStronglyPEmbedded k.p k.M := k.strong
   intro r hr E hEM hE hEcard hEcent hX
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_cases hrp : r = k.p
   · subst hrp
     exact rankThreeGamma_self_le hstrong hEM hE.isPGroup
@@ -135,7 +135,7 @@ theorem conclusion76_of_steps (k : Sec7Core4 G) (h74 : Step74w k) (h75 : Step75 
       have hXnormal : X.Normal := by
         rw [← Subgroup.normalizer_eq_top_iff]
         exact hHdef ▸ htop
-      haveI : X.Normal := hXnormal
+      have : X.Normal := hXnormal
       rcases (k.standing.simple.eq_bot_or_eq_top_of_normal X) with hbot | htopX
       · exact hXne hbot
       · have hEtop : E = ⊤ := top_le_iff.mp (htopX ▸ hXE)

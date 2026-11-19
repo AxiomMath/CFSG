@@ -20,6 +20,7 @@ variable (cT) in
 @[expose] def cT6 (x : Fin 6 → ZMod 2) : G :=
   cT (fun i => x (Fin.castAdd 3 i)) (fun i => x (Fin.natAdd 3 i))
 
+omit [Group G] in
 theorem cT6_append (v w : Fin 3 → ZMod 2) : cT6 cT (Fin.append v w) = cT v w := by
   simp only [cT6, Fin.append_left, Fin.append_right]
 

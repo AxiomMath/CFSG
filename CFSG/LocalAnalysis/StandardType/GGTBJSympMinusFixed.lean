@@ -10,6 +10,7 @@ open CFSG.StandardType SpCoord Multiplicative TypeBDatum
 
 variable {p m : ℕ} [NeZero p]
 
+omit [NeZero p] in
 theorem fixed_of_vanish_signedSupportedAut (S : Finset (Fin m))
     {f : Fin m → Multiplicative (ZMod p)} (hf : ∀ i ∈ S, f i = 1) :
     ∀ τ ∈ signedSupportedAut m p S, τ f = f := by
@@ -38,6 +39,7 @@ theorem fixed_of_vanish_signedSupportedAut (S : Finset (Fin m))
     calc τ⁻¹ f = τ⁻¹ (τ f) := by rw [h]
       _ = f := by rw [MulAut.inv_apply_self]
 
+omit [NeZero p] in
 theorem fixed_of_const_permSupportedAut (S : Finset (Fin m))
     {g : Fin m → Multiplicative (ZMod p)} {c : Multiplicative (ZMod p)} (hg : ∀ i ∈ S, g i = c) :
     ∀ π ∈ permSupportedAut m p S, π g = g := by
@@ -64,6 +66,7 @@ theorem fixed_of_const_permSupportedAut (S : Finset (Fin m))
     calc τ⁻¹ g = τ⁻¹ (τ g) := by rw [h]
       _ = g := by rw [MulAut.inv_apply_self]
 
+omit [NeZero p] in
 theorem fixed_of_twisted_twistedPermAut (S : Finset (Fin m)) {s : Fin m → ZMod p}
     (hs : ∀ i, s i * s i = 1) {f : Fin m → Multiplicative (ZMod p)} {a : ZMod p}
     (hf : ∀ i ∈ S, toAdd (f i) = s i * a) :

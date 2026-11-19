@@ -84,6 +84,7 @@ theorem eigenvalue_pow_eq_one {B : Matrix ι ι L} {p : ℕ} (hBp : B ^ p = 1) {
   have h' : (μ ^ p - 1) • v = 0 := by rw [sub_smul, ← h, one_smul, sub_self]
   exact (smul_eq_zero.mp h').resolve_left (sub_ne_zero.mpr hne)
 
+omit [DecidableEq ι] in
 theorem eigen_map_aux (f : L →+* L) {B : Matrix ι ι L} {μ : L} {v : ι → L} (hv : v ≠ 0)
     (hBv : B *ᵥ v = μ • v) : (f ∘ v) ≠ 0 ∧ B.map f *ᵥ (f ∘ v) = f μ • (f ∘ v) := by
   refine ⟨?_, ?_⟩
@@ -99,6 +100,7 @@ theorem eigen_map_aux (f : L →+* L) {B : Matrix ι ι L} {μ : L} {v : ι → 
     rw [Pi.smul_apply, smul_eq_mul]
     exact h.symm
 
+omit [DecidableEq ι] in
 theorem eigen_map (f : L →+* L) {B : Matrix ι ι L} (hBf : B.map f = B) {μ : L} {v : ι → L}
     (hv : v ≠ 0) (hBv : B *ᵥ v = μ • v) : (f ∘ v) ≠ 0 ∧ B *ᵥ (f ∘ v) = f μ • (f ∘ v) := by
   obtain ⟨h1, h2⟩ := eigen_map_aux f hv hBv
@@ -485,8 +487,9 @@ section Finite
 
 variable {F : Type*} [Field F] [Finite F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem pow_sixtyfour_of_card (hF : Nat.card F = 64) (x : F) : x ^ 64 = x := by
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have h := FiniteField.pow_card x
   rwa [← Nat.card_eq_fintype_card, hF] at h
 

@@ -30,9 +30,9 @@ theorem dvd_sq_sub_one {p q : ℕ} (h : p ∣ q + 1) : p ∣ q ^ 2 - 1 := by
 theorem two_le_pRank_sp4 {X : Type} [Group X] [Finite X] {n p : ℕ} (hX : IsSp4 X n)
     (hp : p.Prime) (hpd : p ∣ (2 ^ n) ^ 2 - 1) : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
+  have := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e]
   exact CFSG.RankThree.PartTwo.Sec19.Census194.RonanC194.le_pRank_statedProj_sp (n := 2) hp
     (by rw [hF]; exact hpd)
@@ -45,7 +45,7 @@ theorem two_le_pRank_u3 {X : Type} [Group X] [Finite X] {n p : ℕ} (hX : IsU3 X
     exact CFSG.HardMathSupport.Timmesfeld.Tables.Census.two_le_pRank_three_psu_three_two_pow_odd
       hodd hm
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : 2 ^ n ≠ 0 := by positivity
   have hKu : Nat.card Kˣ = (2 ^ n + 1) * (2 ^ n - 1) := by
     rw [Nat.card_units, hK, ← Nat.sq_sub_sq, one_pow]
@@ -96,7 +96,7 @@ theorem two_le_pRank_of_conj {X K K' L : Subgroup G} (hK : K ∈ calC X) (hK' : 
   obtain ⟨eA, -⟩ := uc22p22l_barImage_equiv hK
   obtain ⟨eB, -⟩ := uc22p22l_barImage_equiv hK'
   obtain ⟨eC⟩ : Nonempty (Bar2 K ≃* Bar2 (uniqueFourConj g K)) := uc22p20d_bar2_conj g⁻¹ K
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrA : r ∣ (Subgroup.center ↥(barImage X K)).index := by
     rwa [← uc22p22u_index_center_eq eA]
   have hrB : r ∣ (Subgroup.center ↥(barImage X (uniqueFourConj g K))).index := by

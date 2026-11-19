@@ -28,7 +28,7 @@ theorem exists_coord_setting (hr : 4 ≤ r) (hP : PerpHypR r n Y R S t)
     (hT : T7F25.Asc77.T7F2.Hyp25T (CoreAssembly.conjClass (tightCore R)) (tightCore R) K' W S₁ R₁
       R₂ t t₁ u₁ u₂ t') :
     ∃ (x y : Y) (m : ℕ), T7F2.Out.Setting R₁ (T7F2.Nsub S₁ R₁) x y m ∧ 2 ≤ m := by
-  have hN2 : IsPGroup 2 ↥(T7F2.Nsub S₁ R₁) := S₁.isPGroup'.to_le inf_le_left
+  have hN2 : IsPGroup 2 ↥(T7F2.Nsub S₁ R₁) := S₁.isPGroup.to_le inf_le_left
   have hNR : ∀ y ∈ T7F2.Nsub S₁ R₁, conjSub y R₁ = R₁ := fun y hy => (T7F2.mem_Nsub.mp hy).2
   obtain ⟨x, y, m, c, hNa⟩ := T7F2.exists_coord hT.hqR hT.hzR hN2 hNR
   refine ⟨x, y, m, ⟨c, hT.R_le_N, hNR, hNa⟩, ?_⟩
@@ -171,7 +171,7 @@ theorem adjust_to_S₁ (hr : 4 ≤ r) (hP : PerpHypR r n Y R S t)
   have hbC : b ∈ C := hS₁C hbS
   have hOS : Balance.oddCoreIn C ⊓ (S₁ : Subgroup Y) = ⊥ := by
     rw [inf_comm]
-    exact inf_odd_two_eq_bot S₁.isPGroup' (Balance.odd_card_oddCoreIn C)
+    exact inf_odd_two_eq_bot S₁.isPGroup (Balance.odd_card_oddCoreIn C)
   have hbo : b * o₀ * b⁻¹ ∈ Balance.oddCoreIn C := Balance.conj_mem_oddCoreIn hbC ho₀
   have hbs₀ : b * s₀ * b⁻¹ ∈ (S₁ : Subgroup Y) :=
     (S₁ : Subgroup Y).mul_mem ((S₁ : Subgroup Y).mul_mem hbS hs₀) ((S₁ : Subgroup Y).inv_mem hbS)

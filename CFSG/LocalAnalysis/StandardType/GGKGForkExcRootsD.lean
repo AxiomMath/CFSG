@@ -53,7 +53,7 @@ private lemma ggKGEd_sum_single_mul {τ : Tag} (j : Fin τ.rank) (v : Fin τ.ran
   rw [Finset.sum_eq_single j]
   · simp
   · intro k _ hk
-    simp [Pi.single_apply, hk]
+    simp [hk]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 

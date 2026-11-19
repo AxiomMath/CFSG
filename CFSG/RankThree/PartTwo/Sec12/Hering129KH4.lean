@@ -23,6 +23,7 @@ variable {P : Type} [Group P] [Finite P] {Yh Bh : Subgroup P} {xh bh ch : P}
     (F : Subgroup (ProjGenLinGroup (Fin 3) K)) : Subgroup P :=
   ((F.subgroupOf (projImage (Sec4.slPi π 3 (p ^ f) K))).map e.symm.toMonoidHom).map Yh.subtype
 
+omit [Finite P] in
 theorem mem_liftSub (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K))
     (F : Subgroup (ProjGenLinGroup (Fin 3) K)) {g : P} :
     g ∈ liftSub e F ↔ ∃ hg : g ∈ Yh,
@@ -81,9 +82,9 @@ theorem two_lt_pow_of_not_isSolvable {K : Type} [Field K] {π : Bool} {p f : ℕ
     apply hns
     have hcard := CFSG.RankThree.CentralLiftU.card_statedSU_three_two hK.unitary rfl
     have hcard' : Nat.card (Sec4.slPi false 3 (2 ^ 1) K) = 216 := hcard
-    haveI : Finite (Sec4.slPi false 3 (2 ^ 1) K) :=
+    have : Finite (Sec4.slPi false 3 (2 ^ 1) K) :=
       Nat.finite_of_card_ne_zero (by rw [hcard']; norm_num)
-    haveI : Fintype (Sec4.slPi false 3 (2 ^ 1) K) := Fintype.ofFinite _
+    have : Fintype (Sec4.slPi false 3 (2 ^ 1) K) := Fintype.ofFinite _
     have hsolv : Group.IsSolvable (Sec4.slPi false 3 (2 ^ 1) K) :=
       CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 3) (b := 3)
         Nat.prime_two Nat.prime_three (by norm_num)
@@ -122,13 +123,13 @@ theorem liftSub_props [Yh.Normal] (hD : HessData Yh Bh xh bh ch) (hK : Sec4.PiFi
   have hns : ¬ Group.IsSolvable (projImage (Sec4.slPi π 3 (p ^ f) K)) := by
     intro hs
     apply Hering129KH2.not_isSolvable_of_hessData hD
-    haveI := hs
+    have := hs
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) (MulEquiv.surjective e.symm)
-  haveI hperf : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
+  have hperf : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     CFSG.RankThree.PartTwo.Sec13.isPerfect_projImage_slPi hK
       (two_lt_pow_of_not_isSolvable hK hq hns)
-  haveI hFfin : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; norm_num)
-  haveI hFcm : IsMulCommutative F := hFab.1
+  have hFfin : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; norm_num)
+  have hFcm : IsMulCommutative F := hFab.1
   have hcomm : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : F) ⟨b, hb⟩)
   have hmkN : ProjGenLinGroup.mk y ∈ Subgroup.normalizer (F : Set (ProjGenLinGroup (Fin 3) K)) :=

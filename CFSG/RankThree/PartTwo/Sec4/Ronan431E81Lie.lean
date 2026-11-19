@@ -169,7 +169,7 @@ theorem unitM_unitary {x y : GaloisField 3 (2 * 2)}
   have hff : frobQ 3 2 (frobQ 3 2 x) = x := frobQ_frobQ (by norm_num) x
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [unitM, gram0K, gram0, mul_apply, Fin.sum_univ_three, hff] <;>
+    simp [unitM, gram0K, gram0, mul_apply, Fin.sum_univ_three, hff];
     linear_combination h
 
 variable {γ δ : GaloisField 3 (2 * 2)}

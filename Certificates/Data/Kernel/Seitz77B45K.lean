@@ -56,7 +56,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw Certificates.Seitz77CaseB45
     (((List.range 256).filter fun c => mt a c == mt c b).map fun c =>
       ((swBp.getD (lab c) []).filter fun d => inv2 mt (c, d, true)).length).sum
 
-@[expose] def cenQ (mt : Nat → Nat → Nat) (lab : Nat → Nat) (m a b : Nat) (w : WEl) : Bool :=
+@[expose] def cenQ (mt : Nat → Nat → Nat) (_lab : Nat → Nat) (_m a b : Nat) (w : WEl) : Bool :=
   !w.2.2 &&
     ((List.range 256).filter fun c => mt a c == mt c a).all (fun c => mt w.1 c == mt c w.1) &&
     ((List.range 256).filter fun d => mt b d == mt d b).all (fun d => mt w.2.1 d == mt d w.2.1) &&

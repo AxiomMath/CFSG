@@ -146,7 +146,7 @@ private theorem realized_swap_reflGL_four_mulVec (F : Frame K) {s t : K}
   · fin_cases i <;> simp [pairSwap, negPlane0, swapMap, Equiv.swap_apply_def]
   · fin_cases i <;> simp [pairSwap, negPlane0, swapMap, Equiv.swap_apply_def]
   · cases u
-    simp [pairSwap, negPlane0, swapMap, Equiv.swap_apply_def]
+    simp [pairSwap, negPlane0, swapMap]
 
 private theorem realized_swap_swapMap_rot (v : F3Cube) (w : Idx → K) :
     swapMap K (rotMat K (Multiplicative.toAdd v) *ᵥ w) =
@@ -155,12 +155,10 @@ private theorem realized_swap_swapMap_rot (v : F3Cube) (w : Idx → K) :
   funext a
   rcases a with i | i | u
   · fin_cases i <;>
-      simp [swapMap, rotMat_mulVec_inl, rotMat_mulVec_inr_inl, rotMat_mulVec_inr_inr,
-        Equiv.swap_apply_def, Pi.smul_apply, smul_eq_mul] <;>
+      simp [swapMap, rotMat_mulVec_inl, Equiv.swap_apply_def];
       ring
   · fin_cases i <;>
-      simp [swapMap, rotMat_mulVec_inl, rotMat_mulVec_inr_inl, rotMat_mulVec_inr_inr,
-        Equiv.swap_apply_def, Pi.smul_apply, smul_eq_mul] <;>
+      simp [swapMap, rotMat_mulVec_inr_inl, Equiv.swap_apply_def];
       ring
   · cases u
     simp [swapMap, rotMat_mulVec_inr_inr]

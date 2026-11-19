@@ -544,7 +544,7 @@ private lemma frameSN_degree_even_neg {a b : Fin k} (hab : a ≠ b) :
   rw [frameSN_ncard_noncomm_neg_perm hab, frameSN_ncard_noncomm_neg_neg hab]
   omega
 
-private lemma frameSN_pair_eq_of_contains_both {a b c d : Fin k} (hab : a ≠ b) (hcd : c ≠ d)
+private lemma frameSN_pair_eq_of_contains_both {a b c d : Fin k} (hab : a ≠ b) (_hcd : c ≠ d)
     (ha : frameSN_contains a (c, d)) (hb : frameSN_contains b (c, d)) :
     (c = a ∧ d = b) ∨ (c = b ∧ d = a) := by
   simp [frameSN_contains] at ha hb
@@ -847,7 +847,7 @@ theorem modelConn_signedPermSet : ModelConn (signedPermSet k) := by
     exact (frameSN_signed_path_to i0 u hu).trans
       (frameSN_reflTransGen_rev (frameSN_signed_path_to i0 v hv))
 
-theorem modelNumIs_evenSignedPermSet (hk : 3 ≤ k) :
+theorem modelNumIs_evenSignedPermSet (_hk : 3 ≤ k) :
     ModelNumIs (evenSignedPermSet k) (k * (k - 1)) (some (4 * (k - 2))) := by
   constructor
   · rw [← frameSN_range_L, Set.ncard_range_of_injective frameSN_L_injective]

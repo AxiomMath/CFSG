@@ -53,7 +53,7 @@ theorem card_sup_mul_card_inf_of_normalizer {A C : Subgroup G}
     (hC : C ≤ Subgroup.normalizer (A : Set G)) :
     Nat.card ↥(A ⊔ C) * Nat.card ↥(A ⊓ C) = Nat.card ↥A * Nat.card ↥C := by
   have hAC : A ⊔ C ≤ Subgroup.normalizer (A : Set G) := sup_le Subgroup.le_normalizer hC
-  haveI hN : (A.subgroupOf (A ⊔ C)).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAC
+  have hN : (A.subgroupOf (A ⊔ C)).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAC
   have hsup : C.subgroupOf (A ⊔ C) ⊔ A.subgroupOf (A ⊔ C) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (le_sup_right : C ≤ A ⊔ C) (le_sup_left : A ≤ A ⊔ C),
       show C ⊔ A = A ⊔ C from sup_comm C A, Subgroup.subgroupOf_self]
@@ -159,7 +159,7 @@ theorem LinSetup.exists_mul [Finite G] {M Q Z B : Subgroup G} {n : ℕ}
     ∀ q ∈ Q, ∃ a ∈ V₁, ∃ b ∈ V₂, q = a * b := by
   obtain ⟨K, hK, hfin, hcard, φ, hrange, hker, hZV₁, hV₁Q, hZV₂, hV₂Q, hint, hsup,
     hs₁, hs₂, hswap, hcent⟩ := h
-  haveI hN : (V₁.subgroupOf Q).Normal :=
+  have hN : (V₁.subgroupOf Q).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (Q_le_normalizer_of_Z_le H hZV₁ hV₁Q)
   have hsupQ : V₁.subgroupOf Q ⊔ V₂.subgroupOf Q = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hV₁Q hV₂Q, hsup, Subgroup.subgroupOf_self]

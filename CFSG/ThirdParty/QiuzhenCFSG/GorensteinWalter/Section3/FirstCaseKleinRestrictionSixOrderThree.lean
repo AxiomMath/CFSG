@@ -70,7 +70,7 @@ public theorem firstCase_klein_restrictionSix_order_three
       refine ⟨?_, ?_⟩
       · intro hw1
         apply hwH
-        simpa [hw1] using c.Hhat.one_mem
+        simp [hw1]
       · dsimp [w]
         have hs2 : s * s = 1 := by simpa [pow_two] using hsI.2
         have hy2 : y * y = 1 := by simpa [pow_two] using hy.2

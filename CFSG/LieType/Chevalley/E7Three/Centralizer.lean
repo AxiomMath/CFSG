@@ -48,6 +48,7 @@ theorem coe_kronSL2 (M : SL(2, K)) : ((kronSL2 K M : SL(6, K)) : Matrix (Fin 6) 
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem coe_upper_mul_lower (A : SL(3, K)) :
     ((upperSL3 K A * lowerSL3 K A : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) =
       reindex e6 e6 ((1 : Matrix (Fin 2) (Fin 2) K) ⊗ₖ (A : Matrix (Fin 3) (Fin 3) K)) := by
@@ -61,6 +62,7 @@ theorem coe_upper_mul_lower (A : SL(3, K)) :
   fin_cases i <;> fin_cases j <;> fin_cases i' <;> fin_cases j' <;>
     simp [Matrix.one_apply, Fin.ext_iff, e6_apply_val]
 
+omit [CharP K 2] in
 theorem coe_scalar6 {ζ : Kˣ} (hζ : ζ ^ 3 = 1) :
     ((upperSL3 K (centralWord ζ) * lowerSL3 K (centralWord ζ) : SL(6, K)) :
       Matrix (Fin 6) (Fin 6) K) = (ζ : K) • (1 : Matrix (Fin 6) (Fin 6) K) := by
@@ -71,9 +73,10 @@ theorem coe_scalar6 {ζ : Kˣ} (hζ : ζ ^ 3 = 1) :
     Matrix.one_apply]
   simp only [e6.symm.injective.eq_iff]
 
+omit [CharP K 2] in
 theorem reindex_e6_mul (X Y : Matrix (Fin 2 × Fin 3) (Fin 2 × Fin 3) K) :
     reindex e6 e6 X * reindex e6 e6 Y = reindex e6 e6 (X * Y) := by
-  rw [← reindexAlgEquiv_apply K K, ← reindexAlgEquiv_apply K K, ← reindexAlgEquiv_apply K K,
+  rw [← Matrix.coe_reindexAlgEquiv K K,
     map_mul]
 
 theorem sl3_eq_center_mul {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) (B : SL(3, K)) {z₁ z₂ : SL(3, K)}
@@ -198,13 +201,13 @@ theorem sl6_eq_kronSL2_mul {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) (A : SL(6, K)
     rw [h1, h2, hA, hNk, Matrix.mul_smul, Matrix.mul_one]
     ext i j
     simp only [reindex_apply, submatrix_apply, Matrix.smul_apply, kroneckerMap_apply, smul_eq_mul]
-    change M0 _ _ * _ = ν * ((ν⁻¹ * M0 _ _) * _)
     field_simp
   exact Subtype.ext hmat
 
 @[expose] def a5SimpleRoots : Set (Fin Tag.E7.rank → ℤ) :=
   {r | ∃ i ∈ a5Nodes .E7, r = Pi.single i 1 ∨ r = -Pi.single i 1}
 
+omit [CharP K 2] in
 theorem range_a5Frame_le_rootSpan :
     (a5Frame K).range ≤ rootSpan .E7 K a5SimpleRoots := by
   rw [range_a5Frame, subsystemGroup, Subgroup.closure_le]
@@ -214,9 +217,11 @@ theorem range_a5Frame_le_rootSpan :
   · exact Subgroup.mem_iSup_of_mem (-Pi.single i 1)
       (Subgroup.mem_iSup_of_mem ⟨i, hi, Or.inr rfl⟩ (yUnit_mem_rootSubgroup i c))
 
+omit [CharP K 2] in
 theorem range_a5Frame_le_adjointGroup : (a5Frame K).range ≤ adjointGroup .E7 K :=
   range_a5Frame_le_rootSpan.trans (iSup₂_le fun α _ => rootSubgroup_le_adjointGroup α)
 
+omit [CharP K 2] in
 theorem a5Frame_mem_adjointGroup (A : SL(6, K)) : a5Frame K A ∈ adjointGroup .E7 K :=
   range_a5Frame_le_adjointGroup ⟨A, rfl⟩
 
@@ -290,6 +295,7 @@ theorem exists_center_of_frame_eq (w : NativeFrame K) {A₁ A₂ : SL(6, K)} {B�
   refine ⟨(B₂ * B₁⁻¹)⁻¹, Subgroup.inv_mem _ (mem_center_of_a5Frame_eq w h'), ?_⟩
   group
 
+omit [CharP K 2] in
 theorem kronSL2_commute (M : SL(2, K)) (W : SL(3, K)) :
     Commute (kronSL2 K M) (upperSL3 K W * lowerSL3 K W) := by
   apply Subtype.ext
@@ -300,6 +306,7 @@ theorem kronSL2_commute (M : SL(2, K)) (W : SL(3, K)) :
   rw [coe_kronSL2, coe_upper_mul_lower, reindex_e6_mul, reindex_e6_mul, ← mul_kronecker_mul,
     ← mul_kronecker_mul, Matrix.mul_one, Matrix.one_mul, Matrix.mul_one, Matrix.one_mul]
 
+omit [CharP K 2] in
 theorem exists_centralWord_pow {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) {z : SL(3, K)}
     (hz : z ∈ Subgroup.center SL(3, K)) : ∃ m : ℕ, z = centralWord ζ ^ m := by
   obtain ⟨r, hr, hzr⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 hz
@@ -505,11 +512,12 @@ theorem cubeCent_eq_sup [IsAlgClosed K] {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) 
 
 end Steinberg
 
+omit [CharP K 2] in
 theorem kronSL2_injective : Function.Injective (kronSL2 K) := by
   intro M M' h
   have h' := congrArg (fun A : SL(6, K) =>
     reindex e6.symm e6.symm (A : Matrix (Fin 6) (Fin 6) K)) h
-  simp only [coe_kronSL2, reindex_symm, LinearEquiv.symm_apply_apply] at h'
+  simp only [coe_kronSL2] at h'
   ext i j
   have := congrFun (congrFun h' (i, 0)) (j, 0)
   simpa [kroneckerMap_apply] using this

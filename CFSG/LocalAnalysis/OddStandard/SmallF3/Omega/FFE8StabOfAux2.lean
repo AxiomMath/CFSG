@@ -15,6 +15,7 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {G : Type} [Group G] [Finite G] {K : Subgroup G}
 
+omit [Finite G] in
 theorem ffOutFFE8TrStab_thetaImg_P (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = 1)
     (e : ↥K ⧸ Subgroup.center ↥K ≃* omegaProj hQ) (fr : PFrame Q (Option (Fin 5)) ffC)
@@ -24,6 +25,7 @@ theorem ffOutFFE8TrStab_thetaImg_P (hQ : Q.Nondegenerate)
   rw [inf_of_le_left hPK, hPφ] at h
   exact h
 
+omit [Finite G] in
 theorem ffOutFFE8TrStab_rho_z (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
     (hsgn : quadSign Q = 1) (hz0 : Subgroup.center ↥K = ⊥)
     (e : ↥K ⧸ Subgroup.center ↥K ≃* omegaProj hQ) (fr : PFrame Q (Option (Fin 5)) ffC)
@@ -56,6 +58,7 @@ theorem ffOutFFE8TrStab_rho_z (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
   · rw [ffOutFFE8TrRho_apply, h1]
     rfl
 
+omit [Finite G] in
 theorem ffOutFFE8TrStab_restrict_injective (hK : IsOm6P K) (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = 1)
     (e : ↥K ⧸ Subgroup.center ↥K ≃* omegaProj hQ) {Y : Subgroup G}

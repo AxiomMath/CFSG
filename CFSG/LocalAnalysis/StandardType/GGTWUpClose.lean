@@ -23,21 +23,21 @@ theorem ggTWUp_false_one {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pri
   classical
   obtain ⟨pos, Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, V, iV1, iV2, ι, e, φ, hh, α, xV,
     hcore, hdim⟩ := h
-  letI := iΛ1
-  letI := iΛ2
-  letI := iΛa1
-  letI := iΛa2
-  letI := iV1
-  letI := iV2
+  let := iΛ1
+  let := iΛ2
+  let := iΛa1
+  let := iΛa2
+  let := iV1
+  let := iV2
   obtain ⟨hb, hcardk, hJpos, hWMK, hCK, _hk2, hφeq, hF, hpairK, hntCore, hex, _hAuto,
     _hJauto⟩ := hcore
-  haveI : FiniteDimensional (ZMod p) V :=
+  have : FiniteDimensional (ZMod p) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; rcases hN with h | h | h | h | h <;> omega)
   obtain ⟨a, c0, m, n, hpat, hpair, hαa⟩ :=
     ggTW_pat1_V (p := p) (N := N) hp hpN hN (pos := pos) (V := V) (Λ := Λ) (b₁ := b₁)
       (b₂ := b₂) (Λa := Λa) (MK := MK) (CK := CK) (e := e) (h := hh) (α := α) (xV := xV)
       hb hcardk hJpos hWMK hCK hF hpairK
-  haveI : Subsingleton Λa :=
+  have : Subsingleton Λa :=
     Fintype.card_le_one_iff_subsingleton.mp (by rw [← Nat.card_eq_fintype_card]; omega)
   have hw : α (Sum.inr a) xV ≠ 0 := by
     obtain ⟨a', ha'⟩ := hex
@@ -70,15 +70,15 @@ theorem ggTWUp_false_two {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pri
   classical
   obtain ⟨pos, Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, V, iV1, iV2, ι, e, φ, hh, α, xV,
     hcore, hdim⟩ := h
-  letI := iΛ1
-  letI := iΛ2
-  letI := iΛa1
-  letI := iΛa2
-  letI := iV1
-  letI := iV2
+  let := iΛ1
+  let := iΛ2
+  let := iΛa1
+  let := iΛa2
+  let := iV1
+  let := iV2
   obtain ⟨hb, hcardk, hJpos, hWMK, hCK, hk2, hφeq, hF, hpairK, hntCore, hex, _hAuto,
     _hJauto⟩ := hcore
-  haveI : FiniteDimensional (ZMod p) V :=
+  have : FiniteDimensional (ZMod p) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; rcases hN with h | h | h | h | h <;> omega)
   obtain ⟨a₁, a₂, c, c₂, hane, hpat, hpair, h12, h21, h11, h22⟩ :=
     ggTW_pat2_V (p := p) (N := N) hp hpN hN (pos := pos) (V := V) (Λ := Λ) (b₁ := b₁)
@@ -138,21 +138,21 @@ theorem ggTWUp_weyl36_one
   classical
   obtain ⟨pos, Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, V, iV1, iV2, ι, e, φ, hh, α, xV,
     hcore, hdim⟩ := h
-  letI := iΛ1
-  letI := iΛ2
-  letI := iΛa1
-  letI := iΛa2
-  letI := iV1
-  letI := iV2
+  let := iΛ1
+  let := iΛ2
+  let := iΛa1
+  let := iΛa2
+  let := iV1
+  let := iV2
   obtain ⟨hb, hcardk, hJpos, hWMK, hCK, _hk2, hφeq, hF, hpairK, hntCore, hex, hAuto,
     _hJauto⟩ := hcore
-  haveI : FiniteDimensional (ZMod 3) V :=
+  have : FiniteDimensional (ZMod 3) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨a, c0, m, n, hpat, hpair, hαa⟩ :=
     ggTW_pat1_V (p := 3) (N := 6) (by norm_num) (by norm_num) (by decide) (pos := pos) (V := V)
       (Λ := Λ) (b₁ := b₁) (b₂ := b₂) (Λa := Λa) (MK := MK) (CK := CK) (e := e) (h := hh)
       (α := α) (xV := xV) hb hcardk hJpos hWMK hCK hF hpairK
-  haveI : Subsingleton Λa :=
+  have : Subsingleton Λa :=
     Fintype.card_le_one_iff_subsingleton.mp (by rw [← Nat.card_eq_fintype_card]; omega)
   have hw : α (Sum.inr a) xV ≠ 0 := by
     obtain ⟨a', ha'⟩ := hex
@@ -200,15 +200,15 @@ theorem ggTWUp_weyl36_two
   classical
   obtain ⟨pos, Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, V, iV1, iV2, ι, e, φ, hh, α, xV,
     hcore, hdim⟩ := h
-  letI := iΛ1
-  letI := iΛ2
-  letI := iΛa1
-  letI := iΛa2
-  letI := iV1
-  letI := iV2
+  let := iΛ1
+  let := iΛ2
+  let := iΛa1
+  let := iΛa2
+  let := iV1
+  let := iV2
   obtain ⟨hb, hcardk, hJpos, hWMK, hCK, hk2, hφeq, hF, hpairK, hntCore, hex, hAuto,
     _hJauto⟩ := hcore
-  haveI : FiniteDimensional (ZMod 3) V :=
+  have : FiniteDimensional (ZMod 3) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨a₁, a₂, c, c₂, hane, hpat, hpair, h12, h21, h11, h22⟩ :=
     ggTW_pat2_V (p := 3) (N := 6) (by norm_num) (by norm_num) (by decide) (pos := pos) (V := V)

@@ -220,7 +220,7 @@ theorem item217InLSylowCover_of
     obtain ⟨r, hr, rfl⟩ := hx
     exact ⟨r, hr, rfl⟩
   set RG : Subgroup G := (R : Subgroup W).map W.subtype with hRG
-  have hRGp : IsPGroup 3 RG := R.isPGroup'.map W.subtype
+  have hRGp : IsPGroup 3 RG := R.isPGroup.map W.subtype
   have hRGN : RG ≤ W := Subgroup.map_subtype_le _
   obtain ⟨b, hbA, hb1, hbR⟩ := exists_fixed_of_isPGroup hRGp hRGN (by rw [h81]; norm_num)
   have hbF : π ⟨b, hAL hbA⟩ ∈ F :=
@@ -282,7 +282,7 @@ theorem item217InLSylowCover_of
     intro r hr
     have hrNL : (r : G) ∈ Subgroup.normalizer (L : Set G) :=
       hRL (Subgroup.mem_map_of_mem W.subtype hr)
-    obtain ⟨k, hk⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨k, hk⟩ := R.isPGroup ⟨r, hr⟩
     have hk' : (r : G) ^ 3 ^ k = 1 := by
       have := congrArg (fun x : (R : Subgroup W) => ((x : W) : G)) hk
       simpa using this

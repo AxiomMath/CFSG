@@ -11,12 +11,14 @@ open QuadraticMap
 section F4
 variable {K : Type*} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem F4_pow_four [Finite K] (h : Nat.card K = 4) (x : K) : x ^ 4 = x := by
   have : Fintype K := Fintype.ofFinite K
   have h' : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact h
   have := FiniteField.pow_card x
   rwa [h'] at this
 
+omit [CharP K 2] in
 theorem F4_sq_eq_self {x : K} (h : x ^ 2 = x) : x = 0 ∨ x = 1 := by
   have : x * (x - 1) = 0 := by rw [mul_sub, mul_one, ← _root_.sq, h, sub_self]
   rcases mul_eq_zero.mp this with h | h
@@ -32,6 +34,7 @@ theorem F4_trace_cases [Finite K] (h : Nat.card K = 4) (x : K) :
     x ^ 2 + x = 0 ∨ x ^ 2 + x = 1 :=
   F4_sq_eq_self (F4_trace_sq h x)
 
+omit [CharP K 2] in
 theorem F4_exists_ne [Finite K] (h : Nat.card K = 4) : ∃ x : K, x ≠ 0 ∧ x ≠ 1 := by
   classical
   have : Fintype K := Fintype.ofFinite K
@@ -84,17 +87,20 @@ theorem chi_add (h : Nat.card K = 4) (x y : K) : chi (x + y) = chi x * chi y := 
   rcases F4_trace_cases h x with hx | hx <;> rcases F4_trace_cases h y with hy | hy <;>
     simp [hx, hy, h11]
 
+omit [Finite K] in
 theorem chi_of_mem {a : K} (ha : a = 0 ∨ a = 1) : chi a = 1 := by
   have h11 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
   rcases ha with rfl | rfl <;> simp [chi, h11]
 
-theorem chi_omega_mul (h : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω = 1) {b : K}
+omit [CharP K 2] [Finite K] in
+theorem chi_omega_mul (_h : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω = 1) {b : K}
     (hb : b = 0 ∨ b = 1) : chi (ω * b) = sgn b := by
   rcases hb with rfl | rfl
   · simp [chi, sgn]
   · have : chi ω = -1 := by simp [chi, hω]
     simpa [sgn] using this
 
+omit [CharP K 2] in
 theorem chi_omega_sq_mul (h : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω = 1) {b : K}
     (hb : b = 0 ∨ b = 1) : chi (ω * ω * b) = sgn b := by
   rcases hb with rfl | rfl
@@ -106,12 +112,14 @@ theorem chi_omega_sq_mul (h : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω = 1) {
       simp [chi, e]
     simpa [sgn] using this
 
+omit [Finite K] in
 theorem sgn_add_one {x : K} (hx : x = 0 ∨ x = 1) : sgn (x + 1) = - sgn x := by
   have h11 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
   rcases hx with rfl | rfl <;> simp [sgn, h11]
 
+omit [Finite K] in
 theorem polar_sq_of_T (σ : K →+* K) (Q : QuadraticForm K V) (T : V →ₛₗ[σ] V)
-    (hσ : ∀ x, σ x = x ^ 2) (hTQ : ∀ v, Q (T v) = Q v ^ 2) (x y : V) :
+    (_hσ : ∀ x, σ x = x ^ 2) (hTQ : ∀ v, Q (T v) = Q v ^ 2) (x y : V) :
     polar Q (T x) (T y) = polar Q x y ^ 2 := by
   unfold polar
   rw [← map_add, hTQ, hTQ, hTQ, CharTwo.sub_eq_add, CharTwo.sub_eq_add, CharTwo.sub_eq_add,
@@ -178,7 +186,7 @@ theorem sum_chi_pos [Fintype V] (hK : Nat.card K = 4) (Q : QuadraticForm K V) (�
     intro w
     by_cases hw0 : w.1 = 0
     · simp [hw0, sgn]
-    · rw [if_neg hw0]
+    · rw [ite_eq_right hw0]
       obtain ⟨u0, hu0⟩ : ∃ u0 : V0, polar Q u0.1 w.1 ≠ 0 := by
         by_contra hcon
         push Not at hcon
@@ -207,7 +215,7 @@ theorem sum_chi_pos [Fintype V] (hK : Nat.card K = 4) (Q : QuadraticForm K V) (�
     (Fintype.sum_bijective Φ hbij (fun p => chi (Q (Φ p))) (fun v => chi (Q v))
       (fun _ => rfl)).symm
   have hpos : (0 : ℤ) < Fintype.card V0 := by
-    haveI : Nonempty V0 := ⟨⟨0, map_zero T⟩⟩
+    have : Nonempty V0 := ⟨⟨0, map_zero T⟩⟩
     exact_mod_cast Fintype.card_pos
   rw [hS, Fintype.sum_prod_type]
   simp_rw [hval]

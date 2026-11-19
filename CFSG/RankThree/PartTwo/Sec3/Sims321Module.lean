@@ -16,11 +16,12 @@ variable {W : Type*} [CommGroup W] [Finite W]
   mul_mem' {a b} ha hb := by simp_all [map_mul]
   inv_mem' {a} ha := by simp_all [map_inv]
 
+omit [Finite W] in
 theorem mem_fixSubgroup {τ : MulAut W} {w : W} : w ∈ fixSubgroup τ ↔ τ w = w := Iff.rfl
 
 theorem card_mod_eq_one_of_fpf {r : ℕ} (hr : r.Prime) (φ : MulAut W) (hφ : φ ^ r = 1)
     (hfix : ∀ w, φ w = w → w = 1) : Nat.card W % r = 1 % r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hH : IsPGroup r (Subgroup.zpowers φ) :=
     IsPGroup.of_card_dvd_pow (n := 1) (by
       rw [Nat.card_zpowers, pow_one]
@@ -37,6 +38,7 @@ theorem card_mod_eq_one_of_fpf {r : ℕ} (hr : r.Prime) (φ : MulAut W) (hφ : �
   rw [hfp] at hmod
   exact hmod
 
+omit [Finite W] in
 private theorem card_fixSubgroup_conj (ψ τ : MulAut W) :
     Nat.card (fixSubgroup (ψ * τ * ψ⁻¹)) = Nat.card (fixSubgroup τ) := by
   have h1 : ∀ w : W, w ∈ fixSubgroup (ψ * τ * ψ⁻¹) → ψ⁻¹ w ∈ fixSubgroup τ := by
@@ -139,7 +141,7 @@ private theorem two_pow_le_of_dihedral [Nontrivial W] (hexp : ∀ w : W, w ^ 2 =
     2 ^ (2 * k) ≤ Nat.card W ∧ 2 ^ k ≤ (fixSubgroup τ).index := by
   have h1 := card_mod_eq_one_of_fpf hr φ hφ hfix
   have h2 := card_fixSubgroup_sq hexp (hr.odd_of_ne_two hr2) φ τ hφ hfix hτ hτφ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : IsPGroup 2 W := fun w => ⟨1, by simpa using hexp w⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 hp2
   have hC : Nat.card (fixSubgroup τ) ∣ 2 ^ m := hm ▸ Subgroup.card_subgroup_dvd_card _
@@ -182,10 +184,10 @@ private def stabW (W : Subgroup V) : Subgroup (MulAut V) where
 
 private def restrictHom (W : Subgroup V) : stabW W →* MulAut W where
   toFun γ :=
-    { toFun := fun w => ⟨γ.1 w, (γ.2 w.1).1 w.2⟩
-      invFun := fun w => ⟨γ.1⁻¹ w, ((stabW W).inv_mem γ.2 w.1).1 w.2⟩
-      left_inv := fun w => Subtype.ext (MulAut.inv_apply_self _ _ _)
-      right_inv := fun w => Subtype.ext (MulAut.apply_inv_self _ _ _)
+    { toFun := fun _w => ⟨γ.1 _w, (γ.2 _w.1).1 _w.2⟩
+      invFun := fun _w => ⟨γ.1⁻¹ _w, ((stabW W).inv_mem γ.2 _w.1).1 _w.2⟩
+      left_inv := fun _w => Subtype.ext (MulAut.inv_apply_self _ _ _)
+      right_inv := fun _w => Subtype.ext (MulAut.apply_inv_self _ _ _)
       map_mul' := fun a b => Subtype.ext (map_mul γ.1 (a : V) (b : V)) }
   map_one' := rfl
   map_mul' _ _ := rfl
@@ -301,7 +303,7 @@ theorem two_pow_le_relIndex_centralizer {G : Type*} [Group G] [Finite G] {V : Su
     (hy1 : ∃ v ∈ V, y * v * y⁻¹ ≠ v) :
     2 ^ (2 * k) ≤ (V ⊓ Subgroup.centralizer ({y} : Set G)).relIndex V ∧
       2 ^ k ≤ (V ⊓ Subgroup.centralizer ({s} : Set G)).relIndex V := by
-  letI : CommGroup V :=
+  let : CommGroup V :=
     { (inferInstance : Group V) with mul_comm := fun a b => Subtype.ext (hVc a a.2 b b.2) }
   have hrel : ∀ (g : G) (hg : g ∈ Subgroup.normalizer (V : Set G)),
       (V ⊓ Subgroup.centralizer ({g} : Set G)).relIndex V =

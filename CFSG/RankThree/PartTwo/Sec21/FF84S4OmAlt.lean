@@ -171,11 +171,11 @@ theorem om_alt_zero (f : (Fin 6 → ZMod 2) → (Fin 6 → ZMod 2) → (Fin 6 �
       (fun y y' z => by
         simp only [cK_add, hadd1 _ (cK_mem y) _ (cK_mem y') _ (cK_mem z), dK_add])
       (fun a y z => by
-        simp only [cK_smul, hs1 a _ (cK_mem y) _ (cK_mem z), dK_smul, smul_eq_mul])
+        simp only [cK_smul, hs1 a _ (cK_mem y) _ (cK_mem z), dK_smul])
       (fun y z z' => by
         simp only [cK_add, hadd2 _ (cK_mem y) _ (cK_mem z) _ (cK_mem z'), dK_add])
       (fun a y z => by
-        simp only [cK_smul, hs2 a _ (cK_mem y) _ (cK_mem z), dK_smul, smul_eq_mul])
+        simp only [cK_smul, hs2 a _ (cK_mem y) _ (cK_mem z), dK_smul])
   have hF : ∀ y z, F y z = dK (f (cK y) (cK z)) := fun y z => rfl
   have hF0 : F = 0 := by
     refine Om_no_alt_map_concrete F (fun y => ?_) (fun y z => ?_) (fun y z => ?_)

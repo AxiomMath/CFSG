@@ -27,6 +27,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem E6QTwo.marking_cases {L : Subgroup G}
     (hlab : LargeEvenMarking L (fun lab _ _ _ _ _ =>
       ((lab.tag = .twA ∧ lab.rank = 5) ∨ (lab.tag = .D ∧ lab.rank = 4) ∨
@@ -64,7 +65,7 @@ theorem GGSecFiveE6QTwoCfg.twistedE6Model_and_ggG0_eq_top
   have hI : GGThmIHyp 3 B x L := by
     obtain ⟨_, hRC, -⟩ := hC
     exact hRC.1.1.1
-  haveI : IsSimpleGroup G := hI.1
+  have : IsSimpleGroup G := hI.1
   have hG : IsCharTwoType G := hI.2.2.2.1
   rcases E6QTwo.marking_cases hlab with hU | hO | hM
   · obtain ⟨K, _, _, ω, hω, φ, hS, ⟨W, hW, hWb, hn, hr⟩, y, K', hnbr, hK'p, hK'L, hBsLK⟩ :=
@@ -153,7 +154,7 @@ theorem ggSecFiveE6QTwoTimmesfeldInput_holds :
   have hI : GGThmIHyp 3 B x L := by
     obtain ⟨_, hRC, -⟩ := hC
     exact hRC.1.1.1
-  haveI : IsSimpleGroup G := hI.1
+  have : IsSimpleGroup G := hI.1
   exact CFSG.LargeExtraspecial.Bridge.orderMainFor_of_mainFor
     (CFSG.LargeExtraspecial.S14.mainStatement_of_widthTwo
       CFSG.LargeExtraspecial.S14.aschbacherWidthTwoResidual_holds G)

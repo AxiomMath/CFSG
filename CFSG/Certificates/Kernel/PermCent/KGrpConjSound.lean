@@ -105,7 +105,7 @@ theorem le_normalizer_of_normC (QP QA : RawSchreierDatum n) (hP : ValidSchreier 
       QP.originalSubgroup.comap (MulAut.conj σ).toMonoidHom := by
     rw [Subgroup.closure_le]
     intro g hg
-    rw [Set.mem_setOf_eq, hgen, List.mem_cons, List.mem_singleton] at hg
+    rw [Set.mem_ofPred_eq, hgen, List.mem_cons, List.mem_singleton] at hg
     rw [SetLike.mem_coe, Subgroup.mem_comap, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rcases hg with rfl | rfl
     · exact hconj σ a h1.1
@@ -128,7 +128,7 @@ theorem solvC_of_conj (QP QA : RawSchreierDatum n) (hP : ValidSchreier QP) (hA :
   intro τ hτ
   cases hb : (powOneC τ 2 && !decide (τ = 1))
   · rfl
-  · rw [cond_true]
+  · rw [_root_.Bool.cond_true]
     rw [Bool.and_eq_true, Bool.not_eq_true', decide_eq_false_iff_not] at hb
     obtain ⟨h2, h1⟩ := hb
     have h2' : τ ^ 2 = 1 := of_decide_eq_true (by rw [powOneC_eq']; exact h2)

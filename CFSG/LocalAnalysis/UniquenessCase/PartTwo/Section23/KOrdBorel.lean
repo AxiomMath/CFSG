@@ -24,7 +24,7 @@ theorem kOrdBorel_holds : KOrdBorel := by
     intro h
     rcases (Nat.Prime.dvd_mul hr).1 h with h6 | h6
     · have h7 := Nat.le_of_dvd (by norm_num) h6
-      interval_cases r <;> first | omega | (norm_num at hr) | (exact absurd h6 (by norm_num))
+      interval_cases r <;> first | omega | (norm_num at hr)
     · exact hrm h6
   rcases hX with hSz | hL2 | ⟨hq, hU⟩ | ⟨hq, hL⟩ | hSp4 | hO
   · exact kob_Sz hSz hr hr2 hrm hrq1 S hθ hS

@@ -21,11 +21,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {y : G}
 
+omit [Finite G] in
 private theorem nineStep6b_mQuot_inf_left (V U : Subgroup G) :
     E3.mQuot V (V ⊓ U) = E3.mQuot V U := by
   unfold E3.mQuot
   rw [Subgroup.inf_relIndex_left]
 
+omit [Finite G] in
 private theorem nineStep6b_mQuot_bot (B : Subgroup G) : E3.mQuot B ⊥ = rk ↥B := by
   unfold E3.mQuot rk
   rw [Subgroup.relIndex_bot_left]
@@ -158,9 +160,9 @@ theorem nVSub_sup_bSub_le_twoResidual (hA : IsElemAbelian 2 A) (hTI : IsTI A) (h
   have S : CFSG.RankThree.GF2n.Tim77.Prop24Setup A Ab U B M0 := by
     rw [hUeq, hBeq, hAbeq, hM0eq]
     exact prop24Setup hA hTI hUbot hUne
-  obtain ⟨a, haA, haU⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hUle hUne)
+  obtain ⟨a, haA, haU⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hUle hUne)
   obtain ⟨b, hbAb, hbB⟩ :=
-    SetLike.exists_of_lt (lt_of_le_of_ne (inf_le_left : bSub A y ≤ conjSubgroup A y) hBne)
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne (inf_le_left : bSub A y ≤ conjSubgroup A y) hBne)
   let s : G := a * b
   have hsL : s ∈ Lg :=
     Lg.mul_mem (show a ∈ Lg from Subgroup.mem_sup_left haA)
@@ -173,7 +175,7 @@ theorem nVSub_sup_bSub_le_twoResidual (hA : IsElemAbelian 2 A) (hTI : IsTI A) (h
     refine sup_le ?_ ?_
     · exact (inf_le_left : U ≤ A).trans le_sup_left
     · exact (inf_le_left : B ≤ Ab).trans le_sup_right
-  haveI : Finite M0 := inferInstance
+  have : Finite M0 := inferInstance
   let f : M0 → M0 := fun m =>
     ⟨(m : G) * (s * (m : G) * s⁻¹)⁻¹,
       M0.mul_mem m.2 (M0.inv_mem ((Subgroup.mem_normalizer_iff.mp hsM (m : G)).mp m.2))⟩

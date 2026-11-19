@@ -26,7 +26,7 @@ theorem pRank_fixedPointSubgroup_le {K : Type*} [Group K] [Finite K] {r m : ℕ}
     letI : MulDistribMulAction V D' :=
       MulDistribMulAction.compHom D' ((MulAut.conjNormal (H := D')).comp V.subtype)
     pRank r (CFSG.fixedPointSubgroup (Subgroup.zpowers a) D') ≤ m := by
-  letI : MulDistribMulAction V D' :=
+  let : MulDistribMulAction V D' :=
     MulDistribMulAction.compHom D' ((MulAut.conjNormal (H := D')).comp V.subtype)
   have hsmul : ∀ (v : V) (d : D'), ((v • d : D') : K) = (v : K) * (d : K) * (v : K)⁻¹ :=
     fun v d => MulAut.conjNormal_apply (v : K) d
@@ -64,7 +64,7 @@ theorem pRank_fixedPointSubgroup_le {K : Type*} [Group K] [Finite K] {r m : ℕ}
     _ ≤ CFSG.Open.pRank r N := CFSG.SectionRank.pRank_mono hr.out.one_lt hιN
     _ ≤ m := he N hloc
 
-theorem criticalSubgroup_image_isPGroup {K : Type*} [Group K] {r : ℕ} [hr : Fact r.Prime]
+theorem criticalSubgroup_image_isPGroup {K : Type*} [Group K] {r : ℕ} [_hr : Fact r.Prime]
     (R : Subgroup K) (hR : IsPGroup r R) (D : Subgroup R)
     (hDexp : ∀ x ∈ D, x ^ r = 1)
     (hDcomm : ⁅D, (⊤ : Subgroup R)⁆ ≤ D ⊓ centralizer (D : Set R)) :
@@ -100,7 +100,7 @@ theorem false_of_centralizer_le {K : Type*} [Group K] [Finite K]
     (hD'cl : (⊤ : Subgroup D').lowerCentralSeries 2 = ⊥)
     (hK₀C : centralizer (D' : Set K) ≤ C) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, hV, hVcard, hVC⟩ := exists_elementary_two_lift C hCodd U hU hUcard
   let act : MulDistribMulAction V D' :=
     MulDistribMulAction.compHom D' ((MulAut.conjNormal (H := D')).comp V.subtype)

@@ -28,17 +28,20 @@ namespace KuA6Model
 variable [Finite G] {E W V2 N : Subgroup G} {z : G} (Ψ : KuA6Model E W V2 N z)
 include Ψ
 
+omit [Finite G] in
 theorem E_comm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
   intro a ha b hb
   obtain ⟨u, rfl⟩ := Ψ.surj a ha
   obtain ⟨v, rfl⟩ := Ψ.surj b hb
   rw [← Ψ.add, ← Ψ.add, add_comm]
 
+omit [Finite G] in
 theorem E_mul_self : ∀ a ∈ E, a * a = 1 := by
   intro a ha
   obtain ⟨u, rfl⟩ := Ψ.surj a ha
   rw [← Ψ.add, kuSpV_add_self, Ψ.Φ_zero]
 
+omit [Finite G] in
 theorem E_le_centralizer_z : E ≤ Subgroup.centralizer ({z} : Set G) := by
   intro a ha
   have hz : z ∈ E := by
@@ -50,6 +53,7 @@ theorem E_le_centralizer_z : E ≤ Subgroup.centralizer ({z} : Set G) := by
   rw [hh]
   exact Ψ.E_comm z hz a ha
 
+omit [Finite G] in
 theorem exists_conj_z {e : G} (he : e ∈ E) (he1 : e ≠ 1) : ∃ g : G, g * z * g⁻¹ = e := by
   obtain ⟨v, rfl⟩ := Ψ.surj e he
   have hv : v ≠ 0 := by

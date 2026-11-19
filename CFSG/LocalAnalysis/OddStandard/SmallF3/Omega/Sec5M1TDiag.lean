@@ -24,6 +24,7 @@ private def sec5m1t_aux_comm {c : ZMod 3} (fr : NFrame Q (Fin 6) c) (y : V ≃�
     y * ((fr.signChange {i, j} : OGroup Q) : V ≃ₗ[ZMod 3] V) =
       ((fr.signChange {i, j} : OGroup Q) : V ≃ₗ[ZMod 3] V) * y
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec5m1t_aux_coord_zero {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
     {y : V ≃ₗ[ZMod 3] V} (ht : sec5m1t_aux_comm fr y) {l : Fin 6} (hl : (l : ℕ) < 4)
     {k : Fin 6} (hk : k ≠ l) : fr.b.repr (y (fr.b l)) k = 0 := by
@@ -36,7 +37,7 @@ private lemma sec5m1t_aux_coord_zero {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
     have := congrArg (fun e : V ≃ₗ[ZMod 3] V => e (fr.b l)) hcomm
     simpa [LinearEquiv.mul_apply] using this
   have htl : ((fr.signChange {l, j} : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b l) = -fr.b l := by
-    rw [fr.signChange_basis {l, j} l, if_pos (by simp)]
+    rw [fr.signChange_basis {l, j} l, ite_eq_left (by simp)]
   have h2 : ((fr.signChange {l, j} : OGroup Q) : V ≃ₗ[ZMod 3] V) (y (fr.b l)) =
       -y (fr.b l) := by
     rw [← h1, htl, map_neg]
@@ -46,11 +47,12 @@ private lemma sec5m1t_aux_coord_zero {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
   have hknot : k ∉ ({l, j} : Finset (Fin 6)) := by
     simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
     exact ⟨hk, Ne.symm hjk⟩
-  rw [if_neg hknot] at h3
+  rw [ite_eq_right hknot] at h3
   have hneg : fr.b.repr (-y (fr.b l)) k = -fr.b.repr (y (fr.b l)) k := by simp
   rw [hneg] at h3
   exact (by decide : ∀ r : ZMod 3, r = -r → r = 0) _ h3
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec5m1t_aux_eigen {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
     {y : V ≃ₗ[ZMod 3] V} (ht : sec5m1t_aux_comm fr y) {l : Fin 6} (hl : (l : ℕ) < 4) :
     y (fr.b l) = (fr.b.repr (y (fr.b l)) l) • fr.b l := by
@@ -61,6 +63,7 @@ private lemma sec5m1t_aux_eigen {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
   · intro h
     exact absurd (Finset.mem_univ l) h
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec5m1t_aux_scalar_eq {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
     {y : V ≃ₗ[ZMod 3] V} {σ : Equiv.Perm (Fin 6)}
     (hp : y * ((fr.permOrth σ : OGroup Q) : V ≃ₗ[ZMod 3] V) =
@@ -80,6 +83,7 @@ private lemma sec5m1t_aux_scalar_eq {c : ZMod 3} (fr : NFrame Q (Fin 6) c)
   · exact (sub_eq_zero.mp hz).symm
   · exact absurd hb (fr.b.ne_zero (σ l))
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5m1t_diag {c : ZMod 3} (fr : NFrame Q (Fin 6) c) {y : V ≃ₗ[ZMod 3] V}
     (ht : ∀ i j : Fin 6, (i : ℕ) < 4 → (j : ℕ) < 4 → i ≠ j →
       y * ((fr.signChange {i, j} : OGroup Q) : V ≃ₗ[ZMod 3] V) =

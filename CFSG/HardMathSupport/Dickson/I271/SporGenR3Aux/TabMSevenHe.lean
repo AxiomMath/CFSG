@@ -182,7 +182,7 @@ theorem gw_code : ∀ c, c < 3 + heMacW.length → gw (heCodeW c) = heVal c := b
     · obtain ⟨i, rfl⟩ : ∃ i, c = 3 + i := ⟨c - 3, by omega⟩
       have hi : i < heMacW.length := by omega
       have hcw : heCodeW (3 + i) = heMacW.getD i [] := by
-        rw [heCodeW, if_neg (by omega), if_neg (by omega), if_neg (by omega),
+        rw [heCodeW, ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega),
           show 3 + i - 3 = i by omega]
       have hmem : heMacW.getD i [] ++ heProdW (heMacC.getD i []) ∈ heWordList () := by
         simp only [heWordList, List.mem_append, List.mem_map, List.mem_range]
@@ -193,8 +193,8 @@ theorem gw_code : ∀ c, c < 3 + heMacW.length → gw (heCodeW c) = heVal c := b
         simpa [img2] using heAG_inv hW
       rw [gw_append, gw_heProdW (fun c' hc' => ih c' (hlt c' hc') (by have := hlt c' hc'; omega)),
         heMacC_spell i hi, wordProd_normA _ hx, wordProd_invL] at h
-      rw [hcw, eq_inv_of_mul_eq_one_right h, inv_inv, heVal, heE, if_neg (by omega),
-        if_neg (by omega), if_neg (by omega), show 3 + i - 3 = i by omega]
+      rw [hcw, eq_inv_of_mul_eq_one_right h, inv_inv, heVal, heE, ite_eq_right (by omega),
+        ite_eq_right (by omega), ite_eq_right (by omega), show 3 + i - 3 = i by omega]
 
 theorem heRel_of_words : ∀ v ∈ TauCeti.Sporadic.hePresentation.relatorLetters,
     wordProd (img2 heAG heBG) v = 1 := by

@@ -32,7 +32,7 @@ theorem pCore_sup_map_subtype_le_of_normal_of_isPGroup_inf {G : Type*} [Group G]
   have hZK : Z ≤ K := le_sup_left
   have hLK : L ≤ K := le_sup_right
   have hZnormK : (Z.subgroupOf K).Normal := by simpa [K] using hZnorm
-  haveI : (Z.subgroupOf K).Normal := hZnormK
+  have : (Z.subgroupOf K).Normal := hZnormK
   let π : K →* K ⧸ Z.subgroupOf K := QuotientGroup.mk' _
   let ψ : L →* K ⧸ Z.subgroupOf K :=
     (QuotientGroup.mk' (Z.subgroupOf K)).comp (Subgroup.inclusion hLK)
@@ -250,7 +250,7 @@ theorem transvectionHyp_R3_of_five_ncard45 {G : Type} [Group G] {D : Set G}
     CFSG.Timmesfeld.Transvection.TransvectionHyp G
       {A | ∃ d ∈ D, A = Subgroup.zpowers d} := by
   have hS_R3 : IsSimpleGroup (commutator (R3 f)) := by
-    haveI : IsSimpleGroup (commutator G) := hS
+    have : IsSimpleGroup (commutator G) := hS
     exact CFSG.Fischer.Classification.Recognition.R3.isSimpleGroup_commutator_of_mulEquiv φ
   have hna_R3 : ∃ a b : commutator (R3 f), a * b ≠ b * a :=
     CFSG.Fischer.Classification.Recognition.R3.nonabelian_commutator_R3 hf (by norm_num) hS_R3

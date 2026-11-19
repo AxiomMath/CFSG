@@ -150,7 +150,7 @@ theorem exists_t_j0_of_orbit (hw : orderOf w = 2) {E K' : Subgroup K} (hEH : E �
         _ = w := h1
   have hOcard : 20 ≤ O.ncard := horb e heE heJ
   have hΩ' : (Ω \ {w}).ncard ≤ 20 := by
-    rw [Set.ncard_diff_singleton_of_mem hwΩ]
+    rw [Set.ncard_sdiff_singleton_of_mem hwΩ]
     omega
   have hOeq : O = Ω \ {w} :=
     Set.eq_of_subset_of_ncard_le hOsub (by omega) (Set.toFinite _)

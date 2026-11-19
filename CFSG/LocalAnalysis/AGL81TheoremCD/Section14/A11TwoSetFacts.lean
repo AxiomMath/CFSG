@@ -138,7 +138,7 @@ lemma eq_one_or_eq_swap_of_fixes_omega {i j : Fin 11} (hij : i ≠ j)
   let Ω : Finset (Fin 11) := (Finset.univ.erase i).erase j
   have hmem : ∀ x, x ∈ Ω ↔ x ≠ i ∧ x ≠ j := by
     intro x
-    simp [Ω, Finset.mem_erase, and_assoc, and_comm, and_left_comm]
+    simp [Ω, Finset.mem_erase, and_comm]
   have hnot : ∀ x, x ∉ Ω ↔ x = i ∨ x = j := by
     intro x
     rw [hmem]
@@ -198,7 +198,7 @@ theorem eq_one_or_eq_swap_of_forall_conjNormal_eq {i j : Fin 11} (hij : i ≠ j)
       Fintype.card_fin]
   have hmem : ∀ x, x ∈ Ω ↔ x ≠ i ∧ x ≠ j := by
     intro x
-    simp [Ω, Finset.mem_erase, and_assoc, and_comm, and_left_comm]
+    simp [Ω, Finset.mem_erase, and_comm]
   have hconj : ∀ g : alternatingGroup (Fin 11),
       g ∈ ⁅a11TwoSetStab i j, a11TwoSetStab i j⁆ →
       ∀ k : Fin 11, σ k ∈ (g : Equiv.Perm (Fin 11)).support ↔
@@ -355,11 +355,11 @@ private lemma omega_subset_orbit_of_two {i j : Fin 11} (hij : i ≠ j)
       Fintype.card_fin]
   have hmem : ∀ x, x ∈ Ω ↔ x ≠ i ∧ x ≠ j := by
     intro x
-    simp [Ω, Finset.mem_erase, and_assoc, and_comm, and_left_comm]
+    simp [Ω, Finset.mem_erase, and_comm]
   intro c hc
   by_cases hca : c = a
   · rw [hca]
-    simpa using MulAction.mem_orbit a (1 : D)
+    simp
   by_cases hcb : c = b
   · rw [hcb]
     exact hbO
@@ -408,7 +408,7 @@ private lemma not_two_omega_in_orbit {i j : Fin 11} (hij : i ≠ j)
     (hab : a ≠ b)
     (hbO : b ∈ MulAction.orbit D a) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Ω : Finset (Fin 11) := (Finset.univ.erase i).erase j
   have hΩcard : Ω.card = 9 := by
     change ((Finset.univ.erase i).erase j).card = 9
@@ -469,7 +469,7 @@ private lemma false_of_orbit_meets_omega {i j : Fin 11} (hij : i ≠ j)
       Fintype.card_fin]
   have hmem : ∀ x, x ∈ Ω ↔ x ≠ i ∧ x ≠ j := by
     intro x
-    simp [Ω, Finset.mem_erase, and_assoc, and_comm, and_left_comm]
+    simp [Ω, Finset.mem_erase, and_comm]
   obtain ⟨b, hb, -⟩ := Finset.exists_mem_notMem_of_card_lt_card
     (s := (∅ : Finset (Fin 11))) (t := Ω.erase a) (by
       rw [Finset.card_erase_of_mem ha, hΩcard]
@@ -520,7 +520,7 @@ theorem a11TwoSetStab_twoSubgroup_eq_bot {i j : Fin 11} (hij : i ≠ j)
   let Ω : Finset (Fin 11) := (Finset.univ.erase i).erase j
   have hmem : ∀ x, x ∈ Ω ↔ x ≠ i ∧ x ≠ j := by
     intro x
-    simp [Ω, Finset.mem_erase, and_assoc, and_comm, and_left_comm]
+    simp [Ω, Finset.mem_erase, and_comm]
   have hnot : ∀ x, x ∉ Ω ↔ x = i ∨ x = j := by
     intro x
     rw [hmem x]
@@ -544,7 +544,7 @@ theorem a11TwoSetStab_twoSubgroup_eq_bot {i j : Fin 11} (hij : i ≠ j)
         (MulAction.orbit_eq_iff).mpr hd_a
       have haO : a ∈ MulAction.orbit D (dD • a) := by
         rw [horb]
-        simpa using MulAction.mem_orbit a (1 : D)
+        simp
       have haO' : a ∈ MulAction.orbit D ((d : Equiv.Perm (Fin 11)) a) := by
         rwa [hda_eq] at haO
       exact false_of_orbit_meets_omega hij hD hN hk ha haO'
@@ -569,7 +569,7 @@ theorem a11TwoSetStab_threePrime_eq_bot {i j : Fin 11} (hij : i ≠ j)
       Fintype.card_fin]
   have hmem : ∀ x, x ∈ Ω ↔ x ≠ i ∧ x ≠ j := by
     intro x
-    simp [Ω, Finset.mem_erase, and_assoc, and_comm, and_left_comm]
+    simp [Ω, Finset.mem_erase, and_comm]
   have hSmap : ∀ g : alternatingGroup (Fin 11), g ∈ a11TwoSetStab i j →
       ∀ x ∈ Ω, (g : Equiv.Perm (Fin 11)) x ∈ Ω := by
     intro g hg x hx

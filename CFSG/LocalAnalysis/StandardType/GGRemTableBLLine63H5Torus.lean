@@ -30,7 +30,7 @@ theorem permGL_swap_mem_unitarySU (h : UnitaryFieldData 2 n K) {i j : Fin 6} (hi
 
 @[expose] noncomputable def swapSU (h : UnitaryFieldData 2 n K) : ↥(unitarySU 2 n K 6) :=
   ⟨permGL (Equiv.swap (0 : Fin 6) 1),
-    permGL_swap_mem_unitarySU h (by simp [Fin.ext_iff])⟩
+    permGL_swap_mem_unitarySU h (by simp)⟩
 
 theorem swapSU_sq (h : UnitaryFieldData 2 n K) : swapSU h ^ 2 = 1 := by
   apply Subtype.ext
@@ -42,7 +42,7 @@ theorem swapSU_ne_one (h : UnitaryFieldData 2 n K) {ζ : Kˣ} (hζ : ζ ≠ 1) :
   have h2 : (permGL (Equiv.swap (0 : Fin 6) 1) : GL (Fin 6) K) = 1 :=
     congrArg Subtype.val h1
   have h3 := permGL_swap_not_mem_center (K := K) (d := 6) (i := 0) (j := 1)
-    (by simp [Fin.ext_iff]) hζ
+    (by simp) hζ
   exact h3 (h2 ▸ Subgroup.one_mem _)
 
 theorem swap_commute_diagHom {t : Fin 6 → Kˣ} (ht : t 0 = t 1) :

@@ -63,8 +63,8 @@ theorem center_eq_bot_of_outer [Finite X] {p : ℕ} (hK65 : KD65 p) {K B : Subgr
   have hO : GLAPPrimeCore p ↥K = ⊥ := i271h_primeCore_eq_bot hH.core hH.comp
   have haN := hH.norm haB
   have hap : a ^ p = 1 := hH.scp.2.1.2 a haB
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
   have hout' : actHom K ⟨a, haN⟩ ∉ innerAut (↥K ⧸ Subgroup.center ↥K) :=
     fun h => hout (exists_inner_of_actHom_mem_innerAut hq.1 haN h)
   exact hK65 (↥K ⧸ Subgroup.center ↥K) hq.2 (exists_noncomm_of_isQuasisimple hq) hH.chev
@@ -138,7 +138,7 @@ theorem coreFree_of_outer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hOut : DefCh
   have hxord : orderOf (autBarToQuot p hO d) = p := by
     rw [orderOf_injective (autBarToQuot p hO) hΦinj]
     exact hdp
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hS := hOut (↥K ⧸ Subgroup.center ↥K) hq.2 (exists_noncomm_of_isQuasisimple hq) idx ⟨e⟩ p hp
     hp2 hchar hexc (autBarToQuot p hO d) hxord hdout (H.map (autBarToQuot p hO)) hinnS
   rw [← map_inf_centralizer_of_injective (autBarToQuot p hO) hΦinj,
@@ -154,7 +154,7 @@ theorem isCompLocallyBalanced_of_charp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hexc : ¬ (p = 3 ∧ IsLTwoTwentySeven (↥K ⧸ Subgroup.center ↥K))) :
     IsCompLocallyBalanced p 1 A K := by
   intro D hD H hH hDH
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card D = p := by simpa using hD.2.2
   have hnt : 1 < Nat.card D := by rw [hcard]; exact hp.one_lt
   obtain ⟨d, hdD, hd1⟩ : ∃ d ∈ D, d ≠ 1 := by

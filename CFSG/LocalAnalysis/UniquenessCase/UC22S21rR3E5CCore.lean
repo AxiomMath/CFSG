@@ -24,16 +24,16 @@ theorem uc22r3e5c_isCyclic_of_odd_le_normalizer
     {D : Subgroup S} (hD : D ≤ Subgroup.normalizer ((U : Subgroup S) : Set S))
     (hodd : Odd (Nat.card D)) : IsCyclic ↥D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup S := Subgroup.normalizer ((U : Subgroup S) : Set S)
   let U' : Subgroup ↥N := (U : Subgroup S).subgroupOf N
-  haveI hU'norm : U'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
-  haveI hcyc : IsCyclic (↥N ⧸ U') :=
+  have hU'norm : U'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
+  have hcyc : IsCyclic (↥N ⧸ U') :=
     uc22r3e5c_isCyclic_normalizer_quotient
       (CFSG.LocalAnalysis.WeakClosure81.isSz_iff_isSz.mp hSz) U
   have hDinf : D ⊓ (U : Subgroup S) = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
-    obtain ⟨a, ha⟩ := (U : Sylow 2 S).isPGroup'.exists_card_eq
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
+    obtain ⟨a, ha⟩ := (U : Sylow 2 S).isPGroup.exists_card_eq
     rw [ha]
     exact Nat.Coprime.pow_right a hodd.coprime_two_right
   let f : ↥D →* ↥N ⧸ U' := (QuotientGroup.mk' U').comp (Subgroup.inclusion hD)
@@ -74,7 +74,7 @@ theorem uc22r3e5c_stable_pairs {D : Data G} {L K : Subgroup G}
       DL.map (UC6S846.rhoL L ⟨b, hbL⟩).toMonoidHom = DL ∧
       DK.map (UC6S846.rhoL K ⟨b, hbK⟩).toMonoidHom = DK := by
   have hLmem : L ∈ conjSetOf D.M L :=
-    ⟨1, D.M.one_mem, by ext z; simp [MulAut.conj_apply]⟩
+    ⟨1, D.M.one_mem, by ext z; simp⟩
   have hLX : L ≤ conjClosure D.M L :=
     le_iSup₂_of_le (f := fun K (_ : K ∈ conjSetOf D.M L) => K) L hLmem le_rfl
   have hKmem : K ∈ conjSetOf D.M L := by rw [hset]; simp

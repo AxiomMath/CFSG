@@ -45,7 +45,7 @@ theorem close95_core2 (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
   have hcM : c ∈ M := hc.Rt_le_M t hcR
   obtain ⟨K', fK', finK', chK', γ, M₀, h⟩ := stroth_globalModelData hc.hyp
   obtain ⟨φ₀, hφπ, hφQ, hφiso⟩ := exists_actionHom_H0 hc.hyp h
-  haveI : Finite M₀.E := Module.finite_of_finite K'
+  have : Finite M₀.E := Module.finite_of_finite K'
   have hKZ : Nat.card K' = Nat.card Z := h.card
   have hK2' : 1 < Nat.card K' := by rw [hKZ]; have := hc.hyp.q4; omega
   obtain ⟨U, hUmem, hUdim, hE, hUsing, hUperp⟩ := exists_lagrangian95 h34 hs h
@@ -442,7 +442,7 @@ theorem close95_core2 (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
     exact (hVsub_mem _).mp h3
   exact (M₀.mem_img_iff hZV (hcommπ xa w hwQ).1).mp h4
 
-theorem exists_conj_R_of_point95 {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec9Hyp hc n t)
+theorem exists_conj_R_of_point95 {hc : Ctx M Q Z B} {n : ℕ} {t : G} (_hs : Sec9Hyp hc n t)
     {z : G} (h5 : Five95 hc t z) {ρ : G} (hρM : ρ ∈ M)
     (hCV : conjSubgroup ρ B ≤ Vt M (LB M Q B) B Z t ⊓ conjSubgroup z (Vt M (LB M Q B) B Z t))
     (hCB : ¬ conjSubgroup ρ B ≤ B ⊔ Z) :

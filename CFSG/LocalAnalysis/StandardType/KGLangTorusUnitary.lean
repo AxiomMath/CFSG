@@ -77,7 +77,7 @@ private theorem kgLangCUniAux_odd_ker {d n : ℕ} {𝕂 : Type} [Field 𝕂] [Fi
   rw [← Nat.not_even_iff_odd]
   intro heven
   have hdvd : 2 ∣ Nat.card (kgLangCUniAux_c h hd1).ker := even_iff_two_dvd.mp heven
-  letI : Fintype (kgLangCUniAux_c h hd1).ker := Fintype.ofFinite _
+  let : Fintype (kgLangCUniAux_c h hd1).ker := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card] at hdvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card 2 hdvd
   have hx2 : x ^ 2 = 1 := by
@@ -87,7 +87,7 @@ private theorem kgLangCUniAux_odd_ker {d n : ℕ} {𝕂 : Type} [Field 𝕂] [Fi
       ((1 : GL (Fin d) 𝕂) : Matrix (Fin d) (Fin d) 𝕂)) = 1 := MonoidHom.mem_ker.mp x.2
   obtain ⟨c, hcnorm, hc⟩ := kgLangCUniAux_ker_scalar h hd hd1 hxmem
   have hc2 : c ^ 2 = 1 := by
-    haveI : Nonempty (Fin d) := ⟨0, by omega⟩
+    have : Nonempty (Fin d) := ⟨0, by omega⟩
     have h1 := congrArg (fun y : (kgLangCUniAux_c h hd1).ker => (y : GL (Fin d) 𝕂)) hx2
     simp only [Subgroup.coe_pow, Subgroup.coe_one] at h1
     rw [hc] at h1
@@ -343,7 +343,7 @@ private theorem kgLangCUniAux_scalar_norm {p : ℕ} (hp : p.Prime) {q : ℕ} (hq
     exact Units.val_mk0 hlam0
 
 private theorem kgLangCUniAux_scalar_mem {d n : ℕ} {𝕂 : Type} [Field 𝕂]
-    (h : LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n 𝕂) (hd : 1 ≤ d) {μ : 𝕂ˣ}
+    (h : LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n 𝕂) (_hd : 1 ≤ d) {μ : 𝕂ˣ}
     (hμ : h.norm (μ : 𝕂) = 1) :
     Matrix.GeneralLinearGroup.scalar (Fin d) μ ∈
       LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h
@@ -397,7 +397,7 @@ private theorem kgLangCUniAux_mem_units_image {ι 𝕂 : Type} [Fintype ι] [Dec
     (hcomm : ∀ a b : ↥B, a * b = b * a) (g : GL ι 𝕂) :
     g ∈ (⊤ : Subgroup (Units ↥B)).map (Units.map B.val.toMonoidHom) ↔
       (g : Matrix ι ι 𝕂) ∈ B := by
-  letI : CommRing ↥B := { (inferInstance : Ring ↥B) with mul_comm := hcomm }
+  let : CommRing ↥B := { (inferInstance : Ring ↥B) with mul_comm := hcomm }
   constructor
   · intro hg
     obtain ⟨u, -, rfl⟩ := Subgroup.mem_map.mp hg
@@ -438,9 +438,9 @@ theorem kgLangC_torusInput_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n
     have h2 := Finite.one_lt_card (α := 𝕂)
     omega
   let h : LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n 𝕂 := unitaryFieldData_of_card hn h𝕂
-  haveI : CharP 𝕂 2 := h.charP
+  have : CharP 𝕂 2 := h.charP
   have hd1 : 1 ≤ d := by omega
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   let hC : LocalAnalysis.ComponentInitial.UnitaryHigher.IsPrimeFormGram (1 : GL (Fin d) 𝕂) :=
     LocalAnalysis.ComponentInitial.UnitaryHigher.isPrimeFormGram_one (K := 𝕂) (n := d)
   let c := kgLangCUniAux_c h hd1
@@ -473,7 +473,7 @@ theorem kgLangC_torusInput_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n
     obtain ⟨a', ha', rfl⟩ := Subgroup.mem_map.mp ha
     obtain ⟨b', hb', rfl⟩ := Subgroup.mem_map.mp hb
     have hcomm : c a' * c b' = c b' * c a' := by
-      letI : IsMulCommutative E := hE.1
+      let : IsMulCommutative E := hE.1
       exact congrArg Subtype.val (mul_comm' (⟨c a', ha'⟩ : E) (⟨c b', hb'⟩ : E))
     have hker : c (a' * b' * (b' * a')⁻¹) = 1 := by
       simp only [map_mul, map_inv]
@@ -499,7 +499,7 @@ theorem kgLangC_torusInput_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n
     rw [Subgroup.coe_pow, Subgroup.coe_one]
     exact hE.2 x x.2
   have hEodd : Odd (Nat.card E) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := hEp.exists_card_eq
     rw [hk]
     exact (hp.odd_of_ne_two hp2).pow
@@ -598,10 +598,10 @@ theorem kgLangC_torusInput_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n
       rw [map_mul]; exact mul_mem hx' hy'
   have hBcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x :=
     (kgLangC_span_comm_reduced Pgl hPab hPgl_odd).1
-  haveI : CommRing ↥B :=
+  have : CommRing ↥B :=
     { (inferInstance : Ring ↥B) with
       mul_comm := fun a b => Subtype.ext (hBcomm a a.2 b b.2) }
-  haveI : Finite ↥B := inferInstance
+  have : Finite ↥B := inferInstance
   let τ : Matrix (Fin d) (Fin d) 𝕂 → Matrix (Fin d) (Fin d) 𝕂 := fun x => Matrix.transpose (x.map h.bar)
   have hτadd_gen : ∀ x y : Matrix (Fin d) (Fin d) 𝕂, τ (x + y) = τ x + τ y := by
     intro x y
@@ -1020,7 +1020,7 @@ theorem kgLangTorusDatumCont_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d
         (LargeEvenGUSet (Fin d) 𝕂 (2 ^ n)))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)))))
     (hZ : ∀ [Finite (HopfCover (LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n))))]
-      (θ : HopfCover (LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n))) ⧸
+      (_θ : HopfCover (LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n))) ⧸
         Subgroup.center (HopfCover (LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)))) ≃*
           LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n))),
       commutator (HopfCover (LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)))) = ⊤ →
@@ -1038,7 +1038,7 @@ theorem kgLangTorusDatumCont_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d
     have h2 := Finite.one_lt_card (α := 𝕂)
     omega
   let h : LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n 𝕂 := unitaryFieldData_of_card hn h𝕂
-  haveI : CharP 𝕂 2 := h.charP
+  have : CharP 𝕂 2 := h.charP
   have hd1 : 1 ≤ d := by omega
   have hp3 : 3 ≤ p := by
     have := hp.two_le
@@ -1056,7 +1056,7 @@ theorem kgLangTorusDatumCont_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d
   have hs : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n))) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU 𝕂 2 n h𝕂 d hd hnq
   have hna : ∃ a b : LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)), a * b ≠ b * a := by
-    haveI : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)) :=
+    have : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)) :=
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU h𝕂 hd hnq
     have hperf : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n))) :=
       Group.IsPerfect.ofSurjective
@@ -1109,20 +1109,20 @@ theorem kgLangTorusDatumCont_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d
         (LargeEvenGUSet (Fin d) 𝕂 (2 ^ n)))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)))) :=
     kgLangTorusMPart_of_inner hp hs hna hcyc hconj hinn hG1 hT (by
-      intro hfin θ hcomm
-      letI := hfin
-      exact hZ θ hcomm)
-  intro hfin θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
-  letI := hfin
+      intro hfin _θ hcomm
+      let := hfin
+      exact hZ _θ hcomm)
+  intro hfin _θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
+  let := hfin
   have hcyc' := hcyc hs hna
   obtain ⟨J, S, hJI, hJS, hN, hcycS, hpS⟩ := hcyc'
-  have hα₀J : kgInducedAut θ α₀ ∉ J := by
+  have hα₀J : kgInducedAut _θ α₀ ∉ J := by
     intro h
     exact hα₀I (hJI ▸ h)
-  have hAS : ∀ α ∈ A, kgInducedAut θ α ∈ S := by
+  have hAS : ∀ α ∈ A, kgInducedAut _θ α ∈ S := by
     intro α hα
     obtain ⟨u, huI, f, hfF, huf⟩ := hAI α hα
-    apply hpS (kgInducedAut θ α)
+    apply hpS (kgInducedAut _θ α)
     · rw [huf]
       exact Subgroup.mul_mem _
         (Subgroup.subset_closure (Set.mem_union_left
@@ -1132,8 +1132,8 @@ theorem kgLangTorusDatumCont_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d
           (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)))
             (LargeEvenGUSet (Fin d) 𝕂 (2 ^ n))) hx) hfF)
     · exact ⟨1, by rw [pow_one, ← map_pow, hA.2 α hα, map_one]⟩
-  refine ⟨?_, hM θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I⟩
+  refine ⟨?_, hM _θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I⟩
   intro α hα
-  obtain ⟨k, hk⟩ := kgLangLT1_decomp hp θ hJS hN hcycS hA hAS hα₀ hα₀J α hα
+  obtain ⟨k, hk⟩ := kgLangLT1_decomp hp _θ hJS hN hcycS hA hAS hα₀ hα₀J α hα
   exact ⟨k, hJI ▸ hk⟩
 end CFSG.StandardType

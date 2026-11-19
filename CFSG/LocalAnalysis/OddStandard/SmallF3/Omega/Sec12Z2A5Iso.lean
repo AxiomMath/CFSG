@@ -16,7 +16,7 @@ theorem exists_hyperbolic_three {F W : Type} [Field F] [Fintype F]
     ∃ e f w : W, B e e = 0 ∧ B e f = 1 ∧ B f f = 0 ∧ B e w = 0 ∧ B f w = 0 ∧
       LinearIndependent F ![e, f, w] := by
   classical
-  haveI : Finite F := Finite.of_fintype F
+  have : Finite F := Finite.of_fintype F
   have hfin : Module.Finite F W := Module.finite_of_finrank_pos (by omega)
   have hs : ∀ x y, B x y = B y x := fun x y => (hB.eq y x).symm
   obtain ⟨e, he0, hee⟩ := CFSG.Quasithin.F7Two.U3Odd.exists_isotropic_of_finrank_three hW B
@@ -30,7 +30,7 @@ theorem exists_hyperbolic_three {F W : Type} [Field F] [Fintype F]
   obtain ⟨f, hef, hff⟩ : ∃ f, B e f = 1 ∧ B f f = 0 := by
     have h1 : B f₀ e = 1 := by rw [hs, hef₀]
     refine ⟨f₀ - (B f₀ f₀ / 2) • e, ?_, ?_⟩
-    · simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hee,
+    · simp only [map_sub, map_smul, smul_eq_mul, hee,
         hef₀, mul_zero, sub_zero]
     · simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hee, h1,
         hef₀, mul_zero, sub_zero, mul_one]
@@ -43,8 +43,8 @@ theorem exists_hyperbolic_three {F W : Type} [Field F] [Fintype F]
     refine ⟨v 0 • f + v 1 • e, ?_⟩
     ext i
     fin_cases i
-    · simp [φ, hef, hee, hff]
-    · simp [φ, hfe, hee, hff, hef]
+    · simp [φ, hef, hee]
+    · simp [φ, hfe, hff]
   have hrange : LinearMap.range φ = ⊤ := LinearMap.range_eq_top.mpr hφ
   have hrk := LinearMap.finrank_range_add_finrank_ker φ
   rw [hrange, finrank_top, Module.finrank_fin_fun, hW] at hrk
@@ -89,7 +89,7 @@ theorem exists_isometry_two_three {F W : Type} [Field F] [Fintype F] (hF : Finty
   have h32 : (3 : F) * 2 = 1 := by rw [mul_comm]; exact h23
   have h2 : (2 : F) ≠ 0 := fun h => by rw [h] at h23; simp at h23
   have h3 : (3 : F) ≠ 0 := fun h => by rw [h] at h23; simp at h23
-  haveI : Nonempty (Fin 3) := ⟨0⟩
+  have : Nonempty (Fin 3) := ⟨0⟩
   obtain ⟨e, f, w, hee, hef, hff, hew, hfw, hli⟩ := exists_hyperbolic_three h2 hW B hB hnd
   have hs : ∀ x y, B x y = B y x := fun x y => (hB.eq y x).symm
   let b : Basis (Fin 3) F W :=
@@ -113,8 +113,7 @@ theorem exists_isometry_two_three {F W : Type} [Field F] [Fintype F] (hF : Finty
     rw [hy i, hy j]
     simp only [map_smul, LinearMap.smul_apply, smul_eq_mul]
     fin_cases i <;> fin_cases j <;>
-      simp [u, hb0, hb1, hb2, hee, hef, hff, hew, hfw, hs w e, hs w f, hs f e, h23, h32] <;>
-      first | rfl | skip
+      simp [u, hb0, hb1, hb2, hee, hef, hff, hew, hfw, hs w e, hs w f, hs f e, h23, h32]
   intro v v'
   have := LinearMap.congr_fun₂ hext v v'
   simpa using this.symm

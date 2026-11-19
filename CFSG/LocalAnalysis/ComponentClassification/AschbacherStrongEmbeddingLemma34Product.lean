@@ -119,8 +119,8 @@ theorem centralizer_le_of_mul {a₁ a₂ : G} (ha₁ : a₁ ∈ A₁) (ha₁2 : 
     (ha₂ : a₂ ∈ A₂) (ha₂2 : orderOf a₂ = 2) (hcen : a₁ * a₂ ∉ Subgroup.center G) :
     Subgroup.centralizer ({a₁ * a₂} : Set G) ≤ overlapClosure A₁ A₂ := by
   have h := m.hyp
-  have hA₁p : IsPGroup 2 A₁ := S.isPGroup'.to_le h.le_one
-  have hA₂p : IsPGroup 2 A₂ := S.isPGroup'.to_le h.le_two
+  have hA₁p : IsPGroup 2 A₁ := S.isPGroup.to_le h.le_one
+  have hA₂p : IsPGroup 2 A₂ := S.isPGroup.to_le h.le_two
   set X := A₁ ⊓ Subgroup.centralizer ({a₁} : Set G) with hX
   have hX4 := four_le_card_inf_centralizer hA₁p h.rank_one ha₁ ha₁2
   have hXU : (X : Set G) ⊆ (A₁ : Set G) ∪ A₂ := fun x hx => Or.inl hx.1
@@ -223,7 +223,7 @@ theorem fixesOnly_of_mul {a₁ a₂ : G} (ha₁ : a₁ ∈ A₁) (ha₁2 : order
   have hnorm : t ∉ Subgroup.normalizer (A₁ : Set G) := by
     intro htN
     obtain ⟨b, hb, hb1, hbt⟩ :=
-      exists_commute_of_mem_normalizer S.isPGroup' h.le_one h.ne_bot_one htS htN
+      exists_commute_of_mem_normalizer S.isPGroup h.le_one h.ne_bot_one htS htN
     exact hb1 (hfix (Or.inl hb) hbt)
   obtain ⟨hs₁, hs₂⟩ : rightConjugate A₁ t = A₂ ∧ rightConjugate A₂ t = A₁ := by
     rcases h.sylow_le_pairStabilizer m.not_le₁₂ m.not_le₂₁ htS with ⟨h₁, -⟩ | hsw
@@ -234,7 +234,7 @@ theorem fixesOnly_of_mul {a₁ a₂ : G} (ha₁ : a₁ ∈ A₁) (ha₁2 : order
     have hIS : A₁ ⊓ A₂ ≤ (S : Subgroup G) := inf_le_left.trans h.le_one
     have htN : t ∈ Subgroup.normalizer ((A₁ ⊓ A₂ : Subgroup G) : Set G) := by
       rw [← rightConjugate_eq_self_iff, rightConjugate_inf_eq, hs₁, hs₂, inf_comm]
-    obtain ⟨b, hb, hb1, hbt⟩ := exists_commute_of_mem_normalizer S.isPGroup' hIS hI htS htN
+    obtain ⟨b, hb, hb1, hbt⟩ := exists_commute_of_mem_normalizer S.isPGroup hIS hI htS htN
     exact hb1 (hfix (Or.inl hb.1) hbt)
   set R := (swapTwistHom h.comm htt hs₁).range with hRdef
   have hRC := swapTwistHom_range_le_centralizer h.comm htt hs₁
@@ -242,7 +242,7 @@ theorem fixesOnly_of_mul {a₁ a₂ : G} (ha₁ : a₁ ∈ A₁) (ha₁2 : order
     rintro _ ⟨b, rfl⟩
     rw [swapTwistHom_apply]
     exact Subgroup.mul_mem _ (h.le_one b.2) (h.le_two (conj_mem_two_of_swap htt hs₁ b.2))
-  have hRp : IsPGroup 2 R := S.isPGroup'.to_le hRS
+  have hRp : IsPGroup 2 R := S.isPGroup.to_le hRS
   have hRcard : Nat.card R = Nat.card A₁ := by
     rw [hRdef, MonoidHom.range_eq_map,
       Subgroup.card_map_of_injective (swapTwistHom_injective h.comm htt hs₁ hI),
@@ -326,7 +326,7 @@ theorem fixesOnly_of_mul {a₁ a₂ : G} (ha₁ : a₁ ∈ A₁) (ha₁2 : order
   have hBne : rightConjugate A₁ g' ≠ ⊥ := fun hbot => h.ne_bot_one
     (Subgroup.eq_bot_of_card_eq _ (by rw [← rightConjugate_card A₁ g', hbot, Subgroup.card_bot]))
   have hTp : IsPGroup 2 (rightConjugate (S : Subgroup G) g') := by
-    rw [← coe_conjSylow]; exact (conjSylow S g').isPGroup'
+    rw [← coe_conjSylow]; exact (conjSylow S g').isPGroup
   obtain ⟨b', hb'B, hb'1, hb'y⟩ :=
     exists_commute_of_mem_normalizer hTp hBT hBne (hRT hyV.1) hyV.2
   have hb'H : b' ∈ H := hCy (Subgroup.mem_centralizer_singleton_iff.mpr hb'y.eq.symm)

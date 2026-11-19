@@ -72,11 +72,12 @@ theorem exists_isometry_M2 (hQ : Q.polarBilin.Nondegenerate) (h4 : finrank (ZMod
   change S10.q₀ (S10.plusEquiv (e₁ w)) = Q w
   rw [S10.q₀_plusEquiv, e₁.map_app]
 
+omit [FiniteDimensional (ZMod 2) W] in
 private theorem polar_eq_of_isometry (e : W ≃ₗ[ZMod 2] S10.M2)
     (he : ∀ w, S10.q₀ (e w) = Q w) (x y : W) :
     Q.polarBilin x y = S10.pf (e x) (e y) := by
   rw [QuadraticMap.polarBilin_apply_apply, ← S10.polar_q₀]
-  simp only [QuadraticMap.polar, he, map_add]
+  simp only [QuadraticMap.polar, he]
   rw [← he (x + y), map_add]
 
 private theorem conjEquiv_mem_omegaGroup_iff (hQ : Q.polarBilin.Nondegenerate)
@@ -137,7 +138,7 @@ private theorem eq_set_of_le_omegaGroup (hQ : Q.polarBilin.Nondegenerate)
   have hsubF : (P' : Set S10.Gm).toFinset ⊆
       Finset.univ.filter (fun δ : S10.Gm => δ ^ 3 = 1) := by
     intro δ hδ
-    simp only [Set.mem_toFinset, SetLike.mem_coe, Subgroup.mem_comap] at hδ
+    simp only [Set.mem_toFinset, SetLike.mem_coe] at hδ
     obtain ⟨f, hf, hfe⟩ := Subgroup.mem_map.mp hδ
     simp only [Finset.mem_filter, Finset.mem_univ, true_and]
     apply S10.ρ₀_injective
@@ -202,6 +203,7 @@ private theorem mem_P_of_mem_omegaGroup_cube (hQ : Q.polarBilin.Nondegenerate)
   exact hmem
 
 
+omit [FiniteDimensional (ZMod 2) W] in
 private theorem comp_commute_left {e : W ≃ₗ[ZMod 2] S10.M2} {γ : S10.Gm}
     (hγ : ∀ m, S10.act γ m = ωM * m) {f : W →ₗ[ZMod 2] W}
     (hf : ∀ w, f (conjEquiv e.symm (S10.ρ₀ γ) w) = conjEquiv e.symm (S10.ρ₀ γ) (f w))
@@ -210,8 +212,7 @@ private theorem comp_commute_left {e : W ≃ₗ[ZMod 2] S10.M2} {γ : S10.Gm}
       ωM * (e.toLinearMap.comp (f.comp e.symm.toLinearMap)) m := by
   have h1 : e.symm (ωM * m) = conjEquiv e.symm (S10.ρ₀ γ) (e.symm m) := by
     rw [conjEquiv_apply]
-    simp only [LinearEquiv.symm_symm, LinearEquiv.symm_apply_apply,
-      LinearEquiv.apply_symm_apply, S10.ρ₀_apply]
+    simp only [LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply, S10.ρ₀_apply]
     rw [hγ]
   calc (e.toLinearMap.comp (f.comp e.symm.toLinearMap)) (ωM * m)
       = e (f (e.symm (ωM * m))) := rfl
@@ -219,11 +220,11 @@ private theorem comp_commute_left {e : W ≃ₗ[ZMod 2] S10.M2} {γ : S10.Gm}
     _ = e (conjEquiv e.symm (S10.ρ₀ γ) (f (e.symm m))) := by rw [hf]
     _ = S10.ρ₀ γ (e (f (e.symm m))) := by
           rw [conjEquiv_apply]
-          simp only [LinearEquiv.symm_symm, LinearEquiv.symm_apply_apply,
-            LinearEquiv.apply_symm_apply]
+          simp only [LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply]
     _ = ωM * e (f (e.symm m)) := by rw [S10.ρ₀_apply]; exact hγ _
     _ = ωM * (e.toLinearMap.comp (f.comp e.symm.toLinearMap)) m := rfl
 
+omit [FiniteDimensional (ZMod 2) W] in
 private theorem comp_commute_right {e : W ≃ₗ[ZMod 2] S10.M2} {γ : S10.Gm}
     (hγ : ∀ m, S10.act γ m = m * ωM) {f : W →ₗ[ZMod 2] W}
     (hf : ∀ w, f (conjEquiv e.symm (S10.ρ₀ γ) w) = conjEquiv e.symm (S10.ρ₀ γ) (f w))
@@ -232,8 +233,7 @@ private theorem comp_commute_right {e : W ≃ₗ[ZMod 2] S10.M2} {γ : S10.Gm}
       (e.toLinearMap.comp (f.comp e.symm.toLinearMap)) m * ωM := by
   have h1 : e.symm (m * ωM) = conjEquiv e.symm (S10.ρ₀ γ) (e.symm m) := by
     rw [conjEquiv_apply]
-    simp only [LinearEquiv.symm_symm, LinearEquiv.symm_apply_apply,
-      LinearEquiv.apply_symm_apply, S10.ρ₀_apply]
+    simp only [LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply, S10.ρ₀_apply]
     rw [hγ]
   calc (e.toLinearMap.comp (f.comp e.symm.toLinearMap)) (m * ωM)
       = e (f (e.symm (m * ωM))) := rfl
@@ -241,8 +241,7 @@ private theorem comp_commute_right {e : W ≃ₗ[ZMod 2] S10.M2} {γ : S10.Gm}
     _ = e (conjEquiv e.symm (S10.ρ₀ γ) (f (e.symm m))) := by rw [hf]
     _ = S10.ρ₀ γ (e (f (e.symm m))) := by
           rw [conjEquiv_apply]
-          simp only [LinearEquiv.symm_symm, LinearEquiv.symm_apply_apply,
-            LinearEquiv.apply_symm_apply]
+          simp only [LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply]
     _ = e (f (e.symm m)) * ωM := by rw [S10.ρ₀_apply]; exact hγ _
     _ = (e.toLinearMap.comp (f.comp e.symm.toLinearMap)) m * ωM := rfl
 

@@ -39,12 +39,12 @@ theorem ggOrdPToralMax_adjointE8_five
     {K : Type} [Field K] [Finite K] [CharP K 2] (h5 : 5 ∣ Nat.card K * Nat.card K + 1) :
     GGOrdPToralMax (adjointGroup .E8 K) 5 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   let Fr : L →+* L := iterateFrobenius L 2 (f : ℕ)
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
     rw [hq]

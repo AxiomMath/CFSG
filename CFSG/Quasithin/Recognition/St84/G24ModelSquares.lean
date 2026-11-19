@@ -43,11 +43,10 @@ private theorem signedProd_zWord {d : Nat} {z : Fin 10 → Y}
     intro t
     rw [pow_val_eq_if]
     by_cases h : c t = 1
-    · rw [if_pos h, if_pos h, CFSG.Certificates.signedProd]
-      simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, if_true,
-        mul_one]
+    · rw [ite_eq_left h, ite_eq_left h, CFSG.Certificates.signedProd]
+      simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
       exact inv_eq_of_mul_eq_one_right (hz2 t)
-    · rw [if_neg h, if_neg h, CFSG.Certificates.signedProd]
+    · rw [ite_eq_right h, ite_eq_right h, CFSG.Certificates.signedProd]
       simp
   unfold zWord
   rw [CFSG.Certificates.signedProd, List.map_flatten, List.prod_flatten, List.map_map,
@@ -154,7 +153,7 @@ private theorem signedProd_sqRel1 (hM : Facts) (i : Fin 8) :
   rw [CFSG.Certificates.signedProd_append, hz]
   congr 1
 
-private theorem signedProd_cmRel1 (hM : Facts) {i j : Fin 8} (hij : i < j) :
+private theorem signedProd_cmRel1 (hM : Facts) {i j : Fin 8} (_hij : i < j) :
     CFSG.Certificates.signedProd pc1Y (cmRel1 i j) =
       frame1 j * frame1 i * (frame1 j)⁻¹ * (frame1 i)⁻¹ *
         eElt zb1 (CFSG.Quasithin.St84.G24MF.cmV1 i j) := by
@@ -175,7 +174,7 @@ private theorem signedProd_sqRel2 (hM : Facts) (i : Fin 6) :
   rw [CFSG.Certificates.signedProd_append, hz]
   congr 1
 
-private theorem signedProd_cmRel2 (hM : Facts) {i j : Fin 6} (hij : i < j) :
+private theorem signedProd_cmRel2 (hM : Facts) {i j : Fin 6} (_hij : i < j) :
     CFSG.Certificates.signedProd pc2Y (cmRel2 i j) =
       frame2 j * frame2 i * (frame2 j)⁻¹ * (frame2 i)⁻¹ *
         eElt zb2 (CFSG.Quasithin.St84.G24MF.cmV2 i j) := by

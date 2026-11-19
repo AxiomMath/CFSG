@@ -24,7 +24,7 @@ open Matrix
 open CFSG.GroupTheory.SteinbergBK (semilinearFixedSubfield)
 open scoped commutatorElement
 
-theorem commutator_fixed_mem_range {n : ℕ} (hn : 0 < n) {K : Type} [Field K] [Finite K]
+theorem commutator_fixed_mem_range {n : ℕ} (_hn : 0 < n) {K : Type} [Field K] [Finite K]
     {σ : K ≃+* K} {x y : projectiveSL n K} (hx : fieldAut n K σ x = x)
     (hy : fieldAut n K σ y = y) :
     ⁅x, y⁆ ∈ (linearSubfieldInclusion n (semilinearFixedSubfield σ)).range := by
@@ -59,7 +59,7 @@ theorem noL2Layer_fieldAut_psl_gen (hO : LieOrderFormulasInput) {n : ℕ} (hn3 :
   have hinj := linearSubfieldInclusion_injective (by omega : 0 < n) k
   let S : Subgroup (projectiveSL n K) := (linearSubfieldInclusion n k).range
   let eS : ↥S ≃* projectiveSL n ↥k := (MonoidHom.ofInjective hinj).symm
-  haveI : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn3
+  have : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn3
   have hnabk : ∃ a b : projectiveSL n ↥k, a * b ≠ b * a := by
     have h1 := KCLinearSubfield.not_commutative_projectiveSL (n := n) (K := ↥k) hn3
     push Not at h1

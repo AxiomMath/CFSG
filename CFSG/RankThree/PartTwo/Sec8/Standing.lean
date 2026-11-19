@@ -41,7 +41,7 @@ theorem odd_card_of_le_normalizer (h3 : localRank 3 G ≤ 3) {E X : Subgroup G}
   have hT1 : T ≠ ⊥ := by
     rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ X.subtype_injective]
     exact Sylow.ne_bot_of_dvd_card S h2
-  have hT2 : IsPGroup 2 T := S.isPGroup'.map X.subtype
+  have hT2 : IsPGroup 2 T := S.isPGroup.map X.subtype
   have hconj : ∀ e ∈ E, ∀ t ∈ T, e * t * e⁻¹ ∈ T := by
     rintro e he _ ⟨s, hs, rfl⟩
     exact ⟨_, hSinv ⟨e, he⟩ s hs, rfl⟩

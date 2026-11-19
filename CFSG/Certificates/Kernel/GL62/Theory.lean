@@ -169,7 +169,7 @@ theorem card_GL62 : Nat.card (GL (Fin 6) (ZMod 2)) = 20158709760 := by
 
 theorem card_mat3 : Nat.card (Matrix (Fin 3) (Fin 3) (ZMod 2)) = 512 := by
   change Nat.card (Fin 3 → Fin 3 → ZMod 2) = 512
-  simp [Nat.card_fun]
+  simp
 
 theorem card_centralizer_z0 :
     Nat.card (Subgroup.centralizer {z₀} : Subgroup (GL (Fin 6) (ZMod 2))) = 86016 := by
@@ -192,7 +192,7 @@ theorem card_centralizer_z0 :
 
 theorem ncard_conj_mul (K : Subgroup (GL (Fin 6) (ZMod 2))) (y : GL (Fin 6) (ZMod 2)) :
     {d | ∃ c ∈ K, d = c * y * c⁻¹}.ncard * {c | c ∈ K ∧ c * y = y * c}.ncard = Nat.card K := by
-  letI : MulAction K (GL (Fin 6) (ZMod 2)) := MulAction.compHom _ (MulAut.conj.comp K.subtype)
+  let : MulAction K (GL (Fin 6) (ZMod 2)) := MulAction.compHom _ (MulAut.conj.comp K.subtype)
   have hsmul : ∀ (x : K) (g : GL (Fin 6) (ZMod 2)),
       x • g = (x : GL (Fin 6) (ZMod 2)) * g * (x : GL (Fin 6) (ZMod 2))⁻¹ := fun _ _ => rfl
   have horb : MulAction.orbit K y = {d | ∃ c ∈ K, d = c * y * c⁻¹} := by
@@ -207,7 +207,7 @@ theorem ncard_conj_mul (K : Subgroup (GL (Fin 6) (ZMod 2))) (y : GL (Fin 6) (ZMo
       Set (GL (Fin 6) (ZMod 2))) = {c | c ∈ K ∧ c * y = y * c} := by
     ext g
     simp only [SetLike.mem_coe, Subgroup.mem_map, MulAction.mem_stabilizer_iff, hsmul,
-      Subgroup.coe_subtype, Set.mem_setOf_eq]
+      Subgroup.coe_subtype, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨x, hx, rfl⟩
       exact ⟨x.2, mul_inv_eq_iff_eq_mul.1 hx⟩
@@ -233,7 +233,7 @@ theorem ncard_conj_z0 : {y | ∃ g : GL (Fin 6) (ZMod 2), y = g * z₀ * g⁻¹}
       ((Subgroup.centralizer {z₀} : Subgroup (GL (Fin 6) (ZMod 2))) :
         Set (GL (Fin 6) (ZMod 2))) := by
     ext c
-    simp only [Subgroup.mem_top, true_and, Set.mem_setOf_eq, SetLike.mem_coe,
+    simp only [Subgroup.mem_top, true_and, Set.mem_ofPred_eq, SetLike.mem_coe,
       Subgroup.mem_centralizer_iff, Set.mem_singleton_iff, forall_eq]
     exact eq_comm
   have h3 : ((Subgroup.centralizer {z₀} : Subgroup (GL (Fin 6) (ZMod 2))) :
@@ -249,8 +249,7 @@ theorem dg_eq_blockGL (A : GL (Fin 3) (ZMod 2)) : dg A = blockGL A 0 :=
 
 theorem dg_mul_z0_eq (A : GL (Fin 3) (ZMod 2)) : dg A * z₀ = blockGL A A := by
   refine Units.ext ?_
-  simp only [Units.val_mul, coe_dg_eq, coe_z0_eq, coe_blockGL, blockMat_mul, mul_one, zero_mul,
-    add_zero]
+  simp only [Units.val_mul, coe_dg_eq, coe_z0_eq, coe_blockGL, blockMat_mul, mul_one, add_zero]
 
 def dgZSub : Subgroup (GL (Fin 6) (ZMod 2)) where
   carrier := {g | ∃ A : GL (Fin 3) (ZMod 2), g = dg A ∨ g = dg A * z₀}

@@ -125,9 +125,9 @@ theorem zOf_emb_eq (δ : Finset (Fin 8)) (h : δ.card = 4) :
   rw [zOf_vec_apply]
   have hr : x ∈ Set.range (emb δ h) ↔ x ∈ δ := by rw [range_emb]; rfl
   by_cases hx : x ∈ δ
-  · rw [if_pos (hr.mpr hx)]
+  · rw [ite_eq_left (hr.mpr hx)]
     simp [hx, parInd, ofVec]
-  · rw [if_neg fun h' => hx (hr.mp h')]
+  · rw [ite_eq_right fun h' => hx (hr.mp h')]
     simp [hx, parInd, ofVec]
 
 theorem zBar_eq_mk (δ : Finset (Fin 8)) (h : δ.card = 4) :
@@ -155,14 +155,14 @@ theorem eq_or_compl_of_zBar_eq {δ δ' : Finset (Fin 8)} {h : δ.card = 4} {h' :
     ext x
     have := h1 x
     by_cases hx : x ∈ δ <;> by_cases hx' : x ∈ δ' <;>
-      simp only [parInd, hx, hx', if_true, if_false] at this <;> simp only [hx, hx'] <;>
+      simp only [parInd, hx, hx', ite_true, ite_false] at this <;> simp only [hx, hx'] <;>
       revert this <;> decide
   · right
     ext x
     have := h1 x
     rw [Finset.mem_compl]
     by_cases hx : x ∈ δ <;> by_cases hx' : x ∈ δ' <;>
-      simp only [parInd, hx, hx', if_true, if_false] at this <;> simp only [hx, hx'] <;>
+      simp only [parInd, hx, hx', ite_true, ite_false] at this <;> simp only [hx, hx'] <;>
       revert this <;> decide
 
 theorem card_symmDiff_of_zBar_mul {α β γ : Finset (Fin 8)} {hα : α.card = 4} {hβ : β.card = 4}
@@ -174,7 +174,7 @@ theorem card_symmDiff_of_zBar_mul {α β γ : Finset (Fin 8)} {hα : α.card = 4
       have := h1 x
       rw [Finset.mem_symmDiff]
       by_cases hx : x ∈ α <;> by_cases hy : x ∈ β <;> by_cases hz : x ∈ γ <;>
-        simp only [parInd, Pi.add_apply, hx, hy, hz, if_true, if_false] at this <;>
+        simp only [parInd, Pi.add_apply, hx, hy, hz, ite_true, ite_false] at this <;>
         simp only [hx, hy, hz] <;> revert this <;> decide
     rw [hs, hγ]
   · have hs : symmDiff α β = γᶜ := by
@@ -182,7 +182,7 @@ theorem card_symmDiff_of_zBar_mul {α β γ : Finset (Fin 8)} {hα : α.card = 4
       have := h1 x
       rw [Finset.mem_symmDiff, Finset.mem_compl]
       by_cases hx : x ∈ α <;> by_cases hy : x ∈ β <;> by_cases hz : x ∈ γ <;>
-        simp only [parInd, Pi.add_apply, hx, hy, hz, if_true, if_false] at this <;>
+        simp only [parInd, Pi.add_apply, hx, hy, hz, ite_true, ite_false] at this <;>
         simp only [hx, hy, hz] <;> revert this <;> decide
     rw [hs, Finset.card_compl, hγ, Fintype.card_fin]
 
@@ -364,7 +364,7 @@ theorem ofVec_mem_of_pairs {H : Subgroup (Wr 8)}
       have hvv : v = v' + pairVec x y := by
         rw [hv', add_assoc, hpp, add_zero]
       have hpsum : ∑ i, pairVec x y i = 0 := by
-        simp only [pairVec, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        simp only [pairVec, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
         exact zmod_two_add_self _
       have hsum' : ∑ i, v' i = 0 := by
         rw [hv']

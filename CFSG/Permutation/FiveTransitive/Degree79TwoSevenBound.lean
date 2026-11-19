@@ -24,7 +24,7 @@ private theorem sylow_card_le_ten
   let _ : Fact (Nat.Prime 5) := ⟨by decide⟩
   let _ : Fact (Nat.Prime 7) := ⟨by decide⟩
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 7 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF
@@ -69,7 +69,7 @@ theorem sylow_card_le_eight
     (hF : Nat.card (sylowFixedPoints X P s S) = 7) : Nat.card S ≤ 8 := by
   let _ : Fact (Nat.Prime 2) := ⟨by decide⟩
   have hb := sylow_card_le_ten P hcard h5 hnotAlt hthree hfive hseven s hs S hF
-  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup
   have he3 : e ≤ 3 := by
     by_contra hn
     have hp : 16 ≤ 2 ^ e := Nat.pow_le_pow_right (by decide : 0 < 2) (by omega : 4 ≤ e)

@@ -276,7 +276,7 @@ theorem hVal : ((burnsideF48t_u52HArr burnsideF48t_u52HA)[0]!)[0]! = 1 ∧
     getElem!_unpack, getElem!_unpack, getElem!_unpack, getElem!_unpack]
   have h0 : (0 : Nat) < 462 := by norm_num
   have h1 : (165 : Nat) < 462 := by norm_num
-  simp only [h0, h1, if_true]
+  simp only [h0, h1, ite_true]
   obtain ⟨h1, h2, h3, h4⟩ := vH
   exact ⟨Nat.eq_of_beq_eq_true h1, Nat.eq_of_beq_eq_true h2, Nat.eq_of_beq_eq_true h3,
     Nat.eq_of_beq_eq_true h4⟩

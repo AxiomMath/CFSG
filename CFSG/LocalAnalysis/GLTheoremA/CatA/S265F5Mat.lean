@@ -45,7 +45,7 @@ theorem injective_of_mul_diagonal_eq_smul {p : ℕ} (hp : p.Prime) (hcard : Fint
     {X : Matrix ι ι F} (hX : IsUnit X.det) (hXD : X * diagonal d = lam • (diagonal d * X)) :
     Function.Injective d := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hlam0 : lam ≠ 0 := by
     rintro rfl
     rw [zero_pow hp.ne_zero] at hlamp
@@ -264,7 +264,7 @@ theorem exists_conj_eq_diagonal_of_pow_eq_one {p : ℕ} (hp : p.Prime) {ζ : F}
     (hζ : IsPrimitiveRoot ζ p) {M : GL (Fin n) F} (hMp : M ^ p = 1) :
     ∃ (A : GL (Fin n) F) (d : Fin n → F),
       ((A * M * A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = diagonal d := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A, hA⟩ := CFSG.RankThree.PartOne.CTP.exists_conj_diagonal_of_exponent_prime ⟨ζ, hζ⟩
     (Subgroup.zpowers M)
     (fun x hx y hy => by

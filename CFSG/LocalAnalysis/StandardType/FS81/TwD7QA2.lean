@@ -20,7 +20,7 @@ theorem isCyclic_of_le_centralizer_img_m0_twD7 {G : Type} [Group G] [Finite G] {
     (hS : S ≤ centralizer (img (B.b 0 * B.b 1) (twD7M0 K B) : Set (Q (B.b 0 * B.b 1))))
     (h3 : IsPGroup 3 S) : IsCyclic S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hKC, -, -, -, -, -, -⟩ := hstd.2.1.1
   have hb0 := hB.2.1
   have hM₀K : twD7M0 K B ≤ K := (commutator_le_self _).trans inf_le_right

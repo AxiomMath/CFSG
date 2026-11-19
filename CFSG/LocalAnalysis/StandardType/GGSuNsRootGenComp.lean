@@ -356,7 +356,7 @@ theorem dvd_card_blockSU_pair (h : UnitaryFieldData 2 n K) (hp : p.Prime)
       (hφker D₁ h1))
   have hφD1_pow : (φ D₁) ^ p = 1 := by
     rw [← map_pow, hD1_pow, map_one]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have horder : orderOf (φ D₁) = p := orderOf_eq_prime hφD1_pow hφD1_ne
   have hmem : φ D₁ ∈
       (TableBUE.blockSU (K := K) (n := n) ({i, j} : Finset (Fin d))).map φ :=

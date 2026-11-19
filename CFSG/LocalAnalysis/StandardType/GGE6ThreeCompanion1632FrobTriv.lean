@@ -133,28 +133,28 @@ private lemma ltrb1f1_weylStep_mem_stabilizer {Omega : Type} [Field Omega] [IsAl
       have h := hq; rw [htw] at h; simpa using h.symm
     have hpow : rootChar ρ.a α ^ (2 ^ lab.n) = rootChar ρ.a α :=
       ltrb1f1_pow_eq_self_of_mod_one h3 hq1
-    simp only [htw, Bool.false_eq_true, ↓reduceIte]
+    simp only [Bool.false_eq_true, ↓reduceIte]
     rw [hpow, zpow_one]
   | true =>
     have hq2 : (2 ^ lab.n) % 3 = 2 := by
       have h := hq; rw [htw] at h; simpa using h.symm
     have hpow : rootChar ρ.a α ^ (2 ^ lab.n) = (rootChar ρ.a α)⁻¹ :=
       ltrb1f1_pow_eq_inv_of_mod_two h3 hq2
-    simp only [htw, ↓reduceIte]
+    simp only [↓reduceIte]
     rw [hpow, zpow_neg, zpow_one, inv_inv]
 
-theorem comm_mem_of_relIndex_three {G : Type} [Group G] {H K : Subgroup G} (hHK : H ≤ K)
+theorem comm_mem_of_relIndex_three {G : Type} [Group G] {H K : Subgroup G} (_hHK : H ≤ K)
     (hN : (H.subgroupOf K).Normal) (h3 : H.relIndex K = 3) :
     ∀ x ∈ K, ∀ y ∈ K, x * y * x⁻¹ * y⁻¹ ∈ H := by
   intro x hx y hy
   let H' : Subgroup K := H.subgroupOf K
-  haveI hN' : H'.Normal := hN
+  have hN' : H'.Normal := hN
   have hindex : H'.index = 3 := h3
   have hcard : Nat.card (K ⧸ H') = 3 := by
     rw [← Subgroup.index_eq_card]; exact hindex
-  haveI : Fact (Nat.card (K ⧸ H')).Prime := ⟨by rw [hcard]; norm_num⟩
-  haveI : IsCyclic (K ⧸ H') := isCyclic_of_prime_card hcard
-  letI : CommGroup (K ⧸ H') := IsCyclic.commGroup
+  have : Fact (Nat.card (K ⧸ H')).Prime := ⟨by rw [hcard]; norm_num⟩
+  have : IsCyclic (K ⧸ H') := isCyclic_of_prime_card hcard
+  let : CommGroup (K ⧸ H') := IsCyclic.commGroup
   let xK : K := ⟨x, hx⟩
   let yK : K := ⟨y, hy⟩
   have hcomm : QuotientGroup.mk' H' (xK * yK * xK⁻¹ * yK⁻¹) = 1 := by

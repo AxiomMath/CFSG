@@ -72,8 +72,8 @@ theorem card_of_isLpType_three_three {T : Type*} [Group T] (h : IsLpType 3 3 T) 
 
 theorem exists_card_eq_three_pow {E : Type*} [Field E] [Finite E] (hE : ringChar E = 3) :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card E = 3 ^ f := by
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : CharP E 3 := ringChar.of_eq hE
+  have : Fintype E := Fintype.ofFinite E
+  have : CharP E 3 := ringChar.of_eq hE
   obtain ⟨n, -, hn⟩ := FiniteField.card E 3
   exact ⟨n, n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
 
@@ -85,7 +85,7 @@ theorem sl_l33 {E : Type*} [Field E] [Finite E] (hE : ringChar E = 3) {m : ℕ} 
   have hKZ := card_of_isLpType_three_three hL
   have hSL := card_specialLinear E m (by omega)
   have hZ := card_specialLinear_center E m (by omega)
-  haveI : Finite K := Finite.of_surjective f hf
+  have : Finite K := Finite.of_surjective f hf
   have hSL2 : m = 2 → Nat.card (Matrix.SpecialLinearGroup (Fin m) E) =
       Nat.card E * (Nat.card E ^ 2 - 1) := by
     rintro rfl
@@ -284,8 +284,8 @@ theorem linear_inner_l33_false {n : ℕ} {k : Type} [Field k] [Finite k] (hk : r
     decide
   obtain ⟨h, rfl⟩ := linear_inner_components hpk hA K hK
   have hsq := squarefree_minpoly_glA hpk hA
-  haveI : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors h.1.2⟩
-  haveI : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
+  have : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors h.1.2⟩
+  have : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
   obtain ⟨e⟩ := nonempty_mulEquiv_specialFactor hsq h.1.2
   obtain ⟨f, hf, hker⟩ := exists_surjective_ker_le_center_map_proj e
   have hm : 2 ≤ primaryMultiplicity (glA A : Module.End k (Fin n → k)) h.1.1 := by
@@ -326,7 +326,7 @@ theorem linear_l33 {S : Type} [Group S] [Finite S] (r : ℕ) (q : TauCeti.PrimeP
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group))
     {α : MulAut S} (hα : α ^ 13 = 1) {K : Subgroup S} (hK : IsComponentOf K (fixSubgroup α))
     (hL : IsLpType 3 3 (↥K ⧸ Subgroup.center ↥K)) : IsLpType 3 (3 ^ 13) S := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   obtain ⟨e⟩ := he
@@ -395,8 +395,8 @@ theorem su_l33_false {E : Type} [Field E] {ℓ e m : ℕ} (hE : UnitaryFieldData
     (hℓ3 : ℓ = 3) (hm : 3 ≤ m) {T : Type*} [Group T]
     (g : ↥(StatedSU m (ℓ ^ e) E) →* T) (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center _) (hL : IsLpType 3 3 (T ⧸ Subgroup.center T)) : False := by
-  haveI := hE.finite
-  haveI : Fact ℓ.Prime := ⟨hE.prime⟩
+  have := hE.finite
+  have : Fact ℓ.Prime := ⟨hE.prime⟩
   have he : 1 ≤ e := hE.one_le
   have hF : Nat.card E = (ℓ ^ e) ^ 2 := by rw [hE.card, ← pow_mul, mul_comm]
   have hnq : (m, ℓ ^ e) ≠ (3, 2) := by
@@ -806,7 +806,7 @@ private theorem exists_good_block_of_component (hq : 2 ≤ ℓ ^ f)
       T = ((specialBlock (idForm h n) x (a.1 : K[X])).comap (toLinSU h n)).map
         (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)) := by
   classical
-  haveI := h.finite
+  have := h.finite
   let α : MulAut ↥(gramSU h (idGram K n)) := primeFormConjSU h (idGram K n) A
   let φ : ↥(fixSubgroup α) →* gl_centralizer x :=
     ((toLinSU h n).comp (fixSubgroup α).subtype).codRestrict (gl_centralizer x) fun g =>
@@ -816,11 +816,11 @@ private theorem exists_good_block_of_component (hq : 2 ≤ ℓ ^ f)
   let ρ : (b : {b : primaryFactors (x : Module.End K (Fin n → K)) // ¬ IsGoodBlock h x b}) →
       ↥(fixSubgroup α) →* blockGL (x : Module.End K (Fin n → K)) (b.1 : K[X]) :=
     fun b => (blockRestrict x (b.1 : K[X])).comp φ
-  haveI : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
+  have : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
     isSolvable_range_blockRestrict_of_not_good hq H b.1 b.2 φ hφU
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
       ¬ IsGoodBlock h x b}) → ↥(ρ b).range) := isSolvable_pi_of_finite_index
-  haveI : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
   let ψ : ↥(fixSubgroup α) →* ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) × ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
@@ -835,8 +835,8 @@ private theorem exists_good_block_of_component (hq : 2 ≤ ℓ ^ f)
     fun a => (specialBlock (idForm h n) x (a.1 : K[X])).comap (toLinSU h n)
   have hFmap : ∀ a, (F a).map (toLinSU h n) = specialBlock (idForm h n) x (a.1 : K[X]) :=
     fun a => Subgroup.map_comap_eq_self (hSBle a)
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
-  haveI : Finite (primeFormP h (idGram K n)) := inferInstance
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have : Finite (primeFormP h (idGram K n)) := inferInstance
   refine components_of_centralQuotient
     (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))
     (QuotientGroup.mk'_surjective _) ?_ α (primeFormConjHom h (idGram K n) A) ?_ F ?_ ?_ ?_ ψ ?_
@@ -889,6 +889,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {hK : UnitaryFieldData ℓ f K}
   {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {B : V →ₛₗ[hK.bar] V →ₗ[K] K} {x : LinearMap.GeneralLinearGroup K V}
 
+omit [FiniteDimensional K V] in
 private theorem specialBlock_eq_kerImage' {a : K[X]} {Ω : Type*} [Group Ω]
     (φ : orbitFactor B x a ≃* Ω) (ι : Ω →* blockGL (x : Module.End K V) a)
     (D : Ω →* (AdjoinRoot a)ˣ) (hD : ∀ w, D w = blockGLDet (x : Module.End K V) a (ι w))
@@ -969,13 +970,13 @@ theorem false_of_good_block_l33 (hℓ3 : ℓ = 3)
     (a : primaryFactors (x : Module.End K V)) (ha : IsGoodBlock hK x a)
     {T : Type} [Group T] (g : ↥(specialBlock B x (a : K[X])) →* T) (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center _) (hL : IsLpType 3 3 (T ⧸ Subgroup.center T)) : False := by
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
   have hfd : 1 ≤ f * (a : K[X]).natDegree := Nat.mul_pos hK.one_le hd
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   have hcharE : ringChar (AdjoinRoot (a : K[X])) = ℓ :=
     (Algebra.ringChar_eq K (AdjoinRoot (a : K[X]))).symm.trans (ringChar.eq K ℓ)
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
@@ -989,13 +990,13 @@ theorem false_of_good_block_l33 (hℓ3 : ℓ = 3)
         exact this
       obtain ⟨e2⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
-      letI : Fintype hE.fixedField := Fintype.ofFinite _
+      have : Finite hE.fixedField := inferInstance
+      let : Fintype hE.fixedField := Fintype.ofFinite _
       have hcardF : Fintype.card hE.fixedField = ℓ ^ (f * (a : K[X]).natDegree) := by
         rw [← Nat.card_eq_fintype_card]
         exact hE.card_fixedField
-      haveI : Fact ℓ.Prime := ⟨hK.prime⟩
-      haveI : CharP hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
+      have : Fact ℓ.Prime := ⟨hK.prime⟩
+      have : CharP hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
       have hcharF : ringChar hE.fixedField = 3 := by rw [ringChar.eq _ ℓ, hℓ3]
       have hφ := ker_comp_mulEquiv_le_center (e.trans e2).symm g hker
       obtain ⟨h3, -⟩ := sl_l33 hcharF le_rfl (g.comp (e.trans e2).symm.toMonoidHom)
@@ -1041,7 +1042,7 @@ theorem unitary_inner_l33_false (hℓ3 : ℓ = 3) {p : ℕ} (hp : p.Prime) (hp�
     (hT : IsComponentOf T (fixSubgroup (primeFormConjHom h (idGram K n) A)))
     (hL : IsLpType 3 3 (↥T ⧸ Subgroup.center ↥T)) : False := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
@@ -1061,7 +1062,7 @@ theorem unitary_inner_l33_false (hℓ3 : ℓ = 3) {p : ℕ} (hp : p.Prime) (hp�
     ((Subgroup.equivMapOfInjective F (toLinSU h n) toLinSU_injective).trans
       (MulEquiv.subgroupCongr hFmap)).symm
   let π := QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)
-  haveI : Finite ↥F := inferInstance
+  have : Finite ↥F := inferInstance
   subst ha
   refine false_of_good_block_l33 hℓ3 H a.1 a.2 ((π.subgroupMap F).comp ε.toMonoidHom)
     ((MonoidHom.subgroupMap_surjective π F).comp ε.surjective) (fun u hu => ?_) hL

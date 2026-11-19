@@ -107,7 +107,7 @@ theorem layer_map_le_eGenP [Finite Q] [Z.Normal] {j : ℕ} (hj : 1 ≤ j) (hT : 
     F.map (QuotientGroup.mk' Z) ≤
       F12.eGenP j ⊤ (T.map (QuotientGroup.mk' Z)) ((fun A => A.map (QuotientGroup.mk' Z)) '' Ω) ⊔
         T.map (QuotientGroup.mk' Z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hAΩ, hAT⟩ := exists_mem_le_of_isSylowOf
     (CFSG.ABGLocalTools.isSylowOf_iff.mpr hT) hΩ hne
   have hR := layer_reduced hT hperf hZ hchief hC hFT
@@ -135,7 +135,7 @@ theorem w3Lem45_2Chief_holds : UniquenessCase.PartTwo.W3Lem45_2Chief := by
   intro Q _ _ T j Ω F Z hj hT hΩ hne hbot hcf hO2 hperf hZ hchief hC hFT
   have hZn : Z.Normal :=
     Subgroup.normalizer_eq_top_iff.mp (eq_top_iff.mpr hchief.1.2)
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   have hZF : Z ≤ F := le_of_lt hchief.2.2.1
   have hZab : ∀ z ∈ Z, ∀ w ∈ Z, z * w = w * z := by
     intro z hz w hw

@@ -15,6 +15,7 @@ private theorem v6_add_self (v : V6) : v + v = 0 := by
   funext i
   exact CharTwo.add_self_eq_zero (v i)
 
+omit [Finite G] in
 private lemma coordElt_injective (hι : Function.Injective ι) :
     Function.Injective (coordElt ι) := by
   intro u v huv

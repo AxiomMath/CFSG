@@ -16,7 +16,7 @@ open CFSG.Assembly CFSG.Open CFSG.StandardType CFSG.StandardType.GGFinModel
   CFSG.LieType.Steinberg.TwistedE6 CFSG.StandardType.GGFinModel.G5
 
 private theorem postd_pow_f_aux {f : ℕ} (hf : 1 ≤ f) (c : GaloisField 2 f) : c ^ 2 ^ f = c := by
-  letI : Fintype (GaloisField 2 f) := Fintype.ofFinite (GaloisField 2 f)
+  let : Fintype (GaloisField 2 f) := Fintype.ofFinite (GaloisField 2 f)
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f :=
     GaloisField.card 2 f (Nat.pos_iff_ne_zero.mp hf)
   calc c ^ 2 ^ f = c ^ Fintype.card (GaloisField 2 f) := by
@@ -28,7 +28,7 @@ private theorem postd_ggRootSub_one {U : Type} [Group U] {G : Type} [Group G]
     ggRootSub D ψ γ 1 = (D.rootGroup γ).map ψ := by
   have hconj : (MulAut.conj (1 : U)).toMonoidHom = MonoidHom.id U := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   unfold ggRootSub
   rw [hconj, Subgroup.map_id]
 
@@ -207,7 +207,7 @@ theorem twE6_stdPair
         (ggIotaK .twistedE6 n f B.one_le_f)) =
       ggFixGp .twistedE6 f ⊓ rootSubgroup (langTag .twistedE6) GGL a := by
     rw [ggBC_twistedE6 n f B.one_le_f β hβ]
-    exact g5_twistedRootSubgroup_proj (n := n) (f := f) (δ := β) (β := a) hproj ha hfix
+    exact g5_twistedRootSubgroup_proj (_n := n) (f := f) (δ := β) (β := a) hproj ha hfix
   have hmapβ := postd_ggRootSub_map_eta B hB hψr ((ggU .twistedE6 n f).D.rootGroup β)
   have hfix_eq : Δ.fix = ggFixGp .twistedE6 f :=
     ggFixGp_eq_fix (t := .twistedE6) (f := f) Δ hΔΦ
@@ -233,7 +233,7 @@ theorem twE6_stdPair
         (ggIotaK .twistedE6 n f B.one_le_f)) =
       ggFixGp .twistedE6 f ⊓ rootSubgroup (langTag .twistedE6) GGL (-a) := by
     rw [ggBC_twistedE6 n f B.one_le_f (-β) hβn]
-    exact g5_twistedRootSubgroup_proj (n := n) (f := f) (δ := -β) (β := -a) hproj_neg
+    exact g5_twistedRootSubgroup_proj (_n := n) (f := f) (δ := -β) (β := -a) hproj_neg
       (IsRoot.neg ha) hfix_neg
   have hmapβn := postd_ggRootSub_map_eta B hB hψr ((ggU .twistedE6 n f).D.rootGroup (-β))
   have hR_neg : excCurve (-a) Δ.g0⁻¹ ⊓ Δ.model =

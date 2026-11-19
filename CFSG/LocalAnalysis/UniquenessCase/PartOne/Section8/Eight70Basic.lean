@@ -84,7 +84,7 @@ theorem eight70_map_le_and_perfect {p : ℕ} {M H X : Subgroup G} (hXHM : X ≤ 
 
 theorem eight70_not_isSolvable {p : ℕ} (hp : p.Prime) {M H X : Subgroup G} (hXHM : X ≤ H ⊓ M)
     (hX : ⁅X, X⁆ = X) (h1 : 1 ≤ CFSG.Open.pRank p X) :
-    ¬ IsSolvable ↥(((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) := by
+    ¬ Group.IsSolvable ↥(((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) := by
   intro hsol
   have hfact : Fact p.Prime := ⟨hp⟩
   let K : Subgroup ↥H := CFSG.pPrimeCore p ↥H
@@ -132,7 +132,7 @@ theorem eight70_three (hK3 : Section7.StronglyEmbeddedThree) {D : Data G}
     rw [hkp]
     exact h3
   have hH : k.Config H := eight70_kconfig k hc hkM h2
-  have hsol : IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map
+  have hsol : Group.IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map
       (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) :=
     (k.kInputThree hkp hK3 hH).2.2.2
   have hXHM : X ≤ H ⊓ k.M := by
@@ -144,7 +144,7 @@ theorem eight70_three (hK3 : Section7.StronglyEmbeddedThree) {D : Data G}
 theorem eight70_solvable_or_altTen (k : Section7.Sec7Core4 G) (h5 : 5 ≤ k.p)
     (hno : k.KIDExcluded) {H : Subgroup G} (hH : k.Config H) (h75 : k.Step75)
     (hS : Section7.StronglyEmbeddedSolvableAltTen) :
-    IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∨
+    Group.IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∨
       (k.p = 5 ∧
         Nonempty (↥(CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) ≃*
           alternatingGroup (Fin 10)) ∧

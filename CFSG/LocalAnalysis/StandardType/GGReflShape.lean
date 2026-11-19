@@ -64,9 +64,9 @@ private lemma wprod_path_edge {ι : Type} {Γ : Type*} [CommGroup Γ] {G : Simpl
         simpa [Walk.support_nil] using (G.ne_of_adj hij).symm⟩
     let E : G.Path j i := ⟨Walk.cons hij.symm Walk.nil, hsingle⟩
     have hTQ : (T : G.Walk s j) = (Q : G.Walk s j) :=
-      congrArg (fun p : G.Path s j => (p : G.Walk s j)) (hG.path_unique T Q)
+      congrArg (fun p : G.Path s j => (p : G.Walk s j)) (hG.subsingleton_path _ _ |>.allEq T Q)
     have hDE : (D : G.Walk j i) = (E : G.Walk j i) :=
-      congrArg (fun p : G.Path j i => (p : G.Walk j i)) (hG.path_unique D E)
+      congrArg (fun p : G.Path j i => (p : G.Walk j i)) (hG.subsingleton_path _ _ |>.allEq D E)
     have hPD : wprod w (P : G.Walk s i)
         = wprod w (T : G.Walk s j) * wprod w (D : G.Walk j i) := by
       calc wprod w (P : G.Walk s i)
@@ -89,7 +89,7 @@ private lemma wprod_path_edge {ι : Type} {Γ : Type*} [CommGroup Γ] {G : Simpl
     have hpath : ((P : G.Walk s i).concat hij).IsPath := P.isPath.concat hj hij
     let R : G.Path s j := ⟨(P : G.Walk s i).concat hij, hpath⟩
     have hRQ : (R : G.Walk s j) = (Q : G.Walk s j) :=
-      congrArg (fun p : G.Path s j => (p : G.Walk s j)) (hG.path_unique R Q)
+      congrArg (fun p : G.Path s j => (p : G.Walk s j)) (hG.subsingleton_path _ _ |>.allEq R Q)
     calc wprod w (Q : G.Walk s j)
         = wprod w (R : G.Walk s j) := by rw [← hRQ]
       _ = wprod w ((P : G.Walk s i).concat hij) := rfl
@@ -356,7 +356,7 @@ theorem ggRefl_shape {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (h
     else 1
   have hw_val : ∀ i j (h : Gr.Adj i j), ((w i j : (ZMod p)ˣ) : ZMod p) = -((u i j)⁻¹) := by
     intro i j h
-    simp only [w, dif_pos h]
+    simp only [w, dite_eq_left h]
     exact Units.val_mk0 _
   have hw_inv : ∀ i j, Gr.Adj i j → w j i = (w i j)⁻¹ := by
     intro i j hij

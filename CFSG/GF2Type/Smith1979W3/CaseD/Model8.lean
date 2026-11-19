@@ -35,7 +35,7 @@ theorem nondeg6 : ∀ y : ι6 → ZMod 2, y ≠ 0 → ∃ v : ι6 → ZMod 2, po
   decide +kernel
 
 theorem sum_ind (S : Finset (Fin 8)) : ∑ k, ind S k = (S.card : ZMod 2) := by
-  simp [ind, Finset.sum_boole]
+  simp [ind]
 
 theorem Pm_mulVec_ind (σ : Perm (Fin 8)) (S : Finset (Fin 8)) :
     Pm σ *ᵥ ind S = ind (S.map σ.toEmbedding) := by
@@ -104,7 +104,7 @@ theorem uvec_eq_vS {a b : Fin 8} (h : a ≠ b) : uvec a b = vS {a, b} := by
     by_cases ha : k = a
     · simp [pairvec, ind, ha, h]
     · by_cases hb : k = b
-      · simp [pairvec, ind, ha, hb, Ne.symm h]
+      · simp [pairvec, ind, hb, Ne.symm h]
       · simp [pairvec, ind, ha, hb]
   rw [uvec, vS, hp]
 

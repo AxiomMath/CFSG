@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem image_eq_one_of_commute_of_isSimpleGroup {S : Type*} [Group S] [IsSimpleGroup S]
     {X : Subgroup G} (φ : ↥X →* S) (hφ : Function.Surjective φ) {𝒦 : Set (Subgroup G)}
     (hX : X = ⨆ K ∈ 𝒦, K) {L : Subgroup G} (hL : L ∈ 𝒦) (hLperf : ⁅L, L⁆ = L)
@@ -93,6 +94,7 @@ theorem image_eq_one_of_commute_of_isSimpleGroup {S : Type*} [Group S] [IsSimple
   rw [hcenter, Subgroup.mem_bot] at hbc
   exact hbc
 
+omit [Finite G] in
 theorem self_mem_conjSetOf (M L : Subgroup G) : L ∈ conjSetOf M L := by
   refine ⟨1, M.one_mem, ?_⟩
   ext x
@@ -102,6 +104,7 @@ theorem self_mem_conjSetOf (M L : Subgroup G) : L ∈ conjSetOf M L := by
   · rintro ⟨y, hy, rfl⟩
     simpa using hy
 
+omit [Finite G] in
 theorem exists_mem_conjSetOf_ne_of_conjClosure_ne {M L : Subgroup G} (hne : conjClosure M L ≠ L) :
     ∃ K ∈ conjSetOf M L, K ≠ L := by
   by_contra h
@@ -137,7 +140,7 @@ theorem conjClosure_eq_self_of_isSimpleGroup_bar2 {M L : Subgroup G} (hL : L ∈
     intro K' hK' hbot
     have hcomp := uc22p22l_barImage_isComponent (hC K' hK')
     obtain ⟨a, b, hab⟩ := hcomp.1.2.2
-    haveI : Subsingleton ↥(barImage X K') := by
+    have : Subsingleton ↥(barImage X K') := by
       rw [hbot]
       infer_instance
     exact hab (Subsingleton.elim _ _)

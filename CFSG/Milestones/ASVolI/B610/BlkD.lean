@@ -125,6 +125,7 @@ theorem burnsideB610_natAlpha_ker (e : ↥B ≃* Matrix.SpecialLinearGroup (Fin 
   exact ⟨fun h => ⟨y.2, h⟩, fun h => h.2⟩
 
 include hBH in
+omit [Finite G] in
 theorem burnsideB610_preI_inf_centralizer (hcf : commV B ⊓ fixV B = ⊥) :
     ⁅V, preI hV H hHN B⁆ ⊓ Subgroup.centralizer (preI hV H hHN B : Set G) = ⊥ :=
   burnsideB610_inf_centralizer_eq_bot hV (burnsideB610_preI_le_normalizer hV hHN)

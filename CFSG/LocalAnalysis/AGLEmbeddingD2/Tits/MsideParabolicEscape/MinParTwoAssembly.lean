@@ -47,6 +47,7 @@ section
 
 variable {S : Type} [Group S] [Finite S] {T P₁ P₂ : Subgroup S}
 
+omit [Finite S] in
 theorem TwoPar.sup_eq_top (h : TwoPar S T P₁ P₂) : P₁ ⊔ P₂ = ⊤ := by
   rcases h.hover (P₁ ⊔ P₂) (h.lt₁.le.trans le_sup_left) with e | e | e | e
   · exact absurd (e ▸ le_sup_left : P₁ ≤ _) h.lt₁.not_ge

@@ -51,7 +51,7 @@ theorem card_centralizer_quotient_le {Y : Type*} [Group Y] [Finite Y] (Z : Subgr
       Nat.card (centralizer ({c} : Set Y)) * Nat.card Z := by
     rw [← hP]
     exact le_trans hS hle2
-  haveI : Nonempty Z := ⟨⟨1, Z.one_mem⟩⟩
+  have : Nonempty Z := ⟨⟨1, Z.one_mem⟩⟩
   exact Nat.le_of_mul_le_mul_right hmain Nat.card_pos
 
 end CFSG.OddStandard.AltStdSec.SwapPartner

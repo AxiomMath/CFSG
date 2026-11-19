@@ -69,17 +69,17 @@ theorem ggTriD4LineWeylKnown_of_strong
     (hs : IsSimpleGroup (GGTriD4R n K)) (hna : ∃ a b : GGTriD4R n K, a * b ≠ b * a)
     (h : GGTriD4LineWeylStrong n K) (F : Set (MulAut (GGTriD4R n K))) :
     GGTriD4LineWeylKnown 3 (GGTriD4R n K) (GGTriD4ID n K) F := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   intro L' _ _ ψ hψ hker hperf A hA hAI hcard hcent a₀ ha₀ ha₀ne hφ hfix
   have hn : 1 ≤ n := by
     by_contra hlt
     have hn0 : n = 0 := by omega
     rw [hn0] at hK
     have hcard1 : Nat.card K = 1 := by simpa using hK
-    haveI : Subsingleton K := (Nat.card_eq_one_iff_unique.mp hcard1).1
+    have : Subsingleton K := (Nat.card_eq_one_iff_unique.mp hcard1).1
     exact (zero_ne_one (α := K)) (Subsingleton.elim (0 : K) 1)
   have hZR : Subgroup.center (GGTriD4R n K) = ⊥ := by
-    haveI := hs
+    have := hs
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center (GGTriD4R n K)) with h1 | h1
     · exact h1
     · exfalso

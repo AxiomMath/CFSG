@@ -74,6 +74,7 @@ section AssemblyInner
 
 variable {X : Type} [Field X] [Finite X] (σ : X ≃+* X)
 
+omit [Finite X] in
 theorem inner_descent (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) (E : Subgroup (MulAut (C0 σ)))
     (hE : CFSG.IsElementaryAbelian 3 E) (hcard : Nat.card E = 3 ^ 2)
@@ -107,7 +108,7 @@ theorem trialityThreeInnerModelBig_holds (hgold : CFSG.Goldschmidt.TopStatement)
   have hAB := trialityABFacts_of_par hgold hD hn
   have hR1 := trialityR1Facts_of_par hgold hD
   have hk4 := hD.four_le_card_fix hn
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   rw [← planeGen_iff_closure_fixUnion]
   obtain ⟨E₀, hE₀, hc₀, rfl⟩ := inner_descent σ n (by omega) hX hσ E hE hcard hinner
   by_cases hY : ∃ y ∈ E₀, y ≠ 1 ∧ ∃ g : C0 σ, g * y * g⁻¹ ∈ Bsub σ

@@ -149,7 +149,7 @@ private theorem m12_coset_fix [Finite G] {L A : Subgroup G} (hA : IsElemAbelian 
     (he : e ∈ L) :
     e ∈ (L ⊓ Subgroup.centralizer (A : Set G)) ⊔ GLAPPrimeCoreOf 3 L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hA3 : IsPGroup 3 A := m12_isPGroup_three_of_isElemAbelian hA
   have hact : ∀ a ∈ A, ∀ x : G, x * e⁻¹ ∈ GLAPPrimeCoreOf 3 L →
       a * x * a⁻¹ * e⁻¹ ∈ GLAPPrimeCoreOf 3 L := by
@@ -162,7 +162,7 @@ private theorem m12_coset_fix [Finite G] {L A : Subgroup G} (hA : IsElemAbelian 
     have heq : a * x * a⁻¹ * e⁻¹ = (a * (x * e⁻¹) * a⁻¹) * (a * e * a⁻¹ * e⁻¹) := by group
     rw [heq]
     exact (GLAPPrimeCoreOf 3 L).mul_mem h1 h2
-  letI : MulAction A {x : G // x * e⁻¹ ∈ GLAPPrimeCoreOf 3 L} :=
+  let : MulAction A {x : G // x * e⁻¹ ∈ GLAPPrimeCoreOf 3 L} :=
     { smul := fun a x => ⟨(a : G) * x.1 * (a : G)⁻¹, hact a a.2 x.1 x.2⟩
       one_smul := fun x => Subtype.ext (by
         show (1 : G) * x.1 * (1 : G)⁻¹ = x.1
@@ -174,7 +174,7 @@ private theorem m12_coset_fix [Finite G] {L A : Subgroup G} (hA : IsElemAbelian 
   have hX : ¬ 3 ∣ Nat.card {x : G // x * e⁻¹ ∈ GLAPPrimeCoreOf 3 L} := by
     have eqv : {x : G // x * e⁻¹ ∈ GLAPPrimeCoreOf 3 L} ≃ GLAPPrimeCoreOf 3 L :=
       { toFun := fun x => ⟨x.1 * e⁻¹, x.2⟩
-        invFun := fun o => ⟨o.1 * e, by simpa using o.2⟩
+        invFun := fun o => ⟨o.1 * e, by simp⟩
         left_inv := fun x => Subtype.ext (by simp)
         right_inv := fun o => Subtype.ext (by simp) }
     rw [Nat.card_congr eqv]
@@ -207,7 +207,7 @@ private theorem m12_lift [Finite G] {L A : Subgroup G} {Dbar : Subgroup (PQuot 3
       (∀ w ∈ W, ∃ hw : w ∈ L, (QuotientGroup.mk ⟨w, hw⟩ : PQuot 3 L) ∈ Dbar) ∧
       IsElemAbelian 3 W ∧ Nat.card W = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp : Nat.Prime 3 := by norm_num
   have hO3 : ¬ 3 ∣ Nat.card (GLAPPrimeCoreOf 3 L) := m12_not_dvd_card_O L
   have hEL : m12Pre L Dbar ≤ L := fun g hg => by
@@ -323,8 +323,8 @@ private theorem m12_sylow_two [Finite G] {L S : Subgroup G} {Ubar : Subgroup (PQ
     ∃ U : Subgroup G, U ≤ L ∧ IsPGroup 2 U ∧ S ≤ Subgroup.normalizer (U : Set G) ∧
       ¬ U ≤ GLAPPrimeCoreOf 3 L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : Nat.Prime 3 := by norm_num
   have hO3 : ¬ 3 ∣ Nat.card (GLAPPrimeCoreOf 3 L) := m12_not_dvd_card_O L
   have hTL : m12Pre L Ubar ≤ L := fun g hg => by
@@ -356,7 +356,7 @@ private theorem m12_sylow_two [Finite G] {L S : Subgroup G} {Ubar : Subgroup (PQ
   set Q : Subgroup (m12Pre L Ubar) := (GLAPPrimeCoreOf 3 L).subgroupOf (m12Pre L Ubar) with hQdef
   have hTN : m12Pre L Ubar ≤ Subgroup.normalizer (GLAPPrimeCoreOf 3 L : Set G) :=
     fun g hg => hLN g (hTL hg)
-  haveI : Q.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOT).2 hTN
+  have : Q.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOT).2 hTN
   have hQ2 : IsPGroup 2 (↥(m12Pre L Ubar) ⧸ Q) := by
     refine isPGroup_iff_pow_pow_eq_one.2 ?_
     intro g
@@ -391,7 +391,7 @@ private theorem m12_sylow_two [Finite G] {L S : Subgroup G} {Ubar : Subgroup (PQ
   obtain ⟨P, hP⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_sylow_normalized (r := 2) hSN hS3 hcardT
   refine ⟨(P : Subgroup (m12Pre L Ubar)).map (m12Pre L Ubar).subtype, ?_, ?_, hP, ?_⟩
   · exact (Subgroup.map_subtype_le _).trans hTL
-  · exact P.isPGroup'.map (m12Pre L Ubar).subtype
+  · exact P.isPGroup.map (m12Pre L Ubar).subtype
   · intro hUO
     have hPle : (P : Subgroup (m12Pre L Ubar)) ≤ Q := by
       intro t ht

@@ -43,7 +43,7 @@ theorem isI5UniversalCover_hopfCover (e : TauCeti.ValidLieTypeIndex) {K : Type} 
     (hcard : Nat.card (hopfMultiplier (K ⧸ Subgroup.center K)) = i5CentreOrder e.1) :
     IsI5UniversalCover e (HopfCover (K ⧸ Subgroup.center K)) := by
   have hperfK : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
-  haveI hperfX : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have hperfX : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (Subgroup.center K))
   have hZ : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10F.center_centerQuot_eq_bot hK
@@ -53,7 +53,7 @@ theorem isI5UniversalCover_hopfCover (e : TauCeti.ValidLieTypeIndex) {K : Type} 
       K ⧸ Subgroup.center K :=
     (QuotientGroup.quotientMulEquivOfEq hc).trans
       (QuotientGroup.quotientKerEquivOfSurjective _ hu)
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
   refine ⟨⟨(hopfCover_isPerfect (S := K ⧸ Subgroup.center K)).commutator_eq_top, e1.isSimpleGroup⟩,
     ⟨e1.trans eK⟩, ?_, ?_⟩
   · exact isCyclic_of_surjective (MulEquiv.subgroupCongr hc).symm.toMonoidHom
@@ -73,7 +73,7 @@ theorem kd264I5CoverLift_of_multiplier (e : TauCeti.ValidLieTypeIndex) {K : Type
       Function.Surjective π ∧ (∀ x : L, π x = 1 → x ∈ Subgroup.center L) ∧
         IsI5UniversalCover e L ∧ βL ^ 3 = 1 ∧ ∀ x : L, π (βL x) = β (π x) := by
   have hperfK : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
-  haveI hperfX : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have hperfX : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (Subgroup.center K))
   have hZ : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10F.center_centerQuot_eq_bot hK
@@ -85,7 +85,7 @@ theorem kd264I5CoverLift_of_multiplier (e : TauCeti.ValidLieTypeIndex) {K : Type
     (QuotientGroup.mk'_surjective _) (by rw [QuotientGroup.ker_mk']) β (onCenterQuotient β)
     (fun k => (onCenterQuotient_apply_mk β k).symm) hγ3
   obtain ⟨hcyc, hcard⟩ := isCyclic_and_card_of_row hrow
-  haveI : Finite (HopfCover (K ⧸ Subgroup.center K)) := finite_hopfCover hperfX
+  have : Finite (HopfCover (K ⧸ Subgroup.center K)) := finite_hopfCover hperfX
   refine ⟨HopfCover (K ⧸ Subgroup.center K), inferInstance, inferInstance, π, βL, hπ,
     fun x hx => hc ▸ hπk x hx, isI5UniversalCover_hopfCover e hK eK hcyc (hcard.trans ha), hβL3, hβL⟩
 

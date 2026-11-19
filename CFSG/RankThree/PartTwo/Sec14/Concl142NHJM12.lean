@@ -141,7 +141,7 @@ theorem isPiSubgroup_two_of_invariant {T U : Subgroup G12} (hT3 : IsPGroup 3 T)
         ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hU3) hpU
     set R := (S : Subgroup U).map U.subtype with hR
     have : Fact p.Prime := ⟨hp⟩
-    have hRp : IsPGroup p R := S.isPGroup'.map U.subtype
+    have hRp : IsPGroup p R := S.isPGroup.map U.subtype
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hRp
     have hk0 : k ≠ 0 := by
       rintro rfl

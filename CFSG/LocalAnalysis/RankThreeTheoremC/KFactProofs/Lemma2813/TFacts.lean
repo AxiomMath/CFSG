@@ -13,30 +13,37 @@ section B
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem TT_le_pCoreOf (X : Subgroup A) : TT X ≤ pCoreOf 2 X := omegaCenter_le _
 
+omit [Finite A] in
 theorem normalizer_le_normalizer_TT (X : Subgroup A) :
     normalizer (X : Set A) ≤ normalizer (TT X : Set A) :=
   (normalizer_le_normalizer_pCoreOf (le_refl _)).trans
     (normalizer_le_normalizer_omegaCenter (pCoreOf 2 X))
 
+omit [Finite A] in
 theorem TT_comm (X : Subgroup A) {a b : A} (ha : a ∈ TT X) (hb : b ∈ TT X) :
     a * b = b * a :=
   (mem_omegaCenter.1 ha).2.1 b (mem_omegaCenter.1 hb).1
 
+omit [Finite A] in
 theorem TT_sq (X : Subgroup A) {a : A} (ha : a ∈ TT X) : a ^ 2 = 1 :=
   (mem_omegaCenter.1 ha).2.2
 
+omit [Finite A] in
 theorem pCoreOf_comm_TT (X : Subgroup A) {q t : A} (hq : q ∈ pCoreOf 2 X) (ht : t ∈ TT X) :
     q * t = t * q :=
   ((mem_omegaCenter.1 ht).2.1 q hq).symm
 
+omit [Finite A] in
 theorem mem_T0_iff (X : Subgroup A) {t : A} :
     t ∈ T0 X ↔ t ∈ TT X ∧ ∀ x ∈ X, x * t = t * x := by
   show t ∈ TT X ⊓ centralizer (X : Set A) ↔ _
   rw [Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
   rfl
 
+omit [Finite A] in
 theorem Hyp2813.mem_omegaCenter_S_iff (h : Hyp2813 X K R P) {v : A} :
     v ∈ omegaCenter (pCoreOf 2 P) ↔ v ∈ TT X ∧ ∀ s ∈ pCoreOf 2 P, s * v = v * s := by
   constructor
@@ -52,6 +59,7 @@ theorem Hyp2813.mem_omegaCenter_S_iff (h : Hyp2813 X K R P) {v : A} :
     exact mem_omegaCenter.2
       ⟨h.pCore_X_le_pCore_P hvQ, fun s hs => (hvC s hs).symm, TT_sq X hvT⟩
 
+omit [Finite A] in
 theorem Hyp2813.mem_omegaCenter_R_iff (h : Hyp2813 X K R P) {z : A} :
     z ∈ omegaCenter R ↔ z ∈ TT X ∧ ∀ r ∈ R, r * z = z * r := by
   constructor
@@ -66,6 +74,7 @@ theorem Hyp2813.mem_omegaCenter_R_iff (h : Hyp2813 X K R P) {z : A} :
     have hzQ : z ∈ pCoreOf 2 X := TT_le_pCoreOf X hzT
     exact mem_omegaCenter.2 ⟨h.pCore_X_le_R hzQ, fun r hr => (hzC r hr).symm, TT_sq X hzT⟩
 
+omit [Finite A] in
 theorem Hyp2813.maximal_P (h : Hyp2813 X K R P) {Y : Subgroup A} (h1 : P ≤ Y) (h2 : Y ≤ X) :
     Y = P ∨ Y = X := by
   have hmul := Subgroup.relIndex_mul_relIndex P Y X h1 h2
@@ -79,6 +88,7 @@ theorem Hyp2813.maximal_P (h : Hyp2813 X K R P) {Y : Subgroup A} (h1 : P ≤ Y) 
     have : Y.relIndex X = 1 := by omega
     exact le_antisymm h2 (Subgroup.relIndex_eq_one.1 this)
 
+omit [Finite A] in
 theorem tf_card_mul_index {H L : Subgroup A} (hHL : H ≤ L) :
     Nat.card H * (H.subgroupOf L).index = Nat.card L := by
   rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHL).toEquiv]
@@ -86,7 +96,7 @@ theorem tf_card_mul_index {H L : Subgroup A} (hHL : H ≤ L) :
 
 theorem Hyp2813.card_R (h : Hyp2813 X K R P) :
     Nat.card R = Nat.card (pCoreOf 2 X) * 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card (p := 2)).1 h.R_two
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card (p := 2)).1 (isPGroup_pCoreOf X)
   have hRX := tf_card_mul_index h.R_le
@@ -104,6 +114,7 @@ theorem Hyp2813.card_R (h : Hyp2813 X K R P) :
   rw [ha, hb, this]
   ring
 
+omit [Finite A] in
 theorem Hyp2813.card_P (h : Hyp2813 X K R P) :
     Nat.card P = Nat.card (pCoreOf 2 X) * 24 := by
   have h1 := tf_card_mul_index h.P_le
@@ -112,8 +123,8 @@ theorem Hyp2813.card_P (h : Hyp2813 X K R P) :
 
 theorem Hyp2813.D_card (h : Hyp2813 X K R P) {D : Subgroup A} (hDP : D ≤ P)
     (hD3 : IsPGroup 3 D) (hDi : ¬ 3 ∣ (D.subgroupOf P).index) : Nat.card D = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card (p := 3)).1 hD3
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card (p := 2)).1 (isPGroup_pCoreOf X)
   have hDP' := tf_card_mul_index hDP
@@ -135,7 +146,7 @@ theorem Hyp2813.D_card (h : Hyp2813 X K R P) {D : Subgroup A} (hDP : D ≤ P)
 
 theorem Hyp2813.P_eq_sup (h : Hyp2813 X K R P) {D : Subgroup A} (hDP : D ≤ P)
     (hD3 : IsPGroup 3 D) (hDi : ¬ 3 ∣ (D.subgroupOf P).index) : R ⊔ D = P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsup : R ⊔ D ≤ P := sup_le h.R_le_P hDP
   have hD := h.D_card hDP hD3 hDi
   have hR := h.card_R
@@ -156,9 +167,9 @@ theorem Hyp2813.P_eq_sup (h : Hyp2813 X K R P) {D : Subgroup A} (hDP : D ≤ P)
 theorem Hyp2813.D_cyclic (h : Hyp2813 X K R P) {D : Subgroup A} (hDP : D ≤ P)
     (hD3 : IsPGroup 3 D) (hDi : ¬ 3 ∣ (D.subgroupOf P).index) :
     ∃ d₀ ∈ D, D = zpowers d₀ ∧ orderOf d₀ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD := h.D_card hDP hD3 hDi
-  haveI : IsCyclic D := isCyclic_of_prime_card hD
+  have : IsCyclic D := isCyclic_of_prime_card hD
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := D)
   have hDeq : D = zpowers (g : A) := by
     ext x

@@ -17,20 +17,25 @@ namespace ZIKData
 
 variable {Q Y V V' B K : Subgroup H} {ρ : H}
 
+omit [Finite H] in
 theorem V_le_Y (h : ZIKData Q Y V V' B K ρ) : V ≤ Y := by
   rw [h.Y_eq]
   exact le_sup_left
 
+omit [Finite H] in
 theorem V'_le_Y (h : ZIKData Q Y V V' B K ρ) : V' ≤ Y := by
   rw [h.Y_eq]
   exact le_sup_right
 
+omit [Finite H] in
 theorem V_le_Q (h : ZIKData Q Y V V' B K ρ) : V ≤ Q :=
   h.V_le_Y.trans h.Y_le_Q
 
+omit [Finite H] in
 theorem V'_le_Q (h : ZIKData Q Y V V' B K ρ) : V' ≤ Q :=
   h.V'_le_Y.trans h.Y_le_Q
 
+omit [Finite H] in
 theorem Y_comm (h : ZIKData Q Y V V' B K ρ) : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a :=
   fun a ha b hb => h.Q_comm a (h.Y_le_Q ha) b (h.Y_le_Q hb)
 
@@ -42,6 +47,7 @@ theorem card_Y (h : ZIKData Q Y V V' B K ρ) : Nat.card Y = 16 := by
   have hcard := card_sup_eq_mul (H := V) (K := V') hnorm h.V_inf_V'
   rw [h.Y_eq, hcard, h.card_V, h.card_V']
 
+omit [Finite H] in
 theorem card_K (h : ZIKData Q Y V V' B K ρ) : Nat.card K = 256 := by
   have hinf : Q ⊓ K = Q := inf_of_le_left h.Q_le_K
   have hcard := relIndex_mul_card (H := Q) (K := K)
@@ -54,6 +60,7 @@ theorem relIndex_YQ (h : ZIKData Q Y V V' B K ρ) : Y.relIndex Q = 4 := by
   rw [hinf, h.card_Y, h.card_Q] at hcard
   omega
 
+omit [Finite H] in
 theorem Q_normal_K (h : ZIKData Q Y V V' B K ρ) :
     ∀ k ∈ K, ∀ q ∈ Q, k * q * k⁻¹ ∈ Q := by
   intro k hk q hq
@@ -61,6 +68,7 @@ theorem Q_normal_K (h : ZIKData Q Y V V' B K ρ) :
   rw [show k * q * k⁻¹ = (k * q * k⁻¹ * q⁻¹) * q by group]
   exact Q.mul_mem (h.V_le_Q hmem) hq
 
+omit [Finite H] in
 theorem exists_mul_BY (h : ZIKData Q Y V V' B K ρ) :
     ∀ q ∈ Q, ∃ b ∈ B, ∃ y ∈ Y, q = b * y := by
   intro q hq
@@ -93,10 +101,12 @@ theorem K_sq_mem_Q (h : ZIKData Q Y V V' B K ρ) : ∀ k ∈ K, k ^ 2 ∈ Q := b
   exact z4i_sq_mem_of_relIndex_four (N := Q) (M := K) h.rho_pow_three h.Q_le_K h.Q_normal_K
     h.rho_norm_Q h.rho_norm_K h.relIndex_K h.rho_fpf_KQ hk
 
+omit [Finite H] in
 theorem comm_eq_one_of_mem_Y (h : ZIKData Q Y V V' B K ρ) {x y : H} (hx : x ∈ K)
     (hy : y ∈ Y) : ⁅x, y⁆ = 1 :=
   commutatorElement_eq_one_iff_mul_comm.mpr (h.K_cent_Y x hx y hy)
 
+omit [Finite H] in
 theorem comm_mul_right (h : ZIKData Q Y V V' B K ρ) {x q q' : H} (hx : x ∈ K) (hq : q ∈ Q)
     (hq' : q' ∈ Q) : ⁅x, q * q'⁆ = ⁅x, q⁆ * ⁅x, q'⁆ := by
   rw [commutatorElement_mul_right_eq_mul_conj]
@@ -106,6 +116,7 @@ theorem comm_mul_right (h : ZIKData Q Y V V' B K ρ) {x q q' : H} (hx : x ∈ K)
     group
   rw [show ⁅x, q⁆ * q * ⁅x, q'⁆ * q⁻¹ = ⁅x, q⁆ * (q * ⁅x, q'⁆ * q⁻¹) by group, hconj]
 
+omit [Finite H] in
 theorem comm_mul_left (h : ZIKData Q Y V V' B K ρ) {x x' q : H} (hx : x ∈ K) (hx' : x' ∈ K)
     (hq : q ∈ Q) : ⁅x * x', q⁆ = ⁅x', q⁆ * ⁅x, q⁆ := by
   rw [commutatorElement_mul_left_eq_conj_mul]

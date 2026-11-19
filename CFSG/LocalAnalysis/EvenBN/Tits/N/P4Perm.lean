@@ -27,9 +27,9 @@ theorem exists_regular_normal_two_of_action [Finite K] [Finite Ω] [MulAction.Is
     ext k
     rw [MonoidHom.mem_ker, hN, Equiv.ext_iff]
     exact forall_congr' fun α => by simp [hπ]
-  haveI hNn : N.Normal := hker ▸ π.normal_ker
+  have hNn : N.Normal := hker ▸ π.normal_ker
   let G : Subgroup (Equiv.Perm Ω) := π.range
-  haveI : MulAction.IsPretransitive G Ω := ⟨fun α β => by
+  have : MulAction.IsPretransitive G Ω := ⟨fun α β => by
     obtain ⟨k, hk⟩ := MulAction.exists_smul_eq K α β
     exact ⟨⟨π k, k, rfl⟩, hk⟩⟩
   have hNpos : 0 < Nat.card N := Nat.card_pos

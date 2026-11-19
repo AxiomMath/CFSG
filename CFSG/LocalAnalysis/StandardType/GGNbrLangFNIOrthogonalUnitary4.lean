@@ -48,7 +48,7 @@ theorem largeEvenMarking_twD3_inn {X : Type} [Group X]
       simpa [hbar] using hgu.1
   refine largeEvenRawDatum_mono (fun R _ I F hRI => ?_) hraw
   obtain ⟨⟨e⟩, hI⟩ := hRI
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   refine ⟨e.symm.isSimpleGroup, ?_, e, hChev, hI⟩
   obtain ⟨a, b, hab⟩ := exists_mul_ne_mul_centerQuot_of_perfect hX.1 inferInstance
   exact ⟨e a, e b, fun h => hab (e.injective (by simpa using h))⟩

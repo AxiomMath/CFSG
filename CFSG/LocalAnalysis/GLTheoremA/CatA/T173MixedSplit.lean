@@ -15,6 +15,7 @@ open Module QuadraticMap CFSG.RankThree.Classical2 CFSG.GroupTheory.WeirSylow
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem eq_zero_of_map_eq_zero_of_mem_plane {m : ℕ} {U : Fin m → Submodule F V} (hU : IsPlaneSystem Q U)
     (k : Fin m) {x : V} (hx : x ∈ U k) (hQx : Q x = 0) : x = 0 := by
   by_contra hx0
@@ -25,6 +26,7 @@ theorem eq_zero_of_map_eq_zero_of_mem_plane {m : ℕ} {U : Fin m → Submodule F
     show Q (c • x) = 0
     rw [QuadraticMap.map_smul, hQx, smul_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem iSup_eq_top_of_finrank {m : ℕ} {U : Fin m → Submodule F V} (hU : IsPlaneSystem Q U)
     (hdim : Module.finrank F V = 2 * m) : ⨆ k, U k = ⊤ := by
   have e : (⨆ k ∈ (Finset.univ : Finset (Fin m)), U k : Submodule F V) = ⨆ k, U k := by simp
@@ -32,6 +34,7 @@ theorem iSup_eq_top_of_finrank {m : ℕ} {U : Fin m → Submodule F V} (hU : IsP
   apply Submodule.eq_top_of_finrank_eq
   rw [hU.finrank_biSup, Finset.card_univ, Fintype.card_fin, hdim]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem inf_sup_le_sup_inf_of_fix_aux1 {g : V ≃ₗ[F] V} {n : ℕ} (hn : Odd n)
     {X : Submodule F V} (hX : ∀ x ∈ X, g x = x) {x : V} (hx : x ∈ X) :
     (∑ m ∈ Finset.range n, (g ^ m) x) = x := by
@@ -43,10 +46,11 @@ private theorem inf_sup_le_sup_inf_of_fix_aux1 {g : V ≃ₗ[F] V} {n : ℕ} (hn
   have hcongr : (∑ m ∈ Finset.range n, (g ^ m) x) = ∑ m ∈ Finset.range n, x :=
     Finset.sum_congr rfl fun m _ => htermX m
   have hnF : (n : F) = 1 := by
-    rw [CharTwo.natCast_eq_ite, if_neg (Nat.not_even_iff_odd.2 hn)]
+    rw [CharTwo.natCast_eq_ite, ite_eq_right (Nat.not_even_iff_odd.2 hn)]
   rw [hcongr, Finset.sum_const, Finset.card_range,
     ← Nat.cast_smul_eq_nsmul F n x, hnF, one_smul]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem inf_sup_le_sup_inf_of_fix_aux2 {g : V ≃ₗ[F] V} {n : ℕ} (hgn : g ^ n = 1)
     {Y : Submodule F V} (hY : ∀ y ∈ Y, g y ∈ Y) (hYfree : ∀ y ∈ Y, g y = y → y = 0)
     {y : V} (hy : y ∈ Y) : (∑ m ∈ Finset.range n, (g ^ m) y) = 0 := by
@@ -75,6 +79,7 @@ private theorem inf_sup_le_sup_inf_of_fix_aux2 {g : V ≃ₗ[F] V} {n : ℕ} (hg
       = y + ∑ m ∈ Finset.range n, (g ^ m) y := by rw [← h3, add_comm]
   exact add_left_cancel h5
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem inf_sup_le_sup_inf_of_fix_aux3 {g : V ≃ₗ[F] V} {n : ℕ} {W : Submodule F V}
     (hW : ∀ w ∈ W, g w ∈ W) {w : V} (hw : w ∈ W) :
     (∑ m ∈ Finset.range n, (g ^ m) w) ∈ W := by
@@ -85,6 +90,7 @@ private theorem inf_sup_le_sup_inf_of_fix_aux3 {g : V ≃ₗ[F] V} {n : ℕ} {W 
     | succ m ih => rw [pow_succ', LinearEquiv.mul_apply]; exact hW _ ih
   exact Submodule.sum_mem _ fun m _ => htermW m
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem inf_sup_le_sup_inf_of_fix {g : V ≃ₗ[F] V} {n : ℕ} (hn : Odd n) (hgn : g ^ n = 1)
     {X Y W : Submodule F V} (hX : ∀ x ∈ X, g x = x) (hY : ∀ y ∈ Y, g y ∈ Y)
     (hYfree : ∀ y ∈ Y, g y = y → y = 0) (hW : ∀ w ∈ W, g w ∈ W) :
@@ -110,6 +116,7 @@ theorem inf_sup_le_sup_inf_of_fix {g : V ≃ₗ[F] V} {n : ℕ} (hn : Odd n) (hg
     exact Submodule.sub_mem _ hw.1 hxW
   exact Submodule.add_mem_sup ⟨hxW, hx⟩ ⟨hyW, hy⟩
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem le_polarPerp_of_invariant_of_free {g : V ≃ₗ[F] V} {n : ℕ} (hn : Odd n) (hgn : g ^ n = 1)
     {P W : Submodule F V} (hP : IsCompl P (polarPerp Q P)) (haniso : ∀ x ∈ P, Q x = 0 → x = 0)
     (hPmaps : ∀ x ∈ P, g x ∈ P) (hfree : ∀ x ∈ P, g x = x → x = 0)
@@ -123,6 +130,7 @@ theorem le_polarPerp_of_invariant_of_free {g : V ≃ₗ[F] V} {n : ℕ} (hn : Od
   rw [hy0, add_zero]
   exact hx.2
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eq_bot_of_separated_aux1 {m : ℕ} {U : Fin m → Submodule F V} {g : V ≃ₗ[F] V}
     {s : Finset (Fin m)} (h : ∀ k ∈ s, ∀ x ∈ U k, g x = x) {x : V}
     (hx : x ∈ ⨆ k ∈ s, U k) : g x = x := by
@@ -138,6 +146,7 @@ private theorem eq_bot_of_separated_aux1 {m : ℕ} {U : Fin m → Submodule F V}
     rw [map_add, h a (Finset.mem_insert_self a s) u hu,
       ih (fun k hk => h k (Finset.mem_insert_of_mem hk)) hv]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eq_bot_of_separated_aux2 {m : ℕ} {U : Fin m → Submodule F V} {g : V ≃ₗ[F] V}
     {s : Finset (Fin m)} (h : ∀ k ∈ s, ∀ x ∈ U k, g x ∈ U k) {x : V}
     (hx : x ∈ ⨆ k ∈ s, U k) : g x ∈ ⨆ k ∈ s, U k := by
@@ -154,6 +163,7 @@ private theorem eq_bot_of_separated_aux2 {m : ℕ} {U : Fin m → Submodule F V}
     exact Submodule.add_mem_sup (h a (Finset.mem_insert_self a s) u hu)
       (ih (fun k hk => h k (Finset.mem_insert_of_mem hk)) hv)
 
+omit [Finite F] [CharP F 2] in
 private theorem eq_bot_of_separated_aux3 {m : ℕ} {U : Fin m → Submodule F V} {g : V ≃ₗ[F] V}
     {s : Finset (Fin m)} (hF : IsPlaneSystem Q U) (hmap : ∀ k ∈ s, ∀ x ∈ U k, g x ∈ U k)
     (hfree : ∀ k ∈ s, ∀ x ∈ U k, g x = x → x = 0) {y : V}
@@ -190,6 +200,7 @@ private theorem eq_bot_of_separated_aux3 {m : ℕ} {U : Fin m → Submodule F V}
     have hv0 : v = 0 := ih hmap' hfree' hv hvfix
     simp [hu0, hv0]
 
+omit [CharP F 2] in
 private theorem eq_bot_of_separated_aux4 {m : ℕ} {U : Fin m → Submodule F V} {ρ : Fin m → ↥(orthDerived Q)}
     {T : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U ρ T) {g : ↥(orthDerived Q)}
     (hg : g ∈ T) (k : Fin m) : ∀ x ∈ U k, (g : V ≃ₗ[F] V) x ∈ U k := by
@@ -203,6 +214,7 @@ private theorem eq_bot_of_separated_aux4 {m : ℕ} {U : Fin m → Submodule F V}
   rw [hn x hx]
   exact hpow n
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eq_bot_of_separated_aux5 {m : ℕ} {U : Fin m → Submodule F V}
     (hF : IsPlaneSystem Q U) {W : Submodule F V} (hTS : ∀ x ∈ W, Q x = 0)
     {s : Finset (Fin m)} (hle : s.card ≤ 1) : W ⊓ (⨆ k ∈ s, U k) ≠ ⊥ → False := by
@@ -259,7 +271,7 @@ private theorem eq_bot_of_separated_aux7 {m : ℕ} {U : Fin m → Submodule F V}
     (hsep : ∀ a b : Fin m, a ≠ b → ∃ g ∈ G,
       ((∀ x ∈ U a, (g : V ≃ₗ[F] V) x = x) ↔ ¬ ∀ x ∈ U b, (g : V ≃ₗ[F] V) x = x))
     {W : Submodule F V} (hTS : ∀ x ∈ W, Q x = 0)
-    (hinv : ∀ g ∈ G, ∀ x ∈ W, (g : V ≃ₗ[F] V) x ∈ W) (hWne : W ≠ ⊥) :
+    (hinv : ∀ g ∈ G, ∀ x ∈ W, (g : V ≃ₗ[F] V) x ∈ W) (_hWne : W ≠ ⊥) :
     ∀ s : Finset (Fin m), W ⊓ (⨆ k ∈ s, U k) ≠ ⊥ → False := by
   classical
   intro s

@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem s16c11_v1_realizes_symCore_six (D : Data G) (hin : In10 D) (h1217 : R1217 D)
     {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV)
-    (hs : s15 D.M ⊥ V hV L = 1) (hsig : D.sig = {3})
+    (hs : s15 D.M ⊥ V hV L = 1) (_hsig : D.sig = {3})
     (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
     {L₀ : Subgroup (MulAut (Vtil ⊥ V hV))}
     (hdir : IsInternalDirect (kBar D.M ⊥ V hV L) L₀ (Mbar D.M ⊥ V hV))
@@ -107,7 +107,7 @@ theorem s16c11_v1_realizes_symCore_six (D : Data G) (hin : In10 D) (h1217 : R121
   have hJ2 : ∀ j : ↥J₀, j ^ 2 = 1 := fun j => Subtype.ext (by
     rw [SubgroupClass.coe_pow, OneMemClass.coe_one]
     exact s15_Infra_vtil_sq_eq_one ⊥ V hV (j : Vtil ⊥ V hV))
-  haveI : Finite ↥J₀ := inferInstance
+  have : Finite ↥J₀ := inferInstance
   have hcover : (G64.symCoreModel 6).Realizes
       (CFSG.Quasithin.H13.VolI.resHom L₀ J₀ hJ).range ⊤ ⊥ :=
     s16c11_v1_symCore_six_of_cover hJ2 hHH₀ hS₀ hAφ hcomm hRD' hfixne
@@ -133,7 +133,7 @@ theorem s16c11_v1_rf3_alt_six (D : Data G) (hin : In10 D) (h1217 : R1217 D)
 theorem s16c11_v1_hard_alt_six (D : Data G) (hin : In10 D) (h1217 : R1217 D) (h1610 : R16_10_2 D)
     {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV)
-    (hs : s15 D.M ⊥ V hV L = 1) (hout : Out10 D ⊥ V hV)
+    (hs : s15 D.M ⊥ V hV L = 1) (_hout : Out10 D ⊥ V hV)
     (hsig : D.sig = {3}) (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
     {L₀ : Subgroup (MulAut (Vtil ⊥ V hV))}
     (hdir : IsInternalDirect (kBar D.M ⊥ V hV L) L₀ (Mbar D.M ⊥ V hV))

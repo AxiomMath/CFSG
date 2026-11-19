@@ -228,7 +228,7 @@ end PBig
 
 theorem pBigComponents_of_dvd_sq_sub_one {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus)
-    (h1 : rootDiagUnit τ a ≠ 1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (_h1 : rootDiagUnit τ a ≠ 1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ S.D.q ^ 2 - 1) (hq4 : 4 ≤ S.D.q) (i : KernelComponent (rootCharHom a)) :
     ¬ Nat.Coprime p (Nat.card (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical

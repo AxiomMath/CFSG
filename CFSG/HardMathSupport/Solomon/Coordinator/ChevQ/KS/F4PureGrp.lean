@@ -144,7 +144,7 @@ theorem mem_centralizer_of_le_sup {K : Type*} [Group K] [Finite K] (C D J : Subg
       exact hCcard
     have h5 := Nat.le_of_mul_le_mul_left h4 hpos
     omega
-  haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+  have : φ.ker.Normal := MonoidHom.normal_ker φ
   rcases normal_le_center_or_eq_top hJq φ.ker with hle | htop
   ·
     have hS : J ⊓ Subgroup.centralizer (C : Set K) ≤ Subgroup.zpowers k := by
@@ -182,7 +182,7 @@ end GrpAux
 theorem key_center {K : Type*} [Group K] [Finite K] (A B J : Subgroup K) (e k : K) (n : ℕ)
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hJle : J ≤ A ⊔ B)
     (hJq : CFSG.Open.IsQuasisimple ↥J) (hkJ : k ∈ J)
-    (hkc : k ∈ Subgroup.centralizer (J : Set K)) (hk3 : orderOf k = 3)
+    (_hkc : k ∈ Subgroup.centralizer (J : Set K)) (hk3 : orderOf k = 3)
     (hZJ : ∀ z ∈ J, z ∈ Subgroup.centralizer (J : Set K) → z ∈ Subgroup.zpowers k)
     (hJcard : Nat.card ↥J = 3 * n)
     (hAZ : ∀ a ∈ A, a ∈ Subgroup.centralizer (A : Set K) → a ∈ Subgroup.zpowers e)

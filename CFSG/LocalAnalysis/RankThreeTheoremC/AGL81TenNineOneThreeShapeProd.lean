@@ -16,17 +16,18 @@ namespace L28Sq
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSimpleGroup_of_isCaseTwoGroup_three (hK : IsCaseTwoGroup 3 G) : IsSimpleGroup G := by
   obtain ⟨⟨i, hi⟩, hd, ⟨e⟩⟩ := hK
   rcases hd with ⟨-, ⟨p, f, hp, hf⟩, hqp, hqe, hi1⟩ | ⟨h35, -⟩
   · subst hi1
     simp only at hqp hqe
     subst hqp hqe
-    haveI : Fact (Nat.Prime 2) := ⟨hp⟩
+    have : Fact (Nat.Prime 2) := ⟨hp⟩
     have h4 : 4 ≤ Nat.card (GaloisField 2 3) := by
       rw [GaloisField.card 2 3 (by norm_num)]
       norm_num
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 3)) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 3)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
     exact (e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 _ hi)).isSimpleGroup
   · omega
@@ -34,13 +35,14 @@ theorem isSimpleGroup_of_isCaseTwoGroup_three (hK : IsCaseTwoGroup 3 G) : IsSimp
 theorem eq_one_of_comm (hK : IsCaseTwoGroup 3 G) {g : G} (hg : ∀ x : G, g * x = x * g) :
     g = 1 := by
   obtain ⟨ε₀⟩ := nonempty_equiv_G8 hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 G))
   apply (l28Data_of_equiv ε₀ S).conj_injective
   ext x
   simp only [MulAut.conj_apply, map_one, MulAut.one_apply]
   rw [hg x, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem card_eq (hK : IsCaseTwoGroup 3 G) : Nat.card G = 504 := by
   obtain ⟨ε₀⟩ := nonempty_equiv_G8 hK
   rw [Nat.card_congr ε₀.toEquiv, CFSG.Quasithin.F6.L28Res.card_G8]
@@ -56,7 +58,7 @@ theorem fst_or_snd (hK : IsCaseTwoGroup 3 G) (ψ : MulAut (G × G)) (ι : G →*
     (hn : ∀ (h : G × G) (g : G), ∃ g' : G, h * ι g * h⁻¹ = ι g') :
     (∀ g : G, (ψ (ι g)).2 = 1) ∨ (∀ g : G, (ψ (ι g)).1 = 1) := by
   classical
-  haveI := isSimpleGroup_of_isCaseTwoGroup_three hK
+  have := isSimpleGroup_of_isCaseTwoGroup_three hK
   have hN : ∀ (h : G × G) (g : G), ∃ g' : G, h * ψ (ι g) * h⁻¹ = ψ (ι g') := by
     intro h g
     obtain ⟨g', hg'⟩ := hn (ψ.symm h) g
@@ -156,6 +158,7 @@ theorem fst_or_snd (hK : IsCaseTwoGroup 3 G) (ψ : MulAut (G × G)) (ι : G →*
     obtain ⟨x, rfl⟩ := hjs g
     rw [hj]
 
+omit [Finite G] in
 theorem exists_ne_one (hK : IsCaseTwoGroup 3 G) : ∃ x : G, x ≠ 1 := by
   by_contra! h
   have : Nat.card G = 1 :=
@@ -187,6 +190,7 @@ theorem pres_or_swap (hK : IsCaseTwoGroup 3 G) (ψ : MulAut (G × G)) : Pres ψ 
     rw [hsplit, Prod.fst_mul, hA, hB, one_mul] at this
     exact hx this.symm
 
+omit [Finite G] in
 theorem swap_mul_swap {α β : MulAut (G × G)} (hα : Swap α) (hβ : Swap β) : Pres (α * β) := by
   refine ⟨fun g => ?_, fun g => ?_⟩
   · rw [MulAut.mul_apply, show β (g, 1) = (1, (β (g, 1)).2) from Prod.ext (hβ.1 g) rfl]
@@ -194,6 +198,7 @@ theorem swap_mul_swap {α β : MulAut (G × G)} (hα : Swap α) (hβ : Swap β) 
   · rw [MulAut.mul_apply, show β (1, g) = ((β (1, g)).1, 1) from Prod.ext rfl (hβ.2 g)]
     exact hα.1 _
 
+omit [Finite G] in
 theorem pres_mul_swap {α β : MulAut (G × G)} (hα : Pres α) (hβ : Swap β) : Swap (α * β) := by
   refine ⟨fun g => ?_, fun g => ?_⟩
   · rw [MulAut.mul_apply, show β (g, 1) = (1, (β (g, 1)).2) from Prod.ext (hβ.1 g) rfl]
@@ -201,6 +206,7 @@ theorem pres_mul_swap {α β : MulAut (G × G)} (hα : Pres α) (hβ : Swap β) 
   · rw [MulAut.mul_apply, show β (1, g) = ((β (1, g)).1, 1) from Prod.ext rfl (hβ.2 g)]
     exact hα.1 _
 
+omit [Finite G] in
 theorem swap_pow_odd {ψ : MulAut (G × G)} (h : Swap ψ) (k : ℕ) : Swap (ψ ^ (2 * k + 1)) := by
   induction k with
   | zero => simpa using h
@@ -225,9 +231,11 @@ variable {P : Subgroup (MulAut (G × G))} (hP : ∀ ψ ∈ P, Pres ψ)
 
 include hP
 
+omit [Finite G] in
 theorem pres_left {ψ : MulAut (G × G)} (h : ψ ∈ P) (g : G) : ψ (g, 1) = ((ψ (g, 1)).1, 1) :=
   Prod.ext rfl ((hP ψ h).1 g)
 
+omit [Finite G] in
 theorem pres_right {ψ : MulAut (G × G)} (h : ψ ∈ P) (g : G) : ψ (1, g) = (1, (ψ (1, g)).2) :=
   Prod.ext ((hP ψ h).2 g) rfl
 
@@ -255,8 +263,10 @@ theorem pres_right {ψ : MulAut (G × G)} (h : ψ ∈ P) (g : G) : ψ (1, g) = (
   map_mul' a b := by
     rw [show ((1, a * b) : G × G) = (1, a) * (1, b) by simp, map_mul, Prod.snd_mul]
 
+omit [Finite G] in
 theorem res₁_apply (ψ : P) (g : G) : res₁ hP ψ g = ((ψ : MulAut (G × G)) (g, 1)).1 := rfl
 
+omit [Finite G] in
 theorem res₂_apply (ψ : P) (g : G) : res₂ hP ψ g = ((ψ : MulAut (G × G)) (1, g)).2 := rfl
 
 @[expose] noncomputable def resHom : P →* MulAut G × MulAut G where
@@ -274,6 +284,7 @@ theorem res₂_apply (ψ : P) (g : G) : res₂ hP ψ g = ((ψ : MulAut (G × G))
         ((α : MulAut (G × G)) (1, ((β : MulAut (G × G)) (1, g)).2)).2
       rw [← pres_right hP β.2 g]
 
+omit [Finite G] in
 theorem resHom_injective : Function.Injective (resHom hP) := by
   intro α β h
   have h1 : ∀ g, ((α : MulAut (G × G)) (g, 1)).1 = ((β : MulAut (G × G)) (g, 1)).1 := fun g =>
@@ -287,6 +298,7 @@ theorem resHom_injective : Function.Injective (resHom hP) := by
   · rw [show ((a, b) : G × G) = (a, 1) * (1, b) by simp, map_mul, map_mul, Prod.snd_mul,
       Prod.snd_mul, (hP _ α.2).1 a, (hP _ β.2).1 a, h2]
 
+omit [Finite G] in
 theorem resHom_conj {s : G × G} (hs : MulAut.conj s ∈ P) :
     resHom hP ⟨MulAut.conj s, hs⟩ = (MulAut.conj s.1, MulAut.conj s.2) := by
   ext g
@@ -330,8 +342,8 @@ theorem card_cube_le (hK : IsCaseTwoGroup 3 G) (S : Sylow 3 G) :
     · rw [Subgroup.zpowers_le]
       exact ⟨s0, hs0S, rfl⟩
     · rw [Nat.card_zpowers, orderOf_injective _ hD.conj_injective, hs0, card_inn hK S]
-  haveI : IsCyclic I := hgen ▸ inferInstance
-  haveI : Fintype I := Fintype.ofFinite I
+  have : IsCyclic I := hgen ▸ inferInstance
+  have : Fintype I := Fintype.ofFinite I
   have hcyc := IsCyclic.card_pow_eq_one_le (α := I) (n := 3) (by norm_num)
   have he : {y : MulAut G // y ∈ I ∧ y ^ 3 = 1} ≃ {z : I // z ^ 3 = 1} :=
     { toFun := fun y => ⟨⟨y.1, y.2.1⟩, Subtype.ext y.2.2⟩
@@ -356,10 +368,10 @@ theorem card_center_le_three {X : Type} [Group X] [Finite X] (hX : Nat.card X = 
       have := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center X)
       rw [hX, h] at this
       omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic (X ⧸ Subgroup.center X) := isCyclic_of_prime_card hq
-    have := commutative_of_cyclic_center_quotient (QuotientGroup.mk' (Subgroup.center X))
-      (by rw [QuotientGroup.ker_mk'])
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic (X ⧸ Subgroup.center X) := isCyclic_of_prime_card hq
+    have := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (Subgroup.center X))
+      (by rw [QuotientGroup.ker_mk'])).is_comm.comm
     exact fun a b => this a b
   · exfalso
     apply hnc
@@ -376,8 +388,8 @@ theorem shapeProd_core (hK : IsCaseTwoGroup 3 G) (S₁ S₂ : Sylow 3 G)
     (h₁ : ∀ a ∈ (S₁ : Subgroup G), (MulAut.conj a, (1 : MulAut G)) ∈ Q)
     (h₂ : ∀ b ∈ (S₂ : Subgroup G), ((1 : MulAut G), MulAut.conj b) ∈ Q) : ShapeProd Q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut G) := finite_mulAut
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut G) := finite_mulAut
   set I₁ := (S₁ : Subgroup G).map (MulAut.conj : G →* MulAut G) with hI₁
   set I₂ := (S₂ : Subgroup G).map (MulAut.conj : G →* MulAut G) with hI₂
   set I := I₁.prod I₂ with hI
@@ -551,7 +563,7 @@ theorem shapeProd_core (hK : IsCaseTwoGroup 3 G) (S₁ S₂ : Sylow 3 G)
 
 theorem card_le_nine (hK : IsCaseTwoGroup 3 G) {H : Subgroup G} (hH : IsPGroup 3 H) :
     Nat.card H ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hH.exists_card_eq
   have hdvd : 3 ^ k ∣ 504 := hk ▸ card_eq hK ▸ Subgroup.card_subgroup_dvd_card H
   have hk2 : k ≤ 2 := by
@@ -564,7 +576,7 @@ theorem card_le_nine (hK : IsCaseTwoGroup 3 G) {H : Subgroup G} (hH : IsPGroup 3
 
 theorem card_sylow_of_card {X : Type} [Group X] [Finite X] (hX : Nat.card X = 3 ^ 4 * 3136)
     (S : Sylow 3 X) : Nat.card (S : Subgroup X) = 81 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : Nat.factorization (Nat.card X) 3 = 4 := by
     rw [hX, Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,
       Nat.Prime.factorization_pow Nat.prime_three, Finsupp.single_eq_same,
@@ -578,11 +590,11 @@ open L28Sq in
 theorem kFactCaseIThreeShapeProd : KFactCaseIThreeShapeProd := by
   classical
   intro B _ _ Kb _ T hT ⟨S, hST⟩ hKb
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd, ⟨e⟩⟩ := hKb
   set G := (TauCeti.CFSGIndex.lie d).Group
   have hG : IsCaseTwoGroup 3 G := ⟨d, Or.inl ⟨rfl, hd⟩, ⟨MulEquiv.refl _⟩⟩
-  haveI : Finite G := Finite.of_injective (fun g : G => e.symm (g, 1)) fun a b h => by
+  have : Finite G := Finite.of_injective (fun g : G => e.symm (g, 1)) fun a b h => by
     simpa using congrArg Prod.fst (e.symm.injective h)
   set φ := (MulAut.conjNormal (H := Kb)).comp T.subtype with hφ
   have hR : IsPGroup 3 φ.range := hT.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
@@ -600,7 +612,7 @@ theorem kFactCaseIThreeShapeProd : KFactCaseIThreeShapeProd := by
   have hS'card : Nat.card S' = 81 := by
     rw [hS'def, Subgroup.card_map_of_injective e.injective]
     exact card_sylow_of_card (by rw [Nat.card_congr e.toEquiv, Nat.card_prod, card_eq hG]; norm_num) S
-  have hS'p : IsPGroup 3 S' := S.isPGroup'.map _
+  have hS'p : IsPGroup 3 S' := S.isPGroup.map _
   set T₁ := S'.map (MonoidHom.fst G G)
   set T₂ := S'.map (MonoidHom.snd G G)
   have hT₁ : Nat.card T₁ ≤ 9 := card_le_nine hG (hS'p.map _)

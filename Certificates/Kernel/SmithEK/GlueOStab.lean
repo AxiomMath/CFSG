@@ -91,7 +91,7 @@ theorem uaCls_eq {v : Nat} (hv : v < 512) : uaCls collS2 v = clsK po.CO (s2K po.
   · subst h0
     rfl
   · have : Nat.beq v 0 = false := Bool.eq_false_iff.2 fun h => h0 (Nat.eq_of_beq_eq_true h)
-    simp only [this, cond_false, beq_iff_eq, h0, if_false]
+    simp only [this, Bool.cond_false, beq_iff_eq, h0, ite_false]
     cases memK v po.CO <;> cases bitK (s2K po.CO) v <;> rfl
 
 theorem cls_facts : (uaCls collS2 1 = 1 ∧ uaCls collS2 3 = 2 ∧ uaCls collS2 19 = 3) ∧

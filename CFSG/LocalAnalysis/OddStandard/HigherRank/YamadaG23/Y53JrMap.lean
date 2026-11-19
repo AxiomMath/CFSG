@@ -31,7 +31,7 @@ private lemma isMaxAb_map_inj {Y Γ : Type} [Group Y] [Finite Y] [Group Γ] [Fin
     (f : Y →* Γ) (hf : Function.Injective f) {T U : Subgroup Y} (h : IsMaxAb T U) :
     IsMaxAb (T.map f) (U.map f) := by
   refine ⟨Subgroup.map_mono h.1, ?_, ?_⟩
-  · haveI : IsMulCommutative U := h.2.1
+  · have : IsMulCommutative U := h.2.1
     exact inferInstance
   · intro V' hV'T hV'c
     have hVcomap_le : V'.comap f ≤ T := by
@@ -42,7 +42,7 @@ private lemma isMaxAb_map_inj {Y Γ : Type} [Group Y] [Finite Y] [Group Γ] [Fin
     have hVrange : V' ≤ f.range := hV'T.trans (Subgroup.map_le_range (f := f) T)
     have hVeq : (V'.comap f).map f = V' := Subgroup.map_comap_eq_self hVrange
     have hVc : IsMulCommutative (V'.comap f) := by
-      haveI : IsMulCommutative V' := hV'c
+      have : IsMulCommutative V' := hV'c
       exact Subgroup.comap_injective_isMulCommutative V' hf
     calc CFSG.pRank 2 V' = CFSG.pRank 2 ((V'.comap f).map f) := by rw [hVeq]
       _ = CFSG.pRank 2 (V'.comap f) := pRank_map_inj f hf _
@@ -59,12 +59,12 @@ private lemma isMaxAb_comap_inj {Y Γ : Type} [Group Y] [Finite Y] [Group Γ] [F
     rw [Subgroup.mem_comap] at hx
     obtain ⟨t, ht, hte⟩ := Subgroup.mem_map.1 (h.1 hx)
     rwa [hf hte] at ht
-  · haveI : IsMulCommutative U' := h.2.1
+  · have : IsMulCommutative U' := h.2.1
     exact Subgroup.comap_injective_isMulCommutative U' hf
   · intro V hVT hVc
     have hU'eq : (U'.comap f).map f = U' := Subgroup.map_comap_eq_self hU'range
     have hVc' : IsMulCommutative (V.map f) := by
-      haveI : IsMulCommutative V := hVc
+      have : IsMulCommutative V := hVc
       exact inferInstance
     calc CFSG.pRank 2 V = CFSG.pRank 2 (V.map f) := (pRank_map_inj f hf V).symm
       _ ≤ CFSG.pRank 2 U' := h.2.2 _ (Subgroup.map_mono hVT) hVc'
@@ -92,8 +92,8 @@ theorem y53_thompsonRank_map_inj {Y Γ : Type} [Group Y] [Finite Y] [Group Γ] [
 
 theorem y53_section_transport {Γ : Type} [Group Γ] [Finite Γ] {T₁ W Z A : Subgroup Γ}
     (hWT : W ≤ T₁) (hZW : Z ≤ W) (hAW : A ≤ W) (hZn : (Z.subgroupOf T₁).Normal)
-    (h : SecProp W Z (fun Y _ _ π => thompsonRank (⊤ : Subgroup Y) = (A.subgroupOf W).map π)) :
-    SecProp T₁ Z (fun Y _ _ π =>
+    (h : SecProp W Z (fun _Y _ _ π => thompsonRank (⊤ : Subgroup _Y) = (A.subgroupOf W).map π)) :
+    SecProp T₁ Z (fun _Y _ _ π =>
       thompsonRank ((W.subgroupOf T₁).map π) = (A.subgroupOf T₁).map π) := by
   unfold SecProp at h ⊢
   obtain ⟨hZWn, hW⟩ := h

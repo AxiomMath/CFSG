@@ -90,10 +90,10 @@ theorem Hx_decomp (k : Fin 2) {h : ↥(alternatingGroup (Fin 6))} (hh : h ∈ Hx
   have hgm : ∀ y : V4, y ≠ 0 → ρk k (gm y) (x0 k) = y := by
     intro y hy
     by_cases hyx : y = x0 k
-    · simp only [gm, dif_pos hyx, map_one, Module.End.one_apply]
+    · simp only [gm, dite_eq_left hyx, map_one, Module.End.one_apply]
       exact hyx.symm
     · have hex := exists_ρ_eq k y hy
-      simp only [gm, dif_neg hyx, dif_pos hex]
+      simp only [gm, dite_eq_right hyx, dite_eq_left hex]
       exact hex.choose_spec
   have hgm1 : gm (x0 k) = 1 := by simp [gm]
   let Φ : {y : V4 // y ≠ 0} × Fin 24 → ↥(alternatingGroup (Fin 6)) :=

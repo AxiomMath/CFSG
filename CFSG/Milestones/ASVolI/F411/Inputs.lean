@@ -46,7 +46,7 @@ theorem burnsideF411_exists_conj_mem_sylow [Finite E] {p : ℕ} [Fact p.Prime] {
   exact ht
 
 theorem burnsideF411_oPPrime_le_sylow [Finite E] {p : ℕ} [Fact p.Prime] {S B Gp : Subgroup E}
-    (hS : ChF.IsSylowOf p S Gp) (hSB : S ≤ B) (hBGp : B ≤ Gp)
+    (hS : ChF.IsSylowOf p S Gp) (_hSB : S ≤ B) (hBGp : B ≤ Gp)
     (hBN : B ≤ Subgroup.normalizer (S : Set E)) : oPPrime p B ≤ S := by
   rw [oPPrime, Subgroup.closure_le]
   rintro x ⟨hxB, k, hk⟩
@@ -99,9 +99,9 @@ theorem burnsideF411_rankOne_of_F45 (h45 : F_4_5) (hcompat : NativeChartCompatib
     (hyp : HypF_4_4 κ p f Gp M₁ M₂) :
     burnsideF411_RankOne p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) ∧
       burnsideF411_RankOne p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₂) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hp : p.Prime := burnsideF4a_prime_of_isGenLie hyp.model
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨S₀, hS₀, hB⟩, -, -, hmax⟩ := burnsideF4j_parabolics hcompat hyp
   obtain ⟨hBP₁, hP₁Gp, -, -⟩ := (hmax (Gp ⊓ M₁)).mpr (Or.inl rfl)
   obtain ⟨hBP₂, hP₂Gp, -, -⟩ := (hmax (Gp ⊓ M₂)).mpr (Or.inr rfl)

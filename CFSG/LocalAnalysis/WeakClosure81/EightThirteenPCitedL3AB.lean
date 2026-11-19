@@ -32,7 +32,7 @@ private theorem wccl_isPGroup_two_autFixed {G : Type*} [Group G] {β : MulAut G}
 
 private theorem wccl_false_of_isPGroup_two_of_three_dvd {G : Type*} [Group G] [Finite G]
     (hp : IsPGroup 2 G) (h3 : 3 ∣ Nat.card G) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hp
   rw [hn] at h3
   exact absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3) (by norm_num)
@@ -40,7 +40,7 @@ private theorem wccl_false_of_isPGroup_two_of_three_dvd {G : Type*} [Group G] [F
 private theorem wccl_simple_case {G : Type*} [Group G] [Finite G] {C F : Subgroup G}
     (hFC : F ≤ C) (hCn : C ≤ Subgroup.normalizer (F : Set G)) [IsSimpleGroup C]
     (hFp : IsPGroup 2 F) (h3 : 3 ∣ Nat.card C) : F = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFn : (F.subgroupOf C).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hCn
   rcases hFn.eq_bot_or_eq_top with h | h
   · rw [Subgroup.eq_bot_iff_forall]
@@ -81,10 +81,10 @@ private theorem wccl_notElem {k : Type} [Field k] (hk : Nat.card k = 4) :
   classical
   intro β hβ2 hout
   by_contra hcon
-  haveI : Finite k := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (projectiveSL 3 k) :=
+  have : Finite k := LinearFieldFour.finite_of_card_eq_four hk
+  have : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (projectiveSL 3 k) :=
     Finite.of_surjective (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.proj 3 k)
       (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.proj_surjective 3 k)
   have hall : ∀ x : projectiveSL 3 k, β x = x → x * x = 1 := by
@@ -105,9 +105,9 @@ private theorem wccl_notElem {k : Type} [Field k] (hk : Nat.card k = 4) :
 private theorem wccl_isSimpleGroup_fieldAut {k : Type} [Field k] {σ : k ≃+* k}
     (hk : Nat.card k = 4) (hσ : ∀ a : k, σ a = a ^ 2) :
     IsSimpleGroup (autFixed (fieldAut 3 k σ)) := by
-  haveI : Finite k := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : IsSimpleGroup (projectiveSL 3 (fixedField k σ)) := by
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 3) (fixedField k σ)) :=
+  have : Finite k := LinearFieldFour.finite_of_card_eq_four hk
+  have : IsSimpleGroup (projectiveSL 3 (fixedField k σ)) := by
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 3) (fixedField k σ)) :=
       (CFSG.LinearGroups.linear_projective_simple (n := 3) (K := fixedField k σ)
         (by norm_num) (Or.inl (by norm_num))).2.1
     exact (LinearCover.projectiveSpecialLinearEquivProjectiveSL 3
@@ -117,10 +117,10 @@ private theorem wccl_isSimpleGroup_fieldAut {k : Type} [Field k] {σ : k ≃+* k
 
 private theorem wccl_isSimpleGroup_dualAut {k : Type} [Field k] (hk : Nat.card k = 4) :
     IsSimpleGroup (autFixed (dualAut 3 k)) := by
-  haveI : Finite k := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
-  haveI : IsSimpleGroup (CFSG.Open.StatedSp 1 k) := by
-    haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSp 1 k)) :=
+  have : Finite k := LinearFieldFour.finite_of_card_eq_four hk
+  have : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : IsSimpleGroup (CFSG.Open.StatedSp 1 k) := by
+    have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSp 1 k)) :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp k 1 (by norm_num)
         (Or.inl (Or.inr (by omega)))
     have hZsp := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot (n := 1) (K := k)
@@ -134,10 +134,10 @@ private theorem wccl_noNormalTwo {k : Type} [Field k] (hk : Nat.card k = 4) :
     OuterFixedNoNormalTwo (projectiveSL 3 k) := by
   classical
   intro β hβ2 hout E hEp hfix hnorm
-  haveI : Finite k := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (projectiveSL 3 k) :=
+  have : Finite k := LinearFieldFour.finite_of_card_eq_four hk
+  have : CharP k 2 := LinearFieldFour.charP_two_of_card_eq_four hk
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (projectiveSL 3 k) :=
     Finite.of_surjective (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.proj 3 k)
       (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.proj_surjective 3 k)
   have hσ : ∀ a : k, frobeniusEquiv k 2 a = a ^ 2 := fun a => frobeniusEquiv_apply k 2 a
@@ -152,7 +152,7 @@ private theorem wccl_noNormalTwo {k : Type} [Field k] (hk : Nat.card k = 4) :
       set τ : MulAut (projectiveSL 3 k) := fieldAut 3 k (frobeniusEquiv k 2) with hτ
       have hβ : β = conjAut 3 k H * τ * (conjAut 3 k H)⁻¹ := by rw [hτ]; exact hH
       obtain ⟨hFle, hnormF, hmapbot⟩ := wccl_conj_setup hβ hEC hnorm'
-      haveI : IsSimpleGroup (autFixed τ) := by
+      have : IsSimpleGroup (autFixed τ) := by
         rw [hτ]; exact wccl_isSimpleGroup_fieldAut hk hσ
       have hFp : IsPGroup 2 (E.map (conjAut 3 k H).symm.toMonoidHom) :=
         hEp.of_equiv (Subgroup.equivMapOfInjective E
@@ -168,7 +168,7 @@ private theorem wccl_noNormalTwo {k : Type} [Field k] (hk : Nat.card k = 4) :
         set τ : MulAut (projectiveSL 3 k) := dualAut 3 k with hτ
         have hβ : β = conjAut 3 k H * τ * (conjAut 3 k H)⁻¹ := by rw [hτ]; exact hH
         obtain ⟨hFle, hnormF, hmapbot⟩ := wccl_conj_setup hβ hEC hnorm'
-        haveI : IsSimpleGroup (autFixed τ) := by
+        have : IsSimpleGroup (autFixed τ) := by
           rw [hτ]; exact wccl_isSimpleGroup_dualAut hk
         have hFp : IsPGroup 2 (E.map (conjAut 3 k H).symm.toMonoidHom) :=
           hEp.of_equiv (Subgroup.equivMapOfInjective E
@@ -211,8 +211,8 @@ theorem outerFixedNotElem_isL3 {M : Type} [Group M] [Finite M] (h : IsL3 M 2) :
     OuterFixedNotElem M := by
   obtain ⟨K, hK, hfin, hcard, ⟨e⟩⟩ :=
     LinearCover.exists_mulEquiv_projectiveSL_of_lieModel (n := 3) (p := 2) (f := 2) h
-  letI : Field K := hK
-  haveI : Finite K := hfin
+  let : Field K := hK
+  have : Finite K := hfin
   have hk : Nat.card K = 4 := by rw [hcard]; norm_num
   exact outerFixedNotElem_of_mulEquiv e.symm (wccl_notElem hk)
 
@@ -220,8 +220,8 @@ theorem outerFixedNoNormalTwo_isL3 {M : Type} [Group M] [Finite M] (h : IsL3 M 2
     OuterFixedNoNormalTwo M := by
   obtain ⟨K, hK, hfin, hcard, ⟨e⟩⟩ :=
     LinearCover.exists_mulEquiv_projectiveSL_of_lieModel (n := 3) (p := 2) (f := 2) h
-  letI : Field K := hK
-  haveI : Finite K := hfin
+  let : Field K := hK
+  have : Finite K := hfin
   have hk : Nat.card K = 4 := by rw [hcard]; norm_num
   exact outerFixedNoNormalTwo_of_mulEquiv e.symm (wccl_noNormalTwo hk)
 

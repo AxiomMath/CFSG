@@ -58,11 +58,11 @@ structure U42ExtData (L1 L2 S : Subgroup G) : Prop where
   s3s3 : Nonempty (oTwoQuot ↥(L1 ⊔ bigB L1 L2 S) ≃* (Equiv.Perm (Fin 3) × Equiv.Perm (Fin 3)))
 
 theorem isU4ExtTwo_of_u42ExtData [Finite G]
-    {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) (h2 : VA5 L2)
+    {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (_h1 : VS3 L1) (_h2 : VA5 L2)
     (hD : U42ExtData L1 L2 S) :
     IsU4ExtTwo 1 (f112Amalgam L1 L2 S) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hs3 : Nonempty (oTwoQuot ↥L1 ≃* Equiv.Perm (Fin 3)) :=
     isL2Quot_one_iff_perm3.mp hD.b6.1
@@ -81,8 +81,8 @@ theorem isU4ExtTwo_of_u42ExtData [Finite G]
   have hBY : ∀ g : ↥P2h, (g : Ah) ∈ P1h ↔
       ((eY g : Mof (⊤ : Subgroup (Equiv.Perm (Fin 5)))) : Mc) ∈ Bhc := by
     intro g
-    have h1 : (g : Ah) ∈ P1h ↔ (g : Ah) ∈ Bh := ⟨fun h => ⟨h, g.2⟩, fun h => h.1⟩
-    rw [h1, model_Bh_aligned_iff g]
+    have _h1 : (g : Ah) ∈ P1h ↔ (g : Ah) ∈ Bh := ⟨fun h => ⟨h, g.2⟩, fun h => h.1⟩
+    rw [_h1, model_Bh_aligned_iff g]
     change _ ↔ ((eY g : Mof (⊤ : Subgroup (Equiv.Perm (Fin 5)))) : Mc).right 4 = 4
     rw [hY2 g]
   have hTY : ∀ g : ↥P2h, (g : Ah) ∈ That ↔

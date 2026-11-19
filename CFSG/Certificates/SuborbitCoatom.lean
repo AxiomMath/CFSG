@@ -76,7 +76,7 @@ theorem isCoatom_stabilizer_of_suborbits {G X : Type*} [Group G] [Finite G] [Mul
     have h := MulAction.index_stabilizer (G := ↥L) (x := x)
     have e1 : MulAction.stabilizer (↥L) x = K.subgroupOf L := by
       ext g
-      simp [K, Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff, Subgroup.smul_def]
+      simp [K, MulAction.mem_stabilizer_iff, Subgroup.smul_def]
     have e2 : MulAction.orbit (↥L) x = OL := by
       ext y
       simp only [MulAction.mem_orbit_iff, hOL, Set.mem_image, SetLike.mem_coe, Subtype.exists,

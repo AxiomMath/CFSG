@@ -19,7 +19,7 @@ theorem RootDatum.conj_mem_closure_range_u (R : RootDatum K Γ) (g : R.P) {y : �
     obtain ⟨n, rfl⟩ := hx
     rw [← R.u_Ad]
     exact Subgroup.subset_closure ⟨_, rfl⟩
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : (g : Γ) * (x * y) * (g : Γ)⁻¹ = ((g : Γ) * x * (g : Γ)⁻¹) * ((g : Γ) * y * (g : Γ)⁻¹) := by
       group
@@ -80,7 +80,7 @@ theorem d6_u_smul_n1 (t : K) :
     by_cases hδ : δ = (⟨alphaA2, alphaA2_mem⟩ : ↥Psi0)
     · subst hδ
       simp [n1D]
-    · simp [n1D, Pi.single_apply, hδ]
+    · simp [n1D, hδ]
   have h : t • (d6RootDatum K).n₁ = (Pi.single (⟨alphaA2, alphaA2_mem⟩ : ↥Psi0) t : ND K) := h0
   rw [h]
   exact d6_u_single _ t
@@ -89,6 +89,7 @@ theorem d6_finrank_N : Module.finrank K (d6RootDatum K).N = 15 := by
   show Module.finrank K (↥Psi0 → K) = 15
   rw [Module.finrank_fintype_fun_eq_card, Fintype.card_coe, card_Psi0]
 
+omit [CharP K 2] [Finite K] in
 theorem uD_mem_URge_Psi0 (n : ND K) : uD n ∈ URge K Psi0 1 := by
   unfold uD prodX
   refine Subgroup.list_prod_mem _ ?_
@@ -103,6 +104,7 @@ theorem uD_mem_URge_Psi0 (n : ND K) : uD n ∈ URge K Psi0 1 := by
     rw [this]
     exact one_mem _
 
+omit [Finite K] [CharP K 2] in
 theorem closure_range_uΛ :
     Subgroup.closure (Set.range (uΛ : ND K → ↥(LamG K))) = (URge K Psi0 1).subgroupOf (LamG K) := by
   apply le_antisymm
@@ -159,12 +161,14 @@ theorem u_mem_rootRad0 (n : ND K) :
   rw [closure_range_u] at h
   exact h
 
+omit [Finite K] in
 theorem rootSet0_fix_p0 {s : W K ≃ₗ[K] W K} (hs : s ∈ rootSet0 K) : s (p0 K) = p0 K := by
   obtain ⟨γ, hγ, hpr, c, hs⟩ := hs
   have hn1 : ¬ (pr (a0 : Fin e7Data.d) γ = -1) := by rw [hpr]; norm_num
   apply emb_injective
-  rw [hs, p0, emb_single, e7Data_valid.xu_apply, rootOp_single hγ.1, if_neg hn1, smul_zero, add_zero]
+  rw [hs, p0, emb_single, e7Data_valid.xu_apply, rootOp_single hγ.1, ite_eq_right hn1, smul_zero, add_zero]
 
+omit [Finite K] in
 theorem rootRad0_fix_p0 {x : W K ≃ₗ[K] W K} (hx : x ∈ rootRad0 K) : x (p0 K) = p0 K := by
   have hle : rootRad0 K ≤ MulAction.stabilizer (W K ≃ₗ[K] W K) (p0 K) := by
     rw [rootRad0, Subgroup.closure_le]
@@ -174,6 +178,7 @@ theorem rootRad0_fix_p0 {x : W K ≃ₗ[K] W K} (hx : x ∈ rootRad0 K) : x (p0 
   have h := MulAction.mem_stabilizer_iff.1 (hle hx)
   rwa [LinearEquiv.smul_def] at h
 
+omit [CharP K 2] [Finite K] in
 theorem p0_ne_zero : p0 K ≠ 0 := by
   unfold p0
   exact Finsupp.single_ne_zero.2 one_ne_zero

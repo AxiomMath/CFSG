@@ -17,11 +17,11 @@ namespace Prop1310a5
 @[expose] def fixedSub {K : Type} [Group K] (σ : MulAut K) : Subgroup K where
   carrier := {k | σ k = k}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_inv, ha]
 
 @[expose] def Input23_19 : Prop :=

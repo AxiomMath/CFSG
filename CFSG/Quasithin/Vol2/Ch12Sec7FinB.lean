@@ -91,12 +91,12 @@ theorem twoResidual_eq_perfectCore_of_simple (hs : IsSimpleGroup ↥(oTwoUpper (
   refine le_antisymm (le_perfectCore_of_perfect le_top (oTwoUpper_top_perfect hs hnc)) ?_
   obtain ⟨P⟩ := Sylow.nonempty (p := 2) (G := Y)
   have hP : IsSylowIn 2 (P : Subgroup Y) ⊤ :=
-    ⟨le_top, P.isPGroup', by
+    ⟨le_top, P.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact P.not_dvd_index⟩
   have := oTwoUpper_top_normal (Y := Y)
   refine perfectCore_le_of_sup_solvable le_top (Subgroup.Normal.subgroupOf inferInstance _)
-    (oTwoUpper_top_sup_eq_top hP).symm (E1.isSolvable_of_isPGroup_two P.isPGroup')
+    (oTwoUpper_top_sup_eq_top hP).symm (E1.isSolvable_of_isPGroup_two P.isPGroup)
 
 end Quot
 

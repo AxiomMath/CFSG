@@ -13,11 +13,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem b15_S4C_mem_normalizer_centralizer {V : Subgroup G} {x : G}
     (hx : x ∈ normalizer (V : Set G)) : x ∈ normalizer (centralizer (V : Set G) : Set G) := by
   rw [← conjSubgroup_eq_iff_mem_normalizer] at hx ⊢
   rw [E3.conjSubgroup_centralizer, hx]
 
+omit [Finite G] in
 private theorem b15_S4C_commutator_mul_left {z x y : G} (hzx : z * x = x * z)
     (hzy : z * y = y * z) : ⁅z * x, y⁆ = ⁅x, y⁆ := by
   have h1 : Commute z (x * y * x⁻¹) :=
@@ -29,6 +31,7 @@ private theorem b15_S4C_commutator_mul_left {z x y : G} (hzx : z * x = x * z)
   calc z * x * y * (z * x)⁻¹ * y⁻¹ = (z * (x * y * x⁻¹) * z⁻¹) * y⁻¹ := by group
     _ = x * y * x⁻¹ * y⁻¹ := by rw [h2]
 
+omit [Finite G] in
 private theorem b15_S4C_commutator_mul_right {z x y : G} (hzx : z * x = x * z)
     (hzy : z * y = y * z) : ⁅x, z * y⁆ = ⁅x, y⁆ := by
   have h1 : Commute z (x * y * x⁻¹ * y⁻¹) :=
@@ -44,6 +47,7 @@ private theorem b15_S4C_commutator_mul_right {z x y : G} (hzx : z * x = x * z)
           _ = z * (x * y * x⁻¹ * y⁻¹) * z⁻¹ := by group
     _ = x * y * x⁻¹ * y⁻¹ := h2
 
+omit [Finite G] in
 private theorem b15_S4C_conj_mem {D : Subgroup G} {n : G} (hn : n ∈ normalizer (D : Set G))
     {x : G} (hx : x ∈ Subgroup.closure
       ({y | ∃ a ∈ D, y = a * a} ∪ {y | ∃ a ∈ D, ∃ b ∈ D, y = ⁅a, b⁆})) :
@@ -73,6 +77,7 @@ private theorem b15_S4C_conj_mem {D : Subgroup G} {n : G} (hn : n ∈ normalizer
     rw [h1]
     exact Subgroup.inv_mem _ hy
 
+omit [Finite G] in
 private theorem b15_S4C_mem_normalizer_closure {D : Subgroup G} {n : G}
     (hn : n ∈ normalizer (D : Set G)) :
     n ∈ normalizer (Subgroup.closure
@@ -93,7 +98,7 @@ theorem isElemAbelian_tSub15_inf_centralizer
     (hTKC : tSub15 M V₀ V U S ≤ kHull15 V₀ H ⊔ cSub15 M V₀ V U H S)
     (hEV : tSub15 M V₀ V U S ⊓ kHull15 V₀ H ⊓ centralizer (V₀ : Set G) ≤ V₀) :
     IsElemAbelian 2 (tSub15 M V₀ V U S ⊓ centralizer (V : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T := tSub15 M V₀ V U S with hTdef
   set C := cSub15 M V₀ V U H S with hCdef
   set K := kHull15 V₀ H with hKdef

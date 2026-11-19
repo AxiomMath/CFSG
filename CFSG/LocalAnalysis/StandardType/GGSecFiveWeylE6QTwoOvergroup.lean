@@ -38,10 +38,10 @@ private theorem overgroup_case_x2
     (hS : ∀ g ∈ e6Weyl hα, g x2 = x2 → g ∈ H) :
     H = e6Weyl hα ∨ ∀ g ∈ H, g x2 = x2 ∨ g x2 = -x2 := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun a b h => LinearEquiv.ext (by simpa using congrFun h))
-  letI : Fintype V := Fintype.ofFinite V
+  let : Fintype V := Fintype.ofFinite V
   have hx2_ne : x2 ≠ 0 := by
     intro h0
     have hB0 : (B (0 : V)) (0 : V) = (0 : ZMod 3) := by simp
@@ -192,15 +192,15 @@ theorem eq_e6Weyl_or_forall_apply_eq_of_stabilizer_le
     (hS : ∀ g ∈ e6Weyl hα, g x = x → g ∈ H) :
     H = e6Weyl hα ∨ ∀ g ∈ H, g x = x ∨ g x = -x := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun a b h => LinearEquiv.ext (by simpa using congrFun h))
   let x2 : V := h (0 : Fin 6) + 2 • h (1 : Fin 6) + 2 • h (2 : Fin 6) +
     2 • h (4 : Fin 6) + h (5 : Fin 6)
   have hcoord6 : (fun i : Fin 6 => α i x2) = ![0, 1, 0, 0, 0, 0] := by
     funext j
-    simp only [x2, map_add, map_smul]
-    fin_cases j <;> simp [hP, ovgE2] <;> decide +kernel
+    simp only [x2, map_add]
+    fin_cases j <;> simp [hP] <;> decide +kernel
   have hcoord : (e6ModelCoord hP hV x2 : Fin Tag.E6.rank → ZMod 3) = ovgE2 := by
     rw [coord_apply]
     change (fun i : Fin 6 => α i x2) = ovgE2

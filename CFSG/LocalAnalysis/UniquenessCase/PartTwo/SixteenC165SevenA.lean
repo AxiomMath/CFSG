@@ -77,7 +77,7 @@ theorem not_isCyclic_sup_zpowers {G : Type*} [Group G] [Finite G] {p : ℕ} (hp 
 theorem isSylowOf_map_range {M B : Type*} [Group M] [Finite M] [Group B] (φ : M →* B) {q : ℕ}
     (hq : q.Prime) {T : Subgroup M} (hT : IsPGroup q T) (hTi : ¬ q ∣ T.index) :
     IsSylowOf q (T.map φ) φ.range := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let P : Sylow q M := hT.toSylow hTi
   refine ⟨P.mapSurjective φ.rangeRestrict_surjective, ?_⟩
   rw [Sylow.coe_mapSurjective]
@@ -91,7 +91,7 @@ theorem exists_isPGroup_noncyclic_le_normalizer_of_isSylowOf {M B : Type*} [Grou
     {X : Subgroup B} (hXr : X ≤ φ.range) (hXp : IsPGroup p X) (hXc : ¬ IsCyclic X)
     (hXN : X ≤ Subgroup.normalizer (T' : Set B)) :
     ∃ Y : Subgroup M, Y ≤ Subgroup.normalizer (T : Set M) ∧ IsPGroup p Y ∧ ¬ IsCyclic Y := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk, hconj⟩ := (isSylowOf_map_range φ hq hT hTi).exists_mem_conj hT'
   let c : MulAut B := MulAut.conj k⁻¹
   have hc : ∀ x : B, c x = k⁻¹ * x * k := fun x => by simp [c]
@@ -130,8 +130,8 @@ variable {W : Type} [CommGroup W] (S : OmegaModel W)
 
 theorem exists_orderOf_eq_seven_mem_scalarSub (hK : Nat.card S.K = 8) :
     ∃ z ∈ scalarSub S, orderOf z = 7 := by
-  haveI := S.finite_mulAut_carrier
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have := S.finite_mulAut_carrier
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := scalarSub S) 7
     (by rw [card_scalarSub S hK])
   exact ⟨z, z.2, by rw [Subgroup.orderOf_coe, hz]⟩
@@ -141,7 +141,7 @@ theorem exists_isPGroup_noncyclic_le_normalizer_of_seven_pow_three_dvd (hK : Nat
     (hΩr : S.omega ≤ φ.range) (hrN : φ.range ≤ omegaNorm S) (h7 : 7 ^ 3 ∣ Nat.card φ.range)
     {T : Subgroup M} (hT : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index) :
     ∃ Y : Subgroup M, Y ≤ Subgroup.normalizer (T : Set M) ∧ IsPGroup 7 Y ∧ ¬ IsCyclic Y := by
-  haveI := S.finite_mulAut_carrier
+  have := S.finite_mulAut_carrier
   obtain ⟨T', d, -, hT'I, hT'S, hd7, hdN⟩ :=
     exists_isSylowOf_two_normalized_by_seven S hK hΩ hΩr hrN
   obtain ⟨z, hzS, hz7⟩ := exists_orderOf_eq_seven_mem_scalarSub S hK

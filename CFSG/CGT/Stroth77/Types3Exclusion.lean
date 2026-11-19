@@ -193,12 +193,12 @@ theorem not_intertwine_uv_u_type331 (g : Torus Type331.k ≃+ Torus Type331.k) :
     intro i
     fin_cases i <;> simp [Type331.action, SigmaFourAction.ofMatEq, Type331.uvM, Type331.uvA,
       Type331.tM, Type331.ρM, Type331.k, ofCols_apply, Matrix.mulVec, dotProduct,
-      Fin.sum_univ_three, -Matrix.mulVec_mulVec] <;> decide
+      Fin.sum_univ_three, -Matrix.mulVec_mulVec]
   · rw [SigmaFourAction.φuv, matAct_vecZ, neg_vecZ, vecZ_eq_iff]
     intro i
     fin_cases i <;> simp [Type331.action, SigmaFourAction.ofMatEq, Type331.uvM, Type331.uvA,
       Type331.tM, Type331.ρM, Type331.k, ofCols_apply, Matrix.mulVec, dotProduct,
-      Fin.sum_univ_three, -Matrix.mulVec_mulVec] <;> decide
+      Fin.sum_univ_three, -Matrix.mulVec_mulVec]
   · intro z
     rw [← vecZ_add]
     exact vecZ_ne_two_nsmul (j := 1) (h1 1) (by decide) z

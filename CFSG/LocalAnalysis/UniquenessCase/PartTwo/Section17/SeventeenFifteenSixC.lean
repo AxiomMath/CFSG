@@ -34,7 +34,7 @@ theorem s1715six_false_of_central (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 
     (hO₁ : ∀ g : G, g ∉ D.M → ¬ twoResidual H₁ ≤ conjSubgroup D.M g)
     (hO₂ : ∀ g : G, g ∉ D.M → ¬ twoResidual H₂ ≤ conjSubgroup D.M g)
     (hU : UniqueMax D.M (H₁ ⊔ H₂ ⊔ D.T))
-    {t : G} (htV : t ∈ V) (ht1 : t ≠ 1) (htT : ∀ k ∈ D.T, k * t = t * k)
+    {t : G} (htV : t ∈ V) (_ht1 : t ≠ 1) (htT : ∀ k ∈ D.T, k * t = t * k)
     (hCt : centralizer ((zpowers t : Subgroup G) : Set G) ≤ D.M) : False := by
   classical
   have hV : IsElemAbelian 2 V := h.isElemAbelian
@@ -89,8 +89,7 @@ theorem s1715six_false_of_central (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 
       (∀ g : G, g ∉ D.M → ¬ twoResidual H ≤ conjSubgroup D.M g) →
       ¬ H ≤ normalizer (E3.wClos V 0 D.T : Set G) →
       normalizer (E3.wClos V 1 D.T : Set G) ≤ D.M := by
-    intro H hTH hFH hOH hHN
-    intro g hgN
+    intro H hTH hFH hOH hHN g hgN
     by_contra hgM
     have h01 : 0 + 1 < E3.sParam hV := by
       have h1 := s16c167_one_lt_sParam D hx h61 h (by omega)

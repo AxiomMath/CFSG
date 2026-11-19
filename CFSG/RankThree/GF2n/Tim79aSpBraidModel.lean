@@ -76,7 +76,7 @@ theorem tim79a_eq_zero_of_eq_one {R : Type*} [Ring R] {u v : R} (hu2 : u * u = 0
   simpa using h3
 
 theorem tim79a_braid_key [CharP F 2] {a a' : Fin n ⊕ Fin n → F} {s r : F} (ha : a ≠ 0)
-    (hB : spForm a a' ≠ 0) (hs : s ≠ 0) (hr : r * (s * spForm a a' * spForm a a') = 1) :
+    (_hB : spForm a a' ≠ 0) (hs : s ≠ 0) (hr : r * (s * spForm a a' * spForm a a') = 1) :
     (spTrans a s * spTrans a' r) ^ 3 = 1 ∧ spTrans a s * spTrans a' r ≠ 1 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have hadd : ∀ X : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F, X + X = 0 := by
@@ -157,7 +157,7 @@ theorem spBraidModel_holds :
   have hne : s * spForm a a' * spForm a a' ≠ 0 := mul_ne_zero (mul_ne_zero hs0 hB) hB
   obtain ⟨t₀, ht₀⟩ := hT'.2 (s * spForm a a' * spForm a a')⁻¹
   refine ⟨t₀, (hT'.1 t₀).2 ⟨_, ht₀⟩, ?_⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hr : (s * spForm a a' * spForm a a')⁻¹ * (s * spForm a a' * spForm a a') = 1 :=
     inv_mul_cancel₀ hne
   obtain ⟨hcube, hne1⟩ := tim79a_braid_key ha hB hs0 hr

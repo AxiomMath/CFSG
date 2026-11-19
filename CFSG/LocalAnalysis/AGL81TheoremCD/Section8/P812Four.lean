@@ -35,7 +35,7 @@ theorem commutator_subgroupOf_le_pPrimeCore {X : Type*} [Group X] [Finite X] {p 
   exact (Subgroup.map_le_map_iff_of_injective M.subtype_injective).mp h
 
 theorem not_isPSolvable_inf_centralizer_of_subgroupOf {X : Type} [Group X] [Finite X]
-    {p : ℕ} [Fact p.Prime] {M K B : Subgroup X} (hKM : K ≤ M) (hBM : B ≤ M)
+    {p : ℕ} [Fact p.Prime] {M K B : Subgroup X} (_hKM : K ≤ M) (hBM : B ≤ M)
     (h : ¬ CFSG.HallHigman.IsPSolvable p
       ↥(K.subgroupOf M ⊓ Subgroup.centralizer ((B.subgroupOf M : Subgroup M) : Set M))) :
     ¬ CFSG.HallHigman.IsPSolvable p ↥(M ⊓ Subgroup.centralizer (B : Set X)) := by
@@ -112,7 +112,7 @@ private theorem dvd_card_inf_centralizer_of_isPComponent (h : P812Hyp G M p L₁
     (hcomm : ⁅B, K⁆ ≤ (CFSG.pPrimeCore p ↥K).map K.subtype)
     (hcop : ¬ q ∣ Nat.card (CFSG.pPrimeCore p ↥K)) :
     p ∣ Nat.card ↥(K ⊓ Subgroup.centralizer (B : Set ↥M)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   refine CFSG.GroupTheory.dvd_card_of_covers h.prime hK inf_le_left ?_
   intro b hb
   have hcop' : Nat.Coprime q (Nat.card (((CFSG.pPrimeCore p ↥K).map K.subtype :
@@ -133,7 +133,7 @@ private theorem exists_order_p_mem_inf_centralizer_of_commutator_le (h : P812Hyp
     (h₁ : ⁅A₀, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype) :
     ∃ x ∈ L₁.subgroupOf M ⊓
       Subgroup.centralizer ((A₀.subgroupOf M : Subgroup M) : Set M), orderOf x = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hcardM : Nat.card (A₀.subgroupOf M) = 3 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA₀).toEquiv).trans hA3
   have hB : IsPGroup 3 (A₀.subgroupOf M) :=
@@ -161,8 +161,8 @@ private theorem exists_order_p_mem_inf_centralizer_sup (h : P812Hyp G M p L₁ L
     (hx₁ord : orderOf x₁ = p) :
     ∃ x₂ ∈ L₂.subgroupOf M ⊓ Subgroup.centralizer
       (((Subgroup.zpowers x₁ ⊔ A₀.subgroupOf M : Subgroup ↥M)) : Set ↥M), orderOf x₂ = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup ↥M := L₂.subgroupOf M
   let B₁ : Subgroup ↥M := Subgroup.zpowers x₁
   let B₂ : Subgroup ↥M := A₀.subgroupOf M
@@ -216,7 +216,7 @@ private theorem two_le_pRank_inf_centralizer_of_commutator_le (h : P812Hyp G M p
     (h₁ : ⁅A₀, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype)
     (h₂ : ⁅A₀, L₂⁆ ≤ (CFSG.pPrimeCore p ↥L₂).map L₂.subtype) :
     2 ≤ CFSG.Open.pRank p (M ⊓ Subgroup.centralizer (A₀ : Set G)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨x₁, hx₁, hx₁ord⟩ :=
     exists_order_p_mem_inf_centralizer_of_commutator_le h hSch hA₀ hA3 h₁
   obtain ⟨x₂, hx₂, hx₂ord⟩ :=
@@ -260,7 +260,7 @@ theorem normalizer_le_of_le₁ (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M) {A : Subgroup G}
     (hA : A ≤ L₁) (hA3 : Nat.card A = 3) :
     Subgroup.normalizer (A : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hAM : A ≤ M := hA.trans h.le₁
   have hK :=
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.distinct_p_components_core_commutation
@@ -287,7 +287,7 @@ theorem normalizer_le_of_le₂ (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M) {A : Subgroup G}
     (hA : A ≤ L₂) (hA3 : Nat.card A = 3) :
     Subgroup.normalizer (A : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hAM : A ≤ M := hA.trans h.le₂
   have hK :=
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.distinct_p_components_core_commutation
@@ -318,7 +318,7 @@ theorem normalizer_le_of_commutator_le (h : P812Hyp G M p L₁ L₂)
     (h₁ : ⁅A₀, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype)
     (h₂ : ⁅A₀, L₂⁆ ≤ (CFSG.pPrimeCore p ↥L₂).map L₂.subtype) :
     Subgroup.normalizer (A₀ : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hcardM : Nat.card (A₀.subgroupOf M) = 3 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA₀).toEquiv).trans hA3
   have hB : IsPGroup 3 (A₀.subgroupOf M) :=

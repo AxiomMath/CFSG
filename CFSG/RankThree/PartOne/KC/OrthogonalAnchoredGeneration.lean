@@ -115,8 +115,8 @@ theorem orthDerived_eq_iSup_anchored_supportedDerived_of_anchor
   have hHorth : H ≤ TauCeti.QuadraticMap.orthogonalGroup Q :=
     hHle.trans (orthDerived_le_orthogonalGroup_of_commutator Q)
   let ι := {j : Fin m // j ≠ o}
-  haveI : Nonempty ι := by
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nonempty ι := by
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
     obtain ⟨j, hj⟩ := exists_ne o
     exact ⟨⟨j, hj⟩⟩
   have hP0 : OrthSep Q (W ⊔ U o) (⊥ : Submodule K V) := by
@@ -211,6 +211,7 @@ section SingletonTools
 variable {K V : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {P : HypPair Q} {U : Submodule K V}
 
+omit [FiniteDimensional K V] in
 theorem mem_span_e_of_singular_of_polar_e_eq_zero
     (hU : ∀ u ∈ U, Q u = 0 → u = 0) (hPU : ∀ u ∈ U, polar Q P.e u = 0)
     {x : V} (hx : x ∈ Submodule.span K {P.e, P.f} ⊔ U) (hQx : Q x = 0)
@@ -283,14 +284,14 @@ variable {K : Type} [Field K] {X : Type} [AddCommGroup X] [Module K X]
   [FiniteDimensional K X] {R : QuadraticForm K X}
 
 theorem eichler_mem_orthDerived_of_regular_four (hR : (polarBilin R).Nondegenerate)
-    (hdim : finrank K X = 4)
+    (_hdim : finrank K X = 4)
     (hno : ¬ ∃ T : Submodule K X, finrank K T = 2 ∧ ∀ t ∈ T, R t = 0)
     {e w : X} (he : R e = 0) (hew : polar R e w = 0) :
     eichler R e w ∈ orthDerived R := by
   by_cases hc : ∃ c : K, c ≠ 0 ∧ c ≠ 1
   · obtain ⟨c, hc0, hc1⟩ := hc
     exact CFSG.SeitzReduction.OmegaPilot.eichler_mem_orthDerived_of_ne_zero_ne_one hR hc0 hc1 e w
-  · haveI : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  · have : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
       ⟨fun c => by
         by_cases h0 : c = 0
         · exact Or.inl h0
@@ -434,7 +435,7 @@ theorem orthDerived_eq_iSup_supportedDerived_of_hypPair
     intro i e he w hw
     rw [bot_sup_eq] at he hw
     exact hEich i e he w hw
-  haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
   have hrootE : IsRootCenter Q H P.e :=
     isRootCenter_of_pieces (H := H) (V₀ := ⊥) (P := W) (R := U) hP0 hPR hspan' hEich'
       heW P.e_ne_zero P.Q_e

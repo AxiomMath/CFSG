@@ -21,7 +21,7 @@ theorem relativeUAt_of_uhered (hCU : CatalogueU.CatalogAlmostSimpleUnbalancedOut
   obtain ⟨z, hz2, hzc⟩ := hz
   let e : GeneralizedFitting.subgroup X ≃* X :=
     (MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv
-  haveI := hXs
+  have := hXs
   refine hfail ?_
   rcases hX X (IsSectionOf.refl X) hXnab hK z hz2 hzc with
     ⟨t, n, p, f, hp, hp2, hadm, hmodel⟩ | ⟨n, hn7, hn3, ⟨θ⟩⟩

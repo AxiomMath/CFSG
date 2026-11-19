@@ -20,7 +20,7 @@ local notation "P45" => Equiv.Perm (Fin 45)
 
 theorem xI_spec {j : ℕ} (hj : j < 43) :
     PRep 45 6 (iE j) (xI j) ∧ xI j ∈ T0g ∧ xI j * xI j = 1 ∧ xI j ≠ 1 := by
-  rw [xI, dif_pos hj]
+  rw [xI, dite_eq_left hj]
   exact Classical.choose_spec (prep_iE hj)
 
 set_option exponentiation.threshold 300 in

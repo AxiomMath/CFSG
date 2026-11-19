@@ -30,7 +30,7 @@ theorem rhoL_eq_one_of_mem {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K ∈ 
 
 theorem rhoL_ne_one_of_mem {L : Subgroup G} (hZ : center (Bar2 L) = ⊥) {a : G} (haL : a ∈ L)
     (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) : UC6S846.rhoL L ⟨a, le_normalizer haL⟩ ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [UC6S846.rhoL_inner L a haL]
   intro h
   have hc : (QuotientGroup.mk (⟨a, haL⟩ : ↥L) : Bar2 L) ∈ center (Bar2 L) := by
@@ -47,7 +47,7 @@ theorem rhoL_ne_one_of_mem {L : Subgroup G} (hZ : center (Bar2 L) = ⊥) {a : G}
 theorem le_centralizer_of_pRank_eq_one {L S A : Subgroup G} (hr : CFSG.Open.pRank 3 L = 1)
     (hSp : IsPGroup 3 S) (hSL : S ≤ normalizer (L : Set G)) (hA : A ≤ S ⊓ L)
     (hA3 : Nat.card A = 3) : A ≤ centralizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro a ha
   by_cases ha1 : a = 1
   · exact ha1 ▸ one_mem _
@@ -58,6 +58,7 @@ theorem le_centralizer_of_pRank_eq_one {L S A : Subgroup G} (hr : CFSG.Open.pRan
     (R8107Shape.isCyclic_of_isPGroup_of_pRank_eq_one hr inf_le_right hSp.to_inf_left)
     (hA ha).1 (hA ha).2 (orderOf_eq_prime ha3 ha1)
 
+omit [Finite G] in
 private theorem mem_map_comap_iff {L : Subgroup G} (Q : Subgroup (MulAut (Bar2 L))) {x : G}
     (hx : x ∈ normalizer (L : Set G)) :
     x ∈ (Q.comap (UC6S846.rhoL L)).map (normalizer (L : Set G)).subtype ↔
@@ -93,14 +94,14 @@ private theorem rhoL_commutator_eq_one {L S : Subgroup G} (hr : CFSG.Open.pRank 
 private theorem exists_orderOf_eq_three_mem_centralizer {S E : Subgroup G} (hS : IsPGroup 3 S)
     (hES : E ≤ S) (hSE : S ≤ normalizer (E : Set G)) (hE : E ≠ ⊥) :
     ∃ z ∈ E, orderOf z = 3 ∧ z ∈ centralizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent S := hS.isNilpotent
-  haveI : (E.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff hES).2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent S := hS.isNilpotent
+  have : (E.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff hES).2
     fun a b ha hb => (mem_normalizer_iff.1 (hSE hb) a).1 ha
   have hne : E.subgroupOf S ≠ ⊥ := fun h0 =>
     hE (by rw [← Subgroup.map_subgroupOf_eq_of_le hES, h0, Subgroup.map_bot])
   set D := E.subgroupOf S ⊓ center S with hD
-  haveI : Nontrivial D :=
+  have : Nontrivial D :=
     (Subgroup.nontrivial_iff_ne_bot D).2 (Group.IsNilpotent.inf_center_ne_bot_of_normal hne)
   obtain ⟨n, hn, hcard⟩ := ((hS.to_subgroup D).nontrivial_iff_card).1 inferInstance
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3
@@ -125,6 +126,7 @@ private theorem exists_eq_zpowers_of_card_three {A : Subgroup G} (hA3 : Nat.card
   rw [← hA3]
   exact (orderOf_dvd_iff_pow_eq_one).mp (Subgroup.orderOf_dvd_natCard A ha)
 
+omit [Finite G] in
 private theorem conj_mem_map_comap_bot {L : Subgroup G} {g x : G}
     (hg : g ∈ normalizer (L : Set G))
     (hx : x ∈ ((⊥ : Subgroup (MulAut (Bar2 L))).comap (UC6S846.rhoL L)).map
@@ -150,7 +152,7 @@ theorem omega_eq_of_outer {M L₁ L₂ S A₁ A₂ : Subgroup G} {a₀ : G}
     (hout : ¬ IsInnerAut (UC6S846.rhoL L₁ ⟨a₀, hS₁ ha₀⟩)) :
     IsElemAbelian 3 (A₁ ⊔ A₂ ⊔ zpowers a₀) ∧ Nat.card ↥(A₁ ⊔ A₂ ⊔ zpowers a₀) = 3 ^ 3 ∧
       ∀ s ∈ S, s ^ 3 = 1 → s ∈ A₁ ⊔ A₂ ⊔ zpowers a₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSp : IsPGroup 3 S := hS.isPGroup
   obtain ⟨a₂, rfl, ha₂3, ha₂1⟩ := exists_eq_zpowers_of_card_three hA₂3
   have hc₁ := le_centralizer_of_pRank_eq_one hr₁ hSp hS₁ hA₁ hA₁3

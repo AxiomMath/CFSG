@@ -80,7 +80,7 @@ theorem mem_sylow_mul_centralizer_of_fix_omega (hp2 : p ≠ 2) (S : Sylow p K) {
     exact ocNormAux_zpow_conj_eq_of_fix (S : Subgroup K) hc hfix kv w hw hwp
   have hvAut : (S : Subgroup K).normalizerMonoidHom ⟨v, hvN⟩ = 1 := by
     refine CFSG.HardMathSupport.Timmesfeld.ComponentBalance.mulAut_eq_one_of_coprime_of_fix_omega
-      hp2 S.isPGroup' ?_ ?_
+      hp2 S.isPGroup ?_ ?_
     · rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd Fact.out]
       intro hdvd
       have hdvd' : p ∣ orderOf v :=
@@ -115,7 +115,7 @@ theorem mem_sylow_mul_centralizer_of_fix_omega (hp2 : p ≠ 2) (S : Sylow p K) {
     rw [Nat.card_zpowers, show u = TauCeti.pPart p c from hu_def,
       TauCeti.orderOf_pPart Fact.out (orderOf_pos c).ne']
   have hsup : IsPGroup p ↥((S : Subgroup K) ⊔ Subgroup.zpowers u) :=
-    IsPGroup.to_sup_of_normal_left' S.isPGroup' hupow (Subgroup.zpowers_le.mpr huN)
+    IsPGroup.to_sup_of_normal_left' S.isPGroup hupow (Subgroup.zpowers_le.mpr huN)
   have hSeq : (S : Subgroup K) ⊔ Subgroup.zpowers u = (S : Subgroup K) :=
     S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have huS : u ∈ (S : Subgroup K) := by
@@ -219,7 +219,7 @@ theorem exists_normalizer_involution_of_omega (hp2 : p ≠ 2) (S : Sylow p K)
       rw [one_pow]
     rw [hpow, map_one]
   have hspow : ∃ k, orderOf s = p ^ k := by
-    have h := (IsPGroup.iff_orderOf (G := ↥(S : Subgroup K))).mp S.isPGroup' ⟨s, hsS⟩
+    have h := (IsPGroup.iff_orderOf (G := ↥(S : Subgroup K))).mp S.isPGroup ⟨s, hsS⟩
     obtain ⟨k, hk⟩ := h
     exact ⟨k, by rwa [Subgroup.orderOf_mk] at hk⟩
   obtain ⟨k, hk⟩ := hspow

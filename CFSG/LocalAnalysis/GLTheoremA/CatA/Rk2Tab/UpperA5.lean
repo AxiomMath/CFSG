@@ -36,8 +36,8 @@ theorem rkLin_SL6_four_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
       have h' : 6 / 2 = 3 := by norm_num
       omega
     unfold rkLin
-    simp only [if_true]
-    rw [if_neg hep]
+    simp only [ite_true]
+    rw [ite_eq_right hep]
     omega
 
 section

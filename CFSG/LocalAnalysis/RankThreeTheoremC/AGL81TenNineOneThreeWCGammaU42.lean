@@ -33,9 +33,9 @@ theorem kFactTenNineWCGammaU42 :
         GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y →
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ ⟨e⟩ S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZV : ∀ k : V0, (∀ x : V0, k * x = x * k) → k = 1 := by
-    haveI := isSimpleGroup_V0
+    have := isSimpleGroup_V0
     have hc : Subgroup.center V0 = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center V0) with h | h
       · exact h

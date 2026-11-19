@@ -33,7 +33,7 @@ theorem sylow_center_le_commutator {Y : Type*} [Group Y] [Finite Y] (hY : Group.
     have := Subgroup.mem_map_of_mem (P : Subgroup Y).subtype hker
     rw [commutator_def, Subgroup.map_commutator] at this
     rwa [← MonoidHom.range_eq_map, Subgroup.range_subtype] at this
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨u, huP⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨u, huP⟩
   have hk' : orderOf u = 2 ^ k := (Subgroup.orderOf_coe (⟨u, huP⟩ : ↥(P : Subgroup Y))).trans hk
   rcases Nat.eq_zero_or_pos k with hk0 | hkpos
   · subst hk0

@@ -75,7 +75,7 @@ theorem exists_sylow_le (hF : Nat.card F = (3 ^ 1) ^ 2) (hσ : ∀ c, σ₀ (σ�
     ∃ P : Sylow 3 (SU σ₀ (m + 2)), (P : Subgroup (SU σ₀ (m + 2))) ≤
       radical σ₀ hσ ⊔ (S' : Subgroup (SU σ₀ m)).map iotaHom := by
   have hQp : IsPGroup 3 (radical σ₀ hσ (m := m)) := IsPGroup.of_card (card_radical_three hF hσ)
-  have hSp : IsPGroup 3 ((S' : Subgroup (SU σ₀ m)).map iotaHom) := S'.isPGroup'.map _
+  have hSp : IsPGroup 3 ((S' : Subgroup (SU σ₀ m)).map iotaHom) := S'.isPGroup.map _
   have hN : (S' : Subgroup (SU σ₀ m)).map iotaHom ≤
       Subgroup.normalizer ((radical σ₀ hσ : Subgroup (SU σ₀ (m + 2))) : Set (SU σ₀ (m + 2))) :=
     (Subgroup.map_le_range _ _).trans (range_iotaHom_le_levi.trans levi_le_normalizer_radical)

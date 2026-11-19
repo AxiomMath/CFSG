@@ -93,13 +93,13 @@ theorem layerCentreSeven_adjointGroup
 theorem lieZRow_of_untwistedChevalleyModel_F4_two
     {G : Type} [Group G] (hG : UntwistedChevalleyModel G .F4 2) : LieZRow G := by
   obtain ⟨K, hField, hFinite, hcard, ⟨e⟩⟩ := hG
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     apply charP_of_card_eq_prime_pow (p := 2) (f := 1)
     rw [pow_one, ← Nat.card_eq_fintype_card]
     exact hcard
-  haveI : Finite (ModGL Tag.F4 K) := finite_modGL
+  have : Finite (ModGL Tag.F4 K) := finite_modGL
   have hZ : Subgroup.center ↥(adjointGroup .F4 K) = ⊥ := center_adjointGroup_eq_bot
   have heq : AdjointQuotient .F4 K ≃* ↥(adjointGroup .F4 K) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -133,13 +133,13 @@ theorem layerCentreSeven_graphFixedE6
 theorem lieZRow_of_twistedChevalleyModel_E6_two
     {G : Type} [Group G] (hG : TwistedChevalleyModel G .E6 2) : LieZRow G := by
   obtain ⟨K, hField, hFinite, hcard, σ, hσc, ⟨e⟩⟩ := hG
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     apply charP_of_card_eq_prime_pow (p := 2) (f := TwistTag.E6.order)
     rw [← Nat.card_eq_fintype_card]
     exact hcard
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hcard' : Fintype.card K = 2 ^ TwistTag.E6.order := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -158,13 +158,13 @@ theorem lieZRow_of_twistedChevalleyModel_E6_two
 theorem lieZRow_of_twistedChevalleyModel_D4_two
     {G : Type} [Group G] (hG : TwistedChevalleyModel G .D4 2) : LieZRow G := by
   obtain ⟨K, hField, hFinite, hcard, σ, hσc, ⟨e⟩⟩ := hG
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     apply charP_of_card_eq_prime_pow (p := 2) (f := TwistTag.D4.order)
     rw [← Nat.card_eq_fintype_card]
     exact hcard
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hcard' : Fintype.card K = 2 ^ TwistTag.D4.order := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard

@@ -14,7 +14,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 theorem asc82FactRankK5_of_struct : Asc82FactRankK5 := by
   intro G _ _ K1 K2 hcomm _ e1 e2 E hE
   obtain ⟨hEc, hE2⟩ := hE
-  haveI : IsMulCommutative E := hEc
+  have : IsMulCommutative E := hEc
   refine (K5.sl23Pair_of_commuting K1 K2 hcomm e1 e2).rank_le_sixteen E ?_ ?_
   · intro e he f hf
     exact setLike_mul_comm he hf

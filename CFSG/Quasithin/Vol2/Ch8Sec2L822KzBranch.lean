@@ -56,8 +56,8 @@ theorem not_two_dvd_relIndex_kz2 [Finite G] {Gz T K : Subgroup G} (hT : IsSylowT
     exact dvd_mul_right _ _
   have hodd : ¬ 2 ∣ T.relIndex Gz := hT.2.2
   have hiso : K.relIndex T = K.relIndex (T ⊔ K) := by
-    letI := Subgroup.normal_subgroupOf_of_le_normalizer hTK
-    letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTK
+    let := Subgroup.normal_subgroupOf_of_le_normalizer hTK
+    let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTK
     exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient T K hTK).toEquiv
   have hA := Subgroup.relIndex_mul_card (H := T) (K := K)
   have hB := Subgroup.relIndex_mul_card (H := K) (K := T)
@@ -143,7 +143,7 @@ theorem false_of_m11_K_kz2 [Finite G] (hM : M11Sub144O2_kz)
     (hXH : X ≤ H) (hXK : X ≤ K) (hPX : P ≤ X) (hP3 : IsPGroup 3 P) (hPc : Nat.card P = 9)
     (hKM : Nonempty (↥K ⧸ CFSG.pCore 2 ↥K ≃* CFSG.Blueprint.NativeSporadic.Carrier .M11)) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH72 : (pCoreOf 2 H).relIndex H = 72 := by
     rw [Subgroup.relIndex, ← hφk, Subgroup.index_ker, MonoidHom.range_eq_top.mpr hφs, Subgroup.card_top,
       S3Wr_card]

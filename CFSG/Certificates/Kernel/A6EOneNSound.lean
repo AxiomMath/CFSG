@@ -68,7 +68,7 @@ theorem laneN_eq (x j : Nat) : laneN x j = (dec x).getD j 0 := by
   unfold laneN
   by_cases h : j < 10
   · have hb : Nat.blt j 10 = true := by simpa using h
-    simp only [hb, cond_true, h, if_true]
+    simp only [hb, _root_.Bool.cond_true, h, ite_true]
     change x >>> (4 * j) % 16 = x / 16 ^ j % 16
     rw [Nat.shiftRight_eq_div_pow, Nat.pow_mul]
   · have hb : Nat.blt j 10 = false := by
@@ -129,7 +129,7 @@ theorem getD_map_comm {α β : Type} (f : α → β) (L : List α) (i : Nat) (d 
     f (L.getD i d) = (L.map f).getD i (f d) := by
   induction L generalizing i with
   | nil => rfl
-  | cons a L ih => cases i <;> simp [ih]
+  | cons a L ih => cases i <;> simp
 
 theorem pslN_dec : pslN.map dec = pslLit := by decide +kernel
 
@@ -175,13 +175,13 @@ theorem dc_eq_DofT (T : Nat → Nat) (h : autL = (List.range 1440).map fun n => 
   rw [h]
   by_cases hn : n < 1440
   · have hb : Nat.blt n 1440 = true := by simpa using hn
-    rw [hb, cond_true, List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range hn]
+    rw [hb, _root_.Bool.cond_true, List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range hn]
     rfl
   · have hb : Nat.blt n 1440 = false := by
       cases hh : Nat.blt n 1440
       · rfl
       · exact absurd (by simpa using hh) hn
-    rw [hb, cond_false, dec_cidN, List.getD_eq_getElem?_getD, List.getElem?_eq_none]
+    rw [hb, Bool.cond_false, dec_cidN, List.getD_eq_getElem?_getD, List.getElem?_eq_none]
     · rfl
     · simp; omega
 

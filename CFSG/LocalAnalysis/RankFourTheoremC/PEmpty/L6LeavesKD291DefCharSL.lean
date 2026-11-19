@@ -77,10 +77,10 @@ end SL
 theorem rankThreeCent_psl {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ n) {G : Type} [Group G]
     [Finite G] (h : StatedClassicalModel G .PSL n p f) : RankThreeCent p G := by
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  let := hKf
+  let := hKfin
+  have : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   let H : Subgroup (GL (Fin n) K) := StatedSL n K
   let π : ↥H →* G :=
     e.symm.toMonoidHom.comp (QuotientGroup.mk' ((StatedScalars (Fin n) K).subgroupOf H))
@@ -110,7 +110,7 @@ theorem rankThreeCent_psl {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ n) {G : 
   have hb₀1 : slElem n K i0 jm1 h0m 1 ≠ 1 := by
     intro h
     have h1 := hentry i0 jm1 h0m i0 jm1
-    rw [h, map_one, sub_self, if_pos ⟨rfl, rfl⟩] at h1
+    rw [h, map_one, sub_self, ite_eq_left ⟨rfl, rfl⟩] at h1
     exact zero_ne_one h1
   refine rankThreeCent_of_corner (ρ := matrixHom H) (pos := finPos n) (matrixHom_injective H) hk
     (fun a b => by simp only [finPos]; have := b.2; omega) π hπ hπinj
@@ -125,13 +125,13 @@ theorem rankThreeCent_psl {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ n) {G : 
       exact this)
     hb₀1 (a₁ := i0) (b₁ := jm2) (a₂ := i1) (b₂ := jm1) (by simp [finPos, i0, jm2])
     (by simp [finPos, i1, jm1]; omega) ?_ ?_ ?_ ?_
-  · rw [hentry, if_pos ⟨rfl, rfl⟩]
-  · rw [hentry, if_neg]
+  · rw [hentry, ite_eq_left ⟨rfl, rfl⟩]
+  · rw [hentry, ite_eq_right]
     rintro ⟨h, -⟩
     simp [i0, i1, Fin.ext_iff] at h
-  · rw [hentry, if_neg]
+  · rw [hentry, ite_eq_right]
     rintro ⟨h, -⟩
     simp [i0, i1, Fin.ext_iff] at h
-  · rw [hentry, if_pos ⟨rfl, rfl⟩]
+  · rw [hentry, ite_eq_left ⟨rfl, rfl⟩]
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291DC

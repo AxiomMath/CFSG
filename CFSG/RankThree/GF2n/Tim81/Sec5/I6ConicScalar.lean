@@ -13,6 +13,7 @@ open scoped MatrixGroups commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V H : Subgroup G}
 
+omit [Finite G] in
 theorem subW_iSup {ι : Type*}
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -115,12 +116,12 @@ theorem le_of_inf_ne_bot (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
     (hne : C ⊓ (⨆ A ∈ 𝒯, A) ≠ ⊥) : C ≤ ⨆ A ∈ 𝒯, A := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  haveI hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
+  have hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)) :=
     moduleOfElemAbelian hW
   have horth : Sec2.IsOrthModule hl (repW (hW := hW) ψ) :=
     IsOrthModule.repW_of_subRepW hW ψ hl (hw.orth_subRepW hW)

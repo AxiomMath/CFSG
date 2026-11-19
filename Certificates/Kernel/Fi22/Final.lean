@@ -80,7 +80,7 @@ theorem ker_card : 12 ≤ Nat.card piX.ker := by
             Multiplicative.ofAdd (ev10 2) ^ a.2.2.val := by
         simp only [ofAdd_add, ofAdd_nsmul]
       rw [e, map_mul, map_mul, map_pow, map_pow, map_pow]
-      simp only [y, map_mul, map_pow, (hl 0).2, (hl 1).2, (hl 2).2]
+      simp only [map_mul, map_pow, (hl 0).2, (hl 1).2, (hl 2).2]
   have hy2 : ∀ a, (y a).2 = 1 := by
     intro a
     have := (th_parts (hy a).2).2.2
@@ -88,9 +88,6 @@ theorem ker_card : 12 ≤ Nat.card piX.ker := by
     rw [this]
     rw [show (1 : Multiplicative (Fin 7 → ℤ)) = Multiplicative.ofAdd 0 from rfl]
     congr 1
-    all_goals
-      funext q
-      simp [ev10, Fin.ext_iff]
   have hker : ∀ a, (y a).1 ∈ piX.ker := by
     intro a
     have := (hy a).1

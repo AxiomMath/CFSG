@@ -26,7 +26,7 @@ theorem rckPOmegaMinus_false_of_le_one
   have hJK : J ≤ φ.range := by
     rw [hφr]
     exact hJ.1.trans inf_le_left
-  haveI : IsMulCommutative ↥J := ⟨⟨fun a b => by
+  have : IsMulCommutative ↥J := ⟨⟨fun a b => by
     obtain ⟨x, hx⟩ := hJK a.2
     obtain ⟨y, hy⟩ := hJK b.2
     apply Subtype.ext
@@ -34,7 +34,7 @@ theorem rckPOmegaMinus_false_of_le_one
     rw [← hx, ← hy, ← map_mul, ← map_mul]
     exact congrArg φ (hcomm x y)⟩⟩
   have hcenter : Subgroup.center ↥J = ⊤ := Subgroup.center_eq_top
-  haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
+  have : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
     rw [hcenter]
     exact QuotientGroup.subsingleton_quotient_top
   exact (not_subsingleton_iff_nontrivial (α := ↥J ⧸ Subgroup.center ↥J)).mpr

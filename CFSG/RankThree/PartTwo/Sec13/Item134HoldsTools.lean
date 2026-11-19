@@ -209,7 +209,7 @@ theorem oThreeWStar_eq_of_normal {T : Subgroup (MulAut A)} (hTsyl : IsSylowOf 3 
     ⟨fun x hx g => Subgroup.mem_subgroupOf.mpr (hTn g g.2 x (Subgroup.mem_subgroupOf.mp hx))⟩
   have hp : IsPGroup 3 (T.subgroupOf (wStar A)) := by
     rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   have hle2 : T.subgroupOf (wStar A) ≤ CFSG.pCore 3 (wStar A) := le_sSup ⟨hnorm, hp⟩
   rw [oThreeWStar, le_antisymm hle1 hle2, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTW]
 

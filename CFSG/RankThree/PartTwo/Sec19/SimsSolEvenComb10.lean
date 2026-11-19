@@ -27,8 +27,8 @@ theorem vecWt_indV (I : Finset (Fin n)) : vecWt (indV I) = I.card := by
 theorem indV_compl (I : Finset (Fin n)) : indV Iᶜ = indV I + allOnes n := by
   funext i
   by_cases h : i ∈ I
-  · simp only [indV, allOnes, Pi.add_apply, Finset.mem_compl, h, not_true_eq_false, if_false,
-      if_true]
+  · simp only [indV, allOnes, Pi.add_apply, Finset.mem_compl, h, not_true_eq_false, ite_false,
+      ite_true]
     decide
   · simp [indV, allOnes, h]
 
@@ -67,7 +67,7 @@ theorem barVec_add_of_disjoint {I J : Finset (Fin n)} (h : Disjoint I J) :
 
 theorem indV_sub_apply_eq_zero_iff (I J : Finset (Fin n)) (k : Fin n) :
     (indV I - indV J) k = 0 ↔ (k ∈ I ↔ k ∈ J) := by
-  by_cases h1 : k ∈ I <;> by_cases h2 : k ∈ J <;> simp [indV, h1, h2] <;> decide
+  by_cases h1 : k ∈ I <;> by_cases h2 : k ∈ J <;> simp [indV, h1, h2]
 
 theorem barVec_eq_barVec_iff {I J : Finset (Fin n)} : barVec I = barVec J ↔ I = J ∨ I = Jᶜ := by
   unfold barVec
@@ -151,7 +151,7 @@ theorem card_barLen {l : ℕ} (hl : 2 * l < n) :
 open scoped Pointwise in
 theorem exists_alt_map_eq (hn : 3 ≤ n) {I J : Finset (Fin n)} (h : I.card = J.card) :
     ∃ σ ∈ alternatingGroup (Fin n), I.map σ.toEmbedding = J := by
-  haveI : MulAction.IsPretransitive (alternatingGroup (Fin n))
+  have : MulAction.IsPretransitive (alternatingGroup (Fin n))
       (Set.powersetCard (Fin n) I.card) :=
     Set.powersetCard.isPretransitive_alternatingGroup (by simpa using hn)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin n))
@@ -251,7 +251,7 @@ theorem card_pairs_fixed_swap {i j : Fin n} (hij : i ≠ j) :
     intro h
     have := (Finset.mem_powersetCard.1 h).1 (show i ∈ ({i, j} : Finset (Fin n)) by simp)
     simp at this
-  rw [hS, Finset.card_insert_of_notMem hnot, Finset.card_powersetCard, Finset.card_univ_diff,
+  rw [hS, Finset.card_insert_of_notMem hnot, Finset.card_powersetCard, Finset.card_univ_sdiff,
     Finset.card_pair hij, Fintype.card_fin]
   exact add_comm _ _
 
@@ -467,7 +467,7 @@ theorem mem_range_heartToBar_iff (hn : Even n) (v : permBar n) :
 theorem barPar_barVec (hn : Even n) (I : Finset (Fin n)) :
     barPar hn (barVec I) = (I.card : ZMod 2) := by
   show ∑ i, indV I i = _
-  simp [indV, Finset.sum_boole]
+  simp [indV]
 
 theorem barVec_mem_range_heartToBar (hn : Even n) {I : Finset (Fin n)} (hI : Even I.card) :
     barVec I ∈ (heartToBar : altHeart n →+ permBar n).range := by
@@ -478,7 +478,7 @@ theorem card_permBar (hn : 0 < n) : Nat.card (permBar n) = 2 ^ (n - 1) := by
   have h1 := AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup
     (AddSubgroup.zmultiples (allOnes n))
   have h2 : Nat.card (Fin n → ZMod 2) = 2 ^ n := by
-    simp [Nat.card_fun]
+    simp
   have h3a : (2 : ℕ) • allOnes n = 0 := by
     funext i
     show (2 : ℕ) • (1 : ZMod 2) = 0
@@ -576,9 +576,9 @@ theorem card_fixSub_swap (hn : 5 ≤ n) (i j : Fin n) (hij : i ≠ j) :
   have hsurj : Function.Surjective (barDiff i j) := fun t =>
     ⟨((Pi.single i t : Fin n → ZMod 2) : permBar n), by
       rw [barDiff_mk]
-      simp [Pi.single_apply, hij.symm]⟩
+      simp [hij.symm]⟩
   rw [hker]
-  have h := card_ker_pow (k := 1) (by omega) (barDiff i j) hsurj (by simp [Nat.card_zmod])
+  have h := card_ker_pow (k := 1) (by omega) (barDiff i j) hsurj (by simp)
     (by omega)
   rwa [show n - 1 - 1 = n - 2 by omega] at h
 
@@ -657,15 +657,15 @@ theorem exists_two_values (hn : 5 ≤ n) {σ : Perm (Fin n)} (h1 : σ ≠ 1) (hs
     refine ⟨a, b, b, c, ?_, ?_, ?_⟩
     · rw [barAct_bp_sub, hb, hc]
       refine mk_ne_zero_of_coords (i := a) (j := b) ?_ ?_
-      · simp [dv_apply, hab, hba, hac, hca, hbc, hcb] <;> decide
-      · simp [dv_apply, hab, hba, hac, hca, hbc, hcb] <;> decide
+      · simp [dv_apply, hab, hac]
+      · simp [dv_apply, hba, hbc]
     · rw [barAct_bp_sub, hc, hd]
       refine mk_ne_zero_of_coords (i := b) (j := c) ?_ ?_
-      · simp [dv_apply, hbc, hcb, hbd, hdb, hcd, hdc] <;> decide
-      · simp [dv_apply, hbc, hcb, hbd, hdb, hcd, hdc] <;> decide
+      · simp [dv_apply, hbc, hbd]
+      · simp [dv_apply, hcb, hcd]
     · rw [barAct_bp_sub, barAct_bp_sub, hb, hc, hd]
       refine mk_ne_mk_of_coords (i := c) (j := e) ?_ ?_
-      · simp [dv_apply, hab, hba, hac, hca, hbc, hcb, hcd, hdc, hbd, hdb] <;> decide
+      · simp [dv_apply, hca, hcb, hcd]
       · simp [dv_apply, hea, heb, hec, hed]
   · push Not at hA
     obtain ⟨a, haa⟩ : ∃ a, σ a ≠ a := by
@@ -715,16 +715,16 @@ theorem exists_two_values (hn : 5 ≤ n) {σ : Perm (Fin n)} (h1 : σ ≠ 1) (hs
     refine ⟨a, z, a, p, ?_, ?_, ?_⟩
     · rw [barAct_bp_sub, hb, hw]
       refine mk_ne_zero_of_coords (i := a) (j := p) ?_ ?_
-      · simp [dv_apply, hab, hba, haw, hwa, haz, hza] <;> decide
-      · simp [dv_apply, hpa, hpb, hpz, hpw, hap, hbp, hzp, hwp] <;> decide
+      · simp [dv_apply, hab, haw, haz]
+      · simp [dv_apply, hpa, hpb, hpz, hpw]
     · rw [barAct_bp_sub, hb, hq]
       refine mk_ne_zero_of_coords (i := a) (j := z) ?_ ?_
-      · simp [dv_apply, hab, hba, haq, hqa, hap, hpa] <;> decide
-      · simp [dv_apply, hza, haz, hzb, hbz, hzq, hqz, hzp, hpz] <;> decide
+      · simp [dv_apply, hab, haq, hap]
+      · simp [dv_apply, hza, hzb, hzq, hzp]
     · rw [barAct_bp_sub, barAct_bp_sub, hb, hw, hq]
       refine mk_ne_mk_of_coords (i := z) (j := a) ?_ ?_
-      · simp [dv_apply, hza, haz, hzb, hbz, hzw, hwz', hzq, hqz, hzp, hpz] <;> decide
-      · simp [dv_apply, hab, hba, haw, hwa, haz, hza, haq, hqa, hap, hpa]
+      · simp [dv_apply, hza, hzb, hzw, hzq, hzp]
+      · simp [dv_apply, hab, haw, haz, haq, hap]
 
 @[expose] noncomputable def pc (x y : Fin n) : altHeart n :=
   ((pairEW x y : evenWeight n) : altHeart n)

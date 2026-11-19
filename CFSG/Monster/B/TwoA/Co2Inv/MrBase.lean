@@ -15,7 +15,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.B.Co2 CFSG.Monster.VisCert CFSG
   CFSG.Monster.Visible CFSG.Monster.ScalarKernel CFSG.Monster.VisQuot CFSG.Monster.SpinLattice
   CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Census CFSG.Monster.Lifts
 
-@[expose] def PresJ (p : Equiv.Perm (Fin 24)) : Prop := ∀ i : Fin 24, (i : ℕ) < 8 ↔ (p i : ℕ) < 8
+def PresJ (p : Equiv.Perm (Fin 24)) : Prop := ∀ i : Fin 24, (i : ℕ) < 8 ↔ (p i : ℕ) < 8
 
 theorem presJ_mul {p q : Equiv.Perm (Fin 24)} (hp : PresJ p) (hq : PresJ q) : PresJ (p * q) :=
   fun i => (hq i).trans (hp (q i))
@@ -25,7 +25,7 @@ theorem presJ_inv {p : Equiv.Perm (Fin 24)} (hp : PresJ p) : PresJ p⁻¹ := fun
   rw [show p (p⁻¹ i) = i from p.apply_symm_apply i] at this
   exact this.symm
 
-@[expose] def Foct : Subgroup AutPerm where
+def Foct : Subgroup AutPerm where
   carrier := {p | p ∈ Ppair ∧ PresJ (p : Equiv.Perm (Fin 24))}
   one_mem' := ⟨Ppair.one_mem, fun _ => Iff.rfl⟩
   mul_mem' := fun ⟨hp, hpJ⟩ ⟨hq, hqJ⟩ => ⟨Ppair.mul_mem hp hq, presJ_mul hpJ hqJ⟩

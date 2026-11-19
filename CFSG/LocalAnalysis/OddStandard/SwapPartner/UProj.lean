@@ -22,7 +22,7 @@ private theorem u_g_x1_g (F : UFrame z ι ιd) : gElt ιd * ι τ₀ * gElt ιd 
   rwa [F.g_z_g] at h
 
 private theorem u_x2_orderOf (F : UFrame z ι ιd) : orderOf (z * ι τ₀) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime ?_ (F.d8).x_ne
   rw [pow_two]
   exact (F.d8).x_sq
@@ -42,7 +42,7 @@ private theorem u_zpowers_x2 (F : UFrame z ι ιd) {d : G}
   · left; rw [hmod, h]; simp
   · right; rw [hmod, h]; simp
 
-private theorem u_x2_comm_CEgrp (F : UFrame z ι ιd) {c : G} (hc : c ∈ CEgrp z ι) :
+private theorem u_x2_comm_CEgrp (_F : UFrame z ι ιd) {c : G} (hc : c ∈ CEgrp z ι) :
     (z * ι τ₀) * c = c * (z * ι τ₀) := by
   obtain ⟨hcz, hcx⟩ := Subgroup.mem_inf.mp hc
   have hz : z * c = c * z := (mem_centralizer_singleton_iff.mp hcz).symm
@@ -77,9 +77,8 @@ private theorem u_conj_form (F : UFrame z ι ιd) (i j : Fin 2) (ρ : Perm (Fin 
 private theorem u_fin2_eq_of_comm (F : UFrame z ι ιd) {i j : Fin 2}
     (h : (ι τ₀) ^ (i : ℕ) * z ^ (j : ℕ) = z ^ (i : ℕ) * (ι τ₀) ^ (j : ℕ)) : i = j := by
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one] at h ⊢
+    simp only [pow_zero, pow_one, one_mul, mul_one] at h ⊢
   all_goals first
-    | rfl
     | (exfalso; first | exact F.cent.ne_z τ₀ h | exact F.cent.ne_z τ₀ h.symm)
 
 private theorem u_x2_mem_Egrp (F : UFrame z ι ιd) : z * ι τ₀ ∈ Egrp z ι := by
@@ -120,7 +119,7 @@ private theorem u_le_T (F : UFrame z ι ιd) {B : Subgroup G} (hB : B ≤ CEgrp 
   have hij : i = j := u_fin2_eq_of_comm F (mul_right_cancel heq)
   rw [hb_eq, hij]
   fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one]
+    simp only [pow_zero, pow_one, one_mul, mul_one]
   · exact Subgroup.mem_sup_right ((mem_Siggrp_iff).mpr ⟨ρ, rfl⟩)
   · exact Subgroup.mul_mem _
       (Subgroup.mem_sup_left (Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩))
@@ -157,7 +156,7 @@ theorem exists_eq_mul_sigma_of_card_eq (F : UFrame z ι ιd) {B : Subgroup G} (h
   have hcardB' : Nat.card ↥(Subgroup.zpowers (z * ι τ₀) ⊔ B) = 80640 := by
     rw [card_sup_of_commute hcommB hDQB, Nat.card_zpowers, u_x2_orderOf F, hcard]
   have hB'T : Subgroup.zpowers (z * ι τ₀) ⊔ B = Subgroup.zpowers (z * ι τ₀) ⊔ Siggrp ι := by
-    haveI : Finite ↥(Subgroup.zpowers (z * ι τ₀) ⊔ Siggrp ι) :=
+    have : Finite ↥(Subgroup.zpowers (z * ι τ₀) ⊔ Siggrp ι) :=
       Nat.finite_of_card_ne_zero (by rw [hcardT]; norm_num)
     refine Subgroup.eq_of_le_of_card_ge (sup_le le_sup_left hBT) ?_
     rw [hcardT, hcardB']

@@ -62,7 +62,7 @@ theorem ggQTwoM4_card_automizer_le {G : Type} [Group G] [Finite G] {B Bs : Subgr
     (hpres : GGCoxeterPres 3 (ggAutomizerJoin L Bs 𝒦) M e) {e' : Fin 4 ≃ ι}
     (hM : M = (ggCoxeterMatrixD 4).reindex e') (hcard : Nat.card Bs = 3 ^ 4) :
     Nat.card ↥(ggAutomizer L Bs) ≤ 24 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBs : IsElemAbelian 3 Bs := hcfg.1.1.2.1.2.1
   have hW : GGWeylOfType 3 (ggCoxeterMatrixD 4) (ggAutomizerJoin L Bs 𝒦) := by
     subst hM
@@ -101,7 +101,7 @@ theorem ggQTwoM4_card_automizer_le {G : Type} [Group G] [Finite G] {B Bs : Subgr
       have h1 : ψ₀ ((ggCoxeterMatrixD 4).simple i) = Module.reflection (hα i) := hrefl i
       rw [h1]
       exact Subgroup.subset_closure ⟨i, rfl⟩
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y _ _ hx hy => simpa using Subgroup.mul_mem _ hx hy
     | inv x _ hx => simpa using Subgroup.inv_mem _ hx
   have hmem : ∀ φ ∈ ggAutomizer L Bs,
@@ -123,8 +123,8 @@ theorem ggQTwoM4_card_automizer_le {G : Type} [Group G] [Finite G] {B Bs : Subgr
     intro φ₁ φ₂ h12
     apply Subtype.ext
     exact ggLin_injective (p := 3) ιV (congrArg (fun g => (g.1 : V ≃ₗ[ZMod 3] V)) h12)
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hV]; norm_num)
-  haveI : Finite {g : ↥(Subgroup.closure (Set.range fun i => Module.reflection (hα i))) //
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hV]; norm_num)
+  have : Finite {g : ↥(Subgroup.closure (Set.range fun i => Module.reflection (hα i))) //
       (g : V ≃ₗ[ZMod 3] V) (ιV (Additive.ofMul (⟨x, hxB⟩ : ↥Bs))) =
         ιV (Additive.ofMul (⟨x, hxB⟩ : ↥Bs))} :=
     Finite.of_injective (fun g => ((g.1 : V ≃ₗ[ZMod 3] V) : V → V))

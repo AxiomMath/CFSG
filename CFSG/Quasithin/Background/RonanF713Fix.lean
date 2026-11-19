@@ -18,10 +18,10 @@ theorem exists_edge_conj_sylow_loc [Finite ↥G₂] (hyp : AmalgamHyp G₀ G₁ 
   obtain ⟨g, ⟨hg0, hg1⟩ | ⟨hg0, hg1⟩⟩ := exists_smul_edge hadj
   · have heq : stab β ⊓ stab γ = conjSub (g : G) (G₁ ⊓ G₂) := by
       rw [← hg0, ← hg1, stab_smul, stab_smul, stab_γ₀ hyp.le₁, stab_γ₁ hyp.le₂, ← conjSub_inf]
-    haveI : Finite ↥(G₁ ⊓ G₂) :=
+    have : Finite ↥(G₁ ⊓ G₂) :=
       Finite.of_injective (Subgroup.inclusion (inf_le_right : G₁ ⊓ G₂ ≤ G₂))
         (Subgroup.inclusion_injective _)
-    haveI : Finite ↥(stab β ⊓ stab γ) := by
+    have : Finite ↥(stab β ⊓ stab γ) := by
       rw [heq]
       exact finite_conjSub _ _
     have hSyl : IsSylowTwoOf (conjSub (g : G) T) (stab β ⊓ stab γ) := by
@@ -51,7 +51,7 @@ theorem exists_nbr_fixed_of_le_normalizer_loc (hyp : AmalgamHypV G₀ G₁ G₂ 
     le_inf hS.1 ((hSle.trans inf_le_right).trans (stab_le_normalizer_Vv hyp.normalizes α))
   have hSyl : IsSylowTwoOf S (stab γ ⊓ Subgroup.normalizer (Vv V α : Set G)) :=
     isSylowTwoOf_mono_right hS hSN inf_le_left
-  haveI : Finite ↥(stab γ ⊓ Subgroup.normalizer (Vv V α : Set G)) :=
+  have : Finite ↥(stab γ ⊓ Subgroup.normalizer (Vv V α : Set G)) :=
     Finite.of_injective
       (Subgroup.inclusion (inf_le_left : stab γ ⊓ Subgroup.normalizer (Vv V α : Set G) ≤ stab γ))
       (Subgroup.inclusion_injective _)

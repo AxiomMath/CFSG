@@ -16,13 +16,14 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggAut_eq_one_or_isTransvection {Bs : Subgroup G} {y : G} (hyBs : y ∈ Bs) (hy1 : y ≠ 1)
     (hBs : CFSG.Open.IsElemAbelian 3 Bs) {ψ : MulAut ↥Bs}
     (hψy : ψ ⟨y, hyBs⟩ = ⟨y, hyBs⟩)
     (hψ : ∀ b : ↥Bs, ((b⁻¹ * ψ b : ↥Bs) : G) ∈ Subgroup.zpowers y) :
     ψ = 1 ∨ GGIsTransvection 3 ψ := by
   classical
-  haveI : IsMulCommutative ↥Bs := hBs.1
+  have : IsMulCommutative ↥Bs := hBs.1
   let c : ↥Bs := ⟨y, hyBs⟩
   have hψc : ψ c = c := by simpa only [c] using hψy
   have hc3 : c ^ 3 = 1 := by

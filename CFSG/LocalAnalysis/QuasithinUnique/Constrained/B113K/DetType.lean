@@ -26,7 +26,7 @@ private theorem dk2_odd_dvd_six {n : ℕ} (hodd : Odd n) (h : n ∣ 6) : n = 1 �
   have hk : k ≤ 2 := by
     have := Nat.le_of_dvd (by norm_num) h
     omega
-  interval_cases k <;> first | omega | norm_num at h
+  interval_cases k <;> first | omega
 
 private theorem dk2_nonempty_of_card_center_eq_one {H : Type} [Group H] {m : ℕ}
     (h1 : Nat.card ↥(Subgroup.center H) = 1)

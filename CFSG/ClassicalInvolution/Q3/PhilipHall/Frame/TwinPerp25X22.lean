@@ -30,7 +30,7 @@ variable {G : Type} [Group G] [Finite G] [CoreLike G] {Ω : Set (Subgroup G)} {K
 
 @[expose] def FixTwoAt (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {b : G} (hb2 : b * b = 1)
     (hbA : b ∈ cA S R R') : Prop :=
-  ∀ (x : G) (hx : x ∈ cA S R R') (hxb : x ∈ Subgroup.centralizer ({b} : Set G)),
+  ∀ (x : G) (_hx : x ∈ cA S R R') (hxb : x ∈ Subgroup.centralizer ({b} : Set G)),
     actOf hyp hb2 ⟨x, hxb⟩ = 1 ∨ actOf hyp hb2 ⟨x, hxb⟩ = MulAut.conj (zBar hyp hb2 hbA)
 
 theorem fixTwo_of_sec (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {b : G} (hb2 : b * b = 1)

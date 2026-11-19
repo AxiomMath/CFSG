@@ -23,10 +23,10 @@ theorem center_eq_bot_of_isSimpleGroup_of_isPerfect {H : Type*} [Group H] [IsSim
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center H) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative H := ⟨⟨fun a b => by
+    have : IsMulCommutative H := ⟨⟨fun a b => by
       have ha : a ∈ center H := h ▸ Subgroup.mem_top a
       exact ((Subgroup.mem_center_iff.1 ha) b).symm⟩⟩
-    haveI : Subsingleton H := inferInstance
+    have : Subsingleton H := inferInstance
     exact (not_subsingleton H) inferInstance
 
 theorem card_F4 : Nat.card F4 = 4 := by
@@ -41,12 +41,12 @@ theorem sl3F4_isPerfect : Group.IsPerfect SL(3, F4) := sl3F4_isQuasisimple.1
 theorem psl3F4_isSimple : IsSimpleGroup PSL(3, F4) := sl3F4_isQuasisimple.2.1
 
 theorem psl3F4_isPerfect : Group.IsPerfect PSL(3, F4) := by
-  haveI := sl3F4_isPerfect
+  have := sl3F4_isPerfect
   exact (inferInstance : Group.IsPerfect (SL(3, F4) ⧸ center SL(3, F4)))
 
 theorem psl3F4_center : center PSL(3, F4) = ⊥ := by
-  haveI := psl3F4_isSimple
-  haveI := psl3F4_isPerfect
+  have := psl3F4_isSimple
+  have := psl3F4_isPerfect
   exact center_eq_bot_of_isSimpleGroup_of_isPerfect
 
 theorem sl3F4_card_center : Nat.card (center SL(3, F4)) = 3 := by
@@ -56,7 +56,7 @@ theorem sl3F4_card_center : Nat.card (center SL(3, F4)) = 3 := by
 theorem exists_elemAbelian_nine_psl3F4 :
     ∃ A : Subgroup PSL(3, F4), IsElemAbelian 3 A ∧ Nat.card A = 9 := by
   let e := CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 F4
-  haveI : CFSG.IsElementaryAbelian 3 ↥(CFSG.RankThree.PartTwo.KFacts.L34.eZero F4) :=
+  have : CFSG.IsElementaryAbelian 3 ↥(CFSG.RankThree.PartTwo.KFacts.L34.eZero F4) :=
     CFSG.RankThree.PartTwo.KFacts.L34.isElementaryAbelian_eZero card_F4
   refine ⟨(CFSG.RankThree.PartTwo.KFacts.L34.eZero F4).map e.symm.toMonoidHom,
     (isElemAbelian_of_isElementaryAbelian).map _, ?_⟩
@@ -95,8 +95,8 @@ theorem a11_isPerfect : Group.IsPerfect (alternatingGroup (Fin 11)) :=
   Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
 
 theorem a11_center : center (alternatingGroup (Fin 11)) = ⊥ := by
-  haveI := a11_isSimple
-  haveI := a11_isPerfect
+  have := a11_isSimple
+  have := a11_isPerfect
   exact center_eq_bot_of_isSimpleGroup_of_isPerfect
 
 private def cyc1 : Equiv.Perm (Fin 11) := Equiv.swap 0 1 * Equiv.swap 1 2
@@ -194,6 +194,7 @@ section Shape
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem rank2Good_of_mulEquiv {K : Subgroup G} {X : Type*} [Group X] (e : ↥K ≃* X)
     (hA : ∃ A : Subgroup X, IsElemAbelian 3 A ∧ Nat.card A = 9) (hZ : Nat.card (center X) ≤ 3) :
     Rank2Good K := by
@@ -208,6 +209,7 @@ theorem rank2Good_of_mulEquiv {K : Subgroup G} {X : Type*} [Group X] (e : ↥K �
           rw [show (center ↥K).map e.toMonoidHom = center X from Subgroup.map_center_eq e]
       _ ≤ 3 := hZ
 
+omit [Finite G] in
 theorem ShapeComp.rank2Good {t : G} {K : Subgroup G} (h : ShapeComp t K) : Rank2Good K := by
   rcases h with ⟨hK | hK, -⟩ | ⟨⟨e⟩, -⟩
   · obtain ⟨e⟩ := hK
@@ -216,6 +218,7 @@ theorem ShapeComp.rank2Good {t : G} {K : Subgroup G} (h : ShapeComp t K) : Rank2
     exact rank2Good_of_mulEquiv e exists_elemAbelian_nine_sl3F4 (by rw [sl3F4_card_center])
   · exact rank2Good_of_mulEquiv e a11_exists_elemAbelian_nine (by rw [a11_center]; simp)
 
+omit [Finite G] in
 theorem ShapeComp.of_center_ne_bot {t : G} {K : Subgroup G} (h : ShapeComp t K) (hZ : center ↥K ≠ ⊥) :
     Nonempty (↥K ≃* SL(3, F4)) ∧ Nat.card (center ↥K) = 3 ∧ UC6.InducesGraphField t K := by
   have hbot : ∀ {X : Type} [Group X] (e : ↥K ≃* X), center X = ⊥ → center ↥K = ⊥ := by
@@ -235,6 +238,7 @@ theorem ShapeComp.of_center_ne_bot {t : G} {K : Subgroup G} (h : ShapeComp t K) 
       _ = 3 := sl3F4_card_center
   · exact absurd (hbot e a11_center) hZ
 
+omit [Finite G] in
 theorem shape_isPerfect {t : G} {L : Subgroup G}
     (h : UC6.GraphFieldShape t L ∨
       (Nonempty (↥L ≃* alternatingGroup (Fin 11)) ∧ UC6.InducesTransposition t L)) :
@@ -243,16 +247,16 @@ theorem shape_isPerfect {t : G} {L : Subgroup G}
     fun {X} _ _ e => Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   rcases h with (⟨hK | hK, -⟩ | ⟨L₁, L₂, hsup, -, ⟨e₁⟩, ⟨e₂⟩, -, -, -⟩) | ⟨⟨e⟩, -⟩
   · obtain ⟨e⟩ := hK
-    haveI := psl3F4_isPerfect
+    have := psl3F4_isPerfect
     exact hperf e.symm
   · obtain ⟨e⟩ := hK
-    haveI := sl3F4_isPerfect
+    have := sl3F4_isPerfect
     exact hperf e.symm
   · have h1 : Group.IsPerfect ↥L₁ := by
-      haveI := sl3F4_isPerfect
+      have := sl3F4_isPerfect
       exact Group.IsPerfect.ofSurjective (f := e₁.symm.toMonoidHom) e₁.symm.surjective
     have h2 : Group.IsPerfect ↥L₂ := by
-      haveI := sl3F4_isPerfect
+      have := sl3F4_isPerfect
       exact Group.IsPerfect.ofSurjective (f := e₂.symm.toMonoidHom) e₂.symm.surjective
     rw [Subgroup.isPerfect_iff]
     have hp1 : ⁅L₁, L₁⁆ = L₁ := Subgroup.isPerfect_iff.1 h1
@@ -267,9 +271,10 @@ theorem shape_isPerfect {t : G} {L : Subgroup G}
           _ ≤ ⁅L₁ ⊔ L₂, L₁ ⊔ L₂⁆ := Subgroup.commutator_mono le_sup_left le_sup_left
       · calc L₂ = ⁅L₂, L₂⁆ := hp2.symm
           _ ≤ ⁅L₁ ⊔ L₂, L₁ ⊔ L₂⁆ := Subgroup.commutator_mono le_sup_right le_sup_right
-  · haveI := a11_isPerfect
+  · have := a11_isPerfect
     exact hperf e.symm
 
+omit [Finite G] in
 theorem conjOn_cube {x : G} {K : Subgroup G} (hx : x ∈ normalizer (K : Set G)) (hx3 : x * x * x = 1)
     (w : ↥K) : UC6.conjOn K hx (UC6.conjOn K hx (UC6.conjOn K hx w)) = w := by
   apply Subtype.ext
@@ -277,6 +282,7 @@ theorem conjOn_cube {x : G} {K : Subgroup G} (hx : x ∈ normalizer (K : Set G))
   calc x * (x * (x * (w : G) * x⁻¹) * x⁻¹) * x⁻¹ = (x * x * x) * (w : G) * (x * x * x)⁻¹ := by group
     _ = w := by rw [hx3]; group
 
+omit [Finite G] in
 theorem exists_inner_of_a11 {x : G} {K : Subgroup G} (e : ↥K ≃* alternatingGroup (Fin 11))
     (hx : x ∈ normalizer (K : Set G)) (hx3 : x * x * x = 1) :
     ∃ g ∈ K, ∀ y ∈ K, x * y * x⁻¹ = g * y * g⁻¹ := by

@@ -54,7 +54,7 @@ private theorem s16h_e3_l3_commSub_zpowers_eq_closure {M : Type} [CommGroup M]
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     rcases s16h_e3_l3_zpow_eq_one_or_self hg2 n with hn | hn
     · rw [hn]
-      simpa using (Subgroup.closure {y : M | ∃ x ∈ X, g x * x⁻¹ = y}).one_mem
+      simp
     · rw [hn]
       exact Subgroup.subset_closure ⟨w, hw, rfl⟩
   · rw [Subgroup.closure_le]
@@ -84,13 +84,13 @@ private theorem s16h_e3_l3_commSub_zpowers_eq_map {M : Type} [CommGroup M]
 private theorem s16h_e3_l3_centerless_of_isPSL {X : Type} [Group X] (h : IsPSL 3 2 1 X) :
     ∀ z : X, (∀ b : X, z * b = b * z) → z = 1 := by
   intro z hz
-  haveI hs : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 h).2
+  have hs : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 h).2
   have hzmem : z ∈ Subgroup.center X := Subgroup.mem_center_iff.mpr fun b => (hz b).symm
   have hcenter : Subgroup.center X = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with hc | hc
     · exact hc
     · exfalso
-      haveI : IsMulCommutative X := Subgroup.center_eq_top_iff.mp hc
+      have : IsMulCommutative X := Subgroup.center_eq_top_iff.mp hc
       have hp : (Nat.card X).Prime := Group.is_simple_iff_prime_card.mp hs
       rw [card_eq_168_of_isPSL_three_two h] at hp
       norm_num at hp
@@ -99,10 +99,10 @@ private theorem s16h_e3_l3_centerless_of_isPSL {X : Type} [Group X] (h : IsPSL 3
 private theorem s16h_e3_l3_isPerfect_of_isPSL {X : Type} [Group X] (h : IsPSL 3 2 1 X) :
     Group.IsPerfect X := by
   rw [Group.isPerfect_def]
-  haveI hs : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 h).2
+  have hs : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 h).2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator X) with hc | hc
   · exfalso
-    haveI : IsMulCommutative X := (commutator_eq_bot_iff X).mp hc
+    have : IsMulCommutative X := (commutator_eq_bot_iff X).mp hc
     have hp : (Nat.card X).Prime := Group.is_simple_iff_prime_card.mp hs
     rw [card_eq_168_of_isPSL_three_two h] at hp
     norm_num at hp
@@ -316,7 +316,7 @@ theorem s16h_e3_l3_section_inner (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulA
           rw [hcl]
         rw [h1]
         exact Subgroup.subset_closure ⟨l, hl, c w, Subgroup.mem_top _, rfl⟩
-    | one => simpa using (commSub ⊤ L).one_mem
+    | one => simp
     | mul a b _ _ iha ihb => simpa [map_mul] using (commSub ⊤ L).mul_mem iha ihb
     | inv a _ iha => simpa [map_inv] using (commSub ⊤ L).inv_mem iha
   obtain ⟨hM₀inv, hM₀comm, hM₀fix, -⟩ :=

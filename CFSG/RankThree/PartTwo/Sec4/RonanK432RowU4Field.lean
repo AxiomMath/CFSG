@@ -31,7 +31,7 @@ theorem rowOf_projSU_four_two_of_listRow {n : ℕ} (hn : 1 ≤ n) (hL : ListRow 
   intro S _ _ _ _ ⟨e⟩
   exact GoodRow.of_mulEquiv e.symm ⟨hL, outerRow_projSU_four_two_all hn⟩
 
-theorem rowOf_seven_SU4 : ∀ n : ℕ, 1 ≤ n → RowOf (projSU 4 2 n) := fun n hn =>
+theorem rowOf_seven_SU4 : ∀ _n : ℕ, 1 ≤ _n → RowOf (projSU 4 2 _n) := fun _n hn =>
   rowOf_projSU_four_two_of_listRow hn (listRow_projSU_four_two hn)
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK432

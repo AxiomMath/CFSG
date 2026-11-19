@@ -11,6 +11,7 @@ open CFSG.ComponentClassification (Layer.subgroup)
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem isComponentOf_map_conj {J : Subgroup K} (hJ : IsComponentOf J ⊤) (k : K) :
     IsComponentOf (J.map (MulAut.conj k).toMonoidHom) ⊤ := by
   refine CFSG.ComponentClassification.LocalComponents.image hJ
@@ -22,11 +23,13 @@ theorem isComponentOf_map_conj {J : Subgroup K} (hJ : IsComponentOf J ⊤) (k : 
   exact (Subgroup.nontrivial_iff_ne_bot J).mp
     (CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2) hJbot
 
+omit [Finite K] in
 theorem layer_eq_of_forall {J : Subgroup K} (hJ : IsComponentOf J ⊤)
     (hJu : ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J) : Layer.subgroup K = J := by
   rw [CFSG.ComponentClassification.Layer.subgroup.eq_sSup]
   exact le_antisymm (sSup_le fun J' hJ' => (hJu J' hJ').le) (le_sSup hJ)
 
+omit [Finite K] in
 theorem layer_eq_sup_of_forall {J₁ J₂ : Subgroup K} (hJ₁ : IsComponentOf J₁ ⊤)
     (hJ₂ : IsComponentOf J₂ ⊤) (hJu : ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J₁ ∨ J' = J₂) :
     Layer.subgroup K = J₁ ⊔ J₂ := by
@@ -69,11 +72,11 @@ theorem inf_eq_bot_of_isComponentOf (c : Cfg145 M X₁ X₂ P) {J J' : Subgroup 
 theorem three_dvd_card_of_isComponentOf (c : Cfg145 M X₁ X₂ P) {J : Subgroup K}
     (hJ : IsComponentOf J ⊤) : 3 ∣ Nat.card J := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let S : Set (Subgroup K) := {J' | IsComponentOf J' ⊤ ∧ ¬ 3 ∣ Nat.card J'}
   let N : Subgroup K := sSup S
   let H : S → Subgroup K := fun i => (i : Subgroup K)
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hcomm : Pairwise fun i j : S => ∀ x y : K, x ∈ H i → y ∈ H j → Commute x y := by
     intro i j hij x y hx hy
     have hne : (i : Subgroup K) ≠ (j : Subgroup K) := fun h => hij (Subtype.ext h)
@@ -124,7 +127,7 @@ theorem three_dvd_card_of_isComponentOf (c : Cfg145 M X₁ X₂ P) {J : Subgroup
 
 theorem isSylowOf_inf_of_isComponentOf (c : Cfg145 M X₁ X₂ P) {J : Subgroup K}
     (hJ : IsComponentOf J ⊤) : CFSG.ABGLocalTools.IsSylowOf 3 ((X₁ ⊔ X₂) ⊓ J) J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let E : Subgroup K := Layer.subgroup K
   have hJE : J ≤ E := CFSG.ComponentClassification.Layer.component_le hJ
   have hEnormal : E.Normal := CFSG.ComponentClassification.Layer.normal K
@@ -144,7 +147,7 @@ theorem isSylowOf_inf_of_isComponentOf (c : Cfg145 M X₁ X₂ P) {J : Subgroup 
 
 theorem inf_ne_bot_of_isComponentOf (c : Cfg145 M X₁ X₂ P) {J : Subgroup K}
     (hJ : IsComponentOf J ⊤) : (X₁ ⊔ X₂) ⊓ J ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card J := three_dvd_card_of_isComponentOf c hJ
   have hcard := CFSG.ABGLocalTools.IsSylowOf.card_eq
     (isSylowOf_inf_of_isComponentOf c hJ)
@@ -231,7 +234,7 @@ theorem components (c : Cfg145 M X₁ X₂ P) :
     (∃ J : Subgroup K, IsComponentOf J ⊤ ∧ ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J) ∨
       ∃ J₁ J₂ : Subgroup K, IsComponentOf J₁ ⊤ ∧ IsComponentOf J₂ ⊤ ∧ J₁ ≠ J₂ ∧
         ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J₁ ∨ J' = J₂ := by
-  haveI : Nontrivial K := by
+  have : Nontrivial K := by
     have hX₁ : X₁ ≠ ⊥ := by
       intro hbot
       have hcard : Nat.card X₁ = 1 := by rw [hbot, Subgroup.card_bot]

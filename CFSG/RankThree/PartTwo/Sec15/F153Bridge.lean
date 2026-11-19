@@ -33,7 +33,7 @@ private theorem f153_oResidual_normal (Y : Type*) [Group Y] : (oResidual 2 Y).No
     change Nat.Coprime (orderOf (g * y * g⁻¹)) 2
     rw [h]
     exact hy
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ ihx ihy => simpa [mul_assoc] using Subgroup.mul_mem _ ihx ihy
   | inv x _ ih => simpa [mul_assoc] using Subgroup.inv_mem _ ih
 
@@ -93,7 +93,7 @@ theorem not_thompsonJ_le_centralizer_W315
   intro hJC
   have hWn : (W315 X).Normal :=
     Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (isTwoReducedIn_W315 hq hWL).2.1)
-  haveI hCn : (Subgroup.centralizer (W315 X : Set X)).Normal := Subgroup.normal_centralizer
+  have hCn : (Subgroup.centralizer (W315 X : Set X)).Normal := Subgroup.normal_centralizer
   have hLn : (oResidual 2 X).Normal := f153_oResidual_normal X
   have hKn : (oResidual 2 (X ⧸ CFSG.pCore 2 X)).Normal := f153_oResidual_normal _
   have hK : CFSG.IsComponent (oResidual 2 (X ⧸ CFSG.pCore 2 X)) := ⟨hq, hKn.isSubnormal⟩
@@ -167,6 +167,7 @@ theorem not_thompsonJ_le_centralizer_W315
       exact le_sSup ⟨Subgroup.normalCore_normal S, hcoreP⟩
     exact hJ (hJcore.trans hcoreQ)
 
+omit [Finite X] in
 theorem pCore_le_centralizer_W315 :
     CFSG.pCore 2 X ≤ Subgroup.centralizer (W315 X : Set X) :=
   CFSG.AGLEmbedding.AscTenThree.le_centralizer_omegaOneCenterOf_self _
@@ -276,7 +277,7 @@ theorem isQuasisimple_autOn_W315 (hS2 : IsPGroup 2 S) (hXS : oResidual 2 X ⊔ S
       (⊤ : Subgroup ↥(oResidual 2 (X ⧸ CFSG.pCore 2 X)))⁆ = ⊤ := by
     rw [← _root_.commutator_def]; exact hq'.1
   obtain ⟨e⟩ := StarAux.nonempty_quotientCenterEquiv_of_central_ker h hs hk hperf
-  haveI := hq'.2
+  have := hq'.2
   exact isQuasisimple_of_open' ⟨StarAux.commutator_eq_top_of_surjective h hs hq'.1,
     e.symm.isSimpleGroup⟩
 
@@ -321,6 +322,7 @@ section Final
 
 variable {S : Subgroup X}
 
+omit [Finite X] in
 theorem W315_le_pCore : W315 X ≤ CFSG.pCore 2 X :=
   CFSG.QuasithinUnique.Setup.omegaOneCenterOf_le _
 

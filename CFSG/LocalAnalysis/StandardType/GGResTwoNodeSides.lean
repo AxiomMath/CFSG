@@ -52,7 +52,7 @@ private theorem l05nTn_closure_conj {E : Type} [Group E] (S : Subgroup E) (u : E
 
 private theorem l05nTn_rankOne {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {f f' : Module.Dual (ZMod p) V} {x x' : V}
-    (hf : f x = 2) (hf' : f' x' = 2) (h : ∀ v, f v • x = f' v • x') :
+    (hf : f x = 2) (_hf' : f' x' = 2) (h : ∀ v, f v • x = f' v • x') :
     ∃ c : (ZMod p)ˣ, x' = (c : ZMod p) • x ∧ f' = (↑(c⁻¹) : ZMod p) • f := by
   have h2 : (2 : ZMod p) ≠ 0 := zmod_two_ne_zero hp2
   have hx0 : x ≠ 0 := by
@@ -145,7 +145,7 @@ private theorem l05nTn_reindex_trans {ι κ ν : Type} (M : CoxeterMatrix ι) (e
     (f : κ ≃ ν) : (M.reindex e).reindex f = M.reindex (e.trans f) := by
   apply CoxeterMatrix.ext
   funext x y
-  simp only [CoxeterMatrix.reindex_apply, Equiv.trans_apply, Equiv.symm_trans_apply]
+  simp only [CoxeterMatrix.reindex_apply, Equiv.symm_trans_apply]
 
 private theorem l05nTn_weyl_reindex {ι κ : Type} {M : CoxeterMatrix ι} (h : GGIsWeylMatrix M)
     (f : ι ≃ κ) : GGIsWeylMatrix (M.reindex f) := by
@@ -242,7 +242,7 @@ private theorem l05nTn_sum_of_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
     {Bs X J : Subgroup G} (h : GGResSideDatum p Bs X J) : l05nTn_SideSum 1 p Bs X J := by
   obtain ⟨Λ, i1, i2, b, M, C, MJ, V, i3, i4, ι, φ, hc, α, hWM, hC, hWMJ, hMJ, hlin, hrefl,
     hpair, hf, hclos, hfJ, hclosJ, hconj⟩ := h
-  letI := i1; letI := i2; letI := i3; letI := i4
+  let := i1; let := i2; let := i3; let := i4
   obtain ⟨f, hf⟩ := hf
   obtain ⟨fJ, hfJ⟩ := hfJ
   let e : {j : Λ // j ≠ b} ⊕ Unit ≃ Λ :=
@@ -253,13 +253,13 @@ private theorem l05nTn_sum_of_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
       left_inv := by
         intro o
         cases o with
-        | inl j => simp [dif_neg j.2]
+        | inl j => simp [dite_eq_right j.2]
         | inr u => simp
       right_inv := by
         intro i
         by_cases hi : i = b
-        · simp [dif_pos hi, hi]
-        · simp [dif_neg hi] }
+        · simp [hi]
+        · simp [dite_eq_right hi] }
   exact l05nTA_reindex 1 (p := p) (X := X) (J := J) e ι φ hc α (by simp) (by simp) (by simp)
     hWM hC hWMJ (fun j j' => hMJ j j') hlin hrefl hpair f hf hclos fJ hfJ hclosJ hconj
 
@@ -267,7 +267,7 @@ private theorem l05nTn_sum_of_two {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
     {Bs X J : Subgroup G} (h : GGResTwoNodeSideDatum p Bs X J) : l05nTn_SideSum 2 p Bs X J := by
   obtain ⟨Λ, i1, i2, b₁, b₂, M, C, MJ, V, i3, i4, ι, φ, hc, α, hb, hWM, hC, hWMJ, hMJ, hlin,
     hrefl, hpair, hf, hclos, hfJ, hclosJ, hconj⟩ := h
-  letI := i1; letI := i2; letI := i3; letI := i4
+  let := i1; let := i2; let := i3; let := i4
   obtain ⟨f, hf⟩ := hf
   obtain ⟨fJ, hfJ⟩ := hfJ
   let e : {j : Λ // j ≠ b₁ ∧ j ≠ b₂} ⊕ Bool ≃ Λ :=
@@ -281,20 +281,20 @@ private theorem l05nTn_sum_of_two {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
       left_inv := by
         intro o
         cases o with
-        | inl j => simp [dif_neg j.2.1, dif_neg j.2.2]
+        | inl j => simp [dite_eq_right j.2.1, dite_eq_right j.2.2]
         | inr b =>
           cases b with
           | false => simp
-          | true => simp [dif_neg hb.symm]
+          | true => simp [dite_eq_right hb.symm]
       right_inv := by
         intro i
         by_cases h₁ : i = b₁
-        · simp only [dif_pos h₁]
+        · simp only [dite_eq_left h₁]
           exact h₁.symm
         · by_cases h₂ : i = b₂
-          · simp only [dif_neg h₁, dif_pos h₂]
+          · simp only [dite_eq_right h₁, dite_eq_left h₂]
             exact h₂.symm
-          · simp only [dif_neg h₁, dif_neg h₂] }
+          · simp only [dite_eq_right h₁, dite_eq_right h₂] }
   exact l05nTA_reindex 2 (p := p) (X := X) (J := J) e ι φ hc α (by simp) (by simp) (by simp)
     hWM hC hWMJ (fun j j' => hMJ j j') hlin hrefl hpair f hf hclos fJ hfJ hclosJ hconj
 
@@ -443,7 +443,7 @@ private theorem l05nTn_mu {U : Type} [Group U] {Jn Λa : Type} [Fintype Jn] [Dec
     have hP : P a := ⟨j, hj⟩
     have hmu : mu a = (c (Classical.choose hP))⁻¹ := by
       dsimp only [mu]
-      exact dif_pos hP
+      exact dite_eq_left hP
     rw [hmu, huniq a (Classical.choose hP) j (Classical.choose_spec hP) hj]
   · intro a a' haa' hadd
     by_cases hpa : P a
@@ -452,13 +452,13 @@ private theorem l05nTn_mu {U : Type} [Group U] {Jn Λa : Type} [Fintype Jn] [Dec
           (Classical.choose_spec hpa) (Classical.choose_spec hpa')) (by simp)
       · have hval_a : mu a = (c (Classical.choose hpa))⁻¹ := by
           dsimp only [mu]
-          exact dif_pos hpa
+          exact dite_eq_left hpa
         have hex : ∃ p : Λa × Jn, p.1 ≠ a' ∧ M.M (Sum.inr a') (Sum.inr p.1) ≠ 2 ∧
             M.M (Sum.inr p.1) (Sum.inl p.2) ≠ 2 :=
           ⟨(a, Classical.choose hpa), haa', by rwa [M.symmetric], Classical.choose_spec hpa⟩
         have hval_a' : mu a' = (c (Classical.choose hex).2)⁻¹ := by
           dsimp only [mu]
-          rw [dif_neg hpa', dif_pos hex]
+          rw [dite_eq_right hpa', dite_eq_left hex]
         have hbne : (Classical.choose hex).1 ≠ a' := (Classical.choose_spec hex).1
         have hb_eq : (Classical.choose hex).1 = a := by
           rcases hthree (Classical.choose hex).1 a a' with h | h | h
@@ -474,13 +474,13 @@ private theorem l05nTn_mu {U : Type} [Group U] {Jn Λa : Type} [Fintype Jn] [Dec
     · by_cases hpa' : P a'
       · have hval_a' : mu a' = (c (Classical.choose hpa'))⁻¹ := by
           dsimp only [mu]
-          exact dif_pos hpa'
+          exact dite_eq_left hpa'
         have hex : ∃ p : Λa × Jn, p.1 ≠ a ∧ M.M (Sum.inr a) (Sum.inr p.1) ≠ 2 ∧
             M.M (Sum.inr p.1) (Sum.inl p.2) ≠ 2 :=
           ⟨(a', Classical.choose hpa'), haa'.symm, hadd, Classical.choose_spec hpa'⟩
         have hval_a : mu a = (c (Classical.choose hex).2)⁻¹ := by
           dsimp only [mu]
-          rw [dif_neg hpa, dif_pos hex]
+          rw [dite_eq_right hpa, dite_eq_left hex]
         have hbne : (Classical.choose hex).1 ≠ a := (Classical.choose_spec hex).1
         have hb_eq : (Classical.choose hex).1 = a' := by
           rcases hthree (Classical.choose hex).1 a' a with h | h | h
@@ -509,10 +509,10 @@ private theorem l05nTn_mu {U : Type} [Group U] {Jn Λa : Type} [Fintype Jn] [Dec
           · exact absurd h (Ne.symm haa')
         have hval_a : mu a = 1 := by
           dsimp only [mu]
-          rw [dif_neg hpa, dif_neg hno]
+          rw [dite_eq_right hpa, dite_eq_right hno]
         have hval_a' : mu a' = 1 := by
           dsimp only [mu]
-          rw [dif_neg hpa', dif_neg hno']
+          rw [dite_eq_right hpa', dite_eq_right hno']
         rw [hval_a, hval_a']
 
 private structure l05nTn_Al {G : Type} [Group G] [Finite G] (k : ℕ) (p : ℕ) [Fact p.Prime]
@@ -618,13 +618,13 @@ private theorem l05nTn_align (hConj : GGWeylSimpleSystemsConjInput) {G : Type} [
   obtain ⟨ΛL, i1L, i2L, b1L, b2L, ML, CL, MJL, VL, i3L, i4L, ιL, φL, hL1, αL,
     hbL, hWML, hCLL, hWMJL, hMJL, hlinL, hreflL, hpairL, hfLex, hclosL, hfJLex, hclosJL,
     hconjL⟩ := hL
-  letI := i1L; letI := i2L; letI := i3L; letI := i4L
+  let := i1L; let := i2L; let := i3L; let := i4L
   obtain ⟨fL, hfL⟩ := hfLex
   obtain ⟨fJL, hfJL⟩ := hfJLex
   obtain ⟨Λj, i1K, i2K, Λa, i3K, i4K, MK0, CKraw, MJK, VK, i5K, i6K, ιK, φK0, hK0, αK0,
     hcard1, hcard2, hkK, hWMK0, hCKK0, hWMJK, hMJKK, hlinK0, hreflK0, hpairK0, hfK0ex, hclosK0,
     hfJKex, hclosJK, hconjK⟩ := hK
-  letI := i1K; letI := i2K; letI := i5K; letI := i6K
+  let := i1K; let := i2K; let := i5K; let := i6K
   obtain ⟨fK0, hfK0⟩ := hfK0ex
   obtain ⟨fJK, hfJK⟩ := hfJKex
   have hT : ∀ k : Λj, ∃ (u : ↥(ggAutomizer J Bs)) (i : {i : ΛL // i ≠ b1L ∧ i ≠ b2L}),
@@ -924,12 +924,12 @@ private theorem l05nTn_DatumK.toDatum {G : Type} [Group G] {k : ℕ} {p : ℕ} [
 private theorem l05nTn_datum {G : Type} [Group G] [Finite G] {k : ℕ} {p : ℕ} [Fact p.Prime]
     {Bs L J K : Subgroup G} (D : l05nTn_Al k p Bs L J K) :
     l05nTn_DatumK k p Bs L J K := by
-  letI := D.fin
-  letI := D.dec
-  letI := D.fina
-  letI := D.deca
-  letI := D.acg
-  letI := D.mod
+  let := D.fin
+  let := D.dec
+  let := D.fina
+  let := D.deca
+  let := D.acg
+  let := D.mod
   obtain ⟨μ, hμJ, hμa⟩ :=
     l05nTn_mu (U := (ZMod p)ˣ) (M := D.MK) (C := D.CK0)
       D.hWMK D.hCKK (by

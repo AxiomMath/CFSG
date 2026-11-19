@@ -30,7 +30,7 @@ theorem qsCfg_inf_centMod_eq {p : ℕ} {S B T : Subgroup Ω} {x : Ω} {D K : Sub
 
 theorem qsCfg_card_zpowers {p : ℕ} {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω}
     (h : QSCfg p S B T x D K) : Nat.card (Subgroup.zpowers x) = p := by
-  haveI := Fact.mk h.prime
+  have := Fact.mk h.prime
   rw [Nat.card_zpowers, orderOf_eq_prime (h.elem.2 x h.xB) h.x1]
 
 theorem qsCfg_rank {p : ℕ} {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω}
@@ -57,7 +57,7 @@ theorem qsCfg_exists_gen {p : ℕ} {S B T : Subgroup Ω} {x : Ω} {D K : Subgrou
     omega
   have hyB : y ∈ B := hDB hyD
   have hordy : Nat.card (Subgroup.zpowers y) = p := by
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     have hy1 : y ≠ 1 := fun h1 => hyx (h1 ▸ (Subgroup.zpowers x).one_mem)
     rw [Nat.card_zpowers, orderOf_eq_prime (h.elem.2 y hyB) hy1]
   have hcardD' : Nat.card ↥(Dgrp y x) = p ^ 2 := by
@@ -82,6 +82,7 @@ theorem qsCfg_isComponentOf {p : ℕ} {S B T : Subgroup Ω} {x : Ω} {D K : Subg
   rw [← hy]
   exact hKcomp
 
+omit [Finite Ω] in
 theorem card_pSimple_dvd (p : ℕ) (K : Subgroup Ω) : Nat.card (PSimple p K) ∣ Nat.card K :=
   (Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_quotient_dvd_card _)
 
@@ -149,12 +150,11 @@ theorem three_dvd_card_of_tyC {X : Type} [Group X] [Finite X] (h : catalogIs X t
     rw [CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds idx X ⟨e⟩]
     obtain ⟨d, hv⟩ := idx
     rcases hi with h1 | h1 | h1 | h1 | h1 <;>
-      (cases d <;> simp only [S9.isTD4two, S9.isF4two, S9.isTE6two, onLie] at h1 <;>
+      (cases d <;> simp only [S9.isTD4two, S9.isF4two, S9.isTE6two, onLie] at h1;
         first
-          | exact h1.elim
           | (simp only [CFSG.HardMathSupport.Solomon.Coordinator.I1420.lieOrderFormula, h1]; decide)
           | (rename_i r q; simp only [CFSG.HardMathSupport.Solomon.Coordinator.I1420.lieOrderFormula]
-             rcases r with _ | _ | _ | r <;> simp_all <;> decide))
+             rcases r with _ | _ | _ | r <;> simp_all; decide))
   | cyclic _ _ => rcases hi with h1 | h1 | h1 | h1 | h1 <;> simp [S9.isTD4two, S9.isF4two, S9.isTE6two, onLie] at h1
   | alternating _ _ => rcases hi with h1 | h1 | h1 | h1 | h1 <;> simp [S9.isTD4two, S9.isF4two, S9.isTE6two, onLie] at h1
   | sporadic _ => rcases hi with h1 | h1 | h1 | h1 | h1 <;> simp [S9.isTD4two, S9.isF4two, S9.isTE6two, onLie] at h1

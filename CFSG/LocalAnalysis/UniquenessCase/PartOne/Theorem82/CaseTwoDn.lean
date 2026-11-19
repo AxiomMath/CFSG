@@ -28,7 +28,7 @@ theorem card_Z_subgroupOf_Dn {N : Subgroup G} (hZN : t.Z ≤ N) :
 theorem inf_pPrimeCore_eq_bot_Dn {N : Subgroup G} (hZN : t.Z ≤ N) :
     (t.Z.subgroupOf (t.Dn N) : Subgroup ↥(t.Dn N)) ⊓
       CFSG.pPrimeCore 3 ↥(t.Dn N) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime (Nat.card ↥((t.Z.subgroupOf (t.Dn N) : Subgroup ↥(t.Dn N)) ⊓
       CFSG.pPrimeCore 3 ↥(t.Dn N))) 3 :=
     (Nat.Coprime.of_dvd_right (Subgroup.card_dvd_of_le inf_le_right)
@@ -45,7 +45,7 @@ theorem inf_pPrimeCore_eq_bot_Dn {N : Subgroup G} (hZN : t.Z ≤ N) :
 
 theorem card_DhatZ {N : Subgroup G} (hZN : t.Z ≤ N) :
     Nat.card (DhatZ t N) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : Nat.card (DhatZ t N) ∣ 3 := by
     have h := Subgroup.card_map_dvd (t.Z.subgroupOf (t.Dn N))
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(t.Dn N)))
@@ -88,7 +88,7 @@ theorem inf_pCoreOf_le_pCoreOf_Dn {N H : Subgroup G} (hDH : t.Dn N ≤ H) :
 
 theorem pCoreOf_Dn_le_On (N : Subgroup G) :
     CFSG.Open.pCoreOf 2 (t.Dn N) ≤ t.On N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : CFSG.pCore 2 ↥(t.Dn N) ≤ CFSG.pPrimeCore 3 ↥(t.Dn N) := by
     refine CFSG.le_pPrimeCore_of_normal_coprime
       (CFSG.pCore_normal (p := 2) (G := ↥(t.Dn N))) ?_
@@ -145,7 +145,7 @@ theorem exists_conj_eq_Z {N : Subgroup G} (hZN : t.Z ≤ N)
     (hrank : CFSG.Open.pRank 3 (t.Dn N) = 1) {W : Subgroup G} (hWD : W ≤ t.Dn N)
     (hW : Nat.card W = 3) : ∃ d ∈ t.Dn N, W.map (MulAut.conj d).toMonoidHom = t.Z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZD : t.Z ≤ t.Dn N := t.Z_le_Dn hZN
   have hDrank : CFSG.pRank 3 ↥(t.Dn N) = 1 := by
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
@@ -157,7 +157,7 @@ theorem exists_conj_eq_Z {N : Subgroup G} (hZN : t.Z ≤ N)
   obtain ⟨Q, hWQ⟩ := hWp.exists_le_sylow
   have hQcyc : IsCyclic ↥Q := by
     refine CFSG.LocalAnalysis.RankThreeUC.OddRankOneQuotient.isCyclic_of_pRank_le_one
-      Nat.prime_three (by norm_num) Q.isPGroup' ?_
+      Nat.prime_three (by norm_num) Q.isPGroup ?_
     have h1 := CFSG.SectionRank.pRank_le_map (p := 3) (by norm_num)
       (Q : Subgroup ↥(t.Dn N)).subtype (Q : Subgroup ↥(t.Dn N)).subtype_injective
       (⊤ : Subgroup ↥Q)
@@ -222,7 +222,7 @@ theorem Ky_le_Dn (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) {N : Subgroup G}
     (hKN : t.Ky ≤ N) : t.Ky ≤ t.Dn N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN2 : IsPGroup 2 t.d.N := SylowThreeData.N_isPGroup t.d
   have hZKy : t.Z ≤ t.Ky := t.Z_le_Ky
   have hZD : t.Z ≤ t.Dn N := t.Z_le_Dn (hZKy.trans hKN)
@@ -251,7 +251,7 @@ theorem commutator_Dn (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) {N : Subgroup G}
     (hKN : t.Ky ≤ N) : ⁅t.Dn N, t.Dn N⁆ = t.Dn N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKyD : t.Ky ≤ t.Dn N := t.Ky_le_Dn hK32 hGA hSp hKN
   have hZKy : t.Z ≤ t.Ky := t.Z_le_Ky
   have hCD : ⁅t.Dn N, t.Dn N⁆ ≤ t.Dn N := by
@@ -275,7 +275,7 @@ theorem commutator_Dn (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
   have hZsub : t.Z.subgroupOf N ≤ (⁅t.Dn N, t.Dn N⁆).subgroupOf N := by
     intro z hz
     exact Subgroup.mem_subgroupOf.mpr (hZleC (Subgroup.mem_subgroupOf.mp hz))
-  haveI hnormal : ((⁅t.Dn N, t.Dn N⁆).subgroupOf N).Normal :=
+  have hnormal : ((⁅t.Dn N, t.Dn N⁆).subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCleN).mpr hCnorm
   have hnc : Subgroup.normalClosure ((t.Z.subgroupOf N : Subgroup ↥N) : Set ↥N) ≤
       (⁅t.Dn N, t.Dn N⁆).subgroupOf N := Subgroup.normalClosure_le_normal hZsub
@@ -289,7 +289,7 @@ theorem commutator_Dn (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
 
 theorem pRank_Dhat_eq_one {N : Subgroup G}
     (hrank : CFSG.Open.pRank 3 (t.Dn N) = 1) : CFSG.pRank 3 (t.Dhat N) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 ↥(t.Dn N)) := by
     intro h
     have h1 : 3 = 1 := Nat.Coprime.eq_one_of_dvd CFSG.pPrimeCore_coprime_card h
@@ -308,7 +308,7 @@ private theorem pRank_Dhat_top_eq_one {N : Subgroup G}
 
 theorem isCyclic_of_isPGroup_Dhat {N : Subgroup G} (hrank : CFSG.Open.pRank 3 (t.Dn N) = 1)
     {P : Subgroup (t.Dhat N)} (hP : IsPGroup 3 P) : IsCyclic ↥P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPrank : CFSG.pRank 3 ↥P ≤ 1 := by
     have h1 := CFSG.SectionRank.pRank_le_map (p := 3) (by norm_num)
       P.subtype P.subtype_injective (⊤ : Subgroup ↥P)
@@ -330,7 +330,7 @@ private theorem normalClosure_Z_subgroupOf_Dn {N : Subgroup G} (hZN : t.Z ≤ N)
     Subgroup.normalClosure ((t.Z.subgroupOf (t.Dn N) : Subgroup ↥(t.Dn N)) :
       Set ↥(t.Dn N)) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZD : t.Z ≤ t.Dn N := t.Z_le_Dn hZN
   let N₀ : Subgroup ↥(t.Dn N) :=
     Subgroup.normalClosure (t.Z.subgroupOf (t.Dn N) : Set ↥(t.Dn N))
@@ -395,7 +395,7 @@ private theorem normalClosure_Z_subgroupOf_Dn {N : Subgroup G} (hZN : t.Z ≤ N)
 private theorem normalClosure_DhatZ_eq_top {N : Subgroup G} (hZN : t.Z ≤ N)
     (hrank : CFSG.Open.pRank 3 (t.Dn N) = 1) :
     Subgroup.normalClosure ((DhatZ t N : Subgroup (t.Dhat N)) : Set (t.Dhat N)) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsurj : Function.Surjective (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(t.Dn N))) :=
     QuotientGroup.mk'_surjective _
   have hset : (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(t.Dn N))) ''
@@ -415,10 +415,10 @@ private theorem exists_conj_map_eq_DhatZ {N : Subgroup G} (hZN : t.Z ≤ N)
     (hrank : CFSG.Open.pRank 3 (t.Dn N) = 1) {W : Subgroup (t.Dhat N)}
     (hW : Nat.card W = 3) : ∃ k : t.Dhat N, W.map (MulAut.conj k).toMonoidHom = DhatZ t N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWp : IsPGroup 3 ↥W := IsPGroup.of_card (n := 1) (by rw [hW]; norm_num)
   obtain ⟨Q, hWQ⟩ := hWp.exists_le_sylow
-  have hQcyc : IsCyclic ↥Q := t.isCyclic_of_isPGroup_Dhat hrank Q.isPGroup'
+  have hQcyc : IsCyclic ↥Q := t.isCyclic_of_isPGroup_Dhat hrank Q.isPGroup
   have hZp : IsPGroup 3 ↥(DhatZ t N) :=
     IsPGroup.of_card (n := 1) (by rw [card_DhatZ t hZN]; norm_num)
   obtain ⟨QZ, hZQZ⟩ := hZp.exists_le_sylow
@@ -456,7 +456,7 @@ private theorem exists_conj_map_eq_DhatZ {N : Subgroup G} (hZN : t.Z ≤ N)
 theorem isSimpleGroup_Dhat {N : Subgroup G} (hZN : t.Z ≤ N)
     (hrank : CFSG.Open.pRank 3 (t.Dn N) = 1) : IsSimpleGroup (t.Dhat N) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htop : Subgroup.normalClosure ((DhatZ t N : Subgroup (t.Dhat N)) :
       Set (t.Dhat N)) = ⊤ := normalClosure_DhatZ_eq_top t hZN hrank
   have hnt : Nontrivial (t.Dhat N) := by
@@ -465,7 +465,7 @@ theorem isSimpleGroup_Dhat {N : Subgroup G} (hZN : t.Z ≤ N)
       have h1 : Nat.card (DhatZ t N) = 1 := by rw [hb, Subgroup.card_bot]
       rw [card_DhatZ t hZN] at h1
       norm_num at h1
-    haveI : Nontrivial ↥(DhatZ t N) := (Subgroup.nontrivial_iff_ne_bot (DhatZ t N)).mpr hne
+    have : Nontrivial ↥(DhatZ t N) := (Subgroup.nontrivial_iff_ne_bot (DhatZ t N)).mpr hne
     obtain ⟨a, b, hab⟩ := ‹Nontrivial ↥(DhatZ t N)›
     exact ⟨(a : t.Dhat N), (b : t.Dhat N), fun h => hab (Subtype.ext h)⟩
   refine (isSimpleGroup_iff (t.Dhat N)).mpr ⟨hnt, fun M hM => ?_⟩
@@ -499,11 +499,11 @@ theorem exists_mul_ne_mul_Dhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) {N : Subgroup G}
     (hKN : t.Ky ≤ N) : ∃ a b : t.Dhat N, a * b ≠ b * a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZN : t.Z ≤ N := t.Z_le_Ky.trans hKN
   by_contra h
   push Not at h
-  haveI hcomm : IsMulCommutative (t.Dhat N) := isMulCommutative_iff.mpr fun a b => h a b
+  have hcomm : IsMulCommutative (t.Dhat N) := isMulCommutative_iff.mpr fun a b => h a b
   have hKyD : t.Ky ≤ t.Dn N := t.Ky_le_Dn hK32 hGA hSp hKN
   have hquot : ⁅(⊤ : Subgroup ↥(t.Dn N)), ⊤⁆ ≤ CFSG.pPrimeCore 3 ↥(t.Dn N) := by
     rw [Subgroup.commutator_le]
@@ -537,7 +537,7 @@ theorem exists_mul_ne_mul_Dhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32
   norm_num at h1
 
 theorem isKGroup_Dhat {N : Subgroup G} (hN : N ≠ ⊤) : CFSG.Open.IsKGroup (t.Dhat N) := by
-  haveI hOnormal : (CFSG.pPrimeCore 3 ↥(t.Dn N)).Normal := CFSG.pPrimeCore_normal
+  have hOnormal : (CFSG.pPrimeCore 3 ↥(t.Dn N)).Normal := CFSG.pPrimeCore_normal
   have hDne : t.Dn N ≠ ⊤ := by
     intro htop
     exact hN (top_le_iff.mp (htop ▸ t.Dn_le N))
@@ -594,7 +594,7 @@ theorem pCoreOf_Dn_ne_bot {N : Subgroup G} (hN : CFSG.Open.IsTwoLocal N) (hZN : 
     CFSG.Open.pCoreOf 2 (t.Dn N) ≠ ⊥ := by
   classical
   intro hbot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZD : t.Z ≤ t.Dn N := t.Z_le_Dn hZN
   let Q : Subgroup G := CFSG.Open.pCoreOf 2 N
   have hQle : t.Dn N ⊓ Q ≤ CFSG.Open.pCoreOf 2 (t.Dn N) := by

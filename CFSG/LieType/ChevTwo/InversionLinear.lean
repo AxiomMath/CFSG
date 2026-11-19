@@ -36,13 +36,13 @@ theorem det_blockEmb (k : ℕ) (A : Matrix (Fin 3) (Fin 3) K) : (blockEmb k A).d
 
 theorem transpose_blockEmb (k : ℕ) (A : Matrix (Fin 3) (Fin 3) K) :
     (blockEmb k A)ᵀ = blockEmb k Aᵀ := by
-  simp only [blockEmb_apply, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+  simp only [blockEmb_apply, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
     Matrix.transpose_submatrix, Matrix.fromBlocks_transpose, Matrix.transpose_zero,
     Matrix.transpose_one]
 
 theorem map_blockEmb (k : ℕ) (f : K →+* K) (A : Matrix (Fin 3) (Fin 3) K) :
     (blockEmb k A).map f = blockEmb k (A.map f) := by
-  simp only [blockEmb_apply, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+  simp only [blockEmb_apply, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
   rw [← Matrix.submatrix_map, Matrix.fromBlocks_map]
   have h0 : ∀ {m n : Type} [Fintype m] [Fintype n], (0 : Matrix m n K).map f = 0 :=
     fun {m n} _ _ => Matrix.map_zero _ (map_zero f)
@@ -52,7 +52,7 @@ theorem map_blockEmb (k : ℕ) (f : K →+* K) (A : Matrix (Fin 3) (Fin 3) K) :
 
 theorem blockEmb_apply_castAdd (k : ℕ) (A : Matrix (Fin 3) (Fin 3) K) (i j : Fin 3) :
     blockEmb k A (Fin.castAdd k i) (Fin.castAdd k j) = A i j := by
-  simp [blockEmb_apply, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+  simp [blockEmb_apply, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
 
 @[expose] def x7 : Matrix (Fin 3) (Fin 3) (ZMod 2) := !![0, 0, 1; 0, 1, 1; 1, 1, 0]
 
@@ -111,7 +111,7 @@ theorem sl7_not_scalar (k : ℕ) : sl7 k ∉ scalars (3 + k) K := by
     M (Fin.castAdd k 0) (Fin.castAdd k 2)) hc
   simp only [sl7] at this
   rw [blockEmb_apply_castAdd] at this
-  simp [m7, x7, ι₂, Matrix.scalar_apply, Matrix.diagonal_apply] at this
+  simp [m7, x7, ι₂, Matrix.scalar_apply] at this
 
 section Main
 
@@ -133,12 +133,14 @@ theorem card_eq_two_pow : ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
   obtain ⟨f, hp, hf⟩ := FiniteField.card K 2
   exact ⟨f, f.pos, by rw [← Nat.card_eq_fintype_card] at hf; exact hf⟩
 
+omit [CharP K 2] [Finite K] in
 theorem involution_unique {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f) {σ ρ : K ≃+* K}
     (hσ : σ ≠ 1) (hσσ : σ * σ = 1) (hρ : ρ ≠ 1) (hρρ : ρ * ρ = 1) : σ = ρ := by
   have h1 := (even_and_eq_pow_of_involution_prime Nat.prime_two hf hK hσ hσσ).2
   have h2 := (even_and_eq_pow_of_involution_prime Nat.prime_two hf hK hρ hρρ).2
   exact RingEquiv.ext fun x => (h1 x).trans (h2 x).symm
 
+omit [CharP K 2] [Finite K] in
 theorem fieldAut_dualAut_apply_symm {n : ℕ} (σ : K ≃+* K) (g : SpecialLinearGroup (Fin n) K)
     (hT : g.1ᵀ = g.1) (hσ : g.1.map σ = g.1) :
     (fieldAut n K σ * dualAut n K) (proj n K g) = (proj n K g)⁻¹ := by
@@ -154,8 +156,8 @@ theorem fieldAut_dualAut_apply_symm {n : ℕ} (σ : K ≃+* K) (g : SpecialLinea
 
 theorem exists_two_ne_one {G : Type*} [Group G] (A : Subgroup G) (hcard : Nat.card A = 4) :
     ∃ a ∈ A, a ≠ 1 ∧ ∃ b ∈ A, b ≠ 1 ∧ a ≠ b := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Finite A := Nat.finite_of_card_ne_zero (by omega)
+  have : Fintype A := Fintype.ofFinite A
   have h3 : 2 < Fintype.card A := by rw [Fintype.card_eq_nat_card]; omega
   obtain ⟨x, y, z, hxy, hxz, hyz⟩ := Fintype.two_lt_card_iff.mp h3
   by_cases hx1 : (x : G) = 1
@@ -268,7 +270,7 @@ theorem linear_klein_inverts {N : ℕ} (hN : 3 ≤ N)
   have hsucc : ∃ x ∈ A, x ≠ 1 ∧ ∃ (B : GL (Fin (3 + k)) K) (σ : K ≃+* K), σ ≠ 1 ∧
       x = conjAut (3 + k) K B * fieldAut (3 + k) K σ * dualAut (3 + k) K := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨a, ha, ha1, b, hb, hb1, hab⟩ := exists_two_ne_one A hcard
     have hc : a * b ∈ A := A.mul_mem ha hb
     have hc1 : a * b ≠ 1 := by
@@ -307,7 +309,7 @@ theorem linear_klein_inverts {N : ℕ} (hN : 3 ≤ N)
   set y := proj (3 + k) K (sl7 k) with hy
   have hy7 : y ^ 7 = 1 := by rw [hy, ← map_pow, sl7_pow, map_one]
   have hy1 : y ≠ 1 := fun h => sl7_not_scalar k (proj_eq_one_iff.1 h)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hord : orderOf y = 7 := orderOf_eq_prime hy7 hy1
   refine ⟨_, hx, hx1, conjAut (3 + k) K H y, ?_, ?_, ?_⟩
   · rw [MulEquiv.orderOf_eq, hord]; decide

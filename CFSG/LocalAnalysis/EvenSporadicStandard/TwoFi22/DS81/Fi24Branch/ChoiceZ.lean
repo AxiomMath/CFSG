@@ -19,10 +19,12 @@ structure ZData (E : Subgroup G) (t z : G) : Prop where
   sylow_CNz : ∃ S : Sylow 2 G, (S : Subgroup G) ≤ CNz E z
   card_K : Nat.card ↥(Kg t z) = 2 ^ 19 * 3 ^ 4 * 5
 
-theorem isConj_t_tz (h : M24Out G E t) (hz : IsZ E t z) : IsConj t (t * z) := by
+omit [Finite G] in
+theorem isConj_t_tz (_h : M24Out G E t) (hz : IsZ E t z) : IsConj t (t * z) := by
   obtain ⟨n, hn, hnz⟩ := hz.2.2.2
   exact isConj_iff.mpr ⟨n, hnz⟩
 
+omit [Finite G] in
 theorem card_CNz (h : M24Out G E t) (hz : IsZ E t z) :
     Nat.card ↥(CNz E z) = 2 ^ 21 * 3 ^ 3 * 5 := by
   obtain ⟨y, hyE, hy1, hyn, hycard, hyall⟩ := h.rest
@@ -38,7 +40,7 @@ theorem card_CNz (h : M24Out G E t) (hz : IsZ E t z) :
         obtain ⟨m, hm, hmz⟩ := hz_mem
         exact ⟨n * m⁻¹, mul_mem hn (inv_mem hm), by rw [← hmz]; group⟩
     rw [hset, hycard]
-  letI : MulAction ↥(Nrm E) G :=
+  let : MulAction ↥(Nrm E) G :=
     MulAction.compHom G (ConjAct.toConjAct.toMonoidHom.comp (Nrm E).subtype)
   have hsmul : ∀ (n : ↥(Nrm E)) (x : G), n • x = (n : G) * x * (n : G)⁻¹ :=
     fun n x => ConjAct.toConjAct_smul (n : G) x
@@ -91,7 +93,7 @@ theorem not_isConj_t_z
     have hdvd : Nat.card ↥(CNz E z) ∣ Nat.card ↥(centralizer ({z} : Set G)) := by
       simpa only [Cz] using Subgroup.card_dvd_of_le (CNz_le_Cz E z)
     rw [card_CNz h.m24 hz] at hdvd
-    exact dvd_trans (by simpa [mul_assoc] using dvd_mul_right (2 ^ 21) (3 ^ 3 * 5)) hdvd
+    exact dvd_trans (by simp) hdvd
   have hdvd_t : ¬ 2 ^ 21 ∣ Nat.card ↥(centralizer ({t} : Set G)) := by
     rw [Std.card_H h]
     intro hd
@@ -126,7 +128,7 @@ theorem exists_sylow_CNz (hC : CocodeFacts) (h : M24Out G E t)
     exact q.2
   have hP2 : IsPGroup 2 P := by
     change IsPGroup 2 ((Q : Subgroup ↥(CNz E z)).map (CNz E z).subtype)
-    exact Q.isPGroup'.map (CNz E z).subtype
+    exact Q.isPGroup.map (CNz E z).subtype
   obtain ⟨S, hPS⟩ := hP2.exists_le_sylow
   refine ⟨S, ?_⟩
   have hScard : Nat.card ↥(S : Subgroup G) = 2 ^ 21 := card_sylow hC h S

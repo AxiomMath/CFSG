@@ -242,7 +242,7 @@ private theorem e6TwoCompLab_untw
       (TauCeti.LieTypeIndex.E6 q : TauCeti.LieTypeIndex) = .E6 q') ↥(adjointGroup .E6 K) := by
   classical
   intro β hβmem hβp hβ1 J hJ hJuniq
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpℓ : 3 ≠ ringChar K := by rw [hK2]; norm_num
   have hpK : ¬ 3 ∣ Nat.card K := by rw [hK, hcard]; norm_num
   have hp₀K : ¬ 5 ∣ Nat.card K := by rw [hK, hcard]; norm_num
@@ -261,7 +261,7 @@ private theorem e6TwoCompLab_untw
       (baseChange_mem_adjointGroup_of_mem_inndiag hh) hβh hp1 hh1
   have hℓL : ringChar (AlgebraicClosure K) = ringChar K := ringChar_algebraicClosure K
   have hℓ2 : ringChar (AlgebraicClosure K) = 2 := by rw [hℓL, hK2]
-  haveI : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
+  have : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
   have hpL : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_three (by rw [hℓL]; exact hpℓ.symm)
   have hTame := langSetup_hTame_of_prime S Nat.prime_three hpL
@@ -288,11 +288,11 @@ private theorem e6TwoCompLab_tw
     CompLabE6TwoAt (∃ q' : TauCeti.PrimePower,
       (TauCeti.LieTypeIndex.twistedE6 q : TauCeti.LieTypeIndex) = .E6 q') ↥(twistedE6RootGroup K σ) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   have hqp : q.p = 2 := by
     have hdvd : q.p ∣ 2 := by
       rw [← hcard]
@@ -335,7 +335,7 @@ private theorem e6TwoCompLab_tw
     exact ringChar_eq_of_card_eq_pow (n := q.exponent * 2) q.prime_p
       (by have := q.exponent_pos; omega) (by rw [hK, ← pow_mul])
   have hℓ2 : ringChar (AlgebraicClosure K) = 2 := hℓL.trans hqp
-  haveI : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
+  have : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
   have hTame := langSetup_hTame_of_prime S Nat.prime_three
     (natCast_ne_zero_algebraicClosure_of_ne q.prime_p Nat.prime_three hK hpq)
     (fun h => absurd h (by decide)) hT hap h1
@@ -377,7 +377,7 @@ theorem compLabE6Two_cat
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
         CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-    haveI := hKc
+    have := hKc
     have hqp : q.p = 2 := (TauCeti.LieTypeIndex.characteristic_E6 q).symm.trans hch
     have hchar : ringChar K = q.p := ringChar.eq K q.p
     have hK2 : ringChar K = 2 := hchar.trans hqp

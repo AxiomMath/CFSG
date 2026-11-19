@@ -24,8 +24,8 @@ theorem five_blocks_impossible (hQ : (polarBilin Q).Nondegenerate)
     (hAe : IsElemAbelian 3 (orthImage Bb))
     (h5 : (blockSet (orthImage Bb)).card = 5) (hT : TwoLocal Bb) : False := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hpF : (3 : ZMod 2) ≠ 0 := by decide
   have hB : ∀ a : ↥(orthImage Bb), ∀ u v : V,

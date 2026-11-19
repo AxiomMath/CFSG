@@ -60,12 +60,12 @@ theorem s16c11A11_act_cls (g : ↥(alternatingGroup (Fin 11))) (j : Fin 11) :
   · have h1 : (g : Perm (Fin 11))⁻¹ i = j := by
       rw [h]
       exact Equiv.symm_apply_apply (g : Perm (Fin 11)) j
-    rw [if_pos h1, if_pos h]
+    rw [ite_eq_left h1, ite_eq_left h]
   · have h1 : (g : Perm (Fin 11))⁻¹ i ≠ j := fun hc =>
       h (by
         have h2 := congrArg (g : Perm (Fin 11)) hc
         simpa [Equiv.apply_symm_apply] using h2)
-    rw [if_neg h1, if_neg h]
+    rw [ite_eq_right h1, ite_eq_right h]
 
 theorem s16c11A11_fix_one_one : s16c11A11Fix 1 1 = s16c11A11Co 10 := by
   funext i
@@ -319,7 +319,7 @@ private lemma s16c11a11_vec_cls_triple_eq_iff (σ : Perm (Fin 11)) :
     ({σ 10, σ 8, σ 9} : Set (Fin 11)) = {10, 8, 9} := by
   have hR : ({s16c11A11Cls 10, s16c11A11Cls 8, s16c11A11Cls 9} :
       Set (FFModel.altDn 11).Mod) = s16c11A11Cls '' ({10, 8, 9} : Set (Fin 11)) := by
-    simpa using s16c11a11_vec_cls_image_triple (1 : Perm (Fin 11))
+    simp
   rw [s16c11a11_vec_cls_image_triple σ, hR, Set.image_eq_image s16c11A11Cls_injective]
 
 private lemma s16c11a11_vec_pres_iff (σ : Perm (Fin 11)) :

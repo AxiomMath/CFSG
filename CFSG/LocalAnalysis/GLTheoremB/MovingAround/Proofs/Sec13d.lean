@@ -27,7 +27,7 @@ open scoped MatrixGroups
 
 @[expose] def Lemma137_noA7Statement : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {D T : Subgroup G}
-    (h : Sec13 G m p B M E A D T) {L : Subgroup G}, GLAPComponent p (Istar p M D) L → p = 3 →
+    (_h : Sec13 G m p B M E A D T) {L : Subgroup G}, GLAPComponent p (Istar p M D) L → p = 3 →
       ¬ Nonempty ((↥L ⧸ CFSG.pCore 2 ↥L) ≃* alternatingGroup (Fin 7))
 
 namespace Sec13d
@@ -39,7 +39,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem glaPPrimeCore_eq_pCore_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G}
     (hpi : IsPiGroup p (↥L ⧸ CFSG.pCore 2 ↥L)) :
     GLAPPrimeCore p ↥L = CFSG.pCore 2 ↥L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop2 : Nat.Coprime p (Nat.card ↥(CFSG.pCore 2 ↥L)) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 (CFSG.pCore_isPGroup (p := 2) (G := ↥L))
     rw [hn]
@@ -48,7 +48,7 @@ theorem glaPPrimeCore_eq_pCore_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L :
     CFSG.le_pPrimeCore_of_normal_coprime (CFSG.pCore_normal (p := 2) (G := ↥L)) hcop2
   refine le_antisymm (fun x hx => ?_) hle1
   set f : ↥L →* ↥L ⧸ CFSG.pCore 2 ↥L := QuotientGroup.mk' (CFSG.pCore 2 ↥L) with hf
-  haveI : ((GLAPPrimeCore p ↥L).map f).Normal :=
+  have : ((GLAPPrimeCore p ↥L).map f).Normal :=
     Subgroup.Normal.map inferInstance f (QuotientGroup.mk'_surjective _)
   have hdvd : Nat.card ↥((GLAPPrimeCore p ↥L).map f) ∣ Nat.card ↥(GLAPPrimeCore p ↥L) :=
     Subgroup.card_map_dvd (GLAPPrimeCore p ↥L) f
@@ -115,7 +115,7 @@ theorem mem_derivedInf_of_pow_eq_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {N
       (⊤ : Subgroup ↥(barX p N (N ⊓ L)))⁆ : Subgroup ↥(barX p N (N ⊓ L))) = 2 ^ j)
     (hxN : x ∈ N) (hxL : x ∈ L) (hxp : x ^ p = 1) : x ∈ derivedInf (N ⊓ L) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j, hj⟩ := hidx
   have hxJ : x ∈ N ⊓ L := Subgroup.mem_inf.2 ⟨hxN, hxL⟩
   have hgJ : (QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨x, hxN⟩ : ↥N ⧸ GLAPPrimeCore p ↥N) ∈
@@ -175,6 +175,7 @@ theorem mem_derivedInf_of_pow_eq_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {N
     exact hκ
   exact mem_of_pow_eq_one_of_pow_mem hpe hxp hxe'
 
+omit [Finite G] in
 theorem mem_normalizer_inf_of {H1 H2 : Subgroup G} {c : G}
     (h1 : c ∈ Subgroup.normalizer (H1 : Set G)) (h2 : c ∈ Subgroup.normalizer (H2 : Set G)) :
     c ∈ Subgroup.normalizer ((H1 ⊓ H2 : Subgroup G) : Set G) := by
@@ -183,6 +184,7 @@ theorem mem_normalizer_inf_of {H1 H2 : Subgroup G} {c : G}
   rw [Subgroup.mem_inf, Subgroup.mem_inf]
   exact and_congr (h1 y) (h2 y)
 
+omit [Finite G] in
 theorem mem_normalizer_derivedInf {J : Subgroup G} {b : G}
     (hb : b ∈ Subgroup.normalizer (J : Set G)) :
     b ∈ Subgroup.normalizer ((derivedInf J : Subgroup G) : Set G) := by
@@ -198,6 +200,7 @@ theorem mem_normalizer_derivedInf {J : Subgroup G} {b : G}
     rw [e] at this
     exact this
 
+omit [Finite G] in
 theorem mem_centBar_iff {p : ℕ} {X L : Subgroup G} {c : G} :
     c ∈ centBar p X L ↔ c ∈ X ∧ ∃ γ : ↥(Subgroup.normalizer (L : Set G)), (γ : G) = c ∧
       barAut p L γ = 1 := by
@@ -209,6 +212,7 @@ theorem mem_centBar_iff {p : ℕ} {X L : Subgroup G} {c : G} :
   · rintro ⟨hcX, γ, hγc, hγ⟩
     exact ⟨⟨γ, (MonoidHom.mem_ker).2 hγ, hγc⟩, hcX⟩
 
+omit [Finite G] in
 theorem le_glaPPrimeCore_of_normal_coprime {p : ℕ} [Fact p.Prime] {K Y : Subgroup G} (hYK : Y ≤ K)
     (hY : (Y.subgroupOf K).Normal) (hcop : Nat.Coprime p (Nat.card Y)) :
     (Y.subgroupOf K) ≤ GLAPPrimeCore p ↥K := by
@@ -305,22 +309,22 @@ theorem lemma137_v_of_inputs (hL133 : Lemma133Statement) (hL137i : Lemma137_iSta
     (hL137ii : Lemma137_ii_iiiStatement) (hPi : InputPiCenter) (hAb : InputAbIdx2)
     (hNo7 : Lemma137_noA7Statement) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T : Subgroup G}
-      (h : Sec13 G m p B M E A D T) {L : Subgroup G}
-      (hL : GLAPComponent p (Istar p M D) L) (hL1 : 3 < p ∨ 2 ≤ CFSG.Open.pRank p L),
+      (_h : Sec13 G m p B M E A D T) {L : Subgroup G}
+      (_hL : GLAPComponent p (Istar p M D) L) (_hL1 : 3 < p ∨ 2 ≤ CFSG.Open.pRank p L),
       (B = (B ⊓ L) ⊔ centBar p B L ∧ (B ⊓ L) ⊓ centBar p B L = ⊥) ∧
       (B = (B ⊓ derivedInf (Nof T ⊓ L)) ⊔ centBar p B (derivedInf (Nof T ⊓ L)) ∧
         CFSG.Open.pRank p (B ⊓ derivedInf (Nof T ⊓ L)) =
           CFSG.Open.pRank p (derivedInf (Nof T ⊓ L))) := by
-  intro G _ _ m p B M E A D T h L hL hL1
-  have hS : GLStanding G m p := h.standing
+  intro G _ _ m p B M E A D T _h L _hL _hL1
+  have hS : GLStanding G m p := _h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
-  have h133 := (hL133 h).2 L hL
-  have hBN : B ≤ Nof T := hL137i h
-  have hBel : IsElemAbelian p B := h.bOne.1.1
-  have h137 := hL137ii h hL hL1
+  have h133 := (hL133 _h).2 L _hL
+  have hBN : B ≤ Nof T := hL137i _h
+  have hBel : IsElemAbelian p B := _h.bOne.1.1
+  have h137 := hL137ii _h _hL _hL1
   have hΩ : ∀ (ε : Bool) (n : ℕ), IsOmegaTwo ε (n + 1) (↥L ⧸ CFSG.pCore 2 ↥L) →
       (IsOmegaTwo ε (n + 1) ↥(barX p (Nof T) (Nof T ⊓ L)) ∨
         Nonempty (↥(barX p (Nof T) (Nof T ⊓ L)) ≃* ↥(StatedSp n (ZMod 2)))) := by
@@ -338,7 +342,7 @@ theorem lemma137_v_of_inputs (hL133 : Lemma133Statement) (hL137i : Lemma137_iSta
     · exact Or.inl ((h137.2.2.2.2 k hX).1 hc)
     · exact Or.inr ((h137.2.2.2.2 k hX).2 hc)
   have hidx := index_pow_two_of_piType hPi hAb hp hp2 h133.1.2.1 h133.1.2.2
-    (fun h3 => hNo7 h hL h3) hΩ hA
+    (fun h3 => hNo7 _h _hL h3) hΩ hA
   have hBK : B ⊓ L ≤ derivedInf (Nof T ⊓ L) := by
     intro x hx
     obtain ⟨hxB, hxL⟩ := Subgroup.mem_inf.1 hx

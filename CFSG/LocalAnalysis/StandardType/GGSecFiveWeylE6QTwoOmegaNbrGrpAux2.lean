@@ -174,7 +174,7 @@ theorem E6QTwo.eq_of_isPGroup_normalizes_isCyclic_three {X : Type} [Group X] [Fi
     (hn : IsPGroup 3 (Subgroup.zpowers n)) :
     n * y * n⁻¹ = y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases E6QTwo.conj_eq_or_conj_eq_inv_of_isCyclic hQ hyQ (orderOf_eq_prime hy3 hy1) hnN
     with h | h
   · exact h

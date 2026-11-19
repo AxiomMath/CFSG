@@ -24,10 +24,12 @@ section Stmts
 
 variable {S : Type} [CommGroup S] [Finite S] {G Lt : Subgroup (MulAut S)} {hLG : Lt ≤ G} {m : ℕ}
 
+omit [Finite S] in
 theorem natdata_isInv_commV (L : Subgroup (MulAut S)) : XMod.IsInv ↥L (commV L) := by
   intro a l hl
   exact CFSG.Quasithin.commV_apply_mem_of_mem a.2 hl
 
+omit [Finite S] in
 theorem natdata_mem_normalizer {L : Subgroup (MulAut S)} {g : MulAut S} (hg : g ∈ L) :
     g ∈ Subgroup.normalizer (L : Set (MulAut S)) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -35,10 +37,12 @@ theorem natdata_mem_normalizer {L : Subgroup (MulAut S)} {g : MulAut S} (hg : g 
   exact ⟨fun hy => L.mul_mem (L.mul_mem hg hy) (L.inv_mem hg), fun hy => by
     simpa [mul_assoc] using L.mul_mem (L.mul_mem (L.inv_mem hg) hy) hg⟩
 
+omit [Finite S] in
 theorem natdata_isInv_fixV (L : Subgroup (MulAut S)) : XMod.IsInv ↥L (fixV L) := by
   intro a s hs
   exact CFSG.Quasithin.fixV_apply_mem_of_mem_normalizer (natdata_mem_normalizer a.2) hs
 
+omit [Finite S] in
 theorem natdata_false_of_trivial (L : Subgroup (MulAut S)) (hm : 9 ≤ m)
     (hiso : Nonempty (↥L ≃* alternatingGroup (Fin m)))
     (h : ∀ v : S, ∀ x ∈ L, x v = v) : False := by
@@ -100,7 +104,7 @@ theorem natural_data_of_gf2 (hGF2 : GF2EightFive) (hS2 : ∀ s : S, s ^ 2 = 1)
     ⟨(MulEquiv.subgroupCongr hcomm).trans Subgroup.topEquiv, fun x => by
       first
         | rfl
-        | simp [MulEquiv.trans_apply, Subgroup.topEquiv_apply, MulEquiv.subgroupCongr_apply]⟩
+⟩
   have hbij : Function.Bijective (π'.comp e1.symm.toMonoidHom) := by
     refine ⟨?_, ?_⟩
     · rw [injective_iff_map_eq_one]
@@ -121,7 +125,7 @@ theorem natural_data_of_gf2 (hGF2 : GF2EightFive) (hS2 : ∀ s : S, s ^ 2 = 1)
     ⟨MulEquiv.ofBijective _ hbij, fun s => by
       first
         | rfl
-        | simp [MulEquiv.ofBijective_apply]⟩
+⟩
   have hequivar : ∀ (g : ↥G) (s : S),
       Multiplicative.toAdd (π ((g : MulAut S) s)) = altAct (θ g) (Multiplicative.toAdd (π s)) := by
     intro g s

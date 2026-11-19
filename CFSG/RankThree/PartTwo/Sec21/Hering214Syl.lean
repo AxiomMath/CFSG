@@ -72,7 +72,7 @@ theorem eInvFourFact_of_sylow (hZ : Subgroup.center Y = ⊥)
     (hinv : ∀ e ∈ E₀, ∀ w ∈ W₀, e * w * e⁻¹ ∈ W₀)
     (hmove : ∃ e ∈ E₀, ∃ w ∈ W₀, e * w * e⁻¹ ≠ w) : EInvFourFact Y := by
   intro Ē Ū hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconjinj : Function.Injective (MulAut.conj : Y →* MulAut Y) :=
     Item211LieProof.conj_injective_of_center_eq_bot hZ
   have hEcube : ∀ α ∈ Ē, α ^ 3 = 1 := fun α hα => hd.elem3.2 α hα

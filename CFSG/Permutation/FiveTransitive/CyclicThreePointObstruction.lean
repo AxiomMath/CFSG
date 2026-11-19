@@ -70,9 +70,9 @@ theorem false_of_cyclic_factor_range_card_six
     change (θ.comp η n : Equiv.Perm F) = q
     rw [hθcomp]
     exact hn
-  letI : IsCyclic ρ.range :=
+  let : IsCyclic ρ.range :=
     isCyclic_of_surjective θ hθsurjective
-  letI : IsMulCommutative ρ.range :=
+  let : IsMulCommutative ρ.range :=
     IsCyclic.isMulCommutative
   have hpermCard :
       Nat.card (Equiv.Perm F) = 6 := by

@@ -48,10 +48,10 @@ theorem pair_422 (hSp : ∀ g ∈ S.L2, g ∉ S.K → ∀ z ∈ S.Z, g * z * g�
 theorem covering_422 (hSp : ∀ g ∈ S.L2, g ∉ S.K → ∀ z ∈ S.Z, g * z * g⁻¹ ∈ S.Z → z ∈ S.B)
     {c : G} (hcA : c ∈ S.A') (hcB : c ∉ S.B) : ∃ g ∈ S.L2, c ∈ S.conjZ_422 g := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hB := S.baseFacts
   let K' : Subgroup ↥S.L2 := S.K.subgroupOf S.L2
-  haveI : Fintype (↥S.L2 ⧸ K') := Fintype.ofFinite _
+  have : Fintype (↥S.L2 ⧸ K') := Fintype.ofFinite _
   have hQ : Fintype.card (↥S.L2 ⧸ K') = 5 := by
     rw [← Nat.card_eq_fintype_card]
     exact hB.relIndex_K_L2

@@ -36,10 +36,10 @@ theorem dsSzL2_of_dsAL2 (hA : DSAL2Statement) (hF : F112SecondNoSzFact) : DSSzL2
   have hns1 : ¬ Group.IsSolvable ↥L1 := by
     intro hs
     apply not_isSolvable_sz ha
-    haveI := hs
+    have := hs
     have hq1 : Group.IsSolvable (oTwoQuot ↥L1) :=
       Group.isSolvable_of_surjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-    haveI := hq1
+    have := hq1
     exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
   obtain ⟨L1', L2', hsw, -, -, h2⟩ := hA G L1 L2 S hyp hq hS hns1 hns2 (Or.inr hL2)
   unfold F112Second at h2

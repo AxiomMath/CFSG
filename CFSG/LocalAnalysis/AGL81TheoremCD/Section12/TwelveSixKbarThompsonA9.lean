@@ -90,7 +90,7 @@ theorem alt9_facts {Y : Type} [Group Y] [Finite Y] (e : Y ≃* alternatingGroup 
       show eqPt.permCongrHom ((e (e.symm ⟨_, hσ⟩) : alternatingGroup (Fin 9)) : Perm (Fin 9)) = τ
       rw [MulEquiv.apply_symm_apply]
       exact eqPt.permCongrHom.apply_symm_apply τ
-  obtain ⟨g, hg⟩ := exists_conj_le_sylowT (P.isPGroup'.map ι)
+  obtain ⟨g, hg⟩ := exists_conj_le_sylowT (P.isPGroup.map ι)
   let φ : Y →* Perm Pt := (MulAut.conj g).toMonoidHom.comp ι
   have hφ : Function.Injective φ := (MulAut.conj g).injective.comp hι
   have hφP : (P : Subgroup Y).map φ = sylowT := by

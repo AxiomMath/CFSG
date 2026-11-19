@@ -85,7 +85,7 @@ theorem Q_lt : ∀ p < 2300, Q p < 2300 := by
   simp only [Bool.and_eq_true] at h
   exact Nat.blt_eq.mp h.1.1.2
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG.KD.Co2Dc2 in
 theorem facts :
     CFSG.KC.SLD2.dc2Check C D = true ∧ permOK = true ∧

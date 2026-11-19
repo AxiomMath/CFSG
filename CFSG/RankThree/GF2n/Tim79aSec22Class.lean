@@ -22,9 +22,9 @@ theorem dbarOf_exists_odd_partner :
     ∀ a ∈ dbarOf V H, ∃ c ∈ dbarOf V H, Odd (orderOf (a * c)) ∧ a * c ≠ 1 := by
   intro a ha
   obtain ⟨y, hy, hodd, h1⟩ := CFSG.Timmesfeld.exists_odd_partner_of_not_mem_pCoreOf
-    (Y := barOf V H (xOf V H)) hc.dbarOf_isRootInvolutionSet hc.dbarOf_subset_barOf_xOf
-    (fun y _ x hx => hc.conj_mem_dbarOf hx) ha (hc.dbarOf_not_mem_pCoreOf a ha)
-  exact ⟨y * a * y⁻¹, hc.conj_mem_dbarOf ha, hodd, h1⟩
+    (Y := barOf V H (xOf V H)) hc.dbarOf_isRootInvolutionSet CFSG.RankThree.GF2n.Tim79a.MinCex.dbarOf_subset_barOf_xOf
+    (fun y _ x hx => CFSG.RankThree.GF2n.Tim79a.MinCex.conj_mem_dbarOf hx) ha (hc.dbarOf_not_mem_pCoreOf a ha)
+  exact ⟨y * a * y⁻¹, CFSG.RankThree.GF2n.Tim79a.MinCex.conj_mem_dbarOf ha, hodd, h1⟩
 
 theorem barOf_V_conj {a b : Hbar V H} (ha : a ∈ barOf V H V) (hb : b ∈ barOf V H V)
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) :
@@ -56,18 +56,18 @@ theorem barOf_V_conj {a b : Hbar V H} (ha : a ∈ barOf V H V) (hb : b ∈ barOf
     have : a ^ 2 = 1 := hVb.2 a ha
     exact (inv_eq_of_mul_eq_one_right (by rw [← sq]; exact this)).symm
   exact CFSG.Timmesfeld.exists_conj_of_commuting_pair_sub (Y := barOf V H (xOf V H))
-    hc.dbarOf_isRootInvolutionSet hc.dbarOf_subset_barOf_xOf
-    (fun y _ x hx => hc.conj_mem_dbarOf hx) hc.dbarOf_exists_odd_partner
-    (hc.barOf_V_subset_dbarOf ha ha1) (hc.barOf_V_subset_dbarOf hb hb1) hab hcomm
-    (hc.barOf_V_subset_dbarOf ((barOf V H V).mul_mem ha hb) hab1)
+    hc.dbarOf_isRootInvolutionSet CFSG.RankThree.GF2n.Tim79a.MinCex.dbarOf_subset_barOf_xOf
+    (fun y _ x hx => CFSG.RankThree.GF2n.Tim79a.MinCex.conj_mem_dbarOf hx) hc.dbarOf_exists_odd_partner
+    (CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf ha ha1) (CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hb hb1) hab hcomm
+    (CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf ((barOf V H V).mul_mem ha hb) hab1)
 
 theorem dbarOf_isClass : ∃ d₀ ∈ dbarOf V H, ∀ y : Hbar V H,
     y ∈ dbarOf V H ↔ ∃ x ∈ barOf V H (xOf V H), y = x * d₀ * x⁻¹ := by
-  obtain ⟨d, hdV, hdW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨d, hdV, hdW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   have hdH : d ∈ H := hc.V_le_H hdV
   have hd1 : piBar V H ⟨d, hdH⟩ ≠ 1 := fun h => hdW ((piBar_eq_one_iff _).1 h)
   have hd0 : piBar V H ⟨d, hdH⟩ ∈ dbarOf V H :=
-    hc.barOf_V_subset_dbarOf (mem_barOf_iff.mpr ⟨⟨d, hdH⟩, hdV, rfl⟩) hd1
+    CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf (mem_barOf_iff.mpr ⟨⟨d, hdH⟩, hdV, rfl⟩) hd1
   refine ⟨piBar V H ⟨d, hdH⟩, hd0, fun y => ⟨fun hy => ?_, ?_⟩⟩
   · obtain ⟨e, ⟨he1, U, hU, heU⟩, heW, rfl⟩ := mem_dbarOf_iff.mp hy
     obtain ⟨g, hg, rfl⟩ := hU
@@ -90,7 +90,7 @@ theorem dbarOf_isClass : ∃ d₀ ∈ dbarOf V H, ∀ y : Hbar V H,
     rw [e2, map_mul, map_mul, map_inv, ← hzv]
     group
   · rintro ⟨x, -, rfl⟩
-    exact hc.conj_mem_dbarOf (y := x) hd0
+    exact CFSG.RankThree.GF2n.Tim79a.MinCex.conj_mem_dbarOf (y := x) hd0
 
 end MinCex
 

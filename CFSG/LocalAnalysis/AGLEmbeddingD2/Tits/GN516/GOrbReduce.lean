@@ -21,7 +21,7 @@ theorem gOrbConcl_of_simple (h : KFactChevGraphOrbitSimple) {Y : Type} [Group Y]
   have hLN : L ≤ N := hN ▸ Subgroup.le_normalizer
   have hRN' : R ≤ N := hN ▸ hRN
   have hPN : P ≤ N := hMin.1.trans hLN
-  haveI : (L.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNle
+  have : (L.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNle
   have hι : Function.Injective N.subtype := N.subtype_injective
   have hL₁ : (L.subgroupOf N).map N.subtype = L := Subgroup.map_subgroupOf_eq_of_le hLN
   have hR₁ : (R.subgroupOf N).map N.subtype = R := Subgroup.map_subgroupOf_eq_of_le hRN'
@@ -33,7 +33,7 @@ theorem gOrbConcl_of_simple (h : KFactChevGraphOrbitSimple) {Y : Type} [Group Y]
       ↥L ⧸ Subgroup.center ↥L :=
     QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)
   have hS₁ : IsSimpleGroup (↥(L.subgroupOf N) ⧸ Subgroup.center ↥(L.subgroupOf N)) := by
-    haveI := hS
+    have := hS
     exact e'.isSimpleGroup
   have hC₁ : IsChevTwo (↥(L.subgroupOf N) ⧸ Subgroup.center ↥(L.subgroupOf N)) :=
     isChevTwo_congr e'.symm hC

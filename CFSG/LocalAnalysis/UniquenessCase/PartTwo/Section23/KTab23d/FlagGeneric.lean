@@ -57,7 +57,7 @@ theorem isSylowTwoOf_map [Finite W] (H : Subgroup (MulAut W)) (S : Sylow 2 ↥H)
   have hsub : ((S : Subgroup ↥H).map H.subtype).subgroupOf H = (S : Subgroup ↥H) := by
     rw [Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
   refine ⟨Subgroup.map_subtype_le (S : Subgroup ↥H), ?_, ?_⟩
-  · exact S.isPGroup'.of_equiv
+  · exact S.isPGroup.of_equiv
       (Subgroup.equivMapOfInjective (S : Subgroup ↥H) H.subtype H.subtype_injective)
   · rw [hsub]
     exact S.not_dvd_index
@@ -66,9 +66,9 @@ theorem pointStab_map_eq (H : Subgroup (MulAut W)) (S : Sylow 2 ↥H) :
     letI : MulDistribMulAction ↥S W :=
       MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
     (pointStab H S).map H.subtype = H ⊓ stabW (CFSG.fixedPointSubgroup ↥S W) := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   ext x
   constructor
   · intro hx

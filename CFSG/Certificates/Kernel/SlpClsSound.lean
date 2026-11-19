@@ -429,7 +429,6 @@ theorem clsL_sound {q w S d T L H CM RM ONE LV HV A B p k t : ℕ}
   ·
     have e : (tb.map (lk ONE bl cur n)).getD 0 0 = ONE := Nat.eq_of_beq_eq_true ht0
     rw [slc_getD_map htpos 0 0] at e
-    beta_reduce
     rw [e]
     exact hone.2
   ·
@@ -441,7 +440,6 @@ theorem clsL_sound {q w S d T L H CM RM ONE LV HV A B p k t : ℕ}
     refine ⟨_, hc, ?_⟩
     have e := hr.2
     rw [slc_getD_map hi 0 0, slc_getD_map hj 0 0, slc_getD_map hc 0 0] at e
-    beta_reduce
     rw [← (hmulC _ _ (hPl _).1 (hPl _).1).2, e]
   ·
     intro i hi
@@ -450,7 +448,6 @@ theorem clsL_sound {q w S d T L H CM RM ONE LV HV A B p k t : ℕ}
     obtain ⟨-, hc, hp1, -⟩ := ht
     refine ⟨hc, ?_⟩
     rw [slc_getD_map hi 0 0, slc_getD_map hc 0 0] at hp1
-    beta_reduce
     have h2 := (slc_pw1 hmulC (hPl (tb.getD i 0)).1 (p - 1)).2
     rw [hp1, Nat.sub_add_cancel hp] at h2
     exact h2.symm
@@ -484,10 +481,8 @@ theorem clsL_sound {q w S d T L H CM RM ONE LV HV A B p k t : ℕ}
     have hyC : Canon q d w (wordP (mulR q w S d T L H CM RM) ONE
         (nthD ONE (sg.map (lk ONE bl cur n))) e.2.1) := hw.1
     refine ⟨?_, fun z hz => ?_⟩
-    · beta_reduce
-      rw [← hwM, ← (hmulC _ _ (hPl _).1 (hPl _).1).2, ← (hmulC _ _ (hPl _).1 hyC).2, h1]
-    · beta_reduce
-      rw [← hwM, ← (hmulC _ _ (hPl _).1 hyC).2, ← (hmulC _ _ hyC (hPl _).1).2,
+    · rw [← hwM, ← (hmulC _ _ (hPl _).1 (hPl _).1).2, ← (hmulC _ _ (hPl _).1 hyC).2, h1]
+    · rw [← hwM, ← (hmulC _ _ (hPl _).1 hyC).2, ← (hmulC _ _ hyC (hPl _).1).2,
         slc_commOK _ h2 z hz]
   ·
     let P2 : ℕ → Prop := fun x => Canon q d w x ∧ ordMat q d w S x ∈ Submonoid.closure

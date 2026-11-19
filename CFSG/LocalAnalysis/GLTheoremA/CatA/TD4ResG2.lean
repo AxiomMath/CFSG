@@ -23,8 +23,8 @@ theorem glaPLayer_centralizer_ne_bot_g2 {k : Type} [Field k] [Finite k]
   classical
   have hq3 : ¬ 3 ∣ Nat.card k := by
     intro h3
-    haveI : Fintype k := Fintype.ofFinite k
-    haveI := ringChar.charP k
+    have : Fintype k := Fintype.ofFinite k
+    have := ringChar.charP k
     obtain ⟨m, hp, hcard⟩ := FiniteField.card k (ringChar k)
     rw [Nat.card_eq_fintype_card, hcard] at h3
     exact hk3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp
@@ -83,7 +83,7 @@ theorem glaPLayer_centralizer_ne_bot_g2 {k : Type} [Field k] [Finite k]
             have hlt := Nat.mod_lt (Nat.card k) (by norm_num : 0 < 3)
             have hne : Nat.card k % 3 ≠ 0 := fun h => hq3 (Nat.dvd_of_mod_eq_zero h)
             omega
-          rcases hmod with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+          rcases hmod with h | h <;> rw [Nat.pow_mod, h]
         obtain ⟨e⟩ := CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.nonempty_mulEquiv_g2ShortSL2
           (K := k)
         rw [← Nat.card_congr e.toEquiv, CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two]

@@ -15,9 +15,10 @@ variable {G : Type} [Group G] [Finite G] {z : G} (e : ↥(Cz z) ≃* L52.Hc)
 open Classical in
 @[expose] noncomputable def toH (x : G) : L52.Hc := if h : x ∈ Cz z then e ⟨x, h⟩ else 1
 
+omit [Finite G] in
 theorem toH_emb (y : L52.Hc) : toH e (emb e y) = y := by
   unfold toH
-  rw [dif_pos (emb_mem_Cz e y)]
+  rw [dite_eq_left (emb_mem_Cz e y)]
   simp [emb]
 
 @[expose] noncomputable def uG (x : G) : V2 := L52.uC (toH e x)
@@ -26,12 +27,16 @@ theorem toH_emb (y : L52.Hc) : toH e (emb e y) = y := by
 
 @[expose] noncomputable def mG (x : G) : M2 := L52.zC (toH e x)
 
+omit [Finite G] in
 theorem uG_emb (y : L52.Hc) : uG e (emb e y) = L52.uC y := by rw [uG, toH_emb]
 
+omit [Finite G] in
 theorem wG_emb (y : L52.Hc) : wG e (emb e y) = L52.wC y := by rw [wG, toH_emb]
 
+omit [Finite G] in
 theorem mG_emb (y : L52.Hc) : mG e (emb e y) = L52.zC y := by rw [mG, toH_emb]
 
+omit [Finite G] in
 theorem tdata : TData (tr e L52.A1) (tr e L52.A2) (uG e) (wG e) (mG e) where
   cu :=
     { mul := by

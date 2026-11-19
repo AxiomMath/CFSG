@@ -65,8 +65,7 @@ private lemma l48sM_mem_iff {K : Type} [Field K] [Finite K] [CharP K 2]
     intro u hu
     exact (congrArg (fun f : Module.End K (Fin 4 ⊕ Fin 4 → K) => f u)
       (l48sM_eiso_coe s)).trans (hs u hu)
-  · intro hs
-    intro u hu
+  · intro hs u hu
     exact (congrArg (fun f : Module.End K (Fin 4 ⊕ Fin 4 → K) => f u)
       (l48sM_eiso_coe s)).symm.trans (hs.2 u hu)
 

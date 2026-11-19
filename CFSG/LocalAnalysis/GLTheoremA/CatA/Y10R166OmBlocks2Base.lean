@@ -31,7 +31,8 @@ variable {K : Type} [Field K] [CharP K 2]
 
 @[expose] def oneIdx (n : ℕ) (hn : 4 ≤ n) : Fin n := ⟨1, by omega⟩
 
-@[expose] noncomputable def plusFrame (n : ℕ) :
+omit [CharP K 2] in
+theorem plusFrame (n : ℕ) :
     IsHypFrame (coordinateQuadPlus n K) (plusFrameLeft n) (plusFrameRight n) :=
   isHypFrame_plus K n
 
@@ -48,6 +49,7 @@ variable {K : Type} [Field K] [CharP K 2]
     exact ⟨by simp [Pi.smul_apply, h1], by simp [Pi.smul_apply, h2],
       by simp [Pi.smul_apply, h3]⟩
 
+omit [CharP K 2] in
 theorem polar_frameE_rootSpace (n : ℕ) (hn : 4 ≤ n) (y : rootSpace (K := K) n hn) :
     polar (coordinateQuadPlus n K) (frameE n (twoIdx n hn))
       ((y : rootSpace n hn) : Fin (2 * n) → K) = 0 := by
@@ -106,7 +108,7 @@ theorem qTorusHom_injective (n q : ℕ) :
 
 theorem card_qTorus (n q : ℕ) (hq : q.Prime) (hdvd : q ∣ Nat.card K - 1) :
     Nat.card (qTorus (K := K) n q) = q ^ n := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   rw [qTorus_eq_range, MonoidHom.range_eq_map,
     Subgroup.card_map_of_injective (qTorusHom_injective n q)]
   rw [show Nat.card ↥(⊤ : Subgroup (Fin n → rootsOfUnity q K)) =
@@ -116,7 +118,8 @@ theorem card_qTorus (n q : ℕ) (hq : q.Prime) (hdvd : q ∣ Nat.card K - 1) :
   simp only [CFSG.LinearGroups.card_rootsOfUnity_of_dvd (K := K) (d := q) hdvd]
   rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
 
-theorem isElemAbelian_top_pi_rootsOfUnity [Finite K] (n q : ℕ) (hdvd : q ∣ Nat.card K - 1) :
+omit [CharP K 2] [Finite K] in
+theorem isElemAbelian_top_pi_rootsOfUnity [Finite K] (n q : ℕ) (_hdvd : q ∣ Nat.card K - 1) :
     IsElemAbelian q (⊤ : Subgroup (Fin n → rootsOfUnity q K)) := by
   have hcomm : IsMulCommutative ↥(⊤ : Subgroup (Fin n → rootsOfUnity q K)) :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (mul_comm _ _)
@@ -125,7 +128,7 @@ theorem isElemAbelian_top_pi_rootsOfUnity [Finite K] (n q : ℕ) (hdvd : q ∣ N
   apply Subtype.ext
   exact (mem_rootsOfUnity q ((x i : rootsOfUnity q K) : Kˣ)).1 (x i).2
 
-theorem isElemAbelian_qTorus (n q : ℕ) (hdvd : q ∣ Nat.card K - 1) :
+theorem isElemAbelian_qTorus (n q : ℕ) (_hdvd : q ∣ Nat.card K - 1) :
     IsElemAbelian q (qTorus (K := K) n q) := by
   have hcomm : IsMulCommutative ↥(qTorus (K := K) n q) := by
     refine IsMulCommutative.of_comm fun a b => ?_

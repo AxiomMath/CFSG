@@ -154,8 +154,6 @@ theorem wMat_mul_rootMat_one_zero_mul_wMat :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [wMat, Matrix.mul_apply, Fin.sum_univ_four]
-  all_goals ring_nf
-  all_goals simp
 
 theorem exists_pow_one_add_theta (β : F a) : ∃ y : F a, y ^ (1 + 2 ^ (a + 1)) = β := by
   let _ : Fintype (F a) := Fintype.ofFinite _
@@ -258,7 +256,7 @@ theorem cases_of_mem_szGenerators {g : GL (Fin 4) (F a)}
     (∃ α β, (⟨g, hgSz⟩ : ↥(Sz a)) = rootSz a α β) ∨
       (∃ x, (⟨g, hgSz⟩ : ↥(Sz a)) = torusSz a x) ∨
       (⟨g, hgSz⟩ : ↥(Sz a)) = w a := by
-  simp only [SzGenerators, Set.mem_setOf_eq] at hg
+  simp only [SzGenerators, Set.mem_ofPred_eq] at hg
   rcases hg with ⟨α, β, h⟩ | ⟨x, h⟩ | h
   · exact Or.inl ⟨α, β, Subtype.ext (Units.ext h)⟩
   · exact Or.inr (Or.inl ⟨x, Subtype.ext (Units.ext h)⟩)

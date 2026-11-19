@@ -10,7 +10,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
-theorem sz32_hFd (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hNonab : KFactNonabF5)
+theorem sz32_hFd (hS : Setting G) (_hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hNonab : KFactNonabF5)
     (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G} (hP : Sz32Struct P x J a c y)
     (hL : Sz32Lines P x (a ^ 5)) (hZ : Sz32ZFacts P M x (a ^ 5)) {U : Subgroup G}
     (hU : Sz32Plane P x a c y U)

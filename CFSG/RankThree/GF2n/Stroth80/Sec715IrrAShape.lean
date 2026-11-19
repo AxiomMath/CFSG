@@ -114,8 +114,8 @@ theorem ConfigAData.mem_range_sup_iff (h310chi : Stroth310ChiStatement)
     (w : ↥(wsub hS t)) :
     (w : M₀.E) ∈ LinearMap.range (dlin hS v (mem_bar_H0_of_CN hv)) ⊔ hc.VtSub hS.model t ↔
       eM (Submodule.Quotient.mk w) ∈ (LinearMap.ker (μ.flip y)).map (pureT (ψ *ᵥ f)) := by
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by rw [D.finrank₃]; norm_num)
+  have : Module.Finite K M₀.E := M₀.fin
+  have : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by rw [D.finrank₃]; norm_num)
   have hvH := mem_bar_H0_of_CN hv
   obtain ⟨-, hDW, hDE⟩ := dmap_CN_facts h310chi h52a hS hs hr hv
   obtain ⟨hnd, hrefl⟩ := bilin_nondegenerate_isRefl (M₀ := M₀)
@@ -200,8 +200,8 @@ theorem ConfigAData.exists_pureT_of_conj (h310chi : Stroth310ChiStatement)
     (h0 : delta hS t v (mem_bar_H0_of_CN hvN) ≠ 0) :
     ∃ (f : Fin 2 → K) (y : L₄), f ≠ 0 ∧ y ≠ 0 ∧ q₄ y = 0 ∧
       eN ⟨delta hS t v (mem_bar_H0_of_CN hvN), delta_mem_deltaSub hS hvN⟩ = pureT f y := by
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by rw [D.finrank₃]; norm_num)
+  have : Module.Finite K M₀.E := M₀.fin
+  have : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by rw [D.finrank₃]; norm_num)
   have hrk := finrank_range_delta_conj_le hS h310chi h52a hMp hs hr hp hZ0 hgM hv hvN
   rw [D.finrank_range_delta hvN] at hrk
   refine T.exists_eq_pureT D.finrank₃ ?_ hrk
@@ -219,7 +219,7 @@ theorem hasLineProp_of (h310chi : Stroth310ChiStatement) (h52a : Stroth52aStatem
     (hTI : ∀ g ∈ M, ∀ u ∈ Z0, u ∉ Q → g * u * g⁻¹ ∈ Z0 → g ∈ Subgroup.normalizer (Z0 : Set G)) :
     HasLineProp hS t eN q₄ Z0 := by
   classical
-  haveI : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by rw [D.finrank₃]; norm_num)
+  have : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by rw [D.finrank₃]; norm_num)
   intro g hgM hV' hne
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0

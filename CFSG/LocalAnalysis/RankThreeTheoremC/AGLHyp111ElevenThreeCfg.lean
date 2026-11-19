@@ -181,7 +181,7 @@ theorem AGL81CfgData.prime_dvd_card_jOne_of_two_dvd {p : ℕ} {P : Sylow p G}
   have hTR : (T : Subgroup D).map D.subtype = R := by
     have hRT : R ≤ (T : Subgroup D).map D.subtype := fun r hr =>
       ⟨⟨r, (le_sup_right : R ≤ D) hr⟩, hT hr, rfl⟩
-    exact (hSD.2.2 _ (Subgroup.map_subtype_le _) (T.isPGroup'.map _) (hSR ▸ hRT)).trans hSR
+    exact (hSD.2.2 _ (Subgroup.map_subtype_le _) (T.isPGroup.map _) (hSR ▸ hRT)).trans hSR
   have hTeq : (T : Subgroup D) = R.subgroupOf D := by
     rw [← hTR]
     exact (Subgroup.comap_map_eq_self_of_injective D.subtype_injective _).symm

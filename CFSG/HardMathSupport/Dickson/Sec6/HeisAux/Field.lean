@@ -13,7 +13,7 @@ open Matrix CFSG.Open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupp
   CFSG.HardMathSupport.Solomon.UniquenessMaximal.GenL3
 
 theorem charP_two_of_card {K : Type} [Field K] [Finite K] (hK : Nat.card K = 64) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hp : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨n, hpr, hcard⟩ := FiniteField.card K (ringChar K)
   have hK' : Fintype.card K = 64 := by rw [← Nat.card_eq_fintype_card]; exact hK

@@ -42,6 +42,7 @@ theorem card_fixS_conj_inv (g x : G) :
   have := card_fixS_conj (Ω := Ω) g⁻¹ x
   rwa [inv_inv] at this
 
+omit [Fintype Ω] in
 theorem card_modEq_filter {p : ℕ} [Fact p.Prime] {y : G} (hy : y ^ p = 1) (S : Finset Ω)
     (hS : ∀ i ∈ S, y • i ∈ S) :
     S.card ≡ (S.filter fun i => y • i = i).card [MOD p] := by
@@ -66,8 +67,7 @@ theorem card_modEq_filter {p : ℕ} [Fact p.Prime] {y : G} (hy : y ^ p = 1) (S :
   rw [Fintype.card_subtype]
   refine (Finset.card_bij (fun (x : S) _ => x.1) ?_ ?_ ?_).symm
   · intro x hx
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.mem_fixedPoints,
-      Function.IsFixedPt] at hx
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx
     have := congrArg Subtype.val hx
     exact Finset.mem_filter.2 ⟨x.2, this⟩
   · intro a _ b _ h
@@ -75,8 +75,7 @@ theorem card_modEq_filter {p : ℕ} [Fact p.Prime] {y : G} (hy : y ^ p = 1) (S :
   · intro i hi
     obtain ⟨hiS, hiy⟩ := Finset.mem_filter.1 hi
     refine ⟨⟨i, hiS⟩, ?_, rfl⟩
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.mem_fixedPoints,
-      Function.IsFixedPt]
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
     exact Subtype.ext hiy
 
 theorem card_fix_modEq_of_commute {p q : ℕ} [Fact p.Prime] [Fact q.Prime] {x y : G} (hx : x ^ p = 1)

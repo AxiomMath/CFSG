@@ -75,7 +75,7 @@ theorem small_Ree_Sylow_torus_Schreier_criterion {Ω : Type*} [Finite G] [MulAct
     rw [map_inv, inv_inv] at h2
     have h3 : (r α)⁻¹ * (r α * φ * (r α)⁻¹) * r α = φ := by group
     rwa [h3] at h2
-  have hN := (small_Ree_Frattini_torus_normalizer_solvable p U.isPGroup' n hn hK e Th hT).2
+  have hN := (small_Ree_Frattini_torus_normalizer_solvable p U.isPGroup n hn hK e Th hT).2
   let r' : C →* Subgroup.normalizer (Th : Set (MulAut (U : Subgroup G))) := r.codRestrict _ hrN
   have hr' : Function.Injective r' := fun α β h => hinj (congrArg Subtype.val h)
   have hCsolv : Group.IsSolvable C := Group.isSolvable_of_isSolvable_injective hr'

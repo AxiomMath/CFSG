@@ -235,7 +235,7 @@ private lemma zff_pairing_card_eq (hp : p ≠ 2) {b : Basis (Fin 4) (ZMod p) U} 
         intro hx0
         rw [hx0, zero_mul] at hxy
         exact (inv_ne_zero h2) hxy.symm
-      rw [hxy, if_pos hx]
+      rw [hxy, ite_eq_left hx]
   have hsumJ : (J.card : ZMod p) * (2 : ZMod p)⁻¹ = 2 := by
     calc (J.card : ZMod p) * (2 : ZMod p)⁻¹
         = ∑ i ∈ J, (2 : ZMod p)⁻¹ := by simp [J]
@@ -452,9 +452,9 @@ private lemma zff_signUnit_val (a : ZMod p) (h : a = 1 ∨ a = -1) :
     (zff_signUnit a h : ZMod p) = a := by
   rw [zff_signUnit]
   by_cases ha : a = -1
-  · rw [if_pos ha, ha]
+  · rw [ite_eq_left ha, ha]
     rfl
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     rcases h with h1 | hneg
     · exact h1.symm
     · exact absurd hneg ha
@@ -476,9 +476,9 @@ private lemma zff_r_eq_diagMap {b : Basis (Fin 4) (ZMod p) U}
       diagMap_apply_basis b (fun k => if k = i then (-1 : (ZMod p)ˣ) else 1) k]
     by_cases hki : k = i
     · subst k
-      rw [hφ i, if_pos rfl]
+      rw [hφ i, ite_eq_left rfl]
       module
-    · rw [hφzero i k (Ne.symm hki), if_neg hki]
+    · rw [hφzero i k (Ne.symm hki), ite_eq_right hki]
       simp
   exact congrArg (fun f : U →ₗ[ZMod p] U => f v) hlin
 
@@ -526,9 +526,9 @@ private lemma zff_signUnit_eq_one_or_neg (a : ZMod p) (h : a = 1 ∨ a = -1) :
   rw [zff_signUnit]
   by_cases ha : a = -1
   · right
-    rw [if_pos ha]
+    rw [ite_eq_left ha]
   · left
-    rw [if_neg ha]
+    rw [ite_eq_right ha]
 
 private lemma zff_sign_eq_or_neg {a b : ZMod p} (ha : a = 1 ∨ a = -1) (hb : b = 1 ∨ b = -1) :
     b = a ∨ b = -a := by

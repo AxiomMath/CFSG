@@ -35,8 +35,8 @@ theorem om_facts (hc : P23Cfg n Y R S t K' W u e g) :
 theorem p23SecFamV_pSpan (R V : Subgroup Y) : TC.Thin.pSpan (p23SecFamV R V) = ⊤ :=
   sylFamA_gen
 
-theorem p23SecFamV_hypOmegaGen (hc : P23Cfg n Y R S t K' W u e g) (hZ : P23ZData t u e Z)
-    (hVZ : V ≤ Z) (hL1 : SecCoresTwoGroup (Om R) V) : HypOmegaGen (p23SecFamV R V) :=
+theorem p23SecFamV_hypOmegaGen (hc : P23Cfg n Y R S t K' W u e g) (_hZ : P23ZData t u e Z)
+    (_hVZ : V ≤ Z) (hL1 : SecCoresTwoGroup (Om R) V) : HypOmegaGen (p23SecFamV R V) :=
   sylFamA_hypOmegaGen (om_facts hc).1 hL1
 
 theorem p23SecFamV_aEmpty (hc : P23Cfg n Y R S t K' W u e g) (hZ : P23ZData t u e Z)

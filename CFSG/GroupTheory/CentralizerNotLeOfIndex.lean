@@ -27,7 +27,7 @@ theorem centralizer_not_le_of_dvd_index {B : Subgroup X}
   have hRnt : Nontrivial ↥(R : Subgroup X) := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     nlinarith [Nat.le_of_dvd Nat.card_pos hr2R, (Fact.out : r.Prime).two_le]
-  obtain ⟨k, hDcard⟩ := ((Sylow.isPGroup' R).to_le (inf_le_right : C ⊓ R ≤ R)).exists_card_eq
+  obtain ⟨k, hDcard⟩ := ((Sylow.isPGroup R).to_le (inf_le_right : C ⊓ R ≤ R)).exists_card_eq
   have hk : k ≤ 1 := by
     by_contra hk
     exact hBr ((hDcard ▸ Nat.pow_dvd_pow r (by omega : 2 ≤ k)).trans
@@ -51,7 +51,7 @@ theorem centralizer_not_le_of_dvd_index {B : Subgroup X}
     have hdvd : Nat.card (Subgroup.center (R : Subgroup X)) ∣ r := by
       simpa [hPRcard] using Subgroup.card_dvd_of_le hcenter_le
     have hgt : 1 < Nat.card (Subgroup.center (R : Subgroup X)) :=
-      Finite.one_lt_card_iff_nontrivial.mpr ((Sylow.isPGroup' R).center_nontrivial)
+      Finite.one_lt_card_iff_nontrivial.mpr ((Sylow.isPGroup R).center_nontrivial)
     exact ((Fact.out : r.Prime).dvd_iff_eq (by omega)).mp hdvd |>.symm
   have hycenter : (⟨y, hPR (Subgroup.mem_zpowers y)⟩ : ↥(R : Subgroup X)) ∈
       Subgroup.center (R : Subgroup X) := by

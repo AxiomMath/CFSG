@@ -12,6 +12,7 @@ open scoped Matrix
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {k : Type} [Field k] [CharP k 2]
 
+omit [CharP k 2] in
 private theorem c2slomqnt_torus {n : ℕ} (hn : 3 ≤ n) (τ : F →+* k) :
     ∀ h ∈ (omPlusCurtisDatum n F hn).H,
       (omPlusNatRep n τ) h (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) =
@@ -51,7 +52,7 @@ private theorem c2slomqnt_torus {n : ℕ} (hn : 3 ≤ n) (τ : F →+* k) :
         intro a ha
         have h := congrFun hMv a
         rw [Matrix.mulVec_single_one, Matrix.col_apply, Pi.smul_apply, Pi.single_apply,
-          if_neg ha, smul_zero] at h
+          ite_eq_right ha, smul_zero] at h
         exact h
       refine ⟨hcol, ?_⟩
       rw [c2slomqnt_rep_apply, Matrix.mulVec_single_one]
@@ -59,11 +60,11 @@ private theorem c2slomqnt_torus {n : ℕ} (hn : 3 ≤ n) (τ : F →+* k) :
       rw [Matrix.col_apply, Matrix.map_apply, Pi.smul_apply, Pi.single_apply]
       by_cases ha : a = Sum.inl (⟨0, by omega⟩ : Fin n)
       · subst ha; simp
-      · rw [hcol a ha, map_zero, if_neg ha, smul_zero]
+      · rw [hcol a ha, map_zero, ite_eq_right ha, smul_zero]
     · refine ⟨?_, ?_⟩
       · intro a ha
-        simp [map_one, Matrix.one_apply, ha]
-      · simp [map_one, Matrix.one_apply]
+        simp [map_one, ha]
+      · simp [map_one]
     · intro x y hx hy
       obtain ⟨hxcol, hxval⟩ := hx
       obtain ⟨hycol, hyval⟩ := hy
@@ -99,7 +100,7 @@ private theorem c2slomqnt_hecke {n : ℕ} (hn : 3 ≤ n) (hF : 2 < Nat.card F) (
     (omPlusCurtisDatum n F hn).heckeT (omPlusNatRep n τ) s
       (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) = 0 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have : Fintype ((omPlusCurtisDatum n F hn).X s) := Fintype.ofFinite _
   have hcardF : (Fintype.card F : k) = 0 := by
     obtain ⟨f, -, hf⟩ := FiniteField.card F 2

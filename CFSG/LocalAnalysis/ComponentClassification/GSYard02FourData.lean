@@ -261,7 +261,7 @@ theorem FourJoinedData.sylowFourJoined {A : Type} [Group A] {P K : Subgroup A} [
     intro i hi
     by_cases hib : i < d.nBig
     · exact htree i hib
-    · push_neg at hib
+    · push Not at hib
       obtain ⟨g, hgP, j, hj, hgx, hgy⟩ := d.iso i hib hi
       have hjm : j < d.m := hj.trans_le d.nBig_le
       obtain ⟨gq, hgq⟩ : ∃ gq : ↥P, (gq : A) = g := ⟨lift g, lift_coe g hgP⟩

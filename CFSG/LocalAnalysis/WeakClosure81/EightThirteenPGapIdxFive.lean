@@ -22,7 +22,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 private theorem wcgapif_card_sylowTwo_sl2 {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = 4) :
     Nat.card (Sylow 2 (Matrix.SpecialLinearGroup (Fin 2) F)) = 5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL2 : CFSG.LocalAnalysis.UniquenessCase.UC22.IsL2
       (Matrix.SpecialLinearGroup (Fin 2) F) 2 :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22d_isL2_of_statedSL (n := 2) (F := F)
@@ -58,7 +58,7 @@ theorem relIndex_normalizer_eq_five_of_surj_sl2 {M : Type}
     (φ : ↥K →* Matrix.SpecialLinearGroup (Fin 2) F) (hφ : Function.Surjective φ)
     (hker : φ.ker = Q.subgroupOf K) :
     (K ⊓ ((⊤ : Subgroup M) ⊓ normalizer (U : Set M))).relIndex K = 5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU'p : IsPGroup 2 (U.subgroupOf K) := hU.comap_subtype (K := K)
   have hU'idx : ¬ 2 ∣ (U.subgroupOf K).index := by
     have hmul := Subgroup.relIndex_mul_relIndex (H := U) (K := K) (L := ⊤) hUK le_top

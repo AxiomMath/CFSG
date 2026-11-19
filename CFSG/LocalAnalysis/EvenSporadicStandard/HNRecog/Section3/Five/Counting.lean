@@ -13,11 +13,11 @@ variable {G : Type} [Group G]
 theorem IsConjOrbit.card_mul_card_stab {K : Subgroup G} [Finite K] {S : Set G} (h : IsConjOrbit K S)
     {c : G} (hc : c ∈ S) : Nat.card ↥S * Nat.card ↥(K ⊓ Gx c) = Nat.card ↥K := by
   classical
-  letI : MulAction ↥K G := MulAction.compHom G (MulAut.conj.comp K.subtype)
-  haveI : Fintype ↥K := Fintype.ofFinite ↥K
-  haveI : Fintype (MulAction.orbit ↥K c) :=
+  let : MulAction ↥K G := MulAction.compHom G (MulAut.conj.comp K.subtype)
+  have : Fintype ↥K := Fintype.ofFinite ↥K
+  have : Fintype (MulAction.orbit ↥K c) :=
     (Finite.finite_mulAction_orbit (M := ↥K) c).fintype
-  haveI : Fintype (MulAction.stabilizer ↥K c) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥K c) := Fintype.ofFinite _
   have hOS := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (↥K) c
   have hsmul : ∀ (k : ↥K) (x : G), k • x = (k : G) * x * (k : G)⁻¹ := by
     intro k x
@@ -61,7 +61,7 @@ theorem IsConjOrbit.card_mul_card_stab {K : Subgroup G} [Finite K] {S : Set G} (
 theorem card_isConj_mul_card_centralizer [Finite G] (a : G) :
     Nat.card {c : G // IsConj a c} * Nat.card ↥(Gx a) = Nat.card G := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct G) a
   rw [Subgroup.nat_card_centralizer_nat_card_stabilizer a]
   have e : Nat.card {s : G // IsConj a s} = Nat.card (MulAction.orbit (ConjAct G) a) :=

@@ -27,7 +27,7 @@ theorem sec11_permVec_single (σ : Equiv.Perm (Fin 6)) (i : Fin 6) :
   simp only [Function.comp_apply, Pi.single_apply]
   by_cases h : j = σ i
   · have h' : σ.symm j = i := (Equiv.symm_apply_eq σ).mpr h
-    simp [h, h']
+    simp [h]
   · have h' : σ.symm j ≠ i := fun hh => h ((Equiv.symm_apply_eq σ).mp hh)
     simp [h, h']
 
@@ -109,7 +109,7 @@ noncomputable def rho (h : Sec11Perm A M Alt φ) (m : G) : Equiv.Perm (Fin 6) :=
 theorem rho_spec (h : Sec11Perm A M Alt φ) {m : G} (hm : m ∈ M) :
     h.rho m ∈ Alt ∧ ∀ v, m * φ v * m⁻¹ = φ (permVec (h.rho m) v) := by
   unfold rho
-  rw [dif_pos hm]
+  rw [dite_eq_left hm]
   exact Classical.choose_spec (h.act m hm)
 
 theorem rho_mem (h : Sec11Perm A M Alt φ) {m : G} (hm : m ∈ M) : h.rho m ∈ Alt :=

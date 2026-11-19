@@ -22,7 +22,7 @@ theorem bal207SzCyclic_of_aut (h : Bal207SzAut) : Bal207SzCyclic := by
   have hp : (5 : ℕ).Prime := by norm_num
   have hBel : IsElemAbelian 5 B := hSC.2.1
   obtain ⟨A, hAB, hAC, hAsup⟩ := rankAux_exists_complement (K := K) hp hBel
-  haveI := hcyc A hAB hAC hAsup
+  have := hcyc A hAB hAC hAsup
   obtain ⟨x, hxA⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top A).mp inferInstance
   have hxB : x ∈ B := hAB (hxA ▸ Subgroup.mem_zpowers x)
   have hxN : x ∈ Subgroup.normalizer (K : Set X) := hBN hxB

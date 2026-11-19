@@ -93,7 +93,7 @@ theorem isSolvable_centralizer_of_borel {q k : ℕ} (h : fusionBenderBorel G q k
     exact (Nat.not_even_iff_odd.mpr h1) (even_iff_two_dvd.mpr h2)
   have hsolv : Group.IsSolvable ↥(Subgroup.normalizer ((Q : Subgroup G) : Set G)) := by
     rw [← hsup]
-    exact isSolvable_of_pGroup_sup_cyclic Q.isPGroup' hDc hsup
+    exact isSolvable_of_pGroup_sup_cyclic Q.isPGroup hDc hsup
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hCM)
 
 theorem exists_mem_orderOf_eq_two_of_pGroup {R : Subgroup G} (hR : IsPGroup 2 R) (hR1 : R ≠ ⊥) :

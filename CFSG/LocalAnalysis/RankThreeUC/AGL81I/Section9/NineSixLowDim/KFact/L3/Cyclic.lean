@@ -78,7 +78,7 @@ private theorem mulVec_single_of_commute_diagSign (hq2 : q ≠ 2) (i : Fin 3)
   by_cases hj : j = i
   · subst hj; simp
   have hji := congrFun (congrFun hc j) i
-  rw [diagonal_mul, mul_diagonal, if_neg hj, if_pos rfl] at hji
+  rw [diagonal_mul, mul_diagonal, ite_eq_right hj, ite_eq_left rfl] at hji
   have h2 : (2 : ZMod q) * (w : Matrix (Fin 3) (Fin 3) (ZMod q)) j i = 0 := by
     rw [neg_one_mul, mul_one] at hji
     rw [two_mul]
@@ -156,7 +156,7 @@ theorem false_of_isCyclic {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2)
     (hcyc : IsCyclic H) (hdvd : Nat.card H ∣ q ^ 3 - 1) (hndvd : ¬ Nat.card H ∣ q - 1)
     (hd : ∀ i : Fin 3, ∀ x ∈ H, diagSign i * x * (diagSign i)⁻¹ ∈ H) : False := by
   have hcomm : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x := fun x hx y hy =>
-    congrArg Subtype.val ((IsCyclic.commutative (α := H)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
+    congrArg Subtype.val ((_root_.IsCyclic.isMulCommutative (α := H)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   obtain ⟨g, hg⟩ := hcyc.exists_generator
   have hord : orderOf g = Nat.card H := orderOf_eq_card_of_forall_mem_zpowers hg
   have hpow : (g : GL (Fin 3) (ZMod q)) ^ (2 * (q - 1)) = 1 := by

@@ -133,7 +133,7 @@ theorem exists_sylow_gamma_eq_top_ten
   obtain ⟨Q, hQ⟩ := hpg.exists_le_sylow
   have hu8Q : invEight ∈ (Q : Subgroup (Perm (Fin 8))) := hQ (Subgroup.mem_zpowers invEight)
   set R : Subgroup (Perm (Fin 10)) := (Q : Subgroup (Perm (Fin 8))).map twist10 with hR
-  have hRp : IsPGroup 2 R := Q.isPGroup'.map twist10
+  have hRp : IsPGroup 2 R := Q.isPGroup.map twist10
   have hRA : R ≤ alternatingGroup (Fin 10) := by
     rintro _ ⟨q, -, rfl⟩
     exact Perm.mem_alternatingGroup.2 (sign_twist10 q)

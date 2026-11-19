@@ -14,15 +14,15 @@ open CFSG.TwoNodeSmall
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-@[expose] def e6C : Matrix (Fin 6) (Fin 6) (ZMod 3) :=
+def e6C : Matrix (Fin 6) (Fin 6) (ZMod 3) :=
   !![2, 0, 2, 0, 0, 0; 0, 2, 0, 2, 0, 0; 2, 0, 2, 2, 0, 0; 0, 2, 2, 2, 2, 0; 0, 0, 0, 2, 2, 2;
     0, 0, 0, 0, 2, 2]
 
-@[expose] def e6B : Matrix (Fin 6) (Fin 6) (ZMod 3) :=
+def e6B : Matrix (Fin 6) (Fin 6) (ZMod 3) :=
   !![0, 1, 0, 2, 0, 2; 1, 2, 2, 0, 2, 1; 0, 2, 2, 1, 1, 0; 2, 0, 1, 0, 1, 2; 0, 2, 1, 1, 2, 0;
     2, 1, 0, 2, 0, 0]
 
-@[expose] def e6X : Fin 6 → ZMod 3 := ![1, 0, 2, 0, 1, 2]
+def e6X : Fin 6 → ZMod 3 := ![1, 0, 2, 0, 1, 2]
 
 theorem e6_cart : ∀ i j : Fin 6, ((CartanMatrix.E 6 i j : ℤ) : ZMod 3) = e6C i j := by
   intro i j

@@ -32,7 +32,7 @@ theorem not_upD42Pumpup_innAutDerived_linear {S : Type} [Group S] [Finite S]
     {α : MulAut S} (hα : α ∈ innAutDerived S) : ¬ UpD42Pumpup S α := by
   intro hx
   obtain ⟨e⟩ := he
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
     ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
   let e' : S ≃* LinearFlag.projectiveSL (r + 1) (GaloisField q.p q.exponent) :=
@@ -78,10 +78,10 @@ theorem not_upD42Pumpup_conj_symplectic {S : Type} [Group S] [Finite S]
     (hc : d.1.characteristic = 2) (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie d).Group))
     (x : S) : ¬ UpD42Pumpup S (MulAut.conj x) := by
   intro hx
-  haveI := hs
+  have := hs
   obtain ⟨r, hr, -, -, ⟨eP⟩⟩ := exists_mulEquiv_statedProj_of_isSymplecticIdx hd
   obtain ⟨e⟩ := he
-  haveI : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   let e' : S ≃* StatedProj (StatedSp r ↥d.fixedField) := e.trans eP.symm
   have hK : Nat.card ↥d.fixedField = 2 ^ d.fieldExponent := by
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,

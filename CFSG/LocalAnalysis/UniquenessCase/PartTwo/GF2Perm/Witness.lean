@@ -26,7 +26,7 @@ theorem PermWitnessAt.map_mulEquiv (e : G ≃* G') {U : Subgroup G} (h : PermWit
     have hcomp : (e.trans (φ'.trans e.symm)).toMonoidHom =
         e.symm.toMonoidHom.comp (φ'.toMonoidHom.comp e.toMonoidHom) := by
       ext x
-      simp [MulEquiv.trans_apply]
+      simp
     have hid : e.symm.toMonoidHom.comp e.toMonoidHom = MonoidHom.id G := by
       ext x
       simp
@@ -71,7 +71,7 @@ theorem PermWitnessAt.conj {U : Subgroup G} (h : PermWitnessAt G U) (g : G) :
 
 theorem permWitness_of_permWitnessAt [Finite G] (U : Sylow 2 G) (h : PermWitnessAt G U) :
     PermWitness G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro U'
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq G U U'
   rw [Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]

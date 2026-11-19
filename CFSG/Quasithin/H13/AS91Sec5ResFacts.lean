@@ -53,7 +53,7 @@ theorem setClass_eq_of_octad {S T : Finset (Fin 24)} (hS : Even S.card) (hT : Ev
 theorem sextClass_eq {U : Finset (Finset (Fin 24))} (hU : IsSextet U) {T : Finset (Fin 24)}
     (hT : T ∈ U) : sextClass U = setClass T := by
   have hne : U.Nonempty := ⟨T, hT⟩
-  rw [sextClass, dif_pos hne]
+  rw [sextClass, dite_eq_left hne]
   set T₀ := hne.choose with hT₀
   have hT₀U : T₀ ∈ U := hne.choose_spec
   by_cases h : T₀ = T
@@ -282,7 +282,7 @@ section Cert2
 private theorem closedXor_spec {L : List ℕ} (h : Native.closedXor L = true) :
     ∀ a ∈ L, ∀ b ∈ L, a ^^^ b ∈ L := by
   unfold Native.closedXor at h
-  simp only [List.all_eq_true, List.contains_iff_mem, decide_eq_true_eq] at h
+  simp only [List.all_eq_true, List.contains_iff_mem] at h
   exact h
 
 private theorem mem_sextsThrough_base {q : ℕ} :
@@ -496,14 +496,14 @@ theorem treeValid_valid {α : Type} [Inhabited α] [DecidableEq α] {valid : α 
 @[expose] def ptOf (a : ℕ) : Fin 24 := Fin.ofNat 24 a
 
 private theorem ptOf_eq {a : ℕ} (ha : a < 24) : ptOf a = ⟨a, ha⟩ :=
-  Fin.ext (by simp [ptOf, Fin.val_ofNat, Nat.mod_eq_of_lt ha])
+  Fin.ext (by simp [ptOf, Nat.mod_eq_of_lt ha])
 
 private theorem ptOf_repT {t : Array ℕ} {g : S24} (h : RepT t g) {a : ℕ} (ha : a < 24) :
     ptOf (t[a]!) = g (ptOf a) := by
   have h1 := h ⟨a, ha⟩
   simp only at h1
   rw [ptOf_eq ha, h1, ptOf]
-  simp [Fin.ext_iff, Fin.val_ofNat, Nat.mod_eq_of_lt (g ⟨a, ha⟩).2]
+  simp
 
 @[expose] def trF (x : ℕ × ℕ × ℕ) : Fin 24 × Fin 24 × Fin 24 :=
   (ptOf x.1, ptOf x.2.1, ptOf x.2.2)
@@ -637,7 +637,7 @@ theorem exists_conj_sylS0 (P : Subgroup S24) (hP : P ≤ M24g) (hcard : Nat.card
     rw [this, Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,
       Nat.Prime.factorization_pow Nat.prime_two, Finsupp.single_eq_same,
       Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS0 : Nat.card (sylS0.subgroupOf M24g) = 2 ^ (Nat.card ↥M24g).factorization 2 := by
     rw [hfac, ← card_sylS0]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe sylS0_le).toEquiv
@@ -859,7 +859,7 @@ theorem spOf_step {t : Array ℕ} {g : S24} (hg : g ∈ M24g) (h : RepT t g) (L 
   rw [MonoidHom.map_closure]
   congr 1
   ext w
-  simp only [Set.mem_setOf_eq, Set.mem_image, Native.stepSp, mem_sortL, List.mem_map]
+  simp only [Set.mem_ofPred_eq, Set.mem_image, Native.stepSp, mem_sortL, List.mem_map]
   constructor
   · rintro ⟨m, ⟨m₀, hm₀, rfl⟩, rfl⟩
     exact ⟨toW 11 m₀, ⟨m₀, hm₀, rfl⟩, rho11_toW_native hg h m₀⟩
@@ -874,7 +874,7 @@ private theorem validSp_get {L : List ℕ} (h : Native.validSp L = true) :
   refine ⟨h1, h2, ?_, h4⟩
   have h3' := h3
   unfold Native.closedXor at h3'
-  simp only [List.all_eq_true, List.contains_iff_mem, decide_eq_true_eq] at h3'
+  simp only [List.all_eq_true, List.contains_iff_mem] at h3'
   exact h3'
 
 private theorem spOf_inj {L L' : List ℕ} (hL : Native.validSp L = true)
@@ -1079,7 +1079,7 @@ end Classify
 theorem exists_fixed_of_pgroup {Q : Subgroup ↥M24g} (hQ : IsPGroup 2 Q) (V : Subgroup W11)
     (hV : Nat.card V = 8) (hinv : ∀ x ∈ Q, ∀ v ∈ V, x • v ∈ V) :
     ∃ w ∈ V, w ≠ 1 ∧ ∀ x ∈ Q, x • w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : SubMulAction ↥Q W11 :=
     { carrier := {w | w ∈ V ∧ w ≠ 1}
       smul_mem' := fun x w hw => by
@@ -1093,7 +1093,7 @@ theorem exists_fixed_of_pgroup {Q : Subgroup ↥M24g} (hQ : IsPGroup 2 Q) (V : S
     have e2 : ({w : W11 | w ∈ V ∧ w ≠ 1}) = (V : Set W11) \ {1} := by
       ext w
       simp
-    rw [e, e2, Set.ncard_diff_singleton_of_mem V.one_mem, ← Nat.card_coe_set_eq]
+    rw [e, e2, Set.ncard_sdiff_singleton_of_mem V.one_mem, ← Nat.card_coe_set_eq]
     show Nat.card V - 1 = 7
     omega
   obtain ⟨z, hz⟩ := hQ.nonempty_fixed_point_of_prime_not_dvd_card X (by rw [hX]; norm_num)

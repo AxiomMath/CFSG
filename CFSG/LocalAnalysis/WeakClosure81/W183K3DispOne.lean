@@ -108,14 +108,14 @@ theorem w183k3_disp_one
           (MulEquiv.refl (↥L' ⧸ Subgroup.center ↥L')) hp hne h4m
           (hshape (fun X Y _ _ e h => CFSG.Blueprint.LieModel.of_mulEquiv e h) hL3)
       have hp5le : 5 ≤ p := by omega
-      exact leaves.coverOne (T := M.img D.T) rows hB.h131 hcore
+      exact leaves.coverOne (_T := M.img D.T) rows hB.h131 hcore
         ⟨p, hp, hp5le, Or.inl (hshape (fun X Y _ _ e h =>
           CFSG.Blueprint.LieModel.of_mulEquiv e h) hL3)⟩ hA4
     · have hmod := kstar_mod12_of_U3 hGA hq hodd hZne
           (MulEquiv.refl (↥L' ⧸ Subgroup.center ↥L')) hp hne h4m
           (hshape (fun X Y _ _ e h => CFSG.Blueprint.LieModel.of_mulEquiv e h) hU3)
       have hp5le : 5 ≤ p := by omega
-      exact leaves.coverOne (T := M.img D.T) rows hB.h131 hcore
+      exact leaves.coverOne (_T := M.img D.T) rows hB.h131 hcore
         ⟨p, hp, hp5le, Or.inr (hshape (fun X Y _ _ e h =>
           CFSG.Blueprint.LieModel.of_mulEquiv e h) hU3)⟩ hA4
   · exact kstar_false_of_psp4 hGA hq hodd hZne

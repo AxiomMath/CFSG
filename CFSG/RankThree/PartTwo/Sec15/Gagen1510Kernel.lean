@@ -50,6 +50,7 @@ private theorem pow_three_mem_sectionCentralizer {P L : Subgroup G}
     rw [← hp, map_pow]
   rw [h2, hcube]
 
+omit [Finite G] in
 private theorem le_normalizer_of_le_centralizer {B L P : Subgroup G} {c : G}
     (hcB : c ∈ B) (hPB : P ≤ Subgroup.centralizer (B : Set G))
     (hC : Subgroup.centralizer ({c} : Set G) ≤ Subgroup.normalizer (L : Set G)) :
@@ -67,7 +68,7 @@ private theorem pow_orderOf_div_three {P L : Subgroup G}
     orderOf (g ^ (orderOf g / 3)) = 3 ∧
       g ^ (orderOf g / 3) ∈
         Late.sectionCentralizer P L (inSubgroup (aschbacherSolvableCore 3) L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := hP3.exists_orderOf_eq_pow (⟨g, hgP⟩ : P)
   have hord : orderOf g = 3 ^ n := by
     rw [← Subgroup.orderOf_mk g hgP]
@@ -82,6 +83,7 @@ private theorem pow_orderOf_div_three {P L : Subgroup G}
   exact orderOf_pow_orderOf_div (by rw [hord]; exact pow_ne_zero n (by norm_num))
     (by rw [hord]; exact dvd_pow_self 3 (Nat.ne_of_gt hnpos))
 
+omit [Finite G] in
 private theorem mem_zpowers_of_mem_sectionCentralizer {A L P B : Subgroup G} {c : G}
     (hA : A ∈ partTwoF G) (hAP : A ≤ P) (hcB : c ∈ B) (hPB : P ≤ Subgroup.centralizer (B : Set G))
     (hAeq : A = Subgroup.zpowers c ⊔ (A ⊓ L))
@@ -232,6 +234,7 @@ private theorem isPGroup_autThetaQuot_of_isPGroup {P L : Subgroup G}
   rw [show (⟨g, hgN⟩ : Subgroup.normalizer (L : Set G)) = ⟨g, hPN hgP⟩ from Subtype.ext rfl,
     ← hρapply g hgP, ← map_pow, show (⟨g, hgP⟩ : P) ^ 3 ^ n = 1 from hn, map_one]
 
+omit [Finite G] in
 private theorem conj_basic {A B P : Subgroup G} {x c : G}
     (hAP : A ≤ P) (hxP : x ∈ Subgroup.normalizer (P : Set G))
     (hB : IsHyperplane A B) (hxB : x ∈ Subgroup.normalizer (B : Set G)) (hcB : c ∈ B)

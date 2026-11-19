@@ -45,7 +45,7 @@ theorem exists_fin_indep_span_union {a : V} (ha : a ≠ 0) (v : ι → V) {m : �
     exact le_antisymm (sup_le hspan_a_le le_rfl) le_sup_right
   have hb_ind : LinearIndepOn K id b := hs.linearIndepOn_extend hst
   have hb_finite : b.Finite := hT'_finite.subset hb_sub
-  haveI : Fintype b := hb_finite.fintype
+  have : Fintype b := hb_finite.fintype
   have hb_card : Fintype.card b = m + 1 := by
     have h1 : Module.finrank K (Submodule.span K b) = Fintype.card b := by
       rw [finrank_span_set_eq_card hb_ind, ← hb_finite.toFinset_eq_toFinset]
@@ -61,7 +61,7 @@ theorem exists_fin_span_union_eq_of_indep {a : V} (v : ι → V) {b : Set V} (hb
     (hcard : b.ncard = m + 1) :
     ∃ s : Fin m → ι, Submodule.span K ({a} ∪ Set.range (v ∘ s)) = Submodule.span K b := by
   classical
-  haveI : Fintype b := hbf.fintype
+  have : Fintype b := hbf.fintype
   have hcardF : Fintype.card b = m + 1 := by
     rw [Set.fintypeCard_eq_ncard]
     exact hcard
@@ -77,7 +77,7 @@ theorem exists_fin_span_union_eq_of_indep {a : V} (v : ι → V) {b : Set V} (hb
   have hpre : ∀ i : Fin m, ∃ j : ι, v j = ((e.symm i : bNE) : V) := by
     intro i
     have hxNE : ((e.symm i : bNE) : V) ∈ bNE := (e.symm i).2
-    have hxNE' : ((e.symm i : bNE) : V) ∈ bF.erase a := by simpa [bNE] using hxNE
+    have hxNE' : ((e.symm i : bNE) : V) ∈ bF.erase a := by simp [bNE]
     have hx_ne : ((e.symm i : bNE) : V) ≠ a := (Finset.mem_erase.mp hxNE').1
     have hxF : ((e.symm i : bNE) : V) ∈ bF := Finset.mem_of_mem_erase hxNE'
     have hxb : ((e.symm i : bNE) : V) ∈ b := by
@@ -92,7 +92,7 @@ theorem exists_fin_span_union_eq_of_indep {a : V} (v : ι → V) {b : Set V} (hb
     ext y
     constructor
     · rintro ⟨i, rfl⟩
-      simpa [Function.comp_apply, hs i] using (e.symm i).2
+      simp [Function.comp_apply, hs i]
     · intro hy
       refine ⟨e ⟨y, hy⟩, ?_⟩
       simpa using hs (e ⟨y, hy⟩)
@@ -100,7 +100,7 @@ theorem exists_fin_span_union_eq_of_indep {a : V} (v : ι → V) {b : Set V} (hb
     have hins : insert a bNE = bF := Finset.insert_erase (hbf.mem_toFinset.mpr ha_mem)
     calc ({a} ∪ (bNE : Set V)) = ((insert a bNE : Finset V) : Set V) := by simp
       _ = (bF : Set V) := by rw [hins]
-      _ = b := by simpa [bF] using hbf.coe_toFinset
+      _ = b := by simp [bF]
   rw [hrange_vs, hset]
 
 theorem exists_fin_span_union_eq {a : V} (ha : a ≠ 0) (v : ι → V) {m : ℕ}

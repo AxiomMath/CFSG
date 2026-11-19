@@ -50,7 +50,7 @@ private theorem ResCtx.pCoreOf_lB_le
     (h : ResCtx A c L M X B b d Lb p P e)
     (hθeq : inSubgroup (aschbacherSolvableCore 3) Lb = CFSG.Open.pCoreOf 2 Lb) :
     CFSG.Open.pCoreOf 2 (lB A B) ≤ CFSG.Open.pCoreOf 2 Lb := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, hq, hZ, -, -, -⟩ := Item148HJ.resProj_facts h.sec15R.toSec14Std h.hyp h.config
   rw [Item148HJ.lB_eq_residual h.sec15R.toSec14Std h.hyp h.config]
   set J := inSubgroup perfectResidual (Lb ⊓ Subgroup.centralizer ({d} : Set G)) with hJ
@@ -69,7 +69,7 @@ theorem ResCtx.j2Config
     (h : ResCtx A c L M X B b d Lb p P e)
     (hθeq : inSubgroup (aschbacherSolvableCore 3) Lb = CFSG.Open.pCoreOf 2 Lb) :
     J2Residue.J2Config Lb d (lB A B) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hLb, -, -, -, -, hdA, hd1, -, -⟩ :=
     Ronan152SL25.lbConfig_facts h.sec15R.isE27 h.hyp h.config
   obtain ⟨-, -, -, hJ, hdL, S, hdS, hSd⟩ := h.config
@@ -99,7 +99,7 @@ theorem ResCtx.false_of_eq_bot
   have hUΘ := (pCoreOf_le_theta_of_eq_sup hBK hKeq).trans hθK
   by_cases hed : e ∈ Subgroup.zpowers d
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hzp : Subgroup.zpowers e = Subgroup.zpowers d := by
       have hoe : orderOf e = 3 :=
         orderOf_eq_prime (h.sec15R.toSec13Data.isElemAbelian.2 e h.mem_A) h.ne_one

@@ -180,7 +180,7 @@ theorem unipotent_not_isLThreeFour (hU : UniEmbed) {τ : Tag} {M : Type} [CommGr
     (hL34 : IsLThreeFour (R ⧸ Subgroup.center R))
     (hbig : 64 < Nat.card K ^ (posRoots (componentRoots χ i)).ncard) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, hVp, hVcard, hVZ⟩ := hU τ χ i K 2
   have hCL := innexc_isLThreeFour_of_surjective_central hperf f hf hker hL34
   let g : ↥V →* ↥(componentRootSpan K χ i) ⧸ Subgroup.center ↥(componentRootSpan K χ i) :=
@@ -197,7 +197,7 @@ theorem unipotent_not_isLThreeFour (hU : UniEmbed) {τ : Tag} {M : Type} [CommGr
   have hdvd : Nat.card V ∣ 20160 := by
     rw [← card_eq_of_isLThreeFour hCL]
     exact Subgroup.card_dvd_of_injective g hginj
-  haveI : Finite ↥V := inferInstance
+  have : Finite ↥V := inferInstance
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥V)).1 hVp
   rw [hn] at hdvd
   have hn6 : n ≤ 6 := two_pow_dvd_20160 hdvd

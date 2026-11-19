@@ -29,9 +29,9 @@ theorem sign_scale_eq (i : Fin k) (r : (ZMod p)ˣ) [NeZero p] :
 
 theorem exists_sign_scale_eq_neg_one [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (i : Fin k) :
     ∃ r : (ZMod p)ˣ, Equiv.Perm.sign (scale (p := p) i r) = -1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (2 < p) := ⟨lt_of_le_of_ne hp.two_le (Ne.symm hp2)⟩
-  haveI : IsCyclic (ZMod p)ˣ := ZMod.isCyclic_units_prime hp
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (2 < p) := ⟨lt_of_le_of_ne hp.two_le (Ne.symm hp2)⟩
+  have : IsCyclic (ZMod p)ˣ := ZMod.isCyclic_units_prime hp
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := (ZMod p)ˣ)
   obtain ⟨φ, hφ⟩ : ∃ φ : (ZMod p)ˣ →* Equiv.Perm (ZMod p), ∀ u x, φ u x = (u : ZMod p) * x :=
     ⟨MulAction.toPermHom (ZMod p)ˣ (ZMod p), fun u x => rfl⟩

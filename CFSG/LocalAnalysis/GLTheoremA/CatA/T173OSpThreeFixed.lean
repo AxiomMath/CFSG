@@ -20,7 +20,7 @@ local notation "V" => (Fin ℓ ⊕ Fin ℓ → F)
 
 private theorem cube_one_of_mul_pow {A : Subgroup ↥(StatedSp ℓ F)}
     {d : ↥(StatedSp ℓ F)} (hA : GLAIsBmax 3 A) (hd : IsStdElt 3 A d)
-    {x : ↥(StatedSp ℓ F)} (hx : x ∈ A) (hxd : x * d = d * x) {j : ℕ} (hj3 : j < 3) :
+    {x : ↥(StatedSp ℓ F)} (hx : x ∈ A) (hxd : x * d = d * x) {j : ℕ} (_hj3 : j < 3) :
     (x * d ^ (3 - j)) ^ 3 = 1 := by
   have hd3 : d ^ 3 = 1 := hd.2.2.1
   have hAexp : ∀ g ∈ A, g ^ 3 = 1 := hA.1.2
@@ -31,9 +31,9 @@ private theorem cube_one_of_mul_pow {A : Subgroup ↥(StatedSp ℓ F)}
 
 private theorem mem_fixedFactor_of_fixes [CharP F 2] (hF : Nat.card F = 2)
     {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
-    (blocks : SpPrimaryBlocks 2 1 3 d
+    (_blocks : SpPrimaryBlocks 2 1 3 d
       (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj ℓ F d))
-    {s : ℕ} (hs : spFixedDim d = 2 * s) (h2s : 2 ≤ s) {g : ↥(StatedSp ℓ F)}
+    {s : ℕ} (_hs : spFixedDim d = 2 * s) (_h2s : 2 ≤ s) {g : ↥(StatedSp ℓ F)}
     (hcommd : g * d = d * g) {W : Submodule F V}
     (hfix : ∀ w ∈ W, spEnd g w = w)
     (hperp : ∀ v ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1),
@@ -130,6 +130,7 @@ private theorem exists_decomp_mul_pow [CharP F 2] (hF : Nat.card F = 2)
       _ = x * (d ^ (3 - j) * d ^ j) := by rw [hpow]
       _ = x * d ^ (3 - j) * d ^ j := by group
 
+omit [Finite F] in
 private theorem eq_sup_inf_centralizer {A : Subgroup ↥(StatedSp ℓ F)}
     {d : ↥(StatedSp ℓ F)} (hdA : d ∈ A)
     (hdCK : d ∈ Subgroup.centralizer (stdLayer d : Set ↥(StatedSp ℓ F)))
@@ -180,6 +181,7 @@ private theorem rotation_facts [CharP F 2] (hF : Nat.card F = 2)
     rw [spForm_isAlt w, zero_smul, zero_add, hQw, one_smul, add_zero]
   exact ⟨hyF3, hy3, hyK, hyd, hyw⟩
 
+omit [Finite F] in
 private theorem rotation_moves [CharP F 2] {d : ↥(StatedSp ℓ F)}
     {w : V} {y : ↥(StatedSp ℓ F)} (hQw : spForm ℓ F w (spEnd d w) = 1)
     (hydef : y = ⁅spTransvection w (1 : F), spTransvection (spEnd d w) (1 : F)⁆) :
@@ -196,8 +198,9 @@ private theorem rotation_moves [CharP F 2] {d : ↥(StatedSp ℓ F)}
     simp at hQw
   exact hdw0 (add_left_cancel (show w + spEnd d w = w + 0 by simpa using hyw))
 
-private theorem exists_fixed_vector_of_rotation [CharP F 2] (hF : Nat.card F = 2)
-    {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
+omit [Finite F] in
+private theorem exists_fixed_vector_of_rotation [CharP F 2] (_hF : Nat.card F = 2)
+    {d : ↥(StatedSp ℓ F)} (_hd3 : d ^ 3 = 1)
     (hdimW3' : Module.finrank F (primaryComponent (spEnd d) (X ^ 2 + X + 1)) = 4)
     {w : V} {y : ↥(StatedSp ℓ F)} (hQw : spForm ℓ F w (spEnd d w) = 1)
     (hydef : y = ⁅spTransvection w (1 : F), spTransvection (spEnd d w) (1 : F)⁆) :
@@ -238,6 +241,7 @@ private theorem exists_fixed_vector_of_rotation [CharP F 2] (hF : Nat.card F = 2
     exact hu0 (Subtype.ext hin)
   exact ⟨u.1, u.2, fun h => hu0 (Subtype.ext h), hyu, hdu⟩
 
+omit [Finite F] in
 private theorem rotation_not_mem [CharP F 2] {A : Subgroup ↥(StatedSp ℓ F)}
     {d y : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     (hstep1 : A ⊓ spSupported d ({X ^ 2 + X + 1} : Set F[X]) ≤ Subgroup.zpowers d)
@@ -270,6 +274,7 @@ private theorem rotation_not_mem [CharP F 2] {A : Subgroup ↥(StatedSp ℓ F)}
       spEnd_one, Module.End.one_apply, map_zero] at h2
     exact hu0 h2
 
+omit [Finite F] in
 private theorem rotation_centralizes {A : Subgroup ↥(StatedSp ℓ F)}
     {d y : ↥(StatedSp ℓ F)}
     (hdecomp : ∀ x ∈ A, ∃ j : ℕ, j < 3 ∧ ∃ b ∈ A ⊓ stdLayer d, x = b * d ^ j)
@@ -309,11 +314,13 @@ private theorem exists_centralizing_rotation [CharP F 2] (hF : Nat.card F = 2)
   have hy_notA := rotation_not_mem hd3 hstep1 hyF3 hy1 hu3 hu0 hyu3 hdu3
   exact ⟨y, rotation_centralizes hdecomp hyK' hyd, hyK, hy3, hy_notA⟩
 
+omit [Finite F] in
 private theorem stdLayer_le_centralizer_zpowers {d : ↥(StatedSp ℓ F)} :
     stdLayer d ≤ Subgroup.centralizer ({d} : Set ↥(StatedSp ℓ F)) := by
   rw [stdLayer, CFSG.Open.GLALayer]
   exact sSup_le fun K hK => hK.1
 
+omit [Finite F] in
 private theorem mem_centralizer_stdLayer {d : ↥(StatedSp ℓ F)} :
     d ∈ Subgroup.centralizer (stdLayer d : Set ↥(StatedSp ℓ F)) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -322,6 +329,7 @@ private theorem mem_centralizer_stdLayer {d : ↥(StatedSp ℓ F)} :
   rw [Subgroup.mem_centralizer_iff] at hy'
   exact (hy' d (Set.mem_singleton d)).symm
 
+omit [Finite F] in
 private theorem one_le_length_of_isQuasisimple_layer
     {d : ↥(StatedSp ℓ F)}
     (hQ : CFSG.Open.IsQuasisimple ↥⁅spSupported d ({X - 1} : Set F[X]),
@@ -329,12 +337,12 @@ private theorem one_le_length_of_isQuasisimple_layer
   by_contra hℓ0
   have hℓ0' : ℓ = 0 := by omega
   subst hℓ0'
-  haveI : Subsingleton ↥(StatedSp 0 F) := inferInstance
-  haveI : Subsingleton ↥⁅spSupported d ({X - 1} : Set F[X]),
+  have : Subsingleton ↥(StatedSp 0 F) := inferInstance
+  have : Subsingleton ↥⁅spSupported d ({X - 1} : Set F[X]),
       spSupported d ({X - 1} : Set F[X])⁆ := inferInstance
   have hnt : Nontrivial ↥⁅spSupported d ({X - 1} : Set F[X]),
       spSupported d ({X - 1} : Set F[X])⁆ := by
-    haveI : IsSimpleGroup (↥⁅spSupported d ({X - 1} : Set F[X]),
+    have : IsSimpleGroup (↥⁅spSupported d ({X - 1} : Set F[X]),
         spSupported d ({X - 1} : Set F[X])⁆ ⧸
         Subgroup.center ↥⁅spSupported d ({X - 1} : Set F[X]),
         spSupported d ({X - 1} : Set F[X])⁆) := hQ.2
@@ -377,6 +385,7 @@ private theorem exists_two_subgroup_fixedFactor_four (hF : Nat.card F = 2)
     norm_num
   · exact Subgroup.map_subtype_le _
 
+omit [Finite F] in
 private theorem fixedFactor_perfect_of_three_le (hF : Nat.card F = 2)
     {d : ↥(StatedSp ℓ F)}
     (blocks : SpPrimaryBlocks 2 1 3 d
@@ -400,7 +409,7 @@ private theorem fixedFactor_perfect_of_three_le (hF : Nat.card F = 2)
     Subgroup.range_subtype]
 
 private theorem exists_involution_fixedFactor [CharP F 2] (hF : Nat.card F = 2)
-    {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1) {s : ℕ} (hs : spFixedDim d = 2 * s)
+    {d : ↥(StatedSp ℓ F)} (_hd3 : d ^ 3 = 1) {s : ℕ} (hs : spFixedDim d = 2 * s)
     (hs3 : 3 ≤ s) :
     ∃ t ∈ spFixedFactor d, t ≠ 1 ∧ t * t = 1 := by
   have hpos : 0 < Module.finrank F (primaryComponent (spEnd d) (X - 1)) := by
@@ -410,7 +419,7 @@ private theorem exists_involution_fixedFactor [CharP F 2] (hF : Nat.card F = 2)
   have hW1ne : primaryComponent (spEnd d) (X - 1) ≠ ⊥ := by
     intro hbot
     rw [hbot] at hpos
-    simpa using hpos
+    simp at hpos
   obtain ⟨u, huW1, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hW1ne
   have hufix : spEnd d u = u := by
     rw [primaryComponent_sub_one_eq_fixSub] at huW1
@@ -447,9 +456,9 @@ theorem exists_two_subgroup_le_stdLayer_fixed (hF : Nat.card F = 2)
       T ≤ ⁅spSupported d ({X - 1} : Set F[X]),
         spSupported d ({X - 1} : Set F[X])⁆ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hKbar : ⁅spSupported d ({X - 1} : Set F[X]),
       spSupported d ({X - 1} : Set F[X])⁆ = ⁅spFixedFactor d, spFixedFactor d⁆ := rfl
@@ -484,9 +493,9 @@ theorem stdOutcome_fixed (hF : Nat.card F = 2) (hℓ : 3 ≤ ℓ)
       spSupported d ({X - 1} : Set F[X])⁆) :
     StdVanishes A d ∨ StdExtends 3 A d := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hd3 : d ^ 3 = 1 := hd.2.2.1
   have hd1 : d ≠ 1 := hd.2.1

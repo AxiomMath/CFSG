@@ -14,14 +14,14 @@ private lemma ggQ2xKDd_B_prev {n : ℕ} {i j : Fin n} (hij : j.val + 1 = i.val) 
     CartanMatrix.B n i j ≠ 0 := by
   have hne : i ≠ j := by intro h'; rw [h'] at hij; omega
   rw [CartanMatrix.B, Matrix.of_apply]
-  rw [if_neg hne, if_neg (by omega), if_pos hij]
+  rw [ite_eq_right hne, ite_eq_right (by omega), ite_eq_left hij]
   decide
 
 private lemma ggQ2xKDd_B_next {n : ℕ} {i j : Fin n} (hij : i.val + 1 = j.val) :
     CartanMatrix.B n i j ≠ 0 := by
   have hne : i ≠ j := by intro h'; rw [h'] at hij; omega
   rw [CartanMatrix.B, Matrix.of_apply]
-  rw [if_neg hne, if_pos hij]
+  rw [ite_eq_right hne, ite_eq_left hij]
   split_ifs <;> decide
 
 private lemma ggQ2xKDd_B_succ (m : ℕ) (i j : Fin m) :
@@ -45,14 +45,14 @@ private lemma ggQ2xKDd_C_prev {n : ℕ} {i j : Fin n} (hij : j.val + 1 = i.val) 
     CartanMatrix.C n i j ≠ 0 := by
   have hne : i ≠ j := by intro h'; rw [h'] at hij; omega
   rw [CartanMatrix.C, Matrix.of_apply]
-  rw [if_neg hne, if_neg (by omega), if_pos hij]
+  rw [ite_eq_right hne, ite_eq_right (by omega), ite_eq_left hij]
   split_ifs <;> decide
 
 private lemma ggQ2xKDd_C_next {n : ℕ} {i j : Fin n} (hij : i.val + 1 = j.val) :
     CartanMatrix.C n i j ≠ 0 := by
   have hne : i ≠ j := by intro h'; rw [h'] at hij; omega
   rw [CartanMatrix.C, Matrix.of_apply]
-  rw [if_neg hne, if_pos hij]
+  rw [ite_eq_right hne, ite_eq_left hij]
   decide
 
 private lemma ggQ2xKDd_C_succ (m : ℕ) (i j : Fin m) :

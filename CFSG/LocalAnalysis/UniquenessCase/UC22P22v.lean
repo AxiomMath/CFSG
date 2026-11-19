@@ -55,7 +55,7 @@ theorem uc22p22v_le_conjClosure (N E : Subgroup G) : E ≤ conjClosure N E := by
   intro z hz
   have hle : E.map (MulAut.conj (1 : G)).toMonoidHom ≤ conjClosure N E :=
     le_iSup₂_of_le (f := fun K (_ : K ∈ conjSetOf N E) => K) _ ⟨1, N.one_mem, rfl⟩ le_rfl
-  exact hle ⟨z, hz, by simp [MulAut.conj_apply]⟩
+  exact hle ⟨z, hz, by simp⟩
 
 omit [Finite G] in
 theorem uc22p22v_conjClosure_mono {N₁ N₂ : Subgroup G} (h : N₁ ≤ N₂) (E : Subgroup G) :

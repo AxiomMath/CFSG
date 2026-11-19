@@ -21,9 +21,9 @@ theorem eInvNine_J4mat
     (hOut : ¬ 3 ∣ Nat.card (Outer ↥J)) : EInvNine ↥J := by
   have hF : J4Facts := j4Facts
   have hM : MatFacts := hF.mat
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [card_J hF]; norm_num)
-  haveI : Finite ↥Hj := Nat.finite_of_card_ne_zero (by rw [card_Hj hF]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [card_J hF]; norm_num)
+  have : Finite ↥Hj := Nat.finite_of_card_ne_zero (by rw [card_Hj hF]; norm_num)
   have hZ : Subgroup.center ↥J = ⊥ :=
     center_eq_bot_of_simple_of_not_prime (isSimpleGroup_J hF) (by rw [card_J hF]; norm_num)
   have hout : ∀ α : MulAut ↥J, α ^ 3 = 1 → ∃ y : ↥J, α = MulAut.conj y := fun α hα => by

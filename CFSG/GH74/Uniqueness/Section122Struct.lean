@@ -270,7 +270,7 @@ theorem ZDSetup.nM_eq_L (S : ZDSetup X Z M) (c : Ctx12 Z M) {n i : ℕ}
   have hDN : c.D ≤ normalizer (c.L : Set X) :=
     S.prodDisc.le_normalizer_lSubgroup hZ c.ht c.htM c.hz c.hzM
   have hN := S.normalizer_L_eq c hBL hQ
-  refine ⟨(Q : Subgroup c.L).map c.L.subtype, Ctx12.map_sylow_le hQ, Q.isPGroup'.map _,
+  refine ⟨(Q : Subgroup c.L).map c.L.subtype, Ctx12.map_sylow_le hQ, Q.isPGroup.map _,
     Ctx12.isSylowOf_map_sylow hQ, ?_, ?_⟩
   · intro g hg x hx
     obtain ⟨x', hx', rfl⟩ := hx

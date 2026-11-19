@@ -56,16 +56,19 @@ private lemma ra_isA2Pair_of_iform_neg {τ : Tag} (hτ : ∀ i, τ.symmetrizer i
       CFSG.LieType.Chevalley.SimplyLacedCover.iform_self_eq_two hτ hβ],
     by rw [h, CFSG.LieType.Chevalley.SimplyLacedCover.iform_self_eq_two hτ hβ]; norm_num⟩
 
+omit [Fact (Nat.Prime p)] in
 theorem weylOfType_tag_E6 {A : Subgroup (MulAut ↥Bs)} (h : GGWeylOfType p CoxeterMatrix.E₆ A) :
     GGWeylOfType p (coxeterMatrix (isFiniteType_cartan .E6)) A := by
   rw [← ra_matrix_E6]
   exact h
 
+omit [Fact (Nat.Prime p)] in
 theorem weylOfType_tag_E7 {A : Subgroup (MulAut ↥Bs)} (h : GGWeylOfType p CoxeterMatrix.E₇ A) :
     GGWeylOfType p (coxeterMatrix (isFiniteType_cartan .E7)) A := by
   rw [← ra_matrix_E7]
   exact h
 
+omit [Fact (Nat.Prime p)] in
 theorem weylOfType_tag_E8 {A : Subgroup (MulAut ↥Bs)} (h : GGWeylOfType p CoxeterMatrix.E₈ A) :
     GGWeylOfType p (coxeterMatrix (isFiniteType_cartan .E8)) A := by
   rw [← ra_matrix_E8]
@@ -92,7 +95,7 @@ theorem exists_torus_intertwiner {τ : Tag} (hsymm : ∀ i j, τ.cartan i j = τ
       (∀ w a, Ψ (TableBExc.torusAct τ p w a) =
         ggLin (p := p) ιV ((e w : ↥A) : MulAut ↥Bs) (Ψ a)) ∧
       ∀ a, Ψ a = 0 → ∀ w, TableBExc.torusAct τ p w a = a := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let Ψ : (Fin τ.rank → ZMod p) →ₗ[ZMod p] V := Fintype.linearCombination (ZMod p) h
   have hΨ_apply : ∀ a, Ψ a = ∑ j, a j • h j := fun a => Fintype.linearCombination_apply _ _ _
   have hΨ_single : ∀ j, Ψ (Pi.single j 1) = h j := by
@@ -201,9 +204,9 @@ theorem natCard_fix_torusMulAut_of_reflection [Finite G] (hp2 : p ≠ 2) {τ : T
     {w : WeylGroup τ} (hrefl : GGIsReflection p ((e w : ↥A) : MulAut ↥Bs)) :
     Nat.card {f : Multiplicative (Fin τ.rank → ZMod p) //
       ExcWeylOuter.torusMulAut τ p w f = f} = p ^ (τ.rank - 1) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : Finite ↥Bs := Subtype.finite
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Finite ↥Bs := Subtype.finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
   obtain ⟨x, f, hfx, hT⟩ := exists_of_ggIsReflection (p := p) ιV hrefl
   obtain ⟨hx0, hf0⟩ := ne_zero_of_apply_eq_two (p := p) hp2 hfx
   have hww : w * w = 1 := by
@@ -335,7 +338,7 @@ theorem natCard_fix_torusMulAut_of_reflection [Finite G] (hp2 : p ≠ 2) {τ : T
   have hrank_pos : 0 < τ.rank := by
     by_contra hlt
     have h0 : τ.rank = 0 := Nat.eq_zero_of_not_pos hlt
-    haveI : Subsingleton (Fin τ.rank → ZMod p) := by
+    have : Subsingleton (Fin τ.rank → ZMod p) := by
       constructor
       intro u v
       funext i
@@ -405,10 +408,10 @@ private theorem rd_main [Finite G] (hp2 : p ≠ 2) (hBs : IsElemAbelian p Bs)
     (hind : ∀ φ ∈ A, φ ∈ ggInduced ⊤ Bs) {t s : MulAut ↥Bs} (ht : t ∈ A) (hs : s ∈ A)
     (htr : GGIsReflection p t) (hsr : GGIsReflection p s) (hts : orderOf (t * s) = 4) :
     False := by
-  haveI : Finite ↥Bs := Subtype.finite
+  have : Finite ↥Bs := Subtype.finite
   obtain ⟨V, iA, iM, ⟨ιV⟩⟩ := CFSG.StandardType.exists_ggLinData (p := p) hBs
-  letI : AddCommGroup V := iA
-  letI : Module (ZMod p) V := iM
+  let : AddCommGroup V := iA
+  let : Module (ZMod p) V := iM
   obtain ⟨e, h, α, hα, hlin, hP⟩ :=
     exists_cartan_pairing_of_weylOfType (p := p) hp2 hNT hC hsl par root depth hpar hdepth hW
       hind ιV
@@ -502,7 +505,7 @@ theorem not_weylOfType_tag_of_order_four [Finite G] (hp2 : p ≠ 2) (hBs : IsEle
       (by
         intro i j hij
         fin_cases i <;> fin_cases j <;>
-          simp only [Tag.cartan, Tag.cartanE, Fin.ext_iff] at hij ⊢ <;> omega)
+          simp only [Tag.cartan, Tag.cartanE] at hij ⊢ <;> omega)
       (ggIntCartan_tag_E (Or.inl rfl))
       excTreeParentE6 excTreeRootE6 (fun i => excTreeDepthNat i.val)
       (by intro i j hij; fin_cases i <;> fin_cases j <;> decide)
@@ -514,7 +517,7 @@ theorem not_weylOfType_tag_of_order_four [Finite G] (hp2 : p ≠ 2) (hBs : IsEle
       (by
         intro i j hij
         fin_cases i <;> fin_cases j <;>
-          simp only [Tag.cartan, Tag.cartanE, Fin.ext_iff] at hij ⊢ <;> omega)
+          simp only [Tag.cartan, Tag.cartanE] at hij ⊢ <;> omega)
       (ggIntCartan_tag_E (Or.inr (Or.inl rfl)))
       excTreeParentE7 excTreeRootE7 (fun i => excTreeDepthNat i.val)
       (by intro i j hij; fin_cases i <;> fin_cases j <;> decide)
@@ -526,7 +529,7 @@ theorem not_weylOfType_tag_of_order_four [Finite G] (hp2 : p ≠ 2) (hBs : IsEle
       (by
         intro i j hij
         fin_cases i <;> fin_cases j <;>
-          simp only [Tag.cartan, Tag.cartanE, Fin.ext_iff] at hij ⊢ <;> omega)
+          simp only [Tag.cartan, Tag.cartanE] at hij ⊢ <;> omega)
       (ggIntCartan_tag_E (Or.inr (Or.inr rfl)))
       excTreeParentE8 excTreeRootE8 (fun i => excTreeDepthNat i.val)
       (by intro i j hij; fin_cases i <;> fin_cases j <;> decide)

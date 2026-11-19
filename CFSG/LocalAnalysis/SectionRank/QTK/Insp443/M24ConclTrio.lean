@@ -54,7 +54,7 @@ private theorem conj_mem_W1
 
 private theorem Lq_le_normalizer_W1 :
     Lq ≤ Subgroup.normalizer (W 1 : Set G₀) :=
-  fun l hl => A4.mem_normalizer_of_conj_mem fun x hx => conj_mem_W1 hl hx
+  fun _l hl => A4.mem_normalizer_of_conj_mem fun _x hx => conj_mem_W1 hl hx
 
 private theorem iSupIndep_W :
     iSupIndep W := by
@@ -106,7 +106,7 @@ private theorem isLEquiv_conjN :
 private theorem binaryNaturalSL_W1
     [IsMulCommutative ↥(W 1)] :
     BinaryNaturalSL (V := ↥(W 1)) (autOn Lq (W 1)) ⊤ ⊥ 3 1 := by
-  haveI : IsMulCommutative ↥(eSub basis_u5) :=
+  have : IsMulCommutative ↥(eSub basis_u5) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_u5 x y hx hy
   exact binaryNaturalSL_of_isLEquiv Lq_le Lq_le_normalizer_W1 isLEquiv_conjN binaryNaturalSL_u5
 
@@ -245,9 +245,9 @@ private theorem isSumOfNaturalModules_et :
 
 private theorem isNaturalSumUnder_et :
     IsNaturalSumUnder 3 Lq (eSub basis_et) := by
-  haveI hcomm0 : IsMulCommutative ↥(eSub basis_u5) :=
+  have hcomm0 : IsMulCommutative ↥(eSub basis_u5) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_u5 x y hx hy
-  haveI hcomm1 : IsMulCommutative ↥(W 1) :=
+  have hcomm1 : IsMulCommutative ↥(W 1) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => by
       rw [W_one] at hx hy
       obtain ⟨u, hu, rfl⟩ := hx
@@ -289,7 +289,7 @@ theorem conclK_m24_trio
   have hshape : Shape443 (↥Lq ⧸ CFSG.pCore 2 ↥Lq) := Or.inr (Or.inl hLM)
   have hcommV : IsMulCommutative ↥(eSub basis_et) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_et x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_et) := hcommV
+  let : IsMulCommutative ↥(eSub basis_et) := hcommV
   have hFFL : IsFFModule (autOn Lq (eSub basis_et)) :=
     FFn.isFFModule_autOn_of_sum (n := 2) (k := 2) (by decide) (by norm_num) le_rfl
       isSumOfNaturalModules_et

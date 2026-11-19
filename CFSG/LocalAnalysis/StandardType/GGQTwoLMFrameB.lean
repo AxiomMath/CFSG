@@ -272,11 +272,11 @@ private theorem qTwoLMFrameB_card_fix [Finite G] (F : QTwoFrame m V VT Bs L x)
     (hmul : (a : MulAut ↥Bs) * (a : MulAut ↥Bs) = 1)
     (hτ : Nat.card {v : V // F.permV τ v = v} * 3 = Nat.card V) :
     Nat.card {b : ↥Bs // (a : MulAut ↥Bs) b = b} * 3 = Nat.card ↥Bs := by
-  haveI : Finite ↥Bs := Subtype.finite
-  haveI : Finite ↥((ggGamma L F.hN).range) :=
+  have : Finite ↥Bs := Subtype.finite
+  have : Finite ↥((ggGamma L F.hN).range) :=
     Finite.of_surjective ((ggGamma L F.hN).rangeRestrict)
       (ggGamma L F.hN).rangeRestrict_surjective
-  haveI : Finite V := Finite.of_injective F.theta F.theta.injective
+  have : Finite V := Finite.of_injective F.theta F.theta.injective
   have hacts : qTwoLMFrameB_Acts F (a : MulAut ↥Bs) τ := by
     rw [← ha]
     exact qTwoLMFrameB_rho_spec F hfaith a

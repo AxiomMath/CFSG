@@ -178,7 +178,7 @@ private theorem ks12lift_card_of_map {X : Type} [Group X] {Z : Subgroup X} [Z.No
 
 private theorem ks12lift_elementary {X : Type} [Group X] {Z : Subgroup X} [Z.Normal]
     (hZcen : ∀ z ∈ Z, ∀ g : X, g * z = z * g) (hZexp : ∀ z ∈ Z, z ^ 3 = 1)
-    (hZ3 : Nat.card Z = 3) {a b s : X} (hs2 : s ^ 2 = 1) (hab : a * b = b * a)
+    (hZ3 : Nat.card Z = 3) {a b s : X} (_hs2 : s ^ 2 = 1) (hab : a * b = b * a)
     (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1) (hsa : s * a = a * s) (hsb : s * b = b * s)
     (h9 : Nat.card (Subgroup.closure ({(a : X ⧸ Z), (b : X ⧸ Z)} : Set (X ⧸ Z))) = 9) :
     ∃ E : Subgroup X, IsMulCommutative E ∧ (∀ w ∈ E, w ^ 3 = 1) ∧
@@ -522,7 +522,7 @@ public theorem exists_e9_le_e27_of_lifts {X : Type} [Group X] [Finite X] (Z : Su
   have hx₀N : x₀ ∈ Subgroup.normalizer (C : Set X) := by
     rw [Subgroup.mem_normalizer_iff]
     intro n
-    simp only [SetLike.mem_coe, hchar, hPconj, conj_pow, hconj1]
+    simp only [hchar, hPconj, conj_pow, hconj1]
   have hZN : ∀ z ∈ Z, z ∈ Subgroup.normalizer (C : Set X) := by
     intro z hz
     rw [Subgroup.mem_normalizer_iff]

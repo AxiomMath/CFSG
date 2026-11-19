@@ -312,7 +312,7 @@ theorem ncard_xFix_le {Y : GL24}
   have hSF : (↑S : Set Vec24) ⊆ {v : Vec24 | (Y : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ v = v} :=
     fun v hv => (hSf v hv).1
   have h1 := Set.ncard_le_ncard hsub (Set.toFinite _)
-  rw [Set.ncard_diff hSF (Set.toFinite _), Set.ncard_coe_finset, hS] at h1
+  rw [Set.ncard_sdiff hSF (Set.toFinite _), Set.ncard_coe_finset, hS] at h1
   have h2 : 2 ^ (24 - 20) = 16 := rfl
   omega
 

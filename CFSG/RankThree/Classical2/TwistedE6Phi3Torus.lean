@@ -630,7 +630,7 @@ theorem natCard_phi3TorusTorsion [IsAlgClosed Ω] {q p : ℕ} (hFr : ∀ c, Fr c
     rw [hq] at h1
     norm_num at h1⟩
   have := IsSepClosed.hasEnoughRootsOfUnity Ω p
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω p
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω p
   set ζ : Ωˣ := (hζ₀.isUnit hp.ne_zero).unit with hζdef
   have hζ : IsPrimitiveRoot ζ p := IsPrimitiveRoot.coe_units_iff.mp (by
     rw [hζdef, IsUnit.unit_spec]

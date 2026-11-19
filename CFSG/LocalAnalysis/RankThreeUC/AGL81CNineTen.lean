@@ -27,7 +27,7 @@ noncomputable def cStarL {G : Type} [Group G] (p : ℕ) (H : Subgroup G) :
     Subgroup (StarGroup p H) :=
   Subgroup.centralizer (starImg p H (pLayerIn p H) : Set (StarGroup p H))
 
-abbrev NineTenConclusion (G : Type) [Group G] [Finite G] (M Q H E : Subgroup G)
+abbrev NineTenConclusion (G : Type) [Group G] [Finite G] (M _Q H E : Subgroup G)
     (p : ℕ) : Prop :=
   (¬ pLayerIn p H ≤ M →
     (xSub p M H ≤ M ∧ H = kSub p M H ⊔ (H ⊓ M) ∧ ((kSub p M H).subgroupOf H).Normal) ∨
@@ -67,7 +67,7 @@ abbrev NineTenConclusion (G : Type) [Group G] [Finite G] (M Q H E : Subgroup G)
     NineSettingGen G M p Q H E 2 → H ∈ H2Fam M Q → p ∉ sigmaM G M →
     NineTenConclusion G M Q H E p
 
-abbrev NineTwelveConclusion (G : Type) [Group G] [Finite G] (M Q H E : Subgroup G)
+abbrev NineTwelveConclusion (G : Type) [Group G] [Finite G] (M _Q H _E : Subgroup G)
     (p : ℕ) : Prop :=
   (¬ pLayerIn p H ≤ M → ∀ L : Subgroup G, IsPComponentIn p L (kSub p M H) →
     IsTwoPrimeComponentIn L H ∨

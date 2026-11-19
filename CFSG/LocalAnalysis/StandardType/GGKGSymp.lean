@@ -94,8 +94,8 @@ theorem kgSymp_holds :
   ·
     obtain ⟨F, hFfield, hFfin, r, hr, hn, hcard, h2, e, A, hαA⟩ :=
       CFSG.LocalAnalysis.GLTheoremA.I141F.Cls.compType_symp_data hcen ht hin
-    letI := hFfield
-    letI := hFfin
+    let := hFfield
+    let := hFfin
     obtain ⟨x, hx⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnSympRed.exists_conjAut_eq_conj h2 A
     have hMEq : MulAut.congr e α = MulAut.conj (proj r F x) := by
       rw [← hx]
@@ -138,7 +138,7 @@ theorem kgSymp_holds :
         (fun h => h.elim) (fun h => h.elim) (fun h => h.elim)
         hp hp2 Nat.prime_two hn hcard (by omega) hp2 (fun h => h.elim) x hxp
     obtain ⟨X, inst, hXfin, ⟨hXLie, -⟩, hfac, fX, hfX, hker⟩ := hcomp _ hK'
-    letI := inst
+    let := inst
     obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
       hXLie.perfect fX hfX hker
     unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.SpFactorOver at hfac

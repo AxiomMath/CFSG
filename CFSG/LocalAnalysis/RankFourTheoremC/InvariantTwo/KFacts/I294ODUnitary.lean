@@ -54,6 +54,7 @@ theorem od_sq_sub_one (q : ℕ) (hq : 1 ≤ q) : q ^ 2 - 1 = (q + 1) * (q - 1) :
     ring
   omega
 
+omit [Finite K] [CharP K r] in
 theorem od_unitary_pow_eq_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hK : Nat.card K = (r ^ f) ^ 2) (hpq : p ∣ r ^ f + 1) {b c : Kˣ} (hbc : b ^ p = c)
     (hc : c ^ (r ^ f + 1) = 1) : b ^ (r ^ f + 1) = 1 := by
@@ -104,6 +105,7 @@ theorem od_unitary_nonpower {p : ℕ} (hn1 : 1 ≤ n) (hp : p.Prime) (hp2 : p �
   show (GeneralLinearGroup.scalar (Fin n) (Units.mk0 b hb0)) ^ p = (B : GL (Fin n) K) ^ p
   rw [← map_pow, hb'p, hBp]
 
+omit [Finite K] in
 theorem od_unitary_matrix_pow {p : ℕ} {B : GL (Fin n) K} {c : Kˣ}
     (hBp : B ^ p = GeneralLinearGroup.scalar (Fin n) c) :
     (B : Matrix (Fin n) (Fin n) K) ^ p = Matrix.scalar (Fin n) (c : K) := by
@@ -126,8 +128,8 @@ theorem odFamily_unitary_of_inputs {p : ℕ} (hT : I294ODUnitaryTorus)
     have hq1 : 1 ≤ r ^ f := Nat.one_le_pow _ _ (Fact.out : r.Prime).pos
     rw [hK, od_sq_sub_one _ hq1]
     exact Dvd.dvd.mul_right hpq _
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ψ, hψ⟩ := l212in_aut_su_hom hn5 hK
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, inferInstance, ?_, ?_, ?_, ?_⟩
   ·
@@ -365,13 +367,13 @@ theorem od_unitary_false {p n q : ℕ} [hpp : Fact p.Prime] (hT : I294ODUnitaryT
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | hn0
     · obtain ⟨a, b, hab⟩ := hnab
-      haveI : Nontrivial L := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
-      haveI : Subsingleton (StatedProj (StatedSU 0 q K)) := inferInstance
+      have : Nontrivial L := ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
+      have : Subsingleton (StatedProj (StatedSU 0 q K)) := inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact hn0
   obtain ⟨r, m, hr, hchar, -, hKr⟩ := exists_char_pow_card K
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   obtain ⟨f, -, hqf⟩ : ∃ f ≤ m, q = r ^ f := by
     refine (Nat.dvd_prime_pow hr).1 ?_
     rw [← hKr, hKq]

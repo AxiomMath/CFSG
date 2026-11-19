@@ -117,7 +117,7 @@ theorem exists_concl166S_of_toral_E8 (n p q : ℕ) (hn : 2 ≤ n) (hp : p.Prime)
         ((subsystemGroup Tag.E8 (GaloisField 2 n) {i : Fin Tag.E8.rank | i ≠ 0}).subgroupOf
           (adjointGroup Tag.E8 (GaloisField 2 n))) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Kf := GaloisField 2 n
   let A : Subgroup (ModGL Tag.E8 Kf) := adjointGroup Tag.E8 Kf
   have hKcard : Nat.card Kf = 2 ^ n := GaloisField.card 2 n (by omega)
@@ -151,8 +151,8 @@ theorem exists_concl166S_of_toral_E8 (n p q : ℕ) (hn : 2 ≤ n) (hp : p.Prime)
         funext i
         rw [Pi.pow_apply, e8NodeZeroToral]
         by_cases hi : i = 0
-        · rw [if_pos hi]; simpa using hζq
-        · rw [if_neg hi]; simp, map_one]
+        · rw [ite_eq_left hi]; simpa using hζq
+        · rw [ite_eq_right hi]; simp, map_one]
     simpa [x, rootDiagUnitHom] using h1
   have hx1 : x ≠ 1 := by
     intro h
@@ -233,7 +233,7 @@ theorem exists_concl166S_adjointGroup_E8 (n p : ℕ) (hn : 2 ≤ n) (hp : p.Prim
       (J : Subgroup ↥(adjointGroup Tag.E8 (GaloisField 2 n))),
       Concl166S ↥(adjointGroup Tag.E8 (GaloisField 2 n)) p q B' x' J := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Kf := GaloisField 2 n
   have hKcard : Nat.card Kf = 2 ^ n := GaloisField.card 2 n (by omega)
   have hn1 : 1 ≤ n := by omega
@@ -253,7 +253,7 @@ theorem exists_concl166S_adjointGroup_E8 (n p : ℕ) (hn : 2 ≤ n) (hp : p.Prim
   have hqcard : q ∣ Nat.card Kfˣ := by
     rw [Nat.card_units, hKcard]
     exact hqdvd
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact q.Prime := ⟨hq⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' q hqcard
   obtain ⟨B', hB'⟩ := exists_concl166S_of_toral_E8 n p q hn hp hp2 hpdvd hq hq2 hqdvd hζ hD7
   exact ⟨q, B', ⟨rootDiagUnit Tag.E8 (e8NodeZeroToral ζ),

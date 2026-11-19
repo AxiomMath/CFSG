@@ -112,7 +112,7 @@ theorem pairWeyl_mem_rationalComponent
       step_rootSL2_of_charTwo S ((S.frob.isRoot_iff β).2 hβr) Fr hFr
         (Matrix.SpecialLinearGroup.map Fr (y : SL(2, L))), hρρ, hmapfixFr y]
     exact (hcomm (y : SL(2, L)) (Matrix.SpecialLinearGroup.map Fr (y : SL(2, L)))).eq.symm
-  haveI hperf : Group.IsPerfect X := hQ.1
+  have hperf : Group.IsPerfect X := hQ.1
   have hKperf : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤ := by
     rw [← commutator_def]
     exact Group.IsPerfect.commutator_eq_top

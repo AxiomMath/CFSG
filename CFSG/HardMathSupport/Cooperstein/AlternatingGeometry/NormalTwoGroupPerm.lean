@@ -109,7 +109,7 @@ theorem normal_isPGroup_perm_eq_bot_of_card {α : Type*} [Fintype α] [Decidable
       rw [hcop] at this
       exact hne1 (orderOf_eq_one_iff.1 (Nat.dvd_one.1 this))
     · have hnt : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
-      haveI : Nontrivial α := Fintype.one_lt_card_iff_nontrivial.1 (by omega)
+      have : Nontrivial α := Fintype.one_lt_card_iff_nontrivial.1 (by omega)
       have hle := alternatingGroup_le_of_normal (α := α) (by rwa [Nat.card_eq_fintype_card])
         (N := Q) hnt
       have hdvd : Nat.card (alternatingGroup α) ∣ Nat.card Q := Subgroup.card_dvd_of_le hle

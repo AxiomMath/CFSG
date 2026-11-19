@@ -109,7 +109,7 @@ theorem packK_go {f : ℕ → ℕ} (hf : ∀ k, f k < 16) : ∀ n,
         by_cases hjn : j = n
         · subst hjn
           simp [dg_eq, Nat.mod_eq_of_lt (hf j)]
-        · rw [if_neg (by omega), dg_of_lt (m := 1) (by simpa using hf n) (by omega)]
+        · rw [ite_eq_right (by omega), dg_of_lt (m := 1) (by simpa using hf n) (by omega)]
 
 theorem packK_lt {f : ℕ → ℕ} (hf : ∀ k, f k < 16) : packK f < 16 ^ 16 := (packK_go hf 16).1
 
@@ -124,7 +124,7 @@ theorem dg_pack16 {f : ℕ → ℕ} (hf : ∀ k, f k < 16) {e : ℕ} (he : e < 1
     rwa [show Nat.shiftLeft 16 2 = 64 from rfl] at this
   rw [Nat.add_eq, h, dg_add_mul _ _ (packK_lt hf)]
   split_ifs with h1 h2
-  · rw [dg_packK hf j, if_pos h1]
+  · rw [dg_packK hf j, ite_eq_left h1]
   · subst h2
     simp [dg_eq, Nat.mod_eq_of_lt he]
   · exact dg_of_lt (m := 1) (by simpa using he) (by omega)
@@ -192,7 +192,7 @@ theorem dg_matK {G Y : ℕ} (hG : Dig G) (hY : Dig Y) {k : ℕ} (hk : k < 16) :
       (mulC (dg G (4 * (k / 4) + 2)) (dg Y (8 + k % 4))))
       (mulC (dg G (4 * (k / 4) + 3)) (dg Y (12 + k % 4))) := by
   unfold matK
-  rw [dg_packK (fun k => entK_lt _ _ _ _), if_pos hk]
+  rw [dg_packK (fun k => entK_lt _ _ _ _), ite_eq_left hk]
   change entK G Y (k / 4) (k % 4) = _
   exact entK_eq hG hY (by omega) (by omega)
 
@@ -200,7 +200,7 @@ theorem matK_dig {G Y : ℕ} (hG : Dig G) (hY : Dig Y) : Dig (matK G Y) := fun k
   rw [dg_matK hG hY hk]
   exact addC_lt _ _
 
-theorem matK_lt (G Y : ℕ) : matK G Y < 16 ^ 16 := packK_lt fun k => entK_lt _ _ _ _
+theorem matK_lt (G Y : ℕ) : matK G Y < 16 ^ 16 := packK_lt fun _k => entK_lt _ _ _ _
 
 theorem mulMat_dec {G P Y : ℕ} {sw : Bool} (hG : Dig G) (hY : Dig Y)
     (hsw : ∀ j < 16, (if sw then barC (dg P j) else dg P j) = dg Y j) :
@@ -220,12 +220,12 @@ theorem mulMat_dec {G P Y : ℕ} {sw : Bool} (hG : Dig G) (hY : Dig Y)
 
 theorem dig_mapBT {P : ℕ} (hP : Dig P) : Dig (mapK BT P) := fun j hj => by
   unfold mapK
-  rw [dg_packK (fun k => dg_lt _ _), if_pos hj, bT_eq _ (hP j hj)]
+  rw [dg_packK (fun k => dg_lt _ _), ite_eq_left hj, bT_eq _ (hP j hj)]
   exact barC_lt _
 
 theorem dg_mapBT {P : ℕ} (hP : Dig P) {j : ℕ} (hj : j < 16) : dg (mapK BT P) j = barC (dg P j) := by
   unfold mapK
-  rw [dg_packK (fun k => dg_lt _ _), if_pos hj, bT_eq _ (hP j hj)]
+  rw [dg_packK (fun k => dg_lt _ _), ite_eq_left hj, bT_eq _ (hP j hj)]
 
 theorem mulK_eq (G P : ℕ) : mulK G P =
     Nat.add (matK G (if dg G 16 = 1 then mapK BT P else P))
@@ -233,9 +233,9 @@ theorem mulK_eq (G P : ℕ) : mulK G P =
   unfold mulK
   rw [CFSG.KC.Pack.strictN_eq]
   by_cases h : dg G 16 = 1
-  · rw [if_pos h, h]
+  · rw [ite_eq_left h, h]
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have : Nat.beq (dg G 16) 1 = false :=
       Bool.eq_false_iff.2 fun h' => h (Nat.eq_of_beq_eq_true h')
     rw [this]
@@ -266,15 +266,15 @@ theorem mulRaw_dec {G P : ℕ} (hG : Dig G) (hP : Dig P) :
   unfold mulRaw
   rw [hm, hmul, hdg]
   by_cases h16 : k < 16
-  · rw [push_get_lt _ _ (by simpa using h16), ofFn_get _ h16, if_pos h16]
+  · rw [push_get_lt _ _ (by simpa using h16), ofFn_get _ h16, ite_eq_left h16]
     have := dg_matK hG hY h16
     unfold matK at this
-    rw [dg_packK (fun k => entK_lt _ _ _ _), if_pos h16] at this
+    rw [dg_packK (fun k => entK_lt _ _ _ _), ite_eq_left h16] at this
     rw [this, dg_matK hG hY h16]
   · have hk16 : k = 16 := by omega
     subst hk16
-    rw [push_get_eq _ _ (by simp), dec_get G (by omega), dec_get P (by omega), if_neg (by omega),
-      if_pos rfl]
+    rw [push_get_eq _ _ (by simp), dec_get G (by omega), dec_get P (by omega), ite_eq_right (by omega),
+      ite_eq_left rfl]
 
 theorem mulK_dig {G P : ℕ} (hG : Dig G) (hP : Dig P) : Dig (mulK G P) := fun j hj => by
   have h : (mulRaw (dec G) (dec P))[j]! = (dec (mulK G P))[j]! := by rw [mulRaw_dec hG hP]
@@ -302,11 +302,11 @@ theorem fnz_go (R : ℕ) : ∀ m ≤ 16,
     by_cases h : dg R (15 - m) = 0
     · have hb : Nat.beq (dg R (15 - m)) 0 = true := by rw [h]; rfl
       rw [hb]
-      simp [List.find?_cons, h]
+      simp [h]
     · have hb : Nat.beq (dg R (15 - m)) 0 = false :=
         Bool.eq_false_iff.2 fun h' => h (Nat.eq_of_beq_eq_true h')
       rw [hb]
-      simp [List.find?_cons, h]
+      simp [h]
 
 theorem fnzK_go (R : ℕ) :
     fnzK R = (((List.range' (16 - 16) 16).map (dg R)).find? fun w => decide (w ≠ 0)).getD 0 :=
@@ -369,12 +369,12 @@ theorem conjT_dec {P : ℕ} (hP : Dig P) : conjT (dec P) = dec (conjTK P) := by
   have e : Nat.add (Nat.mul 4 (Nat.mod k 4)) (Nat.div k 4) = 4 * (k % 4) + k / 4 := rfl
   rw [e]
   by_cases h16 : k < 16
-  · rw [if_pos h16, if_pos h16, dec_get P (by omega), bT_eq _ (hP _ (by omega))]
-  · rw [if_neg h16, if_neg h16]
+  · rw [ite_eq_left h16, ite_eq_left h16, dec_get P (by omega), bT_eq _ (hP _ (by omega))]
+  · rw [ite_eq_right h16, ite_eq_right h16]
 
 theorem conjTK_dig (P : ℕ) (hP : Dig P) : Dig (conjTK P) := fun j hj => by
   unfold conjTK
-  rw [dg_packK (fun k => dg_lt _ _), if_pos hj]
+  rw [dg_packK (fun k => dg_lt _ _), ite_eq_left hj]
   have e : Nat.add (Nat.mul 4 (Nat.mod j 4)) (Nat.div j 4) = 4 * (j % 4) + j / 4 := rfl
   rw [e, bT_eq _ (hP _ (by omega))]
   exact barC_lt _

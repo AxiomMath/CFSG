@@ -105,8 +105,8 @@ theorem blocks_injective : Function.Injective
 
 theorem isSolvable_centralizer_delta :
     Group.IsSolvable (Subgroup.centralizer ({deltaSL} : Set SL(4, ZMod 3))) := by
-  haveI := isSolvable_gl_two_three
-  exact solvable_of_solvable_injective blocks_injective
+  have := isSolvable_gl_two_three
+  exact Group.isSolvable_of_isSolvable_injective blocks_injective
 
 theorem isSolvable_centralizer_of_sq_eq_one (g : SL(4, ZMod 3))
     (hg2 : (g : Matrix (Fin 4) (Fin 4) (ZMod 3)) * g = 1)
@@ -160,7 +160,7 @@ theorem isSolvable_centralizer_of_sq_eq_one (g : SL(4, ZMod 3))
     intro x y hxy
     have := congrArg Subtype.val hxy
     exact Subtype.ext ((MulAut.conj P⁻¹).injective this)
-  haveI := isSolvable_centralizer_delta
-  exact solvable_of_solvable_injective hf
+  have := isSolvable_centralizer_delta
+  exact Group.isSolvable_of_isSolvable_injective hf
 
 end CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerp23.Lc.Res

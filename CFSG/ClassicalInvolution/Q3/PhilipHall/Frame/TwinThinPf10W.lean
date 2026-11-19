@@ -22,10 +22,10 @@ variable {G : Type} [Group G] [Finite G] {K₀ K K' : Subgroup G} {z : G} {π : 
   Subgroup.closure ((K : Set G) ∪ (K' : Set G) ∪ {y})
 
 theorem le_Wsub_K (y : G) : K ≤ Wsub K K' y :=
-  fun x hx => Subgroup.subset_closure (Or.inl (Or.inl hx))
+  fun _x hx => Subgroup.subset_closure (Or.inl (Or.inl hx))
 
 theorem le_Wsub_K' (y : G) : K' ≤ Wsub K K' y :=
-  fun x hx => Subgroup.subset_closure (Or.inl (Or.inr hx))
+  fun _x hx => Subgroup.subset_closure (Or.inl (Or.inr hx))
 
 theorem y_mem_Wsub (y : G) : y ∈ Wsub K K' y :=
   Subgroup.subset_closure (Or.inr rfl)

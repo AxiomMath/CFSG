@@ -54,8 +54,8 @@ theorem natCast_ne_zero_of_not_dvd_card {F : Type} [Field F] [Finite F] (hp : p.
     (hpF : ¬ p ∣ Nat.card F) : (p : F) ≠ 0 := by
   intro h0
   apply hpF
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F (ringChar F) := ringChar.charP F
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F (ringChar F) := ringChar.charP F
   have hℓ : (ringChar F).Prime := CharP.char_is_prime F (ringChar F)
   have h1 : ringChar F ∣ p := (CharP.cast_eq_zero_iff F (ringChar F) p).1 h0
   have h2 : ringChar F = p := (Nat.prime_dvd_prime_iff_eq hℓ hp).1 h1

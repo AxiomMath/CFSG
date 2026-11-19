@@ -128,7 +128,7 @@ theorem exists_normalizer_V_conj (h10 : D.FusN 1 0) (h20 : D.FusN 2 0) {u : G} (
       _ = g * (u * q) * g⁻¹ := by rw [hqu]
       _ = g * u * g⁻¹ * (g * q * g⁻¹) := by group
   have hQ'2 : IsPGroup 2 (D.Q.map (MulAut.conj g).toMonoidHom) :=
-    (D.S.isPGroup'.to_le D.Q_le_S).map _
+    (D.S.isPGroup.to_le D.Q_le_S).map _
   have hSM : IsSylowOf 2 (D.S : Subgroup G) D.M := (isSylowOf_top D.S).of_le D.S_le_M le_top
   obtain ⟨m, hmM, hm⟩ := exists_conj_le_of_isSylowOf hSM hQ'M hQ'2
   set k₀ := m * g with hk₀def

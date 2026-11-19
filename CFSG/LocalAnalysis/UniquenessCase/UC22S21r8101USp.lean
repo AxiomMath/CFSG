@@ -36,8 +36,8 @@ theorem u81_sp_of_two_le_pRank (u : U4X D L K n)
   have hr2 := u.r_ne_two
   have hn := u.prime_n
   have hn2 : n ≠ 2 := by rcases u.hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
-  haveI : Fact n.Prime := ⟨hn⟩
-  haveI : Fact (2 ^ n - 1).Prime := ⟨hr⟩
+  have : Fact n.Prime := ⟨hn⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨hr⟩
   have hrσ : 2 ^ n - 1 ∉ D.sig := fun h => hnot (UC6S846.sp_of_mem_sig hSg hns h)
   have h76n := h76 n u.hσ (UC6S846.sp_of_mem_sig hSg hns u.hσ)
   obtain ⟨R, hR⟩ := CFSG.ABGLocalTools.exists_isSylowOf (2 ^ n - 1) D.M
@@ -71,7 +71,7 @@ theorem u81_sp_of_two_le_pRank (u : U4X D L K n)
   have hZL : center (Bar2 L) = ⊥ := by
     rcases u.shape with hX | hX
     · exact uc22p22g_center_bot hX
-    · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
+    · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
       exact uc22p21k_center_eq_bot u.hL.2.2
   have hna : a₂ ∉ zpowers a₁ := by
     intro h

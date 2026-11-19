@@ -30,8 +30,8 @@ private theorem cI_mem_closure_singleton_eq {E : Type} [Group E] {g t : E}
 
 private theorem cI_refl_ne_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {φ : MulAut ↥Bs} (hr : GGIsReflection p φ) : φ ≠ 1 := by
-  haveI : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
-  haveI : Nonempty ↥Bs := ⟨(1 : ↥Bs)⟩
+  have : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
+  have : Nonempty ↥Bs := ⟨(1 : ↥Bs)⟩
   rintro rfl
   obtain ⟨-, hc⟩ := hr
   simp only [MulAut.one_apply] at hc
@@ -190,7 +190,7 @@ private theorem cI_parabolicRestricted
       exact congrArg φ h.symm
   have hconjJ : GGReflConjSimple p (ggAutomizer J Bs) (fun j : Jset => φ j) := by
     by_cases hsmall : n - c = 1
-    · haveI : Nonempty Jset := ⟨eJ.symm ⟨0, by omega⟩⟩
+    · have : Nonempty Jset := ⟨eJ.symm ⟨0, by omega⟩⟩
       have hsub : Subsingleton Jset := ⟨fun a b => eJ.injective (Fin.ext (by
         have ha := (eJ a).isLt
         have hb := (eJ b).isLt
@@ -255,7 +255,7 @@ private theorem cI_sideDatum_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact
     ⟨fJ, hfJ⟩, hALJ, hconjJ⟩
 
 private theorem cI_leviSideDatumLE3 {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
-    (hp : p ≠ 2) {Bs X J : Subgroup G} {n c : ℕ} (hc : 1 ≤ c) (hc2 : 2 ≤ c) (hc3 : c ≤ 3)
+    (hp : p ≠ 2) {Bs X J : Subgroup G} {n c : ℕ} (_hc : 1 ≤ c) (hc2 : 2 ≤ c) (hc3 : c ≤ 3)
     (hrc : 1 ≤ n - c) (hcr : c ≤ n)
     {M : CoxeterMatrix (Fin n)} (hM : M = CoxeterMatrix.A n)
     {C : Matrix (Fin n) (Fin n) ℤ} (hC : C = CartanMatrix.A n)
@@ -298,11 +298,11 @@ private theorem cI_leviSideDatumLE3 {G : Type} [Group G] [Finite G] {p : ℕ} [F
       left_inv := fun j => by
         apply Subtype.ext
         apply Fin.ext
-        simp only [Fin.val_mk]
+        simp only
         omega
       right_inv := fun i => by
         apply Fin.ext
-        simp only [Fin.val_mk]
+        simp only
         omega }
   have hScard : S.card = c := by
     have h1 : S.card = Fintype.card {j : Fin n // n - c ≤ j.val} :=

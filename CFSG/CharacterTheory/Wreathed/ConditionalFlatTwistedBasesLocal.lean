@@ -104,7 +104,7 @@ theorem flat_local_block (hnonab : ∃ a b : G, a * b ≠ b * a) (hn : 2 ≤ n)
       (Subgroup.centralizer ((S : Subgroup G) : Set G)))) (θ : eb.index)
     (nb : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat : nb.index) (hθ : InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb θhat = centralCharacterResidueHom basis ideal B)
     (θt : Subgroup.centralizer ((S : Subgroup G) : Set G) → ℂ)

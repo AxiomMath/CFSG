@@ -31,10 +31,10 @@ private theorem cuq2om_card_D {X : Type} [Group X] {r n : ℕ} (hr : 4 ≤ r) (h
     Nat.card X = CFSG.Open.ordD r (2 ^ n) := by
   classical
   dsimp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum] at hX
-  rw [if_neg (by omega : r ≠ 3)] at hX
+  rw [ite_eq_right (by omega : r ≠ 3)] at hX
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hX
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hadm : CFSG.Open.StatedLieAdmissible .POmegaPlus r 2 n := ⟨Nat.prime_two, hn, hr⟩
   have hM := statedClassicalModel_omegaPlus r n hKcard hadm
   exact (CFSG.Timmesfeld.card_statedClassicalModel_two
@@ -45,10 +45,10 @@ private theorem cuq2om_card_twD {X : Type} [Group X] {r n : ℕ} (hr : 4 ≤ r) 
     Nat.card X = CFSG.Open.ordTwistedD r (2 ^ n) := by
   classical
   dsimp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum] at hX
-  rw [if_neg (by omega : r ≠ 2), if_neg (by omega : r ≠ 3)] at hX
+  rw [ite_eq_right (by omega : r ≠ 2), ite_eq_right (by omega : r ≠ 3)] at hX
   obtain ⟨K, hKf, hKfin, hKcard, b, c, hbc, ⟨e⟩⟩ := hX
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hadm : CFSG.Open.StatedLieAdmissible .POmegaMinus r 2 n := ⟨Nat.prime_two, hn, hr⟩
   have hM := statedClassicalModel_omegaMinus r n hKcard b c hbc hadm
   exact (CFSG.Timmesfeld.card_statedClassicalModel_two
@@ -67,8 +67,8 @@ private theorem cuq2om_card_twA {X : Type} [Group X] {n : ℕ} (hn : 1 ≤ n)
   classical
   dsimp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum] at hX
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hX
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hadm : CFSG.Open.StatedLieAdmissible .PSU 4 2 n :=
     ⟨Nat.prime_two, hn, by norm_num, by rintro ⟨h, -⟩⟩
   have hM := statedClassicalModel_unitary 4 n hKcard hadm
@@ -79,7 +79,7 @@ private theorem cuq2om_card_target {d m : ℕ} {E : Type} [Field E]
     (hE : UnitaryFieldData 2 m E) (hd : 3 ≤ d) (hdm : ¬ (d = 3 ∧ m = 1)) :
     Nat.card (LargeEvenProj (LargeEvenSUGroup (Fin d) E (2 ^ m))) =
       CFSG.Open.ordTwistedA (d - 1) (2 ^ m) := by
-  haveI : Finite E := hE.finite
+  have : Finite E := hE.finite
   have hcardE : Nat.card E = (2 ^ m) ^ 2 := by
     rw [hE.card, show 2 * m = m * 2 by omega, pow_mul]
   have hadm : CFSG.Open.StatedLieAdmissible .PSU d 2 m := by
@@ -170,7 +170,7 @@ theorem q2UniOmega_block {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [
       LargeEvenProj (LargeEvenSUGroup (Fin d) E (2 ^ m)))) :
     Q2UniBlockHom (Subgroup.centralizer ({s} : Set ↥(StatedOmega ⇑Φ))) C := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨θ⟩ := hJE
   have hodd : Odd (orderOf (s : GL ι K)) := by rwa [Subgroup.orderOf_coe]
   obtain ⟨P, hP, -, -, hc, hsup, -⟩ :=

@@ -79,8 +79,8 @@ theorem s1614e3_row10_hrow (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.si
       inf_le_left.trans (Subgroup.map_subtype_le _)
     refine ⟨fstarBar D.M ⊥ V hV ⊓ centSub (Y i), hBM, hBel.isPGroup, ?_, ?_⟩
     · intro hcyc'
-      haveI : Fintype ↥(fstarBar D.M ⊥ V hV ⊓ centSub (Y i)) := Fintype.ofFinite _
-      haveI : IsCyclic ↥(fstarBar D.M ⊥ V hV ⊓ centSub (Y i)) := hcyc'
+      have : Fintype ↥(fstarBar D.M ⊥ V hV ⊓ centSub (Y i)) := Fintype.ofFinite _
+      have : IsCyclic ↥(fstarBar D.M ⊥ V hV ⊓ centSub (Y i)) := hcyc'
       have hle : Fintype.card ↥(fstarBar D.M ⊥ V hV ⊓ centSub (Y i)) ≤ p := by
         have h := IsCyclic.card_pow_eq_one_le
           (α := ↥(fstarBar D.M ⊥ V hV ⊓ centSub (Y i))) hpp.pos

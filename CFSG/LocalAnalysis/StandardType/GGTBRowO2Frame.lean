@@ -107,10 +107,10 @@ theorem ggO2Row_weylFrame_D_of_evenModel {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
     by_cases h : i.val + 1 < k
     · obtain ⟨n, hn, he⟩ := hP (Equiv.swap i ⟨i.val + 1, h⟩)
       refine ⟨n, hn, ?_⟩
-      rw [he, DScalarTorus.simpleReflection, dif_pos h]
+      rw [he, DScalarTorus.simpleReflection, dite_eq_left h]
     · obtain ⟨n, hn, he⟩ := hST _ _ hab
       refine ⟨n, hn, ?_⟩
-      rw [he, DScalarTorus.simpleReflection, dif_neg h]
+      rw [he, DScalarTorus.simpleReflection, dite_eq_right h]
   choose n hn heq using hdata
   have hrefl : ∀ i, GGIsReflection p (ggConjAut A (hn i)) := by
     intro i
@@ -120,10 +120,10 @@ theorem ggO2Row_weylFrame_D_of_evenModel {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
         intro hh
         have : i.val = i.val + 1 := congrArg Fin.val hh
         omega
-      rw [DScalarTorus.simpleReflection, dif_pos h]
+      rw [DScalarTorus.simpleReflection, dite_eq_left h]
       exact ggSpSigned_ggIsReflection_congr hp hp2 Θ (SpCoord.permAut_swap_sq _ _)
         (SpCoord.card_fix_permAut_swap hp hp2 hne)
-    · rw [DScalarTorus.simpleReflection, dif_neg h]
+    · rw [DScalarTorus.simpleReflection, dite_eq_right h]
       exact ggSpSigned_ggIsReflection_congr hp hp2 Θ (OrthExcEven.sgnTransp_sq hab)
         (OrthExcEven.card_fix_sgnTransp hp hp2 hab)
   obtain ⟨eS, heS⟩ := DScalarTorus.exists_evenSignedCoxeterEquiv (p := p) hp2 hk
@@ -187,7 +187,7 @@ theorem ggO2Row_weylFrame_of_evenModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     (hN : ∀ (n : L') (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))),
       IsSignedPerm ⇑((MulAut.congr Θ).symm (ggConjAut A hn))) :
     GGWeylFrame p A (ggCoxeterMatrixD k) ∨ GGWeylFrame p A (CoxeterMatrix.B k) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hs : MulAut.congr Θ (sgnAut (⟨0, by omega⟩ : Fin k)) ∈
       ggAutomizer (MulAut.conj : L' →* MulAut L').range A
   · exact Or.inr (ggO2Row_weylFrame_B_of_evenModel hp hp2 (by omega) Θ hW hD hP hN _ hs)

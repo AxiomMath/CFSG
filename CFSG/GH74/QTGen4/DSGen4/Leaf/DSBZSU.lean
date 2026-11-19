@@ -38,7 +38,7 @@ private theorem dszu_frattini_le {G : Type} [Group G] [Finite G] (Y K : Subgroup
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     simpa using hsq (x : G) x.2
-  haveI := hnorm
+  have := hnorm
   have hfr := CFSG.SectionRank.Ccomm.frattini_le_of_quotient_elementary
     (p := 2) (K.subgroupOf Y) hcommQ hpowQ
   exact Subgroup.map_le_iff_le_comap.mpr hfr
@@ -173,8 +173,7 @@ private theorem dszu_le_normalizer_zpowers {G : Type} [Group G] {g z : G} (hg : 
     exact Subgroup.mem_zpowers_iff.mpr ⟨k, rfl⟩
 
 theorem leafDSBZSU [DSLeaf LeafSylowS] [DSLeaf LeafZiStructure] [DSLeaf LeafRankBounds] : LeafDSBZSU := by
-  intro G _ _ L1 L2 S h _ hsp
-  intro hZ
+  intro G _ _ L1 L2 S h _ hsp hZ
   have hRS : pCoreOf 2 L2 ≤ S :=
     (F1.pCoreOf_le_pCoreOf_parabolic h.symm).trans (sylow_s h.symm).2.2
   have hSpg : IsPGroup 2 ↥S := h.hyp.h1.pgroup
@@ -182,12 +181,12 @@ theorem leafDSBZSU [DSLeaf LeafSylowS] [DSLeaf LeafZiStructure] [DSLeaf LeafRank
   unfold IsSpecialPGroup at hspg
   obtain ⟨hpg, hcase⟩ := hspg
   set R : Subgroup G := pCoreOf 2 L2 with hRdef
-  haveI : Fact (IsPGroup 2 ↥R) := ⟨hpg⟩
+  have : Fact (IsPGroup 2 ↥R) := ⟨hpg⟩
   obtain ⟨hF, hCom⟩ : frattini ↥R = Subgroup.center ↥R ∧
       _root_.commutator ↥R = Subgroup.center ↥R := by
     rcases hcase with ⟨hmc, -⟩ | ⟨hcomm_eq, hfr_eq, -⟩
     · exfalso
-      haveI := hmc
+      have := hmc
       rw [Subgroup.center_eq_top, Subgroup.card_top, hcR] at hcZ
       norm_num at hcZ
     · exact ⟨hfr_eq, hcomm_eq⟩
@@ -223,10 +222,10 @@ theorem leafDSBZSU [DSLeaf LeafSylowS] [DSLeaf LeafZiStructure] [DSLeaf LeafRank
     exact h2
   obtain ⟨z, hzS, hzc, hz2, hz1⟩ :
       ∃ z : G, z ∈ S ∧ (∀ s ∈ S, s * z = z * s) ∧ z ^ 2 = 1 ∧ z ≠ 1 := by
-    haveI : Nontrivial ↥R := Finite.one_lt_card_iff_nontrivial.mp (by rw [hRcard]; norm_num)
+    have : Nontrivial ↥R := Finite.one_lt_card_iff_nontrivial.mp (by rw [hRcard]; norm_num)
     obtain ⟨a0, ha0⟩ := exists_ne (1 : ↥R)
     have h0 : (a0 : G) ≠ 1 := fun e' => ha0 (Subtype.ext e')
-    haveI : Nontrivial ↥S :=
+    have : Nontrivial ↥S :=
       ⟨⟨⟨(a0 : G), hRS a0.2⟩, 1, fun e => h0 (congrArg (fun u : ↥S => (u : G)) e)⟩⟩
     have hZnt : Nontrivial ↥(Subgroup.center ↥S) := hSpg.center_nontrivial
     obtain ⟨n, hn, hnc⟩ :=

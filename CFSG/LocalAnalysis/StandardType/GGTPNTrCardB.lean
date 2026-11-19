@@ -36,7 +36,7 @@ theorem ggTPNTrCardB_holds : GGTPNTrCardB := by
     exact Nat.pow_le_pow_right hp.pos h4
   have hyB : y ∈ B := hn.1.2.1
   have hy1 : y ≠ 1 := hn.1.2.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hyord : orderOf y = p := orderOf_eq_prime (hBmax.1.2 y hyB) hy1
   have hShat := hn.1.2.2.2.2.2
   let φ : ↥B →* MulAut ↥K := K.normalizerMonoidHom.comp (Subgroup.inclusion h)
@@ -93,7 +93,7 @@ theorem ggTPNTrRankB_holds : GGTPNTrRankB := by
   let h : B ≤ Subgroup.normalizer (K : Set G) := hc.2.1.1.trans hN
   change GGTPNRank p K (ggAutsOf K B h)
   have hp : p.Prime := hc.1.2.2.2.2.2.1.1
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hBmax : LargeEvenIsBmax p B := hc.1.2.2.2.2.2.2.1.1
   have hBel : IsElemAbelian p B := hBmax.1
   have hBcard : Nat.card B = p ^ LargeEvenTwoLocalRank p G := hBmax.2.1
@@ -208,7 +208,7 @@ theorem ggTPNTrRankB_holds : GGTPNTrRankB := by
           rw [Nat.card_zpowers, horder_yK]
         rw [← h1]
         exact Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr hyK_center)
-      rw [if_pos hdiv]
+      rw [ite_eq_left hdiv]
       have hle := le_twoLocalRank_of_normalizes hp hPGne hPG2 hEGel hEG_le_N hEGcard
       omega
     ·
@@ -223,8 +223,8 @@ theorem ggTPNTrRankB_holds : GGTPNTrRankB := by
       have hle := le_twoLocalRank_of_normalizes hp hPGne hPG2 hEGy_el hEGy_le_N
         (k := r + 1) hEGy_card
       by_cases hZ : p ∣ Nat.card (Subgroup.center ↥K)
-      · rw [if_pos hZ]; omega
-      · rw [if_neg hZ]; omega
+      · rw [ite_eq_left hZ]; omega
+      · rw [ite_eq_right hZ]; omega
   refine ⟨m, hm, ?_⟩
   exact hrankK.trans (Nat.add_le_add_right hm_le _)
 

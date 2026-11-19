@@ -25,7 +25,7 @@ theorem ggTorEnn_eq_zero_of_dvd_sub_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {lab : LargeEvenLabel} (h : p ∣ 2 ^ lab.n - 1) : ggTorEnn p lab = 0 := by
   have h1 : 1 ≤ 2 ^ lab.n := Nat.one_le_two_pow
   unfold ggTorEnn
-  rw [if_neg]
+  rw [ite_eq_right]
   intro h2
   have h3 : p ∣ (2 ^ lab.n + 1) - (2 ^ lab.n - 1) := Nat.dvd_sub h2 h
   rw [show (2 ^ lab.n + 1) - (2 ^ lab.n - 1) = 2 by omega] at h3
@@ -34,7 +34,7 @@ theorem ggTorEnn_eq_zero_of_dvd_sub_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 theorem ggTorEnn_eq_one_of_dvd_add_one {p : ℕ} {lab : LargeEvenLabel}
     (h : p ∣ 2 ^ lab.n + 1) : ggTorEnn p lab = 1 := by
   unfold ggTorEnn
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 
 theorem ggTBTorLift_aDep {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenLabel}
@@ -60,7 +60,7 @@ theorem ggTBTorLift_aDep {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEv
     have hrank : lab.rank - 1 - ggTorEnn p lab = ggUnitaryTorusRank p (lab.rank + 1) := by
       rw [ggTorEnn_eq_one_of_dvd_add_one hpq]
       unfold ggUnitaryTorusRank
-      rw [if_pos hdvd]
+      rw [ite_eq_left hdvd]
       omega
     rw [hrank]
     exact largeEvenLabelAll_torusLift_twA hlab htag hp hpq
@@ -104,7 +104,7 @@ theorem ggTBTorLift_aInd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEv
     have hrank : lab.rank - ggTorEnn p lab = ggUnitaryTorusRank p (lab.rank + 1) := by
       rw [ggTorEnn_eq_one_of_dvd_add_one hpq]
       unfold ggUnitaryTorusRank
-      rw [if_neg hndvd]
+      rw [ite_eq_right hndvd]
       omega
     rw [hrank]
     exact largeEvenLabelAll_torusLift_twA hlab htag hp hpq
@@ -206,7 +206,7 @@ theorem ggTBTorLift_d {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenL
     · obtain rfl : l = 3 := by omega
       have hrank : 3 - 1 = ggUnitaryTorusRank p 4 := by
         unfold ggUnitaryTorusRank
-        rw [if_neg ((Nat.Prime.coprime_iff_not_dvd hp).mp (coprime_four hp hp2))]
+        rw [ite_eq_right ((Nat.Prime.coprime_iff_not_dvd hp).mp (coprime_four hp hp2))]
       rw [hrank]
       exact largeEvenLabelAll_torusLift_twD3 hlab rfl rfl hp hpn
     · exact (OrthRest.labelAll ggOrthRestTorusLiftInput_holds hp

@@ -14,11 +14,11 @@ namespace CFSG.Sporadic.Co2Schreier
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certificates.Native
   CFSG.Monster.B.Mathieu CFSG.Sporadic.Co2Cert
 
-@[expose] def TestX (j : ℕ) (g : Equiv.Perm (Fin 2300)) : Prop :=
+def TestX (j : ℕ) (g : Equiv.Perm (Fin 2300)) : Prop :=
   ∀ i, j ≤ i → i < 12 → locU (g (bpt i)) = g (bpt i)
 
 open scoped Classical in
-@[irreducible, expose] def cosetX (j : ℕ) (p : Equiv.Perm (Fin 2300)) :
+@[irreducible] def cosetX (j : ℕ) (p : Equiv.Perm (Fin 2300)) :
     Finset (Equiv.Perm (Fin 2300)) :=
   Finset.univ.filter fun g => p⁻¹ * g ∈ stabB j ∧ TestX j g
 
@@ -70,7 +70,7 @@ theorem rep_apply_mul {pA : Array ℕ} {p : Equiv.Perm (Fin 2300)} (hp : Rep 230
   rw [Equiv.Perm.mul_apply, ← rep_apply hp, ← rep_apply_bptH h (rep_thTH h hj hk) hj]
 
 omit h in
-theorem apply_of_mem {j k : ℕ} (hj : j < 13) {p g : Equiv.Perm (Fin 2300)}
+theorem apply_of_mem {j k : ℕ} (_hj : j < 13) {p g : Equiv.Perm (Fin 2300)}
     (hg : (p * thT j k)⁻¹ * g ∈ stabB (j + 1)) : g (bpt j) = (p * thT j k) (bpt j) := by
   have he : g = p * thT j k * ((p * thT j k)⁻¹ * g) := eq_mul_inv_mul _ g
   have hb : ((p * thT j k)⁻¹ * g) (bpt j) = bpt j := hg.2 j (by omega)
@@ -101,7 +101,7 @@ theorem cover_cosetX {j : ℕ} (hj : j < 13) (p : Equiv.Perm (Fin 2300)) :
     obtain ⟨k, hk, hs⟩ := exists_thT_inv_mul_memH h hj hg.1
     have hs' : (p * thT j k)⁻¹ * g ∈ stabB (j + 1) := by rwa [mul_inv_rev, mul_assoc]
     refine ⟨k, Finset.mem_range.2 hk, ?_⟩
-    rw [if_neg]
+    rw [ite_eq_right]
     · exact mem_cosetX.2 ⟨hs', testX_succ hg.2⟩
     · rintro ⟨hj12, hne⟩
       apply hne

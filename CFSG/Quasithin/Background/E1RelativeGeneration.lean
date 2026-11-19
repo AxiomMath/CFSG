@@ -22,7 +22,7 @@ theorem relative_generation {T A K : Subgroup G} {Γ : Type*} [Group Γ] {n : �
       (⨆ I ∈ {I : Subgroup Γ | IsE n ⊤ (((T ⊓ K).subgroupOf K).map π)
         ((A.subgroupOf K).map π) I}, I) = ⊤) :
     K ≤ T ⊔ ⨆ J ∈ {J : Subgroup G | IsE n ⊤ T A J}, J := by
-  haveI : Finite Γ := Finite.of_surjective π hπ
+  have : Finite Γ := Finite.of_surjective π hπ
   have hAK : A ≤ K := (le_sup_left.trans (le_tauOf hT hA hAab)).trans (hτ.trans inf_le_right)
   let S0 : Subgroup ↥K := (T ⊓ K).subgroupOf K
   let A0 : Subgroup ↥K := A.subgroupOf K

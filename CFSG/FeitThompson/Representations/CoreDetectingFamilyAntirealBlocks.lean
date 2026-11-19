@@ -114,7 +114,7 @@ theorem apply_eq_zero_of_mem_indFamDetect_of_notMem [K.Normal] {H : Subgroup ↥
   rw [indClassFun_apply]
   refine mul_eq_zero_of_right _ (Finset.sum_eq_zero fun t _ => ?_)
   by_cases hm : t⁻¹ * g * t ∈ K
-  · rw [dif_pos hm]
+  · rw [dite_eq_left hm]
     refine hzero _ (fun hcon => hg ?_)
     rcases hcon with hcon | hcon
     · have h2 := mem_of_conj_image_eq_self hAconj t⁻¹ hcon
@@ -124,7 +124,7 @@ theorem apply_eq_zero_of_mem_indFamDetect_of_notMem [K.Normal] {H : Subgroup ↥
       refine Or.inr ?_
       calc g = t * (t⁻¹ * g * t) * t⁻¹ := by group
         _ = 1 := by rw [h1]; group
-  · rw [dif_neg hm]
+  · rw [dite_eq_right hm]
 
 omit [Fintype G] in
 theorem apply_eq_zero_of_mem_intSpanZeroAtOne [K.Normal] {H : Subgroup ↥L} [H.Normal]
@@ -248,6 +248,7 @@ variable {G : Type*} [Group G] [Fintype G] {L : Subgroup G} [Fintype ↥L]
   {ω : classFun ↥((W₁ ⊔ W₂).map L.subtype) →ₗ[ℂ] classFun G}
   {A₀ : Set G} {T : G → Subgroup G}
 
+omit [Fintype G] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem mem_Irr_or_exists_primeTIrow_eq (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {H : Subgroup ↥L} {f : ↥L → ℂ}
     (hf : f ∈ indFamDetect K (H.subgroupOf K)) :
@@ -262,6 +263,7 @@ theorem mem_Irr_or_exists_primeTIrow_eq (h : IsPrimeCyclicTIHyp K W₁ W₂)
     · rw [← hj, h.indClassFun_primeTIres hσ]
   · exact Or.inl hirr
 
+omit [Fintype G] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem primeTIrow_mem_indFamDetect (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {H : Subgroup ↥L} (hWH : W₂ ≤ H)
     {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
@@ -270,19 +272,21 @@ theorem primeTIrow_mem_indFamDetect (h : IsPrimeCyclicTIHyp K W₁ W₂)
   refine mem_irrDetect.2 ⟨?_, h.not_subset_charValueKernel_primeTIres hσ hWH hj⟩
   rw [← Irr_eq_irrChar]; exact h.primeTIres_mem_Irr hσ j
 
+omit [Fintype G] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem primeTIrow_notMem_Irr (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) (j : Irr ↥W₂) :
     h.primeTIrow σ j ∉ Irr ↥L := by
   have hmem := h.indClassFun_notMem_Irr_primeTIres hσ j
   rwa [h.indClassFun_primeTIres hσ j] at hmem
 
+omit [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem primeTIrow_injective (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {j k : Irr ↥W₂}
     (hjk : h.primeTIrow σ j = h.primeTIrow σ k) : j = k := by
   classical
   by_contra hne
   have h0 := cfInner_primeTIrow_primeTIrow h hσ j k
-  rw [if_neg hne, hjk, cfInner_primeTIrow_primeTIrow h hσ k k, if_pos rfl] at h0
+  rw [ite_eq_right hne, hjk, cfInner_primeTIrow_primeTIrow h hσ k k, ite_eq_left rfl] at h0
   exact (Nat.cast_ne_zero.2 (Nat.card_pos (α := ↥W₁)).ne' : (Nat.card ↥W₁ : ℂ) ≠ 0) h0
 
 noncomputable def rowSign (h : IsPrimeCyclicTIHyp K W₁ W₂)
@@ -291,31 +295,39 @@ noncomputable def rowSign (h : IsPrimeCyclicTIHyp K W₁ W₂)
 
 def rowCol (j : Irr ↥W₂) (b : Bool) : Irr ↥W₂ := if b then j else starIrr j
 
-theorem rowCol_true (j : Irr ↥W₂) : rowCol j true = j := if_pos rfl
+omit [Fintype ↥L] in
+theorem rowCol_true (j : Irr ↥W₂) : rowCol j true = j := ite_eq_left rfl
 
-theorem rowCol_false (j : Irr ↥W₂) : rowCol j false = starIrr j := if_neg (by simp)
+omit [Fintype ↥L] in
+theorem rowCol_false (j : Irr ↥W₂) : rowCol j false = starIrr j := ite_eq_right (by simp)
 
+omit [Fintype G] [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] in
 theorem rowSign_true (h : IsPrimeCyclicTIHyp K W₁ W₂) (j : Irr ↥W₂) :
-    rowSign h σ j true = h.primeTISign σ j := if_pos rfl
+    rowSign h σ j true = h.primeTISign σ j := ite_eq_left rfl
 
+omit [Fintype G] [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] in
 theorem rowSign_false (h : IsPrimeCyclicTIHyp K W₁ W₂) (j : Irr ↥W₂) :
-    rowSign h σ j false = -h.primeTISign σ j := if_neg (by simp)
+    rowSign h σ j false = -h.primeTISign σ j := ite_eq_right (by simp)
 
+omit [Fintype G] [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] in
 theorem conj_rowSign (h : IsPrimeCyclicTIHyp K W₁ W₂) (j : Irr ↥W₂) (b : Bool) :
     conj (rowSign h σ j b) = rowSign h σ j b := by
   cases b <;> simp [rowSign, h.conj_primeTISign]
 
+omit [Fintype G] [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] in
 theorem rowSign_mul_self (h : IsPrimeCyclicTIHyp K W₁ W₂) (j : Irr ↥W₂) (b : Bool) :
     rowSign h σ j b * rowSign h σ j b = 1 := by
   cases b
   · simpa [rowSign] using h.primeTISign_mul_self (σ := σ) j
   · simpa [rowSign] using h.primeTISign_mul_self (σ := σ) j
 
+omit [Fintype G] [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] in
 theorem rowSign_eq_one_or_eq_neg_one (h : IsPrimeCyclicTIHyp K W₁ W₂) (j : Irr ↥W₂) (b : Bool) :
     rowSign h σ j b = 1 ∨ rowSign h σ j b = -1 := by
   rcases h.primeTISign_eq_one_or_eq_neg_one (σ := σ) j with hs | hs <;> cases b <;>
     simp [rowSign, hs]
 
+omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] [Fintype ↥L] in
 theorem rowCol_injective (h : IsPrimeCyclicTIHyp K W₁ W₂)
     {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) : Function.Injective (rowCol j) := by
   have hne : starIrr j ≠ j := starIrr_ne_self h.isCyclicTIPair.odd_natCard_right hj
@@ -334,6 +346,7 @@ noncomputable def rowElt (h : IsPrimeCyclicTIHyp K W₁ W₂)
   rowSign h σ j p.2 •
     hW.prodCharEta ω (irrMapSubtype L W₁ p.1) (irrMapSubtype L W₂ (rowCol j p.2))
 
+omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] in
 theorem rowElt_def (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (j : Irr ↥W₂) (p : Irr ↥W₁ × Bool) :
@@ -348,6 +361,7 @@ noncomputable def rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (j : Irr ↥W₂) : Finset (G → ℂ) :=
   Finset.univ.image (rowElt h hW σ ω j)
 
+omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem mem_rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (j : Irr ↥W₂) {r : G → ℂ} :
@@ -355,6 +369,7 @@ theorem mem_rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
   classical
   rw [rowBlock]; simp
 
+omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem coe_rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (j : Irr ↥W₂) :
@@ -375,6 +390,7 @@ theorem coe_rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
     · exact ⟨(i, true), by rw [rowElt_def, rowSign_true, rowCol_true]⟩
     · exact ⟨(i, false), by rw [rowElt_def, rowSign_false, rowCol_false, neg_smul]⟩
 
+omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] [Fintype ↥L] in
 theorem cfInner_rowElt (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (hω : IsCyclicTIIsometry ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) ω)
@@ -382,11 +398,12 @@ theorem cfInner_rowElt (h : IsPrimeCyclicTIHyp K W₁ W₂)
     cfInner (rowElt h hW σ ω j p) (rowElt h hW σ ω j q) = 0 := by
   classical
   rw [rowElt_def, rowElt_def, cfInner_smul_left, cfInner_smul_right, conj_rowSign,
-    hW.cfInner_prodCharEta hω, if_neg, mul_zero, mul_zero]
+    hW.cfInner_prodCharEta hω, ite_eq_right, mul_zero, mul_zero]
   rintro ⟨h1, h2⟩
   exact hpq (Prod.ext (irrMapSubtype_injective L W₁ h1)
     (rowCol_injective h hj (irrMapSubtype_injective L W₂ h2)))
 
+omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] in
 theorem cfInner_rowElt_self (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (hω : IsCyclicTIIsometry ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) ω)
@@ -394,8 +411,9 @@ theorem cfInner_rowElt_self (h : IsPrimeCyclicTIHyp K W₁ W₂)
     cfInner (rowElt h hW σ ω j p) (rowElt h hW σ ω j p) = 1 := by
   classical
   rw [rowElt_def, cfInner_smul_left, cfInner_smul_right, conj_rowSign,
-    hW.cfInner_prodCharEta hω, if_pos ⟨rfl, rfl⟩, mul_one, rowSign_mul_self]
+    hW.cfInner_prodCharEta hω, ite_eq_left ⟨rfl, rfl⟩, mul_one, rowSign_mul_self]
 
+omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] [Fintype ↥L] in
 theorem rowElt_injective (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (hω : IsCyclicTIIsometry ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) ω)
@@ -408,6 +426,7 @@ theorem rowElt_injective (h : IsPrimeCyclicTIHyp K W₁ W₂)
   rw [hpq, cfInner_rowElt_self h hW hω j q] at h0
   exact one_ne_zero h0
 
+omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] in
 theorem rowElt_mem_span_Irr (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (hω : IsCyclicTIIsometry ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) ω)
@@ -421,6 +440,7 @@ theorem rowElt_mem_span_Irr (h : IsPrimeCyclicTIHyp K W₁ W₂)
   · rwa [one_smul]
   · rw [neg_one_smul]; exact Submodule.neg_mem _ hmem
 
+omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥L] in
 theorem sum_rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (hω : IsCyclicTIIsometry ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) ω)
@@ -477,6 +497,7 @@ open scoped Classical in
 noncomputable def irrBlock (τ : (↥L → ℂ) → G → ℂ) (χ : ↥L → ℂ) : Finset (G → ℂ) :=
   {antirealRoot (τ (χ - star χ)), -star (antirealRoot (τ (χ - star χ)))}
 
+omit [Fintype ↥L] in
 theorem mem_irrBlock {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L → ℂ} {r : G → ℂ} :
     r ∈ irrBlock τ χ ↔ r = antirealRoot (τ (χ - star χ))
       ∨ r = -star (antirealRoot (τ (χ - star χ))) := by
@@ -499,6 +520,7 @@ theorem antirealRoot_ne_neg_star {z : G → ℂ}
     antirealRoot z ≠ -star (antirealRoot z) :=
   ne_neg_star_of_mem_Irr (antirealRoot_mem_Irr hz) (star_antirealRoot_ne hz)
 
+omit [Fintype ↥L] in
 theorem sum_irrBlock {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L → ℂ}
     (hz : ∃ η ∈ Irr G, star η ≠ η ∧ τ (χ - star χ) = η - star η) :
     ∑ r ∈ irrBlock τ χ, r = τ (χ - star χ) := by
@@ -507,6 +529,7 @@ theorem sum_irrBlock {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L → ℂ}
   rw [irrBlock, Finset.sum_pair (antirealRoot_ne_neg_star hz)]
   linear_combination (norm := module) key
 
+omit [Fintype ↥L] in
 theorem cfInner_irrBlock_self {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L → ℂ}
     (hz : ∃ η ∈ Irr G, star η ≠ η ∧ τ (χ - star χ) = η - star η)
     {r : G → ℂ} (hr : r ∈ irrBlock τ χ) : cfInner r r = 1 := by
@@ -516,6 +539,7 @@ theorem cfInner_irrBlock_self {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L →
   · rw [cfInner_neg_left, cfInner_neg_right, neg_neg]
     exact cfInner_self_of_mem_Irr (star_mem_Irr h1)
 
+omit [Fintype ↥L] in
 theorem cfInner_irrBlock_of_ne {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L → ℂ}
     (hz : ∃ η ∈ Irr G, star η ≠ η ∧ τ (χ - star χ) = η - star η)
     {r s : G → ℂ} (hr : r ∈ irrBlock τ χ) (hs : s ∈ irrBlock τ χ) (hrs : r ≠ s) :
@@ -529,6 +553,7 @@ theorem cfInner_irrBlock_of_ne {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L �
   · rw [cfInner_neg_left, cfInner_eq_zero_of_mem_Irr (star_mem_Irr h1) h1 h2, neg_zero]
   · exact absurd rfl hrs
 
+omit [Fintype ↥L] in
 theorem irrBlock_mem_span_Irr {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L → ℂ}
     (hz : ∃ η ∈ Irr G, star η ≠ η ∧ τ (χ - star χ) = η - star η)
     {r : G → ℂ} (hr : r ∈ irrBlock τ χ) : r ∈ Submodule.span ℤ (Irr G) := by
@@ -558,6 +583,7 @@ theorem cfInner_of_disjoint_pair {η ρ : G → ℂ} (hη : η ∈ Irr G) (hρ :
   · rw [cfInner_neg_left, cfInner_neg_right, cfInner_eq_zero_of_mem_Irr hsη hsρ h4,
       neg_zero, neg_zero]
 
+omit [Fintype ↥L] in
 theorem rowCol_ne_rowCol {j k : Irr ↥W₂} (h1 : k ≠ j) (h2 : k ≠ starIrr j) (b c : Bool) :
     rowCol j b ≠ rowCol k c := by
   have hinj : Function.Injective (starIrr (X := ↥W₂)) := starIrr_involutive.injective
@@ -567,6 +593,7 @@ theorem rowCol_ne_rowCol {j k : Irr ↥W₂} (h1 : k ≠ j) (h2 : k ≠ starIrr 
   · exact fun hc => h2 (starIrr_starIrr k ▸ (congrArg starIrr hc)).symm
   · exact fun hc => h1 hc.symm
 
+omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥L] in
 theorem cfInner_rowBlock_rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (hω : IsCyclicTIIsometry ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) ω)
@@ -577,10 +604,11 @@ theorem cfInner_rowBlock_rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
   obtain ⟨p, rfl⟩ := (mem_rowBlock h hW j).1 hr
   obtain ⟨q, rfl⟩ := (mem_rowBlock h hW k).1 hs
   rw [rowElt_def, rowElt_def, cfInner_smul_left, cfInner_smul_right,
-    hW.cfInner_prodCharEta hω, if_neg, mul_zero, mul_zero]
+    hW.cfInner_prodCharEta hω, ite_eq_right, mul_zero, mul_zero]
   rintro ⟨-, h3⟩
   exact rowCol_ne_rowCol h1 h2 p.2 q.2 (irrMapSubtype_injective L W₂ h3)
 
+omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem cfInner_rowBlock_of_isOrthogonal_prodCharEta (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     {r : G → ℂ}
@@ -590,6 +618,7 @@ theorem cfInner_rowBlock_of_isOrthogonal_prodCharEta (h : IsPrimeCyclicTIHyp K W
   obtain ⟨p, rfl⟩ := (mem_rowBlock h hW j).1 hs
   rw [rowElt_def, cfInner_smul_right, hr, mul_zero]
 
+omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem cfInner_of_isOrthogonal_prodCharEta_rowBlock (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     {r : G → ℂ}
@@ -598,6 +627,7 @@ theorem cfInner_of_isOrthogonal_prodCharEta_rowBlock (h : IsPrimeCyclicTIHyp K W
     {j : Irr ↥W₂} {s : G → ℂ} (hs : s ∈ rowBlock h hW σ ω j) : cfInner s r = 0 := by
   rw [← conj_cfInner, cfInner_rowBlock_of_isOrthogonal_prodCharEta h hW hr hs, map_zero]
 
+omit [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem coe_rowBlock_starIrr (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
@@ -608,8 +638,9 @@ theorem coe_rowBlock_starIrr (h : IsPrimeCyclicTIHyp K W₁ W₂)
   rw [coe_rowBlock, coe_rowBlock, h.primeTISign_starIrr_eq hσ j, starIrr_starIrr,
     Set.image_union, ← Set.range_comp, ← Set.range_comp]
   refine (Set.union_comm _ _).trans ?_
-  congr 1 <;> · ext r; simp [Function.comp]
+  congr 1; · ext r; simp [Function.comp]
 
+omit [Fintype ↥L] in
 theorem coe_irrBlock_star {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L → ℂ}
     (hroot : antirealRoot (τ (star χ - star (star χ)))
       = star (antirealRoot (τ (χ - star χ)))) :
@@ -630,6 +661,7 @@ theorem coe_irrBlock_star {τ : (↥L → ℂ) → G → ℂ} {χ : ↥L → ℂ
 noncomputable def irrPart (K : Subgroup ↥L) (H : Subgroup ↥K) : Set (↥L → ℂ) :=
   indFamDetect K H ∩ Irr ↥L
 
+omit [Fintype G] in
 theorem mem_irrPart {H : Subgroup ↥K} {f : ↥L → ℂ} :
     f ∈ irrPart K H ↔ f ∈ indFamDetect K H ∧ f ∈ Irr ↥L := Iff.rfl
 
@@ -648,6 +680,7 @@ theorem isAntirealIsometry_irrPart [K.Normal] (hodd : Odd (Nat.card G))
   refine mem_intSpanZeroAtOne.2 ⟨Submodule.span_mono ?_ hspan, h1⟩
   exact fun g hg => hg.1
 
+omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] [Fintype ↑(Irr ↥W₁)] in
 theorem dadeMapFun_sub_star_apply_eq_zero_of_mem_cyclicTIDiff [K.Normal]
     (h : IsPrimeCyclicTIHyp K W₁ W₂) {H : Subgroup ↥L} [H.Normal]
     {A : Set ↥L} (hAconj : ∀ t : ↥L, (fun a => t⁻¹ * a * t) '' A = A)
@@ -677,6 +710,7 @@ theorem dadeMapFun_sub_star_apply_eq_zero_of_mem_cyclicTIDiff [K.Normal]
   simp only [hx', Pi.sub_apply, Pi.star_apply, h0]
   simp
 
+omit [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] in
 theorem cfInner_prodCharEta_eq_zero_of_sub_star_eq_zero
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     (hω : IsCyclicTIIsometry ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) ω)
@@ -724,6 +758,7 @@ theorem exists_root_of_mem_indFamDetect_of_mem_Irr [K.Normal] (hodd : Odd (Nat.c
     ∃ η ∈ Irr G, star η ≠ η ∧ dadeMapFun L A₀ T (χ - star χ) = η - star η :=
   (isAntirealIsometry_irrPart hodd hAconj hA hA₀ hD).exists_root (mem_irrPart.2 ⟨hχ, hχIrr⟩)
 
+omit [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] in
 theorem isOrthogonal_irrBlock_prodCharEta [K.Normal] (hodd : Odd (Nat.card G))
     (h : IsPrimeCyclicTIHyp K W₁ W₂) {H : Subgroup ↥L} [H.Normal]
     {A : Set ↥L} (hAconj : ∀ t : ↥L, (fun a => t⁻¹ * a * t) '' A = A)
@@ -784,6 +819,7 @@ noncomputable def blockMap (h : IsPrimeCyclicTIHyp K W₁ W₂)
     rowBlock h hW σ ω hex.choose
   else irrBlock (dadeMapFun L A₀ T) f
 
+omit [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem blockMap_row (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
@@ -792,20 +828,22 @@ theorem blockMap_row (h : IsPrimeCyclicTIHyp K W₁ W₂)
   classical
   have hex : ∃ k : Irr ↥W₂, k ≠ principalIrr ↥W₂ ∧ h.primeTIrow σ k = h.primeTIrow σ j :=
     ⟨j, hj, rfl⟩
-  rw [blockMap, dif_pos hex]
+  rw [blockMap, dite_eq_left hex]
   congr 1
   exact primeTIrow_injective h hσ hex.choose_spec.2
 
+omit [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem blockMap_irr (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
     {f : ↥L → ℂ} (hf : f ∈ Irr ↥L) :
     blockMap h hW σ ω A₀ T f = irrBlock (dadeMapFun L A₀ T) f := by
   classical
-  rw [blockMap, dif_neg]
+  rw [blockMap, dite_eq_right]
   rintro ⟨j, hj, rfl⟩
   exact primeTIrow_notMem_Irr h hσ j hf
 
+omit [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem blockMap_cases (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ)
     (hW : IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype))
@@ -938,6 +976,7 @@ theorem cfInner_blockMap_blockMap [K.Normal] (hodd : Odd (Nat.card G))
         rw [← hrowψ, hc, ← hrowχ]
         exact h.primeTIrow_starIrr_eq_star hσ j
 
+omit [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem coe_blockMap_star [K.Normal] (hodd : Odd (Nat.card G))
     (h : IsPrimeCyclicTIHyp K W₁ W₂) (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ)
     {H : Subgroup ↥L} [H.Normal]
@@ -962,7 +1001,7 @@ theorem coe_blockMap_star [K.Normal] (hodd : Odd (Nat.card G))
 
 theorem exists_isSubcoherent_indFamDetect (hodd : Odd (Nat.card G))
     (h : IsPrimeCyclicTIHyp K W₁ W₂) (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ)
-    {H : Subgroup ↥L} [H.Normal] (hWH : W₂ ≤ H) (hHK : H ≤ K)
+    {H : Subgroup ↥L} [H.Normal] (hWH : W₂ ≤ H) (_hHK : H ≤ K)
     {A : Set ↥L} (hAconj : ∀ t : ↥L, (fun a => t⁻¹ * a * t) '' A = A)
     (hA : ∀ y ∈ H, y ≠ 1 → ((K ⊓ Subgroup.centralizer {y} : Subgroup ↥L) : Set ↥L) \ {1} ⊆ A)
     (hA₀ : (fun x : ↥L => (x : G)) '' bridgeSupport A W₁ W₂ ⊆ A₀)

@@ -26,12 +26,12 @@ theorem eM_eq_three_of_evenRank {D : Data G} (hDE : DataExt D) (h5 : 5 ∈ D.sig
 theorem isA5A5Cyclic5_of_layer_le (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V₀ V)
     (h22 : R17_2_2At D V₀ V hV) (h23 : R17_2_3At D V₀ V hV) (h638 : UC6.R6_38 D)
     (hDE : DataExt D) (h5 : 5 ∈ D.sig) (he3 : CFSG.Open.evenRank G = 3) {X : Subgroup G}
-    (hXM : X ≤ D.M) (hXn : (X.subgroupOf D.M).Normal)
+    (_hXM : X ≤ D.M) (hXn : (X.subgroupOf D.M).Normal)
     (hXA : IsA5xA5 ↥(barImage D.M X))
     (hlayer : CFSG.layer (Bar2 D.M) ≤ barImage D.M X) :
     IsA5A5Cyclic5 ↥(pElementSubgroup 5 (⊤ : Subgroup (Bar2 D.M))) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let A : Subgroup (Bar2 D.M) := barImage D.M X
   let C : Subgroup (Bar2 D.M) := Subgroup.centralizer (A : Set (Bar2 D.M))
   let Y : Subgroup (Bar2 D.M) := pElementSubgroup 5 C
@@ -47,7 +47,7 @@ theorem isA5A5Cyclic5_of_layer_le (D : Data G) {V₀ V : Subgroup G} (hV : Hyp12
       (s13_Thirteen2_pElementSubgroup_le 5 C)).trans hCrank
   have hYcyc : IsCyclic ↥Y :=
     CFSG.Quasithin.isCyclic_of_pRank_le_one (p := 5) (by norm_num) le_rfl hCp hYrank
-  haveI : A.Normal := hAn
+  have : A.Normal := hAn
   have hjoin : pElementSubgroup 5 (⊤ : Subgroup (Bar2 D.M)) = A ⊔ Y :=
     pElementSubgroup_top_eq_sup_of_isA5xA5 (Q := Bar2 D.M) (A := A) hXA'
   have hYne : Y ≠ ⊥ := by
@@ -70,7 +70,7 @@ theorem isA5A5Cyclic5_of_layer_le (D : Data G) {V₀ V : Subgroup G} (hV : Hyp12
     have hx' : x ∈ A ⊓ C := ⟨hx.1, s13_Thirteen2_pElementSubgroup_le 5 C hx.2⟩
     rwa [hAC] at hx'
   have hCn : C.Normal := by
-    haveI : A.Normal := hAn
+    have : A.Normal := hAn
     exact Subgroup.normal_centralizer
   have hRchar : (pElementSubgroup 5 (⊤ : Subgroup ↥C)).Characteristic := by
     have heq : pElementSubgroup 5 (⊤ : Subgroup ↥C) = CFSG.pElementsSubgroup 5 ↥C := by
@@ -82,8 +82,8 @@ theorem isA5A5Cyclic5_of_layer_le (D : Data G) {V₀ V : Subgroup G} (hV : Hyp12
     rw [s13_pElementSubgroup_map Nat.prime_five, Subgroup.map_top, Subgroup.range_subtype]
   have hYn : Y.Normal := by
     rw [← hYmap]
-    letI : C.Normal := hCn
-    letI : (pElementSubgroup 5 (⊤ : Subgroup ↥C)).Characteristic := hRchar
+    let : C.Normal := hCn
+    let : (pElementSubgroup 5 (⊤ : Subgroup ↥C)).Characteristic := hRchar
     exact ConjAct.normal_of_characteristic_of_normal
   obtain ⟨e, hYcard⟩ := hCp.exists_card_eq
   have he1 : 1 ≤ e := by
@@ -99,7 +99,7 @@ theorem isA5A5Cyclic5_of_layer_le (D : Data G) {V₀ V : Subgroup G} (hV : Hyp12
     rw [hYcard] at h
     exact h
   obtain ⟨hAiso⟩ := hXA'
-  haveI : Y.Normal := hYn
+  have : Y.Normal := hYn
   have eprod : ↥A × ↥Y ≃* ↥(A ⊔ Y) :=
     CFSG.Quasithin.Vol2.Ch10.SecE.prodEquivSup (P₁ := A) (P₂ := Y) (fun a ha b hb =>
       Subgroup.commute_of_normal_of_disjoint _ _ hAn hYn (disjoint_iff.2 hdisj)
@@ -114,7 +114,7 @@ theorem Hinf_oTwoEOf_le_Opp_five_of_layer_le {D : Data G} {X : Subgroup G} (hXM 
     (hXN : D.M ≤ normalizer (X : Set G)) (hXperf : ⁅X, X⁆ = X) (hXA : IsA5xA5 (Bar2 X))
     (hlayer : CFSG.layer (Bar2 D.M) ≤ barImage D.M X) :
     Hinf (oTwoEOf D.M) ≤ Opp 5 D.M := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hpre : ∀ {M H : Subgroup G}, H ≤ M →
       barPreimage M (barImage M H) = H ⊔ pCoreOf 2 M := by
     intro M H hHM

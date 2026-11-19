@@ -11,6 +11,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 variable {G : Type} [Group G] [Finite G] {c : Bool} {t : G} {T₂ P : Subgroup G}
   {x₁ x₂ q s lam : G} {β : ℕ → G}
 
+omit [Finite G] in
 theorem fzb_branchB (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (hF : FzbFactsGen c)
     {M : Subgroup G} (hM : ∀ x < 1024, β x ∈ M ↔ fzbIsM x) {a : G} (ha : a⁻¹ * t * a ∈ T₂)
     (ha' : a⁻¹ * t * a ∉ M) :
@@ -52,6 +53,7 @@ theorem fzb_branchB (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (hF : FzbFa
     rw [inv_inv, ← hmain, ← hxβ]
     group
 
+omit [Finite G] in
 theorem fzb_u_conj_t (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (hF : FzbFactsGen c)
     {M : Subgroup G} (hM : ∀ x < 1024, β x ∈ M ↔ fzbIsM x) {a : G} (ha : a⁻¹ * t * a ∈ T₂)
     (ha' : a⁻¹ * t * a ∉ M) (hA5 : ∃ d : G, d * (q * s) * d⁻¹ = q * s * lam) :

@@ -24,6 +24,7 @@ theorem uc22p22na_le_of_sylow_two {K S N X : Subgroup G}
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).2 fun h => hodd (h.trans h1)).symm
   exact Subgroup.relIndex_eq_one.1 (Nat.Coprime.eq_one_of_dvd hcop h2)
 
+omit [Finite G] in
 theorem uc22p22na_centralizer_of_conj {M Z K : Subgroup G} (hMK : M ≤ normalizer (K : Set G))
     (hKZ : K ≤ centralizer (Z : Set G)) :
     K ≤ centralizer ((⨆ m : M, Z.map (MulAut.conj (m : G)).toMonoidHom : Subgroup G) : Set G) := by
@@ -56,11 +57,12 @@ theorem uc22p22na_twoReduced_iSup_conj {M T Z : Subgroup G}
     exact (Subgroup.mem_centralizer_iff.1 (hZ hz) x hx.1).symm
   · exact fun x hx => Subgroup.centralizer_le (SetLike.coe_subset_coe.2 hZV) hx.2
 
+omit [Finite G] in
 theorem uc22p22na_le_sylow_of_normal {M T V : Subgroup G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) (hVM : V ≤ M) (hMV : M ≤ normalizer (V : Set G))
     (hV : IsPGroup 2 V) : V ≤ T := by
   obtain ⟨Q, hQ⟩ := hT.exists_sylow_eq_subgroupOf
-  haveI : (V.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hVM).2 hMV
+  have : (V.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hVM).2 hMV
   have hV' : IsPGroup 2 (V.subgroupOf M) := hV.comap_subtype
   intro v hv
   have h : (⟨v, hVM hv⟩ : M) ∈ (Q : Subgroup M) := hV'.le_sylow_of_normal Q hv

@@ -119,10 +119,10 @@ theorem w183finG4A6_not_mem_autS6_of_acts {M : Type} [Group M]
     (e : M ≃* alternatingGroup (Fin 6)) (γ : MulAut M)
     (h : ActsOnDynkinMod ⊥ (innAutOf M) γ) : γ ∉ w183finG4A6AutS6 e := by
   intro hγ
-  haveI : Finite M := Finite.of_equiv _ e.symm.toEquiv
-  haveI : Finite (MulAut M) :=
+  have : Finite M := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite (MulAut M) :=
     Finite.of_injective (fun α : MulAut M => (α : M → M)) DFunLike.coe_injective
-  haveI : (innAutOf M).Normal := innAutOf_normal M
+  have : (innAutOf M).Normal := innAutOf_normal M
   have hZ : ∀ z : M, (∀ x, z * x = x * z) → z = 1 := fun z hz => by
     have hz' : z ∈ Subgroup.center M := Subgroup.mem_center_iff.2 (fun g => (hz g).symm)
     rw [w183finG4A6_center_eq_bot e] at hz'

@@ -32,10 +32,10 @@ theorem sporNoPumpup_B_of_uninverted
         CFSG.Open.IsComponentOf K (Subgroup.centralizer ({s} : Set NativeSporadic.B)) →
         IsHatSix ↥K → False) :
     SporNoPumpup .B := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have e0 := (hbr .B).some.symm
-  haveI : Finite (NativeSporadic.Carrier .B) := (inferInstance : Finite NativeSporadic.B)
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .B).Group := Finite.of_equiv _ e0.symm.toEquiv
+  have : Finite (NativeSporadic.Carrier .B) := (inferInstance : Finite NativeSporadic.B)
+  have : Finite (TauCeti.CFSGIndex.sporadic .B).Group := Finite.of_equiv _ e0.symm.toEquiv
   refine sporNoPumpup_of_components hSpM hOG hOut ?_ ?_ ?_ ?_
   · rw [Nat.card_congr e0.toEquiv]
     exact (card_nativeB : Nat.card NativeSporadic.B = _)

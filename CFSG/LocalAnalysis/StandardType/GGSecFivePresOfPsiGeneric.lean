@@ -99,7 +99,7 @@ theorem injective_comp_of_rigid {ν : GGWeyl D →* U} (hν : GGWeylLift D ν)
       rwa [hc x] at hconj
   exact ggWeyl_eq_one_of_fixes_simple (fun i => hU3 i w (hfix i))
 
-theorem exists_ne_one_ggRootsHom (hU2 : GGRootsGenerate D) (hU4 : GGRootNotCentral D) {ψ : U →* X}
+theorem exists_ne_one_ggRootsHom (_hU2 : GGRootsGenerate D) (hU4 : GGRootNotCentral D) {ψ : U →* X}
     (hker : ψ.ker ≤ Subgroup.center U) :
     ∃ k, ∃ γ ∈ ggRootsFamily D k, ∃ z ∈ D.rootGroup γ, ggExt (ggRootsHom D ψ k) z ≠ 1 := by
   obtain ⟨γ, hγ, hnotle⟩ := hU4

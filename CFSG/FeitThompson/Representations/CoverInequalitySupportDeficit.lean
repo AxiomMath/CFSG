@@ -218,6 +218,7 @@ theorem nontrivial_range (i : I) (k : ι i) : (Set.range (ξ i)).Nontrivial :=
 
 omit [Fintype I] in
 include hSIrr hν hinj in
+omit [(i : I) → Fintype (ι i)] in
 theorem coherentImage_mem_signedIrr (i : I) :
     coherentImage (ξ i) (ν i) (k₀ i) ∈ signedIrr G := by
   refine mem_signedIrr_iff_mem_span_Irr_and_cfInner_self_eq_one.2 ⟨?_, ?_⟩
@@ -229,12 +230,14 @@ theorem coherentImage_mem_signedIrr (i : I) :
 
 omit [Fintype I] in
 include hSIrr hν hinj in
+omit [(i : I) → Fintype (ι i)] in
 theorem cfInner_self_coherentImage_eq_one (i : I) :
     cfInner (coherentImage (ξ i) (ν i) (k₀ i)) (coherentImage (ξ i) (ν i) (k₀ i)) = 1 :=
   cfInner_self_of_mem_signedIrr (coherentImage_mem_signedIrr hinj hSIrr hν i)
 
 omit [Fintype I] [∀ i, Fintype (ι i)] in
 include hSIrr hν hinj in
+omit hinj hSIrr hν [Fintype G] [(i : I) → Fintype ↥(Lsub i)] in
 theorem coherentImage_mem_classFun (i : I) :
     coherentImage (ξ i) (ν i) (k₀ i) ∈ classFun G := by
   rw [coherentImage_apply]
@@ -242,6 +245,7 @@ theorem coherentImage_mem_classFun (i : I) :
 
 omit [Fintype I] in
 include hodd hDade hA hS hSIrr hν hτ hζ1 hinj hdisj in
+omit [(i : I) → Fintype (ι i)] in
 theorem cfInner_self_dadeAverage_cross {i j : I} (hij : i ≠ j) :
     cfInner (fun y : ↥(Lsub j) =>
         dadeAverage (A j) (J j) (coherentImage (ξ i) (ν i) (k₀ i)) (y : G))
@@ -272,6 +276,7 @@ theorem exists_int_cfInner_dadeBeta_coherentImage (i j : I) :
 
 omit [Fintype I] in
 include hodd hDade hA hS hSIrr hν hτ hζ1 hinj hdisj in
+omit [(i : I) → Fintype (ι i)] in
 theorem re_cfInner_self_dadeAverage_cross {i j : I} (hij : i ≠ j) :
     (cfInner (fun y : ↥(Lsub j) =>
         dadeAverage (A j) (J j) (coherentImage (ξ i) (ν i) (k₀ i)) (y : G))
@@ -291,6 +296,7 @@ theorem re_cfInner_self_dadeAverage_cross {i j : I} (hij : i ≠ j) :
 
 omit [Fintype I] in
 include hodd hDade hA hS hSIrr hν hτ hζ1 hinj hbound in
+omit [(i : I) → Fintype (ι i)] in
 theorem one_sub_index_div_card_le_re_cfInner_self_dadeAverage (i : I) :
     1 - ((H i).index : ℝ) / (Nat.card ↥(H i) : ℝ)
       ≤ (cfInner (fun y : ↥(Lsub i) =>
@@ -303,6 +309,7 @@ theorem one_sub_index_div_card_le_re_cfInner_self_dadeAverage (i : I) :
 
 omit [Fintype I] in
 include hDade hSIrr hν hinj in
+omit [(i : I) → Fintype (ι i)] in
 theorem one_le_sum_norm_sq_dadeCoverComplement (i : I) :
     (1 : ℝ) ≤ ∑ g ∈ (dadeCoverComplement_finite A J).toFinset,
       ‖coherentImage (ξ i) (ν i) (k₀ i) g‖ ^ 2 := by
@@ -343,6 +350,7 @@ theorem dadeCover_inequality_re (χ : classFun G)
   exact_mod_cast h
 
 include hodd hDade hA hS hSIrr hν hτ hζ1 hinj hdisj hbound in
+omit [(i : I) → Fintype (ι i)] in
 theorem cover_deficit_bound (i : I) (B : Finset I)
     (hB : ∀ j, j ∈ B ↔ (j ≠ i ∧ cfInner (dadeBeta (A j) (J j) (H j) (ξ j (k₀ j)))
       (coherentImage (ξ i) (ν i) (k₀ i)) = 0)) :
@@ -362,7 +370,7 @@ theorem cover_deficit_bound (i : I) (B : Finset I)
   set c : ℝ := 1 - ((H i).index : ℝ) / (Nat.card ↥(H i) : ℝ) with hcdef
   have hGpos : (0 : ℝ) < (Nat.card G : ℝ) := by exact_mod_cast Nat.card_pos (α := G)
   have hcov := dadeCover_inequality_re hDade hdisj
-    ⟨χ, coherentImage_mem_classFun hinj hSIrr hν i⟩
+    ⟨χ, coherentImage_mem_classFun i⟩
     (cfInner_self_coherentImage_eq_one hinj hSIrr hν i)
   rw [Finset.sum_congr rfl fun j (_ : j ∈ Finset.univ) => by
       rw [ncard_div_natCard_eq (hA j)]] at hcov
@@ -375,7 +383,7 @@ theorem cover_deficit_bound (i : I) (B : Finset I)
     by_cases hji : j = i
     · subst hji
       rw [hlbdef]
-      simp only [if_neg hiB, add_zero, if_pos]
+      simp only [ite_eq_right hiB, add_zero, ite_eq_left]
       have h := one_sub_index_div_card_le_re_cfInner_self_dadeAverage hodd hDade hA hS hinj
         hSIrr hν hτ hζ1 hbound j
       rw [hRdef, hcdef]
@@ -387,12 +395,12 @@ theorem cover_deficit_bound (i : I) (B : Finset I)
       by_cases hjB : j ∈ B
       ·
         rw [hlbdef]
-        simp only [if_neg hji, if_pos hjB, zero_add]
+        simp only [ite_eq_right hji, ite_eq_left hjB, zero_add]
         have h0 : 0 ≤ Rr j := by rw [hRj]; exact mul_nonneg hμ0 (sq_nonneg _)
         linarith
       ·
         rw [hlbdef]
-        simp only [if_neg hji, if_neg hjB, add_zero]
+        simp only [ite_eq_right hji, ite_eq_right hjB, add_zero]
         obtain ⟨m, hm⟩ :=
           exists_int_cfInner_dadeBeta_coherentImage (ν := ν) (k₀ := k₀) hDade hA hS hζ1 i j
         have hne : m ≠ 0 := fun h => hjB ((hB j).2 ⟨hji, by rw [hm, h]; norm_num⟩)
@@ -407,7 +415,7 @@ theorem cover_deficit_bound (i : I) (B : Finset I)
   have hsumlb : ∑ j, lb j = (c - μ i) - ∑ j ∈ B, μ j := by
     rw [hlbdef, Finset.sum_add_distrib, Finset.sum_ite_eq' Finset.univ i (fun _ => c - μ i),
       Finset.sum_ite_mem, Finset.univ_inter, Finset.sum_neg_distrib]
-    simp only [Finset.mem_univ, if_pos]
+    simp only [Finset.mem_univ, ite_eq_left]
     ring
   have hsum : (c - μ i) - ∑ j ∈ B, μ j ≤ ∑ j, (Rr j - μ j) := by
     rw [← hsumlb]; exact Finset.sum_le_sum fun j _ => hlb j

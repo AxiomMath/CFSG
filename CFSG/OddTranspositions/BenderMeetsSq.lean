@@ -15,7 +15,7 @@ theorem bender_meetsSq (hB : CFSG.BenderSuzuki.IsBenderGroup G)
     (hinv : ∀ d ∈ D, orderOf d = 2) :
     ∃ u ∈ D, ∃ v ∈ D, u ≠ v ∧ Commute u v ∧ u * v ∈ D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d₀, hD⟩ := hcls
   have hd₀ : d₀ ∈ D := by
     rw [hD]
@@ -29,7 +29,7 @@ theorem bender_meetsSq (hB : CFSG.BenderSuzuki.IsBenderGroup G)
   obtain ⟨Q⟩ : Nonempty (Sylow 2 G) := inferInstance
   let Z : Subgroup (Q : Subgroup G) := Subgroup.center (Q : Subgroup G)
   have hZcard : 4 ≤ Nat.card Z := IsBenderGroup.four_le_card_center hB Q
-  haveI : Fintype Z := Fintype.ofFinite Z
+  have : Fintype Z := Fintype.ofFinite Z
   have hZ4 : 4 ≤ Fintype.card Z := by
     simpa [Nat.card_eq_fintype_card] using hZcard
   have hZ1 : 1 < Fintype.card Z := by omega

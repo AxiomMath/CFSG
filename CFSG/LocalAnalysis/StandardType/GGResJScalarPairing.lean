@@ -154,6 +154,7 @@ variable {G : Type} [Group G] {Bs J L : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) : ↥Bs →* MulAut (projectiveSL d F) :=
   (ggLAut L θ).comp (Subgroup.inclusion hN)
 
+omit [Finite F] in
 theorem a3XHom_apply (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (b : ↥Bs) :
     a3XHom (L := L) θ hN b = ggLAut L θ ⟨(b : G), hN b.2⟩ := rfl
@@ -162,10 +163,11 @@ theorem a3XHom_apply (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) : Subgroup (MulAut (projectiveSL d F)) :=
   (a3XHom (L := L) θ hN).range
 
+omit [Finite F] in
 theorem a3X_isElemAbelian (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (hE : IsElemAbelian 3 Bs) :
     IsElemAbelian 3 (a3X (L := L) θ hN) := by
-  haveI : IsMulCommutative ↥Bs := hE.1
+  have : IsMulCommutative ↥Bs := hE.1
   have htop : IsElemAbelian 3 (⊤ : Subgroup ↥Bs) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x _ => ?_⟩
     · apply Subtype.ext
@@ -192,12 +194,14 @@ theorem a3Gp_isProjElem (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     GL (Fin d) F :=
   Classical.choose (mem_linearAutGroup_iff.mp (hlin b))
 
+omit [Finite F] in
 theorem a3Mat_spec (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F) (b : ↥Bs) :
     conjAut d F (a3Mat (L := L) θ hN hlin b) = a3XHom (L := L) θ hN b :=
   Classical.choose_spec (mem_linearAutGroup_iff.mp (hlin b))
 
+omit [Finite F] in
 theorem a3Mat_mem (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F) (b : ↥Bs) :
@@ -211,6 +215,7 @@ theorem a3Mat_mem (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     a3Gp (L := L) θ hN :=
   ⟨a3Mat (L := L) θ hN hlin b, a3Mat_mem θ hN hlin b⟩
 
+omit [Finite F] in
 @[simp]
 theorem a3Lift_coe (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -265,26 +270,29 @@ variable {G : Type} [Group G] {Bs J L : Subgroup G}
   TypeA.PGLTor.lam (p := 3) (by norm_num) (by norm_num)
     (a3Gp_isProjElem (L := L) θ hN hd hE) x
 
+omit [Nonempty (Fin d)] in
 theorem a3Lam_spec (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (hd : 0 < d)
     (hE : IsElemAbelian 3 Bs) (x : a3Gp (L := L) θ hN) :
     ((x : GL (Fin d) F) ^ 3) =
       GeneralLinearGroup.scalar (Fin d) (a3Lam (L := L) θ hN hd hE x) := by
   unfold a3Lam
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   exact TypeA.PGLTor.lam_spec (p := 3) (by norm_num) (by norm_num)
     (a3Gp_isProjElem (L := L) θ hN hd hE) x
 
+omit [Nonempty (Fin d)] in
 theorem a3Lam_mul (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (hd : 0 < d)
     (hE : IsElemAbelian 3 Bs) (x y : a3Gp (L := L) θ hN) :
     a3Lam (L := L) θ hN hd hE (x * y) =
       a3Lam (L := L) θ hN hd hE x * a3Lam (L := L) θ hN hd hE y := by
   unfold a3Lam
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   exact map_mul (TypeA.PGLTor.lam (p := 3) (by norm_num) (by norm_num)
     (a3Gp_isProjElem (L := L) θ hN hd hE)) x y
 
+omit [Nonempty (Fin d)] [Finite F] in
 theorem a3Scalar_mem (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (z : Fˣ) :
     GeneralLinearGroup.scalar (Fin d) z ∈ a3Gp (L := L) θ hN := by
@@ -294,19 +302,21 @@ theorem a3Scalar_mem (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
   change (ggLAut L θ) (1 : Subgroup.normalizer (L : Set G)) = conjAut d F (GeneralLinearGroup.scalar (Fin d) z)
   rw [map_one, conjAut_scalar]
 
+omit [Nonempty (Fin d)] in
 theorem a3Lam_scalar (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (hd : 0 < d)
     (hE : IsElemAbelian 3 Bs) (z : Fˣ) :
     a3Lam (L := L) θ hN hd hE
       ⟨GeneralLinearGroup.scalar (Fin d) z, a3Scalar_mem (L := L) θ hN z⟩ = z ^ 3 := by
   unfold a3Lam
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   apply TypeA.PGLTor.scalar_injective (ι := Fin d)
   rw [← TypeA.PGLTor.lam_spec (p := 3) (by norm_num) (by norm_num)
     (a3Gp_isProjElem (L := L) θ hN hd hE)
     ⟨GeneralLinearGroup.scalar (Fin d) z, a3Scalar_mem (L := L) θ hN z⟩]
   rw [← map_pow]
 
+omit [Nonempty (Fin d)] in
 theorem a3Lam_conj (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (hd : 0 < d)
     (hE : IsElemAbelian 3 Bs) (A : GL (Fin d) F) (x : a3Gp (L := L) θ hN)
@@ -314,7 +324,7 @@ theorem a3Lam_conj (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     a3Lam (L := L) θ hN hd hE ⟨A * (x : GL (Fin d) F) * A⁻¹, hx⟩ =
       a3Lam (L := L) θ hN hd hE x := by
   unfold a3Lam
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   apply TypeA.PGLTor.scalar_injective (ι := Fin d)
   calc GeneralLinearGroup.scalar (Fin d)
         (TypeA.PGLTor.lam (p := 3) (by norm_num) (by norm_num)
@@ -344,6 +354,7 @@ theorem a3Lam_conj (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
           (TypeA.PGLTor.scalar_mul_comm _ A).symm]
         group
 
+omit [Nonempty (Fin d)] in
 theorem a3Lam_scalar_mul (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (hd : 0 < d)
     (hE : IsElemAbelian 3 Bs) (a b : a3Gp (L := L) θ hN) (z : Fˣ)
@@ -352,7 +363,7 @@ theorem a3Lam_scalar_mul (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     a3Lam (L := L) θ hN hd hE a =
       z ^ 3 * a3Lam (L := L) θ hN hd hE b := by
   unfold a3Lam
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   apply TypeA.PGLTor.scalar_injective (ι := Fin d)
   rw [← TypeA.PGLTor.lam_spec (p := 3) (by norm_num) (by norm_num)
       (a3Gp_isProjElem (L := L) θ hN hd hE) a]
@@ -441,6 +452,7 @@ theorem a3Lam_scalar_mul (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
       exact ⟨z, rfl⟩
     rw [hz3, one_mul]
 
+omit [Nonempty (Fin d)] in
 theorem a3Chi_pow_three (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F)
@@ -468,12 +480,13 @@ theorem a3Chi_pow_three (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     have h := hφ (φ⁻¹ b)
     simpa using h.symm
 
+omit [Nonempty (Fin d)] in
 theorem a3Chi_invariant_of_ggInduced
     (hJleL : J ≤ L)
     {φ : MulAut ↥Bs} (hφ : φ ∈ ggInduced J Bs) :
     φ ∈ a3ChiPres (L := L) θ hN hlin hd hE := by
   classical
-  simp only [ggInduced, Set.mem_setOf_eq] at hφ
+  simp only [ggInduced, Set.mem_ofPred_eq] at hφ
   rcases hφ with ⟨g, hgJ, hgN, hgact⟩
   have hgL : g ∈ L := hJleL hgJ
   let gN : Subgroup.normalizer (L : Set G) := ⟨g, Subgroup.le_normalizer hgL⟩
@@ -488,7 +501,7 @@ theorem a3Chi_invariant_of_ggInduced
   have hφeq : (⟨(φ b : G), hN (φ b).2⟩ : Subgroup.normalizer (L : Set G)) =
       gN * bN * gN⁻¹ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, gN, bN, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, gN, bN]
     exact hgact b
   have hproj : a3XHom (L := L) θ hN (φ b) =
       conjAut d F (Ag * a3Mat (L := L) θ hN hlin b * Ag⁻¹) := by
@@ -557,6 +570,7 @@ theorem a3Chi_invariant_of_ggInduced
     _ = (QuotientGroup.mk' ((powMonoidHom 3 : Fˣ →* Fˣ).range)
           (a3Lam (L := L) θ hN hd hE (a3Lift (L := L) θ hN hlin b))) := by rw [hlam_conj]
 
+omit [Nonempty (Fin d)] in
 theorem a3Chi_invariant
     (hJleL : J ≤ L) :
     ggAutomizer J Bs ≤ a3ChiPres (L := L) θ hN hlin hd hE := by
@@ -565,12 +579,14 @@ theorem a3Chi_invariant
   exact a3Chi_invariant_of_ggInduced (L := L) (θ := θ) (hN := hN)
     (hlin := hlin) (hd := hd) (hE := hE) hJleL hφ
 
+omit [Finite F] in
 theorem powQuot_pow_three (c : TypeA.PGLTor.PowQuot F 3) : c ^ 3 = 1 := by
   refine QuotientGroup.induction_on c ?_
   intro u
   rw [← QuotientGroup.mk_pow]
   exact (TypeA.PGLTor.powQuot_mk_eq_one_iff (p := 3)).mpr ⟨u, rfl⟩
 
+omit [Nonempty (Fin d)] in
 theorem a3Chi_kills_corootSpan
     (hJleL : J ≤ L)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -589,6 +605,7 @@ theorem a3Chi_kills_corootSpan
   exact a3Chi_invariant (L := L) (θ := θ) (hN := hN) (hlin := hlin)
     (hd := hd) (hE := hE) hJleL hφ b
 
+omit [Nonempty (Fin d)] in
 theorem a3Chi_coroot_eq_one
     (hJleL : J ≤ L)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -628,7 +645,7 @@ theorem a3PairR_one_right (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F)
     (hd : 0 < d) (hE : IsElemAbelian 3 Bs) (b : ↥Bs) :
     a3PairR (L := L) θ hN hlin hd hE b 1 = 1 := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨z, hz⟩ := a3Mat_one_scalar (L := L) θ hN hlin hd
   apply Subtype.ext
   simp only [a3PairR, a3PairU]
@@ -640,7 +657,7 @@ theorem a3PairR_one_left (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F)
     (hd : 0 < d) (hE : IsElemAbelian 3 Bs) (c : ↥Bs) :
     a3PairR (L := L) θ hN hlin hd hE 1 c = 1 := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨z, hz⟩ := a3Mat_one_scalar (L := L) θ hN hlin hd
   apply Subtype.ext
   simp only [a3PairR, a3PairU]
@@ -652,7 +669,7 @@ theorem a3PairR_self (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F)
     (hd : 0 < d) (hE : IsElemAbelian 3 Bs) (b : ↥Bs) :
     a3PairR (L := L) θ hN hlin hd hE b b = 1 := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   apply Subtype.ext
   simp only [a3PairR, a3PairU]
   exact TypeA.PGLTor.commChar_self (a3Gp_isProjElem (L := L) θ hN hd hE)
@@ -665,7 +682,7 @@ theorem a3PairR_mul_right (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     a3PairR (L := L) θ hN hlin hd hE b (c₁ * c₂) =
       a3PairR (L := L) θ hN hlin hd hE b c₁ *
         a3PairR (L := L) θ hN hlin hd hE b c₂ := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨z, hz⟩ := a3Mat_mul_scalar (L := L) θ hN hlin hd c₁ c₂
   apply Subtype.ext
   change a3PairU (L := L) θ hN hlin hd hE b (c₁ * c₂) =
@@ -687,7 +704,7 @@ theorem a3PairR_mul_left (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     a3PairR (L := L) θ hN hlin hd hE (b₁ * b₂) c =
       a3PairR (L := L) θ hN hlin hd hE b₁ c *
         a3PairR (L := L) θ hN hlin hd hE b₂ c := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨z, hz⟩ := a3Mat_mul_scalar (L := L) θ hN hlin hd b₁ b₂
   apply Subtype.ext
   change a3PairU (L := L) θ hN hlin hd hE (b₁ * b₂) c =
@@ -710,12 +727,12 @@ theorem a3PairR_mul_left (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
 theorem commChar_eq_of_conjAut_eq [Nonempty (Fin d)]
     (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
-    (hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F) (hd : 0 < d)
+    (_hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F) (hd : 0 < d)
     (hG : TypeA.PGLTor.IsProjElem 3 (a3Gp (L := L) θ hN))
     {a a' : GL (Fin d) F} (ha : a ∈ a3Gp (L := L) θ hN) (ha' : a' ∈ a3Gp (L := L) θ hN)
     (h : conjAut d F a = conjAut d F a') (x : a3Gp (L := L) θ hN) :
     TypeA.PGLTor.commChar hG ha x = TypeA.PGLTor.commChar hG ha' x := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hconj : conjAut d F (a' * a⁻¹) = 1 := by
     rw [map_mul, map_inv, h, mul_inv_cancel]
   obtain ⟨c, hc⟩ := TypeA.exists_scalar_of_conjAut_eq_one hconj
@@ -728,13 +745,13 @@ theorem commChar_eq_of_conjAut_eq [Nonempty (Fin d)]
 theorem commChar_eq_of_conjAut_eq_arg [Nonempty (Fin d)]
     (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
-    (hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F) (hd : 0 < d)
+    (_hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F) (hd : 0 < d)
     (hG : TypeA.PGLTor.IsProjElem 3 (a3Gp (L := L) θ hN))
     {a : GL (Fin d) F} (ha : a ∈ a3Gp (L := L) θ hN)
     {x x' : a3Gp (L := L) θ hN}
     (h : conjAut d F (x : GL (Fin d) F) = conjAut d F (x' : GL (Fin d) F)) :
     TypeA.PGLTor.commChar hG ha x = TypeA.PGLTor.commChar hG ha x' := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hconj : conjAut d F ((x' : GL (Fin d) F) * (x : GL (Fin d) F)⁻¹) = 1 := by
     rw [map_mul, map_inv, h, mul_inv_cancel]
   obtain ⟨c, hc⟩ := TypeA.exists_scalar_of_conjAut_eq_one hconj
@@ -754,7 +771,7 @@ theorem a3PairR_invariant_of_ggInduced
     {φ : MulAut ↥Bs} (hφ : φ ∈ ggInduced J Bs) (b c : ↥Bs) :
     a3PairR (L := L) θ hN hlin hd hE (φ b) (φ c) =
       a3PairR (L := L) θ hN hlin hd hE b c := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨g, hgJ, hgBN, hgφ⟩ := hφ
   have hgL : g ∈ L := hJleL hgJ
   have hgNL : g ∈ Subgroup.normalizer (L : Set G) := Subgroup.le_normalizer hgL
@@ -933,6 +950,7 @@ local instance a3AddCommGroup : AddCommGroup (Additive ↥Bs) :=
       a3PairR_mul_left (L := L) θ hN hlin hd hE (Additive.toMul x) (Additive.toMul y)
         (Additive.toMul z)]
 
+omit [IsMulCommutative ↥Bs] in
 theorem a3PairAdd_ofMul
     (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -941,6 +959,7 @@ theorem a3PairAdd_ofMul
     a3PairAdd (L := L) θ hN hlin hd hE (Additive.ofMul x) (Additive.ofMul y) =
       Additive.ofMul (a3PairR (L := L) θ hN hlin hd hE x y) := rfl
 
+omit [IsMulCommutative ↥Bs] in
 theorem a3PairAdd_self
     (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -1014,6 +1033,7 @@ theorem a3AddEquiv_smul {A : Type} [AddCommGroup A] [Module (ZMod 3) A]
   exact ({ toFun := pairRight, map_zero' := hzero, map_add' := hadd } :
     V →+ (V →ₗ[ZMod 3] Additive (rootsOfUnity 3 F))).toZModLinearMap 3
 
+omit [Finite G] in
 theorem a3PairV_apply
     [Module (ZMod 3) (Additive ↥Bs)]
     [Module (ZMod 3) (Additive (rootsOfUnity 3 F))]
@@ -1028,6 +1048,7 @@ theorem a3PairV_apply
   unfold a3PairV
   rfl
 
+omit [IsMulCommutative ↥Bs] [Finite G] in
 theorem a3PairAdd_apply
     (θ : L ⧸ Subgroup.center L ≃* projectiveSL d F)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -1037,6 +1058,7 @@ theorem a3PairAdd_apply
       Additive.ofMul (a3PairR (L := L) θ hN hlin hd hE
         (Additive.toMul x) (Additive.toMul y)) := rfl
 
+omit [Finite G] in
 theorem a3PairV_isAlt
     [Module (ZMod 3) (Additive ↥Bs)]
     [Module (ZMod 3) (Additive (rootsOfUnity 3 F))]
@@ -1051,6 +1073,7 @@ theorem a3PairV_isAlt
   rw [a3PairV_apply]
   exact a3PairAdd_self θ hN hlin hd hE (ι.symm u)
 
+omit [Finite G] in
 theorem a3PairV_invariant
     [Module (ZMod 3) (Additive ↥Bs)]
     [Module (ZMod 3) (Additive (rootsOfUnity 3 F))]
@@ -1074,6 +1097,7 @@ theorem a3PairV_invariant
   simp only [toMul_ofMul]
   rw [hpres]
 
+omit [Finite G] in
 theorem a3PairR_coroot_eq_one
     [Module (ZMod 3) (Additive ↥Bs)]
     [Module (ZMod 3) (Additive (rootsOfUnity 3 F))]
@@ -1108,6 +1132,7 @@ theorem a3PairR_coroot_eq_one
   apply Additive.ofMul.injective
   simpa only [toMul_ofMul, AddEquiv.symm_apply_apply, ofMul_one, LinearMap.zero_apply] using h0
 
+omit [Finite G] in
 theorem a3CorootLift_comm
     [Module (ZMod 3) (Additive ↥Bs)]
     [Module (ZMod 3) (Additive (rootsOfUnity 3 F))]
@@ -1126,7 +1151,7 @@ theorem a3CorootLift_comm
     (j : Fin 3) (c : ↥Bs) :
     Commute (a3Lift (L := L) θ hN hlin (Additive.toMul (ι.symm (h j))))
       (a3Lift (L := L) θ hN hlin c) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hzero := a3PairR_coroot_eq_one (L := L) hJleL hE θ hN hlin hd ι r h α hform hpair
     hind hgen j c
   have hu : a3PairU (L := L) θ hN hlin hd hE
@@ -1136,6 +1161,7 @@ theorem a3CorootLift_comm
     (a3Lift (L := L) θ hN hlin (Additive.toMul (ι.symm (h j)))).2
     (a3Lift (L := L) θ hN hlin c)).mp hu
 
+omit [Finite G] in
 theorem a3CorootLift_comm_gp
     [Module (ZMod 3) (Additive ↥Bs)]
     [Module (ZMod 3) (Additive (rootsOfUnity 3 F))]
@@ -1251,21 +1277,21 @@ theorem exists_scalarPairing_A3
       Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (Set.range h)) = 3 := by
   classical
   have hE : IsElemAbelian 3 Bs := hH.1.2.1.2.1
-  letI : Module (ZMod 3) (Additive ↥Bs) :=
+  let : Module (ZMod 3) (Additive ↥Bs) :=
     AddCommGroup.zmodModule (n := 3) (fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul]
       apply Subtype.ext
       exact hE.2 (x.toMul : G) x.toMul.2)
-  letI : Module (ZMod 3) (Additive (rootsOfUnity 3 F)) :=
+  let : Module (ZMod 3) (Additive (rootsOfUnity 3 F)) :=
     AddCommGroup.zmodModule (n := 3) (fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul]
       apply Subtype.ext
       exact x.toMul.2)
   obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hpairA : ∀ i j, α i (h j) = (CartanMatrix.A 3 i j : ZMod 3) := by
     intro i j
     simpa only [GGResLineJType.cartan] using hpair i j
@@ -1304,19 +1330,19 @@ theorem exists_scalarPairing_A3'
       Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (Set.range h)) = 3 := by
   classical
   have hE : IsElemAbelian 3 Bs := hH.1.2.1.2.1
-  haveI : IsMulCommutative ↥Bs := hE.1
-  letI : AddCommGroup (Additive ↥Bs) :=
+  have : IsMulCommutative ↥Bs := hE.1
+  let : AddCommGroup (Additive ↥Bs) :=
     { (Additive.addGroup : AddGroup (Additive ↥Bs)) with
       add_comm := fun a b =>
         congrArg Additive.ofMul
           (IsMulCommutative.is_comm.comm (Additive.toMul a) (Additive.toMul b)) }
-  letI : Module (ZMod 3) (Additive ↥Bs) :=
+  let : Module (ZMod 3) (Additive ↥Bs) :=
     AddCommGroup.zmodModule (n := 3) (fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul]
       apply Subtype.ext
       exact hE.2 (x.toMul : G) x.toMul.2)
-  letI : Module (ZMod 3) (Additive (rootsOfUnity 3 F)) :=
+  let : Module (ZMod 3) (Additive (rootsOfUnity 3 F)) :=
     AddCommGroup.zmodModule (n := 3) (fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul]
@@ -1341,31 +1367,31 @@ theorem exists_E27_lifts
       (∀ e ∈ Etilde, ∀ g ∈ a3Gp (L := L) θ hN, e * g = g * e) ∧
       27 ≤ Nat.card (CFSG.PGLModel.projImage Etilde) := by
   classical
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hE : IsElemAbelian 3 Bs := hH.1.2.1.2.1
   have hJleL : J ≤ L := le_of_stdSub_left hH.1.2.2
   have hperfL : commutator ↥L = ⊤ := (GGConfig.data_L hH.1).2.2.2
-  haveI : IsMulCommutative ↥Bs := hE.1
-  letI : AddCommGroup (Additive ↥Bs) :=
+  have : IsMulCommutative ↥Bs := hE.1
+  let : AddCommGroup (Additive ↥Bs) :=
     { (Additive.addGroup : AddGroup (Additive ↥Bs)) with
       add_comm := fun a b =>
         congrArg Additive.ofMul
           (IsMulCommutative.is_comm.comm (Additive.toMul a) (Additive.toMul b)) }
-  letI : Module (ZMod 3) (Additive ↥Bs) :=
+  let : Module (ZMod 3) (Additive ↥Bs) :=
     AddCommGroup.zmodModule (n := 3) (fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul]
       apply Subtype.ext
       exact hE.2 (x.toMul : G) x.toMul.2)
-  letI : Module (ZMod 3) (Additive (rootsOfUnity 3 F)) :=
+  let : Module (ZMod 3) (Additive (rootsOfUnity 3 F)) :=
     AddCommGroup.zmodModule (n := 3) (fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul]
       apply Subtype.ext
       exact x.toMul.2)
   obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hpairA : ∀ i j : Fin 3, α i (h j) = (CartanMatrix.A 3 i j : ZMod 3) := by
     intro i j
     simpa only [GGResLineJType.cartan] using hpair i j
@@ -1609,11 +1635,11 @@ theorem exists_E27_lifts
   exact ⟨Etilde, hEtilde_le, hEtilde_elem, hcent, hcard_proj⟩
 
 theorem a3Gp_comm_of_E27
-    {G : Type} [Group G] {Bs J L : Subgroup G}
+    {G : Type} [Group G] {Bs _J L : Subgroup G}
     {F : Type} [Field F] [Finite F] {d : ℕ}
     {θ : L ⧸ Subgroup.center L ≃* projectiveSL d F}
     {hN : Bs ≤ Subgroup.normalizer (L : Set G)}
-    {hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F}
+    {_hlin : ∀ b : ↥Bs, a3XHom (L := L) θ hN b ∈ linearAutGroup d F}
     {hd : 0 < d} {hE : IsElemAbelian 3 Bs}
     {ζ : F} (hζ : IsPrimitiveRoot ζ 3)
     (Etilde : Subgroup (GL (Fin d) F)) [Finite Etilde]
@@ -1641,7 +1667,7 @@ theorem a3Gp_comm_of_A3_actual
     ∀ g ∈ a3Gp (L := L) θ hN, ∀ h ∈ a3Gp (L := L) θ hN, g * h = h * g := by
   obtain ⟨Etilde, hEtilde_le, hEtilde_elem, hcent, hcard⟩ :=
     exists_E27_lifts hH hd θ hN hlin hD
-  exact a3Gp_comm_of_E27 (J := J) (θ := θ) (hN := hN) (hlin := hlin) (hd := hd)
+  exact a3Gp_comm_of_E27 (_J := J) (θ := θ) (hN := hN) (_hlin := hlin) (hd := hd)
     (hE := hH.1.2.1.2.1) hζ Etilde hEtilde_le hEtilde_elem hcent hcard hn
 
 namespace ResJSU6Scalar
@@ -1662,6 +1688,7 @@ variable {G : Type} [Group G] [Finite G] {Bs J : Subgroup G}
     Subgroup (GL (Fin n) F) :=
   (actorProj ρ).comap (ProjGenLinGroup.mk : GL (Fin n) F →* ProjGenLinGroup (Fin n) F)
 
+omit [Finite F] [Nonempty (Fin n)] [Finite G] in
 theorem actorProj_isElemAbelian (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) : IsElemAbelian 3 (actorProj ρ) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, ?_⟩
@@ -1676,6 +1703,7 @@ theorem actorProj_isElemAbelian (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     have hb3 : b ^ 3 = 1 := Subtype.ext (hE.2 b b.2)
     rw [← map_pow, hb3, map_one]
 
+omit [Finite F] [Nonempty (Fin n)] [Finite G] in
 theorem actorFull_isProjElem (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) : TypeA.PGLTor.IsProjElem 3 (actorFull ρ) := by
   classical
@@ -1715,6 +1743,7 @@ theorem actorFull_isProjElem (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     rw [actorFull, Subgroup.mem_comap, actorProj, MonoidHom.mem_range]
     exact ⟨b, (hY b).symm⟩⟩
 
+omit [Finite F] [Nonempty (Fin n)] [Finite G] in
 @[simp] theorem actorLift_coe (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (Y : ↥Bs → GL (Fin n) F) (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b : ↥Bs) :
     ((actorLift ρ Y hY b : actorFull ρ) : GL (Fin n) F) = Y b := rfl
@@ -1725,6 +1754,7 @@ theorem actorFull_isProjElem (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
   TypeA.PGLTor.lam (p := 3) (by norm_num) (by norm_num)
     (actorFull_isProjElem ρ hE) (actorLift ρ Y hY b)
 
+omit [Finite F] [Finite G] in
 theorem actorLam_spec (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b : ↥Bs) :
@@ -1738,6 +1768,7 @@ theorem actorLam_spec (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
   TypeA.PGLTor.lam (p := 3) (by norm_num) (by norm_num)
     (actorFull_isProjElem ρ hE) x
 
+omit [Finite F] [Finite G] in
 theorem actorLamOf_spec (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (x : actorFull ρ) :
     ((x : actorFull ρ) : GL (Fin n) F) ^ 3 =
@@ -1746,24 +1777,26 @@ theorem actorLamOf_spec (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     TypeA.PGLTor.lam_spec (p := 3) (by norm_num) (by norm_num)
       (actorFull_isProjElem ρ hE) x
 
+omit [Finite F] [Finite G] in
 theorem actorLamOf_mul (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (x y : actorFull ρ) :
     actorLamOf ρ hE (x * y) = actorLamOf ρ hE x * actorLamOf ρ hE y := by
-  simpa [actorLamOf] using
-    map_mul (TypeA.PGLTor.lam (p := 3) (by norm_num) (by norm_num)
-      (actorFull_isProjElem ρ hE)) x y
+  simp [actorLamOf]
 
+omit [Finite F] [Finite G] in
 theorem actorLam_eq (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b : ↥Bs) :
     actorLam ρ hE Y hY b = actorLamOf ρ hE (actorLift ρ Y hY b) := rfl
 
+omit [Finite F] [Nonempty (Fin n)] [Finite G] in
 theorem actorScalar_mem (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F) (z : Fˣ) :
     GeneralLinearGroup.scalar (Fin n) z ∈ actorFull ρ := by
   rw [actorFull, Subgroup.mem_comap, actorProj]
   rw [ProjGenLinGroup.mk_scalar]
   exact Subgroup.one_mem _
 
+omit [Finite F] [Finite G] in
 theorem actorLamOf_scalar (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (z : Fˣ) :
     actorLamOf ρ hE ⟨GeneralLinearGroup.scalar (Fin n) z, actorScalar_mem ρ z⟩ = z ^ 3 := by
@@ -1773,6 +1806,7 @@ theorem actorLamOf_scalar (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     GeneralLinearGroup.scalar (Fin n) (z ^ 3)
   rw [← map_pow]
 
+omit [Finite F] [Finite G] in
 theorem actorLamOf_scalar_mul (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (a b : actorFull ρ) (z : Fˣ)
     (h : (a : GL (Fin n) F) = GeneralLinearGroup.scalar (Fin n) z * (b : GL (Fin n) F)) :
@@ -1793,6 +1827,7 @@ theorem actorLamOf_scalar_mul (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
             rw [← map_mul]
   rw [hcube]
 
+omit [Finite F] [Finite G] in
 theorem actorLamOf_conj (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (A : GL (Fin n) F) (x : actorFull ρ)
     (hx : A * (x : GL (Fin n) F) * A⁻¹ ∈ actorFull ρ) :
@@ -1812,6 +1847,7 @@ theorem actorLamOf_conj (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
           (TypeA.PGLTor.scalar_mul_comm _ A).symm]
         group
 
+omit [Finite F] [Nonempty (Fin n)] [Finite G] in
 theorem actorLift_mul_scalar (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (Y : ↥Bs → GL (Fin n) F) (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b c : ↥Bs) :
     ∃ z : Fˣ, Y (b * c) =
@@ -1839,6 +1875,7 @@ theorem actorLift_mul_scalar (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
       (TypeA.PGLTor.commChar_pow_eq_one (actorFull_isProjElem ρ hE)
         (actorLift ρ Y hY b).2 (actorLift ρ Y hY c))⟩
 
+omit [Finite F] [Nonempty (Fin n)] [Finite G] in
 theorem actorLift_one_scalar (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (Y : ↥Bs → GL (Fin n) F) (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) :
     ∃ z : Fˣ, Y 1 = GeneralLinearGroup.scalar (Fin n) z := by
@@ -1847,6 +1884,7 @@ theorem actorLift_one_scalar (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
   obtain ⟨z, hz⟩ := MonoidHom.mem_range.mp h
   exact ⟨z, hz.symm⟩
 
+omit [Finite F] [Finite G] in
 theorem actorPair_one_right (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b : ↥Bs) :
@@ -1856,6 +1894,7 @@ theorem actorPair_one_right (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     TypeA.PGLTor.commChar_eq_one_of_scalar_arg (actorFull_isProjElem ρ hE)
       (actorLift ρ Y hY b).2 hz
 
+omit [Finite F] [Finite G] in
 theorem actorPair_one_left (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (c : ↥Bs) :
@@ -1865,6 +1904,7 @@ theorem actorPair_one_left (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     TypeA.PGLTor.commChar_eq_one_of_scalar (actorFull_isProjElem ρ hE)
       (actorLift ρ Y hY 1).2 hz (actorLift ρ Y hY c)
 
+omit [Finite F] [Finite G] in
 theorem actorPair_self (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b : ↥Bs) :
@@ -1873,6 +1913,7 @@ theorem actorPair_self (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (TypeA.PGLTor.commChar_eq_one_iff (actorFull_isProjElem ρ hE)
       (actorLift ρ Y hY b).2 (actorLift ρ Y hY b)).mpr rfl
 
+omit [Finite F] [Finite G] in
 theorem actorPair_mul_right (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b c d : ↥Bs) :
@@ -1897,6 +1938,7 @@ theorem actorPair_mul_right (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
   exact map_mul (TypeA.PGLTor.commChar (actorFull_isProjElem ρ hE)
     (actorLift ρ Y hY b).2) (actorLift ρ Y hY c) (actorLift ρ Y hY d)
 
+omit [Finite F] [Finite G] in
 theorem actorPair_mul_left (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b₁ b₂ c : ↥Bs) :
@@ -1931,6 +1973,7 @@ theorem actorPair_mul_left (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
   QuotientGroup.mk' ((powMonoidHom 3 : Fˣ →* Fˣ).range) (actorLam ρ hE Y hY b)
 
 
+omit [Finite F] [Finite G] in
 theorem actorChiFun_one (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) :
@@ -1946,6 +1989,7 @@ theorem actorChiFun_one (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
   rw [TypeA.PGLTor.powQuot_mk_eq_one_iff]
   exact ⟨z, rfl⟩
 
+omit [Finite F] [Finite G] in
 theorem actorChiFun_mul (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b) (b c : ↥Bs) :
@@ -1967,8 +2011,6 @@ theorem actorChiFun_mul (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     QuotientGroup.mk' ((powMonoidHom 3 : Fˣ →* Fˣ).range)
       (actorLamOf ρ hE (actorLift ρ Y hY c))
   rw [hx]
-  change QuotientGroup.mk' ((powMonoidHom 3 : Fˣ →* Fˣ).range)
-    (actorLamOf ρ hE x) = _
   have hxlam : actorLamOf ρ hE x =
       z ^ 3 * (actorLamOf ρ hE (actorLift ρ Y hY b) *
         actorLamOf ρ hE (actorLift ρ Y hY c)) := by
@@ -1993,6 +2035,7 @@ theorem actorChiFun_mul (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
   map_mul' := actorChiFun_mul ρ hE Y hY
 
 
+omit [Nonempty (Fin n)] [Finite G] in
 theorem actorFull_comm_of_E27 (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) {ζ : F} (hζ : IsPrimitiveRoot ζ 3)
     (Etilde : Subgroup (GL (Fin n) F)) [Finite Etilde]
@@ -2006,6 +2049,7 @@ theorem actorFull_comm_of_E27 (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (K := F) (n := n) hζ (actorFull_isProjElem ρ hE)
     hEtilde_le hEtilde_elem hcent hcard hn
 
+omit [Nonempty (Fin n)] [Finite G] in
 theorem actorLift_comm_of_E27 (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b)
@@ -2023,6 +2067,7 @@ theorem actorLift_comm_of_E27 (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
   simpa [actorLift, Subgroup.coe_mul] using h
 
 
+omit [Finite F] [Finite G] in
 theorem actorChi_coroot_eq_one (ρ : ↥Bs →* ProjGenLinGroup (Fin n) F)
     (hE : IsElemAbelian 3 Bs) (Y : ↥Bs → GL (Fin n) F)
     (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b)
@@ -2068,17 +2113,19 @@ variable {hAproj : ∀ b, TableB.projConj (u6 F n) ⟨A b, hAnorm b⟩ =
   ggBeta J θ hN b}
 variable {hmk : ∀ b, ProjGenLinGroup.mk (A b) = ρ b}
 
+omit [Finite G] [Finite F] in
 theorem exists_SU6_rep (θ : ↥J ⧸ Subgroup.center ↥J ≃* p6 F n)
     {g : G} (hgJ : g ∈ J) :
     ∃ gSU : u6 F n, LargeEvenProjMk (u6 F n) gSU =
       ggQuotHom θ (⟨g, hgJ⟩ : ↥J) :=
   QuotientGroup.mk'_surjective _ _
 
+omit [Finite G] in
 theorem actor_eq_scalar_conj
     (hFcard : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hpq : 3 ∣ 2 ^ n + 1)
     (hAproj : ∀ b, TableB.projConj (u6 F n) ⟨A b, hAnorm b⟩ =
       ggBeta J θ hN b)
-    {g : G} (hgJ : g ∈ J) (hgBN : g ∈ Subgroup.normalizer (Bs : Set G))
+    {g : G} (hgJ : g ∈ J) (_hgBN : g ∈ Subgroup.normalizer (Bs : Set G))
     (φ : MulAut ↥Bs) (hgact : ∀ b : ↥Bs, ((φ b : ↥Bs) : G) = g * b * g⁻¹)
     (gSU : u6 F n) (hgSU : LargeEvenProjMk (u6 F n) gSU =
       ggQuotHom θ (⟨g, hgJ⟩ : ↥J))
@@ -2145,6 +2192,7 @@ theorem actor_eq_scalar_conj
   calc A (φ b) = (A (φ b) * X⁻¹) * X := by group
     _ = GeneralLinearGroup.scalar (Fin 6) z * X := by rw [← hz]
 
+omit [Finite G] in
 theorem actorProj_equivariance
     (hFcard : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hpq : 3 ∣ 2 ^ n + 1)
     (hAproj : ∀ b, TableB.projConj (u6 F n) ⟨A b, hAnorm b⟩ =
@@ -2242,6 +2290,7 @@ theorem actorChi_invariant (hH : GGResHyp 3 B Bs x L D J y K)
     hH hFcard hn hpq hAproj hφ
 
 
+omit [Finite G] [Finite F] in
 theorem actorFull_of_eq_scalar_mul {X : GL (Fin 6) F} {b : ↥Bs} {z : Fˣ}
     (hb : A b ∈ actorFull ρ) (h : A b = GeneralLinearGroup.scalar (Fin 6) z * X) :
     X ∈ actorFull ρ := by
@@ -2390,6 +2439,7 @@ local instance actorAddCommGroup : AddCommGroup (Additive ↥Bs) :=
       actorPair_mul_left ρ hE Y hY (Additive.toMul x) (Additive.toMul y)
         (Additive.toMul z)]
 
+omit [IsMulCommutative ↥Bs] [Finite G] in
 theorem actorPairAdd_ofMul
     (ρ : ↥Bs →* ProjGenLinGroup (Fin 6) F) (hE : IsElemAbelian 3 Bs)
     (Y : ↥Bs → GL (Fin 6) F) (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b)
@@ -2397,6 +2447,7 @@ theorem actorPairAdd_ofMul
     actorPairAdd ρ hE Y hY (Additive.ofMul x) (Additive.ofMul y) =
       Additive.ofMul (actorPairR ρ hE Y hY x y) := rfl
 
+omit [IsMulCommutative ↥Bs] [Finite G] in
 theorem actorPairAdd_self
     (ρ : ↥Bs →* ProjGenLinGroup (Fin 6) F) (hE : IsElemAbelian 3 Bs)
     (Y : ↥Bs → GL (Fin 6) F) (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b)
@@ -2406,6 +2457,7 @@ theorem actorPairAdd_self
   change actorPair ρ hE Y hY (Additive.toMul x) (Additive.toMul x) = 1
   rw [actorPair_self]
 
+omit [IsMulCommutative ↥Bs] [Finite G] in
 theorem actorPairAdd_apply
     (ρ : ↥Bs →* ProjGenLinGroup (Fin 6) F) (hE : IsElemAbelian 3 Bs)
     (Y : ↥Bs → GL (Fin 6) F) (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b)
@@ -2470,6 +2522,7 @@ theorem actorAddEquiv_smul {A : Type} [AddCommGroup A] [Module (ZMod 3) A]
   exact ({ toFun := pairRight, map_zero' := hzero, map_add' := hadd } :
     V →+ (V →ₗ[ZMod 3] Additive (rootsOfUnity 3 F))).toZModLinearMap 3
 
+omit [Finite G] in
 theorem actorPairV_apply
     (ρ : ↥Bs →* ProjGenLinGroup (Fin 6) F) (hE : IsElemAbelian 3 Bs)
     (Y : ↥Bs → GL (Fin 6) F) (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b)
@@ -2480,6 +2533,7 @@ theorem actorPairV_apply
   unfold actorPairV
   rfl
 
+omit [Finite G] in
 theorem actorPairV_isAlt
     (ρ : ↥Bs →* ProjGenLinGroup (Fin 6) F) (hE : IsElemAbelian 3 Bs)
     (Y : ↥Bs → GL (Fin 6) F) (hY : ∀ b, ProjGenLinGroup.mk (Y b) = ρ b)
@@ -2575,6 +2629,7 @@ end PairingV
 
 end Additive
 
+omit [Finite G] [Finite F] in
 theorem exists_eq_scalar_mul_actorLift
     (hmk : ∀ b, ProjGenLinGroup.mk (A b) = ρ b) (g : actorFull ρ) :
     ∃ (c : ↥Bs) (z : Fˣ),
@@ -2592,16 +2647,17 @@ theorem exists_eq_scalar_mul_actorLift
   calc (g : GL (Fin 6) F) = ((g : GL (Fin 6) F) * (A c)⁻¹) * A c := by group
     _ = GeneralLinearGroup.scalar (Fin 6) z * A c := by rw [← hz]
 
+omit [Finite F] in
 theorem rho_injective_on_coroot
     (hH : GGResHyp 3 B Bs x L D J y K)
-    (hFcard : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hpq : 3 ∣ 2 ^ n + 1)
+    (_hFcard : Nat.card F = (2 ^ n) ^ 2) (_hn : 1 ≤ n) (_hpq : 3 ∣ 2 ^ n + 1)
     (hAproj : ∀ b, TableB.projConj (u6 F n) ⟨A b, hAnorm b⟩ =
       ggBeta J θ hN b)
     (hmk : ∀ b, ProjGenLinGroup.mk (A b) = ρ b)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {k : ℕ}
-    (ι : Additive ↥Bs ≃+ V) (h : Fin k → V)
-    (E : Subgroup G) (hE_le_inf : E ≤ Bs ⊓ J) (hEbot : E ⊓ Subgroup.centralizer (J : Set G) = ⊥)
-    (e : Fin k → ↥Bs) (hE_closure : E = Subgroup.closure (Set.range (fun j => ((e j : ↥Bs) : G)))) :
+    (_ι : Additive ↥Bs ≃+ V) (_h : Fin k → V)
+    (E : Subgroup G) (_hE_le_inf : E ≤ Bs ⊓ J) (hEbot : E ⊓ Subgroup.centralizer (J : Set G) = ⊥)
+    (e : Fin k → ↥Bs) (_hE_closure : E = Subgroup.closure (Set.range (fun j => ((e j : ↥Bs) : G)))) :
     Function.Injective (fun x : E.subgroupOf Bs => ρ x) := by
   classical
   have hJperf : commutator ↥J = ⊤ := hH.1.2.2.1.2.2.2.2.2.1.2.2.1
@@ -2662,29 +2718,29 @@ theorem exists_E27_lifts_actual_of_rank3
       (∀ e ∈ Etilde, ∀ g ∈ actorFull ρ, e * g = g * e) ∧
       27 ≤ Nat.card (CFSG.PGLModel.projImage Etilde) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE : IsElemAbelian 3 Bs := hH.1.2.1.2.1
-  haveI : IsMulCommutative ↥Bs := hE.1
-  letI : AddCommGroup (Additive ↥Bs) :=
+  have : IsMulCommutative ↥Bs := hE.1
+  let : AddCommGroup (Additive ↥Bs) :=
     { (Additive.addGroup : AddGroup (Additive ↥Bs)) with
       add_comm := fun a b =>
         congrArg Additive.ofMul
           (IsMulCommutative.is_comm.comm (Additive.toMul a) (Additive.toMul b)) }
-  letI : Module (ZMod 3) (Additive ↥Bs) :=
+  let : Module (ZMod 3) (Additive ↥Bs) :=
     AddCommGroup.zmodModule (n := 3) (fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul]
       apply Subtype.ext
       exact hE.2 (x.toMul : G) x.toMul.2)
-  letI : Module (ZMod 3) (Additive (rootsOfUnity 3 F)) :=
+  let : Module (ZMod 3) (Additive (rootsOfUnity 3 F)) :=
     AddCommGroup.zmodModule (n := 3) (fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul]
       apply Subtype.ext
       exact x.toMul.2)
   obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hα2 : ∀ j : Fin T.rank, α j (h j) = 2 := by
     intro j
     rcases hT with rfl | rfl | rfl
@@ -2910,7 +2966,7 @@ theorem actorFull_comm_of_actual
     exists_E27_lifts_actual (F := F) (n := n) (θ := θ) (hN := hN)
       (ρ := ρ) (A := A) (hAnorm := hAnorm) (hmk := hmk)
       hH hD hFcard hn hpq hAproj
-  haveI : Finite Etilde := Subtype.finite
+  have : Finite Etilde := Subtype.finite
   exact Actor.actorFull_comm_of_E27 ρ hH.1.2.1.2.1 hζ Etilde hEtilde_le
     hEtilde_elem hcent hcard (by norm_num)
 
@@ -2927,7 +2983,7 @@ theorem actorLift_comm_of_actual
     exists_E27_lifts_actual (F := F) (n := n) (θ := θ) (hN := hN)
       (ρ := ρ) (A := A) (hAnorm := hAnorm) (hmk := hmk)
       hH hD hFcard hn hpq hAproj
-  haveI : Finite Etilde := Subtype.finite
+  have : Finite Etilde := Subtype.finite
   exact Actor.actorLift_comm_of_E27 ρ hH.1.2.1.2.1 A hmk hζ Etilde hEtilde_le
     hEtilde_elem hcent hcard (by norm_num) b c
 

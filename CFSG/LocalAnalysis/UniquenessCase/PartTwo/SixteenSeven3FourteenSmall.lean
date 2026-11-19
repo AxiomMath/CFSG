@@ -197,7 +197,7 @@ theorem s16c1614_false_of_case168_2Small_cartan (D : Data G) {V L : Subgroup G}
   · obtain ⟨hL0, hLb, hsum⟩ := h4
     have h1 : Nat.card ↥L₀ = 20160 := s16c167_card_isLn_four hL0
     have h2 : Nat.card ↥(lBar ⊥ V hV L) = 20160 := s16c167_card_isLn_four hLb
-    haveI : Finite ↥L₀ := Nat.finite_of_card_ne_zero (by rw [h1]; norm_num)
+    have : Finite ↥L₀ := Nat.finite_of_card_ne_zero (by rw [h1]; norm_num)
     have heq : lBar ⊥ V hV L = L₀ := Subgroup.eq_of_le_of_card_ge hLL₀ (by rw [h1, h2])
     have hxL : x ∈ lBar ⊥ V hV L := by
       rw [heq]

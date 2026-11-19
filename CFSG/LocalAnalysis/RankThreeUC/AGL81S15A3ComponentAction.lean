@@ -15,14 +15,17 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem toStar_out_eq {T : Subgroup X} (q : X ⧸ gnC T) : toStar T q.out = q := by
   simpa only [toStar, QuotientGroup.mk'_apply] using Quotient.out_eq' q
 
+omit [Finite X] in
 theorem toStar_out_mem {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} (l : ↥Ls) :
     toStar T ((l : X ⧸ gnC T).out) ∈ Ls := by
   rw [toStar_out_eq]
   exact l.2
 
+omit [Finite X] in
 theorem toStar_mem_Ls_of_mem_gnImg_le_center {T : Subgroup X}
     {Ls : Subgroup (X ⧸ gnC T)} {K : Subgroup X}
     (hKcen : gnImg T K ≤ (Subgroup.center ↥Ls).map Ls.subtype)
@@ -30,6 +33,7 @@ theorem toStar_mem_Ls_of_mem_gnImg_le_center {T : Subgroup X}
   (Subgroup.map_subtype_le (Subgroup.center ↥Ls))
     (hKcen (Subgroup.mem_map_of_mem (toStar T) hx))
 
+omit [Finite X] in
 theorem toStar_mem_center_of_mem_gnImg_le_center {T : Subgroup X}
     {Ls : Subgroup (X ⧸ gnC T)} {K : Subgroup X}
     (hKcen : gnImg T K ≤ (Subgroup.center ↥Ls).map Ls.subtype)
@@ -44,6 +48,7 @@ theorem toStar_mem_center_of_mem_gnImg_le_center {T : Subgroup X}
     exact hcval.symm
   rwa [hceq]
 
+omit [Finite X] in
 theorem conj_mem_sup_gnC_of_toStar_mem {T : Subgroup X}
     {Ls : Subgroup (X ⧸ gnC T)} {K : Subgroup X}
     (hKcen : gnImg T K ≤ (Subgroup.center ↥Ls).map Ls.subtype)
@@ -66,6 +71,7 @@ theorem conj_mem_sup_gnC_of_toStar_mem {T : Subgroup X}
   rw [e]
   exact (K ⊔ gnC T).mul_mem (Subgroup.mem_sup_right hc) (Subgroup.mem_sup_left hk)
 
+omit [Finite X] in
 theorem map_conj_K_le_sup_gnC {T : Subgroup X}
     {Ls : Subgroup (X ⧸ gnC T)} {K : Subgroup X}
     (hKcen : gnImg T K ≤ (Subgroup.center ↥Ls).map Ls.subtype)
@@ -82,7 +88,7 @@ theorem map_conj_blockU_le {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     (hKcen : gnImg T K ≤ (Subgroup.center ↥Ls).map Ls.subtype)
     {x : X} (hx : toStar T x ∈ Ls) :
     (blockU K).map (MulAut.conj x).toMonoidHom ≤ blockU K := by
-  haveI : (gnV T).Normal := normal_gnV T
+  have : (gnV T).Normal := normal_gnV T
   have hUeq : ⁅gnV T, K⁆ = blockU K := commutator_gnV_eq_blockU_q hX hQH hK hKC
   rw [← hUeq]
   calc
@@ -178,6 +184,7 @@ theorem map_conj_blockZ_le {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
         rfl
       exact hxZ hmem)
 
+omit [Finite X] in
 @[simp] theorem conjEndUZBy_mk (K : Subgroup X) {x : X}
     (hxU : x ∈ Subgroup.normalizer (blockU K : Set X))
     (hxZ : (blockZ K).map (MulAut.conj x).toMonoidHom ≤ blockZ K) (u : blockU K) :
@@ -196,8 +203,6 @@ theorem map_conj_blockZ_le {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
   left_inv q := by
     induction q using QuotientGroup.induction_on with
     | H u =>
-      change conjEndUZBy K hxUinv hxZinv
-        (conjEndUZBy K hxU hxZ (QuotientGroup.mk u)) = QuotientGroup.mk u
       rw [conjEndUZBy_mk, conjEndUZBy_mk]
       have h : (CFSG.SL2MinimalFaithful.conjAut hxUinv)
           ((CFSG.SL2MinimalFaithful.conjAut hxU) u) = u := by
@@ -209,8 +214,6 @@ theorem map_conj_blockZ_le {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
   right_inv q := by
     induction q using QuotientGroup.induction_on with
     | H u =>
-      change conjEndUZBy K hxU hxZ
-        (conjEndUZBy K hxUinv hxZinv (QuotientGroup.mk u)) = QuotientGroup.mk u
       rw [conjEndUZBy_mk, conjEndUZBy_mk]
       have h : (CFSG.SL2MinimalFaithful.conjAut hxU)
           ((CFSG.SL2MinimalFaithful.conjAut hxUinv) u) = u := by
@@ -221,6 +224,7 @@ theorem map_conj_blockZ_le {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
       rw [h]
   map_mul' := map_mul _
 
+omit [Finite X] in
 @[simp] theorem conjAutUZBy_apply_mk (K : Subgroup X) {x : X}
     (hxU : x ∈ Subgroup.normalizer (blockU K : Set X))
     (hxZ : (blockZ K).map (MulAut.conj x).toMonoidHom ≤ blockZ K)
@@ -343,8 +347,8 @@ theorem componentConjAut_eq_conjAction_UZ {T : Subgroup X}
 
 @[expose] noncomputable def component_action_UZ {T : Subgroup X}
     {Ls : Subgroup (X ⧸ gnC T)} {H K : Subgroup X}
-    (hX : GNSetting X T) (hLs : IsComponentOf Ls ⊤)
-    (hKle : K ≤ borelPre T Ls) (hQH : pCoreOf 2 (⊤ : Subgroup X) ≤ H)
+    (hX : GNSetting X T) (_hLs : IsComponentOf Ls ⊤)
+    (_hKle : K ≤ borelPre T Ls) (hQH : pCoreOf 2 (⊤ : Subgroup X) ≤ H)
     (hK : IsBlock2 H K) (hKC : ¬ K ≤ gnC T)
     (hKcen : gnImg T K ≤ (Subgroup.center ↥Ls).map Ls.subtype) :
     ↥Ls →* MulAut (UZ K) where

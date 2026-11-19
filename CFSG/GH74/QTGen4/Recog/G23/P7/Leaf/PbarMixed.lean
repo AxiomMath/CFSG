@@ -77,7 +77,7 @@ theorem exists_normal_two_complement [Finite G] {Y : Subgroup G} {z : G} (hzY : 
     (hz2 : orderOf z = 2) (hY2 : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ Y → Nat.card R ≤ 2) :
     ∃ K : Subgroup G, K ≤ Y ∧ (∀ c ∈ Y, ∀ k ∈ K, c * k * c⁻¹ ∈ K) ∧ Odd (Nat.card K) ∧
       (∀ x ∈ Y, x ^ 2 ∈ K) ∧ (∀ x ∈ Y, x ∈ K ∨ x * z ∈ K) ∧ K ⊓ Subgroup.zpowers z = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx := not_two_dvd_index_zpowers hzY hz2 hY2
   have hzY2 : orderOf (⟨z, hzY⟩ : ↥Y) = 2 := by rw [Subgroup.orderOf_mk, hz2]
   have hP : IsPGroup 2 (Subgroup.zpowers (⟨z, hzY⟩ : ↥Y)) :=
@@ -114,7 +114,7 @@ theorem exists_normal_two_complement [Finite G] {Y : Subgroup G} {z : G} (hzY : 
     exact (hcomm.zpow_left k).eq
   obtain ⟨K, hKn, hKp, hKidx, -, -, -, hsup, hinf, -, -⟩ :=
     CFSG.GroupTheory.burnside_normal_complement S0 hN
-  haveI := hKn
+  have := hKn
   have hKidx2 : K.index = 2 := by rw [hKidx]; exact hS0card
   refine ⟨K.map Y.subtype, Subgroup.map_subtype_le K, ?_, ?_, ?_, ?_, ?_⟩
   · intro c hc k hk
@@ -158,7 +158,7 @@ theorem exists_normal_two_complement [Finite G] {Y : Subgroup G} {z : G} (hzY : 
 theorem exists_conj_of_involution [Finite G] {Y : Subgroup G} {z : G} (hzY : z ∈ Y)
     (hz2 : orderOf z = 2) (hY2 : ∀ R : Subgroup G, IsPGroup 2 R → R ≤ Y → Nat.card R ≤ 2)
     {u : G} (huY : u ∈ Y) (hu2 : orderOf u = 2) : ∃ c ∈ Y, c * u * c⁻¹ = z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx := not_two_dvd_index_zpowers hzY hz2 hY2
   have hzY2 : orderOf (⟨z, hzY⟩ : ↥Y) = 2 := by rw [Subgroup.orderOf_mk, hz2]
   have huY2 : orderOf (⟨u, huY⟩ : ↥Y) = 2 := by rw [Subgroup.orderOf_mk, hu2]
@@ -170,7 +170,7 @@ theorem exists_conj_of_involution [Finite G] {Y : Subgroup G} {z : G} (hzY : z �
   have hS0 : (S0 : Subgroup ↥Y) = Subgroup.zpowers (⟨z, hzY⟩ : ↥Y) :=
     IsPGroup.toSylow_coe hP hidx
   obtain ⟨Q, hQ⟩ := hu.exists_le_sylow
-  haveI : Finite (Sylow 2 ↥Y) := S0.finite_of_finiteIndex
+  have : Finite (Sylow 2 ↥Y) := S0.finite_of_finiteIndex
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥Y S0 Q
   have huQ : (⟨u, huY⟩ : ↥Y) ∈ (Q : Subgroup ↥Y) := hQ (Subgroup.mem_zpowers _)
   have h1 : (⟨u, huY⟩ : ↥Y) ∈ ((g • S0 : Sylow 2 ↥Y) : Subgroup ↥Y) := by
@@ -178,7 +178,7 @@ theorem exists_conj_of_involution [Finite G] {Y : Subgroup G} {z : G} (hzY : z �
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at h1
   have h2 : (MulAut.conj g)⁻¹ • (⟨u, huY⟩ : ↥Y) = g⁻¹ * (⟨u, huY⟩ : ↥Y) * g := by
     ext
-    simp [MulAut.conj_apply]
+    simp
   rw [h2, hS0] at h1
   have hu1 : (⟨u, huY⟩ : ↥Y) ≠ 1 := by
     intro h
@@ -382,7 +382,7 @@ theorem dvd_nine_of_odd_cent {H : Subgroup G} {z g u : G} (hCz : Subgroup.centra
 theorem isPGroup_three_of_dvd {K : Subgroup G} [Finite G] {a b : ℕ}
     (hK : Nat.card K = a * 9 * b) (ha : a ∣ 9) (hb : b ∣ 9) :
     IsPGroup 3 K ∧ Nat.card K ≤ 3 ^ 6 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h9 : (9 : ℕ) = 3 ^ 2 := by norm_num
   rw [h9] at ha hb
   obtain ⟨i, hi, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp ha
@@ -425,7 +425,7 @@ theorem core_of_normalizer [Finite G] {Y Nn E P : Subgroup G} {z t : G} [IsKlein
     ∃ K : Subgroup G, K ≤ Y ∧ IsCentComplement Y (Subgroup.zpowers z) K ∧ IsPGroup 3 K ∧
       Nat.card K ≤ 3 ^ 6 ∧ P ≤ K ∧ K ⊓ Subgroup.centralizer {z} = P ∧
       (∀ m ∈ K, t * m * t⁻¹ ∈ K) ∧ Nn = K ⊔ E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz1 : z ≠ 1 := by
     intro h
     rw [h, orderOf_one] at hz2
@@ -511,7 +511,7 @@ theorem zOf_facts [Finite G] {T H H₁ H₂ M : Subgroup G} {e : Fin 6 → G}
     orderOf (zOf e) = 2 ∧ zOf e ∈ H₁ ⊓ H₂ ∧ Subgroup.centralizer {zOf e} = H := by
   have hH : G23One H H₁ H₂ := h.ctx.one
   have hL : HLetters H H₁ H₂ e := h.lets
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have he0H₁ : e 0 ∈ H₁ := by rw [← hL.gen₁]; exact Subgroup.subset_closure (by simp)
   have he1H₁ : e 1 ∈ H₁ := by rw [← hL.gen₁]; exact Subgroup.subset_closure (by simp)
   have he2H₂ : e 2 ∈ H₂ := by rw [← hL.gen₂]; exact Subgroup.subset_closure (by simp)
@@ -567,7 +567,7 @@ theorem leafPbarMixed [G23Leaf LeafSylow2Cent] : LeafPbarMixed := by
   obtain ⟨hz2, hzinf, hCz⟩ := zOf_facts h hF
   have hH : G23One H H₁ H₂ := h.ctx.one
   have hL : HLetters H H₁ H₂ e := h.lets
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzsq : zOf e ^ 2 = 1 := by rw [← hz2]; exact pow_orderOf_eq_one _
   have hz_mul : zOf e * zOf e = 1 := by rw [← pow_two]; exact hzsq
   have he0H : e 0 ∈ H := by rw [← hL.gen]; exact Subgroup.subset_closure ⟨0, rfl⟩

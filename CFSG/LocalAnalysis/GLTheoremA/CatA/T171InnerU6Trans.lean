@@ -51,7 +51,6 @@ theorem theta_piL (e : ↥L ⧸ Subgroup.center ↥L ≃* S6) (g : Ω) (l : ↥L
       piL e ⟨g * l * g⁻¹, (inferInstance : L.Normal).conj_mem _ l.2 g⟩ := by
   change autTr e (CFSG.Quasithin.SteinbergCF.conjCenterQuotientHom L g) (piL e l) = _
   rw [autTr_apply]
-  change e (CFSG.Quasithin.SteinbergCF.conjCenterQuotientHom L g (e.symm (piL e l))) = _
   rw [show e.symm (piL e l) = QuotientGroup.mk' (Subgroup.center ↥L) l from
     MulEquiv.symm_apply_apply e _]
   rw [CFSG.Quasithin.SteinbergCF.conjCenterQuotientHom_apply_mk, piL_apply]
@@ -152,14 +151,15 @@ theorem isElemAbelian_Bt (e : ↥L ⧸ Subgroup.center ↥L ≃* S6) {B : Subgro
     refine Psi_injective (show Psi (a ^ 3) = Psi 1 from ?_)
     rw [map_pow, map_one, ← hb, ← map_pow, hB.2 b hbB, map_one]
 
+omit [L.Normal] in
 theorem isPerfect_of_cfg [Finite Ω] {B : Subgroup Ω} {x : Ω}
     (hc : S171.Cfg Ω 3 B x L) : Group.IsPerfect ↥L :=
   ⟨hc.qs.1⟩
 
 theorem card_Bt [Finite Ω] (e : ↥L ⧸ Subgroup.center ↥L ≃* S6) {B : Subgroup Ω} {x : Ω}
     (hc : S171.Cfg Ω 3 B x L) : Nat.card (Bt B L e) * 3 = Nat.card B := by
-  haveI hperf : Group.IsPerfect ↥L := isPerfect_of_cfg hc
-  haveI : Fact (Nat.Prime 3) := ⟨hc.prime⟩
+  have hperf : Group.IsPerfect ↥L := isPerfect_of_cfg hc
+  have : Fact (Nat.Prime 3) := ⟨hc.prime⟩
   have hC : B ⊓ (theta L e).ker = Subgroup.zpowers x := by
     ext b
     rw [Subgroup.mem_inf, MonoidHom.mem_ker]
@@ -274,8 +274,8 @@ theorem card_imL [Finite Ω] (e : ↥L ⧸ Subgroup.center ↥L ≃* S6) {K : Su
       simp only [Subgroup.map_top, Subgroup.range_subtype]
       exact hKperf
     exact htop
-  haveI : Group.IsPerfect ↥K := hperfK
-  haveI : IsSimpleGroup ↥K := hK
+  have : Group.IsPerfect ↥K := hperfK
+  have : IsSimpleGroup ↥K := hK
   have hZ : Subgroup.center ↥K = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
       (Group.IsPerfect.not_isMulCommutative ↥K)

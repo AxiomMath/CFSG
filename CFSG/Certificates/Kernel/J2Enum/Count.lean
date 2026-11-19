@@ -94,7 +94,7 @@ private theorem countP_filterProducts (n : ℕ) (f p : Table → Bool) (Ts : Lis
   | nil =>
     intro g acc
     rw [filterProducts, countProducts]
-    by_cases hf : f g = true <;> by_cases hp : p g = true <;> simp [hf, hp, List.countP_cons]
+    by_cases hf : f g = true <;> by_cases hp : p g = true <;> simp [hf, hp]
   | cons T Ts ih =>
     intro g acc
     rw [filterProducts, countProducts, foldl_add_map', Nat.zero_add]

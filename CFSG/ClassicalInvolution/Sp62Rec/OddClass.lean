@@ -58,7 +58,7 @@ theorem exists_conj_eq_pi12_or_pi3 {G : Type} [Group G] [Finite G] {z e : G} {B 
     (hα : Hhat ≤ Subgroup.centralizer ({alpha} : Set (StatedSp 3 (ZMod 2)))) :
     ∃ c ∈ Hhat, c * ((φ ⟨z, hzB⟩ : ↥Hhat) : StatedSp 3 (ZMod 2)) * c⁻¹ = pi12 ∨
       c * ((φ ⟨z, hzB⟩ : ↥Hhat) : StatedSp 3 (ZMod 2)) * c⁻¹ = pi3 := by
-  haveI : Finite ↥Hhat := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
+  have : Finite ↥Hhat := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
   let TB : Sylow 2 ↥B := T.subtype hTB
   let P : Sylow 2 ↥Hhat := TB.mapSurjective hφ
   have hzTB : (⟨z, hzB⟩ : ↥B) ∈ (T : Subgroup G).subgroupOf B := Subgroup.mem_subgroupOf.2 hzT

@@ -150,6 +150,7 @@ theorem isC2_le_normalClosure_conj {L L' : Subgroup X} (hL : IsC2 L) (hL' : IsC2
     exact hL'N hy
   exact liftOf_unique_aux1 hL'.component (Subgroup.commutator_eq_bot_iff_le_centralizer.2 h2)
 
+omit [Finite X] in
 theorem barO2_map_conj (L : Subgroup X) (x : X) :
     barO2 (L.map (MulAut.conj x).toMonoidHom) =
       (barO2 L).map (MulAut.conj (QuotientGroup.mk' (CFSG.pCore 2 X) x)).toMonoidHom := by
@@ -257,7 +258,7 @@ theorem two_le_ncard_of_ne_normalClosure {L : Subgroup X} (hL : IsC2 L)
     by_contra hcon
     push Not at hcon
     apply h
-    haveI : L.Normal := ⟨fun n hn g => by
+    have : L.Normal := ⟨fun n hn g => by
       have := hcon g
       rw [← this]
       exact ⟨n, hn, by simp [MulAut.conj_apply]⟩⟩
@@ -314,7 +315,7 @@ theorem eq_sup_of_ncard_two {L : Subgroup X} (hL : IsC2 L)
       L ⊔ L.map (MulAut.conj x).toMonoidHom) hbbmem
 
 theorem centerIn_eq_inf_of_dvd {Y : Type} [Group Y] [Finite Y] {A B : Subgroup Y}
-    (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {q : ℕ} (hq : q.Prime)
+    (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {q : ℕ} (_hq : q.Prime)
     (hA : Nat.card (KFactsPair.centerIn A) = q) (hB : Nat.card (KFactsPair.centerIn B) = q)
     (h : q ∣ Nat.card ↥(A ⊓ B)) : KFactsPair.centerIn A = A ⊓ B ∧ KFactsPair.centerIn B = A ⊓ B := by
   have hAle : A ⊓ B ≤ KFactsPair.centerIn A := by

@@ -31,7 +31,7 @@ theorem sylSl_spec {lo len : Nat} (h : sylSl lo len = true) :
   have e : Nat.add lo (x - lo) = x := by
     change lo + (x - lo) = x
     omega
-  rw [e, bIf_eq, if_pos (Nat.blt_eq.mpr h3)] at h'
+  rw [e, bIf_eq, ite_eq_left (Nat.blt_eq.mpr h3)] at h'
   exact h'
 
 theorem syl_pt {x : Nat} (hx : x < 31671) : sylAt x = true := by

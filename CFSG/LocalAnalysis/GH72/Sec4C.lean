@@ -476,7 +476,7 @@ theorem isPGroup_of_forall_le_centralizer {X : Type*} [Group X] [Finite X]
     intro g _
     rw [mem_centralizer_iff]
     intro h hh
-    have hQ : IsPGroup 2 ((P : Subgroup T).map T.subtype) := P.isPGroup'.map _
+    have hQ : IsPGroup 2 ((P : Subgroup T).map T.subtype) := P.isPGroup.map _
     have := hc _ (by
       rintro _ ⟨y, -, rfl⟩
       exact y.2) hQ g.2
@@ -486,7 +486,7 @@ theorem isPGroup_of_forall_le_centralizer {X : Type*} [Group X] [Finite X]
   set N := (MonoidHom.transferSylow P hPc).ker with hNdef
   have hcomp := MonoidHom.ker_transferSylow_isComplement' P hPc
   have hNodd : Odd (Nat.card N) := by
-    have h1 := hcomp.card_mul
+    have h1 := hcomp.card_mul_card
     have h2 := card_mul_index (P : Subgroup T)
     have hidx : ¬ 2 ∣ (P : Subgroup T).index := P.not_dvd_index
     have hpos : 0 < Nat.card (P : Subgroup T) := Nat.card_pos
@@ -502,7 +502,7 @@ theorem isPGroup_of_forall_le_centralizer {X : Type*} [Group X] [Finite X]
     intro K hK x hx
     have hxo : Odd (orderOf x) := odd_orderOf_of_mem hK hx
     set y := MonoidHom.transferSylow P hPc x
-    have hy2 : IsPGroup 2 (P : Subgroup T) := P.isPGroup'
+    have hy2 : IsPGroup 2 (P : Subgroup T) := P.isPGroup
     obtain ⟨k, hk⟩ := hy2 y
     have hdvd : orderOf y ∣ orderOf x := orderOf_map_dvd _ x
     have hy1 : y = 1 := by
@@ -544,10 +544,10 @@ theorem isPGroup_of_forall_le_centralizer {X : Type*} [Group X] [Finite X]
     rw [hN'] at hN'bot
     exact (map_eq_bot_iff_of_injective _ T.subtype_injective).mp hN'bot
   have hPtop : (P : Subgroup T) = ⊤ := by
-    have h1 := hcomp.card_mul
+    have h1 := hcomp.card_mul_card
     rw [← hNdef, hNbot, card_bot, one_mul] at h1
     exact (card_eq_iff_eq_top _).mp h1
-  have : IsPGroup 2 (⊤ : Subgroup T) := hPtop ▸ P.isPGroup'
+  have : IsPGroup 2 (⊤ : Subgroup T) := hPtop ▸ P.isPGroup
   exact IsPGroup.of_equiv this topEquiv
 
 end Basic

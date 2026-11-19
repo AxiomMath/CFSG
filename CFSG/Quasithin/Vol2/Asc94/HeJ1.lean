@@ -187,30 +187,34 @@ variable {A A' : Subgroup G} {u w : G → V2} {m : G → M2} (hT : TData A A' u 
 
 include hT hN
 
+omit hT in
 theorem TData.hA : ∀ n ∈ N, ∀ x ∈ A, n * x * n⁻¹ ∈ A := fun n hn => (hN n hn).1
 
+omit hT in
 theorem TData.hB : ∀ n ∈ N, ∀ x ∈ A ⊓ A', n * x * n⁻¹ ∈ A' := fun n hn x hx => (hN n hn).2 x hx.2
 
+omit hT in
 theorem TData.hA' : ∀ n ∈ N, ∀ x ∈ A', n * x * n⁻¹ ∈ A' := fun n hn => (hN n hn).2
 
+omit hT in
 theorem TData.hB' : ∀ n ∈ N, ∀ x ∈ A' ⊓ A, n * x * n⁻¹ ∈ A := fun n hn x hx => (hN n hn).1 x hx.2
 
 @[expose] noncomputable def TData.rho : N →* GL2 × GL2 :=
-  (hT.cu.rho N (hT.hA N hN) (hT.hB N hN)).prod (hT.cw.rho N (hT.hA' N hN) (hT.hB' N hN))
+  (hT.cu.rho N (CFSG.Quasithin.A94.HeJ.TData.hA N hN) (CFSG.Quasithin.A94.HeJ.TData.hB N hN)).prod (hT.cw.rho N (CFSG.Quasithin.A94.HeJ.TData.hA' N hN) (CFSG.Quasithin.A94.HeJ.TData.hB' N hN))
 
 theorem TData.u_conj (n : N) {x : G} (hx : x ∈ A) :
     u (n * x * (n : G)⁻¹) = ((hT.rho N hN n).1 : M2) *ᵥ u x :=
-  hT.cu.u_conj' N (hT.hA N hN) (hT.hB N hN) n hx
+  hT.cu.u_conj' N (CFSG.Quasithin.A94.HeJ.TData.hA N hN) (CFSG.Quasithin.A94.HeJ.TData.hB N hN) n hx
 
 theorem TData.w_conj (n : N) {x : G} (hx : x ∈ A') :
     w (n * x * (n : G)⁻¹) = ((hT.rho N hN n).2 : M2) *ᵥ w x :=
-  hT.cw.u_conj' N (hT.hA' N hN) (hT.hB' N hN) n hx
+  hT.cw.u_conj' N (CFSG.Quasithin.A94.HeJ.TData.hA' N hN) (CFSG.Quasithin.A94.HeJ.TData.hB' N hN) n hx
 
 theorem TData.m_conj (n : N) {x : G} (hx : x ∈ A ⊓ A') :
     m (n * x * (n : G)⁻¹) =
       ((hT.rho N hN n).1 : M2) * m x * ((hT.rho N hN n).2 : M2)ᵀ := by
   have hZ : ∀ y ∈ A ⊓ A', (n : G) * y * (n : G)⁻¹ ∈ A ⊓ A' := fun y hy =>
-    ⟨hT.hA N hN n n.2 y hy.1, hT.hB N hN n n.2 y hy⟩
+    ⟨CFSG.Quasithin.A94.HeJ.TData.hA N hN n n.2 y hy.1, CFSG.Quasithin.A94.HeJ.TData.hB N hN n n.2 y hy⟩
   have key : ∀ M : M2, ∀ y ∈ A ⊓ A', m y = M →
       m ((n : G) * y * (n : G)⁻¹) =
         ((hT.rho N hN n).1 : M2) * M * ((hT.rho N hN n).2 : M2)ᵀ := by
@@ -250,7 +254,7 @@ theorem TData.m_conj (n : N) {x : G} (hx : x ∈ A ⊓ A') :
             ((n : G) * xi * (n : G)⁻¹) * ((n : G) * yj * (n : G)⁻¹) *
               ((n : G) * xi * (n : G)⁻¹)⁻¹ * ((n : G) * yj * (n : G)⁻¹)⁻¹ := by
           rw [hyz]; group
-        obtain ⟨-, hm5⟩ := hT.comm _ (hT.hA N hN n n.2 xi hxi) _ (hT.hA' N hN n n.2 yj hyj)
+        obtain ⟨-, hm5⟩ := hT.comm _ (CFSG.Quasithin.A94.HeJ.TData.hA N hN n n.2 xi hxi) _ (CFSG.Quasithin.A94.HeJ.TData.hA' N hN n n.2 yj hyj)
         rw [h4, hm5, hT.u_conj N hN n hxi, hT.w_conj N hN n hyj, hxiu, hyjw,
           vecMulVec_mulVec_mulVec, ← Matrix.single_eq_single_vecMulVec_single]
   exact key _ x hx rfl

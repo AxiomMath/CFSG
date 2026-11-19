@@ -12,8 +12,9 @@ open scoped commutatorElement Pointwise
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem commutator_zpowers_inverted {P : Subgroup Γ} {z : Γ} (hz2 : z * z = 1)
-    (hzP : z ∈ Subgroup.normalizer (P : Set Γ)) :
+    (_hzP : z ∈ Subgroup.normalizer (P : Set Γ)) :
     ⁅P, Subgroup.zpowers z⁆ = Subgroup.closure {y | ∃ p ∈ P, y = ⁅p, z⁆} ∧
       ∀ p ∈ P, z * ⁅p, z⁆ * z⁻¹ = (⁅p, z⁆)⁻¹ := by
   have hzinv : z⁻¹ = z := inv_eq_of_mul_eq_one_right hz2
@@ -47,12 +48,12 @@ theorem commutator_zpowers_inverted {P : Subgroup Γ} {z : Γ} (hz2 : z * z = 1)
       _ = (⁅p, z⁆)⁻¹ := by simp only [commutatorElement_def]; group
 
 theorem not_isCyclic_commutator_cyc {P : Subgroup Γ} {c z : Γ} (hP : IsPGroup 5 P)
-    (hz2 : z * z = 1) (hc3 : c ^ 3 = 1) (hzP : z ∈ Subgroup.normalizer (P : Set Γ))
+    (_hz2 : z * z = 1) (hc3 : c ^ 3 = 1) (hzP : z ∈ Subgroup.normalizer (P : Set Γ))
     (hcP : c ∈ Subgroup.normalizer (P : Set Γ)) (hzc : z * c = c * z)
     (hperf : ⁅P, Subgroup.zpowers c⁆ = P) (hz : ∃ p ∈ P, z * p ≠ p * z) :
     ¬ IsCyclic ↥⁅P, Subgroup.zpowers z⁆ := by
   intro hK
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a₀, ha₀⟩ := IsPGroup.iff_card.mp hP
   have hzP' : Subgroup.zpowers z ≤ Subgroup.normalizer (P : Set Γ) := Subgroup.zpowers_le.mpr hzP
   have hKP : ⁅P, Subgroup.zpowers z⁆ ≤ P := Subgroup.le_normalizer_iff_commutator_le_left.mp hzP'
@@ -169,7 +170,7 @@ theorem not_isCyclic_commutator_q8 {P Q : Subgroup Γ} {z : Γ} (hP : IsPGroup 5
     (hzcomm : z ∈ ⁅Q, Q⁆) (hz : ∃ p ∈ P, z * p ≠ p * z) :
     ¬ IsCyclic ↥⁅P, Subgroup.zpowers z⁆ := by
   intro hK
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a₀, ha₀⟩ := IsPGroup.iff_card.mp hP
   have keyQ : ∀ a : Γ, a ∈ Q → ∀ k ∈ ⁅P, Subgroup.zpowers z⁆,
       a * k * a⁻¹ ∈ ⁅P, Subgroup.zpowers z⁆ := by
@@ -266,12 +267,12 @@ theorem not_isCyclic_commutator_q8 {P Q : Subgroup Γ} {z : Γ} (hP : IsPGroup 5
   exact hzp hmem.symm
 
 theorem inf_centralizer_eq_bot_of_O2 {Y : Type} [Group Y] [Finite Y] {Γ P S : Subgroup Y}
-    (hP : IsPGroup 5 P) (hS : IsPGroup 2 S) (hPΓ : P ≤ Γ) (hSΓ : S ≤ Γ) (hΓ : P ⊔ S = Γ)
+    (hP : IsPGroup 5 P) (hS : IsPGroup 2 S) (_hPΓ : P ≤ Γ) (hSΓ : S ≤ Γ) (hΓ : P ⊔ S = Γ)
     (hn : Γ ≤ Subgroup.normalizer (P : Set Y))
     (hO2 : ∀ N : Subgroup Y, N ≤ Γ → Γ ≤ Subgroup.normalizer (N : Set Y) → IsPGroup 2 N → N = ⊥) :
     ∀ s ∈ S, (∀ p ∈ P, s * p = p * s) → s = 1 := by
   intro s hs hsc
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hSN : S ≤ Subgroup.normalizer (P : Set Y) := hSΓ.trans hn
   have hdecomp : ∀ γ ∈ Γ, ∃ p ∈ P, ∃ t ∈ S, p * t = γ := by
     intro γ hγ
@@ -327,7 +328,7 @@ theorem inf_centralizer_eq_bot_of_O2 {Y : Type} [Group Y] [Finite Y] {Γ P S : S
     calc p * (γ * x * γ⁻¹) = γ * (γ⁻¹ * p * γ * x) * γ⁻¹ := by group
       _ = γ * (x * (γ⁻¹ * p * γ)) * γ⁻¹ := by rw [h']
       _ = γ * x * γ⁻¹ * p := by group
-  haveI hNnormal : (H.subgroupOf C).Normal := by
+  have hNnormal : (H.subgroupOf C).Normal := by
     refine ⟨fun n hn0 g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn0 ⊢
     have hnP : ((n : C) : Y) ∈ P := ((hmemH _).1 hn0).1

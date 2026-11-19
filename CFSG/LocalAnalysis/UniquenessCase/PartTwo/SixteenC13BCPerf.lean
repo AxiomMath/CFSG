@@ -14,8 +14,8 @@ theorem s16c13bc_not_mem_of_perfect {Γ : Type*} [Group Γ] {L Z : Subgroup Γ} 
     (hZc : Nat.card Z = p) (hZn : ∀ m ∈ L, ∀ x ∈ Z, m * x * m⁻¹ ∈ Z)
     {ψ : Γ} (hψL : ψ ∈ L) (hψ1 : ψ ≠ 1) : ψ ∉ Z := by
   intro hψZ
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZc]; exact hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZc]; exact hp.ne_zero)
   have hord : orderOf ψ = p := by
     have hd : orderOf ψ ∣ p := by
       have h := orderOf_dvd_natCard (⟨ψ, hψZ⟩ : Z)
@@ -29,7 +29,7 @@ theorem s16c13bc_not_mem_of_perfect {Γ : Type*} [Group Γ] {L Z : Subgroup Γ} 
     rw [Nat.card_zpowers, hord, hZc]
   have hZL : Z ≤ L := hZgen ▸ Subgroup.zpowers_le.2 hψL
   let Y : Subgroup ↥L := Z.subgroupOf L
-  haveI hYn : Y.Normal := by
+  have hYn : Y.Normal := by
     refine (Subgroup.normal_subgroupOf_iff_le_normalizer hZL).2 fun m hm => ?_
     rw [Subgroup.mem_normalizer_iff]
     intro x
@@ -38,7 +38,7 @@ theorem s16c13bc_not_mem_of_perfect {Γ : Type*} [Group Γ] {L Z : Subgroup Γ} 
     simpa [mul_assoc] using h
   have hYc : Nat.card Y = p := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZL).toEquiv, hZc]
-  haveI : IsCyclic Y := isCyclic_of_prime_card hYc
+  have : IsCyclic Y := isCyclic_of_prime_card hYc
   have hcommAut : ∀ a b : MulAut ↥Y, a * b = b * a := fun a b =>
     (IsCyclic.mulAutMulEquiv (G := ↥Y)).injective (by rw [map_mul, map_mul, mul_comm])
   let φ : ↥L →* MulAut ↥Y := MulAut.conjNormal

@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.LocalAnalysis.UniquenessCase.PartTwo
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private lemma w135c2_lend_injective_of_ne_zero (hirr : IsIrrOn L ⊤ ⊥)
     {a : ↥(LEnd L)} (ha : a ≠ 0) : Function.Injective a.1 := by
   classical
@@ -18,11 +19,11 @@ private lemma w135c2_lend_injective_of_ne_zero (hirr : IsIrrOn L ⊤ ⊥)
       one_mem' := by simp
       mul_mem' := by
         intro x y hx hy
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [ofMul_mul, map_add, hx, hy, add_zero]
       inv_mem' := by
         intro x hx
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rw [ofMul_inv, map_neg, hx, neg_zero] }
   have hstable : StableUnder L K := by
     intro g hg w hw
@@ -48,10 +49,10 @@ private lemma w135c2_lend_injective_of_ne_zero (hirr : IsIrrOn L ⊤ ⊥)
     change a.1 x = 0
     simpa using hx0
 
-theorem w135c2_lend_isField (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥) :
+theorem w135c2_lend_isField (_hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥) :
     IsField ↥(LEnd L) := by
   classical
-  haveI hnt : Nontrivial ↥(LEnd L) := by
+  have hnt : Nontrivial ↥(LEnd L) := by
     refine ⟨1, 0, ?_⟩
     intro h
     have h1 : ((1 : ↥(LEnd L)) : AddMonoid.End (Additive W)) =
@@ -64,7 +65,7 @@ theorem w135c2_lend_isField (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ �
         simpa using this
       exact ofMul_eq_zero.mp hw
     exact absurd htop (ne_of_gt hirr.1)
-  haveI hnoz : NoZeroDivisors ↥(LEnd L) :=
+  have hnoz : NoZeroDivisors ↥(LEnd L) :=
     ⟨fun {a b} hab => by
       by_cases ha : a = 0
       · exact Or.inl ha
@@ -79,9 +80,9 @@ theorem w135c2_lend_isField (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ �
         exact hinj (by
           have h := congrArg (fun φ : AddMonoid.End (Additive W) => φ x) hab'
           simpa using h)⟩
-  haveI : IsDomain ↥(LEnd L) := NoZeroDivisors.to_isDomain _
-  haveI : Finite ↥(LEnd L) := by
-    haveI : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
+  have : IsDomain ↥(LEnd L) := NoZeroDivisors.to_isDomain _
+  have : Finite ↥(LEnd L) := by
+    have : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
     infer_instance
   exact Finite.isDomain_to_isField ↥(LEnd L)
 

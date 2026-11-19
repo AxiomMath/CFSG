@@ -33,7 +33,7 @@ private theorem l33g_img_mul (g h : Equiv.Perm (Fin 26)) :
   congr 1
   funext i
   change (g (h i) : ℕ) = (List.ofFn fun i => (g i : ℕ)).getD (h i) 0
-  rw [List.getD_eq_getElem?_getD, List.getElem?_ofFn, dif_pos (h i).isLt, Option.getD_some]
+  rw [List.getD_eq_getElem?_getD, List.getElem?_ofFn, dite_eq_left (h i).isLt, Option.getD_some]
 
 private def l33g_t : Equiv.Perm (Fin 26) := PA * PB * PA * sg0⁻¹ * PA * PB * PA
 
@@ -309,7 +309,7 @@ private theorem l33g_model :
       exact l33g_mem_S0.1 (hRS (hRx r hr).1)
     · rw [← l33g_conj_inv_img]
       exact l33g_mem_S0.1 (hRS (hRx r hr).2)
-  obtain ⟨a, ha, haP⟩ := SetLike.not_le_iff_exists.1 hAP
+  obtain ⟨a, ha, haP⟩ := IsConcreteLE.not_le_iff_exists.1 hAP
   have hsq : ∀ b ∈ A, l33g_comp (l33g_img b) (l33g_img b) = l33g_cid := by
     intro b hb
     rw [← l33g_img_mul, ← l33g_img_one, ← sq, hA.2 b hb]
@@ -529,7 +529,7 @@ theorem k_L33GraphOuter_holds :
       refine ⟨Subgroup.mem_map.mpr ⟨x * r * x⁻¹, (Subgroup.mem_normalizer_iff.mp hxN r).mp hr,
         by simp [hx]⟩, Subgroup.mem_map.mpr ⟨x⁻¹ * r * x⁻¹⁻¹,
         (Subgroup.mem_normalizer_iff.mp hxN' r).mp hr, by simp [hx]⟩⟩
-    obtain ⟨a, haA, haK⟩ := SetLike.not_le_iff_exists.1 hAK
+    obtain ⟨a, haA, haK⟩ := IsConcreteLE.not_le_iff_exists.1 hAK
     have hAP : ¬ A.map f ≤ QP.originalSubgroup := fun hle =>
       haK ((hfP a).1 (hle (Subgroup.mem_map_of_mem f haA)))
     obtain ⟨hcard, b', hb', hne⟩ := hmodel (R.map f) (A.map f)
@@ -783,7 +783,7 @@ private theorem l33w_model
       exact l33g_mem_S0.1 (hRS (hRx r hr).1)
     · rw [← l33g_conj_inv_img]
       exact l33g_mem_S0.1 (hRS (hRx r hr).2)
-  obtain ⟨a, ha, haP⟩ := SetLike.not_le_iff_exists.1 hAP
+  obtain ⟨a, ha, haP⟩ := IsConcreteLE.not_le_iff_exists.1 hAP
   have hsq : ∀ b ∈ A, l33g_comp (l33g_img b) (l33g_img b) = l33g_cid := by
     intro b hb
     rw [← l33g_img_mul, ← l33g_img_one, ← sq, hA.2 b hb]
@@ -863,7 +863,7 @@ theorem k_L33GraphOuterW_holds :
         by simp [hx]⟩, Subgroup.mem_map.mpr ⟨x⁻¹ * r * x⁻¹⁻¹,
         (Subgroup.mem_normalizer_iff.mp hxN' r).mp hr, by simp [hx]⟩⟩
     have hAP : ¬ A.map f ≤ QP.originalSubgroup := by
-      obtain ⟨a, haA, haK⟩ := SetLike.not_le_iff_exists.1 hAK
+      obtain ⟨a, haA, haK⟩ := IsConcreteLE.not_le_iff_exists.1 hAK
       exact fun hle => haK ((hfP a).1 (hle (Subgroup.mem_map_of_mem f haA)))
     obtain ⟨c, hc, hcS⟩ := l33w_model (R.map f) (A.map f) (hfS ▸ Subgroup.map_mono hRS) hRstab
       (Subgroup.map_mono hAR) (hA.map f) hAP
@@ -909,7 +909,7 @@ theorem k_L33GraphOuterW_holds :
           obtain ⟨r, hr, rfl⟩ := Subgroup.mem_map.mp hr'
           exact Subgroup.mem_map.mpr ⟨s' * r * s'⁻¹,
             (Subgroup.mem_normalizer_iff.mp (hSN' hs') r).mp hr, by simp⟩
-      obtain ⟨a, haA, haK⟩ := SetLike.not_le_iff_exists.1 hAK
+      obtain ⟨a, haA, haK⟩ := IsConcreteLE.not_le_iff_exists.1 hAK
       have ha' : x'⁻¹ * a * x' ∈ R' := hAR' (by
         rw [CFSG.Quasithin.mem_conjSubgroup_iff]
         simpa [mul_assoc] using haA)

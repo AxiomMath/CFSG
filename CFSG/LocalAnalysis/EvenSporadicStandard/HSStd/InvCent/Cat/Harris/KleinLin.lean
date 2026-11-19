@@ -13,6 +13,7 @@ section Linear
 
 variable {K : Type} [Field K] [Finite K] {n : ℕ}
 
+omit [Finite K] in
 theorem ringEquiv_eq_one_of_card_two (hK : Nat.card K = 2) (τ : K ≃+* K) : τ = 1 := by
   have hsub : Subsingleton Kˣ := by
     have h : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
@@ -25,6 +26,7 @@ theorem ringEquiv_eq_one_of_card_two (hK : Nat.card K = 2) (τ : K ≃+* K) : τ
       exact congrArg (fun u : Kˣ => (u : K)) this
     simp [h1]
 
+omit [Finite K] in
 theorem conjAut_mem_range_of_card_two (hK : Nat.card K = 2) (A : GL (Fin n) K) :
     conjAut n K A ∈
       (MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)).range := by

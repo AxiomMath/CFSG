@@ -262,7 +262,7 @@ theorem exists_module_quotient {Q : Type} [Group Q] [Finite Q]
     ∃ (M : Type) (_ : AddCommGroup M) (_ : Module (ZMod 2) M) (_ : Finite M)
       (π : Q →* Multiplicative M), Function.Surjective π ∧ π.ker = Subgroup.center Q ∧
         Nat.card M = (Subgroup.center Q).index := by
-  letI : CommGroup (Q ⧸ Subgroup.center Q) :=
+  let : CommGroup (Q ⧸ Subgroup.center Q) :=
     { (inferInstance : Group (Q ⧸ Subgroup.center Q)) with
       mul_comm := fun a b => by
         refine QuotientGroup.induction_on a fun x => QuotientGroup.induction_on b fun y => ?_
@@ -275,7 +275,7 @@ theorem exists_module_quotient {Q : Type} [Group Q] [Finite Q]
     apply Additive.toMul.injective
     rw [toMul_nsmul, ← hx, ← QuotientGroup.mk_pow]
     exact (QuotientGroup.eq_one_iff _).mpr (hsq x)
-  letI : Module (ZMod 2) (Additive (Q ⧸ Subgroup.center Q)) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive (Q ⧸ Subgroup.center Q)) := AddCommGroup.zmodModule h2
   let π : Q →* Multiplicative (Additive (Q ⧸ Subgroup.center Q)) :=
     { toFun := fun q => Multiplicative.ofAdd (Additive.ofMul (QuotientGroup.mk q))
       map_one' := rfl
@@ -366,11 +366,11 @@ theorem exists_chi (hSt : StUniqueStatement) {K Q : Type} [Group K] [Group Q]
     let B : Subgroup Q :=
       { carrier := {q | Multiplicative.toAdd (π q) ∈ N}
         mul_mem' := fun {a b} ha hb => by
-          simp only [Set.mem_setOf_eq, map_mul, toAdd_mul]
+          simp only [Set.mem_ofPred_eq, map_mul, toAdd_mul]
           exact N.add_mem ha hb
         one_mem' := by simp
         inv_mem' := fun {a} ha => by
-          simp only [Set.mem_setOf_eq, map_inv, toAdd_inv]
+          simp only [Set.mem_ofPred_eq, map_inv, toAdd_inv]
           exact N.neg_mem ha }
     have hBmem : ∀ q, q ∈ B ↔ Multiplicative.toAdd (π q) ∈ N := fun q => Iff.rfl
     have hBker : π.ker ≤ B := fun q hq => by
@@ -442,6 +442,7 @@ open CFSG.Quasithin.RuType (IsTraceZero stAct StUniqueStatement)
 
 variable [Finite G] {L V T : Subgroup G}
 
+omit [Finite G] in
 theorem le_normalizer_of_conj_mem {L X : Subgroup G}
     (h : ∀ l ∈ L, ∀ x ∈ X, l * x * l⁻¹ ∈ X) : L ≤ Subgroup.normalizer (X : Set G) := by
   intro l hl
@@ -452,6 +453,7 @@ theorem le_normalizer_of_conj_mem {L X : Subgroup G}
   convert this using 1
   group
 
+omit [Finite G] in
 theorem L_le_normalizer_S (L : Subgroup G) :
     L ≤ Subgroup.normalizer ((pCoreOf 2 L : Subgroup G) : Set G) :=
   le_normalizer_of_conj_mem fun _ hl _ hx => conj_mem_pCoreOf hl hx
@@ -480,8 +482,8 @@ theorem exists_chi_of_ruType (hSt : StUniqueStatement) (h : RuType G L V T)
     rwa [this] at hz
   have hsqS : ∀ x : ↥(pCoreOf 2 L), x ^ 2 ∈ Subgroup.center ↥(pCoreOf 2 L) := by
     intro x
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (IsPGroup 2 ↥(pCoreOf 2 L)) := ⟨isPGroup_pCoreOf L⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (IsPGroup 2 ↥(pCoreOf 2 L)) := ⟨isPGroup_pCoreOf L⟩
     rw [← hfc]
     exact CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) x
   obtain ⟨M, _, _, _, π, hπs, hπk, hMcard⟩ := exists_module_quotient hcommS hsqS

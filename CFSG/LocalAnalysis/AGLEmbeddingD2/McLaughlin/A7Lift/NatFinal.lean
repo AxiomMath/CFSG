@@ -30,6 +30,7 @@ variable (c : SixCtx T L) (pd : PermData) {R : Subgroup X}
 @[expose] def subSR (R : Subgroup X) : Subgroup X :=
   R ⊓ (pd.E.comap c.θ).map (nL T L).subtype
 
+omit [Finite X] in
 theorem mem_subSR (hRL : R ≤ nL T L) {t : X} :
     t ∈ c.subSR pd R ↔ ∃ ht : t ∈ R, c.θ ⟨t, hRL ht⟩ ∈ pd.E := by
   constructor
@@ -38,8 +39,10 @@ theorem mem_subSR (hRL : R ≤ nL T L) {t : X} :
   · rintro ⟨ht, hE⟩
     exact ⟨ht, ⟨⟨t, hRL ht⟩, hE, rfl⟩⟩
 
+omit [Finite X] in
 theorem subSR_le : c.subSR pd R ≤ R := inf_le_left
 
+omit [Finite X] in
 theorem inf_gnC_le_subSR (hRL : R ≤ nL T L) (hCR : T ⊓ gnC T ≤ R) :
     T ⊓ gnC T ≤ c.subSR pd R := by
   rintro t ⟨ht, htC⟩
@@ -95,7 +98,7 @@ private theorem theta_eq_one_of_mem_pCore_R (hRL : R ≤ nL T L)
       exact absurd ((Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3')) (by decide)
     exact h4 (by rw [← hk]; decide)
 
-theorem pCoreOf_le_subSR (hX : GNSetting X T) (hRL : R ≤ nL T L)
+theorem pCoreOf_le_subSR (_hX : GNSetting X T) (hRL : R ≤ nL T L)
     (hQR : pCoreOf 2 (⊤ : Subgroup X) ≤ R) :
     pCoreOf 2 (⊤ : Subgroup X) ≤ c.subSR pd R := by
   intro q hq
@@ -105,7 +108,7 @@ theorem pCoreOf_le_subSR (hX : GNSetting X T) (hRL : R ≤ nL T L)
 
 theorem baum_le_subSR (hX : GNSetting X T) (hRL : R ≤ nL T L) (hJR : thompsonJ T ≤ R)
     (hbR : baum T ≤ R) (hD : c.img R = pd.D) : baum T ≤ c.subSR pd R :=
-  fun g hg =>
+  fun _g hg =>
     (c.mem_subSR pd hRL).2
       ⟨hbR hg, c.theta_mem_E_of_mem_baum_R pd hX hRL hJR hbR hD hg⟩
 
@@ -132,6 +135,7 @@ theorem omegaOneCenterOf_le_subSR (hX : GNSetting X T) (hRL : R ≤ nL T L) (hRT
     ⟨Subgroup.mem_inf.2 ⟨hZS hx.1, Subgroup.mem_centralizer_iff.2 fun y hy => ?_⟩, hx.2⟩
   exact Subgroup.mem_centralizer_iff.1 hx.1.2 y (hRT (c.subSR_le pd hy))
 
+omit [Finite X] in
 theorem img_subSR (hRL : R ≤ nL T L) (hD : c.img R = pd.D) :
     c.img (c.subSR pd R) = pd.E := by
   apply le_antisymm
@@ -178,6 +182,7 @@ theorem exists_preimage_of_mem_D_R (hX : GNSetting X T) (hRL : R ≤ nL T L)
 
 end SubSR
 
+omit [Finite X] in
 private theorem colour_contradiction (c' : A7Lift.SevenCtx0 T L) (pd : PermData)
     {C₁ C₂ : Subgroup X} (hY : GNYComponent T C₁ C₂ L)
     (hstepS : ∀ i, c'.wP (pd.P i) ≤ gnImg T (Subgroup.centralizer (C₁ : Set X)) ∨
@@ -306,6 +311,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.RankThree.PartTwo
 
 variable {X : Type} [Group X] [Finite X] {T : Subgroup X} {L : Subgroup (X ⧸ gnC T)}
 
+omit [Finite X] in
 private theorem centralizes_nV_of_centralizes_L (c : SixCtx T L) {g : X}
     (hg : ∀ l ∈ L, QuotientGroup.mk' (gnC T) g * l = l * QuotientGroup.mk' (gnC T) g) :
     ∀ u ∈ nV T L, g * u * g⁻¹ = u := by

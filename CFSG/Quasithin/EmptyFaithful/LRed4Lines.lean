@@ -227,9 +227,9 @@ theorem testBit_bitsOf (f : ℕ → Bool) : ∀ (m j : ℕ),
     rw [Nat.testBit_or, testBit_bitsOf f m j]
     by_cases hj : j = m
     · subst hj
-      cases f j <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow]
+      cases f j <;> simp [Nat.one_shiftLeft]
     · have e : (bif f m then 1 <<< m else 0).testBit j = false := by
-        cases f m <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow, Ne.symm hj]
+        cases f m <;> simp [Nat.one_shiftLeft, Ne.symm hj]
       rw [e, Bool.or_false]
       by_cases h : j < m
       · simp [h, show j < m + 1 by omega]
@@ -248,7 +248,7 @@ theorem testBit_encV (x : V8) (j : ℕ) :
 
 theorem decV_encV (x : V8) : decV (encV x) = x := by
   funext i
-  rw [decV, testBit_encV, dif_pos i.isLt]
+  rw [decV, testBit_encV, dite_eq_left i.isLt]
   rcases zmod2_cases (x i) with h | h <;> simp [h]
 
 theorem encV_decV {c : ℕ} (hc : c < 256) : encV (decV c) = c := by
@@ -256,9 +256,9 @@ theorem encV_decV {c : ℕ} (hc : c < 256) : encV (decV c) = c := by
   intro j
   rw [testBit_encV]
   by_cases h : j < 8
-  · rw [dif_pos h, decV]
+  · rw [dite_eq_left h, decV]
     cases c.testBit j <;> simp
-  · rw [dif_neg h, Nat.testBit_lt_two_pow]
+  · rw [dite_eq_right h, Nat.testBit_lt_two_pow]
     exact lt_of_lt_of_le hc (by
       calc (256 : ℕ) = 2 ^ 8 := by norm_num
         _ ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega))
@@ -267,7 +267,7 @@ theorem encV_lt (x : V8) : encV x < 256 := by
   rw [← decV_encV x] at *
   have : encV x < 2 ^ 8 := by
     refine Nat.lt_pow_two_of_testBit _ fun j hj => ?_
-    rw [testBit_encV, dif_neg (by omega)]
+    rw [testBit_encV, dite_eq_right (by omega)]
   rw [decV_encV]
   simpa using this
 
@@ -279,27 +279,27 @@ theorem encV_add (x y : V8) : encV (x + y) = encV x ^^^ encV y := by
   intro j
   rw [Nat.testBit_xor, testBit_encV, testBit_encV, testBit_encV]
   by_cases h : j < 8
-  · simp only [dif_pos h, Pi.add_apply]
+  · simp only [dite_eq_left h, Pi.add_apply]
     rcases zmod2_cases (x ⟨j, h⟩) with hx | hx <;> rcases zmod2_cases (y ⟨j, h⟩) with hy | hy <;>
-      simp [hx, hy] <;> decide
-  · simp [dif_neg h]
+      simp [hx, hy]
+  · simp [dite_eq_right h]
 
 @[expose] def nrmK (c : ℕ) : ℕ := bif c.testBit 0 then c ^^^ 255 else c
 
 theorem encV_nrm (x : V8) : encV (nrm x) = nrmK (encV x) := by
   apply Nat.eq_of_testBit_eq
   intro j
-  have h0 : (encV x).testBit 0 = decide (x 0 = 1) := by rw [testBit_encV, dif_pos (by norm_num)]; rfl
+  have h0 : (encV x).testBit 0 = decide (x 0 = 1) := by rw [testBit_encV, dite_eq_left (by norm_num)]; rfl
   rw [nrmK, h0, testBit_encV]
   by_cases h : j < 8
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     have h255 : (255 : ℕ).testBit j = true := by
       have : (255 : ℕ) = 2 ^ 8 - 1 := by norm_num
       rw [this, Nat.testBit_two_pow_sub_one]; simpa using h
     simp only [nrm]
     rcases zmod2_cases (x 0) with hx0 | hx0 <;> rcases zmod2_cases (x ⟨j, h⟩) with hx | hx <;>
-      simp [hx0, hx, Nat.testBit_xor, h255, testBit_encV, h] <;> decide
-  · rw [dif_neg h]
+      simp [hx0, hx, Nat.testBit_xor, h255, testBit_encV, h]
+  · rw [dite_eq_right h]
     rcases zmod2_cases (x 0) with hx0 | hx0 <;>
       simp [hx0, Nat.testBit_xor, testBit_encV, h, Nat.testBit_lt_two_pow
         (show (255 : ℕ) < 2 ^ j from lt_of_lt_of_le (by norm_num : (255 : ℕ) < 2 ^ 8)
@@ -313,21 +313,21 @@ theorem encV_pvSwap (a b : Fin 8) (x : V8) : encV (pvSwap a b x) = swapK a b (en
   intro j
   rw [swapK, testBit_bitsOf, testBit_encV]
   by_cases h : j < 8
-  · rw [dif_pos h, decide_eq_true h, Bool.true_and, testBit_encV]
+  · rw [dite_eq_left h, decide_eq_true h, Bool.true_and, testBit_encV]
     simp only [pvSwap]
     by_cases ha : j = a
     · have : (⟨j, h⟩ : Fin 8) = a := Fin.ext ha
-      simp [ha, this, b.isLt]
+      simp [ha, b.isLt]
     · by_cases hb : j = b
       · have e1 : (⟨j, h⟩ : Fin 8) = b := Fin.ext hb
         have e2 : (⟨j, h⟩ : Fin 8) ≠ a := fun e => ha (congrArg Fin.val e)
         have hba : b ≠ a := e1 ▸ e2
         have hba' : (b : ℕ) ≠ a := fun e => hba (Fin.ext e)
-        simp [ha, hb, e1, e2, hba, hba', a.isLt]
+        simp [hb, hba, hba', a.isLt]
       · have h1 : (⟨j, h⟩ : Fin 8) ≠ a := fun e => ha (congrArg Fin.val e)
         have h2 : (⟨j, h⟩ : Fin 8) ≠ b := fun e => hb (congrArg Fin.val e)
         simp [ha, hb, h1, h2, h]
-  · rw [dif_neg h, decide_eq_false h, Bool.false_and]
+  · rw [dite_eq_right h, decide_eq_false h, Bool.false_and]
 
 @[expose] def pvWK : Wd → ℕ → ℕ
   | [], c => c
@@ -349,7 +349,7 @@ theorem testBit_imgK (f : ℕ → ℕ) (M : ℕ) : ∀ (n j : ℕ),
     cases hm : M.testBit n <;> rw [hm] at h
     · obtain ⟨c, hc, h1, h2⟩ := testBit_imgK f M n j h
       exact ⟨c, by omega, h1, h2⟩
-    · simp only [cond_true, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft,
+    · simp only [_root_.Bool.cond_true, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft,
         Nat.testBit_two_pow, decide_eq_true_iff] at h
       rcases h with h | h
       · obtain ⟨c, hc, h1, h2⟩ := testBit_imgK f M n j h
@@ -410,7 +410,7 @@ theorem testBit_pairsIn (S M c : ℕ) : ∀ (n j : ℕ), (pairsIn S M c n).testB
     cases hb : (M.testBit n && !(Nat.beq c n) && S.testBit (c ^^^ n)) <;> rw [hb] at h
     · obtain ⟨d, hd, h1⟩ := testBit_pairsIn S M c n j h
       exact ⟨d, by omega, h1⟩
-    · simp only [cond_true, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft,
+    · simp only [_root_.Bool.cond_true, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft,
         Nat.testBit_two_pow, decide_eq_true_iff] at h
       rcases h with h | h
       · obtain ⟨d, hd, h1⟩ := testBit_pairsIn S M c n j h
@@ -430,7 +430,7 @@ theorem testBit_pairsOut (S M : ℕ) : ∀ (n j : ℕ), (pairsOut S M n).testBit
     cases hm : M.testBit n <;> rw [hm] at h
     · obtain ⟨c, hc, h1⟩ := testBit_pairsOut S M n j h
       exact ⟨c, by omega, h1⟩
-    · simp only [cond_true, Nat.testBit_or, Bool.or_eq_true] at h
+    · simp only [_root_.Bool.cond_true, Nat.testBit_or, Bool.or_eq_true] at h
       rcases h with h | h
       · obtain ⟨c, hc, h1⟩ := testBit_pairsOut S M n j h
         exact ⟨c, by omega, h1⟩

@@ -221,6 +221,7 @@ theorem idiag_gLBConj_iSup {Y : Type*} [Group Y] {ι : Sort*} (g : Y) (S : ι �
     GLBConj g (⨆ i, S i) = ⨆ i, GLBConj g (S i) :=
   Subgroup.map_iSup (MulAut.conj g⁻¹).toMonoidHom S
 
+omit [Finite G] in
 theorem idiag_conj_le {p : ℕ} {D X : Subgroup G} {𝒞 : Set (Subgroup G)}
     (hinv : ∀ C ∈ 𝒞, ∀ e ∈ D, GLBConj e C ∈ 𝒞) {g : G} (hgD : g ∈ D) (hgX : g ∈ X) :
     GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨g, hgX⟩)
@@ -231,6 +232,7 @@ theorem idiag_conj_le {p : ℕ} {D X : Subgroup G} {𝒞 : Set (Subgroup G)}
   rw [← i183v_barX_gLBConj (p := p) hgX (C' : Subgroup G)]
   exact le_iSup (fun C'' : 𝒞 => barX p X (C'' : Subgroup G)) ⟨GLBConj g C', hinv _ C'.2 g hgD⟩
 
+omit [Finite G] in
 theorem idiag_E_le_normalizer {p : ℕ} {D X : Subgroup G} {𝒞 : Set (Subgroup G)} {d : G}
     (hinv : ∀ C ∈ 𝒞, ∀ e ∈ D, GLBConj e C ∈ 𝒞) (hd : d ∈ D) (hdX : d ∈ X) :
     barX p X (Subgroup.zpowers d) ≤
@@ -271,6 +273,7 @@ section Action
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem idiag_elemAbelian_zpowers {p : ℕ} {d : G} (hdp : d ^ p = 1) :
     IsElemAbelian p (Subgroup.zpowers d) := by
   refine ⟨inferInstance, fun x hx => ?_⟩
@@ -305,7 +308,7 @@ theorem idiag_trans {p : ℕ} {A D X : Subgroup G} {𝒞 : Set (Subgroup G)} {d 
 
 theorem idiag_free {p : ℕ} {A D X : Subgroup G} {𝒞 : Set (Subgroup G)} {d : G}
     (hp : p.Prime) (hD : IsElemAbelian p D) (hAD : A ≤ D) (hidx : A.relIndex D = p)
-    (hd : d ∈ D) (hdA : d ∉ A) (hdX : d ∈ X) (hAX : ∀ a ∈ A, ∀ x ∈ X, a * x = x * a)
+    (hd : d ∈ D) (hdA : d ∉ A) (_hdX : d ∈ X) (hAX : ∀ a ∈ A, ∀ x ∈ X, a * x = x * a)
     (hcomp : ∀ C ∈ 𝒞, GLAPComponent p X C) (hne : ∀ C ∈ 𝒞, ∃ C₂ ∈ 𝒞, C₂ ≠ C)
     (htrans : ∀ C ∈ 𝒞, ∀ C' ∈ 𝒞, ∃ e ∈ D, GLBConj e C = C')
     {e : ↥X ⧸ GLAPPrimeCore p ↥X} (he : e ∈ barX p X (Subgroup.zpowers d)) (he1 : e ≠ 1)
@@ -338,6 +341,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem idiag_mem_core_of_mk_eq_one {p : ℕ} {X : Subgroup G} {u : G} (hu : u ∈ X)
     (h : (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨u, hu⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) = 1) :
     u ∈ GLAPPrimeCoreOf p X := by
@@ -383,7 +387,7 @@ theorem idiag_centMod {p : ℕ} (hp : p.Prime) {X C : Subgroup G} (hC : GLAPComp
         ↥X ⧸ GLAPPrimeCore p ↥X) =
         ⁅QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨l, hlX⟩,
           QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨n, hnX⟩⁆ := by
-      simp only [commutatorElement_def, map_mul, map_inv]
+      simp only [commutatorElement_def]
       rfl
     rw [e, commutatorElement_eq_one_iff_commute]
     exact hcomm
@@ -395,6 +399,7 @@ section JPart
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem idiag_barX_le_kb {p : ℕ} {X J : Subgroup G} {𝒞 : Set (Subgroup G)}
     (hcomp : ∀ C ∈ 𝒞, GLAPComponent p X C) (hJK : J ≤ ⨆ C : 𝒞, (C : Subgroup G)) :
     barX p X J ≤ ⨆ C : 𝒞, barX p X (C : Subgroup G) := by
@@ -421,8 +426,9 @@ theorem idiag_barX_le_kb {p : ℕ} {X J : Subgroup G} {𝒞 : Set (Subgroup G)}
   obtain ⟨_, hmem⟩ := key j (hJK (Subgroup.mem_subgroupOf.1 hj))
   exact hmem
 
+omit [Finite G] in
 theorem idiag_barX_le_centralizer {p : ℕ} {X J D : Subgroup G} {d : G}
-    (hJD : J ≤ Subgroup.centralizer (D : Set G)) (hd : d ∈ D) (hzd : Subgroup.zpowers d ≤ D) :
+    (hJD : J ≤ Subgroup.centralizer (D : Set G)) (_hd : d ∈ D) (hzd : Subgroup.zpowers d ≤ D) :
     barX p X J ≤ Subgroup.centralizer (barX p X (Subgroup.zpowers d) : Set (↥X ⧸ GLAPPrimeCore p ↥X)) := by
   intro x hx
   obtain ⟨⟨j, hjX⟩, hj, rfl⟩ := Subgroup.mem_map.1 hx
@@ -481,6 +487,7 @@ section Final
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem idiag_barX_le_layer {p : ℕ} {X H J : Subgroup G} (hJ : GLAPComponent p H J) (hJX : J ≤ X)
     {Kb C Dl W : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)} (hC : C = Dl ⊔ W) (hCK : C ≤ Kb)
     (hWK : W ≤ Kb) (hW : ∀ w ∈ W, ∀ g ∈ Kb, Commute w g) (hJC : barX p X J ≤ C) :
@@ -509,7 +516,7 @@ theorem idiag_layer_le_barX {p : ℕ} (hp : p.Prime) {X H J : Subgroup G}
       obtain ⟨c, hc, hcy⟩ := Subgroup.mem_map.1 (h hy)
       have hzD : z ∈ Dl := hJDl hz
       have := congrArg Subtype.val (Subgroup.mem_center_iff.1 hc ⟨z, hzD⟩)
-      simp only [Subgroup.coe_mul, Subgroup.coe_mk] at this
+      simp only [Subgroup.coe_mul] at this
       rw [← hcy]
       exact this
     have hperf : ⁅barX p X J, barX p X J⁆ = barX p X J := by
@@ -522,9 +529,10 @@ section Helpers2
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem idiag_pow_ne_one {p : ℕ} (hp : p.Prime) {A D : Subgroup G} (hD : IsElemAbelian p D)
     {d : G} (hd : d ∈ D) (hdA : d ∉ A) {n : ℕ} (hn0 : 0 < n) (hnp : n < p) : d ^ n ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro h
   have hdp : d ^ p = 1 := hD.2 d hd
   have hd1 : d ≠ 1 := fun h1 => hdA (h1 ▸ A.one_mem)
@@ -533,6 +541,7 @@ theorem idiag_pow_ne_one {p : ℕ} (hp : p.Prime) {A D : Subgroup G} (hD : IsEle
   rw [hord] at hdvd
   exact absurd (Nat.le_of_dvd hn0 hdvd) (by omega)
 
+omit [Finite G] in
 theorem idiag_gc_ne {p : ℕ} (hp : p.Prime) {A D X C : Subgroup G} {𝒞 : Set (Subgroup G)} {d : G}
     (hAD : A ≤ D) (hidx : A.relIndex D = p) (hD : IsElemAbelian p D) (hd : d ∈ D) (hdA : d ∉ A)
     (hAX : ∀ a ∈ A, ∀ x ∈ X, a * x = x * a) (hCX : C ≤ X) (hC : C ∈ 𝒞)
@@ -544,6 +553,7 @@ theorem idiag_gc_ne {p : ℕ} (hp : p.Prime) {A D X C : Subgroup G} {𝒞 : Set 
   have h1 := idiag_zcap hp hD hd hdA (Subgroup.pow_mem _ (Subgroup.mem_zpowers d) n) hA
   exact idiag_pow_ne_one hp hD hd hdA hn0 hnp h1
 
+omit [Finite G] in
 theorem idiag_E_pow {p : ℕ} {X : Subgroup G} {d : G} (hdX : d ∈ X)
     {e : ↥X ⧸ GLAPPrimeCore p ↥X} (he : e ∈ barX p X (Subgroup.zpowers d)) :
     ∃ k : ℤ, e = (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨d, hdX⟩) ^ k := by
@@ -586,11 +596,11 @@ theorem idiag_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hKb : Kb = ⨆ C' : 𝒞, barX p X (C' : Subgroup G))
     (hsplit : Kb ⊓ Subgroup.centralizer
         (barX p X (Subgroup.zpowers d) : Set (↥X ⧸ GLAPPrimeCore p ↥X)) = Dl ⊔ W)
-    (hWK : W ≤ Kb) (hW : ∀ w ∈ W, ∀ g ∈ Kb, Commute w g)
+    (_hWK : W ≤ Kb) (hW : ∀ w ∈ W, ∀ g ∈ Kb, Commute w g)
     (hDJ : Dl ≤ barX p X J) :
     ∃ j ∈ J, ∃ n ∈ centModSubgroup p C, m = j * n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp : d ^ p = 1 := hD.2 d hd
   have hCX : C ≤ X := (hcomp C hC).1
   have hmX : m ∈ X := hCX hm
@@ -749,7 +759,7 @@ end Lifting
 theorem i183DiagAt_holds (G : Type) [Group G] [Finite G] (p : ℕ) : I183DiagAt G p := by
   intro hp hp2 A D J 𝒞 hD hAD hidx _hX hJ hcomp hsup hinv htrans hne0
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X : Subgroup G := Subgroup.centralizer (A : Set G) with hXdef
   have hAX : ∀ a ∈ A, ∀ x ∈ X, a * x = x * a := fun a ha x hx =>
     Subgroup.mem_centralizer_iff.1 hx a ha
@@ -833,8 +843,7 @@ theorem i183DiagAt_holds (G : Type) [Group G] [Finite G] (p : ℕ) : I183DiagAt 
       (Quasisimple.central_quotient (idiag_barX_isComponent hcomp hC₁).2.2 Z hZc)
   have hDJ : Dl ≤ barX p X J :=
     idiag_layer_le_barX hp hJ hJX hHX hDlbar hDq hJDl
-  intro C hC
-  intro m hm
+  intro C hC m hm
   obtain ⟨j, hj, n, hn, rfl⟩ := idiag_lift hp hp2 hAD hidx hD hd hdX hdA hAX hcomp hinv hne htrans
     hC hm hKb hsplit hWK hWc hDJ
   exact Subgroup.mul_mem_sup hj hn

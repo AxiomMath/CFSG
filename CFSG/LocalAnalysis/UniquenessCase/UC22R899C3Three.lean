@@ -33,7 +33,7 @@ theorem uc22r899c3_exists_lift_of_third {M K₁ K₂ K₃ : Subgroup G} (h₁ : 
     (ha₂ : a₂ ∈ K₂) :
     ∃ A : Subgroup G, A ≤ M ∧ IsElemAbelian p A ∧ Nat.card A = p ^ 2 ∧
       ∀ e ∈ zpowers a₁ ⊔ zpowers a₂, ∀ a ∈ A, e * a * e⁻¹ * a⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKM : ∀ {K : Subgroup G}, K ∈ calC M → K ≤ M := fun hK => uc22p22a_le_of_isSubnormal hK.1
   have hord : ∀ x : ↥M, orderOf (x : G) = p → orderOf (uc22p21cPi M x) = p := by
     intro x hx
@@ -130,7 +130,7 @@ theorem uc22r899c3_sp_of_moves {D : Data G}
     (h3 : 3 ∈ D.sig) {A₀ : Subgroup G} (hA₀M : A₀ ≤ D.M) (hA₀ : IsElemAbelian 3 A₀)
     (hA₀c : Nat.card A₀ = 3 ^ 4) {w : G} (hw : w ∈ A₀) (hwL : w ∉ normalizer (L : Set G)) :
     IsStronglyPEmbedded r D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLm : L ∈ conjSetOf D.M L := ⟨1, D.M.one_mem, by ext x; simp⟩
   obtain ⟨A₁, hA₁, hA₁el, hA₁c, hA₁N⟩ :=
     uc22r899_exists_elemAbelian_stab Nat.prime_three (by norm_num) hc3 hA₀M hA₀ hA₀c
@@ -148,7 +148,7 @@ theorem uc22r899c3_sp_of_moves {D : Data G}
   have hcL : ∀ l ∈ L, c * l * c⁻¹ * l⁻¹ ∈ pCoreOf 2 D.M := fun l hl =>
     uc22p22r_pCoreOf_le_of_isSubnormal hL.1 ((hCc c hcC).2 l hl)
   have hwc : w * c = c * w := by
-    haveI := hA₀.1
+    have := hA₀.1
     exact congrArg Subtype.val (mul_comm' (⟨w, hw⟩ : ↥A₀) ⟨c, hcA₀⟩)
   have hcK : ∀ K ∈ conjSetOf D.M L, ∀ k ∈ K, c * k * c⁻¹ * k⁻¹ ∈ pCoreOf 2 D.M := by
     intro K hK
@@ -180,7 +180,7 @@ private theorem uc22r899c3_moves_or_fixes {M L A₀ : Subgroup G}
   · refine Or.inr fun K hK a ha => uc22r899_mem_normalizer_of_fix hc3 (hA₀M ha) Nat.prime_three
       (by norm_num) (k := 1) (by rw [pow_one]; exact hA₀.2 a ha)
       (fun _ => ⟨L, ⟨1, M.one_mem, by ext x; simp⟩, hfix ha⟩) K hK
-  · exact Or.inl (SetLike.not_le_iff_exists.1 hfix)
+  · exact Or.inl (IsConcreteLE.not_le_iff_exists.1 hfix)
 
 theorem uc22r899c3_sp_three_of_not_dvd {D : Data G}
     (hSg : UC6S846.SigmaStd D) (hfour : ∀ p ∈ D.sig, 4 ≤ CFSG.Open.pRank p D.M)

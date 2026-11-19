@@ -16,7 +16,7 @@ theorem c13K_eq_pCore_sup {K : Subgroup G} {n : ℕ} (hK : Nat.card ↥K = 3 * 2
     (hlρ : l * ρ * l⁻¹ = ρ⁻¹) :
     K = CFSG.Open.pCoreOf 2 K ⊔ closure ({ρ, l} : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ρK : ↥K := ⟨ρ, hρ⟩
   let lK : ↥K := ⟨l, hl⟩
   have hρK3 : orderOf ρK = 3 := by rw [Subgroup.orderOf_mk, hρ3]
@@ -47,7 +47,7 @@ theorem c13K_eq_pCore_sup {K : Subgroup G} {n : ℕ} (hK : Nat.card ↥K = 3 * 2
         rw [Subgroup.card_mul_index, hK]
         exact dvd_mul_right 3 (2 ^ n)
       have h3_not_P : ¬ 3 ∣ Nat.card ↥(P : Subgroup ↥K) := by
-        obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+        obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
         rw [hk]
         intro h3
         have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
@@ -70,7 +70,7 @@ theorem c13K_eq_pCore_sup {K : Subgroup G} {n : ℕ} (hK : Nat.card ↥K = 3 * 2
     exact Subgroup.normalCore_le _
   have hker_le_pcore : φ.ker ≤ CFSG.pCore 2 ↥K := by
     change φ.ker ≤ sSup {J : Subgroup ↥K | J.Normal ∧ IsPGroup 2 J}
-    exact le_sSup ⟨φ.normal_ker, P.isPGroup'.to_le hker_le_P⟩
+    exact le_sSup ⟨φ.normal_ker, P.isPGroup.to_le hker_le_P⟩
   have hker_mem_pcoreOf : ∀ x : ↥K, x ∈ φ.ker → (x : G) ∈ CFSG.Open.pCoreOf 2 K := by
     intro x hx
     exact Subgroup.mem_map_of_mem K.subtype (hker_le_pcore hx)
@@ -88,7 +88,7 @@ theorem c13K_eq_pCore_sup {K : Subgroup G} {n : ℕ} (hK : Nat.card ↥K = 3 * 2
     have hord3 : 3 ∣ Nat.card ↥(P : Subgroup ↥K) := by
       rw [← hρK3]
       exact Subgroup.orderOf_dvd_natCard _ hPmem
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     rw [hk] at hord3
     have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hord3
     obtain ⟨c, hc⟩ := h32

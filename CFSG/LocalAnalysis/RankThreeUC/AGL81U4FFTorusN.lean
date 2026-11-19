@@ -95,18 +95,18 @@ theorem one_le_of_card_sq {F : Type} [Field F] [Finite F] {n : ℕ}
 
 theorem torusStepN : TorusStepN := by
   intro V _ _ hV n L D M₀ M₁ hS hN hcount
-  haveI : IsF2Space V := ⟨hV⟩
+  have : IsF2Space V := ⟨hV⟩
   obtain ⟨F, hF1, hF2, hF, ε', ψ, hψ⟩ := hN
   have hn : 1 ≤ n := one_le_of_card_sq hF
-  haveI : CharP F 2 := torusN_charP_two_of_card hn hF
-  letI : Algebra (ZMod 2) F := ZMod.algebra _ _
+  have : CharP F 2 := torusN_charP_two_of_card hn hF
+  let : Algebra (ZMod 2) F := ZMod.algebra _ _
   have hq : 1 ≤ 2 ^ n := Nat.one_le_two_pow
   have hqodd : Odd (2 ^ n + 1) := by
     obtain ⟨k, hk⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
     exact ⟨2 ^ k, by rw [hk, pow_succ]; ring⟩
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   obtain ⟨ω, hω, hω1, hdeg⟩ := exists_primitive_normOne hn hF
-  haveI : Module.Finite (ZMod 2) F := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) F := Module.Finite.of_finite
   have hint : IsIntegral (ZMod 2) ω := IsIntegral.of_finite (ZMod 2) ω
   have hm : Irreducible (minpoly (ZMod 2) ω) := minpoly.irreducible hint
   have hd : 2 ≤ (minpoly (ZMod 2) ω).natDegree := by rw [hdeg]; omega

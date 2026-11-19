@@ -61,7 +61,7 @@ theorem le_of_not_dvd_card_outer {p : ℕ} [Fact p.Prime] {K : Subgroup X} [K.No
       (CFSG.RankThree.PartOne.CTP.quotientOuterHom_injective K hKC)
   have hnot : ¬ p ∣ Nat.card (X ⧸ K) := fun hp => hout (hp.trans hdvd)
   exact CFSG.RankThree.PartOne.CTP.le_of_isPGroup_of_not_dvd_card_quotient
-    P.isPGroup' hnot
+    P.isPGroup hnot
 
 theorem le_of_forall_pElement_mem {p : ℕ} [Fact p.Prime] {N K : Subgroup X} [K.Normal]
     (hN : CFSG.RankThree.PartOne.IsStronglyPEmbedded p N)
@@ -88,7 +88,8 @@ theorem le_of_forall_pElement_mem {p : ℕ} [Fact p.Prime] {N K : Subgroup X} [K
   rw [show g * (g⁻¹ * y * g) * g⁻¹ = y by group] at hyK
   exact hyK
 
-theorem commute_of_card_dvd_sq {p : ℕ} [Fact p.Prime] {P : Subgroup X} (hP : IsPGroup p P)
+omit [Finite X] in
+theorem commute_of_card_dvd_sq {p : ℕ} [Fact p.Prime] {P : Subgroup X} (_hP : IsPGroup p P)
     (h : Nat.card P ∣ p ^ 2) : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := by
   obtain ⟨k, hk2, hcard⟩ := (Nat.dvd_prime_pow (Fact.out : p.Prime)).mp h
   interval_cases k
@@ -119,7 +120,7 @@ theorem eq_one_of_le_of_commute {p : ℕ} [Fact p.Prime] {K : Subgroup X} [K.Nor
   have hTmap : ((T : Subgroup ↥K)).map K.subtype = (P : Subgroup X) := by
     rw [hTcoe]
     exact Subgroup.map_subgroupOf_eq_of_le hPK
-  haveI hTcomm : IsMulCommutative ((T : Sylow p ↥K) : Subgroup ↥K) := by
+  have hTcomm : IsMulCommutative ((T : Sylow p ↥K) : Subgroup ↥K) := by
     apply IsMulCommutative.of_comm
     intro a b
     apply Subtype.ext
@@ -149,6 +150,7 @@ theorem eq_one_of_le_of_commute {p : ℕ} [Fact p.Prime] {K : Subgroup X} [K.Nor
     (G := ↥K) hKnab T hzT hzcomm
   simpa [z] using congrArg Subtype.val hz1
 
+omit [Finite X] in
 theorem eq_one_of_torus {p e : ℕ} [Fact p.Prime] {F : Type} [Field F] {K : Subgroup X}
     (P : Sylow p X) (hPK : (P : Subgroup X) ≤ K) (ψ : Multiplicative F →* ↥K)
     (hψ : Function.Injective ψ)

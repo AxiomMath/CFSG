@@ -23,9 +23,9 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 
 theorem exists_central [Fact p.Prime] (hP : (P : Subgroup G) ≠ ⊥) : ∃ z : G, Central P z := by
   have hnt : Nontrivial (P : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).mpr hP
-  have hZ : Nontrivial (center (P : Subgroup G)) := P.isPGroup'.center_nontrivial
+  have hZ : Nontrivial (center (P : Subgroup G)) := P.isPGroup.center_nontrivial
   have hdvd : p ∣ Nat.card (center (P : Subgroup G)) :=
-    (P.isPGroup'.to_subgroup _).card_eq_or_dvd.resolve_left fun h =>
+    (P.isPGroup.to_subgroup _).card_eq_or_dvd.resolve_left fun h =>
       (Finite.one_lt_card_iff_nontrivial.mpr hZ).ne' h
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hc' : orderOf ((c : P) : G) = p := by
@@ -140,7 +140,7 @@ theorem exists_central_generator (hS : Situation G p P M) (hx : Point P M x) :
       SmallRankPlane p (P : Subgroup G) x z ∧
       sixPlane p (P : Subgroup G) x = zpowers x ⊔ zpowers z := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨z, hz⟩ := exists_central (P := P) (fun h => hx.ne_one hprime
     (mem_bot.mp (h ▸ hx.mem)))
   have hpl := plane_of_central hS hx hz
@@ -163,7 +163,7 @@ theorem exists_central_generator (hS : Situation G p P M) (hx : Point P M x) :
 theorem normalizer_zpowers_le (hS : Situation G p P M) (hz : Central P z) :
     normalizer ((zpowers z : Subgroup G) : Set G) ≤ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hzord : orderOf z = p := orderOf_eq_prime hz.pow_eq_one hz.ne_one
   have hPC : (P : Subgroup G) ≤ centralizer ({z} : Set G) := fun g hg =>
     mem_centralizer_singleton_iff.mpr (mem_centralizer_iff.mp hz.centralizes g hg)
@@ -175,7 +175,7 @@ theorem normalizer_zpowers_le (hS : Situation G p P M) (hz : Central P z) :
 theorem centralizer_singleton_le (hS : Situation G p P M) (hz : Central P z) :
     centralizer ({z} : Set G) ≤ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hzord : orderOf z = p := orderOf_eq_prime hz.pow_eq_one hz.ne_one
   have hPC : (P : Subgroup G) ≤ centralizer ({z} : Set G) := fun g hg =>
     mem_centralizer_singleton_iff.mpr (mem_centralizer_iff.mp hz.centralizes g hg)
@@ -189,7 +189,7 @@ theorem normalizer_plane_le (hS : Situation G p P M) (hx : Point P M x) (hz : Ce
   have hprime := hS.prime
   have hpl := plane_of_central hS hx hz
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hpl.isIsolatedPlane.1
-  refine hS.normalizer_le (P.isPGroup'.to_le hBP) (hBP.trans hS.sylow_le) ?_
+  refine hS.normalizer_le (P.isPGroup.to_le hBP) (hBP.trans hS.sylow_le) ?_
   exact CFSG.SectionRank.le_pRank hprime.one_lt (le_refl (zpowers x ⊔ zpowers z))
     hpl.isElemAbelian hpl.card_eq
 

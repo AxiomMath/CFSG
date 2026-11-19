@@ -135,7 +135,7 @@ private theorem isCycle_of_transfer {V : Type*} {G G' : SimpleGraph V} {u : V}
   · rw [hs]
     exact hp.support_nodup
 
-private theorem le_length_of_all_typeA (hn : 3 ≤ n)
+private theorem le_length_of_all_typeA (_hn : 3 ≤ n)
     (hgirth : ((2 * n + 2 : ℕ) : ℕ∞) ≤ c.graph.egirth)
     {u : ↥(edgeBall (n - 1) c)} {w : (delta c Good n).Walk u u} (hw : w.IsCycle)
     (hA : ∀ j, j < w.length → c.graph.Adj ((w.getVert j : ↥(edgeBall (n - 1) c)) : c.Γ)
@@ -147,7 +147,7 @@ private theorem le_length_of_all_typeA (hn : 3 ≤ n)
   have hqcyc : q.IsCycle := isCycle_of_transfer hw hqlen hqsupp
   have hψinj : Function.Injective (ballGraphHom c n) := fun x y h => Subtype.val_injective h
   have hcyc : (q.map (ballGraphHom c n)).IsCycle := hqcyc.map hψinj
-  have hle := SimpleGraph.egirth_le_length hcyc
+  have hle := SimpleGraph.Walk.IsCycle.egirth_le_length hcyc
   have hlen : (q.map (ballGraphHom c n)).length = w.length := by
     rw [SimpleGraph.Walk.length_map, hqlen]
   have hcast : ((2 * n + 2 : ℕ) : ℕ∞) ≤ ((q.map (ballGraphHom c n)).length : ℕ∞) :=
@@ -393,7 +393,7 @@ theorem delta_adj_of_typeB (hn : 3 ≤ n)
 theorem exists_delta_adj (hn : 3 ≤ n)
     (hgirth : ((2 * n + 2 : ℕ) : ℕ∞) ≤ c.graph.egirth)
     (hG : GoodPathSystem c.G0 c.graph n Good)
-    (hdeg : ∀ v w : c.Γ, c.graph.Adj v w → ∃ u, c.graph.Adj v u ∧ u ≠ w)
+    (_hdeg : ∀ v w : c.Γ, c.graph.Adj v w → ∃ u, c.graph.Adj v u ∧ u ≠ w)
     (u : ↥(edgeBall (n - 1) c)) : ∃ v, (delta c Good n).Adj u v := by
   by_cases hx : (u : c.Γ) = c.xv
   · have hu : u = deltaXv c n := Subtype.ext hx
@@ -429,7 +429,7 @@ theorem delta_dist_le (hn : 3 ≤ n)
   have hconn : (delta c Good n).Connected := delta_connected hn hgirth hG
   obtain ⟨a, hua⟩ := exists_delta_adj hn hgirth hG hdeg u
   obtain ⟨g, hg'⟩ := exists_smul_eq_base_of_adj hn hgirth hG hdeg hua
-  letI : GraphAction ↥(deltaGroup hn hgirth hG hdeg) (delta c Good n) :=
+  let : GraphAction ↥(deltaGroup hn hgirth hG hdeg) (delta c Good n) :=
     graphAction_deltaGroup hn hgirth hG hdeg
   have hdist : (delta c Good n).dist (g • u) (g • v) = (delta c Good n).dist u v :=
     GPath.dist_smul hconn g u v

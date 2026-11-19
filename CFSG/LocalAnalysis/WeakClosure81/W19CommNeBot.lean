@@ -203,7 +203,7 @@ private theorem false_of_conj_data (c : MinCex193 D V₀ V p X) (hVX : ⁅V, X�
     {y : G} {D' : Subgroup G} (hVnormD' : V ≤ normalizer (D' : Set G))
     (hy : y ∉ D.M) (hV₀y : V₀ ≤ conjSubgroup D.M y)
     (hD'eq : D' = conjSubgroup V y) (hnotLe : ¬ D' ≤ D.M) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hInter : V ⊓ D' = ⊥ := by
     rw [hD'eq]
     exact c.inf_conj_eq_bot_of_comm_eq_bot hVX hy hV₀y
@@ -231,10 +231,10 @@ private theorem false_of_conj_data (c : MinCex193 D V₀ V p X) (hVX : ⁅V, X�
   have hPlt : P.subgroupOf S < ⊤ := by
     refine lt_of_le_of_ne le_top fun htop => hPne ?_
     exact le_antisymm hPS (Subgroup.subgroupOf_eq_top.mp htop)
-  haveI hSnil : Group.IsNilpotent ↥S := hS2.isNilpotent
+  have hSnil : Group.IsNilpotent ↥S := hS2.isNilpotent
   have hgrow : P.subgroupOf S < Subgroup.normalizer (P.subgroupOf S) :=
     Group.normalizerCondition_of_isNilpotent (G := ↥S) _ hPlt
-  obtain ⟨n, hnN, hnP⟩ := SetLike.exists_of_lt hgrow
+  obtain ⟨n, hnN, hnP⟩ := _root_.IsConcreteLE.exists_of_lt hgrow
   have hnN' : (n : G) ∈ normalizer (P : Set G) := by
     rw [← Subgroup.subgroupOf_normalizer_eq hPS, Subgroup.mem_subgroupOf] at hnN
     exact hnN

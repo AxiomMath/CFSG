@@ -22,7 +22,7 @@ private def s16e_d5_pfixSub (S : Subgroup W) : Subgroup (MulAut W) where
   inv_mem' := by
     intro g hg z hz
     refine g.injective ?_
-    simpa [hg z hz]
+    simp [hg z hz]
 
 theorem s16e_d5_conj_zpowers (hfr : s16e_d5_Frame L K Z) {A : Subgroup (MulAut W)}
     (hLn : ∀ g ∈ A, g ∈ Subgroup.normalizer (L : Set (MulAut W))) {a : Fin 4 → MulAut W}

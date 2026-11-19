@@ -19,15 +19,18 @@ theorem h01 : (0 : Fin 3) ≠ 1 := by decide
 @[expose] def rootSet (σ : F ≃+* F) (lam ω : Fˣ) : Set F :=
   {y | tbar h01 y ∈ Subgroup.closure (hyperFix σ lam ω)}
 
+omit [Finite F] in
 theorem mem_rootSet {y : F} :
     y ∈ rootSet σ lam ω ↔ tbar h01 y ∈ Subgroup.closure (hyperFix σ lam ω) := Iff.rfl
 
+omit [Finite F] in
 theorem rootSet_add {y y' : F} (hy : y ∈ rootSet σ lam ω) (hy' : y' ∈ rootSet σ lam ω) :
     y + y' ∈ rootSet σ lam ω := by
   rw [mem_rootSet] at hy hy' ⊢
   rw [CFSG.HardMathSupport.Foote.ModuleExclusions.tbar_add]
   exact Subgroup.mul_mem _ hy hy'
 
+omit [Finite F] in
 theorem zero_mem_rootSet : (0 : F) ∈ rootSet σ lam ω := by
   rw [mem_rootSet, CFSG.HardMathSupport.Foote.ModuleExclusions.tbar_zero]
   exact Subgroup.one_mem _
@@ -50,6 +53,7 @@ theorem rootSet_mul_fixed (h : HeisHyp σ lam ω) {u : F} (hu : σ u = u) {y : F
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.subset_closure hD) hy)
     (Subgroup.inv_mem _ (Subgroup.subset_closure hD))
 
+omit [Finite F] in
 theorem toGL_twistSL (a μ : Fˣ) (hμ : (μ : F) ^ 3 * ((a : F) * σ a * σ (σ a)) = 1) :
     Matrix.SpecialLinearGroup.toGL (twistSL σ a μ hμ) =
       CFSG.HardMathSupport.Foote.ModuleExclusions.diagGL
@@ -92,10 +96,10 @@ theorem rootSet_mul_ratio (h : HeisHyp σ lam ω) (h3 : 3 ∣ Nat.card F - 1) (a
       (a : F) / σ a * y := by
     have hμ0 : (μ : F) ≠ 0 := μ.ne_zero
     have hσa : σ (a : F) ≠ 0 := by simp
-    simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.coe_map, MonoidHom.coe_coe]
+    simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.coe_map, _root_.MonoidHom.coe_ofClass]
     field_simp
   rw [mem_rootSet] at hy ⊢
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hconj
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hconj
   rw [← hcoef, ← hconj]
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hT hy) (Subgroup.inv_mem _ hT)
 

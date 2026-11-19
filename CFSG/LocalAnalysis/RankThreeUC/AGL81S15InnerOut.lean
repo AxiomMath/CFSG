@@ -88,10 +88,10 @@ theorem relIndex_innerPart_le {K : Type} [Group K] [Finite K] (L B : Subgroup K)
     (innerPart L B).relIndex B ≤ 4 := by
   open InnerOut CFSG.LocalAnalysis.ComponentInitial.LinearFlag
     CFSG.QuasithinUnique.SteinbergBQ.SylowActionInner in
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hF
-  haveI : Group.IsPerfect ↥L := ⟨hperf⟩
+  have : Group.IsPerfect ↥L := ⟨hperf⟩
   set η := centerQuotientEquiv e
   set ψ : ↥B →* MulAut (projectiveSL 3 F) := (modelAut η).comp (conjHom L B hBN)
   set I : Subgroup (MulAut (projectiveSL 3 F)) :=

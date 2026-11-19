@@ -364,7 +364,7 @@ theorem GGResHyp.prime_dvd_J_of_unitary_K_exactThree
     (h3 : GGResLeviDatumExact3 p Bs K J L ggSelAny ggTypAny) :
     p ∣ Nat.card J := by
   obtain ⟨r, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : d ≠ 0)
-  letI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq
+  let : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq
     (p := 2) (f := n) hM.field.card_eq_sq
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1
   have hN := (hH.2.2.1.2 y K hH.2.2.2.2.1).le_normalizer
@@ -1177,7 +1177,7 @@ private theorem qTwo_K_singular_chart_of_L
     {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K)
     {ψ : ↥(unitarySU 2 1 F d) →* ↥L} (hM : UnitTB.Model ψ)
-    (hpq : p ∣ 2 ^ 1 + 1) (hd : 5 ≤ d)
+    (hpq : p ∣ 2 ^ 1 + 1) (_hd : 5 ≤ d)
     (hdiag : ∀ a ∈ (ggGamma L hH.2.2.1.1.le_normalizer).range,
       ∃ t : Fin d → F, LineU.ActsDiagU ψ a t)
     {Λ : Type} [Fintype Λ] [DecidableEq Λ] {ML : CoxeterMatrix Λ} {CL : Matrix Λ Λ ℤ}
@@ -1251,10 +1251,10 @@ private theorem qTwo_row_SU2_of_added_two
     {G : Type} [Group G] [Finite G] {F : Type} [Field F] [Finite F]
     {d m p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp p B Bs x L D J y K)
+    (_hH : GGResHyp p B Bs x L D J y K)
     {ψ : ↥(unitarySU 2 1 F d) →* ↥L} (hM : UnitTB.Model ψ)
-    (hpq : p ∣ 2 ^ 1 + 1) (hd : 5 ≤ d)
-    {δ : ↥(unitarySU 2 1 F m) →* ↥J} (hδ : UnitTB.Model δ) (hm4 : 4 ≤ m)
+    (hpq : p ∣ 2 ^ 1 + 1) (_hd : 5 ≤ d)
+    {δ : ↥(unitarySU 2 1 F m) →* ↥J} (hδ : UnitTB.Model δ) (_hm4 : 4 ≤ m)
     (hm : m + 2 = d) (hd7 : 7 ≤ d) (hndvd : ¬ 3 ∣ d) :
     GGResRowAt ggRowSUCorank2 p J L := by
   classical
@@ -1282,10 +1282,10 @@ private theorem qTwo_row_SU3_of_added_three
     {G : Type} [Group G] [Finite G] {F : Type} [Field F] [Finite F]
     {d m p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp p B Bs x L D J y K)
+    (_hH : GGResHyp p B Bs x L D J y K)
     {ψ : ↥(unitarySU 2 1 F d) →* ↥L} (hM : UnitTB.Model ψ)
-    (hpq : p ∣ 2 ^ 1 + 1) (hd : 5 ≤ d)
-    {δ : ↥(unitarySU 2 1 F m) →* ↥J} (hδ : UnitTB.Model δ) (hm4 : 4 ≤ m)
+    (hpq : p ∣ 2 ^ 1 + 1) (_hd : 5 ≤ d)
+    {δ : ↥(unitarySU 2 1 F m) →* ↥J} (hδ : UnitTB.Model δ) (_hm4 : 4 ≤ m)
     (hm : m + 3 = d) (hd9 : 9 ≤ d) (h3d : 3 ∣ d) :
     GGResRowAt ggRowSUCorank3 p J L := by
   classical
@@ -1347,7 +1347,7 @@ private theorem qTwo_J_degree
     {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K)
     {ψ : ↥(unitarySU 2 1 F d) →* ↥L} (hM : UnitTB.Model ψ)
-    (hpq : p ∣ 2 ^ 1 + 1) (hd : 5 ≤ d)
+    (hpq : p ∣ 2 ^ 1 + 1) (_hd : 5 ≤ d)
     (hdiag : ∀ a ∈ (ggGamma L hH.2.2.1.1.le_normalizer).range,
       ∃ t : Fin d → F, LineU.ActsDiagU ψ a t)
     {Λ : Type} [Fintype Λ] [DecidableEq Λ] {ML : CoxeterMatrix Λ} {CL : Matrix Λ Λ ℤ}
@@ -1421,9 +1421,9 @@ private theorem qTwo_row_twoNode_of_added_two
     {G : Type} [Group G] [Finite G] {F : Type} [Field F] [Finite F]
     {d m p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp p B Bs x L D J y K)
+    (_hH : GGResHyp p B Bs x L D J y K)
     {ψ : ↥(unitarySU 2 1 F d) →* ↥L} (hM : UnitTB.Model ψ)
-    (hpq : p ∣ 2 ^ 1 + 1) (hd : 5 ≤ d)
+    (hpq : p ∣ 2 ^ 1 + 1) (_hd : 5 ≤ d)
     {δ : ↥(unitarySU 2 1 F m) →* ↥J} (hδ : UnitTB.Model δ) (hm4 : 4 ≤ m)
     (hm : m + 2 = d) (h3d : 3 ∣ d) :
     GGResRowAt ggRowTwoNode p J L := by
@@ -1474,8 +1474,8 @@ theorem GGResHyp.unitary_exactThree_K_rows_qTwo_of_L
   let := i6
   obtain ⟨fL, hfL⟩ := hfLx
   obtain ⟨fK, hfK⟩ := hfKx
-  haveI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   obtain ⟨hp3, hdim, hrank, hker, hsing, hcent, hlt⟩ :=
     qTwo_K_singular_chart_of_L hH hM hpq hd hdiag ι φ h α hS3 hWML hCLL
       hlin hrefl hpairL hclosL hclosJ
@@ -1553,8 +1553,8 @@ theorem GGResHyp.unitary_exactThree_K_rows_qTwo_of_L
       have hS := hH.1.1.2.2.2.2.2.2.1
       obtain ⟨v, hv, hvα⟩ := exists_root_kernel_of_centralizing (p := p) hp2
         (fun o => hlin (j o)) hpairK hCKK.1 hKgen hxBs hS.2.2.1 hLx
-      haveI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
-      haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+      have : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+      have : Module.Finite (ZMod p) V := Module.Finite.of_finite
       have hdet := ggRC_det_cast_eq_zero_of_common_kernel_of_finrank_eq_card (fun o => h (j o)) (fun o => α (j o))
         hpairK hv hvα (by omega : Module.finrank (ZMod p) V =
           Fintype.card ({i : Λ // i ∉ S} ⊕ Λa))

@@ -127,9 +127,9 @@ theorem lin_two_gf4_layer {g : V ≃ₗ[ZMod 2] V} (hg3 : g ^ 3 = 1) {m : ℕ}
     have := quad_of_mem_comSp hg3 a.2
     simpa [resComSp_apply] using this
   obtain ⟨inst, hts, hroot⟩ := exists_fModule (resComSp g) hq
-  letI := inst
-  haveI := hts
-  haveI : Module.Finite Fq (comSp g) := Module.Finite.of_restrictScalars_finite (ZMod 2) Fq _
+  let := inst
+  have := hts
+  have : Module.Finite Fq (comSp g) := Module.Finite.of_restrictScalars_finite (ZMod 2) Fq _
   have hfrF : Module.finrank Fq (comSp g) = m := by
     have := finrank_two_mul (A := comSp g)
     omega

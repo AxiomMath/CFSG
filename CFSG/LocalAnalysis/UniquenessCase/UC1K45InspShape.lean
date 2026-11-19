@@ -44,7 +44,7 @@ theorem z3E9A5Mod2_unfold {H : Type} [Group H] {Y : Subgroup H} (h : Z3E9A5Mod2 
         CFSG.Quasithin.IsAlt 5 (↥Y ⧸ N)) := by
   have hN : (CFSG.Open.pCoreOf 2 Y).subgroupOf Y = CFSG.pCore 2 ↥Y :=
     CFSG.openPCoreOf_subgroupOf 2 Y
-  haveI : ((CFSG.Open.pCoreOf 2 Y).subgroupOf Y).Normal := by
+  have : ((CFSG.Open.pCoreOf 2 Y).subgroupOf Y).Normal := by
     rw [hN]; exact CFSG.pCore_normal
   refine ⟨(CFSG.Open.pCoreOf 2 Y).subgroupOf Y, inferInstance, ?_, h _ rfl⟩
   rw [hN]
@@ -55,7 +55,7 @@ theorem not_z3E9A5Mod2_of_odd_card {H : Type} [Group H] [Finite H] {Y : Subgroup
     ¬ Z3E9A5Mod2 Y := by
   intro h
   obtain ⟨N, hN, hNp, hcases⟩ := z3E9A5Mod2_unfold h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hNp.exists_card_eq
   have hNY : Nat.card N ∣ Nat.card Y := Subgroup.card_subgroup_dvd_card N
   have hk0 : k = 0 := by
@@ -78,7 +78,7 @@ theorem not_z3E9A5Mod2_of_odd_card {H : Type} [Group H] [Finite H] {Y : Subgroup
 theorem orderOf_quot_eq_of_odd {H : Type} [Group H] {Y : Subgroup H} {N : Subgroup ↥Y} [N.Normal]
     (hNp : IsPGroup 2 N) {x : H} (hx : x ∈ Y) (hodd : Odd (orderOf x)) :
     orderOf (QuotientGroup.mk (⟨x, hx⟩ : ↥Y) : ↥Y ⧸ N) = orderOf x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set y : ↥Y := ⟨x, hx⟩ with hydef
   have hy : orderOf y = orderOf x := Subgroup.orderOf_mk x hx
   apply Nat.dvd_antisymm
@@ -171,7 +171,7 @@ theorem exists_bad_of_rank_one {S : Type} [Group S] [Finite S]
     (hbad : ∃ D₀ D₁ : Subgroup S, Nat.card D₀ = 3 ∧ Nat.card D₁ = 3 ∧ ¬ Z3E9A5Mod2 (D₀ ⊔ D₁))
     (D : Subgroup S) (hD : Nat.card D = 3) :
     ∃ g : S, ¬ Z3E9A5Mod2 (D ⊔ D.map (MulAut.conj g).toMonoidHom) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D₀, D₁, h0, h1, hb⟩ := hbad
   refine exists_bad_of_conj (fun A B hA hB => ?_) h0 h1 hb D hD
   exact CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.OvergroupConj.exists_conj_eq_of_card_three

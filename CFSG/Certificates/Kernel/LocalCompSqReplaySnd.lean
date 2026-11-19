@@ -84,19 +84,19 @@ theorem replay_rel {c : Lay} (hc : c.ok = true) (hp : c.p = 3) {LA LB : List Cha
     rw [hRk, hRn]
     by_cases h0 : r = 0
     · subst h0
-      simp only [if_true]
+      simp only [ite_true]
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d sA, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d sA) = mat3 c (V 0)
       exact ((spec3 c.d).toMat_decode sA).trans
         (by rw [hsA]; exact (mat3_decode c hc hp hA).2.symm)
     by_cases h01 : r = 1
     · subst h01
-      simp only [if_false, if_true, one_ne_zero]
+      simp only [ite_false, ite_true, one_ne_zero]
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d sB, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d sB) = mat3 c (V 1)
       exact ((spec3 c.d).toMat_decode sB).trans
         (by rw [hsB]; exact (mat3_decode c hc hp hB).2.symm)
-    · simp only [h0, h01, if_false]
+    · simp only [h0, h01, ite_false]
       refine ⟨Or.inr (by norm_num), wfb_idM c.d, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.idM c.d) = mat3 c (V 2)
       rw [CFSG.F3.Native.toMat_idM, hV.two]

@@ -141,7 +141,7 @@ theorem card_eq_two_pow_mul {X : Type} [Group X] [Finite X] (hX : CFSG.Open.IsKG
   have hcop' : Nat.Coprime 3 (Nat.card N') := Nat.Coprime.coprime_dvd_right (card_map_dvd N π) hcop
   have hb' : OddInvCent N' D' := by
     intro q hq hq2 Q' hQ'N' hQ' hD'Q'
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     set P : Subgroup X := Q'.comap π with hP
     have hPN : P ≤ N := by
       intro x hx
@@ -177,7 +177,7 @@ theorem factorization_two_pow_mul {k r q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
   rw [Nat.factorization_mul (pow_ne_zero _ two_ne_zero) (pow_ne_zero _ hq.ne_zero), Finsupp.add_apply,
     Nat.factorization_pow, Nat.factorization_pow, Finsupp.smul_apply, Finsupp.smul_apply,
     Nat.prime_two.factorization, hq.factorization]
-  simp [Finsupp.single_apply, hq2]
+  simp [hq2]
 
 theorem abelian_case {X : Type*} [Group X] [Finite X] {N D W : Subgroup X}
     (hDN : D ≤ normalizer (N : Set X)) (hD3 : Nat.card D = 3) (hcop : Nat.Coprime 3 (Nat.card N))
@@ -192,7 +192,7 @@ theorem abelian_case {X : Type*} [Group X] [Finite X] {N D W : Subgroup X}
       exact card_dvd_of_le hNDN
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
     exact ⟨j, hj⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hDW : D ≤ normalizer (W : Set X) := by
       rw [normalizer_eq_top_iff.2 hWn]
       exact le_top

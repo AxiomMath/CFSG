@@ -62,13 +62,13 @@ section Main
 theorem td42_three_false (hR : TD42OuterFix) {Y : Type} [Group Y] [Finite Y] {K B : Subgroup Y}
     (hK : KHyp 3 K B) (hc : catalogIs (↥K ⧸ Subgroup.center ↥K) fTD42)
     (hcB : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < 3 ^ 3) : False := by
-  haveI : K.Normal := hK.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : K.Normal := hK.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center ↥K = ⊥ := center_bot_of_KHyp_td42 hK hc
   obtain ⟨hfinS, hsimp, hcardS, ⟨φS⟩, -⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.I131.sdata_of_lieModel
       (CFSG.LocalAnalysis.GLTheoremA.CatB.blueprintLieModel_td4two hc)
-  haveI := hsimp
+  have := hsimp
   have hMAS : Nat.card (MulAut (↥K ⧸ Subgroup.center ↥K)) = 3 * 211341312 := card_mulAut_fTD42 hc
   let eSK : (↥K ⧸ Subgroup.center ↥K) ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -99,7 +99,7 @@ theorem td42_three_false (hR : TD42OuterFix) {Y : Type} [Group Y] [Finite Y] {K 
   have hKM : K ⊓ Subgroup.centralizer (K : Set Y) = ⊥ :=
     CFSG.LocalAnalysis.GLTheoremA.inf_centralizer_eq_bot hZ
   have hBea : IsElemAbelian 3 B := hK.elem
-  haveI : IsMulCommutative B := hBea.1
+  have : IsMulCommutative B := hBea.1
   have hBcomm : ∀ b1 ∈ B, ∀ b2 ∈ B, b1 * b2 = b2 * b1 := fun b1 h1 b2 h2 =>
     comm_mem_of_isMulCommutative B h1 h2
   have hBexp : ∀ b ∈ B, b ^ 3 = 1 := hBea.2
@@ -313,7 +313,7 @@ theorem td42_three_false (hR : TD42OuterFix) {Y : Type} [Group Y] [Finite Y] {K 
       rw [hmapI]
       exact hD
     exact (Subgroup.map_le_map_iff_of_injective e.injective).1 hD' hα0A
-  haveI : Finite (↥K ⧸ Subgroup.center ↥K) := hfinS
+  have : Finite (↥K ⧸ Subgroup.center ↥K) := hfinS
   obtain ⟨α', hα'D, hα'I, F', hF'ea, hF'card, hF'fix⟩ :=
     hR (↥K ⧸ Subgroup.center ↥K) hc D hDea hDcard hDnot
   obtain ⟨α, hαA, rfl⟩ := Subgroup.mem_map.1 hα'D
@@ -323,7 +323,7 @@ theorem td42_three_false (hR : TD42OuterFix) {Y : Type} [Group Y] [Finite Y] {K 
     have hmem : e α ∈ I.map e.toMonoidHom := Subgroup.mem_map.2 ⟨α, h, rfl⟩
     rw [hmapI] at hmem
     exact hmem
-  haveI : IsMulCommutative F' := hF'ea.1
+  have : IsMulCommutative F' := hF'ea.1
   let F : Subgroup ↥K := F'.map eK.symm.toMonoidHom
   have hF'comm : ∀ x ∈ F', ∀ y ∈ F', x * y = y * x := fun x hx y hy =>
     comm_mem_of_isMulCommutative F' hx hy
@@ -370,7 +370,7 @@ theorem td42_three_false (hR : TD42OuterFix) {Y : Type} [Group Y] [Finite Y] {K 
     intro y1 h1 y2 h2
     obtain ⟨x1, hx1, rfl⟩ := (hFY_mem _).1 h1
     obtain ⟨x2, hx2, rfl⟩ := (hFY_mem _).1 h2
-    haveI : IsMulCommutative F := hFea.1
+    have : IsMulCommutative F := hFea.1
     exact congrArg Subtype.val (comm_mem_of_isMulCommutative F hx1 hx2)
   have hFYexp : ∀ y ∈ FY, y ^ 3 = 1 := by
     intro y hy

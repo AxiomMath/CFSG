@@ -97,8 +97,8 @@ theorem le_inf_N_of_le_L (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hWL : W ≤ c.L) (hW : t.Ky ≤ Subgroup.normalizer (W : Set G)) (h3 : ¬ 3 ∣ Nat.card W) :
     W ≤ c.L ⊓ t.d.N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWM : W ≤ t.M := hWL.trans c.hyp81.1
   let Wq : Subgroup ↥(t.M) := W.subgroupOf t.M
   let Wbar : Subgroup t.Mb := Wq.map t.qmk

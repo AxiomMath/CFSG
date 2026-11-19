@@ -77,7 +77,7 @@ private theorem l10b5_mem_fix
   have hFr : ∀ c : GGL, ggFrobT f c = c ^ Nat.card k := by
     intro c
     rw [ggFrobT_apply, hcard]
-  letI : Algebra k GGL := (ggRatEmb f).toAlgebra
+  let : Algebra k GGL := (ggRatEmb f).toAlgebra
   have hfix : Units.map (entrywiseHom (ggFrobT f)) (baseChangeGL (ggRatEmb f) w) =
       baseChangeGL (ggRatEmb f) w := by
     simpa only [RingHom.algebraMap_toAlgebra] using

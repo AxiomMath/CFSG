@@ -264,9 +264,9 @@ theorem ncard_le_of_mem_pair {α : Type*} (hsym : ∀ x y, b x y = b y x) {p q :
     (hinj : ∀ z ∈ S, ∀ z' ∈ S, f z' = f z ∨ f z' = -f z → z' = z) :
     S.ncard ≤ if b p q ^ 2 = 1 then 5 else 3 := by
   by_cases hβ : b p q ^ 2 = 1
-  · rw [if_pos hβ]
+  · rw [ite_eq_left hβ]
     exact ncard_le_five_of_mem_pair_of_sq_eq_one hsym hp hq hβ hf hinj
-  · rw [if_neg hβ]
+  · rw [ite_eq_right hβ]
     exact ncard_le_three_of_mem_pair_of_sq_ne_one hsym hp hq hpq0 hβ hf hinj
 
 

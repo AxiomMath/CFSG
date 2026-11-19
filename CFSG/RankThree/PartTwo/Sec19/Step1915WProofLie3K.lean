@@ -134,7 +134,7 @@ theorem ks1917Lie3Sylow : KS1917Lie3Sylow := by
     rw [← Nat.card_congr φ.toEquiv, h9]
   intro s hs
   have hs3 : ∃ k : ℕ, φ s ^ 3 ^ k = 1 := by
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     refine ⟨k, ?_⟩
     rw [← map_pow]
     have : s ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk

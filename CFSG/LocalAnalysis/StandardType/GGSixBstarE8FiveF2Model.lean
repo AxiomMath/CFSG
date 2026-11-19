@@ -33,10 +33,10 @@ theorem exists_f2Model_E8 {K : Type} [Field K] [Finite K] [Algebra (ZMod 2) K] :
           a * ι (Multiplicative.ofAdd s) * a⁻¹ =
             ι (Multiplicative.ofAdd (NoOffRest.eigPerm 5 3 u s)) := by
   classical
-  haveI : CharP K 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) K).injective 2
+  have : CharP K 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) K).injective 2
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosure (ZMod 2) L := ⟨inferInstance, inferInstance⟩
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosure (ZMod 2) L := ⟨inferInstance, inferInstance⟩
   let Fr : L →+* L := iterateFrobenius L 2 1
   have hFr : ∀ c, Fr c = c ^ Nat.card (ZMod 2) := fun c => by
     rw [Nat.card_zmod]

@@ -20,7 +20,7 @@ theorem lsub_all : lsub allL = ⊤ := by
   rw [lsub, ← closure_yGen 4 3 2]
   congr 2
   ext c
-  simp only [allL, ngen, Set.mem_setOf_eq, Set.mem_Iio, List.mem_cons, List.not_mem_nil,
+  simp only [allL, ngen, Set.mem_ofPred_eq, Set.mem_Iio, List.mem_cons, List.not_mem_nil,
     or_false]
   omega
 
@@ -52,7 +52,7 @@ theorem evenSub_le_lsub {L : List ℕ} {c₀ : ℕ} (hc₀ : c₀ ∈ L) : evenS
   rintro _ ⟨c, hc, rfl⟩
   exact (lsub L).mul_mem (yGen_mem_lsub hc₀) (yGen_mem_lsub hc)
 
-theorem mem_evenSub_or {L : List ℕ} {c₀ : ℕ} (hc₀ : c₀ ∈ L) {y : YGroup 4 3 2}
+theorem mem_evenSub_or {L : List ℕ} {c₀ : ℕ} (_hc₀ : c₀ ∈ L) {y : YGroup 4 3 2}
     (hy : y ∈ lsub L) : y ∈ evenSub L c₀ ∨ yGen 4 3 2 c₀ * y ∈ evenSub L c₀ := by
   set E := evenSub L c₀
   have hgen : ∀ c ∈ L, yGen 4 3 2 c₀ * yGen 4 3 2 c ∈ E := fun c hc =>

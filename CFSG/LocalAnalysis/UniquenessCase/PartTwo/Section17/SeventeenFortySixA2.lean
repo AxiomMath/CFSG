@@ -105,8 +105,8 @@ theorem strongly_of_two_le_pRank_centralizer {D : Data G} {p : ℕ}
     have hEr : IsPGroup r E := hEel.isPGroup
     have hEr2 : 2 ≤ CFSG.Open.pRank r E :=
       CFSG.SectionRank.le_pRank hr.one_lt le_rfl hEel hEcard
-    haveI : Fact p.Prime := ⟨hpP⟩
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact p.Prime := ⟨hpP⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hGamma : rankThreeGamma 1 r E ≤ D.M :=
       rankThreeGamma_le_of_two_le_pRank_inf_centralizer
         hsp (h76 p hpP hp2 hsp) hEM hEr hEr2 hF
@@ -153,7 +153,7 @@ theorem pRank_cartan_le_one_of_centE_of_borel {D : Data G} {V₀ V X : Subgroup 
   have hEr : IsPGroup r E := hEel.isPGroup
   have hcent : CFSG.Open.pRank p (D.M ⊓ Subgroup.centralizer (E : Set G)) ≤ 1 :=
     hcentE E hEX hEel hEcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hquot := isMulCommutative_normalizer_inf_quotient_of_calC_of_borel (D := D) (L := X)
     (X := X) (n := f) ctx.mem_calC ctx.X_eq hB
   have hCC : ⁅C, C⁆ ≤ C ⊓ D.T := by
@@ -189,7 +189,7 @@ theorem pRank_cartan_le_one_of_centE_of_borel {D : Data G} {V₀ V X : Subgroup 
             ⟨hn.2, hCL hn.1⟩
           simpa [mul_assoc] using this
         exact h2.1
-  haveI : (N.subgroupOf C).Normal := hNnorm
+  have : (N.subgroupOf C).Normal := hNnorm
   have hCnorm : C ≤ Subgroup.normalizer (N : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hNC
   have hEN : E ≤ Subgroup.normalizer (N : Set G) := hEC.trans hCnorm
@@ -240,7 +240,7 @@ theorem pRank_cartan_le_one_of_centE_of_borel {D : Data G} {V₀ V X : Subgroup 
     CFSG.GroupTheory.not_dvd_card_of_isPGroup hN2 hr (by omega)
   have hNp : ¬ p ∣ Nat.card N :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup hN2 hp hp2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨S, hS, hSE⟩ :=
     CFSG.GroupTheory.exists_isSylowOf_le_centralizer_of_commutator_le
       (p := r) (q := p) (X := Xp) (N := N) (R := E)

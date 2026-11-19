@@ -31,23 +31,23 @@ private theorem level_four_quotient {p : ℕ} (hM : ListedMultiplierBound p)
     intro h
     have hk' := hk
     unfold kLevel at hk'
-    rw [if_pos h] at hk'
+    rw [ite_eq_left h] at hk'
     omega
   have h2 : ¬ catalogIs (Q ⧸ Subgroup.center Q) (k2 p) := by
     intro h
     have hk' := hk
     unfold kLevel at hk'
-    rw [if_neg h1, if_pos h] at hk'
+    rw [ite_eq_right h1, ite_eq_left h] at hk'
     omega
   have h3 : ¬ catalogIs (Q ⧸ Subgroup.center Q) (k3 p) := by
     intro h
     have hk' := hk
     unfold kLevel at hk'
-    rw [if_neg h1] at hk'
+    rw [ite_eq_right h1] at hk'
     by_cases h2' : catalogIs (Q ⧸ Subgroup.center Q) (k2 p)
-    · rw [if_pos h2'] at hk'
+    · rw [ite_eq_left h2'] at hk'
       omega
-    · rw [if_neg h2', if_pos h] at hk'
+    · rw [ite_eq_right h2', ite_eq_left h] at hk'
       omega
   exact ⟨h1, h2, h3⟩
 
@@ -84,8 +84,8 @@ theorem kd264_coreHyp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact hnot.2.2 ((catalogIs_congr e).2 ⟨.lie d, h3, ⟨MulEquiv.refl _⟩⟩)
   have hpdvdK : p ∣ Nat.card ↥K := by
     by_contra hpdvd
-    haveI hntQ : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hq.2.toNontrivial
-    haveI hntK : Nontrivial ↥K :=
+    have hntQ : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hq.2.toNontrivial
+    have hntK : Nontrivial ↥K :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
     have hcop : Nat.Coprime p (Nat.card ↥(⊤ : Subgroup ↥K)) := by
       rw [Subgroup.card_top, hp.coprime_iff_not_dvd]
@@ -220,7 +220,7 @@ theorem kd264KLie_of_coreS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     KD264KLie p := by
   intro Y _ _ K B hKn hq hKg hcat hcore hlevel hB _ hB4 hmax hCne
   classical
-  haveI hKnormal : K.Normal := hKn
+  have hKnormal : K.Normal := hKn
   have hBN : B ≤ Subgroup.normalizer (K : Set Y) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -231,7 +231,7 @@ theorem kd264KLie_of_coreS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       | exact ⟨_, he⟩
       | exact absurd hi (by simp [onLie])
   obtain ⟨d, ⟨e⟩⟩ := hlie
-  haveI hFinS : Finite (TauCeti.CFSGIndex.lie d).Group :=
+  have hFinS : Finite (TauCeti.CFSGIndex.lie d).Group :=
     Finite.of_equiv (↥K ⧸ Subgroup.center ↥K) e.toEquiv
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr hq.1
   have hACB : Nat.card (kd264Rho hBN e).range *
@@ -244,7 +244,7 @@ theorem kd264KLie_of_coreS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rwa [← MonoidHom.range_eq_map] at hmap
   have hCel : IsElemAbelian p (B ⊓ Subgroup.centralizer (K : Set Y)) :=
     CFSG.Open.IsElemAbelian.mono hB inf_le_left
-  haveI hpFact : Fact p.Prime := ⟨hp⟩
+  have hpFact : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := hAel.isPGroup.exists_card_eq
   obtain ⟨c, hc⟩ := hCel.isPGroup.exists_card_eq
   have hBpow : Nat.card B = p ^ (m + c) := by

@@ -13,26 +13,32 @@ section Generic
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_add_apply (a a' : AddAut (ι → F)) (x : ι → F) : (a + a') x = a (a' x) :=
   rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_zero_apply (x : ι → F) : (0 : AddAut (ι → F)) x = x :=
   rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_neg_apply (a : AddAut (ι → F)) (x : ι → F) : (-a) x = a.symm x :=
   rfl
 
 @[expose] def boIsLin (a : AddAut (ι → F)) : Prop :=
   ∀ (c : F) (x : ι → F), a (c • x) = c • a x
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_isLin_zero : boIsLin (0 : AddAut (ι → F)) :=
   fun _ _ => rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_isLin_add {a a' : AddAut (ι → F)} (ha : boIsLin a) (ha' : boIsLin a') :
     boIsLin (a + a') := by
   intro c x
   rw [bo_add_apply, bo_add_apply, ha' c x, ha c]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_isLin_neg {a : AddAut (ι → F)} (ha : boIsLin a) : boIsLin (-a) := by
   intro c x
   rw [bo_neg_apply, bo_neg_apply]
@@ -41,13 +47,16 @@ theorem bo_isLin_neg {a : AddAut (ι → F)} (ha : boIsLin a) : boIsLin (-a) := 
   calc a.symm (c • x) = a.symm (a (c • a.symm x)) := by rw [key]
     _ = c • a.symm x := AddEquiv.symm_apply_apply a _
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_invol_apply {a : AddAut (ι → F)} (h : a + a = 0) (x : ι → F) : a (a x) = x := by
   have := congrArg (fun e : AddAut (ι → F) => e x) h
   simpa only [bo_add_apply, bo_zero_apply] using this
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_symm_apply {a : AddAut (ι → F)} (h : a + a = 0) (x : ι → F) : a.symm x = a x := by
   rw [AddEquiv.symm_apply_eq, bo_invol_apply h]
 
+omit [Fintype ι] in
 theorem bo_ringHom_invol [Nonempty ι] {a : AddAut (ι → F)} (h : a + a = 0) {θ : F →+* F}
     (hθ : ∀ (c : F) (x : ι → F), a (c • x) = θ c • a x) (c : F) : θ (θ c) = c := by
   obtain ⟨i⟩ := ‹Nonempty ι›
@@ -60,6 +69,7 @@ theorem bo_ringHom_invol [Nonempty ι] {a : AddAut (ι → F)} (h : a + a = 0) {
   simp only [Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one] at h2
   exact h2.symm
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_exists_ne {a : AddAut (ι → F)} {θ : F →+* F}
     (hθ : ∀ (c : F) (x : ι → F), a (c • x) = θ c • a x) (hna : ¬ boIsLin a) :
     ∃ c, θ c ≠ c := by
@@ -67,6 +77,7 @@ theorem bo_exists_ne {a : AddAut (ι → F)} {θ : F →+* F}
   have h' : ∀ c, θ c = c := fun c => by_contra fun hc => h ⟨c, hc⟩
   exact hna fun c x => by rw [hθ c x, h' c]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_isLin_add_of_semilinear [Finite F] {a a' : AddAut (ι → F)} {θ θ' : F →+* F}
     (hθ : ∀ (c : F) (x : ι → F), a (c • x) = θ c • a x)
     (hθ' : ∀ (c : F) (x : ι → F), a' (c • x) = θ' c • a' x)
@@ -86,6 +97,7 @@ theorem bo_isLin_add_of_semilinear [Finite F] {a a' : AddAut (ι → F)} {θ θ'
   zero_mem' := ⟨B.zero_mem, bo_isLin_zero⟩
   neg_mem' := fun ha => ⟨B.neg_mem ha.1, bo_isLin_neg ha.2⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_boLinSub {B : AddSubgroup (AddAut (ι → F))} {a : AddAut (ι → F)} :
     a ∈ boLinSub B ↔ a ∈ B ∧ boIsLin a :=
   Iff.rfl
@@ -109,13 +121,13 @@ theorem bo_card_le_two [Finite F] [Nonempty ι] (B : AddSubgroup (AddAut (ι →
     rintro ⟨a, ha⟩ ⟨b, hb⟩ hab
     simp only [f] at hab
     by_cases hal : boIsLin a <;> by_cases hbl : boIsLin b
-    · rw [dif_pos hal, dif_pos hbl] at hab
+    · rw [dite_eq_left hal, dite_eq_left hbl] at hab
       exact Subtype.ext (congrArg (fun p : Bool × ↥(boLinSub B) => p.2.1) hab)
-    · rw [dif_pos hal, dif_neg hbl] at hab
+    · rw [dite_eq_left hal, dite_eq_right hbl] at hab
       cases hab
-    · rw [dif_neg hal, dif_pos hbl] at hab
+    · rw [dite_eq_right hal, dite_eq_left hbl] at hab
       cases hab
-    · rw [dif_neg hal, dif_neg hbl] at hab
+    · rw [dite_eq_right hal, dite_eq_right hbl] at hab
       have h3 : s + a = s + b := congrArg (fun p : Bool × ↥(boLinSub B) => p.2.1) hab
       exact Subtype.ext (add_left_cancel h3)
   have h1 := Nat.card_le_card_of_injective f hf
@@ -128,6 +140,7 @@ theorem bo_card_le_two [Finite F] [Nonempty ι] (B : AddSubgroup (AddAut (ι →
   zero_mem' := fun a _ => map_zero a
   smul_mem' := fun c {x} hx a ha => by rw [(mem_boLinSub.mp ha).2 c x, hx a ha]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_boLinFix {B : AddSubgroup (AddAut (ι → F))} {x : ι → F} :
     x ∈ boLinFix B ↔ ∀ a ∈ boLinSub B, a x = x :=
   Iff.rfl

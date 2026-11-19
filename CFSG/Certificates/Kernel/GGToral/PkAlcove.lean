@@ -114,7 +114,7 @@ theorem packFrom_ofFn {n : ℕ} (f : Fin n → ℕ) :
     packFrom 0 (List.ofFn f) = packN n (fun i => if h : i < n then f ⟨i, h⟩ else 0) := by
   rw [packFrom_eq, List.length_ofFn, mul_zero, pow_zero, one_mul]
   refine packN_congr fun i hi => ?_
-  rw [dif_pos hi, List.getD_eq_getElem _ _ (by simpa using hi), List.getElem_ofFn]
+  rw [dite_eq_left hi, List.getD_eq_getElem _ _ (by simpa using hi), List.getElem_ofFn]
 
 open CFSG.Blueprint.Chevalley CFSG.HardMathSupport.Timmesfeld.CrossChar
   CFSG.StandardType.StepTwoToralCert
@@ -152,8 +152,8 @@ theorem vecZ_modL_packPt {τ : Tag} {p : ℕ} {μ : Fin τ.rank → ℤ} (hμ : 
     (hb : ∀ i, μ i < 65536) : vecZ p τ.rank (modL p τ.rank (packPt μ)) = modP p μ := by
   funext j
   unfold packPt
-  rw [vecZ_modL_packN (fun k hk => by rw [dif_pos hk]; have := hb ⟨k, hk⟩; omega) j,
-    dif_pos j.2]
+  rw [vecZ_modL_packN (fun k hk => by rw [dite_eq_left hk]; have := hb ⟨k, hk⟩; omega) j,
+    dite_eq_left j.2]
   simp only [modP]
   rw [← Int.cast_natCast, Int.toNat_of_nonneg (hμ j)]
 

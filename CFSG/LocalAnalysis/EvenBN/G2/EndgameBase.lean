@@ -37,8 +37,7 @@ theorem chevalleyExceptionalModel_L (h : Setup G L f t) :
     ChevalleyExceptionalModel L .G2 2 f := by
   have hm := h.model
   simp only [LieModel, classicalTags, chevalleyExceptionalTags, reeTitsTags, Finset.mem_insert,
-    Finset.mem_singleton, reduceCtorEq, false_and, false_or, or_false, and_false, true_and,
-    or_true] at hm
+    Finset.mem_singleton, reduceCtorEq, false_and, false_or, or_false, and_false, true_and] at hm
   exact hm
 
 section Cert

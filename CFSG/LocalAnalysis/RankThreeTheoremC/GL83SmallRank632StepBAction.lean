@@ -241,7 +241,7 @@ theorem exists_faithful_two_group_action (hS : Setting G) {P : Sylow 3 G} {M : S
   have hPS := stepBAction_le_normalizer hd.sylowTwo.normalized hd.central.centralizes
   have hidem : ⁅⁅T, zpowers z⁆, zpowers z⁆ = ⁅T, zpowers z⁆ :=
     stepBAction_commutator_idem hd.sylowTwo.isPGroup
-      (P.isPGroup'.to_le (zpowers_le.mpr hd.central.mem)) hzT
+      (P.isPGroup.to_le (zpowers_le.mpr hd.central.mem)) hzT
   have hcomm := stepBAction_frattini_comm hS2
   have hpow := stepBAction_frattini_pow hS2
   have hσ : stepBActionRep hPS ⟨z, hd.central.mem⟩ ^ 3 = 1 := by
@@ -251,9 +251,9 @@ theorem exists_faithful_two_group_action (hS : Setting G) {P : Sylow 3 G} {M : S
     rw [h, map_one]
   refine ⟨↥(⁅T, zpowers z⁆) ⧸ frattini ↥(⁅T, zpowers z⁆), inferInstance, inferInstance,
     stepBActionRep hPS, hcomm, hpow, ?_, ?_,
-    stepBAction_nearCyclic hPS P.isPGroup' hS2 hST hd.point.mem hd.near⟩
-  · exact stepBActionRep_injective hPS P.isPGroup' hS2
-      (stepBAction_injective_on_S hPS P.isPGroup' hd.central.pow_eq_one hd.central.ne_one
+    stepBAction_nearCyclic hPS P.isPGroup hS2 hST hd.point.mem hd.near⟩
+  · exact stepBActionRep_injective hPS P.isPGroup hS2
+      (stepBAction_injective_on_S hPS P.isPGroup hd.central.pow_eq_one hd.central.ne_one
         (SmallRankPlane.of_situation hS hs hd.point hd.central).center
         (stepBAction_not_mem_centralizer hidem hd.noncentral))
   · intro v hv

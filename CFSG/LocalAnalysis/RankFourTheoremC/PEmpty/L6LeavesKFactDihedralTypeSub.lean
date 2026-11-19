@@ -159,7 +159,7 @@ theorem card_le_four_of_abelian {S : Subgroup A} [Finite A] {n : ℕ} (hS : IsPG
           exact Nat.mul_le_mul_left _ ((card_preimage_val_le _).trans (card_transT1_le e))
       _ = 4 := rfl
   ·
-    obtain ⟨t, htR, htB⟩ := SetLike.not_le_iff_exists.mp hRB
+    obtain ⟨t, htR, htB⟩ := IsConcreteLE.not_le_iff_exists.mp hRB
     have hidx : ((R ⊓ baseIn e).subgroupOf R).index ≤ 2 := by
       show (R ⊓ baseIn e).relIndex R ≤ 2
       rw [Subgroup.inf_relIndex_left]

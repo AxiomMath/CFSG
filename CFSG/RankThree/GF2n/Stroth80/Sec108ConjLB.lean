@@ -88,7 +88,7 @@ private theorem adjugate_adjugate_transpose {K : Type} [Field K]
 private theorem exists_conj_matV_eq_one_add (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) {i : G}
     (hi : i ∈ Rt M (LB M Q B) t) (h2 : i ^ 2 ∈ Q) {β : Fin 3 → AM.K} (hβ : β ≠ 0)
-    (hβB : ∑ j, β j • (D.bV AM j : AM.M₀.E) ∈ D.Bsp AM) :
+    (_hβB : ∑ j, β j • (D.bV AM j : AM.M₀.E) ∈ D.Bsp AM) :
     ∃ r, ∃ hr : r ∈ Rt M (LB M Q B) t, ∃ μ : Fin 3 → AM.K, μ ⬝ᵥ β = 0 ∧
       D.matV AM ⟨r * i * r⁻¹, D.Rt_le_H0 ((Rt M (LB M Q B) t).mul_mem
         ((Rt M (LB M Q B) t).mul_mem hr hi) ((Rt M (LB M Q B) t).inv_mem hr))⟩ =
@@ -149,7 +149,7 @@ private theorem exists_conj_mem_LB_of_mem_CN_of_ne_zero (D : Sec108Data hc t Y)
     (hβB : ∑ j, β j • (D.bV AM j : AM.M₀.E) ∈ D.Bsp AM) {a : Fin 3 → AM.K}
     (ha : a ≠ 0) (hS : D.phiMat AM ⟨n, D.CN_le_H0 hn⟩ =
       CFSG.LinearAlgebra.crossMatrix a) :
-    ∃ r, ∃ hr : r ∈ Rt M (LB M Q B) t, r * n * r⁻¹ ∈ LB M Q B := by
+    ∃ r, ∃ _hr : r ∈ Rt M (LB M Q B) t, r * n * r⁻¹ ∈ LB M Q B := by
   obtain ⟨a', ha'ne, ha'β⟩ := CFSG.LinearAlgebra.exists_ne_zero_dotProduct_eq_zero β
   obtain ⟨C, hCSL, hCa⟩ := exists_statedSL_mulVec_eq (m := 3) (by norm_num) ha'ne ha
   have hCdet : (C : Matrix (Fin 3) (Fin 3) AM.K).det = 1 :=
@@ -183,7 +183,7 @@ private theorem exists_conj_mem_LB_of_mem_CN_of_ne_zero (D : Sec108Data hc t Y)
 
 private theorem exists_conj_mem_LB_of_mem_CN (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) {n : G} (hn : n ∈ hc.CN t) :
-    ∃ r, ∃ hr : r ∈ Rt M (LB M Q B) t, r * n * r⁻¹ ∈ LB M Q B := by
+    ∃ r, ∃ _hr : r ∈ Rt M (LB M Q B) t, r * n * r⁻¹ ∈ LB M Q B := by
   obtain ⟨β, hβ, hβB⟩ := D.exists_coord_Bsp AM
   let S : Matrix (Fin 3) (Fin 3) AM.K := D.phiMat AM ⟨n, D.CN_le_H0 hn⟩
   have hSsym : Sᵀ = S := D.phiMat_transpose AM (m := ⟨n, D.CN_le_H0 hn⟩)
@@ -214,7 +214,7 @@ private theorem exists_conj_mem_LB_of_mem_CN (D : Sec108Data hc t Y)
 private theorem exists_conj_mem_sup (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) {i : G}
     (hi : i ∈ Rt M (LB M Q B) t) (h2 : i ^ 2 ∈ Q) :
-    ∃ r, ∃ hr : r ∈ Rt M (LB M Q B) t,
+    ∃ r, ∃ _hr : r ∈ Rt M (LB M Q B) t,
       r * i * r⁻¹ ∈ hc.CN t ⊔ LB M Q B := by
   obtain ⟨β, hβ, hβB⟩ := D.exists_coord_Bsp AM
   obtain ⟨r, hrR, μ, hμβ, hmatVi'⟩ := exists_conj_matV_eq_one_add D AM hi h2 hβ hβB

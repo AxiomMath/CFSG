@@ -69,13 +69,12 @@ theorem l6m7_R_sq
 
 theorem l6m7_R_comm_of_form_zero
     (b b' : Fin Tag.E8.rank → ℤ)
-    (hb : iform (τ := .E8) b b = 2) (hb' : iform (τ := .E8) b' b' = 2)
+    (_hb : iform (τ := .E8) b b = 2) (_hb' : iform (τ := .E8) b' b' = 2)
     (h : iform (τ := .E8) b b' = 0) :
     l6m7_R b * l6m7_R b' = l6m7_R b' * l6m7_R b := by
   apply LinearMap.ext
   intro v
-  simp only [Module.End.mul_apply, l6m7_R_apply, map_sub, map_smul, LinearMap.sub_apply,
-    LinearMap.smul_apply, smul_eq_mul, hb, hb', h, l6m7_form_apply, iform_comm b' b]
+  simp only [Module.End.mul_apply, l6m7_R_apply, map_sub, map_smul, h, l6m7_form_apply, iform_comm b' b]
   module
 
 private theorem l6m7_R_braid
@@ -88,15 +87,13 @@ private theorem l6m7_R_braid
     have hc' : iform (τ := .E8) b' b = 1 := (iform_comm b' b).trans hc
     apply LinearMap.ext
     intro v
-    simp only [Module.End.mul_apply, l6m7_R_apply, map_sub, map_smul, LinearMap.sub_apply,
-      LinearMap.smul_apply, smul_eq_mul, hb, hb', hc, hc', l6m7_form_apply]
+    simp only [Module.End.mul_apply, l6m7_R_apply, map_sub, map_smul, hb, hb', hc, hc', l6m7_form_apply]
     module
   · rw [hcn1] at hc
     have hc' : iform (τ := .E8) b' b = -1 := (iform_comm b' b).trans hc
     apply LinearMap.ext
     intro v
-    simp only [Module.End.mul_apply, l6m7_R_apply, map_sub, map_smul, LinearMap.sub_apply,
-      LinearMap.smul_apply, smul_eq_mul, hb, hb', hc, hc', l6m7_form_apply]
+    simp only [Module.End.mul_apply, l6m7_R_apply, map_sub, map_smul, hb, hb', hc, hc', l6m7_form_apply]
     module
 
 theorem l6m7_R_pow_three_of_sq_one
@@ -160,7 +157,7 @@ theorem l6m7_epsNat_sq (b : Fin 8 → (Fin Tag.E8.rank → ℤ))
   | succ n ih =>
     simp only [l6m7_epsNat]
     by_cases h : n < 7
-    · rw [dif_pos h]
+    · rw [dite_eq_left h]
       have hk : iform (τ := .E8) (b ⟨n, by omega⟩) (b ⟨n + 1, by omega⟩) *
           iform (τ := .E8) (b ⟨n, by omega⟩) (b ⟨n + 1, by omega⟩) = 1 := by
         have h0 := hc ⟨n, h⟩
@@ -168,7 +165,7 @@ theorem l6m7_epsNat_sq (b : Fin 8 → (Fin Tag.E8.rank → ℤ))
         have e2 : (Fin.succ ⟨n, h⟩ : Fin 8) = ⟨n + 1, by omega⟩ := Fin.ext rfl
         rwa [e1, e2] at h0
       nlinarith [ih, hk]
-    · rw [dif_neg h, mul_one, ih]
+    · rw [dite_eq_right h, mul_one, ih]
 
 theorem l6m7_eps_edge (b : Fin 8 → (Fin Tag.E8.rank → ℤ))
     (hc : ∀ k : Fin 7, iform (τ := .E8) (b (Fin.castSucc k)) (b (Fin.succ k)) *
@@ -180,7 +177,7 @@ theorem l6m7_eps_edge (b : Fin 8 → (Fin Tag.E8.rank → ℤ))
       (-iform (τ := .E8) (b (Fin.castSucc i)) (b (Fin.succ i))) := by
     show l6m7_epsNat b (i.val + 1) = l6m7_epsNat b i.val *
       (-iform (τ := .E8) (b (Fin.castSucc i)) (b (Fin.succ i)))
-    rw [l6m7_epsNat, dif_pos i.isLt]
+    rw [l6m7_epsNat, dite_eq_left i.isLt]
     rfl
   rw [hstep]
   have he : l6m7_eps b (Fin.castSucc i) * l6m7_eps b (Fin.castSucc i) = 1 := hsq i.val

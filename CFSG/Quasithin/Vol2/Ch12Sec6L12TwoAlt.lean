@@ -43,7 +43,7 @@ theorem not_isPGroup_top_alt6 : ¬ IsPGroup 2 (⊤ : Subgroup (alternatingGroup 
 
 theorem eq_bot_of_normal_isPGroup_alt6 (N : Subgroup (alternatingGroup (Fin 6))) [N.Normal]
     (hN : IsPGroup 2 N) : N = ⊥ := by
-  haveI := isSimpleGroup_alt6
+  have := isSimpleGroup_alt6
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · subst h
@@ -51,7 +51,7 @@ theorem eq_bot_of_normal_isPGroup_alt6 (N : Subgroup (alternatingGroup (Fin 6)))
 
 theorem eq_bot_of_normal_comm_alt6 (N : Subgroup (alternatingGroup (Fin 6))) [N.Normal]
     (hN : ∀ x ∈ N, ∀ y ∈ N, x * y = y * x) : N = ⊥ := by
-  haveI := isSimpleGroup_alt6
+  have := isSimpleGroup_alt6
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · subst h
@@ -114,7 +114,7 @@ theorem false_of_two_subgroups_comm_alt6 {H : Type} [Group H] [Finite H]
     Sylow.card_eq_multiplicity P
   have hiM : Function.Injective M.subtype := Subtype.val_injective
   set P' : Subgroup H := (P : Subgroup M).map M.subtype with hP'
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map M.subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map M.subtype
   have hP'M : P' ≤ M := Subgroup.map_subtype_le _
   have hP'card : Nat.card P' = 2 ^ (Nat.card M).factorization 2 := by
     rw [hP', Subgroup.card_map_of_injective hiM]

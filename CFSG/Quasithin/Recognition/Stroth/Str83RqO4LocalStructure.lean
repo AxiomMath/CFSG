@@ -22,10 +22,12 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S) {X : Subgroup G}
 
+omit [Finite G] in
 private theorem EX_le_MX (t : Track L1 L2 S) (X : Subgroup G) :
     t.EX X 1 ≤ t.MX X 1 :=
   le_inf inf_le_right ((inf_le_left : t.EX X 1 ≤ t.Qv 1).trans (t.Qv_le_Gv_self 1))
 
+omit [Finite G] in
 private theorem MX_le_normalizer_EX (t : Track L1 L2 S) (X : Subgroup G) :
     t.MX X 1 ≤ Subgroup.normalizer (t.EX X 1 : Set G) := by
   rintro m hm
@@ -39,6 +41,7 @@ private theorem MX_le_normalizer_EX (t : Track L1 L2 S) (X : Subgroup G) :
   show conjSub m (t.Qv 1 ⊓ Subgroup.normalizer (X : Set G)) = _
   rw [conjSub_inf, hQ, hX]
 
+omit [Finite G] in
 private theorem nbrKernel_normal (A B : Subgroup G) :
     A ≤ Subgroup.normalizer (nbrKernel A B : Set G) := by
   intro a ha
@@ -137,6 +140,7 @@ private theorem le_Gnbr_one_of_le_MX {a f : ℕ}
   have heq : t.x₂⁻¹ * (t.x₂ * e * t.x₂⁻¹) * (t.x₂⁻¹)⁻¹ = e := by group
   rwa [heq] at h2
 
+omit [Finite G] in
 private theorem le_Gw_zero_two_of_le_Gnbr {E : Subgroup G} (hEM : E ≤ t.MX X 1)
     (hEgnbr : E ≤ t.Gnbr 1) : E ≤ t.Gw 0 2 := by
   have hEGv0 : E ≤ t.Gv 0 := by
@@ -291,7 +295,7 @@ theorem ArcL.noCharNormal_pX_LX_one {a f : ℕ}
     (oTwoPrime_le (t.MX X 1)) (le_normalizer_oTwoPrime (t.MX X 1)) hP
   have hcharN : Subgroup.normalizer (t.PX X : Set G) ≤
       Subgroup.normalizer (C : Set G) := by
-    haveI : (C.subgroupOf (t.PX X)).Characteristic := hCchar
+    have : (C.subgroupOf (t.PX X)).Characteristic := hCchar
     have hmap : (C.subgroupOf (t.PX X)).map (t.PX X).subtype = C :=
       Subgroup.map_subgroupOf_eq_of_le hCP
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic

@@ -102,7 +102,7 @@ theorem exists_cover_lift {X Y S : Type} [Group X] [Finite X] [Group Y] [Group S
     simpa [ηK, η'] using h⟩
 
 private lemma lk0xu7f_le_of_map_eq {X Y : Type} [Group X] [Finite X] [Group Y]
-    {G₀ R R' : Subgroup X} (hR : R ≤ G₀) (hR' : R' ≤ G₀) (η : ↥G₀ →* Y)
+    {G₀ R R' : Subgroup X} (hR : R ≤ G₀) (_hR' : R' ≤ G₀) (η : ↥G₀ →* Y)
     (hker : η.ker ≤ Subgroup.center ↥G₀) (hodd : Odd (Nat.card (Subgroup.center ↥G₀)))
     (h2 : IsPGroup 2 R) (h2' : IsPGroup 2 R')
     (hmap : (R.subgroupOf G₀).map η = (R'.subgroupOf G₀).map η) : R ≤ R' := by
@@ -163,8 +163,8 @@ theorem isQuasisimple_map_of_ker_le_center {X Y : Type} [Group X] [Finite X] [Gr
     exact Subgroup.inclusion_injective hK (by simpa using hcomm)
   have hQ : CFSG.IsQuasisimple ↥K := by
     refine ⟨⟨hq.1⟩, hq.2, ?_⟩
-    haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+    have : Group.IsPerfect ↥K := ⟨hq.1⟩
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
     by_contra hc
     push Not at hc
     exact Group.IsPerfect.not_isMulCommutative (G := ↥K ⧸ Subgroup.center ↥K) ⟨⟨hc⟩⟩

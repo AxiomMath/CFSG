@@ -72,7 +72,7 @@ private lemma slKerEquiv_conjNormal {K : Type} [Field K] {N : ℕ} (d : GL (Fin 
     (h : ↥(LargeEvenSLGroup (Fin N) K)) :
     TypeA.slKerEquiv N K ((MulAut.conjNormal (H := LargeEvenSLGroup (Fin N) K) d) h) =
       CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation N K d (TypeA.slKerEquiv N K h) := by
-  haveI : (LargeEvenSLGroup (Fin N) K).Normal := TableB.largeEvenSLGroup_normal (Fin N) K
+  have : (LargeEvenSLGroup (Fin N) K).Normal := TableB.largeEvenSLGroup_normal (Fin N) K
   ext1
   rw [TypeA.coe_slKerEquiv, MulAut.conjNormal_apply]
   have hto := CFSG.StandardType.LinUnitL.toGL_slConjugation (K := K) (d := N) d
@@ -91,7 +91,7 @@ private lemma recipeEquiv_graphAut {K : Type} [Field K] {N : ℕ} {d : GL (Fin N
     (hd : LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
         (fun h h' => (h' : GL (Fin N) K) = d * h * d⁻¹) δ') :
     MulAut.congr (TypeA.recipeEquiv N K) δ' = LinearFlag.conjAut N K d := by
-  haveI : (LargeEvenSLGroup (Fin N) K).Normal := TableB.largeEvenSLGroup_normal (Fin N) K
+  have : (LargeEvenSLGroup (Fin N) K).Normal := TableB.largeEvenSLGroup_normal (Fin N) K
   ext x
   obtain ⟨m, rfl⟩ := LinearFlag.proj_surjective N K x
   rw [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.trans_apply, LinearFlag.conjAut_proj]
@@ -129,20 +129,20 @@ theorem linShape_rank_kernel
     {d : GL (Fin N) K}
     (hd : LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
         (fun h h' => (h' : GL (Fin N) K) = d * h * d⁻¹) δ')
-    (hdns : d ∉ LargeEvenScalars (Fin N) K)
+    (_hdns : d ∉ LargeEvenScalars (Fin N) K)
     {lam : Ā →* Kˣ} {g : Ā → GL (Fin N) K}
     (hgraph : ∀ a : Ā, LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
       (fun h h' => (h' : GL (Fin N) K) = g a * h * (g a)⁻¹) (a : MulAut (PSLg N K)))
-    (hlam3 : ∀ a : Ā, (lam a) ^ 3 = 1)
+    (_hlam3 : ∀ a : Ā, (lam a) ^ 3 = 1)
     (hg : ∀ a : Ā, ((g a * d * (g a)⁻¹ : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) =
           (lam a : K) • (d : Matrix (Fin N) (Fin N) K))
     {h : Polynomial K} (hh : h ∈ primaryFactors (glA d : Module.End K (Fin N → K))) (hgood : IsGoodFactor d h)
     {e : PSLg N K ≃* LinearFlag.projectiveSL N K}
-    (heJ : J' = Subgroup.comap e.toMonoidHom ((specialFactor d h).map (LinearFlag.proj N K)))
+    (_heJ : J' = Subgroup.comap e.toMonoidHom ((specialFactor d h).map (LinearFlag.proj N K)))
     {E : Type} [Field E] [Finite E] (hcharE : CharP E 2) {m : ℕ}
     (hm : m = 2)
     (hmult : m = primaryMultiplicity (glA d : Module.End K (Fin N → K)) h)
-    (hmE : 4 ≤ Nat.card E)
+    (_hmE : 4 ≤ Nat.card E)
     {f : Matrix.SpecialLinearGroup (Fin m) E →* ↥J'}
     (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center _)
     (hpgl : ∀ B : Subgroup (MulAut (PSLg 2 E)),
@@ -150,8 +150,8 @@ theorem linShape_rank_kernel
       IsElemAbelian 3 B → Nat.card B ≤ 3) :
     Nat.card (lam.ker) ≤ 9 := by
   subst hm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 := hchar
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := hchar
   have hδ'3 : δ' ^ 3 = 1 :=
     CFSG.SignalizerFunctorTheorem.McBride.Near.Lemma27.pow_eq_one_of_isElemAbelian hR.elem hR.mem
   have hd3 : d ^ 3 ∈ LargeEvenScalars (Fin N) K := graphAut_cube_mem_scalars hN hd hδ'3
@@ -297,7 +297,7 @@ theorem linShape_rank_kernel
     exact hconj_mem (α x)
   have hea_ker : IsElemAbelian 3 (lam.ker : Subgroup Ā) := by
     refine ⟨?_, ?_⟩
-    · letI : IsMulCommutative ↥Ā := hR.elem.1
+    · let : IsMulCommutative ↥Ā := hR.elem.1
       infer_instance
     · intro x _
       exact Subtype.ext (hR.elem.2 (x : Ā) (x.2))

@@ -91,9 +91,9 @@ private theorem frattini_index_le_pow_card_of_sup_eq_top
     (frattini P).index ≤ p ^ s.card := by
   have hrank : CFSG.generatorRank (P ⧸ frattini P) ≤ s.card :=
     generatorRank_frattini_quotient_le_card (p := p) (P := P) hs
-  haveI : Fact (IsPGroup p (P ⧸ frattini P)) :=
+  have : Fact (IsPGroup p (P ⧸ frattini P)) :=
     ⟨(Fact.out : IsPGroup p P).to_quotient (frattini P)⟩
-  haveI : IsElementaryAbelian p (P ⧸ frattini P) :=
+  have : IsElementaryAbelian p (P ⧸ frattini P) :=
     CFSG.isElementaryAbelian_quotient_frattini
   have hcard : Nat.card (P ⧸ frattini P) = p ^ CFSG.generatorRank (P ⧸ frattini P) :=
     CFSG.elementaryAbelian_card_eq_pow_generatorRank (p := p) (P ⧸ frattini P)
@@ -189,9 +189,9 @@ private lemma not_isMulCommutative_of_isExtraspecial {p : ℕ} {E : Type*} [Grou
     rw [Subgroup.mem_center_iff]
     intro y
     exact (hcomm.is_comm.comm x y).symm
-  haveI : Subsingleton (E ⧸ Subgroup.center E) :=
+  have : Subsingleton (E ⧸ Subgroup.center E) :=
     (QuotientGroup.subsingleton_iff (N := Subgroup.center E)).2 hcenter
-  haveI := IsExtraspecial.quotient_nontrivial p E
+  have := IsExtraspecial.quotient_nontrivial p E
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (E ⧸ Subgroup.center E)
   exact hxy (Subsingleton.elim x y)
 
@@ -210,8 +210,8 @@ private lemma quotient_center_card_eq_prime
     {A Z : Subgroup P} (hAZ : Z ≤ A) (hAcard : Nat.card A = p ^ 2)
     (hZcard : Nat.card Z = p) :
     Nat.card (↥A ⧸ Z.subgroupOf A) = p := by
-  haveI : IsMulCommutative ↥A := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p) hAcard
-  haveI : (Z.subgroupOf A).Normal := Subgroup.normal_of_isMulCommutative _
+  have : IsMulCommutative ↥A := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p) hAcard
+  have : (Z.subgroupOf A).Normal := Subgroup.normal_of_isMulCommutative _
   have hZsubcard : Nat.card (Z.subgroupOf A) = p := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAZ).toEquiv, hZcard]
   have hmul := Subgroup.card_eq_card_quotient_mul_card_subgroup (Z.subgroupOf A)
@@ -229,9 +229,9 @@ private lemma commutator_mem_of_mem_of_card_eq_prime_sq
     ⁅a, g⁆ ∈ Z := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : IsMulCommutative ↥A := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p) hAcard
-  haveI : (Z.subgroupOf A).Normal := Subgroup.normal_of_isMulCommutative _
-  haveI hZcharI : Z.Characteristic := hZchar
+  have : IsMulCommutative ↥A := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p) hAcard
+  have : (Z.subgroupOf A).Normal := Subgroup.normal_of_isMulCommutative _
+  have hZcharI : Z.Characteristic := hZchar
   have hZnormal : Z.Normal := inferInstance
   have hquotcard : Nat.card (↥A ⧸ Z.subgroupOf A) = p :=
     quotient_center_card_eq_prime hAZ hAcard hZcard
@@ -246,7 +246,7 @@ private lemma commutator_mem_of_mem_of_card_eq_prime_sq
     quotientAction_of_isInvariant (A := P) (Z.subgroupOf A) hZinv
   let : MulDistribMulAction P (↥A ⧸ Z.subgroupOf A) :=
     quotientMulDistribMulAction (A := P) (G := ↥A) (Z.subgroupOf A) hZinv
-  haveI : IsCyclic (↥A ⧸ Z.subgroupOf A) := isCyclic_of_prime_card hquotcard
+  have : IsCyclic (↥A ⧸ Z.subgroupOf A) := isCyclic_of_prime_card hquotcard
   have htriv : ActsTrivially P (↥A ⧸ Z.subgroupOf A) :=
     actsTrivially_of_isPGroup_on_cyclic_prime_order hp hP (inferInstance) hquotcard
   let x : ↥A := ⟨a, ha⟩
@@ -357,7 +357,7 @@ private lemma omega_extraspecial
     IsExtraspecial p (CFSG.omega₁ (G := P) (p := p)) ∧
       Nat.card (CFSG.omega₁ (G := P) (p := p)) = p ^ 3 ∧
       Monoid.exponent (CFSG.omega₁ (G := P) (p := p)) = p := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   have h3 : 3 < p := by omega
   have hrank : CFSG.groupRank P ≤ 2 := groupRank_le_two (P := P) hP hE
   have hlarge := omega_large h3 hrank hsmall
@@ -376,7 +376,7 @@ private lemma omega_noncomm
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P]
     (hextra : IsExtraspecial p (CFSG.omega₁ (G := P) (p := p))) :
     ¬ IsMulCommutative (CFSG.omega₁ (G := P) (p := p)) := by
-  haveI : IsExtraspecial p (CFSG.omega₁ (G := P) (p := p)) := hextra
+  have : IsExtraspecial p (CFSG.omega₁ (G := P) (p := p)) := hextra
   exact not_isMulCommutative_of_isExtraspecial (p := p)
     (E := ↥(CFSG.omega₁ (G := P) (p := p)))
 
@@ -390,8 +390,8 @@ private lemma center_facts
       (∀ z ∈ Z, ∀ x ∈ E, z * x = x * z) := by
   subst hC
   subst hZ
-  haveI : E.Characteristic := hEchar
-  haveI : IsExtraspecial p E := hEextra
+  have : E.Characteristic := hEchar
+  have : IsExtraspecial p E := hEextra
   have hZchar : ((Subgroup.center E).map E.subtype).Characteristic :=
     Subgroup.characteristic_of_characteristic_of_characteristic
       (H := E) (K := Subgroup.center E)
@@ -425,7 +425,7 @@ private lemma commutator_center_eq
     {p : ℕ} [Fact p.Prime] {E : Type*} [Group E] [Finite E] [IsExtraspecial p E] :
     _root_.commutator E = Subgroup.center E := by
   have hcenter : _root_.commutator E ≤ Subgroup.center E := by
-    haveI : IsElementaryAbelian p (E ⧸ Subgroup.center E) :=
+    have : IsElementaryAbelian p (E ⧸ Subgroup.center E) :=
       IsExtraspecial.quotient_elementary_abelian p E
     exact Subgroup.Normal.quotient_commutative_iff_commutator_le.1 inferInstance
   refine Subgroup.eq_of_le_of_card_ge hcenter ?_
@@ -456,8 +456,8 @@ private lemma center_le_frattini
     (hZ : Z = (Subgroup.center E).map E.subtype) :
     Z ≤ frattini P := by
   subst hZ
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
-  haveI : IsExtraspecial p E := hEextra
+  have : Fact (IsPGroup p P) := ⟨hP⟩
+  have : IsExtraspecial p E := hEextra
   have hcommZ : _root_.commutator ↥E = Subgroup.center ↥E :=
     commutator_center_eq (p := p) (E := ↥E)
   have hZeq : (Subgroup.center E).map E.subtype = (_root_.commutator ↥E).map E.subtype := by
@@ -476,7 +476,7 @@ private lemma commutator_mem_center
     (hZ : Z = (Subgroup.center E).map E.subtype) :
     ∀ x ∈ E, ∀ y ∈ E, ⁅x, y⁆ ∈ Z := by
   subst hZ
-  haveI : IsExtraspecial p E := hEextra
+  have : IsExtraspecial p E := hEextra
   have hcenter : _root_.commutator ↥E ≤ Subgroup.center ↥E :=
     le_of_eq (commutator_center_eq (p := p) (E := ↥E))
   intro x hx y hy
@@ -509,7 +509,7 @@ private noncomputable def settingOfLarge
   let Z : Subgroup P := (Subgroup.center (CFSG.omega₁ (G := P) (p := p))).map
     (CFSG.omega₁ (G := P) (p := p)).subtype
   have hCchar : C.Characteristic := by
-    haveI : (CFSG.omega₁ (G := P) (p := p)).Characteristic := hchar
+    have : (CFSG.omega₁ (G := P) (p := p)).Characteristic := hchar
     exact Subgroup.characteristic_centralizer
   obtain ⟨hZchar, hZcard, hZleE, hZleC, hEC, hZcentral⟩ :=
     center_facts (C := C) (Z := Z) rfl rfl hchar hEextra
@@ -546,7 +546,7 @@ private lemma case_small
     (hp : 5 ≤ p) (hP : IsPGroup p P)
     (hsmall : Nat.card (CFSG.omega₁ (G := P) (p := p)) ≤ p ^ 2) :
     (frattini P).index ≤ p ^ 2 := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   obtain ⟨s, hs, hcl⟩ := blackburn_small hp hP hsmall
   have hsup : Subgroup.closure (s : Set P) ⊔ frattini P = ⊤ := by rw [hcl, top_sup_eq]
   exact (frattini_index_le_pow_card_of_sup_eq_top (p := p) (P := P) hsup).trans
@@ -566,10 +566,10 @@ private lemma case_C_le_frattini_not_sup
     (hp2 : p ≠ 2) (hP : IsPGroup p P) (S : Setting p P)
     (hCΦ : S.C ≤ frattini P) (hne : S.E ⊔ S.C ≠ ⊤) :
     (frattini P).index ≤ p ^ 2 := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
-  haveI : S.E.Characteristic := S.Echar
-  haveI : S.E.Normal := inferInstance
-  haveI : IsExtraspecial p S.E := S.Eextra
+  have : Fact (IsPGroup p P) := ⟨hP⟩
+  have : S.E.Characteristic := S.Echar
+  have : S.E.Normal := inferInstance
+  have : IsExtraspecial p S.E := S.Eextra
   obtain ⟨x, hx⟩ : ∃ x : P, x ∉ S.E ⊔ S.C := by
     by_contra h
     push Not at h
@@ -600,10 +600,10 @@ private lemma sigma_power_mod
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (hP : IsPGroup p P) {w : ℕ} {σ : P ≃* P}
     (hσ : ∀ x : P, (σ x)⁻¹ * x ^ w ∈ frattini P)
-    {c : P} {C : Subgroup P} (hcC : C = Subgroup.zpowers c) (hcΦ : c ∉ frattini P)
+    {c : P} {C : Subgroup P} (_hcC : C = Subgroup.zpowers c) (hcΦ : c ∉ frattini P)
     {v : ℕ} (hv : σ c = c ^ v) :
     v ≡ w [MOD p] := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   have hφ : (σ c)⁻¹ * c ^ w ∈ frattini P := hσ c
   rw [hv] at hφ
   have hzpow : c ^ ((w : ℤ) - (v : ℤ)) ∈ frattini P := by
@@ -657,11 +657,11 @@ private lemma commutator_le_centralizer_of_sup
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (S : Setting p P) (hPEC : S.E ⊔ S.C = ⊤) :
     _root_.commutator P ≤ S.C := by
-  haveI : S.E.Characteristic := S.Echar
-  haveI : S.E.Normal := inferInstance
-  haveI : S.C.Characteristic := S.Cchar
-  haveI : S.C.Normal := inferInstance
-  haveI : (S.E ⊔ S.C).Normal := Subgroup.sup_normal S.E S.C
+  have : S.E.Characteristic := S.Echar
+  have : S.E.Normal := inferInstance
+  have : S.C.Characteristic := S.Cchar
+  have : S.C.Normal := inferInstance
+  have : (S.E ⊔ S.C).Normal := Subgroup.sup_normal S.E S.C
   have hEEZ : ⁅S.E, S.E⁆ ≤ S.Z :=
     Subgroup.commutator_le.mpr fun x hx y hy => S.derE x hx y hy
   have hEC1 : ⁅S.E, S.C⁆ ≤ S.C := by
@@ -693,10 +693,10 @@ private lemma frattini_le_centralizer_of_sup
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (hP : IsPGroup p P) (S : Setting p P) (hPEC : S.E ⊔ S.C = ⊤) :
     frattini P ≤ S.C := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
-  haveI : S.E.Characteristic := S.Echar
-  haveI : S.E.Normal := inferInstance
-  haveI : S.C.Characteristic := S.Cchar
+  have : Fact (IsPGroup p P) := ⟨hP⟩
+  have : S.E.Characteristic := S.Echar
+  have : S.E.Normal := inferInstance
+  have : S.C.Characteristic := S.Cchar
   refine CFSG.GroupTheory.frattini_le_of_comm_pow hP S.C ?_ ?_
   · intro x y
     exact commutator_le_centralizer_of_sup S hPEC
@@ -715,7 +715,7 @@ private lemma sigma_eq_scalar_mul_of_mem
     (hσ : ∀ x : P, (σ x)⁻¹ * x ^ w ∈ frattini P)
     (hΦC : frattini P ≤ S.C) {e : P} (he : e ∈ S.E) :
     ∃ z ∈ S.Z, σ e = e ^ w * z := by
-  haveI : S.E.Characteristic := S.Echar
+  have : S.E.Characteristic := S.Echar
   have hσeE : σ e ∈ S.E := by
     have hmap : S.E.map (σ : P →* P) = S.E :=
       Subgroup.characteristic_iff_map_eq.mp S.Echar σ
@@ -798,9 +798,9 @@ private lemma exists_A1_of_not_mem_sup
     (hp2 : p ≠ 2) (hP : IsPGroup p P) (S : Setting p P) {x : P}
     (hx : x ∉ S.E ⊔ S.C) :
     ∃ A₁ : Subgroup P, A₁ ≤ S.E ∧ Nat.card A₁ = p ^ 2 ∧ A₁ ≤ frattini P := by
-  haveI : S.E.Characteristic := S.Echar
-  haveI : S.E.Normal := inferInstance
-  haveI : IsExtraspecial p S.E := S.Eextra
+  have : S.E.Characteristic := S.Echar
+  have : S.E.Normal := inferInstance
+  have : IsExtraspecial p S.E := S.Eextra
   have hx' : x ∉ S.E ⊔ Subgroup.centralizer (S.E : Set P) := by
     rwa [S.Ceq] at hx
   exact exists_le_frattini_of_not_mem_sup_centralizer hp2 hP S.E S.Ecard S.Eexp hx'
@@ -844,9 +844,9 @@ private lemma index_sup_centralizer_eq_prime
     (hp2 : p ≠ 2) (hP : IsPGroup p P) (S : Setting p P) {x : P}
     (hx : x ∉ S.E ⊔ S.C) :
     (S.E ⊔ S.C).index = p ∧ frattini P ≤ S.E ⊔ S.C := by
-  haveI : S.E.Characteristic := S.Echar
-  haveI : S.E.Normal := inferInstance
-  haveI : IsExtraspecial p S.E := S.Eextra
+  have : S.E.Characteristic := S.Echar
+  have : S.E.Normal := inferInstance
+  have : IsExtraspecial p S.E := S.Eextra
   have hidxE : (S.E ⊔ S.C).index ≤ p := by
     rw [S.Ceq]
     exact index_sup_centralizer_le_of_extraspecial hp2 hP S.E S.Ecard S.Eexp
@@ -862,7 +862,7 @@ private lemma isExtraspecialPGroup_of_setting
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (hP : IsPGroup p P) (S : Setting p P) :
     CFSG.IsExtraspecialPGroup p S.E := by
-  haveI : IsExtraspecial p S.E := S.Eextra
+  have : IsExtraspecial p S.E := S.Eextra
   have hcomm := commutator_center_eq (p := p) (E := ↥S.E)
   have hexp : ∀ y : ↥S.E, y ^ p = 1 := fun y => Subtype.ext (S.Epow y y.2)
   exact ⟨hP.to_subgroup S.E, hcomm,
@@ -874,8 +874,8 @@ private lemma exists_commutator_not_mem_center
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (hP : IsPGroup p P) (S : Setting p P) {x : P} (hx : x ∉ S.E ⊔ S.C) :
     ∃ u ∈ S.E, ⁅u, x⁆ ∉ S.Z := by
-  haveI : S.E.Characteristic := S.Echar
-  haveI : S.E.Normal := inferInstance
+  have : S.E.Characteristic := S.Echar
+  have : S.E.Normal := inferInstance
   have hEextraPG : CFSG.IsExtraspecialPGroup p S.E := isExtraspecialPGroup_of_setting hP S
   have hEC' : S.E ⊓ Subgroup.centralizer (S.E : Set P) = S.Z := by
     rw [← S.Ceq]
@@ -906,10 +906,10 @@ private lemma sigma_eq_scalar_mul_of_mem_A
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (S : Setting p P) {w : ℕ} {σ : P ≃* P}
     (hσ : ∀ x : P, (σ x)⁻¹ * x ^ w ∈ frattini P)
-    {A₁ : Subgroup P} (hA₁E : A₁ ≤ S.E) (hA₁Φ : A₁ ≤ frattini P)
+    {A₁ : Subgroup P} (_hA₁E : A₁ ≤ S.E) (_hA₁Φ : A₁ ≤ frattini P)
     (hEΦeq : S.E ⊓ frattini P = A₁) {e : P} (he : e ∈ S.E) :
     ∃ z ∈ A₁, σ e = e ^ w * z := by
-  haveI : S.E.Characteristic := S.Echar
+  have : S.E.Characteristic := S.Echar
   have hσeE : σ e ∈ S.E := by
     have hmap : S.E.map (σ : P →* P) = S.E :=
       Subgroup.characteristic_iff_map_eq.mp S.Echar σ
@@ -1020,7 +1020,7 @@ private lemma quotient_comm_of_mem_sup
     (S : Setting p P) [S.Z.Normal] {e y : P} (he : e ∈ S.E)
     (hy : y ∈ S.E ⊔ S.C) :
     Commute ((QuotientGroup.mk' S.Z) e) ((QuotientGroup.mk' S.Z) y) := by
-  haveI : S.E.Characteristic := S.Echar
+  have : S.E.Characteristic := S.Echar
   have hz : ⁅e, y⁆ ∈ S.Z :=
     commutator_mem_of_mem_sup_centralizer S.Ccentral S.derE
       (by infer_instance) he hy
@@ -1032,12 +1032,12 @@ private lemma quotient_comm_of_mem_sup
 private lemma commutator_u_a_ne_one
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (S : Setting p P) {A₁ : Subgroup P} {u a : P}
-    (hA₁E : A₁ ≤ S.E) (hA₁card : Nat.card A₁ = p ^ 2)
-    (huE : u ∈ S.E) (haA : a ∈ A₁) (haE : a ∈ S.E)
-    (huA : u ∉ A₁) (haZ : a ∉ S.Z)
+    (_hA₁E : A₁ ≤ S.E) (hA₁card : Nat.card A₁ = p ^ 2)
+    (_huE : u ∈ S.E) (haA : a ∈ A₁) (haE : a ∈ S.E)
+    (_huA : u ∉ A₁) (haZ : a ∉ S.Z)
     (hE_eq : S.E = Subgroup.zpowers u ⊔ A₁) :
     ⁅u, a⁆ ≠ 1 := by
-  haveI : IsMulCommutative ↥A₁ := IsPGroup.isMulCommutative_of_card_eq_prime_sq hA₁card
+  have : IsMulCommutative ↥A₁ := IsPGroup.isMulCommutative_of_card_eq_prime_sq hA₁card
   intro h1
   have hua_comm : Commute u a := commutatorElement_eq_one_iff_commute.mp h1
   have hcent : S.E ≤ Subgroup.centralizer ({a} : Set P) := by
@@ -1118,8 +1118,8 @@ private lemma exists_A1_data
     (hx : x ∉ S.E ⊔ S.C) (hEΦ : ¬ S.E ≤ frattini P) :
     ∃ A₁ : Subgroup P, A₁ ≤ S.E ∧ Nat.card A₁ = p ^ 2 ∧ A₁ ≤ frattini P ∧
       S.E ⊓ frattini P = A₁ ∧ S.Z ≤ A₁ ∧ A₁.Normal := by
-  haveI : S.E.Characteristic := S.Echar
-  haveI : S.E.Normal := inferInstance
+  have : S.E.Characteristic := S.Echar
+  have : S.E.Normal := inferInstance
   obtain ⟨A₁, hA₁E, hA₁card, hA₁Φ⟩ := exists_A1_of_not_mem_sup hp2 hP S hx
   have hEΦeq : S.E ⊓ frattini P = A₁ :=
     inf_frattini_eq_of_not_le S hEΦ hA₁E hA₁card hA₁Φ
@@ -1135,13 +1135,13 @@ private lemma exists_u_a_data
     {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (hP : IsPGroup p P) (S : Setting p P) {x : P} (hx : x ∉ S.E ⊔ S.C)
     {A₁ : Subgroup P} (hA₁E : A₁ ≤ S.E) (hA₁card : Nat.card A₁ = p ^ 2)
-    (hA₁Φ : A₁ ≤ frattini P) (hEΦeq : S.E ⊓ frattini P = A₁)
+    (_hA₁Φ : A₁ ≤ frattini P) (hEΦeq : S.E ⊓ frattini P = A₁)
     (hA₁Z : S.Z ≤ A₁) (hA₁normal : A₁.Normal) :
     ∃ u a : P, u ∈ S.E ∧ a ∈ S.E ∧ a ∈ A₁ ∧ u ∉ A₁ ∧ a ∉ S.Z ∧
       S.E = Subgroup.zpowers u ⊔ A₁ ∧ a = ⁅u, x⁆ := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
-  haveI : S.E.Characteristic := S.Echar
-  haveI : S.E.Normal := inferInstance
+  have : Fact (IsPGroup p P) := ⟨hP⟩
+  have : S.E.Characteristic := S.Echar
+  have : S.E.Normal := inferInstance
   have hAtriv : ∀ α ∈ A₁, ∀ g : P, ⁅α, g⁆ ∈ S.Z :=
     fun α hα g => commutator_mem_of_mem_of_card_eq_prime_sq hP hA₁Z hA₁card S.Zcard
       hA₁normal S.Zchar hα
@@ -1205,13 +1205,13 @@ private lemma false_of_scalar_not_mem_sup
     (hσZ : ∀ y ∈ S.Z, σ y = y ^ w) :
     False := by
   classical
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
-  haveI hEc : S.E.Characteristic := S.Echar
-  haveI hEn : S.E.Normal := inferInstance
-  haveI hZc : S.Z.Characteristic := S.Zchar
-  haveI hZn : S.Z.Normal := inferInstance
+  have : Fact (IsPGroup p P) := ⟨hP⟩
+  have hEc : S.E.Characteristic := S.Echar
+  have hEn : S.E.Normal := inferInstance
+  have hZc : S.Z.Characteristic := S.Zchar
+  have hZn : S.Z.Normal := inferInstance
   let D : B3Data p P S x := Classical.choice (exists_B3Data hp2 hP S hx hEΦ)
-  haveI hA₁comm : IsMulCommutative ↥D.A₁ :=
+  have hA₁comm : IsMulCommutative ↥D.A₁ :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq D.A₁card
   obtain ⟨a₁, ha₁, hσu_eq⟩ :=
     sigma_eq_scalar_mul_of_mem_A S hσ D.A₁E D.A₁Φ D.EΦeq D.uE
@@ -1243,8 +1243,8 @@ private lemma case_E_le_frattini_of_not_sup
     (hx : x ∉ S.E ⊔ S.C) (hEΦ : S.E ≤ frattini P)
     {c : P} (hcC : S.C = Subgroup.zpowers c) :
     (frattini P).index ≤ p ^ 2 := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
-  haveI : S.C.Characteristic := S.Cchar
+  have : Fact (IsPGroup p P) := ⟨hP⟩
+  have : S.C.Characteristic := S.Cchar
   have hidxK : (S.E ⊔ S.C).index = p := (index_sup_centralizer_eq_prime hp2 hP S hx).1
   have hsupIndex : (S.C ⊔ frattini P).index ≤ p := by
     refine (Subgroup.index_antitone ?_).trans (le_of_eq hidxK)
@@ -1259,7 +1259,7 @@ private lemma case_E_le_frattini_of_not_sup
 theorem blackburnScalarAut_holds : CFSG.RankThree.PartTwo.KFacts.BlackburnScalarAut := by
   intro p _ hp P _ _ hP hE w hw3 hw1 σ hσ
   classical
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   have hp2 : p ≠ 2 := by omega
   by_cases hsmall : Nat.card (CFSG.omega₁ (G := P) (p := p)) ≤ p ^ 2
   · exact case_small hp hP hsmall

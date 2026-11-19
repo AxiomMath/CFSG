@@ -88,9 +88,9 @@ private theorem nmhF2_le_Q {X : Type} [Group X] [Finite X] (S : N7MSetup X)
   rw [hx, nmSgn_mulVec]
   funext i
   by_cases hi : i ∈ B
-  · rw [if_pos hi, hv i (hB hi)]
+  · rw [ite_eq_left hi, hv i (hB hi)]
     exact neg_zero
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
 
 private theorem nmh_perm_apply_eq_self_of_mulVec_single {σ : Equiv.Perm (Fin 8)}
     {s : Fin 8 → ZMod 3} (hs : IsSign s) {j : Fin 8}
@@ -290,9 +290,9 @@ private theorem nmhF2_of_diag {X : Type} [Group X] [Finite X] (S : N7MSetup X)
     funext i
     by_cases hi : s i = -1
     · have hmem : i ∈ B' := Finset.mem_filter.mpr ⟨Finset.mem_univ i, hi⟩
-      rw [if_pos hmem, hi]
+      rw [ite_eq_left hmem, hi]
     · have hmem : i ∉ B' := fun h => hi (Finset.mem_filter.mp h).2
-      rw [if_neg hmem]
+      rw [ite_eq_right hmem]
       rcases hs i with h | h
       · exact h
       · exact absurd h hi
@@ -354,9 +354,9 @@ private theorem nmh_mem_nmF1_of_spMat_one {s : Fin 8 → ZMod 3} (hs : IsSign s)
     funext i
     by_cases hi : s i = -1
     · have hmem : i ∈ B := Finset.mem_filter.mpr ⟨Finset.mem_univ i, hi⟩
-      rw [if_pos hmem, hi]
+      rw [ite_eq_left hmem, hi]
     · have hmem : i ∉ B := fun h => hi (Finset.mem_filter.mp h).2
-      rw [if_neg hmem]
+      rw [ite_eq_right hmem]
       rcases hs i with h | h
       · exact h
       · exact absurd h hi
@@ -437,11 +437,11 @@ private theorem nmh_nmSgn_mulVec_neg {A : Finset (Fin 8)} {k : Fin 8} (hk : k �
   rw [Pi.neg_apply]
   by_cases hik : i = k
   · subst hik
-    rw [if_pos hk]
+    rw [ite_eq_left hk]
   · rw [hsupp i hik]
     by_cases hi : i ∈ A
-    · rw [if_pos hi]
-    · rw [if_neg hi]
+    · rw [ite_eq_left hi]
+    · rw [ite_eq_right hi]
       exact neg_zero.symm
 
 private theorem nmh_mulVec_conj {X : Type} [Group X] [Finite X] (S : N7MSetup X) {d t₁ : X}
@@ -462,9 +462,9 @@ private theorem nmh_notMem_nmE6_of_mulVec_neg {X : Type} [Group X] [Finite X] (S
     funext i
     by_cases hi : i ∈ C
     · have hi0 : i ≠ 0 := fun h => hC0 (h ▸ hi)
-      rw [if_pos hi, nmE0, Pi.single_eq_of_ne (M := fun _ => ZMod 3) hi0 1]
+      rw [ite_eq_left hi, nmE0, Pi.single_eq_of_ne (M := fun _ => ZMod 3) hi0 1]
       exact neg_zero
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
   rw [hvec] at hfix
   have h0 := congrFun hfix 0
   rw [Pi.neg_apply] at h0
@@ -552,9 +552,9 @@ theorem nm_strong_D {X : Type} [Group X] [Finite X] (S : N7MSetup X) (hW : S.Wea
     funext i
     by_cases hi : i ∈ B
     · have hi0 : i ≠ 0 := fun h => hB0 (h ▸ hi)
-      rw [if_pos hi, nmE0, Pi.single_eq_of_ne (M := fun _ => ZMod 3) hi0 1]
+      rw [ite_eq_left hi, nmE0, Pi.single_eq_of_ne (M := fun _ => ZMod 3) hi0 1]
       exact neg_zero
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
   set w : Coords 8 := S.ρ d⁻¹ *ᵥ nmE0 with hwdef
   have hdw : S.ρ d *ᵥ w = nmE0 := by
     rw [hwdef, Matrix.mulVec_mulVec, ← map_mul, mul_inv_cancel, map_one, Matrix.one_mulVec]

@@ -39,8 +39,8 @@ private theorem piOdd_apply_last (m : ℕ) (hm : m % 2 = 1) (P : Fin (m + 1 + 1)
         (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) =
       (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) from
       Equiv.swap_apply_of_ne_of_ne
-        (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))
-        (fin_ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk]; omega)),
+        (fin_ne_of_val_ne (by simp only; omega))
+        (fin_ne_of_val_ne (by simp only [Fin.val_succ]; omega)),
     Equiv.swap_apply_left]
 
 private theorem piOdd_apply_succ (m : ℕ) (hm : m % 2 = 1) (P : Fin (m + 1 + 1))
@@ -49,7 +49,7 @@ private theorem piOdd_apply_succ (m : ℕ) (hm : m % 2 = 1) (P : Fin (m + 1 + 1)
   rw [piOdd, Equiv.Perm.mul_apply, Equiv.swap_apply_left,
     show (Equiv.swap (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) P.castSucc) P.succ = P.succ from
       Equiv.swap_apply_of_ne_of_ne
-        (fin_ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk]; omega))
+        (fin_ne_of_val_ne (by simp only [Fin.val_succ]; omega))
         (fin_ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))]
 
 private theorem piOdd_apply_Pcast (m : ℕ) (P : Fin (m + 1 + 1)) :
@@ -58,7 +58,7 @@ private theorem piOdd_apply_Pcast (m : ℕ) (P : Fin (m + 1 + 1)) :
     show (Equiv.swap (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) P.succ) P.castSucc =
         P.castSucc from
       Equiv.swap_apply_of_ne_of_ne
-        (fin_ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk]; omega))
+        (fin_ne_of_val_ne (by simp only [Fin.val_castSucc]; omega))
         (fin_ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega)),
     Equiv.swap_apply_right]
 
@@ -69,8 +69,8 @@ private theorem piOdd_apply_Psucc (m : ℕ) (P : Fin (m + 1 + 1)) :
         (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) =
       (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) from
       Equiv.swap_apply_of_ne_of_ne
-        (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))
-        (fin_ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk]; omega))]
+        (fin_ne_of_val_ne (by simp only; omega))
+        (fin_ne_of_val_ne (by simp only [Fin.val_castSucc]; omega))]
 
 private theorem piOdd_apply_fixed (m : ℕ) (P : Fin (m + 1 + 1))
     (x : Fin (m + 1 + 1 + 1))
@@ -97,8 +97,8 @@ private theorem piEven_sigma_last (m : ℕ) :
         (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) =
       (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) from
       Equiv.swap_apply_of_ne_of_ne
-        (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))
-        (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega)),
+        (fin_ne_of_val_ne (by simp only; omega))
+        (fin_ne_of_val_ne (by simp only; omega)),
     Equiv.swap_apply_right]
 
 private theorem piEven_sigma_succ (m : ℕ) :
@@ -123,8 +123,8 @@ private theorem piEven_sigma_a (m : ℕ) :
         (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) =
       (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) from
       Equiv.swap_apply_of_ne_of_ne
-        (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))
-        (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))]
+        (fin_ne_of_val_ne (by simp only; omega))
+        (fin_ne_of_val_ne (by simp only; omega))]
 
 private theorem piEven_sigma_fixed (m : ℕ) (x : Fin (m + 1 + 1 + 1))
     (hxa : x ≠ (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)))
@@ -154,8 +154,8 @@ private theorem piEven_apply_c1 (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 1))
           (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) =
         (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) from
         Equiv.swap_apply_of_ne_of_ne
-          (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))
-          (fin_ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk]; omega)),
+          (fin_ne_of_val_ne (by simp only; omega))
+          (fin_ne_of_val_ne (by simp only [Fin.val_succ]; omega)),
       Equiv.swap_apply_left]
   rw [piEven, Equiv.Perm.mul_apply, hsig, htau]
 
@@ -170,7 +170,7 @@ private theorem piEven_apply_b (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 1))
       show (Equiv.swap (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) P.castSucc) P.succ =
           P.succ from
         Equiv.swap_apply_of_ne_of_ne
-          (fin_ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk]; omega))
+          (fin_ne_of_val_ne (by simp only [Fin.val_succ]; omega))
           (fin_ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_succ]; omega))]
   rw [piEven, Equiv.Perm.mul_apply, hsig, htau]
 
@@ -188,14 +188,14 @@ private theorem piEven_apply_a (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 1))
           (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) =
         (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) from
         Equiv.swap_apply_of_ne_of_ne
-          (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))
-          (fin_ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk]; omega)),
+          (fin_ne_of_val_ne (by simp only; omega))
+          (fin_ne_of_val_ne (by simp only [Fin.val_succ]; omega)),
       show (Equiv.swap (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) P.castSucc)
           (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) =
         (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) from
         Equiv.swap_apply_of_ne_of_ne
-          (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))
-          (fin_ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk]; omega))]
+          (fin_ne_of_val_ne (by simp only; omega))
+          (fin_ne_of_val_ne (by simp only [Fin.val_castSucc]; omega))]
   rw [piEven, Equiv.Perm.mul_apply, hsig, htau]
 
 private theorem piEven_apply_Pcast (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 1))
@@ -205,9 +205,9 @@ private theorem piEven_apply_Pcast (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 
   have hPval : P.val ≠ m := fun h => hPa (Fin.ext h)
   have hPlt : P.val ≤ m - 2 := by have := P.isLt; omega
   have hb : P.castSucc ≠ (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) :=
-    fin_ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk]; omega)
+    fin_ne_of_val_ne (by simp only [Fin.val_castSucc]; omega)
   have hc : P.castSucc ≠ (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) :=
-    fin_ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk]; omega)
+    fin_ne_of_val_ne (by simp only [Fin.val_castSucc]; omega)
   have hsig := piEven_sigma_fixed m P.castSucc hPa hb hc
   have htau : (Equiv.swap (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) P.castSucc *
         Equiv.swap (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) P.succ)
@@ -227,11 +227,11 @@ private theorem piEven_apply_Psucc (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 
   have hPval : P.val ≠ m := fun h => hPa (Fin.ext h)
   have hPlt : P.val ≤ m - 2 := by have := P.isLt; omega
   have ha : P.succ ≠ (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) :=
-    fin_ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk]; omega)
+    fin_ne_of_val_ne (by simp only [Fin.val_succ]; omega)
   have hb : P.succ ≠ (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) :=
-    fin_ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk]; omega)
+    fin_ne_of_val_ne (by simp only [Fin.val_succ]; omega)
   have hc : P.succ ≠ (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) :=
-    fin_ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk]; omega)
+    fin_ne_of_val_ne (by simp only [Fin.val_succ]; omega)
   have hsig := piEven_sigma_fixed m P.succ ha hb hc
   have htau : (Equiv.swap (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) P.castSucc *
         Equiv.swap (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) P.succ)
@@ -241,9 +241,9 @@ private theorem piEven_apply_Psucc (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 
           (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) =
         (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) from
         Equiv.swap_apply_of_ne_of_ne
-          (fin_ne_of_val_ne (by simp only [Fin.val_mk]; omega))
+          (fin_ne_of_val_ne (by simp only; omega))
           (fin_ne_of_val_ne (by
-            simp only [Fin.val_castSucc, Fin.val_mk]
+            simp only [Fin.val_castSucc]
             omega))]
   rw [piEven, Equiv.Perm.mul_apply, hsig, htau]
 
@@ -295,11 +295,11 @@ private theorem piOdd_conj_fixed (m : ℕ) (hm : m % 2 = 1) (P : Fin (m + 1 + 1)
       apply hkk
       apply Fin.ext
       have hv := congrArg Fin.val h
-      simp only [Fin.val_castSucc, Fin.val_mk] at hv
+      simp only [Fin.val_castSucc] at hv
       exact hv
     · intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_castSucc, Fin.val_mk] at hv
+      simp only [Fin.val_castSucc] at hv
       omega
     · intro h
       exact hkP (Fin.castSucc_injective _ h)
@@ -310,13 +310,13 @@ private theorem piOdd_conj_fixed (m : ℕ) (hm : m % 2 = 1) (P : Fin (m + 1 + 1)
   · apply piOdd_apply_fixed
     · intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_succ, Fin.val_mk] at hv
+      simp only [Fin.val_succ] at hv
       omega
     · intro h
       apply hkk
       apply Fin.ext
       have hv := congrArg Fin.val h
-      simp only [Fin.val_succ, Fin.val_mk] at hv
+      simp only [Fin.val_succ] at hv
       show k.val = m + 1
       omega
     · intro h
@@ -345,7 +345,7 @@ private theorem piEven_conj_P (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 1))
   have hPa : P.castSucc ≠ (⟨m, by omega⟩ : Fin (m + 1 + 1 + 1)) := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_castSucc, Fin.val_mk] at hv
+    simp only [Fin.val_castSucc] at hv
     omega
   apply slPerm_conj_omegaBlock (piEven m P)
   · rw [show (⟨m, by omega⟩ : Fin (m + 1 + 1)).castSucc =
@@ -365,15 +365,15 @@ private theorem piEven_conj_fixed (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 1
   · apply piEven_apply_fixed
     · intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_castSucc, Fin.val_mk] at hv
+      simp only [Fin.val_castSucc] at hv
       omega
     · intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_castSucc, Fin.val_mk] at hv
+      simp only [Fin.val_castSucc] at hv
       omega
     · intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_castSucc, Fin.val_mk] at hv
+      simp only [Fin.val_castSucc] at hv
       omega
     · intro h
       exact hkP (Fin.castSucc_injective _ h)
@@ -384,15 +384,15 @@ private theorem piEven_conj_fixed (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 1
   · apply piEven_apply_fixed
     · intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_succ, Fin.val_mk] at hv
+      simp only [Fin.val_succ] at hv
       omega
     · intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_succ, Fin.val_mk] at hv
+      simp only [Fin.val_succ] at hv
       omega
     · intro h
       have hv := congrArg Fin.val h
-      simp only [Fin.val_succ, Fin.val_mk] at hv
+      simp only [Fin.val_succ] at hv
       omega
     · intro h
       have hv := congrArg Fin.val h
@@ -401,7 +401,7 @@ private theorem piEven_conj_fixed (m : ℕ) (hm : m % 2 = 0) (P : Fin (m + 1 + 1
     · intro h
       exact hkP (Fin.succ_injective _ h)
 
-private theorem map_halfTorusK_piOdd (m : ℕ) (hm : 3 ≤ m) (hm2 : m % 2 = 1)
+private theorem map_halfTorusK_piOdd (m : ℕ) (_hm : 3 ≤ m) (hm2 : m % 2 = 1)
     (P : Fin (m + 1 + 1)) (hP : P.val % 2 = 0) :
     (halfTorusK (m + 1 + 1)).map
         (MulAut.conj (slPerm gf2_two (piOdd m P))).toMonoidHom = halfTorus (m + 1 + 1) := by
@@ -418,11 +418,11 @@ private theorem map_halfTorusK_piOdd (m : ℕ) (hm : 3 ≤ m) (hm2 : m % 2 = 1)
       exact Subgroup.subset_closure ⟨P, hP, rfl⟩
     · by_cases hkP : k = P
       · rw [hkP, conjTM_apply, piOdd_conj_P m P]
-        exact Subgroup.subset_closure ⟨⟨m + 1, by omega⟩, by simp only [Fin.val_mk]; omega, rfl⟩
+        exact Subgroup.subset_closure ⟨⟨m + 1, by omega⟩, by simp only; omega, rfl⟩
       · have hkk : k ≠ (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)) := by
           intro h
           have hv := congrArg Fin.val h
-          simp only [Fin.val_mk] at hv
+          simp only at hv
           omega
         rw [conjTM_apply, piOdd_conj_fixed m hm2 P hP k hk2 hkk hkP]
         exact Subgroup.subset_closure ⟨k, hk2, rfl⟩
@@ -431,7 +431,7 @@ private theorem map_halfTorusK_piOdd (m : ℕ) (hm : 3 ≤ m) (hm2 : m % 2 = 1)
     rintro t ⟨j, hj, rfl⟩
     by_cases hjP : j = P
     · refine Subgroup.subset_closure ⟨omegaBlock (m + 1 + 1) (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)),
-        ⟨_, Or.inl (by simp only [Fin.val_mk]), rfl⟩, ?_⟩
+        ⟨_, Or.inl (by simp only), rfl⟩, ?_⟩
       rw [conjTM_apply, piOdd_conj_last m hm2 P hP, hjP]
     · by_cases hjl : j = (⟨m + 1, by omega⟩ : Fin (m + 1 + 1))
       · have hPs : P.val + 2 < m + 1 + 1 := by
@@ -441,7 +441,7 @@ private theorem map_halfTorusK_piOdd (m : ℕ) (hm : 3 ≤ m) (hm2 : m % 2 = 1)
             rw [hjl]
             apply Fin.ext
             show (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).val = P.val
-            simp only [Fin.val_mk]
+            simp only
             omega
           have := P.isLt
           omega
@@ -461,7 +461,7 @@ private theorem map_halfTorusK_piOdd (m : ℕ) (hm : 3 ≤ m) (hm2 : m % 2 = 1)
           ⟨j, Or.inr ⟨hj, hjs⟩, rfl⟩, ?_⟩
         rw [conjTM_apply, piOdd_conj_fixed m hm2 P hP j hj hjl hjP]
 
-private theorem map_halfTorusK_piEven (m : ℕ) (hm : 3 ≤ m) (hm2 : m % 2 = 0)
+private theorem map_halfTorusK_piEven (m : ℕ) (_hm : 3 ≤ m) (hm2 : m % 2 = 0)
     (P : Fin (m + 1 + 1)) (hP : P.val % 2 = 0) :
     (halfTorusK (m + 1 + 1)).map
         (MulAut.conj (slPerm gf2_two (piEven m P))).toMonoidHom = halfTorus (m + 1 + 1) := by
@@ -487,7 +487,7 @@ private theorem map_halfTorusK_piEven (m : ℕ) (hm : 3 ≤ m) (hm2 : m % 2 = 0)
     rintro t ⟨j, hj, rfl⟩
     by_cases hjP : j = P
     · refine Subgroup.subset_closure ⟨omegaBlock (m + 1 + 1) (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)),
-        ⟨_, Or.inl (by simp only [Fin.val_mk]), rfl⟩, ?_⟩
+        ⟨_, Or.inl (by simp only), rfl⟩, ?_⟩
       rw [conjTM_apply, piEven_conj_last m hm2 P hP, hjP]
     · by_cases hjm : j.val = m
       · have hj_eq : j = (⟨m, by omega⟩ : Fin (m + 1 + 1)) := Fin.ext hjm
@@ -526,14 +526,14 @@ private theorem map_slOn_levi (m : ℕ) (P : Fin (m + 1 + 1)) (π : Equiv.Perm (
         apply π.injective
         rw [h1, h]
       rw [hy1] at hy
-      simp only [Set.mem_setOf_eq, Fin.val_mk] at hy
+      simp only [Set.mem_ofPred_eq] at hy
       omega
     · intro h
       have hy1 : y = (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) := by
         apply π.injective
         rw [h2, h]
       rw [hy1] at hy
-      simp only [Set.mem_setOf_eq, Fin.val_mk] at hy
+      simp only [Set.mem_ofPred_eq] at hy
       omega
   · intro hx
     refine ⟨π.symm x, ?_, by simp⟩

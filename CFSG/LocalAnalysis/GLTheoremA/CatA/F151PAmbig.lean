@@ -33,8 +33,8 @@ private theorem chevAut_ne_one_of_cfg {G : Type} [Group G] [Finite G] {p : ℕ}
   have hJleL : J ≤ L := h.pcomp.1.trans inf_le_left
   have hpL : p ∣ Nat.card ↥L := hpJ.trans (Subgroup.card_dvd_of_le hJleL)
   have hq : CFSG.Open.IsQuasisimple ↥L := openQuasisimple_of_cfg h
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI hperfL : Group.IsPerfect ↥L := h.qs.1
+  have : Fact p.Prime := ⟨h.prime⟩
+  have hperfL : Group.IsPerfect ↥L := h.qs.1
   have hcore : GLAPPrimeCore p ↥L ≠ ⊤ := by
     intro htop
     have hc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥L)) := CFSG.pPrimeCore_coprime_card
@@ -181,8 +181,8 @@ theorem ambigHalf_holds : AmbigHalf := by
     obtain ⟨e5⟩ :=
       CFSG.LocalAnalysis.GLTheoremA.I142M.Ambig.perfect_alt_equiv_alt5 n hn' e0 hp hp2
         hxp hx1 hJstar_le hJstar_perf hJstar_ne
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-    haveI : IsSimpleGroup ↥Jstar := e5.isSimpleGroup
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+    have : IsSimpleGroup ↥Jstar := e5.isSimpleGroup
     have hncA5 : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a := by
       refine ⟨⟨Equiv.swap 0 1 * Equiv.swap 1 2, ?_⟩,
         ⟨Equiv.swap 0 1 * Equiv.swap 2 3, ?_⟩, ?_⟩
@@ -283,7 +283,7 @@ theorem ambigHalf_holds : AmbigHalf := by
     rcases CFSG.LocalAnalysis.GLTheoremA.I142C.chev2_lie_cases d1 hv hi with
       ⟨q, rfl, hq7⟩ | ⟨q, rfl, hq3⟩
     ·
-      haveI : IsSimpleGroup (PSimple p L) := hSsimple
+      have : IsSimpleGroup (PSimple p L) := hSsimple
       have hcard : Nat.card (PSimple p L) = 168 := by
         obtain ⟨hq7p, he1⟩ :=
           CFSG.LocalAnalysis.GLTheoremA.I142C.primePower_eq_of_card
@@ -304,10 +304,10 @@ theorem ambigHalf_holds : AmbigHalf := by
           hP hJstar_perf
       exact absurd hbot hJstar_ne
     ·
-      haveI : IsSimpleGroup (PSimple p L) := hSsimple
+      have : IsSimpleGroup (PSimple p L) := hSsimple
       obtain ⟨hcard, -, h7⟩ := CFSG.LocalAnalysis.GLTheoremA.I142C.u33_data hSsimple hSnc
         q hv hq3 e0
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hord : orderOf x = p := orderOf_eq_prime hxp hx1
       have hP : Jstar ≤ Subgroup.centralizer ({x} : Set (PSimple p L)) := hJstar_le
       have hpd : p ∣ 2 ^ 5 * 3 ^ 3 * 7 := by

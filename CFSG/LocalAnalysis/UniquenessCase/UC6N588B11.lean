@@ -54,7 +54,7 @@ theorem pow_five_of_mem_S₀ {x : A10} (hx : x ∈ S₀) : x ^ 5 = 1 := by
 
 open scoped Pointwise in
 theorem pow_five_of_pow_twentyfive {x : A10} (hx : x ^ 25 = 1) : x ^ 5 = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let Q : Sylow 5 A10 := Sylow.ofCard S₀ (by rw [card_S₀, factorization_A10]; norm_num)
   have hp : IsPGroup 5 (zpowers x) := by
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_five).1

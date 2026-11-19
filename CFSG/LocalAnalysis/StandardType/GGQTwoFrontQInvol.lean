@@ -47,7 +47,7 @@ private theorem qTwoFrontQ_invol_not_scalar {K : Type} [Field K] {n : ℕ}
     exact hN0 hNzero
 
 theorem qTwoFrontQ_second_involution {K : Type} [Field K] [Finite K] [CharP K 2] {f d : ℕ}
-    (hK : Nat.card K = (2 ^ f) ^ 2) {ω : K} (hω : unitaryInvolution K 2 f ω = ω) (hω0 : ω ≠ 0)
+    (_hK : Nat.card K = (2 ^ f) ^ 2) {ω : K} (hω : unitaryInvolution K 2 f ω = ω) (hω0 : ω ≠ 0)
     (hω1 : ω ≠ 1) {u : Su K 2 f d} (hu2 : u * u = 1) (hu1 : u ≠ 1) :
     ∃ v : Su K 2 f d, v * v = 1 ∧ u * v = v * u ∧
       (∀ g : Matrix (Fin d) (Fin d) K,
@@ -93,7 +93,7 @@ theorem qTwoFrontQ_second_involution {K : Type} [Field K] [Finite K] [CharP K 2]
     have hωω : ω • N + ω • N = 0 := by
       rw [← two_smul K (ω • N), CharTwo.two_eq_zero, zero_smul]
     simp only [hVdef, Matrix.mul_add, Matrix.add_mul, Matrix.one_mul, Matrix.mul_one,
-      Matrix.mul_smul, Matrix.smul_mul, smul_smul, hN2, smul_zero, add_zero]
+      Matrix.mul_smul, Matrix.smul_mul, hN2, smul_zero, add_zero]
     rw [add_assoc, hωω, add_zero]
   have hconjV : conjTr σ V = V := by
     have hσω : σ ω = ω := hω
@@ -139,7 +139,7 @@ theorem qTwoFrontQ_second_involution {K : Type} [Field K] [Finite K] [CharP K 2]
   have hUVeq : U * V = 1 + (1 + ω) • N := by
     have hUeq : U = N + 1 := by rw [hNdef, sub_add_cancel]
     simp only [hUeq, hVdef, Matrix.add_mul, Matrix.one_mul, Matrix.mul_add, Matrix.mul_one,
-      Matrix.mul_smul, smul_smul, hN2, smul_zero, add_zero, add_smul, one_smul]
+      Matrix.mul_smul, hN2, add_smul, one_smul]
     abel
   refine ⟨v, hvv, huv, ?_, ?_, ?_⟩
   · intro g hg

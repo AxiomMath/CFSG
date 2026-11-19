@@ -28,6 +28,7 @@ theorem three_dvd_card_add_one {Q : TauCeti.PrimePower} (hp : Q.p = 2) (hn : Odd
     norm_num
   omega
 
+omit [Finite X] in
 theorem pElement_le_lift_aux1 {L C : Subgroup X} [L.Normal] [C.Normal] (hC : ¬ 3 ∣ Nat.card C)
     {x : X} (hx : x ∈ L ⊔ C) {k : ℕ} (hk : orderOf x = 3 ^ k) : x ∈ L := by
   obtain ⟨l, hl, c, hc, rfl⟩ := Subgroup.mem_sup_of_normal_right.1 hx
@@ -51,7 +52,7 @@ theorem pElement_le_lift {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} (hX : 
     (hC : ¬ 3 ∣ Nat.card (gnC T))
     (hle : pElementSubgroup 3 (⊤ : Subgroup X) ≤ Ls.comap (toStar T)) :
     L.Normal ∧ pElementSubgroup 3 (⊤ : Subgroup X) ≤ L := by
-  haveI := hnorm
+  have := hnorm
   have hLn : L.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hg : toStar T g ∈ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)) := by
@@ -68,7 +69,7 @@ theorem pElement_le_lift {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} (hX : 
   have hx : x ∈ Ls.comap (toStar T) :=
     hle (Subgroup.subset_closure ⟨Subgroup.mem_top x, k, hk⟩)
   rw [hcomap] at hx
-  haveI := hLn
+  have := hLn
   exact pElement_le_lift_aux1 hC hx hk
 
 theorem lift_inf_gnC_le_pCore_of_U4_aux1 {K S : Type*} [Group K] [Group S] (f : K →* S)
@@ -88,9 +89,9 @@ theorem lift_inf_gnC_le_pCore_of_U4_aux1 {K S : Type*} [Group K] [Group S] (f : 
 theorem lift_inf_gnC_le_pCore_of_U4_aux2 {S : Type} [Group S] {d : TauCeti.ValidLieTypeIndex}
     {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (hd : d.1 = .twistedA 3 Q)
     (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) : Subgroup.center S = ⊥ := by
-  haveI hs : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group :=
-    CFSG.LocalAnalysis.RankThreeUC.u4Group_isSimple hQ hd
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have hs : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group :=
+    CFSG.LocalAnalysis.RankThreeUC.u4Group_isSimple hd
+  have : IsSimpleGroup S := e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := CFSG.LocalAnalysis.RankThreeUC.u4Group_nonabelian hQ hd
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
@@ -170,7 +171,7 @@ theorem pElement_quot_equiv_aux1 {Y : Type*} [Group Y] (p : ℕ) :
     refine ⟨k, ?_⟩
     have := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
     simpa [MulAut.conj_apply, hk] using this
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [this]
@@ -180,12 +181,13 @@ theorem pElement_quot_equiv_aux1 {Y : Type*} [Group Y] (p : ℕ) :
     rw [this]
     exact Subgroup.inv_mem _ hx
 
+omit [Finite X] in
 theorem pElement_quot_equiv_aux2 {D : Subgroup X} (hD : D.Normal) :
     (CFSG.pCore 2 ↥D).map D.subtype ≤ CFSG.pCore 2 X := by
-  haveI := hD
+  have := hD
   have hPp : IsPGroup 2 ↥((CFSG.pCore 2 ↥D).map D.subtype) :=
     IsPGroup.map (CFSG.pCore_isPGroup (p := 2) (G := ↥D)) D.subtype
-  haveI hPnorm : ((CFSG.pCore 2 ↥D).map D.subtype).Normal := by
+  have hPnorm : ((CFSG.pCore 2 ↥D).map D.subtype).Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨n', hn', rfl⟩ := hn
     refine ⟨MulAut.conjNormal g n', ?_, MulAut.conjNormal_apply g n'⟩
@@ -225,7 +227,7 @@ theorem pElement_quot_equiv {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} (hX
       have h1 : toStar T d = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hd)
       have h2 : (d : X) ∈ gnC T := (QuotientGroup.eq_one_iff (d : X)).1 h1
       have h3 : (d : X) ∈ CFSG.pCore 2 X := hker ⟨hDL d.2, h2⟩
-      haveI : ((CFSG.pCore 2 X).subgroupOf D).Normal :=
+      have : ((CFSG.pCore 2 X).subgroupOf D).Normal :=
         Subgroup.Normal.subgroupOf CFSG.pCore_normal D
       have hN2 : IsPGroup 2 ↥((CFSG.pCore 2 X).subgroupOf D) :=
         (CFSG.pCore_isPGroup (p := 2) (G := X)).comap_subtype

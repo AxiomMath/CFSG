@@ -91,6 +91,7 @@ theorem qTwoNbrA_rho_ne_one {B Bs L : Subgroup G} {x : G} (hT : GGThmIHyp 3 B x 
   rw [hker] at hy_inf
   exact hyx hy_inf
 
+omit [Finite G] in
 theorem qTwoNbrA_image_isComponentOf {Bs L J : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) {L0 : Type} [Group L0] (c : ↥L →* L0)
     (hc_surj : Function.Surjective c) (hc_ker : c.ker ≤ Subgroup.center ↥L)
@@ -107,6 +108,7 @@ theorem qTwoNbrA_image_isComponentOf {Bs L J : Subgroup G}
   exact (SCFourCover.isComponentOf_map_iff hc_surj hc_ker
     (fun l => (hρ _ l).symm) hperfect).1 hJ'
 
+omit [Finite G] in
 theorem qTwoNbrA_center_quot_of_component {L J N : Subgroup G} (hJL : J ≤ L) {L0 : Type}
     [Group L0] (c : ↥L →* L0) (hc_ker : c.ker ≤ Subgroup.center ↥L) (hJ : IsComponentOf J N) :
     Nonempty (↥J ⧸ Subgroup.center ↥J ≃*
@@ -116,7 +118,7 @@ theorem qTwoNbrA_center_quot_of_component {L J N : Subgroup G} (hJL : J ≤ L) {
   let f : ↥J →* ↥M := MonoidHom.codRestrict (c.comp (Subgroup.inclusion hJL)) M (fun j => by
     refine Subgroup.mem_map.mpr ⟨Subgroup.inclusion hJL j, ?_, rfl⟩
     rw [Subgroup.mem_comap]
-    simpa using j.2)
+    simp)
   have hf_surj : Function.Surjective f := by
     intro m
     obtain ⟨x, hx_mem, hx_eq⟩ := Subgroup.mem_map.mp m.2

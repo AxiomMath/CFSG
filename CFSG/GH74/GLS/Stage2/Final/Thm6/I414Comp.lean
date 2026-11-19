@@ -43,7 +43,7 @@ theorem restrictAct_apply {X : Type*} [Group X] {A : Type*} [Group A] (α : A �
 theorem isSylowOf_top {G : Type*} [Group G] [Finite G] {r : ℕ} [Fact r.Prime] (P : Sylow r G) :
     IsSylowOf r (P : Subgroup G) ⊤ := by
   rw [isSylowOf_iff]
-  exact ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+  exact ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
 
 theorem isSylowOf_inf_of_isSubnormal {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {P : Subgroup G} (hP : IsSylowOf p P ⊤) {H : Subgroup G} (hH : H.IsSubnormal) :

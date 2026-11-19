@@ -22,7 +22,7 @@ theorem false_of_linWeyl
     (X : GGSmallD2Ctx p N A T AT)
     (hcell : (p = 5 ∧ N = 5) ∨ (p = 7 ∧ N = 7) ∨ (p = 5 ∧ N = 10))
     (hw : ZS.LinWeyl p AT) : False := by
-  haveI := X.finite_T
+  have := X.finite_T
   have hN5 : 5 ≤ N := X.N_ge
   have hd : Module.finrank (ZMod p) ↥T < N := X.finrank_lt
   have h3 : 3 ≤ Module.finrank (ZMod p) ↥T := by

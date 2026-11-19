@@ -670,8 +670,8 @@ theorem abstract_sylow_structure (hp : p ≠ 2) (B : V →ₛₗ[(frob h).toRing
   have hnt : Nontrivial (T : Subgroup (specialIsometry B ⧸ D)) :=
     Finite.one_lt_card_iff_nontrivial.1 (by have := Nat.card_pos (α := T); omega)
   have hZ2 : IsPGroup 2 (center (T : Subgroup (specialIsometry B ⧸ D))) :=
-    T.isPGroup'.to_subgroup (center _)
-  have hZnt := T.isPGroup'.center_nontrivial
+    T.isPGroup.to_subgroup (center _)
+  have hZnt := T.isPGroup.center_nontrivial
   obtain ⟨k, hk⟩ := hZ2.exists_card_eq
   have hk0 : k ≠ 0 := by
     rintro rfl

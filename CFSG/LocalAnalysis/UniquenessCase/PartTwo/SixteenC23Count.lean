@@ -15,10 +15,10 @@ theorem c23_relIndex_le_of_card {p : ℕ} (hp : p.Prime) {Q P K : Subgroup H} (h
     (hKQ : K ≤ Q) (hP : IsPGroup p P) (hPK : P ≤ normalizer (K : Set H)) {a b : ℕ}
     (hK : p ^ a ∣ Nat.card K) (hQ : ¬ p ^ (b + 1) ∣ Nat.card Q) :
     K.relIndex P ≤ p ^ (b - a) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hiso : K.relIndex P = K.relIndex (P ⊔ K) := by
-    letI := Subgroup.normal_subgroupOf_of_le_normalizer hPK
-    letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hPK
+    let := Subgroup.normal_subgroupOf_of_le_normalizer hPK
+    let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hPK
     show Nat.card (↥P ⧸ K.subgroupOf P) = Nat.card (↥(P ⊔ K) ⧸ K.subgroupOf (P ⊔ K))
     exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient P K hPK).toEquiv
   have hinf : K ⊓ (P ⊔ K) = K := inf_of_le_left le_sup_right

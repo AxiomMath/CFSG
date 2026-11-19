@@ -168,7 +168,7 @@ theorem burnsideC41b_inf_centralizer_le [Finite G] {F : Type} [Field F] {K R W :
     (hRK : R ≤ Subgroup.normalizer (K : Set G)) (hRW : R ≤ Subgroup.normalizer (W : Set G))
     (hR : IsPGroup 2 R) :
     (K ⊔ R) ⊓ Subgroup.centralizer (W : Set G) ≤ pCoreOf 2 (K ⊔ R) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hKW, -, hαk, hβs, -, hβe⟩ := hnat
   have hXK : (K ⊔ R) ⊓ Subgroup.centralizer (W : Set G) ⊓ K ≤ pCoreOf 2 K := by
     rintro k ⟨⟨-, hkc⟩, hkK⟩
@@ -201,7 +201,7 @@ theorem burnsideC41b_inf_centralizer_le [Finite G] {F : Type} [Field F] {K R W :
 theorem burnsideC41b_relIndex_sup_eq {T P : Subgroup G}
     (hTP : T ≤ Subgroup.normalizer (P : Set G)) : P.relIndex (T ⊔ P) = P.relIndex T := by
   have hPN : P ≤ Subgroup.normalizer (P : Set G) := Subgroup.le_normalizer
-  haveI : (P.subgroupOf (Subgroup.normalizer (P : Set G))).Normal := Subgroup.normal_in_normalizer
+  have : (P.subgroupOf (Subgroup.normalizer (P : Set G))).Normal := Subgroup.normal_in_normalizer
   have h1 := Subgroup.relIndex_sup_right (T.subgroupOf (Subgroup.normalizer (P : Set G)))
     (P.subgroupOf (Subgroup.normalizer (P : Set G)))
   rw [← Subgroup.subgroupOf_sup hTP hPN, Subgroup.relIndex_subgroupOf (sup_le hTP hPN),
@@ -225,13 +225,13 @@ theorem burnsideC41b_le_sup_of_relIndex [Finite G] {R T P : Subgroup G} (hTR : T
     omega
   exact Subgroup.relIndex_eq_one.mp (le_antisymm h2 hpos')
 
-theorem burnsideC41b_cocycle_mem {K Z U : Subgroup G} (hKperf : ⁅K, K⁆ = K) (hUZ : U ≤ Z)
+theorem burnsideC41b_cocycle_mem {K Z U : Subgroup G} (hKperf : ⁅K, K⁆ = K) (_hUZ : U ≤ Z)
     (hZab : ∀ x ∈ Z, ∀ y ∈ Z, x * y = y * x)
     (hKU : ∀ k ∈ K, ∀ y ∈ Z, k * y * k⁻¹ * y⁻¹ ∈ U)
     (c : G → G) (hc : ∀ k ∈ K, c k ∈ Z)
     (hco : ∀ k₁ ∈ K, ∀ k₂ ∈ K, c (k₁ * k₂) = c k₁ * (k₁ * c k₂ * k₁⁻¹)) :
     ∀ k ∈ K, c k ∈ U := by
-  haveI hU'n : (U.subgroupOf Z).Normal := ⟨fun n hn g => by
+  have hU'n : (U.subgroupOf Z).Normal := ⟨fun n hn g => by
     have e : g * n * g⁻¹ = n := by
       apply Subtype.ext
       simp only [Subgroup.coe_mul, InvMemClass.coe_inv]
@@ -371,7 +371,7 @@ theorem burnsideC41b_characteristic_commutator_center {R T : Subgroup G} (hTR : 
       ← MonoidHom.range_eq_map, Subgroup.range_subtype, inf_of_le_left hZR,
       inf_of_le_left (Subgroup.commutator_le_of_le hZR le_rfl)]
   rw [heq]
-  haveI := hZc
+  have := hZc
   exact Subgroup.commutator_characteristic _ _
 
 end CFSG.ASVolI

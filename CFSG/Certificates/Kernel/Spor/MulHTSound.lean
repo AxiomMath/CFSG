@@ -108,8 +108,7 @@ theorem mulHT_sound {n w k cnt cap : Nat} {G GI T PL POS SRT SRI HS HSI : Nat �
   have R : CFSG.KS.HBfs.HReplayT (hkey n) (fun j y => compT n y gens[j]!) gens.size (idT n) cnt cap
       (fun i => tabT (unpack n w (T i))) (parOf PL) (labOf PL) (fun h j => r32 POS (h * k + j)) := by
     refine ⟨hc0, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-    · change tabT (unpack n w (T 0)) = idT n
-      rw [Nat.eq_of_beq_eq_true hT0, idT_tabT n, CFSG.KC.BfsPin.idA_eq hn]
+    · rw [Nat.eq_of_beq_eq_true hT0, idT_tabT n, CFSG.KC.BfsPin.idA_eq hn]
     · unfold parOf
       rw [Nat.eq_of_beq_eq_true hPL0]
       rfl
@@ -122,7 +121,6 @@ theorem mulHT_sound {n w k cnt cap : Nat} {G GI T PL POS SRT SRI HS HSI : Nat �
     · intro i hi0 hi
       obtain ⟨h1, -, h2, h3, -⟩ := (sp i hi).2.1 (by omega)
       refine ⟨h1, by rw [hk]; exact h2, ?_⟩
-      change tabT (unpack n w (T i)) = compT n (tabT (unpack n w (T (parOf PL i)))) gens[labOf PL i]!
       rw [← hstep _ h2 _ (sp _ (by omega)).1, ← h3]
     · intro i hi0 hi
       exact ((sp i hi).2.1 (by omega)).2.1
@@ -132,7 +130,6 @@ theorem mulHT_sound {n w k cnt cap : Nat} {G GI T PL POS SRT SRI HS HSI : Nat �
       rw [hk] at hj
       obtain ⟨h1, h2, h3⟩ := (sp h hh).2.2 hc j hj
       refine ⟨h1, ?_, h3⟩
-      change compT n (tabT (unpack n w (T h))) gens[j]! = tabT (unpack n w (T (r32 POS (h * k + j))))
       rw [← hstep _ hj _ (sp h hh).1, h2]
   have e1 : mulClosureH n gens cap =
       CFSG.KS.HBfs.hbfs (hkey n) (fun l y => compT n y gens[l]!) gens.size (idT n) cap := rfl

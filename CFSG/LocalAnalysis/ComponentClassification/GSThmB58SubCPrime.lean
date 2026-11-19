@@ -76,7 +76,7 @@ theorem SecCond.exists_hyp59W_subsection (hc : h.SecCond y)
     ⟨R, (comap_map_eq_self_of_injective C.subtype_injective _).symm⟩
   have hSS' : h.subS y ≤ S' := fun z hz =>
     ⟨⟨z, hSC hz⟩, hR (show (⟨z, hSC hz⟩ : ↥C) ∈ (h.subS y).subgroupOf C from hz), rfl⟩
-  have hS'2 : IsPGroup 2 S' := R.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := R.isPGroup.map _
   have hQ' := hc.inf_normalizer_subB_eq hCN hSa hW hS'2 (hS'le.trans inf_le_left) hSS'
   have hQS : (h.secImage y h.Q).subgroupOf (h.secSubImg y) ≤ S' := by
     rw [← hc.subS_inf_normalizer]
@@ -89,7 +89,7 @@ theorem SecCond.exists_hyp59W_subsection (hc : h.SecCond y)
     · exact le_inf inf_le_left (le_inf (inf_le_left.trans hQS) inf_le_right)
   have hxP₁ : hc.subX ∈ S' ⊓ coreActionKernel (h.subJ y) := by
     refine inf_le_inf_right _ hSS' (?_ : hc.subX ∈ h.subS y ⊓ coreActionKernel (h.subJ y))
-    rw [hc.subS_inf_coreActionKernel]
+    rw [CFSG.ComponentClassification.GSThmB.Hyp52.SecCond.subS_inf_coreActionKernel]
     exact mem_map_of_mem _ (show (⟨y, hc.y_mem_G0⟩ : ↥(h.secG0 y)) ∈
       h.P.subgroupOf (h.secG0 y) from hc.mem_P)
   exact hc.exists_hyp59W_of_sub (h.subHyp52W hc S' hS'le hS'syl hSS'

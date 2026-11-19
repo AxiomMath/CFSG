@@ -20,7 +20,7 @@ theorem no_critical (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : UC6.R6_1 D)
     {D₁ : Subgroup (Bar2 D.M)} [D₁.Normal]
     (hD₁N : D₁ ≤ barImage D.M (F11.CTilde D.M V₀ V)) (hD₁p : IsPGroup r ↥D₁)
     (hnc : ¬ IsCyclic ↥D₁) (hexp : ∀ x ∈ D₁, x ^ r = 1) (hcl : ⁅⁅D₁, D₁⁆, D₁⁆ = ⊥) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, hO, hXM⟩ := hyp11_ctilde D hV
   have h112V := h112 V₀ V hV
   have h3 := h111 V₀ V hV
@@ -100,7 +100,7 @@ theorem c116_of_hyp11 (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : UC6.R6_1 D
     {V₀ V : Subgroup G} (hV : F11.Hyp11 D V₀ V) : C116 D V₀ V := by
   have hn : D.M ≤ normalizer ((F11.CTilde D.M V₀ V : Subgroup G) : Set G) :=
     (hyp11_ctilde D hV).1
-  haveI hNn : (barImage D.M (F11.CTilde D.M V₀ V)).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M (F11.CTilde D.M V₀ V)).Normal := uc22p22u_barImage_normal hn
   have hQ2 : CFSG.pCore 2 (Bar2 D.M) = ⊥ :=
     CFSG.RankThree.PartTwo.Sec11.pCore_quotient_pCore ↥D.M 2
   have hcyc : IsCyclic ↥(CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M V₀ V))) :=
@@ -108,9 +108,9 @@ theorem c116_of_hyp11 (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : UC6.R6_1 D
       haveI := hD₁n
       no_critical D hSig h61 h63 h77 h111 h112 hV hr hr2 hD₁N hD₁p hnc hexp hcl
   refine ⟨hcyc, ?_⟩
-  haveI : ((CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M V₀ V))).map
+  have : ((CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M V₀ V))).map
       (barImage D.M (F11.CTilde D.M V₀ V)).subtype).Normal := inferInstance
-  haveI : IsCyclic ↥((CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M V₀ V))).map
+  have : IsCyclic ↥((CFSG.fittingSubgroup ↥(barImage D.M (F11.CTilde D.M V₀ V))).map
       (barImage D.M (F11.CTilde D.M V₀ V)).subtype) :=
     (uc22p22u_isCyclic_map_iff _ (Subgroup.subtype_injective _) _).2 hcyc
   exact uc22p21c_commutator_le_centralizer_of_cyclic _

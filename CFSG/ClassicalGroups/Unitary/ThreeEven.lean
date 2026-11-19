@@ -41,7 +41,7 @@ private theorem u3SwapU_inv_mul_torusDiag_mul {K : Type} [Field K] (l : Kˣ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [u3SwapU, u3SwapMat, coe_torusDiag, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply, Units.val_mul, Matrix.vecMul_diagonal]
+      Units.val_mul, Matrix.vecMul_diagonal]
 
 private theorem orderOf_mk_u3SwapU {K : Type} [Field K] [CharP K 2] {q : ℕ} (hq : q ≠ 0) :
     orderOf (QuotientGroup.mk (⟨u3SwapU, u3SwapU_mem hq⟩ : StatedSU 3 q K) :
@@ -112,9 +112,9 @@ theorem exists_inv_conj_of_lieModel_psu3 {Y : Type} [Group Y] {x : ℕ}
     ∃ τ t : Y, orderOf τ = 2 ^ x + 1 ∧ orderOf t = 2 ∧ t⁻¹ * τ * t = τ⁻¹ := by
   have hx := two_le_exponent_of_lieModel_psu3 h
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : CharP K 2 := charP_two_of_natCard_eq hK
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : CharP K 2 := charP_two_of_natCard_eq hK
   have hq : 2 ≤ 2 ^ x :=
     calc 2 = 2 ^ 1 := rfl
       _ ≤ 2 ^ x := Nat.pow_le_pow_right (by norm_num) (by omega)
@@ -188,10 +188,10 @@ theorem exists_inv_conj_lift_of_odd_card {X : Type} [Group X] [Finite X] {N : Su
 theorem isPerfect_of_lieModel_psu3 {Y : Type} [Group Y] {x : ℕ}
     (h : CFSG.Blueprint.LieModel Y .PSU 3 2 x) : Group.IsPerfect Y := by
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect (StatedSU 3 (2 ^ x) K) :=
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect (StatedSU 3 (2 ^ x) K) :=
     isPerfect_statedSU (p := 2) (f := x) hK le_rfl hadm.2.2.2
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
@@ -207,7 +207,7 @@ theorem card_le_of_isElemAbelian_mulAut_of_lieModel_psu3
 
 private theorem dvd_two_pow_cube_add_one {x ℓ : ℕ} (hℓ : ℓ.Prime) (hx : 1 ≤ x)
     (hord : orderOf (2 : ZMod ℓ) = 6 * x) : ℓ ∣ (2 ^ x) ^ 3 + 1 := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hy2 : (2 : ZMod ℓ) ^ (3 * x) * (2 : ZMod ℓ) ^ (3 * x) = 1 := by
     rw [← pow_add, show 3 * x + 3 * x = 6 * x by ring, ← hord, pow_orderOf_eq_one]
   have hy1 : (2 : ZMod ℓ) ^ (3 * x) ≠ 1 :=
@@ -225,7 +225,7 @@ theorem dvd_card_of_lieModel_psu3_of_orderOf_two_eq {Y : Type} [Group Y] {x ℓ 
     (h : CFSG.Blueprint.LieModel Y .PSU 3 2 x) (hℓ : ℓ.Prime)
     (hord : orderOf (2 : ZMod ℓ) = 6 * x) : ℓ ∣ Nat.card Y := by
   obtain ⟨hadm, K, hKf, -, hK, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKf
+  let : Field K := hKf
   have hx : 1 ≤ x := hadm.2.1
   have hmul := CFSG.Timmesfeld.ClassicalOrders.card_psu_three_mul_gcd Nat.prime_two hx hK
   have hℓ3 : ℓ ≠ 3 := by
@@ -247,7 +247,7 @@ theorem dvd_card_of_lieModel_psu3_of_orderOf_two_eq {Y : Type} [Group Y] {x ℓ 
 private theorem not_dvd_pow_sub_pow {a k i ℓ : ℕ} (hℓ : ℓ.Prime) (ha : 1 ≤ a)
     (hord : orderOf (2 : ZMod ℓ) = 6 * a) (hik : i < k) (hk : k < 6) :
     ¬ ℓ ∣ (2 ^ a) ^ k - (2 ^ a) ^ i := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hℓ2 : ℓ ≠ 2 := by
     rintro rfl
     have h0 : (2 : ZMod 2) = 0 := rfl
@@ -275,10 +275,10 @@ theorem not_dvd_card_GL_of_orderOf_two_eq {K : Type} [Field K] [Finite K] {a k �
     (hK : Nat.card K = 2 ^ a) (ha : 1 ≤ a) (hℓ : ℓ.Prime)
     (hord : orderOf (2 : ZMod ℓ) = 6 * a) (hk : k < 6) :
     ¬ ℓ ∣ Nat.card (GL (Fin k) K) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [Matrix.card_GL_field, ← Nat.card_eq_fintype_card, hK]
   intro hdvd
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff hℓ.prime _).mp hdvd
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff hℓ.prime _).mp hdvd
   exact not_dvd_pow_sub_pow hℓ ha hord i.2 hk hi
 
 private theorem card_quotient_center_dvd_of_map_eq_bot {X H : Type} [Group X] [Group H]
@@ -332,8 +332,8 @@ theorem hom_eq_one_of_isSimpleGroup_quotient_center {X H : Type} [Group X] [Grou
     (hX : commutator X = ⊤) (hs : IsSimpleGroup (X ⧸ Subgroup.center X)) {ℓ : ℕ}
     (hℓX : ℓ ∣ Nat.card (X ⧸ Subgroup.center X)) (hℓH : ¬ ℓ ∣ Nat.card H) (f : X →* H) :
     f = 1 := by
-  haveI := hs
-  haveI hN : (f.ker.map (QuotientGroup.mk' (Subgroup.center X))).Normal :=
+  have := hs
+  have hN : (f.ker.map (QuotientGroup.mk' (Subgroup.center X))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (f.ker.map (QuotientGroup.mk' (Subgroup.center X))) with hbot | htop
@@ -374,7 +374,7 @@ theorem exists_hom_generalLinearGroup_restrict {X K E : Type} [Group X] [Field K
         simp
       map_mul' := fun g h => by
         ext w
-        simp [LinearEquiv.mul_apply] }
+        simp }
   exact ⟨f.toHomUnits, fun g w => rfl⟩
 
 end CFSG.ClassicalGroups.Unitary

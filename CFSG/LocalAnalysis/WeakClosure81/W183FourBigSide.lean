@@ -37,7 +37,7 @@ private theorem w183fourside_card_l3_1 (hO : LieOrderFormulasInput) {X : Type} [
   have hd : lieOrderDivisor .PSL 3 (2 ^ 1) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
 
 private theorem w183fourside_card_l3_2 (hO : LieOrderFormulasInput) {X : Type} [Group X]
     (h : IsL3 X 2) : Nat.card X = 20160 := by
@@ -45,7 +45,7 @@ private theorem w183fourside_card_l3_2 (hO : LieOrderFormulasInput) {X : Type} [
   have hd : lieOrderDivisor .PSL 3 (2 ^ 2) = 3 := by decide
   rw [hd] at hM
   have hnum : lieOrderNumerator .PSL 3 (2 ^ 2) = 60480 := by
-    simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+    simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
   rw [hnum] at hM
   omega
 
@@ -55,14 +55,16 @@ private theorem w183fourside_card_sp4_2 (hO : LieOrderFormulasInput) {X : Type} 
   have hd : lieOrderDivisor .PSp 2 (2 ^ 2) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide]
 
+omit [Finite G] in
 private theorem w183fourside_conjSubgroup_injective (s : G) :
     Function.Injective (fun A : Subgroup G => conjSubgroup A s) := by
   intro A B h
   have h' := congrArg (fun C : Subgroup G => conjSubgroup C s⁻¹) h
   simpa only [conjSubgroup_conjSubgroup, mul_inv_cancel, conjSubgroup_one] using h'
 
+omit [Finite G] in
 private theorem w183fourside_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e : ↥L ≃* ↥L')
     (hK : ∀ l : ↥L, (l : G) ∈ K ↔ (e l : G) ∈ K) {P : ∀ (X : Type) [Group X], Prop}
     (hQ : HasQuotShape L K P) : HasQuotShape L' K P := by
@@ -74,6 +76,7 @@ private theorem w183fourside_hasQuotShape_of_mulEquiv {K L L' : Subgroup G} (e :
   have h := hK (e.symm k)
   rwa [show e (e.symm k) = k from e.apply_symm_apply k] at h
 
+omit [Finite G] in
 private theorem w183fourside_isComponentModN_map_mulEquiv {K H L : Subgroup G} (e : G ≃* G)
     (hK : K.map e.toMonoidHom = K) (hH : H.map e.toMonoidHom = H)
     (h : IsComponentModN K H L) :
@@ -108,6 +111,7 @@ private theorem w183fourside_isComponentModN_map_mulEquiv {K H L : Subgroup G} (
       have hkl : k = l := e.injective hkeq
       rwa [hkl] at hkK
 
+omit [Finite G] in
 private theorem w183fourside_conjSubgroup_isComponentModN {K H L : Subgroup G}
     (h : IsComponentModN K H L) {t : G} (ht : t ∈ H) :
     IsComponentModN K H (conjSubgroup L t) := by
@@ -121,6 +125,7 @@ private theorem w183fourside_conjSubgroup_isComponentModN {K H L : Subgroup G}
   have := w183fourside_isComponentModN_map_mulEquiv (MulAut.conj t⁻¹) hKmap hHmap h
   simpa only [conjSubgroup] using this
 
+omit [Finite G] in
 private theorem w183fourside_hasQuotShape_conj {K H L : Subgroup G} {t : G} (ht : t ∈ H)
     (h : IsComponentModN K H L) {P : ∀ (X : Type) [Group X], Prop}
     (hQ : HasQuotShape L K P) : HasQuotShape (conjSubgroup L t) K P := by
@@ -147,10 +152,10 @@ private theorem w183fourside_pRank_five_subgroupOf {X Y : Subgroup G} (h : X ≤
     (Subgroup.subgroupOfEquivOfLe h)
 
 private theorem w183fourside_isCyclic_of_isSylowIn_img {J E : Subgroup G} (M : ModDataE J E)
-    {S : Subgroup G} (hSJ : S ≤ J) (hS : CFSG.Open.pRank 5 (S.subgroupOf J) ≤ 1)
+    {S : Subgroup G} (_hSJ : S ≤ J) (hS : CFSG.Open.pRank 5 (S.subgroupOf J) ≤ 1)
     {P : Subgroup (LGL 2 M.W)} (hP : IsSylowIn 5 P (M.img S)) : IsCyclic ↥P := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let T : Subgroup ↥J := S.subgroupOf J
   let φ : ↥T →* ↥(M.img S) := (M.ρ.comp T.subtype).codRestrict (M.img S) (fun t =>
     Subgroup.mem_map.mpr ⟨t.1, t.2, rfl⟩)
@@ -166,12 +171,12 @@ private theorem w183fourside_isCyclic_of_isSylowIn_img {J E : Subgroup G} (M : M
         (Q : Subgroup ↥T).map φ := Sylow.coe_mapSurjective (P := Q) (hf := hφs)
     rw [hQ] at h1
     rw [← h1, IsSylowIn.coe_toSylow hP]
-  haveI hQp : IsPGroup 5 (Q : Subgroup ↥T) := Q.isPGroup'
+  have hQp : IsPGroup 5 (Q : Subgroup ↥T) := Q.isPGroup
   have hQcyc : IsCyclic ↥(Q : Subgroup ↥T) := by
     refine CFSG.isCyclic_of_le_of_pRank_le_one Nat.prime_five (by norm_num) hQp le_top ?_
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup T]
     exact hS
-  haveI := hQcyc
+  have := hQcyc
   have hmap' : (Q : Subgroup ↥T).map ((M.img S).subtype.comp φ) = P := by
     rw [show (Q : Subgroup ↥T).map ((M.img S).subtype.comp φ) =
         ((Q : Subgroup ↥T).map φ).map (M.img S).subtype from
@@ -201,12 +206,12 @@ private theorem w183fourside_not_dvd_of_shape (hO : LieOrderFormulasInput) {X : 
   · rw [w183fourside_card_l3_2 hO h32] at h13; norm_num at h13
   · rw [w183fourside_card_sp4_2 hO hsp] at h13; norm_num at h13
 
-private theorem w183fourside_not_dvd_relIndex {K L X T H : Subgroup G} (hKH : K ≤ H)
+private theorem w183fourside_not_dvd_relIndex {K L X T H : Subgroup G} (_hKH : K ≤ H)
     (hKL : K ≤ L) (hLX : L ≤ X) (hXH : X ≤ H) (hXsup : X ⊔ T = H)
     (hXnorm : T ≤ Subgroup.normalizer (X : Set G)) (hT2 : IsPGroup 2 T)
     (hdvd : L.relIndex X ∣ K.relIndex L) (hnot13 : ¬ 13 ∣ K.relIndex L) :
     ¬ 13 ∣ K.relIndex H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKX : K ≤ X := hKL.trans hLX
   have hprime : Nat.Prime 13 := by norm_num
   intro h13
@@ -347,9 +352,9 @@ theorem w183four_pairTest_big (hO : LieOrderFormulasInput) (hL28 : FinPairGenL28
   have hHinfC : H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G) = kerMV V H :=
     le_antisymm x.hyp.inf_centralizer_eOmegaZ_le_kerMV
       (le_inf (kerMV_le_self V H) hK)
-  have hsolv : IsSolvable ↥(H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)) := by
+  have hsolv : Group.IsSolvable ↥(H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)) := by
     rw [hHinfC, ← hOK]
-    haveI : Group.IsSolvable ↥(CFSG.solvableRadical ↥H) :=
+    have : Group.IsSolvable ↥(CFSG.solvableRadical ↥H) :=
       CFSG.ABGLocalTools.solvableRadical_isSolvable
     unfold OInf
     exact Group.isSolvable_of_surjective
@@ -361,11 +366,11 @@ theorem w183four_pairTest_big (hO : LieOrderFormulasInput) (hL28 : FinPairGenL28
 theorem w183four_h5_sp44 (h22 : Asch2_2One) (hSp5 : FinSp44Noncyclic5) {D : Data G}
     {V₀ V H : Subgroup G} {i : ℕ} (c : MinCex183 D V₀ V H i) (x : Ctx188 D V₀ V H i 3)
     (M : ModDataE H (eOmegaZ H D.T))
-    (hK : kerMV V H ≤ Subgroup.centralizer (eOmegaZ H D.T : Set G)) {L : Subgroup G}
-    (hL : IsComponentModN (kerMV V H) H L) (hLT : L ⊔ D.T = H)
+    (_hK : kerMV V H ≤ Subgroup.centralizer (eOmegaZ H D.T : Set G)) {L : Subgroup G}
+    (hL : IsComponentModN (kerMV V H) H L) (_hLT : L ⊔ D.T = H)
     (hX : HasQuotShape L (kerMV V H : Set G) (fun X _ => IsSp4 X 2)) {t : G} (htT : t ∈ D.T)
     (hne : conjSubgroup L t ≠ L)
-    (hall : ∀ s ∈ D.T, conjSubgroup L s = L ∨ conjSubgroup L s = conjSubgroup L t) :
+    (_hall : ∀ s ∈ D.T, conjSubgroup L s = L ∨ conjSubgroup L s = conjSubgroup L t) :
     ∀ A ∈ Ctx188.packFamilyU D V H i M, ∀ P : Subgroup (LGL 2 M.W),
       IsSylowIn 5 P (M.img H ⊓ Subgroup.normalizer (A : Set (LGL 2 M.W))) → IsCyclic ↥P := by
   intro A hA P hP

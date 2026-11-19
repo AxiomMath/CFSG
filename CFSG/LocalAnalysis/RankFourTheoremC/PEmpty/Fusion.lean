@@ -17,30 +17,30 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 theorem mem_of_alperinDecomposition (hS : Situation G p P M) {A : Subgroup G} {c : G}
     (hdec : CFSG.RankTwoShapes.AlperinDecomposition p (P : Subgroup G) A c) : c ∈ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPM := hS.sylow_le
   have hPnc : ¬ IsCyclic (P : Subgroup G) :=
     not_isCyclic_of_two_le_pRank hprime (by have := hS.four_le_pRank; omega)
   induction hdec with
   | one => exact M.one_mem
   | step _ hQ _ hn ih =>
-    have hQp : IsPGroup p _ := P.isPGroup'.to_le hQ.1
+    have hQp : IsPGroup p _ := P.isPGroup.to_le hQ.1
     exact M.mul_mem ih (hS.normalizer_le hQp (hQ.1.trans hPM)
       (two_le_pRank_of_not_isCyclic hprime hS.ne_two hQp
-        (not_isCyclic_of_isAlperinSubgroup P.isPGroup' hPnc hQ)) hn)
+        (not_isCyclic_of_isAlperinSubgroup P.isPGroup hPnc hQ)) hn)
 
 theorem exists_mem_conj_eq_of_map_le (hS : Situation G p P M) {A : Subgroup G}
     (hA : A ≤ (P : Subgroup G)) {g : G}
     (hg : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ (P : Subgroup G)) :
     ∃ c ∈ M, ∀ a ∈ A, c⁻¹ * a * c = g⁻¹ * a * g := by
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   obtain ⟨c, hdec, hc⟩ := CFSG.RankTwoShapes.alperin_centric_radical_fusion P hA hg
   exact ⟨c, mem_of_alperinDecomposition hS hdec, hc⟩
 
 theorem le_of_plane_le (hS : Situation G p P M) {B : Subgroup G} (hBP : B ≤ (P : Subgroup G))
     (hBC : centralizer (B : Set G) ≤ M) {Q : Subgroup G} (hQ : IsPGroup p Q) (hBQ : B ≤ Q) :
     Q ≤ M := by
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   obtain ⟨m, hm⟩ := pGroup_conjugate_into_sylow_within_overgroup p hS.prime P ⊤ le_top Q hQ
     le_top
   set g : G := (m : G)⁻¹ with hgdef

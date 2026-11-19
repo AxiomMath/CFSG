@@ -263,12 +263,12 @@ theorem normalizer_le_centralizer_of_comm (P : Sylow p X)
     have hle : zpowers (n ^ b) ≤ normalizer (P : Set X) :=
       (zpowers_le).mpr (pow_mem hn b)
     have h1 := P.maximal_isPGroup.eq_of_ge
-      (IsPGroup.to_sup_of_normal_left' P.isPGroup' hzp hle) le_sup_left
+      (IsPGroup.to_sup_of_normal_left' P.isPGroup hzp hle) le_sup_left
     have h2 : n ^ b ∈ (P : Subgroup X) ⊔ zpowers (n ^ b) := mem_sup_right (mem_zpowers _)
     rwa [h1] at h2
   have hg : ∀ t ∈ (P : Subgroup X), n ^ p ^ a * t = t * n ^ p ^ a := by
     intro t ht
-    refine mem_centralizer_of_coprime P.isPGroup' hPc (pow_mem hn _) hb ?_ ?_ t ht
+    refine mem_centralizer_of_coprime P.isPGroup hPc (pow_mem hn _) hb ?_ ?_ t ht
     · intro t' _
       have hnb : (n ^ p ^ a) ^ b = 1 := by rw [← pow_mul, ← hab, pow_orderOf_eq_one]
       rw [hnb, one_mul, mul_one]
@@ -295,14 +295,14 @@ theorem exists_normal_complement (hp2 : p ≠ 2)
     (hcent : ∀ x : X, x ^ p = 1 → x ∈ center X) (hcard : Nat.card {x : X // x ^ p = 1} ≤ p) :
     ∃ (K : Subgroup X) (_ : K.Normal), ¬ p ∣ Nat.card K ∧ IsPGroup p (X ⧸ K) := by
   obtain ⟨P⟩ : Nonempty (Sylow p X) := inferInstance
-  have hPcyc : IsCyclic (P : Subgroup X) := isCyclic_of_card_pow_eq_one_le hp2 P.isPGroup'
+  have hPcyc : IsCyclic (P : Subgroup X) := isCyclic_of_card_pow_eq_one_le hp2 P.isPGroup
     ((card_pow_eq_one_subgroup_le (P : Subgroup X)).trans hcard)
   have hPc : ∀ a ∈ (P : Subgroup X), ∀ b ∈ (P : Subgroup X), a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val ((IsCyclic.commGroup (α := (P : Subgroup X))).mul_comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hN := normalizer_le_centralizer_of_comm P hPc hcent
   refine ⟨(MonoidHom.transferSylow P hN).ker, MonoidHom.normal_ker _,
     MonoidHom.not_dvd_card_ker_transferSylow P hN, ?_⟩
-  exact P.isPGroup'.of_injective (QuotientGroup.kerLift (MonoidHom.transferSylow P hN))
+  exact P.isPGroup.of_injective (QuotientGroup.kerLift (MonoidHom.transferSylow P hN))
     (QuotientGroup.kerLift_injective _)
 
 omit [Finite X] in

@@ -17,7 +17,7 @@ theorem single_component_delta {X : Type} [Group X] [Finite X] (hT : T29.GL83I29
     (huniq : ∀ K : Subgroup X, IsComponentOf K ⊤ → K = L)
     (hno : ∀ N : Subgroup X, N.Normal → N.index ≠ 3) :
     IsCyclic ↥(CFSG.pCore 3 X) ∧ 9 ≤ Nat.card ↥(CFSG.pCore 3 X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hrank : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) :=
     hSr.trans (CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 3 (by norm_num) le_top)
@@ -33,7 +33,7 @@ theorem single_component_delta {X : Type} [Group X] [Finite X] (hT : T29.GL83I29
   · obtain ⟨e', -, -⟩ := id hb
     have hZ : center ↥L = ⊥ := T29.k3_center_eq_bot_of_psl227 hLc.2.2.1 e'
     have hC : centralizer (L : Set X) = ⊥ := hsetup.centralizer_eq_bot hZ
-    haveI : L.Normal := hsetup.normal
+    have : L.Normal := hsetup.normal
     obtain ⟨N, hN, hNi⟩ := K2.exists_index_three_normal hsetup.normal ⟨e'⟩ hC
       (T29.index_eq_of_fieldAut_L227 hC hb)
     exact absurd hNi (hno N hN)

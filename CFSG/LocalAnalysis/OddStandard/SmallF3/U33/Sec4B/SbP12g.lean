@@ -36,7 +36,7 @@ theorem isZ4Z4E4_of_abelian {Q : Subgroup G} {x₁ x₂ lam : G} (hw : WreathRel
     (hx₁ : x₁ ∈ Q) (hx₂ : x₂ ∈ Q) (hab : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a)
     (hcard : Nat.card Q = 64) (hsq : ∀ a ∈ Q, a ^ 2 ∈ fourGrp x₁ x₂) : IsZ4Z4E4 Q := by
   classical
-  letI : CommGroup Q := { (inferInstance : Group Q) with
+  let : CommGroup Q := { (inferInstance : Group Q) with
     mul_comm := fun a b => Subtype.ext (hab a.1 a.2 b.1 b.2) }
   have hB_le_Q : baseGrp x₁ x₂ ≤ Q := by
     rw [hw.baseGrp_eq.2.1]
@@ -112,7 +112,7 @@ theorem isZ4Z4E4_of_abelian {Q : Subgroup G} {x₁ x₂ lam : G} (hw : WreathRel
     intro h
     rw [h] at he1V
     exact he1V (fourGrp x₁ x₂).one_mem
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord_e1 : orderOf e1 = 2 := orderOf_eq_prime he1sq he1ne
   have he1mul : e1 * e1 = 1 := by simpa [pow_two] using he1sq
   have hord_e1_int : (orderOf e1 : ℤ) = 2 := by rw [hord_e1]; norm_num

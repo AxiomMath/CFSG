@@ -15,7 +15,7 @@ theorem fixed_eq_one {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}
     (hc : BinaryActionRankCounterexample G p P T B e ρ) (he : Odd e)
     (X : Subgroup (MulAut P)) (hXne : X ≠ ⊥)
-    (hXT : X ≤ T.map (conjOnP P hc.faithfulBinaryIrreducibleAction.normal))
+    (_hXT : X ≤ T.map (conjOnP P hc.faithfulBinaryIrreducibleAction.normal))
     (hcent : ∀ ψ ∈ X, ∀ φ ∈ T.map (conjOnP P hc.faithfulBinaryIrreducibleAction.normal), Commute ψ φ)
     (hBX : Bstar P B ≤ Subgroup.normalizer (X : Set (MulAut P))) :
     ∀ q : P, (∀ ψ ∈ X, ψ q = q) → q = 1 := by

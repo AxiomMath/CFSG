@@ -29,7 +29,7 @@ theorem noElemNine_of_odd {X : Type} [Group X] {n : ℕ} (hn : Odd n)
   refine NoElemNine.of_mulEquiv e (noElemNine_of_isCyclic fun Q hQ => ?_)
   exact isCyclic_of_isPGroup_of_surjective (QuotientGroup.mk'_surjective _)
     (fun S => CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three (by omega)
-      (by omega) S.isPGroup') Q hQ
+      (by omega) S.isPGroup) Q hQ
 
 theorem charP_two_of_card_eq_two_pow {K : Type} [Field K] [Finite K] {f : ℕ}
     (h : Nat.card K = 2 ^ f) : CharP K 2 := by

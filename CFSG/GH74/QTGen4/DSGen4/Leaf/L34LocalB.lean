@@ -63,7 +63,7 @@ theorem nontriv_of_natSec [Finite G] {L : Subgroup G} (hnat : NatSec L ⊥ (pCor
     (hcard : Nat.card (pCoreOf 2 L) = 16) {x : G} (hxL : x ∈ L) (hx3 : orderOf x = 3) :
     ∃ l ∈ L, ∃ e ∈ pCoreOf 2 L, ⁅l, e⁆ ∉ (⊥ : Subgroup G) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : pCoreOf 2 L = ⊥ := by
     rw [eq_bot_iff]
     intro e he
@@ -101,7 +101,7 @@ theorem split_of_sylow [Finite G] {H T R' : Subgroup G} (hT : IsSylowTwoOf T H) 
     (hR'T : R' ≤ T) (hR'e : IsElemAbelian 2 R') (hR'c : Nat.card R' = 16)
     (hE : Nat.card ↥(pCoreOf 2 H ⊓ R') = 4) :
     ∃ A : Subgroup G, A ≤ H ∧ A ⊓ pCoreOf 2 H = ⊥ ∧ pCoreOf 2 H ⊔ A = H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K0, hK0R', hK0c, hK0E⟩ := exists_complement_four hR'e hR'c inf_le_right hE
   have hK0T : K0 ≤ T := hK0R'.trans hR'T
   have hinf : pCoreOf 2 H ⊓ K0 = ⊥ := by
@@ -125,7 +125,7 @@ theorem card_inf_four [Finite G] {M M' T0 : Subgroup G} (hT64 : Nat.card T0 = 64
     (hQT : pCoreOf 2 M ≤ T0) (hQ'T : pCoreOf 2 M' ≤ T0) (hQ'c : Nat.card (pCoreOf 2 M') = 16)
     (hne : pCoreOf 2 M ≠ pCoreOf 2 M') :
     Nat.card ↥(pCoreOf 2 M ⊓ pCoreOf 2 M') = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxM : x ∈ M := hxMM.1
   have hxM' : x ∈ M' := hxMM.2
   have hxE : ∀ e ∈ pCoreOf 2 M ⊓ pCoreOf 2 M', x * e * x⁻¹ ∈ pCoreOf 2 M ⊓ pCoreOf 2 M' := fun e he =>

@@ -57,9 +57,9 @@ theorem letter_unpack (hT : ∀ j < k, T j = tabT (unpack n w (G j)))
     have hm : m ≠ 0 := fun e => h0 (by rw [e]; rfl)
     have hmk : m ≤ k := hl
     have hpos : (0 : Int) < Int.ofNat m := by
-      rw [Int.ofNat_eq_coe]
+      rw [Int.ofNat_eq_natCast]
       omega
-    rw [if_pos hpos]
+    rw [ite_eq_left hpos]
     have e : (Int.ofNat m).toNat = m := rfl
     rw [e, range_toArray_get T (by omega), hT (m - 1) (by omega)]
     exact ⟨rfl, (hG (m - 1) (by omega)).1⟩
@@ -67,7 +67,7 @@ theorem letter_unpack (hT : ∀ j < k, T j = tabT (unpack n w (G j)))
     have hmk : m < k := by
       have : (Int.negSucc m).natAbs = m + 1 := rfl
       omega
-    rw [if_neg (not_lt.2 (le_of_lt (Int.negSucc_lt_zero m)))]
+    rw [ite_eq_right (not_lt.2 (le_of_lt (Int.negSucc_lt_zero m)))]
     have e : (Int.negSucc m).natAbs - 1 = m := rfl
     obtain ⟨h1, h2, h3⟩ := hG m hmk
     rw [e, range_toArray_get T hmk, hT m hmk, invT_unpack (lt_of_canonK h1) h3]

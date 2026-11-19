@@ -64,7 +64,7 @@ theorem not_hasCompFactor_normalizer_of_relIndex_two
     ((MulEquiv.subgroupCongr (Subgroup.inf_subgroupOf_right E N).symm).trans
       (Subgroup.subgroupOfEquivOfLe inf_le_right)).symm
     (not_isCompositionFactor_of_isSolvable_normal hP (A.subgroupOf (E ⊓ N))
-      (solvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom)
+      (Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hle).symm.surjective) ?_)
   have h1 := Subgroup.relIndex_mul_relIndex A (T ⊓ E) (E ⊓ N) hAT hTle
   have h2 := Subgroup.relIndex_mul_relIndex (T ⊓ E) (E ⊓ N) E hTle inf_le_left

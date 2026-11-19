@@ -22,14 +22,17 @@ namespace IsQuadSpace
 variable {B : LinearMap.BilinForm K E} {Qf : E → K} (hQ : IsQuadSpace B Qf)
 include hQ
 
+omit [FiniteDimensional K E] in
 theorem B_neg (e f : E) : B f e = - B e f := by
   have h := hQ.alt (e + f)
   simp only [map_add, LinearMap.add_apply, hQ.alt] at h
   linear_combination h
 
+omit [FiniteDimensional K E] in
 theorem nondegenerate : B.Nondegenerate :=
   ⟨hQ.nondeg, fun y hy => hQ.nondeg y fun x => by rw [hQ.B_neg]; simp [hy x]⟩
 
+omit [FiniteDimensional K E] in
 theorem B_iso (g : E ≃ₗ[K] E) (hg : ∀ e, Qf (g e) = Qf e) (u v : E) :
     B (g u) (g v) = B u v := by
   have h1 := hQ.Qf_add u v
@@ -53,6 +56,7 @@ variable {B : LinearMap.BilinForm K E} {Qf : E → K} {Vm N Wm : Submodule K E}
   (hQ : IsQuadSpace B Qf) (hF : OrthFlag B Qf Vm N Wm)
 include hQ hF
 
+omit [FiniteDimensional K E] in
 theorem B_N (n n' : E) (hn : n ∈ N) (hn' : n' ∈ N) : B n n' = 0 := by
   have h := hQ.Qf_add n n'
   rw [hF.Nsing _ (N.add_mem hn hn'), hF.Nsing n hn, hF.Nsing n' hn'] at h
@@ -128,6 +132,7 @@ variable {B : LinearMap.BilinForm K E} {Qf : E → K} {Vm N Wm : Submodule K E}
 
 include hQ hF hiso hW hNV
 
+omit hW in
 theorem D_mem_N (g : Γ) {w : E} (hw : w ∈ Wm) : α g w - w ∈ N := by
   rw [← hF.perp_N hQ, LinearMap.BilinForm.mem_orthogonal_iff]
   intro n hn
@@ -136,7 +141,7 @@ theorem D_mem_N (g : Γ) {w : E} (hw : w ∈ Wm) : α g w - w ∈ N := by
     have e : α g (α g⁻¹ n) = n := by
       have := congrArg (fun f : E ≃ₗ[K] E => f n)
         (show α g * α g⁻¹ = 1 by rw [← map_mul, mul_inv_cancel, map_one])
-      simpa using this
+      simp
     rw [e] at this
     exact this
   have h2 : B (α g⁻¹ n - n) w = 0 := (hF.Wperp w).mp hw _ (hNV g⁻¹ n hn)
@@ -144,19 +149,21 @@ theorem D_mem_N (g : Γ) {w : E} (hw : w ∈ Wm) : α g w - w ∈ N := by
   rw [map_sub, LinearMap.sub_apply] at h2
   linear_combination h2
 
+omit hF hW hNV [FiniteDimensional K E] in
 theorem B_act (g : Γ) (u x : E) : B u (α g x) = B (α g⁻¹ u) x := by
   have := hQ.B_iso (α g) (hiso g) (α g⁻¹ u) x
   have e : α g (α g⁻¹ u) = u := by
     have := congrArg (fun f : E ≃ₗ[K] E => f u)
       (show α g * α g⁻¹ = 1 by rw [← map_mul, mul_inv_cancel, map_one])
-    simpa using this
+    simp
   rw [e] at this
   exact this
 
+omit hW in
 theorem b_symm (g : Γ) {u v : E} (hu : u ∈ Wm) (hv : v ∈ Wm) :
     B u (α g v - v) = B v (α g u - u) := by
   have h := hQ.B_iso (α g) (hiso g) u v
-  have h0 := hF.B_N hQ _ _ (D_mem_N hQ hF α hiso hW hNV g hu) (D_mem_N hQ hF α hiso hW hNV g hv)
+  have h0 := hF.B_N hQ _ _ (D_mem_N hQ hF α hiso hNV g hu) (D_mem_N hQ hF α hiso hNV g hv)
   generalize hDu : α g u - u = Du at h0 ⊢
   generalize hDv : α g v - v = Dv at h0 ⊢
   have eu : α g u = u + Du := by rw [← hDu]; abel
@@ -166,38 +173,43 @@ theorem b_symm (g : Γ) {u v : E} (hu : u ∈ Wm) (hv : v ∈ Wm) :
   have hn : B Du v = - B v Du := hQ.B_neg _ _
   linear_combination h - h0 - hn
 
+omit hW in
 theorem b_alt (g : Γ) {u : E} (hu : u ∈ Wm) : B u (α g u - u) = 0 := by
   have h := hQ.Qf_add u (α g u - u)
-  rw [add_sub_cancel, hiso g u, hF.Nsing _ (D_mem_N hQ hF α hiso hW hNV g hu)] at h
+  rw [add_sub_cancel, hiso g u, hF.Nsing _ (D_mem_N hQ hF α hiso hNV g hu)] at h
   linear_combination -h
 
+omit hW in
 theorem b_N_left (g : Γ) {n v : E} (hn : n ∈ N) (hv : v ∈ Wm) : B n (α g v - v) = 0 :=
-  hF.B_N hQ n _ hn (D_mem_N hQ hF α hiso hW hNV g hv)
+  hF.B_N hQ n _ hn (D_mem_N hQ hF α hiso hNV g hv)
 
+omit hiso hW [FiniteDimensional K E] in
 theorem b_N_right (g : Γ) {u n : E} (hu : u ∈ Wm) (hn : n ∈ N) : B u (α g n - n) = 0 := by
   have h := (hF.Wperp u).mp hu _ (hNV g n hn)
   rw [hQ.B_neg, h, neg_zero]
 
+omit hW in
 theorem b_mul (g g' : Γ) {u v : E} (hu : u ∈ Wm) (hv : v ∈ Wm) :
     B u (α (g * g') v - v) = B u (α g v - v) + B u (α g' v - v) := by
   have e : α (g * g') v - v = α g (α g' v - v) + (α g v - v) := by
     rw [map_mul]
     simp only [LinearEquiv.mul_apply, map_sub]
     abel
-  rw [e, map_add, B_act hQ hF α hiso hW hNV g u (α g' v - v)]
+  rw [e, map_add, B_act hQ α hiso g u (α g' v - v)]
   have h1 : B (α g⁻¹ u - u) (α g' v - v) = 0 :=
-    hF.B_N hQ _ _ (D_mem_N hQ hF α hiso hW hNV g⁻¹ hu) (D_mem_N hQ hF α hiso hW hNV g' hv)
+    hF.B_N hQ _ _ (D_mem_N hQ hF α hiso hNV g⁻¹ hu) (D_mem_N hQ hF α hiso hNV g' hv)
   generalize hDg : α g⁻¹ u - u = Dg at h1
   have e2 : α g⁻¹ u = u + Dg := by rw [← hDg]; abel
   rw [e2, map_add, LinearMap.add_apply]
   linear_combination h1
 
+omit hW in
 theorem exists_orth_subgroup [Finite K] :
     ∃ C : Subgroup Γ, (∀ g, g ∈ C ↔ ∀ w ∈ Wm, α g w - w ∈ Vm) ∧ C.index ≤ Nat.card K := by
   obtain ⟨u₁, hu₁, u₂, hu₂, hdec⟩ := hF.exists_basis_mod
   let c : Γ → K := fun g => B u₁ (α g u₂ - u₂)
   have hc : ∀ g g', c (g * g') = c g + c g' := fun g g' =>
-    b_mul hQ hF α hiso hW hNV g g' hu₁ hu₂
+    b_mul hQ hF α hiso hNV g g' hu₁ hu₂
   have hc1 : c 1 = 0 := by simp [c]
   let f : Γ →* Multiplicative K :=
     { toFun := fun g => Multiplicative.ofAdd (c g)
@@ -220,16 +232,16 @@ theorem exists_orth_subgroup [Finite K] :
       have hΦ : ∀ x y, Φ x y = B x (α g y - y) := fun x y => by simp [Φ]
       have hx' : x = a • u₁ + b • u₂ + (x - a • u₁ - b • u₂) := by abel
       have hw' : w = a' • u₁ + b' • u₂ + (w - a' • u₁ - b' • u₂) := by abel
-      have h11 : Φ u₁ u₁ = 0 := by rw [hΦ]; exact b_alt hQ hF α hiso hW hNV g hu₁
-      have h22 : Φ u₂ u₂ = 0 := by rw [hΦ]; exact b_alt hQ hF α hiso hW hNV g hu₂
+      have h11 : Φ u₁ u₁ = 0 := by rw [hΦ]; exact b_alt hQ hF α hiso hNV g hu₁
+      have h22 : Φ u₂ u₂ = 0 := by rw [hΦ]; exact b_alt hQ hF α hiso hNV g hu₂
       have h12 : Φ u₁ u₂ = 0 := by rw [hΦ]; exact hcg
       have h21 : Φ u₂ u₁ = 0 := by
-        rw [hΦ, ← b_symm hQ hF α hiso hW hNV g hu₁ hu₂]
+        rw [hΦ, ← b_symm hQ hF α hiso hNV g hu₁ hu₂]
         exact hcg
       have hNl : ∀ y ∈ Wm, Φ (x - a • u₁ - b • u₂) y = 0 := fun y hy => by
-        rw [hΦ]; exact b_N_left hQ hF α hiso hW hNV g hxN hy
+        rw [hΦ]; exact b_N_left hQ hF α hiso hNV g hxN hy
       have hNr : ∀ y ∈ Wm, ∀ n ∈ N, Φ y n = 0 := fun y hy n hn => by
-        rw [hΦ]; exact b_N_right hQ hF α hiso hW hNV g hy hn
+        rw [hΦ]; exact b_N_right hQ hF α hNV g hy hn
       have key : Φ x w = 0 := by
         rw [hx', hw']
         simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, h11, h22, h12,
@@ -243,7 +255,7 @@ theorem exists_orth_subgroup [Finite K] :
       show B u₁ (α g u₂ - u₂) = 0
       rw [hQ.B_neg, hv, neg_zero]
   · rw [Subgroup.index_ker f]
-    haveI : Finite (Multiplicative K) := inferInstanceAs (Finite K)
+    have : Finite (Multiplicative K) := inferInstanceAs (Finite K)
     calc Nat.card f.range ≤ Nat.card (Multiplicative K) := Subgroup.card_le_card_group _
       _ = Nat.card K := Nat.card_congr Multiplicative.toAdd
 

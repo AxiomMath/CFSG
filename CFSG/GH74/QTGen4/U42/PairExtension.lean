@@ -23,7 +23,7 @@ theorem pair_extension {G G' : Type*} [Group G] [Finite G] [Group G'] [Finite G'
     (lam.toMonoidHom.comp iB.toMonoidHom)
   let Z' := Subgroup.zpowers (zH h' e')
   have hZ' : Z' ≤ Subgroup.center ↥H' := Subgroup.zpowers_le.mpr (zH_mem_center h' e')
-  letI : CommGroup ↥Z' :=
+  let : CommGroup ↥Z' :=
     { (inferInstance : Group ↥Z') with
       mul_comm := fun x y => Subtype.ext ((Subgroup.mem_center_iff.mp (hZ' x.2) y).symm) }
   have hβ : ∀ b : ↥B0, nuHom h'.U_normal e' (β b) = nuHom h.U_normal e (b : ↥H) := by
@@ -47,7 +47,7 @@ theorem pair_extension {G G' : Type*} [Group G] [Finite G] [Group G'] [Finite G'
     apply Subtype.ext
     exact sq_eq_one_of_mem_zpowers (zH h' e') (zH_orderOf h' e') a a.2
   obtain ⟨N, hN, hUN, hNB, hcube⟩ := exists_pair_normal_three h e
-  letI : N.Normal := hN
+  let : N.Normal := hN
   have hδN : ∀ b : ↥B0, (b : ↥H) ∈ N → δ b = 1 :=
     hom_trivial_of_cube_mem B0 (U.subgroupOf H) N δ hA hδU (fun b hb => hcube (b : ↥H) hb)
   obtain ⟨χ, hχB⟩ := extend_hom_of_sup_eq_top B0 N (by simpa only [sup_comm] using hNB) δ hδN

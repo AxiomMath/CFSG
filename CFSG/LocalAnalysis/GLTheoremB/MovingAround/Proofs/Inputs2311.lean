@@ -67,6 +67,7 @@ omit [Finite G] in
     Set (Subgroup (↥C ⧸ GLAPPrimeCore p ↥C)) :=
   {Z | ∃ z ∈ A0, Z = GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥C) z) (barX p C K)}
 
+omit [Finite G] in
 theorem barX_kstar_eq {p : ℕ} {a : G} {A0 K : Subgroup G} (hK : K ≤ Cg a) (hA0 : A0 ≤ Cg a) :
     barX p (Cg a) (⨆ x ∈ A0, GLBConj x K) = sSup (famConj p (Cg a) K (A0.subgroupOf (Cg a))) := by
   refine le_antisymm
@@ -85,7 +86,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem dvd_card_barX {p : ℕ} (hp : p.Prime) {X K : Subgroup G} (hK : GLAPComponent p X K) :
     p ∣ Nat.card (barX p X K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← Nat.card_congr (quotEquivBarX hp hK.1 hK.2.1).toEquiv]
   by_contra hndvd
   have hcop : Nat.Coprime p (Nat.card (barOf p K)) := (Nat.Prime.coprime_iff_not_dvd hp).mpr hndvd
@@ -119,7 +120,7 @@ theorem core_le {p : ℕ} (hp : p.Prime) {a : G} {L : Subgroup G} (hLC : L ≤ C
     GLAPPrimeCoreOf p (barX p (Cg a) L ⊓ Subgroup.centralizer
         ({QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z} : Set (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a)))) ≤
       barX p (Cg a) (GLAPPrimeCoreOf p (Cg2 (z : G) a)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have heq := barX_inf_centralizer hp z.2 hLC hzN hzp
   rw [← heq]
   refine (Claims1314b.core_barX_le (inf_le_left.trans hLC)).trans (Claims1116.bar_mono ?_)
@@ -172,7 +173,7 @@ theorem gen_of_bad {p q : ℕ} (hp : p.Prime) {a : G} {K E A : Subgroup G}
               IsChevSimple q (barOf p J ⧸ Subgroup.center (barOf p J))),
             barX p (Cg a) J) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z₀, hz₀A, hz₀1, hz₀bad⟩ := hbad
   set A0 : Subgroup G := E ⊓ A with hA0
   set Kstar : Subgroup G := ⨆ x ∈ A0, GLBConj x K with hKstar

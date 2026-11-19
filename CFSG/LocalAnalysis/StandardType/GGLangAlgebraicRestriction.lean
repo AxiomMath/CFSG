@@ -151,7 +151,7 @@ theorem LangSetup.exists_algebraicRestriction
       exact (CFSG.RankThree.PartOne.KE.mem_twistedTorusOf).1
         (show y ∈ CFSG.RankThree.PartOne.KE.twistedTorusOf S.D.n S.D.Φ from hy) |>.2
   have hfin : Finite D0.model := by
-    haveI : Finite S.D.model := S.finite
+    have : Finite S.D.model := S.finite
     refine Finite.of_injective
       (fun x : D0.model =>
         (⟨baseChangeGL ι x.1, hmodel ▸ Subgroup.mem_map_of_mem _ x.2⟩ : S.D.model))
@@ -231,7 +231,7 @@ theorem LangSetup.exists_algebraicRestriction
     rw [map_natCast, S.hqpow.2, map_zero]
   let S0 : LangSetup τ L0 p₀ :=
     D0.toSetup p₀ S.ρ hfrob S.hp S.hq ⟨S.hqpow.1, hcast⟩ S.hpq hfin
-  haveI : Algebra.IsAlgebraic (ZMod 2) L0 := algebraicClosure.isAlgebraic (ZMod 2) L
+  have : Algebra.IsAlgebraic (ZMod 2) L0 := algebraicClosure.isAlgebraic (ZMod 2) L
   have hS0alg : S0.IsAlgebraic :=
     CFSG.StandardType.langSetup_isAlgebraic_of_zmod_two S0 (by rw [LangDatum.toSetup_D]; exact hq2f)
   refine ⟨S0, rfl, rfl, hS0alg, hbcn0, hg00, hΦcompat, hmodel, hΓ, htor, hE⟩

@@ -75,7 +75,7 @@ theorem center_of_noTwin (F : FSet r n R S t K' W S₁ R₁ R₂ t₁ u₁ u₂ 
     rwa [conjSub_eq_self_of_mem (Subgroup.one_mem K)] at this
   have hu : IsUniqueInvolution (imgX b H K) (QuotientGroup.mk' (classicalInvolutionOddCore ↥H) tH) :=
     isUniqueInvolution_imgF_X hT4 hKbar hbase.inv_core F.htC htH
-  haveI : Fintype (↥H ⧸ classicalInvolutionOddCore ↥H) := Fintype.ofFinite _
+  have : Fintype (↥H ⧸ classicalInvolutionOddCore ↥H) := Fintype.ofFinite _
   have hodd : Odd (Nat.card ↥(classicalInvolutionOddCore ↥H)) :=
     CFSG.ComponentClassification.OddCore.odd_card ↥H
   have hOq : TightOddFree (↥H ⧸ classicalInvolutionOddCore ↥H) :=

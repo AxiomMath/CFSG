@@ -20,6 +20,7 @@ variable {d : TauCeti.ValidLieTypeIndex} {P : Sylow 3 G} {M A H R : Subgroup G}
   {Rbar : Sylow 3 (H ⧸ primeComplementCore (G := H) 3)}
   {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)} {T : Subgroup G}
 
+omit [Finite G] in
 private theorem relIndex_sup_left_of_le_normalizer {A B : Subgroup G}
     (hB : B ≤ Subgroup.normalizer (A : Set G)) : A.relIndex (A ⊔ B) = A.relIndex B := by
   have hBS : B ≤ B ⊔ A := le_sup_left
@@ -108,7 +109,7 @@ theorem D2L34R27.exists_normal_le_of_good
     ∃ L : Subgroup G, L ≤ M ∧ (L.subgroupOf M).Normal ∧ E ≤ L ∧
       ∀ Q : Subgroup G, Q ≤ L → IsPGroup 3 Q → Nat.card Q ≤ 9 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := c.amb
+  have := c.amb
   have hc := c.ctx.conf
   have hT := c.sylow
   set Z := quasithinOmegaOneCenter T
@@ -203,14 +204,14 @@ theorem D2L34R27.exists_subgroup_N
     (hX : D1NoXBlock3 G)
     (c : D2L34R27 G d P M A H R Rbar K T) {E W : Subgroup G} (hEC : E ≤ ffC M T)
     (hEel : IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (hEcore : GLBCore 3 1 E ≤ M)
-    (hWM : W ≤ M) (hWp : IsPGroup 3 W) (hWidx : ¬ 3 ∣ (W.subgroupOf M).index)
+    (hWM : W ≤ M) (_hWp : IsPGroup 3 W) (hWidx : ¬ 3 ∣ (W.subgroupOf M).index)
     (hWE : W ≤ Subgroup.normalizer (E : Set G)) :
     ∃ N : Subgroup G, N ≤ M ∧ IsSylowTwoOf T N ∧ CharTwo N ∧
       W ⊓ Subgroup.centralizer (E : Set G) ≤ N ∧
       ¬ 3 ∣ ((W ⊓ Subgroup.centralizer (E : Set G)).subgroupOf N).index ∧
       ∀ Y : Subgroup G, Y ≤ N → IsSubnormal Y N → InClassXBlock Y → False := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := c.amb
+  have := c.amb
   have hc := c.ctx.conf
   have hT := c.sylow
   have hF : CharTwo M := (D2Amb3.glob (G := G)).charTwo M hc.esc.maxTwoLocal_M.1
@@ -323,7 +324,7 @@ theorem D2L34R27.exists_subgroup_N
   intro Y hYN hYsn hYX
   have hYM : Y ≤ M := hYN.trans hNM
   have hYN₁ : Y ≤ N₁ := by
-    haveI : (N₁.subgroupOf Y).Normal := ⟨fun x hx y => by
+    have : (N₁.subgroupOf Y).Normal := ⟨fun x hx y => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       exact hconjN₁ y (hYM y.2) x hx⟩
     have htop := hYX.1.1 (N₁.subgroupOf Y) (fun g => by

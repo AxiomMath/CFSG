@@ -20,7 +20,7 @@ theorem exists_noncomm_of_simple_not_prime {S : Type} [Group S] [IsSimpleGroup S
     (hc : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, ne_eq, not_not] at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
+  let : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := S)).1 ‹IsSimpleGroup S›)
 
 theorem fixSubgroup_one {G : Type} [Group G] : fixSubgroup (1 : MulAut G) = ⊤ := by
@@ -109,7 +109,7 @@ theorem noA8_inner (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.D 4 q).V
     have h2 := card_pSimple_dvd 3 J
     rw [h1] at h2
     exact (by norm_num : 7 ∣ 20160).trans h2
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := J) 7 h7
   have hu7 : (u : (TauCeti.CFSGIndex.lie ⟨.D 4 q, hv⟩).Group) ^ 7 = 1 := by
     have := pow_orderOf_eq_one u
@@ -125,7 +125,7 @@ theorem noA8_inner (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.D 4 q).V
     have : (u : (TauCeti.CFSGIndex.lie ⟨.D 4 q, hv⟩).Group) ∈ fixSubgroup (MulAut.conj a) := hJ.1 u.2
     rw [fixSubgroup_conj_eq, Subgroup.mem_centralizer_singleton_iff] at this
     exact this.symm
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by rw [hF]; norm_num)
   let ψ := e.trans (CFSG.HardMathSupport.Curtis.Coordinator.projEquivElementary F hF (by norm_num : 3 ≤ 4))
   have hmem : ∀ g, ((ψ g : ↥(CFSG.ClassicalGroups.Orthogonal.elementaryGroup

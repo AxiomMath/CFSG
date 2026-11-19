@@ -45,7 +45,7 @@ variable (hext : SteinbergExtras D n H)
   (hsq : ∀ i, n i * n i = 1)
 
 private theorem q2nPE_neg_single_mem_bruhatCell (hext : SteinbergExtras D n H)
-    (hsq : ∀ i, n i * n i = 1)
+    (_hsq : ∀ i, n i * n i = 1)
     {i : Fin D.rank} {w : K} (hw : w ∈ D.rootGroup (-Pi.single i 1)) (hw1 : w ≠ 1) :
     w ∈ bruhatCell hct ((cs).simple i) := by
   have hmem : -Pi.single i 1 ∈ D.roots := (Φ).neg_mem _ ((Φ).single_mem i)
@@ -286,15 +286,16 @@ theorem q2nPE_not_parallel (R : RankOneField hct F) {i : Fin D.rank} {v : W}
   exact (cs).simple_ne_one i' h1
 
 include hext hw₀ hsq in
+omit hw₀ in
 theorem stdPanel_of_rankOneField (R : RankOneField hct F) :
     StdPanel hct F n₀ := by
   intro i x
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
-  rcases q2nPE_panel_dichotomy hct F n₀ hext hw₀ hsq g i with
+  rcases q2nPE_panel_dichotomy hct F n₀ hext hsq g i with
       hd | ⟨x0, hx0, hd'⟩ | ⟨hnd, hpar, hall⟩
-  · obtain ⟨u, hu, hlt⟩ := q2nPE_panel_of_descent hct F n₀ hext hw₀ hsq g i hd
+  · obtain ⟨u, hu, hlt⟩ := q2nPE_panel_of_descent hct F n₀ hext g i hd
     exact ⟨(g : K ⧸ borel D H), self_mem_residue _ _, u, hu, hlt⟩
-  · obtain ⟨u, hu, hlt⟩ := q2nPE_panel_of_descent hct F n₀ hext hw₀ hsq (g * x0 * n i) i hd'
+  · obtain ⟨u, hu, hlt⟩ := q2nPE_panel_of_descent hct F n₀ hext (g * x0 * n i) i hd'
     have hg' : ((g * x0 * n i : K) : K ⧸ borel D H) ∈
         residue (coxeterMatrix D.isFiniteType).toCoxeterSystem (stdδ hct) {i}
           (g : K ⧸ borel D H) := by
@@ -311,7 +312,7 @@ theorem stdPanel_of_rankOneField (R : RankOneField hct F) :
     have hz : g⁻¹ * (n₀ * F.φ g) ∈
         bruhatCell hct (stdδ hct (g : K ⧸ borel D H)
           (stdFlip F n₀ (g : K ⧸ borel D H))) :=
-      (stdδ_flip_mk_eq_iff hct F hext hw₀ n₀ g _).mp rfl
+      (stdδ_flip_mk_eq_iff hct F hext n₀ g _).mp rfl
     obtain ⟨x1, hx1, hx1not⟩ := q2nPE_not_parallel hct F hext hsq R hnd hpar hz
     exact hx1not (hall x1 hx1)
 

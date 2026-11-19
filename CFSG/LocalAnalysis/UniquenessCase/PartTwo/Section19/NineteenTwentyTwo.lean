@@ -71,9 +71,9 @@ private theorem isCyclic_of_lift_disjoint_centralizer (D : Data G) {V₀ V : Sub
     (hXbot : X ⊓ centralizer (V₀ : Set G) = ⊥) : IsCyclic ↥X := by
   have hsub : (X ⊓ centralizer (V₀ : Set G)).subgroupOf X = ⊥ := by
     rw [hXbot, Subgroup.bot_subgroupOf]
-  haveI : ((X ⊓ centralizer (V₀ : Set G)).subgroupOf X).Normal := by
+  have : ((X ⊓ centralizer (V₀ : Set G)).subgroupOf X).Normal := by
     rw [hsub]; infer_instance
-  haveI hcyc :=
+  have hcyc :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.ElevenFourteen.eleven_four_one_of_sig D h61 hH
       hp hXM hXp
   let e : ↥X ⧸ (X ⊓ centralizer (V₀ : Set G)).subgroupOf X ≃* ↥X :=
@@ -81,7 +81,7 @@ private theorem isCyclic_of_lift_disjoint_centralizer (D : Data G) {V₀ V : Sub
   exact isCyclic_of_surjective e.toMonoidHom e.surjective
 
 @[expose] def Gap19_22_P (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L A : Subgroup G)
-    (t : G) (B : Subgroup G) (r : ℕ) (h : Ctx19_10 D V₀ V p L A t B r)
+    (t : G) (B : Subgroup G) (r : ℕ) (_h : Ctx19_10 D V₀ V p L A t B r)
     (E : Subgroup G) : Prop :=
   E ≤ A → IsElemAbelian r E → Nat.card E = r ^ 2 →
     Permutes E D.T ∧
@@ -98,7 +98,7 @@ theorem not_centralizer_le_of_not_normalizer_le {D : Data G} {V₀ V : Subgroup 
     (hN : ¬ normalizer (A₀ : Set G) ≤ D.M) :
     ¬ centralizer (A₀ : Set G) ≤ D.M := by
   have hr : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   intro hCM
   have hcommA : IsMulCommutative ↥A := isMulCommutative_of_isZModSq h.hAcard
   have hEC : E ≤ centralizer (A₀ : Set G) :=
@@ -118,7 +118,7 @@ theorem not_centralizer_le_of_not_normalizer_le {D : Data G} {V₀ V : Subgroup 
       (hRle.trans hCM)
   have hNRM : normalizer (R : Set G) ≤ D.M :=
     CFSG.LocalAnalysis.RankThreeUC.normalizer_le_of_mem_uniqueSet D.maxLocal hRunique
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.mp hN
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.mp hN
   have hgC : g ∈ normalizer (centralizer (A₀ : Set G) : Set G) :=
     CFSG.GorensteinWalter.normalizer_le_normalizer_centralizer_subgroup A₀ hgN
   obtain ⟨k, hkC, hkR⟩ :=
@@ -131,7 +131,7 @@ theorem not_centralizer_le_of_not_normalizer_le {D : Data G} {V₀ V : Subgroup 
   exact D.M.mul_mem hkM hkgM
 
 @[expose] def Gap19_22 (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L A : Subgroup G)
-    (t : G) (B : Subgroup G) (r : ℕ) (h : Ctx19_10 D V₀ V p L A t B r) : Prop :=
+    (t : G) (B : Subgroup G) (r : ℕ) (_h : Ctx19_10 D V₀ V p L A t B r) : Prop :=
   (S17.IsL2U3Product (Bar2 (IOf D p L)) (S17.nOf L) ∨
       IsL2Square (Bar2 (IOf D p L)) (S17.nOf L)) →
     ∀ A₀ : Subgroup G, A₀ ≤ A → Nat.card A₀ = r → IsCyclic ↥A₀ →
@@ -140,9 +140,9 @@ theorem not_centralizer_le_of_not_normalizer_le {D : Data G} {V₀ V : Subgroup 
 private theorem sp4_two_le_pRank {X : Type} [Group X] [Finite X] {n p : ℕ} (hX : IsSp4 X n)
     (hp : p.Prime) (hdvd : p ∣ 2 ^ n + 1) : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [Fintype.card_eq_nat_card]; exact hF)
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e]
   refine CFSG.RankThree.PartTwo.Sec19.Census194.RonanC194.le_pRank_statedProj_sp (n := 2) hp ?_
@@ -166,7 +166,7 @@ theorem alt1_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
   have hH : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp.hyp125
   obtain ⟨-, -, hMV₀, -⟩ := uc22p22q_hyp11_unpack D hH
   obtain ⟨hp, hp2⟩ := D.sig_prime p h.hyp.hp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hIM : I ≤ D.M := IOf_le_M D p h.hyp.hL.1.1.le
   have hMI : D.M ≤ normalizer (I : Set G) := le_normalizer_IOf D h.hyp.hL.1
   set C : Subgroup G := I ⊓ centralizer (V₀ : Set G) with hCdef
@@ -175,11 +175,11 @@ theorem alt1_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
       ⟨hMI (hIM hx),
         CFSG.GorensteinWalter.normalizer_le_normalizer_centralizer_subgroup V₀ (hMV₀ (hIM hx))⟩
   set Cs : Subgroup ↥I := C.subgroupOf I with hCsdef
-  haveI hCs : Cs.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hCnorm
+  have hCs : Cs.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hCnorm
   let π : ↥I →* Bar2 I := QuotientGroup.mk' (CFSG.pCore 2 ↥I)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
-  haveI : (Cs.map π).Normal := Subgroup.Normal.map hCs π hπ
-  haveI : IsSimpleGroup (Bar2 I) :=
+  have : (Cs.map π).Normal := Subgroup.Normal.map hCs π hπ
+  have : IsSimpleGroup (Bar2 I) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hsp
   have hAodd : Odd (Nat.card A) := odd_card_of_ctx19_10 h
   rcases Subgroup.Normal.eq_bot_or_eq_top (Cs.map π) with hbot | htop
@@ -198,7 +198,7 @@ theorem alt1_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
     obtain ⟨X, hXM, hXp, hXel, hXcard, hXbot⟩ :=
       exists_lift_elemAbelian_to_M D hp hp2 π hπ hker I.subtype I.subtype_injective
         (fun x => hIM x.2) hEbel hdisjC
-    haveI : IsCyclic ↥X :=
+    have : IsCyclic ↥X :=
       isCyclic_of_lift_disjoint_centralizer D h61 hH h.hyp.hp hXM hXp hXbot
     have hle : p ^ 2 ≤ Nat.card X := by
       rw [hXcard, hEbcard]
@@ -255,14 +255,14 @@ theorem alt2_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
   have hH : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp.hyp125
   obtain ⟨-, -, hMV₀, -⟩ := uc22p22q_hyp11_unpack D hH
   obtain ⟨hp, hp2⟩ := D.sig_prime p h.hyp.hp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLM : L ≤ M := h.hyp.hL.1.1.le
   have hLcalC : L ∈ calC M := h.hyp.hL.1
   have hLsub : CFSG.Open.IsSubnormal L M := hLcalC.1
   have hLperfect : ⁅L, L⁆ = L := hLcalC.2.1
   have hLq : CFSG.Open.IsQuasisimple (Bar2 L) := hLcalC.2.2
   have hppL : p ∣ Nat.card L := h.hyp.hL.2.2
-  haveI : IsSimpleGroup (Bar2 L) := by
+  have : IsSimpleGroup (Bar2 L) := by
     rcases hshape with ⟨hL2, -⟩ | ⟨hSz, -⟩
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
     · exact uc22p22r_lieModel_isSimple_twistedB2 hSz
@@ -270,7 +270,7 @@ theorem alt2_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
     intro hN
     exact hIne (uc22p2214_conjClosure_eq_of_normal hLM
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mpr hN))
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.mp hnotN
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.mp hnotN
   let Lm : Subgroup G := L.map (MulAut.conj m).toMonoidHom
   have hMmap : M.map (MulAut.conj m).toMonoidHom = M :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer hmM)
@@ -291,7 +291,7 @@ theorem alt2_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
     exact Subgroup.inf_normalizer_le_normalizer_inf
       ⟨Subgroup.le_normalizer hx,
         CFSG.GorensteinWalter.normalizer_le_normalizer_centralizer_subgroup V₀ (hMV₀ hx)⟩
-  haveI hCsub : (C.subgroupOf M).Normal :=
+  have hCsub : (C.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCM).mpr hCnormM
   let π : ↥M →* CFSG.Quasithin.OTwoQuot M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -311,7 +311,7 @@ theorem alt2_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
       hLmcalC.1
     obtain ⟨e2⟩ := uc22p20d_bar2_conj m L
     exact MulEquiv.isSimpleGroup (e2.trans e).symm
-  haveI hCbNormal : (CFSG.Quasithin.imageOTwoQuot M C).Normal := by
+  have hCbNormal : (CFSG.Quasithin.imageOTwoQuot M C).Normal := by
     have h := Subgroup.Normal.map (f := π) hCsub hπsurj
     simpa [CFSG.Quasithin.imageOTwoQuot, π] using h
   have hLb_ne : CFSG.Quasithin.imageOTwoQuot M L ≠ CFSG.Quasithin.imageOTwoQuot M Lm := by
@@ -377,7 +377,6 @@ theorem alt2_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
         have hLmC : Lm ≤ C := le_C_of_image_le Lm hLmM hLmcalC.2.1 hcase'
         have hL_eq : L = Lm.map (MulAut.conj m⁻¹).toMonoidHom := by
           rw [show Lm = L.map (MulAut.conj m).toMonoidHom from rfl, Subgroup.map_map]
-          congr 1
           ext x
           simp [MulAut.conj_apply, mul_assoc]
         have hLC : L ≤ C := by
@@ -545,7 +544,7 @@ theorem alt2_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
           exists_lift_elemAbelian_to_M D hp hp2 π hπsurj hker2 M.subtype
             M.subtype_injective (fun x => x.2) hE2_el hdisjC
         have hXgcard' : Nat.card Xg = p ^ 2 := by rw [hXgcard, hE2_card]
-        haveI : IsCyclic ↥Xg :=
+        have : IsCyclic ↥Xg :=
           isCyclic_of_lift_disjoint_centralizer D h61 hH h.hyp.hp hXgM hXgp hXbot
         have hXnc : ¬ IsCyclic ↥Xg := uc22p22u_not_isCyclic_of_card_sq hp hXgel hXgcard'
         exact hXnc inferInstance
@@ -561,7 +560,7 @@ theorem nineteen_twentytwo (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : S
     R19_22At D V₀ V p L A t B r h := by
   classical
   have hr : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hV0ne : V₀ ≠ ⊥ := ne_bot_of_one_lt_mSub h.hyp.big
   have hAM : A ≤ D.M := A_le_M_of_ctx19_10 D h
   obtain ⟨E, hEA, hEel, hEcard⟩ :=

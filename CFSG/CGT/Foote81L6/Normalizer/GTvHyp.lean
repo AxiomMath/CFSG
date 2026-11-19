@@ -42,6 +42,7 @@ variable {G : Type*} [Group G] [Finite G] {T : Sylow 2 G} {n : ℕ}
   (hF : IsE64 (T : Subgroup G) F)
 
 include D hF in
+omit [Finite G] in
 theorem π_eq_one_iff_mem (x : ↥(normalizer (F : Set G))) (hxT : (x : G) ∈ (T : Subgroup G)) :
     NBar.π F x = 1 ↔ (x : G) ∈ F := by
   constructor
@@ -82,6 +83,7 @@ theorem nonempty_sylowImage_equiv (hquot : QuotInput (T : Subgroup G))
     ((QuotientGroup.quotientKerEquivRange f).symm.trans
       ((QuotientGroup.quotientMulEquivOfEq hker).trans ψ))⟩
 
+omit [IsMulCommutative ↥F] in
 theorem π_mem_sylowImage {Q : Sylow 2 ↥(normalizer (F : Set G))}
     (hQ : (Q : Subgroup _) = (T : Subgroup G).subgroupOf (normalizer (F : Set G)))
     (x : ↥(normalizer (F : Set G))) (hxT : (x : G) ∈ (T : Subgroup G)) :
@@ -92,6 +94,7 @@ theorem π_mem_sylowImage {Q : Sylow 2 ↥(normalizer (F : Set G))}
   rw [hQ, mem_subgroupOf]
   exact hxT
 
+omit [Finite G] in
 theorem conj_d₀_eq_d₁ (hswap : SwapInput D) {d₀ d₁ : G}
     (hd₀ : d₀ ∈ D.B₀ ⊓ normalizer ((F ⊓ D.B₀ : Subgroup G) : Set G)) (hd₀F : d₀ ∉ F)
     (hd₁ : d₁ ∈ D.B₁ ⊓ normalizer ((F ⊓ D.B₁ : Subgroup G) : Set G)) (hd₁F : d₁ ∉ F)
@@ -173,7 +176,7 @@ theorem fusion_mem (hTv : TvInput D) {Q : Sylow 2 ↥(normalizer (F : Set G))}
       (hcard : Nat.card ↥(X ⊓ normalizer ((F ⊓ X : Subgroup G) : Set G)) = 2 * Nat.card ↥(F ⊓ X)),
       NBar.π F ⟨β, hβN⟩ = NBar.π F ⟨d, hdN⟩ := by
     intro X d β hd hdF hdN hβX hβN hβF hcard
-    haveI : Finite ↥(X ⊓ normalizer ((F ⊓ X : Subgroup G) : Set G)) := inferInstance
+    have : Finite ↥(X ⊓ normalizer ((F ⊓ X : Subgroup G) : Set G)) := inferInstance
     have hβR : β ∈ X ⊓ normalizer ((F ⊓ X : Subgroup G) : Set G) := by
       refine mem_inf.2 ⟨hβX, mem_normalizer_iff.2 fun h => ?_⟩
       rw [mem_inf, mem_inf, ← mem_normalizer_iff.1 hβN h]

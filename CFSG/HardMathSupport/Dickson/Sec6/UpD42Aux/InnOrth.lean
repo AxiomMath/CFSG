@@ -23,9 +23,9 @@ theorem exists_component_of_isD42_two {S : Type} [Group S] [Finite S] {β : MulA
       IsCatalogLieIso (↥I ⧸ Subgroup.center ↥I) IsD42Index := by
   have hle : I ≤ GLALayer (fixSubgroup β) := hβ I hI.1 (glaPComponent_perfect hI)
   obtain ⟨hcomp, -⟩ := glaPComponent_isComponent_of_le_layer hI hle
-  haveI : IsSimpleGroup (↥I ⧸ Subgroup.center ↥I) := hcomp.2.2.2
+  have : IsSimpleGroup (↥I ⧸ Subgroup.center ↥I) := hcomp.2.2.2
   have hmodel := CFSG.GH74.statedClassicalModel_of_lieModel (by decide) (lieModel_of_isD42 hD)
-  haveI : IsSimpleGroup (↥I ⧸ GLAPPrimeCore 3 ↥I) :=
+  have : IsSimpleGroup (↥I ⧸ GLAPPrimeCore 3 ↥I) :=
     (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_orthogonal_two
       _ .POmegaPlus (Or.inl rfl) 4 1 hmodel).2
   obtain ⟨e⟩ := CFSG.OddStandard.AltNoHe.mulEquiv_of_surjective hcomp.2.2.1
@@ -40,7 +40,7 @@ theorem exists_component_of_upD42Pumpup_conj_orthogonal {t : StatedLieTag}
     x ^ 3 = 1 ∧ x ≠ 1 ∧ ∃ I : Subgroup S,
       IsComponentOf I (Subgroup.centralizer ({x} : Set S)) ∧
         IsCatalogLieIso (↥I ⧸ Subgroup.center ↥I) IsD42Index := by
-  haveI := hs
+  have := hs
   obtain ⟨hx3, hx1, I, hI, hD⟩ := hx
   have hZ : Subgroup.center S = ⊥ := up34_center_eq_bot_of_simple hnab
   have hxcube : x ^ 3 = 1 := by
@@ -104,11 +104,11 @@ theorem rank_and_field_of_component_projOrth_two
     (hI : CFSG.Open.IsComponentOf I (Subgroup.centralizer ({b} : Set _)))
     (hD : IsCatalogLieIso (↥I ⧸ Subgroup.center ↥I) IsD42Index) : 5 ≤ n ∧ f = 1 := by
   classical
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     obtain ⟨U, hU, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K) (by
       have := Submodule.finrank_le U
@@ -121,7 +121,7 @@ theorem rank_and_field_of_component_projOrth_two
   rcases hcases I hI with ⟨h, hh, hne1, hq, hIeq⟩ |
       ⟨-, m, C, hsup, -, -, i, hIeq⟩
   · have hhp : h ∈ primaryFactors xe.toLinearMap := hRep.1 hh
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hhp⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hhp⟩
     have hFΩ : specialBlock Q xe h ≤ orthDerived Q :=
       specialBlock_le_orthDerived_of_perfect hq.1
         ((specialBlock_le_isometryCentralizer h).trans

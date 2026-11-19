@@ -22,7 +22,7 @@ theorem CN_le_pCore_two_MbarPrime
     ((bar M Q (hc.CN t)).subgroupOf (bar M Q (H0 M Z))).subgroupOf
         (MbarPrime M Q Z Z0) ≤ pCore 2 (MbarPrime M Q Z Z0) := by
   classical
-  haveI hQnorm : (Q.subgroupOf M).Normal :=
+  have hQnorm : (Q.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hc.hyp.Q_normal.1).mpr hc.hyp.Q_normal.2
   let Hbar' : Subgroup (Mbar M Q) := bar M Q (H0 M Z)
   let B' : Subgroup (Mbar M Q) := bar M Q (hc.CN t)

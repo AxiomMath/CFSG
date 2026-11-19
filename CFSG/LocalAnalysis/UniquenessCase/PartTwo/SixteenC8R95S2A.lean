@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r95s_exists_minimal_even {K O M : Subgroup G}
     (hKO : K ≤ normalizer (O : Set G)) (hOeven : 2 ∣ (O ⊓ M).relIndex O) :
     ∃ U : Subgroup G, U ≤ O ∧ K ≤ normalizer (U : Set G) ∧ 2 ∣ (U ⊓ M).relIndex U ∧
@@ -120,7 +121,7 @@ theorem r95s_chief_factor_two {K Z M U W : Subgroup G} (hZK : Z ≤ K) (hZ3 : Na
     rw [hsup] at heven
     have heven' : 2 ∣ (W.subgroupOf U).index := heven
     rwa [Subgroup.index_eq_card] at heven'
-  haveI : (W.subgroupOf U).Normal :=
+  have : (W.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWle).mpr hWU
   have hQcomm : IsMulCommutative (↥U ⧸ W.subgroupOf U) := by
     refine isMulCommutative_iff.mpr fun a b => ?_
@@ -183,7 +184,7 @@ theorem r95s_chief_factor_two {K Z M U W : Subgroup G} (hZK : Z ≤ K) (hZ3 : Na
     rw [← map_pow]
     exact (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr hpow)
   have hprime : Nat.Prime 2 := Nat.prime_two
-  haveI : Fact (Nat.Prime 2) := ⟨hprime⟩
+  have : Fact (Nat.Prime 2) := ⟨hprime⟩
   obtain ⟨q, hqord⟩ := exists_prime_orderOf_dvd_card' 2 h2
   obtain ⟨u₀, hu₀⟩ := QuotientGroup.mk_surjective (s := W.subgroupOf U) q
   have hu₀pow : ((QuotientGroup.mk' (W.subgroupOf U)) u₀) ^ 2 = 1 := by

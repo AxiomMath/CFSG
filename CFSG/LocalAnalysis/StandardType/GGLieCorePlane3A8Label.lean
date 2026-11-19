@@ -57,16 +57,16 @@ private theorem l10lB_tag_rank_n {lab : LargeEvenLabel}
   · exact absurd hmt (by decide)
   · by_cases h3 : r = 3
     · exact ⟨Or.inr trivial, h3, hdg⟩
-    · rw [if_neg h3] at hmt
+    · rw [ite_eq_right h3] at hmt
       exact absurd hmt (by decide)
   · by_cases h2 : r = 2
-    · rw [if_pos h2] at hrk
+    · rw [ite_eq_left h2] at hrk
       exact absurd hrk (by decide)
-    · rw [if_neg h2] at hmt hrk
+    · rw [ite_eq_right h2] at hmt hrk
       by_cases h3 : r = 3
-      · rw [if_pos h3] at hmt
+      · rw [ite_eq_left h3] at hmt
         exact absurd hmt (by decide)
-      · rw [if_neg h3] at hmt
+      · rw [ite_eq_right h3] at hmt
         exact absurd hmt (by decide)
   · exact absurd hmt (by decide)
   · exact absurd hmt (by decide)
@@ -104,7 +104,7 @@ private theorem l10lB_label_inner {r N n : ℕ} {k : TwistKind}
     · exact absurd htag (by decide)
 
 theorem ggLieA8_of_label
-    {τ : Tag} {G : Type} [Group G] (ρ : Equiv.Perm (Fin τ.rank → ℤ)) {q f : ℕ} (hf : 1 ≤ f)
+    {τ : Tag} {G : Type} [Group G] (ρ : Equiv.Perm (Fin τ.rank → ℤ)) {q f : ℕ} (_hf : 1 ≤ f)
     (hq : q = 2 ^ f) (Ψ : Set (Fin τ.rank → ℤ)) (n : ℕ)
     (hn : 2 ^ n = q ^ componentOrbitLength ρ Ψ) (X : Subgroup G)
     (hX : GGCompLabelAt (componentLabel (compRank Ψ) Ψ.ncard (twistKindOf ρ Ψ) n) X)
@@ -114,7 +114,7 @@ theorem ggLieA8_of_label
   set lab : LargeEvenLabel :=
     componentLabel (compRank Ψ) Ψ.ncard (twistKindOf ρ Ψ) n with hlab
   obtain ⟨-, hchar, -, R, hR, hmm, ⟨e⟩⟩ := hX
-  letI := hR
+  let := hR
   have hLM : LieModel (↥X ⧸ Subgroup.center ↥X) (markTag lab) (markRank lab) 2 (markDeg lab) :=
     CFSG.Blueprint.LieModel.of_mulEquiv e.symm
       (CFSG.StandardType.lieModel_of_markedModel hchar hmm)

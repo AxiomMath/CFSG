@@ -50,7 +50,7 @@ theorem nonempty_mulEquiv_subgroup_of_range {A B C : Type} [Group A] [Group B] [
   exact ⟨(MulEquiv.ofBijective Ψ hΨ).symm⟩
 
 theorem fixed_equiv_unitary {p f : ℕ} {K : Type} [Field K] (hK : PiField false p f K)
-    (hq2 : 2 < p ^ f) {σ : K ≃+* K} (hσ : orderOf σ = 3)
+    (_hq2 : 2 < p ^ f) {σ : K ≃+* K} (hσ : orderOf σ = 3)
     (F : Subgroup (slPi false 3 (p ^ f) K))
     (hF : ∀ s : slPi false 3 (p ^ f) K,
       s ∈ F ↔ frobGL σ (s : GL (Fin 3) K) = (s : GL (Fin 3) K)) :

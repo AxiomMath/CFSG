@@ -69,10 +69,10 @@ variable {K : Type} [Field K]
       invFun := fun c i => ((w i)⁻¹ : Kˣ) * c i
       left_inv := fun c => by
         ext i
-        simp [← mul_assoc]
+        simp
       right_inv := fun c => by
         ext i
-        simp [← mul_assoc] }
+        simp }
   map_one' := by ext c i; simp
   map_mul' w₁ w₂ := by ext c i; simp [mul_assoc]
 
@@ -120,7 +120,7 @@ theorem swapAut_mul_self : (swapAut : (Idx → K) ≃ₗ[K] (Idx → K)) * swapA
   ext c i
   refine idx_cases (fun i => ((swapAut * swapAut : (Idx → K) ≃ₗ[K] (Idx → K)) c) i =
     (1 : (Idx → K) ≃ₗ[K] (Idx → K)) c i) ?_ ?_ ?_ i
-  all_goals simp [swapAut_apply, swapIdx_inl, swapIdx_inr_inl, swapIdx_inr_inr]
+  all_goals simp [swapAut_apply, swapIdx_inr_inr]
 
 theorem diagW_pow (a : Kˣ) (k : ℕ) : (diagW a) ^ k = diagW (a ^ k) := by
   funext i
@@ -135,7 +135,7 @@ theorem swap_diag_swap (a : Kˣ) :
   refine idx_cases (fun i => (((swapAut : (Idx → K) ≃ₗ[K] (Idx → K)) * diagAut (diagW a) *
     swapAut * diagAut (diagW a) : (Idx → K) ≃ₗ[K] (Idx → K)) c) i =
     (1 : (Idx → K) ≃ₗ[K] (Idx → K)) c i) ?_ ?_ ?_ i
-  all_goals simp [swapAut_apply, swapIdx_inl, swapIdx_inr_inl, swapIdx_inr_inr, diagAut_apply,
+  all_goals simp [swapAut_apply, swapIdx_inr_inr, diagAut_apply,
     diagW]
 
 end Diag
@@ -214,7 +214,7 @@ theorem zElt_apply_inl (a : Kˣ) :
   funext i
   refine idx_cases (fun i => diagAut (diagW a) (H.b.equivFun (H.b (.inl 0))) i =
     ((a : K) • H.b.equivFun (H.b (.inl 0))) i) ?_ ?_ ?_ i
-  all_goals simp [diagAut_apply, diagW, Module.Basis.equivFun_self]
+  all_goals simp [diagAut_apply, diagW]
 
 theorem zElt_apply_tail (a : Kˣ) :
     (zElt H a : W ≃ₗ[K] W) (H.b (.inr (.inr 0))) = H.b (.inr (.inr 0)) := by
@@ -226,7 +226,7 @@ theorem zElt_apply_tail (a : Kˣ) :
     H.b.equivFun (H.b (.inr (.inr 0))) i) ?_ ?_ ?_ i
   all_goals simp [diagAut_apply, diagW, Module.Basis.equivFun_self]
 
-theorem zElt_not_scalar [Nontrivial K] {a : Kˣ} (ha : a ≠ 1) (c : K)
+theorem zElt_not_scalar {a : Kˣ} (ha : a ≠ 1) (c : K)
     (hc : ∀ v, (zElt H a : W ≃ₗ[K] W) v = c • v) : False := by
   have h1 := hc (H.b (.inl 0))
   have h2 := hc (H.b (.inr (.inr 0)))
@@ -254,7 +254,7 @@ theorem tElt_not_scalar (c : K) (hc : ∀ v, (tElt H : W ≃ₗ[K] W) v = c • 
   have h1 := hc (H.b (.inl 0))
   have h2 := tElt_apply_inl H
   rw [h1, map_smul] at h2
-  simp [Module.Basis.equivFun_self] at h2
+  simp at h2
 
 end NonScalar
 

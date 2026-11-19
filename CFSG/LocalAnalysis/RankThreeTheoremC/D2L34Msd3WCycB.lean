@@ -34,7 +34,7 @@ theorem center3_of_cyclic_normal_mul
   have hPidx : ¬ 3 ∣ ((P : Subgroup G).subgroupOf M).index := fun h =>
     P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPM))
   have hmax : ∀ A : Subgroup G, A ≤ W → IsElemAbelian 3 A → Nat.card A ≤ 27 := fun A hAW hA =>
-    card_le_of_isElemAbelian_of_pRank hPM P.isPGroup' hPidx hP3 (hAW.trans hWM) hA
+    card_le_of_isElemAbelian_of_pRank hPM P.isPGroup hPidx hP3 (hAW.trans hWM) hA
   obtain ⟨F, hFW, hFel, hFc⟩ := exists_elemAbelian_le_sylow_pow hWM hWp hWidx h3
   have hF27 : Nat.card F = 27 := by rw [hFc]; norm_num
   obtain ⟨E, hEW₂, hEF, hEel, hE9⟩ := exists_E9_le_inf_of_cyclic_normal_mul hWp hmax hFW hFel hF27
@@ -78,7 +78,7 @@ theorem exists_conj_inf_eq_map_sylow {M C W : Subgroup G} (hCM : C ≤ M)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D₀ : Subgroup G := (S : Subgroup ↥C).map C.subtype with hD₀
   have hD₀C : D₀ ≤ C := Subgroup.map_subtype_le _
-  have hD₀p : IsPGroup 3 D₀ := S.isPGroup'.map _
+  have hD₀p : IsPGroup 3 D₀ := S.isPGroup.map _
   obtain ⟨g, hgM, hgD⟩ := exists_conj_map_le_of_isPGroup hWM hWp hWidx (hD₀C.trans hCM) hD₀p
   have hDC : D₀.map (MulAut.conj g).toMonoidHom ≤ C := by
     rintro _ ⟨x, hx, rfl⟩

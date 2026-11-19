@@ -119,7 +119,7 @@ public theorem CFSG.commutatorAction_le_piCore_of_hall_complement_le_fixedPointS
     intro p hp_dvd
     exact hHallπ.p_in_pi_of_p_dvd_card p
       (dvd_trans hp_dvd (Subgroup.card_dvd_of_le hcomm_le_Hπ))
-  letI : (commutatorAction (A := A) (G := G)).Normal :=
+  let : (commutatorAction (A := A) (G := G)).Normal :=
     (commutatorAction_normal_and_invariant (A := A) (G := G)).1
   exact
     le_piCore_of_normal_isPiSubgroup (G := G) π (commutatorAction (A := A) (G := G)) hcomm_pi

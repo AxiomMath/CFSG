@@ -26,14 +26,14 @@ theorem evalW_mem {G : Type*} [Group G] {m : ℕ} {H : Subgroup G} {g : Fin m �
   · exact H.inv_mem (hg y.1)
   · exact hg y.1
 
-theorem mem_of_pow_eight {G : Type*} [Group G] {C D : Subgroup G} (hDC : D ≤ C)
+theorem mem_of_pow_eight {G : Type*} [Group G] {C D : Subgroup G} (_hDC : D ≤ C)
     (hDn : (D.subgroupOf C).Normal) (hidx : (D.subgroupOf C).index = 7) {g : G} (hg : g ∈ C)
     (h8 : g ^ 8 = 1) : g ∈ D := by
-  haveI := hDn
+  have := hDn
   set N := D.subgroupOf C
   set x : C ⧸ N := QuotientGroup.mk (⟨g, hg⟩ : C)
   have hfin : Nat.card (C ⧸ N) = 7 := by rw [← Subgroup.index]; exact hidx
-  haveI : Finite (C ⧸ N) := Nat.finite_of_card_ne_zero (by rw [hfin]; norm_num)
+  have : Finite (C ⧸ N) := Nat.finite_of_card_ne_zero (by rw [hfin]; norm_num)
   have h7 : x ^ 7 = 1 := by rw [← hfin]; exact pow_card_eq_one'
   have hx8 : x ^ 8 = 1 := by
     show (QuotientGroup.mk (⟨g, hg⟩ : C) : C ⧸ N) ^ 8 = 1
@@ -50,13 +50,13 @@ theorem mem_of_pow_eight {G : Type*} [Group G] {C D : Subgroup G} (hDC : D ≤ C
 
 theorem isChevSimple_seven_L2 (F : Type) [Field F] [Finite F] (hF7 : Nat.card F = 7) :
     IsChevSimple 7 (StatedProj (StatedSL 2 F)) := by
-  haveI : Fact ppSeven.p.Prime := ⟨ppSeven.prime_p⟩
+  have : Fact ppSeven.p.Prime := ⟨ppSeven.prime_p⟩
   have hv : (TauCeti.LieTypeIndex.A 1 ppSeven).Valid := by
     simp [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
       TauCeti.LieTypeIndex.isDuplicateRepresentative_iff, ppSeven, TauCeti.PrimePower.card_def]
   have e : StatedProj (StatedSL 2 F) ≃* (TauCeti.CFSGIndex.lie ⟨.A 1 ppSeven, hv⟩).Group :=
     (CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL F 2 7 1 (by norm_num)
-      (by rw [hF7] <;> norm_num)).trans
+      (by rw [hF7]; norm_num)).trans
       (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ppSeven hv).symm
   refine Or.inl ⟨TauCeti.CFSGIndex.lie ⟨.A 1 ppSeven, hv⟩, ?_, ⟨e⟩⟩
   show (TauCeti.LieTypeIndex.A 1 ppSeven).characteristic = 7
@@ -120,7 +120,7 @@ theorem heRhoSigma_facts :
   have hρ : Rep 8330 (heSevenRhoArr ()) heRho := rep_evalWA hval' hsz heSevenRhoWord
   have hσ : Rep 8330 (heSevenSigmaArr ()) heSigma := rep_evalWA hval' hsz heSevenSigmaWord
   have hmem : ∀ i, gC1 i ∈ heSevenC1 := fun i =>
-    Subgroup.subset_closure (mem_permsA (by simpa [heSevenC1Gens] using i.2))
+    Subgroup.subset_closure (mem_permsA (by simp [heSevenC1Gens]))
   refine ⟨(eqA_iff (rep_powArr hρ 4) rep_idA).1 h4, fun h => ?_,
     (eqA_iff (rep_compA hσ hσ) rep_idA).1 hs2,
     (eqA_iff (rep_compA hσ (rep_compA hρ hσ)) (rep_powArr hρ 3)).1 hrel, fun k hk h => ?_,
@@ -163,7 +163,7 @@ theorem heSevenD1_normal_index :
 
 theorem heSevenD1_dihedral_sylow :
     ∃ S : Sylow 2 ↥heSevenD1, Nonempty ((S : Subgroup ↥heSevenD1) ≃* DihedralGroup 4) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h4, h2, hs2, hrel, hne, hρC, hσC⟩ := heRhoSigma_facts
   obtain ⟨hDC, hDn, hidx⟩ := heSevenD1_normal_index
   obtain ⟨-, -, -, -, -, -, -, -, -, ⟨hDs, -, hDcard, -⟩, -⟩ :=
@@ -172,7 +172,7 @@ theorem heSevenD1_dihedral_sylow :
     rw [show 8 = 4 * 2 by norm_num, pow_mul, h4, one_pow])
   have hσD : heSigma ∈ heSevenD1 := mem_of_pow_eight hDC hDn hidx hσC (by
     rw [show 8 = 2 * 4 by norm_num, pow_mul, sq, hs2, one_pow])
-  haveI : Finite ↥heSevenD1 := Nat.finite_of_card_ne_zero (by rw [hDcard]; norm_num)
+  have : Finite ↥heSevenD1 := Nat.finite_of_card_ne_zero (by rw [hDcard]; norm_num)
   set ρ : ↥heSevenD1 := ⟨heRho, hρD⟩
   set σ : ↥heSevenD1 := ⟨heSigma, hσD⟩
   have hρ4 : ρ ^ 4 = 1 := Subtype.ext (by simpa using h4)
@@ -207,8 +207,8 @@ theorem heSevenD1_dihedral_sylow :
 theorem kLevel_heSevenD1 : kLevel 7 ↥heSevenD1 ≤ 2 := by
   obtain ⟨-, -, -, -, -, -, -, -, -, ⟨hDs, hDnab, hDcard, -⟩, -⟩ :=
     R3E_He_full_seven_centralizer_structures
-  haveI : Finite ↥heSevenD1 := Nat.finite_of_card_ne_zero (by rw [hDcard]; norm_num)
-  haveI := hDs
+  have : Finite ↥heSevenD1 := Nat.finite_of_card_ne_zero (by rw [hDcard]; norm_num)
+  have := hDs
   obtain ⟨S, hS⟩ := heSevenD1_dihedral_sylow
   have hnab : ∃ a b : ↥heSevenD1, a * b ≠ b * a := by
     obtain ⟨g, hg, h, hh, hgh⟩ := hDnab
@@ -230,7 +230,7 @@ theorem kdSporRow_He_seven
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDSporRow .He 7 := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrecmem, -, ⟨hC0, -⟩, ⟨hC1, -⟩, ⟨hC2, -⟩,
     ⟨hA0C, hA0n, hA0P, hA0card, -, -, hA0c⟩, ⟨hDs, hDnab, hDcard, hDP, hDcent, -⟩,
     ⟨hA2C, hA2n, hA2P, hA2card, -, hA2c⟩⟩ := R3E_He_full_seven_centralizer_structures

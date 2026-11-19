@@ -28,7 +28,7 @@ theorem SylowAt.conj {x y n : X} (hn : n * x * n⁻¹ = y) (h : SylowAt y) : Syl
   rw [sylow_smul_coe]
   have h1 : (MulAut.conj n⁻¹) y = x := by
     rw [← hn]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have h2 := K421TransProof.centralizer_map_singleton (MulAut.conj n⁻¹) y
   rw [h1] at h2
   rw [← h2]
@@ -36,7 +36,7 @@ theorem SylowAt.conj {x y n : X} (hn : n * x * n⁻¹ = y) (h : SylowAt y) : Syl
 
 theorem SylowAt.of_equiv {S : Type} [Group S] [Finite X] [Finite S] (ε : S ≃* X) {x : S}
     (h : SylowAt (ε x)) : SylowAt x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := h
   refine ⟨P.mapSurjective (f := ε.symm.toMonoidHom) ε.symm.surjective, ?_⟩
   show (P : Subgroup X).map ε.symm.toMonoidHom ≤ Subgroup.centralizer ({x} : Set S)
@@ -48,7 +48,7 @@ theorem sylowShape_of_sylow_le_centralizer {x : X} (hcen : ∀ P : Sylow 3 X,
       IsCyclic ↥(Subgroup.center ↥(P : Subgroup X)))
     (hrk : ∀ P : Sylow 3 X, 3 ≤ CFSG.Open.pRank 3 (P : Subgroup X)) (h : SylowAt x) :
     SylowShape1517 (Subgroup.zpowers x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hR⟩ := h
   set N : Subgroup X := Subgroup.normalizer ((Subgroup.zpowers x : Subgroup X) : Set X) with hN
   have hCN : Subgroup.centralizer ({x} : Set X) ≤ N := by
@@ -79,6 +79,7 @@ section Split
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem Rall_le_centralizer_rep2 :
     Rall F ≤ Subgroup.centralizer ({(monoSp F).av (rep 2)} : Set ↥(SpI F)) := by
   have hb : ∀ b ∈ Bsub F, b ∈ Subgroup.centralizer ({(monoSp F).av (rep 2)} : Set ↥(SpI F)) := by
@@ -117,10 +118,11 @@ theorem sylowAt_rep2 : SylowAt ((monoSp F).av (rep 2)) := by
   obtain ⟨P, hP⟩ := exists_sylow_le_Rall F
   exact ⟨P, hP.trans Rall_le_centralizer_rep2⟩
 
+omit [CharP F 2] in
 theorem isCyclic_center_sylow (hN : Nat.card F % 3 = 1) {X : Type} [Group X] [Finite X]
     (ε : X ≃* CFSG.Open.StatedSp 3 F) (P : Sylow 3 X) :
     IsCyclic ↥(Subgroup.center ↥(P : Subgroup X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ⟩ := K421RProof.sylow_statedSp hN (P.mapSurjective (f := ε.toMonoidHom) ε.surjective)
   have hk : 1 ≤ padicValNat 3 (Nat.card F - 1) := by
     have hpos : 1 < Nat.card F := Finite.one_lt_card
@@ -129,10 +131,11 @@ theorem isCyclic_center_sylow (hN : Nat.card F % 3 = 1) {X : Type} [Group X] [Fi
     ((Subgroup.equivMapOfInjective (P : Subgroup X) ε.toMonoidHom ε.injective).trans φ)
     (K421SpWrProof.isCyclic_center_wreath_zmod hk)
 
+omit [CharP F 2] in
 theorem three_le_pRank_sylow (hN : Nat.card F % 3 = 1) {X : Type} [Group X] [Finite X]
     (ε : X ≃* CFSG.Open.StatedSp 3 F) (P : Sylow 3 X) :
     3 ≤ CFSG.Open.pRank 3 (P : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ⟩ := K421RProof.sylow_statedSp hN (P.mapSurjective (f := ε.toMonoidHom) ε.surjective)
   have hk : 1 ≤ padicValNat 3 (Nat.card F - 1) := by
     have hpos : 1 < Nat.card F := Finite.one_lt_card

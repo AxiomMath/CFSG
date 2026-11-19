@@ -25,7 +25,7 @@ theorem assemble (hC : CatalogCaseHolds) (hA : ClassicalFalse) (hF3 : F3HigherRa
   by_cases hcat : CFSG.Blueprint.Catalog G
   · exact Or.inr (Or.inl (hC G L hS hcat hlie hF3' hL2 h6))
   · exfalso
-    haveI : IsSimpleGroup G := hS.simple
+    have : IsSimpleGroup G := hS.simple
     have hset : HRSetting G L :=
       ⟨hS, hcat, fun _ hz => oddCore_eq_bot_of_not_catalog hU hcat hz, hlie, hF3', hL2, h5, h6,
         hhsf, hcase, ⟨S, hcyc⟩⟩

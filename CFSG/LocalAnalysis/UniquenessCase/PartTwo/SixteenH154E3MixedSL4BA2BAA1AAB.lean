@@ -26,12 +26,12 @@ theorem s16h_sl4_natNorm_transvection (hK : Nat.card K = 2 ^ 2) :
       s' ∈ natNorm (CFSG.Assembly.LowTwoRank.StatedSL 2 K) ∧ s' ^ 2 = 1 ∧ s' ≠ 1 ∧
       rkIdx (fixV (Subgroup.zpowers s')) ≤ 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKeven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hK]
     norm_num
   have hchar : ringChar K = 2 := (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   let A : GL (Fin 2) K :=
     Matrix.GeneralLinearGroup.mkOfDetNeZero !![1, 1; 0, 1] (by simp [Matrix.det_fin_two])
   have hAval : (A : Matrix (Fin 2) (Fin 2) K) = !![1, 1; 0, 1] := rfl
@@ -79,7 +79,7 @@ theorem s16h_sl4_natNorm_transvection (hK : Nat.card K = 2 ^ 2) :
     rw [hAval]
     ext i
     fin_cases i <;>
-      simp [Matrix.mulVec, Fin.sum_univ_two, Matrix.vecHead, Matrix.vecTail]
+      simp [Matrix.mulVec, Matrix.vecHead, Matrix.vecTail]
   have hfix : ∀ v : Fin 2 → K, toAddMap s' v = v ↔ v 1 = 0 := by
     intro v
     rw [hmulvec, hA_mul]

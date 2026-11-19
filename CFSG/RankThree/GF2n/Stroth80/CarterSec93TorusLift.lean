@@ -109,7 +109,7 @@ theorem conj_LB_eq_of_le_sup_Fhat (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {
     (hs : Sec5Hyp hc n t) {h : G} (hh : h ∈ M) {g : G} (hgM : g ∈ M)
     (hle : conjSubgroup g (LB M Q B) ≤ LB M Q B ⊔ Fhat M Q B h) :
     conjSubgroup g (LB M Q B) = LB M Q B :=
-  (stroth_3_5 h34 hc hs.width hs.n_gt hs.noA2 hs.gen).1 g hgM fun x hx =>
+  (stroth_3_5 h34 hc hs.width hs.n_gt hs.noA2 hs.gen).1 g hgM fun _x hx =>
     sup_Fhat_le_normalizer h34 hc hs hh (hle hx)
 
 theorem torus_transitive_of_inf_transitive
@@ -148,19 +148,19 @@ theorem torus_transitive_of_relIndex_eq
   classical
   obtain ⟨hN, hSL⟩ := hq
   obtain ⟨K, hKF, hKFin, hKcard, hE⟩ := hSL
-  letI : Field K := hKF
-  letI : Finite K := hKFin
+  let : Field K := hKF
+  let : Finite K := hKFin
   obtain ⟨eSL⟩ := hE
   obtain ⟨⟨e, he⟩, hq4⟩ := card_Z_facts hc
   have hKe : Nat.card K = 2 ^ e := hKcard.trans he
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hKe
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hKe
   let Fx : Subgroup ↥(Xhat M Q B h) := (Fhat M Q B h).subgroupOf (Xhat M Q B h)
   let Lx : Subgroup ↥(Xhat M Q B h) := (LB M Q B).subgroupOf (Xhat M Q B h)
   let U : Subgroup (↥(Xhat M Q B h) ⧸ Fx) := Lx.map (QuotientGroup.mk' Fx)
   let e₀ : (↥(Xhat M Q B h) ⧸ Fx) ≃* Matrix.SpecialLinearGroup (Fin 2) K :=
     eSL.trans (specialLinearGroupEquivStatedSL 2 K).symm
   let U₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K) := U.map e₀.toMonoidHom
-  haveI hFxN : Fx.Normal := hN
+  have hFxN : Fx.Normal := hN
   have hFxdef : Fx = (Fhat M Q B h).subgroupOf (Xhat M Q B h) := rfl
   have hLxdef : Lx = (LB M Q B).subgroupOf (Xhat M Q B h) := rfl
   have hUdef : U = Lx.map (QuotientGroup.mk' Fx) := rfl

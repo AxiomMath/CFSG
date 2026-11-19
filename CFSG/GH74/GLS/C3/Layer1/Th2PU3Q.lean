@@ -126,6 +126,7 @@ theorem eq_and_quasisimple_of_central {K L M : Subgroup G} (hKM : K ≤ M) (hL :
   have hzO : (z : G) ∈ pPrimeCoreOf 2 L := ⟨z, hz, rfl⟩
   exact Subtype.ext (hcen z.1 hzO g.1 g.2).symm
 
+omit [Finite G] in
 theorem isCompIn_centralizer_of_preuniq {L M : Subgroup G}
     (hsub : IsSubnormalIn L M)
     (hpre : ∀ y ∈ CMK M L, orderOf y = 2 → centralizer ({y} : Set G) ≤ M)

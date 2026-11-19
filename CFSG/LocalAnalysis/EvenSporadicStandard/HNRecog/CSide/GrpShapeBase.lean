@@ -31,7 +31,7 @@ theorem cSideShape_natCard_A5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
   norm_num
 
 theorem cSideShape_natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
-  haveI : Finite (Multiplicative (ZMod 2)) := inferInstance
+  have : Finite (Multiplicative (ZMod 2)) := inferInstance
   rw [RegularWreathProduct.card]
   have h2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
@@ -134,20 +134,20 @@ theorem cSideShape_t_mul (r r' : Z 2) :
     cSideShape_t (r * r') = cSideShape_t r * cSideShape_t r' := by
   rcases cSideShape_coord_cases r with rfl | rfl <;>
     rcases cSideShape_coord_cases r' with rfl | rfl <;>
-    simp [cSideShape_t, cSideShape_swap, cSideShape_sigma_ne_one, cSideShape_sigma_mul_self,
+    simp [cSideShape_t, cSideShape_swap, cSideShape_sigma_mul_self,
       cSideShape_swap_mul_self]
 
 theorem cSideShape_t_right (r : Z 2) : (cSideShape_t r).right = r := by
   rcases cSideShape_coord_cases r with rfl | rfl
   · simp [cSideShape_t]
-  · rw [cSideShape_t, if_neg cSideShape_sigma_ne_one]
+  · rw [cSideShape_t, ite_eq_right cSideShape_sigma_ne_one]
 
 theorem cSideShape_t_mul_baseEmb (r : Z 2) (a b : alternatingGroup (Fin 5)) :
     cSideShape_t r * A5WrTwo.baseEmb (a, b) =
       A5WrTwo.baseEmb (if r = 1 then (a, b) else (b, a)) * cSideShape_t r := by
   rcases cSideShape_coord_cases r with rfl | rfl
   · simp [cSideShape_t]
-  · rw [cSideShape_t, if_neg cSideShape_sigma_ne_one, if_neg cSideShape_sigma_ne_one]
+  · rw [cSideShape_t, ite_eq_right cSideShape_sigma_ne_one, ite_eq_right cSideShape_sigma_ne_one]
     calc cSideShape_swap * A5WrTwo.baseEmb (a, b)
         = (cSideShape_swap * A5WrTwo.baseEmb (a, b) * cSideShape_swap⁻¹) * cSideShape_swap := by
           group

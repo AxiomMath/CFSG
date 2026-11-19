@@ -24,7 +24,7 @@ theorem exists_normal_twoComplement {G : Type*} [Group G] [Finite G] (H A : Subg
     have hxP : x ∈ (P : Subgroup H) := hx
     rw [hPA] at hxP
     exact Subtype.ext (hAcen x hxP n n.2)
-  haveI : Finite (Sylow 2 H) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 H) := Sylow.finite_of_finiteIndex P
   have hcompl := MonoidHom.ker_transferSylow_isComplement' P hP
   have hodd := MonoidHom.not_dvd_card_ker_transferSylow P hP
   generalize MonoidHom.transferSylow P hP = φ at hcompl hodd
@@ -39,7 +39,7 @@ theorem exists_normal_twoComplement {G : Type*} [Group G] [Finite G] (H A : Subg
     · intro hord
       refine Subgroup.mem_map.2 ⟨⟨h, hh⟩, ?_, rfl⟩
       rw [MonoidHom.mem_ker]
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).1 P.isPGroup' (φ ⟨h, hh⟩)
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).1 P.isPGroup (φ ⟨h, hh⟩)
       have hdvd : orderOf (φ ⟨h, hh⟩) ∣ orderOf (⟨h, hh⟩ : H) := orderOf_map_dvd φ _
       rw [hk, Subgroup.orderOf_mk] at hdvd
       have hk0 : k = 0 := by

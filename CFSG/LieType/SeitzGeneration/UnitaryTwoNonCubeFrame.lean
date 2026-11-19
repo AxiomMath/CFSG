@@ -224,8 +224,8 @@ theorem scale2_smul_blk (hK : Field4 σ ω) (hx : IsON σ x) (i : Fin 4) {t : K}
   rw [smul_comm _ (c s), hc' s]
   by_cases hs : s = i
   · subst hs
-    rw [if_pos rfl, blk4, scale2_smul_fst, smul_smul, mul_comm]
-  · rw [if_neg hs, blk4, scale2_smul_of_orth hK h ht]
+    rw [ite_eq_left rfl, blk4, scale2_smul_fst, smul_smul, mul_comm]
+  · rw [ite_eq_right hs, blk4, scale2_smul_of_orth hK h ht]
     · exact herm_eq_zero_of_isON hx (fun h' => hs (Fin.castSucc_injective 4 h').symm)
     · exact herm_eq_zero_of_isON hx (Fin.castSucc_lt_last s).ne.symm
 
@@ -291,9 +291,8 @@ theorem allCenters_blk4 (hK : Field4 σ ω) (hx : IsON σ x)
   simp only [hn] at hiso'
   by_cases h0 : c 0 = 0 <;> by_cases h1 : c 1 = 0 <;> by_cases h2 : c 2 = 0 <;>
     by_cases h3 : c 3 = 0 <;>
-    first
+    try first
     | (exfalso; simp [h0, h1, h2, h3, hK.two] at hiso'; done)
-    | skip
   · rw [hvec]
     simp only [h0, h1, h2, h3, zero_smul, add_zero]
     exact isCenter_zero
@@ -307,10 +306,10 @@ theorem allCenters_blk4 (hK : Field4 σ ω) (hx : IsON σ x)
     simp only [h0, h3, zero_smul, zero_add, add_zero]
     exact hpr 1 2 (by decide) _ _ h1 h2
   · rw [hvec]
-    simp only [h1, h2, zero_smul, zero_add, add_zero]
+    simp only [h1, h2, zero_smul, add_zero]
     exact hpr 0 3 (by decide) _ _ h0 h3
   · rw [hvec]
-    simp only [h1, h3, zero_smul, zero_add, add_zero]
+    simp only [h1, h3, zero_smul, add_zero]
     exact hpr 0 2 (by decide) _ _ h0 h2
   · rw [hvec]
     simp only [h2, h3, zero_smul, add_zero]
@@ -327,15 +326,16 @@ variable {ι : Type*} [DecidableEq ι] {c : ι → Fin n → K}
 @[expose] def spanS (c : ι → Fin n → K) (S : Finset ι) : Submodule K (Fin n → K) :=
   Submodule.span K (c '' (S : Set ι))
 
+omit [DecidableEq ι] in
 theorem spanS_mono {S T : Finset ι} (h : S ⊆ T) : spanS c S ≤ spanS c T :=
   Submodule.span_mono (Set.image_mono (by exact_mod_cast h))
 
-theorem spanS_hasON (hσ : ∀ c, σ (σ c) = c)
+theorem spanS_hasON (_hσ : ∀ c, σ (σ c) = c)
     (hc : ∀ i j, herm σ (c i) (c j) = if i = j then 1 else 0) {S : Finset ι}
     (hS : 4 ≤ S.card) : HasONBasis σ (spanS c S) := by
   refine ⟨S.card, fun i => c (S.equivFin.symm i : ι), fun i j => ?_, ?_, Or.inl hS⟩
   · rw [hc]
-    simp [Subtype.ext_iff]
+    simp
   · rw [spanS]
     congr 1
     ext v

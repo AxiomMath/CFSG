@@ -22,6 +22,7 @@ open Polynomial Module QuadraticMap CFSG.ClassicalGroups.Orthogonal
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [CharP F 2] in
 theorem exists_eichler_ne_one_of_three_le (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {W : Submodule F V} (hW : 3 ≤ Module.finrank F W) :
     ∃ u ∈ W, ∃ w ∈ W, Q u = 0 ∧ QuadraticMap.polar Q u w = 0 ∧ eichler Q u w ≠ 1 := by
@@ -31,7 +32,8 @@ theorem exists_eichler_ne_one_of_three_le (hQ : (QuadraticMap.polarBilin Q).Nond
   obtain ⟨a, ha⟩ := (eichler_eq_one_iff hQ huQ hu0 huw).1 h
   exact hwspan (Submodule.mem_span_singleton.2 ⟨a, ha.symm⟩)
 
-theorem zpowers_eichler_ne_bot_and_isPGroup {u w : V} (hu : Q u = 0)
+omit [Finite F] [FiniteDimensional F V] in
+theorem zpowers_eichler_ne_bot_and_isPGroup {u w : V} (_hu : Q u = 0)
     (huw : QuadraticMap.polar Q u w = 0) (hE : eichler Q u w ∈ orthDerived Q)
     (hE1 : eichler Q u w ≠ 1) :
     Subgroup.zpowers (⟨eichler Q u w, hE⟩ : ↥(orthDerived Q)) ≠ ⊥ ∧
@@ -53,12 +55,12 @@ theorem zpowers_eichler_ne_bot_and_isPGroup {u w : V} (hu : Q u = 0)
     simpa using hord
 
 private theorem mem_supportedBlock_of_weightOne_aux (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
-    {n : ℕ} (hn : 4 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2) {U : Fin n → Submodule F V}
+    {n : ℕ} (_hn : 4 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2) {U : Fin n → Submodule F V}
     {e : Fin n → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)} (hd : d ∈ Bb) (hd1 : d ≠ 1) {j : Fin n}
     (hfs : fixedSpace (d : V ≃ₗ[F] V) = polarPerp Q (U j)) {i : Fin n} (hij : i ≠ j) :
     (e i : V ≃ₗ[F] V) ∈ supportedBlock Q (d : V ≃ₗ[F] V) (X - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=
     oddOrderIsometry_of_orthDerived hp (by rw [ringChar.eq F 2]; exact hp2) hQ d hord
@@ -86,7 +88,7 @@ theorem mem_supportedFixedDerived_of_weightOne (hQ : (QuadraticMap.polarBilin Q)
     (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)} (hd : d ∈ Bb) (hd1 : d ≠ 1) {j : Fin n}
     (hfs : fixedSpace (d : V ≃ₗ[F] V) = polarPerp Q (U j)) {i : Fin n} (hij : i ≠ j) :
     (e i : V ≃ₗ[F] V) ∈ supportedFixedDerived Q (d : V ≃ₗ[F] V) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hblock := mem_supportedBlock_of_weightOne_aux hQ hn hp hp2 hF hd hd1 hfs hij
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=
@@ -116,7 +118,7 @@ theorem mem_supportedFixedDerived_of_weightOne (hQ : (QuadraticMap.polarBilin Q)
 theorem mem_centralizer_supportedFixedDerived_of_weightOne (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {n : ℕ} {U : Fin n → Submodule F V} {e : Fin n → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
-    (hd : d ∈ Bb) {j : Fin n} (hfs : fixedSpace (d : V ≃ₗ[F] V) = polarPerp Q (U j))
+    (hd : d ∈ Bb) {j : Fin n} (_hfs : fixedSpace (d : V ≃ₗ[F] V) = polarPerp Q (U j))
     (hdj : ¬ ∀ v ∈ U j, (d : V ≃ₗ[F] V) v = v) :
     e j ∈ Subgroup.centralizer
       (((supportedFixedDerived Q (d : V ≃ₗ[F] V)).subgroupOf (orthDerived Q) :
@@ -164,7 +166,7 @@ theorem exists_twoGroup_decomp_weightOne (hQ : (QuadraticMap.polarBilin Q).Nonde
       T ≤ (supportedFixedDerived Q (d : V ≃ₗ[F] V)).subgroupOf (orthDerived Q) ∧
       Bb = (Bb ⊓ (supportedFixedDerived Q (d : V ≃ₗ[F] V)).subgroupOf (orthDerived Q)) ⊔
         (Bb ⊓ Subgroup.normalizer (T : Set ↥(orthDerived Q))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=
     oddOrderIsometry_of_orthDerived hp (by rw [ringChar.eq F 2]; exact hp2) hQ d hord

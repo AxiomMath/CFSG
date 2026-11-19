@@ -144,8 +144,8 @@ theorem fieldPart_conj (g : adjointGroup Tag.D4 K) : fieldPart (MulAut.conj g) =
 
 theorem fieldPart_eq_one_of_mem_commutator {η : MulAut (adjointGroup Tag.D4 K)}
     (hη : η ∈ commutator (MulAut (adjointGroup Tag.D4 K))) : fieldPart η = 1 := by
-  haveI : IsCyclic (K ≃+* K) := ringAut_isCyclic
-  letI : CommGroup (K ≃+* K) := IsCyclic.commGroup
+  have : IsCyclic (K ≃+* K) := ringAut_isCyclic
+  let : CommGroup (K ≃+* K) := IsCyclic.commGroup
   have h := Abelianization.commutator_subset_ker (fieldPart : MulAut (adjointGroup Tag.D4 K) →*
     (K ≃+* K)) hη
   exact h

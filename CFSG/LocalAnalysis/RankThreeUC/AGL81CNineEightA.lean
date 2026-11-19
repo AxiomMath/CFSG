@@ -23,7 +23,7 @@ theorem pCoreOf_inf_mem_invTwoSubgroups (h : NineCore G M p Q H E k) :
 
 theorem pCoreOf_two_le_inf (h : NineCore G M p Q H E k) :
     pCoreOf 2 H ≤ pCoreOf 2 (H ⊓ M) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have h1 : pCoreOf 2 H ≤ M :=
     (CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.pCoreOf_two_le_relPPrimeCore h.ne_two
       H).trans h.relPPrimeCore_le

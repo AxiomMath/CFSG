@@ -69,7 +69,7 @@ theorem axis_not_mem_d5_span
   have hcM : d5Cartan3 *ᵥ c = 0 := by
     ext j
     have h := congrArg (α (d5Index j)) hc
-    simp only [map_sum, map_smul, hpair, smul_eq_mul, hker, map_zero] at h
+    simp only [map_sum, map_smul, hpair, smul_eq_mul, hker] at h
     simpa [d5Cartan3, d5Cartan, d5Index, Matrix.mulVec, dotProduct, mul_comm] using h
   have hc0 : c = 0 := Matrix.eq_zero_of_mulVec_eq_zero d5Cartan3_det_ne_zero hcM
   rw [hc0] at hc
@@ -120,8 +120,7 @@ theorem d5_decomposition_cartan
         (CartanMatrix.E 6 (d5Index j) 0 : ZMod 3) := by
   intro j
   have h := congrArg (α (d5Index j)) hdec
-  simp only [map_add, map_smul, map_sum, hpair, hker, smul_eq_mul, map_zero,
-    zero_add, mul_zero, Finset.sum_apply] at h
+  simp only [map_add, map_smul, map_sum, hpair, hker, smul_eq_mul, zero_add, mul_zero] at h
   simpa only [mul_comm] using h.symm
 
 theorem d5_two_models

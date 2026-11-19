@@ -71,7 +71,7 @@ theorem ggPumpLineAutNotDvd_D3 {f : ℕ} (h3 : 3 ∣ 2 ^ f - 1)
       GGTorusAutNotDvdSCJ 3 labJ R I 3 9 := by
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_pos rfl] at hQ ⊢
+  rw [ite_eq_left rfl] at hQ ⊢
   exact ggPumpLineAutKnown_A3_split_label (f := f) h3 labJ Q hQ
 
 theorem ggPumpLineAutNotDvd_twA3
@@ -89,7 +89,7 @@ theorem ggPumpLineAutNotDvd_twD3
       GGTorusAutNotDvdSCJ 3 labJ R I 3 9 := by
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_pos rfl] at hQ ⊢
+  rw [ite_eq_left rfl] at hQ ⊢
   exact ggPumpLineAutNotDvd_twA3 hn h3 labJ Q hQ
 
 theorem ggPumpLineAutKnown_A2 :

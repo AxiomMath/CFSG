@@ -81,9 +81,9 @@ theorem card_le_pow_rkOmPlus_subsystemGroup_e8D {l : ℕ} (hl : 4 ≤ l)
     {E : Subgroup (ModGL Tag.E8 K)}
     (hE : E ≤ subsystemGroup Tag.E8 K (Set.range ι)) (hEel : IsElemAbelian p E) :
     Nat.card E ≤ p ^ CFSG.LocalAnalysis.RankThreeUC.S15.rkOmPlus l (Nat.card K) p := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   have hKn : Nat.card K = 2 ^ (n : ℕ) := by rw [← Fintype.card_eq_nat_card]; exact hK
   have hn : 1 ≤ (n : ℕ) := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hKn

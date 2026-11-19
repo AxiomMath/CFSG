@@ -23,7 +23,7 @@ theorem evenSecondBound : EvenSecondBound := by
       have h1 : Nat.card F = 1 := by simpa using hF
       have : Nontrivial F := inferInstance
       have := Nat.card_pos (α := F)
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       have := Fintype.one_lt_card (α := F)
       rw [← Nat.card_eq_fintype_card] at this
       omega

@@ -34,7 +34,7 @@ theorem isPSL_two_equiv_statedSL {X : Type} [Group X] {n : ℕ} (h : IsPSL 2 2 n
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = 2 ^ n ∧
       Nonempty (X ≃* ↥(StatedSL 2 F)) := by
   obtain ⟨-, F, hF, hFin, hcard, ⟨e⟩⟩ := h
-  haveI : CharP F 2 := charP_two_of_card_pow_two hcard
+  have : CharP F 2 := charP_two_of_card_pow_two hcard
   refine ⟨F, hF, hFin, hcard, ⟨e.trans ?_⟩⟩
   exact (QuotientGroup.quotientMulEquivOfEq
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot).trans QuotientGroup.quotientBot
@@ -88,7 +88,7 @@ theorem modelOnU_tilde_of_realizes (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ 
     secImg_le_normalizer_secImg (h.K₀_le_H.trans (le_normalizer_conjClosure I H))
   refine ⟨hYA, hel, ?_⟩
   obtain ⟨π, hπ⟩ := hD
-  letI : CommGroup ↥(tildeOf V₁ I) := commGroupOfElemAbelian hel
+  let : CommGroup ↥(tildeOf V₁ I) := commGroupOfElemAbelian hel
   let V₀ : Subgroup ↥(tildeOf V₁ (conjClosure I H)) := subM V₁ (conjClosure I H) I
   let e : ↥V₀ ≃* ↥(tildeOf V₁ I) := Subgroup.subgroupOfEquivOfLe hle
   have hcoe : ∀ u : ↥V₀, ((e u : ↥(tildeOf V₁ I)) : GtOf V₁) =
@@ -196,6 +196,7 @@ theorem autIH_equiv [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))]
 
 variable [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))]
 
+omit [Finite G] in
 theorem autIH_inf_centSub_eq_bot_of_top {J : Subgroup G}
     (htop : subM V₁ (conjClosure I H) J = ⊤) :
     autIH V₁ I H K ⊓ centSub (subM V₁ (conjClosure I H) J) = ⊥ := by
@@ -237,8 +238,8 @@ theorem five_one_of_modFive (h : HypF918 T V L V₁ Vp H K) (hH : SQTKGroup ↥H
     (CFSG.Quasithin.AutOn.autOn_mono (V := tildeOf V₁ (conjClosure I H))
       (secImg_mono (A := Subgroup.normalizer (V₁ : Set G)) (B := V₁) hKH)).trans hM
   obtain ⟨eA⟩ := autIH_equiv h hH hA37 hA38 hK hIU hnt
-  letI := Fintype.ofFinite F'
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F'
+  let := Fintype.ofFinite F
   have hcardF : Fintype.card F' = Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcard', hcard]
   have φ : F' ≃+* F := FiniteField.ringEquivOfCardEq hcardF
@@ -310,7 +311,7 @@ variable {G : Type} [Group G] [Finite G] {T V L V₁ Vp H K I : Subgroup G}
         (actH h.H_le_normalizer_V₁ (le_normalizer_conjClosure I H) ⟨t, h.T_le_H ht⟩)⁻¹)
 
 omit [Finite G] in
-theorem exists_mem_T_not_normalizer (h : HypF918 T V L V₁ Vp H K) (hK : conjClosure K T ≠ K) :
+theorem exists_mem_T_not_normalizer (_h : HypF918 T V L V₁ Vp H K) (hK : conjClosure K T ≠ K) :
     ∃ t ∈ T, t ∉ Subgroup.normalizer (K : Set G) := by
   by_contra hcon
   push Not at hcon

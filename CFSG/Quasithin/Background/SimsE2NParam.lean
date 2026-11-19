@@ -18,9 +18,10 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Assembly.LowTwoRank
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem eq_of_nParam_eq {k j : ℕ} (hk : E1.nParam (⊤ : Subgroup Y) = (k : ℕ∞))
     (hj : E1.nParam (⊤ : Subgroup Y) = (j : ℕ∞)) : k = j :=
-  ENat.coe_inj.mp (hk.symm.trans hj)
+  ENat.natCast_inj.mp (hk.symm.trans hj)
 
 theorem nParam_eq_one_of_isSolvable (hs : Group.IsSolvable Y) (he : Even (Nat.card Y)) :
     E1.nParam (⊤ : Subgroup Y) = 1 :=

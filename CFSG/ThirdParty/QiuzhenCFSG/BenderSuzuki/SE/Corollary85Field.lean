@@ -77,8 +77,8 @@ private theorem corollary85_k_action
         Units.map
           (vmodWAut (QuotientGroup.mk v) : F ≃+* F).symm.toMonoidWithZeroHom
           (kUnits k) := by
-  letI : (W.subgroupOf V).Normal := hWV
-  letI : (W.subgroupOf D).Normal := hWD
+  let : (W.subgroupOf V).Normal := hWV
+  let : (W.subgroupOf D).Normal := hWD
   let kD : D := ⟨(k : G), hKleD k.property⟩
   let vD : D := ⟨(v : G), hVleD v.property⟩
   have hkD : vD⁻¹ * kD * vD ∈ K.subgroupOf D := by
@@ -141,7 +141,7 @@ private theorem corollary85_k_action
             (Units.map ((sigma : F ≃+* F).symm).toMonoidWithZeroHom
               (kUnits k))) := by
             rw [show (rhoAut sigma)⁻¹ = rhoAut sigma⁻¹ by
-              simpa using (map_inv rhoAut sigma).symm]
+              simp]
             have hunit :
                 Units.map
                     (↑(((sigma⁻¹ : A) : F ≃+* F).toMonoidWithZeroHom) : F →* F)
@@ -182,15 +182,15 @@ public theorem corollary85_fixedField_endpoints
       _hQ0card, _hrhoMul, _hrhoAutInl, hrhoAutInr, _hrhoD,
       _hmodelQ, hmodelK, hmodelV, _hkAction, hvAction⟩
   let F := GaloisField 2 fieldN
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Finite A :=
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
+  let : Fintype F := Fintype.ofFinite F
+  let : Finite A :=
     Finite.of_injective vmodWAut.symm vmodWAut.symm.injective
   have hFcard : Nat.card F = 2 ^ fieldN := by
     simpa [F] using GaloisField.card 2 fieldN hfieldN
-  letI : (W.subgroupOf V).Normal := hWV
-  letI : (W.subgroupOf D).Normal := hWD
+  let : (W.subgroupOf V).Normal := hWV
+  let : (W.subgroupOf D).Normal := hWD
   have hPinfW : P ⊓ W = ⊥ := by
     apply le_antisymm
     · intro p hp
@@ -233,8 +233,8 @@ public theorem corollary85_fixedField_endpoints
     apply hpToA_injective
     apply Subtype.ext
     exact hpq
-  letI : MulSemiringAction P F := MulSemiringAction.compHom F rhoP
-  letI : FaithfulSMul P F :=
+  let : MulSemiringAction P F := MulSemiringAction.compHom F rhoP
+  let : FaithfulSMul P F :=
     ⟨fun {p q} hpq => hrhoP_injective (by
       ext x
       exact hpq x)⟩
@@ -242,7 +242,7 @@ public theorem corollary85_fixedField_endpoints
       ∀ x : F, rhoP p x = x → x ∈ (⊥ : Subfield F) := by
     intro p hpOne x hpx
     by_cases hxZero : x = 0
-    · simpa [hxZero]
+    · simp [hxZero]
     · let ux : Fˣ := Units.mk0 x hxZero
       let k : K := kUnits.symm ux
       let v : V := pToV p
@@ -251,7 +251,7 @@ public theorem corollary85_fixedField_endpoints
         simpa [sigma, rhoP, pToA, v, pToV] using hpx
       have hsigmaSymm : sigma.symm x = x := by
         apply sigma.injective
-        simpa [hsigmaX]
+        simp [hsigmaX]
       have huFix : Units.map sigma.symm.toMonoidWithZeroHom ux = ux := by
         apply Units.ext
         simpa [ux] using hsigmaSymm
@@ -289,7 +289,7 @@ public theorem corollary85_fixedField_endpoints
         simpa [k, ux] using h
       have hxOne : x = 1 := by
         simpa [ux] using congrArg Units.val huOne
-      simpa [hxOne]
+      simp [hxOne]
   obtain ⟨p0, hp0⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hPne
   have hfixedP : FixedPoints.subfield P F = ⊥ := by
     apply le_antisymm
@@ -298,7 +298,7 @@ public theorem corollary85_fixedField_endpoints
     · exact bot_le
   have hfinrankP :
       Module.finrank (FixedPoints.subfield P F) F = Nat.card P := by
-    letI : Fintype P := Fintype.ofFinite P
+    let : Fintype P := Fintype.ofFinite P
     rw [FixedPoints.finrank_eq_card P F, Fintype.card_eq_nat_card]
   have hPcard : Nat.card P = fieldN :=
     galoisField_finrank_of_subfield_eq_bot
@@ -328,7 +328,7 @@ public theorem corollary85_fixedField_endpoints
       · exact bot_le
     have hfinrankZ :
         Module.finrank (FixedPoints.subfield Z F) F = Nat.card Z := by
-      letI : Fintype Z := Fintype.ofFinite Z
+      let : Fintype Z := Fintype.ofFinite Z
       rw [FixedPoints.finrank_eq_card Z F, Fintype.card_eq_nat_card]
     have hZcard : Nat.card Z = fieldN :=
       galoisField_finrank_of_subfield_eq_bot
@@ -341,7 +341,7 @@ public theorem corollary85_fixedField_endpoints
       intro hcard
       exact hPne ((Subgroup.eq_bot_iff_card P).mpr hcard)
     obtain ⟨r, hrPrime, hrDvd⟩ := Nat.exists_prime_and_dvd hPcardNe
-    letI : Fact (Nat.Prime r) := ⟨hrPrime⟩
+    let : Fact (Nat.Prime r) := ⟨hrPrime⟩
     obtain ⟨p, hpOrder⟩ := exists_prime_orderOf_dvd_card' (G := P) r hrDvd
     have hpOne : p ≠ 1 := by
       intro hp
@@ -362,15 +362,15 @@ public theorem corollary85_fixedField_endpoints
     · exact bot_le
   have hfinrankA :
       Module.finrank (FixedPoints.subfield A F) F = Nat.card A := by
-    letI : Fintype A := Fintype.ofFinite A
+    let : Fintype A := Fintype.ofFinite A
     rw [FixedPoints.finrank_eq_card A F, Fintype.card_eq_nat_card]
   have hAcard : Nat.card A = fieldN :=
     galoisField_finrank_of_subfield_eq_bot
       (F := F) hFcard (FixedPoints.subfield A F) (Nat.card A)
         hfinrankA hfixedA
   have hpToA_surjective : Function.Surjective pToA := by
-    letI : Fintype P := Fintype.ofFinite P
-    letI : Fintype A := Fintype.ofFinite A
+    let : Fintype P := Fintype.ofFinite P
+    let : Fintype A := Fintype.ofFinite A
     exact ((Fintype.bijective_iff_injective_and_card pToA).mpr
       ⟨hpToA_injective, by
         rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card]

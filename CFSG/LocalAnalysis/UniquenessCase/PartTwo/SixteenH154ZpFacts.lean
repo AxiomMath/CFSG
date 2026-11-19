@@ -14,11 +14,11 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16h_not_quasisimple_of_card_dvd_prime {X : Type*} [Group X] {p : ℕ}
     (hp : p.Prime) (h : Nat.card X ∣ p) : ¬ CFSG.Open.IsQuasisimple X := by
   intro hq
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic X := isCyclic_of_card_dvd_prime h
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic X := isCyclic_of_card_dvd_prime h
   have hsub : Subsingleton (X ⧸ Subgroup.center X) :=
     QuotientGroup.subsingleton_iff.mpr Subgroup.center_eq_top
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
   exact not_nontrivial_iff_subsingleton.mpr hsub inferInstance
 
 private theorem s16h_prime_card_not_quasisimple {X : Type*} [Group X] {p : ℕ} (hp : p.Prime)
@@ -46,7 +46,7 @@ theorem s16h_rk_wTil_le_three_of_chi (D : Data G) {V₀ V L : Subgroup G}
       n ∈ normalizer ((lBar V₀ V h.hyp151.isElemAbelian L : Subgroup _) : Set _) →
         ∀ l ∈ lBar V₀ V h.hyp151.isElemAbelian L, n * l = l * n) :
     rk ↥(wTil V₀ V h.hyp151.isElemAbelian L) ≤ 3 := by
-  haveI : Finite (Vtil V₀ V h.hyp151.isElemAbelian) := inferInstance
+  have : Finite (Vtil V₀ V h.hyp151.isElemAbelian) := inferInstance
   change rk ↥(commSub (⊤ : Subgroup (Vtil V₀ V h.hyp151.isElemAbelian))
     (lBar V₀ V h.hyp151.isElemAbelian L)) ≤ 3
   obtain ⟨t, htM, -, -, htr, hW⟩ := hc
@@ -72,7 +72,7 @@ theorem s16h_card_wTil_of_chi_eq_one (D : Data G) {V₀ V L : Subgroup G}
       n ∈ normalizer ((lBar V₀ V h.hyp151.isElemAbelian L : Subgroup _) : Set _) →
         ∀ l ∈ lBar V₀ V h.hyp151.isElemAbelian L, n * l = l * n) :
     (p = 3 ∨ p = 7) ∧ Nat.card ↥(wTil V₀ V h.hyp151.isElemAbelian L) = p + 1 := by
-  haveI : Finite (Vtil V₀ V h.hyp151.isElemAbelian) := inferInstance
+  have : Finite (Vtil V₀ V h.hyp151.isElemAbelian) := inferInstance
   have hw : rk ↥(wTil V₀ V h.hyp151.isElemAbelian L) =
       rk ↥(commSub (⊤ : Subgroup (Vtil V₀ V h.hyp151.isElemAbelian))
         (lBar V₀ V h.hyp151.isElemAbelian L)) := rfl

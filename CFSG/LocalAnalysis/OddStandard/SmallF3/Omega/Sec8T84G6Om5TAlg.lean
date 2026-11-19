@@ -58,7 +58,7 @@ theorem sec8t84g6t_core (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
     (hL : IsL29 B) :
     ∃ u ∈ omegaProj hQ ⊓ Subgroup.centralizer ({y} : Set (ProjOrth Q)), u * u = 1 ∧
       ∀ a ∈ B, ∀ c ∈ Subgroup.centralizer (B : Set (ProjOrth Q)), u ≠ a * c := by
-  haveI : Finite (ProjOrth Q) :=
+  have : Finite (ProjOrth Q) :=
     Nat.finite_of_card_ne_zero (by rw [natCard_projOrth_five hQ hdim]; norm_num)
   obtain ⟨m, hm, hBcard⟩ := sec63PC_card_of_isL29 hL
   have h5 : 5 ∣ Nat.card B := by
@@ -87,11 +87,11 @@ theorem sec8t84g6t_core (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
       Subgroup.mem_inf.mpr ⟨huΩ, hu⟩
     refine ⟨u, huD, huu, ?_⟩
     intro a ha c hc hac
-    haveI : Group.IsPerfect ↥B := hB.isQuasisimple.1
+    have : Group.IsPerfect ↥B := hB.isQuasisimple.1
     have hεa : ε ⟨a, hBC ha⟩ = 1 := by
       let ψ : ↥B →* (ZMod 3)ˣ := ε.comp (Subgroup.inclusion hBC)
-      haveI : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
-      haveI : Subsingleton ↥ψ.range := inferInstance
+      have : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
+      have : Subsingleton ↥ψ.range := inferInstance
       have h1 : (⟨ψ ⟨a, ha⟩, ⟨⟨a, ha⟩, rfl⟩⟩ : ↥ψ.range) = 1 := Subsingleton.elim _ _
       exact congrArg Subtype.val h1
     have hcD : c ∈ omegaProj hQ ⊓ Subgroup.centralizer ({y} : Set (ProjOrth Q)) := by

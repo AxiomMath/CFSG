@@ -28,7 +28,7 @@ section Assembly
 
 theorem th_centShapeRk :
     CentShapeRk 3 (LeafType 3) (fun _ _ => True) ↥J := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → LeafType 3 T → LeafType 3 T' :=
     fun _ _ _ _ e h => LeafType.of_equiv e h
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
@@ -52,9 +52,9 @@ theorem th_centShapeRk :
   exact hconj
 
 theorem leafShape_Th : LeafShape .Th 3 := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   have e : NativeSporadic.Th ≃* ↥J := thEquivJ
-  haveI : Finite NativeSporadic.Th := Finite.of_equiv ↥J e.symm.toEquiv
+  have : Finite NativeSporadic.Th := Finite.of_equiv ↥J e.symm.toEquiv
   have h : CentShapeRk 3 (LeafType 3) (fun _ _ => True) NativeSporadic.Th :=
     CentShapeRk.of_equiv (Q := ↥J) (Q' := NativeSporadic.Th) Nat.prime_three
       (fun _ _ _ _ e h => LeafType.of_equiv e h) (fun _ _ _ _ _ h => h) e.symm th_centShapeRk

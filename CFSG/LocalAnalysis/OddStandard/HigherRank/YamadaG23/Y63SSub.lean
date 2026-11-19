@@ -11,6 +11,7 @@ open Y63Chk
 
 variable {D : Data} [Group Y63TG]
 
+omit [Group Y63TG] in
 theorem y63_mem_nn {n : ℕ} : n ∈ D.nn ↔ n ∈ D.m0 ∧ D.mt n n = 0 := by
   simp [Data.nn, List.mem_filter]
 

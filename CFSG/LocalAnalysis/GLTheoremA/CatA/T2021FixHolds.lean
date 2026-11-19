@@ -17,8 +17,8 @@ section Certs
 theorem t2021FixFact_holds : T2021FixFact := by
   intro H _ _ p 𝔅 _ _ ψ T hp hp2 hchev hperf _ hexp _ hT2 hTinv hTO hTmax _ g hg
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := GLAPPrimeCore p H with hN
   let ψQ : 𝔅 →* MulAut (ppQuot p H) := (MulAut.mapQuotient N).comp ψ
   have hψQ : ∀ (g : 𝔅) (l : H), ψQ g (QuotientGroup.mk l) = QuotientGroup.mk (ψ g l) :=

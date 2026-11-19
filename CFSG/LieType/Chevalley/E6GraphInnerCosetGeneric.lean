@@ -141,7 +141,7 @@ theorem exists_conj_eq_mul_of_sylow [Finite M] {G U : Subgroup M} {P : M} (hUG :
     have hu' : (⟨u, hUG hu⟩ : G) ∈ (S₀ : Subgroup ↥G) := by
       rw [hS₀]
       exact hu
-    obtain ⟨n, hn⟩ := S₀.isPGroup' ⟨_, hu'⟩
+    obtain ⟨n, hn⟩ := S₀.isPGroup ⟨_, hu'⟩
     exact ⟨n, by simpa using congrArg (fun x : (S₀ : Subgroup ↥G) => ((x : G) : M)) hn⟩
   set H := G ⊔ Subgroup.zpowers P with hH
   set S := U ⊔ Subgroup.zpowers P with hS
@@ -169,7 +169,7 @@ theorem exists_conj_eq_mul_of_sylow [Finite M] {G U : Subgroup M} {P : M} (hUG :
     have hTGp : IsPGroup 2 ↥TG := by
       intro y
       obtain ⟨z, hz, hzy⟩ := Subgroup.mem_subgroupOf.1 y.2
-      obtain ⟨n, hn⟩ := T.isPGroup' ⟨z, hz⟩
+      obtain ⟨n, hn⟩ := T.isPGroup ⟨z, hz⟩
       refine ⟨n, Subtype.ext (Subtype.ext ?_)⟩
       have := congrArg (fun w : (T : Subgroup ↥H) => ((w : H) : M)) hn
       simp only [Subgroup.coe_pow, Subgroup.coe_one] at this ⊢

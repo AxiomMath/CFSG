@@ -105,7 +105,7 @@ theorem a8_comm_of_dvd_four (R : Subgroup (Perm (Fin 8))) (hR : IsPGroup 2 R) (h
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hR
   have hk2 : k ≤ 2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h8 : 2 ^ 3 ∣ Nat.card R := by rw [hk]; exact pow_dvd_pow 2 hcon
     exact absurd (h8.trans hdiv) (by norm_num)
   have hk0 : k ≠ 0 := by
@@ -113,8 +113,8 @@ theorem a8_comm_of_dvd_four (R : Subgroup (Perm (Fin 8))) (hR : IsPGroup 2 R) (h
     exact hne (Subgroup.eq_bot_of_card_eq R (by rw [hk]; rfl))
   have hcomm : IsMulCommutative R := by
     rcases (by omega : k = 1 ∨ k = 2) with rfl | rfl
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI := isCyclic_of_prime_card (p := 2) (by rw [hk]; norm_num)
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have := isCyclic_of_prime_card (p := 2) (by rw [hk]; norm_num)
       infer_instance
     · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hk])
   intro a ha b hb
@@ -123,7 +123,7 @@ theorem a8_comm_of_dvd_four (R : Subgroup (Perm (Fin 8))) (hR : IsPGroup 2 R) (h
 theorem a8_exists_invol (R : Subgroup (Perm (Fin 8))) (hR : IsPGroup 2 R) (hne : R ≠ ⊥) :
     ∃ t ∈ R, t ≠ 1 ∧ t * t = 1 := by
   have hn : Nat.card R ≠ 1 := fun h => hne (Subgroup.eq_bot_of_card_eq R h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ Nat.card R := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hR
     rw [hk]
@@ -169,7 +169,7 @@ theorem a8_three_card_dvd (g : Perm (Fin 8)) (hc : g.cycleType = {3}) (R : Subgr
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hR
   have hk2 : k ≤ 2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h8 : 2 ^ 3 ∣ Nat.card R := by rw [hk]; exact pow_dvd_pow 2 hcon
     exact absurd (h8.trans hdiv) (by norm_num)
   rw [hk]
@@ -278,7 +278,7 @@ theorem a8_caseA (g : Perm (Fin 8)) (hc : g.cycleType = {3}) (hg3 : g ^ 3 = 1)
     have hsub : t.support ⊆ Finset.univ \ Sg := fun y hy => Finset.mem_sdiff.2
       ⟨Finset.mem_univ _, fun hyS => mem_support.1 hy (htSg y hyS)⟩
     have hle := Finset.card_le_card hsub
-    rw [Finset.card_univ_diff, Fintype.card_fin, hSgc] at hle
+    rw [Finset.card_univ_sdiff, Fintype.card_fin, hSgc] at hle
     have hpos : t.support.card ≠ 0 := by
       rw [Ne, Finset.card_eq_zero, Equiv.Perm.support_eq_empty_iff]; exact ht1
     obtain ⟨m, hm⟩ := two_dvd_card_support ht2
@@ -390,7 +390,7 @@ theorem a8_not_cent18 (g : Perm (Fin 8))
     (x y z : Perm (Fin 8)) (hx : x ∈ W) (hy : y ∈ W) (hz : z ∈ W) (hxy : x ≠ y) (hxz : x ≠ z)
     (hyz : y ≠ z) : ∃ w ∈ W, g * w ≠ w * g := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : W ≤ centralizer {g} ⊓ alternatingGroup (Fin 8) := fun w hw => Subgroup.mem_inf.2
     ⟨Subgroup.mem_centralizer_singleton_iff.2 (hcon w hw).symm, mem_alternatingGroup.2 (hWA w hw)⟩
   have hd := Subgroup.card_dvd_of_le hle
@@ -405,7 +405,7 @@ theorem a8_card_two (R : Subgroup (Perm (Fin 8))) (hR : IsPGroup 2 R) (hne : R �
     exact hne (Subgroup.eq_bot_of_card_eq R (by rw [hk]; rfl))
   have hk1 : k ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h4 : 2 ^ 2 ∣ Nat.card R := by rw [hk]; exact pow_dvd_pow 2 hcon
     exact absurd (h4.trans hdiv) (by norm_num)
   rw [hk, show k = 1 by omega]
@@ -486,8 +486,7 @@ theorem a8_caseB (g : Perm (Fin 8)) (hc : g.cycleType = {3, 3})
       simp [Perm.mul_apply, swap_apply_of_ne_of_ne, swap_apply_left, hab, hac, had] at this
     have neAB : swap a b * swap c d ≠ swap a c * swap b d := fun h => by
       have := congrArg (fun π : Perm (Fin 8) => π a) h
-      simp [Perm.mul_apply, swap_apply_of_ne_of_ne, swap_apply_left, hab, hac, had, hbc, hbd,
-        hcd] at this
+      simp [Perm.mul_apply, swap_apply_of_ne_of_ne, swap_apply_left, hab, hac, had, hbc] at this
     exact ⟨a8_kW a b c d, hs, hp, hn, hnn,
       a8_not_cent18 g h18 _ hp hs 1 _ _ (one_mem _) hA hB ne1A ne1B neAB⟩
   ·
@@ -588,7 +587,7 @@ theorem a8_core (g : Perm (Fin 8)) (hodd : Odd (orderOf g)) (hg1 : g ≠ 1)
   obtain ⟨W, h1, h2, h3, h4, h5⟩ := a8_core_prime _ _ hp hpodd hg' hp3 R hR hne hRA hcomm'
   refine ⟨W, h1, h2, h3, h4, ?_⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨w, hw, hne'⟩ := h5
   exact hne' (Commute.pow_left (show Commute g w from hall w hw) _).eq
 
@@ -623,8 +622,8 @@ theorem a8_center_bot {H : Type} [Group H] [Finite H] (hperf : commutator H = �
   have hηs : Function.Surjective η := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hηk : η.ker = Subgroup.center H := by
     ext h
-    simp [hη, MonoidHom.mem_ker]
-  haveI : Group.IsPerfect H := ⟨hperf⟩
+    simp [hη]
+  have : Group.IsPerfect H := ⟨hperf⟩
   have hodd : Odd (Nat.card η.ker) := by
     rw [hηk]
     exact Nat.coprime_two_right.1 hZcop

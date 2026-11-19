@@ -16,7 +16,7 @@ theorem exists_secIsoOn_of_le_biSup_irrSet (hW : ∀ w : W, w ^ 2 = 1) {H : Subg
     (hle : I ≤ ⨆ K ∈ S, K) :
     ∃ K ∈ S, SecIsoOn H (I ⊔ fixV H) (fixV H) (K ⊔ fixV H) (fixV H) ∧
       SecIsoOn H (K ⊔ fixV H) (fixV H) (I ⊔ fixV H) (fixV H) := by
-  haveI : Finite S := Set.toFinite S
+  have : Finite S := Set.toFinite S
   have hle' : I ⊔ fixV H ≤ fixV H ⊔ ⨆ K : S, ((K : Subgroup W) ⊔ fixV H) := by
     refine sup_le (le_trans hle ?_) le_sup_left
     exact iSup₂_le fun K hK => le_sup_of_le_right (le_iSup_of_le ⟨K, hK⟩ le_sup_left)
@@ -25,6 +25,7 @@ theorem exists_secIsoOn_of_le_biSup_irrSet (hW : ∀ w : W, w ^ 2 = 1) {H : Subg
     (fun K => isIrrOn_sup_fixV (hS K.2)) hle'
   exact ⟨K, K.2, hK1, hK2⟩
 
+omit [Finite W] in
 theorem secIsoOn_map_sup_fixV {H : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ H, g * x * g⁻¹ ∈ H) (hg' : ∀ x ∈ H, g⁻¹ * x * g ∈ H) {I K : Subgroup W}
     (h : SecIsoOn H (I ⊔ fixV H) (fixV H) (K ⊔ fixV H) (fixV H)) :
@@ -34,6 +35,7 @@ theorem secIsoOn_map_sup_fixV {H : Subgroup (MulAut W)} {g : MulAut W}
   rw [Subgroup.map_sup, Subgroup.map_sup, map_fixV_of_normalizes hg hg'] at h1
   exact h1
 
+omit [Finite W] in
 private theorem gf2_Main_map_map_comp (y g : MulAut W) (I : Subgroup W) :
     (I.map y.toMonoidHom).map (g * y⁻¹).toMonoidHom = I.map g.toMonoidHom := by
   rw [Subgroup.map_map]
@@ -41,10 +43,12 @@ private theorem gf2_Main_map_map_comp (y g : MulAut W) (I : Subgroup W) :
   ext w
   simp
 
+omit [Finite W] in
 private theorem gf2_Main_map_one (I : Subgroup W) : I.map (1 : MulAut W).toMonoidHom = I := by
   ext w
   simp
 
+omit [Finite W] in
 private theorem gf2_Main_map_map_inv (y : MulAut W) (I : Subgroup W) :
     (I.map y.toMonoidHom).map (y⁻¹).toMonoidHom = I := by
   have := gf2_Main_map_map_comp y 1 I

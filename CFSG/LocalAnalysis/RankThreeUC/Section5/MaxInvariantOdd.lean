@@ -28,7 +28,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
 private theorem finite_of_irred (ρ : Representation (ZMod 2) G V) (h : ρ.IsIrreducible) :
     Finite V := by
   have := (Representation.irreducible_iff_isSimpleModule_asModule ρ).1 h
-  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod 2) G) _
+  have : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod 2) G) _
   obtain ⟨v, hv⟩ := exists_ne (0 : ρ.asModule)
   have htop := IsSimpleModule.span_singleton_eq_top (R := MonoidAlgebra (ZMod 2) G) hv
   have hsurj : Function.Surjective (fun r : MonoidAlgebra (ZMod 2) G => r • v) := by
@@ -36,7 +36,7 @@ private theorem finite_of_irred (ρ : Representation (ZMod 2) G V) (h : ρ.IsIrr
     have : x ∈ Submodule.span (MonoidAlgebra (ZMod 2) G) {v} := by rw [htop]; trivial
     obtain ⟨r, hr⟩ := Submodule.mem_span_singleton.1 this
     exact ⟨r, hr⟩
-  haveI : Finite (MonoidAlgebra (ZMod 2) G) :=
+  have : Finite (MonoidAlgebra (ZMod 2) G) :=
     Finite.of_equiv (G → ZMod 2)
       ((Finsupp.equivFunOnFinite (α := G) (M := ZMod 2)).symm.trans MonoidAlgebra.coeffEquiv.symm)
   have : Finite ρ.asModule := Finite.of_surjective _ hsurj
@@ -46,9 +46,11 @@ private noncomputable def toLE (ρ : Representation (ZMod 2) G V) : G →* (V �
   (LinearMap.GeneralLinearGroup.generalLinearEquiv _ _).toMonoidHom.comp
     (Representation.asGroupHom ρ)
 
+omit [Finite G] in
 private theorem toLE_apply (ρ : Representation (ZMod 2) G V) (g : G) (v : V) :
     toLE ρ g v = ρ g v := rfl
 
+omit [Finite G] in
 private theorem toLE_injective (ρ : Representation (ZMod 2) G V)
     (hρ : Function.Injective ρ) : Function.Injective (toLE ρ) := by
   intro a b hab
@@ -57,12 +59,14 @@ private theorem toLE_injective (ρ : Representation (ZMod 2) G V)
   have := LinearEquiv.congr_fun hab v
   simpa [toLE_apply] using this
 
+omit [Finite G] in
 private theorem mem_fix {ρ : Representation (ZMod 2) G V} {S : Subgroup G} {u : V} :
     u ∈ fixedSubmodule ρ S ↔ ∀ s ∈ S, ρ s u = u := by
   unfold fixedSubmodule
   rw [Representation.mem_invariants]
   exact ⟨fun h s hs => h ⟨s, hs⟩, fun h s => h s s.2⟩
 
+omit [Finite G] in
 private theorem thompson_aux [Finite V] {ρ : Representation (ZMod 2) G V}
     (hρ : Function.Injective ρ) {S : Subgroup G} (hS : IsPGroup 2 S) {k : G}
     (hk : Odd (orderOf k)) (hkS : ∀ s ∈ S, s * k = k * s)
@@ -102,7 +106,7 @@ private theorem fixed_inter_comm_eq_zero (ρ : Representation (ZMod 2) G V) {A :
     (hA : Odd (Nat.card A)) {w : V} (hfix : ∀ a ∈ A, ρ a w = w)
     (hw : w ∈ Submodule.span (ZMod 2) {x | ∃ a ∈ A, ∃ v, x = ρ a v - v}) : w = 0 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   let e : Module.End (ZMod 2) V := ∑ a : A, ρ a
   have he : ∀ v, e v = ∑ a : A, ρ a v := fun v => by simp [e, LinearMap.sum_apply]
   have hker : ∀ x ∈ Submodule.span (ZMod 2) {x | ∃ a ∈ A, ∃ v, x = ρ a v - v}, e x = 0 := by
@@ -129,6 +133,7 @@ private theorem fixed_inter_comm_eq_zero (ρ : Representation (ZMod 2) G V) {A :
   rw [this, ← Nat.cast_smul_eq_nsmul (ZMod 2), ZMod.natCast_eq_one_iff_odd.2 hA, one_smul] at h0
   exact h0
 
+omit [Finite G] in
 private theorem conj_mem_commutator {R A : Subgroup G} {n : G}
     (hR : n ∈ Subgroup.normalizer (R : Set G)) (hA : n ∈ Subgroup.normalizer (A : Set G))
     {s : G} (hs : s ∈ ⁅R, A⁆) : n * s * n⁻¹ ∈ ⁅R, A⁆ := by
@@ -300,7 +305,7 @@ theorem characteristic_actor_fixes_commutator_fixedSpace_and_centralizes_odd_inv
     calc s * y = (y * s * y⁻¹) * y := by rw [h3]
       _ = y * s := by group
   have hPodd : Odd (Nat.card P) := by
-    haveI : Fact p.Prime := ⟨h51.setting.prime⟩
+    have : Fact p.Prime := ⟨h51.setting.prime⟩
     obtain ⟨n, hn⟩ := h51.setting.pGroup.exists_card_eq
     rw [hn]; exact h51.setting.odd.pow
   have hPA : A ≤ Subgroup.normalizer (P : Set G) := fun a ha => h51.setting.normB (hAB ha)

@@ -26,7 +26,7 @@ theorem exists_isotropic_graph (Φ : ReflForm F V) (hσ : ∀ c, Φ.σ (Φ.σ c)
     ∃ s : V →ₗ[F] V, (∀ v, s v ∈ W) ∧ (∀ v ∈ Φ.perp W, s v = 0) ∧
       ∀ c ∈ Cc, ∀ c' ∈ Cc, Φ.β (c + s c) (c' + s c') = 0 := by
   classical
-  haveI : Module.Finite F Cc := Module.Finite.of_finite
+  have : Module.Finite F Cc := Module.Finite.of_finite
   let b := Module.finBasis F Cc
   choose t ht using fun i => hdiag (b i : V)
   obtain ⟨s, hsW, hs0, -, hti⟩ := FS.exists_graph_diag Φ hσ hsymm W Cc hW hC b t ht
@@ -90,7 +90,7 @@ theorem exists_singular_graph (Φ : QuadForm F V) (W Cc : Submodule F V)
     ∃ s : V →ₗ[F] V, (∀ v, s v ∈ W) ∧ (∀ v ∈ Φ.polar.perp W, s v = 0) ∧
       ∀ c ∈ Cc, Φ.Q (c + s c) = 0 := by
   classical
-  haveI : Module.Finite F Cc := Module.Finite.of_finite
+  have : Module.Finite F Cc := Module.Finite.of_finite
   let b := Module.finBasis F Cc
   have hσ : ∀ c, Φ.polar.σ (Φ.polar.σ c) = c := fun c => by
     rw [Φ.polar_σ]; rfl

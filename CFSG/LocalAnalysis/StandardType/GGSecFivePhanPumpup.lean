@@ -249,7 +249,7 @@ theorem ggDk_pumpup_sameSupp_phan
     have hcoord := congrFun (hθ t' η' ht' b) c2
     rw [hh, hsum_b, hθb] at hcoord
     simp only [η', Pi.sub_apply, Pi.smul_apply, Pi.add_apply, Pi.single_apply, Int.cast_ite,
-      Int.cast_zero, Int.cast_add, smul_eq_mul, h12.symm, if_false, if_true] at hcoord
+      Int.cast_zero, Int.cast_add, smul_eq_mul, h12.symm, ite_false, ite_true] at hcoord
     have hzero : (ε c1 : ZMod p) * (ε c2 : ZMod p) = 0 := by
       have h := hcoord.symm
       rw [zero_add, zero_sub] at h

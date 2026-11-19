@@ -59,7 +59,7 @@ theorem exists_trivial_on_WV6 (h34 : Stroth34Statement) (h2 : Step91OrderVQBStat
   have ht : t ∈ LB M Q B := hs5.mem
   obtain ⟨K, fK, finK, chK, γ, M₀, h⟩ := stroth_globalModelData hc.hyp
   obtain ⟨φ₀, hφπ, hφQ, hφiso⟩ := exists_actionHom_H0 hc.hyp h
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   set V := Vt M (LB M Q B) B Z t with hV
   set W := Wt Q V with hW
   have hZQ : Z ≤ Q := hc.hyp.Z_normal.1
@@ -268,7 +268,7 @@ theorem exists_trivial_on_WV6 (h34 : Stroth34Statement) (h2 : Step91OrderVQBStat
       abel
     rw [this]
     exact Vsub.add_mem h1 h2
-  obtain ⟨C, hCmem, hCidx⟩ := exists_orth_subgroup hQ hF α hiso hWact hNV
+  obtain ⟨C, hCmem, hCidx⟩ := exists_orth_subgroup hQ hF α hiso hNV
   have hiff : ∀ l : ↥(LB M Q B), l ∈ C ↔ ∀ w ∈ W, ⁅(l : G), w⁆ ∈ V := by
     intro l
     rw [hCmem l]

@@ -11,18 +11,22 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma t_mem_ctxX (t tau x₁ x₂ : G) : t ∈ ctxX t tau x₁ x₂ := by
   rw [ctxX]
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma t_mem_ctxE (t x₁ x₂ : G) : t ∈ ctxE t x₁ x₂ := by
   rw [ctxE]
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma y_mem_ctxE (t x₁ x₂ : G) : x₁ ^ 2 ∈ ctxE t x₁ x₂ := by
   rw [ctxE]
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 private lemma z_mem_ctxE (t x₁ x₂ : G) : (x₁ * x₂) ^ 2 ∈ ctxE t x₁ x₂ := by
   rw [ctxE]
   exact Subgroup.subset_closure (by simp)
@@ -36,6 +40,7 @@ private lemma commute_ty (h : Ctx0 t L S x₁ x₂ lam rho) : Commute t (x₁ ^ 
 private lemma commute_tz (h : Ctx0 t L S x₁ x₂ lam rho) : Commute t ((x₁ * x₂) ^ 2) :=
   (mem_invCent_iff.mp (L_le_invCent h.hyp (y_z_mem_L h).2)).symm
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -53,6 +58,7 @@ private lemma mem_zpowers_eq_one_or_eq {z g : G} (hz : z * z = 1) (hg : g ∈ zp
         · exact Or.inr (by rw [inv_eq_of_mul_eq_one_right hz]) }
   exact (Subgroup.zpowers_le.mpr (show z ∈ H from Or.inr rfl)) hg
 
+omit [Finite G] in
 private lemma ctxX_le_sup (t tau x₁ x₂ : G) :
     ctxX t tau x₁ x₂ ≤ ctxE t x₁ x₂ ⊔ zpowers tau := by
   rw [ctxX]
@@ -65,6 +71,7 @@ private lemma ctxX_le_sup (t tau x₁ x₂ : G) :
   · rw [h]; exact Subgroup.mem_sup_left (y_mem_ctxE t x₁ x₂)
   · rw [h]; exact Subgroup.mem_sup_left (z_mem_ctxE t x₁ x₂)
 
+omit [Finite G] in
 private lemma ctxE_le_fourGrp_sup_zpowers_t (t x₁ x₂ : G) :
     ctxE t x₁ x₂ ≤ fourGrp x₁ x₂ ⊔ zpowers t := by
   rw [ctxE]
@@ -131,6 +138,7 @@ private lemma fourGrp_commute_zpowers_tau (h : Ctx t L S x₁ x₂ lam rho tau) 
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
   exact (commute_fourGrp_tau h a ha).zpow_right k
 
+omit [Finite G] in
 private lemma conj_tau_eq_sq_mul_tau {a : G} (ha : tau * a * tau⁻¹ = a⁻¹) :
     a * tau * a⁻¹ = a ^ 2 * tau := by
   calc a * tau * a⁻¹
@@ -149,6 +157,7 @@ private lemma tau_conj_x1x2 (h : Ctx t L S x₁ x₂ lam rho tau) :
     _ = (x₂ * x₁)⁻¹ := by rw [mul_inv_rev]
     _ = (x₁ * x₂)⁻¹ := by rw [hcomm.eq]
 
+omit [Finite G] in
 private lemma conjIn_pair_of {M : Subgroup G} {m f : G} (hm : m ∈ M) (hmH : m ∈ invCent t)
     (hconj : m * tau * m⁻¹ = tau * f) :
     tau * f ∈ conjIn M tau ∧ t * tau * f ∈ conjIn M (t * tau) := by
@@ -162,6 +171,7 @@ private lemma conjIn_pair_of {M : Subgroup G} {m f : G} (hm : m ∈ M) (hmH : m 
       _ = t * tau * f := by group
   exact ⟨⟨m, hm, hconj⟩, ⟨m, hm, h2⟩⟩
 
+omit [Finite G] in
 private lemma conjIn_eq_of_mem {K : Subgroup G} {a u : G} (hu : u ∈ conjIn K a) :
     conjIn K u = conjIn K a := by
   obtain ⟨m, hm, hmu⟩ := hu
@@ -181,6 +191,7 @@ private lemma conjIn_eq_of_mem {K : Subgroup G} {a u : G} (hu : u ∈ conjIn K a
       _ = k * a * k⁻¹ := by rw [ha]
       _ = v := hka
 
+omit [Finite G] in
 theorem conjIn_ctxM_subset_ctxX (t tau x₁ x₂ : G) :
     conjIn (ctxM t tau x₁ x₂) t ⊆ (ctxX t tau x₁ x₂ : Set G) := by
   rintro u ⟨m, hm, rfl⟩

@@ -21,7 +21,7 @@ theorem eq_one_of_commute_sym5 : ∀ σ : Perm (Fin 5), σ * swap 0 1 = swap 0 1
 
 theorem injective_of_map_ne_one {H : Type*} [Group H] (ψ : Perm (Fin 5) →* H)
     (h : ψ (swap 0 1 * swap 2 3) ≠ 1) : Function.Injective ψ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hA : ∀ τ ∈ alternatingGroup (Fin 5), ψ τ = 1 → τ = 1 := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ψ.ker.subgroupOf (alternatingGroup (Fin 5)))
       with hb | ht

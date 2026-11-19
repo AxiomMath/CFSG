@@ -10,7 +10,7 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section4
 
 open Equiv
 
-private lemma reduce {s t : Perm (Fin 8)} (ht2 : t ^ 2 = 1) (g : Perm (Fin 8))
+private lemma reduce {s t : Perm (Fin 8)} (_ht2 : t ^ 2 = 1) (g : Perm (Fin 8))
     (hg : g ∈ alternatingGroup (Fin 8)) (hconj : g * s * g⁻¹ = t)
     (P : ∀ σ' : Perm (Fin 8),
       (∀ h ∈ alternatingGroup (Fin 8), h * t = t * h → σ' * h = h * σ') →

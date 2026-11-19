@@ -21,7 +21,7 @@ open CFSG.Assembly
 theorem NsQuot.Datum.exists_isComponentOf_img {G : Type} [Group G] [Finite G] {Q : Type}
     [Group Q] {p : ℕ} {N : Subgroup G} {f : ↥N →* Q} {L Bs Z : Subgroup G}
     (hD : NsQuot.Datum p N f L Bs Z) {x : G} (hx : x ∈ N)
-    (hxL : x ∈ Subgroup.normalizer (L : Set G)) {J : Subgroup G}
+    (_hxL : x ∈ Subgroup.normalizer (L : Set G)) {J : Subgroup G}
     (hJ : IsComponentOf J (L ⊓ Subgroup.centralizer ({x} : Set G))) :
     ∃ J' : Subgroup Q,
       IsComponentOf J' (NsQuot.img N f L ⊓ Subgroup.centralizer ({f ⟨x, hx⟩} : Set Q)) ∧

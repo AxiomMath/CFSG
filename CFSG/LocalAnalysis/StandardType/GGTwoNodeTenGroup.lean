@@ -22,11 +22,11 @@ theorem ggTen_extract_of_coord (hLNC : GGLNoncyclicInput) (hFix : GGTBFixInput) 
   obtain ⟨V, iA, iM, iF, ι, ΛL, iFL, iDL, ML, CL, φL, hL, aL, φK, hK, aK, hdim, hcardL, hWM,
     hCL, hlinL, hreflL, hpairL, ⟨fL₀, hfL₀⟩, hclosL, hlinK, hreflK, hpairK, hclosK,
     ⟨a₀, ha₀, b₀, hb₀, hnonab⟩⟩ := hcoord
-  letI := iA
-  letI := iM
-  letI := iF
-  letI := iFL
-  letI := iDL
+  let := iA
+  let := iM
+  let := iF
+  let := iFL
+  let := iDL
   refine ⟨V, iA, iM, iF, ι, hdim, ?_⟩
   let rL : ΛL → (V ≃ₗ[ZMod 3] V) := fun i => ggLin (p := 3) ι (φL i)
   let rK : Fin 8 → (V ≃ₗ[ZMod 3] V) := fun i => ggLin (p := 3) ι (φK i)
@@ -163,7 +163,7 @@ theorem ggTwoNodeTen_weyl
     exact hp3
   obtain ⟨V, iA, iM, iF, ι, hdim, hlin⟩ :=
     ggTen_extract hLNC hFix hFixK hD hJ2 hp3 hH hrow hyK hcard hLY hLn
-  letI := iA; letI := iM; letI := iF
+  let := iA; let := iM; let := iF
   subst hp3
   exact ggRC_weylReflGroup_of_linWeyl ι _ (ggTen_linear hKG hdim _ hlin)
 

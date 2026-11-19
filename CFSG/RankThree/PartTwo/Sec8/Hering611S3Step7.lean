@@ -14,6 +14,7 @@ open scoped Bracket
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem three_subgroups_comm_eq_bot {W X : Subgroup G} {d : G}
     (hXd : X ≤ Subgroup.centralizer ({d} : Set G))
     (hWX : ∀ w ∈ W, ∀ x ∈ X, w * x * w⁻¹ ∈ X) (hW : W ≤ ⁅W, Subgroup.zpowers d⁆) :
@@ -45,6 +46,7 @@ private theorem three_subgroups_comm_eq_bot {W X : Subgroup G} {d : G}
   calc ⁅W, X⁆ ≤ ⁅⁅Subgroup.zpowers d, W⁆, X⁆ := Subgroup.commutator_mono hWc le_rfl
     _ = ⊥ := h3
 
+omit [Finite G] in
 private theorem normalizes_centralizer_of_comm {S : Subgroup G} {x : G}
     (hx : ∀ s ∈ S, x * s = s * x) :
     x ∈ Subgroup.normalizer ((Subgroup.centralizer (S : Set G) : Subgroup G) : Set G) := by
@@ -87,7 +89,7 @@ private theorem step7_aux (hchar : CFSG.Assembly.IsCharTwoType G) {d : G} (hd3 :
   have hd1 : d ≠ 1 := by
     rintro rfl
     exact hUd 0 (by intro x _; simp [Subgroup.mem_centralizer_iff])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨U, hUdef⟩ : ∃ U : Fin 2 → Subgroup G,
       ∀ i, U i = CFSG.Assembly.pCoreOf 2 (Subgroup.centralizer (V i : Set G)) :=
     ⟨fun i => CFSG.Assembly.pCoreOf 2 (Subgroup.centralizer (V i : Set G)), fun i => rfl⟩
@@ -210,7 +212,7 @@ theorem false_of_steps (hchar : CFSG.Assembly.IsCharTwoType G) (hbig : NoBig3 G)
     exact hUd 0 (by intro x _; simp [Subgroup.mem_centralizer_iff])
   have hBd : B ≤ Subgroup.centralizer ({d} : Set G) := hBX.trans (sup_le (hXd 0) (hXd 1))
   have hBC : B ≤ Subgroup.centralizer (U : Set G) := hBX.trans (sup_le (hUc 0) (hUc 1))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD3 : CFSG.Open.IsElemAbelian 3 (Subgroup.zpowers d) := by
     rw [Subgroup.zpowers_eq_closure]
     refine CFSG.Open.IsElemAbelian.closure_of_commute ?_ ?_

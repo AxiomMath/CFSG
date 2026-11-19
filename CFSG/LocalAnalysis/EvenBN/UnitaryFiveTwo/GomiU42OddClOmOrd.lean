@@ -15,6 +15,7 @@ section Orders
 
 variable {K W : Type} [Field K] [Finite K] [AddCommGroup W] [Module K W] [FiniteDimensional K W]
 
+omit [Finite K] in
 theorem u42_ringChar_ne_two {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f) : ringChar K ≠ 2 := by
   have : CharP K 3 := finite_field_prime_power_characteristic Nat.prime_three hf hK
   rw [ringChar.eq K 3]
@@ -178,6 +179,7 @@ open CFSG.ComponentClassification.CatalogueBUnitaryIsometry
 
 variable {E W : Type} [Field E] [Finite E] [AddCommGroup W] [Module E W] [FiniteDimensional E W]
 
+omit [Finite E] in
 theorem u42_three_pow_dvd_card_unitary {sigma : E ≃+* E} {f m : ℕ} (hf : 1 ≤ f)
     (hE : Nat.card E = (3 ^ f) ^ 2) (hm : finrank E W = m) (hm1 : 1 ≤ m)
     (h : W →ₛₗ[sigma.toRingHom] W →ₗ[E] E) (hsym : h.IsSymm) (hnd : h.Nondegenerate)

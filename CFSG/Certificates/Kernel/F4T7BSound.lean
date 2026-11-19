@@ -196,7 +196,7 @@ theorem permLOf_apply {i : Fin 6} {A : M3} (hst : stabT boolOps (tabF (tt i A)) 
     (hinv : invT boolOps (tabF (tt i A)) (tabF (tt i (adjL A))) = true) (k : Fin 6) :
     permLOf i A k = idxL i A k := by
   unfold permLOf t7PermOf
-  rw [dif_pos (inv_pair hst hsa hinv)]
+  rw [dite_eq_left (inv_pair hst hsa hinv)]
   rfl
 
 theorem sign_permLOf {i : Fin 6} {A : M3} (hst : stabT boolOps (tabF (tt i A)) = true)
@@ -275,7 +275,7 @@ theorem chk_at {i : Fin 6} {C K : List Nat} (h : chkAll (omC i.val) C K = true) 
       mtab_map (natOps T) boolOps (fun n => n.testBit (codeL A)) ha hx ht, plns_bits]
   have bS : (bnot (natOps T) (scal (natOps T) (plns 18))).testBit (codeL A) =
       !scal boolOps (bits A) := by
-    rw [bnot_map (natOps T) boolOps (fun n => n.testBit (codeL A)) ha hx ht,
+    rw [bnot_map (natOps T) boolOps (fun n => n.testBit (codeL A)) hx ht,
       scal_map (natOps T) boolOps (fun n => n.testBit (codeL A)) ha hx ht, plns_bits, bnot_bool]
   have eX := congrArg (fun n => n.testBit (codeL A)) hX
   have eK := congrArg (fun n => n.testBit (codeL A)) hKp

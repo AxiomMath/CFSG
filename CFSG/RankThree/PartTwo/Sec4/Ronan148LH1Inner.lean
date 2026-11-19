@@ -52,7 +52,7 @@ theorem false_of_inner_cent {A L : Subgroup G} (hA : Late.IsE27 A)
         ∃ n ∈ L, n ∈ Subgroup.normalizer (E : Set G) ∧
           n ∉ Subgroup.normalizer (Subgroup.zpowers e : Set G)) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAel : CFSG.Assembly.IsElemAbelian 3 A := hA.1
   have hA27 : Nat.card A = 27 := hA.2
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
@@ -164,7 +164,7 @@ theorem false_of_inner_cent {A L : Subgroup G} (hA : Late.IsE27 A)
   have ht2' : orderOf t = 2 := orderOf_eq_prime ht2 ht1
   have hAE : A ∈ partTwoE G :=
     ⟨hAel, hA27, Subgroup.zpowers t, fun h => ht1 (Subgroup.zpowers_eq_bot.mp h),
-      IsPGroup.iff_card.mpr ⟨1, by rw [Nat.card_zpowers, ht2'] <;> norm_num⟩, hAt⟩
+      IsPGroup.iff_card.mpr ⟨1, by rw [Nat.card_zpowers, ht2']; norm_num⟩, hAt⟩
   have hAF : A ∈ partTwoF G := by
     rw [← hEF]
     exact hAE
@@ -323,6 +323,7 @@ section Transport
 
 variable {G : Type} [Group G] [Finite G] {S : Type} [Group S] {L : Subgroup G} (φ : L ≃* S)
 
+omit [Finite G] in
 theorem inv_of_invAt {e : G} (he : e ∈ L) (h : InvAt S (φ ⟨e, he⟩)) :
     ∀ B : Subgroup G, B ≤ L → CFSG.Assembly.IsElemAbelian 3 B → e ∈ B →
       ∃ t ∈ L, t ≠ 1 ∧ t ^ 2 = 1 ∧ ∀ b ∈ B, t * b = b * t := by
@@ -346,6 +347,7 @@ theorem inv_of_invAt {e : G} (he : e ∈ L) (h : InvAt S (φ ⟨e, he⟩)) :
       exact h1
     exact congrArg Subtype.val h2
 
+omit [Finite G] in
 theorem ext_of_extAt {e : G} (he : e ∈ L) (h : ExtAt S (φ ⟨e, he⟩)) :
     ∃ s ∈ L, s * e = e * s ∧ s ^ 3 = 1 ∧ s ∉ Subgroup.zpowers e := by
   obtain ⟨s', hs'e, hs'3, hs'z⟩ := h
@@ -364,6 +366,7 @@ theorem ext_of_extAt {e : G} (he : e ∈ L) (h : ExtAt S (φ ⟨e, he⟩)) :
     have h1 : (⟨e, he⟩ : L) ^ k = φ.symm s' := Subtype.ext (by simpa using hk)
     exact Subgroup.mem_zpowers_iff.mpr ⟨k, by rw [← map_zpow, h1, MulEquiv.apply_symm_apply]⟩
 
+omit [Finite G] in
 theorem move_of_moveAt {e : G} (he : e ∈ L) (h : MoveAt S (φ ⟨e, he⟩)) :
     ∀ E : Subgroup G, E ≤ L → CFSG.Assembly.IsElemAbelian 3 E → Nat.card E = 9 → e ∈ E →
       (∀ F : Subgroup G, F ≤ L → CFSG.Assembly.IsElemAbelian 3 F → E ≤ F → F = E) →
@@ -440,7 +443,7 @@ theorem SylNineMove.of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
 
 theorem at_of_sylNineMove {S : Type} [Group S] [Finite S] (h : SylNineMove S) (x : S)
     (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1) : InvAt S x ∧ ExtAt S x ∧ MoveAt S x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E₀, hE₀, hE₀9, h27, ⟨t, ht1, ht2, htE⟩, hmv⟩ := h
   have hfac : (Nat.card S).factorization 3 = 2 := by
     obtain ⟨m, hm⟩ : 9 ∣ Nat.card S := hE₀9 ▸ Subgroup.card_subgroup_dvd_card E₀
@@ -487,7 +490,7 @@ theorem at_of_sylNineMove {S : Type} [Group S] [Finite S] (h : SylNineMove S) (x
       have h1 : Nat.card (Subgroup.zpowers (g * x * g⁻¹)) = Nat.card E₀ := by rw [heq]
       rw [Nat.card_zpowers, hE₀9, orderOf_eq_prime hgx3 hgx1] at h1
       norm_num at h1
-    obtain ⟨s₀, hs₀E, hs₀z⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨s₀, hs₀E, hs₀z⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     refine ⟨g⁻¹ * s₀ * g, ?_, ?_, ?_⟩
     · have h1 := hE₀c s₀ hs₀E _ hgx
       calc g⁻¹ * s₀ * g * x = g⁻¹ * (s₀ * (g * x * g⁻¹)) * g := by group
@@ -546,7 +549,7 @@ theorem row427Cent_of_at
 theorem rowOf427Cent_of_sylNineMove
     {X : Type} [Group X] (h3 : NoThreeCover X)
     (hcube : CubeInner X) (hX : SylNineMove X) : RowOf427Cent X :=
-  fun S _ _ _ _ ⟨e⟩ => row427Cent_of_at
+  fun _S _ _ _ _ ⟨e⟩ => row427Cent_of_at
     (HardMathSupport.Solomon.Coordinator.LieComp.NoThreeCover.of_mulEquiv e h3)
     (cubeInner_of_mulEquiv e hcube) (at_of_sylNineMove (hX.of_mulEquiv e))
 

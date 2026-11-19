@@ -16,8 +16,8 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 theorem w183tp_two_sylow {Y T L₁ L₂ : Subgroup (LGL 2 V)} (hT : IsSylowIn 2 T Y)
     (htwo : Br2TwoComp Y T L₁ L₂) :
     IsSylowIn 2 (T ⊓ L₁) L₁ ∧ IsSylowIn 2 (T ⊓ L₂) L₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (LGL 2 V) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (LGL 2 V) :=
     Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
       (fun e f h => LinearEquiv.ext (congrFun h))
   have hsupY : L₁ ⊔ L₂ ≤ Y := sup_le htwo.le₁ htwo.le₂
@@ -65,6 +65,7 @@ theorem w183tp_two_sylow {Y T L₁ L₂ : Subgroup (LGL 2 V)} (hT : IsSylowIn 2 
       rw [inf_assoc, h₂']
     rwa [he] at h'
 
+omit [Finite V] in
 theorem w183tp_two_T_normalizes {Y T L₁ L₂ : Subgroup (LGL 2 V)} (hT : IsSylowIn 2 T Y)
     (htwo : Br2TwoComp Y T L₁ L₂) :
     T ≤ Subgroup.normalizer ((T ⊓ L₁ ⊔ T ⊓ L₂ : Subgroup (LGL 2 V)) : Set (LGL 2 V)) := by
@@ -89,10 +90,10 @@ theorem w183tp_two_normalizer_ne {Y T L₁ L₂ : Subgroup (LGL 2 V)} (hT : IsSy
     (htwo : Br2TwoComp Y T L₁ L₂) (hshape₁ : IsL2 ↥L₁ 2 ∨ IsU3 ↥L₁ 2) :
     Y ⊓ Subgroup.normalizer ((T ⊓ L₁ ⊔ T ⊓ L₂ : Subgroup (LGL 2 V)) : Set (LGL 2 V)) ≠ Y := by
   intro h
-  haveI : Finite (LGL 2 V) :=
+  have : Finite (LGL 2 V) :=
     Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
       (fun e f h => LinearEquiv.ext (congrFun h))
-  haveI : IsSimpleGroup ↥L₁ := htwo.simple₁
+  have : IsSimpleGroup ↥L₁ := htwo.simple₁
   obtain ⟨hQ₁, -⟩ := w183tp_two_sylow hT htwo
   have hQn := (w183tp_sylow_not_normal htwo.simple₁ htwo.nonab₁ hshape₁ hQ₁).2
   have hYle : Y ≤ Subgroup.normalizer
@@ -130,6 +131,7 @@ theorem w183tp_two_normalizer_ne {Y T L₁ L₂ : Subgroup (LGL 2 V)} (hT : IsSy
     L₁.mul_mem (L₁.mul_mem hl (Subgroup.mem_inf.mp hq).2) (L₁.inv_mem hl)
   exact hRL ▸ (show l * q * l⁻¹ ∈ (T ⊓ L₁ ⊔ T ⊓ L₂) ⊓ L₁ from ⟨hmR, hmL⟩)
 
+omit [Finite V] in
 theorem w183tp_two_borel_mem {Y T L₁ L₂ : Subgroup (LGL 2 V)} (htwo : Br2TwoComp Y T L₁ L₂)
     {b : LGL 2 V} (hb : b ∈ L₁ ⊓ Subgroup.normalizer ((T ⊓ L₁ : Subgroup (LGL 2 V)) : Set _)) :
     b ∈ Subgroup.normalizer ((T ⊓ L₁ ⊔ T ⊓ L₂ : Subgroup (LGL 2 V)) : Set (LGL 2 V)) := by
@@ -147,6 +149,7 @@ theorem w183tp_two_borel_mem {Y T L₁ L₂ : Subgroup (LGL 2 V)} (htwo : Br2Two
       (Subgroup.centralizer_le_normalizer _ hbC)
   rw [Subgroup.map_sup, hQ₁, hQ₂]
 
+omit [Finite V] in
 theorem w183tp_two_borel_mem' {Y T L₁ L₂ : Subgroup (LGL 2 V)} (htwo : Br2TwoComp Y T L₁ L₂)
     {b : LGL 2 V} (hb : b ∈ L₂ ⊓ Subgroup.normalizer ((T ⊓ L₂ : Subgroup (LGL 2 V)) : Set _)) :
     b ∈ Subgroup.normalizer ((T ⊓ L₁ ⊔ T ⊓ L₂ : Subgroup (LGL 2 V)) : Set (LGL 2 V)) := by
@@ -170,10 +173,10 @@ theorem w183tp_two_no_swap {Y T L₁ L₂ : Subgroup (LGL 2 V)} (hT : IsSylowIn 
       d * b = b * d) :
     d ∈ Subgroup.normalizer (L₁ : Set (LGL 2 V)) ∧
       d ∈ Subgroup.normalizer (L₂ : Set (LGL 2 V)) := by
-  haveI : Finite (LGL 2 V) :=
+  have : Finite (LGL 2 V) :=
     Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
       (fun e f h => LinearEquiv.ext (congrFun h))
-  haveI : IsSimpleGroup ↥L₁ := htwo.simple₁
+  have : IsSimpleGroup ↥L₁ := htwo.simple₁
   obtain ⟨hQ₁, -⟩ := w183tp_two_sylow hT htwo
   have hQne : T ⊓ L₁ ≠ ⊥ := (w183tp_sylow_not_normal htwo.simple₁ htwo.nonab₁ hshape₁ hQ₁).1
   obtain ⟨b, hbH, hb1⟩ := (Subgroup.nontrivial_iff_exists_ne_one (T ⊓ L₁)).mp
@@ -207,7 +210,7 @@ theorem w183tp_false_two {Y T L₁ L₂ : Subgroup (LGL 2 V)} {d : LGL 2 V} (hT 
     (hshape₂ : IsL2 ↥L₂ 2 ∨ IsU3 ↥L₂ 2) (hdY : d ∈ Y) (hd1 : d ≠ 1) (hd2 : d * d = 1)
     (hX : ∀ X : Subgroup (LGL 2 V), X ≤ Y → T ≤ X → X ≠ Y → ∀ x ∈ X, x * d = d * x) :
     False := by
-  haveI : Finite (LGL 2 V) :=
+  have : Finite (LGL 2 V) :=
     Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
       (fun e f h => LinearEquiv.ext (congrFun h))
   obtain ⟨hQ₁, hQ₂⟩ := w183tp_two_sylow hT htwo

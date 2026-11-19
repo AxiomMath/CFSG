@@ -181,7 +181,7 @@ theorem s2_commSub {H : Type} [Group H] (R : Rep M H) (hT : TreeSpec M) (hN : M.
     rw [← top_closure R hT hgN]
     congr 1
     ext h
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false]
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false]
     constructor
     · rintro ⟨j, hj, e⟩
       rw [e]
@@ -214,7 +214,7 @@ theorem s2_commSub {H : Type} [Group H] (R : Rep M H) (hT : TreeSpec M) (hN : M.
     exact s2_comm_mem SD hcentral hΓ hgc a b
   · refine (le_of_eq eSD).trans ((Subgroup.closure_le _).2 ?_)
     intro h hh
-    rw [Set.mem_setOf_eq] at hh
+    rw [Set.mem_ofPred_eq] at hh
     unfold genCmW at hh
     rw [List.mem_flatMap] at hh
     obtain ⟨i, hi, hh⟩ := hh

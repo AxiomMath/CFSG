@@ -20,6 +20,7 @@ section Constrained
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem pConstrainedShape_of_constraint {p : ℕ} {C : Subgroup Y}
     (h : ∀ x ∈ C, (∀ r ∈ CFSG.Open.pCoreOf p C, x * r = r * x) → x ∈ CFSG.Open.pCoreOf p C) :
     PConstrainedShape p C := by
@@ -32,7 +33,7 @@ theorem pConstrainedShape_of_constraint {p : ℕ} {C : Subgroup Y}
 
 theorem pConstrainedShape_of_solvable {p : ℕ} (hp : p.Prime) {C : Subgroup Y}
     (hsolv : Group.IsSolvable ↥C) (hO : GLAPPrimeCoreOf p C = ⊥) : PConstrainedShape p C := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO' : CFSG.pPrimeCore p ↥C = ⊥ := by
     unfold GLAPPrimeCoreOf at hO
     exact (Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective).1 hO
@@ -53,7 +54,7 @@ theorem pConstrainedShape_of_centralizer_solvable {p : ℕ} (hp : p.Prime) {C R 
       J ≤ R)
     (hO : GLAPPrimeCoreOf p C = ⊥)
     (hN : Group.IsSolvable ↥(C ⊓ Subgroup.centralizer (R : Set Y))) : PConstrainedShape p C := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨R, hRC, hRn, hRp, ?_⟩
   set N := C ⊓ Subgroup.centralizer (R : Set Y) with hNdef
   have hNC : N ≤ C := inf_le_left
@@ -115,7 +116,7 @@ section Burnside
 
 theorem isSolvable_of_card_two_pow_mul_three_pow {G : Type*} [Group G] [Finite G] {a b : ℕ}
     (h : Nat.card G = 2 ^ a * 3 ^ b) : Group.IsSolvable G := by
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
     Nat.prime_two Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card]; exact h)
 

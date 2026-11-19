@@ -187,7 +187,7 @@ theorem a5_overgroup (p : Fin 5) (Y : Subgroup (Equiv.Perm (Fin 5)))
   refine a5_sound Y (a5Gens p σ) ?_ a5EvenCodes a5_even_codes
     (a5_closure_check p σ hsign hσp)
   intro h hh
-  simp only [a5Gens, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hh
+  simp only [a5Gens, List.mem_cons, List.not_mem_nil, or_false] at hh
   rcases hh with h' | h' | h' | h' | h' <;> subst h'
   · exact hdt _ (by simp)
   · exact hdt _ (by simp)

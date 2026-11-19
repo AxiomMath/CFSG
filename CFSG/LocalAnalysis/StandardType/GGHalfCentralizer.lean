@@ -94,7 +94,7 @@ theorem layer_centralizer_not_component {n : ℕ} {t : SpecialLinearGroup (Fin (
   exact layer_ne_component_of_two_components hZ hΛ hne
 
 theorem card_component_centralizer {n : ℕ} {t : SpecialLinearGroup (Fin (n + 1)) F2}
-    (ht : t ∈ halfTorus n) (ht1 : t ≠ 1)
+    (ht : t ∈ halfTorus n) (_ht1 : t ≠ 1)
     {J : Subgroup (SpecialLinearGroup (Fin (n + 1)) F2)}
     (hJ : IsComponentOf J (Subgroup.centralizer ({t} : Set (SpecialLinearGroup (Fin (n + 1)) F2)))) :
     Nat.card J = Nat.card (SpecialLinearGroup (Fin (supp t / 2)) (GaloisField 2 2)) ∨

@@ -24,7 +24,7 @@ theorem s168e3_false_of_hat_u43_component
   classical
   have h125 : Hyp125 D V₀ V := c.setting.hyp16.hyp125
   obtain ⟨S, hGrp, hLie, hHat⟩ := hS
-  letI := hGrp
+  let := hGrp
   obtain ⟨K, hK, hbarK⟩ :=
     exists_calC_cover_of_component h125 c.std.h127 c.std.h119 hcomp
   obtain ⟨ψ, hψ⟩ := exists_barLift_of_hyp125 h125
@@ -32,7 +32,7 @@ theorem s168e3_false_of_hat_u43_component
   have hCcomp : CFSG.IsComponent C := UC22.uc22p22l_barImage_isComponent hK
   have hCq : CFSG.Open.IsQuasisimple ↥C :=
     CFSG.Quasithin.A3.isQuasisimple_iff_open.mp hCcomp.1
-  haveI hCperf : Group.IsPerfect ↥C := ⟨hCq.1⟩
+  have hCperf : Group.IsPerfect ↥C := ⟨hCq.1⟩
   have hCmap : C.map ψ = lBar V₀ V hV L :=
     barImage_map_eq_of_mem_calC h125 hK hbarK ψ hψ
   let f : ↥C →* ↥(lBar V₀ V hV L) :=
@@ -53,7 +53,7 @@ theorem s168e3_false_of_hat_u43_component
       rwa [Subgroup.map_comap_eq_self_of_surjective hf,
         Subgroup.map_top_of_surjective f hf] at hmap
     exact CFSG.Quasithin.Insp9.qs_center_ne_top hHat.1 hct
-  haveI := hNnormal
+  have := hNnormal
   have hNle : (Subgroup.center ↥(lBar V₀ V hV L)).comap f ≤ Subgroup.center ↥C :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hCq _ hNproper
   have hker_le : f.ker ≤ Subgroup.center ↥C := by

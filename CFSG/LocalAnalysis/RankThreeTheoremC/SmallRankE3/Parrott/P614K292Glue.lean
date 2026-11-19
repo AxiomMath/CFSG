@@ -24,7 +24,7 @@ theorem pRank_le_of_frameNormalizer {X : Type} [Group X] [Finite X] {B T N : Sub
     (hsol : Group.IsSolvable ↥N) (hQN : ∃ Q : Sylow 3 X, (Q : Subgroup X) ≤ N) :
     CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ CFSG.Open.pRank 3 (normalizer (T : Set X)) := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨Q, hQN⟩ := hQN
   have hBp : IsPGroup 3 B := fun b => ⟨1, Subtype.ext (by simpa using hSC.2.1.2 b.1 b.2)⟩
@@ -52,7 +52,7 @@ theorem pRank_le_of_frameNormalizer {X : Type} [Group X] [Finite X] {B T N : Sub
     exact le_iSup_of_le _ (le_iSup_of_le hT'cop (le_iSup_of_le hT'norm le_rfl))
   rw [GL83.glaPPrimeCoreOf_top_eq] at hT'O
   set O : Subgroup ↥N := primeComplementCore (G := ↥N) 3 with hO
-  haveI hOn : O.Normal := inferInstance
+  have hOn : O.Normal := inferInstance
   set D : Subgroup X := O.map N.subtype with hD
   have hTD : T ≤ D := fun t ht => ⟨⟨t, hTN ht⟩, hT'O (Subgroup.mem_subgroupOf.2 ht), rfl⟩
   have hDcop : ¬ 3 ∣ Nat.card D := by
@@ -61,7 +61,7 @@ theorem pRank_le_of_frameNormalizer {X : Type} [Group X] [Finite X] {B T N : Sub
   have hND : N ≤ normalizer (D : Set X) := I292.le_normalizer_map_subtype O
   have hDfus : fusionIsSylowIn 2 T D :=
     K62.fusionIsSylowIn_of_isMax hp hBp hT hTD hDcop (hBN.trans hND)
-  obtain ⟨c, -, hc⟩ := I292.exists_conj_normalizes hp hDcop hDfus Q.isPGroup' (hQN.trans hND)
+  obtain ⟨c, -, hc⟩ := I292.exists_conj_normalizes hp hDcop hDfus Q.isPGroup (hQN.trans hND)
   obtain ⟨Q', hQ'⟩ := I292.exists_sylow_le_of_conj Q c hc
   exact (CFSG.LocalAnalysis.RankThreeTheoremC.pRank_le_pRank_sylow hp Q' ⊤).trans
     (pRank_mono 3 (by norm_num) hQ')

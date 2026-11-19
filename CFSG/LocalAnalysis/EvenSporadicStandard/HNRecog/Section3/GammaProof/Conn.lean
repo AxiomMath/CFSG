@@ -12,6 +12,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 theorem gamma_W_Q (H : GammaHyps a z) {t : G} (htQ : t ∈ Qz z) (ht : IsConj z t) (htz : t ≠ z) :
     ∃ w : G, IsConj a w ∧ w ∈ Gx z ∧ w ∈ Gx t := by
   obtain ⟨v, w, hvQ, hvz, hvne, hwA, hwz, hwv⟩ := gamma_exists_QB_comm H

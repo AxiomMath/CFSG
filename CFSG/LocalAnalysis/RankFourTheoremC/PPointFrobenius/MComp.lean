@@ -133,7 +133,7 @@ theorem isCyclic_of_decomp (h : FrobMCompHyp p n x U σ) (hWC : KFactWeakClosure
       (setLike_mul_comm ((hmem a).mp a.2) ((hmem b).mp b.2))))
     (by
       rw [inf_top_eq]
-      exact two_le_pRank_of_not_isCyclic Fact.out h.ne_two P.isPGroup' hnc)
+      exact two_le_pRank_of_not_isCyclic Fact.out h.ne_two P.isPGroup hnc)
     (zpowers r') (zpowers_le.mpr ((hmem r').mpr hrQK.1))
     (by rw [Nat.card_zpowers, hr', Subgroup.orderOf_mk, hro])
   have hgr : (g : Y) * r * (g : Y)⁻¹ ∈ (Q : Subgroup Y) :=
@@ -155,7 +155,7 @@ theorem mem_of_decomp (h : FrobMCompHyp p n x U σ) (hK : IsComponentOf K ⊤)
   set r' : K := ⟨r, hrQK.2⟩ with hr'
   have hr'P : r' ∈ (P : Subgroup K) := (hmem r').mpr hrQK.1
   obtain ⟨g, hgN, a, haP, hap, hga⟩ := CFSG.RankThree.PartOne.D4RC.rcb_exists_normalizer_elt_perfect
-    hK.2.2.1 P.isPGroup' P.not_dvd_index hPc hP1
+    hK.2.2.1 P.isPGroup P.not_dvd_index hPc hP1
   have ha1 : a ≠ 1 := fun ha => hga (by rw [ha, mul_one, mul_inv_cancel])
   obtain ⟨j, rfl⟩ : ∃ j : ℤ, r' ^ j = a := by
     have hr'p : (⟨r', hr'P⟩ : (P : Subgroup K)) ^ p = 1 :=
@@ -220,7 +220,7 @@ theorem le_centralizer_of_normal (h : FrobMCompHyp p n x U σ) (hInn : KFactInne
     {P : Sylow p K} (hP : (P : Subgroup K) = (Q : Subgroup Y).subgroupOf K)
     (hP1 : (P : Subgroup K) ≠ ⊥) (hPc : IsCyclic (P : Subgroup K)) :
     U ≤ centralizer (K : Set Y) := by
-  haveI := hKn
+  have := hKn
   obtain ⟨hσN, hσmove⟩ := h.moves
   have hZ := h.center_eq_bot hK
   obtain ⟨hsimple, hnonab⟩ := isSimpleGroup_of_isComponentOf_of_center_eq_bot hK hZ

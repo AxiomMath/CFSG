@@ -121,7 +121,7 @@ theorem twelve_twentyTwo_three_AS (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 
   rw [Subgroup.commutator_comm] at hC
   have hR : twoResidual H ≤ centralizer (E3.cClos V (Δ.sup ι) D.T : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.1 hC
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.1 hNi
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hNi
   exact hO2 H hH g hgM
     (TwelveTwentyTwo.le_conjSubgroup_of_le_centralizer_cClos h hV₀ (by omega) hR hgN)
 

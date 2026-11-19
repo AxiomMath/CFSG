@@ -19,7 +19,7 @@ theorem rckRowK2_I_of
     hJrow hG0 hOddCent hprime hpne2 hA hB1A hDB1 hDcard hAnorm hMarkG hB1norm hB1cap
     hB1card hApow hAcap hAcapBot hB1L hMarkL hCompJ hOddCenJ hLG0 hExists hNotCent hCompL
     hNoA6 rb Vb hK1 hPos V r hrV hVJ hVab hVcard hr_eq hVmap hConj hK1'
-  intro e heD hene K hKcomp hJK hOddK
+    e heD hene K hKcomp hJK hOddK
   obtain ⟨R₀, Rm₀, hpos, hVb_le⟩ := hPos
   have himg : (V.subgroupOf J).map (QuotientGroup.mk' (Subgroup.center ↥J)) ≤
       R₀.map (QuotientGroup.mk' (Subgroup.center ↥J)) := by
@@ -58,7 +58,7 @@ theorem rckRowK2_II_of
     hJrow hG0 hOddCent hprime hpne2 hA hB1A hDB1 hDcard hAnorm hMarkG hB1norm hB1cap
     hB1card hApow hAcap hAcapBot hB1L hMarkL hCompJ hOddCenJ hLG0 hExists hNotCent hCompL
     hNoA6 rb Vb hK1 hPos V r hrV hVJ hVab hVcard hr_eq hVmap hConj hK1'
-  intro e heD hene K hKcomp hJK hOddK
+    e heD hene K hKcomp hJK hOddK
   obtain ⟨R₀, Rm₀, hpos, hR0card, hR0mem⟩ := hPos
   have hR'pos : GGRootPosJ J (R₀.map J.subtype) (Rm₀.map J.subtype) :=
     rck_rootPosJ_subtype hpos

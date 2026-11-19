@@ -49,11 +49,11 @@ theorem str86_X1_chiefFactor_natural
     (hB2 : VBig L2) (h2 : VL2 L2)
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
-    (hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2)) (hZ2 : Nat.card (Z2 L1 L2 S) = (2 ^ k) ^ 4)
+    (_hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2)) (_hZ2 : Nat.card (Z2 L1 L2 S) = (2 ^ k) ^ 4)
     (hZ1 : Nat.card (Z1 L1 L2 S) = 2 ^ k)
     (hY : Nat.card ↥(Z2 L1 L2 S ⊓ Q1 L1 L2 S) = (2 ^ k) ^ 3)
-    (hX1' : ⁅u3X1 L1 L2 S, u3X1 L1 L2 S⁆ = Z1 L1 L2 S)
-    (hX1Q1 : ⁅u3X1 L1 L2 S, Q1 L1 L2 S⁆ ≤ Z1 L1 L2 S)
+    (_hX1' : ⁅u3X1 L1 L2 S, u3X1 L1 L2 S⁆ = Z1 L1 L2 S)
+    (_hX1Q1 : ⁅u3X1 L1 L2 S, Q1 L1 L2 S⁆ ≤ Z1 L1 L2 S)
     {L N : Subgroup G} (hstep : IsChiefStep (L1 ⊔ S) (u3X1 L1 L2 S) L N)
     (hnc : ¬ IsCentralStep (L1 ⊔ S) L N) (hZL : Z1 L1 L2 S ⊓ N ≤ L) :
     ∃ hE : IsElemAbelian 2 (Ch3z.chiefMod L N),
@@ -70,11 +70,11 @@ theorem str86_X1_chiefFactor_natural
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hX1H).trans hHL
   have hLN : L ≤ N := hstep.2.2.1.le
   have hpCoreH : pCoreOf 2 H = Q1 L1 L2 S :=
-    u3LS_pCoreOf (k := k) (F := F) hF hSB h1
+    u3LS_pCoreOf (_k := k) (F := F) hF hSB h1
   have hX1P : IsPGroup 2 ↥(u3X1 L1 L2 S) :=
     (pCoreOf_isPGroup 2 (P1 L1 L2 S)).to_le u3X1_le_q1
   have hE : IsElemAbelian 2 (Ch3z.chiefMod L N) := isElemAbelian_chiefMod hstep hX1H hX1P
-  letI : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
+  let : CommGroup ↥(Ch3z.chiefMod L N) := commGroupOfElemAbelian hE
   have hWsq : ∀ w : ↥(Ch3z.chiefMod L N), w * w = 1 := fun w => by
     apply Subtype.ext
     simpa [pow_two, Subgroup.coe_mul] using hE.2 w w.2
@@ -110,7 +110,7 @@ theorem str86_X1_chiefFactor_natural
   have hqL1 : IsQuasisimple (oTwoQuot ↥L1) := isQuasisimple_oTwoQuot_of_u3 hk hFc hU3
   have hqH : IsQuasisimple (oTwoQuot ↥H) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv (u3QEquiv hF hSB h1).symm hqL1
-  haveI : Group.IsPerfect (oTwoQuot ↥H) := hqH.1
+  have : Group.IsPerfect (oTwoQuot ↥H) := hqH.1
   have hperf : Group.IsPerfect ↥(Ch3z.chiefAut H L N) := by
     have h := Group.IsPerfect.range Ψ
     rwa [hΨrange] at h
@@ -162,7 +162,7 @@ theorem str86_X1_chiefFactor_natural
       have hzpc : z ∈ pCoreOf 2 H := h2el z hzK ⟨1, hzpow⟩
       rw [hpCoreH] at hzpc
       exact hzQ1 hzpc
-  haveI : Nontrivial ↥(Ch3z.chiefAut H L N) := ⟨⟨t, 1, htne⟩⟩
+  have : Nontrivial ↥(Ch3z.chiefAut H L N) := ⟨⟨t, 1, htne⟩⟩
   have hcenter : Nonempty (↥(Ch3z.chiefAut H L N) ⧸
       Subgroup.center ↥(Ch3z.chiefAut H L N) ≃*
         StatedProj (StatedSU 3 (2 ^ k) F)) := by
@@ -209,7 +209,7 @@ theorem str86_X1_chiefFactor_natural
           (by norm_num) hnq
       have hqPSU : IsQuasisimple (StatedProj (StatedSU 3 (2 ^ k) F)) :=
         CFSG.LocalCores.isQuasisimple_of_mulEquiv ePSU hqL1
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hSUq := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
         (p := 2) (f := k) (F := F) hFc (by norm_num) hnq
       have hncPSU : ∃ a b : StatedProj (StatedSU 3 (2 ^ k) F), a * b ≠ b * a :=

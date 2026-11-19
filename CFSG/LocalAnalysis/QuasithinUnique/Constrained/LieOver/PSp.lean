@@ -21,7 +21,7 @@ theorem ld_single_ne_zero {r : ℕ} {K : Type} [Field K] (j : Fin r) :
 
 theorem ld_flag_eq {r : ℕ} {K : Type} [Field K] {d : ℕ} (hdr : d ≤ r) :
     SymplecticFlag.flag r K d = SymplecticFlag.isoFlag r K d := by
-  rw [SymplecticFlag.flag, if_pos hdr]
+  rw [SymplecticFlag.flag, ite_eq_left hdr]
 
 theorem ld_single_mem {r : ℕ} {K : Type} [Field K] (hr : 1 ≤ r) {d : ℕ} (hd : 1 ≤ d)
     (hdr : d ≤ r) : (Pi.single (Sum.inl ⟨0, hr⟩) 1 : Fin r ⊕ Fin r → K) ∈

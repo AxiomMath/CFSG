@@ -27,7 +27,7 @@ theorem burnsideC137_hatB
     (hPeq : P = M ∨ (IsHat (↥L ⧸ CFSG.pCore 2 ↥L) ↥(alternatingGroup (Fin 6)) ∧
       P.relIndex M = 3 ∧ ¬ oTwoUpper P ≤ oTwoZIn L))
     (hred : IsTwoReducedIn X V) (hVL : ⁅V, L⁆ ≠ ⊥)
-    (hredU : IsTwoReducedIn X ⁅V, L⁆) (hUU : ⁅⁅V, L⁆, L⁆ = ⁅V, L⁆)
+    (hredU : IsTwoReducedIn X ⁅V, L⁆) (_hUU : ⁅⁅V, L⁆, L⁆ = ⁅V, L⁆)
     (hCeq : X ⊓ centralizer ((⁅V, L⁆ : Subgroup G) : Set G) = X ⊓ centralizer (V : Set G))
     (hJ : ¬ thompsonJ (pCoreOf 2 P) ≤ centralizer ((⁅V, L⁆ : Subgroup G) : Set G))
     (h6 : TripleA6Six (autI hredU.2.2.1 L) ⊤ (fixV (autI hredU.2.2.1 L)))

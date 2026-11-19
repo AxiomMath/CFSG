@@ -24,7 +24,7 @@ theorem solvOver_of_typeG2 {S : Type} [Group S] [Finite S] {Q : TauCeti.PrimePow
   obtain ⟨p, f, hp, hf⟩ := Q
   dsimp only at hQ hk
   subst hQ
-  haveI : Fact (Nat.Prime 2) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨hp⟩
   let F := GaloisField 2 f
   have hF : Nat.card F = (⟨2, f, hp, hf⟩ : TauCeti.PrimePower).card := by
     rw [GaloisField.card _ _ hf.ne', TauCeti.PrimePower.card_def]

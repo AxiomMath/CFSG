@@ -16,8 +16,8 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.LocalAnalysis.RankT
 theorem eq_of_isComponentOf_of_isSolvable_quotient {Y : Type} [Group Y] [Finite Y]
     {N K : Subgroup Y} [N.Normal] (hs : Group.IsSolvable (Y ⧸ N))
     (hN : CFSG.Open.IsComponentOf N ⊤) (hK : CFSG.Open.IsComponentOf K ⊤) : K = N := by
-  haveI := hs
-  haveI : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
+  have := hs
+  have : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
   exact CFSG.LocalAnalysis.ComponentInitial.eq_of_isComponentOf_le
     (CFSG.Assembly.isComponentOf_iff_open.2 hK) (CFSG.Assembly.isComponentOf_iff_open.2 hN)
     (CFSG.ComponentClassification.CatalogueBLinearTwo.perfect_le_normal_of_solvable_quotient N K)
@@ -36,13 +36,14 @@ private theorem nonempty_mulEquiv_quotient_center_of_surjective {P Q : Type} [Gr
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y
     obtain ⟨a, rfl⟩ := hψ b
     exact ⟨a, rfl⟩
-  haveI := hP.2
-  haveI := hQ.2.toNontrivial
+  have := hP.2
+  have := hQ.2.toNontrivial
   exact ⟨MulEquiv.ofBijective _
     ⟨CFSG.QuasithinUnique.SQTK.injective_of_isSimpleGroup_of_surjective _ hs, hs⟩⟩
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem exists_surjective_map_toStar_subgroupOf {T L M : Subgroup X} (hTM : T ≤ M)
     (hLM : L ≤ M) :
     ∃ ψ : ↥(L.map (toStar T)) →* ↥((L.subgroupOf M).map (toStar (T.subgroupOf M))),
@@ -64,6 +65,7 @@ private theorem exists_surjective_map_toStar_subgroupOf {T L M : Subgroup X} (hT
       (Subgroup.subgroupOfEquivOfLe hLM).symm.surjective) hker
   exact ⟨ψ, hψ⟩
 
+omit [Finite X] in
 theorem nonempty_mulEquiv_quotient_center_map_toStar_subgroupOf {T L M : Subgroup X}
     (hTM : T ≤ M) (hLM : L ≤ M) (hq : CFSG.Open.IsQuasisimple ↥(L.map (toStar T)))
     (hq₁ : CFSG.Open.IsQuasisimple ↥((L.subgroupOf M).map (toStar (T.subgroupOf M)))) :
@@ -74,6 +76,7 @@ theorem nonempty_mulEquiv_quotient_center_map_toStar_subgroupOf {T L M : Subgrou
   obtain ⟨e⟩ := nonempty_mulEquiv_quotient_center_of_surjective hq hq₁ hψ
   exact ⟨e.symm⟩
 
+omit [Finite X] in
 theorem nonempty_mulEquiv_map_toStar_subgroupOf_of_isSimpleGroup {T L M : Subgroup X}
     (hTM : T ≤ M) (hLM : L ≤ M) [IsSimpleGroup ↥(L.map (toStar T))]
     [Nontrivial ↥((L.subgroupOf M).map (toStar (T.subgroupOf M)))] :
@@ -86,7 +89,7 @@ private theorem isSolvable_quotient_map_toStar_sup {T L : Subgroup X} (hT : IsPG
     (hLn : L.Normal) [((L.subgroupOf (L ⊔ T)).map (toStar (T.subgroupOf (L ⊔ T)))).Normal] :
     Group.IsSolvable ((↥(L ⊔ T) ⧸ gnC (T.subgroupOf (L ⊔ T))) ⧸
       (L.subgroupOf (L ⊔ T)).map (toStar (T.subgroupOf (L ⊔ T)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 ((↥(L ⊔ T) ⧸ gnC (T.subgroupOf (L ⊔ T))) ⧸
       (L.subgroupOf (L ⊔ T)).map (toStar (T.subgroupOf (L ⊔ T)))) := by
     intro g
@@ -98,7 +101,7 @@ private theorem isSolvable_quotient_map_toStar_sup {T L : Subgroup X} (hT : IsPG
     refine Subgroup.mem_map_of_mem _ ?_
     rw [Subgroup.mem_subgroupOf, SubgroupClass.coe_pow]
     exact hk
-  haveI := hp.isNilpotent
+  have := hp.isNilpotent
   infer_instance
 
 theorem gnShape_sup_of_normal {T T₁ T₂ L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
@@ -112,8 +115,8 @@ theorem gnShape_sup_of_normal {T T₁ T₂ L : Subgroup X} {Ls : Subgroup (X ⧸
       ((L.subgroupOf (L ⊔ T)).map (toStar (T.subgroupOf (L ⊔ T)))) ⊤ :=
     isComponentOf_map_toStar_subgroupOf le_sup_right le_sup_left hLn hgn₁ hC2
       (not_le_gnC_of_liftOf hcomp.1 ⟨hC2, rfl⟩)
-  haveI := hLn
-  haveI : ((L.subgroupOf (L ⊔ T)).map (toStar (T.subgroupOf (L ⊔ T)))).Normal :=
+  have := hLn
+  have : ((L.subgroupOf (L ⊔ T)).map (toStar (T.subgroupOf (L ⊔ T)))).Normal :=
     (Subgroup.normal_subgroupOf : (L.subgroupOf (L ⊔ T)).Normal).map _
       (QuotientGroup.mk'_surjective _)
   intro K hK
@@ -132,10 +135,10 @@ theorem gnShape_sup_of_normal {T T₁ T₂ L : Subgroup X} {Ls : Subgroup (X ⧸
   · have h5 : 5 ≤ Nat.card (Fin n) := by
       rw [Nat.card_eq_fintype_card, Fintype.card_fin]
       rcases hn with rfl | ⟨h8, -⟩ <;> omega
-    haveI := alternatingGroup.isSimpleGroup h5
-    haveI : IsSimpleGroup ↥(L.map (toStar T)) := e.isSimpleGroup
-    haveI : Nontrivial ↥((L.subgroupOf (L ⊔ T)).map (toStar (T.subgroupOf (L ⊔ T)))) := by
-      haveI := hq₁.2.toNontrivial
+    have := alternatingGroup.isSimpleGroup h5
+    have : IsSimpleGroup ↥(L.map (toStar T)) := e.isSimpleGroup
+    have : Nontrivial ↥((L.subgroupOf (L ⊔ T)).map (toStar (T.subgroupOf (L ⊔ T)))) := by
+      have := hq₁.2.toNontrivial
       exact (QuotientGroup.mk'_surjective (Subgroup.center _)).nontrivial
     obtain ⟨e₁⟩ := nonempty_mulEquiv_map_toStar_subgroupOf_of_isSimpleGroup
       (le_sup_right : T ≤ L ⊔ T) (le_sup_left : L ≤ L ⊔ T)

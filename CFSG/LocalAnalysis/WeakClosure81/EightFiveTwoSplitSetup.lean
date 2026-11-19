@@ -26,11 +26,11 @@ theorem barSituation_of_hyp711 {V H E : Subgroup G} (h : Hyp711 V H E) {X : Type
     exact isOddTransp_barSet h.toHyp73 h.transitive hφ hS
 
 theorem centralInSylow_of_hyp83 {V H T : Subgroup G} (h : Hyp83 V H T)
-    (hKT : H = kGenIn V H ⊔ T) {X : Type} [Group X] {φ : ↥(ambK V H T) →* X}
+    (_hKT : H = kGenIn V H ⊔ T) {X : Type} [Group X] {φ : ↥(ambK V H T) →* X}
     (hφ : IsBarMap (ambK V H T) (pCoreOf 2 (ambK V H T)) φ)
     (hS : Nat.card (barSub (ambK V H T) φ (ambV V H)) = 2) :
     CentralInSylow X (barSub (ambK V H T) φ (ambV V H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hh : Hyp83 (V.subgroupOf H) (⊤ : Subgroup ↥H) (T.subgroupOf H) := AmbientH.hyp83 h
   have hT : IsSylowIn 2 (T.subgroupOf H) (⊤ : Subgroup ↥H) := hh.sylow_H
   have hKN : ((ambK V H T).subgroupOf (⊤ : Subgroup ↥H)).Normal :=

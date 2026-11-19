@@ -44,14 +44,14 @@ theorem kf7_m11_case {p : ℕ} (hp : p.Prime) (hp3 : p = 3)
   classical
   have hp2 : p ≠ 2 := by omega
   subst p
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   let K : Subgroup X := genFittingFStar X
   obtain ⟨hKs, -, hKn, hKC, ⟨P, T, hPN, hPK, hT, hle, hne⟩⟩ :=
     kf7_setup hp hp2 hO hLN hKL hN
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hLsimple : IsSimpleGroup ↥L := by
     obtain ⟨eL⟩ := hshape
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M11) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M11) :=
       CFSG.ClassicalInvolution.Q3.isSimpleGroup_m11_kernel
     exact eL.isSimpleGroup
   have hKLeqL : K = L := eq_of_le_of_normal_of_isSimpleGroup hKL hKs hLsimple
@@ -71,7 +71,7 @@ theorem kf7_m11_case {p : ℕ} (hp : p.Prime) (hp3 : p = 3)
     · exact absurd h.symm (ne_of_lt hb)
     · exact h
   have hout : Group.IsSolvable (Outer ↥K) := by
-    haveI : Subsingleton (Outer ↥K) := (Nat.card_eq_one_iff_unique.mp houtcard).1
+    have : Subsingleton (Outer ↥K) := (Nat.card_eq_one_iff_unique.mp houtcard).1
     exact Group.isSolvable_of_comm fun a b => Subsingleton.elim _ _
   exact isSolvable_of_isCoatom_normalizer hKC hout hmax hsol hle hne
 
@@ -84,11 +84,11 @@ theorem kf7_l34_case {p : ℕ} (hp : p.Prime) (hp3 : p = 3)
   classical
   have hp2 : p ≠ 2 := by omega
   subst p
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   let K : Subgroup X := genFittingFStar X
   obtain ⟨hKs, -, hKn, hKC, ⟨P, T, hPN, hPK, hT, hle, hne⟩⟩ :=
     kf7_setup hp hp2 hO hLN hKL hN
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hLsimple : IsSimpleGroup ↥L :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hshape
   have hKLeqL : K = L := eq_of_le_of_normal_of_isSimpleGroup hKL hKs hLsimple

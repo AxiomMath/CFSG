@@ -35,7 +35,7 @@ theorem not_isPGroup_of_isCalL1 {X : Type} [Group X] [Finite X] (h : IsCalL1 X) 
   obtain ⟨n, hn_odd, hn_gt1, hL2 | hSz | hL3⟩ := h
   ·
     have hm : StatedClassicalModel X .PSL 2 2 n := hL2.statedClassicalModel (by decide)
-    haveI : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
+    have : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
     obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hm
     have hn2 : 2 ≤ n := by omega
     have hcard : 3 < Nat.card F := by
@@ -50,13 +50,13 @@ theorem not_isPGroup_of_isCalL1 {X : Type} [Group X] [Finite X] (h : IsCalL1 X) 
     exact kbr_not_isPGroup_of_simple
       ⟨e'.symm x, e'.symm y, fun hc => hxy (by simpa using congrArg e' hc)⟩
   ·
-    haveI : IsSimpleGroup X :=
+    have : IsSimpleGroup X :=
       CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
     exact kbr_not_isPGroup_of_simple
       (CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_twistedB2 hSz)
   ·
     have hm : StatedClassicalModel X .PSL 3 2 n := hL3.statedClassicalModel (by decide)
-    haveI : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
+    have : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
     obtain ⟨⟨-, -, -⟩, F, _, _, hF, ⟨eF⟩⟩ := hm
     have hcard : Nat.card X = Nat.card (StatedProj (StatedSL 3 F)) := Nat.card_congr eF.toEquiv
     have hord :=
@@ -73,9 +73,9 @@ theorem kbr_isCompositionFactor_of_normal_subgroup {Y : Type} [Group Y] (B : Sub
     [B.Normal] {L : Type} [Group L] (h : E1.IsCompositionFactor ↥B L) :
     E1.IsCompositionFactor Y L := by
   obtain ⟨N₁, M₁, hN₁, hNM, hNs, hMs, hs, ⟨e⟩⟩ := h
-  haveI := hs
+  have := hs
   have hL : IsSimpleGroup L := e.symm.isSimpleGroup
-  haveI := hL
+  have := hL
   let A : Subgroup Y := M₁.map B.subtype
   have hAsub : A.IsSubnormal := by
     refine Subgroup.IsSubnormal.trans (Subgroup.map_subtype_le M₁) ?_
@@ -98,7 +98,7 @@ theorem not_hasCompFactor_sup_of_normal {H N T : Subgroup G} (hNH : N ≤ H)
     (hNn : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) (hTH : T ≤ H) (hT : IsPGroup 2 ↥T)
     (hH : ¬ HasCompFactor H IsCalL1) : ¬ HasCompFactor (N ⊔ T) IsCalL1 := by
   rintro ⟨L, hLgrp, hLc, hcal⟩
-  letI := hLgrp
+  let := hLgrp
   have hNX : N ≤ N ⊔ T := le_sup_left
   have hTX : T ≤ N ⊔ T := le_sup_right
   have hXH : N ⊔ T ≤ H := sup_le hNH hTH
@@ -107,7 +107,7 @@ theorem not_hasCompFactor_sup_of_normal {H N T : Subgroup G} (hNH : N ≤ H)
     refine ⟨fun a ha x => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact hNn (x : G) (hXH x.2) a ha
-  haveI := hAn
+  have := hAn
   rcases isCompositionFactor_of_normal A hLc with hA | hQ
   ·
     have hLN : E1.IsCompositionFactor ↥N L :=
@@ -117,13 +117,13 @@ theorem not_hasCompFactor_sup_of_normal {H N T : Subgroup G} (hNH : N ≤ H)
       refine ⟨fun a ha x => ?_⟩
       rw [Subgroup.mem_subgroupOf] at ha ⊢
       exact hNn (x : G) x.2 a ha
-    haveI := hNnorm
+    have := hNnorm
     have hLN' : E1.IsCompositionFactor ↥(N.subgroupOf H) L :=
       (CFSG.Quasithin.H13.L829N.isCompositionFactor_congr
         (Subgroup.subgroupOfEquivOfLe hNH)).mpr hLN
     exact hH ⟨L, hLgrp, kbr_isCompositionFactor_of_normal_subgroup (N.subgroupOf H) hLN', hcal⟩
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hPq : IsPGroup 2 (↥(N ⊔ T) ⧸ A) := by
       let g : ↥T →* ↥(N ⊔ T) ⧸ A :=
         (QuotientGroup.mk' A).comp (Subgroup.inclusion hTX)
@@ -151,7 +151,7 @@ theorem not_hasCompFactor_sup_of_normal {H N T : Subgroup G} (hNH : N ≤ H)
       exact hT.of_surjective g hg
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp hPq
     have hdvd : Nat.card L ∣ 2 ^ k := hk ▸ isCompositionFactor_natCard_dvd hQ
-    haveI : Finite L := isCompositionFactor_finite hQ
+    have : Finite L := isCompositionFactor_finite hQ
     exact not_isPGroup_of_isCalL1 hcal (IsPGroup.of_card_dvd_pow hdvd)
 
 namespace MinCex183
@@ -201,7 +201,7 @@ theorem MinCex183.two_quotient_img (c : MinCex183 D V₀ V H i) (h1 : ¬ Concl18
     exact hN.conj_mem (π j) (Subgroup.mem_comap.mp hj) (π ⟨h, hh⟩)
   have hN'K : ¬ N' ≤ kerMV V H := by
     intro hle
-    obtain ⟨r, hrN, hrK⟩ := SetLike.not_le_iff_exists.mp hNK
+    obtain ⟨r, hrN, hrK⟩ := IsConcreteLE.not_le_iff_exists.mp hNK
     obtain ⟨j, -, hj⟩ := M.mem_img.1 r.2
     have hjr : π j = r := Subtype.ext ((hπval j).trans hj)
     have hjN' : (j : G) ∈ N' := by
@@ -224,7 +224,7 @@ theorem MinCex183.two_quotient_img (c : MinCex183 D V₀ V H i) (h1 : ¬ Concl18
   obtain ⟨j, rfl⟩ := hπs y
   have hjmem : j ∈ (N'.subgroupOf H) ⊔ (D.T.subgroupOf H) := by
     rw [hsupH]; exact Subgroup.mem_top j
-  haveI := hN'norm
+  have := hN'norm
   obtain ⟨n, hn, t, ht, hnt⟩ :=
     (Subgroup.mem_sup_of_normal_left (s := N'.subgroupOf H)
       (t := D.T.subgroupOf H)).mp hjmem
@@ -281,7 +281,7 @@ theorem isSolvable_kk (M : ModDataE H (eOmegaZ H D.T)) {K : Subgroup G} (hKH : K
     change M.ρ ⟨(j : G), hKH hjK⟩ = (r.1 : LGL 2 M.W)
     rw [show (⟨(j : G), hKH hjK⟩ : ↥H) = j from Subtype.ext rfl]
     exact hjρ
-  haveI : Group.IsSolvable ↥K := hK
+  have : Group.IsSolvable ↥K := hK
   exact Group.isSolvable_of_surjective (f := f) hf
 
 theorem eq_bot_of_pCoreOf_eq_bot {Q : Type*} [Group Q] [Finite Q] {J : Subgroup Q}
@@ -299,7 +299,7 @@ theorem opResidual_top_props {Y : Type*} [Group Y] [Finite Y] :
     (opResidual 2 (⊤ : Subgroup Y)).Normal ∧
       (∀ y : Y, ∃ k : ℕ, y ^ 2 ^ k ∈ opResidual 2 (⊤ : Subgroup Y)) ∧
       ∀ N : Subgroup Y, (∀ y : Y, ∃ k : ℕ, y ^ 2 ^ k ∈ N) → opResidual 2 (⊤ : Subgroup Y) ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨⟨fun x hx g => ?_⟩, fun y => exists_pow_mem_opResidual (p := 2) (A := ⊤) (mem_top y),
     fun N h => opResidual_le_of_pow_mem fun x _ => h x⟩
   have hn : (⟨x, mem_top x⟩ : (⊤ : Subgroup Y)) ∈
@@ -324,7 +324,7 @@ theorem four_le_card_img (M : ModDataE H (eOmegaZ H D.T)) {S : Subgroup G} (hSH 
     (hA : 3 ≤ (Subgroup.centralizer (eOmegaZ H D.T : Set G)).relIndex S) :
     IsPGroup 2 ↥((M.img S).subgroupOf (M.img H)) ∧
       4 ≤ Nat.card ↥((M.img S).subgroupOf (M.img H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSH' : M.img S ≤ M.img H := M.img_mono hSH
   let e := Subgroup.subgroupOfEquivOfLe hSH'
   have hcard : Nat.card ↥((M.img S).subgroupOf (M.img H)) = Nat.card ↥(M.img S) :=
@@ -421,7 +421,7 @@ theorem kk_eq_bot_of_multiplier (hMult : OddMultiplierSocle185) {Y : Type} [Grou
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     exact hφk k
   have hZnorm : Z.Normal := hZker ▸ φ.normal_ker
-  haveI := hZnorm
+  have := hZnorm
   have hZcenter : Z ≤ Subgroup.center ↥F := by
     intro z hz
     rw [Subgroup.mem_center_iff]

@@ -24,7 +24,7 @@ theorem act_inv_act (g : PG) {p : ℕ} (hp : p < 100) : act 100 g⁻¹ (act 100 
 theorem exists_hasFix {B E : Subgroup PG} (hEab : IsElemAbelian 2 E) (hEcard : Nat.card E = 16)
     (hB5 : 5 ∣ Nat.card B) (hBnorm : B ≤ Subgroup.normalizer (E : Set PG)) :
     ∃ X : PG, HasFix E X := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨y₀', hy₀'⟩ := exists_prime_orderOf_dvd_card' 5 hB5
   set y : PG := (y₀' : PG) with hy
   have hyB : y ∈ B := y₀'.2
@@ -82,7 +82,7 @@ theorem normLv_PG {B P E : Subgroup PG}
     (hrE : ∀ z ∈ E, r * (z : Equiv.Perm (Fin 100)) = (z : Equiv.Perm (Fin 100)) * r)
     (hrB : ∀ b ∈ B, r * (b : Equiv.Perm (Fin 100)) = (b : Equiv.Perm (Fin 100)) * r) : r = 1 := by
   classical
-  haveI : Fintype PG := Fintype.ofFinite PG
+  have : Fintype PG := Fintype.ofFinite PG
   have h5 : 5 ∣ Nat.card B := by rw [hcardB]; exact Dvd.dvd.mul_right (by norm_num) _
   obtain ⟨X, hX⟩ := exists_hasFix hEab hEcard h5 hBnorm
   set f : PG →* PG := (MulAut.conj X⁻¹).toMonoidHom with hf
@@ -103,7 +103,7 @@ theorem normLv_PG {B P E : Subgroup PG}
     obtain ⟨b, hb, rfl⟩ := Subgroup.mem_map.mp hx
     have hpres := pres_of_hasFix hX (c := (b : Equiv.Perm (Fin 100))) (hbnorm b hb)
     rw [mem_Mg_iff]
-    have e : f b = X⁻¹ * b * X := by simp [hf, MulAut.conj_apply]
+    have e : f b = X⁻¹ * b * X := by simp [hf]
     rw [e]
     exact hpres
   have hperf' : ⁅B', B'⁆ = B' := by
@@ -161,10 +161,10 @@ theorem normLv_PG {B P E : Subgroup PG}
       _ = _ := by group
   have e1 : (k1 : Equiv.Perm (Fin 100)) =
       (X : Equiv.Perm (Fin 100))⁻¹ * (b1 : Equiv.Perm (Fin 100)) * (X : Equiv.Perm (Fin 100)) := by
-    rw [← hb1e]; simp [hf, MulAut.conj_apply]
+    rw [← hb1e]; simp [hf]
   have e2 : (k2 : Equiv.Perm (Fin 100)) =
       (X : Equiv.Perm (Fin 100))⁻¹ * (b2 : Equiv.Perm (Fin 100)) * (X : Equiv.Perm (Fin 100)) := by
-    rw [← hb2e]; simp [hf, MulAut.conj_apply]
+    rw [← hb2e]; simp [hf]
   have hk1c := hcomm b1 hb1
   have hk2c := hcomm b2 hb2
   rw [← e1] at hk1c

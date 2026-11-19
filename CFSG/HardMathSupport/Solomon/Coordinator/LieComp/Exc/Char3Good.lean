@@ -33,7 +33,7 @@ private theorem map_subtype_top_eq (H : Subgroup S) : (⊤ : Subgroup ↥H).map 
 
 theorem exists_glaPComponent_top_of_subgroup [Finite S] {H J : Subgroup S}
     (hJ : GLAPComponent 3 H J) : ∃ K : Subgroup ↥H, GLAPComponent 3 (⊤ : Subgroup ↥H) K := by
-  haveI : Finite ↥H := Subtype.finite
+  have : Finite ↥H := Subtype.finite
   have hJ' : GLAPComponent 3 ((⊤ : Subgroup ↥H).map H.subtype) J := by
     rwa [map_subtype_top_eq]
   obtain ⟨K, hK, -⟩ := exists_glaPComponent_map_eq Nat.prime_three H.subtype
@@ -42,7 +42,7 @@ theorem exists_glaPComponent_top_of_subgroup [Finite S] {H J : Subgroup S}
 
 theorem glaPComponent_map_subtype_of_top [Finite S] {H : Subgroup S} {K : Subgroup ↥H}
     (hK : GLAPComponent 3 (⊤ : Subgroup ↥H) K) : GLAPComponent 3 H (K.map H.subtype) := by
-  haveI : Finite ↥H := Subtype.finite
+  have : Finite ↥H := Subtype.finite
   have h := glaPComponent_map Nat.prime_three H.subtype (coprime_three_card_inf_ker_subtype H ⊤) hK
   rwa [map_subtype_top_eq] at h
 
@@ -61,7 +61,7 @@ theorem Char3Good.of_simple [IsSimpleGroup C] (hnc : ∃ a b : C, a * b ≠ b * 
     isChevSimple_congr e.symm hchev, ⟨fun f => hA6.false (e.symm.trans f)⟩, ?_⟩
   · obtain ⟨a, b, hab⟩ := hnc
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
-  · haveI : Subsingleton (C ⧸ (⊤ : Subgroup C)) := QuotientGroup.subsingleton_quotient_top
+  · have : Subsingleton (C ⧸ (⊤ : Subgroup C)) := QuotientGroup.subsingleton_quotient_top
     exact Group.isSolvable_of_comm fun a b => Subsingleton.elim _ _
 
 theorem Char3Good.of_noComponent {S : Type} [Group S] [Finite S] {β : MulAut S}
@@ -74,7 +74,7 @@ theorem Char3Good.of_mulEquiv [Finite C] (e : C ≃* C') (h : Char3Good C') : Ch
   · left
     let N : Subgroup C := M.comap (e : C →* C')
     have hNM : N.map (e : C →* C') = M := Subgroup.map_comap_eq_self_of_surjective e.surjective M
-    haveI : N.Normal := hMn.comap _
+    have : N.Normal := hMn.comap _
     let eN : ↥N ≃* ↥M :=
       (N.equivMapOfInjective (e : C →* C') e.injective).trans (MulEquiv.subgroupCongr hNM)
     let eQ : C ⧸ N ≃* C' ⧸ M := QuotientGroup.congr N M e hNM
@@ -106,6 +106,7 @@ theorem Char3Good.of_conj_aut (ε β : MulAut S) (h : Char3Good ↥(fixSubgroup 
   rw [← hc] at h
   exact Char3Good.of_mulEquiv (fixSubgroupCongrEquiv (ε : S ≃* S) β) h
 
+omit [Finite S] in
 theorem Char3Good.of_inv (β : MulAut S) (h : Char3Good ↥(fixSubgroup β⁻¹)) :
     Char3Good ↥(fixSubgroup β) := by
   have hfix : fixSubgroup β⁻¹ = fixSubgroup β := by
@@ -133,7 +134,7 @@ theorem lieCompExport_or_noThreeComponents_of_char3Good {S : Type} [Group S] [Fi
       Subgroup.comap_map_eq_self_of_injective (fixSubgroup β).subtype_injective M
     let eJ : ↥M ≃* ↥J :=
       M.equivMapOfInjective (fixSubgroup β).subtype (fixSubgroup β).subtype_injective
-    haveI hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
+    have hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
       rw [hJM]
       exact hMn
     have hsolJ : Group.IsSolvable (↥(fixSubgroup β) ⧸ J.subgroupOf (fixSubgroup β)) :=

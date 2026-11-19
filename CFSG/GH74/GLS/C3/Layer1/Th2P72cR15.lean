@@ -37,7 +37,7 @@ theorem p79_of_cbar_of_lift {J B V Hc : Subgroup G} {b x : G} (hperf : Group.IsP
     (hdih : CFSG.GorensteinWalter.HasDihedralSylowTwo (kBar J))
     (hJH : J ≤ Hc) (hOH : pPrimeCoreOf 2 J ≤ pPrimeCoreOf 2 Hc)
     (hBN : B ≤ normalizer (J : Set G)) (hBel : CFSG.IsElementaryAbelian 2 ↥B)
-    (hVB : V ≤ B) (hrk : 3 ≤ pRank 2 ↥V) (hbB : b ∈ B)
+    (hVB : V ≤ B) (hrk : 3 ≤ pRank 2 ↥V) (_hbB : b ∈ B)
     {c : kBar J} (hcp : Nat.Prime (orderOf c))
     (hxJ : x ∈ J) (hxc : (QuotientGroup.mk (⟨x, hxJ⟩ : ↥J) : kBar J) = c)
     (hxodd : Odd (orderOf x))

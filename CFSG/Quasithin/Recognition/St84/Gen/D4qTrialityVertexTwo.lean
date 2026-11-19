@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {X : Type} [Group X] [Finite X] {f : ℕ}
 
+omit [Finite X] in
 private theorem x₁_add_one_mul_mem (d : TrialityD4Data X (2 ^ f)) {N : Subgroup X}
     (hFN : d.F ≤ N) (hJN : d.J₂ ≤ normalizer (N : Set X))
     {a : d.Γ} {n : X} (hn : n ∈ d.F) (hs : d.x₁ a * n ∈ N) (μ : d.Γˣ) :
@@ -48,6 +49,7 @@ private theorem x₁_add_one_mul_mem (d : TrialityD4Data X (2 ^ f)) {N : Subgrou
     exact hA
   rwa [hcoef] at hA'
 
+omit [Finite X] in
 private theorem eq_one_of_forall_smul {d : TrialityD4Data X (2 ^ f)} {ν : d.Γ₀} (hν : ν ≠ 0)
     {A : Matrix.SpecialLinearGroup (Fin 2) d.Γ₀}
     (hA : ∀ w : Fin 2 → d.Γ₀, A *ᵥ (ν • w) = w) : ν = 1 := by
@@ -124,7 +126,7 @@ theorem eq_M_of_F_le_of_le_S (d : TrialityD4Data X (2 ^ f)) {N : Subgroup X} (hF
     intro he
     rw [← he, d.card_F] at hlt
     exact (lt_irrefl _) hlt
-  obtain ⟨s, hs, hsF⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hFle hne)
+  obtain ⟨s, hs, hsF⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hFle hne)
   obtain ⟨a, n, hn, rfl⟩ := d.mem_M_iff.1 hs.2
   have ha : a ≠ 0 := by
     rintro rfl
@@ -158,6 +160,7 @@ theorem eq_M_of_F_le_of_le_S (d : TrialityD4Data X (2 ^ f)) {N : Subgroup X} (hF
     exact sup_le hU₁ hFN
   exact (Subgroup.eq_of_le_of_card_ge hMN (by rw [hcard, d.card_M])).symm
 
+omit [Finite X] in
 theorem S_inf_centralizer_J₂ (hf : 2 ≤ f) (d : TrialityD4Data X (2 ^ f)) :
     d.S ⊓ centralizer (d.J₂ : Set X) = d.U₂ := by
   have hq : 4 ≤ 2 ^ f := by
@@ -169,6 +172,7 @@ theorem S_inf_centralizer_J₂ (hf : 2 ≤ f) (d : TrialityD4Data X (2 ^ f)) :
   · refine le_inf d.U₂_le_S ?_
     exact le_centralizer_iff.2 (inf_le_right : d.J₂ ≤ centralizer (d.U₂ : Set X))
 
+omit [Finite X] in
 theorem M_inf_centralizer_J₂ (hf : 2 ≤ f) (d : TrialityD4Data X (2 ^ f)) :
     d.M ⊓ centralizer (d.J₂ : Set X) = ⊥ := by
   have hbot : d.U₂ ⊓ d.M = ⊥ := by
@@ -185,6 +189,7 @@ theorem M_inf_centralizer_J₂ (hf : 2 ≤ f) (d : TrialityD4Data X (2 ^ f)) :
   rw [← hbot]
   exact Subgroup.mem_inf.2 ⟨hU, hx.1⟩
 
+omit [Finite X] in
 theorem mem_J₂_iff_forall_mem_M (d : TrialityD4Data X (2 ^ f)) {h : X} (hh : h ∈ d.J) :
     h ∈ d.J₂ ↔ ∀ s ∈ d.S, h * s * h⁻¹ * s⁻¹ ∈ d.M := by
   constructor
@@ -221,6 +226,7 @@ theorem mem_J₂_iff_forall_mem_M (d : TrialityD4Data X (2 ^ f)) {h : X} (hh : h
     rw [← hμ]
     exact (d.torus_mem_J₂_iff (l, μ)).2 (Units.ext hlval)
 
+omit [Finite X] in
 theorem mem_J₄_iff_forall_mem_Y (d : TrialityD4Data X (2 ^ f)) {h : X} (hh : h ∈ d.J) :
     h ∈ d.J₄ ↔ ∀ w ∈ d.W, h * w * h⁻¹ * w⁻¹ ∈ d.Y := by
   constructor
@@ -252,6 +258,7 @@ theorem mem_J₄_iff_forall_mem_Y (d : TrialityD4Data X (2 ^ f)) {h : X} (hh : h
     rw [← hμ]
     exact (d.torus_mem_J₄_iff (l, μ)).2 hχ
 
+omit [Finite X] in
 theorem eq_one_of_mem_leviLong_sup_J₂_of_commute (d : TrialityD4Data X (2 ^ f)) {r : X}
     (hr : r ∈ d.leviLong ⊔ d.J₂) (hc : ∀ x ∈ d.M, r * x = x * r) : r = 1 := by
   have hJ : d.J₂ ≤ normalizer (d.leviLong : Set X) :=

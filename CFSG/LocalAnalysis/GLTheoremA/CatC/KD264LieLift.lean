@@ -49,7 +49,7 @@ theorem kd264Rho_mem_range_conj {Y : Type} [Group Y] {K B : Subgroup Y}
     simp only [MulAut.conj_apply, normalizerConjAutOfMem,
       Subgroup.normalizerMonoidHom_apply_apply_coe, Subgroup.coe_mul, Subgroup.coe_inv]
     have hk := h (l * k * l⁻¹) (K.mul_mem (K.mul_mem l.2 k.2) (K.inv_mem l.2))
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv] at hk
+    simp only [Subgroup.coe_inv] at hk
     have hk' : (b : Y)⁻¹ * ((l : Y) * (k : Y) * (l : Y)⁻¹) * (b : Y) = (k : Y) := by
       rw [hk]; group
     calc (b : Y) * (k : Y) * (b : Y)⁻¹

@@ -22,6 +22,6 @@ theorem step1520CoreComp_holds
     (Read148Perf.y4CoreReadR_from_item148R KFacts.kpSz Ronan149.item145BotS14_holds
       Ronan148M.item148R_holds)
     Ronan149.item145BotS14_holds
-    (fun G _ _ A c L h Y hctx => Res1Cover.y4CoreMemAt_of_ctx1514 h hctx)
+    (fun _G _ _ _A _c _L h _Y hctx => Res1Cover.y4CoreMemAt_of_ctx1514 h hctx)
 
 end CFSG.RankThree.PartTwo.Sec15.Y4Core

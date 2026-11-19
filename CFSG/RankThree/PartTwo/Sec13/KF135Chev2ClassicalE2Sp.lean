@@ -205,16 +205,19 @@ section Transvection
 
 variable {k : Type} [Field k] [CharP k 2] {m : ℕ}
 
+omit [CharP k 2] in
 theorem mul_vecMulVec_eq {ι : Type*} [Fintype ι] (M : Matrix ι ι k) (w v : ι → k) :
     M * vecMulVec w v = vecMulVec (M *ᵥ w) v := by
   ext i j
   simp [Matrix.mul_apply, vecMulVec_apply, mulVec, dotProduct, Finset.sum_mul, mul_assoc]
 
+omit [CharP k 2] in
 theorem vecMulVec_mul_eq {ι : Type*} [Fintype ι] (w v : ι → k) (M : Matrix ι ι k) :
     vecMulVec w v * M = vecMulVec w (v ᵥ* M) := by
   ext i j
   simp [Matrix.mul_apply, vecMulVec_apply, vecMul, dotProduct, Finset.mul_sum, mul_assoc]
 
+omit [CharP k 2] in
 theorem vecMulVec_mul_vecMulVec_eq {ι : Type*} [Fintype ι] (a b c d : ι → k) :
     vecMulVec a b * vecMulVec c d = (b ⬝ᵥ c) • vecMulVec a d := by
   ext i j
@@ -239,10 +242,10 @@ theorem sympJ_transpose : (Jm)ᵀ = (Jm : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fi
 
 theorem sympJ_mul_self : (Jm : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) k) * Jm = 1 := by
   rw [fromBlocks_multiply]
-  simp only [Matrix.zero_mul, Matrix.mul_zero, zero_add, add_zero, Matrix.one_mul,
-    Matrix.mul_one, Matrix.mul_neg, Matrix.neg_mul, neg_zero]
+  simp only [Matrix.mul_zero, zero_add, add_zero, Matrix.mul_one, Matrix.mul_neg, neg_zero]
   rw [matrix_neg_eq_char_two, fromBlocks_one]
 
+omit [CharP k 2] in
 theorem sympJ_alt (v : Fin m ⊕ Fin m → k) : (v ᵥ* Jm) ⬝ᵥ v = 0 := by
   rw [← Matrix.dotProduct_mulVec]
   exact CFSG.RankThree.PartOne.LIT.sympForm_alt m v
@@ -266,6 +269,7 @@ theorem spTransv_transpose_mul (v : Fin m ⊕ Fin m → k) :
     Matrix.mul_one, vecMulVec_mul_vecMulVec_eq, hu, sympJ_alt, zero_smul, add_zero, ← hu]
   rw [add_assoc, matrix_add_self_char_two, add_zero]
 
+omit [CharP k 2] in
 theorem spTransv_commute {z : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) k}
     (hz : zᵀ * Jm * z = Jm) {v : Fin m ⊕ Fin m → k} (hv : z *ᵥ v = v) :
     z * spTransv v = spTransv v * z := by
@@ -306,7 +310,7 @@ theorem exists_involution_commute_psp4 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hBc : p ^ 2 ≤ Nat.card B) :
     ∃ t ∈ B, t ≠ 1 ∧ ∃ s : StatedProj (StatedSp 2 k), s ≠ 1 ∧ s * s = 1 ∧ s * t = t * s := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H := StatedSp 2 k with hH
   set N := (StatedScalars (Fin 2 ⊕ Fin 2) k).subgroupOf H with hN
   set π : H →* StatedProj H := QuotientGroup.mk' N with hπ
@@ -428,7 +432,7 @@ theorem false_of_e2_psp4 {n p e : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n) 
     (hαI : α ∉ (MulAut.conj : StatedProj (StatedSp 2 K) →* MulAut (StatedProj (StatedSp 2 K))).range) :
     False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨Fr, hFr, hord, hzp, -, -⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality
@@ -516,7 +520,7 @@ theorem false_of_e2_psp4 {n p e : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n) 
   set jj := CFSG.RankThree.CASymplecticSubfield.subfieldSpProj 2 (descentField σ) with hjj
   have hjinj : Function.Injective jj :=
     CFSG.RankThree.CASymplecticSubfield.subfieldSpProj_injective (by norm_num) _
-  haveI : CharP (descentField σ) 2 :=
+  have : CharP (descentField σ) 2 :=
     (algebraMap (descentField σ) K).charP (algebraMap (descentField σ) K).injective 2
   refine false_of_e2_core hp (by omega) hinj hshape he hout hP'p hexp' hcard' h2b' haP' haI ?_
   intro B hBab hBcard haB
@@ -559,7 +563,7 @@ theorem false_of_kF135Hyp_projSp_two_e2 {n : ℕ} (hn : 1 ≤ n)
   have hp := h.prime
   have hp7 := h.seven_le
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn7 : p ≤ n := Nat.le_of_dvd (by omega) hpn
   have hn2 : 2 ≤ n := by omega
   by_cases hinn : P ≤ (MulAut.conj : S →* MulAut S).range
@@ -567,7 +571,7 @@ theorem false_of_kF135Hyp_projSp_two_e2 {n : ℕ} (hn : 1 ≤ n)
       ((rankLE2_projSp_two hp hp2 (natCast_ne_zero_galoisField hp hp2)).of_mulEquiv e.symm)
       (fun Q => CFSG.LocalAnalysis.RankFourTheoremC.isMulCommutative_sylow_of_mulEquiv e
         (isMulCommutative_sylow_projSp_two hn2 hp hp2 hx) Q)
-  obtain ⟨φ, hφP, hφI⟩ := SetLike.not_le_iff_exists.1 hinn
+  obtain ⟨φ, hφP, hφI⟩ := IsConcreteLE.not_le_iff_exists.1 hinn
   set K := GaloisField 2 n
   set eT : CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K) ≃* projSp 2 K :=
     (CFSG.PGLModel.projSpEquivStatedProj 2 K).symm with heT

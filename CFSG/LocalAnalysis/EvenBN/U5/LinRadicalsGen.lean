@@ -76,7 +76,7 @@ theorem radicals_of_surjective_odd_ker {M Λ : Type} [Group M] [Group Λ] [Finit
     (hπ : Function.Surjective π) (hker : Odd (Nat.card π.ker)) {R : Subgroup M}
     (hR : CFSG.ABGLocalTools.IsSylowOf 2 R ⊤) :
     ∃ R₁ R₂ : Subgroup M, LinearThree.Radicals R R₁ R₂ ((2 ^ f) ^ 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRcard : Nat.card R = 2 ^ (Nat.card M).factorization 2 := by
     have h := hR.card_eq
     rwa [Subgroup.card_top] at h

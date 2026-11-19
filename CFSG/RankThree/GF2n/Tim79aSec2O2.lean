@@ -72,12 +72,13 @@ theorem eOf_inf_conj_ne_bot {h : G} (hh : h ∈ H) : eOf H ⊓ conjSubgroup h V 
   have : (eOf H ⊓ V).map (MulAut.conj h).toMonoidHom = ⊥ := hbot
   exact (Subgroup.map_eq_bot_iff_of_injective _ (MulAut.conj h).injective).mp this
 
+omit [Finite G] hc in
 theorem V_inf_wOf_eq : V ⊓ wOf V H = V ⊓ inSubgroup (pCore 2) H := by
   refine le_antisymm (inf_le_inf le_rfl (wOf_le_pCore V H)) fun x hx => ?_
   refine ⟨hx.1, inf_pCore_le_wOf (U := V) ⟨1, H.one_mem, (conjSubgroup_one V).symm⟩ ⟨hx.1, hx.2⟩⟩
 
 theorem V_inf_wOf_ne_bot : V ⊓ wOf V H ≠ ⊥ := by
-  rw [hc.V_inf_wOf_eq]
+  rw [CFSG.RankThree.GF2n.Tim79a.MinCex.V_inf_wOf_eq]
   intro hbot
   apply hc.eOf_inf_V_ne_bot
   rw [eq_bot_iff]
@@ -86,6 +87,7 @@ theorem V_inf_wOf_ne_bot : V ⊓ wOf V H ≠ ⊥ := by
   rw [hbot] at this
   exact this
 
+omit [Finite G] in
 theorem not_V_le_wOf : ¬ V ≤ wOf V H := fun h => hc.notLe (h.trans (wOf_le_pCore V H))
 
 theorem conj_inf_wOf_ne_bot {h : G} (hh : h ∈ H) : conjSubgroup h V ⊓ wOf V H ≠ ⊥ := by

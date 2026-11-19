@@ -61,10 +61,12 @@ section StrothSec
 
 variable [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem conj_mem_Q (H : StrothHyp M Q Z) {x : G} (hxM : x ∈ M) {q : G} (hq : q ∈ Q) :
     x * q * x⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp (H.Q_normal.2 hxM) q).mp hq
 
+omit [Finite G] in
 theorem comm_mem_Q (H : StrothHyp M Q Z) {x : G} (hxM : x ∈ M) {q : G} (hq : q ∈ Q) :
     ⁅q, x⁆ ∈ Q := by
   have h := Q.mul_mem hq (Q.inv_mem (conj_mem_Q H hxM hq))
@@ -99,6 +101,7 @@ structure XAct (M₀ : Tim79.QuadModel Q Z K γ) (x : G) where
   hQ : ∀ e, M₀.Qf (T e) = M₀.Qf e
   hB : ∀ e f, M₀.B (T e) (T f) = M₀.B e f
 
+omit [Finite G] in
 theorem exists_xact (hD : GlobalModelData M Q Z γ M₀) {x : G} (hxM : x ∈ M)
     (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z) : Nonempty (XAct M₀ x) := by
   obtain ⟨T, h1, h2, h3⟩ := hD.linear_of_centralizes hxM hxZ
@@ -106,6 +109,7 @@ theorem exists_xact (hD : GlobalModelData M Q Z γ M₀) {x : G} (hxM : x ∈ M)
 
 variable {x : G}
 
+omit [Finite G] in
 theorem XAct.T_T (A : XAct M₀ x) (H : StrothHyp M Q Z) (hxM : x ∈ M) (hx2 : x * x = 1)
     (e : M₀.E) : A.T (A.T e) = e := by
   obtain ⟨y, hy, rfl⟩ := M₀.π_surj e
@@ -116,6 +120,7 @@ theorem XAct.T_T (A : XAct M₀ x) (H : StrothHyp M Q Z) (hxM : x ∈ M) (hx2 : 
   calc x * (x * y * x) * x = (x * x) * y * (x * x) := by group
     _ = y := by rw [hx2]; simp
 
+omit [Finite G] in
 theorem XAct.pi_comm (A : XAct M₀ x) (H : StrothHyp M Q Z) (hxM : x ∈ M) {q : G} (hq : q ∈ Q) :
     M₀.π ⁅q, x⁆ = M₀.π q - A.T (M₀.π q) := by
   have hu := conj_mem_Q H hxM hq
@@ -125,6 +130,7 @@ theorem XAct.pi_comm (A : XAct M₀ x) (H : StrothHyp M Q Z) (hxM : x ∈ M) {q 
   rw [e, M₀.π_mul q hq _ (Q.inv_mem hu), Tim79.QuadModel.pi_inv M₀ hu, A.hπ q hq]
   exact (sub_eq_add_neg _ _).symm
 
+omit [Finite G] in
 theorem XAct.B_comm_gen (A : XAct M₀ x) (hK2 : (2 : K) = 0) (H : StrothHyp M Q Z) (hxM : x ∈ M)
     (hx2 : x * x = 1) {q q' : G} (hq : q ∈ Q) (hq' : q' ∈ Q) :
     M₀.B (M₀.π ⁅q, x⁆) (M₀.π ⁅q', x⁆) = 0 := by
@@ -148,6 +154,7 @@ variable [Finite G] {M Q Z : Subgroup G} {K : Type} [Field K]
 
 def commGens (Q : Subgroup G) (x : G) : Set G := {g | ∃ q ∈ Q, ⁅q, x⁆ = g}
 
+omit [Finite G] in
 theorem gen_comm (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (2 : K) = 0)
     (H : StrothHyp M Q Z) (hxM : x ∈ M) (hx2 : x * x = 1) {q q' : G} (hq : q ∈ Q)
     (hq' : q' ∈ Q) : ⁅q, x⁆ * ⁅q', x⁆ = ⁅q', x⁆ * ⁅q, x⁆ :=
@@ -155,6 +162,7 @@ theorem gen_comm (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (
     ((GM.comm_eq_one_iff hD (comm_mem_Q H hxM hq) (comm_mem_Q H hxM hq')).mpr
       (A.B_comm_gen hK2 H hxM hx2 hq hq'))
 
+omit [Finite G] in
 theorem D_comm (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (2 : K) = 0)
     (H : StrothHyp M Q Z) (hxM : x ∈ M) (hx2 : x * x = 1) :
     ∀ a ∈ Subgroup.closure (commGens Q x), ∀ b ∈ Subgroup.closure (commGens Q x),
@@ -166,6 +174,7 @@ theorem D_comm (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (2 
   intro a ha b hb
   exact congrArg Subtype.val (hc.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
+omit [Finite G] in
 theorem D_inv (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (2 : K) = 0)
     (H : StrothHyp M Q Z) (hxM : x ∈ M) (hx2 : x * x = 1) :
     ∀ y ∈ Subgroup.closure (commGens Q x), x * y * x⁻¹ = y⁻¹ := by
@@ -187,6 +196,7 @@ theorem D_inv (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (2 :
   | inv a ha iha =>
     rw [show x * a⁻¹ * x⁻¹ = (x * a * x⁻¹)⁻¹ by group, iha]
 
+omit [Finite G] in
 theorem D_comm_x (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (2 : K) = 0)
     (H : StrothHyp M Q Z) (hxM : x ∈ M) (hx2 : x * x = 1) {y : G}
     (hy : y ∈ Subgroup.closure (commGens Q x)) : ⁅y, x⁆ = y ^ 2 := by
@@ -195,6 +205,7 @@ theorem D_comm_x (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (
     _ = y * y := by rw [h, inv_inv]
     _ = y ^ 2 := (sq y).symm
 
+omit [Finite G] in
 theorem D_le_Q (H : StrothHyp M Q Z) (hxM : x ∈ M) :
     Subgroup.closure (commGens Q x) ≤ Q :=
   (Subgroup.closure_le Q).mpr (by rintro _ ⟨q, hq, rfl⟩; exact comm_mem_Q H hxM hq)
@@ -206,6 +217,7 @@ section Equivs
 variable [Finite G] {M Q Z : Subgroup G} {K : Type} [Field K]
   {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {x : G}
 
+omit [Finite G] in
 theorem gen_sq_iff (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (2 : K) = 0)
     (H : StrothHyp M Q Z) (hxM : x ∈ M) {q : G} (hq : q ∈ Q) :
     ⁅q, x⁆ ^ 2 = 1 ↔ ⁅q, x * q * x⁻¹⁆ = 1 := by
@@ -221,6 +233,7 @@ theorem gen_sq_iff (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 :
     linear_combination (M₀.Qf e) * hK2
   rw [h1, neg_eq_zero]
 
+omit [Finite G] in
 theorem D_sq_iff_gen (hD : GlobalModelData M Q Z γ M₀) (A : XAct M₀ x) (hK2 : (2 : K) = 0)
     (H : StrothHyp M Q Z) (hxM : x ∈ M) (hx2 : x * x = 1) :
     (∀ y ∈ Subgroup.closure (commGens Q x), y ^ 2 = 1) ↔ ∀ q ∈ Q, ⁅q, x⁆ ^ 2 = 1 := by
@@ -246,12 +259,14 @@ def preimageSub (M₀ : Tim79.QuadModel Q Z K γ) (R : Submodule K M₀.E) : Sub
   inv_mem' := fun {a} ha =>
     ⟨Q.inv_mem ha.1, by rw [Tim79.QuadModel.pi_inv M₀ ha.1]; exact R.neg_mem ha.2⟩
 
+omit [Finite G] in
 theorem mem_preimageSub {M₀ : Tim79.QuadModel Q Z K γ} {R : Submodule K M₀.E} {y : G} :
     y ∈ preimageSub M₀ R ↔ y ∈ Q ∧ M₀.π y ∈ R := Iff.rfl
 
 def commSpace (A : XAct M₀ x) : Submodule K M₀.E :=
   LinearMap.range ((A.T : M₀.E →ₗ[K] M₀.E) - LinearMap.id)
 
+omit [Finite G] in
 theorem mem_commSup_iff (A : XAct M₀ x) (H : StrothHyp M Q Z) (hxM : x ∈ M) (hx2 : x * x = 1)
     (hZQ : Z ≤ Q) {y : G} :
     y ∈ (⁅Q, Subgroup.zpowers x⁆ ⊔ Z : Subgroup G) ↔ y ∈ Q ∧ M₀.π y ∈ commSpace A := by
@@ -281,6 +296,7 @@ theorem mem_commSup_iff (A : XAct M₀ x) (H : StrothHyp M Q Z) (hxM : x ∈ M) 
   rw [hW]
   exact Iff.rfl
 
+omit [Finite G] in
 theorem exists_comm_rep (A : XAct M₀ x) (H : StrothHyp M Q Z) (hxM : x ∈ M) {y : G} (hyQ : y ∈ Q)
     (hy : M₀.π y ∈ commSpace A) : ∃ q ∈ Q, ∃ z₀ ∈ Z, y = ⁅q, x⁆ * z₀ := by
   obtain ⟨e, he⟩ := hy
@@ -301,6 +317,7 @@ section Count
 variable [Finite G] {M Q Z : Subgroup G} {K : Type} [Field K]
   [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {x : G}
 
+omit [Finite G] [Finite K] in
 theorem card_preimageSub (hZQ : Z ≤ Q) (R : Submodule K M₀.E) :
     Nat.card (preimageSub M₀ R) = Nat.card R * Nat.card Z := by
   classical
@@ -337,6 +354,8 @@ theorem card_preimageSub (hZQ : Z ≤ Q) (R : Submodule K M₀.E) :
       group
   rw [Nat.card_congr (Equiv.ofBijective f hbij).symm, Nat.card_prod]
 
+omit [Finite K] in
+omit [Finite G] in
 theorem card_comm_sup (hcard : Nat.card K = Nat.card Z) (A : XAct M₀ x) (H : StrothHyp M Q Z)
     (hxM : x ∈ M) (hx2 : x * x = 1) :
     Nat.card ↥(⁅Q, Subgroup.zpowers x⁆ ⊔ Z) =
@@ -353,6 +372,7 @@ section Main110
 
 variable [Finite G] {M Q Z : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem commutator_zpowers_eq_closure' (hx : x * x = 1) :
     ⁅Q, Subgroup.zpowers x⁆ = Subgroup.closure (commGens Q x) :=
   commutator_zpowers_eq_closure hx
@@ -366,6 +386,7 @@ theorem exists_model (H : StrothHyp M Q Z) {x : G} (hxM : x ∈ M)
   obtain ⟨A⟩ := exists_xact hD hxM hxZ
   exact ⟨K, hK, hfin, γ, M₀, hD, hD.card, CharP.cast_eq_zero K 2, ⟨A⟩⟩
 
+omit [Finite G] in
 theorem D_conj_mem (hx2 : x * x = 1) {q : G} (hq : q ∈ Q) {y : G}
     (hy : y ∈ ⁅Q, Subgroup.zpowers x⁆) : q * y * q⁻¹ ∈ ⁅Q, Subgroup.zpowers x⁆ := by
   rw [commutator_zpowers_eq_closure' hx2] at hy ⊢
@@ -377,7 +398,7 @@ theorem D_conj_mem (hx2 : x * x = 1) {q : G} (hq : q ∈ Q) {y : G}
     rw [h1]
     exact Subgroup.mul_mem _ (Subgroup.subset_closure ⟨q * q', Q.mul_mem hq hq', rfl⟩)
       (Subgroup.inv_mem _ (Subgroup.subset_closure ⟨q, hq, rfl⟩))
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul a b ha hb iha ihb =>
     rw [show q * (a * b) * q⁻¹ = (q * a * q⁻¹) * (q * b * q⁻¹) by group]
     exact Subgroup.mul_mem _ iha ihb
@@ -497,7 +518,8 @@ variable [Finite G] {M Q Z : Subgroup G} {x : G}
 
 def fuseSet (Q Z : Subgroup G) (x : G) : Set G := {w | w ∈ Z ∧ ∃ q ∈ Q, ⁅q, x⁆ = w}
 
-theorem fuse_iff (H : StrothHyp M Q Z) (hxM : x ∈ M) (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z) {z : G}
+omit [Finite G] in
+theorem fuse_iff (_H : StrothHyp M Q Z) (_hxM : x ∈ M) (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z) {z : G}
     (hz : z ∈ Z) : x * z ∈ conjOrbit Q x ↔ z ∈ fuseSet Q Z x := by
   constructor
   · rintro ⟨q, hq, hqz⟩
@@ -511,7 +533,8 @@ theorem fuse_iff (H : StrothHyp M Q Z) (hxM : x ∈ M) (hxZ : ∀ z ∈ Z, x * z
     rw [h1, ← hqz]
     simp only [commutatorElement_def]; group
 
-theorem cent_eq_CQt_iff (H : StrothHyp M Q Z) (hx2 : x * x = 1) :
+omit [Finite G] in
+theorem cent_eq_CQt_iff (_H : StrothHyp M Q Z) (hx2 : x * x = 1) :
     ((Q ⊓ Subgroup.centralizer ({x} : Set G) : Subgroup G) : Set G) =
         CQt Q Z (Subgroup.zpowers x) ↔
       ∀ q ∈ Q, ⁅q, x⁆ ∈ Z → ⁅q, x⁆ = 1 := by
@@ -520,7 +543,7 @@ theorem cent_eq_CQt_iff (H : StrothHyp M Q Z) (hx2 : x * x = 1) :
     have hmem : q ∈ CQt Q Z (Subgroup.zpowers x) := by
       refine ⟨hq, fun t ht => ?_⟩
       rcases mem_zpowers_of_mul_self_eq_one hx2 ht with rfl | rfl
-      · simpa using Z.one_mem
+      · simp
       · rw [← commutatorElement_inv]; exact Z.inv_mem hqZ
     rw [← h] at hmem
     have := Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_inf.mp hmem).2
@@ -532,7 +555,7 @@ theorem cent_eq_CQt_iff (H : StrothHyp M Q Z) (hx2 : x * x = 1) :
       obtain ⟨hyQ, hyC⟩ := Subgroup.mem_inf.mp hy
       refine ⟨hyQ, fun t ht => ?_⟩
       rcases mem_zpowers_of_mul_self_eq_one hx2 ht with rfl | rfl
-      · simpa using Z.one_mem
+      · simp
       · have := Subgroup.mem_centralizer_singleton_iff.mp hyC
         rw [commutatorElement_eq_one_iff_mul_comm.mpr this.symm]
         exact Z.one_mem
@@ -543,6 +566,7 @@ theorem cent_eq_CQt_iff (H : StrothHyp M Q Z) (hx2 : x * x = 1) :
       have := commutatorElement_eq_one_iff_mul_comm.mp (h y hyQ h1)
       exact Subgroup.mem_centralizer_singleton_iff.mpr this
 
+omit [Finite G] in
 theorem smith_1_11_first (H : StrothHyp M Q Z) (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z)
     (hx2 : x * x = 1) :
     conjOrbit Q x ∩ cosetSet x Z = {x} ↔
@@ -564,6 +588,7 @@ theorem smith_1_11_first (H : StrothHyp M Q Z) (hxZ : ∀ z ∈ Z, x * z * x⁻�
       subst hy
       exact ⟨⟨1, Q.one_mem, by simp⟩, ⟨1, Z.one_mem, by simp⟩⟩
 
+omit [Finite G] in
 theorem fuse_eq_coset_of_all (H : StrothHyp M Q Z) (hxM : x ∈ M)
     (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z) (hall : ∀ z ∈ Z, z ∈ fuseSet Q Z x) :
     conjOrbit Q x ∩ cosetSet x Z = cosetSet x Z := by
@@ -575,7 +600,7 @@ theorem smith_1_11_not_typeA (H : StrothHyp M Q Z) (hxM : x ∈ M) (hxQ : x ∉ 
     (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z) (hx2 : x * x = 1) (hna : ¬ ∃ k, IsTypeA Q Z k x) :
     conjOrbit Q x ∩ cosetSet x Z = cosetSet x Z := by
   obtain ⟨K, _, _, γ, M₀, hD, hcard, hK2, ⟨A⟩⟩ := exists_model H hxM hxZ
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hK2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hK2
   have hLin : Lin Q Z x := ⟨H.Q_normal.2 hxM, hxQ, hxZ⟩
   have hDeq := commutator_zpowers_eq_closure' (Q := Q) hx2
   have hZQ := H.Z_normal.1

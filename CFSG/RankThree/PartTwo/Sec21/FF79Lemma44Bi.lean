@@ -130,7 +130,7 @@ private lemma sec4_facts [Finite G] {b : G} {J B : Subgroup G} {b₁ b₂ : G}
   have hbB : b ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)
   have hb₁B : b₁ ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)
   have hb₂B : b₂ ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)
-  haveI : IsMulCommutative B := hEA.1.toIsMulCommutative
+  have : IsMulCommutative B := hEA.1.toIsMulCommutative
   have hcomm : ∀ u v : G, u ∈ B → v ∈ B → u * v = v * u := fun u v hu hv =>
     congrArg Subtype.val (hEA.1.is_comm.comm (⟨u, hu⟩ : B) ⟨v, hv⟩)
   have hcube : ∀ u : G, u ∈ B → u ^ 3 = 1 := by
@@ -227,7 +227,7 @@ private theorem main_aux (hT : FF79KTransvL5) {b x z t : G} (hc : FF79CentL5 x b
     obtain ⟨n, hn⟩ := op2_pow (Subgroup.mem_subgroupOf.mp ha).1
     refine ⟨n, Subtype.ext ?_⟩
     have : a ^ 2 ^ n = 1 := Subtype.ext hn
-    simp only [Subgroup.coe_pow, Subgroup.coe_one, MonoidHom.coe_coe]
+    simp only [Subgroup.coe_pow, Subgroup.coe_one]
     rw [← map_pow, this, map_one]
   have hR'le : R' ≤ Subgroup.centralizer ({e t'} : Set (GL (Fin 5) (ZMod 2))) := by
     intro r hr
@@ -266,7 +266,7 @@ private theorem main_aux (hT : FF79KTransvL5) {b x z t : G} (hc : FF79CentL5 x b
 
 theorem ff79_4_4Bi_of (hstr : FF79_4_3Str) (hT : FF79KTransvL5) : FF79_4_4Bi := by
   intro G _ _ b J B b₁ b₂ h4 t ht x hx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hb3, hb₁3, hb₂3, hbb₁, hbb₂, hb₁b₂, hn₁, hn₂⟩ := sec4_facts h4
   have hS := hstr G b J B b₁ b₂ h4
   have hbo : orderOf b = 3 := h4.hyp.ord

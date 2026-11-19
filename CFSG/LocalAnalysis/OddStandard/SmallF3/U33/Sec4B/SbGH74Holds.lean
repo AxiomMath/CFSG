@@ -23,7 +23,7 @@ theorem gh74Statement_of_gh74ModelsInput
     (hGH : CFSG.ComponentClassification.UFrontier.GH74ModelsInput) :
     CFSG.GH74.GH74Statement := by
   intro G _ _ hsimple hnonab hrank hgen
-  letI := hsimple
+  let := hsimple
   exact hGH G hnonab hrank (fun P hP => hgen P hP)
 
 theorem sec4Inputs_of_gh74ModelsInput

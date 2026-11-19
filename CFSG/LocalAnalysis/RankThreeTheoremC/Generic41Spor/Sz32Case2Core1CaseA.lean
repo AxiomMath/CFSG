@@ -68,7 +68,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 theorem szh1a_centralizer_pCore_le
     (hcore : primeComplementCore (G := Y) 5 = ⊥) (hno : ∀ L : Subgroup Y, ¬ IsComponentOf L ⊤) :
     Subgroup.centralizer (CFSG.pCore 5 Y : Set Y) ≤ CFSG.pCore 5 Y := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hlayer : CFSG.layer Y = ⊥ :=
     CFSG.LocalCores.layer_eq_bot_of_forall fun K hK => hno K ((CFSG.isComponent_iff_open K).mp hK)
   intro g hg
@@ -84,10 +84,10 @@ theorem szh1a_centralizer_pCore_le
 theorem szh1a_exists_central {Pb R : Subgroup Y} [R.Normal]
     (hPb : IsPGroup 5 Pb) (hRP : R ≤ Pb) (hR : R ≠ ⊥) :
     ∃ z ∈ R, z ≠ 1 ∧ ∀ q ∈ Pb, q * z = z * q := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (IsPGroup 5 Pb) := ⟨hPb⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (IsPGroup 5 Pb) := ⟨hPb⟩
   have hN : (R.subgroupOf Pb).Normal := Subgroup.Normal.subgroupOf inferInstance Pb
-  haveI : (R.subgroupOf Pb).Normal := hN
+  have : (R.subgroupOf Pb).Normal := hN
   have hnt : Nontrivial (R.subgroupOf Pb) := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
@@ -122,7 +122,7 @@ theorem szh1a_coprime_eq_bot
     IsSubnormal.step hKC hKnorm (IsSubnormal.step le_top hCnorm (IsSubnormal.refl ⊤))
   have hbot := cfsg_subnormal_primeComplementCore_eq_bot 5 K hsub hcore
   have hcard : Nat.Coprime 5 (Nat.card K) := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     rw [Nat.Prime.coprime_iff_not_dvd (by norm_num)]
     intro hdvd
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 hdvd
@@ -138,18 +138,19 @@ theorem szh1a_coprime_eq_bot
   have h2 : (⟨k, hk⟩ : K) = 1 := Subgroup.mem_bot.mp this
   simpa using congrArg Subtype.val h2
 
+omit [Finite Y] in
 theorem szh1a_conj_mem_sylow (S : Sylow 5 Y) {C : Subgroup Y} [C.Normal]
     (hSC : (S : Subgroup Y) ≤ C) (hCS : C ≤ Subgroup.normalizer ((S : Subgroup Y) : Set Y)) :
     ∀ g : Y, ∀ t ∈ (S : Subgroup Y), g * t * g⁻¹ ∈ (S : Subgroup Y) := by
   intro g t ht
   let T : Subgroup Y := (S : Subgroup Y).map (MulAut.conj g).toMonoidHom
-  have hT : IsPGroup 5 T := S.isPGroup'.map _
+  have hT : IsPGroup 5 T := S.isPGroup.map _
   have hTC : T ≤ C := by
     rintro _ ⟨s, hs, rfl⟩
     have := Subgroup.Normal.conj_mem inferInstance s (hSC hs) g
     simpa using this
   have hsup : IsPGroup 5 ↥(T ⊔ (S : Subgroup Y)) :=
-    IsPGroup.to_sup_of_normal_right' hT S.isPGroup' (hTC.trans hCS)
+    IsPGroup.to_sup_of_normal_right' hT S.isPGroup (hTC.trans hCS)
   have heq : T ⊔ (S : Subgroup Y) = S := S.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hmem : g * t * g⁻¹ ∈ T := ⟨t, ht, by simp⟩
   have : g * t * g⁻¹ ∈ T ⊔ (S : Subgroup Y) := Subgroup.mem_sup_left hmem
@@ -163,10 +164,10 @@ variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {a c y : Y}
 
 theorem szh1_caseA (hY : Sz32Case2Data Pb a c y) (hno : ∀ L : Subgroup Y, ¬ IsComponentOf L ⊤) :
     ∀ g : Y, ∀ t ∈ Pb, g * t * g⁻¹ ∈ Pb := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨S, hS⟩ := hY.sylow
-  have hPb5 : IsPGroup 5 Pb := by rw [← hS]; exact S.isPGroup'
-  haveI hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
+  have hPb5 : IsPGroup 5 Pb := by rw [← hS]; exact S.isPGroup
+  have hRn : (CFSG.pCore 5 Y).Normal := CFSG.pCore_normal
   have hRP : CFSG.pCore 5 Y ≤ Pb := by
     rw [← hS]; exact CFSG.pCore_isPGroup.le_sylow_of_normal S
   have hcent := szh1a_centralizer_pCore_le hY.core hno
@@ -223,9 +224,9 @@ theorem szh1_caseA (hY : Sz32Case2Data Pb a c y) (hno : ∀ L : Subgroup Y, ¬ I
     have heq := hY.wc g hle
     have hmem : g * w * g⁻¹ ∈ (sz32Z a c).map (MulAut.conj g).toMonoidHom := ⟨w, hw, by simp⟩
     rwa [heq] at hmem
-  haveI hZn : (sz32Z a c).Normal := ⟨fun w hw g => hZnorm g w hw⟩
+  have hZn : (sz32Z a c).Normal := ⟨fun w hw g => hZnorm g w hw⟩
   obtain ⟨C, hC⟩ : ∃ C : Subgroup Y, C = Subgroup.centralizer (sz32Z a c : Set Y) := ⟨_, rfl⟩
-  haveI hCn : C.Normal := by rw [hC]; infer_instance
+  have hCn : C.Normal := by rw [hC]; infer_instance
   have hCmem : ∀ g : Y, g ∈ C ↔ ∀ w ∈ sz32Z a c, w * g = g * w := by
     intro g; rw [hC, Subgroup.mem_centralizer_iff]; rfl
   have hPC : Pb ≤ C := by

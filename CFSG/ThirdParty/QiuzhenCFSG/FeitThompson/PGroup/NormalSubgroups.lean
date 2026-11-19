@@ -51,7 +51,7 @@ theorem CFSG.exists_normal_subgroup_card_eq_prime_in_normal
   obtain ⟨x, hx_ne_one, hx_center⟩ :=
     exists_nontrivial_center_mem_normal (N := N) (p := p)
   have hxI : (x : G) ∈ I := ⟨x.property, hx_center⟩
-  haveI : Nontrivial I := by
+  have : Nontrivial I := by
     refine ⟨⟨1, ⟨⟨x, hxI⟩, ?_⟩⟩⟩
     intro hEq
     have hx_eq_one : x = 1 := by
@@ -62,7 +62,7 @@ theorem CFSG.exists_normal_subgroup_card_eq_prime_in_normal
   have hp_dvd : p ∣ Nat.card I := by
     rw [hcardI]
     exact dvd_pow_self p (Nat.pos_iff_ne_zero.mp hn_pos)
-  letI : Fintype I := Fintype.ofFinite I
+  let : Fintype I := Fintype.ofFinite I
   have hp_dvd_f : p ∣ Fintype.card I := by
     simpa [Nat.card_eq_fintype_card] using hp_dvd
   obtain ⟨y, hy_order⟩ := exists_prime_orderOf_dvd_card (G := I) p hp_dvd_f
@@ -110,12 +110,12 @@ theorem CFSG.exists_normal_subgroup_card_pow_le
         obtain ⟨Z, hZ_normal, hZ_le_N, hcardZ⟩ :=
           exists_normal_subgroup_card_eq_prime_in_normal (G := G) (p := p)
             (N := N) hN_nontrivial
-        letI : Z.Normal := hZ_normal
+        let : Z.Normal := hZ_normal
         let q : G →* (G ⧸ Z) := QuotientGroup.mk' Z
         let Nbar : Subgroup (G ⧸ Z) := N.map q
         have hNbar_normal : Nbar.Normal := by
           simpa [Nbar, q] using (QuotientGroup.map_normal Z N)
-        letI : Nbar.Normal := hNbar_normal
+        let : Nbar.Normal := hNbar_normal
         let Npre : Subgroup G := Nbar.comap q
         have hker_le_N : q.ker ≤ N := by
           simpa [q, QuotientGroup.ker_mk'] using hZ_le_N
@@ -148,11 +148,11 @@ theorem CFSG.exists_normal_subgroup_card_pow_le
         have hr_pos : 0 < r := Nat.pos_of_ne_zero hr0
         obtain ⟨r', rfl⟩ := Nat.exists_eq_succ_of_ne_zero (Nat.ne_of_gt hr_pos)
         have hr' : r' ≤ k := Nat.le_of_succ_le_succ hr
-        haveI : Fact (IsPGroup p (G ⧸ Z)) := ⟨(Fact.out : IsPGroup p G).to_quotient Z⟩
+        have : Fact (IsPGroup p (G ⧸ Z)) := ⟨(Fact.out : IsPGroup p G).to_quotient Z⟩
         obtain ⟨Kbar, hKbar_normal, hKbar_le, hcardKbar⟩ :=
           exists_normal_subgroup_card_pow_le (p := p) (G := (G ⧸ Z)) (N := Nbar)
             (k := k) hcardNbar r' hr'
-        letI : Kbar.Normal := hKbar_normal
+        let : Kbar.Normal := hKbar_normal
         refine ⟨Kbar.comap q, inferInstance, ?_, ?_⟩
         · have hcomap_le : Kbar.comap q ≤ Nbar.comap q := Subgroup.comap_mono hKbar_le
           simpa [Npre, hNpre_eq] using hcomap_le
@@ -183,7 +183,7 @@ public theorem CFSG.exists_normal_subgroup_card_pow_of_normal
     {p : ℕ} [Fact p.Prime] [Fact (IsPGroup p G)] (N : Subgroup G) (hN : N.Normal)
     {k : ℕ} (hcard : Nat.card N = p ^ k) :
     ∀ r : ℕ, r ≤ k → ∃ K : Subgroup G, K.Normal ∧ K ≤ N ∧ Nat.card K = p ^ r := by
-  letI : N.Normal := hN
+  let : N.Normal := hN
   exact exists_normal_subgroup_card_pow_le (p := p) (N := N) (k := k) hcard
 
 end

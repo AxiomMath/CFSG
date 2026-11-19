@@ -31,13 +31,14 @@ section Radical
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem kf43_image_normal :
     ((pPrimeCore 3 H).map (QuotientGroup.mk' (aschbacherSolvableCore 3 H))).Normal :=
   Subgroup.Normal.map pPrimeCore_normal _ (QuotientGroup.mk'_surjective _)
 
 theorem kf43_image_not_dvd_three :
     ¬ 3 ∣ Nat.card ((pPrimeCore 3 H).map (QuotientGroup.mk' (aschbacherSolvableCore 3 H))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN3 : ¬ 3 ∣ Nat.card (pPrimeCore 3 H) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 pPrimeCore_coprime_card
   have hd : Nat.card ((pPrimeCore 3 H).map (QuotientGroup.mk' (aschbacherSolvableCore 3 H))) ∣
@@ -50,32 +51,32 @@ theorem kf43_image_not_dvd_three :
 theorem kf43_radical_free_image :
     solvableRadical ↥((pPrimeCore 3 H).map (QuotientGroup.mk' (aschbacherSolvableCore 3 H))) =
       ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hΘs, -, hΘ3, hΘmax, -⟩ :=
     RankThree.LocalRank.solvable_prime_complement_core_characterization (H := H) Nat.prime_three
   have hQ3 := kf43_image_not_dvd_three (H := H)
   set Θ := aschbacherSolvableCore 3 H with hΘ
   set π : H →* H ⧸ Θ := QuotientGroup.mk' Θ with hπ
   set Qs : Subgroup (H ⧸ Θ) := (pPrimeCore 3 H).map π with hQs
-  haveI hQn : Qs.Normal := kf43_image_normal
+  have hQn : Qs.Normal := kf43_image_normal
   refine eq_bot_iff.2 fun r hr => ?_
   set R := solvableRadical ↥Qs with hR
-  haveI hRs : Group.IsSolvable R :=
+  have hRs : Group.IsSolvable R :=
     SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
-  haveI hRc : R.Characteristic :=
+  have hRc : R.Characteristic :=
     SignalizerFunctorTheorem.Nonsolvable.solvableRadical_characteristic
-  haveI hRn : (R.map Qs.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
+  have hRn : (R.map Qs.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
   set Rt : Subgroup (H ⧸ Θ) := R.map Qs.subtype with hRt
-  haveI hRts : Group.IsSolvable Rt :=
-    solvable_of_surjective (MonoidHom.subgroupMap_surjective Qs.subtype R)
+  have hRts : Group.IsSolvable Rt :=
+    Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective Qs.subtype R)
   set R' : Subgroup H := Rt.comap π with hR'
-  haveI hR'n : R'.Normal := hRn.comap π
+  have hR'n : R'.Normal := hRn.comap π
   have hΘR' : Θ ≤ R' := fun x hx => by
     show π x ∈ Rt
     rw [show π x = 1 from (QuotientGroup.eq_one_iff x).2 hx]
     exact one_mem _
-  haveI hR's : Group.IsSolvable R' := by
-    refine solvable_of_ker_le_range (Subgroup.inclusion hΘR') (π.subgroupComap Rt) ?_
+  have hR's : Group.IsSolvable R' := by
+    refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hΘR') (π.subgroupComap Rt) ?_
     intro x hx
     have h1 : π (x : H) = 1 := by
       have := congrArg Subtype.val (MonoidHom.mem_ker.1 hx)

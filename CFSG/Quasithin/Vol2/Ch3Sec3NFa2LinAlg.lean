@@ -48,18 +48,18 @@ theorem finrank_le_card_mul_of_closure_eq_top {Γ : Type} [Group Γ]
     (hconj : ∀ s ∈ S, IsConj c s) :
     Module.finrank (ZMod 2) X ≤
       S.card * Module.finrank (ZMod 2) (LinearMap.range ((ρ c).toLinearMap - LinearMap.id)) := by
-  haveI : Module.Finite (ZMod 2) X := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (ZMod 2) X := Module.finite_iff_finite.mpr inferInstance
   obtain ⟨T, hT⟩ : ∃ T : Γ → Module.End (ZMod 2) X,
       ∀ s, T s = (ρ s).toLinearMap - LinearMap.id :=
     ⟨fun s => (ρ s).toLinearMap - LinearMap.id, fun s => rfl⟩
   rw [← hT c]
   have hTapp : ∀ s x, T s x = ρ s x - x := fun s x => by simp [hT]
   have hmul : ∀ (a b : Γ) (x : X), ρ (a * b) x = ρ a (ρ b x) := fun a b x => by
-    rw [map_mul] <;> rfl
+    rw [map_mul]; rfl
   have hinv1 : ∀ (h : Γ) (x : X), ρ h (ρ h⁻¹ x) = x := fun h x => by
-    rw [← hmul, mul_inv_cancel, map_one] <;> rfl
+    rw [← hmul, mul_inv_cancel, map_one]; rfl
   have hinv2 : ∀ (h : Γ) (x : X), ρ h⁻¹ (ρ h x) = x := fun h x => by
-    rw [← hmul, inv_mul_cancel, map_one] <;> rfl
+    rw [← hmul, inv_mul_cancel, map_one]; rfl
   have hrange : ∀ s ∈ S, Module.finrank (ZMod 2) (LinearMap.range (T s)) =
       Module.finrank (ZMod 2) (LinearMap.range (T c)) := by
     intro s hs

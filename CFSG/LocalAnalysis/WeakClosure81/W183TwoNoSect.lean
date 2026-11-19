@@ -18,7 +18,7 @@ open CFSG.ComponentClassification.CatLeaf (LieOrderFormulasInput lieOrderNumerat
 
 private theorem w183b5_odd_fusionOddCore (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (fusionOddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : fusionOddCore X = CFSG.pPrimeCore 2 X := by
     unfold fusionOddCore CFSG.pPrimeCore
     congr 1
@@ -38,10 +38,10 @@ private theorem w183b5_isSolvable_fusionZStar (X : Type) [Group X] [Finite X] :
     rw [hOeq]
     exact CFSG.FeitThompson.isSolvable_of_odd_natCard _
       (Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X)))
-  haveI := hOsolv
+  have := hOsolv
   have hCsolv : Group.IsSolvable ↥(center (X ⧸ fusionOddCore X)) :=
     Group.isSolvable_of_comm fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a)
-  haveI := hCsolv
+  have := hCsolv
   unfold fusionZStar
   have hle : fusionOddCore X ≤ (center (X ⧸ fusionOddCore X)).comap
       (QuotientGroup.mk' (fusionOddCore X)) := by
@@ -73,7 +73,7 @@ private theorem w183b5_noFactor_of_commute {P : (T : Type) → [Group T] → Pro
     (hNonab : ∀ (T : Type) [Group T], P T → ∃ a b : T, a * b ≠ b * a)
     (hcomm : ∀ a b : Y, a * b = b * a) : w183b5_NoFactor P Y := by
   intro T _ hT hcf
-  haveI := isCompositionFactor_finite hcf
+  have := isCompositionFactor_finite hcf
   obtain ⟨a, b, hab⟩ := hNonab T hT
   exact hab (isCompositionFactor_commute hcomm hcf a b)
 
@@ -165,7 +165,7 @@ private theorem w183b5_noFactor_of_sz (hO : LieOrderFormulasInput)
     {T : Type} [Group T] (hNonab : ∃ a b : T, a * b ≠ b * a) (hThree : 3 ∣ Nat.card T) :
     ¬ CFSG.Quasithin.E1.IsCompositionFactor X T := by
   intro hcf
-  haveI : Group.IsSolvable ↥(fusionZStar X) := w183b5_isSolvable_fusionZStar X
+  have : Group.IsSolvable ↥(fusionZStar X) := w183b5_isSolvable_fusionZStar X
   rcases isCompositionFactor_of_normal (fusionZStar X) hcf with hZ | hQ
   · obtain ⟨a, b, hab⟩ := hNonab
     exact hab (CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p20a_abelian_of_compositionFactor
@@ -189,7 +189,7 @@ private theorem w183b5_noFactor_of_sz (hO : LieOrderFormulasInput)
 
 private theorem w183b5_socle185_nonab {S : Type} [Group S] (h : Socle185Shape S) :
     ∃ a b : S, a * b ≠ b * a := by
-  haveI := Socle185Shape.finite h
+  have := Socle185Shape.finite h
   exact Socle185Shape.exists_not_commute h
 
 private theorem w183b5_nonSz_of_alternatives (hO : LieOrderFormulasInput)
@@ -241,14 +241,13 @@ theorem not_compFactor_of_listAlternatives (hO : LieOrderFormulasInput)
     · have hShape : Socle185Shape T :=
         Or.inl ⟨5, 2, by norm_num, by norm_num, by norm_num, hL2⟩
       refine w183b5_noFactor_of_sz hO hsz ?_ ?_
-      · haveI := Socle185Shape.finite hShape
+      · have := Socle185Shape.finite hShape
         exact Socle185Shape.exists_not_commute hShape
       · have hmodel : LieModel T .PSL 2 5 2 := Or.inl ⟨by decide, hL2⟩
         obtain ⟨-, hM, -⟩ := hO T .PSL 2 5 2 hL2.1 hmodel
         have hd : lieOrderDivisor .PSL 2 (5 ^ 2) = 2 := by decide
         have hn : lieOrderNumerator .PSL 2 (5 ^ 2) = 15600 := by
-          simp [lieOrderNumerator, show Finset.Icc 2 2 = {2} by decide,
-            Finset.prod_singleton]
+          simp [lieOrderNumerator, Finset.prod_singleton]
         rw [hd, hn] at hM
         have hcard : Nat.card T = 7800 := by omega
         rw [hcard]

@@ -48,7 +48,7 @@ theorem AutRankLeTwo.of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
 theorem autRankLeTwo_of_card {S : Type} [Group S] [Finite S] (hZ : Subgroup.center S = ⊥)
     (hout : ¬ 3 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer S))
     (h27 : ¬ 27 ∣ Nat.card S) : AutRankLeTwo S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro B hB
   have hBp : IsPGroup 3 B := by
     refine IsPGroup.iff_orderOf.mpr fun x => ?_
@@ -131,7 +131,7 @@ theorem rowOf427_of_cent_card
     {X : Type} [Group X] (hC : RowOf427Cent X)
     (hout : ¬ 3 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X))
     (h27 : ¬ 27 ∣ Nat.card X) : RowOf427 X := fun S _ _ hs hna ⟨e⟩ => by
-  haveI := hs
+  have := hs
   refine row427_of_cent (hC S hs hna ⟨e⟩) (autRankLeTwo_of_card
     (RonanK429H.center_eq_bot_of_simple_nonab hna) ?_ (by rwa [Nat.card_congr e.toEquiv]))
   rwa [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv]
@@ -139,7 +139,7 @@ theorem rowOf427_of_cent_card
 theorem kH1_four_SL_five_of_cent
     (hC : RowOf427Cent (CFSG.Assembly.RankThreeEven.projSL 4 (GaloisField 5 1))) :
     RowOf427 (CFSG.Assembly.RankThreeEven.projSL 4 (GaloisField 5 1)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine rowOf427_of_cent_card hC ?_ ?_
   · have hd := higher_linear_outer_order_divides_field_gcd_bound
       (k := GaloisField 5 1) (p := 5) (f := 1) (n := 4) (by norm_num) le_rfl (by norm_num)
@@ -160,7 +160,7 @@ theorem kH1_four_SL_five_of_cent
 theorem kH1_four_Sp_five_of_cent
     (hC : RowOf427Cent (CFSG.Assembly.RankThreeEven.projSp 2 (GaloisField 5 1))) :
     RowOf427 (CFSG.Assembly.RankThreeEven.projSp 2 (GaloisField 5 1)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hK : Nat.card (GaloisField 5 1) = 5 := by
     rw [GaloisField.card 5 1 (by norm_num)]; norm_num
   have h2 : (2 : GaloisField 5 1) ≠ 0 := by

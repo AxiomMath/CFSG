@@ -980,10 +980,9 @@ theorem commutes_node2_node0 : Commutes (nodeSU hσ 2) (nodeSU hσ 0) := by
         (iota3 hσ (blockSL E 3 2 0 _ (Matrix.SpecialLinearGroup.transvection hab' t)))
       rw [iota3_blockSL_transvection hσ]
       fin_cases a <;> fin_cases b <;> fin_cases a' <;> fin_cases b'
-      all_goals first
+      all_goals try first
         | exact absurd rfl hab
         | exact absurd rfl hab'
-        | skip
       · rw [iota4_ulb_upper hθ hμ0 hμ hσθ]
         exact commute_longRootHom_rootHom hσ _ _ _ _ (by decide +kernel) (by decide +kernel) _ _
       · rw [iota4_ulb_upper hθ hμ0 hμ hσθ]

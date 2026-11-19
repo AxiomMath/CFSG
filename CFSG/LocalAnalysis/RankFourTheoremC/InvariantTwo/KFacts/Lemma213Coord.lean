@@ -27,7 +27,7 @@ theorem layerMul_injective (hZ : ∀ C : ComponentIndex K, center C.1 = ⊥) :
 @[expose] noncomputable def layerEquiv (hZ : ∀ C : ComponentIndex K, center C.1 = ⊥) :
     (∀ C : ComponentIndex K, C.1) ≃* layer K :=
   MulEquiv.ofBijective (layerMulOnto K)
-    ⟨fun x y h => layerMul_injective hZ (congrArg Subtype.val h), layerMulOnto_surjective⟩
+    ⟨fun _x _y h => layerMul_injective hZ (congrArg Subtype.val h), layerMulOnto_surjective⟩
 
 @[expose] noncomputable def coord (hZ : ∀ C : ComponentIndex K, center C.1 = ⊥)
     (C : ComponentIndex K) : layer K →* C.1 :=
@@ -165,10 +165,12 @@ theorem exists_eq_π_mul (C : ComponentIndex K) {x : K} (hx : x ∈ layer K) :
 @[expose] noncomputable def cjComp (g : K) (C : ComponentIndex K) : ComponentIndex K :=
   ⟨C.1.map (MulAut.conj g).toMonoidHom, isComponent_map_mulEquiv (MulAut.conj g) C.2⟩
 
+omit [Finite K] in
 theorem mem_cjComp_of_mem (g : K) (C : ComponentIndex K) {c : K} (hc : c ∈ C.1) :
     g * c * g⁻¹ ∈ (cjComp g C).1 :=
   ⟨c, hc, rfl⟩
 
+omit [Finite K] in
 theorem mem_cjComp_iff (g : K) (C : ComponentIndex K) {c : K} :
     c ∈ (cjComp g C).1 ↔ g⁻¹ * c * g ∈ C.1 := by
   constructor
@@ -179,12 +181,14 @@ theorem mem_cjComp_iff (g : K) (C : ComponentIndex K) {c : K} :
   · intro h
     exact ⟨g⁻¹ * c * g, h, by show g * (g⁻¹ * c * g) * g⁻¹ = c; group⟩
 
+omit [Finite K] in
 theorem cjComp_one (C : ComponentIndex K) : cjComp 1 C = C := by
   apply Subtype.ext
   ext c
   rw [mem_cjComp_iff]
   simp
 
+omit [Finite K] in
 theorem cjComp_mul (g h : K) (C : ComponentIndex K) :
     cjComp (g * h) C = cjComp g (cjComp h C) := by
   apply Subtype.ext
@@ -192,6 +196,7 @@ theorem cjComp_mul (g h : K) (C : ComponentIndex K) :
   rw [mem_cjComp_iff, mem_cjComp_iff, mem_cjComp_iff]
   simp [mul_assoc]
 
+omit [Finite K] in
 theorem cjComp_inj (g : K) {C C' : ComponentIndex K} (h : cjComp g C = cjComp g C') : C = C' := by
   apply Subtype.ext
   ext c
@@ -206,7 +211,7 @@ theorem cjComp_inj (g : K) {C C' : ComponentIndex K} (h : cjComp g C = cjComp g 
     simpa [mem_cjComp_iff, mul_assoc] using h1
 
 theorem layer_normal (K : Type*) [Group K] [Finite K] : (layer K).Normal := by
-  haveI : (layer K).Characteristic := LocalCores.layer_characteristic
+  have : (layer K).Characteristic := LocalCores.layer_characteristic
   infer_instance
 
 theorem conj_mem_layer (g : K) {x : K} (hx : x ∈ layer K) : g * x * g⁻¹ ∈ layer K :=
@@ -246,6 +251,7 @@ theorem conj_eq_π (C : ComponentIndex K) {x : K} (hx : x ∈ layer K) {c : K} (
     _ = π hZ C x hx * (c * u) * u⁻¹ * (π hZ C x hx)⁻¹ := by rw [hxu']
     _ = π hZ C x hx * c * (π hZ C x hx)⁻¹ := by group
 
+omit [Finite K] in
 theorem mem_centralizer_layer_of_forall (g : K)
     (h : ∀ C : ComponentIndex K, ∀ c ∈ C.1, g * c = c * g) :
     g ∈ centralizer (layer K : Set K) := by

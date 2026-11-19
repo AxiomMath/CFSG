@@ -72,7 +72,7 @@ theorem ggSplitLie_of_rowSE6
     GGSplitLie p K := by
   obtain ⟨⟨tag, _, n⟩, -, _, _, _, _, θ, -, -, hrow, hm⟩ := largeEvenMarking_exists_markedModel h
   obtain ⟨rfl, hpn⟩ : tag = .E6 ∧ p ∣ 2 ^ n - 1 := hrow
-  haveI : Finite (ggU .E6 0 n).K := FieldFour.finite_minGroup' (K := GaloisField 2 n) e6Data_valid
+  have : Finite (ggU .E6 0 n).K := FieldFour.finite_minGroup' (K := GaloisField 2 n) e6Data_valid
   refine ggSplitLie_of_lieModel (t := .E6) (n := 0) hp (.inr (.inr (.inl rfl))) hpn
     (fun hf E _ _ π hπ hcen => ?_) h.1 (MarkedModel.of_mulEquiv θ.symm hm)
   have hc : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
@@ -87,7 +87,7 @@ theorem ggSplitLie_of_rowSE7
     GGSplitLie p K := by
   obtain ⟨⟨tag, _, n⟩, -, _, _, _, _, θ, -, -, hrow, hm⟩ := largeEvenMarking_exists_markedModel h
   obtain ⟨rfl, hpn⟩ : tag = .E7 ∧ p ∣ 2 ^ n - 1 := hrow
-  haveI : Finite (ggU .E7 0 n).K := FieldFour.finite_minGroup' (K := GaloisField 2 n) e7Data_valid
+  have : Finite (ggU .E7 0 n).K := FieldFour.finite_minGroup' (K := GaloisField 2 n) e7Data_valid
   refine ggSplitLie_of_lieModel (t := .E7) (n := 0) hp (.inr (.inr (.inr (.inl rfl)))) hpn
     (fun hf E _ _ π hπ hcen => ?_) h.1 (MarkedModel.of_mulEquiv θ.symm hm)
   have hc : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
@@ -102,7 +102,7 @@ theorem ggSplitLie_of_rowSE8
     GGSplitLie p K := by
   obtain ⟨⟨tag, _, n⟩, -, _, _, _, _, θ, -, -, hrow, hm⟩ := largeEvenMarking_exists_markedModel h
   obtain ⟨rfl, hpn⟩ : tag = .E8 ∧ p ∣ 2 ^ n - 1 := hrow
-  haveI : Finite (ggU .E8 0 n).K := by
+  have : Finite (ggU .E8 0 n).K := by
     have : Finite (Module.End (GaloisField 2 n)
         (CFSG.Blueprint.Chevalley.RootModule .E8 (GaloisField 2 n))) :=
       Module.finite_of_finite (GaloisField 2 n)

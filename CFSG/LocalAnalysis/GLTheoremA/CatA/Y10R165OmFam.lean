@@ -46,15 +46,15 @@ theorem exists_mulEquiv_statedOmega_plus_of_hasLabel {K : Type} [Group K] [Finit
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaPlus ℓ 2 n := by
     simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
       CFSG.StandardType.markRank, CFSG.StandardType.markChar,
-      CFSG.StandardType.markDeg, if_neg hℓ3] using hM
+      CFSG.StandardType.markDeg, ite_eq_right hℓ3] using hM
   obtain ⟨-, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hZΩ : Subgroup.center (StatedOmega (StatedQuadPlus ℓ F)) =
       (StatedScalars (Fin ℓ ⊕ Fin ℓ) F).subgroupOf
         (StatedOmega (StatedQuadPlus ℓ F)) :=
@@ -86,16 +86,16 @@ theorem exists_mulEquiv_statedOmega_minus_of_hasLabel {K : Type} [Group K] [Fini
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaMinus ℓ 2 n := by
     simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
       CFSG.StandardType.markRank, CFSG.StandardType.markChar,
-      CFSG.StandardType.markDeg, if_neg hℓ2, if_neg hℓ3] using hM
+      CFSG.StandardType.markDeg, ite_eq_right hℓ2, ite_eq_right hℓ3] using hM
   obtain ⟨-, F, hfield, hfinite, hcard, b, c, hirr, ⟨e⟩⟩ :=
     hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hZΩ : Subgroup.center (StatedOmega (StatedQuadMinus ℓ F b c)) =
       (StatedScalars (Fin (ℓ - 1) ⊕ Fin (ℓ - 1) ⊕ Fin 2) F).subgroupOf
         (StatedOmega (StatedQuadMinus ℓ F b c)) :=

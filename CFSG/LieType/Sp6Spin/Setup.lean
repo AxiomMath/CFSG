@@ -64,6 +64,7 @@ structure IsSpinPattern (S : SpinSetting K V) (x : ZMod (Nat.card Kˣ)) : Prop w
   ne_zero : x ≠ 0
   mult_eq : ∀ a, S.mult a = if ∀ i, a i = x ∨ a i = -x then 1 else 0
 
+omit [CharP K 2] in
 theorem hconj (r : RootSubgroupIndex 3) (t : Fin 3 → Kˣ) (c : K) :
     diagHom 3 K t * elt r c * (diagHom 3 K t)⁻¹ = elt r ((wtChar (rootWt K r) t : K) * c) := by
   rw [diagHom_conj_elt]
@@ -82,7 +83,7 @@ theorem A_mul_card_sub (r : RootSubgroupIndex 3) {i : ℕ} (hi : i ≤ Nat.card 
     rootOp_mul_card_sub (ρ := S.ρ) (x := elt (F := K) r) (elt_add r) hi
 
 theorem X_eq_bot_iff {a : Fin 3 → ZMod (Nat.card Kˣ)} : S.X a = ⊥ ↔ S.mult a = 0 := by
-  haveI := S.finiteDimensional
+  have := S.finiteDimensional
   exact (Submodule.finrank_eq_zero (S := S.X a)).symm
 
 private theorem polar_map_ψ (g : StatedSp 3 K) (u v : V) :
@@ -143,7 +144,7 @@ theorem ψ_lw_mem (k : Fin 3) {a : Fin 3 → ZMod (Nat.card Kˣ)} {v : V} (hv : 
 
 theorem mult_swap (i j : Fin 3) (a : Fin 3 → ZMod (Nat.card Kˣ)) :
     S.mult (a ∘ Equiv.swap i j) = S.mult a := by
-  haveI := S.finiteDimensional
+  have := S.finiteDimensional
   by_cases hij : i = j
   · subst hij
     simp [Equiv.swap_self]
@@ -163,7 +164,7 @@ theorem mult_swap (i j : Fin 3) (a : Fin 3 → ZMod (Nat.card Kˣ)) :
 
 theorem mult_neg (i : Fin 3) (a : Fin 3 → ZMod (Nat.card Kˣ)) :
     S.mult (Function.update a i (-a i)) = S.mult a := by
-  haveI := S.finiteDimensional
+  have := S.finiteDimensional
   refine le_antisymm ?_ ?_
   · exact finrank_wtSpace_le_of_conj (diagHom 3 K) S.ρ (m := lw i)
       (τ := fun t => Function.update t i (t i)⁻¹) (lw_inv_conj_diagHom i)
@@ -174,10 +175,10 @@ theorem mult_neg (i : Fin 3) (a : Fin 3 → ZMod (Nat.card Kˣ)) :
       (a := a) (b := Function.update a i (-a i)) (fun t => wtChar_update_inv i a t)
 
 theorem sum_mult : ∑ a, S.mult a = 8 := by
-  haveI := S.finiteDimensional
+  have := S.finiteDimensional
   have h := finrank_eq_sum_finrank_wtSpace (diagHom 3 K) S.ρ (X := V)
   rw [S.finrank_eq] at h
-  convert h.symm using 2 <;> rfl
+  convert h.symm using 2; rfl
 
 theorem weight_trichotomy :
     S.mult 0 = 8 ∨
@@ -185,7 +186,7 @@ theorem weight_trichotomy :
       S.mult a = if ∃ i, a = Pi.single i x ∨ a = Pi.single i (-x) then 1 else 0) ∨
     (∃ x : ZMod (Nat.card Kˣ), x ≠ 0 ∧
       ∀ a, S.mult a = if ∀ i, a i = x ∨ a i = -x then 1 else 0) := by
-  haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
   exact weight_cases (N := Nat.card Kˣ) (odd_natCard_units (K := K)) S.mult
     S.mult_swap S.mult_neg S.sum_mult
 

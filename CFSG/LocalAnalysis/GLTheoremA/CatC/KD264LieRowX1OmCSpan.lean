@@ -93,7 +93,7 @@ theorem MinusPair.finrank_planeSpan {p : V × V} (h : MinusPair Q p.1 p.2) :
     exact ⟨h1, h2⟩
   have hrange : Set.range ![p.1, p.2] = ({p.1, p.2} : Set V) := by
     ext x
-    simp [Fin.exists_fin_two, eq_comm]
+    simp
     tauto
   have := finrank_span_eq_card hli
   rwa [hrange, Fintype.card_fin] at this

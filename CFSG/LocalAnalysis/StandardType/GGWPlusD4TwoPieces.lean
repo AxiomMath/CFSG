@@ -122,7 +122,7 @@ theorem genMax_card_eq_pow_pieces {K : Type} [Field K] [Finite K] [CharP K 2]
     (hterm : ∀ c ∈ A, (∀ v ∈ genPieceSpan S, glin c v = v) → c = 1) :
     Nat.card A = 3 ^ S.card := by
   classical
-  haveI : NeZero (3 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (3 : ℕ) := ⟨by norm_num⟩
   have hzex : ∀ y : S, ∃ g : GL (Fin (2 * 4)) K, g ∈ A ∧
       (∀ w ∈ grng (y : GL (Fin (2 * 4)) K), glin g w = glin (y : GL (Fin (2 * 4)) K) w) ∧
       (∀ v ∈ (grng (y : GL (Fin (2 * 4)) K)).orthogonalBilin

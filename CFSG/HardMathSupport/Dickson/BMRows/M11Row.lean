@@ -66,7 +66,7 @@ section Row
 
 
 theorem i1415Row_M_eleven : I1415Rows.I1415Row .M 11 := by
-  haveI : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
+  have : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
   obtain ⟨b⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   exact I1415Rows.arow_of_model sporadicOuterLeTwo_holds b ⟨_, _, w0_e0_ne⟩

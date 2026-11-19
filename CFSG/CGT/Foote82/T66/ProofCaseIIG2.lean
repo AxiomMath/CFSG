@@ -71,12 +71,12 @@ private theorem exists_hom_of_autOK {H K : Type*} [Group H] [Finite H] [Group K]
     · intro x hx
       obtain ⟨m, -, hme⟩ := hex x hx
       have hx' : ∃ m, cd' m = appF E F (cd x) := ⟨m, hme⟩
-      simp only [dif_pos hx']
+      simp only [dite_eq_left hx']
       exact hx'.choose_spec
     · intro x hx
       obtain ⟨m, hm, hme⟩ := hex x hx
       have hx' : ∃ m, cd' m = appF E F (cd x) := ⟨m, hme⟩
-      simp only [dif_pos hx']
+      simp only [dite_eq_left hx']
       rw [hc'.injective (hx'.choose_spec.trans hme.symm)]
       exact hm
   have hf1 : f 1 = 1 := by
@@ -141,10 +141,10 @@ private theorem isArrCode_permArr {n : ℕ} (hn : n ≤ 64) : IsArrCode (permArr
     rw [compA_get _ _ hi]
     by_cases h : i < n
     · have hτ : (τ ⟨i, h⟩).val < 64 := lt_of_lt_of_le (τ ⟨i, h⟩).isLt hn
-      rw [permArr_get _ hi, permArr_get τ hi, dif_pos h, dif_pos h, permArr_get σ hτ,
-        dif_pos (τ ⟨i, h⟩).isLt]
+      rw [permArr_get _ hi, permArr_get τ hi, dite_eq_left h, dite_eq_left h, permArr_get σ hτ,
+        dite_eq_left (τ ⟨i, h⟩).isLt]
       rfl
-    · rw [permArr_get _ hi, permArr_get τ hi, dif_neg h, dif_neg h, permArr_get σ hi, dif_neg h]
+    · rw [permArr_get _ hi, permArr_get τ hi, dite_eq_right h, dite_eq_right h, permArr_get σ hi, dite_eq_right h]
   one := by
     refine ext64 Array.size_ofFn size_idA fun i hi => ?_
     rw [permArr_get _ hi, idA_get hi]
@@ -152,7 +152,7 @@ private theorem isArrCode_permArr {n : ℕ} (hn : n ≤ 64) : IsArrCode (permArr
   injective σ τ h := by
     ext i
     have := congrArg (fun a : Array ℕ => a[i.val]!) h
-    simp only [permArr_get _ (lt_of_lt_of_le i.isLt hn), dif_pos i.isLt] at this
+    simp only [permArr_get _ (lt_of_lt_of_le i.isLt hn), dite_eq_left i.isLt] at this
     exact this
 
 private theorem factorization_two (a m : ℕ) (hm : ¬ 2 ∣ m) : (2 ^ a * m).factorization 2 = a := by

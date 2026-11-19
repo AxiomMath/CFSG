@@ -64,7 +64,7 @@ theorem sq_mem_center_of_quaternion (hq : IsQuasisimple J) (hev : 2 ∣ Nat.card
     {u : ↥(T : Subgroup J)}
     (hu : ι u ∉ Subgroup.zpowers (QuaternionGroup.a 1 : QuaternionGroup m)) :
     (u : J) ^ 2 ∈ Subgroup.center J := by
-  rcases l31_isCyclic_or_isQuat_of_no_four T.isPGroup' (not_exists_four_of_quaternion ι hι) with
+  rcases l31_isCyclic_or_isQuat_of_no_four T.isPGroup (not_exists_four_of_quaternion ι hι) with
     hc | ⟨n, hn3, ⟨e⟩⟩
   · exact absurd hc hnc
   ·

@@ -67,13 +67,13 @@ theorem mem_theta_of_mem_theta_of_le {I J : Subgroup G} (hIJ : I ≤ J) {t : G} 
     rw [hN, Subgroup.mem_subgroupOf] at hn ⊢
     exact hTJn _ (hIJ g.2) _ hn⟩
   have hNs : Group.IsSolvable N := by
-    haveI : Group.IsSolvable (aschbacherSolvableCore 3 J) := hJs
+    have : Group.IsSolvable (aschbacherSolvableCore 3 J) := hJs
     let e : (aschbacherSolvableCore 3 J) ≃* T :=
       Subgroup.equivMapOfInjective _ J.subtype J.subtype_injective
-    haveI : Group.IsSolvable T :=
-      solvable_of_solvable_injective (f := e.symm.toMonoidHom) e.symm.injective
+    have : Group.IsSolvable T :=
+      Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
     let f : N →* T := MonoidHom.codRestrict (I.subtype.comp N.subtype) T (fun x => x.2)
-    refine solvable_of_solvable_injective (f := f) (fun x y hxy => ?_)
+    refine Group.isSolvable_of_isSolvable_injective (f := f) (fun x y hxy => ?_)
     have h := congrArg (fun z : T => (z : G)) hxy
     exact Subtype.ext (Subtype.ext h)
   have hN3 : ¬ 3 ∣ Nat.card N := by
@@ -185,6 +185,7 @@ theorem mem_sup_of_mem_thetaQuotCentralizer {A I J : Subgroup G} {x c j g : G}
   rw [hgeq]
   exact U.mul_mem (le_sup_right (a := Subgroup.zpowers x) h11) hf
 
+omit [Finite G] in
 theorem le_centralizer_of_isPerfect_of_le_normalizer_zpowers {R : Subgroup G} {c : G}
     (hR : Group.IsPerfect R) (hRN : R ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G)) :
     R ≤ Subgroup.centralizer ({c} : Set G) := by
@@ -192,8 +193,8 @@ theorem le_centralizer_of_isPerfect_of_le_normalizer_zpowers {R : Subgroup G} {c
   set M : Subgroup G := Subgroup.normalizer (N : Set G) with hM
   have hNM : N ≤ M := Subgroup.le_normalizer
   let N' : Subgroup M := N.subgroupOf M
-  haveI : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mpr le_rfl
-  haveI : IsCyclic N' := by
+  have : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mpr le_rfl
+  have : IsCyclic N' := by
     have e : N' ≃* N := Subgroup.subgroupOfEquivOfLe hNM
     exact (MulEquiv.isCyclic e).mpr inferInstance
   let P : Subgroup M := R.subgroupOf M
@@ -243,6 +244,7 @@ theorem inSubgroup_perfectResidual_normalizer_zpowers {Y : Subgroup G} {c : G} :
 @[expose] def resCent (K : Subgroup G) (x : G) : Subgroup G :=
   inSubgroup perfectResidual (K ⊓ Subgroup.centralizer ({x} : Set G))
 
+omit [Finite G] in
 theorem resCent_le (K : Subgroup G) (x : G) :
     resCent K x ≤ K ⊓ Subgroup.centralizer ({x} : Set G) :=
   Subgroup.map_subtype_le _

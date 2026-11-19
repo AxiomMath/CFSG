@@ -50,7 +50,7 @@ private theorem su_algebraMap_injective : Function.Injective (algebraMap (ZMod 2
 
 theorem exists_suOmega : ∃ ω : SUF, ω ^ 2 + ω + 1 = 0 := by
   classical
-  haveI : CharP SUF 2 := inferInstance
+  have : CharP SUF 2 := inferInstance
   have hcard : Nat.card SUF = 4 := su_card
   obtain ⟨ω, hω0, hω1, hω⟩ : ∃ ω : SUF, ω ≠ 0 ∧ ω ≠ 1 ∧ ω * ω = ω + 1 := by
     have : Fintype SUF := Fintype.ofFinite SUF
@@ -197,8 +197,8 @@ private theorem suN_mul_zero (hk : 4 ≤ k) (v w : Fin 4 → ZMod 2) :
   have h01 := su_rev_sI0_ne_sI1 hk
   have h10 := su_rev_sI1_ne_sI0 hk
   have h11 := su_rev_sI1_ne_sI1 hk
-  simp only [suN, Matrix.add_mul, Matrix.mul_add, Matrix.mul_zero, Matrix.zero_mul, add_zero,
-    zero_add, single_mul_single_of_ne _ _ _ _ h00, single_mul_single_of_ne _ _ _ _ h01,
+  simp only [suN, Matrix.add_mul, Matrix.mul_add, add_zero,
+    single_mul_single_of_ne _ _ _ _ h00, single_mul_single_of_ne _ _ _ _ h01,
     single_mul_single_of_ne _ _ _ _ h10, single_mul_single_of_ne _ _ _ _ h11]
 
 private theorem suCorner_mul (hk : 4 ≤ k) (v w : Fin 4 → ZMod 2) :
@@ -212,33 +212,28 @@ private theorem suCorner_apply_00 (hk : 4 ≤ k) (v : Fin 4 → ZMod 2) :
     suCorner hk v (sI0 hk) (Fin.rev (sI0 hk)) = algebraMap (ZMod 2) SUF (v 0) := by
   rw [suCorner_eq_one_add_suN hk v]
   simp only [Matrix.add_apply, Matrix.one_apply, suN, Matrix.single_apply]
-  simp [su_sI0_ne_sI1 hk, su_sI1_ne_sI0 hk, su_rev_sI0_ne_sI0 hk, su_sI0_ne_rev_sI0 hk,
-    su_rev_sI1_ne_sI0 hk, su_sI1_ne_rev_sI0 hk, su_rev_sI0_ne_rev_sI1 hk,
+  simp [su_sI1_ne_sI0 hk, su_sI0_ne_rev_sI0 hk,
     su_rev_sI1_ne_rev_sI0 hk]
 
 private theorem suCorner_apply_01 (hk : 4 ≤ k) (v : Fin 4 → ZMod 2) :
     suCorner hk v (sI0 hk) (Fin.rev (sI1 hk)) = suB v := by
   rw [suCorner_eq_one_add_suN hk v]
   simp only [Matrix.add_apply, Matrix.one_apply, suN, Matrix.single_apply]
-  simp [su_sI0_ne_sI1 hk, su_sI1_ne_sI0 hk, su_rev_sI0_ne_sI1 hk, su_sI0_ne_rev_sI1 hk,
-    su_rev_sI1_ne_sI0 hk, su_sI1_ne_rev_sI0 hk, su_rev_sI0_ne_rev_sI1 hk,
-    su_rev_sI1_ne_rev_sI0 hk]
+  simp [su_sI1_ne_sI0 hk, su_sI0_ne_rev_sI1 hk,
+    su_rev_sI0_ne_rev_sI1 hk]
 
 private theorem suCorner_apply_10 (hk : 4 ≤ k) (v : Fin 4 → ZMod 2) :
     suCorner hk v (sI1 hk) (Fin.rev (sI0 hk)) = SUσ (suB v) := by
   rw [suCorner_eq_one_add_suN hk v]
   simp only [Matrix.add_apply, Matrix.one_apply, suN, Matrix.single_apply]
-  simp [su_sI0_ne_sI1 hk, su_sI1_ne_sI0 hk, su_rev_sI0_ne_sI0 hk, su_sI0_ne_rev_sI0 hk,
-    su_rev_sI0_ne_sI1 hk, su_sI1_ne_rev_sI0 hk, su_rev_sI0_ne_rev_sI1 hk,
-    su_rev_sI1_ne_rev_sI0 hk]
+  simp [su_sI0_ne_sI1 hk, su_sI1_ne_rev_sI0 hk, su_rev_sI1_ne_rev_sI0 hk]
 
 private theorem suCorner_apply_11 (hk : 4 ≤ k) (v : Fin 4 → ZMod 2) :
     suCorner hk v (sI1 hk) (Fin.rev (sI1 hk)) = algebraMap (ZMod 2) SUF (v 3) := by
   rw [suCorner_eq_one_add_suN hk v]
   simp only [Matrix.add_apply, Matrix.one_apply, suN, Matrix.single_apply]
-  simp [su_sI0_ne_sI1 hk, su_sI1_ne_sI0 hk, su_rev_sI1_ne_sI1 hk, su_sI1_ne_rev_sI1 hk,
-    su_rev_sI1_ne_sI0 hk, su_sI1_ne_rev_sI0 hk, su_rev_sI0_ne_rev_sI1 hk,
-    su_rev_sI1_ne_rev_sI0 hk]
+  simp [su_sI0_ne_sI1 hk, su_sI1_ne_rev_sI1 hk,
+    su_rev_sI0_ne_rev_sI1 hk]
 
 private theorem su_neg_eq (x : SUF) : -x = x := by
   have h2 : (2 : SUF) = 0 := CharP.cast_eq_zero SUF 2
@@ -280,8 +275,7 @@ private theorem suCorner_eq_roots (hk : 4 ≤ k) (v : Fin 4 → ZMod 2) :
   have h01 := su_rev_sI0_ne_sI1 hk
   have h11 := su_rev_sI1_ne_sI1 hk
   rw [longRootMatrix, rootMatrix, longRootMatrix, sub_eq_add_neg, Matrix.single_neg, su_neg_eq]
-  simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, Matrix.mul_zero,
-    Matrix.zero_mul, add_zero, zero_add, Fin.rev_rev, single_mul_single_of_ne _ _ _ _ h00,
+  simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, add_zero, Fin.rev_rev, single_mul_single_of_ne _ _ _ _ h00,
     single_mul_single_of_ne _ _ _ _ h01, single_mul_single_of_ne _ _ _ _ h11]
   rw [suCorner_eq_one_add_suN hk v]
   simp only [suN, suB]
@@ -342,7 +336,7 @@ theorem exists_suOmega_coordinates (c : SUF) :
     ∃ a b : ZMod 2,
       algebraMap (ZMod 2) SUF a + algebraMap (ZMod 2) SUF b * suOmega = c := by
   classical
-  haveI : Fintype SUF := Fintype.ofFinite SUF
+  have : Fintype SUF := Fintype.ofFinite SUF
   let f : ZMod 2 × ZMod 2 → SUF := fun p =>
     algebraMap (ZMod 2) SUF p.1 + algebraMap (ZMod 2) SUF p.2 * suOmega
   have hinj : Function.Injective f := by
@@ -378,7 +372,7 @@ theorem suZ_zero (hk : 4 ≤ k) : suZ hk 0 = 1 := by
   apply Subtype.ext
   apply Units.ext
   rw [suZ_val]
-  simp [suCorner, suN, suB]
+  simp [suCorner]
 
 theorem suZ_injective (hk : 4 ≤ k) : Function.Injective (suZ hk) := by
   intro v w h

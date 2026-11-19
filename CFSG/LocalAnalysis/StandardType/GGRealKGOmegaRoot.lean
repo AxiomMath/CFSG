@@ -40,7 +40,7 @@ private theorem pair_model (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (h
       IsComponentOf S (Subgroup.centralizer (τ '' {f | omPlusRefl p x f = f})) ∧
       p ∣ Nat.card S := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hcomm0 : ∀ a b, Commute (e a) (e b) := fun a b => by
     have h := (isMulCommutative_iff.mp hF.isElemAbelian.1)
       (⟨e a, IsPlaneFrame.mem hF.toIsPlaneFrame a⟩ : ↥E)
@@ -151,6 +151,7 @@ private theorem pair_model (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (h
         (mem_image_fix_omPlusRefl_true τ e hτ hij) (image_fix_omPlusRefl_true_subset τ e hτ hij)
     · exact dvd_card_pairBlock hQ hp hp2 hpq hF hij.ne hF4 true
 
+omit [Finite F] [CharP F 2] in
 private theorem finrank_perp_eq_two {ℓ : ℕ} (hdim : finrank F V = 2 * ℓ) (hkℓ : k + 1 = ℓ)
     (hS : IsPlaneSystem Q U) : finrank F (polarPerp Q (⨆ j, U j)) = 2 := by
   have hsum : finrank F ↥(⨆ j, U j) = 2 * k := by
@@ -181,9 +182,9 @@ private theorem sign_model (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (h
       IsComponentOf S (Subgroup.centralizer (τ '' {g | sgnAut a g = g})) ∧
       p ∣ Nat.card S := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hQv0 : Q (f + f') ≠ 0 := by
     rw [show Q (f + f') = Q f + Q f' + polar Q f f' from QuadraticMap.map_add Q f f', hQf, hQf',
       hff']
@@ -202,11 +203,11 @@ private theorem sign_model (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (h
     constructor
     · intro v hv
       have h := hact sv a v hv
-      rw [show sv a = 1 from if_pos rfl] at h
+      rw [show sv a = 1 from ite_eq_left rfl] at h
       simpa using h
     · intro j hja v hv
       have h := hact sv j v hv
-      rw [show sv j = ofAdd 1 from if_neg hja, toAdd_ofAdd, ZMod.val_one p, pow_one] at h
+      rw [show sv j = ofAdd 1 from ite_eq_right hja, toAdd_ofAdd, ZMod.val_one p, pow_one] at h
       simpa using h
   have hc0 : Q (u a) ≠ 0 := by rw [hF.quad_eq a]; exact hF.c_ne_zero
   refine ⟨⟨signChange Q u (f + f') a, signChange_mem_orthDerived hQ hF hQv0⟩,
@@ -245,7 +246,7 @@ theorem ggKGRootDatumAt_orthDerived (hQ : (polarBilin Q).Nondegenerate) (hp : p.
         J ≤ LargeEvenLayer (Subgroup.centralizer ({a} : Set ↥(orthDerived Q)))) :
     GGKGRootDatumAt p E := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hT := CFSG.RankThree.PartOne.exists_threeSingular_of_dim Q hQ hℓ hdim
   have hpq' : ¬ p ∣ Nat.card F - 1 := by
     intro h

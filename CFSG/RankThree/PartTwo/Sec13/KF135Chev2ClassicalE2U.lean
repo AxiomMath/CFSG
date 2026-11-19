@@ -26,7 +26,7 @@ theorem exists_involution_commute_psu3 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     ∃ t ∈ B, t ≠ 1 ∧ ∃ s : primeFormP h₀ ((1 : GL (Fin 3) L) : Matrix (Fin 3) (Fin 3) L),
       s ≠ 1 ∧ s * s = 1 ∧ s * t = t * s := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set G := gramSU h₀ ((1 : GL (Fin 3) L) : Matrix (Fin 3) (Fin 3) L) with hGdef
   set N := normOneScalars h₀ G 3 with hNdef
   set π : G →* primeFormP h₀ ((1 : GL (Fin 3) L) : Matrix (Fin 3) (Fin 3) L) :=
@@ -59,7 +59,7 @@ theorem exists_involution_commute_psu3 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     U.subtype.comp ((MulAut.conj P₀⁻¹).toMonoidHom.comp AU.subtype) with hδ
   have hδapply : ∀ x : AU, δ x = ((P₀⁻¹ * (x : U) * P₀ : U) : GL (Fin 3) L) := fun x => by
     rw [hδ]
-    simp [MulAut.conj_apply]
+    simp
   have hrange : ∀ x : AU, δ x ∈ (diagHom (K := L) 3).range := fun x => by
     obtain ⟨σ, hσ⟩ := hP₀ x x.2
     exact ⟨σ, by rw [hδapply, hσ]⟩
@@ -199,6 +199,7 @@ variable {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] (h : UnitaryField
 
 abbrev psu3T : Type := primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)
 
+omit [CharP K 2] in
 theorem false_of_e2_psu3 {p e : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) (hn2 : 2 ≤ n)
     (hpq : p ∣ 2 ^ n + 1)
     (hshape : CFSG.RankThree.PartOne.K1214.SylowShape p 2 e (psu3T h)) (he : 2 ≤ e)
@@ -208,7 +209,7 @@ theorem false_of_e2_psu3 {p e : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) (hn2 : 2 ≤
     {α : MulAut (psu3T h)} (hαP : α ∈ P)
     (hαI : α ∉ (MulAut.conj : psu3T h →* MulAut (psu3T h)).range) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hq : ¬(3 = 3 ∧ 2 ^ n = 2) := fun ⟨_, h2⟩ => by
     have : 2 ^ 2 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
@@ -276,7 +277,7 @@ theorem false_of_e2_psu3 {p e : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) (hn2 : 2 ≤
   set A' := P' ⊓ (MulAut.conj : psu3T h →* MulAut (psu3T h)).range with hA'
   have hA'card : p ^ 2 ≤ Nat.card A' := sq_le_card_inf_inner hp hout hexp' hcard'
   obtain ⟨Q, hQ⟩ := exists_sylow_map_eq hP'p
-  obtain ⟨eQ⟩ := hshape Q Q.isPGroup' Q.not_dvd_index
+  obtain ⟨eQ⟩ := hshape Q Q.isPGroup Q.not_dvd_index
   set BT := A'.comap (MulAut.conj : psu3T h →* MulAut (psu3T h)) with hBT
   have hBTcard : p ^ 2 ≤ Nat.card BT := by
     rw [hBT, KF135Chev2Exc.card_comap_conj hinj inf_le_right]
@@ -290,8 +291,8 @@ theorem false_of_e2_psu3 {p e : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) (hn2 : 2 ≤
       (hBTQ t ht) (hBTp t ht)
   have h₀ := CFSG.RankThree.Classical.fixSubfield_unitaryFieldData h hp hp2 hσo
   have hbar := CFSG.RankThree.Classical.fixSubfield_unitaryFieldData_bar h hp hp2 hσo
-  haveI : Finite (fixSubfield σ) := h₀.finite
-  haveI : CharP (fixSubfield σ) 2 := h₀.charP
+  have : Finite (fixSubfield σ) := h₀.finite
+  have : CharP (fixSubfield σ) 2 := h₀.charP
   set j := CFSG.RankThree.Classical.subfieldPSU h h₀ hbar 3 with hj
   have hjinj : Function.Injective j :=
     CFSG.RankThree.Classical.subfieldPSU_injective h h₀ hbar 3 (by norm_num)
@@ -347,7 +348,7 @@ end Main
 
 theorem two_le_factorization_two_pow_add_one {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpn : p ∣ n) (hpq : p ∣ 2 ^ n + 1) : 2 ≤ (2 ^ n + 1).factorization p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, rfl⟩ := hpn
   have hk : p ∣ 2 ^ k + 1 := by
     have hx := dvd_two_pow_add_one_iff.1 hpq
@@ -376,7 +377,7 @@ theorem false_of_kF135Hyp_projSU_three_e2 {n : ℕ} (hn : 1 ≤ n) (e : S ≃* p
   have hp := h.prime
   have hp7 := h.seven_le
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn7 : p ≤ n := Nat.le_of_dvd (by omega) hpn
   have hn2 : 2 ≤ n := by omega
   by_cases hinn : P ≤ (MulAut.conj : S →* MulAut S).range
@@ -384,7 +385,7 @@ theorem false_of_kF135Hyp_projSU_three_e2 {n : ℕ} (hn : 1 ≤ n) (e : S ≃* p
       ((rankLE2_projSU_three hn hp hp2).of_mulEquiv e.symm)
       (fun Q => CFSG.LocalAnalysis.RankFourTheoremC.isMulCommutative_sylow_of_mulEquiv e
         (isMulCommutative_sylow_projSU_three hn hp hp7) Q)
-  obtain ⟨φ, hφP, hφI⟩ := SetLike.not_le_iff_exists.1 hinn
+  obtain ⟨φ, hφP, hφI⟩ := IsConcreteLE.not_le_iff_exists.1 hinn
   set K := GaloisField 2 (2 * n)
   have hU : UnitaryFieldData 2 n K := ⟨Nat.prime_two, hn, GaloisField.card 2 (2 * n) (by omega)⟩
   have hq : ¬(3 = 3 ∧ 2 ^ n = 2) := fun ⟨_, h2⟩ => by

@@ -37,7 +37,7 @@ theorem flagStabilizer_inj {I J : Set ℕ} (hI : ∀ i ∈ I, 1 ≤ i ∧ i < n)
     ((flagStabilizer_le_iff (K := K) hJ).mp h.le)
 
 theorem flagStabilizer_sup {I J : Set ℕ} (hI : ∀ i ∈ I, 1 ≤ i ∧ i < n)
-    (hJ : ∀ j ∈ J, 1 ≤ j ∧ j < n) :
+    (_hJ : ∀ j ∈ J, 1 ≤ j ∧ j < n) :
     flagStabilizer n K I ⊔ flagStabilizer n K J = flagStabilizer n K (I ∩ J) := by
   set A := flagStabilizer n K I ⊔ flagStabilizer n K J with hA
   have hBA : upperTriangular n K ≤ A :=
@@ -167,7 +167,7 @@ theorem flagStabilizer_full_eq_unitriangular :
   have hK2 : Nat.card (ZMod 2) = 2 := Nat.card_zmod 2
   have hset : ({1, 2, 3, 4} : Set ℕ) = {i | 1 ≤ i ∧ i < 5} := by
     ext i
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
     omega
   have h : upperTriangular 5 (ZMod 2) = flagStabilizer 5 (ZMod 2) {1, 2, 3, 4} := by
     rw [hset]

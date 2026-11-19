@@ -32,7 +32,7 @@ theorem exists_F2 (Fk : Subgroup (K ≃+* K)) (hev : ¬ Odd (Nat.card Fk)) :
     exact Subgroup.mem_map_iff_mem Fk.subtype_injective
   have hSyl : IsSylowTwoOf F₂ Fk := by
     refine ⟨Subgroup.map_subtype_le _, ?_, ?_⟩
-    · exact P.isPGroup'.of_equiv ((P : Subgroup ↥Fk).equivMapOfInjective Fk.subtype
+    · exact P.isPGroup.of_equiv ((P : Subgroup ↥Fk).equivMapOfInjective Fk.subtype
         Fk.subtype_injective)
     · rw [hsub]
       exact P.not_dvd_index

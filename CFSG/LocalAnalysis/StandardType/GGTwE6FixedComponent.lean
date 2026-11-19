@@ -2332,7 +2332,7 @@ theorem isQuasisimple_jgeom_of_monomial_orbit {Fr : Ω →+* Ω} {Hh : Subgroup 
     ext α
     show α ∈ familyKernel a ↔ α ∈ threeRootSet β₀ (w • β₀) (w • w • β₀)
     rw [← hker α]
-    simp only [familyKernel, Set.mem_setOf_eq]
+    simp only [familyKernel, Set.mem_ofPred_eq]
     refine and_congr_right fun _ => ?_
     constructor
     · intro h v hv

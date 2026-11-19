@@ -92,7 +92,7 @@ theorem map_conj_map_conj_PA {v : X} (hv : v * v = 1) (H : Subgroup X) :
   rw [mem_map_conj_iff_D4, mem_map_conj_iff_D4, hvi,
     show v * (v * x * v) * v = (v * v) * x * (v * v) by group, hv, one_mul, mul_one]
 
-theorem mul_self_commutator_mem_of_le_sup_conj_PA {M F W : Subgroup X} {v : X} (hv : v * v = 1)
+theorem mul_self_commutator_mem_of_le_sup_conj_PA {M F W : Subgroup X} {v : X} (_hv : v * v = 1)
     (hFM : F ≤ M) (hvM : v ∈ normalizer (M : Set X)) (hvW : v ∈ normalizer (W : Set X))
     (hMF : M ≤ normalizer (F : Set X)) (hMW : M ≤ normalizer (W : Set X))
     (hsq : ∀ x ∈ F, x * x ∈ W) (hcap : F ⊓ F.map (MulAut.conj v).toMonoidHom ≤ W)
@@ -173,6 +173,7 @@ theorem yamadaP_le_normalizer_yamadaF₄_PA (h : Setup G L f t) (d : TrialityD4D
   (mem_inf.1 (h.normalizer_yamadaR₄_le_normalizer_yamadaF₄ d hlay
     (h.yamadaP_le_normalizer_yamadaR₄_PA d hlay hx))).2
 
+omit [Finite G] in
 theorem yamadaF₄_le_yamadaD₅_PA (d : TrialityD4Data L (2 ^ f)) :
     yamadaF₄ d t ≤ yamadaD₅ d t :=
   (yamadaF₄_le_yamadaD₄ d t).trans inf_le_right

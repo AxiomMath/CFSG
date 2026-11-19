@@ -26,7 +26,7 @@ theorem scalar {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   have hset := h51.setting
   obtain ⟨_, ⟨hQne, hcomm⟩, _, _, _, ⟨hgenP, hirr⟩⟩ := cyclic_actor_and_hyperplane_transitivity_and_irreducible_commutator_action hc
   have hPab : ∀ x y : P, x * y = y * x := by
-    haveI : (⁅P, P⁆ : Subgroup G).Normal := Subgroup.commutator_normal P P
+    have : (⁅P, P⁆ : Subgroup G).Normal := Subgroup.commutator_normal P P
     have hle : (⁅P, P⁆ : Subgroup G) ≤ P := Subgroup.commutator_le_left P P
     have hbot : (⁅P, P⁆ : Subgroup G) = ⊥ := by
       by_contra hne
@@ -91,8 +91,8 @@ theorem scalar {p : ℕ} {P T B : Subgroup G} {e : ℕ}
         exact h3
     · intro a
       exact hφBc a.1 a.2
-  letI : CommGroup P := { (inferInstance : Group P) with mul_comm := hPab }
-  haveI : IsCyclic (Q.subgroupOf P) := hcyc
+  let : CommGroup P := { (inferInstance : Group P) with mul_comm := hPab }
+  have : IsCyclic (Q.subgroupOf P) := hcyc
   have key := CFSG.LinearAlgebra.CoprimeActions.CyclicOrbitGeneratedCentralizerScalar.scalar (A := P)
     (Sstar P T B) (Q.subgroupOf P) ?_ φ ?_ hQφ
   · exact key

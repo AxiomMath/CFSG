@@ -59,9 +59,9 @@ theorem ggSecFivePhanSmallFalseInput_of_small
       exacts [hl.2.1 hr, hl.2.2 ⟨hn1, hr⟩]⟩) h7
   obtain ⟨lab, K, hKf, hKfin, hKchar, f, n', ψ, hlabP, hn'r, -, hcard, h4n, hker, hrange, hdvd,
     hacts, -⟩ := hcover
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hrk : 4 ≤ lab.rank := by
     rcases hlabP.1.1 with ⟨-, h3le⟩ | ⟨-, h3eq⟩
     · have := hlabP.2.1

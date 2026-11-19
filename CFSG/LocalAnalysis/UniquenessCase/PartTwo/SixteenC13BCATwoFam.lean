@@ -47,24 +47,24 @@ theorem s16c13bcA_pair_alt {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {J
 theorem s16c13bcA_pair_sl {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {J : Subgroup W}
     {a : ℕ} (hN : BinaryNaturalSL H J ⊥ 5 a) : s16c13bcA_PairFix H J := by
   obtain ⟨K, hKf, -, -, hR⟩ := hN
-  letI := hKf
+  let := hKf
   exact s16c13bcA_pair_nat s16c13bcA_pairFixed_statedSL hR
 
 theorem s16c13bcA_pair_sp {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {J : Subgroup W}
     {n a : ℕ} (hn : 6 ≤ n) (hN : NatSpn H J ⊥ n a) : s16c13bcA_PairFix H J := by
   obtain ⟨-, K, hKf, -, -, hR⟩ := hN
-  letI := hKf
+  let := hKf
   exact s16c13bcA_pair_nat (s16c13bcA_pairFixed_statedSp (by omega)) hR
 
 theorem s16c13bcA_pair_omegaMinus {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
     {J : Subgroup W} {n a : ℕ} (hn : 8 ≤ n) (hN : NatOmegaMinus H J ⊥ n a) :
     s16c13bcA_PairFix H J := by
   obtain ⟨-, K, hKf, hKfin, b, c, hcard, -, hR⟩ := hN
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a)
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a)
     (by rw [← Nat.card_eq_fintype_card, hcard])
   exact s16c13bcA_pair_nat (s16c13bcA_pairFixed_statedOmegaMinus (by omega) b c) hR
 

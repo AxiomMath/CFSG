@@ -146,8 +146,8 @@ theorem pCoreOf_centralizer_eq_of_inf_centralizer_le {X : Type} [Group X] [Finit
   have hfpf : ∀ t' ∈ T₁, b * t' * b⁻¹ * t'⁻¹ ∈ T₀ → t' ∈ T₀ :=
     fixedPointFree_quotient_of_inf_centralizer_le (S := U) hTU
       (hLNT₀ (hPL hbP)) hb hT2 rfl rfl
-  haveI : Group.IsNilpotent ↥T₁ := IsPGroup.isNilpotent (hT2.to_le inf_le_left)
-  have hsol : IsSolvable ↥T₁ := IsNilpotent.to_isSolvable
+  have : Group.IsNilpotent ↥T₁ := IsPGroup.isNilpotent (hT2.to_le inf_le_left)
+  have hsol : Group.IsSolvable ↥T₁ := IsNilpotent.to_isSolvable
   have hT₁le : T₁ ≤ T₀ :=
     le_of_l3TwoFixedPointFree (le_inf inf_le_left Subgroup.le_normalizer) inf_le_right
       (hPL.trans hLNT₁) (hPL.trans hLNT₀) hP hbP hb hsol hfpf

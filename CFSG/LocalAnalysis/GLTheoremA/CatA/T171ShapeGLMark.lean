@@ -217,15 +217,15 @@ private theorem pPrimeCore_le_center_of_nontrivial {Ω : Type} [Group Ω] [Finit
     {L : Subgroup Ω} {p : ℕ} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hnt : Nontrivial (PSimple p L)) :
     GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L := by
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
-  haveI : Nontrivial (PSimple p L) := hnt
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Nontrivial (PSimple p L) := hnt
   refine CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hq
     (GLAPPrimeCore.normal p ↥L) ?_
   intro htop
   have hsub : Subsingleton (PQuot p L) := by
     rw [PQuot, QuotientGroup.subsingleton_iff]
     exact htop
-  haveI : Subsingleton (PQuot p L) := hsub
+  have : Subsingleton (PQuot p L) := hsub
   have hsub2 : Subsingleton (PSimple p L) := by
     rw [PSimple, QuotientGroup.subsingleton_iff]
     refine top_unique ?_
@@ -351,7 +351,7 @@ theorem linMarking_holds :
       CFSG.LocalAnalysis.GLTheoremA.CatB.exists_lieIndex hcat
     exact CFSG.LocalAnalysis.GLTheoremA.T123C.nontrivial_of_lie_A (N - 1) q hv e
   have hcore := pPrimeCore_le_center_of_nontrivial hS.qs hnt
-  haveI : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
+  have : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
   let eP : ↥L ⧸ Subgroup.center ↥L ≃* PSimple p L :=
     CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot p hcore
   have hLM : CFSG.Blueprint.LieModel (PSimple p L) .PSL N 2 n := lieModel_of_catalogIs_A hcat
@@ -400,8 +400,8 @@ theorem linMarking_holds :
     obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hrecipe
     obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ
     obtain ⟨hBN, hBI⟩ := hP'
-    letI := hKfield
-    letI := hKfinite
+    let := hKfield
+    let := hKfinite
     exact ⟨K, hKfield, hKfinite, hKcard, θ', hBI⟩
   · change tag = .D at htag
     change rank = 3 at hrank
@@ -416,8 +416,8 @@ theorem linMarking_holds :
     obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hrecipe
     obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ
     obtain ⟨hBN, hBI⟩ := hP'
-    letI := hKfield
-    letI := hKfinite
+    let := hKfield
+    let := hKfinite
     exact ⟨K, hKfield, hKfinite, hKcard, θ', hBI⟩
   · change tag = .twD at htag
     change rank = 2 at hrank
@@ -433,9 +433,9 @@ theorem linMarking_holds :
     obtain ⟨hBN, hBI⟩ := hP'
     have hpow : (2 ^ nn) ^ 2 = 2 ^ n := by
       rw [pow_two, ← pow_add, show nn + nn = n by omega]
-    letI := hKfield
-    letI := hKfinite
-    exact ⟨K, hKfield, hKfinite, by simpa [hKcard, hpow], θ', hBI⟩
+    let := hKfield
+    let := hKfinite
+    exact ⟨K, hKfield, hKfinite, by simp [hKcard, hpow], θ', hBI⟩
 
 theorem uniMarking_holds :
     UniMarking := by
@@ -445,7 +445,7 @@ theorem uniMarking_holds :
       CFSG.LocalAnalysis.GLTheoremA.CatB.exists_lieIndex hcat
     exact CFSG.LocalAnalysis.GLTheoremA.T123C.nontrivial_of_lie_twistedA (N - 1) q hv e
   have hcore := pPrimeCore_le_center_of_nontrivial hS.qs hnt
-  haveI : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
+  have : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
   let eP : ↥L ⧸ Subgroup.center ↥L ≃* PSimple p L :=
     CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot p hcore
   have hLM : CFSG.Blueprint.LieModel (PSimple p L) .PSU N 2 n :=
@@ -477,9 +477,9 @@ theorem uniMarking_holds :
     obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ
     obtain ⟨hBN, hBI⟩ := hP'
     have hfield : UnitaryFieldData 2 n K := unitaryFieldDataOfCard hKcard
-    letI := hKfield
-    letI := hKfinite
-    letI := hfield
+    let := hKfield
+    let := hKfinite
+    let := hfield
     exact ⟨K, hKfield, hKfinite, hfield, θ', hBI⟩
   · change tag = .twD at htag
     change rank = 3 at hrank
@@ -495,9 +495,9 @@ theorem uniMarking_holds :
     obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ
     obtain ⟨hBN, hBI⟩ := hP'
     have hfield : UnitaryFieldData 2 n K := unitaryFieldDataOfCard hKcard
-    letI := hKfield
-    letI := hKfinite
-    letI := hfield
+    let := hKfield
+    let := hKfinite
+    let := hfield
     exact ⟨K, hKfield, hKfinite, hfield, θ', hBI⟩
 
 end Certificates

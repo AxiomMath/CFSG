@@ -137,6 +137,7 @@ variable {K : Type} {V : Type*} [Field K] [AddCommGroup V] [Module K V] {Q : Qua
 
 open RootCentOmega
 
+omit [FiniteDimensional K V] in
 theorem evenSub_le_elementaryGroup (hQ : (polarBilin Q).Nondegenerate) {P₁ P₂ : HypPair Q}
     (h₁₂ : P₁.Orth P₂) (W : Submodule K V) : evenSub Q W ≤ elementaryGroup Q := by
   rw [evenSub, Subgroup.closure_le]
@@ -300,7 +301,7 @@ omit [Finite F] [CharP F 2] in
 theorem minusVec_mem_perp_minusPair {n : ℕ} {i j : Fin (n - 1)} (hij : i ≠ j) (s : Bool) :
     minusVec n j s ∈ (minusPair F b c i : HypPair (quadMinus n F b c)).perp :=
   mem_perp_minusPair_iff.mpr fun u => by
-    rw [polar_minusVec_minusVec, if_neg fun h => hij h.1]
+    rw [polar_minusVec_minusVec, ite_eq_right fun h => hij h.1]
 
 omit [Finite F] [CharP F 2] in
 theorem planeVec_mem_perp_minusPair {n : ℕ} (i : Fin (n - 1)) (p : Fin 2 → F) :
@@ -345,7 +346,7 @@ theorem eichler_mem_map_rankOne_short {n : ℕ} (hn : 4 ≤ n) {u w : Vm n F}
         intro h
         have h1 : k.val = i := (congrArg Fin.val h).symm
         rw [hkdef] at h1
-        simp only [Fin.val_mk] at h1
+        simp only at h1
         omega
       have h' : ∀ u, polar (quadMinus n F b c) (minusVec n ⟨i, hlt⟩ u)
           (minusVec n k s) = 0 :=
@@ -374,7 +375,7 @@ theorem eichler_mem_map_rankOne_short {n : ℕ} (hn : 4 ≤ n) {u w : Vm n F}
       polar_vec_not := fun _ s => by
         rw [polar_restrict]
         change polar (quadMinus n F b c) (minusVec n k s) (minusVec n k (!s)) = 1
-        rw [polar_minusVec_minusVec, if_pos ⟨rfl, by rw [Bool.not_not]⟩]
+        rw [polar_minusVec_minusVec, ite_eq_left ⟨rfl, by rw [Bool.not_not]⟩]
       exists_aux := fun _ _ => ⟨⟨planeVec n planeOne, hpW _⟩, by
           change IsUnit ((quadMinus n F b c) (planeVec n planeOne))
           rw [quadMinus_planeOne]
@@ -484,7 +485,7 @@ theorem mem_rankOne_short_of_fix_lt {n : ℕ} (hn : 4 ≤ n) {g : spinGroup (qua
         intro h
         have h1 : k.val = i := (congrArg Fin.val h).symm
         rw [hkdef] at h1
-        simp only [Fin.val_mk] at h1
+        simp only at h1
         omega
       have h' : ∀ u, polar (quadMinus n F b c) (minusVec n ⟨i, hlt⟩ u)
           (minusVec n k s) = 0 :=
@@ -565,7 +566,7 @@ theorem polar_pairVec_minusVec {i j : Fin (4 - 1)} (hij : i ≠ j) (s : Bool) (v
     polar (quadMinus 4 F b c) (pairVec i j s v) (minusVec 4 i (!s)) = v 0 ∧
       polar (quadMinus 4 F b c) (pairVec i j s v) (minusVec 4 j (!s)) = v 1 := by
   simp only [pairVec, polar_add_left, polar_smul_left, polar_minusVec_minusVec, Bool.not_not,
-    smul_eq_mul, and_true, if_neg hij, if_neg hij.symm, mul_zero, mul_one, if_true,
+    smul_eq_mul, and_true, ite_eq_right hij, ite_eq_right hij.symm, mul_zero, mul_one, ite_true,
     add_zero, zero_add]
 
 include hirr in

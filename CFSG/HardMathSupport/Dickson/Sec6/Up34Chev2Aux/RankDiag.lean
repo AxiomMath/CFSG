@@ -14,7 +14,7 @@ theorem Up34Pumpup.exists_elemAbelian_aut_gt_nine {S : Type} [Group S] [Finite S
     ∃ B : Subgroup (MulAut S), CFSG.Assembly.IsElemAbelian 3 B ∧ 9 < Nat.card B ∧
       B ≤ Subgroup.zpowers α ⊔ (MulAut.conj : S →* MulAut S).range := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hα3, hα1, I, hI, hI34⟩ := h
   have hαI : ∀ i ∈ I, α i = i := fun i hi => hI.1 hi
   have hcinj : Function.Injective (MulAut.conj : S →* MulAut S) := by
@@ -75,7 +75,7 @@ theorem Up34Pumpup.exists_elemAbelian_aut_gt_nine {S : Type} [Group S] [Finite S
       | H j =>
         rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hic j]
     obtain ⟨hsimp, hnab⟩ := isSimpleGroup_of_isLThreeFour hI34
-    haveI := hsimp
+    have := hsimp
     rw [up34_center_eq_bot_of_simple hnab, Subgroup.mem_bot, QuotientGroup.eq_one_iff] at hcen
     have hi3 : i ^ 3 = 1 := hP.2 i hi
     have hi1 : i ≠ 1 := by

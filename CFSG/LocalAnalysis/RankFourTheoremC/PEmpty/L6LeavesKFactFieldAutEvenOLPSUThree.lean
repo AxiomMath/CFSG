@@ -24,7 +24,7 @@ theorem lieOrderNumerator_PSU_three (q : ℕ) :
   rw [Finset.prod_pair (by norm_num)]
   have h2 : Even 2 := by decide
   have h3 : ¬ Even 3 := by decide
-  simp only [h2, h3, if_true, if_false]
+  simp only [h2, h3, ite_true, ite_false]
 
 end OLThreeAdic
 
@@ -33,8 +33,8 @@ theorem overgroupLocalWhen_PSU_three
     OvergroupLocalWhen .PSU (fun n f₀ => n = 3 ∧ f₀ = 1) := by
   intro K _ _ hs hab n f f₀ p hP hadm hmodel ht hp hp5 hpK hdiv hf
   obtain ⟨rfl, rfl⟩ := hP
-  haveI : IsSimpleGroup K := hs
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup K := hs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcl0 : StatedClassicalModel K .PSU 3 2 f := by
     rcases hmodel with ⟨-, hcl⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩
     · exact hcl
@@ -89,7 +89,7 @@ theorem overgroupLocalWhen_PSU_three
       Nat.Coprime.pow_right 3 (Nat.Coprime.pow_right f (by norm_num))
     exact h9q (hcop.dvd_of_dvd_mul_left h9)
   have h3Y : ¬ 3 ∣ Nat.card Y := fun h => h3N (h.trans (Subgroup.card_dvd_of_le hle))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd : lieOrderDivisor .PSU 3 (2 ^ 1) = 3 := by decide
   have hn : lieOrderNumerator .PSU 3 (2 ^ 1) = 216 := by
     rw [OLThreeAdic.lieOrderNumerator_PSU_three]

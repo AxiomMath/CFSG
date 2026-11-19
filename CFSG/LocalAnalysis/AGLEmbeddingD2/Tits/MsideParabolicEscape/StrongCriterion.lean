@@ -41,7 +41,7 @@ theorem stronglyEmbedded_of_normalizer_le {p : ℕ} (hp : p.Prime) {M : Subgroup
   have : Fact p.Prime := ⟨hp⟩
   refine ⟨hM, ?_, ?_⟩
   · have h1 : p ∣ Nat.card (P : Subgroup G) := by
-      rcases P.isPGroup'.card_eq_or_dvd with h | h
+      rcases P.isPGroup.card_eq_or_dvd with h | h
       · exact absurd (Subgroup.eq_bot_of_card_eq _ h) hP1
       · exact h
     exact h1.trans (Subgroup.card_dvd_of_le hPM)
@@ -78,13 +78,13 @@ theorem stronglyEmbedded_of_normalizer_le {p : ℕ} (hp : p.Prime) {M : Subgroup
     obtain ⟨S₂, hS₂⟩ := hZp.exists_le_sylow
     have hmS₂ : m ∈ (S₂ : Subgroup G) := hS₂ (Subgroup.mem_zpowers m)
     have hS₂M : (S₂ : Subgroup G) ≤ M := by
-      refine le_of_inf_ne_bot_of_normalizer_le hp hN S₂.isPGroup' ?_
+      refine le_of_inf_ne_bot_of_normalizer_le hp hN S₂.isPGroup ?_
       intro hbot
       have : m ∈ (S₂ : Subgroup G) ⊓ M := ⟨hmS₂, hmM⟩
       rw [hbot, Subgroup.mem_bot] at this
       exact hm1 this
     set S₃ : Subgroup G := (S₂ : Subgroup G).map (MulAut.conj g⁻¹).toMonoidHom with hS₃
-    have hS₃p : IsPGroup p S₃ := S₂.isPGroup'.map _
+    have hS₃p : IsPGroup p S₃ := S₂.isPGroup.map _
     have hx0S₃ : x0 ∈ S₃ := ⟨m, hmS₂, by
       rw [hmx']; simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]; group⟩
     have hS₃M : S₃ ≤ M := by
@@ -114,7 +114,7 @@ theorem stronglyEmbedded_of_normalizer_le {p : ℕ} (hp : p.Prime) {M : Subgroup
       intro hbot
       rw [hbot, Subgroup.mem_bot] at hmS₂
       exact hm1 hmS₂
-    have hcg : (c : G) * g⁻¹ ∈ M := hN S₂ hS₂M S₂.isPGroup' hS₂1 hnorm
+    have hcg : (c : G) * g⁻¹ ∈ M := hN S₂ hS₂M S₂.isPGroup hS₂1 hnorm
     have : g⁻¹ ∈ M := by
       have := M.mul_mem (M.inv_mem c.2) hcg
       simpa [mul_assoc] using this

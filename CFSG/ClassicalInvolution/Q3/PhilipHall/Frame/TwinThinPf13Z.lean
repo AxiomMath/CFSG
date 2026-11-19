@@ -47,7 +47,7 @@ theorem Zgrp_conj_mem {P : Set (Subgroup G)} {x : G} (hx : ∀ L ∈ P, conjSub 
   | mem t ht =>
     obtain ⟨L, hL, hu⟩ := ht
     exact Subgroup.subset_closure ⟨conjSub x L, hx L hL, hu.conj x⟩
-  | one => simpa using (Zgrp P).one_mem
+  | one => simp
   | mul a b ha hb iha ihb =>
     have := (Zgrp P).mul_mem iha ihb
     simpa [mul_assoc] using this
@@ -78,7 +78,7 @@ theorem Dz_normal (hc : ThinCross K π g) :
       · refine Subgroup.subset_closure (Or.inl ?_)
         exact Zgrp_conj_mem (fun L hL => stable_of_maxOrb S.hos.graph S.hπ x hx L hL) ht
       · exact hc.2.1 x hx t ht
-    | one => simpa using (Dz K π g).one_mem
+    | one => simp
     | mul a b ha hb iha ihb =>
       have := (Dz K π g).mul_mem iha ihb
       simpa [mul_assoc] using this
@@ -93,7 +93,7 @@ theorem Dz_normal (hc : ThinCross K π g) :
       · exact hc.2.2 x hx t ht
       · refine Subgroup.subset_closure (Or.inr ?_)
         exact Zgrp_conj_mem (fun L hL => fam_inv L hL x hx) ht
-    | one => simpa using (Dz K π g).one_mem
+    | one => simp
     | mul a b ha hb iha ihb =>
       have := (Dz K π g).mul_mem iha ihb
       simpa [mul_assoc] using this

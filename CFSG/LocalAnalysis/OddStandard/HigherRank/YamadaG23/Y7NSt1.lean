@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma conj_comp_toMonoidHom (a b : G) :
     (MulAut.conj a).toMonoidHom.comp (MulAut.conj b).toMonoidHom =
       (MulAut.conj (a * b)).toMonoidHom := by
@@ -21,6 +22,7 @@ private lemma conj_comp_toMonoidHom (a b : G) :
     MulAut.conj_apply]
   group
 
+omit [Finite G] in
 private lemma conjSub_conjSub (a b : G) (W : Subgroup G) :
     conjSub a (conjSub b W) = conjSub (a * b) W := by
   simp only [conjSub, Subgroup.map_map, conj_comp_toMonoidHom]

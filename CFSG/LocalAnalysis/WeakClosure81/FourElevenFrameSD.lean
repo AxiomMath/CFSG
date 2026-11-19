@@ -687,7 +687,7 @@ theorem exists_frame_four_sd {L : Subgroup Q} [L.Normal] {p : ℕ} (hp : p.Prime
   let P : Sylow 2 ↥M := default
   let PQ : Subgroup Q := (P : Subgroup ↥M).map M.subtype
   have hPtop : IsSylowIn 2 (P : Subgroup ↥M) ⊤ :=
-    ⟨le_top, P.isPGroup', by simpa using P.not_dvd_index⟩
+    ⟨le_top, P.isPGroup, by simpa using P.not_dvd_index⟩
   have hPM : IsSylowIn 2 PQ M := by
     have h := (CFSG.Quasithin.E1.isSylowIn_map_of_injective (f := M.subtype)
       M.subtype_injective).mpr hPtop

@@ -43,7 +43,7 @@ theorem rootCodeV_decodeVec {τ : Tag} (c : ℕ) :
     rootCodeV (decodeVec (τ := τ) c) = encF (rd c) τ.rank := by
   unfold rootCodeV
   refine encF_congr fun i hi => ?_
-  rw [dif_pos hi, rd_eq]
+  rw [dite_eq_left hi, rd_eq]
   simp only [decodeVec, sub_add_cancel, Int.toNat_natCast]
 
 theorem decodeVec_rootCodeV {τ : Tag} {v : Fin τ.rank → ℤ} (hv : inRangeV v = true) :
@@ -53,11 +53,11 @@ theorem decodeVec_rootCodeV {τ : Tag} {v : Fin τ.rank → ℤ} (hv : inRangeV 
   funext j
   have h16 : ∀ i < τ.rank, (if h : i < τ.rank then (v ⟨i, h⟩ + 8).toNat else 0) < 16 := by
     intro i hi
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     have := hv ⟨i, hi⟩
     omega
   have hd := rd_encF h16 j.isLt
-  rw [rd_eq, dif_pos j.isLt] at hd
+  rw [rd_eq, dite_eq_left j.isLt] at hd
   simp only [decodeVec, rootCodeV]
   rw [hd]
   have := hv j

@@ -52,7 +52,7 @@ theorem pPrimeCore_map_subtype_le_normalizer_of_isTI {V H : Subgroup G} (hVH : V
         change (v : G) * ((m : G) * (n : G)) * (v : G)⁻¹ =
           ((v : G) * (m : G) * (v : G)⁻¹) * ((v : G) * (n : G) * (v : G)⁻¹)
         group) }
-  haveI : IsElementaryAbelian 2 ↥V :=
+  have : IsElementaryAbelian 2 ↥V :=
     CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hVel
   have hnot2 : ¬ 2 ∣ Nat.card ↥((CFSG.pPrimeCore 2 ↥H).map H.subtype) :=
     Nat.Prime.coprime_iff_not_dvd Nat.prime_two |>.mp hOcop

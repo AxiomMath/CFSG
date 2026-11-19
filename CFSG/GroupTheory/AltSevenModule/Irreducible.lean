@@ -16,8 +16,8 @@ theorem isIrrSec_of_card_sixteen {U : Type} [CommGroup U] (hcard : Nat.card U = 
     {L : Subgroup (MulAut U)} (π : ↥(alternatingGroup (Fin 7)) ≃* ↥L) :
     XMod.IsIrrSec ↥L (⊥ : Subgroup U) ⊤ := by
   classical
-  haveI hfinU : Finite U := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI hntU : Nontrivial U := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have hfinU : Finite U := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have hntU : Nontrivial U := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   refine ⟨bot_lt_top, ?_⟩
   let ρ : ↥(alternatingGroup (Fin 7)) →* MulAut U := L.subtype.comp π.toMonoidHom
   have hinj : Function.Injective ρ := fun a b hab => π.injective (Subtype.ext hab)
@@ -29,7 +29,7 @@ theorem isIrrSec_of_card_sixteen {U : Type} [CommGroup U] (hcard : Nat.card U = 
     rw [h, map_one]
   have hfix : ∀ u, ρ c u = u → u = 1 :=
     fun u hu => a7m_eq_one_of_fix_cOne hcard ρ hinj hu
-  haveI hsimpleA7 : IsSimpleGroup ↥(alternatingGroup (Fin 7)) :=
+  have hsimpleA7 : IsSimpleGroup ↥(alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hsimple : IsSimpleGroup ↥L := π.symm.isSimpleGroup
   have hcardL : Nat.card ↥L = 2520 := by

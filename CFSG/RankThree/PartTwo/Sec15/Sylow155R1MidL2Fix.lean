@@ -129,6 +129,7 @@ private theorem ringAut_eq_one_of_fix_cube_root {n : ℕ} (hn : n % 4 = 2)
   · exact hw0 h
   · exact hw1 (sub_eq_zero.mp h)
 
+omit [Finite F] in
 private theorem exists_conj_fieldAction {n : ℕ} (hcard : Nat.card F = 2 ^ n)
     (α : MulAut SL(2, F)) :
     ∃ M : SL(2, F), ∀ g, α g = M * sl2FieldAction (mulAutToRingAut hcard α) g * M⁻¹ := by
@@ -147,7 +148,7 @@ private theorem eq_one_of_fix_unitri (hn : n % 4 = 2) (hcard : Nat.card F = 2 ^ 
     (β : MulAut SL(2, F)) {a : ℕ} (ha : β ^ 2 ^ a = 1) {u : SL(2, F)} (hu00 : u 0 0 = 1)
     (hu10 : u 1 0 = 0) (hu1 : u ≠ 1) (hβu : (β u) 1 0 = 0) {y : SL(2, F)}
     (hy3 : orderOf y = 3) (hyu : (y * u * y⁻¹) 1 0 = 0) (hβy : β y = y) : β = 1 := by
-  haveI : CharP F 2 := char_two_of_card hcard
+  have : CharP F 2 := char_two_of_card hcard
   obtain ⟨M, hM⟩ := exists_conj_fieldAction hcard β
   set σ := mulAutToRingAut hcard β with hσdef
   have hσpow : σ ^ 2 ^ a = 1 := by rw [hσdef, ← map_pow, ha, map_one]
@@ -223,7 +224,7 @@ private theorem eq_one_of_fix_unitri (hn : n % 4 = 2) (hcard : Nat.card F = 2 ^ 
 
 private theorem res1AutFix_sl2 (hn : n % 4 = 2) (hcard : Nat.card F = 2 ^ n) :
     Res1AutFix SL(2, F) := by
-  haveI : CharP F 2 := char_two_of_card hcard
+  have : CharP F 2 := char_two_of_card hcard
   intro y hy R₀ hR₀ hR₂ hyR X hX hXy hXR
   rw [eq_bot_iff]
   intro α hα

@@ -14,7 +14,7 @@ private theorem eq_top_or_eq_alternatingGroup {n : ℕ} {X : Subgroup (Perm (Fin
     (hLX : alternatingGroup (Fin n) ≤ X) : X = ⊤ ∨ X = alternatingGroup (Fin n) := by
   by_cases hXL : X ≤ alternatingGroup (Fin n)
   · exact Or.inr (le_antisymm hXL hLX)
-  · obtain ⟨g, hgX, hgL⟩ := SetLike.not_le_iff_exists.mp hXL
+  · obtain ⟨g, hgX, hgL⟩ := IsConcreteLE.not_le_iff_exists.mp hXL
     refine Or.inl (eq_top_iff.mpr fun h _ => ?_)
     by_cases hhL : h ∈ alternatingGroup (Fin n)
     · exact hLX hhL

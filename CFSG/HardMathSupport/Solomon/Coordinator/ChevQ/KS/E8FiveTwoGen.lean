@@ -56,7 +56,7 @@ theorem cubeData_of_nontoral {K : Type} [Field K] [Finite K] (D : LangE8Ten K) {
     (hnt : ¬ IsToralSubgroup Tag.E8 D.L (E.map (cubeHom D.L D.g))) :
     Nonempty (CubeData E) := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set Φ : adjointGroup Tag.E8 K →* ModGL Tag.E8 D.L := cubeHom D.L D.g with hΦ
   have hinj : Function.Injective Φ := cubeHom_injective D.L D.g
   have hgadj := g_mem_adjoint D

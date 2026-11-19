@@ -11,12 +11,12 @@ theorem ggRC_perm_not_monomial {N m : ℕ} (hN : 5 ≤ N) (hm : m < N)
   have hcardN : 5 ≤ Nat.card (Fin N) := by rw [Nat.card_fin]; exact hN
   have hKbot : π.ker = ⊥ := by
     by_contra hne
-    haveI : π.ker.Normal := π.normal_ker
+    have : π.ker.Normal := π.normal_ker
     have hnt : Nontrivial π.ker := (Subgroup.nontrivial_iff_ne_bot π.ker).mpr hne
     have hAle : alternatingGroup (Fin N) ≤ π.ker :=
       Equiv.Perm.alternatingGroup_le_of_normal hcardN hnt
     have hcomm : ∀ a b : π.ker, a * b = b * a := isMulCommutative_iff.mp hker
-    haveI hAcomm : IsMulCommutative (alternatingGroup (Fin N)) :=
+    have hAcomm : IsMulCommutative (alternatingGroup (Fin N)) :=
       isMulCommutative_iff.mpr fun a b => by
         apply Subtype.ext
         exact congrArg (Subtype.val : π.ker → Equiv.Perm (Fin N))

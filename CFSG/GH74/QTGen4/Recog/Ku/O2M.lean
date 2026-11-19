@@ -21,7 +21,7 @@ namespace KuHyp
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
 theorem exists_odd_mem_M (h : KuHyp G T M H P z) : ∃ x ∈ M, x ≠ 1 ∧ Odd (orderOf x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hd : 3 ∣ Nat.card ↥M := by
     rw [h.card_M]; norm_num
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 hd
@@ -33,12 +33,14 @@ theorem exists_odd_mem_M (h : KuHyp G T M H P z) : ∃ x ∈ M, x ≠ 1 ∧ Odd 
   · rw [hxo]
     decide
 
+omit [Finite G] in
 theorem conj_mem_pCore_of_mem_M (h : KuHyp G T M H P z) {g : G} (hg : g ∈ M) {x : G}
     (hx : x ∈ pCoreOf 2 M) : g * x * g⁻¹ ∈ pCoreOf 2 M := by
   have hgN : g ∈ Subgroup.normalizer (pCoreOf 2 M : Set G) := by
     rw [← h.mNorm]; exact hg
   exact (Subgroup.mem_normalizer_iff.mp hgN x).mp hx
 
+omit [Finite G] in
 theorem conj_mem_oTwoUpper_of_mem_M (_h : KuHyp G T M H P z) {g : G} (hg : g ∈ M) {x : G}
     (hx : x ∈ oTwoUpper M) : g * x * g⁻¹ ∈ oTwoUpper M :=
   conj_mem_oTwoUpper (Subgroup.le_normalizer hg) hx
@@ -88,6 +90,7 @@ theorem pCore_le_oTwoUpper (h : KuHyp G T M H P z) : pCoreOf 2 M ≤ oTwoUpper M
     exact hx1 hxbot
   · exact inf_eq_left.mp htop
 
+omit [Finite G] in
 theorem oTwoUpper_le_map_comap {X : Subgroup G} (φ : ↥X →* Equiv.Perm (Fin 5)) :
     oTwoUpper X ≤ ((alternatingGroup (Fin 5)).comap φ).map X.subtype := by
   unfold oTwoUpper
@@ -168,13 +171,15 @@ theorem relIndex_oTwoUpper (h : KuHyp G T M H P z) : (oTwoUpper M).relIndex M = 
   rw [inf_eq_left.mpr (oTwoUpper_le M), h.card_M, h.card_oTwoUpper] at h1
   omega
 
-theorem M_le_normalizer_oTwoUpper (h : KuHyp G T M H P z) :
+omit [Finite G] in
+theorem M_le_normalizer_oTwoUpper (_h : KuHyp G T M H P z) :
     M ≤ Subgroup.normalizer (oTwoUpper M : Set G) :=
   le_normalizer_oTwoUpper M
 
 theorem pCore_le_kuR (h : KuHyp G T M H P z) : pCoreOf 2 M ≤ kuR T M :=
   le_inf h.pCore_le_T h.pCore_le_oTwoUpper
 
+omit [Finite G] in
 theorem T_le_normalizer_kuR (h : KuHyp G T M H P z) :
     T ≤ Subgroup.normalizer (kuR T M : Set G) := by
   intro t ht
@@ -196,7 +201,7 @@ theorem T_le_normalizer_kuR (h : KuHyp G T M H P z) :
 theorem relIndex_kuR (h : KuHyp G T M H P z) : (kuR T M).relIndex T = 2 := by
   have hLM : oTwoUpper M ≤ M := oTwoUpper_le M
   have hTM : T ≤ M := h.tM
-  haveI hN : ((oTwoUpper M).subgroupOf M).Normal :=
+  have hN : ((oTwoUpper M).subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff hLM).mpr
       (fun g x hx hg => conj_mem_oTwoUpper_of_mem_M h hg hx)
   have h1 := Subgroup.relIndex_subgroupOf (H := oTwoUpper M) (K := T) hTM
@@ -235,6 +240,7 @@ theorem z_mem_kuV2 (h : KuHyp G T M H P z) : z ∈ kuV2 T M := by
   rw [h.hCz, Subgroup.mem_centralizer_iff] at hrH
   exact (hrH z (Set.mem_singleton z)).symm
 
+omit [Finite G] in
 theorem conj_mem_kuV2_of_mem_T (h : KuHyp G T M H P z) {t : G} (ht : t ∈ T) {x : G}
     (hx : x ∈ kuV2 T M) : t * x * t⁻¹ ∈ kuV2 T M := by
   obtain ⟨hxV, hxC⟩ := hx
@@ -250,6 +256,7 @@ theorem conj_mem_kuV2_of_mem_T (h : KuHyp G T M H P z) {t : G} (ht : t ∈ T) {x
     _ = t * (x * (t⁻¹ * r * t⁻¹⁻¹)) * t⁻¹ := by rw [key]
     _ = t * x * t⁻¹ * r := by group
 
+omit [Finite G] in
 theorem T_le_normalizer_kuV2 (h : KuHyp G T M H P z) :
     T ≤ Subgroup.normalizer (kuV2 T M : Set G) := by
   intro t ht

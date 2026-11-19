@@ -19,7 +19,7 @@ theorem sylow_ambient_of_involution_centralizers
     (hcentral : ∀ v ∈ K, orderOf v = 2 → Subgroup.centralizer ({v} : Set G) ≤ K) :
     ∃ P : Sylow 2 G, (P : Subgroup G) = (D : Subgroup K).map K.subtype := by
   let A : Subgroup G := (D : Subgroup K).map K.subtype
-  have hAp : IsPGroup 2 A := D.isPGroup'.map K.subtype
+  have hAp : IsPGroup 2 A := D.isPGroup.map K.subtype
   obtain ⟨P, hAP⟩ := hAp.exists_le_sylow
   have hAK : A ≤ K := Subgroup.map_subtype_le _
   have hAne : A ≠ ⊥ := by
@@ -35,7 +35,7 @@ theorem sylow_ambient_of_involution_centralizers
     rw [hDP, Subgroup.map_bot]
   have hDPtop : DP = ⊤ := by
     by_contra hDPproper
-    let : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+    let : Group.IsNilpotent P := P.isPGroup.isNilpotent
     have hlt : DP < Subgroup.normalizer (DP : Set P) :=
       Group.normalizerCondition_of_isNilpotent DP (lt_top_iff_ne_top.mpr hDPproper)
     let R : Subgroup P := Subgroup.normalizer (DP : Set P)
@@ -52,7 +52,7 @@ theorem sylow_ambient_of_involution_centralizers
       rw [hN, Subgroup.map_bot]
     obtain ⟨v, hvN, hvcenter, hvorder⟩ :=
       normal_two_subgroup_contains_central_involution
-        (P.isPGroup'.to_subgroup R) N hNne
+        (P.isPGroup.to_subgroup R) N hNne
     have hvA : ((v : P) : G) ∈ A := hvN
     have hvK : ((v : P) : G) ∈ K := hAK hvA
     have hvGorder : orderOf ((v : P) : G) = 2 := by
@@ -67,7 +67,7 @@ theorem sylow_ambient_of_involution_centralizers
     have hRgK : Rg ≤ K := by
       rintro x ⟨r, hr, rfl⟩
       exact hRK ⟨r, hr⟩
-    have hRgP : IsPGroup 2 Rg := (P.isPGroup'.to_subgroup R).map _
+    have hRgP : IsPGroup 2 Rg := (P.isPGroup.to_subgroup R).map _
     have hARg : A ≤ Rg := by
       intro a ha
       exact ⟨⟨a, hAP ha⟩, hDPR ha, rfl⟩

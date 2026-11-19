@@ -105,7 +105,7 @@ theorem exists_conj_family [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ
     {Z0 : Subgroup G}
     (hA0 : ∀ c : Kg, ∃ a ∈ bar M Q Z0, ∀ e, (ρ a).toAdd e = e + c • ψA e)
     {g : G} (hg : g ∈ M) (c : K) :
-    ∃ y ∈ conjSubgroup g Z0, ∃ hyM : y ∈ M,
+    ∃ y ∈ conjSubgroup g Z0, ∃ _hyM : y ∈ M,
       ∀ (k k' k'' : ↥(Vt M (LB M Q B) B Z t)), (k' : G) = y * k * y⁻¹ →
         (k'' : G) = (g * t * g⁻¹) * k * (g * t * g⁻¹)⁻¹ →
         secVec ψ k' = secVec ψ k + c • (secVec ψ k'' - secVec ψ k) := by
@@ -124,8 +124,8 @@ theorem exists_conj_family [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ
   obtain ⟨a, haZ, haρ⟩ := hA0 (σ.symm (θ.symm c))
   obtain ⟨a', ha'Z0, ha'⟩ := Subgroup.mem_map.mp haZ
   have ha'Z : (a' : G) ∈ Z0 := Subgroup.mem_subgroupOf.mp ha'Z0
-  have hyM : g * (a' : G) * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hg a'.2) (M.inv_mem hg)
-  refine ⟨g * (a' : G) * g⁻¹, ?_, hyM, ?_⟩
+  have _hyM : g * (a' : G) * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hg a'.2) (M.inv_mem hg)
+  refine ⟨g * (a' : G) * g⁻¹, ?_, _hyM, ?_⟩
   · rw [mem_conjSubgroup]
     simpa [mul_assoc] using ha'Z
   intro k k' k'' hk' hk''
@@ -140,8 +140,8 @@ theorem exists_conj_family [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ
     have h2 := congrArg (fun f : Multiplicative (AddAut M₀.E) => f.toAdd e) h1
     exact h2
   have hπy : M₀.π (k' : G) = e + σ (σ.symm (θ.symm c)) • (ρ gb).toAdd (ψA e₁) := by
-    have h1 := hS.conj ⟨g * (a' : G) * g⁻¹, hyM⟩ (k : G) hkQ
-    have h2 : (QuotientGroup.mk (⟨g * (a' : G) * g⁻¹, hyM⟩ : ↥M) : Mbar M Q) =
+    have h1 := hS.conj ⟨g * (a' : G) * g⁻¹, _hyM⟩ (k : G) hkQ
+    have h2 : (QuotientGroup.mk (⟨g * (a' : G) * g⁻¹, _hyM⟩ : ↥M) : Mbar M Q) =
         gb * QuotientGroup.mk a' * gb⁻¹ := by
       rw [hgb, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
       rfl
@@ -229,7 +229,7 @@ theorem exists_vanish_family (h34 : Stroth34Statement) (h310chi : Stroth310ChiSt
       ∀ k : ↥(Vt M (LB M Q B) B Z t), ∃ k' : ↥(Vt M (LB M Q B) B Z t),
         (k' : G) = ⁅g * t * g⁻¹, (k : G)⁆ ∧ T (secVec ψ k) = secVec ψ k' := by
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0

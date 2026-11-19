@@ -23,7 +23,7 @@ theorem mem_of_pow_odd_of_card_eq_two_mul {X : Type*} [Group X] [Finite X] {C N 
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNC).toEquiv, hcard] at h1
     have hpos : 0 < Nat.card ↥N := Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_left hpos (by rw [h1, mul_comm])
-  haveI : (N.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hidx
+  have : (N.subgroupOf C).Normal := Subgroup.normal_of_index_eq_two hidx
   have h2 : (⟨x, hx⟩ : ↥C) ^ 2 ∈ N.subgroupOf C := by
     have := Subgroup.pow_index_mem (N.subgroupOf C) (⟨x, hx⟩ : ↥C)
     rwa [hidx] at this

@@ -20,6 +20,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem mem_zpowers_of_commute' {m : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
@@ -31,6 +32,7 @@ private theorem mem_zpowers_of_commute' {m : ℕ} {U : Fin m → Submodule F V}
     Subgroup.mem_inf.2 ⟨hF.mem j, Subgroup.mem_centralizer_iff.2 h⟩
   rwa [hcd] at this
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem primaryMultiplicity_eq_of_frame_aux1 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hp : p.Prime) (hp2 : p ≠ 2) {m : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
@@ -51,6 +53,7 @@ private theorem primaryMultiplicity_eq_of_frame_aux1 (hQ : (QuadraticMap.polarBi
     exact hdp
   · simpa using hv w
 
+omit [Finite F] [CharP F 2] in
 private theorem primaryMultiplicity_eq_of_frame_aux2 {n : ℕ} {U : Fin (n - 1) → Submodule F V}
     {e : Fin (n - 1) → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)} (hd : d ∈ Bb) {h : F[X]}
@@ -82,13 +85,13 @@ private theorem primaryMultiplicity_eq_of_frame_aux2 {n : ℕ} {U : Fin (n - 1) 
   rw [hzbot, add_zero]; exact hw
 
 theorem primaryMultiplicity_eq_of_frame (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
-    (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
+    (_hdim : Module.finrank F V = 2 * n) (_hn : 4 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {U : Fin (n - 1) → Submodule F V} {e : Fin (n - 1) → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
     (hd : d ∈ Bb) {h : F[X]} (hh : h ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap) (hh1 : h ≠ X - 1)
     (hU : ∀ j, U j ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h) :
     primaryMultiplicity (d : V ≃ₗ[F] V).toLinearMap h = n - 1 := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hx := primaryMultiplicity_eq_of_frame_aux1 hQ hp hp2 hF hd
   have hWuniv : (⨆ j : Fin (n - 1), U j) =
       ⨆ j ∈ (Finset.univ : Finset (Fin (n - 1))), U j := by
@@ -108,7 +111,7 @@ private theorem four_le_of_isQuasisimple_specialBlock_aux1 {F : Type} [Field F] 
     {h : F[X]} (hdeg : h.natDegree = 2) [Fact (Irreducible h)] {d ℓ f : ℕ}
     (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ (f * d) (AdjoinRoot h))
     (hcard : Nat.card F = ℓ ^ f) : d = 1 := by
-  haveI : Module.Finite F (AdjoinRoot h) :=
+  have : Module.Finite F (AdjoinRoot h) :=
     (AdjoinRoot.powerBasis (Fact.out : Irreducible h).ne_zero).finite
   have hE : Nat.card (AdjoinRoot h) = (Nat.card F) ^ 2 := by
     rw [Module.natCard_eq_pow_finrank (K := F),
@@ -123,8 +126,8 @@ private theorem four_le_of_isQuasisimple_specialBlock_aux1 {F : Type} [Field F] 
 
 private theorem four_le_of_isQuasisimple_specialBlock_aux2 {G : Type} [Group G] [Finite G]
     (hcard : Nat.card G = 216) (hperf : commutator G = ⊤) : False := by
-  haveI : Nontrivial G := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
-  haveI : Group.IsPerfect G := ⟨hperf⟩
+  have : Nontrivial G := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have : Group.IsPerfect G := ⟨hperf⟩
   have hsol : Group.IsSolvable G :=
     TauCeti.isSolvable_of_card_dvd_prime_pow_mul_prime_pow (p := 2) (q := 3) (a := 3) (b := 3)
       (by norm_num) (by norm_num) (by rw [hcard]; norm_num)
@@ -137,7 +140,7 @@ private theorem four_le_of_isQuasisimple_specialBlock_aux3 (hp : p.Prime) (hp2 :
     (hcard2 : Nat.card F = 2)
     (hdim3 : finrank (AdjoinRoot h) (primaryComponent (d : V ≃ₗ[F] V).toLinearMap h) = 3) :
     Nat.card ↥(specialBlock Q (d : V ≃ₗ[F] V) h) = 216 := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hself : h = reciprocalPolynomial h :=
     (hx.reciprocal_eq_of_dvd_card_succ hp hpq hh hh1).symm
   obtain ⟨d₀, ℓ, f, hU, B, hd0, hcardF, hBs, hBl, hrange⟩ :=
@@ -174,7 +177,7 @@ theorem four_le_of_isQuasisimple_specialBlock (hQ : (QuadraticMap.polarBilin Q).
   have hn3 : n - 1 = 3 := by omega
   have hmult : primaryMultiplicity (d : V ≃ₗ[F] V).toLinearMap h = 3 := by
     rw [primaryMultiplicity_eq_of_frame hQ hdim hn hp hp2 hpq hF hd hh hh1 hU, hn3]
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨f₀, hf₀1, hf₀⟩ := exists_natCard_eq_two_pow F
   have hf₀2 : f₀ = 1 := by
     by_contra hf
@@ -192,10 +195,10 @@ theorem four_le_of_isQuasisimple_specialBlock (hQ : (QuadraticMap.polarBilin Q).
     CFSG.RankThree.PartOne.K159.natDegree_eq_two_of_dvd_card_add_one hx hp hp2 hpq hh hh1
   have hcardBlock : Nat.card ↥(specialBlock Q (d : V ≃ₗ[F] V) h) = 216 :=
     four_le_of_isQuasisimple_specialBlock_aux3 hp hp2 hpq hh hh1 hx hdeg hcard2 hdim3
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite ↥(specialBlock Q (d : V ≃ₗ[F] V) h) := Subtype.finite
+  have : Finite ↥(specialBlock Q (d : V ≃ₗ[F] V) h) := Subtype.finite
   exact four_le_of_isQuasisimple_specialBlock_aux2 hcardBlock hquasi.1.commutator_eq_top
 
 private theorem standard_dichotomy_part1 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
@@ -258,6 +261,7 @@ private theorem standard_dichotomy_part2 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p
   exact Subtype.ext (commute_of_apply_eq (hF.nondeg j) (hOg g) (hfixj _ hgs)
     (hF.maps_to j) (hF.apply_of_perp j))
 
+omit [CharP F 2] in
 private theorem standard_dichotomy_part3 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) (hp : p.Prime)
     {U : Fin (n - 1) → Submodule F V} {e : Fin (n - 1) → ↥(orthDerived Q)}
@@ -309,9 +313,9 @@ theorem standard_dichotomy (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n :
         GLALayer (Subgroup.centralizer {d}) =
           (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q) ∧
         CFSG.IsQuasisimple ↥(specialBlock Q (d : V ≃ₗ[F] V) h) ∧ (4 ≤ n - 1 ∨ 4 ≤ Nat.card F)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=

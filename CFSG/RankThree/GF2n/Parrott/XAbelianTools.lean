@@ -207,6 +207,7 @@ theorem mul_conj_inv_eq_inv_of_fixed (h : Tim79a.ParrottHyp z)
     _ = ((j' : G) * c)⁻¹ := by group
     _ = j⁻¹ := by rw [← hjeq]
 
+omit [Finite G] in
 theorem conjV_pi_eq_of_commute (h : Tim79a.ParrottHyp z) {x : ↥(H z)} {b : G} (hb : b ∈ J z)
     (hxb : (x : G) * b = b * (x : G)) :
     conjV h x (QuotientV.pi z ⟨b, hb⟩) = QuotientV.pi z ⟨b, hb⟩ :=
@@ -241,6 +242,7 @@ section Relation
 
 variable (h : Tim79a.ParrottHyp z)
 
+omit [Finite G] in
 theorem pi_relation (x s : ↥(H z)) {j m c : G} (hj : j ∈ J z) (hm : m ∈ J z)
     (hc : c ∈ centerIn (J z))
     (hrel : j * (s : G) = ((x : G) * j * (x : G)⁻¹) * c * (m * (s : G) * m⁻¹)) :
@@ -333,6 +335,7 @@ theorem exists_zpow_orderOf_three_of_qH (y : ↥(H z)) (hy : orderOf (qH D y) = 
       rw [← pow_succ']
       exact hx3
 
+omit [Finite G] in
 theorem inv_mul_mem_J_of_qH_eq {c g : G} (hc : c ∈ H z) (hg : g ∈ H z)
     (hq : qH D ⟨c, hc⟩ = qH D ⟨g, hg⟩) : c⁻¹ * g ∈ J z := by
   have h1 : (⟨c, hc⟩ : ↥(H z))⁻¹ * ⟨g, hg⟩ ∈ (J z).subgroupOf (H z) :=

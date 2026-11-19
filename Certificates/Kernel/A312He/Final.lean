@@ -119,7 +119,7 @@ theorem good7 : ∀ l < 5, Good 8330 ((heLetters 7).getD l #[]) (LF7 l) := by
   have hL : heLetters 7 = heE64Lt.toList := by
     rw [He7149.lt_eq]
     simp only [heLetters, hm, heQp, List.map_cons, List.map_nil, List.cons_append,
-      List.nil_append, List.toList_toArray]
+      List.nil_append]
   intro l hl
   have hs : l < heE64Lt.size := by
     rw [He7149.lt_eq]

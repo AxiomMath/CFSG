@@ -124,7 +124,7 @@ theorem invK_eq {A : ℕ} (hA : A < 2 ^ 36) : invK A = isInvT (dec A) := by
     · intro h; rw [← codeL_dec hA, h, idK_eq]
   apply Bool.eq_iff_iff.2
   simp only [invK, isInvT, andB_eq_true, notB_eq_true, Bool.and_eq_true, beq_iff_eq, bne_iff_ne,
-    ne_eq, Nat.beq_eq, Bool.not_eq_true]
+    ne_eq, Nat.beq_eq]
   have h3 : A.beq idK = false ↔ ¬ A = idK := by
     rw [← Bool.not_eq_true]; simp [Nat.beq_eq]
   rw [h1, h3, h2]

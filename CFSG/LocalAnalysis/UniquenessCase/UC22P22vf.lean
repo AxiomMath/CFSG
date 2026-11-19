@@ -36,6 +36,7 @@ theorem uc22p22vf_rank_bridge (D : Data G) (Ch : Choice2011 G) (h8 : S22_8 D Ch)
   exact uc22p22f_not_dvd_card_B D Ch h8 hSg.sig1_sp h1930
     { c with B := c.B0, hB := c.hB0, hle := le_rfl } hσ hqd
 
+omit [Finite G] in
 private theorem uc22p22vf_mem_zpowers_two {z x : G} (hz2 : z ^ 2 = 1) (hx : x ∈ Subgroup.zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
@@ -46,6 +47,7 @@ private theorem uc22p22vf_mem_zpowers_two {z x : G} (hz2 : z ^ 2 = 1) (hx : x �
   · right
     rw [hm, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private theorem uc22p22vf_mem_normalizer_zpowers {b e : G} (h : e * b = b * e) :
     e ∈ Subgroup.normalizer ((Subgroup.zpowers b : Subgroup G) : Set G) := by
   have hcen : e ∈ Subgroup.centralizer ((Subgroup.zpowers b : Subgroup G) : Set G) := by
@@ -56,6 +58,7 @@ private theorem uc22p22vf_mem_normalizer_zpowers {b e : G} (h : e * b = b * e) :
     exact (hc.zpow_left k).eq
   exact Subgroup.centralizer_le_normalizer _ hcen
 
+omit [Finite G] in
 private theorem uc22p22vf_pCoreOf_conj {K : Subgroup G} {h w : G} (hh : h ∈ K)
     (hw : w ∈ pCoreOf 2 K) : h * w * h⁻¹ ∈ pCoreOf 2 K := by
   obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hw
@@ -65,6 +68,7 @@ private theorem uc22p22vf_pCoreOf_conj {K : Subgroup G} {h w : G} (hh : h ∈ K)
     hchar (MulAut.conj (⟨h, hh⟩ : ↥K)) (Subgroup.mem_map_of_mem _ hx)
   exact Subgroup.mem_map.2 ⟨_, hx', rfl⟩
 
+omit [Finite G] in
 private theorem uc22p22vf_conj_mem {M : Subgroup G} {b h w : G}
     (hhM : h ∈ M) (hh : h ∈ Subgroup.normalizer ((Subgroup.zpowers b : Subgroup G) : Set G))
     (hw : w ∈ pCoreOf 2 M ⊓ Subgroup.centralizer ({b} : Set G)) :
@@ -119,7 +123,7 @@ theorem uc22p22vf_cyclic_cent (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D)
   have hEH : E ≤ H := fun e he => uc22p22vf_mem_normalizer_zpowers (hEb e he)
   have hHtop : H ≠ ⊤ := by
     intro htop
-    haveI hnorm : (Subgroup.zpowers b).Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have hnorm : (Subgroup.zpowers b).Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases D.standing.simple.eq_bot_or_eq_top_of_normal (Subgroup.zpowers b) with h | h
     · exact hb1 (Subgroup.zpowers_eq_bot.1 h)
     · obtain ⟨x, y, hxy⟩ := D.standing.nonab

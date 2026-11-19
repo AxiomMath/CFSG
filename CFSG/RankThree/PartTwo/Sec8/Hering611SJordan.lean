@@ -14,7 +14,7 @@ private theorem jordan_core {V : Type*} [Group V] [Finite V] (φ : V →* V)
     (hV3 : ∀ x : V, x ^ 3 = 1)
     (hcard : Nat.card V = Nat.card (φ.eqLocus (MonoidHom.id V)) ^ 3)
     {b : V} (hφb : φ b = b) : ∃ u : V, (φ u)⁻¹ * u = b := by
-  letI : CommGroup V := { (inferInstance : Group V) with mul_comm := hcomm }
+  let : CommGroup V := { (inferInstance : Group V) with mul_comm := hcomm }
   obtain ⟨t, ht⟩ : ∃ t : V →* V, ∀ x, t x = φ x * x⁻¹ :=
     ⟨MonoidHom.mk' (fun x => φ x * x⁻¹) fun a b => by
       simp only [map_mul, mul_inv_rev]

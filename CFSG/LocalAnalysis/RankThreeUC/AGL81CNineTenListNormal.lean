@@ -17,7 +17,7 @@ theorem exists_symplectic_of_normal {X : Type} [Group X] [Finite X]
     ∃ W' : Subgroup (Matrix.symplecticGroup (Fin 2) (ZMod 3)), oPPrimeHull 3 W' = W' ∧
       Nonempty (↥N ≃* ↥W' ⧸ CFSG.pCore 3 ↥W') := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup X := oPPrimeHull 3 (⊤ : Subgroup X)
   let P : Subgroup ↥W := CFSG.pCore 3 ↥W
   have hOdef : O = oPPrimeHull 3 (⊤ : Subgroup X) := rfl
@@ -37,12 +37,12 @@ theorem exists_symplectic_of_normal {X : Type} [Group X] [Finite X]
     exact QuotientGroup.eq_one_iff x
   let N' : Subgroup ↥O := N.subgroupOf O
   have hN'def : N' = N.subgroupOf O := rfl
-  haveI hN'normal : N'.Normal := by
+  have hN'normal : N'.Normal := by
     rw [hN'def]
     infer_instance
   let Ŵ : Subgroup ↥W := N'.comap φ
   have hŴdef : Ŵ = N'.comap φ := rfl
-  haveI hŴnormal : Ŵ.Normal := by
+  have hŴnormal : Ŵ.Normal := by
     rw [hŴdef]
     infer_instance
   have hPŴ : P ≤ Ŵ := by
@@ -159,7 +159,7 @@ theorem sixThreeOneList_of_normal {X : Type} [Group X] [Finite X] {p : ℕ} (hp 
     (hp2 : p ≠ 2) (hO : SixThreeOneList p ↥(oPPrimeHull p (⊤ : Subgroup X)))
     {N : Subgroup X} [N.Normal] (hNgen : oPPrimeHull p N = N) (hx : ∃ x ∈ N, orderOf x = p) :
     SixThreeOneList p ↥N ∧ Nat.card ↥N ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup X := oPPrimeHull p (⊤ : Subgroup X)
   have hOdef : O = oPPrimeHull p (⊤ : Subgroup X) := rfl
   have hNO : N ≤ O := by

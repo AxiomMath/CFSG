@@ -114,12 +114,12 @@ private theorem bvec_actK_aCols_aux (κ σ : ℕ) :
     (fun k w => if bvec 10 κ k = 1 then aMap k w else w) ?_ σ
   intro k hk x
   by_cases h : κ.testBit k
-  · rw [if_pos h]
-    have hk1 : bvec 10 κ ⟨k, hk⟩ = 1 := by rw [bvec_apply, if_pos h]
-    rw [if_pos hk1, bvec_colsAct_aCols k hk x]
-  · rw [if_neg h]
-    have hk0 : bvec 10 κ ⟨k, hk⟩ ≠ 1 := by rw [bvec_apply, if_neg h]; decide
-    rw [if_neg hk0]
+  · rw [ite_eq_left h]
+    have hk1 : bvec 10 κ ⟨k, hk⟩ = 1 := by rw [bvec_apply, ite_eq_left h]
+    rw [ite_eq_left hk1, bvec_colsAct_aCols k hk x]
+  · rw [ite_eq_right h]
+    have hk0 : bvec 10 κ ⟨k, hk⟩ ≠ 1 := by rw [bvec_apply, ite_eq_right h]; decide
+    rw [ite_eq_right hk0]
 
 private theorem bvec_actK_uConjT_aux (κ τ : ℕ) :
     bvec 9 (actK p0Data.uConjT κ τ) =
@@ -133,12 +133,12 @@ private theorem bvec_actK_uConjT_aux (κ τ : ℕ) :
     (fun k w => if bvec 10 κ k = 1 then bMap k w else w) ?_ τ
   intro k hk x
   by_cases h : κ.testBit k
-  · rw [if_pos h]
-    have hk1 : bvec 10 κ ⟨k, hk⟩ = 1 := by rw [bvec_apply, if_pos h]
-    rw [if_pos hk1, bvec_colsAct_uConjT k hk x]
-  · rw [if_neg h]
-    have hk0 : bvec 10 κ ⟨k, hk⟩ ≠ 1 := by rw [bvec_apply, if_neg h]; decide
-    rw [if_neg hk0]
+  · rw [ite_eq_left h]
+    have hk1 : bvec 10 κ ⟨k, hk⟩ = 1 := by rw [bvec_apply, ite_eq_left h]
+    rw [ite_eq_left hk1, bvec_colsAct_uConjT k hk x]
+  · rw [ite_eq_right h]
+    have hk0 : bvec 10 κ ⟨k, hk⟩ ≠ 1 := by rw [bvec_apply, ite_eq_right h]; decide
+    rw [ite_eq_right hk0]
 
 private theorem lCommN_length : lCommN.length = 16 := by decide
 
@@ -209,12 +209,12 @@ private theorem sum_fin_ite_lt {M : Type*} [AddCommMonoid M] {n : ℕ}
     refine Finset.sum_congr rfl ?_
     intro i hi
     have hi' : i < n := Finset.mem_range.1 hi
-    rw [dif_pos hi']
+    rw [dite_eq_left hi']
     by_cases hij : i < (j : ℕ)
     · have hfin : (⟨i, hi'⟩ : Fin n) < j := by rwa [Fin.lt_def]
-      rw [if_pos hfin, if_pos hij, dif_pos hi']
+      rw [ite_eq_left hfin, ite_eq_left hij, dite_eq_left hi']
     · have hfin : ¬ (⟨i, hi'⟩ : Fin n) < j := by rwa [Fin.lt_def]
-      rw [if_neg hfin, if_neg hij]
+      rw [ite_eq_right hfin, ite_eq_right hij]
   rw [hL, ← Finset.sum_filter]
   have hfilter : (Finset.range n).filter (fun i => i < (j : ℕ)) = Finset.range (j : ℕ) := by
     ext i
@@ -225,7 +225,7 @@ private theorem sum_fin_ite_lt {M : Type*} [AddCommMonoid M] {n : ℕ}
   intro i hi
   have hij : i < (j : ℕ) := Finset.mem_range.1 hi
   have hin : i < n := lt_of_lt_of_le hij (le_of_lt j.2)
-  rw [dif_pos hin, dif_pos hij]
+  rw [dite_eq_left hin, dite_eq_left hij]
   exact congrArg f (Fin.ext rfl)
 
 
@@ -257,9 +257,9 @@ theorem qN_lt (σ : ℕ) : MonsterB.P0Rank.qN p0Data.beta σ < 2 ^ 9 := by
   intro j hj acc hacc
   rw [List.mem_range] at hj
   by_cases h : σ.testBit j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact Nat.xor_lt_two_pow hacc (colsAct_take_lt j hj σ)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact hacc
 
 theorem bvec_qN {σ : ℕ} (hσ : σ < 2 ^ 16) :
@@ -285,13 +285,13 @@ theorem bvec_qN {σ : ℕ} (hσ : σ < 2 ^ 16) :
     refine Finset.sum_congr rfl ?_
     intro j _
     by_cases hbit : σ.testBit j
-    · rw [if_pos hbit]
+    · rw [ite_eq_left hbit]
       have hlen : ((lCommN.getD (j : ℕ) []).take (j : ℕ)).length = (j : ℕ) := by
         rw [List.length_take, lCommN_row_length j j.2]
         omega
       rw [bvec_colsAct_eq_sum (m := 9) (n := (j : ℕ))
         (cs := (lCommN.getD (j : ℕ) []).take (j : ℕ)) hlen σ]
-      have hbvecj : bvec 16 σ j = 1 := by rw [bvec_apply, if_pos hbit]
+      have hbvecj : bvec 16 σ j = 1 := by rw [bvec_apply, ite_eq_left hbit]
       rw [hbvecj]
       simp only [mul_one]
       rw [sum_fin_ite_lt j (fun i => bvec 16 σ i •
@@ -312,9 +312,9 @@ theorem bvec_qN {σ : ℕ} (hσ : σ < 2 ^ 16) :
           omega
         rw [List.getD_eq_getElem _ _ h1, List.getD_eq_getElem _ _ h2, List.getElem_take]
       rw [hb, hg]
-    · rw [if_neg hbit]
+    · rw [ite_eq_right hbit]
       rw [bvec_zero]
-      rw [show bvec 16 σ j = 0 from by rw [bvec_apply, if_neg hbit]]
+      rw [show bvec 16 σ j = 0 from by rw [bvec_apply, ite_eq_right hbit]]
       simp
 
 theorem betaN_lt (σ δ : ℕ) : MonsterB.P0Rank.betaN p0Data.beta σ δ < 2 ^ 9 := by

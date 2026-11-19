@@ -60,6 +60,7 @@ private noncomputable def innDiag {L : Subgroup G} {π : Bool} {p f : ℕ} {K : 
           ProjGenLinGroup.mk y := by group
       _ = _ := by rw [← h1]; group
 
+omit [Finite G] in
 private theorem innAut_le_innDiag {L : Subgroup G} {π : Bool} {p f : ℕ} {K : Type} [Field K]
     (hK : PiField π p f K)
     (e : ↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* projImage (slPi π 3 (p ^ f) K)) :

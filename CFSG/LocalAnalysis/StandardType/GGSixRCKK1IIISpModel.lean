@@ -39,7 +39,7 @@ private theorem rckK1IIISpM_n_eq_one {lab : LargeEvenLabel} (hlab : LargeEvenInL
     have hrow := hP.1
     dsimp only [ggSixRCKLabelRow] at hrow
     by_cases h2 : 2 ≤ n
-    · rw [if_pos h2] at hrow
+    · rw [ite_eq_left h2] at hrow
       exact absurd hrow (by decide)
     · dsimp only
       omega
@@ -47,7 +47,7 @@ private theorem rckK1IIISpM_n_eq_one {lab : LargeEvenLabel} (hlab : LargeEvenInL
     have hrow := hP.1
     dsimp only [ggSixRCKLabelRow] at hrow
     by_cases h2 : 2 ≤ n
-    · rw [if_pos h2] at hrow
+    · rw [ite_eq_left h2] at hrow
       exact absurd hrow (by decide)
     · dsimp only
       omega

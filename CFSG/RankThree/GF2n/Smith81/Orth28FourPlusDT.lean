@@ -18,6 +18,7 @@ section URange
 
 variable {K : Type} [Field K] [CharP K 2] {ι : Type} [Fintype ι] [DecidableEq ι]
 
+omit [DecidableEq ι] in
 theorem uRange_eq_span {qU : QuadraticForm K (ι → K)} (hnd : qU.polarBilin.Nondegenerate)
     {o : (ι → K) ≃ₗ[K] (ι → K)} (hO : o ∈ TauCeti.QuadraticMap.orthogonalGroup qU)
     (hoo : o * o = 1) (hev : Even (Module.finrank K (OrthogonalInvolutions.commSpace o)))
@@ -55,6 +56,7 @@ section Polar
 
 variable {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem polar_eq_D2 {qU : QuadraticForm K (ι → K)} {μ : (ι → K) ≃ₗ[K] Mat2 K}
     (hμ : ∀ v, (μ v).det = qU v) (a b : ι → K) :
     QuadraticMap.polar qU a b = D2.polar (μ a) (μ b) := by
@@ -71,6 +73,7 @@ theorem polar_self_mul (X A : Mat2 K) :
   simp only [D2.polar, Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two]
   ring
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem exists_mem_D {qU : QuadraticForm K (ι → K)} {μ : (ι → K) ≃ₗ[K] Mat2 K}
     (hμ : ∀ v, (μ v).det = qU v) (c₁ c₂ : K) (u : ι → K) (hqu : qU u = 0) (i : Fin 3)
     (A : Mat2 K) :
@@ -210,6 +213,7 @@ theorem exists_vecMulVec (X : Mat2 K) (hX : X ≠ 0) (hdet : X.det = 0) :
       · have := congrFun hs i
         simpa [mul_comm] using this
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem thetaC_pure_eq {μ : (ι → K) ≃ₗ[K] Mat2 K} {c₁ c₂ : K} {u : ι → K} (hu0 : u ≠ 0)
     (hdet : (μ u).det = 0) (hc : c₁ ≠ 0 ∨ c₂ ≠ 0) :
     ∃ v : Fin 3 → Fin 2 → K, (∀ i, v i ≠ 0) ∧ thetaC μ (c₁ • u, c₂ • u) = pure3 v := by

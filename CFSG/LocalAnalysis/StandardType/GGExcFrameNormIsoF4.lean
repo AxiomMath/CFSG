@@ -34,6 +34,7 @@ theorem frameProdF4_conj_rho {L : Type} [Field L] (i : Fin 4) (A B : SL2 L) :
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem adjointMap_rhoF4 {L : Type} [Field L] (f : K →+* L) (i : Fin 4) (A : SL2 K) :
     TableBExcTwo.adjointMap .F4 f (rho K i A) = rho L i (Matrix.SpecialLinearGroup.map f A) :=
   Subtype.ext (by
@@ -84,7 +85,6 @@ theorem rootSL2_HSL_orthRoot_eq_frameDiag {L : Type} [Field L] {ω : Lˣ} (hωo 
   rw [mulVec_symmetrizedCartan_apply] at hev
   simp only [nsmul_eq_mul, Nat.cast_ofNat]
   unfold Int.ModEq
-  push_cast
   omega
 
 @[expose] def frameCoordHomF4 : (Fin 4 → ZMod 3) →+ (Fin Tag.F4.rank → ZMod 3) :=
@@ -160,13 +160,13 @@ theorem frameCoordHomF4_form (x y : Fin 4 → ZMod 3) :
     have h4 : (2 • orthRoot i) ⬝ᵥ (Tag.F4.symmetrizedCartan *ᵥ (2 • orthRoot j)) =
         4 * (orthRoot i ⬝ᵥ (Tag.F4.symmetrizedCartan *ᵥ orthRoot j)) := by
       rw [Matrix.mulVec_smul, smul_dotProduct, dotProduct_smul]
-      simp only [nsmul_eq_mul, Nat.cast_ofNat, smul_eq_mul]
+      simp only [nsmul_eq_mul, Nat.cast_ofNat]
       ring
     rw [h4]
     by_cases hij : i = j
     · subst hij
       rw [orthRoot_norm i]
-      simp only [if_true]
+      simp only [ite_true]
       decide
     · rw [orthRoot_orth i j hij]
       simp [hij]
@@ -180,7 +180,7 @@ theorem frameCoordHomF4_form (x y : Fin 4 → ZMod 3) :
       rw [Finset.mul_sum]
       exact Finset.sum_congr rfl fun i _ => by ring
   rw [key]
-  simp only [hform, mul_ite, mul_zero, mul_one, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [hform, mul_ite, mul_zero, mul_one, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [dotProduct]
 
 theorem normIsometry_F4 (hK : Nat.card K = 2) (g : adjointGroup .F4 K)
@@ -191,7 +191,7 @@ theorem normIsometry_F4 (hK : Nat.card K = 2) (g : adjointGroup .F4 K)
   classical
   set L := FiniteField.Extension K 2 2 with hL
   have h3 : 3 ∣ Nat.card L - 1 := three_dvd_natCard_ext_sub_one hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hωo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := L) (p := 3) h3
   have hω3 : ω ^ 3 = 1 := hωo ▸ pow_orderOf_eq_one ω
   have hfull : ∀ a : Fin Tag.F4.rank → Lˣ, rootDiagUnit .F4 a ∈ torusGroup .F4 L :=
@@ -257,9 +257,9 @@ theorem normIsometry_F4 (hK : Nat.card K = 2) (g : adjointGroup .F4 K)
     rw [← hT'eq]
     constructor
     · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
-      exact ⟨y, hy, by simp [MulAut.conj_apply]⟩
+      exact ⟨y, hy, by simp⟩
     · rintro ⟨y, hy, rfl⟩
-      exact ⟨ι y, ⟨y, hy, rfl⟩, by simp [MulAut.conj_apply]⟩
+      exact ⟨ι y, ⟨y, hy, rfl⟩, by simp⟩
   have hnorm : ∀ x : adjointGroup .F4 L,
       x ∈ TableBExc.torusPow .F4 L 3 ↔ a * x * a⁻¹ ∈ TableBExc.torusPow .F4 L 3 := by
     intro x

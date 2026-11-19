@@ -204,7 +204,7 @@ theorem f10Core_of_R (elems invs : Array Nat) (e : Nat) (C : Array Nat) (T : Arr
   unfold f10Core
   dsimp only at h ⊢
   split
-  · rw [if_pos (by assumption)] at h
+  · rw [ite_eq_left (by assumption)] at h
     simp only [Bool.and_eq_true] at h ⊢
     obtain ⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, hm⟩, ⟨⟨hTs, hIs⟩, h4⟩⟩, h5⟩ := h
     have hT : ∀ x < elems.size, ∀ i < C.size,
@@ -239,15 +239,15 @@ theorem f10Core_of_R (elems invs : Array Nat) (e : Nat) (C : Array Nat) (T : Arr
         simp [hy, hv]
       · have hy : C.toList.idxOf z = C.size := by
           simpa using (List.idxOf_eq_length hz)
-        simp [hy, hz]
+        simp [hz]
     · rw [← f10Q_congr _ _ _ _ _ _ _ _ _ hT]
       refine all_range_of_subsAllK _ _ _ (fun m hm => ?_) h5
       unfold f10Q
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hc
       rw [Bool.and_eq_true] at hc
       exact hm (beq_iff_eq.mp hc.1)
-  · rw [if_neg (by assumption)] at h
+  · rw [ite_eq_right (by assumption)] at h
     exact h
 
 theorem f10At_of_L (elems invs : Array Nat) (e : Nat) (C : Array Nat) (T : Array (Array Nat))

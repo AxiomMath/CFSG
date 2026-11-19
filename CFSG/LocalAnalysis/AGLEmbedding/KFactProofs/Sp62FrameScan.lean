@@ -34,7 +34,7 @@ theorem normalizer_B0_eq :
     have hnot := sp62_frame_tables.2.2.2.1
     simp only [chkWordsX, Bool.and_eq_true, List.all_eq_true] at hnot
     have h1 := (hnot.2 p hp).2
-    simp only [Bool.not_eq_true', List.all_eq_false, ne_eq] at h1
+    simp only [Bool.not_eq_true', List.all_eq_false] at h1
     obtain ⟨g, hg, hgn⟩ := h1
     have hN : ∀ {u : H6}, u ∈ N0 → u ∈ Subgroup.normalizer (B0 : Set H6) := fun hu =>
       N0_le_normalizer_B0 hu
@@ -61,7 +61,7 @@ theorem centralizer_B0_le :
 theorem W0_le_of_ne_N0
     {X : Subgroup H6}
     (hN : N0 ≤ X) (hne : X ≠ N0) : W0 ≤ X := by
-  obtain ⟨x, hxX, hxN⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hN (Ne.symm hne))
+  obtain ⟨x, hxX, hxN⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hN (Ne.symm hne))
   obtain ⟨r, hr, a, ha, b, hb, rfl⟩ := exists_dc x
   rcases eq_oneC_or_mem_dcPairs hr with rfl | hr'
   · exfalso

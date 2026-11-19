@@ -51,14 +51,14 @@ theorem burnsideAut_c5G2_fieldAut_injective [Finite K] [CharP K 2] (hK4 : 4 ≤ 
 theorem burnsideAut_a315_G2 {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) {n : ℕ} (hn : 2 ≤ n)
     (hL : CFSG.Quasithin.IsG2 2 n ↥L) : ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
-  haveI hLn : L.Normal := burnsideA315x_normal h
+  have := h.sqtk.finite
+  have hLn : L.Normal := burnsideA315x_normal h
   have hLie : CFSG.Quasithin.A315.IsLieChar2 n ↥L :=
     Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hL))))
   obtain ⟨-, K, _, _, hK, ⟨e₀⟩⟩ := id hL
-  haveI : CharP K 2 := burnsideA26_charP_two hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : CharP K 2 := burnsideA26_charP_two hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
@@ -87,7 +87,7 @@ theorem burnsideAut_a315_G2 {G : Type} [Group G] {L T B : Subgroup G}
   · exact burnsideAut_map_inn_le_innDiag e
   · rintro _ ⟨σ, rfl⟩ _ ⟨τ, rfl⟩
     rw [← map_mul, ← map_mul, ringAut_mul_comm K σ τ]
-  · haveI := burnsideAut_inn_normal' (adjointGroup Tag.G2 K)
+  · have := burnsideAut_inn_normal' (adjointGroup Tag.G2 K)
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   · rw [eq_bot_iff]

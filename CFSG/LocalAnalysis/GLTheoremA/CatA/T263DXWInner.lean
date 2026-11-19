@@ -34,7 +34,7 @@ end Inner
 
 private theorem actionHom_eq_one_iff_of_core (hp : p.Prime) {S B : Subgroup Ω}
     (hSn : S.Normal) (hSq : CFSG.Open.IsQuasisimple ↥S) (hSp : GLAPPrimeCore p ↥S = ⊥) (b : ↥B) :
-    actionHom S B (fun g _ => t263_normalizer_of_normal hSn) p b = 1 ↔
+    actionHom S B (fun _g _ => t263_normalizer_of_normal hSn) p b = 1 ↔
       (b : Ω) ∈ Subgroup.centralizer (S : Set Ω) := by
   have hcomp : GLAPComponent p S S := glaPComponent_self_p hSq hSp
   have hbN : (b : Ω) ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal hSn
@@ -61,10 +61,10 @@ private theorem card_actionHom_of_core (hp : p.Prime) {S B : Subgroup Ω}
   rw [← hker]
   exact Subgroup.card_ker_mul_card_range ψ
 
-private theorem actionHom_range_le_inner_of_core (hp : p.Prime) {S B₀ : Subgroup Ω}
+private theorem actionHom_range_le_inner_of_core (_hp : p.Prime) {S B₀ : Subgroup Ω}
     (hSn : S.Normal) (hSq : CFSG.Open.IsQuasisimple ↥S) (hSp : GLAPPrimeCore p ↥S = ⊥)
     (hin : ∀ b ∈ B₀, InducesInnerMod p S b) :
-    (actionHom S B₀ (fun g _ => t263_normalizer_of_normal hSn) p).range ≤ inner (PSimple p S) := by
+    (actionHom S B₀ (fun _g _ => t263_normalizer_of_normal hSn) p).range ≤ inner (PSimple p S) := by
   rintro _ ⟨b, rfl⟩
   have hqP : CFSG.Open.IsQuasisimple (PQuot p S) :=
     MI.isQuasisimple_pQuot_any (glaPComponent_self_p hSq hSp)
@@ -75,6 +75,7 @@ private theorem actionHom_range_le_inner_of_core (hp : p.Prime) {S B₀ : Subgro
   rw [actionHom_apply]
   simpa only [MI.indAut, inv_inv] using h1
 
+omit [Finite Ω] in
 private theorem isElemAbelian_range_of_monoidHom {p : ℕ} {B : Subgroup Ω} {S' : Type} [Group S']
     (hB : IsElemAbelian p B) (θ : ↥B →* MulAut S') : IsElemAbelian p θ.range := by
   have hexp : ∀ α ∈ θ.range, α ^ p = 1 := by
@@ -121,6 +122,7 @@ private theorem card_comap_conj_of_range_le_inner {S' : Type} [Group S']
     exact ⟨⟨s, by rw [Subgroup.mem_comap, hs]; exact α.2.1⟩, Subtype.ext hs⟩
   rw [h, inf_eq_left.2 hθ]
 
+omit [Finite Ω] in
 private theorem comap_range_conj_le_normalizer_map {S B₀ T : Subgroup Ω} {p : ℕ}
     (hBK : B₀ ≤ Subgroup.normalizer (S : Set Ω)) (hBT : B₀ ≤ Subgroup.normalizer (T : Set Ω))
     {S' : Type} [Group S'] (eS : PSimple p S ≃* S')
@@ -176,6 +178,7 @@ private theorem map_chevQuotHom_trans_ne_bot (hp : p.Prime) (hp2 : p ≠ 2) {S T
   rw [pSimpleEquiv_chevQuotHom hSp, ← map_one e] at h1
   exact (QuotientGroup.eq_one_iff k).1 (e.injective h1)
 
+omit [Finite Ω] in
 private theorem exists_elemAbelian_comap_conj_of_range {S B₀ T : Subgroup Ω} {p : ℕ}
     (hBK : B₀ ≤ Subgroup.normalizer (S : Set Ω)) (hBT : B₀ ≤ Subgroup.normalizer (T : Set Ω))
     {S' : Type} [Group S'] (hZ : Subgroup.center S' = ⊥) (hB₀ : IsElemAbelian p B₀)
@@ -215,8 +218,8 @@ theorem t263_false_of_inner_rank (hp : p.Prime) (hp2 : p ≠ 2) {S B₀ T : Subg
     (hS : ∀ E U : Subgroup S', IsElemAbelian p E → IsPGroup 2 ↥U → U ≠ ⊥ →
       E ≤ Subgroup.normalizer (U : Set S') → Nat.card ↥E ≤ p) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite S' := Finite.of_equiv _ e.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite S' := Finite.of_equiv _ e.toEquiv
   have hBK : B₀ ≤ Subgroup.normalizer (S : Set Ω) := fun g _ => t263_normalizer_of_normal hSn
   let ψ := actionHom S B₀ hBK p
   have hψinner : ψ.range ≤ inner (PSimple p S) :=

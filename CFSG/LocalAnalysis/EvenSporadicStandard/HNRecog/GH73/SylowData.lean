@@ -22,7 +22,7 @@ structure A8SylowData (X : Type) [Group X] : Prop where
 theorem A8SylowData.of_sylow {X : Type} [Group X] [Finite X] (S : Sylow 2 X)
     (h : IsA8Type ↥(S : Subgroup X)) : A8SylowData X := by
   classical
-  haveI : Finite (Sylow 2 X) := Sylow.finite_of_finiteIndex S
+  have : Finite (Sylow 2 X) := Sylow.finite_of_finiteIndex S
   have hT : ∀ T : Sylow 2 X, IsA8Type ↥(T : Subgroup X) := by
     intro T
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X S T

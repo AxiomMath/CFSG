@@ -41,8 +41,8 @@ theorem cntK_card : ∀ t, cntK ZM t = ((Finset.range t).filter fun a => ZM.test
     change cntK ZM t + bitK ZM t = _
     rw [ih, Finset.range_add_one, Finset.filter_insert, bitK_eq]
     by_cases h : ZM.testBit t = true
-    · rw [if_pos h, if_pos h, Finset.card_insert_of_notMem (by simp)]
-    · rw [if_neg h, if_neg h, Nat.add_zero]
+    · rw [ite_eq_left h, ite_eq_left h, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_right h, ite_eq_right h, Nat.add_zero]
 
 theorem zSet_card : zSet.card = 120 := by
   rw [zSet, ← cntK_card]

@@ -16,6 +16,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_mul_center (a b u v : G) (hu : u ∈ Subgroup.center G)
     (hv : v ∈ Subgroup.center G) :
     (a * u) * (b * v) * (a * u)⁻¹ * (b * v)⁻¹ = a * b * a⁻¹ * b⁻¹ := by

@@ -104,11 +104,11 @@ theorem diamondCharR_of_kf (hY4 : Y4LThreePiNHJR) (h152 : Item152R) (h153 : Item
     CFSG.QuasithinUnique.CharTwo.of_isSubnormal hMchar (le_of_mem_thetaComponentsIn hJM) hJsn
   have hJp : Group.IsPerfect ↥J := isPerfect_of_mem_thetaComponentsIn hJM
   have hVsub : V.subgroupOf J = CFSG.pCore 2 ↥J := CFSG.openPCoreOf_subgroupOf 2 J
-  haveI : (V.subgroupOf J).Normal := hVsub ▸ inferInstance
+  have : (V.subgroupOf J).Normal := hVsub ▸ inferInstance
   set φ' : ↥J ⧸ V.subgroupOf J ≃*
       CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 (2 * n * m)) :=
     (QuotientGroup.quotientMulEquivOfEq hVsub).trans φ with hφ'
-  haveI hsS : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 (2 * n * m))) :=
+  have hsS : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 (2 * n * m))) :=
     CFSG.PGLModel.isSimpleGroup_projSL_of_two_le _ (by norm_num) (Or.inl (by norm_num))
       (Or.inl (by norm_num))
   have hsJ : IsSimpleGroup (↥J ⧸ V.subgroupOf J) := φ'.isSimpleGroup

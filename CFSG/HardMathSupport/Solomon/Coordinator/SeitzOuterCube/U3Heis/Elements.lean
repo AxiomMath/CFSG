@@ -98,7 +98,7 @@ theorem permP_mul_diagonal (t : Fin 3 → F) :
     (permP : Matrix (Fin 3) (Fin 3) F) * diagonal t = diagonal ![t 2, t 0, t 1] * permP := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [permP, Matrix.mul_apply, Fin.sum_univ_three, diagonal_apply]
+    simp [permP, Matrix.mul_apply, diagonal_apply]
 
 theorem monomGL_one_val : ((monomGL F 1 : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = permP := by
   ext i j
@@ -114,6 +114,7 @@ section Members
 
 variable [Finite F] {σ : F ≃+* F} {ω : Fˣ} {D X : unitaryIsom3 h}
 
+omit [Finite F] in
 theorem psuField_mk_of' {g : unitarySU ℓ f F 3} {c : Fˣ} (hc3 : c ^ 3 = 1)
     (hcn : h.bar (c : F) * c = 1)
     (hgσ : ((g : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).map σ =
@@ -155,6 +156,7 @@ theorem mem_liftU_of_fU_cD (hh : HeisHypU h σ 1 ω D X) {g : unitarySU ℓ f F 
   funext i
   exact mul_comm _ _
 
+omit [Finite F] in
 theorem coe_suConj_X_diag (hh : HeisHypU h σ 1 ω D X) {g : unitarySU ℓ f F 3} {t : Fin 3 → F}
     (hgt : ((g : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = diagonal t) :
     (((suConj h X g : unitarySU ℓ f F 3) : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
@@ -166,6 +168,7 @@ theorem coe_suConj_X_diag (hh : HeisHypU h σ 1 ω D X) {g : unitarySU ℓ f F 3
   rw [coe_suConj, Units.val_mul, Units.val_mul, hXg, Matrix.mul_assoc, ← Units.val_mul,
     Subgroup.coe_inv, mul_inv_cancel, Units.val_one, Matrix.mul_one]
 
+omit [Finite F] in
 theorem σ_three (hh : HeisHypU h σ 1 ω D X) (a : F) : σ (σ (σ a)) = a := by
   have := congrArg (fun τ : F ≃+* F => τ a) hh.pow3
   simpa [pow_succ] using this
@@ -217,6 +220,7 @@ theorem mem_liftU_twist₂ (hh : HeisHypU h σ 1 ω D X) {g : unitarySU ℓ f F 
     funext i
     fin_cases i <;> simp [σ_three hh]
 
+omit [Finite F] in
 theorem X_mem_unitarySU (hh : HeisHypU h σ 1 ω D X) : (X : GL (Fin 3) F) ∈ unitarySU ℓ f F 3 := by
   refine (mem_unitarySU_iff h).2 ⟨?_, mem_unitaryIsom3.1 X.2⟩
   rw [hh.hX, monomGL_one_val, permP, Matrix.det_fin_three]

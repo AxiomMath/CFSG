@@ -25,7 +25,7 @@ private theorem card_or_center_of_typeE6
     {σ : Fin 6 ≃ ι} (hM : M = CoxeterMatrix.E₆.reindex σ) :
     3 ^ 6 ≤ Nat.card Bs ∨ Subgroup.center ↥X = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBs : IsElemAbelian 3 Bs := ggRouteCfg_isElemAbelian hcfg
   have hW6 : GGWeylOfType 3 CoxeterMatrix.E₆ (ggAutomizerJoin L Bs 𝒦) := by
     subst hM

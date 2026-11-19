@@ -77,7 +77,7 @@ theorem irrOn_U (c : Ctx23L D Ch)
       exact ((Subgroup.mem_normalizer_iff.mp hmN) z).mp (hU0leX (hZleU0 hz))
     exact le_antisymm hXU hUleX
 
-theorem U_ne_bot (c : Ctx23L D Ch) : D.U ≠ ⊥ := fun h =>
+theorem U_ne_bot (_c : Ctx23L D Ch) : D.U ≠ ⊥ := fun h =>
   CFSG.RankThree.PartOne.Sec15Final.omegaOneCenterIn_ne_bot D.sylowM.isPGroup
     (ne_bot_of_isSylowOf_two D.maxLocal.1 D.sylowM)
     (le_bot_iff.mp (h ▸ Data.Z_le_U D))
@@ -113,7 +113,7 @@ theorem wClos_zero_gt (c : Ctx23L D Ch)
       by rw [conjSubgroup_one, E3.mQuot_self]⟩
   exact lt_of_le_of_ne hle hne.symm
 
-theorem conjSubgroup_U_le_normalizer (c : Ctx23L D Ch) {g : G}
+theorem conjSubgroup_U_le_normalizer (_c : Ctx23L D Ch) {g : G}
     (hg : conjSubgroup D.U g ≤ D.T) :
     conjSubgroup D.U g ≤ Subgroup.normalizer (D.U : Set G) :=
   hg.trans (D.sylowM.le.trans (le_normalizer_uCore D.M D.T))
@@ -142,6 +142,7 @@ theorem wClos_zero_le_centralizer (c : Ctx23L D Ch) :
   exact (CFSG.LocalAnalysis.WeakClosure81.commute_of_isPGroup_sup hUel c.hTI
     ⟨1, by rw [conjSubgroup_one]⟩ ⟨g, rfl⟩ hN hP) u hu v hv
 
+omit [Finite G] in
 theorem isWeaklyClosedIn_iff {A B : Subgroup G} :
     CFSG.Quasithin.IsWeaklyClosedIn A B ↔ CFSG.ASVolI.ChIJK.IsWeaklyClosedIn A B :=
   Iff.rfl
@@ -261,6 +262,7 @@ theorem isCalH_U (c : Ctx23L D Ch) :
     CFSG.LocalAnalysis.WeakClosure81.IsCalH D.U (c.L0 ⊔ D.T) :=
   TwelveSeven.isCalH_of_mem_hSet D (uc22p22e_inCalV_U D) c.hL0.1.2.2.1
 
+omit [Finite G] in
 theorem wClos_eq_of_gammaSet_le {V Q T : Subgroup G} {i : ℕ}
     (hQ : ∀ A ∈ E3.gammaSet V i T, A ≤ Q) (hQT : Q ≤ T) :
     E3.wClos V i T = E3.wClos V i Q := by

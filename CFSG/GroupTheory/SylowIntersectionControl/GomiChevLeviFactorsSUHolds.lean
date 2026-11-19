@@ -25,7 +25,7 @@ private theorem cartanC_ne_zero_iff {m : ℕ} {i j : Fin m}
     · exact Or.inr hadj
     · exfalso
       rw [CFSG.LieType.Universal.Symplectic.cartanC, Matrix.of_apply] at h
-      simp only [hij, hadj, if_false] at h
+      simp only [hij, hadj, ite_false] at h
       exact h rfl
 
 private theorem cartan_ne_zero_iff {n : ℕ} {i j : Fin (n / 2)}
@@ -54,7 +54,7 @@ private theorem nodeAdj_val_su {F : Type} [Field F] [Finite F] [CharP F 2] {f n 
 private theorem nodesOf_Icc {m : ℕ} {a b : Fin m} :
     nodesOf (Finset.Icc a.castSucc b.succ) = Set.Icc a b := by
   ext k
-  simp only [nodesOf, Set.mem_setOf_eq, Finset.mem_Icc, Set.mem_Icc, Fin.le_def,
+  simp only [nodesOf, Set.mem_ofPred_eq, Finset.mem_Icc, Set.mem_Icc, Fin.le_def,
     Fin.val_castSucc, Fin.val_succ]
   omega
 

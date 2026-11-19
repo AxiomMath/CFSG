@@ -36,8 +36,8 @@ private theorem card_mul_card_le_sup_mul_inf (A B : Subgroup G) :
 theorem y56_E_le_L (s : Setting3 G L) : s.fr.E ≤ L :=
   (s3_E_le_A s).trans (s3_A_le_L s)
 
-theorem y56_t_comm_E (s : Setting3 G L) : ∀ f ∈ s.fr.E, f * s.t = s.t * f :=
-  fun f hf => s3_comm_t_of_mem_L s (y56_E_le_L s hf)
+theorem y56_t_comm_E (s : Setting3 G L) : ∀ _f ∈ s.fr.E, _f * s.t = s.t * _f :=
+  fun _f hf => s3_comm_t_of_mem_L s (y56_E_le_L s hf)
 
 theorem y56_E_isE3 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     IsE 3 ↥s.fr.E := by
@@ -112,7 +112,7 @@ theorem y56_E_comm {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   have hE_mem : s.fr.E ∈ maxElemAbelian (s.fr.A ⊓ s.fr.B) := by
     change (frameWith s 1).E ∈ maxElemAbelian ((frameWith s 1).A ⊓ (frameWith s 1).B)
     rw [hH.hLF.fact14.2.2.2.1.2.2.1]; simp
-  haveI : IsMulCommutative ↥s.fr.E := (hE_mem.2.1).1
+  have : IsMulCommutative ↥s.fr.E := (hE_mem.2.1).1
   intro f hf f' hf'
   exact congrArg Subtype.val (mul_comm' (⟨f, hf⟩ : ↥s.fr.E) ⟨f', hf'⟩)
 
@@ -233,7 +233,7 @@ theorem y56_mem_Q (s : Setting3 G L) {p : G} (hp : p ∈ e4Q s) :
         _ = s.t * b⁻¹ := by rw [inv_eq_of_mul_eq_one_right htt]
         _ = b⁻¹ * s.t := htb
 
-theorem y56_mem_Q_not_L {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) {p : G}
+theorem y56_mem_Q_not_L {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) {p : G}
     (hp : p ∈ e4Q s) (hpL : p ∉ L) : ∃ f ∈ s.fr.E, p = f * s.t := by
   rcases y56_mem_Q s hp with h | h
   · exact absurd (y56_E_le_L s h) hpL

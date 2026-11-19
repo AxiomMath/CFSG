@@ -45,7 +45,7 @@ theorem fwci_eq_six (h734 : Stmt7_3_4) (hin : Input8_1_2) (h325 : Stmt3_2_5)
   obtain ⟨-, hwn, -, -⟩ := h734 G T L I hyp h731 hV
   rw [hk] at hwn
   obtain ⟨w, hw⟩ : ∃ w : ℕ, wParam T (fsuV T I) = w :=
-    ⟨(wParam T (fsuV T I)).toNat, (ENat.coe_toNat (ne_top_of_le_ne_top (by simp) hwn)).symm⟩
+    ⟨(wParam T (fsuV T I)).toNat, (ENat.natCast_toNat (ne_top_of_le_ne_top (by simp) hwn)).symm⟩
   rw [hw] at hwn hfw ⊢
   have hw2 : w ≤ 2 := by exact_mod_cast hwn
   have h6 : (6 : ℕ∞) ≤ ((CFSG.Open.pRank 2 (autI hV ⊤) : ℕ) : ℕ∞) + (w : ℕ∞) := hr6.trans hfw
@@ -54,7 +54,7 @@ theorem fwci_eq_six (h734 : Stmt7_3_4) (hin : Input8_1_2) (h325 : Stmt3_2_5)
   have hw2' : w = 2 := by omega
   refine ⟨le_antisymm hfw ?_, hm4, by exact_mod_cast hw2'⟩
   calc ((CFSG.Open.pRank 2 (autI hV ⊤) : ℕ) : ℕ∞) + (w : ℕ∞) = 6 := by
-        rw [hm4, hw2'] <;> norm_num
+        rw [hm4, hw2']; norm_num
     _ ≤ rParam (fsuV T I) := hr6
 
 theorem offender_xiV (hV : IsElemAbelian 2 (fsuV T I)) (hT : HypE322 T (fsuV T I))
@@ -83,7 +83,7 @@ theorem offender_xiV (hV : IsElemAbelian 2 (fsuV T I)) (hT : HypE322 T (fsuV T I
   rw [hrkA] at hcardA
   have hW := e3_31_two_ge hV hT h24 hg hEq
   rw [hrkA] at hW
-  refine ⟨hrkA, by rw [hcardA] <;> norm_num, hA2, hW, ?_⟩
+  refine ⟨hrkA, by rw [hcardA]; norm_num, hA2, hW, ?_⟩
   exact CFSG.Quasithin.rkIdx_anti (xiV_le_gammaCheck hA2 (by omega))
 
 theorem stmt7_5_4_of (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK)
@@ -125,12 +125,12 @@ theorem stmt7_5_4_of (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK)
         Subgroup.normalizer (fsuV T I : Set G))) - 1 = 3 := by
       rw [hrkA]
     obtain ⟨-, hWeq, -, hrkW⟩ := e3_31_two_eq hV hVg hT h24 hg hEq
-      (by rw [hrk3, hw, hW2] <;> simp)
+      (by rw [hrk3, hw, hW2]; simp)
     rw [hrk3] at hWeq
     have hcardW : 2 ^ 8 ≤ Nat.card ↥(fsuV T I ⊓
         Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G)) := by
       rw [← hWeq, Subgroup.card_map_of_injective (E3.valHom_injective hV),
-        SL3Pair.card_eq_two_pow_sub_rkIdx hcardI, hW2] <;> norm_num
+        SL3Pair.card_eq_two_pow_sub_rkIdx hcardI, hW2]
     have hBN : fsuV T I ⊓ Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G) ≤
         Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G) := inf_le_right
     have hAN : conjSubgroup (fsuV T I) g ⊓ Subgroup.normalizer (fsuV T I : Set G) ≤

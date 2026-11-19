@@ -4,7 +4,7 @@ public import CFSG.FeitThompson.Representations.GramArrayLineNoOppositeSigns
 public import CFSG.FeitThompson.Representations.IntegerVectorSquaredLengthThree
 import CFSG.FeitThompson.Representations.GramArrayDistinctRowColumnPivots
 import Mathlib.Algebra.Order.Ring.Star
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.Ring.RingNF
 
 public section
@@ -53,8 +53,8 @@ theorem IsSignedCoordVec.dotProduct_eq_ite_of_support_pairwise_ne {κ : Type*} [
     (hne : ∀ i k, i ≠ k → Function.support (v i) ≠ Function.support (v k)) (i k : κ) :
     v i ⬝ᵥ v k = if i = k then 1 else 0 := by
   by_cases h : i = k
-  · subst h; rw [if_pos rfl]; exact (hv i).dotProduct_self
-  · rw [if_neg h]
+  · subst h; rw [ite_eq_left rfl]; exact (hv i).dotProduct_self
+  · rw [ite_eq_right h]
     exact (hv i).dotProduct_eq_zero_of_support_ne (hv k) (hne i k h)
 
 end SignedCoord

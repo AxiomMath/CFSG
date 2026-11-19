@@ -33,6 +33,7 @@ variable [Finite G] {X T A J C : Subgroup G} [Fintype ↥C]
 @[expose] noncomputable def dimg (hC : DiagComm J C) (U : Subgroup G) : Subgroup G :=
   (U.subgroupOf J).map (diagHom J C hC)
 
+omit [Finite G] in
 theorem mem_dimg_iff (hC : DiagComm J C) {U : Subgroup G} {x : G} :
     x ∈ dimg hC U ↔ ∃ u : ↥J, (u : G) ∈ U ∧ diagHom J C hC u = x := by
   unfold dimg
@@ -43,28 +44,34 @@ theorem mem_dimg_iff (hC : DiagComm J C) {U : Subgroup G} {x : G} :
   · rintro ⟨u, hu, rfl⟩
     exact Subgroup.mem_map.mpr ⟨u, Subgroup.mem_subgroupOf.mpr hu, rfl⟩
 
+omit [Finite G] in
 theorem dimg_mono (hC : DiagComm J C) {U U' : Subgroup G} (h : U ≤ U') : dimg hC U ≤ dimg hC U' := by
   unfold dimg
   apply Subgroup.map_mono
   intro u hu
   exact Subgroup.mem_subgroupOf.mpr (h (Subgroup.mem_subgroupOf.mp hu))
 
+omit [Finite G] in
 theorem dimg_J (h : DiagSetting X T A J C) : dimg h.diagComm J = diagSub J C h.diagComm := by
   unfold dimg diagSub
   rw [Subgroup.subgroupOf_self, MonoidHom.range_eq_map]
 
+omit [Finite G] in
 theorem mem_actT_iff {k : G} : k ∈ actT T A ↔ k ∈ T ∧ k ∈ Subgroup.centralizer (A : Set G) := by
   simp only [actT, Subgroup.mem_inf]
 
+omit [Finite G] in
 theorem mem_actE_iff {e : G} : e ∈ actE T A J ↔
     e ∈ T ∧ e ∈ Subgroup.normalizer (J : Set G) ∧ e ∈ Subgroup.centralizer (A : Set G) := by
   simp only [actE, Subgroup.mem_inf, and_assoc]
 
+omit [Finite G] in
 theorem dimg_le_diagSub (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) :
     dimg h.diagComm U ≤ diagSub J C h.diagComm := by
   rw [← dimg_J h]
   exact dimg_mono h.diagComm hU
 
+omit [Finite G] in
 theorem dimg_fix (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) {c : G} (hc : c ∈ C) :
     A1b.conjSub c (dimg h.diagComm U) = dimg h.diagComm U := by
   refine E111R.conjSub_eq_of_mem_normalizer (Subgroup.centralizer_le_normalizer _ ?_)
@@ -72,7 +79,8 @@ theorem dimg_fix (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) {c 
   intro x hx
   exact Subgroup.mem_centralizer_iff.mp (h.le_centralizer_diag hc) x (dimg_le_diagSub h hU hx)
 
-theorem conjSub_dimg_le (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) {e : G}
+omit [Finite G] in
+theorem conjSub_dimg_le (h : DiagSetting X T A J C) {U : Subgroup G} (_hU : U ≤ J) {e : G}
     (he : e ∈ Subgroup.normalizer (J : Set G)) (heC : ∀ c ∈ C, e * c = c * e) :
     A1b.conjSub e (dimg h.diagComm U) ≤ dimg h.diagComm (A1b.conjSub e U) := by
   intro x hx
@@ -88,6 +96,7 @@ theorem conjSub_dimg_le (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤
   · rw [← conj_diagHom_of_comm h.diagComm u he heC, hux]
     group
 
+omit [Finite G] in
 theorem conj_dimg_eq (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) {e : G}
     (he : e ∈ Subgroup.normalizer (J : Set G)) (heC : ∀ c ∈ C, e * c = c * e) :
     A1b.conjSub e (dimg h.diagComm U) = dimg h.diagComm (A1b.conjSub e U) := by
@@ -105,6 +114,7 @@ theorem conj_dimg_eq (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J)
   rw [← A1b.conjSub_mul, mul_inv_cancel, A1b.conjSub_one] at key2
   exact key2
 
+omit [Finite G] in
 theorem block_dichotomy (h : DiagSetting X T A J C) {k : G} (hk : k ∈ actT T A) :
     (∃ e ∈ actE T A J, ∃ c ∈ C, ∃ c' ∈ C, k = c' * e * c⁻¹) ∨
       (∀ x ∈ conjSub k (diagSub J C h.diagComm), ∀ y ∈ diagSub J C h.diagComm, x * y = y * x) := by
@@ -143,6 +153,7 @@ theorem block_dichotomy (h : DiagSetting X T A J C) {k : G} (hk : k ∈ actT T A
     rintro _ ⟨_, ⟨x, rfl⟩, rfl⟩ _ ⟨y, rfl⟩
     exact hcomm x y
 
+omit [Finite G] in
 theorem conjSub_dimg_stab (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) {e : G}
     (he : e ∈ actE T A J) {c c' : G} (hc : c ∈ C) (hc' : c' ∈ C) :
     conjSub (c' * e * c⁻¹) (dimg h.diagComm U) = dimg h.diagComm (conjSub e U) := by
@@ -164,6 +175,7 @@ theorem conjSub_dimg_stab (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U �
 @[expose] noncomputable def wrFam (hC : DiagComm J C) (T A S₀ Y : Subgroup G) : Set (Subgroup G) :=
   (fun k : G => conjSub k (dimg hC S₀ ⊔ wrY hC T A Y)) '' (actT T A : Set G)
 
+omit [Finite G] in
 theorem wr_mem_sup {H K : Subgroup G} (hHK : ∀ h ∈ H, ∀ k ∈ K, h * k * h⁻¹ ∈ K)
     {x : G} (hx : x ∈ H ⊔ K) : ∃ h ∈ H, ∃ k ∈ K, h * k = x := by
   have hx' : x ∈ ⨆ b : Bool, cond b H K := by
@@ -181,6 +193,7 @@ theorem wr_mem_sup {H K : Subgroup G} (hHK : ∀ h ∈ H, ∀ k ∈ K, h * k * h
     · exact K.mul_mem (hHK h'⁻¹ (H.inv_mem hh') k hk) hk'
     · group
 
+omit [Finite G] in
 theorem wr_commutator_sup_le {Y P₁ P₂ : Subgroup G}
     (h₁ : ∀ p ∈ P₁, ∀ y ∈ Y, p * y * p⁻¹ ∈ Y) (h₂ : ∀ p ∈ P₂, ∀ y ∈ Y, p * y * p⁻¹ ∈ Y)
     (hcomm : ∀ a ∈ P₁, ∀ b ∈ P₂, a * b * a⁻¹ * b⁻¹ ∈ Y) :
@@ -202,11 +215,12 @@ theorem wr_commutator_sup_le {Y P₁ P₂ : Subgroup G}
   rw [key]
   exact Y.mul_mem (hcomm a ha b hb) hZ
 
+omit [Finite G] in
 theorem wr_isSolvable_sup {V W : Subgroup G} (hV : Group.IsSolvable ↥V)
     (hW : Group.IsSolvable ↥W) (hc : ∀ v ∈ V, ∀ w ∈ W, v * w = w * v) :
     Group.IsSolvable ↥(V ⊔ W) := by
-  haveI := hV
-  haveI := hW
+  have := hV
+  have := hW
   let φ : ↥V × ↥W →* G := MonoidHom.noncommCoprod V.subtype W.subtype
     (fun m n => hc (m : G) m.2 (n : G) n.2)
   have hr : φ.range = V ⊔ W := by
@@ -300,16 +314,20 @@ theorem wr_isSylowIn_iSup {ι : Type*} [Finite ι] {T : Subgroup G} (hT2 : IsPGr
   rw [← Subgroup.relIndex_mul_relIndex P (T ⊓ ⨆ i, F i) (⨆ i, F i) (le_inf hPT hPE) inf_le_right]
   exact Dvd.dvd.mul_left h2 _
 
+omit [Finite G] in
 theorem wrY_eq (hC : DiagComm J C) (T A Y : Subgroup G) :
     wrY hC T A Y = ⨆ k ∈ actT T A, A1b.conjSub k (dimg hC Y) := rfl
 
+omit [Finite G] in
 theorem wrN_eq (hC : DiagComm J C) (T A D : Subgroup G) :
     wrN hC T A D = ⨆ k ∈ actT T A, A1b.conjSub k (dimg hC D) := rfl
 
+omit [Finite G] in
 theorem wrFam_eq (hC : DiagComm J C) (T A S₀ Y : Subgroup G) :
     wrFam hC T A S₀ Y = (fun k : G => A1b.conjSub k (dimg hC S₀ ⊔ wrY hC T A Y)) ''
       (actT T A : Set G) := rfl
 
+omit [Finite G] in
 theorem dimg_commutator_mem (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) {x : G}
     (hx : x ∈ ⁅U, U⁆) :
     ∃ hxJ : x ∈ J, diagHom J C h.diagComm ⟨x, hxJ⟩ ∈
@@ -329,8 +347,9 @@ theorem dimg_commutator_mem (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U
   rw [Subgroup.mem_comap] at hp
   exact ⟨p.2, hp⟩
 
-theorem wr_dimg_le_normalizer (h : DiagSetting X T A J C) {U V : Subgroup G} (hU : U ≤ J)
-    (hV : V ≤ J) (hn : ∀ u ∈ U, ∀ v ∈ V, u * v * u⁻¹ ∈ V) :
+omit [Finite G] in
+theorem wr_dimg_le_normalizer (h : DiagSetting X T A J C) {U V : Subgroup G} (_hU : U ≤ J)
+    (_hV : V ≤ J) (hn : ∀ u ∈ U, ∀ v ∈ V, u * v * u⁻¹ ∈ V) :
     dimg h.diagComm U ≤ Subgroup.normalizer (dimg h.diagComm V : Set G) := by
   have key : ∀ x ∈ dimg h.diagComm U, ∀ z ∈ dimg h.diagComm V,
       x * z * x⁻¹ ∈ dimg h.diagComm V := by
@@ -351,23 +370,28 @@ theorem wr_dimg_le_normalizer (h : DiagSetting X T A J C) {U V : Subgroup G} (hU
     rw [e] at h1
     exact h1
 
+omit [Finite G] in
 theorem wr_actE_normalizer {e : G} (he : e ∈ actE T A J) :
     e ∈ Subgroup.normalizer (J : Set G) :=
   (mem_actE_iff.mp he).2.1
 
+omit [Fintype ↥C] [Finite G] in
 theorem wr_actE_comm (h : DiagSetting X T A J C) {e : G} (he : e ∈ actE T A J) :
     ∀ c ∈ C, e * c = c * e := fun c hc =>
   (Subgroup.mem_centralizer_iff.mp (mem_actE_iff.mp he).2.2 c (h.CA hc)).symm
 
+omit [Finite G] in
 theorem wr_conjSub_dimg (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) {c c' e : G}
     (he : e ∈ actE T A J) (hc : c ∈ C) (hc' : c' ∈ C) :
     A1b.conjSub (c' * e * c⁻¹) (dimg h.diagComm U) = dimg h.diagComm (A1b.conjSub e U) :=
   conjSub_dimg_stab h hU he hc hc'
 
+omit [Finite G] in
 theorem wr_block_mem (h : DiagSetting X T A J C) {k : G} (hk : k ∈ actT T A) :
     A1b.conjSub k (diagSub J C h.diagComm) ∈ diagFam T A J C h.diagComm :=
   ⟨⟨k, hk⟩, rfl⟩
 
+omit [Finite G] in
 theorem wr_I_mem (h : DiagSetting X T A J C) :
     diagSub J C h.diagComm ∈ diagFam T A J C h.diagComm := by
   have := wr_block_mem h (actT T A).one_mem
@@ -387,6 +411,7 @@ theorem wr_conjSub_I_of_decomp (h : DiagSetting X T A J C) {k e c c' : G} (he : 
   rw [hk, A1b.conjSub_mul, A1b.conjSub_mul, h.conjSub_diag_of_mem (C.inv_mem hc),
     h.conjSub_diag_of_comm heN (wr_actE_comm h he), h.conjSub_diag_of_mem hc']
 
+omit [Finite G] in
 theorem wr_stab_decomp (h : DiagSetting X T A J C) {n : G} (hn : n ∈ actT T A)
     (hI : A1b.conjSub n (diagSub J C h.diagComm) = diagSub J C h.diagComm) :
     ∃ e ∈ actE T A J, ∃ c ∈ C, ∃ c' ∈ C, n = c' * e * c⁻¹ := by
@@ -410,6 +435,7 @@ theorem wr_block_comm_I (h : DiagSetting X T A J C) {k : G} (hk : k ∈ actT T A
     exact absurd (wr_conjSub_I_of_decomp h he hc hc' hke) hkI
   · exact H
 
+omit [Finite G] in
 theorem wr_stab_dimg (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J)
     (hE : ∀ e ∈ actE T A J, A1b.conjSub e U = U) {k : G} (hk : k ∈ actT T A)
     (hI : A1b.conjSub k (diagSub J C h.diagComm) = diagSub J C h.diagComm) :
@@ -417,6 +443,7 @@ theorem wr_stab_dimg (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J)
   obtain ⟨e, he, c, hc, c', hc', rfl⟩ := wr_stab_decomp h hk hI
   rw [wr_conjSub_dimg h hU he hc hc', hE e he]
 
+omit [Finite G] in
 theorem wr_same_block_dimg (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J)
     (hE : ∀ e ∈ actE T A J, A1b.conjSub e U = U) {k k' : G} (hk : k ∈ actT T A)
     (hk' : k' ∈ actT T A)
@@ -487,6 +514,7 @@ theorem wr_inf_wrY (h : DiagSetting X T A J C) {Y : Subgroup G} (hYJ : Y ≤ J)
   rw [← hyk]
   exact hy
 
+omit [Finite G] in
 theorem wr_join_induction {ι : Type*} (s : Set ι) (F : ι → Subgroup G) {P : G → Prop} {x : G}
     (hx : x ∈ ⨆ i ∈ s, F i) (mem : ∀ i ∈ s, ∀ y ∈ F i, P y) (one : P 1)
     (mul : ∀ a b, P a → P b → P (a * b)) : P x := by
@@ -499,6 +527,7 @@ theorem wr_join_induction {ι : Type*} (s : Set ι) (F : ι → Subgroup G) {P :
     rw [hy]
     exact one
 
+omit [Finite G] in
 theorem wr_conjSub_le_of_mem {K W : Subgroup G} {g : G} (hg : g ∈ K) :
     A1b.conjSub g (⨆ k ∈ K, A1b.conjSub k W) ≤ ⨆ k ∈ K, A1b.conjSub k W := by
   rw [conjSub_iSup₂]
@@ -506,12 +535,14 @@ theorem wr_conjSub_le_of_mem {K W : Subgroup G} {g : G} (hg : g ∈ K) :
   rw [← A1b.conjSub_mul]
   exact le_iSup₂_of_le (g * k) (K.mul_mem hg hk) le_rfl
 
+omit [Finite G] in
 theorem wr_conjSub_eq_of_mem {K W : Subgroup G} {g : G} (hg : g ∈ K) :
     A1b.conjSub g (⨆ k ∈ K, A1b.conjSub k W) = ⨆ k ∈ K, A1b.conjSub k W :=
   E111R.conjSub_eq_of_mem_normalizer
     (E111R.mem_normalizer_of_conjSub_le (wr_conjSub_le_of_mem hg)
       (wr_conjSub_le_of_mem (K.inv_mem hg)))
 
+omit [Finite G] in
 theorem wr_conjSub_le_normal {X U : Subgroup G} (hX : X.Normal) (g : G) (hU : U ≤ X) :
     A1b.conjSub g U ≤ X := by
   intro x hx
@@ -519,6 +550,7 @@ theorem wr_conjSub_le_normal {X U : Subgroup G} (hX : X.Normal) (g : G) (hU : U 
   have := hX.conj_mem (g⁻¹ * x * g) (hU hx) g
   rwa [show g * (g⁻¹ * x * g) * g⁻¹ = x by group] at this
 
+omit [Finite G] in
 theorem wr_normal_conjSub {S N : Subgroup G} (g : G) (hNS : N ≤ S)
     (hn : (N.subgroupOf S).Normal) :
     ((A1b.conjSub g N).subgroupOf (A1b.conjSub g S)).Normal := by
@@ -530,11 +562,13 @@ theorem wr_normal_conjSub {S N : Subgroup G} (g : G) (hNS : N ≤ S)
     _ = Subgroup.normalizer ((A1b.conjSub g N : Subgroup G) : Set G) :=
         A1b.conjSub_normalizer g N
 
+omit [Finite G] in
 theorem wr_conjSub_commutator (g : G) (U V : Subgroup G) :
     A1b.conjSub g ⁅U, V⁆ = ⁅A1b.conjSub g U, A1b.conjSub g V⁆ := by
   unfold A1b.conjSub
   rw [Subgroup.map_commutator]
 
+omit [Finite G] in
 theorem wr_conj_actE_D {D Y : Subgroup G} {𝒟 : Set (Subgroup G)}
     (hJD : JData (actE T A J) J D Y 𝒟) {e : G} (he : e ∈ actE T A J) :
     A1b.conjSub e D = D := by
@@ -551,26 +585,31 @@ theorem wr_conj_actE_D {D Y : Subgroup G} {𝒟 : Set (Subgroup G)}
     exact h3
   exact le_antisymm (key e he) h2
 
+omit [Finite G] in
 theorem wr_dimg_le_wrY (h : DiagSetting X T A J C) {Y : Subgroup G} :
     dimg h.diagComm Y ≤ wrY h.diagComm T A Y := by
   rw [wrY_eq]
   exact le_iSup₂_of_le (1 : G) (actT T A).one_mem (le_of_eq (A1b.conjSub_one _).symm)
 
+omit [Finite G] in
 theorem wr_dimg_le_wrN (h : DiagSetting X T A J C) {D : Subgroup G} :
     dimg h.diagComm D ≤ wrN h.diagComm T A D := by
   rw [wrN_eq]
   exact le_iSup₂_of_le (1 : G) (actT T A).one_mem (le_of_eq (A1b.conjSub_one _).symm)
 
+omit [Finite G] in
 theorem wr_wrY_le_wrN (h : DiagSetting X T A J C) {Y D : Subgroup G} (hYD : Y ≤ D) :
     wrY h.diagComm T A Y ≤ wrN h.diagComm T A D := by
   rw [wrY_eq, wrN_eq]
   exact iSup₂_mono fun k _ => A1b.conjSub_mono k (dimg_mono h.diagComm hYD)
 
+omit [Finite G] in
 theorem wr_conjSub_wrY (h : DiagSetting X T A J C) {Y : Subgroup G} {k : G}
     (hk : k ∈ actT T A) : A1b.conjSub k (wrY h.diagComm T A Y) = wrY h.diagComm T A Y := by
   rw [wrY_eq]
   exact wr_conjSub_eq_of_mem hk
 
+omit [Finite G] in
 theorem wr_conjSub_wrN (h : DiagSetting X T A J C) {D : Subgroup G} {k : G}
     (hk : k ∈ actT T A) : A1b.conjSub k (wrN h.diagComm T A D) = wrN h.diagComm T A D := by
   rw [wrN_eq]
@@ -614,6 +653,7 @@ theorem wr_conj_dimg_le_normalizer (h : DiagSetting X T A J C) {U D Y : Subgroup
   have := A1b.conjSub_mono n hsub
   rwa [A1b.conjSub_normalizer, ← A1b.conjSub_mul, mul_inv_cancel, A1b.conjSub_one] at this
 
+omit [Finite G] in
 theorem wr_conjSub_sup (g : G) (U V : Subgroup G) :
     A1b.conjSub g (U ⊔ V) = A1b.conjSub g U ⊔ A1b.conjSub g V := by
   unfold A1b.conjSub
@@ -855,24 +895,27 @@ theorem wr_comm_pair (h : DiagSetting X T A J C) {D Y : Subgroup G} {𝒟 : Set 
   rw [hkk, ← wr_conjSub_commutator]
   exact (A1b.conjSub_mono k key).trans (le_of_eq (wr_conjSub_wrY h hk))
 
+omit [Finite G] in
 theorem wr_mem_normalizer {K W : Subgroup G} {g : G} (hg : g ∈ K) :
     g ∈ Subgroup.normalizer ((⨆ k ∈ K, A1b.conjSub k W : Subgroup G) : Set G) :=
   E111R.mem_normalizer_of_conjSub_le (wr_conjSub_le_of_mem hg) (wr_conjSub_le_of_mem (K.inv_mem hg))
 
+omit [Finite G] in
 theorem wr_isSolvable_conj (g : G) {P : Subgroup G} (hP : Group.IsSolvable ↥P) :
     Group.IsSolvable ↥(A1b.conjSub g P) := by
-  haveI := hP
+  have := hP
   exact Group.isSolvable_of_surjective
     (f := (Subgroup.equivMapOfInjective P (MulAut.conj g).toMonoidHom
       (MulAut.conj g).injective).toMonoidHom)
     (Subgroup.equivMapOfInjective P (MulAut.conj g).toMonoidHom (MulAut.conj g).injective).surjective
 
+omit [Finite G] in
 theorem wr_isSolvable_dimg (h : DiagSetting X T A J C) {Y : Subgroup G} (hYJ : Y ≤ J)
     (hY : Group.IsSolvable ↥Y) : Group.IsSolvable ↥(dimg h.diagComm Y) := by
-  haveI := hY
+  have := hY
   have hinj : Function.Injective (diagHom J C h.diagComm) :=
     diagHom_injective h.diagComm h.center_trivial
-  haveI : Group.IsSolvable ↥(Y.subgroupOf J) :=
+  have : Group.IsSolvable ↥(Y.subgroupOf J) :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hYJ).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hYJ).symm.surjective
   exact Group.isSolvable_of_surjective
@@ -896,6 +939,7 @@ theorem wr_isSolvable_wrY (h : DiagSetting X T A J C) {Y : Subgroup G} (hYJ : Y 
     · exact wr_block_comm h hk hk' hI x (A1b.conjSub_mono k (dimg_le_diagSub h hYJ) hx) y
         (A1b.conjSub_mono k' (dimg_le_diagSub h hYJ) hy)
 
+omit [Finite G] in
 theorem wr_dimg_le_commutator (h : DiagSetting X T A J C) {D : Subgroup G} (hDJ : D ≤ J)
     (hperf : ⁅D, D⁆ = D) : dimg h.diagComm D ≤ ⁅dimg h.diagComm D, dimg h.diagComm D⁆ := by
   intro x hx
@@ -906,6 +950,7 @@ theorem wr_dimg_le_commutator (h : DiagSetting X T A J C) {D : Subgroup G} (hDJ 
   obtain ⟨hJ', hmem⟩ := dimg_commutator_mem h hDJ hu'
   exact hmem
 
+omit [Finite G] in
 theorem wr_commutator_wrN (h : DiagSetting X T A J C) {D : Subgroup G} (hDJ : D ≤ J)
     (hperf : ⁅D, D⁆ = D) :
     ⁅wrN h.diagComm T A D, wrN h.diagComm T A D⁆ = wrN h.diagComm T A D := by
@@ -1048,6 +1093,7 @@ theorem wr_semisimple (h : DiagSetting X T A J C) {D Y : Subgroup G} {𝒟 : Set
       A1b.conjSub k' (dimg h.diagComm S₀ ⊔ wrY h.diagComm T A Y)
     rw [← A1b.conjSub_mul, inv_mul_cancel_right]
 
+omit [Finite G] in
 theorem wr_card_dimg (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J) :
     Nat.card ↥(dimg h.diagComm U) = Nat.card ↥U := by
   have hinj : Function.Injective (diagHom J C h.diagComm) :=
@@ -1089,6 +1135,7 @@ theorem wr_sylow_dimg (h : DiagSetting X T A J C) {D : Subgroup G} (hDJ : D ≤ 
   refine isSylowIn_of_card_eq inf_le_right ?_
   rw [hk, wr_card_dimg h hDJ, hkv]
 
+omit [Finite G] in
 theorem wr_conjSub_inf (g : G) (V W : Subgroup G) :
     A1b.conjSub g (V ⊓ W) = A1b.conjSub g V ⊓ A1b.conjSub g W := by
   unfold A1b.conjSub
@@ -1143,7 +1190,7 @@ theorem wr_sylow_wrN (h : DiagSetting X T A J C) {D : Subgroup G} (hDJ : D ≤ J
   rw [hFN] at key
   exact key
 
-theorem wr_sylow_of_normal_sup [Finite G] {H N P : Subgroup G} (hNH : N ≤ H) (hPH : P ≤ H)
+theorem wr_sylow_of_normal_sup {H N P : Subgroup G} (hNH : N ≤ H) (hPH : P ≤ H)
     (hHN : H ≤ Subgroup.normalizer (N : Set G)) (hsup : P ⊔ N = H) (hP2 : IsPGroup 2 P)
     (hSyl : IsSylowIn 2 (P ⊓ N) N) : IsSylowIn 2 P H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

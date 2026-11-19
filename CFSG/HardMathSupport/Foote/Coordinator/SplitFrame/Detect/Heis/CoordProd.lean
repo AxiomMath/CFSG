@@ -83,7 +83,7 @@ theorem heisCoord_prodX {L : List (Fin τ.rank → ℤ)} (hnd : L.Nodup) (hD : �
     by_cases hν : ν = a
     · subst hν
       simp [hna]
-    · simp [hν, Ne.symm hν]
+    · simp [hν]
 
 theorem exists_prodX_of_support {L : List (Fin τ.rank → ℤ)} (hnd : L.Nodup)
     (hD : ∀ β ∈ L, β ∈ Deg1 τ) {q : ModGL τ K} (hq : q ∈ Qθ τ K)
@@ -96,8 +96,8 @@ theorem exists_prodX_of_support {L : List (Fin τ.rank → ℤ)} (hnd : L.Nodup)
     funext ν
     rw [hc ν]
     by_cases hν : ν ∈ L
-    · rw [if_pos hν]
-    · rw [if_neg hν, hs ν hν]
+    · rw [ite_eq_left hν]
+    · rw [ite_eq_right hν, hs ν hν]
   refine ⟨q * (CoordAux.prodX L (heisCoord τ K q))⁻¹, ?_, by group⟩
   refine (hspec.eq_zero_iff _ (mul_mem hq (inv_mem hQ))).1 ?_
   rw [hspec.mul _ hq _ (inv_mem hQ), heisCoord_inv hQ, hcs]

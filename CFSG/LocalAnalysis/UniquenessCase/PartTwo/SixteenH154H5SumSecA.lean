@@ -109,7 +109,7 @@ theorem s16h_mem_autSec_range {L : Subgroup (MulAut W)} {Z U : Subgroup W}
     Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map, MonoidHom.mem_range]
 
 theorem s16h_secIncl_image_stable {L : Subgroup (MulAut W)} (Z I U : Subgroup W)
-    (hIU : I ≤ U) (hLI : L ≤ stabSub I) (hLZ : L ≤ stabSub Z) (hLU : L ≤ stabSub U) :
+    (_hIU : I ≤ U) (hLI : L ≤ stabSub I) (hLZ : L ≤ stabSub Z) (hLU : L ≤ stabSub U) :
     ∀ g ∈ autSec L U Z, ∀ x ∈ (I.subgroupOf U).map (QuotientGroup.mk' (Z.subgroupOf U)),
       g x ∈ (I.subgroupOf U).map (QuotientGroup.mk' (Z.subgroupOf U)) := by
   intro g hg x hx
@@ -122,7 +122,7 @@ theorem s16h_secIncl_image_stable {L : Subgroup (MulAut W)} (Z I U : Subgroup W)
     CFSG.Quasithin.B5.secHom_mk]
   exact Subgroup.mem_map.mpr ⟨⟨_, haU⟩, Subgroup.mem_subgroupOf.mpr haI, rfl⟩
 
-theorem s16h_secIncl_comap_map_eq {Z I U : Subgroup W} (hZI : Z ≤ I) (hIU : I ≤ U) :
+theorem s16h_secIncl_comap_map_eq {Z I U : Subgroup W} (hZI : Z ≤ I) (_hIU : I ≤ U) :
     ((I.subgroupOf U).map (QuotientGroup.mk' (Z.subgroupOf U))).comap
         (QuotientGroup.mk' (Z.subgroupOf U)) = I.subgroupOf U := by
   refine Subgroup.comap_map_eq_self ?_
@@ -131,7 +131,7 @@ theorem s16h_secIncl_comap_map_eq {Z I U : Subgroup W} (hZI : Z ≤ I) (hIU : I 
   exact Subgroup.mem_subgroupOf.mpr (hZI (Subgroup.mem_subgroupOf.mp hx))
 
 theorem s16h_secIncl_simple {L : Subgroup (MulAut W)} (Z I U : Subgroup W)
-    (hZI : Z ≤ I) (hIU : I ≤ U) (hLI : L ≤ stabSub I) (hLZ : L ≤ stabSub Z)
+    (hZI : Z ≤ I) (hIU : I ≤ U) (_hLI : L ≤ stabSub I) (hLZ : L ≤ stabSub Z)
     (hLU : L ≤ stabSub U) (hirr : IsIrrOn L I Z) :
     ∀ J : Subgroup (Sec U Z),
       (∀ g ∈ autSec L U Z, ∀ x ∈ J, g x ∈ J) →
@@ -200,7 +200,7 @@ theorem s16h_secIncl_simple {L : Subgroup (MulAut W)} (Z I U : Subgroup W)
   · right
     rw [hcorr, hJ₀I]
 
-theorem s16h_secIncl_hend {L : Subgroup (MulAut W)} (Z I U : Subgroup W) (hZI : Z ≤ I)
+theorem s16h_secIncl_hend {L : Subgroup (MulAut W)} (Z I U : Subgroup W) (_hZI : Z ≤ I)
     (hIU : I ≤ U) (hLI : L ≤ stabSub I) (hLZ : L ≤ stabSub Z) (hLU : L ≤ stabSub U)
     (hend : ∀ f : Sec I Z →* Sec I Z,
       (∀ g ∈ autSec L I Z, ∀ x, f (g x) = g (f x)) →
@@ -258,13 +258,13 @@ theorem s16h_secIncl_hend {L : Subgroup (MulAut W)} (Z I U : Subgroup W) (hZI : 
       rw [s16h_secIncl_range]; exact hx
     obtain ⟨y, rfl⟩ := MonoidHom.mem_range.mp hx'
     have hy : f' y = 1 := by rw [h1]; rfl
-    simpa [← hf'_apply y, hy]
+    simp [← hf'_apply y, hy]
   · left
     intro x hx
     have hx' : x ∈ (s16h_secIncl Z I U hIU).range := by
       rw [s16h_secIncl_range]; exact hx
     obtain ⟨y, rfl⟩ := MonoidHom.mem_range.mp hx'
     have hy : f' y = y := by rw [hid]; rfl
-    simpa [← hf'_apply y, hy]
+    simp [← hf'_apply y, hy]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

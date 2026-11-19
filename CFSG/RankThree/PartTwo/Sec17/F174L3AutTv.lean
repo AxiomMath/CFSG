@@ -19,7 +19,7 @@ theorem funext_fin3 {F : Type} {x y : Fin 3 → F} (h0 : x 0 = y 0) (h1 : x 1 = 
   · exact h2
 
 theorem tvM_inj {F : Type} [Field F] {φ v φ' v' : Fin 3 → F} (hφ : φ ≠ 0) (hv : v ≠ 0)
-    (hφ' : φ' ≠ 0) (hv' : v' ≠ 0) (h : tvM φ v = tvM φ' v') :
+    (_hφ' : φ' ≠ 0) (_hv' : v' ≠ 0) (h : tvM φ v = tvM φ' v') :
     ∃ c : F, c ≠ 0 ∧ v' = c • v ∧ φ = c • φ' := by
   have key : ∀ u : Fin 3 → F, (φ ⬝ᵥ u) • v = (φ' ⬝ᵥ u) • v' := by
     intro u
@@ -33,11 +33,11 @@ theorem tvM_inj {F : Type} [Field F] {φ v φ' v' : Fin 3 → F} (hφ : φ ≠ 0
     linear_combination hb
   obtain ⟨j, hj⟩ : ∃ j, φ j ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hφ (funext hcon)
   obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv (funext hcon)
   have hj' : φ' j ≠ 0 := by
     intro h0
@@ -162,7 +162,7 @@ theorem parallel_of_cross3 {F : Type} [Field F] {x y : Fin 3 → F} {b0 b1 b2 : 
     field_simp
 
 theorem orth_of_commute_tvM {F : Type} [Field F] {φ v φ' v' : Fin 3 → F} (hφ : φ ≠ 0) (hv : v ≠ 0)
-    (hφ' : φ' ≠ 0) (hv' : v' ≠ 0) (h : φ ⬝ᵥ v = 0) (h' : φ' ⬝ᵥ v' = 0)
+    (hφ' : φ' ≠ 0) (hv' : v' ≠ 0) (_h : φ ⬝ᵥ v = 0) (h' : φ' ⬝ᵥ v' = 0)
     (hc : tvM φ v * tvM φ' v' = tvM φ' v' * tvM φ v) : φ ⬝ᵥ v' = 0 ∧ φ' ⬝ᵥ v = 0 := by
   have K : ∀ u : Fin 3 → F,
       ((φ' ⬝ᵥ u) * (φ ⬝ᵥ v')) • v = ((φ ⬝ᵥ u) * (φ' ⬝ᵥ v)) • v' := by
@@ -203,18 +203,18 @@ theorem orth_of_commute_tvM {F : Type} [Field F] {φ v φ' v' : Fin 3 → F} (h�
     exact hK'
 
 theorem parallel_of_orth_three {F : Type} [Field F] {v w φ ψ : Fin 3 → F} (hv : v ≠ 0)
-    (hw : ∀ c : F, w ≠ c • v) (hφ : φ ≠ 0) (hψ : ψ ≠ 0) (h1 : φ ⬝ᵥ v = 0) (h2 : φ ⬝ᵥ w = 0)
+    (hw : ∀ c : F, w ≠ c • v) (hφ : φ ≠ 0) (_hψ : ψ ≠ 0) (h1 : φ ⬝ᵥ v = 0) (h2 : φ ⬝ᵥ w = 0)
     (h3 : ψ ⬝ᵥ v = 0) (h4 : ψ ⬝ᵥ w = 0) : ∃ c : F, ψ = c • φ := by
   obtain ⟨e0, e1, e2⟩ := cross_rel3 h1 h2
   obtain ⟨f0, f1, f2⟩ := cross_rel3 h3 h4
   have hb : v 1 * w 2 - v 2 * w 1 ≠ 0 ∨ v 2 * w 0 - v 0 * w 2 ≠ 0 ∨
       v 0 * w 1 - v 1 * w 0 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hb0, hb1, hb2⟩ := hcon
     have hbv : v 0 ≠ 0 ∨ v 1 ≠ 0 ∨ v 2 ≠ 0 := by
       by_contra hcv
-      push_neg at hcv
+      push Not at hcv
       exact hv (funext_fin3 hcv.1 hcv.2.1 hcv.2.2)
     obtain ⟨c, hc⟩ := parallel_of_cross3 (y := w) hv hbv (by ring) (by ring) (by ring)
       (by linear_combination (-1 : F) * hb0) (by linear_combination (-1 : F) * hb1)

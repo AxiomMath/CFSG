@@ -107,7 +107,7 @@ theorem eq_of_card_le_two {Z : Subgroup G} [Finite G] (hZ : Nat.card Z ≤ 2) {a
   have hf : Function.Injective f := by
     intro i j hij
     fin_cases i <;> fin_cases j <;> simp [f, Subtype.ext_iff] at hij ⊢ <;>
-      first | rfl | (exfalso; simp_all)
+      (exfalso; simp_all)
   have := Nat.card_le_card_of_injective f hf
   simp at this
   omega

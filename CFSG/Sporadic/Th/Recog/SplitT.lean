@@ -53,8 +53,8 @@ private theorem commute_evalW_update {X : Type*} [Group X] {j : X} {v : Fin 6 �
       rw [evalW, lift_mk, wprod_cons, ← lift_mk, evalW]]
     have hfac : Commute j (if l.2 then v l.1 else (v l.1)⁻¹) := by
       by_cases h : l.2
-      · rw [if_pos h]; exact hv l.1
-      · rw [if_neg h]; exact (hv l.1).inv_right
+      · rw [ite_eq_left h]; exact hv l.1
+      · rw [ite_eq_right h]; exact (hv l.1).inv_right
     exact hfac.mul_right ih
 
 private theorem commute_evalW_of_letters {X : Type*} [Group X] {j : X} {u : Fin 6 → X}
@@ -98,7 +98,7 @@ private theorem inf_zpowers_eq_bot_of_not_mem {X : Type*} [Group X] {s : X} {K :
     · exact absurd (orderOf_eq_one_iff.mp h) hx1
     · exact h
   have hle : Subgroup.zpowers x ≤ Subgroup.zpowers s := Subgroup.zpowers_le_of_mem hx.2
-  haveI : Finite ↥(Subgroup.zpowers s) :=
+  have : Finite ↥(Subgroup.zpowers s) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hsp]; norm_num)
   have heq : Subgroup.zpowers x = Subgroup.zpowers s :=
     Subgroup.eq_of_le_of_card_ge hle (by rw [Nat.card_zpowers, Nat.card_zpowers, hsp, hxord])
@@ -147,7 +147,7 @@ private theorem orderOf_z (C : ThCore G) : orderOf C.z = 2 := by
   have hzM : orderOf (⟨CFSG.Sporadic.Th.Max3.z, CFSG.Sporadic.Th.Max3.z_mem_M⟩ :
       ↥CFSG.Sporadic.Th.Max3.M) = 2 := by
     rw [Subgroup.orderOf_mk]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime (p := 2) ?_ CFSG.Sporadic.Th.Max3.z_ne_one
     rw [pow_two]
     exact CFSG.Sporadic.Th.Max3.z_mul_self
@@ -235,10 +235,10 @@ private noncomputable abbrev rho {C : ThCore G} {tM : ↥CFSG.Sporadic.Th.Max3.M
   π.comp (Subgroup.inclusion hE)
 
 private theorem exists_decomp (C : ThCore G) {tM : ↥CFSG.Sporadic.Th.Max3.M}
-    (htM : orderOf tM = 3) (D₀ : Subgroup ↥CFSG.Sporadic.Th.Max3.M)
+    (_htM : orderOf tM = 3) (D₀ : Subgroup ↥CFSG.Sporadic.Th.Max3.M)
     (hD₀inf : D₀ ⊓ Subgroup.zpowers tM = ⊥)
     (hD₀sup : D₀ ⊔ Subgroup.zpowers tM = Subgroup.centralizer {tM})
-    (h7 : ¬ 7 ∣ Nat.card ↥(Subgroup.centralizer ({tM} : Set ↥CFSG.Sporadic.Th.Max3.M)))
+    (_h7 : ¬ 7 ∣ Nat.card ↥(Subgroup.centralizer ({tM} : Set ↥CFSG.Sporadic.Th.Max3.M)))
     (π : ↥(CT C tM) →* Ghat) (hπ : Function.Surjective π)
     (hker : π.ker = Subgroup.zpowers (tC C tM))
     (j : Ghat) (hj : j = π (zC C tM))
@@ -496,12 +496,12 @@ private theorem centralizer_split_of_hom_aux
     norm_num at hdvd
   have hGhat_nonab : ¬ IsMulCommutative Ghat := by
     intro h
-    haveI := h
+    have := h
     have hp : (Nat.card Ghat).Prime := (Group.is_simple_iff_prime_card).mp hsimp
     rw [hcard] at hp
     norm_num at hp
   have hjord : orderOf j = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime (p := 2) ?_ hjne
     exact hj2
   obtain ⟨u, hu_sat, hu_gen, hu_comm, hu_pd, hu_ord⟩ :=
@@ -640,7 +640,7 @@ private theorem centralizer_split_of_hom_aux
   have htC_notin_Dhat_comm : tC C tM ∉ ⁅Dhat, Dhat⁆ :=
     fun h => htC_notin_E (hDhat_comm_le h)
   have htC_notin_Mhat_comm : tC C tM ∉ ⁅Mhat, Mhat⁆ := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact CFSG.GroupTheory.not_mem_commutator_of_relIndex hDhat_le_Mhat
       (by rw [hrel_hat]; norm_num) htC_in_Dhat (fun x _ => htC_central x) htCord
       htC_notin_Dhat_comm
@@ -906,7 +906,7 @@ private theorem centralizer_split_of_hom_aux
     change @Fin.snoc 6 (fun _ => ↥(CT C tM)) ê (tC C tM) (Fin.last 6) = tC C tM
     exact @Fin.snoc_last 6 (fun _ => ↥(CT C tM)) (tC C tM) ê
   have htau3 : wprod e7 [(6, true), (6, true), (6, true)] = 1 := by
-    simp only [wprod_cons, wprod_nil, if_true, mul_one]
+    simp only [wprod_cons, wprod_nil, ite_true, mul_one]
     rw [he7_last]
     rw [show tC C tM * (tC C tM * tC C tM) = (tC C tM) ^ 3 by
       rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ, pow_two]
@@ -916,7 +916,7 @@ private theorem centralizer_split_of_hom_aux
       wprod e7 [((6 : Fin 7), false), (Fin.castSucc i, false), (6, true),
         (Fin.castSucc i, true)] = 1 := by
     intro i
-    simp only [wprod_cons, wprod_nil, if_true, if_false, mul_one]
+    simp only [wprod_cons, wprod_nil, ite_true, mul_one]
     rw [he7_last, he7_cast]
     have hc : Commute ((tC C tM)⁻¹) ((ê i)⁻¹) :=
       (htC_central (ê i)).inv_left.inv_right
@@ -961,7 +961,7 @@ private theorem centralizer_split_of_hom_aux
           exact hliftH r hr
       · obtain ⟨r, hr, rfl⟩ := List.mem_map.mp hw
         exact hliftM r hr
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hw
+    · simp only [List.mem_cons, List.not_mem_nil, or_false] at hw
       rcases hw with rfl | rfl
       · exact hcyc0_word
       · exact hcyc1_word
@@ -1181,11 +1181,11 @@ private theorem centralizer_split_of_hom_aux
     rw [Subgroup.map_sup, hmapKc', hmapZ, hmapTopCT] at h
     exact h
   let eK := hK_iso.some
-  haveI : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup eK
+  have : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup eK
   have hKcard : Nat.card ↥K = Nat.card Ghat := Nat.card_congr eK.toEquiv
   have hK_nonab : ¬ IsMulCommutative ↥K := by
     intro hK
-    haveI := hK
+    have := hK
     have hKsimple : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup eK
     have hprime : (Nat.card ↥K).Prime :=
       (Group.is_simple_iff_prime_card (α := ↥K)).mp hKsimple

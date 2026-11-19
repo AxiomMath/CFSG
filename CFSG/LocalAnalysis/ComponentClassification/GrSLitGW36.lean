@@ -39,12 +39,12 @@ theorem mem_normalizer_component_of_centralizer (hX : pPrimeCore 2 X = ⊥) {Y :
     {J : Subgroup X} (hJ : IsComponent J) : x ∈ normalizer (J : Set X) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S' : Subgroup X := (S : Subgroup Y).map Y.subtype with hS'
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map Y.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map Y.subtype
   have hS'Y : S' ≤ Y := map_subtype_le _
   obtain ⟨S₀, hS₀⟩ := hS'2.exists_le_sylow
   have hS₀Y : (S₀ : Subgroup X) ⊓ Y ≤ S' := by
     have hQ : IsPGroup 2 (((S₀ : Subgroup X) ⊓ Y).subgroupOf Y) :=
-      (S₀.isPGroup'.to_le inf_le_left).comap_of_injective Y.subtype Y.subtype_injective
+      (S₀.isPGroup.to_le inf_le_left).comap_of_injective Y.subtype Y.subtype_injective
     have hSQ : (S : Subgroup Y) ≤ ((S₀ : Subgroup X) ⊓ Y).subgroupOf Y := by
       intro s hs
       rw [mem_subgroupOf]

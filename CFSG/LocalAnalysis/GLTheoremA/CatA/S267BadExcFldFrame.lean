@@ -78,7 +78,7 @@ theorem coe_frameSL2 (i : Fin (frameSize τ)) (A : SL2 K) :
   rfl
 
 theorem frameSL2_injective (i : Fin (frameSize τ)) : Function.Injective (frameSL2 τ K i) :=
-  fun A B h => rootSL2_injective_of_field (τ := τ) (K := K) (frameRoot τ i)
+  fun _A _B h => rootSL2_injective_of_field (τ := τ) (K := K) (frameRoot τ i)
     (congrArg Subtype.val h)
 
 theorem coe_frameSL2_frame0 (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (A : SL2 K) :

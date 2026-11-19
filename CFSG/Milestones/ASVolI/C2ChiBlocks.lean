@@ -37,7 +37,7 @@ theorem burnsideC2h_asc24Two (G : Type) [Group G] [Finite G]
   intro H R M L hyp hL hLc hLq
   by_cases hRN : R ≤ Subgroup.normalizer (L : Set G)
   · exact Or.inr hRN
-  obtain ⟨ρ, hρR, hρN⟩ := SetLike.not_le_iff_exists.mp hRN
+  obtain ⟨ρ, hρR, hρN⟩ := IsConcreteLE.not_le_iff_exists.mp hRN
   have hR := hyp.radical
   have hRH : R ≤ H := hR.1
   have hLH : L ≤ H := le_of_mem_cComp hL

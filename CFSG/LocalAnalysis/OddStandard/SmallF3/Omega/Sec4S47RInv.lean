@@ -22,14 +22,14 @@ theorem sec4S47RCoord_ind (h : Sec4FSetup t L S z A B φ) :
     unfold sec4S47RInd
     by_cases h0 : r = some 0
     · subst h0
-      rw [if_pos (Or.inl rfl), Pi.single_eq_same,
+      rw [ite_eq_left (Or.inl rfl), Pi.single_eq_same,
         Pi.single_eq_of_ne (by decide : (some 0 : Option (Fin 7)) ≠ some 1), add_zero]
     · by_cases h1 : r = some 1
       · subst h1
-        rw [if_pos (Or.inr rfl),
+        rw [ite_eq_left (Or.inr rfl),
           Pi.single_eq_of_ne (by decide : (some 1 : Option (Fin 7)) ≠ some 0),
           Pi.single_eq_same, zero_add]
-      · rw [if_neg (by tauto), Pi.single_eq_of_ne h0, Pi.single_eq_of_ne h1, add_zero]
+      · rw [ite_eq_right (by tauto), Pi.single_eq_of_ne h0, Pi.single_eq_of_ne h1, add_zero]
   rw [hδ, sec4S47RCoord_add h, sec4S47RCoord_single h, sec4S47RCoord_single h]
 
 theorem sec4S47R_exists_involution (h : Sec4FSetup t L S z A B φ) {y : G}

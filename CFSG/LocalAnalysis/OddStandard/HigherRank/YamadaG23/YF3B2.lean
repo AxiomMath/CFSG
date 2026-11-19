@@ -27,7 +27,7 @@ theorem f3_T1_sq_mem_R {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
   have hxR₁ : x ^ 2 ∈ e.R₁ := by
     by_cases hRT : s.R = s.T
     · unfold Setting3.Ext.R₁
-      rw [if_pos hRT]
+      rw [ite_eq_left hRT]
       exact e.T₁.pow_mem hx 2
     · exact sq_mem_of_relIndex_two hR1le (hH.h32.2.2.2 hRT) hx
   rw [← hH.h32.2.2.1]

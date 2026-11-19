@@ -31,12 +31,12 @@ theorem exists_mem_normalizer_not_mem_of_card_lt [Finite G] {p : ℕ} [Fact p.Pr
         exact mem_top _
       exact mem_subgroupOf.1 this
     exact absurd (card_le_of_le hle) (not_le.2 hcard)
-  have : Group.IsNilpotent (S₀ : Subgroup G) := S₀.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S₀ : Subgroup G) := S₀.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyP⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt')
   refine ⟨y, mem_normalizer_fintype fun n hn =>
       mem_subgroupOf.1 ((mem_normalizer_iff.1 hyN ⟨n, hPS₀ hn⟩).1 (mem_subgroupOf.2 hn)),
-    fun e => hyP (mem_subgroupOf.2 e), S₀.isPGroup'.to_le (sup_le hPS₀ (zpowers_le.2 y.2))⟩
+    fun e => hyP (mem_subgroupOf.2 e), S₀.isPGroup.to_le (sup_le hPS₀ (zpowers_le.2 y.2))⟩
 
 theorem ElemAbMod.map_conj {N E : Subgroup G} (hE : ElemAbMod N E) (y : G) :
     ElemAbMod (N.map (MulAut.conj y).toMonoidHom) (E.map (MulAut.conj y).toMonoidHom) := by

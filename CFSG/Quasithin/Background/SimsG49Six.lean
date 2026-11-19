@@ -28,7 +28,7 @@ theorem G49.exists_index_two_simple_of_mulEquiv_perm {H : Subgroup Γ}
   have hker : s.ker = (alternatingGroup (Fin 6)).comap φ.toMonoidHom := by
     rw [hs, ← MonoidHom.comap_ker]
     rfl
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have e : ↥(s.ker.map H.subtype) ≃* ↥(alternatingGroup (Fin 6)) :=
     (Subgroup.equivMapOfInjective s.ker H.subtype H.subtype_injective).symm.trans <|
       (MulEquiv.subgroupCongr hker).trans <|

@@ -180,7 +180,7 @@ theorem eq_of_sylow_le_of_odd_mem {Y Z : Subgroup G} (S₁ : Sylow 2 G)
       have e : g * a⁻¹ * g⁻¹ = (g * a * g⁻¹)⁻¹ := by group
       rw [e]
       exact X.inv_mem ha
-  haveI hn : (X.subgroupOf Y).Normal := ⟨fun n hn g => by
+  have hn : (X.subgroupOf Y).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hconj g g.2 n hn⟩
   have h2 : IsPGroup 2 (↥Y ⧸ X.subgroupOf Y) := by
@@ -347,7 +347,7 @@ structure TC (S₁ : Sylow 2 G) : Prop where
   haS₁ : H.a ∈ Subgroup.centralizer ((S₁ : Subgroup G) : Set G)
 
 include H in
-theorem W_le_Cz : W ≤ Cz := fun w hw => Subgroup.mem_centralizer_singleton_iff.mpr
+theorem W_le_Cz : W ≤ Cz := fun _w hw => Subgroup.mem_centralizer_singleton_iff.mpr
   (Q3.Q3CL.Thompson.commutes_of_mem_WSet H.C.D.c.hΩ H.C.D.c.hW _ hw _ H.C.hd.hzW)
 
 include H in
@@ -355,7 +355,7 @@ theorem W_comm {v w : G} (hv : v ∈ W) (hw : w ∈ W) : v * w = w * v :=
   Q3.Q3CL.Thompson.commutes_of_mem_WSet H.C.D.c.hΩ H.C.D.c.hW _ hv _ hw
 
 include H in
-theorem isPGroup_W : IsPGroup 2 W := S.isPGroup'.to_le H.C.hd.hWS
+theorem isPGroup_W : IsPGroup 2 W := S.isPGroup.to_le H.C.hd.hWS
 
 include H in
 theorem exists_weaklyClosed : ∃ S₀ : Sylow 2 G, W ≤ (S₀ : Subgroup G) ∧
@@ -426,7 +426,7 @@ theorem TC.le_Cz (hT : H.TC S₁) : (S₁ : Subgroup G) ≤ Cz := by
     rwa [conjSub_eq_self_of_mem hy] at h
   have hL : conjSub y K ∈ Ω := hΩ.conjInvariant y K F.mem
   have hTL : conjSub y R ≤ conjSub y K := conjSub_mono H.C.hd.hR.2.1
-  have hT2 : IsPGroup 2 ↥(conjSub y R) := S₁.isPGroup'.to_le hTS
+  have hT2 : IsPGroup 2 ↥(conjSub y R) := S₁.isPGroup.to_le hTS
   have h8 : Nat.card ↥(conjSub y R) = 8 := by rw [natCard_conjSub]; exact H.C.h8
   have hK : conjSub y K = K ∨ conjSub y K = K' := by
     by_cases hTR : conjSub y R = R
@@ -459,11 +459,11 @@ theorem TC.le_Cz (hT : H.TC S₁) : (S₁ : Subgroup G) ≤ Cz := by
     _ = z * y := by rw [h2]
 
 theorem TC.inf_K (hT : H.TC S₁) : (S₁ : Subgroup G) ⊓ K ≤ R :=
-  le_of_eq (H.C.hRsyl.2.2 _ inf_le_right (S₁.isPGroup'.to_le inf_le_left)
+  le_of_eq (H.C.hRsyl.2.2 _ inf_le_right (S₁.isPGroup.to_le inf_le_left)
     (le_inf hT.hRS₁ H.C.hd.hR.2.1))
 
 theorem TC.inf_K' (hT : H.TC S₁) : (S₁ : Subgroup G) ⊓ K' ≤ R' :=
-  le_of_eq (H.hR'syl.2.2 _ inf_le_right (S₁.isPGroup'.to_le inf_le_left)
+  le_of_eq (H.hR'syl.2.2 _ inf_le_right (S₁.isPGroup.to_le inf_le_left)
     (le_inf hT.hR'S₁ H.C.hd.hR'.2.1))
 
 theorem TC.a_mem (hT : H.TC S₁) : H.a ∈ (S₁ : Subgroup G) := by
@@ -471,7 +471,7 @@ theorem TC.a_mem (hT : H.TC S₁) : H.a ∈ (S₁ : Subgroup G) := by
     Subgroup.zpowers_le.mpr (Subgroup.centralizer_le_normalizer _ hT.haS₁)
   have hP : IsPGroup 2 ↥(Subgroup.zpowers H.a ⊔ (S₁ : Subgroup G)) :=
     IsPGroup.to_sup_of_normal_right' (ExactLayer.isPGroup_zpowers_of_sq_eq_one H.ha2)
-      S₁.isPGroup' hza
+      S₁.isPGroup hza
   exact S₁.maximal_isPGroup.2 hP le_sup_right
     (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
 
@@ -970,7 +970,7 @@ theorem TC.exists_conj_YY (hT : H.TC S₁) {y : G} (hy : y ∈ H.YY S₁) :
 
 include H in
 theorem isPGroup_RR' : IsPGroup 2 ↥(R ⊔ R') :=
-  S.isPGroup'.to_le (sup_le H.C.hd.hR.2.2 H.C.hd.hR'.2.2)
+  S.isPGroup.to_le (sup_le H.C.hd.hR.2.2 H.C.hd.hR'.2.2)
 
 include H in
 theorem RR'_le_Cz : R ⊔ R' ≤ Cz :=
@@ -1091,7 +1091,7 @@ theorem comm_RR'_of_mem_X₀ {o : G}
     ∀ q ∈ R ⊔ R', o * q * o⁻¹ * q⁻¹ ∈ Oz := by
   set C := Subgroup.centralizer ({z} : Set G) with hCdef
   set Oc := (oddCoreOf C).subgroupOf C with hOcdef
-  haveI hN : Oc.Normal := ⟨fun n hn g => by
+  have hN : Oc.Normal := ⟨fun n hn g => by
     rw [hOcdef, Subgroup.mem_subgroupOf] at hn ⊢
     simpa using T7R.conj_mem_oddCoreOf g.2 hn⟩
   let φ : ↥C →* ↥C ⧸ Oc := QuotientGroup.mk' Oc
@@ -1419,7 +1419,7 @@ theorem W_eq_B_sup :
   · exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
 
 variable (H) in
-theorem exists_Oz_of_fix_J {m : G} (hm : m ∈ Cz)
+theorem exists_Oz_of_fix_J {m : G} (_hm : m ∈ Cz)
     (hmB : conjSub m (Subgroup.zpowers H.C.D.x₁ ⊔ Subgroup.zpowers H.C.D.x₂) =
       Subgroup.zpowers H.C.D.x₁ ⊔ Subgroup.zpowers H.C.D.x₂)
     (hmJ : conjSub m H.C.D.F.ρ₃.K = H.C.D.F.ρ₃.K) :

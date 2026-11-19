@@ -101,9 +101,9 @@ theorem kgLangS1E_cont_E6_odd
   obtain ⟨t, l, n⟩ := lab
   subst htag
   let L : Type := AlgebraicClosure (ZMod 2)
-  letI : Field L := inferInstanceAs (Field (AlgebraicClosure (ZMod 2)))
-  letI : IsAlgClosed L := inferInstanceAs (IsAlgClosed (AlgebraicClosure (ZMod 2)))
-  letI : CharP L 2 := inferInstanceAs (CharP (AlgebraicClosure (ZMod 2)) 2)
+  let : Field L := inferInstanceAs (Field (AlgebraicClosure (ZMod 2)))
+  let : IsAlgClosed L := inferInstanceAs (IsAlgClosed (AlgebraicClosure (ZMod 2)))
+  let : CharP L 2 := inferInstanceAs (CharP (AlgebraicClosure (ZMod 2)) 2)
   have hkg : GGL45KGLabel 3 ⟨.E6, l, n⟩ := by simp [GGL45KGLabel]
   have hrecAll : LargeEvenLabelAll ⟨.E6, l, n⟩ (GGL45NtRec 3) :=
     ggL45NtRecOn_E6_odd 3 (by norm_num) (by norm_num) ⟨.E6, l, n⟩ hlab hkg ⟨rfl, hodd⟩
@@ -121,23 +121,23 @@ theorem kgLangS1E_cont_E6_odd
   unfold CFSG.StandardType.LargeEvenRawDatum CFSG.Assembly.LargeEvenRecipeChevalley
   obtain ⟨K₁, hf₁, hfin₁, hK₁, hQ₁, hrec₁, hfc₁, hif₁, hpc₁⟩ := hraw
   refine ⟨K₁, hf₁, hfin₁, hK₁, hQ₁, ?_⟩
-  letI : Field K₁ := hf₁
-  letI : Finite K₁ := hfin₁
-  haveI : CharP K₁ 2 := charP_two_of_card hK₁
+  let : Field K₁ := hf₁
+  let : Finite K₁ := hfin₁
+  have : CharP K₁ 2 := charP_two_of_card hK₁
   have hq : CFSG.IsQuasisimple ↥(CFSG.Blueprint.Chevalley.adjointGroup .E6 K₁) :=
     CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 K₁
   obtain ⟨eQ⟩ := centerQuot_chevGroup_equiv K₁ .E6
   have hs : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K₁ false)) := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 K₁) := hq.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 K₁) := hq.2.1
     exact eQ.isSimpleGroup
   have hna : ∃ a b : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K₁ false),
       a * b ≠ b * a := kgLangS1EExcE6Aux_nonabelian eQ.symm hq.2.2
   intro K _ _ θ hcomm A hA hAIF α₀ hα₀ hα₀I hcard2 ξ hξ hξI J₀ hJ₀ hTor
   have hA0 : ∃ α ∈ A, α ≠ 1 ∧ kgInducedAut θ α ∈ kgLangS1EExcE6Aux_I K₁ := by
     classical
-    letI : Finite (MulAut K) :=
+    let : Finite (MulAut K) :=
       Finite.of_injective (fun f : MulAut K => (f : K → K)) DFunLike.coe_injective
-    letI : Fintype {α : MulAut K // α ∈ A ∧ kgInducedAut θ α ∈ kgLangS1EExcE6Aux_I K₁} :=
+    let : Fintype {α : MulAut K // α ∈ A ∧ kgInducedAut θ α ∈ kgLangS1EExcE6Aux_I K₁} :=
       Fintype.ofFinite _
     have hgt : 1 < Fintype.card {α : MulAut K // α ∈ A ∧
         kgInducedAut θ α ∈ kgLangS1EExcE6Aux_I K₁} := by
@@ -171,7 +171,7 @@ theorem kgLangS1E_cont_E6_odd
     ((adjointGroup .E6 K₁).subtype.comp εb.toMonoidHom)
   let F₀ : ModGL .E6 L →* ModGL .E6 L := frobTwistGL .E6 L 2 eb 1
   let G : Subgroup (ModGL .E6 L) := ratPts .E6 L (endPow F₀ 3)
-  haveI : Finite G := hfinB
+  have : Finite G := hfinB
   have hstab : ∀ g ∈ G, F₀ g ∈ G := by
     intro g hg
     refine ⟨hstab₀ g hg.1, ?_⟩

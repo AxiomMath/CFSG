@@ -87,12 +87,12 @@ theorem center_eq_bot_of_type148
 theorem false_of_e9_le_mulAut_l32 {X : Type} [Group X]
     (φ : X ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 1))
     (E : Subgroup (MulAut X)) (hE : Nat.card E = 9) (hE3 : ∀ x ∈ E, x ^ 3 = 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 1)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 1)) :=
     Finite.of_equiv _ (KFacts.L34.projSLEquivProjectiveSL 3 (GaloisField 2 1)).symm.toEquiv
-  haveI : Finite X := Finite.of_equiv _ φ.toEquiv.symm
-  haveI : Finite (MulAut X) := MulEquiv.finite_left
-  haveI hcomm : IsMulCommutative E :=
+  have : Finite X := Finite.of_equiv _ φ.toEquiv.symm
+  have : Finite (MulAut X) := MulEquiv.finite_left
+  have hcomm : IsMulCommutative E :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hE]; norm_num)
   have hEea : CFSG.IsElementaryAbelian 3 E :=
     { is_comm := hcomm.is_comm

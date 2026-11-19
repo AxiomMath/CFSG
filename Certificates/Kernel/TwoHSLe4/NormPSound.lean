@@ -57,14 +57,17 @@ theorem mvM_map (A : Q4 α) (v : V4 α) : (mvM o A v).map f = mvM o' (A.map f) (
 
 include ht
 
+omit ha in
 theorem zr_map : f (zr o) = zr o' := by simp only [zr, hx, ht]
 
+omit ha in
 theorem bnot_map' (p : α) : f (bnot o p) = bnot o' (f p) := by simp only [bnot, hx, ht]
 
+omit ht in
 theorem bor_map' (p q : α) : f (bor o p q) = bor o' (f p) (f q) := by simp only [bor, ha, hx]
 
 theorem eqE_map (p q : α × α) : f (eqE o p q) = eqE o' (pm f p) (pm f q) := by
-  simp only [eqE, pm, ha, hx, bnot_map' o o' f ha hx ht]
+  simp only [eqE, pm, ha, hx, bnot_map' o o' f hx ht]
 
 theorem eqM_map (A B : Q4 α) : f (eqM o A B) = eqM o' (A.map f) (B.map f) := by
   simp only [eqM, Q4.map, ha, eqE_map o o' f ha hx ht]
@@ -72,21 +75,26 @@ theorem eqM_map (A B : Q4 α) : f (eqM o A B) = eqM o' (A.map f) (B.map f) := by
 theorem eqV_map (v w : V4 α) : f (eqV o v w) = eqV o' (v.map f) (w.map f) := by
   simp only [eqV, V4.map, ha, eqE_map o o' f ha hx ht]
 
+omit ha in
 theorem cB_map (n : ℕ) : f (cB o n) = cB o' n := by
   unfold cB
   cases Nat.beq (Nat.mod n 2) 1
-  · exact zr_map o o' f ha hx ht
+  · exact zr_map o o' f hx ht
   · exact ht
 
+omit ha in
 theorem cQ_map (c : R4) : (cQ o c).map f = cQ o' c := by
-  simp only [cQ, Q4.map, cE, pm, cB_map o o' f ha hx ht]
+  simp only [cQ, Q4.map, cE, pm, cB_map o o' f hx ht]
 
+omit ha in
 theorem cV_map (v : RV) : (cV o v).map f = cV o' v := by
-  simp only [cV, V4.map, cE, pm, cB_map o o' f ha hx ht]
+  simp only [cV, V4.map, cE, pm, cB_map o o' f hx ht]
 
+omit ha in
 theorem inQ_map (b : R4) (h : ℕ → α) : (inQ o b h).map f = inQ o' b (fun j => f (h j)) := by
-  simp only [inQ, Q4.map, pm, cB_map o o' f ha hx ht]
+  simp only [inQ, Q4.map, pm, cB_map o o' f hx ht]
 
+omit hx in
 theorem allA_map (L : List α) : f (allA o L) = allA o' (L.map f) := by
   induction L with
   | nil => exact ht
@@ -96,10 +104,10 @@ theorem allA_map (L : List α) : f (allA o L) = allA o' (L.map f) := by
 
 theorem anyA_map (L : List α) : f (anyA o L) = anyA o' (L.map f) := by
   induction L with
-  | nil => exact zr_map o o' f ha hx ht
+  | nil => exact zr_map o o' f hx ht
   | cons p L ih =>
     change f (bor o p (anyA o L)) = bor o' (f p) (anyA o' (L.map f))
-    rw [bor_map' o o' f ha hx ht, ih]
+    rw [bor_map' o o' f ha hx, ih]
 
 theorem finK_map (b : R4) (C : List R4) (A : Q4 α) (P Q : List (Q4 α)) :
     f (finK o b C A P Q) = finK o' b C (A.map f) (P.map (Q4.map f)) (Q.map (Q4.map f)) := by
@@ -107,12 +115,12 @@ theorem finK_map (b : R4) (C : List R4) (A : Q4 α) (P Q : List (Q4 α)) :
       Bool.rec (zr o') (eqM o' (A.map f) (cQ o' c)) (c.mod2 == b) := by
     intro c
     cases c.mod2 == b
-    · exact zr_map o o' f ha hx ht
+    · exact zr_map o o' f hx ht
     · change f (eqM o A (cQ o c)) = eqM o' (A.map f) (cQ o' c)
-      rw [eqM_map o o' f ha hx ht, cQ_map o o' f ha hx ht]
-  simp only [finK, bor_map' o o' f ha hx ht, bnot_map' o o' f ha hx ht, ha,
-    eqV_map o o' f ha hx ht, mvM_map o o' f ha hx, cV_map o o' f ha hx ht,
-    allA_map o o' f ha hx ht, anyA_map o o' f ha hx ht, List.map_map, Function.comp_def,
+      rw [eqM_map o o' f ha hx ht, cQ_map o o' f hx ht]
+  simp only [finK, bor_map' o o' f ha hx, bnot_map' o o' f hx ht, ha,
+    eqV_map o o' f ha hx ht, mvM_map o o' f ha hx, cV_map o o' f hx ht,
+    allA_map o o' f ha ht, anyA_map o o' f ha hx ht, List.map_map, Function.comp_def,
     eqM_map o o' f ha hx ht, hc]
 
 end map
@@ -213,7 +221,7 @@ theorem wf_zpRV : zpRV.wf := by
   dsimp only
   exact ⟨ZMod.val_lt _, ZMod.val_lt _, ZMod.val_lt _, ZMod.val_lt _⟩
 
-theorem finK_enc (b : R4) (L C : List R4) (hL : ∀ s ∈ L, s.wf) (hC : ∀ c ∈ C, c.wf) {a : R4}
+theorem finK_enc (b : R4) (L C : List R4) (_hL : ∀ s ∈ L, s.wf) (hC : ∀ c ∈ C, c.wf) {a : R4}
     (ha : a.wf) :
     finK boolOps b C (encQ a) (L.map fun s => encQ (rmul a s)) (L.map fun s => encQ (rmul s a)) =
       (rmv a tRV == tRV || !((L.all fun s => L.any fun s' => rmul a s == rmul s' a) &&
@@ -315,11 +323,11 @@ theorem fin_of_chkNG {b : R4} {L C : List R4} (h : chkNG b L C = true) {n : ℕ}
   rw [hTn, chkK_eq _ (fun y k => frcN_eq y k),
     finK_map (natOps T) boolOps (tbit n) ha hx hTn] at e
   have hA : (inQ (natOps T) b fun j => pln j 16).map (tbit n) = encQ (lift2 b (bitsOf n)) := by
-    rw [inQ_map (natOps T) boolOps (tbit n) ha hx hTn]
+    rw [inQ_map (natOps T) boolOps (tbit n) hx hTn]
     simp only [tbit, pln_bit, hn, decide_true, Bool.true_and]
     exact inQ_lift hb n
   simp only [List.map_map, Function.comp_def, mulM_map (natOps T) boolOps (tbit n) ha hx,
-    cQ_map (natOps T) boolOps (tbit n) ha hx hTn, hA, cQ_enc, mulM_enc] at e
+    cQ_map (natOps T) boolOps (tbit n) hx hTn, hA, cQ_enc, mulM_enc] at e
   exact e
 
 theorem any_filter_of (L : List R4) (p q : R4 → Bool) (h : ∀ x, q x = true → p x = true) :
@@ -328,12 +336,12 @@ theorem any_filter_of (L : List R4) (p q : R4 → Bool) (h : ∀ x, q x = true �
   | nil => rfl
   | cons y L ih =>
     by_cases hp : p y = true
-    · simp [List.filter_cons, hp, ih]
+    · simp [hp, ih]
     · have hq : q y = false := by
         cases hq : q y
         · rfl
         · exact absurd (h y hq) hp
-      simp [List.filter_cons, hp, hq, ih]
+      simp [hp, hq, ih]
 
 theorem nCaseS_of_fin {a b : R4} (hab : a.mod2 = b)
     (h : (rmv a tRV == tRV || !((SL.all fun s => SL.any fun s' => rmul a s == rmul s' a) &&

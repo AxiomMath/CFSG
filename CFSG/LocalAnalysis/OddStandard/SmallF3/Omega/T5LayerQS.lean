@@ -25,7 +25,7 @@ theorem t5_oddCore_layer_le_center {H : Type} [Group H] [Finite H] :
   have hRE : R ≤ E := Subgroup.map_subtype_le (CFSG.oddCore ↥E)
   have hsub : R.IsSubnormal := by
     refine Subgroup.IsSubnormal.step R E hRE ?_ ?_
-    · haveI : E.Characteristic := CFSG.LocalCores.layer_characteristic (G := H)
+    · have : E.Characteristic := CFSG.LocalCores.layer_characteristic (G := H)
       exact (inferInstance : E.Normal).isSubnormal
     · have heq : R.subgroupOf E = CFSG.oddCore ↥E :=
         Subgroup.comap_map_eq_self_of_injective E.subtype_injective (CFSG.oddCore ↥E)
@@ -45,8 +45,8 @@ theorem t5_isQuasisimple_layer_of_isL29 {H : Type} [Group H] [Finite H]
     (h : LieModel (↥(CFSG.layer H) ⧸ CFSG.oddCore ↥(CFSG.layer H)) .PSL 2 3 2) :
     CFSG.IsQuasisimple ↥(CFSG.layer H) := by
   obtain ⟨hsimple, hnc⟩ := ff_simple_of_lieModel_psl2 h
-  haveI : IsSimpleGroup (↥(CFSG.layer H) ⧸ CFSG.oddCore ↥(CFSG.layer H)) := hsimple
-  haveI : Group.IsPerfect ↥(CFSG.layer H) := CFSG.LocalCores.layer_isPerfect
+  have : IsSimpleGroup (↥(CFSG.layer H) ⧸ CFSG.oddCore ↥(CFSG.layer H)) := hsimple
+  have : Group.IsPerfect ↥(CFSG.layer H) := CFSG.LocalCores.layer_isPerfect
   have hcenter : Subgroup.center ↥(CFSG.layer H) = CFSG.oddCore ↥(CFSG.layer H) := by
     refine le_antisymm ?_ t5_oddCore_layer_le_center
     intro z hz
@@ -60,7 +60,7 @@ theorem t5_isQuasisimple_layer_of_isL29 {H : Type} [Group H] [Finite H]
         (Subgroup.center (↥(CFSG.layer H) ⧸ CFSG.oddCore ↥(CFSG.layer H))) with h1 | h1
       · exact h1
       · exfalso
-        haveI : IsMulCommutative (↥(CFSG.layer H) ⧸ CFSG.oddCore ↥(CFSG.layer H)) :=
+        have : IsMulCommutative (↥(CFSG.layer H) ⧸ CFSG.oddCore ↥(CFSG.layer H)) :=
           center_eq_top_iff.mp h1
         exact Group.IsPerfect.not_isMulCommutative
           (↥(CFSG.layer H) ⧸ CFSG.oddCore ↥(CFSG.layer H)) inferInstance
@@ -84,7 +84,7 @@ theorem t5_isComponentIn_layer_of_isL29 {G : Type} [Group G] [Finite G] (H : Sub
   · refine t5_isQuasisimple_layer_of_isL29 (H := ↥H) ?_
     let e := (CFSG.layer ↥H).equivMapOfInjective H.subtype H.subtype_injective
     exact (ff_lieModel_quot_oddCore_iff e).mpr h
-  · haveI : (CFSG.layer ↥H).Characteristic :=
+  · have : (CFSG.layer ↥H).Characteristic :=
       CFSG.LocalCores.layer_characteristic (G := ↥H)
     exact (inferInstance : (CFSG.layer ↥H).Normal).isSubnormal
 

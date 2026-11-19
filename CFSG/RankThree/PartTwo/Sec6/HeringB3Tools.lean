@@ -150,7 +150,7 @@ theorem conj_mul_conj_inv_apply {M : Type*} [Group M] (k : M) (Φ : MulAut M) (x
 theorem ringChar_eq_of_card_pow {F : Type} [Field F] [Finite F] {p f : ℕ} (hp : p.Prime)
     (hF : Nat.card F = p ^ f) : ringChar F = p := by
   have : Fintype F := Fintype.ofFinite F
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : CharP F p := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hF])
   exact ringChar.eq F p
 
@@ -169,7 +169,7 @@ theorem isSubnormal_subgroupOf_of_le {C N Y : Subgroup Q} (hNC : N ≤ C)
   have := h.comap (Subgroup.inclusion hNC)
   convert this using 1
   ext ⟨n, hn⟩
-  simp [Subgroup.mem_subgroupOf, Subgroup.mem_comap]
+  simp [Subgroup.mem_subgroupOf]
 
 theorem isSubnormal_eq_top_or_le_center {N : Type*} [Group N] (hN : CFSG.IsQuasisimple N)
     {H : Subgroup N} (h : H.IsSubnormal) : H = ⊤ ∨ H ≤ Subgroup.center N := by
@@ -197,7 +197,7 @@ theorem eq_or_commute_of_isSubnormal {N : Subgroup Q} (hNq : CFSG.IsQuasisimple 
 theorem three_dvd_card_of_exists {M : Type*} [Group M] {Y : Subgroup M}
     (hx : ∃ x ∈ Y, x ≠ 1 ∧ x ^ 3 = 1) : 3 ∣ Nat.card Y := by
   obtain ⟨x, hxY, hx1, hx3⟩ := hx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : (⟨x, hxY⟩ : Y) ^ 3 = 1 := Subtype.ext (by simpa using hx3)
   have h1 : (⟨x, hxY⟩ : Y) ≠ 1 := fun h => hx1 (congrArg Subtype.val h)
   exact (orderOf_eq_prime h3 h1) ▸ orderOf_dvd_natCard (⟨x, hxY⟩ : Y)

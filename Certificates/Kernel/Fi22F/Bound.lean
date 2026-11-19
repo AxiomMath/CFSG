@@ -19,7 +19,7 @@ noncomputable abbrev gen : ℕ → FG := pgen relsF
 
 theorem of_sq (i : Fin 6) : (PresentedGroup.of i : FG) * PresentedGroup.of i = 1 := by
   have h : FreeGroup.mk [(i, true), (i, true)] ∈ relsF := by
-    simp only [Set.mem_setOf_eq, List.mem_map, wsF, List.mem_append]
+    simp only [Set.mem_ofPred_eq, List.mem_map, wsF, List.mem_append]
     exact ⟨[(i, true), (i, true)], Or.inl ⟨i, List.mem_finRange i, rfl⟩, rfl⟩
   have := PresentedGroup.one_of_mem h
   rw [← this]
@@ -126,7 +126,7 @@ theorem letV_code (p : Fin 6 × Bool) :
     have h2 : ¬ (2 * i.val + 1) % 2 = 0 := by omega
     have h3 : (2 * i.val + 1) / 2 = i.val := by omega
     rw [e]
-    simp only [h1, h2, h3, ↓reduceIte, cond_false]
+    simp only [h1, h2, h3, ↓reduceIte, Bool.cond_false]
     rw [gen_lt hi]
   · have e : code (i, true) = 2 * i.val := by
       change 2 * i.val + 0 = _
@@ -134,7 +134,7 @@ theorem letV_code (p : Fin 6 × Bool) :
     have h1 : ¬ 2 * i.val = 255 := by omega
     rw [e]
     simp only [h1, ↓reduceIte, Nat.mul_mod_right, Nat.mul_div_cancel_left _ (by norm_num : 0 < 2),
-      cond_true]
+      Bool.cond_true]
     rw [gen_lt hi]
 
 theorem mk_eq_lift (x : FreeGroup (Fin 6)) :
@@ -323,7 +323,7 @@ theorem V_pW (i : ℕ) (w : List ℕ) : V (pW cs i w) = V (cs.getD i []) * (w.ma
   unfold pW
   rw [V_append, V_flatMap]
 
-theorem lt6_pW {i : ℕ} {w : List ℕ} (hw : ∀ g ∈ w, g < 6) : ∀ x ∈ pW cs i w, x < 6 := by
+theorem lt6_pW {i : ℕ} {w : List ℕ} (_hw : ∀ g ∈ w, g < 6) : ∀ x ∈ pW cs i w, x < 6 := by
   intro x hx
   simp only [pW, List.mem_append, List.mem_flatMap, Ew, List.mem_cons, List.mem_reverse] at hx
   rcases hx with hx | ⟨g, -, hx | rfl | hx⟩

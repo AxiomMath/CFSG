@@ -136,10 +136,10 @@ theorem cell_sound (hn : n ≤ 32) {N : ℕ} {E MK R : ℕ → ℕ} {k l : ℕ}
     rw [← hx, ← hy]
     exact comm_iff hn x y
   rcases Bool.eq_false_or_eq_true (Nat.beq (fd (R k) l) (nat_lit 255)) with hb | hb
-  · simp only [hb, notB_true, brec_false, Bool.false_eq_true, and_false, iff_false] at h1 h2
+  · simp only [hb, notB_true, Bool.false_eq_true, and_false, iff_false] at h1 h2
     exact ⟨⟨fun hb' => absurd hb' h1, fun ⟨hi, hxy⟩ => absurd (hc.2 hxy) (notB_iff.1 (h2 hi))⟩,
       fun hi hxy => absurd (hc.2 hxy) (notB_iff.1 (h2 hi))⟩
-  · simp only [hb, notB_false, brec_true, and_true] at h1 h2
+  · simp only [hb, notB_false, and_true] at h1 h2
     have h3 : inI MK l = true →
         fd (R k) l < N ∧ pcode (x * y) = E (fd (R k) l) ∧ x * y = y * x := by
       intro hi
@@ -200,7 +200,7 @@ theorem mset_ncard (hn : n ≤ 32) {T : Subgroup (Perm (Fin n))} {N : ℕ} {E : 
   choose! f hfT hf using hE.1
   have hset : mset n E N (maskL L) = f '' {k | k ∈ L} := by
     ext x
-    simp only [mset, bit_maskL, Set.mem_setOf_eq, Set.mem_image]
+    simp only [mset, bit_maskL, Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨k, hk, hkL, hx⟩
       exact ⟨k, hkL, (pcode_inj hn).1 ((hf k hk).trans hx.symm)⟩
@@ -329,7 +329,7 @@ theorem tri_sound (hn : n ≤ 32) {T : Subgroup (Perm (Fin n))} {N : ℕ} {E MK 
   have Cabc := cell_sound hn (hp _ hpab) hiab hpc heab hec
   obtain ⟨hpabc, heabc⟩ := Cabc.2 hic (Commute.mul_left (hac : Commute a c) hbc)
   have ht := impB_iff.1 (htr pa hpa) hia
-  simp only [triAt, letB_eq, impB_iff, allN_iff, andB_iff, notB_iff, orB_iff, beq_true_iff,
+  simp only [letB_eq, impB_iff, allN_iff, andB_iff, notB_iff, orB_iff, beq_true_iff,
     anyW_iff, bit_land] at ht
   obtain ⟨hXS, w, hwW, hwS⟩ := ht pb hpb ⟨Cab.1.2 ⟨hib, hab⟩, hne hpb hpa heb hea hba⟩ pc hpc
     ⟨⟨Cac.1.2 ⟨hic, hac⟩, Cbc.1.2 ⟨hic, hbc⟩⟩, by
@@ -442,7 +442,7 @@ theorem wit_sound (hn : n ≤ 32) (gs : List (Perm (Fin n))) {A : ℕ → ℕ}
     obtain ⟨p, hp3, hpk⟩ := (anyP_iff _ _).1 (impB_iff.1 ((allN_iff _ _).1 hcov k hk)
       (andB_iff.2 ⟨hbk, Nat.blt_eq.mpr h0⟩))
     have h3 := (allP_iff _ _).1 hthree p hp3
-    simp only [letB_eq, andB_iff, notB_iff] at h3
+    simp only [andB_iff, notB_iff] at h3
     obtain ⟨-, hl, ht1, ht3, htc⟩ := h3
     obtain ⟨t, htQ, ht⟩ := word_mem hn gs hA hl
     rw [beq_true_iff.1 hpk] at htc

@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 theorem StrothHyp.exists_width (H : StrothHyp M Q Z) : ∃ n : ℕ, Width Q Z n := by
   obtain ⟨K, _, _, γ, M₀, hK, -, -, -, ⟨S₁, S₂, hS, hS₁, hS₂⟩, -⟩ := stroth_globalModel H
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have h1 := Tim79.QuadModel.two_mul_finrank_le_of_totallySingular M₀ S₁ hS₁
   have h2 := Tim79.QuadModel.two_mul_finrank_le_of_totallySingular M₀ S₂ hS₂
   have hsum := Submodule.finrank_add_eq_of_isCompl hS
@@ -94,7 +94,8 @@ theorem IsOmegaMinus.congr {n q : ℕ} {X Y : Type} [Group X] [Group Y] (e : X �
   obtain ⟨K, f, fin, hK, b, c, hbc, ⟨e'⟩⟩ := h
   exact ⟨K, f, fin, hK, b, c, hbc, ⟨e.symm.trans e'⟩⟩
 
-theorem quotMulEquivBar [(Q.subgroupOf M).Normal] {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M) :
+omit [Finite G] in
+theorem quotMulEquivBar [(Q.subgroupOf M).Normal] {S : Subgroup G} (_hQS : Q ≤ S) (hSM : S ≤ M) :
     ∃ _ : (Q.subgroupOf S).Normal, Nonempty (↥S ⧸ Q.subgroupOf S ≃* ↥(bar M Q S)) := by
   let f : ↥S →* ↥M ⧸ Q.subgroupOf M :=
     (QuotientGroup.mk' (Q.subgroupOf M)).comp (Subgroup.inclusion hSM)
@@ -104,33 +105,36 @@ theorem quotMulEquivBar [(Q.subgroupOf M).Normal] {S : Subgroup G} (hQS : Q ≤ 
       QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf, Subgroup.coe_inclusion]
   have hrange : f.range = bar M Q S := by
     simp only [f, bar, MonoidHom.range_comp, Subgroup.inclusion_range]
-  haveI hn : (Q.subgroupOf S).Normal := by
+  have hn : (Q.subgroupOf S).Normal := by
     rw [← hker]
     exact f.normal_ker
   refine ⟨hn, ⟨?_⟩⟩
   exact ((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivRange f)).trans (MulEquiv.subgroupCongr hrange)
 
+omit [Finite G] in
 theorem quotSat_of_bar {P : ∀ (X : Type) [Group X], Prop}
     (hP : ∀ (X Y : Type) [Group X] [Group Y], X ≃* Y → P X → P Y) [(Q.subgroupOf M).Normal]
     {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M) (h : P ↥(bar M Q S)) : QuotSat S Q P := by
   obtain ⟨hn, ⟨e⟩⟩ := quotMulEquivBar (M := M) hQS hSM
   exact ⟨hn, hP _ _ e.symm h⟩
 
+omit [Finite G] in
 theorem OmegaPlusNat.quotSat {hc : Ctx M Q Z B} {t : G} {m : ℕ} (h : OmegaPlusNat hc t m) :
     QuotSat (Rt M (LB M Q B) t) (hc.CN t) (IsOmegaPlus m (Nat.card Z)) := by
   obtain ⟨K, fK, finK, hK, φ, hrange, hker, -⟩ := h
-  haveI hn : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal := by
+  have hn : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal := by
     rw [← hker]
     exact φ.normal_ker
   refine ⟨hn, K, fK, finK, hK, ⟨?_⟩⟩
   exact ((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivRange φ)).trans (MulEquiv.subgroupCongr hrange)
 
+omit [Finite G] in
 theorem OmegaMinusNat.quotSat {hc : Ctx M Q Z B} {t : G} {m : ℕ} (h : OmegaMinusNat hc t m) :
     QuotSat (Rt M (LB M Q B) t) (hc.CN t) (IsOmegaMinus m (Nat.card Z)) := by
   obtain ⟨K, fK, finK, hK, b, c, hbc, φ, hrange, hker, -⟩ := h
-  haveI hn : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal := by
+  have hn : ((hc.CN t).subgroupOf (Rt M (LB M Q B) t)).Normal := by
     rw [← hker]
     exact φ.normal_ker
   refine ⟨hn, K, fK, finK, hK, b, c, hbc, ⟨?_⟩⟩
@@ -139,7 +143,7 @@ theorem OmegaMinusNat.quotSat {hc : Ctx M Q Z B} {t : G} {m : ℕ} (h : OmegaMin
 
 omit [Finite G] in
 theorem quotProd (Q A B S : Subgroup G) [(Q.subgroupOf S).Normal] [(Q.subgroupOf A).Normal]
-    [(Q.subgroupOf B).Normal] (hQA : Q ≤ A) (hQB : Q ≤ B) (hAB : A ⊓ B = Q) (hS : A ⊔ B = S)
+    [(Q.subgroupOf B).Normal] (_hQA : Q ≤ A) (hQB : Q ≤ B) (hAB : A ⊓ B = Q) (hS : A ⊔ B = S)
     (hc : ∀ a ∈ A, ∀ b ∈ B, ⁅a, b⁆ ∈ Q) :
     Nonempty (↥S ⧸ Q.subgroupOf S ≃* (↥A ⧸ Q.subgroupOf A) × (↥B ⧸ Q.subgroupOf B)) := by
   have hAS : A ≤ S := hS ▸ le_sup_left
@@ -232,7 +236,7 @@ theorem quotProd (Q A B S : Subgroup G) [(Q.subgroupOf S).Normal] [(Q.subgroupOf
     exact this
   exact ⟨(MulEquiv.ofBijective Θ ⟨hinj, hsurj⟩).symm⟩
 
-theorem Ctx.LB_le_H0' (hc : Ctx M Q Z B) : LB M Q B ≤ H0 M Z := fun l hl =>
+theorem Ctx.LB_le_H0' (hc : Ctx M Q Z B) : LB M Q B ≤ H0 M Z := fun _l hl =>
   ⟨hc.LB_le_M hl, Subgroup.mem_centralizer_iff.mpr fun z hz =>
     (mul_inv_eq_iff_eq_mul.mp (hc.LB_centralizes_Z hl z hz)).symm⟩
 
@@ -247,17 +251,17 @@ theorem Ctx.isPGroup_LB (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} (
 
 theorem stroth_odd (h34 : Stroth34Statement) :
     ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-      (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
+      (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
       Odd (Nat.card ↥(Subgroup.centralizer (bar M Q (Lgen M (LB M Q B)) : Set (Mbar M Q)) ⊓
         bar M Q (H0 M Z))) := by
-  intro G _ _ M Q Z B _ hc n hw hn hno hgen
+  intro G _ _ M Q Z B _ _hc n hw hn hno hgen
   classical
   by_contra hodd
   set T := Lgen M (LB M Q B) with hT
-  have hTM : T ≤ M := Lgen_le hc.LB_le_M
+  have hTM : T ≤ M := Lgen_le _hc.LB_le_M
   have heven : Even (Nat.card ↥(Subgroup.centralizer (bar M Q T : Set (Mbar M Q)) ⊓
       bar M Q (H0 M Z))) := Nat.not_odd_iff_even.mp hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp heven)
   obtain ⟨y, hyH, hya⟩ := a.2.2
   have hc'H : (y : G) ∈ H0 M Z := hyH
@@ -283,8 +287,8 @@ theorem stroth_odd (h34 : Stroth34Statement) :
       exact commutatorElement_eq_one_iff_mul_comm.mpr h1.symm
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at h2
     exact h2
-  obtain ⟨n0, γ, M₀, -, h⟩ := stroth_globalModelDataGF hc.hyp
-  obtain ⟨φ, hφπ, hφker, -⟩ := exists_actionHom_H0 hc.hyp h
+  obtain ⟨n0, γ, M₀, -, h⟩ := stroth_globalModelDataGF _hc.hyp
+  obtain ⟨φ, hφπ, hφker, -⟩ := exists_actionHom_H0 _hc.hyp h
   set c0 : ↥(H0 M Z) := ⟨y, hc'H⟩ with hc0
   have hT0sq : φ c0 * φ c0 = 1 := by
     rw [← map_mul]
@@ -301,7 +305,7 @@ theorem stroth_odd (h34 : Stroth34Statement) :
     have hmemF : ∀ v, v ∈ F ↔ φ c0 v = v := by
       intro v
       simp [F, sub_eq_zero]
-    obtain ⟨b₀, hb₀, -⟩ := hc.dictB h
+    obtain ⟨b₀, hb₀, -⟩ := _hc.dictB h
     have hF0 : F ≠ ⊥ := by
       intro hF
       have hr : LinearMap.range ((φ c0 : M₀.E →ₗ[GaloisField 2 n0] M₀.E) - LinearMap.id) = ⊥ := by
@@ -316,13 +320,13 @@ theorem stroth_odd (h34 : Stroth34Statement) :
       exact (Submodule.mem_bot _).mp hbF
     have hA : ∀ m ∈ M, ∀ u ∈ conjSubgroup m B, M₀.π u ∈ F := by
       intro m hm u hu
-      have hcm : Ctx M Q Z (conjSubgroup m B) := hc.conj_of_mem hm
-      have hno' := hc.noA2_conj hno hm
+      have hcm : Ctx M Q Z (conjSubgroup m B) := _hc.conj_of_mem hm
+      have hno' := _hc.noA2_conj hno hm
       have hgen' := hgen.conj_of_mem hm
       have h35 := (stroth_3_5 h34 hcm hw hn hno' hgen').2.1
       have hLm : LB M Q (conjSubgroup m B) ≤ H0 M Z := hcm.LB_le_H0'
       have hLT : LB M Q (conjSubgroup m B) ≤ T := by
-        rw [hc.LB_conj hm]
+        rw [_hc.LB_conj hm]
         exact le_iSup₂_of_le m hm le_rfl
       let Λ : Subgroup (M₀.E ≃ₗ[GaloisField 2 n0] M₀.E) :=
         (φ.comp (Subgroup.inclusion hLm)).range
@@ -345,7 +349,7 @@ theorem stroth_odd (h34 : Stroth34Statement) :
         have key : φ c0 (φ (Subgroup.inclusion hLm l) v) = φ (Subgroup.inclusion hLm l) v := by
           rw [h3, hv]
         exact key
-      haveI : Finite M₀.E := Module.finite_of_finite (GaloisField 2 n0)
+      have : Finite M₀.E := Module.finite_of_finite (GaloisField 2 n0)
       obtain ⟨f, hfF, hf0, hfix⟩ := exists_fixed_vector_of_isPGroup Λ hΛp F hΛF hF0
       obtain ⟨x, hxQ, rfl⟩ := M₀.π_surj f
       have hxC : x ∈ CQt Q Z (LB M Q (conjSubgroup m B)) := by
@@ -354,13 +358,13 @@ theorem stroth_odd (h34 : Stroth34Statement) :
         have h1 := hfix _ hmem
         rw [← hφπ _ x hxQ] at h1
         exact (Tim79.QuadModel.comm_mem_iff (M₀ := M₀) hxQ
-          ((Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hcm.LB_le_M hl)) x).mp hxQ)).mpr h1
+          ((Subgroup.mem_normalizer_iff.mp (_hc.hyp.Q_normal.2 (hcm.LB_le_M hl)) x).mp hxQ)).mpr h1
       rw [h35] at hxC
       obtain ⟨b, hb0, -, hB, -, -⟩ := hcm.dictB h
       have hle' : conjSubgroup m B ⊔ Z ≤ M₀.lift (M₀.img (conjSubgroup m B)) := sup_le
         (fun u hu => ⟨hcm.le hu, M₀.pi_mem_img hu (hcm.le hu)⟩)
-        (fun z hz => ⟨hc.Z_le_Q hz, by
-          rw [(M₀.π_ker z (hc.Z_le_Q hz)).mpr hz]
+        (fun z hz => ⟨_hc.Z_le_Q hz, by
+          rw [(M₀.π_ker z (_hc.Z_le_Q hz)).mpr hz]
           exact AddSubgroup.zero_mem _⟩)
       obtain ⟨s, hs⟩ := (hB _).mp (hle' hxC).2
       have hs0 : s ≠ 0 := by
@@ -376,7 +380,7 @@ theorem stroth_odd (h34 : Stroth34Statement) :
       calc Q = ⨆ (m : G) (_ : m ∈ M), conjSubgroup m B := hgen
         _ ≤ M₀.lift F.toAddSubgroup := by
           refine iSup₂_le fun m hm u hu => ?_
-          exact ⟨(hc.conj_of_mem hm).le hu, hA m hm u hu⟩
+          exact ⟨(_hc.conj_of_mem hm).le hu, hA m hm u hu⟩
     intro e
     obtain ⟨x, hxQ, rfl⟩ := M₀.π_surj e
     exact (hmemF _).mp (hQle hxQ).2

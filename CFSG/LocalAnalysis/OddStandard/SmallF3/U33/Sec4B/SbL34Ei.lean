@@ -37,7 +37,7 @@ theorem crit_of_surj_core {Γ Λ : Type} [Group Γ] [Finite Γ] [Group Λ] [Fini
   ·
     exact Subgroup.Normal.map (inferInstance : P.Normal) π hπ
   ·
-    haveI : Nonempty ↥π.ker := ⟨1, π.ker.one_mem⟩
+    have : Nonempty ↥π.ker := ⟨1, π.ker.one_mem⟩
     have hker : Nat.card ↥(π.ker.subgroupOf P) = Nat.card π.ker :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKP).toEquiv
     have h1 : Nat.card π.ker * Nat.card Λ = Nat.card Γ :=

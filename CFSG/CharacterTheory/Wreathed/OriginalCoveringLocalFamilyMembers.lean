@@ -32,7 +32,7 @@ theorem original_covering_local_family_nonempty (n : ℕ) (hn : 2 ≤ n)
   refine ⟨Subgroup.normalizer (U : Set G), U,
     original_Sylow_nontrivial hell N hdiv P, ?_, rfl, hSP,
     original_sylow_normalizer_set_product hell N P, P, Subgroup.le_normalizer⟩
-  exact (P.isPGroup'.map (CFSG.oddCore N).subtype).map N.subtype
+  exact (P.isPGroup.map (CFSG.oddCore N).subtype).map N.subtype
 
 variable [IsSimpleGroup G]
 

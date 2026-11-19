@@ -44,7 +44,7 @@ theorem repsAt_spec {N W : Nat} {RC : List Nat} {RPK RIK QPK QGK DPK : Nat} {REP
         (andB ((imgW W (getK RC (imgW W QGK i)) (imgW W QPK i)).beq i)
           (andB ((getK OML (imgW W RIK i)).testBit (imgW W QPK i))
             ((imgW W DPK (imgW W QPK i)).blt (imgW W DPK i)))) = true at h5
-    simp only [letB_eq, andB_iff, blt_iff, beq_iff, bitK_eq, lenA_eq] at h5
+    simp only [andB_iff, blt_iff, beq_iff, lenA_eq] at h5
     obtain ⟨a1, a2, a3, a4⟩ := h5
     exact Or.inr ⟨hir, a1, a2, a3, a4⟩
 
@@ -63,7 +63,7 @@ theorem mem_le_sum {l : List Nat} {x : Nat} (h : x ∈ l) : x ≤ l.sum := by
     · omega
     · have := ih h; omega
 
-theorem reps_sound {N W : Nat} (hN : 0 < N) {qp : List (Nat × Nat)} {TF : Nat → Nat}
+theorem reps_sound {N W : Nat} (_hN : 0 < N) {qp : List (Nat × Nat)} {TF : Nat → Nat}
     {tab : Nat → Array Nat} (hT : ∀ p ∈ qp, TabP N W (TF p.1) (tab p.1)) {repR : Array Nat}
     {RPK RIK QPK QGK DPK : Nat} {REPS OML : List Nat} (hRP : Rep N W RPK repR)
     (hrs : repsSumK N REPS OML = true)

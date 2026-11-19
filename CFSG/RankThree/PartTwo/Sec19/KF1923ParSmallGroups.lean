@@ -26,7 +26,7 @@ theorem ksm_nine_ext {X : Type} [Group X] [Finite X] {P : Subgroup X}
   have hK : Nat.card K = 16 := by
     rw [Nat.card_congr eK.toEquiv]
     show Nat.card (Fin 4 → ZMod 2) = 16
-    simp [Nat.card_fun, Nat.card_eq_fintype_card, ZMod.card]
+    simp [Nat.card_eq_fintype_card, ZMod.card]
   have hQ' : Nat.card (↥P ⧸ K) = 120 := by
     rw [Nat.card_congr eQ.toEquiv, Nat.card_perm]
     simp [Nat.factorial]
@@ -101,7 +101,7 @@ theorem ksm_nineFree_a_six {X : Type} [Group X]
 theorem ksm_nineFree_u_three_three
     {X : Type} [Group X]
     (e : X ≃* projSU 3 3 1) : CFSG.AGLEmbedding.ParabHub.NineFreeOver X := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hadm : CFSG.Open.StatedLieAdmissible .PSU 3 3 1 := by
     unfold CFSG.Open.StatedLieAdmissible
     norm_num

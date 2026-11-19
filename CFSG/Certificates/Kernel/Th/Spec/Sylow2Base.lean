@@ -41,7 +41,7 @@ private theorem marked_iff (m r : ℕ) : marked m r = true ↔ m.testBit r = tru
     rw [show Nat.land m (Nat.shiftLeft 1 r) = m &&& (1 <<< r) from rfl, Nat.one_shiftLeft,
       Nat.and_two_pow]
   rw [e]
-  cases m.testBit r <;> simp [Nat.two_pow_pos]
+  cases m.testBit r <;> simp
 
 private theorem allMarked_of {L n m : ℕ} (h : allMarked L n m = true) {k : ℕ} (hk : k < n) :
     marked m (regAt L k) = true := by
@@ -350,7 +350,7 @@ private theorem isPGroup_closure (D : Sylow2Data)
       D.ThS_GL2 11 = true) :
     IsPGroup 2 (Subgroup.closure {g : J | ∃ j < 11,
       𝕄 g = pkMat (D.ThS_RBp2 (regAt D.ThS_GL2 j))}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hcm : pkMat D.ThS_Cm2 * pkMat D.ThS_Ci2 = 1 := by
     rw [← pkMat_mulB hk, hcc]
     exact pkMat_one hk

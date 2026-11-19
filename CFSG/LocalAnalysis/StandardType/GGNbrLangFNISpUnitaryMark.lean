@@ -85,9 +85,9 @@ theorem kgfniSp_unitaryBlock_negMarking_congr {X H : Type} [Group X] [Group H] {
   have hm2 : 2 ≤ m := by
     by_contra h
     have hm1 : m ≤ 1 := by omega
-    haveI : Subsingleton ↥(StatedSL m E) :=
+    have : Subsingleton ↥(StatedSL m E) :=
       CFSG.LieType.SemisimpleCentralizers.Held.hct_subsingleton_statedSL_of_le_one hm1
-    haveI : Subsingleton ↥(StatedSU m (2 ^ f) E) := by
+    have : Subsingleton ↥(StatedSU m (2 ^ f) E) := by
       refine ⟨fun x y => ?_⟩
       have hx : (⟨x.1, CFSG.Open.StatedAPI.statedSU_le_statedSL m (2 ^ f) E x.2⟩ :
           ↥(StatedSL m E)) =
@@ -95,7 +95,7 @@ theorem kgfniSp_unitaryBlock_negMarking_congr {X H : Type} [Group X] [Group H] {
         Subsingleton.elim _ _
       exact Subtype.ext (show (x : GL (Fin m) E) = (y : GL (Fin m) E) from
         congrArg (fun z : ↥(StatedSL m E) => (z : GL (Fin m) E)) hx)
-    haveI : Nontrivial (↥(StatedSU m (2 ^ f) E) ⧸
+    have : Nontrivial (↥(StatedSU m (2 ^ f) E) ⧸
         Subgroup.center ↥(StatedSU m (2 ^ f) E)) := hqs.2.toNontrivial
     obtain ⟨x, y, hxy⟩ := (inferInstance : Nontrivial (↥(StatedSU m (2 ^ f) E) ⧸
       Subgroup.center ↥(StatedSU m (2 ^ f) E))).exists_pair_ne
@@ -184,7 +184,6 @@ theorem kgfniSp_unitaryBlock_negMarking_congr {X H : Type} [Group X] [Group H] {
     intro x
     simp only [MulEquiv.trans_apply]
     rw [hθ x]
-    change eC (fC (θ x)) = g (eC (θ x))
     refine Subtype.ext ?_
     simp only [g, MulEquiv.trans_apply, MulEquiv.symm_apply_apply, eC_coe]
   exact kgFieldRestriction_of_oneMarking_congr (θ.trans eC) fX g hfg hmark

@@ -19,6 +19,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem pCoreOf_eq_self {p : ℕ} {H : Subgroup G} (hH : IsPGroup p H) :
     pCoreOf p H = H :=
   le_antisymm (CFSG.LieType.BorelTits.pCoreOf_le p H)
@@ -104,7 +105,7 @@ private theorem inf_cen_eq_pCore {D : Data G} {L : Subgroup G} (hL : L ≤ D.M)
     (QuotientGroup.eq_one_iff _).mp (Subgroup.mem_bot.mp hxcent)
   exact Subgroup.mem_map_of_mem (f := L.subtype) (K := CFSG.pCore 2 ↥L) h1
 
-private theorem commutator_mem_pCore_of_mem_cen {D : Data G} {L K : Subgroup G} (hL : L ≤ D.M)
+private theorem commutator_mem_pCore_of_mem_cen {D : Data G} {L K : Subgroup G} (_hL : L ≤ D.M)
     (hKL : K ≤ L) {k : G} (hk : k ∈ K) {y : G} (hy : y ∈ Cen D L) :
     k * y * k⁻¹ * y⁻¹ ∈ pCoreOf 2 L := by
   have hcomm : y * k⁻¹ * y⁻¹ * k ∈ pCoreOf 2 L := by
@@ -115,7 +116,7 @@ private theorem commutator_mem_pCore_of_mem_cen {D : Data G} {L K : Subgroup G} 
     (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L (hKL hk)) _).1 hcomm
 
 private theorem le_normalizer_of_isSylowOf_cen {D : Data G} {L X S : Subgroup G}
-    (hN : D.M ≤ Subgroup.normalizer (L : Set G)) (hL : L ≤ D.M) (hXL : X ≤ L)
+    (hN : D.M ≤ Subgroup.normalizer (L : Set G)) (hL : L ≤ D.M) (_hXL : X ≤ L)
     (hS : IsSylowOf 2 S (Cen D L))
     (h : ∀ x ∈ X, ∀ y ∈ Cen D L, x * y * x⁻¹ * y⁻¹ ∈ pCoreOf 2 L) :
     X ≤ Subgroup.normalizer (S : Set G) := by
@@ -172,6 +173,7 @@ private theorem exists_isSylowOf_normalized {p : ℕ} [Fact p.Prime] {K Q : Subg
     rw [hco] at h
     simpa [mul_assoc] using h
 
+omit [Finite G] in
 private theorem le_normalizer_sup_of_le_normalizer {A B C : Subgroup G}
     (hB : A ≤ Subgroup.normalizer (B : Set G)) (hC : A ≤ Subgroup.normalizer (C : Set G)) :
     A ≤ Subgroup.normalizer ((B ⊔ C : Subgroup G) : Set G) := by
@@ -180,6 +182,7 @@ private theorem le_normalizer_sup_of_le_normalizer {A B C : Subgroup G}
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (hB ha),
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (hC ha)]
 
+omit [Finite G] in
 private theorem H_le_normalizer_of_isSylowOf_cen {P H K S : Subgroup G}
     (hHset : (H : Set G) = (pCoreOf 2 H : Set G) * (K : Set G) * P)
     (hRN : pCoreOf 2 H ≤ Subgroup.normalizer (S : Set G))
@@ -247,6 +250,7 @@ private theorem mem_Uset {D : Data G} {L H : Subgroup G}
     x ∈ Uset D L h H ↔ MulAut.conj x ∈ Rbar D L h H :=
   Iff.rfl
 
+omit [Finite G] in
 private theorem conj_injective_of_center_eq_bot {L : Subgroup G}
     (hZ : center (Bar2 L) = ⊥) :
     Function.Injective (MulAut.conj : Bar2 L →* MulAut (Bar2 L)) := by
@@ -355,7 +359,7 @@ private theorem conj_mem_Rbar_iff_of_mem_barImage {D : Data G} {L X H : Subgroup
   exact key k hkX f
 
 private theorem barImage_le_normalizer_Uset {D : Data G} {L X H : Subgroup G}
-    (h : D.M ≤ Subgroup.normalizer (L : Set G)) (hXL : X ≤ L) (hXDM : X ≤ D.M)
+    (h : D.M ≤ Subgroup.normalizer (L : Set G)) (_hXL : X ≤ L) (hXDM : X ≤ D.M)
     (hXH : X ≤ H) :
     barImage L X ≤ Subgroup.normalizer (Uset D L h H : Set (Bar2 L)) := by
   intro kb hkb
@@ -520,6 +524,7 @@ private theorem cen_le_normalizer_barPreimage {D : Data G} {L : Subgroup G}
       rwa [show c⁻¹ * (c * y * c⁻¹) * (c⁻¹)⁻¹ = y from by group] at h
     exact ⟨hyL, (key hyL hcyL).symm ▸ hyY⟩
 
+omit [Finite G] in
 private theorem le_normalizer_barPreimage_of_le_normalizer {L X : Subgroup G}
     {Y : Subgroup (Bar2 L)} (hXL : X ≤ L)
     (hXY : barImage L X ≤ Subgroup.normalizer (Y : Set (Bar2 L))) :
@@ -551,6 +556,7 @@ private theorem le_normalizer_barPreimage_of_le_normalizer {L X : Subgroup G}
       rwa [show x⁻¹ * (x * y * x⁻¹) * x = y from by group] at h
     exact ⟨hyL, (hiff y hyL).mp hxyY⟩
 
+omit [Finite G] in
 private theorem barPreimage_bot_eq_pCoreOf (L : Subgroup G) :
     barPreimage L (⊥ : Subgroup (Bar2 L)) = pCoreOf 2 L := by
   ext x
@@ -565,6 +571,7 @@ private theorem barPreimage_bot_eq_pCoreOf (L : Subgroup G) :
     rw [h1]
     simpa using (QuotientGroup.eq_one_iff _).mpr hz
 
+omit [Finite G] in
 private theorem barImage_pCoreOf_eq_bot (L : Subgroup G) :
     barImage L (pCoreOf 2 L) = ⊥ := by
   rw [← barPreimage_bot_eq_pCoreOf L, barImage_barPreimage]
@@ -777,6 +784,7 @@ private theorem barImage_commutator_le_Uset {D : Data G} {L H K : Subgroup G}
   refine barImage_inf_le_Uset (D := D) (H := H) hHM ?_
   exact uc22p21c_mem_barImage.2 ⟨⟨_, hcL⟩, Subgroup.mem_inf.mpr ⟨hcR, hcL⟩, rfl⟩
 
+omit [Finite G] in
 private theorem kOf8103_le (L B : Subgroup G) : F08.KOf8103 L B ≤ L := by
   unfold F08.KOf8103 F08.DerInf8
   exact (Subgroup.map_subtype_le _).trans inf_le_left
@@ -940,7 +948,7 @@ private theorem le_normalizer_barPreimage_of_Rbar {D : Data G} {L H : Subgroup G
     rw [heq] at hgY
     exact (hiff _).mp hgY
 
-private theorem pCoreOf_parabolic_eq_Uset (hRad : KU45Radical) {D : Data G}
+private theorem pCoreOf_parabolic_eq_Uset (_hRad : KU45Radical) {D : Data G}
     {L P B H : Subgroup G} {p n : ℕ} (s : Std8105 D L P B p n)
     (hH : H ∈ calK8104 D P (F08.KOf8103 L B))
     (hR : ∀ R' : Subgroup G, R' ≤ D.M → IsPGroup 2 R' → H ≤ normalizer (R' : Set G) →
@@ -991,7 +999,7 @@ private theorem pCoreOf_parabolic_eq_Uset (hRad : KU45Radical) {D : Data G}
     (uc22p21c_barPreimage_le L (pCoreOf 2 X)))).trans
     (barImage_inf_le_Uset (D := D) (H := H) hHM)
 
-private theorem barPreimage_pCoreOf_le_R (hRad : KU45Radical) {D : Data G}
+private theorem barPreimage_pCoreOf_le_R (_hRad : KU45Radical) {D : Data G}
     {L P B H : Subgroup G} {p n : ℕ} (s : Std8105 D L P B p n)
     (hH : H ∈ calK8104 D P (F08.KOf8103 L B))
     (hR : ∀ R' : Subgroup G, R' ≤ D.M → IsPGroup 2 R' → H ≤ normalizer (R' : Set G) →
@@ -1038,7 +1046,7 @@ private theorem barPreimage_pCoreOf_le_R (hRad : KU45Radical) {D : Data G}
 
 private theorem barImage_P_inf_eq_bot {D : Data G} {L P B H : Subgroup G} {p n : ℕ}
     (s : Std8105 D L P B p n) {X : Subgroup (Bar2 L)}
-    (hO2 : pCoreOf 2 X = Uset D L s.normal H) :
+    (_hO2 : pCoreOf 2 X = Uset D L s.normal H) :
     barImage L P ⊓ pCoreOf 2 X = ⊥ := by
   rw [eq_bot_iff]
   rintro x ⟨hxP, hxO⟩
@@ -1072,8 +1080,8 @@ private theorem exists_map_conj_eq_of_isSylowOf {p : ℕ} [Fact p.Prime] {K A B 
     rfl
   rw [hBeq, hAeq, Subgroup.map_map, ← hmap, Subgroup.map_map, hcomp]
 
-private theorem exists_mul_of_mem_sup {D : Data G} {L P B H : Subgroup G} {p n : ℕ}
-    (s : Std8105 D L P B p n) {X : Subgroup (Bar2 L)}
+private theorem exists_mul_of_mem_sup {D : Data G} {L P B _H : Subgroup G} {p n : ℕ}
+    (_s : Std8105 D L P B p n) {X : Subgroup (Bar2 L)}
     (hPX : barImage L P ≤ X) {y : Bar2 L}
     (hy : y ∈ barImage L P ⊔ pCoreOf 2 X) :
     ∃ u ∈ pCoreOf 2 X, ∃ p ∈ barImage L P, u * p = y := by
@@ -1138,7 +1146,7 @@ private theorem alpha_prime_fixes_P {D : Data G} {L P B H : Subgroup G} {p n : �
     exact (Subgroup.mem_normalizer_iff.mp hxN u).mp hu
   have hcomm : ((MulAut.conj u)⁻¹ * α) x * x⁻¹ ∈ pCoreOf 2 X := by
     have hval : ((MulAut.conj u)⁻¹ * α) x = u⁻¹ * (α x) * u := by
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     rw [hval]
     have heq : u⁻¹ * (α x) * u * x⁻¹ = (u⁻¹ * (α x * x⁻¹)) * (x * u * x⁻¹) := by
       group
@@ -1234,6 +1242,7 @@ private theorem alpha_prime_normalizes_centralizer {D : Data G} {L P B : Subgrou
       Subgroup.map_id] at h2
   exact le_antisymm hle hge
 
+omit [Finite G] in
 private theorem map_kOf8103_of_map_centralizer {L B : Subgroup G} {β : MulAut (Bar2 L)}
     (hHmap : (Subgroup.centralizer (barImage L B : Set (Bar2 L))).map β.toMonoidHom =
       Subgroup.centralizer (barImage L B : Set (Bar2 L))) :
@@ -1263,11 +1272,11 @@ private theorem map_kOf8103_of_map_centralizer {L B : Subgroup G} {β : MulAut (
   exact map_eq_of_subgroupOf_characteristic hKH hKchar hHmap
 
 private theorem alpha_prime_normalizes_K {D : Data G} {L P B H : Subgroup G} {p n : ℕ}
-    (s : Std8105 D L P B p n) (hH : H ∈ calK8104 D P (F08.KOf8103 L B))
-    {X : Subgroup (Bar2 L)} (hPX : barImage L P ≤ X)
-    (hO2 : pCoreOf 2 X = Uset D L s.normal H)
-    {α : MulAut (Bar2 L)} (hα : α ∈ Rbar D L s.normal H)
-    {u : Bar2 L} (hu : u ∈ pCoreOf 2 X)
+    (s : Std8105 D L P B p n) (_hH : H ∈ calK8104 D P (F08.KOf8103 L B))
+    {X : Subgroup (Bar2 L)} (_hPX : barImage L P ≤ X)
+    (_hO2 : pCoreOf 2 X = Uset D L s.normal H)
+    {α : MulAut (Bar2 L)} (_hα : α ∈ Rbar D L s.normal H)
+    {u : Bar2 L} (_hu : u ∈ pCoreOf 2 X)
     (hPfix : ∀ x ∈ barImage L P, ((MulAut.conj u)⁻¹ * α) x = x) :
     (F08.KOf8103 ⊤ (barImage L B)).map ((MulAut.conj u)⁻¹ * α).toMonoidHom =
       F08.KOf8103 ⊤ (barImage L B) := by
@@ -1305,7 +1314,7 @@ private theorem alpha_prime_fixes_K {D : Data G} {L P B H : Subgroup G} {p n : �
     exact (Subgroup.mem_normalizer_iff.mp hxN u).mp hu
   have hcomm : α' x * x⁻¹ ∈ pCoreOf 2 X := by
     have hval : α' x = u⁻¹ * (α x) * u := by
-      simp [α', MulAut.conj_apply, mul_assoc]
+      simp [α', mul_assoc]
     rw [hval]
     have heq : u⁻¹ * (α x) * u * x⁻¹ = (u⁻¹ * (α x * x⁻¹)) * (x * u * x⁻¹) := by
       group
@@ -1328,7 +1337,7 @@ private theorem exists_conj_P_eq_of_mem_Rbar {D : Data G} {L P B H : Subgroup G}
     {α : MulAut (Bar2 L)} (hα : α ∈ Rbar D L s.normal H) :
     ∃ u ∈ pCoreOf 2 X, (barImage L P).map (MulAut.conj u).toMonoidHom =
       (barImage L P).map α.toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHM : H ≤ D.M := hH.1
   have hPL : P ≤ L := s.hyp.2.2.2.2.le
   have hPH : P ≤ H := P_le_of_mem_calK8104 hH
@@ -1354,7 +1363,7 @@ private theorem exists_conj_P_eq_of_mem_Rbar {D : Data G} {L P B H : Subgroup G}
     CFSG.ABGLocalTools.isSylowOf_of_card hαP
       (by rw [Subgroup.card_map_of_injective α.injective]; exact hPsylK.card_eq)
   obtain ⟨y, hyK, hy⟩ := exists_map_conj_eq_of_isSylowOf hαsylK hPsylK
-  obtain ⟨u, hu, p, hp, hup⟩ := exists_mul_of_mem_sup (H := H) s hPX (y := y) hyK
+  obtain ⟨u, hu, p, hp, hup⟩ := exists_mul_of_mem_sup (_H := H) s hPX (y := y) hyK
   refine ⟨u, hu, ?_⟩
   have hy' : u * p = y := hup
   have hPconj : (barImage L P).map (MulAut.conj p).toMonoidHom = barImage L P :=
@@ -1372,7 +1381,7 @@ private theorem isSylowOf_barImage_inf {D : Data G} {L T : Subgroup G}
     IsSylowOf 2 (barImage L (T ⊓ L)) ⊤ := by
   have hTL : IsSylowOf 2 (T ⊓ L) L := hT.inf_of_le_normalizer hL hN
   have hbar := isPGroup_barImage_of_isSylowOf Nat.prime_two hTL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   exact ⟨le_top, hbar.1, by simpa using hbar.2⟩
 
@@ -1386,7 +1395,7 @@ private theorem preimage_Rbar_eq_sup_cen {D : Data G} {L H : Subgroup G}
     Subgroup.map_subgroupOf_eq_of_le hHle, (cen_eq_ker h).symm]
 
 private theorem barRho_maps_barImage_inf {D : Data G} {L : Subgroup G}
-    {T : Subgroup G} (hT : IsSylowOf 2 T D.M) (hL : L ≤ D.M)
+    {T : Subgroup G} (hT : IsSylowOf 2 T D.M) (_hL : L ≤ D.M)
     (hN : D.M ≤ normalizer (L : Set G)) {t : G} (ht : t ∈ T) :
     (barImage L (T ⊓ L)).map (barRho D L hN ⟨t, hT.le ht⟩).toMonoidHom =
       barImage L (T ⊓ L) := by
@@ -1416,7 +1425,7 @@ private theorem barRho_maps_barImage_inf {D : Data G} {L : Subgroup G}
   exact Subgroup.eq_of_le_of_card_ge hforward (le_of_eq hcard.symm)
 
 private theorem exists_sylow_ge_R {D : Data G} {L P B H : Subgroup G} {p n : ℕ}
-    (s : Std8105 D L P B p n) (hH : H ∈ calK8104 D P (F08.KOf8103 L B)) :
+    (_s : Std8105 D L P B p n) (hH : H ∈ calK8104 D P (F08.KOf8103 L B)) :
     ∃ T : Subgroup G, IsSylowOf 2 T D.M ∧ pCoreOf 2 H ≤ T := by
   have hHDM : pCoreOf 2 H ≤ D.M := (CFSG.LieType.BorelTits.pCoreOf_le 2 H).trans hH.1
   have hR2 : IsPGroup 2 ((pCoreOf 2 H).subgroupOf D.M) :=
@@ -1481,7 +1490,7 @@ private theorem exists_parabolic_eq (hRad : KU45Radical) (hF5 : KU45AutOdd) {D :
       (∀ T₀ : Sylow 2 (Bar2 L), pCoreOf 2 X ≤ (T₀ : Subgroup (Bar2 L)) →
         Subgroup.normalizer ((T₀ : Subgroup (Bar2 L)) : Set (Bar2 L)) ≤ X) ∧
       Rbar D L s.normal H = (pCoreOf 2 X).map (MulAut.conj : Bar2 L →* MulAut (Bar2 L)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHM : H ≤ D.M := hH.1
   have hKH : F08.KOf8103 L B ≤ H := hH.2.2.1
   have hKL : F08.KOf8103 L B ≤ L := kOf8103_le L B
@@ -1520,6 +1529,7 @@ private theorem exists_parabolic_eq (hRad : KU45Radical) (hF5 : KU45AutOdd) {D :
   · rintro ⟨u, hu, rfl⟩
     exact mem_Uset.mp (hO2 ▸ hu)
 
+omit [Finite G] in
 private theorem pCoreOf_le_barImage_inf {L R T : Subgroup G} {X : Subgroup (Bar2 L)}
     (hpre : barPreimage L (pCoreOf 2 X) ≤ R) (hRT : R ≤ T) :
     pCoreOf 2 X ≤ barImage L (T ⊓ L) := by
@@ -1734,7 +1744,7 @@ theorem exists_sylow_le_normalizer (hRad : KU45Radical) (hBO : KU45BorelOrders)
   have h2 := Subgroup.mem_normalizer_iff.mp (hTN ht)
   rw [← heq, Subgroup.mem_normalizer_iff]
   intro x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+  simp only [Subgroup.mem_inf] at h1 h2 ⊢
   exact ⟨fun hx => ⟨(h1 x).mp hx.1, (h2 x).mp hx.2⟩,
     fun hx => ⟨(h1 x).mpr hx.1, (h2 x).mpr hx.2⟩⟩
 

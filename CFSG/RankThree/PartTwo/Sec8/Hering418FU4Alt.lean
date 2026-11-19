@@ -26,7 +26,7 @@ theorem center_projSU_four (hk : 1 ≤ k) : Subgroup.center (projSU 4 2 k) = ⊥
 
 theorem two_mul_le_twoRank_projSU_four (hk : 1 ≤ k) :
     2 * k ≤ CFSG.Open.twoRank (projSU 4 2 k) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 (2 * k)) = (2 ^ k) ^ 2 := by
     rw [GaloisField.card 2 (2 * k) (by omega), ← pow_mul, mul_comm]
   have h := CFSG.GH74.GLS.Stage1.Thm3.Sec5.Lem55.two_mul_le_pRank_psu_even hK
@@ -39,7 +39,7 @@ theorem two_mul_le_twoRank_projSU_four (hk : 1 ≤ k) :
 theorem card_projSU_four_eq_ordU4 (hk : 1 ≤ k) : Nat.card (projSU 4 2 k) = ordU4 k :=
   Sec4.RonanK432.card_projSU_four_two_eq hk
 
-theorem ordU4_eq (hk : 1 ≤ k) : ordU4 k = 2 ^ (6 * k) *
+theorem ordU4_eq (_hk : 1 ≤ k) : ordU4 k = 2 ^ (6 * k) *
     (((2 ^ k) ^ 2 - 1) * ((2 ^ k) ^ 3 + 1) * ((2 ^ k) ^ 4 - 1)) := by
   rw [ordU4, ← pow_mul, mul_comm k 6]
 
@@ -158,7 +158,7 @@ variable {X : Type} [Group X] {k : ℕ}
 
 theorem card_projSU_four_eq_ordTwistedA (hk : 1 ≤ k) :
     Nat.card (projSU 4 2 k) = CFSG.Open.ordTwistedA 3 (2 ^ k) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .PSU 4 2 k :=
     ⟨Nat.prime_two, hk, by norm_num, fun h => absurd (Prod.mk.inj h).1 (by norm_num)⟩
   have hc := CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSU hadm
@@ -194,7 +194,7 @@ theorem false_of_ordA {n : ℕ} (hk : 1 ≤ k) (e : X ≃* projSU 4 2 k) {i : �
 
 theorem false_L3 (hk : 1 ≤ k) (e : X ≃* projSU 4 2 k) {n : ℕ} (hn : 1 ≤ n)
     (φ : X ≃* projSL 3 (GaloisField 2 n)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .PSL 3 2 n :=
     ⟨Nat.prime_two, hn, by norm_num, fun h => absurd (Prod.mk.inj h).1 (by norm_num),
       fun h => absurd (Prod.mk.inj h).1 (by norm_num)⟩
@@ -223,7 +223,7 @@ theorem false_SL3 (hk : 1 ≤ k) (e : X ≃* projSU 4 2 k) {n : ℕ} (hn : 1 ≤
 
 theorem false_U3 (hk : 3 ≤ k) (e : X ≃* projSU 4 2 k) {m : ℕ} (hm : 1 ≤ m)
     (φ : X ≃* projSU 3 2 m) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hm1 : m = 1
   · subst hm1
     have h72 : Nat.card X = 72 := by
@@ -247,7 +247,7 @@ theorem false_U3 (hk : 3 ≤ k) (e : X ≃* projSU 4 2 k) {m : ℕ} (hm : 1 ≤ 
 
 theorem false_Sp4 (hk : 3 ≤ k) (e : X ≃* projSU 4 2 k) {n : ℕ} (hn : 1 ≤ n)
     (φ : X ≃* projSp 2 (GaloisField 2 n)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hn1 : n = 1
   · subst hn1
     have h720 : Nat.card X = 720 := by

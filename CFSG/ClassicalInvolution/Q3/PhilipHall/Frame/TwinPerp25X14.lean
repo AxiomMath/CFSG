@@ -40,7 +40,7 @@ theorem nonempty_equiv_of_mem_liftFam {Xs : Type} [Group Xs] [Finite Xs] {Δ : S
 theorem isPGroup_actImage (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {b : G} (hb2 : b * b = 1) :
     IsPGroup 2 ↥(((cA S R R').subgroupOf (Subgroup.centralizer ({b} : Set G))).map
       (TwinDisc.secAct hyp.std.1.stand.hyp (isPGroup_zpowers_of_sq_eq_one hb2))) := by
-  have hA2 : IsPGroup 2 ↥(cA S R R') := S.isPGroup'.to_le inf_le_left
+  have hA2 : IsPGroup 2 ↥(cA S R R') := S.isPGroup.to_le inf_le_left
   have hH2 : IsPGroup 2 ↥((cA S R R').subgroupOf (Subgroup.centralizer ({b} : Set G))) :=
     hA2.comap_subtype
   exact hH2.of_surjective ((TwinDisc.secAct hyp.std.1.stand.hyp
@@ -84,7 +84,7 @@ theorem layerFacts_of_typed (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {b : G}
     · have hπ : (!piSign 3 1) = true := by decide
       have hi' : ∃ i : Fin D.card, IsOrthTag 6 (!piSign 3 1) (D.tag i) (D.rank i) :=
         ⟨i, by rw [hπ]; exact hi⟩
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hLT := CFSG.ClassicalInvolution.Asc77.CX.layer6Twin_proved 3 1 _ _ D A A' _ _ _ hD1 hi' htw
       obtain ⟨eA⟩ := nonempty_equiv_of_mem_liftFam htw.hA hLT.2.1
       obtain ⟨eA'⟩ := nonempty_equiv_of_mem_liftFam htw.hA' hLT.2.2.1

@@ -35,7 +35,7 @@ theorem l2_psu_cover (hG : CFSG.ComponentClassification.HarrisLit.T1.P54.GriessN
       (CFSG.Open.StatedSU n (p ^ f) K) := by
     rw [MonoidHom.ker_comp_of_injective π₀ eS.symm.toMonoidHom eS.symm.injective,
       QuotientGroup.ker_mk']
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hSUperf : Group.IsPerfect (CFSG.Open.StatedSU n (p ^ f) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := p) (f := f) hK (by omega) (by
       intro h

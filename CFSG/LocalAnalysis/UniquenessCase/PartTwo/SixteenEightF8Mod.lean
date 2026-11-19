@@ -64,8 +64,8 @@ theorem s16g_exists_fixing_space {ι : Type} [Fintype ι] [DecidableEq ι] {K : 
       (∀ b ∈ B, ∀ u ∈ U, (b : Matrix ι ι K) *ᵥ u = u) ∧
       (∀ u ∈ U, (g : Matrix ι ι K) *ᵥ u = u → u = 0) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hp⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
   let ρ : Representation K ↥E (ι → K) := s16g_natRep E
   have hρ : ∀ (e : ↥E) (u : ι → K),
       ρ e u = ((e : Matrix.GeneralLinearGroup ι K) : Matrix ι ι K) *ᵥ u :=
@@ -86,7 +86,7 @@ theorem s16g_exists_fixing_space {ι : Type} [Fintype ι] [DecidableEq ι] {K : 
     apply hpK
     obtain ⟨n, -, hn⟩ := FiniteField.card K (ringChar K)
     rw [Nat.card_eq_fintype_card, hn, h]
-    simpa using pow_dvd_pow p (Nat.succ_le_of_lt n.pos)
+    simp
   have hp_ne : (p : K) ≠ 0 := by
     rw [Ne, ringChar.spec]
     intro hdvd
@@ -95,7 +95,7 @@ theorem s16g_exists_fixing_space {ι : Type} [Fintype ι] [DecidableEq ι] {K : 
   have hne : (Nat.card ↥E : K) ≠ 0 := by
     rw [hk, Nat.cast_pow]
     exact hpK_pow
-  haveI : NeZero (Nat.card ↥E : K) := ⟨hne⟩
+  have : NeZero (Nat.card ↥E : K) := ⟨hne⟩
   have hPtop : (∀ e : ↥E, ∀ u ∈ (⊤ : Submodule K (ι → K)),
         ρ e u ∈ (⊤ : Submodule K (ι → K))) ∧
       ∃ e : ↥E, ∃ u ∈ (⊤ : Submodule K (ι → K)), ρ e u ≠ u := by
@@ -103,7 +103,7 @@ theorem s16g_exists_fixing_space {ι : Type} [Fintype ι] [DecidableEq ι] {K : 
     have hcard_gt : 1 < Nat.card ↥E := by
       calc 1 < p ^ 3 := one_lt_pow' hp.one_lt (by norm_num : (3 : ℕ) ≠ 0)
         _ ≤ Nat.card ↥E := hcard
-    haveI : Nontrivial ↥E := Finite.one_lt_card_iff_nontrivial.mp hcard_gt
+    have : Nontrivial ↥E := Finite.one_lt_card_iff_nontrivial.mp hcard_gt
     obtain ⟨e, he⟩ := exists_ne (1 : ↥E)
     have hρinj : Function.Injective ρ := by
       intro x y hxy
@@ -208,7 +208,7 @@ theorem s16g_exists_fixing_space {ι : Type} [Fintype ι] [DecidableEq ι] {K : 
       have h2 : W₁.map U.subtype = (⊤ : Submodule K ↥U).map U.subtype := by
         rw [h, Submodule.map_top, Submodule.range_subtype]
       exact Submodule.map_injective_of_injective U.injective_subtype h2
-  haveI : Nontrivial ↥U := Submodule.nontrivial_iff_ne_bot.mpr hUne
+  have : Nontrivial ↥U := Submodule.nontrivial_iff_ne_bot.mpr hUne
   have hcyc : IsCyclic ((⊤ : Subgroup ↥E).map ρU.toHomUnits) :=
     CFSG.RankThree.PartTwo.KFacts.NDC.isCyclic_image_of_simple_abelian
       (ρ := ρU) (B := ⊤) (by

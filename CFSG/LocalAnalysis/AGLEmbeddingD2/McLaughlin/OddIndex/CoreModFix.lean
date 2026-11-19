@@ -41,16 +41,13 @@ theorem fix_or_trivial (P : Subgroup Y) [P.Normal] (hsimple : IsSimpleGroup (Y �
     let N : Subgroup Y :=
       { carrier := {y | ∀ w ∈ W, ρ y w = w}
         mul_mem' := fun {y z} hy hz w hw => by
-          change ρ (y * z) w = w
           rw [map_mul, MulAut.mul_apply, hz w hw, hy w hw]
         one_mem' := fun w _ => by rw [map_one]; rfl
         inv_mem' := fun {y} hy w hw => by
-          change ρ y⁻¹ w = w
           have := hy w hw
           calc ρ y⁻¹ w = ρ y⁻¹ (ρ y w) := by rw [this]
             _ = w := ρ_inv_apply ρ y w }
     have hNn : N.Normal := ⟨fun n hn g w hw => by
-      change ρ (g * n * g⁻¹) w = w
       have hgw : ρ g⁻¹ w ∈ W := hW g⁻¹ w hw
       rw [map_mul, map_mul, MulAut.mul_apply, MulAut.mul_apply, hn _ hgw, ρ_apply_inv]⟩
     have hPN : P ≤ N := fun p hp w hw => hP p hp w hw
@@ -76,7 +73,7 @@ end Core
 theorem modFix {Y : Type} [Group Y] [Finite Y] (hY : IsLThreeTwo (Y ⧸ CFSG.pCore 2 Y)) {a : Y}
     (ha : orderOf a = 3) : ModFix Y a := by
   intro I _ _ hcomm hnt hsq ρ
-  letI : CommGroup I := { ‹Group I› with mul_comm := hcomm }
+  let : CommGroup I := { ‹Group I› with mul_comm := hcomm }
   set P := CFSG.pCore 2 Y with hPdef
   have hPn : P.Normal := CFSG.pCore_normal
   have hP2 : IsPGroup 2 P := CFSG.pCore_isPGroup
@@ -108,14 +105,14 @@ theorem modFix {Y : Type} [Group Y] [Finite Y] (hY : IsLThreeTwo (Y ⧸ CFSG.pCo
     have hx₀2 : x₀ ^ 2 = 1 := by rw [pow_two]; exact hsq x₀
     have hord : orderOf x₀ = 2 := orderOf_eq_prime hx₀2 hx₀
     have h2 : 2 ∣ Nat.card I := hord ▸ orderOf_dvd_natCard x₀
-    letI : MulAction ↥P I := MulAction.compHom I (ρ.comp P.subtype)
+    let : MulAction ↥P I := MulAction.compHom I (ρ.comp P.subtype)
     have hmod := IsPGroup.card_modEq_card_fixedPoints hP2 (α := I)
     have hev : 2 ∣ Nat.card (MulAction.fixedPoints ↥P I) :=
       (Nat.ModEq.dvd_iff hmod (dvd_refl 2)).mp h2
     have h1₀ : (1 : I) ∈ MulAction.fixedPoints ↥P I := fun p => by
       show ρ p 1 = 1
       exact map_one _
-    haveI : Nonempty (MulAction.fixedPoints ↥P I) := ⟨⟨1, h1₀⟩⟩
+    have : Nonempty (MulAction.fixedPoints ↥P I) := ⟨⟨1, h1₀⟩⟩
     have hpos : 0 < Nat.card (MulAction.fixedPoints ↥P I) := Nat.card_pos
     have h1 : 1 < Nat.card (MulAction.fixedPoints ↥P I) := by
       obtain ⟨m, hm⟩ := hev

@@ -72,7 +72,7 @@ theorem fixed_support_tops (hK : ∃ t : K, t ≠ 0 ∧ t ≠ 1) (h1 : Adm1 a1) 
     have hco := coeff_vanish hK (hfix γ hγ) ν
     rcases hcase with ⟨hr, hnr⟩ | hr
     · have hab := (h1.short γ hγS ν hνD).1 hr
-      rw [if_neg hnr] at hab
+      rw [ite_eq_right hnr] at hab
       exact hν ((mul_eq_zero.1 hco.1).resolve_left (cast_ne_zero_of_abs_eq_one hab))
     · have hab := (h2.short γ hγS ν hνD).1 hr
       exact hν ((mul_eq_zero.1 hco.2).resolve_left (cast_ne_zero_of_abs_eq_one hab))
@@ -82,9 +82,9 @@ theorem fixed_support_tops (hK : ∃ t : K, t ≠ 0 ∧ t ≠ 1) (h1 : Adm1 a1) 
     have hco := coeff_vanish hK (hfix γ hγ) ν
     have hab := (h1.short γ hγS ν hνD).1 hr
     by_cases hmem : ν - γ ∈ rootFinset .F4
-    · rw [if_pos hmem] at hab
+    · rw [ite_eq_left hmem] at hab
       exact hν ((mul_eq_zero.1 hco.1).resolve_left (cast_ne_zero_of_abs_eq_two hab h2K))
-    · rw [if_neg hmem] at hab
+    · rw [ite_eq_right hmem] at hab
       exact hν ((mul_eq_zero.1 hco.1).resolve_left (cast_ne_zero_of_abs_eq_one hab))
 
 theorem exists_max_aux {P : ℕ → Prop} (h0 : P 0) : ∀ n, ¬ P n → ∃ k, P k ∧ ¬ P (k + 1)

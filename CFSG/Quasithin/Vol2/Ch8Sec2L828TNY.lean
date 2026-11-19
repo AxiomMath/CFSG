@@ -90,7 +90,7 @@ theorem s828N_sylow3_cyclic {U K Y : Subgroup G}
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro S
   by_contra hS
-  have : Fact (IsPGroup 3 ↥(S : Subgroup ↥Y)) := ⟨S.isPGroup'⟩
+  have : Fact (IsPGroup 3 ↥(S : Subgroup ↥Y)) := ⟨S.isPGroup⟩
   obtain ⟨S₁, -, hS₁card, hS₁el⟩ := CFSG.lemma_4_5_a (by norm_num : (3 : ℕ) ≠ 2) hS
   set E : Subgroup G := (S₁.map (S : Subgroup ↥Y).subtype).map Y.subtype with hEdef
   have hEcard : Nat.card E = 3 ^ 2 := by

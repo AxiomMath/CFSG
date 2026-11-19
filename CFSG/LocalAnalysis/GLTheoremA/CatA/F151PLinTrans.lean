@@ -31,8 +31,8 @@ private theorem linNormTrans_aux (hiso : ShapeModelNormIso) (hmodel : LinNormMod
       have := CFSG.Models.LieModel.statedClassicalModel hLM (t := .PSL) (by decide)
       simpa [hq2] using this
     obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eK⟩⟩ := hsc
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     have hn : 1 ≤ n := by
       have hval := hv
       rw [TauCeti.LieTypeIndex.valid_iff] at hval
@@ -51,7 +51,7 @@ private theorem linNormTrans_aux (hiso : ShapeModelNormIso) (hmodel : LinNormMod
         ≃* CFSG.Assembly.LargeEvenProj (CFSG.Open.StatedSL (n + 1) K) :=
       MulEquiv.cast (M := fun H => CFSG.Assembly.LargeEvenProj H)
         (CFSG.Assembly.largeEvenSLGroup_eq_statedSL (n + 1))
-    haveI : Finite
+    have : Finite
         (CFSG.Assembly.LargeEvenProj (CFSG.Assembly.LargeEvenSLGroup (Fin (n + 1)) K)) :=
       Finite.of_equiv S (hcast.trans eK.symm).symm.toEquiv
     exact hiso _ S (hcast.trans eK.symm) p hmodelAt
@@ -82,8 +82,8 @@ private theorem uniNormTrans_aux (hiso : ShapeModelNormIso) (hmodel : UniNormMod
       have h := CFSG.Models.LieModel.statedClassicalModel hLM (t := .PSU) (by decide)
       rwa [hch, hfe] at h
     obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eK⟩⟩ := hsc
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     have hn : 2 ≤ n := by
       have hval := hv
       rw [TauCeti.LieTypeIndex.valid_iff] at hval
@@ -102,7 +102,7 @@ private theorem uniNormTrans_aux (hiso : ShapeModelNormIso) (hmodel : UniNormMod
     have hmodelAt' : ShapeModelNormAt
         (CFSG.Open.StatedProj (CFSG.Open.StatedSU (n + 1) (2 ^ q.exponent) K)) p :=
       hmodelAt
-    haveI : Finite
+    have : Finite
         (CFSG.Open.StatedProj (CFSG.Open.StatedSU (n + 1) (2 ^ q.exponent) K)) :=
       Finite.of_equiv S eK.toEquiv
     exact hiso _ S eK.symm p hmodelAt'

@@ -201,7 +201,7 @@ theorem a11P0_spec : Nat.card a11P0 = 81 ∧
   set N : Subgroup A11 := Subgroup.normalizer (a11A0 : Set A11) with hN
   have hAN : a11A0 ≤ N := Subgroup.le_normalizer
   set A' : Subgroup N := a11A0.subgroupOf N with hA'
-  haveI : A'.Normal := Subgroup.normal_in_normalizer
+  have : A'.Normal := Subgroup.normal_in_normalizer
   set z' : N := ⟨a11z, a11z_mem_normalizer⟩ with hz'
   have hz3 : z' ^ 3 = 1 := Subtype.ext (by simpa [hz'] using a11_facts.2.2.2.2.2.2.2.2.2.2)
   have hset := Subgroup.mul_normal (Subgroup.zpowers z') A'
@@ -219,7 +219,7 @@ theorem a11P0_spec : Nat.card a11P0 = 81 ∧
     rw [hset, Subgroup.card_mul_eq_card_subgroup_mul_card_quotient, himg]
     have hA'c : Nat.card A' = 27 := by
       rw [hA', Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAN).toEquiv, a11A0_e27.2]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hzc : Nat.card ↥((Subgroup.zpowers (QuotientGroup.mk' A' z') : Subgroup (N ⧸ A')) :
         Set (N ⧸ A')) = 3 := by
       change Nat.card (Subgroup.zpowers (QuotientGroup.mk' A' z')) = 3

@@ -18,7 +18,7 @@ theorem exists_conj_eq_inv_of_isPerfect {Q : Type*} [Group Q] [Finite Q] {Y : Su
     (h3 : ∀ y ∈ Y, y * x = x * y → y ^ 3 = 1 → y ∈ Subgroup.zpowers x) :
     ∃ n ∈ Y, n * x * n⁻¹ = x⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X := ↥Y
   let x' : X := ⟨x, hxY⟩
   have hx'3 : orderOf x' = 3 := by
@@ -33,8 +33,8 @@ theorem exists_conj_eq_inv_of_isPerfect {Q : Type*} [Group Q] [Finite Q] {Y : Su
     rw [Nat.card_zpowers, hx'3, pow_one]
   obtain ⟨P, hxP⟩ := hxp.exists_le_sylow
   have hx'P : x' ∈ (P : Subgroup X) := hxP (Subgroup.mem_zpowers x')
-  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup'
-  haveI hPnt : Nontrivial ↥(P : Subgroup X) :=
+  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup
+  have hPnt : Nontrivial ↥(P : Subgroup X) :=
     ⟨⟨x', hx'P⟩, ⟨1, (P : Subgroup X).one_mem⟩, by
       intro h; exact hx'ne (congrArg Subtype.val h)⟩
   let x'P : ↥(P : Subgroup X) := ⟨x', hx'P⟩
@@ -103,9 +103,9 @@ theorem exists_conj_eq_inv_of_isPerfect {Q : Type*} [Group Q] [Finite Q] {Y : Su
   have hPcyc : IsCyclic ↥(P : Subgroup X) :=
     CFSG.RankThree.PartOne.K1214.isCyclic_subgroup_of_pow_eq_one_subset
       (p := 3) Nat.prime_three (by norm_num) (Z := (P : Subgroup X)) hP3 hx'P hx'3 h3'
-  haveI : IsMulCommutative ↥(P : Subgroup X) := hPcyc.isMulCommutative
+  have : IsMulCommutative ↥(P : Subgroup X) := hPcyc.isMulCommutative
   have hcomm_top : _root_.commutator X = ⊤ := by
-    letI : Group.IsPerfect X := hY
+    let : Group.IsPerfect X := hY
     exact Group.IsPerfect.commutator_eq_top
   have hex : ∃ n ∈ Subgroup.normalizer (P : Set X), n⁻¹ * x' * n ≠ x' := by
     by_contra h
@@ -171,7 +171,7 @@ theorem exists_mem_normalizer_mk'_eq {M : Type*} [Group M] [Finite M] {p : ℕ} 
   let B : Subgroup M := A ⊔ N
   let C : Subgroup M := A.map (MulAut.conj m).toMonoidHom
   have hAN : A ⊓ N = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     obtain ⟨k, hk⟩ := hA.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd (Fact.out : p.Prime)).mpr hN)
@@ -277,7 +277,7 @@ theorem exists_mem_normalizer_mk'_eq {M : Type*} [Group M] [Finite M] {p : ℕ} 
     have h := Subgroup.inv_mem _ hmb_norm
     simpa using h
   have hbB : (b : M) ∈ A ⊔ N := by
-    simpa [B] using b.2
+    simp [B]
   obtain ⟨a, haA, n', hnN, hdecomp⟩ :=
     (Subgroup.mem_sup_of_normal_right (s := A) (t := N)).mp hbB
   let s : M := a * ((b : M)⁻¹ * m)
@@ -294,7 +294,7 @@ theorem exists_mem_normalizer_mk'_eq {M : Type*} [Group M] [Finite M] {p : ℕ} 
     _ = QuotientGroup.mk' N (a * n'⁻¹ * a⁻¹) * QuotientGroup.mk' N m := map_mul _ _ _
     _ = 1 * r := by
           congr 1
-          simp [map_mul, map_inv, hqn, hm]
+          simp [map_mul, map_inv, hqn]
     _ = r := one_mul r
 
 end CFSG.GroupTheory

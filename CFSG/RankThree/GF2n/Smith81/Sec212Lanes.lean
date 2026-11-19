@@ -13,6 +13,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 
 variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem conjClassSet_inter_cosetSet_eq_of_inZClass {z x : G} (hz : z ∈ Z) (hz1 : z ≠ 1)
     (hxc : IsConj z x) (h4 : ∀ z' ∈ Z, InZClass Z (x * z') → z' = 1) :
     conjClassSet z ∩ cosetSet x Z = {x} := by
@@ -46,7 +47,7 @@ theorem isRootInvolutionSet_of_lin213Prop (H : StrothHyp M Q Z) {z : G} (hz : z 
     obtain ⟨m, -, hm⟩ := Z_isConj H hz hz1 hu hu1
     exact isConj_iff.mpr ⟨g * m, by rw [e, ← hm]; group⟩
   refine ⟨fun d hdD => ?_, fun d hdD e heD => ?_, fun d hdD e heD ho => ?_⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [sq]; exact mul_self_eq_one_of_isConj_Z H hz hdD.1)
       (ne_one_of_isConj_Z hz1 hdD.1)
   · exact (h d e hdD.2 heD.2 (hcl hdD.1) (hcl heD.1)).1

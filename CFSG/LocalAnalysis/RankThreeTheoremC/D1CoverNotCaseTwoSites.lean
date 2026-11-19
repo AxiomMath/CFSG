@@ -32,7 +32,7 @@ theorem D1ComponentConfig3.false_of_cyclic_of_surjective (hSch : KFactCatalogSch
     (φ : Jt →* L) (hφ : Function.Surjective φ) (hcop : p.Coprime (Nat.card φ.ker))
     (hXR : Xt ≤ Rbar) (hncl : nclIn Jt Xt = Jt) (hXJ : Xt ≤ Jt) (hXnc : ¬ IsCyclic Xt) :
     False := by
-  haveI : Fact p.Prime := ⟨hcfg.red.prime⟩
+  have : Fact p.Prime := ⟨hcfg.red.prime⟩
   exact Hyp111.ReducedNongeneration.false_of_surjective_of_cyclic hcfg.red hall
     hcfg.exists_isComponentOf
     (fun L' hL' =>

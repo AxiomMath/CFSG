@@ -48,7 +48,7 @@ theorem s16h_sl4_kernel_three_dvd_of_bad
   have hMs : D.M ≤ stabTil ⊥ V :=
     le_stabTil h.hyp151.hyp125.pairFacts.le_normalizer
       h.hyp151.hyp125.pairFacts.le_normalizer₀
-  haveI : Finite (MulAut (Vtil ⊥ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil ⊥ V hV)) := MulEquiv.finite_left
   have hsig : D.sig = {3} :=
     s16h_sl4_bad_three_mem D S hσ hJP h hs2 ht ht2 ht1 htr hW hcomp hthin hZ hbad hrow
       hZ4 hxM hxn
@@ -57,7 +57,7 @@ theorem s16h_sl4_kernel_three_dvd_of_bad
   have h3C : ¬ 3 ∣ Nat.card ↥(F11.CTilde D.M ⊥ V) :=
     s16h_sl4_three_not_dvd_kernel D S hσ hJP h hs2 ht ht2 ht1 htr hW hcomp hthin hZ hbad
       hrow hZ4 hxM hxn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEM, hEab, hEcard⟩ :=
     CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) D.M
   have h27pow : 27 ≤ 3 ^ CFSG.Open.pRank 3 D.M := by

@@ -138,6 +138,7 @@ private theorem sylowTau_comm_T2J9a (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
       sylowTau_T2J9a hirr q * sylowTau_T2J9a hirr p := by
   rw [← map_mul, ← map_mul, mul_comm]
 
+omit [Field F] [Finite F] [CharP F 2] in
 private theorem three_dvd_card_sub_one_T2J9a {n : ℕ} (hcard : Nat.card F = 2 ^ n)
     (hn : Even n) : 3 ∣ Nat.card F - 1 := by
   obtain ⟨m, rfl⟩ := hn
@@ -148,6 +149,7 @@ private theorem three_dvd_card_sub_one_T2J9a {n : ℕ} (hcard : Nat.card F = 2 ^
   have hpow : 4 ^ m ≡ 1 [MOD 3] := by simpa using h4.pow m
   exact (Nat.modEq_iff_dvd' (Nat.one_le_pow m 4 (by norm_num))).mp hpow.symm
 
+omit [Finite F] [CharP F 2] in
 private theorem three_dvd_card_units_T2J9a {n : ℕ} (hcard : Nat.card F = 2 ^ n)
     (hn : Even n) : 3 ∣ Nat.card Fˣ := by
   rw [Nat.card_units (α := F)]
@@ -174,6 +176,7 @@ private theorem orderOf_torus0_T2J9a (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     simp at hω₀
   exact orderOf_eq_prime ht3 htne
 
+omit [Finite F] [CharP F 2] in
 private theorem unit_cube_root_T2J9a {ω₀ : Fˣ} (hω₀ : orderOf ω₀ = 3) :
     (ω₀ : F) ^ 3 = 1 ∧ (ω₀ : F) ≠ 1 := by
   constructor
@@ -209,7 +212,7 @@ private theorem sylow3_zpowers_le_T2J9a (hirr : ∀ s : F, s ^ 2 + b * s + c ≠
   let x0 : Fˣ × Fˣ := (ω₀, 1)
   have hx0ord : orderOf x0 = 3 := by
     rw [Prod.orderOf_mk]
-    simp [x0, hω₀]
+    simp [hω₀]
   have hzp : IsPGroup 3 (Subgroup.zpowers x0) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx0ord, pow_one])
   have hleS : Subgroup.zpowers x0 ≤ (S₃ : Subgroup (Fˣ × Fˣ)) :=
@@ -250,7 +253,7 @@ theorem exists_sylow3_torus (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n : ℕ
       (∀ x ∈ P₃, ∀ y ∈ P₃, x * y = y * x) ∧
       P₃ ≤ pointStabilizer (quadMinus 3 F b c) (stdP0 F b c).e := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨ω₀, hω₀⟩ := exists_prime_orderOf_dvd_card' 3
     (three_dvd_card_units_T2J9a hcard hn)
   let t : Gom (quadMinus 3 F b c) := sylowTorus0_T2J9a hirr ω₀

@@ -45,6 +45,7 @@ theorem mem_CxK_self' {t : G} {J : Subgroup G} (hJC : J ≤ centralizer ({t} : S
     obtain ⟨z', -, rfl⟩ := hz
     exact z'.2
 
+omit [Finite G] in
 theorem a7_rigid_rtg_of_step (hstep : A7StepClosure G) {p q : G × Subgroup G}
     (h : Relation.ReflTransGen (fun a b : G × Subgroup G => PumpUpLT 2 a.1 a.2 b.1 b.2) p q)
     (hA : Nonempty (kBar p.2 ≃* alternatingGroup (Fin 7))) :
@@ -53,6 +54,7 @@ theorem a7_rigid_rtg_of_step (hstep : A7StepClosure G) {p q : G × Subgroup G}
   | refl => exact hA
   | tail _ hlt ih => exact hstep _ _ _ _ hlt ih
 
+omit [Finite G] in
 theorem a7_rigid_long_of_step (hstep : A7StepClosure G) {u u' : G} {L L' : Subgroup G}
     (hlong : LongPumpUp 2 u L u' L') (hA : Nonempty (kBar L ≃* alternatingGroup (Fin 7))) :
     Nonempty (kBar L' ≃* alternatingGroup (Fin 7)) :=

@@ -55,9 +55,9 @@ theorem rankOne_simple_normal {G : Type*} [Group G] (B U : Subgroup G) (hUB : U 
     apply hSne
     have hsolv : Group.IsSolvable S :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hSB) (Subgroup.inclusion_injective hSB)
-    haveI : Group.IsPerfect S := Subgroup.isPerfect_iff.2 hperf
+    have : Group.IsPerfect S := Subgroup.isPerfect_iff.2 hperf
     by_contra hne
-    haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).2 hne
+    have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).2 hne
     exact Group.IsPerfect.not_isSolvable S hsolv
   obtain ⟨g, hgS, hgB⟩ := Set.not_subset.1 hSB
   by_cases hAB : A ≤ B
@@ -121,9 +121,9 @@ theorem rankOne_simple_normal {G : Type*} [Group G] (B U : Subgroup G) (hUB : U 
           calc s = (b' * b₀⁻¹) * a₀ * u₀⁻¹ * u'' := e1.symm
             _ = _ := by group
         exact e
-    haveI : Group.IsPerfect S := Subgroup.isPerfect_iff.2 hperf
+    have : Group.IsPerfect S := Subgroup.isPerfect_iff.2 hperf
     set A' : Subgroup S := A.subgroupOf S with hA'
-    haveI hA'n : A'.Normal := ⟨fun x hx g => by
+    have hA'n : A'.Normal := ⟨fun x hx g => by
       have h1 : (x : G) ∈ A := hx
       exact hAn g.1 g.2 x h1⟩
     by_contra hne
@@ -152,13 +152,13 @@ theorem rankOne_simple_normal {G : Type*} [Group G] (B U : Subgroup G) (hUB : U 
       { toFun := fun v => ⟨(v.1 : G), v.2⟩
         map_one' := rfl
         map_mul' := fun _ _ => rfl }
-    haveI hBsolv' : Group.IsSolvable ↥(B.subgroupOf S) :=
+    have hBsolv' : Group.IsSolvable ↥(B.subgroupOf S) :=
       Group.isSolvable_of_isSolvable_injective (f := f) (by
         intro a b h
         have h' : ((a.1 : S) : G) = ((b.1 : S) : G) := congrArg (fun z : ↥B => (z : G)) h
         exact Subtype.ext (Subtype.ext h'))
-    haveI : Group.IsSolvable (↥S ⧸ A') := Group.isSolvable_of_surjective hsurj
-    haveI : Nontrivial (↥S ⧸ A') := by
+    have : Group.IsSolvable (↥S ⧸ A') := Group.isSolvable_of_surjective hsurj
+    have : Nontrivial (↥S ⧸ A') := by
       obtain ⟨x, hx⟩ : ∃ x : S, x ∉ A' := by
         by_contra hall
         push Not at hall

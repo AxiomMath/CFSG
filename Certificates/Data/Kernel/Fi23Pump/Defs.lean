@@ -23,7 +23,7 @@ open CFSG.KC.Enum CFSG.KC.Fi23K CFSG.KC.Fi23Q CFSG.KC.Fi23R
 @[expose] noncomputable def genW (G : Nat → Nat) (u v : List Nat) (g q : Nat) : Nat :=
   nIf(Nat.beq g (nat_lit 0), wv G u q, wv G v q)
 
-@[expose] noncomputable def rowE (G : Nat → Nat) (u v : List Nat) (N r e j e' : Nat) : Bool :=
+@[expose] noncomputable def rowE (G : Nat → Nat) (u v : List Nat) (N _r e j e' : Nat) : Bool :=
   bAnd(Nat.blt j N, bAnd(Nat.beq (Nat.succ (depE e')) (depE e),
     Nat.beq (genW G u v (Nat.shiftRight e (nat_lit 31)) (ptE e')) (ptE e)))
 

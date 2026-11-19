@@ -69,6 +69,7 @@ theorem odd_card_ker_bar : Odd (Nat.card (bar H).ker) := by
 theorem not_two_dvd_card_ker_bar : ¬ 2 ∣ Nat.card (bar H).ker := fun h =>
   (Nat.not_even_iff_odd.mpr odd_card_ker_bar) (even_iff_two_dvd.mpr h)
 
+omit [Finite H] in
 theorem card_ker_subgroupMap_dvd {Y : Type*} [Group Y] (f : H →* Y) (L : Subgroup H) :
     Nat.card (f.subgroupMap L).ker ∣ Nat.card f.ker := by
   have h1 : ((f.subgroupMap L).ker).map L.subtype ≤ f.ker := by
@@ -87,10 +88,11 @@ theorem nonempty_quot_equiv_map {Y : Type} [Group Y] [Finite Y] (f : H →* Y)
 theorem isTwoQuasisimple_map {Y : Type} [Group Y] [Finite Y] (f : H →* Y)
     (hodd : Odd (Nat.card f.ker)) {L : Subgroup H} (hL : HarrisLit.IsTwoQuasisimple ↥L) :
     HarrisLit.IsTwoQuasisimple ↥(L.map f) := by
-  haveI := hL.1
+  have := hL.1
   obtain ⟨e⟩ := nonempty_quot_equiv_map f hodd L
   exact ⟨Group.IsPerfect.map f, LocalCores.isQuasisimple_of_mulEquiv e hL.2⟩
 
+omit [Finite H] in
 theorem map_comap_inf {Y : Type*} [Group Y] (f : H →* Y) (S : Subgroup Y) (A : Subgroup H) :
     (S.comap f ⊓ A).map f = S ⊓ A.map f := by
   ext y

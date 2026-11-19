@@ -33,7 +33,7 @@ private theorem runFV_zero (actK : ℕ → ℕ → ℕ) (ng : ℕ) (V E : ℕ �
     ∀ len lo, runFV actK ng V E len lo 0 = 0
   | 0, _ => rfl
   | len + 1, lo => by
-    rw [runFV_succ, if_neg (Nat.not_lt_zero lo)]
+    rw [runFV_succ, ite_eq_right (Nat.not_lt_zero lo)]
     exact runFV_zero actK ng V E len _
 
 private theorem runFV_add (actK : ℕ → ℕ → ℕ) (ng : ℕ) (V E : ℕ → ℕ) :
@@ -150,13 +150,13 @@ private theorem runFV_mono {actK : ℕ → ℕ → ℕ} {ng : ℕ} {V E : ℕ �
   | len + 1, lo, c, h => by
     rw [runFV_succ] at h ⊢
     by_cases hlo : lo < c
-    · rw [if_pos hlo] at h ⊢
+    · rw [ite_eq_left hlo] at h ⊢
       have h1 := runFV_mono len (lo + 1) _ h
       have hp : pointStepV actK ng V E lo c ≠ 0 := fun e => by
         rw [e, runFV_zero] at h
         exact h rfl
       exact le_trans (pointStepV_mono hp) h1
-    · rw [if_neg hlo] at h
+    · rw [ite_eq_right hlo] at h
       exact absurd (runFV_zero _ _ _ _ _ _) h
 
 private def StOK (key : Array ℕ → ℕ) (U : ℕ → Array ℕ) (c : ℕ) (pts : Array (Array ℕ))
@@ -319,7 +319,7 @@ private theorem gLoop_done' {act : ℕ → Array ℕ → Array ℕ} {ngen : ℕ}
     gLoop act ngen key f N pts edges par lab idx = (pts, edges, par, lab) := by
   cases f with
   | zero => rfl
-  | succ f => rw [gLoop, if_neg (by omega)]
+  | succ f => rw [gLoop, ite_eq_right (by omega)]
 
 private theorem loop_st {act : ℕ → Array ℕ → Array ℕ} {key : Array ℕ → ℕ} {U : ℕ → Array ℕ}
     {actP : ℕ → ℕ → ℕ} {V E : ℕ → ℕ} {ngen N : ℕ}
@@ -342,11 +342,11 @@ private theorem loop_st {act : ℕ → Array ℕ → Array ℕ} {key : Array ℕ
     obtain ⟨f, rfl⟩ : ∃ f', f = f' + 1 := ⟨f - 1, by omega⟩
     have hlo : lo < c := by
       by_contra hlo
-      rw [runFV_succ, if_neg hlo, runFV_zero] at h0
+      rw [runFV_succ, ite_eq_right hlo, runFV_zero] at h0
       exact h0 rfl
     have hrun : runFV actP ngen V E (len + 1) lo c =
         runFV actP ngen V E len (lo + 1) (pointStepV actP ngen V E lo c) := by
-      rw [runFV_succ, if_pos hlo]
+      rw [runFV_succ, ite_eq_left hlo]
     rw [hrun] at h0 hN ⊢
     have hp0 : pointStepV actP ngen V E lo c ≠ 0 := fun e => by
       rw [e, runFV_zero] at h0
@@ -369,7 +369,7 @@ private theorem loop_st {act : ℕ → Array ℕ → Array ℕ} {key : Array ℕ
       fold_st hinj (g := fun k c => genStepV actP V (V lo) (E lo) k c)
         (fun k => genStepV_zero actP V (V lo) (E lo) k) hg ngen le_rfl c pts par lab idx hs ht hlo
         _ rfl _ rfl hp0 hpN
-    rw [gLoop, if_pos (by rw [hs.1]; exact hlo)]
+    rw [gLoop, ite_eq_left (by rw [hs.1]; exact hlo)]
     have e1 : gStep act ngen key lo (pts, par, lab, idx) =
         (List.range ngen).foldl (gF act key lo) (pts, par, lab, idx, #[]) := rfl
     rw [e1]

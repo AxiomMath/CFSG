@@ -48,7 +48,7 @@ theorem false_of_alt {S : Type} [Group S] [Finite S] {n : ℕ} (hn : 5 ≤ n)
   have h11 : 11 ∣ Nat.card (fixedSubgroup σ) := h11dvd.trans hdvd
   rcases Nat.lt_or_ge n 7 with h7 | h7
   · have hge : 443520 ≤ Nat.card (fixedSubgroup σ) := Nat.le_of_dvd Nat.card_pos hdvd
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hS : Nat.card S = n.factorial / 2 := by
       rw [Nat.card_congr θ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     have hleS : Nat.card (fixedSubgroup σ) ≤ n.factorial / 2 := by

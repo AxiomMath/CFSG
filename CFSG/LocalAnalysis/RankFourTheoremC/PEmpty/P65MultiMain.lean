@@ -17,7 +17,7 @@ theorem plane63_of_plane65 {A : Type} [Group A] [Finite A] {p : ℕ} {P : Sylow 
     {X : Subgroup A} {x z : A} (h : Plane65 p P X x z) (hx : x ∈ X) (hz : z ∈ X) :
     Plane63 p ↥X (P.subtype h.sylow_le) ⟨x, hx⟩ ⟨z, hz⟩ := by
   have hprime := h.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   refine ⟨hprime, h.five_le, h.catalog, ?_, ?_, ?_, ?_, ?_, h.perfect⟩
   · exact smallRankPlane_subgroupOf h.sylow_le hx hz h.plane
   · rw [mem_centralizer_iff]

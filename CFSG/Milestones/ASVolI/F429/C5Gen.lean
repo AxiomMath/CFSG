@@ -44,8 +44,8 @@ theorem burnsideF429_le_normalizer_oPPrime {P T : Subgroup E}
 theorem burnsideF429_relIndex_sup [Finite E] {L T : Subgroup E}
     (hTL : T ≤ Subgroup.normalizer (L : Set E)) :
     T.relIndex (L ⊔ T) = (L ⊓ T).relIndex L := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hTL
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTL
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hTL
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTL
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient T L hTL
   have h1 : L.relIndex T = L.relIndex (T ⊔ L) := by
     unfold Subgroup.relIndex Subgroup.index
@@ -87,9 +87,9 @@ theorem burnsideF429_c5_of_key (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {M : Subgrou
       (∀ b ∈ oPPrime 2 (Gp ⊓ M) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp) :
     pCoreOf 2 (oPPrime 2 (Gp ⊓ M) ⊔ T) = pCoreOf 2 (oPPrime 2 (Gp ⊓ M)) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set L := oPPrime 2 (Gp ⊓ M) with hLdef
   have hSyl : ChF.IsSylowOf 2 S (Gp ⊓ M) := burnsideF429_sylowBar_inf hyp hM

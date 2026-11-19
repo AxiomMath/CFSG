@@ -24,7 +24,7 @@ theorem chi_add (hω : ω ^ 3 = 1) (x y : ZMod 3) : chi ω (x + y) = chi ω x * 
 theorem chi_zero : chi ω 0 = 1 := by simp [chi]
 
 theorem chi_injective (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) : Function.Injective (chi ω) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ho : orderOf ω = 3 := orderOf_eq_prime hω hω1
   intro x y hxy
   apply ZMod.val_injective
@@ -40,7 +40,7 @@ theorem w4_three (v : Fin 3 → ZMod 3) : w4 v 3 = -(v 0 + v 1 + v 2) := rfl
 
 theorem w4_add (v v' : Fin 3 → ZMod 3) : w4 (v + v') = w4 v + w4 v' := by
   funext i
-  fin_cases i <;> simp [w4] <;> ring
+  fin_cases i <;> simp [w4]; ring
 
 theorem fix_omega (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) (τ : K ≃+* K) (hτ : τ ^ 3 = 1) : τ ω = ω := by
   have h0 : ω ≠ 0 := by rintro rfl; norm_num at hω
@@ -156,10 +156,10 @@ theorem kFactOuterThreeRankFourRestSL_of_sl4 (h : KFactOuterThreeRankFourRestSL4
   have hev : Even q.exponent := hl
   obtain ⟨_, K, _, _, hK, ⟨e'⟩⟩ := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
   rw [hp] at hK
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hunits : Nat.card Kˣ = 2 ^ q.exponent - 1 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
   have h1 := Nat.one_le_two_pow (n := q.exponent)

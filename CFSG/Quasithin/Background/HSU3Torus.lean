@@ -270,7 +270,7 @@ theorem le_nPrime (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
   have hU₀L : U₀ ≤ natImage (StatedSU 3 (2 ^ n) K) := Subgroup.map_le_range _ _
   have hU₀p : IsPGroup 2 U₀ := by
     rw [hU₀, ← hP₀U]
-    exact P₀.isPGroup'.map _
+    exact P₀.isPGroup.map _
   obtain ⟨S, hS, hUS⟩ := exists_isSylowIn_ge 2 (hU₀L.trans hX1) hU₀p
   have hSU : S ⊓ natImage (StatedSU 3 (2 ^ n) K) = U₀ := by
     refine le_antisymm (fun x hx => ?_) (le_inf hUS hU₀L)

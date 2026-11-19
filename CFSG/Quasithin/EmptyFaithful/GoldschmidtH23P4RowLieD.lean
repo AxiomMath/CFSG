@@ -16,7 +16,7 @@ theorem isSylowTwoOf_unitriangular_zmod {n : ℕ} (hn : 1 ≤ n) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 hn
   rw [isSylowTwoOf_top_iff, ← hP]
-  exact ⟨P.isPGroup', P.not_dvd_index⟩
+  exact ⟨P.isPGroup, P.not_dvd_index⟩
 
 theorem eq_zero_of_relIndex_unitriangular {n : ℕ}
     {Y : Subgroup (SpecialLinearGroup (Fin n) (ZMod 2))} (hUY : unitriangular n (ZMod 2) ≤ Y)

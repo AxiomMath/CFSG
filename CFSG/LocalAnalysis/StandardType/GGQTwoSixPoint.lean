@@ -61,7 +61,7 @@ theorem ev_surjective (hK : Nat.card K = 4) : Function.Surjective (ev hK) := by
 
 theorem card_ker_ev (hK : Nat.card K = 4) : Nat.card (ev hK).ker = 4 := by
   obtain ⟨hfin, hP⟩ := card_P_le
-  haveI : Finite (PG 18 relsP) := hfin
+  have : Finite (PG 18 relsP) := hfin
   have hidx : (ev hK).ker.index = Nat.card (Su K 2 1 6) := by
     rw [Subgroup.index, Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective (ev hK)
       (ev_surjective hK)).toEquiv]
@@ -95,7 +95,7 @@ theorem qTwoSixPoint_commute (hK : Nat.card K = 4)
     (hrel : ∀ w ∈ relsP, evalG g w = 1) (hgen : Subgroup.closure (Set.range g) = ⊤)
     (hperf : Group.IsPerfect X) (hodd : Odd (Nat.card (Subgroup.center X))) :
     ∀ a ∈ ([10, 11] : List (Fin 18)), ∀ b ∈ ([16, 17] : List (Fin 18)), g a * g b = g b * g a := by
-  haveI : Group.IsPerfect X := hperf
+  have : Group.IsPerfect X := hperf
   let φ : PG 18 relsP →* X := PresentedGroup.toGroup (f := g) (by
     intro r hr
     obtain ⟨w, hw, rfl⟩ := List.mem_map.mp hr
@@ -109,14 +109,14 @@ theorem qTwoSixPoint_commute (hK : Nat.card K = 4)
     rw [this]
     exact hgen
   have hker := card_ker_ev hK
-  haveI : Finite (ev hK).ker := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (ev hK).ker := Nat.finite_of_card_ne_zero (by omega)
   set Q : Subgroup X := (ev hK).ker.map φ with hQ
-  haveI : Q.Normal := Subgroup.Normal.map inferInstance φ hφsurj
-  have hQeq : Q = (φ.domRestrict (ev hK).ker).range := (MonoidHom.restrict_range (ev hK).ker φ).symm
+  have : Q.Normal := Subgroup.Normal.map inferInstance φ hφsurj
+  have hQeq : Q = (φ.domRestrict (ev hK).ker).range := (MonoidHom.domRestrict_range (ev hK).ker φ).symm
   have hQcard : Nat.card Q ∣ 4 := by
     rw [← hker, hQeq]
     exact Subgroup.card_range_dvd _
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (fun h => by rw [h] at hQcard; omega)
+  have : Finite Q := Nat.finite_of_card_ne_zero (fun h => by rw [h] at hQcard; omega)
   have hQle : Nat.card Q ≤ 4 := Nat.le_of_dvd (by norm_num) hQcard
   have hQcentral : Q ≤ Subgroup.center X := CFSG.Certificates.normal_le_center_of_card_le_four Q hQle
   have hQodd : Nat.card Q ∣ Nat.card (Subgroup.center X) := Subgroup.card_dvd_of_le hQcentral

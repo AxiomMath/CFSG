@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G]
   ⨆ d' ∈ dSetIn V H E J A, ⨆ (_ : d' ∈ Subgroup.normalizer (Y : Set G)),
     ⨆ (_ : v⁻¹ * d' ∉ J), ⁅Y, Subgroup.zpowers d'⁆
 
+omit [Finite G] in
 private theorem s762_zpow_eq_one_or_self_of_mul_self_eq_one {x : G} (hx : x * x = 1)
     (n : ℤ) : x ^ n = 1 ∨ x ^ n = x := by
   obtain ⟨k, hk | hk⟩ := Int.even_or_odd' n
@@ -32,12 +33,14 @@ private theorem s762_zpow_eq_one_or_self_of_mul_self_eq_one {x : G} (hx : x * x 
       rw [show (2 : ℤ) = ((2 : ℕ) : ℤ) by norm_num, zpow_natCast, pow_two, hx]
     rw [h2, one_zpow, one_mul]
 
+omit [Finite G] in
 private theorem s762_mem_normalizer_commutator {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer (⁅A, B⁆ : Subgroup G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hA hB ⊢
   rw [Subgroup.map_commutator, hA, hB]
 
+omit [Finite G] in
 private theorem s762_mem_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -45,6 +48,7 @@ private theorem s762_mem_normalizer_inf {A B : Subgroup G} {g : G}
   intro x
   simp only [Subgroup.mem_inf, hA x, hB x]
 
+omit [Finite G] in
 private theorem s762_mem_normalizer_iSup {ι : Sort*} {F : ι → Subgroup G} {g : G}
     (h : ∀ i, g ∈ Subgroup.normalizer (F i : Set G)) :
     g ∈ Subgroup.normalizer ((⨆ i, F i : Subgroup G) : Set G) := by
@@ -52,6 +56,7 @@ private theorem s762_mem_normalizer_iSup {ι : Sort*} {F : ι → Subgroup G} {g
   rw [Subgroup.map_iSup]
   exact iSup_congr h
 
+omit [Finite G] in
 private theorem s762_le_normalizer_iSup {ι : Sort*} {F : ι → Subgroup G} {Y : Subgroup G}
     (h : ∀ i, Y ≤ Subgroup.normalizer (F i : Set G)) :
     Y ≤ Subgroup.normalizer ((⨆ i, F i : Subgroup G) : Set G) :=
@@ -237,7 +242,7 @@ theorem Hyp76.inf_commutator_le_iSub (h : Hyp76 V H E J A X)
     rwa [hOK, sup_bot_eq] at hh
   have hW2 : IsPGroup 2 ↥((⁅Y, Subgroup.zpowers v⁆ ⊔ iSub V H E) ⊓
       (commOthers V H E J A Y v ⊔ iSub V H E)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (kSub V H E)).to_le hW_le_pCore
   exact le_of_isPGroup_of_odd_relIndex hW2 hodd
 
@@ -248,7 +253,7 @@ theorem Hyp76.inf_iSup_commModJ_le (h : Hyp76 V H E J A X)
         (⨆ d' ∈ dSetIn V H E J A, ⨆ (_ : d⁻¹ * d' ∉ J), commModJ X J d') ≤ J := by
   obtain ⟨Y, hY⟩ := h.exists_hallCompl
   have hdD : d ∈ dSetIn V H E J A := hd
-  simp only [dSetIn, Set.mem_setOf_eq] at hd
+  simp only [dSetIn, Set.mem_ofPred_eq] at hd
   obtain ⟨Ud, hUd, hUdA, hdUd, hdJ⟩ := hd
   obtain ⟨U₀, hU₀, hU₀A, v, hvU₀, hvJ, hvY, hdvJ⟩ := h.exists_normalizing_rep hY hdD
   have hJH : J ≤ H := h.le_X.trans h.X_le_H

@@ -706,7 +706,7 @@ theorem alternatingGroup_le_of_nontrivial_support_le_six
     Finite.one_lt_card_iff_nontrivial.mpr hZnontrivial
   obtain ⟨p, hp, hpdiv⟩ :=
     Nat.exists_prime_and_dvd (n := Nat.card Z) (by omega)
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨v, hvorder⟩ :=
     exists_prime_orderOf_dvd_card' (G := Z) p hpdiv
   obtain ⟨z, hz⟩ :=

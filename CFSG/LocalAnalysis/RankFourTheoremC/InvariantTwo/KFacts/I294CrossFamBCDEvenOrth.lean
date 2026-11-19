@@ -114,7 +114,7 @@ theorem blockLE_mem_orth {D C : Submodule K V} (hDC : IsCompl D C)
     where
   toFun gg := ⟨blockLE hDC gg.1 gg.2, blockLE_mem_orth hDC hperp gg.1.2 gg.2.2⟩
   map_one' := Subtype.ext (blockLE_one hDC)
-  map_mul' a b := Subtype.ext (blockLE_mul hDC _ _ _ _)
+  map_mul' _a _b := Subtype.ext (blockLE_mul hDC _ _ _ _)
 
 theorem blockHomO_coe {D C : Submodule K V} (hDC : IsCompl D C)
     (hperp : ∀ d ∈ D, ∀ c ∈ C, polarBilin Q d c = 0)

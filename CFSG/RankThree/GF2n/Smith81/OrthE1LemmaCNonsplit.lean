@@ -79,7 +79,7 @@ theorem nonsplit_cent [CharP K 2] (hns : ¬ HasInvComplement S V Xg) {g : S.E �
   obtain ⟨μ, hμ⟩ := D.schur a (by
     intro x v
     apply Subtype.ext
-    simp only [a, LinearMap.restrict_coe_apply, D.act_coe, LinearEquiv.coe_coe]
+    simp only [a, _root_.LinearMap.coe_restrict_apply, D.act_coe, LinearEquiv.coe_coe]
     exact (hcomm x x.2 v).symm)
   have hμv : ∀ v ∈ V, g v = μ • v := fun v hv => congrArg Subtype.val (hμ ⟨v, hv⟩)
   have hμ0 : μ ≠ 0 := by

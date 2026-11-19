@@ -127,7 +127,7 @@ theorem mono_inj (hu : u ∈ LargeEvenScalars (Fin 6) K) (hu3 : u ^ 3 = 1) (hu1 
     (hi : i < 3) (hi' : i' < 3) (hk : k < 3) (hk' : k' < 3)
     (h : x ^ i * y ^ j * z ^ k = t * (x ^ i' * y ^ j' * z ^ k')) :
     i = i' ∧ j = j' ∧ k = k' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcu := commute_of_mem_largeEvenScalars hu
   have hct := commute_of_mem_largeEvenScalars ht
   have hord : orderOf u = 3 := orderOf_eq_prime hu3 hu1

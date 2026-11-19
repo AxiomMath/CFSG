@@ -20,7 +20,7 @@ theorem crossAbelianAt_of_largePrime (h : I294CrossLargePrime) (d : TauCeti.Vali
   by_contra hP
   have hna : ∃ a b : L, a * b ≠ b * a := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hP ⟨⟨fun a b => Subtype.ext (hc a b)⟩⟩
   have := h p hp hp5 L hs hna d hdp he hl ⟨P, hP⟩
   omega

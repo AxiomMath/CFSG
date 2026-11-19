@@ -161,8 +161,8 @@ theorem burnsideF48t_u52_prep_γ {i : ℕ} (hi : i < 6) :
   prep_permOfArr (burnsideF48t_u52_inv.2.2.2.2.2 i hi)
 
 theorem burnsideF48t_u52_X_eq : burnsideF48t_u52X =
-    Subgroup.closure (Set.range fun k : Fin (burnsideF48t_u52Gens ()).size => burnsideF48t_u52γ k) :=
-  arrGen_eq fun k hk => (burnsideF48t_u52_prep_γ (burnsideF48t_u52_inv.2.2.1 ▸ hk)).1
+    Subgroup.closure (Set.range fun _k : Fin (burnsideF48t_u52Gens ()).size => burnsideF48t_u52γ _k) :=
+  arrGen_eq fun _k hk => (burnsideF48t_u52_prep_γ (burnsideF48t_u52_inv.2.2.1 ▸ hk)).1
 
 theorem burnsideF48t_u52_γ_mem {i : ℕ} (hi : i < 6) : burnsideF48t_u52γ i ∈ burnsideF48t_u52X := by
   rw [burnsideF48t_u52_X_eq]

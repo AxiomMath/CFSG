@@ -45,9 +45,9 @@ theorem prodBase2_of (S : Sim O₀ O) : ∀ {Xs : List M} {xs : List Nat},
   | _, _, .cons hX hs, n => by
     simp only [prodBase2]
     by_cases hc : n % 2 = 1
-    · rw [if_pos hc, if_pos hc]
+    · rw [ite_eq_left hc, ite_eq_left hc]
       exact S.mul hX (prodBase2_of S hs (n / 2))
-    · rw [if_neg hc, if_neg hc]
+    · rw [ite_eq_right hc, ite_eq_right hc]
       exact prodBase2_of S hs (n / 2)
 
 theorem fusCheck_of_G [Inhabited M] (S : Sim O₀ O) {D : FusData} (hn : 2 ≤ D.nregs)

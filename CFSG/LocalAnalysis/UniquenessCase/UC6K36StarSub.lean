@@ -52,7 +52,7 @@ theorem not_le_of_isComponent {q : ℕ} [Fact q.Prime] {H K : Subgroup G} (hH : 
     obtain ⟨a, ha, hc⟩ := Group.mem_conjugatesOfSet_iff.1 hy
     obtain ⟨c, rfl⟩ := isConj_iff.1 hc
     exact hconj c ⟨a, ha, by simp [MulAut.conj_apply]⟩
-  haveI : (Subgroup.normalClosure (K : Set G)).Normal := Subgroup.normalClosure_normal
+  have : (Subgroup.normalClosure (K : Set G)).Normal := Subgroup.normalClosure_normal
   exact hH.not_dvd_card_of_normal_le hN (hqK.trans (Subgroup.card_dvd_of_le Subgroup.le_normalClosure))
 
 theorem map_star36Sup_le {X : Subgroup G} {q : ℕ} (hq : q.Prime) {S : Subgroup ↥X} {S' : Subgroup G}
@@ -127,7 +127,7 @@ theorem card_sup_dvd {N : Subgroup G} (hEN : E ≤ normalizer (N : Set G))
 theorem eq_or_dvd_of_dvd_card_sup {N : Subgroup G} (hEN : E ≤ normalizer (N : Set G))
     (hQN : pCoreOf 2 M ≤ normalizer (N : Set G)) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hrX : r ∣ Nat.card ↥(E ⊔ pCoreOf 2 M ⊔ N)) : r = p ∨ r ∣ Nat.card N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd := hrX.trans (h.card_sup_dvd hEN hQN)
   rcases (Nat.Prime.dvd_mul hr).1 hd with hd | hd
   · rcases (Nat.Prime.dvd_mul hr).1 hd with hd | hd
@@ -152,12 +152,12 @@ theorem star36_sub_or (hS : Star36 G) (X : Subgroup G) :
   left
   push Not at hex
   intro q hq hq2 h4 S hSX
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqX : q ∣ Nat.card X := dvd_card_of_three_lt_twoLocalPrimeRank hq h4
   have hqG : q ∣ Nat.card G := hqX.trans (Subgroup.card_subgroup_dvd_card X)
   obtain ⟨SG, hSSG⟩ := (hSX.isPGroup.map X.subtype).exists_le_sylow
   have hSG : CFSG.ABGLocalTools.IsSylowOf q (SG : Subgroup G) ⊤ :=
-    (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, SG.isPGroup', by
+    (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, SG.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact SG.not_dvd_index⟩
   have h4G : 3 < twoLocalPrimeRank q G := h4.trans_le (twoLocalPrimeRank_subgroup_le' hq X)
@@ -173,13 +173,13 @@ theorem star36_sub_or (hS : Star36 G) (X : Subgroup G) :
     exact hex q hq hq2 hqX _ hH hmap
   · right
     refine ⟨hq3, fun h3X => ?_⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h3G : 3 ∣ Nat.card G := h3X.trans (Subgroup.card_subgroup_dvd_card X)
     obtain ⟨N, hN⟩ := hb h3G
     obtain ⟨T⟩ : Nonempty (Sylow 3 ↥X) := inferInstance
-    obtain ⟨P₁, hTP₁⟩ := (T.isPGroup'.map X.subtype).exists_le_sylow
+    obtain ⟨P₁, hTP₁⟩ := (T.isPGroup.map X.subtype).exists_le_sylow
     have hP₁ : CFSG.RankThree.PartOne.IsSylowOf 3 (P₁ : Subgroup G) ⊤ :=
-      ⟨le_top, P₁.isPGroup', by
+      ⟨le_top, P₁.isPGroup, by
         rw [Subgroup.relIndex_top_right]
         exact P₁.not_dvd_index⟩
     obtain ⟨g, hg⟩ := hN.exists_conj_ge hP₁
@@ -203,7 +203,7 @@ theorem star36_comp (hS : Star36 G) {K : Subgroup G} (hK : CFSG.IsComponent K)
   rcases star36_sub_or hS (E ⊔ pCoreOf 2 M ⊔ K) with hst | ⟨q, hq, hq2, hqX, H, hH, hXH⟩
   · exact hst
   · exfalso
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨hEN, hQN⟩ := h.normalizes_component hK hne
     have hqK : q ∣ Nat.card K := by
       rcases h.eq_or_dvd_of_dvd_card_sup hEN hQN hq hq2 hqX with hqp | hqK
@@ -214,13 +214,13 @@ theorem star36_comp (hS : Star36 G) {K : Subgroup G} (hK : CFSG.IsComponent K)
 
 theorem star36_cent_or_le (hS : Star36 G) (Λ : Subgroup G) [Λ.Normal] :
     Star36 ↥(E ⊔ pCoreOf 2 M ⊔ centralizer (Λ : Set G)) ∨ centralizer (Λ : Set G) ≤ M := by
-  haveI hCn : (centralizer (Λ : Set G)).Normal := Subgroup.normal_centralizer (H := Λ)
+  have hCn : (centralizer (Λ : Set G)).Normal := Subgroup.normal_centralizer (H := Λ)
   have hCnorm : normalizer (centralizer (Λ : Set G) : Set G) = ⊤ := Subgroup.normalizer_eq_top_iff.2 hCn
   rcases star36_sub_or hS (E ⊔ pCoreOf 2 M ⊔ centralizer (Λ : Set G)) with
     hst | ⟨q, hq, hq2, hqX, H, hH, hXH⟩
   · exact Or.inl hst
   · right
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hEN : E ≤ normalizer (centralizer (Λ : Set G) : Set G) := by
       rw [hCnorm]
       exact le_top
@@ -231,7 +231,7 @@ theorem star36_cent_or_le (hS : Star36 G) (Λ : Subgroup G) [Λ.Normal] :
       hH.not_dvd_card_of_normal_le (le_sup_right.trans hXH)
     have hqp : q = p := (h.eq_or_dvd_of_dvd_card_sup hEN hQN hq hq2 hqX).resolve_right hqC
     rw [hqp] at hqC
-    haveI : Fact p.Prime := ⟨h.prime⟩
+    have : Fact p.Prime := ⟨h.prime⟩
     have hle : centralizer (Λ : Set G) ≤ relPPrimeCore p (⊤ : Subgroup G) :=
       le_sSup ⟨le_top, hCn.subgroupOf ⊤, (Nat.Prime.coprime_iff_not_dvd h.prime).2 hqC⟩
     exact hle.trans h.pPrimeCore_le

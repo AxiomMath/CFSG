@@ -49,7 +49,7 @@ theorem sD5c_check : ∀ γ ∈ R6, kacTest θ6 sD5c γ ↔
   decide +kernel
 
 theorem eq_zero_of_notMem_d5NodesA {i : Fin Tag.E6.rank} (hi : i ∉ d5NodesA) : i = 0 := by
-  rw [d5NodesA, Set.mem_setOf_eq, not_le] at hi
+  rw [d5NodesA, Set.mem_ofPred_eq, not_le] at hi
   have h0 : i.val = 0 := by omega
   exact Fin.ext (by rw [h0]; rfl)
 
@@ -76,7 +76,7 @@ theorem rootsOf_sD5c :
     refine (sD5c_check _ (mem_R6_of_isRoot hr)).2 ?_
     rw [← hmat, smul_inv_smul]
     exact hvan 0 (fun h0 => by
-      rw [d5NodesA, Set.mem_setOf_eq] at h0
+      rw [d5NodesA, Set.mem_ofPred_eq] at h0
       exact absurd h0 (by decide))
 
 end Position

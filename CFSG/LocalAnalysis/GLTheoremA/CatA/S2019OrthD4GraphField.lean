@@ -67,7 +67,7 @@ theorem s2019FixCentralizes_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.Prime
         rw [hT, hT, ← pow_mul, sq]
       exact ⟨T⁻¹, 2, Or.inr rfl, hinv, fixedSubgroup_twistedEntrywiseAut_D4_two T⟩
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   obtain ⟨-, -, hΓ, hsimple, -⟩ := triality_both_field_orientations_simple_full_ambient_fixed_group
     ℓ e hℓ he K hK L r hr σ.toRingHom (fun c => hσ c) (iterateFrobenius L ℓ e)
     (fun c => iterateFrobenius_def ℓ e c)
@@ -80,9 +80,9 @@ theorem s2019FixCentralizes_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.Prime
   have hfixJ : fixSubgroup (twistedEntrywiseAut TwistTag.D4 j T) = J := by
     change fixedSubgroup _ = _
     rw [hfix, fixedSubgroup_twistedEntrywiseAut_one TwistTag.D4 σ, hΓ]
-  haveI : IsSimpleGroup C₀ := hsimple
+  have : IsSimpleGroup C₀ := hsimple
   have hJs : IsSimpleGroup J := (Subgroup.subgroupOfEquivOfLe hC₀X).isSimpleGroup
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hJn : NonLocalized J := by
     choose a ha using exists_orbit_mem TwistTag.D4
     obtain ⟨w₀, hw₀, -⟩ := weyl_longest_element TwistTag.D4.tag
@@ -95,7 +95,7 @@ theorem s2019FixCentralizes_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.Prime
         posUnipotent TwistTag.D4.tag K := fun i =>
       (Subgroup.mem_inf.1 (orbitX_mem_graphFixedPosUnipotent TwistTag.D4 σ.toRingHom (a i) 1)).1
     let F := AlgebraicClosure K
-    haveI : CharP F ℓ := charP_of_injective_algebraMap (algebraMap K F).injective ℓ
+    have : CharP F ℓ := charP_of_injective_algebraMap (algebraMap K F).injective ℓ
     let ρ : ↥(adjointGroup TwistTag.D4.tag K) →* Module.End F (Label TwistTag.D4.tag → F) :=
       (adjRep TwistTag.D4.tag K F).comp (adjointGroup TwistTag.D4.tag K).subtype
     have hρ : Function.Injective ρ :=
@@ -117,7 +117,7 @@ theorem s2019FixCentralizes_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.Prime
       (y := fun i => (orbitX TwistTag.D4 K σ.toRingHom (a i) 1 : ModGL TwistTag.D4.tag K))
       hyJ hyU (c := fun _ => 1) (fun _ => one_ne_zero)
       (fun i => hasCoord_orbitX_one σ.toRingHom (a i) (ha i)) hw₀ hn ρ hρ R hRJ hR'
-  haveI : Finite (adjointGroup TwistTag.D4.tag K) := Subtype.finite
+  have : Finite (adjointGroup TwistTag.D4.tag K) := Subtype.finite
   refine s2019FixCentralizes_of_nonLocalized 3 _ (J := J) hfixJ.symm.le ?_ hJs hJn
   rw [hfixJ, Subgroup.commutator_le]
   intro x hx y hy
@@ -130,10 +130,10 @@ theorem s2019FixCentralizes_d4_graphField {ℓ f : ℕ} [Fact ℓ.Prime] (hℓ2 
     (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (ε : ℕ) (hε : ε < 3) (hε0 : ε ≠ 0) (hσ : σ ≠ 1)
     (hα : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     S2019FixCentralizes 3 α := by
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.D4 K) := Subtype.finite
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := Subtype.finite
   have hσ3 := sigma_pow_three_eq_one_of_cube α hα3 g a σ ε hα
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ
   have hf : 1 ≤ f := by
     by_contra hf

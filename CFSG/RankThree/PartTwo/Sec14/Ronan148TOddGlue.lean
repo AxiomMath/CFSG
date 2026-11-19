@@ -99,6 +99,7 @@ theorem top_le_iSup_restrictAut {E : Subgroup (MulAut X)} {K : Subgroup X}
   rw [← this]
   exact hk'
 
+omit [Finite X] in
 theorem isElemAbelian_map_subtype {K : Subgroup X} {P : Subgroup K}
     (hP : CFSG.Assembly.IsElemAbelian 3 P) : CFSG.Assembly.IsElemAbelian 3 (P.map K.subtype) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, ?_⟩
@@ -130,7 +131,7 @@ theorem isPGroup_center_of_theta_eq_bot {K : Type} [Group K] [Finite K]
     rw [hc, mul_inv_cancel_right]
     exact Subgroup.zpow_mem_zpowers y k
   have hsol : Group.IsSolvable (Subgroup.zpowers y) :=
-    isSolvable_of_comm fun a b => by
+    _root_.Group.isSolvable_of_comm fun a b => by
       obtain ⟨_, i, rfl⟩ := a
       obtain ⟨_, j, rfl⟩ := b
       apply Subtype.ext
@@ -153,6 +154,7 @@ theorem not_eleven_dvd_card_GL_25 {F : Type} [Field F] [Finite F] (hF : Nat.card
   simp only [Fin.val_zero, Fin.val_one, Fin.val_two]
   norm_num
 
+omit [Finite X] in
 theorem not_eleven_dvd_of_five [Fact (Nat.Prime 5)] {e : ℕ} (he : 1 ≤ e) (he2 : e ≤ 2)
     (hiso : Sec4.IsoLThreePi X 5 e) : ¬ 11 ∣ Nat.card X := by
   obtain ⟨π, F, _, hF, hq, ⟨φ⟩⟩ := Sec13.exists_projImage_model he hiso
@@ -189,6 +191,7 @@ theorem not_eleven_dvd_of_five [Fact (Nat.Prime 5)] {e : ℕ} (he : 1 ≤ e) (he
   rw [h1] at h11
   exact h11.trans (h2.trans h3)
 
+omit [Finite X] in
 theorem l325_or_u35 [Fact (Nat.Prime 5)] {e : ℕ} (he : 1 ≤ e) (he2 : e ≤ 2)
     (hiso : Sec4.IsoLThreePi X 5 e) :
     Nonempty (X ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 5 2)) ∨
@@ -216,7 +219,7 @@ theorem inspectSig148L3Loc_of_parts (hEven : InspectSig148L3LocEven) (hCF : OddC
   have hZ : Subgroup.center K = ⊥ :=
     hCF X p e hp2 he hiso K hKq' (isPGroup_center_of_theta_eq_bot hθ)
   have : IsSimpleGroup (K ⧸ Subgroup.center K) := hKq'.2.1
-  haveI hKs : IsSimpleGroup K := MulEquiv.isSimpleGroup
+  have hKs : IsSimpleGroup K := MulEquiv.isSimpleGroup
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm
   have hnonab : ∃ a b : K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hKq'.2.2
@@ -231,7 +234,7 @@ theorem inspectSig148L3Loc_of_parts (hEven : InspectSig148L3LocEven) (hCF : OddC
     by_contra hodd
     rw [Nat.not_even_iff_odd] at hodd
     have hsolv := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-    haveI := hKp
+    have := hKp
     have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
     exact Group.IsPerfect.not_isSolvable K hsolv
   rcases CFSG.Milestones.lr_rank_two_isomorphism_types K hnonab hrank with

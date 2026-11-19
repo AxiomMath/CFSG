@@ -19,7 +19,7 @@ theorem uc22p2014g_le (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D) (h20
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hsp : IsStronglyPEmbedded p D.M) {L : Subgroup G}
     (hL : L ∈ calL D.T D.M) {Y : Subgroup G} (hY : IsPGroup p Y) (hYM : Y ≤ D.M)
     (hYL : Y ≤ normalizer (L : Set G)) : Y ≤ L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro y hyY
   by_contra hyL
   obtain ⟨B₀, N₀, hBN⟩ := uc22p20l_splitBN_of_shape D h207 h1930 hL

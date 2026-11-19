@@ -60,13 +60,13 @@ theorem excCarrier_model (d : TauCeti.ValidLieTypeIndex)
 theorem carrierOn_exceptional : CarrierOn LieFamily.exceptional := by
   intro d hfam hp2
   obtain ⟨t, p, f, ht, hp, h⟩ := excCarrier_model d hfam hp2
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie d).Group :=
     CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness _ t p f h
   obtain ⟨-, hs⟩ := CFSG.LieType.Simplicity.fam_chevalley_exceptional_simplicity _ t p f h
   refine ⟨inferInstance, hs, ?_⟩
   by_contra hcon
   push Not at hcon
-  haveI := hs
+  have := hs
   let _ : CommGroup (TauCeti.CFSGIndex.lie d).Group :=
     { (inferInstance : Group (TauCeti.CFSGIndex.lie d).Group) with mul_comm := hcon }
   have hprime := IsSimpleGroup.prime_card (α := (TauCeti.CFSGIndex.lie d).Group)

@@ -56,11 +56,11 @@ theorem centralizer_le_layerJoin (h : Input185.Input7_10_1) {p : ℕ} [hp : Fact
   intro B hB hn
   obtain ⟨S, hBS⟩ := IsPGroup.exists_le_sylow hB
   have hSsyl : CFSG.Open.fusionIsSylowIn p (S : Subgroup X) ⊤ :=
-    ⟨le_top, S.isPGroup', fun P _ hP hle => S.maximal_isPGroup.eq_of_ge hP hle⟩
-  haveI : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
-  haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
+    ⟨le_top, S.isPGroup, fun P _ hP hle => S.maximal_isPGroup.eq_of_ge hP hle⟩
+  have : (Lemma114Layer.layerOf X).Normal := Lemma114Layer.layerOf_normal
+  have : (CFSG.pCore p X).Normal := CFSG.pCore_normal (p := p) (G := X)
   have hYn : (Lemma114Layer.layerOf X ⊔ CFSG.pCore p X).Normal := Subgroup.sup_normal _ _
-  haveI := hYn
+  have := hYn
   set Y : Subgroup X := Lemma114Layer.layerOf X ⊔ CFSG.pCore p X with hYdef
   set T : Subgroup X := (S : Subgroup X) ⊓ Y with hTdef
   have hBN : B ≤ Subgroup.normalizer (T : Set X) := by
@@ -70,7 +70,7 @@ theorem centralizer_le_layerJoin (h : Input185.Input7_10_1) {p : ℕ} [hp : Fact
       ((S : Subgroup X).inv_mem (hBS hw)), hYn.conj_mem y hyY w⟩
   have hBT : ∀ b ∈ B, ∀ t ∈ T, b * t * b⁻¹ ∈ T := fun b hb t ht =>
     (Subgroup.mem_normalizer_iff.1 (hBN hb) t).1 ht
-  have hTp : IsPGroup p (T : Subgroup X) := (S.isPGroup').to_le inf_le_left
+  have hTp : IsPGroup p (T : Subgroup X) := (S.isPGroup).to_le inf_le_left
   have hTS : (T : Subgroup X) ≤ (S : Subgroup X) := inf_le_left
   have hTY : (T : Subgroup X) ≤ Y := inf_le_right
   set Q : Subgroup X := T ⊓ Subgroup.normalizer (B : Set X) with hQdef
@@ -94,7 +94,7 @@ theorem centralizer_le_layerJoin (h : Input185.Input7_10_1) {p : ℕ} [hp : Fact
       exact (S : Subgroup X).mul_mem (hBS hb) (hTS ht)
     have hBH : B ≤ H := fun b hb => ⟨b, hb, 1, T.one_mem, by group⟩
     have hHB : H ≤ B := CFSG.LocalAnalysis.GLTheoremB.Prop95Parts.Input18.pgroup_normalizer_strict
-      (S.isPGroup'.to_le hHS) hBH (by
+      (S.isPGroup.to_le hHS) hBH (by
       rintro y ⟨b, hb, t, ht, rfl⟩ hyN
       have htN : t ∈ Subgroup.normalizer (B : Set X) := by
         have h1 := (Subgroup.normalizer (B : Set X)).mul_mem
@@ -124,7 +124,7 @@ theorem centralizer_le_layerJoin (h : Input185.Input7_10_1) {p : ℕ} [hp : Fact
   ·
     set R : Subgroup X := Q ⊔ B with hRdef
     have hRS : R ≤ (S : Subgroup X) := sup_le (hQT.trans hTS) hBS
-    have hRp : IsPGroup p R := S.isPGroup'.to_le hRS
+    have hRp : IsPGroup p R := S.isPGroup.to_le hRS
     have hBR : B < R := lt_of_le_of_ne le_sup_right (fun h => hQB (le_sup_left.trans (le_of_eq h.symm)))
     have hcardlt : Nat.card B < Nat.card R := Subgroup.card_lt_of_lt hBR
     have hcardle : Nat.card R ≤ Nat.card X := Subgroup.card_le_card_group _
@@ -202,6 +202,7 @@ theorem exists_isSylowIn {p : ℕ} (L : Subgroup G) : ∃ Q : Subgroup G, IsSylo
   exact ⟨Q, hQmax.1.1, hQmax.1.2, fun R' hR'L hR'p hQR' =>
     le_antisymm (hQmax.2 ⟨hR'L, hR'p⟩ hQR') hQR'⟩
 
+omit [Finite G] in
 theorem mk_mem_centralizer_barX {p : ℕ} {X Q : Subgroup G} {w : ↥X}
     (hw : (w : G) ∈ Subgroup.centralizer (Q : Set G)) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) w ∈
@@ -344,14 +345,17 @@ theorem layerOf_quot_eq {p : ℕ} (X : Subgroup G) :
     rw [← CFSG.HardMathSupport.Solomon.Coordinator.i183_barX_le_iff (hL : GLAPComponent p X L).1]
     exact le_sSup (hL : GLAPComponent p X L).2.2.1
 
+omit [Finite G] in
 theorem core_le_lstar (p : ℕ) (X : Subgroup G) : GLAPPrimeCoreOf p X ≤ Lstar p X := by
   unfold Lstar
   exact le_sup_left.trans le_sup_left
 
+omit [Finite G] in
 theorem layer_le_lstar (p : ℕ) (X : Subgroup G) : GLAPLayer p X ≤ Lstar p X := by
   unfold Lstar
   exact le_sup_right.trans le_sup_left
 
+omit [Finite G] in
 theorem sylowCore_le_lstar {p : ℕ} {X Q : Subgroup G} (hQ : IsSylowIn p (GLAPLayer p X) Q) :
     GLAPPrimeCoreOf p (X ⊓ Subgroup.centralizer (Q : Set G)) ≤ Lstar p X := by
   unfold Lstar
@@ -389,6 +393,7 @@ theorem core_centralizer_le_lstar (h : Input185.Input7_10_1) {p : ℕ} [hp : Fac
   have hsup := CFSG.HardMathSupport.Solomon.Coordinator.i183_mem_sup_of_mk_mem hmk
   exact (sup_le le_rfl (core_le_lstar p X)) hsup
 
+omit [Finite G] in
 theorem centralizer_sup_eq (A B : Subgroup G) :
     Subgroup.centralizer ((A ⊔ B : Subgroup G) : Set G) =
       Subgroup.centralizer (A : Set G) ⊓ Subgroup.centralizer (B : Set G) := by
@@ -439,7 +444,7 @@ end Bridge
 theorem input18_5_of_schreier_I710 (hS : CFSG.ComponentClassification.CatalogueRelativeB.CatalogueSchreier)
     (h : Input185.Input7_10_1) : Sec12a.Input18_5 := by
   intro G _ _ p hp hKP X d hXne hdX hdp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK : CFSG.Open.IsKGroup ↥X := isKGroup_of_isKProper hKP hXne
   have hcz : Subgroup.centralizer ((Subgroup.zpowers d : Subgroup G) : Set G) =
       Subgroup.centralizer ({d} : Set G) := by

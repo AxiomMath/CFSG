@@ -21,17 +21,17 @@ private lemma l05nD4_target_neg_one {p : ℕ} (hp : 1 ≤ p) {N : ℕ} (c' c : F
       (if c' = c then (-1 : ZMod p) else 0) := by
   by_cases h : c' = c
   · subst h
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     simpa using l05nND_cast_neg p 1 hp
   · have hne : c'.val ≠ c.val := fun hh => h (Fin.ext hh)
-    rw [if_neg h, if_neg hne, Nat.cast_zero]
+    rw [ite_eq_right h, ite_eq_right hne, Nat.cast_zero]
 
 private lemma l05nD4_X_length (N : ℕ) : (ggDepANX N).length = N := by
   simp [ggDepANX]
 
 private lemma l05nD4_toZ_X (p N : ℕ) : ggDepANToZ p N (ggDepANX N) = ggDepAx p N := by
   funext j
-  have hj : j.val < (ggDepANX N).length := by simpa [ggDepANX] using j.isLt
+  have hj : j.val < (ggDepANX N).length := by simp [ggDepANX]
   rw [ggDepANToZ, List.getD_eq_getElem (l := ggDepANX N) (d := 0) (n := j.val) hj]
   simp only [ggDepANX, ggDepAx, List.getElem_map, List.getElem_range]
   split <;> simp
@@ -64,15 +64,15 @@ private lemma l05nD4_res_extract {p N : ℕ} (posn c : ℕ) (swits rwits : List 
   have hc1 : (ggDepANDot p la1 lh1 == 2 % p && ggDepANDot p la1 (ggDepANX N) == 0) = true := by
     rw [Bool.and_eq_true]
     exact ⟨beq_iff_eq.mpr hd1, beq_iff_eq.mpr hz1⟩
-  rw [if_pos hc1] at e2
+  rw [ite_eq_left hc1] at e2
   have e3 := List.all_eq_true.mp e2 lh2 hlh2
-  rw [if_pos (beq_iff_eq.mpr hd2)] at e3
+  rw [ite_eq_left (beq_iff_eq.mpr hd2)] at e3
   have e4 := List.all_eq_true.mp e3 la2 hla2
   have hc2 : (ggDepANDot p la2 lh2 == 2 % p && ggDepANDot p la2 lh1 == (p - 1) % p &&
       ggDepANDot p la2 (ggDepANX N) != 0) = true := by
     rw [Bool.and_eq_true, Bool.and_eq_true]
     exact ⟨⟨beq_iff_eq.mpr hd3, beq_iff_eq.mpr hd4⟩, bne_iff_ne.mpr hz2⟩
-  rw [if_pos hc2] at e4
+  rw [ite_eq_left hc2] at e4
   exact List.any_eq_true.mp e4
 
 private lemma l05nD4_pat1_wit {N : ℕ} {pos : GGTWPos} {c0 : ℕ} {m n : ℤ}
@@ -104,7 +104,7 @@ private lemma l05nD4_check_one {p N : ℕ} (d : GGTWDData) (h : ggTWDCheck p N d
   have hni' : ni ∈ [1, 2] := by rcases hni with rfl | rfl <;> simp
   have hc := List.all_eq_true.mp hb mi hmi'
   have hd := List.all_eq_true.mp hc ni hni'
-  rw [if_pos hpat] at hd
+  rw [ite_eq_left hpat] at hd
   cases hlook : d.single.lookup (posn, c0, mi, ni) with
   | none => rw [hlook] at hd; simp at hd
   | some wits =>
@@ -134,7 +134,7 @@ private lemma l05nD4_check_res {p N : ℕ} (d : GGTWDData) (h : ggTWDCheck p N d
   have hres : d.res.all (fun e => e.2.all (ggTWDWitValid (N + 1))) = true := h2.2
   have ha := List.all_eq_true.mp h1.2 posn hpos
   have hb := List.all_eq_true.mp (Bool.and_eq_true_iff.mp ha).2 c hc
-  rw [if_pos hpat] at hb
+  rw [ite_eq_left hpat] at hb
   cases hsl : d.single.lookup (posn, c, 1, 1) with
   | none => rw [hsl] at hb; simp at hb
   | some swits =>
@@ -271,7 +271,7 @@ theorem ggTWDRes_sound {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 ≤ N)
     rw [ggTWDGens]
     congr 1
     ext s
-    rw [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    rw [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨q, hq, rfl⟩
       rcases List.mem_cons.mp hq with hq | hq

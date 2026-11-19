@@ -40,7 +40,7 @@ theorem exists_conj_le_of_forall_card_le {G : Type*} [Group G] [Finite G] {Y D U
   let U' : Subgroup ↥Y := U.subgroupOf Y
   have hU'pg : IsPGroup 2 U' := hU.comap_subtype
   obtain ⟨Q, hU'Q⟩ := hU'pg.exists_le_sylow
-  haveI : Finite (Sylow 2 ↥Y) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 ↥Y) := Sylow.finite_of_finiteIndex P
   obtain ⟨c₀, hc₀⟩ := MulAction.exists_smul_eq (M := ↥Y) P Q
   refine ⟨((c₀⁻¹ : ↥Y) : G), (c₀⁻¹ : ↥Y).2, ?_⟩
   intro u hu

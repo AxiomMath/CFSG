@@ -104,6 +104,7 @@ noncomputable abbrev starCentralizer (Y : Subgroup G) : Subgroup G :=
   quotientCentralizer (Subgroup.normalizer (Y : Set G)) Y (CFSG.pPrimeCore 3 ↥Y)
     Subgroup.le_normalizer le_rfl
 
+omit [Finite G] in
 private theorem conjQuotAction_eq_jStarAct (Y : Subgroup G) :
     conjQuotAction (Subgroup.normalizer (Y : Set G)) Y (CFSG.pPrimeCore 3 ↥Y)
       Subgroup.le_normalizer le_rfl = jStarAct Y := by
@@ -114,6 +115,7 @@ private theorem conjQuotAction_eq_jStarAct (Y : Subgroup G) :
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (CFSG.pPrimeCore 3 ↥Y) a
   rw [conjQuotAction_apply_mk, jStarAct_apply_mk]
 
+omit [Finite G] in
 theorem mem_starCentralizer_iff {Y : Subgroup G} {x : G} :
     x ∈ starCentralizer Y ↔
       ∃ hx : x ∈ Subgroup.normalizer (Y : Set G), jStarAct Y ⟨x, hx⟩ = 1 := by
@@ -123,10 +125,11 @@ theorem mem_starCentralizer_iff {Y : Subgroup G} {x : G} :
   constructor
   · rintro ⟨n, rfl, hn⟩
     refine ⟨n.2, ?_⟩
-    rwa [← conjQuotAction_eq_jStarAct Y, hn]
+    rw [← conjQuotAction_eq_jStarAct Y, hn]
   · rintro ⟨hx, hx1⟩
     exact ⟨⟨x, hx⟩, rfl, by rwa [conjQuotAction_eq_jStarAct Y]⟩
 
+omit [Finite G] in
 theorem jStarAct_of_mem {J : Subgroup G} {g : G} (hg : g ∈ J) :
     jStarAct J ⟨g, Subgroup.le_normalizer hg⟩ = MulAut.conj
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J) ⟨g, hg⟩) := by
@@ -142,7 +145,7 @@ theorem jStarAct_of_mem {J : Subgroup G} {g : G} (hg : g ∈ J) :
 private theorem pPrimeCore_map_le_of_isKComp {M N J' : Subgroup G}
     (h : HypCGen G M 3 E N) (hJ' : IsKComp M N J') :
     (CFSG.pPrimeCore 3 ↥J').map J'.subtype ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDJ' : (CFSG.pPrimeCore 3 ↥J').map J'.subtype ≤ J' :=
     Subgroup.map_subtype_le _
   have hDK : (CFSG.pPrimeCore 3 ↥J').map J'.subtype ≤ kSub 3 M N :=
@@ -194,7 +197,7 @@ private theorem pPrimeCore_map_le_of_isKComp {M N J' : Subgroup G}
 theorem HypCGen.eq_one_of_mem_starCentralizer (h : HypCGen G M 3 E N)
     (hLN : ¬ pLayerIn 3 N ≤ M) {J' : Subgroup G} (hJ' : IsKComp M N J') {e : G}
     (he : e ∈ E) (heJ : e ∈ starCentralizer J') : e = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra he1
   have hDJ' : (CFSG.pPrimeCore 3 ↥J').map J'.subtype ≤ J' := Subgroup.map_subtype_le _
   have hJ'D : J' ≤ Subgroup.normalizer
@@ -266,7 +269,7 @@ private theorem exists_conj_of_centerQuotient_eq_conj {S : Type*} [Group S]
     (h : CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom S α =
       MulAut.conj z) :
     ∃ y : S, QuotientGroup.mk' (Subgroup.center S) y = z ∧ α = MulAut.conj y := by
-  haveI : Group.IsPerfect S := hS
+  have : Group.IsPerfect S := hS
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center S) z
   refine ⟨y, rfl, ?_⟩
   apply CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective S
@@ -304,7 +307,7 @@ private theorem mem_of_isPGroup_of_mem_normalizer_sylow {S : Type*} [Group S] [F
   have hHK : Subgroup.zpowers y ≤ Subgroup.normalizer (P : Set S) :=
     Subgroup.zpowers_le.mpr hyN
   have hP : IsPGroup 3 ↥((P : Subgroup S) ⊔ Subgroup.zpowers y) :=
-    IsPGroup.to_sup_of_normal_left' P.isPGroup' hyP hHK
+    IsPGroup.to_sup_of_normal_left' P.isPGroup hyP hHK
   have heq : ((P : Subgroup S) ⊔ Subgroup.zpowers y) = (P : Subgroup S) :=
     P.maximal_isPGroup.eq_of_ge hP le_sup_left
   have hmem : y ∈ ((P : Subgroup S) ⊔ Subgroup.zpowers y) :=
@@ -312,6 +315,7 @@ private theorem mem_of_isPGroup_of_mem_normalizer_sylow {S : Type*} [Group S] [F
   rw [heq] at hmem
   exact hmem
 
+omit [Finite G] in
 private theorem mem_starCentralizer_of_mem_map_sylow {J' T : Subgroup G} {e : G}
     {y : threeStar J'} (hT : CFSG.ABGLocalTools.IsSylowOf 3 T J')
     (hJN : e ∈ Subgroup.normalizer (J' : Set G)) {x : ↥J'}
@@ -342,7 +346,7 @@ private theorem exists_mem_sylow_of_jStarAct_eq_conj {J' T : Subgroup G} {e : G}
     (hZ : Nat.card (Subgroup.center (threeStar J')) = 3) {y : threeStar J'}
     (hy : jStarAct J' ⟨e, hJN⟩ = MulAut.conj y) :
     ∃ x ∈ T, x⁻¹ * e ∈ starCentralizer J' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : ↥J' →* threeStar J' := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J')
   let Tstar : Subgroup (threeStar J') := (T.subgroupOf J').map π
   obtain ⟨Q, hQ⟩ := hT.exists_sylow_eq_subgroupOf
@@ -362,7 +366,7 @@ private theorem exists_mem_sylow_of_jStarAct_eq_conj {J' T : Subgroup G} {e : G}
             from Subtype.ext he3, map_one]
       _ = 1 := map_one _
   have hZ' : Nat.card (Subgroup.center (threeStar J')) ∣ 3 := by
-    simpa [hZ] using (dvd_refl 3 : 3 ∣ 3)
+    simp [hZ]
   have hyP : IsPGroup 3 (Subgroup.zpowers y) :=
     isPGroup_zpowers_of_pow_three_mem_center hZ' hy3c
   have himage : Tstar.map (jStarAct J' ⟨e, hJN⟩).toMonoidHom = Tstar := by
@@ -403,7 +407,7 @@ private theorem exists_conj_jStarAct_of_isA6Type {M N J' : Subgroup G} {e : G}
     (hJ' : IsKComp M N J') (hJN : e ∈ Subgroup.normalizer (J' : Set G))
     (he3 : e ^ 3 = 1) (hA6 : IsA6Type (threeStar J')) :
     ∃ y : threeStar J', jStarAct J' ⟨e, hJN⟩ = MulAut.conj y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨eA6⟩ := hA6
   let ᾱ : MulAut (threeStar J' ⧸ Subgroup.center (threeStar J')) := jBarAct J' ⟨e, hJN⟩
   let β : MulAut (alternatingGroup (Fin 6)) := (MulAut.congr eA6) ᾱ
@@ -425,6 +429,7 @@ private theorem exists_conj_jStarAct_of_isA6Type {M N J' : Subgroup G} {e : G}
   obtain ⟨y, -, hy⟩ := exists_conj_of_centerQuotient_eq_conj hJ'.isQuasisimple.1 hbar
   exact ⟨y, hy⟩
 
+omit [Finite G] in
 private theorem jStarAct_eq_conj_of_commutator_le {J' : Subgroup G} {e k : G}
     (heN : e ∈ Subgroup.normalizer (J' : Set G)) (hk : k ∈ J')
     (hcomm : ∀ y ∈ J', e * y * e⁻¹ * (k * y * k⁻¹)⁻¹ ∈
@@ -465,7 +470,7 @@ theorem gammaClBelow_le_of_rankThreeGamma_le {M E : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 2)
     (hΓ : CFSG.Open.rankThreeGamma 1 3 E ≤ M) (Y : Subgroup G) :
     CFSG.HardMathSupport.Solomon.UniquenessMaximal.gammaClBelow E Y ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrankE : CFSG.Open.pRank 3 E = 2 :=
     CFSG.HardMathSupport.Solomon.Coordinator.i271_pRank_eq Nat.prime_three hE hcard
   unfold CFSG.HardMathSupport.Solomon.UniquenessMaximal.gammaClBelow
@@ -496,7 +501,7 @@ theorem HypCGen.exists_inner_mul_mem_starCentralizer
     (hT : CFSG.ABGLocalTools.IsSylowOf 3 T J')
     (hET : E ≤ Subgroup.normalizer (T : Set G)) {e : G} (he : e ∈ E) :
     ∃ x ∈ T, x⁻¹ * e ∈ starCentralizer J' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have he3 : e ^ 3 = 1 := h.elem.2 e he
   have heJN : e ∈ Subgroup.normalizer (J' : Set G) := hEJ he
   have heTN : e ∈ Subgroup.normalizer (T : Set G) := hET he

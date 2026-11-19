@@ -18,7 +18,7 @@ variable {p f : ℕ} {K : Type} [Field K]
 
 theorem three_ne_zero_of_dvd (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1) : (3 : K) ≠ 0 := by
   intro h3
-  haveI := h.charP
+  have := h.charP
   have hcast : ((3 : ℕ) : K) = 0 := by exact_mod_cast h3
   have hpd : p ∣ 3 := (CharP.cast_eq_zero_iff K p 3).mp hcast
   have hp3 : p = 3 := (Nat.prime_dvd_prime_iff_eq h.prime Nat.prime_three).mp hpd
@@ -30,7 +30,7 @@ theorem three_ne_zero_of_dvd (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1)
 
 theorem exists_zeta_of_dvd (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1) :
     ∃ ζ : K, IsPrimitiveRoot ζ 3 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   apply exists_isPrimitiveRoot_three_of_dvd K
   rw [hF_of h]
   obtain ⟨k, hk⟩ := hQ
@@ -58,17 +58,17 @@ theorem conj_pow' (A : GL (Fin 7) K) (M : Matrix (Fin 7) (Fin 7) K) (n : ℕ) :
   carrier := {x | c x = 1}
   mul_mem' := fun {a b} ha hb => by
     show c (a * b) = 1
-    rw [hcmul, Set.mem_setOf_eq.mp ha, Set.mem_setOf_eq.mp hb, one_mul]
+    rw [hcmul, Set.mem_ofPred_eq.mp ha, Set.mem_ofPred_eq.mp hb, one_mul]
   one_mem' := hc1
   inv_mem' := fun {a} ha => by
     show c a⁻¹ = 1
-    rw [hcinv, Set.mem_setOf_eq.mp ha, inv_one]
+    rw [hcinv, Set.mem_ofPred_eq.mp ha, inv_one]
 
 theorem kerConcl_PSU7 (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1)
     {E : Subgroup (StatedProj (StatedSU 7 (p ^ f) K))}
     (hE : CFSG.Open.IsElemAbelian 3 E) (hc : Nat.card E = 27) : KerConcl E := by
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨P, hPE, hcomm, hpow, hPcard⟩ := lift_of_elemAbelianU h hE hc
   let P₁ : Subgroup (GL (Fin 7) K) := P.map (StatedSU 7 (p ^ f) K).subtype
   have hmemP₁ : ∀ x ∈ P₁, x ∈ StatedSU 7 (p ^ f) K := by
@@ -88,8 +88,8 @@ theorem kerConcl_PSU7 (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1)
   have hcardP₁ : Nat.card P₁ = 27 := by
     rw [show P₁ = P.map (StatedSU 7 (p ^ f) K).subtype from rfl,
       Subgroup.card_map_of_injective (Subgroup.subtype_injective _), hPcard]
-  haveI : Finite P₁ := Nat.finite_of_card_ne_zero (by rw [hcardP₁]; norm_num)
-  haveI : Fintype P₁ := Fintype.ofFinite _
+  have : Finite P₁ := Nat.finite_of_card_ne_zero (by rw [hcardP₁]; norm_num)
+  have : Fintype P₁ := Fintype.ofFinite _
   have hcardFin : Fintype.card P₁ = 27 := by rw [← Nat.card_eq_fintype_card, hcardP₁]
   obtain ⟨ζ, hζ⟩ := exists_zeta_of_dvd h hQ
   obtain ⟨A, hA0⟩ := exists_diag_StatedSU h hζ P₁ hmemP₁ hcommP₁ hpowP₁
@@ -142,7 +142,7 @@ theorem kerConcl_PSU7 (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1)
       by_cases hij : i = j
       · subst hij
         simp [hx]
-      · simp [Matrix.diagonal_apply_ne _ hij, hij]
+      · simp [hij]
     have hGL : (A : GL (Fin 7) K) * (x : GL (Fin 7) K) * (A : GL (Fin 7) K)⁻¹ = 1 := by
       apply Units.ext
       rw [Units.val_mul, Units.val_mul, Matrix.coe_units_inv, Units.val_one]

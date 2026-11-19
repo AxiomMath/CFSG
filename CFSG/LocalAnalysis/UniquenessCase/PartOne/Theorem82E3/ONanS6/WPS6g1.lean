@@ -40,25 +40,25 @@ variable {D : Data G}
 variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
 theorem exists_perfect_lift'
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (hK8 : K8Cat)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (_hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (_hK8 : K8Cat)
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
-    (hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
+    (_hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (_haZ : a ∉ zSub P c.L)
+    (_hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
         (alternatingGroup (Fin 6)) ∧
       zSub P c.L ≤ perfectCoreL c a ∧
       ⁅perfectCoreL c a, zSub P c.L⁆ ≤
         CFSG.Open.pCoreOf 2 (perfectCoreL c a) ∧
       A ≤ Subgroup.closure ({a} : Set G) ⊔ perfectCoreL c a)
-    (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
-    (hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
+    (_hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
+    (_hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
       W ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
         (CFSG.Open.pCoreOf 2 c.L) c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J)
-    (h6 : (orbitConjugates (perfectCoreL c a) J).ncard = 6)
-    (h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J))
+    (_h6 : (orbitConjugates (perfectCoreL c a) J).ncard = 6)
+    (_h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J))
     (hS1 : ∀ z ∈ zSub P c.L, ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
       z ∈ Subgroup.normalizer (K : Set G))
     (hS2 : ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
@@ -220,7 +220,7 @@ theorem exists_perfect_lift'
         CFSG.inSubgroup (aschbacherSolvableCore 3) K := by
       refine Subgroup.mem_map.mpr ⟨(K.normalizerMonoidHom ⟨z, hS1 z hz K hK⟩ k) / k,
         hd, ?_⟩
-      simp [Subgroup.coe_div, div_eq_mul_inv]
+      simp [div_eq_mul_inv]
     have h := hmemG
     rw [CFSG.RankThree.PartOne.theta_eq_inf_of_mem_thetaComponentsAt
       (p := 3) Nat.prime_three (a := a) (hthetaAt K hK)] at h
@@ -232,8 +232,7 @@ theorem exists_perfect_lift'
     let k : ↥K := ⟨(l : G), l.2⟩
     have hval : (((σH * l⁻¹ : ↥(K.subgroupOf H)) : H) : G) =
         ((K.normalizerMonoidHom ⟨z, hS1 z hz K hK⟩ k : ↥K) : G) * (k : G)⁻¹ := by
-      simp [σH, k, zH, Subgroup.coe_mul, Subgroup.coe_inv,
-        normalizerMonoidHom_apply_coe]
+      simp [σH, k, zH, Subgroup.coe_mul]
     have hmem : ((σH * l⁻¹ : ↥(K.subgroupOf H)) : H) ∈ θ := by
       have h := hmemθH K hK k
       rw [← hval] at h
@@ -246,8 +245,8 @@ theorem exists_perfect_lift'
       exact mul_inv_eq_one.mp hq1' 
     simpa [σH] using hq2
   let D : Subgroup H := Subgroup.centralizer ({zH} : Set H) ⊓ X
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 ↥(Subgroup.zpowers zH)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 ↥(Subgroup.zpowers zH)) :=
     ⟨IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hzordH]; norm_num)⟩
   have hcopθ : Nat.Coprime 3 (Nat.card θ) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hθ3
@@ -318,7 +317,7 @@ theorem exists_perfect_lift'
   have hperfD : Group.IsPerfect ↥(CFSG.perfectResidual ↥D) :=
     (CFSG.perfect_residual_characterization (G := ↥D)).2.2.1
   have hperfWH : Group.IsPerfect ↥W_H := by
-    haveI : Group.IsPerfect ↥(CFSG.perfectResidual ↥D) := hperfD
+    have : Group.IsPerfect ↥(CFSG.perfectResidual ↥D) := hperfD
     dsimp [W_H, CFSG.inSubgroup]
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.equivMapOfInjective (CFSG.perfectResidual ↥D) D.subtype
@@ -326,7 +325,7 @@ theorem exists_perfect_lift'
       (Subgroup.equivMapOfInjective (CFSG.perfectResidual ↥D) D.subtype
         D.subtype_injective).surjective
   have hperfW : Group.IsPerfect ↥W := by
-    haveI : Group.IsPerfect ↥W_H := hperfWH
+    have : Group.IsPerfect ↥W_H := hperfWH
     dsimp [W]
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.equivMapOfInjective W_H H.subtype H.subtype_injective).toMonoidHom)
@@ -353,7 +352,7 @@ theorem exists_perfect_lift'
     have hPmap : P.map f.range.subtype = U K :=
       Subgroup.map_subgroupOf_eq_of_le hUK_le_fr
     have hPperf : Group.IsPerfect ↥P := by
-      haveI : Group.IsPerfect ↥(U K) := hperfU K hK
+      have : Group.IsPerfect ↥(U K) := hperfU K hK
       exact Group.IsPerfect.ofSurjective
         (f := (Subgroup.subgroupOfEquivOfLe hUK_le_fr).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hUK_le_fr).symm.surjective

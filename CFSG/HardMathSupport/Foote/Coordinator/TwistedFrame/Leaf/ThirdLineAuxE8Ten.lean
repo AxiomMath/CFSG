@@ -119,10 +119,10 @@ theorem twThirdLine_e8Five_aux (K : Type) [Field K] [Finite K] {ℓ f : ℕ} [Fa
 theorem twThirdLine_e8Ten (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hord : orderOf ((Nat.card K : ℕ) : ZMod p) = 10) : TwThirdLine .E8 K p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ℓ, f, hℓ, hchar, hf, hK⟩ := exists_char_pow K
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hq0 : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := fun h => by
     rw [h, orderOf_zero] at hord
     omega

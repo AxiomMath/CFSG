@@ -83,7 +83,7 @@ private theorem polarNondeg_perpPair {S : Submodule K V} (hS : PolarNondeg Q S) 
   · simp only [polar_add_right, polar_smul_right, polar_self_eq_zero, huv, smul_eq_mul, mul_zero,
       add_zero, mul_one, CharTwo.add_self_eq_zero]
   · simp only [polar_add_right, polar_smul_right, polar_self_eq_zero, hvu, smul_eq_mul, mul_zero,
-      add_zero, mul_one, CharTwo.add_self_eq_zero]
+      mul_one, CharTwo.add_self_eq_zero]
   · simp only [polar_add_right, polar_smul_right, hyu', hyv', smul_eq_mul, mul_zero, add_zero, hyz]
 
 private theorem exists_pair (hK : Nat.card K = 2) [FiniteDimensional K V] {a : V ≃ₗ[K] V}
@@ -235,7 +235,7 @@ private theorem exists_elemAb_orth_aux (hK : Nat.card K = 2) [FiniteDimensional 
     obtain ⟨T', hT'Ω, hT'a, hT'e, hT'c, hT'f⟩ :=
       ih (perpPair Q S u v) (perpPair_inv ha hSa hD) (polarNondeg_perpPair hS hu hv huv)
         (by omega)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     set e := rot Q u v with he
     have he3 : e ^ 3 = 1 := rot_cube huv
     have heΩ : e ∈

@@ -19,7 +19,7 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 theorem isPSL_of_isL34Type {L : Type} [Group L] (hL : IsL34Type L) :
     CFSG.Quasithin.IsPSL 3 2 2 (L ⧸ Subgroup.center L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_projSL_quotient_center_of_isL34Type hL
   exact CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSL
     ⟨Nat.prime_two, by norm_num, by norm_num, by decide, by decide⟩ e
@@ -31,8 +31,8 @@ private theorem isPSL_centerQuotient_pCore_two_of_isL34Type {K : Type} [Group K]
     CFSG.Quasithin.IsPSL 3 2 2
       ((K ⧸ CFSG.pCore 2 K) ⧸ Subgroup.center (K ⧸ CFSG.pCore 2 K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y : Type := K ⧸ CFSG.pCore 2 K
   let N : Subgroup Y := (CFSG.pPrimeCore 3 K).map (QuotientGroup.mk' (CFSG.pCore 2 K))
   let L : Type := K ⧸ CFSG.pPrimeCore 3 K
@@ -67,8 +67,8 @@ theorem pCore_two_eq_pPrimeCore_three_of_isL34Type
     (hq : CFSG.IsQuasisimple (K ⧸ CFSG.pCore 2 K)) (hL : IsL34Type (K ⧸ CFSG.pPrimeCore 3 K)) :
     CFSG.pCore 2 K = CFSG.pPrimeCore 3 K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y : Type := K ⧸ CFSG.pCore 2 K
   let q : K →* Y := QuotientGroup.mk' (CFSG.pCore 2 K)
   let N : Subgroup Y := (CFSG.pPrimeCore 3 K).map q
@@ -91,7 +91,7 @@ theorem pCore_two_eq_pPrimeCore_three_of_isL34Type
     have hsub : Subsingleton (K ⧸ CFSG.pPrimeCore 3 K) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI := hsub
+    have := hsub
     have hcard1 : Nat.card ((K ⧸ CFSG.pPrimeCore 3 K) ⧸
         Subgroup.center (K ⧸ CFSG.pPrimeCore 3 K)) = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩

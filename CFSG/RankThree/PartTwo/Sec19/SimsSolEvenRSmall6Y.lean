@@ -61,7 +61,7 @@ theorem exists_eq_mul_of_parK (D : C.PiData) {y : G} (hy : y ∈ CFSG.Open.pCore
     ∃ c ∈ CFSG.Open.pCoreOf 2 X, c ∈ Subgroup.centralizer (X : Set G) ∧
       ∃ w ∈ blockU X, y = c * w := by
   obtain ⟨w, hw, hπ⟩ := exists_mem_W_pi_eq D _ hpar
-  have hwY : w ∈ CFSG.Open.pCoreOf 2 X := C.S.W_le_Y hw
+  have hwY : w ∈ CFSG.Open.pCoreOf 2 X := CFSG.RankThree.PartTwo.Sec19.SolEven.Setting.W_le_Y hw
   have hcK : y * w⁻¹ ∈ C.K := C.K.mul_mem (Y_le_K C hy) (C.K.inv_mem (Y_le_K C hwY))
   have hc : D.π ⟨y * w⁻¹, hcK⟩ = 1 := by
     have e : (⟨y * w⁻¹, hcK⟩ : ↥C.K) =
@@ -82,7 +82,7 @@ theorem mul_self_eq_one_of_parK (D : C.PiData)
       obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (orderOf_dvd_of_pow_eq_one hj')
       exact IsPGroup.of_card (n := i) (by rw [Nat.card_zpowers, hi])
     exact hRsyl _ h2 (Subgroup.zpowers_le.2 hcX) (Subgroup.mem_zpowers c)
-  have hwX : w ∈ X := pCoreOf_le_self X (C.S.W_le_Y hw)
+  have hwX : w ∈ X := pCoreOf_le_self X (CFSG.RankThree.PartTwo.Sec19.SolEven.Setting.W_le_Y hw)
   have hcw : c * w = w * c := Subgroup.mem_centralizer_iff.1 hcX w hwX |>.symm
   have hww : w * w = 1 := by
     have := C.S.elemU.2 w hw
@@ -100,14 +100,14 @@ theorem exists_mem_Y_pi_eq (D : C.PiData) (k : ↥C.K)
   have h01 : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
   rcases h01 (parK D k) with h | h
   · obtain ⟨w, hw, hπ⟩ := exists_mem_W_pi_eq D k h
-    exact ⟨w, C.S.W_le_Y hw, hπ⟩
+    exact ⟨w, CFSG.RankThree.PartTwo.Sec19.SolEven.Setting.W_le_Y hw, hπ⟩
   · obtain ⟨y₀, hy₀, hp₀⟩ := hk.resolve_left (by rw [h]; decide)
     set k' : ↥C.K := (⟨y₀, Y_le_K C hy₀⟩ : ↥C.K)⁻¹ * k with hk'
     have hp' : parK D k' = 0 := by
       rw [hk', parK_mul, parK_inv, hp₀, h]
       decide
     obtain ⟨w, hw, hπ⟩ := exists_mem_W_pi_eq D k' hp'
-    have hwY : w ∈ CFSG.Open.pCoreOf 2 X := C.S.W_le_Y hw
+    have hwY : w ∈ CFSG.Open.pCoreOf 2 X := CFSG.RankThree.PartTwo.Sec19.SolEven.Setting.W_le_Y hw
     have hyw : y₀ * w ∈ CFSG.Open.pCoreOf 2 X := (CFSG.Open.pCoreOf 2 X).mul_mem hy₀ hwY
     refine ⟨y₀ * w, hyw, ?_⟩
     have e : (⟨y₀ * w, Y_le_K C hyw⟩ : ↥C.K) =

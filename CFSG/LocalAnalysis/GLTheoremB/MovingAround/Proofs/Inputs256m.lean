@@ -67,8 +67,8 @@ section TwoSub
 theorem exists_twoSub_agrp_stable {K : Type} [Group K] [Finite K] {x : MulAut K} {L : Subgroup K}
     (hLx : ∀ l ∈ L, x l = l) (hL5 : IsAltType 5 (barOf 3 L)) {y : K} (hyL : y ∈ L) (hy : orderOf y = 3) :
     ∃ U : Subgroup K, U ≠ ⊥ ∧ IsPGroup 2 ↥U ∧ ∀ a ∈ Prop1310a5b.Agrp x y, ∀ u ∈ U, a u ∈ U := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hL5
   set π : ↥L →* barOf 3 L := QuotientGroup.mk' (GLAPPrimeCore 3 ↥L) with hπ
   set yL : ↥L := ⟨y, hyL⟩ with hyLdef
@@ -246,7 +246,7 @@ theorem closure_fixed_two_eq_top_of_gen2313
     {A : Subgroup (MulAut K)} (hAel : IsElemAbelian 3 A) (hA9 : Nat.card A = 9) {U : Subgroup K}
     (hU0 : U ≠ ⊥) (hU2 : IsPGroup 2 ↥U) (hUA : ∀ a ∈ A, ∀ u ∈ U, a u ∈ U) :
     Subgroup.closure {k : K | ∃ a ∈ A, a ≠ 1 ∧ a k = k ∧ ∃ n : ℕ, k ^ (2 ^ n) = 1} = ⊤ := by
-  haveI : Finite (Cat d) := Finite.of_equiv _ θ.toEquiv
+  have : Finite (Cat d) := Finite.of_equiv _ θ.toEquiv
   set ψ : MulAut K →* MulAut (Cat d) := (MulAut.congr θ).toMonoidHom.comp (quotientCenterAut' K) with hψ
   have hψi : Function.Injective ψ :=
     (MulAut.congr θ).injective.comp (quotientCenterAut'_injective hperf)
@@ -379,8 +379,8 @@ section LiftGF4
 
 theorem isCyclic_of_isPGroup_three_of_alt5 {X : Type*} [Group X] (e : X ≃* alternatingGroup (Fin 5))
     (R : Subgroup X) (hR : IsPGroup 3 ↥R) : IsCyclic ↥R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   obtain ⟨m, hm⟩ := hR.exists_card_eq
   have hdvd : 3 ^ m ∣ 60 := by
     rw [← hm, ← Inputs256b.card_alt5, ← Nat.card_congr e.toEquiv]
@@ -408,7 +408,7 @@ theorem exists_gf4Comp_lift
     (hJ : IsGF4Comp (quotientCenterAut' K a) J) :
     ∃ JK : Subgroup K, (GLAPComponent 3 (Prop1310a5.fixedSub a) JK ∧ Inputs256b.Clause2W (barOf 3 JK)) ∧
       JK.map (QuotientGroup.mk' (Subgroup.center K)) = J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hJsn, hJq, hJ3, hJt⟩ := hJ
   have hπβ : ∀ x : K, QuotientGroup.mk' (Subgroup.center K) (a x) =
       quotientCenterAut' K a (QuotientGroup.mk' (Subgroup.center K) x) := by
@@ -565,7 +565,7 @@ theorem good2319_of_pumpup_gf4 (hKD : CFSG.LocalAnalysis.GLTheoremA.KDChevDownQ 
     Prop1310a5b.Good2319 H := by
   obtain ⟨σ, hσ3, J₁, hJ₁, ⟨e⟩⟩ := hP
   have hq := hH.1
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian H hq
   have hJ₁' : GLAPComponent 3 (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup σ) J₁ := by
     rwa [Inputs256b.fixedSub_eq] at hJ₁

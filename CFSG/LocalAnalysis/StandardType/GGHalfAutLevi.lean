@@ -30,7 +30,7 @@ private theorem two_le_val_of_ne_zero_one {m : ℕ} {x : Fin (m + 1 + 1 + 1)}
 
 private theorem fin_eq_succ_succ_of_two_le {m : ℕ} {x : Fin (m + 1 + 1 + 1)}
     (hx : 2 ≤ x.val) : ∃ p : Fin (m + 1), p.succ.succ = x :=
-  ⟨⟨x.val - 2, by omega⟩, Fin.ext (by simp only [Fin.val_succ, Fin.val_mk]; omega)⟩
+  ⟨⟨x.val - 2, by omega⟩, Fin.ext (by simp only [Fin.val_succ]; omega)⟩
 
 private theorem fin_eq_zero_or_one {m : ℕ} (x : Fin (m + 1 + 1 + 1)) (hx : x.val < 2) :
     x = 0 ∨ x = 1 := by
@@ -86,7 +86,7 @@ private theorem levi_col {m : ℕ}
   · rw [hr] at h' ⊢
     rw [Matrix.single_mul_apply_same, one_mul] at h'
     simpa using h'
-  · rw [if_neg hr]
+  · rw [ite_eq_right hr]
     rw [Matrix.single_mul_apply_of_ne (1 : F2) p.succ.succ q.succ.succ r q.succ.succ hr] at h'
     exact h'
 
@@ -105,7 +105,7 @@ private theorem levi_row {m : ℕ}
     simpa using h'.symm
   · rw [Matrix.mul_single_apply_of_ne (1 : F2) p.succ.succ q.succ.succ p.succ.succ c hc] at h'
     rw [Matrix.single_mul_apply_same, one_mul] at h'
-    rw [if_neg hc, mul_zero]
+    rw [ite_eq_right hc, mul_zero]
     exact h'.symm
 
 private theorem levi_diag {m : ℕ}
@@ -145,39 +145,39 @@ private theorem omegaBlock_zero_apply_zero_zero (m : ℕ) :
         SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) :
         Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) 0 0 = 0 := by
   have h01 : (0 : Fin (m + 1 + 1 + 1)) ≠ 1 := Fin.zero_ne_one' (n := m + 1 + 1)
-  rw [omegaBlock_zero_apply, Equiv.swap_apply_left, if_neg h01,
-    if_neg (fun h => h01 h.1.symm), add_zero]
+  rw [omegaBlock_zero_apply, Equiv.swap_apply_left, ite_eq_right h01,
+    ite_eq_right (fun h => h01 h.1.symm), add_zero]
 
 private theorem omegaBlock_zero_apply_zero_one (m : ℕ) :
     ((omegaBlock (m + 1 + 1) ⟨0, by omega⟩ :
         SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) :
         Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) 0 1 = 1 := by
   have h01 : (0 : Fin (m + 1 + 1 + 1)) ≠ 1 := Fin.zero_ne_one' (n := m + 1 + 1)
-  rw [omegaBlock_zero_apply, Equiv.swap_apply_right, if_pos rfl,
-    if_neg (fun h => h01 h.1.symm), add_zero]
+  rw [omegaBlock_zero_apply, Equiv.swap_apply_right, ite_eq_left rfl,
+    ite_eq_right (fun h => h01 h.1.symm), add_zero]
 
 private theorem omegaBlock_zero_apply_one_zero (m : ℕ) :
     ((omegaBlock (m + 1 + 1) ⟨0, by omega⟩ :
         SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) :
         Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) 1 0 = 1 := by
   have h01 : (0 : Fin (m + 1 + 1 + 1)) ≠ 1 := Fin.zero_ne_one' (n := m + 1 + 1)
-  rw [omegaBlock_zero_apply, Equiv.swap_apply_left, if_pos rfl,
-    if_neg (fun h => h01 h.2.symm), add_zero]
+  rw [omegaBlock_zero_apply, Equiv.swap_apply_left, ite_eq_left rfl,
+    ite_eq_right (fun h => h01 h.2.symm), add_zero]
 
 private theorem omegaBlock_zero_apply_one_one (m : ℕ) :
     ((omegaBlock (m + 1 + 1) ⟨0, by omega⟩ :
         SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) :
         Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) 1 1 = 1 := by
   have h01 : (0 : Fin (m + 1 + 1 + 1)) ≠ 1 := Fin.zero_ne_one' (n := m + 1 + 1)
-  rw [omegaBlock_zero_apply, Equiv.swap_apply_right, if_neg h01.symm,
-    if_pos ⟨rfl, rfl⟩, zero_add]
+  rw [omegaBlock_zero_apply, Equiv.swap_apply_right, ite_eq_right h01.symm,
+    ite_eq_left ⟨rfl, rfl⟩, zero_add]
 
 theorem eq_one_of_commute_levi_omega {m : ℕ} (hm : 2 ≤ m)
     {g : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2}
     (hlevi : ∀ s, g * slLower2Hom m s = slLower2Hom m s * g)
     (hω : g * omegaBlock (m + 1 + 1) ⟨0, by omega⟩ = omegaBlock (m + 1 + 1) ⟨0, by omega⟩ * g)
     (hsq : g * g = 1) : g = 1 := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   let lam : F2 := (g : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2)
     (0 : Fin (m + 1)).succ.succ (0 : Fin (m + 1)).succ.succ
   let W : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2 :=
@@ -227,14 +227,14 @@ theorem eq_one_of_commute_levi_omega {m : ℕ} (hm : 2 ≤ m)
     have hp0 : (0 : Fin (m + 1 + 1 + 1)) ≠ p.succ.succ := by
       intro h; have := congrArg Fin.val h
       simp only [Fin.val_zero, Fin.val_succ] at this; omega
-    rw [hcol p 0, if_neg hp0]
+    rw [hcol p 0, ite_eq_right hp0]
   have hDcol0 : ∀ p : Fin (m + 1),
       (g : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) p.succ.succ 0 = 0 := by
     intro p
     have hp0 : (0 : Fin (m + 1 + 1 + 1)) ≠ p.succ.succ := by
       intro h; have := congrArg Fin.val h
       simp only [Fin.val_zero, Fin.val_succ] at this; omega
-    rw [hrow p 0, if_neg hp0]
+    rw [hrow p 0, ite_eq_right hp0]
   have hDcol1 : ∀ p : Fin (m + 1),
       (g : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) p.succ.succ 1 = 0 := by
     intro p
@@ -242,7 +242,7 @@ theorem eq_one_of_commute_levi_omega {m : ℕ} (hm : 2 ≤ m)
       intro h; have := congrArg Fin.val h
       rw [Fin.val_one' (m + 1 + 1 + 1), Nat.mod_eq_of_lt (by omega : 1 < m + 1 + 1 + 1)] at this
       simp only [Fin.val_succ] at this; omega
-    rw [hrow p 1, if_neg hp1]
+    rw [hrow p 1, ite_eq_right hp1]
   have hDD : (g : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) *
       (g : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) = 1 := by
     have h := congrArg Subtype.val hsq
@@ -264,7 +264,7 @@ theorem eq_one_of_commute_levi_omega {m : ℕ} (hm : 2 ≤ m)
             (g : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2)
               ((0 : Fin (m + 1)).succ.succ) ((0 : Fin (m + 1)).succ.succ) :=
         Finset.sum_eq_single ((0 : Fin (m + 1)).succ.succ)
-          (fun b _ hb => by rw [hrow 0 b, if_neg hb, zero_mul])
+          (fun b _ hb => by rw [hrow 0 b, ite_eq_right hb, zero_mul])
           (fun hc0 => absurd (Finset.mem_univ _) hc0)
       rw [hsingle]
     rw [hsum, Matrix.one_apply_eq] at h
@@ -374,7 +374,7 @@ theorem eq_one_of_commute_levi_omega {m : ℕ} (hm : 2 ≤ m)
           obtain ⟨p, rfl⟩ := fin_eq_succ_succ_of_two_le (two_le_val_of_ne_zero_one hx0 hx1)
           rw [hD0 p, zero_mul])
       rw [hs]
-    rw [hsum, Matrix.one_apply, if_neg hfin01] at h
+    rw [hsum, Matrix.one_apply, ite_eq_right hfin01] at h
     exact h
   have hq0 : (g : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) 0 1 = 0 := by
     have hqq : (g : Matrix (Fin (m + 1 + 1 + 1)) (Fin (m + 1 + 1 + 1)) F2) 0 1 *
@@ -416,14 +416,14 @@ theorem eq_one_of_commute_levi_omega {m : ℕ} (hm : 2 ≤ m)
     · obtain ⟨p, rfl⟩ := fin_eq_succ_succ_of_two_le hr
       rw [hrow p c, hlam1, Matrix.one_apply]
       by_cases hc' : c = p.succ.succ
-      · rw [if_pos hc', if_pos hc'.symm]
-      · rw [if_neg hc', if_neg (fun h => hc' h.symm)]
+      · rw [ite_eq_left hc', ite_eq_left hc'.symm]
+      · rw [ite_eq_right hc', ite_eq_right (fun h => hc' h.symm)]
     · have hr01 : r = 0 ∨ r = 1 := fin_eq_zero_or_one r (by omega)
       have hc01 : c = 0 ∨ c = 1 := fin_eq_zero_or_one c (by omega)
       rcases hr01 with rfl | rfl <;> rcases hc01 with rfl | rfl
       · rw [hp1, Matrix.one_apply]; simp
       · rw [hq0, Matrix.one_apply]; simp [hfin01]
-      · rw [hr0, Matrix.one_apply]; simp [hfin01]
+      · rw [hr0, Matrix.one_apply]; simp
       · rw [hs1, Matrix.one_apply]; simp
 
 theorem mulAut_eq_one_of_levi {m : ℕ} (hm : 2 ≤ m)

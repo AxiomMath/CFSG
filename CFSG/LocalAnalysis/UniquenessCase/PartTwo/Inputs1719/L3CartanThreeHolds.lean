@@ -258,7 +258,7 @@ theorem le_pRank_cartan_of_sl3_cover {F : Type} [Field F] [Finite F] {f : ℕ}
         norm_num
       have h := le_pRank_normalizerQuotient_of_le_normalizer
         (ℓ := 3) (k := 2) Nat.prime_three (by norm_num) hSp hTN (hTelem.map α) hcardTmap
-      rw [if_pos h3]
+      rw [ite_eq_left h3]
       exact h.1
     ·
       have hZ : Nat.card (Subgroup.center K) = 1 := by
@@ -293,7 +293,7 @@ theorem le_pRank_cartan_of_sl3_cover {F : Type} [Field F] [Finite F] {f : ℕ}
         obtain ⟨c, -, hc⟩ := (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.mem_scalars).1 hx
         have h00 := congrFun (congrFun hc 0) 0
         have h11 := congrFun (congrFun hc 1) 1
-        simp only [x, coe_dHom, coe_dSL, Matrix.diagonal_apply_eq, Matrix.scalar_apply,
+        simp only [x, coe_dHom, Matrix.diagonal_apply_eq, Matrix.scalar_apply,
           Fin.isValue] at h00 h11
         have hζ1 : ζ = 1 := Units.ext (h00.trans h11.symm)
         rw [hζ1, orderOf_one] at hζ
@@ -320,7 +320,7 @@ theorem le_pRank_cartan_of_sl3_cover {F : Type} [Field F] [Finite F] {f : ℕ}
         Subgroup.zpowers_le.mpr hαxN
       have h := le_pRank_normalizerQuotient_of_le_normalizer
         (ℓ := 3) (k := 1) Nat.prime_three (by norm_num) hSp hEN hE hcardZ
-      rw [if_neg h3]
+      rw [ite_eq_right h3]
       exact h.1
   exact hle
 

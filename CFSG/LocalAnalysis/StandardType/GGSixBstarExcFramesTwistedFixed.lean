@@ -27,7 +27,7 @@ theorem exists_fixedElemAbelian_twistedE6 {K : Type} [Field K] [Finite K] {f : �
       Nat.card E = p ^ m ∧
         ∀ e ∈ E, Units.map (entrywiseHom δ.toRingHom) e = e := by
   obtain ⟨f₀, hf₀, hcard, hpow, hmod⟩ := exists_fixSubfield_twisted hf hK hp2 hδ
-  haveI : Finite (fixSubfield δ) := Subtype.finite
+  have : Finite (fixSubfield δ) := Subtype.finite
   set σ₀ : fixSubfield δ ≃+* fixSubfield δ := fixSubfieldRestrict σ δ with hσ₀def
   have hσ₀ : ∀ c, σ₀ c = c ^ 2 ^ f₀ := fun c => by
     refine Subtype.ext ?_

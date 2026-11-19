@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c11_big_lift_range_inclusion {H K : Subgroup G} (h : H ≤ K) :
     (Subgroup.inclusion h).range = H.subgroupOf K := by
   ext x
@@ -50,8 +51,8 @@ theorem s16c11_le_barSub_centralizer_of_perfect (D : Data G) {V₀ V : Subgroup 
       (m : G) ∈ centralizer (V₀ : Set G)
     rw [← MonoidHom.mem_ker, Subgroup.normalizerMonoidHom_ker V₀,
       Subgroup.mem_subgroupOf, Subgroup.coe_inclusion]
-  haveI hsolPerm : Group.IsSolvable (Equiv.Perm ↥V₀) := Equiv.Perm.isSolvable h4
-  haveI hsolAut : Group.IsSolvable (MulAut ↥V₀) :=
+  have hsolPerm : Group.IsSolvable (Equiv.Perm ↥V₀) := Equiv.Perm.isSolvable h4
+  have hsolAut : Group.IsSolvable (MulAut ↥V₀) :=
     Group.isSolvable_of_isSolvable_injective (f := MulAut.toPerm (M := ↥V₀))
       (fun _ _ hab => MulEquiv.toEquiv_injective hab)
   obtain ⟨k, hk⟩ := (inferInstance : Group.IsSolvable ρ.range).solvable
@@ -86,7 +87,7 @@ theorem s16c11_exists_pGroup_lift (D : Data G) {V₀ V : Subgroup G} (hV : IsEle
     ∃ B : Subgroup G, B ≤ D.M ∧ IsPGroup p ↥B ∧ V₀ ≤ centralizer (B : Set G) ∧
       barSub V₀ V hV B = E ∧ (¬ IsCyclic ↥E → ¬ IsCyclic ↥B) := by
   classical
-  haveI : Fact p.Prime := Fact.mk hp
+  have : Fact p.Prime := Fact.mk hp
   have hMS : D.M ≤ stabTil V₀ V :=
     le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀
   let C : Subgroup G := D.M ⊓ centralizer (V₀ : Set G)
@@ -138,7 +139,7 @@ theorem s16c11_exists_pGroup_lift (D : Data G) {V₀ V : Subgroup G} (hV : IsEle
     exact hPmap
   have hnoncyc : ¬ IsCyclic ↥E → ¬ IsCyclic ↥B := by
     intro hEcyc hBcyc
-    haveI : IsCyclic ↥B := hBcyc
+    have : IsCyclic ↥B := hBcyc
     have hBS : B ≤ stabTil V₀ V := hBM.trans hMS
     let ψ : ↥B →* MulAut (Vtil V₀ V hV) :=
       (actTil V₀ V hV).comp (Subgroup.inclusion hBS)

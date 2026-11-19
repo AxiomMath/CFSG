@@ -23,7 +23,7 @@ open CFSG.Quasithin CFSG.Open CFSG.Adapters.RankTwoModelTransports
 private theorem s15k_norm_field_two {K : Type} [Field K] [Finite K] (hcard : Nat.card K = 2 ^ 1) :
     Nonempty (K ≃+* ZMod 2) := by
   have hK2 : Nat.card K = 2 := by simpa using hcard
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   exact ⟨(ZMod.ringEquivOfPrime K Nat.prime_two hK').symm⟩
 

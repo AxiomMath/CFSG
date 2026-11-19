@@ -332,7 +332,7 @@ theorem sec32a_commute_of_involution [Finite G] {A Abar S₀ B : Subgroup G}
   have hxx : x₀ * x₀ = 1 := by rw [← sq]; exact S.elem_Ab.2 x₀ (S.Lb_le hx₀)
   have hbi : b⁻¹ = b := inv_eq_of_mul_eq_one_right hbb
   have hdvd : orderOf (x₀ * b) ∣ 4 := by
-    rcases hxo with h' | h' <;> rw [h'] <;> norm_num
+    rcases hxo with h' | h' <;> rw [h']; norm_num
   have h4 : (x₀ * b) ^ 4 = 1 := orderOf_dvd_iff_pow_eq_one.mp hdvd
   have hLbN : Section3.Abar0 A Abar ≤ Subgroup.normalizer (A : Set G) :=
     fun y hy => (S.mem_Lb.mp hy).2

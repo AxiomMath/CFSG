@@ -17,6 +17,7 @@ section Pure
 
 variable {Z : Type} [Group Z] [Finite Z]
 
+omit [Finite Z] in
 theorem fixes_of_mem_theta {J : Subgroup Z} (hJp : Group.IsPerfect J) (σ : MulAut Z)
     (hcent : ∀ t ∈ inSubgroup (aschbacherSolvableCore 3) J, ∀ k ∈ J, t * k = k * t)
     (h : ∀ j ∈ J, j⁻¹ * σ j ∈ inSubgroup (aschbacherSolvableCore 3) J) :
@@ -30,13 +31,13 @@ theorem fixes_of_mem_theta {J : Subgroup Z} (hJp : Group.IsPerfect J) (σ : MulA
 theorem orderOf_eq_three_pow_of_isSylowOf {J : Subgroup Z} {ξ : Z}
     (hξsyl : IsSylowOf 3 (Subgroup.zpowers ξ) J) :
     orderOf ξ = 3 ^ (Nat.card J).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← Nat.card_zpowers]
   exact hξsyl.card_eq
 
 theorem zpowers_inf_zpowers_eq_bot {J : Subgroup Z}
     (hJT : IsType424 (J ⧸ aschbacherSolvableCore 3 J)) {b ξ : Z} (hξJ : ξ ∈ J) (hξ3 : ∃ k : ℕ, ξ ^ 3 ^ k = 1) (hbJ : ∀ j ∈ J, b * j = j * b)
-    (hb3 : ∃ k : ℕ, b ^ 3 ^ k = 1) :
+    (_hb3 : ∃ k : ℕ, b ^ 3 ^ k = 1) :
     Subgroup.zpowers b ⊓ Subgroup.zpowers ξ = ⊥ := by
   obtain ⟨k, hk⟩ := hξ3
   rw [eq_bot_iff]
@@ -65,8 +66,8 @@ theorem zpowers_inf_zpowers_eq_bot {J : Subgroup Z}
 theorem exists_big_elt_of_sylow {M J : Subgroup Z} (e : M ≃* J) {ξ z : Z}
     (hξsyl : IsSylowOf 3 (Subgroup.zpowers ξ) J) (hzM : z ∈ M) (hz3 : z ^ 3 = 1) :
     ∃ ζ ∈ M, z * ζ = ζ * z ∧ (∃ k : ℕ, ζ ^ 3 ^ k = 1) ∧ orderOf ζ = orderOf ξ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Sylow 3 ↥J) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Sylow 3 ↥J) :=
     Finite.of_injective (fun P : Sylow 3 ↥J => (P : Set ↥J)) SetLike.coe_injective
   have hzP : IsPGroup 3 (Subgroup.zpowers z) := by
     refine IsPGroup.of_card_dvd_pow (n := 1) ?_
@@ -88,7 +89,7 @@ theorem exists_big_elt_of_sylow {M J : Subgroup Z} (e : M ≃* J) {ξ z : Z}
     (Sylow.equiv Q' Q₀).trans <|
     (Subgroup.equivMapOfInjective (Q₀ : Subgroup ↥J) J.subtype J.subtype_injective).trans
       (MulEquiv.subgroupCongr hQ₀)
-  haveI : IsCyclic ↥T := (MulEquiv.isCyclic Φ).mpr inferInstance
+  have : IsCyclic ↥T := (MulEquiv.isCyclic Φ).mpr inferInstance
   have hcard : Nat.card ↥T = Nat.card ↥(Subgroup.zpowers ξ) := Nat.card_congr Φ.toEquiv
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥T)
   have hzg : (⟨z, hzT (Subgroup.mem_zpowers z)⟩ : ↥T) ∈ Subgroup.zpowers g := hg _
@@ -108,12 +109,13 @@ theorem exists_big_elt_of_sylow {M J : Subgroup Z} (e : M ≃* J) {ξ z : Z}
 theorem not_three_dvd_card_of_ringChar_ne {K : Type} [Field K] [Finite K] (h : ringChar K ≠ 3) :
     ¬ 3 ∣ Nat.card K := by
   intro h3
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard] at h3
   have h3p : 3 ∣ ringChar K := Nat.prime_three.dvd_of_dvd_pow h3
   exact h ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp h3p).symm
 
+omit [Finite Z] in
 theorem nonempty_mulEquiv_commutator_of_isPerfect (hZ : Group.IsPerfect Z) :
     Nonempty (Z ≃* _root_.commutator Z) := by
   exact ⟨((MulEquiv.subgroupCongr hZ.commutator_eq_top).trans Subgroup.topEquiv).symm⟩

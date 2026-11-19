@@ -19,7 +19,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -194,19 +194,19 @@ noncomputable def twoCoordForm (i j : Fin q) : V →ₗ[ZMod p] ZMod p :=
 
 theorem twoCoordForm_lineVec_self {i j : Fin q} (hij : i ≠ j) :
     S.twoCoordForm i j (S.lineVec i) = 1 := by
-  rw [twoCoordForm, LinearMap.add_apply, S.lineBasis_coord, S.lineBasis_coord, if_pos rfl,
-    if_neg (Ne.symm hij), add_zero]
+  rw [twoCoordForm, LinearMap.add_apply, S.lineBasis_coord, S.lineBasis_coord, ite_eq_left rfl,
+    ite_eq_right (Ne.symm hij), add_zero]
 
 theorem twoCoordForm_lineVec_other {i j : Fin q} (hij : i ≠ j) :
     S.twoCoordForm i j (S.lineVec j) = 1 := by
-  rw [twoCoordForm, LinearMap.add_apply, S.lineBasis_coord, S.lineBasis_coord, if_pos rfl,
-    if_neg hij, zero_add]
+  rw [twoCoordForm, LinearMap.add_apply, S.lineBasis_coord, S.lineBasis_coord, ite_eq_left rfl,
+    ite_eq_right hij, zero_add]
 
 theorem twoCoordForm_eq_zero_of_mem {i j k : Fin q} (hki : k ≠ i) (hkj : k ≠ j)
     {v : V} (hv : v ∈ S.line k) : S.twoCoordForm i j v = 0 := by
   obtain ⟨c, rfl⟩ := S.exists_smul_lineVec hv
   rw [twoCoordForm, LinearMap.add_apply, map_smul, map_smul, S.lineBasis_coord, S.lineBasis_coord,
-    if_neg (Ne.symm hki), if_neg (Ne.symm hkj)]
+    ite_eq_right (Ne.symm hki), ite_eq_right (Ne.symm hkj)]
   simp
 
 theorem exists_baseHom_eq (x : S.base) : ∃ y : Multiplicative V, S.baseHom y = x :=
@@ -304,10 +304,10 @@ theorem not_subset_charValueKernel_of_mem_finset [Fintype S.grp]
   have h2 : cfInner (indClassFun S.base lam) θ = 1 := by
     rw [hsum, cfInner_sum_left, Finset.sum_congr rfl fun χ hχ =>
       cfInner_eq_ite_of_mem_Irr (hT (Finset.mem_coe.2 hχ)) hθ,
-      Finset.sum_ite_eq' T θ (fun _ => (1 : ℂ)), if_pos hθT]
+      Finset.sum_ite_eq' T θ (fun _ => (1 : ℂ)), ite_eq_left hθT]
   have h3 : cfInner (resClassFun S.base θ) lam = 0 := by
     rw [resClassFun_eq_smul_one_of_subset_charValueKernel hker, cfInner_smul_left,
-      cfInner_eq_ite_of_mem_Irr one_mem_Irr hlam, if_neg (Ne.symm hlam1), mul_zero]
+      cfInner_eq_ite_of_mem_Irr one_mem_Irr hlam, ite_eq_right (Ne.symm hlam1), mul_zero]
   rw [h1, h3] at h2
   exact zero_ne_one h2
 

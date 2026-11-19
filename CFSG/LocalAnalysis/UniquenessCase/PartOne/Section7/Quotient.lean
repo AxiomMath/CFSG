@@ -19,7 +19,7 @@ theorem two_le_pRank_quotient_pPrimeCore (k : Sec7Core4 G) {H : Subgroup G}
     (hH : Config k H) :
     2 ≤ CFSG.Open.pRank k.p (⊤ : Subgroup (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   obtain ⟨E, hEHM, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (H ⊓ k.M)
   have hEH : E ≤ H := hEHM.trans inf_le_left
   have hEsub : CFSG.Open.IsElemAbelian k.p (E.subgroupOf H) :=
@@ -40,7 +40,7 @@ theorem isStronglyPEmbedded_map_quotient_pPrimeCore (k : Sec7Core4 G)
     CFSG.RankThree.PartOne.IsStronglyPEmbedded k.p
       (((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   have hM : IsStronglyPEmbedded k.p k.M := k.strong
   have hdvd : k.p ∣ Nat.card (H ⊓ k.M : Subgroup G) := by
     have hpow : k.p ^ 2 ∣ Nat.card (H ⊓ k.M : Subgroup G) :=

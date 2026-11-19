@@ -21,8 +21,8 @@ theorem suborbitFacts_sylow_centre :
   intro H _ E h a z b z₁ hf T hTz hT
   have hP : Nat.card ↥P1408 = 177408000 := card_P1408 (hsCtx_of_isHSCover h.toIsHSCover)
   obtain ⟨Ψ, -⟩ := exists_mulEquiv_p1408_of_isF5Centralizer h
-  haveI : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
-  haveI : Finite H := Finite.of_equiv _ Ψ.symm.toEquiv
+  have : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite H := Finite.of_equiv _ Ψ.symm.toEquiv
   have hsyl : 2 ^ (Nat.card H).factorization 2 = 2 ^ 11 := by
     rw [Nat.card_congr Ψ.toEquiv, hP, two_factorization_card_P1408]
   have h4 : Nat.card ↥(centerOf T) = 4 := by

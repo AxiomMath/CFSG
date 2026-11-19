@@ -211,8 +211,8 @@ theorem exists_conj_to_U [CharP K 3] (S : Sylow 3 ↥(adjointGroup Tag.D4 K)) :
     ∃ x : ↥(adjointGroup Tag.D4 K), ∀ y, y ∈ (S : Subgroup ↥(adjointGroup Tag.D4 K)) ↔
       x⁻¹ * y * x ∈ unitU K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := Tag.D4) (K := K)
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem Tag.D4).length
   obtain ⟨P₀, hP₀⟩ := (exceptional_ordinary_Sylow_opposition Tag.D4 K 3 w₀ hw₀).1
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq (adjointGroup Tag.D4 K) P₀ S
@@ -240,7 +240,7 @@ theorem stable_of_sylow_conj {S : Sylow 3 ↥(adjointGroup Tag.D4 K)} {x : ↥(a
   set α' : MulAut ↥(adjointGroup Tag.D4 K) := (MulAut.conj x)⁻¹ * α * MulAut.conj x with hα'
   have hα'apply : ∀ y, α' y = x⁻¹ * α (x * y * x⁻¹) * x := by
     intro y
-    simp [hα', MulAut.conj_apply, MulAut.conj_inv_apply]
+    simp [hα', MulAut.conj_apply]
   have hle : (unitU K).map α'.toMonoidHom ≤ unitU K := by
     rintro _ ⟨u, hu, rfl⟩
     have h1 : x * u * x⁻¹ ∈ (S : Subgroup ↥(adjointGroup Tag.D4 K)) := by

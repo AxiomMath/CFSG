@@ -20,7 +20,7 @@ open scoped MatrixGroups
   (plusResExt K (show 1 + 2 = 3 from rfl)).comp (plusIotaTwo K)
 
 @[expose] def plusDiagSL2 {K : Type} [Field K] (b : Kˣ) : SL(2, K) :=
-  ⟨Matrix.diagonal ![(b : K), ((b⁻¹ : Kˣ) : K)], by simp [Matrix.det_fin_two]⟩
+  ⟨Matrix.diagonal ![(b : K), ((b⁻¹ : Kˣ) : K)], by simp⟩
 
 private def plusDiagSL2Hom_E05 (K : Type) [Field K] : Kˣ →* SL(2, K) where
   toFun := plusDiagSL2
@@ -33,7 +33,7 @@ private def plusDiagSL2Hom_E05 (K : Type) [Field K] : Kˣ →* SL(2, K) where
     intro i j
     rw [Matrix.SpecialLinearGroup.coe_mul]
     fin_cases i <;> fin_cases j <;>
-      simp [plusDiagSL2, Matrix.diagonal_mul_diagonal, Units.val_mul,
+      simp [plusDiagSL2, Units.val_mul,
         Units.val_inv_eq_inv_val, _root_.mul_inv_rev, mul_comm]
 
 private theorem plusDiagSL2_injective_E05 {K : Type} [Field K] :
@@ -119,7 +119,7 @@ private theorem diagGL_eq_scalar_mul_E05 {K : Type} [Field K] {c b : Kˣ} (hb : 
   rw [Units.val_mul, Matrix.SpecialLinearGroup.coe_GL_coe_matrix]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diagGL, plusDiagSL2, Matrix.diagonal_mul_diagonal, hbb]
+    simp [diagGL, plusDiagSL2, hbb]
 
 private theorem diagGL_conj_E05 {K : Type} [Field K] {c b : Kˣ} (hb : b ^ 2 = c⁻¹)
     (A : SL(2, K)) :

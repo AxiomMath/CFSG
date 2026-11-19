@@ -111,9 +111,9 @@ theorem Res11.simple_three_dvd_of_kType {K : Type} [Group K] [Finite K]
         Nonempty (K ⧸ CFSG.pCore 2 K ≃* projSL 2 (GaloisField 2 n)))) :
     IsSimpleGroup (K ⧸ CFSG.pCore 2 K) ∧ 3 ∣ Nat.card (K ⧸ CFSG.pCore 2 K) := by
   rcases htype with ⟨n, -, -, ⟨e⟩⟩ | ⟨n, -, hn, ⟨e⟩⟩
-  · haveI := CFSG.RankThree.PartTwo.Sec21.Item222Proof.isSimpleGroup_projSL_three (GaloisField 2 n)
+  · have := CFSG.RankThree.PartTwo.Sec21.Item222Proof.isSimpleGroup_projSL_three (GaloisField 2 n)
     exact ⟨e.isSimpleGroup, CFSG.RankThree.PartTwo.KFacts.three_dvd_card_of_mulEquiv_projSL e⟩
-  · haveI := CFSG.RankThree.PartTwo.Sec21.isSimpleGroup_projSL_two (m := n) (by omega)
+  · have := CFSG.RankThree.PartTwo.Sec21.isSimpleGroup_projSL_two (m := n) (by omega)
     exact ⟨e.isSimpleGroup, CFSG.RankThree.PartTwo.Sec21.three_dvd_card_of_mulEquiv_projSL e⟩
 
 theorem kFactKO3CentLayer_holds :

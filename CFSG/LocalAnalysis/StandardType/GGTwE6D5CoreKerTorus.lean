@@ -89,9 +89,9 @@ private theorem monoHom_apply_of_mem {Jf : Finset (Fin Tag.E6.rank)}
   rw [monoHom_apply]
   calc ∏ j, c j ^ M i j = ∏ j ∈ Jf, c j ^ M i j :=
         (Finset.prod_subset (Finset.subset_univ Jf) fun j _ hj => by
-          rw [hM, if_pos hi, if_neg hj, zpow_zero]).symm
+          rw [hM, ite_eq_left hi, ite_eq_right hj, zpow_zero]).symm
     _ = ∏ j ∈ Jf, c j ^ Tag.E6.cartan j i :=
-        Finset.prod_congr rfl fun j hj => by rw [hM, if_pos hi, if_pos hj]
+        Finset.prod_congr rfl fun j hj => by rw [hM, ite_eq_left hi, ite_eq_left hj]
 
 private theorem monoHom_apply_of_notMem {Jf : Finset (Fin Tag.E6.rank)}
     {M : Matrix (Fin Tag.E6.rank) (Fin Tag.E6.rank) ℤ}
@@ -99,8 +99,8 @@ private theorem monoHom_apply_of_notMem {Jf : Finset (Fin Tag.E6.rank)}
       else if j = i then 1 else 0)
     (c : Fin Tag.E6.rank → Lˣ) {i : Fin Tag.E6.rank} (hi : i ∉ Jf) : monoHom M c i = c i := by
   rw [monoHom_apply, Finset.prod_eq_single i
-    (fun j _ hj => by rw [hM, if_neg hi, if_neg hj, zpow_zero])
-    (fun h => absurd (Finset.mem_univ i) h), hM, if_neg hi, if_pos rfl, zpow_one]
+    (fun j _ hj => by rw [hM, ite_eq_right hi, ite_eq_right hj, zpow_zero])
+    (fun h => absurd (Finset.mem_univ i) h), hM, ite_eq_right hi, ite_eq_left rfl, zpow_one]
 
 theorem exists_d5_solution [IsAlgClosed L] {J : Set (Fin Tag.E6.rank)} [Fintype J]
     (hJ : J = {j | 1 ≤ j.val} ∨ J = {j | j.val ≤ 4}) (y : Fin Tag.E6.rank → Lˣ) :
@@ -131,16 +131,16 @@ theorem eq_one_of_d5_solution [CharP L 2] {J : Set (Fin Tag.E6.rank)} [Fintype J
           = ∏ k : J, c k ^ Tag.E6.cartan k i :=
             Finset.prod_subtype Jf hJf fun k => c k ^ Tag.E6.cartan k i
         _ = ∏ k : J, a k ^ Tag.E6.cartan k i :=
-            Finset.prod_congr rfl fun k _ => by simp only [c, dif_pos ((hJf k).2 k.2)]
+            Finset.prod_congr rfl fun k _ => by simp only [c, dite_eq_left ((hJf k).2 k.2)]
     · rw [monoHom_apply_of_notMem hM c hi, Pi.one_apply]
-      simp only [c, dif_neg hi]
+      simp only [c, dite_eq_right hi]
   funext j
   have h2 := congrFun (congrArg (monoHom N) h1) j
   rw [monoHom_monoHom, hNM, monoHom_diagonal, map_one, Pi.one_apply] at h2
   have h4 : c j ^ 4 = 1 := by simpa using h2
   have h5 : c j = 1 := hsq _ (hsq _ (by rw [← pow_mul]; exact h4))
   rw [Pi.one_apply]
-  simpa only [c, dif_pos ((hJf j).2 j.2), Subtype.coe_eta] using h5
+  simpa only [c, dite_eq_left ((hJf j).2 j.2), Subtype.coe_eta] using h5
 
 end D5
 

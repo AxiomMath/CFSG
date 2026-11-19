@@ -73,10 +73,10 @@ private theorem adjM_aeval_eq_pow {L : Type} [Field L] [Finite L] {n Q t : ℕ} 
     adjM τ (aeval s q) = aeval s q ^ (Q ^ t) := by
   classical
   obtain ⟨j, rfl⟩ := hQ
-  haveI : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero
+  have : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero
     (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.two_eq_zero_of_card hL)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype L := Fintype.ofFinite L
   have hcardL : Fintype.card L = (2 ^ j) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hL
   obtain ⟨k, hk⟩ := ht
   have hx : ∀ y : L, y ^ ((2 ^ j) ^ 2) = y := fun y => by
@@ -140,7 +140,7 @@ theorem k1419ClsUniEnnola {L : Type} [Field L] [Finite L] {n Q t : ℕ} {τ : L 
     exact dvd_pow_self 2 hj0
   have hodd : Odd (Q ^ t + 1) :=
     (even_iff_two_dvd.mpr (dvd_pow hQ2 ht1)).add_one
-  haveI hchar : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero
+  have hchar : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero
     (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.two_eq_zero_of_card (n := j) (by rw [hL, hj]))
   have hord : (orderOf s : L) ≠ 0 := by
     intro h0

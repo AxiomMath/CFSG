@@ -53,6 +53,7 @@ private theorem exists_unitri_map_iff_ptv {F F' : Type} [Field F] [Field F'] (ρ
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem mem_radQ2_iff_of_pointPhi_ptv {F K : Type} [Field F] [Field K]
     (c₁ : U4qCoordLeft L1 L2 S f F) (hU : UnitaryFieldData 2 f K) {φ : (Fin 2 → F) →+ K}
     (hφ : Function.Injective φ) (q : ↥(pCoreOf 2 L1)) (g : ↥(radQ hU))
@@ -85,7 +86,7 @@ theorem U4qLocalData.exists_mulEquiv_parP (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
         ((ψ x : ↥(parP hU)) : hypSU hU 2 0) ∈
           Subgroup.normalizer (hypUnitriangular hU 2 0 : Set (hypSU hU 2 0)) := by
   classical
-  haveI : Finite K := hU.finite
+  have : Finite K := hU.finite
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   obtain ⟨H₀, hH₀B, hcomm, hcard, hconj, hH₀L, hsup⟩ := hD.exists_torus hf hH hS
   have hT : U4qTorusData L1 L2 S H₀ f := ⟨hH₀B, hcomm, hcard, hconj⟩
@@ -113,7 +114,7 @@ theorem U4qLocalData.exists_mulEquiv_parP (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     ring
   let δ : hU.fixedField := ⟨_, (hU.mem_fixedField).mpr hδfix⟩
   have hδ : δ ≠ 0 := by
-    haveI := hU.charP
+    have := hU.charP
     intro h0
     exact twistForm_basis_ne_zero hU.bar (hU.fixedField.subtype.comp ρ.toRingHom)
       (fun x hx => ⟨ρ.symm ⟨x, (hU.mem_fixedField).mpr hx⟩, by simp⟩) φ hρ hφ.1
@@ -290,8 +291,8 @@ theorem isAmalgamOfGroup_psu4_of_u4qLocalData_of_card (hf : 2 ≤ f) (hH : Hyp11
     IsAmalgamOfGroup (f112Amalgam L1 L2 S) (IsLieOverTwo .PSU 4 f) := by
   obtain ⟨F, hF, -, ⟨c₁⟩⟩ := hD.exists_coordLeft hH hS
   obtain ⟨K, hK, -, ⟨c₂⟩⟩ := hD.exists_coordRight hH hS
-  letI := hF
-  letI := hK
+  let := hF
+  let := hK
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hD.one_le, c₂.card⟩
   obtain ⟨ψ₁, hψ₁Q, hψ₁N⟩ := hD.exists_mulEquiv_parP hf hH hS c₁ c₂ hU
   obtain ⟨ψ₂, hψ₂Q, -, hψ₂N⟩ := hD.exists_mulEquiv_parP2 hH hS c₁ c₂ hU

@@ -112,7 +112,7 @@ theorem reindex_spGram :
       (fromBlocks 0 1 (-1) 0 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) := by
   ext a b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [spIdx, spGram, ω2, Matrix.one_apply]
+    simp [spIdx, spGram, ω2]
 
 theorem reindex_mul_sp (A B : Matrix (Kap (Fin 0)) (Kap (Fin 0)) K) :
     reindex spIdx spIdx (A * B) = reindex spIdx spIdx A * reindex spIdx spIdx B := by
@@ -273,7 +273,7 @@ theorem modelB_psp4 {K : Type} [Field K] [Finite K] (hK2 : ringChar K ≠ 2) (hK
   obtain ⟨x, hx⟩ := exists_apply_ne hσ1
   have hp := CharP.prime_ringChar K
   have hK5 : 5 ≤ ringChar K := hp.five_le_of_ne_two_of_ne_three hK2 hK3
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   have hcast : ∀ m : ℕ, m.Prime → ringChar K ≠ m → ((m : ℕ) : K) ≠ 0 := fun m hm hne h =>
     hne ((Nat.prime_dvd_prime_iff_eq hp hm).1 ((CharP.cast_eq_zero_iff K (ringChar K) m).1 h))
   have h3 : (3 : K) ≠ 0 := by exact_mod_cast hcast 3 Nat.prime_three hK3

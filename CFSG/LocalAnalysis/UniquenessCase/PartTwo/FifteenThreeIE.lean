@@ -21,15 +21,15 @@ variable {D : Data G} {V₀ V L K₀ : Subgroup G}
 
 @[expose] def S15ThreeSigSubPiGap (D : Data G) : Prop :=
   DataExt D → UC6.R6_14 D → F07.R76Sig D → F08.R82 D →
-    ∀ (V₀ V L K₀ : Subgroup G) (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V)
-      (hshape : s15Shape D V₀ V hV L K₀)
-      (hperf : s15KNatPerf ↥(barSub V₀ V hV K₀) (barSub (v1Sub D.M V₀ V hV L) V hV K₀)
+    ∀ (V₀ V L K₀ : Subgroup G) (_h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V)
+      (_hshape : s15Shape D V₀ V hV L K₀)
+      (_hperf : s15KNatPerf ↥(barSub V₀ V hV K₀) (barSub (v1Sub D.M V₀ V hV L) V hV K₀)
         (commSub ⊤ (barSub (v1Sub D.M V₀ V hV L) V hV K₀)))
-      (hL2 : IsL3 ↥(barSub V₀ V hV K₀) 1 ∨ UC22.IsAlt ↥(barSub V₀ V hV K₀) 5)
-      (hrs : s15Rs D V₀ V hV L K₀ = 2) (hsig : D.sig ⊆ D.sig1)
-      (hSg : UC6S846.SigmaStd D) (h3 : 3 ∉ D.sig)
-      (hns : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M)
-      (q : ℕ) (hq : q ∈ D.sig) (hqK : ¬ q ∣ Nat.card ↥(barSub V₀ V hV K₀)),
+      (_hL2 : IsL3 ↥(barSub V₀ V hV K₀) 1 ∨ UC22.IsAlt ↥(barSub V₀ V hV K₀) 5)
+      (_hrs : s15Rs D V₀ V hV L K₀ = 2) (_hsig : D.sig ⊆ D.sig1)
+      (_hSg : UC6S846.SigmaStd D) (_h3 : 3 ∉ D.sig)
+      (_hns : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M)
+      (q : ℕ) (_hq : q ∈ D.sig) (_hqK : ¬ q ∣ Nat.card ↥(barSub V₀ V hV K₀)),
       ∃ R E : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 R D.M ∧
         E ≤ R ⊓ centralizer (R : Set G) ∧ CFSG.Open.IsElemAbelian 3 E ∧
         Nat.card E = 3 ^ 2 ∧ 2 ≤ CFSG.Open.pRank q (D.M ⊓ centralizer (E : Set G))
@@ -52,15 +52,15 @@ theorem s15_Three_sig_sub_pi_core {D : Data G} {V₀ V L K₀ : Subgroup G}
 
 @[expose] def S15ThreeRankLeThreeGap (D : Data G) : Prop :=
   DataExt D → UC6.R6_14 D → F07.R76Sig D → F08.R82 D →
-    ∀ (V₀ V L K₀ : Subgroup G) (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V)
-      (hshape : s15Shape D V₀ V hV L K₀)
-      (hperf : s15KNatPerf ↥(barSub V₀ V hV K₀) (barSub (v1Sub D.M V₀ V hV L) V hV K₀)
+    ∀ (V₀ V L K₀ : Subgroup G) (_h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V)
+      (_hshape : s15Shape D V₀ V hV L K₀)
+      (_hperf : s15KNatPerf ↥(barSub V₀ V hV K₀) (barSub (v1Sub D.M V₀ V hV L) V hV K₀)
         (commSub ⊤ (barSub (v1Sub D.M V₀ V hV L) V hV K₀)))
-      (hL2 : IsL3 ↥(barSub V₀ V hV K₀) 1 ∨ UC22.IsAlt ↥(barSub V₀ V hV K₀) 5)
-      (hrs : s15Rs D V₀ V hV L K₀ = 2) (hsig : D.sig ⊆ D.sig1)
-      (hSg : UC6S846.SigmaStd D) (h3 : 3 ∉ D.sig)
-      (hns : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M)
-      (q : ℕ) (hq : q ∈ D.sig) (h4 : 4 ≤ CFSG.Open.pRank q D.M),
+      (_hL2 : IsL3 ↥(barSub V₀ V hV K₀) 1 ∨ UC22.IsAlt ↥(barSub V₀ V hV K₀) 5)
+      (_hrs : s15Rs D V₀ V hV L K₀ = 2) (_hsig : D.sig ⊆ D.sig1)
+      (_hSg : UC6S846.SigmaStd D) (_h3 : 3 ∉ D.sig)
+      (_hns : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M)
+      (q : ℕ) (_hq : q ∈ D.sig) (_h4 : 4 ≤ CFSG.Open.pRank q D.M),
       ∃ R E : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 R D.M ∧
         E ≤ R ⊓ centralizer (R : Set G) ∧ CFSG.Open.IsElemAbelian 3 E ∧
         Nat.card E = 3 ^ 2 ∧ 2 < CFSG.Open.pRank q (D.M ⊓ normalizer (E : Set G))

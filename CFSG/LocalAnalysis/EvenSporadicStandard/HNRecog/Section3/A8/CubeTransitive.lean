@@ -14,7 +14,7 @@ private theorem exists_partner_of_cube {G : Type} [Group G] {a : G} (ha1 : a ≠
     {x : G} (hxE : x ∈ E) (hx : IsConj a x) :
     ∃ y ∈ E, IsConj a y ∧ IsConj a (x * y) := by
   classical
-  haveI hEfin : Finite E := Nat.finite_of_card_ne_zero (by rw [hE.2]; norm_num)
+  have hEfin : Finite E := Nat.finite_of_card_ne_zero (by rw [hE.2]; norm_num)
   let T : Set G := {z : G | z ∈ E ∧ IsConj a z}
   have hTcard : T.ncard = 6 := by
     rw [← Nat.card_coe_set_eq]
@@ -45,7 +45,7 @@ private theorem exists_partner_of_cube {G : Type} [Group G] {a : G} (ha1 : a ≠
   have hcE : c ∈ E := hcE1.1
   have hc1 : c ≠ 1 := by
     intro h
-    exact hcE1.2 (by simpa [h])
+    exact hcE1.2 (by simp [h])
   have hcnot : ¬ IsConj a c := fun hc => hcT ⟨hcE, hc⟩
   have hEq : ((E : Set G) \ {1, c}) = E1 \ {c} := by
     ext z

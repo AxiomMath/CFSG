@@ -15,6 +15,7 @@ open CFSG.Quasithin CFSG.Quasithin.FFC CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23ne_barSub_perfect {Y V : Subgroup G} {hV : IsElemAbelian 2 V}
     {K : Subgroup G} (hK : ⁅K, K⁆ = K) (hKs : K ≤ stabTil Y V) :
     ⁅barSub Y V hV K, barSub Y V hV K⁆ = barSub Y V hV K := by
@@ -25,13 +26,13 @@ private theorem c23ne_barSub_perfect {Y V : Subgroup G} {hV : IsElemAbelian 2 V}
     constructor
     · rintro ⟨k, rfl⟩
       refine ⟨Subgroup.inclusion hKs k, ?_, rfl⟩
-      simpa using k.2
+      simp
     · rintro ⟨g, hg, hgφ⟩
       refine ⟨⟨(g : G), hg⟩, ?_⟩
       show actTil Y V hV (Subgroup.inclusion hKs ⟨(g : G), hg⟩) = φ
       rw [← hgφ, show Subgroup.inclusion hKs ⟨(g : G), hg⟩ = g from Subtype.ext rfl]
   have hperfK : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hK
-  haveI : Group.IsPerfect (⊤ : Subgroup ↥K) := Group.IsPerfect.top_iff.2 hperfK
+  have : Group.IsPerfect (⊤ : Subgroup ↥K) := Group.IsPerfect.top_iff.2 hperfK
   have hperf : Group.IsPerfect ↥ψ.range := by
     have hmap := Group.IsPerfect.map (f := ψ) (H := ⊤)
     rw [Subgroup.map_top] at hmap
@@ -40,6 +41,7 @@ private theorem c23ne_barSub_perfect {Y V : Subgroup G} {hV : IsElemAbelian 2 V}
   rw [← hrange]
   exact hperf_eq
 
+omit [Finite G] in
 private theorem c23ne_map_imgTil {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {g : G}
     (hg₀ : g ∈ stabTil V₀ V) (hgY : g ∈ stabTil Y V) :
     (imgTil Y V hV V₀).map (actTil Y V hV ⟨g, hgY⟩).toMonoidHom = imgTil Y V hV V₀ := by
@@ -56,7 +58,6 @@ private theorem c23ne_map_imgTil {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
     have hg₀' : g⁻¹ ∈ stabTil V₀ V := (stabTil V₀ V).inv_mem hg₀
     have hmemq : actTil Y V hV ⟨g⁻¹, hgY'⟩ q ∈ imgTil Y V hV V₀ := by
       obtain ⟨x, hxV₀, rfl⟩ := (mem_imgTil Y V hV V₀ q).1 hq
-      change (actTil Y V hV ⟨g⁻¹, hgY'⟩) (mkTil Y V hV x) ∈ imgTil Y V hV V₀
       rw [actTil_mk, mem_imgTil]
       refine ⟨actStab Y V hV ⟨g⁻¹, hgY'⟩ x, ?_, rfl⟩
       rw [actStab_apply_val]
@@ -68,6 +69,7 @@ private theorem c23ne_map_imgTil {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V
     rw [h2]
     exact MulEquiv.apply_symm_apply (actTil Y V hV ⟨g, hgY⟩) q
 
+omit [Finite G] in
 private theorem c23ne_pBlock_sup_gen {V₀ V Y : Subgroup G} {hV : IsElemAbelian 2 V}
     {W₁ W₂ : Subgroup (Vtil V₀ V hV)} (hsup : W₁ ⊔ W₂ = ⊤) (hYle : Y ≤ V₀) :
     c23nePBlock Y V₀ V hV hYle W₁ ⊔ c23nePBlock Y V₀ V hV hYle W₂ = ⊤ := by
@@ -90,6 +92,7 @@ private theorem c23ne_pBlock_sup_gen {V₀ V Y : Subgroup G} {hV : IsElemAbelian
       (Subgroup.mem_sup_right (by rw [c23ne_mem_pBlock_iff, hq₂]; exact hw₂))
   · exact Subgroup.mem_sup_left (c23ne_ker_le_pBlock hV hYle W₁ hz)
 
+omit [Finite G] in
 private theorem c23ne_conj_mem_preTil {Y V : Subgroup G} {hV : IsElemAbelian 2 V}
     {K : Subgroup G} (hKs : K ≤ stabTil Y V) {Cn : Subgroup (Vtil Y V hV)}
     (hCninv : ∀ a ∈ barSub Y V hV K, ∀ y ∈ Cn, a y ∈ Cn) :
@@ -109,6 +112,7 @@ private theorem c23ne_conj_mem_preTil {Y V : Subgroup G} {hV : IsElemAbelian 2 V
   exact (mem_preTil_iff_of_mem Y V hV Cn
     (actStab Y V hV ⟨k, hkY⟩ (IntMod.mk hV ⟨c, hcV⟩)).val_mem).2 hy
 
+omit [Finite G] in
 private theorem c23ne_cross_fix_one {Y V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {K : Subgroup G} {W : Subgroup (Vtil V₀ V hV)} {A : Subgroup (MulAut (Vtil V₀ V hV))}
     (hWfix : ∀ a ∈ A, ∀ y ∈ W, a y = y) (hYle : Y ≤ V₀) (hKbar : barSub V₀ V hV K = A)
@@ -319,7 +323,7 @@ private theorem c23ne_split_of_complement_gen {D : Data G} {V₀ V L Y : Subgrou
       have hyV₀ : v * (c'' * z').val⁻¹ ∈ V₀ := hYle heq
       have hv_prod : c''.val * z'.val * (v * (c'' * z').val⁻¹) = v := by
         change (c'' * z').val * (v * (c'' * z').val⁻¹) = v
-        haveI := hV.1
+        have := hV.1
         have hcomm : (c'' * z').val * v = v * (c'' * z').val := by
           have := mul_comm' (⟨(c'' * z').val, (c'' * z').val_mem⟩ : ↥V) (⟨v, hv⟩ : ↥V)
           simpa using congrArg Subtype.val this

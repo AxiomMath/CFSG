@@ -11,7 +11,7 @@ namespace CFSG.OddStandard.SmallF3.HarrisU33.Outside
 open CFSG.OddStandard.SmallF3.HarrisU33.GH23Data
 
 theorem gh23_isSolvable_of_chain {G : Type*} [Group G] (D : ℕ → Subgroup G) (n : ℕ)
-    (hstep : ∀ k < n, ⁅D k, D k⁆ ≤ D (k + 1)) (hn : D n = ⊥) : IsSolvable ↥(D 0) := by
+    (hstep : ∀ k < n, ⁅D k, D k⁆ ≤ D (k + 1)) (hn : D n = ⊥) : Group.IsSolvable ↥(D 0) := by
   refine ⟨⟨n, ?_⟩⟩
   have key : ∀ k ≤ n, (derivedSeries ↥(D 0) k).map (D 0).subtype ≤ D k := by
     intro k

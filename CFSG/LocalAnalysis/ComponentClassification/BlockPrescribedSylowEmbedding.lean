@@ -100,7 +100,7 @@ theorem sylow_product {G : Type*} [Group G] [Finite G]
     norm_num at hdivides
   obtain ⟨hab, homomorphism, hinjective⟩ := product component heven huniversal hquasisimple hcard hcontrol
     first second third hfirst hsecond hthird hdistinct actor hactor firstTwo secondTwo
-      (firstSylow.isPGroup'.map firstMutual.subtype) (secondSylow.isPGroup'.map secondMutual.subtype) hfirstNe
+      (firstSylow.isPGroup.map firstMutual.subtype) (secondSylow.isPGroup.map secondMutual.subtype) hfirstNe
         (hfirstLe.trans inf_le_left) (hsecondLe.trans inf_le_left) (hfirstLe.trans inf_le_right) (hsecondLe.trans inf_le_right)
           hstrict prescribed
   have hpair := BlockPairSylowOmega.pair component heven huniversal hquasisimple hcard hcontrol actor hactor hmutualEven

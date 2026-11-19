@@ -65,6 +65,7 @@ theorem disjoint_P_B : Disjoint P B :=
 
 theorem disjoint_U_B : Disjoint U B := disjoint_iff.2 h.U_inf_B_eq_bot
 
+omit h in
 theorem core_le_P : P ⊓ Subgroup.centralizer (B : Set G) ≤ P := inf_le_left
 
 theorem P_le_centralizer_core :
@@ -73,6 +74,7 @@ theorem P_le_centralizer_core :
   refine Subgroup.mem_centralizer_iff.2 fun z hz => ?_
   exact h.isElementaryAbelian_P.mul_comm (Subgroup.mem_inf.1 hz).1 hx
 
+omit h in
 theorem B_le_centralizer_core :
     B ≤ Subgroup.centralizer ((P ⊓ Subgroup.centralizer (B : Set G) : Subgroup G) : Set G) := by
   intro b hb
@@ -81,7 +83,7 @@ theorem B_le_centralizer_core :
 
 theorem sup_P_B_le_centralizer_core :
     P ⊔ B ≤ Subgroup.centralizer ((P ⊓ Subgroup.centralizer (B : Set G) : Subgroup G) : Set G) :=
-  sup_le h.P_le_centralizer_core h.B_le_centralizer_core
+  sup_le h.P_le_centralizer_core IsFixedCoreConfig.B_le_centralizer_core
 
 theorem normalizer_core_le_S :
     Subgroup.normalizer ((P ⊓ Subgroup.centralizer (B : Set G) : Subgroup G) : Set G) ≤ S := by
@@ -140,6 +142,7 @@ theorem prime_dvd_natCard_P : p ∣ Nat.card P := by
   · exact absurd (Subgroup.card_eq_one.1 (by rw [hn, hn0, pow_zero])) h.P_ne_bot
   · exact hn ▸ dvd_pow_self p hn0.ne'
 
+omit [Finite G] in
 theorem natCard_sup_U_B : Nat.card ((U ⊔ B : Subgroup G)) = Nat.card U * Nat.card B := by
   have hcompl := isComplement'_subgroupOf_sup h.B_le_normalizer_U h.disjoint_U_B
   have h1 : Nat.card ↥(U.subgroupOf (U ⊔ B)) = Nat.card U :=
@@ -278,7 +281,7 @@ private theorem inf_normalizer_core_le_centralizer_core :
   have hUcomm : IsMulCommutative ↥U := h.isMulCommutative_U
   set Z : Subgroup G := P ⊓ Subgroup.centralizer (B : Set G) with hZ
   set D : Subgroup G := U ⊓ Subgroup.normalizer (Z : Set G) with hDdef
-  have hBZ : B ≤ Subgroup.centralizer (Z : Set G) := h.B_le_centralizer_core
+  have hBZ : B ≤ Subgroup.centralizer (Z : Set G) := IsFixedCoreConfig.B_le_centralizer_core
   have hDU : D ≤ U := inf_le_left
   have hDNZ : D ≤ Subgroup.normalizer (Z : Set G) := inf_le_right
   have hBNZ : B ≤ Subgroup.normalizer (Z : Set G) :=
@@ -353,7 +356,7 @@ theorem inf_normalizer_core_eq_bot :
   set D : Subgroup G := U ⊓ Subgroup.normalizer (Z : Set G) with hDdef
   have hDU : D ≤ U := inf_le_left
   have hDNZ : D ≤ Subgroup.normalizer (Z : Set G) := inf_le_right
-  have hBZ : B ≤ Subgroup.centralizer (Z : Set G) := h.B_le_centralizer_core
+  have hBZ : B ≤ Subgroup.centralizer (Z : Set G) := IsFixedCoreConfig.B_le_centralizer_core
   have hBNZ : B ≤ Subgroup.normalizer (Z : Set G) :=
     hBZ.trans (Subgroup.centralizer_le_normalizer _)
   have hBND : B ≤ Subgroup.normalizer (D : Set G) := by
@@ -398,7 +401,7 @@ theorem normalizer_core_eq_sup :
     have hxNZ : x ∈ Subgroup.normalizer (Z : Set G) :=
       Subgroup.centralizer_le_normalizer _ (h.P_le_centralizer_core hx)
     have hbNZ : b ∈ Subgroup.normalizer (Z : Set G) :=
-      Subgroup.centralizer_le_normalizer _ (h.B_le_centralizer_core hb)
+      Subgroup.centralizer_le_normalizer _ (IsFixedCoreConfig.B_le_centralizer_core hb)
     have huNZ : u ∈ Subgroup.normalizer (Z : Set G) := by
       have hxu : x * u ∈ Subgroup.normalizer (Z : Set G) := by
         have : (x * u * b) * b⁻¹ ∈ Subgroup.normalizer (Z : Set G) :=

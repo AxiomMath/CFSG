@@ -52,7 +52,7 @@ theorem ggRankOne_B_to_aut {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Sub
   have hDcard : Nat.card D = p ^ 2 := hpre.2.2.1
   have hcomp : IsComponentOf J (L ⊓ Subgroup.centralizer (D : Set G)) := hpre.2.2.2.2.2.1
   have hDcent : D = B ⊓ Subgroup.centralizer (J : Set G) := hpre.2.2.2.2.2.2
-  haveI hperfJ : Group.IsPerfect ↥J := ⟨hcomp.2.2.1⟩
+  have hperfJ : Group.IsPerfect ↥J := ⟨hcomp.2.2.1⟩
   have hnormJ : B ≤ Subgroup.normalizer (J : Set G) := le_normalizer_of_stdSub hS hst hpre
   refine ⟨hnormJ, CFSG.normalizerToCenterQuotientAut J B hnormJ, ?_, ?_⟩
   · rw [CFSG.ker_normalizerToCenterQuotientAut hperfJ hnormJ, ← hDcent, ← hDcard]

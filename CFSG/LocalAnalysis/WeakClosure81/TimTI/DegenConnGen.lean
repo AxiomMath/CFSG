@@ -29,8 +29,8 @@ theorem conn_gen
   have hsD : s ∈ dSet S := mem_dSet_of_mem hs hs1
   have hP : CFSG.pCore 2 (X ⧸ Subgroup.center X) = ⊥ := by
     refine h.eq_bot_of_normal_isSolvable_quot _ (CFSG.BaerSuzuki.Helpers.pCore_normal 2) ?_
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 (X ⧸ Subgroup.center X)) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 (X ⧸ Subgroup.center X)) :=
       (CFSG.BaerSuzuki.Helpers.pCore_isPGroup 2).isNilpotent
     infer_instance
   have hZ : Subgroup.center (X ⧸ Subgroup.center X) = ⊥ :=
@@ -88,9 +88,9 @@ theorem conn_gen
           (QuotientGroup.mk' (Subgroup.center X) s) ⊔
         CFSG.Timmesfeld.rootGroup (QuotientGroup.mk' (Subgroup.center X) '' dSet S) xt) := by
     obtain ⟨F, hF, hFfin, hFchar, φ, hφcard, -⟩ := hL
-    letI : Field F := hF
-    letI : Finite F := hFfin
-    letI : CharP F 2 := hFchar
+    let : Field F := hF
+    let : Finite F := hFfin
+    let : CharP F 2 := hFchar
     refine CFSG.Quasithin.C41Pf.isPSL_two_two_of_equiv_sl2 hf2 ?_ φ
     rw [hφcard, hcardA]
   obtain ⟨x, hxD, hxxt⟩ := hxt

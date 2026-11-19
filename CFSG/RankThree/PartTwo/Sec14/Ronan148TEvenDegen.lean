@@ -615,8 +615,8 @@ theorem evenSL3Irred_degenerate {F : Type} [Field F] [Finite F]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
-  haveI : Group.IsPerfect D := hDq.1
-  haveI hKs : IsSimpleGroup (D ⧸ Subgroup.center D) := hDq.2.1
+  have : Group.IsPerfect D := hDq.1
+  have hKs : IsSimpleGroup (D ⧸ Subgroup.center D) := hDq.2.1
   have hnab := hDq.2.2
   obtain ⟨M, hM⟩ := exists_isStronglyEmbeddedOrder_of_degenerate hKs hnab
     (degenerate_quotient hZ3 hdeg)
@@ -645,7 +645,7 @@ theorem evenSL3Irred_degenerate {F : Type} [Field F] [Finite F]
       have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       intro Q
       have hQ : Nat.card (Q : Subgroup (D ⧸ Subgroup.center D)) = 1 := by
-        obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+        obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
         have hdvd : Nat.card (Q : Subgroup (D ⧸ Subgroup.center D)) ∣
             Nat.card (CFSG.Theory.Comparator.SzModel n) := by
           rw [← Nat.card_congr χ.toEquiv]

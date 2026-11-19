@@ -233,7 +233,7 @@ private theorem det_bottomPartFirst_of_mem_L {u : SLm2 m F}
   have hLT : (bottomPartFirst m F u).IsLowerTriangular := by
     intro i j hij
     exact hu'.2 i.succ j.succ (by simpa using hij)
-  rw [Matrix.det_of_lowerTriangular _ hLT]
+  rw [det_of_isLowerTriangular _ hLT]
   exact Finset.prod_eq_one fun i _ => hu'.1 i.succ
 
 omit [Fact (Nat.Prime p)] in
@@ -255,7 +255,7 @@ private theorem det_bottomPartLast_of_mem_L {u : SLm2 m F}
   have hLT : (bottomPartLast m F u).IsLowerTriangular := by
     intro i j hij
     exact hu'.2 i.castSucc j.castSucc (by simpa using hij)
-  rw [Matrix.det_of_lowerTriangular _ hLT]
+  rw [det_of_isLowerTriangular _ hLT]
   exact Finset.prod_eq_one fun i _ => hu'.1 i.castSucc
 
 omit [Fact (Nat.Prime p)] in

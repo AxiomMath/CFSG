@@ -156,7 +156,7 @@ theorem qrc_paired_even_linear_sections_produce_original_pair_with_full_second_p
     eq_one_of_central θ₁ hz h
   have hcard : Nat.card K₁ = Nat.card K₂ :=
     (Nat.card_congr θ₁.toEquiv).trans (Nat.card_congr θ₂.toEquiv).symm
-  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup', by
+  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup, by
     show ¬ 2 ∣ (T : Subgroup H).relIndex ⊤
     rw [relIndex_top_right]
     exact T.not_dvd_index⟩

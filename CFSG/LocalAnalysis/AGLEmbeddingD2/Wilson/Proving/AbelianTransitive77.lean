@@ -62,7 +62,7 @@ theorem isCyclic_of_abelian_transitive_77 (A : Subgroup (Equiv.Perm (Fin 77)))
   have horder : orderOf (x * y) = orderOf x * orderOf y :=
     hxy.orderOf_mul_eq_mul_orderOf_of_coprime (by rw [hx, hy]; norm_num)
   have h77 : orderOf (x * y) = 77 := by simp [horder, hx, hy]
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have htop : Subgroup.zpowers (x * y) = ⊤ := by
     apply Subgroup.eq_top_of_card_eq
     rw [Nat.card_eq_fintype_card, Fintype.card_zpowers, h77, hcard]

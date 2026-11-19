@@ -58,7 +58,7 @@ theorem twistedF4_ppd_dvd_card {a : ℕ} {K : Type} [Field K] [Finite K] [CharP 
       · exact h'
   exact Dvd.dvd.mul_left hlast _
 
-theorem false_of_twistedF4_of_rank {f : ℕ} (hodd : Odd f) (hf3 : 3 ≤ f) {r : ℕ}
+theorem false_of_twistedF4_of_rank {f : ℕ} (_hodd : Odd f) (hf3 : 3 ≤ f) {r : ℕ}
     (hlt : 2 * (r + 1) < 12 * f)
     (hrank : ∀ (K : Type) [Field K] [Finite K] [CharP K F4.prime] (a : ℕ), f = 2 * a + 1 →
       Nat.card K = 2 ^ f →
@@ -71,9 +71,9 @@ theorem false_of_twistedF4_of_rank {f : ℕ} (hodd : Odd f) (hf3 : 3 ≤ f) {r :
   obtain ⟨-, -, -, -, -, hinn, hdata⟩ := hbig
   have hX' := hX
   obtain ⟨hadm, a, hfa, K, instF, instFin, hK, ⟨e0⟩⟩ := hX
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hCharP : CharP K F4.prime := charP_of_card_eq_prime_pow (f := f) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hCharP : CharP K F4.prime := charP_of_card_eq_prime_pow (f := f) (by
     rw [← Nat.card_eq_fintype_card, hK]; rfl)
   obtain ⟨⟨eΓ⟩, -⟩ := hdata a K hfa hK ⟨e0⟩
   have hm1 : 1 ≤ a := by omega
@@ -90,7 +90,7 @@ theorem false_of_twistedF4_of_rank {f : ℕ} (hodd : Odd f) (hf3 : 3 ≤ f) {r :
   have hAut := card_le_two_pow_of_inner hZX hinn (rank_transport eΓ (hrank K a hfa hK))
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK, hfa]
   obtain ⟨p, hpP, hp2, hord, hdvd, hmin⟩ := exists_ppd_prime (k := 12 * f) (by omega) (by omega)
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   rw [hfa] at hdvd hmin hord
   have hpG : p ∣ Nat.card (F4.reeGamma K a) :=
     twistedF4_ppd_dvd_card hK' hpP hdvd (hmin _ (by omega) (by omega)) (hmin _ (by omega) (by omega))

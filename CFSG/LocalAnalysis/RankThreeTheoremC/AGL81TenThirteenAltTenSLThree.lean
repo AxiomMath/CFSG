@@ -57,7 +57,7 @@ theorem card_coordImage {n : ℕ} (σ : K ≃+* K) (U : Submodule K (Fin n → K
 theorem card_submodule_eq_pow [Finite K] {n : ℕ} (U : Submodule K (Fin n → K)) :
     Nat.card U = Nat.card K ^ finrank K U := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card,
     Module.card_fintype (Module.finBasis K U), Fintype.card_fin]
 
@@ -81,7 +81,7 @@ theorem exists_conj_of_slThree [Finite K] (hK : Nat.card K = 4) {i : ℕ} (hi : 
     ∃ g : SpecialLinearGroup (Fin 3) K, ∀ x, α x = g * x * g⁻¹ := by
   classical
   obtain ⟨p, hchar⟩ := CharP.exists K
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
+  have : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
   have hu3 : ∀ u : Kˣ, u ^ 3 = 1 := fun u => by
     have h3 : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]
     rw [← h3]

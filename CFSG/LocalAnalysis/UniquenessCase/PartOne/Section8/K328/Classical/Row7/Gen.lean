@@ -426,9 +426,6 @@ private theorem k328r7g_D2_herm (F : Type) [Field F] [Fintype F] [DecidableEq F]
     · rw [map_mul, starRingAut_apply]
       simp
       try rw [k328r7g_star_omega]
-      try rw [map_pow]
-      try rw [starRingAut_apply]
-      try rw [k328r7g_star_omega]
       try ring_nf
       try rw [k328r7g_omega_pow6]
       try rw [k328r7g_omega_cube]

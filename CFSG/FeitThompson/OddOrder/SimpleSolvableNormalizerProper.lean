@@ -45,7 +45,7 @@ theorem normalizer_coe_lt_top_of_isSolvable_of_finite [Finite G] [IsSimpleGroup 
 theorem exists_conj_image_ne_of_isSolvable [IsSimpleGroup G] (hna : ¬ IsMulCommutative G)
     {A : Subgroup G} (hA : A ≠ ⊥) [Group.IsSolvable A] :
     ∃ g : G, (fun x => g⁻¹ * x * g) '' (A : Set G) ≠ (A : Set G) := by
-  obtain ⟨g, -, hg⟩ := SetLike.exists_of_lt (normalizer_coe_lt_top_of_isSolvable hna hA)
+  obtain ⟨g, -, hg⟩ := _root_.IsConcreteLE.exists_of_lt (normalizer_coe_lt_top_of_isSolvable hna hA)
   refine ⟨g⁻¹, fun hgA => hg ?_⟩
   rw [Subgroup.mem_normalizer_iff_conj_image_eq]
   simpa [MulAut.conj] using hgA

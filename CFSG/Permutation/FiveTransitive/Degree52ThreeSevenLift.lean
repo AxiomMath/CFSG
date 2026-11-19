@@ -51,7 +51,7 @@ theorem exists_seven_exterior_fixed_three
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite F
   let rho : N →* Equiv.Perm F := toPermHom N F
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   obtain ⟨hF,hAlt⟩ := Degree52ThreeFixed.three_fixed_card_and_image P hcard h5 hnotAlt s hs S hS
   have hFfin : Fintype.card F = 7 := by rwa [← Nat.card_eq_fintype_card]

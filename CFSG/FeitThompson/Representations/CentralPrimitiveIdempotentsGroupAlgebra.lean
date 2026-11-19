@@ -114,12 +114,12 @@ theorem centralScalar_centralIdempotentCenter [Fintype G] {χ ψ : G → ℂ}
   rw [htr1, hin] at htr2
   have hψ1 : ψ 1 ≠ 0 := by rw [← hchar]; exact character_one_ne_zero (irrRep hψ).ρ
   by_cases h : ψ = χ
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     subst h
-    rw [if_pos rfl, mul_one] at htr2
+    rw [ite_eq_left rfl, mul_one] at htr2
     exact mul_right_cancel₀ hψ1 (by rw [htr2, one_mul])
-  · rw [if_neg h]
-    rw [if_neg h, mul_zero] at htr2
+  · rw [ite_eq_right h]
+    rw [ite_eq_right h, mul_zero] at htr2
     exact (mul_eq_zero.1 htr2).resolve_right hψ1
 
 open scoped Classical in
@@ -148,10 +148,10 @@ theorem centralIdempotentCenter_mul_centralIdempotentCenter [Fintype G] {χ ψ :
     centralScalar_centralIdempotentCenter hχ hφ]
   by_cases hcs : χ = ψ
   · subst hcs; simp
-  · rw [if_neg hcs]
+  · rw [ite_eq_right hcs]
     by_cases h1 : φ = χ
-    · rw [if_pos h1, if_neg (fun h => hcs (h1 ▸ h)), mul_zero]
-    · rw [if_neg h1, zero_mul]
+    · rw [ite_eq_left h1, ite_eq_right (fun h => hcs (h1 ▸ h)), mul_zero]
+    · rw [ite_eq_right h1, zero_mul]
 
 open scoped Classical in
 theorem centralIdempotent_mul_centralIdempotent [Fintype G] {χ ψ : G → ℂ}
@@ -167,7 +167,7 @@ theorem isIdempotentElem_centralIdempotent [Fintype G] {χ : G → ℂ} (hχ : �
     IsIdempotentElem (centralIdempotent χ) := by
   classical
   have h := centralIdempotent_mul_centralIdempotent hχ hχ
-  rwa [if_pos rfl] at h
+  rwa [ite_eq_left rfl] at h
 
 theorem sum_centralIdempotentCenter [Fintype G] [Fintype (irrChar ℂ G)] :
     ∑ χ : irrChar ℂ G, centralIdempotentCenter (mem_classFun_of_mem_irrChar χ.2) = 1 := by
@@ -206,7 +206,7 @@ theorem eq_sum_centralScalar_smul_centralIdempotentCenter [Fintype G] [Fintype (
     rw [map_smul, smul_eq_mul, centralScalar_centralIdempotentCenter χ.2 hψ]
     by_cases h : (⟨ψ, hψ⟩ : irrChar ℂ G) = χ
     · subst h; simp
-    · rw [if_neg h, if_neg (fun he : ψ = (χ : G → ℂ) => h (Subtype.ext he)), mul_zero]
+    · rw [ite_eq_right h, ite_eq_right (fun he : ψ = (χ : G → ℂ) => h (Subtype.ext he)), mul_zero]
   rw [Finset.sum_congr rfl fun χ _ => key χ,
     Finset.sum_ite_eq Finset.univ (⟨ψ, hψ⟩ : irrChar ℂ G) fun _ => centralScalar hψ z]
   simp

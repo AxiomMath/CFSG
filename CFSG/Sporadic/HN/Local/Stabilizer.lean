@@ -37,7 +37,7 @@ theorem orbit_squeeze {G X : Type*} [Group G] [Finite G] [MulAction G X] (v : X)
       rw [Nat.mul_comm]
       exact h1
     rw [h2, hG] at this
-    exact absurd this (by simp [Nat.mul_comm])
+    exact absurd this (by simp)
   have hO : Nat.card (MulAction.orbit G v) = N := by
     rw [hS, hG] at h1
     exact Nat.eq_of_mul_eq_mul_left hspos (by rw [h1, Nat.mul_comm])
@@ -87,8 +87,8 @@ theorem Hx_mapsTo : ∀ h ∈ Hx, ∀ v ∈ wSet, h • v ∈ wSet := by
   smul_mem' h v hv := Hx_mapsTo h.1 h.2 v hv
 
 @[expose] noncomputable def wEquiv : Fin 462 ≃ wSub :=
-  Equiv.ofBijective (fun k => ⟨hnW k, k, rfl⟩)
-    ⟨fun j k e => alt_certificate.2.2.1 (congrArg Subtype.val e), fun ⟨_, k, rfl⟩ => ⟨k, rfl⟩⟩
+  Equiv.ofBijective (fun _k => ⟨hnW _k, _k, rfl⟩)
+    ⟨fun _j _k e => alt_certificate.2.2.1 (congrArg Subtype.val e), fun ⟨_, _k, rfl⟩ => ⟨_k, rfl⟩⟩
 
 @[expose] noncomputable def phiW : Hx →* Perm (Fin 462) :=
   wEquiv.symm.permCongrHom.toMonoidHom.comp (MulAction.toPermHom Hx wSub)

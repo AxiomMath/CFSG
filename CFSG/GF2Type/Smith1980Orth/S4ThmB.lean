@@ -84,6 +84,7 @@ theorem exists_v (h0 : SixAt S) {x w : G} (hxM : x ∈ S.M) (hwM : w ∈ S.M) (h
         (x * w) * (q₀ * (g₀ * S.z * g₀⁻¹) * q₀⁻¹) * (x * w)⁻¹ * (x * w) := by group
       _ = _ := by rw [hθv]
 
+omit [Finite G] in
 private theorem conj_conjBy (kv gw : G) :
     (gw * kv⁻¹) * (S.conjBy kv).z * (gw * kv⁻¹)⁻¹ = gw * S.z * gw⁻¹ := by
   show (gw * kv⁻¹) * (kv * S.z * kv⁻¹) * (gw * kv⁻¹)⁻¹ = gw * S.z * gw⁻¹

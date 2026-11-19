@@ -27,7 +27,7 @@ public theorem fittingSubgroup_map_rangeRestrict_le
     {G : Type u} {H : Type v} [Group G] [Finite G] [Group H]
     (f : G →* H) :
     (fittingSubgroup G).map f.rangeRestrict ≤ fittingSubgroup f.range := by
-  letI : Finite f.range :=
+  let : Finite f.range :=
     Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   let N : Subgroup f.range := (fittingSubgroup G).map f.rangeRestrict
   have hNnormal : N.Normal := by

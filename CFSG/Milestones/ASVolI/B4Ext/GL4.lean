@@ -77,7 +77,7 @@ theorem burnsideB49x_gl_apply_sub {e : W ≃ₗ[ZMod 2] W} (h : e * e = 1) (x : 
 theorem burnsideB49x_gl_finrank_lt [FiniteDimensional (ZMod 2) W] {S T : Submodule (ZMod 2) W}
     (hST : S ≤ T) {x : W} (hxT : x ∈ T) (hxS : x ∉ S) :
     finrank (ZMod 2) S < finrank (ZMod 2) T :=
-  Submodule.finrank_lt_finrank_of_lt (SetLike.lt_iff_le_and_exists.2 ⟨hST, x, hxT, hxS⟩)
+  Submodule.finrank_lt_finrank_of_lt (IsConcreteLE.lt_iff_le_and_exists.2 ⟨hST, x, hxT, hxS⟩)
 
 theorem burnsideB49x_gl_mem_or_add_mem [FiniteDimensional (ZMod 2) W]
     {D : Submodule (ZMod 2) W} {x : W} (hx : x ∉ D)
@@ -236,7 +236,7 @@ theorem burnsideB49x_gl_card_le [FiniteDimensional (ZMod 2) W] {ι : Type*}
     (f : ι → (W ≃ₗ[ZMod 2] W)) (hf : Function.Injective f) (C B : Submodule (ZMod 2) W)
     (hC : ∀ i, ∀ x ∈ C, f i x = x) (hB : ∀ i x, f i x - x ∈ B) :
     Nat.card ι ≤ 2 ^ ((finrank (ZMod 2) W - finrank (ZMod 2) C) * finrank (ZMod 2) B) := by
-  haveI : Finite ((W ⧸ C) →ₗ[ZMod 2] B) := Module.finite_of_finite (ZMod 2)
+  have : Finite ((W ⧸ C) →ₗ[ZMod 2] B) := Module.finite_of_finite (ZMod 2)
   rw [← burnsideB49x_gl_card_hom C B]
   exact Nat.card_le_card_of_injective (fun i => burnsideB49x_gl_hom C B (f i) (hC i) (hB i))
     fun i j hij => hf (burnsideB49x_gl_hom_inj hij)
@@ -251,7 +251,7 @@ theorem burnsideB49x_gl_card_le_fix_comm [FiniteDimensional (ZMod 2) W]
 theorem burnsideB49x_gl_one_le_finrank_fix [FiniteDimensional (ZMod 2) W]
     (hW : 0 < finrank (ZMod 2) W) {E : Subgroup (W ≃ₗ[ZMod 2] W)} (h2 : ∀ e ∈ E, e * e = 1) :
     1 ≤ finrank (ZMod 2) (burnsideB49x_gl_fix E) := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have hp : IsPGroup 2 E := fun g => ⟨1, Subtype.ext (by
     rw [Subgroup.coe_pow, pow_one, sq]
     exact h2 _ g.2)⟩
@@ -497,8 +497,8 @@ theorem burnsideB49x_gl_four_fix [FiniteDimensional (ZMod 2) W] (hW : finrank (Z
   refine ⟨hC2, ?_⟩
   have hle : E ≤ burnsideB49x_gl_Q (burnsideB49x_gl_fix E) := fun e he =>
     ⟨fun x => hBC (burnsideB49x_gl_sub_mem_comm he x), fun y hy => hy e he⟩
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (W ≃ₗ[ZMod 2] W) :=
+  have : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite (W ≃ₗ[ZMod 2] W) :=
     Finite.of_injective (fun e : W ≃ₗ[ZMod 2] W => (e : W → W)) fun a b h =>
       LinearEquiv.ext (congrFun h)
   refine Subgroup.eq_of_le_of_card_ge hle ?_
@@ -535,7 +535,7 @@ theorem burnsideB49x_gl_comm_Q {X : Submodule (ZMod 2) W} (hXT : X ≠ ⊤) :
   · rw [burnsideB49x_gl_comm, Submodule.span_le]
     rintro _ ⟨g, hg, x, rfl⟩
     exact hg.1 x
-  · obtain ⟨w, -, hwX⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.2 hXT)
+  · obtain ⟨w, -, hwX⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.2 hXT)
     obtain ⟨f, hf, hfw⟩ := exists_dual_eq_one_of_notMem hwX
     have h := burnsideB49x_gl_sub_mem_comm (burnsideB49x_gl_transvection_mem_Q hf hy) w
     rwa [transvection_apply, hfw, one_smul, add_sub_cancel_left] at h
@@ -545,7 +545,7 @@ theorem burnsideB49x_gl_Q_stab_of_finrank_eq [FiniteDimensional (ZMod 2) W]
     (h : ∀ q ∈ burnsideB49x_gl_Q X, ∀ y ∈ Y, q y ∈ Y) : X = Y := by
   by_cases hYX : Y ≤ X
   · exact (Submodule.eq_of_le_of_finrank_eq hYX hXY.symm).symm
-  obtain ⟨y, hyY, hyX⟩ := SetLike.not_le_iff_exists.1 hYX
+  obtain ⟨y, hyY, hyX⟩ := IsConcreteLE.not_le_iff_exists.1 hYX
   obtain ⟨f, hf, hfy⟩ := exists_dual_eq_one_of_notMem hyX
   refine Submodule.eq_of_le_of_finrank_eq (fun x hx => ?_) hXY
   have h' := h _ (burnsideB49x_gl_transvection_mem_Q hf hx) y hyY

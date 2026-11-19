@@ -161,15 +161,15 @@ theorem tableZ_recipe
   classical
   intro hfin θ δ hδ3 hδne1 hδI J hJcomp hJmark
   obtain ⟨K', instK'f, instK'fin, σ', hK', hσ', e, hIderived⟩ := tableZ_recipe_catalogue hn K hK
-  letI : Field K' := instK'f
-  letI : Finite K' := instK'fin
-  haveI hCperf : Group.IsPerfect ↥(CFSG.LieType.Chevalley.twistedE6RootGroup K' σ') :=
+  let : Field K' := instK'f
+  let : Finite K' := instK'fin
+  have hCperf : Group.IsPerfect ↥(CFSG.LieType.Chevalley.twistedE6RootGroup K' σ') :=
     ⟨CFSG.LieType.Chevalley.commutator_twistedE6RootGroup_eq_top (ℓ := 2) (f := n)
       Nat.prime_two hn hK' σ' hσ'⟩
-  haveI hRperf : Group.IsPerfect
+  have hRperf : Group.IsPerfect
       (LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n)) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI hHperf : Group.IsPerfect
+  have hHperf : Group.IsPerfect
       (HopfCover (LargeEvenCenterQuot
         (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n))) := hopfCover_isPerfect
   have hHcom : commutator (HopfCover (LargeEvenCenterQuot

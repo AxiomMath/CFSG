@@ -26,13 +26,14 @@ private theorem wc820pp_elemAbOrderEight {V : Subgroup G} (hV : IsElemAbelian 2 
     rw [CFSG.Quasithin.card_eq_two_pow_of_isPGroup h2, hrk]
     norm_num
   refine ⟨hcard, ?_, ?_⟩
-  · haveI : IsMulCommutative ↥V := hV.1
+  · have : IsMulCommutative ↥V := hV.1
     intro x y
     exact mul_comm' x y
   · intro x
     have hx := hV.2 (x : G) x.2
     exact Subtype.ext (by simpa [pow_two] using hx)
 
+omit [Finite G] in
 private theorem wc820pp_le_normalizer_cGrp {H T : Subgroup G} :
     H ≤ Subgroup.normalizer (cGrp H T : Set G) := by
   have h1 : H ≤ Subgroup.normalizer (H : Set G) := Subgroup.le_normalizer
@@ -51,7 +52,7 @@ private theorem wc820pp_of_hasQuotShape_bot {Q : Type} [Group Q] {K : Subgroup Q
     (hP : ∀ {X Y : Type} [Group X] [Group Y], X ≃* Y → P X → P Y)
     (h : HasQuotShape K ((⊥ : Subgroup Q) : Set Q) P) : P ↥K := by
   obtain ⟨X, hX, ψ, hψsurj, hψker, hPX⟩ := h
-  letI : Group X := hX
+  let : Group X := hX
   have hψinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     rw [eq_bot_iff]
@@ -142,7 +143,7 @@ theorem exists_section_GL32 (h5_11 : Asch5_11AS) (h5_13 : Asch5_13AS) {V H T A :
   let Cm : Subgroup ↥M₁ := (cGrp H T).subgroupOf M₁
   let W₀ : Subgroup ↥W := Cm.map ρW
   have hW₀ : W₀.Normal := hCmnorm.map ρW hρWsurj
-  letI : W₀.Normal := hW₀
+  let : W₀.Normal := hW₀
   let X : Type := ↥W ⧸ W₀
   let ψ : ↥W →* X := QuotientGroup.mk' W₀
   let π : ↥M₁ →* ↥(barSub H φ M₁) :=
@@ -217,8 +218,8 @@ theorem w3Claim820'_holds (h5_11 : Asch5_11AS) (h5_13 : Asch5_13AS)
   obtain ⟨hK, L₀, hL₀⟩ := Pre813.exists_data810 h5_11 h5_13 h
   have hCnorm : ((cGrp H T).subgroupOf H).Normal := hS.concl813.comp.1
   obtain ⟨Q, hQgrp, hQfin, φ, hφ⟩ := exists_isBarMap hCnorm
-  letI : Group Q := hQgrp
-  letI : Finite Q := hQfin
+  let : Group Q := hQgrp
+  let : Finite Q := hQfin
   have hcfg : Cfg813 (barSub H φ T) (barSub H φ A) (barSub H φ (H ⊓ normalizer (V : Set G)))
       (barSub H φ (kerMV V H)) (barSub H φ L₀) :=
     Pre813.cfg h5_11 h5_13 h hK hL₀ hφ

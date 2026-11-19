@@ -67,11 +67,11 @@ theorem exists_overgroup_of_isToral (h84 : GGTwE6ThreeToralTypeMinusOneInput) {f
         (frobQ 2 f))),
       Y ≤ LayerSixE.twInndiagAut f ∧ X ≤ Y ∧ IsElemAbelian 3 Y ∧ Nat.card Y = 3 ^ 6 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP K 2 := inferInstance
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have h30 : (3 : Ω) ≠ 0 := three_ne_zero_of_dvd_card_add_one (ℓ := 2) hf h3
   obtain ⟨ζ, hζ, hζo⟩ := exists_cube_root (Ω := Ω) h30
   let R := TwistedDiag.Rgrp Ω Fr

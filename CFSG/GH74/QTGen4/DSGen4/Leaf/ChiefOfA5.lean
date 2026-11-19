@@ -108,10 +108,10 @@ private theorem exists_fixed_mod [Finite G] {P X T : Subgroup G} (hXP : X ≤ P)
     (hTX : T < X) (hsq : ∀ x ∈ X, x ^ 2 ∈ T) :
     ∃ x ∈ X, x ∉ T ∧ ∀ q ∈ pCoreOf 2 P, ⁅q, x⁆ ∈ T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 ↥(pCoreOf 2 P) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 P
   have hQP : pCoreOf 2 P ≤ P := CFSG.LieType.BorelTits.pCoreOf_le 2 P
-  haveI hN : (T.subgroupOf X).Normal := ⟨fun n hn g => by
+  have hN : (T.subgroupOf X).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h := conj_mem_of_normalizer (hPT (hXP g.2)) hn
     simpa using h⟩
@@ -125,7 +125,7 @@ private theorem exists_fixed_mod [Finite G] {P X T : Subgroup G} (hXP : X ≤ P)
     rw [Subgroup.mem_subgroupOf] at hn
     show (q : G) * (n : G) * (q : G)⁻¹ ∈ T
     exact conj_mem_of_normalizer (hPT (hQP q.2)) hn
-  letI act : MulAction ↥(pCoreOf 2 P) (X ⧸ T.subgroupOf X) :=
+  let act : MulAction ↥(pCoreOf 2 P) (X ⧸ T.subgroupOf X) :=
     { smul := fun q z => QuotientGroup.map (T.subgroupOf X) (T.subgroupOf X) (φ q) (hφN q) z
       one_smul := by
         intro z
@@ -149,7 +149,7 @@ private theorem exists_fixed_mod [Finite G] {P X T : Subgroup G} (hXP : X ≤ P)
     intro q
     show QuotientGroup.map (T.subgroupOf X) (T.subgroupOf X) (φ q) (hφN q) 1 = 1
     exact map_one _
-  obtain ⟨x0, hx0X, hx0T⟩ := SetLike.exists_of_lt hTX
+  obtain ⟨x0, hx0X, hx0T⟩ := _root_.IsConcreteLE.exists_of_lt hTX
   set u : X ⧸ T.subgroupOf X := QuotientGroup.mk ⟨x0, hx0X⟩ with hu_def
   have hu1 : u ≠ 1 := by
     intro h
@@ -172,7 +172,7 @@ private theorem exists_fixed_mod [Finite G] {P X T : Subgroup G} (hXP : X ≤ P)
         (MulAction.fixedPoints ↥(pCoreOf 2 P) (X ⧸ T.subgroupOf X)) :=
       ⟨fun a b => Subtype.ext ((hcon a a.2).trans (hcon b b.2).symm)⟩
     have hle := Finite.card_le_one_iff_subsingleton.mpr hsub
-    haveI : Nonempty (MulAction.fixedPoints ↥(pCoreOf 2 P) (X ⧸ T.subgroupOf X)) :=
+    have : Nonempty (MulAction.fixedPoints ↥(pCoreOf 2 P) (X ⧸ T.subgroupOf X)) :=
       ⟨⟨1, one_fix⟩⟩
     have hpos := Nat.card_pos (α := MulAction.fixedPoints ↥(pCoreOf 2 P) (X ⧸ T.subgroupOf X))
     omega
@@ -198,7 +198,7 @@ theorem leafChiefOfA5 [DSLeaf LeafFaithfulA5] : LeafChiefOfA5 := by
   intro G _ _ P L E K hLP hPL hEP hPE hPK hsec hcard hq hperf hnt
   classical
   obtain ⟨hKE, hEEK, hsqK⟩ : K ≤ E ∧ ⁅E, E⁆ ≤ K ∧ ∀ e ∈ E, e ^ 2 ∈ K := hsec
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   have hKP : ∀ g ∈ P, ∀ k ∈ K, g * k * g⁻¹ ∈ K :=
     fun g hg k hk => ChiefOfA5.conj_mem_of_normalizer (hPK hg) hk

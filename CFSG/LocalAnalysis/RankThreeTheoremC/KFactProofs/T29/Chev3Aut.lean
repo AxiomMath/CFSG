@@ -118,7 +118,7 @@ theorem aut_three_inner_of_A_two {G : Type} [Group G] {q : PrimePower}
     (e : G ≃* ValidLieTypeIndex.Group ⟨.A 2 q, hv⟩) (ψ : MulAut G) (hψ : ψ ^ 3 = 1) :
     ∃ a : G, ψ = MulAut.conj a := by
   obtain ⟨hp, he⟩ := primePower_card_three hq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e' : G ≃* LinearFlag.projectiveSL (2 + 1) (GaloisField q.p q.exponent) :=
     e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL (2 + 1) _))
@@ -174,7 +174,7 @@ theorem not_dvd_card_statedProj_SU_three {K : Type} [Field K] [Finite K] {Q : �
       (CFSG.Assembly.LowTwoRank.StatedSU 3 Q K)) := by
   subst hQ
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 := h.trans (Subgroup.index_dvd_card _)
   rw [CFSG.SectionRank.OddCover.card_statedSU_three (p := 3) (f := 1) hK] at h1
   norm_num at h1
@@ -198,7 +198,7 @@ theorem false_of_A_two_setup {L : Subgroup X} {x : X} (h : T29Setup X L x)
     rw [hc, mul_one]
     exact hl
   obtain ⟨hp, he⟩ := primePower_card_three hq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = 3 := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', hp, he]
     norm_num
@@ -230,8 +230,8 @@ theorem false_of_twistedA_two_setup {L : Subgroup X} {x : X} (h : T29Setup X L x
   have hm := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv
     (MulEquiv.refl (ValidLieTypeIndex.Group ⟨.twistedA 2 q, hv⟩))
   obtain ⟨⟨hℓ, hf, hn, hq'⟩, K, _, _, hK, ⟨eT⟩⟩ := hm
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP K 3 := by
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP K 3 := by
     have := (UnitaryFieldData.mk hℓ hf (by rw [hK, ← pow_mul, mul_comm] : Nat.card K = q.p ^
       (2 * q.exponent))).charP
     rwa [hp] at this

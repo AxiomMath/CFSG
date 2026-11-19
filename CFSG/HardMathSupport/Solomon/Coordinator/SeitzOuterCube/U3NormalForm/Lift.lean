@@ -190,7 +190,7 @@ theorem exists_phi_eq_of_commute (hσ : orderOf σ = 3) {a : MulAut (unitaryPSU 
     rw [map_mul, mapσ_scalar, hσA, ← mul_assoc, ← map_mul]
     congr 2
     apply Units.ext
-    simp only [Units.val_mul, Units.coe_map, MonoidHom.coe_coe, hμu, Units.val_mk0]
+    simp only [Units.val_mul, Units.coe_map, _root_.MonoidHom.coe_ofClass, hμu, Units.val_mk0]
     rw [map_div₀, hσs, div_mul_eq_mul_div, mul_comm (σ y) (u : F), hy]
   obtain ⟨M₀, hM₀⟩ := exists_liftGL σ hM'fix
   have hM₀U : M₀ ∈ unitaryIsom3 h₀ := (liftGL_mem_unitaryIsom3_iff h h₀ hbar M₀).1 (hM₀ ▸ hM'U)

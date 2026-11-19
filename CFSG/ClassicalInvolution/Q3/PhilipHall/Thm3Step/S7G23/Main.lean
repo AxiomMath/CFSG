@@ -28,7 +28,7 @@ theorem le_and_mem_q8Fam (hR : S7.RowClassAEmpty) {m : ℕ} {Y : Type} [Group Y]
     (hLc : Nat.card (genFittingFStar Y) = 4245696) {M : Subgroup Y} (hM : M ∈ Φ) :
     M ≤ genFittingFStar Y ∧ M ∈ q8Fam Y := by
   set L := genFittingFStar Y with hLdef
-  haveI : IsSimpleGroup ↥L := hF.1
+  have : IsSimpleGroup ↥L := hF.1
   have hLn : L.Normal := genFittingFStar_normal Y
   have hC := S7Ident.centralizer_eq_bot_of_fStarSimple hF
   obtain ⟨z, hz⟩ := (hc.hyp.hyp.omega1 M hM).1
@@ -45,7 +45,7 @@ theorem le_and_mem_q8Fam (hR : S7.RowClassAEmpty) {m : ℕ} {Y : Type} [Group Y]
   have hcH : Nat.card (genFittingFStar ↥H) = 4245696 := by
     rw [S7Ident.genFittingFStar_eq_of_le hLn hF.2 hC hLH, hcard]
   have hl := orbitLie_of_card_fStar hO hI hcH
-  haveI : (L.subgroupOf H).Normal := hLn.subgroupOf H
+  have : (L.subgroupOf H).Normal := hLn.subgroupOf H
   have hne : L.subgroupOf H ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hcard
@@ -74,7 +74,7 @@ theorem thm3RTwoClassG23_of_ident (hR : S7.RowClassAEmpty) (m : ℕ) : Thm3RTwoC
   let D : G23Data Y := g23Data_R3.map (eY.trans θ).symm
   obtain ⟨J, hJ, hJK⟩ : ∃ J ∈ Φ, ∀ a : Y, conjSub a K ≠ J := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     exact hcl fun N hN => by
       obtain ⟨a, ha⟩ := hno N hN
       exact ⟨a, by rw [hLtop]; trivial, ha⟩

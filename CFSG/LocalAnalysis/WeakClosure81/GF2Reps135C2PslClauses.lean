@@ -91,7 +91,7 @@ theorem w135c2_clauses_of_hasTwistedLabel {m f : ℕ} (hm : 1 ≤ m) {K : Type} 
       (β'.toLinearMap.toAddMonoidHom.comp β.toLinearMap.toAddMonoidHom).comp
         ((TensorProduct.mk E k X 1).toAddMonoidHom.comp ρ.asModuleEquiv.symm.toAddMonoidHom)
     have hΦ : ∀ w, Φ w = β' (β ((1 : k) ⊗ₜ[E] ρ.asModuleEquiv.symm w)) := fun w => rfl
-    letI : DistribMulAction (SpecialLinearGroup (Fin (m' + 1 + 1)) K) W :=
+    let : DistribMulAction (SpecialLinearGroup (Fin (m' + 1 + 1)) K) W :=
       DistribMulAction.compHom W ρ
     have hsmul : ∀ (g : SpecialLinearGroup (Fin (m' + 1 + 1)) K) (w : W), g • w = ρ g w :=
       fun _ _ => rfl
@@ -119,7 +119,7 @@ theorem w135c2_clauses_of_hasTwistedLabel {m f : ℕ} (hm : 1 ≤ m) {K : Type} 
             ((1 : k) ⊗ₜ[E] ρ.asModuleEquiv.symm w) := by
         rw [CFSG.Theory.Representation.extendScalars_apply, LinearMap.baseChange_tmul]
       rw [h1, h2, hβ, hβ']
-    haveI hntW : Nontrivial W := Subrepresentation.irreducible_module_nontrivial ρ
+    have hntW : Nontrivial W := Subrepresentation.irreducible_module_nontrivial ρ
     have hΦ0 : Φ ≠ 0 := by
       obtain ⟨w, hw⟩ := exists_ne (0 : W)
       intro hzero

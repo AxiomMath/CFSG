@@ -132,7 +132,7 @@ public theorem CFSG.lemma_14_13_a
       exact hr_not_betaM (hσeqβ ▸ hrσM)
     have hM_not_P2 : M ∉ section14MFamilyP2 G := by
       intro hMP2
-      have hsolvM : IsSolvable M :=
+      have hsolvM : Group.IsSolvable M :=
         section14_solvable_of_le_maximal (G := G) hMmax le_rfl
       obtain ⟨K, hK⟩ :=
         section14_exists_hallSubgroupIn (G := G) (H := M) hsolvM (section14KappaPrimes M)
@@ -142,7 +142,7 @@ public theorem CFSG.lemma_14_13_a
     by_cases hMP : M ∈ section14MFamilyP G
     · have hMP1 : M ∈ section14MFamilyP1 G := by
         exact section14_mem_P1_of_mem_P_and_not_mem_P2 (G := G) hMP hM_not_P2
-      have hsolvM : IsSolvable M :=
+      have hsolvM : Group.IsSolvable M :=
         section14_solvable_of_le_maximal (G := G) hMmax le_rfl
       obtain ⟨K, hK⟩ :=
         section14_exists_hallSubgroupIn
@@ -617,7 +617,7 @@ public theorem CFSG.lemma_14_13_b
     section12_msigma_complement_isHall_sigma_compl
       (G := G) (M := N) (E := M ⊓ N) hN.1
       (show section12ComplementToMsigma N (M ⊓ N) from hcompN)
-  have hsolvN : IsSolvable N :=
+  have hsolvN : Group.IsSolvable N :=
     IsMinCE.proper_subgroups_solvable N (lt_top_iff_ne_top.mpr hN.1.1)
   obtain ⟨nN, hn⟩ :=
     exists_conj_eq_of_isHallSubgroup_of_solvable

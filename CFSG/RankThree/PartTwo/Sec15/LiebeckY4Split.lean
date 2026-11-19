@@ -87,7 +87,7 @@ theorem step148HJYBLift_of_liftB (h : Step148HJYBLiftB) : Step148HJYBLift := by
 theorem deltaZero_deltaZero {G : Type} [Group G] [Finite G] (A : Subgroup G)
     (LB : Subgroup G → Subgroup G) (Y : Subgroup G) :
     deltaZero A LB (deltaZero A LB Y) = deltaZero A LB Y :=
-  le_antisymm (deltaZero_le _) (sSup_le fun Q hQ => le_deltaZero hQ.1 (le_deltaZero hQ.1 hQ.2))
+  le_antisymm (deltaZero_le _) (sSup_le fun _Q hQ => le_deltaZero hQ.1 (le_deltaZero hQ.1 hQ.2))
 
 section Lift
 
@@ -116,10 +116,11 @@ section Tools
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem not_isSolvable_oPrimeResidual_delta {A : Subgroup G}
     {LB : Subgroup G → Subgroup G} {J K : Subgroup G} (hKJ : K ≤ J) (hKΔ : K = deltaZero A LB K)
     (hKns : ¬ Group.IsSolvable ↥(oPrimeResidualOf 3 K)) :
-    ¬ Group.IsSolvable ↥(oPrimeResidualOf 3 (delta A LB J)) := fun hsol =>
+    ¬ Group.IsSolvable ↥(oPrimeResidualOf 3 (delta A LB J)) := fun _hsol =>
   hKns (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
     (oPrimeResidualOf_mono 3 (hKΔ.le.trans ((deltaZero_mono hKJ).trans
       (deltaZero_le_delta J))))))

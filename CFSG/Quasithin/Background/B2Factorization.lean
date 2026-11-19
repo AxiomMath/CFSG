@@ -21,7 +21,7 @@ variable [Finite G] {H T : Subgroup G}
 
 theorem isSylowTwoOf_of_sylow (T : Sylow 2 G) (hTH : (T : Subgroup G) ≤ H) :
     IsSylowTwoOf (T : Subgroup G) H :=
-  ⟨hTH, T.isPGroup', fun h => T.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hTH))⟩
+  ⟨hTH, T.isPGroup, fun h => T.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hTH))⟩
 
 theorem exists_conj_le_of_isSylowTwoOf {A : Subgroup G} (hT : IsSylowTwoOf T H) (hAH : A ≤ H)
     (hA : IsPGroup 2 A) : ∃ h ∈ H, cjSub h A ≤ T := by

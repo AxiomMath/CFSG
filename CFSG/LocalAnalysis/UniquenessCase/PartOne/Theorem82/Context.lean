@@ -39,9 +39,9 @@ theorem L_ne_bot (c : Counterexample4 G) : c.L ≠ ⊥ := by
 
 theorem not_isSolvable (c : Counterexample4 G) : ¬ Group.IsSolvable c.S.M := by
   intro hM
-  haveI : Group.IsSolvable ↥c.S.M := hM
-  haveI : Nontrivial ↥c.L := (Subgroup.nontrivial_iff_ne_bot c.L).mpr (L_ne_bot c)
-  haveI : Group.IsSolvable ↥c.L :=
+  have : Group.IsSolvable ↥c.S.M := hM
+  have : Nontrivial ↥c.L := (Subgroup.nontrivial_iff_ne_bot c.L).mpr (L_ne_bot c)
+  have : Group.IsSolvable ↥c.L :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion c.hyp81.1)
       (Subgroup.inclusion_injective c.hyp81.1)
   have hcomm : commutator ↥c.L = ⊤ := by
@@ -107,7 +107,7 @@ theorem four_le_pRank_of_mem_sigma (c : Counterexample4 G) {p : ℕ}
   CFSG.LocalAnalysis.UniquenessCase.UC6.four_le_pRank_of_sigma hp
 
 theorem M_ne_top (c : Counterexample4 G) : c.S.M ≠ ⊤ := by
-  haveI := c.standing.simple
+  have := c.standing.simple
   exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top c.standing.nonab c.S.maxLocal.1
 
 theorem sigma_subset_sigmaOne (c : Counterexample4 G) :
@@ -130,8 +130,7 @@ end Counterexample4
 theorem theorem82Four_of_isEmpty
     (h : ∀ (G : Type) [Group G] [Finite G], Counterexample4 G → False) :
     CFSG.Yardstones.Mf4cdcdf2e013.Theorem82Four := by
-  intro G instG instFin standing unique S inMSigma theoremC theorem614
-  intro L hyp81
+  intro G instG instFin standing unique S inMSigma theoremC theorem614 L hyp81
   by_contra hnotstrong
   exact h G ⟨standing, unique, S, inMSigma, theoremC, theorem614, L, hyp81, hnotstrong⟩
 

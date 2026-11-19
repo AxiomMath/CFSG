@@ -41,6 +41,7 @@ theorem perfectResidual_g2_two {K : Type} [Field K] [Finite K] (hK : Nat.card K 
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem isSimpleGroup_inSubgroup_perfectResidual_of_isoGTwoEven_one {R : Subgroup Q}
     (h : IsoGTwoEven R 1) : IsSimpleGroup (inSubgroup perfectResidual R) := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h
@@ -50,9 +51,10 @@ theorem isSimpleGroup_inSubgroup_perfectResidual_of_isoGTwoEven_one {R : Subgrou
       ↥(commutator (CFSG.Blueprint.Chevalley.adjointGroup .G2 K)) :=
     ((perfectResidual ↥R).equivMapOfInjective R.subtype R.subtype_injective).symm.trans
       ((Item89Res2.perfectResidualEquiv e).trans (MulEquiv.subgroupCongr hres))
-  haveI := hs
+  have := hs
   exact e₁.isSimpleGroup
 
+omit [Finite Q] in
 theorem card_eq_two_mul_card_inSubgroup_perfectResidual_of_isoGTwoEven_one {R : Subgroup Q}
     (h : IsoGTwoEven R 1) : Nat.card R = 2 * Nat.card (inSubgroup perfectResidual R) := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h

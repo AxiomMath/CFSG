@@ -59,7 +59,7 @@ theorem SG.exists_not_innDiagOn_of_u38 {Ω : Type} [Group Ω] [Finite Ω] {S B T
   by_contra hcon
   push Not at hcon
   obtain ⟨hDB, -, hDcard, -, -, -, -⟩ := h.cfg.std
-  haveI : Nontrivial (PSimple 3 K) := (isSimple_of_isU3eight hU).toNontrivial
+  have : Nontrivial (PSimple 3 K) := (isSimple_of_isU3eight hU).toNontrivial
   have hNA := h.nlAct (T123C.dvd_card_of_nontrivial_pSimple Nat.prime_three inferInstance)
   have hBN := hNA.norm
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 K) :=
@@ -101,8 +101,8 @@ theorem SG.exists_not_innDiagOn_of_u38 {Ω : Type} [Group Ω] [Finite Ω] {S B T
   obtain ⟨F, _, _, hF, -, -, θ, -, hθ⟩ := hraw
   have hFd : UnitaryFieldData 2 3 F := ⟨Nat.prime_two, by norm_num, by rw [hF]; norm_num⟩
   let Pr := CFSG.StandardType.InndiagSU.projEquiv hFd (d := 3) (by norm_num)
-  haveI := Finite.of_equiv _ θ.toEquiv
-  haveI := Finite.of_equiv _ Pr.toEquiv
+  have := Finite.of_equiv _ θ.toEquiv
+  have := Finite.of_equiv _ Pr.toEquiv
   let ψ : ↥B →* MulAut (primeFormP hFd ((1 : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)) :=
     (MulAut.congr Pr).toMonoidHom.comp ((MulAut.congr θ).toMonoidHom.comp
       ((chevAut 3 K).comp (Subgroup.inclusion hBN)))

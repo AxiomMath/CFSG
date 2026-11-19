@@ -52,7 +52,7 @@ theorem sylowIn [Finite G] (h : A2Comp T S₁ S₂ K) :
     CFSG.Open.fusionIsSylowIn 2 ((T : Subgroup G) ⊓ K) K := by
   have : K.Normal := h.normal
   have hTG : fusionIsSylowIn 2 (T : Subgroup G) ⊤ :=
-    ⟨le_top, T.isPGroup', fun _ _ hP hTP => T.maximal_isPGroup.eq_of_ge hP hTP⟩
+    ⟨le_top, T.isPGroup, fun _ _ hP hTP => T.maximal_isPGroup.eq_of_ge hP hTP⟩
   exact G3a.fusionIsSylowIn_inf hTG le_top
     (Subgroup.normal_subgroupOf (N := K) (H := ⊤)).isSubnormal
 
@@ -92,7 +92,7 @@ theorem omega1_ne_bot [Finite G] (h : A2Comp T S₁ S₂ K) :
     have h3 : orderOf (t : G) = 1 := by rw [h2, orderOf_one]
     rw [Subgroup.orderOf_coe, ht] at h3
     exact absurd h3 (by norm_num)
-  have hRp : IsPGroup 2 ((T : Subgroup G) ⊓ K : Subgroup G) := T.isPGroup'.to_le inf_le_left
+  have hRp : IsPGroup 2 ((T : Subgroup G) ⊓ K : Subgroup G) := T.isPGroup.to_le inf_le_left
   rcases hRp.card_eq_or_dvd with h1 | h2
   · exact absurd ((Subgroup.card_eq_one).mp h1) hR
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2

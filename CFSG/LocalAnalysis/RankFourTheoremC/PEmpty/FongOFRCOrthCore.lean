@@ -17,11 +17,12 @@ open CFSG.LocalAnalysis.RankThreeUC.S15
 variable {K : Type} [Field K] [Finite K] {ι : Type} [Fintype ι] [DecidableEq ι]
   {Q : QuadraticForm K (ι → K)} {Q₀ : (ι → K) → K}
 
+omit [Finite K] [Fintype ι] [DecidableEq ι] in
 theorem exists_quadForm_ne_zero_of_witt (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hT : ∃ T : Submodule K (ι → K), Module.finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) :
     ∃ v, Q v ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨T, hT3, -⟩ := hT
   have hall : ∀ x : ι → K, x = 0 := fun x =>
     hQ.1 x fun y => by

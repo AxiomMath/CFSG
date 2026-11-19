@@ -33,7 +33,7 @@ private theorem m7i_vecMul_J (v : Fin 4 → ZMod 7) :
   ext i
   fin_cases i <;>
     simp [Matrix.vecMul_apply_eq_sum, Fin.sum_univ_four, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.cons_val_succ, Matrix.head_cons]
+      Matrix.cons_val_one]
 
 private theorem m7i_N_eq (v : Fin 4 → ZMod 7) :
     m7i_N v = ![0, v 0, v 1, v 2] := by
@@ -92,10 +92,10 @@ private theorem m7i_comb1 :
 private theorem m7i_e4_mem (W : Submodule (ZMod 7) (Fin 4 → ZMod 7))
     (hJ : ∀ v ∈ W,
       Matrix.vecMul v !![1, 1, 0, 0; 0, 1, 1, 0; 0, 0, 1, 1; 0, 0, 0, 1] ∈ W)
-    (hA : ∀ v ∈ W,
+    (_hA : ∀ v ∈ W,
       Matrix.vecMul v !![3, 4, 3, 0; 2, 6, 1, 4; 5, 2, 6, 3; 5, 2, 5, 5] ∈ W)
     (hne : W ≠ ⊥) : m7i_e4 ∈ W := by
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   rw [Submodule.ne_bot_iff] at hne
   obtain ⟨v, hv, hv0⟩ := hne
   by_cases ha : v 0 = 0
@@ -112,7 +112,7 @@ private theorem m7i_e4_mem (W : Submodule (ZMod 7) (Fin 4 → ZMod 7))
         have hsm : (v 3)⁻¹ • v = m7i_e4 := by
           rw [hv']
           ext i
-          fin_cases i <;> simp [m7i_e4, Pi.smul_apply, smul_eq_mul, hd, inv_mul_cancel₀ hd]
+          fin_cases i <;> simp [m7i_e4, Pi.smul_apply, smul_eq_mul, hd]
         rw [← hsm]
         exact Submodule.smul_mem W _ hv
       · have hN : m7i_N v = ![0, 0, 0, v 2] := by
@@ -123,18 +123,18 @@ private theorem m7i_e4_mem (W : Submodule (ZMod 7) (Fin 4 → ZMod 7))
         rw [hN] at hmem
         have hsm : (v 2)⁻¹ • ![0, 0, 0, v 2] = m7i_e4 := by
           ext i
-          fin_cases i <;> simp [m7i_e4, Pi.smul_apply, smul_eq_mul, hc, inv_mul_cancel₀ hc]
+          fin_cases i <;> simp [m7i_e4, Pi.smul_apply, smul_eq_mul, hc]
         rw [← hsm]
         exact Submodule.smul_mem W _ hmem
     · have hNN : m7i_N (m7i_N v) = ![0, 0, 0, v 1] := by
         rw [m7i_NN v]
         ext i
-        fin_cases i <;> simp [ha, hb]
+        fin_cases i <;> simp [ha]
       have hmem : m7i_N (m7i_N v) ∈ W := m7i_N_mem hJ (m7i_N_mem hJ hv)
       rw [hNN] at hmem
       have hsm : (v 1)⁻¹ • ![0, 0, 0, v 1] = m7i_e4 := by
         ext i
-        fin_cases i <;> simp [m7i_e4, Pi.smul_apply, smul_eq_mul, hb, inv_mul_cancel₀ hb]
+        fin_cases i <;> simp [m7i_e4, Pi.smul_apply, smul_eq_mul, hb]
       rw [← hsm]
       exact Submodule.smul_mem W _ hmem
   · have hNNN : m7i_N (m7i_N (m7i_N v)) = ![0, 0, 0, v 0] := m7i_NNN v
@@ -143,7 +143,7 @@ private theorem m7i_e4_mem (W : Submodule (ZMod 7) (Fin 4 → ZMod 7))
     rw [hNNN] at hmem
     have hsm : (v 0)⁻¹ • ![0, 0, 0, v 0] = m7i_e4 := by
       ext i
-      fin_cases i <;> simp [m7i_e4, Pi.smul_apply, smul_eq_mul, ha, inv_mul_cancel₀ ha]
+      fin_cases i <;> simp [m7i_e4, Pi.smul_apply, smul_eq_mul, ha]
     rw [← hsm]
     exact Submodule.smul_mem W _ hmem
 

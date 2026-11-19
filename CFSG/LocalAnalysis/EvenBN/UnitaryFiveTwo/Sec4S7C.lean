@@ -30,13 +30,13 @@ variable (h : d.Hyp) (hKU : d.KUnitary) (hf : d.IsUnitaryFactor K₀)
 
 include h hKU in
 theorem Data.Hyp.isSimpleGroup_Lam₁ : IsSimpleGroup ↥(Data.Lam₁ h hKU hf) := by
-  haveI := Common.sl2_isSimpleGroup_of_charTwo (k := CFSG.Fischer.F4)
+  have := Common.sl2_isSimpleGroup_of_charTwo (k := CFSG.Fischer.F4)
     (by rw [Nat.card_eq_fintype_card, CFSG.Fischer.F4.card])
   exact (Data.lamEquiv h hKU hf).isSimpleGroup
 
 include h hKU in
 theorem Data.Hyp.commutator_Lam₁_eq_top : commutator ↥(Data.Lam₁ h hKU hf) = ⊤ := by
-  haveI := h.isSimpleGroup_Lam₁ hKU hf
+  have := h.isSimpleGroup_Lam₁ hKU hf
   have hnc : ¬ ∀ a b : ↥(Data.Lam₁ h hKU hf), a * b = b * a := by
     intro hc
     have hc' : ∀ A B : Matrix.SpecialLinearGroup (Fin 2) CFSG.Fischer.F4, A * B = B * A :=
@@ -94,13 +94,13 @@ theorem Data.Hyp.tc_Cv₂ : d.tc (Data.Cv₂ h hKU hf) = Data.Cv₁ h hKU hf := 
 include h hKU in
 theorem Data.Hyp.eq_one_of_mul_mem_D₂ {g μ : G} (hg : g ∈ Data.Lam₁ h hKU hf)
     (hμ : μ ∈ d.tc (Data.Lam₁ h hKU hf)) (hgμ : g * μ ∈ d.D₂) : g = 1 := by
-  haveI := h.isSimpleGroup_Lam₁ hKU hf
+  have := h.isSimpleGroup_Lam₁ hKU hf
   have hK := h.comm_M_V₂_mem_W hKU
   have hN₂ := h.Lam₁_le_normalizer_D₂ hKU hf (h.hD hKU)
   have hNY := h.Lam₁_le_normalizer_Y hKU hf
   let Kc : Subgroup ↥(Data.Lam₁ h hKU hf) :=
     { carrier := {a | ∀ z ∈ d.D₂, (a : G) * z * (a : G)⁻¹ * z⁻¹ ∈ d.Y}
-      one_mem' := fun z _ => by simpa using d.Y.one_mem
+      one_mem' := fun z _ => by simp
       mul_mem' := by
         intro a b ha hb z hz
         have e : ((a * b : ↥(Data.Lam₁ h hKU hf)) : G) * z * ((a * b : ↥(Data.Lam₁ h hKU hf)) : G)⁻¹ *
@@ -124,7 +124,7 @@ theorem Data.Hyp.eq_one_of_mul_mem_D₂ {g μ : G} (hg : g ∈ Data.Lam₁ h hKU
           group
         rw [e]
         exact d.Y.inv_mem h1 }
-  haveI : Kc.Normal := ⟨by
+  have : Kc.Normal := ⟨by
     intro a ha c z hz
     have hz' : (c : G)⁻¹ * z * (c : G) ∈ d.D₂ := by
       have hci : (c : G)⁻¹ ∈ Data.Lam₁ h hKU hf := (Data.Lam₁ h hKU hf).inv_mem c.2

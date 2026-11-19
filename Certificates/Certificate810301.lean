@@ -38,7 +38,6 @@ theorem certificate810301 : smallCheck () = true ∧
       RowCentFacts) ∧
     (RowSixFacts) :=
   ⟨KernelCo2I301.small_check, by
-    intros
     have : Fact (CFSG.Sporadic.Co2I301.smallCheck () = true) := ⟨KernelCo2I301.small_check⟩
     exact KernelCo2I301.cent_facts, KernelCo2I301.six_facts⟩
 

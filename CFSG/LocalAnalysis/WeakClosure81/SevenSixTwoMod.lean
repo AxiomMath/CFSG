@@ -21,7 +21,7 @@ theorem s762M_exists_complement [Finite G] {I W : Subgroup G} (hI : IsElemAbelia
       Nat.Coprime (Nat.card S) (Nat.card I) ∧ ⁅I, W⁆ = ⁅I, S⁆ := by
   have habel : ∀ x ∈ I, ∀ y ∈ I, x * y = y * x := by
     intro x hx y hy
-    letI := hI.1
+    let := hI.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : I) ⟨y, hy⟩)
   obtain ⟨k, hk⟩ := hI.isPGroup.exists_card_eq
   have hcop : Nat.Coprime (Nat.card I) (I.relIndex W) := by
@@ -38,7 +38,7 @@ theorem s762M_exists_complement [Finite G] {I W : Subgroup G} (hI : IsElemAbelia
   have hinf : (I ⊓ W : Subgroup G) = I := inf_eq_left.mpr hIW
   rw [hinf] at hric
   have hpos : 0 < Nat.card I := by
-    haveI : Nonempty I := ⟨1⟩
+    have : Nonempty I := ⟨1⟩
     exact Nat.card_pos
   have hS_eq : Nat.card S = I.relIndex W := by
     refine Nat.mul_left_cancel hpos ?_
@@ -111,7 +111,7 @@ theorem commutator_inf_centralizer_eq_bot_of_odd_relIndex [Finite G] {I W : Subg
     ⁅I, W⁆ ⊓ (I ⊓ Subgroup.centralizer (W : Set G)) = ⊥ := by
   have habel : ∀ x ∈ I, ∀ y ∈ I, x * y = y * x := by
     intro x hx y hy
-    letI := hI.1
+    let := hI.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : I) ⟨y, hy⟩)
   obtain ⟨S, hSW, hIS, hIsup, hcop, hcomm_eq⟩ :=
     s762M_exists_complement hI hIW hWI hodd
@@ -168,7 +168,7 @@ theorem commutator_eq_bot_of_centralizes_commutator [Finite G] {I Y W : Subgroup
     ⁅I, W⁆ = ⊥ := by
   have habel : ∀ x ∈ I, ∀ y ∈ I, x * y = y * x := by
     intro x hx y hy
-    letI := hI.1
+    let := hI.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : I) ⟨y, hy⟩)
   set F : Subgroup G := ⁅I, W⁆ with hF
   have hWI : W ≤ Subgroup.normalizer (I : Set G) := hWY.trans hYI

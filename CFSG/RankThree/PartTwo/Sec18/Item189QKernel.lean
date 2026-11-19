@@ -209,7 +209,7 @@ theorem exists_mem_thetaQuotCentralizer_of_card {G : Type} [Group G] [Finite G]
     (hA : CFSG.Assembly.IsElemAbelian 3 A) (hA27 : Nat.card A = 27)
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) :
     ∃ d ∈ A, d ≠ 1 ∧ d ∈ Sec4.thetaQuotCentralizer K := by
-  haveI := hsimple
+  have := hsimple
   by_contra hcon
   have hnot : ∀ d ∈ A, d ∈ Sec4.thetaQuotCentralizer K → d = 1 := fun d hd hdC => by
     by_contra hd1
@@ -244,7 +244,7 @@ theorem exists_mem_thetaQuotCentralizer_of_card {G : Type} [Group G] [Finite G]
     have h1 : ((a.1 : G)) ^ 3 = 1 := hA.2 _ (Subgroup.mem_subgroupOf.mp a.2)
     exact Subtype.ext (Subtype.ext (by simpa using h1))
   have hcardB : Nat.card ↥(A.subgroupOf (Subgroup.normalizer (K : Set G))) = 3 ^ 3 := by
-    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAK).toEquiv, hA27] <;> norm_num
+    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAK).toEquiv, hA27]; norm_num
   have h4 : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut (↥K ⧸ aschbacherSolvableCore 3 ↥K))) :=
     CFSG.SectionRank.le_pRank_of_injective (by norm_num) hcomm hpow hcardB _ hf le_top
   have hZ : Subgroup.center (↥K ⧸ aschbacherSolvableCore 3 ↥K) = ⊥ :=

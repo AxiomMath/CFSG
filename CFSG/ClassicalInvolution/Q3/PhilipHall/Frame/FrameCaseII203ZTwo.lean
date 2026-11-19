@@ -39,7 +39,7 @@ theorem padicValNat_index_N203_le_one (d : Std20Frame K K' J S R R' W V z t) :
   have hv₀P : v₀ ∈ (S : Subgroup G) ⊓ X203 K K' z := ⟨d.hVS hv₀V, hv₀X⟩
   have hv₀N : v₀ ∉ N203 K K' z := not_mem_N203_of_outer d hv₀V hv₀v₀
   have htN : t ∈ N203 K K' z := Subgroup.mem_sup_right d.htKK
-  haveI hN : (N203X K K' z).Normal :=
+  have hN : (N203X K K' z).Normal :=
     ⟨fun n hn g => Subgroup.mem_subgroupOf.mpr (by
       have hn' : (n : G) ∈ N203 K K' z := Subgroup.mem_subgroupOf.mp hn
       simpa using conj_mem_N203 d g.2 hn')⟩

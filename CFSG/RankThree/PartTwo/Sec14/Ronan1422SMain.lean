@@ -328,12 +328,12 @@ theorem mem_star (hA6 : KF1422AutA6) (h : Cfg A c L R S J)
   have hAS' : A ≤ Subgroup.normalizer (S' : Set G) := hS'.1.1.1.2.2
   obtain ⟨x, hxS', hxM, hxS⟩ : ∃ x ∈ S', x ∈ M ∧ x ∉ S := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥S' := hS'2.isNilpotent
+    have : Group.IsNilpotent ↥S' := hS'2.isNilpotent
     have hlt : S.subgroupOf S' < ⊤ := by
       refine lt_of_le_of_ne le_top fun htop => hS'S fun y hy => ?_
       have : (⟨y, hy⟩ : ↥S') ∈ S.subgroupOf S' := htop ▸ Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp this
-    obtain ⟨z, hzN, hzS⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+    obtain ⟨z, hzN, hzS⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     refine ⟨z, z.2, ?_, fun h1 => hzS (Subgroup.mem_subgroupOf.mpr h1)⟩
     rw [Subgroup.mem_normalizer_iff]
     intro s

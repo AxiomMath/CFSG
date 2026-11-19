@@ -22,7 +22,7 @@ private theorem pRank_le_one_of_cyclic {p : ℕ} (hp : p.Prime) (P : Subgroup G)
   have hcardE : Nat.card (E.subgroupOf P) = p ^ k := by
     rw [← hcard]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEP).toEquiv
-  haveI : Fintype (E.subgroupOf P) := Fintype.ofFinite _
+  have : Fintype (E.subgroupOf P) := Fintype.ofFinite _
   have hle := IsCyclic.card_pow_eq_one_le (α := E.subgroupOf P) (n := p) hp.pos
   have hall : (Finset.univ.filter fun x : E.subgroupOf P => x ^ p = 1) = Finset.univ := by
     ext x
@@ -75,8 +75,8 @@ theorem cyclic {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     exact h ((Nat.Prime.coprime_iff_not_dvd hS.prime).2 hd).symm
   have hBP : B ≤ Subgroup.normalizer (P : Set G) := hS.normB
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative B := hS.abelian
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative B := hS.abelian
   obtain ⟨-, ⟨-, huni⟩, -⟩ := CanonicalBFixedHyperplane.canonical hc
   by_cases hB1 : B = ⊥
   · subst hB1; infer_instance
@@ -88,20 +88,20 @@ theorem cyclic {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   have hNc : ∀ x ∈ N, ∀ b ∈ B, b * x = x * b := fun x hx b hb =>
     Subgroup.mem_centralizer_iff.1 (Subgroup.mem_inf.1 hx).2 b hb
   set N' : Subgroup P := N.subgroupOf P with hN'
-  haveI hNn : N'.Normal := ⟨fun n hn g => by
+  have hNn : N'.Normal := ⟨fun n hn g => by
     have : (g : P) * n * g⁻¹ = n := by
       apply Subtype.ext
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       rw [hcomm g g.2 n n.2]; group
     rw [this]; exact hn⟩
-  letI : CommGroup (P ⧸ N') :=
+  let : CommGroup (P ⧸ N') :=
     { (inferInstance : Group (P ⧸ N')) with
       mul_comm := fun a b => by
         induction a using QuotientGroup.induction_on with | _ x => ?_
         induction b using QuotientGroup.induction_on with | _ y => ?_
         rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
         exact congrArg _ (Subtype.ext (hcomm x x.2 y y.2)) }
-  letI hMod : Module (ZMod p) (Additive (P ⧸ N')) :=
+  let hMod : Module (ZMod p) (Additive (P ⧸ N')) :=
     AddCommGroup.zmodModule (n := p) fun x => by
       induction x using Additive.rec with | _ x => ?_
       induction x using QuotientGroup.induction_on with | _ g => ?_
@@ -140,8 +140,8 @@ theorem cyclic {p : ℕ} {P T B : Subgroup G} {e : ℕ}
         apply Subtype.ext
         simp [Quotient.conjAut_apply, mul_assoc] }
   obtain ⟨σ, hσ'⟩ := exists_rep p fE
-  haveI hNT : Nontrivial (Additive (P ⧸ N')) := by
-    haveI : Nontrivial (P ⧸ N') := by
+  have hNT : Nontrivial (Additive (P ⧸ N')) := by
+    have : Nontrivial (P ⧸ N') := by
       by_contra hnt
       rw [not_nontrivial_iff_subsingleton] at hnt
       have hPN : P ≤ N := by
@@ -159,8 +159,8 @@ theorem cyclic {p : ℕ} {P T B : Subgroup G} {e : ℕ}
       omega
     obtain ⟨a, a', haa⟩ := exists_pair_ne (P ⧸ N')
     exact ⟨⟨Additive.ofMul a, Additive.ofMul a', fun h => haa (Additive.ofMul.injective h)⟩⟩
-  haveI : Finite (Additive (P ⧸ N')) := inferInstanceAs (Finite (P ⧸ N'))
-  haveI hFD : FiniteDimensional (ZMod p) (Additive (P ⧸ N')) := Module.Finite.of_finite
+  have : Finite (Additive (P ⧸ N')) := inferInstanceAs (Finite (P ⧸ N'))
+  have hFD : FiniteDimensional (ZMod p) (Additive (P ⧸ N')) := Module.Finite.of_finite
   refine @CFSG.LinearAlgebra.CoprimeActions.AbelianFixedFreeLinearCyclic.isCyclic_of_fixedFree (ZMod p) _ B _ _ _ (Additive (P ⧸ N')) _ hMod hFD hNT σ ?_
   intro b hb1 v hv
   have hbB : (b : G) ∈ B := b.2

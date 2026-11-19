@@ -110,7 +110,7 @@ theorem sylowModel [Finite G] : ∃ S : Subgroup G, SylowModel ε t TH (Q ⊔ zp
     exact hp.le_sylow_of_normal S₀
   have hE : Q ⊔ zpowers t ≤ S := fun y hy =>
     (hmemS y (E_le_N hy)).2 (hker ((hB.piHom_eq_one_iff ⟨y, E_le_N hy⟩).2 hy))
-  have hpS : IsPGroup 2 S := S₀.isPGroup'.map _
+  have hpS : IsPGroup 2 S := S₀.isPGroup.map _
   have hmax : ∀ V : Subgroup G, V ≤ normalizer ((Q ⊔ zpowers t : Subgroup G) : Set G) →
       IsPGroup 2 V → S ≤ V → V = S := by
     intro V hVN hpV hSV

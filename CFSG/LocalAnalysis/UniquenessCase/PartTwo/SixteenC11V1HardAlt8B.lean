@@ -206,7 +206,7 @@ private theorem s16c11_v1_eightOfTriple_sum :
 
 private theorem s16c11_v1_eightOfTriple_const (y : Fin 3 → ZMod 2) :
     s16c11_v1_eightConst (s16c11_v1_eightOfTriple y) := by
-  refine ⟨?_, ?_, ?_, ?_⟩ <;> simp [s16c11_v1_eightOfTriple, s16c11_v1_eightConst]
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> simp [s16c11_v1_eightOfTriple]
 
 private def s16c11_v1_eightToTriple (v : ↥(fixV s16c11_v1_blocks_eight)) : Fin 3 → ZMod 2 :=
   ![s16c11_v1_eightVecOf (v : ↥(coreMod 8)) 0,
@@ -299,7 +299,7 @@ private theorem s16c11_v1_coreAct_p456_vec06 :
   apply Subtype.ext
   change G6.permAct 8 s16c11_v1_p456_eight (G64.pairVec (0 : Fin 8) 6) = G64.pairVec 0 6
   rw [G64.permAct_pairVec]
-  congr 1 <;> decide
+  congr 1
 
 private theorem s16c11_v1_coreAct_p123_vec06_ne :
     G6.coreAct 8 s16c11_v1_p123_eight s16c11_v1_vec06_eight ≠ s16c11_v1_vec06_eight := by
@@ -391,7 +391,7 @@ private theorem s16c11_v1_blocks_eight_not_isCyclic :
   · exact s16c11_v1_zpowers_coreAct_p123_ne_p456
 
 theorem s16c11_v1_blocks_eight_of_realizes {J : Type} [CommGroup J] [Finite J]
-    (hJ : ∀ j : J, j ^ 2 = 1) {H : Subgroup (MulAut J)}
+    (_hJ : ∀ j : J, j ^ 2 = 1) {H : Subgroup (MulAut J)}
     (hReal : (altCoreModel 8).Realizes H ⊤ ⊥) :
     ∃ E : Subgroup (MulAut J), E ≤ H ∧ IsPGroup 3 ↥E ∧ ¬ IsCyclic ↥E ∧
       Nat.card ↥(fixV E) = 2 ^ 3 := by
@@ -419,7 +419,7 @@ theorem s16c11_v1_blocks_eight_of_realizes {J : Type} [CommGroup J] [Finite J]
     apply MulEquiv.ext
     intro w
     rw [MulAut.congr_apply]
-    simp only [MulEquiv.trans_apply, MulEquiv.symm_symm, MulEquiv.symm_apply_apply]
+    simp only [MulEquiv.trans_apply, MulEquiv.symm_symm]
     apply φ'.injective
     rw [MulEquiv.apply_symm_apply]
     apply Subtype.ext
@@ -648,7 +648,7 @@ private theorem s16c11_v1_eight_index_two_of_moved (P : Subgroup (Equiv.Perm (Fi
         = ((x : Equiv.Perm (Fin 8)) * y)⁻¹ := (inv_eq_of_mul_eq_one_right hxy).symm
       _ = (y : Equiv.Perm (Fin 8))⁻¹ * (x : Equiv.Perm (Fin 8))⁻¹ := mul_inv_rev _ _
       _ = y * x := by rw [inv_eq_of_mul_eq_one_right hy, inv_eq_of_mul_eq_one_right hx]
-  haveI : IsMulCommutative ↥P := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative ↥P := IsMulCommutative.of_comm hcomm
   let Ep : Subgroup ↥P := MulAction.stabilizer ↥P a
   obtain ⟨g₀, hg₀P, hg₀a⟩ := hmoved
   have hg₀Ep : (⟨g₀, hg₀P⟩ : ↥P) ∉ Ep := fun h =>
@@ -833,7 +833,7 @@ theorem s16c11_v1_eight_fixV_bound (P : Subgroup (Equiv.Perm (Fin 8)))
       2 ^ Nat.card (MulAction.orbitRel.Quotient P (Fin 8)) := by
     rw [Nat.card_fun, Nat.card_zmod]
   have horbit_le : Nat.card (MulAction.orbitRel.Quotient P (Fin 8)) ≤ 4 := by
-    haveI : Fintype (MulAction.orbitRel.Quotient P (Fin 8)) := Fintype.ofFinite _
+    have : Fintype (MulAction.orbitRel.Quotient P (Fin 8)) := Fintype.ofFinite _
     have hsum : Nat.card (Fin 8) =
         ∑ ω : MulAction.orbitRel.Quotient P (Fin 8), Nat.card ω.orbit := by
       rw [Nat.card_congr (MulAction.selfEquivSigmaOrbits' P (Fin 8)), Nat.card_sigma]
@@ -875,7 +875,7 @@ theorem s16c11_v1_eight_fixV_bound (P : Subgroup (Equiv.Perm (Fin 8)))
 
 theorem s16c11_v1_coreMod_eight_dimD1 {E : Subgroup (MulAut ↥(coreMod 8))}
     (hE : E ∈ E3.aSet 2 (G6.coreAct 8).range)
-    (h2 : IsPGroup 2 ↥E) (hEne : E ≠ ⊥) :
+    (_h2 : IsPGroup 2 ↥E) (hEne : E ≠ ⊥) :
     3 ≤ rkIdx (fixV E) := by
   have hErange : E ≤ (G6.coreAct 8).range := hE.1
   let P : Subgroup (Equiv.Perm (Fin 8)) := E.comap (G6.coreAct 8)

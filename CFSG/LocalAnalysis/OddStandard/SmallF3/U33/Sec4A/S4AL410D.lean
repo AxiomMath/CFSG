@@ -56,9 +56,9 @@ private lemma conj_mul_eq_of_commute {G : Type*} [Group G] {a b β u v : G}
     _ = v * u := by group
     _ = u * v := huv.symm
 
-theorem exists_u_centralizes_E (h : Ctx t L S x₁ x₂ lam rho tau) (h43 : twoCore t = zpowers t)
+theorem exists_u_centralizes_E (h : Ctx t L S x₁ x₂ lam rho tau) (_h43 : twoCore t = zpowers t)
     (h44 : tau ^ 2 = 1) {𝒮 E : Subgroup G} (hS𝒮 : S ≤ 𝒮) (hC : invCent t ⊓ 𝒮 = S)
-    (hE𝒮 : E ≤ 𝒮) (hEn : (E.subgroupOf 𝒮).Normal) (hEe : CFSG.Open.IsElemAbelian 2 E)
+    (hE𝒮 : E ≤ 𝒮) (hEn : (E.subgroupOf 𝒮).Normal) (_hEe : CFSG.Open.IsElemAbelian 2 E)
     (hEc : Nat.card E = 8) (hES : ¬ E ≤ S) (hEF : E ⊓ S = fourGrp x₁ x₂) :
     ∃ u : G, (u = tau ∨ u = t * tau) ∧ ∀ e ∈ E, u * e * u⁻¹ = e := by
   set F : Subgroup G := fourGrp x₁ x₂ with hF_def
@@ -68,7 +68,7 @@ theorem exists_u_centralizes_E (h : Ctx t L S x₁ x₂ lam rho tau) (h43 : twoC
   have hF_le_S : F ≤ S := by rw [hF_eq]; exact inf_le_right
   have hcardF : Nat.card F = 4 := by
     rw [hF_def]; exact (WreathRel.fourGrp_eq_omega h.wreath).2.2
-  haveI hFcommI : IsMulCommutative F := by
+  have hFcommI : IsMulCommutative F := by
     rw [hF_def]; exact (WreathRel.fourGrp_eq_omega h.wreath).2.1.1
   have hFcomm : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥F) ⟨b, hb⟩)
@@ -80,7 +80,7 @@ theorem exists_u_centralizes_E (h : Ctx t L S x₁ x₂ lam rho tau) (h43 : twoC
     rcases ha with rfl | rfl
     · exact Subgroup.subset_closure (by simp)
     · exact Subgroup.subset_closure (by simp)
-  haveI hXcommI : IsMulCommutative X := by
+  have hXcommI : IsMulCommutative X := by
     rw [hX_def]; exact (ctxX_elemAbelian_of h h44).1.1
   have hXcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥X) ⟨b, hb⟩)

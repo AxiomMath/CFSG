@@ -278,7 +278,7 @@ theorem exists_eq_zpowers (h : Cfg1667Ne M V₀ V W₁ W₂) (hs : InCalOStar 1 
       V ⊓ conjSubgroup M g ⊓ (conjSubgroup V g ⊓ M) = Subgroup.zpowers z := by
   set N : Subgroup G := V ⊓ conjSubgroup M g ⊓ (conjSubgroup V g ⊓ M) with hNdef
   have hcard : Nat.card N = 2 := by rw [hNdef]; exact card_U_inf_B h hs
-  haveI : Nontrivial ↥N := by
+  have : Nontrivial ↥N := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     norm_num
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥N)

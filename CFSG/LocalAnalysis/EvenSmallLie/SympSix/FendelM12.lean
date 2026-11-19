@@ -468,7 +468,7 @@ theorem fendel_hbar_simple
       apply Subtype.ext
       calc (n0 : FendelHbar θ t0) = g * (g⁻¹ * (n0 : FendelHbar θ t0) * g) * g⁻¹ := by group
         _ = 1 := by rw [h]; group
-    have : Group.IsNilpotent (Pb : Subgroup (FendelHbar θ t0)) := Pb.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (Pb : Subgroup (FendelHbar θ t0)) := Pb.isPGroup.isNilpotent
     have hne : N.subgroupOf (Pb : Subgroup (FendelHbar θ t0)) ≠ ⊥ := by
       intro h
       have h1 : (⟨_, hn1P⟩ : (Pb : Subgroup (FendelHbar θ t0))) ∈ N.subgroupOf _ :=
@@ -478,7 +478,7 @@ theorem fendel_hbar_simple
     have hne2 := Group.IsNilpotent.inf_center_ne_bot_of_normal hne
     set M := N.subgroupOf (Pb : Subgroup (FendelHbar θ t0)) ⊓
       center (Pb : Subgroup (FendelHbar θ t0)) with hM'
-    have hMp : IsPGroup 2 M := Pb.isPGroup'.to_subgroup M
+    have hMp : IsPGroup 2 M := Pb.isPGroup.to_subgroup M
     have h2M : 2 ∣ Nat.card M := by
       obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hMp
       rcases k with _ | k

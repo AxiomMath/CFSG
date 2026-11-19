@@ -19,7 +19,7 @@ variable {K : Type} [Field K]
 
 theorem false_of_siegel [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) {p : ℕ} (hp : p.Prime)
     (hp5 : 5 ≤ p) (hpK : p ∣ Nat.card K - 1) {v : StatedSp 2 K}
-    (hv : v ∈ perfectJoin (flagStabilizer 2 K {2})) (hvp : v ^ p = 1) (hv1 : v ≠ 1)
+    (hv : v ∈ perfectJoin (flagStabilizer 2 K {2})) (hvp : v ^ p = 1) (_hv1 : v ≠ 1)
     (hfix : ∀ V : Subgroup (StatedSp 2 K), V ≤ Subgroup.centralizer ({v} : Set (StatedSp 2 K)) →
       ⁅V, V⁆ = V → V ≤ flagStabilizer 2 K {2}) : False := by
   have hp2 : (p : K) ≠ 0 := by

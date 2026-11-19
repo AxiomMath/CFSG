@@ -74,14 +74,14 @@ public theorem pCore_two_dihedral_three_eq_bot :
       simpa [Nat.card_eq_fintype_card] using hn
     interval_cases n
     · left
-      simpa [hn']
+      simp [hn']
     · right
-      simpa [hn']
+      simp [hn']
     · exfalso
       have hbad : (4 : ℕ) ∣ 6 := by
         have h := hPcarddvd
         rw [hn] at h
-        simpa [Nat.card_eq_fintype_card] using h
+        simp at h
       norm_num at hbad
   rcases hcases with h1 | h2
   · exact (Subgroup.eq_bot_iff_card P).2 h1
@@ -93,7 +93,7 @@ public theorem pCore_two_dihedral_three_eq_bot :
       intro y hy1
       have htwo := (Nat.card_eq_two_iff' (1 : P)).mp h2
       obtain ⟨z, hz1, hzuniq⟩ := htwo
-      exact (hzuniq y hy1).trans (hzuniq ⟨x, hx⟩ (by simpa [hx1])).symm
+      exact (hzuniq y hy1).trans (hzuniq ⟨x, hx⟩ (by simp [hx1])).symm
     have hcenter : x ∈ Subgroup.center (DihedralGroup 3) := by
       rw [Subgroup.mem_center_iff]
       intro g

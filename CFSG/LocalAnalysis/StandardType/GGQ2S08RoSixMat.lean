@@ -18,7 +18,7 @@ private lemma ggQ2s08r6_mat_diag_apply {F : Type} [Field F] {n : ℕ} (d : Fin n
 private lemma ggQ2s08r6_mat_inv_mul_self {F : Type} [Field F] (v : GL (Fin 6) F) :
     ((v⁻¹ : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) * (v : Matrix (Fin 6) (Fin 6) F) = 1 := by
   have h := congrArg (fun g : GL (Fin 6) F => (g : Matrix (Fin 6) (Fin 6) F)) (inv_mul_cancel v)
-  simpa [Matrix.GeneralLinearGroup.coe_mul] using h
+  simp
 
 private lemma ggQ2s08r6_mat_inv_col_of_col {F : Type} [Field F] {v : GL (Fin 6) F} {w : Fin 6}
     (hv : ∀ i, i ≠ w → (v : Matrix (Fin 6) (Fin 6) F) i w = 0) :
@@ -42,9 +42,9 @@ private lemma ggQ2s08r6_mat_inv_col_of_col {F : Type} [Field F] {v : GL (Fin 6) 
     (fun h => absurd (Finset.mem_univ w) h), Matrix.one_apply] at h
   by_cases hi : i = w
   · rw [hi] at h ⊢
-    rw [if_pos rfl] at h ⊢
+    rw [ite_eq_left rfl] at h ⊢
     exact mul_right_cancel₀ hVww (h.trans (inv_mul_cancel₀ hVww).symm)
-  · rw [if_neg hi] at h ⊢
+  · rw [ite_eq_right hi] at h ⊢
     exact (mul_eq_zero.mp h).resolve_right hVww
 
 theorem ggQ2s08r6_col_of_conj_eq_smul {F : Type} [Field F] {v : GL (Fin 6) F}
@@ -57,9 +57,9 @@ theorem ggQ2s08r6_col_of_conj_eq_smul {F : Type} [Field F] {v : GL (Fin 6) F}
       (μ : F) * (v : Matrix (Fin 6) (Fin 6) F) i k := by
     intro i k
     rw [Matrix.mul_apply, Finset.sum_eq_single i (fun j _ hji => by
-      rw [Matrix.scalar_apply, Matrix.diagonal_apply, if_neg (Ne.symm hji), zero_mul])
+      rw [Matrix.scalar_apply, Matrix.diagonal_apply, ite_eq_right (Ne.symm hji), zero_mul])
       (fun h => absurd (Finset.mem_univ i) h)]
-    rw [Matrix.scalar_apply, Matrix.diagonal_apply, if_pos rfl]
+    rw [Matrix.scalar_apply, Matrix.diagonal_apply, ite_eq_left rfl]
   have hentry : ∀ i k : Fin 6, (t i : F) * (v : Matrix (Fin 6) (Fin 6) F) i k =
       (μ : F) * (v : Matrix (Fin 6) (Fin 6) F) i k * (t k : F) := by
     intro i k
@@ -160,14 +160,14 @@ theorem ggQ2s08r6_conj_mem_stab_of_col {F : Type} [Field F] [Finite F] {w : Fin 
   intro i
   rw [hcoe, Matrix.GeneralLinearGroup.coe_mul, Matrix.GeneralLinearGroup.coe_mul]
   rw [Matrix.mul_apply, Finset.sum_eq_single w (fun j _ hjw => by
-    rw [hcol j, if_neg hjw, mul_zero]) (fun h => absurd (Finset.mem_univ w) h)]
+    rw [hcol j, ite_eq_right hjw, mul_zero]) (fun h => absurd (Finset.mem_univ w) h)]
   rw [Matrix.mul_apply, Finset.sum_eq_single w (fun k _ hkw => by
-    rw [hu' k, if_neg hkw, mul_zero]) (fun h => absurd (Finset.mem_univ w) h)]
-  rw [hu' w, if_pos rfl, mul_one, hcol w, if_pos rfl]
+    rw [hu' k, ite_eq_right hkw, mul_zero]) (fun h => absurd (Finset.mem_univ w) h)]
+  rw [hu' w, ite_eq_left rfl, mul_one, hcol w, ite_eq_left rfl]
   by_cases hi : i = w
   · rw [hi]
-    rw [if_pos rfl, mul_inv_cancel₀ hVww]
-  · rw [hv i hi, if_neg hi, zero_mul]
+    rw [ite_eq_left rfl, mul_inv_cancel₀ hVww]
+  · rw [hv i hi, ite_eq_right hi, zero_mul]
 
 theorem ggQ2s08r6_diag_conj_mem_stab {F : Type} [Field F] [Finite F] {w : Fin 6}
     (t : Fin 6 → Fˣ) {u v : ↥(LargeEvenSUGroup (Fin 6) F 2)} (hu : u ∈ ggQ2s08r6Stab F w)
@@ -180,17 +180,17 @@ theorem ggQ2s08r6_diag_conj_mem_stab {F : Type} [Field F] [Finite F] {w : Fin 6}
   intro i
   rw [huv, hDin, Matrix.GeneralLinearGroup.coe_mul, Matrix.GeneralLinearGroup.coe_mul]
   rw [Matrix.mul_apply, Finset.sum_eq_single w (fun j _ hjw => by
-    rw [ggQ2s08r6_mat_diag_apply t⁻¹ j w, if_neg hjw, mul_zero])
+    rw [ggQ2s08r6_mat_diag_apply t⁻¹ j w, ite_eq_right hjw, mul_zero])
     (fun h => absurd (Finset.mem_univ w) h)]
   rw [Matrix.mul_apply, Finset.sum_eq_single i (fun k _ hki => by
-    rw [ggQ2s08r6_mat_diag_apply t i k, if_neg (Ne.symm hki), zero_mul])
+    rw [ggQ2s08r6_mat_diag_apply t i k, ite_eq_right (Ne.symm hki), zero_mul])
     (fun h => absurd (Finset.mem_univ i) h)]
-  rw [ggQ2s08r6_mat_diag_apply t i i, if_pos rfl, hu' i]
+  rw [ggQ2s08r6_mat_diag_apply t i i, ite_eq_left rfl, hu' i]
   by_cases hi : i = w
   · rw [hi]
-    rw [if_pos rfl, mul_one, ggQ2s08r6_mat_diag_apply t⁻¹ w w, if_pos rfl]
-    simpa using mul_inv_cancel₀ (t w).ne_zero
-  · rw [if_neg hi, mul_zero, zero_mul]
+    rw [ite_eq_left rfl, mul_one, ggQ2s08r6_mat_diag_apply t⁻¹ w w, ite_eq_left rfl]
+    simp
+  · rw [ite_eq_right hi, mul_zero, zero_mul]
 
 end CFSG.StandardType
 

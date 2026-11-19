@@ -38,9 +38,9 @@ private lemma tfmd_diagonal_snoc_one {n : ℕ} (w : Fin n → ZMod p) :
   induction i using Fin.lastCases with
   | last => induction j using Fin.lastCases with
     | last => simp
-    | cast j => rw [Matrix.diagonal_apply, if_neg (Fin.castSucc_lt_last j).ne']; simp
+    | cast j => rw [Matrix.diagonal_apply, ite_eq_right (Fin.castSucc_lt_last j).ne']; simp
   | cast i => induction j using Fin.lastCases with
-    | last => rw [Matrix.diagonal_apply, if_neg (Fin.castSucc_lt_last i).ne]; simp
+    | last => rw [Matrix.diagonal_apply, ite_eq_right (Fin.castSucc_lt_last i).ne]; simp
     | cast j => simp [Matrix.diagonal_apply]
 
 private lemma tfmd_blockSucc_orth {n : ℕ} (M : Matrix (Fin n) (Fin n) (ZMod p))

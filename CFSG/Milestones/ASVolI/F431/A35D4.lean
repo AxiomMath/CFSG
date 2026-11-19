@@ -30,7 +30,7 @@ set_option linter.unusedSectionVars false
 open CFSG.Quasithin.H13.F431.D4q.Struct in
 theorem burnsideF4m_core1_D4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) : burnsideF4m_Core1 Gp M₁ := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, σ, hσ3, hf1, hK, hσq, Ψ, h1, -⟩ :=
     burnsideF4m_D4_chart hyp.toHypF_4_4g
   have hc : ∀ a b : E, ⁅a, b⁆ ∈ Gp := burnsideF4m_commutator_mem_of_out hyp.centralizer_trivial
@@ -51,7 +51,7 @@ theorem burnsideF4m_A35_D4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) i)
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   obtain ⟨chart, hm⟩ := hyp.amalgam.lie_amalgam
   obtain ⟨K, _, _, _, σ, hσ3, hf1, hK, hσq, φ, hP1, hP2, -⟩ := burnsideF4m_A42_chart_D4 chart hm
   have S1 := CFSG.Quasithin.H13.F431.D4q.Loc.stdTwo_d4 σ hσ3 hf1 hK hσq

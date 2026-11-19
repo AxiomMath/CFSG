@@ -91,7 +91,7 @@ theorem exists_normalizer_not_mem (hUL : U ≤ L) (hUp : IsPGroup 2 U) :
     rw [lt_top_iff_ne_top]
     intro h
     exact hne (le_antisymm hTS (Subgroup.subgroupOf_eq_top.1 h))
-  have : Group.IsNilpotent S := (S.isPGroup').isNilpotent
+  have : Group.IsNilpotent S := (S.isPGroup).isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥S)
   obtain ⟨x, hx, hxn⟩ := IsConcreteLE.exists_of_lt (hnc _ hlt)
   refine ⟨(x : G), ?_, ?_⟩

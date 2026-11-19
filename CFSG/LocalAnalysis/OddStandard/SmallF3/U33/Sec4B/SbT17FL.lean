@@ -139,11 +139,11 @@ theorem fl_abstract {P : Type*} [CommGroup P] [Finite P] (Y : Subgroup P)
 
 theorem fl_group {G : Type*} [Group G] [Finite G] {P Y : Subgroup G}
     (hPab : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) (hexp : ∀ x ∈ P, x ^ 4 = 1)
-    (hYP : Y ≤ P) (hY : ∀ x ∈ P, x ^ 2 = 1 → x ∈ Y) (hcard : Nat.card P = 256) {g : G}
+    (_hYP : Y ≤ P) (hY : ∀ x ∈ P, x ^ 2 = 1 → x ∈ Y) (hcard : Nat.card P = 256) {g : G}
     (hg2 : g * g = 1) (hgP : ∀ x ∈ P, g * x * g⁻¹ ∈ P)
     (hcY : Nat.card {y : G // y ∈ Y ∧ g * y = y * g} ≤ 4) :
     ∀ x ∈ P, (g * x) * (g * x) = 1 → ∃ p ∈ P, g * x = p * g * p⁻¹ := by
-  letI : CommGroup ↥P :=
+  let : CommGroup ↥P :=
     { (inferInstance : Group ↥P) with
       mul_comm := fun a b => Subtype.ext (hPab a.1 a.2 b.1 b.2) }
   have hg_inv : g⁻¹ = g := (inv_eq_iff_mul_eq_one).mpr hg2

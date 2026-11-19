@@ -90,6 +90,7 @@ theorem uc22s213_closed2_of_rank_three_odd (hGA : GriessAllModelsStatement) {M L
   rw [← uc22s213_pRank_barInf_of_prime hL.2.2 hp hp2 hZ]
   exact h4
 
+omit [Finite G] in
 theorem uc22s213_closedTorusL3_of_psl3_two {L : Subgroup G} {n : ℕ} (hn : 3 ≤ n)
     (hX : LieModel (BarInf L) .PSL 3 2 n) : S21_3ClosedTorusL3 L := by
   rcases eq_or_ne n 6 with rfl | hn6
@@ -108,6 +109,7 @@ theorem uc22s213_closedTorusL3_of_psl3_two {L : Subgroup G} {n : ℕ} (hn : 3 �
     have := Nat.le_of_dvd (by omega : 0 < n) hrn
     omega
 
+omit [Finite G] in
 theorem uc22s213_closedU3_of_psu3_two {L : Subgroup G} {n : ℕ} (hn : 2 ≤ n) (hn3 : n ≠ 3)
     (hX : LieModel (BarInf L) .PSU 3 2 n) : S21_3ClosedU3 L := by
   obtain ⟨r, hpp⟩ :=

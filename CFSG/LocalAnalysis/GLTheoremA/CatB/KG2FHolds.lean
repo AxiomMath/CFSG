@@ -32,7 +32,7 @@ theorem finite_card_of_isG2n_two {T : Type} [Group T] (hT : catalogIs T (isG2n 2
   have hord : CFSG.Open.ordG2 4 = 251596800 := by
     unfold CFSG.Open.ordG2
     norm_num
-  haveI : Finite (ModGL .G2 (GaloisField 2 2)) := inferInstance
+  have : Finite (ModGL .G2 (GaloisField 2 2)) := inferInstance
   refine ⟨Finite.of_equiv _ e.toEquiv, ?_⟩
   rw [← Nat.card_congr e.toEquiv, h, hord]
 
@@ -86,7 +86,7 @@ theorem g2FieldLayerS_holds : G2FieldLayerS := by
   obtain ⟨φ, hφs⟩ := hφ
   obtain ⟨hTfin, hTcard⟩ := finite_card_of_isG2n_two hT
   have hTperf := commutator_eq_top_of_isG2n_two hT
-  haveI : Nontrivial T := by
+  have : Nontrivial T := by
     rw [← Finite.one_lt_card_iff_nontrivial, hTcard]
     norm_num
   have h := FP.canon_marking_and_labelAll_simple'
@@ -123,7 +123,7 @@ theorem g2FieldLayerS_holds : G2FieldLayerS := by
         exact (Subgroup.mem_center_iff.1 (h0 ▸ Subgroup.mem_top x) y)
       have htop := hM.1
       rw [hc] at htop
-      haveI : Nontrivial S := IsSimpleGroup.toNontrivial
+      have : Nontrivial S := IsSimpleGroup.toNontrivial
       exact bot_ne_top htop
   set θ' : S ≃* R :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans θ with hθ'
@@ -138,8 +138,8 @@ theorem g2FieldLayerS_holds : G2FieldLayerS := by
     rw [MulEquiv.apply_symm_apply] at this
     rw [this]
     simp [MulAut.congr_apply]
-  haveI hRfin : Finite R := (CFSG.LieType.Catalog.lieModel_finite_simple R _ _ _ _ hMM).1
-  haveI : Finite S := Finite.of_equiv _ θ'.symm.toEquiv
+  have hRfin : Finite R := (CFSG.LieType.Catalog.lieModel_finite_simple R _ _ _ _ hMM).1
+  have : Finite S := Finite.of_equiv _ θ'.symm.toEquiv
   have hDu : FR.SubfieldGrp (u * f * u⁻¹) (D.map (u : R ≃* R).toMonoidHom) :=
     FR.subfieldGrp_map (u : R ≃* R) (fun x => by simp) hD
   have hDS : FR.SubfieldGrp β ((D.map (u : R ≃* R).toMonoidHom).map θ'.symm.toMonoidHom) := by
@@ -219,8 +219,8 @@ theorem g2FieldLayerS_holds : G2FieldLayerS := by
         rw [map_mul, map_mul, map_mul, map_mul]
         exact h
       obtain ⟨hDs, hDM⟩ := I91T.simple_of_datum hΛ hG hnaD hdat
-      haveI : IsSimpleGroup ↥D := hDs
-      haveI : IsSimpleGroup ↥DS := eD.isSimpleGroup
+      have : IsSimpleGroup ↥D := hDs
+      have : IsSimpleGroup ↥DS := eD.isSimpleGroup
       have hsn : CFSG.Open.IsSubnormal J₁ DS := by
         have := GL83.PiGen.isSubnormal_inf_right hJ₁sn DS
         rwa [inf_eq_left.2 hJ₁D, inf_eq_right.2 hDSC] at this
@@ -257,16 +257,16 @@ theorem g2FieldLayerS_holds : G2FieldLayerS := by
   · rcases hexc with ⟨-, -, hsol⟩ | ⟨htag, hn⟩
     ·
       exfalso
-      haveI := hsol
-      haveI : Group.IsSolvable ↥DS :=
+      have := hsol
+      have : Group.IsSolvable ↥DS :=
         Group.isSolvable_of_isSolvable_injective (f := eD.toMonoidHom) eD.injective
-      haveI : Group.IsSolvable ↥J₁ :=
+      have : Group.IsSolvable ↥J₁ :=
         Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJ₁D)
-      haveI : Group.IsSolvable T := Group.isSolvable_of_surjective hψ
+      have : Group.IsSolvable T := Group.isSolvable_of_surjective hψ
       exact (Group.IsSolvable.commutator_lt_top_of_nontrivial T).ne hTperf
     ·
       exfalso
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hf3 : f ^ 3 = 1 := hord ▸ pow_orderOf_eq_one f
       have hnotI : u * f * u⁻¹ ∉ I := FP.not_mem_of_conj_field hmul hinv hu (hFI f hf hord)
       have hβ3 : β ^ 3 = 1 := by

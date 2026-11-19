@@ -13,7 +13,7 @@ open Subgroup
 private theorem exists_conj_mem_of_le_sylow {G : Type*} [Group G] [Finite G] (T : Sylow 2 G)
     {N P : Subgroup G} (hTN : (T : Subgroup G) ≤ N) (hPN : P ≤ N) (hP : IsPGroup 2 P) :
     ∃ c ∈ N, ∀ x ∈ P, c * x * c⁻¹ ∈ (T : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : IsPGroup 2 (P.subgroupOf N) := hP.comap_subtype
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq N Q (T.subtype hTN)
@@ -73,8 +73,8 @@ theorem lemma4_two_three (D : FooteCore G (T : Subgroup G) 2 n)
         hcen']
   set V : Subgroup G := zpowers D.a ⊔ zpowers a₁ with hV
   have hVA : V ≤ D.A := sup_le (zpowers_le.2 D.a_mem) (zpowers_le.2 ha₁)
-  haveI : Finite D.A := D.finite_A
-  haveI : Finite V := Finite.of_injective _ (inclusion_injective hVA)
+  have : Finite D.A := D.finite_A
+  have : Finite V := Finite.of_injective _ (inclusion_injective hVA)
   have hnorm : ∀ x : G, (x * a₁ * x⁻¹ = a₁ ∨ x * a₁ * x⁻¹ = D.a * a₁) →
       x ∈ normalizer (V : Set G) := by
     intro x hxa₁

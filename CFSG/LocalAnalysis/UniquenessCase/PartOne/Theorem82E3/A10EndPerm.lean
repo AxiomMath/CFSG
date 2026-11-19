@@ -152,7 +152,7 @@ theorem card_atilde : Nat.card atilde = 27 := by
       obtain ⟨i, j, k, rfl⟩ := mem_atilde_iff.mp hx
       exact ⟨(i, j, k), rfl⟩
   rw [← Nat.card_eq_of_bijective f hf]
-  simp [Nat.card_prod]
+  simp
 
 theorem isElemAbelian_atilde : CFSG.Open.IsElemAbelian 3 atilde := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
@@ -270,7 +270,7 @@ private theorem eq_swap_mul_swap_of_apply {a b c d : Fin 10}
     simp [swap_apply_of_ne_of_ne, hya, hyb, hyc, hyd]
 
 private theorem maps_other_pair_of_sq_one {a b c d : Fin 10}
-    (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d)
+    (_hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d) (_hcd : c ≠ d)
     {v : Perm (Fin 10)} (hv2 : v ^ 2 = 1)
     (hT : ∀ x, x ∈ v.support ↔ x = a ∨ x = b ∨ x = c ∨ x = d)
     (hva : v a = b) (hvb : v b = a) :
@@ -329,7 +329,7 @@ private theorem eq_doubleTransposition_of_sq_one_support {a b c d : Fin 10}
       have := hvv a
       rwa [h] at this
     have hT_acbd : ∀ x, x ∈ v.support ↔ x = a ∨ x = c ∨ x = b ∨ x = d := by
-      intro x; rw [hT]; simp [or_comm, or_assoc, or_left_comm]
+      intro x; rw [hT]; simp [or_left_comm]
     have hfix_acbd : ∀ x, ¬ (x = a ∨ x = c ∨ x = b ∨ x = d) → v x = x := by
       intro x hx
       exact hfix x (by simpa [or_comm, or_assoc, or_left_comm] using hx)
@@ -340,7 +340,7 @@ private theorem eq_doubleTransposition_of_sq_one_support {a b c d : Fin 10}
       have := hvv a
       rwa [h] at this
     have hT_adbc : ∀ x, x ∈ v.support ↔ x = a ∨ x = d ∨ x = b ∨ x = c := by
-      intro x; rw [hT]; simp [or_comm, or_assoc, or_left_comm]
+      intro x; rw [hT]; simp [or_comm, or_left_comm]
     have hfix_adbc : ∀ x, ¬ (x = a ∨ x = d ∨ x = b ∨ x = c) → v x = x := by
       intro x hx
       exact hfix x (by simpa [or_comm, or_assoc, or_left_comm] using hx)
@@ -694,7 +694,7 @@ theorem exists_mem_card_support_three_or_nine {B : Subgroup (Perm (Fin 10))} (hB
 theorem isSylowOf_atilde {x : Perm (Fin 10)} (hx : x ∈ atilde)
     (hsupp : x.support.card = 3 ∨ x.support.card = 6) :
     CFSG.ABGLocalTools.IsSylowOf 3 atilde (centralizer ({x} : Set (Perm (Fin 10)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : atilde ≤ centralizer ({x} : Set (Perm (Fin 10))) := by
     intro y hy
     rw [Subgroup.mem_centralizer_iff]
@@ -1055,7 +1055,7 @@ private theorem isPGroup_and_not_isCyclic_closure_pair {p : ℕ} [hp : Fact p.Pr
   · exact IsPGroup.of_card (n := 2) hcardE
   · intro hcyc
     let E := Subgroup.closure ({σ, τ} : Set (Perm (Fin 10)))
-    letI : IsCyclic ↥E := hcyc
+    let : IsCyclic ↥E := hcyc
     obtain ⟨g, hg⟩ := (IsCyclic.exists_generator (α := ↥E))
     have hgord : orderOf g = Nat.card ↥E := orderOf_eq_card_of_forall_mem_zpowers hg
     have hpowE : ∀ x ∈ E, x ^ p = 1 := by
@@ -1087,7 +1087,7 @@ private theorem exists_noncyclic_five_of_pair {i j : Fin 3} {σ τ : Perm (Fin 1
     (hcomm : Commute σ τ) (hτσ : τ ∉ Subgroup.zpowers σ) :
     ∃ E : Subgroup (Perm (Fin 10)),
       E ≤ altOff (block i) ⊔ altOff (block j) ∧ IsPGroup 5 E ∧ ¬ IsCyclic E := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let E : Subgroup (Perm (Fin 10)) := Subgroup.closure {σ, τ}
   have h := isPGroup_and_not_isCyclic_closure_pair hσ5 hτ5 hσ1 hτ1 hcomm hτσ
   refine ⟨E, ?_, h.1, h.2⟩
@@ -1118,7 +1118,7 @@ private theorem exists_noncyclic_five_01 :
   · decide +kernel
   · decide +kernel
   · show (c5 3 4 5 6 7) * (c5 0 1 2 8 9) = (c5 0 1 2 8 9) * (c5 3 4 5 6 7)
-    ext x <;> fin_cases x <;> decide +kernel
+    ext x; fin_cases x <;> decide +kernel
   · refine not_mem_zpowers_of_disjoint_support (σ := c5 3 4 5 6 7) ?_ ?_
     · rw [Equiv.Perm.disjoint_iff_disjoint_support]
       decide +kernel
@@ -1144,7 +1144,7 @@ private theorem exists_noncyclic_five_02 :
   · decide +kernel
   · decide +kernel
   · show (c5 6 7 8 3 4) * (c5 0 1 2 5 9) = (c5 0 1 2 5 9) * (c5 6 7 8 3 4)
-    ext x <;> fin_cases x <;> decide +kernel
+    ext x; fin_cases x <;> decide +kernel
   · refine not_mem_zpowers_of_disjoint_support (σ := c5 6 7 8 3 4) ?_ ?_
     · rw [Equiv.Perm.disjoint_iff_disjoint_support]
       decide +kernel
@@ -1170,7 +1170,7 @@ private theorem exists_noncyclic_five_10 :
   · decide +kernel
   · decide +kernel
   · show (c5 0 1 2 6 7) * (c5 3 4 5 8 9) = (c5 3 4 5 8 9) * (c5 0 1 2 6 7)
-    ext x <;> fin_cases x <;> decide +kernel
+    ext x; fin_cases x <;> decide +kernel
   · refine not_mem_zpowers_of_disjoint_support (σ := c5 0 1 2 6 7) ?_ ?_
     · rw [Equiv.Perm.disjoint_iff_disjoint_support]
       decide +kernel
@@ -1196,7 +1196,7 @@ private theorem exists_noncyclic_five_12 :
   · decide +kernel
   · decide +kernel
   · show (c5 6 7 8 0 1) * (c5 3 4 5 2 9) = (c5 3 4 5 2 9) * (c5 6 7 8 0 1)
-    ext x <;> fin_cases x <;> decide +kernel
+    ext x; fin_cases x <;> decide +kernel
   · refine not_mem_zpowers_of_disjoint_support (σ := c5 6 7 8 0 1) ?_ ?_
     · rw [Equiv.Perm.disjoint_iff_disjoint_support]
       decide +kernel
@@ -1222,7 +1222,7 @@ private theorem exists_noncyclic_five_20 :
   · decide +kernel
   · decide +kernel
   · show (c5 0 1 2 3 4) * (c5 6 7 8 5 9) = (c5 6 7 8 5 9) * (c5 0 1 2 3 4)
-    ext x <;> fin_cases x <;> decide +kernel
+    ext x; fin_cases x <;> decide +kernel
   · refine not_mem_zpowers_of_disjoint_support (σ := c5 0 1 2 3 4) ?_ ?_
     · rw [Equiv.Perm.disjoint_iff_disjoint_support]
       decide +kernel
@@ -1248,7 +1248,7 @@ private theorem exists_noncyclic_five_21 :
   · decide +kernel
   · decide +kernel
   · show (c5 3 4 5 0 1) * (c5 6 7 8 2 9) = (c5 6 7 8 2 9) * (c5 3 4 5 0 1)
-    ext x <;> fin_cases x <;> decide +kernel
+    ext x; fin_cases x <;> decide +kernel
   · refine not_mem_zpowers_of_disjoint_support (σ := c5 3 4 5 0 1) ?_ ?_
     · rw [Equiv.Perm.disjoint_iff_disjoint_support]
       decide +kernel
@@ -1569,7 +1569,7 @@ open Equiv Equiv.Perm Subgroup
 open CFSG.GH74.Uniqueness.SU.SU13.TA.L10
 
 private theorem orbit_contains_tBlock_of_failure {l : Fin 3} {W Y : Subgroup (Perm (Fin 10))}
-    (hWY : W ≤ Y) (hWV : W ≤ kleinV l) (hWne : W ≠ ⊥) (hAY : atilde ≤ Y)
+    (hWY : W ≤ Y) (hWV : W ≤ kleinV l) (hWne : W ≠ ⊥) (_hAY : atilde ≤ Y)
     (O : Set (Fin 10)) (hO_9 : (9 : Fin 10) ∈ O)
     (hO_mem : ∀ y : ↥Y, (y : Perm (Fin 10)) 9 ∈ O)
     (hO_smul : ∀ a ∈ atilde, ∀ z, z ∈ O → a z ∈ O) :
@@ -1618,7 +1618,7 @@ private theorem orbit_not_subset_tBlock_of_failure {l : Fin 3} {Y : Subgroup (Pe
 private theorem orbit_contains_third_block_of_failure {i l : Fin 3}
     (hli : l ≠ i) (O : Set (Fin 10)) (hO_sub : ∀ z, z ∈ O → z ∉ block i)
     (hO_smul : ∀ a ∈ atilde, ∀ z, z ∈ O → a z ∈ O)
-    (hO_T_l : ∀ z, z ∈ tBlock l → z ∈ O)
+    (_hO_T_l : ∀ z, z ∈ tBlock l → z ∈ O)
     (hnot_subset : ¬ O ⊆ {z | z ∈ tBlock l}) :
     ∀ z, z ∈ block (-(i + l)) → z ∈ O := by
   have hex : ∃ z0, z0 ∈ O ∧ z0 ∉ tBlock l := by
@@ -1668,7 +1668,6 @@ private theorem orbit_smul_atilde {Y : Subgroup (Perm (Fin 10))} (hAY : atilde �
   let ynew : ↥Y := ⟨a * (y : Perm (Fin 10)) * a⁻¹,
     Y.mul_mem (Y.mul_mem (hAY ha) y.2) (Y.inv_mem (hAY ha))⟩
   refine ⟨ynew, ?_⟩
-  change (ynew : Perm (Fin 10)) 9 = a z
   dsimp [ynew]
   change a ((y : Perm (Fin 10)) (a⁻¹ 9)) = a z
   rw [ha9inv, hy]
@@ -1709,8 +1708,7 @@ private theorem transitive_on_compl_of_failure {i l : Fin 3} {x : Perm (Fin 10)}
   obtain ⟨y2, hy2⟩ := (hO_eq b).mpr hb
   refine ⟨(y2 : Perm (Fin 10)) * (y1 : Perm (Fin 10))⁻¹, ?_, ?_⟩
   · exact Y.mul_mem y2.2 (Y.inv_mem y1.2)
-  · change ((y2 : Perm (Fin 10)) * (y1 : Perm (Fin 10))⁻¹) a = b
-    calc ((y2 : Perm (Fin 10)) * (y1 : Perm (Fin 10))⁻¹) a
+  · calc ((y2 : Perm (Fin 10)) * (y1 : Perm (Fin 10))⁻¹) a
         = (y2 : Perm (Fin 10)) ((y1 : Perm (Fin 10))⁻¹ a) := Perm.mul_apply _ _ _
       _ = (y2 : Perm (Fin 10)) 9 := by
           have hinv : (y1 : Perm (Fin 10))⁻¹ a = 9 := by

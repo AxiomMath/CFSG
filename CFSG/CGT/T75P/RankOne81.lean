@@ -69,7 +69,7 @@ theorem rank_one_81 [Finite G] [IsSimpleGroup G] (s : Std81 T T₁)
   have hA2 : IsPGroup 2 A := by
     intro x
     obtain ⟨y, hy, hyx⟩ := (hAmem x.1).1 x.2
-    obtain ⟨n, hn⟩ := PH.isPGroup' ⟨y, hy⟩
+    obtain ⟨n, hn⟩ := PH.isPGroup ⟨y, hy⟩
     refine ⟨n, Subtype.ext ?_⟩
     have := congrArg (fun z : ↥(PH : Subgroup ↥H) => ((z : ↥H) : G)) hn
     simp only [Subgroup.coe_pow, Subgroup.coe_one] at this ⊢

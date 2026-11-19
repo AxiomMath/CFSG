@@ -169,11 +169,11 @@ theorem card_centralizer_zeta_le {S : Type} [CommGroup S] [Finite S] (h2 : ∀ s
     let U : Subgroup S :=
       { carrier := {s | (c : MulAut S) s = (d : MulAut S) s}
         mul_mem' := fun {x y} hx hy => by
-          simp only [Set.mem_setOf_eq, map_mul] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq, map_mul] at hx hy ⊢
           rw [hx, hy]
         one_mem' := by simp
         inv_mem' := fun {x} hx => by
-          simp only [Set.mem_setOf_eq, map_inv] at hx ⊢
+          simp only [Set.mem_ofPred_eq, map_inv] at hx ⊢
           rw [hx] }
     have hinv : ∀ u ∈ U, ζ u ∈ U := by
       intro u hu

@@ -131,11 +131,11 @@ theorem onL0_iff (p : Fin 1755) : onL0 lpK p = true ↔ p ∈ titsLine 0 := by
     by_cases h0 : (p : ℕ) = lpK 0
     · exact Or.inl h0
     · right
-      refine ⟨by cases h : Nat.beq p (lpK 0) <;> simp_all [CFSG.KC.EnumSound.beq_iff], ?_⟩
+      refine ⟨by cases h : Nat.beq p (lpK 0) <;> simp_all, ?_⟩
       by_cases h1 : (p : ℕ) = lpK 1
       · exact Or.inl h1
       · right
-        refine ⟨by cases h : Nat.beq p (lpK 1) <;> simp_all [CFSG.KC.EnumSound.beq_iff], ?_⟩
+        refine ⟨by cases h : Nat.beq p (lpK 1) <;> simp_all, ?_⟩
         interval_cases k <;> simp_all
 
 theorem lpK_lt {k : ℕ} (hk : k < 3) : lpK k < 1755 := by
@@ -215,7 +215,7 @@ theorem aEl : ∀ i < 64, ∃ x ∈ twoF4S, PR (TA i) x := by
 noncomputable def aE (i : ℕ) : Pm := if h : i < 64 then (aEl i h).choose else 1
 
 theorem aE_spec {i : ℕ} (hi : i < 64) : aE i ∈ twoF4S ∧ PR (TA i) (aE i) := by
-  rw [aE, dif_pos hi]
+  rw [aE, dite_eq_left hi]
   exact (aEl i hi).choose_spec
 
 theorem uEl : ∀ k < 5, ∃ x ∈ twoF4S, PR (TU k) x := by
@@ -233,7 +233,7 @@ theorem bEl : ∀ j < 64, ∃ x ∈ twoF4S, PR (TB j) x := by
 noncomputable def bE (j : ℕ) : Pm := if h : j < 64 then (bEl j h).choose else 1
 
 theorem bE_spec {j : ℕ} (hj : j < 64) : bE j ∈ twoF4S ∧ PR (TB j) (bE j) := by
-  rw [bE, dif_pos hj]
+  rw [bE, dite_eq_left hj]
   exact (bEl j hj).choose_spec
 
 theorem bfix : ∀ j < 64, ∀ p : Fin 1755, (p : ℕ) ∈ base.take 4 → bE j p = p := by
@@ -257,14 +257,14 @@ theorem bdist : ∀ j < 64, ∀ j' < 64,
   have := h ⟨p, hp'⟩ hp
   rw [gp_eq (bE_spec hj).2 ⟨p, hp'⟩, gp_eq (bE_spec hj').2 ⟨p, hp'⟩, this]
 
-theorem cover (hS : Nat.card twoF4S = 4096) : ∀ x ∈ twoF4S, ∃ i < 64, ∃ j < 64, x = aE i * bE j :=
-  factor_cover hS (fun i hi => (aE_spec hi).1)
-    (fun j hj => (bE_spec hj).1) bfix adist bdist
+theorem cover (hS : Nat.card twoF4S = 4096) : ∀ x ∈ twoF4S, ∃ _i < 64, ∃ _j < 64, x = aE _i * bE _j :=
+  factor_cover hS (fun _i hi => (aE_spec hi).1)
+    (fun _j hj => (bE_spec hj).1) bfix adist bdist
 
 theorem faithful (hS : Nat.card twoF4S = 4096) {x y : Pm} (hx : x ∈ twoF4S) (hy : y ∈ twoF4S)
     (h : ∀ p : Fin 1755, (p : ℕ) ∈ base → x p = y p) : x = y :=
-  factor_faithful hS (fun i hi => (aE_spec hi).1)
-    (fun j hj => (bE_spec hj).1) bfix adist bdist hx hy h
+  factor_faithful hS (fun _i hi => (aE_spec hi).1)
+    (fun _j hj => (bE_spec hj).1) bfix adist bdist hx hy h
 
 theorem prep_t : PR (TTC 0) tK := by
   have h := tc

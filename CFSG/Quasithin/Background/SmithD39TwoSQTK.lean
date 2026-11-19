@@ -424,7 +424,7 @@ theorem isCyclic_sylow_three_of_le {M N : Subgroup G} (hMq : IsQuotientOfSQTKTC 
   have hle : (P : Subgroup ↥K).map K.subtype ≤ M ⊓ Subgroup.centralizer (N : Set G) :=
     (Subgroup.map_subtype_le _).trans hK
   have hcyc := isCyclic_of_isPGroup_three_of_le hMq hNM hu hs hu3 hu1 hs2 hsu
-    (P.isPGroup'.map K.subtype) hle
+    (P.isPGroup.map K.subtype) hle
   let e := (P : Subgroup ↥K).equivMapOfInjective K.subtype K.subtype_injective
   exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
 

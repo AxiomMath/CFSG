@@ -20,7 +20,7 @@ open CFSG
 namespace CFSG.BenderSuzuki
 namespace PFchapter2
 
-open PFchapter1section1 PFAppendixIII MatrixGroups
+open PFchapter1section1 PFAppendixIII _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization
 open PFchapter1section3
 
@@ -192,7 +192,7 @@ private theorem theorem_b_B2_contradiction_after_claim14
   have hR2p : IsPGroup 3 R2 := by
     rcases hR2sForP with ⟨R2s, hR2s⟩
     rw [← hR2s]
-    exact R2s.isPGroup'
+    exact R2s.isPGroup
   exact
     theorem_b_B2_contradiction_after_claim15
       H D Q K V W Q0 S Q1 P Sigma Z1 R T R1 R2 L t s p hch h14 h15
@@ -250,9 +250,9 @@ public theorem theorem_b_B2_contradiction
 
   have hchar : addOrderOf (1 : F) = p :=
     hchar_order.trans hp_eq_order.symm
-  letI : PFAppendixII.RightNearField F := hFnear
-  letI : Finite F := hFfinite
-  letI : Nontrivial F := hFnontrivial
+  let : PFAppendixII.RightNearField F := hFnear
+  let : Finite F := hFfinite
+  let : Nontrivial F := hFnontrivial
   obtain ⟨m, hFcard⟩ :=
     PFAppendixII.rightNearField_natCard_eq_addOrderOf_one_pow (F := F)
   have hUnitsCard : Nat.card (nearFieldStar Q P) = Nat.card Fˣ := by
@@ -362,7 +362,7 @@ private theorem theorem_b_opening_reduction_obligation
   · intro hNtop
     have hquot_card_one : Nat.card (G ⧸ N) = 1 := by
       subst hNtop
-      haveI : Subsingleton (G ⧸ (⊤ : Subgroup G)) :=
+      have : Subsingleton (G ⧸ (⊤ : Subgroup G)) :=
         QuotientGroup.subsingleton_quotient_top (G := G)
       exact Nat.card_of_subsingleton (1 : G ⧸ (⊤ : Subgroup G))
     have hp_eq_one : p = 1 := hNcard.symm.trans hquot_card_one

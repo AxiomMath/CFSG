@@ -22,8 +22,8 @@ theorem tail1812Two_hfac (hB : ListBNonabelian) (hComp : OddTranspositionCompFac
         ∀ k : ↥L, φ k = 1 ↔ (k : G) ∈ kerMV V H) → IsSimpleGroup X →
         (∃ u v : X, u * v ≠ v * u) → OddTranspFactor X := by
   obtain ⟨Y, hYgrp, hYfin, π, a₁, Kk, P, hS⟩ := tail1812Two_exists_setting hB cx
-  letI : Group Y := hYgrp
-  haveI : Finite Y := hYfin
+  let : Group Y := hYgrp
+  have : Finite Y := hYfin
   intro X _
   rintro ⟨φ, hφs, hφk⟩ hsimple hnab
   have hLH : L ≤ H := hL.2.2.1
@@ -36,7 +36,7 @@ theorem tail1812Two_hfac (hB : ListBNonabelian) (hComp : OddTranspositionCompFac
     CFSG.Quasithin.H13.L829N.isCompositionFactor_of_subnormal_surjection hsub hsimple ψ hψ
   have hKs : Group.IsSolvable ↥(kerMV V H) :=
     cx.cex.kerMV_isSolvable_182 cx.h172 cx.h5_4 cx.h5_11 cx.h5_13 cx.not_concl
-  haveI := hKs
+  have := hKs
   let ι : ↥π.ker →* ↥(kerMV V H) :=
     { toFun := fun x => ⟨((x.1 : ↥H) : G), hS.ker_le x.1 (MonoidHom.mem_ker.mp x.2)⟩
       map_one' := rfl

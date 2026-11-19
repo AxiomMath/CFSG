@@ -21,16 +21,19 @@ variable {F : Type} [Field F] [Finite F] {σ : F ≃+* F}
   zero_mem' := fun a _ => smul_zero a
   smul_mem' := fun c x hx a ha => by rw [smul_comm, hx a ha]
 
+omit [Finite F] in
 theorem mem_fixSp {E : Subgroup (SUid σ 4)} {x : Fin 4 → F} :
     x ∈ fixSp E ↔ ∀ a ∈ E, a • x = x := Iff.rfl
 
 @[expose] def commSp (E : Subgroup (SUid σ 4)) : Submodule F (Fin 4 → F) :=
   Submodule.span F {y | ∃ a ∈ E, ∃ x : Fin 4 → F, y = a • x - x}
 
+omit [Finite F] in
 theorem sub_mem_commSp {E : Subgroup (SUid σ 4)} {a : SUid σ 4} (ha : a ∈ E) (x : Fin 4 → F) :
     a • x - x ∈ commSp E :=
   Submodule.subset_span ⟨a, ha, x, rfl⟩
 
+omit [Finite F] in
 theorem herm_nil {a : SUid σ 4} (ha : a * a = 1) (x y : Fin 4 → F) :
     herm σ (a • x - x) y = herm σ x (a • y - y) := by
   have h1 : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
@@ -39,10 +42,12 @@ theorem herm_nil {a : SUid σ 4} (ha : a * a = 1) (x y : Fin 4 → F) :
     rwa [h1] at this
   rw [herm_sub_left, herm_sub_right, h2]
 
+omit [Finite F] in
 theorem neg_eq_self_vec (h2 : (2 : F) = 0) (y : Fin 4 → F) : -y = y := by
   have : y + y = 0 := by rw [← two_smul F y, h2, zero_smul]
   exact neg_eq_of_add_eq_zero_right this
 
+omit [Finite F] in
 theorem smul_nil {a : SUid σ 4} (ha : a * a = 1) (h2 : (2 : F) = 0) (x : Fin 4 → F) :
     a • (a • x - x) = a • x - x := by
   have h3 : a • a • x = x := by rw [← mul_smul, ha, one_smul]
@@ -50,6 +55,7 @@ theorem smul_nil {a : SUid σ 4} (ha : a * a = 1) (h2 : (2 : F) = 0) (x : Fin 4 
   have h6 : x - a • x = -(a • x - x) := (neg_sub _ _).symm
   rw [h5, h6, neg_eq_self_vec h2]
 
+omit [Finite F] in
 theorem fixSp_eq_horth (hσ : IsUnitaryInvolution σ) {E : Subgroup (SUid σ 4)}
     (hE2 : ∀ a ∈ E, a * a = 1) : fixSp E = horth σ (commSp E) := by
   ext x
@@ -71,6 +77,7 @@ theorem fixSp_eq_horth (hσ : IsUnitaryInvolution σ) {E : Subgroup (SUid σ 4)}
         mem_horth.mp hx _ (sub_mem_commSp ha y), map_zero]
     exact sub_eq_zero.mp h0
 
+omit [Finite F] in
 theorem card_commSp_mul_card_fixSp (hσ : IsUnitaryInvolution σ) {E : Subgroup (SUid σ 4)}
     (hE2 : ∀ a ∈ E, a * a = 1) :
     Nat.card ↥(commSp E) * Nat.card ↥(fixSp E) = Nat.card (Fin 4 → F) := by

@@ -33,7 +33,7 @@ theorem facts81 (h81 : S_G81) (hset : GoldSetting G S A) (h4 : Nat.card A = 4) {
 
 theorem isGood_of_mem (h81 : S_G81) (hset : GoldSetting G S A) (h4 : Nat.card A = 4) {a : G}
     (ha : a ∈ A) (ha1 : a ≠ 1) : Ppp.IsGood A a :=
-  Ppp.isGood_of_normalClosureIn_eq (S.isPGroup'.to_le hset.le)
+  Ppp.isGood_of_normalClosureIn_eq (S.isPGroup.to_le hset.le)
     (fun _ hc => Subgroup.mem_centralizer_singleton_iff.mpr (comm hset.elem hc ha))
     (facts81 h81 hset h4 ha ha1).2.2.2
 
@@ -52,7 +52,7 @@ theorem false_of_odd_commSpan (h81 : S_G81) (hset : GoldSetting G S A) (h4 : Nat
     (hodd : Odd (Nat.card (Ppp.commSpan A))) : False := by
   have hsimple := hset.isSimpleGroup
   set Y := Ppp.commSpan A with hY
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le hset.le
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le hset.le
   have hCY : Subgroup.centralizer (A : Set G) ≤ Subgroup.normalizer (Y : Set G) := by
     intro c hc
     refine mem_normalizer_commSpan fun a ha ha1 => ?_

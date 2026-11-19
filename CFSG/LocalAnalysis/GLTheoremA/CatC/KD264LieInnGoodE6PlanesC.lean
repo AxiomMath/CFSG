@@ -25,11 +25,11 @@ theorem perfectCentralizerPlanes_adjointGroup_E6_six (K : Type) [Field K] [Finit
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ℓ, f, hℓ, hcharK, hf, hK⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.exists_char_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hcharK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hcharK
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c, Fr c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   have hFrK : ∀ c, Fr c = c ^ Nat.card K := fun c => by
@@ -62,7 +62,7 @@ theorem perfectCentralizerPlanes_adjointGroup_E6_six (K : Type) [Field K] [Finit
     exact h
   set ψ1 : adjointGroup Tag.E6 K →* ModGL Tag.E6 L := (MulAut.conj g1⁻¹).toMonoidHom.comp ι
     with hψ1def
-  have hψ1 : ∀ d, ψ1 d = g1⁻¹ * ι d * g1 := fun d => by simp [ψ1, MulAut.conj_apply]
+  have hψ1 : ∀ d, ψ1 d = g1⁻¹ * ι d * g1 := fun d => by simp [ψ1]
   have hψ1inj : Function.Injective ψ1 :=
     (MulAut.conj g1⁻¹).injective.comp adjEmb_injective
   have hAT : A.map ψ1 = phi6TorusTorsion L Fr p := by
@@ -75,11 +75,11 @@ theorem perfectCentralizerPlanes_adjointGroup_E6_six (K : Type) [Field K] [Finit
     have hcardA : Nat.card (A.map ψ1) = p ^ 2 := by
       rw [Subgroup.card_map_of_injective hψ1inj]
       exact hAcard
-    haveI : Finite (phi6TorusTorsion L Fr p) :=
+    have : Finite (phi6TorusTorsion L Fr p) :=
       Nat.finite_of_card_ne_zero (by rw [hTcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge hle (by rw [hTcard, hcardA])
   set r : ZMod p := ((ℓ ^ f : ℕ) : ZMod p) with hrdef
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨-, -, -, -, h8⟩ := E6_Coxeter_square_eight_Eisenstein_root_kernel_lines
   obtain ⟨-, -, -, -, -, hA2A2l, -⟩ := h8 p hp3 r hr
   obtain ⟨x, hxA, hx1, hxp, hxA2⟩ : ∃ x ∈ A, x ≠ 1 ∧ orderOf x = p ∧
@@ -111,7 +111,7 @@ theorem perfectCentralizerPlanes_adjointGroup_E6_six (K : Type) [Field K] [Finit
   refine ⟨x, hxA, hx1, (CFSG.perfectResidual (Subgroup.centralizer ({x} :
     Set (adjointGroup Tag.E6 K)))).map (Subgroup.centralizer ({x} :
       Set (adjointGroup Tag.E6 K))).subtype, Subgroup.map_subtype_le _, ?_, ?_⟩
-  · haveI : Group.IsPerfect ↥((CFSG.perfectResidual (Subgroup.centralizer ({x} :
+  · have : Group.IsPerfect ↥((CFSG.perfectResidual (Subgroup.centralizer ({x} :
       Set (adjointGroup Tag.E6 K)))).map (Subgroup.centralizer ({x} :
         Set (adjointGroup Tag.E6 K))).subtype) := hquasi.1
     exact Subgroup.commutator_eq_self

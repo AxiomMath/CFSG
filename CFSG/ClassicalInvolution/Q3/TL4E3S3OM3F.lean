@@ -106,7 +106,7 @@ theorem false_of_neg_frame [Finite K] [FiniteDimensional K V] (hK : Nat.card K =
   have h2 : (2 : K) ≠ 0 := OrthQ8.two_ne_zero' hK
   have hgL : g * F.La (-1) = F.La (-1) * g := hg (-1) (neg_one_mem_commutator hK)
   have hc0 : c ≠ 0 := by
-    haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+    have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
     obtain ⟨v, hv⟩ := exists_ne (0 : V)
     intro h0
     have h1 := hc v

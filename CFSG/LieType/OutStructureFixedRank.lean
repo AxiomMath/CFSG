@@ -12,16 +12,16 @@ namespace CFSG.LieType.OutStructure
 
 theorem prime_dvd_pow_prime_mul_sub_one_iff {p q d : ℕ} (hp : p.Prime) (hq : 1 ≤ q) :
     p ∣ q ^ (p * d) - 1 ↔ p ∣ q ^ d - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291OL.OFRC.dvd_pow_prime_sub_one_iff
     (p := p) (q := q ^ d) (Nat.one_le_pow d q hq)
   rwa [← pow_mul, mul_comm d p] at h
 
 theorem natCard_eq_natCard_semilinearFixedSubfield_pow {K : Type*} [Field K] [Finite K]
-    {p : ℕ} (hp : p.Prime) (σ : K ≃+* K) (hσ : orderOf σ = p) :
+    {p : ℕ} (_hp : p.Prime) (σ : K ≃+* K) (hσ : orderOf σ = p) :
     Nat.card K =
       Nat.card (CFSG.GroupTheory.SteinbergBK.semilinearFixedSubfield σ) ^ p := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨e, hchar, hKcard⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (e : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -68,7 +68,7 @@ theorem pRank_projectiveSL_pow_prime {K K₀ : Type} [Field K] [Finite K]
     (hdiv : ¬ p ∣ Nat.gcd m (Nat.card K - 1)) :
     CFSG.Open.pRank p (⊤ : Subgroup (projectiveSL m K)) =
       CFSG.Open.pRank p (⊤ : Subgroup (projectiveSL m K₀)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK₀ : ¬ p ∣ Nat.card K₀ := by
     intro h
     apply hpK
@@ -90,8 +90,8 @@ theorem pRank_projectiveSL_pow_prime {K K₀ : Type} [Field K] [Finite K]
   rw [pRank_projectiveSL_formula (N := m) (K := K) hp hp2 hm hpK hdiv,
     pRank_projectiveSL_formula (N := m) (K := K₀) hp hp2 hm hpK₀ hdiv₀]
   by_cases h : p ∣ Nat.card K₀ - 1
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun hK => h (hiff.mp hK)), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hK => h (hiff.mp hK)), ite_eq_right h]
     congr 1
     rw [hcard]
     exact CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291OL.OFRC.orderOf_natCast_pow_prime

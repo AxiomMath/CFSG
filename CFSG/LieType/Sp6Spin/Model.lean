@@ -42,7 +42,7 @@ theorem mem_fixRho_iff (g : Om8 K) :
 theorem spinSeven_eq : spinSeven K = (fixRho K).map (theta : MulAut (Om8 K)).toMonoidHom := rfl
 
 theorem natCard_fixRho : Nat.card (fixRho K) = Nat.card (StatedSp 3 K) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hf, hK⟩ := FiniteField.card K 2
   have hf' : 1 ≤ (f : ℕ) := f.pos
   have hK' : Nat.card K = 2 ^ (f : ℕ) := by
@@ -203,6 +203,7 @@ private theorem refl0_rootD : refl0 rootD = rootC := by decide
 
 private theorem refl0_rootC : refl0 rootC = rootD := by decide
 
+omit [Finite K] [CharP K 2] in
 private theorem commute_X8_rootC_rootD (c d : K) :
     Commute (X8 rootC c) (X8 rootD d) := by
   rw [show rootC = fromStd (lv 0 3 false true) from by decide,

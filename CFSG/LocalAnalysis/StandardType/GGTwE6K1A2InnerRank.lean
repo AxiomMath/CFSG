@@ -287,8 +287,8 @@ private theorem card_le_27_of_line {K : Type} [Field K] [Finite K] {σ : K ≃+*
     (hCJ : ∀ e ∈ E, (∀ c ∈ (L i₀).subgroupOf (twistedE6RootGroup K σ), e c = c) →
       e ∈ Subgroup.zpowers (MulAut.conj s)) :
     Nat.card E ≤ 27 := by
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (MulAut (twistedE6RootGroup K σ)) := MulEquiv.finite_left
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (MulAut (twistedE6RootGroup K σ)) := MulEquiv.finite_left
   obtain ⟨ℓ, f, h, ρ, -, hinj, hrange, hact⟩ :=
     twLayerModel_of_torusModel twTorusModel_holds K σ q hK3 hσ hKq h3q hq2 h₀ L T n hL
   have hr : ∀ i, (ρ i).range = (L i).subgroupOf (twistedE6RootGroup K σ) := fun i => by
@@ -391,7 +391,7 @@ theorem false_of_inner_threeA2 {K : Type} [Field K] [Finite K] {σ : K ≃+* K} 
     have h1 : ((MulAut.conj τ).toMonoidHom e).toMonoidHom.comp τ.toMonoidHom =
         τ.toMonoidHom.comp e.toMonoidHom := by
       ext x
-      simp [MulAut.conj_apply, MulAut.mul_apply]
+      simp [MulAut.conj_apply]
     rw [Subgroup.map_map, h1, ← Subgroup.map_map, hEJ e he]
   have hCJ' : ∀ e ∈ E.map (MulAut.conj τ).toMonoidHom,
       (∀ c ∈ J.map τ.toMonoidHom, e c = c) → e ∈ Subgroup.zpowers (MulAut.conj (τ s)) := by

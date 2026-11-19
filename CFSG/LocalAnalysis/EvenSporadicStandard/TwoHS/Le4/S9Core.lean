@@ -84,7 +84,6 @@ theorem bas_comm (hΛ : HSCtx) (hF : FourHyp G L f) (ι : L ≃* HSCover) :
   intro i j
   fin_cases i <;> fin_cases j <;> simp only [bas] <;>
     first
-    | rfl
     | exact bL_comm_of ι (hΛ.bet_comm (by norm_num) (by norm_num))
     | exact bL_comm_f hF ι _
     | exact (bL_comm_f hF ι _).symm

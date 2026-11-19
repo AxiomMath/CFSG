@@ -12,7 +12,7 @@ open scoped IsMulCommutative
 theorem eq_top_of_dvd_card_A8 {D : Subgroup ↥(alternatingGroup (Fin 8))}
     (h : 2880 ∣ Nat.card D) : D = ⊤ := by
   have hcard : Nat.card ↥(alternatingGroup (Fin 8)) = 20160 := S126L1a.card_A8
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
   have hdvd : Nat.card D ∣ 20160 := hcard ▸ Subgroup.card_subgroup_dvd_card D
   obtain ⟨k, hk⟩ := h
   have hk7 : k ∣ 7 := by
@@ -63,11 +63,11 @@ section Setting
 
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} [IsMulCommutative ↥V]
 
-theorem psi_image_eq_top (F : Frame126 T L V) (hH : Hyp126 G T L V) {J : Subgroup G} (hJL : J ≤ L)
+theorem psi_image_eq_top (F : Frame126 T L V) (hH : Hyp126 G T L V) {J : Subgroup G} (_hJL : J ≤ L)
     (hJT : T ≤ Subgroup.normalizer (J : Set G))
     (h45 : 45 ∣ Nat.card ↥((J.subgroupOf L).map (psi F hH))) :
     (J.subgroupOf L).map (psi F hH) = ⊤ := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
   set Jb : Subgroup ↥(alternatingGroup (Fin 8)) := (J.subgroupOf L).map (psi F hH) with hJb
   set Tb : Subgroup ↥(alternatingGroup (Fin 8)) := S126L19c.Tbar F hH with hTb
   have hconj : ∀ y ∈ Tb, ∀ x ∈ Jb, y * x * y⁻¹ ∈ Jb := by
@@ -98,7 +98,7 @@ theorem psi_image_eq_top (F : Frame126 T L V) (hH : Hyp126 G T L V) {J : Subgrou
   have hn : Jb.Normal := by
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hD]
     exact sup_le Subgroup.le_normalizer hnorm
-  haveI := hn
+  have := hn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Jb with h0 | h0
   · exfalso
     rw [h0, Subgroup.card_bot] at h45

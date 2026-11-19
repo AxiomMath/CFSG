@@ -90,6 +90,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 open scoped commutatorElement
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
 
+omit [IsAlgClosed L] in
 theorem range_eq_derived_fixed_component_pinnedX
     {M : Type*} [CommGroup M]
     {χ : Multiplicative (Fin τ.rank → ℤ) →* M}
@@ -148,7 +149,7 @@ theorem f4_distinguished_L_cyclic_centralizer
   obtain ⟨d, hdD, hdCL⟩ : ∃ d : X, d ∈ D ∧ d ∉ Subgroup.centralizer (L : Set X) := by
     by_contra h
     apply h22
-    rw [SetLike.le_def]
+    rw [_root_.IsConcreteLE.le_iff]
     intro y hy
     by_contra hyC
     exact h ⟨y, hy, hyC⟩

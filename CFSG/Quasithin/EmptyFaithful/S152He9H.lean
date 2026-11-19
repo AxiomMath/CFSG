@@ -15,13 +15,15 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def piOf (H : Subgroup G) (φ : OTwoQuot H ≃* W5) : ↥H →* W5 :=
   φ.toMonoidHom.comp (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥H))
 
+omit [Finite G] in
 theorem piOf_surj (H : Subgroup G) (φ : OTwoQuot H ≃* W5) : Function.Surjective (piOf H φ) :=
   φ.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem piOf_ker (H : Subgroup G) (φ : OTwoQuot H ≃* W5) :
     (piOf H φ).ker = CFSG.Open.pCore 2 ↥H := by
   ext x
-  simp [piOf, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+  simp [piOf]
 
 theorem piOf_wrData (H : Subgroup G) (φ : OTwoQuot H ≃* W5) : WrData (piOf H φ) := by
   refine ⟨piOf_surj H φ, ?_⟩
@@ -70,6 +72,7 @@ theorem exists_wrH {T H : Subgroup G} (hT : IsSylowTwoOf T H)
     rw [this]
     exact m2
 
+omit [Finite G] in
 theorem mem_normalizer_subtype_iff {H K : Subgroup G} (hKH : K ≤ H) {g : G} (hg : g ∈ H) :
     g ∈ Subgroup.normalizer (K : Set G) ↔
       (⟨g, hg⟩ : ↥H) ∈ Subgroup.normalizer ((K.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
@@ -96,8 +99,10 @@ namespace WrH
 
 variable {H T K₁ K₂ : Subgroup G} {π : ↥H →* W5}
 
+omit [Finite G] in
 theorem le₁ (h : WrH H T K₁ K₂ π) : K₁ ≤ H := le_of_mem_cComp h.comp₁
 
+omit [Finite G] in
 theorem le₂ (h : WrH H T K₁ K₂ π) : K₂ ≤ H := le_of_mem_cComp h.comp₂
 
 theorem comp₁' (h : WrH H T K₁ K₂ π) : K₁.subgroupOf H ∈ cComp (⊤ : Subgroup ↥H) :=
@@ -131,6 +136,7 @@ theorem conj_eq₁ (h : WrH H T K₁ K₂ π) {g : G} (hg : g ∈ H) (hπ : π �
   rw [map_conj_subtype h.le₁ hg]
   exact h2
 
+omit [Finite G] in
 theorem sup_eq (h : WrH H T K₁ K₂ π) (hT : IsSylowTwoOf T H) : K₁ ⊔ K₂ ⊔ T = H := by
   have hT2' : IsPGroup 2 (T.subgroupOf H) :=
     hT.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hT.1).symm
@@ -141,7 +147,8 @@ theorem sup_eq (h : WrH H T K₁ K₂ π) (hT : IsSylowTwoOf T H) : K₁ ⊔ K�
     Subgroup.map_top, Subgroup.range_subtype] at h2
   exact h2
 
-theorem inf_normalizer_subgroupOf (h : WrH H T K₁ K₂ π) (hTH : T ≤ H) :
+omit [Finite G] in
+theorem inf_normalizer_subgroupOf (h : WrH H T K₁ K₂ π) (_hTH : T ≤ H) :
     (T ⊓ Subgroup.normalizer (K₁ : Set G)).subgroupOf H =
       T.subgroupOf H ⊓ Subgroup.normalizer ((K₁.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
   ext x
@@ -150,6 +157,7 @@ theorem inf_normalizer_subgroupOf (h : WrH H T K₁ K₂ π) (hTH : T ≤ H) :
   simp only [Subtype.coe_eta] at this
   rw [this]
 
+omit [Finite G] in
 theorem normalizer_subgroupOf (h : WrH H T K₁ K₂ π) :
     (H ⊓ Subgroup.normalizer (K₁ : Set G)).subgroupOf H =
       Subgroup.normalizer ((K₁.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
@@ -186,6 +194,7 @@ theorem isSylow_S (h : WrH H T K₁ K₂ π) (hT : IsSylowTwoOf T H) :
     rw [← h.map₁]
     exact ⟨Subgroup.inclusion h.le₁ x, x.2, rfl⟩)
 
+omit [Finite G] in
 theorem psi₁_surj (h : WrH H T K₁ K₂ π) : Function.Surjective (psi₁ h) := by
   intro a
   have ha : (a : W5) ∈ (K₁.subgroupOf H).map π := by rw [h.map₁]; exact a.2

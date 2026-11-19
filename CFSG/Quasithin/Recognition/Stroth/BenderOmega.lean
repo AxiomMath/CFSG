@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G]
     (Nonempty (X ≃* CFSG.Open.StatedSU 3 (2 ^ n) F) ∨
       Nonempty (X ≃* CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F))))
 
+omit [Finite G] in
 theorem exists_isSzU3Quot {L : Subgroup G} (h : VSzBig L ∨ VU3Big L) :
     ∃ q, IsSzU3Quot (oTwoQuot ↥L) q := by
   rcases h with ⟨a, ha, ⟨e⟩⟩ | ⟨n, hn, F, hFld, hFin, hF, he⟩
@@ -59,13 +60,13 @@ theorem IsSzU3Quot.facts {X : Type} [Group X] {q : ℕ} (h : IsSzU3Quot X q) :
       exact Subgroup.mem_map_of_mem e.toMonoidHom hz
     rw [center_sz a ha] at hz'
     exact e.injective (by simpa using Subgroup.mem_bot.mp hz')
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Field F := hFld
-    letI : Finite F := hFin
-    letI : Fintype F := Fintype.ofFinite F
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Field F := hFld
+    let : Finite F := hFin
+    let : Fintype F := Fintype.ofFinite F
     have hcard : Fintype.card F = 2 ^ (2 * n) := by
       rw [← Nat.card_eq_fintype_card, hF, ← pow_mul, Nat.mul_comm n 2]
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcard
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcard
     have hnq : ((3 : ℕ), 2 ^ n) ≠ (3, 2) := by
       intro h3
       have h2 : 2 ^ n = 2 := congrArg Prod.snd h3
@@ -91,7 +92,7 @@ theorem IsSzU3Quot.facts {X : Type} [Group X] {q : ℕ} (h : IsSzU3Quot X q) :
           (CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F)) :=
         CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hF 3
           (by norm_num) hnq
-      haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F)) := hSimple
+      have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F)) := hSimple
       have hnc := CFSG.Quasithin.F6.InspRest.exists_noncomm_statedProj
         (H := CFSG.Open.StatedSU 3 (2 ^ n) F) hSU.1 hSimple
       have hP := CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnc
@@ -165,12 +166,12 @@ theorem eq_of_forall_pow_mem {H K : Subgroup G} {q : ℕ}
     (h2 : ∀ h ∈ H, ∃ n : ℕ, h ^ (2 ^ n) ∈ K) : K = H := by
   classical
   obtain ⟨hQ, -⟩ := IsSzU3Quot.facts hX
-  haveI : Group.IsPerfect (oTwoQuot ↥H) := hQ.1
+  have : Group.IsPerfect (oTwoQuot ↥H) := hQ.1
   let Kq : Subgroup (oTwoQuot ↥H) :=
     (K.subgroupOf H).map (QuotientGroup.mk' (pCore 2 ↥H))
   have hKnorm : (K.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mpr hK
-  haveI : Kq.Normal :=
+  have : Kq.Normal :=
     Subgroup.Normal.map hKnorm _ (QuotientGroup.mk'_surjective _)
   have hKqtop : Kq = ⊤ := by
     refine CFSG.Quasithin.MS93.S36.eq_top_of_perfect_of_pow_mem Kq ?_
@@ -206,8 +207,8 @@ theorem exists_X0 {L T : Subgroup G} {q : ℕ}
   rcases hX with ⟨a, ha, hq, ⟨e⟩⟩ | ⟨n, hn, hq, F, hFld, hFin, hF, he⟩
   · obtain ⟨X₀, hmem, hle, hrel, -, hinv, -⟩ := exists_X0_sz ha e hT
     exact ⟨X₀, hmem, hle, hrel.trans hq.symm, hinv⟩
-  · letI : Field F := hFld
-    letI : Finite F := hFin
+  · let : Field F := hFld
+    let : Finite F := hFin
     rcases he with he | he
     · obtain ⟨e⟩ := he
       obtain ⟨X₀, hmem, hle, hrel, -, hinv, -⟩ := exists_X0_su hn hF e hT

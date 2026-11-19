@@ -68,7 +68,7 @@ theorem e6RowCokerCyclic_of_pieces
     have h2 : 2 ^ 1 ≤ 2 ^ lab.n := Nat.pow_le_pow_right (by norm_num) h1
     exact_mod_cast h2
   obtain ⟨hfin, hcyc⟩ := hC ρ.row hT hdata ρ.epsilon _ hε hq
-  haveI := hfin
+  have := hfin
   exact ⟨Finite.of_equiv _ e.symm.toEquiv, (AddEquiv.isAddCyclic e).mpr hcyc⟩
 
 theorem e6RowCokerCyclicR1_of_pieces

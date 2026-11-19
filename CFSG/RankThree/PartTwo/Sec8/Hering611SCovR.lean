@@ -10,6 +10,7 @@ namespace CFSG.RankThree.PartTwo.Sec8.Hering611
 
 variable {X : Type*} [Group X] [Finite X] {Z R T : Subgroup X} {s : X}
 
+omit [Finite X] in
 private theorem R_pow_three_eq_one (h : CoverX X Z R T s) {x : X} (hx : x ∈ R) :
     x ^ 3 = 1 := by
   have hZc : ∀ z ∈ Z, ∀ g : X, g * z = z * g := fun z hz g =>
@@ -29,6 +30,7 @@ private theorem R_pow_three_eq_one (h : CoverX X Z R T s) {x : X} (hx : x ∈ R)
   exact CFSG.RankThree.PartTwo.Sec4.Item434SporMcL9.cube_eq_one_of_conj_inv h.Z_central hZ3
     (h.R_cube x hx) hζ hg
 
+omit [Finite X] in
 theorem exists_R0 (h : CoverX X Z R T s) :
     ∃ R₀ : Subgroup X, R₀ ≤ R ∧ Disjoint R₀ Z ∧ Z ⊔ R₀ = R ∧
       (∀ x ∈ R₀, s * x * s⁻¹ ∈ R₀) := by
@@ -36,7 +38,7 @@ theorem exists_R0 (h : CoverX X Z R T s) :
     Subgroup.mem_center_iff.mp (h.Z_central hz) g
   have hRc : ∀ a ∈ R, ∀ b ∈ R, a * b = b * a := fun a ha b hb =>
     h.R_central a ha b (h.R_le_T hb)
-  letI : CommGroup R := { (inferInstance : Group R) with
+  let : CommGroup R := { (inferInstance : Group R) with
     mul_comm := fun a b => Subtype.ext (hRc a a.2 b b.2) }
   obtain ⟨sN, hsN⟩ : ∃ t : Subgroup.normalizer (R : Set X), (t : X) = s :=
     ⟨⟨s, h.s_normR⟩, rfl⟩

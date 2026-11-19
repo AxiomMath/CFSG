@@ -1201,7 +1201,7 @@ theorem R847E3.two_le_pRank_normalizer_of_pgl_kernel_three
         calc _ ≤ 3 ^ 2 * 3 := Nat.mul_le_mul_left _ hcard
           _ = Nat.card A := by rw [hA27]; norm_num) hqr hXL hXq
     simpa using htwo
-  obtain ⟨b, hb, hbc⟩ := SetLike.not_le_iff_exists.1 hAL
+  obtain ⟨b, hb, hbc⟩ := IsConcreteLE.not_le_iff_exists.1 hAL
   have hbC : b ∉ centralizer (L : Set J) := fun h => hbc (hLC ▸ ⟨hb.2, h⟩)
   have hR : Nat.card (pglHom hK hmod A hpgl).range = 9 :=
     (card_eq_of_pgl hK hmod hA (by omega) hc3 hAc hpgl).2

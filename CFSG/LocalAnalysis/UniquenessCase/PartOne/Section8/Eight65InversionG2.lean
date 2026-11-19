@@ -40,7 +40,7 @@ theorem commutator_tz_yq (ω : Lˣ) (hω : (ω : L) ^ 3 = 1) :
   have hω3 : (ω ^ 3 : Lˣ) = 1 := Units.ext (by simpa using hω)
   have hy : yq * tz ω 1 * yq⁻¹ = tz ω ω := by
     rw [yq_tz]
-    congr 1 <;> simp [hω3]
+    congr 1 <;> simp
   calc (⁅tz ω 1, yq⁆ : ModGL .G2 L) = tz ω 1 * (yq * tz ω 1 * yq⁻¹)⁻¹ := by
         rw [commutatorElement_def]
         group
@@ -181,7 +181,7 @@ theorem card_center_eq_three_of_card_27_of_noncomm
     Nat.card (Subgroup.center G) = 3 := by
   classical
   let Z : Subgroup G := Subgroup.center G
-  haveI : Nontrivial G := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have : Nontrivial G := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   have hG3 : IsPGroup 3 G := IsPGroup.of_card (n := 3) (by rw [hcard]; norm_num)
   have hZ1 : 1 < Nat.card Z :=
     (Subgroup.one_lt_card_iff_ne_bot Z).mpr (ne_of_gt hG3.bot_lt_center)
@@ -197,8 +197,8 @@ theorem card_center_eq_three_of_card_27_of_noncomm
       rw [Subgroup.index_eq_card_div, hcard, hZ9]
     have hquot : Nat.card (G ⧸ Z) = 3 := by
       rw [← Subgroup.index_eq_card, hidx]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic (G ⧸ Z) := isCyclic_of_prime_card (p := 3) hquot
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic (G ⧸ Z) := isCyclic_of_prime_card (p := 3) hquot
     have hcomm : IsMulCommutative G := isMulCommutative_of_isCyclic_quotient_center_self G
     exact absurd hcomm hnoncomm
   · have hZtop : Z = ⊤ := Subgroup.eq_top_of_le_card (H := Z) (by rw [hcard, hkcard]; norm_num)
@@ -207,7 +207,7 @@ theorem card_center_eq_three_of_card_27_of_noncomm
 
 theorem g2_sylow_three_inversion_transport
     {G : Type} [Group G] [Finite G]
-    (S : Subgroup G) (hS27 : Nat.card S = 27)
+    (S : Subgroup G) (_hS27 : Nat.card S = 27)
     (hSsyl : ∃ P : Sylow 3 G, (P : Subgroup G) = S)
     (z : ↥S) (hzcenter : Subgroup.center ↥S = zpowers z)
     (t : G) (ht2 : orderOf t = 2)
@@ -427,7 +427,7 @@ theorem g2_concrete_heisenberg (h3 : ¬ 3 ∣ Nat.card K) :
     intro h
     have hyconj : (yq : ModGL .G2 L) * tz ω 1 * yq⁻¹ = tz ω ω := by
       rw [yq_tz]
-      congr 1 <;> simp [hω3]
+      congr 1 <;> simp
     have hxeq : (tz ω 1 : ModGL .G2 L) = tz ω ω := by
       calc tz ω 1 = (tz ω 1 * yq) * yq⁻¹ := by group
         _ = (yq * tz ω 1) * yq⁻¹ := by rw [h]
@@ -657,8 +657,8 @@ theorem g2_five_inverting_of_lieModel
   have hm : CFSG.Blueprint.UntwistedChevalleyModel X .G2 (5 ^ 1) := hc.2
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eX⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup (τ := .G2) hm
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK5 : Nat.card K = 5 := by simpa using hKcard
   let Q' : Sylow 3 (adjointGroup .G2 K) :=
     Sylow.mapSurjective (f := eX.toMonoidHom) eX.surjective Q
@@ -702,8 +702,8 @@ theorem g2_seven_inverting_of_lieModel
   have hm : CFSG.Blueprint.UntwistedChevalleyModel X .G2 (7 ^ 1) := hc.2
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eX⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup (τ := .G2) hm
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK7 : Nat.card K = 7 := by simpa using hKcard
   let Q' : Sylow 3 (adjointGroup .G2 K) :=
     Sylow.mapSurjective (f := eX.toMonoidHom) eX.surjective Q

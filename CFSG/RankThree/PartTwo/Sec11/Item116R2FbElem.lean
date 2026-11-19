@@ -10,9 +10,9 @@ open Subgroup
 namespace CFSG.RankThree.PartTwo.Sec11
 
 theorem not_isRankTwoByCyclic_of_elemAbelian {S : Type*} [Group S] [Finite S]
-    (hcomm : IsMulCommutative S) (h3 : ∀ x : S, x ^ 3 = 1) (hcard : 81 ≤ Nat.card S) :
+    (_hcomm : IsMulCommutative S) (h3 : ∀ x : S, x ^ 3 = 1) (hcard : 81 ≤ Nat.card S) :
     ¬ IsRankTwoByCyclic S := by
-  clear hcomm
+  clear _hcomm
   rintro ⟨N, hN, -, hrank, hcyc⟩
   have hall : ∀ x : N, x ^ 3 = 1 := fun x => Subtype.ext (by simpa using h3 x.1)
   have hNcard : Nat.card N ≤ 9 := by
@@ -39,7 +39,7 @@ theorem not_isRankTwoByCyclic_sylow_of_elemAbelian {P : Type*} [Group P] [Finite
     (hcomm : IsMulCommutative E) (h3 : ∀ x ∈ E, x ^ 3 = 1) (hcard : 81 ≤ Nat.card E)
     (T : Sylow 3 P) : ¬ IsRankTwoByCyclic ↥(T : Subgroup P) := by
   intro hT
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE : IsPGroup 3 E := fun x => ⟨1, Subtype.ext (by simpa using h3 x.1 x.2)⟩
   obtain ⟨T', hET'⟩ := hE.exists_le_sylow
   have h1 : IsRankTwoByCyclic ↥(T' : Subgroup P) :=

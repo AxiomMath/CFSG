@@ -56,7 +56,7 @@ theorem eq_bot_or_eq_of_le_of_mulEquiv_psl2GF {Y : Type} [Group Y] [Finite Y] {p
     · rw [zero_pow two_ne_zero, zero_mul, ofAdd_zero, map_one]
       exact W.one_mem
     · simpa using hmulW (Units.mk0 s hs) a₀ hwW
-  letI : Fintype (GaloisField p n) := Fintype.ofFinite _
+  let : Fintype (GaloisField p n) := Fintype.ofFinite _
   have hodd : Fintype.card (GaloisField p n) % 2 = 1 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card p n (by omega)]
     exact Nat.odd_iff.mp ((Nat.Prime.odd_of_ne_two Fact.out hp2).pow)
@@ -75,7 +75,7 @@ theorem eq_bot_or_eq_of_le_of_isoLie_A1 {Y : Type} [Group Y] [Finite Y]
     {q : TauCeti.PrimePower} (hq2 : q.p ≠ 2) {K : Subgroup Y} (hK : IsoLie ↥K (.A 1 q))
     {U W : Subgroup Y} (hUK : U ≤ K) (hcard : Nat.card U = q.card) (hWU : W ≤ U)
     (hW : K ⊓ normalizer (U : Set Y) ≤ normalizer (W : Set Y)) : W = ⊥ ∨ W = U := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨hv, ⟨e₁⟩⟩ := hK
   obtain ⟨e₂⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex
     (p := q.p) (n := q.exponent) (d := ⟨.A 1 q, hv⟩) ⟨q, rfl, rfl, rfl⟩

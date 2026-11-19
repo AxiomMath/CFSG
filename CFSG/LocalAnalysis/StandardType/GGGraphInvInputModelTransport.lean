@@ -128,7 +128,7 @@ private theorem ggOmW6aA_phi_mem_range_of_mem
   apply Θ.injective
   apply Subtype.ext
   simp only [ggOmW6a_phi_apply hMnorm Θ x g, MulAut.conj_apply, map_mul, map_inv,
-    MulEquiv.apply_symm_apply, Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    MulEquiv.apply_symm_apply, Subgroup.coe_mul, Subgroup.coe_inv]
 
 private theorem ggOmW6a_phi_mem_inn_iff
     {C G : Type} [Group C] [Group G] {H₀ M : Subgroup G}

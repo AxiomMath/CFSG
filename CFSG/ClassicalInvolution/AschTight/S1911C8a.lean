@@ -20,7 +20,7 @@ theorem inf_member_eq (hd : Sec19DataT p f K z S W L t V) : (S : Subgroup G) ⊓
   have hVSL : V ≤ (S : Subgroup G) ⊓ L := le_inf (hd.leW.trans hd.hWS) (le_member hd)
   have hle : (S : Subgroup G) ⊓ L ≤ L ⊓ Subgroup.centralizer ({z} : Set G) :=
     fun x hx => ⟨hx.2, hd.hSz hx.1⟩
-  obtain ⟨V'', hV'', hSLV''⟩ := IsSylow2In.exists_ge (S.isPGroup'.to_le inf_le_left) hle
+  obtain ⟨V'', hV'', hSLV''⟩ := IsSylow2In.exists_ge (S.isPGroup.to_le inf_le_left) hle
   have htV'' : t ∈ V'' := hSLV'' (hVSL hd.memT)
   have htwin : L ∉ twinSet (CoreAssembly.conjClass K) K := by
     rintro ⟨-, z', hz'K, hz'L⟩
@@ -110,7 +110,7 @@ theorem exists_sylow_member_of_mem_A (hd : Sec19DataT p f K z S W L t V)
   have haL : a ∈ Subgroup.normalizer (L : Set G) :=
     centralizer_le_normalizer_member htb hd.memL hd.invL hat
   have hT : Subgroup.zpowers a ⊔ W ≤ (S : Subgroup G) := sup_le (Subgroup.zpowers_le.mpr haS) hd.hWS
-  have hT2 : IsPGroup 2 ↥(Subgroup.zpowers a ⊔ W) := S.isPGroup'.to_le hT
+  have hT2 : IsPGroup 2 ↥(Subgroup.zpowers a ⊔ W) := S.isPGroup.to_le hT
   obtain ⟨RL, hRL, hRLT⟩ := exists_sylow_normalized hT2 (sup_le (Subgroup.zpowers_le.mpr haL) hWL)
   have hTRL : Subgroup.zpowers a ⊔ W ≤ Subgroup.normalizer (RL : Set G) := fun w hw =>
     mem_normalizer_iff_conjSub_eq.mpr (hRLT w hw)
@@ -142,7 +142,7 @@ theorem inf_inf_centralizer_eq_bot (hd : Sec19DataT p f K z S W L t V) {RL : Sub
     have h1 : orderOf x ≠ 1 := fun h => hx1 (orderOf_eq_one_iff.mp h)
     omega
   have hzx : z ∈ Subgroup.zpowers x := mem_of_le_member hI (Subgroup.zpowers_le.mpr hx.1.1)
-    ((S.isPGroup'.to_le hd.hWS).to_le (Subgroup.zpowers_le.mpr hx.1.2)) h2
+    ((S.isPGroup.to_le hd.hWS).to_le (Subgroup.zpowers_le.mpr hx.1.2)) h2
   have hzC : z ∈ Subgroup.centralizer (RL : Set G) := (Subgroup.zpowers_le.mpr hx.2) hzx
   refine not_le_centralizer_of_mem_rSet hd.tight hd.memL (CoreAssembly.mem_conjClass_self K)
     (member_ne hd) hI hRLmem hRL.1 ?_

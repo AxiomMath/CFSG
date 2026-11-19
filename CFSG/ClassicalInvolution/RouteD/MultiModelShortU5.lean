@@ -149,8 +149,6 @@ theorem rootHom_mem_u5 {S : Subgroup (SU σ 5)} (h2 : (2 : F) ≠ 0)
     · exact Or.inr (Or.inr (Or.inr rfl))
   rcases hi4 with rfl | rfl | rfl | rfl <;> rcases hj4 with rfl | rfl | rfl | rfl <;> first
     | exact absurd rfl hij
-    | exact absurd rfl hi
-    | exact absurd rfl hj
     | exact absurd rfl hji
     | exact rootHom_mem_of_comm hσ h2 hij hi hj c (p := 0) (q := 3) (by decide) (by decide)
         (by decide) (by decide) (-c) 1 (fun b b' => by

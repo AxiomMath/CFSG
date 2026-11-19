@@ -160,7 +160,7 @@ variable {L : Type} [Field L] [CharP L 2] [IsAlgClosed L]
 
 theorem exists_zeta5 : ∃ ζ : Lˣ, orderOf ζ = 5 := by
   have : NeZero ((5 : ℕ) : L) := NeZero.of_not_dvd L (p := 2) (by norm_num)
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   have hu : IsUnit ζ := hζ.isUnit (by norm_num)
   have hζu : IsPrimitiveRoot hu.unit 5 := IsPrimitiveRoot.coe_units_iff.1 (by simpa using hζ)
   exact ⟨hu.unit, hζu.eq_orderOf.symm⟩

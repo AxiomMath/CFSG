@@ -45,7 +45,7 @@ theorem exists_normal_sylow_of_central_kernel {r : ℕ} (hr : r.Prime) (f : W �
     have e : k * t * n * (k * t)⁻¹ = k * (t * n * t⁻¹) * k⁻¹ := by group
     rw [e, hconj]
     exact P0.1.mul_mem (P0.1.mul_mem ht hn) (P0.1.inv_mem ht)⟩
-  refine ⟨P0, P0.isPGroup', fun S hS => ?_, hTK, hsup⟩
+  refine ⟨P0, P0.isPGroup, fun S hS => ?_, hTK, hsup⟩
   obtain ⟨Q, hSQ⟩ := hS.exists_le_sylow
   have := Sylow.unique_of_normal P0 hnormal
   rw [Subsingleton.elim Q P0] at hSQ

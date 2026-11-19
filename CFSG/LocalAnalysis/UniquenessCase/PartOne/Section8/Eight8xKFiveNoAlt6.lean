@@ -65,7 +65,7 @@ private theorem not_isSection_alt6_of_stronglyEmbedded_psl2GF (p n : ℕ) [Fact 
   have hpG : p ∣ Nat.card (PSL2GF p n) := hH.2.1.trans (Subgroup.card_subgroup_dvd_card H)
   have hT1 : (T : Subgroup (PSL2GF p n)) ≠ ⊥ := T.ne_bot_of_dvd_card hpG
   have hNH : Subgroup.normalizer ((T : Subgroup (PSL2GF p n)) : Set (PSL2GF p n)) ≤ H :=
-    hH.normalizer_le hT1 T.isPGroup' hTH
+    hH.normalizer_le hT1 T.isPGroup hTH
   have hco := psl2GF_borelCoatom p n hp2 hn T
   have hEq : Subgroup.normalizer ((T : Subgroup (PSL2GF p n)) : Set (PSL2GF p n)) = H := by
     by_contra hne
@@ -251,7 +251,7 @@ private theorem comm_of_card_dvd_prime {G : Type} [Group G] {p : ℕ} (hp : p.Pr
     exact Subsingleton.elim _ _
   · have : Fact p.Prime := ⟨hp⟩
     have : IsCyclic G := isCyclic_of_prime_card h1
-    have : IsMulCommutative G := IsCyclic.commutative
+    have : IsMulCommutative G := _root_.IsCyclic.isMulCommutative
     exact (IsMulCommutative.is_comm (M := G)).comm a b
 
 private theorem not_three_dvd_card_of_isAutSz
@@ -607,7 +607,7 @@ private theorem noA6_of_card_sylow {K : Type} [Group K] [Finite K]
   have hTP : (T : Subgroup K) = P := IsPGroup.toSylow_coe _ _
   have h5K : 5 ∣ Nat.card K := (hH.2.1).trans (Subgroup.card_subgroup_dvd_card H)
   have hTne : (T : Subgroup K) ≠ ⊥ := T.ne_bot_of_dvd_card h5K
-  have hTp : IsPGroup 5 (T : Subgroup K) := T.isPGroup'
+  have hTp : IsPGroup 5 (T : Subgroup K) := T.isPGroup
   have hTH : (T : Subgroup K) ≤ H := hTP ▸ hPH
   let N := normalizer ((T : Subgroup K) : Set K)
   have hNH : N ≤ H := hH.normalizer_le hTne hTp hTH
@@ -702,7 +702,7 @@ private theorem not_isSection_normalizer {K : Type} [Group K] [Finite K] (T : Sy
   · have hd := h1.card_dvd
     rw [card_A6] at hd
     have hp : IsPGroup 5 ((T : Subgroup K).subgroupOf N) :=
-      T.isPGroup'.comap_of_injective N.subtype Subtype.val_injective
+      T.isPGroup.comap_of_injective N.subtype Subtype.val_injective
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hp
     rw [hk] at hd
     have h2 : 2 ∣ 5 ^ k := (by norm_num : 2 ∣ 360).trans hd
@@ -721,7 +721,7 @@ private theorem noA6_of_normalizerMaximal {K : Type} [Group K] [Finite K] (hM : 
   have hTP : (T : Subgroup K) = P := IsPGroup.toSylow_coe _ _
   have h5K : 5 ∣ Nat.card K := (hH.2.1).trans (Subgroup.card_subgroup_dvd_card H)
   have hNH : normalizer ((T : Subgroup K) : Set K) ≤ H :=
-    hH.normalizer_le (T.ne_bot_of_dvd_card h5K) T.isPGroup' (hTP ▸ hPH)
+    hH.normalizer_le (T.ne_bot_of_dvd_card h5K) T.isPGroup (hTP ▸ hPH)
   rcases hM T H hNH with h | h
   · subst h
     exact not_isSection_normalizer T hS

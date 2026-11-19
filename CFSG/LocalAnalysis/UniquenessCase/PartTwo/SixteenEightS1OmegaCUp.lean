@@ -15,10 +15,10 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem s16e_omc_centralizer_embeds_units_mBar (D : Data G) (hx : DataExt D)
-    (h4 : 3 < CFSG.Open.evenRank G) (h61 : UC6.R6_1 D) (h127 : R127 D) (h1217 : R1217 D)
+theorem s16e_omc_centralizer_embeds_units_mBar (D : Data G) (_hx : DataExt D)
+    (_h4 : 3 < CFSG.Open.evenRank G) (_h61 : UC6.R6_1 D) (_h127 : R127 D) (h1217 : R1217 D)
     {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) (hset : Setting16 D V₀ V L)
-    (hL : barSub V₀ V hV L ≠ ⊥) (hconc : Conc4_136 D V₀ V hV L)
+    (hL : barSub V₀ V hV L ≠ ⊥) (_hconc : Conc4_136 D V₀ V hV L)
     (h : Case162_7 D V₀ V hV L) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 4 ∧
       ∃ f : ↥(Subgroup.centralizer
@@ -70,7 +70,7 @@ theorem s16e_omc_nilpotent_equiv_zmod_three {C : Type} [Group C] [Finite C] [Non
     (hf : Function.Injective f) :
     Group.IsNilpotent C ∧ Nonempty (C ≃* Multiplicative (ZMod 3)) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hunits : Nat.card Kˣ = 3 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
   have hdvd : Nat.card C ∣ 3 := hunits ▸ Subgroup.card_dvd_of_injective f hf
@@ -82,7 +82,7 @@ theorem s16e_omc_nilpotent_equiv_zmod_three {C : Type} [Group C] [Finite C] [Non
     rcases (Nat.dvd_prime Nat.prime_three).1 hdvd with h | h
     · exact absurd h hne
     · exact h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard' : Nat.card (Multiplicative (ZMod 3)) = 3 := by
     simp [Nat.card_eq_fintype_card]
   have e : C ≃* Multiplicative (ZMod 3) := mulEquivOfPrimeCardEq h3 hcard'

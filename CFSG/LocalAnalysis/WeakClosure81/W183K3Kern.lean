@@ -18,6 +18,7 @@ namespace Assumption131
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem centralizes_of_ne_one_centralizes_quasi (h : Assumption131 G Γ VA i)
     {A L : Subgroup (LGL 2 V)} (hL : CFSG.Open.IsQuasisimple ↥L)
     (hodd : Odd (Nat.card ↥(Subgroup.center ↥L))) (hA : A ∈ Γ) (hr : mRank A ≤ i)
@@ -56,6 +57,7 @@ theorem centralizes_of_ne_one_centralizes_quasi (h : Assumption131 G Γ VA i)
   calc a * l = a * l * a⁻¹ * l⁻¹ * (l * a) := by group
     _ = l * a := by rw [hc, one_mul]
 
+omit [Finite V] in
 theorem kernel_dichotomy_quasi (h : Assumption131 G Γ VA i) {A L : Subgroup (LGL 2 V)}
     (hL : CFSG.Open.IsQuasisimple ↥L) (hodd : Odd (Nat.card ↥(Subgroup.center ↥L)))
     (hA : A ∈ Γ) (hr : mRank A ≤ i) (hLG : L ≤ G)

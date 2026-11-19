@@ -15,7 +15,7 @@ theorem hsPartBad_of_crux (hTC : TransferCoreStmt) (hC : BadCruxStmt) : HSPartBa
   intro G _ _ z hset hti ⟨T, hTH, hcard⟩
   have hset' := hset
   obtain ⟨⟨hsimple, hna, hz, hsymp⟩, hZ4⟩ := hset'
-  haveI := hsimple
+  have := hsimple
   obtain ⟨Z, A, hD⟩ := Width.exists_Z4Data hZ4
   obtain ⟨k, hkZ, hkord, hgen, hk2⟩ := Width.exists_gen_Z hD hz
   have hF2 : IsPGroup 2 (Fz z) := hsymp.1
@@ -31,8 +31,8 @@ theorem hsPartBad_of_crux (hTC : TransferCoreStmt) (hC : BadCruxStmt) : HSPartBa
     commutator ↥(T : Subgroup G) ⊔
       closure {x : ↥(T : Subgroup G) | IsConj z (x : G) ∧ (x : G) * k = k * (x : G)}
   have hcomm : commutator ↥(T : Subgroup G) ≤ N₀ := le_sup_left
-  haveI : N₀.Normal := Subgroup.Normal.of_commutator_le _ hcomm
-  haveI : IsMulCommutative (↥(T : Subgroup G) ⧸ N₀) :=
+  have : N₀.Normal := Subgroup.Normal.of_commutator_le _ hcomm
+  have : IsMulCommutative (↥(T : Subgroup G) ⧸ N₀) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm
   let ψ : ↥(T : Subgroup G) →* ↥(T : Subgroup G) ⧸ N₀ := QuotientGroup.mk' N₀
   have hψ : Bad.KillsS (T : Subgroup G) z k ψ := by
@@ -57,7 +57,7 @@ theorem hsPartBad_of_crux (hTC : TransferCoreStmt) (hC : BadCruxStmt) : HSPartBa
     · exact Or.inl (hψ u hu huz huk)
     · exact Or.inr (Bad.four_dvd_card_orbit_of_ne c hti hZk hu huz huk)
   obtain ⟨cc, hcc, hcc1, hEven⟩ := s.exists_c hcard hψ
-  have key := hTC hkord hnorm T.isPGroup' hTH' hodd hkT ψ hC1 cc hcc hcc1 hEven
+  have key := hTC hkord hnorm T.isPGroup hTH' hodd hkT ψ hC1 cc hcc hcc1 hEven
   have h1 := eq_one_of_isSimpleGroup hna ψ.transfer k
   rw [key] at h1
   have hmem : (⟨k, hkT⟩ : ↥(T : Subgroup G)) ∈ N₀ := (QuotientGroup.eq_one_iff _).mp h1

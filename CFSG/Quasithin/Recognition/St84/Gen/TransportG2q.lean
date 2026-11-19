@@ -168,7 +168,7 @@ theorem f112ll_g2qVertexData_oTwoPrime_of_tree {L1 L2 S : Subgroup H} {m n f : â
   { toG2qLocalData :=
       f112ll_g2qLocalData_oTwoPrime_of_tree hF hm hn h1 h2 hX0 hX1 hd.toG2qLocalData
     indec_left := f112ll_commutator_pCoreOf_P1'_of_tree hF hm hn h1 h2 hX0 hX1 hd.indec_left
-    gen_left := fun N hZN hNQ hNnorm =>
+    gen_left := fun _N hZN hNQ hNnorm =>
       f112ll_gen_left_of_tree hF hm hn h1 h2 hX0 hX1 hd hZN hNQ hNnorm }
 
 end CFSG.Quasithin.F112R.St84

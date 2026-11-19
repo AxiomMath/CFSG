@@ -45,12 +45,12 @@ theorem mulAut_eq_one_of_commutator_small {W : Type} [Group W] [Finite W]
     (hφ : IsPGroup 13 (Subgroup.zpowers φ)) (B : Subgroup W) (hB : Nat.card B ≤ 2 ^ 10)
     (hBφ : ∀ b ∈ B, φ b ∈ B) (hφB : ∀ w : W, φ w * w⁻¹ ∈ B) : φ = 1 := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by decide⟩
+  have : Fact (Nat.Prime 13) := ⟨by decide⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp hφ) ⟨φ, Subgroup.mem_zpowers φ⟩
   rw [Subgroup.orderOf_mk] at hn
   have hφn : φ ^ 13 ^ n = 1 := by
     rw [← hn, pow_orderOf_eq_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB2 : IsPGroup 2 B := by
     rw [isPGroup_iff_orderOf_dvd_pow]
     intro b

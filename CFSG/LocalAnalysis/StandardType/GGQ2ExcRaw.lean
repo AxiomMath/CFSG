@@ -50,7 +50,7 @@ theorem pairing_eq (m : Fin 6) (i j : Root m) :
     subst h3
     revert i j
     decide +kernel
-  · rw [pairing, if_neg hm, root_apply]
+  · rw [pairing, ite_eq_right hm, root_apply]
     push_cast
     rfl
 

@@ -24,7 +24,7 @@ theorem bot_prod_map_inr (B₀ : Subgroup B) :
 theorem commutator_zmod_two_prod :
     commutator (Multiplicative (ZMod 2) × B)
       = (⊥ : Subgroup (Multiplicative (ZMod 2))).prod (commutator B) := by
-  haveI : IsMulCommutative (Multiplicative (ZMod 2)) :=
+  have : IsMulCommutative (Multiplicative (ZMod 2)) :=
     IsMulCommutative.of_comm fun a b => mul_comm a b
   change ⁅(⊤ : Subgroup (Multiplicative (ZMod 2) × B)), ⊤⁆
       = (⊥ : Subgroup (Multiplicative (ZMod 2))).prod (commutator B)
@@ -52,7 +52,7 @@ theorem centralizerDerived_eq_map {t : G}
 theorem map_embA_normal_of_central {t : G} (ht : t ∈ Subgroup.center G)
     (ζ : ↥(centralizer ({t} : Set G)) ≃* Multiplicative (ZMod 2) × B) {B₀ : Subgroup B}
     (hB₀ : B₀.Normal) : (B₀.map (embA ζ)).Normal :=
-  ⟨fun b hb d =>
+  ⟨fun _b hb d =>
     conj_mem_map_embA ζ hB₀
       (mem_centralizer_singleton_iff.mpr (Subgroup.mem_center_iff.mp ht d)) hb⟩
 

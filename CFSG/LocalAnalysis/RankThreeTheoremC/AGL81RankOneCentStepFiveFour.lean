@@ -14,6 +14,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_pow_mul_eq {L : Subgroup G} {l o : G} (hl : l ∈ L)
     (ho : o ∈ Subgroup.normalizer (L : Set G)) (m : ℕ) :
     ∃ l' ∈ L, (l * o) ^ m = l' * o ^ m := by
@@ -34,12 +35,14 @@ variable {p : ℕ} [Fact p.Prime] {C : Subgroup G}
 
 local notation "φ" => RankOneSylow.act (primeComplementCore (G := C) p) K
 
+omit [Fact p.Prime] [Finite G] in
 theorem mem_d1PlusCore_of_mem_core {c : C} (hc : c ∈ primeComplementCore (G := C) p) :
     (c : G) ∈ d1PlusCore p C K := by
   rw [mem_d1PlusCore_iff_mem_ker, RankOneSylow.mem_ker_act,
     (QuotientGroup.eq_one_iff c).mpr hc]
   exact Subgroup.one_mem _
 
+omit [Fact p.Prime] [Finite G] in
 theorem mem_core_of_mem_inf (hZ : Subgroup.center ↥K = ⊥) {c : C}
     (hcK : (c : G) ∈ hyp111Pre p C K) (hcX : (c : G) ∈ d1PlusCore p C K) :
     c ∈ primeComplementCore (G := C) p := by
@@ -51,11 +54,13 @@ theorem mem_core_of_mem_inf (hZ : Subgroup.center ↥K = ⊥) {c : C}
   have h2 := conj_injective_of_center hZ (h1.trans (map_one _).symm)
   exact (QuotientGroup.eq_one_iff c).mp (congrArg Subtype.val h2)
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem conj_mem_hyp111Pre {c k : G} (hc : c ∈ C) (hk : k ∈ hyp111Pre p C K) :
     c * k * c⁻¹ ∈ hyp111Pre p C K := by
   obtain ⟨k', hk', rfl⟩ := hk
   exact ⟨⟨c, hc⟩ * k' * ⟨c, hc⟩⁻¹, (hK.comap _).conj_mem k' hk' _, rfl⟩
 
+omit [Fact p.Prime] [Finite G] in
 theorem conj_mem_d1PlusCore {c x : G} (hc : c ∈ C) (hx : x ∈ d1PlusCore p C K) :
     c * x * c⁻¹ ∈ d1PlusCore p C K := by
   have hxC : x ∈ C := Subgroup.map_subtype_le _ hx

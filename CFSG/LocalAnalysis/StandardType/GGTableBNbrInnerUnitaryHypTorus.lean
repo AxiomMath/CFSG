@@ -18,7 +18,7 @@ variable {n r p : ℕ} {K : Type} [Field K]
 
 theorem hypEntries_add {ζ : K} (hp : p.Prime) (hpow : ζ ^ p = 1) (t t' : Fin r → ZMod p) :
     hypEntries (r := r) ζ (t + t') = hypEntries ζ t * hypEntries ζ t' := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   funext x
   rcases x with i | k | i
   · simp only [hypEntries, Pi.add_apply, Pi.mul_apply, ZMod.val_add]
@@ -33,7 +33,7 @@ theorem exists_hypTorusHom (h : UnitaryFieldData 2 n K) (hp : p.Prime) {ζ : K}
       (((ι (ofAdd t) : hypSU h r 0) : GL (HypIndex r 0) K) :
         Matrix (HypIndex r 0) (HypIndex r 0) K) = diagonal (hypEntries ζ t) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hbar_pow : ∀ m : ℕ, h.bar (ζ ^ m) = ζ ^ m := fun m => by rw [map_pow, hbar]
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero
   let a : (Fin r → ZMod p) → Fin r → Kˣ :=
@@ -92,7 +92,7 @@ theorem hypEntries_hypPartner (ζ : K) (t : Fin r → ZMod p) (a : HypIndex r 0)
 
 theorem hypEntries_neg {ζ : K} (hp : p.Prime) (hpow : ζ ^ p = 1) (a : ZMod p) :
     ζ ^ ((-a).val) = (ζ ^ a.val)⁻¹ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h1 : (a + -a).val = 0 := by rw [add_neg_cancel, ZMod.val_zero]
   rw [ZMod.val_add] at h1
   have h2 : ζ ^ (a.val + (-a).val) = 1 := by
@@ -117,8 +117,8 @@ theorem weylMat_mul_diagonal {f ε : ℕ} (h : UnitaryFieldData p f K) (c : K)
       diagonal (fun a => d ((weylPerm (ε := ε) w).symm a)) * weylMat h c w := by
   rw [weylMat, CFSG.LieType.Universal.SpecialLinear.signedPerm_mul_diagonal]
 
-theorem exists_hypTorus_move (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2 : p ≠ 2) {ζ : K}
-    (hζ : IsPrimitiveRoot ζ p) (hbar : h.bar ζ = ζ)
+theorem exists_hypTorus_move (h : UnitaryFieldData 2 n K) (hp : p.Prime) (_hp2 : p ≠ 2) {ζ : K}
+    (hζ : IsPrimitiveRoot ζ p) (_hbar : h.bar ζ = ζ)
     (ι : Multiplicative (Fin r → ZMod p) →* hypSU h r 0)
     (hι : ∀ t : Fin r → ZMod p,
       (((ι (ofAdd t) : hypSU h r 0) : GL (HypIndex r 0) K) :
@@ -128,7 +128,7 @@ theorem exists_hypTorus_move (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2 : 
     ∃ w ∈ Subgroup.normalizer (ι.range : Set (hypSU h r 0)), ∀ t : Fin r → ZMod p,
       w⁻¹ * ι (ofAdd t) * w = ι (ofAdd fun i => (η i : ZMod p) * t (π i)) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hηi : ∀ i, η i = 1 ∨ η i = -1 := by
     intro i
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp (hη i)
@@ -146,10 +146,10 @@ theorem exists_hypTorus_move (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2 : 
       if η i = -1 then Sum.inr (π i) else Sum.inl (π i)
     by_cases hneg : η i = -1
     · have hiM : i ∈ M := by simp [M, hneg]
-      rw [if_pos hiM, if_pos hneg]
+      rw [ite_eq_left hiM, ite_eq_left hneg]
       rfl
     · have hiM : i ∉ M := by simp [M, hneg]
-      rw [if_neg hiM, if_neg hneg]
+      rw [ite_eq_right hiM, ite_eq_right hneg]
       rfl
   obtain ⟨c, hc, hc0⟩ := exists_mem_traceZero_ne_zero' h
   let w : hypSU h r 0 := weylElt h hc hc0 hw₀
@@ -180,7 +180,7 @@ theorem exists_hypTorus_move (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2 : 
       split_ifs with hneg
       · change (ζ ^ (t (π i)).val)⁻¹ = ζ ^ ((mv t i).val)
         have hmvi : mv t i = -(t (π i)) := by
-          simp [mv, hneg, neg_one_mul]
+          simp [mv, hneg]
         rw [hmvi, hypEntries_neg hp hζ.pow_eq_one]
       · change ζ ^ (t (π i)).val = ζ ^ ((mv t i).val)
         have hone : η i = 1 := by
@@ -243,7 +243,7 @@ theorem hypTorusHom_injective (h : UnitaryFieldData 2 n K) (hp : p.Prime) {ζ : 
       (((ι (ofAdd t) : hypSU h r 0) : GL (HypIndex r 0) K) :
         Matrix (HypIndex r 0) (HypIndex r 0) K) = diagonal (hypEntries ζ t)) :
     Function.Injective ι := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hker : ∀ t : Fin r → ZMod p, ι (ofAdd t) = 1 → t = 0 := by
     intro t ht
     funext i
@@ -271,17 +271,17 @@ theorem card_range_hypTorusHom (h : UnitaryFieldData 2 n K) (hp : p.Prime) {ζ :
       (((ι (ofAdd t) : hypSU h r 0) : GL (HypIndex r 0) K) :
         Matrix (HypIndex r 0) (HypIndex r 0) K) = diagonal (hypEntries ζ t)) :
     Nat.card ι.range = p ^ r := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hinj := hypTorusHom_injective h hp hζ ι hι
   have hcard : Nat.card ι.range = Nat.card (Multiplicative (Fin r → ZMod p)) :=
     (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
   rw [hcard, Nat.card_congr Multiplicative.toAdd, Nat.card_pi]
-  simp [Nat.card_zmod, Finset.prod_const]
+  simp [Finset.prod_const]
 
 theorem zpowers_neg_one_ne_bot (hp : p.Prime) (hp2 : p ≠ 2) :
     Subgroup.zpowers (-1 : (ZMod p)ˣ) ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (2 < p) := ⟨lt_of_le_of_ne hp.two_le (Ne.symm hp2)⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (2 < p) := ⟨lt_of_le_of_ne hp.two_le (Ne.symm hp2)⟩
   rw [Ne, Subgroup.zpowers_eq_bot]
   intro h1
   exact ZMod.neg_one_ne_one (Units.ext_iff.mp h1)
@@ -293,7 +293,7 @@ theorem ggWeylIrred_hypTorusRange (h : UnitaryFieldData 2 n K) (hp : p.Prime) (h
       (((ι (ofAdd t) : hypSU h r 0) : GL (HypIndex r 0) K) :
         Matrix (HypIndex r 0) (HypIndex r 0) K) = diagonal (hypEntries ζ t)) :
     GGWeylIrred ι.range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact ggWeylIrred_of_monomialModel ι (Subgroup.zpowers (-1 : (ZMod p)ˣ))
     (zpowers_neg_one_ne_bot hp hp2) fun π η hη =>
       exists_hypTorus_move h hp hp2 hζ hbar ι hι π η hη

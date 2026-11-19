@@ -21,7 +21,7 @@ theorem nontrivial_pSimple_of_innDiagOn {Y : Type} [Group Y] {p : ℕ} {A X : Su
   have hm : HasLabel (PQuot p X) (fun _ : GLALabel => True) :=
     CFSG.StandardType.Canonical.largeEvenMarking_mono (fun _ _ _ _ _ _ _ => trivial) h.2
   have hq := CFSG.LocalAnalysis.GLTheoremA.Y10F.hasLabel_isQuasisimple hm
-  haveI : IsSimpleGroup (PSimple p X) := hq.2
+  have : IsSimpleGroup (PSimple p X) := hq.2
   infer_instance
 
 theorem hasLabel_of_centerQuot {X : Type} [Group X] {S : GLALabel → Prop}
@@ -69,7 +69,7 @@ theorem i167C_comp {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime) {B X
       (fun k => (normalizerConjAutOfMem_comp_mk X B hBN ⟨x, hxB⟩ k)) (QuotientGroup.mk'_surjective _)
       hp hJ0
   refine ⟨hJ1, ?_⟩
-  haveI : Finite ↥X := inferInstance
+  have : Finite ↥X := inferInstance
   obtain ⟨e₁⟩ := CFSG.LocalAnalysis.GLTheoremA.nonempty_pSimple_equiv_map hp
     (QuotientGroup.mk' (Subgroup.center ↥X)) hJ0 hJ1
   obtain ⟨e₂⟩ := CFSG.LocalAnalysis.GLTheoremA.K144.pSimple_subgroupOf_equiv (p := p) hJX

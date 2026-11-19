@@ -15,7 +15,7 @@ variable {G : Type} [Group G]
 theorem card_sylow_three_of_card_24_or_120 {K : Type} [Group K] [Finite K]
     (h : Nat.card K = 24 ∨ Nat.card K = 120) (P : Sylow 3 K) : Nat.card P = 3 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup
   have h1 : Nat.card P * (P : Subgroup K).index = Nat.card K := Subgroup.card_mul_index _
   have h2 : ¬ 3 ∣ (P : Subgroup K).index := P.not_dvd_index
   rw [hn] at h1

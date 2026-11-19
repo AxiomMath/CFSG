@@ -18,15 +18,19 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem sec5b517_kfam0 : Kfam5 K₁ K₂ h 0 = K₁ := by
   simp [Kfam5]
 
+omit [Finite G] in
 private theorem sec5b517_kfam1 : Kfam5 K₁ K₂ h 1 = K₂ := by
   simp [Kfam5]
 
+omit [Finite G] in
 private theorem sec5b517_kfam2 : Kfam5 K₁ K₂ h 2 = CFSG.conjugate K₁ h := by
   simp [Kfam5]
 
+omit [Finite G] in
 private theorem sec5b517_kfam3 : Kfam5 K₁ K₂ h 3 = CFSG.conjugate K₂ h := by
   simp [Kfam5]
 
@@ -43,13 +47,13 @@ theorem sec5b517_quad (h514 : Asc82Lemma514) (c : Sec5HCtx G t L S z r B A K₁ 
     exact h14.2.2 i
   · intro i
     fin_cases i <;>
-      simp only [Kfam5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.cons_val_three]
+      simp only [Kfam5]
     · exact c.z_mem_K₁
     · exact c.z_mem_K₂
     · exact c.z_mem_K₃
     · exact c.z_mem_K₄
 
+omit [Finite G] in
 theorem sec5b517_gamma_eq : Gamma5 K₁ K₂ h = Set.range (Kfam5 K₁ K₂ h) := by
   ext P
   constructor
@@ -65,9 +69,11 @@ theorem sec5b517_gamma_eq : Gamma5 K₁ K₂ h = Set.range (Kfam5 K₁ K₂ h) :
       simp [Gamma5, Kfam5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
         Matrix.cons_val_three]
 
+omit [Finite G] in
 theorem sec5b517_all_eq : Sec5B517All (Kfam5 K₁ K₂ h) =
     K₁ ⊔ K₂ ⊔ CFSG.conjugate K₁ h ⊔ CFSG.conjugate K₂ h := rfl
 
+omit [Finite G] in
 theorem sec5b517_Qsub_eq :
     Qsub K₁ K₂ h = twoCoreIn (Sec5B517All (Kfam5 K₁ K₂ h)) := rfl
 

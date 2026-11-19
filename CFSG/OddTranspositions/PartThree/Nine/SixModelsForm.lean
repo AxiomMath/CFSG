@@ -70,7 +70,7 @@ theorem false_of_modelsForm (hM : CFSG.GH74.ModelsFormStatement) (h : NineSixSet
     obtain ⟨a, b, hab⟩ := IsBenderGroup.exists_not_commute hLB
     refine ⟨⟨a, hLK a.2⟩, ⟨b, hLK b.2⟩, fun hab' => hab ?_⟩
     exact Subtype.ext (congrArg (fun x : ↥(commutator G) => (x : G)) hab')
-  haveI : IsSimpleGroup ↥(commutator G) := h.simple
+  have : IsSimpleGroup ↥(commutator G) := h.simple
   have h3 : 3 ≤ CFSG.Open.twoRank ↥(commutator G) :=
     CFSG.EvenSporadicStandard.HNRecog.GH73.three_le_twoRank_of_e16 D₈.exists_e16
   have hX : CFSG.GH74.GH74Conclusion ↥(commutator G) := hM _ hnonab h3 D₈.gen_four

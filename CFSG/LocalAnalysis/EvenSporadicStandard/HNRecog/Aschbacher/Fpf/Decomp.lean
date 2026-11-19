@@ -15,6 +15,7 @@ private def tau (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) : A5 × A5 →* Module
   (Units.coeHom (Module.End (ZMod 2) V)).comp
     ((LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) V).symm.toMonoidHom.comp σ)
 
+omit [Finite V] in
 private lemma tau_apply_fun (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (g : A5 × A5) (u : V) :
     tau σ g u = σ g u := rfl
 
@@ -37,6 +38,7 @@ private lemma n0_mul_a0 : n₀ * a₀ = a₀ ^ 4 * n₀ := by
   calc n₀ * a₀ = n₀ * a₀ * n₀⁻¹ * n₀ := by group
     _ = a₀⁻¹ * n₀ := by rw [n₀_mul_a₀_mul_inv]
 
+omit [Finite V] in
 private lemma mem_ker_sub_one (f : Module.End (ZMod 2) V) (u : V) :
     u ∈ LinearMap.ker (f - 1) ↔ f u = u := by
   rw [LinearMap.mem_ker]
@@ -49,7 +51,7 @@ theorem exists_decomposition (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (hσ : Fu
       finrank (ZMod 2) W = 4 ∧
       (∀ g : A5 × A5, ∀ u ∈ VA, σ g u ∈ VA) ∧ (∀ g : A5 × A5, ∀ u ∈ W, σ g u ∈ W) ∧
       (∀ y : A5, ∀ u ∈ VA, σ (1, y) u = u) ∧ (∀ x : A5, ∀ u ∈ W, σ (x, 1) u = u) := by
-  haveI : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
   let α : Module.End (ZMod 2) V := tau σ (a₀, 1)
   let β : Module.End (ZMod 2) V := tau σ (1, a₀)
   let ν₁ : Module.End (ZMod 2) V := tau σ (n₀, 1)
@@ -91,7 +93,7 @@ theorem exists_decomposition (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (hσ : Fu
   have hαβ : α * β = β * α := by
     show tau σ (a₀, 1) * tau σ (1, a₀) = tau σ (1, a₀) * tau σ (a₀, 1)
     rw [← map_mul, ← map_mul]
-    exact congrArg (fun g : A5 × A5 => tau σ g) (by ext <;> simp [mul_comm])
+    exact congrArg (fun g : A5 × A5 => tau σ g) (by ext <;> simp)
   have hν₂α : ν₂ * α = α * ν₂ := by
     show tau σ (1, n₀) * tau σ (a₀, 1) = tau σ (a₀, 1) * tau σ (1, n₀)
     rw [← map_mul, ← map_mul]
@@ -282,8 +284,8 @@ theorem exists_decomposition (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (hσ : Fu
     intro hbot
     have : a₀ ∈ (⊥ : Subgroup A5) := by rw [← hbot]; exact ha0_mem_N
     exact a0_ne_one ((Subgroup.mem_bot).mp this)
-  haveI : IsSimpleGroup A5 := alternatingGroup.isSimpleGroup (by simp)
-  haveI : N.Normal := hNnormal
+  have : IsSimpleGroup A5 := alternatingGroup.isSimpleGroup (by simp)
+  have : N.Normal := hNnormal
   have hNtop : N = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact absurd h hNne
@@ -334,7 +336,7 @@ theorem exists_decomposition (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (hσ : Fu
     intro hbot
     have : a₀ ∈ (⊥ : Subgroup A5) := by rw [← hbot]; exact ha0_mem_M
     exact a0_ne_one ((Subgroup.mem_bot).mp this)
-  haveI : M.Normal := hMnormal
+  have : M.Normal := hMnormal
   have hMtop : M = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with h | h
     · exact absurd h hMne

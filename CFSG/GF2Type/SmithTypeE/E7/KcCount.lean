@@ -145,13 +145,13 @@ theorem exists_line_through {c : TD6} {v : V12} (hv : v ∈ C0.map (sig c).toLin
   obtain ⟨hv₀1, hv₀2⟩ := (mem_C0_iff v₀).1 hv₀
   obtain ⟨y', hy'5, hy'0, hy'y⟩ : ∃ y' : Fin 6 → ZMod 2, y' 5 = 0 ∧ y' ≠ 0 ∧ y' ≠ v₀.2 := by
     by_cases h : v₀.2 = Pi.single 0 1
-    · refine ⟨Pi.single 1 1, by simp [Pi.single_apply], fun h0 => ?_, fun h0 => ?_⟩
+    · refine ⟨Pi.single 1 1, by simp, fun h0 => ?_, fun h0 => ?_⟩
       · have := congrFun h0 1
         simp at this
       · rw [h] at h0
         have := congrFun h0 1
-        simp [Pi.single_apply] at this
-    · refine ⟨Pi.single 0 1, by simp [Pi.single_apply], fun h0 => ?_, fun h0 => h h0.symm⟩
+        simp at this
+    · refine ⟨Pi.single 0 1, by simp, fun h0 => ?_, fun h0 => h h0.symm⟩
       have := congrFun h0 0
       simp at this
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : V12, w₀ = ((0 : Fin 6 → ZMod 2), y') := ⟨_, rfl⟩
@@ -386,10 +386,10 @@ theorem card_planes_through :
 theorem ncard_hyperplane_family :
     {H : Submodule (ZMod 2) V12 | Lin01 ≤ H ∧ ∃ i : Fin 75735, H ≤ planeSub i.val ∧
       Module.finrank (ZMod 2) H = 5}.ncard = 2025 := by
-  haveI : Finite (Submodule (ZMod 2) V12) :=
+  have : Finite (Submodule (ZMod 2) V12) :=
     Finite.of_injective (fun H : Submodule (ZMod 2) V12 => (H : Set V12)) SetLike.coe_injective
   let I := {i : Fin 75735 // Lin01 ≤ planeSub i.val}
-  haveI : Fintype I := Fintype.ofFinite I
+  have : Fintype I := Fintype.ofFinite I
   let Hyp : I → Type := fun i => {H : Submodule (ZMod 2) V12 //
     Lin01 ≤ H ∧ H ≤ planeSub i.1.val ∧ Module.finrank (ZMod 2) H = 5}
   have hfib : ∀ i : I, Nat.card (Hyp i) = 15 := fun i =>

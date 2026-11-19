@@ -74,6 +74,7 @@ noncomputable def glEndHom {k V : Type*} [Field k] [AddCommGroup V] [Module k V]
     obtain ⟨y, hy⟩ := (Finite.injective_iff_surjective.1 hmul) 1
     exact ⟨y, hy⟩
 
+omit [Finite k] in
 private theorem eq_one_of_pow_prime_eq_one_of_centralizes
     {A : Subgroup (LinearMap.GeneralLinearGroup k V)}
     (hirr : ∀ W : Submodule k V,
@@ -82,7 +83,7 @@ private theorem eq_one_of_pow_prime_eq_one_of_centralizes
     (hxcomm : ∀ a ∈ A, (x : Module.End k V) * (a : Module.End k V) =
       (a : Module.End k V) * (x : Module.End k V)) : x = 1 := by
   classical
-  haveI : CharP (Module.End k V) p := charP_of_injective_algebraMap' k p
+  have : CharP (Module.End k V) p := charP_of_injective_algebraMap' k p
   by_contra hx1
   let N : Module.End k V := (x : Module.End k V) - 1
   have hN_ne : N ≠ 0 := by
@@ -118,6 +119,7 @@ private theorem eq_one_of_pow_prime_eq_one_of_centralizes
   · exact hker_ne hbot
   · exact hN_ne (LinearMap.ker_eq_top.mp htop)
 
+omit [Nontrivial V] in
 private theorem conj_mem_adjoin
     {A : Subgroup (LinearMap.GeneralLinearGroup k V)}
     (g : LinearMap.GeneralLinearGroup k V)
@@ -126,8 +128,8 @@ private theorem conj_mem_adjoin
     (g : Module.End k V) * r * ((g⁻¹ : LinearMap.GeneralLinearGroup k V) : Module.End k V) ∈
       Algebra.adjoin k (Set.range (glEndHom A)) := by
   classical
-  haveI : Finite V := Module.finite_of_finite k
-  haveI : Finite (Module.End k V) :=
+  have : Finite V := Module.finite_of_finite k
+  have : Finite (Module.End k V) :=
     Finite.of_injective _ (DFunLike.coe_injective (F := V →ₗ[k] V))
   induction hr using Algebra.adjoin_induction with
   | mem x hx =>
@@ -137,7 +139,7 @@ private theorem conj_mem_adjoin
       have hx' : (g : Module.End k V) * (glEndHom A a : Module.End k V) *
           ((g⁻¹ : LinearMap.GeneralLinearGroup k V) : Module.End k V) =
           (glEndHom A a' : Module.End k V) := by
-        simp [glEndHom, a', Subgroup.coe_mul, mul_assoc]
+        simp [glEndHom, a', mul_assoc]
       rw [hx']
       exact Algebra.subset_adjoin (Set.mem_range_self a')
   | algebraMap c =>
@@ -160,8 +162,7 @@ private theorem conj_mem_adjoin
   | mul x y hx hy ihx ihy =>
       have hg' : ((g⁻¹ : LinearMap.GeneralLinearGroup k V) : Module.End k V) *
           (g : Module.End k V) = 1 := by
-        simpa using congrArg
-          (fun u : LinearMap.GeneralLinearGroup k V => (u : Module.End k V)) (inv_mul_cancel g)
+        simp
       have h : (g : Module.End k V) * (x * y) *
           ((g⁻¹ : LinearMap.GeneralLinearGroup k V) : Module.End k V) =
           ((g : Module.End k V) * x * ((g⁻¹ : LinearMap.GeneralLinearGroup k V) : Module.End k V)) *
@@ -184,6 +185,7 @@ private theorem conj_mem_adjoin
       rw [h]
       exact (Algebra.adjoin k (Set.range (glEndHom A))).mul_mem ihx ihy
 
+omit [Fact (Nat.Prime p)] in
 theorem not_dvd_card_of_irreducible {A : Subgroup (LinearMap.GeneralLinearGroup k V)}
     (hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hirr : ∀ W : Submodule k V,
@@ -196,9 +198,9 @@ theorem not_dvd_card_of_irreducible {A : Subgroup (LinearMap.GeneralLinearGroup 
   set R := Algebra.adjoin k (Set.range (glEndHom A)) with hRdef
   have hRfin : Finite R := Subtype.finite
   have hRfield : IsField R := adjoin_isField_of_irreducible hAcomm hirr
-  letI : Field R := hRfield.toField
-  haveI : CharP R p := charP_of_injective_algebraMap' k p
-  letI : Fintype R := Fintype.ofFinite R
+  let : Field R := hRfield.toField
+  have : CharP R p := charP_of_injective_algebraMap' k p
+  let : Fintype R := Fintype.ofFinite R
   obtain ⟨n, hp, hcardR⟩ := FiniteField.card R p
   have hcardR_nat : Nat.card R = p ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hcardR]
@@ -261,11 +263,11 @@ private noncomputable def conjRingEquiv
   have hleft : (gInv : Module.End k V) * (gG : Module.End k V) = 1 := by
     have := congrArg (fun u : P => ((u : LinearMap.GeneralLinearGroup k V) : Module.End k V))
       (inv_mul_cancel g)
-    simpa [gG, gInv] using this
+    simp [gG, gInv]
   have hright : (gG : Module.End k V) * (gInv : Module.End k V) = 1 := by
     have := congrArg (fun u : P => ((u : LinearMap.GeneralLinearGroup k V) : Module.End k V))
       (mul_inv_cancel g)
-    simpa [gG, gInv] using this
+    simp [gG, gInv]
   refine
   { toFun := fun r => ⟨(gG : Module.End k V) * (r : Module.End k V) * (gInv : Module.End k V),
       conj_mem_adjoin gG hgG r.2⟩
@@ -327,7 +329,7 @@ private noncomputable def conjAlgEquiv
   have hright : (gG : Module.End k V) * (gInv : Module.End k V) = 1 := by
     have := congrArg (fun u : P => ((u : LinearMap.GeneralLinearGroup k V) : Module.End k V))
       (mul_inv_cancel g)
-    simpa [gG, gInv] using this
+    simp [gG, gInv]
   refine AlgEquiv.ofRingEquiv (f := conjRingEquiv hPnorm g) (fun c => ?_)
   apply Subtype.ext
   calc
@@ -364,8 +366,9 @@ private noncomputable def conjRhom
         (((h : LinearMap.GeneralLinearGroup k V) : Module.End k V) * (r : Module.End k V) *
           (((h⁻¹ : P) : LinearMap.GeneralLinearGroup k V) : Module.End k V)) *
         (((g⁻¹ : P) : LinearMap.GeneralLinearGroup k V) : Module.End k V)
-    simp [Subgroup.coe_mul, Subgroup.coe_inv, mul_assoc]
+    simp [Subgroup.coe_mul, mul_assoc]
 
+omit [Nontrivial V] in
 private theorem conjRhom_apply_coe
     {A P : Subgroup (LinearMap.GeneralLinearGroup k V)}
     (hPnorm : P ≤ Subgroup.normalizer (A : Set (LinearMap.GeneralLinearGroup k V)))
@@ -386,22 +389,22 @@ theorem isCyclic_of_isPGroup_normalizer {A P : Subgroup (LinearMap.GeneralLinear
   have hVfin : Finite V := Module.finite_of_finite k
   have hEndfin : Finite (Module.End k V) :=
     Finite.of_injective _ (DFunLike.coe_injective (F := V →ₗ[k] V))
-  haveI : Finite (Module.End k V) := hEndfin
-  haveI : Finite (LinearMap.GeneralLinearGroup k V) :=
+  have : Finite (Module.End k V) := hEndfin
+  have : Finite (LinearMap.GeneralLinearGroup k V) :=
     Finite.of_injective (fun u : LinearMap.GeneralLinearGroup k V => (u : Module.End k V))
       Units.val_injective
-  haveI : Finite P :=
+  have : Finite P :=
     Finite.of_injective (Subgroup.subtype P) Subtype.val_injective
   set R := Algebra.adjoin k (Set.range (glEndHom A)) with hRdef
   have hRfield : IsField R := adjoin_isField_of_irreducible hAcomm hirr
-  letI : Field R := hRfield.toField
+  let : Field R := hRfield.toField
   have hRfin : Finite R := Subtype.finite
-  letI : Fintype R := Fintype.ofFinite R
-  letI : IsCyclic (R ≃ₐ[k] R) := FiniteField.instIsCyclicAlgEquivOfFinite k R
+  let : Fintype R := Fintype.ofFinite R
+  let : IsCyclic (R ≃ₐ[k] R) := FiniteField.instIsCyclicAlgEquivOfFinite k R
   let conj : P →* (R ≃ₐ[k] R) := conjRhom hPnorm
   have hker : conj.ker = ⊥ := by
     by_contra hKne
-    haveI : Finite conj.ker := Subtype.finite
+    have : Finite conj.ker := Subtype.finite
     have hKcard : 1 < Nat.card conj.ker :=
       (Subgroup.one_lt_card_iff_ne_bot conj.ker).mpr hKne
     have hKp : IsPGroup p conj.ker :=
@@ -410,7 +413,7 @@ theorem isCyclic_of_isPGroup_normalizer {A P : Subgroup (LinearMap.GeneralLinear
       rcases hKp.card_eq_or_dvd with h1 | hpd
       · omega
       · exact hpd
-    letI : Fintype conj.ker := Fintype.ofFinite conj.ker
+    let : Fintype conj.ker := Fintype.ofFinite conj.ker
     have hpdvd' : p ∣ Fintype.card conj.ker := by
       rwa [Nat.card_eq_fintype_card] at hpdvd
     obtain ⟨y, hyorder⟩ := exists_prime_orderOf_dvd_card (G := conj.ker) p hpdvd'
@@ -426,7 +429,7 @@ theorem isCyclic_of_isPGroup_normalizer {A P : Subgroup (LinearMap.GeneralLinear
     have hyInv_left : (yInv : Module.End k V) * (yG : Module.End k V) = 1 := by
       have := congrArg (fun u : P => ((u : LinearMap.GeneralLinearGroup k V) : Module.End k V))
         (inv_mul_cancel (y : P))
-      simpa [yG, yInv] using this
+      simp [yG, yInv]
     have hcommA : ∀ a ∈ A, (yG : Module.End k V) * (a : Module.End k V) =
         (a : Module.End k V) * (yG : Module.End k V) := by
       intro a ha
@@ -479,6 +482,7 @@ section GroupForm
 
 variable {G : Type u} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 
+omit [Finite G] in
 private theorem conj_comm_of_apply {A U : Subgroup G} [CommGroup U]
     [Module (ZMod p) (Additive U)]
     (hA_norm : A ≤ Subgroup.normalizer (U : Set G))
@@ -549,9 +553,9 @@ theorem pSubgroup_le_centralizer_of_irreducible {U A : Subgroup G}
   let hp : ∀ a : U, a ^ p = 1 := fun a => by
     apply Subtype.ext
     simpa using hU.2 (a : G) a.2
-  letI : IsMulCommutative U := ⟨⟨hc⟩⟩
-  letI : CommGroup U := IsMulCommutative.instCommGroup
-  letI : Module (ZMod p) (Additive U) := elemModule p hp
+  let : IsMulCommutative U := ⟨⟨hc⟩⟩
+  let : CommGroup U := IsMulCommutative.instCommGroup
+  let : Module (ZMod p) (Additive U) := elemModule p hp
   let actN : Subgroup.normalizer (U : Set G) →* MulAut U := U.normalizerMonoidHom
   let conjN : Subgroup.normalizer (U : Set G) →* (Additive U ≃ₗ[ZMod p] Additive U) :=
   { toFun := fun n => (MulEquiv.toAdditive (actN n)).toLinearEquiv
@@ -661,8 +665,6 @@ theorem pSubgroup_le_centralizer_of_irreducible {U A : Subgroup G}
         change conjN ⟨(b : G), hA_norm hb⟩ (Additive.ofMul u) = Additive.ofMul _
         apply (Additive.toMul (α := U)).injective
         apply Subtype.ext
-        change ((Additive.toMul (conjN ⟨(b : G), hA_norm hb⟩ (Additive.ofMul u)) : U) : G) =
-          ((Additive.toMul (Additive.ofMul ⟨(b : G) * (u : G) * (b : G)⁻¹, hmemU⟩) : U) : G)
         rw [hconjN_ofMul]
         simp
       have hWinv := hW (ρA' ⟨b, hb⟩) hA'mem (Additive.ofMul u) huW
@@ -706,14 +708,14 @@ theorem pSubgroup_le_centralizer_of_irreducible {U A : Subgroup G}
         exact (Additive.toMul x).2
       have hxW := (memWsub _).mp hxsub
       simpa using hxW
-  haveI : Finite U := Subtype.finite
-  haveI : Finite (Additive U) := inferInstance
-  haveI : FiniteDimensional (ZMod p) (Additive U) := Module.Finite.of_finite
-  haveI : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUne
-  haveI : Nontrivial (Additive U) := inferInstance
-  haveI : Finite (Module.End (ZMod p) (Additive U)) :=
+  have : Finite U := Subtype.finite
+  have : Finite (Additive U) := inferInstance
+  have : FiniteDimensional (ZMod p) (Additive U) := Module.Finite.of_finite
+  have : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUne
+  have : Nontrivial (Additive U) := inferInstance
+  have : Finite (Module.End (ZMod p) (Additive U)) :=
     Finite.of_injective _ (DFunLike.coe_injective (F := Additive U →ₗ[ZMod p] Additive U))
-  haveI : Finite (LinearMap.GeneralLinearGroup (ZMod p) (Additive U)) :=
+  have : Finite (LinearMap.GeneralLinearGroup (ZMod p) (Additive U)) :=
     Finite.of_injective (fun u : LinearMap.GeneralLinearGroup (ZMod p) (Additive U) =>
       (u : Module.End (ZMod p) (Additive U))) Units.val_injective
   have hA1 : ¬ p ∣ Nat.card A' :=
@@ -754,7 +756,7 @@ theorem pSubgroup_le_centralizer_of_irreducible {U A : Subgroup G}
     exact Subgroup.map_mono hQlin
   have hρQ_bot : ρQ'.range = ⊥ := by
     by_contra hne
-    haveI : Finite ρQ'.range := Subtype.finite
+    have : Finite ρQ'.range := Subtype.finite
     have hpg : IsPGroup p ρQ'.range :=
       IsPGroup.of_surjective hQp ρQ'.rangeRestrict ρQ'.rangeRestrict_surjective
     have hpdvd : p ∣ Nat.card ρQ'.range := by
@@ -803,9 +805,9 @@ theorem isCyclic_mod_centralizer_of_isPGroup_normalizer {U A P : Subgroup G}
   let hp : ∀ a : U, a ^ p = 1 := fun a => by
     apply Subtype.ext
     simpa using hU.2 (a : G) a.2
-  letI : IsMulCommutative U := ⟨⟨hc⟩⟩
-  letI : CommGroup U := IsMulCommutative.instCommGroup
-  letI : Module (ZMod p) (Additive U) := elemModule p hp
+  let : IsMulCommutative U := ⟨⟨hc⟩⟩
+  let : CommGroup U := IsMulCommutative.instCommGroup
+  let : Module (ZMod p) (Additive U) := elemModule p hp
   let actN : Subgroup.normalizer (U : Set G) →* MulAut U := U.normalizerMonoidHom
   let conjN : Subgroup.normalizer (U : Set G) →* (Additive U ≃ₗ[ZMod p] Additive U) :=
   { toFun := fun n => (MulEquiv.toAdditive (actN n)).toLinearEquiv
@@ -891,8 +893,6 @@ theorem isCyclic_mod_centralizer_of_isPGroup_normalizer {U A P : Subgroup G}
         change conjN ⟨(b : G), hA_norm hb⟩ (Additive.ofMul u) = Additive.ofMul _
         apply (Additive.toMul (α := U)).injective
         apply Subtype.ext
-        change ((Additive.toMul (conjN ⟨(b : G), hA_norm hb⟩ (Additive.ofMul u)) : U) : G) =
-          ((Additive.toMul (Additive.ofMul ⟨(b : G) * (u : G) * (b : G)⁻¹, hmemU⟩) : U) : G)
         rw [hconjN_ofMul]
         simp
       have hWinv := hW (ρA' ⟨b, hb⟩) hA'mem (Additive.ofMul u) huW
@@ -981,18 +981,18 @@ theorem isCyclic_mod_centralizer_of_isPGroup_normalizer {U A P : Subgroup G}
     refine Subgroup.mem_map.mpr ⟨ρA a2, ?_, ?_⟩
     · exact ⟨a2, rfl⟩
     · simpa [ρP', ρA', a2] using (congrArg toGL (hconjP p0 a1)).symm
-  haveI : Finite U := Subtype.finite
-  haveI : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUne
-  haveI : Finite (Additive U) := inferInstance
-  haveI : FiniteDimensional (ZMod p) (Additive U) := Module.Finite.of_finite
-  haveI : Nontrivial (Additive U) := inferInstance
-  haveI : Finite (Module.End (ZMod p) (Additive U)) :=
+  have : Finite U := Subtype.finite
+  have : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUne
+  have : Finite (Additive U) := inferInstance
+  have : FiniteDimensional (ZMod p) (Additive U) := Module.Finite.of_finite
+  have : Nontrivial (Additive U) := inferInstance
+  have : Finite (Module.End (ZMod p) (Additive U)) :=
     Finite.of_injective _ (DFunLike.coe_injective (F := Additive U →ₗ[ZMod p] Additive U))
-  haveI : Finite (LinearMap.GeneralLinearGroup (ZMod p) (Additive U)) :=
+  have : Finite (LinearMap.GeneralLinearGroup (ZMod p) (Additive U)) :=
     Finite.of_injective (fun u : LinearMap.GeneralLinearGroup (ZMod p) (Additive U) =>
       (u : Module.End (ZMod p) (Additive U))) Units.val_injective
-  haveI : Finite P' := Subtype.finite
-  haveI : IsCyclic P' :=
+  have : Finite P' := Subtype.finite
+  have : IsCyclic P' :=
     isCyclic_of_isPGroup_normalizer (k := ZMod p) (V := Additive U) (p := p)
       (A := A') (P := P') hA'comm hA'irr hP'_le hP'_p
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := P')
@@ -1040,13 +1040,13 @@ section CyclicQuotient
 variable {G : Type u} [Group G]
 
 theorem isCyclic_quotient_of_cyclic_mod {P C K H : Subgroup G}
-    (hPH : P ≤ H) (hKH : K ≤ H) (hKn : (K.subgroupOf H).Normal)
+    (hPH : P ≤ H) (_hKH : K ≤ H) (hKn : (K.subgroupOf H).Normal)
     (hPCK : P ⊓ C ≤ K)
     (hcyc : ∃ x ∈ P, ∀ y ∈ P, ∃ m : ℕ, y⁻¹ * x ^ m ∈ C) :
     IsCyclic ((P.subgroupOf H).map
       (@QuotientGroup.mk' H _ (K.subgroupOf H) hKn)) := by
   classical
-  letI : (K.subgroupOf H).Normal := hKn
+  let : (K.subgroupOf H).Normal := hKn
   let π : H →* H ⧸ K.subgroupOf H := QuotientGroup.mk' (K.subgroupOf H)
   obtain ⟨x, hxP, hxcyc⟩ := hcyc
   have hxH : x ∈ H := hPH hxP

@@ -13,6 +13,7 @@ open Matrix CFSG.ComponentClassification.UnbalancedCatalog.SpChain
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem statedSp_ext {g h : StatedSp 2 K} (H : spMat g = spMat h) : g = h :=
   Subtype.ext (Units.ext H)
 
@@ -59,6 +60,7 @@ theorem map_rootLong_antiSpEquiv [Finite K] :
 
 open CFSG.RankThree.PartOne.KCRootAxis (mat mat_mul mat_one mat_ext)
 
+omit [CharP K 2] in
 theorem pElt2_inv [Finite K] : (pElt2 : antiSp K)⁻¹ = pElt2 :=
   inv_eq_of_mul_eq_one_right (mat_ext (by rw [mat_mul, mat_pElt2, pMat2_mul_self, mat_one]))
 
@@ -70,7 +72,7 @@ theorem mat_conj_short [Finite K] (t : K) :
       Matrix.single 0 1 (1 : K) + Matrix.single 2 3 (1 : K) := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [pMat2, nShort, Matrix.mul_apply, Fin.sum_univ_four, Matrix.single_apply]
+      simp [pMat2, nShort, Matrix.mul_apply, Fin.sum_univ_four]
   calc (pMat2 : Matrix (Fin 4) (Fin 4) K) * (1 + t • nShort) * pMat2
       = pMat2 * pMat2 + t • (pMat2 * nShort * pMat2) := by
         rw [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.mul_smul, Matrix.smul_mul]
@@ -86,9 +88,9 @@ theorem shortMat_eq [Finite K] (t : K) :
   rw [mat_conj_short]
   ext a b
   rcases a with a | a <;> rcases b with b | b <;> fin_cases a <;> fin_cases b <;>
-    simp [Matrix.single_apply, Matrix.one_apply, antiIdx_inl_zero, antiIdx_inl_one,
-      antiIdx_inr_zero, antiIdx_inr_one] <;>
-    first | done | linear_combination t * h2 | linear_combination (-t) * h2
+    simp [antiIdx_inl_zero, antiIdx_inl_one,
+      antiIdx_inr_zero, antiIdx_inr_one];
+    first | done | linear_combination t * h2
 
 theorem map_rootShort_antiSpEquiv [Finite K] :
     (rootShort K).map (antiSpEquiv K).toMonoidHom =

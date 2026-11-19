@@ -31,6 +31,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem bar2_conj_equiv (L : Subgroup G) (g : G) :
     Nonempty (Bar2 L ≃* Bar2 (L.map (MulAut.conj g).toMonoidHom)) :=
   ⟨CFSG.LocalAnalysis.UniquenessCase.UC6S846.bar2Equiv
@@ -100,7 +101,7 @@ theorem exists_barImage_eq_of_isComponent_of_calC {D : Data G} {L X : Subgroup G
     hcomp ((CFSG.isComponent_iff_open K).1 hK) hle
 
 theorem barImage_injOn_cComp {D : Data G} {L X : Subgroup G}
-    (hL : L ∈ calC D.M) (hX : X = conjClosure D.M L) :
+    (_hL : L ∈ calC D.M) (_hX : X = conjClosure D.M L) :
     Set.InjOn (fun K => barImage X K) (CFSG.Quasithin.cComp X) := by
   classical
   intro K₁ hK₁ K₂ hK₂ heq
@@ -148,7 +149,7 @@ theorem isMulCommutative_normalizer_inf_quotient_of_calC_of_borel {D : Data G}
     IsMulCommutative (Subgroup.normalizerQuotient
       ((D.T ⊓ X).subgroupOf (X ⊓ normalizer ((D.T ⊓ X : Subgroup G) : Set G)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := X ⊓ normalizer ((D.T ⊓ X : Subgroup G) : Set G)
   let SH : Subgroup ↥H := (D.T ⊓ X).subgroupOf H
   change IsMulCommutative (Subgroup.normalizerQuotient SH)
@@ -254,7 +255,7 @@ theorem isMulCommutative_normalizer_inf_quotient_of_calC_of_borel {D : Data G}
       ⁅(b : ↥(Subgroup.normalizer (SH : Set ↥H)))⁻¹,
         (a : ↥(Subgroup.normalizer (SH : Set ↥H)))⁻¹⁆ := by
     rw [commutatorElement_def]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, mul_inv_rev]
+    simp only [mul_inv_rev]
     group
   rw [hdiv]
   exact hcommS _ _
@@ -264,7 +265,7 @@ theorem odd_card_center_of_isComponent_of_layer_eq_top {Y : Type} [Group Y] [Fin
     {K : Subgroup Y} (hK : CFSG.IsComponent K) :
     Odd (Nat.card ↥(Subgroup.center ↥K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Nat.not_even_iff_odd]
   intro heven
   have hdvd : 2 ∣ Nat.card ↥(Subgroup.center ↥K) := even_iff_two_dvd.mp heven
@@ -313,7 +314,7 @@ theorem barImage_inf_barImage_eq_of_calC {D : Data G} {L X : Subgroup G}
     (hL : L ∈ calC D.M) (hX : X = conjClosure D.M L) :
     barImage X (D.T ⊓ X) ⊓ barImage X L = barImage X (D.T ⊓ L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXM : X ≤ D.M := by
     rw [hX]
     exact uc22p22v_conjClosure_le (Subgroup.le_normalizer (H := D.M)) hL.1.le
@@ -355,7 +356,7 @@ theorem cartan_le_normalizer_inf_T_of_calC {D : Data G} {L X C : Subgroup G}
     (hL : L ∈ calC D.M) (hX : X = conjClosure D.M L) (hC : CIsCartanOf D.T L C) :
     C ≤ Subgroup.normalizer ((D.T ⊓ X : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXM : X ≤ D.M := by
     rw [hX]
     exact uc22p22v_conjClosure_le (Subgroup.le_normalizer (H := D.M)) hL.1.le
@@ -531,8 +532,8 @@ theorem exists_permuting_elemAbelian_of_calC_of_borel {D : Data G} {L X : Subgro
         CFSG.Open.pRank r (X ⊓ normalizer ((D.T ⊓ X : Subgroup G) : Set G)) ≤
           CFSG.Open.pRank r E := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Subgroup G := D.T ⊓ X
   let B : Subgroup G := X ⊓ normalizer (S : Set G)
   have hXM : X ≤ D.M := by
@@ -578,7 +579,7 @@ theorem exists_permuting_elemAbelian_of_calC_of_borel {D : Data G} {L X : Subgro
   have hcomm2 : IsMulCommutative
       (Subgroup.normalizerQuotient (S.subgroupOf B)) :=
     isMulCommutative_normalizer_inf_quotient_of_calC_of_borel hL hX hB
-  haveI : (S.subgroupOf B).Normal := hnormSB
+  have : (S.subgroupOf B).Normal := hnormSB
   have hab : ∀ a b : B ⧸ S.subgroupOf B, a * b = b * a := by
     intro a b
     let e : (B ⧸ S.subgroupOf B) ≃*
@@ -739,8 +740,8 @@ theorem exists_elemAbelian_normalizer_of_isComponent {Y : Type} [Group Y] [Finit
         CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient
           ((P ⊓ K).subgroupOf K))) ≤ CFSG.Open.pRank r A := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsinf : IsSylowTwoOf (P ⊓ K) K :=
     CFSG.QuasithinUnique.RankOneRecog.isSylowTwoOf_inf_of_subnormal hP le_top
       hK.2.subgroupOf
@@ -798,8 +799,8 @@ theorem exists_permuting_elemAbelian_noncyclic_of_calC_of_borel {D : Data G}
     ∃ E : Subgroup G, E ≤ X ⊓ normalizer ((D.T ⊓ X : Subgroup G) : Set G) ∧
       CFSG.Open.IsElemAbelian r E ∧ Permutes E D.T ∧ 2 ≤ CFSG.Open.pRank r E := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnn' : ¬ D.M ≤ Subgroup.normalizer (L : Set G) := by
     intro h
     exact hnn ((Subgroup.normal_subgroupOf_iff_le_normalizer hL.1.le).2 h)

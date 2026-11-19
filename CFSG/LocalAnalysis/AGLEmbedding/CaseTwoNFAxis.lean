@@ -85,7 +85,7 @@ theorem D1CaseTwoDataAt.exists_axis_inv (hAut : KFactCycAut) (hSc : KFactSeitzCy
   have hzc : ∀ g ∈ R, Commute (z : G) g := fun g hg =>
     (Subgroup.mem_centralizer_singleton_iff.mp (hRz hg)).symm
   obtain ⟨w, hwR, hwp, hwz, hwc, hwP, hΩP, -, hnorm⟩ := exists_pcentral_axis
-    hd.cfg.glob.charTwo hd.cfg.loc.maxLocal.1 hd.cfg.red.ne_two P.isPGroup' hd.cfg.ext.sylow_le
+    hd.cfg.glob.charTwo hd.cfg.loc.maxLocal.1 hd.cfg.red.ne_two P.isPGroup hd.cfg.ext.sylow_le
     hd.cfg.ext.le_P hne hzR hτR hzc hτcR hzp hτpG hτz hΩR hQC
   have hB0' : ∀ y ∈ Subgroup.normalizer (R : Set G), y * z * y⁻¹ = z →
       IsPGroup p (Subgroup.zpowers y) → y ∈ R := by
@@ -142,7 +142,7 @@ theorem D1CaseTwoDataAt.exists_fus_p (hd : D1CaseTwoDataAt p P M H R Rbar) {z w 
   have hp := hd.cfg.red.prime
   have : Fact p.Prime := ⟨hp⟩
   have hQC := hd.inf_centralizer_le hB0
-  obtain ⟨x, hxP, hxN, hxz⟩ := exists_mem_normalizer_not_mem_zpowers P.isPGroup'
+  obtain ⟨x, hxP, hxN, hxz⟩ := exists_mem_normalizer_not_mem_zpowers P.isPGroup
     hd.cfg.ext.le_P hne hzo hQC
   have hxM : x ∈ M := hd.cfg.ext.sylow_le hxP
   have hzc : ∀ g ∈ R, Commute z g := fun g hg =>
@@ -165,7 +165,7 @@ theorem D1CaseTwoDataAt.exists_fus_p (hd : D1CaseTwoDataAt p P M H R Rbar) {z w 
   obtain ⟨u, hu, v, hv, huv⟩ := (mem_zpowers_sup_zpowers_iff hwzc).mp (hΩR _ hxzR hxzc hxzp)
   obtain ⟨a, rfl⟩ := Subgroup.mem_zpowers_iff.mp hu
   obtain ⟨b, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv
-  obtain ⟨m, hm⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨m, hm⟩ := P.isPGroup ⟨x, hxP⟩
   have hxm : x ^ p ^ m = 1 := by simpa using congrArg Subtype.val hm
   have hxz' : x * z * x⁻¹ = z ^ b * w ^ a := by rw [← huv, (hwzc.zpow_zpow a b).eq]
   have hxw' : x * w * x⁻¹ = w := by rw [hxw.eq, mul_inv_cancel_right]

@@ -24,7 +24,7 @@ private noncomputable def ggKGCASimple_mulEquiv (m : ℕ) :
 
 theorem ggKGCASimple {m : ℕ} (hm : 3 ≤ m) :
     IsSimpleGroup (Matrix.SpecialLinearGroup (Fin m) GGKGCF) := by
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin m) (ZMod 2)) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin m) (ZMod 2)) :=
     CFSG.Quasithin.Vol2.Ch11.SecA.isSimpleGroup_SL_zmod_two hm
   exact (ggKGCASimple_mulEquiv m).isSimpleGroup
 

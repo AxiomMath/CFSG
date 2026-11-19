@@ -107,7 +107,7 @@ theorem gramSUToSL_mem_blockDiagSL_of_mem_centralizer_uTwTorus (hk : 4 ≤ Nat.c
     (tauSp (rootTorusHom h.fixedField 2 0 κ₀))))
     (by rw [coe_gramSUToSL]; exact coe_uModelSU_tauSp_rootTorusHom_zero h hC₀ κ₀) hc'
   fin_cases i <;> fin_cases j <;> simp [twBlockSL] at hij ⊢ <;>
-    first | exact e3 | exact e3.symm | (simpa using e3) | (simpa using e3.symm)
+    first | (simpa using e3) | (simpa using e3.symm)
 
 theorem perfectCore_centralizer_uTwTorus_le (hk : 4 ≤ Nat.card h.fixedField) :
     perfectCore (centralizer (uTwTorus h hC₀ :

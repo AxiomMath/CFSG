@@ -15,7 +15,7 @@ open CFSG.ASVolI.ChIJK (IsWeaklyClosedIn)
 open CFSG.Yardstones.Mf4cdcdf2e013 (Standing4 Setup4 TheoremCAt Theorem614Four)
 
 theorem isElemAbelian_subgroupOf_uc6 {G : Type*} [Group G] {p : ℕ} {K E : Subgroup G}
-    (hEK : E ≤ K) (hE : CFSG.Open.IsElemAbelian p E) :
+    (_hEK : E ≤ K) (hE : CFSG.Open.IsElemAbelian p E) :
     CFSG.Open.IsElemAbelian p (E.subgroupOf K) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
   · refine Subtype.ext (Subtype.ext ?_)
@@ -53,7 +53,7 @@ theorem mem_conjugate_iff_uc6 {G : Type*} [Group G] {H : Subgroup G} {g x : G} :
   · rintro ⟨h, hh, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hh
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
 namespace Mz614
 
@@ -85,7 +85,7 @@ theorem K_eq_map_normalClosure :
       (Subgroup.subset_normalClosure (show (⟨z, m.Z_le_M hz⟩ : ↥m.M) ∈ m.Z.subgroupOf m.M from hz))
       _
   · rw [Subgroup.map_le_iff_le_comap]
-    haveI : (m.K.comap m.M.subtype).Normal :=
+    have : (m.K.comap m.M.subtype).Normal :=
       ⟨fun n hn g => by
         have := m.conj_mem_K g.2 (show (n : G) ∈ m.K from hn)
         show ((g * n * g⁻¹ : ↥m.M) : G) ∈ m.K

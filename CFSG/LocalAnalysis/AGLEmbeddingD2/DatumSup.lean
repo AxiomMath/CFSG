@@ -82,7 +82,7 @@ theorem D2AlmostSimple.false_of_coreSup {X : Type*} [Group X] [Finite X] {p : �
     have hrank' : 2 ≤ Open.pRank p (Q.map K.subtype) := by
       rwa [CFSG.PreuniquenessRankFour.Helpers.pRank_map_of_injective p hK.prime K.subtype
         K.subtype_injective Q]
-    have hN := hK.normalizer_le_of_rank _ (hQX.trans hK.sylow_le) (R.isPGroup'.to_le hQX) hrank'
+    have hN := hK.normalizer_le_of_rank _ (hQX.trans hK.sylow_le) (R.isPGroup.to_le hQX) hrank'
     intro n hn
     exact Subgroup.mem_subgroupOf.mpr (hN (Subgroup.le_normalizer_map K.subtype ⟨n, hn, rfl⟩))
   have h1 : GLBCore p 1 (A.subgroupOf K) ≤ X₀.subgroupOf K := by

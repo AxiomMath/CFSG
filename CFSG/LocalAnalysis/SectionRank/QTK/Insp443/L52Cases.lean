@@ -22,8 +22,8 @@ theorem le_or_le_of_forall_mem_or {G : Type*} [Group G] {V Z W : Subgroup G}
     (h : ∀ v ∈ V, v ∈ Z ∨ v ∈ W) : V ≤ Z ∨ V ≤ W := by
   by_contra hne
   rw [not_or] at hne
-  obtain ⟨a, haV, haZ⟩ := SetLike.not_le_iff_exists.mp hne.1
-  obtain ⟨b, hbV, hbW⟩ := SetLike.not_le_iff_exists.mp hne.2
+  obtain ⟨a, haV, haZ⟩ := IsConcreteLE.not_le_iff_exists.mp hne.1
+  obtain ⟨b, hbV, hbW⟩ := IsConcreteLE.not_le_iff_exists.mp hne.2
   have haW : a ∈ W := (h a haV).resolve_left haZ
   have hbZ : b ∈ Z := (h b hbV).resolve_right hbW
   rcases h (a * b) (V.mul_mem haV hbV) with hab | hab
@@ -49,11 +49,11 @@ theorem permBk_append {n : ℕ} {as bs : List Table} (ha : as.length = 3) :
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i
   · rw [Fin.append_left]
     unfold permBk
-    rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, Fin.coe_castAdd,
+    rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, Fin.val_castAdd,
       List.getElem?_append_left (by rw [ha]; exact j.2)]
   · rw [Fin.append_right]
     unfold permBk
-    rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, Fin.coe_natAdd,
+    rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, Fin.val_natAdd,
       List.getElem?_append_right (by rw [ha]; omega), ha, Nat.add_sub_cancel_left]
 
 theorem permBk_diagT {n : ℕ} {as bs : List Table} (hat : tabsOK n as = true)

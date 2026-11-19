@@ -59,7 +59,7 @@ theorem SubO2Prop.of_map {A B : Type} [Group A] [Group B] (e : A ≃* B) {m : �
     rw [Subgroup.mem_subgroupOf] at this ⊢
     have h2 : e ((g : A) * n * (g : A)⁻¹) ∈ Y := by
       have h := this
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at h
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv] at h
       rw [map_mul, map_mul, map_inv]
       exact h
     refine Subgroup.mem_map.mpr ⟨e ((g : A) * n * (g : A)⁻¹), h2, ?_⟩
@@ -78,7 +78,7 @@ theorem SubO2Prop.of_sylow {Γ : Type} [Group Γ] [Finite Γ] {R : Subgroup Γ} 
     (hP : ∀ U : Subgroup Γ, R ≤ U → Nat.card U = 2 ^ 10 * 3 ^ 2 → SubO2Prop m U) :
     ∀ U : Subgroup Γ, Nat.card U = 2 ^ 10 * 3 ^ 2 → SubO2Prop m U := by
   intro U hU
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥U) 2 (n := 10)
     (by rw [hU]; exact Dvd.intro (3 ^ 2) rfl)
   have hS : Nat.card (K.map U.subtype) = 2 ^ 10 := by
@@ -92,7 +92,7 @@ theorem SubO2Prop.of_sylow {Γ : Type} [Group Γ] [Finite Γ] {R : Subgroup Γ} 
     obtain ⟨u, -, hu⟩ := Subgroup.mem_map.mp hy1
     refine Subgroup.mem_map.mpr ⟨g * y * g⁻¹, ?_, ?_⟩
     · rw [← hu]; exact u.2
-    · simp [MulAut.conj_apply, mul_assoc]
+    · simp [mul_assoc]
   have hcard : Nat.card (U.map (MulAut.conj g⁻¹).toMonoidHom) = 2 ^ 10 * 3 ^ 2 := by
     rw [Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective]; exact hU
   exact SubO2Prop.of_map (MulAut.conj g⁻¹) (hP _ hRU hcard)

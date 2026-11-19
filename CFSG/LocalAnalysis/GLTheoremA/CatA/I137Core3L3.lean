@@ -100,8 +100,8 @@ theorem core3Group_statedProj_SL3_char_two {K : Type} [Field K] [Finite K] {n : 
   intro T A hT2 hT hA Q₀ _ ⟨f, hf⟩ hQ
   exfalso
   obtain ⟨hfin, hsimp⟩ := l3_list93_finite_simple hQ
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hcard := two_pow_six_dvd_card_list93three hQ
   have hab : ∃ a b : Q₀, a * b ≠ b * a := by
     by_contra hcon
@@ -134,7 +134,7 @@ theorem core3Group_of_SL3cover (Q : Type) [Group Q] [Finite Q] (_hQ : CFSG.Open.
     (h : ∃ n : ℕ, 1 ≤ n ∧ Even n ∧ FullLinearCover false 3 (2 ^ n) Q) :
     Core3Group (Q ⧸ Subgroup.center Q) := by
   obtain ⟨n, hn1, hn, K, _, _, hcov⟩ := h
-  rw [if_neg Bool.false_ne_true] at hcov
+  rw [ite_eq_right Bool.false_ne_true] at hcov
   obtain ⟨hcard, ⟨e⟩⟩ := hcov
   let eQ : Q ⧸ Subgroup.center Q ≃* StatedProj (StatedSL 3 K) :=
     (QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)).trans

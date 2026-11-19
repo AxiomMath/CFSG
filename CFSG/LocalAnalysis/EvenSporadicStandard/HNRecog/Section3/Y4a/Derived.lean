@@ -44,8 +44,8 @@ private lemma y4aDerived_pCore_le_ker {G : Type} [Group G] {X : Subgroup G}
     Subgroup.Normal.map hPnorm ψ hψsurj
   have hmap_p : IsPGroup 2 ↥((CFSG.pCore 2 ↥(derivedOf X)).map ψ) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥(derivedOf X))).map ψ
-  haveI : ((CFSG.pCore 2 ↥(derivedOf X)).map ψ).Normal := hmap_normal
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : ((CFSG.pCore 2 ↥(derivedOf X)).map ψ).Normal := hmap_normal
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((CFSG.pCore 2 ↥(derivedOf X)).map ψ) with hbot | htop
   · exact (Subgroup.map_eq_bot_iff (H := CFSG.pCore 2 ↥(derivedOf X)) (f := ψ)).mp hbot

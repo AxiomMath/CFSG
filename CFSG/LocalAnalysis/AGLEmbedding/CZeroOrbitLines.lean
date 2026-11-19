@@ -16,7 +16,7 @@ open Subgroup
 theorem two_mul_card_lines_add_one {F : Type*} [Group F] [Finite F] (h3 : ∀ x : F, x ^ 3 = 1) :
     2 * Nat.card {ℓ : Subgroup F // Nat.card ℓ = 3} + 1 = Nat.card F := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fintype F := Fintype.ofFinite F
   have hzp : ∀ x : F, x ≠ 1 → Nat.card (zpowers x) = 3 := fun x hx => by
     rw [Nat.card_zpowers]

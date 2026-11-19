@@ -22,7 +22,7 @@ theorem levTwoS2a_isRt_iff_coord (n : ℕ) (_hn : 1 ≤ n) (v : Fin n → ℤ) :
       · exact ⟨w, j, h.symm⟩
       · exact absurd hj (Set.notMem_empty j)
   rw [h1, CFSG.LieType.Universal.SpecialLinear.roots_eq]
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
 
 @[expose] def levTwoS2a_D (n : ℕ) (p : ℕ) (c : Fin n → ZMod p) (k : Fin (n+1)) : ZMod p :=
   ∑ j : Fin n, if k.val ≤ j.val then c j else 0
@@ -46,8 +46,8 @@ theorem levTwoS2a_toStd_vext (n : ℕ) (v : Fin n → ℤ) (k : Fin (n+1)) :
   · have hpos : 0 < k.val := Nat.pos_of_ne_zero h0
     have hprev : k.val - 1 < n := by omega
     by_cases hlt : k.val < n
-    · rw [dif_pos hlt, dif_pos hpos, dif_pos hpos, dif_pos hprev]
-    · rw [dif_neg hlt, dif_pos hpos, dif_pos hpos, dif_pos hprev]
+    · rw [dite_eq_left hlt, dite_eq_left hpos, dite_eq_left hpos, dite_eq_left hprev]
+    · rw [dite_eq_right hlt, dite_eq_left hpos, dite_eq_left hpos, dite_eq_left hprev]
 
 theorem levTwoS2a_vext_sum (n : ℕ) (v : Fin n → ℤ) (m : ℕ) :
     Finset.sum (Finset.range (m+1)) (fun i => levTwoS2a_vext n v i -
@@ -58,7 +58,7 @@ theorem levTwoS2a_vext_sum (n : ℕ) (v : Fin n → ℤ) (m : ℕ) :
     simp
   | succ m ih =>
     rw [Finset.sum_range_succ, ih]
-    rw [dif_pos (show 0 < m + 1 by omega)]
+    rw [dite_eq_left (show 0 < m + 1 by omega)]
     rw [show m + 1 - 1 = m by omega]
     ring
 
@@ -82,11 +82,11 @@ theorem levTwoS2a_toStd_sum (n : ℕ) (v : Fin n → ℤ) (j : Fin n) :
         exact Nat.lt_of_lt_of_le hx (Nat.succ_le_succ (Nat.le_of_lt j.isLt)))
       (fun x hx hx' => by
         rw [Finset.mem_range] at hx hx'
-        exact if_neg (by omega))).symm]
+        exact ite_eq_right (by omega))).symm]
     apply Finset.sum_congr rfl
     intro i hi
     rw [Finset.mem_range] at hi
-    rw [if_pos (show i ≤ j.val by omega)]
+    rw [ite_eq_left (show i ≤ j.val by omega)]
   rw [hconv, levTwoS2a_vext_sum]
   simp [levTwoS2a_vext, j.isLt]
 
@@ -184,28 +184,28 @@ theorem levTwoS2a_dot_single (n : ℕ) (i j : Fin n) :
   · subst hij
     simp [Fin.ext_iff]
     norm_num
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     by_cases hadj : (i.val + 1 = j.val ∨ j.val + 1 = i.val)
-    · rw [if_pos hadj]
+    · rw [ite_eq_left hadj]
       rcases hadj with h | h
       · simp only [Fin.ext_iff, Fin.val_castSucc, Fin.val_succ]
-        rw [if_neg (fun hh => hij (Fin.ext hh)),
-            if_neg (by omega),
-            if_pos h,
-            if_neg (fun hh => hij (Fin.ext (Nat.succ.inj hh)))]
+        rw [ite_eq_right (fun hh => hij (Fin.ext hh)),
+            ite_eq_right (by omega),
+            ite_eq_left h,
+            ite_eq_right (fun hh => hij (Fin.ext (Nat.succ.inj hh)))]
         norm_num
       · simp only [Fin.ext_iff, Fin.val_castSucc, Fin.val_succ]
-        rw [if_neg (fun hh => hij (Fin.ext hh)),
-            if_pos h.symm,
-            if_neg (by omega),
-            if_neg (fun hh => hij (Fin.ext (Nat.succ.inj hh)))]
+        rw [ite_eq_right (fun hh => hij (Fin.ext hh)),
+            ite_eq_left h.symm,
+            ite_eq_right (by omega),
+            ite_eq_right (fun hh => hij (Fin.ext (Nat.succ.inj hh)))]
         norm_num
-    · rw [if_neg hadj]
+    · rw [ite_eq_right hadj]
       simp only [Fin.ext_iff, Fin.val_castSucc, Fin.val_succ]
-      rw [if_neg (fun hh => hij (Fin.ext hh)),
-          if_neg (fun hh => hadj (Or.inr hh.symm)),
-          if_neg (fun hh => hadj (Or.inl hh)),
-          if_neg (fun hh => hij (Fin.ext (Nat.succ.inj hh)))]
+      rw [ite_eq_right (fun hh => hij (Fin.ext hh)),
+          ite_eq_right (fun hh => hadj (Or.inr hh.symm)),
+          ite_eq_right (fun hh => hadj (Or.inl hh)),
+          ite_eq_right (fun hh => hij (Fin.ext (Nat.succ.inj hh)))]
       norm_num
 
 
@@ -275,7 +275,7 @@ theorem levTwoS2a_dot_root_self (n : ℕ) {α : Fin n → ℤ} {a b : Fin (n+1)}
   simp only [Pi.sub_apply, Pi.single_apply]
   push_cast
   rw [levTwoS2a_dot_ind]
-  rw [if_pos rfl, if_neg hab, if_neg (Ne.symm hab), if_pos rfl]
+  rw [ite_eq_left rfl, ite_eq_right hab, ite_eq_right (Ne.symm hab), ite_eq_left rfl]
   norm_num
 
 @[expose] noncomputable def levTwoS2a_toStdLinQ (n : ℕ) :
@@ -316,8 +316,8 @@ theorem levTwoS2a_toStdLinQ_vext (n : ℕ) (x : Fin n → ℚ) (k : Fin (n+1)) :
   · have hpos : 0 < k.val := Nat.pos_of_ne_zero h0
     have hprev : k.val - 1 < n := by omega
     by_cases hlt : k.val < n
-    · rw [dif_pos hlt, dif_pos hpos, dif_pos hpos, dif_pos hprev]
-    · rw [dif_neg hlt, dif_pos hpos, dif_pos hpos, dif_pos hprev]
+    · rw [dite_eq_left hlt, dite_eq_left hpos, dite_eq_left hpos, dite_eq_left hprev]
+    · rw [dite_eq_right hlt, dite_eq_left hpos, dite_eq_left hpos, dite_eq_left hprev]
 
 theorem levTwoS2a_vextQ_sum (n : ℕ) (x : Fin n → ℚ) (m : ℕ) :
     Finset.sum (Finset.range (m+1)) (fun i => levTwoS2a_vextQ n x i -
@@ -328,7 +328,7 @@ theorem levTwoS2a_vextQ_sum (n : ℕ) (x : Fin n → ℚ) (m : ℕ) :
     simp
   | succ m ih =>
     rw [Finset.sum_range_succ, ih]
-    rw [dif_pos (show 0 < m + 1 by omega)]
+    rw [dite_eq_left (show 0 < m + 1 by omega)]
     rw [show m + 1 - 1 = m by omega]
     ring
 
@@ -352,11 +352,11 @@ theorem levTwoS2a_toStdLinQ_sum (n : ℕ) (x : Fin n → ℚ) (j : Fin n) :
         exact Nat.lt_of_lt_of_le hi (Nat.succ_le_succ (Nat.le_of_lt j.isLt)))
       (fun i hi hi' => by
         rw [Finset.mem_range] at hi hi'
-        exact if_neg (by omega))).symm]
+        exact ite_eq_right (by omega))).symm]
     apply Finset.sum_congr rfl
     intro i hi
     rw [Finset.mem_range] at hi
-    rw [if_pos (show i ≤ j.val by omega)]
+    rw [ite_eq_left (show i ≤ j.val by omega)]
   rw [hconv, levTwoS2a_vextQ_sum]
   simp [levTwoS2a_vextQ, j.isLt]
 

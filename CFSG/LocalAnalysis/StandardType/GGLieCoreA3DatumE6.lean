@@ -26,9 +26,8 @@ private theorem ggLieDE_familyKernel_eq (a₁ a₂ : Fin (langTag .E6).rank → 
   ext α
   have h1 : ∀ a : Fin (langTag .E6).rank → GGLˣ,
       (rootCharHom a) (Multiplicative.ofAdd α) = rootChar a α := fun a => rfl
-  simp only [familyKernel, kernelRoots, jointChar, MonoidHom.prod_apply, Set.mem_setOf_eq,
-    Prod.mk_eq_one, h1, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Matrix.tail_cons, Fin.forall_fin_two]
+  simp only [familyKernel, kernelRoots, jointChar, MonoidHom.prod_apply, Set.mem_ofPred_eq,
+    Prod.mk_eq_one, h1, Matrix.cons_val_zero, Matrix.cons_val_one, Fin.forall_fin_two]
 
 private theorem ggLieDE_conj_mem_commutator {G : Type*} [Group G] (R : Subgroup G) (c n : G)
     (hc : c ∈ R) (hn : n ∈ ⁅R, R⁆) : c * n * c⁻¹ ∈ ⁅R, R⁆ := by
@@ -191,7 +190,7 @@ theorem ggLieA3DatumE6_of_lattice
         {s : WeylGroup (langTag .E6) |
           ∃ γ ∈ componentRoots (jointChar a₁ a₂) i, s = rootReflection γ} := by
       ext s
-      simp only [Set.mem_image, Set.mem_setOf_eq]
+      simp only [Set.mem_image, Set.mem_ofPred_eq]
       exact ⟨fun ⟨γ, hγ, h⟩ => ⟨γ, hγ, h.symm⟩, fun ⟨γ, hγ, h⟩ => ⟨γ, hγ, h.symm⟩⟩
     rw [himg]
     exact hw'mem
@@ -236,7 +235,7 @@ theorem ggLieA3DatumE6_of_lattice
     exact ggLieDE_conj_mem_commutator R c n hc_mem hn_mem
   have hy_mem : y ∈ D.Γ := by
     rw [hy, ← hmapΓ]
-    exact ⟨v, hv_mem, by simp [MulAut.conj_apply]⟩
+    exact ⟨v, hv_mem, by simp⟩
   have hz_cent : ∀ d ∈ Subgroup.closure
       {rootDiagUnit (langTag .E6) a₁, rootDiagUnit (langTag .E6) a₂}, z * d * z⁻¹ = d := by
     have hgen : ∀ c' ∈ ({rootDiagUnit (langTag .E6) a₁,

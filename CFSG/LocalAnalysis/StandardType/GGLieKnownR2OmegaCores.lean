@@ -192,7 +192,7 @@ theorem ggSixLieKnown_of_pos_POmegaPlus
   intro X _ _ n f ψ p G₀ B₁ D J L x hψ hker hmodel hoddG0 hp hp2 hB₁G₀ hinner hab hcardB hDB
     hcardD hB₁J hB₁centJ hJcomp hoddJ hxD hxne hLG₀ hLcomp hJL hDnotCL hLEM1 hB₁L hLEM2 hA3
     hE6c hA6 hField hN hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .POmegaPlus n 2 f := hmodel.admissible
   have hn : 4 ≤ n := hadm.2.2
   have hn3 : 3 ≤ n := by omega
@@ -271,7 +271,7 @@ theorem ggSixLieKnown_of_pos_POmegaMinus
   intro X _ _ n f ψ p G₀ B₁ D J L x hψ hker hmodel hoddG0 hp hp2 hB₁G₀ hinner hab hcardB hDB
     hcardD hB₁J hB₁centJ hJcomp hoddJ hxD hxne hLG₀ hLcomp hJL hDnotCL hLEM1 hB₁L hLEM2 hA3
     hE6c hA6 hField hN hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .POmegaMinus n 2 f := hmodel.admissible
   have hn : 4 ≤ n := hadm.2.2
   have hn3 : 3 ≤ n := by omega

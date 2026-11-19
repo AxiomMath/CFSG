@@ -49,7 +49,7 @@ theorem pPrimeCore_five_reeGamma_zero {k : Type} [Field k] [Finite k]
   let N' : Subgroup ↥(reeFixed ReeTag.F4 k 0) := N.map φ
   have hN'n : N'.Normal := hN.map φ e.symm.surjective
   have hcard : Nat.card N' = Nat.card N := Subgroup.card_map_of_injective (f := φ) e.symm.injective
-  haveI := hN'n
+  have := hN'n
   rcases CFSG.LieType.Simplicity.eq_bot_or_sup_eq_top_of_card_eq_two hk N' with hbot | hsup
   · have h : N.map φ = ⊥ := hbot
     exact (Subgroup.map_eq_bot_iff_of_injective N e.symm.injective).1 h
@@ -80,8 +80,8 @@ theorem odd_card_gLAPPrimeCoreOf_fixSubgroup_conj_of_orderOf_five
     (hK : Nat.card K = 2 ^ (2 * 2 + 1)) {y : ↥(ReeTag.F4.reeGamma K 2)} (hy : orderOf y = 5) :
     Odd (Nat.card (GLAPPrimeCoreOf 5 (fixSubgroup (MulAut.conj y)))) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hy5 : y ^ 5 = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
   have hy1 : y ≠ 1 := by
     rintro rfl
@@ -122,9 +122,9 @@ theorem odd_card_gLAPPrimeCoreOf_fixSubgroup_conj_of_orderOf_five
     exact Nat.mul_left_cancel Nat.card_pos (by rw [hmul, Nat.mul_comm])
   have hSbot : GLAPPrimeCoreOf 5 S = ⊥ := by
     rw [gLAPPrimeCoreOf_eq_bot_iff_pPrimeCore]
-    haveI : IsSimpleGroup ↥(suzukiGroup 2 K) :=
+    have : IsSimpleGroup ↥(suzukiGroup 2 K) :=
       (CFSG.LieType.Ree.suzuki_simple (a := 2) (by norm_num) hK).2.2
-    haveI hSs : IsSimpleGroup ↥S := eS.isSimpleGroup
+    have hSs : IsSimpleGroup ↥S := eS.isSimpleGroup
     have hdvd : 5 ∣ Nat.card ↥S := by rw [hScard]; norm_num
     exact gLAPPrimeCore_eq_bot_of_isSimpleGroup_of_dvd_card Nat.prime_five hSs hdvd
   have hCbot : GLAPPrimeCoreOf 5 (fixSubgroup (MulAut.conj y)) = ⊥ :=
@@ -140,7 +140,7 @@ theorem odd_card_gLAPPrimeCoreOf_fixSubgroup_fieldAut_of_orderOf_five
     Odd (Nat.card (GLAPPrimeCoreOf 5 (fixSubgroup (MulAut.conj g *
       ReeTag.F4.reeGammaFieldAut K 2 σ * (MulAut.conj g)⁻¹)))) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   obtain ⟨b, hbp, hkcard, -⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.largeRee_fixed_data_odd hK Nat.prime_five
       (by norm_num) σ hσ
@@ -151,7 +151,7 @@ theorem odd_card_gLAPPrimeCoreOf_fixSubgroup_fieldAut_of_orderOf_five
   have hk2 : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 := by simpa using hkcard
   obtain ⟨b', hkcard', hchar', ⟨eC⟩⟩ :=
     exists_fixSubgroup_fieldAut_equiv' (a := 2) hK Nat.prime_five (by norm_num) σ hσ
-  haveI := hchar'
+  have := hchar'
   have hb0' : b' = 0 := by
     have h1 : 2 ^ (2 * b' + 1) = 2 ^ 1 := by rw [← hkcard', hk2, pow_one]
     have h2 := Nat.pow_right_injective (le_refl 2) h1

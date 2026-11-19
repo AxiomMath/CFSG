@@ -21,7 +21,7 @@ theorem sec717NbarKStructure_of (h34 : Stroth34Statement) (hRoot : Stroth310Root
     Sec717NbarKStructureStatement := by
   intro G _ _ M Q Z B _ hc n t hs hp3 Z0 hZ0 m γ M₀ hM φ hφπ T hT g hg c
   classical
-  haveI : FiniteDimensional (GaloisField 2 m) M₀.E := M₀.fin
+  have : FiniteDimensional (GaloisField 2 m) M₀.E := M₀.fin
   have h310chi : Stroth310ChiStatement := stroth310Chi_of_34 h34
   obtain ⟨ρ, b, hS⟩ := hc.exists_isTensorSetup h34 hs.toSec5.width hs.toSec5.n_gt
     hs.toSec5.noA2 hs.toSec5.gen hM

@@ -75,7 +75,7 @@ theorem exists_conj_of_one_class {G : Type} [Group G] [Finite G] {z : G} (hz2 : 
 
 theorem _root_.CFSG.Quasithin.IsTypeH2.centralizer_involution_data {G : Type} [Group G] [Finite G]
     {z : G} (h : IsTypeH2 G z) (hone : involutionClassCount G = 1)
-    {y : G} (hy : y ∈ Subgroup.centralizer ({z} : Set G)) (hy3 : orderOf y = 3)
+    {y : G} (_hy : y ∈ Subgroup.centralizer ({z} : Set G)) (hy3 : orderOf y = 3)
     {t : G} (ht2 : t * t = 1) (ht1 : t ≠ 1) (hty : t ∈ CK y) :
     Nat.card ↥(Subgroup.centralizer ({(⟨t, hty⟩ : ↥(CK y))} : Set ↥(CK y))) = 24 ∧
       ∃ R : Subgroup ↥(CK y),

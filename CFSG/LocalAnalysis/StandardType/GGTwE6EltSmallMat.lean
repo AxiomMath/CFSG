@@ -58,18 +58,18 @@ theorem false_of_isComponentOf_fixSubgroup {K : Type} [Field K] [Finite K] {n : 
     (hcomm : ∀ b ∈ B, (∀ d ∈ Q, b * d = d * b) → b ∈ Subgroup.zpowers a)
     (hsmall : Nat.card ↥(B ⊓ Q) < p ^ 3) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hpodd : p % 2 = 1 := hp.eq_two_or_odd.resolve_left (by omega)
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 := fun h => by
     have := (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1
       ((CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 p).1 h)
     omega
-  haveI : NeZero ((p : ℕ) : AlgebraicClosure K) := ⟨hpL⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  have : NeZero ((p : ℕ) : AlgebraicClosure K) := ⟨hpL⟩
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (AlgebraicClosure K)ˣ, IsPrimitiveRoot ζ p :=
     ⟨_, IsPrimitiveRoot.isUnit_unit hp.ne_zero hζ0⟩
   have hcard : Nat.card (B.map (twistedE6RootGroup K σ).subtype) = Nat.card B :=

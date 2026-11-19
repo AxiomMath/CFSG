@@ -80,11 +80,11 @@ private theorem grcPSU_pairGen_suElt {F : Type} [Field F] {n : ℕ}
   rw [show c • (Matrix.single (crd A) (crd (Sum.swap B)) (1 : F) :
         Matrix (Fin n) (Fin n) F) = Matrix.single (crd A) (crd (Sum.swap B)) c from by
     ext x y; by_cases hx : x = crd A <;> by_cases hy : y = crd (Sum.swap B) <;>
-      simp [Matrix.smul_apply, Matrix.single_apply, smul_eq_mul, hx, hy, eq_comm]]
+      simp [Matrix.smul_apply, smul_eq_mul, hx, hy, eq_comm]]
   rw [show σ.toRingHom c • (Matrix.single (crd B) (crd (Sum.swap A)) (1 : F) :
         Matrix (Fin n) (Fin n) F) = Matrix.single (crd B) (crd (Sum.swap A)) (σ c) from by
     ext x y; by_cases hx : x = crd B <;> by_cases hy : y = crd (Sum.swap A) <;>
-      simp [Matrix.smul_apply, Matrix.single_apply, smul_eq_mul, hx, hy, eq_comm]]
+      simp [Matrix.smul_apply, smul_eq_mul, hx, hy, eq_comm]]
   rw [mat_suElt hσ hAB c]
 
 private theorem grcPSU_rootGroup_map_subtype_short {F : Type} [Field F] {n : ℕ}
@@ -129,14 +129,14 @@ private theorem grcPSU_map_conj_subtype {F : Type} [Field F] {n : ℕ} (σ : F �
       Subgroup.mem_map.2 ⟨x, hx, rfl⟩, ?_⟩
     change MulAut.conj ((u : GL (Fin n) F)) ((x : GL (Fin n) F)) =
       (SU σ n).subtype ((MulAut.conj u) x)
-    simp [MulAut.conj_apply, Units.val_mul]
+    simp [MulAut.conj_apply]
   · rintro g ⟨y, hy, rfl⟩
     obtain ⟨x, hx, rfl⟩ := hy
     refine Subgroup.mem_map.2 ⟨(MulAut.conj u) x, ?_, ?_⟩
     · exact Subgroup.mem_map.2 ⟨x, hx, rfl⟩
     · change (SU σ n).subtype ((MulAut.conj u) x) =
         MulAut.conj ((u : GL (Fin n) F)) ((x : GL (Fin n) F))
-      simp [MulAut.conj_apply, Units.val_mul]
+      simp [MulAut.conj_apply]
 
 private theorem grcPSU_pairGen_conj {F : Type} [Field F] {n : ℕ} (σ : F ≃+* F)
     (u : SU σ n) (x y : Fin n → F) (c : F) :
@@ -199,7 +199,7 @@ private theorem grcPSU_pairGen_conj {F : Type} [Field F] {n : ℕ} (σ : F ≃+*
     rw [hrow x]
     rfl
   simp only [Matrix.mul_add, Matrix.mul_sub, Matrix.mul_smul, Matrix.mul_one, Matrix.add_mul,
-    Matrix.sub_mul, Matrix.smul_mul, hUV, Matrix.one_mul, hN1, hN2]
+    Matrix.sub_mul, Matrix.smul_mul, hUV, hN1, hN2]
 
 private theorem grcPSU_unitPairGroup_conj {F : Type} [Field F] {n : ℕ} (σ : F ≃+* F)
     (u : SU σ n) (x y : Fin n → F) :
@@ -250,8 +250,7 @@ private theorem grcPSU_unitPairGroup_conj {F : Type} [Field F] {n : ℕ} (σ : F
       have hux : ((((u : GL (Fin n) F)) : Matrix (Fin n) (Fin n) F))⁻¹ *
           (((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) = 1 := by
         have h : ((u : GL (Fin n) F))⁻¹ * (u : GL (Fin n) F) = 1 := inv_mul_cancel _
-        simpa [Units.val_mul, Units.val_one, Units.val_inv_eq_inv_val] using
-          congrArg (fun w : GL (Fin n) F => ((w : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) h
+        simp
       have hx : Matrix.mulVec ((((u : GL (Fin n) F)) : Matrix (Fin n) (Fin n) F))⁻¹
           (Matrix.mulVec (((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) x) = x := by
         rw [Matrix.mulVec_mulVec, hux, Matrix.one_mulVec]
@@ -349,7 +348,7 @@ private theorem grcPSU_exists_weyl_long_even {n : ℕ} (he : Even n)
     toStd_injective n (hw.trans h.symm)
   have hl' : l = ⟨n / 2 - 1, by omega⟩ := by
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     have := l.isLt
     have := hl
     omega
@@ -366,7 +365,7 @@ private theorem grcPSU_exists_weyl_long_odd {n : ℕ} (he : ¬Even n)
   obtain ⟨w, l, hl, hw⟩ := orbL_weight he hi
   have hl' : l = ⟨n / 2 - 1, by omega⟩ := by
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     have := l.isLt
     have := hl
     omega
@@ -512,9 +511,9 @@ private theorem grcPSU_short_pair_side_conditions {F : Type} [Field F] {n : ℕ}
   · refine CFSG.ClassicalInvolution.ModelFacts.MF15.linearIndependent_pair_of_not_eigen
       (grcPSU_mulVec_single_ne_zero σ u (crd A)) ?_
     exact grcPSU_mulVec_single_not_smul σ u hcrd
-  · rw [grcPSU_herm_mat, if_neg (crd_ne_rev A)]
-  · rw [grcPSU_herm_mat, if_neg (crd_ne_rev B)]
-  · rw [grcPSU_herm_mat, if_neg hneB]
+  · rw [grcPSU_herm_mat, ite_eq_right (crd_ne_rev A)]
+  · rw [grcPSU_herm_mat, ite_eq_right (crd_ne_rev B)]
+  · rw [grcPSU_herm_mat, ite_eq_right hneB]
 
 private theorem grcPSU_short_core {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
     (hc : Nat.card F = (2 ^ f) ^ 2) {n : ℕ} {γ : Fin (n / 2) → ℤ}

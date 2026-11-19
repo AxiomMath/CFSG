@@ -413,7 +413,7 @@ theorem even_orbit_residue_eq_zero (ideal : Ideal ComplexAlgebraicIntegers) [ide
       rw [h1, h2]
     rw [hteq]
     simp only [hmemiff]
-  rw [p_group_invariant_sum_fixedPoints 2 Q.isPGroup' _ hinv]
+  rw [p_group_invariant_sum_fixedPoints 2 Q.isPGroup _ hinv]
   apply Finset.sum_eq_zero
   intro μ' _
   by_cases hfix : μ' ∈ MulAction.fixedPoints (Q : Subgroup H) eb.index
@@ -508,7 +508,7 @@ theorem order_eight_normal_four_group_orbit_defect_parity {H : Type*} [Group H] 
     (G := Subgroup.centralizer ((Q : Subgroup H) : Set H))
   obtain ⟨D, hD⟩ := coefficientBlockDefect_exists hb ideal 2 χ
   have hlocal := brauerNormalizer_local_block_exists_iff_subconjugate hb ideal 2 (Q : Subgroup H)
-    Q.isPGroup' _ le_rfl (Subgroup.centralizer_le_normalizer _) lb hD
+    Q.isPGroup _ le_rfl (Subgroup.centralizer_le_normalizer _) lb hD
   have hoddsub : Odd Ω.card → subgroupSubconjugate (Q : Subgroup H) D := by
     intro hodd
     apply hlocal.mp
@@ -518,7 +518,7 @@ theorem order_eight_normal_four_group_orbit_defect_parity {H : Type*} [Group H] 
           (Subgroup.centralizer_le_normalizer _) eB) = 0 := by
       intro γ
       obtain ⟨χ', hχ'⟩ := brauerNormalizer_block_image_exists hb ideal 2 (Q : Subgroup H)
-        Q.isPGroup' _ le_rfl (Subgroup.centralizer_le_normalizer _) lb γ
+        Q.isPGroup _ le_rfl (Subgroup.centralizer_le_normalizer _) lb γ
       have hval := congrArg (fun f => f eB) hχ'
       change centralCharacterResidueHom lb ideal γ (centralNormalizerCoefficientProjection _
         (Q : Subgroup H) _ le_rfl (Subgroup.centralizer_le_normalizer _) eB) =
@@ -533,13 +533,13 @@ theorem order_eight_normal_four_group_orbit_defect_parity {H : Type*} [Group H] 
     have hidem : IsIdempotentElem (centralCoefficientReductionHom ideal
         (centralNormalizerCoefficientProjection _ (Q : Subgroup H) _ le_rfl
           (Subgroup.centralizer_le_normalizer _) eB)) :=
-      heBidem.map (reducedBrauerProjectionHom ideal 2 (Q : Subgroup H) Q.isPGroup' _ le_rfl
+      heBidem.map (reducedBrauerProjectionHom ideal 2 (Q : Subgroup H) Q.isPGroup _ le_rfl
         (Subgroup.centralizer_le_normalizer _))
     have hred := centralCoefficientReductionHom_idempotent_zero_of_residues_zero lb ideal _ hidem
       hzero
     have hcoeff := congrArg
       (fun z => z.coeff (1 : Subgroup.centralizer ((Q : Subgroup H) : Set H))) hred
-    change (reducedBrauerProjectionHom ideal 2 (Q : Subgroup H) Q.isPGroup' _ le_rfl
+    change (reducedBrauerProjectionHom ideal 2 (Q : Subgroup H) Q.isPGroup _ le_rfl
       (Subgroup.centralizer_le_normalizer _) eB).coeff 1 = _ at hcoeff
     rw [reducedBrauerProjectionHom_coeff,
       ite_eq_left (1 : Subgroup.centralizer ((Q : Subgroup H) : Set H)).property] at hcoeff
@@ -560,7 +560,7 @@ theorem order_eight_normal_four_group_orbit_defect_parity {H : Type*} [Group H] 
     have hred : centralCoefficientReductionHom ideal (centralNormalizerCoefficientProjection _
         (Q : Subgroup H) _ le_rfl (Subgroup.centralizer_le_normalizer _) eB) = 0 := by
       ext c
-      change (reducedBrauerProjectionHom ideal 2 (Q : Subgroup H) Q.isPGroup' _ le_rfl
+      change (reducedBrauerProjectionHom ideal 2 (Q : Subgroup H) Q.isPGroup _ le_rfl
         (Subgroup.centralizer_le_normalizer _) eB).coeff c = _
       rw [reducedBrauerProjectionHom_coeff, ite_eq_left c.property]
       simp only [MonoidAlgebra.coeff_zero, Finsupp.coe_zero, Pi.zero_apply]

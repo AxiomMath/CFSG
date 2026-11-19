@@ -36,6 +36,7 @@ section Arithmetic
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem card_fixSubfield_cast {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f)
     (hp : p.Prime) {σ : K ≃+* K} (hσp : orderOf σ = p) :
     ((Nat.card (fixSubfield σ) : ℕ) : ZMod p) = ((Nat.card K : ℕ) : ZMod p) := by

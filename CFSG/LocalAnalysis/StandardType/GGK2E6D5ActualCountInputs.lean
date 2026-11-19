@@ -45,9 +45,9 @@ theorem d5_actual_count_inputs
   classical
   let xV : V := ι (Additive.ofMul (⟨x, hx⟩ : ↥Bs))
   let yV : V := ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs))
-  haveI : Fintype ↥Bs := Fintype.ofFinite _
-  haveI : Fintype V := Fintype.ofEquiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Fintype ↥Bs := Fintype.ofFinite _
+  have : Fintype V := Fintype.ofEquiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hcardV : Nat.card V = 3 ^ 6 := by
     calc Nat.card V = Nat.card (Additive ↥Bs) := (Nat.card_congr ι.toEquiv).symm
       _ = Nat.card Bs := Nat.card_congr Additive.toMul

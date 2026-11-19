@@ -21,7 +21,7 @@ open CFSG.Assembly CFSG.Open
 theorem center_eq_bot_of_quasisimple_psp63 {Y : Type} [Group Y] [Finite Y]
     (hY : CFSG.IsQuasisimple Y) (hL : StatedClassicalModel (Y ⧸ Subgroup.center Y) .PSp 3 2 2) :
     Subgroup.center Y = ⊥ := by
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   have hL' : CFSG.Blueprint.LieModel (Y ⧸ Subgroup.center Y) .PSp 3 2 2 :=
     Or.inl ⟨by simp [CFSG.Blueprint.classicalTags], hL⟩
   have hM : CFSG.Models.LieModel (Y ⧸ Subgroup.center Y) .PSp 3 2 2 :=
@@ -65,8 +65,8 @@ theorem ggB48_of_sp_six_four
   have q : (↥N ⧸ Subgroup.center ↥N) ≃* ↥N :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   have e₁ : ↥N ≃* StatedSp 3 K := q.symm.trans eAll
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card (GaloisField 2 2) := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hK,
       GaloisField.card 2 2 (by norm_num)]

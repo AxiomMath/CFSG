@@ -115,7 +115,7 @@ theorem cf82L2Comm : CF82L2Comm := by
       rw [Nat.card_congr e₁.toEquiv, psl2_card_formula F hK, h3]
       norm_num
     have hTd : Nat.card T ∣ 12 := hY ▸ card_subgroup_dvd_card (T : Subgroup Y)
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 T.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 T.isPGroup
     have hle12 : Nat.card T ≤ 12 := Nat.le_of_dvd (by norm_num) hTd
     rw [hk] at hT hTd hle12
     have hk3 : k = 3 := by

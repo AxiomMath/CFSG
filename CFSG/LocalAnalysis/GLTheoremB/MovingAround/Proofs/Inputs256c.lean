@@ -114,7 +114,7 @@ theorem not_mem_zpowers_of_mem_comp {g y : K} {L : Subgroup K}
     rw [alternatingGroup.center_eq_bot (by simp), Subgroup.mem_bot] at hc
     exact eL.injective (hc.trans (map_one eL).symm)
   have hmem : t ∈ GLAPPrimeCore 3 ↥L := (QuotientGroup.eq_one_iff t).1 hone
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥L)) := CFSG.pPrimeCore_coprime_card
   have ho : orderOf (⟨t, hmem⟩ : GLAPPrimeCore 3 ↥L) = 3 := by
     rw [Subgroup.orderOf_mk, Subgroup.orderOf_mk]
@@ -128,7 +128,7 @@ theorem exists_conj_of_orderOf_three {e₁ e₂ : K}
     (hcls : ∀ ε ∈ Subgroup.closure ({e₁, e₂} : Set K), ε ≠ 1 →
       ∃ c : K, ∃ s : ℕ, (s = 1 ∨ s = 2) ∧ c * e₁ ^ s * c⁻¹ = ε)
     {z : K} (hz : orderOf z = 3) : ∃ c : K, ∃ s : ℕ, (s = 1 ∨ s = 2) ∧ c * e₁ ^ s * c⁻¹ = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzp : IsPGroup 3 (Subgroup.zpowers z) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz, pow_one])
   obtain ⟨k, hk⟩ := CFSG.RankThree.PartTwo.Sec4.Item434AltPerm.exists_le_map_conj_of_card hE hzp
@@ -144,6 +144,7 @@ theorem exists_conj_of_orderOf_three {e₁ e₂ : K}
   rw [← hεz, ← hc]
   group
 
+omit [Finite K] in
 theorem exists_comp_of_orderOf_three {e₁ : K} (he₁ : e₁ ^ 3 = 1)
     (hcl : ∀ z : K, orderOf z = 3 → ∃ c : K, ∃ s : ℕ, (s = 1 ∨ s = 2) ∧ c * e₁ ^ s * c⁻¹ = z)
     {g : K} (hg : orderOf g = 3) {L : Subgroup K}
@@ -186,7 +187,7 @@ theorem exists_comp_mem_of_pow_five {z : K}
     obtain ⟨eJ⟩ := hJ5
     have h1 : Nat.card (barOf 3 J) ∣ Nat.card J := Subgroup.index_dvd_card (H := GLAPPrimeCore 3 ↥J)
     rwa [Nat.card_congr eJ.toEquiv, Inputs256b.card_alt5] at h1
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' (G := ↥J) 5 (dvd_trans (by norm_num) h60)
   set w' : ↥C := ⟨w, hwC⟩ with hw'
   set q' : ↥C := ⟨q, hJC q.2⟩ with hq'
@@ -289,7 +290,7 @@ theorem kstar_a5Comps_eq_top (hZ : Subgroup.center K = ⊥)
     rw [hE9, h9]
     norm_num
   have hcl := fun (z : K) (hz : orderOf z = 3) => exists_conj_of_orderOf_three hEsyl hcls hz
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPp : IsPGroup 3 P := IsPGroup.of_card (n := 2) (by rw [hP9]; norm_num)
   obtain ⟨h, hh⟩ := CFSG.RankThree.PartTwo.Sec4.Item434AltPerm.exists_le_map_conj_of_card hEsyl hPp
   have hPeq : P = E.map (MulAut.conj h).toMonoidHom :=
@@ -379,9 +380,9 @@ theorem gen5Model_of_check {tA tB : Array ℕ} {A B : Equiv.Perm (Fin n)} (hA : 
     intro j
     rw [← hX]
     by_cases hj : j = 0
-    · simp only [hGdef, hj, if_true]
+    · simp only [hGdef, hj, ite_true]
       exact Subgroup.subset_closure (by simp)
-    · simp only [hGdef, hj, if_false]
+    · simp only [hGdef, hj, ite_false]
       exact Subgroup.subset_closure (by simp)
   have hwordX : ∀ w : List ℕ, (w.map G).prod ∈ X := fun w =>
     list_prod_mem fun x hx => by
@@ -429,7 +430,7 @@ theorem gen5Model_of_check {tA tB : Array ℕ} {A B : Equiv.Perm (Fin n)} (hA : 
     refine ⟨⟨(t.2.2.2.map G).prod, hwordX _⟩, t.2.2.1, hs, Subtype.ext ?_⟩
     have hperm := eq_of_eqA (rep_compA hrc (rep_powN hr1 _)) (rep_compA (rep_pN hr1 hr2 _) hrc) hceq
     dsimp only at hperm
-    simp only [Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_inv, Subgroup.coe_mk, hE1def, hE2def]
+    simp only [Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_inv, hE1def, hE2def]
     rw [hperm]
     group
   ·
@@ -466,7 +467,7 @@ theorem gen5Model_of_check {tA tB : Array ℕ} {A B : Equiv.Perm (Fin n)} (hA : 
         rw [(eqA_iff hrp rep_idA).2 h1'] at hp1
         exact Bool.noConfusion hp1
       · exact Subtype.ext (by
-          simp only [Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_mk, hE1def, hE2def]
+          simp only [Subgroup.coe_mul, Subgroup.coe_pow, hE1def, hE2def]
           exact mul_comm_of_commN (hrW i hi) hrp hcomm)
     rw [List.all_append, Bool.and_eq_true] at hablet
     have hAeq : (aW.map Wp).prod = A := eq_of_eqA (rep_prodN hrW aW hablet.1) hA haeq
@@ -558,7 +559,7 @@ theorem kstar_a5Comps_eq_top_m23
   obtain ⟨f⟩ := hs
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M23.nonempty_mulEquiv
   have e : K ⧸ Subgroup.center K ≃* ↥CFSG.Blueprint.NativeSporadic.M23 := f.trans b.symm
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
   have hZ : Subgroup.center K = ⊥ := Subgroup.card_eq_one.1
     (CFSG.Sporadic.Recognition.M23Multiplier.card_center_eq_one_of_certificate inferInstance e)
   have φ : K ≃* ↥CFSG.Blueprint.NativeSporadic.M23 := (quotCenterEquiv hZ).trans e
@@ -584,10 +585,10 @@ theorem kstar_a5Comps_eq_top_hs
   obtain ⟨f⟩ := hs
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.HS.nonempty_mulEquiv
   have e : K ⧸ Subgroup.center K ≃* CFSG.Blueprint.NativeSporadic.HS := f.trans b.symm
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
   have hZ : Subgroup.center K = ⊥ := by
     have h2 := CFSG.Sporadic.Recognition.HSMultiplier.card_center_le_two_of_certificate inferInstance e
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := (SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot Nat.prime_three hcore).exists_card_eq
     rw [hk] at h2
     have hk0 : k = 0 := by

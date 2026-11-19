@@ -18,6 +18,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -44,11 +45,13 @@ private theorem s16h_map_conj_mul {A : Type*} [Group A] (H : Subgroup A) (a b : 
   ext t
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 private theorem s16h_mem_preTil_inf_iff {V : Subgroup G} (hV : IsElemAbelian 2 V)
     {S T : Subgroup (Vtil ⊥ V hV)} {v : G} (hv : v ∈ V) :
     v ∈ preTil ⊥ V hV (S ⊓ T) ↔ v ∈ preTil ⊥ V hV S ∧ v ∈ preTil ⊥ V hV T := by
   simp only [mem_preTil_iff_of_mem ⊥ V hV _ hv, Subgroup.mem_inf]
 
+omit [Finite G] in
 private theorem s16h_wSub_inf_centralizer_eq_preTil_of_le {V : Subgroup G}
     (hV : IsElemAbelian 2 V) {L' : Subgroup G} (hL' : L' ≤ stabTil ⊥ V) :
     wSub ⊥ V hV L' ⊓ centralizer (L' : Set G) =
@@ -180,6 +183,7 @@ private theorem s16h_Z₁x_map_conj_eq_preTil (D : Data G) {V L : Subgroup G}
     ← s16h_map_conj_mul (lBar ⊥ V hV L) (actTil ⊥ V hV ⟨x, hMs hxM⟩)
       (actTil ⊥ V hV ⟨m, hMs hm⟩)]
 
+omit [Finite G] in
 theorem s16h_mem_centralizer_preTil_iff {V M : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ stabTil ⊥ V) (S : Subgroup (Vtil ⊥ V hV)) {g : G} (hg : g ∈ M) :
     g ∈ centralizer ((preTil ⊥ V hV S : Subgroup G) : Set G) ↔

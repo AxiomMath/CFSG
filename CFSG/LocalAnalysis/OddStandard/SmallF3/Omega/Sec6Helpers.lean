@@ -20,13 +20,13 @@ variable {G : Type} [Group G]
 
 private theorem odd_card_oddCore_aux (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
 private theorem two_dvd_card_of_isQuasisimple {X : Type*} [Group X] [Finite X]
     (hX : CFSG.IsQuasisimple X) : 2 ∣ Nat.card X := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.1
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.1
   have heven : Even (Nat.card (X ⧸ Subgroup.center X)) :=
     CFSG.Walter.even_card_of_isSimpleGroup hX.2.2
   exact (even_iff_two_dvd.mp heven).trans (Subgroup.card_quotient_dvd_card (Subgroup.center X))
@@ -35,7 +35,7 @@ private theorem two_dvd_card_of_isComponent {X : Type*} [Group X] [Finite X]
     {K : Subgroup X} (hK : CFSG.IsComponent K) : 2 ∣ Nat.card K :=
   two_dvd_card_of_isQuasisimple hK.1
 
-private theorem exists_mul_ne_mul_of_simple_perfect {Q : Type*} [Group Q] [Nontrivial Q]
+private theorem exists_mul_ne_mul_of_simple_perfect {Q : Type*} [Group Q]
     [IsSimpleGroup Q] [Group.IsPerfect Q] : ∃ a b : Q, a * b ≠ b * a := by
   by_contra h
   have hcomm : IsMulCommutative Q := isMulCommutative_iff.mpr fun a b => by
@@ -71,12 +71,12 @@ private theorem isQuasisimple_of_layer_eq_top_of_simple_oddCore {X : Type*} [Gro
   have hperfX : Group.IsPerfect X := by
     have h : Group.IsPerfect ↥(CFSG.layer X) := CFSG.LocalCores.layer_isPerfect
     rw [hlayer] at h
-    letI : Group.IsPerfect ↥(⊤ : Subgroup X) := h
+    let : Group.IsPerfect ↥(⊤ : Subgroup X) := h
     have hf : Function.Surjective (Subgroup.topEquiv (G := X)).toMonoidHom := by
       simpa using (Subgroup.topEquiv (G := X)).surjective
     exact Group.IsPerfect.ofSurjective (f := (Subgroup.topEquiv (G := X)).toMonoidHom) hf
-  haveI : Group.IsPerfect X := hperfX
-  haveI : Group.IsPerfect (X ⧸ CFSG.oddCore X) :=
+  have : Group.IsPerfect X := hperfX
+  have : Group.IsPerfect (X ⧸ CFSG.oddCore X) :=
     Group.IsPerfect.ofSurjective (f := q) hq
   have hXnt : Nontrivial X := hq.nontrivial
   have hlayerNe : CFSG.layer X ≠ ⊥ := by
@@ -135,10 +135,10 @@ private theorem isQuasisimple_of_layer_eq_top_of_simple_oddCore {X : Type*} [Gro
 private theorem layer_layerCent_eq_top [Finite G] (L : Subgroup G) (s : G) :
     CFSG.layer ↥(layerCent L s) = ⊤ := by
   let H : Subgroup G := L ⊓ centralizer ({s} : Set G)
-  haveI : Finite ↥H := Subtype.finite
+  have : Finite ↥H := Subtype.finite
   let e : ↥(CFSG.layer H) ≃* ↥(layerCent L s) :=
     (CFSG.layer H).equivMapOfInjective H.subtype H.subtype_injective
-  haveI : Finite ↥(CFSG.layer H) :=
+  have : Finite ↥(CFSG.layer H) :=
     Finite.of_injective (Subgroup.subtype (CFSG.layer H)) (Subgroup.subtype_injective _)
   exact CFSG.LocalCores.layer_eq_top_of_surjective
     (CFSG.WholeGroup.layer_layer_eq_top (G := ↥H)) e.toMonoidHom e.surjective
@@ -167,7 +167,7 @@ theorem isComponentIn_layerCent [Finite G] {L : Subgroup G} {s : G}
       exact Subgroup.mem_map_of_mem H.subtype hx
   have hNormal : ((layerCent L s).subgroupOf H).Normal := by
     rw [hEq]
-    haveI : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
+    have : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
     exact inferInstance
   exact isComponentIn_of_normal hle hquasi hNormal
 

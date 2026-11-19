@@ -70,7 +70,7 @@ public theorem CFSG.conjugate_eq_commutator_mul {G : Type*} [Group G] (a b : G) 
 public theorem CFSG.lowerCentralSeries_two_le_center_of_class3
     {R : Type*} [Group R] (hclass : NilpotencyClassLe 3 R) :
     (⊤ : Subgroup R).lowerCentralSeries 2 ≤ Subgroup.center R := by
-  letI : Group.IsNilpotent R :=
+  let : Group.IsNilpotent R :=
     (Subgroup.nilpotent_iff_finite_ascending_central_series (G := R)).2
       ⟨3, Subgroup.upperCentralSeries R,
         Subgroup.upperCentralSeries_isAscendingCentralSeries R, hclass⟩
@@ -157,7 +157,7 @@ public theorem CFSG.commutator_pow_formula
 public theorem CFSG.lowerCentralSeries_three_eq_bot_of_class3
     {R : Type*} [Group R] (hclass : NilpotencyClassLe 3 R) :
     (⊤ : Subgroup R).lowerCentralSeries 3 = ⊥ := by
-  letI : Group.IsNilpotent R :=
+  let : Group.IsNilpotent R :=
     (Subgroup.nilpotent_iff_finite_ascending_central_series (G := R)).2
       ⟨3, Subgroup.upperCentralSeries R,
         Subgroup.upperCentralSeries_isAscendingCentralSeries R, hclass⟩

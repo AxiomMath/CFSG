@@ -109,11 +109,11 @@ theorem d4t2ModelGen_of_parts (hA : D4T2TorusPart) (hB : D4T2CosetPart) : D4T2Mo
   · exact (le_inf le_rfl hXM').trans hXM
   · have hy : ∃ y ∈ N, y ∉ toralRootGroup .E6 L a := by
       by_cases hEΓM : Eh ⊓ S.Γ ≤ toralRootGroup .E6 L a
-      · obtain ⟨x, hxX, hxM⟩ := SetLike.not_le_iff_exists.1 hXM'
+      · obtain ⟨x, hxX, hxM⟩ := IsConcreteLE.not_le_iff_exists.1 hXM'
         obtain ⟨F, hFE, hFidx, hdF, y, hy, hyM⟩ := hB S hS hAlg hl hf hq hl3 h3 h3q hT hap hall
           Eh hEhM hab hcard hdE hnin hr hEΓM ⟨x, hxX, hxM⟩
         exact ⟨y, hFN F ⟨hFE, hFidx, hdF⟩ hy, hyM⟩
-      · obtain ⟨c, hcEΓ, hcM⟩ := SetLike.not_le_iff_exists.1 hEΓM
+      · obtain ⟨c, hcEΓ, hcM⟩ := IsConcreteLE.not_le_iff_exists.1 hEΓM
         have hcE : c ∈ Eh := hcEΓ.1
         have hdM : rootDiagUnit .E6 a ∈ toralRootGroup .E6 L a := hF₀M hdF₀
         have hcz : c ∉ Subgroup.zpowers (rootDiagUnit .E6 a) := fun h =>

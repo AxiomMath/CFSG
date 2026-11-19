@@ -188,6 +188,7 @@ private theorem secHyp_p0 (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V n f)
   · have h := Subgroup.commutator_mem_commutator hk he
     rwa [hS3] at h
 
+omit [Finite G] in
 private theorem fixed_commutator_mem_V {C D : Subgroup G}
     {hCDK : C ⊔ D ≤ M ⊓ cenOf (A ⊔ B)}
     [hNE : ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
@@ -332,6 +333,7 @@ private theorem quadratic_rho (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V n f)
       (V.subgroupOf (M ⊓ cenOf (A ⊔ B))) cb - 1) = 0
   exact hquad
 
+omit [Finite G] in
 private theorem secRep_fixed_of_mem_commutator {C D T : Subgroup G}
     [hNE : ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
     [hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
@@ -497,7 +499,7 @@ private theorem nat_sum_transport {F : Type} {V : Type*} {W : Type}
     calc Nat.card W = Nat.card (Fin k → Fin 2 → F) := Nat.card_congr ψ.toEquiv
       _ = (Nat.card F ^ 2) ^ k := by
         rw [Nat.card_fun, Nat.card_fun]
-        simp [Nat.card_fin]
+        simp
       _ = Nat.card F ^ (2 * k) := by rw [← pow_mul]
   have hq : 2 ≤ Nat.card F := by
     rw [hFcardV, hV]
@@ -517,7 +519,7 @@ private theorem nat_sum_transport {F : Type} {V : Type*} {W : Type}
 
 private theorem card_secMod_p0 (h72 : Sec7.Stmt72 M V n f)
     (hD : L2Datum M V A B h) (h4 : n = 4)
-    [hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
+    [_hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
     [hEl : Fact (IsElemSection ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B)))
       (V.subgroupOf (M ⊓ cenOf (A ⊔ B))))]
     (hsec : SecHyp (M ⊓ cenOf (A ⊔ B)) (p0Of M V (A ⊔ B)) (p0Of M V (A ⊔ B)) V) :
@@ -599,6 +601,7 @@ private theorem exists_nat_sum_equiv (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M
     rw [card_conjSubgroup])
   exact nat_sum_transport (V := ↥V) ρ hnat hW hFcardV hS.card_V hS.one_le
 
+omit [Finite G] in
 private theorem twist_comm_slAct {C D : Subgroup G}
     (hR0 : r0Of M V (A ⊔ B) = C ⊔ D ⊔ p0Of M V (A ⊔ B))
     [hNE : ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
@@ -720,6 +723,7 @@ private theorem twist_iterate_pow (hS : Sec7Hyp M V n f)
         rfl
   rw [hFq, hiter, hLpow, Module.End.one_apply, e.apply_symm_apply]
 
+omit [Finite G] in
 private theorem twist_ne_one
     [hNE : ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
     [hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
@@ -762,6 +766,7 @@ private theorem twist_ne_one
     simpa [coe_secConj, xe, xm, Subgroup.coe_mul, Subgroup.coe_inv,
       commutatorElement_def] using h)
 
+omit [Finite G] in
 private theorem secSub_map_isSLInv_of_normalizer
     [hNE : ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
     [hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
@@ -820,6 +825,7 @@ private theorem secSub_map_isSLInv_of_normalizer
         ((x : ↥(M ⊓ cenOf (A ⊔ B))) : G)).mp (Subgroup.mem_subgroupOf.mp hxN))
   · rw [hρa a, secRep_mk]
 
+omit [Finite G] in
 private theorem secSub_map_stab_of_twist
     [hNE : ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
     [hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
@@ -870,6 +876,7 @@ private theorem secSub_map_stab_of_twist
     rw [hco, secRep_mk]
     rfl
 
+omit [Finite G] in
 private theorem eq_V_of_secSub_map_eq_bot
     [hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
     [hEl : Fact (IsElemSection ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B)))
@@ -909,6 +916,7 @@ private theorem eq_V_of_secSub_map_eq_bot
   rw [secMk_eq_zero_iff] at hzero
   exact Subgroup.mem_subgroupOf.mp hzero
 
+omit [Finite G] in
 private theorem eq_p0_of_secSub_map_eq_top
     [hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal]
     [hEl : Fact (IsElemSection ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B)))
@@ -967,15 +975,15 @@ theorem L2Datum.irred_four (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V n f)
   obtain ⟨C, D, g, hC, hD', hCDX, hCDl2, hR0, hCDK, hP0K, hg⟩ :=
     exists_sigma_pair_swap hS h72 hLP hD h4
   obtain ⟨F, hF, hFfin, hFchar, φ, hFcard, hCφ, hDφ⟩ := hCDl2
-  letI := hF
-  letI := hFfin
-  letI := hFchar
-  haveI : Fintype F := Fintype.ofFinite F
+  let := hF
+  let := hFfin
+  let := hFchar
+  have : Fintype F := Fintype.ofFinite F
   have hsec : SecHyp (M ⊓ cenOf (A ⊔ B)) (p0Of M V (A ⊔ B)) (p0Of M V (A ⊔ B)) V :=
     secHyp_p0 hS h72 hD
-  haveI hNE : ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal := hsec.normal_E
-  haveI hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal := hsec.normal_A
-  haveI hEl : Fact (IsElemSection ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B)))
+  have hNE : ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal := hsec.normal_E
+  have hNA : (V.subgroupOf (M ⊓ cenOf (A ⊔ B))).Normal := hsec.normal_A
+  have hEl : Fact (IsElemSection ((p0Of M V (A ⊔ B)).subgroupOf (M ⊓ cenOf (A ⊔ B)))
       (V.subgroupOf (M ⊓ cenOf (A ⊔ B)))) := ⟨hsec.isElemSection⟩
   let ρ : Representation (ZMod 2) SL(2, F)
       (CFSG.Timmesfeld.Bridge.RootMany.SecMod

@@ -82,7 +82,7 @@ theorem ggClauseA_of_langData
     (hZ : LangRat.LangRatCentralizerDetectsP) :
     GGClauseA t n f p (ggPsiU t n f) Bs S π coord := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro b hb L hL
   obtain ⟨i, hq, rfl⟩ :=
     ggLang_exists_rationalComponent_of_isComponentOf B hp hp2 hb hL
@@ -165,7 +165,7 @@ theorem ggClauseA_of_langData
           fun j => corootPair α (Pi.single j 1) +
             corootPair (latPerm (ggLangPerm B.rank_eq π) α) (Pi.single j 1) := by
         funext j
-        simp only [latOrbitSumZ, if_neg hfix, Pi.add_apply, hcorα, hcorπα]
+        simp only [latOrbitSumZ, ite_eq_right hfix, hcorα, hcorπα]
       have hfun : (fun j => B.ζ ^ latOrbitSumZ Smat (ggLangPerm B.rank_eq π) α j) =
           (fun j => B.ζ ^ corootPair α (Pi.single j 1) *
             B.ζ ^ corootPair (latPerm (ggLangPerm B.rank_eq π) α) (Pi.single j 1)) := by

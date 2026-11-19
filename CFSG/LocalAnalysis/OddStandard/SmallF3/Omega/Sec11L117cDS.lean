@@ -39,7 +39,7 @@ private theorem exists_cyclic_relIndex_two_pow_four {D : Subgroup G} {P₀ : Typ
       rw [map_pow, map_one, h4 (e ⟨u, hu⟩) he]
     simpa using congrArg Subtype.val hpow
 
-private theorem dihedral_rotation_cyclic_index_two (m : ℕ) (hm : 1 ≤ m) :
+private theorem dihedral_rotation_cyclic_index_two (m : ℕ) (_hm : 1 ≤ m) :
     IsCyclic (Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup (2 ^ m))) ∧
       (Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup (2 ^ m))).index = 2 := by
   refine ⟨Subgroup.isCyclic_zpowers _, ?_⟩
@@ -50,7 +50,7 @@ private theorem dihedral_rotation_cyclic_index_two (m : ℕ) (hm : 1 ≤ m) :
   rw [show 2 * 2 ^ m = 2 ^ m * 2 from Nat.mul_comm 2 (2 ^ m)] at hcard
   exact Nat.mul_left_cancel hpos hcard
 
-private theorem dihedral_outside_pow_four (m : ℕ) (hm : 1 ≤ m) :
+private theorem dihedral_outside_pow_four (m : ℕ) (_hm : 1 ≤ m) :
     ∀ g : DihedralGroup (2 ^ m),
       g ∉ Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup (2 ^ m)) → g ^ 4 = 1 := by
   intro g hg

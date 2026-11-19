@@ -114,7 +114,7 @@ theorem burnsideF437U_reduce [Finite X] (γ : X →* X) {P₁ P₂ : Subgroup X}
       (pCoreOf 2 (P₁ ⊓ P₂) ⊓ (burnsideF437U_fix γ).map (MulAut.conj a).toMonoidHom)
       ((burnsideF437U_fix γ).map (MulAut.conj a).toMonoidHom)) :
     ∃ s ∈ burnsideF437U_fix γ, a * s ∈ P₁ ⊓ P₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set U := pCoreOf 2 (P₁ ⊓ P₂) with hUdef
   set F := burnsideF437U_fix γ with hFdef
   have hcomp : ((MulAut.conj a⁻¹).toMonoidHom.comp (MulAut.conj a).toMonoidHom) =

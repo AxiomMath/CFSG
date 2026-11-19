@@ -106,7 +106,7 @@ theorem card_nonsingular_quadQ (m : ℕ) :
   let s : Set (Vec m) := {v | quadQ m v = 0}
   have hset : (Set.ofPred (fun v : Vec m => quadQ m v = 1)) = sᶜ := by
     ext v
-    simp only [Set.mem_setOf_eq, Set.mem_compl_iff, s]
+    simp only [Set.mem_ofPred_eq, Set.mem_compl_iff, s]
     constructor
     · intro h h0
       rw [h] at h0
@@ -196,7 +196,7 @@ theorem card_eq_mul_card_centralizer_of_nonsingular (hZ : blockZ J = ⊥) {b : �
     (hb : quadQ m (S.vec b) = 1) :
     Nat.card M = 2 ^ m * (2 ^ (m + 1) + 1) *
       Nat.card ↥(M ⊓ Subgroup.centralizer ({(b : G)} : Set G)) := by
-  letI : MulAction ↥M ↥(blockU J) := conjMulAction (S := S)
+  let : MulAction ↥M ↥(blockU J) := conjMulAction (S := S)
   have horbit : MulAction.orbit ↥M b = {a : ↥(blockU J) | quadQ m (S.vec a) = 1} := by
     ext a
     rw [MulAction.mem_orbit_iff]
@@ -235,7 +235,7 @@ theorem card_eq_mul_card_centralizer_of_singular (hZ : blockZ J = ⊥) {u : ↥(
     (hu1 : u ≠ 1) (hu : quadQ m (S.vec u) = 0) :
     Nat.card M = (2 ^ (m + 1) + 1) * (2 ^ m - 1) *
       Nat.card ↥(M ⊓ Subgroup.centralizer ({(u : G)} : Set G)) := by
-  letI : MulAction ↥M ↥(blockU J) := conjMulAction (S := S)
+  let : MulAction ↥M ↥(blockU J) := conjMulAction (S := S)
   have horbit : MulAction.orbit ↥M u =
       {a : ↥(blockU J) | a ≠ 1 ∧ quadQ m (S.vec a) = 0} := by
     ext a
@@ -295,7 +295,7 @@ theorem conj_ne_of_singular_of_nonsingular (hZ : blockZ J = ⊥) {u b : ↥(bloc
       Nat.card ↥(Subgroup.centralizer ({(b : G)} : Set G)) := by
     have h1 := (Subgroup.centralizer ({(u : G)} : Set G)).card_mul_index
     have h2 := (Subgroup.centralizer ({(b : G)} : Set G)).card_mul_index
-    haveI : (Subgroup.centralizer ({(u : G)} : Set G)).FiniteIndex :=
+    have : (Subgroup.centralizer ({(u : G)} : Set G)).FiniteIndex :=
       Subgroup.finiteIndex_of_finite
     rw [← hidx] at h2
     exact Nat.mul_right_cancel (Nat.pos_of_ne_zero Subgroup.FiniteIndex.index_ne_zero)
@@ -319,7 +319,7 @@ theorem conj_ne_of_singular_of_nonsingular (hZ : blockZ J = ⊥) {u b : ↥(bloc
     rw [← hN, hS, hCu]
   rw [hk] at hEq
   have hpos : 0 < Nat.card ↥(M ⊓ Subgroup.centralizer ({(b : G)} : Set G)) := by
-    haveI : Nonempty ↥(M ⊓ Subgroup.centralizer ({(b : G)} : Set G)) := ⟨1, Subgroup.one_mem _⟩
+    have : Nonempty ↥(M ⊓ Subgroup.centralizer ({(b : G)} : Set G)) := ⟨1, Subgroup.one_mem _⟩
     exact Nat.card_pos
   have hcancel : 2 ^ m * (2 ^ (m + 1) + 1) =
       (2 ^ (m + 1) + 1) * (2 ^ m - 1) * k := by

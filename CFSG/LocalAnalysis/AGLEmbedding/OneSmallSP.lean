@@ -130,7 +130,7 @@ theorem D1OneSmallData.exists_surjective_of_reducedCentralizer
   obtain ⟨T₁, -, -, -, -, hT₁nc, -⟩ := hd.exists_sylow
   obtain ⟨x, hx⟩ : ∃ x : (T₁ : Subgroup K), x ≠ 1 :=
     (Subgroup.ne_bot_iff_exists_ne_one).mp fun h => hT₁nc (h ▸ inferInstance)
-  obtain ⟨k, hk⟩ := T₁.isPGroup' x
+  obtain ⟨k, hk⟩ := T₁.isPGroup x
   exact hd.cfg.exists_surjective_of_reducedCentralizer ⟨hd.comp.2.2.1⟩ hd.isSimpleGroup.1
     (x := (x : K)) (fun h1 => hx (Subtype.ext h1)) (k := k)
     (by rw [← Subgroup.coe_pow, hk, Subgroup.coe_one]) hzH hzp hzC hRC hSch

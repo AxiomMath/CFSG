@@ -17,9 +17,9 @@ theorem loopG_sim {β γ : Type} {c : β → Prop} [DecidablePred c] {c' : γ �
   | n + 1, b, b', h => by
     simp only [loopG]
     by_cases hb : c b
-    · rw [if_pos hb, if_pos ((hc b b' h).1 hb)]
+    · rw [ite_eq_left hb, ite_eq_left ((hc b b' h).1 hb)]
       exact loopG_sim R hc hF n _ _ (hF b b' h hb)
-    · rw [if_neg hb, if_neg (fun hb' => hb ((hc b b' h).2 hb'))]
+    · rw [ite_eq_right hb, ite_eq_right (fun hb' => hb ((hc b b' h).2 hb'))]
       exact h
 
 variable {α β : Type} [Inhabited α] [Inhabited β]
@@ -36,6 +36,7 @@ theorem map_get! {f : α → β} {a : Array α} {i : Nat} (hi : i < a.size) :
     (a.map f)[i]! = f a[i]! := by
   rw [getElem!_pos (a.map f) i (by simpa using hi), Array.getElem_map, getElem!_pos a i hi]
 
+omit [Inhabited α] [Inhabited β] in
 theorem fold_map_sim {key : α → Nat} {key' : β → Nat} {f : α → β} {X : α → Prop}
     (hk : ∀ x, X x → key' (f x) = key x) {x : α} (hx : X x) (h : Nat) :
     ∀ (ss : List (α → α)) (ss' : List (β → β)), StepsRel f X ss ss' →

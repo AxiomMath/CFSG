@@ -32,9 +32,9 @@ theorem sec8t84d1_le_of_order5 {A B : Subgroup (MulAut E)}
     (hA : Nonempty (↥A ≃* alternatingGroup (Fin 6)))
     (hB : ∀ a ∈ A, orderOf a = 5 → a ∈ B) : A ≤ B := by
   obtain ⟨e⟩ := hA
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (α := Fin 6) (by rw [Nat.card_fin]; norm_num)
-  haveI : IsSimpleGroup ↥A := e.isSimpleGroup
+  have : IsSimpleGroup ↥A := e.isSimpleGroup
   let S : Set ↥A := {x | orderOf ((x : MulAut E)) = 5}
   have hS : ∀ x : ↥A, x ∈ S ↔ orderOf ((x : MulAut E)) = 5 := fun x => Iff.rfl
   have hKnormal : (Subgroup.closure S).Normal := by
@@ -51,7 +51,7 @@ theorem sec8t84d1_le_of_order5 {A B : Subgroup (MulAut E)}
             _ = orderOf (((x : ↥A) : MulAut E)) := (Subgroup.orderOf_coe _).symm
         rw [hconj]
         exact (hS x).1 hx))
-    · simpa using (Subgroup.closure S).one_mem
+    · simp
     · intro x y hx hy ihx ihy
       have hxy : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [hxy]
@@ -60,7 +60,7 @@ theorem sec8t84d1_le_of_order5 {A B : Subgroup (MulAut E)}
       have hxinv : g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ := by group
       rw [hxinv]
       exact (Subgroup.closure S).inv_mem ihx
-  haveI : (Subgroup.closure S).Normal := hKnormal
+  have : (Subgroup.closure S).Normal := hKnormal
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.closure S) with hbot | htop
   · exfalso
     have hordE : orderOf (((e.symm c5 : ↥A) : MulAut E)) = 5 := by
@@ -88,9 +88,9 @@ theorem sec8t84d1_inf_eq_bot {A B : Subgroup (MulAut E)}
     (hA : Nonempty (↥A ≃* alternatingGroup (Fin 6)))
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : A ⊓ B = ⊥ := by
   obtain ⟨e⟩ := hA
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (α := Fin 6) (by rw [Nat.card_fin]; norm_num)
-  haveI : IsSimpleGroup ↥A := e.isSimpleGroup
+  have : IsSimpleGroup ↥A := e.isSimpleGroup
   have hNnormal : ((A ⊓ B).subgroupOf A).Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hn' : (n : MulAut E) ∈ A ⊓ B := hn
@@ -107,7 +107,7 @@ theorem sec8t84d1_inf_eq_bot {A B : Subgroup (MulAut E)}
         group
       rw [hgn]
       exact hnB
-  haveI : ((A ⊓ B).subgroupOf A).Normal := hNnormal
+  have : ((A ⊓ B).subgroupOf A).Normal := hNnormal
   rcases Subgroup.Normal.eq_bot_or_eq_top ((A ⊓ B).subgroupOf A) with hbot | htop
   · rw [Subgroup.eq_bot_iff_forall]
     intro x hx

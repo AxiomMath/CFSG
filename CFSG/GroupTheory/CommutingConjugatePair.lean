@@ -27,8 +27,7 @@ theorem eq_of_map_eq_map_of_isPGroup_of_odd_ker
     (h : A.map π = B.map π) : A = B := by
   have key : ∀ {X Y : Subgroup U}, IsPGroup 2 X → IsPGroup 2 Y →
       X.map π = Y.map π → X ≤ Y := by
-    intro X Y hX hY hXY
-    intro a ha
+    intro X Y hX hY hXY a ha
     have hYZ : Y ⊓ π.ker = ⊥ :=
       inf_eq_bot_of_isPGroup_two_of_odd hY hodd
     have hXsup : X ≤ Y ⊔ π.ker := by

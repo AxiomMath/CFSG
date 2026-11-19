@@ -25,7 +25,7 @@ theorem characteristicCoreStar_le_of_isSylowOf_of_le [Finite G] (T : Sylow 2 G) 
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
   have hPT : (T : Subgroup G).map (MulAut.conj m⁻¹).toMonoidHom = P :=
-    le_antisymm (le_of_isSylowOf_of_le hP (T.isPGroup'.map _) hPle le_top) hPle
+    le_antisymm (le_of_isSylowOf_of_le hP (T.isPGroup.map _) hPle le_top) hPle
   calc characteristicCoreStar P
       = characteristicCoreStar ((T : Subgroup G).map (MulAut.conj m⁻¹).toMonoidHom) := by
         rw [hPT]
@@ -74,7 +74,7 @@ theorem exists_nineChoice_of_le [Finite G] (hchar : CFSG.Assembly.IsCharTwoType 
     (T : Sylow 2 G) {M : Subgroup G} (hCM : characteristicCoreStar (T : Subgroup G) ≤ M)
     (hM : M ≠ ⊤) (hns : ¬ CFSG.BenderSuzuki.IsStronglyEmbeddedOrder M) :
     ∃ I H S : Subgroup G, NineChoice M I H S := by
-  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hTM : (T : Subgroup G) ≤ M := (le_characteristicCoreStar _).trans hCM
   have hT1 : (T : Subgroup G) ≠ ⊥ := by
     intro h

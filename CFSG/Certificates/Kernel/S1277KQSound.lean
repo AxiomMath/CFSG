@@ -243,7 +243,7 @@ theorem ofP_compP (p q : ℕ) : B6.ofP (compP p q) = (B6.ofP p).comp (B6.ofP q) 
   norm_num
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;> omega
 
-theorem commP_iff {p q : ℕ} (hp : p < 2 ^ 36) (hq : q < 2 ^ 36) :
+theorem commP_iff {p q : ℕ} (_hp : p < 2 ^ 36) (_hq : q < 2 ^ 36) :
     commP p q = true ↔ (B6.ofP p).comp (B6.ofP q) = (B6.ofP q).comp (B6.ofP p) := by
   unfold commP
   rw [Nat.beq_eq]

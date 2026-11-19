@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_eq_twentyFour_of_equiv_perm_fin_four {K : Subgroup G}
     (hK : Nonempty (↥K ≃* Equiv.Perm (Fin 4))) : Nat.card ↥K = 24 := by
   obtain ⟨e⟩ := hK
@@ -29,7 +30,7 @@ theorem card_tSub15_inf_kHull15_eq_eight
     (c : Cfg1511 M V₀ V U S H P Q₀ p)
     (hK : Nonempty (↥(kHull15 V₀ H) ≃* Equiv.Perm (Fin 4))) :
     Nat.card ↥(tSub15 M V₀ V U P ⊓ kHull15 V₀ H) = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h3 : (Nat.factorization 24) 2 = 3 := by
     rw [Nat.factorization_def 24 Nat.prime_two]; decide +kernel
   rw [c.tSub15_inf_kHull15, c.isSylowIn_two_sup.card_eq,
@@ -90,7 +91,7 @@ theorem elemFamilyIn_s4
     elemFamilyIn 2 (tSub15 M V₀ V U S) =
       {tSub15 M V₀ V U S ⊓ centralizer (V : Set G), iHull15 V₀ U H ⊔ cSub15 M V₀ V U H S} := by
   obtain ⟨hK, hTKC⟩ := hb
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T := tSub15 M V₀ V U S with hTdef
   set C := cSub15 M V₀ V U H S with hCdef
   set K := kHull15 V₀ H with hKdef

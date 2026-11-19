@@ -89,7 +89,7 @@ theorem normalizer_le_of_agl81TheoremC (hUC : rankThreeUC G) (hC : AGL81TheoremC
     ∀ D : Subgroup G, D ≠ ⊥ → IsPGroup 2 D →
       2 ≤ CFSG.Open.pRank p (normalizer (D : Set G) ⊓ S.M) → normalizer (D : Set G) ≤ S.M := by
   intro D hD hD2 h2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hE, hEel, hEcard⟩ :=
     CFSG.SectionRank.exists_pRank hp.one_lt (normalizer (D : Set G) ⊓ S.M)
   have hEM : E ≤ S.M := hE.trans inf_le_right

@@ -27,7 +27,7 @@ private theorem alternatingGroup_le_of_maximal_sylow_and_small_prime_element
     (hw₀support : w₀.support.card ≤ 7) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let inclusion : S →* Equiv.Perm X :=
     P.subtype.comp (S : Subgroup P).subtype
   have hinclusion : Function.Injective inclusion := by

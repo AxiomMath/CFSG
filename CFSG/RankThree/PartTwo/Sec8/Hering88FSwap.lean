@@ -41,11 +41,11 @@ theorem not_isSolvable_inf_barCentralizer_abs {G : Type} [Group G] [Finite G]
     exact (Item87Proof.residual_le _).trans (inf_le_inf_right _ hπI)
   have hPbot : imageModTheta Y T = ⊥ := by
     by_contra hne
-    haveI : Nontrivial (imageModTheta Y T) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-    haveI : Group.IsPerfect (imageModTheta Y T) := by
+    have : Nontrivial (imageModTheta Y T) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Group.IsPerfect (imageModTheta Y T) := by
       rw [hπT]
       exact Item87Proof.isPerfect_residual _
-    haveI := hsolv
+    have := hsolv
     have hs : Group.IsSolvable (imageModTheta Y T) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hPle)
     exact Group.IsPerfect.not_isSolvable (imageModTheta Y T) hs
@@ -175,7 +175,7 @@ theorem false_of_small_swap (h45 : Sec4.Item4_5) (hF : KF84Field) (hG : G2TwoCen
   refine not_isSolvable_inf_barCentralizer_swap h45 hF h hn2 hIJ hbN hdcl hdA hd3 hdN ?_
   rcases hH with hG2 | hP
   · exact isSolvable_inf_barCentralizer_of_isoGTwoEven_one hG hbN hdN hbd hd3 hin hne hZ hG2
-  · haveI : Group.IsSolvable ↥(barCentralizer (Subgroup.zpowers b) Y) :=
+  · have : Group.IsSolvable ↥(barCentralizer (Subgroup.zpowers b) Y) :=
       isSolvable_of_isoPGUThree_two hP
     exact Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (inf_le_left :

@@ -15,7 +15,7 @@ theorem excCoreNormalizer_of_simplyLaced {m : Fin 6} {τ : Tag} (hm : 2 ≤ m.va
     ExcCoreNormalizer m τ := by
   intro L _ _ p S hS T₀ d c hc
   have hN : ExcRaw.normalizerGroup m c = ExcRaw.weyl m c := by
-    rw [ExcRaw.normalizerGroup, if_neg fun h => absurd h.1 (by omega)]
+    rw [ExcRaw.normalizerGroup, ite_eq_right fun h => absurd h.1 (by omega)]
   rw [hN]
   exact le_antisymm (d.map_ggAutomizer_codeComponent_le_weyl hsep hc.1)
     (d.weyl_le_map_ggAutomizer_codeComponent hS hτ hm hc)
@@ -36,9 +36,9 @@ theorem excCoreNormalizer_F4_of_inputs (hB2 : ExcF4NormB2) (hRW : ExcF4NormRootW
     ExcCoreNormalizer 0 .F4 := by
   intro L _ _ p S hS T₀ d c hc
   by_cases h4 : c.card = 4
-  · rw [ExcRaw.normalizerGroup, if_pos ⟨rfl, h4⟩]
+  · rw [ExcRaw.normalizerGroup, ite_eq_left ⟨rfl, h4⟩]
     exact hB2 S hS d c hc h4
-  · rw [ExcRaw.normalizerGroup, if_neg fun h => h4 h.2]
+  · rw [ExcRaw.normalizerGroup, ite_eq_right fun h => h4 h.2]
     refine le_antisymm (d.map_ggAutomizer_codeComponent_le_weyl ExcRaw.rootSep_zero hc.1) ?_
     rw [ExcRaw.weyl, Subgroup.closure_le]
     rintro _ ⟨i, hi, rfl⟩

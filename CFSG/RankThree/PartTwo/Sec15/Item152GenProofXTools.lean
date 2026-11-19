@@ -41,7 +41,7 @@ theorem card_eq_one_of_isPerfect_of_card_dvd_six {Q : Type*} [Group Q] [Finite Q
       refine eq_top_of_isPerfect_of_isPGroup_quotient (p := 2) hQ _ (IsPGroup.of_card (n := 1) ?_)
       rw [pow_one, ← Subgroup.index_eq_card, h2]
   have hQ3 : IsPGroup 3 Q := by
-    have h := P.isPGroup'
+    have h := P.isPGroup
     rw [hPtop] at h
     exact h.of_equiv Subgroup.topEquiv
   exact card_eq_one_of_isPerfect_of_isPGroup hQ hQ3

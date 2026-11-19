@@ -22,9 +22,9 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
-theorem exists_mem_inf_centralizer_conjSubgroup_le (h1 : W16One G) (h5 : W16Five G)
-    (h15 : W16Fifteen G) (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B) {P : Subgroup G}
-    (hP : IsSylowIn 2 P H) (hRP : R ≤ P) {h : G}
+theorem exists_mem_inf_centralizer_conjSubgroup_le (_h1 : W16One G) (_h5 : W16Five G)
+    (_h15 : W16Fifteen G) (_hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B) {P : Subgroup G}
+    (hP : IsSylowIn 2 P H) (_hRP : R ≤ P) {h : G}
     (hle : conjSubgroup V h ≤ P ⊔ (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G))) :
     ∃ c ∈ H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G), conjSubgroup V (h * c) ≤ P := by
   let CH : Subgroup G := H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)

@@ -24,7 +24,7 @@ namespace S57
 theorem frattini {C K : Type*} [Group C] [Finite C] [Group K] (ψ : C →* K)
     (hker : IsPGroup 2 ψ.ker) {u : C} (hu : orderOf u = 3) {g : C}
     (hg : ψ g * ψ u = ψ u * ψ g) : ∃ d : C, d * u = u * d ∧ ψ d = ψ g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hk3 : ∀ y : C, ψ y = 1 → y ^ 3 = 1 → y = 1 := by
     intro y hy h3
     obtain ⟨n, hn⟩ := hker ⟨y, hy⟩
@@ -114,9 +114,11 @@ theorem frattini {C K : Type*} [Group C] [Finite C] [Group K] (ψ : C →* K)
   · rw [map_mul, map_zpow, hd₀, map_mul, ← mul_assoc, ← hj, ← _root_.zpow_add, neg_add_cancel,
       zpow_zero, one_mul]
 
+omit [Finite G] in
 theorem cenS_pair_le_right (a c : G) : CenS (Subgroup.closure {a, c}) ≤ Cen c := fun _ hx =>
   Subgroup.mem_centralizer_singleton_iff.mpr (mem_cenS_pair_iff.mp hx).2
 
+omit [Finite G] in
 theorem cenS_pair_le_left (a c : G) : CenS (Subgroup.closure {a, c}) ≤ Cen a := fun _ hx =>
   Subgroup.mem_centralizer_singleton_iff.mpr (mem_cenS_pair_iff.mp hx).1
 
@@ -129,6 +131,7 @@ section MBasic
 variable (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀)
   (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Cen s₀)
 
+omit [Finite G] in
 theorem S57.J_le_cenS (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Cen s₀) :
     OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ CenS (Subgroup.closure {β' b₂ b₃, s₀}) :=
   fun j hj => by
@@ -138,10 +141,12 @@ theorem S57.J_le_cenS (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Ce
     (Commute.pow_right (show Commute j b₃ from h3) 2)).eq,
     Subgroup.mem_centralizer_singleton_iff.mp (hJs hj)⟩
 
+omit [Finite G] in
 theorem S57.M_le_cenS (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Cen s₀) :
     M₅₇ b b₁ b₂ b₃ s₀ ≤ CenS (Subgroup.closure {β' b₂ b₃, s₀}) :=
   sup_le (S57.J_le_cenS hJs) inf_le_left
 
+omit [Finite G] in
 theorem S57.M_le_cen (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Cen s₀) :
     M₅₇ b b₁ b₂ b₃ s₀ ≤ Cen s₀ :=
   (S57.M_le_cenS hJs).trans (S57.cenS_pair_le_right _ _)
@@ -195,7 +200,7 @@ theorem FF81Sec5.M_inf_S : M₅₇ b b₁ b₂ b₃ s₀ ⊓ Op 2 (Cen s₀) = �
     obtain ⟨v, rfl⟩ := h5.ε_surj hx
     have hv : v = ![v 0, v 1, v 2 - (v 3 - v 2), v 2 - (v 3 - v 2)] +
         (v 3 - v 2) • ![0, 0, 1, 2] := by
-      ext j; fin_cases j <;> simp <;> ring
+      ext j; fin_cases j <;> simp; ring
     rw [hv, h5.ε_add, h5.ε_smul, h5.ε_β]
     refine Subgroup.mul_mem _ ?_ (Subgroup.pow_mem _ ?_ _)
     · have ha := h5.mem_A₁_of (v := ![v 0, v 1, v 2 - (v 3 - v 2), v 2 - (v 3 - v 2)]) rfl
@@ -296,7 +301,7 @@ theorem FF81Sec5.ff81_5_7a :
         (MonoidHom.ofInjective hinj).symm hmod
     all_goals (rw [hXcard] at h1; norm_num at h1)
   · ext g
-    simp only [setMul, Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [setMul, Set.mem_ofPred_eq, SetLike.mem_coe]
     constructor
     · rintro ⟨s, hs, m, hm, rfl⟩
       exact (Cen s₀).mul_mem (op_two_le s₀ hs) (hMs hm)

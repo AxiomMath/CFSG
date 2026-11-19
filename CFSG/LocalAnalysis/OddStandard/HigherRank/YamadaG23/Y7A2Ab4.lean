@@ -12,7 +12,8 @@ open CFSG.OddStandard.HigherRank.G2Three.Sec1Proof
 
 variable {G : Type} [Group G] [Finite G]
 
-private lemma relIndex_two_mul_mem {H K : Subgroup G} (hH : H ≤ K)
+omit [Finite G] in
+private lemma relIndex_two_mul_mem {H K : Subgroup G} (_hH : H ≤ K)
     (hidx : H.relIndex K = 2) {a b : G} (haK : a ∈ K) (hbK : b ∈ K) (haH : a ∉ H)
     (hbH : b ∉ H) : a * b ∈ H := by
   have h2 : (H.subgroupOf K).index = 2 := hidx
@@ -21,6 +22,7 @@ private lemma relIndex_two_mul_mem {H K : Subgroup G} (hH : H ≤ K)
   simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul] at key
   exact key.mpr ⟨fun h => absurd h haH, fun h => absurd h hbH⟩
 
+omit [Finite G] in
 private lemma conjSub_conjSub (a b : G) (Y : Subgroup G) :
     conjSub a (conjSub b Y) = conjSub (a * b) Y := by
   ext x
@@ -40,6 +42,7 @@ private lemma conjSub_conjSub (a b : G) (Y : Subgroup G) :
     rw [mem_conjSub]
     exact ⟨z, hz, rfl⟩
 
+omit [Finite G] in
 private lemma conjSub_one (Y : Subgroup G) : conjSub 1 Y = Y := by
   ext x
   rw [mem_conjSub]
@@ -61,6 +64,7 @@ private lemma conjSub_eq_self_of_maps {M : Subgroup G} {k : G}
     Subgroup.card_map_of_injective (f := (MulAut.conj k).toMonoidHom) (MulAut.conj k).injective
   exact le_of_eq hcard.symm
 
+omit [Finite G] in
 private lemma conjSub_mem_maxElemAbelian {M Y : Subgroup G} {k : G} (hMk : conjSub k M = M)
     (hY : Y ∈ maxElemAbelian M) : conjSub k Y ∈ maxElemAbelian M := by
   obtain ⟨hYM, hYel, hYmax⟩ := hY
@@ -131,7 +135,7 @@ theorem y7a_elemAbelian_of_k {M U : Subgroup G} {k : G} (hM : IsPGroup 2 M) (hUM
       have := hWel.2 b hb
       rwa [pow_two] at this
     have hab : a * b = b * a := by
-      haveI := hMab
+      have := hMab
       exact congrArg Subtype.val (mul_comm' (⟨a, hUM ha⟩ : M) ⟨b, hWM hb⟩)
     rw [pow_two]
     calc (a * b) * (a * b) = a * (b * a) * b := by group

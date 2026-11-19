@@ -38,13 +38,13 @@ theorem item153Main_at_a7_m22
 
 theorem res1ZExclLeN_l2_a7_of_h340_h150
     (h316 : Sec19.Item316) (hst : StellmacherKP)
-    (h340 : Res1Thm340 (fun X _ => Nonempty (X ≃* alternatingGroup (Fin 7))) Res1OpenL2Type)
-    (h150 : Res1Thm150b (fun X _ => Nonempty (X ≃* alternatingGroup (Fin 7))) Res1OpenL2Type) :
-    Res1ZExclLeN (fun X _ => Nonempty (X ≃* alternatingGroup (Fin 7))) Res1OpenL2Type :=
+    (h340 : Res1Thm340 (fun _X _ => Nonempty (_X ≃* alternatingGroup (Fin 7))) Res1OpenL2Type)
+    (h150 : Res1Thm150b (fun _X _ => Nonempty (_X ≃* alternatingGroup (Fin 7))) Res1OpenL2Type) :
+    Res1ZExclLeN (fun _X _ => Nonempty (_X ≃* alternatingGroup (Fin 7))) Res1OpenL2Type :=
   Liebeck155R1L2.res1ZExclLeN_l2_a7_of_route150 Sec14.Ronan148M.concl142S14_holds hst
     Sec14.Ronan149.item145BotS14_holds Sec14.Ronan149.item1444S14_holds
     Sec14.Ronan149.item149S14_holds Sec14.Ronan148M.item148R_holds
-    (fun G _ _ A c L hR hq =>
+    (fun _G _ _ _A _c _L hR hq =>
       item153Main_at_a7_m22 h316 Sec14.Ronan148M.item148R_holds Sec14.Ronan149.item149S14_holds
         CFSG.RankThree.PartTwo.item134_holds CFSG.RankThree.PartTwo.item135_holds
         Sec13.Ronan137H.item137_holds CFSG.RankThree.PartTwo.item142AllS14_holds
@@ -53,7 +53,7 @@ theorem res1ZExclLeN_l2_a7_of_h340_h150
         Proof148FourK.item146S14_holds Sec14.Ronan149.item1444S14_holds
         Sec14.Ronan149.item145BotS14_holds (item148HJS14_of_wired Sec14.Ronan148M.item148S14_holds)
         KFacts.kpSz hR (Or.inl hq))
-    (fun G _ _ A c L X K Y M T P' Yc z hτ =>
+    (fun _G _ _ _A _c _L _X _K _Y _M _T _P' _Yc _z hτ =>
       Res1PtInputs.claim153Normal_at Sec14.Ronan148M.item148R_holds
         Sec14.Ronan149.item149S14_holds CFSG.RankThree.PartTwo.item134_holds
         Close.closed_sec4Item4_8 CFSG.RankThree.PartTwo.item142AllS14_holds
@@ -64,7 +64,7 @@ theorem res1ZExclLeN_l2_a7_of_h340_h150
             (Proof15Res6.isEmpty_j2_of_types (Or.inr (Or.inl hτ.q))))
           (step152CompR_of_item148R Sec14.Ronan149.item149S14_holds
             Sec14.Ronan148M.item148R_holds CFSG.RankThree.PartTwo.item134_holds
-            Close.closed_sec4Item4_8 Sec4.Sporadic.rank3II_4_15 KFacts.kpSz G A c L hτ.sec15))
+            Close.closed_sec4Item4_8 Sec4.Sporadic.rank3II_4_15 KFacts.kpSz _G _A _c _L hτ.sec15))
         (item153Main_at_a7_m22 h316 Sec14.Ronan148M.item148R_holds
           Sec14.Ronan149.item149S14_holds CFSG.RankThree.PartTwo.item134_holds
           CFSG.RankThree.PartTwo.item135_holds Sec13.Ronan137H.item137_holds
@@ -78,13 +78,13 @@ theorem res1ZExclLeN_l2_a7_of_h340_h150
 
 theorem res1ZExclLeN_l2_m22_of_h340_h150
     (h316 : Sec19.Item316) (hst : StellmacherKP)
-    (h340 : Res1Thm340 (fun X _ => Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.M22)) Res1OpenL2Type)
-    (h150 : Res1Thm150b (fun X _ => Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.M22)) Res1OpenL2Type) :
-    Res1ZExclLeN (fun X _ => Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.M22)) Res1OpenL2Type :=
+    (h340 : Res1Thm340 (fun _X _ => Nonempty (_X ≃* CFSG.Blueprint.NativeSporadic.M22)) Res1OpenL2Type)
+    (h150 : Res1Thm150b (fun _X _ => Nonempty (_X ≃* CFSG.Blueprint.NativeSporadic.M22)) Res1OpenL2Type) :
+    Res1ZExclLeN (fun _X _ => Nonempty (_X ≃* CFSG.Blueprint.NativeSporadic.M22)) Res1OpenL2Type :=
   Liebeck155R1L2.res1ZExclLeN_l2_m22_of_route150 Sec14.Ronan148M.concl142S14_holds hst
     Sec14.Ronan149.item145BotS14_holds Sec14.Ronan149.item1444S14_holds
     Sec14.Ronan149.item149S14_holds Sec14.Ronan148M.item148R_holds
-    (fun G _ _ A c L hR hq =>
+    (fun _G _ _ _A _c _L hR hq =>
       item153Main_at_a7_m22 h316 Sec14.Ronan148M.item148R_holds Sec14.Ronan149.item149S14_holds
         CFSG.RankThree.PartTwo.item134_holds CFSG.RankThree.PartTwo.item135_holds
         Sec13.Ronan137H.item137_holds CFSG.RankThree.PartTwo.item142AllS14_holds
@@ -93,7 +93,7 @@ theorem res1ZExclLeN_l2_m22_of_h340_h150
         Proof148FourK.item146S14_holds Sec14.Ronan149.item1444S14_holds
         Sec14.Ronan149.item145BotS14_holds (item148HJS14_of_wired Sec14.Ronan148M.item148S14_holds)
         KFacts.kpSz hR (Or.inr hq))
-    (fun G _ _ A c L X K Y M T P' Yc z hτ =>
+    (fun _G _ _ _A _c _L _X _K _Y _M _T _P' _Yc _z hτ =>
       Res1PtInputs.claim153Normal_at Sec14.Ronan148M.item148R_holds
         Sec14.Ronan149.item149S14_holds CFSG.RankThree.PartTwo.item134_holds
         Close.closed_sec4Item4_8 CFSG.RankThree.PartTwo.item142AllS14_holds
@@ -104,7 +104,7 @@ theorem res1ZExclLeN_l2_m22_of_h340_h150
             (Proof15Res6.isEmpty_j2_of_types (Or.inr (Or.inr hτ.q))))
           (step152CompR_of_item148R Sec14.Ronan149.item149S14_holds
             Sec14.Ronan148M.item148R_holds CFSG.RankThree.PartTwo.item134_holds
-            Close.closed_sec4Item4_8 Sec4.Sporadic.rank3II_4_15 KFacts.kpSz G A c L hτ.sec15))
+            Close.closed_sec4Item4_8 Sec4.Sporadic.rank3II_4_15 KFacts.kpSz _G _A _c _L hτ.sec15))
         (item153Main_at_a7_m22 h316 Sec14.Ronan148M.item148R_holds
           Sec14.Ronan149.item149S14_holds CFSG.RankThree.PartTwo.item134_holds
           CFSG.RankThree.PartTwo.item135_holds Sec13.Ronan137H.item137_holds

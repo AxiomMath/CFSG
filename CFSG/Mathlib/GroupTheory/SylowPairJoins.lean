@@ -242,7 +242,7 @@ theorem eq_of_sylow_pair_joins [Finite Q] {G P : Subgroup Q} {p : ℕ} [Fact p.P
   have hTcard : Nat.card ((S : Subgroup ↥U).map U.subtype) =
       p ^ (Nat.card G).factorization p := by
     rw [Subgroup.card_map_of_injective U.subtype_injective, hScard]
-  have hTp : IsPGroup p ((S : Subgroup ↥U).map U.subtype) := S.isPGroup'.map U.subtype
+  have hTp : IsPGroup p ((S : Subgroup ↥U).map U.subtype) := S.isPGroup.map U.subtype
   have hPp : IsPGroup p P := IsPGroup.of_card hP
   obtain ⟨x, hxG, hx⟩ := IsPGroup.exists_mem_conj_mem_of_card_eq (G := Q) (p := p)
     (P := G) (Q := (S : Subgroup ↥U).map U.subtype) (R := P)

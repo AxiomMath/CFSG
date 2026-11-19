@@ -45,9 +45,9 @@ theorem qtwoDB44_core {m : ℕ} (hm : 6 ≤ m) {c : Fin m}
     hsc Z (fun v => hZ _ ⟨_, rfl⟩) hZ3
   obtain ⟨⟨L, hLf, hLa, hLfin, ζ, F, hL, hζ, hs⟩, -, -, -⟩ :=
     FrameRoute.exists_spFrame_of_selfCent_two (K := ZMod 2) (Nat.card_zmod 2) hE hsc'
-  letI := hLf
-  letI := hLa
-  letI := hLfin
+  let := hLf
+  let := hLa
+  let := hLfin
   obtain ⟨Q, hQ, hplus, hinv⟩ := qtwoDB44_frameQ (n := m - 1) (by omega) hL hζ F hs
   have hinvτ : ∀ v : DVec m, ∀ x, Q (spEnd (τ (Multiplicative.ofAdd v)) x) = Q x := by
     intro v x

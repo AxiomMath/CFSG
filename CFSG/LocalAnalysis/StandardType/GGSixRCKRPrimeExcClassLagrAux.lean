@@ -212,7 +212,7 @@ theorem rckCL_quadratic_of_isometry {K : Type*} [Field K] [Fintype K]
     exact hquad
   exact hmain
 
-theorem rckCL_exists_smul_of_dvd {n : ℕ} {d : ℤ} (hd : d ≠ 0)
+theorem rckCL_exists_smul_of_dvd {n : ℕ} {d : ℤ} (_hd : d ≠ 0)
     {Y : Matrix (Fin n) (Fin n) ℤ} (hY : ∀ i j, d ∣ Y i j) :
     ∃ Z : Matrix (Fin n) (Fin n) ℤ, Y = d • Z := by
   refine ⟨Matrix.of fun i j => Y i j / d, ?_⟩
@@ -251,7 +251,7 @@ theorem rckCL_pow_dvd_of_mul_sq {p m n : ℕ} (hp : p.Prime) (hm : ¬ p ∣ m)
       simpa [Matrix.smul_apply, smul_eq_mul] using this
     have hpdvd : (p : ℤ) ∣ (m : ℤ) * Z i j := by
       rw [hentry]
-      exact dvd_mul_of_dvd_left (by simpa using pow_dvd_pow (p:ℤ) (show 1 ≤ k + 1 by omega)) _
+      exact dvd_mul_of_dvd_left (by simp) _
     have hmZ : ¬ (p : ℤ) ∣ (m : ℤ) := fun hh => hm (by exact_mod_cast hh)
     have hpp : Prime (p : ℤ) := Nat.prime_iff_prime_int.mp hp
     have hpZ : (p : ℤ) ∣ Z i j := (hpp.dvd_mul.mp hpdvd).resolve_left hmZ
@@ -370,7 +370,7 @@ theorem rckCL_modMat_mul {τ : Tag} (p : ℕ) (A B : Matrix (Fin τ.rank) (Fin �
 
 theorem rckCL_modMat_one {τ : Tag} (p : ℕ) :
     modMat p (1 : Matrix (Fin τ.rank) (Fin τ.rank) ℤ) = 1 := by
-  simpa [modMat] using Matrix.map_one (Int.castRingHom (ZMod p)) (by simp) (by simp)
+  simp [modMat]
 
 theorem rckCL_modMat_add {τ : Tag} (p : ℕ) (A B : Matrix (Fin τ.rank) (Fin τ.rank) ℤ) :
     modMat p (A + B) = modMat p A + modMat p B := by
@@ -403,7 +403,7 @@ theorem rckCL_modMat_quadratic {τ : Tag} (p : ℕ)
 theorem rckCL_lam_facts {p d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hd : d = 3 ∨ d = 4 ∨ d = 6) {lam : ZMod p} (hlam : orderOf lam = d) :
     lam ≠ 0 ∧ lam * lam ≠ 1 ∧ lam + lam⁻¹ = (rckChebC d : ZMod p) ∧ 5 ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : lam ^ d = 1 := by rw [← hlam]; exact pow_orderOf_eq_one lam
   have hlam0 : lam ≠ 0 := by
     intro h0

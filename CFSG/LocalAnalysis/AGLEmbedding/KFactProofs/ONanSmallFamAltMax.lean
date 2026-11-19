@@ -63,7 +63,7 @@ variable {K : Type} [Group K] [Finite K] {p : ℕ}
 theorem normalizer_le_glbCore_one (hp : p.Prime) (T : Sylow p K) (hT : (T : Subgroup K) ≠ ⊥) :
     Subgroup.normalizer ((T : Subgroup K) : Set K) ≤ GLBCore p 1 (T : Subgroup K) :=
   CFSG.AGLEmbeddingD2.normalizer_le_glbCore p 1 le_rfl
-    (CFSG.AGLEmbedding.one_le_pRank_of_isPGroup_of_ne_bot hp T.isPGroup' hT)
+    (CFSG.AGLEmbedding.one_le_pRank_of_isPGroup_of_ne_bot hp T.isPGroup hT)
 
 theorem eq_or_eq_top_of_glbCore_le_of_five_le (hp : p.Prime) (hp5 : 5 ≤ p) (hK : IsAltTwoP p K)
     (T : Sylow p K) {Y : Subgroup K} (hY : GLBCore p 1 (T : Subgroup K) ≤ Y) :

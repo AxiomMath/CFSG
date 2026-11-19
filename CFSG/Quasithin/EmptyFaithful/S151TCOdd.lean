@@ -19,7 +19,7 @@ theorem ker_eq_bot_of_statedSL_three_two {E : Type} [Group E] [Finite E] [Group.
   · intro r hr hr2 _ _
     obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow r ↥(CFSG.Assembly.LowTwoRank.StatedSL 3
       (ZMod 2))))
-    refine ⟨Q, CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three ?_ ?_ Q.isPGroup'⟩
+    refine ⟨Q, CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three ?_ ?_ Q.isPGroup⟩
     · rw [Nat.card_zmod]
       exact fun h => hr2 ((Nat.prime_dvd_prime_iff_eq hr.out Nat.prime_two).1 h)
     · rw [Nat.card_zmod]

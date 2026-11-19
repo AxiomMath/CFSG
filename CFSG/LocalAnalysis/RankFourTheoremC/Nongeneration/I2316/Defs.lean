@@ -31,12 +31,12 @@ theorem congr_apply_apply (ε : K ≃* L) (e : MulAut K) (l : L) :
 theorem congr_congr_symm (ε : K ≃* L) (e : MulAut L) :
     MulAut.congr ε (MulAut.congr ε.symm e) = e := by
   ext x
-  simp [congr_apply_apply]
+  simp
 
 theorem congr_conj_apply (ε : K ≃* L) (g : K) :
     MulAut.congr ε (MulAut.conj g) = MulAut.conj (ε g) := by
   ext x
-  simp [congr_apply_apply]
+  simp
 
 theorem transportPlane_isElemAbelian {p : ℕ} (ε : K ≃* L) {E : Subgroup (MulAut K)}
     (hE : IsElemAbelian p E) : IsElemAbelian p (transportPlane ε E) := by
@@ -78,7 +78,7 @@ theorem transportPlane_fixedPts (ε : K ≃* L) (E : Subgroup (MulAut K)) :
     refine ⟨MulAut.congr ε e, ⟨e, he, rfl⟩, ?_, ?_⟩
     · intro h
       exact hne ((MulAut.congr ε).injective (by rw [map_one]; exact h))
-    · simp [congr_apply_apply, hk]
+    · simp [hk]
 
 theorem planesGenerate_of_mulEquiv {p : ℕ} (ε : K ≃* L) (h : PlanesGenerate p K) :
     PlanesGenerate p L := by

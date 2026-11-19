@@ -124,7 +124,7 @@ theorem card_le_sq_of_forall_eq_scalar_mul_pow (hc : IsScalarQuot c S) [Nonempty
     obtain ⟨u, e, hu⟩ := hall y hyX hyp
     have hMe : M = ⟨GeneralLinearGroup.scalar κ (s * u), hc.scalar_mem _⟩ * δ ^ e * x₀ ^ k := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_pow]
       rw [hMeq, hu, map_mul]
       simp only [mul_assoc]
     have hcx : x = c δ ^ (e % p) * c x₀ ^ (k % p) := by

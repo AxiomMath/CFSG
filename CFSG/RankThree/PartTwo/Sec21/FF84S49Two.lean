@@ -93,7 +93,7 @@ theorem S48Ctx.S49_two_comp (c : S48Ctx b L B K b₁ b₂)
       have := hx'
       rw [hx'x] at this
       exact this
-    exact Subgroup.commutator_mono (c.U_le_S hU) le_rfl this
+    exact Subgroup.commutator_mono (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.U_le_S hU) le_rfl this
   have hyc2 : ((e ⟨x, hxL⟩ : A8s) : P8) ∉ trX e U ⊓ Cen cc := by
     intro hm
     have hinf := trX_inf_cen e U hb₁

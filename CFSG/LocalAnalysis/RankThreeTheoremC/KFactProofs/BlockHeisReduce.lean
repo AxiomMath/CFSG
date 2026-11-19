@@ -26,8 +26,7 @@ variable {Y : Type} [Group Y]
       exact this)) (by
     intro a b
     ext x
-    simp only [MulAut.mul_apply, heisConjAut_apply, Submonoid.coe_mul, Subgroup.coe_toSubmonoid,
-      mul_inv_rev]
+    simp only [MulAut.mul_apply, heisConjAut_apply]
     simp [mul_assoc])
 
 theorem conjOnL_apply (L : Subgroup Y) (E : Subgroup Y)
@@ -81,7 +80,7 @@ theorem false_of_noHeisAut {p : ℕ} (L : Subgroup Y) [Group.IsPerfect ↥L] (E 
 theorem oddRankLeThree_of_pRank {Y : Type} [Group Y] [Finite Y] (H : Subgroup Y)
     (h : ∀ q : ℕ, q.Prime → q ≠ 2 → Open.pRank q H ≤ 3) : OddRankLeThree ↥H := by
   intro q hq hq2 A hA hAq
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hpg : IsPGroup q A := fun x => ⟨1, Subtype.ext (by simpa using hAq x x.2)⟩
   obtain ⟨k, hk⟩ := hpg.exists_card_eq
   set B : Subgroup Y := A.map H.subtype with hB
@@ -132,8 +131,8 @@ theorem heis_dispatch
       (p = 5 ∧ Subgroup.center ↥(barM M L) = ⊥ ∧
         ∃ q : TauCeti.PrimePower, d.1 = .twistedA 4 q ∧ q.card = 4) → False) : False := by
   have hcomp : CFSG.Open.IsQuasisimple ↥(barM M L) := hyps.2.2.1.component.2.2
-  haveI : Group.IsPerfect ↥(barM M L) := ⟨hcomp.1⟩
-  haveI : IsSimpleGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hcomp.2
+  have : Group.IsPerfect ↥(barM M L) := ⟨hcomp.1⟩
+  have : IsSimpleGroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hcomp.2
   have hrk : OddRankLeThree ↥(barM M L) := oddRankLeThree_of_pRank _ hrank
   have hnabS : ∃ a b : ↥(barM M L) ⧸ Subgroup.center ↥(barM M L), a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hcomp
@@ -411,7 +410,7 @@ theorem kFactBlockHeisenbergInner_of_cores
   rintro hCP ⟨idx, hv⟩ e ⟨rfl, hZ, q, hdq, hq4⟩
   dsimp only at hdq
   subst hdq
-  haveI : Group.IsPerfect ↥(barM M L) := ⟨hyps.2.2.1.component.2.2.1⟩
+  have : Group.IsPerfect ↥(barM M L) := ⟨hyps.2.2.1.component.2.2.1⟩
   have hout := heis_card_outer_psu_five_four q hq4 hv e
   have h5 := heis_five_cube_dvd_of_inner (L := barM M L) (R := R₁) (P := blockPL M S L) hR₁N hR₁C
     hcard hZ hout hinner

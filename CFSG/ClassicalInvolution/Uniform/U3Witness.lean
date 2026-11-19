@@ -65,7 +65,7 @@ theorem not_aEmpty_of_u2WitnessU (hΩ : HypOmegaModU (.sl2 p f) Ω) (hex : Exact
       (natCard_memberU hΩ hex hJ).symm
     have hP''card : Nat.card P'' = 2 ^ (Nat.card J).factorization 2 := by
       rw [Sylow.card_eq_multiplicity, hcard]
-    have hR₀2 : IsPGroup 2 R₀ := P''.isPGroup'.map _
+    have hR₀2 : IsPGroup 2 R₀ := P''.isPGroup.map _
     have hQ₀2 : IsPGroup 2 (R₀.subgroupOf J) := hR₀2.comap_subtype
     have hQ₀card : Nat.card (R₀.subgroupOf J) = Nat.card P'' := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hR₀J).toEquiv]
@@ -94,7 +94,7 @@ theorem not_aEmpty_of_centralizer_witnessU (hΩ : HypOmegaModU (.sl2 p f) Ω)
     ¬ AEmpty Ω K := by
   have hKJ : K ≠ J := fun h => hnc ⟨1, by rw [conjSub_one, h]⟩
   have hu2 : IsPGroup 2 (Subgroup.zpowers (u : G)) := by
-    have h1 : IsPGroup 2 ((P : Subgroup ↥J).map J.subtype) := P.isPGroup'.map _
+    have h1 : IsPGroup 2 ((P : Subgroup ↥J).map J.subtype) := P.isPGroup.map _
     refine h1.to_le ?_
     rw [Subgroup.zpowers_le]
     exact ⟨u, huP, rfl⟩

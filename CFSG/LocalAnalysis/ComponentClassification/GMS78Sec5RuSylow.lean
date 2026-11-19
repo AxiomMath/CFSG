@@ -239,7 +239,7 @@ theorem isSylowOf_top_of_isSylowOf_normalizer
   have hxR : x ∉ normalizer (R : Set G) := by
     intro hxR
     have hP : IsPGroup 2 (S ⊔ zpowers x : Subgroup G) :=
-      hSN.isPGroup.to_sup_of_normal_left' (P.isPGroup'.to_le (zpowers_le.mpr hxP))
+      hSN.isPGroup.to_sup_of_normal_left' (P.isPGroup.to_le (zpowers_le.mpr hxP))
         (zpowers_le.mpr hxS)
     have heq := hSN.eq_of_le le_sup_left (sup_le hSN.le (zpowers_le.mpr hxR)) hP
     have h1 : x ∈ S ⊔ zpowers x := (le_sup_right : zpowers x ≤ S ⊔ zpowers x) (mem_zpowers x)

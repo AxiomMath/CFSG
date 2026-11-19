@@ -41,7 +41,7 @@ theorem nonempty_alt6_of_psl29 {K : Type} [Group K] (h : StatedClassicalModel K 
 theorem simpleHeis148_of (hIrr : EvenSL3Irred) (hSub : SubHeis148) : SimpleHeis148 := by
   intro X _ _ P K₀ Q D hH _ hZ _ hPe hP9 hb hQ hh hK hKs hnab
   obtain ⟨π, p, f, F, _, hF, hqF, φ, y₁, y₂, ζ, hy₁, hy₂, hy₁3, hy₂3, hζ1, hζ, hact⟩ := hH
-  haveI : Fact p.Prime := ⟨hF.prime⟩
+  have : Fact p.Prime := ⟨hF.prime⟩
   have hiso : Sec4.IsoLThreePi X p f := isoLThreePi_of_model hF hqF φ
   have hbd := hb p f hF.one_le hiso
   have hinv := Ronan148B.inv_of_hyp hZ hh

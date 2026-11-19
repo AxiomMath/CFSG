@@ -13,6 +13,7 @@ namespace ThreeOne
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [Fintype Ω] in
 private lemma isSwap_conj (g : Perm Ω) {s : Perm Ω} (hs : s.IsSwap) :
     (g * s * g⁻¹).IsSwap := by
   obtain ⟨a, b, hab, rfl⟩ := hs

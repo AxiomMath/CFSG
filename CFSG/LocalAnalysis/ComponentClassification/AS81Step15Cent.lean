@@ -219,7 +219,7 @@ theorem centralizer_eq_sup_oddCoreIn (hF : Frame G A A R g E F) (hL : TypeL34 (r
   obtain ⟨Q, hQ⟩ := hEsub.exists_le_sylow
   have hQE : (Q : Subgroup ↥C) ≤ E.subgroupOf C := by
     intro x hx
-    obtain ⟨n, hn⟩ := Q.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := Q.isPGroup ⟨x, hx⟩
     have hn' : (x : G) ^ 2 ^ n = 1 := by
       have := congrArg (fun y : ↥(Q : Subgroup ↥C) => ((y : ↥C) : G)) hn
       simpa using this

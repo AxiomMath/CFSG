@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3
 theorem image_fixedPoints_conj {K : Type*} [Group K] (Ψ σ : MulAut K) :
     (Ψ : K → K) '' {x : K | σ x = x} = {x : K | (Ψ * σ * Ψ⁻¹) x = x} := by
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq, MulAut.mul_apply]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, MulAut.mul_apply]
   constructor
   · rintro ⟨x, hx, rfl⟩
     simp [hx]
@@ -137,7 +137,7 @@ theorem graph_normal_form {n k : ℕ} {F : Type*} [Field F] [Finite F] (hn : 3 �
       (conjAut n F H)⁻¹ * (conjAut n F A * dualAut n F) * conjAut n F H =
         conjAut n F C * dualAut n F := by
   have hU : UnitaryFieldData 2 k F := ⟨Nat.prime_two, hk, by rw [hF]⟩
-  haveI : CharP F 2 := hU.charP
+  have : CharP F 2 := hU.charP
   have hφbar : ∀ x, φ x = hU.bar x := fun x => by rw [hφ, hU.bar_apply]
   set c := conjAut n F H with hc
   set s := conjAut n F A * dualAut n F with hs

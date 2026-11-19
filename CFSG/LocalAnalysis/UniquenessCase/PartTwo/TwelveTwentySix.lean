@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveTwentySix
 
+omit [Finite G] in
 theorem mem_centralizer_of_bot {V : Subgroup G} {c : G}
     (hc : ∀ v ∈ V, c * v * c⁻¹ * v⁻¹ ∈ (⊥ : Subgroup G)) : c ∈ centralizer (V : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -26,7 +27,7 @@ theorem mem_centralizer_of_bot {V : Subgroup G} {c : G}
     _ = c * v := by rw [h1, inv_one, one_mul]
 
 theorem commutator_ne_bot_of_barSub_ne_bot (D : Data G) {V L : Subgroup G}
-    (hV : InCalV D.M V) (hLM : L ≤ D.M) (hVe : IsElemAbelian 2 V)
+    (hV : InCalV D.M V) (_hLM : L ≤ D.M) (hVe : IsElemAbelian 2 V)
     (hH : barSub ⊥ V hVe (UC22.conjClosure D.M L) ≠ ⊥) : ⁅L, V⁆ ≠ ⊥ := by
   intro hLV
   apply hH
@@ -53,7 +54,7 @@ theorem centralizer_Z_le (D : Data G) {V L : Subgroup G} (hV : InCalV D.M V)
     (hLM : L ≤ D.M) (hVe : IsElemAbelian 2 V) (hU : UniqueMax D.M (L ⊔ D.T))
     (hfix : fixV (barSub ⊥ V hVe (UC22.conjClosure D.M L)) ≠ ⊥) :
     centralizer (D.Z : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMV : D.M ≤ normalizer (V : Set G) := hV.2.2.1
   have hMstab : D.M ≤ stabTil ⊥ V := le_stabTil hMV (by
     rw [Subgroup.normalizer_eq_top]
@@ -82,7 +83,7 @@ theorem centralizer_Z_le (D : Data G) {V L : Subgroup G} (hV : InCalV D.M V)
     A1a.le_normalizer_inf (D.sylowM.le.trans hMV)
       (A1a.le_normalizer_centralizer
         (D.sylowM.le.trans (TwelveTwentyThree.le_normalizer_conjClosure D.M L)))
-  haveI hYn : (Y.subgroupOf D.T).Normal :=
+  have hYn : (Y.subgroupOf D.T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYT).2 hTY
   have hxY : x.val ∈ Y := ⟨x.val_mem, Subgroup.mem_centralizer_iff.2 hcx⟩
   have hYne : Y.subgroupOf D.T ≠ ⊥ := by
@@ -91,7 +92,7 @@ theorem centralizer_Z_le (D : Data G) {V L : Subgroup G} (hV : InCalV D.M V)
     have : (⟨x.val, hYT hxY⟩ : ↥D.T) ∈ Y.subgroupOf D.T := hxY
     rw [h0, Subgroup.mem_bot] at this
     exact congrArg Subtype.val this
-  haveI : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
+  have : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
   obtain ⟨⟨t, ht⟩, ht1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hYne)
   have htY : (t : G) ∈ Y := ht.1

@@ -17,7 +17,7 @@ open CFSG.LieType.Steinberg.Exceptional
 
 theorem exists_involution_mem_ggRootSub
     {U G : Type} [Group U] [Group G] {Δ : UniversalRootDatum U} {ψ : U →* G}
-    {γ : Fin Δ.rank → ℤ} (hγ : γ ∈ Δ.roots) (u : U)
+    {γ : Fin Δ.rank → ℤ} (_hγ : γ ∈ Δ.roots) (u : U)
     (hker : ψ.ker ≤ Subgroup.center U)
     (hsq : ∀ x ∈ Δ.rootGroup γ, x * x = 1)
     (hne : Δ.rootGroup γ ≠ ⊥)

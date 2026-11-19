@@ -25,8 +25,8 @@ namespace Config
 theorem ncard_involutions_K1 (C : Config A) [Finite A] :
     (nonidentityInvolutions C.K₁).ncard = 75 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : Fintype (Sylow 2 A) := Fintype.ofFinite _
+  have : Fintype A := Fintype.ofFinite A
+  have : Fintype (Sylow 2 A) := Fintype.ofFinite _
   have hfin : ({P : Sylow 2 A | C.L ≤ (P : Subgroup A)} : Set (Sylow 2 A)).Finite :=
     Set.toFinite _
   set S : Finset (Sylow 2 A) := hfin.toFinset with hS

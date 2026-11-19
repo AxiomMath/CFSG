@@ -42,6 +42,7 @@ private theorem scalar_conj_cancel {ι : Type*} [Fintype ι] [DecidableEq ι] {K
       _ = X * Y * X⁻¹ := by simp
   rw [h1]
 
+omit [Finite K] in
 theorem LiftMap.exists_commChar {H : Subgroup (GL (Fin N) K)} {S : Set (GL (Fin N) K)}
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj H}
     {hact : ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk H) S,
@@ -191,7 +192,7 @@ theorem exists_index_of_commChar {H : Subgroup (GL (Fin N) K)} {S : Set (GL (Fin
       ∀ a (ha : a ∈ A₀), M.mat ⟨a, hA₀A ha⟩ * M.mat ⟨d, hsetup.d_mem⟩ =
         M.mat ⟨d, hsetup.d_mem⟩ * M.mat ⟨a, hA₀A ha⟩ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let χk : Subgroup ↥A := χ.ker
   let A₀ : Subgroup G := χk.map A.subtype
   have hA₀A : A₀ ≤ A := Subgroup.map_subtype_le χk

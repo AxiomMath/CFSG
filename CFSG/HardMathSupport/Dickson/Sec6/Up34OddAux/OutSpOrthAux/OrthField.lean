@@ -32,7 +32,7 @@ section Abstract
 
 theorem noL34Layer_of_congr {P P' : Type} [Group P] [Finite P] [Group P'] (e : P ≃* P')
     {ψ : MulAut P} (h : NoL34Layer (MulAut.congr e ψ)) : NoL34Layer ψ := by
-  haveI : Finite P' := Finite.of_equiv P e.toEquiv
+  have : Finite P' := Finite.of_equiv P e.toEquiv
   exact noL34Layer_congr e h
 
 theorem noL34Layer_of_normal_simple {P : Type} [Group P] [Finite P] (δ : MulAut P)
@@ -100,10 +100,10 @@ theorem noL34Layer_fieldAutT (S : SubfieldSetup k Q₀ Q σ p)
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
   have hJn := subfieldDerivedImage_normal k S.hext
-  haveI := hJn
+  have := hJn
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   refine noL34Layer_of_fixed_normal_simple _ _ _ hfix (subfieldDerivedImage_le k S.hext)
     inferInstance hJs hJnab fun hT => hL34 ?_
   exact IsLThreeFour.of_mulEquiv e.symm hT

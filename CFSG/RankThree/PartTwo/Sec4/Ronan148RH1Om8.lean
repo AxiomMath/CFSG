@@ -374,7 +374,7 @@ theorem e27Move_om8 : E27Move Om8 := by
 
 theorem cubeInner_om8 : CubeInner Om8 := by
   obtain ⟨φ⟩ := RonanK429F.nonempty_projOmegaMinus_equiv_om8 gf2_hbc
-  haveI : Finite (projOmegaMinus 3 (GaloisField 2 1) 1 1) := Finite.of_equiv _ φ.symm.toEquiv
+  have : Finite (projOmegaMinus 3 (GaloisField 2 1) 1 1) := Finite.of_equiv _ φ.symm.toEquiv
   exact cubeInner_of_mulEquiv φ.symm (cubeInner_of_not_three_dvd_card_outer
     (RonanK429F.Om8.not_three_dvd_card_outer_projOmegaMinus gf2_hbc))
 

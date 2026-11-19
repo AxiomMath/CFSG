@@ -82,8 +82,8 @@ theorem exists_isComponentOf_not_le_centralizer {X V : Subgroup G} (hX2 : pCoreO
     exact Subgroup.card_eq_one.mp hcard
   exact hV1 hVbot
 
-theorem le_centralizer_of_isComponentOf_le {X V M Y : Subgroup G} (hX2 : pCoreOf 2 X = ⊥)
-    (hVX : V ≤ X) (hVM : V ≤ M) (hV2 : IsPGroup 2 V) (hN : X ⊓ M ≤ normalizer (V : Set G))
+theorem le_centralizer_of_isComponentOf_le {X V M Y : Subgroup G} (_hX2 : pCoreOf 2 X = ⊥)
+    (hVX : V ≤ X) (_hVM : V ≤ M) (hV2 : IsPGroup 2 V) (hN : X ⊓ M ≤ normalizer (V : Set G))
     (hY : CFSG.Open.IsComponentOf Y X) (hYM : Y ≤ M) : V ≤ centralizer (Y : Set G) := by
   have hJ : CFSG.IsComponent (Y.subgroupOf X) :=
     (CFSG.isComponent_iff_open _).2

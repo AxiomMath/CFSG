@@ -77,7 +77,7 @@ private theorem natDegree_minpoly_eq_two_mul {E : Type*} [Field E] [Finite E]
     exact dvd_mul_right d _
   have hωK : ω ∈ K := IntermediateField.subset_adjoin (ZMod 2) ({ω} : Set E) (Set.mem_singleton ω)
   have hpowK : ω ^ (2 ^ d - 1) = 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hne : (⟨ω, hωK⟩ : K) ≠ 0 := by
       intro h
       exact hω0 (by simpa using congrArg Subtype.val h)

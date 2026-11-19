@@ -54,8 +54,8 @@ theorem exists_sylow_le_cen {z : G} (hz : orderOf z = 2)
       (Nat.Prime.dvd_iff_one_le_factorization Nat.prime_two Nat.card_pos.ne').mp h2G
     calc 1 < 2 ^ 1 := by norm_num
       _ ≤ 2 ^ (Nat.card G).factorization 2 := Nat.pow_le_pow_right (by norm_num) h1
-  have hZ := S₀.isPGroup'.center_nontrivial
-  obtain ⟨k, hk⟩ := (S₀.isPGroup'.to_subgroup (center ↥(S₀ : Subgroup G))).exists_card_eq
+  have hZ := S₀.isPGroup.center_nontrivial
+  obtain ⟨k, hk⟩ := (S₀.isPGroup.to_subgroup (center ↥(S₀ : Subgroup G))).exists_card_eq
   have hk0 : k ≠ 0 := by
     rintro rfl
     rw [pow_zero] at hk
@@ -87,7 +87,7 @@ theorem exists_sylow_mulEquiv {z : G} {Lb : Subgroup (CentQuot z)} (hLn : Lb.Nor
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : ↥(cen z) →* CentQuot z := QuotientGroup.mk' (pPrimeCore 2 ↥(cen z)) with hπ
   set S' : Subgroup ↥(cen z) := (S : Subgroup G).subgroupOf (cen z) with hS'
-  have hS'p : IsPGroup 2 S' := S.isPGroup'.comap_of_injective _ (cen z).subtype_injective
+  have hS'p : IsPGroup 2 S' := S.isPGroup.comap_of_injective _ (cen z).subtype_injective
   set ψ : ↥S' →* CentQuot z := π.comp S'.subtype with hψ
   have hψi : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -108,7 +108,7 @@ theorem exists_sylow_mulEquiv {z : G} {Lb : Subgroup (CentQuot z)} (hLn : Lb.Nor
   let eQ : ↥(S : Subgroup G) ≃* ↥Q := (subgroupOfEquivOfLe hS).symm.trans
     ((MonoidHom.ofInjective hψi).trans ((subgroupOfEquivOfLe hrange).symm.trans
       ((ψ.range.subgroupOf Lb).equivMapOfInjective e.toMonoidHom e.injective)))
-  have hQp : IsPGroup 2 Q := S.isPGroup'.of_equiv eQ
+  have hQp : IsPGroup 2 Q := S.isPGroup.of_equiv eQ
   obtain ⟨P, hQP⟩ := hQp.exists_le_sylow
   have hXG : Nat.card X ∣ Nat.card G := by
     rw [← Nat.card_congr e.toEquiv]

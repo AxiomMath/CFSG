@@ -113,7 +113,7 @@ theorem A6.mem_of_mem_normalizer_sylow {G : Type*} [Group G] [Finite G] {p : ℕ
   have hle : zpowers x ≤ normalizer ((P : Subgroup G) : Set G) :=
     (zpowers_le).mpr hx
   have hsup : IsPGroup p ↥(zpowers x ⊔ (P : Subgroup G)) :=
-    IsPGroup.to_sup_of_normal_right' hz P.isPGroup' hle
+    IsPGroup.to_sup_of_normal_right' hz P.isPGroup hle
   have heq : zpowers x ⊔ (P : Subgroup G) = P :=
     P.maximal_isPGroup.eq_of_ge hsup le_sup_right
   rw [← heq]

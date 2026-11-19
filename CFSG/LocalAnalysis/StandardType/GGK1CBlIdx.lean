@@ -51,13 +51,13 @@ theorem ggK1CBl_tail_filter_map {α : Type*} (l : List ℕ) (f : ℕ → α) :
       conv_rhs => rw [ggK1CBl_filter_map_getD t 0 (fun x => decide (x ≠ 0)) f]
       rw [List.length_cons, List.range_succ_eq_map, List.filter_cons]
       have hq0 : ¬ ((fun j => decide (1 ≤ j ∧ 1 ≤ (a :: t).getD j 0)) 0 = true) := by simp
-      rw [if_neg hq0]
+      rw [ite_eq_right hq0]
       rw [ggK1CBl_map_filter_eq (List.range t.length) Nat.succ
             (fun j => decide (1 ≤ j ∧ 1 ≤ (a :: t).getD j 0)), List.map_map]
       congr 1
       · apply List.filter_congr
         intro k _
-        simp [Function.comp_apply, List.getD_cons_succ, Nat.one_le_iff_ne_zero]
+        simp [Nat.one_le_iff_ne_zero]
 
 theorem ggK1CBl_univ_map_subtype_val {α β : Type*} (s : Finset α) (g : α → β) :
     (Finset.univ : Finset ↥s).val.map (fun x => g x.val) = s.val.map g := by
@@ -66,10 +66,10 @@ theorem ggK1CBl_univ_map_subtype_val {α β : Type*} (s : Finset α) (g : α →
   congr 1
   exact congrArg Finset.val (Finset.attach_map_val (s := s))
 
-@[expose] abbrev ggK1CBl_Id1 (K : Type) [Field K] (P : Finset K[X]) (m : List ℕ) : Type :=
+abbrev ggK1CBl_Id1 (K : Type) [Field K] (P : Finset K[X]) (m : List ℕ) : Type :=
   ↥P ⊕ Subtype (fun _ : Unit => m.headD 0 ≠ 0)
 
-@[expose] abbrev ggK1CBl_Id2 (K : Type) [Field K] {r : ℕ} (x : ↥(StatedSp r K))
+abbrev ggK1CBl_Id2 (K : Type) [Field K] {r : ℕ} (x : ↥(StatedSp r K))
     (m : List ℕ) : Type :=
   ↥(ggK1CSelfDualFactors x) ⊕ Subtype (fun _ : Unit => m.headD 0 ≠ 0)
 

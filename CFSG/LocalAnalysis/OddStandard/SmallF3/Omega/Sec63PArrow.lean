@@ -29,7 +29,7 @@ theorem sec63_arrow_rank_aux' [Finite G] (h33 : Asc82Lemma33) (hF : Asc82AutFact
     {X Y T : Subgroup G} (hx : orderOf x = 2) (hy : orderOf y = 2) (hxy : x * y = y * x)
     (hXc : IsComponentIn X (centralizer ({x} : Set G)))
     (hYc : IsComponentIn Y (centralizer ({y} : Set G))) (hXY : X ≤ Y) (hcomm : ⁅Y, zpowers x⁆ = Y)
-    (hXF : InFStar X) (hYF : InFStar Y) (hYC : InCStar Y) (hX29 : IsL29 X)
+    (hXF : InFStar X) (hYF : InFStar Y) (hYC : InCStar Y) (_hX29 : IsL29 X)
     (hYs : IsOmega5 Y ∨ IsL281 Y) (hT : IsSylow2Of T (centralizer (X : Set G)))
     (hxT : x ∈ T) (hyT : y ∈ T) : CFSG.Open.pRank 2 T ≤ 2 := by
   have hT2 : IsPGroup 2 ↥T := hT.2.1
@@ -49,7 +49,7 @@ theorem sec63_arrow_rank_aux' [Finite G] (h33 : Asc82Lemma33) (hF : Asc82AutFact
     exact hYc.ne_bot hbot
   have hUcyc : IsCyclic ↥(T ⊓ centralizer (Y : Set G)) := sec63_isCyclic_inf h33 hS hYC hYF hT2
   have hUcyc' : IsCyclic ↥(T ⊓ centralizer ({y} : Set G) ⊓ centralizer (Y : Set G)) := by
-    haveI : IsCyclic ↥(T ⊓ centralizer (Y : Set G)) := hUcyc
+    have : IsCyclic ↥(T ⊓ centralizer (Y : Set G)) := hUcyc
     exact Subgroup.isCyclic_of_le (inf_le_inf inf_le_left le_rfl)
   have hRN : T ⊓ centralizer ({y} : Set G) ≤
       normalizer (Y : Set G) ⊓ centralizer (X : Set G) := by

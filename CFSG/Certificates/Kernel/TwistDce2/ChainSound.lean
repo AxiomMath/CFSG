@@ -76,8 +76,7 @@ theorem coverLoop_sound {F : ℕ → ℕ} {INVM NP : ℕ} {RD RW : ℕ → ℕ} 
         p = cs.foldl (fun q c => evP F (gWord INVM RW c) q) (evP F (wInv INVM (RW f)) 0) := by
   induction L with
   | nil =>
-    intro mask h hinit
-    intro p hp
+    intro mask h hinit p hp
     have hm : mask = CFSG.KC.TwDce.ones NP := Nat.eq_of_beq_eq_true h
     apply hinit p
     rw [hm]

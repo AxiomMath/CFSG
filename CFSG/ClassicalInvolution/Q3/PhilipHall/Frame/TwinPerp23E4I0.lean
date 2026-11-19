@@ -41,11 +41,11 @@ theorem exists_sylow_hull (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpo
     rw [conjSub_coreHull hΩ hc2] at h
     exact h
   have hV : IsSylow2In (S' : Subgroup G) X :=
-    ⟨hS'w, S'.isPGroup', fun V _ hV2 hle => le_antisymm (S'.maximal_isPGroup.2 hV2 hle) hle⟩
+    ⟨hS'w, S'.isPGroup, fun V _ hV2 hle => le_antisymm (S'.maximal_isPGroup.2 hV2 hle) hle⟩
   have hsyl : IsSylow2In ((S' : Subgroup G) ⊓ L) L :=
     isSylow2In_inf_of_le_normalizer hV hLX hXn
   set P₁ : Subgroup ↥(coreHull Ω w) := (S' : Subgroup G).comap (secEmb Ω w) with hP₁
-  have hP₁2 : IsPGroup 2 ↥P₁ := S'.isPGroup'.comap_of_injective _ secEmb_injective
+  have hP₁2 : IsPGroup 2 ↥P₁ := S'.isPGroup.comap_of_injective _ secEmb_injective
   have hmap : P₁.map (secEmb Ω w) = (S' : Subgroup G) ⊓ L := by
     ext y
     constructor

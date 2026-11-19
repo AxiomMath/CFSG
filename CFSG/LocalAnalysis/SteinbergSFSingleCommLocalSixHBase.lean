@@ -17,27 +17,33 @@ section Explicit
 variable {G : Type} [Group G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2]
   {φ : L ≃* antiSp K}
 
+omit [CharP K 2] in
 theorem sixH_s_lift_mul (V W : antiSp K) :
     ((φ.symm (V * W) : L) : G) = ((φ.symm V : L) : G) * ((φ.symm W : L) : G) := by
   rw [map_mul, Subgroup.coe_mul]
 
+omit [CharP K 2] in
 theorem sixH_s_lift_inv (V : antiSp K) :
     ((φ.symm V⁻¹ : L) : G) = ((φ.symm V : L) : G)⁻¹ := by
   rw [map_inv, Subgroup.coe_inv]
 
+omit [CharP K 2] in
 theorem sixH_s_lift_one : ((φ.symm 1 : L) : G) = 1 := by
   rw [map_one, Subgroup.coe_one]
 
+omit [CharP K 2] in
 theorem sixH_s_exists_lift {S : Subgroup (antiSp K)} {g : G} (hg : g ∈ pull φ S) :
     ∃ V ∈ S, g = ((φ.symm V : L) : G) := by
   obtain ⟨h, hS⟩ := mem_pull.mp hg
   exact ⟨φ ⟨g, h⟩, hS, by rw [MulEquiv.symm_apply_apply]⟩
 
+omit [CharP K 2] in
 theorem sixH_s_w_conj (k : Axis) (V : antiSp K) :
     w φ k * ((φ.symm V : L) : G) * (w φ k)⁻¹ =
       ((φ.symm (FullCenterWeyl.weylElt K k * V * (FullCenterWeyl.weylElt K k)⁻¹) : L) : G) := by
   simp only [w, map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
 
+omit [CharP K 2] in
 theorem sixH_s_w_conj' (k : Axis) (V : antiSp K) :
     (w φ k)⁻¹ * ((φ.symm V : L) : G) * w φ k =
       ((φ.symm ((FullCenterWeyl.weylElt K k)⁻¹ * V * FullCenterWeyl.weylElt K k) : L) : G) := by
@@ -104,6 +110,7 @@ theorem sixH_s1_prod_two (a b c B C D : K) :
   rw [uElt_mul]
   apply sixH_uElt_congr <;> ring
 
+omit [CharP K 2] in
 theorem sixH_s1_assoc4 (V W : antiSp K) : V * W * V * W = (V * W) * (V * W) := by
   simp only [mul_assoc]
 
@@ -117,6 +124,7 @@ theorem sixH_s1_formula_two (a b c B C D : K) :
       uElt 0 (a * D) (a ^ 2 * D) 0 := by
   rw [sixH_s1_inv_two, sixH_s1_inv_one, sixH_s1_assoc4, sixH_s1_prod_two, uElt_mul_self]
 
+omit [CharP K 2] in
 theorem sixH_s_comm_lift (V W : antiSp K) :
     ((φ.symm V : L) : G)⁻¹ * ((φ.symm W : L) : G)⁻¹ * ((φ.symm V : L) : G) *
       ((φ.symm W : L) : G) = ((φ.symm (V⁻¹ * W⁻¹ * V * W) : L) : G) := by

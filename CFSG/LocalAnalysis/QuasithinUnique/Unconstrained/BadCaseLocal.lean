@@ -289,14 +289,14 @@ theorem FinalCtx.sq_R {E : Subgroup G} {e : G} (C : FinalCtx N t zK D) (hE : Fin
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hy hc
       rcases hc with hc | hc <;> rcases hy with hy | hy | hy | hy <;> rw [hc, hy] <;>
         first
-        | rfl | exact hzKe.symm | exact hzKe | exact hzKt.symm | exact hzKt | exact het.symm
-        | exact het | exact hzKf.symm | exact hzKf | exact hef.symm | exact hef | exact htf.symm
+        | exact hzKe.symm | exact hzKt.symm | exact hzKt
+        | exact het | exact hzKf.symm | exact htf.symm
     have := Subgroup.mem_centralizer_singleton_iff.mp (hle ha)
     exact this.symm
   intro r hr a ha
   have hr' : r ∈ N.SK ⊔ CFSG.conjugate N.SK N.x := hQ ▸ hr
   obtain ⟨d, hd, d', hd', hdd⟩ := exists_mul_of_mem_sup_of_commute C.comm_SK_SKx hr'
-  have hrdd : r = d * d' := by first | exact hdd.symm | exact hdd
+  have hrdd : r = d * d' := by exact hdd
   have hcomm : d * d' = d' * d := C.comm_SK_SKx d hd d' hd'
   have hd'0 : N.x * d' * N.x⁻¹ ∈ N.SK := BenderBranch.mem_conjugate_iff.mp hd'
   have hsq1 : d * d = 1 ∨ d * d = zK := C.sq_SK hd

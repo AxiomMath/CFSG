@@ -26,7 +26,7 @@ theorem forall_of_sylow (A T : Subgroup G) [Finite A] {p k m : ℕ} (hp : p.Prim
     (hT : Nat.card T = p ^ k) (hA : Nat.card A = p ^ k * m) (hm : ¬ p ∣ m) (Φ : G → Prop)
     (hΦ : ∀ g ∈ A, ∀ x ∈ A, Φ (g * x * g⁻¹) → Φ x) (hTΦ : ∀ x ∈ T, Φ x) :
     ∀ x ∈ A, x ^ (p ^ k) = 1 → Φ x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro x hxA hx
   let S : Subgroup A := T.subgroupOf A
   have hS : Nat.card S = p ^ (Nat.card A).factorization p := by

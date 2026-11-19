@@ -16,8 +16,9 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_fixedSub_sectionRep_iff
-    {L1 L2 S : Subgroup G} {a : ℕ} {H X X1 : Subgroup G}
+    {_L1 _L2 S : Subgroup G} {a : ℕ} {H X X1 : Subgroup G}
     {e : oTwoQuot ↥H ≃* suzukiGroup a (GaloisField 2 (2 * a + 1))}
     (hSH : S ≤ H)
     (hHL : H ≤ Subgroup.normalizer (X1 : Set G))
@@ -34,8 +35,8 @@ private theorem mem_fixedSub_sectionRep_iff
       fixedSub
         (sectionRep hHL hHN hNL hE hO e) (suzukiU a (GaloisField 2 (2 * a + 1))) ↔
       x ∈ centralizerMod X1 X S := by
-  letI : CommGroup (Ch3z.chiefMod X1 X) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod X1 X) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE
   constructor
   · intro hfix
     refine ⟨hx, hNL hx, ?_⟩
@@ -102,9 +103,9 @@ private theorem card_le_mul_card_of_sectionRep
       letI : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE
       IsSzNatural (sectionRep hHL hHN hNL hE hO e)) :
     Nat.card Z ≤ Nat.card Z1 * Nat.card (GaloisField 2 (2 * a + 1)) := by
-  letI : CommGroup (Ch3z.chiefMod X1 X) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE
-  letI : Fintype (GaloisField 2 (2 * a + 1)) := Fintype.ofFinite _
+  let : CommGroup (Ch3z.chiefMod X1 X) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE
+  let : Fintype (GaloisField 2 (2 * a + 1)) := Fintype.ofFinite _
   have hK : Nat.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1) :=
     GaloisField.card 2 (2 * a + 1) (by omega)
   have hfixcard : Nat.card (fixedSub
@@ -191,7 +192,7 @@ private theorem str83G4_card_z2_le
         Subgroup.commutator_mem_commutator z.2 hs
       rw [str83G4_commutator_z2_s hfr] at h1
       exact str83G4_z1_le_x1 hfr h1
-    exact (mem_fixedSub_sectionRep_iff (L1 := L1) (L2 := L2) (S := S)
+    exact (mem_fixedSub_sectionRep_iff (_L1 := L1) (_L2 := L2) (S := S)
       (H := L1 ⊔ S) (X := str83X L1 L2 S) (X1 := str83X1 L1 L2 S) le_sup_right
       hHL hHN hNL hE hO he (z2_le_str83X L1 L2 S z.2)).2 hCz
   have hZ1Z2 : Z1 L1 L2 S ≤ Z2 L1 L2 S := by

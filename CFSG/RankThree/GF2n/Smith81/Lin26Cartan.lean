@@ -186,6 +186,7 @@ theorem RestModel.homology_of_torus' (R : RestModel M Q Z n V₁ V₂) (hn : 2 �
   rw [← hh.act v hvQ]
   exact (R.memW₁ _).mpr (R.M₀.pi_mem_img (hV₁n v hvV) (conj_mem_Q H hh.mem hvQ))
 
+omit [Finite G] in
 theorem RestModel.mult_pow (R : RestModel M Q Z n V₁ V₂) {x : G}
     (hxZ : x ∈ Subgroup.normalizer (Z : Set G)) {ν : R.K}
     (hmult : ∀ z ∈ Z, R.γ (x * z * x⁻¹) = ν * R.γ z) (i : ℕ) :

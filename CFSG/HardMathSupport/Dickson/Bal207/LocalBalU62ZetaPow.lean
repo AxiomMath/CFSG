@@ -22,7 +22,7 @@ theorem u62lb_zeta_pow_nine {K : Type} [Field K] (h : UnitaryFieldData 2 1 K)
     (hY : ∀ i : t6psub_Idx h 6 A, ∀ s ∈ t6psub_block A i,
       (Y : GL (Fin 6) K) * (s : GL (Fin 6) K) = (s : GL (Fin 6) K) * (Y : GL (Fin 6) K)) :
     Y ^ 9 = 1 := by
-  haveI := h.finite
+  have := h.finite
   have hcard : Nat.card Kˣ = 3 := by
     rw [Nat.card_units, h.card]
     norm_num
@@ -50,7 +50,7 @@ theorem u62lb_zeta_pow_nine {K : Type} [Field K] (h : UnitaryFieldData 2 1 K)
     rw [mem_primaryComponent, hpx]
     rfl
   have hcomp : primaryComponent x p = ⊤ := eq_top_iff.2 fun v _ => hmem v
-  haveI : Fact (Irreducible p) := ⟨hpirr⟩
+  have : Fact (Irreducible p) := ⟨hpirr⟩
   have hmult : primaryMultiplicity x p = 2 := by
     have h1 := finrank_primaryComponent x (a := p)
     have h6 : Module.finrank K (primaryComponent x p) = 6 := by

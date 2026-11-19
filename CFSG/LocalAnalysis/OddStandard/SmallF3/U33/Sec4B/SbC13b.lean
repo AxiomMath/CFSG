@@ -46,9 +46,10 @@ theorem c13_normal_Y (hc : Ctx13A t L S x₁ x₂ lam rho tau om) :
   have hk2 : k ^ 2 = 1 := ((mem_ctxYq_iff hc.q_iso k).mp hk).2
   refine (mem_ctxYq_iff hc.q_iso _).mpr ⟨hc.normal_Q.2 g hg k hkQ, ?_⟩
   have hid : (g * k * g⁻¹) ^ 2 = g * k ^ 2 * g⁻¹ := by
-    simpa [MulAut.conj_apply] using (map_pow (MulAut.conj g) k 2).symm
+    simp
   rw [hid, hk2]; group
 
+omit [Finite G] in
 private theorem comm_of_conj_eq {x : G} (h : rho * x * rho⁻¹ = x) : x * rho = rho * x := by
   have h' : rho * x = x * rho := by
     have := congrArg (fun u => u * rho) h
@@ -93,8 +94,8 @@ theorem c13_fpf_QY (hc : Ctx13A t L S x₁ x₂ lam rho tau om) :
 
 theorem c13_phi_Q (hc : Ctx13A t L S x₁ x₂ lam rho tau om) :
     ctxPhi (ctxQ t tau x₁ x₂ rho) = fourGrp x₁ x₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥(ctxQ t tau x₁ x₂ rho)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥(ctxQ t tau x₁ x₂ rho)) :=
     ⟨(l12_isPGroup_R hc.toCtx11).to_le (l12_Q_le_R hc.toCtx11)⟩
   apply le_antisymm
   · rw [ctxPhi]

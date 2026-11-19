@@ -12,12 +12,14 @@ open QuadraticMap
 variable {F E : Type*} [Field F] [CharP F 2] [AddCommGroup E] [Module F E] [FiniteDimensional F E]
 variable {Q : QuadraticForm F E}
 
+omit [CharP F 2] [FiniteDimensional F E] in
 private lemma map_add_smul (x y : E) (c : F) :
     Q (x + c • y) = Q x + c ^ 2 * Q y + c * polar Q x y := by
   rw [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_smul_right]
   simp only [smul_eq_mul]
   ring
 
+omit [CharP F 2] [FiniteDimensional F E] in
 private lemma polar_map {g : E ≃ₗ[F] E} (hg : ∀ x, Q (g x) = Q x) (x y : E) :
     polar Q (g x) (g y) = polar Q x y := by
   have h1 : Q (g x + g y) = Q (g x) + Q (g y) + polar Q (g x) (g y) := by
@@ -27,6 +29,7 @@ private lemma polar_map {g : E ≃ₗ[F] E} (hg : ∀ x, Q (g x) = Q x) (x y : E
   rw [h1, hg x, hg y] at h2
   exact add_left_cancel h2
 
+omit [CharP F 2] [FiniteDimensional F E] in
 private lemma eq_self_of_polar_eq_zero {u : E} (hu : Q u = 1)
     {g : E ≃ₗ[F] E} (hg : ∀ x, Q (g x) = Q x)
     (htriv : ∀ x, polar Q x u = 0 → g x - x ∈ Submodule.span F {u})
@@ -45,6 +48,7 @@ private lemma eq_self_of_polar_eq_zero {u : E} (hu : Q u = 1)
   have hf0 : f = 0 := sq_eq_zero_iff.mp hf2
   rw [hgx, hf0, zero_smul, add_zero]
 
+omit [CharP F 2] in
 private lemma sub_mem_span (hQ : (polarBilin Q).Nondegenerate) {u : E} (hu : Q u = 1)
     {g : E ≃ₗ[F] E} (hg : ∀ x, Q (g x) = Q x)
     (htriv : ∀ x, polar Q x u = 0 → g x - x ∈ Submodule.span F {u}) (y : E) :
@@ -75,6 +79,7 @@ private lemma sub_mem_span (hQ : (polarBilin Q).Nondegenerate) {u : E} (hu : Q u
     _ = polar Q z y - polar Q z y := by rw [e1]
     _ = 0 := sub_self _
 
+omit [CharP F 2] [FiniteDimensional F E] in
 private lemma exists_polar_eq_one (hQ : (polarBilin Q).Nondegenerate) {u : E} (hu : Q u = 1) :
     ∃ y : E, polar Q y u = 1 := by
   have hu_ne : u ≠ 0 := by
@@ -127,7 +132,7 @@ theorem isometry_eq_one_or_transvection
   have hc : ∀ y, c y • u = g y - y := by
     intro y
     have h := LinearEquiv.coord_apply_smul F E u hu_ne (T y)
-    simpa [c, coord, T, LinearMap.codRestrict_apply, LinearMap.sub_apply] using h
+    simp [c, coord, T, LinearMap.codRestrict_apply, LinearMap.sub_apply]
   obtain ⟨y₀, hy₀⟩ := exists_polar_eq_one hQ hu
   have hB0 : B y₀ u = 1 := by rw [hBapp, hy₀]
   have hker : ∀ x, polar Q x u = 0 → c x = 0 := by

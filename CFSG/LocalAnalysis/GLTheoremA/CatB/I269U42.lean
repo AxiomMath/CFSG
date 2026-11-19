@@ -15,8 +15,8 @@ theorem E9Solv_u42 (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid) (hq : q.card = 2) :
     E9Solv (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group := by
   intro E hE hcard
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
   obtain ⟨α, hα1⟩ := exists_ne (1 : E)
   have hα3 : (α : MulAut (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group) ^ 3 = 1 :=
     hE.2 α.1 α.2
@@ -26,7 +26,7 @@ theorem E9Solv_u42 (q : TauCeti.PrimePower)
   have hfix : Group.IsSolvable ↥(fixSubgroup (α : MulAut (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group)) :=
     u42_fixSubgroup_solvable q hv hq (α : MulAut (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group)
       hα3 (fun h => hα1 (Subtype.ext h))
-  haveI := hfix
+  have := hfix
   exact isSolvable_of_le_isSolvable hsub
 
 theorem layer_eq_bot_of_u42 {G : Type} [Group G] [Finite G]

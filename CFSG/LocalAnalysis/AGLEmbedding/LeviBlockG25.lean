@@ -192,6 +192,7 @@ theorem kFactBlockNoG25_nineThreeTwo (hC : KFactCompParabNoG25)
   hC _ _ _ (LeviBlock.compParab_of_nineThreeTwo hA hL hS h2) O (barM M V) hO hPO hOc hV hPVO
     (commutator_barM_eq_self hVM hVV) U ψ' hψ' hd
 
+omit [Finite U] in
 private theorem kFactBlockNoG25_nineThreeThree_sp_aux {k : ℕ}
     {d' : TauCeti.ValidLieTypeIndex} (hk : 3 ≤ k) {q' : TauCeti.PrimePower}
     (hq' : q'.card = 2) (hdq' : d'.1 = .B k q')
@@ -215,17 +216,17 @@ private theorem kFactBlockNoG25_nineThreeThree_sp_aux {k : ℕ}
     have h2 : 3 ∣ Nat.card (CatGroup d') :=
       LeviBlock.dvd_of_dvd_two_pow_mul (by norm_num) (by norm_num) h1
     rwa [Nat.card_congr e.toEquiv]
-  haveI : IsSimpleGroup (↥(blockParabolic M S L) ⧸
+  have : IsSimpleGroup (↥(blockParabolic M S L) ⧸
       CFSG.pCore 2 ↥(blockParabolic M S L)) := by
-    haveI : IsSimpleGroup (CatGroup d') :=
+    have : IsSimpleGroup (CatGroup d') :=
       (kFactSpTwoSimple_holds k d' hk ⟨q', hq', hdq'⟩).1
     exact e.isSimpleGroup
   have hO3' : Nat.Coprime 3 (Nat.card (O.subgroupOf (blockParabolic M S L))) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hO).toEquiv]
     exact hOc
-  haveI : (O.subgroupOf (blockParabolic M S L)).Normal :=
+  have : (O.subgroupOf (blockParabolic M S L)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hPO
-  haveI : ((barM M V).subgroupOf (blockParabolic M S L) ⊔
+  have : ((barM M V).subgroupOf (blockParabolic M S L) ⊔
       O.subgroupOf (blockParabolic M S L)).Normal := by
     rw [← Subgroup.subgroupOf_sup hV hO]
     exact Subgroup.normal_subgroupOf_of_le_normalizer hPVO
@@ -240,6 +241,7 @@ private theorem kFactBlockNoG25_nineThreeThree_sp_aux {k : ℕ}
   · right
     exact h
 
+omit [Finite U] in
 theorem kFactBlockNoG25_nineThreeThree_sp {k : ℕ} {d' : TauCeti.ValidLieTypeIndex}
     (hk : 3 ≤ k) {q' : TauCeti.PrimePower} (hq' : q'.card = 2) (hdq' : d'.1 = .B k q')
     (e : (↥(blockParabolic M S L) ⧸ CFSG.pCore 2 ↥(blockParabolic M S L)) ≃* CatGroup d')
@@ -268,6 +270,7 @@ theorem kFactBlockNoG25_nineThreeThree_sp {k : ℕ} {d' : TauCeti.ValidLieTypeIn
       exact hd
     exact LeviBlock.ordBC_not_isG25Order (n := k) (q := 2) (f := 1) (by norm_num) hd'
 
+omit [Group U] [Finite U] [IsSimpleGroup U] in
 theorem kFactBlockNoG25_nineThreeThree_perm {n : ℕ} (hn : n = 3 ∨ n = 4 ∨ n = 6)
     (e : (↥(blockParabolic M S L) ⧸ CFSG.pCore 2 ↥(blockParabolic M S L)) ≃*
       Equiv.Perm (Fin n))
@@ -281,6 +284,7 @@ theorem kFactBlockNoG25_nineThreeThree_perm {n : ℕ} (hn : n = 3 ∨ n = 4 ∨ 
   have hn11 : n ≤ 11 := by rcases hn with rfl | rfl | rfl <;> norm_num
   exact LeviBlock.not_dvd_two_pow_mul_factorial_of_isG25Order hn11 hd h1
 
+omit [Finite G] [Group U] [Finite U] [IsSimpleGroup U] in
 theorem kFactBlockNoG25_nineThreeFour (h4 : NineThreeFour M S L)
     (hU : Nat.card U ∣ Nat.card (blockParabolic M S L))
     (hd : IsG25Order (Nat.card U)) : False := by
@@ -288,6 +292,7 @@ theorem kFactBlockNoG25_nineThreeFour (h4 : NineThreeFour M S L)
   rw [hd] at h72
   norm_num at h72
 
+omit [Group U] [Finite U] [IsSimpleGroup U] in
 theorem kFactBlockNoG25_nineThreeFive (hA7 : CitedBlockAltSevenPL)
     (hK : Open.IsKGroup ↥M) (hA : Asc81bHyp M S) (hL : IsWeakSBlock M S L)
     (hX : ¬ InClassXBlock L) (hS : ¬ IsSylowTwoOf (S ⊓ L) L) (h5 : NineThreeFive M L)

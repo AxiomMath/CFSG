@@ -19,14 +19,14 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 theorem false_of_psl3 {L Γ A : Subgroup (GLV V)} {m : ℕ} (h : G93Hyp Γ A L L m) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2)
     (hm : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .PSL 3 p 1) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact false_of_oddL3 hp2 h hm
 
 theorem clause1_psu3 {L Γ A : Subgroup (GLV V)} {m : ℕ} (h : G93Hyp Γ A L L m)
     (hq : CFSG.IsQuasisimple ↥L) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hm : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .PSU 3 p 1) :
     IsPSU 3 3 1 ↥L ∧ Module.finrank (ZMod 2) V = 6 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : p = 3 := oddU3_reduce hp2 h hm
   subst hp3
   have hodd := odd_card_center_of_irr' h.H_irr
@@ -45,7 +45,7 @@ theorem clause1_psu3 {L Γ A : Subgroup (GLV V)} {m : ℕ} (h : G93Hyp Γ A L L 
     ext x
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
       MulEquiv.map_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
-  haveI : Group.IsPerfect ↥L := ⟨h.L_comp.2.2.1⟩
+  have : Group.IsPerfect ↥L := ⟨h.L_comp.2.2.1⟩
   have hker1 : π.ker = ⊥ :=
     CFSG.SectionRank.OddCover.prime_classical_three_perfect_odd_extension_trivial
       (ε := -1) Nat.prime_three (by norm_num) (Or.inr ⟨rfl, hK9.trans (by norm_num), rfl⟩) π hπ
@@ -54,7 +54,7 @@ theorem clause1_psu3 {L Γ A : Subgroup (GLV V)} {m : ℕ} (h : G93Hyp Γ A L L 
   let eL : ↥L ≃* (↥L ⧸ Subgroup.center ↥L) := mulEquiv_of_center_eq_bot hZbot (MulEquiv.refl _)
   have hmL : StatedClassicalModel ↥L .PSU 3 3 1 :=
     CFSG.Quasithin.RonanG72.statedClassicalModel_of_mulEquiv eL hm'
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2.1
   have hsimp : IsSimpleGroup ↥L := eL.isSimpleGroup
   have hs := CFSG.Quasithin.G11.Harris.OneCompSetting.of_g93Hyp h
   have hP : B42TypeU33 ↥L := CFSG.Quasithin.G11.Harris.G2.b42TypeU33_of_simple hsimp hmL

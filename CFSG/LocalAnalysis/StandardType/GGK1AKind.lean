@@ -89,18 +89,18 @@ private theorem ggK1Ak_hasOrbit_if (tw : Bool) (mm : ℕ) :
     ggK1ACo_Kind.hasOrbit
         (if tw then ggK1ACo_Kind.su mm 1 else ggK1ACo_Kind.sl mm 1) = decide (mm ≠ 1) := by
   cases tw
-  · rw [if_neg (by simp)]
+  · rw [ite_eq_right (by simp)]
     exact ggK1Ak_hasOrbit_sl mm 1
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact ggK1Ak_hasOrbit_su mm 1
 
 private theorem ggK1Ak_filter_pred_if (tw : Bool) (mm : ℕ) :
     (ggK1ACo_Kind.hasOrbit (if tw then ggK1ACo_Kind.su mm 1 else ggK1ACo_Kind.sl mm 1) &&
         decide (0 < mm)) = decide (2 ≤ mm) := by
   cases tw
-  · rw [if_neg (by simp)]
+  · rw [ite_eq_right (by simp)]
     exact ggK1Ak_filter_pred_sl
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact ggK1Ak_filter_pred_su
 
 private theorem ggK1Ak_filter_pred_j (m : List ℕ) (j : ℕ) :
@@ -126,12 +126,12 @@ private theorem ggK1Ak_head_list {nf : ℕ} (tw : Bool) {h : ℕ} (hh : 0 < h) :
         (if tw = false then [⟨⟨.A, h - 1, nf⟩, decide (¬ (h - 1 = 1 ∧ nf = 1))⟩]
          else [ggMultBlockA (h - 1) nf 2]) else []) := by
   by_cases h2 : 2 ≤ h
-  · rw [if_pos h2]
+  · rw [ite_eq_left h2]
     rcases h with _ | _ | k
     · omega
     · omega
     · cases tw <;> simp [ggK1ACo_Kind.hasOrbit, ggK1ACo_kindOrbit, ggMultBlockA]
-  · rw [if_neg h2]
+  · rw [ite_eq_right h2]
     have h1 : h = 1 := by omega
     subst h1
     cases tw <;> simp [ggK1ACo_Kind.hasOrbit]
@@ -164,7 +164,7 @@ private theorem ggK1Ak_blockA_arith {nf r d : ℕ} (hnf : 1 ≤ nf) (hr : 1 ≤ 
   rcases hd with rfl | rfl
   · have hP : r ≠ 1 ∨ nf ≠ 1 := by simpa [ggMultBlockA] using hqs
     rw [ggMultBlockA]
-    rw [if_pos (rfl : (1 : ℕ) = 1)]
+    rw [ite_eq_left (rfl : (1 : ℕ) = 1)]
     constructor
     · exact dvd_rfl
     · simp only [LargeEvenInLambda2]
@@ -176,7 +176,7 @@ private theorem ggK1Ak_blockA_arith {nf r d : ℕ} (hnf : 1 ≤ nf) (hr : 1 ≤ 
   · by_cases h2 : 2 ≤ r
     · have hP : r ≠ 2 ∨ nf ≠ 1 := by simpa [ggMultBlockA, h2] using hqs
       rw [ggMultBlockA]
-      rw [if_neg (by decide : ¬ (2 : ℕ) = 1), if_pos h2]
+      rw [ite_eq_right (by decide : ¬ (2 : ℕ) = 1), ite_eq_left h2]
       constructor
       · exact dvd_rfl
       · simp only [LargeEvenInLambda2]
@@ -188,7 +188,7 @@ private theorem ggK1Ak_blockA_arith {nf r d : ℕ} (hnf : 1 ≤ nf) (hr : 1 ≤ 
     · have hr1 : r = 1 := by omega
       have hP : nf ≠ 1 := by simpa [ggMultBlockA, h2] using hqs
       rw [ggMultBlockA]
-      rw [if_neg (by decide : ¬ (2 : ℕ) = 1), if_neg h2]
+      rw [ite_eq_right (by decide : ¬ (2 : ℕ) = 1), ite_eq_right h2]
       subst hr1
       constructor
       · exact dvd_rfl
@@ -212,7 +212,7 @@ private theorem ggK1Ak_orbits_eq_trivial {p nf : ℕ} {tw : Bool} {m : List ℕ}
     (ggMultDatumA p nf (ggMultOrd p nf) tw m).orbits =
       ((List.range p).filter (fun j => decide (2 ≤ m.getD j 0))).map
         (fun j => ggMultBlockA (m.getD j 0 - 1) nf (ggMultOrd p nf)) := by
-  simp only [ggMultDatumA, if_pos h]
+  simp only [ggMultDatumA, ite_eq_left h]
 
 private theorem ggK1Ak_orbits_eq_nontrivial {p nf : ℕ} {tw : Bool} {m : List ℕ}
     (h : ¬ ((tw = false ∧ ggMultOrd p nf = 1) ∨ (tw = true ∧ ggMultOrd p nf = 2))) :
@@ -224,7 +224,7 @@ private theorem ggK1Ak_orbits_eq_nontrivial {p nf : ℕ} {tw : Bool} {m : List �
        else []) ++
       ((List.range ((p - 1) / 2 + 1)).filter (fun j => decide (1 ≤ j ∧ 2 ≤ m.getD j 0))).map
         (fun j => (⟨⟨.A, m.getD j 0 - 1, 2 * nf⟩, true⟩ : GGKacOrbit)) := by
-  simp only [ggMultDatumA, if_neg h]
+  simp only [ggMultDatumA, ite_eq_right h]
 
 theorem ggK1ACo_kindOrbit_multiset (p nf : ℕ) (tw : Bool) (m : List ℕ) :
     (ggK1ACo_orbitKindList p nf tw m).map (ggK1ACo_kindOrbit nf) =
@@ -232,7 +232,7 @@ theorem ggK1ACo_kindOrbit_multiset (p nf : ℕ) (tw : Bool) (m : List ℕ) :
   classical
   rw [ggK1ACo_orbitKindList]
   by_cases htriv : (tw = false ∧ ggMultOrd p nf = 1) ∨ (tw = true ∧ ggMultOrd p nf = 2)
-  · rw [ggK1ACo_expectedKindList, if_pos htriv, ggK1Ak_orbits_eq_trivial htriv]
+  · rw [ggK1ACo_expectedKindList, ite_eq_left htriv, ggK1Ak_orbits_eq_trivial htriv]
     rw [List.filter_map, List.map_map]
     rw [List.filter_filter]
     simp only [Function.comp_apply]
@@ -259,13 +259,13 @@ theorem ggK1ACo_kindOrbit_multiset (p nf : ℕ) (tw : Bool) (m : List ℕ) :
       change ggK1ACo_kindOrbit nf (ggK1ACo_Kind.su (m.getD j 0) 1) =
         ggMultBlockA (m.getD j 0 - 1) nf 2
       rw [ggK1Ak_kindOrbit_su_one hj2']
-  · rw [ggK1ACo_expectedKindList, if_neg htriv, ggK1Ak_orbits_eq_nontrivial htriv]
+  · rw [ggK1ACo_expectedKindList, ite_eq_right htriv, ggK1Ak_orbits_eq_nontrivial htriv]
     rw [List.filter_append, List.map_append]
     congr 1
     · by_cases h0 : 0 < m.headD 0
-      · rw [if_pos h0]
+      · rw [ite_eq_left h0]
         exact ggK1Ak_head_list tw h0
-      · rw [if_neg h0, if_neg (by omega : ¬ 2 ≤ m.headD 0)]
+      · rw [ite_eq_right h0, ite_eq_right (by omega : ¬ 2 ≤ m.headD 0)]
         rfl
     · rw [List.filter_map, List.map_map, List.filter_filter]
       simp only [Function.comp_apply]
@@ -321,18 +321,18 @@ theorem ggK1ACo_kind_label {nf : ℕ} {K : Type} [Field K] (kind : ggK1ACo_Kind)
   cases kind with
   | sl m e =>
     obtain ⟨E, hFieldE, hFintypeE, hcard, ⟨eH⟩⟩ := hm
-    haveI : Fintype E := hFintypeE
-    haveI : Finite E := inferInstance
+    have : Fintype E := hFintypeE
+    have : Finite E := inferInstance
     rcases Nat.lt_or_ge m 2 with hm2 | hm2
     · exfalso
       have hm01 : m = 0 ∨ m = 1 := by omega
-      haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin m) E) := by
+      have : Subsingleton (Matrix.SpecialLinearGroup (Fin m) E) := by
         rcases hm01 with rfl | rfl
         · exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
         · exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
-      haveI : Subsingleton H :=
+      have : Subsingleton H :=
         ⟨fun x y => eH.injective (Subsingleton.elim (eH x) (eH y))⟩
-      haveI : Subsingleton (H ⧸ Subgroup.center H) := inferInstance
+      have : Subsingleton (H ⧸ Subgroup.center H) := inferInstance
       obtain ⟨-, -, a, b, hab⟩ := hq
       exact hab (Subsingleton.elim _ _)
     · have hlabel : (ggK1ACo_kindOrbit nf (ggK1ACo_Kind.sl m e)).lab =
@@ -354,7 +354,7 @@ theorem ggK1ACo_kind_label {nf : ℕ} {K : Type} [Field K] (kind : ggK1ACo_Kind)
         exact (nonempty_quotientCenter_equiv_statedProj eSL).map (fun e => e.trans e2)
   | su m e =>
     obtain ⟨E, hFieldE, hFintypeE, hcard, ⟨eH⟩⟩ := hm
-    haveI : Finite E := inferInstance
+    have : Finite E := inferInstance
     rcases Nat.lt_or_ge m 2 with hm2 | hm2
     · exfalso
       have hcommH : ∀ x y : StatedSU m ((2 ^ nf) ^ e) E, x * y = y * x := by
@@ -385,10 +385,10 @@ theorem ggK1ACo_kind_label {nf : ℕ} {K : Type} [Field K] (kind : ggK1ACo_Kind)
       ·
         have hm_eq : m = 2 := by omega
         subst hm_eq
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hFcard : Fintype.card E = 2 ^ (2 * (e * nf)) := by
           rw [hcard, show (2 ^ nf) ^ (2 * e) = 2 ^ (2 * (e * nf)) by rw [← pow_mul]; ring]
-        haveI : CharP E 2 := charP_of_card_eq_prime_pow (f := 2 * (e * nf)) hFcard
+        have : CharP E 2 := charP_of_card_eq_prime_pow (f := 2 * (e * nf)) hFcard
         have hlabel : (ggK1ACo_kindOrbit nf (ggK1ACo_Kind.su 2 e)).lab =
             ⟨.A, 1, e * nf⟩ := by
           simp [ggK1ACo_kindOrbit, ggMultBlockA]
@@ -440,29 +440,29 @@ theorem ggK1ACo_kind_label {nf : ℕ} {K : Type} [Field K] (kind : ggK1ACo_Kind)
           by_cases hm3eq : m = 3
           · exfalso
             subst hm3eq
-            haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+            have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
             have hFcard4 : Fintype.card E = 2 ^ 2 := by
               rw [← Nat.card_eq_fintype_card, hcard4]
               norm_num
-            haveI : CharP E 2 := charP_of_card_eq_prime_pow (f := 2) hFcard4
+            have : CharP E 2 := charP_of_card_eq_prime_pow (f := 2) hFcard4
             have h216 := card_statedSU_three_two_of_card_four (K := E) hcard4
-            haveI : Fintype (StatedSU 3 (2 ^ 1) E) := Fintype.ofFinite _
+            have : Fintype (StatedSU 3 (2 ^ 1) E) := Fintype.ofFinite _
             have hcardF : Fintype.card (StatedSU 3 (2 ^ 1) E) = 2 ^ 3 * 3 ^ 3 := by
               rw [← Nat.card_eq_fintype_card, h216]
               norm_num
             have hsolv : Group.IsSolvable (StatedSU 3 (2 ^ 1) E) :=
               CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
                 Nat.prime_two Nat.prime_three (by norm_num) hcardF
-            haveI hsolvH : Group.IsSolvable H :=
-              solvable_of_solvable_injective (f := eH.toMonoidHom) eH.injective
+            have hsolvH : Group.IsSolvable H :=
+              Group.isSolvable_of_isSolvable_injective (f := eH.toMonoidHom) eH.injective
             obtain ⟨-, hsimple, -⟩ := hq
             exact @CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center H _ hsimple
               (Group.instIsSolvableQuotientSubgroup (Subgroup.center H))
-          · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+          · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
             have hFcard4 : Fintype.card E = 2 ^ 2 := by
               rw [← Nat.card_eq_fintype_card, hcard4]
               norm_num
-            haveI : CharP E 2 := charP_of_card_eq_prime_pow (f := 2) hFcard4
+            have : CharP E 2 := charP_of_card_eq_prime_pow (f := 2) hFcard4
             have hZ := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
                 (F := E) (p := 2) (f := 1) (n := m) hcard4 (by omega)
                 (by intro hcon; exact hm3eq (Prod.mk.inj hcon).1)).2
@@ -494,19 +494,19 @@ theorem ggK1ACo_orbit_arith {p nf : ℕ} {tw : Bool} {m : List ℕ} (hnf : 1 ≤
     rw [List.mem_append] at ho
     rcases ho with ho | ho
     · by_cases h0 : 2 ≤ m.headD 0
-      · rw [if_pos h0] at ho
+      · rw [ite_eq_left h0] at ho
         by_cases htw : tw = false
-        · rw [if_pos htw] at ho
+        · rw [ite_eq_left htw] at ho
           rw [List.mem_singleton] at ho
           rw [ho] at hqs ⊢
           change nf ∣ (ggMultBlockA (m.headD 0 - 1) nf 1).lab.n ∧
             LargeEvenInLambda2 (ggMultBlockA (m.headD 0 - 1) nf 1).lab
           exact ggK1Ak_blockA_arith hnf (by omega) (Or.inl rfl) hqs
-        · rw [if_neg htw] at ho
+        · rw [ite_eq_right htw] at ho
           rw [List.mem_singleton] at ho
           rw [ho] at hqs ⊢
           exact ggK1Ak_blockA_arith hnf (by omega) (Or.inr rfl) hqs
-      · rw [if_neg h0] at ho
+      · rw [ite_eq_right h0] at ho
         simp at ho
     · rw [List.mem_map] at ho
       obtain ⟨j, hj, ho⟩ := ho
@@ -546,13 +546,13 @@ private theorem ggK1Ak_map_subtype_filter {α γ : Type} [Fintype α] (f : α �
   rw [← ggK1Ak_card_fiber (fun a : {a : α // q (f a) = true} => f a.1) c,
     Multiset.count_filter]
   by_cases hc : q c = true
-  · rw [if_pos hc, ← ggK1Ak_card_fiber f c]
+  · rw [ite_eq_left hc, ← ggK1Ak_card_fiber f c]
     exact Fintype.card_congr
       { toFun := fun a => ⟨a.1.1, a.2⟩
         invFun := fun a => ⟨⟨a.1, by rw [a.2]; exact hc⟩, a.2⟩
-        left_inv := fun a => by ext <;> rfl
-        right_inv := fun a => by ext <;> rfl }
-  · rw [if_neg hc, Fintype.card_eq_zero_iff]
+        left_inv := fun a => by ext; rfl
+        right_inv := fun a => by ext; rfl }
+  · rw [ite_eq_right hc, Fintype.card_eq_zero_iff]
     refine ⟨fun a => ?_⟩
     exact hc (by rw [← a.2]; exact a.1.2)
 
@@ -594,7 +594,7 @@ theorem ggK1ACo_pos_equiv {nf : ℕ} {ι : Type} [Fintype ι] (kind : ι → ggK
           (Finset.univ : Finset ι).val =
         Multiset.map (ggK1ACo_kindOrbit nf)
           (Multiset.map kind (Finset.univ : Finset ι).val) := by
-      simp [Multiset.map_map, Function.comp_def]
+      simp [Multiset.map_map]
     rw [h1, hmult]
   have hO' : (Multiset.map (ggK1ACo_kindOrbit nf)
       ((L.filter (fun k => ggK1ACo_Kind.hasOrbit k)) : Multiset ggK1ACo_Kind)) =

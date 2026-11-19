@@ -95,8 +95,8 @@ theorem s16h_H5_row_SL2_eight_central_eq_bot {A L : Subgroup (MulAut W)} {t : Mu
   set H : Subgroup (MulAut ↥U) := autSub L U with hH
   obtain ⟨K, hKf, hKfin, hKcard, hrealH, hcommH⟩ :=
     s16h_H5_row_SL2_eight_autSub_setup (W := W) hc h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hLstab : L ≤ stabSub U := by
     rw [hU, ← CFSG.Quasithin.commV_eq_commSub L]
     exact CFSG.Quasithin.le_stabSub_commV_self L
@@ -177,7 +177,7 @@ theorem s16h_H5_row_SL2_eight_central_eq_bot {A L : Subgroup (MulAut W)} {t : Mu
         apply Subtype.ext
         simpa using hc7
       rw [h1, map_one]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hψ1 : resHom (fixV H) ⟨(c : MulAut ↥U), hcstab⟩ = 1 :=
       CFSG.Sporadic.HN.eq_one_of_pow_eq_one (p := 2) (q := 7) (e := 2) (by norm_num)
         (by norm_num) hPfix hcarddvd hGL hψ7

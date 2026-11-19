@@ -38,7 +38,7 @@ theorem p427_isol_L (T : HeSetup G) (hB : T.BaseFacts)
     {x : G} (hx : x ∈ centralizer ({T.a} : Set G))
     (hcN : x * b * x⁻¹ ∈ normalizer (T.B : Set G)) : x * b * x⁻¹ ∈ T.L := by
   by_contra hcL
-  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxN T.hxa T.hx3
+  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxa
   have haZ : T.a ∈ T.Z := T.hD.ha
   have hbZ : b ∈ T.Z := hB.B_le_Z hbB
   have hb2 : b * b = 1 := hB.A_sq b (hB.Z_le_A hbZ)
@@ -181,7 +181,7 @@ theorem p427_isol (T : HeSetup G) (hB : T.BaseFacts)
     (hcN : x * b * x⁻¹ ∈ normalizer (T.B : Set G)) : x * b * x⁻¹ ∈ T.B := by
   have hcL := p427_isol_L T hB hL hLcard P hbB hb1 hba hx hcN
   by_contra hcB
-  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxN T.hxa T.hx3
+  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxa
   have haZ : T.a ∈ T.Z := T.hD.ha
   have hbZ : b ∈ T.Z := hB.B_le_Z hbB
   have hb2 : b * b = 1 := hB.A_sq b (hB.Z_le_A hbZ)
@@ -236,7 +236,7 @@ theorem p427_isol (T : HeSetup G) (hB : T.BaseFacts)
     rw [hm'def, hc₂def, hcJdef, hcdef]
     group
   have hc₂Z : c₂ ∈ T.Z := hhZ
-  have hg3 : T.g ^ 3 = 1 := T.hD.g_pow_three T.hxN T.hxa T.hx3
+  have hg3 : T.g ^ 3 = 1 := T.hD.g_pow_three T.hxN T.hx3
   have hg1 : T.g ≠ 1 := T.hD.g_ne_one T.hxN T.hxa T.hx3
   have hgdet : (T.g.val).det ≠ 0 :=
     ((Matrix.isUnit_iff_isUnit_det _).mp (Units.isUnit T.g)).ne_zero
@@ -263,6 +263,6 @@ theorem p427_isol (T : HeSetup G) (hB : T.BaseFacts)
     rw [← h]
     exact hc₂adet
   have hcomm := p427_fin_comm T.g hg3 hg1 (T.m c₂) hc₂det hdet1
-  exact hc₂B ((T.hD.mem_B_iff T.hxN T.hxa T.hx3).2 ⟨hc₂Z, hcomm⟩)
+  exact hc₂B ((T.hD.mem_B_iff T.hxN T.hxa).2 ⟨hc₂Z, hcomm⟩)
 
 end CFSG.Quasithin.A94.He42

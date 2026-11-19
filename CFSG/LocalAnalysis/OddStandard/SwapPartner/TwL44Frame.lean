@@ -10,6 +10,7 @@ open Subgroup Equiv Equiv.Perm CFSG.OddStandard.AltStdSec.SwapPattern
 
 variable {G : Type} [Group G] [Finite G] {z : G} {ι : Perm (Fin 10) →* G}
 
+omit [Finite G] in
 private theorem tw_swap01_mul_self (f : Perm (Fin 10) →* G) :
     f (swap 0 1) * f (swap 0 1) = 1 := by
   have h : (swap 0 1 : Perm (Fin 10)) * swap 0 1 = 1 := by decide
@@ -19,6 +20,7 @@ private theorem tw_swap01_mul_self (f : Perm (Fin 10) →* G) :
     _ = f 1 := by rw [h]
     _ = 1 := map_one f
 
+omit [Finite G] in
 private theorem tw_swap01_comm_τ₀ (f : Perm (Fin 10) →* G) :
     f (swap 0 1) * f τ₀ = f τ₀ * f (swap 0 1) := by
   simp only [← map_mul]

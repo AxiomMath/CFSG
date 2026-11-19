@@ -45,9 +45,9 @@ theorem sdFamModel_symp : SDFamModel t263GSymp := by
   have hne' : ¬ (r = 2 ∧ m = 1) := fun h => hne ⟨h.1, by rw [hE, h.2, pow_one]⟩
   obtain ⟨htag, hrank, -⟩ := K155XSp.l154s_tag_of_canonLabel hcanon hne'
   obtain ⟨K, instF, instFin, hK, hs, hna, θm, hindb⟩ := (sympRecipe_of_tag htag _).1 hraw
-  haveI : CharP K 2 := Y10GField.charP_two_of_card_pow hK
+  have : CharP K 2 := Y10GField.charP_two_of_card_pow hK
   have hr1 : 1 ≤ lab.rank := by omega
-  haveI : NeZero lab.rank := ⟨by omega⟩
+  have : NeZero lab.rank := ⟨by omega⟩
   let θm' : ↥S ⧸ Subgroup.center ↥S ≃* StatedProj (StatedSp lab.rank K) := θm
   have hindb' : ∀ b ∈ B₀, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K lab.rank))
       (LargeEvenGSpSet K lab.rank), LargeEvenInduces θm' (fun s s' : ↥S => (s' : Ω) = b * s * b⁻¹) φ := hindb

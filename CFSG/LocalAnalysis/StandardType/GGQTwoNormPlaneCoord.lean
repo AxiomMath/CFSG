@@ -37,10 +37,12 @@ variable {F K : Type} [Field F] [Field K] [Algebra F K] [Finite K] [CharP K 2]
 noncomputable def zetaOfChi (χ : Multiplicative (ZMod 3) →* Kˣ) : K :=
   (χ (Multiplicative.ofAdd (1 : ZMod 3)) : K)
 
+omit [Finite K] [CharP K 2] in
 private theorem zetaOfChi_ne_zero (χ : Multiplicative (ZMod 3) →* Kˣ) :
     zetaOfChi χ ≠ 0 := by
   exact (χ (Multiplicative.ofAdd (1 : ZMod 3))).ne_zero
 
+omit [Finite K] [CharP K 2] in
 private theorem zetaOfChi_ne_one (χ : Multiplicative (ZMod 3) →* Kˣ)
     (hχ : Function.Injective χ) : zetaOfChi χ ≠ 1 := by
   intro h
@@ -49,6 +51,7 @@ private theorem zetaOfChi_ne_one (χ : Multiplicative (ZMod 3) →* Kˣ)
   have h3 : (1 : ZMod 3) = 0 := by simpa using congrArg Multiplicative.toAdd h2
   exact one_ne_zero h3
 
+omit [Finite K] [CharP K 2] in
 private theorem zetaOfChi_pow_three (χ : Multiplicative (ZMod 3) →* Kˣ) :
     zetaOfChi χ ^ 3 = 1 := by
   have h := zmodHom_pow_eq_one_of_dvd (p := 3) (N := 3) (dvd_refl 3) χ
@@ -56,6 +59,7 @@ private theorem zetaOfChi_pow_three (χ : Multiplicative (ZMod 3) →* Kˣ) :
   have hval := congrArg Units.val h
   simpa [zetaOfChi, Units.val_pow_eq_pow_val, Units.val_one] using hval
 
+omit [Finite K] [CharP K 2] in
 private theorem zetaOfChi_poly (χ : Multiplicative (ZMod 3) →* Kˣ)
     (hχ : Function.Injective χ) : zetaOfChi χ ^ 2 + zetaOfChi χ + 1 = 0 := by
   have h3 : zetaOfChi χ ^ 3 = 1 := zetaOfChi_pow_three χ
@@ -66,6 +70,7 @@ private theorem zetaOfChi_poly (χ : Multiplicative (ZMod 3) →* Kˣ)
     (mul_eq_zero.mp hfac).resolve_left hne
   simpa [add_comm, add_left_comm, add_assoc] using hp
 
+omit [CharP F 2] in
 private theorem zetaOfChi_outside (E : QuadExt F K (unitaryInvolution K 2 1))
     (χ : Multiplicative (ZMod 3) →* Kˣ) (hχ : Function.Injective χ) :
     zetaOfChi χ ∉ Set.range (algebraMap F K) := by
@@ -81,7 +86,8 @@ private theorem zetaOfChi_outside (E : QuadExt F K (unitaryInvolution K 2 1))
   have hne : zetaOfChi χ - 1 ≠ 0 := sub_ne_zero.mpr hζ1
   exact hζ0 ((mul_eq_zero.mp hfac).resolve_right hne)
 
-private theorem zetaOfChi_pow (χ : Multiplicative (ZMod 3) →* Kˣ) (hχ : Function.Injective χ)
+omit [Finite K] [CharP K 2] in
+private theorem zetaOfChi_pow (χ : Multiplicative (ZMod 3) →* Kˣ) (_hχ : Function.Injective χ)
     (a : Multiplicative (ZMod 3)) :
     (χ a : K) = zetaOfChi χ ^ (Multiplicative.toAdd a).val := by
   have hpow : a = (Multiplicative.ofAdd (1 : ZMod 3)) ^ (Multiplicative.toAdd a).val := by
@@ -97,6 +103,7 @@ noncomputable def normPlaneEquiv (E : QuadExt F K (unitaryInvolution K 2 1))
   (LinearEquiv.finTwoArrow F F).symm.trans
     (TauCeti.quadraticExtensionBasis F K (zetaOfChi_outside E χ hχ) E.finrank_eq).equivFun.symm
 
+omit [CharP F 2] in
 theorem normPlaneEquiv_apply (E : QuadExt F K (unitaryInvolution K 2 1))
     (χ : Multiplicative (ZMod 3) →* Kˣ) (hχ : Function.Injective χ) (c : F × F) :
     normPlaneEquiv E χ hχ c = algebraMap F K c.1 + algebraMap F K c.2 * zetaOfChi χ := by
@@ -106,11 +113,12 @@ theorem normPlaneEquiv_apply (E : QuadExt F K (unitaryInvolution K 2 1))
     Algebra.smul_def]
 
 private theorem zetaOfChi_bar (χ : Multiplicative (ZMod 3) →* Kˣ)
-    (hχ : Function.Injective χ) :
+    (_hχ : Function.Injective χ) :
     unitaryInvolution K 2 1 (zetaOfChi χ) = zetaOfChi χ ^ 2 := by
   rw [unitaryInvolution_apply]
   norm_num
 
+omit [Finite K] in
 private theorem zetaOfChi_sq (χ : Multiplicative (ZMod 3) →* Kˣ)
     (hχ : Function.Injective χ) : zetaOfChi χ ^ 2 = zetaOfChi χ + 1 := by
   have h := zetaOfChi_poly χ hχ
@@ -125,6 +133,7 @@ private theorem zetaOfChi_sq (χ : Multiplicative (ZMod 3) →* Kˣ)
   rw [h4] at h3
   simpa [add_comm] using h3
 
+omit [CharP F 2] in
 private theorem normQuad_planeEquiv (E : QuadExt F K (unitaryInvolution K 2 1))
     (χ : Multiplicative (ZMod 3) →* Kˣ) (hχ : Function.Injective χ) (c : F × F) :
     normQuad E (normPlaneEquiv E χ hχ c) = nrm c := by
@@ -140,7 +149,7 @@ private theorem normQuad_planeEquiv (E : QuadExt F K (unitaryInvolution K 2 1))
   have hσ : unitaryInvolution K 2 1 (A + B * ζ) = A + B * (ζ + 1) := by
     rw [map_add, map_mul, E.fix, E.fix, hbar, hsq]
   rw [hσ]
-  simp only [nrm, map_add, map_mul, map_pow]
+  simp only [nrm, map_add, map_mul]
   have hζ3 : ζ ^ 3 = 1 := zetaOfChi_pow_three χ
   have hpoly : ζ ^ 2 + ζ + 1 = 0 := zetaOfChi_poly χ hχ
   ring_nf
@@ -196,6 +205,7 @@ noncomputable def anchorEquiv (m : ℕ) :
     (F × F) ≃ₗ[F] (LinearMap.range (LinearMap.inl F (F × F) (Fin m → K))) :=
   LinearEquiv.ofInjective (LinearMap.inl F (F × F) (Fin m → K)) LinearMap.inl_injective
 
+omit [Finite K] [CharP K 2] [CharP F 2] in
 private theorem anchorEquiv_apply (m : ℕ) (w : F × F) :
     ((anchorEquiv (F := F) (K := K) m w :
       LinearMap.range (LinearMap.inl F (F × F) (Fin m → K))) :
@@ -204,6 +214,7 @@ private theorem anchorEquiv_apply (m : ℕ) (w : F × F) :
     (LinearEquiv.ofInjective_apply (f := LinearMap.inl F (F × F) (Fin m → K))
       (h := LinearMap.inl_injective) w)
 
+omit [Finite K] [CharP K 2] [CharP F 2] in
 private theorem anchorEquiv_symm_apply (m : ℕ)
     (x : LinearMap.range (LinearMap.inl F (F × F) (Fin m → K))) :
     (anchorEquiv (F := F) (K := K) m).symm x = (x : (F × F) × (Fin m → K)).1 := by
@@ -220,6 +231,7 @@ noncomputable def normPlaneCoordEquiv (E : QuadExt F K (unitaryInvolution K 2 1)
       (anchorEquiv (F := F) (K := K) m).symm).trans
     (LinearEquiv.prodComm F (Fin m → K) (F × F))
 
+omit [CharP F 2] in
 private theorem normPlaneCoordEquiv_apply (E : QuadExt F K (unitaryInvolution K 2 1))
     (m : ℕ) (χ : Multiplicative (ZMod 3) →* Kˣ) (hχ : Function.Injective χ)
     (d : Fin m → F × F)
@@ -235,6 +247,7 @@ private theorem normPlaneCoordEquiv_apply (E : QuadExt F K (unitaryInvolution K 
     normPlaneEquiv E χ hχ (d i)
   rw [LinearEquiv.piCongrRight_apply]
 
+omit [CharP F 2] in
 private theorem normPlaneCoordEquiv_Phi_zero (E : QuadExt F K (unitaryInvolution K 2 1))
     (m : ℕ) (χ : Multiplicative (ZMod 3) →* Kˣ) (hχ : Function.Injective χ)
     (x : LinearMap.range (LinearMap.inl F (F × F) (Fin m → K))) :
@@ -334,7 +347,7 @@ theorem normPlaneTorusOmCoord_W0_hyperbolic
         normHypForm E m (y : (F × F) × (Fin m → K)) = 0 ∧
         polar (normHypForm E m) (x : (F × F) × (Fin m → K))
           (y : (F × F) × (Fin m → K)) = 1) := by
-  haveI : FiniteDimensional F K :=
+  have : FiniteDimensional F K :=
     FiniteDimensional.of_finrank_pos (by rw [E.finrank_eq]; norm_num)
   let C := normPlaneTorusOmCoord E hm χ hχ
   right
@@ -378,10 +391,10 @@ theorem normPlaneTorus_even_moveExp_iff_fixes_anchor
       ∀ w : F × F, (g : ((F × F) × (Fin m → K)) ≃ₗ[F] ((F × F) × (Fin m → K)))
         ((w, 0) : (F × F) × (Fin m → K)) = ((w, 0) : (F × F) × (Fin m → K)) := by
   classical
-  haveI : FiniteDimensional F K :=
+  have : FiniteDimensional F K :=
     FiniteDimensional.of_finrank_pos (by rw [E.finrank_eq]; norm_num)
   let C := normPlaneTorusOmCoord E hm χ hχ
-  haveI : FiniteDimensional F ((F × F) × (Fin m → K)) := inferInstance
+  have : FiniteDimensional F ((F × F) × (Fin m → K)) := inferInstance
   have hQ : (polarBilin (normHypForm E m)).Nondegenerate :=
     normHypForm_polarBilin_nondegenerate E m
   have hgω : (g : ((F × F) × (Fin m → K)) ≃ₗ[F] ((F × F) × (Fin m → K))) ∈

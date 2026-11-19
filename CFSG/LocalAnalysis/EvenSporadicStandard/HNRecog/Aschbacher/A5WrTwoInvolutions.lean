@@ -70,10 +70,10 @@ theorem A5WrTwo.exists_conj_of_outer_involutions {u v : A5WrTwo}
     fun x => if x = 1 then v.left 1 * (u.left 1)⁻¹ else 1
   have hg1 : g 1 = v.left 1 * (u.left 1)⁻¹ := by
     dsimp only [g]
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hgσ : g (Multiplicative.ofAdd (1 : ZMod 2)) = 1 := by
     dsimp only [g]
-    rw [if_neg sigmaC2_ne_one]
+    rw [ite_eq_right sigmaC2_ne_one]
   refine ⟨⟨g, 1⟩, ?_, ?_⟩
   · rw [A5WrTwo.commutator_eq_ker]
     rfl
@@ -81,13 +81,12 @@ theorem A5WrTwo.exists_conj_of_outer_involutions {u v : A5WrTwo}
     · funext x
       rcases coord_cases x with rfl | rfl
       · simp only [RegularWreathProduct.mul_left, RegularWreathProduct.mul_right,
-          RegularWreathProduct.inv_left, RegularWreathProduct.inv_right, Pi.mul_apply,
-          Pi.inv_apply, one_mul, mul_one, inv_one, hur, sigmaC2_inv, hg1, hgσ, hu_rel,
-          hv_rel]
+          RegularWreathProduct.inv_left, Pi.mul_apply,
+          Pi.inv_apply, one_mul, mul_one, inv_one, hur, sigmaC2_inv, hg1, hgσ]
         group
       · simp only [RegularWreathProduct.mul_left, RegularWreathProduct.mul_right,
-          RegularWreathProduct.inv_left, RegularWreathProduct.inv_right, Pi.mul_apply,
-          Pi.inv_apply, one_mul, mul_one, inv_one, hur, sigmaC2_inv, sigmaC2_mul_self, hg1,
+          RegularWreathProduct.inv_left, Pi.mul_apply,
+          Pi.inv_apply, one_mul, inv_one, hur, sigmaC2_inv, sigmaC2_mul_self, hg1,
           hgσ, hu_rel, hv_rel]
         group
     · simp only [RegularWreathProduct.mul_right, RegularWreathProduct.inv_right, one_mul,

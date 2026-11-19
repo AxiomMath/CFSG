@@ -829,7 +829,7 @@ theorem commutator_sylow_inter_eq_of_odd (hH : Th91Hyp D hC)
   set TG := (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype with hTG
   set R := TG ⊓ J with hR
   obtain ⟨e₀, hBT, Q, hQ, hmemQ, hZQ⟩ := exists_benderType_sylow_rootCenter hH h3 hU hCH eH
-  have hRp : IsPGroup 2 R := (T.isPGroup'.map _).to_le inf_le_left
+  have hRp : IsPGroup 2 R := (T.isPGroup.map _).to_le inf_le_left
   have hBNJ := centralizer_sylow_inter_le_normalizer_pResidualOf (D := D) (T := T) hU
   have hLR : L ≤ Subgroup.normalizer (R : Set G) := fun l hl =>
     Subgroup.mem_normalizer_fintype fun r hr =>
@@ -1021,7 +1021,7 @@ theorem exists_unitaryCentralizerData (hH : Th91Hyp D hC)
   have hn2 : 2 ≤ n := (DeltaSetup.two_le_and_card_eq_of_psu3 hH hU ⟨eH⟩).1
   have hm : Odd (2 ^ n + 1) := CFSG.SeitzReduction.RankOne.rankOne_odd_two_pow_add_one (by omega)
   obtain ⟨hTB, hTsq⟩ := sylow_map_le_centralizer_and_mul_self_mem hH h3 hU hCH eH
-  have hTp : IsPGroup 2 TG := T.isPGroup'.map _
+  have hTp : IsPGroup 2 TG := T.isPGroup.map _
   have hBN : B ≤ N := Subgroup.centralizer_le_normalizer _
   have hNB : ∀ g ∈ N, ∀ b ∈ B, g * b * g⁻¹ ∈ B := by
     intro g hg b hb
@@ -2093,7 +2093,7 @@ theorem UnitaryCentralizerData.mem_of_commute_of_pow_eq_one
     (hwk : w ^ 2 ^ k = 1) :
     w ∈ (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype := by
   set TG := (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype with hTG
-  have hTp : IsPGroup 2 TG := T.isPGroup'.map _
+  have hTp : IsPGroup 2 TG := T.isPGroup.map _
   have hTn : ∀ b ∈ Subgroup.centralizer ((S : Set G) ∩ D), ∀ t ∈ TG, b * t * b⁻¹ ∈ TG :=
     fun b hb t ht => hL.sylow_normal b (Subgroup.centralizer_le_normalizer _ hb) t ht
   have hL₀B : L₀ ≤ Subgroup.centralizer ((S : Set G) ∩ D) := hL.centralizer_eq ▸ le_sup_right
@@ -2593,7 +2593,7 @@ theorem exists_hypothesisC_quotient_centralizerComponent
   have halpha : hC'.alpha = {hC'.d} := by
     rw [HypothesisC.alpha_eq_normSet_diff]
     ext f
-    simp only [Set.mem_diff, Set.mem_singleton_iff]
+    simp only [Set.mem_sdiff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨⟨hfDb, hfN⟩, hfE⟩
       obtain ⟨c, hc, rfl⟩ := hfDb
@@ -2855,12 +2855,12 @@ theorem exists_sylow_centralizerComponent {L L₀ : Subgroup G} {Γ : Set G} {Y 
     exact DeltaSetup.mem_sylow_inter_of_commute_of_center hH h3 hU hL.center_eq hv₀ hv₀1' hxD hxv
   set A : Subgroup Y := Subgroup.closure (((↑) : Y → G) ⁻¹' ((S : Set G) ∩ D)) with hA
   have hAp : IsPGroup 2 A := by
-    refine (S.isPGroup'.comap_subtype (K := Y)).to_le ?_
+    refine (S.isPGroup.comap_subtype (K := Y)).to_le ?_
     rw [hA, Subgroup.closure_le]
     intro x hx
     exact hx.1
   obtain ⟨P, hAP⟩ := hAp.exists_le_sylow
-  have hPp : IsPGroup 2 ((P : Subgroup Y).map Y.subtype) := P.isPGroup'.map _
+  have hPp : IsPGroup 2 ((P : Subgroup Y).map Y.subtype) := P.isPGroup.map _
   have hΔP : (S : Set G) ∩ D ⊆ ((P : Subgroup Y).map Y.subtype : Set G) := fun δ hδ =>
     ⟨⟨δ, hΓY δ (hΔΓ hδ)⟩, hAP (Subgroup.subset_closure hδ), rfl⟩
   have hPD : ((P : Subgroup Y).map Y.subtype : Set G) ∩ D = (S : Set G) ∩ D :=
@@ -2872,10 +2872,10 @@ theorem exists_sylow_centralizerComponent {L L₀ : Subgroup G} {Γ : Set G} {Y 
   have hPT : (P : Subgroup Y).map Y.subtype ≤ Subgroup.normalizer (TG : Set G) := fun g hg =>
     Subgroup.mem_normalizer_fintype fun t ht => hL.sylow_normal g (hPN hg) t ht
   have hsup : IsPGroup 2 ((P : Subgroup Y).map Y.subtype ⊔ TG : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' hPp (T.isPGroup'.map _) hPT
+    IsPGroup.to_sup_of_normal_right' hPp (T.isPGroup.map _) hPT
   obtain ⟨S', hS'⟩ := hsup.exists_le_sylow
   refine ⟨P, hΔP, hPD, S', le_sup_right.trans hS', le_sup_left.trans hS', ?_⟩
-  exact Set.Subset.antisymm (fun x hx => hcl _ S'.isPGroup' (hΔP.trans fun y hy =>
+  exact Set.Subset.antisymm (fun x hx => hcl _ S'.isPGroup (hΔP.trans fun y hy =>
     hS' (Subgroup.mem_sup_left hy)) x hx.2 hx.1) fun δ hδ =>
       ⟨hS' (Subgroup.mem_sup_left (hΔP hδ)), hδ.2⟩
 

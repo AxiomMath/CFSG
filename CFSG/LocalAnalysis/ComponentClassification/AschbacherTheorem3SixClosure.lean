@@ -142,7 +142,7 @@ theorem rightConjugate_eq_of_alperin {G S₀ A : Subgroup X} (hS₀ : IsSylowOf 
       have hsylQ : IsSylowOf 2 ((P : Subgroup G) ⊓ Subgroup.normalizer (Q : Set G))
           (Subgroup.normalizer (Q : Set G)) := by
         rw [isSylowOf_iff]
-        refine ⟨inf_le_right, P.isPGroup'.to_le inf_le_left, fun h2 => ?_⟩
+        refine ⟨inf_le_right, P.isPGroup.to_le inf_le_left, fun h2 => ?_⟩
         have hcop := hQ.2.1
         rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_two] at hcop
         exact hcop h2

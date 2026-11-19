@@ -38,9 +38,9 @@ private lemma plnf_chi_sign {m : ℕ} (ε : Bool) (c d i : Fin m) :
     plnf_chi ε c d i = 1 ∨ plnf_chi ε c d i = -1 := by
   unfold plnf_chi
   by_cases h : i = c ∨ i = d
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     cases ε <;> simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact Or.inl rfl
 
 private lemma plnf_chi_sq {m : ℕ} (ε : Bool) (c d i : Fin m) :

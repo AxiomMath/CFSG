@@ -154,13 +154,13 @@ theorem exists_mem_not_mem_comm_mem {P B Z : Subgroup G} (hP : IsPGroup 2 P)
   set Z' := Z.subgroupOf P
   set H : Subgroup (P ⧸ Z') := (B.subgroupOf P).map (QuotientGroup.mk' Z')
   have hHn : H.Normal := hBn.map _ (QuotientGroup.mk'_surjective Z')
-  obtain ⟨b, hbB, hbZ⟩ := SetLike.exists_of_lt hZB
+  obtain ⟨b, hbB, hbZ⟩ := _root_.IsConcreteLE.exists_of_lt hZB
   have hH : H ≠ ⊥ := by
     intro h
     have : QuotientGroup.mk' Z' ⟨b, hBP hbB⟩ ∈ H := ⟨⟨b, hBP hbB⟩, hbB, rfl⟩
     rw [h, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at this
     exact hbZ this
-  haveI : Group.IsNilpotent (P ⧸ Z') := (hP.to_quotient Z').isNilpotent
+  have : Group.IsNilpotent (P ⧸ Z') := (hP.to_quotient Z').isNilpotent
   obtain ⟨q, ⟨hqH, hqc⟩, hq1⟩ := ((H ⊓ Subgroup.center _).bot_or_exists_ne_one).resolve_left
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hH)
   obtain ⟨b', hb'B, rfl⟩ := hqH
@@ -174,12 +174,14 @@ theorem exists_mem_not_mem_comm_mem {P B Z : Subgroup G} (hP : IsPGroup 2 P)
       rw [hc]; group
     simpa [Z', Subgroup.mem_subgroupOf] using this
 
+omit [Finite G] in
 theorem eq_one_or_eq_of_mem_zpowers {z c : G} (hz : z * z = 1) (hc : c ∈ Subgroup.zpowers z) :
     c = 1 ∨ c = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hc
   rw [zpow_eq_zpow_emod' k (n := 2) (by rw [pow_two]; exact hz)]
   rcases Int.emod_two_eq_zero_or_one k with h | h <;> simp [h]
 
+omit [Finite G] in
 theorem conj_mem_thirdK_of_commute {D : Set G} (hN : IsNormalSet D) {z s k : G}
     (hs : Commute s z) (hk : k ∈ thirdK D z) : s * k * s⁻¹ ∈ thirdK D z := by
   have hle : thirdK D z ≤ (thirdK D z).comap (MulAut.conj s).toMonoidHom := by
@@ -192,6 +194,7 @@ theorem conj_mem_thirdK_of_commute {D : Set G} (hN : IsNormalSet D) {z s k : G}
     rwa [show s * z * s⁻¹ = z by rw [hs.eq]; group] at h
   simpa [MulAut.conj_apply] using hle hk
 
+omit [Finite G] in
 theorem normal_centralizer_thirdK {D : Set G} (hN : IsNormalSet D) {S' : Subgroup G} {z : G}
     (hzc : ∀ s ∈ S', Commute s z) :
     ((S' ⊓ Subgroup.centralizer (thirdK D z : Set G)).subgroupOf S').Normal := by
@@ -209,6 +212,7 @@ theorem normal_centralizer_thirdK {D : Set G} (hN : IsNormalSet D) {S' : Subgrou
     _ = s * (n * ((s : G)⁻¹ * k * s)) * (s : G)⁻¹ := by rw [h]
     _ = s * n * (s : G)⁻¹ * k := by group
 
+omit [Finite G] in
 theorem inf_eq_bot_of_mulEquiv_A5 {H O : Subgroup G} (e : H ≃* alternatingGroup (Fin 5))
     (hOn : ∀ h ∈ H, ∀ o ∈ O, h * o * h⁻¹ ∈ O) (hOs : Group.IsSolvable O) : H ⊓ O = ⊥ := by
   classical
@@ -217,7 +221,7 @@ theorem inf_eq_bot_of_mulEquiv_A5 {H O : Subgroup G} (e : H ≃* alternatingGrou
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hOn g g.2 n hn⟩
   set N : Subgroup (alternatingGroup (Fin 5)) := (O.subgroupOf H).map e.toMonoidHom
-  haveI hN : N.Normal := hn.map _ e.surjective
+  have hN : N.Normal := hn.map _ e.surjective
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · rw [eq_bot_iff]
     intro x hx
@@ -237,13 +241,14 @@ theorem inf_eq_bot_of_mulEquiv_A5 {H O : Subgroup G} (e : H ≃* alternatingGrou
     have hf : Function.Injective f := fun a b hab => by
       have := congrArg (fun t : O => (t : G)) hab
       exact e.symm.injective (Subtype.ext this)
-    haveI := solvable_of_solvable_injective hf
+    have := Group.isSolvable_of_isSolvable_injective hf
     have hcomm := (IsSimpleGroup.comm_iff_isSolvable (G := alternatingGroup (Fin 5))).mpr this
     have hc : Subgroup.center (alternatingGroup (Fin 5)) = ⊤ :=
       Subgroup.eq_top_iff' _ |>.mpr fun g => Subgroup.mem_center_iff.mpr fun h => hcomm h g
     rw [alternatingGroup.center_eq_bot (by simp)] at hc
     exact bot_ne_top hc
 
+omit [Finite G] in
 theorem sup_zpowers_inf_eq_bot {Y K₁ X₁ O : Subgroup G} {z : G}
     (hOn : ∀ y ∈ Y, ∀ o ∈ O, y * o * y⁻¹ ∈ O) (hOs : Group.IsSolvable O)
     (eK : K₁ ≃* alternatingGroup (Fin 5)) (eX : X₁ ≃* alternatingGroup (Fin 5))
@@ -338,8 +343,10 @@ theorem sup_zpowers_inf_eq_bot {Y K₁ X₁ O : Subgroup G} {z : G}
 
 def orb (D : Set G) (e y : G) : Set G := {t | ∃ k ∈ thirdK D e, k * y * k⁻¹ = t}
 
+omit [Finite G] in
 theorem mem_orb_self {D : Set G} {e y : G} : y ∈ orb D e y := ⟨1, one_mem _, by simp⟩
 
+omit [Finite G] in
 theorem orb_subset_Delta {D : Set G} (hN : IsNormalSet D) {e y : G} (hy : y ∈ Delta D e) :
     orb D e y ⊆ Delta D e := by
   rintro x ⟨k, hk, rfl⟩
@@ -349,11 +356,13 @@ theorem orb_subset_Delta {D : Set G} (hN : IsNormalSet D) {e y : G} (hy : y ∈ 
   refine mem_Delta_iff.mpr ⟨hN k y (mem_Delta_iff.mp hy).1, ?_⟩
   exact ((hke.symm.mul_right hye.symm).mul_right hke.symm.inv_right).symm
 
+omit [Finite G] in
 theorem orb_invariant {D : Set G} {e y : G} :
     ∀ k' ∈ thirdK D e, ∀ x ∈ orb D e y, k' * x * k'⁻¹ ∈ orb D e y := by
   rintro k' hk' x ⟨k, hk, rfl⟩
   exact ⟨k' * k, Subgroup.mul_mem _ hk' hk, by group⟩
 
+omit [Finite G] in
 theorem disjoint_orb_of_not_mem {D : Set G} {e y x : G} (hx : x ∉ orb D e y) :
     Disjoint (orb D e y) (orb D e x) := by
   rw [Set.disjoint_left]
@@ -364,6 +373,7 @@ theorem disjoint_orb_of_not_mem {D : Set G} {e y x : G} (hx : x ∉ orb D e y) :
     _ = k'⁻¹ * t * k' := by rw [hkt]
     _ = x := by rw [← hkt']; group
 
+omit [Finite G] in
 theorem thirdK_transitive_of_commute {D : Set G} (hS : Setup G D) (hL : LocalSecond D)
     {u w v e : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n)
     (hord : orderOf (u * v * w) = 2 * n) (hue : Commute u e) (hve : Commute v e)
@@ -414,6 +424,7 @@ theorem thirdK_transitive_of_commute {D : Set G} (hS : Setup G D) (hL : LocalSec
     rw [hk] at hsec
     omega
 
+omit [Finite G] in
 theorem thirdK_conj {D : Set G} (hN : IsNormalSet D) (g z : G) :
     thirdK D (g * z * g⁻¹) = (thirdK D z).map (MulAut.conj g).toMonoidHom := by
   have hΔ : Delta D (g * z * g⁻¹) = (MulAut.conj g).toMonoidHom '' Delta D z := by
@@ -428,6 +439,7 @@ theorem thirdK_conj {D : Set G} (hN : IsNormalSet D) (g z : G) :
       exact ⟨hN g y hyD, hyz.conj g⟩
   rw [thirdK, thirdK, hΔ, MonoidHom.map_closure]
 
+omit [Finite G] in
 theorem commutatorElement_mul_left_of_commute {p a b : G} (ha : Commute p a) (hb : Commute p b) :
     ⁅p * a, b⁆ = ⁅a, b⁆ := by
   have hc : Commute p ⁅a, b⁆ := by
@@ -438,6 +450,7 @@ theorem commutatorElement_mul_left_of_commute {p a b : G} (ha : Commute p a) (hb
     _ = p * ⁅a, b⁆ * p⁻¹ := by rw [commutatorElement_def]; group
     _ = ⁅a, b⁆ := by rw [hc.eq, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem commutator_sup_zpowers_eq {X : Subgroup G} (e : X ≃* alternatingGroup (Fin 5)) {c : G}
     (hc : ∀ x ∈ X, Commute x c) :
     ⁅X ⊔ Subgroup.zpowers c, X ⊔ Subgroup.zpowers c⁆ = X := by
@@ -482,6 +495,7 @@ theorem commutator_sup_zpowers_eq {X : Subgroup G} (e : X ≃* alternatingGroup 
   rw [← hperf]
   exact Subgroup.commutator_mem_commutator hx hy
 
+omit [Finite G] in
 theorem conj_mem_of_conj_mem_sup {X : Subgroup G} (e : X ≃* alternatingGroup (Fin 5)) {c s : G}
     (hc : ∀ x ∈ X, Commute x c)
     (hs : ∀ t ∈ X ⊔ Subgroup.zpowers c, s * t * s⁻¹ ∈ X ⊔ Subgroup.zpowers c) :
@@ -498,6 +512,7 @@ theorem conj_mem_of_conj_mem_sup {X : Subgroup G} (e : X ≃* alternatingGroup (
   rw [hT] at this
   simpa using this
 
+omit [Finite G] in
 theorem mem_zpowers_of_commute_A5 {K₁ : Subgroup G} (eK : K₁ ≃* alternatingGroup (Fin 5)) {z x : G}
     (hK₁z : ∀ k ∈ K₁, Commute k z) (hx : x ∈ K₁ ⊔ Subgroup.zpowers z)
     (hxc : ∀ k ∈ K₁, Commute x k) : x ∈ Subgroup.zpowers z := by
@@ -547,6 +562,7 @@ theorem mem_zpowers_of_commute_A5 {K₁ : Subgroup G} (eK : K₁ ≃* alternatin
   subst hk1
   simpa using hc
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj {X : Subgroup G} {s : G} (h : ∀ x ∈ X, s * x * s⁻¹ ∈ X)
     (h' : ∀ x ∈ X, s⁻¹ * x * s⁻¹⁻¹ ∈ X) : s ∈ Subgroup.normalizer (X : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -579,6 +595,7 @@ namespace Config
 
 variable {D : Set G} {u w v z a : G} {K₁ S' : Subgroup G}
 
+omit [Finite G] in
 theorem z_facts (hQ : Config D u w v z a K₁ S') :
     z * z = 1 ∧ z ≠ 1 ∧ u ∈ Delta D z ∧ v ∈ Delta D z ∧ w ∈ Delta D z ∧ z ∉ D := by
   obtain ⟨n, hn, -, hord, rfl⟩ := hQ.third
@@ -587,6 +604,7 @@ theorem z_facts (hQ : Config D u w v z a K₁ S') :
   obtain ⟨h1, h2, h3⟩ := vertices_mem_Delta hQ.tri hzu hzv hzw
   exact ⟨hz2, hz1, h1, h2, h3, thirdInv_not_mem hQ.setup hQ.local2 hQ.tri hn hord⟩
 
+omit [Finite G] in
 theorem conj_data (hQ : Config D u w v z a K₁ S') :
     ∃ X₁ : Subgroup G, Nonempty (X₁ ≃* alternatingGroup (Fin 5)) ∧
       thirdK D a = X₁ ⊔ Subgroup.zpowers a ∧ (∀ x ∈ X₁, Commute x a) ∧
@@ -649,9 +667,10 @@ theorem z_not_mem_centralizer (hQ : Config D u w v z a K₁ S') {X₁ : Subgroup
     (show Commute x z from Subgroup.mem_centralizer_singleton_iff.mp (hQ.K₁_comm hx)).symm.zpow_left i
   rw [this.eq]; group
 
+omit [Finite G] in
 theorem delta_isClass (hQ : Config D u w v z a K₁ S') {e : G}
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G))
-    (haK : thirdK D a ≤ Subgroup.centralizer ({e} : Set G)) :
+    (_haK : thirdK D a ≤ Subgroup.centralizer ({e} : Set G)) :
     ∀ x ∈ Delta D e, ∀ y ∈ Delta D e, ∃ k ∈ thirdK D e, k * x * k⁻¹ = y := by
   intro x hx y hy
   obtain ⟨n, hn, -, hord, rfl⟩ := hQ.third
@@ -666,7 +685,7 @@ theorem delta_isClass (hQ : Config D u w v z a K₁ S') {e : G}
   obtain ⟨k₂, hk₂, rfl⟩ := T y hy
   exact ⟨k₂ * k₁⁻¹, Subgroup.mul_mem _ hk₂ (Subgroup.inv_mem _ hk₁), by group⟩
 
-theorem thirdK_inf_radical (hQ : Config D u w v z a K₁ S') {e : G} (he : e ∉ Subgroup.zpowers z)
+theorem thirdK_inf_radical (hQ : Config D u w v z a K₁ S') {e : G} (_he : e ∉ Subgroup.zpowers z)
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G))
     (haK : thirdK D a ≤ Subgroup.centralizer ({e} : Set G)) :
     (thirdK D z).subgroupOf (thirdK D e) ⊓ CFSG.solvableRadical (thirdK D e) = ⊥ := by
@@ -693,9 +712,9 @@ theorem thirdK_inf_radical (hQ : Config D u w v z a K₁ S') {e : G} (he : e ∉
       (CFSG.SignalizerFunctorTheorem.Nonsolvable.instNormalSolvableRadical).conj_mem o ho _,
       by simp⟩
   have hOs : Group.IsSolvable O := by
-    haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := Y)
+    have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := Y)
     let f := ((CFSG.solvableRadical Y).equivMapOfInjective Y.subtype Y.subtype_injective).symm
-    exact solvable_of_solvable_injective (f := f.toMonoidHom) f.injective
+    exact Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
   have h9 := sup_zpowers_inf_eq_bot hOn hOs eK eX hK₁Y hX₁Y hz1'
     (fun k hk => Subgroup.mem_centralizer_singleton_iff.mp (hQ.K₁_comm hk)) hzX
     (hQ.z_not_mem_centralizer hX hcard)
@@ -709,12 +728,14 @@ theorem thirdK_inf_radical (hQ : Config D u w v z a K₁ S') {e : G} (he : e ∉
 noncomputable def barOmega (D : Set G) (e : G) : Set (thirdK D e ⧸ CFSG.solvableRadical (thirdK D e)) :=
   (QuotientGroup.mk' (CFSG.solvableRadical (thirdK D e))) '' {x : thirdK D e | (x : G) ∈ D}
 
+omit [Finite G] in
 theorem barOmega_eq_image (D : Set G) (e : G) :
     barOmega D e = (QuotientGroup.mk' (CFSG.solvableRadical (thirdK D e))) ''
       {x : thirdK D e | (x : G) ∈ D} := by
   unfold barOmega
   rfl
 
+omit [Finite G] in
 theorem DeltaK_eq_D_of_thirdK_le_centralizer (D : Set G) (e : G) :
     DeltaK D e = {x : thirdK D e | (x : G) ∈ D} := by
   ext x
@@ -723,11 +744,13 @@ theorem DeltaK_eq_D_of_thirdK_le_centralizer (D : Set G) (e : G) :
   exact ⟨fun h => h.1,
     fun h => ⟨h, Subgroup.mem_centralizer_singleton_iff.mp (thirdK_le_centralizer x.2)⟩⟩
 
+omit [Finite G] in
 theorem DeltaBar_eq_barOmega (D : Set G) (e : G) :
     DeltaBar D e = barOmega D e := by
   unfold DeltaBar barOmega
   rw [DeltaK_eq_D_of_thirdK_le_centralizer]
 
+omit [Finite G] in
 theorem thirdK_le_thirdK_of_le_centralizer {z e : G}
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G)) :
     thirdK D z ≤ thirdK D e := by
@@ -737,6 +760,7 @@ theorem thirdK_le_thirdK_of_le_centralizer {z e : G}
     ⟨(mem_Delta_iff.mp hx).1,
       Subgroup.mem_centralizer_singleton_iff.mp (hzK (Delta_subset_thirdK hx))⟩)
 
+omit [Finite G] in
 theorem u_mem_Delta_e (hQ : Config D u w v z a K₁ S') {e : G}
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G)) : u ∈ Delta D e := by
   obtain ⟨-, -, huΔz, -⟩ := hQ.z_facts
@@ -760,6 +784,7 @@ theorem u_not_mem_radical (hQ : Config D u w v z a K₁ S') {e : G}
   rw [h9, Subgroup.mem_bot] at hmem
   exact hQ.setup.oddT.ne_one hQ.tri.1 (congrArg Subtype.val hmem)
 
+omit [Finite G] in
 theorem DeltaK_class_e (hQ : Config D u w v z a K₁ S') {e : G}
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G))
     (haK : thirdK D a ≤ Subgroup.centralizer ({e} : Set G)) :
@@ -771,11 +796,11 @@ theorem DeltaK_class_e (hQ : Config D u w v z a K₁ S') {e : G}
     have hxΔ : (x : G) ∈ Delta D e := hx
     obtain ⟨k, hk, hku⟩ :=
       hQ.delta_isClass hzK haK u (u_mem_Delta_e hQ hzK) (x : G) hxΔ
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [isConj_iff]
     exact ⟨⟨k, hk⟩, Subtype.ext hku⟩
   · intro hx
-    simp only [Set.mem_setOf_eq] at hx
+    simp only [Set.mem_ofPred_eq] at hx
     rw [isConj_iff] at hx
     obtain ⟨c, hc⟩ := hx
     have hcG : (c : G) * u * (c : G)⁻¹ = (x : G) := by
@@ -832,6 +857,7 @@ theorem localSecond_barOmega (hQ : Config D u w v z a K₁ S') {e : G}
     (DeltaK_class_e hQ hzK haK) (DeltaK_mk_ne_one_e hQ he hzK haK)
   rwa [DeltaBar_eq_barOmega] at h
 
+omit [Finite G] in
 theorem thirdK_e_ne_top (hQ : Config D u w v z a K₁ S') {e : G} (he2 : orderOf e = 2) :
     thirdK D e ≠ ⊤ := by
   intro htop
@@ -880,8 +906,8 @@ theorem thirdK_z_to_Yb_injective (hQ : Config D u w v z a K₁ S') {e : G}
   exact Subtype.ext (inv_mul_eq_one.mp h1)
 
 theorem false_of_connected_of_threeTransposition (hQ : Config D u w v z a K₁ S')
-    (hC : HypothesisC D) (hu : u ∈ hC.alpha) (hv : v ∈ DalphaStar D hC.alpha)
-    {e : G} (he2 : orderOf e = 2) (he : e ∉ Subgroup.zpowers z)
+    (hC : HypothesisC D) (_hu : u ∈ hC.alpha) (_hv : v ∈ DalphaStar D hC.alpha)
+    {e : G} (_he2 : orderOf e = 2) (he : e ∉ Subgroup.zpowers z)
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G))
     (haK : thirdK D a ≤ Subgroup.centralizer ({e} : Set G))
     (h3 : ∀ d ∈ barOmega D e, ∀ g ∈ barOmega D e,
@@ -993,7 +1019,7 @@ theorem false_of_connected_of_threeTransposition (hQ : Config D u w v z a K₁ S
     rw [← Subgroup.orderOf_coe]
     simpa [prodK] using hord
   have hprod : mk uY * mk vY * mk wY = mk ⟨prodK, hKY prodK.2⟩ := by
-    simp only [mk, map_mul, uY, vY, wY, prodK]
+    simp only [mk, uY, vY, wY, prodK]
     rfl
   have hord_bar : orderOf (mk uY * mk vY * mk wY) = 2 * n := by
     rw [hprod, orderOf_thirdK_map_quotient hzK h9 prodK, hordY]

@@ -41,8 +41,8 @@ variable {ℓ f : ℕ} {K : Type} [Field K]
 
 theorem pClosureOdd_unitaryPSU_three (hℓ : ℓ = 2) (h : UnitaryFieldData ℓ f K) :
     PClosureOdd 3 (unitaryPSU h 3) := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := hℓ ▸ h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := hℓ ▸ h.charP
   intro d hd1 hdp
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective d
   have hZ3 : ∀ z ∈ unitaryScalars h 3, z ^ 3 = 1 := by
@@ -78,7 +78,7 @@ theorem pClosureOdd_unitaryPSU_three (hℓ : ℓ = 2) (h : UnitaryFieldData ℓ 
       LinearMap.GeneralLinearGroup K (Fin 3 → K)) : Module.End K (Fin 3 → K)) =
       (c' : K) • (1 : Module.End K (Fin 3 → K)) := by
     ext v i
-    simp [T, Matrix.GeneralLinearGroup.toLin, Matrix.toLin'_apply, Matrix.scalar_apply,
+    simp [T, Matrix.GeneralLinearGroup.toLin, Matrix.scalar_apply,
       Matrix.mulVec_diagonal]
   have hxg' : ((T ((x * g : ↥(unitarySU ℓ f K 3)) : GL (Fin 3) K) :
       LinearMap.GeneralLinearGroup K (Fin 3 → K)) : Module.End K (Fin 3 → K)) =

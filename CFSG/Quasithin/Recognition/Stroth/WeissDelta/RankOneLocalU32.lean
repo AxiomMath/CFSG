@@ -80,7 +80,7 @@ theorem UnitaryPointStructure.map {G Ω G' Ω' : Type*} [Group G] [MulAction G �
     rw [← stabilizer_map_mulEquiv e φ he α, ← stabilizer_map_mulEquiv e φ he β,
       ← Subgroup.map_inf _ _ _ e.injective, h.stabilizer_inf_stabilizer]
   isCyclic_T := by
-    haveI := h.isCyclic_T
+    have := h.isCyclic_T
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective T e.toMonoidHom e.injective).toMonoidHom
       (Equiv.surjective _)
@@ -160,7 +160,7 @@ theorem isCyclic_sylow_of_odd_inf_normal {X : Type} [Group X] [Finite X]
       Subgroup.orderOf_dvd_natCard (P : Subgroup H) (a * b⁻¹).2
     have hdvd2 : orderOf (((a * b⁻¹ : ↥P) : ↥H) : X) ∣ Nat.card T :=
       Subgroup.orderOf_dvd_natCard T hxT
-    obtain ⟨m, hm⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := P.isPGroup.exists_card_eq
     have hdvd1' : orderOf ((a * b⁻¹ : ↥P) : ↥H) ∣ 2 ^ m := by
       rw [← hm]
       exact hdvd1
@@ -176,8 +176,8 @@ theorem isCyclic_sylow_of_odd_inf_normal {X : Type} [Group X] [Finite X]
       _ = 1 * b := by rw [hab1]
       _ = b := one_mul b
   have hmapcyc : IsCyclic ↥((P : Subgroup ↥H).map f) := by
-    obtain ⟨Q, hQ⟩ := (P.isPGroup'.map f).exists_le_sylow
-    haveI : IsCyclic ↥(Q : Subgroup (Outer N)) := hOut Q
+    obtain ⟨Q, hQ⟩ := (P.isPGroup.map f).exists_le_sylow
+    have : IsCyclic ↥(Q : Subgroup (Outer N)) := hOut Q
     exact Subgroup.isCyclic_of_le hQ
   have hrange : (⊤ : Subgroup ↥P).map g = (P : Subgroup ↥H).map f := by
     ext y
@@ -227,8 +227,8 @@ theorem exists_psu3_isotropicModel {X Ω : Type} [Group X] [Finite X] [Fintype �
     (hΩ : Fintype.card Ω = 2 ^ (3 * k) + 1) :
     Nonempty (PSU3IsotropicModel X Ω F N k) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : N.Normal := hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : N.Normal := hN
   obtain ⟨J, hJ, hconj, hfixed⟩ :=
     CFSG.UnitaryThreeRecognition.Model.exists_standardHermitianForm (K := F) 2 k hF
   obtain ⟨e₀⟩ :=
@@ -242,9 +242,9 @@ theorem exists_psu3_isotropicModel {X Ω : Type} [Group X] [Finite X] [Fintype �
   let B₀ : Subgroup G := unitaryCoordinateStabilizer J 0
   have hUP : UnitaryPointStructure G Ω₀ α β₀ U₀ T₀ B₀ :=
     unitaryPointStructure J hJ k hk hF hfixed
-  letI : MulAction G Ω₀ := instMulActionUnitaryIsotropicPoints (J := J)
-  haveI : MulAction.IsMultiplyPretransitive G Ω₀ 2 := hUP.isMultiplyPretransitive
-  haveI : MulAction.IsPretransitive G Ω₀ :=
+  let : MulAction G Ω₀ := instMulActionUnitaryIsotropicPoints (J := J)
+  have : MulAction.IsMultiplyPretransitive G Ω₀ 2 := hUP.isMultiplyPretransitive
+  have : MulAction.IsPretransitive G Ω₀ :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hdata : RankOneData G U₀ B₀ := (rankOneData_psu3 J k hk hF hfixed hJ).1
   have hcardU₀ : Nat.card U₀ = (2 ^ k) ^ 3 :=
@@ -276,10 +276,10 @@ theorem exists_psu3_isotropicModel {X Ω : Type} [Group X] [Finite X] [Fintype �
   have hcardL4 : Fintype.card Ω = 1 + Nat.card U' := by
     rw [hΩ, hcardU', ← pow_mul, mul_comm k 3]
     omega
-  haveI : MulAction.IsPreprimitive X Ω :=
+  have : MulAction.IsPreprimitive X Ω :=
     MulAction.isPreprimitive_of_is_two_pretransitive h2
-  haveI : MulAction.IsQuasiPreprimitive X Ω := inferInstance
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; positivity)
+  have : MulAction.IsQuasiPreprimitive X Ω := inferInstance
+  have : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; positivity)
   have hfixedN : MulAction.fixedPoints N Ω ≠ ⊤ := by
     intro htop
     obtain ⟨n, hn1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hNbot
@@ -288,7 +288,7 @@ theorem exists_psu3_isotropicModel {X Ω : Type} [Group X] [Finite X] [Fintype �
       exact hx n
     have h1 : n = 1 := FaithfulSMul.eq_of_smul_eq_smul (fun x => by rw [hfixall x, one_smul])
     exact hn1 h1
-  haveI : MulAction.IsPretransitive ↥N Ω :=
+  have : MulAction.IsPretransitive ↥N Ω :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := N) hfixedN
   let ω₀ : Ω := Classical.arbitrary Ω
   obtain ⟨x₀, hx₀⟩ :=
@@ -318,7 +318,7 @@ theorem exists_psu3_isotropicModel {X Ω : Type} [Group X] [Finite X] [Fintype �
         _ = φ₀ (eN.symm g • φ₀.symm y) := (hφ₀ (eN.symm g) (φ₀.symm y)).symm) hUP
   have hT'cyc : IsCyclic T' := by
     rw [hT'def]
-    haveI : IsCyclic T₀ := hUP.isCyclic_T
+    have : IsCyclic T₀ := hUP.isCyclic_T
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective T₀ eN.symm.toMonoidHom eN.symm.injective).toMonoidHom
       (Equiv.surjective _)
@@ -359,8 +359,8 @@ theorem rankOneLocal_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulAc
     (hΩ : Fintype.card Ω = 2 ^ (3 * k) + 1) :
     RankOneLocal X Ω N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : N.Normal := hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : N.Normal := hN
   let M := Classical.choice (exists_psu3_isotropicModel h2 k hk F hF N hN e hΩ)
   let U' : Subgroup ↥N := M.U'
   let T' : Subgroup ↥N := M.T'
@@ -379,22 +379,22 @@ theorem rankOneLocal_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulAc
     have h4 : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk
     omega
   have hPerfectProj : Group.IsPerfect (StatedProj (StatedSU 3 (2 ^ k) F)) := by
-    haveI : Group.IsPerfect (StatedSU 3 (2 ^ k) F) :=
+    have : Group.IsPerfect (StatedSU 3 (2 ^ k) F) :=
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hF (n := 3) (by norm_num) hne32
     exact Group.IsPerfect.ofSurjective
       (f := QuotientGroup.mk' ((StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ k) F)))
       (QuotientGroup.mk'_surjective _)
   have hPerfectN : Group.IsPerfect ↥N :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr M.hNbot
-  haveI : Group.IsPerfect ↥N := hPerfectN
+  have : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr M.hNbot
+  have : Group.IsPerfect ↥N := hPerfectN
   have hNcomm : ¬ IsMulCommutative ↥N := Group.IsPerfect.not_isMulCommutative ↥N
   have hcent : Subgroup.centralizer (N : Set X) = ⊥ :=
     centralizer_eq_bot_of_isMultiplyPretransitive (N := N) hNcomm h2
   obtain ⟨eB, hB⟩ := benderType_statedProj (n := k) hk hF
   obtain ⟨Dd, hDdn, hDdcyc, hDdcard, hDdquot, -⟩ :=
     CFSG.GH74.Uniqueness.Bender.outerStructure_of_mulEquiv e hB.outer_unitary
-  letI : Dd.Normal := hDdn
+  let : Dd.Normal := hDdn
   have hDdodd : Odd (Nat.card Dd) := by
     rw [hDdcard]
     exact Odd.of_dvd_nat (by decide : Odd 3) (Nat.gcd_dvd_left 3 _)
@@ -402,22 +402,22 @@ theorem rankOneLocal_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulAc
     fun Q => CFSG.GH74.Uniqueness.Bender.isCyclic_sylow_of_quotient Dd hDdodd hDdquot Q
   have hOutSolv : Group.IsSolvable (Outer ↥N) := by
     have hsolvDd : Group.IsSolvable Dd := by
-      haveI : IsCyclic Dd := hDdcyc
-      letI : CommGroup Dd := IsCyclic.commGroup
+      have : IsCyclic Dd := hDdcyc
+      let : CommGroup Dd := IsCyclic.commGroup
       infer_instance
     have hsolvQuot : Group.IsSolvable (Outer ↥N ⧸ Dd) := by
-      haveI : IsCyclic (Outer ↥N ⧸ Dd) := hDdquot
-      letI : CommGroup (Outer ↥N ⧸ Dd) := IsCyclic.commGroup
+      have : IsCyclic (Outer ↥N ⧸ Dd) := hDdquot
+      let : CommGroup (Outer ↥N ⧸ Dd) := IsCyclic.commGroup
       infer_instance
-    haveI := hsolvDd
-    haveI := hsolvQuot
+    have := hsolvDd
+    have := hsolvQuot
     exact Group.isSolvable_of_ker_le_range Dd.subtype (QuotientGroup.mk' Dd) (by
       rw [QuotientGroup.ker_mk']
       intro x hx
       exact ⟨⟨x, hx⟩, rfl⟩)
-  haveI : MulAction.IsPreprimitive X Ω := MulAction.isPreprimitive_of_is_two_pretransitive h2
-  haveI : MulAction.IsQuasiPreprimitive X Ω := inferInstance
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; positivity)
+  have : MulAction.IsPreprimitive X Ω := MulAction.isPreprimitive_of_is_two_pretransitive h2
+  have : MulAction.IsQuasiPreprimitive X Ω := inferInstance
+  have : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; positivity)
   have hfixedN : MulAction.fixedPoints N Ω ≠ ⊤ := by
     intro htop
     obtain ⟨n, hn1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp M.hNbot
@@ -426,7 +426,7 @@ theorem rankOneLocal_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulAc
       exact hx n
     have h1 : n = 1 := FaithfulSMul.eq_of_smul_eq_smul (fun x => by rw [hfixall x, one_smul])
     exact hn1 h1
-  haveI : MulAction.IsPretransitive ↥N Ω :=
+  have : MulAction.IsPretransitive ↥N Ω :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := N) hfixedN
   have hU'le : U' ≤ MulAction.stabilizer ↥N ω := by
     rw [← hP.sup_eq_stabilizer]; exact le_sup_left

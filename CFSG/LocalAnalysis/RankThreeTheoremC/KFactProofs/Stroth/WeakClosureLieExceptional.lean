@@ -23,7 +23,7 @@ theorem wcE_wcOn_of_untwisted [Fact p.Prime] {τ : Tag}
   have hchar : CharP F p := by
     have := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hcard])
-  haveI : Finite (AdjointQuotient τ F) := Finite.of_equiv K e.toEquiv
+  have : Finite (AdjointQuotient τ F) := Finite.of_equiv K e.toEquiv
   exact WCOn.of_mulEquiv e (WCOn.of_hasNoncommPair (hnc F))
 
 end Transport
@@ -46,7 +46,7 @@ theorem wcE_xUnit_not_commute (h2 : (2 : K) ≠ 0) {i j : Fin τ.rank}
   rw [CFSG.TauCetiBridge.Minuscule.xOp_hVec' K j j 1] at hv
   have key := congrArg (fun v : RootModule τ K => v (Sum.inr ⟨Pi.single j 1, IsRoot.basis j⟩)) hv
   simp only [Finsupp.add_apply, Finsupp.smul_apply, smul_eq_mul, hVec_coeff, rootVec_coeff,
-    if_true, zero_add, Tag.cartan_self] at key
+    ite_true, zero_add, Tag.cartan_self] at key
   norm_num at key
   exact h2 key
 
@@ -62,11 +62,11 @@ theorem wcE_hasNoncommPair_adjointGroup (h2 : (2 : K) ≠ 0) {i j : Fin τ.rank}
   · intro h
     exact wcE_xUnit_not_commute h2 hij hji (congrArg Subtype.val h)
 
-theorem wcE_hasNoncommPair_adjointQuotient (hp : p.Prime) (hp2 : p ≠ 2) {i j : Fin τ.rank}
+theorem wcE_hasNoncommPair_adjointQuotient (_hp : p.Prime) (hp2 : p ≠ 2) {i j : Fin τ.rank}
     (hij : τ.cartan i j = -1) (hji : τ.cartan j i = -1) :
     HasNoncommPair p (AdjointQuotient τ K) := by
   have h2 : (2 : K) ≠ 0 := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨_hp⟩
     exact Ring.two_ne_zero (by rw [ringChar.eq K p]; exact hp2)
   refine HasNoncommPair.map (QuotientGroup.mk' (Subgroup.center ↥(adjointGroup τ K)))
     ((MonoidHom.ker_eq_bot_iff _).1 ?_) (wcE_hasNoncommPair_adjointGroup h2 hij hji)

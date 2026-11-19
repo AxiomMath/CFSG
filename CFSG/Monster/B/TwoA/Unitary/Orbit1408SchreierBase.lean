@@ -44,7 +44,7 @@ theorem inv_f (a : Usig) (x : Fin N) : A.f a⁻¹ (A.f a x) = x := by
 theorem f_inv (a : Usig) (x : Fin N) : A.f a (A.f a⁻¹ x) = x := by
   rw [← A.mul, inv_mul_cancel, A.one]
 
-@[expose] def partStab (part : Array ℕ) : Subgroup Usig where
+def partStab (part : Array ℕ) : Subgroup Usig where
   carrier := {u | ∀ x : Fin N, part[(A.f u x : ℕ)]! = part[(x : ℕ)]!}
   one_mem' x := by rw [A.one]
   mul_mem' {a b} ha hb x := by
@@ -61,24 +61,24 @@ end UsigIdxAct
 
 abbrev tauEdge (i k : ℕ) : ℕ := (tauCert.edges[i]!)[k]!
 
-@[expose] def transArr (gen : Array (Array ℕ)) (N : ℕ) : Array (Array ℕ) :=
+def transArr (gen : Array (Array ℕ)) (N : ℕ) : Array (Array ℕ) :=
   (List.range 1408).foldl (fun acc i => acc.push (if i = 0 then (List.range N).toArray else
     (acc[tauPar i]!).map fun x => (gen[tauLab i]!)[x]!)) #[]
 
-@[expose] def invPermArr (p : Array ℕ) : Array ℕ :=
+def invPermArr (p : Array ℕ) : Array ℕ :=
   (List.range p.size).foldl (fun acc x => acc.set! p[x]! x) (Array.replicate p.size 0)
 
-@[expose] def treeOK (gen T I : Array (Array ℕ)) (N : ℕ) : Bool :=
+def treeOK (gen T I : Array (Array ℕ)) (N : ℕ) : Bool :=
   (List.range N).all (fun x => (T[0]!)[x]! == x) &&
   (List.range 1408).all fun i => (List.range N).all fun x =>
     decide ((T[i]!)[x]! < N) && decide ((I[i]!)[x]! < N) && (T[i]!)[(I[i]!)[x]!]! == x &&
       (i == 0 || (T[i]!)[x]! == (gen[tauLab i]!)[(T[tauPar i]!)[x]!]!)
 
-@[expose] def schreierOK (gen T I : Array (Array ℕ)) (part : Array ℕ) (N : ℕ) : Bool :=
+def schreierOK (gen T I : Array (Array ℕ)) (part : Array ℕ) (N : ℕ) : Bool :=
   (List.range 1408).all fun i => (List.range 17).all fun k => (List.range N).all fun x =>
     part[(I[tauEdge i k]!)[(gen[k]!)[(T[i]!)[x]!]!]!]! == part[x]!
 
-@[expose] def selAct (gen T I : Array (Array ℕ)) (sel : Array (ℕ × ℕ)) (r x : ℕ) : ℕ :=
+def selAct (gen T I : Array (Array ℕ)) (sel : Array (ℕ × ℕ)) (r x : ℕ) : ℕ :=
   (I[tauEdge sel[r]!.1 sel[r]!.2]!)[(gen[sel[r]!.2]!)[(T[sel[r]!.1]!)[x]!]!]!
 
 section Tree

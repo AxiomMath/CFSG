@@ -74,6 +74,7 @@ theorem lineIdx3_eq {x y z : Nat} (h : key3OK x y z = true) :
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   exact ⟨lineIdx_eq hK hL h1 h2 h3, h3⟩
 
+omit hL in
 theorem linePair_posK {k : Nat} (h : lineTree.memB k = true) : linePair (posK k) = pairK k := by
   rw [linePair_eq hK, (key_of_memB h).2]
 
@@ -82,7 +83,7 @@ theorem tvImg_eq {a b : Nat} (ha : lineTree.memB a = true) (hb : lineTree.memB b
     tvImg (posK a) (posK b) = posK (imgKey a b) ∧ lineTree.memB (imgKey a b) = true := by
   have e := lineIdx3_eq hK hL h
   unfold tvImg
-  rw [linePair_posK hK hL ha, linePair_posK hK hL hb]
+  rw [linePair_posK hK ha, linePair_posK hK hb]
   exact e
 
 theorem stabGens_eq : stabGens = (stabKeys.map posK).toArray := by

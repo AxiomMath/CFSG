@@ -49,6 +49,7 @@ theorem conjProj_projConj (P : GL (Fin d) K) (hP : P ∈ primeFormUnitary h (idG
 
 variable [Finite K]
 
+omit [Finite K] in
 private theorem exists_induced_data [Finite K] (h : UnitaryFieldData 2 n K)
     (hK : Nat.card K = (2 ^ n) ^ 2) (hd : 3 ≤ d) (hdq : (d, 2 ^ n) ≠ (3, 2))
     {p : ℕ} (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
@@ -57,7 +58,7 @@ private theorem exists_induced_data [Finite K] (h : UnitaryFieldData 2 n K)
       (LargeEvenGUSet (Fin d) K (2 ^ n))) :
     ∃ (X : Subgroup (MulAut (projectiveSL d K))) (Mf : Ab → GL (Fin d) K)
       (hMf : ∀ a, Mf a ∈ LargeEvenGUSet (Fin d) K (2 ^ n))
-      (hXmem : ∀ a, conjAut d K (Mf a) ∈ X),
+      (_hXmem : ∀ a, conjAut d K (Mf a) ∈ X),
       IsElemAbelian p X ∧
       (∀ x ∈ X, ∃ (M : GL (Fin d) K) (hM : M ∈ LargeEvenGUSet (Fin d) K (2 ^ n)),
         conjAut d K M = x ∧
@@ -116,7 +117,7 @@ private theorem exists_induced_data [Finite K] (h : UnitaryFieldData 2 n K)
     show ρ _ ∈ Ab
     rw [← hMfeq a]
     exact a.2
-  have hXmem : ∀ a, conjAut d K (Mf a) ∈ X := fun a => by
+  have _hXmem : ∀ a, conjAut d K (Mf a) ∈ X := fun a => by
     refine ⟨⟨Mf a, hN (hMf a)⟩, hMN a, ?_⟩
     rfl
   let f : Ab → X := fun a => ⟨χ ⟨Mf a, hN (hMf a)⟩, _, hMN a, rfl⟩
@@ -142,7 +143,7 @@ private theorem exists_induced_data [Finite K] (h : UnitaryFieldData 2 n K)
     apply Subtype.ext
     rw [hMfeq a, hMfeq b, h2]
   have hle := Nat.card_le_card_of_injective f hf
-  exact ⟨X, Mf, hMf, hXmem, hXab, hXU, hMfeq, hle⟩
+  exact ⟨X, Mf, hMf, _hXmem, hXab, hXU, hMfeq, hle⟩
 
 theorem exists_unitary_frame_or_noncomm (h : UnitaryFieldData 2 n K)
     (hK : Nat.card K = (2 ^ n) ^ 2) (hd : 3 ≤ d) (hdq : (d, 2 ^ n) ≠ (3, 2)) {p : ℕ}
@@ -163,7 +164,7 @@ theorem exists_unitary_frame_or_noncomm (h : UnitaryFieldData 2 n K)
       ∃ u : Kˣ, u ≠ 1 ∧ u ^ p = 1 ∧ x * y = GeneralLinearGroup.scalar (Fin d) u * (y * x) := by
   classical
   have hd0 : 0 < d := by omega
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd0⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd0⟩⟩
   obtain ⟨X, Mf, hMf, hXmem, hXab, hXU, hMfeq, hle⟩ :=
     exists_induced_data h hK hd hdq hp hpq hAb hAbI
   have hcardX : p ^ (d / p) < Nat.card X := lt_of_lt_of_le hcard hle

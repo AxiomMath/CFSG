@@ -252,7 +252,7 @@ theorem K3B_card_P (hs : SPLSetup D.toSPLNot0) {u : G} (hu : u ∈ D.S₁) (hu2 
   have hodd : Odd D.e := e_odd D.ext3 hs
   have hPS : D.S₁ ⊓ centralizer ({u} : Set G) ≤ (D.S : Subgroup G) := fun x hx => hx.1.1
   have hPp : IsPGroup 2 ↥(D.S₁ ⊓ centralizer ({u} : Set G)) :=
-    IsPGroup.to_le D.S.isPGroup' hPS
+    IsPGroup.to_le D.S.isPGroup hPS
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hPp
   have hPK : D.S₁ ⊓ centralizer ({u} : Set G) ≤ D.K ⊓ centralizer ({u} : Set G) :=
     fun x hx => ⟨S₁_le_K D.toSPLNot0 hx.1, hx.2⟩
@@ -303,7 +303,7 @@ theorem K3B_CK_decomp (hs : SPLSetup D.toSPLNot0) {u : G} (hu : u ∈ D.S₁) (h
   have hP := K3B_card_P hs hu hu2 huz hnorm hCKcard
   have hPS : D.S₁ ⊓ centralizer ({u} : Set G) ≤ (D.S : Subgroup G) := fun x hx => hx.1.1
   have hPp : IsPGroup 2 ↥(D.S₁ ⊓ centralizer ({u} : Set G)) :=
-    IsPGroup.to_le D.S.isPGroup' hPS
+    IsPGroup.to_le D.S.isPGroup hPS
   have hEle : D.Eu u ≤ D.K ⊓ centralizer ({u} : Set G) := TwoThin.pPrimeCoreOf_le _
   have hPle : D.S₁ ⊓ centralizer ({u} : Set G) ≤ D.K ⊓ centralizer ({u} : Set G) :=
     fun x hx => ⟨S₁_le_K D.toSPLNot0 hx.1, hx.2⟩
@@ -444,7 +444,7 @@ theorem K3B_le_H (hs : SPLSetup D.toSPLNot0) {u : G} (hu : u ∈ D.S₁) (hu2 : 
   have htt := t_mul_t' D hs
   have hPS : D.S₁ ⊓ centralizer ({u} : Set G) ≤ (D.S : Subgroup G) := fun x hx => hx.1.1
   have hPp : IsPGroup 2 ↥(D.S₁ ⊓ centralizer ({u} : Set G)) :=
-    IsPGroup.to_le D.S.isPGroup' hPS
+    IsPGroup.to_le D.S.isPGroup hPS
   have hPle : D.S₁ ⊓ centralizer ({u} : Set G) ≤ D.K ⊓ centralizer ({u} : Set G) :=
     fun x hx => ⟨S₁_le_K D.toSPLNot0 hx.1, hx.2⟩
   have hWt : ∀ w ∈ (D.K ⊓ centralizer ({u} : Set G)) ⊔ D.F,

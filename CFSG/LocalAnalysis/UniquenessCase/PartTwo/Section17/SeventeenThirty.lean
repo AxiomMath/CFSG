@@ -72,6 +72,7 @@ theorem six_le_mQuot_bot (D : Data G) {V₀ V : Subgroup G} {L : Subgroup G}
   rw [hmt, h12]
   norm_num
 
+omit [Finite G] in
 theorem actTil_bot_injective {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : X ≤ stabTil (⊥ : Subgroup G) V)
     (hdis : X ⊓ Subgroup.centralizer (V : Set G) = ⊥) :
@@ -92,6 +93,7 @@ theorem actTil_bot_injective {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     rwa [hdis] at hinf
   exact Subtype.ext (mul_inv_eq_one.1 (Subgroup.mem_bot.1 hbot))
 
+omit [Finite G] in
 theorem card_barSub_bot_eq {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : X ≤ stabTil (⊥ : Subgroup G) V)
     (hdis : X ⊓ Subgroup.centralizer (V : Set G) = ⊥) :
@@ -109,6 +111,7 @@ theorem card_barSub_bot_eq {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     rw [barSub, ← hsub, Subgroup.map_map]
   rw [hbar, Subgroup.card_map_of_injective hF, Subgroup.card_top]
 
+omit [Finite G] in
 theorem orderOf_actTil_bot_eq {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : X ≤ stabTil (⊥ : Subgroup G) V)
     (hdis : X ⊓ Subgroup.centralizer (V : Set G) = ⊥) (x : X) :
@@ -162,6 +165,7 @@ theorem rk_commSub_actTil_bot_eq {V : Subgroup G} (hV : IsElemAbelian 2 V)
   rw [E3.mQuot_eq_rkIdx]
   omega
 
+omit [Finite G] in
 theorem imgTil_le_fixV_actTil {V U : Subgroup G} (hV : IsElemAbelian 2 V)
     {x : G} (hx : x ∈ stabTil (⊥ : Subgroup G) V)
     (hxU : ∀ u ∈ U, x * u * x⁻¹ = u) :
@@ -191,6 +195,7 @@ theorem imgTil_le_fixV_actTil {V U : Subgroup G} (hV : IsElemAbelian 2 V)
           rw [hxw]
       _ = mkTil (⊥ : Subgroup G) V hV w := by rw [MulAut.inv_apply_self, ih]
 
+omit [Finite G] in
 theorem commutator_le_of_le_stabTil {V X : Subgroup G}
     (hX : X ≤ stabTil (⊥ : Subgroup G) V) : ⁅V, X⁆ ≤ V := by
   rw [Subgroup.commutator_le]
@@ -200,6 +205,7 @@ theorem commutator_le_of_le_stabTil {V X : Subgroup G}
   have h1 : ⁅v, xx⁆ = v * (xx * v⁻¹ * xx⁻¹) := by rw [commutatorElement_def]; group
   rw [h1]; exact V.mul_mem hv hmem
 
+omit [Finite G] in
 theorem inf_centralizer_eq_bot_of_regular_action {V X : Subgroup G}
     (hcommV : ⁅V, X⁆ ≤ V) (hcomm_ne : ⁅V, X⁆ ≠ ⊥)
     (hreg : ActsRegularlyOn X (nonIdentity ⁅V, X⁆)) :
@@ -215,6 +221,7 @@ theorem inf_centralizer_eq_bot_of_regular_action {V X : Subgroup G}
     rw [h1, inv_mul_cancel_left]
   exact Subgroup.mem_bot.2 (hreg.2.2 z ⟨hzmem, fun h => hz1 (Subtype.ext h)⟩ x hxX hzfix)
 
+omit [Finite G] in
 theorem barSub_eq_zpowers_of_gen {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hXstab : X ≤ stabTil (⊥ : Subgroup G) V) {x : ↥X} (hxgen : Subgroup.zpowers x = ⊤) :
     barSub (⊥ : Subgroup G) V hV X =
@@ -232,6 +239,7 @@ theorem barSub_eq_zpowers_of_gen {V X : Subgroup G} (hV : IsElemAbelian 2 V)
   rw [hbar, ← hxgen, MonoidHom.map_zpowers]
   rfl
 
+omit [Finite G] in
 theorem mkTil_commutator_mem_commSub {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : X ≤ stabTil (⊥ : Subgroup G) V) {v x : G} (hv : v ∈ V) (hx : x ∈ X) :
     mkTil (⊥ : Subgroup G) V hV (IntMod.mk hV ⟨⁅v, x⁆, commutator_le_of_le_stabTil hX
@@ -268,7 +276,6 @@ theorem mkTil_commutator_mem_commSub {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     rw [show (actStab (⊥ : Subgroup G) V hV ⟨x, hX hx⟩) (IntMod.mk hV ⟨v, hv⟩)⁻¹ =
         IntMod.mk hV ⟨x * v⁻¹ * x⁻¹, hmem3⟩ from by
       rw [map_inv]
-      congr 1
       apply IntMod.val_injective
       rw [IntMod.val_inv, actStab_apply_val]
       group
@@ -291,6 +298,7 @@ theorem mkTil_commutator_mem_commSub {V X : Subgroup G} (hV : IsElemAbelian 2 V)
   exact Subgroup.subset_closure ⟨xb, actTil_mem_barSub (⊥ : Subgroup G) V hV hx (hX hx),
     a, Subgroup.mem_top _, rfl⟩
 
+omit [Finite G] in
 theorem imgTil_commutator_eq_commSub {V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : X ≤ stabTil (⊥ : Subgroup G) V) :
     imgTil (⊥ : Subgroup G) V hV ⁅V, X⁆ =
@@ -380,9 +388,9 @@ private theorem rk_imgTil_eq_twelve_sub {V U : Subgroup G} (hV : IsElemAbelian 2
 private theorem false_of_involution_fixV (D : Data G) {V L U : Subgroup G}
     (c : Ctx17_29 D ⊥ V L)
     (h291 : R17_29_1At D ⊥ V) (h292 : R17_29_2At D ⊥ V) (h25 : R17_25At D ⊥ V)
-    (hUV : U ≤ V) (hCU : ¬ Subgroup.centralizer (U : Set G) ≤ D.M)
+    (_hUV : U ≤ V) (hCU : ¬ Subgroup.centralizer (U : Set G) ≤ D.M)
     (hrU : (E3.mQuot V U : ℕ∞) = rMV D.M V) (hr6 : rMV D.M V < 6)
-    (hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil (⊥ : Subgroup G) V)
+    (hV : IsElemAbelian 2 V) (_hMs : D.M ≤ stabTil (⊥ : Subgroup G) V)
     (t : MulAut (Vtil (⊥ : Subgroup G) V hV)) (htM : t ∈ Mbar D.M (⊥ : Subgroup G) V hV)
     (htord : orderOf t = 2)
     (hrk6 : rk (commSub (⊤ : Subgroup (Vtil (⊥ : Subgroup G) V hV))
@@ -569,7 +577,7 @@ theorem barSub_ne_bot_of_isIrrOn {V L : Subgroup G} (hV : IsElemAbelian 2 V)
   classical
   intro hbot
   have hW2 := s15_Infra_vtil_sq_eq_one (⊥ : Subgroup G) V hV
-  haveI : Nontrivial (Vtil (⊥ : Subgroup G) V hV) := by
+  have : Nontrivial (Vtil (⊥ : Subgroup G) V hV) := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     rw [CFSG.Quasithin.card_eq_two_pow_of_isPGroup (CFSG.Quasithin.isPGroup_two_of_sq_eq_one hW2), h12]
     norm_num
@@ -608,7 +616,7 @@ private theorem mem_barSub_of_order_five {D : Data G} {V L : Subgroup G}
     [hN : ((barSub (⊥ : Subgroup G) V hV L).subgroupOf
       (Mbar D.M (⊥ : Subgroup G) V hV)).Normal]
     {φ : MulAut (Vtil (⊥ : Subgroup G) V hV)}
-    (hφM : φ ∈ Mbar D.M (⊥ : Subgroup G) V hV) (hφord : orderOf φ = 5) (hφ1 : φ ≠ 1)
+    (hφM : φ ∈ Mbar D.M (⊥ : Subgroup G) V hV) (hφord : orderOf φ = 5) (_hφ1 : φ ≠ 1)
     (h5notdvd : ¬ 5 ∣ (barSub (⊥ : Subgroup G) V hV L).relIndex
       (Mbar D.M (⊥ : Subgroup G) V hV)) :
     φ ∈ barSub (⊥ : Subgroup G) V hV L := by
@@ -887,7 +895,7 @@ private theorem cartan_kdata (D : Data G)
     {V L U X : Subgroup G} (hV : IsElemAbelian 2 V) (c : Ctx17_29 D ⊥ V L)
     (h20 : R17_20At D ⊥ V) (h23 : R17_23At D ⊥ V) (h25 : R17_25At D ⊥ V)
     (hK : K_HJData)
-    (hXMU : X ≤ D.M ⊓ Subgroup.centralizer (U : Set G)) :
+    (_hXMU : X ≤ D.M ⊓ Subgroup.centralizer (U : Set G)) :
     (∀ x : MulAut (Vtil (⊥ : Subgroup G) V hV), x ∈ Mbar D.M (⊥ : Subgroup G) V hV →
       orderOf x = 3 → 4 ≤ rk (commSub (⊤ : Subgroup (Vtil (⊥ : Subgroup G) V hV))
         (Subgroup.zpowers x))) ∧
@@ -929,7 +937,7 @@ private theorem cartan_kdata (D : Data G)
 private theorem cartan_contradiction_two (D : Data G) {V U X : Subgroup G}
     (hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil (⊥ : Subgroup G) V)
     (hXMU : X ≤ D.M ⊓ Subgroup.centralizer (U : Set G))
-    (hCV : V ⊓ Subgroup.centralizer (X : Set G) = U)
+    (_hCV : V ⊓ Subgroup.centralizer (X : Set G) = U)
     (hreg : ActsRegularlyOn X (nonIdentity ⁅V, X⁆)) (hcomm_ne : ⁅V, X⁆ ≠ ⊥)
     (hcyc : IsCyclic ↥X) (hXcard : Nat.card X = 3)
     (h3elem : ∀ x : MulAut (Vtil (⊥ : Subgroup G) V hV), x ∈ Mbar D.M (⊥ : Subgroup G) V hV →
@@ -1047,9 +1055,9 @@ private theorem cartan_contradiction_three (D : Data G) {V U X : Subgroup G}
   exact hUne (le_bot_iff.1 hUfix)
 
 private theorem cartan_contradiction_four (D : Data G) {V U X : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil (⊥ : Subgroup G) V)
+    (_hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil (⊥ : Subgroup G) V)
     (hXMU : X ≤ D.M ⊓ Subgroup.centralizer (U : Set G))
-    (hCV : V ⊓ Subgroup.centralizer (X : Set G) = U)
+    (_hCV : V ⊓ Subgroup.centralizer (X : Set G) = U)
     (hreg : ActsRegularlyOn X (nonIdentity ⁅V, X⁆)) (hcomm_ne : ⁅V, X⁆ ≠ ⊥)
     (hcyc : IsCyclic ↥X) (hXcard : Nat.card X = 15)
     (h5central : ∀ y : G, y ∈ D.M → y ∈ Subgroup.centralizer (U : Set G) →
@@ -1094,7 +1102,7 @@ private theorem cartan_contradiction_four (D : Data G) {V U X : Subgroup G}
 private theorem cartan_contradiction_five (D : Data G) {V U X : Subgroup G}
     (hV : IsElemAbelian 2 V) (hMs : D.M ≤ stabTil (⊥ : Subgroup G) V)
     (hXMU : X ≤ D.M ⊓ Subgroup.centralizer (U : Set G))
-    (hCV : V ⊓ Subgroup.centralizer (X : Set G) = U)
+    (_hCV : V ⊓ Subgroup.centralizer (X : Set G) = U)
     (hreg : ActsRegularlyOn X (nonIdentity ⁅V, X⁆)) (hcomm_ne : ⁅V, X⁆ ≠ ⊥)
     (hXcard : Nat.card X = 31)
     (hdvd : Nat.card (Mbar D.M (⊥ : Subgroup G) V hV) ∣ 6 * 604800) :
@@ -1122,7 +1130,7 @@ theorem rMV_eq_top_of_forall (D : Data G) {V : Subgroup G}
     rMV D.M V = ⊤ := by
   have hS : {U : Subgroup G | U ≤ V ∧ ¬ Subgroup.centralizer (U : Set G) ≤ D.M} = ∅ := by
     ext U
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     exact fun h => h.2 (hempty U h.1)
   unfold rMV
   rw [hS]

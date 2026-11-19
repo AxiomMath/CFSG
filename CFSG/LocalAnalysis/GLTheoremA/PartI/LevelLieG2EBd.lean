@@ -155,33 +155,33 @@ theorem orderE7_bound {a m k : ℕ} (hm : Odd m) (hk : 1 ≤ k)
     exact this
   exact pow_bound hm (coprime_of_dvd_sub_one hq2 (Nat.gcd_dvd_right _ _)) hmul h
 
-theorem orderE8_bound {a m k : ℕ} (hm : Odd m) (hk : 1 ≤ k)
+theorem orderE8_bound {a m k : ℕ} (hm : Odd m) (_hk : 1 ≤ k)
     (h : orderE8 (2 ^ k) ∣ 2 ^ a * m) : k * 120 ≤ a :=
   pow_bound (g := 1) (R := ((2 ^ k) ^ 30 - 1) * ((2 ^ k) ^ 24 - 1) * ((2 ^ k) ^ 20 - 1) *
     ((2 ^ k) ^ 18 - 1) * ((2 ^ k) ^ 14 - 1) * ((2 ^ k) ^ 12 - 1) * ((2 ^ k) ^ 8 - 1) *
     ((2 ^ k) ^ 2 - 1)) hm (Nat.coprime_one_right _) (by unfold orderE8; ring) h
 
-theorem orderF4_bound {a m k : ℕ} (hm : Odd m) (hk : 1 ≤ k)
+theorem orderF4_bound {a m k : ℕ} (hm : Odd m) (_hk : 1 ≤ k)
     (h : orderF4 (2 ^ k) ∣ 2 ^ a * m) : k * 24 ≤ a :=
   pow_bound (g := 1) (R := ((2 ^ k) ^ 12 - 1) * ((2 ^ k) ^ 8 - 1) * ((2 ^ k) ^ 6 - 1) *
     ((2 ^ k) ^ 2 - 1)) hm (Nat.coprime_one_right _) (by unfold orderF4; ring) h
 
-theorem orderG2_bound {a m k : ℕ} (hm : Odd m) (hk : 1 ≤ k)
+theorem orderG2_bound {a m k : ℕ} (hm : Odd m) (_hk : 1 ≤ k)
     (h : orderG2 (2 ^ k) ∣ 2 ^ a * m) : k * 6 ≤ a :=
   pow_bound (g := 1) (R := ((2 ^ k) ^ 6 - 1) * ((2 ^ k) ^ 2 - 1)) hm (Nat.coprime_one_right _)
     (by unfold orderG2; ring) h
 
-theorem orderTrialityD4_bound {a m k : ℕ} (hm : Odd m) (hk : 1 ≤ k)
+theorem orderTrialityD4_bound {a m k : ℕ} (hm : Odd m) (_hk : 1 ≤ k)
     (h : orderTrialityD4 (2 ^ k) ∣ 2 ^ a * m) : k * 12 ≤ a :=
   pow_bound (g := 1) (R := ((2 ^ k) ^ 8 + (2 ^ k) ^ 4 + 1) * ((2 ^ k) ^ 6 - 1) *
     ((2 ^ k) ^ 2 - 1)) hm (Nat.coprime_one_right _) (by unfold orderTrialityD4; ring) h
 
-theorem orderSuzuki_bound {a m k : ℕ} (hm : Odd m) (hk : 1 ≤ k)
+theorem orderSuzuki_bound {a m k : ℕ} (hm : Odd m) (_hk : 1 ≤ k)
     (h : orderSuzuki (2 ^ k) ∣ 2 ^ a * m) : k * 2 ≤ a :=
   pow_bound (g := 1) (R := ((2 ^ k) ^ 2 + 1) * (2 ^ k - 1)) hm (Nat.coprime_one_right _)
     (by unfold orderSuzuki; ring) h
 
-theorem orderTwistedF4_bound {a m k : ℕ} (hm : Odd m) (hk : 1 ≤ k)
+theorem orderTwistedF4_bound {a m k : ℕ} (hm : Odd m) (_hk : 1 ≤ k)
     (h : orderTwistedF4 (2 ^ k) ∣ 2 ^ a * m) : k * 12 ≤ a :=
   pow_bound (g := 1) (R := ((2 ^ k) ^ 6 + 1) * ((2 ^ k) ^ 4 - 1) * ((2 ^ k) ^ 3 + 1) *
     (2 ^ k - 1)) hm (Nat.coprime_one_right _) (by unfold orderTwistedF4; ring) h

@@ -64,7 +64,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem center_threeStar_noTwo (J : Subgroup G) :
     ∀ z ∈ Subgroup.center (threeStar J), ∀ k : ℕ, z ^ 2 ^ k = 1 → z = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine center_noTwo_of_pCore_two_eq_bot ?_
   exact le_bot_iff.mp
     ((CFSG.Quasithin.A318.pCore_two_le_pPrimeCore (p := 3) (by norm_num)).trans_eq
@@ -75,24 +75,25 @@ namespace IsKComp
 variable {M H J : Subgroup G}
 
 theorem isQuasisimple (hJ : IsKComp M H J) : CFSG.IsQuasisimple (threeStar J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ((CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_subgroupOf_iff 3 J
     (kSub 3 M H) hJ.1).mp hJ.2).2.2
 
 theorem isSubnormal (hJ : IsKComp M H J) :
     (J.subgroupOf (kSub 3 M H)).IsSubnormal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ((CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_subgroupOf_iff 3 J
     (kSub 3 M H) hJ.1).mp hJ.2).1
 
 theorem primeResidual_eq_top (hJ : IsKComp M H J) :
     CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 3 J = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ((CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_subgroupOf_iff 3 J
     (kSub 3 M H) hJ.1).mp hJ.2).2.1
 
+omit [Finite G] in
 theorem isPerfect (hJ : IsKComp M H J) : Group.IsPerfect ↥J := by
-  haveI : Group.IsPerfect ↥(J.subgroupOf (kSub 3 M H)) :=
+  have : Group.IsPerfect ↥(J.subgroupOf (kSub 3 M H)) :=
     CFSG.ComponentClassification.CatalogueBAlternating.pComponent_perfect hJ.2
   exact Group.IsPerfect.ofSurjective
     (f := (Subgroup.subgroupOfEquivOfLe hJ.1).toMonoidHom)
@@ -100,21 +101,21 @@ theorem isPerfect (hJ : IsKComp M H J) : Group.IsPerfect ↥J := by
 
 theorem three_dvd_card (hJ : IsKComp M H J) : 3 ∣ Nat.card J := by
   by_contra h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htop : CFSG.pPrimeCore 3 ↥J = ⊤ := by
     refine eq_top_iff.mpr (le_sSup ⟨inferInstance, ?_⟩)
     rw [Subgroup.card_top]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr h3
-  haveI : Subsingleton (threeStar J) := by
+  have : Subsingleton (threeStar J) := by
     rw [threeStar, htop]
     exact QuotientGroup.subsingleton_quotient_top
-  haveI : Nontrivial (threeStar J) :=
+  have : Nontrivial (threeStar J) :=
     CFSG.LocalCores.isQuasisimple_nontrivial hJ.isQuasisimple
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (threeStar J)).exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
 theorem isPComponentIn (hJ : IsKComp M H J) : IsPComponentIn 3 J H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hJ.1.trans (kSub_le 3 M H), ?_⟩
   exact (CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_subgroupOf_iff_of_subnormal
     hJ.1 (kSub_le 3 M H) (kSub_subgroupOf_isSubnormal 3 M H)).mpr hJ.2
@@ -125,7 +126,7 @@ theorem le_pLayerIn (hJ : IsKComp M H J) : J ≤ pLayerIn 3 H :=
 theorem card_center_threeStar_dvd_three
     (hJ : IsKComp M H J) (hL : IsL34Type (threeStar J)) :
     Nat.card (Subgroup.center (threeStar J)) ∣ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf : commutator (threeStar J) = ⊤ := hJ.isQuasisimple.1.commutator_eq_top
   have hodd := center_threeStar_noTwo J
   have hadm : StatedLieAdmissible .PSL 3 2 2 :=
@@ -148,6 +149,7 @@ end IsKComp
 
 namespace IsL34Star
 
+omit [Finite G] in
 theorem card_threeStar {J : Subgroup G} (h : IsL34Star J) :
     Nat.card (threeStar J) = 20160 := by
   obtain ⟨e⟩ := nonempty_mulEquiv_projSL_quotient_center_of_isL34Type h.1
@@ -167,6 +169,7 @@ end IsL34Star
 
 namespace IsSL34Star
 
+omit [Finite G] in
 theorem card_threeStar {J : Subgroup G} (h : IsSL34Star J) :
     Nat.card (threeStar J) = 60480 := by
   obtain ⟨e⟩ := nonempty_mulEquiv_projSL_quotient_center_of_isL34Type h.1
@@ -179,6 +182,7 @@ end IsSL34Star
 
 namespace IsA11Star
 
+omit [Finite G] in
 theorem card_threeStar {J : Subgroup G} (h : IsA11Star J) :
     Nat.card (threeStar J) = 19958400 := by
   obtain ⟨e⟩ := h
@@ -188,6 +192,7 @@ theorem card_threeStar {J : Subgroup G} (h : IsA11Star J) :
         rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
         norm_num
 
+omit [Finite G] in
 theorem center_eq_bot {J : Subgroup G} (h : IsA11Star J) :
     Subgroup.center (threeStar J) = ⊥ := by
   obtain ⟨e⟩ := h
@@ -221,7 +226,7 @@ theorem eq_kSub_of_subnormal_of_map_eq_top {M H J : Subgroup G}
     (hmap : (J.subgroupOf (kSub 3 M H)).map
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H))) = ⊤) :
     J = kSub 3 M H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsup : J.subgroupOf (kSub 3 M H) ⊔ CFSG.pPrimeCore 3 ↥(kSub 3 M H) = ⊤ := by
     have h := Subgroup.comap_map_eq
       (f := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H)))
@@ -244,7 +249,7 @@ variable {M H J : Subgroup G}
 
 theorem eq_kSub_of_isKComp_self (hK : IsKComp M H (kSub 3 M H)) (hJ : IsKComp M H J) :
     J = kSub 3 M H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let π : ↥K →* threeStar K := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)
   let C : Subgroup (threeStar K) := (J.subgroupOf K).map π
@@ -260,8 +265,8 @@ theorem eq_kSub_of_isKComp_self (hK : IsKComp M H (kSub 3 M H)) (hJ : IsKComp M 
     have hCcomm : IsMulCommutative C :=
       ⟨⟨fun x y => Subtype.ext
         ((Subgroup.mem_center_iff.mp (hCcenter x.2) (y : threeStar K)).symm)⟩⟩
-    haveI : Group.IsPerfect C := hCcomp.1.1
-    haveI : Nontrivial C := CFSG.LocalCores.isQuasisimple_nontrivial hCcomp.1
+    have : Group.IsPerfect C := hCcomp.1.1
+    have : Nontrivial C := CFSG.LocalCores.isQuasisimple_nontrivial hCcomp.1
     have hCbot : C = ⊥ := (Group.IsPerfect.not_isMulCommutative (G := C) hCcomm).elim
     have hJleO : J.subgroupOf K ≤ CFSG.pPrimeCore 3 ↥K := by
       have h := (Subgroup.map_eq_bot_iff (H := J.subgroupOf K) (f := π)).mp (by
@@ -281,7 +286,7 @@ theorem eq_kSub_of_le_of_subnormal {M H J : Subgroup G}
     (hZ : Subgroup.center (threeStar (kSub 3 M H)) = ⊥) (hJK : J ≤ kSub 3 M H)
     (hsub : (J.subgroupOf (kSub 3 M H)).IsSubnormal) (h3 : 3 ∣ Nat.card J) :
     J = kSub 3 M H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let π : ↥K →* threeStar K := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)
   let C : Subgroup (threeStar K) := (J.subgroupOf K).map π
@@ -323,7 +328,7 @@ theorem mem_QSet_of_le (h : HypCGen G M q E H) {P : Subgroup G} (hEP : E ≤ P)
 
 theorem le_M_of_isPGroup (h : HypCGen G M 3 E H) (hU : NineNineOneAt M)
     {P : Subgroup G} (hEP : E ≤ P) (hP : IsPGroup 3 P) : P ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, -, hTP, hTM, -, hmax⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Hyp111.exists_maxPSubgroup_of_normalizer_le
       (p := 3) (Q := E) (N := P) (M := M) h.isPGroup hEP h.E_le_M
@@ -339,7 +344,7 @@ theorem exists_hypCGen_of_mem {M : Subgroup G} (hC : CStarGen G)
     (hM : rankThreeIsMaxTwoLocal M)
     (hσ : (sigmaSet G M).Nonempty) {p : ℕ} {Q H : Subgroup G} (hQ : Q ∈ QSet M p)
     (hH : H ∈ H2StarFam M Q) : ∃ E ≤ Q, HypCGen G M p E H := by
-  haveI : IsSimpleGroup G := hC.simple
+  have : IsSimpleGroup G := hC.simple
   have hp : p.Prime := QSet.prime_of_mem hQ
   have hQne : Q ≠ ⊥ := by
     have hbot : CFSG.Open.pRank p (⊥ : Subgroup G) ≤ 0 := by

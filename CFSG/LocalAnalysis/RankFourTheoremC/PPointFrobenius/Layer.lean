@@ -15,10 +15,12 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PPointFrobenius
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem layerOf_le_centralizer (x : G) : layerOf x ≤ centralizer ({x} : Set G) := by
   rw [layerOf_eq]
   exact CFSG.LocalAnalysis.RankThreeTheoremC.rankThreeLayer_le _
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_layerOf (x : G) :
     centralizer ({x} : Set G) ≤ normalizer ((layerOf x : Subgroup G) : Set G) := by
   rw [layerOf_eq]
@@ -26,7 +28,7 @@ theorem centralizer_le_normalizer_layerOf (x : G) :
 
 theorem fr_prime (hl : FrobLocal p P M x) : p.Prime := hl.loc.beta.1
 
-theorem fr_layer_sylow [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M x) :
+theorem fr_layer_sylow [Fact p.Prime] (_hG : FrobGlobal G) (hl : FrobLocal p P M x) :
     ∃ n : ℕ, 2 ≤ n ∧ Nonempty (layerOf x ≃* PSL(2, GaloisField p n)) ∧
       CFSG.ABGLocalTools.IsSylowOf p (frU P x) (layerOf x) ∧
       CFSG.Open.IsElemAbelian p (frU P x) ∧ Nat.card (frU P x) = p ^ n := by
@@ -76,18 +78,18 @@ theorem fr_x_mem_Z0 (hl : FrobLocal p P M x) :
 
 theorem fr_Z0_cyclic (hl : FrobLocal p P M x) :
     IsCyclic ((P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G) : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨fr_prime hl⟩
+  have : Fact p.Prime := ⟨fr_prime hl⟩
   refine hl.cyclic _ (le_inf ?_ inf_le_right) ?_
   · refine inf_le_left.trans ?_
     rw [centralizer_zpowers_eq]
     exact fr_P_le_centralizer hl
-  · exact P.isPGroup'.to_inf_left
+  · exact P.isPGroup.to_inf_left
 
 theorem fr_Z0_unique [Fact p.Prime] (hl : FrobLocal p P M x) {A : Subgroup G}
     (hA : A ≤ (P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G))
     (hAp : Nat.card A = p) : A = zpowers x := by
   have hxZ := fr_x_mem_Z0 hl
-  haveI : IsCyclic ((P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G) :
+  have : IsCyclic ((P : Subgroup G) ⊓ centralizer ((layerOf x : Subgroup G) : Set G) :
       Subgroup G) := fr_Z0_cyclic hl
   have hxp : Nat.card (zpowers x) = p := by
     rw [Nat.card_zpowers]

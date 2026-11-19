@@ -28,7 +28,7 @@ variable {D : Type*} [Group D] [Finite D] {G₁ G₂ : Subgroup D}
 omit [Finite D] in
 theorem isPGroup_inf (h : IsGoldschmidtTriple G₁ G₂) : IsPGroup 2 ↥(G₁ ⊓ G₂) := by
   obtain ⟨T, hT⟩ := h.sylow
-  have := T.isPGroup'
+  have := T.isPGroup
   rw [hT] at this
   exact this
 

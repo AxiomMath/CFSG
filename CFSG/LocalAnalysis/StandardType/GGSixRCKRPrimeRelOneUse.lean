@@ -93,7 +93,7 @@ theorem rck_rootChar_closure
 theorem mem_rckConjTorus
     {τ : Tag} {g x : ModGL τ GGL} :
     x ∈ rckConjTorus τ g ↔ g⁻¹ * x * g ∈ torusGroup τ GGL := by
-  simp [rckConjTorus, MulAut.conj_apply]
+  simp [rckConjTorus]
 
 theorem rck_kernel_fam_gens
     {t : StatedLieTag} {g0 : ModGL (langTag t) GGL}
@@ -126,7 +126,7 @@ theorem rck_fam_zpowers_kernel
   rw [rck_kernel_fam_gens (T := {xa}) (by rw [Subgroup.zpowers_eq_closure])
     (rck_zpowers_le_conjTorus hxa)]
   ext γ
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq, hxa, rck_coord_rootDiagUnit]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq, hxa, rck_coord_rootDiagUnit]
   exact Iff.rfl
 
 theorem rck_fam_pair_kernel
@@ -143,7 +143,7 @@ theorem rck_fam_pair_kernel
   rw [rck_kernel_fam_gens (T := {xa, xb}) hS
     (sup_le (rck_zpowers_le_conjTorus hxa) (rck_zpowers_le_conjTorus hxb))]
   ext γ
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff, forall_eq_or_imp,
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, forall_eq_or_imp,
     forall_eq, hxa, hxb, rck_coord_rootDiagUnit]
   constructor
   · rintro ⟨hγ, h1, h2⟩
@@ -161,7 +161,7 @@ theorem rckRelOneUse_holds :
   obtain ⟨hGG, -, hp, hp2, -⟩ := hcfg'
   obtain ⟨hframe, htoral, -, -, -, hq, hΦ, -, hE', hEt, hEel, -, haE, ha1, hap, -, -, -, -, -, -,
     -⟩ := hFP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA'T : ∀ x ∈ A', S.D.g0⁻¹ * x * S.D.g0 ∈ S.D.torus := fun x hx => by
     have h1 : (MulAut.conj S.D.g0⁻¹).toMonoidHom x ∈ E' := hE' ▸ Subgroup.mem_map_of_mem _ hx
     simpa [MulAut.conj_apply] using hEt h1
@@ -206,7 +206,7 @@ theorem rckRelOneUse_holds :
       group
     have hxap : xa ^ p = 1 := hA'el.2 xa hxaA
     have hxbp : xb ^ p = 1 := hA'el.2 xb hxbA
-    haveI hfin : Finite A' := by
+    have hfin : Finite A' := by
       apply Nat.finite_of_card_ne_zero
       rw [hframe.2.2.2.2.1]
       exact Nat.card_pos.ne'
@@ -233,7 +233,7 @@ theorem rckRelOneUse_holds :
         (Subtype.ext (by simpa using hxbp)) hx1' hyx hcomm
       have hmap : (Subgroup.zpowers (⟨xa, hxaA⟩ : A') ⊔ Subgroup.zpowers (⟨xb, hxbA⟩ : A')).map
           A'.subtype = Subgroup.zpowers xa ⊔ Subgroup.zpowers xb := by
-        rw [Subgroup.map_sup, MonoidHom.map_zpowers, MonoidHom.map_zpowers] <;> rfl
+        rw [Subgroup.map_sup, MonoidHom.map_zpowers, MonoidHom.map_zpowers]; rfl
       rw [← hmap, Subgroup.card_map_of_injective A'.subtype_injective]
       exact h
     have hle : (Subgroup.zpowers xa ⊔ Subgroup.zpowers xb : Subgroup (ModGL (langTag t) GGL)) ≤ A' :=

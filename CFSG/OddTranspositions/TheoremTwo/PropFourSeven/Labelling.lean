@@ -35,6 +35,7 @@ theorem conj_conj_inv (g x : G) : g⁻¹ * (g * x * g⁻¹) * g = x := by group
 omit [Finite G] in
 theorem conj_inv_conj (g x : G) : g * (g⁻¹ * x * g) * g⁻¹ = x := by group
 
+omit [Finite G] in
 theorem mem_DalphaStar_conj_iff (hN : IsNormalSet D) (g : G) {θ : Set G} {x : G} :
     x ∈ DalphaStar D ((fun y => g * y * g⁻¹) '' θ) ↔ g⁻¹ * x * g ∈ DalphaStar D θ := by
   constructor
@@ -45,6 +46,7 @@ theorem mem_DalphaStar_conj_iff (hN : IsNormalSet D) (g : G) {θ : Set G} {x : G
     have h := DalphaStar.conj hN hx g
     rwa [conj_inv_conj] at h
 
+omit [Finite G] in
 theorem mem_Dalpha_conj_iff (hN : IsNormalSet D) (g : G) {θ β : Set G} :
     β ∈ Dalpha D ((fun y => g * y * g⁻¹) '' θ) ↔
       (fun y => g⁻¹ * y * g⁻¹⁻¹) '' β ∈ Dalpha D θ := by
@@ -66,6 +68,7 @@ theorem commute_conj_iff (g x y : G) : Commute (g * x * g⁻¹) (g * y * g⁻¹)
     have := h.map (MulAut.conj g).toMonoidHom
     simpa [MulAut.conj_apply, mul_assoc] using this
 
+omit [Finite G] in
 theorem S5Labelling.conj (hN : IsNormalSet D) {θ : Set G} {ψ : G → Perm (Fin 5)}
     (h : S5Labelling D θ ψ) (g : G) :
     S5Labelling D ((fun x => g * x * g⁻¹) '' θ) (fun x => ψ (g⁻¹ * x * g)) := by
@@ -101,6 +104,7 @@ theorem S5Labelling.conj (hN : IsNormalSet D) {θ : Set G} {ψ : G → Perm (Fin
     have hβ' := (mem_Dalpha_conj_iff hN g).mp hβ
     exact h.block _ hβ' _ ⟨x, hx, by simp⟩ _ ⟨y, hy, by simp⟩
 
+omit [Finite G] in
 theorem mem_Phi_conj_iff (hN : IsNormalSet D) (g : G) {θ : Set G} {x y : G} :
     y ∈ Phi D ((fun z => g * z * g⁻¹) '' θ) (g * x * g⁻¹) ↔
       g⁻¹ * y * g ∈ Phi D θ x := by

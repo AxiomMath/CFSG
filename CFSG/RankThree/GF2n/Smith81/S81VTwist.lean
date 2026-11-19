@@ -18,7 +18,8 @@ open Module
 
 variable {K : Type} [Field K] [Fintype K] [CharP K 2]
 
-theorem frobPow_linearIndependent {f : ℕ} (hf : Fintype.card K = 2 ^ f) (hf2 : 2 ≤ f) :
+omit [CharP K 2] in
+theorem frobPow_linearIndependent {f : ℕ} (hf : Fintype.card K = 2 ^ f) (_hf2 : 2 ≤ f) :
     LinearIndependent K (fun r : Fin f => (fun c : K => c ^ (2 ^ (r : ℕ)))) := by
   have hφ : Function.Injective (fun r : Fin f => (powMonoidHom (2 ^ (r : ℕ)) : K →* K)) := by
     intro r r' h
@@ -35,7 +36,7 @@ theorem frobPow_linearIndependent {f : ℕ} (hf : Fintype.card K = 2 ^ f) (hf2 :
     have hp0 : (Polynomial.X ^ (2 ^ (r : ℕ)) - Polynomial.X ^ (2 ^ (r' : ℕ)) : Polynomial K) ≠ 0 := by
       intro h0
       have hc := congrArg (fun q : Polynomial K => q.coeff (2 ^ (r : ℕ))) h0
-      simp [Polynomial.coeff_X_pow, hpow, hne] at hc
+      simp [Polynomial.coeff_X_pow, hpow] at hc
     have hdeg : (Polynomial.X ^ (2 ^ (r : ℕ)) - Polynomial.X ^ (2 ^ (r' : ℕ)) : Polynomial K).natDegree
         < Fintype.card K := by
       refine lt_of_le_of_lt (Polynomial.natDegree_sub_le _ _) (max_lt ?_ ?_)
@@ -49,6 +50,7 @@ theorem frobPow_linearIndependent {f : ℕ} (hf : Fintype.card K = 2 ^ f) (hf2 :
     simp [hfun c]
   exact (linearIndependent_monoidHom K K).comp _ hφ
 
+omit [CharP K 2] in
 theorem twist_eq_zero {N : Type} [AddCommGroup N] [Module K N] {f : ℕ}
     (hf : Fintype.card K = 2 ^ f) (hf2 : 2 ≤ f) (g : Fin f → Module.Dual K N)
     (h : ∀ n, ∑ r : Fin f, (g r n) ^ (2 ^ (r : ℕ)) = 0) : ∀ r, g r = 0 := by
@@ -74,7 +76,7 @@ theorem card_twist_le {N : Type} [AddCommGroup N] [Module K N] [Module.Finite K 
     (hf : Fintype.card K = 2 ^ f) (hf2 : 2 ≤ f) (B : Finset (Fin f)) (Y : AddSubgroup (N → K))
     (hY : ∀ r ∈ B, ∀ g : Module.Dual K N, (fun n => (g n) ^ (2 ^ (r : ℕ))) ∈ Y) :
     Nat.card (Module.Dual K N) ^ B.card ≤ Nat.card Y := by
-  haveI : Finite N := Module.finite_of_finite K
+  have : Finite N := Module.finite_of_finite K
   have hmemG : ∀ G : B → Module.Dual K N,
       (fun n => ∑ r : B, (G r n) ^ (2 ^ (r : ℕ))) ∈ Y := by
     intro G
@@ -101,19 +103,20 @@ theorem card_twist_le {N : Type} [AddCommGroup N] [Module K N] [Module.Finite K 
       have hpt : ∀ r : B, (D r n) ^ (2 ^ (r : ℕ))
           = (G₁ r n) ^ (2 ^ (r : ℕ)) - (G₂ r n) ^ (2 ^ (r : ℕ)) := by
         intro r
-        simp only [D, dif_pos r.2, LinearMap.sub_apply]
+        simp only [D, dite_eq_left r.2, LinearMap.sub_apply]
         exact sub_pow_char_pow _ _ _
       rw [← Finset.sum_subset (Finset.subset_univ B) hzero, ← Finset.sum_coe_sort B]
       simp only [hpt, Finset.sum_sub_distrib]
       exact sub_eq_zero.mpr (hsum n)
     funext r
     have hr := twist_eq_zero hf hf2 D hD r.1
-    simp only [D, dif_pos r.2] at hr
+    simp only [D, dite_eq_left r.2] at hr
     exact sub_eq_zero.mp hr
   have hcard := Nat.card_le_card_of_injective Φ hinj
   rw [Nat.card_fun, Nat.card_eq_finsetCard] at hcard
   exact hcard
 
+omit [CharP K 2] in
 theorem card_dual {N : Type} [AddCommGroup N] [Module K N] [Module.Finite K N] :
     Nat.card (Module.Dual K N) = Fintype.card K ^ finrank K N := by
   rw [Module.natCard_eq_pow_finrank (K := K) (V := Module.Dual K N), Subspace.dual_finrank_eq,

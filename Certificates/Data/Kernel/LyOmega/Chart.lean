@@ -73,7 +73,7 @@ structure BConsts where
 
 @[expose] noncomputable def chartOf (e : Nat) : Nat := fldW e (nat_lit 24) (nat_lit 4)
 
-@[expose] noncomputable def cNode (C : BConsts) (KX PT WT GT WC : Nat → Nat) (nc n i : Nat) : Bool :=
+@[expose] noncomputable def cNode (C : BConsts) (KX PT WT GT WC : Nat → Nat) (nc _n i : Nat) : Bool :=
   letB (getRec PT (nat_lit 32) i) (fun e =>
   letB (chartOf e) (fun c =>
   letB (getRec KX (nat_lit 9324) i) (fun N =>

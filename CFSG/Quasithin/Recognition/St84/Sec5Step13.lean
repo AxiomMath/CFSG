@@ -202,7 +202,7 @@ private theorem eq_commutator_of_inf_centralizer_eq_bot {G : Type*} [Group G]
     (hW2 : IsPGroup 2 W) (hWcomm : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x)
     (hRodd : Odd (Nat.card ↥R))
     (hinf : W ⊓ Subgroup.centralizer (R : Set G) = ⊥) : W = ⁅W, R⁆ := by
-  letI : IsMulCommutative ↥W := IsMulCommutative.of_comm
+  let : IsMulCommutative ↥W := IsMulCommutative.of_comm
     (fun a b => Subtype.ext (hWcomm a.1 a.2 b.1 b.2))
   have hsolv : Group.IsSolvable ↥W := inferInstance
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hW2
@@ -333,11 +333,11 @@ theorem Zt_eq (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (i : ℤ) :
     Y.Z i = (Y.Z i ⊓ Subgroup.centralizer (Y.K : Set G)) ⊔ Y.Zt i ∧
       Y.Zt i ⊓ Subgroup.centralizer (Y.K : Set G) = ⊥ ∧ ⁅Y.Zt i, Y.K⁆ = Y.Zt i := by
   have hKH : Y.K ≤ Subgroup.normalizer (Y.Z i : Set G) := Y.K_le_normalizer_Z i
-  haveI hHfin : Finite ↥(Y.Z i) := finite_of_le_stabilizer Y.hyp (H := Y.Z i) (Y.Z_le_Gi i)
-  haveI hKfin : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
-  letI hNorm : Subgroup.Normalizes Y.K (Y.Z i) := ⟨hKH⟩
+  have hHfin : Finite ↥(Y.Z i) := finite_of_le_stabilizer Y.hyp (H := Y.Z i) (Y.Z_le_Gi i)
+  have hKfin : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
+  let hNorm : Subgroup.Normalizes Y.K (Y.Z i) := ⟨hKH⟩
   have hcommH : ∀ x ∈ Y.Z i, ∀ y ∈ Y.Z i, x * y = y * x := Y.Z_commute i
-  haveI hMC : IsMulCommutative ↥(Y.Z i) :=
+  have hMC : IsMulCommutative ↥(Y.Z i) :=
     IsMulCommutative.of_comm (fun a b => Subtype.ext (hcommH a.1 a.2 b.1 b.2))
   have hHsolv : Group.IsSolvable ↥(Y.Z i) := inferInstance
   have hH2 : IsPGroup 2 ↥(Y.Z i) := (pCoreOf_isPGroup' (Y.Gi i)).to_le (Y.Z_le_Q i)
@@ -389,9 +389,9 @@ theorem Zt_eq (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (i : ℤ) :
     exact Subtype.ext_iff.mp hzero
   have hthird : ⁅Y.Zt i, Y.K⁆ = Y.Zt i := by
     have hKnorm : Y.K ≤ Subgroup.normalizer (Y.Zt i : Set G) := Y.K_le_normalizer_Zt i
-    haveI hCfin : Finite ↥(Y.Zt i) :=
+    have hCfin : Finite ↥(Y.Zt i) :=
       finite_of_le_stabilizer Y.hyp (H := Y.Zt i) ((Zt_le_Z Y i).trans (Y.Z_le_Gi i))
-    letI hNormC : Subgroup.Normalizes Y.K (Y.Zt i) := ⟨hKnorm⟩
+    let hNormC : Subgroup.Normalizes Y.K (Y.Zt i) := ⟨hKnorm⟩
     have hcommC : ∀ x ∈ Y.Zt i, ∀ y ∈ Y.Zt i, x * y = y * x :=
       fun x hx y hy => hcommH x (Zt_le_Z Y i hx) y (Zt_le_Z Y i hy)
     exact (eq_commutator_of_inf_centralizer_eq_bot (W := Y.Zt i) (R := Y.K)
@@ -789,18 +789,18 @@ private theorem K_le_of_L_eq_sup_Q (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {j : 
   have hQjL : Y.Q j ≤ Y.L j :=
     le_oTwoPrime_of_isPGroup hQj2 (Y.Q_le_Gi j)
   have hCK_le : C ⊔ Y.K ≤ Y.L j := sup_le hCL hKleL
-  haveI hQjFin : Finite ↥(Y.Q j) := finite_of_le_stabilizer Y.hyp (H := Y.Q j) (Y.Q_le_Gi j)
-  haveI hLjFin : Finite ↥(Y.L j) := finite_of_le_stabilizer Y.hyp (H := Y.L j) (Y.L_le_Gi j)
-  haveI hCfin : Finite ↥C :=
+  have hQjFin : Finite ↥(Y.Q j) := finite_of_le_stabilizer Y.hyp (H := Y.Q j) (Y.Q_le_Gi j)
+  have hLjFin : Finite ↥(Y.L j) := finite_of_le_stabilizer Y.hyp (H := Y.L j) (Y.L_le_Gi j)
+  have hCfin : Finite ↥C :=
     Finite.of_injective (Subgroup.inclusion hCL) (Subgroup.inclusion_injective _)
   obtain ⟨nq, hnq⟩ := IsPGroup.iff_card.mp hQj2
   have hCNQ : C ≤ Subgroup.normalizer (Y.Q j : Set G) :=
     hCL.trans ((Y.L_le_Gi j).trans
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi j)))
   have hCQ_le : C ⊔ Y.Q j ≤ Y.L j := by rw [hL]
-  haveI hCQfin : Finite ↥(C ⊔ Y.Q j) :=
+  have hCQfin : Finite ↥(C ⊔ Y.Q j) :=
     Finite.of_injective (Subgroup.inclusion hCQ_le) (Subgroup.inclusion_injective _)
-  haveI hCIfin : Finite ↥(C ⊓ Y.Q j) :=
+  have hCIfin : Finite ↥(C ⊓ Y.Q j) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have hCrelL : C.relIndex (Y.L j) = (C ⊓ Y.Q j).relIndex (Y.Q j) := by
     rw [hL]
@@ -838,8 +838,8 @@ private theorem K_le_of_L_eq_sup_Q (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {j : 
 
 private theorem K_le_centralizer_pCoreOf_arcStab (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     {r r₀ : ℕ} (hZ : Y.Zt 0 ≠ ⊥) (he : Y.ZtExt 0 r₀ r₀) {a : ℤ} (ha : a = 0 ∨ a = 1)
-    (hregL : Y.LeftTransAt a (a + (r : ℤ)))
-    (hregR : Y.RightTransAt a (a + (r : ℤ)))
+    (_hregL : Y.LeftTransAt a (a + (r : ℤ)))
+    (_hregR : Y.RightTransAt a (a + (r : ℤ)))
     (hupper : 2 * (r₀ : ℤ) + 3 ≤ a + (r : ℤ)) :
     Y.K ≤ Subgroup.centralizer (pCoreOf 2 (Y.arcStab a (a + (r : ℤ))) : Set G) ∧
       Y.L ((r₀ : ℤ) + 2) =
@@ -1302,7 +1302,7 @@ private theorem trans_normalizer_inf_Gi_of_L_eq (Y : Setup Γ G) {Q : Subgroup G
 
 private theorem not_isMaxRegLen_eight (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     {r₀ : ℕ} (hZ : Y.Zt 0 ≠ ⊥) (he : Y.ZtExt 0 r₀ r₀) (hr₀ : r₀ = 2)
-    (h8 : Y.IsMaxRegLen 8) (hregL : Y.LeftTransAt 1 9) (hregR : Y.RightTransAt 1 9) :
+    (_h8 : Y.IsMaxRegLen 8) (hregL : Y.LeftTransAt 1 9) (hregR : Y.RightTransAt 1 9) :
     False := by
   set Q : Subgroup G := pCoreOf 2 (Y.arcStab 1 9) with hQdef
   have hQleArc : Q ≤ Y.arcStab 1 9 := CFSG.LieType.BorelTits.pCoreOf_le 2 _
@@ -1314,7 +1314,7 @@ private theorem not_isMaxRegLen_eight (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     simpa [hQdef] using h
   have h2reg : 2 * (2 : ℕ) + 3 ≤ (1 : ℤ) + 9 := by norm_num
   have hKQ' := K_le_centralizer_pCoreOf_arcStab Y H hZ he (a := 1) (r := 8) (Or.inr rfl)
-    (by simpa using hregL) (by simpa using hregR) (by simpa [hr₀] using h2reg)
+    (by simpa using hregL) (by simpa using hregR) (by simp [hr₀])
   have hKQ : Y.K ≤ Subgroup.centralizer (Q : Set G) := by
     simpa [hQdef] using hKQ'.1
   have hQne : Q ≠ ⊥ := by
@@ -1335,29 +1335,29 @@ private theorem not_isMaxRegLen_eight (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
   obtain ⟨d, hdJ, hd3⟩ := exists_J_three Y H
   have hab1 := (goldschmidt_small_apply Y H hdJ hd3).1
   have hQs3comm : IsMulCommutative ↥(Y.Qs 3) := by
-    haveI : IsMulCommutative ↥(Y.Qs 1) := hab1
+    have : IsMulCommutative ↥(Y.Qs 1) := hab1
     have hq := Y.Qs_add 1 1
     rw [show (1 : ℤ) + 2 * 1 = 3 by norm_num] at hq
     rw [hq]
     exact Subgroup.map_isMulCommutative (G := G) (H := Y.Qs 1)
       (f := (MulAut.conj (Y.τ ^ (1 : ℤ))).toMonoidHom)
   have hQs7comm : IsMulCommutative ↥(Y.Qs 7) := by
-    haveI : IsMulCommutative ↥(Y.Qs 1) := hab1
+    have : IsMulCommutative ↥(Y.Qs 1) := hab1
     have hq := Y.Qs_add 3 1
     rw [show (1 : ℤ) + 2 * 3 = 7 by norm_num] at hq
     rw [hq]
     exact Subgroup.map_isMulCommutative (G := G) (H := Y.Qs 1)
       (f := (MulAut.conj (Y.τ ^ (3 : ℤ))).toMonoidHom)
-  haveI hG3 : Finite ↥(Y.Gi 3) := Y.hyp.finite_stab (Y.vert 3)
-  haveI hG5 : Finite ↥(Y.Gi 5) := Y.hyp.finite_stab (Y.vert 5)
-  haveI hG7 : Finite ↥(Y.Gi 7) := Y.hyp.finite_stab (Y.vert 7)
-  haveI : Finite ↥(Y.Qs 3) :=
+  have hG3 : Finite ↥(Y.Gi 3) := Y.hyp.finite_stab (Y.vert 3)
+  have hG5 : Finite ↥(Y.Gi 5) := Y.hyp.finite_stab (Y.vert 5)
+  have hG7 : Finite ↥(Y.Gi 7) := Y.hyp.finite_stab (Y.vert 7)
+  have : Finite ↥(Y.Qs 3) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left.trans (Y.Q_le_Gi 3)))
       (Subgroup.inclusion_injective _)
-  haveI : Finite ↥(Y.Qs 5) :=
+  have : Finite ↥(Y.Qs 5) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left.trans (Y.Q_le_Gi 5)))
       (Subgroup.inclusion_injective _)
-  haveI : Finite ↥(Y.Qs 7) :=
+  have : Finite ↥(Y.Qs 7) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left.trans (Y.Q_le_Gi 7)))
       (Subgroup.inclusion_injective _)
   have h2Qs3 : IsPGroup 2 ↥(Y.Qs 3) := (pCoreOf_isPGroup' (Y.Gi 3)).to_le inf_le_left
@@ -2179,7 +2179,7 @@ private theorem L_zero_le_centralizer_Z_zero_of_S_le (Y : Setup Γ G)
   have hSylL : IsSylowTwoOf Y.S (Y.L 0) := by
     have h := Y.isSylowTwoOf_edgeSylow_L 0
     rwa [Y.edgeSylow_zero] at h
-  haveI hLfin : Finite ↥(Y.L 0) :=
+  have hLfin : Finite ↥(Y.L 0) :=
     finite_of_le_stabilizer Y.hyp (H := Y.L 0) (Y.L_le_Gi 0)
   change Subgroup.closure {x : G | x ∈ Y.Gi 0 ∧ ∃ n : ℕ, x ^ 2 ^ n = 1} ≤
     Subgroup.centralizer (Y.Z 0 : Set G)
@@ -2234,9 +2234,9 @@ theorem Zt_one_inf_centralizer_S_le (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ 
   have hWleS : W ≤ Y.S := hWleQ1.trans (Y.Q_le_edgeSylow_right 1)
   have hQ1fin : Finite ↥(Y.Q 1) :=
     finite_of_le_stabilizer Y.hyp (H := Y.Q 1) (Y.Q_le_Gi 1)
-  haveI hWfin : Finite ↥W := Finite.of_injective (Subgroup.inclusion hWleQ1)
+  have hWfin : Finite ↥W := Finite.of_injective (Subgroup.inclusion hWleQ1)
     (Subgroup.inclusion_injective _)
-  haveI hKfin : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
+  have hKfin : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
   have hW2 : IsPGroup 2 ↥W := (pCoreOf_isPGroup' (Y.Gi 1)).to_le hWleQ1
   have hKodd : Odd (Nat.card ↥Y.K) := Y.odd_card_K
   have hKnormZt : Y.K ≤ Subgroup.normalizer (Y.Zt 1 : Set G) := Y.K_le_normalizer_Zt 1
@@ -2309,7 +2309,7 @@ theorem Zt_one_inf_centralizer_S_le (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ 
     have hmem : x ∈ Y.Zt 1 ⊓ Subgroup.centralizer (Y.K : Set G) := ⟨hxZt, hxC⟩
     rw [(Zt_eq Y H 1).2.1] at hmem
     exact Subgroup.mem_bot.mp hmem
-  letI : Subgroup.Normalizes Y.K W := ⟨hKnormW⟩
+  let : Subgroup.Normalizes Y.K W := ⟨hKnormW⟩
   have hWeq : W = ⁅W, Y.K⁆ :=
     eq_commutator_of_inf_centralizer_eq_bot (W := W) (R := Y.K) hW2 hWcomm hKodd hinf
   have hWleZt0 : W ≤ Y.Zt 0 := by

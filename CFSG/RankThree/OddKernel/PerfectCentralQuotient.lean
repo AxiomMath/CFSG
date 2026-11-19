@@ -27,7 +27,7 @@ theorem isCyclic_of_le_center_of_perfect (hp : p.Prime) (hp3 : 3 < p) {Y : Type 
   have hZn : Z.Normal := normal_of_le_center hZ
   have hZP : Z ≤ P := hZp.le_sylow_of_normal P
   have hPrank : pRank p (P : Subgroup Y) ≤ 2 := (pRank_sylow P).2 ▸ hrank
-  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup
   obtain ⟨j, hj⟩ := (hPp.to_subgroup (omega₁ (P : Subgroup Y) (p := p))).exists_card_eq
   have htors := rank_two_large_prime_power_structure_and_section_bound hp hp3 hPp hPrank
   have hj3 : j ≤ 3 := by
@@ -60,7 +60,7 @@ theorem omega₁_eq_top_of_perfect_of_cube (hp : p.Prime) (hp3 : 3 < p) {Y : Typ
     (hA : A ≠ ⊥) (hAZ : ∀ a ∈ A, (a : Y) ∈ center Y) :
     omega₁ (P : Subgroup Y) (p := p) = ⊤ := by
   have : Fact p.Prime := ⟨hp⟩
-  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup
   have hcube := rank_two_large_prime_cube_torsion_structure hp hp3 hPp hPrank hE
   obtain ⟨-, -, -, -, -, -, -, -, hk⟩ := hcube
   obtain ⟨m, hm⟩ : ∃ m : ℕ, Monoid.exponent (P : Subgroup Y) = p ^ m := by
@@ -155,7 +155,7 @@ theorem perfect_rank_two_large_prime_center (hp : p.Prime) (hp3 : 3 < p) {Y : Ty
     have hB' : IsCyclic (B.map (center Y).subtype) :=
       isCyclic_of_le_center_of_perfect hp hp3 hrank (map_subtype_le B) (hB.map _)
     exact (B.equivMapOfInjective _ (subtype_injective _)).isCyclic.mpr hB'
-  refine ⟨fun S => hcyc _ S.isPGroup', ?_⟩
+  refine ⟨fun S => hcyc _ S.isPGroup, ?_⟩
   rw [pRank_eq_open_pRank_top]
   refine CFSG.SectionRank.pRank_le hp.one_lt fun B _ hB => ?_
   have hBp : IsPGroup p B := fun b => ⟨1, by rw [pow_one]; exact Subtype.ext (hB.2 b b.2)⟩
@@ -180,7 +180,7 @@ theorem perfect_rank_two_large_prime_central_quotient_sylow (hp : p.Prime) (hp3 
         ∃ e : (P : Subgroup Y) ≃* (P : Subgroup Y).map (QuotientGroup.mk' A),
           ∀ x, (e x : Y ⧸ A) = QuotientGroup.mk' A x) := by
   have : Fact p.Prime := ⟨hp⟩
-  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup
   have hPrank : pRank p (P : Subgroup Y) ≤ 2 := (pRank_sylow P).2 ▸ hrank
   have htors := rank_two_large_prime_power_structure_and_section_bound hp hp3 hPp hPrank
   have hker : ((QuotientGroup.mk' A).domRestrict (P : Subgroup Y)).ker = A.subgroupOf P := by
@@ -223,7 +223,7 @@ theorem perfect_rank_two_large_prime_quotient_pRank_le_two (hp : p.Prime) (hp3 :
     (A : Subgroup Y) [A.Normal] (hAZ : A ≤ center Y) : pRank p (Y ⧸ A) ≤ 2 := by
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p Y) := inferInstance
-  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup Y) := P.isPGroup
   have hPrank : pRank p (P : Subgroup Y) ≤ 2 := (pRank_sylow P).2 ▸ hrank
   have hfacts := perfect_rank_two_large_prime_central_quotient_sylow hp hp3 hrank A hAZ P
   obtain ⟨⟨Q, hQ⟩, hker, hsmall, hcube, -⟩ := hfacts

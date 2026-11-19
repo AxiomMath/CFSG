@@ -50,9 +50,9 @@ public theorem innerRotationTorus_data_of_reflected_index_two
   classical
   let T : Subgroup G := U ⊓ H
   let C : Subgroup G := Subgroup.centralizer ({s} : Set G) ⊓ H
-  letI : H.Normal := Subgroup.normal_of_index_eq_two hHindex
+  let : H.Normal := Subgroup.normal_of_index_eq_two hHindex
   have hTcyc : IsCyclic T := by
-    letI : IsCyclic U := hUcyc
+    let : IsCyclic U := hUcyc
     exact Subgroup.isCyclic_of_le (H := T) (H' := U) inf_le_left
   have hTcard : Nat.card T = m := by
     let TU : Subgroup U := H.subgroupOf U
@@ -123,8 +123,8 @@ public theorem innerRotationTorus_data_of_reflected_index_two
     split_ifs with hwH
     · exact hwinv x hx
     · have hcomm : a * x = x * a := by
-        letI : IsCyclic U := hUcyc
-        letI : CommGroup U := IsCyclic.commGroup
+        let : IsCyclic U := hUcyc
+        let : CommGroup U := IsCyclic.commGroup
         let aU : U := ⟨a, haU⟩
         let xU : U := ⟨x, hx⟩
         exact congrArg Subtype.val (mul_comm aU xU)
@@ -145,8 +145,8 @@ public theorem innerRotationTorus_data_of_reflected_index_two
       · intro x hxT
         rw [Subgroup.mem_centralizer_singleton_iff]
         have hxU : x ∈ U := hxT.1
-        letI : IsCyclic U := hUcyc
-        letI : CommGroup U := IsCyclic.commGroup
+        let : IsCyclic U := hUcyc
+        let : CommGroup U := IsCyclic.commGroup
         let xU : U := ⟨x, hxU⟩
         let sU : U := ⟨s, hsU⟩
         exact congrArg Subtype.val (mul_comm xU sU)

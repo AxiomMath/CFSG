@@ -19,7 +19,7 @@ open scoped commutatorElement
 
 theorem subBody_suzuki {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (I F : Set (MulAut (LargeEvenCenterQuot (LargeEvenSzGroup a K)))) (hF : InnFree p F) :
+    (_I F : Set (MulAut (LargeEvenCenterQuot (LargeEvenSzGroup a K)))) (hF : InnFree p F) :
     ∀ f ∈ F, orderOf f = p → p ∣ 2 * a + 1 ∧
       ∃ D : Subgroup (LargeEvenCenterQuot (LargeEvenSzGroup a K)), SubfieldGrp f D ∧
         (LargeEvenRecipeSuzuki (((2 * a + 1) / p - 1) / 2)
@@ -50,7 +50,7 @@ theorem subBody_suzuki {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     have hc : Nat.card (suzukiGroup 0 k) = 20 := by
       rw [suzuki_order hkcard]
       norm_num [CFSG.Open.ordSuzuki]
-    haveI : Finite (suzukiGroup 0 k) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+    have : Finite (suzukiGroup 0 k) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
     have : Group.IsSolvable (suzukiGroup 0 k) :=
       CFSG.SignalizerFunctorTheorem.NearModels.isSolvable_of_natCard (p := 2) (q := 5) (a := 2)
         (b := 1) Nat.prime_two (by norm_num) (by norm_num) (by rw [hc]; norm_num)

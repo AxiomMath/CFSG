@@ -94,6 +94,7 @@ noncomputable abbrev NA : Subgroup G := Subgroup.normalizer (Y.A : Set G)
 
 noncomputable abbrev XN : Subgroup G := Y.NA ⊓ Subgroup.centralizer ({z} : Set G)
 
+omit [Finite G] in
 theorem ϑ_conj_vec {x : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G)) {y : G}
     (hy : y ∈ Subgroup.centralizer ({z} : Set G)) {w : Fin 6 → ZMod 2}
     (hyw : (Y.ϑ ⟨y, hy⟩ : Wr 6) = ⟨w, 1⟩) :
@@ -107,6 +108,7 @@ theorem ϑ_conj_vec {x : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G)) {y :
   have hW' : W = ⟨W.vec, W.perm⟩ := rfl
   rw [hW', conj_vec_gen]
 
+omit [Finite G] in
 theorem conj_pi3_mem {x : G} (hx : x ∈ Y.XN) :
     x * Y.π3 * x⁻¹ = Y.σA (sc [0]) ∨ x * Y.π3 * x⁻¹ = Y.σA (sc [1]) ∨
       x * Y.π3 * x⁻¹ = Y.σA (sc [2]) := by
@@ -130,16 +132,20 @@ theorem conj_pi3_mem {x : G} (hx : x ∈ Y.XN) :
 
 @[expose] noncomputable def ξ : G := Y.ι ⟨wXi, wXi_mem_Wsub⟩
 
+omit [Finite G] in
 theorem ξ_mem_XN : Y.ξ ∈ Y.XN := ⟨Y.gens_mem_normalizer.2.2.2, Y.ι_mem_C _⟩
 
+omit [Finite G] in
 theorem conj_ξ (c : SC) : Y.ξ * Y.σA c * Y.ξ⁻¹ = Y.σA (actXi c) :=
   Y.conj_σA_of wXi_mem_Wsub conj_cS_wXi c
 
+omit [Finite G] in
 theorem conj_ξ2 (c : SC) :
     (Y.ξ * Y.ξ) * Y.σA c * (Y.ξ * Y.ξ)⁻¹ = Y.σA (actXi (actXi c)) := by
   rw [show (Y.ξ * Y.ξ) * Y.σA c * (Y.ξ * Y.ξ)⁻¹ = Y.ξ * (Y.ξ * Y.σA c * Y.ξ⁻¹) * Y.ξ⁻¹ by group,
     Y.conj_ξ, Y.conj_ξ]
 
+omit [Finite G] in
 theorem conjSet_XN_pi3 :
     conjSet Y.XN Y.π3 = {Y.σA (sc [0]), Y.σA (sc [1]), Y.σA (sc [2])} := by
   ext y
@@ -154,6 +160,7 @@ theorem conjSet_XN_pi3 :
     · rw [Y.σA_pi3]
       exact self_mem_conjSet _ _
 
+omit [Finite G] in
 theorem ncard_conjSet_XN_pi3 : (conjSet Y.XN Y.π3).ncard = 3 := by
   rw [Y.conjSet_XN_pi3]
   obtain ⟨h01, h02, h12, -⟩ := sc_ne
@@ -195,16 +202,20 @@ theorem ncard_conj_pi3_of_le
   rw [e2, ← e1]
   ring
 
+omit [Finite G] in
 theorem π3_mem_A : Y.π3 ∈ Y.A := Y.σA_pi3 ▸ Y.σA_mem_A _
 
+omit [Finite G] in
 theorem π12_mem_A : Y.π12 ∈ Y.A := Y.σA_pi12 ▸ Y.σA_mem_A _
 
+omit [Finite G] in
 theorem zero_not_mem_coord_conj {x : G} (hx : x ≠ 1) {H : Subgroup G} :
     (0 : SC) ∉ Y.coord (conjSet H x) := by
   rw [Y.mem_coord, Y.σA_zero]
   intro h
   exact hx (isConj_one_left.mp (isConj_of_mem_conjSet h))
 
+omit [Finite G] in
 theorem disjoint_coord_conj {x y : G} (hxy : ¬ IsConj x y) {H : Subgroup G} :
     Disjoint (Y.coord (conjSet H x)) (Y.coord (conjSet H y)) := by
   rw [Finset.disjoint_left]
@@ -214,36 +225,44 @@ theorem disjoint_coord_conj {x y : G} (hxy : ¬ IsConj x y) {H : Subgroup G} :
 
 @[expose] noncomputable def coordOf (a : G) : SC := Classical.epsilon fun c => Y.σA c = a
 
+omit [Finite G] in
 theorem σA_coordOf {a : G} (h : a ∈ Y.A) : Y.σA (Y.coordOf a) = a :=
   Classical.epsilon_spec (Y.exists_σA h)
 
+omit [Finite G] in
 theorem coordOf_σA (c : SC) : Y.coordOf (Y.σA c) = c :=
   Y.σA_injective (Y.σA_coordOf (Y.σA_mem_A c))
 
 @[expose] noncomputable def cc (g : G) (c : SC) : SC := Y.coordOf (g * Y.σA c * g⁻¹)
 
+omit [Finite G] in
 theorem conj_mem_A {g : G} (hg : g ∈ Y.NA) {a : G} (ha : a ∈ Y.A) : g * a * g⁻¹ ∈ Y.A :=
   (Subgroup.mem_normalizer_iff.mp hg a).mp ha
 
+omit [Finite G] in
 theorem σA_cc {g : G} (hg : g ∈ Y.NA) (c : SC) : Y.σA (Y.cc g c) = g * Y.σA c * g⁻¹ :=
   Y.σA_coordOf (Y.conj_mem_A hg (Y.σA_mem_A c))
 
+omit [Finite G] in
 theorem cc_add {g : G} (hg : g ∈ Y.NA) (c c' : SC) : Y.cc g (c + c') = Y.cc g c + Y.cc g c' := by
   apply Y.σA_injective
   rw [Y.σA_add, Y.σA_cc hg, Y.σA_cc hg, Y.σA_cc hg, Y.σA_add]
   group
 
+omit [Finite G] in
 theorem cc_mul {g h : G} (hg : g ∈ Y.NA) (hh : h ∈ Y.NA) (c : SC) :
     Y.cc (g * h) c = Y.cc g (Y.cc h c) := by
   apply Y.σA_injective
   rw [Y.σA_cc (Y.NA.mul_mem hg hh), Y.σA_cc hg, Y.σA_cc hh]
   group
 
+omit [Finite G] in
 theorem cc_one (c : SC) : Y.cc 1 c = c := by
   apply Y.σA_injective
   rw [Y.σA_cc Y.NA.one_mem]
   group
 
+omit [Finite G] in
 theorem cc_zero {g : G} (hg : g ∈ Y.NA) : Y.cc g 0 = 0 := by
   apply Y.σA_injective
   rw [Y.σA_cc hg, Y.σA_zero]
@@ -253,7 +272,7 @@ theorem not_dvd_card_NA {p : ℕ} (hp : p = 11 ∨ p = 13) : ¬ p ∣ Nat.card Y
   classical
   intro hdvd
   have hpp : p.Prime := by rcases hp with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hg : (x : G) ∈ Y.NA := x.2
   have hgo : orderOf (x : G) = p := by rw [Subgroup.orderOf_coe, hx]
@@ -278,11 +297,11 @@ theorem not_dvd_card_NA {p : ℕ} (hp : p = 11 ∨ p = 13) : ¬ p ∣ Nat.card Y
   let Fix : AddSubgroup SC :=
     { carrier := {c | Y.cc x c = c}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [Y.cc_add hg, ha, hb]
       zero_mem' := Y.cc_zero hg
       neg_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [neg_SC, ha] }
   have hcardFix : Fintype.card (Function.fixedPoints f) = Nat.card Fix := by
     rw [← Nat.card_eq_fintype_card]

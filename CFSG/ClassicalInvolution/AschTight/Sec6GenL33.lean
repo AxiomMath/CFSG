@@ -45,7 +45,7 @@ theorem mulAut_eq_one_of_sq_eq_one {z : Q} (hz2 : orderOf z = 2)
     rw [orderOf_injective ι hιinj] at hy
     rw [hU y hy]
   have hR : IsSylow2Of ((P : Subgroup Q).map ι) K := by
-    refine ⟨Subgroup.map_le_range ι _, P.isPGroup'.map ι, fun P' hP'K hP'2 hle => ?_⟩
+    refine ⟨Subgroup.map_le_range ι _, P.isPGroup.map ι, fun P' hP'K hP'2 hle => ?_⟩
     have hP''2 : IsPGroup 2 (P'.comap ι) := hP'2.comap_of_injective ι hιinj
     have hPle : (P : Subgroup Q) ≤ P'.comap ι := fun x hx => hle ⟨x, hx, rfl⟩
     have hPeq : P'.comap ι = (P : Subgroup Q) := P.maximal_isPGroup.eq_of_ge hP''2 hPle

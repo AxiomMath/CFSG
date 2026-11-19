@@ -72,12 +72,12 @@ theorem sylow_fixed_intersection {actor group : Type*}
   let fixed := fixedSubgroup homomorphism
   let intersection := (sylow : Subgroup group) ⊓ fixed
   have intersection_prime : IsPGroup sylow_prime intersection :=
-    sylow.isPGroup'.to_le inf_le_left
+    sylow.isPGroup.to_le inf_le_left
   have internal_prime : IsPGroup sylow_prime (intersection.subgroupOf fixed) :=
     intersection_prime.of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨fixed_sylow, contains⟩ := internal_prime.exists_le_sylow
   let image := (fixed_sylow : Subgroup fixed).map fixed.subtype
-  have image_prime : IsPGroup sylow_prime image := fixed_sylow.isPGroup'.map fixed.subtype
+  have image_prime : IsPGroup sylow_prime image := fixed_sylow.isPGroup.map fixed.subtype
   have image_le : image ≤ fixed := by
     intro element mem_image
     obtain ⟨original, _, equal_image⟩ := Subgroup.mem_map.mp mem_image

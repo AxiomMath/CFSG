@@ -41,8 +41,8 @@ theorem s16t3_exp_three_alt (hset : Setting16 D V₀ V L)
   have hYKbar : barSub V₀ V hV YK =
       s1t3KBar (Mbar D.M V₀ V hV) (lBar V₀ V hV L) := hYK.2.2.1
   obtain ⟨hS, -, hR2, -⟩ := s16t3_join_inf_cTilde hset hT h7 hYL hYK
-  haveI : (YL.subgroupOf D.M).Normal := hYLn
-  haveI : (YK.subgroupOf D.M).Normal := hYKn
+  have : (YL.subgroupOf D.M).Normal := hYLn
+  have : (YK.subgroupOf D.M).Normal := hYKn
   have hYLYKnorm : ((YL ⊔ YK).subgroupOf D.M).Normal := by
     rw [Subgroup.subgroupOf_sup hYLle hYKle]; infer_instance
   have hDTnorm : D.T ≤ normalizer ((YL ⊔ YK : Subgroup G) : Set G) :=

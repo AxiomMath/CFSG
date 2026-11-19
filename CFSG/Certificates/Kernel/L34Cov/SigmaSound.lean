@@ -344,7 +344,7 @@ theorem orb_mem (hG : GensG G) {O : ℕ → ℕ} (h : sgOrbOK G O = true) :
       · rw [bAnd_iff] at h2
         rw [Nat.eq_of_beq_eq_true h2.1, Nat.eq_of_beq_eq_true h2.2, pairSet_comm]
 
-theorem orb_inj (hG : GensG G) {O : ℕ → ℕ} (h : sgOrbOK G O = true) {k k' : ℕ} (hk : k < 105)
+theorem orb_inj (_hG : GensG G) {O : ℕ → ℕ} (h : sgOrbOK G O = true) {k k' : ℕ} (hk : k < 105)
     (hk' : k' < 105) (e : pairSet (sgOF O k 2) (sgOF O k 3) = pairSet (sgOF O k' 2) (sgOF O k' 3)) :
     k = k' := by
   have hlt : ∀ m < 105, sgOF O m 2 < sgOF O m 3 ∧ sgOF O m 3 < 42 := by

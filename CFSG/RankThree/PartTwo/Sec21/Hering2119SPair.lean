@@ -95,7 +95,7 @@ theorem g1_form (b : Basis (Fin 2 × Fin 2) F3 V) {I₀ J₀ : V ≃ₗ[F3] V} (
     have : (g₁ : V →ₗ[F3] V) = LinearMap.id + ε₁ := LinearMap.ext fun v => hg₁ v
     rw [mt, this, map_add, LinearMap.toMatrix_id, hE1, ← rhoU_one, ← rhoU_add]
     congr 1
-    simp [Prod.ext_iff]
+    simp
   have hnorm : ∀ (x : V ≃ₗ[F3] V) (q' : Mat2) (hx : mt b x = kr 1 q'),
       (∃ y ∈ q8 I₀ J₀, g₁ * x = y * g₁) →
       ∃ q ∈ Q8list, (1 + P') * q' = q * (1 + P') ∧ R' * q' = q * R' := by
@@ -297,7 +297,7 @@ theorem letters1 (b : Basis (Fin 2 × Fin 2) F3 V) {A : Mat2} (hA : A ∈ nilp8)
   refine ⟨g, hmem g hg, ?_⟩
   rw [hmg]
   have hlet : letter A y i = rhoA A (a, y • (nU * a - a * nU)) := by
-    simp only [letter, if_neg (by omega : ¬ i < 6), rhoA]
+    simp only [letter, ite_eq_right (by omega : ¬ i < 6), rhoA]
     rfl
   rw [hlet]
   congr 1
@@ -318,7 +318,7 @@ theorem bad_case (b : Basis (Fin 2 × Fin 2) F3 V) {A : Mat2} (hA : A ∈ nilp8)
     intro i hi
     by_cases h6 : i < 6
     · obtain ⟨g, hg, hmg⟩ := letters0 b hI₀H hJ₀H hI₀ hJ₀ i h6
-      exact ⟨g, hg, by rw [hmg]; simp only [letter, if_pos h6]⟩
+      exact ⟨g, hg, by rw [hmg]; simp only [letter, ite_eq_left h6]⟩
     · exact letters1 b hA hI₁H hJ₁H hI₁ hJ₁ ha1 ha2 hanti hb1 hb2 i (by omega) hi
   have hw : ∀ w : List ℕ, (∀ i ∈ w, i < 12) → ∃ g ∈ H, mt b g = wordVal A y w := by
     intro w
@@ -471,7 +471,7 @@ theorem second_block_ne (b : Basis (Fin 2 × Fin 2) F3 V) (ε₀ : V →ₗ[F3] 
   rw [this, map_zero]
 
 theorem second_block_act (b : Basis (Fin 2 × Fin 2) F3 V) (ε₀ h : V →ₗ[F3] V)
-    (hε₀ : LinearMap.toMatrix b b ε₀ = kr nU 1) (q : Mat2)
+    (_hε₀ : LinearMap.toMatrix b b ε₀ = kr nU 1) (q : Mat2)
     (hh : LinearMap.toMatrix b b h = kr 1 q) (x : V) (j : Fin 2) :
     b.repr (h (ε₀ x)) (1, j) = ∑ k, q j k * b.repr (ε₀ x) (1, k) := by
   rw [coord_mul b h _ hh]
@@ -499,7 +499,7 @@ theorem eps_basis (b : Basis (Fin 2 × Fin 2) F3 V) (ε₀ : V →ₗ[F3] V)
     (hε₀ : LinearMap.toMatrix b b ε₀ = kr nU 1) (j k : Fin 2) :
     b.repr (ε₀ (b (0, j))) (1, k) = if k = j then 1 else 0 := by
   rw [coord_mul b ε₀ _ hε₀]
-  simp [Fintype.sum_prod_type, Fin.sum_univ_two, kr_apply, Matrix.one_apply, Basis.repr_self,
+  simp [kr_apply, Matrix.one_apply, Basis.repr_self,
     Finsupp.single_apply]
 
 theorem pair_linear [Finite V] (hV : Nat.card V = 81) (H : Subgroup (V ≃ₗ[F3] V))
@@ -519,7 +519,7 @@ theorem pair_linear [Finite V] (hV : Nat.card V = 81) (H : Subgroup (V ≃ₗ[F3
   classical
   have hε0ne : ∃ v, ε₀ v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : Subsingleton V := ⟨fun x y => by
       obtain ⟨w, hw⟩ := hk₀ x (h x)
       obtain ⟨w', hw'⟩ := hk₀ y (h y)
@@ -600,7 +600,7 @@ theorem pair_linear [Finite V] (hV : Nat.card V = 81) (H : Subgroup (V ≃ₗ[F3
         exact this
       · obtain ⟨i, j, hij⟩ : ∃ i j, A i j ≠ 0 := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           apply nilp8_ne A hA
           ext i j
           exact hcon i j
@@ -612,8 +612,8 @@ theorem pair_linear [Finite V] (hV : Nat.card V = 81) (H : Subgroup (V ≃ₗ[F3
         have h2 := coord_mul b ε₁ _ hε₁m (ε₀ (b (0, j))) (1, i)
         rw [h1] at h2
         simp [Fintype.sum_prod_type, Fin.sum_univ_two, kr_apply, Matrix.one_apply,
-          eps_basis b ε₀ hbε, repr_eps_zero b ε₀ hbε] at h2
-        exact hij (by fin_cases j <;> simp at h2 <;> first | exact h2 | exact h2.symm)
+          eps_basis b ε₀ hbε] at h2
+        exact hij (by fin_cases j <;> simp at h2 <;> first | exact h2.symm)
     obtain ⟨X', hX'H', hX'3, hX'card, hg₀X', hX'comm⟩ :=
       na_core' ε₀ hε₀ hW hk₀ H' hcommH' g₀ hg₀ hg₀H' htrans hord3 ν hνH' hνns
     have := hbound X' (hX'H'.trans inf_le_left) hX'3 hg₀X' hX'comm

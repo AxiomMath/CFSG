@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeThree
 
 theorem center_quotient_eq_bot {Q : Type} [Group Q] (hQ : Open.IsQuasisimple Q) :
     Subgroup.center (Q ⧸ Subgroup.center Q) = ⊥ := by
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   obtain ⟨a, b, hab⟩ :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Q hQ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal

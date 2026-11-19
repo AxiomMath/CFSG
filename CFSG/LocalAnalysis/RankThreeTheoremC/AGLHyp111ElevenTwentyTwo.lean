@@ -21,7 +21,7 @@ theorem le_of_le_sup_of_not_dvd {p : ℕ} [hp : Fact p.Prime] {S T C : Subgroup 
   have hUN : U ≤ Subgroup.normalizer (S : Set X) := sup_le hTN Subgroup.le_normalizer
   have hSU : S ≤ U := le_sup_right
   have hTU : T ≤ U := le_sup_left
-  haveI : (S.subgroupOf U).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hUN
+  have : (S.subgroupOf U).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hUN
   have htop : T.subgroupOf U ⊔ S.subgroupOf U = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hTU hSU, Subgroup.subgroupOf_self]
   have hidx : (S.subgroupOf U).index = (S.subgroupOf U).relIndex (T.subgroupOf U) := by
@@ -70,7 +70,7 @@ theorem center_eq_bot_of_isLinThreeFour {K : Type} [Group K] (h : IsLinThreeFour
 theorem not_dvd_card_centralizer {K E : Subgroup X} (hK : IsLinThreeFour K) (hEK : E ≤ K)
     (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9) (hrk : Open.pRank 3 (⊤ : Subgroup X) ≤ 2) :
     ¬ 3 ∣ Nat.card (Subgroup.centralizer (K : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h3
   obtain ⟨⟨c, hcC⟩, hc⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.centralizer (K : Set X)) 3 h3
   rw [Subgroup.orderOf_mk] at hc
@@ -98,10 +98,10 @@ theorem le_of_kFactL34A6Normalizer (hKF : KFactL34A6Normalizer) {K S T : Subgrou
     (hK : IsLinThreeFour K) (hrk : Open.pRank 3 (⊤ : Subgroup X) ≤ 2) (hSK : S ≤ K)
     (hSne : S ≠ K) (h360 : 360 ∣ Nat.card S) (hS2 : 2 ≤ Open.pRank 3 S) (hT : IsPGroup 3 T)
     (hTN : T ≤ Subgroup.normalizer (S : Set X)) : T ≤ S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hES, hE, hEc⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank hS2
   set C := Subgroup.centralizer (K : Set X) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   have hC := not_dvd_card_centralizer hK (hES.trans hSK) hE (by rw [hEc]; norm_num) hrk
   set φ := QuotientGroup.mk' C with hφ
   have hker : φ.ker = C := QuotientGroup.ker_mk' C
@@ -127,7 +127,7 @@ theorem le_of_kFactL34A6Normalizer (hKF : KFactL34A6Normalizer) {K S T : Subgrou
     obtain ⟨d, hd, ⟨f⟩⟩ := hK
     exact ⟨d, hd, ⟨((MonoidHom.ofInjective (hinj le_rfl)).trans
       (MulEquiv.subgroupCongr (hrange K))).symm.trans f⟩⟩
-  haveI : (K.map φ).Normal := Subgroup.Normal.map ‹_› φ (QuotientGroup.mk'_surjective C)
+  have : (K.map φ).Normal := Subgroup.Normal.map ‹_› φ (QuotientGroup.mk'_surjective C)
   have hcen : Subgroup.centralizer ((K.map φ : Subgroup (X ⧸ C)) : Set (X ⧸ C)) = ⊥ := by
     rw [eq_bot_iff]
     intro y hy
@@ -176,13 +176,13 @@ theorem image_facts_of_isAltTwoP {H N W : Subgroup G} (hWH : W ≤ H) (hWN : W �
     {K₁ : Subgroup (H ⧸ primeComplementCore (G := H) 3)}
     {K₂ : Subgroup (N ⧸ primeComplementCore (G := N) 3)}
     (h₁ : (W.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) 3)) = K₁)
-    (h₂ : (W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) 3)) ≤ K₂)
+    (_h₂ : (W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) 3)) ≤ K₂)
     (hK₁ : IsAltTwoP 3 K₁) (hK₂ : IsLinThreeFour K₂) :
     360 ∣ Nat.card ((W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) 3))) ∧
     (W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) 3)) ≠ K₂ ∧
     2 ≤ Open.pRank 3 ((W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) 3))) ∧
     ∀ T : Subgroup G, T ≤ W → IsPGroup 3 T → Nat.card T ∣ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set S := (W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) 3)) with hSdef
   set φ₁ : W →* H ⧸ primeComplementCore (G := H) 3 :=
     (QuotientGroup.mk' (primeComplementCore (G := H) 3)).comp (Subgroup.inclusion hWH)
@@ -209,9 +209,9 @@ theorem image_facts_of_isAltTwoP {H N W : Subgroup G} (hWH : W ≤ H) (hWN : W �
     rw [← hc]
     exact (primeComplementCore_coprime 3).coprime_dvd_right (Subgroup.card_dvd_of_le hle)
   obtain ⟨e⟩ := hK₁
-  haveI : IsSimpleGroup (alternatingGroup (Fin (2 * 3))) :=
+  have : IsSimpleGroup (alternatingGroup (Fin (2 * 3))) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup K₁ := e.isSimpleGroup
+  have : IsSimpleGroup K₁ := e.isSimpleGroup
   set φ₁' : W →* K₁ := φ₁.codRestrict K₁ fun w => hr₁ ▸ MonoidHom.mem_range.mpr ⟨w, rfl⟩
   have hsurj : Function.Surjective φ₁' := by
     rintro ⟨y, hy⟩
@@ -243,7 +243,7 @@ theorem image_facts_of_isAltTwoP {H N W : Subgroup G} (hWH : W ≤ H) (hWN : W �
   refine ⟨⟨r, hS⟩, ?_, ?_, ?_⟩
   ·
     intro hSK
-    haveI := isSimpleGroup_of_isLinThreeFour' hK₂
+    have := isSimpleGroup_of_isLinThreeFour' hK₂
     have hr₂' : φ₂.range = K₂ := hr₂.trans hSK
     set φ₂' : W →* K₂ := φ₂.codRestrict K₂ fun w => hr₂' ▸ MonoidHom.mem_range.mpr ⟨w, rfl⟩
     have hsurj₂ : Function.Surjective φ₂' := by
@@ -388,7 +388,7 @@ theorem pRank_le_two_of_l34 (hS : Setting G) {P : Sylow 3 G} {M H R : Subgroup G
     (hK₀ : ∃ L : Subgroup (H₀ ⧸ primeComplementCore (G := H₀) 3), IsComponentOf L ⊤ ∧
       ¬ L ≤ d1X0 3 M H₀) (hL34 : IsLinThreeFour (d1KBar 3 M H₀)) :
     Open.pRank 3 H₀ ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra h3
   push Not at h3
   obtain ⟨Q₀, -, hQ₀H, hQ₀, S, hS₀⟩ := exists_sylowBase he hB hBH₀
@@ -409,7 +409,7 @@ theorem base_of_l34Step (hKF : KFactL34A6Normalizer) (hS : Setting G)
     (hL34 : IsLinThreeFour (d1KBar 3 M H₀)) :
     B ≤ hyp111Pre 3 H (d1KBar 3 M H) ∧ B ≤ hyp111Pre 3 H₀ (d1KBar 3 M H₀) ∧
       IsElemAbelian 3 B ∧ Nat.card B = 9 ∧ rankThreeGamma 1 3 B ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hg := aglGlobal_of_setting hS
   have hμ := muAt_of_escape he
   have hK := exists_component_of_d1KBar_ne_bot (d1KBar_ne_bot_of_isAltTwoP hA6)
@@ -417,10 +417,10 @@ theorem base_of_l34Step (hKF : KFactL34A6Normalizer) (hS : Setting G)
     have h := card_of_isLinThreeFour hL34
     rw [hb, Subgroup.card_bot] at h
     norm_num at h
-  haveI : (d1KBar 3 M H).Normal :=
+  have : (d1KBar 3 M H).Normal :=
     (h9 hg 3 P M H hμ he.maxTwoLocal_H he.not_le hK B H hB hBH he.maxTwoLocal_H he.not_le hBH
       (aglCovers_self H _)).1.nineThree.normal
-  haveI : (d1KBar 3 M H₀).Normal :=
+  have : (d1KBar 3 M H₀).Normal :=
     (h9 hg 3 P M H₀ hμ hH₀ hH₀M hK₀ B H₀ hB hBH₀ hH₀ hH₀M hBH₀
       (aglCovers_self H₀ _)).1.nineThree.normal
   obtain ⟨W, hW, hWK, hWN⟩ := h917 hg 3 P M H hμ he.maxTwoLocal_H he.not_le hK

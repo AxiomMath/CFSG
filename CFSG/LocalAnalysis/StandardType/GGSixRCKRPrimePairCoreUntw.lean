@@ -42,7 +42,7 @@ private theorem langSetup_isAlgebraic_GGL {τ : Tag} (S : LangSetup τ GGL 5) : 
   have hfd : FiniteDimensional (ZMod 2) (IntermediateField.adjoin (ZMod 2) {c}) :=
     IntermediateField.adjoin.finiteDimensional hint
   have hfin : Finite (IntermediateField.adjoin (ZMod 2) {c}) := Module.finite_of_finite (ZMod 2)
-  letI : Fintype (IntermediateField.adjoin (ZMod 2) {c}) := Fintype.ofFinite _
+  let : Fintype (IntermediateField.adjoin (ZMod 2) {c}) := Fintype.ofFinite _
   set m := Module.finrank (ZMod 2) (IntermediateField.adjoin (ZMod 2) {c}) with hm
   have hmpos : 0 < m := Module.finrank_pos
   have hcard : Fintype.card (IntermediateField.adjoin (ZMod 2) {c}) = 2 ^ m := by
@@ -74,12 +74,12 @@ private theorem rckPairCoreGood_of_frobenius {τ : Tag} (S : LangSetup τ GGL 5)
   classical
   obtain ⟨Fr, hFr, hΦeq⟩ := hΦ
   obtain ⟨K, hKf, hKfin, hKalg, hKcard⟩ := S.exists_fixedField
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : Algebra K GGL := hKalg
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : Algebra K GGL := hKalg
   have hFrK : ∀ c, Fr c = c ^ Nat.card K := fun c => by rw [hKcard]; exact hFr c
   have hSAlg : S.IsAlgebraic := langSetup_isAlgebraic_GGL S
-  haveI : Algebra.IsAlgebraic K GGL := ⟨fun c => by
+  have : Algebra.IsAlgebraic K GGL := ⟨fun c => by
     obtain ⟨n, hn, hc⟩ := hSAlg c
     have hq1 : 1 < Nat.card K ^ n := by
       rw [hKcard]

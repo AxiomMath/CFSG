@@ -17,7 +17,7 @@ theorem three_lt_of_two_lt {p k : ℕ} (hp : IsPrimitivePrimeDivisor p k) (hk : 
   have hp2 : p ≠ 2 := hp.ne_two hk0
   have hp3 : p ≠ 3 := by
     intro h3
-    have hk2 : k = 2 := hp.eq_two_of_dvd_three hk0 (by simpa [h3])
+    have hk2 : k = 2 := hp.eq_two_of_dvd_three hk0 (by simp [h3])
     omega
   have hp2le : 2 ≤ p := hp.prime.two_le
   omega
@@ -28,13 +28,13 @@ theorem subfield_closure_eq_top_of_orderOf (hk : 0 < k) (hK : Nat.card K = 2 ^ k
     (hp : IsPrimitivePrimeDivisor p k) {y : K} (hy : orderOf y = p) :
     Subfield.closure ({y} : Set K) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := k) (by rwa [Fintype.card_eq_nat_card])
   set F : Subfield K := Subfield.closure ({y} : Set K)
-  haveI : CharP ↥F 2 := Subfield.charP F 2
-  letI : Algebra (ZMod 2) ↥F := ZMod.algebra ↥F 2
+  have : CharP ↥F 2 := Subfield.charP F 2
+  let : Algebra (ZMod 2) ↥F := ZMod.algebra ↥F 2
   set m : ℕ := Module.finrank (ZMod 2) ↥F with hm
   have hFcard : Nat.card ↥F = 2 ^ m := by
     rw [hm]
@@ -88,15 +88,16 @@ theorem subfield_closure_eq_top_of_orderOf (hk : 0 < k) (hK : Nat.card K = 2 ^ k
   rw [← SetLike.mem_coe, huniv]
   exact Set.mem_univ x
 
-theorem exists_orderOf_eq (hk : 0 < k) (hK : Nat.card K = 2 ^ k)
+theorem exists_orderOf_eq (_hk : 0 < k) (hK : Nat.card K = 2 ^ k)
     (hp : IsPrimitivePrimeDivisor p k) : ∃ y : K, orderOf y = p := by
-  haveI : Fact p.Prime := ⟨hp.prime⟩
+  have : Fact p.Prime := ⟨hp.prime⟩
   have hdvd : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     exact hp.dvd
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' p hdvd
   exact ⟨(u : K), by rw [orderOf_units, hu]⟩
 
+omit [Finite K] in
 theorem orderOf_pow_eq_of_not_dvd {y : K} (hp : IsPrimitivePrimeDivisor p k)
     (hy : orderOf y = p) {i : ℕ} (hi : ¬ p ∣ i) : orderOf (y ^ i) = p := by
   have hcop : Nat.Coprime p i := hp.prime.coprime_iff_not_dvd.mpr hi

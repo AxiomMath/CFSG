@@ -229,7 +229,7 @@ private theorem altTenE_le_normalizer_altTenV :
 
 private theorem isQuasisimple_alternatingTen :
     CFSG.IsQuasisimple (alternatingGroup (Fin 10)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
   exact (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
     ⟨altTenE₁, altTenV₁, by decide⟩).1
@@ -304,7 +304,7 @@ theorem four_le_localRank_of_altTen (hKSM : CFSG.LocalAnalysis.RankThreeUC.S15.K
     (hz : orderOf z = 3) (hzJ : ∀ j ∈ J, z * j = j * z) :
     4 ≤ CFSG.Open.rankThreeLocalRank 3 G := by
   let A := alternatingGroup (Fin 10)
-  haveI : Finite ↥J := Subtype.finite
+  have : Finite ↥J := Subtype.finite
   have hAq : CFSG.IsQuasisimple A := isQuasisimple_alternatingTen
   have hJq : CFSG.IsQuasisimple ↥J :=
     (CFSG.LocalCores.isQuasisimple_iff_of_surjective hJ φ hφ hker).mpr hAq

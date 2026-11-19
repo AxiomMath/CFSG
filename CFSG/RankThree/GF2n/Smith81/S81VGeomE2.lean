@@ -187,7 +187,7 @@ theorem exists_good_line [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
       ?_ ?_) hiso
     · rintro L ⟨⟨hLP3, hpL, hL⟩, hiso'⟩
       show L ⊓ P2 ∈ IsoPtsOn σ P2
-      simp only [IsoPtsOn, Set.mem_setOf_eq]
+      simp only [IsoPtsOn, Set.mem_ofPred_eq]
       exact ⟨inf_le_right, gE2_finrank_inf h3 h2 hP2P3 hLP3 hL hpL hp'P2, hiso'⟩
     · rintro L ⟨⟨hLP3, hpL, hL⟩, _⟩ L' ⟨⟨hLP3', hpL', hL'⟩, _⟩ hEq
       have hEq' : L ⊓ P2 = L' ⊓ P2 := hEq
@@ -212,7 +212,7 @@ theorem exists_good_line [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     · rintro L ⟨⟨hLP3, hpL, hL⟩, hnd⟩
       obtain ⟨hfin, _⟩ := gE2_rad_facts hpL hp'i hL hnd
       show L ⊓ orth σ L ∈ IsoPtsOn σ (P3 ⊓ orth σ (Submodule.span F {p'}))
-      simp only [IsoPtsOn, Set.mem_setOf_eq]
+      simp only [IsoPtsOn, Set.mem_ofPred_eq]
       refine ⟨gE2_rad_le hLP3 hpL, hfin, ?_⟩
       intro v hv
       exact gE2_mem_orth.1 (Submodule.mem_inf.1 hv).2 v (Submodule.mem_inf.1 hv).1

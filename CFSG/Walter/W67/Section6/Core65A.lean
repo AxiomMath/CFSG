@@ -282,7 +282,7 @@ theorem factorization_three_le {X : Subgroup G} (hρX : ρ ∈ Subgroup.normaliz
   set T := (S : Subgroup N).map N.subtype with hT
   have hTN : T ≤ N := Subgroup.map_subtype_le _
   have hρT : ρ ∈ T := ⟨⟨ρ, hρX⟩, hS (Subgroup.mem_comap.mpr (Subgroup.mem_zpowers ρ)), rfl⟩
-  have hT3 := h.card_le_three hXρ (S.isPGroup'.map N.subtype) hTN hρT
+  have hT3 := h.card_le_three hXρ (S.isPGroup.map N.subtype) hTN hρT
   rw [Subgroup.card_map_of_injective N.subtype_injective, Sylow.card_eq_multiplicity] at hT3
   by_contra hlt
   push Not at hlt

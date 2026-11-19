@@ -18,6 +18,7 @@ theorem finrank_proper {W : Submodule (ZMod 2) V} (h0 : W ≠ ⊥) (h1 : W ≠ �
   · exact Submodule.one_le_finrank_iff.2 h0
   · exact Submodule.finrank_lt h1
 
+omit [Finite V] in
 theorem exists_invariant_of_not_irreducible {Y : Subgroup (V ≃ₗ[ZMod 2] V)} (h : ¬ Irreducible' Y) :
     ∃ W : Submodule (ZMod 2) V, Y ≤ stab W ∧ W ≠ ⊥ ∧ W ≠ ⊤ := by
   unfold Irreducible' at h

@@ -12,6 +12,7 @@ open CFSG.LargeExtraspecial.Timmesfeld (IsExtraspecial2)
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem CJ_conj_eq_map (g : H z) (σ : G) :
     CJ z ((g : G) * σ * (g : G)⁻¹) = (CJ z σ).map (MulAut.conj (g : G)).toMonoidHom := by
   have hJn : (g : G) ∈ Subgroup.normalizer (J z : Set G) := J_le_normalizer_A (z := z) g.2
@@ -45,6 +46,7 @@ theorem CJ_conj_eq_map (g : H z) (σ : G) :
       _ = (g : G) * (σ * y) * (g : G)⁻¹ := by rw [h]
       _ = (g : G) * σ * (g : G)⁻¹ * ((g : G) * y * (g : G)⁻¹) := by group
 
+omit [Finite G] in
 theorem card_CJ_conj_eq (g : H z) (σ : G) :
     Nat.card (CJ z ((g : G) * σ * (g : G)⁻¹)) = Nat.card (CJ z σ) := by
   rw [CJ_conj_eq_map, Subgroup.card_map_of_injective (MulAut.conj (g : G)).injective]
@@ -58,6 +60,7 @@ theorem card_CJ_eq_eight_of_cube (hJ : IsExtraspecial2 (J z)) (hcard : Nat.card 
   rw [card_CJ_eq_two_mul hJ hcard hcomm hσ3, fixDimV_eq_two_of_cube hJ hcard hcomm hCHJ hy hyσ]
   norm_num
 
+omit [Finite G] in
 theorem zpowers_le_normalizer_J (σ : H z) :
     Subgroup.zpowers (σ : G) ≤ Subgroup.normalizer (J z : Set G) :=
   (Subgroup.zpowers_le (G := G) (H := Subgroup.normalizer (J z : Set G))).mpr
@@ -92,6 +95,7 @@ theorem isExtraspecial2_CJ_of_card_eight (hJ : IsExtraspecial2 (J z))
     rw [h8] at h2
     norm_num at h2
 
+omit [Finite G] in
 theorem mem_normalizer_CJ_of_commute {σ₁ σ₂ : H z} (hc : Commute σ₁ σ₂) :
     (σ₂ : G) ∈ Subgroup.normalizer (CJ z (σ₁ : G) : Set G) := by
   have hσ2cent : (σ₂ : G) ∈ Subgroup.centralizer ({(σ₁ : G)} : Set G) :=
@@ -126,6 +130,7 @@ theorem nonempty_CJ_mulEquiv_quaternion (hJ : IsExtraspecial2 (J z))
     (isExtraspecial2_CJ_of_card_eight hJ hcomm h3₁ h8₁) h8₁
     (by rw [Subgroup.orderOf_coe, h3₂]) (mem_normalizer_CJ_of_commute hc) hact
 
+omit [Finite G] in
 theorem z_mem_CJ (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) (x : H z) : z ∈ CJ z (x : G) := by
   rw [mem_CJ]
   exact ⟨zpowers_le_centralizer x (Subgroup.mem_zpowers z), z_mem_J hcomm⟩
@@ -201,6 +206,7 @@ theorem CJ_inf_CJ_eq_zpowers (hJ : IsExtraspecial2 (J z))
     omega
   exact (Subgroup.eq_of_le_of_card_ge hZS (by rw [hS2, hcZ])).symm
 
+omit [Finite G] in
 theorem mem_centralizerJ_of_conjVA_pi_eq (hJ : IsExtraspecial2 (J z))
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {σ : ↥(H z)} (hσ3 : σ ^ 3 = 1) {j : J z}
     (hfix : conjVA z σ (QuotientV.pi z j) = QuotientV.pi z j) : j ∈ centralizerJ σ := by
@@ -267,6 +273,7 @@ theorem mem_centralizerJ_of_conjVA_pi_eq (hJ : IsExtraspecial2 (J z))
       _ = (j : G) * (σ : G) := by rw [hcoe]
   exact hσj.symm
 
+omit [Finite G] in
 theorem fixSubmodule_inf_eq_bot (hJ : IsExtraspecial2 (J z))
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {σ₁ σ₂ : ↥(H z)} (h3₁ : orderOf σ₁ = 3)
     (h3₂ : orderOf σ₂ = 3) (hCJ : CJ z (σ₁ : G) ⊓ CJ z (σ₂ : G) = Subgroup.zpowers z) :
@@ -315,6 +322,7 @@ theorem fixSubmodule_inf_eq_bot (hJ : IsExtraspecial2 (J z))
   rw [hvj, hpi]
   rfl
 
+omit [Finite G] in
 theorem invariants_zpowers_sup_eq_bot (hJ : IsExtraspecial2 (J z))
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {σ₁ σ₂ : ↥(H z)} (h3₁ : orderOf σ₁ = 3)
     (h3₂ : orderOf σ₂ = 3) (hCJ : CJ z (σ₁ : G) ⊓ CJ z (σ₂ : G) = Subgroup.zpowers z) :

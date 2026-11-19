@@ -45,11 +45,11 @@ private theorem l6w3_prod_sq_apply {p : ℕ} [Fact p.Prime] {T : Type} [AddCommG
     rfl
   have hφu : φ u = -φ v := by
     rw [hu_eq]
-    simp only [map_sub, map_smul, hφx, hφy, smul_zero, mul_zero, sub_zero, smul_eq_mul]
+    simp only [map_sub, map_smul, hφx, hφy, mul_zero, sub_zero, smul_eq_mul]
     ring
   have hψu : ψ u = -ψ v + φ v * ψ x := by
     rw [hu_eq]
-    simp only [map_sub, map_smul, hψy, hφy, smul_zero, mul_zero, sub_zero, smul_eq_mul]
+    simp only [map_sub, map_smul, hψy, smul_eq_mul]
     ring
   have hsu : (s * r) u = u - φ u • x - (ψ u - φ u • ψ x) • y := by
     rw [LinearEquiv.mul_apply, hr, hs, map_sub, map_smul]

@@ -110,7 +110,7 @@ private theorem rationalComponent_suN_quasisimple_of_not_small
 
 private theorem rationalComponent_inner_small_quasisimple_of_not_rankOne
     {τ : Tag} {L : Type} [Field L]
-    [Field L] [IsAlgClosed L] {p₀ p : ℕ} (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ}
+    [IsAlgClosed L] {p₀ p : ℕ} (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ}
     (hp : p.Prime) (hp5 : τ = .G2 → 5 ≤ p)
     (hT : rootDiagUnit τ a ∈ S.D.torus) (hTp : rootDiagUnit τ a ^ p = 1)
     (ha1 : rootDiagUnit τ a ≠ 1) (i : KernelComponent (rootCharHom a))

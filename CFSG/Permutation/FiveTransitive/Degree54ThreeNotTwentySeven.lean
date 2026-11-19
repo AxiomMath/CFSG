@@ -46,7 +46,7 @@ theorem card_ne_twentySeven
   intro hS27
   have hS : Nat.card S ≠ 1 := by omega
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = 27 := (Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm).trans hS27

@@ -39,6 +39,7 @@ private def centModE (Q K : Subgroup G) : Subgroup G where
     rw [h2]
     exact h1
 
+omit [Finite G] in
 private theorem commutator_mem_of_mem_normalizer {Q : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (Q : Set G)) (hx : x ∈ Q) : ⁅g, x⁆ ∈ Q := by
   have h1 : g * x * g⁻¹ ∈ Q := (Subgroup.mem_normalizer_iff.mp hg x).mp hx
@@ -46,6 +47,7 @@ private theorem commutator_mem_of_mem_normalizer {Q : Subgroup G} {g x : G}
   rw [h2]
   exact Q.mul_mem h1 (Q.inv_mem hx)
 
+omit [Finite G] in
 private theorem commutator_mem_of_mem_normalizer' {Q : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (Q : Set G)) (hx : x ∈ Q) : ⁅x, g⁆ ∈ Q := by
   have h1 : ⁅x, g⁆ = ⁅g, x⁆⁻¹ := by
@@ -54,6 +56,7 @@ private theorem commutator_mem_of_mem_normalizer' {Q : Subgroup G} {g x : G}
   rw [h1]
   exact Q.inv_mem (commutator_mem_of_mem_normalizer hg hx)
 
+omit [Finite G] in
 private theorem mem_normalizer_inSubgroup_perfectResidual' {K : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer (inSubgroup perfectResidual K : Set G) :=
@@ -65,7 +68,7 @@ private theorem theta_lB_eq_pCore_two' (h : Sec17Std G A c L Y₀)
     aschbacherSolvableCore 3 ↥(lB A (Subgroup.closure {c, d})) =
       CFSG.pCore 2 ↥(lB A (Subgroup.closure {c, d})) := by
   set J := lB A (Subgroup.closure {c, d}) with hJdef
-  haveI : Group.IsPerfect ↥J := by
+  have : Group.IsPerfect ↥J := by
     rw [hJdef, Ctr166.lB_closure_eq_residual h hJ hdA hd1 hdc]
     exact Item148HJ.residual_isPerfect L d
   have htc : Sec4.IsTripleCover (↥J ⧸ CFSG.pCore 2 ↥J) (alternatingGroup (Fin 6)) :=
@@ -74,12 +77,12 @@ private theorem theta_lB_eq_pCore_two' (h : Sec17Std G A c L Y₀)
   obtain ⟨-, -, hθ3, -, -, -, hθO⟩ :=
     solvable_prime_complement_core_characterization (H := ↥J) Nat.prime_three
   set Q := CFSG.pCore 2 ↥J
-  haveI : Q.Normal := CFSG.pCore_normal
+  have : Q.Normal := CFSG.pCore_normal
   have hO2θ : Q ≤ aschbacherSolvableCore 3 ↥J := hθO 2 Nat.prime_two (by norm_num)
   have hθn : (aschbacherSolvableCore 3 ↥J).Normal := aschbacherSolvableCore_normal 3 ↥J
   let f := QuotientGroup.mk' Q
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective Q
-  haveI hZn : ((aschbacherSolvableCore 3 ↥J).map f).Normal := hθn.map f hf
+  have hZn : ((aschbacherSolvableCore 3 ↥J).map f).Normal := hθn.map f hf
   have hZ3 : ¬ 3 ∣ Nat.card ((aschbacherSolvableCore 3 ↥J).map f) := fun h3 =>
     hθ3 (h3.trans (Subgroup.card_map_dvd _ f))
   have hZbot : (aschbacherSolvableCore 3 ↥J).map f = ⊥ :=
@@ -123,7 +126,7 @@ theorem le_normalizer_of_mem_centralizer_theta (h : Sec17Std G A c L Y₀)
     exact Subgroup.inf_normalizer_le_normalizer_inf
       ⟨Sec6.le_normalizer_theta K (hJK hl), Subgroup.le_normalizer (hJc hl)⟩
   have hTs : Group.IsSolvable ↥T := by
-    haveI := (Sec6.theta_solvable_and_not_dvd K).1
+    have := (Sec6.theta_solvable_and_not_dvd K).1
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion inf_le_left)
       (Subgroup.inclusion_injective _)
   have hΘs : Group.IsSolvable ↥Θc :=
@@ -160,10 +163,10 @@ theorem le_normalizer_of_mem_centralizer_theta (h : Sec17Std G A c L Y₀)
       hθL (hc (Subgroup.commutator_mem_commutator (hJL hl₁) hu))
     exact (Subgroup.mem_normalizer_iff.mp (hTΘ hs) _).mp hm
   have hJs : Group.IsSolvable ↥J := by
-    haveI := hVs
+    have := hVs
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJV)
       (Subgroup.inclusion_injective _)
-  haveI : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJne
+  have : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJne
   exact Group.IsPerfect.not_isSolvable ↥J hJs
 
 theorem commutator_lB_le_of_forall_commutator_mem (h : Sec17Std G A c L Y₀)
@@ -237,7 +240,7 @@ theorem commutator_lB_le_of_forall_commutator_mem (h : Sec17Std G A c L Y₀)
     exact Nat.Coprime.coprime_dvd_left hord
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr h3M)
   have hMs : Group.IsSolvable ↥M := by
-    haveI := (Sec6.theta_solvable_and_not_dvd K).1
+    have := (Sec6.theta_solvable_and_not_dvd K).1
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hMθ)
       (Subgroup.inclusion_injective _)
   rw [Subgroup.commutator_le]

@@ -22,7 +22,7 @@ theorem rckSUc_g_mul_A_tau (hk : 4 ≤ k) (B : GL (Fin k) SUF) (τ : SUF ≃+* S
   simp only [Matrix.mul_assoc]
   rw [rckSUc_gstar_mul_h hk (B : Matrix (Fin k) (Fin k) SUF) hB hBN, Matrix.mul_one]
 
-theorem rckSUc_map_one_k (hk : 4 ≤ k) (τ : SUF ≃+* SUF) :
+theorem rckSUc_map_one_k (_hk : 4 ≤ k) (τ : SUF ≃+* SUF) :
     (1 : Matrix (Fin k) (Fin k) SUF).map τ = 1 := by
   ext i j
   simp [Matrix.map_apply, Matrix.one_apply]
@@ -34,7 +34,7 @@ theorem rckSUc_B_mul_M_rev0 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
         + B i (rckSUc_e hk 1) * τ (SUσ (rckSUc_beta v)) := by
   rw [rckSUc_M_map, Matrix.mul_add, Matrix.mul_add, Matrix.mul_add]
   simp only [Matrix.add_apply, rckSUc_mul_single_apply]
-  simp [rckSUc_e'_zero_ne_one hk, rckSUc_e'_one_ne_zero hk]
+  simp [rckSUc_e'_zero_ne_one hk]
 
 theorem rckSUc_B_mul_M_rev1 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
     (τ : SUF ≃+* SUF) (v : Fin 4 → ZMod 2) (i : Fin k) :
@@ -43,7 +43,7 @@ theorem rckSUc_B_mul_M_rev1 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
         + B i (rckSUc_e hk 1) * τ (rckSUc_alpha (v 3)) := by
   rw [rckSUc_M_map, Matrix.mul_add, Matrix.mul_add, Matrix.mul_add]
   simp only [Matrix.add_apply, rckSUc_mul_single_apply]
-  simp [rckSUc_e'_zero_ne_one hk, rckSUc_e'_one_ne_zero hk]
+  simp [rckSUc_e'_one_ne_zero hk]
 
 theorem rckSUc_B_mul_M_off (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
     (τ : SUF ≃+* SUF) (v : Fin 4 → ZMod 2) (i j : Fin k)
@@ -94,7 +94,7 @@ theorem rckSUc_B_mul_M_corner0 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
       = (rckSUc_g hk B * (rckSUc_A v).map τ) a 0 := by
   rw [rckSUc_B_mul_M_rev0]
   simp [rckSUc_g, Matrix.submatrix_apply, Matrix.mul_apply, Fin.sum_univ_two, rckSUc_A,
-    Matrix.map_apply, Matrix.cons_val_zero, Matrix.cons_val_succ]
+    Matrix.map_apply, Matrix.cons_val_zero]
 
 theorem rckSUc_B_mul_M_corner1 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
     (τ : SUF ≃+* SUF) (v : Fin 4 → ZMod 2) (a : Fin 2) :
@@ -102,7 +102,7 @@ theorem rckSUc_B_mul_M_corner1 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
       = (rckSUc_g hk B * (rckSUc_A v).map τ) a 1 := by
   rw [rckSUc_B_mul_M_rev1]
   simp [rckSUc_g, Matrix.submatrix_apply, Matrix.mul_apply, Fin.sum_univ_two, rckSUc_A,
-    Matrix.map_apply, Matrix.cons_val_zero, Matrix.cons_val_succ]
+    Matrix.map_apply, Matrix.cons_val_zero]
 
 theorem rckSUc_M_mul_B_corner0 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
     (v : Fin 4 → ZMod 2) (b : Fin 2) :
@@ -110,7 +110,7 @@ theorem rckSUc_M_mul_B_corner0 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
       = (rckSUc_A v * rckSUc_h hk B) 0 b := by
   rw [rckSUc_M_mul_B_row0]
   simp [rckSUc_h, Matrix.submatrix_apply, Matrix.mul_apply, Fin.sum_univ_two, rckSUc_A,
-    Matrix.cons_val_zero, Matrix.cons_val_succ]
+    Matrix.cons_val_zero]
 
 theorem rckSUc_M_mul_B_corner1 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
     (v : Fin 4 → ZMod 2) (b : Fin 2) :
@@ -118,7 +118,7 @@ theorem rckSUc_M_mul_B_corner1 (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
       = (rckSUc_A v * rckSUc_h hk B) 1 b := by
   rw [rckSUc_M_mul_B_row1]
   simp [rckSUc_h, Matrix.submatrix_apply, Matrix.mul_apply, Fin.sum_univ_two, rckSUc_A,
-    Matrix.cons_val_zero, Matrix.cons_val_succ]
+    Matrix.cons_val_zero]
 
 theorem rckSUc_corner_comm (hk : 4 ≤ k) (B : GL (Fin k) SUF) (τ : SUF ≃+* SUF)
     (hB : conjTr SUσ (B : Matrix (Fin k) (Fin k) SUF) * rckSUc_J k *
@@ -227,7 +227,7 @@ theorem rckSUc_det_g_mul_sigma (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
     (hB : conjTr SUσ B * rckSUc_J k * B = rckSUc_J k)
     (hBN : B * rckSUc_N hk = rckSUc_N hk * B) :
     (rckSUc_g hk B).det * SUσ (rckSUc_g hk B).det = 1 := by
-  haveI : Fintype SUF := Fintype.ofFinite SUF
+  have : Fintype SUF := Fintype.ofFinite SUF
   have hne := rckSUc_det_g_ne_zero hk B hB hBN
   have h3 : (rckSUc_g hk B).det ^ 3 = 1 := by
     have h := FiniteField.pow_card_sub_one_eq_one (rckSUc_g hk B).det hne

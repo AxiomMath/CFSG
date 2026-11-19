@@ -72,12 +72,12 @@ theorem z6_sq' (x : z6O) :
 theorem z6_bar_eq (w : z6O) : z6Bar w = z6Tr w • z6One - w := by
   obtain ⟨a, u, v, b⟩ := w
   refine Prod.ext ?_ (Prod.ext ?_ (Prod.ext ?_ ?_))
-  · simp [z6Bar, z6Tr, z6One] <;> ring
+  · simp [z6Bar, z6Tr, z6One]
   · funext i
-    simp [z6Bar, z6Tr, z6One, z6_neg_eq]
+    simp [z6Bar, z6Tr, z6One]
   · funext i
-    simp [z6Bar, z6Tr, z6One, z6_neg_eq]
-  · simp [z6Bar, z6Tr, z6One] <;> ring
+    simp [z6Bar, z6Tr, z6One]
+  · simp [z6Bar, z6Tr, z6One]
 
 theorem z6_smul_one (c : ZMod 2) : c • z6One = (c, 0, 0, c) := by
   simp [z6One]
@@ -147,7 +147,7 @@ theorem z6_F3_all {u : z6O} (h1 : z6Tr u = 1) (h2 : z6Nrm u = 1) (x : z6O) :
   exact LinearMap.congr_fun h x
 
 @[expose] def z6cUE {u : z6O} (h1 : z6Tr u = 1) (h2 : z6Nrm u = 1) : z6O ≃ₗ[ZMod 2] z6O :=
-  LinearEquiv.ofLinear (z6cUL u) ((z6cUL u).comp (z6cUL u))
+  LinearEquiv.ofLinearMap (z6cUL u) ((z6cUL u).comp (z6cUL u))
     (z6_linear_id _ fun i => z6_F2 u h1 h2 i) (z6_linear_id _ fun i => z6_F2 u h1 h2 i)
 
 theorem z6cUE_apply {u : z6O} (h1 : z6Tr u = 1) (h2 : z6Nrm u = 1) (x : z6O) :

@@ -19,13 +19,13 @@ theorem y7c_gl3_fix_sylow (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Set G)
   classical
   obtain ⟨_, hsec⟩ := hE
   obtain ⟨hNn, he⟩ := hsec
-  haveI := hNn
+  have := hNn
   obtain ⟨e⟩ := he
-  haveI : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
     CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   let Q : Type := ↥E ⧸ N.subgroupOf E
   let π : ↥E →* Q := QuotientGroup.mk' (N.subgroupOf E)
-  haveI : IsSimpleGroup Q := e.isSimpleGroup
+  have : IsSimpleGroup Q := e.isSimpleGroup
   let ρ : ↥E →* MulAut ↥W := W.normalizerMonoidHom.comp (Subgroup.inclusion hW)
   have hρ_apply : ∀ y : ↥E, ρ y = W.normalizerMonoidHom (Subgroup.inclusion hW y) :=
     fun _ => rfl
@@ -64,9 +64,7 @@ theorem y7c_gl3_fix_sylow (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Set G)
         intro g hg
         have h1 : ρ ⟨g, hg⟩ = 1 := by rw [hρ1, MonoidHom.one_apply]
         have hconj : (((ρ ⟨g, hg⟩) ⟨w, hw⟩ : ↥W) : G) = g * w * g⁻¹ := by
-          simpa [ρ, MonoidHom.comp_apply, Subgroup.coe_inclusion] using
-            Subgroup.normalizerMonoidHom_apply_apply_coe W
-              (Subgroup.inclusion hW ⟨g, hg⟩) ⟨w, hw⟩
+          simp [ρ, MonoidHom.comp_apply, Subgroup.coe_inclusion]
         have hfixw : g * w * g⁻¹ = w := by
           have h := congrArg (fun f : MulAut ↥W => (((f ⟨w, hw⟩ : ↥W)) : G)) h1
           rw [hconj] at h
@@ -86,7 +84,7 @@ theorem y7c_gl3_fix_sylow (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Set G)
     have hc := Subgroup.card_ker_mul_card_range ρD
     rw [hkerD, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hND).toEquiv, hD] at hc
     have hNpos : 0 < Nat.card N := by
-      haveI : Nonempty ↥N := ⟨1, N.one_mem⟩
+      have : Nonempty ↥N := ⟨1, N.one_mem⟩
       exact Nat.card_pos
     rw [mul_comm 8 (Nat.card N)] at hc
     exact Nat.mul_left_cancel hNpos hc
@@ -105,9 +103,7 @@ theorem y7c_gl3_fix_sylow (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Set G)
         have hcomm : (d : G) * w.1 = w.1 * (d : G) :=
           Subgroup.mem_centralizer_iff.mp hwD (d : G) d.2
         have hconj : (((ρD d) ⟨w.1, hwW⟩ : ↥W) : G) = (d : G) * w.1 * (d : G)⁻¹ := by
-          simpa [ρD, ρ, MonoidHom.comp_apply, Subgroup.coe_inclusion] using
-            Subgroup.normalizerMonoidHom_apply_apply_coe W
-              (Subgroup.inclusion hW (Subgroup.inclusion hDE d)) ⟨w.1, hwW⟩
+          simp [ρD, ρ, MonoidHom.comp_apply, Subgroup.coe_inclusion]
         rw [hconj]
         change (d : G) * w.1 * (d : G)⁻¹ = w.1
         rw [hcomm]

@@ -260,8 +260,8 @@ private theorem u1aO4_perfect_high {τ : Tag} {p₀ : ℕ} (hτ : τ = .E6 ∨ �
     charP_of_injective_algebraMap (algebraMap (ZMod 2) GGL).injective 2
   have hr2 : r = 2 := CharP.eq GGL hchar h2inst
   subst hr2
-  haveI : Fact (Nat.Prime 2) := ⟨hr⟩
-  haveI : CharP GGL 2 := hchar
+  have : Fact (Nat.Prime 2) := ⟨hr⟩
+  have : CharP GGL 2 := hchar
   set Ψ := componentRoots χ i with hΨdef
   have hΨ : IsRootComponent Ψ := isRootComponent_componentRoots i
   have hSC : ∀ T : Set (Fin τ.rank → ℤ),
@@ -505,7 +505,7 @@ theorem outerTwo_mem_ratComp_typeD {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ �
       exact hlayerFam
     have hPperf : ⁅(rootSpan τ GGL Ψ ⊓ Δ.model), (rootSpan τ GGL Ψ ⊓ Δ.model)⁆
         = rootSpan τ GGL Ψ ⊓ Δ.model := by
-      haveI : Group.IsPerfect ↥(rootSpan τ GGL Ψ ⊓ Δ.model) := hlayer.1
+      have : Group.IsPerfect ↥(rootSpan τ GGL Ψ ⊓ Δ.model) := hlayer.1
       exact Subgroup.commutator_eq_self
     exact u1aO4_mem_ratComp_of_perfect (P := rootSpan τ GGL Ψ ⊓ Δ.model) Δ Ψ hrat le_rfl
       hPperf hg

@@ -13,7 +13,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private lemma l05nL8_dot_mod (p : ℕ) (a b : List ℕ) :
     ggDepANDot p a b % p = ggDepANDot p a b := by
-  simp [ggDepANDot, Nat.mod_mod]
+  simp [ggDepANDot]
 
 private lemma l05nL8_cartan_diag (i : ℕ) : ggTWLCartanE 3 i i = 2 % 3 := by
   simp [ggTWLCartanE]
@@ -243,7 +243,7 @@ theorem ggTWLE8_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
           show ggTWRefl (ggTWh 3 9 i) (ggTWα 3 9 i) =
             ggTWRefl (ggTWNToZ 3 9 (ggTWNGen 3 9 news i.val).1)
               (ggTWNToZ 3 9 (ggTWNGen 3 9 news i.val).2)
-          rw [ggTWNGen, if_pos (by omega : i.val + 1 < 9)]
+          rw [ggTWNGen, ite_eq_left (by omega : i.val + 1 < 9)]
           simp only [ggTWNH_toZ, ggTWNA_toZ]
         rw [hgen]
         exact l05nL8_gen_mem hnews h i.val (by omega)
@@ -255,7 +255,7 @@ theorem ggTWLE8_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
         have hg : 8 + k < 8 + news.length := by omega
         have hgen : ggTWNRflOf 3 9 q = ggTWNRflOf 3 9 (ggTWNGen 3 9 news (8 + k)) := by
           congr 1
-          rw [ggTWNGen, if_neg (by omega), show 8 + k + 1 - 9 = k by omega,
+          rw [ggTWNGen, ite_eq_right (by omega), show 8 + k + 1 - 9 = k by omega,
             List.getD_eq_getElem _ _ hk, hkq]
         rw [hgen]
         exact l05nL8_gen_mem hnews h (8 + k) hg

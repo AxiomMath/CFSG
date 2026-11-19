@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23a_rk_subgroupOf_eq {U V : Subgroup G} (h : U ≤ V) :
     rk ↥(U.subgroupOf V) = rk ↥U := by
   unfold rk

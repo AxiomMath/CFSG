@@ -58,7 +58,7 @@ theorem burnsideF429b_U5_incl_z_left (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fi
     burnsideF429b_U5_incl hK A (.inr (.inl 0)) b = if b = .inr (.inl 0) then 1 else 0 := by
   rcases burnsideF429b_U5_idx_cases b with rfl | ⟨b', rfl⟩
   · simp [burnsideF429b_U5_incl, burnsideF429b_U5_idx_z]
-  · rw [if_neg (burnsideF429b_U5_idx_symm_ne b')]
+  · rw [ite_eq_right (burnsideF429b_U5_idx_symm_ne b')]
     simp [burnsideF429b_U5_incl, burnsideF429b_U5_idx_z]
 
 theorem burnsideF429b_U5_incl_z_right (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) hK.fixedField)
@@ -66,7 +66,7 @@ theorem burnsideF429b_U5_incl_z_right (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ F
     burnsideF429b_U5_incl hK A a (.inr (.inl 0)) = if a = .inr (.inl 0) then 1 else 0 := by
   rcases burnsideF429b_U5_idx_cases a with rfl | ⟨a', rfl⟩
   · simp [burnsideF429b_U5_incl, burnsideF429b_U5_idx_z]
-  · rw [if_neg (burnsideF429b_U5_idx_symm_ne a')]
+  · rw [ite_eq_right (burnsideF429b_U5_idx_symm_ne a')]
     simp [burnsideF429b_U5_incl, burnsideF429b_U5_idx_z]
 
 theorem burnsideF429b_U5_incl_mul (A B : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) hK.fixedField) :
@@ -107,14 +107,14 @@ theorem burnsideF429b_U5_incl_injective : Function.Injective (burnsideF429b_U5_i
 
 theorem burnsideF429b_U5_hypGram_eq :
     hypGram 2 1 K = burnsideF429b_U5_incl hK (CFSG.Quasithin.H13.U4Par.spJ hK.fixedField) := by
-  haveI := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
+  have := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
   ext a b
   rw [hypGram_apply]
   rcases burnsideF429b_U5_idx_cases a with rfl | ⟨a', rfl⟩
   · rw [burnsideF429b_U5_incl_z_left, hypPartner_inr_inl]
   rcases burnsideF429b_U5_idx_cases b with rfl | ⟨b', rfl⟩
-  · rw [burnsideF429b_U5_incl_z_right, if_neg (burnsideF429b_U5_idx_symm_ne a'),
-      if_neg (fun h => burnsideF429b_U5_idx_symm_ne a' (by
+  · rw [burnsideF429b_U5_incl_z_right, ite_eq_right (burnsideF429b_U5_idx_symm_ne a'),
+      ite_eq_right (fun h => burnsideF429b_U5_idx_symm_ne a' (by
         rw [← hypPartner_hypPartner (burnsideF429b_U5_idx.symm (.inl a')), ← h]; rfl))]
   rw [burnsideF429b_U5_incl_apply]
   rcases a' with i | i <;> rcases b' with j | j <;> fin_cases i <;> fin_cases j <;>
@@ -133,7 +133,7 @@ theorem burnsideF429b_U5_incl_mem (A : StatedSp 2 hK.fixedField) :
           Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) hK.fixedField) = hypGram 2 1 K ∧
       (burnsideF429b_U5_incl hK ((A : GL (Fin 2 ⊕ Fin 2) hK.fixedField) :
         Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) hK.fixedField)).det = 1 := by
-  haveI := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
+  have := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
   refine ⟨?_, ?_⟩
   · rw [burnsideF429b_U5_incl_bar, burnsideF429b_U5_incl_transpose, burnsideF429b_U5_hypGram_eq hK,
       ← burnsideF429b_U5_incl_mul, ← burnsideF429b_U5_incl_mul,
@@ -183,8 +183,8 @@ theorem burnsideF429b_U5_spEmb_injective : Function.Injective (burnsideF429b_U5_
 theorem burnsideF429b_U5_exists_spEmb (g : hypSU hK 2 1)
     (hfix : ∀ a b, hK.bar (mat g a b) = mat g a b) :
     ∃ A : StatedSp 2 hK.fixedField, burnsideF429b_U5_spEmb hK A = g := by
-  haveI : CharP K 2 := hK.charP
-  haveI := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
+  have : CharP K 2 := hK.charP
+  have := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
   have hJ : (mat g)ᵀ * hypGram 2 1 K * mat g = hypGram 2 1 K :=
     CFSG.Quasithin.H13.F431.Un.OL5.un5tb_gram_of_fixed hK g hfix
   have hrow := CFSG.Quasithin.H13.F431.Un.OL5.un5tb_row_z hJ
@@ -280,7 +280,7 @@ theorem burnsideF429b_U5_proj_spEmb_injective :
     unfold mat
     rw [hc]
     simp [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-  rw [burnsideF429b_U5_mat_spEmb, burnsideF429b_U5_incl_z_left, if_pos rfl] at h2
+  rw [burnsideF429b_U5_mat_spEmb, burnsideF429b_U5_incl_z_left, ite_eq_left rfl] at h2
   have hc1 : c = 1 := Units.ext h2.symm
   apply burnsideF429b_U5_spEmb_injective hK
   rw [map_one]
@@ -397,7 +397,7 @@ theorem burnsideF429b_U5_rank_act {y : Gam hK} (hy : y.1.right = 1) (g : hypSU h
         Matrix (HypIndex 2 1) (HypIndex 2 1) K) - 1) =
       Matrix.rank ((((g : hypSU hK 2 1) : GL (HypIndex 2 1) K) :
         Matrix (HypIndex 2 1) (HypIndex 2 1) K) - 1) := by
-  haveI : CharP K 2 := hK.charP
+  have : CharP K 2 := hK.charP
   have e : (((act hK y g : hypSU hK 2 1) : GL (HypIndex 2 1) K) :
       Matrix (HypIndex 2 1) (HypIndex 2 1) K) - 1 =
       ((y.1.left : GL (HypIndex 2 1) K) : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *
@@ -419,8 +419,8 @@ theorem burnsideF429b_U5_isGenLie (Ψ : hypPSU hK 2 1 ≃* ↥Gp) {t : E} (β : 
     (Phi hK (CFSG.LocalAnalysis.EvenBN.U5.OuterInvolution.fieldElt hK σ))
     (fun A => by rw [Phi_apply, burnsideF429b_U5_fieldElt_spEmb hK hσ])
     (fun w hw => burnsideF429b_U5_exists_spEmb_of_fix hK hσ w hw) ht
-  haveI := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
-  haveI : Finite K := hK.finite
+  have := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
+  have : Finite K := hK.finite
   exact ⟨Nat.prime_two, hK.one_le, hK.fixedField, inferInstance, inferInstance,
     hK.card_fixedField, ⟨ι.symm.trans (CFSG.QuasithinUnique.Lin2.Five.projEquiv _)⟩⟩
 
@@ -435,8 +435,8 @@ theorem burnsideF429b_U5_graphFixed (chart : NativeChart .U5 2 f Gp) (Ψ : hypPS
             1)) :
     chart.GraphFixedMarkingGoal t := by
   intro _
-  haveI := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
-  haveI : Finite K := hK.finite
+  have := CFSG.Quasithin.H13.U4Par.charP_fixedField hK
+  have : Finite K := hK.finite
   obtain ⟨ι, hι⟩ := burnsideF429b_U5_cen_equiv hK Ψ (Phi hK y)
     (Phi hK (CFSG.LocalAnalysis.EvenBN.U5.OuterInvolution.fieldElt hK σ))
     (fun A => by rw [Phi_apply, burnsideF429b_U5_fieldElt_spEmb hK hσ])

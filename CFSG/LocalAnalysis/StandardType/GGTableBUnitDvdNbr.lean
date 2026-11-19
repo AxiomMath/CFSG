@@ -157,7 +157,7 @@ theorem ggTorusNbrSCr_unitary
     exact hnd ⟨rfl, (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp h3'⟩
   obtain ⟨φ, hφs, hφker, hdiag⟩ := exists_diagModel hK hn hd hp hpq hpd
     (unitaryUniversalCover_holds n d K hK hd hdnd) hψ hker hperf hA hAI hcard
-  haveI : Finite (MulAut L') := Finite.of_injective (fun f : MulAut L' => (f : L' → L'))
+  have : Finite (MulAut L') := Finite.of_injective (fun f : MulAut L' => (f : L' → L'))
     DFunLike.coe_injective
   have hM : Model φ := ⟨TableBU.unitaryFieldData_of_card hK hn, hφs, hφker⟩
   have hA1 : Nat.card A ≠ 1 := by

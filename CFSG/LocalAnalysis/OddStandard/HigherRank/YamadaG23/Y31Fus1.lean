@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} (s : Setting3 G L)
 theorem s3_fusion_zt (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (hOut : (innerAut (L ⧸ center L)).index = 2) :
     ∃ g : G, g * s.t * g⁻¹ = s.fr.z ∨ g * s.t * g⁻¹ = s.fr.z * s.t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxne, hxcomm⟩ := Setup.exists_commuting_conjugate (L := L) hS s.t_order
   set t' : G := x * s.t * x⁻¹ with ht'def
   have hxne' : t' ≠ s.t := fun h => hxne (by simpa [ht'def] using h)

@@ -109,7 +109,7 @@ theorem sgS_eq_iff (hK : Nat.card K = (2 ^ f) ^ 2) {U V : Submodule K (Fin n →
 theorem card_sg_fixed_le (hK : Nat.card K = (2 ^ f) ^ 2) :
     Nat.card {a : K // sg K f a = a} ≤ 2 ^ f := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hbig : 1 < Nat.card K := Finite.one_lt_card
   rw [hK] at hbig
   have hq : 1 < 2 ^ f := by
@@ -143,7 +143,7 @@ theorem card_sg_fixed_le (hK : Nat.card K = (2 ^ f) ^ 2) :
 theorem card_sg_moved_ge (hK : Nat.card K = (2 ^ f) ^ 2) :
     Nat.card K - 2 ^ f ≤ Nat.card {a : K // sg K f a ≠ a} := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hfix : Fintype.card {a : K // sg K f a = a} ≤ 2 ^ f := by
     simpa [Nat.card_eq_fintype_card] using card_sg_fixed_le (K := K) (f := f) hK
   have hK' : Fintype.card K = (2 ^ f) ^ 2 := by
@@ -180,7 +180,7 @@ private theorem pls2_exists_mem_avoid {α : Type*} [DecidableEq α] {s : Finset 
 theorem exists_sg_moved_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) (a b : K) :
     ∃ c : K, sg K f c ≠ c ∧ c ≠ a ∧ c ≠ b := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hge : 3 ≤ Nat.card K - 2 ^ f := by
     rw [hK, pow_two]
     have hmul : 4 * 3 ≤ 2 ^ f * (2 ^ f - 1) :=
@@ -197,7 +197,7 @@ theorem exists_sg_moved_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
   refine ⟨c, ?_, hca, hcb⟩
   simpa [s] using (Finset.mem_filter.mp hc).2
 
-private noncomputable def pls2_trace (hK : Nat.card K = (2 ^ f) ^ 2) : K →+ K where
+private noncomputable def pls2_trace (_hK : Nat.card K = (2 ^ f) ^ 2) : K →+ K where
   toFun c := c + sg K f c
   map_zero' := by simp
   map_add' c d := by
@@ -238,7 +238,7 @@ private theorem pls2_card_trace_range (hK : Nat.card K = (2 ^ f) ^ 2) :
 theorem exists_sg_fixed_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) (a b : K) :
     ∃ c : K, sg K f c = c ∧ c ≠ a ∧ c ≠ b := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hK0 : Nat.card {c : K // sg K f c = c} * Nat.card {c : K // sg K f c = c} =
       (2 ^ f) ^ 2 := by
     nth_rw 1 [← pls2_card_trace_ker hK]

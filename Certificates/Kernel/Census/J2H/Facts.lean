@@ -47,8 +47,8 @@ theorem sgnProd_invW {n : ℕ} (gs : ℕ → Equiv.Perm (Fin n)) :
     simp only [sgnProd_cons, sgnProd_nil, mul_one, mul_inv_rev]
     congr 1
     by_cases hpos : 0 < l
-    · rw [if_neg (by omega), if_pos hpos, neg_neg]
-    · rw [if_pos (by omega), if_neg hpos, inv_inv]
+    · rw [ite_eq_right (by omega), ite_eq_left hpos, neg_neg]
+    · rw [ite_eq_left (by omega), ite_eq_right hpos, inv_inv]
 
 theorem rep_c2A {j : ℕ} (hj : j < 5) : Rep 315 (unpack 315 9 (C2A.S j)) (gC j) := by
   rw [← c2A_binds.2.2.2.2.1 j hj]
@@ -216,7 +216,7 @@ theorem s0_facts :
   · rw [s0Chain, ofArrays_originalSubgroup, card_cent_crT (G := S0C.S)
       (g := fun j => permOfArr 315 s0Strong[j]!) (fun t => ?_) (fun j hj => ⟨?_, rep_s0 hj⟩),
       s0_count]
-    · simp only [Set.mem_setOf_eq]
+    · simp only [Set.mem_ofPred_eq]
       exact ⟨fun ⟨j, hj, h⟩ => ⟨j, hj, h.symm⟩, fun ⟨j, hj, h⟩ => ⟨j, hj, h.symm⟩⟩
     · exact CFSG.KS.PK.allN_iff.1 s0_canon j hj
 
@@ -300,7 +300,7 @@ theorem rep_wordTbl_c2A : ∀ (w : List ℕ), (∀ l ∈ w, 1 ≤ l ∧ l ≤ 2)
     have := rep_wordTbl_c2A w (fun l' hl' => hw l' (List.mem_cons_of_mem l hl')) _ _
       (CFSG.Sporadic.Th.Rep.compT h (rep_c2AGens hl))
     have e : posW (l :: w) = (l : ℤ) :: posW w := rfl
-    rw [e, sgnProd_cons, if_pos (by omega)]
+    rw [e, sgnProd_cons, ite_eq_left (by omega)]
     simpa [mul_assoc] using this
 
 theorem v_tp {i : ℕ} (hi : i < 4) :
@@ -323,7 +323,7 @@ theorem v_facts :
     (fun j hj => ⟨CFSG.KS.PK.allN_iff.1 v_canon j hj, ?_⟩), v_count]
   · constructor
     · rintro ⟨x, hx, rfl⟩
-      simp only [Set.mem_setOf_eq, List.mem_toArray, List.mem_map] at hx
+      simp only [Set.mem_ofPred_eq, List.mem_toArray, List.mem_map] at hx
       obtain ⟨w, hw, rfl⟩ := hx
       simp only [vWs, List.mem_cons, List.not_mem_nil, or_false] at hw
       rcases hw with rfl | rfl | rfl | rfl
@@ -333,7 +333,7 @@ theorem v_facts :
       · exact ⟨3, by norm_num, v_tp (i := 3) (by norm_num)⟩
     · rintro ⟨j, hj, rfl⟩
       refine ⟨wordTbl 315 c2AGens (vWs.getD j []), ?_, v_tp hj⟩
-      simp only [Set.mem_setOf_eq, List.mem_toArray, List.mem_map]
+      simp only [Set.mem_ofPred_eq, List.mem_toArray, List.mem_map]
       refine ⟨vWs.getD j [], ?_, rfl⟩
       interval_cases j <;> simp [vWs]
   · rw [← v_binds.2.2.2.2.1 j hj]

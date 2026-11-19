@@ -18,7 +18,7 @@ attribute [-instance] instCommGroupOfIsSimpleGroupOfIsNilpotent
 theorem not_isNilpotent_of_simple_card_360 (G : Type*) [Group G] [Finite G] [IsSimpleGroup G]
     (h : Nat.card G = 360) : ¬ Group.IsNilpotent G := by
   intro hnil
-  letI : CommGroup G := @instCommGroupOfIsSimpleGroupOfIsNilpotent G _ _ hnil
+  let : CommGroup G := @instCommGroupOfIsSimpleGroupOfIsNilpotent G _ _ hnil
   have hp := IsSimpleGroup.prime_card (α := G)
   rw [h] at hp
   exact absurd hp (by norm_num)
@@ -102,7 +102,7 @@ theorem inf_eq_bot_of_centralizing {A : Type*} [Group A] {H P : Subgroup A} [Fin
     have hc : ∀ a b : ↥H, a * b = b * a := fun a b => by
       have : a ∈ Subgroup.center ↥H := h1 ▸ Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.1 this b).symm
-    letI : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hc }
+    let : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hc }
     have hp := IsSimpleGroup.prime_card (α := ↥H)
     rw [hcard] at hp
     exact absurd hp (by norm_num)
@@ -134,9 +134,9 @@ theorem eq_sup_zpowers_of_card {A : Type*} [Group A] {Γ M : Subgroup A} {x : A}
     (hMΓ : M ≤ Γ) (hx : x ∈ Γ) (hxM : x ∉ M) (hΓ : Nat.card ↥Γ = 2 * Nat.card ↥M) :
     Γ = M ⊔ Subgroup.zpowers x := by
   have hle : M ⊔ Subgroup.zpowers x ≤ Γ := sup_le hMΓ ((Subgroup.zpowers_le).2 hx)
-  haveI : Finite ↥M :=
+  have : Finite ↥M :=
     Finite.of_injective (Subgroup.inclusion hMΓ) (Subgroup.inclusion_injective hMΓ)
-  haveI : Finite ↥(M ⊔ Subgroup.zpowers x) :=
+  have : Finite ↥(M ⊔ Subgroup.zpowers x) :=
     Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   have hlt : M < M ⊔ Subgroup.zpowers x := by
     refine lt_of_le_of_ne le_sup_left fun h => hxM ?_

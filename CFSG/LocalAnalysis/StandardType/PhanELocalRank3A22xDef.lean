@@ -18,6 +18,7 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
   ok _ := True
   good c M := c.comap rho ≠ Vsub 4 2 ⊔ Submodule.span K (jShift f '' (M : Set (Fin 4 → K)))
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_farSet_a3_22x_iff (x : FlagK K 4) :
     x ∈ farSet 4 [0, 2, 4] ↔ x.E 2 ⊓ Vsub (K := K) 4 2 = ⊥ := by
   have hd : ∀ i, i < ([0, 2, 4] : List ℕ).length →
@@ -30,8 +31,7 @@ private theorem plh_mem_farSet_a3_22x_iff (x : FlagK K 4) :
   · intro h
     have h' := (h 1 (by decide) 2 (by decide)).1 (by decide)
     simpa using h'
-  · intro h
-    intro i hi j hj
+  · intro h i hi j hj
     have hi3 : i < 3 := by simpa using hi
     interval_cases i
     · constructor
@@ -77,12 +77,14 @@ private theorem plh_mem_farSet_a3_22x_iff (x : FlagK K 4) :
       · intro _
         rw [show ([0, 2, 4] : List ℕ).getD 2 0 = 4 from rfl, Vsub_self, sup_top_eq]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_blockU_a3_22x_block1 (x : FlagK K 4) :
     blockU K 4 [0, 2, 4] x.E 1 1 = x.E 1 ⊔ Vsub (K := K) 4 2 := by
   have h4 : ([0, 2, 4] : List ℕ).getD 2 0 = 4 := rfl
   have h2 : ([0, 2, 4] : List ℕ).getD 1 0 = 2 := rfl
   rw [blockU, h4, h2, Vsub_self, inf_top_eq]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_blockU_a3_22x_block0 (x : FlagK K 4) :
     blockU K 4 [0, 2, 4] x.E 0 1 = x.E 3 ⊓ Vsub (K := K) 4 2 := by
   have h2 : ([0, 2, 4] : List ℕ).getD 1 0 = 2 := rfl
@@ -92,7 +94,7 @@ private theorem plh_blockU_a3_22x_block0 (x : FlagK K 4) :
 theorem genSet_a3_22x_eq :
     set22x K f = admSet (AdmS (D22x (K := K) f)) := by
   ext x
-  simp only [set22x, Set.mem_setOf_eq, admSet, AdmS, D22x, true_and]
+  simp only [set22x, Set.mem_ofPred_eq, admSet, AdmS, D22x, true_and]
   rw [plh_mem_farSet_a3_22x_iff (K := K) x,
     plh_blockU_a3_22x_block1 (K := K) x,
     plh_blockU_a3_22x_block0 (K := K) x,

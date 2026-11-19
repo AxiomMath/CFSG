@@ -530,10 +530,10 @@ private theorem ggQ2S08_exists_cell {G : Type} [Group G] [Finite G] {B Bs : Subg
       simpa only [GGQ2LabelWeyl, htag] using hLW
     obtain ⟨e, he⟩ := hLW'
     have hcardΛ : Fintype.card M.Λ = 6 := by rw [hΛ, GGQ2LieRank, htag]
-    have hC : ∀ i j, M.cartan (e i) (e j) = CartanMatrix.E₆ i j :=
+    have hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E 6) i j :=
       ggQ2_cartan_E₆ e he M.isCartan
     have hnotunit : ¬ IsUnit (M.cartan.map (Int.castRingHom (ZMod 3))).det := by
-      rw [ggQ2S08_det_eq_of_cartan M e CartanMatrix.E₆ hC, ggQ2S08_det_E6]
+      rw [ggQ2S08_det_eq_of_cartan M e (CartanMatrix.E 6) hC, ggQ2S08_det_E6]
       decide
     have hnotfull : ¬ M.ShapeFull := ggQ2S08_not_shapeFull_of_det_zero M hnotunit
     have hrank0 : labL.rank = 0 := by
@@ -559,10 +559,10 @@ private theorem ggQ2S08_exists_cell {G : Type} [Group G] [Finite G] {B Bs : Subg
       simpa only [GGQ2LabelWeyl, htag] using hLW
     obtain ⟨e, he⟩ := hLW'
     have hcardΛ : Fintype.card M.Λ = 7 := by rw [hΛ, GGQ2LieRank, htag]
-    have hC : ∀ i j, M.cartan (e i) (e j) = CartanMatrix.E₇ i j :=
+    have hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E 7) i j :=
       ggQ2_cartan_E₇ e he M.isCartan
     have hunitM : IsUnit (M.cartan.map (Int.castRingHom (ZMod 3))).det :=
-      isUnit_cartan_det_of_reindex M e CartanMatrix.E₇ hC ggQ2S08_isUnit_det_E7
+      isUnit_cartan_det_of_reindex M e (CartanMatrix.E 7) hC ggQ2S08_isUnit_det_E7
     have hFull : M.ShapeFull := shapeFull_of_unit hunitM
     have hrank0 : labL.rank = 0 := by
       have h := hlabL2
@@ -576,10 +576,10 @@ private theorem ggQ2S08_exists_cell {G : Type} [Group G] [Finite G] {B Bs : Subg
       simpa only [GGQ2LabelWeyl, htag] using hLW
     obtain ⟨e, he⟩ := hLW'
     have hcardΛ : Fintype.card M.Λ = 8 := by rw [hΛ, GGQ2LieRank, htag]
-    have hC : ∀ i j, M.cartan (e i) (e j) = CartanMatrix.E₈ i j :=
+    have hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E 8) i j :=
       ggQ2_cartan_E₈ e he M.isCartan
     have hunitM : IsUnit (M.cartan.map (Int.castRingHom (ZMod 3))).det :=
-      isUnit_cartan_det_of_reindex M e CartanMatrix.E₈ hC ggQ2S08_isUnit_det_E8
+      isUnit_cartan_det_of_reindex M e (CartanMatrix.E 8) hC ggQ2S08_isUnit_det_E8
     have hFull : M.ShapeFull := shapeFull_of_unit hunitM
     have hrank0 : labL.rank = 0 := by
       have h := hlabL2

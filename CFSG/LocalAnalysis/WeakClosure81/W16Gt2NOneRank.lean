@@ -53,7 +53,7 @@ theorem mem_closure_rankOne {W X : Type*} [AddCommGroup W] [Module (ZMod 2) W] [
       refine Submodule.span_induction (p := fun K' _ => K'.smulRight x ∈ Φ₀) ?_ ?_ ?_ ?_ hK'
       · rintro f ⟨i, rfl⟩
         exact AddSubgroup.subset_closure ⟨i.1, i.2, x, rfl⟩
-      · simpa using Φ₀.zero_mem
+      · simp
       · intro f g _ _ ihf ihg
         rw [add_smulRight f g x]
         exact Φ₀.add_mem ihf ihg
@@ -87,7 +87,7 @@ theorem mem_closure_rankOne {W X : Type*} [AddCommGroup W] [Module (ZMod 2) W] [
       simpa only [Module.Basis.coord_apply] using b.sum_repr (Ψ.rangeRestrict v)
     have hco := congrArg (fun z : B => (z : X)) hrepr
     simp only [Submodule.coe_sum, Submodule.coe_smul] at hco
-    simp only [LinearMap.sum_apply, LinearMap.smulRight_apply, LinearMap.comp_apply]
+    simp only [LinearMap.sum_apply, LinearMap.smulRight_apply]
     exact hco.symm
   have hsum_mem : (∑ j, (K j).smulRight ((b j : B) : X)) ∈ Φ₀ :=
     AddSubgroup.sum_mem Φ₀ fun j _ => hKmem j
@@ -112,16 +112,16 @@ theorem exists_list_prod_rankOne {Ω : Type*} [Group Ω] [Finite Ω] {E E₀ : S
     ∃ l : List (Subgroup Ω × Ω), (∀ p ∈ l, p.1 ∈ 𝒬 ∧ p.2 ∈ E₀) ∧
       ∀ v ∈ E, Ψ v = (l.map fun p => rankOneMap p.1 p.2 v).prod := by
   classical
-  letI : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hE.1.is_comm.comm }
-  letI : CommGroup ↥E₀ := { (inferInstance : Group ↥E₀) with
+  let : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hE.1.is_comm.comm }
+  let : CommGroup ↥E₀ := { (inferInstance : Group ↥E₀) with
     mul_comm := fun a b => Subtype.ext (by
       have h := hE.1.is_comm.comm (⟨a.1, hE₀ a.2⟩ : ↥E) (⟨b.1, hE₀ b.2⟩ : ↥E)
       simpa using congrArg Subtype.val h) }
-  letI : Module (ZMod 2) (Additive ↥E) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive ↥E) := AddCommGroup.zmodModule (n := 2) fun x => by
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero]
     exact Subtype.ext (by simpa using hE.2 x.toMul x.toMul.2)
-  letI : Module (ZMod 2) (Additive ↥E₀) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive ↥E₀) := AddCommGroup.zmodModule (n := 2) fun x => by
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero]
     exact Subtype.ext (by simpa using hE.2 x.toMul (hE₀ x.toMul.2))
@@ -165,7 +165,7 @@ theorem exists_list_prod_rankOne {Ω : Type*} [Group Ω] [Finite Ω] {E E₀ : S
       rw [lam_apply Q (h𝒬 Q hQ).2.1 (h𝒬 Q hQ).2.2] at h0
       unfold bit at h0
       by_contra hmem
-      rw [if_neg hmem] at h0
+      rw [ite_eq_right hmem] at h0
       exact one_ne_zero h0
     have hvE₀ : (v.toMul : Ω) ∈ E₀ := hsep v.toMul v.toMul.2 hvQ
     have hwt : Ψt v = Additive.ofMul ⟨Ψ (v.toMul : Ω), hΨE v.toMul v.toMul.2⟩ := rfl
@@ -187,9 +187,9 @@ theorem exists_list_prod_rankOne {Ω : Type*} [Group Ω] [Finite Ω] {E E₀ : S
     change (bit ((v : Ω) ∈ Q) • x).toMul = rankOneMap Q (x.toMul : Ω) (v : Ω)
     unfold bit
     by_cases hv : (v : Ω) ∈ Q
-    · rw [if_pos hv, zero_smul, rankOneMap_of_mem hv]
+    · rw [ite_eq_left hv, zero_smul, rankOneMap_of_mem hv]
       rfl
-    · rw [if_neg hv, one_smul, rankOneMap_of_not_mem hv]
+    · rw [ite_eq_right hv, one_smul, rankOneMap_of_not_mem hv]
   have hP : P Ψt := by
     refine AddSubgroup.closure_induction
       (p := fun Φ (_ : Φ ∈ AddSubgroup.closure T) => P Φ) ?_ ?_ ?_ ?_ hclos

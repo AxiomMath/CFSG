@@ -57,11 +57,11 @@ theorem Lemma213.Red.caseA_four {K : Type} [Group K] [Finite K] {n p : ℕ} {P :
     (hD : ∀ w ∈ D, ∀ C : ComponentIndex K, w • C = C) :
     (∀ T : Subgroup K, p.Coprime (Nat.card T) → D ≤ normalizer (T : Set K) → T = ⊥) ∨
       LinesTransitive D := by
-  haveI := R.fact
+  have := R.fact
   have hS := R.subsingleton_of_normalizes (by omega) hD
   obtain ⟨C₀⟩ := exists_comp R.core R.nc
   obtain ⟨hsimple, hnonab⟩ := R.isSimpleGroup_comp C₀
-  haveI : C₀.1.Normal :=
+  have : C₀.1.Normal :=
     ⟨fun x hx g => by
       have h1 := mem_cjComp_of_mem g C₀ hx
       rwa [Subsingleton.elim (cjComp g C₀) C₀] at h1⟩
@@ -110,7 +110,7 @@ theorem kFactLemma213RedC_four (hI : GL83I294Two)
 
 theorem KFactLemma213RedC.toGeC {n : ℕ} (h : KFactLemma213RedC n) : KFactLemma213GeC n := by
   intro p hp hp2 H _ _ hcat hcon hpc P z D hconf hg hemb
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := hg
   have hN := primeComplementCore_coprime (G := H) p
   have hDp : IsPGroup p D := IsPGroup.of_card hconf.card

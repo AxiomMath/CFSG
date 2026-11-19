@@ -36,7 +36,7 @@ theorem o2Trivial_of_isIrrOn [Finite I] (hI : ∀ w : I, w ^ 2 = 1) {L : Subgrou
   intro P hPL hPn hP2
   obtain ⟨hlt, -, -, hJ⟩ := hirr
   have : Nontrivial I := by
-    obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     exact ⟨⟨v, 1, fun h => hv (h ▸ Subgroup.one_mem _)⟩⟩
   have hconj := (Subgroup.normal_subgroupOf_iff hPL).mp hPn
   have hst : StableUnder L (fixV P) := by
@@ -68,7 +68,7 @@ theorem eq_of_parabolic_of_rankOne [Finite I] {L P : Subgroup (MulAut I)} {e : �
     rintro _ ⟨x, hx, rfl⟩
     exact hS (Subgroup.le_normalizer hx)
   have hTsyl : IsSylowIn 2 T L := by
-    refine ⟨hTL, S.isPGroup'.map L.subtype, ?_⟩
+    refine ⟨hTL, S.isPGroup.map L.subtype, ?_⟩
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hrel : T.relIndex L = (S : Subgroup ↥L).index := by
       rw [Subgroup.relIndex, hT,

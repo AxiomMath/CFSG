@@ -45,7 +45,7 @@ theorem exists_invariant_sylow {G : Type} [Group G] [Finite G] {H O : Subgroup G
     refine Subgroup.mem_map.mpr ⟨φ ⟨k, hk⟩ y, hfix ⟨k, hk⟩ y hy, ?_⟩
     simp [φ]
   refine ⟨(P₀ : Subgroup ↥O).map O.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
-  · exact P₀.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ O.subtype O.subtype_injective)
+  · exact P₀.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ O.subtype O.subtype_injective)
   · have : ((P₀ : Subgroup ↥O).map O.subtype).subgroupOf O = (P₀ : Subgroup ↥O) :=
       Subgroup.comap_map_eq_self_of_injective O.subtype_injective _
     rw [this]

@@ -94,10 +94,10 @@ theorem a2SlFixHom_range_perfect :
   have h4 : 4 ≤ Nat.card (fixedField σ.toRingHom) := by
     rw [card_fixedField_a2 h]
     exact four_le_a2 h
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (fixedField σ.toRingHom)) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (fixedField σ.toRingHom)) :=
     CFSG.LinearGroups.special_linear_dimension_two_perfect
       (CFSG.LinearGroups.exists_finset_card_eq_four h4)
-  haveI : Group.IsPerfect (a2SlFixHom h φ hφ).range := Group.IsPerfect.range _
+  have : Group.IsPerfect (a2SlFixHom h φ hφ).range := Group.IsPerfect.range _
   exact Subgroup.isPerfect_iff.1 inferInstance
 
 set_option maxHeartbeats 400000 in
@@ -105,7 +105,7 @@ theorem a2_root_one_le_range :
     ∀ x ∈ foldRoot (a2Phi h φ) (hexGroup (twistedX σ.toRingHom)) 1,
       ∃ hx : x ∈ foldFix (a2Phi h φ),
         (⟨x, hx⟩ : ↥(foldFix (a2Phi h φ))) ∈ (a2SlFixHom h φ hφ).range := by
-  haveI := a2_finite h
+  have := a2_finite h
   set G := ↥(foldFix (a2Phi h φ)) with hG
   set E : Subgroup G := (a2SlFixHom h φ hφ).range with hE
   have hle1 : foldRoot (a2Phi h φ) (hexGroup (twistedX σ.toRingHom)) 1 ≤
@@ -180,8 +180,8 @@ theorem noL2Layer_a2_plus {p f : ℕ} (hp : p.Prime) (h : A2Std σ d (p ^ f)) (h
   set φ : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ with hφdef
   have hφ := a2_hφ_of_class (σ := σ) (d := d) hs
-  haveI := a2_finite h
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have := a2_finite h
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_equiv _ (a2Equiv h).toEquiv
   have hFD := a2_foldData h φ hφ
   have hgen : ((⨆ i, hHat σ.toRingHom i) ⊔ posUnipotent (g2Shape (twistedX σ.toRingHom))) ⊔
@@ -202,7 +202,7 @@ theorem noL2Layer_a2_plus {p f : ℕ} (hp : p.Prime) (h : A2Std σ d (p ^ f)) (h
     rw [Nat.card_congr e0.toEquiv, a2_card_fixSub h φ hφ]
     ring
   have hSne : S ≠ ⊥ := by
-    haveI := hsimple
+    have := hsimple
     exact (Subgroup.nontrivial_iff_ne_bot S).1 IsSimpleGroup.toNontrivial
   have hnab := exists_noncomm_of_perfect S hSne hperf
   obtain ⟨r₁', r₂', -, -, -, -, R'⟩ := hFD.exists_rgd2

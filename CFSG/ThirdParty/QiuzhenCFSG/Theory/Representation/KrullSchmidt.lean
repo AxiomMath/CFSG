@@ -35,10 +35,10 @@ public theorem end_isLocalRing_of_isIndecomposable
     [AddCommGroup M] [Module F M] [Module R M] [IsScalarTower F R M]
     [FiniteDimensional F M]
     (hM : IsIndecomposable R M) : IsLocalRing (Module.End R M) := by
-  letI : Nontrivial M := hM.1
-  letI : IsNoetherian R M :=
+  let : Nontrivial M := hM.1
+  let : IsNoetherian R M :=
     isNoetherian_of_tower F (inferInstance : IsNoetherian F M)
-  letI : IsArtinian R M :=
+  let : IsArtinian R M :=
     isArtinian_of_tower F (inferInstance : IsArtinian F M)
   apply IsLocalRing.of_isUnit_or_isUnit_one_sub_self
   intro f
@@ -302,8 +302,8 @@ lemma linearEquiv_cancel_of_end_isLocalRing
     [AddCommGroup B] [Module R B]
     (hlocal : IsLocalRing (Module.End R U))
     (e : (U × A) ≃ₗ[R] (U × B)) : Nonempty (A ≃ₗ[R] B) := by
-  letI : IsLocalRing (Module.End R U) := hlocal
-  letI : IsDedekindFiniteMonoid (Module.End R U) :=
+  let : IsLocalRing (Module.End R U) := hlocal
+  let : IsDedekindFiniteMonoid (Module.End R U) :=
     end_isDedekindFiniteMonoid (F := F) (R := R) (U := U)
   let a : Module.End R U :=
     (LinearMap.fst R U B).comp
@@ -351,7 +351,7 @@ lemma exists_indecomposable_isCompl
     exact eTop.finrank_eq
   let d := Nat.find hP
   obtain ⟨U, C, hU0, hUC, hUd⟩ := Nat.find_spec hP
-  letI : FiniteDimensional F U :=
+  let : FiniteDimensional F U :=
     FiniteDimensional.of_injective (U.subtype.restrictScalars F) U.subtype_injective
   refine ⟨U, C, hUC, ?_⟩
   constructor
@@ -398,11 +398,11 @@ lemma exists_indecomposable_isCompl
     have hdle : d ≤ finrank F Pm := Nat.find_min' hP hPsmall
     have hpeq : finrank F p = finrank F Pm :=
       ((U.equivSubtypeMap p).restrictScalars F).finrank_eq
-    letI : FiniteDimensional F p :=
+    let : FiniteDimensional F p :=
       FiniteDimensional.of_injective (p.subtype.restrictScalars F) p.subtype_injective
-    letI : FiniteDimensional F q :=
+    let : FiniteDimensional F q :=
       FiniteDimensional.of_injective (q.subtype.restrictScalars F) q.subtype_injective
-    letI : Nontrivial q := Submodule.nontrivial_iff_ne_bot.mpr hn.2
+    let : Nontrivial q := Submodule.nontrivial_iff_ne_bot.mpr hn.2
     have hqpos : 0 < finrank F q := finrank_pos_iff.mpr inferInstance
     have hrank :=
       ((Submodule.prodEquivOfIsCompl p q hpq).restrictScalars F).finrank_eq
@@ -475,9 +475,9 @@ lemma IsSplitSummand.of_fin_power_linearEquiv
     (e : (Fin n → M) ≃ₗ[R] (Fin n → N)) :
     IsSplitSummand R U N := by
   classical
-  letI : IsLocalRing (Module.End R U) :=
+  let : IsLocalRing (Module.End R U) :=
     end_isLocalRing_of_isIndecomposable (F := F) (R := R) (M := U) hU
-  letI : IsDedekindFiniteMonoid (Module.End R U) :=
+  let : IsDedekindFiniteMonoid (Module.End R U) :=
     end_isDedekindFiniteMonoid (F := F) (R := R) (U := U)
   obtain ⟨i, p, hpi⟩ := hUM
   let i0 : Fin n := ⟨0, Nat.pos_of_ne_zero hn⟩
@@ -573,13 +573,13 @@ public lemma linearEquiv_of_fin_copies_linearEquiv
   induction hdim : finrank F M using Nat.strong_induction_on generalizing M N with
   | h d ih =>
       by_cases hM : Nontrivial M
-      · letI : Nontrivial M := hM
+      · let : Nontrivial M := hM
         obtain ⟨U, C, hUC, hU⟩ :=
           exists_indecomposable_isCompl (F := F) (R := R) (M := M)
-        letI : FiniteDimensional F U :=
+        let : FiniteDimensional F U :=
           FiniteDimensional.of_injective
             (U.subtype.restrictScalars F) U.subtype_injective
-        letI : FiniteDimensional F C :=
+        let : FiniteDimensional F C :=
           FiniteDimensional.of_injective
             (C.subtype.restrictScalars F) C.subtype_injective
         let eM : (U × C) ≃ₗ[R] M :=
@@ -588,7 +588,7 @@ public lemma linearEquiv_of_fin_copies_linearEquiv
           IsSplitSummand.of_fin_power_linearEquiv
             (F := F) hU (isSplitSummand_of_isCompl hUC) hn e
         obtain ⟨D, ⟨eN⟩⟩ := hUN.exists_linearEquiv_prod
-        letI : FiniteDimensional F D :=
+        let : FiniteDimensional F D :=
           FiniteDimensional.of_injective
             (D.subtype.restrictScalars F) D.subtype_injective
         let pM : (Fin n → U × C) ≃ₗ[R] (Fin n → M) :=
@@ -618,9 +618,9 @@ public lemma linearEquiv_of_fin_copies_linearEquiv
           (M := C) (N := D) eCD rfl
         exact ⟨eM.symm.trans
           (((LinearEquiv.refl R U).prodCongr eCND).trans eN)⟩
-      · letI : Subsingleton M := not_nontrivial_iff_subsingleton.mp hM
+      · let : Subsingleton M := not_nontrivial_iff_subsingleton.mp hM
         let i0 : Fin n := ⟨0, Nat.pos_of_ne_zero hn⟩
-        letI : Subsingleton N := ⟨fun x y => by
+        let : Subsingleton N := ⟨fun x y => by
           let sx := LinearMap.single R (fun _ : Fin n => N) i0 x
           let sy := LinearMap.single R (fun _ : Fin n => N) i0 y
           have hpre : e.symm sx = e.symm sy := Subsingleton.elim _ _

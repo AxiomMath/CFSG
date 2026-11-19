@@ -17,7 +17,7 @@ theorem commutator_mho_le {H K : Subgroup G} (hK : H ≤ Subgroup.normalizer (K 
   have hnorm : ∀ a ∈ H, ∀ k ∈ K, a * k * a⁻¹ ∈ K := Subgroup.le_normalizer_iff.1 hK
   let S : Subgroup G :=
     { carrier := {m | m ∈ H ∧ ⁅m, g⁆ ∈ K}
-      one_mem' := ⟨H.one_mem, by simpa using K.one_mem⟩
+      one_mem' := ⟨H.one_mem, by simp⟩
       mul_mem' := by
         rintro a b ⟨haH, ha⟩ ⟨hbH, hb⟩
         refine ⟨H.mul_mem haH hbH, ?_⟩

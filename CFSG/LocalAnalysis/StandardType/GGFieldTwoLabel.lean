@@ -26,8 +26,8 @@ theorem ggFieldTwo_twA5_n_eq_one
     rw [hn0] at hl
     simp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum, LargeEvenRecipeUnitary] at hl
     obtain ⟨K', hf, hfin, hcard, -⟩ := hl
-    haveI : Field K' := hf
-    haveI : Finite K' := hfin
+    have : Field K' := hf
+    have : Finite K' := hfin
     have h2 : 1 < Nat.card K' := Finite.one_lt_card
     norm_num at hcard
     omega

@@ -202,8 +202,8 @@ theorem psu_exists_perfect_unitary_three {B' : W →ₛₗ[h.bar] W →ₗ[E] E}
     (hl : B'.SeparatingLeft) (hW : 3 ≤ finrank E W) :
     ∃ (Q : Type) (_ : Group Q) (j : Q →* sesqUnitaryGroup B'), Function.Injective j ∧
       commutator Q = ⊤ ∧ 27 ∣ Nat.card (Q ⧸ Subgroup.center Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := h.finite
   obtain ⟨hsig2, hsig1, -⟩ := CatalogueBUnitaryTwo.unitaryFieldConjugation_data 3 f h.card_eq_sq
   have hsig := CatalogueBUnitaryTwo.unitaryFieldConjugation_apply 3 f h.card_eq_sq
   have hfix := OddInner.card_fixedSubfield hsig2 hsig1 h.card_eq_sq
@@ -241,8 +241,8 @@ theorem psu_exists_perfect_unitary_two (hO : LieOrderFormulasInput) {B' : W →�
     ∃ (Q : Type) (_ : Group Q) (j : Q →* sesqUnitaryGroup B'), Function.Injective j ∧
       commutator Q = ⊤ ∧ (3 ≤ f → 27 ∣ Nat.card (Q ⧸ Subgroup.center Q)) ∧
       (f = 2 → Nat.card (Q ⧸ Subgroup.center Q) = 360) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := h.finite
   obtain ⟨hsig2, hsig1, -⟩ := CatalogueBUnitaryTwo.unitaryFieldConjugation_data 3 f h.card_eq_sq
   have hsig := CatalogueBUnitaryTwo.unitaryFieldConjugation_apply 3 f h.card_eq_sq
   have hfix := OddInner.card_fixedSubfield hsig2 hsig1 h.card_eq_sq
@@ -286,7 +286,7 @@ theorem psu_dvd_27_card_specialLinear (hO : LieOrderFormulasInput) (m : ℕ) (hm
     (hcase : 3 ≤ m ∨ 2 ≤ f) :
     27 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin m) E ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin m) E)) := by
-  haveI : Finite E := h.finite
+  have : Finite E := h.finite
   obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
   have hk : Nat.card E = 3 ^ (2 * f) := h.card
   have hq3 : 3 ≤ 3 ^ (2 * f) :=
@@ -329,7 +329,7 @@ theorem psu_exists_perfect_GL (hO : LieOrderFormulasInput) (hW : 2 ≤ finrank E
     (hcase : 3 ≤ finrank E W ∨ 2 ≤ f) :
     ∃ (Q : Type) (_ : Group Q) (j : Q →* LinearMap.GeneralLinearGroup E W),
       Function.Injective j ∧ commutator Q = ⊤ ∧ 27 ∣ Nat.card (Q ⧸ Subgroup.center Q) := by
-  haveI : Finite E := h.finite
+  have : Finite E := h.finite
   have hk : Nat.card E = 3 ^ (2 * f) := h.card
   have h9 : 9 ≤ 3 ^ (2 * f) := by
     have := h.one_le

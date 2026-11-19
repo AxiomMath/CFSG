@@ -12,7 +12,7 @@ open CFSG CFSG.Assembly
 
 private theorem uniLeaf_uniCharP_two_of_card_pow {F : Type} [Field F] [Finite F] {k : ℕ} (hk : 1 ≤ k)
     (h : Nat.card F = 2 ^ k) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   apply ringChar.of_eq
   rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, h]
   apply Nat.mod_eq_zero_of_dvd
@@ -38,7 +38,7 @@ private theorem uniLeaf_eq_of_ggLabelIso_twA_left {lab : LargeEvenLabel} {r n : 
     (h : GGLabelIso (⟨.twA, r, n⟩ : LargeEvenLabel) lab) : lab = ⟨.twA, r, n⟩ := by
   obtain ⟨t, l, m⟩ := lab
   simp only [GGLabelIso] at h
-  rcases h with h | h | h | h | h | h | h | h <;> simp_all <;> omega
+  rcases h with h | h | h | h | h | h | h | h <;> simp_all
 
 private theorem uniLeaf_eq_or_twD3_of_ggLabelIso_twA3_left {lab : LargeEvenLabel} {n : ℕ}
     (h : GGLabelIso (⟨.twA, 3, n⟩ : LargeEvenLabel) lab) :
@@ -367,7 +367,7 @@ private theorem uniLeaf_uniCell3
     {X : Type} [Group X] [Finite X] {A : Subgroup (MulAut X)} {δ : MulAut X} {J : Subgroup X}
     (hd : DatumOn (fam 1) X A δ J)
     (hmarkJ : LargeEvenMarking J (fun lab _ _ _ _ _ => GGLabelA2 lab ∧ lab.tag = .twA))
-    (hZ : Subgroup.center J ≠ ⊥) :
+    (_hZ : Subgroup.center J ≠ ⊥) :
     GGMarkingAll (K := X) fun lab _ _ _ _ _ => LargeEvenSplit 3 lab →
       (lab.tag = .twA ∧ lab.rank = 3) ∨ (lab.tag = .twD ∧ (lab.rank = 3 ∨ lab.rank = 4)) ∨
         (lab.tag = .twA ∧ lab.rank = 4 ∧ 3 ∣ 2 ^ lab.n + 1 ∧ Nat.card A = 3 ^ 3) ∨

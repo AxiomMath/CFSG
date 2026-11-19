@@ -105,9 +105,9 @@ private theorem mk_eq_outVec (w : Multiplicative (Fin 3 → ZMod 3)) :
     (⟨w, .ofAdd 1⟩ : Md) = outVec w.toAdd := by
   apply SemidirectProduct.ext
   · rw [outVec, ofVec, SemidirectProduct.mul_left]
-    simp [cM, SemidirectProduct.left_inr, SemidirectProduct.right_inr]
+    simp [cM, SemidirectProduct.left_inr]
   · rw [outVec, ofVec, SemidirectProduct.mul_right]
-    simp [cM, SemidirectProduct.left_inr, SemidirectProduct.right_inr]
+    simp [cM, SemidirectProduct.right_inr]
 
 private theorem adAct_inv_apply (w : WeylGroup .E6) (x : Fin Tag.E6.rank → ZMod 3) :
     adAct .E6 3 w⁻¹ (adAct .E6 3 w x) = x := by
@@ -142,7 +142,6 @@ private theorem K_fix_e3 (j : Fin 4) :
     ∀ a ∈ KSub (fourF j), adAct .E6 3 (modelHomE6 a) e3 = e3 := by
   refine fix_of_mem_closure ?_
   intro y hy
-  unfold KSub at hy
   obtain ⟨v, hv, rfl⟩ := hy
   rw [ofVec, modelHomE6_inl, ← adWord_eq_adAct]
   exact K_fix_e3_aux j v hv
@@ -151,7 +150,6 @@ private theorem K_fix_x (j : Fin 4) :
     ∀ a ∈ KSub (fourF j), adAct .E6 3 (modelHomE6 a) (xK j) = xK j := by
   refine fix_of_mem_closure ?_
   intro y hy
-  unfold KSub at hy
   obtain ⟨v, hv, rfl⟩ := hy
   rw [ofVec, modelHomE6_inl, ← adWord_eq_adAct]
   exact K_fix_x_aux j v hv
@@ -341,7 +339,7 @@ private theorem covering_le_N_zero (B : Subgroup Md) (hcard : Nat.card B = 1) :
 private theorem covering_le_N_one (B : Subgroup Md) (hB3 : ∀ y ∈ B, y ^ 3 = 1)
     (hI : ∀ y ∈ B, y.right = 1) (hgB : ∀ i, ofVec (Pi.single i 1) ∉ B)
     (hcard : Nat.card B = 3) : ∃ j : Fin 4, B ≤ KSub (fourF j) := by
-  haveI := finite_model (π := piE7) (hπ := piE7_pow_three)
+  have := finite_model (π := piE7) (hπ := piE7_pow_three)
   have hBne : B ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcard
@@ -414,7 +412,7 @@ private theorem covering_le_N_three (B : Subgroup Md)
     (hBN : B ≤ (SemidirectProduct.inl :
       Multiplicative (Fin 3 → ZMod 3) →* Md).range)
     (hgB : ∀ i, ofVec (Pi.single i 1) ∉ B) (hcard : Nat.card B = 27) : False := by
-  haveI := finite_model (π := piE7) (hπ := piE7_pow_three)
+  have := finite_model (π := piE7) (hπ := piE7_pow_three)
   have hBeq : B = (SemidirectProduct.inl :
       Multiplicative (Fin 3 → ZMod 3) →* Md).range := by
     refine Subgroup.eq_of_le_of_card_ge hBN ?_
@@ -426,7 +424,7 @@ private theorem covering_le_N (B : Subgroup Md) (hB3 : ∀ y ∈ B, y ^ 3 = 1)
     (hI : ∀ y ∈ B, y.right = 1) (hgB : ∀ i, ofVec (Pi.single i 1) ∉ B) :
     ∃ j : Fin 4, B ≤ KSub (fourF j) := by
   classical
-  haveI := finite_model (π := piE7) (hπ := piE7_pow_three)
+  have := finite_model (π := piE7) (hπ := piE7_pow_three)
   have hBN : B ≤ (SemidirectProduct.inl :
       Multiplicative (Fin 3 → ZMod 3) →* Md).range := by
     intro y hy

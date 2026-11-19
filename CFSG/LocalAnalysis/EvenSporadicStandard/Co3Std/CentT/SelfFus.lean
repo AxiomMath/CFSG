@@ -20,7 +20,7 @@ theorem false_of_fus_self {X : Type} [Group X] [Finite X] (Y : Subgroup X) [Y.No
   let D : Subgroup X := centralizer ({w} : Set X)
   let Q := X ⧸ Y
   let wbar : Q := (w : Q)
-  haveI : Finite Q := Quotient.finite _
+  have : Finite Q := Quotient.finite _
   have hw2bar : wbar * wbar = 1 := by
     change (w : Q) * (w : Q) = 1
     rw [← QuotientGroup.mk_mul, hw, QuotientGroup.mk_one]

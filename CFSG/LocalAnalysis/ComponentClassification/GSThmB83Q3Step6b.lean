@@ -53,14 +53,14 @@ theorem exists_U (hCF1 : CFSec8Simple) (hCF2 : CFSec8InnerCentralizer) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W, hRW⟩ := ((d.isPGroup_R hCF1 hCF2).comap_subtype :
     IsPGroup 2 (d.R.subgroupOf d.NE)).exists_le_sylow
-  obtain ⟨U, hWU⟩ := ((W.isPGroup'.map d.NE.subtype) :
+  obtain ⟨U, hWU⟩ := ((W.isPGroup.map d.NE.subtype) :
     IsPGroup 2 ((W : Subgroup ↥d.NE).map d.NE.subtype)).exists_le_sylow
   refine ⟨W, U, hRW, hWU, ?_⟩
   have hS : ∃ T : Sylow 2 ↥d.NE, (T : Subgroup ↥d.NE) =
       ((W : Subgroup ↥d.NE).map d.NE.subtype).subgroupOf d.NE :=
     ⟨W, (comap_map_eq_self_of_injective d.NE.subtype_injective _).symm⟩
   exact eq_of_sylow_of_le hS (le_inf hWU (map_subtype_le _)) inf_le_right
-    (U.isPGroup'.to_le inf_le_left)
+    (U.isPGroup.to_le inf_le_left)
 
 theorem exists_good (hq : h.IsQ3) (hF : Cat8.Q3Facts) :
     ∃ (L : d.LClass) (U : Sylow 2 X), d.R ≤ U ∧
@@ -77,7 +77,7 @@ theorem exists_good (hq : h.IsQ3) (hF : Cat8.Q3Facts) :
     IsPGroup.of_card (n := 4) (by rw [Eight.S6M.card_Wsub]; norm_num)
   obtain ⟨Q, hWQ⟩ := hWp.exists_le_sylow
   have hQ : (Q : Subgroup (Equiv.Perm (Fin 6))) = Eight.S6M.Wsub :=
-    Eight.eq_Wsub_of_le Q.isPGroup' hWQ
+    Eight.eq_Wsub_of_le Q.isPGroup hWQ
   obtain ⟨τ, hτ⟩ := MulAction.exists_smul_eq (Equiv.Perm (Fin 6)) P Q
   have hmem : ∀ t, t ∈ Eight.S6M.Wsub ↔ τ⁻¹ * t * τ ∈ (W : Subgroup ↥d.NE).map L₀.πN := by
     intro t

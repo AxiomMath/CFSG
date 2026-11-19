@@ -114,7 +114,7 @@ theorem langPSLOfLengthTwo :
               .PSL k 2 (2 * f) := by
   classical
   intro τ L _ _ p₀ p f S hτ hp _ _ hq π hπ ε hε hρ a hT hap h1 i hQS hne
-  haveI : CharP L 2 := orbitTwo_charP_two S hq
+  have : CharP L 2 := orbitTwo_charP_two S hq
   obtain ⟨-, hlen, hcases⟩ := langOrbitTwo_data S hτ π hπ hε hρ hT i hne
   have hA : 1 ≤ compRank (componentRoots (rootCharHom a) i) ∧
       (componentRoots (rootCharHom a) i).ncard = compRank (componentRoots (rootCharHom a) i) *

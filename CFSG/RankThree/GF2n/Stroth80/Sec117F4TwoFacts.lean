@@ -200,7 +200,7 @@ private theorem genFor_long (K : Type) [Field K] [Finite K] [CharP K 2] :
     exact hconj _
   · exact ((hgen 0).mul (hgen 5)).eq_iff ((hgen 5).mul (hgen 0)) |>.2 h1
   · rw [Fin.cons_self_tail]
-    haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     have ht := hprod longT
     have hn := hprod longN
     refine ⟨_, hmem longT, _, hmem longN, orderOf_eq_prime ?_ ?_, ?_⟩

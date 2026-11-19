@@ -36,7 +36,7 @@ private theorem ggQ2s08bf3_isRefl_ggLinRefl {n : ℕ} {g : Vn n ≃ₗ[ZMod 3] V
     change g (g v) = v
     rw [hv v, hv (v - (a ⬝ᵥ v) • c), hdotv]
     funext i
-    simp only [Pi.sub_apply, Pi.smul_apply, Pi.neg_apply, smul_eq_mul]
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     exact (by decide : ∀ p q r : ZMod 3, p - q * r - -(q) * r = p)
       (v i) (a ⬝ᵥ v) (c i)
   · have hspan : ggLinMove g = Submodule.span (ZMod 3) {c} := by

@@ -29,8 +29,8 @@ theorem s16c4v1e3_frattini_three (S : s16c4v1_Sit D V L hV) :
       X ≤ Subgroup.normalizer ((D.T ⊓ Subgroup.centralizer (V : Set G) : Subgroup G) : Set G) ∧
       IsPGroup 3 X ∧ ¬ IsCyclic X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let V1 : Subgroup G := v1Sub D.M ⊥ V hV L
   let Cv : Subgroup G := Subgroup.centralizer (V : Set G)
   let Q : Subgroup G := D.T ⊓ Cv

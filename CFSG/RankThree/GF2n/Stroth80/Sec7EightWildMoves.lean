@@ -34,7 +34,7 @@ theorem sec7_pair_card_meet8 [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : �
     le_inf hZV hZVg
   have hDQ : Vt M (LB M Q B) B Z t ⊓ conjSubgroup g (Vt M (LB M Q B) B Z t) ≤ Q :=
     inf_le_left.trans hVQ
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hfU : Module.finrank K (hc.VtSub hS.model t) = 8 := by
     have h := Module.natCard_eq_pow_finrank (K := K) (V := hc.VtSub hS.model t)
@@ -88,7 +88,7 @@ theorem sec7_LB_N_moves_conj8 (h34 : Stroth34Statement) (h71 : Stroth71Statement
       ∃ y ∈ LB M Q B ⊓ hc.CN t, ∃ v ∈ conjSubgroup g (Vt M (LB M Q B) B Z t), ⁅y, v⁆ ∉ Z := by
   intro G _ _ M Q Z B hc n t hs hno h4 g hgM s hs1 hs2 hVZ
   classical
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   obtain ⟨Z0, hZ0⟩ := hc.exists_centre hs.toSec5.mem
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
@@ -101,14 +101,14 @@ theorem sec7_LB_N_moves_conj8 (h34 : Stroth34Statement) (h71 : Stroth71Statement
   have hZV' : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS, ψ, hψ, hrange, hW, hinj, hA5, hA6⟩ :=
     sec7_A0 h34 h310chi hZc hZV hZcard hc hs hZ0
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hS.card.trans he)
   obtain ⟨ψs, hψs, hrs, hker⟩ := sec7_pair_psi hc M₀ ρ b hS ht ψ hψ hrange hgM hsM hs1
   obtain ⟨hHcard, hUcard⟩ := sec7_Hset_card8 h34 h310chi hc hs h4 M₀ ρ b hS ψ hψ hrange
   obtain ⟨hc1, hd4, hd⟩ := sec7_pair_card_meet8 hc M₀ ρ b hS hgM ψs hrs hUcard
   obtain ⟨hf, hr⟩ := sec7_model_form M₀
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hZK : Nat.card Z = Nat.card K := hS.card.symm
   obtain ⟨hUperp, hRW, hYinv⟩ := sec7_pair_section h71 h310chi h52a hA hc hs hno hZ0 M₀ ρ b hS ψ

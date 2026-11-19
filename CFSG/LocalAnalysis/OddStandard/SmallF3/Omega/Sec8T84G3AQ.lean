@@ -14,6 +14,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G}
   {E Y1 Y2 T T1 T2 V1 V2 F1 F2 : Subgroup G}
 
+omit [Finite G] in
 private lemma sec8t84g3a_aq_cent {H A : Subgroup G} (hAH : A ≤ H)
     (hnorm : H ≤ Subgroup.normalizer (A : Set G))
     (hcop : Nat.Coprime (Nat.card A) (Nat.card (oddCoreIn H))) :

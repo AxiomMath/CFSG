@@ -122,7 +122,7 @@ def kleinList : List (Equiv.Perm (Fin 22)) := [1, genT1, genT2, genT1 * genT2]
 
 theorem sylowList_mem : ∀ σ ∈ sylowList, σ ∈ CFSG.Blueprint.NativeSporadic.M22 := by
   intro σ hσ
-  simp only [sylowList, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hσ
+  simp only [sylowList, List.mem_cons, List.not_mem_nil, or_false] at hσ
   rcases hσ with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · exact one_mem _
   · exact genG_mem
@@ -143,7 +143,7 @@ theorem sylowList_nodup : sylowList.Nodup := by
 theorem sylowList_exp : ∀ σ ∈ sylowList, ∃ a b : ℕ, a < 3 ∧ b < 3 ∧
     σ = genG ^ a * genH ^ b := by
   intro σ hσ
-  simp only [sylowList, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hσ
+  simp only [sylowList, List.mem_cons, List.not_mem_nil, or_false] at hσ
   rcases hσ with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · exact ⟨0, 0, by norm_num, by norm_num, by simp⟩
   · exact ⟨1, 0, by norm_num, by norm_num, by simp⟩
@@ -171,12 +171,12 @@ theorem mem_sylowSub_iff (x : CFSG.Blueprint.NativeSporadic.M22) :
     exact ⟨a, b, Subtype.ext hab⟩
 
 def subOfList (L : List (Equiv.Perm (Fin 22))) (h1 : (1 : Equiv.Perm (Fin 22)) ∈ L)
-    (hmul : ∀ x ∈ L, ∀ y ∈ L, x * y ∈ L) (hinv : ∀ x ∈ L, x⁻¹ ∈ L) :
+    (hmul : ∀ _x ∈ L, ∀ _y ∈ L, _x * _y ∈ L) (hinv : ∀ _x ∈ L, _x⁻¹ ∈ L) :
     Subgroup CFSG.Blueprint.NativeSporadic.M22 where
-  carrier := {x | (x : Equiv.Perm (Fin 22)) ∈ L}
-  mul_mem' := fun {x y} hx hy => hmul _ hx _ hy
+  carrier := {_x | (_x : Equiv.Perm (Fin 22)) ∈ L}
+  mul_mem' := fun {_x _y} hx hy => hmul _ hx _ hy
   one_mem' := h1
-  inv_mem' := fun {x} hx => hinv _ hx
+  inv_mem' := fun {_x} hx => hinv _ hx
 
 theorem kleinList_mul_fin : ∀ i j : Fin kleinList.length,
     kleinList.get i * kleinList.get j ∈ kleinList := by
@@ -300,7 +300,7 @@ theorem natCard_sylowSub : Nat.card sylowSub = 9 := by
   rfl
 
 theorem factorization_443520 : (443520 : ℕ).factorization 3 = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   rw [Nat.factorization_def _ Nat.prime_three]
   have h : (443520 : ℕ) = 3 ^ 2 * 49280 := by norm_num
   rw [h, padicValNat.mul (by norm_num) (by norm_num), padicValNat.prime_pow,
@@ -311,12 +311,12 @@ end M22Norm2Aux
 open M22Norm2Aux in
 theorem norm2_M22 :
     Norm2 (CFSG.Blueprint.NativeSporadic.M22) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hfac : (Nat.card CFSG.Blueprint.NativeSporadic.M22).factorization 3 = 2 := by
     rw [CFSG.Sporadic.Mathieu.card_M22]
     exact factorization_443520
   let S : Sylow 3 CFSG.Blueprint.NativeSporadic.M22 :=
-    Sylow.ofCard sylowSub (by rw [natCard_sylowSub, hfac] <;> norm_num)
+    Sylow.ofCard sylowSub (by rw [natCard_sylowSub, hfac]; norm_num)
   refine Norm2.of_inner CFSG.Sporadic.Schreier.m22_center_eq_bot'
     CFSG.Sporadic.Schreier.m22_mulAut_card S ?_
   intro B hBS _

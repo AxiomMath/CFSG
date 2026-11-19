@@ -60,8 +60,8 @@ private lemma card_of_regular {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [
     (hreg : ∀ v w : V, v ≠ 0 → w ≠ 0 → ∃! x : X, (x : V ≃ₗ[ZMod 2] V) v = w) :
     Nat.card X = Nat.card V - 1 := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
-  haveI : Fintype {v : V // v ≠ 0} := Fintype.ofFinite _
+  have : Fintype V := Fintype.ofFinite V
+  have : Fintype {v : V // v ≠ 0} := Fintype.ofFinite _
   let f : X → {v : V // v ≠ 0} := fun x =>
     ⟨(x : V ≃ₗ[ZMod 2] V) v₀, fun h => hv₀ ((x : V ≃ₗ[ZMod 2] V).injective (by
       rw [h, map_zero]))⟩
@@ -94,7 +94,7 @@ private lemma regular_of_cyclic_transitive {V : Type} [AddCommGroup V] [Module (
     {X : Subgroup (V ≃ₗ[ZMod 2] V)} (hXcyc : IsCyclic X)
     (htrans : ∀ v w : V, v ≠ 0 → w ≠ 0 → ∃ x ∈ X, (x : V ≃ₗ[ZMod 2] V) v = w) :
     ∀ v w : V, v ≠ 0 → w ≠ 0 → ∃! x : X, (x : V ≃ₗ[ZMod 2] V) v = w := by
-  haveI := hXcyc
+  have := hXcyc
   exact existsUnique_of_commutative_transitive
     (fun a ha b hb => congrArg Subtype.val
       ((IsCyclic.commGroup (α := X)).mul_comm ⟨a, ha⟩ ⟨b, hb⟩)) htrans
@@ -111,7 +111,7 @@ private lemma normal_of_cyclic_transitive_of_odd {V : Type} [AddCommGroup V]
     (hXcyc : IsCyclic X) (hXY : X ≤ Y) (hodd : Odd (Nat.card Y))
     (htrans : ∀ v w : V, v ≠ 0 → w ≠ 0 → ∃ x ∈ X, (x : V ≃ₗ[ZMod 2] V) v = w) :
     (X.subgroupOf Y).Normal := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   exact CFSG.ASVolI.as_A_1_12 V X Y hXcyc
     (regular_of_cyclic_transitive hXcyc htrans) hXY hodd
 
@@ -124,8 +124,8 @@ private lemma exists_semilinear_hom_ker {V : Type} [AddCommGroup V] [Module (ZMo
         ι.ker = ⊥ ∧ (X.subgroupOf Y).map ι =
           (SemidirectProduct.inl : k₀ˣ →* _).range := by
   classical
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
-  haveI : (X.subgroupOf Y).Normal :=
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : (X.subgroupOf Y).Normal :=
     normal_of_cyclic_transitive_of_odd hXcyc hXY hodd htrans
   let X' : Subgroup Y := X.subgroupOf Y
   have hX'card : Nat.card X' = 2 ^ Module.finrank (ZMod 2) V - 1 := by
@@ -175,9 +175,9 @@ private lemma exists_ringAut_hom_ker {V : Type} [AddCommGroup V] [Module (ZMod 2
       ∃ τ : Y →* RingAut k₀, τ.ker = X.subgroupOf Y := by
   obtain ⟨k₀, hF, hFin, hcyc, ι, hιker, hιimage⟩ :=
     exists_semilinear_hom_ker hXcyc hXY hodd htrans
-  letI : Field k₀ := hF
-  letI : Finite k₀ := hFin
-  letI : IsCyclic (RingAut k₀) := hcyc
+  let : Field k₀ := hF
+  let : Finite k₀ := hFin
+  let : IsCyclic (RingAut k₀) := hcyc
   let τ : Y →* RingAut k₀ := SemidirectProduct.rightHom.comp ι
   have hιinj : Function.Injective ι := (MonoidHom.ker_eq_bot_iff ι).mp hιker
   refine ⟨k₀, hF, hFin, hcyc, τ, ?_⟩
@@ -208,13 +208,13 @@ theorem exists_cyclic_quotient_of_regular_cyclic {V : Type} [AddCommGroup V]
       ∃ y₀ : Y, ∀ y : Y, ∃ k : ℤ, y * (y₀ ^ k)⁻¹ ∈ X.subgroupOf Y := by
   obtain ⟨k₀, hF, hFin, hcyc, τ, hτker⟩ :=
     exists_ringAut_hom_ker hXcyc hXY hodd htrans
-  letI : Field k₀ := hF
-  letI : Finite k₀ := hFin
-  letI : IsCyclic (RingAut k₀) := hcyc
-  haveI : IsCyclic τ.range := Subgroup.isCyclic τ.range
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  let : Field k₀ := hF
+  let : Finite k₀ := hFin
+  let : IsCyclic (RingAut k₀) := hcyc
+  have : IsCyclic τ.range := Subgroup.isCyclic τ.range
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 2] V => (f : V → V)) DFunLike.coe_injective
-  haveI : Finite Y := inferInstance
+  have : Finite Y := inferInstance
   obtain ⟨u, -, hu⟩ :=
     CFSG.HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.exists_cover_of_cyclic_image τ
       (E := ⊤) (by rw [← MonoidHom.range_eq_map]; exact (inferInstance : IsCyclic τ.range))
@@ -230,6 +230,7 @@ private def conjRep {M Z : Subgroup G} [IsMulCommutative Z] [Module (ZMod 2) (Ad
   (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) (Additive Z)).toMonoidHom.comp
     (((mulAutGL 2 Z).comp Z.normalizerMonoidHom).comp (Subgroup.inclusion hMZ))
 
+omit [Finite G] in
 private lemma conjRep_apply {M Z : Subgroup G} [IsMulCommutative Z]
     [Module (ZMod 2) (Additive Z)] (hMZ : M ≤ Subgroup.normalizer (Z : Set G)) (b : M)
     (v : Additive Z) :
@@ -250,6 +251,7 @@ private lemma conjRep_apply {M Z : Subgroup G} [IsMulCommutative Z]
   rw [hfun]
   exact hρ₀ b v
 
+omit [Finite G] in
 private lemma conjRep_eq_one_iff {M Z : Subgroup G} [IsMulCommutative Z]
     [Module (ZMod 2) (Additive Z)] (hMZ : M ≤ Subgroup.normalizer (Z : Set G)) (b : M) :
     conjRep (M := M) (Z := Z) hMZ b = 1 ↔
@@ -272,6 +274,7 @@ private lemma conjRep_eq_one_iff {M Z : Subgroup G} [IsMulCommutative Z]
     change (b : G) * (v.toMul : G) * (b : G)⁻¹ = (v.toMul : G)
     rw [← hb _ v.toMul.2, mul_inv_cancel_right]
 
+omit [Finite G] in
 private lemma conjRep_ker {M Z : Subgroup G} [IsMulCommutative Z]
     [Module (ZMod 2) (Additive Z)] (hMZ : M ≤ Subgroup.normalizer (Z : Set G)) :
     (conjRep (M := M) (Z := Z) hMZ).ker =
@@ -281,6 +284,7 @@ private lemma conjRep_ker {M Z : Subgroup G} [IsMulCommutative Z]
   exact ⟨fun h => ⟨b.2, (conjRep_eq_one_iff hMZ b).mp h⟩,
     fun h => (conjRep_eq_one_iff hMZ b).mpr h.2⟩
 
+omit [Finite G] in
 private lemma conjRep_range_odd {M Z : Subgroup G} [IsMulCommutative Z]
     [Module (ZMod 2) (Additive Z)] (hMZ : M ≤ Subgroup.normalizer (Z : Set G))
     (hodd : Odd ((M ⊓ Subgroup.centralizer (Z : Set G)).relIndex M)) :
@@ -303,7 +307,7 @@ private lemma exists_cyclic_transitive {M Z : Subgroup G} [IsMulCommutative Z]
     Subgroup.zpowers (conjRep (M := M) (Z := Z) hMZ xM)
   have hX₀le : X₀ ≤ (conjRep (M := M) (Z := Z) hMZ).range :=
     Subgroup.zpowers_le.mpr (MonoidHom.mem_range.mpr ⟨xM, rfl⟩)
-  haveI hX₀cyc : IsCyclic X₀ := Subgroup.isCyclic_zpowers _
+  have hX₀cyc : IsCyclic X₀ := Subgroup.isCyclic_zpowers _
   have htrans₀ : ∀ v w : Additive Z, v ≠ 0 → w ≠ 0 →
       ∃ g ∈ X₀, (g : Additive Z ≃ₗ[ZMod 2] Additive Z) v = w := by
     intro v w hv hw
@@ -336,10 +340,12 @@ private def preimageSubgroup {Y : Type*} [Group Y] {M : Subgroup G}
     (ρ : M →* Y) (X : Subgroup Y) : Subgroup G :=
   (X.comap ρ).map M.subtype
 
+omit [Finite G] in
 private lemma preimageSubgroup_le {Y : Type*} [Group Y] {M : Subgroup G}
     (ρ : M →* Y) (X : Subgroup Y) : preimageSubgroup ρ X ≤ M :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private lemma preimageSubgroup_subgroupOf {Y : Type*} [Group Y] {M : Subgroup G}
     (ρ : M →* Y) (X : Subgroup Y) :
     (preimageSubgroup ρ X).subgroupOf M = X.comap ρ := by
@@ -347,12 +353,14 @@ private lemma preimageSubgroup_subgroupOf {Y : Type*} [Group Y] {M : Subgroup G}
   rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr (preimageSubgroup_le ρ X)]
   rfl
 
+omit [Finite G] in
 private lemma preimageSubgroup_normal {Y : Type*} [Group Y] {M : Subgroup G}
     (ρ : M →* Y) (X : Subgroup Y) [X.Normal] :
     ((preimageSubgroup ρ X).subgroupOf M).Normal := by
   rw [preimageSubgroup_subgroupOf]
   exact Subgroup.Normal.comap (inferInstance : X.Normal) ρ
 
+omit [Finite G] in
 private lemma centralizer_le_preimageSubgroup {Y : Type*} [Group Y] {M Z : Subgroup G}
     (ρ : M →* Y) (X : Subgroup Y)
     (hker : ρ.ker = (M ⊓ Subgroup.centralizer (Z : Set G)).subgroupOf M) :
@@ -367,6 +375,7 @@ private lemma centralizer_le_preimageSubgroup {Y : Type*} [Group Y] {M Z : Subgr
     exact X.one_mem
   exact Subgroup.mem_map_of_mem M.subtype hyK
 
+omit [Finite G] in
 private lemma preimageSubgroup_relIndex {Y : Type*} [Group Y] {M Z : Subgroup G}
     {ρ : M →* Y} {X : Subgroup Y} [X.Normal]
     (hker : ρ.ker = (M ⊓ Subgroup.centralizer (Z : Set G)).subgroupOf M)
@@ -410,6 +419,7 @@ private lemma preimageSubgroup_relIndex {Y : Type*} [Group Y] {M Z : Subgroup G}
       exact hm
   rw [Subgroup.relIndex, ← hψker, Subgroup.index_ker, hψrange]
 
+omit [Finite G] in
 private lemma preimageSubgroup_generator {Y : Type*} [Group Y] {M : Subgroup G}
     {ρ : M →* Y} {X : Subgroup Y}
     (hquot : ∃ y₀ ∈ ρ.range, ∀ y ∈ ρ.range, ∃ k : ℤ, y * (y₀ ^ k)⁻¹ ∈ X) :
@@ -427,6 +437,7 @@ private lemma preimageSubgroup_generator {Y : Type*} [Group Y] {M : Subgroup G}
     Subgroup.mem_map_of_mem M.subtype hmem
   simpa [zpow_neg] using hzc
 
+omit [Finite G] in
 private lemma exists_preimage_cartan {Y : Type*} [Group Y] {M Z : Subgroup G}
     (ρ : M →* Y) (X : Subgroup Y) [X.Normal]
     (hker : ρ.ker = (M ⊓ Subgroup.centralizer (Z : Set G)).subgroupOf M)
@@ -450,22 +461,22 @@ theorem exists_cartan_of_zpowers_transitive {M Z : Subgroup G} (hZ : IsElemAbeli
       (M ⊓ Subgroup.centralizer (Z : Set G)).relIndex C = Nat.card Z - 1 ∧
       ∃ m ∈ M, ∀ y ∈ M, ∃ k : ℤ, y * (m ^ k)⁻¹ ∈ C := by
   classical
-  haveI : IsMulCommutative Z := hZ.1
-  letI : Module (ZMod 2) (Additive Z) :=
+  have : IsMulCommutative Z := hZ.1
+  let : Module (ZMod 2) (Additive Z) :=
     AddCommGroup.zmodModule (n := 2) fun v => by
       apply Additive.toMul.injective
       rw [toMul_nsmul, toMul_zero]
       exact Subtype.ext (hZ.2 _ v.toMul.2)
-  haveI : Finite (Additive Z) := inferInstanceAs (Finite Z)
-  haveI : Nontrivial Z := (Subgroup.nontrivial_iff_ne_bot Z).mpr hZ1
-  haveI : Nontrivial (Additive Z) := inferInstance
+  have : Finite (Additive Z) := inferInstanceAs (Finite Z)
+  have : Nontrivial Z := (Subgroup.nontrivial_iff_ne_bot Z).mpr hZ1
+  have : Nontrivial (Additive Z) := inferInstance
   let ρ := conjRep (M := M) (Z := Z) hMZ
   obtain ⟨X₀, hX₀cyc, hX₀le, htrans₀, hX₀card⟩ :=
     exists_cyclic_transitive (M := M) (Z := Z) hMZ hZ1 hxM htr
   obtain ⟨hnorm, u, hu⟩ :=
     exists_cyclic_quotient_of_regular_cyclic (X := X₀) (Y := ρ.range)
       hX₀cyc hX₀le (conjRep_range_odd hMZ hodd) htrans₀
-  haveI : (X₀.subgroupOf ρ.range).Normal := hnorm
+  have : (X₀.subgroupOf ρ.range).Normal := hnorm
   have hrange : ρ.rangeRestrict.range = ⊤ :=
     MonoidHom.range_eq_top.mpr (MonoidHom.rangeRestrict_surjective ρ)
   have hquot : ∃ y₀ ∈ ρ.rangeRestrict.range,

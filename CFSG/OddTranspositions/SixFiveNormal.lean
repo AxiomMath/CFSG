@@ -11,40 +11,46 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem normal_of_le_normalizer {F H K : Subgroup G} (hHK : H ⊔ K = ⊤)
     (hH : H ≤ Subgroup.normalizer (F : Set G))
     (hK : K ≤ Subgroup.normalizer (F : Set G)) : F.Normal := by
   rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hHK]
   exact sup_le hH hK
 
+omit [Finite G] in
 theorem commutator_zpowers_sup_eq {Q : Subgroup G} (hQ : Q.Normal) (u w : G) :
     (⁅Q, Subgroup.zpowers u⁆ ⊔ ⁅Q, Subgroup.zpowers w⁆ : Subgroup G) =
       ⁅Q, Subgroup.closure ({u, w} : Set G)⁆ := by
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   have huw : ({u} : Set G) ∪ {w} = {u, w} := by
     ext x
     simp [or_comm]
   rw [← Subgroup.commutator_sup_left (N := Q), Subgroup.zpowers_eq_closure,
     Subgroup.zpowers_eq_closure, ← Subgroup.closure_union, huw]
 
+omit [Finite G] in
 theorem le_normalizer_commutator_left {Q : Subgroup G} (hQ : Q.Normal) (u w : G) :
     Q ≤ Subgroup.normalizer
       ((⁅Q, Subgroup.zpowers u⁆ ⊔ ⁅Q, Subgroup.zpowers w⁆ : Subgroup G) : Set G) := by
   rw [commutator_zpowers_sup_eq hQ]
   exact Subgroup.normalizer_commutator_ge_left Q _
 
+omit [Finite G] in
 theorem closure_pair_le_normalizer_commutator {Q : Subgroup G} (hQ : Q.Normal) (u w : G) :
     Subgroup.closure ({u, w} : Set G) ≤ Subgroup.normalizer
       ((⁅Q, Subgroup.zpowers u⁆ ⊔ ⁅Q, Subgroup.zpowers w⁆ : Subgroup G) : Set G) := by
   rw [commutator_zpowers_sup_eq hQ]
   exact Subgroup.normalizer_commutator_ge_right Q _
 
+omit [Finite G] in
 theorem sixFive_F_normal {Q : Subgroup G} (hQ : Q.Normal) {u w : G}
     (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤) :
     (⁅Q, Subgroup.zpowers u⁆ ⊔ ⁅Q, Subgroup.zpowers w⁆ : Subgroup G).Normal :=
   normal_of_le_normalizer hgenQ (le_normalizer_commutator_left hQ u w)
     (closure_pair_le_normalizer_commutator hQ u w)
 
+omit [Finite G] in
 theorem sixFive_widthStep' (hS : Setup G D) {Q : Subgroup G} (hQ : Q = CFSG.pCore 2 G)
     {u w : G} (hu : u ∈ D) (hw : w ∈ D) (hnc : ¬ Commute u w)
     (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤) :
@@ -52,6 +58,7 @@ theorem sixFive_widthStep' (hS : Setup G D) {Q : Subgroup G} (hQ : Q = CFSG.pCor
   sixFive_widthStep hS hQ hu hw hnc hgenQ
     (sixFive_F_normal (by rw [hQ]; exact CFSG.pCore_normal) hgenQ)
 
+omit [Finite G] in
 theorem sixFive_pCore_eq (hS : Setup G D) {Q : Subgroup G} (hQ : Q = CFSG.pCore 2 G)
     {u w : G} (hu : u ∈ D) (hw : w ∈ D) (hnc : ¬ Commute u w)
     (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤) :
@@ -79,6 +86,7 @@ theorem sixFiveGlobal_of_inputs' (hS : Setup G D)
   sixFiveGlobal_of_normalF hS hQ hu hw hnc hgenQ
     (sixFive_F_normal (by rw [hQ]; exact CFSG.pCore_normal) hgenQ) hPR hZc hZtop hcardP
 
+omit [Finite G] in
 theorem sixFive_hPR {Q : Subgroup G} (hQ : Q.Normal) (u w : G) :
     ⁅Q, Subgroup.zpowers u⁆ ≤
       Subgroup.normalizer ((⁅Q, Subgroup.zpowers w⁆ : Subgroup G) : Set G) :=

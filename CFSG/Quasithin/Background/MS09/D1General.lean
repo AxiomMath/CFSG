@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {G₁ G₂ T V M₂ : Subgroup G}
 
 theorem conjClosure_le_T (h : D11Hyp G₁ G₂ T V M₂) (hVR₂ : V ≤ pCoreOf 2 G₂) :
     conjClosure V G₂ ≤ T :=
-  (conjClosure_le fun g hg v hv =>
+  (conjClosure_le fun _g hg v hv =>
     (Subgroup.mem_normalizer_iff.mp (le_normalizer_pCoreOf 2 G₂ hg) v).mp (hVR₂ hv)).trans
     (B6.pCoreOf_two_le_of_isSylowTwoOf h.sylow₂)
 
@@ -94,7 +94,7 @@ theorem relIndex_mul_card_le_of_minParabolic {H T M W P : Subgroup G} (hmp : Min
     (hquad : ⁅⁅W, P⁆, P⁆ = ⊥) :
     (P ⊓ Subgroup.centralizer (W : Set G)).relIndex P *
       Nat.card ↥(W ⊓ Subgroup.centralizer (P : Set G)) ≤ Nat.card W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWT : W ≤ T := hWR.trans (B6.pCoreOf_two_le_of_isSylowTwoOf hmp.isSylow)
   obtain ⟨c, hser⟩ := D15Proof.exists_isChiefSeriesFrom (H := H) (U := W) W
     ⟨le_rfl, fun g hg x hx => (Subgroup.mem_normalizer_iff.mp (hHW hg) x).mp hx⟩
@@ -148,6 +148,7 @@ theorem relIndex_mul_card_le_of_minParabolic {H T M W P : Subgroup G} (hmp : Min
         Nat.mul_le_mul_right _ (h1.trans h2)
     _ = Nat.card W := h3
 
+omit [Finite G] in
 theorem conj_comm_eq_of_isQuadratic {S W : Subgroup G} (hWE : IsElemAbelian 2 W)
     (hSW : S ≤ Subgroup.normalizer (W : Set G))
     (hq : @IsQuadratic ↥W (commGroupOfElemAbelian hWE) (autOn S W)) {s₁ s₂ w : G}
@@ -165,6 +166,7 @@ theorem conj_comm_eq_of_isQuadratic {S W : Subgroup G} (hWE : IsElemAbelian 2 W)
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, ha₁, conjAct_apply_coe'] at hfix
   exact hfix
 
+omit [Finite G] in
 theorem commutator_commutator_eq_bot_of_isQuadratic {S W : Subgroup G}
     (hWE : IsElemAbelian 2 W) (hSW : S ≤ Subgroup.normalizer (W : Set G))
     (hq : @IsQuadratic ↥W (commGroupOfElemAbelian hWE) (autOn S W)) : ⁅⁅W, S⁆, S⁆ = ⊥ := by

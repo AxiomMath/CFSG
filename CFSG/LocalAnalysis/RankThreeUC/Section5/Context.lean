@@ -73,6 +73,7 @@ structure CyclicCentralizersAndFewComponentConjugates (G : Type) [Group G] [Fini
     (ρ : Representation (ZMod 2) G V) : Set (Subgroup G) :=
   {D | D ≤ P ∧ D.relIndex P = p ∧ fixedSubmodule ρ D ≠ ⊥}
 
+omit [Finite G] in
 theorem mem_Delta_iff {V : Type} [AddCommGroup V] [Module (ZMod 2) V] (p : ℕ) (P : Subgroup G)
     (ρ : Representation (ZMod 2) G V) (D : Subgroup G) :
     D ∈ Delta p P ρ ↔ D ≤ P ∧ D.relIndex P = p ∧ fixedSubmodule ρ D ≠ ⊥ := Iff.rfl

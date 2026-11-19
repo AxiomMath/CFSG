@@ -19,7 +19,7 @@ theorem levTwoS3e7_patSetFin_eq (m : ℕ) : levTwoS3e7_patSetFin m = levTwoS3e7_
     rw [← List.getD_eq_get levTwoS3e7_rootVecs 0 i]
     exact levTwoS3u_getD_map (Tag.rank Tag.E7) levTwoS3e7_roots i.val
   ext β
-  simp only [levTwoS3e7_patSetFin, levTwoS3e7_patSet, Set.mem_setOf_eq]
+  simp only [levTwoS3e7_patSetFin, levTwoS3e7_patSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, rfl, hb⟩
     exact ⟨i.val, by rw [← hlen]; exact i.2, (hget i).symm, hb⟩

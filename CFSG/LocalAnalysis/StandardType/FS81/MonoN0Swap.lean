@@ -190,8 +190,8 @@ private theorem monoSwap_spMat_conj_coordRefl {σ : Equiv.Perm (Fin (n + 1))}
     funext k
     by_cases hk : k = a
     · subst hk
-      rw [if_pos rfl, Pi.single_eq_same, Pi.neg_apply, Pi.single_eq_same]
-    · rw [if_neg hk, Pi.single_eq_of_ne hk, Pi.neg_apply, Pi.single_eq_of_ne hk]
+      rw [ite_eq_left rfl, Pi.single_eq_same, Pi.neg_apply, Pi.single_eq_same]
+    · rw [ite_eq_right hk, Pi.single_eq_of_ne hk, Pi.neg_apply, Pi.single_eq_of_ne hk]
       exact neg_zero.symm
   have hmul : ∀ (a c : Fin (n + 1)), c ≠ a →
       (coordRefl a : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ
@@ -202,9 +202,9 @@ private theorem monoSwap_spMat_conj_coordRefl {σ : Equiv.Perm (Fin (n + 1))}
     funext k
     by_cases hk : k = a
     · subst hk
-      rw [if_pos rfl, Pi.single_eq_of_ne (Ne.symm hc)]
+      rw [ite_eq_left rfl, Pi.single_eq_of_ne (Ne.symm hc)]
       decide
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
   apply Matrix.ext_of_mulVec_single
   intro i
   rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hP i]
@@ -231,7 +231,7 @@ private theorem monoSwap_wt_col {G' : GL (Fin (n + 1)) (ZMod 3)} {m : Fin (n + 1
     intro i hi
     have h2 := congrFun haxis i
     rw [coordRefl_mulVec] at h2
-    simp only [hi, if_false, Pi.neg_apply] at h2
+    simp only [hi, ite_false, Pi.neg_apply] at h2
     exact zmod3_eq_zero_of_eq_neg h2
   have hvne : ((G' : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ Pi.single m 1) ≠ 0 := by
     refine gl_mulVec_ne_zero G' ?_
@@ -412,9 +412,9 @@ private theorem monoSwap_false_of_u_swap {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 
 
 private theorem monoSwap_exists_interchange {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))}
     (h : MonoN0Hyp Xg) (hn : 4 ≤ n) {p : Fin (n + 1)} (hp : p ≠ 0)
-    (hp1 : OrbN Xg (Pi.single p 1)) {T Tp : GL (Fin (n + 1)) (ZMod 3)} (hTX : T ∈ Xg)
+    (hp1 : OrbN Xg (Pi.single p 1)) {T Tp : GL (Fin (n + 1)) (ZMod 3)} (_hTX : T ∈ Xg)
     (hT : (T : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) = coordRefl 0)
-    (hTpX : Tp ∈ Xg) (hTp : (Tp : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) = coordRefl p)
+    (_hTpX : Tp ∈ Xg) (hTp : (Tp : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) = coordRefl p)
     {g : GL (Fin (n + 1)) (ZMod 3)} (hgX : g ∈ Xg)
     (hge0 : (g : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ Pi.single 0 1 =
       Pi.single p 1)
@@ -466,10 +466,8 @@ private theorem monoSwap_exists_interchange {Xg : Subgroup (GL (Fin (n + 1)) (ZM
       rw [monoSwap_spMat_conj_coordRefl (Equiv.swap_mul_self a p) p,
         Equiv.swap_apply_right]
     refine ⟨g * m, Xg.mul_mem hgX hmX, ?_, ?_, ?_⟩
-    · change g * m * T * (g * m)⁻¹ = Tp
-      rw [show g * m * T * (g * m)⁻¹ = g * (m * T * m⁻¹) * g⁻¹ by group, hmT', hgT]
-    · change g * m * Tp * (g * m)⁻¹ = T
-      rw [show g * m * Tp * (g * m)⁻¹ = g * (m * Tp * m⁻¹) * g⁻¹ by group, hmTp, huEq]
+    · rw [show g * m * T * (g * m)⁻¹ = g * (m * T * m⁻¹) * g⁻¹ by group, hmT', hgT]
+    · rw [show g * m * Tp * (g * m)⁻¹ = g * (m * Tp * m⁻¹) * g⁻¹ by group, hmTp, huEq]
     · have hm0 : (m : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ Pi.single 0 1 =
           Pi.single 0 1 := by
         rw [hmmat, Matrix.mulVec_single_one, Matrix.col_apply']

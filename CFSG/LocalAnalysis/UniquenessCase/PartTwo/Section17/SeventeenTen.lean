@@ -142,7 +142,7 @@ theorem center_bar2_eq_bot_of_isL2Over17 {M L : Subgroup G}
     Subgroup.center (Bar2 L) = ⊥ := by
   classical
   have hq' : CFSG.Open.IsQuasisimple (Bar2 L) := hL.2.2
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq'.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq'.1
   have hodd : Odd (Nat.card (Subgroup.center (Bar2 L))) := by
     simpa [Bar2] using uc22p20p_odd_center_bar2 ↥L
   have hq3 : q ≠ 3 := fun h3 => not_isL2Over17_three (BarInf L) (h3 ▸ hq)
@@ -162,9 +162,9 @@ theorem center_bar2_eq_bot_of_isL2Over17 {M L : Subgroup G}
   have hclass : CFSG.Open.StatedClassicalModel (BarInf L) .PSL 2 r f :=
     hmodel.statedClassicalModel (by decide)
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨eK⟩⟩ := hclass
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
   have hKcard' : Nat.card K = q := by rw [hKcard, hqeq]
   have hK5 : 5 ≤ Fintype.card K := by
     rw [Nat.card_eq_fintype_card] at hKcard'
@@ -222,8 +222,8 @@ theorem center_eq_bot_of_lieModel_g2 {X : Type} [Group X] {p f : ℕ}
     (hm : LieModel X .G2 0 p f) : Subgroup.center X = ⊥ := by
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e'⟩⟩ :=
     hm.chevalleyExceptionalModel (by decide)
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   exact CFSG.ABGLocalTools.center_eq_bot_of_mulEquiv e'
     (CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.center_adjointQuotient_eq_bot .G2 K)
 
@@ -417,7 +417,7 @@ theorem r17_10_of_dMinDeg_le_mBar {D : Data G} {V₀ V L : Subgroup G} (h : Hyp1
   let K := barSub V₀ V h.isElemAbelian L
   have hKcomp : K ∈ compBar D.M V₀ V h.isElemAbelian := barSub_mem_compBar_of_ne_bot h hL hne
   have hKne : K ≠ ⊥ := ne_bot_of_mem_compBar hKcomp
-  haveI : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
+  have : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
   let d := dMinDeg ↥K
   obtain ⟨f₀, hf₀⟩ := exists_nontrivial_repr_dMinDeg ↥K
   let k : ↥K →* MulAut (Vec d) := (vecEquiv (n := d)).toMonoidHom.comp f₀
@@ -504,10 +504,10 @@ theorem false_of_isNaturalO4Plus_of_oddLieType {D : Data G} {V₀ V L : Subgroup
   have hKq : CFSG.Open.IsQuasisimple Kc := hKcomp.2.2
   obtain ⟨K, hKfield, hKfinite, hKcard, hK4, ⟨eK⟩⟩ :=
     exists_mulEquiv_sl2_of_isSubnormal_isNaturalO4Plus hKq hsn hnat
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := by
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
     have h1 : Fintype.card K = 2 ^ e := by
       rw [← Nat.card_eq_fintype_card]
       exact hKcard
@@ -522,12 +522,12 @@ theorem false_of_isNaturalO4Plus_of_oddLieType {D : Data G} {V₀ V L : Subgroup
   have hBarSL : BarInf L ≃* CFSG.Open.StatedSL 2 K :=
     hBarKc.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K)
   have hperf : Group.IsPerfect (BarInf L) := by
-    haveI : Group.IsPerfect ↥L :=
+    have : Group.IsPerfect ↥L :=
       CFSG.Quasithin.Vol2.Ch10.SecB.KRT.isPerfect_of_commutator_eq hL.2.1
     exact Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (CFSG.solvableRadical ↥L))
       (QuotientGroup.mk'_surjective _)
-  haveI : Nontrivial Kc := (Subgroup.nontrivial_iff_ne_bot Kc).mpr (ne_bot_of_mem_compBar hKcomp)
-  letI : Nontrivial (BarInf L) := eBar2.toEquiv.nontrivial
+  have : Nontrivial Kc := (Subgroup.nontrivial_iff_ne_bot Kc).mpr (ne_bot_of_mem_compBar hKcomp)
+  let : Nontrivial (BarInf L) := eBar2.toEquiv.nontrivial
   have hmSL : LieModel (BarInf L) .PSL 2 2 e :=
     CFSG.Quasithin.H13.lieModel_psl_two_of_mulEquiv (n := e) hperf hKcard hBarSL
   have he2 : 2 ≤ e := by
@@ -589,7 +589,7 @@ theorem r17_10_of_mParam_mul_le_mBar {D : Data G} {V₀ V L : Subgroup G} (h : H
   have hKcomp : K ∈ compBar D.M V₀ V h.isElemAbelian :=
     barSub_mem_compBar_of_ne_bot h hL hne
   have hKleM : K ≤ Mbar := hKcomp.1
-  have hKmem : K ∈ conjSet K Mbar := ⟨1, Mbar.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+  have hKmem : K ∈ conjSet K Mbar := ⟨1, Mbar.one_mem, by ext x; simp⟩
   have hKleH : K ≤ H := le_iSup₂_of_le (f := fun X (_ : X ∈ conjSet K Mbar) => X) K hKmem le_rfl
   have hKZ : K ≤ stabSub Z := hKleH.trans (CFSG.Quasithin.RonanF918.le_stabSub_fixV H)
   have hZK : Z ≤ fixV K := fixV_anti hKleH
@@ -609,9 +609,9 @@ theorem r17_10_of_mParam_mul_le_mBar {D : Data G} {V₀ V L : Subgroup G} (h : H
   have hLstarqC : CFSG.IsQuasisimple ↥Lstar :=
     CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hLstarq
   have hLstarNe : Lstar ≠ ⊥ := by
-    haveI : Nontrivial ↥Lstar := CFSG.LocalCores.isQuasisimple_nontrivial hLstarqC
+    have : Nontrivial ↥Lstar := CFSG.LocalCores.isQuasisimple_nontrivial hLstarqC
     exact (Subgroup.nontrivial_iff_ne_bot Lstar).mp inferInstance
-  haveI hPerfL : Group.IsPerfect ↥Lstar := hLstarqC.1
+  have hPerfL : Group.IsPerfect ↥Lstar := hLstarqC.1
   have hLC : Lstar ≤ stabSub C := CFSG.Quasithin.RonanF918.le_stabSub_fixV Lstar
   have hLG1 : Lstar ≤ G1 := autSub_mono (autQuot_mono hKleM Z) Istar
   have hLnorm : (Lstar.subgroupOf G1).Normal :=
@@ -750,7 +750,7 @@ theorem r17_10_of_mParam_mul_le_mBar {D : Data G} {V₀ V L : Subgroup G} (h : H
     have hYle : Y ≤ G1q := sup_le hXle (Subgroup.zpowers_le.mpr hsG1q)
     have hXN : (X.subgroupOf Y).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (hYle.trans hG1qnorm)
-    haveI : Nontrivial Wq := QuotientGroup.nontrivial_iff.mpr hCneTop
+    have : Nontrivial Wq := QuotientGroup.nontrivial_iff.mpr hCneTop
     have hF : CFSG.LocalAnalysis.UniquenessCase.UC22.Fstar Y = X :=
       fstar_eq_of_generalizedFitting_eq hXY
         (CFSG.GroupTheory.fstar_sup_zpowers_eq_of_quasisimple_normal hWq' hXY hXq hirr hXN

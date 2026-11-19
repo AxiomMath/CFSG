@@ -195,7 +195,7 @@ theorem j4d_exists_fixed_moved_edge
     (hMne : ∃ m, m ∈ Ψ ∧ m ∉ F) :
     ∃ f ∈ F, ∃ m ∈ Ψ, m ∉ F ∧ iform f m ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsplit := hΨ.irreducible F hFsub (fun α hα β hβ hβF => h α hα β hβ hβF)
   rcases hsplit with hF | hF
   · exact hFne.ne_empty hF

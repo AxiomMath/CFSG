@@ -25,8 +25,8 @@ theorem ne_bot (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀
 theorem not_le_M (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀ p X v) :
     ¬ X ≤ M := by
   intro hXM
-  haveI : Fact p.Prime := ⟨c.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨c.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV₀2 : IsPGroup 2 V₀ := c.cex.hyp.isPGroup.to_le c.cex.hyp.h6.le
   have hnorm : ∀ x ∈ X, ∀ y ∈ V₀, x * y * x⁻¹ ∈ V₀ := fun x hx y hy =>
     (Subgroup.mem_normalizer_iff.1 (by rw [c.cex.hyp.normalizer₀]; exact hXM hx) y).1 hy

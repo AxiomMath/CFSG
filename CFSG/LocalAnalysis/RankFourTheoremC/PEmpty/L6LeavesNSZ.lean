@@ -159,7 +159,7 @@ theorem plane_le : zpowers x ⊔ zpowers z ≤ (S : Subgroup Z) :=
 
 theorem exists_sylow_component {K : Subgroup Z} (hK : IsComponentOf K ⊤) :
     ∃ P : Sylow p ↥K, (P : Subgroup ↥K).map K.subtype = (S : Subgroup Z) ⊓ K := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal S
     (CFSG.Open.IsSubnormal.top_iff.1 hK.2.1)
 
@@ -175,10 +175,10 @@ theorem center_component_eq_bot {K : Subgroup Z} (hK : IsComponentOf K ⊤) :
     Subgroup.center ↥K = ⊥ := by
   by_contra hne
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (center ↥K) ≠ 1 := fun h1 => hne (Subgroup.card_eq_one.mp h1)
   obtain ⟨q, hq, hqd⟩ := Nat.exists_prime_and_dvd hcard
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := center ↥K) q hqd
   set cK : ↥K := (c : ↥K) with hcK
   have hcc : ∀ g : ↥K, g * cK = cK * g := fun g => Subgroup.mem_center_iff.mp c.2 g
@@ -195,7 +195,7 @@ theorem center_component_eq_bot {K : Subgroup Z} (hK : IsComponentOf K ⊤) :
     have hcomm' : cK ∈ commutator ↥K := by
       rw [hK.2.2.1]
       exact mem_top _
-    have h1 : cK = 1 := transfer_center_commutator P.isPGroup' P.not_dvd_index
+    have h1 : cK = 1 := transfer_center_commutator P.isPGroup P.not_dvd_index
       (h.comm_sylow_component P hP) hcP c.2 hcomm'
     rw [h1, orderOf_one] at hcord
     exact hq.one_lt.ne hcord
@@ -284,13 +284,13 @@ theorem pRank_component_le_one {K : Subgroup Z} (hK : IsComponentOf K ⊤) :
 theorem isCyclic_sylow_component {K : Subgroup Z} (hK : IsComponentOf K ⊤) (P : Sylow p ↥K)
     (hP : (P : Subgroup ↥K).map K.subtype = (S : Subgroup Z) ⊓ K) :
     IsCyclic ↥(P : Subgroup ↥K) :=
-  isCyclic_of_pRank_le_one h.prime h.ne_two P.isPGroup' (h.pRank_sylow_component_le_one hK P hP)
+  isCyclic_of_pRank_le_one h.prime h.ne_two P.isPGroup (h.pRank_sylow_component_le_one hK P hP)
 
 theorem z_mem_component {K : Subgroup Z} (hK : IsComponentOf K ⊤)
     (hNB : normalizer ((zpowers x ⊔ zpowers z : Subgroup Z) : Set Z) ≤
       normalizer ((zpowers z : Subgroup Z) : Set Z)) : z ∈ K := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := h.exists_sylow_component hK
   have hcyc := h.isCyclic_sylow_component hK P hP
   have hP1 : (P : Subgroup ↥K) ≠ ⊥ := fun h0 => P.not_dvd_index (by
@@ -298,7 +298,7 @@ theorem z_mem_component {K : Subgroup Z} (hK : IsComponentOf K ⊤)
     exact dvd_card_of_isComponentOf hp h.core hK)
   have hperf : ⁅(⊤ : Subgroup ↥K), (⊤ : Subgroup ↥K)⁆ = ⊤ := hK.2.2.1
   obtain ⟨g, hgN, a, haP, hap, hga⟩ :=
-    CFSG.RankThree.PartOne.D4RC.rcb_exists_normalizer_elt_perfect hperf P.isPGroup'
+    CFSG.RankThree.PartOne.D4RC.rcb_exists_normalizer_elt_perfect hperf P.isPGroup
       P.not_dvd_index hcyc hP1
   have haSK : (a : Z) ∈ (S : Subgroup Z) ⊓ K := hP ▸ ⟨a, haP, rfl⟩
   have hgaP : g * a * g⁻¹ ∈ (P : Subgroup ↥K) := (mem_normalizer_iff.mp hgN a).mp haP
@@ -368,8 +368,8 @@ theorem not_isCyclic_sylow : ¬ IsCyclic (S : Subgroup Z) := by
   intro hcyc
   have hp := h.prime
   have hBS := h.plane_le
-  haveI : IsCyclic ↥((zpowers x ⊔ zpowers z).subgroupOf (S : Subgroup Z)) := inferInstance
-  haveI : IsCyclic ↥(zpowers x ⊔ zpowers z) :=
+  have : IsCyclic ↥((zpowers x ⊔ zpowers z).subgroupOf (S : Subgroup Z)) := inferInstance
+  have : IsCyclic ↥(zpowers x ⊔ zpowers z) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hBS).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hBS).surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(zpowers x ⊔ zpowers z))
@@ -385,14 +385,14 @@ theorem exists_uncovered_component {Mb : Subgroup Z} (hSM : (S : Subgroup Z) ≤
     (hΓ2 : ∀ T : Subgroup Z, T ≤ S → 2 ≤ Open.pRank p T → normalizer (T : Set Z) ≤ Mb)
     (hMtop : ¬ ⊤ ≤ Mb) : ∃ K : Subgroup Z, IsComponentOf K ⊤ ∧ ¬ K ≤ Mb := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨L₀, hL₀⟩ :=
     exists_isComponentOf_Z hp h.ne_two h.core S h.not_isCyclic_sylow hSM hΓ2 hMtop
   by_contra hcon
   push Not at hcon
   set N : Subgroup Z := sSup {K : Subgroup Z | IsComponentOf K ⊤} ⊔ zpowers x with hN
   have hNM : N ≤ Mb := sup_le (sSup_le fun K hK => hcon K hK) (zpowers_le.mpr (hSM h.x_mem))
-  haveI hnl : (sSup {K : Subgroup Z | IsComponentOf K ⊤}).Normal := by
+  have hnl : (sSup {K : Subgroup Z | IsComponentOf K ⊤}).Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hle : sSup {K : Subgroup Z | IsComponentOf K ⊤} ≤
         (sSup {K : Subgroup Z | IsComponentOf K ⊤}).comap (MulAut.conj g).toMonoidHom := by
@@ -400,9 +400,9 @@ theorem exists_uncovered_component {Mb : Subgroup Z} (hSM : (S : Subgroup Z) ≤
       rw [← Subgroup.map_le_iff_le_comap]
       exact le_sSup (isComponentOf_map_conj hM g)
     exact hle hn
-  haveI hzn : (zpowers x).Normal :=
+  have hzn : (zpowers x).Normal :=
     normal_zpowers_of_central fun g => Subgroup.mem_center_iff.mp h.x_center g
-  haveI hNn : N.Normal := inferInstance
+  have hNn : N.Normal := inferInstance
   obtain ⟨y, hyQK, hyo, hyc⟩ := exists_mem_inf_sylow_component hp h.ne_two h.core S hL₀
   have hyp : y ^ p = 1 := by
     rw [← hyo]

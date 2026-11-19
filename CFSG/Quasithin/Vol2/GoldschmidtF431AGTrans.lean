@@ -55,7 +55,7 @@ theorem range_inf_normalizer_eq (hι : Function.Injective ι) (L : Subgroup D) :
 theorem isSylowTwoOf_map_sylow [Finite D] (hι : Function.Injective ι) (S₀ : Sylow 2 D) :
     IsSylowTwoOf ((S₀ : Subgroup D).map ι) ι.range := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine F7.isSylowTwoOf_of_relIndex (Subgroup.map_le_range ι _) (S₀.isPGroup'.map ι) ?_
+  refine F7.isSylowTwoOf_of_relIndex (Subgroup.map_le_range ι _) (S₀.isPGroup.map ι) ?_
   rw [MonoidHom.range_eq_map, Subgroup.relIndex_map_map_of_injective _ _ hι,
     Subgroup.relIndex_top_right]
   exact S₀.not_dvd_index

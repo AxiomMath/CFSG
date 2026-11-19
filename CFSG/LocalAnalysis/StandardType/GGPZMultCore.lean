@@ -20,7 +20,7 @@ theorem ggPZMult_card_dvd {Y : Type} [Group Y] (hperf : commutator Y = ⊤)
     Nat.card (Subgroup.center Y) ∣
       ((genericOrders t n p f).1 * (genericOrders t n p f).2) *
         ((exceptionalOrders t n p f).1 * (exceptionalOrders t n p f).2) := by
-  haveI : Group.IsPerfect Y := ⟨hperf⟩
+  have : Group.IsPerfect Y := ⟨hperf⟩
   have hd := CFSG.ComponentClassification.CatFactsL4U4.Cover82.Mult.card_center_dvd_hopfMultiplier
     (Q := Y) (S := Y ⧸ Subgroup.center Y) (MulEquiv.refl _)
   obtain ⟨e⟩ := h

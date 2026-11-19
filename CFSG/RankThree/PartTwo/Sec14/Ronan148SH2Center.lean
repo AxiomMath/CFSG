@@ -46,6 +46,7 @@ end PCoreCenter
 
 section Commute
 
+omit [Finite Γ] in
 theorem mem_pCore_center_of_pow {K : Subgroup Γ} {w : Γ} (hwK : w ∈ K)
     (hwC : w ∈ Subgroup.centralizer (K : Set Γ)) {k : ℕ} (hwk : w ^ 3 ^ k = 1) :
     w ∈ inSubgroup (CFSG.pCore 3) (K ⊓ Subgroup.centralizer (K : Set Γ)) := by
@@ -65,6 +66,7 @@ theorem mem_pCore_center_of_pow {K : Subgroup Γ} {w : Γ} (hwK : w ∈ K)
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
   exact (le_sSup ⟨hN, hp⟩ : Subgroup.zpowers _ ≤ CFSG.pCore 3 Z) (Subgroup.mem_zpowers _)
 
+omit [Finite Γ] in
 theorem commute_of_mem_normalizer {K : Subgroup Γ} {z a : Γ} (hzK : z ∈ K)
     (hKz : K ≤ Subgroup.centralizer {z}) (hz3 : orderOf z = 3)
     (hZ : inSubgroup (CFSG.pCore 3) (K ⊓ Subgroup.centralizer (K : Set Γ)) =
@@ -134,6 +136,7 @@ end Commute
 
 section Transport
 
+omit [Finite Γ] in
 theorem isSubnormal_subgroupOf_subgroupOf {C M K : Subgroup Γ} (hMC : M ≤ C)
     (h : (K.subgroupOf M).IsSubnormal) :
     ((K.subgroupOf C).subgroupOf (M.subgroupOf C)).IsSubnormal := by
@@ -146,6 +149,7 @@ theorem isSubnormal_subgroupOf_subgroupOf {C M K : Subgroup Γ} (hMC : M ≤ C)
   rw [← heq]
   exact h.comap _
 
+omit [Finite Γ] in
 theorem subgroupOf_inf_centralizer {C L : Subgroup Γ} {d : Γ} (hdC : d ∈ C) :
     (L ⊓ Subgroup.centralizer {d}).subgroupOf C =
       L.subgroupOf C ⊓ Subgroup.centralizer {(⟨d, hdC⟩ : ↥C)} := by

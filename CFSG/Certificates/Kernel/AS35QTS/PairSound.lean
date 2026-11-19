@@ -100,12 +100,12 @@ theorem lane_pairB {L M : List Nat} (hM : 0 < M.length) {i k : Nat} (hi : i < L.
 
 theorem allI_go (f : Nat → Nat → Bool) : ∀ (L : List Nat) (j0 : Nat),
     List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-      (fun x _ ih j => Bool.and' (f j x) (ih (Nat.succ j))) L j0 = true →
+      (fun x _ ih j => _root_.Bool.and (f j x) (ih (Nat.succ j))) L j0 = true →
     ∀ j (h : j < L.length), f (j0 + j) L[j] = true
   | [], _, _, j, h => absurd h (Nat.not_lt_zero j)
   | x :: L, j0, h, j, hj => by
-    change Bool.and' (f j0 x) (List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-      (fun x _ ih j => Bool.and' (f j x) (ih (Nat.succ j))) L (Nat.succ j0)) = true at h
+    change _root_.Bool.and (f j0 x) (List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
+      (fun x _ ih j => _root_.Bool.and (f j x) (ih (Nat.succ j))) L (Nat.succ j0)) = true at h
     rw [and'_eq, Bool.and_eq_true] at h
     cases j with
     | zero => exact h.1
@@ -127,14 +127,14 @@ theorem allI_mem {f : Nat → Nat → Bool} {L : List Nat} (h : allI L f = true)
 theorem allI2_go (f : Nat → Nat → Nat → Bool) : ∀ (L M : List Nat) (j0 : Nat),
     List.rec (motive := fun _ => List Nat → Nat → Bool) (fun _ _ => true)
       (fun x _ ih M j => List.rec (motive := fun _ => Bool) false
-        (fun y rest _ => Bool.and' (f j x y) (ih rest (Nat.succ j))) M) L M j0 = true →
+        (fun y rest _ => _root_.Bool.and (f j x y) (ih rest (Nat.succ j))) M) L M j0 = true →
     ∀ j (h : j < L.length), ∃ h' : j < M.length, f (j0 + j) L[j] M[j] = true
   | [], _, _, _, j, h => absurd h (Nat.not_lt_zero j)
   | x :: L, [], j0, h, _, _ => absurd h (by exact Bool.false_ne_true)
   | x :: L, y :: M, j0, h, j, hj => by
-    change Bool.and' (f j0 x y) (List.rec (motive := fun _ => List Nat → Nat → Bool)
+    change _root_.Bool.and (f j0 x y) (List.rec (motive := fun _ => List Nat → Nat → Bool)
       (fun _ _ => true) (fun x _ ih M j => List.rec (motive := fun _ => Bool) false
-        (fun y rest _ => Bool.and' (f j x y) (ih rest (Nat.succ j))) M) L M (Nat.succ j0)) =
+        (fun y rest _ => _root_.Bool.and (f j x y) (ih rest (Nat.succ j))) M) L M (Nat.succ j0)) =
       true at h
     rw [and'_eq, Bool.and_eq_true] at h
     cases j with

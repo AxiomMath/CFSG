@@ -38,18 +38,25 @@ namespace Hyp
 variable (H : Hyp hc n t r Z0 s z)
 include H
 
+omit [Finite G] in
 theorem z_mem : z ∈ M := H.hT1.z_mem
 
+omit [Finite G] in
 theorem s_mem : s ∈ Z0 := H.hT1.s_mem
 
+omit [Finite G] in
 theorem t_mem : t ∈ LB M Q B := H.hs.toSec5.mem
 
+omit [Finite G] in
 theorem Q_le : Q ≤ Z0 := hc.Q_le_centre H.t_mem H.hZ0
 
+omit [Finite G] in
 theorem Z0_le_LB : Z0 ≤ LB M Q B := fun _ hx => (H.hC.1 hx).1
 
+omit [Finite G] in
 theorem s_mem_LB : s ∈ LB M Q B := H.Z0_le_LB H.s_mem
 
+omit [Finite G] in
 theorem s_mem_M : s ∈ M := hc.LB_le_M H.s_mem_LB
 
 theorem s_not_mem_Q : s ∉ Q := fun hsQ =>
@@ -97,8 +104,10 @@ theorem not_D_le : ¬ conjSubgroup z⁻¹ B ≤ Vt M (LB M Q B) B Z t := by
   rw [conjSubgroup_one, conjSubgroup_mul, ← hL, ← conjSubgroup_mul, mul_inv_cancel,
     conjSubgroup_one]
 
+omit [Finite G] in
 theorem hcD : Ctx M Q Z (conjSubgroup z⁻¹ B) := hc.conj_of_mem (M.inv_mem H.z_mem)
 
+omit [Finite G] in
 theorem comm_conj {x : G} (hx : x ∈ conjSubgroup z⁻¹ (Vt M (LB M Q B) B Z t)) :
     ⁅s, x⁆ ∈ Z := by
   rw [mem_conjSubgroup, inv_inv] at hx
@@ -108,6 +117,7 @@ theorem comm_conj {x : G} (hx : x ∈ conjSubgroup z⁻¹ (Vt M (LB M Q B) B Z t
   rw [e]
   exact (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 (M.inv_mem H.z_mem)) _).mp h
 
+omit [Finite G] in
 theorem conj_D_le : conjSubgroup s (conjSubgroup z⁻¹ B) ≤ conjSubgroup z⁻¹ B ⊔ Z := by
   intro y hy
   rw [mem_conjSubgroup] at hy

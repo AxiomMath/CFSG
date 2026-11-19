@@ -15,9 +15,9 @@ section Inv
 
 theorem noL3Comp_gmat_of_invertedByTwoA {s : Gmat} (hs : orderOf s = 3) (hinv : InvertedByTwoA s) :
     NoL3Comp (Subgroup.centralizer ({s} : Set Gmat)) := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   have hE := CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hE.1.1
+  have : Finite MGriess := hE.1.1
   let φ : Gmat ≃* MGriess :=
     (CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth).symm
   have hs' : orderOf (φ s) = 3 := by rwa [MulEquiv.orderOf_eq]

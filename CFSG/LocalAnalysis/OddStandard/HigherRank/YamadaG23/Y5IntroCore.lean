@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_zpowers_of_orderOf_eq_two {v x : G} (hv : orderOf v = 2) :
     x ∈ Subgroup.zpowers v ↔ x = 1 ∨ x = v := by
   have h2 : v ^ (2 : ℤ) = 1 := by

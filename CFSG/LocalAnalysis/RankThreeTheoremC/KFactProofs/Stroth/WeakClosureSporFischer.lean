@@ -123,7 +123,7 @@ theorem alt12_inj_of_ne {H : Type*} [Group H] (ψ : Equiv.Perm (Fin 12) →* H)
 theorem wcOn_five_of_alt12 {K : Type} [Group K] [Finite K] (Φ : Equiv.Perm (Fin 12) →* K)
     (hinj : ∀ σ ∈ alternatingGroup (Fin 12), Φ σ = 1 → σ = 1) (h3 : ¬ 5 ^ 3 ∣ Nat.card K) :
     WCOn 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let x : Equiv.Perm (Fin 12) := List.formPerm [0, 1, 2, 3, 4]
   let y : Equiv.Perm (Fin 12) := List.formPerm [5, 6, 7, 8, 9]
   let h : Equiv.Perm (Fin 12) := List.formPerm [0, 5] * List.formPerm [1, 6, 2, 7, 4, 9, 3, 8]
@@ -175,7 +175,7 @@ theorem wcOn_five_of_sym12_sub {K J A G : Type} [Group K] [Finite K] [Group J] [
 
 theorem wcOn_Fi22_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.Fi22] : WCOn 3 CFSG.Blueprint.NativeSporadic.Fi22 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : Nat.card CFSG.Blueprint.NativeSporadic.Fi22 = 64561751654400 :=
     CFSG.Sporadic.Fi22.card_Fi22
   have hf : (Nat.card CFSG.Blueprint.NativeSporadic.Fi22).factorization 3 = 9 := by
@@ -192,7 +192,7 @@ theorem wcOn_Fi22_five_of_equiv
     {K : Type} [Group K] [Finite K]
     (e : K ≃* (TauCeti.CFSGIndex.sporadic .Fi22).Group) (hcard : Nat.card K = 64561751654400) :
     WCOn 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine WCOn.of_normalizer_invariant 24 (fun P => ?_) (fun P O hO hinv => ?_)
   · rw [card_sylow_eq_pow (a := 2) hcard Nat.prime_five (by norm_num) (by norm_num) P]
     norm_num
@@ -221,7 +221,7 @@ theorem wcSporadicAt_Fi22
 
 theorem wcOn_Fi23_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.Fi23] : WCOn 3 CFSG.Blueprint.NativeSporadic.Fi23 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   open CFSG.HardMathSupport.Foote.E27.Fi23 in
   have hz : ⁅q 0, q 1⁆ = zq := by
     have h := conj_chain 0 1 (by decide)
@@ -263,7 +263,7 @@ theorem wcSporadicAt_Fi23
 theorem wcOn_Fi24_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.Fi24prime] :
     WCOn 3 CFSG.Blueprint.NativeSporadic.Fi24prime := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : Nat.card CFSG.Blueprint.NativeSporadic.Fi24prime = 1255205709190661721292800 :=
     CFSG.Sporadic.Fi24.card_Fi24prime
   have hf : (Nat.card CFSG.Blueprint.NativeSporadic.Fi24prime).factorization 3 = 16 := by
@@ -294,7 +294,7 @@ theorem wcOn_Fi24_five_aux
 theorem wcOn_Fi24_seven_aux
     [Finite CFSG.Blueprint.NativeSporadic.Fi24prime] :
     WCOn 7 CFSG.Blueprint.NativeSporadic.Fi24prime := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact WCOn.of_hasNoncommPair CFSG.RankThree.PartOne.CTP.hasNoncommPair_Fi24_seven
 
 theorem wcSporadicAt_Fi24Prime

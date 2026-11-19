@@ -287,7 +287,7 @@ theorem GomiD.gomiH0 [Finite G] {P D : Subgroup G} (hP : IsSylowOf 2 P ⊤) (h :
   have hB : IsSylowOf 2 ((P ⊓ Subgroup.normalizer (D : Set G)).subgroupOf
       (Subgroup.normalizer (D : Set G))) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, hQ ▸ Q.isPGroup', ?_⟩
+    refine ⟨le_top, hQ ▸ Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right, ← hQ]
     exact Q.not_dvd_index
   have hN : ∀ n ∈ Subgroup.normalizer (D : Set G),

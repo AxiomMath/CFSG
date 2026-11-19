@@ -70,8 +70,8 @@ theorem ord7_card_mulAut_dvd_G2
   · exact absurd hcls (by decide)
   · obtain ⟨hAdm, hU⟩ := hce
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨eQ⟩⟩ := hU
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have h3 : 3 ≤ 2 ^ f := hAdm.2.2.2
     have hf : 2 ≤ f := by
       rcases f with _ | _ | f
@@ -83,7 +83,7 @@ theorem ord7_card_mulAut_dvd_G2
     let adjQ : AdjointQuotient .G2 K ≃* adjointGroup .G2 K :=
       (QuotientGroup.quotientMulEquivOfEq hcent).trans QuotientGroup.quotientBot
     have eR : R ≃* adjointGroup .G2 K := eQ.trans adjQ
-    haveI : Finite (adjointGroup .G2 K) :=
+    have : Finite (adjointGroup .G2 K) :=
       CFSG.LieType.Chevalley.generated_group_finite .G2 K
     obtain ⟨-, Θ, -, hsurj, hker, -⟩ :=
       CFSG.ComponentClassification.UnbalancedCatalog.even_G2_exact_automorphism_normal_form
@@ -106,8 +106,8 @@ theorem ord7Param_G2
   · exact absurd hcls (by decide)
   · obtain ⟨hAdm, hU⟩ := hce
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨eQ⟩⟩ := hU
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have h3 : 3 ≤ 2 ^ f := hAdm.2.2.2
     have hf : 2 ≤ f := by
       rcases f with _ | _ | f
@@ -119,7 +119,7 @@ theorem ord7Param_G2
     let adjQ : AdjointQuotient .G2 K ≃* adjointGroup .G2 K :=
       (QuotientGroup.quotientMulEquivOfEq hcent).trans QuotientGroup.quotientBot
     have eR : R ≃* adjointGroup .G2 K := eQ.trans adjQ
-    haveI : Finite (adjointGroup .G2 K) :=
+    have : Finite (adjointGroup .G2 K) :=
       CFSG.LieType.Chevalley.generated_group_finite .G2 K
     obtain ⟨-, Θ, -, hsurj, hker, -⟩ :=
       CFSG.ComponentClassification.UnbalancedCatalog.even_G2_exact_automorphism_normal_form

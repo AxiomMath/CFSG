@@ -10,7 +10,7 @@ open CFSG.Quasithin.H13.Ch838 (TwoNilpotent)
 
 theorem twoNilpotent_of_card_eq_two_mul_prime {A : Type*} [Group A] [Finite A] {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hcard : Nat.card A = 2 * q) : TwoNilpotent A := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd : q ∣ Nat.card A := by
     rw [hcard]
     exact ⟨2, by ring⟩
@@ -24,7 +24,7 @@ theorem twoNilpotent_of_card_eq_two_mul_prime {A : Type*} [Group A] [Finite A] {
     have h2 : q * (Subgroup.zpowers a).index = q * 2 := by
       rw [h, Nat.mul_comm 2 q]
     exact Nat.mul_left_cancel hq.pos h2
-  haveI hMn : (Subgroup.zpowers a).Normal := Subgroup.normal_of_index_eq_two hMindex
+  have hMn : (Subgroup.zpowers a).Normal := Subgroup.normal_of_index_eq_two hMindex
   refine ⟨Subgroup.zpowers a, hMn, ?_, fun x => ⟨1, ?_⟩⟩
   · rw [hMcard]
     exact hq.odd_of_ne_two hq2

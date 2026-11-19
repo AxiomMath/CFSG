@@ -22,13 +22,13 @@ private theorem w16l_quasithin_conjSubgroup_eq {G : Type*} [Group G] (A : Subgro
 theorem w16l_exists_conj_eq_map_Sig01_Q {Q : Type} [Group Q] [Finite Q] {n : ℕ}
     (hX : IsU3Shape Q n) {F : Type} [Field F] (h : UnitaryFieldData 2 n F)
     (π : ↥(unitarySU 2 n F 3) →* Q) (ε : (Q ⧸ Subgroup.center Q) ≃* unitaryPSU h 3)
-    (hπ : Function.Surjective π) (hε : ∀ g, ε (QuotientGroup.mk (π g)) = unitaryProj h 3 g)
+    (_hπ : Function.Surjective π) (hε : ∀ g, ε (QuotientGroup.mk (π g)) = unitaryProj h 3 g)
     {R : Subgroup Q} (hR : IsElemAbelian 2 R) (hRc : Nat.card R = 2 ^ n) {g : Q}
     (hg : CFSG.Quasithin.conjSubgroup R g ≠ R) :
     ∃ k : Q, CFSG.Quasithin.conjSubgroup (R ⊔ CFSG.Quasithin.conjSubgroup R g) k =
       (Sig01 h).map π := by
   classical
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have hn : 2 ≤ n := two_le_of_isPSUGp hX.2.1
   have hn1 : 1 < n := by omega
   have hK : KGroup1616Input := kGroup1616Input_holds

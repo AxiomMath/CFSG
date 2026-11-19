@@ -17,8 +17,8 @@ theorem s16c1614_not_dvd_of_fstar_elem (D : Data G) {V₀ V : Subgroup G} (hV : 
     (hℓ : ¬ ℓ ∣ p ^ n * ∏ i : Fin n, (p ^ n - p ^ (i : ℕ))) :
     ¬ ℓ ∣ Nat.card ↥(Mbar D.M V₀ V hV) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   obtain ⟨e⟩ := hF
   have hcard : Nat.card ↥(fstarBar D.M V₀ V hV) = p ^ n := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card]

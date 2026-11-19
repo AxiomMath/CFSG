@@ -33,7 +33,7 @@ theorem fusion_weakly_closed {G : Type} [Group G] [Finite G] {P A : Subgroup G}
     (hweak : ∀ g : G, (∀ a ∈ A, g * a * g⁻¹ ∈ P) → g ∈ Nor A) {x g : G} (hx : x ∈ A)
     (hgx : g * x * g⁻¹ ∈ A) : ∃ n ∈ Nor A, n * x * n⁻¹ = g * x * g⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set u : G := g * x * g⁻¹ with hu
   have hAu : A ≤ Cen u := fun a ha =>
     Subgroup.mem_centralizer_singleton_iff.mpr (hAcomm a ha u hgx)
@@ -107,6 +107,7 @@ theorem frame_R_le_Nor_frame {A₁ : Subgroup J6.S6}
   · exact hι r hr
   · exact (Nor (S.frame A₁)).mul_mem (S.t_mem_Nor_frame A₁) (hι r hr)
 
+omit [Finite H] in
 theorem conj_frame_props {A₁ : Subgroup J6.S6} (hsq : ∀ s ∈ A₁, s * s = 1)
     (hcomm : ∀ a ∈ A₁, ∀ c ∈ A₁, a * c = c * a) (hcard : Nat.card A₁ = 8) (g : H) :
     Nat.card (conjBy g (S.frame A₁)) = 16 ∧ (∀ x ∈ conjBy g (S.frame A₁), x * x = 1) ∧
@@ -135,7 +136,7 @@ theorem isolated_of_frame (A₁ A₁' : Subgroup J6.S6) (hAR : A₁ ≤ J6.R)
     (hXi : S.Xi A₁) (h38 : R38Stmt b (A₁.map S.ι)) :
     ∀ g : H, (g * t * g⁻¹) * t = t * (g * t * g⁻¹) → g * t * g⁻¹ = t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := S.hyp
   have hAP : S.frame A₁ ≤ S.frame J6.R := S.frame_mono hAR
   have hAcard : Nat.card (S.frame A₁) = 16 := by rw [S.card_frame, hcard]

@@ -57,9 +57,9 @@ theorem eq_one_of_commute_of_totallySingular (hx : Hyp q x) {W : Submodule (ZMod
     (hW4 : finrank (ZMod 2) W = 4) (hW : ∀ v ∈ W, q v = 0) {c : V ≃ₗ[ZMod 2] V}
     (hc : ∀ v, q (c v) = q v) (hc3 : c ^ 3 = 1) (hcx : c * x = x * c) : c = 1 := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h136 : Nat.card {v : V // q v = 0} = 136 :=
     CFSG.GF2Type.Smith1979.W4As.card_singular_eq_136 hx.nondeg hx.dim hW4 hW
   have hxc : ∀ v, x (c v) = c (x v) := fun v => by
@@ -76,7 +76,7 @@ theorem eq_one_of_commute_of_totallySingular (hx : Hyp q x) {W : Submodule (ZMod
     exact Nat.card_le_card_of_injective (fun v => ⟨v.1, mem_fixSpace.mpr v.2.2⟩)
       (fun a b hab => Subtype.ext (by simpa using congrArg Subtype.val hab))
   have hS1pos : 0 < Nat.card {v : V // q v = 0 ∧ x v = v} := by
-    haveI : Nonempty {v : V // q v = 0 ∧ x v = v} :=
+    have : Nonempty {v : V // q v = 0 ∧ x v = v} :=
       ⟨⟨0, by rw [QuadraticMap.map_zero], map_zero x⟩⟩
     exact Nat.card_pos
   have hS1 : Nat.card {v : V // q v = 0 ∧ x v = v} = 3 := by
@@ -93,7 +93,7 @@ theorem eq_one_of_commute_of_totallySingular (hx : Hyp q x) {W : Submodule (ZMod
     rw [← hS1]
     exact Nat.card_le_card_of_injective _ hinj
   have hS2pos : 0 < Nat.card {v : V // (q v = 0 ∧ x v = v) ∧ c v = v} := by
-    haveI : Nonempty {v : V // (q v = 0 ∧ x v = v) ∧ c v = v} :=
+    have : Nonempty {v : V // (q v = 0 ∧ x v = v) ∧ c v = v} :=
       ⟨⟨0, ⟨by rw [QuadraticMap.map_zero], map_zero x⟩, map_zero c⟩⟩
     exact Nat.card_pos
   have hS2 : Nat.card {v : V // (q v = 0 ∧ x v = v) ∧ c v = v} = 3 := by

@@ -76,6 +76,7 @@ section Lalpha
 
 variable {A L : Subgroup G} {c : G} [(ker142 A (lB A) c).Normal]
 
+omit [(ker142 A (lB A) c).Normal] in
 theorem l_le_kA_pt (P : Proof1413Res5.Pt142 A c L) : L ≤ kA142 A (lB A) c :=
   P.l_le.trans le_sup_left
 

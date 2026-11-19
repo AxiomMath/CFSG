@@ -30,10 +30,10 @@ theorem exists_langLevi_algebraicClosure (τ : Tag) (K : Type) [Field K] [Finite
           g * canonicalRep (coxeterSystem τ) (AlgebraicClosure K) w := by
   classical
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : Fact p.Prime := ⟨hpp⟩
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hcard' : Nat.card K = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hZ := LangLeviAux.isConnectedAlgebraicSubgroup_parabolicLevi (τ := τ)
@@ -107,12 +107,12 @@ theorem e8Ten_conj_rootDiagUnit {L : Type} [Field L] {ζ : Lˣ} (hζ : orderOf �
     set m : ℤ := ((TwClass.e8Ten.w)⁻¹ • (Pi.single i 1 : Fin TwClass.e8Ten.tag.rank → ℤ)) i₁
     by_cases hi : i = i₁
     · have h2 : m % 5 = 4 := by
-        rw [if_pos (show i = ⟨4, by decide⟩ from hi)] at hm
+        rw [ite_eq_left (show i = ⟨4, by decide⟩ from hi)] at hm
         exact hm
       rw [zpow_eq_of_emod_five hζ (show m % 5 = (4 : ℤ) % 5 by rw [h2]; norm_num)]
       simp [ha, hi]
     · have h0 : m % 5 = 0 := by
-        rw [if_neg (show ¬ i = ⟨4, by decide⟩ from hi)] at hm
+        rw [ite_eq_right (show ¬ i = ⟨4, by decide⟩ from hi)] at hm
         exact hm
       rw [zpow_eq_of_emod_five hζ (show m % 5 = (0 : ℤ) % 5 by rw [h0]; norm_num)]
       simp [ha, Pi.mulSingle_eq_of_ne hi]

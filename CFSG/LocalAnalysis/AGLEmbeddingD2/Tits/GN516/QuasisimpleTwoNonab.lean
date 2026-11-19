@@ -61,7 +61,7 @@ theorem isQuasisimpleTwoNonab_of_simple {G : Type*} [Group G] [Finite G] (hs : I
     (hcard : 120 < Nat.card G)
     (hQ : ∃ Q : Subgroup G, IsPGroup 2 Q ∧ ∃ a ∈ Q, ∃ b ∈ Q, a * b ≠ b * a) :
     IsQuasisimpleTwoNonab G := by
-  haveI := hs
+  have := hs
   obtain ⟨Q, hQ2, a, ha, b, hb, hab⟩ := hQ
   have hnc : ∃ x y : G, x * y ≠ y * x := ⟨a, b, hab⟩
   have hZ : Subgroup.center G = ⊥ := by

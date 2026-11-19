@@ -34,9 +34,9 @@ theorem uc22r899e3_three_le_pRank {M : Subgroup G}
   have hZ : ∀ i, center (Bar2 (L i)) = ⊥ := by
     intro i
     rcases hshape i with hX | hX
-    · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
+    · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
       exact uc22p21k_center_eq_bot (hL i).2.2
-    · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+    · have := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
       exact uc22p21k_center_eq_bot (hL i).2.2
   have hcen : ∀ i, ∀ x ∈ barImage M (L i), (∀ y ∈ barImage M (L i), y * x = x * y) →
       x ^ r = 1 → x = 1 := by

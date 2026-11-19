@@ -63,7 +63,7 @@ theorem finrank_ker_rootDiag_sub_one (a : Fin τ.rank → Kˣ) [Finite (Label τ
       Nat.card {b : Label τ // rootChar a (labelWt τ b) = 1} := by
   classical
   rw [ker_rootDiag_sub_one]
-  haveI : Fintype ↥{b : Label τ | rootChar a (labelWt τ b) = 1} := Fintype.ofFinite _
+  have : Fintype ↥{b : Label τ | rootChar a (labelWt τ b) = 1} := Fintype.ofFinite _
   rw [(Finsupp.supportedEquivFinsupp (M := K) (R := K) _).finrank_eq,
     Module.finrank_finsupp_self]
   exact Nat.card_eq_fintype_card.symm
@@ -173,8 +173,7 @@ theorem baseChangeEnd_scalarExtEquiv (A : Module.End K (RootModule τ K))
     (t : L ⊗[K] RootModule τ K) :
     baseChangeEnd (algebraMap K L) A (scalarExtEquiv τ K L t) =
       scalarExtEquiv τ K L (A.baseChange L t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy, map_add]
   | tmul c v =>
     rw [LinearMap.baseChange_tmul, scalarExtEquiv_tmul, scalarExtEquiv_tmul, map_smul,
@@ -197,7 +196,7 @@ theorem finrank_ker_baseChangeEnd (A : Module.End K (RootModule τ K)) :
       (TensorProduct.AlgebraTensorModule.lTensor L L (LinearMap.ker A).subtype) := fun x y h =>
     Module.Flat.lTensor_preserves_injective_linearMap (M := L) _
       (LinearMap.ker A).injective_subtype (by simpa using h)
-  haveI : Module.Free K ↥(LinearMap.ker A) := Module.Free.of_divisionRing K ↥(LinearMap.ker A)
+  have : Module.Free K ↥(LinearMap.ker A) := Module.Free.of_divisionRing K ↥(LinearMap.ker A)
   rw [LinearMap.finrank_range_of_inj hinj, Module.finrank_baseChange]
 
 end BaseChange

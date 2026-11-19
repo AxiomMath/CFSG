@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G]
   {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem Q_le_XbarPreCenter (hc : Ctx M Q Z B) : Q ≤ XbarPreCenter M Q Z B := by
   intro q hq
   have hqM : q ∈ M := by

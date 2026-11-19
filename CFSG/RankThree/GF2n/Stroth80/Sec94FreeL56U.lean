@@ -72,6 +72,7 @@ end Model
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem l56u_pi_comm {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {u a : G}
     (ha : a ∈ Q) (hua : u * a * u⁻¹ ∈ Q) (τ : M₀.E ≃ₗ[K] M₀.E)
     (hτ : M₀.π (u * a * u⁻¹) = τ (M₀.π a)) :

@@ -211,7 +211,7 @@ theorem le_of_two_section [Finite G] {A M P R : Subgroup G} {a : ℕ} (hRP : R �
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hT⟩ := exists_sylow_normalized (q := 2) hA hP3 hAP
   have hSP : (T : Subgroup ↥P).map P.subtype ≤ P := Subgroup.map_subtype_le _
-  have hS2 : IsPGroup 2 ((T : Subgroup ↥P).map P.subtype) := T.isPGroup'.map P.subtype
+  have hS2 : IsPGroup 2 ((T : Subgroup ↥P).map P.subtype) := T.isPGroup.map P.subtype
   have hSM := hS _ hSP hS2 hT
   have hN : (R.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRP).mpr hPR

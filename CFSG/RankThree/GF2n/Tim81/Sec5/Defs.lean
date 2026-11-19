@@ -38,9 +38,11 @@ structure Sec5Hyp (M V : Subgroup G) : Prop where
   le_pCore : ∀ (a : G) (L : Subgroup G),
     IsHMember (conjSubgroup a M) (conjSubgroup a V) L → conjSubgroup a V ≤ inSubgroup (pCore 2) L
 
+omit [Finite G] in
 theorem Sec5Hyp.toRootHyp (hS : Sec5Hyp M V) : RootHyp M V := by
   simpa [conjSubgroup_one] using hS.root 1
 
+omit [Finite G] in
 theorem Sec5Hyp.conj (hS : Sec5Hyp M V) (a : G) :
     Sec5Hyp (conjSubgroup a M) (conjSubgroup a V) where
   root b := by
@@ -53,6 +55,7 @@ theorem Sec5Hyp.conj (hS : Sec5Hyp M V) (a : G) :
     simp only [CGT.Timmesfeld75.conjSubgroup_conjSubgroup] at hL ⊢
     exact hS.le_pCore (b * a) L hL
 
+omit [Finite G] in
 theorem Pc_conjSubgroup (M V : Subgroup G) (a : G) :
     Pc (conjSubgroup a M) (conjSubgroup a V) = conjSubgroup a (Pc M V) := by
   have hp : inSubgroup (pCore 2) (conjSubgroup a M) =
@@ -63,6 +66,7 @@ theorem Pc_conjSubgroup (M V : Subgroup G) (a : G) :
   unfold Pc
   rw [hp, centralizer_conjSubgroup_eq, ← conjSubgroup_inf]
 
+omit [Finite G] in
 theorem isHMember_conjSubgroup_iff (a : G) {M V L : Subgroup G} :
     IsHMember (conjSubgroup a M) (conjSubgroup a V) (conjSubgroup a L) ↔ IsHMember M V L := by
   have hp : inSubgroup (pCore 2) (conjSubgroup a L) =
@@ -117,6 +121,7 @@ theorem mem_sigmaSet_iff (h : Hyp M V) {g : G} :
   · intro hH
     exact ⟨g, rfl, hH⟩
 
+omit [Finite G] in
 theorem mem_sigmaSet_conjSubgroup_iff (a : G) {U : Subgroup G} :
     U ∈ sigmaSet (conjSubgroup a M) (conjSubgroup a V) ↔
       conjSubgroup a⁻¹ U ∈ sigmaSet M V := by
@@ -285,11 +290,12 @@ theorem Sec5Hyp.conj_inv_mem_sigmaSet_iff (hS : Sec5Hyp M V) {g : G} :
   rw [hOf_inv] at h1 ⊢
   exact (h1.trans (isHMember_conjSubgroup_iff g⁻¹)).symm
 
+omit [Finite G] in
 theorem IsL2Gen.symm {A B : Subgroup G} (h : IsL2Gen A B) : IsL2Gen B A := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   have hltri_utri : Nat.card (ltri F) = Nat.card (utri F) := by
     rw [← conjSubgroup_wElt_utri]
     exact Subgroup.card_map_of_injective (MulAut.conj wElt).injective
@@ -348,6 +354,7 @@ theorem IsL2Gen.symm {A B : Subgroup G} (h : IsL2Gen A B) : IsL2Gen B A := by
     exact conjSubgroup_wElt_utri
   exact ⟨F, hField, hFin, hCharP, ψ, hBcard, hBmap, hAmap⟩
 
+omit [Finite G] in
 theorem IsL2Gen.isL2Pair {A B : Subgroup G} (h : IsL2Gen A B) :
     IsL2Pair ↥(A ⊔ B) (A.subgroupOf (A ⊔ B)) (Nat.card A) := by
   obtain ⟨F, hField, hFin, hCharP, φ, hcard, hA, -⟩ := h

@@ -18,6 +18,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ} {l : ℕ} {U : Fin l → Submodule F V}
   {ρ : Fin l → ↥(orthDerived Q)} {i j : Fin l} {A : Subgroup ↥(orthDerived Q)} {d : ↥(orthDerived Q)}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem mul_comm_of_mem_torus {T : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U ρ T) {a b : ↥(orthDerived Q)}
     (ha : a ∈ T) (hb : b ∈ T) : a * b = b * a := by
   have h := hF.isElemAbelian.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
@@ -110,6 +111,7 @@ theorem rho_mem_supportedFixedDerived (hM : IsMixedFrame Q p U ρ i j A)
       Subtype.ext hρp
     rw [← map_pow, hpow, map_one]
 
+omit [CharP F 2] in
 private theorem layer_fixes_pair_aux1 (hM : IsMixedFrame Q p U ρ i j A) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) (hd : IsStdElt p A d)
     (hdz : d ∈ Subgroup.zpowers (ρ i * ρ j)) (hi : ∀ x ∈ U i, (d : V ≃ₗ[F] V) x = x) : d = 1 := by
@@ -173,6 +175,7 @@ theorem layer_fixes_pair (hM : IsMixedFrame Q p U ρ i j A) (hp : p.Prime) (hp2 
   obtain ⟨x, hx, y, hy, rfl⟩ := Submodule.mem_sup.1 hv
   rw [map_add, hfixi g hg x hx, hfixj g hg y hy]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem stdExtends_of_pair_part1 (hM : IsMixedFrame Q p U ρ i j A) :
     (QuadraticMap.polarBilin (Q.comp (U i ⊔ U j).subtype)).Nondegenerate := by
   have e : (⨆ k ∈ ({i, j} : Finset (Fin l)), U k : Submodule F V) = U i ⊔ U j := by
@@ -180,6 +183,7 @@ private theorem stdExtends_of_pair_part1 (hM : IsMixedFrame Q p U ρ i j A) :
   rw [← e]
   exact hM.frame.toIsPlaneSystem.nondeg_biSup ({i, j} : Finset (Fin l))
 
+omit [Finite F] [CharP F 2] in
 private theorem stdExtends_of_pair_part2 (hM : IsMixedFrame Q p U ρ i j A)
     (hP : (QuadraticMap.polarBilin (Q.comp (U i ⊔ U j).subtype)).Nondegenerate)
     (hfix : ∀ g ∈ stdLayer d, ∀ v ∈ U i ⊔ U j, (g : V ≃ₗ[F] V) v = v) :

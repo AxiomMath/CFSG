@@ -27,8 +27,8 @@ theorem toMatrix_reflection_fin_four (f : Module.Basis (Fin 4) (ZMod p) U) {u : 
   rw [toMatrix_reflection_basis f hφ' r c, Matrix.sub_apply, Matrix.of_apply]
   congr 1
   by_cases hri : r = i.castSucc
-  · rw [if_pos hri, if_pos hri, hC]
-  · rw [if_neg hri, if_neg hri]
+  · rw [ite_eq_left hri, ite_eq_left hri, hC]
+  · rw [ite_eq_right hri, ite_eq_right hri]
 
 private theorem range_reflections_eq {u : Fin 3 → U} {φ : Fin 3 → Module.Dual (ZMod p) U}
     {hφ : ∀ i, φ i (u i) = 2} {x y z : U ≃ₗ[ZMod p] U}

@@ -47,7 +47,7 @@ theorem sl32Fix_core {X : Type*} [Group X] [Finite X] (K U W : Subgroup X) (φ :
         refine lt_of_le_of_ne hWM fun h => ?_
         obtain ⟨u, hu, huW⟩ := exists_mem_omegaZ_not_mem hn hU2 hlt
         exact huW (h ▸ hu)
-      haveI : (W'.subgroupOf M).Normal :=
+      have : (W'.subgroupOf M).Normal :=
         ⟨fun n hn' g => hn g.1 (hMU g.2) n hn'⟩
       have hKM : ∀ x ∈ K, ∀ m ∈ M, x * m * x⁻¹ ∈ M := fun x hx m hm =>
         omegaZ_conj_K hn (hKU x hx) (hKU' x hx) (hk x hx) hm
@@ -55,7 +55,7 @@ theorem sl32Fix_core {X : Type*} [Group X] [Finite X] (K U W : Subgroup X) (φ :
         (fun a ha b hb => omegaZ_comm hn ha (hMU hb)) (fun a ha => omegaZ_sq hn ha)
         (hU2.to_le hle) ψ.toMonoidHom hy hy3 hψ
       have hB := ih M hMW hMU (fun u hu m hm => omegaZ_conj_U hn hu hm) hKM
-      haveI : Nonempty ↥(M ⊓ centralizer ({y} : Set X)) := ⟨1⟩
+      have : Nonempty ↥(M ⊓ centralizer ({y} : Set X)) := ⟨1⟩
       have hpos : 0 < Nat.card ↥(M ⊓ centralizer ({y} : Set X)) ^ 4 :=
         pow_pos Nat.card_pos 4
       refine Nat.le_of_mul_le_mul_right ?_ hpos

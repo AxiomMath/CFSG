@@ -131,7 +131,7 @@ private theorem isPGroup_of_isElemAbelian {q : ℕ} {E : Subgroup A} (hE : IsEle
 
 theorem coprime_card_of_isPGroup [Finite A] {p q : ℕ} (hp : p.Prime) (hq : q.Prime)
     (hpq : p ≠ q) {V : Subgroup A} (hV : IsPGroup q V) : Nat.Coprime p (Nat.card V) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := hV.exists_card_eq
   rw [hk]
   exact ((Nat.coprime_primes hp hq).mpr hpq).pow_right k
@@ -162,7 +162,7 @@ theorem eq_bot_of_central [Finite A] {q : ℕ} (hq : q.Prime) {K T V : Subgroup 
     (h2 : ∀ E : Subgroup A, IsElemAbelian q E → E ≤ K → T ≤ normalizer (E : Set A) →
       E ⊓ centralizer ({z} : Set A) = ⊥ → E = ⊥)
     (hV : IsPGroup q V) (hTV : T ≤ normalizer (V : Set A)) : V = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_contra hV1
   set E := omegaOneCenterOf q V
   have hE : IsElemAbelian q E := isElemAbelian_omegaOneCenterOf q V
@@ -216,7 +216,7 @@ theorem mulAut_eq_bot_of_sig {K : Type*} [Group K] [Finite K] (hZ : center K = �
       Set (MulAut K)) ≤ Q.map (MulAut.conj : K →* MulAut K))
     (V : Subgroup (MulAut K)) (hV : Nat.Coprime p (Nat.card V))
     (hTV : ∀ t ∈ T, MulAut.conj t ∈ normalizer (V : Set (MulAut K))) : V = ⊥ := by
-  haveI := normal_range_conj (K := K)
+  have := normal_range_conj (K := K)
   have hinj := conj_injective hZ
   refine eq_bot_of_sig (K := (MulAut.conj : K →* MulAut K).range)
     (B := B.map (MulAut.conj : K →* MulAut K)) hp ?_ ?_ (hQ.map _) (map_le_range _ _) ?_ ?_ hCQ
@@ -249,7 +249,7 @@ theorem mulAut_forall_eq_bot_of_selfCentralizing {K : Type*} [Group K] [Finite K
     ∀ W : Subgroup (MulAut K), IsElemAbelian q W →
       W ≤ centralizer ({MulAut.conj z} : Set (MulAut K)) →
       (∀ t ∈ T, MulAut.conj t ∈ normalizer (W : Set (MulAut K))) → W = ⊥ := by
-  haveI := normal_range_conj (K := K)
+  have := normal_range_conj (K := K)
   have hinj := conj_injective hZ
   intro W hW hWz hTW
   refine forall_eq_bot_of_selfCentralizing (K := (MulAut.conj : K →* MulAut K).range)
@@ -270,7 +270,7 @@ theorem mulAut_eq_bot_of_central {K : Type} [Group K] [Finite K] (hZ : center K 
       E ⊓ centralizer ({z} : Set K) = ⊥ → E = ⊥)
     (V : Subgroup (MulAut K)) (hV : IsPGroup q V)
     (hTV : ∀ t ∈ T, MulAut.conj t ∈ normalizer (V : Set (MulAut K))) : V = ⊥ := by
-  haveI := normal_range_conj (K := K)
+  have := normal_range_conj (K := K)
   have hinj := conj_injective hZ
   set ι : K →* MulAut K := MulAut.conj
   refine eq_bot_of_central (K := ι.range) (T := T.map ι) hq ⟨z, rfl⟩ (hTV z hzT) ?_

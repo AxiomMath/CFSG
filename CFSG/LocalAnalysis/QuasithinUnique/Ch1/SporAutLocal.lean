@@ -204,7 +204,7 @@ theorem exists_conj_of_local_pair {G : Type*} [Group G] [Finite G] {p : ℕ} [Fa
     rw [hN, Subgroup.mem_normalizer_iff] at hx
     exact (hx q).1 hq
   obtain ⟨c2, hc2K, -, hc2⟩ := exists_conj_of_fixing_sylow N K S hKS
-    (IsPGroup.to_le S.isPGroup' hKS) hKN hCK (hSdiv N hSN) α hαN hα
+    (IsPGroup.to_le S.isPGroup hKS) hKN hCK (hSdiv N hSN) α hαN hα
   have hc2Z : c2 ∈ Z := hmemZ c2 (hKS hc2K) fun s hs => by
     have h := hc2 s (hSN hs)
     rw [hα s hs] at h

@@ -593,7 +593,7 @@ theorem card_mu [IsAlgClosed L] [CharP L 2] (hQ : ¬ 2 ∣ Q + 1) :
   have hm' : ((Q + 1 : ℕ) : L) ≠ 0 := fun h => hQ ((CharP.cast_eq_zero_iff L 2 (Q + 1)).1 h)
   have : NeZero (Q + 1) := ⟨Nat.succ_ne_zero Q⟩
   have : NeZero ((Q + 1 : ℕ) : L) := ⟨hm'⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L (Q + 1)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L (Q + 1)
   have h := hζ.card_rootsOfUnity
   have e : {x : L // x ^ (Q + 1) = 1} ≃ rootsOfUnity (Q + 1) L :=
     { toFun := fun x => ⟨Units.mk0 x.1 (mu_ne_zero x.2),
@@ -651,7 +651,7 @@ theorem exists_primitiveRoot_five [IsAlgClosed L] [CharP L 2] : ∃ ζ : L, IsPr
     have := (CharP.cast_eq_zero_iff L 2 5).1 h
     omega
   have : NeZero ((5 : ℕ) : L) := ⟨h5⟩
-  exact HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  exact HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
 
 end Count
 

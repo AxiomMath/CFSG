@@ -12,7 +12,7 @@ open CFSG.Assembly
 
 theorem largeEvenLabelAll_centerPrime_clD
     {lab : LargeEvenLabel} {p : ℕ}
-    (hlab : LargeEvenInLambda2 lab) (hgen : GGKacGenericClD lab p) :
+    (_hlab : LargeEvenInLambda2 lab) (hgen : GGKacGenericClD lab p) :
     LargeEvenLabelAll lab fun R _ _ _ => GGCenterPrime p R := by
   obtain ⟨hgen, htag, h4⟩ := hgen
   have hp : p.Prime := hgen.1

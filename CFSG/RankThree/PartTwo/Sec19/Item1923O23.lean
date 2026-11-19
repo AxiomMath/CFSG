@@ -18,6 +18,7 @@ open CFSG.RankThree.PartTwo.Sec19 (starIm IsList194 IsSmall194 IsTripleA6 IsProp
 
 variable {G : Type} [Group G] [Finite G] {A M N L K : Subgroup G} {c : G}
 
+omit [Finite G] in
 private theorem o23_barAut_eq_conj {K : Subgroup G} {k : G}
     (hk : k ∈ Subgroup.normalizer (K : Set G)) (hkK : k ∈ K) :
     Sec3.Sims321.barAut K ⟨k, hk⟩ = MulAut.conj ((⟨k, hkK⟩ : K) : K ⧸ CFSG.pCore 2 K) := by
@@ -28,6 +29,7 @@ private theorem o23_barAut_eq_conj {K : Subgroup G} {k : G}
       ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
     all_goals rfl
 
+omit [Finite G] in
 private theorem o23_mem_barActionImage {K S : Subgroup G} {x : MulAut (K ⧸ CFSG.pCore 2 K)} :
     x ∈ barActionImage K S ↔
       ∃ u : Subgroup.normalizer (K : Set G), (u : G) ∈ S ∧ Sec3.Sims321.barAut K u = x := by
@@ -39,6 +41,7 @@ private theorem o23_mem_barActionImage {K S : Subgroup G} {x : MulAut (K ⧸ CFS
   · rintro ⟨u, hu, rfl⟩
     exact Subgroup.mem_map.mpr ⟨u, Subgroup.mem_subgroupOf.mpr hu, rfl⟩
 
+omit [Finite G] in
 private theorem o23_exists_barAut {K N : Subgroup G} {p : MulAut (K ⧸ CFSG.pCore 2 K)}
     (hp : p ∈ (starIm K N).map (MulAut.conj : (K ⧸ CFSG.pCore 2 K) →*
       MulAut (K ⧸ CFSG.pCore 2 K))) :
@@ -50,6 +53,7 @@ private theorem o23_exists_barAut {K N : Subgroup G} {p : MulAut (K ⧸ CFSG.pCo
   exact ⟨k, Subgroup.le_normalizer k.2, k.2, Subgroup.mem_subgroupOf.mp hk,
     o23_barAut_eq_conj _ k.2⟩
 
+omit [Finite G] in
 private theorem o23_comm_mem_inf {K L : Subgroup G} {n b : G}
     (hnL : n ∈ Subgroup.normalizer (L : Set G)) (hnK : n ∈ K) (hbL : b ∈ L)
     (hbK : b ∈ Subgroup.normalizer (K : Set G)) : n * b * n⁻¹ * b⁻¹ ∈ K ⊓ L := by
@@ -59,6 +63,7 @@ private theorem o23_comm_mem_inf {K L : Subgroup G} {n b : G}
   · have h1 : n * b * n⁻¹ ∈ L := (Subgroup.mem_normalizer_iff.mp hnL b).mp hbL
     exact L.mul_mem h1 (L.inv_mem hbL)
 
+omit [Finite G] in
 private theorem o23_conj_mem_inf {K L : Subgroup G} {n k : G}
     (hnL : n ∈ Subgroup.normalizer (L : Set G)) (hnK : n ∈ K) (hk : k ∈ K ⊓ L) :
     n * k * n⁻¹ ∈ K ⊓ L := by
@@ -66,6 +71,7 @@ private theorem o23_conj_mem_inf {K L : Subgroup G} {n k : G}
   exact Subgroup.mem_inf.mpr ⟨K.mul_mem (K.mul_mem hnK hkK) (K.inv_mem hnK),
     (Subgroup.mem_normalizer_iff.mp hnL k).mp hkL⟩
 
+omit [Finite G] in
 private theorem o23_pCoreOf_conj_mem {L : Subgroup G} {k z : G} (hk : k ∈ L)
     (hz : z ∈ CFSG.Open.pCoreOf 2 L) : k * z * k⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
   unfold CFSG.Open.pCoreOf at hz ⊢
@@ -74,6 +80,7 @@ private theorem o23_pCoreOf_conj_mem {L : Subgroup G} {k z : G} (hk : k ∈ L)
   · exact (CFSG.pCore_normal (p := 2) (G := ↥L)).conj_mem z' hz' _
   · simp
 
+omit [Finite G] in
 private theorem o23_pCoreOf_pow {L : Subgroup G} {z : G}
     (hz : z ∈ CFSG.Open.pCoreOf 2 L) : ∃ k : ℕ, z ^ 2 ^ k = 1 := by
   unfold CFSG.Open.pCoreOf at hz
@@ -92,6 +99,7 @@ private theorem o23_cube_key {M : Type*} [Group M] (a : M) (h3 : a * a * a = 1) 
   calc a * a * (a * a) = (a * a * a) * a := by simp only [mul_assoc]
     _ = a := by rw [h3, one_mul]
 
+omit [Finite G] in
 private theorem o23_exists_mul_pCoreOf {L M B : Subgroup G} {k b : G} (hBL : B ≤ L)
     (hNorm : ((L ⊓ M).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) =
       Subgroup.normalizer (((B.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) :
@@ -125,12 +133,12 @@ private theorem o23_exists_mul_pCoreOf {L M B : Subgroup G} {k b : G} (hBL : B �
   refine ⟨(x : G), Subgroup.mem_subgroupOf.mp hx,
     ((x⁻¹ * (⟨k, hkL⟩ * ⟨b, hbL⟩ * (⟨k, hkL⟩ : ↥L)⁻¹) : ↥L) : G), ?_, ?_⟩
   · exact Subgroup.mem_map.mpr ⟨_, hz, rfl⟩
-  · simp [Subgroup.coe_mul, Subgroup.coe_inv]
+  · simp [Subgroup.coe_mul]
 
 theorem step1923_O23
     (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c) (hK : K ∈ scriptJ M N)
     (hP : ParabolicShape (K ⧸ CFSG.pCore 2 K) (starIm K N))
-    (hpar : barActionImage K (A ⊓ L) ≤
+    (_hpar : barActionImage K (A ⊓ L) ≤
       (starIm K N).map (MulAut.conj : (K ⧸ CFSG.pCore 2 K) →* MulAut (K ⧸ CFSG.pCore 2 K)))
     (hw : ∃ (w : G) (hw : w ∈ Subgroup.normalizer (K : Set G)), w ∈ planeGroup A L c ∧
       (∀ b ∈ A ⊓ L, w * b * w⁻¹ = b⁻¹) ∧
@@ -140,8 +148,8 @@ theorem step1923_O23
           MulAut (K ⧸ CFSG.pCore 2 K)))).map
         ((starIm K N).map (MulAut.conj : (K ⧸ CFSG.pCore 2 K) →*
           MulAut (K ⧸ CFSG.pCore 2 K))).subtype := by
-  clear hpar
-  haveI : Finite (MulAut (K ⧸ CFSG.pCore 2 K)) :=
+  clear _hpar
+  have : Finite (MulAut (K ⧸ CFSG.pCore 2 K)) :=
     Finite.of_injective
       (fun σ : MulAut (K ⧸ CFSG.pCore 2 K) => (σ : (K ⧸ CFSG.pCore 2 K) → (K ⧸ CFSG.pCore 2 K)))
       DFunLike.coe_injective
@@ -303,7 +311,7 @@ theorem step1923_O23
     rw [pow_one, Subgroup.coe_pow, Subgroup.coe_one, ← hv', ← map_pow, hv3, map_one]
   have hBN2 : ((Bh ⊔ Y2).subgroupOf X).Normal := by
     rw [Subgroup.subgroupOf_sup hBX hY2X]
-    haveI := hY2n
+    have := hY2n
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨s, hs, t, ht, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hn
     have hgs : g * s * g⁻¹ ∈ Bh.subgroupOf X ⊔ Y2.subgroupOf X := by

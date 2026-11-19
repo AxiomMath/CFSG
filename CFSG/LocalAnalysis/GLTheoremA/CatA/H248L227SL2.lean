@@ -25,7 +25,7 @@ private theorem hom_eq_one_of_commute {X H : Type*} [Group X] [Group H] (hperf :
 private theorem mul_le_card_of_lt {q : ℕ} (hq : q.Prime) {G : Type*} [Group G] [Finite G]
     (hG : IsPGroup q G) {A B : Subgroup G} (hAB : A ≤ B) (hne : A ≠ B) :
     q * Nat.card A ≤ Nat.card B := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨a, ha⟩ := (hG.to_subgroup A).exists_card_eq
   obtain ⟨b, hb⟩ := (hG.to_subgroup B).exists_card_eq
   have hlt : Nat.card A < Nat.card B := by
@@ -41,7 +41,7 @@ private theorem center_quotient_card_le {q : ℕ} (hq : q.Prime) {G : Type*} [Gr
     (hexp : ∀ x : G, x ^ q = 1) (hcomm : ∀ x y : G, ⁅x, y⁆ ∈ Subgroup.center G)
     (hab : ∀ B : Subgroup G, IsMulCommutative B → Nat.card B ≤ q ^ 2) :
     Nat.card (Subgroup.center G) ≤ q ^ 2 ∧ Nat.card (G ⧸ Subgroup.center G) ≤ q ^ 2 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hG : IsPGroup q G := fun g => ⟨1, by simpa using hexp g⟩
   refine ⟨hab _ inferInstance, ?_⟩
   show (Subgroup.center G).index ≤ q ^ 2
@@ -156,7 +156,7 @@ private theorem card_le_of_isElemAbelian_of_surjective {H Q : Type*} [Group H] [
   have hpow : ∀ x : E, x ^ p = 1 := fun x => Subtype.ext (hE.2 x x.2)
   obtain ⟨S, hES⟩ := (show IsPGroup p E from fun g => ⟨1, by simpa using hpow g⟩).exists_le_sylow
   obtain ⟨P, rfl⟩ := Sylow.mapSurjective_surjective hψ p S
-  have hPc : IsCyclic (P : Subgroup H) := hcyc _ P.isPGroup'
+  have hPc : IsCyclic (P : Subgroup H) := hcyc _ P.isPGroup
   have hSc : IsCyclic ((P.mapSurjective hψ : Sylow p Q) : Subgroup Q) := by
     rw [Sylow.coe_mapSurjective]
     exact isCyclic_of_surjective (ψ.subgroupMap _) (ψ.subgroupMap_surjective _)
@@ -170,8 +170,8 @@ theorem sl2_hom_eq_one {X : Type*} [Group X] [Finite X] {p q : ℕ} (hp : p.Prim
     (hrk : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (X ⧸ M)))
     (φ : X →* Matrix.SpecialLinearGroup (Fin 2) (ZMod q)) : φ = 1 := by
   by_contra hφ
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hker : φ.ker ≠ ⊤ := fun h =>
     hφ (MonoidHom.ext fun x => MonoidHom.mem_ker.mp (h ▸ Subgroup.mem_top x))
   have hkM : φ.ker ≤ M := hM φ.ker inferInstance hker
@@ -216,7 +216,7 @@ theorem mulAut_hom_eq_one_of_card_le {X : Type*} [Group X] [Finite X] {q : ℕ} 
     {A : Type*} [Group A] [Finite A] (hexp : ∀ a : A, a ^ q = 1)
     (hcomm : ∀ a b : A, a * b = b * a) (hcard : Nat.card A ≤ q ^ 2) (ψ : X →* MulAut A) :
     ψ = 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨n, hn⟩ := (show IsPGroup q A from fun a => ⟨1, by simpa using hexp a⟩).exists_card_eq
   have hn2 : n ≤ 2 := by
     rw [hn] at hcard
@@ -233,7 +233,7 @@ theorem centralizes_of_rank_le_two {X : Type*} [Group X] [Finite X] {q : ℕ} (h
     (V : Subgroup X) [V.Normal] (hV : IsPGroup q V)
     (hr : ∀ E : Subgroup X, E ≤ V → CFSG.Open.IsElemAbelian q E → Nat.card E ≤ q ^ 2) :
     ∀ k : X, ∀ v ∈ V, k * v = v * k := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_cases hVb : V = ⊥
   · intro k v hv
     rw [hVb, Subgroup.mem_bot] at hv
@@ -242,7 +242,7 @@ theorem centralizes_of_rank_le_two {X : Type*} [Group X] [Finite X] {q : ℕ} (h
   have hnt : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).mpr hVb
   obtain ⟨D, hDchar, -, hDcomm, hDexp, hDfix⟩ :=
     CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup (p := q) hq2 hV
-  haveI := hDchar
+  have := hDchar
   let φ : X →* MulAut V := MulAut.conjNormal
   obtain ⟨ρ, hρ⟩ : ∃ ρ : X →* MulAut D, ∀ (k : X) (d : D), ((ρ k d : D) : V) = φ k d :=
     ⟨(CFSG.FiveTransitive.CharacteristicAutomorphism.restrict D).comp φ, fun _ _ => rfl⟩

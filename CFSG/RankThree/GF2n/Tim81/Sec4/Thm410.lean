@@ -57,7 +57,7 @@ private theorem false_of_subpairImage_witness (h79 : Tim79aStatementWCQ) (hA5 : 
     False := by
   rcases hwit with ⟨hsolv, hn2⟩ | ⟨R, hRnorm, hRsolv, ⟨e5⟩⟩
   · exact RootHyp.false_of_solvable_subpair h79 h hPH hVH hZ hg hsolv hn2
-  · letI : R.Normal := hRnorm
+  · let : R.Normal := hRnorm
     exact RootHyp.false_of_alt5_subpair h79 hA5 hCT h hPH hVH hZ hg R hRsolv e5
 
 private theorem false_of_gaps_witness (h79 : Tim79aStatementWCQ) (hA5 : HA5Statement)
@@ -154,7 +154,7 @@ private theorem isL2OrSz_quotient_step (hG : GapsStatement) (hA : TheoremAStmt)
   let T : Subgroup Y := imgK V H (Pc M V)
   obtain ⟨Z, hZcenter, hZnormal, hList⟩ :=
     exists_listGroup_quot hA h hPH hVH hH hnM
-  letI : Z.Normal := hZnormal
+  let : Z.Normal := hZnormal
   have hZcenterY : Z ≤ Subgroup.center Y := by simpa [Y] using hZcenter
   let L := Y ⧸ Z
   let Tq : Subgroup L := T.map (QuotientGroup.mk' Z)

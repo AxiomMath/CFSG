@@ -52,7 +52,7 @@ theorem liftComp_quasisimple_iso {X : Type} [Group X] [Finite X] {K : Subgroup X
   exact ⟨(QuotientGroup.congr _ _ e₂.symm (Subgroup.map_center_eq e₂.symm)).trans e₃⟩
 
 theorem threeComponents_lift {X : Type} [Group X] [Finite X] {K : Subgroup X}
-    (hK : CFSG.Open.IsQuasisimple ↥K) {y : X} (hy : y ∈ Subgroup.normalizer (K : Set X))
+    (_hK : CFSG.Open.IsQuasisimple ↥K) {y : X} (hy : y ∈ Subgroup.normalizer (K : Set X))
     {n : ℕ} {T : Fin n → Subgroup (↥K ⧸ Subgroup.center ↥K)} (hT : Function.Injective T)
     (hTc : ∀ L : Subgroup (↥K ⧸ Subgroup.center ↥K),
       GLAPComponent 3 (CFSG.RankThree.PartOne.CTP.fixedSubgroup (actHom K ⟨y, hy⟩)) L ↔

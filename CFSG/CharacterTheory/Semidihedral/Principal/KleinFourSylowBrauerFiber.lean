@@ -250,7 +250,7 @@ theorem coefficientBlockDefect_of_normal_sylow [Fintype G]
     (P : Sylow p G) [(P : Subgroup G).Normal] (χ : basis.index) :
     coefficientBlockDefect basis ideal p χ P := by
   obtain ⟨D, hD⟩ := coefficientBlockDefect_exists basis ideal p χ
-  have hPD := normal_p_le_coefficientBlockDefect basis ideal p P P.isPGroup' hD
+  have hPD := normal_p_le_coefficientBlockDefect basis ideal p P P.isPGroup hD
   have hDP := CompatibleFamily.pSubgroup_subconjugate_sylow P
     (coefficientBlockDefect_isPGroup basis ideal hD)
   have heq : (P : Subgroup G) = D :=
@@ -328,10 +328,10 @@ theorem brauer_centralizer_eq_iff (ideal : Ideal ComplexAlgebraicIntegers) [idea
     (p : ℕ) [Fact p.Prime] [CharP (ComplexAlgebraicIntegers ⧸ ideal) p] (S : Sylow p G)
     (gb : FiniteIrreducibleCharacterBasis (Subgroup.centralizer ((S : Subgroup G) : Set G)))
     (θ₁ θ₂ : gb.index) :
-    brauerNormalizerCharacterResidueHom ideal p S S.isPGroup'
+    brauerNormalizerCharacterResidueHom ideal p S S.isPGroup
         (Subgroup.centralizer ((S : Subgroup G) : Set G)) le_rfl
         (Subgroup.centralizer_le_normalizer _) gb θ₁ =
-      brauerNormalizerCharacterResidueHom ideal p S S.isPGroup'
+      brauerNormalizerCharacterResidueHom ideal p S S.isPGroup
         (Subgroup.centralizer ((S : Subgroup G) : Set G)) le_rfl
         (Subgroup.centralizer_le_normalizer _) gb θ₂ ↔
     ∃ (n : G) (hn : n ∈ Subgroup.normalizer ((S : Subgroup G) : Set G)) (θ' : gb.index),
@@ -340,7 +340,7 @@ theorem brauer_centralizer_eq_iff (ideal : Ideal ComplexAlgebraicIntegers) [idea
   obtain ⟨nb⟩ := finiteIrreducibleCharacterBasis_exists
     (G := Subgroup.normalizer ((S : Subgroup G) : Set G))
   obtain ⟨-, -, horbit, hext, hinj, hiff⟩ := external_block_orbits ideal p (S : Subgroup G)
-    (Subgroup.normalizer ((S : Subgroup G) : Set G)) S.isPGroup' Subgroup.le_normalizer
+    (Subgroup.normalizer ((S : Subgroup G) : Set G)) S.isPGroup Subgroup.le_normalizer
     (Subgroup.centralizer_le_normalizer _) le_rfl nb gb
   let SN : Sylow p (Subgroup.normalizer ((S : Subgroup G) : Set G)) :=
     S.subtype Subgroup.le_normalizer
@@ -353,16 +353,16 @@ theorem brauer_centralizer_eq_iff (ideal : Ideal ComplexAlgebraicIntegers) [idea
   have hW_N : ∀ (χ : nb.index) (θ : gb.index),
       ExternalResidueMatch (S : Subgroup G) (Subgroup.normalizer ((S : Subgroup G) : Set G))
         (Subgroup.centralizer_le_normalizer _) nb ideal gb χ θ →
-      brauerNormalizerCharacterResidueHom ideal p S S.isPGroup'
+      brauerNormalizerCharacterResidueHom ideal p S S.isPGroup
           (Subgroup.centralizer ((S : Subgroup G) : Set G)) le_rfl
           (Subgroup.centralizer_le_normalizer _) gb θ =
-        brauerNormalizerCharacterResidueHom ideal p S S.isPGroup'
+        brauerNormalizerCharacterResidueHom ideal p S S.isPGroup
           (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
           le_rfl nb χ := by
     intro χ θ hmatch
     apply RingHom.ext
     intro z
-    rw [external_brauer_apply_of_match ideal p (S : Subgroup G) _ S.isPGroup'
+    rw [external_brauer_apply_of_match ideal p (S : Subgroup G) _ S.isPGroup
       (Subgroup.centralizer_le_normalizer _) le_rfl nb gb hmatch z]
     change centralCharacterResidueHom gb ideal θ (centralNormalizerCoefficientProjection _
       (S : Subgroup G) _ le_rfl (Subgroup.centralizer_le_normalizer _) z) = _
@@ -372,7 +372,7 @@ theorem brauer_centralizer_eq_iff (ideal : Ideal ComplexAlgebraicIntegers) [idea
   rw [hW_N χ₁ θ₁ h₁, hW_N χ₂ θ₂ h₂]
   constructor
   · intro hBr
-    have hsame := defect_normalizer_brauer_injective ideal p (S : Subgroup G) S.isPGroup' nb
+    have hsame := defect_normalizer_brauer_injective ideal p (S : Subgroup G) S.isPGroup nb
       (hdef χ₁) (hdef χ₂) hBr
     have h₂' := (hiff χ₁ χ₂ hsame θ₂).mpr h₂
     obtain ⟨n, θ', hθ', hsame'⟩ := ((horbit χ₁).2 θ₁ h₁ θ₂).mp h₂'
@@ -382,7 +382,7 @@ theorem brauer_centralizer_eq_iff (ideal : Ideal ComplexAlgebraicIntegers) [idea
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         nb ideal gb χ₁ θ₂ := ((horbit χ₁).2 θ₁ h₁ θ₂).mpr ⟨⟨n, hn⟩, θ', hθ', hsame'⟩
     have hsame := hinj χ₁ χ₂ θ₂ h₂' h₂
-    exact brauer_eq_of_same ideal p (S : Subgroup G) S.isPGroup' _ _ le_rfl nb hsame
+    exact brauer_eq_of_same ideal p (S : Subgroup G) S.isPGroup _ _ le_rfl nb hsame
 
 omit [Finite G] [Fintype G] in
 theorem le_centralizer_zpowers {S : Subgroup G} (hS : IsKleinFour S) {t : G} (htS : t ∈ S) :
@@ -597,22 +597,22 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
       (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G))))
     (B : basis.index)
     (hB : brauerNormalizerCharacterResidueHom ideal 2 (Subgroup.zpowers t)
-      (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+      (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
       (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
       (Subgroup.centralizer_le_normalizer _) cb b = centralCharacterResidueHom basis ideal B) :
     (∃ β : wb.index, brauerNormalizerCharacterResidueHom ideal 2
         ((S : Subgroup G).subgroupOf
           (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-        S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb β =
+        S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb β =
           centralCharacterResidueHom cb ideal b ∧
       ∀ β' : wb.index, brauerNormalizerCharacterResidueHom ideal 2
           ((S : Subgroup G).subgroupOf
             (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-          S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb β' =
+          S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb β' =
             centralCharacterResidueHom cb ideal b →
         sameCoefficientBlock wb (localizedComplexIntegerRing ideal) β β') ∧
     (∀ c : cb.index, brauerNormalizerCharacterResidueHom ideal 2 (Subgroup.zpowers t)
-        (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+        (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
         (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
         (Subgroup.centralizer_le_normalizer _) cb c = centralCharacterResidueHom basis ideal B →
       coefficientBlockDefect cb ideal 2 c ((S : Subgroup G).subgroupOf
@@ -620,7 +620,7 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
     (∀ β : wb.index, brauerNormalizerCharacterResidueHom ideal 2
         ((S : Subgroup G).subgroupOf
           (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-        S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb β =
+        S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb β =
           centralCharacterResidueHom cb ideal b →
       (∀ (n : G) (hn : n ∈ Subgroup.normalizer ((S : Subgroup G) : Set G)) (γ : wb.index),
         LabelTransport wb wb (fiberConj (le_centralizer_zpowers hS htS)
@@ -628,15 +628,15 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
         ∃ c : cb.index, brauerNormalizerCharacterResidueHom ideal 2
             ((S : Subgroup G).subgroupOf
               (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-            S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ =
+            S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ =
               centralCharacterResidueHom cb ideal c ∧
           brauerNormalizerCharacterResidueHom ideal 2 (Subgroup.zpowers t)
-            (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+            (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
             (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
             (Subgroup.centralizer_le_normalizer _)
               cb c = centralCharacterResidueHom basis ideal B) ∧
       (∀ c : cb.index, brauerNormalizerCharacterResidueHom ideal 2 (Subgroup.zpowers t)
-          (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+          (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
           (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
           (Subgroup.centralizer_le_normalizer _) cb c = centralCharacterResidueHom basis ideal B →
         ∃ (n : G) (hn : n ∈ Subgroup.normalizer ((S : Subgroup G) : Set G)) (γ : wb.index),
@@ -645,29 +645,29 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
           brauerNormalizerCharacterResidueHom ideal 2
               ((S : Subgroup G).subgroupOf
                 (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-              S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ =
+              S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ =
             centralCharacterResidueHom cb ideal c) ∧
       (∀ γ₁ γ₂ : wb.index, brauerNormalizerCharacterResidueHom ideal 2
           ((S : Subgroup G).subgroupOf
             (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-          S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ₁ =
+          S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ₁ =
         brauerNormalizerCharacterResidueHom ideal 2
           ((S : Subgroup G).subgroupOf
             (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-          S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ₂ →
+          S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ₂ →
         sameCoefficientBlock wb (localizedComplexIntegerRing ideal) γ₁ γ₂)) ∧
     ((Subgroup.centralizer ((S : Subgroup G) : Set G)).relIndex
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) = 1 ∨
       (Subgroup.centralizer ((S : Subgroup G) : Set G)).relIndex
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) = 3) ∧
     (((Finset.univ.filter fun c : cb.index => brauerNormalizerCharacterResidueHom ideal 2
-        (Subgroup.zpowers t) (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+        (Subgroup.zpowers t) (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
         (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
         (Subgroup.centralizer_le_normalizer _)
           cb c = centralCharacterResidueHom basis ideal B).image
           (coefficientBlock cb (localizedComplexIntegerRing ideal))).card = 1 ∨
       ((Finset.univ.filter fun c : cb.index => brauerNormalizerCharacterResidueHom ideal 2
-        (Subgroup.zpowers t) (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+        (Subgroup.zpowers t) (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
         (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
         (Subgroup.centralizer_le_normalizer _)
           cb c = centralCharacterResidueHom basis ideal B).image
@@ -678,10 +678,10 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
   have hWC : Subgroup.centralizer ((S : Subgroup G) : Set G) ≤
       Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G) :=
     Subgroup.centralizer_le hPS
-  have htp : IsPGroup 2 (Subgroup.zpowers t) := S.isPGroup'.to_le hPS
+  have htp : IsPGroup 2 (Subgroup.zpowers t) := S.isPGroup.to_le hPS
   have hSCp : IsPGroup 2 ((S : Subgroup G).subgroupOf
       (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G))) :=
-    S.isPGroup'.comap_subtype
+    S.isPGroup.comap_subtype
   have htt : t * t = 1 := by
     have : IsKleinFour (S : Subgroup G) := hS
     exact congrArg Subtype.val (IsKleinFour.mul_self (⟨t, htS⟩ : (S : Subgroup G)))
@@ -724,13 +724,13 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
     ideal 2 _ hSCp _ le_rfl (Subgroup.centralizer_le_normalizer _) _ hSCp le_rfl hSW hNC wb
   have hBdef : coefficientBlockDefect basis ideal 2 B S := by
     obtain ⟨-, E, hE, hSE⟩ := centralizer_brauer_image_defect_contains_local_defect basis ideal 2
-      (Subgroup.zpowers t) htp S S.isPGroup' hPS hSC cb b hb B hB
+      (Subgroup.zpowers t) htp S S.isPGroup hPS hSC cb b hb B hB
     have hES := CompatibleFamily.pSubgroup_subconjugate_sylow S
       (coefficientBlockDefect_isPGroup basis ideal hE)
     exact DihedralAssociates.coefficientBlockDefect_of_conj basis ideal hE
       (subgroupsConjugate_of_subconjugate_card_ge hES (subgroupSubconjugate_card_le hSE))
   have hclaim2 : ∀ c : cb.index, brauerNormalizerCharacterResidueHom ideal 2 (Subgroup.zpowers t)
-      (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+      (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
       (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
       (Subgroup.centralizer_le_normalizer _) cb c = centralCharacterResidueHom basis ideal B →
       coefficientBlockDefect cb ideal 2 c ((S : Subgroup G).subgroupOf
@@ -799,7 +799,7 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
   have hclaim3 : ∀ β : wb.index, brauerNormalizerCharacterResidueHom ideal 2
           ((S : Subgroup G).subgroupOf
             (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-          S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb β =
+          S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb β =
             centralCharacterResidueHom cb ideal b →
         (∀ (n : G) (hn : n ∈ Subgroup.normalizer ((S : Subgroup G) : Set G)) (γ : wb.index),
           LabelTransport wb wb (fiberConj (le_centralizer_zpowers hS htS)
@@ -807,15 +807,15 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
           ∃ c : cb.index, brauerNormalizerCharacterResidueHom ideal 2
               ((S : Subgroup G).subgroupOf
                 (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-              S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ =
+              S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ =
                 centralCharacterResidueHom cb ideal c ∧
             brauerNormalizerCharacterResidueHom ideal 2 (Subgroup.zpowers t)
-              (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+              (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
               (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
               (Subgroup.centralizer_le_normalizer _)
                 cb c = centralCharacterResidueHom basis ideal B) ∧
         (∀ c : cb.index, brauerNormalizerCharacterResidueHom ideal 2 (Subgroup.zpowers t)
-            (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+            (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
             (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
             (Subgroup.centralizer_le_normalizer _) cb c = centralCharacterResidueHom basis ideal B →
           ∃ (n : G) (hn : n ∈ Subgroup.normalizer ((S : Subgroup G) : Set G)) (γ : wb.index),
@@ -824,24 +824,24 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
             brauerNormalizerCharacterResidueHom ideal 2
                 ((S : Subgroup G).subgroupOf
                   (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-                S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ =
+                S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ =
               centralCharacterResidueHom cb ideal c) ∧
         (∀ γ₁ γ₂ : wb.index, brauerNormalizerCharacterResidueHom ideal 2
             ((S : Subgroup G).subgroupOf
               (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-            S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ₁ =
+            S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ₁ =
           brauerNormalizerCharacterResidueHom ideal 2
             ((S : Subgroup G).subgroupOf
               (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)))
-            S.isPGroup'.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ₂ →
+            S.isPGroup.comap_subtype _ le_rfl (Subgroup.centralizer_le_normalizer _) wb γ₂ →
           sameCoefficientBlock wb (localizedComplexIntegerRing ideal) γ₁ γ₂) := by
     intro β hβ
     obtain ⟨βG, hβG⟩ := labelTransport_exists wb gb (centralizerSubgroupOfEquiv hSC hWC) β
-    have hβB : brauerNormalizerCharacterResidueHom ideal 2 S S.isPGroup'
+    have hβB : brauerNormalizerCharacterResidueHom ideal 2 S S.isPGroup
         (Subgroup.centralizer ((S : Subgroup G) : Set G)) le_rfl
         (Subgroup.centralizer_le_normalizer _)
           gb βG = centralCharacterResidueHom basis ideal B := by
-      rw [← brauer_composite ideal 2 (Subgroup.zpowers t) S _ htp S.isPGroup' hPS le_rfl
+      rw [← brauer_composite ideal 2 (Subgroup.zpowers t) S _ htp S.isPGroup hPS le_rfl
         (Subgroup.centralizer_le_normalizer _) hSC hWC cb wb gb hβG hβ]
       exact hB
     refine ⟨fun n hn γ hγ => ?_, fun c hc => ?_, fun γ₁ γ₂ h =>
@@ -850,17 +850,17 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
       refine ⟨c, hcγ, ?_⟩
       obtain ⟨γG, hγG⟩ := labelTransport_exists wb gb (centralizerSubgroupOfEquiv hSC hWC) γ
       have htrans := labelTransport_fiberConj hSC hWC n hn wb gb hγ hβG hγG
-      rw [brauer_composite ideal 2 (Subgroup.zpowers t) S _ htp S.isPGroup' hPS le_rfl
+      rw [brauer_composite ideal 2 (Subgroup.zpowers t) S _ htp S.isPGroup hPS le_rfl
         (Subgroup.centralizer_le_normalizer _) hSC hWC cb wb gb hγG hcγ, ← hβB]
       exact ((brauer_centralizer_eq_iff ideal 2 S gb βG γG).mpr
         ⟨n, hn, γG, htrans, sameCoefficientBlock_refl _ _ _⟩).symm
     · obtain ⟨γ, -, hγc⟩ := hsurj c (hclaim2 c hc)
       obtain ⟨γG, hγG⟩ := labelTransport_exists wb gb (centralizerSubgroupOfEquiv hSC hWC) γ
-      have hγB : brauerNormalizerCharacterResidueHom ideal 2 S S.isPGroup'
+      have hγB : brauerNormalizerCharacterResidueHom ideal 2 S S.isPGroup
           (Subgroup.centralizer ((S : Subgroup G) : Set G)) le_rfl
           (Subgroup.centralizer_le_normalizer _) gb γG =
             centralCharacterResidueHom basis ideal B := by
-        rw [← brauer_composite ideal 2 (Subgroup.zpowers t) S _ htp S.isPGroup' hPS le_rfl
+        rw [← brauer_composite ideal 2 (Subgroup.zpowers t) S _ htp S.isPGroup hPS le_rfl
           (Subgroup.centralizer_le_normalizer _) hSC hWC cb wb gb hγG hγc]
         exact hc
       obtain ⟨n, hn, θ', hθ', hsame⟩ :=
@@ -882,7 +882,7 @@ theorem klein_four_sylow_maximal_block_brauer_fiber_one_or_three {G : Type*} [Gr
       (Subgroup.centralizer_le_normalizer _) wb γ = centralCharacterResidueHom cb ideal (cOf γ) :=
     fun γ => (himage γ).choose_spec
   have hF : (Finset.univ.filter fun c : cb.index => brauerNormalizerCharacterResidueHom ideal 2
-        (Subgroup.zpowers t) (S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr htS))
+        (Subgroup.zpowers t) (S.isPGroup.to_le ((Subgroup.zpowers_le).mpr htS))
         (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)) le_rfl
         (Subgroup.centralizer_le_normalizer _)
           cb c = centralCharacterResidueHom basis ideal B).image

@@ -84,8 +84,8 @@ theorem exists_cover_component {p : ℕ} (hp : p.Prime) {X L B : Subgroup G} {y 
     exact huniq _ h2
 
 theorem inducesInnerMod_of_cover {p : ℕ} (hp : p.Prime) {X L J : Subgroup G}
-    (hL : GLAPComponent p X L) (hJL : J ≤ L) (hcov : J ⊔ GLAPPrimeCoreOf p L = L) {c : G}
-    (hcL : c ∈ Subgroup.normalizer (L : Set G)) (hcJ : c ∈ Subgroup.normalizer (J : Set G))
+    (_hL : GLAPComponent p X L) (hJL : J ≤ L) (hcov : J ⊔ GLAPPrimeCoreOf p L = L) {c : G}
+    (hcL : c ∈ Subgroup.normalizer (L : Set G)) (_hcJ : c ∈ Subgroup.normalizer (J : Set G))
     (h : InducesInnerMod p J c) : InducesInnerMod p L c := by
   obtain ⟨l, hlJ, hl⟩ := h
   have hlL : l ∈ L := hJL hlJ
@@ -100,7 +100,7 @@ theorem inducesInnerMod_of_cover {p : ℕ} (hp : p.Prime) {X L J : Subgroup G}
     fun g hg o ho => (Subgroup.mem_normalizer_iff.1 (hOn hg) o).1 ho
   let S : Subgroup G :=
     { carrier := {y | y ∈ L ∧ (l⁻¹ * y * l)⁻¹ * (c⁻¹ * y * c) ∈ GLAPPrimeCoreOf p L}
-      one_mem' := ⟨L.one_mem, by simpa using (GLAPPrimeCoreOf p L).one_mem⟩
+      one_mem' := ⟨L.one_mem, by simp⟩
       mul_mem' := by
         rintro a b ⟨ha, hua⟩ ⟨hb, hub⟩
         refine ⟨L.mul_mem ha hb, ?_⟩
@@ -142,6 +142,7 @@ theorem pcomponent_layer_cen {p : ℕ} (hp : p.Prime) {b y : G} {L J : Subgroup 
   · exact le_inf ((hJ.1.trans inf_le_left).trans (le_sSup hL)) (hJ.1.trans inf_le_right)
   · exact inf_le_inf_right _ (sSup_le fun K hK => hK.1)
 
+omit [Finite G] in
 theorem nonempty_pSimple_of_diag {p : ℕ} {M J : Subgroup G}
     (hZJ : Subgroup.center (PQuot p J) = ⊥) (Z : Subgroup (PQuot p M)) [Z.Normal]
     (hZ : Z ≤ Subgroup.center (PQuot p M)) (e : PQuot p J ≃* (PQuot p M ⧸ Z)) :
@@ -170,6 +171,7 @@ theorem nonempty_pSimple_of_diag {p : ℕ} {M J : Subgroup G}
   exact ⟨((QuotientGroup.quotientMulEquivOfEq hZc).trans e.symm).trans
     (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZJ.symm))⟩
 
+omit [Finite G] in
 private theorem layer_gLBConj' (p : ℕ) (g : G) (X : Subgroup G) :
     GLAPLayer p (GLBConj g X) = GLBConj g (GLAPLayer p X) := by
   refine gLBConj_eq_of_forall_ge (F := GLAPLayer p) (fun g X => ?_) g X
@@ -216,13 +218,14 @@ theorem mem_normalizer_layerClosure {p : ℕ} {D' J : Subgroup G} {c : G}
 
 private theorem l21_pgroup_inf_eq_bot {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     {H Q : Subgroup X} (hH : IsPGroup p H) (hQ : Nat.Coprime p (Nat.card Q)) : H ⊓ Q = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (hH.to_le (inf_le_left : H ⊓ Q ≤ H))
   have hdvd : p ^ n ∣ Nat.card Q := by
     rw [← hn]; exact Subgroup.card_dvd_of_le (inf_le_right : H ⊓ Q ≤ Q)
   have h1 : p ^ n = 1 := Nat.Coprime.eq_one_of_dvd (Nat.Coprime.pow_left n hQ) hdvd
   exact Subgroup.card_eq_one.1 (hn.trans h1)
 
+omit [Finite G] in
 private theorem l21_isElemAbelian_map {p : ℕ} {H : Type} [Group H] {f : H →* G} {E : Subgroup H}
     (hE : IsElemAbelian p E) : IsElemAbelian p (E.map f) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -249,13 +252,13 @@ private theorem l21_le_normalizer_sup {X : Type} [Group X] {H₁ H₂ Z : Subgro
   refine ⟨fun hh => hconj z hz h hh, fun hh => ?_⟩
   simpa [mul_assoc] using hconj z⁻¹ (Z.inv_mem hz) _ hh
 
-theorem exists_lift_cent {p : ℕ} (hp : p.Prime) {X K A : Subgroup G} (hK : GLAPComponent p X K)
+theorem exists_lift_cent {p : ℕ} (hp : p.Prime) {X K A : Subgroup G} (_hK : GLAPComponent p X K)
     (hA : IsPGroup p A) (hAK : A ≤ centModSubgroup p K) (Pbar : Subgroup (PQuot p K))
     (hP : IsElemAbelian p Pbar) :
     ∃ P : Subgroup G, P ≤ K ⊓ Subgroup.centralizer (A : Set G) ∧ IsElemAbelian p P ∧
       Nat.card P = Nat.card Pbar := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcov : (K ⊓ Subgroup.centralizer (A : Set G)) ⊔ GLAPPrimeCoreOf p K = K :=
     eq_inf_centralizer_sup_of_pgroup hp hA (Subgroup.map_subtype_le _)
       (fun _ hg => normalizer_le_normalizer_glaPPrimeCoreOf p K (hAK hg).1)
@@ -361,13 +364,13 @@ theorem exists_lift_cent {p : ℕ} (hp : p.Prime) {X K A : Subgroup G} (hK : GLA
   · rw [Subgroup.card_map_of_injective K.subtype_injective, hPkcard, hn]
 
 theorem final_count21 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X K S P B₀ : Subgroup G}
-    (hK : GLAPComponent p X K) (hZ : Subgroup.center (PQuot p K) = ⊥) (hB₀ : IsElemAbelian p B₀)
+    (_hK : GLAPComponent p X K) (hZ : Subgroup.center (PQuot p K) = ⊥) (hB₀ : IsElemAbelian p B₀)
     (hB₀K : B₀ ≤ centModSubgroup p K) (hS2 : IsPGroup 2 S) (hSne : S ≠ ⊥)
     (hSc : S ≤ centModSubgroup p K) (hB₀S : B₀ ≤ Subgroup.normalizer (S : Set G))
     (hP : IsElemAbelian p P) (hPK : P ≤ K) (hPB : P ≤ Subgroup.centralizer (B₀ : Set G)) :
     Nat.card P * Nat.card B₀ ≤ p ^ GLATwoLocalRank p G := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQnd : ¬ p ∣ Nat.card (GLAPPrimeCoreOf p K) := not_dvd_card_glaPPrimeCoreOf hp K
   set Qp : Subgroup G := GLAPPrimeCoreOf p K with hQp
   have hQcop : Nat.Coprime p (Nat.card Qp) := (Nat.Prime.coprime_iff_not_dvd hp).2 hQnd
@@ -392,8 +395,7 @@ theorem final_count21 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X K S P B₀ : S
           refine (Subgroup.mem_map_iff_mem K.subtype_injective).1 ?_
           have hid : K.subtype ((l * ⟨x, hxK⟩)⁻¹ * (⟨x, hxK⟩ * l)) =
               x⁻¹ * ⁅(l : G)⁻¹, x⁆ * x⁻¹⁻¹ := by
-            simp only [map_mul, map_inv, Subgroup.coe_subtype, Subgroup.coe_mul,
-              Subgroup.coe_inv, commutatorElement_def, inv_inv]
+            simp only [map_mul, map_inv, Subgroup.coe_subtype, commutatorElement_def, inv_inv]
             group
           have h1 : ⁅(l : G)⁻¹, x⁆ ∈ Qp := hxc.2 _ (K.inv_mem l.2)
           have h2 : x⁻¹ * ⁅(l : G)⁻¹, x⁆ * x⁻¹⁻¹ ∈ Qp :=

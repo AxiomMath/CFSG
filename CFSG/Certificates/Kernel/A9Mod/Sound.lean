@@ -186,7 +186,7 @@ theorem eq_of_lin_eq {a b : ℕ} (ha : a < 2 ^ 64) (hb : b < 2 ^ 64) (h : lin a 
   intro i
   by_cases hi : i < 64
   · have := congrFun (congrFun hm ⟨i % 8, Nat.mod_lt _ (by norm_num)⟩) ⟨i / 8, by omega⟩
-    simp only [Matrix.transpose_apply, pkMat, Matrix.of_apply, Fin.val_mk] at this
+    simp only [Matrix.transpose_apply, pkMat, Matrix.of_apply] at this
     rw [Nat.div_add_mod i 8] at this
     cases ha' : a.testBit i <;> cases hb' : b.testBit i <;> simp_all
   · have h64 : 2 ^ 64 ≤ 2 ^ i := Nat.pow_le_pow_right (by norm_num) (by omega)

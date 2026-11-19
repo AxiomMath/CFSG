@@ -35,7 +35,7 @@ theorem card_ggOTwoPrime_eq_six_of_map_eq {U V : Type} [Group U] [Finite U] [Gro
   classical
   obtain ⟨e⟩ := hD
   let Q : Subgroup U := ggOTwoPrime C
-  haveI : Finite ↥Q := Finite.of_injective Q.subtype Q.subtype_injective
+  have : Finite ↥Q := Finite.of_injective Q.subtype Q.subtype_injective
   let f₀ : ↥Q →* ↥D := (π.comp Q.subtype).codRestrict D fun x =>
     le_of_eq hmap (Subgroup.mem_map_of_mem (K := ggOTwoPrime C) π x.2)
   have hf₀ : Function.Surjective f₀ := by
@@ -77,7 +77,7 @@ theorem card_ggOTwoPrime_eq_six_of_map_eq {U V : Type} [Group U] [Finite U] [Gro
     exact Subtype.ext ((Subgroup.mem_center_iff.mp hkc (q : U)).symm)
   obtain ⟨T, hTn, ⟨eT⟩, hTi⟩ :=
     CFSG.AGLEmbedding.SymThreeCentralExt.exists_normal_symThree f hf hc hoddker
-  haveI : T.Normal := hTn
+  have : T.Normal := hTn
   have hTodd : Odd T.index :=
     Nat.not_even_iff_odd.mp fun he => hTi (even_iff_two_dvd.mp he)
   have hle : ggOTwoPrime C ≤ T.map Q.subtype := by
@@ -124,7 +124,7 @@ private theorem pow_three_eq_one_of_forall_fix
     (hfix : ∀ x ∈ (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)),
       ExcSplitRootGen.excRefl (p := 3) γ x = x → adAct Tag.E6 3 w x = x)
     (hγw : w • γ = γ) : w ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstep : ∀ x ∈ (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)),
       adAct Tag.E6 3 w (adAct Tag.E6 3 w x - x) = adAct Tag.E6 3 w x - x := by
     intro x hx
@@ -217,7 +217,7 @@ theorem eq_one_or_eq_rootReflection_of_forall_fix
     (hw : ∀ x ∈ (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)),
       ExcSplitRootGen.excRefl (p := 3) γ x = x → adAct Tag.E6 3 w x = x) :
     w = 1 ∨ w = rootReflection γ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpm : w • γ = γ ∨ w • γ = -γ := by
     refine eq_or_eq_neg_of_forall_mem_sum_eq_zero (Or.inr rfl) hγ (IsRoot.smul hγ w) ?_
     intro x hx hxγ
@@ -421,13 +421,13 @@ theorem mem_ggKGTwJ_of_pow_two_pow_eq_one
     (hc : (c : ModGL TwistTag.E6.tag K) ∈ Subgroup.centralizer
       (t '' {x | x ∈ V ∧ ExcSplitRootGen.excRefl (p := 3) γ x = x}))
     {k : ℕ} (hk : c ^ 2 ^ k = 1) : c ∈ ggKGTwJ F γ := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   let γT : Fin TwistTag.E6.tag.rank → ℤ := γ
   have hγT : IsRoot TwistTag.E6.tag γT := hγ
   let a : {x : Fin Tag.E6.rank → ZMod 3 // x ∈ V ∧
@@ -489,11 +489,11 @@ theorem ggOTwoPrime_centralizer_eq_ggKGTwJ
     ggOTwoPrime ((Subgroup.centralizer
         (t '' {x | x ∈ V ∧ ExcSplitRootGen.excRefl (p := 3) γ x = x})).comap
         (twistedE6RootGroup K σ).subtype) = ggKGTwJ F γ := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨e₁⟩ := nonempty_ggKGTwJ_mulEquiv_SL2 hK hσ F hv hγ
   exact OmPlusFrame.ggOTwoPrime_eq_of_le (ggKGTwJ_le_centralizer_three (V := V) F hζ hζo ht hγ)
@@ -627,15 +627,15 @@ theorem card_ggOTwoPrime_ggHypCent_twE6Two
     ext l
     simp only [π, MonoidHom.mem_ker, MonoidHom.comp_apply, Subgroup.coe_subtype,
       OneMemClass.coe_eq_one]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * 1)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * 1)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hcard : Nat.card ↥(ggKGTj_F F.Fr F.fr_eq) = 2 := by
     rw [ggKGTj_card_F hK hσ F.Fr F.fr_eq, pow_one]
-  haveI : Finite ↥(ggKGTj_F F.Fr F.fr_eq) :=
+  have : Finite ↥(ggKGTj_F F.Fr F.fr_eq) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨e₁⟩ := nonempty_ggKGTwJ_mulEquiv_SL2 hK hσ F hv hγ
   obtain ⟨e₂⟩ :=

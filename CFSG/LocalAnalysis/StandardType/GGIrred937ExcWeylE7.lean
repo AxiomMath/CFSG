@@ -18,7 +18,7 @@ theorem weylIrred_of_index_dvd_two
     {X : Type} [Group X] (J : Subgroup X) (hJ : J.index ∣ 2)
     {τ : Tag} {p : ℕ} [Fact p.Prime] (hodd : Odd τ.rank)
     (ι : Multiplicative (Fin τ.rank → ZMod p) →* X) (hinj : Function.Injective ι)
-    (hEJ : ι.range ≤ J) (m : Fin τ.rank → X)
+    (_hEJ : ι.range ≤ J) (m : Fin τ.rank → X)
     (hm : ∀ (i : Fin τ.rank) (s : Fin τ.rank → ZMod p),
       m i * ι (Multiplicative.ofAdd s) * (m i)⁻¹ =
         ι (Multiplicative.ofAdd (TableBExc.torusAct τ p (simple τ i) s)))
@@ -73,7 +73,7 @@ theorem weylIrred_of_index_dvd_two
     · exact absurd h hbot
     · exact h
   · obtain ⟨γ, hγN, hγJ⟩ := by
-      simpa only [SetLike.le_def, not_forall, not_imp] using hNJ
+      simpa only [_root_.IsConcreteLE.le_iff, not_forall, not_imp] using hNJ
     have hJindex : J.index = 2 := by
       rcases hJcases with h1 | h2
       · exfalso
@@ -393,7 +393,7 @@ private theorem exists_fixedGroup_of_langData
   choose Sn hSn' using hSn
   let Sall : Finset L := Sg ∪ Finset.univ.biUnion Sn
   obtain ⟨M, hMfin, hSallM, hrangeKM⟩ := exists_finite_subfield_of_finset (K := K) (L := L) Sall
-  haveI : Finite M := hMfin
+  have : Finite M := hMfin
   have hSgM : (Sg : Set L) ⊆ M := fun a ha =>
     hSallM (Finset.mem_coe.2 (Finset.mem_union_left _ (Finset.mem_coe.1 ha)))
   have hSnM : ∀ i, (Sn i : Set L) ⊆ M := fun i a ha =>
@@ -424,7 +424,7 @@ private theorem exists_fixedGroup_of_langData
     rw [Subgroup.closure_le]
     rintro y ⟨i, rfl⟩
     exact hxM i
-  haveI hAfin : Finite ((adjointGroup .E7 M).map (baseChangeGL M.subtype)) :=
+  have hAfin : Finite ((adjointGroup .E7 M).map (baseChangeGL M.subtype)) :=
     Finite.of_surjective
       (fun g : adjointGroup .E7 M =>
         (⟨baseChangeGL M.subtype (g : ModGL .E7 M), ⟨g, g.2, rfl⟩⟩ :
@@ -432,7 +432,7 @@ private theorem exists_fixedGroup_of_langData
       (by rintro ⟨y, hy⟩
           obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.1 hy
           exact ⟨⟨g, hg⟩, rfl⟩)
-  haveI hXfin : Finite X :=
+  have hXfin : Finite X :=
     Finite.of_injective (fun y : X =>
         (⟨(y : ModGL .E7 L), hXM y.2⟩ : (adjointGroup .E7 M).map (baseChangeGL M.subtype)))
       (fun a b h => Subtype.ext (congrArg
@@ -550,14 +550,14 @@ private theorem e7embTo_range {K : Type} [Field K]
 
 theorem weylIrred_E7_of_langFrame
     {p : ℕ} [Fact p.Prime] (hp35 : p = 3 ∨ p = 5)
-    (K : Type) [Field K] [Finite K] [CharP K 2] (hpq : p ∣ Nat.card K + 1)
+    (K : Type) [Field K] [Finite K] [CharP K 2] (_hpq : p ∣ Nat.card K + 1)
     (E : Subgroup (adjointGroup .E7 K)) (hF : LangFrameData .E7 p K E) : GGWeylIrred E := by
   classical
   obtain ⟨w, Fr, g0, ζ, hζ, ι₀, hFr, hg0C, hg0, hcent, hζo, hι₀, hrange, hbase⟩ := hF
   let L := AlgebraicClosure K
   obtain ⟨X, hXfin, hJle, hrel, hxmem⟩ :=
     exists_fixedGroup_of_langData (p := p) K w Fr g0 hFr hg0C hg0 hcent
-  haveI : Finite X := hXfin
+  have : Finite X := hXfin
   let n : Fin Tag.E7.rank → ModGL .E7 L :=
     fun i => canonicalRep (coxeterSystem .E7) L (simple Tag.E7 i)
   let m : Fin Tag.E7.rank → ↥X := fun i => ⟨g0 * n i * g0⁻¹, hxmem i⟩

@@ -21,7 +21,7 @@ private theorem exists_mem_of_card_centralizer_le {p r : ℕ} (hp : p.Prime) {G 
       ∀ j ∈ J, τ f * j = j * τ f} ≤ p ^ r) :
     ∃ i, P i := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C : Set (Fin r → Multiplicative (ZMod p)) := {f | ∀ j ∈ J, τ f * j = j * τ f}
   have hcount' : p ^ 2 * Nat.card {f // f ∈ C} ≤ p ^ r := hcount
   by_contra hPempty
@@ -60,7 +60,7 @@ private theorem two_le_card_class_of_centralizer {p r : ℕ} (hp : p.Prime) {G :
       ∀ j ∈ J, τ f * j = j * τ f} ≤ p ^ r) :
     2 ≤ Nat.card {i : Fin r // P i} := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C : Set (Fin r → Multiplicative (ZMod p)) := {f | ∀ j ∈ J, τ f * j = j * τ f}
   let I : Finset (Fin r) := Finset.univ.filter P
   have hcardI : Nat.card {i : Fin r // P i} = I.card := by
@@ -118,8 +118,8 @@ private theorem three_le_card_class_of_ne_zero {p r : ℕ} (hp : p.Prime) {G : T
       ∀ j ∈ J, τ f * j = j * τ f} ≤ p ^ r) :
     3 ≤ Nat.card {i : Fin r // P i} := by
   classical
-  haveI : Fact p.Prime := Fact.mk hp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := Fact.mk hp
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C : Set (Fin r → Multiplicative (ZMod p)) := {f | ∀ j ∈ J, τ f * j = j * τ f}
   let I : Finset (Fin r) := Finset.univ.filter P
   have hcardI : Nat.card {i : Fin r // P i} = I.card := by

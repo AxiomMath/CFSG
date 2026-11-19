@@ -103,6 +103,7 @@ variable {H : Type} [Group H] [Finite H]
 
 abbrev topMk (h : H) : ↥(⊤ : Subgroup H) := ⟨h, Subgroup.mem_top h⟩
 
+omit [Finite H] in
 theorem mem_oddCore_of_top {n : ↥(⊤ : Subgroup H)}
     (hn : n ∈ classicalInvolutionOddCore ↥(⊤ : Subgroup H)) :
     (n : H) ∈ classicalInvolutionOddCore H := by
@@ -113,6 +114,7 @@ theorem mem_oddCore_of_top {n : ↥(⊤ : Subgroup H)}
   rw [h] at h1
   exact h1
 
+omit [Finite H] in
 theorem tightInO2_top {h : H}
     (hin : TightInO2 (QuotientGroup.mk' (classicalInvolutionOddCore H) h)) :
     TightInO2 (QuotientGroup.mk' (classicalInvolutionOddCore ↥(⊤ : Subgroup H)) (topMk h)) := by

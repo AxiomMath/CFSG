@@ -142,7 +142,7 @@ theorem weylRep_conj_lam_long (h2 : (2 : F) = 0) {n : ℕ} (k : Fin n) (hk : ¬ 
   rw [weylRep_eq_lam_sl2W_inv k hk, ← map_inv, ← map_mul, ← map_mul, inv_inv,
     sl2W_inv_self_of_two h2]
 
-theorem weylRep_conj_lam_long_of_ne (h2 : (2 : F) = 0) {n : ℕ} (k : Fin n) (hk : ¬ k.val + 1 < n)
+theorem weylRep_conj_lam_long_of_ne (_h2 : (2 : F) = 0) {n : ℕ} (k : Fin n) (hk : ¬ k.val + 1 < n)
     {i : Fin n} (hik : i ≠ k) (g : SpecialLinearGroup (Fin 2) F) :
     weylRep n F k * lam i g * (weylRep n F k)⁻¹ = lam i g := by
   rw [weylRep_eq_lam_sl2W_inv k hk]
@@ -176,10 +176,10 @@ private noncomputable def invertCoordHom {n : ℕ} (k : Fin n) :
     simp only [Pi.mul_apply]
     rw [Function.update_apply, Function.update_apply, Function.update_apply]
     by_cases hik : i = k
-    · rw [hik, if_pos rfl, if_pos rfl, if_pos rfl]
-      simp only [Pi.mul_apply, _root_.mul_inv_rev]
+    · rw [hik, ite_eq_left rfl, ite_eq_left rfl, ite_eq_left rfl]
+      simp only [_root_.mul_inv_rev]
       rw [mul_comm]
-    · rw [if_neg hik, if_neg hik, if_neg hik]
+    · rw [ite_eq_right hik, ite_eq_right hik, ite_eq_right hik]
       rfl
 
 @[simp] private theorem reindexHom_apply {n : ℕ} (e : Equiv.Perm (Fin n))
@@ -201,14 +201,14 @@ private theorem update_mulSingle_inv {n : ℕ} (i k : Fin n) (a : Multiplicative
       if i = k then Pi.mulSingle (M := fun _ : Fin n => Multiplicative (ZMod p)) k a⁻¹
       else Pi.mulSingle (M := fun _ : Fin n => Multiplicative (ZMod p)) i a := by
   by_cases hik : i = k
-  · rw [hik, if_pos rfl, Pi.mulSingle_eq_same]
+  · rw [hik, ite_eq_left rfl, Pi.mulSingle_eq_same]
     funext j
     rw [Function.update_apply]
     by_cases hjk : j = k
-    · subst hjk; rw [if_pos rfl, Pi.mulSingle_eq_same]
-    · rw [if_neg hjk, Pi.mulSingle_eq_of_ne (M := fun _ : Fin n => Multiplicative (ZMod p)) hjk a,
+    · subst hjk; rw [ite_eq_left rfl, Pi.mulSingle_eq_same]
+    · rw [ite_eq_right hjk, Pi.mulSingle_eq_of_ne (M := fun _ : Fin n => Multiplicative (ZMod p)) hjk a,
           Pi.mulSingle_eq_of_ne (M := fun _ : Fin n => Multiplicative (ZMod p)) hjk a⁻¹]
-  · rw [if_neg hik]
+  · rw [ite_eq_right hik]
     have hk : (Pi.mulSingle (M := fun _ : Fin n => Multiplicative (ZMod p)) i a) k = 1 :=
       Pi.mulSingle_eq_of_ne (M := fun _ : Fin n => Multiplicative (ZMod p)) (Ne.symm hik) a
     rw [hk, inv_one, ← hk, Function.update_eq_self]
@@ -237,7 +237,7 @@ theorem weylRep_conj_spPlaneTorus (h2 : (2 : F) = 0) {n : ℕ}
         · rw [Equiv.swap_apply_of_ne_of_ne hik hik']
           exact weylRep_conj_lam_of_ne h2 k hk hik hik' (ζ a))
     have h := congrArg (fun φ => φ f) hAB
-    rw [show spRefl n p k f = f ∘ Equiv.swap k k' from by rw [spRefl, dif_pos hk]; rfl]
+    rw [show spRefl n p k f = f ∘ Equiv.swap k k' from by rw [spRefl, dite_eq_left hk]; rfl]
     simpa only [A, B, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
       reindexHom_apply] using h
   · let A : (Fin n → Multiplicative (ZMod p)) →* StatedSp n F :=
@@ -249,11 +249,11 @@ theorem weylRep_conj_spPlaneTorus (h2 : (2 : F) = 0) {n : ℕ}
         invertCoordHom_apply]
       rw [spPlaneTorus_mulSingle, update_mulSingle_inv]
       by_cases hik : i = k
-      · rw [hik, if_pos rfl, spPlaneTorus_mulSingle, weylRep_conj_lam_long h2 k hk (ζ a), hζ a]
-      · rw [if_neg hik, spPlaneTorus_mulSingle]
+      · rw [hik, ite_eq_left rfl, spPlaneTorus_mulSingle, weylRep_conj_lam_long h2 k hk (ζ a), hζ a]
+      · rw [ite_eq_right hik, spPlaneTorus_mulSingle]
         exact weylRep_conj_lam_long_of_ne h2 k hk hik (ζ a))
     have h := congrArg (fun φ => φ f) hAB
-    simpa [A, B, spRefl, dif_neg hk, invertCoordHom_apply] using h
+    simpa [A, B, spRefl, dite_eq_right hk, invertCoordHom_apply] using h
 
 theorem weylRep_mem_normalizer_spPlaneTorus (h2 : (2 : F) = 0) {n : ℕ}
     (ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F)

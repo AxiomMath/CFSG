@@ -33,7 +33,7 @@ theorem odd_card_of_isPGroup_card_le_two {W : Subgroup M} [hWn : W.Normal]
     obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
     refine ⟨Q, (Subgroup.eq_of_le_of_card_ge hQ ?_).symm⟩
     rw [hcard]
-    exact h2 Q Q.isPGroup'
+    exact h2 Q Q.isPGroup
   obtain ⟨Q, hQ⟩ := hsyl _ hs'
   obtain ⟨Q', hQ'⟩ := hsyl t ht
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq M Q Q'

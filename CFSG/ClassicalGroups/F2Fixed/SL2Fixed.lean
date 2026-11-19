@@ -57,8 +57,6 @@ theorem sl2Weyl_eq_lower_upper_lower (t : Eˣ) :
       sl2Lower E (-((t⁻¹ : Eˣ) : E)) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
-  all_goals field_simp
-  all_goals ring
 
 theorem closure_upper_insert_lower [CharP E 2] {c : E} (hc : c ≠ 0) :
     Subgroup.closure ((sl2UpperSub E : Set SL(2, E)) ∪ {sl2Lower E c}) = ⊤ := by
@@ -213,6 +211,7 @@ section Main
 variable {E : Type*} [Field E] [Finite E] [CharP E 2]
   {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction SL(2, E) M]
 
+omit [CharP E 2] in
 theorem card_sl2 : Nat.card SL(2, E) = Nat.card E * (Nat.card E ^ 2 - 1) := by
   let := Fintype.ofFinite E
   have hq : 1 < Fintype.card E := Fintype.one_lt_card
@@ -221,6 +220,7 @@ theorem card_sl2 : Nat.card SL(2, E) = Nat.card E * (Nat.card E ^ 2 - 1) := by
       Fintype.card E * (Fintype.card E - 1) by rw [Nat.mul_sub_one, sq], ← mul_assoc,
     Nat.mul_div_cancel _ (by omega), mul_comm]
 
+omit [Finite E] [Finite M] in
 theorem fixedSub_lower_mul_upper_eq_bot (h2 : ∀ m : M, m + m = 0)
     (hdec : IsCompl (fixedSub M (sl2UpperSub E : Set SL(2, E)))
       (fixedSub M (sl2LowerSub E : Set SL(2, E))))
@@ -239,7 +239,7 @@ theorem dvd_card_sub_one_of_prime_dvd (h2 : ∀ m : M, m + m = 0)
       (fixedSub M (sl2LowerSub E : Set SL(2, E))))
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrE : r ∣ Nat.card E ^ 2 - 1) :
     r ∣ Nat.card M - 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hdvd : r ∣ Nat.card SL(2, E) := by
     rw [card_sl2]; exact Dvd.dvd.mul_left hrE _
   obtain ⟨w₀, hw₀⟩ := exists_prime_orderOf_dvd_card' r hdvd

@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
+omit [Finite G] in
 theorem hperf_isSolvable_outer_of_swapDiag {t : G} (htt : t * t = 1) {L G₁ : Subgroup G}
     (hOut : Group.IsSolvable (Outer L)) (hZ : center L = ⊥)
     (hq : CFSG.Open.IsQuasisimple G₁)
@@ -62,15 +63,16 @@ theorem hperf_isSolvable_outer_of_swapDiag {t : G} (htt : t * t = 1) {L G₁ : S
       rw [← ha, ← map_mul, ← map_mul, mem_center_iff.1 hz a]
     rw [hZ, mem_bot] at hmem
     exact congrArg Subtype.val hmem
-  haveI : Group.IsPerfect G₁ := ⟨hq.1⟩
+  have : Group.IsPerfect G₁ := ⟨hq.1⟩
   let e : G₁ ⧸ center G₁ ≃* L :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       ((QuotientGroup.quotientKerEquivRange δ).trans (MulEquiv.subgroupCongr hrange))
-  haveI := hOut
-  haveI : Group.IsSolvable (Outer (G₁ ⧸ center G₁)) :=
+  have := hOut
+  have : Group.IsSolvable (Outer (G₁ ⧸ center G₁)) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm
   exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient G₁
 
+omit [Finite G] in
 theorem hperf_card_sup_zpowers_of_mem_normalizer {t : G} (htt : t * t = 1) {Y : Subgroup G}
     (htN : t ∈ normalizer (Y : Set G)) (htY : t ∉ Y) :
     Nat.card (Y ⊔ zpowers t : Subgroup G) = 2 * Nat.card Y := by
@@ -81,6 +83,7 @@ theorem hperf_card_sup_zpowers_of_mem_normalizer {t : G} (htt : t * t = 1) {Y : 
   rw [inf_eq_left.2 le_sup_left, hrel] at h
   exact h.symm
 
+omit [Finite G] in
 theorem hperf_odd_card_centralizer_sup_of_not_four_dvd {L G₀ : Subgroup G} {t : G}
     (htt : t * t = 1) (htL : t ∈ centralizer (L : Set G))
     (h4 : ¬ 4 ∣ Nat.card (centralizer (L : Set G)))
@@ -138,7 +141,7 @@ theorem hperf_perfect_le_sup_of_swap {L G₀ : Subgroup G} {t : G} (htt : t * t 
   have hOut₁ : Group.IsSolvable (Outer G₀) :=
     hperf_isSolvable_outer_of_swapDiag htt hOut hZ hq h₁₂ hδ hsurj
   have hOut₂ : Group.IsSolvable (Outer (G₀.map (MulAut.conj t).toMonoidHom)) := by
-    haveI := hOut₁
+    have := hOut₁
     exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv
       (G₀.equivMapOfInjective (MulAut.conj t).toMonoidHom (MulAut.conj t).injective)
   exact CFSG.LocalAnalysis.EvenBN.Sp4.BothTrivialProduct.perfect_le_of_le_normalizer_sup hq hq₂

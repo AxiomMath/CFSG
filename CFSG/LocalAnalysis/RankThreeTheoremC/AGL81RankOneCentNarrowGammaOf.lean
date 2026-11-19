@@ -28,7 +28,7 @@ theorem kFactTenFourteenNarrowGamma_of
       ∀ T : Sylow 7 K, narrowGamma 7 (T : Subgroup K) = ⊤) :
     KFactTenFourteenNarrowGamma := by
   intro p K _ _ T hp hp2 ⟨i, hi, ⟨e⟩⟩ hZ hrank hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hR3 : 3 ≤ Open.pRank p (⊤ : Subgroup K) → TenFourteenOneGroup p K := fun h3 =>
     absurd hrank (by have := le_pRank_sylow h3 T; omega)
   have hG : narrowGamma p (T : Subgroup K) = ⊤ → TenFourteenOneGroup p K := fun h => absurd h hne

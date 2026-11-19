@@ -14,7 +14,7 @@ theorem isIrreducibleMatrixRep_zpowers_of_orderOf_eq
     (hord : orderOf ((Fintype.card K : ℕ) : ZMod p) = n)
     {u : GL (Fin n) K} (hu : orderOf u = p) :
     IsIrreducibleMatrixRep (Subgroup.zpowers u).subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let M : Matrix (Fin n) (Fin n) K := (u : Matrix (Fin n) (Fin n) K)
   have hMp : M ^ p = 1 := by
     have h1 : u ^ p = 1 := by
@@ -84,7 +84,7 @@ theorem isIrreducibleMatrixRep_zpowers_of_orderOf_eq_seven
     {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 4)
     {u : GL (Fin 3) K} (hu : orderOf u = 7) :
     IsIrreducibleMatrixRep (Subgroup.zpowers u).subtype := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card, hK]
   have hord : orderOf ((Fintype.card K : ℕ) : ZMod 7) = 3 := by

@@ -24,8 +24,8 @@ theorem normal_zpowers_of_central {G : Type} [Group G] {c : G} (hc : ∀ g : G, 
 
 theorem sylow_centralizer_x_abelian {G : Type} [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime]
     (hp2 : p ≠ 2) {Q B : Subgroup G} {x : G} (hQ : IsPGroup p Q) (hxQ : x ∈ Q)
-    (hxc : ∀ q ∈ Q, q * x = x * q) (hxo : orderOf x = p)
-    (hxfr : x ∉ (frattini ↥Q).map Q.subtype) (hBQ : B ≤ Q) (hBc : Nat.card B = p ^ 2)
+    (hxc : ∀ q ∈ Q, q * x = x * q) (_hxo : orderOf x = p)
+    (hxfr : x ∉ (frattini ↥Q).map Q.subtype) (_hBQ : B ≤ Q) (hBc : Nat.card B = p ^ 2)
     (hxB : x ∈ B) (hΩ : ∀ q ∈ Q, q ^ p = 1 → q ∈ B) :
     ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a := by
   classical
@@ -57,7 +57,7 @@ theorem sylow_centralizer_x_abelian {G : Type} [Group G] [Finite G] {p : ℕ} [h
     intro s t hs ht
     have hs' : (s : G) ∈ T' := ⟨s, hs, rfl⟩
     have ht' : (t : G) ∈ T' := ⟨t, ht, rfl⟩
-    haveI := hTcyc
+    have := hTcyc
     have h2 := comm_of_isCyclic (G := ↥T') ⟨s, hs'⟩ ⟨t, ht'⟩
     have h3 : (s : G) * t = t * s := congrArg Subtype.val h2
     exact Subtype.ext h3
@@ -87,8 +87,8 @@ theorem transfer_center_commutator {X : Type*} [Group X] [Finite X] {p : ℕ} [h
     {P : Subgroup X} (hP : IsPGroup p P) (hPidx : ¬ p ∣ P.index)
     (hPab : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) {g : X} (hgP : g ∈ P) (hgZ : g ∈ center X)
     (hgc : g ∈ commutator X) : g = 1 := by
-  haveI : IsMulCommutative ↥P := ⟨⟨fun a b => Subtype.ext (hPab a a.2 b b.2)⟩⟩
-  haveI : P.FiniteIndex := inferInstance
+  have : IsMulCommutative ↥P := ⟨⟨fun a b => Subtype.ext (hPab a a.2 b b.2)⟩⟩
+  have : P.FiniteIndex := inferInstance
   let T : X →* ↥P := MonoidHom.transfer (MonoidHom.id ↥P)
   have h1 : T g = 1 := MonoidHom.mem_ker.mp (Abelianization.commutator_subset_ker T hgc)
   have hkey : ∀ (k : ℕ) (g₀ : X), g₀⁻¹ * g ^ k * g₀ ∈ P → g₀⁻¹ * g ^ k * g₀ = g ^ k := by

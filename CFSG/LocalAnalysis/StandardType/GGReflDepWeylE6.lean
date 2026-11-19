@@ -77,12 +77,12 @@ theorem verifyWE6_sound {P : Pt}
     rcases h with h | h
     · exact absurd (Fin.ext h) hij
     · by_cases hadj : e6Edge i.val j.val
-      · rw [if_pos hadj] at h
-        rw [if_pos hadj]
+      · rw [ite_eq_left hadj] at h
+        rw [ite_eq_left hadj]
         have h' := beq_iff_eq.mp h
         simpa only [we6_cb, pww2_S] using h'
-      · rw [if_neg hadj] at h
-        rw [if_neg hadj]
+      · rw [ite_eq_right hadj] at h
+        rw [ite_eq_right hadj]
         have hh : (P.dotv (we6_cb P c i).2 (we6_cb P c j).1 == 0) = true ∧
             (P.dotv (we6_cb P c j).2 (we6_cb P c i).1 == 0) = true := by
           simpa only [Bool.and_eq_true, we6_cb, pww2_S] using h
@@ -184,17 +184,17 @@ theorem verifyWE6_sound {P : Pt}
       rw [← Pt.dotv_spec P (we6_cb P c j).2 (we6_cb P c i).1]
     have hp := hpair6 i j hij
     by_cases hadj : e6Edge i.val j.val
-    · rw [if_pos hadj] at hp
-      rw [pww2_e6M_eq i j hij, if_pos hadj]
+    · rw [ite_eq_left hadj] at hp
+      rw [pww2_e6M_eq i j hij, ite_eq_left hadj]
       rw [hσi i, hσi j]
       have hprod : β i (cc j) * β j (cc i) = 1 := by
         rw [hbij, hbji, ← Nat.cast_mul,
           ← ZMod.natCast_mod (P.dotv (we6_cb P c i).2 (we6_cb P c j).1 *
             P.dotv (we6_cb P c j).2 (we6_cb P c i).1) P.p, hp, Nat.cast_one]
       exact CFSG.StandardType.reflection_mul_reflection_pow_three (hβc i) (hβc j) hprod
-    · rw [if_neg hadj] at hp
+    · rw [ite_eq_right hadj] at hp
       obtain ⟨ha, hb⟩ := hp
-      rw [pww2_e6M_eq i j hij, if_neg hadj]
+      rw [pww2_e6M_eq i j hij, ite_eq_right hadj]
       rw [hσi i, hσi j]
       have hfy : β i (cc j) = 0 := by rw [hbij, ha, Nat.cast_zero]
       have hgx : β j (cc i) = 0 := by rw [hbji, hb, Nat.cast_zero]
@@ -203,7 +203,7 @@ theorem verifyWE6_sound {P : Pt}
     rw [CFSG.StandardType.card_coxeterE6_group]
     have := verifyO_sound (P := P) hwf hO
     omega
-  haveI : Finite (CoxeterMatrix.E₆).Group := by
+  have : Finite (CoxeterMatrix.E₆).Group := by
     apply Nat.finite_of_card_ne_zero
     rw [CFSG.StandardType.card_coxeterE6_group]
     norm_num

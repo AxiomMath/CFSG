@@ -62,7 +62,7 @@ theorem card_cen_conj_five (hc : Config G L t) (h5 : RuFiveFacts L) {e h : G} (h
       _ = g⁻¹ * (e * h) * g := by rw [heh]
       _ = g⁻¹ * e * g * (g⁻¹ * h * g) := by group
   have ho' : orderOf h' = 5 := by
-    rw [show h' = MulAut.conj g⁻¹ h by simp [h', MulAut.conj_apply]]
+    rw [show h' = MulAut.conj g⁻¹ h by simp [h']]
     rw [MulEquiv.orderOf_eq]; exact ho
   have hmap : (centralizer ({t} : Set G) ⊓ centralizer ({h'} : Set G)).map
       (MulAut.conj g).toMonoidHom = centralizer ({e} : Set G) ⊓ centralizer ({h} : Set G) := by

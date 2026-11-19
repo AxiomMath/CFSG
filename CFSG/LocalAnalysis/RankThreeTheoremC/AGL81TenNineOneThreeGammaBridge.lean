@@ -16,6 +16,7 @@ open Subgroup CFSG.Open CFSG.AGLEmbedding
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup_comm {A C : Subgroup G} (hcomm : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a)
     {x : G} (hx : x ∈ A ⊔ C) : ∃ a ∈ A, ∃ c ∈ C, x = a * c := by
   let S : Subgroup G :=
@@ -40,7 +41,7 @@ theorem exists_mul_of_mem_sup_comm {A C : Subgroup G} (hcomm : ∀ a ∈ A, ∀ 
 
 theorem exists_orderOf_three_of_ne_bot {X : Subgroup G} (hX : IsPGroup 3 X) (hX1 : X ≠ ⊥) :
     ∃ x ∈ X, orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hX
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -60,7 +61,7 @@ theorem gammaZeroIn_map_of_directProd {P : Sylow 3 G} {M H₁ R₁ : Subgroup G}
     {B : Type*} [Group B] (π : H →* B) (hπ : Function.Surjective π) :
     GammaZeroIn ((Q'.subgroupOf H).map π) ((M.subgroupOf H).map π) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ'p : IsPGroup 3 Q' := by
     have h := IsPGroup.of_card hQ'c
     have := h.map H.subtype
@@ -116,7 +117,7 @@ theorem gammaZeroIn_map_of_directProd {P : Sylow 3 G} {M H₁ R₁ : Subgroup G}
           · exact absurd (by rw [show k = 2 by omega]; norm_num) hlt
         apply hR₂Gnc
         rcases Nat.le_one_iff_eq_zero_or_eq_one.mp hk1 with rfl | rfl
-        · haveI : Subsingleton R₂G :=
+        · have : Subsingleton R₂G :=
             (Nat.card_eq_one_iff_unique.mp (by rw [hk, pow_zero])).1
           exact isCyclic_of_subsingleton
         · exact isCyclic_of_prime_card (p := 3) (by rw [hk, pow_one])

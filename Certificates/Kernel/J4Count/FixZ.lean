@@ -179,16 +179,16 @@ theorem card_fix_z_of (hcov : ∀ w ∈ orbit J v, ∃ l < 7, w ∈ orbit H (qv 
     constructor
     · intro hw
       obtain ⟨l, hl, hwl⟩ := hcov w hw.1
-      exact ⟨l, hl, by rw [dif_pos hl, Set.Finite.mem_toFinset]; exact ⟨hwl, hw.2⟩⟩
+      exact ⟨l, hl, by rw [dite_eq_left hl, Set.Finite.mem_toFinset]; exact ⟨hwl, hw.2⟩⟩
     · rintro ⟨l, hl, hw⟩
-      rw [dif_pos hl, Set.Finite.mem_toFinset] at hw
+      rw [dite_eq_left hl, Set.Finite.mem_toFinset] at hw
       exact hFl_sub l hl hw
   have hdisj : (↑(Finset.range 7) : Set ℕ).PairwiseDisjoint fun l =>
       if hl : l < 7 then (hfinFl l hl).toFinset else ∅ := by
     intro l hl l' hl' hne
     have hl7 : l < 7 := Finset.mem_range.1 hl
     have hl7' : l' < 7 := Finset.mem_range.1 hl'
-    simp only [Function.onFun, dif_pos hl7, dif_pos hl7']
+    simp only [Function.onFun, dite_eq_left hl7, dite_eq_left hl7']
     rw [Finset.disjoint_left]
     intro w hw hw'
     rw [Set.Finite.mem_toFinset] at hw hw'
@@ -216,7 +216,7 @@ theorem card_fix_z_of (hcov : ∀ w ∈ orbit J v, ∃ l < 7, w ∈ orbit H (qv 
   simp only [SZ, CZ, List.getD_cons_zero, List.getD_cons_succ] at c0 c1 c2 c3 c4 c5 c6
   simp only [show (0 : ℕ) < 7 by norm_num, show (1 : ℕ) < 7 by norm_num,
     show (2 : ℕ) < 7 by norm_num, show (3 : ℕ) < 7 by norm_num, show (4 : ℕ) < 7 by norm_num,
-    show (5 : ℕ) < 7 by norm_num, show (6 : ℕ) < 7 by norm_num, dif_pos]
+    show (5 : ℕ) < 7 by norm_num, show (6 : ℕ) < 7 by norm_num, dite_eq_left]
   omega
 
 theorem card_fix_tJ_of

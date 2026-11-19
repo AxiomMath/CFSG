@@ -66,8 +66,8 @@ theorem fpL_succ (F : Nat → Nat) (d y j : Nat) :
     fpL F d y (j + 1) = if F j = y then j else fpL F d y j := by
   show nIf(Nat.beq (F j) y, j, fpL F d y j) = _
   by_cases e : F j = y
-  · rw [if_pos e, e, Nat.beq_refl]
-  · rw [if_neg e, beq_false e]
+  · rw [ite_eq_left e, e, Nat.beq_refl]
+  · rw [ite_eq_right e, beq_false e]
 
 theorem fpL_congr {F F' : Nat → Nat} {d y : Nat} :
     ∀ {k : Nat}, (∀ j < k, F j = F' j) → fpL F d y k = fpL F' d y k
@@ -118,26 +118,26 @@ theorem treeFill_get (f : Nat → Nat → Nat) (par : Nat → Nat) (init : Nat) 
     (fun j hj m hP => ⟨_, rfl, by simp [hP.1], fun y hy => by
       obtain ⟨hp, hk⟩ := hD (1 + j) (by omega) (by omega)
       have hm : m[par (1 + j)]! = D (par (1 + j)) := by
-        rw [hP.2 _ (by omega), if_pos (by omega)]
+        rw [hP.2 _ (by omega), ite_eq_left (by omega)]
       rw [Array.set!_eq_setIfInBounds, getElem!_pos _ y (by simp [hP.1]; exact hy),
         Array.getElem_setIfInBounds (by rw [hP.1]; exact hy)]
       by_cases e : 1 + j = y
-      · rw [if_pos e, if_pos (by omega), ← e, hm, hk]
-      · rw [if_neg e, ← getElem!_pos _ y (by rw [hP.1]; exact hy), hP.2 y hy]
+      · rw [ite_eq_left e, ite_eq_left (by omega), ← e, hm, hk]
+      · rw [ite_eq_right e, ← getElem!_pos _ y (by rw [hP.1]; exact hy), hP.2 y hy]
         by_cases hy' : y < j + 1
-        · rw [if_pos hy', if_pos (by omega)]
-        · rw [if_neg hy', if_neg (by omega)]⟩)
+        · rw [ite_eq_left hy', ite_eq_left (by omega)]
+        · rw [ite_eq_right hy', ite_eq_right (by omega)]⟩)
     ⟨by simp, fun y hy => by
       have e : (Array.replicate 64 init)[y]! = init := by
         rw [getElem!_pos (Array.replicate 64 init) y (by simpa using hy)]
         simp
       rw [e]
       by_cases e1 : y < 0 + 1
-      · rw [if_pos e1, show y = 0 by omega, h0]
-      · rw [if_neg e1]⟩
+      · rw [ite_eq_left e1, show y = 0 by omega, h0]
+      · rw [ite_eq_right e1]⟩
   unfold treeFill
   refine ⟨this.1, fun k hk => ?_⟩
-  rw [this.2 k hk, if_pos (by omega)]
+  rw [this.2 k hk, ite_eq_left (by omega)]
 
 theorem T_canon {k : Nat} (hk : k < 64) : cn (T k) = true :=
   penumPt_canon (ptT k (by rw [kCnt.1]; exact hk))

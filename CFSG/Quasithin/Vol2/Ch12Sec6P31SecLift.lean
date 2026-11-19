@@ -33,7 +33,8 @@ section Star
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem oThreePrimeResidual_star_le {H Y : Subgroup G} (hYH : Y ≤ H) :
+omit [Finite G] in
+theorem oThreePrimeResidual_star_le {H Y : Subgroup G} (_hYH : Y ≤ H) :
     oThreePrimeResidual (S126.star H Y) ≤ S126.star H (oThreePrimeResidual Y) := by
   refine (Subgroup.closure_le _).2 ?_
   rintro x ⟨hx, k, hxk⟩

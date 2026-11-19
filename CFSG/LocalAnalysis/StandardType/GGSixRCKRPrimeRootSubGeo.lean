@@ -75,7 +75,7 @@ private theorem rckRPrsg_altSiegel_one {F : Type} [Field F]
       rw [hi]
       exact hu
   have h : (0 : F) = 1 := by
-    simpa [ha2, dotProduct, Matrix.mulVec] using h₂
+    simp [ha2, dotProduct, Matrix.mulVec] at h₂
   exact zero_ne_one h
 
 private theorem rckRPrsg_two_le_n_of_altSiegel {F : Type} [Field F] {n : ℕ}
@@ -98,7 +98,7 @@ private theorem rckRPrsg_two_le_n_of_altSiegel {F : Type} [Field F] {n : ℕ}
     rcases hn01 with rfl | rfl
     · exfalso
       have h : (0 : F) = 1 := by
-        simpa [dotProduct, Matrix.mulVec, Matrix.fromBlocks] using h₁
+        simp [dotProduct, Matrix.mulVec, Matrix.fromBlocks] at h₁
       exact zero_ne_one h
     · exfalso
       exact rckRPrsg_altSiegel_one h₁ h₂ h₀
@@ -114,7 +114,7 @@ private theorem rckRPrsg_two_le_n_of_unitTransv {F : Type} [Field F]
     rcases hn01 with rfl | rfl
     · exfalso
       have h : (0 : F) = 1 := by
-        simpa [dotProduct] using hvw
+        simp [dotProduct] at hvw
       exact zero_ne_one h
     · exfalso
       have hv' : σ (v 0) * v 0 = 0 := by

@@ -112,7 +112,7 @@ theorem isPSLType_oPPrimeHull_quotKer_of_three_components (h714 : SevenOneFourFi
     (hY : centralizer (CFSG.layer (StarGroup 3 H) : Set (StarGroup 3 H)) = ⊥)
     (hLM : pLayerIn 3 H ≤ M) (hE : ¬ starImg 3 H E ≤ compNormalizer (StarGroup 3 H)) :
     IsPSLType 2 (ZMod 3) ↥(oPPrimeHull 3 (⊤ : Subgroup (QuotKer M H))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Cf : Fin 3 → Subgroup (StarGroup 3 H) :=
     fun i => C.map (MulAut.conj (q ^ (i : ℕ))).toMonoidHom
   have hCf : ∀ i : Fin 3, CFSG.IsComponent (Cf i) :=
@@ -122,10 +122,10 @@ theorem isPSLType_oPPrimeHull_quotKer_of_three_components (h714 : SevenOneFourFi
     hcomp
   have hE_layer : CFSG.layer (StarGroup 3 H) = ⨆ i, Cf i :=
     layer_eq_iSup_of_components Cf hcompCf
-  haveI hlayerC : (CFSG.layer (StarGroup 3 H)).Characteristic :=
+  have hlayerC : (CFSG.layer (StarGroup 3 H)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
-  haveI hlayerN : (CFSG.layer (StarGroup 3 H)).Normal := inferInstance
-  haveI hsupN : (⨆ i, Cf i).Normal := hE_layer ▸ hlayerN
+  have hlayerN : (CFSG.layer (StarGroup 3 H)).Normal := inferInstance
+  have hsupN : (⨆ i, Cf i).Normal := hE_layer ▸ hlayerN
   have hcomm : ∀ i j : Fin 3, i ≠ j →
       Cf i ≤ centralizer (Cf j : Set (StarGroup 3 H)) := by
     intro i j hij
@@ -167,7 +167,6 @@ theorem isPSLType_oPPrimeHull_quotKer_of_three_components (h714 : SevenOneFourFi
   have hV3' : ∀ v : ↥V, v ^ 3 = 1 :=
     fun v => Subtype.ext (by simpa using hV3 v v.2)
   have hVcard : Nat.card ↥V = 27 := by
-    change Nat.card V = 27
     rw [hV27]
     norm_num
   let D : Fin 3 → Subgroup ↥V := fun i => (Cf i).subgroupOf V

@@ -26,7 +26,7 @@ theorem ti_induction_card_ge_four (T : Sylow 2 G) (U : Subgroup G)
     4 ≤ Nat.card U := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 U :=
-    T.isPGroup'.of_injective (Subgroup.inclusion hUT) (Subgroup.inclusion_injective hUT)
+    T.isPGroup.of_injective (Subgroup.inclusion hUT) (Subgroup.inclusion_injective hUT)
   obtain ⟨k, hk⟩ := hp.exists_card_eq
   have hk2 : 2 ≤ k := by
     by_contra h

@@ -13,13 +13,13 @@ open CFSG.ComponentClassification.CatLeaf (LieOrderFormulasInput)
 
 theorem tail189TwoNoSection_of_lieOrderFormulas (hO : LieOrderFormulasInput) :
     Tail189TwoNoSection :=
-  tail189TwoNoSection_of_families (fun T _ hT => hT.two_dvd_card hO)
-    (fun Y _ _ _ h => noSocle185Factor_of_isSpGp hO h)
-    (fun Y _ _ _ h => noSocle185Factor_of_isPSUGp hO h)
-    (fun Y _ _ _ h => noSocle185Factor_of_isOrthGp hO h)
-    (fun Y _ _ _ h => noSocle185Factor_of_isL2WrSymGp hO h)
-    (fun Y _ _ h => noSocle185Factor_of_isSymGp hO h)
-    (fun Y _ h => noSocle185Factor_of_isOrth6MinusMod hO h)
+  tail189TwoNoSection_of_families (fun _T _ hT => hT.two_dvd_card hO)
+    (fun _Y _ _ _ h => noSocle185Factor_of_isSpGp hO h)
+    (fun _Y _ _ _ h => noSocle185Factor_of_isPSUGp hO h)
+    (fun _Y _ _ _ h => noSocle185Factor_of_isOrthGp hO h)
+    (fun _Y _ _ _ h => noSocle185Factor_of_isL2WrSymGp hO h)
+    (fun _Y _ _ h => noSocle185Factor_of_isSymGp hO h)
+    (fun _Y _ h => noSocle185Factor_of_isOrth6MinusMod hO h)
 
 section Reduction
 

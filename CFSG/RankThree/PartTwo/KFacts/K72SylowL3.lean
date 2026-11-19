@@ -28,7 +28,7 @@ theorem isCyclic_sylow_three_of_mulEquiv_projSL {X : Type*} [Group X] {K : Type}
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine isCyclic_sylow_of_mulEquiv_projImage e (fun S => ?_) Q
   exact SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three (by omega) (by omega)
-    S.isPGroup'
+    S.isPGroup
 
 theorem isCyclic_sylow_three_projSL {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 2)
     (Q : Sylow 3 (projSL 3 K)) : IsCyclic Q :=

@@ -17,7 +17,7 @@ theorem pow_eq_one_of_commute_binaryNaturalSL {W : Type} [CommGroup W] [Finite W
     c ^ (2 ^ n - 1) = 1 := by
   classical
   obtain ⟨K, _, _, hKcard, π, hD⟩ := hnat
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨B, hBs, hBk, hBe⟩ := CFSG.Quasithin.Vol2.Ch10.SecB.C10P34.exists_natHom hD
   have hcZ : ∀ v, B v = 1 → B (c v) = 1 := by
     intro v hv
@@ -53,7 +53,7 @@ theorem pow_eq_one_of_commute_binaryNaturalSL {W : Type} [CommGroup W] [Finite W
     obtain ⟨x, hx⟩ := hYsurj (Multiplicative.ofAdd (Pi.single (0 : Fin 2) (1 : K) : Fin 2 → K))
     have h1 := hl x
     rw [hx, h0, zero_smul] at h1
-    have h2 : (Pi.single (0 : Fin 2) (1 : K) : Fin 2 → K) = 0 := by simpa using h1
+    have h2 : (Pi.single (0 : Fin 2) (1 : K) : Fin 2 → K) = 0 := by simp at h1
     have h3 : (1 : K) = 0 := by simpa using congrFun h2 0
     exact one_ne_zero h3
   have hl1 : l ^ (2 ^ n - 1) = 1 := by

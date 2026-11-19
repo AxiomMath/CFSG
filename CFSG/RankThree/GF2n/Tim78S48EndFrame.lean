@@ -26,14 +26,14 @@ theorem inducesNaturalSL2_conj {n : ℕ} {H W : Subgroup G} (h : InducesNaturalS
       map_mul' := fun a b => Subtype.ext (by simp only [Subgroup.coe_mul]; group) }
   let eW : ↥(conjSubgroup r W) ≃* ↥W :=
     { toFun := fun z => ⟨r⁻¹ * z * r, mem_conjSubgroup.mp z.2⟩
-      invFun := fun w => ⟨r * w * r⁻¹, mem_conjSubgroup.mpr (by simpa [mul_assoc] using w.2)⟩
+      invFun := fun w => ⟨r * w * r⁻¹, mem_conjSubgroup.mpr (by simp [mul_assoc])⟩
       left_inv := fun z => Subtype.ext (by show r * (r⁻¹ * (z : G) * r) * r⁻¹ = z; group)
       right_inv := fun w => Subtype.ext (by show r⁻¹ * (r * (w : G) * r⁻¹) * r = w; group)
       map_mul' := fun a b => Subtype.ext (by simp only [Subgroup.coe_mul]; group) }
   refine ⟨φ.comp eH, eW.trans ψ, ?_, ?_, ?_⟩
   · intro m
     obtain ⟨z, hz⟩ := hφs m
-    refine ⟨⟨r * z * r⁻¹, mem_conjSubgroup.mpr (by simpa [mul_assoc] using z.2)⟩, ?_⟩
+    refine ⟨⟨r * z * r⁻¹, mem_conjSubgroup.mpr (by simp [mul_assoc])⟩, ?_⟩
     rw [MonoidHom.comp_apply, ← hz]
     congr 1
     exact Subtype.ext (by show r⁻¹ * (r * (z : G) * r⁻¹) * r = z; group)
@@ -73,11 +73,13 @@ variable [Finite G] {M B Q P T : Subgroup G} {g : G}
 include E H
 
 omit H in
+omit [Finite G] E in
 theorem conj_inv_mem_L {r l : G} (hr : r ∈ Subgroup.normalizer (L : Set G)) (hl : l ∈ L) :
     r⁻¹ * l * r ∈ L := by
   have := (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hr) l).mp hl
   simpa using this
 
+omit [Finite G] in
 theorem conjT_comm_conjC {r x y : G} (hx : x ∈ conjSubgroup r T) (hy : y ∈ conjSubgroup r C) :
     x * y = y * x := by
   rw [mem_conjSubgroup] at hx hy
@@ -86,16 +88,17 @@ theorem conjT_comm_conjC {r x y : G} (hx : x ∈ conjSubgroup r T) (hy : y ∈ c
     _ = r * ((r⁻¹ * y * r) * (r⁻¹ * x * r)) * r⁻¹ := by rw [this]
     _ = y * x := by group
 
-omit H in
+omit H [Finite G] in
 theorem conjT_comm_L {r l x : G} (hr : r ∈ Subgroup.normalizer (L : Set G)) (hl : l ∈ L)
     (hx : x ∈ conjSubgroup r T) : ⁅l, x⁆ ∈ conjSubgroup r B := by
   rw [mem_conjSubgroup] at hx ⊢
-  have h1 := E.T_comm _ hx _ (E.conj_inv_mem_L hr hl)
+  have h1 := E.T_comm _ hx _ (EndgameData.conj_inv_mem_L hr hl)
   have e : r⁻¹ * ⁅l, x⁆ * r = ⁅r⁻¹ * l * r, r⁻¹ * x * r⁆ := by
     simp only [commutatorElement_def]; group
   rw [e]
   exact h1
 
+omit [Finite G] in
 theorem conjT_le_normalizer_L {r : G} (hr : r ∈ Subgroup.normalizer (L : Set G)) :
     conjSubgroup r T ≤ Subgroup.normalizer (L : Set G) := by
   intro x hx
@@ -115,6 +118,7 @@ theorem conjT_normalizes {r x : G} (hr : r ∈ Subgroup.normalizer (L : Set G))
   rw [this]
   exact N.mul_mem (N.inv_mem h1) hn
 
+omit [Finite G] in
 theorem hyp48_of_mem {g' : G} (hg' : g' ∈ Subgroup.normalizer (L : Set G)) :
     Hyp48 M B T g' where
   leM := by
@@ -125,12 +129,13 @@ theorem hyp48_of_mem {g' : G} (hg' : g' ∈ Subgroup.normalizer (L : Set G)) :
   comm_Tg := by
     intro b hb t ht
     rw [mem_conjSubgroup] at ht ⊢
-    have h1 := E.T_comm _ ht _ (E.conj_inv_mem_L hg' (E.B_le_L hb))
+    have h1 := E.T_comm _ ht _ (EndgameData.conj_inv_mem_L hg' (E.B_le_L hb))
     have e : g'⁻¹ * ⁅b, t⁆ * g' = ⁅g'⁻¹ * b * g', g'⁻¹ * t * g'⁆ := by
       simp only [commutatorElement_def]; group
     rw [e]
     exact h1
 
+omit [Finite G] in
 theorem not_le_P_pair {r₁ r₂ : G} (hr₁ : r₁ ∈ Subgroup.normalizer (L : Set G))
     (hr₂ : r₂ ∈ Subgroup.normalizer (L : Set G))
     (hnp : ¬ conjSubgroup r₂ B ≤ conjSubgroup r₁ C) : ¬ conjSubgroup (r₁⁻¹ * r₂) B ≤ P := by
@@ -162,6 +167,7 @@ theorem card_le_mul_inf {A : Subgroup G} (hA : A ≤ L) {r : G}
         Nat.mul_le_mul_right _ h1
     _ = (Nat.card B * Nat.card (A ⊓ conjSubgroup r C : Subgroup G)) * Nat.card C := by ring
 
+omit [Finite G] in
 theorem inf_pair_le (h45 : Meet45 B Q P) {r : G} (hr : r ∈ Subgroup.normalizer (L : Set G))
     {D₁ D₂ : Subgroup G} (hD₁ : D₁ ∈ classIn B L) (hD₂ : D₂ ∈ classIn B L)
     (h₁ : D₁ ≤ conjSubgroup r C) (h₂ : ¬ D₂ ≤ conjSubgroup r C) :
@@ -184,7 +190,7 @@ theorem inf_pair_le (h45 : Meet45 B Q P) {r : G} (hr : r ∈ Subgroup.normalizer
     rw [hbot, Subgroup.mem_bot] at this
     exact hd this
 
-theorem L₀_le_sup (h45 : Meet45 B Q P) (hg : g ∈ Subgroup.normalizer (L : Set G)) {r₁ r₂ : G}
+theorem L₀_le_sup (h45 : Meet45 B Q P) (_hg : g ∈ Subgroup.normalizer (L : Set G)) {r₁ r₂ : G}
     (hr₁ : r₁ ∈ Subgroup.normalizer (L : Set G)) (hr₂ : r₂ ∈ Subgroup.normalizer (L : Set G))
     (hD₁ : conjSubgroup r₁ B ≤ C ⊓ conjSubgroup g C)
     (hD₂ : conjSubgroup r₂ B ≤ C ⊓ conjSubgroup g C)
@@ -204,7 +210,7 @@ theorem L₀_le_sup (h45 : Meet45 B Q P) (hg : g ∈ Subgroup.normalizer (L : Se
     apply hnp
     have h1 : conjSubgroup r₁ B ≤ conjSubgroup r₂ Q :=
       h.trans ((conj_le_conj_iff r₂).mpr (E.C_le_Q H))
-    have h2 := E.symm_Q H (r := r₂) (r' := r₁) h1 hne
+    have h2 := CFSG.RankThree.GF2n.Tim78.EndgameData.symm_Q H (r := r₂) (r' := r₁) h1 hne
     rw [← E.conj_inf_Q H hr₁]
     exact le_inf hD₂L h2
   have hi₁ : (conjSubgroup r₁ B ⊔ conjSubgroup r₂ B) ⊓ conjSubgroup r₁ C ≤ conjSubgroup r₁ B :=

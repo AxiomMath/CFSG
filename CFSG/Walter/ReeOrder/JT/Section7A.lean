@@ -125,7 +125,7 @@ theorem not_four_dvd_card_normalizer_of_orderOf_three
   obtain ⟨T, hT⟩ := ht2.exists_le_sylow
   set T₁ := (T : Subgroup N).map N.subtype with hT₁def
   have htT₁ : h.t ∈ T₁ := ⟨⟨h.t, htN⟩, hT (Subgroup.mem_zpowers _), rfl⟩
-  have hT₁2 : IsPGroup 2 T₁ := T.isPGroup'.map _
+  have hT₁2 : IsPGroup 2 T₁ := T.isPGroup.map _
   obtain ⟨S', hS'⟩ := hT₁2.exists_le_sylow
   have hab := h.abelian_sylow S'
   have hT₁C : ∀ z ∈ T₁, z * h.t = h.t * z := fun z hz =>
@@ -349,7 +349,7 @@ theorem lemma_7_2 {H : Subgroup G}
   have h4T : 4 ∣ Nat.card T₀' := by
     rw [hT₀'card]
     exact Sylow.pow_dvd_card_of_pow_dvd_card T₀ (n := 2) (by norm_num; exact h4)
-  have hT₀'2 : IsPGroup 2 T₀' := T₀.isPGroup'.map _
+  have hT₀'2 : IsPGroup 2 T₀' := T₀.isPGroup.map _
   obtain ⟨S', hS'⟩ := hT₀'2.exists_le_sylow
   have hS'ab := h.abelian_sylow S'
   have hT₀'comm : ∀ x ∈ T₀', ∀ y ∈ T₀', x * y = y * x := fun x hx y hy =>

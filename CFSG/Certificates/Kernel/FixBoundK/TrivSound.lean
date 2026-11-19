@@ -24,8 +24,8 @@ theorem nIf_beq (a b t e : Nat) :
     Bool.rec (motive := fun _ => Nat) e t (Nat.beq a b) = if a = b then t else e := by
   by_cases h : a = b
   · subst h
-    rw [if_pos rfl, Nat.beq_refl]
-  · rw [if_neg h, Bool.eq_false_iff.2 fun e => h (Nat.beq_eq ▸ e)]
+    rw [ite_eq_left rfl, Nat.beq_refl]
+  · rw [ite_eq_right h, Bool.eq_false_iff.2 fun e => h (Nat.beq_eq ▸ e)]
 
 theorem orB_eq (a b : Bool) : CFSG.KLie.CT.orB a b = (a || b) := by cases a <;> rfl
 
@@ -258,7 +258,7 @@ theorem testBit_pmR (σ : Nat → Nat) (x t : Nat) : ∀ n, (∀ i j, i < j → 
   | n + 1, h => by
     rw [pmR, Nat.testBit_xor, testBit_pmR σ x t n (fun i j hij hj => h i j hij (by omega))]
     by_cases hx : x.testBit n = true
-    · rw [if_pos hx, Nat.testBit_two_pow]
+    · rw [ite_eq_left hx, Nat.testBit_two_pow]
       by_cases hσ : σ n = t
       · have hno : ¬ ∃ j < n, x.testBit j = true ∧ σ j = t := fun ⟨j, hj, _, hj'⟩ =>
           h j n hj (by omega) (hj'.trans hσ.symm)
@@ -273,7 +273,7 @@ theorem testBit_pmR (σ : Nat → Nat) (x t : Nat) : ∀ n, (∀ i j, i < j → 
           rcases Nat.lt_succ_iff_lt_or_eq.1 hj with h' | rfl
           · exact h'
           · exact absurd h2 hσ
-    · rw [if_neg hx, Nat.zero_testBit, Bool.false_xor, decide_eq_decide]
+    · rw [ite_eq_right hx, Nat.zero_testBit, Bool.false_xor, decide_eq_decide]
       constructor
       · rintro ⟨j, hj, h1, h2⟩
         exact ⟨j, by omega, h1, h2⟩

@@ -15,11 +15,11 @@ theorem I294Cfg.le_of_outer_inputs (hK : KDOutDerived) (hO : I294OuterDiag) {p :
     [Group Y] [Finite Y] {L : Subgroup Y} [L.Normal] {z g : Y} {D : Subgroup Y}
     (h : I294Cfg p L z g D) : D ≤ L := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   by_cases hAut : AutCommInner ↥L
   · exact le_of_autCommInner h.cent hAut h.odd h.elem h.card h.mem h.ne_one h.diag
   by_contra hDL
-  obtain ⟨d, hdD, hdL⟩ := SetLike.not_le_iff_exists.1 hDL
+  obtain ⟨d, hdD, hdL⟩ := IsConcreteLE.not_le_iff_exists.1 hDL
   obtain ⟨d', -, hdd⟩ :=
     exists_commutator_of_isPlaneDiagonal_odd h.odd h.elem h.card h.mem h.ne_one h.diag d hdD
   have hinj := i294_conjNormal_injective (L := L) h.cent

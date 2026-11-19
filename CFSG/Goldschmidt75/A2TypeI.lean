@@ -61,7 +61,7 @@ theorem typeI_facts
       rw [Set.mem_singleton_iff.mp hh]
       calc g * r = g * (g⁻¹ * r * g) := by rw [hrfix]
         _ = r * g := by group
-    have hFp : IsPGroup 2 F := R.isPGroup'.to_le inf_le_left
+    have hFp : IsPGroup 2 F := R.isPGroup.to_le inf_le_left
     have hFne : F ≠ ⊥ := fun h => hr1 (by rw [h] at hrF; exact (mem_bot).mp hrF)
     obtain ⟨z, hz⟩ : ∃ z : F, orderOf z = 2 := by
       rcases hFp.card_eq_or_dvd with h1 | h2

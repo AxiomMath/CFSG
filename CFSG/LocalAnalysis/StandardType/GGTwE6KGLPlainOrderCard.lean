@@ -120,7 +120,7 @@ private theorem omegaMinus_plainOrd {N g : ℕ} (hN : N ≤ 4) (h2 : N ≠ 2) (h
     simp only [Fintype.card_sum, Fintype.card_fin, h0]
     norm_num
   have hg : 1 ≤ g := one_le_of_card_plainOrd (K := K) fun h0 => by rw [hK, h0, pow_zero]
-  haveI := CFSG.StandardType.charP_two_of_card hK
+  have := CFSG.StandardType.charP_two_of_card hK
   refine ⟨finite_largeEvenProj_plainOrd _, lt_of_le_of_lt ?_
     (pow_twentyNine_lt_ordTwistedA_five hg)⟩
   show Nat.card (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus 3 b c))) ≤ _

@@ -41,7 +41,7 @@ theorem asch80ThmA54_of_cases
     (hSp : Asch80ThmA54Case fun X _ => CFSG.Models.SporadicRep X)
     (hCO : Asch80ThmA54Case fun X _ => CFSG.Models.OddLieType X) : Asch80ThmA54 := by
   intro Q _ _ L T M hK hLn hLs hnab hC hL0 hT hM hMax
-  haveI := hLs
+  have := hLs
   have hcat : CFSG.Open.IsCatalogGroup ↥L :=
     (hK.of_injective L.subtype L.subtype_injective).isCatalogGroup_of_surjective ⊤ hnab
       (Subgroup.subtype ⊤) (fun x => ⟨⟨x, trivial⟩, rfl⟩)

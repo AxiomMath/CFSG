@@ -22,8 +22,8 @@ theorem uc22s218n_not_stronglyEmbedded (D : Data G) (Ch : Choice2011 G) (h211 : 
     (hsn : s ∣ n) (hr : r.Prime) (hr2 : r ≠ 2) (hrs : r ∣ 2 ^ s - 1) :
     ¬ IsStronglyPEmbedded r D.M := by
   intro hsp
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hyL, hy, hyT⟩ := uc22p218c_exists_orderOf_eq_mem_normalizer_sp4 D.sylowM.isPGroup
     (D.sylowM.le.trans hML) (D.sylowM.inf_of_le_normalizer hLM hML) hX hs hsn hrs
   have hyp : IsPGroup r (zpowers y) :=
@@ -38,7 +38,7 @@ theorem uc22s218n_not_stronglyEmbedded (D : Data G) (Ch : Choice2011 G) (h211 : 
 theorem uc22s218n_normal (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846.SigmaStd D)
     (h211 : S21_1 D Ch) (hH : H1930 D) (c : Ctx21 D Ch) {L : Subgroup G} (hL : L ∈ calC D.M)
     {n : ℕ} (hX : IsSp4 (Bar2 L) n) (hn : ¬ IsPowTwo n) : (L.subgroupOf D.M).Normal := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := hL.1.le
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer hLM]
   by_contra hML
@@ -50,7 +50,7 @@ theorem uc22s218n_normal (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846.SigmaSt
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ s := Nat.pow_le_pow_right (by norm_num) hs3
   obtain ⟨r, hr, hrs⟩ := Nat.exists_prime_and_dvd (show 2 ^ s - 1 ≠ 1 by omega)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22p218c_ne_two_of_dvd (by omega) hrs
   have hrn : r ∣ 2 ^ n - 1 := hrs.trans (Nat.pow_sub_one_dvd_pow_sub_one 2 hsn)
   have hZ : ¬ r ∣ Nat.card (center (Bar2 L)) := by

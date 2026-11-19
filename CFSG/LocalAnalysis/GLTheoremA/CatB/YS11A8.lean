@@ -51,10 +51,12 @@ noncomputable def conjEnd (K : Subgroup G) (g : G) (hg : g ∈ Subgroup.normaliz
     K →* K :=
   (conjL K g⁻¹ (Subgroup.inv_mem _ hg)).toMonoidHom
 
+omit [Finite G] in
 theorem conjEnd_val (K : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (K : Set G)) (q : K) :
     ((conjEnd K g hg q : K) : G) = g * q * g⁻¹ := by
   simp [conjEnd, conjL_apply]
 
+omit [Finite G] in
 theorem conjEnd_mul (K : Subgroup G) {g h : G} (hg : g ∈ Subgroup.normalizer (K : Set G))
     (hh : h ∈ Subgroup.normalizer (K : Set G)) (q : K) :
     conjEnd K (g * h) (mul_mem hg hh) q = conjEnd K g hg (conjEnd K h hh q) :=
@@ -64,6 +66,7 @@ end Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_of_conj_eq' {K : Subgroup G} {ε : K →* A8} (hε : Function.Surjective ε) {m m' : A8}
     (h : ∀ k : K, m * ε k * m⁻¹ = m' * ε k * m'⁻¹) : m = m' := by
   have hz : m'⁻¹ * m ∈ Subgroup.center A8 := by
@@ -78,7 +81,7 @@ theorem eq_of_conj_eq' {K : Subgroup G} {ε : K →* A8} (hε : Function.Surject
 
 theorem exists_iso_of_pSimple {K : Subgroup G} (hK : CFSG.Open.IsQuasisimple ↥K)
     (eS : PSimple 3 K ≃* A8) :
-    (∃ e : PQuot 3 K ≃* A8, GLAPPrimeCore 3 ↥K = Subgroup.center ↥K) ∧
+    (∃ _e : PQuot 3 K ≃* A8, GLAPPrimeCore 3 ↥K = Subgroup.center ↥K) ∧
       Nat.card (Subgroup.center ↥K) ∣ 2 := by
   classical
   have hOne : GLAPPrimeCore 3 ↥K ≠ ⊤ := by
@@ -162,6 +165,7 @@ theorem exists_iso_of_pSimple {K : Subgroup G} (hK : CFSG.Open.IsQuasisimple ↥
   exact ⟨⟨((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm.trans eS, hO⟩,
     hS⟩
 
+omit [Finite G] in
 theorem inner_of_pow3 {K : Subgroup G} (e : PQuot 3 K ≃* A8) {b : G}
     (hb : b ∈ Subgroup.normalizer (K : Set G)) (hb3 : b ^ 3 = 1) :
     ∃ m : A8, ∀ k : ↥K, piOf K e (conjEnd K b hb k) = m * piOf K e k * m⁻¹ := by
@@ -180,6 +184,7 @@ theorem inner_of_pow3 {K : Subgroup G} (e : PQuot 3 K ≃* A8) {b : G}
   rw [h1] at h2
   exact h2.symm
 
+omit [Finite G] in
 theorem exists_rho {K B D : Subgroup G} (hKq : CFSG.Open.IsQuasisimple ↥K)
     (hBN : B ≤ Subgroup.normalizer (K : Set G)) (hDeq : D = B ⊓ Subgroup.centralizer (K : Set G))
     {ε : ↥K →* A8} (hε : Function.Surjective ε) (hεker : ε.ker = Subgroup.center ↥K)
@@ -226,13 +231,13 @@ theorem exists_rho {K B D : Subgroup G} (hKq : CFSG.Open.IsQuasisimple ↥K)
 open scoped Pointwise in
 theorem exists_conj_of_card9 {R : Subgroup A8} (hR : Nat.card R = 9) (hR3 : IsPGroup 3 R) :
     ∃ g : A8, ∀ m : A8, m ∈ a8P0 ↔ g * m * g⁻¹ ∈ R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP0 : IsPGroup 3 a8P0 := a8P0_three
   have hsyl : ∀ H : Subgroup A8, IsPGroup 3 H → Nat.card H = 9 →
       ∃ Q : Sylow 3 A8, (Q : Subgroup A8) = H := by
     intro H hH hHc
     obtain ⟨Q, hQ⟩ := hH.exists_le_sylow
-    obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
     have hd : 3 ^ n ∣ 20160 := by
       rw [← a8_card, ← hn]; exact Subgroup.card_subgroup_dvd_card _
     have hn2 := a8_three_part_perm n hd
@@ -258,6 +263,7 @@ theorem subsingleton_quot {H : Type*} [Group H] [Subsingleton H] (N : Subgroup H
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y
     rw [Subsingleton.elim a b]⟩
 
+omit [Finite G] in
 theorem standardize {K B : Subgroup G} (hBN : B ≤ Subgroup.normalizer (K : Set G))
     {ε : ↥K →* A8} (hε : Function.Surjective ε) {ρ : ↥B →* A8}
     (hrel : ∀ (b : ↥B) (k : ↥K), ε (conjEnd K b.1 (hBN b.2) k) = ρ b * ε k * (ρ b)⁻¹)
@@ -267,7 +273,7 @@ theorem standardize {K B : Subgroup G} (hBN : B ≤ Subgroup.normalizer (K : Set
       (∀ b : ↥B, ρ' b = 1 ↔ ρ b = 1) ∧ ρ'.range = a8P0 := by
   obtain ⟨g, hg⟩ := exists_conj_of_card9 hcard hR3
   let c : A8 →* A8 := (MulAut.conj g⁻¹).toMonoidHom
-  have hc : ∀ x, c x = g⁻¹ * x * g := fun x => by simp [c, MulAut.conj_apply]
+  have hc : ∀ x, c x = g⁻¹ * x * g := fun x => by simp [c]
   have hc1 : ∀ x : A8, c x = 1 ↔ x = 1 := fun x => by
     rw [hc]
     constructor
@@ -446,14 +452,15 @@ theorem E_facts {B D : Subgroup G} (hBab : IsElemAbelian 3 B) (hDB : D ≤ B) (h
   exact Subgroup.mem_map.2 ⟨⟨d, hdB⟩, show ρ ⟨d, hdB⟩ ∈ Subgroup.zpowers a8c8 by
     rw [(hρker ⟨d, hdB⟩).2 hd]; exact one_mem _, rfl⟩
 
+omit [Finite G] in
 theorem subsingleton_pSimple_bot : Subsingleton (PSimple 3 (⊥ : Subgroup G)) := by
-  haveI : Subsingleton ↥(⊥ : Subgroup G) := inferInstance
-  haveI : Subsingleton (PQuot 3 (⊥ : Subgroup G)) := subsingleton_quot _
+  have : Subsingleton ↥(⊥ : Subgroup G) := inferInstance
+  have : Subsingleton (PQuot 3 (⊥ : Subgroup G)) := subsingleton_quot _
   exact subsingleton_quot _
 
 theorem layer_part {K B D X : Subgroup G} (hKq : CFSG.Open.IsQuasisimple ↥K)
     (hKX : IsSubnormal K X) (hBN : B ≤ Subgroup.normalizer (K : Set G))
-    (hDeq : D = B ⊓ Subgroup.centralizer (K : Set G)) (hDB : D ≤ B)
+    (hDeq : D = B ⊓ Subgroup.centralizer (K : Set G)) (_hDB : D ≤ B)
     {ε : ↥K →* A8} (hε : Function.Surjective ε) (hεker : ε.ker = Subgroup.center ↥K)
     (hc2 : Nat.card (Subgroup.center ↥K) ∣ 2)
     {ρ : ↥B →* A8}
@@ -511,7 +518,7 @@ theorem layer_part {K B D X : Subgroup G} (hKq : CFSG.Open.IsQuasisimple ↥K)
         show ρ b₁ ∈ Subgroup.zpowers a8c8; rw [hb₁]; exact Subgroup.mem_zpowers _, rfl⟩
       have hxb : (b₁ : G) * x = x * (b₁ : G) := hxE _ hb1E
       have hcx := hconjb ⟨x, hxK⟩
-      simp only [Subtype.coe_mk] at hcx
+      simp only at hcx
       have h1 : (y : G) * x * (y : G)⁻¹ = x := by
         rw [← hcx, hxb]; group
       calc (y : G) * x = (y : G) * x * (y : G)⁻¹ * (y : G) := by group
@@ -531,7 +538,7 @@ theorem layer_part {K B D X : Subgroup G} (hKq : CFSG.Open.IsQuasisimple ↥K)
         exact h.2
       have hdx : x * (d : G) = (d : G) * x := Subgroup.mem_centralizer_iff.1 hdC x hxK
       have h1 := hconjb ⟨x, hxK⟩
-      simp only [Subtype.coe_mk] at h1
+      simp only at h1
       have hyx' : (y : G) * x * (y : G)⁻¹ = x := by rw [hyx]; group
       rw [hyx'] at h1
       have hbx : (b₁ : G) * x = x * (b₁ : G) := by
@@ -555,9 +562,9 @@ theorem layer_part {K B D X : Subgroup G} (hKq : CFSG.Open.IsQuasisimple ↥K)
     (by rw [hεy]; exact a8Kb_inf_zpowers) a8Kb_simple a8Kb_nonabelian (by rw [a8Kb_card]; norm_num)
   have hJne : J ≠ ⊥ := by
     rintro rfl
-    haveI := subsingleton_pSimple_bot (G := G)
+    have := subsingleton_pSimple_bot (G := G)
     have hsub : Subsingleton ↥a8Kb := ⟨fun x y => hJe.symm.injective (Subsingleton.elim _ _)⟩
-    haveI : IsSimpleGroup ↥a8Kb := a8Kb_simple
+    have : IsSimpleGroup ↥a8Kb := a8Kb_simple
     exact (not_nontrivial_iff_subsingleton.2 hsub) inferInstance
   intro h
   have hle : J ≤ GLAPLayer 3 (K ⊓ Subgroup.centralizer ({(y : G)} : Set G)) := le_sSup hJ

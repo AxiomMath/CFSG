@@ -39,7 +39,7 @@ theorem exists_sylow_of_kernel_maximal (f : G →* H) (Q : Subgroup G)
   have hBK : B ≤ K := by
     rintro b ⟨r, hr, rfl⟩
     exact r.property
-  have hBp : IsPGroup p B := R.isPGroup'.map K.subtype
+  have hBp : IsPGroup p B := R.isPGroup.map K.subtype
   have hBker : B ⊓ f.ker ≤ Q := hmax (B ⊓ f.ker) inf_le_right hBp.to_inf_left
   refine ⟨R, le_antisymm ?_ hJB⟩
   intro b hb

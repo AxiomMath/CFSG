@@ -101,7 +101,7 @@ private theorem burnsideIc_mem_conjugate {G : Type} [Group G] {H : Subgroup G} {
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 private theorem burnsideIc_even_card_of_le {G : Type} [Group G] [Finite G] {Q X : Subgroup G}
     (hQ : IsPGroup 2 Q) (hne : Q ≠ ⊥) (hle : Q ≤ X) : Even (Nat.card X) := by
@@ -169,7 +169,7 @@ private theorem burnsideIc_exists_isSylowTwoIn_ge {G : Type} [Group G] [Finite G
   have hsub : ((P : Subgroup ↥M).map M.subtype).subgroupOf M = (P : Subgroup ↥M) :=
     Subgroup.comap_map_eq_self_of_injective M.subtype_injective _
   refine ⟨(P : Subgroup ↥M).map M.subtype,
-    ⟨Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩, ?_⟩
+    ⟨Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩, ?_⟩
   · rw [hsub]
     exact P.not_dvd_index
   · intro x hx
@@ -254,14 +254,14 @@ private theorem burnsideIc_centralizer_le_inf_conjugate {G : Type} [Group G] [Fi
 private theorem burnsideIc_exists_normalizing_gt {G : Type} [Group G] [Finite G] {P Q : Subgroup G}
     (hP : IsPGroup 2 P) (hQP : Q < P) :
     ∃ Y : Subgroup G, Q < Y ∧ Y ≤ P ∧ Y ≤ Subgroup.normalizer (Q : Set G) ∧ IsPGroup 2 Y := by
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hlt : Q.subgroupOf P < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
     rw [Subgroup.subgroupOf_eq_top] at h
     exact not_le_of_gt hQP h
   have hgrow := Group.normalizerCondition_of_isNilpotent (G := ↥P) _ hlt
-  obtain ⟨x, hxN, hxQ⟩ := SetLike.exists_of_lt hgrow
+  obtain ⟨x, hxN, hxQ⟩ := _root_.IsConcreteLE.exists_of_lt hgrow
   have hxN' : (x : G) ∈ Subgroup.normalizer (Q : Set G) := by
     have := hxN
     rw [← Subgroup.subgroupOf_normalizer_eq hQP.le] at this
@@ -289,8 +289,8 @@ private theorem burnsideIc_exists_central_involution {G : Type} [Group G] [Finit
     (hR : IsPGroup 2 R) (hQR : Q ≤ R) (hN : R ≤ Subgroup.normalizer (Q : Set G))
     (hQ : Q ≠ ⊥) :
     ∃ i ∈ Q, i ^ 2 = 1 ∧ i ≠ 1 ∧ R ≤ Subgroup.centralizer ({i} : Set G) := by
-  haveI : Group.IsNilpotent ↥R := hR.isNilpotent
-  haveI hnorm : (Q.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
+  have : Group.IsNilpotent ↥R := hR.isNilpotent
+  have hnorm : (Q.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
   have hne : Q.subgroupOf R ≠ ⊥ := by
     intro h
     apply hQ
@@ -655,7 +655,7 @@ theorem as_I_8_4 : I_8_4 := by
   have hVS : (V : Set G) ⊆ (S : Subgroup G) := hcl.1
   have hVS' : V ≤ (S : Subgroup G) := hVS
   have hcl' : CFSG.Open.fusionStronglyClosed (V : Set G) (S : Subgroup G) := hcl.2
-  haveI hcomm : IsMulCommutative V :=
+  have hcomm : IsMulCommutative V :=
     ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
   refine ⟨?_, ?_⟩
   · intro x hx g hg

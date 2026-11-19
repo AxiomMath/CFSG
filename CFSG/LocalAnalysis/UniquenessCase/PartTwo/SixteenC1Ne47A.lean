@@ -38,12 +38,14 @@ theorem s16c1_ti_V₀ {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2
       exact Subgroup.card_map_of_injective (MulAut.conj y⁻¹).injective
     exact (Subgroup.eq_of_le_of_card_ge h2 hcard.le).symm
 
+omit [Finite G] in
 theorem s16c1_card_V_eq_two_mul_uOne {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V)
     (hz : z ∈ V) (h47 : Concl1647 V z) : Nat.card ↥V = 2 * Nat.card ↥(uOne V z) := by
   have h := s16c1_card_starImg_mul_card_uOne hV hz
   rw [h47.1] at h
   omega
 
+omit [Finite G] in
 theorem s16c1_hConjClosure_le_pCoreOf {z : G} {A : Subgroup G}
     (hA : A ≤ pCoreOf 2 (centralizer ({z} : Set G))) :
     hConjClosure z A ≤ pCoreOf 2 (centralizer ({z} : Set G)) := by
@@ -55,6 +57,7 @@ theorem s16c1_hConjClosure_le_pCoreOf {z : G} {A : Subgroup G}
     _ = pCoreOf 2 (centralizer ({z} : Set G)) :=
         s16c1_conjSubgroup_pCoreOf_self (centralizer ({z} : Set G)) h.2
 
+omit [Finite G] in
 theorem s16c1_hConjClosure_le_centralizer {z : G} {A Q : Subgroup G}
     (hQ : ∀ h ∈ centralizer ({z} : Set G), conjSubgroup Q h = Q)
     (hA : A ≤ centralizer (Q : Set G)) :
@@ -76,7 +79,7 @@ theorem s16c1_eTwo_le_pCoreOf (D : Data G) {V₀ : Subgroup G} {z : G}
 theorem s16c1_eTwo_le_centralizer (D : Data G) {V₀ : Subgroup G} {z : G}
     (hSyl : IsSylowIn 2 (D.T ⊓ centralizer ({z} : Set G)) (centralizer ({z} : Set G))) :
     eTwo D V₀ z ≤ centralizer (pCoreOf 2 (centralizer ({z} : Set G)) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQS : pCoreOf 2 (centralizer ({z} : Set G)) ≤ D.T ⊓ centralizer ({z} : Set G) :=
     CFSG.Quasithin.pCoreOf_le_of_isSylowIn hSyl
   refine s16c1_hConjClosure_le_centralizer

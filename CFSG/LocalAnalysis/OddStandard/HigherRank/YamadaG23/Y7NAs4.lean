@@ -30,7 +30,7 @@ theorem case2 (h : NtAbs t g Lam P S U P1)
   have hdisj : Disjoint P (zpowers g) := by
     rw [Subgroup.disjoint_def]
     intro x hxP hxZ
-    haveI : Fact (Nat.card (zpowers g)).Prime := ⟨by rw [hcardz]; norm_num⟩
+    have : Fact (Nat.card (zpowers g)).Prime := ⟨by rw [hcardz]; norm_num⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card
       ((P ⊓ zpowers g).subgroupOf (zpowers g)) with hbot | htop
     · have hx : (⟨x, hxZ⟩ : zpowers g) ∈ (P ⊓ zpowers g).subgroupOf (zpowers g) :=

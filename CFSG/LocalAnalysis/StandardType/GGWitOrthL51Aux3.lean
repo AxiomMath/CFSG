@@ -118,8 +118,8 @@ theorem owL5_not_commute {K : Type*} [Field K] [CharP K 3] {U : Type}
 
 theorem owL5_form_a {K : Type*} [Field K] [CharP K 3] {U : Type}
     [AddCommGroup U] [Module K U] (Q : QuadraticForm K U) {a u u' : U}
-    (ha : Q a ≠ 0) (hu : Q u = 0) (hu' : Q u' = 0) (hau : polarBilin Q u a = 0)
-    (hau' : polarBilin Q u' a = 0) (huu' : polarBilin Q u' u = 0) (x y z : K) :
+    (ha : Q a ≠ 0) (_hu : Q u = 0) (_hu' : Q u' = 0) (hau : polarBilin Q u a = 0)
+    (hau' : polarBilin Q u' a = 0) (_huu' : polarBilin Q u' u = 0) (x y z : K) :
     owCr_orthRefl Q a ha (x • a + y • u + z • u') = (-x) • a + y • u + z • u' := by
   have haa : polar Q a a = 2 * Q a := by rw [polar_self, two_smul]; ring
   have hua : polar Q u a = 0 := by rw [← polarBilin_apply_apply, hau]
@@ -134,7 +134,7 @@ theorem owL5_form_a {K : Type*} [Field K] [CharP K 3] {U : Type}
 
 theorem owL5_form_au {K : Type*} [Field K] [CharP K 3] {U : Type}
     [AddCommGroup U] [Module K U] (Q : QuadraticForm K U) {a u u' : U}
-    (ha : Q a ≠ 0) (hu : Q u = 0) (hu' : Q u' = 0) (hau : polarBilin Q u a = 0)
+    (ha : Q a ≠ 0) (hu : Q u = 0) (_hu' : Q u' = 0) (hau : polarBilin Q u a = 0)
     (hau' : polarBilin Q u' a = 0) (huu' : polarBilin Q u' u = 0)
     (hbu : Q (a - u) ≠ 0) (x y z : K) :
     owCr_orthRefl Q (a - u) hbu (x • a + y • u + z • u')
@@ -158,7 +158,7 @@ theorem owL5_form_au {K : Type*} [Field K] [CharP K 3] {U : Type}
 
 theorem owL5_form_au' {K : Type*} [Field K] [CharP K 3] {U : Type}
     [AddCommGroup U] [Module K U] (Q : QuadraticForm K U) {a u u' : U}
-    (ha : Q a ≠ 0) (hu : Q u = 0) (hu' : Q u' = 0) (hau : polarBilin Q u a = 0)
+    (ha : Q a ≠ 0) (_hu : Q u = 0) (hu' : Q u' = 0) (hau : polarBilin Q u a = 0)
     (hau' : polarBilin Q u' a = 0) (huu' : polarBilin Q u' u = 0)
     (hbu' : Q (a - u') ≠ 0) (x y z : K) :
     owCr_orthRefl Q (a - u') hbu' (x • a + y • u + z • u')
@@ -182,8 +182,8 @@ theorem owL5_form_au' {K : Type*} [Field K] [CharP K 3] {U : Type}
 
 theorem owL5_linearIndependent {K : Type*} [Field K] [CharP K 3] {U : Type}
     [AddCommGroup U] [Module K U] (Q : QuadraticForm K U) {a u u' : U}
-    (ha : Q a ≠ 0) (hu : Q u = 0) (hu' : Q u' = 0) (hau : polarBilin Q u a = 0)
-    (hau' : polarBilin Q u' a = 0) (huu' : polarBilin Q u' u = 0)
+    (ha : Q a ≠ 0) (_hu : Q u = 0) (_hu' : Q u' = 0) (hau : polarBilin Q u a = 0)
+    (hau' : polarBilin Q u' a = 0) (_huu' : polarBilin Q u' u = 0)
     (hu0 : u ≠ 0) (hspan : u' ∉ Submodule.span K {u}) :
     LinearIndependent K ![a, u, u'] := by
   have gaa : polarBilin Q a a = 2 * Q a := by
@@ -194,8 +194,8 @@ theorem owL5_linearIndependent {K : Type*} [Field K] [CharP K 3] {U : Type}
     Matrix.cons_val_two, Matrix.tail_cons] at hg
   have hx : g 0 = 0 := by
     have h := congrArg ((polarBilin Q).flip a) hg
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, LinearMap.flip_apply,
-      LinearMap.zero_apply, smul_eq_mul, gaa, hau, hau', mul_zero, add_zero] at h
+    simp only [map_add, map_smul, LinearMap.flip_apply,
+      smul_eq_mul, gaa, hau, hau', mul_zero, add_zero] at h
     have h2 : (2 * Q a) * g 0 = 0 := by simpa [mul_comm] using h
     exact (mul_eq_zero.mp h2).resolve_left (mul_ne_zero (owL5_two_ne_zero) ha)
   have hz : g 2 = 0 := by

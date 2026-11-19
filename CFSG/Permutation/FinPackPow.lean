@@ -28,12 +28,12 @@ theorem bitI_eq (hn : n ≤ 16) (σ : Perm (Fin n)) {v : ℕ} (hv : v < n) (i : 
       if σ⁻¹ ⟨v, hv⟩ = i then (i : ℕ) else 0 := by
   rw [rd_enc hn σ i]
   by_cases h : σ⁻¹ ⟨v, hv⟩ = i
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have e : (σ i : ℕ) = v := by
       rw [← h]
       exact congrArg Fin.val (σ.apply_symm_apply ⟨v, hv⟩)
     rw [e, Nat.beq_refl]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have e : Nat.beq (σ i : ℕ) v = false := Bool.eq_false_iff.2 fun e => h (by
       have e' : σ i = ⟨v, hv⟩ := Fin.ext (Nat.eq_of_beq_eq_true e)
       rw [← e']
@@ -44,11 +44,10 @@ theorem enc_inv (hn : n ≤ 16) (σ : Perm (Fin n)) : enc σ⁻¹ = invPK n (enc
   rw [invPK]
   conv_lhs => rw [enc]
   refine encF_congr fun v hv => ?_
-  try dsimp only
-  rw [dif_pos hv, sumLtK_eq, ← Fin.sum_univ_eq_sum_range
+  rw [dite_eq_left hv, sumLtK_eq, ← Fin.sum_univ_eq_sum_range
       (fun i => (Bool.rec (motive := fun _ => ℕ) 0 i (Nat.beq (rd (enc σ) i) v) : ℕ)) n,
     Finset.sum_congr rfl fun i _ => bitI_eq hn σ hv i, Finset.sum_ite_eq,
-    if_pos (Finset.mem_univ _)]
+    ite_eq_left (Finset.mem_univ _)]
 
 theorem enc_pow (hn : n ≤ 16) {e : ℕ} (he : enc (1 : Perm (Fin n)) = e) (σ : Perm (Fin n)) (k : ℕ) :
     enc (σ ^ k) = powK n e (enc σ) k := by
@@ -67,8 +66,8 @@ theorem bitS_eq (hn : n ≤ 16) (σ : Perm (Fin n)) (i : Fin n) :
     (Bool.rec (motive := fun _ => ℕ) 1 0 (Nat.beq (rd (enc σ) i) i) : ℕ) =
       if σ i ≠ i then 1 else 0 := by
   by_cases h : σ i = i
-  · rw [if_neg (not_not.2 h), (beq_rd_iff hn σ i).2 h]
-  · rw [if_pos h, Bool.eq_false_iff.2 fun e => h ((beq_rd_iff hn σ i).1 e)]
+  · rw [ite_eq_right (not_not.2 h), (beq_rd_iff hn σ i).2 h]
+  · rw [ite_eq_left h, Bool.eq_false_iff.2 fun e => h ((beq_rd_iff hn σ i).1 e)]
 
 theorem card_support_eq_supK (hn : n ≤ 16) (σ : Perm (Fin n)) :
     σ.support.card = supK n (enc σ) := by

@@ -23,7 +23,7 @@ theorem nonempty_mulEquiv_alt5_of_inverted_card {G : Type} [Group G] [Finite G] 
     have hp7 : 7 ≤ p := by
       have hpne6 : p ≠ 6 := fun h6 => by rw [h6] at hp; norm_num at hp
       omega
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨P⟩ : Nonempty (Sylow p G) := inferInstance
     obtain ⟨hab, hbound⟩ := sylow_abelian_and_index_bound hθ hS (le_of_lt hlt) P
     exact false_of_sylow_index_bound hnab hp7 hpG P hab hbound
@@ -46,12 +46,12 @@ theorem nonempty_mulEquiv_alt5_of_inverted_card {G : Type} [Group G] [Finite G] 
     have hcard : (Nat.card G).primeFactors.card ≤ 2 := by
       calc (Nat.card G).primeFactors.card ≤ ({2, 3} : Finset ℕ).card := Finset.card_le_card hsub
         _ = 2 := by decide
-    haveI : Group.IsSolvable G :=
+    have : Group.IsSolvable G :=
       CFSG.LocalAnalysis.ComponentInitial.isSolvable_of_card_primeFactors_le_two hcard
     have hcomm : ∀ a b : G, a * b = b * a := IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance
     obtain ⟨a, b, hab⟩ := hnab
     exact hab (hcomm a b)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨P⟩ : Nonempty (Sylow 5 G) := inferInstance
   obtain ⟨hab, hbound⟩ := sylow_abelian_and_index_bound hθ hS (le_refl 5) P
   exact CFSG.LargeExtraspecial.S12Tri.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty

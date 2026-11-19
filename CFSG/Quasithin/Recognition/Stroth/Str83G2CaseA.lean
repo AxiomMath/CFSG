@@ -29,7 +29,7 @@ theorem cartan_fixed_point_free_of_bender
   have hxd : x * d = d * x := by
     calc x * d = (d * x * d⁻¹) * d := by rw [hcomm]
       _ = d * x := by group
-  exact hc.eq_one_of_commute_cartan Q.isPGroup' (by rwa [← hcart] at hd) hd1 hx hxd
+  exact hc.eq_one_of_commute_cartan Q.isPGroup (by rwa [← hcart] at hd) hd1 hx hxd
 
 structure Str83CaseAFrame (L1 L2 S : Subgroup G) (a : ℕ) : Type where
   hF : F112HypW L1 L2 S
@@ -394,6 +394,7 @@ theorem fixed_point_free_of_bender_quotient
   rw [hQ]
   exact (F1.mem_pCore_iff_coe _).mp hxQ
 
+omit [Finite G] in
 theorem normalizer_inf_eq_borel_sup_q1
     (F : Str83CaseAFrame L1 L2 S a) (H : Subgroup G) (hH : H = L1 ⊔ S) :
     H ⊓ Subgroup.normalizer (S : Set G) = borelOf L1 S ⊔ Q1 L1 L2 S := by
@@ -694,7 +695,7 @@ theorem str83_caseA_D2_ne_bot
   have hcard_gt : 1 < Nat.card ↥(cartan (Qsyl : Subgroup K) t) := by
     rw [hcard]
     omega
-  haveI : Fintype ↥(cartan (Qsyl : Subgroup K) t) := Fintype.ofFinite _
+  have : Fintype ↥(cartan (Qsyl : Subgroup K) t) := Fintype.ofFinite _
   obtain ⟨ybar, hybar1⟩ := Fintype.exists_ne_of_one_lt_card
     (by simpa [Nat.card_eq_fintype_card] using hcard_gt)
     (1 : ↥(cartan (Qsyl : Subgroup K) t))

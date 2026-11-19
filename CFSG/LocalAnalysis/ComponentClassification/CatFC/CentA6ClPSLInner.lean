@@ -24,12 +24,14 @@ section Inner
 
 variable {n : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem eq_one_of_scalar_eq_one {s : ℕ} (hs : 1 ≤ s) {c : Kˣ}
     (h : GeneralLinearGroup.scalar (Fin s) c = 1) : c = 1 := by
   have h1 := congrArg (fun M : GL (Fin s) K => (M : Matrix (Fin s) (Fin s) K) ⟨0, hs⟩ ⟨0, hs⟩) h
   apply Units.ext
   simpa using h1
 
+omit [Finite K] in
 theorem fixed_of_centralizer {Q : Type} [Group Q] (hQ : commutator Q = ⊤) (A : GL (Fin n) K)
     (χ : Q →* Subgroup.centralizer ({A} : Set (GL (Fin n) K))) (g : Q) :
     let ψ := slHomOfPerfect hQ ((Subgroup.centralizer ({A} : Set (GL (Fin n) K))).subtype.comp χ)
@@ -102,39 +104,39 @@ theorem isSolvable_of_card_le_two {Q : Type*} [Group Q] [Finite Q] (h : Nat.card
     Group.IsSolvable Q := by
   have hpos : 0 < Nat.card Q := Nat.card_pos
   rcases (by omega : Nat.card Q = 1 ∨ Nat.card Q = 2) with h1 | h2
-  · haveI : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp h1).1
-    exact isSolvable_of_comm fun a b => Subsingleton.elim _ _
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := isCyclic_of_prime_card h2
-    exact isSolvable_of_comm fun a b => (IsCyclic.commGroup (α := Q)).mul_comm a b
+  · have : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp h1).1
+    exact _root_.Group.isSolvable_of_comm fun a b => Subsingleton.elim _ _
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := isCyclic_of_prime_card h2
+    exact _root_.Group.isSolvable_of_comm fun a b => (IsCyclic.commGroup (α := Q)).mul_comm a b
 
 theorem isSolvable_fixed_of_comm (hn : 1 ≤ n) (A : GL (Fin n) K)
     (hsq : Matrix.ProjGenLinGroup.mk A ^ 2 = 1)
     (hcomm : ∀ x y : Subgroup.centralizer ({A} : Set (GL (Fin n) K)), x * y = y * x) :
     Group.IsSolvable ↥(fixedSubgroup (innerDiagonalAction n K A)) := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   set R := (ordinaryCentralizerProjection A).range with hR
-  haveI : R.Normal := ordinaryCentralizerProjection_range_normal A
+  have : R.Normal := ordinaryCentralizerProjection_range_normal A
   have hRsolv : Group.IsSolvable R := by
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer ({A} : Set (GL (Fin n) K))) :=
-      isSolvable_of_comm hcomm
-    exact solvable_of_surjective (ordinaryCentralizerProjection A).rangeRestrict_surjective
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin n) K) :=
+    have : Group.IsSolvable ↥(Subgroup.centralizer ({A} : Set (GL (Fin n) K))) :=
+      _root_.Group.isSolvable_of_comm hcomm
+    exact Group.isSolvable_of_surjective (ordinaryCentralizerProjection A).rangeRestrict_surjective
+  have : Finite (Matrix.ProjGenLinGroup (Fin n) K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
   have hQsolv : Group.IsSolvable (↥(Subgroup.centralizer ({Matrix.ProjGenLinGroup.mk A} :
       Set (Matrix.ProjGenLinGroup (Fin n) K))) ⧸ R) :=
     isSolvable_of_card_le_two (by
       have := ordinaryCentralizerProjection_range_index_le_two A hsq
       rwa [← hR, Subgroup.index] at this)
-  haveI hZsolv : Group.IsSolvable ↥(Subgroup.centralizer ({Matrix.ProjGenLinGroup.mk A} :
+  have hZsolv : Group.IsSolvable ↥(Subgroup.centralizer ({Matrix.ProjGenLinGroup.mk A} :
       Set (Matrix.ProjGenLinGroup (Fin n) K))) :=
-    solvable_of_ker_le_range R.subtype (QuotientGroup.mk' R)
+    Group.isSolvable_of_ker_le_range R.subtype (QuotientGroup.mk' R)
       (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
   let ι : ↥(fixedSubgroup (innerDiagonalAction n K A)) →*
       ↥(Subgroup.centralizer ({Matrix.ProjGenLinGroup.mk A} :
         Set (Matrix.ProjGenLinGroup (Fin n) K))) :=
     (Subgroup.subtype _).comp (innerFixedCentralizerEquiv n K A).toMonoidHom
-  exact solvable_of_solvable_injective (f := ι)
+  exact Group.isSolvable_of_isSolvable_injective (f := ι)
     ((Subgroup.subtype_injective _).comp (innerFixedCentralizerEquiv n K A).injective)
 
 theorem factor_cases {t : ℕ} (ht : 1 ≤ t) (hq : Nat.card K = 3 ∨ 9 ≤ Nat.card K)
@@ -149,7 +151,7 @@ theorem factor_cases {t : ℕ} (ht : 1 ≤ t) (hq : Nat.card K = 3 ∨ 9 ≤ Nat
     rcases hq with h3 | h9
     · exact Or.inr ⟨rfl, h3⟩
     · exfalso
-      haveI := CatalogueBGeneralLinear.specialLinear_perfect 2 K le_rfl (Or.inr (by omega))
+      have := CatalogueBGeneralLinear.specialLinear_perfect 2 K le_rfl (Or.inr (by omega))
         (Or.inr (by omega))
       have h1 := hb Group.IsPerfect.commutator_eq_top
       rw [card_SL_two] at h1
@@ -158,7 +160,7 @@ theorem factor_cases {t : ℕ} (ht : 1 ≤ t) (hq : Nat.card K = 3 ∨ 9 ≤ Nat
       omega
   · exfalso
     have ht3 : 3 ≤ t := by omega
-    haveI := CatalogueBGeneralLinear.specialLinear_perfect t K (by omega) (Or.inl (by omega))
+    have := CatalogueBGeneralLinear.specialLinear_perfect t K (by omega) (Or.inl (by omega))
       (Or.inl (by omega))
     have h1 := hb Group.IsPerfect.commutator_eq_top
     have h2 := lt_card_SL_of_three_le ht3 hq3
@@ -236,7 +238,7 @@ theorem a6_psl_inner_quad_main {f : ℕ} (hK : Nat.card K = 3 ^ f) (hf : 1 ≤ f
     exact hD.not_solvable (isSolvable_fixed_of_comm (by omega) A hsq fun x y =>
       e.injective (by rw [map_mul, map_mul]; exact gl_one_comm _ _))
   · have hperf : commutator (SpecialLinearGroup (Fin m) E) = ⊤ := by
-      haveI := CatalogueBGeneralLinear.specialLinear_perfect m E hge
+      have := CatalogueBGeneralLinear.specialLinear_perfect m E hge
         (Or.inr (by omega)) (Or.inr (by omega))
       exact Group.IsPerfect.commutator_eq_top
     have hb := a6_psl_inner_quad hD (by omega) e hperf
@@ -299,9 +301,9 @@ theorem a6_psl_inner (hO : LieOrderFormulasInput) {n f : ℕ} {K : Type} [Field 
       CatalogueBProjectiveInvolution.square_projective_centralizer_structure n hn A c h2 hmk hc
         hsquare
     exact a6_psl_inner_split hO hK hf hadm hm hmk2 hσ hD hr hs hrs e hsc
-  · letI : Fact (¬ IsSquare c.val) := ⟨hsquare⟩
-    haveI : Finite (extension c.val) := Module.finite_of_finite K
-    haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  · let : Fact (¬ IsSquare c.val) := ⟨hsquare⟩
+    have : Finite (extension c.val) := Module.finite_of_finite K
+    have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
     have hEcard : Nat.card (extension c.val) = Nat.card K ^ 2 := by
       let _ : Fintype K := Fintype.ofFinite K
       let _ : Fintype (extension c.val) := Fintype.ofFinite _

@@ -199,7 +199,7 @@ theorem gLoop_trunc (hkeyL : ∀ a < L.size, ∀ b < L.size, key L[a]! = key L[b
         rw [hrow] at hr
         obtain ⟨hc', hs, hle, hp'⟩ := gFold_trunc hkeyL hT
           (hE i le_rfl (by omega)) hc hp hlt ngen le_rfl m' hrow
-        rw [gLoop, if_pos hlt]
+        rw [gLoop, ite_eq_left hlt]
         have e : gStep act ngen key i (pts, par, lab, idx) =
             (List.range ngen).foldl (gF act key i) (pts, par, lab, idx, #[]) := rfl
         rw [e]

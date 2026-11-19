@@ -68,7 +68,7 @@ theorem no_cyclic_irreducible_normal_of_semilinear_rank
       intro h
       exact absurd (h.trans hKcCard63) (by norm_num)
     have hKcFac : (Nat.card Kc).factorization 7 = 1 := by
-      haveI : Nonempty Kc := ⟨1⟩
+      have : Nonempty Kc := ⟨1⟩
       have hne : Nat.card Kc ≠ 0 := (Nat.card_pos (α := Kc)).ne'
       have hpos : 0 < (Nat.card Kc).factorization 7 :=
         Nat.prime_seven.factorization_pos_of_dvd hne h7Kc
@@ -80,20 +80,20 @@ theorem no_cyclic_irreducible_normal_of_semilinear_rank
         exact h49Kc (by simpa [show (7 : ℕ) ^ 2 = 49 by norm_num] using hpow)
       omega
     let S : Sylow 7 Kc := default
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-    haveI : Finite Kc := Subtype.finite
-    haveI : IsCyclic Kc := hKcCyclic
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Finite Kc := Subtype.finite
+    have : IsCyclic Kc := hKcCyclic
     have hScard : Nat.card (S : Subgroup Kc) = 7 := by
       rw [S.card_eq_multiplicity, hKcFac, pow_one]
     have hSnorm : (S : Subgroup Kc).Normal := Subgroup.normal_of_isMulCommutative _
     have hSchar : (S : Subgroup Kc).Characteristic :=
       Sylow.characteristic_of_normal S hSnorm
-    haveI : Kc.Normal := hKcNormal
-    haveI : (S : Subgroup Kc).Characteristic := hSchar
+    have : Kc.Normal := hKcNormal
+    have : (S : Subgroup Kc).Characteristic := hSchar
     have hQnorm : ((S : Subgroup Kc).map Kc.subtype).Normal :=
       ConjAct.normal_of_characteristic_of_normal
     have hQp : IsPGroup 7 ((S : Subgroup Kc).map Kc.subtype) :=
-      S.isPGroup'.map Kc.subtype
+      S.isPGroup.map Kc.subtype
     have hQcard : Nat.card ((S : Subgroup Kc).map Kc.subtype) = 7 := by
       rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective Kc)]
       exact hScard
@@ -106,7 +106,7 @@ theorem no_cyclic_irreducible_normal_of_semilinear_rank
         Subgroup.card_dvd_of_le hle
       rwa [hQcard] at hcdvd
     have hPcard : Nat.card (CFSG.pCore 7 tau.range) = 7 := by
-      haveI : Finite (CFSG.pCore 7 tau.range) := Subtype.finite
+      have : Finite (CFSG.pCore 7 tau.range) := Subtype.finite
       obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 7) (G := tau.range)).exists_card_eq
       have h7pow : 7 ∣ 7 ^ k := by
         rwa [hk] at h7pCore
@@ -135,7 +135,7 @@ theorem no_cyclic_irreducible_normal_of_semilinear_rank
     set U : Subgroup (GL (Fin 3) K) := (CFSG.pCore 7 tau.range).map tau.range.subtype with hUdef
     have hUcard : Nat.card U = 7 := by
       rw [hUdef, Subgroup.card_map_of_injective (Subgroup.subtype_injective tau.range), hPcard]
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     have hUcyc : IsCyclic U := isCyclic_of_prime_card (p := 7) hUcard
     obtain ⟨u, hu⟩ := (isCyclic_iff_exists_zpowers_eq_top (α := U)).mp hUcyc
     have huord : orderOf (u : GL (Fin 3) K) = 7 := by
@@ -196,7 +196,7 @@ theorem no_cyclic_irreducible_normal_of_semilinear_rank
           rw [hcomapTop]
           exact Subgroup.mem_top j
         exact hm
-      haveI : IsCyclic (Subgroup.centralizer (U : Set (GL (Fin 3) K))) := by
+      have : IsCyclic (Subgroup.centralizer (U : Set (GL (Fin 3) K))) := by
         have hsub : IsCyclic ((Subgroup.centralizer (U : Set (GL (Fin 3) K))).subgroupOf
             (⊤ : Subgroup (GL (Fin 3) K))) :=
           isCyclic_cyclicCentralizer_subgroupOf
@@ -206,7 +206,7 @@ theorem no_cyclic_irreducible_normal_of_semilinear_rank
       have hcycRange : IsCyclic tau.range :=
         isCyclic_of_injective (Subgroup.inclusion hrangeLe)
           (Subgroup.inclusion_injective hrangeLe)
-      haveI : IsCyclic tau.range := hcycRange
+      have : IsCyclic tau.range := hcycRange
       have hcycJ : IsCyclic (linearKernel rho) :=
         (MonoidHom.ofInjective htau_inj).isCyclic.mpr hcycRange
       have hcycTop : IsCyclic (⊤ : Subgroup (linearKernel rho)) :=
@@ -220,9 +220,9 @@ theorem no_cyclic_irreducible_normal_of_semilinear_rank
       have h3dvd : 3 ∣ Nat.card δA.range := by
         have h := Subgroup.card_dvd_of_le hrangeLe
         rwa [hδJthree] at h
-      haveI : IsCyclic (RingAut (commutant U)) :=
+      have : IsCyclic (RingAut (commutant U)) :=
         (card_ringAut_commutant_eq_six_and_isCyclic hK hUcyc hUirr).2
-      haveI : IsCyclic δA.range := inferInstance
+      have : IsCyclic δA.range := inferInstance
       exact (CFSG.not_dvd_card_range_of_no_normal_index δA (by norm_num) hno) h3dvd
   ·
     have hcop : Nat.Coprime (Nat.card tau.range) 7 :=
@@ -245,7 +245,7 @@ theorem no_cyclic_irreducible_normal_of_semilinear_rank
       have hcycRange : IsCyclic tau.range :=
         (cyclic_of_irreducible_of_commute (K := K) (n := 3) Nat.prime_three
           (G := tau.range) hirr hcommRange).1
-      haveI : IsCyclic tau.range := hcycRange
+      have : IsCyclic tau.range := hcycRange
       have hcycJ : IsCyclic (linearKernel rho) :=
         (MonoidHom.ofInjective htau_inj).isCyclic.mpr hcycRange
       have hcycTop : IsCyclic (⊤ : Subgroup (linearKernel rho)) :=

@@ -25,7 +25,7 @@ theorem prod_mem_roundL (gens : List (Equiv.Perm (Fin n))) :
     ∀ l : List (Equiv.Perm (Fin n)), (∀ s ∈ l, s ∈ gens) → l.prod ∈ roundL gens l.length := by
   intro l
   induction l using List.reverseRecOn with
-  | nil => intro _; simpa [roundL]
+  | nil => intro _; simp [roundL]
   | append_singleton l s ih =>
     intro hl
     rw [List.prod_append, List.prod_singleton, List.length_append, List.length_singleton,

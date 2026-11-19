@@ -215,7 +215,7 @@ theorem isSolvable_primeCore_of_data (hKP : KPSz) (hS : Setting G)
   have hTsyl : ¬ 2 ∣ ((T.subgroupOf M).subgroupOf (primeComplementCore (G := M) 3)).index := by
     rw [stepA_index_subgroupOf]
     exact hd.sylowTwo.index_odd
-  exact stepA_false (M := M) hRD hD3 hND hN3 hr hSF hSz P.isPGroup'.comap_subtype hTD
+  exact stepA_false (M := M) hRD hD3 hND hN3 hr hSF hSz P.isPGroup.comap_subtype hTD
     hd.sylowTwo.isPGroup.comap_subtype hTsyl (stepA_le_normalizer hTM hd.sylowTwo.normalized)
     (x := ⟨x, hPM hd.point.mem⟩) (z := ⟨z, hPM hd.central.mem⟩) (g := ⟨g, hPM hd.g_mem⟩)
     hd.point.mem hd.central.mem (Subtype.ext hd.point.pow_eq_one)

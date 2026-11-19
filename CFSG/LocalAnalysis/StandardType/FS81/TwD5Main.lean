@@ -233,7 +233,7 @@ private theorem sign_eq_of_spMat_eq6 {σ τ : Equiv.Perm (Fin 6)} {s t : Fin 6 �
   subst hστ
   funext j
   have e := congrFun (congrFun h (σ j)) j
-  rwa [spMat_apply, spMat_apply, if_pos rfl, if_pos rfl] at e
+  rwa [spMat_apply, spMat_apply, ite_eq_left rfl, ite_eq_left rfl] at e
 
 theorem card_stab_evenAll0 {Xg : Subgroup (GL (Fin 6) (ZMod 3))}
     (hS : StabMatHyp 5 (evenAll0 5) Xg) :
@@ -400,7 +400,7 @@ private theorem card_of_stabMatHyp {Xg : Subgroup (GL (Fin 6) (ZMod 3))}
   have h2 : MulAction.orbit ↥Xg (Pi.single 0 1 : Fin 6 → ZMod 3) =
       {v | IsOrbitE0 5 Xg v} := by
     ext v
-    simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq, IsOrbitE0, Subgroup.smul_def,
+    simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq, IsOrbitE0, Subgroup.smul_def,
       Units.smul_def, Matrix.smul_eq_mulVec]
     constructor
     · rintro ⟨⟨A, hA⟩, rfl⟩

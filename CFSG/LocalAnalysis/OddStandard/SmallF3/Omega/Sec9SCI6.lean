@@ -14,6 +14,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9ci_irred_F (h6 : Module.finrank (ZMod 3) V = 6) {n : ℕ}
     {b : Module.Basis (Fin n) (ZMod 3) V} {F : Subgroup (ProjSim Q)}
     (hb : IsEvenFrame b (F.comap (phiSim Q)))
@@ -89,7 +90,7 @@ theorem sec9ci_irred_F (h6 : Module.finrank (ZMod 3) V = 6) {n : ℕ}
   right
   have hex : ∃ f' ∈ F', f' ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hbot ((Subgroup.eq_bot_iff_forall F').mpr hcon)
   obtain ⟨f', hf'F', hf'1⟩ := hex
   obtain ⟨t, S, htf, hSe, hSd⟩ := hpre f' (hF'F hf'F')

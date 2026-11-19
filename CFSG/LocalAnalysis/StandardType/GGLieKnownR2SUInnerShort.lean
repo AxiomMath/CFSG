@@ -132,7 +132,7 @@ private theorem l10su2_phi_eigen {F : Type} [Field F] [Finite F] [CharP F 2] {f 
       Short.pCoreOf_normalizer_suPair_le_suStabRad hfr hr
     rw [Short.suStabRad] at hrR
     exact (CFSG.QuasithinUnique.B113Lie.Sp.mem_rad.mp hrR).1 x hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ζu, hζu⟩ :=
     CFSG.SeitzReduction.SymplecticPilot.exists_scalar_of_mem_center_SU
       (p := 2) hF (by omega) hnq hz
@@ -207,7 +207,7 @@ private theorem l10su2_phi_eigen {F : Type} [Field F] [Finite F] [CharP F 2] {f 
       have hi := congrFun h2 i
       simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply] at hi
       have h4 := congrArg φ.symm hi
-      simp only [map_add, map_mul, map_zero, RingEquiv.apply_symm_apply] at h4
+      simp only [map_add, map_mul, map_zero] at h4
       simpa [Pi.add_apply, Pi.smul_apply, smul_eq_mul] using h4
     obtain ⟨ha, hb⟩ := hvwind (φ.symm a) (φ.symm b) h3
     exact ⟨by simpa using congrArg φ ha, by simpa using congrArg φ hb⟩
@@ -335,7 +335,7 @@ private theorem l10su2_phi_eigen {F : Type} [Field F] [Finite F] [CharP F 2] {f 
       rw [← hαβ, ← hα'β']
       simp only [smul_add, smul_smul]
       rw [mul_comm α' α, h2, h1]
-      simp only [zero_smul, zero_add, add_zero]
+      simp only [zero_smul, add_zero]
       rw [← add_smul, CharTwo.add_self_eq_zero, zero_smul]
     obtain ⟨hβ'0, hβ0⟩ := hind β' β hcomb1
     obtain ⟨hα'0, hα0⟩ := hind α' α hcomb2
@@ -387,7 +387,7 @@ private theorem l10su2_phi_trivial {F : Type} [Field F] [Finite F] [CharP F 2] {
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hord : orderOf g = Nat.card Fˣ := orderOf_eq_card_of_forall_mem_zpowers hg
   have hcard : Nat.card Fˣ = (2 ^ f) ^ 2 - 1 := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hF]
   set q := 2 ^ f with hq
   have hq4 : 4 ≤ q := by

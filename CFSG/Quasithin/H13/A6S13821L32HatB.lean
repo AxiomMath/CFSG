@@ -45,6 +45,7 @@ theorem centralizer_inf_K_le {H K : Subgroup G} (hK : K ∈ cComp H)
     exact Subgroup.mem_bot.mp this
   exact (hker kn).mp hkn1
 
+omit [Finite G] in
 theorem mul_decomp_of_sup {K M : Subgroup G} (hM : M ≤ Subgroup.normalizer (K : Set G)) :
     ∀ x ∈ K ⊔ M, ∃ k ∈ K, ∃ m ∈ M, x = k * m := by
   let D : Subgroup G :=
@@ -88,7 +89,7 @@ theorem R_le_K_mul_Q {S : Setting4 G T L V}
   have hNnorm' : ((centralizerMod (pCoreOf 2 K) H K).subgroupOf H).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNnorm
   have hNH : centralizerMod (pCoreOf 2 K) H K ≤ H := centralizerMod_le_left _ _ _
-  haveI hKH' : (K.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKn
+  have hKH' : (K.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKn
   set φ : ↥H →* ↥H ⧸ K.subgroupOf H := QuotientGroup.mk' (K.subgroupOf H) with hφ
   have hφK : ∀ k : ↥H, (k : G) ∈ K → φ k = 1 := fun k hk => by
     rw [hφ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -118,9 +119,9 @@ theorem R_le_K_mul_Q {S : Setting4 G T L V}
       simpa using this
     rw [hφh, ← map_inv, ← map_mul, ← map_mul]
     exact Subgroup.mem_map_of_mem φ hmem
-  haveI hRbn : Rb.Normal := ⟨fun y hy g => hRb_norm g y hy⟩
+  have hRbn : Rb.Normal := ⟨fun y hy g => hRb_norm g y hy⟩
   set Ntil : Subgroup ↥H := ((centralizerMod (pCoreOf 2 K) H K).subgroupOf H) ⊓ Rb.comap φ with hNt
-  haveI hNtn : Ntil.Normal := by
+  have hNtn : Ntil.Normal := by
     rw [hNt]
     infer_instance
   have hNt2 : IsPGroup 2 ↥Ntil := by
@@ -172,7 +173,7 @@ theorem R_le_K_mul_Q {S : Setting4 G T L V}
   exact Subgroup.mem_map.mpr ⟨⟨n, hnH⟩, hmem, rfl⟩
 
 theorem image_is_parabolic {H K M T : Subgroup G} (hK : K ∈ cComp H)
-    {π : ↥K →* SL3.S} (hπ : Function.Surjective π)
+    {π : ↥K →* SL3.S} (_hπ : Function.Surjective π)
     (hker : ∀ k : ↥K, π k = 1 ↔ (k : G) ∈ pCoreOf 2 K)
     (hD : (T.subgroupOf K).map π = SL3.P0) (hMK : M ≤ K) (hsolv : Group.IsSolvable ↥M)
     (hTM : ∀ t ∈ T, t ∈ K → t ∈ M) {c : G} (hcK : c ∈ K) (hcM : c ∈ M) (hc3 : c ^ 3 = 1)
@@ -200,12 +201,12 @@ theorem image_is_parabolic {H K M T : Subgroup G} (hK : K ∈ cComp H)
       have e : k = (m : G) * ((m⁻¹ * ⟨k, hk⟩ : ↥K) : G) := by simp
       rw [e]
       exact Subgroup.mul_mem_sup (Subgroup.mem_subgroupOf.mp hm) h2
-    haveI hNs : Group.IsSolvable ↥(pCoreOf 2 K) := by
-      haveI := IsPGroup.isNilpotent (pCoreOf_isPGroup 2 K)
+    have hNs : Group.IsSolvable ↥(pCoreOf 2 K) := by
+      have := IsPGroup.isNilpotent (pCoreOf_isPGroup 2 K)
       infer_instance
     have hMN : M ≤ Subgroup.normalizer ((pCoreOf 2 K : Subgroup G) : Set G) :=
       hMK.trans (Subgroup.le_normalizer.trans (normalizer_le_normalizer_pCoreOf 2 K))
-    haveI hsup : Group.IsSolvable ↥(pCoreOf 2 K ⊔ M) :=
+    have hsup : Group.IsSolvable ↥(pCoreOf 2 K ⊔ M) :=
       CFSG.Quasithin.C126.isSolvable_sup_of_le_normalizer' hMN hNs hsolv
     have hKsolv : Group.IsSolvable ↥K := by
       have hKs' : K ≤ pCoreOf 2 K ⊔ M := by
@@ -357,10 +358,10 @@ theorem relIndex_le_four {S : Setting4 G T L V}
     rw [← hker_F, Subgroup.index_ker]
   show (Q.subgroupOf R).index ≤ 4
   rw [hidx]
-  haveI hQsolv : Group.IsSolvable ↥Q := by
-    haveI := IsPGroup.isNilpotent hQ2
+  have hQsolv : Group.IsSolvable ↥Q := by
+    have := IsPGroup.isNilpotent hQ2
     infer_instance
-  haveI hLsolv : Group.IsSolvable ↥(S.L1 ⊔ T) := S.isSolvable_L1T h1334 hS
+  have hLsolv : Group.IsSolvable ↥(S.L1 ⊔ T) := S.isSolvable_L1T h1334 hS
   set A : Subgroup G := (S.L1 ⊔ T) ⊔ Q with hAdef
   have hAsolv : Group.IsSolvable ↥A := by
     have hTN : S.L1 ⊔ T ≤ Subgroup.normalizer (Q : Set G) := hL1H.trans hHNQ
@@ -381,7 +382,7 @@ theorem relIndex_le_four {S : Setting4 G T L V}
     have hk' : c ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     exact hc1 (eq_one_of_pow_three_pow_two hc3 hk')
   have hPA : (((K ⊓ A).subgroupOf K).map π) = SL3.X1 ∨ (((K ⊓ A).subgroupOf K).map π) = SL3.X2 := by
-    haveI : Group.IsSolvable ↥(K ⊓ A) :=
+    have : Group.IsSolvable ↥(K ⊓ A) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion (inf_le_right : K ⊓ A ≤ A))
         (Subgroup.inclusion_injective _)
     exact image_is_parabolic hK hπ hker hD inf_le_left inferInstance
@@ -389,7 +390,7 @@ theorem relIndex_le_four {S : Setting4 G T L V}
       (Subgroup.mem_inf.mpr ⟨hcK, hA_L1 c (S.l0_le_L1 hcl0)⟩) hc3 hcOK
   have hPL : (((K ⊓ (S.L1 ⊔ T)).subgroupOf K).map π) = SL3.X1 ∨
       (((K ⊓ (S.L1 ⊔ T)).subgroupOf K).map π) = SL3.X2 := by
-    haveI : Group.IsSolvable ↥(K ⊓ (S.L1 ⊔ T)) :=
+    have : Group.IsSolvable ↥(K ⊓ (S.L1 ⊔ T)) :=
       Group.isSolvable_of_isSolvable_injective
         (f := Subgroup.inclusion (inf_le_right : K ⊓ (S.L1 ⊔ T) ≤ S.L1 ⊔ T))
         (Subgroup.inclusion_injective _)

@@ -65,7 +65,7 @@ theorem a2l_finite_spinPlus [Finite F] (n : ℕ) [NeZero n] : Finite (spinGroup 
 
 theorem a2l_card_center_spinPlus_le_four [Finite F] :
     Nat.card (center (spinGroup (quadPlus 4 F))) ≤ 4 := by
-  haveI := a2l_finite_spinPlus F 4
+  have := a2l_finite_spinPlus F 4
   obtain ⟨-, hcomap, hcen⟩ := spinToStatedProj_quadPlus (n := 4) (K := F) (by norm_num)
   rw [← hcen, hcomap]
   exact card_comap_statedScalars_le_four (coe_quadPlus 4 F)
@@ -96,7 +96,7 @@ theorem a2l_nonempty_equiv_elementary [Finite F] {K : Type} [Group K]
     (hle : (spinMatrix (quadPlus 4 F)).ker ≤ α.ker) (hcard : Nat.card α.ker ≤ 2)
     (hne : (spinMatrix (quadPlus 4 F)).ker ≠ ⊥) :
     Nonempty (K ≃* ↥(elementaryGroup (quadPlus 4 F))) := by
-  haveI := a2l_finite_spinPlus F 4
+  have := a2l_finite_spinPlus F 4
   have h2 : 2 ≤ Nat.card (spinMatrix (quadPlus 4 F)).ker := by
     have := (Subgroup.one_lt_card_iff_ne_bot _).2 hne
     omega
@@ -124,7 +124,7 @@ theorem a2l_exists_spinPlus_sl2
   refine ⟨E, inferInstance, inferInstance, (a2lMinusToPlus F).spinGroupMap.comp Θ, ?_,
     (a2l_spinGroupMap_minusToPlus_injective F h2F hirr).comp hΘinj,
     a2l_coe_spinGroupMap_eq_neg_one _ hΘneg⟩
-  rw [hEc, h3] <;> norm_num
+  rw [hEc, h3]; norm_num
 
 theorem a2l_exists_sl2_elementary_plus {F : Type} [Field F] [Fintype F]
     (hF3 : Fintype.card F = 3) :
@@ -132,7 +132,7 @@ theorem a2l_exists_sl2_elementary_plus {F : Type} [Field F] [Fintype F]
       (φ : SL(2, E) →* ↥(elementaryGroup (quadPlus 4 F))),
       Fintype.card E = 9 ∧ Function.Injective φ ∧
         φ (a2lNegOne E) ∈ center ↥(elementaryGroup (quadPlus 4 F)) := by
-  haveI := Fintype.ofFinite (GaloisField 3 2)
+  have := Fintype.ofFinite (GaloisField 3 2)
   have hF9 : Fintype.card (GaloisField 3 2) = 9 := by
     rw [← Nat.card_eq_fintype_card, CFSG.RankThree.PartTwo.Census.card_galoisField_three_two]
   refine ⟨GaloisField 3 2, inferInstance, inferInstance,

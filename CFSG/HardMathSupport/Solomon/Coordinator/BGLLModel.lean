@@ -75,6 +75,7 @@ section Normal
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem bgll_range_normal {k : Subfield F} {σ : F ≃+* F} (hk : ∀ x, x ∈ k ↔ σ x = x) :
     ((linearSubfieldInclusion 3 k).range.subgroupOf (fixSubgroup (fieldAut 3 F σ))).Normal := by
   refine ⟨fun a ha y => ?_⟩

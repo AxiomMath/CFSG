@@ -51,7 +51,7 @@ private theorem spEmbed_lam {m n : ℕ} {σ : Fin m → Fin n} (hσ : Function.I
   exact (lam_eq_longBlock' (σ i) g).symm
 
 private noncomputable def piExtend {M : Type*} [CommMonoid M] {m n : ℕ}
-    (σ : Fin m → Fin n) (hσ : Function.Injective σ) :
+    (σ : Fin m → Fin n) (_hσ : Function.Injective σ) :
     (Fin m → M) →* (Fin n → M) where
   toFun w i := if h : ∃ l, σ l = i then w (Classical.choose h) else 1
   map_one' := by
@@ -74,13 +74,13 @@ private theorem piExtend_mulSingle {M : Type*} [CommMonoid M] {m n : ℕ}
     · have hch : Classical.choose h = l := by
         apply hσ
         rw [Classical.choose_spec h, hi]
-      rw [if_pos hch, Pi.mulSingle_apply, if_pos hi]
+      rw [ite_eq_left hch, Pi.mulSingle_apply, ite_eq_left hi]
     · have hch : Classical.choose h ≠ l := by
         intro h'
         apply hi
         rw [← Classical.choose_spec h, h']
-      rw [if_neg hch, Pi.mulSingle_apply, if_neg (fun h' => hi h')]
-  · rw [Pi.mulSingle_apply, if_neg]
+      rw [ite_eq_right hch, Pi.mulSingle_apply, ite_eq_right (fun h' => hi h')]
+  · rw [Pi.mulSingle_apply, ite_eq_right]
     exact fun h' => h ⟨l, h'.symm⟩
 
 private theorem spPlaneTorus_piExtend {p m n : ℕ}
@@ -403,7 +403,7 @@ private theorem coe_mem_ggBsCoordZeroOn {p n : ℕ} {Bs : Subgroup G}
   mem_ggBsCoordZeroOn.trans ⟨fun ⟨_, h⟩ => h, fun h => ⟨b.2, h⟩⟩
 
 private theorem ggSecFiveBPermZeta_eta_y_eq_one [Finite G] {p n r : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2]
+    (_hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2]
     {Bs K : Subgroup G} {y : G}
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {ι : Fin (r + 1) → Fin n} {κ : StatedSp (r + 1) F →* G}
@@ -444,11 +444,11 @@ private theorem ggSecFiveBPermZeta_eta_y_eq_one [Finite G] {p n r : ℕ} [Fact p
   simpa [b] using this
 
 private theorem ggSecFiveBPermZeta_range_perfect [Finite G] {p n r k : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
+    (_hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
     {Bs K : Subgroup G} {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {ι : Fin (r + 1) → Fin n} {κ : StatedSp (r + 1) F →* G}
     {ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F}
-    (hκ : GGSpPlaneFrameOn Bs K eta ι κ ζ)
+    (_hκ : GGSpPlaneFrameOn Bs K eta ι κ ζ)
     (σ : Fin (k + 1) → Fin (r + 1)) (hσ : Function.Injective σ) :
     (κ.comp (spEmbed (K := F) σ hσ)).range =
       ⁅(κ.comp (spEmbed (K := F) σ hσ)).range,
@@ -500,7 +500,7 @@ private theorem ggSecFiveBPermZeta_coordTorus_eq_lam {p n r : ℕ}
 private theorem ggSecFiveBPermZeta_coordTorus_mem_H {p n r k : ℕ}
     {Bs : Subgroup G} {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {ι : Fin (r + 1) → Fin n} (hι : Function.Injective ι)
-    {ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F}
+    {_ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F}
     (σ : Fin (k + 1) → Fin (r + 1)) (i : Fin (r + 1))
     (hi : i ∉ Set.range σ) :
     let a : Multiplicative (ZMod p) := Multiplicative.ofAdd (1 : ZMod p)
@@ -533,7 +533,7 @@ private theorem ggSecFiveBPermZeta_commute_lam_coordTorus [Finite G] {p n r k : 
   have hbH : (b : G) ∈ ggBsCoordZeroOn Bs eta
       (Set.range fun l => ι (σ l)) :=
     ggSecFiveBPermZeta_coordTorus_mem_H (Bs := Bs) (eta := eta) (ι := ι)
-      (ζ := ζ) hκ.1 σ i hi
+      (_ζ := ζ) hκ.1 σ i hi
   have hsM : κ s ∈ K ⊓ Subgroup.centralizer
       (ggBsCoordZeroOn Bs eta (Set.range fun l => ι (σ l)) : Set G) := hs
   have hcomm : (b : G) * κ s = κ s * (b : G) :=
@@ -559,7 +559,7 @@ private theorem det_sub_one_eq_trace [CharP F 2] (M : Matrix (Fin 2) (Fin 2) F) 
   rw [Matrix.det_fin_two, Matrix.trace_fin_two]
   simp only [Matrix.sub_apply, Matrix.one_apply_eq,
     Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-    Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero, CharTwo.sub_eq_add, CharTwo.neg_eq]
+    Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), CharTwo.sub_eq_add]
   have hM' : M 0 0 * M 1 1 + M 0 1 * M 1 0 = 1 := by
     rw [Matrix.det_fin_two] at hM
     rw [CharTwo.sub_eq_add] at hM
@@ -623,15 +623,14 @@ private theorem eq_zero_pair_of_fixed_left [CharP F 2] {g : SpecialLinearGroup (
     rw [funext_iff, Fin.forall_fin_two]
     refine ⟨?_, ?_⟩
     · rw [Pi.zero_apply, Matrix.vecMul_apply_eq_sum, Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.sub_apply,
-        Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-        Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.sub_apply,
+        Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
       rw [CharTwo.sub_eq_add, mul_add, mul_one, add_right_comm, h₀]
       exact CharTwo.add_self_eq_zero _
     · rw [Pi.zero_apply, Matrix.vecMul_apply_eq_sum, Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.sub_apply,
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.sub_apply,
         Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-        Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
+        sub_zero]
       rw [CharTwo.sub_eq_add, mul_add, mul_one, ← add_assoc, h₁]
       exact CharTwo.add_self_eq_zero _
   have hzero := eq_zero_of_vecMul_sub_one_eq_zero htr hx
@@ -646,15 +645,14 @@ private theorem eq_zero_pair_of_fixed_right [CharP F 2] {g : SpecialLinearGroup 
     rw [funext_iff, Fin.forall_fin_two]
     refine ⟨?_, ?_⟩
     · rw [Pi.zero_apply, Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.sub_apply,
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.sub_apply,
         Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-        Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
+        sub_zero]
       rw [CharTwo.sub_eq_add, add_mul, one_mul, add_right_comm, ← h₀]
       exact CharTwo.add_self_eq_zero _
     · rw [Pi.zero_apply, Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.sub_apply,
-        Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-        Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.sub_apply,
+        Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
       rw [CharTwo.sub_eq_add, add_mul, one_mul, ← add_assoc, ← h₁]
       exact CharTwo.add_self_eq_zero _
   have hzero := eq_zero_of_mulVec_sub_one_eq_zero htr hy
@@ -695,7 +693,7 @@ private theorem cornerMat_det_eq_one {n : ℕ} {i : Fin (n + 1)} {u : StatedSp (
     (cornerMat u i).det = 1 := by
   have hUU := congrFun (congrFun (mat_transpose_mul_gram_mul u) (Sum.inl i)) (Sum.inr i)
   rw [transpose_mul_gram_mul_apply, CFSG.ClassicalInvolution.Models.SymplecticPairs.gram_apply,
-    par_inl, if_pos rfl, sgn_inl] at hUU
+    par_inl, ite_eq_left rfl, sgn_inl] at hUU
   rw [Fintype.sum_eq_add (Sum.inl i) (Sum.inr i) (by simp) (fun c hc => by
     rcases eq_plane_or_succAbove hc with ⟨j, rfl⟩ | ⟨j, rfl⟩
     · rw [(hu j (Sum.inl i) (Or.inl rfl)).1, zero_mul]
@@ -1125,7 +1123,7 @@ theorem GGSecFiveBPermSpPlaneFrame.commutator_inf_centralizer_eq_range [Finite G
   exact GGSpPlaneFrameOn.commutator_inf_centralizer_eq_range hp2 hF hκ.planeFrameOn σ hσ
 
 private theorem ggSecFiveBPermZeta_gen [Finite G] {p n r k : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
+    (_hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (_hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
     {Bs K : Subgroup G} {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {ι : Fin (r + 1) → Fin n} {κ : StatedSp (r + 1) F →* G}
     {ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F}
@@ -1145,7 +1143,7 @@ private theorem ggSecFiveBPermZeta_gen [Finite G] {p n r k : ℕ} [Fact p.Prime]
   have hvsupp : ∀ i, i ∉ Set.range σ → v i = 1 := by
     intro i hi
     dsimp only [v]
-    rw [dif_neg hi]
+    rw [dite_eq_right hi]
   have hmem : SpJoin.spPlaneTorus (r + 1) ζ v ∈
       (spEmbed (K := F) σ hσ).range :=
     spPlaneTorus_mem_range_spEmbed (ζ := ζ) hσ hvsupp
@@ -1163,7 +1161,7 @@ private theorem ggSecFiveBPermZeta_gen [Finite G] {p n r k : ℕ} [Fact p.Prime]
     GGSpPlaneFrameOn.zetaTorus_eta hκ hBs v (σ l)
   have hv : v (σ l) = eta b (ι (σ l)) := by
     dsimp only [v]
-    rw [dif_pos ⟨l, rfl⟩]
+    rw [dite_eq_left ⟨l, rfl⟩]
   calc eta ⟨(b : G) * w⁻¹, hhB⟩ (ι (σ l))
       = eta (b * ⟨w, hwB⟩⁻¹) (ι (σ l)) := by rw [hh_eq]
     _ = eta b (ι (σ l)) * (eta ⟨w, hwB⟩ (ι (σ l)))⁻¹ := by
@@ -1185,7 +1183,7 @@ private theorem normalizer_commutator_of_normalizer {A : Subgroup G} {c : G}
   simpa [MulAut.conj_symm_apply] using hh
 
 private theorem ggSecFiveBPermZeta_y_mem_H [Finite G] {p n r k : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
+    (hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (_hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
     {Bs K : Subgroup G} {y : G} {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {ι : Fin (r + 1) → Fin n} {κ : StatedSp (r + 1) F →* G}
     {ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F}
@@ -1201,7 +1199,7 @@ private theorem ggSecFiveBPermZeta_y_mem_H [Finite G] {p n r k : ℕ} [Fact p.Pr
   exact ggSecFiveBPermZeta_eta_y_eq_one hp2 hκ hyB hK (σ l)
 
 private theorem ggSecFiveBPermZeta_spPlaneTorus_mem_H [Finite G] {p n r k : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
+    (_hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (_hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
     {Bs K : Subgroup G} {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {ι : Fin (r + 1) → Fin n} {κ : StatedSp (r + 1) F →* G}
     {ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F}
@@ -1310,7 +1308,7 @@ private theorem center_range_sp_eq_bot {n : ℕ} {F : Type} [Field F] [CharP F 2
 
 theorem GGSecFiveBPermSpPlaneFrame.spPlaneTorus_eq_coordinate [Finite G]
     {p n r : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
-    {F : Type} [Field F] [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F)
+    {F : Type} [Field F] [Finite F] [CharP F 2] (_hF : 4 ≤ Nat.card F)
     {Bs K : Subgroup G} {y : G}
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {π : Fin (r + 2) ≃ Fin n} {κ : StatedSp (r + 1) F →* G}
@@ -1356,7 +1354,7 @@ theorem le_commutator_of_isSimpleGroup_of_ne_bot {R W : Subgroup G}
     have hsup : R ⊔ W = R := sup_eq_left.mpr hWR
     have h := Subgroup.normal_subgroupOf_commutator_sup R W
     rwa [hsup] at h
-  haveI : (⁅R, W⁆.subgroupOf R).Normal := hnormal
+  have : (⁅R, W⁆.subgroupOf R).Normal := hnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (⁅R, W⁆.subgroupOf R) with hbot | htop
   · exfalso
     apply hWne
@@ -1381,7 +1379,7 @@ theorem le_commutator_of_isSimpleGroup_of_ne_bot {R W : Subgroup G}
   · exact Subgroup.subgroupOf_eq_top.mp htop
 
 private theorem ggSecFiveBPermZeta_W_ne_bot [Finite G] {p n r k : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
+    (_hp2 : p ≠ 2) {F : Type} [Field F] [Finite F] [CharP F 2] (_hF : 4 ≤ Nat.card F ∨ 3 ≤ k + 1)
     {Bs K : Subgroup G} {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {ι : Fin (r + 1) → Fin n} {κ : StatedSp (r + 1) F →* G}
     {ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F}
@@ -1444,10 +1442,10 @@ private theorem ggSecFiveBPermZeta_range_le_commutator_W [Finite G] {p n r k : �
   have hWR : W ≤ R := fun x hx => hx.2
   have hφ : Function.Injective (κ.comp (spEmbed (K := F) σ hσ)) :=
     hκ.2.1.comp (spEmbed_injective hσ)
-  haveI hSp : IsSimpleGroup (StatedSp (k + 1) F) :=
+  have hSp : IsSimpleGroup (StatedSp (k + 1) F) :=
     hF.elim (fun h4 => CFSG.SeitzReduction.SymplecticPilot.isSimpleGroup_statedSp_of_four_le h4
       (by omega)) fun h3 => SpJoin.isSimpleGroup_statedSp_of_three_le h3
-  haveI : IsSimpleGroup ↥R := (MonoidHom.ofInjective hφ).symm.isSimpleGroup
+  have : IsSimpleGroup ↥R := (MonoidHom.ofInjective hφ).symm.isSimpleGroup
   have hcenter : Subgroup.center ↥R = ⊥ := center_range_sp_eq_bot _ hφ
   have hWne : W ≠ ⊥ := ggSecFiveBPermZeta_W_ne_bot hp2 hF hκ hBs σ hσ
   exact le_commutator_of_isSimpleGroup_of_ne_bot hWR hcenter hWne

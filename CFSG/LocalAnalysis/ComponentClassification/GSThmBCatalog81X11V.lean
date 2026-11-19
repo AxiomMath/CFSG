@@ -148,7 +148,7 @@ theorem exists_w
   have hrR := (hmemR' r).mp hrR'
   have hr2 : r * r = 1 := by
     have h1 : φ (r * r) = 1 := by rw [map_mul]; exact ht2
-    obtain ⟨n, hn⟩ := R'.isPGroup' ⟨r * r, mul_mem hrR' hrR'⟩
+    obtain ⟨n, hn⟩ := R'.isPGroup ⟨r * r, mul_mem hrR' hrR'⟩
     refine X11.eq_one_of_mem_core (hφone _ h1) (n := n) ?_
     have := congrArg Subtype.val hn
     simpa using this

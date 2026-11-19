@@ -98,10 +98,10 @@ theorem card_octHs_le : Nat.card ↥octHs ≤ 128 := by
       qPlus6 (Multiplicative.toAdd (f (Multiplicative.ofAdd x))) = qPlus6 x) ∧
       f (toW 6 2) = toW 6 2 ∧ f (toW 6 8) = toW 6 8 ∧ f (toW 6 32) = toW 6 32}
   have hc : Nat.card ↥s ≤ 8 := card_iso_fix_le
-  haveI : Finite (MulAut (Wn 6)) :=
+  have : Finite (MulAut (Wn 6)) :=
     Finite.of_injective (fun f : MulAut (Wn 6) => (f : Wn 6 → Wn 6))
       (fun f g h => MulEquiv.ext (congrFun h))
-  haveI : Finite ↥octHs := Subtype.finite
+  have : Finite ↥octHs := Subtype.finite
   have hvect : ∀ g : ↥octHs, ∀ (a b : ℕ), a ∈ combos wz0Basis → actM octBetaCols a = b →
       (octPhi.comp octHs.subtype) g (toW 6 b) = toW 6 b := by
     intro g a b ha hab
